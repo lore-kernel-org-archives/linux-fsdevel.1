@@ -1,95 +1,106 @@
-Received: from mail.cs.ucla.edu (mail.cs.ucla.edu [131.179.128.66])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46C8E3A785E;
-	Tue, 20 Jan 2026 20:19:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=131.179.128.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A9513AEF32;
+	Tue, 20 Jan 2026 20:34:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768940369; cv=none; b=bBb/MhWZTA/Czk+4vCfNeQl4l47xUMzFMFi8J0uzi+YDdUo9f/dLCloMdVj0qR1O3C0DvFEdGhHXfkSkCQcac7zi/reWgbm00kVfUdeaF+8hgXIs4j24cfaUaKkqRmqhTiKIaFXnlhi/HDyHjrcmXpuy71ttatcJFOOR3TBIPtk=
+	t=1768941294; cv=none; b=BisqYDiTuN3iIE7ZMziD2a86kxf1y+mSVZ8gFU4QkYNpLbrRxmv1eu2GJQnY8x69uXzq5tADuDC9iAGCFZcpMYr+cor+HsPN/mjTcwlxtV0U27j94Lb1M7LWsL/pDdQwHSsQNxHTiSgr1VVFSHi0S6euQU8/2CAQbGGlZajxXIE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768940369; c=relaxed/simple;
-	bh=rSTqmCrg3gEEPKdwJLXT0tm9oK6BKvTh259cOmnRnmI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=T5NFBKuLOzgu2VsO6QUMdK0OlsBX9NKGv1ulDH/pC98NabU7UfYcLpV2+wbyY81dGHqx5g6DjEF4SGVBFpPyarzFty1Sf81z8QYf2BccvMdUWKn9R5ROUIWTNCzYKQfBU4CyNJwtj7Ylpzho/iTm79Z/hKWAy7A2MZmklVwLEkA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.ucla.edu; spf=pass smtp.mailfrom=cs.ucla.edu; dkim=pass (2048-bit key) header.d=cs.ucla.edu header.i=@cs.ucla.edu header.b=cYLn52lU; arc=none smtp.client-ip=131.179.128.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.ucla.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cs.ucla.edu
+	s=arc-20240116; t=1768941294; c=relaxed/simple;
+	bh=4iKz264BRql5CZson6CYwYFb1MyGRDfwFsmje3H4jfA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pwB6Q7tHbf/lbWZZwtUxyLEFPF1lnAgjHCAy3TaRTdnONT2FLtmSYI2jbNxGlppratW38OFLT8hTwTL9tNriBTuif/sMjzkS2VgfLr/w0e8qfJQVM2LTNLBp8R7QVOktMnVmfh0gedNAlYtHzv2tJHcoVaQ3NkpTlZ9BHzAMD/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WPjdOkVL; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cs.ucla.edu header.i=@cs.ucla.edu header.b="cYLn52lU"
-Received: from localhost (localhost [127.0.0.1])
-	by mail.cs.ucla.edu (Postfix) with ESMTP id 6C0F73C010852;
-	Tue, 20 Jan 2026 12:11:02 -0800 (PST)
-Received: from mail.cs.ucla.edu ([127.0.0.1])
- by localhost (mail.cs.ucla.edu [127.0.0.1]) (amavis, port 10032) with ESMTP
- id srwYskAS9pBC; Tue, 20 Jan 2026 12:11:02 -0800 (PST)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.cs.ucla.edu (Postfix) with ESMTP id 3E5003C0149E3;
-	Tue, 20 Jan 2026 12:11:02 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.cs.ucla.edu 3E5003C0149E3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cs.ucla.edu;
-	s=9D0B346E-2AEB-11ED-9476-E14B719DCE6C; t=1768939862;
-	bh=IcdC2IC4PYFj9Dpfb8vBJpkEzy5B+N00two7JEBT+yk=;
-	h=Message-ID:Date:MIME-Version:To:From;
-	b=cYLn52lUK7rOALrdwpeNnbkNYXb+ew6IT4zLX5eGcct2lbWQKrzJlhRBT/loBXyIE
-	 pGmfrg4kJa3sLFtJo05orNF7rTZOCavyjg7tvSEn6qH5gD4lZOoKHsIEs0xFSkdxfC
-	 CgzqMtY1h1yHal/a+s7lyVkuNhgMLk3xELq7ZL8Kj5Htk/sVMWFemkd8jpuQR3ipAU
-	 rNrDAz0XRwKSyUmbuEfgrOuCFzuOBE+5AsqWXm9qNXPt1H7q2Ed6JnyrZEIWtWhOFD
-	 zgYIU7SH3pm5xLy2gvI6cHR2TLc8CXd8slO+JFEhkiZtKWt00TexAeYRlmhUgPuXyf
-	 g7KWNHlXEb1gA==
-X-Virus-Scanned: amavis at mail.cs.ucla.edu
-Received: from mail.cs.ucla.edu ([127.0.0.1])
- by localhost (mail.cs.ucla.edu [127.0.0.1]) (amavis, port 10026) with ESMTP
- id Z0tVz95iQDTO; Tue, 20 Jan 2026 12:11:02 -0800 (PST)
-Received: from penguin.cs.ucla.edu (47-154-25-30.fdr01.snmn.ca.ip.frontiernet.net [47.154.25.30])
-	by mail.cs.ucla.edu (Postfix) with ESMTPSA id ED6E73C010852;
-	Tue, 20 Jan 2026 12:11:01 -0800 (PST)
-Message-ID: <20e66536-7f3c-4652-844c-5b5e9dde54bd@cs.ucla.edu>
-Date: Tue, 20 Jan 2026 12:11:01 -0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WPjdOkVL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768941292; x=1800477292;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4iKz264BRql5CZson6CYwYFb1MyGRDfwFsmje3H4jfA=;
+  b=WPjdOkVLC0aPiwziE+U8O31MjbMo8ZDP7S48LfMZ2LYj2FgQvY6oA+wL
+   9HTPCju0d8AFsMZAbI+QXgfA1kFWjFi8mcLI9nvLt82kdK3joDX7d16vw
+   /1ms2e1OdiO6eJb00MN0FpyweM++cK1niAESQ8Ftqm2f1/RCdg2aFpW5O
+   Hw2XP2Vzif1RJPqyiHZ74umWLH+hbzVq6CDgVlidjt9OhG0KgpNIhMG9U
+   ECVvexNsvN5sDz1sr6CK1AU6t1ZwT0zMmkM/50ZcW2GxYeK7aPzSPiTWe
+   oXf3tCKc+GzsgGDNokhGMjCZOStyqYPRiZN0eqJk2eeRBWDV/y2nAkFQS
+   g==;
+X-CSE-ConnectionGUID: tALJLO0dTZeXnQ7FxBokWw==
+X-CSE-MsgGUID: oaQ6VbVTQvWPgyeoThqBBg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11677"; a="74015863"
+X-IronPort-AV: E=Sophos;i="6.21,241,1763452800"; 
+   d="scan'208";a="74015863"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 12:34:51 -0800
+X-CSE-ConnectionGUID: zFn94Ul7R1uFwOHzo6bLwA==
+X-CSE-MsgGUID: 9UzYljz/R1+gguBsjlA2zg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,241,1763452800"; 
+   d="scan'208";a="210674806"
+Received: from dhhellew-desk2.ger.corp.intel.com (HELO localhost) ([10.245.244.240])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 12:34:48 -0800
+Date: Tue, 20 Jan 2026 22:34:45 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: David Disseldorp <ddiss@suse.de>
+Cc: Christian Brauner <brauner@kernel.org>, Petr Mladek <pmladek@suse.com>,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	Al Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH v1 2/4] initramfs: Refactor to use hex2bin() instead of
+ custom approach
+Message-ID: <aW_m5eRzqRJzFWnF@smile.fi.intel.com>
+References: <20260119204151.1447503-1-andriy.shevchenko@linux.intel.com>
+ <20260119204151.1447503-3-andriy.shevchenko@linux.intel.com>
+ <20260120230030.5813bfb1.ddiss@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC v1] man/man2/close.2: CAVEATS: Document divergence from
- POSIX.1-2024
-To: Rich Felker <dalias@libc.org>
-Cc: Alejandro Colomar <alx@kernel.org>, Vincent Lefevre <vincent@vinc17.net>,
- Jan Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org,
- linux-api@vger.kernel.org, GNU libc development <libc-alpha@sourceware.org>,
- Zack Weinberg <zack@owlfolio.org>
-References: <a5tirrssh3t66q4vpwpgmxgxaumhqukw5nyxd4x6bevh7mtuvy@wtwdsb4oloh4>
- <efaffc5a404cf104f225c26dbc96e0001cede8f9.1747399542.git.alx@kernel.org>
- <20250516130547.GV1509@brightrain.aerifal.cx>
- <20250516143957.GB5388@qaa.vinc17.org>
- <20250517133251.GY1509@brightrain.aerifal.cx>
- <5jm7pblkwkhh4frqjptrw4ll4nwncn22ep2v7sli6kz5wxg5ik@pbnj6wfv66af>
- <8c47e10a-be82-4d5b-a45e-2526f6e95123@app.fastmail.com>
- <20250524022416.GB6263@brightrain.aerifal.cx>
- <1571b14d-1077-4e81-ab97-36e39099761e@app.fastmail.com>
- <20260120174659.GE6263@brightrain.aerifal.cx>
-Content-Language: en-US
-From: Paul Eggert <eggert@cs.ucla.edu>
-Organization: UCLA Computer Science Department
-In-Reply-To: <20260120174659.GE6263@brightrain.aerifal.cx>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260120230030.5813bfb1.ddiss@suse.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On 2026-01-20 09:46, Rich Felker wrote:
-> the job of the man pages absolutely is not "to tell people how to
-> program". It's to document behaviors.
+On Wed, Jan 21, 2026 at 07:12:50AM +1100, David Disseldorp wrote:
+> On Mon, 19 Jan 2026 21:38:39 +0100, Andy Shevchenko wrote:
+> 
+> > +	ret = hex2bin((u8 *)header, s + 6, sizeof(header));
+> > +	if (ret)
+> > +		error("damaged header");
+> 
+> The changes look reasonable to me on first glance, but I think we really
+> should improve the error handling to abort the state machine on
+> malformed header here.
+> 
+> One further issue that we have is simple_strntoul()'s acceptance of
+> "0x" prefixes for the hex strings - any initramfs which carries such
+> prefixes will now result in an error.
+> It's a pretty obscure corner case, but cpio is really easy to generate
+> from printf(), so maybe there are some images out there which rely on
+> this.
+> 
+> I've written an initramfs_test regression test for the "0x" prefix
+> handling. I'll send it to the list.
 
-In practice man pages do both. When I type "man close" on GNU/Linux I 
-see text like the text quoted below, and as a C programmer I appreciate 
-getting advice like this when the situation is sufficiently tricky.
+Is it specified?
 
-----
+The standard refers to octal numbers, we seem to use hexadecimal.
+I don't believe the 0x will ever appear here.
 
-Any record locks (see fcntl(2)) held on the file it was associated with, 
-and owned by the process, are removed regardless of the file descriptor 
-that was used to obtain the lock. This has some unfortunate consequences 
-and one should be extra careful when using advisory record locking. See 
-fcntl(2) for discussion of the risks and consequences as well as for the 
-(probably preferred) open file description locks.
+Otherwise, please point out to the specifications.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
