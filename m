@@ -1,76 +1,66 @@
-Received: from outbound-ip191a.ess.barracuda.com (outbound-ip191a.ess.barracuda.com [209.222.82.58])
+Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11023128.outbound.protection.outlook.com [40.93.196.128])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E32C4363C5B
-	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Jan 2026 20:22:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=209.222.82.58
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C5481EFF93;
+	Wed, 21 Jan 2026 20:24:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.128
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769026946; cv=fail; b=mXqWZEz8GswuOaV0+ELBGHbGiHUrqiKDr9+wJBCScrtnd8hgQMEUbZnRhdaO3PtxmL17RvbFp6kvK396Sis2iw8mezUiYwm7SKUPo2F6uVwIUCl2nTRbxQf6fsUMjUUo8KIchfBTzHxjRJHHI26xt2JHvy8neOMj1Vo1qNhNgNE=
+	t=1769027066; cv=fail; b=LiSSH+vtWRJbRagwB8eWxGLf+CrkSWLs1EXNFPRR234MoLYoy1uBZt5bz0XP7Se7S6oAa6BU9WCkP4rqVgdfCKB48eC6L9QU1R/dvRcCtJx1vvsWGlROaRzITXVMel1zi7Iba3F8VfOhcaQqUUdxkTOIrBzWIw75+O/88l0offU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769026946; c=relaxed/simple;
-	bh=n2k1OICHVt5+XGzRwrvSEfpFGje6vREE6CuB72kpa8c=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=QfFjyQbiOBYisilQYBa2GEIV879bMUUinMqDxY7oHntclL3YDN0ULOG9hFIiZ6dnoylHll0fnx6Ws2HMcsx/LhikVAnXGRZMtwwFmWYOdmTTBOZ8naTnPNUXYZk6EBUwzMreAyYM8jzgsX/NKNhAhtmUQuedhazYVUMVF2FTSxg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ddn.com; spf=pass smtp.mailfrom=ddn.com; dkim=pass (1024-bit key) header.d=ddn.com header.i=@ddn.com header.b=xPBy9J7o; arc=fail smtp.client-ip=209.222.82.58
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ddn.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ddn.com
+	s=arc-20240116; t=1769027066; c=relaxed/simple;
+	bh=gHp4eyi8ZAbDlbhukNagYNpd9zQAx0FPTLBLR0P4t98=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=JDumqzhdYpKdGszreKUmjqUfT58wLhGWTuVEVOXtqMlzEZXfvJ+4ECf2NImNVLJJB5j8zpxctgYCGUj056dYZUW+cveYsYfCiVGtTVD+FaoMdXass4fspUVARfVkaEnh+HPrRkQHdWklTwH7Q7XqFfaFOQSuabMl3ZkPJ9azfUY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hammerspace.com; spf=pass smtp.mailfrom=hammerspace.com; dkim=pass (1024-bit key) header.d=hammerspace.com header.i=@hammerspace.com header.b=Yan7pi53; arc=fail smtp.client-ip=40.93.196.128
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hammerspace.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hammerspace.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ddn.com header.i=@ddn.com header.b="xPBy9J7o"
-Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11020086.outbound.protection.outlook.com [40.93.198.86]) by mx-outbound11-94.us-east-2a.ess.aws.cudaops.com (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO); Wed, 21 Jan 2026 20:22:22 +0000
+	dkim=pass (1024-bit key) header.d=hammerspace.com header.i=@hammerspace.com header.b="Yan7pi53"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MquFJAmmM8o46Uc0wI9Pgm3Gm/guRVGeHgAi3JlEf2nQI9HCp1nZ2NmPzTslIOcFN3DXWFPS12zRwFF7RSRr4P7glPH3IonD4gl1XFPFkfEV1TsF7NJdd+xvzBvDTAalm9mGauwvZzXb8jPR3PbuB+oTHKRtahdCNt/ysHgaTEyNRgzQte+OKCdhbbske169h4vkRewneJZPT0ecFz9xy/T6SkGM7xjibO/hCV3nMQ+0jLjfbKPg38Cld7NZ06uc4U5TdFGqL5suQ3u4xMpgHtQVj9+Swh8z8fIlqihAAm6YG91CAwms/v55OJR2oxgciQo77ItnwU89JXaSPo55eg==
+ b=RUGfwIHYLQcuGuE8A2BAJgp4jvJYWfm2jNXw4ulk5zLF3BdknTgJMKjlj63eyI90lxR22I8RfNMuvrbnSIdiSPiTRty1mlufwycma/Oea6DHAd1/+XHR9181eSRlfxlHzT92ePkuma+AEt/RLk95Q0mMr7d02lfCZNUjkaldR66rUOCCQJbSCIyyPv/VRMad0AcGixFUgxwZeYaSgtCXtfEperUKVL0v/RUDW4xYub3/DmLBYqdUoOUdopIPXMhI+mRIhYAuYB2jwrJUiP4zyCpgJckm30zNJJz4miirlYzrGadKeA3afBBcj46JNCkgnhggPonOYyRBkL2pXCpgUA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WKX3edv9wvmCbj5WCdJI3NbbXDaKmyxw29+0fG5a+sY=;
- b=zBHW4ppElFpISoKaSjQoxwFNUJb4JUrlUGh6SQcMLUlppQlCwuJbmoAlJCmMicYaiNehXaTzob22npcnLdfm9tqil6bFeespf/B7m9SXBv0JXLmTgi//wSnK0+90iIQy9Kn/oMSZbEFOCboXmRNcXQ7sMHHn2iOXiOaIhYL+RLZMudVE9NfE0OFLd+cpksPZc+zDtTHmUH81gDEaFC9X2VkjQt5qZeCwgqKAt1wE+7lxBi6Oo3Qx7Wsqkk34937Q8EUfAj9KuNZ7wY0ASKbfZSE2JCVnJA1yoBIjOMSaBUEIdqeToYanyveutVXYKQYt4Pd0Jq8YAYsG/0zXnHb40w==
+ bh=A9I7whk/PYBTOmpL1wfHNR8BNopdMyCsEvJaXVGL4Ug=;
+ b=fyUPGxgjDj1xfxPkEEgeumjE+K6BGZUJSZCaZYAdXKBqesyz/S22GnpUSiGYPFHL9ih/1HSvNt44nk34wE0h5FXLGe78PcxqTG/VoM0t1uNmyad/vF8xrPA+ua9f+qva3KGP9TEXsrNQ6HsZRmJVflMXcPMzpGByplvdFYvyD5MOkCQV/SCq5d+msacvpYTaPpkQXdBtkTCVuVJbEze7fkVneIeNQldnH2p8QSMyMhy8CSvpcROA8Mvv8CHEqUQHpybiWMWleQ+iuXtD3cQ1pf8v9M+EIC+BElhOjwM4gUTjE1YV00xdczmDq5GhSYawaQPFMLsRDVGtsjMvcXJkBw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=ddn.com; dmarc=pass action=none header.from=ddn.com; dkim=pass
- header.d=ddn.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ddn.com; s=selector2;
+ smtp.mailfrom=hammerspace.com; dmarc=pass action=none
+ header.from=hammerspace.com; dkim=pass header.d=hammerspace.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hammerspace.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WKX3edv9wvmCbj5WCdJI3NbbXDaKmyxw29+0fG5a+sY=;
- b=xPBy9J7oNaDJWuOjJ6ahOXrGBlsa3Uomoy7Glw7GwcjF3a4i23FQYGO8zd9OQ55lpD0GJf7/YYsfd4BRDZguu0orqBtPN/5cq4DDaGZjEEg8jhGarfWFdAQxvWmBju+gomxVVVBNX/s5lNEoVHRzd+Wg+/hbyMg3Uz1/Sz0cLN8=
+ bh=A9I7whk/PYBTOmpL1wfHNR8BNopdMyCsEvJaXVGL4Ug=;
+ b=Yan7pi53A7rI2Lig69CSvMBmmoeP07CcRHhYWb7jaf8nd48KHx4om8f8psdjy2KjnPBg37/vmVVAaNBSAUkiqrqfK802ui/t5HH0T/hBLoz9H+pPWbjBQhTSrUyvQ/nrvWpJOjAViG0l5mS/XZIrg/SpxGaCILobNrq9+WuEoBM=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=ddn.com;
-Received: from CH2PR19MB3864.namprd19.prod.outlook.com (2603:10b6:610:93::21)
- by BY3PR19MB5025.namprd19.prod.outlook.com (2603:10b6:a03:36e::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.10; Wed, 21 Jan
- 2026 18:49:31 +0000
-Received: from CH2PR19MB3864.namprd19.prod.outlook.com
- ([fe80::c2de:bba2:8877:3704]) by CH2PR19MB3864.namprd19.prod.outlook.com
- ([fe80::c2de:bba2:8877:3704%6]) with mapi id 15.20.9520.011; Wed, 21 Jan 2026
- 18:49:30 +0000
-Message-ID: <5d022dc0-8423-4af2-918f-81ad04d50678@ddn.com>
-Date: Wed, 21 Jan 2026 19:49:25 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 4/6] fuse: implementation of the FUSE_LOOKUP_HANDLE
- operation
-To: Horst Birthelmer <horst@birthelmer.de>, Bernd Schubert <bernd@bsbernd.com>
-Cc: Luis Henriques <luis@igalia.com>, Amir Goldstein <amir73il@gmail.com>,
- Miklos Szeredi <miklos@szeredi.hu>, "Darrick J. Wong" <djwong@kernel.org>,
- Kevin Chen <kchen@ddn.com>, Horst Birthelmer <hbirthelmer@ddn.com>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Matt Harvey <mharvey@jumptrading.com>,
- "kernel-dev@igalia.com" <kernel-dev@igalia.com>
-References: <CAJfpegst6oha7-M+8v9cYpk7MR-9k_PZofJ3uzG39DnVoVXMkA@mail.gmail.com>
- <CAOQ4uxjXN0BNZaFmgs3U7g5jPmBOVV4HenJYgdfO_-6oV94ACw@mail.gmail.com>
- <CAJfpegsS1gijE=hoaQCiR+i7vmHHxxhkguGJvMf6aJ2Ez9r1dw@mail.gmail.com>
- <b2582658-c5e9-4cf8-b673-5ccc78fe0d75@ddn.com>
- <CAOQ4uxhMtz6WqLKPegRy+Do2UU6uJvDOqb8YU6=-jAy98E5Vfw@mail.gmail.com>
- <645edb96-e747-4f24-9770-8f7902c95456@ddn.com> <aWFcmSNLq9XM8KjW@fedora>
- <877bta26kj.fsf@wotan.olymp> <aXEVjYKI6qDpf-VW@fedora>
- <03ea69f4-f77b-4fe7-9a7c-5c5ca900e4bf@bsbernd.com> <aXEbnMNbE4k6WI7j@fedora>
-From: Bernd Schubert <bschubert@ddn.com>
-Content-Language: en-US, de-DE, fr
-In-Reply-To: <aXEbnMNbE4k6WI7j@fedora>
-Content-Type: text/plain; charset=UTF-8
+ header.d=none;dmarc=none action=none header.from=hammerspace.com;
+Received: from DM8PR13MB5239.namprd13.prod.outlook.com (2603:10b6:5:314::5) by
+ BL0PR13MB4514.namprd13.prod.outlook.com (2603:10b6:208:1c3::8) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9542.10; Wed, 21 Jan 2026 20:24:22 +0000
+Received: from DM8PR13MB5239.namprd13.prod.outlook.com
+ ([fe80::fa6e:7b5:d1ec:92f3]) by DM8PR13MB5239.namprd13.prod.outlook.com
+ ([fe80::fa6e:7b5:d1ec:92f3%4]) with mapi id 15.20.9520.011; Wed, 21 Jan 2026
+ 20:24:22 +0000
+From: Benjamin Coddington <bcodding@hammerspace.com>
+To: Chuck Lever <chuck.lever@oracle.com>,
+	Jeff Layton <jlayton@kernel.org>,
+	NeilBrown <neil@brown.name>,
+	Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>,
+	Benjamin Coddington <bcodding@hammerspace.com>,
+	Eric Biggers <ebiggers@kernel.org>,
+	Rick Macklem <rick.macklem@gmail.com>
+Cc: linux-nfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-crypto@vger.kernel.org
+Subject: [PATCH v2 0/3] kNFSD Signed Filehandles
+Date: Wed, 21 Jan 2026 15:24:15 -0500
+Message-ID: <cover.1769026777.git.bcodding@hammerspace.com>
+X-Mailer: git-send-email 2.50.1
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PR3P189CA0017.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:102:52::22) To CH2PR19MB3864.namprd19.prod.outlook.com
- (2603:10b6:610:93::21)
+Content-Type: text/plain
+X-ClientProxiedBy: PH1PEPF00013317.namprd07.prod.outlook.com
+ (2603:10b6:518:1::7) To DM8PR13MB5239.namprd13.prod.outlook.com
+ (2603:10b6:5:314::5)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -78,244 +68,196 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR19MB3864:EE_|BY3PR19MB5025:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8d4776ac-1edb-4856-827f-08de591dcf17
+X-MS-TrafficTypeDiagnostic: DM8PR13MB5239:EE_|BL0PR13MB4514:EE_
+X-MS-Office365-Filtering-Correlation-Id: a0663da1-ab09-4d45-0cb7-08de592b0fe7
+X-MS-Exchange-AtpMessageProperties: SA
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
- BCL:0;ARA:13230040|376014|7416014|19092799006|366016|10070799003|1800799024;
+	BCL:0;ARA:13230040|1800799024|376014|7416014|366016|7142099003;
 X-Microsoft-Antispam-Message-Info:
- =?utf-8?B?elNFYjg3QnZtZGpVWmtCOUJCRDRHb0E1bVgzakl4ZndkaU1OSkNUN3F4ZnI4?=
- =?utf-8?B?eUpJWjhpeVBPUlAwRVJ5QWoxMXRzVTVlcFFJYm13Q1lNZW1CMDNmS2JFT1d1?=
- =?utf-8?B?MWhCMGZnOG1hd2FacGl0enJpYklIcElWRldhWHBHQUdMZnl6SGlEZ3VGaW90?=
- =?utf-8?B?S0RsUjMxU0FWazVnZ01lU3o5dk5QeDRLU25UQWM4amtqUldvRkJqcFRpQXhY?=
- =?utf-8?B?QzJYUzc1R2cxSGFNQUlHZ3p1S0NjYnh3NjI4SmhyQ3AyWFpnTnJoSEVLYk9h?=
- =?utf-8?B?RUQ1QjJ2ZnpaZzgrRDJsWnB0U2kzOXpiZlV4UUpJTFZaNExFMTZkRWprZ3p2?=
- =?utf-8?B?N1N1a2lFRTZRVHh1WktvdnoxS01FVVpFeEtMbWdSb3FGQlYvVDFJUDhLNEdw?=
- =?utf-8?B?bkZHajJ1RzVPK29JUWhTaWJPajl5ZTZneGF5dm4xSkZHeWY2dVZwQ0RuY3l3?=
- =?utf-8?B?cDYvazYvSWxoVTNWZkxQeGEwdC9VUUVjR0lLcEdGSEZwd08wTGM0WjRlV0c4?=
- =?utf-8?B?eElpLzlyUjMyMXYvWGZtRXpwMDJoYzVFdXk0NkFWZkgxZXA3L2dnMkw3UDJG?=
- =?utf-8?B?VGZBSWY0eWVYM1g0b0FWalFRRDJ4L2FjV0hEQXk5TmdNNUtMcUxzbzFXRm9S?=
- =?utf-8?B?enpTK211dkNDSVQ2cmN3QktuM04rQzFQaVZMc24yeXhXUWUvbE5FSVNwVk9Y?=
- =?utf-8?B?cGpsUHVpbDVTeXdVTUpGSmRndldRSEVtYjlnTXoxWm9Sa2dLclZZQnUxK3l6?=
- =?utf-8?B?RmlQVnFkSElkT0hSZVEvbG5IeHVuMm11Vm4yU3pwWTFuaDNPZG4yVlQybmdl?=
- =?utf-8?B?cG92TXlMRXJjM2VNekdYNGZnTmZzNjhTVHJNdTF4Z0Rtdk5QUC9maGZHVlhx?=
- =?utf-8?B?ZCtaR0FudzdTQ243Yk1Wb3h1VHRnRFFLcGtyRVE4NkZBTUhtdDcyRjF1NCtl?=
- =?utf-8?B?Mk9JQTlBSys1WWR1NFI4WWpTOEhVN1hqUEFQK1B1dTlDc3RTQU1oVGRGNy9h?=
- =?utf-8?B?YkNQdEt6U2FuNU1KYmloVENBNC91TkZIbWx2eGxyY0VST1NhK2dmc1dBTldO?=
- =?utf-8?B?VElZaTFJamlXY1ZWUEJqMW1KelZZTDJteldGbW9jWThqRkdGUzR0NGNJQk5C?=
- =?utf-8?B?b3lBdGY1MHl3QlRLbXF4QU02VWlFRGd3UXJhTmFBeDV5eEtNcUNSSTh3cjI3?=
- =?utf-8?B?N2s5alBtZzE3NUFvNUZwdXJZZVN2UlNQNFlITHBnVTV5MzBURzZzMkdQZGdm?=
- =?utf-8?B?UHl5aU50QUZSWjBpZ1ZiLzVHNFRwMTJNcVZNajN3VUNBaksySHg3NlMreHQ4?=
- =?utf-8?B?cDdLSWliMm54SXBiUUZoUU1LbDBZQWJxUEYxckhwTTZSWHJqc2xlalArS2JW?=
- =?utf-8?B?N1JKYW5FOGRSTFVrOUhaNmVrUjVBTFZpRXUrUGdLWDZQbmtkcW1Od1hzNjJt?=
- =?utf-8?B?blo2SERhOGdtL0F1a1Z2WXpoYzBnOFlmeDdCRE44NTUrRjF0ZFdSTXdNSjRn?=
- =?utf-8?B?UWFaQVZpMGduVVU4ZkhZU3NhZmhSSTB2K3hVS3lOSXdQWmdhZlZaT090QkV2?=
- =?utf-8?B?ODVsMWI1QThBUUlOV1UyNWpLNWtQZjlkWUg5T001dHVIbktXaG5FT1l5MUY1?=
- =?utf-8?B?Z01pM0JMUlFSVHc3RkpMNkFnMjQwZ3haNDE3dC8zZ1UrSElzWWkxN3J2NHYw?=
- =?utf-8?B?Wk5EOGVrV0d3RFI3LytFL291bFZFMWZPeXdKQnNLU2dUeWJ0S1FDd3FlN1l6?=
- =?utf-8?B?N3VNaFpEYmIycVdRR0NIV3AvVUhlVEg5ZDZlZWg2RnhIR1dZSjU0K2ZTRGUr?=
- =?utf-8?B?N2IxVllPWWZRUWxQV2dpb3ltWklwdHMvVTg4bG9aK2hXY2RrUWJzVCs1cFg0?=
- =?utf-8?B?R2FXWTJDMkJSTHBEVkVOK3o1NnJ6M2JwSlI3U2l4cjd2RndFRE41Y244V3dU?=
- =?utf-8?B?SFkyKzI3TWoxaW1VQ3BHeUs4d1VDem8ybTNpQm5pcmd5OUUvTDNoNUZhcEV5?=
- =?utf-8?B?MkJWeUd0UHl4SG5YcVhiVGF5bXVaQU03a2ZBMXlOZm9ld2NiZGozT2tSYisr?=
- =?utf-8?B?NmVFclNGL3BiM01rNy9ZSUxVbG8rWEJLdUVaSEJnQVJlVkN0SlVubm91dGkx?=
- =?utf-8?Q?lKKk=3D?=
+	=?us-ascii?Q?yHuJN7uD8/dH5j3BQTfNUMZmtbLgHZ6X7jXe1ZsckOWbRVZ6/PQIKRSQGhb8?=
+ =?us-ascii?Q?rT+jEEUDFsPEjn02mHXFniy7yVaGOP1YgPIWvYjQ9Mvux891RnKdFni3jGoW?=
+ =?us-ascii?Q?eQ/K0BMhuhnKqHBsaf2CrwbDebQf/8urX3uhTpunYukl5C74BhSc34X5YL5j?=
+ =?us-ascii?Q?bN0PaImNra1l5mTeFr5sg3qqx2Rd3Mel/yIm5bBeRBTP9OuQKpNFF6OB2+Er?=
+ =?us-ascii?Q?s5QdlKtWfHNw098F/xuCNdrBg+7S/CxIQY3y/4msvgDT6xTPD9uK1zU2CslB?=
+ =?us-ascii?Q?2o47G1L7oftj+iX/X1/5gODbV+Qmjr9kRtw8tolUkj10etdDaaQ0MIEOKqH9?=
+ =?us-ascii?Q?mEvG2ZfKHd3qOm7KLZQqkaJ+vUoKBUNc2cjZY3J3hsIZpH3lxlsG6289bRO1?=
+ =?us-ascii?Q?KxWT/DCfn1f/j0O+Wr6MMgGxfNf93xlFfbsfDxsi9XUPdKdTr7qyZ27xxCZL?=
+ =?us-ascii?Q?+yijoJ/9tiNiF3ErFwS08yF6Dbk3qqvRLv57LEVPVgYLKNDITWyCwPEQis/t?=
+ =?us-ascii?Q?SVgEFgc67FE7ITBVueCIrCkSjfy/OpMvuZUjxrb3s4ZxdXIf3y/wXxsAh7OF?=
+ =?us-ascii?Q?eRsJL0sOb6/ObHp19/ixWOdlQRfZyg1QQkinBDTVsXsF9qQSXCC0Tuc5UxAm?=
+ =?us-ascii?Q?RH8URo4vQUl7DqgoxVLki0rWRpn3Bx6j45gZdPp/7NotX2vk3WP4w1OBFdxK?=
+ =?us-ascii?Q?rblj+VjfZTjxBfq2Lnrr6zqMC5FjIuhp6uaylFOaaRTsuz4MTsACPEYtI+8n?=
+ =?us-ascii?Q?Hvv4LTncjZZ9bzociQlnKtozu6malDrn0EgRbKjsubby93kgFd8r4ab7/jNI?=
+ =?us-ascii?Q?ASBosGjhcTWyogMwXgo2Fd35MwSPQoGjUsoA83Uk6EjPJndXU7qJ8WJswbYk?=
+ =?us-ascii?Q?5MdEI4gf6YwWRqlY3MPyaD0k0glPtBx7+beImW5V7wXPsFddTCQYL4yxmRhU?=
+ =?us-ascii?Q?5qiIy+/H+J5NpwQgEdwo5+cxyQkJ2aCM5AjVXmUt0xZvxiKtL+2bc1mBtWFU?=
+ =?us-ascii?Q?0c8bwfaeFY3WcHD6E3XIHi3KWQELrK5REwT4+jSMaIfHyihBWrjbwOb6ETf0?=
+ =?us-ascii?Q?YkG3yA6JRYokX2mu1hiAqj1bJum5hXrxVXk8u/O0YeOAB97vM0uOPWn5+jnI?=
+ =?us-ascii?Q?XCsGaMlIz0rhSRGKVkfNYHV5PQutPgk3IcZueW2/UkHOM+6ACx8gOe9hKhNg?=
+ =?us-ascii?Q?YKtUir0TkLIDjUshNuRde45YNvoZgWSnVZq8MMqprpt0yaQz6XLJyxp6T4jJ?=
+ =?us-ascii?Q?CsVtqRWy3phu/rrZ3SA+rPJWvV+SaIGGm5ywRAAcUUp1JWpl6/H6f+PuIzJJ?=
+ =?us-ascii?Q?AD2thxmPXf2L+1+FLCrJxoTQcNCJcLm+/lc6Sy21VcZrPZvr7r63x3y6apoO?=
+ =?us-ascii?Q?vvTYGE3530QTRE+Y41TCDBaV0qe4xvbnpQ57gkztAwNVDVfSjEuJOUSFBDa5?=
+ =?us-ascii?Q?mZ9kUAfq5hnl5mmFNz+xtXUZ9ueSXiap4ir0aWOQYKd7kd98w6lxj7Py0oWY?=
+ =?us-ascii?Q?C0X3/TYgIfMK3tX0qjaQX6bUqqzcEF3CceA21+OpaUpTNnnTlbeM1szjJjQl?=
+ =?us-ascii?Q?6mjQcrvC3z8+4uWn49c=3D?=
 X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR19MB3864.namprd19.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(19092799006)(366016)(10070799003)(1800799024);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR13MB5239.namprd13.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(7142099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
- =?utf-8?B?a0oreFg1SEd5MTlteE5nS1RQK0s4VDZVOHBPeDIwbURRdHdTUnpyaFhpV3V4?=
- =?utf-8?B?WUtObzdXblpDM25NY0ZVRzZHMnhwZU9nRkorRmdJTWk3WkNCQTBhRFdQc3Yy?=
- =?utf-8?B?NGwyb3BiTCtFT0JTbDExL1cxQWNuQ1M3WXdsdEFaYW9VQ2pWTlQvaHJDN2lm?=
- =?utf-8?B?Nld1OEZjMmN0YWMzTTdrbWpQaU1WeHZjQnBpRFdXOXZiN25UWGcxVk53OWtC?=
- =?utf-8?B?azhiOFJNOTVNYjhlQjZPcWlaWktzRzlaWnFtR3ord0RkNndBNkpBYWVPNFhJ?=
- =?utf-8?B?OG1abCsyOW4zMm4ycEt5M2lnRGNWMUhKTlZhTFdJcFBZRjloR3doSG9KVjFy?=
- =?utf-8?B?TzBMcUNaL0JibHc5RVNGSGN4Sm03UVE1TGgwbDdUT1BjMjI5YWMyV1VINHhn?=
- =?utf-8?B?cFhuRVIyY3VYNENxTUl5S3lNVXJBSWdXUHExTlkraW4xd2poZmszc3hGdDFF?=
- =?utf-8?B?K2JvTWVYMGJOdEFBUEZwN3ZTdlZaL3VmNzN1aUdLZ1ZxekpEa1haYnMvZENP?=
- =?utf-8?B?eVEyN2hhWERIdVIyZE5hUTg5S2wzMEhZRnkwTzZjYTRRTmJIRU9vbzg2ZzBV?=
- =?utf-8?B?dlFEYnUwZmFTUVU4bXh2aTNQcWxsLzN3WlpTRFplTXBjNVVhQk1MUk52VER4?=
- =?utf-8?B?bityQVdLcXd0dytITE43SVVveG9lMlpMTnJON0UzSkpxZnFmMFdvaCszRTZM?=
- =?utf-8?B?c2I0NWt4K0FxMDlyKzNVNUUwTVZWMGMrTVR2N2JtakppQk91R0QzUHk4azBK?=
- =?utf-8?B?dUlBemp1YVN0Q1RVVHNvK21RK3NWS3hqaFBLOUNPTndJK1lNYm0xMGRHejUy?=
- =?utf-8?B?dFJoaDA1UVB3ZDlBMi9jQ0xoYkpjV3I5d2llZHFGSVdTRm1uY1M3dXVaYUpk?=
- =?utf-8?B?VTF6V1VGcGh6SGs3OFZBUmErcnhQS25UdjhFaHFjK1ZUSlJOM2ZEWjV1NWVp?=
- =?utf-8?B?bVJVZnBGSERyeXVMWlk2TzdTLzl0aUVyMzBMNHVlTVYreitkV1VCRTBMRk9F?=
- =?utf-8?B?eHd2dTQ4MWJ4cmJrNzlEb29qL29hTm5IbGgwS3lobE1jTi9YaFAyTldPcU5h?=
- =?utf-8?B?N1BTOEcwR1NjWS9Vb1VQWHpNZzR3TkUwOHhZYUZZQmNjNEVlVXF5UmZYa2tu?=
- =?utf-8?B?TFMzRVUyNC9zc3FWOEFZTEFPU0R1azFNS0dVZ0I4RVlBYi82OUVtL3kvWm9B?=
- =?utf-8?B?OGtDQll5Q29ZYWlKT3pXd3N5WldtbmVCb2cwaldFclFUYndKcGNvM205UU43?=
- =?utf-8?B?SmJaSU9rK0NVYVRTTXR2dTV0NnNpTnB6cTRNOEg0OFlhdzJPTDlxUG5WOEF0?=
- =?utf-8?B?QWpINm9XL2lJRW16SlVGemczbDQ3WHFHbVZIQm9iYVk3czBhU01GSSt3ODQw?=
- =?utf-8?B?dkJ6N20vS0NMa2hHMnpVRmpjOVBtYWlpSjhLN0o3R0U2WWwwY3ZHR2VpVmRw?=
- =?utf-8?B?WmtjMXdKbThRN2hxOGxuVFhYdkxFSHNRQTNRUWpLZGx0RmJGRlhtYVp1dkw4?=
- =?utf-8?B?ZWdzSWRLWmtYdnVOR2NEdjYxdGhCcHFwNVhiaG11bjZvUm1IMXdhMVRQUDNh?=
- =?utf-8?B?WllyUEg5dDNwaG96WnpNYlV4N0U2aVllVkFhNGpRU2ZmSlMrNmNtL1pRT05Y?=
- =?utf-8?B?VWxxTS9TWkFvTm5jWVVvQ2N6b1haVVM1cy81NlVEOEpCN1BnV3VpQkhBNmo3?=
- =?utf-8?B?MGFtVno2YUlHakQ1dU9ZcGVzWHlONHZDSFFPRHkxWWlRemxZbUZqZUN0bEVs?=
- =?utf-8?B?czNmbWJXeUFDZWU2Q2RNcWZSM2N6T1FaMysvQ1VXNCtJckVqdFFQZEVQTUgr?=
- =?utf-8?B?VEtsT2RBTkZSSG5tcGFiTVhoVStnNjJVOUtNVndFNG1XbTZkaTU0UFNGQXBn?=
- =?utf-8?B?UVlaSTlQNEZnRUhQSTI5ejVuWENmaHBNYWRzUEVhSkVCM0FhTWhxb20yTENG?=
- =?utf-8?B?ZXczREtxeTdUM0VuTUhBRm53RVRXQnJEeVZIcUMzSkViMnZtb0NBNWZmSjFB?=
- =?utf-8?B?STZ2bGtWbGdOTGFwaDFIMGs4Yzd0QmVBemY1SnNFbEFqK24vVXl5T3ZheE1y?=
- =?utf-8?B?WnRVSXhVak5iUmp2NHdMWmwyeXl0MEp4c1pJdlBMN2NjTE5hZkc1bXhXb3Ju?=
- =?utf-8?B?cUlGNGR3ZmZQd3ZKUm82M3VWTFBTcHNTUmdKNGFmdVJWRE1Eb3JKeGRFWS8r?=
- =?utf-8?B?TlQ2NFJvS25VZHEzUWxaS2UwWHkxNkJnUFZkd3RJQjdLMk44bUl0dnI5Q0o4?=
- =?utf-8?B?Vnd6a2RROUdUV1h4Tm1JMTJHdGxWMlFYWWQ5bnMwSzJIdzhaeVFUQkpyUnFl?=
- =?utf-8?B?WW5ZRDI3YXA0QjlUdXBCOG1uT1dJUWY0MVh6NUpITU9WZGdzaHhGbEt4UFJV?=
- =?utf-8?Q?u6C1Mc3cW3vJObs3IKNzudytHftsT8TjfHSPFmRzzfJgP?=
-X-MS-Exchange-AntiSpam-MessageData-1: iF3yeZ9I7h2TgQ==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
- SSpzPxAzfP6P/TZomiBenm1KCkZp+annYV3SjmPuRmeePHmf4RKv9soy1zzmyRcN0VQQ0CPtNwgsCRYV5MXUXi46Ko7kiSLdTwfOuNViVc3VWTJEk55in8JuAArR2KpO2Ob6VANcjYxQT0caErHHTC4dW5i6oQvFqp877FlHJY4ukYjjk5FZUWoUjVY2t8Sa1kziamTkYhwNnAJ1UUTOWNxl25yGgvWTTf+7Atg7wXyAvnd010aRV7blxYIploGFB67j79MIuizJX//Ue7EgyViIDIirx6sbLDSyRDmMOikdCoz5ES13SUXCMLZKKjcIsePto4nftIviig6boNRtlKpVU6PP36Obw8d4xZKaEMoMX0UDckFAcT9/7PqcbVEz43uTcC837CzW/AyJmr/KNF4ke8dils671r/fcUrhPepHwuAJmI5WkQGoFtNjjPUeAMt7HKqohgJZDeqYlRIMTmptDB+pRodFKLnjyuNnmNHOdZ6VxtUY17Fem55qttq8Yhgjsq+RAcfWhi+48OxyL1y2avmScCsA2HyuApYupgfllMm570B+ZcYksPur3FxbsjhTxBSqG2zSHEmCh1zU8hXWms/yVI5iVMEaorEVusbQrirSjYURAQqbI2v+7xvJq0pfucbcL0pAWT3jg6VVew==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8d4776ac-1edb-4856-827f-08de591dcf17
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR19MB3864.namprd19.prod.outlook.com
+	=?us-ascii?Q?prURQO08lkH7sQaJJWbvRgT7FPM0/OkBJIIB8r7H5A5T/Ssz95FC7i36gg4W?=
+ =?us-ascii?Q?ihOZy0teSbRszBKw+yZYRq3MsxvQQinkPwvM/A27u1esDiFVwsC+aw1meRD7?=
+ =?us-ascii?Q?AiZLUa1I8C73VhOEzQURHU54PDPEPO8r0VaXEEcIJaV88wkXeS6nuyzWviT9?=
+ =?us-ascii?Q?SQ4+0OlK2MreEAbhbbREN5ADKhiwDvSTvevefHBYhf/AZ4X0pjGGgBUYkM9g?=
+ =?us-ascii?Q?+Twe996ab03Ikwea6rzR7k951C4ATEV2M4tvGgrAkx/zvJsHJv4VAtOT1yZl?=
+ =?us-ascii?Q?R3nCzr2NxphHGRE+nWqc9ydl+ZpAZaWkO2vWOBsUrcHC/IX+E4P5ebfXe2Xt?=
+ =?us-ascii?Q?PVHkkuM+c4wp4p+xp5k9uY5fvSUpInaYHyq/t0wmfUdtPRYtytrIAyAHU+WY?=
+ =?us-ascii?Q?TTLhBlUcMbKEwxRBqpkJl9MzlLVMSZd76PGntrdoHCo+s2O1rcW+m52qZAqP?=
+ =?us-ascii?Q?rVV75Zvbu3yXy+WkKQPIejosCdFSdKX9jrv+ZmN9nBG//guUm8PQ/PzHWDpN?=
+ =?us-ascii?Q?gZKN34mDm3w9w5FnF1tGF4dA4Xvr3zWU4I+mcy3bs9CXM6itKhJIl8VQ986T?=
+ =?us-ascii?Q?bsVi7dxNbk1gBYlkYeXsWgOdTn/jWYcGYeyELA0QzxA8IcwnAbxYaU0GLO1J?=
+ =?us-ascii?Q?Z6/6hotGD7C8KuoVb13XlDbnpLUR4AD31qGCbkP+2PoVVpltWdWAtQF6Mf55?=
+ =?us-ascii?Q?V7uFOTKsB18FGdzNypaYzuYC7Rd60aVR7u49dhd6Obhx9d33u9w4WzG+bmBE?=
+ =?us-ascii?Q?x+W8Idtpd8zo3N9PWim/J6SN7Z/jf0ef+HuFo7/DgbEyDghFzxbVPdbZclV0?=
+ =?us-ascii?Q?7RPIm458exigjlnza1zQSh6ztAQbB4vWxXK0lxOKQIAkQKajD3B2ZYiqnd08?=
+ =?us-ascii?Q?q0O+7K1ZU/s7gfkmdUbaXiCar9UAJ5pqJhkMlQsOf2ICcCVotRj4tondOYjA?=
+ =?us-ascii?Q?0tJrEX98StZKwaiVjCQJZFYX936ehy/vLBGOOY3s6xI2Eh43ELyZrsep0Mh+?=
+ =?us-ascii?Q?t/yc6aUFNJ3WuUX5uWX1EWRDGZunZWtGG8PnNLzfDA04NWaRuc2TpPeT7T1o?=
+ =?us-ascii?Q?Dq9QaVyNQrRLRRkZqj51SCSwgMFhqpK8QMpyYL2DUVPGc61wdfMg18v71pX3?=
+ =?us-ascii?Q?Mx8cYUlJi7Rq1wJiiHrfvDa7+jFYlawqgwU+P3dw/9sLWzrJplNE/VOWiko1?=
+ =?us-ascii?Q?E0d6foAtCqMdazoV2GhW7BTfCCuitcR84cGvpZxGc45wJJWhRd98olDdwqvv?=
+ =?us-ascii?Q?37RbmcB/IFOtCY8UdNeUE5lzNMXOd3bWcz3nG0N1I2UlpA9IPon9tja6Jhae?=
+ =?us-ascii?Q?7R6MALWme4nJ2cfYFDVBdTS0iFOsItsuCgOOLX0bfpNKra3dRFZQyfD5MAyw?=
+ =?us-ascii?Q?ZDzT6q4UGCNbsqAIy3Y99v6G0KQO52Er0oVTHHiQH6Yfk22KDc5ZytsWuBJL?=
+ =?us-ascii?Q?+pgx6h9qgoEyi1bMNip48Jb1us/a9lHfbIXSNLe+zq/Hu86TpLe1JCBudMqJ?=
+ =?us-ascii?Q?brDv5Bkqt97RWnEMCna3jkwEmqrXErZAfeiMfa9arRMgfmltpOqyYXCoQa2E?=
+ =?us-ascii?Q?/tt6mUf0d5vWD3qQBSRSrAsxZt/MGqyK9GpN4jp57Atn4ehSYOd+VefpBs+T?=
+ =?us-ascii?Q?WdKyqhGHUdQle3BEY8J94DWm3oih1Btcgbl9SXdrgMqd+jw/r7DlxhZkVSVB?=
+ =?us-ascii?Q?guBFbx3ICOxDKxHzSj4rT6b2RRV9LYmjSwJZFc5Nx/nvNmEXVxOztDPjBXQc?=
+ =?us-ascii?Q?4iX/VM7Cs5EmrRLzI/QEOCc9jNsz2Nk=3D?=
+X-OriginatorOrg: hammerspace.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a0663da1-ab09-4d45-0cb7-08de592b0fe7
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR13MB5239.namprd13.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jan 2026 18:49:29.9180
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jan 2026 20:24:22.0562
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 753b6e26-6fd3-43e6-8248-3f1735d59bb4
+X-MS-Exchange-CrossTenant-Id: 0d4fed5c-3a70-46fe-9430-ece41741f59e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +pldOQP6+18DhzMkGOJ5dQR+4HVEHh7FvllStdH0bH8AFK19HK2BaiwUEc89VnU2DibN13d6Tk7m+0hDZbcydQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY3PR19MB5025
-X-OriginatorOrg: ddn.com
-X-BESS-ID: 1769026941-102910-7692-21756-1
-X-BESS-VER: 2019.1_20260115.1705
-X-BESS-Apparent-Source-IP: 40.93.198.86
-X-BESS-Parts: H4sIAAAAAAACA4uuVkqtKFGyUioBkjpK+cVKVqamlhZAVgZQMMXE3CLN2CTVIi
-	Ux2cLY0twwxdAgNcXYNDUxxdgi2SRZqTYWAL5nQFhBAAAA
-X-BESS-Outbound-Spam-Score: 0.00
-X-BESS-Outbound-Spam-Report: Code version 3.2, rules version 3.2.2.270567 [from 
-	cloudscan11-106.us-east-2a.ess.aws.cudaops.com]
-	Rule breakdown below
-	 pts rule name              description
-	---- ---------------------- --------------------------------
-	0.00 BSF_BESS_OUTBOUND      META: BESS Outbound 
-X-BESS-Outbound-Spam-Status: SCORE=0.00 using account:ESS124931 scores of KILL_LEVEL=7.0 tests=BSF_BESS_OUTBOUND
-X-BESS-BRTS-Status:1
+X-MS-Exchange-CrossTenant-UserPrincipalName: Up2+aUQ/BaonmPmYHkRcy+cMZPGStvyEBsVZmix2UuEaw3fUBVrjJV1F0yI95mpAbSnh701fet5yIdjuBAG8wfWFZkrAB6+V/Oh/q8CyMJs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR13MB4514
+
+The following series enables the linux NFS server to add a Message
+Authentication Code (MAC) to the filehandles it gives to clients.  This
+provides additional protection to the exported filesystem against filehandle
+guessing attacks.
+
+Filesystems generate their own filehandles through the export_operation
+"encode_fh" and a filehandle provides sufficient access to open a file
+without needing to perform a lookup.  A trusted NFS client holding a valid
+filehandle can remotely access the corresponding file without reference to
+access-path restrictions that might be imposed by the ancestor directories
+or the server exports.
+
+In order to acquire a filehandle, you must perform lookup operations on the
+parent directory(ies), and the permissions on those directories may prohibit
+you from walking into them to find the files within.  This would normally be
+considered sufficient protection on a local filesystem to prohibit users
+from accessing those files, however when the filesystem is exported via NFS
+an exported file can be accessed whenever the NFS server is presented with
+the correct filehandle, which can be guessed or acquired by means other than
+LOOKUP.
+
+Filehandles are easy to guess because they are well-formed.  The
+open_by_handle_at(2) man page contains an example C program
+(t_name_to_handle_at.c) that can display a filehandle given a path.  Here's
+an example filehandle from a fairly modern XFS:
+
+# ./t_name_to_handle_at /exports/foo 
+57
+12 129    99 00 00 00 00 00 00 00 b4 10 0b 8c
+
+          ^---------  filehandle  ----------^
+          ^------- inode -------^ ^-- gen --^
+
+This filehandle consists of a 64-bit inode number and 32-bit generation
+number.  Because the handle is well-formed, its easy to fabricate
+filehandles that match other files within the same filesystem.  You can
+simply insert inode numbers and iterate on the generation number.
+Eventually you'll be able to access the file using open_by_handle_at(2).
+For a local system, open_by_handle_at(2) requires CAP_DAC_READ_SEARCH, which
+protects against guessing attacks by unprivileged users.
+
+In contrast to a local user using open_by_handle(2), the NFS server must
+permissively allow remote clients to open by filehandle without being able
+to check or trust the remote caller's access. Therefore additional
+protection against this attack is needed for NFS case.  We propose to sign
+filehandles by appending an 8-byte MAC which is the siphash of the
+filehandle from a key set from the nfs-utilities.  NFS server can then
+ensure that guessing a valid filehandle+MAC is practically impossible
+without knowledge of the MAC's key.  The NFS server performs optional
+signing by possessing a key set from userspace and having the "sign_fh"
+export option.
+
+Because filehandles are long-lived, and there's no method for expiring them,
+the server's key should be set once and not changed.  It also should be
+persisted across restarts.  The methods to set the key allow only setting it
+once, afterward it cannot be changed.  A separate patchset for nfs-utils
+contains the userspace changes required to set the server's key.
+
+I had planned on adding additional work to enable the server to check whether the
+8-byte MAC will overflow maximum filehandle length for the protocol at
+export time.  There could be some filesystems with 40-byte fileid and
+24-byte fsid which would break NFSv3's 64-byte filehandle maximum with an
+8-byte MAC appended.  The server should refuse to export those filesystems
+when "sign_fh" is requested.  However, the way the export caches work (the
+server may not even be running when a user sets up the export) its
+impossible to do this check at export time.  Instead, the server will refuse
+to give out filehandles at mount time and emit a pr_warn().
+
+Thanks for any comments and critique.
+
+Changes from encrypt_fh posting:
+https://lore.kernel.org/linux-nfs/510E10A4-11BE-412D-93AF-C4CC969954E7@hammerspace.com
+	- sign filehandles instead of encrypt them (Eric Biggers)
+	- fix the NFSEXP_ macros, specifically NFSEXP_ALLFLAGS (NeilBrown)
+	- rebase onto cel/nfsd-next (Chuck Lever)
+	- condensed/clarified problem explantion (thanks Chuck Lever)
+	- add nfsctl file "fh_key" for rpc.nfsd to also set the key
+
+Changes from v1 posting:
+https://lore.kernel.org/linux-nfs/cover.1768573690.git.bcodding@hammerspace.com
+	- remove fh_fileid_offset() (Chuck Lever)
+	- fix pr_warns, fix memcmp (Chuck Lever)
+	- remove incorrect rootfh comment (NeilBrown)
+	- make fh_key setting an optional attr to threads verb (Jeff Layton)
+	- drop BIT() EXP_ flag conversion
+	- cover-letter tune-ups (NeilBrown, Chuck Lever)
+	- fix NFSEXP_ALLFLAGS on 2/3
+	- cast fh->fh_size + sizeof(hash) result to int (avoid x86_64 WARNING)
+	- move MAC signing into __fh_update() (Chuck Lever)
+
+Benjamin Coddington (3):
+  NFSD: Add a key for signing filehandles
+  NFSD/export: Add sign_fh export option
+  NFSD: Sign filehandles
+
+ Documentation/netlink/specs/nfsd.yaml |  6 ++
+ fs/nfsd/export.c                      |  5 +-
+ fs/nfsd/netlink.c                     |  5 +-
+ fs/nfsd/netns.h                       |  2 +
+ fs/nfsd/nfsctl.c                      | 94 +++++++++++++++++++++++++++
+ fs/nfsd/nfsfh.c                       | 73 ++++++++++++++++++++-
+ fs/nfsd/nfsfh.h                       |  3 +
+ fs/nfsd/trace.h                       | 25 +++++++
+ include/uapi/linux/nfsd/export.h      |  4 +-
+ include/uapi/linux/nfsd_netlink.h     |  1 +
+ 10 files changed, 209 insertions(+), 9 deletions(-)
 
 
-
-On 1/21/26 19:36, Horst Birthelmer wrote:
-> On Wed, Jan 21, 2026 at 07:28:43PM +0100, Bernd Schubert wrote:
->> On 1/21/26 19:16, Horst Birthelmer wrote:
->>> Hi Luis,
->>>
->>> On Wed, Jan 21, 2026 at 05:56:12PM +0000, Luis Henriques wrote:
->>>> Hi Horst!
->>>>
->>>> On Fri, Jan 09 2026, Horst Birthelmer wrote:
->>>>
->>>>> On Fri, Jan 09, 2026 at 07:12:41PM +0000, Bernd Schubert wrote:
->>>>>> On 1/9/26 19:29, Amir Goldstein wrote:
->>>>>>> On Fri, Jan 9, 2026 at 4:56 PM Bernd Schubert <bschubert@ddn.com> wrote:
->>>>>>>>
->>>>>>>>
->>>>>>>>
->>>>>>>> On 1/9/26 16:37, Miklos Szeredi wrote:
->>>>>>>>> On Fri, 9 Jan 2026 at 16:03, Amir Goldstein <amir73il@gmail.com> wrote:
->>>>>>>>>
->>>>>>>>>> What about FUSE_CREATE? FUSE_TMPFILE?
->>>>>>>>>
->>>>>>>>> FUSE_CREATE could be decomposed to FUSE_MKOBJ_H + FUSE_STATX + FUSE_OPEN.
->>>>>>>>>
->>>>>>>>> FUSE_TMPFILE is special, the create and open needs to be atomic.   So
->>>>>>>>> the best we can do is FUSE_TMPFILE_H + FUSE_STATX.
->>>>>>>>>
->>>>>>>
->>>>>>> I thought that the idea of FUSE_CREATE is that it is atomic_open()
->>>>>>> is it not?
->>>>>>> If we decompose that to FUSE_MKOBJ_H + FUSE_STATX + FUSE_OPEN
->>>>>>> it won't be atomic on the server, would it?
->>>>>>
->>>>>> Horst just posted the libfuse PR for compounds
->>>>>> https://github.com/libfuse/libfuse/pull/1418
->>>>>>
->>>>>> You can make it atomic on the libfuse side with the compound
->>>>>> implementation. I.e. you have the option leave it to libfuse to handle
->>>>>> compound by compound as individual requests, or you handle the compound
->>>>>> yourself as one request.
->>>>>>
->>>>>> I think we need to create an example with self handling of the compound,
->>>>>> even if it is just to ensure that we didn't miss anything in design.
->>>>>
->>>>> I actually do have an example that would be suitable.
->>>>> I could implement the LOOKUP+CREATE as a pseudo atomic operation in passthrough_hp.
->>>>
->>>> So, I've been working on getting an implementation of LOOKUP_HANDLE+STATX.
->>>> And I would like to hear your opinion on a problem I found:
->>>>
->>>> If the kernel is doing a LOOKUP, you'll send the parent directory nodeid
->>>> in the request args.  On the other hand, the nodeid for a STATX will be
->>>> the nodeid will be for the actual inode being statx'ed.
->>>>
->>>> The problem is that when merging both requests into a compound request,
->>>> you don't have the nodeid for the STATX.  I've "fixed" this by passing in
->>>> FUSE_ROOT_ID and hacking user-space to work around it: if the lookup
->>>> succeeds, we have the correct nodeid for the STATX.  That seems to work
->>>> fine for my case, where the server handles the compound request itself.
->>>> But from what I understand libfuse can also handle it as individual
->>>> requests, and in this case the server wouldn't know the right nodeid for
->>>> the STATX.
->>>>
->>>> Obviously, the same problem will need to be solved for other operations
->>>> (for example for FUSE_CREATE where we'll need to do a FUSE_MKOBJ_H +
->>>> FUSE_STATX + FUSE_OPEN).
->>>>
->>>> I guess this can eventually be fixed in libfuse, by updating the nodeid in
->>>> this case.  Another solution is to not allow these sort of operations to
->>>> be handled individually.  But maybe I'm just being dense and there's a
->>>> better solution for this.
->>>>
->>>
->>> You have come across a problem, that I have come across, too, during my experiments. 
->>> I think that makes it a rather common problem when creating compounds.
->>>
->>> This can only be solved by convention and it is the reason why I have disabled the default
->>> handling of compounds in libfuse. Bernd actually wanted to do that automatically, but I think
->>> that is too risky for exactly the reason you have found.
->>>
->>> The fuse server has to decide if it wants to handle the compound as such or as a
->>> bunch of single requests.
->>
->> Idea was actually to pass compounds to the daemon if it has a compound
->> handler, if not to handle it automatically. Now for open+getattr
->> fuse-server actually not want the additional getattr - cannot be handle
->> automatically. But for lookup+stat and others like this, if fuse server
->> server does not know how to handle the entire compound, libfuse could
->> still do it correctly, i.e. have its own handler for known compounds?
-> 
-> We could definitely provide a library of compounds that we 'know' in libfuse,
-> of course. No argument there.
-> 
-> The problem Luis had was that he cannot construct the second request in the compound correctly
-> since he does not have all the in parameters to write complete request.
-
-What I mean is, the auto-handler of libfuse could complete requests of
-the 2nd compound request with those of the 1st request?
-
-> 
-> BTW, I forgot in my last mail to say that we have another problem, where we need 
-> some sort of convention where we will bang our heads sooner or later.
-> If the fuse server does not support the given compound it should 
-> return EOPNOTSUP in my opinion.
-> IIRC this is not implemented correctly so far.
-> 
->>
->>>
->>> At the moment I think it is best to just not use the libfuse single request handling 
->>> of the compound where it is not possible. 
->>> As my passthrough_hp shows, you can handle certain compounds as a compound where you know all the information
->>> (like some lookup, you just did in the fuse server) and leave the 'trivial' ones to the lib.
->>>
->>> We could actually pass 'one' id in the 'in header' of the compound as some sort of global parent 
->>> but that would be another convention that the fuse server has to know and keep.
->>>
->>
->>
->> Thanks,
->> Bernd
-> 
-> Horst
+base-commit: d22020d8bae386de422692a0957e991843927643 (cel/nfsd-testing)
+-- 
+2.50.1
 
