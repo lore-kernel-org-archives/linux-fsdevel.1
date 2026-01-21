@@ -1,48 +1,71 @@
-Received: from canpmsgout01.his.huawei.com (canpmsgout01.his.huawei.com [113.46.200.216])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A92844105F
-	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Jan 2026 06:27:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.216
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82CBA42EEBB
+	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Jan 2026 06:31:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768976835; cv=none; b=Fuy51SXSDg574/tuARHooeoVwbk/lech5BaZtZwVgrSpz1wssR2ChKHYBA0aF0PF0Wm8VY4wmJKzDZWZJlzPBOE5oloUfm2UNYmCa0bRAgvNsUw9Ily0rVjh+pUW5hP5HVZlL5Qb4IOBEbR82XLeGSYfCKeOclSq30nkGF7YiRg=
+	t=1768977079; cv=none; b=q3foqh1Tx+7F6HMYpVgYp49eIasHtnCIPGtVoiulsLb0WF96bGMW96TthQYm6pTwjdS0RS9ZMvQObQCSWnvbK7S13d8pL7St4Ua8J5yNmWy6Zj7S3YnHxguCw66pE/7SaJbz2idZQJfPTgXv5+PXrjp1f3V8vF54hlwoEOrPlc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768976835; c=relaxed/simple;
-	bh=F/e/1SQuPlXVM0fbpmrX8eyhOkpYxwKnYyBNKMtSO1c=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=SVKT8tDoYqle3HKrVtLIXLVo9W1higCRbGzIqPWawsDjD9mM+rk0fD9noZeU6SJIp+cD9ovLKCpLh5CH4uiLwA2Sm6EWiZ7rLkopuPsuHJK2yydLDvwJoMZOHSErQj9A17ss4q+/6aK9x1Kwe60Ow1YBlgnlKJIGgAJ1AjgSjPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=eb+tRD/e; arc=none smtp.client-ip=113.46.200.216
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1768977079; c=relaxed/simple;
+	bh=10IIxeBpOmbtDtny4F9jlFEYN9gHuP7Hs3r2Spr9jDY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=N8q7XXtwUB0qdYbEp+Du9sdPAT5/ZhmsqR2E/jP1cKjZgos9kWGF/PY9kTmb7Tlop0zmQekWzUGnSDf4rGbQL4SmHAMLmudAaiRvFWa5txUuUsqekNvItCLFeal/Bvmwt7XXV68FNB7QfVfhltsSsYmNZLBRqf8PmIAljSAzSCY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eATw6xKN; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="eb+tRD/e"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=qyo1UXxvb80ZNtm/KnUth+3Ew/cM0x9cJHvAGUTak5g=;
-	b=eb+tRD/eivjXTKEyxjwn/9SYlw6P2b7VcP22XoR/Ovy3xm6Qht9REnU6iMn3JgkCNq/gYGpZp
-	5pS0xlvCRC28HMJW1t8OHh0L1qnzoXfoP6rM5C3hPNuNPlxChTN0I1ohu2qUMyxkeer7OWlJMUq
-	O+4T5QaPJcUKv8aGfJDQcbM=
-Received: from mail.maildlp.com (unknown [172.19.162.197])
-	by canpmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4dwvJT0PjSz1T4H4;
-	Wed, 21 Jan 2026 14:23:05 +0800 (CST)
-Received: from kwepemr500001.china.huawei.com (unknown [7.202.194.229])
-	by mail.maildlp.com (Postfix) with ESMTPS id 8913740588;
-	Wed, 21 Jan 2026 14:27:07 +0800 (CST)
-Received: from huawei.com (10.50.85.135) by kwepemr500001.china.huawei.com
- (7.202.194.229) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Wed, 21 Jan
- 2026 14:27:06 +0800
-From: Jinjiang Tu <tujinjiang@huawei.com>
-To: <willy@infradead.org>, <akpm@linux-foundation.org>, <david@kernel.org>,
-	<lorenzo.stoakes@oracle.com>, <ziy@nvidia.com>,
-	<baolin.wang@linux.alibaba.com>, <Liam.Howlett@oracle.com>,
-	<npache@redhat.com>, <ryan.roberts@arm.com>, <dev.jain@arm.com>,
-	<baohua@kernel.org>, <lance.yang@linux.dev>, <shardul.b@mpiricsoftware.com>,
-	<linux-mm@kvack.org>, <linux-fsdevel@vger.kernel.org>
-CC: <wangkefeng.wang@huawei.com>, <tujinjiang@huawei.com>
-Subject: [RFC PATCH] mm/khugepaged: free empty xa_nodes when rollbacks in collapse_file
-Date: Wed, 21 Jan 2026 14:22:43 +0800
-Message-ID: <20260121062243.1893129-1-tujinjiang@huawei.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eATw6xKN"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-29f30233d8aso41031385ad.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 20 Jan 2026 22:31:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768977076; x=1769581876; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KzWJlQOGK7PP500ykt7DBzIMtyiEntcVzChvAEYBZDg=;
+        b=eATw6xKNatEeVYy/rPMLfSdOs1IFIOdcTGvpsGK/6fMsbx47iQN30NjBXKssxuEol8
+         da7NkOv5Kq4sYLvuFqUmWTquVWW8EgYeHI/d4z2rXld+fNIy+lnbo+Nsw6Pud9ztAgGe
+         xh/ipnz+sU+Rp4YdTQsc82BtIy+M34vBij+ZEqmvbc6cDzI9olUqPD3o1yVMvK50RhBC
+         Z95AESZ17nxH4yMmFgsTAcRK8X2pCZnBNP3qRpVCjKaATFY8HOPAS7gMcX3KuMgeT8w5
+         QYoWC9Qm7WjnhMIaMLHasp8aIY033moGRq30m+xP8YAcMk+kuCeAafVv/4JRtjvnwyY1
+         SddA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768977077; x=1769581877;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KzWJlQOGK7PP500ykt7DBzIMtyiEntcVzChvAEYBZDg=;
+        b=kQeWXC2KV+72YbvPGCI8whjjpmzcpLrtynh2E57ZaliGUW9jSE/cjilyrLHRwkhOgt
+         7kKefFs1nm8ncqgieOx4CdmAgRiAl9H6XZlvRAWgXscWrY5An6fgY/grmMrYP6gDdenW
+         5evBig4jTuE+bXTALMSeJbfCwolxSKs5Z5iYOQvN/7UjTdHQSOr3GCO+g0WspjninVrr
+         FYSIxv4WZZpemgGKcEtY5D+ygt/WTo3qwISIxuPMwnEczyM8dX9RVoY3Ig5PDGVe7GXf
+         y9S9Jqx2as5Wkj8ZKZcu01vyi1YtW1+DIRHqrRr2/Q6HHekK7cZU178HDzGLWLm/HXPl
+         Psbw==
+X-Gm-Message-State: AOJu0Yx4m3dA9TZG7ufE3CYJO45H6ZH6/7f/5FYWvS0IM0WvrvUU4h5q
+	WtkS/1IWfVJ1koiWuMef9g87fr9fHx41OlCwRbYXecYlVof0r6D+Iy17
+X-Gm-Gg: AZuq6aKTeQThGMFbwG2xpthwJ2i6moZwWvJT6clX1DXedU0PBqVCzIE24XTGZ4qQyHs
+	ivv6+FWEBCWj9/gZaNnnFWz7ly4Vluu5brZ2RojspZpbfrPgSc8JNW9XrvE/GRuYyqgrgSMh3gN
+	iRb/fIgQ1amOYBm+oCKQpLerenpxhkGMpPS9Yd0GQkMPVrXTdqVZ0LVADiSROkeG9nuSn2EsSvI
+	eNeyTZITPQ0oGxGYXxg0j01O8mLS9P3HjDtkp2lvCzidcTPROz500hfgaREgdKyRhQKcF5QBQ4r
+	MALpTlNLD91mfrByMMTm+JzuwTPCzhFqA14oMg/hC5cTLatIm0IYOZOyF+2nKQnpeWpeBBJrP83
+	CRj6r817Q4YFprXeUZd9gf77Cb7n1W6eqPqUCzehEkSQSNfKLTLh4JjF6eaG1Ym0JuDGhcYqMKd
+	FcUWcjxy4TSedyjUuUk0tFRpigF0+qXHBwn0SDx70ziYh1iu1L+xOA7iOoMirt62rAhw==
+X-Received: by 2002:a17:903:17c3:b0:2a0:fe9f:1884 with SMTP id d9443c01a7336-2a718973282mr149691925ad.55.1768977076504;
+        Tue, 20 Jan 2026 22:31:16 -0800 (PST)
+Received: from deepanshu-kernel-hacker.. ([2405:201:682f:389d:efe:9255:b6ce:79ee])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a718f79f40sm142007965ad.0.2026.01.20.22.31.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Jan 2026 22:31:15 -0800 (PST)
+From: Deepanshu Kartikey <kartikey406@gmail.com>
+To: slava@dubeyko.com,
+	glaubitz@physik.fu-berlin.de,
+	frank.li@vivo.com
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Deepanshu Kartikey <kartikey406@gmail.com>,
+	syzbot+d80abb5b890d39261e72@syzkaller.appspotmail.com
+Subject: [PATCH v2] hfsplus: fix uninit-value in hfsplus_strcasecmp
+Date: Wed, 21 Jan 2026 12:01:09 +0530
+Message-ID: <20260121063109.1830263-1-kartikey406@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -51,155 +74,55 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
- kwepemr500001.china.huawei.com (7.202.194.229)
 
-collapse_file() calls xas_create_range() to pre-create all slots needed.
-If collapse_file() finally fails, these pre-created slots are empty nodes
-and aren't destroyed.
+Syzbot reported a KMSAN uninit-value issue in hfsplus_strcasecmp() during
+filesystem mount operations. The root cause is that hfsplus_find_cat()
+declares a local hfsplus_cat_entry variable without initialization before
+passing it to hfs_brec_read().
 
-I can reproduce it with following steps.
-1) create file /tmp/test_madvise_collapse and ftruncate to 4MB size, and
-then mmap the file
-2) memset for the first 2MB
-3) madvise(MADV_COLLAPSE) for the second 2MB
-4) unlink the file
+When the filesystem image is corrupted or malformed (as syzbot fuzzes),
+hfs_brec_read() may read less data than sizeof(hfsplus_cat_entry). In such
+cases, the tmp.thread.nodeName.unicode array may only be partially filled,
+leaving remaining bytes uninitialized.
 
-in 3), collapse_file() calls xas_create_range() to expand xarray depth, and
-fails to collapse due to the whole 2M region is empty. collapse_file()
-rollback path doesn't destroy the pre-created empty nodes.
+hfsplus_cat_build_key_uni() then copies from this array based on
+nodeName.length. If the on-disk length field is corrupted or the array
+wasn't fully written by hfs_brec_read(), uninitialized stack data gets
+copied into the search key. When hfsplus_strcasecmp() subsequently reads
+these uninitialized bytes and uses them in case_fold() as an array index
+into hfsplus_case_fold_table, KMSAN detects the use of uninitialized values.
 
-When the file is deleted, shmem_evict_inode()->shmem_truncate_range()
-traverses all entries and calls xas_store(xas, NULL) to delete, if the leaf
-xa_node that stores deleted entry becomes emtry, xas_store() will
-automatically delete the empty node and delete it's  parent is empty too,
-until parent node isn't empty. shmem_evict_inode() won't traverse the empty
-nodes created by xas_create_range() due to these nodes doesn't store any
-entries. As a result, these empty nodes are leaked.
+Fix this by initializing tmp to zero, ensuring that even with corrupted
+filesystem images, no uninitialized data is propagated.
 
-We couldn't simply destroy empty nodes in rollback path, because xarray
-lock is released and re-held several times in collapse_file(). Another
-collapse_file() call may take concurrently, and those empty nodes may
-be needed by the another collapse_file() call.
-
-To fix it, move xas_create_range() call just before update new_folio to
-xarray, to guarantee collapse_file() doesn't unlock xarray lock
-temporarily. Besides, xas_create_range() may fails too, we don't unlock
-xarray lock and retry again, just destroy the new created empty xa_nodes
-with xarray lock held to prevent any concurrency.
-
-Fixes: 77da9389b9d5 ("mm: Convert collapse_shmem to XArray")
-Signed-off-by: Jinjiang Tu <tujinjiang@huawei.com>
+Reported-by: syzbot+d80abb5b890d39261e72@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=d80abb5b890d39261e72
+Tested-by: syzbot+d80abb5b890d39261e72@syzkaller.appspotmail.com
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Link: https://lore.kernel.org/all/20260120051114.1281285-1-kartikey406@gmail.com/T/ [v1]
+Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
 ---
- include/linux/xarray.h |  1 +
- lib/xarray.c           | 19 +++++++++++++++++++
- mm/khugepaged.c        | 36 +++++++++++++++++++-----------------
- 3 files changed, 39 insertions(+), 17 deletions(-)
+Changes in v2:
+- Use structure initialization (= {0}) instead of memset() as suggested
+  by Viacheslav Dubeyko
+- Improved commit message to clarify how uninitialized data is used
+---
+ fs/hfsplus/catalog.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/linux/xarray.h b/include/linux/xarray.h
-index be850174e802..972df5ceeb84 100644
---- a/include/linux/xarray.h
-+++ b/include/linux/xarray.h
-@@ -1555,6 +1555,7 @@ void xas_destroy(struct xa_state *);
- void xas_pause(struct xa_state *);
- 
- void xas_create_range(struct xa_state *);
-+void xas_destroy_range(struct xa_state *xas, unsigned long start, unsigned long end);
- 
- #ifdef CONFIG_XARRAY_MULTI
- int xa_get_order(struct xarray *, unsigned long index);
-diff --git a/lib/xarray.c b/lib/xarray.c
-index 9a8b4916540c..e6126052f141 100644
---- a/lib/xarray.c
-+++ b/lib/xarray.c
-@@ -752,6 +752,25 @@ void xas_create_range(struct xa_state *xas)
- }
- EXPORT_SYMBOL_GPL(xas_create_range);
- 
-+void xas_destroy_range(struct xa_state *xas, unsigned long start, unsigned long end)
-+{
-+	unsigned long index;
-+	void *entry;
-+
-+	for (index = start; index < end; ++index) {
-+		xas_set(xas, index);
-+		entry = xas_load(xas);
-+		if (entry)
-+			continue;
-+
-+		if (!xas->xa_node || xas_invalid(xas))
-+			continue;
-+
-+		if (!xas->xa_node->count)
-+			xas_delete_node(xas);
-+	}
-+}
-+
- static void update_node(struct xa_state *xas, struct xa_node *node,
- 		int count, int values)
+diff --git a/fs/hfsplus/catalog.c b/fs/hfsplus/catalog.c
+index 02c1eee4a4b8..56a53d2d437e 100644
+--- a/fs/hfsplus/catalog.c
++++ b/fs/hfsplus/catalog.c
+@@ -194,7 +194,7 @@ static int hfsplus_fill_cat_thread(struct super_block *sb,
+ int hfsplus_find_cat(struct super_block *sb, u32 cnid,
+ 		     struct hfs_find_data *fd)
  {
-diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-index 97d1b2824386..969058088eee 100644
---- a/mm/khugepaged.c
-+++ b/mm/khugepaged.c
-@@ -1863,7 +1863,7 @@ static int collapse_file(struct mm_struct *mm, unsigned long addr,
- 	struct folio *folio, *tmp, *new_folio;
- 	pgoff_t index = 0, end = start + HPAGE_PMD_NR;
- 	LIST_HEAD(pagelist);
--	XA_STATE_ORDER(xas, &mapping->i_pages, start, HPAGE_PMD_ORDER);
-+	XA_STATE(xas, &mapping->i_pages, 0);
- 	int nr_none = 0, result = SCAN_SUCCEED;
- 	bool is_shmem = shmem_file(file);
+-	hfsplus_cat_entry tmp;
++	hfsplus_cat_entry tmp = {0};
+ 	int err;
+ 	u16 type;
  
-@@ -1882,22 +1882,7 @@ static int collapse_file(struct mm_struct *mm, unsigned long addr,
- 	new_folio->index = start;
- 	new_folio->mapping = mapping;
- 
--	/*
--	 * Ensure we have slots for all the pages in the range.  This is
--	 * almost certainly a no-op because most of the pages must be present
--	 */
--	do {
--		xas_lock_irq(&xas);
--		xas_create_range(&xas);
--		if (!xas_error(&xas))
--			break;
--		xas_unlock_irq(&xas);
--		if (!xas_nomem(&xas, GFP_KERNEL)) {
--			result = SCAN_FAIL;
--			goto rollback;
--		}
--	} while (1);
--
-+	xas_lock_irq(&xas);
- 	for (index = start; index < end;) {
- 		xas_set(&xas, index);
- 		folio = xas_load(&xas);
-@@ -2194,6 +2179,23 @@ static int collapse_file(struct mm_struct *mm, unsigned long addr,
- 		xas_lock_irq(&xas);
- 	}
- 
-+	xas_set_order(&xas, start, HPAGE_PMD_ORDER);
-+	xas_create_range(&xas);
-+	if (xas_error(&xas)) {
-+		xas_set_order(&xas, start, 0);
-+		if (nr_none) {
-+			for (index = start; index < end; index++) {
-+				if (xas_next(&xas) == XA_RETRY_ENTRY)
-+					xas_store(&xas, NULL);
-+			}
-+		}
-+		xas_destroy_range(&xas, start, end);
-+		xas_unlock_irq(&xas);
-+		result = SCAN_FAIL;
-+
-+		goto rollback;
-+	}
-+
- 	if (is_shmem)
- 		lruvec_stat_mod_folio(new_folio, NR_SHMEM_THPS, HPAGE_PMD_NR);
- 	else
 -- 
 2.43.0
 
