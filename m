@@ -1,62 +1,129 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A0DE3BBA1E
-	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Jan 2026 15:22:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE9A1478E45
+	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Jan 2026 15:54:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769008967; cv=none; b=ewwLnrJPjn3DKvGFt6aHnHgzDEpIZH4sAZrjE9u71jPy/PKZpxF4GkjmWUCdbTxIuEka6C55O4aZUy53pXEBUVKp363MLTSsUZ0sC1ni2k6rUWKfLh5ySUn7yK1QcOzIF0Jvi/aQkvOe09GPVJWYZ8KPIoQo0r2uOZUavNa+ayY=
+	t=1769010852; cv=none; b=orZjHyWVEg81xituQ/WazZ2bAidRIlNu6fQDzyMNcoAKXHbDM0Mc2Wa8Tvv7bciM2JAtP56c0VAyblYR+yxC4D7xCkOw4zw/pPKCOUVVGJmEk8Sy2EAOVfoX72yMWuteLS0CvZgjEitHrxmJjOMdSHuIXpN6fn9K6TE89BYFLIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769008967; c=relaxed/simple;
-	bh=+m3wJD/632zFUoo0MClqfuzJLlQ31KltH6EMrtCC5EE=;
+	s=arc-20240116; t=1769010852; c=relaxed/simple;
+	bh=YHIVmzsUwXYFRNT8PxJqLUDcsjT4fcomkaFdrmmVUOc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o2CAUaZ6PxqTgbsqEkSNVrNCwRzg7QlyXmfYgnkJ6I2DgF+bVn3zuWSKUxLm37X/NF+gL+VrM4zVLKgUtoD0ssNQEfSKVRUmcUEMreSLoQ4DL58rj25kgNJVBBXVMxQq26FmJUr+ctncy3kJdQx0U0utxF9IYKP44PtXIbGRBmY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l+SSvW6y; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=LKv/LmFiQI1qLZVtkVGb4AZI5+UM1GJTGp5yLPCH8IPcAxdSHXxk7bZQw82YhPxkfO5rsRadv3YqonDtwm/nLiOs1jIgLTshge7LjBgfKiQzo/zvJNuOhnW3R5dPZfYkxApZ9cN8pgcvyhZYiM2NaI1kQWZ83nRxY/se7GVrVkU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CKh7gnHZ; arc=none smtp.client-ip=209.85.160.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l+SSvW6y"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769008965; x=1800544965;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+m3wJD/632zFUoo0MClqfuzJLlQ31KltH6EMrtCC5EE=;
-  b=l+SSvW6yX7cdzXBnnzT59xbfZ0iVGpDhBeu8oMIixkUIMx4BtCkz6uNT
-   8wpJya7RPefmFvv1u6BpFTajgBl4owDhz7DdPpeHzKcB/v9TrJdwOn44R
-   LvvRx5blfnuUR3uytlnbjnkRBcU+CrSrba3KsZsV5yr5SsVMReft4zT5d
-   n/nOQ/C0YC8+9C/Sl2NTLPppza2k4KF9fPrnK4rddoR5Xp2rSabvF1ZxE
-   7LoFim7nnR7uOF74E4sWMsVw+tBEk5j1JDeBO0MfIsMv29pWB+kdZCSk5
-   d8jQtJ3kcArEJY2zmrdyKYsgeW0QATzxNOH3t+uquCtWAN4g33bqmjhC9
-   g==;
-X-CSE-ConnectionGUID: ChpqYVy0QHS/asb3R6T/xA==
-X-CSE-MsgGUID: t2+/HV4BQKmbXbdFxtG//g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="80957212"
-X-IronPort-AV: E=Sophos;i="6.21,242,1763452800"; 
-   d="scan'208";a="80957212"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2026 07:22:44 -0800
-X-CSE-ConnectionGUID: y1xVM4ATTvmsGSiLVxYH0w==
-X-CSE-MsgGUID: /MuELCEmT7imYbyiFg3BXQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,242,1763452800"; 
-   d="scan'208";a="210976893"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 21 Jan 2026 07:22:42 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1via2a-00000000RLB-0J0h;
-	Wed, 21 Jan 2026 15:22:40 +0000
-Date: Wed, 21 Jan 2026 23:22:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: Joanne Koong <joannelkoong@gmail.com>, miklos@szeredi.hu
-Cc: oe-kbuild-all@lists.linux.dev, jefflexu@linux.alibaba.com,
-	luochunsheng@ustc.edu, djwong@kernel.org, horst@birthelmer.de,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v2 2/4] fuse: simplify logic in fuse_notify_store() and
- fuse_retrieve()
-Message-ID: <202601212244.rmkLqQQc-lkp@intel.com>
-References: <20260120224449.1847176-3-joannelkoong@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CKh7gnHZ"
+Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-4042f55de3aso663733fac.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 21 Jan 2026 07:54:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769010849; x=1769615649; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:feedback-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vBuHUIxWMnLe6s7TwsvCGhfWapOm3oLq0HDTyptAlGo=;
+        b=CKh7gnHZGVZKQv8D23HVLbRstU0Ao6rc9TYSif9ODKThLw0C8FyoSRugvSGgG2IrB4
+         5UNwacMhyPJRwvab5WQnp5pqS3FongWUB/OwoR0nsmfgnMXoStumm9Q/3xYQgNlCorok
+         xw7ekPGAEfzogA6cAI5Qd/75ZUo6RmFdEf4MhM1CqJ6BPrkDm5IgvJjZ0JSHYQOX/sQA
+         KToazpjWZgb2rhUYTqaPsYd1enFMyGW4DrMlBJZufJY6wQrdTfscTWE2tbOcyo0jSpLE
+         34z9rQwy87inBjoi/f0s3UFIpwgkgwTqA2rgxsmrDHVxwTimcAxZRSvwmOaqUCNTD+mP
+         3hnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769010849; x=1769615649;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:feedback-id:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=vBuHUIxWMnLe6s7TwsvCGhfWapOm3oLq0HDTyptAlGo=;
+        b=ctVYB4+GugaP72KeoyTC7Qqn54xXL7ZxtpMNmqZG5Fk6uRhk+3xUJOIJNBP44Cv+Uf
+         gNB2ADS3lhBQXLaOlQYBC1aRDGsvnwSJ/+rNXbiGfzK4/f9lOJ6E+6xwA79ypFQ1wTv6
+         n6S3Qbp0mcIlQDnbC4Rurbzu12pCYjn2ezWhfHd0YBV5Rz/HYjtlbEJKIyBwadFtMbrl
+         4WNJkE7tJa7sLuc0PIEUScagTCV6Cjs6mI57uu1Kkwl2vaEwBbACGTc8iHgXMuVVvxaK
+         fAIJlF8s48LytZcxyBvagCHMyroHk7z7LJuoPmVsOxcqt1ZFiE17HQWlH4+xPn/v/shI
+         5eAg==
+X-Forwarded-Encrypted: i=1; AJvYcCWNEsQ62AmZm1noDOBHJW5GEReByIdH6ioFd5W7M9yoiaQrFdCQr2Y14PAx8Q35bmGNnASrfzAuO7AZUeXH@vger.kernel.org
+X-Gm-Message-State: AOJu0YwYkO5fFsdK9uN4PjtPrAcxJaI5fmar8Eo3pETz4JThW79waUyS
+	VQtQIMcmBhNg8pcY29kqcZmixKTJfPsy+J/Tl0ZgpIf/vMhy8lZCA4BYg4BFAE9/
+X-Gm-Gg: AZuq6aK7YmJr5XvOmBrv5Bh2k86H/0YtMeixPlJIFRpvFijhqDac4TWhSdcK+CFroEy
+	0smx/kAJ6xBc0Lov7LDkT32jrHvzThDCsydWml1u4HMs9Rz+2ukhHbeM+ZEg9lHREyTPRHUaJPx
+	gdFOIPWGpE8oAOG9fmUo7acpCAvefxSqoWd2iyH2oU6U94JoLDMRAHDbBeyf9xEXwZnfu3C/fGH
+	kuRR6gTj7bFUl6xlT+16NSqNNEJ+276RG9npoc8DIFbvkJMRP4C/mJ16nLKcbLP5kt1X1dhPkVf
+	FN/tARNj5ktFp4qPHPpEEDhPXHTMqJpvOFI1QHMb8WHe8xywW4EIU4Jk+zIDd3/IGtcnfhjLPEt
+	Dlf486+8n2iI5w3uhezHdLCHwb4Pt6wRrYAyrebHNH095Zcs0FaELs75giNmXUUvHLUeR+213GB
+	QpL/4NzjvHSjB7/lYwk9WV1yJ/8cHMlivZBtHylXndDE4HUdcYmBbdgx4cEcHwUx3CNCoyEZY+8
+	1P3wPBCmTIG7GY=
+X-Received: by 2002:a05:6214:21ef:b0:87c:19af:4b76 with SMTP id 6a1803df08f44-89398144853mr314752936d6.17.1769004274227;
+        Wed, 21 Jan 2026 06:04:34 -0800 (PST)
+Received: from fauth-a1-smtp.messagingengine.com (fauth-a1-smtp.messagingengine.com. [103.168.172.200])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8942e6d8a94sm124931226d6.56.2026.01.21.06.04.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Jan 2026 06:04:33 -0800 (PST)
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 82E98F4006D;
+	Wed, 21 Jan 2026 09:04:31 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-06.internal (MEProxy); Wed, 21 Jan 2026 09:04:31 -0500
+X-ME-Sender: <xms:79xwaRPgS8h0JnF8HDazDYFECjiK0XRf_br3BZs2plL4fMjDAe722Q>
+    <xme:79xwaY1R9fsjITBQ4yKxSWOJU3sP5x_pIHLOyR7_TbiehKPP2R_EqaVSuweruAo4k
+    eaLFD_gv1cDSAb28i6hpJyT-SMrIX3LLsRJuMe-AYXeWe0Oy8PO3Q>
+X-ME-Received: <xmr:79xwaY2vAFacNlU5ffdaLISbe6CBRMyv8522yQ8kaXcNVrqe9RXlb3h6>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddugeefgeekucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepuehoqhhunhcu
+    hfgvnhhguceosghoqhhunhdrfhgvnhhgsehgmhgrihhlrdgtohhmqeenucggtffrrghtth
+    gvrhhnpefhtedvgfdtueekvdekieetieetjeeihedvteehuddujedvkedtkeefgedvvdeh
+    tdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
+    enucfrrghrrghmpehmrghilhhfrhhomhepsghoqhhunhdomhgvshhmthhprghuthhhphgv
+    rhhsohhnrghlihhthidqieelvdeghedtieegqddujeejkeehheehvddqsghoqhhunhdrfh
+    gvnhhgpeepghhmrghilhdrtghomhesfhhigihmvgdrnhgrmhgvpdhnsggprhgtphhtthho
+    pedvtddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheprghlihgtvghrhihhlhesgh
+    hoohhglhgvrdgtohhmpdhrtghpthhtohepvghlvhgvrhesghhoohhglhgvrdgtohhmpdhr
+    tghpthhtohepghgrrhihsehgrghrhihguhhordhnvghtpdhrtghpthhtoheplhhinhhugi
+    dqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprhhushht
+    qdhfohhrqdhlihhnuhigsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplh
+    hinhhugidqfhhsuggvvhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthho
+    pehkrghsrghnqdguvghvsehgohhoghhlvghgrhhouhhpshdrtghomhdprhgtphhtthhope
+    ifihhllheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepphgvthgvrhiisehinhhfrhgr
+    uggvrggurdhorhhg
+X-ME-Proxy: <xmx:79xwae-7AjQM7cRhrID17z6Ip7K1eCj6XX0BcbwSoxR7SPnuwnSQmg>
+    <xmx:79xwacalaiU0QPeoC1XhJN7CzYPqHVgjh_4cloRVJjbl_SZf2a1WGg>
+    <xmx:79xwaVxjU5nPqxd_mcPpASdcQ9Jeq9x06toUhHgGaDVEK_wxZroVPQ>
+    <xmx:79xwaS-vARAtWkjKWHBijayn1MXGlO2wWdH4VjAucuXb14OOmzvCBQ>
+    <xmx:79xwaZxny1W8998ySnA5TLfT8cQGMeb3X_G-z8hLwsB6H5O6XZsesuNN>
+Feedback-ID: iad51458e:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 21 Jan 2026 09:04:30 -0500 (EST)
+Date: Wed, 21 Jan 2026 22:04:28 +0800
+From: Boqun Feng <boqun.feng@gmail.com>
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Marco Elver <elver@google.com>, Gary Guo <gary@garyguo.net>,
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, kasan-dev@googlegroups.com,
+	Will Deacon <will@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Elle Rhumsaa <elle@weathered-steel.dev>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	FUJITA Tomonori <fujita.tomonori@gmail.com>
+Subject: Re: [PATCH 2/2] rust: sync: atomic: Add atomic operation helpers
+ over raw pointers
+Message-ID: <aXDc7KYgkD7g4HVd@tardis-2.local>
+References: <20260120115207.55318-1-boqun.feng@gmail.com>
+ <20260120115207.55318-3-boqun.feng@gmail.com>
+ <aW-sGiEQg1mP6hHF@elver.google.com>
+ <DFTKIA3DYRAV.18HDP8UCNC8NM@garyguo.net>
+ <aXDEOeqGkDNc-rlT@google.com>
+ <CANpmjNMq_oqvOmO9F2f-v3FTr6p0EwENo70ppvKLXDjgPbR22g@mail.gmail.com>
+ <aXDL5NUOH_qr390Q@tardis-2.local>
+ <aXDPliPQs8jU_wfz@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -65,83 +132,48 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260120224449.1847176-3-joannelkoong@gmail.com>
+In-Reply-To: <aXDPliPQs8jU_wfz@google.com>
 
-Hi Joanne,
+On Wed, Jan 21, 2026 at 01:07:34PM +0000, Alice Ryhl wrote:
+> On Wed, Jan 21, 2026 at 08:51:48PM +0800, Boqun Feng wrote:
+> > On Wed, Jan 21, 2026 at 01:36:04PM +0100, Marco Elver wrote:
+> > [..]
+[...]
+> > 
+> > Note that it also applies to atomic_read() and atomic_set() as well.
+> 
+> Just to be completely clear ... am I to understand this that READ_ONCE()
+> and the LKMM's atomic_load() *are* the exact same thing? Because if so,
+> then this was really confusing:
+> 
+> > my argument was not about naming, it's
+> > about READ_ONCE() being more powerful than atomic load (no, not because
+> > of address dependency, they are the same on that, it's because of the
+> > behaviors of them regarding a current access on the same memory
+> > location)
+> > https://lore.kernel.org/all/aWuV858wU3MeYeaX@tardis-2.local/
+> 
+> Are they the *exact* same thing or not? Do you mean that they are the
+> same under LKMM, but different under some other context?
 
-kernel test robot noticed the following build errors:
+Right, they are the same thing under LKMM when used for inter-thread
+synchronization when they are atomic. But when READ_ONCE() (and
+__READ_ONCE()) used on types that are larger than machine word size,
+they are not guaranteed to be atomic, hence semantics-wise READ_ONCE()
+firstly guarantees "once" (volatile and no data race with WRITE_ONCE())
+and then on certain types, it's atomic as well.
 
-[auto build test ERROR on mszeredi-fuse/for-next]
-[also build test ERROR on linus/master v6.19-rc6]
-[cannot apply to next-20260120]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+* In the case that we need atomicity, we should just use atomic_load().
+* In the case that we don't need atomicity and no data race, we can just
+  use read_volatile().
+* In the case that there is a non-atomic concurrent write, that suggests
+  we have a bug in C code or we simply should have some other
+  synchronization. Or if we believe the conncurrent write has at last
+  per-byte atomicity, then we can have `READ_ONCE()`-like function that
+  returns a `MaybeUninit` to bear the possible tearing.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Joanne-Koong/fuse-validate-outarg-offset-and-size-in-notify-store-retrieve/20260121-074942
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git for-next
-patch link:    https://lore.kernel.org/r/20260120224449.1847176-3-joannelkoong%40gmail.com
-patch subject: [PATCH v2 2/4] fuse: simplify logic in fuse_notify_store() and fuse_retrieve()
-config: powerpc-randconfig-r073-20260121 (https://download.01.org/0day-ci/archive/20260121/202601212244.rmkLqQQc-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 8.5.0
-smatch version: v0.5.0-8985-g2614ff1a
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260121/202601212244.rmkLqQQc-lkp@intel.com/reproduce)
+Regards,
+Boqun
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601212244.rmkLqQQc-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from <command-line>:
-   In function 'fuse_notify_store',
-       inlined from 'fuse_notify' at fs/fuse/dev.c:2107:10:
->> include/linux/compiler_types.h:631:38: error: call to '__compiletime_assert_495' declared with attribute error: min(outarg.size, ((loff_t)(~0UL) << 12) - pos) signedness error
-     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-                                         ^
-   include/linux/compiler_types.h:612:4: note: in definition of macro '__compiletime_assert'
-       prefix ## suffix();    \
-       ^~~~~~
-   include/linux/compiler_types.h:631:2: note: in expansion of macro '_compiletime_assert'
-     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-     ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-    #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                        ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:93:2: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-     BUILD_BUG_ON_MSG(!__types_ok(ux, uy),  \
-     ^~~~~~~~~~~~~~~~
-   include/linux/minmax.h:98:2: note: in expansion of macro '__careful_cmp_once'
-     __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-     ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:105:19: note: in expansion of macro '__careful_cmp'
-    #define min(x, y) __careful_cmp(min, x, y)
-                      ^~~~~~~~~~~~~
-   fs/fuse/dev.c:1788:8: note: in expansion of macro 'min'
-     num = min(outarg.size, MAX_LFS_FILESIZE - pos);
-           ^~~
-
-
-vim +/__compiletime_assert_495 +631 include/linux/compiler_types.h
-
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  617  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  618  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  619  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  620  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  621  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  622   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  623   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  624   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  625   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  626   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  627   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  628   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  629   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  630  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @631  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  632  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> Alice
