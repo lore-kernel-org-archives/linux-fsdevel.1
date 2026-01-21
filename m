@@ -1,69 +1,283 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A6F23D411D;
-	Wed, 21 Jan 2026 13:43:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7D57492191
+	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Jan 2026 14:00:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769002991; cv=none; b=ZCXW0RaxUxUfZwsuksbO8h26wuduTqX6+/6nKtYuVXo4NYd+AQ2ldSQfn6X6mzGILcMzWV38iDfRlm0MxumDwRV8/RYIbZMymzYieN3dzHD3mA6Bcds/wfF1PxG5t8KXabivn/KliHeOpc6zM71DUsuajw+1EYQTHOATAYbzQDQ=
+	t=1769004004; cv=none; b=dqOM+t1oHCXTw/CNpRrfPOf5pzA6wjXXRgA1Z/AFfrsoBLaArKiTv/m3iXEPbN3+leH+vJ0mjqgmHl8tE5RpzoZl1c8XUf7W9Hv2twgR7Djoh3mRvHGNnWPDaqHsEOp77LWeNq4iQUsMngXU4i9rm/Gi5qMUgI3ngZLxIG1gU2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769002991; c=relaxed/simple;
-	bh=BPUSs+DRWFaZUaaeSKV+bFcPdPErDhU0WKpIbS8DUQ0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FtoPUTnWS3RvsgtE0cX7TCdPigZ2JMEnWVctjF+SpppVfTzlOdZlV0opW3mXZVErcDyhP3YlRD+Dnssi6mvdc4QIuU6rtvGLapNakjeZEVY/6FgMncqm00Xv1AmQ/XDcL7zP5UOMPH42hzPr8TAECJOFVHzYvfIJtjn1UHI4vrk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=TB9H8ELB; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1769004004; c=relaxed/simple;
+	bh=nhlzBDrmJFdlL3AHPH5Cn60bdrmAECeyg0BHHkpdCFc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Ah1zdFB3nkEu3kcaEzWOEc6h6+tfLoyk88/nrTl7D+mbXiQcL100sImHIi91crq3sIhFGiDKgQ2UgvyOJE83i5mcmpD2MO3K+cKGtpVunWGax7a5SaC/41IH/FkMPq6fiTrIDaco5oy315exu2NC9AB5iQcwLf64nXpGOLtMwbA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=xijPHExz; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=yrE/GrGN; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=xijPHExz; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=yrE/GrGN; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="TB9H8ELB"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=BPUSs+DRWFaZUaaeSKV+bFcPdPErDhU0WKpIbS8DUQ0=; b=TB9H8ELBvyJ5o6fkmXBGE4HzcU
-	9kZIHgbsSNMa8UTK1gr6PLdBQ9DQ+98G4MdYJXDwlKI0PDa6k0DF62m2e+9bxQypK70NS9dRgdjs6
-	KCXrEmoY3uismyDUFAoTuWFzrMDI0CcIZOIrtnbmF2qrUo9RF6CcjMs8ATBLLdqTWaiHTiMjyMtgO
-	JcxDOomHm7tIVdPaGybioLZHIcpzAd+6cueMVtff2W6tdFhMZDvf8HismZ+B6EnBY59n5StiREDMX
-	eNy2Bzzuz3aqmAfhagGKItK8pqGb+aHz7q+K5L2970v8upiGS/HR81671xwwIG3QyJV4duuxa0Z85
-	F1SeW3rA==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1viYU8-0000000GPup-13XG;
-	Wed, 21 Jan 2026 13:43:00 +0000
-Date: Wed, 21 Jan 2026 13:43:00 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Jan Kara <jack@suse.cz>
-Cc: Andrew Morton <akpm@linux-foundation.org>, bernd@bsbernd.com,
-	Joanne Koong <joannelkoong@gmail.com>,
-	Miklos Szeredi <miklos@szeredi.hu>, linux-block@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v2] flex_proportions: Make fprop_new_period() hardirq safe
-Message-ID: <aXDX5IXuvghtyZZU@casper.infradead.org>
-References: <20260121112729.24463-2-jack@suse.cz>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="xijPHExz";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="yrE/GrGN";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="xijPHExz";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="yrE/GrGN"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 022B33368F;
+	Wed, 21 Jan 2026 14:00:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1769004001; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FniioizV6wB+fBTYPgMtjyS4wWSVb08EGqaElWzs0vY=;
+	b=xijPHExzWSZJrgzsNJm/G9dZMH7sond9yf23WHSrvUQRzP0bFzNYuVwkug0kvjvnBdi2V5
+	7K+q2aGmFxxbAquombL2mDCbdoJmHLz0mipc0UgHvX+lVU48ko6xGAKk35+V4ipnEqXvik
+	v1Fvmu92122+O+ub0DQbSCEV0So8Rgw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1769004001;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FniioizV6wB+fBTYPgMtjyS4wWSVb08EGqaElWzs0vY=;
+	b=yrE/GrGNYjiWbzQ/ES67eqRzTqanCD1QnoEUhMH04IIx89ofaNBlUxC2qchFZHJ0fCQ8OK
+	amsA6/hjIVta0xAQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1769004001; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FniioizV6wB+fBTYPgMtjyS4wWSVb08EGqaElWzs0vY=;
+	b=xijPHExzWSZJrgzsNJm/G9dZMH7sond9yf23WHSrvUQRzP0bFzNYuVwkug0kvjvnBdi2V5
+	7K+q2aGmFxxbAquombL2mDCbdoJmHLz0mipc0UgHvX+lVU48ko6xGAKk35+V4ipnEqXvik
+	v1Fvmu92122+O+ub0DQbSCEV0So8Rgw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1769004001;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FniioizV6wB+fBTYPgMtjyS4wWSVb08EGqaElWzs0vY=;
+	b=yrE/GrGNYjiWbzQ/ES67eqRzTqanCD1QnoEUhMH04IIx89ofaNBlUxC2qchFZHJ0fCQ8OK
+	amsA6/hjIVta0xAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E70833EA67;
+	Wed, 21 Jan 2026 14:00:00 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id ouJaOODbcGmVTQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 21 Jan 2026 14:00:00 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id A7A15A0A27; Wed, 21 Jan 2026 14:59:56 +0100 (CET)
+From: Jan Kara <jack@suse.cz>
+To: <linux-fsdevel@vger.kernel.org>
+Cc: Amir Goldstein <amir73il@gmail.com>,
+	Jan Kara <jack@suse.cz>
+Subject: [PATCH v3 2/3] fsnotify: Use connector list for destroying inode marks
+Date: Wed, 21 Jan 2026 14:59:43 +0100
+Message-ID: <20260121135948.8448-5-jack@suse.cz>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260121135513.12008-1-jack@suse.cz>
+References: <20260121135513.12008-1-jack@suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260121112729.24463-2-jack@suse.cz>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5476; i=jack@suse.cz; h=from:subject; bh=nhlzBDrmJFdlL3AHPH5Cn60bdrmAECeyg0BHHkpdCFc=; b=owGbwMvMwME4Z+4qdvsUh5uMp9WSGDILbl/VLBIREmTobJj02ZXTPZ35/Mnrb/4+yzazs7XtK uBx/KXQyWjMwsDIwSArpsiyOvKi9rV5Rl1bQzVkYAaxMoFMYeDiFICJ7HJg/+96PyZmzxyrixEM P8oPf127syKMYRs/x9lIk1yjwpqVekw1XvpbYnv26qQZ/PnqxrbyZFCw/femL8KpJ14krdbUPaA t8UJj/kvLS8c6nv93/lrqWaV2VzCztYEh367nrc0iid9sjsfMzlfmnl9oUenSpZz9cW2x4oNt28 Lcnz/lvDGd49Gh//daJaWabH3ezN0WPEns1tROrdV335Rzma620RRb8+giM//0WqNF3jHVxqGGA h8FutPrZc82fnZwtg24zf3uUWHnvtM3mzNNnloaMuXlxIWd4VPZFZIs5Zt7OKAv3D49PnqzolQd Q1o8x6GyBZ93pSwUWf/G59vxn64LJPNiJU56TWOVmf8eAA==
+X-Developer-Key: i=jack@suse.cz; a=openpgp; fpr=93C6099A142276A28BBE35D815BC833443038D8C
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -2.80
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:mid,suse.cz:email];
+	RCVD_COUNT_THREE(0.00)[3];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,suse.cz];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com]
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-On Wed, Jan 21, 2026 at 12:27:30PM +0100, Jan Kara wrote:
-> Bernd has reported a lockdep splat from flexible proportions code that
-> is essentially complaining about the following race:
-[...]
-> Note that a deadlock like this is only possible if the bdi has
-> configured maximum fraction of writeout throughput which is very rare
-> in general but frequent for example for FUSE bdis. To fix this problem
-> we have to make sure write section of the sequence counter is irqsafe.
+Instead of iterating all inodes belonging to a superblock to find inode
+marks and remove them on umount, iterate all inode connectors for the
+superblock. This may be substantially faster since there are generally
+much less inodes with fsnotify marks than all inodes. It also removes
+one use of sb->s_inodes list which we strive to ultimately remove.
 
-Ah, that's why we haven't seen it reported before.
+Signed-off-by: Jan Kara <jack@suse.cz>
+---
+ fs/notify/fsnotify.c | 61 +-------------------------------------------
+ fs/notify/fsnotify.h |  3 +++
+ fs/notify/mark.c     | 41 +++++++++++++++++++++++++++++
+ 3 files changed, 45 insertions(+), 60 deletions(-)
 
-> CC: stable@vger.kernel.org
-> Fixes: a91befde3503 ("lib/flex_proportions.c: remove local_irq_ops in fprop_new_period()")
-> Reported-by: Bernd Schubert <bernd@bsbernd.com>
-> Link: https://lore.kernel.org/all/9b845a47-9aee-43dd-99bc-1a82bea00442@bsbernd.com/
-> Signed-off-by: Jan Kara <jack@suse.cz>
+diff --git a/fs/notify/fsnotify.c b/fs/notify/fsnotify.c
+index 706484fb3bf3..9995de1710e5 100644
+--- a/fs/notify/fsnotify.c
++++ b/fs/notify/fsnotify.c
+@@ -33,65 +33,6 @@ void __fsnotify_mntns_delete(struct mnt_namespace *mntns)
+ 	fsnotify_clear_marks_by_mntns(mntns);
+ }
+ 
+-/**
+- * fsnotify_unmount_inodes - an sb is unmounting.  handle any watched inodes.
+- * @sb: superblock being unmounted.
+- *
+- * Called during unmount with no locks held, so needs to be safe against
+- * concurrent modifiers. We temporarily drop sb->s_inode_list_lock and CAN block.
+- */
+-static void fsnotify_unmount_inodes(struct super_block *sb)
+-{
+-	struct inode *inode, *iput_inode = NULL;
+-
+-	spin_lock(&sb->s_inode_list_lock);
+-	list_for_each_entry(inode, &sb->s_inodes, i_sb_list) {
+-		/*
+-		 * We cannot __iget() an inode in state I_FREEING,
+-		 * I_WILL_FREE, or I_NEW which is fine because by that point
+-		 * the inode cannot have any associated watches.
+-		 */
+-		spin_lock(&inode->i_lock);
+-		if (inode_state_read(inode) & (I_FREEING | I_WILL_FREE | I_NEW)) {
+-			spin_unlock(&inode->i_lock);
+-			continue;
+-		}
+-
+-		/*
+-		 * If i_count is zero, the inode cannot have any watches and
+-		 * doing an __iget/iput with SB_ACTIVE clear would actually
+-		 * evict all inodes with zero i_count from icache which is
+-		 * unnecessarily violent and may in fact be illegal to do.
+-		 * However, we should have been called /after/ evict_inodes
+-		 * removed all zero refcount inodes, in any case.  Test to
+-		 * be sure.
+-		 */
+-		if (!icount_read(inode)) {
+-			spin_unlock(&inode->i_lock);
+-			continue;
+-		}
+-
+-		__iget(inode);
+-		spin_unlock(&inode->i_lock);
+-		spin_unlock(&sb->s_inode_list_lock);
+-
+-		iput(iput_inode);
+-
+-		/* for each watch, send FS_UNMOUNT and then remove it */
+-		fsnotify_inode(inode, FS_UNMOUNT);
+-
+-		fsnotify_inode_delete(inode);
+-
+-		iput_inode = inode;
+-
+-		cond_resched();
+-		spin_lock(&sb->s_inode_list_lock);
+-	}
+-	spin_unlock(&sb->s_inode_list_lock);
+-
+-	iput(iput_inode);
+-}
+-
+ void fsnotify_sb_delete(struct super_block *sb)
+ {
+ 	struct fsnotify_sb_info *sbinfo = fsnotify_sb_info(sb);
+@@ -100,7 +41,7 @@ void fsnotify_sb_delete(struct super_block *sb)
+ 	if (!sbinfo)
+ 		return;
+ 
+-	fsnotify_unmount_inodes(sb);
++	fsnotify_unmount_inodes(sbinfo);
+ 	fsnotify_clear_marks_by_sb(sb);
+ 	/* Wait for outstanding object references from connectors */
+ 	wait_var_event(fsnotify_sb_watched_objects(sb),
+diff --git a/fs/notify/fsnotify.h b/fs/notify/fsnotify.h
+index 6b58d733ceb6..58c7bb25e571 100644
+--- a/fs/notify/fsnotify.h
++++ b/fs/notify/fsnotify.h
+@@ -77,6 +77,9 @@ extern struct srcu_struct fsnotify_mark_srcu;
+ extern int fsnotify_compare_groups(struct fsnotify_group *a,
+ 				   struct fsnotify_group *b);
+ 
++/* Destroy all inode marks for given superblock */
++void fsnotify_unmount_inodes(struct fsnotify_sb_info *sbinfo);
++
+ /* Destroy all marks attached to an object via connector */
+ extern void fsnotify_destroy_marks(fsnotify_connp_t *connp);
+ /* run the list of all marks associated with inode and destroy them */
+diff --git a/fs/notify/mark.c b/fs/notify/mark.c
+index 4a525791a2f3..1b955000ad5b 100644
+--- a/fs/notify/mark.c
++++ b/fs/notify/mark.c
+@@ -666,6 +666,47 @@ struct fsnotify_inode_mark_connector {
+ 	struct list_head conns_list;
+ };
+ 
++/**
++ * fsnotify_unmount_inodes - an sb is unmounting. Handle any watched inodes.
++ * @sbinfo: fsnotify info for superblock being unmounted.
++ *
++ * Walk all inode connectors for the superblock and free all associated marks.
++ */
++void fsnotify_unmount_inodes(struct fsnotify_sb_info *sbinfo)
++{
++	struct fsnotify_inode_mark_connector *iconn;
++	struct inode *inode;
++
++restart:
++	spin_lock(&sbinfo->list_lock);
++	list_for_each_entry(iconn, &sbinfo->inode_conn_list, conns_list) {
++		/* All connectors on the list are still attached to an inode */
++		inode = iconn->common.obj;
++		/*
++		 * For connectors without FSNOTIFY_CONN_FLAG_HAS_IREF
++		 * (evictable marks) corresponding inode may well have 0
++		 * refcount and can be undergoing eviction. OTOH list_lock
++		 * protects us from the connector getting detached and inode
++		 * freed. So we can poke around the inode safely.
++		 */
++		spin_lock(&inode->i_lock);
++		if (unlikely(
++		    inode_state_read(inode) & (I_FREEING | I_WILL_FREE))) {
++			spin_unlock(&inode->i_lock);
++			continue;
++		}
++		__iget(inode);
++		spin_unlock(&inode->i_lock);
++		spin_unlock(&sbinfo->list_lock);
++		fsnotify_inode(inode, FS_UNMOUNT);
++		fsnotify_clear_marks_by_inode(inode);
++		iput(inode);
++		cond_resched();
++		goto restart;
++	}
++	spin_unlock(&sbinfo->list_lock);
++}
++
+ static void fsnotify_init_connector(struct fsnotify_mark_connector *conn,
+ 				    void *obj, unsigned int obj_type)
+ {
+-- 
+2.51.0
 
-Reviewed-by: Matthew Wilcox (Oracle) <willy@infradead.org>
