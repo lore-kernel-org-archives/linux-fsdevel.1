@@ -1,127 +1,102 @@
-Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C4A647DFAB
-	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Jan 2026 14:38:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D2754B8DFE;
+	Wed, 21 Jan 2026 14:47:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769006293; cv=none; b=gT7icGPUV2IdCgizXvioL0LIABllzBTk18I2sgglhDimsfDi1zD0zUeMNAsGTe8pdySA89XxHnoq97VZpcUkP0k3JP9NIgTB77IUf7Zpy9sRICdfz1UTBTG3mv5jsw52oIIesKg28bdGcRfXY9M8fY6htXMR+DX6l2urnNIg+BA=
+	t=1769006872; cv=none; b=emF9fh9C1aT6cv3iQ/fV/KpD00HJ7/kbxWdt4kZuoTQZFNkwXba22ViduisMtF1ttOZiFOPNezJFvbVKjcaohv5Lba4DMPqdFkoNrSe6+fOKonQqK9YIIoh7+zh3tOHfdjXuTgtPPSig7QZsinMHwgmJvIFUpCEtsF7S4Xa3C4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769006293; c=relaxed/simple;
-	bh=JO/s/6KKvqMhoj8pQ+M8dYm9bOMaDHK5abW2HtiJvOQ=;
+	s=arc-20240116; t=1769006872; c=relaxed/simple;
+	bh=+nj0RQCD2JV8ao7C4ZSJ4j28cwei4e9FrFXvsWNw804=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NZx/SvkA8+0OP32JGPW3aiLdRi4+guBwzlLptZ/ifm3Z36GX8SptmBWq5sM+a4Xns3nKMC5OoyWQXsvhJUNtAyM0syOMNPDhTYBeDbZgySZLVdstDN2z2hoPnHsmRiwnDuTNCH81CRVEhM3MFTFDVPwMQub4ojpHCaiZwaBxmAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BlChZSDR; arc=none smtp.client-ip=74.125.82.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=VJ/nrfHrQx3cBcmFETcmg8MQAHPsBZLrCWfRmMCcfMQ8Rp/UyKwvicFUxKaD7RgpSu2ZA0WZVjMcADnsCXcMSErZneMvet6tHkX3esuL9WdZOaHS+6FDSf7kL/bqmM/g2jvPjJ+300gZCipqaKcjmC3t7to5HJT2tu/LPuurIEo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=lyoZtqRM; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BlChZSDR"
-Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-2ae2eb49b4bso13380330eec.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 21 Jan 2026 06:38:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769006291; x=1769611091; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:feedback-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BLcZMH22PMLngVZW1Pr6WIQb6BYdcrFZicgkGSpRFnU=;
-        b=BlChZSDRpmzr8AW6MexXEgKjDOhEUUqDBL4ju/qh4Nh/3571ZZ0uzyxviAJCpRUX+4
-         JT5fDM3yOKhBxE6qif41s8CWMjsi4jEMcpWIQs6EbolOtWlkdYrIopSTXzO+DFTeQiFn
-         TubvlZCCuQCpNV9ChOPEMZ/Ax2ZIfydYIgFi2A+bXzHFe/LtWn6yur1i1Ccb+zDb9xoX
-         DMQubZt2PS5eEm9pCL57PdiL6hR+33j7fTrq7MgGYiqgIy9jSH6yUhd3OGwKOkLJfzr2
-         YbrGFqdtMT3TTEM0FyJlHfUM0qGPK9+YzVtTkWqWCpLlzoEU2y7eiqND6n0j9ITrngjR
-         o0dw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769006291; x=1769611091;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:feedback-id:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=BLcZMH22PMLngVZW1Pr6WIQb6BYdcrFZicgkGSpRFnU=;
-        b=QuY16PC2N6md8q6nxQQhU5Gz83N+Mqm22fpddEsMeZsget61p7AqG0m+13EC0Phj41
-         slpR6WwiAPWeTKnk1Js14UBM8V1yzTVuNvvtoqLOu6lWtjmShgsnJ/j7F6Jps0cCnDwl
-         POj02ZB709q0lslPe3gjyGFV7DvU+up75Ep9YdFGNIKIY4Y7o4K/0BETMOyHLM1ZPm6I
-         DMUyjZYxJJVpb7NQh7etW8mBhyvXsNhmYeP0xNXn2JBMTBMNYRwkSuHMXVXaZls0WsVO
-         H6SaAJdQkZLwK9AUI0F99fFYa/eQ2ujMMqNZhEdwqUjl0M6jInUMgOLR1dNuzm4KOQv0
-         rFRg==
-X-Forwarded-Encrypted: i=1; AJvYcCV75r5Ax4qKHt89tRFe0uoOkn0DSrOXnlGaXmVQ92Wgul2F/09FM0/ayZbl9+H4KhyZJ4u2r5yytezd/6WR@vger.kernel.org
-X-Gm-Message-State: AOJu0YySMCjpLCvkrL/siC0vWcSnkmH3QDiTWcbBjDELgwD9Im8747pn
-	46fxusphTxnhJ6i90JqEK3tNGHj0UJVsF+swMJf/zM5x5CwALSxEmI6s
-X-Gm-Gg: AZuq6aKfO3zGbqPxchpbsur/BwiXv3drphMpHhCO7yObrI+K1111JTB2Kp4szkda9oB
-	MU8H7v58eFOC692YI92WLsrj+5L7S4h9m6A3XX9NtWQxQf8DgupNC3u/KwAccY9ilqVmM45e/RC
-	c73ipWDogDu4g8LxCPqWP2qe/0hgyvP9XifC+HMAlJksgMpYbo7sh+g9dG/cD9LqGRO7NwOImCa
-	20/SE1mh7Q+oidsVNnuhivrX3G3JN5FpIXfw7vg+zRAeZgLekLJwIeZ60X5TCOF9BdDcVT6rmjD
-	R+bL8D4cvOgdN0ZGVWAxXOAU8ImJGXhBPq7iyKcjA9XCcgsrjUisASgpVCVIteazE2yEHDDr76W
-	xdMDn78E5gBbdP4o7X37/WT369cia+WPzS5T17G1TUznkuj7DSejZq3GX9Ag3rINXPN6fBBd3cs
-	xUXdxFlM8fBCT/by42uvdieEBi7Io38ERVayrDUaPgv3UDMhNehqehx59HfcCX46LPxgyt1COwI
-	GqRJKrh1yX4h+g=
-X-Received: by 2002:ac8:5a8a:0:b0:502:9abf:a89f with SMTP id d75a77b69052e-502d85074d8mr56654461cf.41.1769000304933;
-        Wed, 21 Jan 2026 04:58:24 -0800 (PST)
-Received: from fauth-a2-smtp.messagingengine.com (fauth-a2-smtp.messagingengine.com. [103.168.172.201])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-502a1d9f480sm112557811cf.13.2026.01.21.04.58.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Jan 2026 04:58:24 -0800 (PST)
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 9287AF40068;
-	Wed, 21 Jan 2026 07:58:23 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Wed, 21 Jan 2026 07:58:23 -0500
-X-ME-Sender: <xms:b81waZUXCA5b7_qat5LZqZYJW1NkZrWahIWNw1B9RjoV5gfNEa8DkQ>
-    <xme:b81waee_z64k_jmXfpq3dYEMz9KfulJ02ofTqys7ZsWInOcrR750BpxJY9PXWbdtn
-    Iqvcu2ueC7hF4T3qzNAxfqGiO67hCJ8vNiyX0udzTXCOj56CF4h>
-X-ME-Received: <xmr:b81wad-HHoOir8j-lQk0CLGKoNG0X6zglpvrbgIFjn1BGePx3lYVbVcr>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddugeeffeegucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepuehoqhhunhcu
-    hfgvnhhguceosghoqhhunhdrfhgvnhhgsehgmhgrihhlrdgtohhmqeenucggtffrrghtth
-    gvrhhnpeeftdevhfevteettdfgffeigfekieetudejgfdukeeihfffheehueevleffkeef
-    vdenucffohhmrghinheplhhptgdrvghvvghnthhsnecuvehluhhsthgvrhfuihiivgeptd
-    enucfrrghrrghmpehmrghilhhfrhhomhepsghoqhhunhdomhgvshhmthhprghuthhhphgv
-    rhhsohhnrghlihhthidqieelvdeghedtieegqddujeejkeehheehvddqsghoqhhunhdrfh
-    gvnhhgpeepghhmrghilhdrtghomhesfhhigihmvgdrnhgrmhgvpdhnsggprhgtphhtthho
-    pedvtddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepvghlvhgvrhesghhoohhglh
-    gvrdgtohhmpdhrtghpthhtohepghgrrhihsehgrghrhihguhhordhnvghtpdhrtghpthht
-    oheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpth
-    htoheprhhushhtqdhfohhrqdhlihhnuhigsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhr
-    tghpthhtoheplhhinhhugidqfhhsuggvvhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-    dprhgtphhtthhopehkrghsrghnqdguvghvsehgohhoghhlvghgrhhouhhpshdrtghomhdp
-    rhgtphhtthhopeifihhllheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepphgvthgvrh
-    iisehinhhfrhgruggvrggurdhorhhgpdhrtghpthhtohepmhgrrhhkrdhruhhtlhgrnhgu
-    segrrhhmrdgtohhm
-X-ME-Proxy: <xmx:b81wadmCqcGj5xTe7itFHc83W1okWdihA5c0cJUg1ni6v3c0mqousA>
-    <xmx:b81waWiT25eU8l5WhPNKNLqdLi895cSvJC2kDbHkx_nuWvamYB2oMA>
-    <xmx:b81waVYdQFaGJc-eDx6CHOioS55nmBM78Vas1w_LPZO4D_XccSuzbA>
-    <xmx:b81waaF6W27Y3C0x1lF0XdDOPxCG-UqTdRcwBdpB7OyWQkBURyQsbg>
-    <xmx:b81waSZz55cpaJE_C3npEbNnvh-wgPvRnpertyHamIBoYHwZCFVCI2pV>
-Feedback-ID: iad51458e:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 21 Jan 2026 07:58:22 -0500 (EST)
-Date: Wed, 21 Jan 2026 20:58:21 +0800
-From: Boqun Feng <boqun.feng@gmail.com>
-To: Marco Elver <elver@google.com>
-Cc: Gary Guo <gary@garyguo.net>, linux-kernel@vger.kernel.org,
-	rust-for-linux@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	kasan-dev@googlegroups.com, Will Deacon <will@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Elle Rhumsaa <elle@weathered-steel.dev>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	FUJITA Tomonori <fujita.tomonori@gmail.com>
-Subject: Re: [PATCH 2/2] rust: sync: atomic: Add atomic operation helpers
- over raw pointers
-Message-ID: <aXDNbbvBfTYJD1kJ@tardis-2.local>
-References: <20260120115207.55318-1-boqun.feng@gmail.com>
- <20260120115207.55318-3-boqun.feng@gmail.com>
- <aW-sGiEQg1mP6hHF@elver.google.com>
- <DFTKIA3DYRAV.18HDP8UCNC8NM@garyguo.net>
- <CANpmjNN=ug+TqKdeJu1qY-_-PUEeEGKW28VEMNSpChVLi8o--A@mail.gmail.com>
- <aW_rHVoiMm4ev0e8@tardis-2.local>
- <CANpmjNNpb7FE8usAhyZXxrVSTL8J00M4QyPUhKLmPNKfzqg=Ww@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="lyoZtqRM"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=edtMn02AVod+IBbJIVsMu3fhJTzD4OTVoerhqOtkeWk=; b=lyoZtqRMQf0KSh1E6771IlhF4T
+	RrLjV0QALpxuAPKkekpZyZQzp1pko+bePRoZZJZ8ieyVV9svFucFsTJJihcCgY79/+Ga4AHQJAc9s
+	0HjxA2m6YspkhDbzNJ8FksqryID1wx0o/FHYrZbeQAZmuJVCMo088yeeWEO0vm0Tt9I/3s7710GOE
+	h1vZyqOcZojbUC8ClviRx150cBwXx7bgs0Stvn7e/Y74KTKUQD3jGgHsXsJfr8QvEdBTO4/qnlaWf
+	rvTpv2se5FecitDGJbn+/YyKGUb7cbrew+LBJmByxqOXDXj2JzWyvd5zyQm4Qr4kt6qFg51hdkrIL
+	K1f5k5Dw==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1viZUG-00000005dMj-1Wd9;
+	Wed, 21 Jan 2026 14:47:12 +0000
+Date: Wed, 21 Jan 2026 06:47:12 -0800
+From: Christoph Hellwig <hch@infradead.org>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: NeilBrown <neil@brown.name>, Christoph Hellwig <hch@infradead.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Olga Kornievskaia <okorniev@redhat.com>,
+	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
+	Hugh Dickins <hughd@google.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Theodore Ts'o <tytso@mit.edu>,
+	Andreas Dilger <adilger.kernel@dilger.ca>, Jan Kara <jack@suse.com>,
+	Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>,
+	Yue Hu <zbestahu@gmail.com>, Jeffle Xu <jefflexu@linux.alibaba.com>,
+	Sandeep Dhavale <dhavale@google.com>,
+	Hongbo Li <lihongbo22@huawei.com>,
+	Chunhai Guo <guochunhai@vivo.com>, Carlos Maiolino <cem@kernel.org>,
+	Ilya Dryomov <idryomov@gmail.com>,
+	Alex Markuze <amarkuze@redhat.com>,
+	Viacheslav Dubeyko <slava@dubeyko.com>, Chris Mason <clm@fb.com>,
+	David Sterba <dsterba@suse.com>,
+	Luis de Bethencourt <luisbg@kernel.org>,
+	Salah Triki <salah.triki@gmail.com>,
+	Phillip Lougher <phillip@squashfs.org.uk>,
+	Steve French <sfrench@samba.org>,
+	Paulo Alcantara <pc@manguebit.org>,
+	Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+	Shyam Prasad N <sprasad@microsoft.com>,
+	Bharath SM <bharathsm@microsoft.com>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Mike Marshall <hubcap@omnibond.com>,
+	Martin Brandenburg <martin@omnibond.com>,
+	Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>,
+	Joseph Qi <joseph.qi@linux.alibaba.com>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+	Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>, Dave Kleikamp <shaggy@kernel.org>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Richard Weinberger <richard@nod.at>, Jan Kara <jack@suse.cz>,
+	Andreas Gruenbacher <agruenba@redhat.com>,
+	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+	Jaegeuk Kim <jaegeuk@kernel.org>, linux-nfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org, linux-ext4@vger.kernel.org,
+	linux-erofs@lists.ozlabs.org, linux-xfs@vger.kernel.org,
+	ceph-devel@vger.kernel.org, linux-btrfs@vger.kernel.org,
+	linux-cifs@vger.kernel.org, linux-unionfs@vger.kernel.org,
+	devel@lists.orangefs.org, ocfs2-devel@lists.linux.dev,
+	ntfs3@lists.linux.dev, linux-nilfs@vger.kernel.org,
+	jfs-discussion@lists.sourceforge.net, linux-mtd@lists.infradead.org,
+	gfs2@lists.linux.dev, linux-f2fs-devel@lists.sourceforge.net
+Subject: Re: [PATCH 00/29] fs: require filesystems to explicitly opt-in to
+ nfsd export support
+Message-ID: <aXDm8FPPOHs04w9m@infradead.org>
+References: <176877859306.16766.15009835437490907207@noble.neil.brown.name>
+ <aW3SAKIr_QsnEE5Q@infradead.org>
+ <176880736225.16766.4203157325432990313@noble.neil.brown.name>
+ <20260119-kanufahren-meerjungfrau-775048806544@brauner>
+ <176885553525.16766.291581709413217562@noble.neil.brown.name>
+ <aW8w2SRyFnmA2uqk@infradead.org>
+ <176890126683.16766.5241619788613840985@noble.neil.brown.name>
+ <aXCg-MqXH0E6IuwS@infradead.org>
+ <176899164457.16766.16099772451425825775@noble.neil.brown.name>
+ <364d2fd98af52a2e2c32ca286decbdc1fe1c80d3.camel@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -130,98 +105,50 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CANpmjNNpb7FE8usAhyZXxrVSTL8J00M4QyPUhKLmPNKfzqg=Ww@mail.gmail.com>
+In-Reply-To: <364d2fd98af52a2e2c32ca286decbdc1fe1c80d3.camel@kernel.org>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On Wed, Jan 21, 2026 at 01:13:57PM +0100, Marco Elver wrote:
-> On Tue, 20 Jan 2026 at 23:29, Boqun Feng <boqun.feng@gmail.com> wrote:
-> [..]
-> > > > > READ_ONCE is meant to be a dependency-ordering primitive, i.e. be more
-> > > > > like memory_order_consume than it is memory_order_relaxed. This has, to
-> > > > > the best of my knowledge, not changed; otherwise lots of kernel code
-> > > > > would be broken.
-> >
-> > Our C's atomic_long_read() is the same, that is it's like
-> > memory_order_consume instead memory_order_relaxed.
-> 
-> I see; so it's Rust's Atomic::load(Relaxed) -> atomic_read() ->
-> READ_ONCE (for most architectures).
-> 
-> > > > On the Rust-side documentation we mentioned that `Relaxed` always preserve
-> > > > dependency ordering, so yes, it is closer to `consume` in the C11 model.
-> > >
-> > > Alright, I missed this.
-> > > Is this actually enforced, or like the C side's use of "volatile",
-> > > relies on luck?
-> > >
-> >
-> > I wouldn't call it luck ;-) but we rely on the same thing that C has:
-> > implementing by using READ_ONCE().
-> 
-> It's the age-old problem of wanting dependently-ordered atomics, but
-> no compiler actually providing that. Implementing that via "volatile"
-> is unsound, and always has been. But that's nothing new.
-> 
-> [...]
-> > > > I think this is a longstanding debate on whether we should actually depend on
-> > > > dependency ordering or just upgrade everything needs it to acquire. But this
-> > > > isn't really specific to Rust, and whatever is decided is global to the full
-> > > > LKMM.
-> > >
-> > > Indeed, but the implementation on the C vs. Rust side differ
-> > > substantially, so assuming it'll work on the Rust side just because
-> > > "volatile" works more or less on the C side is a leap I wouldn't want
-> > > to take in my codebase.
-> > >
-> >
-> > Which part of the implementation is different between C and Rust? We
-> > implement all Relaxed atomics in Rust the same way as C: using C's
-> > READ_ONCE() and WRITE_ONCE().
-> 
-> I should clarify: Even if the source of the load is "volatile"
-> (through atomic_read() FFI) and carries through to Rust code, the
-> compilers, despite sharing LLVM as the code generator, are different
-> enough that making the assumption just because it works on the C side,
-> it'll also work on the Rust side, appears to be a stretch for me. Gary
-> claimed that Rust is more conservative -- in the absence of any
-> guarantees, being able to quantify the problem would be nice though.
-> 
+On Wed, Jan 21, 2026 at 09:27:38AM -0500, Jeff Layton wrote:
+> Using your definitions, stability is not a problem for Linux
+> filesystems. The filehandles generally don't change after they have
+> been established.
 
-I don't disagree and share the similar concern as you do.
+fat seems to be an exception as far as the 'real' file systems go.
+And it did sound to me like some of the synthetic ones had similar
+issues.
 
-> [..]
-> > > However, given "Relaxed" for the Rust side is already defined to
-> > > "carry dependencies" then in isolation my original comment is moot and
-> > > does not apply to this particular patch. At face value the promised
-> > > semantics are ok, but the implementation (just like "volatile" for C)
-> > > probably are not. But that appears to be beyond this patch, so feel
-> >
-> > Implementation-wise, READ_ONCE() is used the same as C for
-> > atomic_read(), so Rust and C are on the same boat.
+> > We'll still need a stable handles flag, and expose it to userspace
+> > to avoid applications being tricked into using broken non-stable
+> > file handles.  We should have caught that when they were added, but
+> > didn't unfortunately.
+> > 
 > 
-> That's fair enough.
+> If we assume he meant "unique handles" flag, then I think we're all
+> mostly in agreement here.  As far as this patchset goes: what if we
+> were to just rename EXPORT_OP_STABLE_HANDLES to
+> EXPORT_OP_UNIQUE_HANDLES (and clean up the documentation), since that's
+> the main issue for existing filesystems. It would be fairly simple to
+> advertise handle uniqueness using statx or something.
+
+Unique seems to also only capture part of it, but I could absolutely
+live with it, if the documentation includes all aspecs.  But maybe
+use persistent as in the nfs spec?
+
 > 
-> Longer term, I understand the need for claiming "it's all fine", but
-> IMHO none of this is fine until compilers (both for C and Rust)
-> promise the semantics that the LKMM wants. Nothing new per-se, the
-> only new thing here that makes me anxious is that we do not understand
-> the real impact of this lack of guarantee on Linux Rust code (the C
-> side remains unclear, too, but has a lot more flight miles). Perhaps
-> the work originally investigating broken dependency ordering in Clang,
-> could be used to do a study on Rust in the kernel, too.
+> Alternately, instead of denying access to these filesystems, we could
+> just fix these filesystems to create unique handles (a'la random
+> i_generation value or something similar). That should mostly prevent
+> filehandles from being reusable across a reboot on these filesystems.
 
-You mean this:
+Do we even want to provide access to them?
 
-	https://lpc.events/event/16/contributions/1174/
+> That would leave cgroupfs and the like exportable via nfsd, but as you
+> point out, we can't deny export by userland servers. If people want to
+> do this kind of crazy stuff, maybe we shouldn't deny them after all.
 
-? If so, that'll be great! I believe if we could learn about how Rust
-compiler can mess up with dependency ordering, it'll be a very helpful
-resource to understand how we can work with Rust compiler to resolve it
-in a pratical way.
+I think Amirs patch would take care of that.  Although userland nfs
+servers or other storage applications using the handle syscalls would
+still see them.  Then again fixing the problem that some handles
+did not fulfill the long standing (but not documented well enough)
+semantics probably is a good fix on it's own.
 
-I believe that work was LLVM-based, so it should apply to Rust code as
-well, except that we may need to figure out what optmization the Rust
-front end would do at MIR -> LLVM IR time that could affect dependency
-orderings.
-
-Regards,
-Boqun
