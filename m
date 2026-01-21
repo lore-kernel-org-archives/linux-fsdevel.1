@@ -1,179 +1,254 @@
-Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE9A1478E45
-	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Jan 2026 15:54:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F03033BBD1
+	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Jan 2026 16:17:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769010852; cv=none; b=orZjHyWVEg81xituQ/WazZ2bAidRIlNu6fQDzyMNcoAKXHbDM0Mc2Wa8Tvv7bciM2JAtP56c0VAyblYR+yxC4D7xCkOw4zw/pPKCOUVVGJmEk8Sy2EAOVfoX72yMWuteLS0CvZgjEitHrxmJjOMdSHuIXpN6fn9K6TE89BYFLIc=
+	t=1769012232; cv=none; b=cOHJ3xZ9oIJ5uj9nYj5hti/n2jLc5++CV8coRbRZMr5oZU9gtufE9GXEckVlVnLzve49eBMPTH5RyMjPmynUsIAE4IgeNL+BneWKGq0/cRjWK630OqwDh3CJzA6eqnoAkautXxC+02h/5Rd794E/vgrk2f/34Tf2LltJs3B7hBU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769010852; c=relaxed/simple;
-	bh=YHIVmzsUwXYFRNT8PxJqLUDcsjT4fcomkaFdrmmVUOc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LKv/LmFiQI1qLZVtkVGb4AZI5+UM1GJTGp5yLPCH8IPcAxdSHXxk7bZQw82YhPxkfO5rsRadv3YqonDtwm/nLiOs1jIgLTshge7LjBgfKiQzo/zvJNuOhnW3R5dPZfYkxApZ9cN8pgcvyhZYiM2NaI1kQWZ83nRxY/se7GVrVkU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CKh7gnHZ; arc=none smtp.client-ip=209.85.160.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1769012232; c=relaxed/simple;
+	bh=dAXRlYSMcRhAn+i52qai9zardB6VBMXdGcHMpYDAKLQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=LE4G+YA2IrRD/dou5UwjowxBFwu1XMt7sVo5TiIcoqR44yXHCtdWL0rdEdYu1TMCZ1jKyrKE7j4qSGI9DWE/4827wsO3mXG/8khTMOfHm0LWEbdF+o/BYvjMyeArI7JbNf5S7iQhE+G3Q/v3uqZIGwrLPQmrQi6yufFBNol3d4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OA/qnDZE; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=q7FNSLjM; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OA/qnDZE; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=q7FNSLjM; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CKh7gnHZ"
-Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-4042f55de3aso663733fac.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 21 Jan 2026 07:54:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769010849; x=1769615649; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:feedback-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vBuHUIxWMnLe6s7TwsvCGhfWapOm3oLq0HDTyptAlGo=;
-        b=CKh7gnHZGVZKQv8D23HVLbRstU0Ao6rc9TYSif9ODKThLw0C8FyoSRugvSGgG2IrB4
-         5UNwacMhyPJRwvab5WQnp5pqS3FongWUB/OwoR0nsmfgnMXoStumm9Q/3xYQgNlCorok
-         xw7ekPGAEfzogA6cAI5Qd/75ZUo6RmFdEf4MhM1CqJ6BPrkDm5IgvJjZ0JSHYQOX/sQA
-         KToazpjWZgb2rhUYTqaPsYd1enFMyGW4DrMlBJZufJY6wQrdTfscTWE2tbOcyo0jSpLE
-         34z9rQwy87inBjoi/f0s3UFIpwgkgwTqA2rgxsmrDHVxwTimcAxZRSvwmOaqUCNTD+mP
-         3hnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769010849; x=1769615649;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:feedback-id:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=vBuHUIxWMnLe6s7TwsvCGhfWapOm3oLq0HDTyptAlGo=;
-        b=ctVYB4+GugaP72KeoyTC7Qqn54xXL7ZxtpMNmqZG5Fk6uRhk+3xUJOIJNBP44Cv+Uf
-         gNB2ADS3lhBQXLaOlQYBC1aRDGsvnwSJ/+rNXbiGfzK4/f9lOJ6E+6xwA79ypFQ1wTv6
-         n6S3Qbp0mcIlQDnbC4Rurbzu12pCYjn2ezWhfHd0YBV5Rz/HYjtlbEJKIyBwadFtMbrl
-         4WNJkE7tJa7sLuc0PIEUScagTCV6Cjs6mI57uu1Kkwl2vaEwBbACGTc8iHgXMuVVvxaK
-         fAIJlF8s48LytZcxyBvagCHMyroHk7z7LJuoPmVsOxcqt1ZFiE17HQWlH4+xPn/v/shI
-         5eAg==
-X-Forwarded-Encrypted: i=1; AJvYcCWNEsQ62AmZm1noDOBHJW5GEReByIdH6ioFd5W7M9yoiaQrFdCQr2Y14PAx8Q35bmGNnASrfzAuO7AZUeXH@vger.kernel.org
-X-Gm-Message-State: AOJu0YwYkO5fFsdK9uN4PjtPrAcxJaI5fmar8Eo3pETz4JThW79waUyS
-	VQtQIMcmBhNg8pcY29kqcZmixKTJfPsy+J/Tl0ZgpIf/vMhy8lZCA4BYg4BFAE9/
-X-Gm-Gg: AZuq6aK7YmJr5XvOmBrv5Bh2k86H/0YtMeixPlJIFRpvFijhqDac4TWhSdcK+CFroEy
-	0smx/kAJ6xBc0Lov7LDkT32jrHvzThDCsydWml1u4HMs9Rz+2ukhHbeM+ZEg9lHREyTPRHUaJPx
-	gdFOIPWGpE8oAOG9fmUo7acpCAvefxSqoWd2iyH2oU6U94JoLDMRAHDbBeyf9xEXwZnfu3C/fGH
-	kuRR6gTj7bFUl6xlT+16NSqNNEJ+276RG9npoc8DIFbvkJMRP4C/mJ16nLKcbLP5kt1X1dhPkVf
-	FN/tARNj5ktFp4qPHPpEEDhPXHTMqJpvOFI1QHMb8WHe8xywW4EIU4Jk+zIDd3/IGtcnfhjLPEt
-	Dlf486+8n2iI5w3uhezHdLCHwb4Pt6wRrYAyrebHNH095Zcs0FaELs75giNmXUUvHLUeR+213GB
-	QpL/4NzjvHSjB7/lYwk9WV1yJ/8cHMlivZBtHylXndDE4HUdcYmBbdgx4cEcHwUx3CNCoyEZY+8
-	1P3wPBCmTIG7GY=
-X-Received: by 2002:a05:6214:21ef:b0:87c:19af:4b76 with SMTP id 6a1803df08f44-89398144853mr314752936d6.17.1769004274227;
-        Wed, 21 Jan 2026 06:04:34 -0800 (PST)
-Received: from fauth-a1-smtp.messagingengine.com (fauth-a1-smtp.messagingengine.com. [103.168.172.200])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8942e6d8a94sm124931226d6.56.2026.01.21.06.04.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Jan 2026 06:04:33 -0800 (PST)
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 82E98F4006D;
-	Wed, 21 Jan 2026 09:04:31 -0500 (EST)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Wed, 21 Jan 2026 09:04:31 -0500
-X-ME-Sender: <xms:79xwaRPgS8h0JnF8HDazDYFECjiK0XRf_br3BZs2plL4fMjDAe722Q>
-    <xme:79xwaY1R9fsjITBQ4yKxSWOJU3sP5x_pIHLOyR7_TbiehKPP2R_EqaVSuweruAo4k
-    eaLFD_gv1cDSAb28i6hpJyT-SMrIX3LLsRJuMe-AYXeWe0Oy8PO3Q>
-X-ME-Received: <xmr:79xwaY2vAFacNlU5ffdaLISbe6CBRMyv8522yQ8kaXcNVrqe9RXlb3h6>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddugeefgeekucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepuehoqhhunhcu
-    hfgvnhhguceosghoqhhunhdrfhgvnhhgsehgmhgrihhlrdgtohhmqeenucggtffrrghtth
-    gvrhhnpefhtedvgfdtueekvdekieetieetjeeihedvteehuddujedvkedtkeefgedvvdeh
-    tdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
-    enucfrrghrrghmpehmrghilhhfrhhomhepsghoqhhunhdomhgvshhmthhprghuthhhphgv
-    rhhsohhnrghlihhthidqieelvdeghedtieegqddujeejkeehheehvddqsghoqhhunhdrfh
-    gvnhhgpeepghhmrghilhdrtghomhesfhhigihmvgdrnhgrmhgvpdhnsggprhgtphhtthho
-    pedvtddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheprghlihgtvghrhihhlhesgh
-    hoohhglhgvrdgtohhmpdhrtghpthhtohepvghlvhgvrhesghhoohhglhgvrdgtohhmpdhr
-    tghpthhtohepghgrrhihsehgrghrhihguhhordhnvghtpdhrtghpthhtoheplhhinhhugi
-    dqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprhhushht
-    qdhfohhrqdhlihhnuhigsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplh
-    hinhhugidqfhhsuggvvhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthho
-    pehkrghsrghnqdguvghvsehgohhoghhlvghgrhhouhhpshdrtghomhdprhgtphhtthhope
-    ifihhllheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepphgvthgvrhiisehinhhfrhgr
-    uggvrggurdhorhhg
-X-ME-Proxy: <xmx:79xwae-7AjQM7cRhrID17z6Ip7K1eCj6XX0BcbwSoxR7SPnuwnSQmg>
-    <xmx:79xwacalaiU0QPeoC1XhJN7CzYPqHVgjh_4cloRVJjbl_SZf2a1WGg>
-    <xmx:79xwaVxjU5nPqxd_mcPpASdcQ9Jeq9x06toUhHgGaDVEK_wxZroVPQ>
-    <xmx:79xwaS-vARAtWkjKWHBijayn1MXGlO2wWdH4VjAucuXb14OOmzvCBQ>
-    <xmx:79xwaZxny1W8998ySnA5TLfT8cQGMeb3X_G-z8hLwsB6H5O6XZsesuNN>
-Feedback-ID: iad51458e:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 21 Jan 2026 09:04:30 -0500 (EST)
-Date: Wed, 21 Jan 2026 22:04:28 +0800
-From: Boqun Feng <boqun.feng@gmail.com>
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: Marco Elver <elver@google.com>, Gary Guo <gary@garyguo.net>,
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, kasan-dev@googlegroups.com,
-	Will Deacon <will@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Elle Rhumsaa <elle@weathered-steel.dev>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	FUJITA Tomonori <fujita.tomonori@gmail.com>
-Subject: Re: [PATCH 2/2] rust: sync: atomic: Add atomic operation helpers
- over raw pointers
-Message-ID: <aXDc7KYgkD7g4HVd@tardis-2.local>
-References: <20260120115207.55318-1-boqun.feng@gmail.com>
- <20260120115207.55318-3-boqun.feng@gmail.com>
- <aW-sGiEQg1mP6hHF@elver.google.com>
- <DFTKIA3DYRAV.18HDP8UCNC8NM@garyguo.net>
- <aXDEOeqGkDNc-rlT@google.com>
- <CANpmjNMq_oqvOmO9F2f-v3FTr6p0EwENo70ppvKLXDjgPbR22g@mail.gmail.com>
- <aXDL5NUOH_qr390Q@tardis-2.local>
- <aXDPliPQs8jU_wfz@google.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OA/qnDZE";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="q7FNSLjM";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OA/qnDZE";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="q7FNSLjM"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 015F25BD38;
+	Wed, 21 Jan 2026 16:17:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1769012228; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VcQ0Wp8QfNhVZW97FfSKJnFS1FN2vdhVTlYCvKPvGUc=;
+	b=OA/qnDZE9u8HUqyarSZPIsGvDvhTPJ7oWCbPRqELfV941Zq0EujiWRtM2wR9W9iZNu7Ok5
+	KtmXMVtGEyP0yuebdDUisg+e2T09pS3RMw1jCtj/8UCdgWi8R+pLDqDL4FbLAPxSb+N3oA
+	AiVIbdrWHWwoj6dKXZ2MhtsLwKZUr4g=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1769012228;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VcQ0Wp8QfNhVZW97FfSKJnFS1FN2vdhVTlYCvKPvGUc=;
+	b=q7FNSLjMYpXzz2Q5nJGsS6MqvkYvP0axpVUrfV5WKKJIcV9vyD5vaRn4oWOk+5S5QT6yn+
+	ii73hLrqGEeipCDQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="OA/qnDZE";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=q7FNSLjM
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1769012228; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VcQ0Wp8QfNhVZW97FfSKJnFS1FN2vdhVTlYCvKPvGUc=;
+	b=OA/qnDZE9u8HUqyarSZPIsGvDvhTPJ7oWCbPRqELfV941Zq0EujiWRtM2wR9W9iZNu7Ok5
+	KtmXMVtGEyP0yuebdDUisg+e2T09pS3RMw1jCtj/8UCdgWi8R+pLDqDL4FbLAPxSb+N3oA
+	AiVIbdrWHWwoj6dKXZ2MhtsLwKZUr4g=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1769012228;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VcQ0Wp8QfNhVZW97FfSKJnFS1FN2vdhVTlYCvKPvGUc=;
+	b=q7FNSLjMYpXzz2Q5nJGsS6MqvkYvP0axpVUrfV5WKKJIcV9vyD5vaRn4oWOk+5S5QT6yn+
+	ii73hLrqGEeipCDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CC6153EA63;
+	Wed, 21 Jan 2026 16:17:07 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id bi51MAP8cGkgVwAAD6G6ig
+	(envelope-from <ddiss@suse.de>); Wed, 21 Jan 2026 16:17:07 +0000
+Date: Thu, 22 Jan 2026 03:17:02 +1100
+From: David Disseldorp <ddiss@suse.de>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Christian Brauner <brauner@kernel.org>, Al Viro
+ <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 2/2] initramfs_test: test header fields with 0x hex
+ prefix
+Message-ID: <20260122031702.5e2e73c8.ddiss@suse.de>
+In-Reply-To: <aXDRithD3DsGiXBc@smile.fi.intel.com>
+References: <20260120204715.14529-1-ddiss@suse.de>
+	<20260120204715.14529-3-ddiss@suse.de>
+	<aW__NwDBkzq_bePk@smile.fi.intel.com>
+	<20260121201936.0580e4de.ddiss@suse.de>
+	<aXDRithD3DsGiXBc@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aXDPliPQs8jU_wfz@google.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	ARC_NA(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Rspamd-Queue-Id: 015F25BD38
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spam-Level: 
 
-On Wed, Jan 21, 2026 at 01:07:34PM +0000, Alice Ryhl wrote:
-> On Wed, Jan 21, 2026 at 08:51:48PM +0800, Boqun Feng wrote:
-> > On Wed, Jan 21, 2026 at 01:36:04PM +0100, Marco Elver wrote:
-> > [..]
-[...]
+On Wed, 21 Jan 2026 15:15:54 +0200, Andy Shevchenko wrote:
+
+> On Wed, Jan 21, 2026 at 08:42:05PM +1100, David Disseldorp wrote:
+> > On Wed, 21 Jan 2026 00:18:31 +0200, Andy Shevchenko wrote:  
+> > > On Wed, Jan 21, 2026 at 07:32:33AM +1100, David Disseldorp wrote:  
+> > > > cpio header fields are 8-byte hex strings, but one "interesting"
+> > > > side-effect of our historic simple_str[n]toul() use means that a "0x"
+> > > > prefixed header field will be successfully processed when coupled
+> > > > alongside a 6-byte hex remainder string.    
+> > > 
+> > > Should mention that this is against specifications.
+
+I've added this and will send as v2.
+
+> > > > Test for this corner case by injecting "0x" prefixes into the uid, gid
+> > > > and namesize cpio header fields. Confirm that init_stat() returns
+> > > > matching uid and gid values.    
+> > > 
+> > > This is should be considered as an invalid case and I don't believe
+> > > we ever had that bad header somewhere. The specification is clear
+> > > that the number has to be filled with '0' to the most significant
+> > > byte until all 8 positions are filled.
+> > > 
+> > > If any test case like this appears it should not be fatal.  
 > > 
-> > Note that it also applies to atomic_read() and atomic_set() as well.
+> > Yes, the test case can easily be changed to expect an unpack_to_rootfs()
+> > error (or dropped completely). The purpose is just to ensure that the
+> > user visible change is a concious decision rather than an undocumented
+> > side effect.  
 > 
-> Just to be completely clear ... am I to understand this that READ_ONCE()
-> and the LKMM's atomic_load() *are* the exact same thing? Because if so,
-> then this was really confusing:
-> 
-> > my argument was not about naming, it's
-> > about READ_ONCE() being more powerful than atomic load (no, not because
-> > of address dependency, they are the same on that, it's because of the
-> > behaviors of them regarding a current access on the same memory
-> > location)
-> > https://lore.kernel.org/all/aWuV858wU3MeYeaX@tardis-2.local/
-> 
-> Are they the *exact* same thing or not? Do you mean that they are the
-> same under LKMM, but different under some other context?
+> Can you say this clearly in the commit message? With that done I will have
+> no objections as it seems we all agree with the possible breakage of this
+> "feature" (implementation detail).
 
-Right, they are the same thing under LKMM when used for inter-thread
-synchronization when they are atomic. But when READ_ONCE() (and
-__READ_ONCE()) used on types that are larger than machine word size,
-they are not guaranteed to be atomic, hence semantics-wise READ_ONCE()
-firstly guarantees "once" (volatile and no data race with WRITE_ONCE())
-and then on certain types, it's atomic as well.
+Sure, I think it'd make sense to put the v2 test patches as 1/2 in your
+series such that your subsequent hex2bin() patch modifies the test to
+expect error. E.g.
 
-* In the case that we need atomicity, we should just use atomic_load().
-* In the case that we don't need atomicity and no data race, we can just
-  use read_volatile().
-* In the case that there is a non-atomic concurrent write, that suggests
-  we have a bug in C code or we simply should have some other
-  synchronization. Or if we believe the conncurrent write has at last
-  per-byte atomicity, then we can have `READ_ONCE()`-like function that
-  returns a `MaybeUninit` to bear the possible tearing.
+--- a/init/initramfs_test.c
++++ b/init/initramfs_test.c
+@@ -499,8 +499,7 @@ static void __init initramfs_test_hdr_hex(struct kunit *test)
+ {
+        char *err, *fmt;
+        size_t len;
+-       struct kstat st0, st1;
+-       char fdata[] = "this file data will be unpacked";
++       char fdata[] = "this file data will not be unpacked";
+        struct initramfs_test_bufs {
+                char cpio_src[(CPIO_HDRLEN + PATH_MAX + 3 + sizeof(fdata)) * 2];
+        } *tbufs = kzalloc(sizeof(struct initramfs_test_bufs), GFP_KERNEL);
+@@ -528,28 +527,14 @@ static void __init initramfs_test_hdr_hex(struct kunit *test)
+        /*
+         * override CPIO_HDR_FMT and instead use a format string which places
+         * "0x" prefixes on the uid, gid and namesize values.
+-        * parse_header()/simple_str[n]toul() accept this.
++        * parse_header()/simple_str[n]toul() accepted this, contrary to the
++        * initramfs specification. hex2bin() now fails.
+         */
+        fmt = "%s%08x%08x0x%06x0X%06x%08x%08x%08x%08x%08x%08x%08x0x%06x%08x%s";
+        len = fill_cpio(c, ARRAY_SIZE(c), fmt, tbufs->cpio_src);
+ 
+        err = unpack_to_rootfs(tbufs->cpio_src, len);
+-       KUNIT_EXPECT_NULL(test, err);
+-
+-       KUNIT_EXPECT_EQ(test, init_stat(c[0].fname, &st0, 0), 0);
+-       KUNIT_EXPECT_EQ(test, init_stat(c[1].fname, &st1, 0), 0);
+-
+-       KUNIT_EXPECT_TRUE(test,
+-               uid_eq(st0.uid, make_kuid(current_user_ns(), (uid_t)0x123456)));
+-       KUNIT_EXPECT_TRUE(test,
+-               gid_eq(st0.gid, make_kgid(current_user_ns(), (gid_t)0x123457)));
+-       KUNIT_EXPECT_TRUE(test,
+-               uid_eq(st1.uid, make_kuid(current_user_ns(), (uid_t)0x56)));
+-       KUNIT_EXPECT_TRUE(test,
+-               gid_eq(st1.gid, make_kgid(current_user_ns(), (gid_t)0x57)));
+-
+-       KUNIT_EXPECT_EQ(test, init_unlink(c[0].fname), 0);
+-       KUNIT_EXPECT_EQ(test, init_rmdir(c[1].fname), 0);
++       KUNIT_EXPECT_NOT_NULL(test, err);
 
-Regards,
-Boqun
+IMO the only thing then missing is proper
+hex2bin->parse_header->do_header error propagation, e.g.
 
-> 
-> Alice
+--- a/init/initramfs.c
++++ b/init/initramfs.c
+@@ -193,14 +193,16 @@ static __initdata gid_t gid;
+ static __initdata unsigned rdev;
+ static __initdata u32 hdr_csum;
+ 
+-static void __init parse_header(char *s)
++static int __init parse_header(char *s)
+ {
+        __be32 header[13];
+        int ret;
+ 
+        ret = hex2bin((u8 *)header, s + 6, sizeof(header));
+-       if (ret)
++       if (ret) {
+                error("damaged header");
++               return ret;
++       }
+ 
+        ino = be32_to_cpu(header[0]);
+        mode = be32_to_cpu(header[1]);
+@@ -214,6 +216,7 @@ static void __init parse_header(char *s)
+        rdev = new_encode_dev(MKDEV(be32_to_cpu(header[9]), be32_to_cpu(header[10])));
+        name_len = be32_to_cpu(header[11]);
+        hdr_csum = be32_to_cpu(header[12]);
++       return 0;
+ }
+ 
+ /* FSM */
+@@ -293,7 +296,8 @@ static int __init do_header(void)
+                        error("no cpio magic");
+                return 1;
+        }
+-       parse_header(collected);
++       if (parse_header(collected))
++               return 1;
+        next_header = this_header + N_ALIGN(name_len) + body_len;
+        next_header = (next_header + 3) & ~3;
+        state = SkipIt;
+
