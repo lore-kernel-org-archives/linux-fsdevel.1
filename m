@@ -1,214 +1,170 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from tiger.tulip.relay.mailchannels.net (tiger.tulip.relay.mailchannels.net [23.83.218.248])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB2483BBA19
-	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Jan 2026 19:54:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769025299; cv=none; b=rXbcdWRGSBr5EvHx005jCO4yBkcmpC7u+OFcZLHyRIKfnR3eYDrnqS31ftAh//1xqQocLv4khYe8ZLJsDLptGuPVl2yhRdvxlpan8pEWVamRkzUiP5t/CoMhDEOeIuId82+ipl1luq0OLdxFn+7gj3rFtTKVrVfkraUxvRA3qKc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769025299; c=relaxed/simple;
-	bh=+FHQ1hfSyTT6VI8M149P/ZbCjPfOZTrHJq4X8tNwqmU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Yc0WgGbech49zqAhQZBp0ubDrJyL05IeDMv6B3dbLXrI0OxjSuH2XkxqNkHaEAyG9Gh2WW6XMbOJoMi4CqnxmS6Ex2E994vAqduy5JhPc0gFUgkWD61j0ZepCVgWV+Kk0I9+JYdatRtUxI9BVDaklXOeLNoN8H6HHy/UhcjFH1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hHZU8u0q; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4CF0313268;
+	Wed, 21 Jan 2026 19:56:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=23.83.218.248
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769025411; cv=pass; b=a5adMnmPCFt9F7chfvcexBd9qCykHYX0gOTHLAZ/xg770m+A8KUM5POC6Wkon480gszlQJLIjidnPLQ818+I279z5FyQILkOlTdLiHQsB7HHayVhQcBrxWuI718Bc1DMlx6Y5meyk+ieVHZoy74+664++8AExi/CffkFpFjuASI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769025411; c=relaxed/simple;
+	bh=Q30qV0GnuH12TLgAndXDOsWAI0eL9/KOxE0R5cfuz+o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=r7kxNeu+0wEOagvRHLWT7Rb74prXqIO/VUPuDexOGU0mS6ZUPe8aj05AiC8rXls+X/5P43TIjGyoJ7x/XaOsvZv1ccREOPreFlaYNTAF9PuAZd7o+3kCguT+ynJQZXhnas2EodVBpIW+YSYXZfhjmKydqt8dEqa/MwJeJYkFzIE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=landley.net; spf=pass smtp.mailfrom=landley.net; dkim=pass (2048-bit key) header.d=landley.net header.i=@landley.net header.b=mG/eSTAe; arc=pass smtp.client-ip=23.83.218.248
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=landley.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=landley.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hHZU8u0q"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1769025296;
+	dkim=pass (2048-bit key) header.d=landley.net header.i=@landley.net header.b="mG/eSTAe"
+X-Sender-Id: dreamhost|x-authsender|rob@landley.net
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id CCD4C7E274A;
+	Wed, 21 Jan 2026 19:56:42 +0000 (UTC)
+Received: from pdx1-sub0-mail-a228.dreamhost.com (100-117-113-78.trex-nlb.outbound.svc.cluster.local [100.117.113.78])
+	(Authenticated sender: dreamhost)
+	by relay.mailchannels.net (Postfix) with ESMTPA id 2082A7E275A;
+	Wed, 21 Jan 2026 19:56:40 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; d=mailchannels.net; s=arc-2022; cv=none;
+	t=1769025400;
+	b=g4Ws2/lWNJ2A9TkCA/DFPucq137ohvtXTgDJHwMpNB4V6ihTQNUi6mlgYIGl5KI34ZYd3K
+	mA+BWusN/P7mGgqt73qKgJU+PChgNRvh+rnS8imnNtvU/DYDko4EPYb0uJKr7YGyw/tmzs
+	jNfpXeTPDi6vsQCefnsOkJ5HFtFN2rNIfBLB1QzHejHe2sxwFRFHbc01gtAkvyn+im09vQ
+	8QA7xqyBNfRSA7cnfe+1wgdoz+BglzODempBqCulFknLX4wUkmgWXjbGAryMLnRg6ylvzo
+	2Mr0yidwHlUtGgOAu1R5ylB28U2EUdHx8qSatwOq9msN7aMILZFyiVJlNFXd2Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net;
+	s=arc-2022; t=1769025400;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zfynPqgAvAkpjBmuuO2JFrn162BWPXesCBnZDuNhRyE=;
-	b=hHZU8u0qBtUBcSMzbEQYk9D95HSmR5DiVofxBqsCvhJ+7HAK5liTzamOeXIajSNaI1Tjn6
-	3yRnoXfigKREAXxtOtL/j+HccxSId+wUEoX1s8GR+IlWG/5Q28pu8K1cki1TtzU3RTjaxD
-	D8q3MYOe1CrYT9S+Jquf4ZMaIwh0kuA=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-484-lFkgxWuyM0i-XSDNQC4aXQ-1; Wed,
- 21 Jan 2026 14:54:51 -0500
-X-MC-Unique: lFkgxWuyM0i-XSDNQC4aXQ-1
-X-Mimecast-MFC-AGG-ID: lFkgxWuyM0i-XSDNQC4aXQ_1769025289
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 in-reply-to:in-reply-to:references:references:dkim-signature;
+	bh=SYZMu2PthwVJ3NGSR06TqeLRyil+RpjVvva3cQ4KSRI=;
+	b=n45eUNUoHFSbf7l6rl489dxt6L2ipv09y/tR8rv2uNFF1yd486qFwZmVhoQWGUEgPOi2DA
+	GJ4LlxKIOAFMCy697st6EYh6aPLlq1b9Ic/VDDEv1liqI010lG8XkekisqkuoxUiMOwEzu
+	QxvslFlwwGeyjg7V5wXObt4X1Y7XEtOm+5QrCiGA94g+ZoifClKMkmz+dfbSq/0YKvDJx7
+	IXCv3mdOd/1rTlamcRIMJNZJwyBLT5DqZrGbuLn2+/8r2BJIBmAjrk3yzwTgWXhW0LvfhV
+	l19m2JGO4bQ8DV9w52haS87ICwUZO1zQGo75+yscOxlXLV8HA2f1EsEN3YbUbA==
+ARC-Authentication-Results: i=1;
+	rspamd-7699b4d5f4-fm8jz;
+	auth=pass smtp.auth=dreamhost smtp.mailfrom=rob@landley.net
+X-Sender-Id: dreamhost|x-authsender|rob@landley.net
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: dreamhost|x-authsender|rob@landley.net
+X-MailChannels-Auth-Id: dreamhost
+X-Soft-Slimy: 15dbbe696bd9606d_1769025402703_632742312
+X-MC-Loop-Signature: 1769025402703:656845712
+X-MC-Ingress-Time: 1769025402702
+Received: from pdx1-sub0-mail-a228.dreamhost.com (pop.dreamhost.com
+ [64.90.62.162])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+	by 100.117.113.78 (trex/7.1.3);
+	Wed, 21 Jan 2026 19:56:42 +0000
+Received: from [IPV6:2607:fb91:b0b:1231:d681:a3ff:d72d:8f4b] (unknown [172.56.11.215])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4895719560B2;
-	Wed, 21 Jan 2026 19:54:47 +0000 (UTC)
-Received: from bfoster (unknown [10.22.64.128])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3A97018001D5;
-	Wed, 21 Jan 2026 19:54:42 +0000 (UTC)
-Date: Wed, 21 Jan 2026 14:54:40 -0500
-From: Brian Foster <bfoster@redhat.com>
-To: Kundan Kumar <kundan.kumar@samsung.com>
-Cc: viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz,
-	willy@infradead.org, mcgrof@kernel.org, clm@meta.com,
-	david@fromorbit.com, amir73il@gmail.com, axboe@kernel.dk,
-	hch@lst.de, ritesh.list@gmail.com, djwong@kernel.org,
-	dave@stgolabs.net, cem@kernel.org, wangyufei@vivo.com,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	linux-xfs@vger.kernel.org, gost.dev@samsung.com,
-	anuj20.g@samsung.com, vishak.g@samsung.com, joshi.k@samsung.com
-Subject: Re: [PATCH v3 0/6] AG aware parallel writeback for XFS
-Message-ID: <aXEvAD5Rf5QLp4Ma@bfoster>
-References: <CGME20260116101236epcas5p12ba3de776976f4ea6666e16a33ab6ec4@epcas5p1.samsung.com>
- <20260116100818.7576-1-kundan.kumar@samsung.com>
+	(Authenticated sender: rob@landley.net)
+	by pdx1-sub0-mail-a228.dreamhost.com (Postfix) with ESMTPSA id 4dxFM962DgzRn;
+	Wed, 21 Jan 2026 11:56:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=landley.net;
+	s=dreamhost; t=1769025399;
+	bh=SYZMu2PthwVJ3NGSR06TqeLRyil+RpjVvva3cQ4KSRI=;
+	h=Date:Subject:To:Cc:From:Content-Type:Content-Transfer-Encoding;
+	b=mG/eSTAefdXtZR+MXTqdXQEVDjDb7jQF+If/o0u2eUbhAjhjYCmPp2gkf6JlZZVQ1
+	 bcJMVxlJRBnybVKuNri33AATAkDqAq3QjTY2MYnWT58EAu1myTQsyMfejHkzY3/W7X
+	 7Pc4LefDCj20+uZBfp384KKzq3ain9ep5yp4BhhBDjX0oMJFEUtDwx8drg8zam+QzN
+	 g9q8GAmlYSrzAse+eSR1QiBef752u8xCAamfYWhTpNOB47dLMxZqedLYka0UrlZQgw
+	 9PB57Fcw4i/UDmBE/Oke5e0iarTKSB7W//+4QPtE3TTRlQkRLvjT5l+gbqg18zAEp6
+	 VF7jQckYDNcDA==
+Message-ID: <6375f293-709c-41b8-a23d-12010baa3cae@landley.net>
+Date: Wed, 21 Jan 2026 13:56:31 -0600
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260116100818.7576-1-kundan.kumar@samsung.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] mount: add OPEN_TREE_NAMESPACE
+To: Jeff Layton <jlayton@kernel.org>, Andy Lutomirski <luto@amacapital.net>,
+ Askar Safin <safinaskar@gmail.com>
+Cc: amir73il@gmail.com, cyphar@cyphar.com, jack@suse.cz,
+ josef@toxicpanda.com, linux-fsdevel@vger.kernel.org,
+ viro@zeniv.linux.org.uk, Lennart Poettering <mzxreary@0pointer.de>,
+ David Howells <dhowells@redhat.com>, Zhang Yunkai <zhang.yunkai@zte.com.cn>,
+ cgel.zte@gmail.com, Menglong Dong <menglong8.dong@gmail.com>,
+ linux-kernel@vger.kernel.org, initramfs@vger.kernel.org,
+ containers@lists.linux.dev, linux-api@vger.kernel.org, news@phoronix.com,
+ lwn@lwn.net, Jonathan Corbet <corbet@lwn.net>, emily@redcoat.dev,
+ Christoph Hellwig <hch@lst.de>
+References: <20251229-work-empty-namespace-v1-0-bfb24c7b061f@kernel.org>
+ <20260119171101.3215697-1-safinaskar@gmail.com>
+ <CALCETrWs59ss3ZMdTH54p3=E_jiYXq2SWV1fmm+HSvZ1pnBiJw@mail.gmail.com>
+ <acb859e1684122e1a73f30115f2389d2c9897251.camel@kernel.org>
+Content-Language: en-US
+From: Rob Landley <rob@landley.net>
+In-Reply-To: <acb859e1684122e1a73f30115f2389d2c9897251.camel@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jan 16, 2026 at 03:38:12PM +0530, Kundan Kumar wrote:
-> This series explores AG aware parallel writeback for XFS. The goal is
-> to reduce writeback contention and improve scalability by allowing
-> writeback to be distributed across allocation groups (AGs).
-> 
-> Problem statement
-> =================
-> Today, XFS writeback walks the page cache serially per inode and funnels
-> all writeback through a single writeback context. For aging filesystems,
-> especially with high parallel buffered IO this leads to limited
-> concurrency across independent AGs.
-> 
-> The filesystem already has strong AG level parallelism for allocation and
-> metadata operations, but writeback remains largely AG agnostic.
-> 
-> High-level approach
-> ===================
-> This series introduces an AG aware writeback with following model:
-> 1) Predict the target AG for buffered writes (mapped or delalloc) at write
->    time.
-> 2) Tag AG hints per folio (via lightweight metadata / xarray).
-> 3) Track dirty AGs per inode using bitmap.
-> 4) Offload writeback to per AG worker threads, each performing a onepass
->    scan.
-> 5) Workers filter folios and submit folios which are tagged for its AG.
-> 
-> Unlike our earlier approach that parallelized writeback by introducing
-> multiple writeback contexts per BDI, this series keeps all changes within
-> XFS and is orthogonal to that work. The AG aware mechanism uses per folio
-> AG hints to route writeback to AG specific workers, and therefore applies
-> even when a single inode’s data spans multiple AGs. This avoids the
-> earlier limitation of relying on inode-based AG locality, which can break
-> down on aged/fragmented filesystems.
-> 
-> IOPS and throughput
-> ===================
-> We see significant improvemnt in IOPS if files span across multiple AG
-> 
-> Workload 12 files each of 500M in 12 directories(AGs) - numjobs = 12
->     - NVMe device Intel Optane
->         Base XFS                : 308 MiB/s
->         Parallel Writeback XFS  : 1534 MiB/s  (+398%)
-> 
-> Workload 6 files each of 6G in 6 directories(AGs) - numjobs = 12
->     - NVMe device Intel Optane
->         Base XFS                : 409 MiB/s
->         Parallel Writeback XFS  : 1245 MiB/s  (+204%)
-> 
+>>>> You want rootfs to be a NULLFS instead of ramfs. You don't seem to want it to
+>>>> actually _be_ a filesystem. Even with your "fix", containers could communicate
+>>>> with each _other_ through it if it becomes accessible. If a container can get
+>>>> access to an empty initramfs and write into it, it can ask/answer the question
+>>>> "Are there any other containers on this machine running stux24" and then coordinate.
 
-Hi Kundan,
+Or you could just make the ROOT= codepath remount the empty initramfs -o 
+ro like some switch_root implementations do. If the PID 1 you launch 
+isn't in initramfs, don't leave initramfs writeable. That seems unlikely 
+to break userspace.
 
-Could you provide more detail on how you're testing here? I threw this
-at some beefier storage I have around out of curiosity and I'm not
-seeing much of a difference. It could be I'm missing some details or
-maybe the storage outweighs the processing benefit. But for example, is
-this a fio test command being used? Is there preallocation? What type of
-storage? Is a particular fs geometry being targeted for this
-optimization (i.e. smaller AGs), etc.?
+(Having permissions to remount initramfs but _not_ having already 
+"cracked root" seems... a bit funky? You have waaaaay more faith in 
+security modules than I do...)
 
-FWIW, I skimmed through the code a bit and the main thing that kind of
-stands out to me is the write time per-folio hinting. Writeback handling
-for the overwrite (i.e. non-delalloc) case is basically a single lookup
-per mapping under shared inode lock. The question that comes to mind
-there is what is the value of per-ag batching as opposed to just adding
-generic concurrency? It seems unnecessary to me to take care to shuffle
-overwrites into per-ag based workers when the underlying locking is
-already shared.
-
-WRT delalloc, it looks like we're basically taking the inode AG as the
-starting point and guessing based on the on-disk AGF free blocks counter
-at the time of the write. The delalloc accounting doesn't count against
-the AGF, however, so ISTM that in many cases this would just effectively
-land on the inode AG for larger delalloc writes. Is that not the case?
-
-Once we get to delalloc writeback, we're under exclusive inode lock and
-fall into the block allocator. The latter trylock iterates the AGs
-looking for a good candidate. So what's the advantage of per-ag
-splitting delalloc at writeback time if we're sending the same inode to
-per-ag workers that all 1. require exclusive inode lock and 2. call into
-an allocator that is designed to be scalable (i.e. if one AG is locked
-it will just move to the next)?
-
-Yet another consideration is how delalloc conversion works at the
-xfs_bmapi_convert_delalloc() -> xfs_bmapi_convert_one_delalloc() level.
-If you take a look at the latter, we look up the entire delalloc extent
-backing the folio under writeback and attempt to allocate it all at once
-(not just the blocks backing the folio). So in theory if we were to end
-up tagging a sequence of contiguous delalloc backed folios at buffered
-write time with different AGs, we're still going to try to allocate all
-of that in one AG at writeback time. So the per-ag hinting also sort of
-competes with this by shuffling writeback of the same potential extent
-into different workers, making it a little hard to try and reason about.
-
-So stepping back it kind of feels to me like the write time hinting has
-so much potential for inaccuracy and unpredictability of writeback time
-behavior (for the delalloc case), that it makes me wonder if we're
-effectively just enabling arbitrary concurrency at writeback time and
-perhaps seeing benefit from that. If so, that makes me wonder if the
-associated value can be gained by somehow simplifying this to not
-require write time hinting at all.
-
-Have you run any experiments that perhaps rotors inodes to the
-individual wb workers based on the inode AG (i.e. basically ignoring all
-the write time stuff) by chance? Or anything that otherwise helps
-quantify the value of per-ag batching over just basic concurrency? I'd
-be interested to see if/how behavior changes with something like that.
-
-Brian
-
-> These changes are on top of the v6.18 kernel release.
+>> I think this new OPEN_TREE_NAMESPACE is nifty, but I don't think the
+>> path that gives it sensible behavior should be conditional like this.
+>> Either make it *always* mount on top of nullfs (regardless of boot
+>> options) or find some way to have it actually be the root.  I assume
+>> the latter is challenging for some reason.
 > 
-> Future work involves tighten writeback control (wbc) handling to integrate
-> with global writeback accounting and range semantics, also evaluate
-> interaction with higher level writeback parallelism.
-> 
-> Kundan Kumar (6):
->   iomap: add write ops hook to attach metadata to folios
->   xfs: add helpers to pack AG prediction info for per-folio tracking
->   xfs: add per-inode AG prediction map and dirty-AG bitmap
->   xfs: tag folios with AG number during buffered write via iomap attach
->     hook
->   xfs: add per-AG writeback workqueue infrastructure
->   xfs: offload writeback by AG using per-inode dirty bitmap and per-AG
->     workers
-> 
->  fs/iomap/buffered-io.c |   3 +
->  fs/xfs/xfs_aops.c      | 257 +++++++++++++++++++++++++++++++++++++++++
->  fs/xfs/xfs_aops.h      |   3 +
->  fs/xfs/xfs_icache.c    |  27 +++++
->  fs/xfs/xfs_inode.h     |   5 +
->  fs/xfs/xfs_iomap.c     | 114 ++++++++++++++++++
->  fs/xfs/xfs_iomap.h     |  31 +++++
->  fs/xfs/xfs_mount.c     |   2 +
->  fs/xfs/xfs_mount.h     |  10 ++
->  fs/xfs/xfs_super.c     |   2 +
->  include/linux/iomap.h  |   3 +
->  11 files changed, 457 insertions(+)
-> 
-> -- 
-> 2.25.1
-> 
-> 
+> I think that's the plan. I suggested the same to Christian last week,
+> and he was amenable to removing the option and just always doing a
+> nullfs_rootfs mount.
 
+Since 2013, initramfs might be ramfs or tmpfs depending on 
+circumstances. Adding a third option for it be nullfs when there's no 
+cpio.gz extracted into it seems reasonable. (You can always mount a 
+tmpfs _over_ it if you need that later, it's writeable so a PID 1 
+launched in it has workspace.)
+
+That said, if you are changing the semantics, right now we switch_root 
+from initramfs instead of pivot_root because initramfs couldn't be 
+unmounted. With this change would pivot_root become the mechanism for 
+initramfs too? (If the cpio.gz recipient wasn't actually rootfs but was 
+an overmount the way ROOT= does it.)
+
+Aside: it would be nice if inaccessible mount points could automatically 
+be garbage collected. There's already some "lazy umount" plumbing that 
+does that when explicitly requested to, but last I checked there were 
+cases that didn't get caught. It's been a while though, might already 
+have been fixed. Presumably initramfs would always get pinned because 
+it's PID 0's / reference...
+
+Also, could you guys make CONFIG_DEVTMPFS_MOUNT work with initramfs? 
+I've posted patches for that on and off since 2017, most recent one's 
+probably 
+https://landley.net/bin/mkroot/0.8.13/linux-patches/0003-Wire-up-CONFIG_DEVTMPFS_MOUNT-to-initramfs.patch 
+(tested on a 6.17 kernel).
+
+> We think that older runtimes should still "just work" with this scheme.
+> Out of an abundance of caution, we _might_ want a command-line option
+> to make it go back to old way, in case we find some userland stuff that
+> doesn't like this for some reason, but hopefully we won't even need
+> that.
+
+I assume it will break stuff, but I also assume the systems it breaks 
+will never upgrade to a 7.x kernel because the kernel itself would 
+consume all available memory before launching PID 1.
+
+Rob
