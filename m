@@ -1,87 +1,87 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3223B364053
-	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Jan 2026 17:28:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4768347D950
+	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Jan 2026 17:28:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769016491; cv=none; b=rzWomvXB993+NHYQD3kh81ormETYCbgLisIJ01q76vMUnoFX8FkXyEJ24hslm4bmPBGlsr/kSUbSDBxyuSAZ+F8Uj2J2b6msWUAQf+0tLC6ZLFpQ3lDI02rGhi3BD5FbmkYymZ+NrtpH0Pa9YSfrE47/sWjpfMZa1ezsha9Vxy0=
+	t=1769016498; cv=none; b=BiNrzbfn9EAZvLAVuMzleP5JUE2sG2aH1QfVhEBpNQ33PR2Kwe1oacwrjyVJgTYpZTAAb9DNF3bpJIEVP81Y44jzfyq9jrR3k3GZIHLFJPupYyW9yMpPftquOCZ9+NmjJGctZ/48APQRdtVz0FFChea/UL8P/0MdVl4tl4DgV9w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769016491; c=relaxed/simple;
-	bh=5/Y9hQKZ4OOZe1i0vEGDGNVSXMosZaJhMi/ItQkI7Ts=;
+	s=arc-20240116; t=1769016498; c=relaxed/simple;
+	bh=sj1Txjwv+h9/f1BV2GigzRSpv5V1zPSVxhMlFy1uowk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=b++UVgsuZVYKO+1S4m9Hczsr8W7towWhYNF7KqcPdh5RxuLDGELjItwiVSfrLaAnZgHiRHRsK9CASx1i6xnEYvRfCB143rxZMbBvlkBJ2eBjfJ+Utp8t/0J+/0j0M6mAYs3f0jI/EAMvS3fjzoOHlqjLA8qzwJqnaXjFF9z0VWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QrZ+UCFf; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Zcy8P8aM; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QrZ+UCFf; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Zcy8P8aM; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=g6vC0QRFmH4ojvnyPKtgNJM7GkaUGgaq+3/YzNkK2YjfERXD7YCg3PE9VDy/9/saKO53+L6j1yV7TJMUfGf2Q1zXrot0vt+0hJTvJPb4Z4V9EGFSEZY4WZzHu+7B3I1Gwsqxd2372bQ83Gl/ni8IpkC2DrOP4vsBRBntkEz8miM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IM+AY6ex; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=s9XsXiSM; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IM+AY6ex; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=s9XsXiSM; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QrZ+UCFf";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Zcy8P8aM";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QrZ+UCFf";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Zcy8P8aM"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IM+AY6ex";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="s9XsXiSM";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IM+AY6ex";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="s9XsXiSM"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A7756336F0;
-	Wed, 21 Jan 2026 17:27:53 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 1B0615BD56;
+	Wed, 21 Jan 2026 17:27:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1769016473; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1769016474; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=rV8RRNcUeXfYtPEUeWIzBRyWQ3xrfntQTyQn7Z9VmYg=;
-	b=QrZ+UCFfrnAkaA6xIyVvW3tqfhc/dZivSFyE7UmASxyhv5luMOUXGtoZJnJr1OynVCTI43
-	A9HdS1pjmussLtynfnMOAn/3pNy44VlBGFS8xHYhQwnaLmC+DFJPxGNU2A+gzDTBmVSe/G
-	ZmKjnaZN6D9tarYSkNC/uIyGygcXnd8=
+	bh=Gww8G95Lkyi7dxHXzjYxL/6q2jfnvHmXDxAx80rk+eI=;
+	b=IM+AY6ex6zU2xt30HxFuvYEm36k5LS2UfYwdjf79iwu0wOFcY+YxRupl0RDMa5x/RIVGSr
+	hJ54vWdwYrqZQcP63Xi2/sTatAR1izI1tEWgodbCA4MIocDymRcIRovkXqTaOZh2gbfIgI
+	2wPq6PIYGmpFS5eGaFFjLacQqS+WFQk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1769016473;
+	s=susede2_ed25519; t=1769016474;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=rV8RRNcUeXfYtPEUeWIzBRyWQ3xrfntQTyQn7Z9VmYg=;
-	b=Zcy8P8aMeDgw8yWmWMUM3MnBvsrH2Snu+uxkJWqtmttTaYOhb6HBZ8u6zuZttYBgthPrw4
-	DmZ3GzQStbumjyAA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=QrZ+UCFf;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Zcy8P8aM
+	bh=Gww8G95Lkyi7dxHXzjYxL/6q2jfnvHmXDxAx80rk+eI=;
+	b=s9XsXiSM2Vs2zzn/WvszXJlvUVcxPhkdIxOa+8B099zKe99nHj05aKJFm2yUgJKB0fAzIq
+	QoB7K1hrmIekPgAg==
+Authentication-Results: smtp-out2.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1769016473; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1769016474; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=rV8RRNcUeXfYtPEUeWIzBRyWQ3xrfntQTyQn7Z9VmYg=;
-	b=QrZ+UCFfrnAkaA6xIyVvW3tqfhc/dZivSFyE7UmASxyhv5luMOUXGtoZJnJr1OynVCTI43
-	A9HdS1pjmussLtynfnMOAn/3pNy44VlBGFS8xHYhQwnaLmC+DFJPxGNU2A+gzDTBmVSe/G
-	ZmKjnaZN6D9tarYSkNC/uIyGygcXnd8=
+	bh=Gww8G95Lkyi7dxHXzjYxL/6q2jfnvHmXDxAx80rk+eI=;
+	b=IM+AY6ex6zU2xt30HxFuvYEm36k5LS2UfYwdjf79iwu0wOFcY+YxRupl0RDMa5x/RIVGSr
+	hJ54vWdwYrqZQcP63Xi2/sTatAR1izI1tEWgodbCA4MIocDymRcIRovkXqTaOZh2gbfIgI
+	2wPq6PIYGmpFS5eGaFFjLacQqS+WFQk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1769016473;
+	s=susede2_ed25519; t=1769016474;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=rV8RRNcUeXfYtPEUeWIzBRyWQ3xrfntQTyQn7Z9VmYg=;
-	b=Zcy8P8aMeDgw8yWmWMUM3MnBvsrH2Snu+uxkJWqtmttTaYOhb6HBZ8u6zuZttYBgthPrw4
-	DmZ3GzQStbumjyAA==
+	bh=Gww8G95Lkyi7dxHXzjYxL/6q2jfnvHmXDxAx80rk+eI=;
+	b=s9XsXiSM2Vs2zzn/WvszXJlvUVcxPhkdIxOa+8B099zKe99nHj05aKJFm2yUgJKB0fAzIq
+	QoB7K1hrmIekPgAg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7F4643EA63;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E21D93EA63;
 	Wed, 21 Jan 2026 17:27:53 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id mFOwHZkMcWlbHQAAD6G6ig
+	id CN/dNZkMcWlbHQAAD6G6ig
 	(envelope-from <ddiss@suse.de>); Wed, 21 Jan 2026 17:27:53 +0000
 From: David Disseldorp <ddiss@suse.de>
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	Christian Brauner <brauner@kernel.org>
 Cc: Al Viro <viro@zeniv.linux.org.uk>,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH v2 4/8] initramfs: Refactor to use hex2bin() instead of custom approach
-Date: Thu, 22 Jan 2026 04:12:52 +1100
-Message-ID: <20260121172749.32322-5-ddiss@suse.de>
+	linux-fsdevel@vger.kernel.org,
+	David Disseldorp <ddiss@suse.de>
+Subject: [PATCH v2 6/8] SQUASH initramfs_test: expect error for "0x" prefixed header
+Date: Thu, 22 Jan 2026 04:12:54 +1100
+Message-ID: <20260121172749.32322-7-ddiss@suse.de>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260121172749.32322-1-ddiss@suse.de>
 References: <20260121172749.32322-1-ddiss@suse.de>
@@ -92,115 +92,81 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.01 / 50.00];
+X-Spamd-Result: default: False [-2.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_COUNT_TWO(0.00)[2];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FROM_HAS_DN(0.00)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,intel.com:email];
-	RCVD_TLS_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
+	RCVD_COUNT_TWO(0.00)[2];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_TLS_ALL(0.00)[]
 X-Spam-Flag: NO
-X-Spam-Score: -3.01
-X-Rspamd-Queue-Id: A7756336F0
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spam-Score: -2.80
 X-Spam-Level: 
 
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-
-There is a simple_strntoul() function used solely as a shortcut
-for hex2bin() with proper endianess conversions. Replace that
-and drop the unneeded function in the next changes.
-
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Signed-off-by: David Disseldorp <ddiss@suse.de>
 ---
- init/initramfs.c | 40 ++++++++++++++++++++++------------------
- 1 file changed, 22 insertions(+), 18 deletions(-)
+ init/initramfs_test.c | 23 ++++-------------------
+ 1 file changed, 4 insertions(+), 19 deletions(-)
 
-diff --git a/init/initramfs.c b/init/initramfs.c
-index 750f126e19a05..8d931ad4d239b 100644
---- a/init/initramfs.c
-+++ b/init/initramfs.c
-@@ -6,6 +6,7 @@
- #include <linux/fcntl.h>
- #include <linux/file.h>
- #include <linux/fs.h>
-+#include <linux/hex.h>
- #include <linux/init.h>
- #include <linux/init_syscalls.h>
- #include <linux/kstrtox.h>
-@@ -21,6 +22,8 @@
- #include <linux/umh.h>
- #include <linux/utime.h>
- 
-+#include <asm/byteorder.h>
-+
- #include "do_mounts.h"
- #include "initramfs_internal.h"
- 
-@@ -192,24 +195,25 @@ static __initdata u32 hdr_csum;
- 
- static void __init parse_header(char *s)
+diff --git a/init/initramfs_test.c b/init/initramfs_test.c
+index 6845da7ecb67a..c0a66d0366e80 100644
+--- a/init/initramfs_test.c
++++ b/init/initramfs_test.c
+@@ -499,8 +499,7 @@ static void __init initramfs_test_hdr_hex(struct kunit *test)
  {
--	unsigned long parsed[13];
--	int i;
--
--	for (i = 0, s += 6; i < 13; i++, s += 8)
--		parsed[i] = simple_strntoul(s, NULL, 16, 8);
--
--	ino = parsed[0];
--	mode = parsed[1];
--	uid = parsed[2];
--	gid = parsed[3];
--	nlink = parsed[4];
--	mtime = parsed[5]; /* breaks in y2106 */
--	body_len = parsed[6];
--	major = parsed[7];
--	minor = parsed[8];
--	rdev = new_encode_dev(MKDEV(parsed[9], parsed[10]));
--	name_len = parsed[11];
--	hdr_csum = parsed[12];
-+	__be32 header[13];
-+	int ret;
-+
-+	ret = hex2bin((u8 *)header, s + 6, sizeof(header));
-+	if (ret)
-+		error("damaged header");
-+
-+	ino = be32_to_cpu(header[0]);
-+	mode = be32_to_cpu(header[1]);
-+	uid = be32_to_cpu(header[2]);
-+	gid = be32_to_cpu(header[3]);
-+	nlink = be32_to_cpu(header[4]);
-+	mtime = be32_to_cpu(header[5]); /* breaks in y2106 */
-+	body_len = be32_to_cpu(header[6]);
-+	major = be32_to_cpu(header[7]);
-+	minor = be32_to_cpu(header[8]);
-+	rdev = new_encode_dev(MKDEV(be32_to_cpu(header[9]), be32_to_cpu(header[10])));
-+	name_len = be32_to_cpu(header[11]);
-+	hdr_csum = be32_to_cpu(header[12]);
- }
+ 	char *err, *fmt;
+ 	size_t len;
+-	struct kstat st0, st1;
+-	char fdata[] = "this file data will be unpacked";
++	char fdata[] = "this file data will not be unpacked";
+ 	struct initramfs_test_bufs {
+ 		char cpio_src[(CPIO_HDRLEN + PATH_MAX + 3 + sizeof(fdata)) * 2];
+ 	} *tbufs = kzalloc(sizeof(struct initramfs_test_bufs), GFP_KERNEL);
+@@ -528,28 +527,14 @@ static void __init initramfs_test_hdr_hex(struct kunit *test)
+ 	/*
+ 	 * override CPIO_HDR_FMT and instead use a format string which places
+ 	 * "0x" prefixes on the uid, gid and namesize values.
+-	 * parse_header()/simple_str[n]toul() accept this.
++	 * parse_header()/simple_str[n]toul() accepted this, contrary to the
++	 * initramfs specification. hex2bin() now fails.
+ 	 */
+ 	fmt = "%s%08x%08x0x%06x0X%06x%08x%08x%08x%08x%08x%08x%08x0x%06x%08x%s";
+ 	len = fill_cpio(c, ARRAY_SIZE(c), fmt, tbufs->cpio_src);
  
- /* FSM */
+ 	err = unpack_to_rootfs(tbufs->cpio_src, len);
+-	KUNIT_EXPECT_NULL(test, err);
+-
+-	KUNIT_EXPECT_EQ(test, init_stat(c[0].fname, &st0, 0), 0);
+-	KUNIT_EXPECT_EQ(test, init_stat(c[1].fname, &st1, 0), 0);
+-
+-	KUNIT_EXPECT_TRUE(test,
+-		uid_eq(st0.uid, make_kuid(current_user_ns(), (uid_t)0x123456)));
+-	KUNIT_EXPECT_TRUE(test,
+-		gid_eq(st0.gid, make_kgid(current_user_ns(), (gid_t)0x123457)));
+-	KUNIT_EXPECT_TRUE(test,
+-		uid_eq(st1.uid, make_kuid(current_user_ns(), (uid_t)0x56)));
+-	KUNIT_EXPECT_TRUE(test,
+-		gid_eq(st1.gid, make_kgid(current_user_ns(), (gid_t)0x57)));
+-
+-	KUNIT_EXPECT_EQ(test, init_unlink(c[0].fname), 0);
+-	KUNIT_EXPECT_EQ(test, init_rmdir(c[1].fname), 0);
++	KUNIT_EXPECT_NOT_NULL(test, err);
+ 
+ 	kfree(tbufs);
+ }
 -- 
 2.51.0
 
