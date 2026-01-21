@@ -1,140 +1,133 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6004C49250E
-	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Jan 2026 14:00:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FDDE83A14
+	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Jan 2026 14:00:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769004010; cv=none; b=UtPq+gs+1GfFKQ2PLuciZ4gh+lgv7ftOWXj6yT5ch9b3mu6DXp5SbUHjxKj9YDLWeHkFVVqqqr36ZROkqfmWuWxH4MLBrK7nZujZe3mBgXPUWaAG4/PyVvyJOlOtJUlibzJnipwcVqe7LMdyqKsxB3uRBRPDQv9E/VKBVTqzlg4=
+	t=1769004018; cv=none; b=FE6QsnLMlNlpE8UeoUXe93gnVbisLOwdT+2qNEMHm2rsm/vJrVDQ5+K93dSalRIgNnEXduMCs2HnnyOLp0rRTUOHRgx2DWCxm5Wf6TlMWdm3Y8sU7MpPD1cK5opXT2K/W42GgRD2dwN0M45anFhTWRxNBOGvzseCMUA/zt76yC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769004010; c=relaxed/simple;
-	bh=amdhiER86nj/qgw2Pe59+zBmBLGR4EbrwRmb8CEsx0o=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Te49lYLmDkkHPAF1r75a9YDeYetwXeaFwefJMq/rFqo8v4JMCyLAPwtO9pQVq4eXxLH0+HjK3PcOnXvEnHz3R0TK7FAEnY+VIbb2gwYWwVgYnZuSjS52Sol8N/GFfMkKSwPUQqWZoNoNbNUOHFz71smagvdJCXNajkREOiO5r60=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=tSBbJvgr; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=D0M0sSG2; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=tSBbJvgr; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=D0M0sSG2; arc=none smtp.client-ip=195.135.223.131
+	s=arc-20240116; t=1769004018; c=relaxed/simple;
+	bh=ic+ZTSXWQbc1YTNuKlNJrzbU0FJZ5TFelu1cLXH9AWU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=oGOOE3958AHvXbcY/4xu9NAOgQ3ilMxQ3M5hDR9MqfJq0S3BhsZTrdp0o6V4kGV6IYgGFIoFCddgUtOdlV+MZh0L1CeMfwcebBw52cNEisQGN6WYDfxkVDwB9RTcvSXETU9vQvzg7lsxLD5XE4t3fsb0/3kRNEcHWIRT3LiuZpE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=tonz3LCx; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=RHtZ6ETH; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="tSBbJvgr";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="D0M0sSG2";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="tSBbJvgr";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="D0M0sSG2"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="tonz3LCx";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="RHtZ6ETH"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 044295BD18;
-	Wed, 21 Jan 2026 14:00:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1769004001; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=gWOWYhBdPNLjppdv3lwOaDTwyhK+kL5SuQ2nXIzsWX4=;
-	b=tSBbJvgryl9PqHzI4Qrk6x1GxD0dej6fwQmOhJ8Qi2CFLTADb5uzrInZz9Y2XQoikApBqg
-	dr6tdQWsWYOwXrHbFpNMyYZL3qR+i9ALpLbDSoG1XV7i2WGyF8eetPwG/2Z8lKrji1xr/h
-	D+UhtLkjsO6X3qh6EktgvLszhL+nQ6c=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1769004001;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=gWOWYhBdPNLjppdv3lwOaDTwyhK+kL5SuQ2nXIzsWX4=;
-	b=D0M0sSG2uw6f1R3BXG8LtCi7MDyEji8DE6s7ncVwEUrR3KlHds3QGMcAHjmWAPA5Ny9ONP
-	d1mD++oiFgsxE1AA==
+	by smtp-out2.suse.de (Postfix) with ESMTPS id F09545BD15;
+	Wed, 21 Jan 2026 14:00:00 +0000 (UTC)
 Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1769004001; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=gWOWYhBdPNLjppdv3lwOaDTwyhK+kL5SuQ2nXIzsWX4=;
-	b=tSBbJvgryl9PqHzI4Qrk6x1GxD0dej6fwQmOhJ8Qi2CFLTADb5uzrInZz9Y2XQoikApBqg
-	dr6tdQWsWYOwXrHbFpNMyYZL3qR+i9ALpLbDSoG1XV7i2WGyF8eetPwG/2Z8lKrji1xr/h
-	D+UhtLkjsO6X3qh6EktgvLszhL+nQ6c=
+	t=1769004000; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9B+R15AZV4cQ/DjAhipDBMEG/k1AoMPlU/8x9MhHOq8=;
+	b=tonz3LCxY0spSNnSPqGLKHMgYcec6IqANmEiK4xlx+mmYq4ukppR20Rs5mF3499/TO3lnK
+	ey+txi15NnViBZ273yB0UYwafAkvZCxDCMh52tOEcDtTSok2tCqBPCnbsJtH5n5zmVTgDz
+	iU3nDG5inwqoPBfoIHqK1cvQLRef8UE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1769004001;
+	s=susede2_ed25519; t=1769004000;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=gWOWYhBdPNLjppdv3lwOaDTwyhK+kL5SuQ2nXIzsWX4=;
-	b=D0M0sSG2uw6f1R3BXG8LtCi7MDyEji8DE6s7ncVwEUrR3KlHds3QGMcAHjmWAPA5Ny9ONP
-	d1mD++oiFgsxE1AA==
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9B+R15AZV4cQ/DjAhipDBMEG/k1AoMPlU/8x9MhHOq8=;
+	b=RHtZ6ETHHHty4A+ZIdpjyza+dLMflRBkXuMxyDW7Uwhye/0K1FbnGlBzoF39Ufd2u3Pl6G
+	gabWdCChviiCzOCQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E06833EA65;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E58F83EA66;
 	Wed, 21 Jan 2026 14:00:00 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id J8B9NuDbcGmPTQAAD6G6ig
+	id OqDcN+DbcGmaTQAAD6G6ig
 	(envelope-from <jack@suse.cz>); Wed, 21 Jan 2026 14:00:00 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 99EB3A09E9; Wed, 21 Jan 2026 14:59:56 +0100 (CET)
+	id AE017A0A5E; Wed, 21 Jan 2026 14:59:56 +0100 (CET)
 From: Jan Kara <jack@suse.cz>
 To: <linux-fsdevel@vger.kernel.org>
 Cc: Amir Goldstein <amir73il@gmail.com>,
-	Jan Kara <jack@suse.cz>
-Subject: [PATCH v3 0/4] fsnotify: Independent inode tracking
-Date: Wed, 21 Jan 2026 14:59:41 +0100
-Message-ID: <20260121135513.12008-1-jack@suse.cz>
+	Jan Kara <jack@suse.cz>,
+	Jakub Acs <acsjakub@amazon.de>
+Subject: [PATCH v3 3/3] fsnotify: Shutdown fsnotify before destroying sb's dcache
+Date: Wed, 21 Jan 2026 14:59:44 +0100
+Message-ID: <20260121135948.8448-6-jack@suse.cz>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260121135513.12008-1-jack@suse.cz>
+References: <20260121135513.12008-1-jack@suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1258; i=jack@suse.cz; h=from:subject:message-id; bh=amdhiER86nj/qgw2Pe59+zBmBLGR4EbrwRmb8CEsx0o=; b=owGbwMvMwME4Z+4qdvsUh5uMp9WSGDILbp9hN198W8rgeUiy9GF55bNr1zyyfSfHp6l2/YNe/ A6Z8CUCnYzGLAyMHAyyYoosqyMval+bZ9S1NVRDBmYQKxPIFAYuTgGYyM2X7P9d1OaIqOZ/ZU8W 4JdhanB9dHvBfokFUcpBCuI2xZuztPfNqrkk9b1Dpzn4ogtTIR/TrFLGsyEywv5m3fkMuy577Lt 4reddTuY6gQzR8o3dZlrsbYt61sw94FTevHJe+ReB11mPuexObbTdLnr7rr9lguO6/91mQVxPDp 3gclCzzFjys9k3zS2T488MSeWNEnJiP/qcI/x+GvFNe+s4+0ZVJC8n57kl+wtuTp5gYlIZ0728T MeuNTxNregHw/0t+9Q3eipu8zp6zk9nu80LFbOmK4zXN22dGS5uk5Z3tjuf7dHNAMkJMcpNmnpX /9v1s70webfnRZxX5QpVhRtC84+1z1t5uGVv0MnAPwLRAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1636; i=jack@suse.cz; h=from:subject; bh=ic+ZTSXWQbc1YTNuKlNJrzbU0FJZ5TFelu1cLXH9AWU=; b=owEBbQGS/pANAwAIAZydqgc/ZEDZAcsmYgBpcNvWvoRykzevoAmG7HRuZGo7FMxQ/sK1tA5S+ 0BBZbnR8m+JATMEAAEIAB0WIQSrWdEr1p4yirVVKBycnaoHP2RA2QUCaXDb1gAKCRCcnaoHP2RA 2bFsB/9bgcjbgGhFS9ZxJVQVRwrgQ3rXN18o5VyxfDNZ6A5nmoq1VWbD0+NU61uShXoASwBlyf4 9TG1fbB71yAsnHfHSCEkMrqTduJAIJ0+Rs4M/7hKHi9JM/LL6E5yrbY4o89Dc48ewi2OWlJRJq6 uhUx2ri5sbFCoIjosoHjFTzaCmpdWyXnFxM7T6JTvFiPv1dUS1O5fernK1T+5v/FaIW5sdpKh07 AAGvMRABcptyIbgXC9pGhTleEhZ1s74lZ7G2mfxOuGS3QI1Er0BubzjwVtkLsp98xmXr2eKaMJW jtW+yk8+GTyoRlWa0orgiGqcuzYNUECMkhiH3Xm2dCgZQz0D
 X-Developer-Key: i=jack@suse.cz; a=openpgp; fpr=93C6099A142276A28BBE35D815BC833443038D8C
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -2.80
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:mid];
-	RCVD_COUNT_THREE(0.00)[3];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,suse.cz];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com]
-X-Spam-Level: 
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	REPLY(-4.00)[]
 X-Spam-Flag: NO
+X-Spam-Score: -4.00
+X-Rspamd-Queue-Id: F09545BD15
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spam-Level: 
 
-Hello!
+Currently fsnotify_sb_delete() was called after we have evicted
+superblock's dcache and inode cache. This was done mainly so that we
+iterate as few inodes as possible when removing inode marks. However, as
+Jakub reported, this is problematic because for some filesystems
+encoding of file handles uses sb->s_root which gets cleared as part of
+dcache eviction. And either delayed fsnotify events or reading fdinfo
+for fsnotify group with marks on fs being unmounted may trigger encoding
+of file handles during unmount. So move shutdown of fsnotify subsystem
+before shrinking of dcache.
 
-Here is another revision of the patch set implementing independent tracking of
-inodes that have any notification marks attached through a linked list of mark
-connectors used for inodes. We then use this list to destroy all inode marks
-for a superblock during unmount instead of iterating all inodes on a
-superblock. With this more efficient way of destroying all inode marks we can
-move this destruction earlier in generic_shutdown_super() before dcache (and
-sb->s_root in particular) is pruned which fixes races between fsnotify events
-encoding handles and accessing sb->s_root after generic_shutdown_super() has
-freed them.
+Link: https://lore.kernel.org/linux-fsdevel/CAOQ4uxgXvwumYvJm3cLDFfx-TsU3g5-yVsTiG=6i8KS48dn0mQ@mail.gmail.com/
+Reported-by: Jakub Acs <acsjakub@amazon.de>
+Reviewed-by: Amir Goldstein <amir73il@gmail.com>
+Signed-off-by: Jan Kara <jack@suse.cz>
+---
+ fs/super.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Changes since v2:
-* Fix fsnotify_unmount_inodes() to safely deal with connectors not holding
-  inode reference
-* Add Amir's Reviewed-by tag
+diff --git a/fs/super.c b/fs/super.c
+index 3d85265d1400..9c13e68277dd 100644
+--- a/fs/super.c
++++ b/fs/super.c
+@@ -618,6 +618,7 @@ void generic_shutdown_super(struct super_block *sb)
+ 	const struct super_operations *sop = sb->s_op;
+ 
+ 	if (sb->s_root) {
++		fsnotify_sb_delete(sb);
+ 		shrink_dcache_for_umount(sb);
+ 		sync_filesystem(sb);
+ 		sb->s_flags &= ~SB_ACTIVE;
+@@ -629,9 +630,8 @@ void generic_shutdown_super(struct super_block *sb)
+ 
+ 		/*
+ 		 * Clean up and evict any inodes that still have references due
+-		 * to fsnotify or the security policy.
++		 * to the security policy.
+ 		 */
+-		fsnotify_sb_delete(sb);
+ 		security_sb_delete(sb);
+ 
+ 		if (sb->s_dio_done_wq) {
+-- 
+2.51.0
 
-Changes since v1:
-* Remove pointless srcu protection when tearing down inode connectors
-* Remove FSNOTIFY_CONN_FLAG_TRACKED as it isn't needed
-* Use ihold() instead of __iget() as we don't hold inode->i_lock but
-  the connector holds inode ref
-* Add Amir's Reviewed-by tags
-
-								Honza
-
-Previous versions:
-Link: http://lore.kernel.org/r/20260119161505.26187-1-jack@suse.cz # v1
-Link: http://lore.kernel.org/r/20260120131830.21836-1-jack@suse.cz # v2
