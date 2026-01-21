@@ -1,169 +1,74 @@
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDAE31F1315
-	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Jan 2026 00:34:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768955677; cv=pass; b=UpLjt36L7OXB73eJN82AFqUHHZ9Sfz7/cwgVlvOMXEKBSRoQmIdxWe1b3cOx2+8aN9n9IuNm2s7hsrY3FshSOWrLewTIYQW/kJrNaShFTJNmQM1I7KCwU1xhw0kC4RtstGEToHj3ANZjx0hHzctY9dcn1z5KtzcRXIyM+icFSpI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768955677; c=relaxed/simple;
-	bh=3CzPQtdW256f8hxTQvnVJA9/1PJ2nCHhcrodK/xt38c=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CjSNecEHfHfP4OR6HfqHaL2VYddg1bP/jB5ctkEwwXtAPvcwrO/wiig329KdPmdsObuI39JykgES7xh3dc7XzDncUpKSIv4v0J8uHhBLqM9hBQzssFvFdyMX4M2l254EhimLWqnqEx+DDLmcfhErF0qdRh6kn5WJEd737PQ7PVw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I6BLBzGz; arc=pass smtp.client-ip=209.85.219.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D5592BCF4C
+	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Jan 2026 01:07:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768957638; cv=none; b=HGT5RPKjxThIebC630lfjZJc7GXUHMakf5jDhnZx8tzqI34HuQZDN/TEkHW8NqrmuWTZ8Ev8Mjafo41vTLFo72CDMsLO5lwBT+ZNRJvy37VZdwl3wsAwfWoZC57g8o/yyo6ok0mSoWDtd0YulWjOxJQjBHyKHUNlhvDyoOc7jXk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768957638; c=relaxed/simple;
+	bh=4x1KsmHsBSngbx85jWT9fFs3J5EUrtzGPGU+m9EmN2Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CmsCxpVvjvAUTHDegwKdIDVTyEX/VY/eNbGsIPKyMKUC/sYzHmrMJZwsJt+HLh/jDy37HG2IGVJyOAhKZFDTsospKUoFf0qSFBpkvZGV8MkGwCYqomU1pOXGaCNV9wfUiaAG3Xd0WBKo8CZk2pIqP1c5RSxxeI+ywO+2AuIICJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=pCopAwdN; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I6BLBzGz"
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-8888a1c50e8so72265216d6.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 20 Jan 2026 16:34:35 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1768955674; cv=none;
-        d=google.com; s=arc-20240605;
-        b=dTRLauu0MEd32OO9zh1OGBTkPcQ+c6vZK1k4G31UUesbQa3bw0c2KJEJYdPlPpwDsa
-         cn4YJdqfkKydtpktJupSJcD7Q/2FYhyIAO8BX+JJaf+ItG3B3UrcR3eXcyJ+Xj1N6sGH
-         1D6hF9THdHVBGdHowOKx3vqkUK+WzQAiebHxk6B9tdnLrNIMMK49WulJMUgII+hfMwnO
-         qRE0W8oXUGhJAhKdiArWiM4RuUd7Bq4RBW/aKMR375fGAlm6raed7pcWZSM4iMt5H9dE
-         6HvuEo0goT96hOBHdoXkmAYxcB50nGbBMVQ2hIUjipZ0pXDz+1vfDY1d3GOa9d1QqA6G
-         CAEw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=quDTzUFqKEGFx9hVAt/ijTXktYC+JndpD7xKzFhDY/I=;
-        fh=G3AK3WOBC4+YxCjBNLsgT9ndQ+xil0ADD7XM0kaoaHM=;
-        b=DG5aa1FS1Uv08qZw+kSVqZ/Alg5+lbcsPbfhFzVHkQKcDn+7YM4D57Io/4eslHbWVR
-         ahTVf+lKPGNApEiaUyZMGYNDG1Pw4foAWwaG0+pRbM7VW0SpZgTcF+TIWVGlDGzUm1Ze
-         TgW6bKTLPbiPbGpzwhxATjnutwx+Qe9s1CXOAyN179TvVHqsNaPZT97DVV6ZoDbNDdC1
-         50Dik6zwEVkcz+mOj9sM3U7fpD6x2CxJeMerdSyScE84L/DS1uTVhDlOpSJZnrsV5SvD
-         kTZLAl3JLYEqIrFz//qGRmQFoPU2cLDuoO+O8my6Ij2qRiO0A2itGfeBruplxhu1HVpA
-         k9Tw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768955674; x=1769560474; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=quDTzUFqKEGFx9hVAt/ijTXktYC+JndpD7xKzFhDY/I=;
-        b=I6BLBzGzngbEy9sGhz+2LbfkZNbv/zyjkF4yL3R+cnTiI07R+v2IzV3m6oEKIehWYK
-         l/htBMEhOk6fmRhzUuyWP9JJQVT5yuyDVAdtdEUeq0dF4OdueviReSSCTnxPXSJpspAB
-         MkU3rjqsegKypDBbbY60IINjcs/sqvfweXXqZ8uQkmRsvUAdE/U/6SlCQf4cfIv547Zo
-         h8Mnr08DJPduhDa3whToD8oIwtUmyrg4W9cvbac7O+onZKUu4vXA6TWucmWsVN9DACfl
-         +KqTSr3aMwUHYVqR/hVVaQG5zzIVrZlXcbfzFDSQ+YCRCeN6mnAV9S5KMG5eune1Lsqg
-         Atog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768955674; x=1769560474;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=quDTzUFqKEGFx9hVAt/ijTXktYC+JndpD7xKzFhDY/I=;
-        b=ZtlYDBaNi1AqoCpP4ggONYoY4yGW2Ti7UQgeMBadOlKpGCu9QmHClxtLsDJGzcImjN
-         6HEJmPzvHCZAwqbUMoCJ2W7CZmtpB5reIxq6zCGKICGHSIj12aKNF6q+TBZFYXCNOXM4
-         7/UbQ3GidOlq/NhsC5bOzesFl8FbHnoYAPGgF5yAnjhVwC1+hzIlUN/O9BCg4HDyuor8
-         OWjIAQDMXeC/kDhNKOsFgkcDlA3+sHB1I8v1f7OJXViDJJDhFrvdoUhGTxh7O29WNJ70
-         QGSoDVOtgQNUlh76F3KXBqLpVJjANfmHuTfrSGOcEetikrFHHL72zfrLoEx5OWjRRJfR
-         jpaw==
-X-Forwarded-Encrypted: i=1; AJvYcCUYPibEoo3tofw5esNPM7KFk5ZykS7hgbiCt2n4J4BsiwMCVon29h47W7luZraRQpHXvGgSbGQmDQzLoonp@vger.kernel.org
-X-Gm-Message-State: AOJu0YyNDw961P4ua7tun4MIJlu2ydu+g58JXkzmfAVhRIo05dIhuuky
-	+7Sl3QF0+9zyQGLzMbOp+a/+fKQSvagKSqoFbraSI1sHEK5BENpVLhSpcEcNljz71KWx6m/IwEA
-	cfyEbD3ymemTDPoAolJoIzaE6J2Jc5lA=
-X-Gm-Gg: AZuq6aJgAXC9xz1JxtjshIB1mLeWdagHGWXHRTyGaHAqHAXIf1djVpS5Sc4euSi+021
-	wSxYf8IeGrnpBBNu7AF0z1X9TFOcY8QZeGo18zVjXO8iUCeB1P95sWECkrm8oeVfo9AXKlR9zSZ
-	Cfuta1fYriYQr68Yi7IGoyHHCEGTQfjJjL+xVHly/y1+aE9wZUNNDCEy32FkHB2QXvSPGdYcr6J
-	cb1sx93DrJplqIqfPEXvw3CBtaBwV3aF+YL6UCXEQ/JARUjlpPlW2GtEhXcss793u+5ZLRCr7rC
-	/LJl
-X-Received: by 2002:a05:622a:8b:b0:4f1:bacc:151 with SMTP id
- d75a77b69052e-502d85802f7mr48176501cf.60.1768955674551; Tue, 20 Jan 2026
- 16:34:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="pCopAwdN"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=d2EOAfaB/wm2Ixr6PE3ztyaVxd+flPCDdKbqraVnKJw=; b=pCopAwdNIipooXM80kTt/DOgu/
+	sDBW0JzjJWEPnT2Xu1VQ5xjMPnFNPDO0wLyHbr/zHBTraX+PwRNMs0LUm3a0wfWrfR4Wap/Zta+6H
+	FZk/RmMYHjvFHoDuGk7R6qCVscTtnzA1YqoG+UKcQ08B6vSX9ng9rp8RBWgoR9c5E/wCmCdduytU3
+	P98kHO32FdiWDAl5vS/uYKPqk39C7pNNfa5ObMmUmrp0O5w3lAAIf6o0rLzoGRnoYaJninD3rkMhZ
+	nSeVnBPt1yxilbaxvX5OvIdv4jAPmxrKX8Emt0SpaUeTYG/P7bA3ZJdCyw7z+w2szHVq2w/FfAEqe
+	S5zxnXFg==;
+Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1viMgi-0000000Fh8n-3mqv;
+	Wed, 21 Jan 2026 01:07:12 +0000
+Date: Wed, 21 Jan 2026 01:07:12 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: "Darrick J. Wong" <djwong@kernel.org>, brauner@kernel.org,
+	hch@infradead.org, bfoster@redhat.com,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v2 1/1] iomap: fix readahead folio refcounting race
+Message-ID: <aXAmwHNte1TvHbvj@casper.infradead.org>
+References: <20260116015452.757719-1-joannelkoong@gmail.com>
+ <20260116015452.757719-2-joannelkoong@gmail.com>
+ <aWmn2FympQXOMst-@casper.infradead.org>
+ <CAJnrk1Zs2C-RjigzuhU-5dCqZqV1igAfAWfiv-trnydwBYOHfA@mail.gmail.com>
+ <aWqxgAfDHD5mZBO1@casper.infradead.org>
+ <CAJnrk1YJFV5aE2U6bK1PpTBp5tfkRzBK5o24AhidYFUfQnQjNQ@mail.gmail.com>
+ <20260117023002.GD15532@frogsfrogsfrogs>
+ <CAJnrk1ZSnrMLQ-g4XCAhb1nXBWE_ueEM_uTreUNxuT-3z_z-DA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260116015452.757719-1-joannelkoong@gmail.com>
- <20260116015452.757719-2-joannelkoong@gmail.com> <aWmn2FympQXOMst-@casper.infradead.org>
- <CAJnrk1Zs2C-RjigzuhU-5dCqZqV1igAfAWfiv-trnydwBYOHfA@mail.gmail.com>
- <aWqxgAfDHD5mZBO1@casper.infradead.org> <CAJnrk1YJFV5aE2U6bK1PpTBp5tfkRzBK5o24AhidYFUfQnQjNQ@mail.gmail.com>
- <20260117023002.GD15532@frogsfrogsfrogs>
-In-Reply-To: <20260117023002.GD15532@frogsfrogsfrogs>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Tue, 20 Jan 2026 16:34:22 -0800
-X-Gm-Features: AZwV_QiMrv7MWxkX7ly4586N0kpsI_srQExQPdQn49V5qRBTss_rcXXoiD69ClU
-Message-ID: <CAJnrk1ZSnrMLQ-g4XCAhb1nXBWE_ueEM_uTreUNxuT-3z_z-DA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/1] iomap: fix readahead folio refcounting race
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Matthew Wilcox <willy@infradead.org>, brauner@kernel.org, hch@infradead.org, 
-	bfoster@redhat.com, linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJnrk1ZSnrMLQ-g4XCAhb1nXBWE_ueEM_uTreUNxuT-3z_z-DA@mail.gmail.com>
 
-On Fri, Jan 16, 2026 at 6:30=E2=80=AFPM Darrick J. Wong <djwong@kernel.org>=
- wrote:
->
-> On Fri, Jan 16, 2026 at 02:02:20PM -0800, Joanne Koong wrote:
-> > On Fri, Jan 16, 2026 at 1:45=E2=80=AFPM Matthew Wilcox <willy@infradead=
-.org> wrote:
-> > >
-> > > On Fri, Jan 16, 2026 at 10:36:25AM -0800, Joanne Koong wrote:
-> > > > On Thu, Jan 15, 2026 at 6:52=E2=80=AFPM Matthew Wilcox <willy@infra=
-dead.org> wrote:
-> > > > >
-> > > > > > +                     if (!ifs) {
-> > > > > > +                             ctx->cur_folio =3D NULL;
-> > > > > > +                             if (unlikely(plen !=3D folio_len)=
-)
-> > > > > > +                                 return -EIO;
-> > > > >
-> > > > > This should be indented with a tab, not four spaces.  Can it even
-> > > > > happen?  If we didn't attach an ifs, can we do a short read?
-> > > >
-> > > > The short read can happen if the filesystem sets the iomap length t=
-o a
-> > > > size that's less than the folio size. plen is determined by
-> > > > iomap_length() (which returns the minimum of the iter->len and the
-> > > > iomap length value the filesystem set).
-> > >
-> > > Understood, but if plen is less than folio_size(), don't we allocate
-> > > an ifs?  So !ifs && plen < folio_size() shouldn't be possible?  Or ha=
-ve
-> > > I misunderstood this part?
-> >
-> > Maybe I'm misunderstanding this, but I'm pretty sure the ifs is only
-> > allocated if the inode's block size is less than the folio size, and
-> > is not based on plen. The logic I'm looking at is the code inside
-> > ifs_alloc().
->
-> Hrmm.  If there's no ifs then blocksize =3D=3D foliosize, so if
-> plen < foliosize then that means we're not fully reading in the folio
-> contents?  That doesn't sound good, especially if the folio can be
-> mmapped into someone's address space.
+On Tue, Jan 20, 2026 at 04:34:22PM -0800, Joanne Koong wrote:
+> But looking at some of the caller implementations, I think my above
+> implementation is wrong. At least one caller (zonefs, erofs) relies on
+> iterative partial reads for zeroing parts of the folio (eg setting
+> next iomap iteration on the folio as IOMAP_HOLE), which is fine since
+> reads using bios end the read at bio submission time (which happens at
+> ->submit_read()). But fuse ends the read at either
+> ->read_folio_range() or ->submit_read() time. So I think the caller
+> needs to specify whether it ends the read at ->read_folio_range() or
+> not, and only then can we invalidate ctx->cur_folio. I'll submit v4
+> with this change.
 
-I think the caller is the one who sets the lower bound on how much of
-the folio gets read in (since plen is min-bounded by
-iter->iomap.length). The calling filesystem shouldn't be setting the
-iomap.length to less than the folio size to do iterative partial reads
-if there's no ifs, so I added this "!ifs && plen < folio_size()" check
-as a guard against this, as I think the bug is subtle to detect
-otherwise.
-
-But looking at some of the caller implementations, I think my above
-implementation is wrong. At least one caller (zonefs, erofs) relies on
-iterative partial reads for zeroing parts of the folio (eg setting
-next iomap iteration on the folio as IOMAP_HOLE), which is fine since
-reads using bios end the read at bio submission time (which happens at
-->submit_read()). But fuse ends the read at either
-->read_folio_range() or ->submit_read() time. So I think the caller
-needs to specify whether it ends the read at ->read_folio_range() or
-not, and only then can we invalidate ctx->cur_folio. I'll submit v4
-with this change.
-
-Thanks,
-Joanne
-
->
-> --D
->
-> > Thanks,
-> > Joanne
-> >
+... but it can only do that on a block size boundary!  Which means that
+if the block size is smaller than the folio size, we'll allocate an ifs.
+If the block size is equal to the folio size, we won't allocate an IFS,
+but neither will the length be less than the folio size ... so the return
+of -EIO was dead code, like I said.  Right?
