@@ -1,170 +1,161 @@
-Received: from smtp01-ext2.udag.de (smtp01-ext2.udag.de [62.146.106.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F5573B8BA8;
-	Wed, 21 Jan 2026 18:37:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.146.106.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769020626; cv=none; b=CUL8RMXz1P59dSR/cIbTvt8ZjQpyGr9AYL1PcYHuYg+yAXt2Gm9alY4fA5xm+RnhFmN4HQKYLXonrr0plXSQaaaIBTRAkQYkmbTUDEJstG9Jgx7K7HptXyj/F3+Uz2hsu+bj4p7Sm4Xh8CcQC0JDH27ZMzayMbN3bLYpSd/DpGU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769020626; c=relaxed/simple;
-	bh=495ypfu2mS7153OpYPETY3wlHkR04T16ObxppEaZlMk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nKePSv9zxkkwUq8Mra8AgsxUuOgE28FIW3+gtWXaPLyPTEaynaIrMJijGn+VsTUmWv12ENHYvRzUyJoCsmTW3+fUBCKzuZK0uAgbAbu2u+6LkyoLbX24QnvR8aOhkiCe2wGJYXabauSacDqeCTQdJz62c4OWq4D1vONqh/Z5pKw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de; spf=pass smtp.mailfrom=birthelmer.de; arc=none smtp.client-ip=62.146.106.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birthelmer.de
-Received: from localhost (200-143-067-156.ip-addr.inexio.net [156.67.143.200])
-	by smtp01-ext2.udag.de (Postfix) with ESMTPA id 73E31E0337;
-	Wed, 21 Jan 2026 19:36:54 +0100 (CET)
-Authentication-Results: smtp01-ext2.udag.de;
-	auth=pass smtp.auth=birthelmercom-0001 smtp.mailfrom=horst@birthelmer.de
-Date: Wed, 21 Jan 2026 19:36:53 +0100
-From: Horst Birthelmer <horst@birthelmer.de>
-To: Bernd Schubert <bernd@bsbernd.com>
-Cc: Luis Henriques <luis@igalia.com>, Bernd Schubert <bschubert@ddn.com>, 
-	Amir Goldstein <amir73il@gmail.com>, Miklos Szeredi <miklos@szeredi.hu>, 
-	"Darrick J. Wong" <djwong@kernel.org>, Kevin Chen <kchen@ddn.com>, 
-	Horst Birthelmer <hbirthelmer@ddn.com>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Matt Harvey <mharvey@jumptrading.com>, 
-	"kernel-dev@igalia.com" <kernel-dev@igalia.com>
-Subject: Re: Re: [RFC PATCH v2 4/6] fuse: implementation of the
- FUSE_LOOKUP_HANDLE operation
-Message-ID: <aXEbnMNbE4k6WI7j@fedora>
-References: <CAJfpegst6oha7-M+8v9cYpk7MR-9k_PZofJ3uzG39DnVoVXMkA@mail.gmail.com>
- <CAOQ4uxjXN0BNZaFmgs3U7g5jPmBOVV4HenJYgdfO_-6oV94ACw@mail.gmail.com>
- <CAJfpegsS1gijE=hoaQCiR+i7vmHHxxhkguGJvMf6aJ2Ez9r1dw@mail.gmail.com>
- <b2582658-c5e9-4cf8-b673-5ccc78fe0d75@ddn.com>
- <CAOQ4uxhMtz6WqLKPegRy+Do2UU6uJvDOqb8YU6=-jAy98E5Vfw@mail.gmail.com>
- <645edb96-e747-4f24-9770-8f7902c95456@ddn.com>
- <aWFcmSNLq9XM8KjW@fedora>
- <877bta26kj.fsf@wotan.olymp>
- <aXEVjYKI6qDpf-VW@fedora>
- <03ea69f4-f77b-4fe7-9a7c-5c5ca900e4bf@bsbernd.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F8CD2472BA
+	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Jan 2026 19:00:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769022012; cv=pass; b=fsTH4Z5n8/57FesIhs2kqHnE0TCpCND0Es4aWr6NL/lM2siD+SWNAi5JzoLDHDdodQ1h/pKw9UUwCcNG/fCW/HLYXGW9Ugcsp673jUmHk1pjXA5YyFCWszshoX/iyG/Phs7NvzYs8Pg16vnN8JNT6uxKpo89gUAdbxcaH6fLtJY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769022012; c=relaxed/simple;
+	bh=P50vKKEGRcti/ilk0zXXEyTeAkMnj2pLP0nOzx4jcho=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pO72NGX6nTIj0joIH+3cAC+HRHD5OWjiU8dOol9xTsWvHBlZjlxJN6+pprjdJrNdcgr1FvtBw9eReq5DhQ+E/jMocmPEermLjjDfOQe4/M+6Vf8sb743issY3fkmP7xrx466RObw4CbMMtHyC+ZCYMZDc2o3EXtjq+Oj3VGdw9A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ke3b0iRs; arc=pass smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ke3b0iRs"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-b86f3e88d4dso22130666b.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 21 Jan 2026 11:00:09 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769022008; cv=none;
+        d=google.com; s=arc-20240605;
+        b=FMlOKJGLHBqfyece0rXdO2b/qZFw9R3Zbc8L1dtKHsNbQhLeTW5x3i+eItZgRm5JQc
+         weavW2/+YXeiTKhxHpHXTGhilBYewy5ni7WoQO5nHlrH4kwF9I05QrMhy3emjlQ7B2Ei
+         JEXzVRhPQO7v3Xz9FjmEBWO3pYJPM0bcJ7nnWPZgmAubH5espCpBJlW5wjLyLuYtFS7P
+         2SW2eo7tM6ZQn1tjEgBn5jEeFsdQ/ovoG3EMfyimGa+8Xwz9k16z3K8NjdfB7TNqnIyy
+         SWlgFdgAW//oPaRV6NWgGG4IIMq9rlCIIVO+TWzOjDjICgYJso73YwI/FhV+TyAVtTna
+         OhxQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=P50vKKEGRcti/ilk0zXXEyTeAkMnj2pLP0nOzx4jcho=;
+        fh=0wvF4tuwYZprpBSQhPgsh7Filcc2nZ690Pfk6U6o3zg=;
+        b=NjW4w9g4l4MhrtvSLSWRVDYwsg+nV6bImC04qiL5l0Ss2DNxb24tDPWJxjM8HEwN3o
+         3cHn84ZJGVqDmTxE1BM+4uiYaN4uF2fI6RLj6jekOVq2GNNjdbualCnee9S/fy0iEZib
+         Rm6iSWQVpbxWdG6dmKqQCe7Evx+pCqCegpC1/3bPXuNU50mQo5gJ995UG0DEbX723Sku
+         PpuZ9aYDoD3BAlhffE7xq9MyIN0J8jXRICobVfqdOuEg2CveF9Efo5I+gVPjPxd3f5be
+         umQskWMF5SXRkiQfWRKLKhcps551//xuiMaItd3Uaq2cCz+l2jhmA19kNgVFJ1OPFzqB
+         628w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769022008; x=1769626808; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=P50vKKEGRcti/ilk0zXXEyTeAkMnj2pLP0nOzx4jcho=;
+        b=ke3b0iRsOPGdb9oGItiqf3p2ocGTfsItthso0F5B2fak03CUA0liWLn/Ve+kCx5qdQ
+         JombE0ayrWVRZQXIZl23qp9IKs0OR39m8RilvLRQvVGHRFm30KkpG++OotWZ92AwuCGc
+         mfAvUOj8NIFwo25zttpr2t9oiEAh7Td8L4n9JqF49lbt65BYqwZMpd8IuL+pjuR3w7Cx
+         uwF7vQXLdVLV63Ny5cgNkQ66Jb7r0JOenkZbCMRNua5Ow/a8OGWNheD6DVKMa3a6U1VX
+         hddDJM9Nq2Z5pHCrVaA1w4AG9WOs41axr0x1rUqjUrhki3bUl8DCRQXOnsnH+8mR9kKE
+         KgeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769022008; x=1769626808;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=P50vKKEGRcti/ilk0zXXEyTeAkMnj2pLP0nOzx4jcho=;
+        b=HTl73LDq5Z/eFWdVZk57LmRnpPSNe6Lg2Yr63YZkNlExza3D0fZVqAucb7FtkoAHC/
+         1atdXtQ6OPaYW8/4dXeWweuZjIxavoWyS0B7YK5p7yBYaMkuQQPJ7iQ0mqdmUAbNR20X
+         ols/bbtzSRIcDrChqDjJzLFuhXrp7oOw69MfsQuI9tfL09HPxJjtgVO/DKskkeW8vtvf
+         rNDYjBEjpQlGNBKBV3NLPkVhpXa9IANKvdUjYttwRC9YOAOpbwYQR9Cbwo/JijADVQMN
+         OhgvfF31zH4NPmyH7BFeSFbZS3Z/swU93XpJUcZ38/WdCl1cEE0GZ5ktxbHvXzduXTUI
+         q+wA==
+X-Forwarded-Encrypted: i=1; AJvYcCVxea3bO5gOJ2/ASc3h7cDzrpdG9FgOnGgJ7viPoDeRyJ+bLrfY11NJAKPzu1of41pYkc4+vaT2EA7eB3bf@vger.kernel.org
+X-Gm-Message-State: AOJu0YyzyoV97ubyNosrV8pSu890VbxEEJ8BkBZzffunbTcP9t+3rhYs
+	qcUBHFlGdYdjyXwYK8ioL6N00Un4iM4rYJ2Wo5CWM3pIg0KYLPXu30QX9XisCyFZGRK4ebR8uce
+	fO/gql7zXGar9651nLljX2/r3MtNPVU8=
+X-Gm-Gg: AZuq6aKW8a2C7kTHkDSb3nz3bvEHBLItz/l2ABzkVf9C9+SRVjQXplJalTCneuqTw6b
+	7W9VRmoUJZ5SZxIXH4mewh/pE505cRcRMsXpzHBd2kuhSPB8D3M5JYpowSz2YFq4Ee1vNNGCYBS
+	guQFbsbsmIoyqLpfrUMSUHkdxlP7WZF/rAmp9VAvo96MdSrwoOxF+V7+r8/SJm7IfcnKJY0oGR8
+	4mhVW5+iE+xMcWv6y3F1zbFd4QGYWhoIA9MnECGeXVA9EM1NZC5XYCDa3e6EuAoBiWQujOyOWYs
+	PwWeGnv4DAhdBJCm4EBQ5/DJzVc=
+X-Received: by 2002:a17:906:6a13:b0:b87:206a:a23b with SMTP id
+ a640c23a62f3a-b8792f79852mr1477117366b.34.1769022007470; Wed, 21 Jan 2026
+ 11:00:07 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <03ea69f4-f77b-4fe7-9a7c-5c5ca900e4bf@bsbernd.com>
+References: <20260115-exportfs-nfsd-v1-0-8e80160e3c0c@kernel.org>
+ <CAOQ4uxjOJMwv_hRVTn3tJHDLMQHbeaCGsdLupiZYcwm7M2rm3g@mail.gmail.com>
+ <9c99197dde2eafa55a1b55dce2f0d4d02c77340a.camel@kernel.org>
+ <176877859306.16766.15009835437490907207@noble.neil.brown.name>
+ <aW3SAKIr_QsnEE5Q@infradead.org> <176880736225.16766.4203157325432990313@noble.neil.brown.name>
+ <20260119-kanufahren-meerjungfrau-775048806544@brauner> <176885553525.16766.291581709413217562@noble.neil.brown.name>
+ <20260120-entmilitarisieren-wanken-afd04b910897@brauner> <176890211061.16766.16354247063052030403@noble.neil.brown.name>
+ <20260120-hacken-revision-88209121ac2c@brauner> <a35ac736d9ebc6c92a6e7d61aeb5198234102442.camel@kernel.org>
+ <176896790525.16766.11792073987699294594@noble.neil.brown.name> <ccb32c576cc4ebf943d5ec35e3d7ba4ae8892acd.camel@kernel.org>
+In-Reply-To: <ccb32c576cc4ebf943d5ec35e3d7ba4ae8892acd.camel@kernel.org>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Wed, 21 Jan 2026 19:59:56 +0100
+X-Gm-Features: AZwV_Qh050IhjThhArfxNo-53HjJR0uLCcITEQOtntS-75Lw875opD6ONQssxps
+Message-ID: <CAOQ4uxg+dC1o+6V7Nvxf8UW3H=0OvsGjEe76LNY6q8ZcpGDDJw@mail.gmail.com>
+Subject: Re: [PATCH 00/29] fs: require filesystems to explicitly opt-in to
+ nfsd export support
+To: Jeff Layton <jlayton@kernel.org>
+Cc: NeilBrown <neil@brown.name>, Christian Brauner <brauner@kernel.org>, 
+	Christoph Hellwig <hch@infradead.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Chuck Lever <chuck.lever@oracle.com>, Olga Kornievskaia <okorniev@redhat.com>, 
+	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	"Theodore Ts'o" <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>, Jan Kara <jack@suse.com>, 
+	Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>, Yue Hu <zbestahu@gmail.com>, 
+	Jeffle Xu <jefflexu@linux.alibaba.com>, Sandeep Dhavale <dhavale@google.com>, 
+	Hongbo Li <lihongbo22@huawei.com>, Chunhai Guo <guochunhai@vivo.com>, 
+	Carlos Maiolino <cem@kernel.org>, Ilya Dryomov <idryomov@gmail.com>, Alex Markuze <amarkuze@redhat.com>, 
+	Viacheslav Dubeyko <slava@dubeyko.com>, Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>, 
+	Luis de Bethencourt <luisbg@kernel.org>, Salah Triki <salah.triki@gmail.com>, 
+	Phillip Lougher <phillip@squashfs.org.uk>, Steve French <sfrench@samba.org>, 
+	Paulo Alcantara <pc@manguebit.org>, Ronnie Sahlberg <ronniesahlberg@gmail.com>, 
+	Shyam Prasad N <sprasad@microsoft.com>, Bharath SM <bharathsm@microsoft.com>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Mike Marshall <hubcap@omnibond.com>, 
+	Martin Brandenburg <martin@omnibond.com>, Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>, 
+	Joseph Qi <joseph.qi@linux.alibaba.com>, 
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
+	Ryusuke Konishi <konishi.ryusuke@gmail.com>, Trond Myklebust <trondmy@kernel.org>, 
+	Anna Schumaker <anna@kernel.org>, Dave Kleikamp <shaggy@kernel.org>, 
+	David Woodhouse <dwmw2@infradead.org>, Richard Weinberger <richard@nod.at>, Jan Kara <jack@suse.cz>, 
+	Andreas Gruenbacher <agruenba@redhat.com>, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, 
+	Jaegeuk Kim <jaegeuk@kernel.org>, linux-nfs@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-ext4@vger.kernel.org, linux-erofs@lists.ozlabs.org, 
+	linux-xfs@vger.kernel.org, ceph-devel@vger.kernel.org, 
+	linux-btrfs@vger.kernel.org, linux-cifs@vger.kernel.org, 
+	linux-unionfs@vger.kernel.org, devel@lists.orangefs.org, 
+	ocfs2-devel@lists.linux.dev, ntfs3@lists.linux.dev, 
+	linux-nilfs@vger.kernel.org, jfs-discussion@lists.sourceforge.net, 
+	linux-mtd@lists.infradead.org, gfs2@lists.linux.dev, 
+	linux-f2fs-devel@lists.sourceforge.net
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jan 21, 2026 at 07:28:43PM +0100, Bernd Schubert wrote:
-> On 1/21/26 19:16, Horst Birthelmer wrote:
-> > Hi Luis,
-> > 
-> > On Wed, Jan 21, 2026 at 05:56:12PM +0000, Luis Henriques wrote:
-> >> Hi Horst!
-> >>
-> >> On Fri, Jan 09 2026, Horst Birthelmer wrote:
-> >>
-> >>> On Fri, Jan 09, 2026 at 07:12:41PM +0000, Bernd Schubert wrote:
-> >>>> On 1/9/26 19:29, Amir Goldstein wrote:
-> >>>>> On Fri, Jan 9, 2026 at 4:56 PM Bernd Schubert <bschubert@ddn.com> wrote:
-> >>>>>>
-> >>>>>>
-> >>>>>>
-> >>>>>> On 1/9/26 16:37, Miklos Szeredi wrote:
-> >>>>>>> On Fri, 9 Jan 2026 at 16:03, Amir Goldstein <amir73il@gmail.com> wrote:
-> >>>>>>>
-> >>>>>>>> What about FUSE_CREATE? FUSE_TMPFILE?
-> >>>>>>>
-> >>>>>>> FUSE_CREATE could be decomposed to FUSE_MKOBJ_H + FUSE_STATX + FUSE_OPEN.
-> >>>>>>>
-> >>>>>>> FUSE_TMPFILE is special, the create and open needs to be atomic.   So
-> >>>>>>> the best we can do is FUSE_TMPFILE_H + FUSE_STATX.
-> >>>>>>>
-> >>>>>
-> >>>>> I thought that the idea of FUSE_CREATE is that it is atomic_open()
-> >>>>> is it not?
-> >>>>> If we decompose that to FUSE_MKOBJ_H + FUSE_STATX + FUSE_OPEN
-> >>>>> it won't be atomic on the server, would it?
-> >>>>
-> >>>> Horst just posted the libfuse PR for compounds
-> >>>> https://github.com/libfuse/libfuse/pull/1418
-> >>>>
-> >>>> You can make it atomic on the libfuse side with the compound
-> >>>> implementation. I.e. you have the option leave it to libfuse to handle
-> >>>> compound by compound as individual requests, or you handle the compound
-> >>>> yourself as one request.
-> >>>>
-> >>>> I think we need to create an example with self handling of the compound,
-> >>>> even if it is just to ensure that we didn't miss anything in design.
-> >>>
-> >>> I actually do have an example that would be suitable.
-> >>> I could implement the LOOKUP+CREATE as a pseudo atomic operation in passthrough_hp.
-> >>
-> >> So, I've been working on getting an implementation of LOOKUP_HANDLE+STATX.
-> >> And I would like to hear your opinion on a problem I found:
-> >>
-> >> If the kernel is doing a LOOKUP, you'll send the parent directory nodeid
-> >> in the request args.  On the other hand, the nodeid for a STATX will be
-> >> the nodeid will be for the actual inode being statx'ed.
-> >>
-> >> The problem is that when merging both requests into a compound request,
-> >> you don't have the nodeid for the STATX.  I've "fixed" this by passing in
-> >> FUSE_ROOT_ID and hacking user-space to work around it: if the lookup
-> >> succeeds, we have the correct nodeid for the STATX.  That seems to work
-> >> fine for my case, where the server handles the compound request itself.
-> >> But from what I understand libfuse can also handle it as individual
-> >> requests, and in this case the server wouldn't know the right nodeid for
-> >> the STATX.
-> >>
-> >> Obviously, the same problem will need to be solved for other operations
-> >> (for example for FUSE_CREATE where we'll need to do a FUSE_MKOBJ_H +
-> >> FUSE_STATX + FUSE_OPEN).
-> >>
-> >> I guess this can eventually be fixed in libfuse, by updating the nodeid in
-> >> this case.  Another solution is to not allow these sort of operations to
-> >> be handled individually.  But maybe I'm just being dense and there's a
-> >> better solution for this.
-> >>
-> > 
-> > You have come across a problem, that I have come across, too, during my experiments. 
-> > I think that makes it a rather common problem when creating compounds.
-> > 
-> > This can only be solved by convention and it is the reason why I have disabled the default
-> > handling of compounds in libfuse. Bernd actually wanted to do that automatically, but I think
-> > that is too risky for exactly the reason you have found.
-> > 
-> > The fuse server has to decide if it wants to handle the compound as such or as a
-> > bunch of single requests.
-> 
-> Idea was actually to pass compounds to the daemon if it has a compound
-> handler, if not to handle it automatically. Now for open+getattr
-> fuse-server actually not want the additional getattr - cannot be handle
-> automatically. But for lookup+stat and others like this, if fuse server
-> server does not know how to handle the entire compound, libfuse could
-> still do it correctly, i.e. have its own handler for known compounds?
+On Wed, Jan 21, 2026 at 12:56=E2=80=AFPM Jeff Layton <jlayton@kernel.org> w=
+rote:
+>
+...
+> > But if you really really want to set this new flag on almost every
+> > export_operations, can I ask that you please set it on EVERY export
+> > operations, then allow maintainers to remove it as they see fit.
+> > I think that approach would be much easier to review.
+> >
+>
+> We could probably do that, but I think the main ones that excludes it
+> are kernfs, pidfs and nsfs. ovl and fuse also have export ops in
+> certain modes that exclude NFS access, so the flag was left off of
+> those as well.
+>
 
-We could definitely provide a library of compounds that we 'know' in libfuse,
-of course. No argument there.
+For the record, my comments regarding fuse_export_fid_operations
+and ovl_export_fid_operations variants were purely semantic -
+it did not make sense to mark them as _STABLE_HANDLE, but
+it does not matter if you set a flag on those ops, because they do
+not implement ->fh_to_dentry(), on purpose, they are not
+exportfs_can_decode_fh() by design.
 
-The problem Luis had was that he cannot construct the second request in the compound correctly
-since he does not have all the in parameters to write complete request.
-
-BTW, I forgot in my last mail to say that we have another problem, where we need 
-some sort of convention where we will bang our heads sooner or later.
-If the fuse server does not support the given compound it should 
-return EOPNOTSUP in my opinion.
-IIRC this is not implemented correctly so far.
-
-> 
-> > 
-> > At the moment I think it is best to just not use the libfuse single request handling 
-> > of the compound where it is not possible. 
-> > As my passthrough_hp shows, you can handle certain compounds as a compound where you know all the information
-> > (like some lookup, you just did in the fuse server) and leave the 'trivial' ones to the lib.
-> > 
-> > We could actually pass 'one' id in the 'in header' of the compound as some sort of global parent 
-> > but that would be another convention that the fuse server has to know and keep.
-> > 
-> 
-> 
-> Thanks,
-> Bernd
-
-Horst
+Thanks,
+Amir.
