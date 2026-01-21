@@ -1,48 +1,49 @@
 Received: from e2i340.smtp2go.com (e2i340.smtp2go.com [103.2.141.84])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D954A3DA7C3
-	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Jan 2026 20:13:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2859A3D2FF2
+	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Jan 2026 20:13:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.2.141.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769026437; cv=none; b=Ykquv6Tzni6b9Ryf6FZqxTZGUa6HpXn3f28X7LQGYOUNcsBPUG4W22pbyJK4ixR/nn7mt3GNU+qQJg6Sn0uozpqEduPZvxAkDofeiwo160CY4VINFGaIUkMQGU5dCwP0nUiYswy6E4cgPYlUOtckDfa/0lhE+gelHOQd2st2f+k=
+	t=1769026438; cv=none; b=EPid98JQNm/XK0qnZAKeNwy0qifI1YLmPZr1+XSBA8bVvYi56VJBj1trRX10KblpGwAoP9vaUeyKVlP+5iLMtnMQFDSEyG8HyU/+lq8ZXM9o6l2DOmYdAi36wKOueixmfR5OMIwwR9EG+NDWX1S8DVSdZPZlnIG3zFKarqRF5QI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769026437; c=relaxed/simple;
-	bh=2aNkmmpN/maFhoXoFDhcOIJSoaTihCV4ecMI+GcnpNE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=InNaaSiGo3z1+KnT6VtCZSKOEYPIRk26bli9t46khbZt+DFKrtGq9oc4roouAR0Nc0PMRWgrr1yN0c8qzo3U53f57HB9qKBz2MbOWAgPdoxJVFqYJbtRvWzAQmHN6XNQC4zfxeseAbZVS3UExdwDom8Bv3kfU737kKmutdYYbrk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=triplefau.lt; spf=pass smtp.mailfrom=em510616.triplefau.lt; dkim=fail (0-bit key) header.d=smtpservice.net header.i=@smtpservice.net header.b=zIlxUAaJ reason="unknown key version"; dkim=pass (2048-bit key) header.d=triplefau.lt header.i=@triplefau.lt header.b=RviAK33Q; arc=none smtp.client-ip=103.2.141.84
+	s=arc-20240116; t=1769026438; c=relaxed/simple;
+	bh=MI2BmTqtZrNSQrlrrLbu/L5u8kVcj0qImD2nnPGSwwo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=gBFZbKcTJd7Cw3YvNaS/z3QW617oDrcGIAfBJTMQ8Hyf6gzKfPWoEB+fE9n2muCXhwwW8Yr6HNmpVXqs09O7fZ8x9oTohtyXiDmTuU7smDCJykb1gT8my/B5RV6bJ4n3X9bUN9FPX6As/UQa1H0yTAtN3OxzNKcfPwO9AQePEh4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=triplefau.lt; spf=pass smtp.mailfrom=em510616.triplefau.lt; dkim=fail (0-bit key) header.d=smtpservice.net header.i=@smtpservice.net header.b=K1vsSmZj reason="unknown key version"; dkim=pass (2048-bit key) header.d=triplefau.lt header.i=@triplefau.lt header.b=ZoF2WDNT; arc=none smtp.client-ip=103.2.141.84
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=triplefau.lt
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=em510616.triplefau.lt
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="unknown key version" (0-bit key) header.d=smtpservice.net header.i=@smtpservice.net header.b="zIlxUAaJ";
-	dkim=pass (2048-bit key) header.d=triplefau.lt header.i=@triplefau.lt header.b="RviAK33Q"
+	dkim=fail reason="unknown key version" (0-bit key) header.d=smtpservice.net header.i=@smtpservice.net header.b="K1vsSmZj";
+	dkim=pass (2048-bit key) header.d=triplefau.lt header.i=@triplefau.lt header.b="ZoF2WDNT"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=smtpservice.net; s=maxzs0.a1-4.dyn; x=1769027335; h=Feedback-ID:
+	d=smtpservice.net; s=maxzs0.a1-4.dyn; x=1769027336; h=Feedback-ID:
 	X-Smtpcorp-Track:Message-ID:Date:Subject:To:From:Reply-To:Sender:
 	List-Unsubscribe:List-Unsubscribe-Post;
-	bh=DkeWrKH0WcCHByM+aqm+Lo33XrX0YtkSj2vD2jtqy8Y=; b=zIlxUAaJeYgUAB2ty5rXTQmgdR
-	6K4gYQedxmkvyk6vMfre5PHdeSP4JSZt4QgR5yT0XH8IHo21MmtIPYBK2lrsy57JXhl3KjGeNhjZQ
-	9dysy5N21l8Lc92e6vUwILyl2o/6F7Lr3YwaXgDTbdNdgiupUWKRd7GyMY9xWTa1fi52xyUF5FURd
-	Nc6Arq2LuZR9hiNaI7alBDnOMzAfK0sK4+3guQ8bE2ia4FrqRc9s63lUWupnu+47FNJAf/v6ZlO68
-	NLJu4Vky1Hk8c+IS74NH+vBeuBylUp1nI21jpn8ehZY3LsMpbLnNiNoPd2uzsOEHt3W+P67TM0siM
-	nAVTD7GQ==;
+	bh=T3TZwnO8y1oxOvrH2YQS/n2Bl9vhGxNTqyNbInimA3Q=; b=K1vsSmZjfCq7ZQuiCG+7cP9AxD
+	hz8ePPBAFK8c+E3j8hl69X9vSKjOFMP6LEUlrmHf6PVJoowouOGDZ26+cCQyp5l/Z19ruvGvU2IiI
+	6nprUzJmYzHuJczzCekYY+ys+rTMnCnoz6BwXMDzDtTTcCJEcKDz4hiFP1bKI/Qp4r01aKe4FDuc2
+	ji3r07/czo5GWWzlcREnZd0RwCicRVHL9ZLDZtUTUSyXYLXXRuobmi+ZoU3pIopTt396fq0hlBr6l
+	WsvV5KSOlALzU1cmbxibebsJOzUevJ8l9kNp8izpwaGOvSdotXcHAZp2WBwo2Fa1sut+/VVcCrMWV
+	JYHd2u/g==;
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=triplefau.lt;
- i=@triplefau.lt; q=dns/txt; s=s510616; t=1769026435; h=from : subject
+ i=@triplefau.lt; q=dns/txt; s=s510616; t=1769026436; h=from : subject
  : to : message-id : date;
- bh=DkeWrKH0WcCHByM+aqm+Lo33XrX0YtkSj2vD2jtqy8Y=;
- b=RviAK33Q80mhtugcrIgShfP+Fh7WIBYGWvYdJxtyAIt9P1BMVF6BivinHFD8/rkYcO+Dr
- 9aIoU37E8Fy/T4XzQTQ9zDqUYYd40rINOadAqTs10bdlK8AwlxvmXscLTClQyjHr+d7fQZO
- P0Jvxc7o0IhwlXPqw2F1kwcoWM9TRgJJXTxrMC+AI5VdKG3HFHPpZGIccPNLUBW82J1z6oG
- vJY+PPjcMnr+EspLhmrFcPVKnCEM4yg0omw1JvYbyL8ZB5ia4zqF7EK0a7b2AJXqTPnFDFH
- XCZo+jMwb1JOFeo3M0xVLbBSlNjipbSHhaAOjRwnv05SkSRQQm/SUR3zStwg==
-Received: from [10.176.58.103] (helo=SmtpCorp) by smtpcorp.com with esmtpsa
+ bh=T3TZwnO8y1oxOvrH2YQS/n2Bl9vhGxNTqyNbInimA3Q=;
+ b=ZoF2WDNTzSZmstFOHMZNi6959UTtyUo4irLiWVoKTIU+jd+YTyJ0Y2Y/enN7JDKs4k3Lr
+ wYAjXhhsQU9r16GzO1vZn7/SlKWq1LKyXOTELbKBEulocC5MltYRKKDmJhSypuQ96CdP3BS
+ FakJk8KT8tVIFJQkFgtqC4DFmu5+Af/KrcpFIFxy/NsOoOpUq770N3vLPQqbwu9SjEXXoH7
+ NJzPi7C/yWWWOWQthQfP6ceaiROYubwrxOMBPD8+eaxG894PLVArf6QS5RBtHBairnxVNEV
+ RVroHJp3Y2pZ93vj9PDu8pAoUgVAKWI68T1Umv3Uvm7WQEbOuypslmgvLAmw==
+Received: from [10.139.162.187] (helo=SmtpCorp) by smtpcorp.com with esmtpsa
  (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
  (Exim 4.94.2-S2G) (envelope-from <repk@triplefau.lt>)
- id 1vieaJ-TRk25T-Q8; Wed, 21 Jan 2026 20:13:47 +0000
+ id 1vieaL-TRk28y-OL; Wed, 21 Jan 2026 20:13:49 +0000
 Received: from [10.12.239.196] (helo=localhost) by smtpcorp.com with esmtpsa
  (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
  (Exim 4.98.1-S2G) (envelope-from <repk@triplefau.lt>)
- id 1vieaJ-4o5NDgruk4z-qgaY; Wed, 21 Jan 2026 20:13:47 +0000
+ id 1vieaL-4o5NDgrlA5K-l5yO; Wed, 21 Jan 2026 20:13:49 +0000
 From: Remi Pommarel <repk@triplefau.lt>
 To: v9fs@lists.linux.dev
 Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -51,10 +52,13 @@ Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
  Dominique Martinet <asmadeus@codewreck.org>,
  Christian Schoenebeck <linux_oss@crudebyte.com>,
  Remi Pommarel <repk@triplefau.lt>
-Subject: [PATCH v2 0/3] 9p: Performance improvements for build workloads
-Date: Wed, 21 Jan 2026 20:56:07 +0100
-Message-ID: <cover.1769013622.git.repk@triplefau.lt>
+Subject: [PATCH v2 2/3] 9p: Introduce option for negative dentry cache
+ retention time
+Date: Wed, 21 Jan 2026 20:56:09 +0100
+Message-ID: <7e38e7bd31674208ab2b0de909c0744feda2c03f.1769013622.git.repk@triplefau.lt>
 X-Mailer: git-send-email 2.50.1
+In-Reply-To: <cover.1769013622.git.repk@triplefau.lt>
+References: <cover.1769013622.git.repk@triplefau.lt>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -62,85 +66,65 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Smtpcorp-Track: vjBCcuWTrR1H.-uxwllURuJOy.A9IaZwEn6mh
-Feedback-ID: 510616m:510616apGKSTK:510616sVoWefEZkJ
+X-Smtpcorp-Track: SZVTXOyD9Efi.FsrBAOhWS51W.jVDplwpu3b4
+Feedback-ID: 510616m:510616apGKSTK:510616szNUyQSrVu
 X-Report-Abuse: Please forward a copy of this message, including all headers,
  to <abuse-report@smtp2go.com>
 
-This patchset introduces several performance optimizations for the 9p
-filesystem when used with cache=loose option (exclusive or read only
-mounts). These improvements particularly target workloads with frequent
-lookups of non-existent paths and repeated symlink resolutions.
+Add support for a new mount option in v9fs that allows users to specify
+the duration for which negative dentries are retained in the cache. The
+retention time can be set in milliseconds using the ndentrytmo option.
 
-The very state of the art benchmark consisting of cloning a fresh
-hostap repository and building hostapd and wpa_supplicant for hwsim
-tests (cd tests/hwsim; time ./build.sh) in a VM running on a 9pfs rootfs
-(with trans=virtio,cache=loose options) has been used to test those
-optimizations impact.
+For the same consistency reasons, this option should only be used in
+exclusive or read-only mount scenarios, aligning with the cache=loose
+usage.
 
-For reference, the build takes 0m56.492s on my laptop natively while it
-completes in 2m18.702sec on the VM. This represents a significant
-performance penalty considering running the same build on a VM using a
-virtiofs rootfs (with "--cache always" virtiofsd option) takes around
-1m32.141s. This patchset aims to bring the 9pfs build time close to
-that of virtiofs, rather than the native host time, as a realistic
-expectation.
+Signed-off-by: Remi Pommarel <repk@triplefau.lt>
+---
+ fs/9p/v9fs.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-This first two patches in this series focus on keeping negative dentries
-in the cache, ensuring that subsequent lookups for paths known to not
-exist do not require redundant 9P RPC calls. This optimization reduces
-the time needed for the compiler to search for header files across known
-locations. These two patches introduce a new mount option, ndentrytmo,
-which specifies the number of ms to keep the dentry in the cache. Using
-ndentrytmo=-1 (keeping the negative dentry indifinetly) shrunk build
-time to 1m46.198s.
-
-The third patch extends page cache usage to symlinks by allowing
-p9_client_readlink() results to be cached. Resolving symlink is
-apparently something done quite frequently during the build process and
-avoiding the cost of a 9P RPC call round trip for already known symlinks
-helps reduce the build time to 1m26.602s, outperforming the virtiofs
-setup.
-
-Here is summary of the different hostapd/wpa_supplicant build times:
-
-  - Baseline (no patch): 2m18.702s
-  - negative dentry caching (patches 1-2): 1m46.198s (23% improvement)
-  - Above + symlink caching (patches 1-3): 1m26.302s (an additional 18%
-    improvement, 37% in total)
-
-With this ~37% performance gain, 9pfs with cache=loose can compete with
-virtiofs for (at least) this specific scenario. Although this benchmark
-is not the most typical, I do think that these caching optimizations
-could benefit a wide range of other workflows as well.
-
-Changes since v2:
-  - Rebase on 9p-next (with new mount API conversion)
-  - Integrated symlink caching with the network filesystem helper
-    library for robustness (a lot of code expects a valid netfs context)
-  - Instantiate symlink dentry at creation to avoid keeping a negative
-    dentry in cache
-  - Moved IO waiting time accounting to a separate patch series
-
-Thanks.
-
-Remi Pommarel (3):
-  9p: Cache negative dentries for lookup performance
-  9p: Introduce option for negative dentry cache retention time
-  9p: Enable symlink caching in page cache
-
- fs/9p/fid.c             |  11 +++--
- fs/9p/v9fs.c            |  10 +++-
- fs/9p/v9fs.h            |   2 +
- fs/9p/v9fs_vfs.h        |  15 ++++++
- fs/9p/vfs_addr.c        |  24 +++++++--
- fs/9p/vfs_dentry.c      | 105 ++++++++++++++++++++++++++++++++++------
- fs/9p/vfs_inode.c       |  13 +++--
- fs/9p/vfs_inode_dotl.c  |  73 +++++++++++++++++++++++++---
- fs/9p/vfs_super.c       |   1 +
- include/net/9p/client.h |   2 +
- 10 files changed, 220 insertions(+), 36 deletions(-)
-
+diff --git a/fs/9p/v9fs.c b/fs/9p/v9fs.c
+index 1da7ab186478..f58a2718e412 100644
+--- a/fs/9p/v9fs.c
++++ b/fs/9p/v9fs.c
+@@ -39,7 +39,7 @@ enum {
+ 	 * source if we rejected it as EINVAL */
+ 	Opt_source,
+ 	/* Options that take integer arguments */
+-	Opt_debug, Opt_dfltuid, Opt_dfltgid, Opt_afid,
++	Opt_debug, Opt_dfltuid, Opt_dfltgid, Opt_afid, Opt_ndentrytmo,
+ 	/* String options */
+ 	Opt_uname, Opt_remotename, Opt_cache, Opt_cachetag,
+ 	/* Options that take no arguments */
+@@ -93,6 +93,7 @@ const struct fs_parameter_spec v9fs_param_spec[] = {
+ 	fsparam_string	("access",	Opt_access),
+ 	fsparam_flag	("posixacl",	Opt_posixacl),
+ 	fsparam_u32	("locktimeout",	Opt_locktimeout),
++	fsparam_s32	("ndentrytmo",	Opt_ndentrytmo),
+ 
+ 	/* client options */
+ 	fsparam_u32	("msize",	Opt_msize),
+@@ -159,6 +160,8 @@ int v9fs_show_options(struct seq_file *m, struct dentry *root)
+ 			   from_kgid_munged(&init_user_ns, v9ses->dfltgid));
+ 	if (v9ses->afid != ~0)
+ 		seq_printf(m, ",afid=%u", v9ses->afid);
++	if (v9ses->ndentry_timeout != 0)
++		seq_printf(m, ",ndentrytmo=%d", v9ses->ndentry_timeout);
+ 	if (strcmp(v9ses->uname, V9FS_DEFUSER) != 0)
+ 		seq_printf(m, ",uname=%s", v9ses->uname);
+ 	if (strcmp(v9ses->aname, V9FS_DEFANAME) != 0)
+@@ -337,6 +340,10 @@ int v9fs_parse_param(struct fs_context *fc, struct fs_parameter *param)
+ 		session_opts->session_lock_timeout = (long)result.uint_32 * HZ;
+ 		break;
+ 
++	case Opt_ndentrytmo:
++		session_opts->ndentry_timeout = result.int_32;
++		break;
++
+ 	/* Options for client */
+ 	case Opt_msize:
+ 		if (result.uint_32 < 4096) {
 -- 
 2.50.1
 
