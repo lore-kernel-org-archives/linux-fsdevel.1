@@ -1,160 +1,121 @@
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17D083B8BCE
-	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Jan 2026 12:51:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B94044D03E
+	for <linux-fsdevel@vger.kernel.org>; Wed, 21 Jan 2026 13:07:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768999916; cv=none; b=BLCo0QpgwuP0oy8iF8QVdeeM5/UQffsX0zX51JiFdF2YhwVk+0O2NyfM4HufRcXQjXwEVdfJ/FAH+8l8YV6JKiYcZryCO0+x/Rn7Kfv1MAXTdaMq1yH4keeZu9dNubdDkGetJ+VUHSNsJ4mReZbQSIdBognhNj9LzgDqXJHyViM=
+	t=1769000859; cv=none; b=gPa/7lEWbzwGYIcZewO14jaC6n1vusvEJKSXjhnyKA+9AGxDZF6OpIK6RTVwyOqQnDZPmAk3aLnwwnoC0AZEibmGGiCO2jn8AMv1YD9m2DAKfYAINFUZ1zmhuSPlFDrjpL/DMMnL6hUTy7noU6kyvM7SWLtlAy/CC0JicTfOwEw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768999916; c=relaxed/simple;
-	bh=rCJVN3mlY/He+ltCptalObxFFliAQg62cnToC5h9nm4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YR6VFNizdPc4GdFgkCkiU75gAfWMoBJ2qE8ihozHcAy8fi3mPduV8USTbI/tG31BZVmoDJxA7737M9Cm9bP9pRTb4ylJlrXb1o/Moz8zIMzETN8joyf/dFPe/6c4yBA5iarmWwLHQF+15blsFYhYzqz2uDl9KK3EoAKy6qLdHZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dzohWtPN; arc=none smtp.client-ip=209.85.222.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1769000859; c=relaxed/simple;
+	bh=S14KYUopdXTDgC4Cu7mWpisYmEYWvH2eisKCBbQPYjg=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=Ak47xCqYI9zX/nYdN/neKzi3gMtaHInMBLpnJBGytNRf4PyuC5nzyk0wBaCpPPjIOm9pS1FTC3jxd7sL0+fac7U5hcjMY0LsSiv68fDjZai0aRhla118SC9BzhSuNj+duvrK03hNnAYCFq755lNqZDU23T4y1G8gFVq+E1Ma/qA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=MON6q3Ja; arc=none smtp.client-ip=209.85.128.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dzohWtPN"
-Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-8c655e0ee70so689120985a.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 21 Jan 2026 04:51:54 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MON6q3Ja"
+Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-47d3c9b8c56so76144315e9.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 21 Jan 2026 05:07:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768999914; x=1769604714; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:feedback-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ff1eounqvwFWz5fvkxu9F0ExQjANboKm57xpRsw3Ti0=;
-        b=dzohWtPNJPGs5Ql2vW5x94bHwtVSlSweONpyQYd3FJ7/4fe0I35ixpp865jqSEyifK
-         SzNQvpR6XUcub7W2cUZeeqyCyjh0QUJfpymMlJesOLSYsfZQIEjm9GcMTIIrBXhwWz33
-         zYIzLpFmk9Pumk99ALC4//Z1oYQVhs5QyzcmAl0oUXA+j3dgH8tTy9HFk3pAjaaYMqqz
-         L7JIJucXuZVvwBYpGON3wxHF/zB3qbO//MUxwqyRhJY23cLe9G8GggiH2elqiTnL7VPd
-         noAhyTtaQ6OietXTdS4kiY2sEI07zbZpMCGg388BnkJIXnf3K29m7B+7RVd5RuJXlDdy
-         O8eQ==
+        d=google.com; s=20230601; t=1769000856; x=1769605656; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=iQtXgItu1Zy/WBkyH0gCN+HFn5zyM6SkcEvV7kJAMKk=;
+        b=MON6q3JacbbvMaxHiLYYufLn9CIOzdNHOUj1NcphbLFh3JcxSVah3QooDTbXX4YedN
+         WSdNrlSftfuUsKPzvuZGhI+ib+oVdHNdla27NB++pe6gVpFmfO+C4/tFJCrW+gPuCTHx
+         JWlnvuAa2BdE3ORxClN2hSGpGlB5FFMOWp28Ap4VIFwn9S+Ha0Xg2um3yx9OxW4MF0ML
+         XglTrG6ZgU/0hWw+Ormf+3S7qggY2ZY45BB7j6m8VpWVPuEfh2C1v4MbeyOwl/NFeg9G
+         ThPAHbuiYwSxEHaZNAW7FvZTgzc9TCC0+79X/hq/aQyy6EY6DKcEOer2O9gUyvCYtFV/
+         WGrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768999914; x=1769604714;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:feedback-id:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Ff1eounqvwFWz5fvkxu9F0ExQjANboKm57xpRsw3Ti0=;
-        b=PzNg9OQxBLGwUHjTVKVvvpsjNXTAaouAfaEujiCAoYodVz8O6hBsBfm2rQCpz+okUr
-         IfumTUXcR04zL+f91yF20K7lUpyUCz1xB0oB6D+hlYurkDaO2PjJVJAxXSciE8lTi6us
-         i98vWb30L1DwdCCZ6+vRaHYFTx9hXS/2QvS7TyAU698KuAxpASYitxJEMoYA0QcV/qkO
-         ctS6WVdxZC2j+xiN+oBmJHcqYorp+9heOHRjzNCJRpAUZpart/eNwNubXy7FIZK+2YHP
-         O0RCJax3TVapB+ifRMlW6/Cewtmxm+t51aP/nF1SyRBx3CPcoFVtij05b2rvqCvShq4S
-         RcvA==
-X-Forwarded-Encrypted: i=1; AJvYcCWWMoJmfLDEGhK6Btp3Edz/07QerHmEdvJ1NeEu9c6ETK1JlQNHrtylYduJw1eRVWlb+cFyNtZRvuKgd2Ux@vger.kernel.org
-X-Gm-Message-State: AOJu0YwziggGXwPimA4VF48QNfc58SvypPIJ3LR7I41CVjDrncQ2Ep16
-	P3agJs4TXftL24/oFzp5L+ABS1TKABkEvrvK8HkodF5hBKmo1+R/9O6H
-X-Gm-Gg: AZuq6aKk6HablAFWdbf6c3wI3PxFtL5utDEIywZdiq6nnfMrPkp+cRg4DhcAyFGt1XM
-	gk1/weNZlW+x+dejAaNWdPsR1nBP+Esh5IBuTyHJBtm+LPJ0Lq7ptxFJyw3JKJ5qvFsJGgq/pit
-	EIM6jvSGPTDt34yaDMCddKWkoEpwSs0sEB8zrjnkbr3hFVL7JbO/RlXxpYhKAx3fkZImfC8Dc3W
-	0/CYvjlndMu0KZ7P4UUwv5B9stM8eYS4lor2CA9F9fZZSe81xKSPsdndx+67VHkijdyGA4sJRO6
-	3mAov529yIyFE5DsqGE/SQiX8UfohQvQ8vHqj4y8OArDC4ftV9fvGOX5jISDhsEYcv/nFo2Fwbs
-	CGaVbnrR6UPvQOOCVZWpaRQl9mamIfhu/w5Q9IOJq8FEvZnSplXvEhi8+xuqiuFrkKZ+NRnt1dE
-	k6OxSjTzzkfD0t60nZhCr42C9yMkhEXnPUSQfQqT4PHE+wgCj2kFXbTTxhVI3Ac2CchA194ZFFI
-	GiUOHBAmk3XHiE=
-X-Received: by 2002:a05:620a:4720:b0:8c5:310d:3b2a with SMTP id af79cd13be357-8c6ccdbeeb5mr646477385a.19.1768999913732;
-        Wed, 21 Jan 2026 04:51:53 -0800 (PST)
-Received: from fauth-a2-smtp.messagingengine.com (fauth-a2-smtp.messagingengine.com. [103.168.172.201])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8942e6c9b83sm124581826d6.46.2026.01.21.04.51.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Jan 2026 04:51:53 -0800 (PST)
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfauth.phl.internal (Postfix) with ESMTP id E712CF4006A;
-	Wed, 21 Jan 2026 07:51:51 -0500 (EST)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Wed, 21 Jan 2026 07:51:51 -0500
-X-ME-Sender: <xms:58twaUGSkaSpbx7JXEZcxEnx57vxUAoduMTdegZwu8a5u5M9Mg5GDQ>
-    <xme:58twaSODH4rN0LeVuGC31txCvV3AQMyf8ig2IJvk2hLk-vjtj30YHp05UAGQa1dQS
-    OkaXFlxYQ8baIGqrvq8taVpGT6EHGEFNrqf1a-WVwRcwP_f0pryVQ>
-X-ME-Received: <xmr:58twaWuQzJC_XwZiqktfROP6_V5V9E36i7JgsETfbmSkp98jrJIAlfDR>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddugeeffedvucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepuehoqhhunhcu
-    hfgvnhhguceosghoqhhunhdrfhgvnhhgsehgmhgrihhlrdgtohhmqeenucggtffrrghtth
-    gvrhhnpeehudfgudffffetuedtvdehueevledvhfelleeivedtgeeuhfegueevieduffei
-    vdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegsoh
-    hquhhnodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdeiledvgeehtdeigedq
-    udejjeekheehhedvqdgsohhquhhnrdhfvghngheppehgmhgrihhlrdgtohhmsehfihigmh
-    gvrdhnrghmvgdpnhgspghrtghpthhtohepvddtpdhmohguvgepshhmthhpohhuthdprhgt
-    phhtthhopegvlhhvvghrsehgohhoghhlvgdrtghomhdprhgtphhtthhopegrlhhitggvrh
-    ihhhhlsehgohhoghhlvgdrtghomhdprhgtphhtthhopehgrghrhiesghgrrhihghhuohdr
-    nhgvthdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlh
-    drohhrghdprhgtphhtthhopehruhhsthdqfhhorhdqlhhinhhugiesvhhgvghrrdhkvghr
-    nhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhfshguvghvvghlsehvghgvrhdrkh
-    gvrhhnvghlrdhorhhgpdhrtghpthhtohepkhgrshgrnhdquggvvhesghhoohhglhgvghhr
-    ohhuphhsrdgtohhmpdhrtghpthhtohepfihilhhlsehkvghrnhgvlhdrohhrghdprhgtph
-    htthhopehpvghtvghriiesihhnfhhrrgguvggrugdrohhrgh
-X-ME-Proxy: <xmx:58twaXXugDnVSIzPc3Z6tmRgJ0gzc-8kpLQlF6EU4_1T359kNr0AvQ>
-    <xmx:58twadSMEqXBgc6u8BpISVpCgFbZnNBK-m9n-slSUZr_BmMMRXyQQQ>
-    <xmx:58twaVJYT_K8atwdL48TaGRLXMspI_cX4L6NB3oMz9TS27ghfquNNg>
-    <xmx:58twae3_JXhGRQsrMvzx9L3rTqWlzKH6-fDOyUi1yXzfXsRfn6I7KQ>
-    <xmx:58twaYJ89IAFyCeo86kIWY9aLZFkQt1cwWFbCBN6iPl_iRTb-RzRxx1k>
-Feedback-ID: iad51458e:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 21 Jan 2026 07:51:51 -0500 (EST)
-Date: Wed, 21 Jan 2026 20:51:48 +0800
-From: Boqun Feng <boqun.feng@gmail.com>
-To: Marco Elver <elver@google.com>
-Cc: Alice Ryhl <aliceryhl@google.com>, Gary Guo <gary@garyguo.net>,
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, kasan-dev@googlegroups.com,
-	Will Deacon <will@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Elle Rhumsaa <elle@weathered-steel.dev>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	FUJITA Tomonori <fujita.tomonori@gmail.com>
-Subject: Re: [PATCH 2/2] rust: sync: atomic: Add atomic operation helpers
- over raw pointers
-Message-ID: <aXDL5NUOH_qr390Q@tardis-2.local>
-References: <20260120115207.55318-1-boqun.feng@gmail.com>
- <20260120115207.55318-3-boqun.feng@gmail.com>
- <aW-sGiEQg1mP6hHF@elver.google.com>
- <DFTKIA3DYRAV.18HDP8UCNC8NM@garyguo.net>
- <aXDEOeqGkDNc-rlT@google.com>
- <CANpmjNMq_oqvOmO9F2f-v3FTr6p0EwENo70ppvKLXDjgPbR22g@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1769000856; x=1769605656;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=iQtXgItu1Zy/WBkyH0gCN+HFn5zyM6SkcEvV7kJAMKk=;
+        b=rG/nPBY4MCW2/brFUgWf6cAtjfrYUgjsUjoYO7RpONA7+ieL0VXfUGhFVOQ4T35hT6
+         U6XE3tDYTF2rpM/R3stP+XLu4xMB/KsVygauuVqV/GpdlVXOj02ZGijd5zirgwg2LXBM
+         HEJyAIYQsvg1EO3Zx4xvMq5WA0+mNDyn4+ls7jK4VCVkMFfj8GpOUM2QfhBFh4KUMr/d
+         gufT2NIDmagMR5ytl4BzpSZUX9gJcevvsqFnpajcTKYIOGcvIb793Iszja+wLbHQ03Q9
+         ESZUpFUaAVulSrkHi5Kux9jDSPM5nb6r7XHS/myTkbYsMJ0Wgk0jRZD+HSysVaXo3ubk
+         RMnQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXXJZnMttMdBRBBHI+ddZhRDjBT8L6wWvJBCEWGgs1Uu+OrXGUXQgDXASDsEIHWWT9CF8zl/rwXZoORfl7+@vger.kernel.org
+X-Gm-Message-State: AOJu0YwsC1UY2H+nsZGn16nVtC/RYU+uP+705xhZQrDPJilOFMf/bEw7
+	bm4AjN9O8tSTLE9CeKLiu+BYemx3QsTDNph5m40LDWX9rtZN/7VUS+sUnAqxafp/lApNwgobhAW
+	mUj1PmS3soxUSveNe9g==
+X-Received: from wmbd16.prod.google.com ([2002:a05:600c:58d0:b0:477:54e1:e29e])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:8b82:b0:480:1b65:b744 with SMTP id 5b1f17b1804b1-4801eb0e10emr234136695e9.28.1769000855966;
+ Wed, 21 Jan 2026 05:07:35 -0800 (PST)
+Date: Wed, 21 Jan 2026 13:07:34 +0000
+In-Reply-To: <aXDL5NUOH_qr390Q@tardis-2.local>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANpmjNMq_oqvOmO9F2f-v3FTr6p0EwENo70ppvKLXDjgPbR22g@mail.gmail.com>
+Mime-Version: 1.0
+References: <20260120115207.55318-1-boqun.feng@gmail.com> <20260120115207.55318-3-boqun.feng@gmail.com>
+ <aW-sGiEQg1mP6hHF@elver.google.com> <DFTKIA3DYRAV.18HDP8UCNC8NM@garyguo.net>
+ <aXDEOeqGkDNc-rlT@google.com> <CANpmjNMq_oqvOmO9F2f-v3FTr6p0EwENo70ppvKLXDjgPbR22g@mail.gmail.com>
+ <aXDL5NUOH_qr390Q@tardis-2.local>
+Message-ID: <aXDPliPQs8jU_wfz@google.com>
+Subject: Re: [PATCH 2/2] rust: sync: atomic: Add atomic operation helpers over
+ raw pointers
+From: Alice Ryhl <aliceryhl@google.com>
+To: Boqun Feng <boqun.feng@gmail.com>
+Cc: Marco Elver <elver@google.com>, Gary Guo <gary@garyguo.net>, linux-kernel@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	kasan-dev@googlegroups.com, Will Deacon <will@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, 
+	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Elle Rhumsaa <elle@weathered-steel.dev>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, FUJITA Tomonori <fujita.tomonori@gmail.com>
+Content-Type: text/plain; charset="utf-8"
 
-On Wed, Jan 21, 2026 at 01:36:04PM +0100, Marco Elver wrote:
-[..]
-> >
-> > > However this will mean that Rust code will have one more ordering than the C
-> > > API, so I am keen on knowing how Boqun, Paul, Peter and others think about this.
-> >
-> > On that point, my suggestion would be to use the standard LKMM naming
-> > such as rcu_dereference() or READ_ONCE().
-
-I don't think we should confuse Rust users that `READ_ONCE()` has
-dependency orderings but `atomc_load()` doesn't. They are the same on
-the aspect. One of the reasons that I don't want to introduce
-rcu_dereference() and READ_ONCE() on Rust side is exactly this, they are
-the same at LKMM level, so should not be treated differently.
-
-> >
-> > I'm told that READ_ONCE() apparently has stronger guarantees than an
-> > atomic consume load, but I'm not clear on what they are.
+On Wed, Jan 21, 2026 at 08:51:48PM +0800, Boqun Feng wrote:
+> On Wed, Jan 21, 2026 at 01:36:04PM +0100, Marco Elver wrote:
+> [..]
+> > >
+> > > > However this will mean that Rust code will have one more ordering than the C
+> > > > API, so I am keen on knowing how Boqun, Paul, Peter and others think about this.
+> > >
+> > > On that point, my suggestion would be to use the standard LKMM naming
+> > > such as rcu_dereference() or READ_ONCE().
 > 
-> It's also meant to enforce ordering through control-dependencies, such as:
+> I don't think we should confuse Rust users that `READ_ONCE()` has
+> dependency orderings but `atomc_load()` doesn't. They are the same on
+> the aspect. One of the reasons that I don't want to introduce
+> rcu_dereference() and READ_ONCE() on Rust side is exactly this, they are
+> the same at LKMM level, so should not be treated differently.
+
+That's okay with me - I just don't think "relaxed" is a good name for
+atomic_load() if that's the case.
+
+> > > I'm told that READ_ONCE() apparently has stronger guarantees than an
+> > > atomic consume load, but I'm not clear on what they are.
+> > 
+> > It's also meant to enforce ordering through control-dependencies, such as:
+> > 
+> >    if (READ_ONCE(x)) WRITE_ONCE(y, 1);
 > 
->    if (READ_ONCE(x)) WRITE_ONCE(y, 1);
+> Note that it also applies to atomic_read() and atomic_set() as well.
 
-Note that it also applies to atomic_read() and atomic_set() as well.
+Just to be completely clear ... am I to understand this that READ_ONCE()
+and the LKMM's atomic_load() *are* the exact same thing? Because if so,
+then this was really confusing:
 
-Regards,
-Boqun
+> my argument was not about naming, it's
+> about READ_ONCE() being more powerful than atomic load (no, not because
+> of address dependency, they are the same on that, it's because of the
+> behaviors of them regarding a current access on the same memory
+> location)
+> https://lore.kernel.org/all/aWuV858wU3MeYeaX@tardis-2.local/
+
+Are they the *exact* same thing or not? Do you mean that they are the
+same under LKMM, but different under some other context?
+
+Alice
