@@ -1,90 +1,84 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D1C53624DB
-	for <linux-fsdevel@vger.kernel.org>; Thu, 22 Jan 2026 09:23:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5D6738E111
+	for <linux-fsdevel@vger.kernel.org>; Thu, 22 Jan 2026 09:48:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769073795; cv=none; b=DjWD7KjJXpzQJlTXbiO+BvG0eZRFz9dh7QbGi9Jcu87WGOKe6xxFirMlnZk3hVx5ZizzC3AYk0ZmvjcBbRp9SgefGeGvwPCjvMnS20wPPKoJBgVGLmp8zeAlLiKiJYJ489fWO7xA3gjrkEs2nWpwGBTYleMIg5E/URu6oy3f/ZE=
+	t=1769075293; cv=none; b=F7hTyHpk2oiwGqZbpmesqHtBYQ4XXQWKOJ10y1xM6e1UtzO/+Sb3NRQtXbAJuC+9gA/AhTQyHpDAS9fZznepeZwvch4mkkAd+jP35bt+O4/YI19D1aD5i9UTFTH7dbHDsRn7KHzsLxt/Kvm0jBgUHUbp9fJjRax2WKUS44ZsK4E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769073795; c=relaxed/simple;
-	bh=7ElgnauMWjCC1ACsvCYYc3v8oa61s035AcGSVaJmKhg=;
+	s=arc-20240116; t=1769075293; c=relaxed/simple;
+	bh=twqDE2V0409H7nIc+95Kzzfc0KkM3td1nA7+U/3MFAM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qiwqv2wFmK7dYoWOq2c4ajTl0FFQgn/8c/1Ed6Jq4/S6kc4oSjvWOe3IzW69SVCp2T494CipC9ldTDBt9Z1yOggXE8jBfPgSBwKjtmRH2bWwolvGfKoPXev/g+Gdt7zH2OnR57QfvoWsHkbUmY9Rpdq6Pw3YnVUiog3b0UKzw6E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=xCFSu/Zp; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=uAi3BOKd; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=xCFSu/Zp; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=uAi3BOKd; arc=none smtp.client-ip=195.135.223.131
+	 Content-Type:Content-Disposition:In-Reply-To; b=kPcYFpmiP+pmOz9pBMwY3s7vSWlmtMMUorQZIxbvcdWCccfSdknL8X+f32BDU5iPQ60RcI3geRnMhVEtZxHKuCmmkJBSs0xZwHT3P3FzUW+WNFvOLru8qexW955i5d0EOEKQoz9FbYnL3Yth7Yhoj2bIWWW3jjCshT1F6Q4ZjPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=f4DgHewK; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=efzkAzMk; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=BEH+CXeC; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=OGVGYSOw; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="xCFSu/Zp";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="uAi3BOKd";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="xCFSu/Zp";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="uAi3BOKd"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="f4DgHewK";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="efzkAzMk";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="BEH+CXeC";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="OGVGYSOw"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 2788E5BD13;
-	Thu, 22 Jan 2026 09:23:05 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 1635833709;
+	Thu, 22 Jan 2026 09:48:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1769073785; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1769075290; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=mU2Ks98F5J+AbPp8AUVSHb8mtwCciz++x0FIFFNKyxI=;
-	b=xCFSu/Zpyn+/2VG1Gp9/FliKrefPraGT574m11SLEJCk2gTW92CCpasEPDaGdxCE6eUKD2
-	gWz94q7otNJHJ9lfk7lgxrUWZiyQOB521V47RJYpOaB3t0BK1qVLOsdNj1Oda81HiRhrFs
-	QoX8L+Nx65Fwj9PqeF9tvwAM8YpO/Cs=
+	bh=C+vwBIZDGrvfvhlYosQV+F/JmbSCHcbajYdN3+3PSEA=;
+	b=f4DgHewKdvRZ6/iVyc1EYwIQFnpVCxFSSO+cJS9IuqJwjCW2Wc8l4AHrLCJadANHlawqx+
+	kF9KnFriceEv0H1G3gD5f76vzNSV6Mxj1RumrdSmpGZR1W/13cV4dZ37caA0ANCRmvrZmD
+	7VT1PpTLR1lxG4P8XOReB+tZ+aqS0TE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1769073785;
+	s=susede2_ed25519; t=1769075290;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=mU2Ks98F5J+AbPp8AUVSHb8mtwCciz++x0FIFFNKyxI=;
-	b=uAi3BOKd2uuFDcGW4kLYdDgozzz8l0JN8Hj8gGcCTdq5Pln5nu0eiERtI16C33dFYiFhe0
-	zJZQKSTMfH8UuzCg==
-Authentication-Results: smtp-out2.suse.de;
+	bh=C+vwBIZDGrvfvhlYosQV+F/JmbSCHcbajYdN3+3PSEA=;
+	b=efzkAzMkUybZk9QrEEKAylB6wCJmTWaFCcvkD6Lr4ZgXGCKHnG/Nh77RGkAjDMd2lBqI8s
+	2uc+l99Rlu0pmFDg==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1769073785; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1769075289; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=mU2Ks98F5J+AbPp8AUVSHb8mtwCciz++x0FIFFNKyxI=;
-	b=xCFSu/Zpyn+/2VG1Gp9/FliKrefPraGT574m11SLEJCk2gTW92CCpasEPDaGdxCE6eUKD2
-	gWz94q7otNJHJ9lfk7lgxrUWZiyQOB521V47RJYpOaB3t0BK1qVLOsdNj1Oda81HiRhrFs
-	QoX8L+Nx65Fwj9PqeF9tvwAM8YpO/Cs=
+	bh=C+vwBIZDGrvfvhlYosQV+F/JmbSCHcbajYdN3+3PSEA=;
+	b=BEH+CXeCnokWamQOHDtp6QX6DOKOAomO2tKbiAZskfc7upAoaOm14a7QIdNCb5kmBUHrAi
+	PecPcBesGghUxuZu1u/ul+1tL92DZmrqvztGtxL2Q6LdLCbAEqQxVDf/O1V6xdo0l5eu/Q
+	qVatxQH2akL46q5g6Wo6Xoh0fVaUZBE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1769073785;
+	s=susede2_ed25519; t=1769075289;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=mU2Ks98F5J+AbPp8AUVSHb8mtwCciz++x0FIFFNKyxI=;
-	b=uAi3BOKd2uuFDcGW4kLYdDgozzz8l0JN8Hj8gGcCTdq5Pln5nu0eiERtI16C33dFYiFhe0
-	zJZQKSTMfH8UuzCg==
+	bh=C+vwBIZDGrvfvhlYosQV+F/JmbSCHcbajYdN3+3PSEA=;
+	b=OGVGYSOw/kxk3r+bIvOwlybab5Gc42dwS0XsDEiCtmG8FdGm/WWWGN+7LrKu/UkzpXf0tF
+	6XYaa9wBI2mZGiBA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8C4BF13930;
-	Thu, 22 Jan 2026 09:23:04 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AE80313978;
+	Thu, 22 Jan 2026 09:48:08 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id DoA7InjscWnkEAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 22 Jan 2026 09:23:04 +0000
+	id bYaSKljycWk7DwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 22 Jan 2026 09:48:08 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id AA13CA082E; Thu, 22 Jan 2026 10:15:12 +0100 (CET)
-Date: Thu, 22 Jan 2026 10:15:12 +0100
+	id 49529A0C12; Thu, 22 Jan 2026 10:40:35 +0100 (CET)
+Date: Thu, 22 Jan 2026 10:40:35 +0100
 From: Jan Kara <jack@suse.cz>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Eric Biggers <ebiggers@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, David Sterba <dsterba@suse.com>, 
-	Theodore Ts'o <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>, 
-	Andrey Albershteyn <aalbersh@redhat.com>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
-	linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org, linux-ext4@vger.kernel.org, 
-	linux-f2fs-devel@lists.sourceforge.net, fsverity@lists.linux.dev
-Subject: Re: [PATCH 02/11] fs,fsverity: clear out fsverity_info from common
- code
-Message-ID: <izxwgrpegtwftqsuhv5pdodwttqsdyvzvfom3fj75msdxhjdul@yl7z3inr6fvr>
-References: <20260122082214.452153-1-hch@lst.de>
- <20260122082214.452153-3-hch@lst.de>
+To: Andrey Albershteyn <aalbersh@kernel.org>
+Cc: brauner@kernel.org, jack@suse.cz, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Eric Biggers <ebiggers@kernel.org>
+Subject: Re: [PATCH] fs: reset read-only fsflags together with xflags
+Message-ID: <xg3perwgtxrm37begxk6fll5zt43p6zuebvsfyj3hqjhozlokt@5xjc7thn7eaq>
+References: <20260121193645.3611716-1-aalbersh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -93,209 +87,87 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260122082214.452153-3-hch@lst.de>
+In-Reply-To: <20260121193645.3611716-1-aalbersh@kernel.org>
+X-Spam-Score: -3.80
 X-Spamd-Result: default: False [-3.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MISSING_XM_UA(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
+	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RCVD_COUNT_THREE(0.00)[3];
-	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
 	FROM_EQ_ENVFROM(0.00)[];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,imap1.dmz-prg2.suse.org:helo,lst.de:email,suse.com:email]
-X-Spam-Flag: NO
-X-Spam-Score: -3.80
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:email]
 X-Spam-Level: 
+X-Spam-Flag: NO
 
-On Thu 22-01-26 09:21:58, Christoph Hellwig wrote:
-> Directly remove the fsverity_info from the hash and free it from
-> clear_inode instead of requiring file systems to handle it.
+On Wed 21-01-26 20:36:43, Andrey Albershteyn wrote:
+> While setting file attributes, the read-only flags are reset
+> for ->xflags, but not for ->flags if flag is shared between both. This
+> is fine for now as all read-only xflags don't overlap with flags.
+> However, for any read-only shared flag this will create inconsistency
+> between xflags and flags. The non-shared flag will be reset in
+> vfs_fileattr_set() to the current value, but shared one is past further
+							     ^^ passed
+> to ->fileattr_set.
 > 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> Reported-by: Eric Biggers <ebiggers@kernel.org>
+> Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
 
-Looks good to me. Feel free to add:
+Looks good. Feel free to add:
 
 Reviewed-by: Jan Kara <jack@suse.cz>
 
 								Honza
 
 > ---
->  fs/btrfs/inode.c         | 10 +++-------
->  fs/ext4/super.c          |  1 -
->  fs/f2fs/inode.c          |  1 -
->  fs/inode.c               |  9 +++++++++
->  fs/verity/open.c         |  3 +--
->  include/linux/fsverity.h | 26 ++------------------------
->  6 files changed, 15 insertions(+), 35 deletions(-)
 > 
-> diff --git a/fs/btrfs/inode.c b/fs/btrfs/inode.c
-> index a2b5b440637e..67c64efc5099 100644
-> --- a/fs/btrfs/inode.c
-> +++ b/fs/btrfs/inode.c
-> @@ -34,7 +34,6 @@
->  #include <linux/sched/mm.h>
->  #include <linux/iomap.h>
->  #include <linux/unaligned.h>
-> -#include <linux/fsverity.h>
->  #include "misc.h"
->  #include "ctree.h"
->  #include "disk-io.h"
-> @@ -5571,11 +5570,8 @@ void btrfs_evict_inode(struct inode *inode)
+> The shared read-only flag is going to be added for fsverity. The one for ->flags
+> already exists.
+> 
+> [1]: https://lore.kernel.org/linux-xfs/20260119165644.2945008-2-aalbersh@kernel.org/
+> 
+> ---
+>  fs/file_attr.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+> 
+> diff --git a/fs/file_attr.c b/fs/file_attr.c
+> index 13cdb31a3e94..bed5442fa6fa 100644
+> --- a/fs/file_attr.c
+> +++ b/fs/file_attr.c
+> @@ -142,8 +142,7 @@ static int file_attr_to_fileattr(const struct file_attr *fattr,
+>  	if (fattr->fa_xflags & ~mask)
+>  		return -EINVAL;
 >  
->  	trace_btrfs_inode_evict(inode);
+> -	fileattr_fill_xflags(fa, fattr->fa_xflags);
+> -	fa->fsx_xflags &= ~FS_XFLAG_RDONLY_MASK;
+> +	fileattr_fill_xflags(fa, fattr->fa_xflags & ~FS_XFLAG_RDONLY_MASK);
+>  	fa->fsx_extsize = fattr->fa_extsize;
+>  	fa->fsx_projid = fattr->fa_projid;
+>  	fa->fsx_cowextsize = fattr->fa_cowextsize;
+> @@ -163,8 +162,7 @@ static int copy_fsxattr_from_user(struct file_kattr *fa,
+>  	if (xfa.fsx_xflags & ~mask)
+>  		return -EOPNOTSUPP;
 >  
-> -	if (!root) {
-> -		fsverity_cleanup_inode(inode);
-> -		clear_inode(inode);
-> -		return;
-> -	}
-> +	if (!root)
-> +		goto clear_inode;
->  
->  	fs_info = inode_to_fs_info(inode);
->  	evict_inode_truncate_pages(inode);
-> @@ -5675,7 +5671,7 @@ void btrfs_evict_inode(struct inode *inode)
->  	 * to retry these periodically in the future.
->  	 */
->  	btrfs_remove_delayed_node(BTRFS_I(inode));
-> -	fsverity_cleanup_inode(inode);
-> +clear_inode:
->  	clear_inode(inode);
->  }
->  
-> diff --git a/fs/ext4/super.c b/fs/ext4/super.c
-> index 87205660c5d0..86131f4d8718 100644
-> --- a/fs/ext4/super.c
-> +++ b/fs/ext4/super.c
-> @@ -1527,7 +1527,6 @@ void ext4_clear_inode(struct inode *inode)
->  		EXT4_I(inode)->jinode = NULL;
->  	}
->  	fscrypt_put_encryption_info(inode);
-> -	fsverity_cleanup_inode(inode);
->  }
->  
->  static struct inode *ext4_nfs_get_inode(struct super_block *sb,
-> diff --git a/fs/f2fs/inode.c b/fs/f2fs/inode.c
-> index 38b8994bc1b2..ee332b994348 100644
-> --- a/fs/f2fs/inode.c
-> +++ b/fs/f2fs/inode.c
-> @@ -1000,7 +1000,6 @@ void f2fs_evict_inode(struct inode *inode)
->  	}
->  out_clear:
->  	fscrypt_put_encryption_info(inode);
-> -	fsverity_cleanup_inode(inode);
->  	clear_inode(inode);
->  }
->  
-> diff --git a/fs/inode.c b/fs/inode.c
-> index 379f4c19845c..38dbdfbb09ba 100644
-> --- a/fs/inode.c
-> +++ b/fs/inode.c
-> @@ -14,6 +14,7 @@
->  #include <linux/cdev.h>
->  #include <linux/memblock.h>
->  #include <linux/fsnotify.h>
-> +#include <linux/fsverity.h>
->  #include <linux/mount.h>
->  #include <linux/posix_acl.h>
->  #include <linux/buffer_head.h> /* for inode_has_buffers */
-> @@ -773,6 +774,14 @@ void dump_mapping(const struct address_space *mapping)
->  
->  void clear_inode(struct inode *inode)
->  {
-> +	/*
-> +	 * Only IS_VERITY() inodes can have verity info, so start by checking
-> +	 * for IS_VERITY() (which is faster than retrieving the pointer to the
-> +	 * verity info).  This minimizes overhead for non-verity inodes.
-> +	 */
-> +	if (IS_ENABLED(CONFIG_FS_VERITY) && IS_VERITY(inode))
-> +		fsverity_cleanup_inode(inode);
-> +
->  	/*
->  	 * We have to cycle the i_pages lock here because reclaim can be in the
->  	 * process of removing the last page (in __filemap_remove_folio())
-> diff --git a/fs/verity/open.c b/fs/verity/open.c
-> index 2aa5eae5a540..090cb77326ee 100644
-> --- a/fs/verity/open.c
-> +++ b/fs/verity/open.c
-> @@ -384,14 +384,13 @@ int __fsverity_file_open(struct inode *inode, struct file *filp)
->  }
->  EXPORT_SYMBOL_GPL(__fsverity_file_open);
->  
-> -void __fsverity_cleanup_inode(struct inode *inode)
-> +void fsverity_cleanup_inode(struct inode *inode)
->  {
->  	struct fsverity_info **vi_addr = fsverity_info_addr(inode);
->  
->  	fsverity_free_info(*vi_addr);
->  	*vi_addr = NULL;
->  }
-> -EXPORT_SYMBOL_GPL(__fsverity_cleanup_inode);
->  
->  void __init fsverity_init_info_cache(void)
->  {
-> diff --git a/include/linux/fsverity.h b/include/linux/fsverity.h
-> index 86fb1708676b..ea1ed2e6c2f9 100644
-> --- a/include/linux/fsverity.h
-> +++ b/include/linux/fsverity.h
-> @@ -179,26 +179,6 @@ int fsverity_get_digest(struct inode *inode,
->  /* open.c */
->  
->  int __fsverity_file_open(struct inode *inode, struct file *filp);
-> -void __fsverity_cleanup_inode(struct inode *inode);
-> -
-> -/**
-> - * fsverity_cleanup_inode() - free the inode's verity info, if present
-> - * @inode: an inode being evicted
-> - *
-> - * Filesystems must call this on inode eviction to free the inode's verity info.
-> - */
-> -static inline void fsverity_cleanup_inode(struct inode *inode)
-> -{
-> -	/*
-> -	 * Only IS_VERITY() inodes can have verity info, so start by checking
-> -	 * for IS_VERITY() (which is faster than retrieving the pointer to the
-> -	 * verity info).  This minimizes overhead for non-verity inodes.
-> -	 */
-> -	if (IS_VERITY(inode))
-> -		__fsverity_cleanup_inode(inode);
-> -	else
-> -		VFS_WARN_ON_ONCE(*fsverity_info_addr(inode) != NULL);
-> -}
->  
->  /* read_metadata.c */
->  
-> @@ -250,10 +230,6 @@ static inline int __fsverity_file_open(struct inode *inode, struct file *filp)
->  	return -EOPNOTSUPP;
->  }
->  
-> -static inline void fsverity_cleanup_inode(struct inode *inode)
-> -{
-> -}
-> -
->  /* read_metadata.c */
->  
->  static inline int fsverity_ioctl_read_metadata(struct file *filp,
-> @@ -331,4 +307,6 @@ static inline int fsverity_file_open(struct inode *inode, struct file *filp)
->  	return 0;
->  }
->  
-> +void fsverity_cleanup_inode(struct inode *inode);
-> +
->  #endif	/* _LINUX_FSVERITY_H */
+> -	fileattr_fill_xflags(fa, xfa.fsx_xflags);
+> -	fa->fsx_xflags &= ~FS_XFLAG_RDONLY_MASK;
+> +	fileattr_fill_xflags(fa, xfa.fsx_xflags & ~FS_XFLAG_RDONLY_MASK);
+>  	fa->fsx_extsize = xfa.fsx_extsize;
+>  	fa->fsx_nextents = xfa.fsx_nextents;
+>  	fa->fsx_projid = xfa.fsx_projid;
 > -- 
-> 2.47.3
+> 2.52.0
 > 
 -- 
 Jan Kara <jack@suse.com>
