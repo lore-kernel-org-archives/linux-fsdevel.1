@@ -1,176 +1,153 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from canpmsgout02.his.huawei.com (canpmsgout02.his.huawei.com [113.46.200.217])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C1CA449EA3
-	for <linux-fsdevel@vger.kernel.org>; Thu, 22 Jan 2026 15:42:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7CC74ADDA0;
+	Thu, 22 Jan 2026 15:47:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.217
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769096542; cv=none; b=nQCkQit59iq36fYY/8Z/uMduisIYnl9tjMRgBbg4Q4aZDXT8k7+Z7DEoEMACZrameaeWMxusmIYV9jcdhSexGiRp65tKsip4gpn1sqKgg0KsYpwBLJ0k0/UsJ5QT6lAjhT0TkxzoZMNACq1JBNyf1v5/tdqXT2xH4Ce6oUo7Bzg=
+	t=1769096835; cv=none; b=CfwThoke1loUAlmeqC5s9p4iV5eiz2AKherreLmUIHTqS3VuFZfyZXmnY+6JjUr39uRVLK8m2EgDFJTm3RCh3pSS2ARgVNfU1MRP8uNh1bUNstlV7UdWqimqAkTH2bx4cq6833wypFf/8GVLL4GO/s9YXl8bQWb8YSa4POp+ax4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769096542; c=relaxed/simple;
-	bh=lvRJnEpqGKml9ZZukNMsShpYKPXGJJ3h5jLBmdm7izg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EQPzw90+DFHTosoI7U8PRcnYBZrk1HVvgkovuezyQpdBy4Z97hsrv4sobwZ7i0zuL115asAw3EvXdOZlkwDGU32+0p5XoYFRPCAa95b5VVt4CypPIWvnIw1iT7TJIWi308EzdvVwFVzJU/9RRvzqs3IpM2vuOwgatSk+JZGvMRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=j6JxqPze; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=0iqPGW1a; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=j6JxqPze; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=0iqPGW1a; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1769096835; c=relaxed/simple;
+	bh=bLPyX55goz9UpKyTSsH/rsQVx9Lcd+68NmlbcIC2gHs=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DAsEyv0G5JE0kb17gB+d+kN9b/rGxidpaXZg6J9KO+0RJSEwa1IjQacuVZiXzhxulfN1nHzauB0+Onoi7IXYAHRS3uPWyQgSb9bVetggg6so8VvdHb8LmFl95pSA7nrEpEMGR5UfIvlp0wcshjzIOTi2fOBr51ZLwJxUOVgQsiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=oJbF4d0t; arc=none smtp.client-ip=113.46.200.217
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="j6JxqPze";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="0iqPGW1a";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="j6JxqPze";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="0iqPGW1a"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 6FE955BCD7;
-	Thu, 22 Jan 2026 15:42:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1769096536;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eXgjnBxZ8BrNqn4Sk6A4xpE60v2fmF+nX+2I0eOLLCg=;
-	b=j6JxqPzePV1v3VMwls0tzTsZjgdG9emkov+yXkAfgU/rTXQf8T3zUIk9y6kwTpmIwFH+jg
-	+tGTZOAzNSt5DmyeGJlQYLKpb2hgbWczQo2u8RmaFCK8Kyk9Ad8W0Ksxyx6AoNHndiNUd3
-	pgQ09os0+EUkMbgwfaOlHtEStLw+2xM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1769096536;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eXgjnBxZ8BrNqn4Sk6A4xpE60v2fmF+nX+2I0eOLLCg=;
-	b=0iqPGW1agNVaVnQmF+2mMFaHz5jf38AXI7KkERuGiInWYYKzTGrVODUWzChReQtemzPfna
-	a8MSgMwRXxKctUBQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=j6JxqPze;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=0iqPGW1a
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1769096536;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eXgjnBxZ8BrNqn4Sk6A4xpE60v2fmF+nX+2I0eOLLCg=;
-	b=j6JxqPzePV1v3VMwls0tzTsZjgdG9emkov+yXkAfgU/rTXQf8T3zUIk9y6kwTpmIwFH+jg
-	+tGTZOAzNSt5DmyeGJlQYLKpb2hgbWczQo2u8RmaFCK8Kyk9Ad8W0Ksxyx6AoNHndiNUd3
-	pgQ09os0+EUkMbgwfaOlHtEStLw+2xM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1769096536;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eXgjnBxZ8BrNqn4Sk6A4xpE60v2fmF+nX+2I0eOLLCg=;
-	b=0iqPGW1agNVaVnQmF+2mMFaHz5jf38AXI7KkERuGiInWYYKzTGrVODUWzChReQtemzPfna
-	a8MSgMwRXxKctUBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3DF1F13533;
-	Thu, 22 Jan 2026 15:42:16 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 0Tn4DlhFcmlzbQAAD6G6ig
-	(envelope-from <dsterba@suse.cz>); Thu, 22 Jan 2026 15:42:16 +0000
-Date: Thu, 22 Jan 2026 16:42:15 +0100
-From: David Sterba <dsterba@suse.cz>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Eric Biggers <ebiggers@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	David Sterba <dsterba@suse.com>, Theodore Ts'o <tytso@mit.edu>,
-	Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
-	Andrey Albershteyn <aalbersh@redhat.com>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org,
-	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-	fsverity@lists.linux.dev
-Subject: Re: fsverity cleanups, speedup and memory usage optimization v2
-Message-ID: <20260122154215.GV26902@suse.cz>
-Reply-To: dsterba@suse.cz
-References: <20260122082214.452153-1-hch@lst.de>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="oJbF4d0t"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=otZzmT6rxktVNDVECk5mC06H07hAnwXYZ9UJTBeZ2EE=;
+	b=oJbF4d0t5wRl+Q3D2MEG1XxQ46Sws4p95wCVOUDW01xFXaHTtZLIuDaU1CGP+FYnhHWI9gyc+
+	vl1DpAL3wOTCohN8rpHMh58gcD4/VUG36UAoqVqtLr4Wg1E8jI9n820W4N+o3Weae21OVDrRQCJ
+	RiDve7yi5NEMgQAYQ4IAnOc=
+Received: from mail.maildlp.com (unknown [172.19.162.197])
+	by canpmsgout02.his.huawei.com (SkyGuard) with ESMTPS id 4dxlh75CRHzcb0S;
+	Thu, 22 Jan 2026 23:43:03 +0800 (CST)
+Received: from kwepemr500015.china.huawei.com (unknown [7.202.195.162])
+	by mail.maildlp.com (Postfix) with ESMTPS id 383A740363;
+	Thu, 22 Jan 2026 23:47:03 +0800 (CST)
+Received: from huawei.com (10.67.174.162) by kwepemr500015.china.huawei.com
+ (7.202.195.162) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 22 Jan
+ 2026 23:47:02 +0800
+From: Hongbo Li <lihongbo22@huawei.com>
+To: <hsiangkao@linux.alibaba.com>, <chao@kernel.org>, <brauner@kernel.org>
+CC: <hch@lst.de>, <djwong@kernel.org>, <amir73il@gmail.com>,
+	<linux-fsdevel@vger.kernel.org>, <linux-erofs@lists.ozlabs.org>,
+	<linux-kernel@vger.kernel.org>, <lihongbo22@huawei.com>
+Subject: [PATCH v17 02/10] erofs: decouple `struct erofs_anon_fs_type`
+Date: Thu, 22 Jan 2026 15:33:58 +0000
+Message-ID: <20260122153406.660073-3-lihongbo22@huawei.com>
+X-Mailer: git-send-email 2.22.0
+In-Reply-To: <20260122153406.660073-1-lihongbo22@huawei.com>
+References: <20260122153406.660073-1-lihongbo22@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260122082214.452153-1-hch@lst.de>
-User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
-X-Spam-Score: -4.21
-X-Spamd-Result: default: False [-4.21 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	HAS_REPLYTO(0.30)[dsterba@suse.cz];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	RCVD_TLS_ALL(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	REPLYTO_ADDR_EQ_FROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 6FE955BCD7
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
+ kwepemr500015.china.huawei.com (7.202.195.162)
 
-On Thu, Jan 22, 2026 at 09:21:56AM +0100, Christoph Hellwig wrote:
-> Hi all,
-> 
-> this series has a hodge podge of fsverity enhances that I looked into as
-> part of the review of the xfs fsverity support series.
-> 
-> The first part calls fsverity code from VFS code instead of requiring
-> boilerplate in the file systems.  The first patch fixes a bug in btrfs
-> as part of that, as btrfs was missing a check.  An xfstests
-> test case for this was submitted already.
-> 
-> The middle part optimizes the fsverity read path by kicking off readahead
-> for the fsverity hashes from the data read submission context, which in my
-> simply testing showed huge benefits for sequential reads using dd.
-> I haven't been able to get fio to run on a preallocated fio file, but
-> I expect random read benefits would be significantly better than that
-> still.
-> 
-> The last part avoids the need for a pointer in every inode for fsverity
-> and instead uses a rhashtable lookup, which is once per read_folio or
-> ->readahead invocation and for for btrfs another time for each bio
-> completion.  Right now this does not increse the number of inodes in
-> each slab, but for ext4 we are getting very close to that (within
-> 16 bytes by my count).
-> 
-> Changes since v1:
->  - reorder to keep the most controversial part last
->  - drop moving the open handling to common code (for now)
->  - factor the page cache read code into common code
->  - reduce the number of hash lookups
->  - add a barrier in the fsverity_active that pairs with the cmpxchg
->    that sets the inode flag.
-> 
-> Diffstat:
->  fs/attr.c                    |   12 ++
+From: Gao Xiang <hsiangkao@linux.alibaba.com>
 
-For the btrfs changes
+  - Move the `struct erofs_anon_fs_type` to super.c and expose it
+    in preparation for the upcoming page cache share feature;
 
->  fs/btrfs/btrfs_inode.h       |    4 
->  fs/btrfs/extent_io.c         |   37 +++++---
->  fs/btrfs/inode.c             |   13 ---
->  fs/btrfs/verity.c            |   11 --
+  - Remove the `.owner` field, as they are all internal mounts and
+    fully managed by EROFS.  Retaining `.owner` would unnecessarily
+    increment module reference counts, preventing the EROFS kernel
+    module from being unloaded.
 
-Acked-by: David Sterba <dsterba@suse.com>
+Signed-off-by: Gao Xiang <hsiangkao@linux.alibaba.com>
+---
+ fs/erofs/fscache.c  | 13 -------------
+ fs/erofs/internal.h |  2 ++
+ fs/erofs/super.c    | 14 ++++++++++++++
+ 3 files changed, 16 insertions(+), 13 deletions(-)
+
+diff --git a/fs/erofs/fscache.c b/fs/erofs/fscache.c
+index 7a346e20f7b7..f4937b025038 100644
+--- a/fs/erofs/fscache.c
++++ b/fs/erofs/fscache.c
+@@ -3,7 +3,6 @@
+  * Copyright (C) 2022, Alibaba Cloud
+  * Copyright (C) 2022, Bytedance Inc. All rights reserved.
+  */
+-#include <linux/pseudo_fs.h>
+ #include <linux/fscache.h>
+ #include "internal.h"
+ 
+@@ -13,18 +12,6 @@ static LIST_HEAD(erofs_domain_list);
+ static LIST_HEAD(erofs_domain_cookies_list);
+ static struct vfsmount *erofs_pseudo_mnt;
+ 
+-static int erofs_anon_init_fs_context(struct fs_context *fc)
+-{
+-	return init_pseudo(fc, EROFS_SUPER_MAGIC) ? 0 : -ENOMEM;
+-}
+-
+-static struct file_system_type erofs_anon_fs_type = {
+-	.owner		= THIS_MODULE,
+-	.name           = "pseudo_erofs",
+-	.init_fs_context = erofs_anon_init_fs_context,
+-	.kill_sb        = kill_anon_super,
+-};
+-
+ struct erofs_fscache_io {
+ 	struct netfs_cache_resources cres;
+ 	struct iov_iter		iter;
+diff --git a/fs/erofs/internal.h b/fs/erofs/internal.h
+index f7f622836198..98fe652aea33 100644
+--- a/fs/erofs/internal.h
++++ b/fs/erofs/internal.h
+@@ -188,6 +188,8 @@ static inline bool erofs_is_fileio_mode(struct erofs_sb_info *sbi)
+ 	return IS_ENABLED(CONFIG_EROFS_FS_BACKED_BY_FILE) && sbi->dif0.file;
+ }
+ 
++extern struct file_system_type erofs_anon_fs_type;
++
+ static inline bool erofs_is_fscache_mode(struct super_block *sb)
+ {
+ 	return IS_ENABLED(CONFIG_EROFS_FS_ONDEMAND) &&
+diff --git a/fs/erofs/super.c b/fs/erofs/super.c
+index 937a215f626c..f18f43b78fca 100644
+--- a/fs/erofs/super.c
++++ b/fs/erofs/super.c
+@@ -11,6 +11,7 @@
+ #include <linux/fs_parser.h>
+ #include <linux/exportfs.h>
+ #include <linux/backing-dev.h>
++#include <linux/pseudo_fs.h>
+ #include "xattr.h"
+ 
+ #define CREATE_TRACE_POINTS
+@@ -936,6 +937,19 @@ static struct file_system_type erofs_fs_type = {
+ };
+ MODULE_ALIAS_FS("erofs");
+ 
++#if defined(CONFIG_EROFS_FS_ONDEMAND)
++static int erofs_anon_init_fs_context(struct fs_context *fc)
++{
++	return init_pseudo(fc, EROFS_SUPER_MAGIC) ? 0 : -ENOMEM;
++}
++
++struct file_system_type erofs_anon_fs_type = {
++	.name           = "pseudo_erofs",
++	.init_fs_context = erofs_anon_init_fs_context,
++	.kill_sb        = kill_anon_super,
++};
++#endif
++
+ static int __init erofs_module_init(void)
+ {
+ 	int err;
+-- 
+2.22.0
+
