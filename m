@@ -1,103 +1,138 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp03-ext2.udag.de (smtp03-ext2.udag.de [62.146.106.30])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8595A2222C0
-	for <linux-fsdevel@vger.kernel.org>; Thu, 22 Jan 2026 10:18:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5B8235BDDE;
+	Thu, 22 Jan 2026 10:21:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.146.106.30
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769077095; cv=none; b=rTlg9+KZVYFRAqCzlguygLW8k/JAz8uFpfbuOrt3HsMlrJW25o8F0zJ5bb9/Im7HKowsMGDMnOQyNsYJ7wMbpjCHAbheOfrrkd9IFjZ9LgkZR9ytQDNyT6GBVO5H+NWGv5txIxCns5BK9zVeRctGJYK7AWa0jZ+25iykEtE6qK0=
+	t=1769077264; cv=none; b=DYgFEDuZTMlqSWvWgsfiwqXilVdhJ+nW6IGy56Ofsgv1bbuSA+GnA0j7gwHF/xDHV4ENhassSPbI+fARg3VCWk7mhuiG+4HHMzOzsCJaXzzZ+4kwLzgw10yqFWWEoK+aD0hAageRagm48RkWj/fzioBXYsmzIfjLNPu86oeIrks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769077095; c=relaxed/simple;
-	bh=9EIjkzJNA9E4VUPDTyu9hd8T5/zhI8edzp0B+c2y9jE=;
+	s=arc-20240116; t=1769077264; c=relaxed/simple;
+	bh=6nqciMtGWcSJ3zgXx56AJVo1otmahHWhqTwT6kwZMzc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FyXQC6rn+4vMPy/3BGaYB4PWlVJIIcN21WhkcLSCO6/iQdMz1rpX4V7cZJJ4vRP6WmReLlyDxOafRyKYncr7bEdd1IoT7rteozeazUmEeIxcBEK65IPJrUBr3DBcy0PBECx+v5Gfmapv/Oswxv6K81oa6dtqcyMOCvXoNZ1NP8I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OyOCHkrt; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OyOCHkrt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9F2EC116C6;
-	Thu, 22 Jan 2026 10:18:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769077095;
-	bh=9EIjkzJNA9E4VUPDTyu9hd8T5/zhI8edzp0B+c2y9jE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OyOCHkrtuz4ueSm5GPODxY6RTMZKIX0odUUuSvQV6ia30erM8gPotfwowOcRaY3LV
-	 5l8zfyKbpHjw9LtdQVzgOT4SqqUFo10tOiV94PIAdBtYGzV1fyO2nYY1mQ/q1n0ozW
-	 SwqNTIVpLy2oilpzohDdDtzhyXYo4mkVZgHJpPQo54QHgA81L4MkOTHdWZs/jmbknK
-	 UeORy1uEGfhwvzJYaGORZnoqAGZ4F6wXw5KURAMmwPdZsAjWYRCaw0sUA0XLf0JBHD
-	 /Maly3zGj28NVYHtA5Y7jhTfcpmdNxpg346IIHbcmOl9adYhV9QCjUFjrWTnRwYz4W
-	 ibRVW6bCo1QhQ==
-Date: Thu, 22 Jan 2026 11:18:10 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Jan Kara <jack@suse.cz>
-Cc: Mateusz Guzik <mjguzik@gmail.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH RFC v2] pidfs: convert rb-tree to rhashtable
-Message-ID: <20260122-allrad-zirkel-9d519a7f12f3@brauner>
-References: <20260120-work-pidfs-rhashtable-v2-1-d593c4d0f576@kernel.org>
- <6yefrqagwzxnyauuidtvzsaejowzrkh5u2cjrjwmn5ulbt27by@fy5fezgl4tsq>
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZsJjIjWSfkU1Jjr++UVGwk6uxBnGM/o2ZhXxpKBu7Geuqgd9l3s9FZGrYBNTh9usV6nR03Iq+1QvGVJOqGR34aeBtBbnjTGRAWJAdRcopk/ReLeGndzSQXP8LHxYyFAbvTXn/aSheFj6H16gXxOuBYXLFm47Bx+cs9W60C1D/O4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de; spf=pass smtp.mailfrom=birthelmer.de; arc=none smtp.client-ip=62.146.106.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birthelmer.de
+Received: from localhost (200-143-067-156.ip-addr.inexio.net [156.67.143.200])
+	by smtp03-ext2.udag.de (Postfix) with ESMTPA id C256DE09AE;
+	Thu, 22 Jan 2026 11:20:51 +0100 (CET)
+Authentication-Results: smtp03-ext2.udag.de;
+	auth=pass smtp.auth=birthelmercom-0001 smtp.mailfrom=horst@birthelmer.de
+Date: Thu, 22 Jan 2026 11:20:50 +0100
+From: Horst Birthelmer <horst@birthelmer.de>
+To: Luis Henriques <luis@igalia.com>
+Cc: Bernd Schubert <bschubert@ddn.com>, Bernd Schubert <bernd@bsbernd.com>, 
+	Amir Goldstein <amir73il@gmail.com>, Miklos Szeredi <miklos@szeredi.hu>, 
+	"Darrick J. Wong" <djwong@kernel.org>, Kevin Chen <kchen@ddn.com>, 
+	Horst Birthelmer <hbirthelmer@ddn.com>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Matt Harvey <mharvey@jumptrading.com>, 
+	"kernel-dev@igalia.com" <kernel-dev@igalia.com>
+Subject: Re: Re: [RFC PATCH v2 4/6] fuse: implementation of the
+ FUSE_LOOKUP_HANDLE operation
+Message-ID: <aXH48-QCxUU4TlNk@fedora.fritz.box>
+References: <aWFcmSNLq9XM8KjW@fedora>
+ <877bta26kj.fsf@wotan.olymp>
+ <aXEVjYKI6qDpf-VW@fedora>
+ <03ea69f4-f77b-4fe7-9a7c-5c5ca900e4bf@bsbernd.com>
+ <aXEbnMNbE4k6WI7j@fedora>
+ <5d022dc0-8423-4af2-918f-81ad04d50678@ddn.com>
+ <aXEhTi2-8DRZKb_I@fedora>
+ <e761b39b-79c7-40d4-947e-a209fcf2bb6b@ddn.com>
+ <aXEjX7MD4GzGRvdE@fedora>
+ <87pl726kko.fsf@wotan.olymp>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <6yefrqagwzxnyauuidtvzsaejowzrkh5u2cjrjwmn5ulbt27by@fy5fezgl4tsq>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87pl726kko.fsf@wotan.olymp>
 
-On Wed, Jan 21, 2026 at 11:59:11AM +0100, Jan Kara wrote:
-> On Tue 20-01-26 15:52:35, Christian Brauner wrote:
-> > Mateusz reported performance penalties [1] during task creation because
-> > pidfs uses pidmap_lock to add elements into the rbtree. Switch to an
-> > rhashtable to have separate fine-grained locking and to decouple from
-> > pidmap_lock moving all heavy manipulations outside of it.
-> > 
-> > Convert the pidfs inode-to-pid mapping from an rb-tree with seqcount
-> > protection to an rhashtable. This removes the global pidmap_lock
-> > contention from pidfs_ino_get_pid() lookups and allows the hashtable
-> > insert to happen outside the pidmap_lock.
-> > 
-> > pidfs_add_pid() is split. pidfs_prepare_pid() allocates inode number and
-> > initializes pid fields and is called inside pidmap_lock. pidfs_add_pid()
-> > inserts pid into rhashtable and is called outside pidmap_lock. Insertion
-> > into the rhashtable can fail and memory allocation may happen so we need
-> > to drop the spinlock.
-> > 
-> > To guard against accidently opening an already reaped task
-> > pidfs_ino_get_pid() uses additional checks beyond pid_vnr(). If
-> > pid->attr is PIDFS_PID_DEAD or NULL the pid either never had a pidfd or
-> > it already went through pidfs_exit() aka the process as already reaped.
-> > If pid->attr is valid check PIDFS_ATTR_BIT_EXIT to figure out whether
-> > the task has exited.
-> > 
-> > This slightly changes visibility semantics: pidfd creation is denied
-> > after pidfs_exit() runs, which is just before the pid number is removed
-> > from the via free_pid(). That should not be an issue though.
-> > 
-> > Link: https://lore.kernel.org/20251206131955.780557-1-mjguzik@gmail.com [1]
-> > Signed-off-by: Christian Brauner <brauner@kernel.org>
+On Thu, Jan 22, 2026 at 09:52:23AM +0000, Luis Henriques wrote:
+> Hi!
 > 
-> Looks very nice! Feel free to add:
+> On Wed, Jan 21 2026, Horst Birthelmer wrote:
 > 
-> Reviewed-by: Jan Kara <jack@suse.cz>
+> > On Wed, Jan 21, 2026 at 08:03:32PM +0100, Bernd Schubert wrote:
+> >> 
+> >> 
+> >> On 1/21/26 20:00, Horst Birthelmer wrote:
+> >> > On Wed, Jan 21, 2026 at 07:49:25PM +0100, Bernd Schubert wrote:
+> >> >>
+> >> >>
+> >> > ...
+> >> >>> The problem Luis had was that he cannot construct the second request in the compound correctly
+> >> >>> since he does not have all the in parameters to write complete request.
+> >> >>
+> >> >> What I mean is, the auto-handler of libfuse could complete requests of
+> >> >> the 2nd compound request with those of the 1st request?
+> >> >>
+> >> > With a crazy bunch of flags, we could probably do it, yes.
+> >> > It is way easier that the fuse server treats certain compounds
+> >> > (combination of operations) as a single request and handles
+> >> > those accordingly.
 > 
-> I have just one question about the new PIDFS_ATTR_BIT_EXIT check.  AFAIU it
-> protects from grabbing struct pid references for pids that are dying. But
-> we can also call free_pid() from places like ksys_setsid() where
-> PIDFS_ATTR_BIT_EXIT is not set. So this check only seems as a convenience
-> rather than some hard guarantee, am I right?
+> Right, I think that at least the compound requests that can not be
+> serialised (i.e. those that can not be executed using the libfuse helper
+> function fuse_execute_compound_sequential()) should be flagged as such.
+> An extra flag to be set in the request should do the job.
+> 
+> This way, if this flag isn't set in a compound request and the FUSE server
+> doesn't have a compound handle, libfuse could serialise the requests.
+> Otherwise, it would return -ENOTSUPP.
+> 
+> >> Hmm, isn't the problem that each fuse server then needs to know those
+> >> common compound combinations? And that makes me wonder, what is the
+> >> difference to an op code then?
+> >
+> > I'm pretty sure we both have some examples and counter examples in mind.
+> >
+> > Let's implement a couple of the suggested compounds and we will see 
+> > if we can make generic rules. I'm not convinced yet, that we want to
+> > have a generic implementation in libfuse.
+> >
+> > The advantage to the 'add an opcode' for every combination 
+> > (and there are already a couple of those) approach is that
+> > you don't need more opcodes, so no changes to the kernel.
+> > You need some code in the fuse server, though, which to me is
+> > fine, since if you have atomic operations implemented there,
+> > why not actually use them.
+> >
+> > The big advantage is, choice.
+> >
+> > There will be some examples (like the one from Luis)
+> > where you don't actually have a generic choice,
+> > or you create some convention, like you just had in mind.
+> > (put the result of the first operation into the input
+> > of the next ... or into some fields ... etc.)
+> 
+> So, to summarise:
+> 
+> In the end, even FUSE servers that do support compound operations will
+> need to check the operations within a request, and act accordingly.  There
+> will be new combinations that will not be possible to be handle by servers
+> in a generic way: they'll need to return -EOPNOTSUPP if the combination of
+> operations is unknown.  libfuse may then be able to support the
+> serialisation of that specific operation compound.  But that'll require
+> flagging the request as "serialisable".
 
-Excellent question!
+OK, so this boils down to libfuse trying a bit harder than it does at the moment.
+After it calls the compound handler it should check for EOPNOTSUP and the flag
+and then execute the single requests itself.
 
-So the way this whole freeing works is weird. So when a task becomes a
-session leader or process group leader __change_pid() detaches the task
-from its old session/process group leader.
+At the moment the fuse server implementation itself has to do this.
+Actually the patched passthrough_hp does exactly that.
 
-The old session leader/process group leader pid only ends up with
-free_pid() called on it if it has already been reaped, i.e.,
-pid_has_task() returns NULL.
+I think I can live with that.
 
-But if the task has already been reaped then it will have already passed
-pidfs_exit() and so the exit bit will be set.
+> 
+> Cheers,
+> -- 
+> Luís
 
-So this only handles already dead pids.
+Thanks,
+Horst
