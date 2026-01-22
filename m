@@ -1,46 +1,46 @@
-Received: from canpmsgout05.his.huawei.com (canpmsgout05.his.huawei.com [113.46.200.220])
+Received: from canpmsgout08.his.huawei.com (canpmsgout08.his.huawei.com [113.46.200.223])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB1812DC334;
-	Thu, 22 Jan 2026 13:50:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.220
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F40EF1FCFFC;
+	Thu, 22 Jan 2026 13:50:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.223
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769089825; cv=none; b=SAOyEH74ALQOjlYRXgzGQp97n1eBIQNE1Ewzz04gr2Q9lRZ74oPNQOwu1zmMfW5mQ9+KeLvetnfjD/WFfYVjf2NWxFxF1Xo2ZmX9H09f5Nfq4jgJ4EDclQu7A0D6D1nd2xNw56PhuthzJJuHGlxKDIYfoGH1M12yCB/MAePHW2U=
+	t=1769089826; cv=none; b=Y9FxGEoA/xndm1f5VN9Qt/qgxqgrPXTkc+vYC0LczIgtfZyWuDAa2z7W9twYieF/v3iui/b7FabNZqS+8I2G1/MfoRQMSuE4ycy3s2B5sRna9+sHWysSOqNUhhyO7kF7AT9mpxojBwiFNCDR9nmESlZCSohkMLA8vf2Ztm64bpE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769089825; c=relaxed/simple;
-	bh=X6rXmXUNuGdvzSdhj0LAFCXxZeuar96dp93fQeER5A8=;
+	s=arc-20240116; t=1769089826; c=relaxed/simple;
+	bh=jQL+6RLzsR7px2jEpDMEZv3HOKyEr1oSO9vZY9RkvZQ=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hvbszb2tntiDFeVHVwAvnDbefRMv23JFM1LjpUVq+5+69udxLoDL//i2khZswepIKU2oiauHxJOf/+jIMj/YKZxPhHQWCtE6sXAOzwhizTZzEsYUAyk7Qaz6jjjSqg0wySldI+gu+aRWehkYwaDRkvWYux7C7JbeLHV9I2YHRHM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=KapezA4+; arc=none smtp.client-ip=113.46.200.220
+	 MIME-Version:Content-Type; b=K8I6lw//WUw8+ZpgHieCz5y9xta1/X5AOmpYhTghHAWH4MIjczc4ElRR9pl7no2nj1J5cZy0KOqmDapuKL9rlwb/6BrwQWUhmrDazcjYQbN7+D48ZVVcPNPhSyL0xmt+BrMm7ruFLU/9jvAUCaLJnVajDqJQ10QutMFatBx7JX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=U3UThz0w; arc=none smtp.client-ip=113.46.200.223
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="KapezA4+"
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="U3UThz0w"
 dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
 	c=relaxed/relaxed; q=dns/txt;
 	h=From;
-	bh=8/z4J+w1iCPMn7FID9xjzFXXRGhz3sBJzrnlY03colw=;
-	b=KapezA4+MCeSj48QqqVvPW7LPUYp4jPdBukSP5ooqAFz01Ftxgpi75y/Zhe5UGZ/VSty9Vagc
-	P0a9tkuDKZJeisET9D/JJZV1MFx4eK5Kb5sOW9B9yIcyw9K/myBKx1XOMqor0+DmFtqp3b+2oCt
-	XyCYJDNR1AaQnDQRFg8QCe4=
-Received: from mail.maildlp.com (unknown [172.19.163.0])
-	by canpmsgout05.his.huawei.com (SkyGuard) with ESMTPS id 4dxj5V1SQwz12LDC;
-	Thu, 22 Jan 2026 21:46:22 +0800 (CST)
+	bh=VrO1Gh2lwSX3aEb9VUUJD65yCyKiA7UNP2YVeY/Su74=;
+	b=U3UThz0wysPJ9ZdqJ4aMtzKlpeHrwuhz3ykUZHebb/O8/V5YkPVsZjdQwrRG5axHboapFBqS3
+	6oMGswSRek3nsXoA4jrzCG8UNr4vRl1ZWYZqHsJ1zleYeoieASKImdVz8s7IgQ0CgFp53tTdtop
+	qe/O1eT0FNMiJajd+ADfsoE=
+Received: from mail.maildlp.com (unknown [172.19.163.15])
+	by canpmsgout08.his.huawei.com (SkyGuard) with ESMTPS id 4dxj681fJSzmV69;
+	Thu, 22 Jan 2026 21:46:56 +0800 (CST)
 Received: from kwepemr500015.china.huawei.com (unknown [7.202.195.162])
-	by mail.maildlp.com (Postfix) with ESMTPS id D30574056B;
-	Thu, 22 Jan 2026 21:50:19 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id 5805140539;
+	Thu, 22 Jan 2026 21:50:21 +0800 (CST)
 Received: from huawei.com (10.67.174.162) by kwepemr500015.china.huawei.com
  (7.202.195.162) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 22 Jan
- 2026 21:50:19 +0800
+ 2026 21:50:20 +0800
 From: Hongbo Li <lihongbo22@huawei.com>
 To: <hsiangkao@linux.alibaba.com>, <chao@kernel.org>, <brauner@kernel.org>
 CC: <hch@lst.de>, <djwong@kernel.org>, <amir73il@gmail.com>,
 	<linux-fsdevel@vger.kernel.org>, <linux-erofs@lists.ozlabs.org>,
 	<linux-kernel@vger.kernel.org>, <lihongbo22@huawei.com>
-Subject: [PATCH v16 07/10] erofs: pass inode to trace_erofs_read_folio
-Date: Thu, 22 Jan 2026 13:37:15 +0000
-Message-ID: <20260122133718.658056-8-lihongbo22@huawei.com>
+Subject: [PATCH v16 10/10] erofs: implement .fadvise for page cache share
+Date: Thu, 22 Jan 2026 13:37:18 +0000
+Message-ID: <20260122133718.658056-11-lihongbo22@huawei.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20260122133718.658056-1-lihongbo22@huawei.com>
 References: <20260122133718.658056-1-lihongbo22@huawei.com>
@@ -55,99 +55,43 @@ Content-Type: text/plain
 X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
  kwepemr500015.china.huawei.com (7.202.195.162)
 
-The trace_erofs_read_folio accesses inode information through folio,
-but this method fails if the real inode is not associated with the
-folio(such as for the uncomping page cache sharing case). Therefore,
-we pass the real inode to it so that the inode information can be
-printed out in that case.
+From: Hongzhen Luo <hongzhen@linux.alibaba.com>
 
+This patch implements the .fadvise interface for page cache share.
+Similar to overlayfs, it drops those clean, unused pages through
+vfs_fadvise().
+
+Signed-off-by: Hongzhen Luo <hongzhen@linux.alibaba.com>
 Signed-off-by: Hongbo Li <lihongbo22@huawei.com>
 ---
- fs/erofs/data.c              |  6 ++----
- fs/erofs/fileio.c            |  2 +-
- fs/erofs/zdata.c             |  2 +-
- include/trace/events/erofs.h | 10 +++++-----
- 4 files changed, 9 insertions(+), 11 deletions(-)
+ fs/erofs/ishare.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/fs/erofs/data.c b/fs/erofs/data.c
-index 71e23d91123d..ea198defb531 100644
---- a/fs/erofs/data.c
-+++ b/fs/erofs/data.c
-@@ -385,8 +385,7 @@ static int erofs_read_folio(struct file *file, struct folio *folio)
- 	};
- 	struct erofs_iomap_iter_ctx iter_ctx = {};
- 
--	trace_erofs_read_folio(folio, true);
--
-+	trace_erofs_read_folio(folio_inode(folio), folio, true);
- 	iomap_read_folio(&erofs_iomap_ops, &read_ctx, &iter_ctx);
- 	return 0;
- }
-@@ -400,8 +399,7 @@ static void erofs_readahead(struct readahead_control *rac)
- 	struct erofs_iomap_iter_ctx iter_ctx = {};
- 
- 	trace_erofs_readahead(rac->mapping->host, readahead_index(rac),
--					readahead_count(rac), true);
--
-+			      readahead_count(rac), true);
- 	iomap_readahead(&erofs_iomap_ops, &read_ctx, &iter_ctx);
+diff --git a/fs/erofs/ishare.c b/fs/erofs/ishare.c
+index ad53a57dbcbc..ce980320a8b9 100644
+--- a/fs/erofs/ishare.c
++++ b/fs/erofs/ishare.c
+@@ -151,6 +151,12 @@ static int erofs_ishare_mmap(struct file *file, struct vm_area_struct *vma)
+ 	return generic_file_readonly_mmap(file, vma);
  }
  
-diff --git a/fs/erofs/fileio.c b/fs/erofs/fileio.c
-index 932e8b353ba1..d07dc248d264 100644
---- a/fs/erofs/fileio.c
-+++ b/fs/erofs/fileio.c
-@@ -161,7 +161,7 @@ static int erofs_fileio_read_folio(struct file *file, struct folio *folio)
- 	struct erofs_fileio io = {};
- 	int err;
++static int erofs_ishare_fadvise(struct file *file, loff_t offset,
++				loff_t len, int advice)
++{
++	return vfs_fadvise(file->private_data, offset, len, advice);
++}
++
+ const struct file_operations erofs_ishare_fops = {
+ 	.open		= erofs_ishare_file_open,
+ 	.llseek		= generic_file_llseek,
+@@ -159,6 +165,7 @@ const struct file_operations erofs_ishare_fops = {
+ 	.release	= erofs_ishare_file_release,
+ 	.get_unmapped_area = thp_get_unmapped_area,
+ 	.splice_read	= filemap_splice_read,
++	.fadvise	= erofs_ishare_fadvise,
+ };
  
--	trace_erofs_read_folio(folio, true);
-+	trace_erofs_read_folio(folio_inode(folio), folio, true);
- 	err = erofs_fileio_scan_folio(&io, folio);
- 	erofs_fileio_rq_submit(io.rq);
- 	return err;
-diff --git a/fs/erofs/zdata.c b/fs/erofs/zdata.c
-index 3d31f7840ca0..93ab6a481b64 100644
---- a/fs/erofs/zdata.c
-+++ b/fs/erofs/zdata.c
-@@ -1887,7 +1887,7 @@ static int z_erofs_read_folio(struct file *file, struct folio *folio)
- 	Z_EROFS_DEFINE_FRONTEND(f, inode, folio_pos(folio));
- 	int err;
- 
--	trace_erofs_read_folio(folio, false);
-+	trace_erofs_read_folio(inode, folio, false);
- 	z_erofs_pcluster_readmore(&f, NULL, true);
- 	err = z_erofs_scan_folio(&f, folio, false);
- 	z_erofs_pcluster_readmore(&f, NULL, false);
-diff --git a/include/trace/events/erofs.h b/include/trace/events/erofs.h
-index dad7360f42f9..def20d06507b 100644
---- a/include/trace/events/erofs.h
-+++ b/include/trace/events/erofs.h
-@@ -82,9 +82,9 @@ TRACE_EVENT(erofs_fill_inode,
- 
- TRACE_EVENT(erofs_read_folio,
- 
--	TP_PROTO(struct folio *folio, bool raw),
-+	TP_PROTO(struct inode *inode, struct folio *folio, bool raw),
- 
--	TP_ARGS(folio, raw),
-+	TP_ARGS(inode, folio, raw),
- 
- 	TP_STRUCT__entry(
- 		__field(dev_t,		dev	)
-@@ -96,9 +96,9 @@ TRACE_EVENT(erofs_read_folio,
- 	),
- 
- 	TP_fast_assign(
--		__entry->dev	= folio->mapping->host->i_sb->s_dev;
--		__entry->nid	= EROFS_I(folio->mapping->host)->nid;
--		__entry->dir	= S_ISDIR(folio->mapping->host->i_mode);
-+		__entry->dev	= inode->i_sb->s_dev;
-+		__entry->nid	= EROFS_I(inode)->nid;
-+		__entry->dir	= S_ISDIR(inode->i_mode);
- 		__entry->index	= folio->index;
- 		__entry->uptodate = folio_test_uptodate(folio);
- 		__entry->raw = raw;
+ struct inode *erofs_real_inode(struct inode *inode, bool *need_iput)
 -- 
 2.22.0
 
