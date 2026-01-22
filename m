@@ -1,46 +1,46 @@
-Received: from canpmsgout08.his.huawei.com (canpmsgout08.his.huawei.com [113.46.200.223])
+Received: from canpmsgout01.his.huawei.com (canpmsgout01.his.huawei.com [113.46.200.216])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F40EF1FCFFC;
-	Thu, 22 Jan 2026 13:50:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.223
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1504F338F5B;
+	Thu, 22 Jan 2026 13:50:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.216
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769089826; cv=none; b=Y9FxGEoA/xndm1f5VN9Qt/qgxqgrPXTkc+vYC0LczIgtfZyWuDAa2z7W9twYieF/v3iui/b7FabNZqS+8I2G1/MfoRQMSuE4ycy3s2B5sRna9+sHWysSOqNUhhyO7kF7AT9mpxojBwiFNCDR9nmESlZCSohkMLA8vf2Ztm64bpE=
+	t=1769089826; cv=none; b=PtLkwSYh1hgr0aaCLwno8qgykQmkrBzOX0Jj/H6YXWR5kTbJM0u+a6FMoVyYXBJ6w3Zs6DNTw+6Q1TF4N4i966+LnzxNkUJRBWyW3HsY1knoRh4VgdnpdlmTiU0qAWUupjHPQn6PhgXmDtjdu75sz30/INdRaOIv+LzZaSQmcM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1769089826; c=relaxed/simple;
-	bh=jQL+6RLzsR7px2jEpDMEZv3HOKyEr1oSO9vZY9RkvZQ=;
+	bh=+SUjc358ft0Qx2/9xo/Em/VA/96fSeWHqg/BOtUlNh0=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=K8I6lw//WUw8+ZpgHieCz5y9xta1/X5AOmpYhTghHAWH4MIjczc4ElRR9pl7no2nj1J5cZy0KOqmDapuKL9rlwb/6BrwQWUhmrDazcjYQbN7+D48ZVVcPNPhSyL0xmt+BrMm7ruFLU/9jvAUCaLJnVajDqJQ10QutMFatBx7JX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=U3UThz0w; arc=none smtp.client-ip=113.46.200.223
+	 MIME-Version:Content-Type; b=BLPKS8PpgEB5KVuaXHG7OjxVbpBkMH3FGMYkrTBBUx6bdtIxihcfiadIzYuTXqpiFCytqzVCwHe0g6OcHr6xw7YeENmi1zO/znGyHRz1FdyTxFmMJS+K+c68hnOKvfj3ehciuHXA+c8RxoI0VOiLhNHeD/IxpiTFzoVqxhXpxy0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=nGyTQUOZ; arc=none smtp.client-ip=113.46.200.216
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="U3UThz0w"
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="nGyTQUOZ"
 dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
 	c=relaxed/relaxed; q=dns/txt;
 	h=From;
-	bh=VrO1Gh2lwSX3aEb9VUUJD65yCyKiA7UNP2YVeY/Su74=;
-	b=U3UThz0wysPJ9ZdqJ4aMtzKlpeHrwuhz3ykUZHebb/O8/V5YkPVsZjdQwrRG5axHboapFBqS3
-	6oMGswSRek3nsXoA4jrzCG8UNr4vRl1ZWYZqHsJ1zleYeoieASKImdVz8s7IgQ0CgFp53tTdtop
-	qe/O1eT0FNMiJajd+ADfsoE=
-Received: from mail.maildlp.com (unknown [172.19.163.15])
-	by canpmsgout08.his.huawei.com (SkyGuard) with ESMTPS id 4dxj681fJSzmV69;
-	Thu, 22 Jan 2026 21:46:56 +0800 (CST)
+	bh=xAa8T4/dhzGgisIp59i8kaQOP1U0tmXz+haC7atdmWY=;
+	b=nGyTQUOZkihDPX/H39dxjz4qbnBOfZ+xZmMLdT4k5TyZC+nI69xCtxLut8rmURbCyeAAYq2Eg
+	FClX5fuv4+9GKtTe4A9FLJ9m/m2SiDuvusXcvu9d675c55J9CeSIEdehWmlWtUZeMFEks7Ov9YU
+	oXb9AAZh1fr1trqqWG7OBzA=
+Received: from mail.maildlp.com (unknown [172.19.162.140])
+	by canpmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4dxj5K70sWz1T4Gp;
+	Thu, 22 Jan 2026 21:46:13 +0800 (CST)
 Received: from kwepemr500015.china.huawei.com (unknown [7.202.195.162])
-	by mail.maildlp.com (Postfix) with ESMTPS id 5805140539;
-	Thu, 22 Jan 2026 21:50:21 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id 50F612016A;
+	Thu, 22 Jan 2026 21:50:18 +0800 (CST)
 Received: from huawei.com (10.67.174.162) by kwepemr500015.china.huawei.com
  (7.202.195.162) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 22 Jan
- 2026 21:50:20 +0800
+ 2026 21:50:17 +0800
 From: Hongbo Li <lihongbo22@huawei.com>
 To: <hsiangkao@linux.alibaba.com>, <chao@kernel.org>, <brauner@kernel.org>
 CC: <hch@lst.de>, <djwong@kernel.org>, <amir73il@gmail.com>,
 	<linux-fsdevel@vger.kernel.org>, <linux-erofs@lists.ozlabs.org>,
 	<linux-kernel@vger.kernel.org>, <lihongbo22@huawei.com>
-Subject: [PATCH v16 10/10] erofs: implement .fadvise for page cache share
-Date: Thu, 22 Jan 2026 13:37:18 +0000
-Message-ID: <20260122133718.658056-11-lihongbo22@huawei.com>
+Subject: [PATCH v16 04/10] erofs: add erofs_inode_set_aops helper to set the aops.
+Date: Thu, 22 Jan 2026 13:37:12 +0000
+Message-ID: <20260122133718.658056-5-lihongbo22@huawei.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20260122133718.658056-1-lihongbo22@huawei.com>
 References: <20260122133718.658056-1-lihongbo22@huawei.com>
@@ -55,43 +55,83 @@ Content-Type: text/plain
 X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
  kwepemr500015.china.huawei.com (7.202.195.162)
 
-From: Hongzhen Luo <hongzhen@linux.alibaba.com>
+Add erofs_inode_set_aops helper to set the inode->i_mapping->a_ops,
+and using IS_ENABLED to make it cleaner.
 
-This patch implements the .fadvise interface for page cache share.
-Similar to overlayfs, it drops those clean, unused pages through
-vfs_fadvise().
-
-Signed-off-by: Hongzhen Luo <hongzhen@linux.alibaba.com>
 Signed-off-by: Hongbo Li <lihongbo22@huawei.com>
 ---
- fs/erofs/ishare.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ fs/erofs/inode.c    | 23 +----------------------
+ fs/erofs/internal.h | 23 +++++++++++++++++++++++
+ 2 files changed, 24 insertions(+), 22 deletions(-)
 
-diff --git a/fs/erofs/ishare.c b/fs/erofs/ishare.c
-index ad53a57dbcbc..ce980320a8b9 100644
---- a/fs/erofs/ishare.c
-+++ b/fs/erofs/ishare.c
-@@ -151,6 +151,12 @@ static int erofs_ishare_mmap(struct file *file, struct vm_area_struct *vma)
- 	return generic_file_readonly_mmap(file, vma);
+diff --git a/fs/erofs/inode.c b/fs/erofs/inode.c
+index bce98c845a18..389632bb46c4 100644
+--- a/fs/erofs/inode.c
++++ b/fs/erofs/inode.c
+@@ -235,28 +235,7 @@ static int erofs_fill_inode(struct inode *inode)
+ 	}
+ 
+ 	mapping_set_large_folios(inode->i_mapping);
+-	if (erofs_inode_is_data_compressed(vi->datalayout)) {
+-#ifdef CONFIG_EROFS_FS_ZIP
+-		DO_ONCE_LITE_IF(inode->i_blkbits != PAGE_SHIFT,
+-			  erofs_info, inode->i_sb,
+-			  "EXPERIMENTAL EROFS subpage compressed block support in use. Use at your own risk!");
+-		inode->i_mapping->a_ops = &z_erofs_aops;
+-#else
+-		err = -EOPNOTSUPP;
+-#endif
+-	} else {
+-		inode->i_mapping->a_ops = &erofs_aops;
+-#ifdef CONFIG_EROFS_FS_ONDEMAND
+-		if (erofs_is_fscache_mode(inode->i_sb))
+-			inode->i_mapping->a_ops = &erofs_fscache_access_aops;
+-#endif
+-#ifdef CONFIG_EROFS_FS_BACKED_BY_FILE
+-		if (erofs_is_fileio_mode(EROFS_SB(inode->i_sb)))
+-			inode->i_mapping->a_ops = &erofs_fileio_aops;
+-#endif
+-	}
+-
+-	return err;
++	return erofs_inode_set_aops(inode, inode, false);
  }
  
-+static int erofs_ishare_fadvise(struct file *file, loff_t offset,
-+				loff_t len, int advice)
+ /*
+diff --git a/fs/erofs/internal.h b/fs/erofs/internal.h
+index ec79e8b44d3b..8e28c2fa8735 100644
+--- a/fs/erofs/internal.h
++++ b/fs/erofs/internal.h
+@@ -455,6 +455,29 @@ static inline void *erofs_vm_map_ram(struct page **pages, unsigned int count)
+ 	return NULL;
+ }
+ 
++static inline int erofs_inode_set_aops(struct inode *inode,
++				       struct inode *realinode, bool no_fscache)
 +{
-+	return vfs_fadvise(file->private_data, offset, len, advice);
++	if (erofs_inode_is_data_compressed(EROFS_I(realinode)->datalayout)) {
++		if (!IS_ENABLED(CONFIG_EROFS_FS_ZIP))
++			return -EOPNOTSUPP;
++		DO_ONCE_LITE_IF(realinode->i_blkbits != PAGE_SHIFT,
++			  erofs_info, realinode->i_sb,
++			  "EXPERIMENTAL EROFS subpage compressed block support in use. Use at your own risk!");
++		inode->i_mapping->a_ops = &z_erofs_aops;
++		return 0;
++	}
++	inode->i_mapping->a_ops = &erofs_aops;
++	if (IS_ENABLED(CONFIG_EROFS_FS_ONDEMAND)) {
++		if (!no_fscache && erofs_is_fscache_mode(realinode->i_sb))
++			inode->i_mapping->a_ops = &erofs_fscache_access_aops;
++	} else {
++		if (erofs_is_fileio_mode(EROFS_SB(realinode->i_sb)))
++			inode->i_mapping->a_ops = &erofs_fileio_aops;
++	}
++	return 0;
 +}
 +
- const struct file_operations erofs_ishare_fops = {
- 	.open		= erofs_ishare_file_open,
- 	.llseek		= generic_file_llseek,
-@@ -159,6 +165,7 @@ const struct file_operations erofs_ishare_fops = {
- 	.release	= erofs_ishare_file_release,
- 	.get_unmapped_area = thp_get_unmapped_area,
- 	.splice_read	= filemap_splice_read,
-+	.fadvise	= erofs_ishare_fadvise,
- };
- 
- struct inode *erofs_real_inode(struct inode *inode, bool *need_iput)
+ int erofs_register_sysfs(struct super_block *sb);
+ void erofs_unregister_sysfs(struct super_block *sb);
+ int __init erofs_init_sysfs(void);
 -- 
 2.22.0
 
