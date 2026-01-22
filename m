@@ -1,121 +1,65 @@
-Received: from mail-dl1-f44.google.com (mail-dl1-f44.google.com [74.125.82.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out30-124.freemail.mail.aliyun.com (out30-124.freemail.mail.aliyun.com [115.124.30.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D27143A2AE9
-	for <linux-fsdevel@vger.kernel.org>; Thu, 22 Jan 2026 16:36:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 171BE36EA96;
+	Thu, 22 Jan 2026 16:37:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769099771; cv=none; b=BbZ6Ww3pMaGL/OOiHXyyyqtnZ58WOeYYsd5Ld4kPFNz2wJCX4u3doBM56AB8C94u9/DYL7VRy9HwdaXixnNC7ii852DVjK0bMI7KOp2aLsrd0l5QE2qIWY4frkE6yqwV/suAnzvExpobXx/RukoQ8EeLYeW/obny0LkCmTMQaGM=
+	t=1769099888; cv=none; b=oxX4YFhUVE3yYGuM5YxyXrpd+qraJEMAMu3WWlVpuoZNzlvA1/JorrSgBdlmlHAe0d8CcbGach93SGQXbD94MXUUBPpoCWZilcxB1A4xiaeRgomMSYgUor5t4K+NAkxhfEhvswTyg4QpW+GKkn0EDnRjQTCT6GaOfuiZCkQD90g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769099771; c=relaxed/simple;
-	bh=slb/GGM+dDvhj/vRE0/DHMfg6wYcuMLRVsOLLU+nlSc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AxGcW2WZ2+ZxwZmZNT+Iv3Y97dseNMPd7+ze5jUgvuJVHRul+1Z5s/62lSxeOvoUVBdHSDM1DyPRR/1bY9SrcAf1gA8aWgNtKW0VBXvm9phsx/FzKlA8xz2YRYlSKUABJl5Akmt1qI8eVgzR2aluMstgRmTZhYphB9Wb/hBUj6E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E/Wwrzyw; arc=none smtp.client-ip=74.125.82.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1769099888; c=relaxed/simple;
+	bh=LXf2sKX1FBNyjxOCtHZ3N3fIjLjX2w8fUDA1/PZlROs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=A30hsAlUL9g4CcO4BLDMs0MYky5s+wDUajeLezwQ5giyaCQBFa+SnTRJK75hNjlIdnJ/ouAjbKJzV2a9u1X2YoVDWcl5nJNV2l3lq0BQX7oyxBPzj4MoH1dd30Unbf1n20PTgPR1pOksRhffR04ug9OpqJsoTEOmTmzS5WtzIVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=qILSA5H8; arc=none smtp.client-ip=115.124.30.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E/Wwrzyw"
-Received: by mail-dl1-f44.google.com with SMTP id a92af1059eb24-123320591a4so1372158c88.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 22 Jan 2026 08:36:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769099760; x=1769704560; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=78HgOhT4Kw2q12pLeDbNDTx/e26eJDuxp0giAwSWLiw=;
-        b=E/Wwrzyw4ja0O0zAFgX9K74S0kBrTf2YDlPK3LOLp1vOD0PCJmHmlIYYBHaWrCKwmR
-         XLYrBAu2n92XCwp6WkM8qO9EjPvukHKKWUx5YStA2txzblw0Rx2/o4htYlabVt9SrMoe
-         X2+oA6VXikfoQ+i2muP7I17EeNT4nNpWKM7wDRhFZ5YuTV12azA20A4v4l96A3sa1BDr
-         8a9O661PUaVR8ZdXqzQvAPZ6hhnmdg+mCUh+85/nCfE7yKKe6z0wsNbLdF73D0BoWUhy
-         UT6pbvkSSORDiusDTEXzRO/uHBYM705VdtufKmp0xu4/11VGFHyehA7makX0TkHbeZ7Y
-         gk7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769099760; x=1769704560;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=78HgOhT4Kw2q12pLeDbNDTx/e26eJDuxp0giAwSWLiw=;
-        b=QZyxjO1tne1U723ekpWyfyJNILaW0hxbji8UBl2HEXklK0XQH1MC3bwaNGlTc/c/js
-         EEfk5J9m2Tf8asaXUJhspSknhQIkV9YGCzReE0D826FaWiRxvX7fO/rwJNyVXCzFaefi
-         7pxPDbasxbbCST5pRIAAyQvEkwkmziAmbwQ/rvm70mrHc86f64MDkf6BVysqoYNXX8YR
-         0ONAQcbbDquHOQ0wih5tI8y1TLBJ3tkt4IlxVTwBJSFhChw9iE21jsCipC0J3wmxFoi2
-         QsVbjVFRTjyvGRcABluhC4zDJmtEXO1B8Y8X2fOjAHQ69D3W0am+Vb7V14rU3v+kDK0L
-         tBDw==
-X-Forwarded-Encrypted: i=1; AJvYcCW6zodRDqw5Nsm2OoWAqa+KrnJnqHFpE1AVfH3b+UjEhbKZvjEOQis2gJ1GIw08XJB3eGyMJ+2wBtgivORM@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzn7yVbvQJ9gP8kztfnbdXWt8Wll44l4WIrfhLZiHw9REDJO8JH
-	qe8629h8iv2zH0NmAUiynXYIQ7Z9LzcrNHXFXIzaGfwHAKhwqKGYYBkMwbYCXA==
-X-Gm-Gg: AZuq6aIX8K0jXOgdd35aIrkDFRlJe/8sSvtXD6276zU570W9ZIfD8w0wlvvzWHliE4L
-	b1rEP7pPEQaNrbCb5Q+qmgpIM2aN1AglMrtoM2HBjUDsHEKLVv0Q60W8VpwW/LE225zcgDYgx+x
-	q0j5aqrXDphezfdxm2v72226h89+PgGJWmfH6IkWgS8gRcfmElBe2pLgeoSoXqg+R8chB0YKOlW
-	WZ9aGti4isKo8tHvu/zU6m4xnT8eSd53fV/F0R7cs51BPfzs2f/hgurze3fN6ytA+qiC6BKXAhA
-	68LCX995QfNUKMIOnRXwzDvqhofrof44X0BwrsGcNKsESUB6NjttR6h5BzprqfcxvqR7xPmlvVr
-	eFkOoULOFzdywf3l+n7SCpVtq+eFxu15voq+Aoi3zP34IpT8tTHk4wdfsgz5udjbFeEMsS6fIC4
-	vWJKk=
-X-Received: by 2002:a05:7300:80c8:b0:2b7:2daf:34cd with SMTP id 5a478bee46e88-2b72daf34edmr860373eec.12.1769099759921;
-        Thu, 22 Jan 2026 08:35:59 -0800 (PST)
-Received: from debian ([74.48.213.230])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2b71d3d2da2sm5525543eec.6.2026.01.22.08.35.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Jan 2026 08:35:58 -0800 (PST)
-From: Qiliang Yuan <realwujing@gmail.com>
-To: viro@zeniv.linux.org.uk,
-	brauner@kernel.org
-Cc: jack@suse.cz,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	yuanql9@chinatelecom.cn,
-	Qiliang Yuan <realwujing@gmail.com>
-Subject: [PATCH] fs/file: optimize close_range() complexity from O(N) to O(Sparse)
-Date: Thu, 22 Jan 2026 11:35:53 -0500
-Message-ID: <20260122163553.147673-1-realwujing@gmail.com>
-X-Mailer: git-send-email 2.51.0
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="qILSA5H8"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1769099870; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=Lwld6vAnJB2NFeizg3t/vAsO9VfqN5FwLF5cCvhERHo=;
+	b=qILSA5H8zNAYVQ94dKL821X8jG6gwrWSPGW7nmiAdq7LjPVaL6/tqDWeXyeH1J24yVocMHPUThI2SSb6pLIQTKd4xJsSzbsNAEKoT9AVpz0uKvfCsdQoIpfmzcFcO8/yXG8GJbiLPTuIiDw3ELiIvpLj8qbqK3ExXh9x9R57bqI=
+Received: from 30.180.182.138(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0Wxcwr5W_1769099868 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Fri, 23 Jan 2026 00:37:49 +0800
+Message-ID: <b8329bf7-6686-4a35-bc99-25befc350e4d@linux.alibaba.com>
+Date: Fri, 23 Jan 2026 00:37:48 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v17 07/10] erofs: pass inode to trace_erofs_read_folio
+To: Hongbo Li <lihongbo22@huawei.com>
+Cc: hch@lst.de, djwong@kernel.org, amir73il@gmail.com,
+ linux-fsdevel@vger.kernel.org, linux-erofs@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, brauner@kernel.org, chao@kernel.org
+References: <20260122153406.660073-1-lihongbo22@huawei.com>
+ <20260122153406.660073-8-lihongbo22@huawei.com>
+From: Gao Xiang <hsiangkao@linux.alibaba.com>
+In-Reply-To: <20260122153406.660073-8-lihongbo22@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-In close_range(), the kernel traditionally performs a linear scan over the
-[fd, max_fd] range, resulting in O(N) complexity where N is the range size.
-For processes with sparse FD tables, this is inefficient as it checks many
-unallocated slots.
 
-This patch optimizes __range_close() by using find_next_bit() on the
-open_fds bitmap to skip holes. This shifts the algorithmic complexity from
-O(Range Size) to O(Active FDs), providing a significant performance boost
-for large-range close operations on sparse file descriptor tables.
 
-Signed-off-by: Qiliang Yuan <realwujing@gmail.com>
-Signed-off-by: Qiliang Yuan <yuanql9@chinatelecom.cn>
----
- fs/file.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+On 2026/1/22 23:34, Hongbo Li wrote:
+> The trace_erofs_read_folio accesses inode information through folio,
+> but this method fails if the real inode is not associated with the
+> folio(such as for the uncomping page cache sharing case). Therefore,
 
-diff --git a/fs/file.c b/fs/file.c
-index 0a4f3bdb2dec..c7c3ee03f8df 100644
---- a/fs/file.c
-+++ b/fs/file.c
-@@ -777,13 +777,17 @@ static inline void __range_close(struct files_struct *files, unsigned int fd,
- 				 unsigned int max_fd)
- {
- 	struct file *file;
-+	struct fdtable *fdt;
- 	unsigned n;
- 
- 	spin_lock(&files->file_lock);
--	n = last_fd(files_fdtable(files));
-+	fdt = files_fdtable(files);
-+	n = last_fd(fdt);
- 	max_fd = min(max_fd, n);
- 
--	for (; fd <= max_fd; fd++) {
-+	for (fd = find_next_bit(fdt->open_fds, max_fd + 1, fd);
-+	     fd <= max_fd;
-+	     fd = find_next_bit(fdt->open_fds, max_fd + 1, fd + 1)) {
- 		file = file_close_fd_locked(files, fd);
- 		if (file) {
- 			spin_unlock(&files->file_lock);
--- 
-2.51.0
+                 ^ in the upcoming
 
+> we pass the real inode to it so that the inode information can be
+> printed out in that case.
+> 
+> Signed-off-by: Hongbo Li <lihongbo22@huawei.com>
+
+Reviewed-by: Gao Xiang <hsiangkao@linux.alibaba.com>
+
+Thanks,
+Gao Xiang
