@@ -1,148 +1,191 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7BB33803EC
-	for <linux-fsdevel@vger.kernel.org>; Thu, 22 Jan 2026 20:07:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12F7B39BA2A
+	for <linux-fsdevel@vger.kernel.org>; Thu, 22 Jan 2026 20:30:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.49
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769112466; cv=pass; b=VI3nlsqO4xT5alOhyReVfzpuCeeLLBU/kQmEQ/V8XnNn6rweXSLEDLI/8rx2s8NKvvwfHaK4nrKEYnAtebQaypSoe/K3R37WdyukTYZj0VWNJlBQ0vNj1ZR0ItD3dKGCbeQft8NBm7U1+uecf8P9yuKyGH7W0RqaiDp2LZQsgO4=
+	t=1769113863; cv=pass; b=nDDjij6zK651R6lxAJfB9CJNNGp/t9X5YXaNlyqMF7RLGf+W1qs8kGUnWnpC5ZFOSjBVIygo/fDjhxTy5aXuNR6NmMe384L4BmZHsaGOvoLnGyPmSvaY1uZwi1lkBXbBWsSJrpWReov+uonWxYiAKcaLfcbi+yWjgYYAtnm0qPg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769112466; c=relaxed/simple;
-	bh=UeToXNeIZz9y9OvrlDazfYnO7oODJgQv05/I8arOeUU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bZEIoSMfOfvx923nabwpjJJSdaPcKc5DyftGwmSAfM9xgXPLNqM57srDferk1d2NCTbWg2UD9EKE0M8MkytXBea49iH0iFwC67JfOi477qGQk31aW34pH9f6uWzV+KmKbZGSPa7Vl8efi1rNJRgciIwZFwmTQYW6XlouybLL1sg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X/lWqrLz; arc=pass smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1769113863; c=relaxed/simple;
+	bh=ASZplhRqMNnIuXI0Gmdw3pwrAxGsQ+x5dICWN1yZY84=;
+	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=f8HBFH0bFV4uNS0okHUcKfzLdBGnfPpoQ5Bp2OEDyu+Y++PlhVfSjlHgkvzpHD4IjvSsQoMmrJ6AAGJdFA0Rek8+WfoD2ophL41PmvRHHFpS7QUjQtGwMH+hgupudzsjq3LIRs4gW0LzQ3SYMWEIqbGnn6QzGIQvLbggdlvRe+Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=s9cWSTdk; arc=pass smtp.client-ip=209.85.222.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X/lWqrLz"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-64d1ef53cf3so1828331a12.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 22 Jan 2026 12:07:43 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769112459; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="s9cWSTdk"
+Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-947fe9e92c3so952671241.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 22 Jan 2026 12:30:58 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769113855; cv=none;
         d=google.com; s=arc-20240605;
-        b=N+VIcK5eKa09Aur8+vdBdoa0KhHDDTrzHTuoOuxhlZY8+IyJE9zDjd4g7S7RdsxBpg
-         1sjlkvSdPs1yBs6om1nyX7kEDSVIWzDf7floI5ZQqaXhE+fH/+4YnehXT3QbUn8ixBlw
-         lbfkWcmxHttWx5hVYv17+XHuAazzhUWB3Ym4WKyynDfrPnGI2E+R8KO3CVpuuXW/yeG7
-         ViWu2QrSX7rDXXL8lxwFAtXZwxoyMabZCMnU8JPsCWLDQtnQLcJr6DZUrKnAS5HCCno+
-         u8b90f0GsopBXVH5tOjwEJ7VSQZCdi85yQ8G95afbJLIOOPd12OdJ29cMznywWtrjVSN
-         oWJQ==
+        b=MIOmrRIuzMfs/XXNzkCVfsxhi80oMw+NxXbZZkfYr1cKxQwYs7f636rhlpUawtLrOE
+         YRDEy7mSqMBmzJFtNyPBCMw7Y4qKxfNgqHVF1xlBdargBUQgmW4yX8KuGncgy4lpuRlh
+         dMWr2Rd9Lfuy66kbKrH/x9OkPd+MXeEfVcs+VuyZgwTHVLUizQno308PGtTzfD29uYZt
+         UzSC56YhFkHaV/SDS9hfwBpQeK9o8zVyShQLFvq8t+q+Ak2Z0Vet3AF+w21qxn5pQEWl
+         NlKgPmQcWbYaeF06GK4VRHCQmRxfm5ZAbJ8fnMXg4kPynr/2CU+yZWFFO5zseB7pFxF2
+         VfBQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=UeToXNeIZz9y9OvrlDazfYnO7oODJgQv05/I8arOeUU=;
-        fh=tsQ8BOCYLBiO2Qh5vl0FT7LwMDxJ3ZIYexd5zyRCcz4=;
-        b=hG1+TQLw/BvPVtO+cq0/DJ7fF8hhenaMcMXWk++/5HcfEfYIDjN0B2YNrYGRjF9N6w
-         OI7M0dn2FRqBCuWFKO+NstFSPoOi1ZF8wPDE8aWsR6OP3a5CpclQjk0AEPa9it8DIqK9
-         f5HJvKMJh+T9pJ/aEYppVxdKFu90bs0ZkMPbyQsBqaJiqBcflq9oj75KTj+rHmWoArYR
-         2XolQz4acBofQJyfNGOl9QjDfwW+DWzLWRBoi+Rq74LhTn23O4FeApomH9R8AVrbDOgb
-         +MUtmQJ1J1EnJdrvoXsyU4csBkDC1lummIrKctVmGa5IHy6/zx68TOb+ZIw8S1Gpbln/
-         Zujg==;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:dkim-signature;
+        bh=BQj97zlME5zzETPT7vCk6obWp/pKKcD8Mr+mou6nGos=;
+        fh=kQZNAV28+/FWpOE6mMHsEXXMQMUG3UUOo4Fvn2maWDo=;
+        b=dDQb9Fkg778wC/PTRRmbzTqCQDl53cZkUL9AvQ4tRKLNMhnjqX0aRwf6HMAR20qIrj
+         xvc8J1Gb9zQJ1MAEzACHlh/rOvsI7QqTdn9iGJWMpwMzj6035HqBWwvDxjLvTrGM/CAC
+         kqgQGtppP371hfuD5h/l/fRmKw5K+hF/8/PhXCAGMg6A+GWwmPtIv0Hl2NmTDiTlPLay
+         IKW5urjTkr0tCoDa5nfisk/fBbfgjPnl/jFEynOdj5MPlf2tjvOPYi7uuvymBGygXir2
+         6HUBsg5x8LwuDmRM6imCPl+PoLDzNO464CpVniEytMZXIji5hlNLQF8HOAmjDJLpVhy4
+         XuCg==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769112459; x=1769717259; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UeToXNeIZz9y9OvrlDazfYnO7oODJgQv05/I8arOeUU=;
-        b=X/lWqrLz2bQ6qvlxMp7/4e7A3KNMkcvHPGvJrXvIoIFpAaXIC/J52gb0mTswrvGFCP
-         qSSVd1czapsgBn9o4IwsRwvrzkDyZFQx/Q7wv1QR4ekmsTMySm+kz1F5NgHYxohKdeQW
-         9UBy+879Kpi1tgCxNhjuYt8DS45VfiBkOyHJO/2HCOK97WnN26k3ENKaWBrgHO+JG8UL
-         BEq6qWIJt7oQcNqg684IBIHDoze+DmC0pRYl6PWRXWVulbGGtM+GXeZOX3icPwGLoZvy
-         F8yBwJU6ABDv/T7C8paHIdvH8dD98D8xBTj2IE6kxogY0Puri6AgRf99EEFaozcudOgy
-         Dzog==
+        d=google.com; s=20230601; t=1769113855; x=1769718655; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BQj97zlME5zzETPT7vCk6obWp/pKKcD8Mr+mou6nGos=;
+        b=s9cWSTdkMw0DTkJpj9RD4xeqwJKTvnEuQS6o2lmxQr8yI+JxygOpcXlQyNkodNWeZN
+         QlKZDCW7kA5FN/zuUfMW+HDnPtJb7+ympe2kD78TTtBk3Ck2FvYXAReK2lt1XILLSw5H
+         QBh7wNT0aVnhZEGEA9qz8tOTHNL8dWPiJ/VwHvxBkQ4Iw8zhruQzF52rDb9aaAEUrJGQ
+         yps1d7pBZmraCX4fYe9cRXLfT55iWdDhZtRb8YG5PeNfs5p2Z5eKu/TyGz2PN2paNK5J
+         HBy8zc98eJILnjq8u5EUZT90+sZ4aSreI25/HQbyOqGmDODp8u4zcr2XsIp4ecAuBwL/
+         6qXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769112459; x=1769717259;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=UeToXNeIZz9y9OvrlDazfYnO7oODJgQv05/I8arOeUU=;
-        b=NXexBjvwdt3tGAjtUoJG2pHTYbVC7mi5eHdAcRh8Akd0gw3AOv9GY6Pip8nEK+Ehw0
-         J32J31Jp8k8IjxROqnpxxK6LQeJkBJfstdBkomMUqz1LN81veUbQlFvbVum0Wa7k+h8/
-         m4JC5wr/M3BjzD7KQw2v0gGOfOJnbjp8ZrRlT5uBGVBWkfHonIZGBlTFde5dJ3TVRcjH
-         sCSL5x9Fy3gJ0yYBxy6ROTJxbU2Yp0+AxLBiPHQxUh1AjWMHb+BuWBWdG/PF20njUlaV
-         LpXFXGbseyoW/9+DsG1F05qzktPsYi2Khl4vW10u0nsN4wDvv42cx7EFU/cl1PcG6Csj
-         BlFA==
-X-Forwarded-Encrypted: i=1; AJvYcCUAwgded0hd8m5h7prBORiEAs5BysyEnK7E5QRk1TOhZ9NT2Uhc0WiDGq04z40OVTiJYmh7dX55wGAGUieG@vger.kernel.org
-X-Gm-Message-State: AOJu0YzsQb3bsU3y9TQaOkgDmbU/p9Bpk/syKj47b1pa+mlH2KvCGzNt
-	O+Hxle7QCVaQ8zpBgeOzz3bctWHUAWH8qtWdvNZvrEJwLfZ2Vs2HWsO5EPX6lJZ/5VaBqVyv7/k
-	Bg7pLSqqK7P6lC9ShOhfQBqgm8dNC9R4=
-X-Gm-Gg: AZuq6aIo8/TEhubozT0+38Vk6qO0PTX9EIQQQ7Ap946p4MCGTqeebs3CXgHHLdDPpFS
-	1NZboneJqV8zfS1KEwc6GQjFWqHh2m2HOQeyd8rZ5RaHOZhT87Yp4wv9E6lIMDaoLYZ345VrTzh
-	Sm63ITKZf1xKZ3zwe8aqKvh6/5PIG4seVQHzVK37FRnufYVdlghcXQqWv5hMgeyAU4QC42FdorZ
-	+qQQbotGhpc6wfW18VUs+D8oVySd5nv+eiOgwT8Uc+J+8svlWwXhgr2cQJ/Qhz8Uu40lsGzxVlP
-	P22j8tHXnyycjHRUOBUZHE357dBnBn6KdP5USjDB
-X-Received: by 2002:a17:907:70a:b0:b84:42e5:2b7e with SMTP id
- a640c23a62f3a-b885ae682a6mr30056466b.51.1769112458391; Thu, 22 Jan 2026
- 12:07:38 -0800 (PST)
+        d=1e100.net; s=20230601; t=1769113855; x=1769718655;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BQj97zlME5zzETPT7vCk6obWp/pKKcD8Mr+mou6nGos=;
+        b=F10VVgk/OnP8IM3LKcVEaVsLZ2SeTXdg/XvjBEZOY5WR8dsgbZij3B5EntT89/2vTC
+         sodKs24GCHcvRnk+x9dcWq7iizRC4IAYLb4GSdg1+YGRNODQcergIz44Uqq79wq/WfFN
+         jUz/LKaa+lJsGAeLug4nzCEvfKltFUZ0XALVBxY0lBCPm3+qxP5RQJ9l0GEZKjwyP1WS
+         2XbUZE3zxEkZiDIEIOGQGC39kabH91FFbazY9RqUI6RyRd1dmDwcIlDozO7RaBhBC0K8
+         FKQSHtrmlubYa/t/NmwaaUUjLOhr9MqE+ubDq3ENoHGCDPJhklmR4zRg3O8yYWtnYmHf
+         XWPg==
+X-Forwarded-Encrypted: i=1; AJvYcCVX9d9G50e/SU6je5D+k7akUs1R5rYRe3oS3gqqdsXBwt66sfgh9xheDjBqbgcrOYp33fiXKY8H9/aRpP7x@vger.kernel.org
+X-Gm-Message-State: AOJu0YzITzA3B0GzCf8lYIAvLSaQ5/++hDQhxiwWVkzgHQ+AzPb7P5pO
+	bDM3nI6Iwh9VR+CuV/P7IhqEzVUfZRLj5J4cHj68cX4/njaUBkVI4hmgwB4LLHmKnMuHPnVdZlh
+	StdVtBI+4NYjTK07ZhqUcZLPiTY32/0w7HrI9JUX4
+X-Gm-Gg: AZuq6aL7ywpInLAjWp2jF4IintN1NMPQtNIb6CdIrdtGHrQxzvVGte42XqFaPYbBqI0
+	5DRor9Ijuuf7IUFAIHaAPUEkfjWWRO/ukM1xPKbiRobm9IhRJF0YYtjAhK01EITovbSDIIje8No
+	I1iObPvl9iUWvlML9OTilXuB1mAKiAUvrRhw91aZOyAaE/oimMnkzTeqR3zNEmjLx02bEFBMyH3
+	ayJppMBfsDpLofInyj4dKSPaiaDUouq7gNQcVP8wqoOEoDE+U+Zl5vYzxwt1Cl4I6PgwSK6sLW9
+	bloV6VMjgeghlJUldCCYdDoH
+X-Received: by 2002:a05:6102:d89:b0:5ee:a8c4:18d4 with SMTP id
+ ada2fe7eead31-5f54bd0c3f6mr359613137.35.1769113854610; Thu, 22 Jan 2026
+ 12:30:54 -0800 (PST)
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 22 Jan 2026 12:30:53 -0800
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 22 Jan 2026 12:30:53 -0800
+From: Ackerley Tng <ackerleytng@google.com>
+In-Reply-To: <f2f2a6bd-5cb4-46c9-a0f8-3240670094b5@amazon.com>
+References: <20260114134510.1835-1-kalyazin@amazon.com> <20260114134510.1835-8-kalyazin@amazon.com>
+ <CAEvNRgEzVhEzr-3GWTsE7GSBsPdvVLq7WFEeLHzcmMe=R9S51w@mail.gmail.com>
+ <a2b79af7-e5d1-4668-bff3-606f57d32dfc@amazon.com> <CAEvNRgF46M1jp0+eBu2wQMO7P1afyo00SOkENFwvB2KYX3dnFA@mail.gmail.com>
+ <f2f2a6bd-5cb4-46c9-a0f8-3240670094b5@amazon.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260114-tonyk-get_disk_uuid-v1-0-e6a319e25d57@igalia.com>
- <20260114-tonyk-get_disk_uuid-v1-3-e6a319e25d57@igalia.com>
- <20260114062608.GB10805@lst.de> <5334ebc6-ceee-4262-b477-6b161c5ca704@igalia.com>
- <20260115062944.GA9590@lst.de> <633bb5f3-4582-416c-b8b9-fd1f3b3452ab@suse.com>
- <20260115072311.GA10352@lst.de> <22b16e24-d10e-43f6-bc2b-eeaa94310e3a@igalia.com>
- <CAOQ4uxhbz7=XT=C3R8XqL0K_o7KwLKsoNwgk=qJGuw2375MTJw@mail.gmail.com>
- <0241e2c4-bf11-4372-9eda-cccaba4a6d7d@igalia.com> <CAOQ4uxi988PutUi=Owm5zf6NaCm90PUCJLu7dw8firH8305w-A@mail.gmail.com>
- <33c1ccbd-abbe-4278-8ab1-d7d645c8b6e8@igalia.com> <CAOQ4uxgCM=q29Vs+35y-2K9k7GP2A2NfPkuqCrUiMUHW+KhbWw@mail.gmail.com>
- <75a9247a-12f4-4066-9712-c70ab41c274f@igalia.com> <CAOQ4uxig==FAd=2hO0B_CVBDSuBwdqL-zaXkpf-QXn5iEL364g@mail.gmail.com>
-In-Reply-To: <CAOQ4uxig==FAd=2hO0B_CVBDSuBwdqL-zaXkpf-QXn5iEL364g@mail.gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Thu, 22 Jan 2026 21:07:27 +0100
-X-Gm-Features: AZwV_Qj-Pre4XZbhvcFXr13YDWLuhkhhzBZFRQumTLtcoMVU1rOesRZLphknff4
-Message-ID: <CAOQ4uxg6dKr4XB3yAkfGd_ehZkBMcoNHiF5CeB9=3aca44yHRg@mail.gmail.com>
-Subject: Re: [PATCH 3/3] ovl: Use real disk UUID for origin file handles
-To: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
-Cc: Christoph Hellwig <hch@lst.de>, Chuck Lever <chuck.lever@oracle.com>, Jeff Layton <jlayton@kernel.org>, 
-	NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, 
-	Tom Talpey <tom@talpey.com>, Carlos Maiolino <cem@kernel.org>, Chris Mason <clm@fb.com>, 
-	David Sterba <dsterba@suse.com>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
-	linux-nfs@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	Qu Wenruo <wqu@suse.com>, linux-btrfs@vger.kernel.org, linux-unionfs@vger.kernel.org, 
-	kernel-dev@igalia.com, vivek@collabora.com, 
-	Ludovico de Nittis <ludovico.denittis@collabora.com>
+Date: Thu, 22 Jan 2026 12:30:53 -0800
+X-Gm-Features: AZwV_QhoTAbsDcZFNCQXVZ12J6m5MEBpBa-k8I2xwSPIY6AXvlNDgQnkgPrJ79I
+Message-ID: <CAEvNRgEd=Uh09dU_P7_vvzRpOyMYd=OKazpkxzr=VLe5HcQhGw@mail.gmail.com>
+Subject: Re: [PATCH v9 07/13] KVM: guest_memfd: Add flag to remove from direct map
+To: kalyazin@amazon.com, "Kalyazin, Nikita" <kalyazin@amazon.co.uk>, 
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+	"kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, 
+	"bpf@vger.kernel.org" <bpf@vger.kernel.org>, 
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, "kernel@xen0n.name" <kernel@xen0n.name>, 
+	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>, 
+	"linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>, 
+	"loongarch@lists.linux.dev" <loongarch@lists.linux.dev>
+Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>, "corbet@lwn.net" <corbet@lwn.net>, 
+	"maz@kernel.org" <maz@kernel.org>, "oupton@kernel.org" <oupton@kernel.org>, 
+	"joey.gouly@arm.com" <joey.gouly@arm.com>, "suzuki.poulose@arm.com" <suzuki.poulose@arm.com>, 
+	"yuzenghui@huawei.com" <yuzenghui@huawei.com>, "catalin.marinas@arm.com" <catalin.marinas@arm.com>, 
+	"will@kernel.org" <will@kernel.org>, "seanjc@google.com" <seanjc@google.com>, 
+	"tglx@linutronix.de" <tglx@linutronix.de>, "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>, 
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>, 
+	"hpa@zytor.com" <hpa@zytor.com>, "luto@kernel.org" <luto@kernel.org>, 
+	"peterz@infradead.org" <peterz@infradead.org>, "willy@infradead.org" <willy@infradead.org>, 
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "david@kernel.org" <david@kernel.org>, 
+	"lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>, 
+	"Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>, "vbabka@suse.cz" <vbabka@suse.cz>, 
+	"rppt@kernel.org" <rppt@kernel.org>, "surenb@google.com" <surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>, 
+	"ast@kernel.org" <ast@kernel.org>, "daniel@iogearbox.net" <daniel@iogearbox.net>, 
+	"andrii@kernel.org" <andrii@kernel.org>, "martin.lau@linux.dev" <martin.lau@linux.dev>, 
+	"eddyz87@gmail.com" <eddyz87@gmail.com>, "song@kernel.org" <song@kernel.org>, 
+	"yonghong.song@linux.dev" <yonghong.song@linux.dev>, 
+	"john.fastabend@gmail.com" <john.fastabend@gmail.com>, "kpsingh@kernel.org" <kpsingh@kernel.org>, 
+	"sdf@fomichev.me" <sdf@fomichev.me>, "haoluo@google.com" <haoluo@google.com>, 
+	"jolsa@kernel.org" <jolsa@kernel.org>, "jgg@ziepe.ca" <jgg@ziepe.ca>, 
+	"jhubbard@nvidia.com" <jhubbard@nvidia.com>, "peterx@redhat.com" <peterx@redhat.com>, 
+	"jannh@google.com" <jannh@google.com>, "pfalcato@suse.de" <pfalcato@suse.de>, 
+	"shuah@kernel.org" <shuah@kernel.org>, "riel@surriel.com" <riel@surriel.com>, 
+	"ryan.roberts@arm.com" <ryan.roberts@arm.com>, "jgross@suse.com" <jgross@suse.com>, 
+	"yu-cheng.yu@intel.com" <yu-cheng.yu@intel.com>, "kas@kernel.org" <kas@kernel.org>, 
+	"coxu@redhat.com" <coxu@redhat.com>, "kevin.brodsky@arm.com" <kevin.brodsky@arm.com>, 
+	"maobibo@loongson.cn" <maobibo@loongson.cn>, "prsampat@amd.com" <prsampat@amd.com>, 
+	"mlevitsk@redhat.com" <mlevitsk@redhat.com>, "jmattson@google.com" <jmattson@google.com>, 
+	"jthoughton@google.com" <jthoughton@google.com>, "agordeev@linux.ibm.com" <agordeev@linux.ibm.com>, 
+	"alex@ghiti.fr" <alex@ghiti.fr>, "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>, 
+	"borntraeger@linux.ibm.com" <borntraeger@linux.ibm.com>, "chenhuacai@kernel.org" <chenhuacai@kernel.org>, 
+	"dev.jain@arm.com" <dev.jain@arm.com>, "gor@linux.ibm.com" <gor@linux.ibm.com>, 
+	"hca@linux.ibm.com" <hca@linux.ibm.com>, 
+	"Jonathan.Cameron@huawei.com" <Jonathan.Cameron@huawei.com>, "palmer@dabbelt.com" <palmer@dabbelt.com>, 
+	"pjw@kernel.org" <pjw@kernel.org>, 
+	"shijie@os.amperecomputing.com" <shijie@os.amperecomputing.com>, "svens@linux.ibm.com" <svens@linux.ibm.com>, 
+	"thuth@redhat.com" <thuth@redhat.com>, "wyihan@google.com" <wyihan@google.com>, 
+	"yang@os.amperecomputing.com" <yang@os.amperecomputing.com>, 
+	"vannapurve@google.com" <vannapurve@google.com>, "jackmanb@google.com" <jackmanb@google.com>, 
+	"aneesh.kumar@kernel.org" <aneesh.kumar@kernel.org>, "patrick.roy@linux.dev" <patrick.roy@linux.dev>, 
+	"Thomson, Jack" <jackabt@amazon.co.uk>, "Itazuri, Takahiro" <itazur@amazon.co.uk>, 
+	"Manwaring, Derek" <derekmn@amazon.com>, "Cali, Marco" <xmarcalx@amazon.co.uk>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 20, 2026 at 4:12=E2=80=AFPM Amir Goldstein <amir73il@gmail.com>=
- wrote:
+Nikita Kalyazin <kalyazin@amazon.com> writes:
+
 >
-> On Mon, Jan 19, 2026 at 5:56=E2=80=AFPM Andr=C3=A9 Almeida <andrealmeid@i=
-galia.com> wrote:
-> >
-...
-> > Actually they are not in the same fs, upper and lower are coming from
-> > different fs', so when trying to mount I get the fallback to
-> > `uuid=3Dnull`. A quick hack circumventing this check makes the mount wo=
-rk.
-> >
-> > If you think this is the best way to solve this issue (rather than
-> > following the VFS helper path for instance),
+> [...snip...]
 >
-> That's up to you if you want to solve the "all lower layers on same fs"
-> or want to also allow lower layers on different fs.
-> The former could be solved by relaxing the ovl rules.
+>>>>> @@ -533,6 +580,8 @@ static void kvm_gmem_free_folio(struct folio *folio)
+>>>>>         kvm_pfn_t pfn = page_to_pfn(page);
+>>>>>         int order = folio_order(folio);
+>>>>>
+>>>>> +     kvm_gmem_folio_restore_direct_map(folio);
+>>>>> +
+>>>>
+>>>> I can't decide if the kvm_gmem_folio_no_direct_map(folio) should be in
+>>>> the caller or within kvm_gmem_folio_restore_direct_map(), since this
+>>>> time it's a folio-specific property being checked.
+>>>
+>>> I'm tempted to keep it similar to the kvm_gmem_folio_zap_direct_map()
+>>> case.  How does the fact it's a folio-speicific property change your
+>>> reasoning?
+>>>
+>>
+>> This is good too:
+>>
+>>    if (kvm_gmem_folio_no_direct_map(folio))
+>>            kvm_gmem_folio_restore_direct_map(folio)
 >
-> > please let me know how can
-> > I safely lift this restriction, like maybe adding a new flag for this?
->
-> I think the attached patch should work for you and should not
-> break anything.
->
-> It's only sanity tested and will need to write tests to verify it.
+> It turns out we can't do that because folio->mapping is gone by the time
+> filemap_free_folio() is called so we can't inspect the flags.  Are you
+> ok with only having this check when zapping (but not when restoring)?
+> Do you think we should add a comment saying it's conditional here?
 >
 
-Andre,
+I thought kvm_gmem_folio_no_direct_map() only reads folio->private,
+which I think should still be there at the point of
+filemap_free_folio().
 
-I tested the patch and it looks good on my side.
-If you want me to queue this patch for 7.0,
-please let me know if it addresses your use case.
-
-Thanks,
-Amir.
+>>
+>> [...snip...]
+>>
