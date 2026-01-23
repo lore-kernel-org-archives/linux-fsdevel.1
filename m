@@ -1,46 +1,46 @@
-Received: from canpmsgout07.his.huawei.com (canpmsgout07.his.huawei.com [113.46.200.222])
+Received: from canpmsgout09.his.huawei.com (canpmsgout09.his.huawei.com [113.46.200.224])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FFC6376BC5;
-	Fri, 23 Jan 2026 01:45:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.222
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D62142DA75F;
+	Fri, 23 Jan 2026 01:45:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.224
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769132736; cv=none; b=nciitzSL/zN9Rlak+IgDUaodbEee8QHE09FyMJIuAbAVu1Z5mTnwv30R6sYepxAtiPHR4NL5CgVkQ4e+JFEeLCqloXGFDArlr2HzcuG5oLNzdTP4DJCEUtxhUmIXUnGi82VaKi25G6JEJeveUIBabW4WY1VzA/8UYoImEzsQ+x4=
+	t=1769132736; cv=none; b=mrBEE0JJFI4rjlysZy07VeZEQt/q6AYODdWb7ka+iSBmwzfamEsaGZMUZk5viaA36QBW5bpKRVQprXM7QxUPqQeVqAgumWoVR8CpKp6hJGHw0hhog9j0NUJ5A4q5/PlawT+6L7CM1I8um53p3XU3a9QruV41b9GWkpVp1BvmvLk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1769132736; c=relaxed/simple;
-	bh=anA6yDKzxBNODzduD70HgdLsrJbw6S9AkfSIJUGFzX0=;
+	bh=i4IxHS9vd+Y/yVMGn6Su/zXk268XgHWFKwcAj1dzo2s=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nCj76lmZYbGiikKLgQtPFQ3tWB24TT8NQpSA+MqbVPw93T3n6n/CmyDI4tSEyV/kepxeaKfW8y7G0de8uQHenvOiosOma+wkzEbnSAWvZrDHolCCfoYoitzqSmAeUt4yjTSM72/orF4R1ASOk6gmXvf4dtrg12+Wxf8DCYPSBgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=uTFxrd8I; arc=none smtp.client-ip=113.46.200.222
+	 MIME-Version:Content-Type; b=QwKVHlNElUrv3n7pHIL/jbDSeNamq5brCV+e1QiFRbP6QqtCeBKPY3b4yl70Z65infvNjNNDh+a84tGSynLZh9zmZpynlXeaWwLm2HJi8PvlcZkpnkgIE80rrCi6aOcYP6QGGBwivQGvC2KQeawkbLQZa/772SAdKiMJK24Wtsw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=rutdvmdo; arc=none smtp.client-ip=113.46.200.224
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="uTFxrd8I"
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="rutdvmdo"
 dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
 	c=relaxed/relaxed; q=dns/txt;
 	h=From;
-	bh=pjdMVj5WK0KjkehQa5OTHZ+MCiwfMCyVPXQRCDg124Y=;
-	b=uTFxrd8IXGqAsUVgSzf8YOFirRCl+3Vri/JQVcixI0RqRwASzkKo/jUAAOd1zf2p8vAHRhNct
-	7JRO2KnDibrXmcR1YSb58tPaTU2XzWY8irks5vvRwYuE1ugRbA9HdzpSp+Pa/6cphzU/dMAJn2U
-	JzHDdXLMT0jGr7lSzjEguOw=
-Received: from mail.maildlp.com (unknown [172.19.163.200])
-	by canpmsgout07.his.huawei.com (SkyGuard) with ESMTPS id 4dy0z93hBczLlTR;
-	Fri, 23 Jan 2026 09:41:57 +0800 (CST)
+	bh=MM8TsauSDpoIZ20LujoMlgVoP0k5Dxv+caeL1MPk8ho=;
+	b=rutdvmdomAR7xcskRUZYp3W4+DpdvSHcbEvxC0n6cYxBOvYi8DdsB+Mv6VegqAuIzwUdmlfSH
+	Z5lCKFfzVfvavsiloG3x2Lkhs22Gvq8CZrXXGGdKdR/gGpoE0U2liT37sPH2VopWIzpFle0IpQK
+	rF5JNX/CctceFbwK/e+UpQw=
+Received: from mail.maildlp.com (unknown [172.19.163.15])
+	by canpmsgout09.his.huawei.com (SkyGuard) with ESMTPS id 4dy0z716Prz1cySK;
+	Fri, 23 Jan 2026 09:41:55 +0800 (CST)
 Received: from kwepemr500015.china.huawei.com (unknown [7.202.195.162])
-	by mail.maildlp.com (Postfix) with ESMTPS id 9F0384055B;
-	Fri, 23 Jan 2026 09:45:21 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id 6AD1B40565;
+	Fri, 23 Jan 2026 09:45:19 +0800 (CST)
 Received: from huawei.com (10.67.174.162) by kwepemr500015.china.huawei.com
  (7.202.195.162) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 23 Jan
- 2026 09:45:20 +0800
+ 2026 09:45:18 +0800
 From: Hongbo Li <lihongbo22@huawei.com>
 To: <hsiangkao@linux.alibaba.com>, <chao@kernel.org>, <brauner@kernel.org>
 CC: <hch@lst.de>, <djwong@kernel.org>, <amir73il@gmail.com>,
 	<linux-fsdevel@vger.kernel.org>, <linux-erofs@lists.ozlabs.org>,
 	<linux-kernel@vger.kernel.org>, <lihongbo22@huawei.com>
-Subject: [PATCH v18 10/10] erofs: implement .fadvise for page cache share
-Date: Fri, 23 Jan 2026 01:31:32 +0000
-Message-ID: <20260123013132.662393-11-lihongbo22@huawei.com>
+Subject: [PATCH v18 05/10] erofs: using domain_id in the safer way
+Date: Fri, 23 Jan 2026 01:31:27 +0000
+Message-ID: <20260123013132.662393-6-lihongbo22@huawei.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20260123013132.662393-1-lihongbo22@huawei.com>
 References: <20260123013132.662393-1-lihongbo22@huawei.com>
@@ -55,44 +55,92 @@ Content-Type: text/plain
 X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
  kwepemr500015.china.huawei.com (7.202.195.162)
 
-From: Hongzhen Luo <hongzhen@linux.alibaba.com>
+Either the existing fscache usecase or the upcoming page
+cache sharing case, the `domain_id` should be protected as
+sensitive information, so we use the safer helpers to allocate,
+free and display domain_id.
 
-This patch implements the .fadvise interface for page cache share.
-Similar to overlayfs, it drops those clean, unused pages through
-vfs_fadvise().
-
-Signed-off-by: Hongzhen Luo <hongzhen@linux.alibaba.com>
 Signed-off-by: Hongbo Li <lihongbo22@huawei.com>
 Reviewed-by: Gao Xiang <hsiangkao@linux.alibaba.com>
 ---
- fs/erofs/ishare.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ Documentation/filesystems/erofs.rst |  5 +++--
+ fs/erofs/fscache.c                  |  4 ++--
+ fs/erofs/super.c                    | 10 ++++------
+ 3 files changed, 9 insertions(+), 10 deletions(-)
 
-diff --git a/fs/erofs/ishare.c b/fs/erofs/ishare.c
-index ad53a57dbcbc..ce980320a8b9 100644
---- a/fs/erofs/ishare.c
-+++ b/fs/erofs/ishare.c
-@@ -151,6 +151,12 @@ static int erofs_ishare_mmap(struct file *file, struct vm_area_struct *vma)
- 	return generic_file_readonly_mmap(file, vma);
+diff --git a/Documentation/filesystems/erofs.rst b/Documentation/filesystems/erofs.rst
+index 08194f194b94..40dbf3b6a35f 100644
+--- a/Documentation/filesystems/erofs.rst
++++ b/Documentation/filesystems/erofs.rst
+@@ -126,8 +126,9 @@ dax={always,never}     Use direct access (no page cache).  See
+ dax                    A legacy option which is an alias for ``dax=always``.
+ device=%s              Specify a path to an extra device to be used together.
+ fsid=%s                Specify a filesystem image ID for Fscache back-end.
+-domain_id=%s           Specify a domain ID in fscache mode so that different images
+-                       with the same blobs under a given domain ID can share storage.
++domain_id=%s           Specify a trusted domain ID for fscache mode so that
++                       different images with the same blobs, identified by blob IDs,
++                       can share storage within the same trusted domain.
+ fsoffset=%llu          Specify block-aligned filesystem offset for the primary device.
+ ===================    =========================================================
+ 
+diff --git a/fs/erofs/fscache.c b/fs/erofs/fscache.c
+index f4937b025038..a2cc0f3fa9d0 100644
+--- a/fs/erofs/fscache.c
++++ b/fs/erofs/fscache.c
+@@ -379,7 +379,7 @@ static void erofs_fscache_domain_put(struct erofs_domain *domain)
+ 		}
+ 		fscache_relinquish_volume(domain->volume, NULL, false);
+ 		mutex_unlock(&erofs_domain_list_lock);
+-		kfree(domain->domain_id);
++		kfree_sensitive(domain->domain_id);
+ 		kfree(domain);
+ 		return;
+ 	}
+@@ -446,7 +446,7 @@ static int erofs_fscache_init_domain(struct super_block *sb)
+ 	sbi->domain = domain;
+ 	return 0;
+ out:
+-	kfree(domain->domain_id);
++	kfree_sensitive(domain->domain_id);
+ 	kfree(domain);
+ 	return err;
  }
+diff --git a/fs/erofs/super.c b/fs/erofs/super.c
+index dca1445f6c92..38be26ba04bb 100644
+--- a/fs/erofs/super.c
++++ b/fs/erofs/super.c
+@@ -525,10 +525,8 @@ static int erofs_fc_parse_param(struct fs_context *fc,
+ 			return -ENOMEM;
+ 		break;
+ 	case Opt_domain_id:
+-		kfree(sbi->domain_id);
+-		sbi->domain_id = kstrdup(param->string, GFP_KERNEL);
+-		if (!sbi->domain_id)
+-			return -ENOMEM;
++		kfree_sensitive(sbi->domain_id);
++		sbi->domain_id = no_free_ptr(param->string);
+ 		break;
+ #else
+ 	case Opt_fsid:
+@@ -624,7 +622,7 @@ static void erofs_set_sysfs_name(struct super_block *sb)
+ {
+ 	struct erofs_sb_info *sbi = EROFS_SB(sb);
  
-+static int erofs_ishare_fadvise(struct file *file, loff_t offset,
-+				loff_t len, int advice)
-+{
-+	return vfs_fadvise(file->private_data, offset, len, advice);
-+}
-+
- const struct file_operations erofs_ishare_fops = {
- 	.open		= erofs_ishare_file_open,
- 	.llseek		= generic_file_llseek,
-@@ -159,6 +165,7 @@ const struct file_operations erofs_ishare_fops = {
- 	.release	= erofs_ishare_file_release,
- 	.get_unmapped_area = thp_get_unmapped_area,
- 	.splice_read	= filemap_splice_read,
-+	.fadvise	= erofs_ishare_fadvise,
- };
- 
- struct inode *erofs_real_inode(struct inode *inode, bool *need_iput)
+-	if (sbi->domain_id)
++	if (sbi->domain_id && sbi->fsid)
+ 		super_set_sysfs_name_generic(sb, "%s,%s", sbi->domain_id,
+ 					     sbi->fsid);
+ 	else if (sbi->fsid)
+@@ -852,7 +850,7 @@ static void erofs_sb_free(struct erofs_sb_info *sbi)
+ {
+ 	erofs_free_dev_context(sbi->devs);
+ 	kfree(sbi->fsid);
+-	kfree(sbi->domain_id);
++	kfree_sensitive(sbi->domain_id);
+ 	if (sbi->dif0.file)
+ 		fput(sbi->dif0.file);
+ 	kfree(sbi->volume_name);
 -- 
 2.22.0
 
