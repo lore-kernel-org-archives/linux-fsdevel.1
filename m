@@ -1,97 +1,153 @@
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+Received: from canpmsgout03.his.huawei.com (canpmsgout03.his.huawei.com [113.46.200.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B1BE36CDE7;
-	Fri, 23 Jan 2026 01:37:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7C193559CB;
+	Fri, 23 Jan 2026 01:45:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769132250; cv=none; b=IfzeOPjno9jiRxEptNSvmqEbRf2nkEUUpGY/TDxHY1IKNF4h9t1Ynz4Q/EOiMdSssEwMTk7eC064dUPi9wFPpkhsVx9ipu7Qolc7g2vDk9qPOVrOnj/KFqltJt1ngLvGXo5HDb/b1vPC3ySmoAiVg8MWWzuwx8vBFCIJ9iQzIvo=
+	t=1769132733; cv=none; b=bh8htnFRqqZ3GgCjZM2ozou0mvv0vzKzGnEfFlW9ThbwuM83PgNi6PvEyeFWUHvJpq414HYXHcBQNsrbo7fQv3Q7jEK+f3ztlXav6k35pheHnRXfknta0YqIi4Kusx2Fn3Ic08MYvQhs997WTiuYKzctkPozMG/D+IvOXukekNo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769132250; c=relaxed/simple;
-	bh=URzEB4TyVLPJ0Q9KqeHfxpBTrzPlgb7DYWhcPdepu6Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Hz8/qGZ1cqW8k+PBwW3+jCOWfY4EAsoYI3g7MRc+9FpnJ7bTtngaTGdEaGhcbg6MouqAhQXG+Vz5S8EsM1Iw1yB/LP+KOKbWlPLXka/As6Kne8/BB++Q7KBRDPP3EfqUain7h38OQj3WIm3bLUQxumAUs1SNkFDHPoXtPTXTz7g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=XCYI5AMH; arc=none smtp.client-ip=62.89.141.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+	s=arc-20240116; t=1769132733; c=relaxed/simple;
+	bh=bLPyX55goz9UpKyTSsH/rsQVx9Lcd+68NmlbcIC2gHs=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=YQndiY39Bu9HRJ/95ykxy9GHsTsqqVC3jMpB7MY/wT5tICT16cJlkkdL5BIB8X+6hjccSm4TmFN0u1EeCdP5RhxjMfRsrERTqcJJCutKFS4tlFTdhPIW0jKiEVLUksmaMp2K+RlxyI1JIzTMplL3umE38bA4GjVOP0e2FKxqBpY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=oJbF4d0t; arc=none smtp.client-ip=113.46.200.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="XCYI5AMH"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description;
-	bh=oJpR0abL6Upot0fWbyBrvmiec0l2GBXUNO1f0js3zDA=; b=XCYI5AMHgU7dGxUeQtdnSDkWie
-	KPLw9SlMuVfNUv2nEtN69WvPUHdBVZfdaQ3sM7lkHIITHmgKEJBp0vmOzTdx/g7/p9SLrrqiUjKDj
-	6iQL7sDlaeMXyX9/5d4nkKzb3cgz4zWQgFZQUjX+wjmruuyUxNHCpZh8ziR8YZZX/Qi1QEhoZOsPQ
-	qphdr0JdzeWubH0JzsnFaS24bu29FIeYfZGdBoSxXL0SI4Ne9266UYanfQ1zF+KXmnjotGGBN2FMH
-	YJl5h6kWA1E0Zel+7HnxrePTzL0VLAxmCghVT0syQ6tF2auFF7oX5R9dHN6udIfZ3NTsawvNHY8+8
-	VI3U+XEg==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1vj68Z-0000000Gb6u-2hnp;
-	Fri, 23 Jan 2026 01:38:59 +0000
-Date: Fri, 23 Jan 2026 01:38:59 +0000
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Alejandro Colomar <alx@kernel.org>
-Cc: Zack Weinberg <zack@owlfolio.org>, Vincent Lefevre <vincent@vinc17.net>,
-	Jan Kara <jack@suse.cz>, Christian Brauner <brauner@kernel.org>,
-	Rich Felker <dalias@libc.org>, linux-fsdevel@vger.kernel.org,
-	linux-api@vger.kernel.org,
-	GNU libc development <libc-alpha@sourceware.org>
-Subject: Re: [RFC v1] man/man2/close.2: CAVEATS: Document divergence from
- POSIX.1-2024
-Message-ID: <20260123013859.GI3183987@ZenIV>
-References: <20250517133251.GY1509@brightrain.aerifal.cx>
- <5jm7pblkwkhh4frqjptrw4ll4nwncn22ep2v7sli6kz5wxg5ik@pbnj6wfv66af>
- <8c47e10a-be82-4d5b-a45e-2526f6e95123@app.fastmail.com>
- <20250524022416.GB6263@brightrain.aerifal.cx>
- <1571b14d-1077-4e81-ab97-36e39099761e@app.fastmail.com>
- <20260120174659.GE6263@brightrain.aerifal.cx>
- <aW_jz7nucPBjhu0C@devuan>
- <aW_olRn5s1lbbjdH@devuan>
- <1ec25e49-841e-4b04-911d-66e3b9ff4471@app.fastmail.com>
- <aXLGdWGTrYo1s6v7@devuan>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="oJbF4d0t"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=otZzmT6rxktVNDVECk5mC06H07hAnwXYZ9UJTBeZ2EE=;
+	b=oJbF4d0t5wRl+Q3D2MEG1XxQ46Sws4p95wCVOUDW01xFXaHTtZLIuDaU1CGP+FYnhHWI9gyc+
+	vl1DpAL3wOTCohN8rpHMh58gcD4/VUG36UAoqVqtLr4Wg1E8jI9n820W4N+o3Weae21OVDrRQCJ
+	RiDve7yi5NEMgQAYQ4IAnOc=
+Received: from mail.maildlp.com (unknown [172.19.163.0])
+	by canpmsgout03.his.huawei.com (SkyGuard) with ESMTPS id 4dy0yd2dPfzpStB;
+	Fri, 23 Jan 2026 09:41:29 +0800 (CST)
+Received: from kwepemr500015.china.huawei.com (unknown [7.202.195.162])
+	by mail.maildlp.com (Postfix) with ESMTPS id EBA8C40537;
+	Fri, 23 Jan 2026 09:45:17 +0800 (CST)
+Received: from huawei.com (10.67.174.162) by kwepemr500015.china.huawei.com
+ (7.202.195.162) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 23 Jan
+ 2026 09:45:17 +0800
+From: Hongbo Li <lihongbo22@huawei.com>
+To: <hsiangkao@linux.alibaba.com>, <chao@kernel.org>, <brauner@kernel.org>
+CC: <hch@lst.de>, <djwong@kernel.org>, <amir73il@gmail.com>,
+	<linux-fsdevel@vger.kernel.org>, <linux-erofs@lists.ozlabs.org>,
+	<linux-kernel@vger.kernel.org>, <lihongbo22@huawei.com>
+Subject: [PATCH v18 02/10] erofs: decouple `struct erofs_anon_fs_type`
+Date: Fri, 23 Jan 2026 01:31:24 +0000
+Message-ID: <20260123013132.662393-3-lihongbo22@huawei.com>
+X-Mailer: git-send-email 2.22.0
+In-Reply-To: <20260123013132.662393-1-lihongbo22@huawei.com>
+References: <20260123013132.662393-1-lihongbo22@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <aXLGdWGTrYo1s6v7@devuan>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
+ kwepemr500015.china.huawei.com (7.202.195.162)
 
-On Fri, Jan 23, 2026 at 02:02:53AM +0100, Alejandro Colomar wrote:
-> > HISTORY
-> >        The close() system call was present in Unix V7.
-> 
-> That would be simply stated as:
-> 
-> 	V7.
-> 
-> We could also document the first POSIX standard, as not all Unix APIs
-> were standardized at the same time.  Thus:
-> 
-> 	V7, POSIX.1-1988.
-> 
-> Thanks!
+From: Gao Xiang <hsiangkao@linux.alibaba.com>
 
-11/3/71							 SYS CLOSE (II)
-NAME		close -- close a file
-SYNOPSIS	(file descriptor in r0)
-		sys	close		/ close = 6.
-DESCRIPTION	Given a file descriptor such as returned from an open or
-		creat call, close closes the associated file. A close of
-		all files is automatic on exit, but since processes are
-		limited to 10 simultaneously open files, close is
-		necessary to programs which deal with many files.
-FILES
-SEE ALSO	creat, open
-DIAGNOSTICS	The error bit (c—bit) is set for an unknown file
-		descriptor.
-BUGS
-OWNER		ken, dmr
+  - Move the `struct erofs_anon_fs_type` to super.c and expose it
+    in preparation for the upcoming page cache share feature;
 
-That's V1 manual.  In V3 we already get EBADF on unopened descriptor;
-in _all_ cases there close(N) ends up with descriptor N not opened.
+  - Remove the `.owner` field, as they are all internal mounts and
+    fully managed by EROFS.  Retaining `.owner` would unnecessarily
+    increment module reference counts, preventing the EROFS kernel
+    module from being unloaded.
+
+Signed-off-by: Gao Xiang <hsiangkao@linux.alibaba.com>
+---
+ fs/erofs/fscache.c  | 13 -------------
+ fs/erofs/internal.h |  2 ++
+ fs/erofs/super.c    | 14 ++++++++++++++
+ 3 files changed, 16 insertions(+), 13 deletions(-)
+
+diff --git a/fs/erofs/fscache.c b/fs/erofs/fscache.c
+index 7a346e20f7b7..f4937b025038 100644
+--- a/fs/erofs/fscache.c
++++ b/fs/erofs/fscache.c
+@@ -3,7 +3,6 @@
+  * Copyright (C) 2022, Alibaba Cloud
+  * Copyright (C) 2022, Bytedance Inc. All rights reserved.
+  */
+-#include <linux/pseudo_fs.h>
+ #include <linux/fscache.h>
+ #include "internal.h"
+ 
+@@ -13,18 +12,6 @@ static LIST_HEAD(erofs_domain_list);
+ static LIST_HEAD(erofs_domain_cookies_list);
+ static struct vfsmount *erofs_pseudo_mnt;
+ 
+-static int erofs_anon_init_fs_context(struct fs_context *fc)
+-{
+-	return init_pseudo(fc, EROFS_SUPER_MAGIC) ? 0 : -ENOMEM;
+-}
+-
+-static struct file_system_type erofs_anon_fs_type = {
+-	.owner		= THIS_MODULE,
+-	.name           = "pseudo_erofs",
+-	.init_fs_context = erofs_anon_init_fs_context,
+-	.kill_sb        = kill_anon_super,
+-};
+-
+ struct erofs_fscache_io {
+ 	struct netfs_cache_resources cres;
+ 	struct iov_iter		iter;
+diff --git a/fs/erofs/internal.h b/fs/erofs/internal.h
+index f7f622836198..98fe652aea33 100644
+--- a/fs/erofs/internal.h
++++ b/fs/erofs/internal.h
+@@ -188,6 +188,8 @@ static inline bool erofs_is_fileio_mode(struct erofs_sb_info *sbi)
+ 	return IS_ENABLED(CONFIG_EROFS_FS_BACKED_BY_FILE) && sbi->dif0.file;
+ }
+ 
++extern struct file_system_type erofs_anon_fs_type;
++
+ static inline bool erofs_is_fscache_mode(struct super_block *sb)
+ {
+ 	return IS_ENABLED(CONFIG_EROFS_FS_ONDEMAND) &&
+diff --git a/fs/erofs/super.c b/fs/erofs/super.c
+index 937a215f626c..f18f43b78fca 100644
+--- a/fs/erofs/super.c
++++ b/fs/erofs/super.c
+@@ -11,6 +11,7 @@
+ #include <linux/fs_parser.h>
+ #include <linux/exportfs.h>
+ #include <linux/backing-dev.h>
++#include <linux/pseudo_fs.h>
+ #include "xattr.h"
+ 
+ #define CREATE_TRACE_POINTS
+@@ -936,6 +937,19 @@ static struct file_system_type erofs_fs_type = {
+ };
+ MODULE_ALIAS_FS("erofs");
+ 
++#if defined(CONFIG_EROFS_FS_ONDEMAND)
++static int erofs_anon_init_fs_context(struct fs_context *fc)
++{
++	return init_pseudo(fc, EROFS_SUPER_MAGIC) ? 0 : -ENOMEM;
++}
++
++struct file_system_type erofs_anon_fs_type = {
++	.name           = "pseudo_erofs",
++	.init_fs_context = erofs_anon_init_fs_context,
++	.kill_sb        = kill_anon_super,
++};
++#endif
++
+ static int __init erofs_module_init(void)
+ {
+ 	int err;
+-- 
+2.22.0
+
