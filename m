@@ -1,115 +1,117 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FAA1362131
-	for <linux-fsdevel@vger.kernel.org>; Fri, 23 Jan 2026 02:39:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769135970; cv=pass; b=t5r3YNRtTJigPYX4iy1cb3n1KhSWFXJ0iWarjcqFpaecKqh58RrFregyHtqDWE9Q7arPseOi7PjiS9VkUjrsbq8Fr77kC8CYLM9hZoha5a5qJA+FFy1Fnr5kSJSXbYysuEMCUehUfTHKImufV1HyFLyRaNTwQHcqRVI2a0onfiA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769135970; c=relaxed/simple;
-	bh=P3EptHWa4KTu9luDIRb1mjNwdTplheDIhc6soBo/bkE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uSZSBLe3bts3XpN4eMUc637CEcGs+RPv8uJhufK6ABJdyPAEBXLMMEnKSMno9qC9zGIXh3IuY5dis1XPrN3VRsAXSPzTx2ZrRZz2JB8EyjOV1lErlh65Vp9O6K4L9YKw033GGXmRL0QnjhsZolfkjTxNfD+lFXgNjiww4orDBYE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=I8v2Zedg; arc=pass smtp.client-ip=209.85.216.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+Received: from n169-112.mail.139.com (n169-112.mail.139.com [120.232.169.112])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4E6C272E6D;
+	Fri, 23 Jan 2026 02:40:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=120.232.169.112
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769136064; cv=none; b=S7GRYFKoOkzZ1DS0v5pjhAOQJfgscnnJJ2VvoaTj1v9HQav9uBYvVeCcFJSo+Asay1qyfQiF8CKTOUTjPDevKxrnXYnsTzi12+wOhOcbJMzNGE70sTu1qKJsP3SzrtwARhSqteze5519rqJ/ywNUJwSb5NCtfGdPENLG24G1dpI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769136064; c=relaxed/simple;
+	bh=iP+Z1BSfQ34DlgbobzgZtwMFnl9QrexkVBD/N2NOYY0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=BcQPLGweYxgUktD5oph9A/V3EhzeXkFER8wsYytNjjU6+AzJYe2NqTg8teW1VcEAdPbZEAt7UsVh4cAJ3h3sRP/PewLDtbgXoIJuHe48eV6wG5cGBOR/OIJm7zMTxs3bgZcEbAul5L1ajFSK+4GcCVwdOExbIDVbtfvF/qrdbPY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=139.com; spf=pass smtp.mailfrom=139.com; dkim=pass (1024-bit key) header.d=139.com header.i=@139.com header.b=cLOCS3AH; arc=none smtp.client-ip=120.232.169.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=139.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=139.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="I8v2Zedg"
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-34c1d98ba11so1637869a91.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 22 Jan 2026 18:39:25 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769135959; cv=none;
-        d=google.com; s=arc-20240605;
-        b=J1a6Rqbmsfau6Hyn64ATun/C5aVmPY2CBX9zqeWrBypaQL5XyOvlrG0OTxq3sJYMSC
-         RyeLj95RF4u0Rx+/PxLCHE0E/xVhRHMwdHTeT8TB1cbkU1Xxs9ZTpeYPXWom7M5siwLG
-         QH9yZqZxohYS7aoeUv2cwGIrHTFJzi5sbmq8W4pCQlcCPfHPfKor/ahvyvnvUO2pgXE9
-         xmGS0uHCRyxbHbcDjSqPndSeOc9HIEUCnLlcWFUBuUSmvTPxNE2MZ5bxG7M1nW25+Vuf
-         CBD/i+eJaH3kjodeE+TKqr1TmYpHtpAXJoWE1MUAl5sfYYklMG0CymUC8yZ1maGlJwF8
-         tT4w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=P3EptHWa4KTu9luDIRb1mjNwdTplheDIhc6soBo/bkE=;
-        fh=l9atYDgRjK3DRkkiSp5tfXGj8f2XM+RZkFCcPpGG+hw=;
-        b=AGO4XmnwUsdNB5QlgUhV4StZ9bGTUvqSh+ea54zooaxS3Eb2KEEVc8wveShJdMJK+b
-         yDOtBDFEzy79Q0M9L0f6hqJch7J0aBWBjLSMIlCdENxGxJGxqkr+HMovJhH+R/EGsQwz
-         /OyZSLwVBaJsaNd+Rgt5bxny/f5Z4MGG/rsYFzfcYHKEgHlh9LY5Q7wBm9rMqHNCH60a
-         cx9WWSMEAqVcT7DQQ3Hp+swP6XK8S4bpX4xFlIiOYqscqU42qtLL+nQacYHZqAhG3wpp
-         KNUchEc7tDEQSJT/pkOpK4j8QzdnEtCJaqB5HvlmZURWOBKf3WCCt0nMioqHLXfUqOvp
-         Vb6g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (1024-bit key) header.d=139.com header.i=@139.com header.b="cLOCS3AH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1769135959; x=1769740759; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=P3EptHWa4KTu9luDIRb1mjNwdTplheDIhc6soBo/bkE=;
-        b=I8v2Zedgw4jpN7rWa/wxZ5lSKgncvp/c2tGHB5oayIw2Jir2n6HijDzUeaZatg3dry
-         74zKOxDEger65D9PfEvo8WVzvHS5qITyxcYM7zbifKxEBqKKIsHwN/FH0FhGeMtSxqT+
-         EYCtaX+bNCDzml4wckFzmtu+WvhF008yFXP4skx5IgI11JrulmYqTeCT61CRq/QBOt1Z
-         KbgWeogB4Uy2Z/rOSq2ugxRqxtgB4LRumVtQfZjWJTwGRiGgwLKWK4ybhx+vNOvzu7bO
-         +xKGZnzOCRKt7Oq3GFIC0u81b2ooU9JwBZc86cxmJNNX0910naWlT7xsUHWha8yzEKt3
-         HQYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769135959; x=1769740759;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=P3EptHWa4KTu9luDIRb1mjNwdTplheDIhc6soBo/bkE=;
-        b=qNn14pZivNTi0h86OlCNntYeamWsPWyxzIsFmLY3D6kIfuHsn5Oa3e2mMdrlZmS68E
-         7lGUQBmQgXDpK99l6cIqlnBF3jcO0pDGfCSFNPpjEE6OWoMjYzDSCgjncEjKYSkqeBzV
-         xisnYvPV1zKE8TYz5PR9pV9my9mg8yblvFNDkG6J3ORBtW+QToZIPkhSSGqaNFTVTSHJ
-         udN8QVLBtC1gI4dcU2Q9K/OZdOvWYUyTBKiY23QvJh0+M6Wh2X6sDDJVSJflO1fY5jdi
-         ydFt5UYjETCZIKGrzAd0oU62L52fKAOmC1BIQJ7x/7C3aPLiTbvcby47l5FDQwwDKAuZ
-         84Fg==
-X-Forwarded-Encrypted: i=1; AJvYcCW5P3zU+cmXRlU3uLC1WfCmbLLM1mQh/wm4TdPUhL4xBaXzyw30pZfb/MXWTwkAgloGMMPTrfKYZ9sg2ydX@vger.kernel.org
-X-Gm-Message-State: AOJu0YwZPG9XMNZql+gtK/S8kHGrE11tojViuZ1g3br7EYyDTv0/C3Wp
-	Mvd2eJYz9qIBgRgzeYJAMkQZ+tB6paHydhSeX2dsK8qPPhaegKrSXsvK2npPgg8O2AasbgXUjss
-	hpNALQ4L0WJBAJQ9Hboy6jV2Ac984R+aw24+lQnw1
-X-Gm-Gg: AZuq6aKgm3wWVltQbmq4MP12/mZsHDJn33PPhGTBK3ZkVgL3dNWihHJnPKdRh+i6Zus
-	vWZGGp1wUt2RVDTnmSDrRZdR8Mp2xW6GdBFDTlAW6YNg6yfeFmTSgDHYwEY/Gn8UIvFv/Esk0qX
-	AMGRlHhIV+qyGoroAB3t6CQYXK0OJHpzlLkZNLTPqc+ShBRefHM2BLk3BrRB8t+YT3xSRafMwQZ
-	y4lE8qViUAab5MNj1Jsf5tcdbQfzB/w1bPYjljrqSl7QUFKQdo3zh6Af/Sp6O+zSdyd6+E=
-X-Received: by 2002:a17:90a:d403:b0:343:a631:28b1 with SMTP id
- 98e67ed59e1d1-35367024a1bmr1261929a91.16.1769135959102; Thu, 22 Jan 2026
- 18:39:19 -0800 (PST)
+	d=139.com; s=dkim; l=0;
+	h=from:subject:message-id:to:cc:mime-version;
+	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+	b=cLOCS3AHMRFgD7LSTgAC/VDoE7HKuWV30iTyOzqM6j519inAz1Jm2E10XiplbZYG3ecxm5Fi5pzS+
+	 NHH8fzdJ/Q0BERZDemEBKr/bYubQc0x6LkTuqJiOYDfltE/UeY6YcRw/vJWBTF8EfrJ2aSqkIAyF1L
+	 zWlVj8/FYX+YT5Rw=
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM:                                                                                        
+X-RM-SPAM-FLAG:00000000
+Received:from NTT-kernel-dev (unknown[60.247.85.88])
+	by rmsmtp-lg-appmail-21-12024 (RichMail) with SMTP id 2ef86972dee3c3f-04ca3;
+	Fri, 23 Jan 2026 10:37:26 +0800 (CST)
+X-RM-TRANSID:2ef86972dee3c3f-04ca3
+From: Li hongliang <1468888505@139.com>
+To: gregkh@linuxfoundation.org,
+	stable@vger.kernel.org,
+	sfual@cse.ust.hk
+Cc: patches@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Yuezhang.Mo@sony.com,
+	linkinjeon@kernel.org,
+	sj1557.seo@samsung.com,
+	p22gone@gmail.com,
+	kkamagui@gmail.com,
+	jimmyxyz010315@gmail.com,
+	linux-fsdevel@vger.kernel.org
+Subject: [PATCH 6.12.y] exfat: fix refcount leak in exfat_find
+Date: Fri, 23 Jan 2026 10:37:21 +0800
+Message-Id: <20260123023721.3779125-1-1468888505@139.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAPhsuW4=heDwYEkmRzSnLHDdW=da71qDd1KqUj9sYUOT5uOx3w@mail.gmail.com>
- <CAHC9VhRU_vtN4oXHVuT4Tt=WFP=4FrKc=i8t=xDz+bamUG7r6g@mail.gmail.com>
- <CAPhsuW6vCrN=k6xEuPf+tJr6ikH_RwfyaU_Q9DvGg2r2U9y+UA@mail.gmail.com>
- <CAHC9VhSSmoUKPRZKr8vbaK1222ZAWQo51G5e3h65g135Q3p8jw@mail.gmail.com> <CAPhsuW6TMNTGs9miKmQ_YFdm-NnCfLViCjQjMkWUYnuj9bB-qA@mail.gmail.com>
-In-Reply-To: <CAPhsuW6TMNTGs9miKmQ_YFdm-NnCfLViCjQjMkWUYnuj9bB-qA@mail.gmail.com>
-From: Paul Moore <paul@paul-moore.com>
-Date: Thu, 22 Jan 2026 21:39:07 -0500
-X-Gm-Features: AZwV_Qiuw-WOvpplG3_3YRv6P3Gqf8NRc7bLKC5WTsb9MkYny2ZAcVsltSt3mLs
-Message-ID: <CAHC9VhR0F7rp=ne3BWPtuu_KjUao03iYoHuNsQdYgWygg0DBkg@mail.gmail.com>
-Subject: Re: [LSF/MM/BPF TOPIC] Refactor LSM hooks for VFS mount operations
-To: Song Liu <song@kernel.org>
-Cc: bpf <bpf@vger.kernel.org>, Linux-Fsdevel <linux-fsdevel@vger.kernel.org>, 
-	lsf-pc@lists.linux-foundation.org, 
-	linux-security-module <linux-security-module@vger.kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jan 22, 2026 at 6:15=E2=80=AFPM Song Liu <song@kernel.org> wrote:
-> On Thu, Jan 22, 2026 at 9:27=E2=80=AFAM Paul Moore <paul@paul-moore.com> =
-wrote:
+From: Shuhao Fu <sfual@cse.ust.hk>
 
-...
+[ Upstream commit 9aee8de970f18c2aaaa348e3de86c38e2d956c1d ]
 
-> This issue has been bothering us for quite some time. Therefore, I
-> don't mind spending more than necessary effort to get it fixed
-> sooner.
+Fix refcount leaks in `exfat_find` related to `exfat_get_dentry_set`.
 
-Help on identifying and correcting any deficiencies in the LSM mount
-hooks is definitely welcome.
+Function `exfat_get_dentry_set` would increase the reference counter of
+`es->bh` on success. Therefore, `exfat_put_dentry_set` must be called
+after `exfat_get_dentry_set` to ensure refcount consistency. This patch
+relocate two checks to avoid possible leaks.
 
---=20
-paul-moore.com
+Fixes: 82ebecdc74ff ("exfat: fix improper check of dentry.stream.valid_size")
+Fixes: 13940cef9549 ("exfat: add a check for invalid data size")
+Signed-off-by: Shuhao Fu <sfual@cse.ust.hk>
+Reviewed-by: Yuezhang Mo <Yuezhang.Mo@sony.com>
+Signed-off-by: Namjae Jeon <linkinjeon@kernel.org>
+Signed-off-by: Li hongliang <1468888505@139.com>
+---
+ fs/exfat/namei.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
+
+diff --git a/fs/exfat/namei.c b/fs/exfat/namei.c
+index f0fda3469404..44cce2544a74 100644
+--- a/fs/exfat/namei.c
++++ b/fs/exfat/namei.c
+@@ -638,16 +638,6 @@ static int exfat_find(struct inode *dir, struct qstr *qname,
+ 	info->valid_size = le64_to_cpu(ep2->dentry.stream.valid_size);
+ 	info->size = le64_to_cpu(ep2->dentry.stream.size);
+ 
+-	if (info->valid_size < 0) {
+-		exfat_fs_error(sb, "data valid size is invalid(%lld)", info->valid_size);
+-		return -EIO;
+-	}
+-
+-	if (unlikely(EXFAT_B_TO_CLU_ROUND_UP(info->size, sbi) > sbi->used_clusters)) {
+-		exfat_fs_error(sb, "data size is invalid(%lld)", info->size);
+-		return -EIO;
+-	}
+-
+ 	info->start_clu = le32_to_cpu(ep2->dentry.stream.start_clu);
+ 	if (!is_valid_cluster(sbi, info->start_clu) && info->size) {
+ 		exfat_warn(sb, "start_clu is invalid cluster(0x%x)",
+@@ -685,6 +675,16 @@ static int exfat_find(struct inode *dir, struct qstr *qname,
+ 			     0);
+ 	exfat_put_dentry_set(&es, false);
+ 
++	if (info->valid_size < 0) {
++		exfat_fs_error(sb, "data valid size is invalid(%lld)", info->valid_size);
++		return -EIO;
++	}
++
++	if (unlikely(EXFAT_B_TO_CLU_ROUND_UP(info->size, sbi) > sbi->used_clusters)) {
++		exfat_fs_error(sb, "data size is invalid(%lld)", info->size);
++		return -EIO;
++	}
++
+ 	if (ei->start_clu == EXFAT_FREE_CLUSTER) {
+ 		exfat_fs_error(sb,
+ 			       "non-zero size file starts with zero cluster (size : %llu, p_dir : %u, entry : 0x%08x)",
+-- 
+2.34.1
+
+
