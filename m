@@ -1,36 +1,37 @@
 Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70E661917FB;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70EAF192590;
 	Sat, 24 Jan 2026 00:40:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769215223; cv=none; b=rosBl1ysiwubZvrPdPnuhIZ1W9rxHQ/EDhXuz+xg/ilJ4yaR86hJKGz5u9NLP4V+KyAUY+FYNXZqEnf/oiiYgROlp43DZj7ybsSrNCGXnqdtp0DKlul59ZQuFoxifbFCZ0fTEzMgp+8ck4FQJwMlooSyQ+XOjWOuKl8+eF32BK4=
+	t=1769215224; cv=none; b=dUbEolHMJ6fBjqXPEhiXwTOEnZNnH9ZHCsYam4js6MCc6Hl+mv5dW3Tf7srjNeevixanun6f8FmcKYnQdJtEcNHYoCdipmV5rzztoUFVioacbAPpCwoYMNcoaBAnbVbQkW80u8kw+jR3tiyTN8C7tRzJp/6Cn1paCvI9LdIgBCY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769215223; c=relaxed/simple;
-	bh=lgFDGoil/S4e6TphR+ODflB3R3L114zDDaEaNQFnKvk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=H0jl3CtP2ENt2MecY9GWjxHcHNiSqygyq1YA1c6t1qCkkpsczXxBNv/CcB3hJapvc0kG5pi7nnsG7HYDWWDh0V4EstLp0MonO2dcpOYJrzTqAiPzDjrEEYagcY/dMBFePj+9ObhsFcPBqB/fp3Pm/OIsnvgNiPrkE7DnWGKf7ok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=J4B8UQ0r; arc=none smtp.client-ip=198.137.202.136
+	s=arc-20240116; t=1769215224; c=relaxed/simple;
+	bh=sxCYWInGWcJQzA2I9jwBu6cloSbClI3rKDeIROS8Aoc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Jb9mvGmglyeenR0HFz9ZuWbwanq6LWOHlHCCpezJnOilAYCOErm6+9HaAbi/YlOPivQ0jN2L7TYAW35K+cKZP/xo5HgLUNIQl+OBj7U4ydaJnwVO9myJdWpoc5Bf2Ryh7oHupuaO923xA6b0IgpDo/bcCo5KXIzX12kvZAKfKA4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=bn/0m0OP; arc=none smtp.client-ip=198.137.202.136
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="J4B8UQ0r"
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="bn/0m0OP"
 Received: from mail.zytor.com (c-76-133-66-138.hsd1.ca.comcast.net [76.133.66.138])
 	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 60O0dnvV1194278
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 60O0dnvY1194278
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-	Fri, 23 Jan 2026 16:39:58 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 60O0dnvV1194278
+	Fri, 23 Jan 2026 16:40:00 -0800
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 60O0dnvY1194278
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025122301; t=1769215198;
-	bh=i7ujYxCFrLguHA+dUxfztGa5YKkkTOuh+D/kjJzgoLg=;
-	h=From:To:Cc:Subject:Date:From;
-	b=J4B8UQ0r26yfKD4kQlgmsA4P3s0OovcEiRw4cw0sYKi+JoFIjhxccSlCOCWFgGG5E
-	 9acFFCZ/lPGAhFpPu0LAJ7A9FO4VSxFjY1+efAfEXH8SI3VjM61V88gi0Vy8Tvv2bh
-	 L0QynTJqDaTV+EqKSO3AOI4kVHYRNtaX0+PmkEyAmDCac8O6C8mJpIB7yWAxvVc4WQ
-	 5RmfJRYWZgVFAzoqX5cCYIXJHAFDZosTIU9RzIgsknRVMV1cgDJpoadac/egH/feYr
-	 Gmi0weIkaJvpSBqGwd/FvN3alkscgWFvttWUmTChj4/fgpKH3p1teI9IEr9osQOezM
-	 Gt+dp3HSBYs0Q==
+	s=2025122301; t=1769215201;
+	bh=4va4Vi1oM4mVPAzSfh+07TIDR6BSUY4QxzNfUhSYeE8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=bn/0m0OP6ydBZerJ5bYNgIWvCw9jmD6sMeXonaQ5WDZLoLQ15pxI7MFpGS2SaU85Z
+	 gAEg+wjx8R5V9kgu6LFGiioqN5RdDkBk5eBJMMwoLdA8Sxg6MYQeGWuqjOeKJMe5UI
+	 IGrvwG5uJWTPAArLOf3MDuw7LCtjJCl23CT+QsUIzehyoO8v79/cv1FXDeDjopX4UA
+	 29xh4rGJxZZq6V1QqqquGHEfR+E9/6ZGhDgPelcdf34JWSYWcPKefNrZQGKxzg66ry
+	 37MVPar7XVevksRnGoMnBb17rScoElQx+5RqtfUbf02CxO59Lp+Wl46MLmyJSWgchq
+	 y+envHmh7lA/A==
 From: "H. Peter Anvin" <hpa@zytor.com>
 To: Alexander Viro <viro@zeniv.linux.org.uk>,
         Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
@@ -39,10 +40,12 @@ Cc: linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Lennart Poettering <lennart@poettering.net>,
         systemd-devel@lists.freedesktop.org
-Subject: [PATCH 0/3] Add the ability to mount filesystems during initramfs expansion
-Date: Fri, 23 Jan 2026 16:39:33 -0800
-Message-ID: <20260124003939.426931-1-hpa@zytor.com>
+Subject: [RFC PATCH 3/3] Documentation/initramfs: document mount points in initramfs
+Date: Fri, 23 Jan 2026 16:39:36 -0800
+Message-ID: <20260124003939.426931-4-hpa@zytor.com>
 X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260124003939.426931-1-hpa@zytor.com>
+References: <20260124003939.426931-1-hpa@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -51,47 +54,97 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-At Plumber's 2024, Lennart Poettering of the systemd project requested
-the ability to overmount the rootfs with a separate tmpfs before
-initramfs expansion, so the populated tmpfs can be unmounted.
+Document how to create mount points in initramfs, using magic
+"!!!MOUNT!!!" file entries, the format the kernel expects for these
+files, and their exact semantics.
 
-This patchset takes this request and goes one step further: it allows
-(mostly) arbitrary filesystems mounts during initramfs processing.
+Signed-off-by: H. Peter Anvin (Intel) <hpa@zytor.com>
+---
+ .../early-userspace/buffer-format.rst         | 60 ++++++++++++++++++-
+ 1 file changed, 58 insertions(+), 2 deletions(-)
 
-This is done by having the initramfs expansion code detect the special
-filename "!!!MOUNT!!!" which is then parsed into a simplified
-fstab-type mount specification and the directory in which the
-!!!MOUNT!!! entry is used as the mount point.
+diff --git a/Documentation/driver-api/early-userspace/buffer-format.rst b/Documentation/driver-api/early-userspace/buffer-format.rst
+index 4597a91100b7..40f86b9eec75 100644
+--- a/Documentation/driver-api/early-userspace/buffer-format.rst
++++ b/Documentation/driver-api/early-userspace/buffer-format.rst
+@@ -8,8 +8,8 @@ With kernel 2.5.x, the old "initial ramdisk" protocol was complemented
+ with an "initial ramfs" protocol.  The initramfs content is passed
+ using the same memory buffer protocol used by initrd, but the content
+ is different.  The initramfs buffer contains an archive which is
+-expanded into a ramfs filesystem; this document details the initramfs
+-buffer format.
++expanded into a tmpfs or ramfs filesystem; this document details the
++initramfs buffer format.
+ 
+ The initramfs buffer format is based around the "newc" or "crc" CPIO
+ formats, and can be created with the cpio(1) utility.  The cpio
+@@ -17,6 +17,9 @@ archive can be compressed using gzip(1), or any other algorithm provided
+ via CONFIG_DECOMPRESS_*.  One valid version of an initramfs buffer is
+ thus a single .cpio.gz file.
+ 
++In kernel version XXXX the feature to mount additional filesystems
++during initramfs expansion was introduced, see below.
++
+ The full format of the initramfs buffer is defined by the following
+ grammar, where::
+ 
+@@ -130,3 +133,56 @@ a) Separate the different file data sources with a "TRAILER!!!"
+    end-of-archive marker, or
+ 
+ b) Make sure c_nlink == 1 for all nondirectory entries.
++
++
++Mounting additional filesystems
++===============================
++
++If a regular file with the special name "!!!MOUNT!!!" is encountered
++during initramfs processing, the file contents is parsed as a mount
++specification in format similar to fstab(5). It should contain of a
++single line in one of the following formats::
++
++	fs_spec fs_vfstype fs_mntops
++	fs_spec fs_vfstype
++	fs_vfstype
++
++
++Comment or blank lines are NOT allowed, and the terminating newline is
++required.
++
++The specified filesystem is then mounted onto the directory in which
++the !!!MOUNT!!! file is located, for example, if the file is named::
++
++	dev/!!!MOUNT!!!
++
++
++then the filesystem will be mounted onto the /dev directory, which
++must already exist.
++
++The mount is performed immediately, before processing any further
++initramfs entries.
++
++The c_mode, c_uid, c_gid, and c_mtime (with CONFIG_INITRAMFS_PRESERVE_MTIME)
++values for the file are applied to the root directory of the newly
++mounted filesystem, if that filesystem is writable and allows those
++operations. Therefore, the !!!MOUNT!!!  file should typically have the
++x permission bit set, as a directory would.
++
++fs_spec or fs_mntops values that require user space support, such as
++LABEL= or UUID=, are not supported. To mount a filesystem that
++requires a block device, the appropriate /dev entry need to have
++been created, or devtmpfs have been mounted, earlier in the initramfs
++image.
++
++A !!!MOUNT!!! entry in the cpio archive root, or multiple !!!MOUNT!!!
++entries for the same path, will cause overmounts. This allows the
++initramfs to be expanded into a tmpfs that is separate from the
++rootfs, and which therefore, unlike the rootfs, can be unmounted.
++
++The special name !!!MOUNT!!! was chosen because the sequence !!!
++already has special meaning in cpio (the TRAILER!!! entry) and because
++! is the lowest-numbered non-blank character in ASCII. Therefore
++creating a sorted cpio archive will naturally end up with the
++!!!MOUNT!!! entry immediately after the directory itself and before
++its contents.
+-- 
+2.52.0
 
-This specific method was chosen for the following reasons:
-
-1. This information is specific to the expectations of the initramfs;
-   therefore using kernel command line options is not
-   appropriate. This way the information is fully contained within the
-   initramfs itself.
-2. The sequence !!! is already special in cpio, due to the "TRAILER!!!"
-   entries.
-3. The filename "!!!MOUNT!!!" will typically be sorted first, which
-   means using standard find+cpio tools to create the initramfs still
-   work.
-4. Similarly, standard cpio can still expand the initramfs.
-5. If run on a legacy kernel, the !!!MOUNT!!! file is created, which
-   is easy to detect in the initramfs code which can then activate
-   some fallback code.
-6. It allows for multiple filesystems to be mounted, possibly of
-   different types and in different locations, e.g. the initramfs can
-   get started with /dev, /proc, and /sys already booted.
-
-The patches are:
-
-    1/3: fs/init: move creating the mount data_page into init_mount()
-    2/3: initramfs: support mounting filesystems during initramfs expansion
-    3/3: Documentation/initramfs: document mount points in initramfs
-
---- 
- .../driver-api/early-userspace/buffer-format.rst   | 60 +++++++++++++-
- fs/init.c                                          | 23 +++++-
- include/linux/init_syscalls.h                      |  3 +-
- init/do_mounts.c                                   | 17 +---
- init/initramfs.c                                   | 95 +++++++++++++++++++++-
- 5 files changed, 175 insertions(+), 23 deletions(-)
