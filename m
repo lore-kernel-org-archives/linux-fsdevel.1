@@ -1,165 +1,265 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f80.google.com (mail-oo1-f80.google.com [209.85.161.80])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88D6C1465B4;
-	Sat, 24 Jan 2026 00:40:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DF25EADC
+	for <linux-fsdevel@vger.kernel.org>; Sat, 24 Jan 2026 00:53:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.80
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769215224; cv=none; b=rUSZnP/GWvdqpeQ2vJ/jd4ZEMXj40zsL5EWEi8ILtsGcxcVV0+Wm56vYUFlLfOaJiIOmhJYsThss/pfVk3HF6JJ190Vvz1TbmNDyPjvM0Tcvo4e3LUvKDatiCh3gprM6MXJWf+y4UMXssE7dXRvbMXTAP23rfXALZVQLv1vZbRs=
+	t=1769216013; cv=none; b=ZMpyahzGrqZC2zIgzCyazz7eHXCmH/3A54nMXWDXXtOd9kxLKUNdyld2UR6BHXZxPtgxgWbILhApLdFmb4MBLw82eRTHlt6YfVWm3hsebYPWsWR9VaBQLHKx2gBP3eEqz1Xn8juDFTCqwcJWzDMVjqtUdag9Tlt7y+Zm8s94U5U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769215224; c=relaxed/simple;
-	bh=VIIxrbHBSOZTQZmk6RThUD6/XbYBdxSTBSmfqc2iAFA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pAJLw2ZApL1eQMX0VGJ4By1jkTr7oQSfRimkyeJicYc9ftMqIyhq9v/ltrBm1eNQOXDVaNGM/2U6VpuhNY6PE1aIWoXYYkMzxzhORB7elyGCy/Z5AzwoGsTeSbLHETXN7asJ2dxL3GnZ8ff1ZOw2JzkGU7L5VOJiyhXTiISswN4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=b2ZyWQEn; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="b2ZyWQEn"
-Received: from mail.zytor.com (c-76-133-66-138.hsd1.ca.comcast.net [76.133.66.138])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 60O0dnvW1194278
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-	Fri, 23 Jan 2026 16:39:59 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 60O0dnvW1194278
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025122301; t=1769215199;
-	bh=3gvBwig0hzF7NIxzN91ZTmQDDoHaKk76XYdPUXtLHtQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=b2ZyWQEnLPMG+1UJZWR/Ow1pjzS/Djnc00LiKj1d8h1eCCB0mvoGq/eMeskUGvKmR
-	 i+L0UzZ9MF9M/AEZrKR4khIlkezkbOh6ureJXZPQFdkmFL/S5kyFUZzTsOWjuLPSAM
-	 wRhUm7ZLqGy7866RoXPT3inwZaUaIFjm1FADRY/0weXQmO6+dTCgWXqoiS9mKo0DZ2
-	 uvPc6pDsaSvbXEOnQnEuwtLYDby2QHhnHSNe5i2lCyubnw5EAaLWKLa9cHaQhR1hUm
-	 d0N9/aeQpWIvLiJI93yaJnBeEdhIWwImjbYMJ5App+xp2wtK/YDZhHtXe4q0mu7Wiw
-	 tv+TPgIMj/Ayw==
-From: "H. Peter Anvin" <hpa@zytor.com>
-To: Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-        Jonathan Corbet <corbet@lwn.net>, "H. Peter Anvin" <hpa@zytor.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Lennart Poettering <lennart@poettering.net>,
-        systemd-devel@lists.freedesktop.org
-Subject: [RFC PATCH 1/3] fs/init: move creating the mount data_page into init_mount()
-Date: Fri, 23 Jan 2026 16:39:34 -0800
-Message-ID: <20260124003939.426931-2-hpa@zytor.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260124003939.426931-1-hpa@zytor.com>
-References: <20260124003939.426931-1-hpa@zytor.com>
+	s=arc-20240116; t=1769216013; c=relaxed/simple;
+	bh=cOpRIaWhU/1GMapNed1tZuhkZfCYTYZbZVa77vCLzpM=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=GA2fsRk8q8R0bUNeMGDpYv2H0h+McSns/ZdKaRErWAWPh+0YU3VsvMS7aRY84siOQkEGrZAtoBkn2NxWjooJGJ1AOV3PskK3cDr/1JzVCnbOFmfeR0auqyd+7J3v5+kqaIinahnGsWApTAKFZL47BoOQQp5SiSycn2cFrW8hRQA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.80
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo1-f80.google.com with SMTP id 006d021491bc7-6611cbc47a2so5088791eaf.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 23 Jan 2026 16:53:31 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769216010; x=1769820810;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=jncET4YqsZZdaLQmmwDUYTVvd/cAUSYLlltIWGYRi/M=;
+        b=MwNtWVU1FK871yhdWjfTrvIxG0jC0GksI1di2UHrFUVywy/q5SWk9RYBnV+Lp0urrH
+         3bpVESUS2lPZqBsIvdHAHxSriaKb3/tL5AIUuD9nJ6HtyEZK2m7+SVNRG1RWCONcQpg9
+         4xsvNtNLn6NVbqN/+GlqFgZ7TCl4P1TEE/eshneK2xBBQvQdzz07os7bd9+Gm5qT7X65
+         WsDhgpqUlZNASPfESw9H5+MsoKsNMsGrpl6R+W+ml2mxt2oMT6b19WkUNnLoYxOzOuBB
+         l+efOYKYdYgqynEhcbMN4dSj6laUeYWw4zbASNJxqD6zQalBHPiObAB69/JI61mygLOx
+         wMCg==
+X-Forwarded-Encrypted: i=1; AJvYcCWdyvciLfNXi1waozkcE7IChJz+OZCElUKZ97pVSL+pclmGt2lzsanQDP6+rcjULiI4rAk0NJIyKiauNroM@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw8MtaROCZrh+PAsiuZDh18xvFMzh7v/Xku/V3C7epxibSX8d3x
+	MK2OMACUDEs9cI+WT02s7/fWuVLlq33UmpnhTkkcDg8LLf49UBvw4QPTjedblap/nnHz14jZnPk
+	RonpIi8dxm+KQYombBcjlfsJD1MS1T6lMimCsysR59isgKsbsKz9J/yPYXZI=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a4a:e843:0:b0:65d:d0b:fd3b with SMTP id
+ 006d021491bc7-662caad7245mr2275161eaf.15.1769216010492; Fri, 23 Jan 2026
+ 16:53:30 -0800 (PST)
+Date: Fri, 23 Jan 2026 16:53:30 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6974180a.050a0220.1a75db.0327.GAE@google.com>
+Subject: [syzbot] [fs?] possible deadlock in dqget (2)
+From: syzbot <syzbot+e7e874621d086b64b4ca@syzkaller.appspotmail.com>
+To: jack@suse.com, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-path_mount() wants the mount data if not NULL to be a whole
-page. Expanding a string onto an allocated page was done in
-do_mount_root(); move it instead into init_mount() so other users of
-init_mount() can leverage this same code.
+Hello,
 
-Signed-off-by: H. Peter Anvin (Intel) <hpa@zytor.com>
+syzbot found the following issue on:
+
+HEAD commit:    24d479d26b25 Linux 6.19-rc6
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=13f033fa580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=323fe5bdde2384a5
+dashboard link: https://syzkaller.appspot.com/bug?extid=e7e874621d086b64b4ca
+compiler:       Debian clang version 20.1.8 (++20250708063551+0c9f909b7976-1~exp1~20250708183702.136), Debian LLD 20.1.8
+
+Unfortunately, I don't have any reproducer for this issue yet.
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/c8c35233e7ff/disk-24d479d2.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/3c81ccfef24a/vmlinux-24d479d2.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/302d8a96d2a0/bzImage-24d479d2.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+e7e874621d086b64b4ca@syzkaller.appspotmail.com
+
+JBD2: Ignoring recovery information on journal
+ocfs2: Mounting device (7,5) on (node local, slot 0) with ordered data mode.
+======================================================
+WARNING: possible circular locking dependency detected
+syzkaller #0 Tainted: G             L     
+------------------------------------------------------
+syz.5.1831/13251 is trying to acquire lock:
+ffff8880417e40a8 (&dquot->dq_lock){+.+.}-{4:4}, at: wait_on_dquot fs/quota/dquot.c:357 [inline]
+ffff8880417e40a8 (&dquot->dq_lock){+.+.}-{4:4}, at: dqget+0x72a/0xf10 fs/quota/dquot.c:975
+
+but task is already holding lock:
+ffff888048d85f40 (&ocfs2_sysfile_lock_key[INODE_ALLOC_SYSTEM_INODE]){+.+.}-{4:4}, at: inode_lock include/linux/fs.h:1027 [inline]
+ffff888048d85f40 (&ocfs2_sysfile_lock_key[INODE_ALLOC_SYSTEM_INODE]){+.+.}-{4:4}, at: ocfs2_reserve_suballoc_bits+0x164/0x4600 fs/ocfs2/suballoc.c:789
+
+which lock already depends on the new lock.
+
+
+the existing dependency chain (in reverse order) is:
+
+-> #3 (&ocfs2_sysfile_lock_key[INODE_ALLOC_SYSTEM_INODE]){+.+.}-{4:4}:
+       down_write+0x96/0x1f0 kernel/locking/rwsem.c:1590
+       inode_lock include/linux/fs.h:1027 [inline]
+       ocfs2_remove_inode fs/ocfs2/inode.c:733 [inline]
+       ocfs2_wipe_inode fs/ocfs2/inode.c:896 [inline]
+       ocfs2_delete_inode fs/ocfs2/inode.c:1157 [inline]
+       ocfs2_evict_inode+0x1507/0x4040 fs/ocfs2/inode.c:1299
+       evict+0x5f4/0xae0 fs/inode.c:837
+       ocfs2_dentry_iput+0x247/0x370 fs/ocfs2/dcache.c:407
+       __dentry_kill+0x209/0x660 fs/dcache.c:670
+       finish_dput+0xc9/0x480 fs/dcache.c:879
+       end_renaming fs/namei.c:4061 [inline]
+       do_renameat2+0x604/0x8e0 fs/namei.c:6058
+       __do_sys_rename fs/namei.c:6099 [inline]
+       __se_sys_rename fs/namei.c:6097 [inline]
+       __x64_sys_rename+0x82/0x90 fs/namei.c:6097
+       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+       do_syscall_64+0xec/0xf80 arch/x86/entry/syscall_64.c:94
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #2 (&ocfs2_sysfile_lock_key[ORPHAN_DIR_SYSTEM_INODE]){+.+.}-{4:4}:
+       down_write+0x96/0x1f0 kernel/locking/rwsem.c:1590
+       inode_lock include/linux/fs.h:1027 [inline]
+       ocfs2_del_inode_from_orphan+0x134/0x740 fs/ocfs2/namei.c:2731
+       ocfs2_dio_end_io_write fs/ocfs2/aops.c:2306 [inline]
+       ocfs2_dio_end_io+0x479/0x10f0 fs/ocfs2/aops.c:2404
+       dio_complete+0x25b/0x790 fs/direct-io.c:281
+       __blockdev_direct_IO+0x2e63/0x3490 fs/direct-io.c:1303
+       ocfs2_direct_IO+0x25f/0x2d0 fs/ocfs2/aops.c:2441
+       generic_file_direct_write+0x1db/0x3e0 mm/filemap.c:4248
+       __generic_file_write_iter+0x11d/0x230 mm/filemap.c:4417
+       ocfs2_file_write_iter+0x1582/0x1cf0 fs/ocfs2/file.c:2475
+       iter_file_splice_write+0x972/0x10b0 fs/splice.c:738
+       do_splice_from fs/splice.c:938 [inline]
+       direct_splice_actor+0x101/0x160 fs/splice.c:1161
+       splice_direct_to_actor+0x5a8/0xcc0 fs/splice.c:1105
+       do_splice_direct_actor fs/splice.c:1204 [inline]
+       do_splice_direct+0x181/0x270 fs/splice.c:1230
+       do_sendfile+0x4da/0x7e0 fs/read_write.c:1370
+       __do_sys_sendfile64 fs/read_write.c:1431 [inline]
+       __se_sys_sendfile64+0x13e/0x190 fs/read_write.c:1417
+       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+       do_syscall_64+0xec/0xf80 arch/x86/entry/syscall_64.c:94
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #1 (&ocfs2_quota_ip_alloc_sem_key){++++}-{4:4}:
+       down_write+0x96/0x1f0 kernel/locking/rwsem.c:1590
+       ocfs2_create_local_dquot+0x19d/0x1a40 fs/ocfs2/quota_local.c:1227
+       ocfs2_acquire_dquot+0x7ff/0xb10 fs/ocfs2/quota_global.c:883
+       dqget+0x7b1/0xf10 fs/quota/dquot.c:980
+       dquot_set_dqblk+0x2b/0xfa0 fs/quota/dquot.c:2823
+       quota_setquota+0x4b7/0x540 fs/quota/quota.c:310
+       __do_sys_quotactl fs/quota/quota.c:961 [inline]
+       __se_sys_quotactl+0x279/0x950 fs/quota/quota.c:917
+       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+       do_syscall_64+0xec/0xf80 arch/x86/entry/syscall_64.c:94
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #0 (&dquot->dq_lock){+.+.}-{4:4}:
+       check_prev_add kernel/locking/lockdep.c:3165 [inline]
+       check_prevs_add kernel/locking/lockdep.c:3284 [inline]
+       validate_chain kernel/locking/lockdep.c:3908 [inline]
+       __lock_acquire+0x15a6/0x2cf0 kernel/locking/lockdep.c:5237
+       lock_acquire+0x107/0x340 kernel/locking/lockdep.c:5868
+       __mutex_lock_common kernel/locking/mutex.c:614 [inline]
+       __mutex_lock+0x187/0x1350 kernel/locking/mutex.c:776
+       wait_on_dquot fs/quota/dquot.c:357 [inline]
+       dqget+0x72a/0xf10 fs/quota/dquot.c:975
+       __dquot_initialize+0x3b3/0xcb0 fs/quota/dquot.c:1508
+       ocfs2_get_init_inode+0x13b/0x1b0 fs/ocfs2/namei.c:206
+       ocfs2_mknod+0x858/0x2030 fs/ocfs2/namei.c:314
+       ocfs2_create+0x195/0x420 fs/ocfs2/namei.c:677
+       lookup_open fs/namei.c:4449 [inline]
+       open_last_lookups fs/namei.c:4549 [inline]
+       path_openat+0x18bb/0x3dd0 fs/namei.c:4793
+       do_filp_open+0x1fa/0x410 fs/namei.c:4823
+       do_sys_openat2+0x121/0x200 fs/open.c:1430
+       do_sys_open fs/open.c:1436 [inline]
+       __do_sys_openat fs/open.c:1452 [inline]
+       __se_sys_openat fs/open.c:1447 [inline]
+       __x64_sys_openat+0x138/0x170 fs/open.c:1447
+       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+       do_syscall_64+0xec/0xf80 arch/x86/entry/syscall_64.c:94
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+other info that might help us debug this:
+
+Chain exists of:
+  &dquot->dq_lock --> &ocfs2_sysfile_lock_key[ORPHAN_DIR_SYSTEM_INODE] --> &ocfs2_sysfile_lock_key[INODE_ALLOC_SYSTEM_INODE]
+
+ Possible unsafe locking scenario:
+
+       CPU0                    CPU1
+       ----                    ----
+  lock(&ocfs2_sysfile_lock_key[INODE_ALLOC_SYSTEM_INODE]);
+                               lock(&ocfs2_sysfile_lock_key[ORPHAN_DIR_SYSTEM_INODE]);
+                               lock(&ocfs2_sysfile_lock_key[INODE_ALLOC_SYSTEM_INODE]);
+  lock(&dquot->dq_lock);
+
+ *** DEADLOCK ***
+
+3 locks held by syz.5.1831/13251:
+ #0: ffff8880279a0420 (sb_writers#20){.+.+}-{0:0}, at: mnt_want_write+0x41/0x90 fs/namespace.c:499
+ #1: ffff888052e9df40 (&type->i_mutex_dir_key#13){++++}-{4:4}, at: inode_lock include/linux/fs.h:1027 [inline]
+ #1: ffff888052e9df40 (&type->i_mutex_dir_key#13){++++}-{4:4}, at: open_last_lookups fs/namei.c:4546 [inline]
+ #1: ffff888052e9df40 (&type->i_mutex_dir_key#13){++++}-{4:4}, at: path_openat+0xb47/0x3dd0 fs/namei.c:4793
+ #2: ffff888048d85f40 (&ocfs2_sysfile_lock_key[INODE_ALLOC_SYSTEM_INODE]){+.+.}-{4:4}, at: inode_lock include/linux/fs.h:1027 [inline]
+ #2: ffff888048d85f40 (&ocfs2_sysfile_lock_key[INODE_ALLOC_SYSTEM_INODE]){+.+.}-{4:4}, at: ocfs2_reserve_suballoc_bits+0x164/0x4600 fs/ocfs2/suballoc.c:789
+
+stack backtrace:
+CPU: 1 UID: 0 PID: 13251 Comm: syz.5.1831 Tainted: G             L      syzkaller #0 PREEMPT(full) 
+Tainted: [L]=SOFTLOCKUP
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/25/2025
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ print_circular_bug+0x2e2/0x300 kernel/locking/lockdep.c:2043
+ check_noncircular+0x12e/0x150 kernel/locking/lockdep.c:2175
+ check_prev_add kernel/locking/lockdep.c:3165 [inline]
+ check_prevs_add kernel/locking/lockdep.c:3284 [inline]
+ validate_chain kernel/locking/lockdep.c:3908 [inline]
+ __lock_acquire+0x15a6/0x2cf0 kernel/locking/lockdep.c:5237
+ lock_acquire+0x107/0x340 kernel/locking/lockdep.c:5868
+ __mutex_lock_common kernel/locking/mutex.c:614 [inline]
+ __mutex_lock+0x187/0x1350 kernel/locking/mutex.c:776
+ wait_on_dquot fs/quota/dquot.c:357 [inline]
+ dqget+0x72a/0xf10 fs/quota/dquot.c:975
+ __dquot_initialize+0x3b3/0xcb0 fs/quota/dquot.c:1508
+ ocfs2_get_init_inode+0x13b/0x1b0 fs/ocfs2/namei.c:206
+ ocfs2_mknod+0x858/0x2030 fs/ocfs2/namei.c:314
+ ocfs2_create+0x195/0x420 fs/ocfs2/namei.c:677
+ lookup_open fs/namei.c:4449 [inline]
+ open_last_lookups fs/namei.c:4549 [inline]
+ path_openat+0x18bb/0x3dd0 fs/namei.c:4793
+ do_filp_open+0x1fa/0x410 fs/namei.c:4823
+ do_sys_openat2+0x121/0x200 fs/open.c:1430
+ do_sys_open fs/open.c:1436 [inline]
+ __do_sys_openat fs/open.c:1452 [inline]
+ __se_sys_openat fs/open.c:1447 [inline]
+ __x64_sys_openat+0x138/0x170 fs/open.c:1447
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xec/0xf80 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f25fc18f749
+Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f25fd085038 EFLAGS: 00000246 ORIG_RAX: 0000000000000101
+RAX: ffffffffffffffda RBX: 00007f25fc3e5fa0 RCX: 00007f25fc18f749
+RDX: 0000000000105042 RSI: 0000200000000080 RDI: ffffffffffffff9c
+RBP: 00007f25fc213f91 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f25fc3e6038 R14: 00007f25fc3e5fa0 R15: 00007ffe63c93778
+ </TASK>
+
+
 ---
- fs/init.c                     | 23 ++++++++++++++++++++---
- include/linux/init_syscalls.h |  3 ++-
- init/do_mounts.c              | 17 ++---------------
- 3 files changed, 24 insertions(+), 19 deletions(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/fs/init.c b/fs/init.c
-index e0f5429c0a49..1253bcc73e26 100644
---- a/fs/init.c
-+++ b/fs/init.c
-@@ -14,16 +14,33 @@
- #include "internal.h"
- 
- int __init init_mount(const char *dev_name, const char *dir_name,
--		const char *type_page, unsigned long flags, void *data_page)
-+		      const char *type_page, unsigned long flags,
-+		      const char *data_str)
- {
-+	struct page *data_page = NULL;
-+	char *data_buf = NULL;
- 	struct path path;
- 	int ret;
- 
-+	/* path_mount() wants a proper page for data */
-+	if (data_str && data_str[0]) {
-+		data_page = alloc_page(GFP_KERNEL);
-+		if (!data_page)
-+			return -ENOMEM;
-+		data_buf = page_address(data_page);
-+		strscpy_pad(data_buf, data_str, PAGE_SIZE);
-+	}
-+
- 	ret = kern_path(dir_name, LOOKUP_FOLLOW, &path);
- 	if (ret)
--		return ret;
--	ret = path_mount(dev_name, &path, type_page, flags, data_page);
-+		goto out;
-+
-+	ret = path_mount(dev_name, &path, type_page, flags, data_buf);
- 	path_put(&path);
-+
-+out:
-+	if (data_page)
-+		put_page(data_page);
- 	return ret;
- }
- 
-diff --git a/include/linux/init_syscalls.h b/include/linux/init_syscalls.h
-index 92045d18cbfc..804d3070ce73 100644
---- a/include/linux/init_syscalls.h
-+++ b/include/linux/init_syscalls.h
-@@ -1,7 +1,8 @@
- /* SPDX-License-Identifier: GPL-2.0 */
- 
- int __init init_mount(const char *dev_name, const char *dir_name,
--		const char *type_page, unsigned long flags, void *data_page);
-+		      const char *type_page, unsigned long flags,
-+		      const char *data_str);
- int __init init_umount(const char *name, int flags);
- int __init init_chdir(const char *filename);
- int __init init_chroot(const char *filename);
-diff --git a/init/do_mounts.c b/init/do_mounts.c
-index defbbf1d55f7..87cf110a48e6 100644
---- a/init/do_mounts.c
-+++ b/init/do_mounts.c
-@@ -147,23 +147,12 @@ static int __init split_fs_names(char *page, size_t size)
- }
- 
- static int __init do_mount_root(const char *name, const char *fs,
--				 const int flags, const void *data)
-+				 const int flags, const char *data)
- {
- 	struct super_block *s;
--	struct page *p = NULL;
--	char *data_page = NULL;
- 	int ret;
- 
--	if (data) {
--		/* init_mount() requires a full page as fifth argument */
--		p = alloc_page(GFP_KERNEL);
--		if (!p)
--			return -ENOMEM;
--		data_page = page_address(p);
--		strscpy_pad(data_page, data, PAGE_SIZE);
--	}
--
--	ret = init_mount(name, "/root", fs, flags, data_page);
-+	ret = init_mount(name, "/root", fs, flags, data);
- 	if (ret)
- 		goto out;
- 
-@@ -177,8 +166,6 @@ static int __init do_mount_root(const char *name, const char *fs,
- 	       MAJOR(ROOT_DEV), MINOR(ROOT_DEV));
- 
- out:
--	if (p)
--		put_page(p);
- 	return ret;
- }
- 
--- 
-2.52.0
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
