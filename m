@@ -1,47 +1,46 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE94F248886;
-	Mon, 26 Jan 2026 19:13:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 588541DE3DC;
+	Mon, 26 Jan 2026 19:16:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769454828; cv=none; b=Cyi6aW4O420S7DDq/yAMitEPQQhQ6BDdw7j1SPCGY3u2GeXs/OITqalLKzO3TufL9wHWq5bBNooXAncYZXAYeE0jZe9nplgZX2ozbwzeswYa0LCTlkWflM1L+9IWcnqnyFhJCReGpMTe8UQWQTjrwO1FvBfybU5bpVr9fAn8XUA=
+	t=1769455016; cv=none; b=KlYUcgCfEHB+R1FXJ2bAF9zVj61PpiLsAWMJtzhD5mxOJvhnlgy+R4yu04jw/9J6TCBZUTjYLHzNBgCTyIf8+qsIPAXYT8PB983No7mvuPrW/b4H6AGQ+FBXUCrNgvngFS+WHBlp/OG3TKrXKv0JfuY0hppHmObbNR41tS7csFs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769454828; c=relaxed/simple;
-	bh=uJ4TrmswYapcKpzl6+LRL/lyOK9W/uASjQX0lK7L4Fc=;
+	s=arc-20240116; t=1769455016; c=relaxed/simple;
+	bh=YCY0ffj1SdQo4GMFAbxGXa4s96vFKDUPsIOH/Mkrh9o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mqri87VOFMQARpTKgTPdtigM42iM4gUSZZYccpd5rArfMCFa/YZeG8Xbfi9vwqgZpPXX0E68Q1HQifO3cx4mFNFvbFURjnAKhZq5C+uqyKCsEU+QlPuxuN/3mJXMEnTRGT4LJnpgS1SPLAdNDtU/ezBECMyr/S7Q9d8JFu1obog=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d91eKtPf; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=p17SxhLE/xcJ3Aj82+Cl48SIPo0aXGSrsBNa0jJnMaXTgBrbSTtnpVawXfagww37+jG3MNJrn8u+XQebKhZTqw3QHrdKqLGHA1bFwxiof+vx9/6xL9FS301ssolBEgPCpn3AuB+aoYwW2u025BLV64sMtr8eqNu97uJRTsXOkMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=n21P7Beg; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d91eKtPf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49E91C116C6;
-	Mon, 26 Jan 2026 19:13:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769454828;
-	bh=uJ4TrmswYapcKpzl6+LRL/lyOK9W/uASjQX0lK7L4Fc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=d91eKtPfJIqQiS47895fe4SYkOiehS91isvaJmb2kzCOv872oSVjNl0gCClWHWg9u
-	 92iD8pIPgJOrOwu4Lny6esjp5zDSZzg040JGMyM1d4RK76OHlTqyjXCNmzcxhiPapQ
-	 QCn+tDe7zjTqQ/JDMJzss0MeB3frIj3Lo4p2Aiu3izb4F+hvvQZN3dZLvwN2G57CQx
-	 TSUVaXvK5UfYxwC/LUEf88kZsCRirWDJDFocByCGEDqvh6Mfif66BP0agKg4NCzPGW
-	 tMVFSSAJOmzTRtDXwSJZcZdMC7IVUO9Yo4U7i4c4nRjZpDAfGBEia0MV5FkjEQsRcP
-	 FwamTTBa4x5UA==
-Date: Mon, 26 Jan 2026 11:13:47 -0800
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Eric Biggers <ebiggers@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	David Sterba <dsterba@suse.com>, Theodore Ts'o <tytso@mit.edu>,
-	Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
-	Andrey Albershteyn <aalbersh@redhat.com>,
-	Matthew Wilcox <willy@infradead.org>, linux-fsdevel@vger.kernel.org,
-	linux-btrfs@vger.kernel.org, linux-ext4@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net, fsverity@lists.linux.dev
-Subject: Re: [PATCH 10/16] fsverity: deconstify the inode pointer in struct
- fsverity_info
-Message-ID: <20260126191347.GQ5910@frogsfrogsfrogs>
-References: <20260126045212.1381843-1-hch@lst.de>
- <20260126045212.1381843-11-hch@lst.de>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="n21P7Beg"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=rMO2xX5xP28Q60xOnHu+vXD5aA6ESMshNUI0W1W6UHw=; b=n21P7BegJ2WRIBtQlJooTVh9Lv
+	9qFMD4jFHFi5XLAdogjd7y5b9kzy5uKXUh1V4E8B8NVyixXLt5FOfj8pWW2wO0SmvIdmWs0pPzVSa
+	CvtXf9tIrxNjnIoXVBdgqmGh61ymkcIqIV9sdQToF3R3UqFSitcK0SB9nnWVkSo8I+UcBwA+k8L/j
+	Ed09wbguCxvSghmXBEHmM0N366SuB1gGgbEEd7xGC1KOMSgGwHJf869Eg7m/nKrf0Gf+SeTKDg27T
+	gYWcl/t8UXdtRkf9prJF8CFP6hxeiO3uMG5GhTFobCui0ibGRs/vHCucAUcbSwW0XDA1dpmVslQdf
+	BgugbjAw==;
+Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vkS4s-00000006MVP-1o4U;
+	Mon, 26 Jan 2026 19:16:46 +0000
+Date: Mon, 26 Jan 2026 19:16:46 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: Cong Wang <cwang@multikernel.io>
+Cc: Gao Xiang <hsiangkao@linux.alibaba.com>, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Cong Wang <xiyou.wangcong@gmail.com>,
+	multikernel@lists.linux.dev
+Subject: Re: [ANNOUNCE] DAXFS: A zero-copy, dmabuf-friendly filesystem for
+ shared memory
+Message-ID: <aXe9nhAsK2lzOoxY@casper.infradead.org>
+References: <CAGHCLaREA4xzP7CkJrpqu4C=PKw_3GppOUPWZKn0Fxom_3Z9Qw@mail.gmail.com>
+ <55e3d9f6-50d2-48c0-b7e3-fb1c144cf3e8@linux.alibaba.com>
+ <CAGHCLaQbr2Q1KwEJhsZGuaFV=m6WEkxsgurg30+pjSQ4dHQ_1Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -50,89 +49,21 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260126045212.1381843-11-hch@lst.de>
+In-Reply-To: <CAGHCLaQbr2Q1KwEJhsZGuaFV=m6WEkxsgurg30+pjSQ4dHQ_1Q@mail.gmail.com>
 
-On Mon, Jan 26, 2026 at 05:50:56AM +0100, Christoph Hellwig wrote:
-> A lot of file system code expects a non-const inode pointer.  Dropping
-> the const qualifier here allows using the inode pointer in
-> verify_data_block and prepares for further argument reductions.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+On Mon, Jan 26, 2026 at 09:38:23AM -0800, Cong Wang wrote:
+> If you are interested in adding multikernel support to EROFS, here is
+> the codebase you could start with:
+> https://github.com/multikernel/linux. PR is always welcome.
 
-Looks good, though I'm leaning heavily on the build bot and your local
-gcc to find any weird problems,
-Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
+I think the onus is rather the other way around.  Adding a new filesystem
+to Linux has a high bar to clear because it becomes a maintenance burden
+to the rest of us.  Convince us that what you're doing here *can't*
+be done better by modifying erofs.
 
---D
-
-> ---
->  fs/verity/fsverity_private.h | 4 ++--
->  fs/verity/open.c             | 2 +-
->  fs/verity/verify.c           | 6 +++---
->  3 files changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/fs/verity/fsverity_private.h b/fs/verity/fsverity_private.h
-> index dd20b138d452..f9f3936b0a89 100644
-> --- a/fs/verity/fsverity_private.h
-> +++ b/fs/verity/fsverity_private.h
-> @@ -73,7 +73,7 @@ struct fsverity_info {
->  	struct merkle_tree_params tree_params;
->  	u8 root_hash[FS_VERITY_MAX_DIGEST_SIZE];
->  	u8 file_digest[FS_VERITY_MAX_DIGEST_SIZE];
-> -	const struct inode *inode;
-> +	struct inode *inode;
->  	unsigned long *hash_block_verified;
->  };
->  
-> @@ -124,7 +124,7 @@ int fsverity_init_merkle_tree_params(struct merkle_tree_params *params,
->  				     unsigned int log_blocksize,
->  				     const u8 *salt, size_t salt_size);
->  
-> -struct fsverity_info *fsverity_create_info(const struct inode *inode,
-> +struct fsverity_info *fsverity_create_info(struct inode *inode,
->  					   struct fsverity_descriptor *desc);
->  
->  void fsverity_set_info(struct inode *inode, struct fsverity_info *vi);
-> diff --git a/fs/verity/open.c b/fs/verity/open.c
-> index 090cb77326ee..128502cf0a23 100644
-> --- a/fs/verity/open.c
-> +++ b/fs/verity/open.c
-> @@ -175,7 +175,7 @@ static void compute_file_digest(const struct fsverity_hash_alg *hash_alg,
->   * appended builtin signature), and check the signature if present.  The
->   * fsverity_descriptor must have already undergone basic validation.
->   */
-> -struct fsverity_info *fsverity_create_info(const struct inode *inode,
-> +struct fsverity_info *fsverity_create_info(struct inode *inode,
->  					   struct fsverity_descriptor *desc)
->  {
->  	struct fsverity_info *vi;
-> diff --git a/fs/verity/verify.c b/fs/verity/verify.c
-> index 881af159e705..55f1078c645a 100644
-> --- a/fs/verity/verify.c
-> +++ b/fs/verity/verify.c
-> @@ -156,10 +156,10 @@ static bool is_hash_block_verified(const struct fsverity_info *vi,
->   *
->   * Return: %true if the data block is valid, else %false.
->   */
-> -static bool verify_data_block(struct inode *inode,
-> -			      const struct fsverity_info *vi,
-> +static bool verify_data_block(const struct fsverity_info *vi,
->  			      const struct fsverity_pending_block *dblock)
->  {
-> +	struct inode *inode = vi->inode;
->  	const u64 data_pos = dblock->pos;
->  	const struct merkle_tree_params *params = &vi->tree_params;
->  	const unsigned int hsize = params->digest_size;
-> @@ -362,7 +362,7 @@ fsverity_verify_pending_blocks(struct fsverity_verification_context *ctx)
->  	}
->  
->  	for (i = 0; i < ctx->num_pending; i++) {
-> -		if (!verify_data_block(ctx->inode, vi, &ctx->pending_blocks[i]))
-> +		if (!verify_data_block(vi, &ctx->pending_blocks[i]))
->  			return false;
->  	}
->  	fsverity_clear_pending_blocks(ctx);
-> -- 
-> 2.47.3
-> 
-> 
+Before I saw the email from Gao Xiang, I was also going to suggest that
+using erofs would be a better idea than supporting your own filesystem.
+Writing a new filesystem is a lot of fun.  Supporting a new filesystem
+and making it production-quality is a whole lot of pain.  It's much
+better if you can leverage other people's work.  That's why DAX is a
+support layer for filesystems rather than its own filesystem.
