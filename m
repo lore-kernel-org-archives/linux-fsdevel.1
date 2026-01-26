@@ -1,101 +1,58 @@
-Received: from out30-130.freemail.mail.aliyun.com (out30-130.freemail.mail.aliyun.com [115.124.30.130])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51E7E2FE571;
-	Mon, 26 Jan 2026 04:04:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B6558248B;
+	Mon, 26 Jan 2026 04:27:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769400257; cv=none; b=G0NgmAl/e8foyYxCE5cnjeQ23B3SxG9c5I4dEAksY9cltWFmg+FAOe+Kn9rooI/01FrnARfGojCRKWeBKXk/pOtq8hv8gCFNzQBOgr9bAhwIyuArKE3qUxVrGi2LpRBmcEH//054MHJOslrs1jGxUiWzJsEcQqUNjWdMfzJ+EEA=
+	t=1769401659; cv=none; b=OMrVwpDpFmtAD+xZSamugpWkC0bcPwKByTQii4uYSGilVBbA/dV7CLOaqrEJekXcCp3VK2OjBEFgAOPBQgGpoPgQ2d2ot5+y9+1P5HATSoblqjtXS3far5bAmk70o2F113MinxIbM7gFISYLadKLHCvRKa9GlwKsqa+wifLtYmw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769400257; c=relaxed/simple;
-	bh=9mGrxQAdqrJqfZlF+ojGHteJjxO12gMXVuM/YaXcHzI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sNqZFMdGWPhljDZh9Ka5oxIMc/S0tXupsad12MDWd9Pjx5G7fD7cUjFZcwOTDuyV8MAuRiLdET64RABblf+uaE/Bzospz172wCcEs1XypPXwMctzY7jlvHv1+t6g+kjRRH3kmftufuEWfub39duT0EUWCCPf83a1ikb8aQvBF9g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=SubR801r; arc=none smtp.client-ip=115.124.30.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="SubR801r"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1769400247; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=R3WU+rzl4kQ2/5LwsMxklG3faBx0Hcvrzfc5zqCOnhk=;
-	b=SubR801rSod56TUc1aIafCcQTLQh7wXLm4pKo8cCl2NWVt09CbGWeRTDgci0lABSHQ2I8a4Dudbsm+7MVxNEyk6JdPhMpnmQQUYvHY6m9+sP5oDt9+wP7R2I2kZQKL+9f0VFpMHxQiOABHsHk70MFxIE9Ucpe7wJjBfGAhGFnTE=
-Received: from 30.221.131.255(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0WxnO9T-_1769400246 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Mon, 26 Jan 2026 12:04:06 +0800
-Message-ID: <55e3d9f6-50d2-48c0-b7e3-fb1c144cf3e8@linux.alibaba.com>
-Date: Mon, 26 Jan 2026 12:04:06 +0800
+	s=arc-20240116; t=1769401659; c=relaxed/simple;
+	bh=AKjb1ReuQh11kWYO1exSMJ+pOg7SYRVbkRVhxcjnin4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dNsYwcXSCqagfyKwe5lkALmA4TPuxNbG8ZvQW32ZgktOj9K6WhUcIkDXrec4tQqsmdrhNLjfPLqU/cv5V8ODEBXk07pB0Kl7sIqk5+XqkBDRT+ALR2zgVu8vp/pYbkr+ftCdp9Uw837HsOAmAzMG/i6GE8ySFuGXYqYEn0eiefA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 57D11227A88; Mon, 26 Jan 2026 05:27:27 +0100 (CET)
+Date: Mon, 26 Jan 2026 05:27:27 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Al Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	David Sterba <dsterba@suse.com>, Theodore Ts'o <tytso@mit.edu>,
+	Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+	Andrey Albershteyn <aalbersh@redhat.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org,
+	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+	fsverity@lists.linux.dev
+Subject: Re: [PATCH 04/11] fsverity: start consolidating pagecache code
+Message-ID: <20260126042726.GA30803@lst.de>
+References: <20260122082214.452153-1-hch@lst.de> <20260122082214.452153-5-hch@lst.de> <20260124192747.GD2762@quark>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [ANNOUNCE] DAXFS: A zero-copy, dmabuf-friendly filesystem for
- shared memory
-To: Cong Wang <cwang@multikernel.io>, linux-fsdevel@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, Cong Wang <xiyou.wangcong@gmail.com>
-References: <CAGHCLaREA4xzP7CkJrpqu4C=PKw_3GppOUPWZKn0Fxom_3Z9Qw@mail.gmail.com>
-From: Gao Xiang <hsiangkao@linux.alibaba.com>
-In-Reply-To: <CAGHCLaREA4xzP7CkJrpqu4C=PKw_3GppOUPWZKn0Fxom_3Z9Qw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260124192747.GD2762@quark>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-Hi Cong,
-
-On 2026/1/25 01:10, Cong Wang wrote:
-> Hello,
+On Sat, Jan 24, 2026 at 11:27:47AM -0800, Eric Biggers wrote:
+> On Thu, Jan 22, 2026 at 09:22:00AM +0100, Christoph Hellwig wrote:
+> >  fs/ext4/verity.c         | 17 +----------------
+> >  fs/f2fs/verity.c         | 17 +----------------
+> >  fs/verity/pagecache.c    | 38 ++++++++++++++++++++++++++++++++++++++
+> >  include/linux/fsverity.h |  3 +++
+> >  4 files changed, 43 insertions(+), 32 deletions(-)
 > 
-> I would like to introduce DAXFS, a simple read-only filesystem
-> designed to operate directly on shared physical memory via the DAX
-> (Direct Access).
-> 
-> Unlike ramfs or tmpfs, which operate within the kernel’s page cache
-> and result in fragmented, per-instance memory allocation, DAXFS
-> provides a mechanism for zero-copy reads from contiguous memory
-> regions. It bypasses the traditional block I/O stack, buffer heads,
-> and page cache entirely.
-> 
-> Key Features
-> - Zero-Copy Efficiency: File reads resolve to direct memory loads,
-> eliminating page cache duplication and CPU-driven copies.
-> - True Physical Sharing: By mapping a contiguous physical address or a
-> dma-buf, multiple kernel instances or containers can share the same
-> physical pages.
-> - Hardware Integration: Supports mounting memory exported by GPUs,
-> FPGAs, or CXL devices via the dma-buf API.
-> - Simplicity: Uses a self-contained, read-only image format with no
-> runtime allocation or complex device management.
-> 
-> Primary Use Cases
-> - Multikernel Environments: Sharing a common Docker image across
-> independent kernel instances via shared memory.
-> - CXL Memory Pooling: Accessing read-only data across multiple hosts
-> without network I/O.
-> - Container Rootfs Sharing: Using a single DAXFS base image for
-> multiple containers (via OverlayFS) to save physical RAM.
-> - Accelerator Data: Zero-copy access to model weights or lookup tables
-> stored in device memory.
+> This creates a bisection hazard: the new file fs/verity/pagecache.c
+> isn't added to fs/verity/Makefile until the next commit.
 
-Actually, EROFS DAX is already used for this way for various users,
-including all the usage above.
+Fixed, that was of course not intentional :)
 
-Could you explain why EROFS doesn't suit for your use cases?
-
-Thanks,
-Gao Xiang
-
-
-> 
-> The source includes a kernel module and a mkdaxfs user-space tool for
-> image creation, it is available here:
-> https://github.com/multikernel/daxfs
-> 
-> I am looking forward to your feedback on the architecture and its
-> potential integration to the upstream Linux kernel.
-> 
-> Best regards,
-> Cong Wang
-
+Still surprised the build bot didn't complain about it.
