@@ -1,76 +1,145 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh-a4-smtp.messagingengine.com (fhigh-a4-smtp.messagingengine.com [103.168.172.155])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6DB9225A3B;
-	Mon, 26 Jan 2026 06:32:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25D7B26E711;
+	Mon, 26 Jan 2026 08:00:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769409137; cv=none; b=PqvTiqb7zCRX8s44oMou3V3SuS/BhDZWoSpzzv2MOzo4eg9or2eGrNnVwAAwGy1rASAu281Uru6YPCYyImrQM5QMTnj19IhpW+v8yI0R3/EG8CD5s7g2+hjRSSR7dz8mjtK7qHQUq8MBtQKIDFNjkl0Ez5L1FL6aTynuhQ4htU8=
+	t=1769414459; cv=none; b=fB8RlaQn/Knl7X+Q0DWe61KKaPYIas8b5Xup8v5bi0fvdyjPqCKxPfcG8nR93a3+OWUrGpRSey1Yg2d2ksGrsJV4HsAHEzmIaNHxceWMkPuMcW0fnZhUCr5AbfQEIdoKnFqVzD6nIpXpYV8tKYN7OyBQhnjQOXDk3NlTZ4T5KEU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769409137; c=relaxed/simple;
-	bh=cEiPux5uVHZDoFNzWa4F7vf525z2LRW0mx7NpMS28Bw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HX1/3wz5VA6uyZNTjvT+gol+t7WDUxd9Buc/89mFVApGu+38u8vfYcnzj6J8aoybujTarfyYxG4+P5J/uIDXjtRxJs+cI3jcBaP+d18vdUGC8QhpnMpY2/ht7E2duX4aU9Y4oQ/DffhHYriUckS8IXi3T/urnLG97s6OYr8330M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rAoQ28br; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769414459; c=relaxed/simple;
+	bh=Jq2F+oCg5oDSvWCa10TFq1iUE4KbxQiTyPoLBVvSJjM=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=k0ih/SSviI/Y9ZnfDReTQJVZSi9wM2mPrAwT5ABPe+A9wOTI8jxJJ3NYB5t/t1mqx/mA84xfOrHbBwupVwRUrPMokQ0JsZALI3AiTsicIVk8Tm3tJT7ATIckivhSOWHpWD9DOcDGqm37uCH5ZHIs7osDoezkoftXWmlijaSB1gI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=i/qRwIZW; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=LrSBPgpH; arc=none smtp.client-ip=103.168.172.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rAoQ28br"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 675F9C116C6;
-	Mon, 26 Jan 2026 06:32:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769409136;
-	bh=cEiPux5uVHZDoFNzWa4F7vf525z2LRW0mx7NpMS28Bw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=rAoQ28brH0P0hlGeG2tUYNzcfiI8wN60/J/4MCxdL4soyjrKGNvw8Jr5r2OgCO32X
-	 MwlmNYshBnYFo3V7RwEGohaqTSEexCUSqkxOJMhIoR1suWgsEm1DeCgpp8C4ijTJvF
-	 1HHBubLl7lyTAsFS9LqZrxeE4WDnwpEAO9oyEuBtWO4A0xCnOqH979pXEeHRhjmP6a
-	 YGgMCeEvVve5cGwM69ZnlgSnznuoQBAfOt/jKrU/ecdClpmEsP7fohyp/z9kIClJlJ
-	 yCLD8uoaXeCSvPkEL+q29Bq6TY5nbvnGwYaDCCiq5ZW9CK0QccEltWVsUn/apkIVCE
-	 VeXoDZs8+owvQ==
-Message-ID: <c8ec9ff0-a445-49d1-8b84-6b0ed39c9b92@kernel.org>
-Date: Mon, 26 Jan 2026 15:27:16 +0900
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="i/qRwIZW";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="LrSBPgpH"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 674E91400059;
+	Mon, 26 Jan 2026 03:00:57 -0500 (EST)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-04.internal (MEProxy); Mon, 26 Jan 2026 03:00:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1769414457;
+	 x=1769500857; bh=P8ncLr4g8+8XbCw2IM+F0C9C0EAgVMAauftZ2zcoeu8=; b=
+	i/qRwIZWm1G8nLRfkb1Rc76Wazijd+Z/mwC3OyMOiAykxOdYor5eJzLaPMqX3Ksp
+	xSvZV8QcyAu9pZrwal+CnDfVAt6Uot8cUs7PyR7rs1W3ZzguL/PF9K9Sr3PHrxaW
+	SpZlQ+9VbSDeBqj71EVChoBtjTPrhG7vnS7K6g0CwZgSb+5h7mz0HLdhxXAq+WgW
+	80lYjgRmAOy4mxaTIIHhQ/4u/1LVzFwbi3zIo+yj9FJC34tQ6Ay8QeSvNGf7rCXk
+	6as6JL6amRw6a5de2S2WZeEUQqApyb4U7OeOvDhuvsLzIlLrlKLAFzlruu3saUf8
+	n/ZS8ezoNEML9GpN7uPSrQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1769414457; x=
+	1769500857; bh=P8ncLr4g8+8XbCw2IM+F0C9C0EAgVMAauftZ2zcoeu8=; b=L
+	rSBPgpHkdl5X7xCzY2fvEIgpTFY+/r/7xI+LZVYvdyVQKV7j9jLjIRkOFTio7cLl
+	giWjGRR2+8nbXe54FREQFceTpIDIRZ4tjUr232Gbc87Oli/XhNRDUy7QycxTurX0
+	eGIl1FqaU94FuHiNMlyDiekDeK23/J1GnU5/uD1oA7wxktVd7W2JAFgQFvwalUAv
+	fGfn2AAwIVSIug8abWSv8c9k2txOSmxPs5OBirIfw/q9zZ9ulvx1q+3htPG0CKpG
+	8P9XWZgnFXtrR8QdMIFnz/8mF/jUFhv7Wx8Z+JcTZfGo1erBs5GMezGvByNU8TPa
+	0xnJgIQmV0SL/VzEmfizw==
+X-ME-Sender: <xms:OR93aXpy7AxORIU8ALV6SVfu2GZ2tBNdzlmDswt34Lb4YZm9Cneepw>
+    <xme:OR93acctjR84XwxNcMmXRPCfvXJHKuwNNt2ndhhKMa674tgNLKZiDEM9Zza2Ar7Bn
+    KioTE1PB5frHOtFMlBldkzdQ-YB-kU87Skom0WUXlX_Lv-8dfeLivI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduheejudegucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftehrnhgu
+    uceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvg
+    hrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefggfevudegudevledvkefhvdei
+    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnh
+    gusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepledpmhhouggvpehsmhhtphhouhht
+    pdhrtghpthhtoheprghlvgigrdgrrhhinhhgsehgmhgrihhlrdgtohhmpdhrtghpthhtoh
+    epughorhhjohihtghhhiduuddusehgmhgrihhlrdgtohhmpdhrtghpthhtohepsghrrghu
+    nhgvrheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepjhhlrgihthhonheskhgvrhhnvg
+    hlrdhorhhgpdhrtghpthhtoheptghhuhgtkhdrlhgvvhgvrhesohhrrggtlhgvrdgtohhm
+    pdhrtghpthhtohepjhgrtghksehsuhhsvgdrtgiipdhrtghpthhtoheplhhinhhugidqfh
+    hsuggvvhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhig
+    qdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehvihhroh
+    esiigvnhhivhdrlhhinhhugidrohhrghdruhhk
+X-ME-Proxy: <xmx:OR93aTKgUj39tnP09CSXHNMGJ2heUbjZRPV5NDvoKsA-kGAlSlr_RA>
+    <xmx:OR93aaMiqJLtkyYsO5eTvi0GVgGBlKuB9gIOBLkDOqu5cO8cV17COg>
+    <xmx:OR93aWUJFyUbVv-ozIaodOhfUJpGlFy3D3S1KJULKXPezIDVyVM-0w>
+    <xmx:OR93aYk1XpUrB2OWDgaxXZNLYxWE0aelmaXVe0HZjm705XklnqENKg>
+    <xmx:OR93abVzKXbrDGDOgh7usBGEtBAjxFn0fSkzr1byWiOuIuB4-a266cOu>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id F206D700069; Mon, 26 Jan 2026 03:00:56 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 04/15] iov_iter: extract a iov_iter_extract_bvecs helper
- from bio code
-To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
- Christian Brauner <brauner@kernel.org>
-Cc: "Darrick J. Wong" <djwong@kernel.org>, Carlos Maiolino <cem@kernel.org>,
- Qu Wenruo <wqu@suse.com>, Al Viro <viro@zeniv.linux.org.uk>,
- linux-block@vger.kernel.org, linux-xfs@vger.kernel.org,
- linux-fsdevel@vger.kernel.org
-References: <20260126055406.1421026-1-hch@lst.de>
- <20260126055406.1421026-5-hch@lst.de>
-Content-Language: en-US
-From: Damien Le Moal <dlemoal@kernel.org>
-Organization: Western Digital Research
-In-Reply-To: <20260126055406.1421026-5-hch@lst.de>
-Content-Type: text/plain; charset=UTF-8
+X-ThreadId: As39fFuPNmh7
+Date: Mon, 26 Jan 2026 09:00:35 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Dorjoy Chowdhury" <dorjoychy111@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
+ "Jeff Layton" <jlayton@kernel.org>, "Chuck Lever" <chuck.lever@oracle.com>,
+ "Alexander Aring" <alex.aring@gmail.com>
+Message-Id: <a3a9ea10-ae0f-4258-9950-89c2bdfa05b1@app.fastmail.com>
+In-Reply-To: 
+ <CAFfO_h7ttQPVCR-yQ_=h4BLoHYW3QZOWQ+oSNSFvY-7NOxxeHw@mail.gmail.com>
+References: <20260125141518.59493-1-dorjoychy111@gmail.com>
+ <20260125141518.59493-2-dorjoychy111@gmail.com>
+ <57fe666f-f451-462f-8f16-8c0ba83f1eac@app.fastmail.com>
+ <CAFfO_h7ttQPVCR-yQ_=h4BLoHYW3QZOWQ+oSNSFvY-7NOxxeHw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] open: new O_REGULAR flag support
+Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
 
-On 1/26/26 2:53 PM, Christoph Hellwig wrote:
-> Massage __bio_iov_iter_get_pages so that it doesn't need the bio, and
-> move it to lib/iov_iter.c so that it can be used by block code for
-> other things than filling a bio and by other subsystems like netfs.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+On Sun, Jan 25, 2026, at 16:41, Dorjoy Chowdhury wrote:
+>
+> Thanks for pointing this out. I will fix up in v2 along with other
+> comments (if any). I looked at the existing error codes in
+> uapi/asm-generic/errno.h and didn't notice anything that I could
+> reuse. So if I understand correctly, I will need this new error code
+> in both uapi/asm-generic/errno.h (not in errno-base.h) and in
+> arch/*/include/uapi/asm/errno.h (I see some parallel
+> tools/arch/*/include/uapi/asm/errno.h files too) just after EHWPOISON,
+> right?
 
+Yes, sounds good to me.
 
-> +ssize_t iov_iter_extract_bvecs(struct iov_iter *iter, struct bio_vec *bv,
-> +		size_t max_size, unsigned short *nr_vecs,
-> +		unsigned short max_vecs, iov_iter_extraction_t extraction_flags)
-> +{
-> +	unsigned short entries_left = max_vecs - *nr_vecs;
+>> > diff --git a/include/uapi/asm-generic/fcntl.h b/include/uapi/asm-generic/fcntl.h
+>> > index 613475285643..11e5eadab868 100644
+>> > --- a/include/uapi/asm-generic/fcntl.h
+>> > +++ b/include/uapi/asm-generic/fcntl.h
+>> > @@ -88,6 +88,10 @@
+>> >  #define __O_TMPFILE  020000000
+>> >  #endif
+>> >
+>> > +#ifndef O_REGULAR
+>> > +#define O_REGULAR       040000000
+>> > +#endif
+>>
+>> This in turn clashes with O_PATH on alpha, __O_TMPFILE on
+>> parisc, and __O_SYNC on sparc. We can probably fill the holes
+>> in asm/fcntl.h to define this.
+>>
+>
+> And for this, I will need to just define O_REGULAR in alpha, parisc
+> and sparc too, right?
 
-Do we need to check that *nrvecs > 0 && *nrvecs < max_vecs ?
-Also, if *nr_vecs == max_vecs, we should warn and return 0, no ?
+Yes, the only question is whether to use the first available
+bit, or the one after the previously last one.
 
+> Good catch on the sparc file, some are octal, some are hexadecimal,
+> easy to miss. Thanks!
 
+Right, I wonder if there are any downsides to redefining them
+all the same way.
 
--- 
-Damien Le Moal
-Western Digital Research
+    Arnd
