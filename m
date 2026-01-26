@@ -1,40 +1,48 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from canpmsgout07.his.huawei.com (canpmsgout07.his.huawei.com [113.46.200.222])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07E1630DEC7;
-	Mon, 26 Jan 2026 11:57:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6754334C03
+	for <linux-fsdevel@vger.kernel.org>; Mon, 26 Jan 2026 12:14:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.222
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769428639; cv=none; b=YYBrK6SpulqUCfOVLMK4CiekbXu7bD6wIPchmuwamEAEqD5MRX5vG15TpWxJYZ3/VS23ifrKkxh74Lvu73T6CnFVE6HOTPQGx2lRut1skne3RRl9hVg4wZ69SrFXcOTTHIi/rOvxLGL6SPLN8nZABM1wlJfZARe3sKMxF0dWfQQ=
+	t=1769429650; cv=none; b=uqjoVIP7Sdput1m8nE0ysr1LzFQNWF7RPF05ymMnRPQziReDLr02cnSN/vKOmcKvaJzWKh/JRCziu+6zS9TSpKAdhS8D6NjeDqeZME4USXkdbm1XoE+AUqgbZ/fxhIwHrd1VpJ0KHwrPH8uulBSlCgU3IrPeVnc+mMVOaqjhYt4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769428639; c=relaxed/simple;
-	bh=f5oUh44aQGLvnEnK72BZw6o30+2apqRnoEL5cp2255c=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=k/rD4OqqS//E3wdGyuLzs14DaKFcDNR2fgm9kVTHN4yxbhjybiGngL+RRXlOuybExCB2pyxQiVXLcvxfT8QfihRPsRHhXMGrMlVmewi6KHrjfsfY1jXPQbRHG/RxQ/gLDS8xNeQqqfa+WiNAsnvCq9zwWUdQkKo1s1OnCM1pcmk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ErH2qtAv; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769429650; c=relaxed/simple;
+	bh=EHWQJgLSniYPufoVD4yO55srs5ErGYjBSa3Xvz1MjaA=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=nybN9eW+nXdU76k6sqCwue9u1VMCyxXKK8C5bGPJ0LgvX1EfS78RtZFUGoRauho2u+siskvIWiQkO6Q1UwCV4vJJlL07g9IKXsauDNYsWBqx1S8EORmj8sM2LCglPA7SnvYQr3HS7a2fTRDSCSFH88dX4/3r98W0Oj4HyqRxIfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=TBtOYs3f; arc=none smtp.client-ip=113.46.200.222
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ErH2qtAv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60053C116C6;
-	Mon, 26 Jan 2026 11:57:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769428638;
-	bh=f5oUh44aQGLvnEnK72BZw6o30+2apqRnoEL5cp2255c=;
-	h=From:To:Cc:Subject:Date:From;
-	b=ErH2qtAvAqb6+0E1hCcI0tajUSD2MONujMxc370nZaDo1d9uE6loD544gM7RJyB22
-	 1fgJNRpCw4C9O3FSVYhXpdve6mOZNw0choqZZ9wRKq8s/cuXdZ5fAxFxa2ilaPC6NP
-	 csnncHAth7Cx4VgN3zixr6r6NoCFnhmGUnkxazwI3VY58zIRvAZz1gWIVFt2KITs8C
-	 TLXuWWQUcJe5RNIoRio/Z1tunkUupPQMlzBP6lWG8eEfVIAXKuDttbHXzueVw1U61S
-	 nBIfjLHSPwOR0I4HcOz/VKrxMi4sVABrtjiwP1DjmC+9Zm98xSLlf5xHA7OmWzSNq4
-	 u698jGn3zLyAQ==
-From: Andrey Albershteyn <aalbersh@kernel.org>
-To: fsverity@lists.linux.dev,
-	ebiggers@kernel.org
-Cc: Andrey Albershteyn <aalbersh@kernel.org>,
-	linux-fsdevel@vger.kernel.org,
-	"Darrick J. Wong" <djwong@kernel.org>
-Subject: [PATCH v3 0/2] Add traces and file attributes for fs-verity
-Date: Mon, 26 Jan 2026 12:56:56 +0100
-Message-ID: <20260126115658.27656-1-aalbersh@kernel.org>
-X-Mailer: git-send-email 2.52.0
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="TBtOYs3f"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=HLNhNkUAy1gp9R6SI4d0XXyRjiGuiGy0YTHYHkYb1FY=;
+	b=TBtOYs3ftlT5w9YCI+quh6qTnc3/UWoAKoltlCB56RxRZMjEsxEvRah7VEv0aCHQsTpL9joPd
+	Lvjw7wgtpcHabaS7xf7N9587hZJ7p4NqHya/QsRUJLOVhwBWeJ50RPDhvE3AEGXzNlpDlTDq4Y+
+	7ZNLEycfeOj2ewk+ckM5Mlk=
+Received: from mail.maildlp.com (unknown [172.19.163.163])
+	by canpmsgout07.his.huawei.com (SkyGuard) with ESMTPS id 4f06nD0s0vzLlXY;
+	Mon, 26 Jan 2026 20:10:40 +0800 (CST)
+Received: from kwepemr500015.china.huawei.com (unknown [7.202.195.162])
+	by mail.maildlp.com (Postfix) with ESMTPS id 5302F4048B;
+	Mon, 26 Jan 2026 20:14:06 +0800 (CST)
+Received: from huawei.com (10.67.174.162) by kwepemr500015.china.huawei.com
+ (7.202.195.162) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 26 Jan
+ 2026 20:14:05 +0800
+From: Hongbo Li <lihongbo22@huawei.com>
+To: <brauner@kernel.org>, <djwong@kernel.org>
+CC: <linux-fsdevel@vger.kernel.org>, <hsiangkao@linux.alibaba.com>,
+	<lihongbo22@huawei.com>
+Subject: [PATCH 1/1] fs/iomap: Describle @private in iomap_readahead()
+Date: Mon, 26 Jan 2026 12:00:20 +0000
+Message-ID: <20260126120020.675179-2-lihongbo22@huawei.com>
+X-Mailer: git-send-email 2.22.0
+In-Reply-To: <20260126120020.675179-1-lihongbo22@huawei.com>
+References: <20260126120020.675179-1-lihongbo22@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -42,42 +50,40 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
+ kwepemr500015.china.huawei.com (7.202.195.162)
 
-Hi all,
+The kernel test rebot reports the kernel-doc warning:
 
-This two small patches grew from fs-verity XFS patchset. I think they're
-self-contained improvements which could go without XFS implementation.
+```
+Warning: fs/iomap/buffered-io.c:624 function parameter 'private'
+ not described in 'iomap_readahead'
+```
 
-Cc: linux-fsdevel@vger.kernel.org
-Cc: "Darrick J. Wong" <djwong@kernel.org>
+The former commit in "iomap: stash iomap read ctx in the private
+field of iomap_iter" has added a new parameter @private to
+iomap_readahead(), so let's describe the parameter.
 
-v3:
-- Make tracepoints arguments more consistent
-- Make tracepoint messages more consistent
-v2:
-- Update kernel version in the docs to v7.0
-- Move trace point before merkle tree block hash check
-- Update commit message in patch 2
-- Add VERITY to FS_COMMON_FL and FS_XFLAG_COMMON constants
-- Fix block index argument in the tree block hash trace point
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202601261111.vIL9rhgD-lkp@intel.com/
+Signed-off-by: Hongbo Li <lihongbo22@huawei.com>
+---
+ fs/iomap/buffered-io.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Andrey Albershteyn (2):
-  fs: add FS_XFLAG_VERITY for fs-verity files
-  fsverity: add tracepoints
-
- Documentation/filesystems/fsverity.rst |  16 +++
- MAINTAINERS                            |   1 +
- fs/file_attr.c                         |   4 +
- fs/verity/enable.c                     |   4 +
- fs/verity/fsverity_private.h           |   2 +
- fs/verity/init.c                       |   1 +
- fs/verity/verify.c                     |   9 ++
- include/linux/fileattr.h               |   6 +-
- include/trace/events/fsverity.h        | 146 +++++++++++++++++++++++++
- include/uapi/linux/fs.h                |   1 +
- 10 files changed, 187 insertions(+), 3 deletions(-)
- create mode 100644 include/trace/events/fsverity.h
-
+diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
+index b350cc2a82ab..857b16bb3474 100644
+--- a/fs/iomap/buffered-io.c
++++ b/fs/iomap/buffered-io.c
+@@ -609,6 +609,7 @@ static int iomap_readahead_iter(struct iomap_iter *iter,
+  * iomap_readahead - Attempt to read pages from a file.
+  * @ops: The operations vector for the filesystem.
+  * @ctx: The ctx used for issuing readahead.
++ * @private: The filesystem-specific information for issuing iomap_iter.
+  *
+  * This function is for filesystems to call to implement their readahead
+  * address_space operation.
 -- 
-2.52.0
+2.22.0
 
