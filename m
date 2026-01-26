@@ -1,58 +1,83 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBFFE3314B9;
-	Mon, 26 Jan 2026 11:49:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07E1630DEC7;
+	Mon, 26 Jan 2026 11:57:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769428166; cv=none; b=rW2RXU6W+aHmFG9u65kHuDB4SPtL37tzjU82Rhdr8IIxQjHQnreGUBxfBbmdOGlxwpvhUCoUqKejKZ62cA/6wg0cKV/sH5qhUZ1Ab2HZC0Wip/s0YhUC6nJ8o4Ep7lH3cT+sz6QvP71K6cB7PHefkexCTGnr5yTBgTvw1UNReuo=
+	t=1769428639; cv=none; b=YYBrK6SpulqUCfOVLMK4CiekbXu7bD6wIPchmuwamEAEqD5MRX5vG15TpWxJYZ3/VS23ifrKkxh74Lvu73T6CnFVE6HOTPQGx2lRut1skne3RRl9hVg4wZ69SrFXcOTTHIi/rOvxLGL6SPLN8nZABM1wlJfZARe3sKMxF0dWfQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769428166; c=relaxed/simple;
-	bh=+6yDB44WLT2wxWGFozgz1t46XALOOvrPkLAvGhdLOlc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W1CyajYrQyOJcTJo135gh2PPUPngQHaF9AAjyTQHlqtptwUNKW1/s+rzl0dAANL/jeiXQ6tKQClGq964c7oJsCf99z2Fzb71+NDzxJc6dsRsQWL3VQhXYZjpLrpvw/2QGXAwliPzDo6t+YH8zuIzyBlXBZlc6mtfil8NgU7k/zg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 28070227A88; Mon, 26 Jan 2026 12:49:22 +0100 (CET)
-Date: Mon, 26 Jan 2026 12:49:21 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Damien Le Moal <dlemoal@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
-	Christian Brauner <brauner@kernel.org>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Carlos Maiolino <cem@kernel.org>, Qu Wenruo <wqu@suse.com>,
-	Al Viro <viro@zeniv.linux.org.uk>, linux-block@vger.kernel.org,
-	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	Anuj Gupta <anuj20.g@samsung.com>
-Subject: Re: [PATCH 11/15] iomap: free the bio before completing the dio
-Message-ID: <20260126114921.GA23923@lst.de>
-References: <20260126055406.1421026-1-hch@lst.de> <20260126055406.1421026-12-hch@lst.de> <3360b495-b66d-40af-9274-bdb614455f6d@kernel.org>
+	s=arc-20240116; t=1769428639; c=relaxed/simple;
+	bh=f5oUh44aQGLvnEnK72BZw6o30+2apqRnoEL5cp2255c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=k/rD4OqqS//E3wdGyuLzs14DaKFcDNR2fgm9kVTHN4yxbhjybiGngL+RRXlOuybExCB2pyxQiVXLcvxfT8QfihRPsRHhXMGrMlVmewi6KHrjfsfY1jXPQbRHG/RxQ/gLDS8xNeQqqfa+WiNAsnvCq9zwWUdQkKo1s1OnCM1pcmk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ErH2qtAv; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ErH2qtAv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60053C116C6;
+	Mon, 26 Jan 2026 11:57:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769428638;
+	bh=f5oUh44aQGLvnEnK72BZw6o30+2apqRnoEL5cp2255c=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ErH2qtAvAqb6+0E1hCcI0tajUSD2MONujMxc370nZaDo1d9uE6loD544gM7RJyB22
+	 1fgJNRpCw4C9O3FSVYhXpdve6mOZNw0choqZZ9wRKq8s/cuXdZ5fAxFxa2ilaPC6NP
+	 csnncHAth7Cx4VgN3zixr6r6NoCFnhmGUnkxazwI3VY58zIRvAZz1gWIVFt2KITs8C
+	 TLXuWWQUcJe5RNIoRio/Z1tunkUupPQMlzBP6lWG8eEfVIAXKuDttbHXzueVw1U61S
+	 nBIfjLHSPwOR0I4HcOz/VKrxMi4sVABrtjiwP1DjmC+9Zm98xSLlf5xHA7OmWzSNq4
+	 u698jGn3zLyAQ==
+From: Andrey Albershteyn <aalbersh@kernel.org>
+To: fsverity@lists.linux.dev,
+	ebiggers@kernel.org
+Cc: Andrey Albershteyn <aalbersh@kernel.org>,
+	linux-fsdevel@vger.kernel.org,
+	"Darrick J. Wong" <djwong@kernel.org>
+Subject: [PATCH v3 0/2] Add traces and file attributes for fs-verity
+Date: Mon, 26 Jan 2026 12:56:56 +0100
+Message-ID: <20260126115658.27656-1-aalbersh@kernel.org>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3360b495-b66d-40af-9274-bdb614455f6d@kernel.org>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jan 26, 2026 at 03:22:41PM +0900, Damien Le Moal wrote:
-> > Signed-off-by: Christoph Hellwig <hch@lst.de>
-> > Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
-> > Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
-> 
-> Repeated tag...
-> 
-> Looks good to me.
-> 
-> Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
-> 
-> (which I think I already sent :))
+Hi all,
 
-I guess I messed up and pasted Darricks' review again instead of yours,
-sorry.
+This two small patches grew from fs-verity XFS patchset. I think they're
+self-contained improvements which could go without XFS implementation.
+
+Cc: linux-fsdevel@vger.kernel.org
+Cc: "Darrick J. Wong" <djwong@kernel.org>
+
+v3:
+- Make tracepoints arguments more consistent
+- Make tracepoint messages more consistent
+v2:
+- Update kernel version in the docs to v7.0
+- Move trace point before merkle tree block hash check
+- Update commit message in patch 2
+- Add VERITY to FS_COMMON_FL and FS_XFLAG_COMMON constants
+- Fix block index argument in the tree block hash trace point
+
+Andrey Albershteyn (2):
+  fs: add FS_XFLAG_VERITY for fs-verity files
+  fsverity: add tracepoints
+
+ Documentation/filesystems/fsverity.rst |  16 +++
+ MAINTAINERS                            |   1 +
+ fs/file_attr.c                         |   4 +
+ fs/verity/enable.c                     |   4 +
+ fs/verity/fsverity_private.h           |   2 +
+ fs/verity/init.c                       |   1 +
+ fs/verity/verify.c                     |   9 ++
+ include/linux/fileattr.h               |   6 +-
+ include/trace/events/fsverity.h        | 146 +++++++++++++++++++++++++
+ include/uapi/linux/fs.h                |   1 +
+ 10 files changed, 187 insertions(+), 3 deletions(-)
+ create mode 100644 include/trace/events/fsverity.h
+
+-- 
+2.52.0
 
