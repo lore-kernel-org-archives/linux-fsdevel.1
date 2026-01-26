@@ -1,149 +1,123 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a5-smtp.messagingengine.com (fout-a5-smtp.messagingengine.com [103.168.172.148])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3684A331A5E
-	for <linux-fsdevel@vger.kernel.org>; Mon, 26 Jan 2026 15:42:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1F6033F368;
+	Mon, 26 Jan 2026 15:55:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769442141; cv=none; b=ZZIW7/PRA+MOdHLN99pYfQh//fpx0BLg9DBqB148ZOnL+y2aG9PgzBvjOR7y6Abotg5f3XBqhIfOpt/zfdLPyRh5qVG9IlS1ozb4sI3WWKfvGGIG//nHN8WgAO8PILPytIflWSlk69hJygDljCOuTU8EJcI1djW7ucc7D2GniMA=
+	t=1769442948; cv=none; b=TuVrYioBxN4ZE0m2PdTYtpKjX2JtyQ83E6RNeRVHEdesVFnd88yZ9UziUOwmU1x4OXrB+nB7ce9wAtiUEa6hD5Q1cJfjqWd2T2j+pGTkEYpyOknKxeo3h9jftqC9kllDCpNzU3B1LJjh9T4CPo4C4WhHEe2NBjJGDFLwhp83i74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769442141; c=relaxed/simple;
-	bh=tqewIhbRqq1adswiVbpduoDW8JX3z3VKvL2i1Kqr57I=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ED5xnk2DcKMpfXWI+Kfa/WwBbfwZZ45O84QRrW9zTnbU1wRtr/FqgcDjLioEtl6b7PFBz/UOQ05wJcXSzX5Fez4G0Xkglt9WL+sw3U7iF+MVC4+6SR4+WXh5Dh/YrYINBkctCD125HnHMv2vu+XyJ3SYB/paZ2mPsq40XHS3Ggw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bePWme8q; arc=none smtp.client-ip=209.85.215.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1769442948; c=relaxed/simple;
+	bh=rb5R7JXNwig6A8hF/CHe/VvCS1Cr8hFL1HjQlCZ6u08=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=rKEbA97fwXvwzFctPLieYEEf1jYYpTJENG8HxR5kgsjEO3pf/0ipIz5ofKpdbDESbyalNsLBRSQ3ahQQnhMoD4l0P3g6HtOYpYOgALtqqW3LMi4kGyYSKgfWO+82AqSFq0+Rt4nR984fCAgc+dZDd6FR9T0ibE33vPDFWVuFPdM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=GgFGGIz5; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=xIj7htBj; arc=none smtp.client-ip=103.168.172.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bePWme8q"
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-c2af7d09533so2929857a12.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 26 Jan 2026 07:42:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769442139; x=1770046939; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EFHTE7+4vut1ZBbXi2BaQWFLCQQCwb8j1cvQskcZkjo=;
-        b=bePWme8qPU39g65mrF5KWvwERR0PvniLQwnyJWyokZP3mWNwFl32zxMcwVwZKlrBUu
-         Ft1QUwKr2Jk1goOBfpENojDRUjlvKaMq2YBPZEdvK2ztrytV8l/XLlxI9Yca/dr/o7XV
-         2bt1f9xijzV/HJvBp3AuivgNJd1AA3s2t7XY9KqpWaEwWfvMwYmTEtgD9/v7YuKAUNDT
-         u1GarTfANyacMt1rLF2GO3wWYFdtgwbhqCKfzo1g0AOrilxhnuLP/aNr8NUWGOOzrRwJ
-         +hwJeB0P2OmtAmvBsUUKq7zd6HrlVt1zwONAWf0RADCAZHD8kDGwRYITTrGBc2Ivd2yv
-         3xZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769442139; x=1770046939;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=EFHTE7+4vut1ZBbXi2BaQWFLCQQCwb8j1cvQskcZkjo=;
-        b=UCIc7Ri0smSeF9/PYqYaFDx2DcruWdtmKYvQaopJMId4s2t2xs9pg+DmiX7SP8LV67
-         4er5TRsP3WUiEF4UkP50a6Clgrxeu8x72jAJKNcCbcmqsgP2/mwozcSfKmscjhQ820f1
-         24NJ4v/Sb2xHSLr9o/e5kxwZrbKNtxK39Vc3SNReB1zLnlhQTn8vpMFOgBu8uI4dviQk
-         5tDU8Fk8cXYr+4YrtpjCoYWjUV98AoUePpViEp9kXmW4mZtbiSDcoKG5EG/rOA+Aoo8n
-         y3YSjZ+bF1oDpPJ/4xh2TMmrQiebG8ZUWjN/Gv1nHVTPm6SKivI6Tm3WjEnhXGfE4Dul
-         M/JA==
-X-Gm-Message-State: AOJu0Yx6ymtRaG6A1gJY59F926MDwuS3oj6wls2n5KGw2Dfu1PL4Vkvu
-	MZbRPuEPDWGsgf9TK9VttELlbdBnfm0VTWtTuyC1clGWumqfXkd7Jzjvu95tZw==
-X-Gm-Gg: AZuq6aJUSuonaxiG/fo7VuxCc6FDJxcNrEwfFxKf+iNUMh/+c+Dqd7hX/FSvN4cjDHr
-	CYWmD1zrmv4FOThIySPOu+xpu43AG9opXfJkEvAgZrLz6l01tL3Y/aG3/Lb88hXwZDdzbPP0d9b
-	JfIMfMmkISfmnIWWAY4Z+D2zwZAp0bb9ObggPdT8KNPL+rppj1ZtApBFwl9cWR2dTRrqsL5GbtF
-	vmL3xbEqQxdRWoxYFpIORxh0NrMRH33oXFUiNvjEy3wK4p/CrEw24fJdcvle6XgeXwNUvp+pyV1
-	akyIgXLypSiex2Z1LNOFJJJCNHGDcXApneSbyy+68LCdk5J0M/smcq1uk256016h6WmGtCxXhPf
-	s4D1wun+g5HR0yLd1UQSxEIwDBk8K8w85vxMPpJm7msA9RT3CLWG9ji8HOWDUxdITYaUb7QAojC
-	sXK+49gPSzeAeBlJ11xFBynBW7F4goWfVN0GZ69e3mgp9FN+BwlIMo3A==
-X-Received: by 2002:a17:90b:3a4d:b0:32e:38b0:15f4 with SMTP id 98e67ed59e1d1-353c40b88f3mr4065706a91.7.1769442139114;
-        Mon, 26 Jan 2026 07:42:19 -0800 (PST)
-Received: from toolbx ([103.230.182.3])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3536d88b098sm8649100a91.3.2026.01.26.07.42.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Jan 2026 07:42:18 -0800 (PST)
-From: Dorjoy Chowdhury <dorjoychy111@gmail.com>
-To: linux-fsdevel@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	jack@suse.cz,
-	jlayton@kernel.org,
-	chuck.lever@oracle.com,
-	alex.aring@gmail.com,
-	arnd@arndb.de
-Subject: [PATCH v2 2/2] kselftest/openat2: test for O_REGULAR flag
-Date: Mon, 26 Jan 2026 21:39:22 +0600
-Message-ID: <20260126154156.55723-3-dorjoychy111@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260126154156.55723-1-dorjoychy111@gmail.com>
-References: <20260126154156.55723-1-dorjoychy111@gmail.com>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="GgFGGIz5";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="xIj7htBj"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfout.phl.internal (Postfix) with ESMTP id 90BF1EC021F;
+	Mon, 26 Jan 2026 10:55:45 -0500 (EST)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-04.internal (MEProxy); Mon, 26 Jan 2026 10:55:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1769442945;
+	 x=1769529345; bh=Dxv3fy7a9waPSHSm5jZkF31RjhZVUqYCjtFysImUS8s=; b=
+	GgFGGIz5oR/FhffMa/1xQvNOLNNkl7+tLcBz4dZucD/xKxg+IVwC8bOG+HJU5I+K
+	KUVDRNOwNLU3cwuWlmuqj557dL0+hjG8OC1w6qjM/aeNRuRXhyPu4G2YgWFhP7R8
+	A2F5uoNV6NO6tIY0kf2REuYuTm6k4+ucp+B3mnkohoRorDnWVzNbOijbLdWukpm1
+	UkdrCsjrfL6m1foLzxFArPNqHASG7hOuWrECR0Lz/WEioIlO4GSziCBgnufftDAw
+	gf2RW9BHlv7gD+ZF4tPx7xwqRkpFhIqZy9TVq0RlBufl1sSc3CsQ39vXKYFpU4T1
+	rpFSL0oe5uKhSkOQNadr3Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1769442945; x=
+	1769529345; bh=Dxv3fy7a9waPSHSm5jZkF31RjhZVUqYCjtFysImUS8s=; b=x
+	Ij7htBjqjpljyMl8RLPt9FM4UfHNER4KkFjR9JIz7Gqik1UNE8CGRMteBCj2WQfF
+	3hAyq4Gmmpiul5NEtQFxAkpRmzBi5qMfXu460MoVFTtsgkv34VwblUfK4tcNokAs
+	D/Nqrqy+aNjPRK4qYje8JF09Ea18gHP41zBy3aQ7jJC4TIIo3+gO1VE4bDQdVPMC
+	78OMxLpYRamWihVlu18S0cthOtph7Zit8ed8fDSwFWo3Gy1tM3P5KYjRD8SsX03p
+	ZsLJ09UJQ/ixoQEIORRsoIL+MIseWSkvNWN4WDpGO2TiSMyEv5QQaaroV8es5Th3
+	KBYOxsd1iZRWmj6gNav4A==
+X-ME-Sender: <xms:gY53aQedRzG9jRHwoP8nn_EZve83j8oZ21GFH8UutyhfUNgfDmYEdg>
+    <xme:gY53adD5lAIFiiVjlS3FfQ2ActTi5j1uU7JCyD2glJZ3JfnX2VNUkYxxV1BJTX9z7
+    yhqA-R5KWMAB2VXPgIv-vfs8SRq7aBkJ6u6z_A7nl1Su1wtm0lJCS8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduheektdekucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftehrnhgu
+    uceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvg
+    hrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefggfevudegudevledvkefhvdei
+    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnh
+    gusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepledpmhhouggvpehsmhhtphhouhht
+    pdhrtghpthhtoheprghlvgigrdgrrhhinhhgsehgmhgrihhlrdgtohhmpdhrtghpthhtoh
+    epughorhhjohihtghhhiduuddusehgmhgrihhlrdgtohhmpdhrtghpthhtohepsghrrghu
+    nhgvrheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepjhhlrgihthhonheskhgvrhhnvg
+    hlrdhorhhgpdhrtghpthhtoheptghhuhgtkhdrlhgvvhgvrhesohhrrggtlhgvrdgtohhm
+    pdhrtghpthhtohepjhgrtghksehsuhhsvgdrtgiipdhrtghpthhtoheplhhinhhugidqfh
+    hsuggvvhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhig
+    qdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehvihhroh
+    esiigvnhhivhdrlhhinhhugidrohhrghdruhhk
+X-ME-Proxy: <xmx:gY53ab-fh9Maxq-PqAHXYkkOQyL_teXc2QTMHaPeB87GwUKU7n6LYA>
+    <xmx:gY53aayfzQBKgbFOit1wPZUSqX1Gc5sZdMcCla-0iqnA0ancNDvWkA>
+    <xmx:gY53aTpcr8tF-X5Pn-BNaUzprpHR1cbn7eEDQfYwrQgUoHF8ZYlNKA>
+    <xmx:gY53aTrYAHFQVf8Mu5DoPGz5FmnWwo_nLFbrzlmn92-pCGuBl1HVFg>
+    <xmx:gY53aTqNz9EJZod1XAJQrKkQKmwRqbB8L6dEQ6qSnlyU6EXtbsjdT_oL>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 07812700069; Mon, 26 Jan 2026 10:55:45 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-ThreadId: AuviwbZQ_R9V
+Date: Mon, 26 Jan 2026 16:55:24 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Dorjoy Chowdhury" <dorjoychy111@gmail.com>, linux-fsdevel@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
+ "Jeff Layton" <jlayton@kernel.org>, "Chuck Lever" <chuck.lever@oracle.com>,
+ "Alexander Aring" <alex.aring@gmail.com>
+Message-Id: <6c9d7f9b-36ea-4222-8c10-843f726b6e62@app.fastmail.com>
+In-Reply-To: <20260126154156.55723-2-dorjoychy111@gmail.com>
+References: <20260126154156.55723-1-dorjoychy111@gmail.com>
+ <20260126154156.55723-2-dorjoychy111@gmail.com>
+Subject: Re: [PATCH v2 1/2] open: new O_REGULAR flag support
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-Just a happy path test.
+On Mon, Jan 26, 2026, at 16:39, Dorjoy Chowdhury wrote:
 
-Signed-off-by: Dorjoy Chowdhury <dorjoychy111@gmail.com>
----
- .../testing/selftests/openat2/openat2_test.c  | 37 ++++++++++++++++++-
- 1 file changed, 36 insertions(+), 1 deletion(-)
+> diff --git a/arch/parisc/include/uapi/asm/fcntl.h 
+> b/arch/parisc/include/uapi/asm/fcntl.h
+> index 03dee816cb13..efd763335ff7 100644
+> --- a/arch/parisc/include/uapi/asm/fcntl.h
+> +++ b/arch/parisc/include/uapi/asm/fcntl.h
+> @@ -19,6 +19,7 @@
+> 
+>  #define O_PATH		020000000
+>  #define __O_TMPFILE	040000000
+> +#define O_REGULAR	060000000
 
-diff --git a/tools/testing/selftests/openat2/openat2_test.c b/tools/testing/selftests/openat2/openat2_test.c
-index 0e161ef9e9e4..011ebc9af4e5 100644
---- a/tools/testing/selftests/openat2/openat2_test.c
-+++ b/tools/testing/selftests/openat2/openat2_test.c
-@@ -320,8 +320,42 @@ void test_openat2_flags(void)
- 	}
- }
- 
-+#ifndef O_REGULAR
-+#define O_REGULAR 040000000
-+#endif
-+
-+#ifndef ENOTREG
-+#define ENOTREG 134
-+#endif
-+
-+void test_openat2_o_regular_flag(void)
-+{
-+	if (!openat2_supported) {
-+		ksft_test_result_skip("Skipping %s as openat2 is not supported\n", __func__);
-+		return;
-+	}
-+
-+	struct open_how how = {
-+		.flags = O_REGULAR | O_RDONLY
-+	};
-+
-+	int fd = sys_openat2(AT_FDCWD, "/dev/null", &how);
-+
-+	if (fd == ENOENT) {
-+		ksft_test_result_skip("Skipping %s as there is no /dev/null\n", __func__);
-+		return;
-+	}
-+
-+	if (fd != -ENOTREG) {
-+		ksft_test_result_fail("openat2 should return ENOTREG\n");
-+		return;
-+	}
-+
-+	ksft_test_result_pass("%s succeeded\n", __func__);
-+}
-+
- #define NUM_TESTS (NUM_OPENAT2_STRUCT_VARIATIONS * NUM_OPENAT2_STRUCT_TESTS + \
--		   NUM_OPENAT2_FLAG_TESTS)
-+		   NUM_OPENAT2_FLAG_TESTS + 1)
- 
- int main(int argc, char **argv)
- {
-@@ -330,6 +364,7 @@ int main(int argc, char **argv)
- 
- 	test_openat2_struct();
- 	test_openat2_flags();
-+	test_openat2_o_regular_flag();
- 
- 	if (ksft_get_fail_cnt() + ksft_get_error_cnt() > 0)
- 		ksft_exit_fail();
--- 
-2.52.0
+This is two bits, not one, and it overlaps with O_PATH|__O_TMPFILE.
 
+The other ones look like they are fine in this regard, but I'm
+still unsure if we should be using the next available bit, or
+reusing an unused lower bit, e.g. these bits removed in commit
+41f5a81c07cd ("parisc: Drop HP-UX specific fcntl and signal flags"):
+
+-#define O_BLKSEEK      000000100 /* HPUX only */
+-#define O_RSYNC                002000000 /* HPUX only */
+-#define O_INVISIBLE    004000000 /* invisible I/O, for DMAPI/XDSM */
+
+     Arnd
