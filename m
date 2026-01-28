@@ -1,173 +1,143 @@
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 330CE1DF271;
-	Wed, 28 Jan 2026 19:34:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2E1332862C
+	for <linux-fsdevel@vger.kernel.org>; Wed, 28 Jan 2026 20:20:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769628845; cv=none; b=SXv1HHnzgC5RehPN0IKLYJPXvT9pRrZl45OSajVg13D2pQWewvyoobMv84NEJLFPfw8GjHuhIui2CZga7UfyfLFsD3sIEM4DpYKOXdl9T1PXtDbAFzlVPdtJhJuNq9wtvB+Mzm0600dapNIdKpIi2GnnyI2TR7bUXGFogsyaqGU=
+	t=1769631630; cv=none; b=E5gYYaXzV5pDdiFnVm7ZaJHMVLISxXPLGU7j/9NNVrXdNfyb0+vMLJuG/Pxwr8DXmxxi0qf4ml4EnDwwtL1UEQQOW43nvSwqAmNLI50WsVS1tcsxVxwhNnVpqUUe4ILxBVIc1LV2QjJ4vqT0cPEqWTwuqId4wtthFETk+KK/eRA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769628845; c=relaxed/simple;
-	bh=E81YN0w3GVPjc+iDX0A+4oREVX4YpgEaEIg49fJXdok=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XM2UtVeSlfcr1/MvrI+XkxxTXu9rMgAYrN0uvJojOoTSezQBDxKLkTLh6P9vxS9KXKGZOjC83HrXlmLxxhIoBKXesigD6RHKsOmMEfvYe/A2JQrtRwJbnpbuy/nLoT2rolk+DdRsAbu3+9ZV29vaBJ0/+y45peT6t2VokHzEE+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=qyMe6sHr; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
+	s=arc-20240116; t=1769631630; c=relaxed/simple;
+	bh=cQhp4NTBavRL5M7vVIbsiOmyCf2bKMbXtu54XvEzlQI=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=dGcMVx+6Ij1A8hn1EVxux6bSqFHPUv5D1Q66EiXM5cinJCg3QAA2qWmduM0VmQuiTKyAhtxmsl/EcsQm7xy/0quWhh09he+fZvYs0+0HQlR00XSFN9fKr4fN2l7m3PdQOvkrBCuV89kV/oFETgIdN9syfJL+a8VcI8RaPglEKD8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=RjCpvTyM; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=JvWGHNWo; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="qyMe6sHr"
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4f1XMf501Zz9t7s;
-	Wed, 28 Jan 2026 20:26:54 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
-	t=1769628414;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="RjCpvTyM";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="JvWGHNWo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1769631627;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=vCd7H1TJ4ks7SnfKeArmFODsoCEHZ0gXvt5SKnHjEac=;
-	b=qyMe6sHrmcAtAOqNng+0jevKFmvdKns49VJD1nn8ZWLKSLD7uojEW4g+39ms9kgqf9sj5T
-	M9DLxAdMoyPuwR461YGficMzb1minOXC383KmRmfHjfPoRVqQ4wRDMobL4PcXU22kNTw7c
-	y2zFdFYP+ndkq/FgZ0oRrJR50qV4CGawFq76XHtSql1sHvqjOA2WBrZGJDk941Kkwzmcj/
-	PeWrtYx87B2gJKX2x662/CJ/ZRuI4M9dP1bk3TiQsQeZPP3gdOO2mIcb5vrMRDYXoo9+sc
-	XbxtdwmInMegh87H3fh0BcJQTAS9/ndcuZFz9QQo1b1+UFTMrH+WYXmdqOT6oQ==
-Date: Wed, 28 Jan 2026 20:26:48 +0100
-From: Aleksa Sarai <cyphar@cyphar.com>
-To: Mateusz Guzik <mjguzik@gmail.com>
-Cc: Dorjoy Chowdhury <dorjoychy111@gmail.com>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, viro@zeniv.linux.org.uk, 
-	brauner@kernel.org, jack@suse.cz, jlayton@kernel.org, chuck.lever@oracle.com, 
-	alex.aring@gmail.com, arnd@arndb.de, adilger@dilger.ca
-Subject: Re: [PATCH v3 1/4] open: new O_REGULAR flag support
-Message-ID: <2026-01-28-content-sandy-strife-cartels-hShKtl@cyphar.com>
-References: <20260127180109.66691-1-dorjoychy111@gmail.com>
- <20260127180109.66691-2-dorjoychy111@gmail.com>
- <2026-01-27-awake-stony-flair-patrol-g4abX8@cyphar.com>
- <vhq3osjqs3nn764wrp2lxp66b4dxpb3n5x3dijhe2yr53qfgy3@tfswbjskc3y6>
+	bh=P2BpxOQY18A0qNxNJaWmNereaJFQzVlpvBrrpAuc1v8=;
+	b=RjCpvTyM7UTqXeqq9+z+FLTpNhZP75Xzb8GWOsWt3oPn0qnAUcCI1VcafABgc5uliB9UOb
+	b3UiOpuIHVszmjHO5HYoAqhwz++wyWi5+HQRmCvxXnmskglW6POeF+Z8msqsSFWxz2QQEO
+	JIau4AyiFzdU8Dyx9Bh/eDG6VGgGZR4=
+Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
+ [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-665-bjasDQ6VMbmM8kMUkxdipQ-1; Wed, 28 Jan 2026 15:20:26 -0500
+X-MC-Unique: bjasDQ6VMbmM8kMUkxdipQ-1
+X-Mimecast-MFC-AGG-ID: bjasDQ6VMbmM8kMUkxdipQ_1769631626
+Received: by mail-yw1-f199.google.com with SMTP id 00721157ae682-794744871cdso3823067b3.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 28 Jan 2026 12:20:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1769631626; x=1770236426; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=P2BpxOQY18A0qNxNJaWmNereaJFQzVlpvBrrpAuc1v8=;
+        b=JvWGHNWo3p5S5elRVPMOkNRHMYYnnCgqbJSKBUi1jw+baIw4GkeoEkFwmMCSrRp3EG
+         KtTEh31vx2ggWT0uMd0nkoiiQjyO5GHfmaQ6Hv/700QPPMti0zOx4KPrAiw5k50PkTv+
+         NLpU2oWBRMeL5w/+TEqhCCvFSGkXuLeFEoOqDpgeSFjRATi3/MrCxyF+8rNxFy1zPvi6
+         E4QiB9JRP7pDCaq69rcMv5G3MXspt8mslQdYpbaONuNfauZFigzk2eLHypZ2q3O9ZDQX
+         XkfEoLg/wAMx5aMAoHJIDTku01O5jdxQK2iQfQfSBDwLvZIdvG2TatUSVfuR+y2g3+SM
+         dCvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769631626; x=1770236426;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=P2BpxOQY18A0qNxNJaWmNereaJFQzVlpvBrrpAuc1v8=;
+        b=p+uhtTUUgu5tZiJEiIZZFrHIYvON9HoxQSy8cxw7g7okboJd91P/BNv2+s5p/TEUAV
+         NoGCtJoFLMXB1SaCygXIKepTaXq4FwjQyMy6mKwfBMGN9x5vsHqcfctDINJcxn1wUQeI
+         pbazRK1VqfXuZvFnrtj9Dt0uth9OfEKMihzDpz7WAA4CaraB9b8d9Coy7kx0ZzzsDtwe
+         0dhy2q1oyiZVj1az+hl9jDBHUNTOz4za+GU4c9jGXUsWtnh8m7/lXipso9tdDuvUWoaQ
+         RnWqZZfB8fm8OB3eYMK8gnL5gw2iNX9sQGTfPfnYznHTFI52YuWJpGPrAwVyvH0yarJz
+         rH9w==
+X-Forwarded-Encrypted: i=1; AJvYcCXCSMOGhdNVCLYetpko5kkBWsCawKiL+d13jNc4SSA03c4v9E12GpjH7z4/PPhxmIq97Q0lP42u8KHvZkWT@vger.kernel.org
+X-Gm-Message-State: AOJu0YyhhFsfsFoBR7dkbcm8fbqZwahYPLxhjxWZWINAcUNJqExELN3G
+	9xPthYm8CRC2F1LMAfsFdgxDDxXrxNttYvtSdX9ijVWGj6TmXKwvyI587BK+dd6fn6yxQ19p539
+	3I16z0nHAbN5PdNmq+V8Gh9el5f0DXbEFArPDPJvZrdnQ2WXsuwpJMEwj+btgIrsnBfg=
+X-Gm-Gg: AZuq6aLjnTyHJlBrp7LVo2jKl9KWcC9FoUjr92tsF0KjOPxBeH5mNRgzobyGuLrGzYJ
+	cA9fp+4m5FX/t/55umHnyyDbDfZUWk7hBvBT5plIpl25j4K+opU7KMKlOQSg4PelcyX59ec0sE3
+	iUSD5iyvdcl5zHzqhAglJmKWYP0gZ1tfJpWckkd7uDL3euGEGSOjaD7foFUsNAJGb2RvuWNyPIE
+	jeVve7y6HSEr0yMJOM/aXgGMWUGmN6aUUk9zXAh9EY4W6xLBxAR+eOpn9300+Lf3SOGmQ/yK8iU
+	KX2GYhy9dTn2P5VDG9H+ruEIERGYjOCZNlK+e4H5pYr9PRdnvL9R7IYHhiNINaF7tiNqVeIv4Xr
+	tHLWZPjUgPSpEmXAcMu5Zxa+dYl9Ing84tRtMQnqP
+X-Received: by 2002:a05:690c:c96:b0:794:722c:3a2f with SMTP id 00721157ae682-7947ab7f588mr49960887b3.31.1769631625739;
+        Wed, 28 Jan 2026 12:20:25 -0800 (PST)
+X-Received: by 2002:a05:690c:c96:b0:794:722c:3a2f with SMTP id 00721157ae682-7947ab7f588mr49960707b3.31.1769631625317;
+        Wed, 28 Jan 2026 12:20:25 -0800 (PST)
+Received: from li-4c4c4544-0032-4210-804c-c3c04f423534.ibm.com ([2600:1700:6476:1430::41])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-794828a62f6sm15015857b3.37.2026.01.28.12.20.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Jan 2026 12:20:24 -0800 (PST)
+Message-ID: <408b497e5c20549882dbe34b40adcd13b0a5df11.camel@redhat.com>
+Subject: Re: [PATCH v5] ceph: fix kernel crash in ceph_open()
+From: Viacheslav Dubeyko <vdubeyko@redhat.com>
+To: Patrick Donnelly <pdonnell@redhat.com>, Ilya Dryomov <idryomov@gmail.com>
+Cc: Viacheslav Dubeyko <slava@dubeyko.com>, ceph-devel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, amarkuze@redhat.com, khiremat@redhat.com, 
+	Pavan.Rallabhandi@ibm.com
+Date: Wed, 28 Jan 2026 12:20:17 -0800
+In-Reply-To: <CA+2bHPapiqj4xEobqcxmW6b1YChMLBBKaVzxdbEMw+DDZEG1NQ@mail.gmail.com>
+References: <20260114195524.1025067-2-slava@dubeyko.com>
+	 <CA+2bHPb66HKDZ2DX7TvzvfjW_Ym1TBeVNcPn9w_tnwytje85Nw@mail.gmail.com>
+	 <CAOi1vP-G_0vPyMOyx6HvJX7VwN8_9FCe9V4Vg9zvg8gbbJNNHw@mail.gmail.com>
+	 <CA+2bHPapiqj4xEobqcxmW6b1YChMLBBKaVzxdbEMw+DDZEG1NQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="pmls3g2k4wci75pm"
-Content-Disposition: inline
-In-Reply-To: <vhq3osjqs3nn764wrp2lxp66b4dxpb3n5x3dijhe2yr53qfgy3@tfswbjskc3y6>
 
-
---pmls3g2k4wci75pm
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3 1/4] open: new O_REGULAR flag support
-MIME-Version: 1.0
-
-On 2026-01-28, Mateusz Guzik <mjguzik@gmail.com> wrote:
-> On Wed, Jan 28, 2026 at 12:23:45AM +0100, Aleksa Sarai wrote:
-> > In my view, this should be an openat2(2)-only API.
->=20
-> fwiw +1 from me, the O_ flag situation is already terrible even without
-> the validation woes.
->=20
-> I find it most unfortunate the openat2 syscall reuses the O_ namespace.
-> For my taste it would be best closed for business, with all new flag
-> additions using a different space.
-
-We don't have any openat2(2)-only O_* flags yet, I agree that new flag
-additions (except for very rare cases where you can make them backward
-compatible -- such as a hypothetical O_EMPTYPATH) should be O2_* or
-OEXT_* or something.
-
-> I can easily see people passing O_WHATEVER to open and openat by blindly
-> assuming they are supported just based on the name.
-
-Yeah, if we don't do that it'll lead to confusion. openat2(2) has
-exclusive rights to the 64-bit flag bits so we could start with those
-before we need to cross with the O_* flag space.
-
-> that's a side mini-rant, too late to do anything here now
->=20
-> > In addition, I would
-> > propose that (instead of burning another O_* flag bit for this as a
-> > special-purpose API just for regular files) you could have a mask of
-> > which S_IFMT bits should be rejected as a new field in "struct
-> > open_how". This would let you reject sockets or device inodes but permit
-> > FIFOs and regular files or directories, for instance. This could even be
-> > done without a new O_* flag at all (the zero-value how->sfmt_mask would
-> > allow everything and so would work well with extensible structs), but we
-> > could add an O2_* flag anyway.
->=20
-> I don't think this works because the vars have overlapping bits:
->   #define S_IFBLK  0060000
->   #define S_IFDIR  0040000
->=20
-> So you very much can't select what you want off of a bitmask.
-
-Well, you can filter on S_IFCHR if you want to block both block/char
-devices, but yeah the overlap is quite unfortunate... (That would also
-mean blocking directories would also block S_IFBLK -- I remembered there
-was an overlap but I forgot it coincided with S_IFDIR... Damn wacky
-APIs.)
-
-> At best the field could be used to select the one type you are fine with.
->=20
-> If one was to pursue the idea, some other defines with unique bits would
-> need to be provided. But even then, semantics should be to only *allow*
-> the bits you are fine with and reject the rest.
->=20
-> But I'm not at all confident this is worth any effort -- with
-> O_DIRECTORY already being there and O_REGULAR proposed, is there a use
-> case which wants something else?
-
-There's also O_NOFOLLOW in a similar vein.
-
-I can see someone wanting to permit FIFOs, regular files, and
-directories being fine but blocking everything else. None of O_REGULAR,
-O_DIRECTORY, nor O_NOFOLLOW provide that.
-
-> > > +#define ENOTREG		134	/* Not a regular file */
-> > > +
+On Wed, 2026-01-28 at 12:16 -0500, Patrick Donnelly wrote:
+> On Mon, Jan 26, 2026 at 8:02=E2=80=AFAM Ilya Dryomov <idryomov@gmail.com>=
+ wrote:
+> > Hi Patrick,
 > >=20
-> [..]
-> > Then to be fair, the existence of ENOTBLK, ENOTDIR, ENOTSOCK, etc. kind
-> > of justify the existence of ENOTREG too. Unfortunately, you won't be
-> > able to use ENOTREG if you go with my idea of having mask bits in
-> > open_how... (And what errno should we use then...? Hm.)
+> > Has your
 > >=20
+> >     > > I think we agreed that the "*" wildcard should have _no_ specia=
+l
+> >     > > meaning as a glob for fsopt->mds_namespace?
+> >     >
+> >     > Frankly speaking, I don't quite follow to your point. What do
+> > you mean here? :)
+> >=20
+> >     --mds_namespace=3D* is invalid.
+> >=20
+> >     vs.
+> >=20
+> >     And mds auth cap: mds 'allow rw fsname=3D*'  IS valid.
+> >=20
+> > stance [1] changed?  I want to double check because I see your
+> > Reviewed-by, but this patch _does_ apply the special meaning to "*" for
+> > fsopt->mds_namespace by virtue of having namespace_equals() just
+> > forward to ceph_namespace_match() which is used for the MDS auth cap.
+> > As a result, all checks (including the one in ceph_mdsc_handle_fsmap()
+> > which is responsible for filtering filesystems on mount) do the MDS
+> > auth cap thing and "-o mds_namespace=3D*" would mount the filesystem th=
+at
+> > happens to be first on the list instead of failing with ENOENT.
+> >=20
+> > [1] https://lore.kernel.org/ceph-devel/CA+2bHPYqT8iMJrSDiO=3Dm-dAvmWd3j=
++co6Sq0gZ+421p8KYMEnQ@mail.gmail.com/
 >=20
-> The most useful behavior would indicate what was found (e.g., a pipe).
->=20
-> The easiest way to do it would create errnos for all types (EISDIR
-> already exists for one), but I can't seriously propose that.
+> Sigh, yes this is still a problem. Slava, `--mds_namespace=3D*` should
+> not be treated as a glob.
 
-It might be kinda neat from a potential re-use perspective in other APIs
-but yeah it would be quite wasteful to burn 3-5 errnos for this when we
-already have ~4 that are logical inverses.
+OK. So, what's the modification the patch finally requires?
 
-> Going the other way, EBADTYPE or something else reusable would be my
-> idea.
+Thanks,
+Slava.
 
-I think that would be reasonable and if you word the error message
-carefully you can even see it being a fairly generic errno for other
-places to use.
-
---=20
-Aleksa Sarai
-https://www.cyphar.com/
-
---pmls3g2k4wci75pm
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJEEABYKADkWIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCaXpi9BsUgAAAAAAEAA5t
-YW51MiwyLjUrMS4xMSwyLDIACgkQKJf60rfpRG//4QEA7qu8ZDfJ003C5x6tfJ6V
-9CNBG+pF0IuGbN1cwc53KlwBAMvdkb3wXqrCh1sJ07UQKE+BF+3sc8tK9QIJVXPP
-NX0F
-=fMeG
------END PGP SIGNATURE-----
-
---pmls3g2k4wci75pm--
