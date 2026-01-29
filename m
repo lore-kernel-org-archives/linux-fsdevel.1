@@ -1,117 +1,129 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB61426A1A7
-	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Jan 2026 15:20:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769700022; cv=pass; b=WWIGFSKRsBQG51N+fiQ5RoHE6dLWbZC2OO3aHHWScCkBq4MahLnMO/M+PWzKpngJLWpe5OOabbp8kIReNLWTnlZI7vuOwgsaUyVVVqOujNuiFNv/9zO6n9d582JFMKmsyWyMYCNIRKNyImSeIZQb71mZuBK/z+4Jm3qSRdQqh+Y=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769700022; c=relaxed/simple;
-	bh=IZLvhCZKZC06QId3xKvjBRdE6SfdKAgiRYfaFalRpW4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KYn6WSQEfCQTiKZ0rCH4W0GgsRgwSqnkY7j+KedH/CenEGAqo49u+e28qyGy+1Mrogd/MMwuJQ4H96Fq/b4AjZQW8HzuG4bRqsD7bpNzgpI1KtQAIrwHj5MEuIPZdmF6IrycrayqPXvpimxKiZ7ErwVJjv8qAiPUvQ8P0bLYs+0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NdDfV2Zb; arc=pass smtp.client-ip=209.85.167.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C9C8218E91;
+	Thu, 29 Jan 2026 15:49:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769701757; cv=none; b=Qs8QUzT6i9muNgcnYmBub0vBVSkmiC8AWDtWtEcow76xBCCDZowbQs77TS69bD98fRueEcaXd5Wfhq30kBNOObOtFzGAg63UbCVY/19hbYLIgGak/GInmCbbma8F1tRxoD6xFQ8YKCWPcZYeO5iclOczyUge/Qmmpa9FRrTgO2g=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769701757; c=relaxed/simple;
+	bh=mNAdcd8Uug5E9TbgdvTMNslor1NXEZZ9HmmtiVPHXh4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bAWvPn4KRsRpnkO/ysxHKsDyloGWxPzZqKx8k+7Et4/b4ElGgF6NcjiYJau310GXgTzWEwawddZWc/DiRzJCvF/WlbZHsWp0IlzLLyv7N/jNExpo63ZWo/l9hUe7TQ7y9sxqdqh/+JAQOC6GUOX0T5llhBThCNRRq7EJ6mlUZEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hQzdGwJZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NdDfV2Zb"
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-59ddf03f341so130710e87.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 29 Jan 2026 07:20:20 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769700019; cv=none;
-        d=google.com; s=arc-20240605;
-        b=ItUx21ByDTwAaEwdDJGNwQQd7jrIPyyAta+7bJXiXoBevkAaejLnzS2CeFvcmOaUZk
-         JSMcIb6QE7KosPPJLUKbNsd6oD3vTHEJEwKlkjzAM0qomR+axDMQKyKPqcc6O7d9+tkv
-         ShyTNFOx7cNi+1fM91ZEQUYT1ZNgJXo8rlz13UJVZZIrghdtGqbDONIQs3E20qHYGZUJ
-         7Iep7PJMrWKCv53z8/HTLy2Z/oA8evSjN3RQa06wSfvdY3ztifWdSkgVUOuOkFYJC8cn
-         sN3IQeM4lK5rHwKI20e5mZACCt6+fZTw2GFCNxSv9GU6KDrDCmaeA9Lw5hqWuI3VvnoO
-         kmwg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=IZLvhCZKZC06QId3xKvjBRdE6SfdKAgiRYfaFalRpW4=;
-        fh=PW7Dn08UkiHTq0P+ZnWxqzMluKCeNxpHyKDIrG4BOOQ=;
-        b=PwQvIghk9qcB5pQM8OPblW55q+6+3hi1mAXKSKsDYGrxLHSfTmBFoX6NTz/bKclNa0
-         mJbHhjYFxQt1XoLeYTNDTiGLwPn5YcRQBS83eFPXskmmOJpMJUx139twpAxI6tW3H4D8
-         1lqQb9Xdvi3H5AhSRmmxcNc1eh4OXg5RRiorLY7YWgNogpNXFADFPxNgUo0FbYYzvDwb
-         /IA4nT8w+LMrisKJv7OCU7YxfZ7KGfDmkporFTqNKd3Vf58C0HAv47ZJECIy0TrA3B29
-         /jmOL9JykVawwBYfp3jDQMfzbKKGq7GvONFI/Lvlfe3th14snRVYlKiZVlM03x4Gl0yR
-         dRhg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769700019; x=1770304819; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IZLvhCZKZC06QId3xKvjBRdE6SfdKAgiRYfaFalRpW4=;
-        b=NdDfV2Zbf8ADOpN5uuj9LZACM+m+5sS1+RBw0hVsTOWJU1pTOBgfgZWdPaHg/dLAd8
-         HP15O5GSWyu0NBNNmh8puiztzmWc1Dfp9CgI3iRHQ1xocBKl5iCMu4DItZyzvymUVUu7
-         Z4elb55RqLYXSZzQJYH1DlTpU7KTyr6RDpPAUNN1bOTYizxSCvRjIOJDulpfYe25dmZa
-         g3wRpBCYAciVdtlT8aZqXVUy350fkraR9BEhHPlw+2vUpKUedjbjoL7YyX1vn7SlXgk+
-         fDRMrFOZJNeT1MjYHe2D51VC2hNB8J6TDDRKzg+cRCMdybEt3yZGFPlyyTRiJWcJ+L7d
-         dVUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769700019; x=1770304819;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=IZLvhCZKZC06QId3xKvjBRdE6SfdKAgiRYfaFalRpW4=;
-        b=JrtDMWvEjhZtJZCmMjIU7FuADBbV6wuhEueIteELr/cVdyBQG1cQLl0c7o/2LjXuio
-         CSvmiw6upqCSkQZTI2hT7PYMSU2QZVveUHqZYciOGg5Qm6YlAdMklAI7fxaqjsJG+tSX
-         5TyF5FrM7thiFr7rmK1m+eNLHW1pBIfXaEiwMqEa4zJbf7qu4t4uTekpo5grZdiLK738
-         pikYK0n3E1xH28C8cOeCJhp5S3PtBCELbhNNsFf0Y4rCeXjujQPyxHl6fLJ8OyFW3V+G
-         HPBNE904hezquX2TUb60pHvWky6J+VuGZmh1mi3EHqVZOQybAa0jYC6FZgPx3qOdt3Oz
-         dWfQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVYl0/SGoRlCTl6DwLGnGe+AF5GbD4EFy/Pi7qB7FFeMcttuK3sXsFFhhbQzj/3sHP5gccFgeAeIFEJ8slp@vger.kernel.org
-X-Gm-Message-State: AOJu0YyvqkO+bTijaReE7BEnlLA5lIYWpYTplL5mL+7ltAQzAMMdv5XD
-	mPkOSj9NEAn7ev8Ac3JlXijiYp5hbO4TtWZW0MG3JeCdqFNQFUMvnCZwHZEOVNnvU90z1tR9cD2
-	cmM2IGdEI/x0kafJkB5MtGkAPoAB2JiI=
-X-Gm-Gg: AZuq6aJYAxJAeodjNB1ekGX4YS/ck8FkxhK6CRfaTiloZSIDqwx6pkRDoix7bGFwInz
-	sbAYnY6UFygoEIES7PTdUWIjiBQYwlKaCpeCKEXRSocrE6tV+5+Q2Hqxw8H+oMVd802iiwZoOd7
-	m1ZTMqI7KyAoTX4lqNYjhgolIPKLairEwxO4RULlWS1vNoikU24JCaXPyBdVKvz8mX9qsLvxIHU
-	v0sjkifHfQdSkelJ+8p/poR8A+CcRmi0RxfvaW4RUDMK5r7Vj3fiKJ11BvheUZaIR5OWOGoXro4
-	+rGXgDdSF2UGuW4wwMSDy5nI/IGA3OIUblpLbW8Je76hLrOpDmye5wxU2d3GnuBTX8aJkWzwys7
-	8LfmUuwvBPlsP
-X-Received: by 2002:a05:6512:140f:b0:59e:13e6:6f1f with SMTP id
- 2adb3069b0e04-59e13e66fb5mr141459e87.0.1769700018658; Thu, 29 Jan 2026
- 07:20:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hQzdGwJZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC22BC116D0;
+	Thu, 29 Jan 2026 15:49:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769701757;
+	bh=mNAdcd8Uug5E9TbgdvTMNslor1NXEZZ9HmmtiVPHXh4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hQzdGwJZtSr0QTo8S3qI9F4gHLh2RPuVCxs7vSCUNFvIsvIGiJ1fLWVJNNxpKUrUe
+	 PszPtgl7+U41M0bymKaRFW86CFYXjAkdfLc62L7fzV1eFj7svYBRDQSR8SQkelvtdl
+	 FznGDQ2piYr7VYSmC89bopZRVyfAIgRAw4HIyy1KL/xmeItml9EDadQcOFd9u6yTo+
+	 x8IyQ6Mv+xUsMy0hnSUg7462JV5GzhKnY2uOsyAU1p958TDLG0jADhc98QkcjYJtcY
+	 6louAHlJdFZR/RKmlApn+tbAwtcfq05AdSj6N+PHjiFQ38EhN+O64+V5MFs2zsm35Q
+	 G+PwMxZA4vwrQ==
+Date: Thu, 29 Jan 2026 16:49:12 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: "Seth Forshee (DigitalOcean)" <sforshee@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Amir Goldstein <amir73il@gmail.com>, 
+	Aleksa Sarai <cyphar@cyphar.com>, Alexander Mikhalitsyn <alexander@mihalicyn.com>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org
+Subject: Re: [PATCH] fs: don't allow non-init s_user_ns for filesystems
+ without FS_USERNS_MOUNT
+Message-ID: <20260129-zielgebiet-zutiefst-d9d9cb902f1b@brauner>
+References: <20240724-s_user_ns-fix-v1-1-895d07c94701@kernel.org>
+ <b02d93c9cd1ccda04127031155ec9b4c29ee69d5.camel@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251222-cstr-vfs-v1-1-18e3d327cbd7@gmail.com>
- <20260129-erwogen-vorfeld-85a7dd7df060@brauner> <CAJ-ks9=+30hkc7+AJF4Sd7T0+odPtiK4p+XrNyDJUU2rrqOP7g@mail.gmail.com>
-In-Reply-To: <CAJ-ks9=+30hkc7+AJF4Sd7T0+odPtiK4p+XrNyDJUU2rrqOP7g@mail.gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Thu, 29 Jan 2026 16:20:01 +0100
-X-Gm-Features: AZwV_QhtI1nai9iulKRzjbiJ2v8mEzklhRbqribtH8ZTSgpSql_yloY735wsZpc
-Message-ID: <CANiq72m9sG8K6zJWCpG_yMih8KmX-V998e3C0LviWoo5p5ZA1w@mail.gmail.com>
-Subject: Re: [PATCH] rust: seq_file: replace `kernel::c_str!` with C-Strings
-To: Tamir Duberstein <tamird@kernel.org>
-Cc: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Jan Kara <jack@suse.cz>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <b02d93c9cd1ccda04127031155ec9b4c29ee69d5.camel@kernel.org>
 
-On Thu, Jan 29, 2026 at 4:14=E2=80=AFPM Tamir Duberstein <tamird@kernel.org=
-> wrote:
->
-> Thanks Cristian. The commit doesn't seem to exist (with this hash or
-> any other, see https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.gi=
-t/log/?h=3Dvfs-7.0.misc).
-> Is this expected?
+On Thu, Jan 29, 2026 at 09:36:54AM -0500, Jeff Layton wrote:
+> On Wed, 2024-07-24 at 09:53 -0500, Seth Forshee (DigitalOcean) wrote:
+> > Christian noticed that it is possible for a privileged user to mount
+> > most filesystems with a non-initial user namespace in sb->s_user_ns.
+> > When fsopen() is called in a non-init namespace the caller's namespace
+> > is recorded in fs_context->user_ns. If the returned file descriptor is
+> > then passed to a process priviliged in init_user_ns, that process can
+> > call fsconfig(fd_fs, FSCONFIG_CMD_CREATE), creating a new superblock
+> > with sb->s_user_ns set to the namespace of the process which called
+> > fsopen().
+> > 
+> > This is problematic. We cannot assume that any filesystem which does not
+> > set FS_USERNS_MOUNT has been written with a non-initial s_user_ns in
+> > mind, increasing the risk for bugs and security issues.
+> > 
+> > Prevent this by returning EPERM from sget_fc() when FS_USERNS_MOUNT is
+> > not set for the filesystem and a non-initial user namespace will be
+> > used. sget() does not need to be updated as it always uses the user
+> > namespace of the current context, or the initial user namespace if
+> > SB_SUBMOUNT is set.
+> > 
+> > Fixes: cb50b348c71f ("convenience helpers: vfs_get_super() and sget_fc()")
+> > Reported-by: Christian Brauner <brauner@kernel.org>
+> > Signed-off-by: Seth Forshee (DigitalOcean) <sforshee@kernel.org>
+> > ---
+> >  fs/super.c | 11 +++++++++++
+> >  1 file changed, 11 insertions(+)
+> > 
+> > diff --git a/fs/super.c b/fs/super.c
+> > index 095ba793e10c..d681fb7698d8 100644
+> > --- a/fs/super.c
+> > +++ b/fs/super.c
+> > @@ -736,6 +736,17 @@ struct super_block *sget_fc(struct fs_context *fc,
+> >  	struct user_namespace *user_ns = fc->global ? &init_user_ns : fc->user_ns;
+> >  	int err;
+> >  
+> > +	/*
+> > +	 * Never allow s_user_ns != &init_user_ns when FS_USERNS_MOUNT is
+> > +	 * not set, as the filesystem is likely unprepared to handle it.
+> > +	 * This can happen when fsconfig() is called from init_user_ns with
+> > +	 * an fs_fd opened in another user namespace.
+> > +	 */
+> > +	if (user_ns != &init_user_ns && !(fc->fs_type->fs_flags & FS_USERNS_MOUNT)) {
+> > +		errorfc(fc, "mounting from non-initial user namespace is not allowed");
+> > +		return ERR_PTR(-EPERM);
+> > +	}
+> > +
+> >  retry:
+> >  	spin_lock(&sb_lock);
+> >  	if (test) {
+> > 
+> > ---
+> > base-commit: 256abd8e550ce977b728be79a74e1729438b4948
+> > change-id: 20240723-s_user_ns-fix-b00c31de1cb8
+> > 
+> > Best regards,
+> 
+> I sent an incorrect RFC patch for this yesterday, but this patch breaks
 
-Christian may not have pushed the batch yet, given the dates in the reposit=
-ory.
+Oh? I did not see it.
 
-Cheers,
-Miguel
+> NFS mounting in containers for us, as the prohibited activity is
+> exactly the process we use to do them.
+> 
+> We basically have a task in the container do an fsopen() and then pass
+> the fd to a daemon in the init namespace via unix socket. The daemon
+> vets the NFS mount parameters (ensuring that the mount options are
+> sane, and that we trust the server), and then does the mount inside the
+> container.
+
+The mountfsd model - kinda.
+
+> 
+> We don't want to set FS_USERNS_MOUNT on NFS, because that would give
+> the container carte blanche to mount anything it likes, even a
+> malicious server. Do we need to split that flag into two? Maybe
+> FS_USERNS_SAFE and FS_USERNS_MOUNT?
+
+I think you can simply add FS_USERNS_DELEGATABLE and raise it for nfs.
