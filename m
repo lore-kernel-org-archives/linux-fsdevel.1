@@ -1,51 +1,42 @@
-Received: from submarine.notk.org (submarine.notk.org [62.210.214.84])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87F26379971;
-	Thu, 29 Jan 2026 07:34:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.210.214.84
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E747377562;
+	Thu, 29 Jan 2026 08:38:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769672072; cv=none; b=q8+4B+4MJ9+aA42plDmi2j9qe8ucOUti10LztK8k6hHeHRA1MBQqr5CYvWsuSByo8dv8j2ARxpsKToJxiHJN3FaD4fz5uODnFS83SBbACSlAOzN9pOFmLgzbbdwlSEelApSCAuGZrUxFaWaXnA1uzgVc7kPoR/PAJlRVNKM8XMU=
+	t=1769675888; cv=none; b=IFYPR9Za9W0e/ljwAF7VOP/lAbBYsNOvi/VR+Y51QM3iilMTU9EEPyIVdvV8su4K6Z/XHsMHpVr2+FaSIXsp+Uuse1Fv8xrbhW4qkrZsn5dYR0dk6rzE8wplSaeHJZEHbuZ7rA7MvTm16TZTUBUM97djrZ8TiGFYzQZ4o9AVHlk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769672072; c=relaxed/simple;
-	bh=yQEqfz2MbvPICSTCvSNhPztnZBDYtLxhQtKzjXKMjjE=;
+	s=arc-20240116; t=1769675888; c=relaxed/simple;
+	bh=psYjG1UusZhW3q4FunD3OFstJ/UcRbNIN0k/NkFAGKU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MBDSsnxsv8yaTVGcvckuCyDkQmxK0TC4ZKMYcvIPc4u/KQrBgtnkp/2gpOUj34b2s0oNi3JnWyOFPJPzUhGs6B+NtVz3IJHO49JjLQZMe3XKwNV2ZjCGFGbLDd/2lkBjs3IbqZpn7MuXr4Ef8uBXqaZ50Xd8CtP4SxKDyn2UcN8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codewreck.org; spf=pass smtp.mailfrom=codewreck.org; dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b=ks6H4zHV; arc=none smtp.client-ip=62.210.214.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codewreck.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codewreck.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZyAWSWwxnIBsYkmwZoRG6+wLcggTzxm3+VWrrvx6bn3YRW2OgjyH/7JMME8OJQ5NClK6P1/nTQE1GuTyGk/Luhi/nK8Ea79SAPrdwviaPOKEiD9TcM17gKfBz1SY66jfR6/JnxpXxDrJbELz+7CbyZn8eUFDUfd4rldz+Vu3Jug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lIpJ7esg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b="ks6H4zHV"
-Received: from gaia.codewreck.org (localhost [127.0.0.1])
-	by submarine.notk.org (Postfix) with ESMTPS id F222E14C2D6;
-	Thu, 29 Jan 2026 08:34:17 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org;
-	s=2; t=1769672060;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CbxMfdr18Mlajagyem0pImC+MrLNxD7wwFw85H+Wpok=;
-	b=ks6H4zHVlmo7Yoo+AA3awTv6g9/sYwGLO36r5FOEao0lqDDdJijKIX9bpFGRloK1qXqskv
-	gWN9THhZOrrCeVewxDNMn+Xbe7DG8Tz1UrGXpFcb4yZqWkagZQrY+45ZZE8/GvpsFaA3uq
-	iEwJp5N8Pyj7FICer3teyYkLiMNqgnkCYtYxYw/kRTjLL3U6+6W+GX3pg4SZJFzvxFbmZK
-	53FlgMg9y8v8Gb58StknjrWw3G1mfI9SZ3v+5kvfEyE3nvJqaGcKr9Gwbnm22lQI3NzD6X
-	7CsrIg0d5PqMsZ9INItChNi3pf8pE0mmp7kVE4BFucGKKkyuipXmq/+Rx3G58w==
-Received: from localhost (gaia.codewreck.org [local])
-	by gaia.codewreck.org (OpenSMTPD) with ESMTPA id 3200ecac;
-	Thu, 29 Jan 2026 07:34:16 +0000 (UTC)
-Date: Thu, 29 Jan 2026 16:34:01 +0900
-From: Dominique Martinet <asmadeus@codewreck.org>
-To: Remi Pommarel <repk@triplefau.lt>
-Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
-	v9fs@lists.linux.dev, Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Eric Van Hensbergen <ericvh@kernel.org>,
-	Latchesar Ionkov <lucho@ionkov.net>, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] 9p: Track 9P RPC waiting time as IO
-Message-ID: <aXsNaUU9I9FoY8IW@codewreck.org>
-References: <cover.1769179462.git.repk@triplefau.lt>
- <b8601271263011203fa34eada2e8ac21d9f679e5.1769179462.git.repk@triplefau.lt>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lIpJ7esg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 532DFC4CEF7;
+	Thu, 29 Jan 2026 08:38:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769675886;
+	bh=psYjG1UusZhW3q4FunD3OFstJ/UcRbNIN0k/NkFAGKU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lIpJ7esgAYw0PrvReZuKFG9x6VjuiEvXkptdGII1dAdZIHYA8o1I6teJ0nFrVUrDI
+	 gVwCPyHceiDRL/kCdRWY8UnQP8odUc9nTuZXdeOt3SOsZl6XRtARwj75kYttUr23Ub
+	 hHixwdZYglsNJJLcHtZv9/reAta1WMpBwPj5GucsP/12gbpvsx+13wxBumJ7XINoA5
+	 ewxQpxmV65FhH9fIpAWYOhoAp5u9DXiCbVsnoH093DvMA+/+8pyPAjGpVkQQ/L6C7j
+	 ZGGEBd6DjB1U0h8LfE6NAA528W+3vbUW9Lt7ctNCt+mjJZjpyxgDGwZcFp+oPp27UT
+	 9PrDeog+CEP5A==
+Date: Thu, 29 Jan 2026 09:38:01 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: Amir Goldstein <amir73il@gmail.com>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Qing Wang <wangqing7171@gmail.com>, 
+	linux-fsdevel@vger.kernel.org, linux-unionfs@vger.kernel.org
+Subject: Re: [PATCH 3/3] ovl: use name_is_dot* helpers in readdir code
+Message-ID: <20260129-lagebericht-ziehen-605070b5467a@brauner>
+References: <20260128132406.23768-1-amir73il@gmail.com>
+ <20260128132406.23768-4-amir73il@gmail.com>
+ <20260129001443.GE2024@quark>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -54,22 +45,18 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <b8601271263011203fa34eada2e8ac21d9f679e5.1769179462.git.repk@triplefau.lt>
+In-Reply-To: <20260129001443.GE2024@quark>
 
-Remi Pommarel wrote on Fri, Jan 23, 2026 at 03:48:08PM +0100:
-> Use io_wait_event_killable() to ensure that time spent waiting for 9P
-> RPC transactions is accounted as IO wait time.
+On Wed, Jan 28, 2026 at 04:14:43PM -0800, Eric Biggers wrote:
+> On Wed, Jan 28, 2026 at 02:24:06PM +0100, Amir Goldstein wrote:
+> > +		if (name_is_dot_dotdot(p->name, p->len)) {
+> > +			goto del_entry;
+> >  		}
+> [...]
+> > +		if (name_is_dot_dotdot(p->name, p->len)) {
+> > +			continue;
+> >  		}
 > 
-> Signed-off-by: Remi Pommarel <repk@triplefau.lt>
+> Should drop the braces in the above two places, as noted by checkpatch.
 
-Thank you!
-
-Peter, Ingo -- I'll take both patches unless you prefer to take all
-changes to include/linux/wait.h in the scheduler tree, please let me
-know.
-
-If this doesn't go through my tree:
-Acked-by: Dominique Martinet <asmadeus@codewreck.org>
-
--- 
-Dominique Martinet | Asmadeus
+I'll do that when I apply.
