@@ -1,108 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18B3F1EA7F4
-	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Jan 2026 14:37:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D65632E724
+	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Jan 2026 14:52:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769697457; cv=none; b=gvtwmLBoJMJHJs+YpbJdwGHYSqGPBpuL5m9B+TNESM4KwnDkjZ/ny7+5c0QVRlsbDRCtR6Lo6u+sXq1PXqxo89nJwiVD7gx9rjzhIuI44om197M4wRYHZJoCXivcW3p9MBaPiDD+erDMGYnhAwv/7/XdBe3fw8/npz2AxTi/fCw=
+	t=1769698326; cv=none; b=HoVuYlRYmqVjGL5YIbooa1MoZkONmkwY/1lrgNWsd/j3PR+iEXdmyUKKeS1aPM4nmwKc2BYn0GcZM5ituW3gmbKml77QD5FmcIMQmicJphueOa4MGQk1Vl26mLbxhWPQ/iQs8c+pKdN8rtNJ3mAEx0nURORc/4nRsKJr7whQ7bI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769697457; c=relaxed/simple;
-	bh=nExTCtMTnOdr4zb6798lNV6B5e2L/IdbKUstHP9wS54=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=Cq1tTvOaF3MXu4NnVUSNIDowZsa6q7CJ3bJb9H1fGQAbAAxn9fwZfFSMG8rVyhf1ECRglkDDtj6PZD6R3lQjdZitApLMu3w93DOjaLwhD6CA+kMLqWvsSeIM8eWInUvJarLJeCfnZA4Fy3nbKAm1v5A4IIiSQ0RUe7eSqJiePTw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ttma05z8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769698326; c=relaxed/simple;
+	bh=whQFO0imdqg5QUuh6ridbMtxCHkQa/EwXHMd6X70r/o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JnUU7tJ0INJdz8gsulAHtxE+y9x29tHPWkZbbIJl2KWnIGt6DXdmcpxZBs4g1g5PTvL4Wte1Xnk7xxEw+RiKDfKxpgBC0n+lp8Kc82Qw6LbJodrOWZpVcqpfMeUkG5YbC9M9+TSD5x8t+Kf5eMboswCJ3uBiTz7nzq+dXOA8f5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LE/vJbin; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=n8XZk00q; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ttma05z8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85186C116D0;
-	Thu, 29 Jan 2026 14:37:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769697456;
-	bh=nExTCtMTnOdr4zb6798lNV6B5e2L/IdbKUstHP9wS54=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=Ttma05z8sT78/VSnueGFpHcrN+W5CVolqrr9/DvsUf6vS3D4wzXuuBDs8TsqCHlUR
-	 Bg7sT+hgiCn0tDJ2aaVm3sJq4L/kgJ6MFXeDIXHR9MmfuE756TLxkE77S1bnKFNRQI
-	 XVsJZqHonC6bBl5QQp7UGO5G89OtGRzxHOrsPcwkBYN/l7oiqN0ckGDJnB8Olw70t2
-	 2LHaUvVZuxF6AZjELml5Icb+wzhcv29PTh/G871hhRPwMsqWVZyRFSP3Q+1sEtkj9D
-	 NKguqQSsBI8TTZOjnD+1SZ0frxmJUV9IDuhSV7zoj69erm79tP/wguQ11IO0/zPann
-	 bspNQptdSteHQ==
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 65EB0F4006A;
-	Thu, 29 Jan 2026 09:37:35 -0500 (EST)
-Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-10.internal (MEProxy); Thu, 29 Jan 2026 09:37:35 -0500
-X-ME-Sender: <xms:r3B7aS2e0_n6zDJ7WHD_Bvw3uxkDMbrsDQ1ECeC77jiRQot-Qg2UPw>
-    <xme:r3B7af6aQTL2Fb6en-DmLaBW52_4papEscrptbWTBvJei7HIy6ypE8lUMeH2HwTTq
-    YhxivN9P1Igf8aN0jViMLwre3wQzoxVSp6XaEbD32-Uq6twmpNJfiMk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduieeigeeiucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedfvehhuhgt
-    khcunfgvvhgvrhdfuceotggvlheskhgvrhhnvghlrdhorhhgqeenucggtffrrghtthgvrh
-    hnpefhffekffeftdfgheeiveekudeuhfdvjedvfedvueduvdegleekgeetgfduhfefleen
-    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegthhhutg
-    hklhgvvhgvrhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudeifeegleel
-    leehledqfedvleekgeegvdefqdgtvghlpeepkhgvrhhnvghlrdhorhhgsehfrghsthhmrg
-    hilhdrtghomhdpnhgspghrtghpthhtohepuddupdhmohguvgepshhmthhpohhuthdprhgt
-    phhtthhopehnvghilhessghrohifnhdrnhgrmhgvpdhrtghpthhtoheprhhitghkrdhmrg
-    gtkhhlvghmsehgmhgrihhlrdgtohhmpdhrtghpthhtohepsggtohguughinhhgsehhrghm
-    mhgvrhhsphgrtggvrdgtohhmpdhrtghpthhtoheprghnnhgrsehkvghrnhgvlhdrohhrgh
-    dprhgtphhtthhopegvsghighhgvghrsheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohep
-    jhhlrgihthhonheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthhrohhnughmhieskh
-    gvrhhnvghlrdhorhhgpdhrtghpthhtoheptghhuhgtkhdrlhgvvhgvrhesohhrrggtlhgv
-    rdgtohhmpdhrtghpthhtoheplhhinhhugidqtghrhihpthhosehvghgvrhdrkhgvrhhnvg
-    hlrdhorhhg
-X-ME-Proxy: <xmx:r3B7aR-zngJSE3DlOE38w2tS8MjqSKimvDhWep0Tmrvs29rSpVLxgQ>
-    <xmx:r3B7aRiJRXIE5Y5f74DXxsxDz5Ux0vBwIMFUabV6yNHPX6Mt-0N8Ew>
-    <xmx:r3B7aaYoOBvwOp_0SoXkdy58J8iMaj4c57TH5LzjyWn0KpShs_De2Q>
-    <xmx:r3B7ae-vJKuDq1ZjNDzB97_BCD6uiigKW-wk80uTmWJeU7djEABGsA>
-    <xmx:r3B7aUM5jo1314PVxUuPy1sZ5SsyJdpSxp291TX5S37R1GEyF50k3BEJ>
-Feedback-ID: ifa6e4810:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 449F4780076; Thu, 29 Jan 2026 09:37:35 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LE/vJbin";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="n8XZk00q"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1769698323;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=m31pY/sxRUdVfac4+BuGSMMKkDrCtKZLQDSOVfYYwBg=;
+	b=LE/vJbin+vML3GMH8ozEbd+Ymh4W+biVwpOENBcAlkwfaXUZ5No4RrpGMt0sDJzqNKJzu6
+	/p2nXMiGdRHLsqsEINhB343v2bYgCiWR38eFf6ROFA3Qe3pIyAtEASRfbfz1o/Ph1MES4p
+	Sl2y19jl0MBrZEoDlQ+bT4MVzXFz5yU=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-281-mDWHa40qPcu4om4ljWyong-1; Thu, 29 Jan 2026 09:52:02 -0500
+X-MC-Unique: mDWHa40qPcu4om4ljWyong-1
+X-Mimecast-MFC-AGG-ID: mDWHa40qPcu4om4ljWyong_1769698321
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-430ffc4dc83so1322086f8f.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 29 Jan 2026 06:52:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1769698321; x=1770303121; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=m31pY/sxRUdVfac4+BuGSMMKkDrCtKZLQDSOVfYYwBg=;
+        b=n8XZk00qTMzK2Cjxlcj2wK5j2URV+5RJ/SAOd3zOCAmXtv8T6pxPw4zvyK8Lqjiwwl
+         I0W0dfjtEbPO0q+yBazr19sqn2x9WnG7xsaVu4/EX/JjCy3tFDVs0+/YRPPEkBIOYKqK
+         yAQKpvJOf7HkUyj8HELQHkQdJn9Ir9EVykf6Q7c9PENEZfAQt1M5y+5WjapZwzwpoG0J
+         B9o4nZz1yKSuDiAM8vKSVVDp9Aut8I1xY04DYJxPspjkj0xnyXpXCcZ5RqneCQKSEUyc
+         4HG5JkCfu+gz+G+vZBOZtTQJJOzxrQbNKcV5g1tAvejl4yKV3Gcm86SKyU72H5tW1HMF
+         goPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769698321; x=1770303121;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=m31pY/sxRUdVfac4+BuGSMMKkDrCtKZLQDSOVfYYwBg=;
+        b=X5JO1kVJ6My9/ljfkx2q2zYmj4kkAbx53yVPQJW6x0uY6HMR2qrPOCzG8U0cLy764F
+         xy4C4FXJ1Af6U2W9lCpcULGud4RPI+gr08WSrGSXcIwgCm8YjoEzSMUqxWUde1NUFmDP
+         09OE1y8cdwQybYuvZCym6avfKT6ZIWIgR5xviwwd2RmJlVnN8ofmYdcK9b9dcBLiK5oZ
+         PkeK7qmuzfi5t4Swe+BDQvljF+ksTF0OFSxE5xMLGxjyYg9bbd6buNzY8MMlPhgV+TQs
+         RU8znXhIGJvJ36DL9bG8pCJS7VVm5JZ76dYsqfMDuWB6TBnIj/wFs/hjI/wGf37L9pRh
+         JX4A==
+X-Forwarded-Encrypted: i=1; AJvYcCVK/QGkF02kM2+XKi3qJHkKn9ox3rKMNr4c2Dc1Yt4leT1NN7TsZmjuRuHMi6FovsXiOnRVhz/PHMtPQaDJ@vger.kernel.org
+X-Gm-Message-State: AOJu0YxX3z2kfxcqIxpC/3N3yeD30ChvnXFx22iBi8mKQ3aUlu+wX9Gg
+	QWW4MSAMzeEQt0/FMxKX7Xj3NJQjbEiBhkxcWb7aILQWpbCk7/sJbm7Ci7lcABuJRaIBWpWUZia
+	zRDUaTdZt0pa68+UIkoXD4Kp5Zjs0E9DTE/uuHbvIyxV079nSMxyqXmqtQ52gMZKMGw==
+X-Gm-Gg: AZuq6aL2cMZpaPhDe1LZqypBxGmeaM3OQZv1OlcP3a/L146coOicRJ4zOMVjJh8bgSS
+	YlA97aG+sON0eEMzI4T/W+ySUgyt1DBI20dex3CTl8DlOWYkFpXDPrkEdcMzUKaxVFeKG2IxUuR
+	Sg2NYfVqG3t2knJFgRLFt0rorCk2Xfv3lx0SYoy8HF3gciemXPCJa7Y+Df/NFrROAcV7iR45htI
+	5Pg9OPwTS6wq57wGhAULFthCBU7A9zLOO0zkeaQTx5iVZNfIz0bsE95XrApslWRWUahpGoplPdC
+	aMG9g+St//l1gFD+jShcXKouSVM/7tsOAXS1I/zWTztNHej7drOIiTmllN9oQXDFa6z2RPNM3Hs
+	=
+X-Received: by 2002:a05:600c:4f4f:b0:47e:e48b:506d with SMTP id 5b1f17b1804b1-4806c7cc86dmr120529915e9.16.1769698320795;
+        Thu, 29 Jan 2026 06:52:00 -0800 (PST)
+X-Received: by 2002:a05:600c:4f4f:b0:47e:e48b:506d with SMTP id 5b1f17b1804b1-4806c7cc86dmr120529435e9.16.1769698320273;
+        Thu, 29 Jan 2026 06:52:00 -0800 (PST)
+Received: from thinky ([217.30.74.39])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-481a5d31651sm5851205e9.4.2026.01.29.06.51.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Jan 2026 06:51:59 -0800 (PST)
+Date: Thu, 29 Jan 2026 15:51:58 +0100
+From: Andrey Albershteyn <aalbersh@redhat.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Christian Brauner <brauner@kernel.org>, 
+	"Darrick J. Wong" <djwong@kernel.org>, Carlos Maiolino <cem@kernel.org>, 
+	"Martin K. Petersen" <martin.petersen@oracle.com>, Anuj Gupta <anuj20.g@samsung.com>, 
+	Kanchan Joshi <joshi.k@samsung.com>, linux-block@vger.kernel.org, nvdimm@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org
+Subject: Re: [PATCH 15/15] xfs: support T10 protection information
+Message-ID: <5xaomhu2q2jf3w2hbtkh22dytfiqc6wqyslcfoiqdcwgsud5wk@4ykdof27ntxb>
+References: <20260128161517.666412-1-hch@lst.de>
+ <20260128161517.666412-16-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: AvBI4pOdhfek
-Date: Thu, 29 Jan 2026 09:36:41 -0500
-From: "Chuck Lever" <cel@kernel.org>
-To: "Benjamin Coddington" <bcodding@hammerspace.com>
-Cc: "Trond Myklebust" <trondmy@kernel.org>, NeilBrown <neil@brown.name>,
- "Chuck Lever" <chuck.lever@oracle.com>, "Jeff Layton" <jlayton@kernel.org>,
- "Anna Schumaker" <anna@kernel.org>, "Eric Biggers" <ebiggers@kernel.org>,
- "Rick Macklem" <rick.macklem@gmail.com>, linux-nfs@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-crypto@vger.kernel.org
-Message-Id: <6ff7cb5b-5914-447e-88a3-9da908eaec3c@app.fastmail.com>
-In-Reply-To: <5C6C8838-9244-476A-87CF-123F4822F459@hammerspace.com>
-References: <e545c35e-31fc-4069-8d83-1f9585e82532@app.fastmail.com>
- <176921979948.16766.5458950508894093690@noble.neil.brown.name>
- <686CBEE5-D524-409D-8508-D3D48706CC02@hammerspace.com>
- <77e7a645-66bd-4ce2-b963-2a2488595b00@kernel.org>
- <8be0a065a84bed02735141b4333e9c49a2ab0c90.camel@kernel.org>
- <33c02e5a-03e7-42ef-8ccd-790a9b29a763@kernel.org>
- <D3263C1D-A15E-48EC-B05A-8DC6A0C2B37A@hammerspace.com>
- <041a37d8-c114-4ac0-875d-022e9d07aac8@kernel.org>
- <5C6C8838-9244-476A-87CF-123F4822F459@hammerspace.com>
-Subject: Re: [PATCH v2 3/3] NFSD: Sign filehandles
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260128161517.666412-16-hch@lst.de>
 
+On 2026-01-28 17:15:10, Christoph Hellwig wrote:
+> +static inline const struct iomap_read_ops *
+> +xfs_bio_read_ops(
+> +	const struct xfs_inode		*ip)
+> +{
+> +	if (bdev_has_integrity_csum(xfs_inode_buftarg(ip)->bt_bdev))
+> +		return &xfs_bio_read_integrity_ops;
+> +	return &iomap_bio_read_ops;
+> +}
+> +
+>  STATIC int
+>  xfs_vm_read_folio(
+> -	struct file		*unused,
+> -	struct folio		*folio)
+> +	struct file			*file,
+> +	struct folio			*folio)
+>  {
+> -	iomap_bio_read_folio(folio, &xfs_read_iomap_ops);
+> +	struct iomap_read_folio_ctx	ctx = {
+> +		.cur_folio	= folio,
+> +		.ops		= xfs_bio_read_ops(XFS_I(file->f_mapping->host)),
 
+Hmm, can we use folio->mapping->host here instead? Adding fsverity,
+read_mapping_folio() will be called without file reference in
+generic_read_merkle_tree_page() (from your patchset). This in turn
+is called from fsverity_verify_bio() in the ioend callback, which
+only has bio reference. 
 
-On Wed, Jan 28, 2026, at 4:24 PM, Benjamin Coddington wrote:
-> The other thing about those pynfs tests is that they get awfully linux
-> specific - requiring new tooling to setup and change the export option.
-
-pynfs is for unit testing protocol compliance. Since signed file
-handles are a feature of the Linux implementation and not part of
-the NFS protocol standard, pynfs won't be an appropriate home for
-unit testing the signed FH framework in Linux. Sigh. We'll have to
-look for another framework that can host such testing.
-
+> +	};
+> +
+> +	iomap_read_folio(&xfs_read_iomap_ops, &ctx);
+>  	return 0;
+>  }
 
 -- 
-Chuck Lever
+- Andrey
+
