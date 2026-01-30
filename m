@@ -1,122 +1,103 @@
-Received: from canpmsgout11.his.huawei.com (canpmsgout11.his.huawei.com [113.46.200.226])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4767B23ABA9;
-	Fri, 30 Jan 2026 03:53:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.226
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 792A7221FCD;
+	Fri, 30 Jan 2026 03:55:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769745212; cv=none; b=c+1+lXokPGXD66GNPukfSzepwBF28ixJLnY13iUUdSgcmDsSh0l2npGDMGPZJ0lQSK9dklFEezSHjawwpyXLirpTZrSfgYWw57qPfI7VRcxs119g7O/dVDEUUSKZMjL/F60WIzH5ges1w8AvnhvBTy2qEic3kwKJR1QO4ptGK9U=
+	t=1769745333; cv=none; b=jbrBDI4uuiGDld1QyozaAvLMa86ld0bXyYMxBQp3XReAS2ECmOwIXm1c4a+VVroS6atX86bsp8U31vWFhGZyk5KxlKdg3RPBSwspYAp7K5tKnN2Pk/O8j1G+ashH+VIo0o2tA+eZVX6/AtP4gQsVrcNysbXNlfuJVMovsz/yd30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769745212; c=relaxed/simple;
-	bh=c/LM9EczxNfu+vU72bfyGHTGOcdwKx3f0bdQUZKOFM0=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ItX9zjOQaSgHOwpHCz3kO/5o1IKoc4H6uCapCZO2ocYpMBgbBdl+dTkuuVKVELwTXHvcp3FE87ry49hwpF/eC9+Er51pWO+URsJTLTAMdwt3cjDB40fbUdouhUj7AbQc/VCiO1g8bQ91EQKsbVpQqyEGqKNxnq0ejjBUMV/9hDw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=mHCRPDth; arc=none smtp.client-ip=113.46.200.226
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1769745333; c=relaxed/simple;
+	bh=lCApoAs780KvAuXMjci54Pk5bdt1ic49wr2Ha4ZQ0NI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YdTn3BBXqMMf5Drnns4f+Qt0uFwjAv+3xp3lo3w1SrKiE0RQ7G8nlaeSUlXCtesK6BD1y4KNNEXY1fCFdAQ7LhFhMl9Z6vsmkr+0SwixI2+Hi+furbn5jH7L5A/N+wAPxUyVtQHfPFf24mXWwjYPPBby/UCHYbCr5nME4qtH8pY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EHB8lySj; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="mHCRPDth"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=WzgdnpHVg8qATTW0+oSj7X+e+2LKXvcJ6CqfBSJBTOI=;
-	b=mHCRPDthnqkpnD/vS05zi9ts7KcWBi8az4s6mwgOg8j8sG+bycJgJkS3Wq4e3FNdt45BC852k
-	28ARt1w2qA0iNjAem919E0o+jqmGiVL7xSQSvA+HM/AMATfdwiIVcHXdtOAPBfzxwSmkNAmm4ti
-	WnwgiSkwDgS2ajaGJkO1rmY=
-Received: from mail.maildlp.com (unknown [172.19.163.127])
-	by canpmsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4f2MTW3PjMzKmSj;
-	Fri, 30 Jan 2026 11:49:51 +0800 (CST)
-Received: from kwepemk500005.china.huawei.com (unknown [7.202.194.90])
-	by mail.maildlp.com (Postfix) with ESMTPS id 315EB402AB;
-	Fri, 30 Jan 2026 11:53:21 +0800 (CST)
-Received: from huawei.com (10.50.85.155) by kwepemk500005.china.huawei.com
- (7.202.194.90) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 30 Jan
- 2026 11:53:20 +0800
-From: Zhihao Cheng <chengzhihao1@huawei.com>
-To: <viro@zeniv.linux.org.uk>, <brauner@kernel.org>
-CC: <linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<chengzhihao1@huawei.com>, <yangerkun@huawei.com>
-Subject: [PATCH] dcache: Limit the minimal number of bucket to two
-Date: Fri, 30 Jan 2026 11:48:53 +0800
-Message-ID: <20260130034853.215819-1-chengzhihao1@huawei.com>
-X-Mailer: git-send-email 2.52.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EHB8lySj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769745331; x=1801281331;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lCApoAs780KvAuXMjci54Pk5bdt1ic49wr2Ha4ZQ0NI=;
+  b=EHB8lySjUio5eD44dwImH+w9gokm3QnJqaWpTRvjjwDLdyFU9OLes5ak
+   ZiXHfWXClzp2kMdkyTf4fv2+f8EEwCo3h/8ndAdbqzdbGZ8rd2/YCcoqO
+   zz2sfaiS7/I4Agka49sAfcnCVHgNO98XMOmTasjdLC59B21EK/ELxhvlE
+   4QVsJInP6gTJg2A5N+3q2EBoWdyETTHLfwASwbNwEUHudV52S9UQSu5z+
+   cLGEJk3Tv2eNJ6ASY2GnSaOAqV5Rkeh2pSbU5+qnGk1acgUQ8BHmDSRUS
+   ekSZFbeUvO5uXZzCTZwGgAv8PlQkWul3sYqdhpI6JebdydNG06EbxMWQO
+   Q==;
+X-CSE-ConnectionGUID: YpWM/CK/Rmub9WvxGiE3AA==
+X-CSE-MsgGUID: h2P3IDGQRNuwvPpWzwJ9iw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11686"; a="71048411"
+X-IronPort-AV: E=Sophos;i="6.21,262,1763452800"; 
+   d="scan'208";a="71048411"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2026 19:55:30 -0800
+X-CSE-ConnectionGUID: 5JwofcPES8yhw6zqynO64Q==
+X-CSE-MsgGUID: 9GWOSkM7TeqVnLGsYipAuQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,262,1763452800"; 
+   d="scan'208";a="240005118"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 29 Jan 2026 19:55:28 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vlfbR-00000000c96-3Iqw;
+	Fri, 30 Jan 2026 03:55:25 +0000
+Date: Fri, 30 Jan 2026 11:54:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrii Nakryiko <andrii@kernel.org>, akpm@linux-foundation.org,
+	linux-mm@kvack.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	bpf@vger.kernel.org, surenb@google.com, shakeel.butt@linux.dev,
+	Andrii Nakryiko <andrii@kernel.org>,
+	syzbot+4e70c8e0a2017b432f7a@syzkaller.appspotmail.com
+Subject: Re: [PATCH v2 mm-stable] procfs: avoid fetching build ID while
+ holding VMA lock
+Message-ID: <202601301121.zr5U6ixA-lkp@intel.com>
+References: <20260129215340.3742283-1-andrii@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
- kwepemk500005.china.huawei.com (7.202.194.90)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260129215340.3742283-1-andrii@kernel.org>
 
-There is an OOB read problem on dentry_hashtable when user sets
-'dhash_entries=1':
-  BUG: unable to handle page fault for address: ffff888b30b774b0
-  #PF: supervisor read access in kernel mode
-  #PF: error_code(0x0000) - not-present page
-  Oops: Oops: 0000 [#1] SMP PTI
-  RIP: 0010:__d_lookup+0x56/0x120
-   Call Trace:
-    d_lookup.cold+0x16/0x5d
-    lookup_dcache+0x27/0xf0
-    lookup_one_qstr_excl+0x2a/0x180
-    start_dirop+0x55/0xa0
-    simple_start_creating+0x8d/0xa0
-    debugfs_start_creating+0x8c/0x180
-    debugfs_create_dir+0x1d/0x1c0
-    pinctrl_init+0x6d/0x140
-    do_one_initcall+0x6d/0x3d0
-    kernel_init_freeable+0x39f/0x460
-    kernel_init+0x2a/0x260
+Hi Andrii,
 
-There will be only one bucket in dentry_hashtable when dhash_entries is
-set as one, and d_hash_shift is calculated as 32 by dcache_init(). Then,
-following process will access more than one buckets(which memory region
-is not allocated) in dentry_hashtable:
- d_lookup
-  b = d_hash(hash)
-    dentry_hashtable + ((u32)hashlen >> d_hash_shift)
-    // The C standard defines the behavior of right shift amounts
-    // exceeding the bit width of the operand as undefined. The
-    // result of '(u32)hashlen >> d_hash_shift' becomes 'hashlen',
-    // so 'b' will point to an unallocated memory region.
-  hlist_bl_for_each_entry_rcu(b)
-   hlist_bl_first_rcu(head)
-    h->first  // read OOB!
+kernel test robot noticed the following build warnings:
 
-Fix it by limiting the minimal number of dentry_hashtable bucket to two,
-so that 'd_hash_shift' won't exceeds the bit width of type u32.
+[auto build test WARNING on bpf-next/net]
+[also build test WARNING on bpf-next/master bpf/master linus/master v6.19-rc7]
+[cannot apply to akpm-mm/mm-everything next-20260129]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Cc: stable@vger.kernel.org
-Signed-off-by: Zhihao Cheng <chengzhihao1@huawei.com>
----
- fs/dcache.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrii-Nakryiko/procfs-avoid-fetching-build-ID-while-holding-VMA-lock/20260130-055639
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git net
+patch link:    https://lore.kernel.org/r/20260129215340.3742283-1-andrii%40kernel.org
+patch subject: [PATCH v2 mm-stable] procfs: avoid fetching build ID while holding VMA lock
+config: nios2-allnoconfig (https://download.01.org/0day-ci/archive/20260130/202601301121.zr5U6ixA-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260130/202601301121.zr5U6ixA-lkp@intel.com/reproduce)
 
-diff --git a/fs/dcache.c b/fs/dcache.c
-index 66dd1bb830d1..957a44d2c44a 100644
---- a/fs/dcache.c
-+++ b/fs/dcache.c
-@@ -3260,7 +3260,7 @@ static void __init dcache_init_early(void)
- 					HASH_EARLY | HASH_ZERO,
- 					&d_hash_shift,
- 					NULL,
--					0,
-+					2,
- 					0);
- 	d_hash_shift = 32 - d_hash_shift;
- 
-@@ -3292,7 +3292,7 @@ static void __init dcache_init(void)
- 					HASH_ZERO,
- 					&d_hash_shift,
- 					NULL,
--					0,
-+					2,
- 					0);
- 	d_hash_shift = 32 - d_hash_shift;
- 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601301121.zr5U6ixA-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> Warning: lib/buildid.c:348 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Parse build ID of ELF file
+
 -- 
-2.52.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
