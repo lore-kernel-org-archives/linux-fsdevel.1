@@ -1,126 +1,107 @@
-Received: from mail-dl1-f46.google.com (mail-dl1-f46.google.com [74.125.82.46])
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1182A28DC4
-	for <linux-fsdevel@vger.kernel.org>; Sat, 31 Jan 2026 01:31:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1969328B67
+	for <linux-fsdevel@vger.kernel.org>; Sat, 31 Jan 2026 01:42:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769823109; cv=none; b=H6yeAWvGCbTprQN0h6aDrwXN/LgqnsW81EK3xweq2NmloMY2QJIv2oFaHTpECO3Mh9tDwRRxVV751gpGJg24aOKYDaZoIopuKKkOFFzNltLxlzX7zxlXOCP9aG27RQ7bmKZZW7CSbMoJtBCTHGgtr9oJVU3a3UHoQZ8M77DrOwg=
+	t=1769823734; cv=none; b=Qe85L03d4FjFUJmItm0VlWLUbkMAwP1F4YmTHeDc5vx3EMVQo3BApjXkgRRkU8BxmxP/rlu7CCpsJB7IXnbHeDVPlMOt8WSGyNj8KwQN06y76KXkxdmLEOtk+qCrG0euP5JI3CbMZAimGTBikU4u/AIhh4RbO2WhXi0V2YM6PFA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769823109; c=relaxed/simple;
-	bh=uxSptuxlUKEWbRT4Igc31bABpRpRKBUi1VOuQjhIz3M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hLy9NO+rbmDqfHY9Hbq50GHwacciQtrB/s35aym3huz/ytvo+MjNd2sqCHKyKqGIKUT2jOu7FymvKuV8X4QLnvKj57vAm7Pk709MXCTI9mCmOC7ZcLac3GodwWpz8SYgvDuHsikRrvuYIvd/Rhlb+hF1I4AI3AbzCFU6ENvPdFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F5v7s4RF; arc=none smtp.client-ip=74.125.82.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1769823734; c=relaxed/simple;
+	bh=P/AkJ7VMQl7xg3h+SCs73opP330uFlSO7pps2YFNAtA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jGNc1XmY6M56ktkNoyLhXA46w16d/xa6fFibxE0BMuLftlVnKlZ5De0O1V2XkWiNxIA18l7RbMesDk3fuPHMV48uXc5xI1fnKLyCGT5t4MJR3wzP8UkDYNTqbR8/wjbNrjSSj7sf05QV4x8ynaUh7g/8iNcHDcZFzB8Gqxmgwao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=X1QwFprT; arc=none smtp.client-ip=209.85.167.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F5v7s4RF"
-Received: by mail-dl1-f46.google.com with SMTP id a92af1059eb24-1248d27f293so4210399c88.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 30 Jan 2026 17:31:47 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="X1QwFprT"
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-59b76844f89so2506505e87.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 30 Jan 2026 17:42:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769823107; x=1770427907; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=MjS5gUmrvNUnt6r0vg+c+3hL04GhprNpFcL6xVhUsws=;
-        b=F5v7s4RFW8lc3h8rSc+Bm/hPByCo6FLA6lqBA7e0dL1XIoMeUd5xAbOyKHx2jXvLF1
-         07x0uluV1v0S+wDlNCeJ+HoQz9ah9w+a0XJx5O78NraA8zl8CCjU/vWGPaEF01WCU2nq
-         2Qlj7CSr8MRKsRKgoqX892Yz1DPTPVNHumprNcNWbLFXSZRhCYl09ChC7qDy8ASOnblG
-         SXvEDeG5isOd97Adi1SH2ybSB/OKzEHEgW35tOoOQazufr26M31q8cVaquZryaJAyaW0
-         +UgFrzrn+v232nbYUqGTaAbbkyjjKZkr/RuOUPmOLzBzBD8vexfbPSV+upYuXj0DSGis
-         mONg==
+        d=linux-foundation.org; s=google; t=1769823731; x=1770428531; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=EPpl6A64UKlYlKR2j1fRkib4LdNnz2WqgktVIjm2uzU=;
+        b=X1QwFprTEUewGxYnOCbEn/hPSQq2oZfZ2bRrQwK1Pb7P/VnzIwZkLs7kFCmINknTSQ
+         dET2ZM0viOr1WHKysqI1GYnZ1X+MwtiJDh5TxzMCs8chAyTDIes0rkdeYyNs66bTuCcn
+         W0FejU7h45cJ/HSG3C2Pg2ZAkawsRT9gidNd8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769823107; x=1770427907;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MjS5gUmrvNUnt6r0vg+c+3hL04GhprNpFcL6xVhUsws=;
-        b=K/9A/I3VZ9HPXIc/myqRxLy++gNzowyftoEbk1iWUzuIgJCkcue6b2HItSqGLo3Eb6
-         P+E8kP1FWyDw+sLrY37GmMEm3t/hqk4tb1LCW1QaWOv2iYV1YFNXh/vn8Y3NrTFnDtn/
-         bqlkSNjVC9SXHliHv5SYq7h8I1iZa78alAT6fy53jOuYodVGyqr4iaqx4oTMI2ujZGwh
-         Lc+PZkBwTVswucehoHvIQ9j53hCc6DuivkXYPoorRGhwGPNz5W5Y+Mmh/DpXeJqlmY3v
-         OA0ohlFhBIwacs4iLH9vMykm+IOaUPXhsP+2KHJ3HnPCiUSk7mLwwGc5nlMaz+4AuDQD
-         ND+w==
-X-Forwarded-Encrypted: i=1; AJvYcCWvwKlD4ivTBCwaXrEthjYkPmg5bWMlF9NuBTcQGqb/PQSwcYae2BOBScN43wpQepyhFHypl+/TofJkiMzb@vger.kernel.org
-X-Gm-Message-State: AOJu0YzQmN1eLg0sR3jGOrUNvua65vZ5YnxUuvitT+QgiKfYRBpwPg8n
-	YTQXK4/D2yzx7upuCGiwEuNW9QF0/T0UGRpTOtgnjMDCCP1cHiok8XD9
-X-Gm-Gg: AZuq6aIPPbE1Q5fJ2E6WXy2YNRxioZvp3dItaC5XjFaWEgEyz8MTxuZKIt+fKxiN1dc
-	AsNZJFyij0L9mMJKoQbb+gNKj+zomGBQEo4CPHcajsAJTV5c7363WM+e0d0yD1psoso8PROf9hH
-	CKhdK9PVj2F5MFlvVILgFXcD75YIT59PrbjRhNNAEZPGV7Rsa0QFxgmqTMOSTj7YfzADrkKEiPZ
-	bZf9493WlLmdMy9hHsF14LeABXHlbI7LSRA4vigOUmHMdffIt7oUr5MnqgY45S/VjuOOGlZ+ZLc
-	ZQbEFQSq94lGZ0xYydRykU6kA/IHnxOb0h05dggOeB475GNQGYxoYTjnzHJcKFILgYL38Kb9xP/
-	EEOrEtoQHd9/IU4/xHlLFodcuzDVg/9tM0rNiAOlf6700ZqJr3fFG3v8JqgyDmYXDexQGX9IgCl
-	Ze5ExvHw42Wg4ceZaT+Nb9vfE=
-X-Received: by 2002:a05:7022:2488:b0:119:e56b:c762 with SMTP id a92af1059eb24-125c1014ed5mr2266211c88.39.1769823106769;
-        Fri, 30 Jan 2026 17:31:46 -0800 (PST)
-Received: from [172.25.67.25] ([172.59.130.240])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-124a9e0304bsm12535789c88.14.2026.01.30.17.31.45
+        d=1e100.net; s=20230601; t=1769823731; x=1770428531;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EPpl6A64UKlYlKR2j1fRkib4LdNnz2WqgktVIjm2uzU=;
+        b=X6eMMoIpqJSnFWMBfyYMNfKqxjW4xZTha9ueuB4DY8Yfmp/7gdkF+mZRA3Uzgcrpw4
+         zQo9hkgweGJFrGl5HFlFwk+MOF3BSIE0rn70TPVZVdsKuovI+jEKx+PZR1hItHhyRPsF
+         eWMva0D8/RzaEyAfuiQkVp7852m/apMJjtBX/5KIIS2aH58tBWo62NYj+NoITs4Y/Cmx
+         d2rtanR8ZqpN8xbHgiI5TLtYt87cXGovVpyv0CNeei6Y5V8Mh6/SCkFK2UtIVD1KaNBA
+         psdTyx7g1F+fhSzmswbcY22bjToWCkppUMquPASgfP+mXCl47mrJwCjfyVd4sgz7ZoNm
+         GFxA==
+X-Forwarded-Encrypted: i=1; AJvYcCVaDmy9W4hIYlImzEKPk6gAuvjAlvbhw83oftXbpitlsMoWvLsJYSfjsP0hMnYaE1NQ8erDLIvbD9fNzVHB@vger.kernel.org
+X-Gm-Message-State: AOJu0YyBWeQo6qCUkI5wODJYk7rfezHgGeJoIUnxsE4c0DqIshR40ynT
+	ynrpuaee2rAl4ga+v6kmnwJssKs00fmR7j6w924Jr/YLVLkkpGYcZsybl35dbOesdplHE3QjyUQ
+	gEXxkakx9Iw==
+X-Gm-Gg: AZuq6aKRys8CaCcXadydGDQbmUHf7Xe8AgDw1uNU6sZJav+Ri+DqUH0dKVXCbsbQ2X/
+	v+95VmivJ4eV4nfhQ5XmyHtBdrZ9N56SY0Q15pb2WaqGxr/jT/L5c2wSGfG8V8nPonxjG2hz2p4
+	oGFMIEVzFRrRjJCmgRUgUdkPmGG/W1OqSY8YsPMygCclS9SUv+BMJmLeVSDtNpDOtglGvoKidQC
+	ovwqwm8bTY58TSaYRO5lJ/mJ4cD9kyQ4jgExrS0+A9KYuMfy0JoLOxJ6C41/IFgor3Z4VRSJfEZ
+	6VuvR9ajgvYoqp93/GcNvIlTqg+Xfze6G7wqKeRFoJ4MqaVdZURVdQVqxc615T+Opei1W9er8Ke
+	VhICrsFH2h/9OeBlseqF4VNLDzIHG6NhO6CFJ49Ap048CyCv8ZQ9/tL3Za0xnj+G+Giyt/83iEx
+	rK9PO7ryadI5OJTdFsS8xOD9m8fQAV+keQw0LXsPedoO8XnwKa3W31jTMCqtThaagk53eT6c8=
+X-Received: by 2002:a05:6512:3ba3:b0:59b:79d9:6cc with SMTP id 2adb3069b0e04-59e1641adecmr1834391e87.33.1769823730892;
+        Fri, 30 Jan 2026 17:42:10 -0800 (PST)
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com. [209.85.167.43])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59e08cf8c2csm1922411e87.20.2026.01.30.17.42.10
+        for <linux-fsdevel@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 30 Jan 2026 17:31:46 -0800 (PST)
-Message-ID: <96d01e75-337b-45cf-9950-e5d4a2981921@gmail.com>
-Date: Fri, 30 Jan 2026 17:31:39 -0800
+        Fri, 30 Jan 2026 17:42:10 -0800 (PST)
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-59b9fee282dso2495778e87.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 30 Jan 2026 17:42:10 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXgNmfJgosbbkvZPp7fjqEew1BFKa8ap4VESnDWk/Ebg+pZ9pcAQn8DOsi9m4DhY5w/vEXx3Fx15fKMsOxe@vger.kernel.org
+X-Received: by 2002:a05:6402:35c7:b0:658:ba49:96c2 with SMTP id
+ 4fb4d7f45d1cf-658de54e61dmr2863591a12.6.1769821915767; Fri, 30 Jan 2026
+ 17:11:55 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH] btrfs: defer freeing of subpage private state to
- free_folio
-To: Qu Wenruo <quwenruo.btrfs@gmx.com>, Matthew Wilcox <willy@infradead.org>
-Cc: boris@bur.io, clm@fb.com, dsterba@suse.com, linux-btrfs@vger.kernel.org,
- linux-kernel@vger.kernel.org, kernel-team@meta.com,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-References: <20260129230822.168034-1-inwardvessel@gmail.com>
- <776e54f6-c9b7-4b22-bde5-561dc65c9be7@gmx.com>
- <aXw-MiQWyYtZ3brh@casper.infradead.org>
- <00d098da-0d01-43f9-9efb-c18b6e8a771e@gmail.com>
- <ee4898be-b0e0-4163-b734-c2891239dce6@gmx.com>
-Content-Language: en-US
-From: JP Kobryn <inwardvessel@gmail.com>
-In-Reply-To: <ee4898be-b0e0-4163-b734-c2891239dce6@gmx.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <CAG2Kctoo=xiVdhRZnLaoePuu2cuQXMCdj2q6L-iTnb8K1RMHkw@mail.gmail.com>
+ <20260128045954.GS3183987@ZenIV> <CAG2KctqWy-gnB4o6FAv3kv6+P2YwqeWMBu7bmHZ=Acq+4vVZ3g@mail.gmail.com>
+ <20260129032335.GT3183987@ZenIV> <20260129225433.GU3183987@ZenIV>
+ <CAG2KctoNjktJTQqBb7nGeazXe=ncpwjsc+Lm+JotcpaO3Sf9gw@mail.gmail.com>
+ <20260130070424.GV3183987@ZenIV> <CAG2Kctoqja9R1bBzdEAV15_yt=sBGkcub6C2nGE6VHMJh13=FQ@mail.gmail.com>
+ <20260130235743.GW3183987@ZenIV> <CAHk-=wgk7MRBj4iwQLHocVCa94Jf0cMEz2HzUAS9+6rGtnp4JA@mail.gmail.com>
+ <20260131010821.GY3183987@ZenIV>
+In-Reply-To: <20260131010821.GY3183987@ZenIV>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Fri, 30 Jan 2026 17:11:39 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wiXq-bPyKywNOw7z6ehrVReyS-hSPuQkJvuhJWfXGFm=A@mail.gmail.com>
+X-Gm-Features: AZwV_QiG_nByRrd83VYAdhaCU5_carsYUlImGLyJR9w-28CTqo3phlyWLRwFL8I
+Message-ID: <CAHk-=wiXq-bPyKywNOw7z6ehrVReyS-hSPuQkJvuhJWfXGFm=A@mail.gmail.com>
+Subject: Re: [PATCH v4 00/54] tree-in-dcache stuff
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: Samuel Wu <wusamuel@google.com>, Greg KH <gregkh@linuxfoundation.org>, 
+	linux-fsdevel@vger.kernel.org, brauner@kernel.org, jack@suse.cz, 
+	raven@themaw.net, miklos@szeredi.hu, neil@brown.name, a.hindborg@kernel.org, 
+	linux-mm@kvack.org, linux-efi@vger.kernel.org, ocfs2-devel@lists.linux.dev, 
+	kees@kernel.org, rostedt@goodmis.org, linux-usb@vger.kernel.org, 
+	paul@paul-moore.com, casey@schaufler-ca.com, linuxppc-dev@lists.ozlabs.org, 
+	john.johansen@canonical.com, selinux@vger.kernel.org, 
+	borntraeger@linux.ibm.com, bpf@vger.kernel.org, clm@meta.com, 
+	android-kernel-team <android-kernel-team@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 1/30/26 12:36 PM, Qu Wenruo wrote:
-> 
-> 
-> 在 2026/1/31 03:40, JP Kobryn 写道:
->> On 1/29/26 9:14 PM, Matthew Wilcox wrote:
->>> On Fri, Jan 30, 2026 at 01:46:59PM +1030, Qu Wenruo wrote:
->>>> Another question is, why only two fses (nfs for dir inode, and 
->>>> orangefs) are
->>>> utilizing the free_folio() callback.
->>>
->>> Alas, secretmem and guest_memfd are also using it.  Nevertheless, I'm
->>> not a fan of this interface existing, and would prefer to not introduce
->>> new users.  Like launder_folio, which btrfs has also mistakenly used.
->>>
->>
->> The part that felt concerning is how the private state is lost. If
->> release_folio() frees this state but the folio persists in the cache,
->> users of the folio afterward have to recreate the state. Is that the
->> expectation on how filesystems should handle this situation?
-> 
-> I believe that's the case.
-> 
-> Just like what we did in btrfs_do_readpage() and prepare_one_folio().
-> 
-> There is no difference between getting a new page and a page that is 
-> released but not removed from the filemap.
-> 
->>
->> In the case of the existing btrfs code, when the state is recreated (in
->> subpage mode), the bitmap data and lock states are all zeroed.
-> 
-> That's expected.
-> 
+On Fri, 30 Jan 2026 at 17:06, Al Viro <viro@zeniv.linux.org.uk> wrote:
+>
+> I'd rather go for a spinlock there, protecting these FFS_DEACTIVATED
+> transitions;
 
-Thanks all for the feedback. I get it now that we should treat it like a
-fresh folio where applicable. With that said, I may have found a path
-where unguarded access to the private field is happening. I'll send a
-patch shortly and you can let me know your thoughts.
+Yes, that's the much better solution.  The locking in this thing is horrendous.
 
+But judging by Samuel's recent email, there's something else than the
+open locking thing going on.
+
+          Linus
