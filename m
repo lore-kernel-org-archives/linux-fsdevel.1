@@ -1,148 +1,122 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC46B3563ED;
-	Mon,  2 Feb 2026 10:07:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 204403644C8
+	for <linux-fsdevel@vger.kernel.org>; Mon,  2 Feb 2026 11:45:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770026843; cv=none; b=M5gw0TqLknX1ZghNdqRxGBVDERZPPhSV1oMa74Ev6FsXBx+YPbpHwxLAwBvRWiCmLK1+XViM4tAmMxEOTsJaaYjjK5zXRPMg/Koc99zDlwmCjqcvNNpFF+cAXaSYeCsmWAeNLNBCLxNu8gyCMMSMGJ0Uzbgg/2o/66xzOofHrTc=
+	t=1770032738; cv=none; b=cLyGRClrtpUmv753ZNLewgo6dt9mhJ0wcMcXhsJbVDGEsgeI8VVadjEVNrjEdBdepoo4XR0UZ+9DMuDiOM7ux8pJkED4zFAs7ZWtPzNxCAq00BJZdQcOzaXUceHe3LxQBcPpj4FNBCRE3SyJDwwwC4htUU6WuV/S7IJFcn+w7rg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770026843; c=relaxed/simple;
-	bh=SPlQg0EyU4/DCh7w2oS8RGOQsjsSnbyrEHo3KSL1y1g=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=BWc5re8mhjpI9P7mpVSwJTIG4QxDbHBDzI0Mt/ACpK9tdjLpf2bycuftCxK9YoAbYGIzoc6U+DfSbJwo34CeMKbTsXuZw/ASVTXU/1J1q3KFw4kwfrGaEM0dr0VMElFynbKNBIGF3J/o4W1oSyFko+fS1jh1uMGfksM16HKDOz0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HQK92qyI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770032738; c=relaxed/simple;
+	bh=hUCc5qc1wPl0eDRsEu95AnTZAcSjNecW9O8G5FUbxEw=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=hGH9CLPMtDS+LRxLrF4z3rCaboarvbdolgIWrB2E7bH1/L61knooroQNxdHEZrgC4NC+2vjuU7Q0Zvg4hpONOFn7OyLQPBwtj3/r4p06MKj6ISq2SSdkFgswWBkD8cIQ8mAq+SzD+BMrDd4HnqV7elG1NNBiV/NFDQ7LM18q2fk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Mn/Y/26a; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=EjnKx5gp; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HQK92qyI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4150BC116C6;
-	Mon,  2 Feb 2026 10:07:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770026843;
-	bh=SPlQg0EyU4/DCh7w2oS8RGOQsjsSnbyrEHo3KSL1y1g=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=HQK92qyIX300LRHc2aMK3ubwx7dgLYNuRzLyUUyPldXvf3QcHTBEDznZO9XmT4/xY
-	 CIU2+TouJ8b0UyXd4vzERXzW5Cf/dUF760N11p4gF3cvmqGdeP6kbv4bIv4CmGBiEz
-	 CDCnliVNe1XhjJ92SpkO91ctMJIVid5sN0XpQW6xEMqM9ZRi57oVT6jhJCBSG61PPe
-	 R4n80mZejwHKCRPr4cKNCtNbgTV/LVPVx//RFH3C/pvvRBkuacSHU2tA3lconM/VEr
-	 SyWvAEe6FO1M+FglA7GJxmfGwSWOjAC0xiQefn+pDeRSa4TkXkDF8gUy6JFDJawicR
-	 x2altsxN3dX5w==
-From: Andreas Hindborg <a.hindborg@kernel.org>
-To: Daniel Almeida <daniel.almeida@collabora.com>, Oliver Mangold
- <oliver.mangold@pm.me>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?utf-8?Q?Bj=C3=B6rn?= Roy
- Baron <bjorn3_gh@protonmail.com>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, Benno Lossin <lossin@kernel.org>, Danilo
- Krummrich <dakr@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Dave Ertman <david.m.ertman@intel.com>, Ira
- Weiny <ira.weiny@intel.com>, Leon Romanovsky <leon@kernel.org>, "Rafael J.
- Wysocki" <rafael@kernel.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Lorenzo
- Stoakes <lorenzo.stoakes@oracle.com>, "Liam R. Howlett"
- <Liam.Howlett@oracle.com>, Viresh Kumar <vireshk@kernel.org>, Nishanth
- Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, Bjorn Helgaas
- <bhelgaas@google.com>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?=
- <kwilczynski@kernel.org>, Paul
- Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, Asahi Lina
- <lina+kernel@asahilina.net>, rust-for-linux@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org,
- linux-mm@kvack.org, linux-pm@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-security-module@vger.kernel.org
-Subject: Re: [PATCH v13 3/4] rust: Add missing SAFETY documentation for
- `ARef` example
-In-Reply-To: <06C410F4-8534-43B4-8DE1-039F70B26E5A@collabora.com>
-References: <20251117-unique-ref-v13-0-b5b243df1250@pm.me>
- <20251117-unique-ref-v13-3-b5b243df1250@pm.me>
- <06C410F4-8534-43B4-8DE1-039F70B26E5A@collabora.com>
-Date: Mon, 02 Feb 2026 10:52:12 +0100
-Message-ID: <87tsvzpj5f.fsf@t14s.mail-host-address-is-not-set>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Mn/Y/26a";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="EjnKx5gp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1770032735;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=l0x2TY/gu1Onlqu/1pckH2+z3ENgTf6K7YsnU3XKRWE=;
+	b=Mn/Y/26aBtyaXD5IKq6+rd8HBePz6x2MiAzMielfswC799t07HQocpq0iDKERtkEqBPrsm
+	E9priVwBZ9owYcrhvNvlbE+emylBbUlzuVStj8Y86QQQeT1w5Ma4mD1b620D5cx+QYjRKp
+	TBDx12/Vc4zvhu4KeFRW8YtJp+oCy34=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-224-qZPSlpC-OaewuyLecpD0Ng-1; Mon, 02 Feb 2026 06:45:33 -0500
+X-MC-Unique: qZPSlpC-OaewuyLecpD0Ng-1
+X-Mimecast-MFC-AGG-ID: qZPSlpC-OaewuyLecpD0Ng_1770032733
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8c52d3be24cso690563585a.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 02 Feb 2026 03:45:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1770032732; x=1770637532; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-language:cc:to:subject:from
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=l0x2TY/gu1Onlqu/1pckH2+z3ENgTf6K7YsnU3XKRWE=;
+        b=EjnKx5gp+YCVnzXrBP6ciXZPSFseW7xRreLS1dF6WZto0E4OC1AzX/aFa7jrJbFUJ/
+         ESgDpNMOi5exmyzvW/75W6f5Qad16P81VRuzueGLDDgBcPbsWOJUjsHPgvQP3bYfduiZ
+         uYp5uJjnk0O1cHv4jGE44yVFqRN6RSHuUqsRfI2S9D0MZuk1cdSSVnhtVNtNSa4m+5ys
+         dpBXSm0w828vafv12GBcblL3kr6SkGqNLwUPszeYkN0u9T9xfyj7Y91WiyG8wnS8/6TD
+         FnJUH5KhrUN0gkJ1A6oKwM5ZMq/C/5z7KzKosr3A3TopxFRhbbu+m1cF0obm8snLUA/x
+         JZPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770032732; x=1770637532;
+        h=content-transfer-encoding:content-language:cc:to:subject:from
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=l0x2TY/gu1Onlqu/1pckH2+z3ENgTf6K7YsnU3XKRWE=;
+        b=huaw8BiSFVqyGFQOdQKLTr/Kb1shw214WXpHzdSk9xZfxhJbHqTbeAMPA4FXtRIp/x
+         Cy9IX6mJ4nQPHe6Pm08gn4gm3B1qRtdZrv0f/28Fm+3LkftdyuwEqIGnPJ9Yv3E462JN
+         6U6A79efQZ/vsoXlir6iTaCOMUG8GQeFZoQK3bxah3EVy7yjA56Wkm4CXr8paNtC6Qw8
+         mqC/kFyXYkLqBOAhm9Zl1PAkYR6+HLIuXiNWX8cbQrLs1fAwOUeSmPwFow9dHe2CCuxx
+         4roPxFlBZttHtbK1tRA2me+8lKMzZaNCpVzSQTDW4GeOtzvh/fi1u0J8jry9zJKUcAPr
+         eDeA==
+X-Gm-Message-State: AOJu0YzSa4LaatPT+oSyo+0A/QKAzf0/vx62b9gXlEYaVtgQI47zpmFa
+	/Qp5i50pyTdiXeQudvQooTPpdSpL8ydfKiX+4Panq+7iH2sOg0TQ8yEcWxk6NqGHE3fEhPlb29G
+	J1jwqD6b9Z17/FiwTa3m0vqt5htQ65LwqfNA7PqsBxYH62lt91wVHw2tt3+RuHjuDV2n156GDwc
+	Y=
+X-Gm-Gg: AZuq6aJTZ34ipV7N5EJZ3QPypxPREPqEfVByzkIxXIUTDouC1lWFC77fcrEjnx8nTLx
+	fqy6Mtr+HKeqZ1lUTbWaF+ObOIM1s9i3oZiUqLFMLWKh43tdtW7VgUx5EbH4RnUsxVl3VbJ6UNm
+	T656dgwtof7qnAz3YI2LOtdozRbtm/8x/zLGPDvLai1rZYeQ1nuzSkk5LQLsn3ZHkHNg13PWIDr
+	hzICn/FAOzQJidJ9uWzr5DOLVT/OHEjR/LtePiY2tyCY87FFhri1hJXZq/jpxtFDHcjM3M7XakG
+	ykkhxm5jMrfoV4s2rXGoDd7OfZ8m+1QmECtrTpAhK22qPMCDaCl90eNO1AfhqR1pkZMrK2EHGd4
+	7ZW8LCRY5
+X-Received: by 2002:a05:620a:3191:b0:8c6:a809:862a with SMTP id af79cd13be357-8c9eb2fad23mr1443294285a.45.1770032732333;
+        Mon, 02 Feb 2026 03:45:32 -0800 (PST)
+X-Received: by 2002:a05:620a:3191:b0:8c6:a809:862a with SMTP id af79cd13be357-8c9eb2fad23mr1443292885a.45.1770032731952;
+        Mon, 02 Feb 2026 03:45:31 -0800 (PST)
+Received: from [172.31.1.12] ([70.105.242.59])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-894dae83f1fsm99553146d6.38.2026.02.02.03.45.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 02 Feb 2026 03:45:31 -0800 (PST)
+Message-ID: <fdf3631f-e924-4e4c-bd9f-db5b40a90bfe@redhat.com>
+Date: Mon, 2 Feb 2026 06:45:30 -0500
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+From: Steve Dickson <steved@redhat.com>
+Subject: ANNOUNCE: nfs-utils-2.8.5 released.
+To: Linux NFS Mailing list <linux-nfs@vger.kernel.org>
+Cc: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Daniel Almeida <daniel.almeida@collabora.com> writes:
+Hello,
 
->> On 17 Nov 2025, at 07:08, Oliver Mangold <oliver.mangold@pm.me> wrote:
->>=20
->> SAFETY comment in rustdoc example was just 'TODO'. Fixed.
->>=20
->> Signed-off-by: Oliver Mangold <oliver.mangold@pm.me>
->> Co-developed-by: Andreas Hindborg <a.hindborg@kernel.org>
->> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
->> ---
->> rust/kernel/sync/aref.rs | 10 ++++++----
->> 1 file changed, 6 insertions(+), 4 deletions(-)
->>=20
->> diff --git a/rust/kernel/sync/aref.rs b/rust/kernel/sync/aref.rs
->> index 4226119d5ac9..937dcf6ed5de 100644
->> --- a/rust/kernel/sync/aref.rs
->> +++ b/rust/kernel/sync/aref.rs
->> @@ -129,12 +129,14 @@ pub unsafe fn from_raw(ptr: NonNull<T>) -> Self {
->>     /// # Examples
->>     ///
->>     /// ```
->> -    /// use core::ptr::NonNull;
->> -    /// use kernel::sync::aref::{ARef, RefCounted};
->> +    /// # use core::ptr::NonNull;
->> +    /// # use kernel::sync::aref::{ARef, RefCounted};
->>     ///
->>     /// struct Empty {}
->>     ///
->> -    /// # // SAFETY: TODO.
->> +    /// // SAFETY: The `RefCounted` implementation for `Empty` does not=
- count references and
->> +    /// // never frees the underlying object. Thus we can act as having=
- a refcount on the object
->
-> nit: perhaps saying =E2=80=9Can increment on the refcount=E2=80=9D is cle=
-arer?
+This release contains the following:
 
-OK
+     * Man page corrections
+     * min-threads parameter added to nfsdctl.
+     * systemd updates to rpc-statd-notify.
+     * blkmapd not built by default (--enable-blkmapd to re-enable)
+     * A number of other bug fixes.
+
+The tarballs can be found in
+   https://www.kernel.org/pub/linux/utils/nfs-utils/2.8.5/
+or
+   http://sourceforge.net/projects/nfs/files/nfs-utils/2.8.5
+
+The change log is in
+    https://www.kernel.org/pub/linux/utils/nfs-utils/2.8.5/2.8.5-Changelog
+or
+  http://sourceforge.net/projects/nfs/files/nfs-utils/2.8.4/2.8.5-Changelog
 
 
-    /// // SAFETY: The `RefCounted` implementation for `Empty` does not cou=
-nt references and never
-    /// // frees the underlying object. Thus we can act as owning an increm=
-ent on the refcount for
-    /// // the object that we pass to the newly created `ARef`.
+The git tree is at:
+    git://linux-nfs.org/~steved/nfs-utils
 
->
->> +    /// // that we pass to the newly created `ARef`.
->>     /// unsafe impl RefCounted for Empty {
->>     ///     fn inc_ref(&self) {}
->>     ///     unsafe fn dec_ref(_obj: NonNull<Self>) {}
->> @@ -142,7 +144,7 @@ pub unsafe fn from_raw(ptr: NonNull<T>) -> Self {
->>     ///
->>     /// let mut data =3D Empty {};
->>     /// let ptr =3D NonNull::<Empty>::new(&mut data).unwrap();
->> -    /// # // SAFETY: TODO.
->> +    /// // SAFETY: We keep `data` around longer than the `ARef`.
->>     /// let data_ref: ARef<Empty> =3D unsafe { ARef::from_raw(ptr) };
->>     /// let raw_ptr: NonNull<Empty> =3D ARef::into_raw(data_ref);
->>     ///
->>=20
->> --=20
->> 2.51.2
->>=20
->>=20
->>=20
->
-> Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
+Please send comments/bugs to linux-nfs@vger.kernel.org
 
-Thanks.
-
-
-Best regards,
-Andreas Hindborg
-
+steved.
 
