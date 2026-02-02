@@ -1,44 +1,50 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 037A4372B24;
-	Mon,  2 Feb 2026 14:48:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69DAA3783C1;
+	Mon,  2 Feb 2026 15:11:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770043732; cv=none; b=aWlsxQOyu+SntlNn9ENZBRz9IaFR0JIAV70Hh6m5g4IkUA5uKBF7JZrWzcithiFzzykHwki+3XxFnD7AJe1WjVa1j49XUhrK4lYRAU48jo/cSq0oEwMLJkxzDWFUhEQkcu4cl559W4sDJA5M3Rjoac3mqVA3UPPnt20ouXSGbh4=
+	t=1770045112; cv=none; b=qsTZbO3pGujIS/q1vTnsTNkBoF3s/NbV5ufGHBD3oAlxQ9pNwexDQShkcGMWYxc37uwo7LtMkj01/odcFB6YxEJqF6CxJOTdlfCJzkv7rTylaF/aiAUvEu049DdIIFK+JZdtOUqsQqChx2iA4z2FCSkQqUBsJcmydUAZAM2N/GA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770043732; c=relaxed/simple;
-	bh=a0i1EGHJ53Cn36Ogm+2TKGDqjDbkwy8XN50DuccTGvw=;
+	s=arc-20240116; t=1770045112; c=relaxed/simple;
+	bh=XD1mJNWkOcI6dGgHAOJhJcnbwykWRo8a4yuMq6e9Z1U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f2CTqSIU+bClA+EePUzTa24QauGKfAk+/kd9gzM1/RLFIahjK3e5/5womJtctQ7z7oAZrZOTxhJQcEKtEWoCjt5Bt3npcMwo5bc+jZDG3qIiKhN/+7qaqbv2ymFfgU6s27hee+gQfc/JfbPtYHUuWVj3I34FBIGzwI/AamIRI8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ErlKDL1V; arc=none smtp.client-ip=198.137.202.133
+	 Content-Type:Content-Disposition:In-Reply-To; b=mGQ6Tv691PiT9goi5MuWdx/vxN63s1SZgwaZUXMfzBextpMQMtUczaS8tddg2YKrJcV/mBMdkjzTNjDMK5ACNM3sU2x/N0wdy1wqRsls1F1Vj2+Zq6PWV0hdKIaBa4SMuA/lBzHzJRTA3uEC88mRR84lsvKEL87vdgHe5fVQLFc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=BDtlxC7H; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ErlKDL1V"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="BDtlxC7H"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=5RfuoFuZfmU6d6xpKp+WWNjws0YGAx9f0t4UKjDQuJQ=; b=ErlKDL1VrxmApC+k1RGI4731b9
-	g6U/J6ugzGmf7HqXFcuNK5qCOJENnJzyuTOS1Mki9v1pqhO5TX8C5prq32YkheUfq8pCRqK7KSkQb
-	H0fYZ4DIs2hInp5X2AHqavTVWiHu6IW43MGbxhGEqHzj9iC+9VLxpVbKz7FjRAIplYorYhdao6b2X
-	PPuHDys4lKDAmCyGejWfL2gJMn2gEr7sDXZ9geZ5iNmhhzzaEdLVVTW5CBAHu+/YE+U4lyg9nsFK4
-	m0mtkzdMhOHCV1viHn5KEp4uWoaKPC9pVqCKQXuGLbESv272CJ7VSUsmJX8lifpx3GI1J2K7UvyVR
-	IqUVKhAQ==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vmvEQ-00000005879-1moJ;
-	Mon, 02 Feb 2026 14:48:50 +0000
-Date: Mon, 2 Feb 2026 06:48:50 -0800
-From: Christoph Hellwig <hch@infradead.org>
-To: Piyush Patle <piyushpatle228@gmail.com>
-Cc: brauner@kernel.org, djwong@kernel.org, linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	syzbot+bd5ca596a01d01bfa083@syzkaller.appspotmail.com
-Subject: Re: [PATCH] iomap: handle iterator position advancing beyond current
- mapping
-Message-ID: <aYC5Utav-rTKigTw@infradead.org>
-References: <20260202130044.567989-1-piyushpatle228@gmail.com>
+	bh=29jy1DWONXoy2B6xjNCVE28WgCP/0GEBN/PkS8AOnVg=; b=BDtlxC7H+13PZmg79XlT4cSMua
+	xCmWldl386DVv7YKhloM8ay70jGq0ky18Petto6satpvMsOL7fevIgvAqiZ+m+T6dTk9OSYyjC9B1
+	dgk5DWbW5WtnJ5dXJqJtbG8v1U3xFLHjpHoDe9S11x2Hx3rNbI7g0hkbr2HHCIxDzAbUzzAv6dbgP
+	6rP862nQMv4gnxs7ZGhGVAFYzSMXeOynEkfnl+8Ge3pLQoZw9MEPAuPqTtnZ33oYU7uTa/WHu11eu
+	NkI4dVGUFndZcaqlAzsnvzeNwkeanApgqsDci6lZ3Cx+VX0m0V0A/2I/YzUijvV5CJd1qIVP+qJOm
+	VWpZWm+Q==;
+Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vmvab-0000000Gf51-3qX6;
+	Mon, 02 Feb 2026 15:11:45 +0000
+Date: Mon, 2 Feb 2026 15:11:45 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Eric Biggers <ebiggers@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	David Sterba <dsterba@suse.com>, Theodore Ts'o <tytso@mit.edu>,
+	Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+	Andrey Albershteyn <aalbersh@redhat.com>,
+	linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org,
+	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+	fsverity@lists.linux.dev
+Subject: Re: [PATCH 02/11] readahead: push invalidate_lock out of
+ page_cache_ra_unbounded
+Message-ID: <aYC-set6OAK9F9GE@casper.infradead.org>
+References: <20260202060754.270269-1-hch@lst.de>
+ <20260202060754.270269-3-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -47,12 +53,40 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260202130044.567989-1-piyushpatle228@gmail.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <20260202060754.270269-3-hch@lst.de>
 
-On Mon, Feb 02, 2026 at 06:30:44PM +0530, Piyush Patle wrote:
-> Closes: https://syzkaller.appspot.com/bug?id=bd5ca596a01d01bfa083
+On Mon, Feb 02, 2026 at 07:06:31AM +0100, Christoph Hellwig wrote:
+> +++ b/fs/f2fs/file.c
+> @@ -4418,7 +4418,9 @@ static int redirty_blocks(struct inode *inode, pgoff_t page_idx, int len)
+>  	pgoff_t redirty_idx = page_idx;
+>  	int page_len = 0, ret = 0;
+>  
+> +	filemap_invalidate_lock_shared(mapping);
+>  	page_cache_ra_unbounded(&ractl, len, 0);
+> +	filemap_invalidate_unlock_shared(mapping);
 
-This link doesn't work.  And the commit log has zero details of what's
-happening either.
+Why is f2fs calling page_cache_ra_unbounded() here?  The documentation
+literally says not to call it:
 
+ * This function is for filesystems to call when they want to start
+ * readahead beyond a file's stated i_size.  This is almost certainly
+ * not the function you want to call.  Use page_cache_async_readahead()
+ * or page_cache_sync_readahead() instead.
+
+(in this case, f2fs doesn't have a folio, so page_cache_async_ra() is
+probably the right function to call).  But what's the point in writing
+documentation when people don't read it?
+
+> @@ -228,9 +229,10 @@ void page_cache_ra_unbounded(struct readahead_control *ractl,
+>  	 */
+>  	unsigned int nofs = memalloc_nofs_save();
+>  
+> +	lockdep_assert_held_read(&mapping->invalidate_lock);
+
+Hm, why are we asserting that it's not write-locked?  For the
+purposes of this function, I'd think we want to just
+lockdep_assert_held()?
+
+In the tree I'm looking at, there are also calls to
+page_cache_ra_unbounded() in fs/ext4/verity.c and fs/f2fs/verity.c
+which probably need the lock taken too?
