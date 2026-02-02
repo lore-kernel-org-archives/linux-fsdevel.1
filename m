@@ -1,119 +1,102 @@
-Received: from mail01.ukr.de (mail01.ukr.de [193.175.194.181])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A5F721FF5F;
-	Mon,  2 Feb 2026 07:39:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.175.194.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 259762D63F6;
+	Mon,  2 Feb 2026 10:06:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770017978; cv=none; b=puv3ATkwr2wZXnyLmfeDD0GrL6ofX0yI+EtGah9MYaiN1kT4eFl/V+/pn/9A0Mets2tgm3+OsHzBElBVVJ1olD2A21vsxhJzd8HVgAaLOBgTLWsI/xrRFogLUJ18RH5yydUhcuYJcOa6ZtOMq1zmdEaDiUwD5nTF8X6TD2jynzg=
+	t=1770026798; cv=none; b=s8YJ2vUbpVR30HyHR0OaXb9yR5LgWFy9ScYKrkd4OLly1UBN4fmrvZaNQrslK0hZuoy+JyNolXpkANinmxDQC+GpJ9qxU/fs9qXKuXrLBlqV5rY1X4IVuQse5fS4GsUiOWQyStelg4XRTwflC6dFkE/Cwa/1tHpAgM1J9vJsEz0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770017978; c=relaxed/simple;
-	bh=+Pts+qy34nNJTSg0Q4nyvFfkxhkO9rQKpVGpGbpZ7V8=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=RWDxY/ltA0iX9GtDvFvIfxKpgHOGyP5nGTURujfUGUMpWEKqoMwQGUkZbN37xtWc6o9kTttyJc6I7KJZuMIGHuZT2h9ys0Ugj1+XKWWl3w77rEsatkYTfNCAKIYe4omwJpZiVVT9mv7qXo/PjHeHgbo01W5M2dyat5hlNMzR18E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ukr.de; spf=pass smtp.mailfrom=ukr.de; arc=none smtp.client-ip=193.175.194.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ukr.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ukr.de
-X-CSE-ConnectionGUID: LkNsD08bQi+Y45I06WsNBw==
-X-CSE-MsgGUID: TJS8Az6HQESDNgsGIQt/QA==
-X-ThreatScanner-Verdict: Negative
-X-IronPort-AV: E=McAfee;i="6800,10657,11689"; a="2534877"
-X-IronPort-AV: E=Sophos;i="6.21,268,1763420400"; 
-   d="scan'208";a="2534877"
-Received: from unknown (HELO ukr.de) ([172.24.2.107])
-  by dmz-infcsg01.ukr.dmz with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2026 08:38:24 +0100
-Received: from ukr-excmb07.ukr.local (172.24.2.107) by ukr-excmb07.ukr.local
- (172.24.2.107) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.35; Mon, 2 Feb
- 2026 08:38:23 +0100
-Received: from ukr-excmb07.ukr.local ([fe80::4dee:3e0b:b33f:60ac]) by
- ukr-excmb07.ukr.local ([fe80::4dee:3e0b:b33f:60ac%8]) with mapi id
- 15.02.2562.035; Mon, 2 Feb 2026 08:38:23 +0100
-From: "Windl, Ulrich" <u.windl@ukr.de>
-To: "H. Peter Anvin" <hpa@zytor.com>, Alexander Viro
-	<viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara
-	<jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>
-CC: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Lennart
- Poettering" <lennart@poettering.net>, "systemd-devel@lists.freedesktop.org"
-	<systemd-devel@lists.freedesktop.org>
-Subject: RE: [EXT] [systemd-devel] [PATCH 0/3] Add the ability to mount
- filesystems during initramfs expansion
-Thread-Topic: [EXT] [systemd-devel] [PATCH 0/3] Add the ability to mount
- filesystems during initramfs expansion
-Thread-Index: AQHcjMt8Qr920kO9zkquhZDKntdOELVvE4ZA
-Date: Mon, 2 Feb 2026 07:38:23 +0000
-Message-ID: <51265a7170d7408a92192c5112c1e613@ukr.de>
-References: <20260124003939.426931-1-hpa@zytor.com>
-In-Reply-To: <20260124003939.426931-1-hpa@zytor.com>
-Accept-Language: de-DE, en-US
-Content-Language: de-DE
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-tm-snts-smtp: B9CBB8B8612B45BE3480AB84915063B64470FD77E2D8070E0A0CE1770EBF5B212000:8
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1770026798; c=relaxed/simple;
+	bh=AR8WJZlCheylxeYBIiVxCcxzyOcuAsM0oQ9x69QBGeM=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=KoHEXogpBdZKkvBYA+pPiwaDHeOlL2ueBOt+rkrWF54gxMjNu3LWybSybTntLInLKdpD3rr9cG8JgJNILo+XhwnKlqI7kw0XJlLBZk7/8lpaUaAPLl/GchBD8lelSA/NzISP3F/viz588M2fS8Mz0xsd76++3MH+NEVHzfsBvgs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F3Zk2JPt; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F3Zk2JPt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4988CC116C6;
+	Mon,  2 Feb 2026 10:06:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770026797;
+	bh=AR8WJZlCheylxeYBIiVxCcxzyOcuAsM0oQ9x69QBGeM=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=F3Zk2JPtX9BKsOfGhozTjtxp24jGgOGKlChNCS+jg88F1hIocpFuLVSYIR18rCyVU
+	 Moue0o90AkrrRNWLZsD3Ivul0Ujd6NRdOLRfS4mbYhd+jIgh3WaUTu37sqLhjoVDDM
+	 ZgNKC4CQQbziV9McP8h+/UTn9ywlHI2QkvLZ2ar9yc3YlJ8hR3SruAEiAa6yi0It27
+	 BEnKNuFE3HNDel0CDsOIk6P757sPTcTgYwWOtVRxtchr0rBPAWQmmqwkgUZckaznQa
+	 zih68OgLAg6wb4fCu8Re3XEGr9fp/N7elqd9Vgxj/bLH1xzTBTaowCfXgw4AOXcm0E
+	 o6qWmBVO6NSqg==
+From: Andreas Hindborg <a.hindborg@kernel.org>
+To: Gary Guo <gary@garyguo.net>, Oliver Mangold <oliver.mangold@pm.me>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, =?utf-8?Q?Bj=C3=B6rn?= Roy Baron
+ <bjorn3_gh@protonmail.com>, Alice
+ Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, Benno Lossin
+ <lossin@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Dave Ertman
+ <david.m.ertman@intel.com>, Ira
+ Weiny <ira.weiny@intel.com>, Leon Romanovsky <leon@kernel.org>, "Rafael J.
+ Wysocki" <rafael@kernel.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Lorenzo
+ Stoakes <lorenzo.stoakes@oracle.com>, "Liam R. Howlett"
+ <Liam.Howlett@oracle.com>, Viresh Kumar <vireshk@kernel.org>, Nishanth
+ Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, Bjorn Helgaas
+ <bhelgaas@google.com>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?=
+ <kwilczynski@kernel.org>, Paul
+ Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, Asahi Lina
+ <lina+kernel@asahilina.net>, rust-for-linux@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, linux-pm@vger.kernel.org, linux-pci@vger.kernel.org,
+ linux-security-module@vger.kernel.org
+Subject: Re: [PATCH v13 2/4] rust: `AlwaysRefCounted` is renamed to
+ `RefCounted`.
+In-Reply-To: <20251201160030.6956a834.gary@garyguo.net>
+References: <20251117-unique-ref-v13-0-b5b243df1250@pm.me>
+ <20251117-unique-ref-v13-2-b5b243df1250@pm.me>
+ <20251201160030.6956a834.gary@garyguo.net>
+Date: Mon, 02 Feb 2026 10:48:39 +0100
+Message-ID: <87wm0vpjbc.fsf@t14s.mail-host-address-is-not-set>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain
 
-SGkhDQoNCkkgd29uZGVyOiB3b3VsZG4ndCBpdCBiZSBuaWNlciB0byB1c2UgYSBzdWJkaXJlY3Rv
-cnkgbGlrZSAiLnN5c3RlbWQtbWFnaWMiIHRvIHBsYWNlIHN1Y2ggbWFnaWMgZmlsZXMgdGhlcmUg
-dGhhdCBhcmUgaW50ZXJwcmV0ZWQgYnkgc3lzdGVtZD8gVGhlbiAiISEhTU9VTlQhISEiIHdvdWxk
-IGJlY29tZSBhIHNpbXBsZSAibW91bnQiIG9yIG1heWJlICJmc3RhYiIgb3IgIm1vdW50dHRhYiIs
-IC4uLg0KDQpLaW5kIHJlZ2FyZHMsDQpVbHJpY2ggV2luZGwNCg0KPiAtLS0tLU9yaWdpbmFsIE1l
-c3NhZ2UtLS0tLQ0KPiBGcm9tOiBzeXN0ZW1kLWRldmVsIDxzeXN0ZW1kLWRldmVsLWJvdW5jZXNA
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnPiBPbg0KPiBCZWhhbGYgT2YgSC4gUGV0ZXIgQW52aW4NCj4g
-U2VudDogU2F0dXJkYXksIEphbnVhcnkgMjQsIDIwMjYgMTo0MCBBTQ0KPiBUbzogQWxleGFuZGVy
-IFZpcm8gPHZpcm9AemVuaXYubGludXgub3JnLnVrPjsgQ2hyaXN0aWFuIEJyYXVuZXINCj4gPGJy
-YXVuZXJAa2VybmVsLm9yZz47IEphbiBLYXJhIDxqYWNrQHN1c2UuY3o+OyBKb25hdGhhbiBDb3Ji
-ZXQNCj4gPGNvcmJldEBsd24ubmV0PjsgSC4gUGV0ZXIgQW52aW4gPGhwYUB6eXRvci5jb20+DQo+
-IENjOiBsaW51eC1mc2RldmVsQHZnZXIua2VybmVsLm9yZzsgbGludXgtZG9jQHZnZXIua2VybmVs
-Lm9yZzsgbGludXgtDQo+IGtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc7IExlbm5hcnQgUG9ldHRlcmlu
-ZyA8bGVubmFydEBwb2V0dGVyaW5nLm5ldD47DQo+IHN5c3RlbWQtZGV2ZWxAbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnDQo+IFN1YmplY3Q6IFtFWFRdIFtzeXN0ZW1kLWRldmVsXSBbUEFUQ0ggMC8zXSBB
-ZGQgdGhlIGFiaWxpdHkgdG8gbW91bnQNCj4gZmlsZXN5c3RlbXMgZHVyaW5nIGluaXRyYW1mcyBl
-eHBhbnNpb24NCj4gDQo+IA0KPiBBdCBQbHVtYmVyJ3MgMjAyNCwgTGVubmFydCBQb2V0dGVyaW5n
-IG9mIHRoZSBzeXN0ZW1kIHByb2plY3QgcmVxdWVzdGVkDQo+IHRoZSBhYmlsaXR5IHRvIG92ZXJt
-b3VudCB0aGUgcm9vdGZzIHdpdGggYSBzZXBhcmF0ZSB0bXBmcyBiZWZvcmUNCj4gaW5pdHJhbWZz
-IGV4cGFuc2lvbiwgc28gdGhlIHBvcHVsYXRlZCB0bXBmcyBjYW4gYmUgdW5tb3VudGVkLg0KPiAN
-Cj4gVGhpcyBwYXRjaHNldCB0YWtlcyB0aGlzIHJlcXVlc3QgYW5kIGdvZXMgb25lIHN0ZXAgZnVy
-dGhlcjogaXQgYWxsb3dzDQo+IChtb3N0bHkpIGFyYml0cmFyeSBmaWxlc3lzdGVtcyBtb3VudHMg
-ZHVyaW5nIGluaXRyYW1mcyBwcm9jZXNzaW5nLg0KPiANCj4gVGhpcyBpcyBkb25lIGJ5IGhhdmlu
-ZyB0aGUgaW5pdHJhbWZzIGV4cGFuc2lvbiBjb2RlIGRldGVjdCB0aGUgc3BlY2lhbA0KPiBmaWxl
-bmFtZSAiISEhTU9VTlQhISEiIHdoaWNoIGlzIHRoZW4gcGFyc2VkIGludG8gYSBzaW1wbGlmaWVk
-DQo+IGZzdGFiLXR5cGUgbW91bnQgc3BlY2lmaWNhdGlvbiBhbmQgdGhlIGRpcmVjdG9yeSBpbiB3
-aGljaCB0aGUNCj4gISEhTU9VTlQhISEgZW50cnkgaXMgdXNlZCBhcyB0aGUgbW91bnQgcG9pbnQu
-DQo+IA0KPiBUaGlzIHNwZWNpZmljIG1ldGhvZCB3YXMgY2hvc2VuIGZvciB0aGUgZm9sbG93aW5n
-IHJlYXNvbnM6DQo+IA0KPiAxLiBUaGlzIGluZm9ybWF0aW9uIGlzIHNwZWNpZmljIHRvIHRoZSBl
-eHBlY3RhdGlvbnMgb2YgdGhlIGluaXRyYW1mczsNCj4gICAgdGhlcmVmb3JlIHVzaW5nIGtlcm5l
-bCBjb21tYW5kIGxpbmUgb3B0aW9ucyBpcyBub3QNCj4gICAgYXBwcm9wcmlhdGUuIFRoaXMgd2F5
-IHRoZSBpbmZvcm1hdGlvbiBpcyBmdWxseSBjb250YWluZWQgd2l0aGluIHRoZQ0KPiAgICBpbml0
-cmFtZnMgaXRzZWxmLg0KPiAyLiBUaGUgc2VxdWVuY2UgISEhIGlzIGFscmVhZHkgc3BlY2lhbCBp
-biBjcGlvLCBkdWUgdG8gdGhlICJUUkFJTEVSISEhIg0KPiAgICBlbnRyaWVzLg0KPiAzLiBUaGUg
-ZmlsZW5hbWUgIiEhIU1PVU5UISEhIiB3aWxsIHR5cGljYWxseSBiZSBzb3J0ZWQgZmlyc3QsIHdo
-aWNoDQo+ICAgIG1lYW5zIHVzaW5nIHN0YW5kYXJkIGZpbmQrY3BpbyB0b29scyB0byBjcmVhdGUg
-dGhlIGluaXRyYW1mcyBzdGlsbA0KPiAgICB3b3JrLg0KPiA0LiBTaW1pbGFybHksIHN0YW5kYXJk
-IGNwaW8gY2FuIHN0aWxsIGV4cGFuZCB0aGUgaW5pdHJhbWZzLg0KPiA1LiBJZiBydW4gb24gYSBs
-ZWdhY3kga2VybmVsLCB0aGUgISEhTU9VTlQhISEgZmlsZSBpcyBjcmVhdGVkLCB3aGljaA0KPiAg
-ICBpcyBlYXN5IHRvIGRldGVjdCBpbiB0aGUgaW5pdHJhbWZzIGNvZGUgd2hpY2ggY2FuIHRoZW4g
-YWN0aXZhdGUNCj4gICAgc29tZSBmYWxsYmFjayBjb2RlLg0KPiA2LiBJdCBhbGxvd3MgZm9yIG11
-bHRpcGxlIGZpbGVzeXN0ZW1zIHRvIGJlIG1vdW50ZWQsIHBvc3NpYmx5IG9mDQo+ICAgIGRpZmZl
-cmVudCB0eXBlcyBhbmQgaW4gZGlmZmVyZW50IGxvY2F0aW9ucywgZS5nLiB0aGUgaW5pdHJhbWZz
-IGNhbg0KPiAgICBnZXQgc3RhcnRlZCB3aXRoIC9kZXYsIC9wcm9jLCBhbmQgL3N5cyBhbHJlYWR5
-IGJvb3RlZC4NCj4gDQo+IFRoZSBwYXRjaGVzIGFyZToNCj4gDQo+ICAgICAxLzM6IGZzL2luaXQ6
-IG1vdmUgY3JlYXRpbmcgdGhlIG1vdW50IGRhdGFfcGFnZSBpbnRvIGluaXRfbW91bnQoKQ0KPiAg
-ICAgMi8zOiBpbml0cmFtZnM6IHN1cHBvcnQgbW91bnRpbmcgZmlsZXN5c3RlbXMgZHVyaW5nIGlu
-aXRyYW1mcyBleHBhbnNpb24NCj4gICAgIDMvMzogRG9jdW1lbnRhdGlvbi9pbml0cmFtZnM6IGRv
-Y3VtZW50IG1vdW50IHBvaW50cyBpbiBpbml0cmFtZnMNCj4gDQo+IC0tLQ0KPiAgLi4uL2RyaXZl
-ci1hcGkvZWFybHktdXNlcnNwYWNlL2J1ZmZlci1mb3JtYXQucnN0ICAgfCA2MCArKysrKysrKysr
-KysrLQ0KPiAgZnMvaW5pdC5jICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgfCAyMyArKysrKy0NCj4gIGluY2x1ZGUvbGludXgvaW5pdF9zeXNjYWxscy5oICAgICAgICAg
-ICAgICAgICAgICAgIHwgIDMgKy0NCj4gIGluaXQvZG9fbW91bnRzLmMgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgIHwgMTcgKy0tLQ0KPiAgaW5pdC9pbml0cmFtZnMuYyAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgfCA5NSArKysrKysrKysrKysrKysrKysrKystDQo+
-ICA1IGZpbGVzIGNoYW5nZWQsIDE3NSBpbnNlcnRpb25zKCspLCAyMyBkZWxldGlvbnMoLSkNCg==
+Gary Guo <gary@garyguo.net> writes:
+
+> On Mon, 17 Nov 2025 10:07:57 +0000
+> Oliver Mangold <oliver.mangold@pm.me> wrote:
+>
+>> `AlwaysRefCounted` will become a marker trait to indicate that it is
+>> allowed to obtain an `ARef<T>` from a `&T`, which cannot be allowed for
+>> types which are also Ownable.
+>
+> The message needs a rationale for making the change rather than relying
+> on the reader to deduce so.
+>
+> For example:
+>
+> 	There are types where it may both be referenced counted in some
+> 	cases and owned in other. In such cases, obtaining `ARef<T>`
+> 	from `&T` would be unsound as it allows creation of `ARef<T>`
+> 	copy from `&Owned<T>`.
+>
+> 	Therefore, we split `AlwaysRefCounted` into `RefCounted` (which
+> 	`ARef<T>` would require) and a marker trait to indicate that
+> 	the type is always reference counted (and not `Ownable`) so the
+> 	`&T` -> `ARef<T>` conversion is possible.
+
+Thanks, I'll mix this in with the one I sent to Daniel.
+
+
+Best regards,
+Andreas Hindborg
+
+
+
