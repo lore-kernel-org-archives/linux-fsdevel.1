@@ -1,22 +1,22 @@
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3378246798;
-	Tue,  3 Feb 2026 05:44:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 947754A21;
+	Tue,  3 Feb 2026 05:47:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770097472; cv=none; b=Qb65r9xJfak4MZ6jgqWPQHnvZeUFMuMuTNXb7kyMK8nrEkP/J6WT1cGMYAxzRtTYXgbmbOh5x60Lb2Rq07ojLEZeVXdiW2Dt8nEUPsP22dO5tiV76Dmc4kApctc1l6NrkWZ94c7/XUGEbYY3anI+3/s/jgq3TrEOEKVa+32b5kk=
+	t=1770097671; cv=none; b=SMX4f1BozZkhaxIa2B09dsD+S76f9ToqZ7R4alkLC6mya6hEPAp6GArWZ37bP+YC1P73cis2xPb3K32rCV7SSBgB7kv/GG/+Iz6f3iTd8+j51tmSb6Lhz89vqqzkY1zIabi3VNysTU0JMn2JIh2r1Hjts2QMb1MMR2yva1EFn+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770097472; c=relaxed/simple;
-	bh=VXeZ4uK69CMQdNhIvU66lKaWOORCKSLS9UioJ4x1yVI=;
+	s=arc-20240116; t=1770097671; c=relaxed/simple;
+	bh=3QtomF8SyQRjr5UaqDtTnEi8/wfCnb6XzYPyXG4qqAQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dXC88Zzha+jK1IcDiZdWiOHGlrI+VRD+zPSfNQJXubHy27dKfpcBfOaJrexMhrHkUZbZNl7qUiBYLn8rILzqN0Q8kMsGvqL/NXtL/YPAvzwDJiF3l6bFxP1r0obFLrF5kPCUpv2LskBtAugKk2Xvx8c5xBh15afNhdFG63rmxCo=
+	 Content-Type:Content-Disposition:In-Reply-To; b=PAugDYe8WkQL8bBl+wpkLQHoSDc/PaGjZWpu41WYG5PTUeGQvQmzjPoUbujbtaWPPmBEgL7b1Qs49vyaTa6IYtRpJSDw89VfBtwHfCx+G8vZIovStCGqCGSu7sGqIU9s9yzqtiwTADwN8krve0y5/DuNOXvTdpZASMEnJa7k2NM=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 2177068AFE; Tue,  3 Feb 2026 06:44:27 +0100 (CET)
-Date: Tue, 3 Feb 2026 06:44:26 +0100
+	id B075268AFE; Tue,  3 Feb 2026 06:47:42 +0100 (CET)
+Date: Tue, 3 Feb 2026 06:47:41 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Namjae Jeon <linkinjeon@kernel.org>
 Cc: viro@zeniv.linux.org.uk, brauner@kernel.org, hch@lst.de, tytso@mit.edu,
@@ -27,10 +27,10 @@ Cc: viro@zeniv.linux.org.uk, brauner@kernel.org, hch@lst.de, tytso@mit.edu,
 	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
 	iamjoonsoo.kim@lge.com, cheol.lee@lge.com, jay.sim@lge.com,
 	gunho.lee@lge.com
-Subject: Re: [PATCH v6 02/16] Documentation: filesystems: update NTFS
- driver documentation
-Message-ID: <20260203054426.GA16426@lst.de>
-References: <20260202220202.10907-1-linkinjeon@kernel.org> <20260202220202.10907-3-linkinjeon@kernel.org>
+Subject: Re: [PATCH v6 04/16] ntfs: update in-memory, on-disk structures
+ and headers
+Message-ID: <20260203054741.GB16426@lst.de>
+References: <20260202220202.10907-1-linkinjeon@kernel.org> <20260202220202.10907-5-linkinjeon@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -39,36 +39,37 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260202220202.10907-3-linkinjeon@kernel.org>
+In-Reply-To: <20260202220202.10907-5-linkinjeon@kernel.org>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Tue, Feb 03, 2026 at 07:01:48AM +0900, Namjae Jeon wrote:
-> Update the NTFS driver documentation (Documentation/filesystems/ntfs.rst)
-> to reflect the current implementation state after switching to iomap and
-> folio instead buffer-head.
+On Tue, Feb 03, 2026 at 07:01:50AM +0900, Namjae Jeon wrote:
+> This patch updates the NTFS filesystem driver's in-memory and on-disk
+> structures.
 > 
-> Changes include:
+> Key changes include:
+> 
+>  - Reorganize the comments in headers for better readability. (Fix the
+>    warnings from checkpatch.pl also)
+>  - Refactoring of core structures ntfs_inode and ntfs_volume to
+>    support new features such as iomap, and others.
+>  - Introduction of `iomap` infrastructure (iomap.h) and initial
+>    support for reparse points (reparse.h) and EA attribute(ea.h)
+>  - Remove unnecessary types.h and endian.h headers.
 
-"Changes include" doesn't really add much value, and feels like AI
-slop.
+Key changes include once again does not really add value here, and
+a lot of maintainers hate the "This patch" wording.
 
-I'd rewrite the message as:
+Suggested alternate version:
 
-Update the NTFS driver documentation to reflect the update implementation.
-Remove outdated sections (web site, old features list, known bugs,
-volume/stripe sets with MD/DM driver, limitations of old driver), add a
-concise overview of current driver features and long-term maintenance
-focus, add a utilities support section pointing to ntfsprogs-plus project
-and update mount options list with current supported options.
+Update the NTFS filesystem driver's in-memory and on-disk structures:
 
-I'd probably also move this last in the series.
-
-> +nls=name		Deprecated option.  Still supported but please use
-> +                        iocharset=name in the future.
-
-A lot of these mount options sections starts the first line with tab
-indentation and then continue with spaces only.  Please stick to one
-of them.
+  - Introduce the `iomap` infrastructure and initial support for reparse
+    points and EA attribute.
+  - Refactor the core ntfs_inode and ntfs_volume structures to support
+    new features such as iomap.
+  - Remove the unnecessary types.h and endian.h headers.
+  - Reorganize the comments in headers for better readability, including
+    fixing warnings from checkpatch.pl.
 
 Otherwise looks good:
 
