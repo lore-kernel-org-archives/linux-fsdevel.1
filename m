@@ -1,207 +1,102 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 213C539A806
-	for <linux-fsdevel@vger.kernel.org>; Tue,  3 Feb 2026 10:06:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70BBE39446D
+	for <linux-fsdevel@vger.kernel.org>; Tue,  3 Feb 2026 10:10:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770113198; cv=none; b=EAS3U/EkEIsItFC9T43hhCMLgh7CEjHGrQBoYxDSvN4qJS192anBz8nyTfYjNB/SNWI5UTWCIS1Bv1zLYLnMc+zfDQM/LrTzBbVaxh3JG5AlSevT77WoCwHRlNATbq59rvpqgIUwFzZkuHIgoqKVqrNN2d315LUG4Hd0dk5I53Q=
+	t=1770113406; cv=none; b=JxJWw4SA25Pf+SPaIvYuXwGl1fdm8fmbE6OWvxV5lfCLArBlj5cGK5oxyUq66Va8IdEyLTHPl+L1Eq6/Shgg34ztIMEStjakxCbJ5fZhVM/fgluTfDStlgw3dlrNlRzQPZna4KOENmfqmPcPjruEHUwMi0YJtt/EKWf0bI0PIlo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770113198; c=relaxed/simple;
-	bh=qko5dkbX2GXaEXjHFVpPa08FRgE0Twm/N34KbffY/TM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oyaW1V5gVtYZSXbSr1zYAA0Sgvs2B96wLdioTZ6i1GrorcHiZbRAkIW9vqjpPQrZQDxVNdvdJl3+cxg/JJL/+hAyC9KcLCvcfDTk79mvNBkXuLvCIh9asKsAWiIsfluFp3B2uXvSStsrlXTOf3WLRS4dC6rgmt4/oaER5PO8rXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=z58yJIjH; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Izic+9LA; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=z58yJIjH; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Izic+9LA; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1770113406; c=relaxed/simple;
+	bh=OItMYGPQqHUE+urHop5qPqb1i6vjQEt+fmTKE7EtbcE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=VcmDr39DnaWTvRGuk6zGn2ddiuM4k8e8BthEyKpuvv0yPcqB4p3uftc3925GBA2m7SkwMgfd0M9s9e6Okn7vTFTKAiwdqCBdQK+ka0r2o4hHITAY9hPhFIIboth2AnpydT/h/u1AiKgiKxvJwnlQ7KQx4ZRxvuScophWENPQRD4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f5XkA7LP; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="z58yJIjH";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Izic+9LA";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="z58yJIjH";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Izic+9LA"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 47B4C5BCC3;
-	Tue,  3 Feb 2026 10:06:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1770113195; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UhxYxeqp3CHMbamo8VRZgWr4tJdHiWs6YnWj50kjD28=;
-	b=z58yJIjHtkzj98l0Bhnk7b0cKmawGVYjeSKJextXE7qyLVSzB2HLqQPj3YgDzEoaPlPX8L
-	p6u6Ie8ot6tNGw7ECIq7u53xsNyavRHWtkhckZr8tcCZG0/4QxgdNtmktKl7x1LiUPYsMR
-	UbJyUn9gqWp9xcu2v/djbFiRPH2j0Cw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1770113195;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UhxYxeqp3CHMbamo8VRZgWr4tJdHiWs6YnWj50kjD28=;
-	b=Izic+9LAHAh7hG9Lq3sm5l/MvVl1dvLsq0aRkU2Tn00BUVxLGk0Ccm4XsUj1yB9R923m1z
-	XXfxBfR9t3kLYnBA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=z58yJIjH;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=Izic+9LA
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1770113195; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UhxYxeqp3CHMbamo8VRZgWr4tJdHiWs6YnWj50kjD28=;
-	b=z58yJIjHtkzj98l0Bhnk7b0cKmawGVYjeSKJextXE7qyLVSzB2HLqQPj3YgDzEoaPlPX8L
-	p6u6Ie8ot6tNGw7ECIq7u53xsNyavRHWtkhckZr8tcCZG0/4QxgdNtmktKl7x1LiUPYsMR
-	UbJyUn9gqWp9xcu2v/djbFiRPH2j0Cw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1770113195;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UhxYxeqp3CHMbamo8VRZgWr4tJdHiWs6YnWj50kjD28=;
-	b=Izic+9LAHAh7hG9Lq3sm5l/MvVl1dvLsq0aRkU2Tn00BUVxLGk0Ccm4XsUj1yB9R923m1z
-	XXfxBfR9t3kLYnBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3451B3EA62;
-	Tue,  3 Feb 2026 10:06:35 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id daW/DKvIgWmkKQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 03 Feb 2026 10:06:35 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id E9A03A08F8; Tue,  3 Feb 2026 11:06:30 +0100 (CET)
-Date: Tue, 3 Feb 2026 11:06:30 +0100
-From: Jan Kara <jack@suse.cz>
-To: Huacai Chen <chenhuacai@loongson.cn>
-Cc: Huacai Chen <chenhuacai@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	linux-fsdevel@vger.kernel.org, Xuefeng Li <lixuefeng@loongson.cn>, 
-	Julian Sun <sunjunchao@bytedance.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V3] writeback: Fix wakeup and logging timeouts for
- !DETECT_HUNG_TASK
-Message-ID: <paqvsxwf3v5hi7gwylfez4yddlswsem27hzqy37mxuapn7dxss@5vefpyohwlba>
-References: <20260203094014.2273240-1-chenhuacai@loongson.cn>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f5XkA7LP"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-b885e8c6700so889273266b.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 03 Feb 2026 02:10:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770113404; x=1770718204; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GvrluIg2iCtRBY994OY5LcLdBsBGupkAkPLQLUuiFys=;
+        b=f5XkA7LPDfidXkkvwKYxbA5kz+1grBtygA8SZlga7p/pJZqzCnWtFBVZG6/5d1Qw7K
+         CtdcV6L2t9vbE4V1kgGqcYGMFGJAGLAmjSt++lPaKvrpe1K7A0Ca1tAfDfj5UErJEnhj
+         KbRU+8Ix/XhnHob7PI8kJ/+Q5MTcWyvcH4ALT6IBFA84BFtrQ16l0WEbEQ+Rv5ZsANez
+         Gmq30GokLPA5Om/t2EwKIVzk/QG0Npv9g8Wke52QqVT7WEZ5+FNktjEIlcrm+hiJpvYZ
+         KyDeeCkzmtWS2Pgk7T9j9Ca+f00P1MMbHNzSYxTOGQKtBMiMJSNi3vxuYBdu27fDkrbi
+         Vg4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770113404; x=1770718204;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=GvrluIg2iCtRBY994OY5LcLdBsBGupkAkPLQLUuiFys=;
+        b=Ci/wF7S/hF1U9Q2bjSZjvXZV+uKwLIYaD0HfMc5O0vLYIPyJd5ShFjgzLa3qhGf3o6
+         8V9zEf6j/ngMRK6UaeCY766FYh64kXD1gDo/h0yU3lVwK9wW/WqiLsC7pI98Y7cBJ7zI
+         qahO74NgU22KJAq1GqeoTGzRSxEkVNMbL1XAxpCjtTlpghRJi9X4DP8d0Jii6ObZwHKH
+         cKScEIpBSgsk32/D4RCxVwFf1PugRu7y1XiAE4I8r2zmQsuhBjf3zWrg7R10pG9p657v
+         MRgc+qe5F/x/8lTB/bZ7ymkrQ1v/CHfrbeTHg1wtOmM8Kzez+4n+q9WzIYpP6vi4YCXL
+         pNEQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXkEOJoB7ln+RRPN2myeU91TZ0z0MIwXYTkY4UB5WtM2Vf1OPH6n0yzwQULeAquTujyNhlCJp8cgkX/Zd/z@vger.kernel.org
+X-Gm-Message-State: AOJu0YznYz3VpYt+n4Z8y9GaukewtvKn/Ij5uJi1FmgGfByBfewrMHmu
+	Od6ioS4/ZuxJgavgH7gzuN0YSkXLNB/SSoFOL7ig9O78xxhhJG91tdRKjGUDow==
+X-Gm-Gg: AZuq6aKh5RB/hPjRlqSJUWIMz1+venCpwB77JfS8Z587gfj+MWLi10EC9/qk6+fHZiN
+	VJGkkmHewG5knfVVI+NRkZSh/OGpYEt569EeSXiokr9wXp+aqn0Jkp8+6ZDsm763GntRiG8dlSO
+	CepsjFC6tn3wIVY19xzZeNQZPhbcaWTGw9Gh4UthrVYgfm1cQE7kpDtQyNA4SaA6kcbhs/gRCvH
+	YtOF3+UK3tRdxLc0MRV3ee67HWU4v09TasTVnQbvZhWHNwo2h7K5ELJY6py89PfTOjS1Bfs+fGM
+	tAx8UkPfd5E5lBX0WFjbLa2SuJMAhgM6AsykQw29eWtkVfwCixeQcmqyx2l7qgQHYJPoZrwG+bS
+	PlTkNousCgfoFDSWoy9ziiRM95MjW0/j8ImWMGphURXPyZexwNlGbHLmv7CxMqwV4ZaMrtEXP9F
+	VZK2NIIwM=
+X-Received: by 2002:a05:600c:628c:b0:47e:e8de:7420 with SMTP id 5b1f17b1804b1-482db47ce23mr183596905e9.22.1770106824499;
+        Tue, 03 Feb 2026 00:20:24 -0800 (PST)
+Received: from localhost ([212.73.77.104])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-483051286e0sm47463035e9.5.2026.02.03.00.20.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Feb 2026 00:20:22 -0800 (PST)
+From: Askar Safin <safinaskar@gmail.com>
+To: dhowells@redhat.com
+Cc: axboe@kernel.dk,
+	brauner@kernel.org,
+	cem@kernel.org,
+	djwong@kernel.org,
+	hch@lst.de,
+	kundan.kumar@samsung.com,
+	linux-block@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-xfs@vger.kernel.org,
+	viro@zeniv.linux.org.uk,
+	willy@infradead.org,
+	wqu@suse.com
+Subject: Re: [PATCH 03/14] iov_iter: extract a iov_iter_extract_bvecs helper from bio code
+Date: Tue,  3 Feb 2026 11:20:16 +0300
+Message-ID: <20260203082016.2824493-1-safinaskar@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <1763225.1769180226@warthog.procyon.org.uk>
+References: <1763225.1769180226@warthog.procyon.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260203094014.2273240-1-chenhuacai@loongson.cn>
-X-Spam-Score: -4.01
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	SUBJECT_HAS_EXCLAIM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	FROM_EQ_ENVFROM(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[loongson.cn:email,suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 47B4C5BCC3
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
+Content-Transfer-Encoding: 8bit
 
-On Tue 03-02-26 17:40:14, Huacai Chen wrote:
-> Recent changes of fs-writeback cause such warnings if DETECT_HUNG_TASK
-> is not enabled:
-> 
-> INFO: The task sync:1342 has been waiting for writeback completion for more than 1 seconds.
-> 
-> The reason is sysctl_hung_task_timeout_secs is 0 when DETECT_HUNG_TASK
-> is not enabled, then it causes the warning message even if the writeback
-> lasts for only one second.
-> 
-> Guard the wakeup and logging with "#ifdef CONFIG_DETECT_HUNG_TASK" can
-> eliminate the warning messages. But on the other hand, it is possible
-> that sysctl_hung_task_timeout_secs be also 0 when DETECT_HUNG_TASK is
-> enabled. So let's just check the value of sysctl_hung_task_timeout_secs
-> to decide whether do wakeup and logging.
-> 
-> Fixes: 1888635532fb ("writeback: Wake up waiting tasks when finishing the writeback of a chunk.")
-> Fixes: d6e621590764 ("writeback: Add logging for slow writeback (exceeds sysctl_hung_task_timeout_secs)")
-> Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
+David Howells <dhowells@redhat.com>:
+> vmsplice from there into process address
+> space
 
-Looks good. Feel free to add:
+You mean vmsplice from pipe? According to this comment
+(but I didn't read actual code) vmsplice *from* pipe
+(as opposed to vmsplice *to* pipe) is equivalent to
+normal readv:
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+https://elixir.bootlin.com/linux/v6.19-rc5/source/fs/splice.c#L1500
 
-> ---
-> V2: Disable wakeup and logging for !DETECT_HUNG_TASK.
-> V3: Also handle the case for DETECT_HUNG_TASK if sysctl_hung_task_timeout_secs is 0.
 
-Good catch!
-
-								Honza
-
-> 
->  fs/fs-writeback.c | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
-> 
-> diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
-> index 5444fc706ac7..79b02ac66ac6 100644
-> --- a/fs/fs-writeback.c
-> +++ b/fs/fs-writeback.c
-> @@ -198,10 +198,11 @@ static void wb_queue_work(struct bdi_writeback *wb,
->  
->  static bool wb_wait_for_completion_cb(struct wb_completion *done)
->  {
-> +	unsigned long timeout = sysctl_hung_task_timeout_secs;
->  	unsigned long waited_secs = (jiffies - done->wait_start) / HZ;
->  
->  	done->progress_stamp = jiffies;
-> -	if (waited_secs > sysctl_hung_task_timeout_secs)
-> +	if (timeout && (waited_secs > timeout))
->  		pr_info("INFO: The task %s:%d has been waiting for writeback "
->  			"completion for more than %lu seconds.",
->  			current->comm, current->pid, waited_secs);
-> @@ -1944,6 +1945,7 @@ static long writeback_sb_inodes(struct super_block *sb,
->  		.range_end		= LLONG_MAX,
->  	};
->  	unsigned long start_time = jiffies;
-> +	unsigned long timeout = sysctl_hung_task_timeout_secs;
->  	long write_chunk;
->  	long total_wrote = 0;  /* count both pages and inodes */
->  	unsigned long dirtied_before = jiffies;
-> @@ -2030,9 +2032,8 @@ static long writeback_sb_inodes(struct super_block *sb,
->  		__writeback_single_inode(inode, &wbc);
->  
->  		/* Report progress to inform the hung task detector of the progress. */
-> -		if (work->done && work->done->progress_stamp &&
-> -		   (jiffies - work->done->progress_stamp) > HZ *
-> -		   sysctl_hung_task_timeout_secs / 2)
-> +		if (work->done && work->done->progress_stamp && timeout &&
-> +		   (jiffies - work->done->progress_stamp) > HZ * timeout / 2)
->  			wake_up_all(work->done->waitq);
->  
->  		wbc_detach_inode(&wbc);
-> -- 
-> 2.47.3
-> 
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Askar Safin
