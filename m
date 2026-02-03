@@ -1,51 +1,36 @@
-Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46A7A38B7D4;
-	Tue,  3 Feb 2026 06:30:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7D7035971B;
+	Tue,  3 Feb 2026 06:30:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770100227; cv=none; b=UGzpqxdPYG9/eh1Z4bJ3PeW2KOjpHtoNQW7I9obMLLVDhBz4yhhrpg5h/HF9X4Ck1o2/KkNmkKceo0NmfecL7WvSh7xIBd2Q15wfohxJjmsEYkiWRTH+1TFdYusPuTQrdKVBaDYHthxt6yabq3GGLmFCtn1bdPgPgZaxdqSpNyQ=
+	t=1770100245; cv=none; b=lcUvaeOEXdX2lpRiFKS+YnIpUK7I8AE6Xe87SNpEx9Mh2QizbP5Keiesl/rXr4Htytir8Q3M0zDVk9+kg71CY6Ny7C9NzfZyA2TRxW3TRX6v0ZzeVcLTX/xSp5Li98PQESXoGUo/U9ovNQmeFQ4LQQBpGAK6QGlmA1cHzFr8W78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770100227; c=relaxed/simple;
-	bh=RlJROsKsuZ2IUY0rvdbWaYINjizodYjUAPp4dLBZuY4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=p9LJlIxhDN0HOIEJIkRaLHuroUrnjDWdj45wTKsqEsxMvdefiLQ4NktFNsWod8XX15JuxBjFMy6Mtpya8I7qCCYMCHLgrTkgTb0YnM03lh12hjmeT8qKr7K8ocVX2kXy3FcjKExthx30ZhYaqCDtvxE25MI/Fxc96swN3PJtazk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.170])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4f4tqr2LFMzYQv00;
-	Tue,  3 Feb 2026 14:29:28 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id 4319E4056B;
-	Tue,  3 Feb 2026 14:30:15 +0800 (CST)
-Received: from huaweicloud.com (unknown [10.50.85.155])
-	by APP4 (Coremail) with SMTP id gCh0CgAHaPjnlYFpiadbGA--.27803S23;
-	Tue, 03 Feb 2026 14:30:15 +0800 (CST)
-From: Zhang Yi <yi.zhang@huawei.com>
-To: linux-ext4@vger.kernel.org
-Cc: linux-fsdevel@vger.kernel.org,
+	s=arc-20240116; t=1770100245; c=relaxed/simple;
+	bh=zo2I6k8/xlGq0PtkAsWQuRfNUucflvH2Yo+nLd/eEMw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QWhuxiv+lfqOKTCvOvEO6CAkL/8zjiWTUKvX4/Ujj2JrMudtfamGuX/VNWUdHFJAOxrIW7ip+c8NERN8h2N9aeLULAMqeZq4ZmnPqAgr2gfG98ArU/HN0FsyBxyFLJNAbGkPUvBB3xxf6TfX5BxmE1826gOMC82RjvRyBBAUp+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [223.64.69.42])
+	by gateway (Coremail) with SMTP id _____8DxvsMRloFpVkUPAA--.49940S3;
+	Tue, 03 Feb 2026 14:30:41 +0800 (CST)
+Received: from localhost.localdomain (unknown [223.64.69.42])
+	by front1 (Coremail) with SMTP id qMiowJCxecEMloFp4e4+AA--.24733S2;
+	Tue, 03 Feb 2026 14:30:40 +0800 (CST)
+From: Huacai Chen <chenhuacai@loongson.cn>
+To: Huacai Chen <chenhuacai@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>
+Cc: Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	Xuefeng Li <lixuefeng@loongson.cn>,
+	Julian Sun <sunjunchao@bytedance.com>,
 	linux-kernel@vger.kernel.org,
-	tytso@mit.edu,
-	adilger.kernel@dilger.ca,
-	jack@suse.cz,
-	ojaswin@linux.ibm.com,
-	ritesh.list@gmail.com,
-	hch@infradead.org,
-	djwong@kernel.org,
-	yi.zhang@huawei.com,
-	yi.zhang@huaweicloud.com,
-	yizhang089@gmail.com,
-	libaokun1@huawei.com,
-	yangerkun@huawei.com,
-	yukuai@fnnas.com
-Subject: [PATCH -next v2 19/22] ext4: add block mapping tracepoints for iomap buffered I/O path
-Date: Tue,  3 Feb 2026 14:25:19 +0800
-Message-ID: <20260203062523.3869120-20-yi.zhang@huawei.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260203062523.3869120-1-yi.zhang@huawei.com>
-References: <20260203062523.3869120-1-yi.zhang@huawei.com>
+	Huacai Chen <chenhuacai@loongson.cn>
+Subject: [PATCH V2] writeback: Fix wakeup and logging timeouts for !DETECT_HUNG_TASK
+Date: Tue,  3 Feb 2026 14:30:23 +0800
+Message-ID: <20260203063023.2159073-1-chenhuacai@loongson.cn>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -53,131 +38,82 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:gCh0CgAHaPjnlYFpiadbGA--.27803S23
-X-Coremail-Antispam: 1UD129KBjvJXoWxXw4DXw48ur43Zr47KFWDCFg_yoWrJFyxpF
-	yDtFy5GF4rZrsF9w4fWrW3Zr1Fva1xKr4UGry3Wry5JFWxtr42gF4UGFyYyFy5tw4jkryf
-	XF4Yyry8G3W7urDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUHqb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUAV
-	Cq3wA2048vs2IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0
-	rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267
-	AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E
-	14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7
-	xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Y
-	z7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7Iv64x0x7Aq67IIx4CEVc8vx2IErcIFxwACI4
-	02YVCY1x02628vn2kIc2xKxwCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCF
-	04k20xvEw4C26cxK6c8Ij28IcwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14
-	v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_WrylIxkG
-	c2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVW8JVW5JwCI42IY6xIIjxv20xvEc7CjxVAFwI
-	0_Gr1j6F4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_
-	Cr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x07UZyC
-	LUUUUU=
-Sender: yi.zhang@huaweicloud.com
-X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
+X-CM-TRANSID:qMiowJCxecEMloFp4e4+AA--.24733S2
+X-CM-SenderInfo: hfkh0x5xdftxo6or00hjvr0hdfq/
+X-Coremail-Antispam: 1Uk129KBj93XoW7Kw4xur1fCFWrtF47JF15ZFc_yoW8uw1rpF
+	WfGF1jyayvy34xKr1kG3ZFgF1Y93ykCr4xWr17WayIvw1fXa95tFW7Kry5tF13JrZxXFyS
+	vFWqyrWfJF1jqagCm3ZEXasCq-sJn29KB7ZKAUJUUUUr529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUU9Fb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+	xVW8Jr0_Cr1UM2kKe7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07
+	AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWU
+	tVWrXwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7V
+	AKI48JMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v2
+	6r1Y6r17MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17
+	CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26ryj6F1UMIIF
+	0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIx
+	AIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2
+	KfnxnUUI43ZEXa7IU8EeHDUUUUU==
 
-Add tracepoints for iomap buffered read, write, partial block zeroing
-and writeback operations.
+Recent changes of fs-writeback cause such warnings if DETECT_HUNG_TASK
+is not enabled:
 
-Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+INFO: The task sync:1342 has been waiting for writeback completion for more than 1 seconds.
+
+The reason is sysctl_hung_task_timeout_secs is 0 when DETECT_HUNG_TASK
+is not enabled, then it causes the warning message even if the writeback
+lasts for only one second.
+
+So guard the wakeup and logging with "#ifdef CONFIG_DETECT_HUNG_TASK",
+so as to eliminate the warning messages.
+
+Fixes: 1888635532fb ("writeback: Wake up waiting tasks when finishing the writeback of a chunk.")
+Fixes: d6e621590764 ("writeback: Add logging for slow writeback (exceeds sysctl_hung_task_timeout_secs)")
+Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
 ---
- fs/ext4/inode.c             |  6 +++++
- include/trace/events/ext4.h | 45 +++++++++++++++++++++++++++++++++++++
- 2 files changed, 51 insertions(+)
+V2: Disable wakeup and logging for !DETECT_HUNG_TASK.
 
-diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
-index c59f3adba0f3..77dcca584153 100644
---- a/fs/ext4/inode.c
-+++ b/fs/ext4/inode.c
-@@ -3956,6 +3956,8 @@ static int ext4_iomap_buffered_read_begin(struct inode *inode, loff_t offset,
- 	if (ret < 0)
- 		return ret;
+ fs/fs-writeback.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
+index 5444fc706ac7..bfe469fff97c 100644
+--- a/fs/fs-writeback.c
++++ b/fs/fs-writeback.c
+@@ -198,13 +198,15 @@ static void wb_queue_work(struct bdi_writeback *wb,
  
-+	trace_ext4_iomap_buffered_read_begin(inode, &map, offset, length,
-+					     flags);
- 	ext4_set_iomap(inode, iomap, &map, offset, length, flags);
- 	return 0;
+ static bool wb_wait_for_completion_cb(struct wb_completion *done)
+ {
++#ifdef CONFIG_DETECT_HUNG_TASK
+ 	unsigned long waited_secs = (jiffies - done->wait_start) / HZ;
+ 
+-	done->progress_stamp = jiffies;
+ 	if (waited_secs > sysctl_hung_task_timeout_secs)
+ 		pr_info("INFO: The task %s:%d has been waiting for writeback "
+ 			"completion for more than %lu seconds.",
+ 			current->comm, current->pid, waited_secs);
++#endif
++	done->progress_stamp = jiffies;
+ 
+ 	return !atomic_read(&done->cnt);
  }
-@@ -4040,6 +4042,8 @@ static int ext4_iomap_buffered_do_write_begin(struct inode *inode,
- 	if (ret < 0)
- 		return ret;
+@@ -2029,11 +2031,13 @@ static long writeback_sb_inodes(struct super_block *sb,
+ 		 */
+ 		__writeback_single_inode(inode, &wbc);
  
-+	trace_ext4_iomap_buffered_write_begin(inode, &map, offset, length,
-+					      flags);
- 	ext4_set_iomap(inode, iomap, &map, offset, length, flags);
- 	return 0;
- }
-@@ -4142,6 +4146,7 @@ static int ext4_iomap_zero_begin(struct inode *inode,
- 			map.m_len = (offset >> blkbits) - map.m_lblk;
- 	}
++#ifdef CONFIG_DETECT_HUNG_TASK
+ 		/* Report progress to inform the hung task detector of the progress. */
+ 		if (work->done && work->done->progress_stamp &&
+ 		   (jiffies - work->done->progress_stamp) > HZ *
+ 		   sysctl_hung_task_timeout_secs / 2)
+ 			wake_up_all(work->done->waitq);
++#endif
  
-+	trace_ext4_iomap_zero_begin(inode, &map, offset, length, flags);
- 	ext4_set_iomap(inode, iomap, &map, offset, length, flags);
- 	iomap->flags |= iomap_flags;
- 
-@@ -4319,6 +4324,7 @@ static int ext4_iomap_map_writeback_range(struct iomap_writepage_ctx *wpc,
- 	}
- out:
- 	ewpc->data_seq = map.m_seq;
-+	trace_ext4_iomap_map_writeback_range(inode, &map, offset, dirty_len, 0);
- 	ext4_set_iomap(inode, &wpc->iomap, &map, offset, dirty_len, 0);
- 	return 0;
- }
-diff --git a/include/trace/events/ext4.h b/include/trace/events/ext4.h
-index a3e8fe414df8..1922df4190e7 100644
---- a/include/trace/events/ext4.h
-+++ b/include/trace/events/ext4.h
-@@ -3096,6 +3096,51 @@ TRACE_EVENT(ext4_move_extent_exit,
- 		  __entry->ret)
- );
- 
-+DECLARE_EVENT_CLASS(ext4_set_iomap_class,
-+	TP_PROTO(struct inode *inode, struct ext4_map_blocks *map,
-+		 loff_t offset, loff_t length, unsigned int flags),
-+	TP_ARGS(inode, map, offset, length, flags),
-+	TP_STRUCT__entry(
-+		__field(dev_t, dev)
-+		__field(ino_t, ino)
-+		__field(ext4_lblk_t, m_lblk)
-+		__field(unsigned int, m_len)
-+		__field(unsigned int, m_flags)
-+		__field(u64, m_seq)
-+		__field(loff_t, offset)
-+		__field(loff_t, length)
-+		__field(unsigned int, iomap_flags)
-+	),
-+	TP_fast_assign(
-+		__entry->dev		= inode->i_sb->s_dev;
-+		__entry->ino		= inode->i_ino;
-+		__entry->m_lblk		= map->m_lblk;
-+		__entry->m_len		= map->m_len;
-+		__entry->m_flags	= map->m_flags;
-+		__entry->m_seq		= map->m_seq;
-+		__entry->offset		= offset;
-+		__entry->length		= length;
-+		__entry->iomap_flags	= flags;
-+
-+	),
-+	TP_printk("dev %d:%d ino %lu m_lblk %u m_len %u m_flags %s m_seq %llu orig_off 0x%llx orig_len 0x%llx iomap_flags 0x%x",
-+		  MAJOR(__entry->dev), MINOR(__entry->dev),
-+		  __entry->ino, __entry->m_lblk, __entry->m_len,
-+		  show_mflags(__entry->m_flags), __entry->m_seq,
-+		  __entry->offset, __entry->length, __entry->iomap_flags)
-+)
-+
-+#define DEFINE_SET_IOMAP_EVENT(name) \
-+DEFINE_EVENT(ext4_set_iomap_class, name, \
-+	TP_PROTO(struct inode *inode, struct ext4_map_blocks *map, \
-+		 loff_t offset, loff_t length, unsigned int flags), \
-+	TP_ARGS(inode, map, offset, length, flags))
-+
-+DEFINE_SET_IOMAP_EVENT(ext4_iomap_buffered_read_begin);
-+DEFINE_SET_IOMAP_EVENT(ext4_iomap_buffered_write_begin);
-+DEFINE_SET_IOMAP_EVENT(ext4_iomap_map_writeback_range);
-+DEFINE_SET_IOMAP_EVENT(ext4_iomap_zero_begin);
-+
- #endif /* _TRACE_EXT4_H */
- 
- /* This part must be outside protection */
+ 		wbc_detach_inode(&wbc);
+ 		work->nr_pages -= write_chunk - wbc.nr_to_write;
 -- 
-2.52.0
+2.47.3
 
