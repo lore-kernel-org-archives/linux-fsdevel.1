@@ -1,139 +1,174 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDC5823183F;
-	Tue,  3 Feb 2026 10:15:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770113729; cv=none; b=XqWlP+Gx8IK4tVkZo0NrmJEiXFqfAVEjAoWZBbG6u9FBPi9dTLrpn/LFr4+FRvY28Vbn5vwCO54n/VIxOribdfNb/a6PTLeTy8joPsYncOHD5n9yimBW9X9bEidpk2+SrARHphkrP03S7sN3C+38Oki2E5c/qNoYuU5rJt2C1T0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770113729; c=relaxed/simple;
-	bh=ltTqItvs5DEbQAayR00+PqL/+NRtgJq6ixieEinQSY4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q5jjG2QEVNkNXRP2RTfrK1GMOiUYH6UPKgEbwKpBdLGeZyIapCP4xIUdjduYYCelC1/8WjH3KNQMilVzd2sxP9LXQ2iMElxruLRgEvQq6IqpmH4FPc8DmCQ31z/Gd3mxq8IqLIGIX2TTULSA5lfMctxJNBPC4HBqUqSuVoQi/Mw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WHfJCxHU; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F94E304BB4
+	for <linux-fsdevel@vger.kernel.org>; Tue,  3 Feb 2026 10:20:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770114026; cv=pass; b=bif+v5fmE5ILBY4H3X70ZZgtDujYelPnPmAj/T8KVYeofCj14ACR5vNAFUUKHjpqxbTUYSvicbhU92NVbZySvenQ9QjmoNNDlRyrdwjmk1mXg4CaqrAQcTTMGkBosA+RDlGpt/eF32MoQFEpotwRrY2pvKsEXWoAJjkEbVpJ+VM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770114026; c=relaxed/simple;
+	bh=sVM0+hEP4PdpJC59WffH3ZxbPipWAX0zZaMuRpIJiF4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=G5/OHClSGuZAYvIMQiuGIUuuZKUzfsQGEs61Pbo/i1oo/5ZNaab/HVQG5ZcAR+x43VUT1I3HrtXPHqd/Uqln/nxMMTpRbwNpIdf2Z8YUffxBMxl5kkNrx1Ek7akUbIHCUd3Jfb0TdCGcARyhC+yHZc59fD/IztLd+ZfiM6+j8Kk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IHQWJLGc; arc=pass smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WHfJCxHU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770113728; x=1801649728;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ltTqItvs5DEbQAayR00+PqL/+NRtgJq6ixieEinQSY4=;
-  b=WHfJCxHU6+m/HKsG1GEUHnC7LYEAoVlCp5pDuHNDURLYdoEDYFbRORys
-   Lk4D7f7h02Orrykg+0t+tdqw6ZDWUlqyALFWmthEf98FPXaS0PGAQBtwm
-   QgjKlOvAaqcH35dSuq9S9Za8hua/CidmhLAnv34VmjsDGLRHy3R6uWSvY
-   c6YMNE8Le7rCnOAbslhhonhRo5jiZ7H17FnEfMCleDQ+iVn4X1jZH6A5O
-   xRcF5tFZxKA5PklK5l89LpJq4MuTnFWaCO5jLhV90cjGpkqYi/GLgYZmA
-   rd1cFOH+ZyF1x+tHM4dFEJpBLyNtmrBZofZhwQVPcScqg/lICl94yNpww
-   w==;
-X-CSE-ConnectionGUID: Q43I6yY3TF6pmKIhbq1+8Q==
-X-CSE-MsgGUID: ou9M2qUoRwCLUcxP0tEM4A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="96738240"
-X-IronPort-AV: E=Sophos;i="6.21,270,1763452800"; 
-   d="scan'208";a="96738240"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 02:15:26 -0800
-X-CSE-ConnectionGUID: QSwRDmD1RvONYQUf1EbLaA==
-X-CSE-MsgGUID: +XVLnH3CSfiSKxpDX9/BtA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,270,1763452800"; 
-   d="scan'208";a="209093662"
-Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
-  by orviesa010.jf.intel.com with ESMTP; 03 Feb 2026 02:15:05 -0800
-Date: Tue, 3 Feb 2026 17:56:37 +0800
-From: Xu Yilun <yilun.xu@linux.intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>, Ackerley Tng <ackerleytng@google.com>,
-	Alexey Kardashevskiy <aik@amd.com>, cgroups@vger.kernel.org,
-	kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
-	linux-trace-kernel@vger.kernel.org, x86@kernel.org,
-	akpm@linux-foundation.org, binbin.wu@linux.intel.com, bp@alien8.de,
-	brauner@kernel.org, chao.p.peng@intel.com, chenhuacai@kernel.org,
-	corbet@lwn.net, dave.hansen@intel.com, dave.hansen@linux.intel.com,
-	david@redhat.com, dmatlack@google.com, erdemaktas@google.com,
-	fan.du@intel.com, fvdl@google.com, haibo1.xu@intel.com,
-	hannes@cmpxchg.org, hch@infradead.org, hpa@zytor.com,
-	hughd@google.com, ira.weiny@intel.com, isaku.yamahata@intel.com,
-	jack@suse.cz, james.morse@arm.com, jarkko@kernel.org,
-	jgowans@amazon.com, jhubbard@nvidia.com, jroedel@suse.de,
-	jthoughton@google.com, jun.miao@intel.com, kai.huang@intel.com,
-	keirf@google.com, kent.overstreet@linux.dev,
-	liam.merwick@oracle.com, maciej.wieczor-retman@intel.com,
-	mail@maciej.szmigiero.name, maobibo@loongson.cn,
-	mathieu.desnoyers@efficios.com, maz@kernel.org, mhiramat@kernel.org,
-	mhocko@kernel.org, mic@digikod.net, michael.roth@amd.com,
-	mingo@redhat.com, mlevitsk@redhat.com, mpe@ellerman.id.au,
-	muchun.song@linux.dev, nikunj@amd.com, nsaenz@amazon.es,
-	oliver.upton@linux.dev, palmer@dabbelt.com, pankaj.gupta@amd.com,
-	paul.walmsley@sifive.com, pbonzini@redhat.com, peterx@redhat.com,
-	pgonda@google.com, prsampat@amd.com, pvorel@suse.cz,
-	qperret@google.com, richard.weiyang@gmail.com,
-	rick.p.edgecombe@intel.com, rientjes@google.com,
-	rostedt@goodmis.org, roypat@amazon.co.uk, rppt@kernel.org,
-	shakeel.butt@linux.dev, shuah@kernel.org, steven.price@arm.com,
-	steven.sistare@oracle.com, suzuki.poulose@arm.com, tabba@google.com,
-	tglx@linutronix.de, thomas.lendacky@amd.com, vannapurve@google.com,
-	vbabka@suse.cz, viro@zeniv.linux.org.uk, vkuznets@redhat.com,
-	wei.w.wang@intel.com, will@kernel.org, willy@infradead.org,
-	wyihan@google.com, xiaoyao.li@intel.com, yan.y.zhao@intel.com,
-	yilun.xu@intel.com, yuzenghui@huawei.com, zhiquan1.li@intel.com
-Subject: Re: [RFC PATCH v1 05/37] KVM: guest_memfd: Wire up
- kvm_get_memory_attributes() to per-gmem attributes
-Message-ID: <aYHGVQTF6RUs7r3g@yilunxu-OptiPlex-7050>
-References: <cover.1760731772.git.ackerleytng@google.com>
- <071a3c6603809186e914fe5fed939edee4e11988.1760731772.git.ackerleytng@google.com>
- <07836b1d-d0d8-40f2-8f7b-7805beca31d0@amd.com>
- <CAEvNRgEuez=JbArRf2SApLAL0usv5-Q6q=nBPOFMHrHGaKAtMw@mail.gmail.com>
- <20260129003753.GZ1641016@ziepe.ca>
- <aXqx3_eE0rNh6nP0@google.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IHQWJLGc"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-65941c07fb4so229147a12.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 03 Feb 2026 02:20:25 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770114023; cv=none;
+        d=google.com; s=arc-20240605;
+        b=EhUN6iGEgnXy1spcHsUVE+gY468VOFytGyntaXoDT4LDUcZ6TfGoDYbZv4u+lVieQ7
+         vyNP0aCv+tkDQg36KlZFvg3e/UTWC3692Wgu3xXmKPs26sI+Yx92l5WBSbKUFIZ3GgkO
+         Hl0zqR0jbW/jD7r4ZziigBh5Ioiq3IrVUnYErnCghHSms4GiWmnmZOlA2ULeo7/qnxq3
+         B9v2FY5ua9Ln842GdzKlvSTljr0M1AQhYEybTBgT1L/QNmYzZHR+Csl2M1gq7u0Mdhnv
+         y00vMoGNz8lE62efEzfDx0Ylk7s0rtsFyMjAdbiirESpW318hrW2aLAGR6nodn+ANR6F
+         +AzA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=gjTcDMssS6pyQf8XKQ4J7kd/rjxdjsXPIt+uqkYRZO8=;
+        fh=Gmi6GZsnAKYGi8ZNBqMcwIrlyDkF0NLRnka3IiQe3v4=;
+        b=Yz1YJk/Fc33V//ILCVPEkl4MBzjxLDX6bPKL16ywkPVOhfLgpsgMog7WMfAHNvldzf
+         u2vmqg9Fd4bFZJUq9C3lmfsNE7JuG1Dlbd7Og14F261kYPIklrDi00Eh040eGAfUMdef
+         LD/qFaoOgORyco9K2tKfQTNrIkCzBpQObvxifw0GrYXouM4C57SqKYdOswHnq9UmKWga
+         D9zS7HczY4+RZV9pOG2blmFwmTS3UNa1GAWHGLYUm0xEFxs+pDZ+8+23nuvedwL7mzqI
+         qKUkv2LCCQ7nHMDINi9Ii3dJ0JDDqDkuXtFZKPeL3F45M45T0x9FoxQzXHYg1JwHHg7W
+         /IVA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770114023; x=1770718823; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gjTcDMssS6pyQf8XKQ4J7kd/rjxdjsXPIt+uqkYRZO8=;
+        b=IHQWJLGcJqbE5TbUthlxgJQoqd467zxTdbexLgxZZOlA2O/a798YBJPLiRnKMnxb5W
+         3dQx3SYPXMJOAPfxHnREmmvMmd9KDDgZmOSCh/TbfMEaL2Cpv9Qx7Jfu17JPnxg3KvX7
+         dfRjJASQYt++pdol/0FiycE1crkiKblRlS1NPFI2UJmjX4P6AsbGq/oE3BIWPU8B7SNh
+         uA1ArhZLmVrsHwUZpbQvTxyAWDfSUMdRIFPBaGvKo5m/UC0Ipu6LiXOnyHEz3vLrauHX
+         GSDPFvB0ZJHzbIkXSw1T1DofOCiV5p4tb8FpDy4LJ1fHlAdzSNhQiquPRoNIus9LPXKg
+         yUwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770114023; x=1770718823;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=gjTcDMssS6pyQf8XKQ4J7kd/rjxdjsXPIt+uqkYRZO8=;
+        b=YlfYHGRlfqImchsomtFrm/c1gWWwt6oGfloQtlS9yIElH+r5dWghesJqacQCof1oCJ
+         7/tpAtFXsr2hsubl7ZIdyzJ6WMfkyF85xiqMFmxcVg5Lu80TgP2B/5tZjVv3R1hGl67m
+         CNOka/XcmGC6X9VEbAW84Zk2coXth/ApQ7dr6gA7zX90wEky8+rcx9YYxOXa6mFmnHrb
+         eMDShOGImfL8u+LA3ivSqaHZfdydj4ivkKGLwlwjFbe/B4kXNooXNCKhplKfVIABnDhF
+         Izp7WzEjs/+dpvgvfGqRN5i6NNSG1zZUIG/SaYmK4Qvk9bQosM7hWg1muQrdrl100I5D
+         XeNw==
+X-Forwarded-Encrypted: i=1; AJvYcCWl71zBuHPfU2Xh3jApmIEV7ziZclz5gXU2+px+/e933q/vx9p1Ax1/i8jzjS6CDk4glyhRROd/SQ3haBlx@vger.kernel.org
+X-Gm-Message-State: AOJu0YxAPhczcQQ9UybJ6L+1/YD6JXE5OIdNp2wWMx+UjR0LGM+w8+tD
+	T5m3p13FNs/I2GFVe3ye9GtTmXtVGdoQ/jF+UX0GC7B2eEjaInN0xBNJ4YR1iuHNcfNrqAkBUEe
+	aqIxufkp1MK7qBma/8j23w1EVhI4PkMU=
+X-Gm-Gg: AZuq6aIHIKhtJ9feQV7IRVirdimDRDMehedtb/I6vZvtBiZjhJVsJHoFG8w/iSX31T9
+	mxqd88bkQDKIFv9LhHXd08W6TNIRvNV9cE4/pg2RZTQgSkzojir3w8SAcJEfWJAAJFb6AQOkqqb
+	btJH+cv4b9WVfBxfpWrJwrrXy4xTpA4J3p8HlqWsPo1r3ErcubnLJgvhoFjRn0jHw5Ir5b7IUMF
+	lIq2cwIYfRVvVm5LKGvWA8XGQU/zPDdxvfT1JT4D2fcvOAwvtAmaE4soylm5EBUsmNiLZkWnD1P
+	zfRXfSL7BmaOl4OYw/cC44d7XuRUag==
+X-Received: by 2002:a05:6402:42c5:b0:64d:498b:aefd with SMTP id
+ 4fb4d7f45d1cf-658de54f012mr8656942a12.5.1770114023260; Tue, 03 Feb 2026
+ 02:20:23 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aXqx3_eE0rNh6nP0@google.com>
+References: <CAJfpegtzYdy3fGGO5E1MU8n+u1j8WVc2eCoOQD_1qq0UV92wRw@mail.gmail.com>
+ <CAOQ4uxjEdJHjbfCFM364V=tBrEyczYvzo-b-Xo0UPOCA2cnPGQ@mail.gmail.com> <87cy2myvyu.fsf@wotan.olymp>
+In-Reply-To: <87cy2myvyu.fsf@wotan.olymp>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Tue, 3 Feb 2026 11:20:12 +0100
+X-Gm-Features: AZwV_Qg75JZKui3VPxcY59EJLbTYypK2pwBrPu4und1ir7d3h5i87YqZo7ZwE-M
+Message-ID: <CAOQ4uxjKHptXXCJzpwU6jvGKiqTuRBOSesmpzGGUTgcJqW_gbQ@mail.gmail.com>
+Subject: Re: [LSF/MM/BPF TOPIC] Where is fuse going? API cleanup,
+ restructuring and more
+To: Luis Henriques <luis@igalia.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel@vger.kernel.org, 
+	Joanne Koong <joannelkoong@gmail.com>, "Darrick J . Wong" <djwong@kernel.org>, 
+	John Groves <John@groves.net>, Bernd Schubert <bernd@bsbernd.com>, 
+	Horst Birthelmer <horst@birthelmer.de>, lsf-pc <lsf-pc@lists.linux-foundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> +1.  For guest_memfd, we initially defined per-VM memory attributes to track
-> private vs. shared.  But as Ackerley noted, we are in the process of deprecating
-> that support, e.g. by making it incompatible with various guest_memfd features,
-> in favor of having each guest_memfd instance track the state of a given page.
-> 
-> The original guest_memfd design was that it would _only_ hold private pages, and
-> so tracking private vs. shared in guest_memfd didn't make any sense.  As we've
-> pivoted to in-place conversion, tracking private vs. shared in the guest_memfd
-> has basically become mandatory.  We could maaaaaybe make it work with per-VM
-> attributes, but it would be insanely complex.
-> 
-> For a dmabuf fd, the story is the same as guest_memfd.  Unless private vs. shared
-> is all or nothing, and can never change, then the only entity that can track that
-> info is the owner of the dmabuf.  And even if the private vs. shared attributes
-> are constant, tracking it external to KVM makes sense, because then the provider
-> can simply hardcode %true/%false.  
+On Tue, Feb 3, 2026 at 11:15=E2=80=AFAM Luis Henriques <luis@igalia.com> wr=
+ote:
+>
+> On Mon, Feb 02 2026, Amir Goldstein wrote:
+>
+> > [Fixed lsf-pc address typo]
+> >
+> > On Mon, Feb 2, 2026 at 2:51=E2=80=AFPM Miklos Szeredi <miklos@szeredi.h=
+u> wrote:
+> >>
+> >> I propose a session where various topics of interest could be
+> >> discussed including but not limited to the below list
+> >>
+> >> New features being proposed at various stages of readiness:
+> >>
+> >>  - fuse4fs: exporting the iomap interface to userspace
+> >>
+> >>  - famfs: export distributed memory
+> >>
+> >>  - zero copy for fuse-io-uring
+> >>
+> >>  - large folios
+> >>
+> >>  - file handles on the userspace API
+> >>
+> >>  - compound requests
+> >>
+> >>  - BPF scripts
+> >>
+> >> How do these fit into the existing codebase?
+> >>
+> >> Cleaner separation of layers:
+> >>
+> >>  - transport layer: /dev/fuse, io-uring, viriofs
+> >>
+> >>  - filesystem layer: local fs, distributed fs
+> >>
+> >> Introduce new version of cleaned up API?
+> >>
+> >>  - remove async INIT
+> >>
+> >>  - no fixed ROOT_ID
+> >>
+> >>  - consolidate caching rules
+> >>
+> >>  - who's responsible for updating which metadata?
+> >>
+> >>  - remove legacy and problematic flags
+> >>
+> >>  - get rid of splice on /dev/fuse for new API version?
+> >>
+> >> Unresolved issues:
+> >>
+> >>  - locked / writeback folios vs. reclaim / page migration
+> >>
+> >>  - strictlimiting vs. large folios
+> >
+> > All important topics which I am sure will be discussed on a FUSE BoF.
+>
+> I wonder if the topic I proposed separately (on restarting FUSE servers)
+> should also be merged into this list.  It's already a very comprehensive
+> list, so I'm not sure it's worth having a separate topic if most of it
+> will (likely) be touched here already.
+>
+> What do you think?
 
-For CoCo-VM and Tee-IO, I'm wondering if host or KVM has to maintain
-the private/shared attribute for "assigned MMIO". I'm not naming them
-"host MMIO" cause unlike RAM host never needs to access them, either in
-private manner or shared manner.
+We are likely going to do a FUSE BoF, likely Wed afternoon,
+so we can have an internal schedule for that.
 
-Traditionally, host maps these MMIOs only because KVM needs HVA->HPA
-mapping to find pfn and setup KVM MMU. Now we have FD based approach so
-with dmabuf fd, host no longer needs mapping. Does that give confidence
-that KVM only needs to setup MMU for this type of MMIO as private/shared
-according to guest's intension (which is fault->is_private)?
+Restartability and stable FUSE handles is one of the requirements
+to replace an existing fs if that fs is NFS exportrable.
 
-We don't need to track private/shared in VFIO MMIO dmabuf, only to keep
-them unmappable.
-
-> 
-> As for _how_ to do that, no matter where the attributes are stored, we're going
-> to have to teach KVM to play nice with a non-guest_memfd provider of private
-> memory.
-> 
+Thanks,
+Amir.
