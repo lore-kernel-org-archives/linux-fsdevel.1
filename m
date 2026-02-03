@@ -1,96 +1,91 @@
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+Received: from canpmsgout10.his.huawei.com (canpmsgout10.his.huawei.com [113.46.200.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F1DB387378
-	for <linux-fsdevel@vger.kernel.org>; Tue,  3 Feb 2026 13:16:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B99EE3563DD
+	for <linux-fsdevel@vger.kernel.org>; Tue,  3 Feb 2026 13:25:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.225
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770124570; cv=none; b=haul71AN4w7CoHzh5eJcoeQcI96e3ZHBvAzh1nD7+taJoEinQNfd/fzVIinxi6b/uOG6dqs6dT4VGkLeOK2RFaXYNN9rqQFBGPMTZvWeK9EY2EMNgEiotSyrqHTilXjLUUQja9y+eGdm9l/pHthBgUJpY4gvW21II0rukB59/DA=
+	t=1770125116; cv=none; b=ZRPulZNItpS2dLmoTUfOMtUvx2y7aeUAnJT4UzzbXEKu3zgGLxS9m2hZLJMPXmuMZeeOBz60Hx9qFVjMRvhNlYBPq8Z32KQ1HsVnG+0RSUqpJm1sfTOYMJrOJ4nAdCLVqUznP01zOJLUk/IKHnDRiylLKMK2x6DvlHSMOCMvGhg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770124570; c=relaxed/simple;
-	bh=sMfQEJguCKAnQk5xSfZ0yIfIDUjHlxjGVqyJGAOf3a0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eaHt05+hP59lCVCnDmFzgsGtqoXQn/eFm5GPUv9YMt29WFSzLYutl6S72vMHkKcdApOPS9WM79i5wFBfdjJjqQ8or9TlXJejbB6MYBtt/0AJHNMOPaCvUy9MNGkTGeTCUyTMLDZ9FYNMNHyABumDx52lspwLXhl0440R769OgLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=ZdEl5Qkf; arc=none smtp.client-ip=18.9.28.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+	s=arc-20240116; t=1770125116; c=relaxed/simple;
+	bh=DXCJtUUvPDFduMzBV9HR/LzQOQpSZ5MneBFwflO2PuE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=GDJ94ughYorgOHt7VlrQk35w7QnLHm9xUSfPAaemT+mQb5mS9q0OQq4gU98qtdwV7hNyY/4NyM7fosSqC0ncmn4FhYmxEvKpjL5bPIUVWDgBkf+ux3vERZ+6WhGFVFPV0bezO8tJeR9QkwocLKTkZSaUMY3EudX2lTcQ5ltQuqg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=Oo9YRcb6; arc=none smtp.client-ip=113.46.200.225
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="ZdEl5Qkf"
-Received: from macsyma.thunk.org (pool-173-48-121-136.bstnma.fios.verizon.net [173.48.121.136])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 613DF8Lw027441
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 3 Feb 2026 08:15:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1770124511; bh=uZsbPnN7nI84z4y52TbLS2xHivw1HLOsagcDwg+Jtus=;
-	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
-	b=ZdEl5QkfmlBk9CIALn3PkoYKSeJkGXSgJtyI+oS1UcVGOF7Qtzj3BftZztnpTEJES
-	 xNB0XfAUEUqEkmD4EsC2tvTEzUSa68Sv9mzQQsUIMTioxx3cLXdqn8w3yUnqzboW9O
-	 FW2LQo2lGY/A2fUcdV8v3EZCjiul4M+ho53CI3Ib2Ms/SqsxjZ1kzrLDlieaO9EUoA
-	 P6beDo3RqSwyluUtW9/I2bvkV0LNbwWeznDSF15RKtPUAySch67nkdsdVj4OxZ8snv
-	 wI2P9aY+XQeDn86ekhf22+og7hyNfQmMU8dvyTjLXEAxfazQgPVLelyqYwYkqxBBBs
-	 9/37IlG5ZjoZg==
-Received: by macsyma.thunk.org (Postfix, from userid 15806)
-	id 7561D5716867; Tue,  3 Feb 2026 08:14:07 -0500 (EST)
-Date: Tue, 3 Feb 2026 08:14:07 -0500
-From: "Theodore Tso" <tytso@mit.edu>
-To: Zhang Yi <yi.zhang@huaweicloud.com>
-Cc: Christoph Hellwig <hch@infradead.org>, linux-ext4@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        adilger.kernel@dilger.ca, jack@suse.cz, ojaswin@linux.ibm.com,
-        ritesh.list@gmail.com, djwong@kernel.org,
-        Zhang Yi <yi.zhang@huawei.com>, yizhang089@gmail.com,
-        libaokun1@huawei.com, yangerkun@huawei.com,
-        yukuai@alb-78bjiv52429oh8qptp.cn-shenzhen.alb.aliyuncs.com
-Subject: Re: [PATCH -next v2 00/22] ext4: use iomap for regular file's
- buffered I/O path
-Message-ID: <20260203131407.GA27241@macsyma.lan>
-References: <20260203062523.3869120-1-yi.zhang@huawei.com>
- <aYGZB_hugPRXCiSI@infradead.org>
- <77c14b3e-33f9-4a00-83a4-0467f73a7625@huaweicloud.com>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="Oo9YRcb6"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=KhR+Bpome514j0cBz5QBQ56s5G0jRMPbD4FwhFQbBBQ=;
+	b=Oo9YRcb6FPWKkpGcAj7WZmDZ/Bw1+/BmroPRuFLUb71i2HmoklWxmxW83V7OobHRtLUxBux2I
+	ynLsDUBxgrO6R7fOy+DVvwukVBVKYcQQjOO1HY55GsD+BdZOiK2s95x7ZDaHcPYIg/RiqtO1Sqo
+	Mp4ShgQruAdHL53gulsdOj8=
+Received: from mail.maildlp.com (unknown [172.19.163.200])
+	by canpmsgout10.his.huawei.com (SkyGuard) with ESMTPS id 4f53y85dRNz1K96Z;
+	Tue,  3 Feb 2026 21:20:32 +0800 (CST)
+Received: from kwepemr500015.china.huawei.com (unknown [7.202.195.162])
+	by mail.maildlp.com (Postfix) with ESMTPS id 103FE40563;
+	Tue,  3 Feb 2026 21:25:04 +0800 (CST)
+Received: from [10.67.111.104] (10.67.111.104) by
+ kwepemr500015.china.huawei.com (7.202.195.162) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Tue, 3 Feb 2026 21:25:03 +0800
+Message-ID: <71d4c5cc-8830-4a2e-8e7d-349c7f571e2e@huawei.com>
+Date: Tue, 3 Feb 2026 21:25:03 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <77c14b3e-33f9-4a00-83a4-0467f73a7625@huaweicloud.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/1] fs/iomap: Describle @private in iomap_readahead()
+Content-Language: en-US
+To: <brauner@kernel.org>
+CC: <linux-fsdevel@vger.kernel.org>, "Darrick J. Wong" <djwong@kernel.org>,
+	Gao Xiang <hsiangkao@linux.alibaba.com>
+References: <20260126120020.675179-1-lihongbo22@huawei.com>
+ <20260126120020.675179-2-lihongbo22@huawei.com>
+ <4dd236c2-2ada-4d2b-a565-5c94904dcc23@linux.alibaba.com>
+From: Hongbo Li <lihongbo22@huawei.com>
+In-Reply-To: <4dd236c2-2ada-4d2b-a565-5c94904dcc23@linux.alibaba.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
+ kwepemr500015.china.huawei.com (7.202.195.162)
 
-On Tue, Feb 03, 2026 at 05:18:10PM +0800, Zhang Yi wrote:
-> This means that the ordered journal mode is no longer in ext4 used
-> under the iomap infrastructure.  The main reason is that iomap
-> processes each folio one by one during writeback. It first holds the
-> folio lock and then starts a transaction to create the block mapping.
-> If we still use the ordered mode, we need to perform writeback in
-> the logging process, which may require initiating a new transaction,
-> potentially leading to deadlock issues. In addition, ordered journal
-> mode indeed has many synchronization dependencies, which increase
-> the risk of deadlocks, and I believe this is one of the reasons why
-> ext4_do_writepages() is implemented in such a complicated manner.
-> Therefore, I think we need to give up using the ordered data mode.
+Hi Christian,
+
+Sorry to bother you. Have you missed applying this patch? Or need more 
+update.
+
+Thanks,
+Hongbo
+
+On 2026/1/29 17:21, Gao Xiang wrote:
+> Hi Christian,
 > 
-> Currently, there are three scenarios where the ordered mode is used:
-> 1) append write,
-> 2) partial block truncate down, and
-> 3) online defragmentation.
+> On 2026/1/26 20:00, Hongbo Li wrote:
+>> The kernel test rebot reports the kernel-doc warning:
+>>
+>> ```
+>> Warning: fs/iomap/buffered-io.c:624 function parameter 'private'
+>>   not described in 'iomap_readahead'
+>> ```
+>>
+>> The former commit in "iomap: stash iomap read ctx in the private
+>> field of iomap_iter" has added a new parameter @private to
+>> iomap_readahead(), so let's describe the parameter.
+>>
+>> Reported-by: kernel test robot <lkp@intel.com>
+>> Closes: 
+>> https://lore.kernel.org/oe-kbuild-all/202601261111.vIL9rhgD-lkp@intel.com/
+>> Signed-off-by: Hongbo Li <lihongbo22@huawei.com>
 > 
-> For append write, we can always allocate unwritten blocks to avoid
-> using the ordered journal mode.
-
-This is going to be a pretty severe performance regression, since it
-means that we will be doubling the journal load for append writes.
-What we really need to do here is to first write out the data blocks,
-and then only start the transaction handle to modify the data blocks
-*after* the data blocks have been written (to heretofore, unused
-blocks that were just allocated).  It means inverting the order in
-which we write data blocks for the append write case, and in fact it
-will improve fsync() performance since we won't be gating writing the
-commit block on the date blocks getting written out in the append
-write case.
-
-Cheers,
-
-					- Ted
+> Could you apply this single patch kernel-doc fix directly?
+> 
+> Thanks,
+> Gao Xiang
