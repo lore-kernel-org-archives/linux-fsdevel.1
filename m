@@ -1,123 +1,240 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D33973B9605
-	for <linux-fsdevel@vger.kernel.org>; Tue,  3 Feb 2026 15:42:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770133334; cv=none; b=baqQ9RtJbBn81QyXiCFTkqIU4TGmlMDrrLziMExqXxewCZO80s0R7Eo2fBv+w6X1HB5q14saSgiDiRSJHcng2CzUM97Z6J+LiMIghlJJ6YnhEi2ReVARnKZeHqMdtOORwqtMFq5hE9n58Unvd0gYnwPoHLAimhpOMJk5IUuR52g=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770133334; c=relaxed/simple;
-	bh=3m6PM7BiTfYOv0eengmhgqKYzAjLzI/HkhF1VU3RCnE=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=Xn7+syeMDPDpC8SgvCGeqDlFH6BG+z8W/n2JHcB9JsLxdWYsukYDB7J2QrN/Ah6zh/nORxOdOkXIUjqV8tg2OD7H6xROflFOYeW8nNmkQOQWyMeR44ZMe9jdqsSKYbWJDHOQzzCayooYbSb/vsTOzV2YL0fp0tLskmOt1vDKtts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hTiJRmMc; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36FAD3C1976
+	for <linux-fsdevel@vger.kernel.org>; Tue,  3 Feb 2026 16:12:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770135133; cv=pass; b=Yi2bkxV87AcIrKLMfHyPaFyQ50clHGO3PRCLvgJEZ83psvdofWPI5ukRUtMralTMMU0+rTgyskhLwZZKOAe0qmtYRaJ0HceT+GqoKTE2bXlay/64D0ykHCj4bfTKqB+5wT6DVwyJPYLMnTWQWeBRA5XAfDf3EnyfFBlQdYiBhKs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770135133; c=relaxed/simple;
+	bh=A8RN4GDLWQ83r49qq2Mz8+c6CAijfCOfj8JYE67qE84=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eMxkXBweq7qtTlnjSPsKrbgXiPpGHV/vjN+oPuYqL8OKinLU9JBzz0pI7xdZLWGLUtgjHPTQnn8QRVgPbJRCvATtqRBITpN8sfwM3pfkWZEgFWDl73BaH724dZ9qLCW0+CO6Cn9Amka5FmyHZdlXCcQwFkRKhGfZxRPNlKCZQZQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mihalicyn.com; spf=pass smtp.mailfrom=mihalicyn.com; dkim=pass (1024-bit key) header.d=mihalicyn.com header.i=@mihalicyn.com header.b=AxhekHSE; arc=pass smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mihalicyn.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mihalicyn.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hTiJRmMc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94ABFC116D0
-	for <linux-fsdevel@vger.kernel.org>; Tue,  3 Feb 2026 15:42:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770133334;
-	bh=3m6PM7BiTfYOv0eengmhgqKYzAjLzI/HkhF1VU3RCnE=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=hTiJRmMc68PzXZzo3rk5pIHo3FEuKZml110/dH+yBPj9fc/bJN36Dx9Q+o2k479ZA
-	 dbuE9BBrj1WJtd5wyDm7EubV0GqhspK0H9JwezrOEY+9W96fR8Ve1XZ7x45D2CwpCW
-	 4WBJxyYKhJOgv41Vnh6DcAWyinUJ3keH7uYnosdbeW20zi+b/HEsAYWmxGcjKljnFm
-	 pM3lxpzXod3O9rZdGJhCe5IgAzkkSz7SjzygqwolymRxKpaJQlyJtjZz+X4G7MuL/Q
-	 S6hOEHveJVyypTfKLko/waDS3leLV/YHSJ9KQ+Posp3EMsPPcciiNL22fAAPKB0nj4
-	 R7MlqhPT29AdQ==
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 8DC2BF40068;
-	Tue,  3 Feb 2026 10:42:13 -0500 (EST)
-Received: from phl-imap-04 ([10.202.2.82])
-  by phl-compute-02.internal (MEProxy); Tue, 03 Feb 2026 10:42:13 -0500
-X-ME-Sender: <xms:VReCaU0E5VQhxrnNNTWe65aDJ6kepY_g3IIqitt9hes8da2Rt9DnxA>
-    <xme:VReCaZ7W6n-4zRjEx4MHIJnHx9ijV-ZDAlPlowGJ9AEdVDAqJbucbRQmHDCvcE-t9
-    hfCOad93jHYFGVeFai5VWltDxk7_v7MgXM-7FsSnsBxTscmbqNJz04j>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddukedtgeefucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftehnnhgr
-    ucfutghhuhhmrghkvghrfdcuoegrnhhnrgeskhgvrhhnvghlrdhorhhgqeenucggtffrrg
-    htthgvrhhnpeeuudehieehteekfeeuffeugfeihfeugeevfeejveffueehieevjeeggffh
-    jeehkeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
-    eptdenucfrrghrrghmpehmrghilhhfrhhomheprghnnhgrodhmvghsmhhtphgruhhthhhp
-    vghrshhonhgrlhhithihqdduieejjeduvddtjeelqdeffedvvdefgeejuddqrghnnhgrpe
-    epkhgvrhhnvghlrdhorhhgsehnohifhhgvhigtrhgvrghmvghrhidrtghomhdpnhgspghr
-    tghpthhtohepuddtpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegsrhgruhhnvg
-    hrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehjlhgrhihtohhnsehkvghrnhgvlhdr
-    ohhrghdprhgtphhtthhopehsfhhorhhshhgvvgeskhgvrhhnvghlrdhorhhgpdhrtghpth
-    htohepthhrohhnughmhieskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghlvgigrghn
-    uggvrhesmhhihhgrlhhitgihnhdrtghomhdprhgtphhtthhopehjrggtkhesshhushgvrd
-    gtiidprhgtphhtthhopehlihhnuhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhnvghl
-    rdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvg
-    hlrdhorhhgpdhrtghpthhtoheplhhinhhugidqnhhfshesvhhgvghrrdhkvghrnhgvlhdr
-    ohhrgh
-X-ME-Proxy: <xmx:VReCacZSz_jgt5atIJ--lInunwoUf_isHc7F7f0nwjc_cHMfN3ou_A>
-    <xmx:VReCaTT1EC4fWDniDuKQ2Me9lJxiTm4td5OSILSt4XZCAVIQmEkIMQ>
-    <xmx:VReCaT86QM07ak_slf_X29BRCht82VBoicniuk5tFtzsExWl2sh-KQ>
-    <xmx:VReCabjR8il8TUDpKzGbNwkbEdN0pkVzCRh4DKX3zlLl3SA03udurQ>
-    <xmx:VReCacbUv7Kv8kTmg9ART5cfjxcWuMGqbu-x3HKCu88NHSYvThRS6rBg>
-Feedback-ID: i20964851:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 647D0B6006E; Tue,  3 Feb 2026 10:42:13 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (1024-bit key) header.d=mihalicyn.com header.i=@mihalicyn.com header.b="AxhekHSE"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-59ddf02b00aso6190367e87.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 03 Feb 2026 08:12:09 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770135128; cv=none;
+        d=google.com; s=arc-20240605;
+        b=gyevtn8lF5ipKCLTbussFSLJMUhKVz09HWnbTjpUOt9Soy1K5KJ3h+klKTCGNVX6sC
+         UnGmggpEZOvq2jtgzgk8zn12qwl1sBKnBXO7L9V0cxhcOjfUwhxj3VsJWAq2jyDVfjvm
+         ihTX01ufd08j+BDE4ZLpJwhqV/0RjgDRaBJIvkxyrTuu+cd871brK32qOjy4HL7fRx4W
+         G+uAVX7UL1SS3MqWsrMotetItYUex/oEuZuSa3GVe5yENnhIMq0150EXUvJhthapxPP9
+         xdNvxYgZSDM67Le2Qe5aJe77CJbNMz1hFFtaUY4NsX8SRUXMJwyrXHEqX/O7EGOZehe9
+         RV5w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=AQpego8feKFB7r7Kf6rf1Qb5zSTvuesnvWGekYZ4xX4=;
+        fh=Xheh5RQspoWCPAWTZn9If1am+D+3PP0eKVU7CQTs81c=;
+        b=jc9Y6T6Lts2YOI12cxkogf2oh8rO2yI1B5E8J+qNxXD3atoB5LUpNt0Mdp9HUFQWo0
+         1Vo+LMlMtT3swDBjpQR0l0Q9UY4MSyF9YwUM2tc+QseUCaB/M/UEY0ET4dxysDz2FbbS
+         zjXhLROusMEsZKlwJxIRC+wejHLJtfQ4uhuYVF5qWs5GW0xyWQBJ+ZdSa8CuNZfW+Bsj
+         0Z0Hjv/o1Y0cDm7soUF5myYky8fQRZXkf/KQJ7ArGW07U3Wkmxye9ok3RwIHLpnRHTEU
+         QMBes9cB5RtVnnMRqI70dx6SYpQi0jYfy7qHZxHIdO0Ad2U32ea0Tn7fRi3yjQINH6tw
+         T8RQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mihalicyn.com; s=mihalicyn; t=1770135128; x=1770739928; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=AQpego8feKFB7r7Kf6rf1Qb5zSTvuesnvWGekYZ4xX4=;
+        b=AxhekHSELVLKOo3FYHbVT2qZpM6RKlitYeyZqwDwVR/4s7jxrV+h9SiHNbmQdr/3D6
+         57gKBKJZDEj1OEnS0itIagto3vVC6Qq8FlE3V/H0c/elq4YYAb9DZ+I8RXFPmzw7+kDQ
+         G0ZLdoG/KQu28HDJAD8f/BcHB8Uc4mTIhFQ5c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770135128; x=1770739928;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AQpego8feKFB7r7Kf6rf1Qb5zSTvuesnvWGekYZ4xX4=;
+        b=vFlt4eW1yWXJG0TQVv81m+H9xcKTRPKcHU9ifRROb1BcVLs6r+se+ZFl+ARXrSKeLc
+         swezIT/BnjAoMvwcmtjhnKDqSTryLVx3aVYuxbJ080LUg/RaaHwHO7lisffzN8souMRO
+         X4BZt2gVqYTE7PELvpvIpKLGz2FwDY3e0lK5oA6IAPMDU3J4tpWFhsShyetmDH9vDMdD
+         aD6Koi/X2Cd9Jr4BBZSPBdzjD0E0o/2uGfemVIjae6lpfhPQGbETKQwo9XI0PrWMpYF+
+         isju20VfYDOlat0YcxSIYIuqyb9PZWGTaDZHIfrs1KIjqT9SMjvMfjAr3mrujWhdyjAP
+         sIzQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVBLQn2bdT5dywstjO69qgL+rQvm1bMXRe7IyFEbnzqK11rcJSzTsX4rLTy8hsqS16hjmdvg1MyUjUD4Iu0@vger.kernel.org
+X-Gm-Message-State: AOJu0YxTZKfM641/YOOrFFqY6wwI6PRM+yySwnX/JmdcY85OhEWb0ZMm
+	6DP1xYSDYAP6n7sR3+WmQEINGApI8z9wqz4PkyrLUhfTsSZJIYyNtwnhubbDXsx77W9M7fTy5c8
+	LQeQ4fv6fdaPy+9ITEfCw3XEmVdNFx52+ex6jC1Uub1Qju09KNJbWxSQLLPoK
+X-Gm-Gg: AZuq6aJMwR/75aZBezkiIIx6ECi/nFh6VrP11DdE29TYTdr2rQJhRhZF8+Gt3MeUf8e
+	ZWc59PmFtJzB7gw09GForc53/tVnaPidqPlsN/eimYb/9Mzs2cX3d6YurhGYMo9v2t05a6DPXNb
+	tOhqgSjpmbFUVTzm78PSoTjnoDQqXmZ+QGcp8ssvH1yOFKu2i80CZhmR2no8LnwfwZAXYUlQyyN
+	satM/pLzChrxQiBE44FhoOSbid80cPVkYaA41IqO1L12rGgqp9yPQCKi6I8p8czdiekXg==
+X-Received: by 2002:a05:6512:361a:b0:59e:174e:fce0 with SMTP id
+ 2adb3069b0e04-59e174efd13mr3804850e87.42.1770135127877; Tue, 03 Feb 2026
+ 08:12:07 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: AQ5zJGJASj87
-Date: Tue, 03 Feb 2026 10:41:52 -0500
-From: "Anna Schumaker" <anna@kernel.org>
-To: "Christian Brauner" <brauner@kernel.org>,
- "Jeff Layton" <jlayton@kernel.org>
-Cc: linux-nfs@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, "Trond Myklebust" <trondmy@kernel.org>,
- "Alexander Viro" <viro@zeniv.linux.org.uk>, "Jan Kara" <jack@suse.cz>,
- "Seth Forshee (DigitalOcean)" <sforshee@kernel.org>,
- "Alexander Mikhalitsyn" <alexander@mihalicyn.com>
-Message-Id: <b9e9b0dd-745b-46fb-9e62-807d53dd417c@app.fastmail.com>
-In-Reply-To: <20260203-leimen-kundgeben-7be98e9cd156@brauner>
 References: <20260129-twmount-v1-1-4874ed2a15c4@kernel.org>
- <20260203-leimen-kundgeben-7be98e9cd156@brauner>
+In-Reply-To: <20260129-twmount-v1-1-4874ed2a15c4@kernel.org>
+From: Alexander Mikhalitsyn <alexander@mihalicyn.com>
+Date: Tue, 3 Feb 2026 17:11:55 +0100
+X-Gm-Features: AZwV_Qh3STuAfXyfImYoG9ogVPD44LxztQyiZo154t6EomlvRura8CdCgjeoM8I
+Message-ID: <CAJqdLrphO1GnAZ2=n8wQAP7B+ZwFnD0wSLY7sAjacZTpLZrqBg@mail.gmail.com>
 Subject: Re: [PATCH] vfs: add FS_USERNS_DELEGATABLE flag and set it for NFS
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	"Seth Forshee (DigitalOcean)" <sforshee@kernel.org>, linux-nfs@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
+Am Do., 29. Jan. 2026 um 22:48 Uhr schrieb Jeff Layton <jlayton@kernel.org>:
+>
+> Commit e1c5ae59c0f2 ("fs: don't allow non-init s_user_ns for filesystems
+> without FS_USERNS_MOUNT") prevents the mount of any filesystem inside a
+> container that doesn't have FS_USERNS_MOUNT set.
+>
 
+Hi Jeff,
 
-On Tue, Feb 3, 2026, at 10:08 AM, Christian Brauner wrote:
-> On Thu, 29 Jan 2026 16:47:43 -0500, Jeff Layton wrote:
->> Commit e1c5ae59c0f2 ("fs: don't allow non-init s_user_ns for filesystems
->> without FS_USERNS_MOUNT") prevents the mount of any filesystem inside a
->> container that doesn't have FS_USERNS_MOUNT set.
->> 
->> This broke NFS mounts in our containerized environment. We have a daemon
->> somewhat like systemd-mountfsd running in the init_ns. A process does a
->> fsopen() inside the container and passes it to the daemon via unix
->> socket.
->> 
->> [...]
+> This broke NFS mounts in our containerized environment. We have a daemon
+> somewhat like systemd-mountfsd running in the init_ns. A process does a
+> fsopen() inside the container and passes it to the daemon via unix
+> socket.
 >
-> Applied to the vfs-7.0.misc branch of the vfs/vfs.git tree.
-> Patches in the vfs-7.0.misc branch should appear in linux-next soon.
+> The daemon then vets that the request is for an allowed NFS server and
+> performs the mount. This now fails because the fc->user_ns is set to the
+> value in the container and NFS doesn't set FS_USERNS_MOUNT.  We don't
+> want to add FS_USERNS_MOUNT to NFS since that would allow the container
+> to mount any NFS server (even malicious ones).
 >
-> Please report any outstanding bugs that were missed during review in a
-> new review to the original patch series allowing us to drop it.
->
-> It's encouraged to provide Acked-bys and Reviewed-bys even though the
-> patch has now been applied. If possible patch trailers will be updated.
+> Add a new FS_USERNS_DELEGATABLE flag, and enable it on NFS.
 
-Acked-by: Anna Schumaker <anna.schumaker@oracle.com>
+Great idea, very similar to what we have with BPFFS/BPF Tokens.
+
+Taking into account this patch, shouldn't we drop FS_USERNS_MOUNT and
+replace it with
+FS_USERNS_DELEGATABLE for bpffs too?
+
+I mean something like:
+
+======================
+$ git diff
+diff --git a/kernel/bpf/inode.c b/kernel/bpf/inode.c
+index 9f866a010dad..d8dfdc846bd0 100644
+--- a/kernel/bpf/inode.c
++++ b/kernel/bpf/inode.c
+@@ -1009,10 +1009,6 @@ static int bpf_fill_super(struct super_block
+*sb, struct fs_context *fc)
+        struct inode *inode;
+        int ret;
+
+-       /* Mounting an instance of BPF FS requires privileges */
+-       if (fc->user_ns != &init_user_ns && !capable(CAP_SYS_ADMIN))
+-               return -EPERM;
+-
+        ret = simple_fill_super(sb, BPF_FS_MAGIC, bpf_rfiles);
+        if (ret)
+                return ret;
+@@ -1085,7 +1081,7 @@ static struct file_system_type bpf_fs_type = {
+        .init_fs_context = bpf_init_fs_context,
+        .parameters     = bpf_fs_parameters,
+        .kill_sb        = bpf_kill_super,
+-       .fs_flags       = FS_USERNS_MOUNT,
++       .fs_flags       = FS_USERNS_DELEGATABLE,
+ };
+
+ static int __init bpf_init(void)
+======================
+
+Because it feels like we were basically implementing this FS_USERNS_DELEGATABLE
+flag implicitly for BPFFS before. I can submit a patch for BPFFS later
+after testing.
 
 >
-> Note that commit hashes shown below are subject to change due to rebase,
-> trailer updates or similar. If in doubt, please check the listed branch.
+> Fixes: e1c5ae59c0f2 ("fs: don't allow non-init s_user_ns for filesystems without FS_USERNS_MOUNT")
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+
+Reviewed-by: Alexander Mikhalitsyn <aleksandr.mikhalitsyn@futurfusion.io>
+
+Kind regards,
+Alex
+
+> ---
+>  fs/nfs/fs_context.c |  8 ++++++--
+>  fs/super.c          | 11 ++++++-----
+>  include/linux/fs.h  |  1 +
+>  3 files changed, 13 insertions(+), 7 deletions(-)
 >
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-> branch: vfs-7.0.misc
+> diff --git a/fs/nfs/fs_context.c b/fs/nfs/fs_context.c
+> index b4679b7161b0968810e13f57c889052ea015bf56..128ebd48b4f4ba1c17e8b5b1b9dcefbd7a97db1a 100644
+> --- a/fs/nfs/fs_context.c
+> +++ b/fs/nfs/fs_context.c
+> @@ -1768,7 +1768,9 @@ struct file_system_type nfs_fs_type = {
+>         .init_fs_context        = nfs_init_fs_context,
+>         .parameters             = nfs_fs_parameters,
+>         .kill_sb                = nfs_kill_super,
+> -       .fs_flags               = FS_RENAME_DOES_D_MOVE|FS_BINARY_MOUNTDATA,
+> +       .fs_flags               = FS_RENAME_DOES_D_MOVE |
+> +                                 FS_BINARY_MOUNTDATA   |
+> +                                 FS_USERNS_DELEGATABLE,
+>  };
+>  MODULE_ALIAS_FS("nfs");
+>  EXPORT_SYMBOL_GPL(nfs_fs_type);
+> @@ -1780,7 +1782,9 @@ struct file_system_type nfs4_fs_type = {
+>         .init_fs_context        = nfs_init_fs_context,
+>         .parameters             = nfs_fs_parameters,
+>         .kill_sb                = nfs_kill_super,
+> -       .fs_flags               = FS_RENAME_DOES_D_MOVE|FS_BINARY_MOUNTDATA,
+> +       .fs_flags               = FS_RENAME_DOES_D_MOVE |
+> +                                 FS_BINARY_MOUNTDATA   |
+> +                                 FS_USERNS_DELEGATABLE,
+>  };
+>  MODULE_ALIAS_FS("nfs4");
+>  MODULE_ALIAS("nfs4");
+> diff --git a/fs/super.c b/fs/super.c
+> index 3d85265d14001d51524dbaec0778af8f12c048ac..b7f1bb2b679b43261fbdcd586971c551b85e8372 100644
+> --- a/fs/super.c
+> +++ b/fs/super.c
+> @@ -738,12 +738,13 @@ struct super_block *sget_fc(struct fs_context *fc,
+>         int err;
 >
-> [1/1] vfs: add FS_USERNS_DELEGATABLE flag and set it for NFS
->       https://git.kernel.org/vfs/vfs/c/269c46e936f3
+>         /*
+> -        * Never allow s_user_ns != &init_user_ns when FS_USERNS_MOUNT is
+> -        * not set, as the filesystem is likely unprepared to handle it.
+> -        * This can happen when fsconfig() is called from init_user_ns with
+> -        * an fs_fd opened in another user namespace.
+> +        * Never allow s_user_ns != &init_user_ns when FS_USERNS_MOUNT or
+> +        * FS_USERNS_DELEGATABLE is not set, as the filesystem is likely
+> +        * unprepared to handle it. This can happen when fsconfig() is called
+> +        * from init_user_ns with an fs_fd opened in another user namespace.
+>          */
+> -       if (user_ns != &init_user_ns && !(fc->fs_type->fs_flags & FS_USERNS_MOUNT)) {
+> +       if (user_ns != &init_user_ns &&
+> +           !(fc->fs_type->fs_flags & (FS_USERNS_MOUNT | FS_USERNS_DELEGATABLE))) {
+>                 errorfc(fc, "VFS: Mounting from non-initial user namespace is not allowed");
+>                 return ERR_PTR(-EPERM);
+>         }
+> diff --git a/include/linux/fs.h b/include/linux/fs.h
+> index a01621fa636a60764e1dfe83f2260caf50c4037e..94695ce5e25b5fbe4f321d5478172b8cb24e00d1 100644
+> --- a/include/linux/fs.h
+> +++ b/include/linux/fs.h
+> @@ -2273,6 +2273,7 @@ struct file_system_type {
+>  #define FS_MGTIME              64      /* FS uses multigrain timestamps */
+>  #define FS_LBS                 128     /* FS supports LBS */
+>  #define FS_POWER_FREEZE                256     /* Always freeze on suspend/hibernate */
+> +#define FS_USERNS_DELEGATABLE  512     /* Can be mounted inside userns from outside */
+>  #define FS_RENAME_DOES_D_MOVE  32768   /* FS will handle d_move() during rename() internally. */
+>         int (*init_fs_context)(struct fs_context *);
+>         const struct fs_parameter_spec *parameters;
+>
+> ---
+> base-commit: 8dfce8991b95d8625d0a1d2896e42f93b9d7f68d
+> change-id: 20260129-twmount-114ddfd43420
+>
+> Best regards,
+> --
+> Jeff Layton <jlayton@kernel.org>
+>
