@@ -1,80 +1,80 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F94E304BB4
-	for <linux-fsdevel@vger.kernel.org>; Tue,  3 Feb 2026 10:20:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1014284B36
+	for <linux-fsdevel@vger.kernel.org>; Tue,  3 Feb 2026 10:31:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.50
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770114026; cv=pass; b=bif+v5fmE5ILBY4H3X70ZZgtDujYelPnPmAj/T8KVYeofCj14ACR5vNAFUUKHjpqxbTUYSvicbhU92NVbZySvenQ9QjmoNNDlRyrdwjmk1mXg4CaqrAQcTTMGkBosA+RDlGpt/eF32MoQFEpotwRrY2pvKsEXWoAJjkEbVpJ+VM=
+	t=1770114699; cv=pass; b=VmRF777tgSvQo4wUmQpJd/R6Kv+SiCYpNqtcGiCq8FCuhubTVUYbGzd2PsJZ/9hdNcqP3nuYDFqnMv+AULgRakPPuQtSTxDVxnUzwmSrsf8JfHw5GPhbBboDgAwM88wB6RjlFVRgl0nRB6yrRd+ghEHH0jXl9vPJYe83ewdzi/c=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770114026; c=relaxed/simple;
-	bh=sVM0+hEP4PdpJC59WffH3ZxbPipWAX0zZaMuRpIJiF4=;
+	s=arc-20240116; t=1770114699; c=relaxed/simple;
+	bh=K7jq4EaD90X1uHETjVXhWkG5auNLrek4XJv/dAqIOMk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=G5/OHClSGuZAYvIMQiuGIUuuZKUzfsQGEs61Pbo/i1oo/5ZNaab/HVQG5ZcAR+x43VUT1I3HrtXPHqd/Uqln/nxMMTpRbwNpIdf2Z8YUffxBMxl5kkNrx1Ek7akUbIHCUd3Jfb0TdCGcARyhC+yHZc59fD/IztLd+ZfiM6+j8Kk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IHQWJLGc; arc=pass smtp.client-ip=209.85.208.54
+	 To:Cc:Content-Type; b=ggjZkm+avWXN36ZhfTPFsyDCbz2K1ZgBx+gyj89cWhF6uV057ISqN18bngbLuf+tnC6GfB/3xP11qH0b7J6Txr1e1FnN1H4EXgXP9SBZH6bfYCl6lYTQ9+QRpqIcJ8Gn+gTA+eakNw326kXFuT19xg6WwGTHrsX+UvhZMYtI1ig=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WOwYUfLL; arc=pass smtp.client-ip=209.85.208.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IHQWJLGc"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-65941c07fb4so229147a12.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 03 Feb 2026 02:20:25 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770114023; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WOwYUfLL"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-659378d356cso1215315a12.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 03 Feb 2026 02:31:37 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770114696; cv=none;
         d=google.com; s=arc-20240605;
-        b=EhUN6iGEgnXy1spcHsUVE+gY468VOFytGyntaXoDT4LDUcZ6TfGoDYbZv4u+lVieQ7
-         vyNP0aCv+tkDQg36KlZFvg3e/UTWC3692Wgu3xXmKPs26sI+Yx92l5WBSbKUFIZ3GgkO
-         Hl0zqR0jbW/jD7r4ZziigBh5Ioiq3IrVUnYErnCghHSms4GiWmnmZOlA2ULeo7/qnxq3
-         B9v2FY5ua9Ln842GdzKlvSTljr0M1AQhYEybTBgT1L/QNmYzZHR+Csl2M1gq7u0Mdhnv
-         y00vMoGNz8lE62efEzfDx0Ylk7s0rtsFyMjAdbiirESpW318hrW2aLAGR6nodn+ANR6F
-         +AzA==
+        b=FrMGK1S/YLqsO5cJ0I2G3Jpl4VsN2zjyT5091aP/M2H6wnQATSxs6trgPGXYcj+5fs
+         /W3YVUsI+2INxGup2LUFAErZPPVFmHuv7OJjoiDHKnOOnT9RzcAfCye8AhGBWe7/otnd
+         joXgn0+q7s5REi+jH1QqKRSkVJStkQPcnTyjcMU3t5HWyhDhG3VIZ7rDpQDEH51KjL6J
+         udDflvu0mVaNYwCvRIbEGDbH7VcIRlNidT/b29aw8tw/OJkumRUjxQSRlMzbPcDdocDl
+         Pf3kb1AphIb7dYDhD0/CYFbgLczdDAnS295rIXiJjBlkXf0U7CCWkuQFVdKSBQ320VRW
+         6Q1g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=gjTcDMssS6pyQf8XKQ4J7kd/rjxdjsXPIt+uqkYRZO8=;
-        fh=Gmi6GZsnAKYGi8ZNBqMcwIrlyDkF0NLRnka3IiQe3v4=;
-        b=Yz1YJk/Fc33V//ILCVPEkl4MBzjxLDX6bPKL16ywkPVOhfLgpsgMog7WMfAHNvldzf
-         u2vmqg9Fd4bFZJUq9C3lmfsNE7JuG1Dlbd7Og14F261kYPIklrDi00Eh040eGAfUMdef
-         LD/qFaoOgORyco9K2tKfQTNrIkCzBpQObvxifw0GrYXouM4C57SqKYdOswHnq9UmKWga
-         D9zS7HczY4+RZV9pOG2blmFwmTS3UNa1GAWHGLYUm0xEFxs+pDZ+8+23nuvedwL7mzqI
-         qKUkv2LCCQ7nHMDINi9Ii3dJ0JDDqDkuXtFZKPeL3F45M45T0x9FoxQzXHYg1JwHHg7W
-         /IVA==;
+        bh=obbvX9n00m2h9S7I0bcHUF5zApc7cQXFXNL1aTznmR4=;
+        fh=YHyt7l/ST8wgX9s0Bq7p/EVT0u1xmdqvWHt+JJG8XqM=;
+        b=hiY6NiC7KQRZjOnNcXl52EqU1SE/bWLRWbhId1DTWd44IPwpGzYqd0VTNvt46jDhz3
+         Qyn5tYWvk+kSGnSeJcI+l+jPO2rCYf9BsNBeVbuv8V7tuYdFWG08ACwByw6U5EO/LKB9
+         bgnN8uA1jtWcgNJsHO0ABWoqAnboPv2DBMoPmdjrsU7XERPhMS9xc3Qc3Rj8t7tvEsQY
+         gCjYfaUhDF4J9ts13J+whhVVfLGVe5v8oeuoPu8AXo9XtX25OZewjbeNuPhHHbArAcDs
+         bzVIxqbZuBqV3XGlH8Z6baxc278hHTYCTRQXuHVnNYEsX9YcF7hoQgxGRrR4yCw0eYev
+         JqyQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770114023; x=1770718823; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1770114696; x=1770719496; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gjTcDMssS6pyQf8XKQ4J7kd/rjxdjsXPIt+uqkYRZO8=;
-        b=IHQWJLGcJqbE5TbUthlxgJQoqd467zxTdbexLgxZZOlA2O/a798YBJPLiRnKMnxb5W
-         3dQx3SYPXMJOAPfxHnREmmvMmd9KDDgZmOSCh/TbfMEaL2Cpv9Qx7Jfu17JPnxg3KvX7
-         dfRjJASQYt++pdol/0FiycE1crkiKblRlS1NPFI2UJmjX4P6AsbGq/oE3BIWPU8B7SNh
-         uA1ArhZLmVrsHwUZpbQvTxyAWDfSUMdRIFPBaGvKo5m/UC0Ipu6LiXOnyHEz3vLrauHX
-         GSDPFvB0ZJHzbIkXSw1T1DofOCiV5p4tb8FpDy4LJ1fHlAdzSNhQiquPRoNIus9LPXKg
-         yUwA==
+        bh=obbvX9n00m2h9S7I0bcHUF5zApc7cQXFXNL1aTznmR4=;
+        b=WOwYUfLLYa/29D4FdZrA+v+7H2TtdyKMemPqbf4UIJHgwzLYmdQrJzVR6zJMEwhY0r
+         WRlRMWzN5YiT2Y1DsvkOkD7ANpaa45nTNNzvyKM7R6GO5yyJxS+v798j+oFfMhU72GNo
+         IXdB6t0yfHS7MurRUjNChJ3RTMAZX9kBwNaEd5KKoy++SuzHx026+W6BMfDNCbwexE6M
+         09JKKwk/+8R2tzk5kMLZBi5nkS126LKQrls6aC41y00NFatgfdVNxkXmUyFSNiABDZAA
+         6vJCaLBqvcGO6qMwB297v2eVYlmsjn+d04AUqm5vppQc/1OoT3oIIe8UlO3sPo0axodK
+         FeyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770114023; x=1770718823;
+        d=1e100.net; s=20230601; t=1770114696; x=1770719496;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=gjTcDMssS6pyQf8XKQ4J7kd/rjxdjsXPIt+uqkYRZO8=;
-        b=YlfYHGRlfqImchsomtFrm/c1gWWwt6oGfloQtlS9yIElH+r5dWghesJqacQCof1oCJ
-         7/tpAtFXsr2hsubl7ZIdyzJ6WMfkyF85xiqMFmxcVg5Lu80TgP2B/5tZjVv3R1hGl67m
-         CNOka/XcmGC6X9VEbAW84Zk2coXth/ApQ7dr6gA7zX90wEky8+rcx9YYxOXa6mFmnHrb
-         eMDShOGImfL8u+LA3ivSqaHZfdydj4ivkKGLwlwjFbe/B4kXNooXNCKhplKfVIABnDhF
-         Izp7WzEjs/+dpvgvfGqRN5i6NNSG1zZUIG/SaYmK4Qvk9bQosM7hWg1muQrdrl100I5D
-         XeNw==
-X-Forwarded-Encrypted: i=1; AJvYcCWl71zBuHPfU2Xh3jApmIEV7ziZclz5gXU2+px+/e933q/vx9p1Ax1/i8jzjS6CDk4glyhRROd/SQ3haBlx@vger.kernel.org
-X-Gm-Message-State: AOJu0YxAPhczcQQ9UybJ6L+1/YD6JXE5OIdNp2wWMx+UjR0LGM+w8+tD
-	T5m3p13FNs/I2GFVe3ye9GtTmXtVGdoQ/jF+UX0GC7B2eEjaInN0xBNJ4YR1iuHNcfNrqAkBUEe
-	aqIxufkp1MK7qBma/8j23w1EVhI4PkMU=
-X-Gm-Gg: AZuq6aIHIKhtJ9feQV7IRVirdimDRDMehedtb/I6vZvtBiZjhJVsJHoFG8w/iSX31T9
-	mxqd88bkQDKIFv9LhHXd08W6TNIRvNV9cE4/pg2RZTQgSkzojir3w8SAcJEfWJAAJFb6AQOkqqb
-	btJH+cv4b9WVfBxfpWrJwrrXy4xTpA4J3p8HlqWsPo1r3ErcubnLJgvhoFjRn0jHw5Ir5b7IUMF
-	lIq2cwIYfRVvVm5LKGvWA8XGQU/zPDdxvfT1JT4D2fcvOAwvtAmaE4soylm5EBUsmNiLZkWnD1P
-	zfRXfSL7BmaOl4OYw/cC44d7XuRUag==
-X-Received: by 2002:a05:6402:42c5:b0:64d:498b:aefd with SMTP id
- 4fb4d7f45d1cf-658de54f012mr8656942a12.5.1770114023260; Tue, 03 Feb 2026
- 02:20:23 -0800 (PST)
+        bh=obbvX9n00m2h9S7I0bcHUF5zApc7cQXFXNL1aTznmR4=;
+        b=nO+VLRF8rS6YDMtL0XFQNj1lTuRyJvSn4ZF7DTYxCl6IxsxdKnpjQb1wQzGZAZDHnN
+         KZjGwkzpStQQYoa4nKYnT/mGhjWVPusb7K5xdtvhsJou24PPTSQEY2Cd0oplvgRRcqvX
+         rJ5q8vhq/KxLu5K4KuIV709ia5Rqbi+LHH8He84u/lh690Yx03jFClVjNI2KYjeiKylj
+         HBxYAGUK6p+xk6Ahtidn+uDoQvJZbzjmNpzMwPdldb7iw/LeqpNPhUsldcRqroapzOdn
+         t4GvjaXtz5f0Uo6lYmmJ8WbbMhwvmfJrH52y1knPnY6dT6LswKnIZkGztPcSz/HP1de/
+         dsRQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWCCUQk1UsBjTZVLvB0Uye6mRmdCL1eNqC9QSXpUXzkH5yTofnj10hU3oCVcRRYk+B/bOje2xlp1+0BpoQy@vger.kernel.org
+X-Gm-Message-State: AOJu0YyZqm5GDy7LLOOlOd/ev2eI2CSzrJIvMnteZsRKrcnXvZY5vlVS
+	eNe7UxCy6LAZTu9zKDQILmhNRGLzvMLIuBJKBz25/zerloKwM113khC/4Bpl3RXRbyZ2+WvRRb2
+	+uX5U6hv18rXXV3uyOIt8112k3QzDlsk=
+X-Gm-Gg: AZuq6aJfZPsUpYohyCPponpIFuURh8l5nmxPRvuYavM0/bxH1INQBTyZowRKuNKFF1T
+	vvb3icf2QaadkAdyppNTrDA2e1XH4E1RuHG6KoG8gBl7iaJOinuafbb9O1UtsXRA3JL+gS2tEG7
+	oR5cBqlWKOkXuDFGpPW46t8fLZUUkm209X40NW9YQSyqtHVhe0v3Y6TCna2oxGRWW72MQE83VEl
+	7VpxSLwbG5j4U6xzCTpzn9BXvJ2MeBN8yGbq6hY1CnPpvh97TrV9pnZPxBCh3lrdjOf5thvITka
+	zirIbFb8Z8aAWK23+uturR9FtmCCWQ==
+X-Received: by 2002:a05:6402:3487:b0:658:b8f4:549e with SMTP id
+ 4fb4d7f45d1cf-658de58b4cfmr8463129a12.19.1770114696198; Tue, 03 Feb 2026
+ 02:31:36 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -82,93 +82,76 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <CAJfpegtzYdy3fGGO5E1MU8n+u1j8WVc2eCoOQD_1qq0UV92wRw@mail.gmail.com>
- <CAOQ4uxjEdJHjbfCFM364V=tBrEyczYvzo-b-Xo0UPOCA2cnPGQ@mail.gmail.com> <87cy2myvyu.fsf@wotan.olymp>
-In-Reply-To: <87cy2myvyu.fsf@wotan.olymp>
+ <CAOQ4uxjEdJHjbfCFM364V=tBrEyczYvzo-b-Xo0UPOCA2cnPGQ@mail.gmail.com>
+ <CAJfpegvg=hqM1vMCyrb61VT6uA+4gdGwvqHe5Djg2RF+DTUMiw@mail.gmail.com> <janl2lzct3nz5zlbhlzaasfi7juy3qvajd2jd53qdcb23dbprd@hignhm2ig7s4>
+In-Reply-To: <janl2lzct3nz5zlbhlzaasfi7juy3qvajd2jd53qdcb23dbprd@hignhm2ig7s4>
 From: Amir Goldstein <amir73il@gmail.com>
-Date: Tue, 3 Feb 2026 11:20:12 +0100
-X-Gm-Features: AZwV_Qg75JZKui3VPxcY59EJLbTYypK2pwBrPu4und1ir7d3h5i87YqZo7ZwE-M
-Message-ID: <CAOQ4uxjKHptXXCJzpwU6jvGKiqTuRBOSesmpzGGUTgcJqW_gbQ@mail.gmail.com>
-Subject: Re: [LSF/MM/BPF TOPIC] Where is fuse going? API cleanup,
+Date: Tue, 3 Feb 2026 11:31:24 +0100
+X-Gm-Features: AZwV_Qh3QERn6T932vy8F4OKmRk0FlXuKYuYbwdjOJ-VppBOiyiOk_uwvv1AB5U
+Message-ID: <CAOQ4uxgpmJOadVOD4hGkeYFzbinmfLvReNndhzcM4WA4LjAoqQ@mail.gmail.com>
+Subject: Re: [Lsf-pc] [LSF/MM/BPF TOPIC] Where is fuse going? API cleanup,
  restructuring and more
-To: Luis Henriques <luis@igalia.com>
+To: Jan Kara <jack@suse.cz>
 Cc: Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel@vger.kernel.org, 
 	Joanne Koong <joannelkoong@gmail.com>, "Darrick J . Wong" <djwong@kernel.org>, 
-	John Groves <John@groves.net>, Bernd Schubert <bernd@bsbernd.com>, 
+	John Groves <John@groves.net>, Bernd Schubert <bernd@bsbernd.com>, Luis Henriques <luis@igalia.com>, 
 	Horst Birthelmer <horst@birthelmer.de>, lsf-pc <lsf-pc@lists.linux-foundation.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 3, 2026 at 11:15=E2=80=AFAM Luis Henriques <luis@igalia.com> wr=
-ote:
+On Tue, Feb 3, 2026 at 10:19=E2=80=AFAM Jan Kara <jack@suse.cz> wrote:
 >
-> On Mon, Feb 02 2026, Amir Goldstein wrote:
->
-> > [Fixed lsf-pc address typo]
+> On Tue 03-02-26 08:55:26, Miklos Szeredi via Lsf-pc wrote:
+> > On Mon, 2 Feb 2026 at 17:14, Amir Goldstein <amir73il@gmail.com> wrote:
+> > > I think that at least one question of interest to the wider fs audien=
+ce is
+> > >
+> > > Can any of the above improvements be used to help phase out some
+> > > of the old under maintained fs and reduce the burden on vfs maintaine=
+rs?
 > >
-> > On Mon, Feb 2, 2026 at 2:51=E2=80=AFPM Miklos Szeredi <miklos@szeredi.h=
-u> wrote:
-> >>
-> >> I propose a session where various topics of interest could be
-> >> discussed including but not limited to the below list
-> >>
-> >> New features being proposed at various stages of readiness:
-> >>
-> >>  - fuse4fs: exporting the iomap interface to userspace
-> >>
-> >>  - famfs: export distributed memory
-> >>
-> >>  - zero copy for fuse-io-uring
-> >>
-> >>  - large folios
-> >>
-> >>  - file handles on the userspace API
-> >>
-> >>  - compound requests
-> >>
-> >>  - BPF scripts
-> >>
-> >> How do these fit into the existing codebase?
-> >>
-> >> Cleaner separation of layers:
-> >>
-> >>  - transport layer: /dev/fuse, io-uring, viriofs
-> >>
-> >>  - filesystem layer: local fs, distributed fs
-> >>
-> >> Introduce new version of cleaned up API?
-> >>
-> >>  - remove async INIT
-> >>
-> >>  - no fixed ROOT_ID
-> >>
-> >>  - consolidate caching rules
-> >>
-> >>  - who's responsible for updating which metadata?
-> >>
-> >>  - remove legacy and problematic flags
-> >>
-> >>  - get rid of splice on /dev/fuse for new API version?
-> >>
-> >> Unresolved issues:
-> >>
-> >>  - locked / writeback folios vs. reclaim / page migration
-> >>
-> >>  - strictlimiting vs. large folios
-> >
-> > All important topics which I am sure will be discussed on a FUSE BoF.
+> > I think the major show stopper is that nobody is going to put a major
+> > effort into porting unmaintained kernel filesystems to a different
+> > framework.
 >
-> I wonder if the topic I proposed separately (on restarting FUSE servers)
-> should also be merged into this list.  It's already a very comprehensive
-> list, so I'm not sure it's worth having a separate topic if most of it
-> will (likely) be touched here already.
+> There's some interest from people doing vfs maintenance work (as it has
+> potential to save their work) and it is actually a reasonable task for
+> someone wanting to get acquainted with filesystem development work. So I
+> think there are chances of some progress. For example there was some
+> interest in doing this for minix. Of course we'll be sure only when it
+> happens :)
 >
-> What do you think?
+> > Alternatively someone could implement a "VFS emulator" library.  But
+> > keeping that in sync with the kernel, together with all the old fs
+> > would be an even greater burden...
+>
+> Full VFS emulator would be too much I think. Maybe some helper library to
+> ease some tasks would be useful but I think time for comming up with
+> libraries is when someone commits to actually doing some conversion.
+>
 
-We are likely going to do a FUSE BoF, likely Wed afternoon,
-so we can have an internal schedule for that.
+I think that the concept of a VFS emulator is wrong to apply here.
+A VFS emulator would be needed for running the latest uptodate fs driver.
 
-Restartability and stable FUSE handles is one of the requirements
-to replace an existing fs if that fs is NFS exportrable.
+If we want to fork a kernel driver at a point in time and make it into
+a FUSE server,
+we need a one time conversion from kernel/vfs API to
+userspace/lowlevel FUSE API.
+LLMs are very good and doing this sort of mechanic conversion and
+after the first
+few fs have been converted by developers, LLM would learn how to do it bett=
+er
+for the next fs.
+
+The main challenges I see are verification and package maintenance.
+The conversion needs to be tested, so there needs to be a decent
+test suite.
+If an fs already has a progs/utils package, it would be natural if FUSE
+server code could be added to this package, but those packages are not
+always maintained.
+
+We can map the most likely candidates that have decent test suites and
+a fairly maintained utils package for a start.
 
 Thanks,
 Amir.
