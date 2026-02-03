@@ -1,35 +1,35 @@
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 475EB271464;
-	Tue,  3 Feb 2026 05:36:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68F0C3570CC;
+	Tue,  3 Feb 2026 05:38:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770096971; cv=none; b=m3hqk3eh/ZWYwjrIDIYgiNVdir7TpF4hjM+RrgRW5AHAi58ii/T43sQEkYX9nENSxvQbzWOr3IpdQIdBrgNAz1ET3Zil9OowAouJasRIRRyTZIYRxkd0ENCnPAVz6z+KdQ1yFSD3XTh1Xi6Pdwa4Kty3AiFCKbNSIgAnQ/9nVTQ=
+	t=1770097091; cv=none; b=MycMWEGcsn5B2S1RSbS3vF09uoNLl9VsS4u3h8XnjkzVdh9pQqGTGix9lJRTT2EXViVEH+ERz5WzskZnS2iAlx41tBavDovklZHn3cZ5vn7klRG1t2ZtCfE/oSobNOeoyZBTNyCm+0aeK/Pf9S/RlpEFZxLrq62f6KSSBbxC+7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770096971; c=relaxed/simple;
-	bh=cC/qk4dm1B5K6YpfaVGKmBECm1eO3/9Kot5iyWUeUr4=;
+	s=arc-20240116; t=1770097091; c=relaxed/simple;
+	bh=NKzpR3GFmqOh+Kv6INipr2JnSV+K2dFiZWMcX5Gc6gE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IL70yqCP0tQFdib4rl8vG9EZNAcKyvMjW/WUuakCOxXL1fKcL+xN1EIgwM11gS0M1ZXrCaVxHPA9WlYNrxgbvEfXATmx31fOvWeU8P42S3s+efgpx6cQ5dkZERFjvcJ0aHi+3IJDdq0SV6qtk8p+q3DnhXosRvX3yIrm6d6TX/w=
+	 Content-Type:Content-Disposition:In-Reply-To; b=nJg69CAFleXR4o5KFAphZtU2roKPTrk/ie+lAli6uIRgR/SuCCLFnN7YpMz/NEwlKfhV1U++Fj3LLsDNComYMq3tle00ZnQ5H9Aq0g/H9bcQZYVlEz3hlD5kw8oKjeoBA8vjQC3Ej1UpPKEN6Ah+AzM9xxpU/rgynF4yR9HWFxQ=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id E866E68AFE; Tue,  3 Feb 2026 06:36:04 +0100 (CET)
-Date: Tue, 3 Feb 2026 06:36:04 +0100
+	id 960D668AFE; Tue,  3 Feb 2026 06:38:05 +0100 (CET)
+Date: Tue, 3 Feb 2026 06:38:05 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Jaegeuk Kim <jaegeuk@kernel.org>,
-	Chao Yu <chao@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	David Sterba <dsterba@suse.com>, Theodore Ts'o <tytso@mit.edu>,
-	Andrey Albershteyn <aalbersh@redhat.com>,
-	Matthew Wilcox <willy@infradead.org>, linux-fsdevel@vger.kernel.org,
-	linux-btrfs@vger.kernel.org, linux-ext4@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net, fsverity@lists.linux.dev
-Subject: Re: fsverity speedup and memory usage optimization v5
-Message-ID: <20260203053604.GC15956@lst.de>
-References: <20260202060754.270269-1-hch@lst.de> <20260202211423.GB4838@quark> <20260202223404.GA173552@quark>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Namjae Jeon <linkinjeon@kernel.org>, viro@zeniv.linux.org.uk,
+	brauner@kernel.org, hch@lst.de, tytso@mit.edu, willy@infradead.org,
+	jack@suse.cz, josef@toxicpanda.com, sandeen@sandeen.net,
+	rgoldwyn@suse.com, xiang@kernel.org, dsterba@suse.com,
+	pali@kernel.org, ebiggers@kernel.org, neil@brown.name,
+	amir73il@gmail.com, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, iamjoonsoo.kim@lge.com,
+	cheol.lee@lge.com, jay.sim@lge.com, gunho.lee@lge.com
+Subject: Re: [PATCH v6 03/16] fs: add generic FS_IOC_SHUTDOWN definitions
+Message-ID: <20260203053805.GA16249@lst.de>
+References: <20260202220202.10907-1-linkinjeon@kernel.org> <20260202220202.10907-4-linkinjeon@kernel.org> <20260202223657.GB1535390@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -38,48 +38,15 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260202223404.GA173552@quark>
+In-Reply-To: <20260202223657.GB1535390@frogsfrogsfrogs>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Mon, Feb 02, 2026 at 02:34:04PM -0800, Eric Biggers wrote:
-> On Mon, Feb 02, 2026 at 01:14:23PM -0800, Eric Biggers wrote:
-> > On Mon, Feb 02, 2026 at 07:06:29AM +0100, Christoph Hellwig wrote:
-> > > Hi all,
-> > > 
-> > > this series has a hodge podge of fsverity enhances that I looked into as
-> > > part of the review of the xfs fsverity support series.
-> > > 
-> > > The first part optimizes the fsverity read path by kicking off readahead
-> > > for the fsverity hashes from the data read submission context, which in my
-> > > simply testing showed huge benefits for sequential reads using dd.
-> > > I haven't been able to get fio to run on a preallocated fio file, but
-> > > I expect random read benefits would be significantly better than that
-> > > still.
-> > > 
-> > > The second part avoids the need for a pointer in every inode for fsverity
-> > > and instead uses a rhashtable lookup, which is done once per read_folio
-> > > or ->readahead invocation plus for btrfs only for each bio completion.
-> > > Right now this does not increse the number of inodes in
-> > > each slab, but for ext4 we are getting very close to that (within
-> > > 16 bytes by my count).
-> > > 
-> > > Changes since v5:
-> > >  - drop already merged patches
-> > >  - fix a bisection hazard for non-ENOENT error returns from
-> > >    generic_read_merkle_tree_page
-> > >  - don't recurse on invalidate_lock
-> > >  - refactor page_cache_ra_unbounded locking to support the above
-> > >  - refactor ext4 and f2fs fsverity readahead to remove the need for the
-> > >    first_folio branch in the main readpages loop
-> > 
-> > Applied to https://git.kernel.org/pub/scm/fs/fsverity/linux.git/log/?h=for-next
-> > 
-> > (Though it's getting late for v6.20 / v7.0.  So if there are any
-> > additional issues reported, I may have to drop it.)
-> 
-> Unfortunately this silently conflicts with changes in the f2fs tree.
-> Resolution doesn't look too bad, but we'll need to handle this.
-> Christoph, Jaegeuk, and Chao, let me know if this looks okay:
+On Mon, Feb 02, 2026 at 02:36:57PM -0800, Darrick J. Wong wrote:
+> Christian: any chance we could get this api cleanup queued for 7.0 even
+> though we're past -rc8?
 
-I ended up with the same merge, and it looks good to me.
+I assume the new ntrfs code is still aimed at 7.0, so it would be best
+to just merge it with that.
+
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 
