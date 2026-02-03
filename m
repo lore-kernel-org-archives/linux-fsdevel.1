@@ -1,266 +1,125 @@
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com [209.85.215.194])
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5911B369205
-	for <linux-fsdevel@vger.kernel.org>; Tue,  3 Feb 2026 18:16:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.194
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770142585; cv=none; b=kFj/qt8YtxpovNB9WPnOQ2fhseFqKrpVPIRnrcHRdwdTRVOUHiVEIKI8pnF9jMEG/Flp6Nh23SACdBP5og36LZOyfStEqJE1m0IvLqZHCUvGJPaFjS1VwoZbPcDcQYdHU9ETS4y7pXFhMM0D3/SuHuu3G/Qtydo3Up2Msa12X9w=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770142585; c=relaxed/simple;
-	bh=4uJPwTtGdOf+GukpMdunMop58+8Bn2s7OyEFP8RIwsY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RHujVjeLra+D6qVJsIorcX3Q+Ofuh0G1LBUxA8us2P2Ag1d2eGg1d0aYX0GimorC18wdhT1nxSQQrn0cKItqr/jASpi6BO5jPHGGObXZ+fgx9NCp9t9rIqban1dkfOqPvVLYVhvfs+uO3XqMARZHCe+U5R24+ApMSZXp79cckZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dqDfhQT+; arc=none smtp.client-ip=209.85.215.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E987531B83B
+	for <linux-fsdevel@vger.kernel.org>; Tue,  3 Feb 2026 18:29:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.175
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770143384; cv=pass; b=dUaNv4tb6wwkwWxc4RV88+CM/Gg0MP8iRGrI30aUo5476c/NpiWkTuOpVWhF7B8oH8mqfAqy1Cz0vzxstOoWKOhdg/TJBlY350VCprndrY5sg1tarKUsRqplFvlzVDz4T8X2MJIK7Ilgz50YH3fULjS99wlsmGIoKMl45rfhhE0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770143384; c=relaxed/simple;
+	bh=+O8+UcYgnJABqa1+tztj9i2L3+z5VJHlpVYliL8nobQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SBlQY4vPleL9QRcsclZMpu6FF/WKrM2EZegSvnN+8vUhB5FdaqIeudz5UsmRkeJ0huVWs+ZW8m+w1ssI4HQyerX2gr5lbUEooppbCFRiFv9dcFheEM3BVrK+9awMO6vvINJDSjJh7/MRwm2JLfcTmTqgge8gltILYHEZJIxuWLI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jotschi.de; spf=none smtp.mailfrom=jotschi.de; dkim=pass (2048-bit key) header.d=jotschi-de.20230601.gappssmtp.com header.i=@jotschi-de.20230601.gappssmtp.com header.b=lhZtyPgR; arc=pass smtp.client-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jotschi.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=jotschi.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dqDfhQT+"
-Received: by mail-pg1-f194.google.com with SMTP id 41be03b00d2f7-bc274b8b15bso3941528a12.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 03 Feb 2026 10:16:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=jotschi-de.20230601.gappssmtp.com header.i=@jotschi-de.20230601.gappssmtp.com header.b="lhZtyPgR"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-82418b0178cso247891b3a.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 03 Feb 2026 10:29:41 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770143381; cv=none;
+        d=google.com; s=arc-20240605;
+        b=VMN4ROJTVpOLf2K1MfTFkdEjY9aKiaggpaUdLsIZQhtAohxgNgp6GsBoBs2ypGi5/g
+         6B2HBwEkH3hROdt/pCwGWLnK+6Y6iarLwYnVLRKAHp4Dz9VHluNVZRhwc/++raDicIR7
+         q49jyct6pN/nElwso9kct/FvVrhK/nTPsQsRPCd0u089b7cUD6GtlnD7wr1Vlq0HS8R8
+         n9ppX2bSgLw5sq3njSTxQJ79rrx0hZxgqTxvVnw02FuqyvRa1gzpHrLUfUkUe7dw+zal
+         RySsQZOuO8X2om8TiH9WTB5GxXtqsDlSS1bjcpAndnuGWZ2KKdqhHiOB/AyYMMh6bVuh
+         gLPw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=+O8+UcYgnJABqa1+tztj9i2L3+z5VJHlpVYliL8nobQ=;
+        fh=S4qsqFUL/mjEqk8g3SK/38+tBxxlFYJ19ivX8AP7+Qs=;
+        b=a5pAV5bpIjuh5YKofqNkaZCnuM1OGKR71iEC2zuzOS+d9J8Qu7Ukz3Fc4VU7PVZloV
+         RZ73i6ZnC5JDbO8jF8BPQ7RKfvmDiK4wm52IEPl4y/ds7MuSpVSbgPaz4G7nqLF5Rm4a
+         PhH7tvqDZNT2GXnHygMcg3zNSO1XHV4mM5H+p1ol4e4cqdR6t/QqvL2eAY6UviLra6Fl
+         dgXDJe9s1+aNY7iABxSlv17tqhhdiv+faO8Tr5Hl4A8bWJX2QbupW6Xhlws0Tr1czcYe
+         5wOINQqMuRw4hggzh/0PkXNAnBeue9tMKrMF3lAtBU6NfzM6X5tYwFf0FJ8oxTt8SxNb
+         9aEA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770142583; x=1770747383; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=mjla1q3jju6XkNYbTp39sGOpZWNK/5G6gOcu20xqemI=;
-        b=dqDfhQT+YSiilM+/jAV4Di0mctg5/N+hXgFPCxfncdCoDexOjpEPPpr00uLcXWXHEy
-         IejN0XxY+tM4sFdMrAZW1DnuvofJzpgYGWf4aCCJYoESWKvzTC7Vnxjrk3CLDiIktRCq
-         uNCZDY7YqJSo3zLF2PWAvYREXc7cLmdeL5BFGB+xa3BRqQrlzLelcsCdJnONFW1JQ8e3
-         pYV3XdVvUDAIPzclEkKkQlkzW2E42kS+KFWQXANI03K2TN9pBF0PGWfGyydDw1xT/ofe
-         zUKx8kFJVcwEGr6ICOwwIauOIt5/0ZCtTs/xSlZfW1s7OC2CrS6UMCfn2YCS+rqwKzNo
-         xYwQ==
+        d=jotschi-de.20230601.gappssmtp.com; s=20230601; t=1770143381; x=1770748181; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=+O8+UcYgnJABqa1+tztj9i2L3+z5VJHlpVYliL8nobQ=;
+        b=lhZtyPgRIWwtdcQEEOmitbN73LxyFZ9uyzCNkVdE5+mx5yiWmmbjWSCzdqaiIBYGUc
+         yolntBsJNxK1H6ebG/80y3x7QE1/sT7UufBqNIP5tD+iYKtYvJ2mflHdHZGFG+x7mMeu
+         WITgEZl8SdwhwSL2j/cUd5Ii50jV4Txa1lNRW/7dOEHqfE76i7mVf1ZoJhvfUE4MwGCb
+         Geyt4QhFkmWp/OtXfl7o8sZeiL8qtnjK+9uR05aDGVkzD30CKpK+6RpXCMuulJYlKLOw
+         9S5DtagWU6i7NFfBSZk69vgCRM+8gwrzraF8S0mPdT3rg3ZEI/1FVdc77EXyKGcUi+xM
+         z3mA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770142583; x=1770747383;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1770143381; x=1770748181;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=mjla1q3jju6XkNYbTp39sGOpZWNK/5G6gOcu20xqemI=;
-        b=WiGhVg4cp86fAejc+fKUmg3pNNDb41Li7cE23OhhBb3oAkD9WVJ3iZZqVWAtVZRZvT
-         FltqykvlAZex2UUDvNFHzSNCJftJj3KeYMMoccGOtnhfDitUcN6pLgtf8Dcl0EJ8OGxd
-         SxtPoWe2jJjwwxtA4VtcfBtnEwN3utKTOfePtC3hUHcSTxiFGSSebfs8TNlsegAWVuRA
-         ++FWJn2Asx/TZAtTJXDR2PX3a9HuG0S9bYUn252U5QmqC/8YuCN5CMBM4/7gc3WW6hyN
-         Y23dHYOoGyKJ7XagcA3UmP2nSoDk0ktLjV/WL2K/sjsWqaC3yea5bMO9kxnb3UkGWmuU
-         n7pg==
-X-Forwarded-Encrypted: i=1; AJvYcCWqUQF3JvtrIfqRQAhzgKQ0koMBhldvsLGa8J/7IIhEWtLYc0ErcEbWQi8SyLcJJZZ2imzUkU9Sp1F94vO9@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyh4QXCUb/T3PvhpWq4HDSlEUw0rzt9UIhTLvaBSccD94jKGM6q
-	kX9VWBbHuNcMpcoiDrn7G3d8FELH7QI3wpvuButi3lGojkt8TMvFmAk=
-X-Gm-Gg: AZuq6aJ2Q+EXu5NkNE8m6olCyehdvhQS0OdRKPivj2JZQ35tg9F+LKaVbxJ8GmW97bF
-	tpVDivPfOY4Up3yrc3XPHJCsOWjmhYM1izkRv25obV3QZkuh82mkgZhBgqKz3LO4FHmtWlCwtkf
-	rQQ2/fFYd7Y/czkKaoxJzrtAn407+8aOM4cnTqePW695Ig0c/VxKCLHxWJ8rIvxVMQpAKuYIqm5
-	JC+Hh28KbLH6ww4YICxW4ycFfom5bU8Ft5c/mIEaGxFCVzuQdINgREHQuDnyJo0QTLrPzopGy8v
-	jXCl9qsmYQYGp4jm+7HHdcRp+sCScmowp2TkerYf+dSwi9iI8dQ6jeEmMzX4zII3Q5H7Y5omL1I
-	5Y/W/1gqNYMwBJJ9vfTZIBp8QGjRjJ0ykTWMG1ezZGS9zhXOi1cqTPdwttdfQ6iTx91Vj9Oxuvs
-	L9FD3q+zKMTqonzPMPVwP+8P9x3nho7+Yj8Xqi5lU+
-X-Received: by 2002:a17:90a:ec8f:b0:340:bde5:c9e8 with SMTP id 98e67ed59e1d1-3548719372cmr167467a91.22.1770142582737;
-        Tue, 03 Feb 2026 10:16:22 -0800 (PST)
-Received: from localhost.localdomain ([59.16.109.172])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35485eb8dc6sm313230a91.9.2026.02.03.10.16.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Feb 2026 10:16:22 -0800 (PST)
-From: Jinseok Kim <always.starving0@gmail.com>
-To: shuah@kernel.org
-Cc: Jan Kara <jack@suse.cz>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Matthew Bobrowski <repnop@google.com>,
-	linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: [RFC PATCH] selftests: fanotify: Add basic create/modify/delete event test
-Date: Wed,  4 Feb 2026 03:15:43 +0900
-Message-ID: <20260203181549.21750-1-always.starving0@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        bh=+O8+UcYgnJABqa1+tztj9i2L3+z5VJHlpVYliL8nobQ=;
+        b=d6ch/vhB1rOElMmPaCjpykcPNBaRFLw1C9ynOimenRGXPbXeEWeaIbQcSujughOx9P
+         EeuHv1FMBctKgTUddHToWICaoguFV3dE/3qi9TtUF7FMovlWqk3nQgcDyOwQqg5fO5/K
+         +Nzt42b93lOPVjeOTAWUWwKrn4WgCpooE1dfzffGPu40RVDY/JuiiulWIoEtb8HAsi01
+         O2ZR8iPpql2FMrZC9V/T96WOfIi0eVpivtWmC5UrM5lzJisIbqEd7E0ph1A9ugXmeju0
+         BON5EawVOCfIxY58CwF28R1sbHXLSEAnVagTymqqk6Xr9wi6Kgf/n6XePalZuB48PvTD
+         GzBg==
+X-Forwarded-Encrypted: i=1; AJvYcCVi9MXtIvz5+M4Jj9H9Gb49NORQD81//XUBuMfY7esKEvbc4LaiO4J9Q4LbW5jiIsnlNTWbbA0A/5dkaaao@vger.kernel.org
+X-Gm-Message-State: AOJu0YxpJhVnj+8OlQP6uiZXwsjq1TWm0+qoVeGZqiaZ99Fj7rQilGmK
+	t0OxuOO4A0yNHp/spkzQjfpsfcs4Zpr3gnMNTkQu6WMAVg9RrBowhEr4geJbkMKUJONIr8exu+H
+	zWHLTLkGzzyEg9/ASUXrA3CreijcIXMmFl94N4dVJ
+X-Gm-Gg: AZuq6aJd/rww0gTTTxf3hC2LolR+mzpRIrtc3a2Ir8Cc/Uq4H7FpBQaKUUo7vE2OXze
+	L5Y6eCnwq9bvTfJoHPI7D7HXbXmtY0n8WFwhDFNhB0ri7BAKpbu2ZO50Xn4y4i6QhIB180hICBW
+	yBjPwcMrEeayvef9H6RIb5Qz86Mc8WiTeuyW4lkQwM7IaGl1Cd1avSIk3Zq3qGb5bQjiScHh3Sc
+	I39h3qOCaa51Rv2jQj/7LQOhFH/gyTpTJaMjAVj42mieMGWIucGhWPuVLJLyLFmdLUyxSLtx+WT
+	wDnp
+X-Received: by 2002:a17:90b:28cc:b0:340:be4d:a718 with SMTP id
+ 98e67ed59e1d1-354870ae629mr234033a91.7.1770143381135; Tue, 03 Feb 2026
+ 10:29:41 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <32Xtx4IaYj8nhPIXtt0gPimTRQy4RNjzmsqI1vQB1YBpRes0TEgu6zVzWbBEcn2U6ZxB14BD9vakmezNyhdXDt3CVGO8WYGxHSZZ1qtQVy8=@spawn.link>
+ <8f5bb04853073dc620b5a6ebc116942a9b0a2b5c.camel@kernel.org>
+ <e5-exnk0NS5Bsw0Ir_wplkePzOzCUPSsez9oqF7OVAAq3DASvNJ62B9EuQbvIqHitDgxtVnu74QYDYVEQ8rCCU74p4YupWxaKZNN34EPKUY=@spawn.link>
+ <9ceb6cbcef39f8e82ab979b3d617b521aa0fcf83.camel@kernel.org>
+ <CA+zj3DKAraQASpyVfkcDyGXu_oaR9SnYY18pDkN+jDgi54kRMQ@mail.gmail.com>
+ <998f6d6819c2e0c3745599d61d8452c3bc478765.camel@kernel.org>
+ <3DMb18lL2VzwORom5oMGlQizKpO_Na6Rhmv5GDA9GpN3ELrsA5plqhzezDxDs_UcXaqFQ9qUHb9y4cY4JRy7TjQ108_dVkZH9D2Yj48ABH0=@spawn.link>
+ <CAJfpegu5tAFr3+sEQGi6YWGHMEVpVByFoVxzCONERGvJJdk5vg@mail.gmail.com>
+In-Reply-To: <CAJfpegu5tAFr3+sEQGi6YWGHMEVpVByFoVxzCONERGvJJdk5vg@mail.gmail.com>
+From: =?UTF-8?Q?Johannes_Sch=C3=BCth?= <j.schueth@jotschi.de>
+Date: Tue, 3 Feb 2026 19:29:29 +0100
+X-Gm-Features: AZwV_QjcPJsBNwsBRk14wh7tKfyhfH6Ut0d8gg2IlveK_YYbqsMVUYcYYqFBzQY
+Message-ID: <CA+zj3DLwu20Q-1qUU-o8fSvnz9V_us35uQ5nqi7AEPNwZ=DAbA@mail.gmail.com>
+Subject: Re: NFSv4 + FUSE xattr user namespace regression/change?
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Antonio SJ Musumeci <trapexit@spawn.link>, Trond Myklebust <trondmy@kernel.org>, 
+	linux-fsdevel@vger.kernel.org, Bernd Schubert <bernd.schubert@fastmail.fm>, 
+	"gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Hello,
+Thank you for the patch. I applied it to 6.18.8 and 6.15.11.
+Unfortunately the xattr operations still fail in the same way.
+Note that 6.15.10 was still working for me.
+I included the wireshark dumps [0] [1] from the mount process. The
+access rights show up as:
+Access Denied: MD XT DL XAW, [Allowed RD LU XAR XAL] in 6.18.8
 
-Currently there are almost no automated selftests for fanotify notification
-events in tools/testing/selftests/ (only mount namespace
-related tests exist).
+Greetings, Johannes
 
-This patch adds a very basic selftest that exercises three fundamental
-fanotify events:
-    - FAN_CREATE (file creation)
-    - FAN_MODIFY (file content modification via write())
-    - FAN_DELETE (file removal)
+[0] https://www.jotschi.de/files/fuse_nfs_mount_6_18_8-xattr-fuse-patch.pcap
+[1] https://www.jotschi.de/files/fuse_nfs_mount_6_15_11-xattr-fuse-patch.pcap
 
-The test
-    - creates a test file, appends data, and removes it
-    - verifies that corresponding events are received and the masks contain
-      the expected bits (0x100, 0x2, 0x200)
 
-Test TAP output:
-    ok 1 FAN_CREATE detected
-    ok 2 FAN_MODIFY detected
-    ok 3 FAN_DELETE detected
-    # PASSED: 1 / 1 tests passed.
-
-This is intentionally kept minimal as a starting point.
-
-Future work ideas (not in this patch):
-    - Test permission events
-    - Test rename/move events
-    - Verify file names
-    - Run under different filesystems
-
-Any feedback on the direction, style, or additional test cases
-would be greatly appreciated.
-
-Thanks,
-Jinseok.
-
-Signed-off-by: Jinseok Kim <always.starving0@gmail.com>
----
- tools/testing/selftests/filesystems/Makefile  |   7 +
- .../selftests/filesystems/fanotify_basic.c    | 122 ++++++++++++++++++
- 2 files changed, 129 insertions(+)
- create mode 100644 tools/testing/selftests/filesystems/Makefile
- create mode 100644 tools/testing/selftests/filesystems/fanotify_basic.c
-
-diff --git a/tools/testing/selftests/filesystems/Makefile b/tools/testing/selftests/filesystems/Makefile
-new file mode 100644
-index 0000000..c0e0242
---- /dev/null
-+++ b/tools/testing/selftests/filesystems/Makefile
-@@ -0,0 +1,7 @@
-+# SPDX-License-Identifier: GPL-2.0
-+
-+CFLAGS += $(KHDR_INCLUDES)
-+TEST_GEN_PROGS := devpts_pts file_stressor anon_inode_test kernfs_test fclog fanotify_basic
-+TEST_GEN_PROGS_EXTENDED := dnotify_test
-+
-+include ../lib.mk
-diff --git a/tools/testing/selftests/filesystems/fanotify_basic.c b/tools/testing/selftests/filesystems/fanotify_basic.c
-new file mode 100644
-index 0000000..4a4fbb4
---- /dev/null
-+++ b/tools/testing/selftests/filesystems/fanotify_basic.c
-@@ -0,0 +1,122 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#define _GNU_SOURCE
-+#include <stdio.h>
-+#include <fcntl.h>
-+#include <sys/fanotify.h>
-+#include <linux/fanotify.h>
-+#include "../kselftest_harness.h"
-+#include "wrappers.h"
-+
-+static void create_file(const char *filename)
-+{
-+	int fd;
-+	int ret;
-+
-+	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-+	if (fd == -1)
-+		ksft_exit_fail_msg("(create)open failed: %s\n", strerror(errno));
-+	ret = write(fd, "create_file", 11);
-+	if (ret == -1)
-+		ksft_exit_fail_msg("(create) writing failed: %s\n", strerror(errno));
-+	close(fd);
-+}
-+
-+static void modify_file(const char *filename)
-+{
-+	int fd;
-+	int ret;
-+
-+	fd = open(filename, O_RDWR);
-+	if (fd == -1)
-+		ksft_exit_fail_msg("(modify)open failed :%s\n", strerror(errno));
-+	if (lseek(fd, 0, SEEK_END) < 0)
-+		ksft_exit_fail_msg("(modify)lseek failed");
-+	ret = write(fd, "modify_file", 11);
-+	if (ret == -1)
-+		ksft_exit_fail_msg("(modify)write failed :%s\n", strerror(errno));
-+	if (fsync(fd) == -1)
-+		ksft_exit_fail_msg("(modify)fsync failed: %s\n", strerror(errno));
-+
-+	close(fd);
-+}
-+
-+TEST(fanotify_cud_test)
-+{
-+	int fan_fd;
-+	char buf[4096];
-+	int ret;
-+	ssize_t len;
-+	struct fanotify_event_metadata *meta;
-+
-+	fan_fd = fanotify_init(FAN_CLASS_NOTIF | FAN_REPORT_FID, O_RDONLY);
-+	ASSERT_GE(fan_fd, 0)
-+	TH_LOG("fanotify_init failed: %s", strerror(errno));
-+
-+	ret = fanotify_mark(fan_fd, FAN_MARK_ADD,
-+				  FAN_EVENT_ON_CHILD | FAN_CREATE |
-+				  FAN_MODIFY | FAN_DELETE,
-+				  AT_FDCWD, "/tmp");
-+	ASSERT_GE(ret, 0)
-+	TH_LOG("fanotify_mark failed: %s", strerror(errno));
-+
-+	// FAN_CREATE Test
-+	create_file("/tmp/fanotify_test");
-+	len = read(fan_fd, buf, sizeof(buf));
-+	ASSERT_GT(len, 0)
-+	TH_LOG("No event after create_file");
-+
-+	meta = (void *)buf;
-+	if (FAN_EVENT_OK(meta, len)) {
-+		TH_LOG("Event after create: mask = 0x%llx, pid=%d",
-+		       (unsigned long long)meta->mask, meta->pid);
-+		if (meta->mask & FAN_CREATE)
-+			ksft_test_result_pass("FAN_CREATE detected\n");
-+		else
-+			TH_LOG("FAN_CREATE missing");
-+	} else
-+		ksft_test_result_fail("Invalid event metadata after create\n");
-+
-+	// FAN_MODIFY Test
-+	modify_file("/tmp/fanotify_test");
-+	len = read(fan_fd, buf, sizeof(buf));
-+	ASSERT_GT(len, 0)
-+		TH_LOG("No event after modify_file");
-+
-+	meta = (void *)buf;
-+	if (FAN_EVENT_OK(meta, len)) {
-+		TH_LOG("Event after modify: mask = 0x%llx, pid=%d",
-+		       (unsigned long long)meta->mask, meta->pid);
-+		if (meta->mask & FAN_MODIFY)
-+			ksft_test_result_pass("FAN_MODIFY detected\n");
-+		else
-+			ksft_test_result_fail("FAN_MODIFY missing\n");
-+	} else
-+		ksft_test_result_fail("Invalid event metadata after modify\n");
-+
-+	// FAN_DELETE
-+	ASSERT_EQ(unlink("/tmp/fanotify_test"), 0)
-+		TH_LOG("unlink failed: %s", strerror(errno));
-+
-+	len = read(fan_fd, buf, sizeof(buf));
-+	ASSERT_GT(len, 0)
-+		TH_LOG("No event after unlink");
-+
-+	meta = (void *)buf;
-+	if (FAN_EVENT_OK(meta, len)) {
-+		TH_LOG("Event after delete: mask = 0x%llx, pid=%d",
-+		       (unsigned long long)meta->mask, meta->pid);
-+		if (meta->mask & FAN_DELETE)
-+			ksft_test_result_pass("FAN_DELETE detected\n");
-+		else
-+			ksft_test_result_fail("FAN_DELETE missing\n");
-+	} else
-+		ksft_test_result_fail("Invalid event metadata after delete\n");
-+
-+	// Clean up
-+	if (fan_fd >= 0) {
-+		fanotify_mark(fan_fd, FAN_MARK_REMOVE, 0, AT_FDCWD, ".");
-+		close(fan_fd);
-+	}
-+}
-+
-+TEST_HARNESS_MAIN
---
-2.43.0
+Am Di., 3. Feb. 2026 um 10:28 Uhr schrieb Miklos Szeredi <miklos@szeredi.hu>:
+>
+> On Mon, 2 Feb 2026 at 20:54, Antonio SJ Musumeci <trapexit@spawn.link> wrote:
+>
+> > So where do we go from here? Bring in NFS server folks? Miklos?
+>
+> Can you please try the attached patch on the server?
+>
+> Thanks,
+> Miklos
