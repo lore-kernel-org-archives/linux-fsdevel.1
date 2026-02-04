@@ -1,120 +1,83 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from kylie.crudebyte.com (kylie.crudebyte.com [5.189.157.229])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B7ED3ECBEB;
-	Wed,  4 Feb 2026 11:58:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3CEA3ED105;
+	Wed,  4 Feb 2026 12:04:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.189.157.229
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770206321; cv=none; b=uVogzLK/poJWTOzGdDgkY5pF2IUVNy0zo501n3FkagEMjhLlV5wSaX6i9jtW/j8S95dsZW6nGnCLDmPkx4s3EPWFRVFxbnO7CSncU7itZ4DO0/WLfbYa2uugrNkwBoBggFB5DxvozpxuZeK1tA6eHoB2zi0FjLhxTYrKbnGlgxk=
+	t=1770206656; cv=none; b=AewFP6zwKFuu+4ZFJh6CSlpeJSVnR2mTBVIUDir1gjg2Z2avDdN84wvwE0an5rihqEcEo52ua5lBiIUTexTgbkk0TuCljd5WxOGIRHprBcREZVpuzpJZDTl7xPklY9xmU3rvsf2j4SXwxEZOs8v/WPSzlG63bYCdJQfh/JqqW7E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770206321; c=relaxed/simple;
-	bh=4kJUgBgTj0V7kRaDlo9MltCBPjRgIT4dj8eMOKXfB5o=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=QB/Z2st12jq7YoqkLNqfH1TyjxUWpphJEc0s7WFWhGMN37TkfyQ2SOhhqSfnPd1zlM2Gl8t6x6irRfjN4Rb3zLdQtL6vy5OY+uShQ7dAy4vKVRFtOhXCsFjzT0rlLP4JDYXbxLcbRbEX39EsC6WqaCpZJHnZp5lXlQiQb7+dJH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gz7NyLru; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770206656; c=relaxed/simple;
+	bh=7G/PwzIk3g4uIGdcJqA20KrJMGGg5TpRuyz/ChE2xac=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=icXkCsvyp8U7m1Iv+Rb8QlTU5+juSY6JptLVV46yX+0jBdXpqWP1J9y578koz0BwBA3JMcV7oAMNUgH3Kraajxk1whWTc9gxe5ToGFU/m8DI1N1FOGGXAw1NeAbtivHbDQEHCt9vxYUgJO7iXPdwDlCQW8aSFXbce2bs9b1lTQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=crudebyte.com; spf=pass smtp.mailfrom=crudebyte.com; dkim=pass (4096-bit key) header.d=crudebyte.com header.i=@crudebyte.com header.b=AZSOnMie; arc=none smtp.client-ip=5.189.157.229
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=crudebyte.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crudebyte.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gz7NyLru"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDB73C4CEF7;
-	Wed,  4 Feb 2026 11:58:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770206321;
-	bh=4kJUgBgTj0V7kRaDlo9MltCBPjRgIT4dj8eMOKXfB5o=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=Gz7NyLruiwim/m3qBSE5DCyGcBGfDnNAOVb4JpibsYAUsWYSmm1MpCPHgWwtj/fRE
-	 e8VUFzL72M3Zx6A1qZzoh/IA8ii2wIC7I4cJhh+uULDLUPyMKnEvCcEKQxVOEmnib9
-	 DoSHh3MiiduX7HJcOEoYvDR16yqzuWAG0XdMb3TjJ4hksqK25J8oJA81S9JdyO6hKT
-	 KumBA+dRzkFBjLvTQYFQ6GwuEX6rkbvQzlazbWUeATLs2BAmRQQCZoHCpYtJV8wBG0
-	 WlW6SNySBC1jA+L56+L0NXtFEY6GCjF7HOrLV7AMDGIWW1Tfv0xJw3TcrW5yiutEIv
-	 NrzqX1zgg14vw==
-From: Andreas Hindborg <a.hindborg@kernel.org>
-Date: Wed, 04 Feb 2026 12:56:53 +0100
-Subject: [PATCH v14 9/9] rust: page: add `from_raw()`
+	dkim=pass (4096-bit key) header.d=crudebyte.com header.i=@crudebyte.com header.b="AZSOnMie"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Content-ID:Content-Description;
+	bh=Q+Ks08PzHVA8pXNev8uKWfCnJ6OcTFhczPTs0oqi89M=; b=AZSOnMie4dVcjCOeODKz4Zoxz2
+	7ozRS3+UpFV3dz8fQWwx4MRQCqx8EZdSUlQy9wfvjeT1edNHzmGMg6V4L+s4p5d6DeBz+fDC6MBWm
+	SQR4I+C2LEaUpn4f+RI6u4oX1eRpa1XLY3uoLinNmp9TPAio4wlaBBcQQICxbNjlPYQKPNeOp3u8h
+	bHqZSoyKqNoauavjA7QUNPPveR2zwQiM7TgMXCoQsYvoQOY3dosMhNFBrAwxmoEKlHcXI5+R2WPKc
+	KFxNVDbiy6dRu5hjxZM/IzfAt8oWS/8NBfsS6IZH3OVt81yj0trwXyuNi230F0zdBM6q7wOGDRNAf
+	yCrdXMsYT4hOM+WzmhGD3pI93xh7S+oOkEe+mOMurAAajyGUJ6H/mer9PS1kjKOr6vSu/anOtSKaU
+	BMClTz45J/5xzVksHMjaT3JEhz8HZV1A8zd8gPzx/pGNo1EKMoI46dC64ZCm5SLQUX9NfXv/gE1Vk
+	O0l9haMVubcIq5eM8DdGRRWu8LEK38Nz4oSl+98tYEu0fgJS2YVVSx9h8YnMxfoDPygOQZSHAjoWg
+	TxEav8G/iSIdYe535wH3L5J9SWh+uxIu4G0v/28tpU0A6SxWy5EMpbM8Wkgn/pzwbNl9PGNetVXJK
+	nOIXLcHrFmMYeAmh905U3bbXF+gl02CLOzIrzTCSo=;
+From: Christian Schoenebeck <linux_oss@crudebyte.com>
+To: v9fs@lists.linux.dev, Remi Pommarel <repk@triplefau.lt>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Eric Van Hensbergen <ericvh@kernel.org>, Latchesar Ionkov <lucho@ionkov.net>,
+ Dominique Martinet <asmadeus@codewreck.org>,
+ Remi Pommarel <repk@triplefau.lt>
+Subject: Re: [PATCH v2 0/3] 9p: Performance improvements for build workloads
+Date: Wed, 04 Feb 2026 12:37:55 +0100
+Message-ID: <4711141.LvFx2qVVIh@weasel>
+In-Reply-To: <cover.1769013622.git.repk@triplefau.lt>
+References: <cover.1769013622.git.repk@triplefau.lt>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260204-unique-ref-v14-9-17cb29ebacbb@kernel.org>
-References: <20260204-unique-ref-v14-0-17cb29ebacbb@kernel.org>
-In-Reply-To: <20260204-unique-ref-v14-0-17cb29ebacbb@kernel.org>
-To: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, 
- Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
- Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Dave Ertman <david.m.ertman@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
- Leon Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>, 
- Serge Hallyn <sergeh@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- Igor Korotin <igor.korotin.linux@gmail.com>, 
- Daniel Almeida <daniel.almeida@collabora.com>, 
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
- Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, 
- Stephen Boyd <sboyd@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>
-Cc: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
- linux-block@vger.kernel.org, linux-security-module@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org, 
- linux-mm@kvack.org, linux-pm@vger.kernel.org, linux-pci@vger.kernel.org, 
- Andreas Hindborg <a.hindborg@kernel.org>, 
- Andreas Hindborg <a.hindborg@kernel.org>
-X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1098; i=a.hindborg@kernel.org;
- h=from:subject:message-id; bh=4kJUgBgTj0V7kRaDlo9MltCBPjRgIT4dj8eMOKXfB5o=;
- b=owEBbQKS/ZANAwAKAeG4Gj55KGN3AcsmYgBpgzQGWPeTkfQ596Yd1NnAfAqNezMquqK4g6o3T
- qdh/ZoqiCOJAjMEAAEKAB0WIQQSwflHVr98KhXWwBLhuBo+eShjdwUCaYM0BgAKCRDhuBo+eShj
- d4iLD/9Q3u3EUkTrf71/HDEO1t/JE9RtrcE59R/WUUVHVBm36/KFnyuhWlTrS9tw/VZFWtGQ8So
- sTWdaMtJWEC2q3QQRpNIfuFJ+Z/+jGK5LZPDwn9KXSQXO72OFyCHmoxZ8S49BGHkcXC5J36BddJ
- oBhV1NXLnyPAz4PFYpxCpsyaIvY/ndPSnFXUaDUitUS6k8jXTbQnIThXtMjwRQYwvoZ/WV124sk
- UEf0NZdBT/tTHHljmTjmsBsfh/s31GgbOsBRNZlgQbEn1nfIKUv8rkWWsiMc2z5/CrZPZFNLLc2
- dvo/sOb/S1/XSyhIfdqBW5nu6XT3aIsRyQBNla6glkOxnRCPVwGnA0cVqLJSwGDC7HwdjQp8tg3
- 6OpsRLLpT8i9c7RUWvazHkNpzYJVUiCdPvQ6bTtgozQcZ3XftPlRnYqaUc0MKuQrDp32ITc1Qpf
- 2+NdHl7Ap0HGYUDWUouSvjzXWw3qRpzVu9MDGgzT/Ov44EEz/z8ouTVC8G5/wtYG2DvJ2Vt29g9
- weNYSK06rZyCIJ+f9S4SG6AsSmYmsH717vhWbdgv70nWR1sWbtA2U+0U94cRyNxeQLnmIvuY9CJ
- jUyG0IGKuA+MPWHoxjeNdu0VkFmHoW388Q536eQxeCfpBS7lljXv3TWUIUBmJqIKc7HOg81GZK1
- dE20j3imAjE0sfg==
-X-Developer-Key: i=a.hindborg@kernel.org; a=openpgp;
- fpr=3108C10F46872E248D1FB221376EB100563EF7A7
 
-Add a method to `Page` that allows construction of an instance from `struct
-page` pointer.
+On Wednesday, 21 January 2026 20:56:07 CET Remi Pommarel wrote:
+> This patchset introduces several performance optimizations for the 9p
+> filesystem when used with cache=loose option (exclusive or read only
+> mounts). These improvements particularly target workloads with frequent
+> lookups of non-existent paths and repeated symlink resolutions.
+[...]
+> Here is summary of the different hostapd/wpa_supplicant build times:
+> 
+>   - Baseline (no patch): 2m18.702s
+>   - negative dentry caching (patches 1-2): 1m46.198s (23% improvement)
+>   - Above + symlink caching (patches 1-3): 1m26.302s (an additional 18%
+>     improvement, 37% in total)
+> 
+> With this ~37% performance gain, 9pfs with cache=loose can compete with
+> virtiofs for (at least) this specific scenario. Although this benchmark
+> is not the most typical, I do think that these caching optimizations
+> could benefit a wide range of other workflows as well.
 
-Signed-off-by: Andreas Hindborg <a.hindborg@samsung.com>
----
- rust/kernel/page.rs | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+I did a wide range of tests. In broad average I'm also seeing ~40% improvement 
+when compiling. Some individual sources even had 60% improvements and more. So 
+there is quite a big variance.
 
-diff --git a/rust/kernel/page.rs b/rust/kernel/page.rs
-index 4591b7b01c3d2..803f3e3d76b22 100644
---- a/rust/kernel/page.rs
-+++ b/rust/kernel/page.rs
-@@ -191,6 +191,17 @@ pub fn nid(&self) -> i32 {
-         unsafe { bindings::page_to_nid(self.as_ptr()) }
-     }
- 
-+    /// Create a `&Page` from a raw `struct page` pointer
-+    ///
-+    /// # Safety
-+    ///
-+    /// `ptr` must be valid for use as a reference for the duration of `'a`.
-+    pub unsafe fn from_raw<'a>(ptr: *const bindings::page) -> &'a Self {
-+        // SAFETY: By function safety requirements, ptr is not null and is
-+        // valid for use as a reference.
-+        unsafe { &*Opaque::cast_from(ptr).cast::<Self>() }
-+    }
-+
-     /// Runs a piece of code with this page mapped to an address.
-     ///
-     /// The page is unmapped when this call returns.
+I did not encounter misbehaviours in my tests, so feel free to add:
 
--- 
-2.51.2
+Tested-by: Christian Schoenebeck <linux_oss@crudebyte.com>
+
+I still need to make a proper review though.
+
+/Christian
 
 
