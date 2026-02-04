@@ -1,158 +1,128 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBB9127E04C
-	for <linux-fsdevel@vger.kernel.org>; Wed,  4 Feb 2026 07:37:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 878E838E12E
+	for <linux-fsdevel@vger.kernel.org>; Wed,  4 Feb 2026 07:50:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770190655; cv=none; b=FguQH+hoVKSllpmme/CvyJq/9eZmEDQ3/63L67J2+ltU2AxgC3GQSxBWq8TjAnfJApKt6P0yyhNkJmk8DlUM/2OEWL1ILtGJkzwL052sIN+LpwL6CIqibjNjq7i0XyKVNCMSoiEiOB4ATaeJRZ3CxWvtwGJqVEqGFDfI8mZTyYA=
+	t=1770191447; cv=none; b=Bi4EaNrK++8nU9vHfh/l5phn+uu5Yk3+u0GiZ61RzGgQCtFV0B04MTBCi8BLMkIAS/smLh9bptXpRX+xhWxZVye6s31q6EcBblHvUe6cVjYKPHhwn35BOuJEs0ez3N6vR6EKntZ7owPO2TZTKWAMCsoWyECZ02Pr2XYX5ElTwbk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770190655; c=relaxed/simple;
-	bh=3vD2v8ghz50UyVzLCs0ItxZ4n09cD5uGcNPjMaFsbBY=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:Mime-Version; b=fmepmwxjtnjtjOXmA8wCN8Dv8ePcmeUin0wuNVAmRYvLjeqr9o3Bo22hAn9K238qu6gqRlrMGtCDubgnBFHyx8+4OBBWYHr2vhMKMmjrUssMCPBiYdXBVIGC5jejfjW4Neu+EjGvzvfPR5b1u+d1lmmCycEnhss787Z+DH7kzWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d2jQkx3u; arc=none smtp.client-ip=209.85.210.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1770191447; c=relaxed/simple;
+	bh=kbcOV/6QcQXosOVb/kYnmczZIIbazol1Xw4so2doLDM=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=RFRsYu2OmvBvdoakbALQ66eBFNZ0xRv+pn/2KadVXsnL0jlixPXYk9wdNNAowsYD+pCfXONIulRm81dV6BE1hyRGTbhAbhOvFZK73M8QDYZeOwtKfm93IbZwtIgfWm/0LJ1yLqF9lJgnp5KsoPsWYKysfcjvXl3lvjNZ3GMOiyI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d2jQkx3u"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-81ecbdfdcebso3573140b3a.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 03 Feb 2026 23:37:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770190655; x=1770795455; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to:date
-         :cc:to:from:subject:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6xKiGXhAf0POKtC5HLVPhalwQmNgPksjY3TFJBTsNxc=;
-        b=d2jQkx3uRXrOlrBfrU8H7EA41jwi4Q+uIEDFMrePyh+65QU5k5v33zP/l961k4NVPV
-         xUbgKOpmtY3o09SHAlq//in71B9fFwISYizek2Him588NMhDDJyGf6EfRCCXu3JiZHEr
-         dH+sv+lLhWvhsDzNF8sDo6zxkWb9PVfxOEQSB7YAaGhTuyDdPHzQhwghVVdkHPHKbakh
-         HwYGo2UwlGSOJsAJMC6sZyEQSxvDvRswW9W/w2qJcDzO+3VZ8E4M3T166O0eTLB5ErrV
-         EAXBaUQGKUD1vYnuSPNFbboxDaDvD/cOYdDUp5RgEdRvlWNyDDsar+EuYhPJ7tYxj1qI
-         zNDw==
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2a07f8dd9cdso46163865ad.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 03 Feb 2026 23:50:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770190655; x=1770795455;
-        h=content-transfer-encoding:mime-version:references:in-reply-to:date
-         :cc:to:from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6xKiGXhAf0POKtC5HLVPhalwQmNgPksjY3TFJBTsNxc=;
-        b=ZtHc51D51pwMOYqnm6CVorG5XuHDczyE7fTIokPZZkf2XEtj2NSwRqCmj2Fa940jCu
-         opkWgTm0QyBsU/zRnrFnwCb/qT/rrCesC5dCAIOusNZcfWGRf2XM9QnZkAvoWjanuqL6
-         APYQVjcj9dXZ8mgAbFrtrDOaGxmbYFAwQbaPzvKcQs5eZMzl04AAlZ6+XPdSSqMGuPDV
-         lQesB5H14fmd+GjrtUPwREJIUNMnLoLWPaJ7QXLmNiWpsgvVnvCzC1c0lqKC4YIec9Fd
-         TAuqS5vXzCx2A3v1vp797KqWxgztgIFUeBAhoux31ZbCapMxq3fjyghWICSlXfy18oar
-         YEOw==
-X-Gm-Message-State: AOJu0YzIB+N7Cfdsfmp0p5F1BaamViC9FY+MrYXOXSsGiJmZ9TMz3iFK
-	QBbdjHROP2DyWw6U9I/GER1YEPpGunkcrFVKHPyzxbZAPOkESBv2/JaM
-X-Gm-Gg: AZuq6aLwwJ1011M9iTi5CLhkEPK7DmmAzMvGNDZzjeJfMVLqyAr4eWMKubaJusfllEC
-	fV3mzgYiiWnzF+SIJpw5dhvoSMk3dF3eI5vBk/gl12nRDxntKAeLCDeZf/CACmh+zT+N7kN4Lc1
-	7ZivRWdwNFJh9p1P/rSJuPn6CNCQW0SfUBb48LYFjhy5NsjeUfpqXgLduuzsUXLY3WKwd3WzSLV
-	I2mNKVpm9Xq3sHm0FExCK+JX/3NOJ9YAyL3WMR/TugrlWRZMXMyWVIu0QTJ75L04c2E9dl8j9cj
-	Xgr2wjCdmpEuo0Z5h9FFhcN71hWuplL8NB/ryH5xWowF+wH2KEhDd5X0+MtsrCNe0MmxPbqyTTw
-	7b67J3vFdyCn6/2NlgqwIQzYnc0xm9HExFPDSmhLvVUqxmVVb3VMuQmllhBHJw4+VeP1fhi7eyf
-	MgiEzwY67jAOSYvxtyp5bwEtZV9N/RazyJdR6+rf+7LfCohXI6u2kRl/Cl73op
-X-Received: by 2002:a05:6a00:4b47:b0:821:807a:e427 with SMTP id d2e1a72fcca58-8241c1dfd96mr2358341b3a.21.1770190655016;
-        Tue, 03 Feb 2026 23:37:35 -0800 (PST)
-Received: from li-5d80d4cc-2782-11b2-a85c-bed59fe4c9e5.ibm.com ([129.41.58.6])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8241d163fb2sm1561632b3a.14.2026.02.03.23.37.29
+        d=1e100.net; s=20230601; t=1770191447; x=1770796247;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=EgV//1wifMQx8DWc1kqJsH8XCVKk4uWaLyVeoKmarPQ=;
+        b=TGjifpw3vkW10mXMdNmn/f7gqXmyMeqH4eqXUio8IzoZktCb5Gp0bfELunLDm//9Gt
+         0pRNqvpOhyR3da7VcSpIPk9t4gvBHQzo6jdGzeEVF8XJJ0WV7zSHNamJzvHdO/e/fzLe
+         mXSyHqdx7pcZYuCaQ4i5DZBkXuZIYgvFn0qI02cOWpJfjkv2Fm9MXv8f7oF/zzbjM4s7
+         7JrSvv4Z55BJ0tQ6E/Jddp+u+EjvpWR+Cd0mQrZj7oKO920vs2AU6oud4nxdNJ1/dUMf
+         TOhrMjpQ5wlobFPr4jZqnngYoJg6SG+kHuV5d4b5wq/DpwrcDhUXoH9BdVj9I0LaUEy2
+         tAtA==
+X-Gm-Message-State: AOJu0YxUR0SDLIyjTjZgHA20A40parVFRQmcguCNQTBDQwEn/PCIlixT
+	A+CtVIaexsj6wHNQ2jNQENdyGPM0nAzFI77ilsQHyC2kAM0H9cIS6NB2
+X-Gm-Gg: AZuq6aKoKy2VWUV2WbnMYJWBC1vIksCqZ/hHIFYlgpWGC2fCVMxIppJNDPZRV0A4Rh6
+	wEJfDeXXGnW/4V7nTe9raZQhc+LariZ4CVfkrqaiAGD5IRVx06B/7qkdqlXYDtpAxcf/OWQ+POm
+	yR2tX1uoHMzV9LgAbVLVLA7rV9isQ9iKUZaudcrVA8dR+D2Lv1GLR0vItkBmIzoxFNGKCyvokan
+	q/bcSM6992Q2YMYdMbb20YAG9VmKzORMXh1qid6Bu2FdFE2qU9FwV80fztWlCtFY9zW2fDuzJqb
+	ThSEII1DoCATTk/ckxNoTB1d2nwo0VzJUQia3uZxZJvOfmuLCzjWVApafeg+tp2KiuXkPPgUOR6
+	6pAESeOs/JmJtZSuo8UG36H7Wvs7oOxieHghPrfnBB+DaIwzZ4jYuPw8B1LbHLcXvrPguOyu9dW
+	oqIxzFYR//mfUNp+uRGYroqV3QLQ==
+X-Received: by 2002:a17:902:eb83:b0:2a0:fb1c:143d with SMTP id d9443c01a7336-2a933b89ed8mr21250935ad.1.1770191446827;
+        Tue, 03 Feb 2026 23:50:46 -0800 (PST)
+Received: from localhost.localdomain ([1.227.206.162])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a933967771sm14554875ad.82.2026.02.03.23.50.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Feb 2026 23:37:34 -0800 (PST)
-Message-ID: <abe69ec973a115015d998907e9f7fd4d3c45f38a.camel@gmail.com>
-Subject: Re: [PATCH v3 2/6] xfs: add helpers to pack AG prediction info for
- per-folio tracking
-From: "Nirjhar Roy (IBM)" <nirjhar.roy.lists@gmail.com>
-To: Kundan Kumar <kundan.kumar@samsung.com>, viro@zeniv.linux.org.uk, 
- brauner@kernel.org, jack@suse.cz, willy@infradead.org, mcgrof@kernel.org, 
- clm@meta.com, david@fromorbit.com, amir73il@gmail.com, axboe@kernel.dk,
- hch@lst.de,  ritesh.list@gmail.com, djwong@kernel.org, dave@stgolabs.net,
- cem@kernel.org,  wangyufei@vivo.com
-Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-xfs@vger.kernel.org, gost.dev@samsung.com, anuj20.g@samsung.com, 
-	vishak.g@samsung.com, joshi.k@samsung.com
-Date: Wed, 04 Feb 2026 13:07:27 +0530
-In-Reply-To: <20260116100818.7576-3-kundan.kumar@samsung.com>
-References: <20260116100818.7576-1-kundan.kumar@samsung.com>
-	 <CGME20260116101245epcas5p30269c6aa35784db67e6d6ca800a683a7@epcas5p3.samsung.com>
-	 <20260116100818.7576-3-kundan.kumar@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-27.el8_10) 
+        Tue, 03 Feb 2026 23:50:46 -0800 (PST)
+From: Namjae Jeon <linkinjeon@kernel.org>
+To: viro@zeniv.linux.org.uk,
+	brauner@kernel.org,
+	hch@lst.de,
+	tytso@mit.edu,
+	willy@infradead.org,
+	jack@suse.cz,
+	djwong@kernel.org,
+	josef@toxicpanda.com,
+	sandeen@sandeen.net,
+	rgoldwyn@suse.com,
+	xiang@kernel.org,
+	dsterba@suse.com,
+	pali@kernel.org,
+	ebiggers@kernel.org,
+	neil@brown.name,
+	amir73il@gmail.com
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	iamjoonsoo.kim@lge.com,
+	cheol.lee@lge.com,
+	jay.sim@lge.com,
+	gunho.lee@lge.com,
+	Namjae Jeon <linkinjeon@kernel.org>
+Subject: [PATCH v7 02/17] fs: add generic FS_IOC_SHUTDOWN definitions
+Date: Wed,  4 Feb 2026 16:47:40 +0900
+Message-Id: <20260204074755.9058-3-linkinjeon@kernel.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20260204074755.9058-1-linkinjeon@kernel.org>
+References: <20260204074755.9058-1-linkinjeon@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Fri, 2026-01-16 at 15:38 +0530, Kundan Kumar wrote:
-> Introduce helper routines to pack and unpack AG prediction metadata
-> for folios. This provides a compact and self-contained representation
-> for AG tracking.
-> 
-> The packed layout uses:
->  - bit 31	: valid
->  - bit 24-30	: iomap type
->  - bit 0-23	: AG number
-# AG limited to 2^24 - is this a reasonable assumption?
-> 
-> Signed-off-by: Kundan Kumar <kundan.kumar@samsung.com>
-> Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
-> ---
->  fs/xfs/xfs_iomap.h | 31 +++++++++++++++++++++++++++++++
->  1 file changed, 31 insertions(+)
-> 
-> diff --git a/fs/xfs/xfs_iomap.h b/fs/xfs/xfs_iomap.h
-> index ebcce7d49446..eaf4513f6759 100644
-> --- a/fs/xfs/xfs_iomap.h
-> +++ b/fs/xfs/xfs_iomap.h
-> @@ -12,6 +12,37 @@ struct xfs_inode;
->  struct xfs_bmbt_irec;
->  struct xfs_zone_alloc_ctx;
->  
-> +/* pack prediction in a u32 stored in xarray */
-Nit: Maybe some brief comment about what these are doing and their significance?
-> +#define XFS_AGP_VALID_SHIFT 31
-> +#define XFS_AGP_TYPE_SHIFT 24
-> +#define XFS_AGP_TYPE_MASK 0x7fu
-> +#define XFS_AGP_AGNO_MASK 0x00ffffffu
-> +
-> +static inline u32 xfs_agp_pack(u32 agno, u8 iomap_type, bool valid)
-Nit: Maybe use xfs_agnumber_t instead of u32 for agno?
-Nit: I think xfs style is like 
-static inline u32
-<function name, parameters etc>
-> +{
-> +	u32 v = agno & XFS_AGP_AGNO_MASK;
-> +
-> +	v |= ((u32)iomap_type & XFS_AGP_TYPE_MASK) << XFS_AGP_TYPE_SHIFT;
-> +	if (valid)
-> +		v |= (1u << XFS_AGP_VALID_SHIFT);
-> +	return v;
-> +}
-> +
-> +static inline bool xfs_agp_valid(u32 v)
-> +{
-> +	return v >> XFS_AGP_VALID_SHIFT;
-> +}
-> +
-> +static inline u32 xfs_agp_agno(u32 v)
-> +{
-> +	return v & XFS_AGP_AGNO_MASK;
-> +}
-> +
-> +static inline u8 xfs_agp_type(u32 v)
-> +{
-> +	return (u8)((v >> XFS_AGP_TYPE_SHIFT) & XFS_AGP_TYPE_MASK);
-> +}
-Again Nit:
-We are introducing functions here but using it in the upcoming patches, any reason why can't we
-introduce and use the functions in the same patch? In that way we can also look into the definitions
-and usages in the same patch instead of this where we have to switch between 2 patches - one to look
-into the definitions and another to look into the usages/call-sites? Again no hard preferences here
-- just a suggestion.
---NR
-> +
->  int xfs_iomap_write_direct(struct xfs_inode *ip, xfs_fileoff_t offset_fsb,
->  		xfs_fileoff_t count_fsb, unsigned int flags,
->  		struct xfs_bmbt_irec *imap, u64 *sequence);
+Currently, several filesystems (e.g., xfs, ext4, btrfs) implement
+a "shutdown" or "going down" ioctl to simulate filesystem force a shutdown.
+While they often use the same underlying numeric value, the definition is
+duplicated across filesystem headers or private definitions.
+
+Add generic definitions for FS_IOC_SHUTDOWN in uapi/linux/fs.h.
+This allows new filesystems (like ntfs) to implement this feature using
+a standard VFS definition and paves the way for existing filesystems
+to unify their definitions later.
+
+The flag names are standardized as FS_SHUTDOWN_* to be consistent with
+the ioctl name, replacing the historical GOING_DOWN naming convention.
+
+Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Jan Kara <jack@suse.cz>
+Signed-off-by: Namjae Jeon <linkinjeon@kernel.org>
+---
+ include/uapi/linux/fs.h | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
+index 66ca526cf786..32e24778c9e5 100644
+--- a/include/uapi/linux/fs.h
++++ b/include/uapi/linux/fs.h
+@@ -656,4 +656,16 @@ struct procmap_query {
+ 	__u64 build_id_addr;		/* in */
+ };
+ 
++/*
++ * Shutdown the filesystem.
++ */
++#define FS_IOC_SHUTDOWN _IOR('X', 125, __u32)
++
++/*
++ * Flags for FS_IOC_SHUTDOWN
++ */
++#define FS_SHUTDOWN_FLAGS_DEFAULT	0x0
++#define FS_SHUTDOWN_FLAGS_LOGFLUSH	0x1	/* flush log but not data*/
++#define FS_SHUTDOWN_FLAGS_NOLOGFLUSH	0x2	/* don't flush log nor data */
++
+ #endif /* _UAPI_LINUX_FS_H */
+-- 
+2.25.1
 
