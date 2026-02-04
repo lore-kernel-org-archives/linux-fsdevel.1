@@ -1,168 +1,135 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3B1B39903E;
-	Wed,  4 Feb 2026 10:58:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D78638E5FC;
+	Wed,  4 Feb 2026 11:57:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770202721; cv=none; b=DpdIpIKv48+G1be8XRNZ1Y01uf/bErvMnI4bJU+Vj5rWZ6WwTgL8ZE5VmgdKmhvdsypt5xoyDff9OK1a/4yfZL/W54oBGLg4Gr+Nbr9ulsIjdJ30E4azzB/NAA2qV4uV5Fd/jNqJu7MUFZJj4XJT+P4xmiHZZhHmwFMy9XTGV34=
+	t=1770206240; cv=none; b=N0c9spC4elXDVwW4HTisesX3sCAI91BoGd1a350+qwxePMnAZt8yN73vTtAWngwyk6b4lDA+iX+duKBje8TP3efneQVt87y6eStYsue5cjCMP9uw9dTJMtF5S1+qb/oF3KmvKXBdrQH/iP7QfFB6pWqme1dZgl+oT34H6vgJ18Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770202721; c=relaxed/simple;
-	bh=e4OYY/P0s+n3f6l0Un+2wnNzSCxA9PSWh2mQE2h/QLI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FfSqTBetpmnUBCBZUYYLO9V3Z35kpksT6kzY+xJhIlpc6tMwbrPvrD18nN/1gu+iHyWhiokZdqENJZl8v+quNXF0FT4eBDWpKS3EnD8lrlGXn7UYGWYfbBeYNzWw9jXpw0Ol6GxMEveGaTVkYYzhhzAFinlC5pbmmHBzcMjSc4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P/rXH+g6; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1770206240; c=relaxed/simple;
+	bh=3669cUuITKf9u7tNBrqzpeq3tWTkH+jHDiuw+zCYrkE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=ayeJLiolpDt/89BxtmuMJWePbM+I4hAZ289d9jguthndI6NzPor75mCkn7XPrEs6CiW66tx/i3ZMao3v45gjbpHyvoj0ptKx9ifOpDpPA0BV5TTa3vFKEh7ubwQJCLnbvP9NfwucWmohkajJ0szcU66tkaOfbuuVfgl2/UhQhnI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pac4HwXD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P/rXH+g6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770202721; x=1801738721;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=e4OYY/P0s+n3f6l0Un+2wnNzSCxA9PSWh2mQE2h/QLI=;
-  b=P/rXH+g67RmGvsKf8fW9NdXPYHiQBhjsXbEl5xs9cdbkru+GcsMpIjPF
-   ZgAZq2ETt877WT5m1Nx94gr4d/N8pblUQCmq0mKcAFYCIgNnY/plSvsix
-   hRJI37HGYUCi6SsOHqLspIZPElnW8hWE1s7I4u8Jn5ukSrBFAhWLIpE3Q
-   /PbylfvfXNN1S6/ThdghhLi0XtxG+ti5kvtasAmdX1ChGVh0jl0Z5jj93
-   EcqXLKNG+XUJW/L18PkEMzfb7RMvEgbHyog1thFe9zVGQxO2yc22+6sth
-   uwrsDhQoDtZsGIHRiQ3nKCCICPIvXqgCFaQPD2nPLnkzN30pOaAj//87J
-   w==;
-X-CSE-ConnectionGUID: Uqeby7skSJGEmc0KRBFotA==
-X-CSE-MsgGUID: qm180nDqQvud+jqMORzq4Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="88807943"
-X-IronPort-AV: E=Sophos;i="6.21,272,1763452800"; 
-   d="scan'208";a="88807943"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2026 02:58:40 -0800
-X-CSE-ConnectionGUID: oBTx9fyySBW7CeLiYKyMow==
-X-CSE-MsgGUID: 6hswnyijS3qwmcCTJ28ksw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,272,1763452800"; 
-   d="scan'208";a="209230824"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 04 Feb 2026 02:58:17 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vnaaN-00000000hii-2R8J;
-	Wed, 04 Feb 2026 10:58:15 +0000
-Date: Wed, 4 Feb 2026 18:58:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: NeilBrown <neilb@ownmail.net>, Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	David Howells <dhowells@redhat.com>, Jan Kara <jack@suse.cz>,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Jeff Layton <jlayton@kernel.org>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Amir Goldstein <amir73il@gmail.com>,
-	John Johansen <john.johansen@canonical.com>,
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Stephen Smalley <stephen.smalley.work@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	netfs@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-nfs@vger.kernel.org, linux-unionfs@vger.kernel.org,
-	apparmor@lists.ubuntu.com, linux-security-module@vger.kernel.org,
-	selinux@vger.kernel.org
-Subject: Re: [PATCH 04/13] Apparmor: Use simple_start_creating() /
- simple_done_creating()
-Message-ID: <202602041851.x2RfFgKO-lkp@intel.com>
-References: <20260204050726.177283-5-neilb@ownmail.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pac4HwXD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92374C4CEF7;
+	Wed,  4 Feb 2026 11:57:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770206239;
+	bh=3669cUuITKf9u7tNBrqzpeq3tWTkH+jHDiuw+zCYrkE=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=pac4HwXDEvkjtpqH3duQWkwwKzmPV6AGkrzzuHZe0O5AELAb9TK6GCTXHIbhsOZ8Z
+	 q8tneEGcvwedeY277RW6MH/iRB75j9wIsomGma3B/1dNp6pdbowEdwUf/XLaePwge6
+	 1a/kNPutWgagecr03ZdMjHBr1mwWyGLAS1dP+0OrrtdDLzMoBbYiy5JJrFfLi5bYkY
+	 Qk/78O6ReZYYANDU2/O7DOup7Nd6dBU8JzT2UF/PL7x2m/RL8kHvJGJ/aHtW9IO8i6
+	 C6boOy8YxHr7RQvGBbsTVJrgM1MK3OP3WbAQRBzeYhbp6fSkazlcrPQSn6jn4fG2XM
+	 taOND3Q8Nn4yA==
+From: Andreas Hindborg <a.hindborg@kernel.org>
+Date: Wed, 04 Feb 2026 12:56:47 +0100
+Subject: [PATCH v14 3/9] rust: Add missing SAFETY documentation for `ARef`
+ example
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260204050726.177283-5-neilb@ownmail.net>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260204-unique-ref-v14-3-17cb29ebacbb@kernel.org>
+References: <20260204-unique-ref-v14-0-17cb29ebacbb@kernel.org>
+In-Reply-To: <20260204-unique-ref-v14-0-17cb29ebacbb@kernel.org>
+To: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, 
+ Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+ Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Dave Ertman <david.m.ertman@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
+ Leon Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>, 
+ Serge Hallyn <sergeh@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Igor Korotin <igor.korotin.linux@gmail.com>, 
+ Daniel Almeida <daniel.almeida@collabora.com>, 
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+ Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>
+Cc: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+ linux-block@vger.kernel.org, linux-security-module@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org, 
+ linux-mm@kvack.org, linux-pm@vger.kernel.org, linux-pci@vger.kernel.org, 
+ Andreas Hindborg <a.hindborg@kernel.org>, 
+ Oliver Mangold <oliver.mangold@pm.me>
+X-Mailer: b4 0.15-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1810; i=a.hindborg@kernel.org;
+ h=from:subject:message-id; bh=OkPeSjQsIxKohCmbfrAmRiZJb8MRdSOGkBDNdfIpHoA=;
+ b=owEBbQKS/ZANAwAKAeG4Gj55KGN3AcsmYgBpgzQBBW2YqZGe4r2rWgHunfjy7egLqvEkgf7uz
+ 37O8ZRA0baJAjMEAAEKAB0WIQQSwflHVr98KhXWwBLhuBo+eShjdwUCaYM0AQAKCRDhuBo+eShj
+ d8ySD/4oYFBz5VsAwkAc/58oE1gXZfwyx+fXfX6bgRFe4iQKQGVEtyYJSzETywutuMaGAmARdAi
+ 4UDKl4ygsICYVqLTt539ppsrWo2lF/YHT01wrCKlG2Dj7yIB/TagCsgMMn8n65juI9wGfW1dGrV
+ 1ClAkZ2fSD3EuBAP/SB9koV3O3TQB50NTF3q1rm0twBv/iWQuKmpJgdVzfIMGu99ZiHTN0EHd+I
+ aTSOdg0c2U6QRfvXa4qxLoF2nSseFVbXsFRlFt/hma2dzLbj4+uZSVeyh64pc/1DMu4FjigBTeZ
+ TYpF39r5j72xpLegzF1hOSbCSFWb93osfqan6YO38C++oWm81Jne2RQO8vlCSDipEYwwLKn+/RI
+ WqFAwZDSecHK2y6sTxytNBFK2HKp36t2br3edIiMZ93JtPAOeeYJxw+EvmlbeVYSMYmSI0MBAiy
+ aCF9eSlo4E/n6UGTZ7BX/R5+Gz0nhkjUnTv0/WM78JvEdHFXzg8eJEPmbl20x74aGx4AsZteFq2
+ FIIDipB4dmtWFMEVPHavrNIAzTGz0e846BMYnBe70K35ixMEigNxsF3QYjrLcXtSXQXoXeQKsM3
+ hlOlLb+hoGE5ZACH8lEcrepeFUuRy4HGujzE4WIH+nr1EMmTQtYMc63npItj/L5iX55R1rv1Tq6
+ FXC4PDR6u4FX/Mw==
+X-Developer-Key: i=a.hindborg@kernel.org; a=openpgp;
+ fpr=3108C10F46872E248D1FB221376EB100563EF7A7
 
-Hi NeilBrown,
+From: Oliver Mangold <oliver.mangold@pm.me>
 
-kernel test robot noticed the following build warnings:
+SAFETY comment in rustdoc example was just 'TODO'. Fixed.
 
-[auto build test WARNING on brauner-vfs/vfs.all]
-[also build test WARNING on viro-vfs/for-next linus/master v6.19-rc8 next-20260203]
-[cannot apply to pcmoore-selinux/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Original patch by Oliver Mangold <oliver.mangold@pm.me> [1].
 
-url:    https://github.com/intel-lab-lkp/linux/commits/NeilBrown/fs-proc-Don-t-lock-root-inode-when-creating-self-and-thread-self/20260204-131659
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20260204050726.177283-5-neilb%40ownmail.net
-patch subject: [PATCH 04/13] Apparmor: Use simple_start_creating() / simple_done_creating()
-config: arm-randconfig-r133-20260204 (https://download.01.org/0day-ci/archive/20260204/202602041851.x2RfFgKO-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260204/202602041851.x2RfFgKO-lkp@intel.com/reproduce)
+Link: https://lore.kernel.org/r/20251117-unique-ref-v13-3-b5b243df1250@pm.me [1]
+Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
+Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
+---
+ rust/kernel/sync/aref.rs | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602041851.x2RfFgKO-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> security/apparmor/apparmorfs.c:295:16: sparse: sparse: Using plain integer as NULL pointer
-
-vim +295 security/apparmor/apparmorfs.c
-
-   247	
-   248	/**
-   249	 * aafs_create - create a dentry in the apparmorfs filesystem
-   250	 *
-   251	 * @name: name of dentry to create
-   252	 * @mode: permissions the file should have
-   253	 * @parent: parent directory for this dentry
-   254	 * @data: data to store on inode.i_private, available in open()
-   255	 * @link: if symlink, symlink target string
-   256	 * @fops: struct file_operations that should be used for
-   257	 * @iops: struct of inode_operations that should be used
-   258	 *
-   259	 * This is the basic "create a xxx" function for apparmorfs.
-   260	 *
-   261	 * Returns a pointer to a dentry if it succeeds, that must be free with
-   262	 * aafs_remove(). Will return ERR_PTR on failure.
-   263	 */
-   264	static struct dentry *aafs_create(const char *name, umode_t mode,
-   265					  struct dentry *parent, void *data, void *link,
-   266					  const struct file_operations *fops,
-   267					  const struct inode_operations *iops)
-   268	{
-   269		struct dentry *dentry;
-   270		struct inode *dir;
-   271		int error;
-   272	
-   273		AA_BUG(!name);
-   274		AA_BUG(!parent);
-   275	
-   276		if (!(mode & S_IFMT))
-   277			mode = (mode & S_IALLUGO) | S_IFREG;
-   278	
-   279		error = simple_pin_fs(&aafs_ops, &aafs_mnt, &aafs_count);
-   280		if (error)
-   281			return ERR_PTR(error);
-   282	
-   283		dir = d_inode(parent);
-   284	
-   285		dentry = simple_start_creating(parent, name);
-   286		if (IS_ERR(dentry)) {
-   287			error = PTR_ERR(dentry);
-   288			goto fail;
-   289		}
-   290	
-   291		error = __aafs_setup_d_inode(dir, dentry, mode, data, link, fops, iops);
-   292		simple_done_creating(dentry);
-   293		if (error)
-   294			goto fail;
- > 295		return 0;
-   296	fail:
-   297		simple_release_fs(&aafs_mnt, &aafs_count);
-   298		return ERR_PTR(error);
-   299	}
-   300	
+diff --git a/rust/kernel/sync/aref.rs b/rust/kernel/sync/aref.rs
+index 61caddfd89619..efe16a7fdfa5d 100644
+--- a/rust/kernel/sync/aref.rs
++++ b/rust/kernel/sync/aref.rs
+@@ -129,12 +129,14 @@ pub unsafe fn from_raw(ptr: NonNull<T>) -> Self {
+     /// # Examples
+     ///
+     /// ```
+-    /// use core::ptr::NonNull;
+-    /// use kernel::sync::aref::{ARef, RefCounted};
++    /// # use core::ptr::NonNull;
++    /// # use kernel::sync::aref::{ARef, RefCounted};
+     ///
+     /// struct Empty {}
+     ///
+-    /// # // SAFETY: TODO.
++    /// // SAFETY: The `RefCounted` implementation for `Empty` does not count references and never
++    /// // frees the underlying object. Thus we can act as owning an increment on the refcount for
++    /// // the object that we pass to the newly created `ARef`.
+     /// unsafe impl RefCounted for Empty {
+     ///     fn inc_ref(&self) {}
+     ///     unsafe fn dec_ref(_obj: NonNull<Self>) {}
+@@ -142,7 +144,7 @@ pub unsafe fn from_raw(ptr: NonNull<T>) -> Self {
+     ///
+     /// let mut data = Empty {};
+     /// let ptr = NonNull::<Empty>::new(&mut data).unwrap();
+-    /// # // SAFETY: TODO.
++    /// // SAFETY: We keep `data` around longer than the `ARef`.
+     /// let data_ref: ARef<Empty> = unsafe { ARef::from_raw(ptr) };
+     /// let raw_ptr: NonNull<Empty> = ARef::into_raw(data_ref);
+     ///
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.51.2
+
+
