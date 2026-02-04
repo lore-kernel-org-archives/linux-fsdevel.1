@@ -1,83 +1,140 @@
-Received: from kylie.crudebyte.com (kylie.crudebyte.com [5.189.157.229])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3CEA3ED105;
-	Wed,  4 Feb 2026 12:04:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.189.157.229
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4CDD284B2F
+	for <linux-fsdevel@vger.kernel.org>; Wed,  4 Feb 2026 12:47:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770206656; cv=none; b=AewFP6zwKFuu+4ZFJh6CSlpeJSVnR2mTBVIUDir1gjg2Z2avDdN84wvwE0an5rihqEcEo52ua5lBiIUTexTgbkk0TuCljd5WxOGIRHprBcREZVpuzpJZDTl7xPklY9xmU3rvsf2j4SXwxEZOs8v/WPSzlG63bYCdJQfh/JqqW7E=
+	t=1770209238; cv=none; b=pTE7QiabPTlE8IpDn9KxeWb6nUwasGUNShTODAs9/Sh3CunBnwihMVRyFblsnnxkdQCyZcxfOFGHZcvO/u8DLZcE8QFVTcXctdzWwXBa6tWPc+r2562NsN/BoUs8L79OL9uaGbjqh/n2fm/fpZI7bh49drnXjTc80HLEP4a2Mlk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770206656; c=relaxed/simple;
-	bh=7G/PwzIk3g4uIGdcJqA20KrJMGGg5TpRuyz/ChE2xac=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=icXkCsvyp8U7m1Iv+Rb8QlTU5+juSY6JptLVV46yX+0jBdXpqWP1J9y578koz0BwBA3JMcV7oAMNUgH3Kraajxk1whWTc9gxe5ToGFU/m8DI1N1FOGGXAw1NeAbtivHbDQEHCt9vxYUgJO7iXPdwDlCQW8aSFXbce2bs9b1lTQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=crudebyte.com; spf=pass smtp.mailfrom=crudebyte.com; dkim=pass (4096-bit key) header.d=crudebyte.com header.i=@crudebyte.com header.b=AZSOnMie; arc=none smtp.client-ip=5.189.157.229
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=crudebyte.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crudebyte.com
+	s=arc-20240116; t=1770209238; c=relaxed/simple;
+	bh=sIl8zPvTMavW7op27NWntwAoYxbkYCvD1OGJGO1W/G4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CbPXcnjC4mpGnCKawrTA43gl2his5GWbscKvWap2zNYqSLRX65Vn/dkA5HtPY6kT9EhqkrH3hCAR67qs743CWa9lJn13k4zmxNuGmIPF61n29X2aZieSXHtWAq1wb8UGOSiApXUmghNCWoZTtVrLwjfzZGUMcwtufi4MH4thhvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=GW4VHNlj; arc=none smtp.client-ip=209.85.219.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=crudebyte.com header.i=@crudebyte.com header.b="AZSOnMie"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Content-ID:Content-Description;
-	bh=Q+Ks08PzHVA8pXNev8uKWfCnJ6OcTFhczPTs0oqi89M=; b=AZSOnMie4dVcjCOeODKz4Zoxz2
-	7ozRS3+UpFV3dz8fQWwx4MRQCqx8EZdSUlQy9wfvjeT1edNHzmGMg6V4L+s4p5d6DeBz+fDC6MBWm
-	SQR4I+C2LEaUpn4f+RI6u4oX1eRpa1XLY3uoLinNmp9TPAio4wlaBBcQQICxbNjlPYQKPNeOp3u8h
-	bHqZSoyKqNoauavjA7QUNPPveR2zwQiM7TgMXCoQsYvoQOY3dosMhNFBrAwxmoEKlHcXI5+R2WPKc
-	KFxNVDbiy6dRu5hjxZM/IzfAt8oWS/8NBfsS6IZH3OVt81yj0trwXyuNi230F0zdBM6q7wOGDRNAf
-	yCrdXMsYT4hOM+WzmhGD3pI93xh7S+oOkEe+mOMurAAajyGUJ6H/mer9PS1kjKOr6vSu/anOtSKaU
-	BMClTz45J/5xzVksHMjaT3JEhz8HZV1A8zd8gPzx/pGNo1EKMoI46dC64ZCm5SLQUX9NfXv/gE1Vk
-	O0l9haMVubcIq5eM8DdGRRWu8LEK38Nz4oSl+98tYEu0fgJS2YVVSx9h8YnMxfoDPygOQZSHAjoWg
-	TxEav8G/iSIdYe535wH3L5J9SWh+uxIu4G0v/28tpU0A6SxWy5EMpbM8Wkgn/pzwbNl9PGNetVXJK
-	nOIXLcHrFmMYeAmh905U3bbXF+gl02CLOzIrzTCSo=;
-From: Christian Schoenebeck <linux_oss@crudebyte.com>
-To: v9fs@lists.linux.dev, Remi Pommarel <repk@triplefau.lt>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- Eric Van Hensbergen <ericvh@kernel.org>, Latchesar Ionkov <lucho@ionkov.net>,
- Dominique Martinet <asmadeus@codewreck.org>,
- Remi Pommarel <repk@triplefau.lt>
-Subject: Re: [PATCH v2 0/3] 9p: Performance improvements for build workloads
-Date: Wed, 04 Feb 2026 12:37:55 +0100
-Message-ID: <4711141.LvFx2qVVIh@weasel>
-In-Reply-To: <cover.1769013622.git.repk@triplefau.lt>
-References: <cover.1769013622.git.repk@triplefau.lt>
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="GW4VHNlj"
+Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-89476eaaf16so67778466d6.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 04 Feb 2026 04:47:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1770209237; x=1770814037; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+U8LpVemtW+m+yu1KTxoehmwVgUgV8X5ud3ORfVCCrA=;
+        b=GW4VHNljJYFgI4mruLbg7vYCpHKew/dRjvlqzTeNn86+wrDMfx4zpIj/dioyccLJXP
+         XACl0ggJFwCgkw29MoP/25q6//IrEkYd5b1PaWKqIt2jogVrM5cjO4x8m4SXMm5gCTeq
+         7+sRa7wqOIMHi2uMMWQ4hgsHW3KpXETuwQdLYmSxbznzYiFF/OpfJ5wYd2+ZEE/Uq1FI
+         Y4nSEVvDEDY7SKTbbuouPMPgd9Kb81K7EZt/IwblUTd+zVebhGIivCskRSb47BFJPge9
+         pAIPD6qNA+nYIkrf2Ayi8x0N4WX83p8Cy9t0L1BJVFY9mZOU1Aekk1WQ1812YLGIQSQW
+         a64g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770209237; x=1770814037;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+U8LpVemtW+m+yu1KTxoehmwVgUgV8X5ud3ORfVCCrA=;
+        b=ux0UT1/w0ncVOx1pzEEWy5fgnqTx7YUSlV1NEJS3rPSmeZirENenO51djfgc7UGHn/
+         xjIvDahaok2/pF8aPu6IoKupwA5/ppXhauljrniuuAUV3vB8G/1wwAjDFi0448jbUnb7
+         KqKXCQhOMhwuPQIcfXRoLmBvCFMBvRabmei9deZv/BCPjOQ5r93htrn9DWXRrqhyQDdr
+         u37uXW2AhjzTgwXEg+Rx9HT9+IKK6eBzHWAMgoQHeQ5uXVYT92IDzt8M00qF2h5UOemp
+         Xhf6+i7LsI6xEPVo5I3hRfZP0XHYo9XeWTbIQsK5Sh8Zx0GXim4A2kv2bCFP8huwwfx+
+         auGg==
+X-Forwarded-Encrypted: i=1; AJvYcCViT/1ofESWr+/c0YDt+qWnWmASbF48V6kqIRGY86+UI+DZcbUhQUinlBUOd8OPsKM1hIwj4aRhuOQ1yRad@vger.kernel.org
+X-Gm-Message-State: AOJu0YzRtf46m+tHR650SDqFvJJGJr3wToQOr0hiZMXGlrEynsGpWUFd
+	XC8qQCuZvRlNbU6bNSYCu3pluJQ2guMF6HjYmRcXDOOVGQzBhVa4VEkxuRCkxwRmVrI=
+X-Gm-Gg: AZuq6aIViSP2ZnLkFUCY3eb0O+wDqLbUJhrEp6rq+o6UlUYRh6a0I2FAsIcEAHj/R70
+	M8YjgSKvm2qNlezXEqcuMr7UFnY0zbCCg7yzV6tak7kfcyte17LGXzONBf5U+nPtxBKx5lcaKkA
+	i8TVgk8B9MdxHnK+/az3gqyAFmM7rpSfSg2Ti53TyR9NhkzRpfn6rV2QvOFFYwTNljDsAKmDkGA
+	bXB30DXpdz7W396RtUzlZBygzz3zaxlliN7LoBJKJnbWi494ONa+ZnXqryzEGKGzH2TZja9SxfG
+	ZXosbAKNzDCAF+7juZPA2RsRdXznRxxtZEkYl66QLYXnc/duS1W+GJ8i5/1ppM5iqo5GlcUpGFz
+	QcQ+z2SSQz9jLVRiENZcV2HcZWW54jGndhVq6+Xkh1mZ6Q4sAcFAI7cHe/e4jQi0IjLk9Uu1q9X
+	TfuJf1qDyMB5hfX0nj8MBj1yx8Q2k9gR7CDBH/rFbUBmrvq2Zck9t69WIxM6u92CCtKfA=
+X-Received: by 2002:ac8:7f4d:0:b0:4ee:5fc:43d9 with SMTP id d75a77b69052e-5061c0d57d6mr32950401cf.16.1770209236488;
+        Wed, 04 Feb 2026 04:47:16 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.112.119])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5061c14815asm18573661cf.6.2026.02.04.04.47.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Feb 2026 04:47:15 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1vncHr-0000000Gzio-1QmV;
+	Wed, 04 Feb 2026 08:47:15 -0400
+Date: Wed, 4 Feb 2026 08:47:15 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Xu Yilun <yilun.xu@linux.intel.com>
+Cc: Sean Christopherson <seanjc@google.com>,
+	Ackerley Tng <ackerleytng@google.com>,
+	Alexey Kardashevskiy <aik@amd.com>, cgroups@vger.kernel.org,
+	kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
+	linux-trace-kernel@vger.kernel.org, x86@kernel.org,
+	akpm@linux-foundation.org, binbin.wu@linux.intel.com, bp@alien8.de,
+	brauner@kernel.org, chao.p.peng@intel.com, chenhuacai@kernel.org,
+	corbet@lwn.net, dave.hansen@intel.com, dave.hansen@linux.intel.com,
+	david@redhat.com, dmatlack@google.com, erdemaktas@google.com,
+	fan.du@intel.com, fvdl@google.com, haibo1.xu@intel.com,
+	hannes@cmpxchg.org, hch@infradead.org, hpa@zytor.com,
+	hughd@google.com, ira.weiny@intel.com, isaku.yamahata@intel.com,
+	jack@suse.cz, james.morse@arm.com, jarkko@kernel.org,
+	jgowans@amazon.com, jhubbard@nvidia.com, jroedel@suse.de,
+	jthoughton@google.com, jun.miao@intel.com, kai.huang@intel.com,
+	keirf@google.com, kent.overstreet@linux.dev,
+	liam.merwick@oracle.com, maciej.wieczor-retman@intel.com,
+	mail@maciej.szmigiero.name, maobibo@loongson.cn,
+	mathieu.desnoyers@efficios.com, maz@kernel.org, mhiramat@kernel.org,
+	mhocko@kernel.org, mic@digikod.net, michael.roth@amd.com,
+	mingo@redhat.com, mlevitsk@redhat.com, mpe@ellerman.id.au,
+	muchun.song@linux.dev, nikunj@amd.com, nsaenz@amazon.es,
+	oliver.upton@linux.dev, palmer@dabbelt.com, pankaj.gupta@amd.com,
+	paul.walmsley@sifive.com, pbonzini@redhat.com, peterx@redhat.com,
+	pgonda@google.com, prsampat@amd.com, pvorel@suse.cz,
+	qperret@google.com, richard.weiyang@gmail.com,
+	rick.p.edgecombe@intel.com, rientjes@google.com,
+	rostedt@goodmis.org, roypat@amazon.co.uk, rppt@kernel.org,
+	shakeel.butt@linux.dev, shuah@kernel.org, steven.price@arm.com,
+	steven.sistare@oracle.com, suzuki.poulose@arm.com, tabba@google.com,
+	tglx@linutronix.de, thomas.lendacky@amd.com, vannapurve@google.com,
+	vbabka@suse.cz, viro@zeniv.linux.org.uk, vkuznets@redhat.com,
+	wei.w.wang@intel.com, will@kernel.org, willy@infradead.org,
+	wyihan@google.com, xiaoyao.li@intel.com, yan.y.zhao@intel.com,
+	yilun.xu@intel.com, yuzenghui@huawei.com, zhiquan1.li@intel.com
+Subject: Re: [RFC PATCH v1 05/37] KVM: guest_memfd: Wire up
+ kvm_get_memory_attributes() to per-gmem attributes
+Message-ID: <20260204124715.GA2328995@ziepe.ca>
+References: <cover.1760731772.git.ackerleytng@google.com>
+ <071a3c6603809186e914fe5fed939edee4e11988.1760731772.git.ackerleytng@google.com>
+ <07836b1d-d0d8-40f2-8f7b-7805beca31d0@amd.com>
+ <CAEvNRgEuez=JbArRf2SApLAL0usv5-Q6q=nBPOFMHrHGaKAtMw@mail.gmail.com>
+ <20260129003753.GZ1641016@ziepe.ca>
+ <aXqx3_eE0rNh6nP0@google.com>
+ <aYHGVQTF6RUs7r3g@yilunxu-OptiPlex-7050>
+ <20260203181618.GY2328995@ziepe.ca>
+ <aYLOZIZU0nwk+0UN@yilunxu-OptiPlex-7050>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aYLOZIZU0nwk+0UN@yilunxu-OptiPlex-7050>
 
-On Wednesday, 21 January 2026 20:56:07 CET Remi Pommarel wrote:
-> This patchset introduces several performance optimizations for the 9p
-> filesystem when used with cache=loose option (exclusive or read only
-> mounts). These improvements particularly target workloads with frequent
-> lookups of non-existent paths and repeated symlink resolutions.
-[...]
-> Here is summary of the different hostapd/wpa_supplicant build times:
+On Wed, Feb 04, 2026 at 12:43:16PM +0800, Xu Yilun wrote:
+> > Which means we need VFIO to know what they are, and hopefully it is
+> > just static based on the TDISP reports..
 > 
->   - Baseline (no patch): 2m18.702s
->   - negative dentry caching (patches 1-2): 1m46.198s (23% improvement)
->   - Above + symlink caching (patches 1-3): 1m26.302s (an additional 18%
->     improvement, 37% in total)
-> 
-> With this ~37% performance gain, 9pfs with cache=loose can compete with
-> virtiofs for (at least) this specific scenario. Although this benchmark
-> is not the most typical, I do think that these caching optimizations
-> could benefit a wide range of other workflows as well.
+> I don't think VMM need to check TDISP report. The only special thing is
+> the MSI-X mixed pages which can be figured out by standard PCI
+> discovery.
 
-I did a wide range of tests. In broad average I'm also seeing ~40% improvement 
-when compiling. Some individual sources even had 60% improvements and more. So 
-there is quite a big variance.
+Either that or follow along with the guests's choices on
+shared/private.
 
-I did not encounter misbehaviours in my tests, so feel free to add:
+We can't let VFIO mmap a private MMIO page, so it has to know which
+pages are private at any moment, and it can't guess.
 
-Tested-by: Christian Schoenebeck <linux_oss@crudebyte.com>
-
-I still need to make a proper review though.
-
-/Christian
-
-
+Jason
