@@ -1,50 +1,54 @@
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C533833B976
-	for <linux-fsdevel@vger.kernel.org>; Wed,  4 Feb 2026 17:05:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 560D933B945;
+	Wed,  4 Feb 2026 17:28:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770224745; cv=none; b=R40ZJmjLxWx4rB6iVpAE4JjyH9FQToitTG2IcTYPPFvzUIObSkKNo37dc4ICXhFFm/cy3A/SaPDipAsVdGqS8d/EMfwgmS2nqM8rDLnluatsVxrYqnJXq0b2EkhnlPhjKijK3eH7VQVfSY3gSGmx1akqlTEvSPaOHRgS5Gthxlo=
+	t=1770226112; cv=none; b=eXaSQALTEKpJ5Q1ZApFEIGs9EbtuOIKs9BeaSECJ5KfEXo+v0jUfTrANWj4lWcKw6wNK6ASPZrVYpDQ+XOy7XLxjpRW3iytYjC26ZolKA5To58slpjFprIjRAZbJfDuB3oPK1kbkTaibmH4PIS/35XxVRUONm15pIQfmLZIdLGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770224745; c=relaxed/simple;
-	bh=xFQM54uGaR/iYy8YOmQaUKV73kfJeQv/WoyPYNqwXBI=;
+	s=arc-20240116; t=1770226112; c=relaxed/simple;
+	bh=/XuDigISEYyXbKnYAX5EnrMu7ypYv78O0Ukpa0tR+sg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F0mFmSK78xVFWHi2zIOiYA7BuLbVelEPh7gg5QgHVfszZb7C42bD7EUZt+ARluYzOscK264KwQKrPJ9PhRUTT4KvZb+ABNLAIro8OZHvUJGM/Z+UfHwSiRbhgqocZYppyciE29eyc99YyuisbiYwwyfKBDI6uuByUVeTwH+DsZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=XSvW+/Tm; arc=none smtp.client-ip=18.9.28.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+	 Content-Type:Content-Disposition:In-Reply-To; b=e8FAbXKRu9YH9Cv5nEIYEYyD0betGJpyMTa81FjDJAHyHaJSkT+sI9fnJ4N+I5/i45ZwP35LW5Jw6cg7bLzCnf7IR+hywO47oBWdp1rhfllXBxRMaAt5VgEl5kk3IhUKLd8Y7bHGcgk3Pc8mrfDhgN1Mc7aFWL/KM4SL2XuWjk8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=g7WtGYmf; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="XSvW+/Tm"
-Received: from macsyma.thunk.org (pool-173-48-119-77.bstnma.fios.verizon.net [173.48.119.77])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 614H5BIR023448
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 4 Feb 2026 12:05:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1770224714; bh=FJ3l4j3asswhM7XjwUVXUk5e7OhriV8G+Oiht6GM9xY=;
-	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
-	b=XSvW+/TmM5z/lRQHdkTU5AkYvflunoywwW4VEjZ7mOj2d6jBDXJyaPqZviQG1xUD5
-	 ALqW4v85qBHo2o1ncEHVqA5uTz6WDkJ/7yIfm1oE4HpgajkRn7UkHDoZWE9mEpUCzK
-	 7IwsBd+t2EUJUORqF2lWOBSqWs6lT8Wl53Npn5M/WC4q1yRR5EfmcGcS9zBa722dN4
-	 ZQQN4mF5lynJecNEvw4Pi8HGXN58BaH0fQVBlQ9/aawjZGzzt577rE3WIi6tHt6fGI
-	 kI9R79SK2uXBq9MvH4cyFhBt1Ul8fHUxn8qttJEyVM6V1CbButT2iWP6g2vIjdp06z
-	 sA2qZlsJvKQkw==
-Received: by macsyma.thunk.org (Postfix, from userid 15806)
-	id 6119A5738D5B; Wed,  4 Feb 2026 12:04:11 -0500 (EST)
-Date: Wed, 4 Feb 2026 12:04:11 -0500
-From: "Theodore Tso" <tytso@mit.edu>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Kiryl Shutsemau <kas@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>,
-        Jan Kara <jack@suse.cz>, Hugh Dickins <hughd@google.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: Orphan filesystems after mount namespace destruction and tmpfs
- "leak"
-Message-ID: <20260204170411.GC31420@macsyma.lan>
-References: <aYDjHJstnz2V-ZZg@thinkstation>
- <20260203-bestanden-ballhaus-941e4c365701@brauner>
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="g7WtGYmf"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=HaUbfm56WW9dmRAs9z6HKJz16Yc0+vv/NXHXc38tkeU=; b=g7WtGYmfk9+norJJumdhkvulFc
+	Mx9OvNf8EJGLlcZ3wocbrS8vzq7XbuENIF34BZ/O49Lbte+ROl/9qfFMZuH7njQMD4Dqo0HagfRqL
+	4EFS8FxdgiaVmloZd+G5BfqZxUXpvD/uxSu81A4T23muljoOO8UKKaTj/2F59ah6uxv9w5pShZaZJ
+	aFfHfAW5mFli/HiW01autxBDGeyqkFI0FJIFkzb+jRmLl4KGITzQ45UPP0DlCg5c22yrPfYfz3onF
+	uSKAuhmLVPlC0MzLQU8hNDuphkBX5RzIXJ+ipztKV9baW1/XCAM42S8mENWvijOvXVzRadrlfdekz
+	CVmZrrhg==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1vnghx-00000005GVg-24fC;
+	Wed, 04 Feb 2026 17:30:29 +0000
+Date: Wed, 4 Feb 2026 17:30:29 +0000
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
+Cc: "shardulsb08@gmail.com" <shardulsb08@gmail.com>,
+	"jack@suse.cz" <jack@suse.cz>,
+	"frank.li@vivo.com" <frank.li@vivo.com>,
+	"brauner@kernel.org" <brauner@kernel.org>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	"slava@dubeyko.com" <slava@dubeyko.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"shardul.b@mpiricsoftware.com" <shardul.b@mpiricsoftware.com>,
+	"glaubitz@physik.fu-berlin.de" <glaubitz@physik.fu-berlin.de>,
+	"janak@mpiricsoftware.com" <janak@mpiricsoftware.com>,
+	"syzbot+99f6ed51479b86ac4c41@syzkaller.appspotmail.com" <syzbot+99f6ed51479b86ac4c41@syzkaller.appspotmail.com>
+Subject: Re: [PATCH v2] hfsplus: fix s_fs_info leak on mount setup failure
+Message-ID: <20260204173029.GL3183987@ZenIV>
+References: <20260201131229.4009115-1-shardul.b@mpiricsoftware.com>
+ <cace4df975e1ae6e31af0103efcbca9cdb8b8350.camel@ibm.com>
+ <20260203043806.GF3183987@ZenIV>
+ <b9374ab2503627e0dd6f62a29ab5dcde9fc0354f.camel@ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -53,26 +57,166 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260203-bestanden-ballhaus-941e4c365701@brauner>
+In-Reply-To: <b9374ab2503627e0dd6f62a29ab5dcde9fc0354f.camel@ibm.com>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-On Tue, Feb 03, 2026 at 03:58:52PM +0100, Christian Brauner wrote:
-> I don't believe we need to do anything here unless you want some tmpfs
-> specific black magic where you can issue a shutdown ioctl on tmpfs that
-> magically frees memory. And I'd still expect that this would fsck
-> userspace over that doesn't expect this behavior.
+On Tue, Feb 03, 2026 at 11:35:18PM +0000, Viacheslav Dubeyko wrote:
+> On Tue, 2026-02-03 at 04:38 +0000, Al Viro wrote:
+> > On Mon, Feb 02, 2026 at 05:53:57PM +0000, Viacheslav Dubeyko wrote:
+> > > >  out_unload_nls:
+> > > > -	unload_nls(sbi->nls);
+> > 	^^^^^^^^^^^^^^^^^^^^
+> > > >  	unload_nls(nls);
+> > > > -	kfree(sbi);
+> > 
+> > > The patch [1] fixes the issue and it in HFS/HFS+ tree already.
+> > 
+> > AFAICS, [1] lacks this removal of unload_nls() on failure exit.
+> > IOW, the variant in your tree does unload_nls(sbi->nls) twice...
+> 
+> Yeah, I think you are right here.
 
-I think if we were going to do anything like this, adding support to
-FS_IOC_SHUTDOWN to tmpfs is the only way we could go.  Yeah, it will
-fsck over userspace that's not expecting it, but normally, if you're
-tearing down a file system, whether it's a read-only iSCSI device that
-provides a software package that needs to go away because the iSCSI
-target has gone away, or zapping a tmpfs file system, killing the
-userspace which depends on it with extreme perjudice *is* actually the
-right thing.  We use FS_IOC_SHUTDWN on an ext4 file system that is
-being served via iSCSI, and when that happens, killing the container
-and the userspace processes running in it as quickly as possble
-without harming other containers is the goal.
+While we are at it, this
+        kfree(sbi->s_vhdr_buf);
+	kfree(sbi->s_backup_vhdr_buf);
+might as well go into ->kill_sb().  That would result in the (untested)
+delta below and IMO it's easier to follow that way...
 
-It might make fsck over userspace, granted, but so does "kill -9".  :-)
 
-   	      	   		   	    	   - Ted
+diff --git a/fs/hfsplus/super.c b/fs/hfsplus/super.c
+index 592d8fbb748c..6ce4d121e446 100644
+--- a/fs/hfsplus/super.c
++++ b/fs/hfsplus/super.c
+@@ -348,8 +348,6 @@ static void hfsplus_put_super(struct super_block *sb)
+ 	hfs_btree_close(sbi->attr_tree);
+ 	hfs_btree_close(sbi->cat_tree);
+ 	hfs_btree_close(sbi->ext_tree);
+-	kfree(sbi->s_vhdr_buf);
+-	kfree(sbi->s_backup_vhdr_buf);
+ 	hfs_dbg("finished\n");
+ }
+ 
+@@ -471,7 +469,7 @@ static int hfsplus_fill_super(struct super_block *sb, struct fs_context *fc)
+ 	if (be16_to_cpu(vhdr->version) < HFSPLUS_MIN_VERSION ||
+ 	    be16_to_cpu(vhdr->version) > HFSPLUS_CURRENT_VERSION) {
+ 		pr_err("wrong filesystem version\n");
+-		goto out_free_vhdr;
++		goto out_unload_nls;
+ 	}
+ 	sbi->total_blocks = be32_to_cpu(vhdr->total_blocks);
+ 	sbi->free_blocks = be32_to_cpu(vhdr->free_blocks);
+@@ -495,7 +493,7 @@ static int hfsplus_fill_super(struct super_block *sb, struct fs_context *fc)
+ 	if ((last_fs_block > (sector_t)(~0ULL) >> (sbi->alloc_blksz_shift - 9)) ||
+ 	    (last_fs_page > (pgoff_t)(~0ULL))) {
+ 		pr_err("filesystem size too large\n");
+-		goto out_free_vhdr;
++		goto out_unload_nls;
+ 	}
+ 
+ 	/* Set up operations so we can load metadata */
+@@ -522,7 +520,7 @@ static int hfsplus_fill_super(struct super_block *sb, struct fs_context *fc)
+ 	sbi->ext_tree = hfs_btree_open(sb, HFSPLUS_EXT_CNID);
+ 	if (!sbi->ext_tree) {
+ 		pr_err("failed to load extents file\n");
+-		goto out_free_vhdr;
++		goto out_unload_nls;
+ 	}
+ 	sbi->cat_tree = hfs_btree_open(sb, HFSPLUS_CAT_CNID);
+ 	if (!sbi->cat_tree) {
+@@ -648,9 +646,6 @@ static int hfsplus_fill_super(struct super_block *sb, struct fs_context *fc)
+ 	hfs_btree_close(sbi->cat_tree);
+ out_close_ext_tree:
+ 	hfs_btree_close(sbi->ext_tree);
+-out_free_vhdr:
+-	kfree(sbi->s_vhdr_buf);
+-	kfree(sbi->s_backup_vhdr_buf);
+ out_unload_nls:
+ 	unload_nls(nls);
+ 	return err;
+@@ -716,6 +711,8 @@ static void hfsplus_kill_super(struct super_block *sb)
+ 	struct hfsplus_sb_info *sbi = HFSPLUS_SB(sb);
+ 
+ 	kill_block_super(sb);
++	kfree(sbi->s_vhdr_buf);
++	kfree(sbi->s_backup_vhdr_buf);
+ 	call_rcu(&sbi->rcu, delayed_free);
+ }
+ 
+diff --git a/fs/hfsplus/wrapper.c b/fs/hfsplus/wrapper.c
+index 30cf4fe78b3d..8e4dcc83af30 100644
+--- a/fs/hfsplus/wrapper.c
++++ b/fs/hfsplus/wrapper.c
+@@ -139,32 +139,29 @@ int hfsplus_read_wrapper(struct super_block *sb)
+ 	u32 blocksize;
+ 	int error = 0;
+ 
+-	error = -EINVAL;
+ 	blocksize = sb_min_blocksize(sb, HFSPLUS_SECTOR_SIZE);
+ 	if (!blocksize)
+-		goto out;
++		return -EINVAL;
+ 
+ 	sbi->min_io_size = blocksize;
+ 
+ 	if (hfsplus_get_last_session(sb, &part_start, &part_size))
+-		goto out;
++		return -EINVAL;
+ 
+-	error = -ENOMEM;
+ 	sbi->s_vhdr_buf = kmalloc(hfsplus_min_io_size(sb), GFP_KERNEL);
+ 	if (!sbi->s_vhdr_buf)
+-		goto out;
++		return -ENOMEM;
+ 	sbi->s_backup_vhdr_buf = kmalloc(hfsplus_min_io_size(sb), GFP_KERNEL);
+ 	if (!sbi->s_backup_vhdr_buf)
+-		goto out_free_vhdr;
++		return -ENOMEM;
+ 
+ reread:
+ 	error = hfsplus_submit_bio(sb, part_start + HFSPLUS_VOLHEAD_SECTOR,
+ 				   sbi->s_vhdr_buf, (void **)&sbi->s_vhdr,
+ 				   REQ_OP_READ);
+ 	if (error)
+-		goto out_free_backup_vhdr;
++		return error;
+ 
+-	error = -EINVAL;
+ 	switch (sbi->s_vhdr->signature) {
+ 	case cpu_to_be16(HFSPLUS_VOLHEAD_SIGX):
+ 		set_bit(HFSPLUS_SB_HFSX, &sbi->flags);
+@@ -194,12 +191,11 @@ int hfsplus_read_wrapper(struct super_block *sb)
+ 				   sbi->s_backup_vhdr_buf,
+ 				   (void **)&sbi->s_backup_vhdr, REQ_OP_READ);
+ 	if (error)
+-		goto out_free_backup_vhdr;
++		return error;
+ 
+-	error = -EINVAL;
+ 	if (sbi->s_backup_vhdr->signature != sbi->s_vhdr->signature) {
+ 		pr_warn("invalid secondary volume header\n");
+-		goto out_free_backup_vhdr;
++		return -EINVAL;
+ 	}
+ 
+ 	blocksize = be32_to_cpu(sbi->s_vhdr->blocksize);
+@@ -221,7 +217,7 @@ int hfsplus_read_wrapper(struct super_block *sb)
+ 
+ 	if (sb_set_blocksize(sb, blocksize) != blocksize) {
+ 		pr_err("unable to set blocksize to %u!\n", blocksize);
+-		goto out_free_backup_vhdr;
++		return -EINVAL;
+ 	}
+ 
+ 	sbi->blockoffset =
+@@ -230,11 +226,4 @@ int hfsplus_read_wrapper(struct super_block *sb)
+ 	sbi->sect_count = part_size;
+ 	sbi->fs_shift = sbi->alloc_blksz_shift - sb->s_blocksize_bits;
+ 	return 0;
+-
+-out_free_backup_vhdr:
+-	kfree(sbi->s_backup_vhdr_buf);
+-out_free_vhdr:
+-	kfree(sbi->s_vhdr_buf);
+-out:
+-	return error;
+ }
