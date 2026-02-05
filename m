@@ -1,55 +1,55 @@
-Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
+Received: from mail-wr1-f74.google.com (mail-wr1-f74.google.com [209.85.221.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B2DB3A9D96
-	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Feb 2026 12:07:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC00133ADBA
+	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Feb 2026 12:07:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770293222; cv=none; b=unXJlebvzGRzcDK7/OY8iBS40qgv+Sipx6SZVYto1tFf+7pVbLGE2wPxYtttv3T44s+MvOtvWWDobwwqOjOQmXPA1gWGs+6bRi/q3oD9GZ5WgWMkJtRZudpCSCzITpVB58Kif3vu1jEz6Cbml8xSPb+5WFemdsqsKQpgvOM2030=
+	t=1770293253; cv=none; b=M5tLjVNvtr4F2agvyOcnEmQ8DebO68VOibY77AEOmTJ4dbboS4PK2/3IURyz9t/Km9MWRT6Hu8ALN+d4jcct7vt35ItR726x7rkEBtUolGw55pRR5gwgA4BKG9kepLPmJ6hBApESZuld9Z+mOZzPL+qIBxGbKdKFDtti3hlZp2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770293222; c=relaxed/simple;
-	bh=u+peTVHK2V5GDnlUQ9nOUzZqoANTtWMS/ko4tHyGhtY=;
+	s=arc-20240116; t=1770293253; c=relaxed/simple;
+	bh=EUbyPSPzg8O/FCruDlcxDBtyuxWhSzYDy+sSVCSNiwk=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=SYNRS/2kllo7qi7NRH76Hpy1xbSCHcgZwszo81ISKCz0Ieg61CotK/uiRzndu8jPR2EHJj4W5WYlkms02x1aRP51u4KuPDFFbqqV3wjYeA2y6gzWvuRZeMinUTQGs/RnoG5FWhiXfX+aohCVtXVcQ9tLz21cQlAv2nTMyShZ68k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=U1HAe1g8; arc=none smtp.client-ip=209.85.128.73
+	 To:Cc:Content-Type; b=Sc3T2uoMBJYz8EibuNJ9s7c+amSmqhR8e02j8iV2PwRPqxXM2Tu17xu5d7yv9G/Cm8uX1YYU0daDI6wQ8GuTtAy9ph6QRPgpOMUK8RLMiI7x8v0tq1swnBUWwqq71So0e7P9GCv7hdjs/5YefNpBYCAUckcgWjwP3B4+gsaNKpk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=PAbW9UuY; arc=none smtp.client-ip=209.85.221.74
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="U1HAe1g8"
-Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-480711d09f1so11598565e9.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Feb 2026 04:07:02 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PAbW9UuY"
+Received: by mail-wr1-f74.google.com with SMTP id ffacd0b85a97d-42fdbba545fso1754304f8f.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Feb 2026 04:07:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1770293221; x=1770898021; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1770293251; x=1770898051; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=u+peTVHK2V5GDnlUQ9nOUzZqoANTtWMS/ko4tHyGhtY=;
-        b=U1HAe1g8u4Hn34NcjAQhfrM9jb0n7yHtW2HTGFaZ/vruZ7iHfQqKOE1RSOLNV/QhI6
-         oAmnO/2bFLTBWeJ9sOPYjohICu/jqEJZaNyQuA3cI5//gB9+M4KDHPXLGq5nuy6PmRGW
-         D+XycDPDi2Vj+6lAcvxcuYr7l40jZ7nC37lxjKj72G1KzQGpesmVoEWUF+EhmQaAV87w
-         6FkNIbTES0vDwWnHg7vW34E4WpFpogHZNeQQkTYS2B6W5a8NeLXERWXR9LoDZv/4Edwz
-         e0KwQAnt/HaLf8mB0tXjpwR+JZ+F6u4eXBvhlogfwgfuXHcKmUDinzKIZWqa7xOIzRJf
-         wEmQ==
+        bh=AiRDpPfBdhyz5wlzzzVx6PwkN51eGtr6n3cy1jg4OEU=;
+        b=PAbW9UuYnetR5vDfvxtaFul/hV5JkM7tan3qTmdfmFByLa/lpdG/ghUyLuOoA3g65e
+         c+A8y1QaDSMbocnhBddBrpXMPtEjDWr2cZNt9NtGsf6m0b7yGkcH3Hvd3UCjk4apEhjw
+         u/zBfrOTdCWr03V9Z6I4cT3Uu3BtQlZLdjl7L4G2KUg3JZ/fBq1J851kwyETl+sTEIBA
+         lLfP+89WqO6ssKux6qqCKTtJhu6dmgnbMAAGBxO4vXxAcnrCMBEqf0m1lMzEO9AnRw0R
+         p5Uz2DLHxBIOSOaJyuEDG00L7i19aFtXxbYH1RKMLa4xDD4jncvyVnrfcUy90MgPqnjp
+         4Qfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770293221; x=1770898021;
+        d=1e100.net; s=20230601; t=1770293251; x=1770898051;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=u+peTVHK2V5GDnlUQ9nOUzZqoANTtWMS/ko4tHyGhtY=;
-        b=tA3kBp8yl4HRiOnC0DNrBjxAh8UTRD90KzaX0JXhHzQbAW8nbbybqp9bBVvcHLP8CH
-         CIommfEm/u7pSZafsQf0gN/Q3TPrl91Cs8ug/grJfeppV46QIFpNiMKc8UDhdAE4D30u
-         oKvaajGg3TAjva9XvioXYUd1tiQ5c6/4bEgDpUdTcYQeYkmE2ZTFT6EAW66q6VO0iyLP
-         CUfRUyRaEMdirwuwRoosGwRUu7zNguZpAgBNRjfxdICuZcGWXUMAA7r85I0gwfDmwN25
-         r2fIcq5cgw25ufJ3OhAepIOwvw8Bc5FSOUAMltKHHt2Eg3l+BWIczDwH1Bfao/FKgFM/
-         E7gA==
-X-Forwarded-Encrypted: i=1; AJvYcCW6rlFeqGtZi4Vzq8JkiUyOjWqRxFnLmmlpgPV0YUNwz66fJKQVNUii3KGiEDe8suRoJp+hfRPU0/5glnt4@vger.kernel.org
-X-Gm-Message-State: AOJu0YzsR1ohAhDTFdwwInX2Ut1Xz5zFbOhJNcFpU06+gdllzQVxyisE
-	j3AHkA9fexpPkxrS8ZgOgbgVJrOWYOiLqrZ565kyhM9gXPQ4Ya1mwuG5QyrQNkB2wxvSJQIxCBv
-	1nzkp3P0gLyytShfOEQ==
-X-Received: from wmmi24.prod.google.com ([2002:a05:600c:4018:b0:46f:b32b:55f])
+        bh=AiRDpPfBdhyz5wlzzzVx6PwkN51eGtr6n3cy1jg4OEU=;
+        b=c/2DBrD4rgNS2OE/KGcBvTNPDMBqaeZwuoaD8GeUMDbpg3GRvJmyaURmxQ2zaBTczb
+         UEzpQsuOK7N/GWtEtdW6PI+1Qp3gAYDKoYEQ0eWTx/fWurNBj3WUumbwfJ/kS4SwpQ03
+         bxDsyP/W0JXh4RulYb0nOk8a0W6JlJ/uYNsb3kc7+3JyG/UHV0ru58w++rrkkheWmjDK
+         YXZVvA1JxolOvvWUSEYIUrv7WncU7OGuBG4oRO2KDcZdrMWXqINHmTg/t1iXT0vT4CbF
+         W+sUQFR7yzNreCkHNRVzDusg0O2MEJ+z+zGXahE00ACKJ41fwBshemn+LVWmWjOheo+4
+         rHfg==
+X-Forwarded-Encrypted: i=1; AJvYcCU/iD+vXFXuNqZYokiGfOoEa5OcUYNfswJCnOcgBxUXFkrzhA9I7VGrA0mmcllEaXFlTohCg4lmxdHZvbOb@vger.kernel.org
+X-Gm-Message-State: AOJu0YzyfMBzx5w4X82Bf5HI8Np9Vv4h72MamOT/SmC0HLZWt9QyeU/i
+	eb62e6jXYrszvv9EpdIJorXupkn5iNAn2WfanjhRjaI9RDRlixth0XazP3NIrkCLcG0vcX1lbDJ
+	EJUr3RJ2V1lLqO2ywUQ==
+X-Received: from wrbbs27.prod.google.com ([2002:a05:6000:71b:b0:435:c29b:f782])
  (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:c04b:10b0:483:a21:774a with SMTP id 5b1f17b1804b1-4830e9926cbmr64195215e9.26.1770293220868;
- Thu, 05 Feb 2026 04:07:00 -0800 (PST)
-Date: Thu, 5 Feb 2026 12:07:00 +0000
-In-Reply-To: <02801464-f4cb-4e38-8269-f8b9cf0a5965@lucifer.local>
+ 2002:a05:6000:4201:b0:435:a135:777d with SMTP id ffacd0b85a97d-436213d7b3amr4150152f8f.9.1770293251034;
+ Thu, 05 Feb 2026 04:07:31 -0800 (PST)
+Date: Thu, 5 Feb 2026 12:07:30 +0000
+In-Reply-To: <luj2ggjo47mvjzhzavoy72ro6kaoj46cicudjrc6646vs3s7q5@wzc7aabgdlkl>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -57,44 +57,45 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20260205-binder-tristate-v1-0-dfc947c35d35@google.com>
- <20260205-binder-tristate-v1-3-dfc947c35d35@google.com> <02801464-f4cb-4e38-8269-f8b9cf0a5965@lucifer.local>
-Message-ID: <aYSH5KG36fVQFePL@google.com>
-Subject: Re: [PATCH 3/5] mm: export zap_page_range_single and list_lru_add/del
+ <20260205-binder-tristate-v1-1-dfc947c35d35@google.com> <20260205-mitschnitt-pfirsich-148a5026fc36@brauner>
+ <luj2ggjo47mvjzhzavoy72ro6kaoj46cicudjrc6646vs3s7q5@wzc7aabgdlkl>
+Message-ID: <aYSIAoK5KkZ3ver5@google.com>
+Subject: Re: [PATCH 1/5] export file_close_fd and task_work_add
 From: Alice Ryhl <aliceryhl@google.com>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Carlos Llamas <cmllamas@google.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+To: Jan Kara <jack@suse.cz>
+Cc: Christian Brauner <brauner@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Carlos Llamas <cmllamas@google.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
 	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
 	"Serge E. Hallyn" <serge@hallyn.com>, Andrew Morton <akpm@linux-foundation.org>, 
 	Dave Chinner <david@fromorbit.com>, Qi Zheng <zhengqi.arch@bytedance.com>, 
 	Roman Gushchin <roman.gushchin@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
-	David Hildenbrand <david@kernel.org>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
-	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, 
-	Gary Guo <gary@garyguo.net>, 
+	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
 	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
 	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
 	Danilo Krummrich <dakr@kernel.org>, kernel-team@android.com, linux-fsdevel@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	linux-mm@kvack.org, rust-for-linux@vger.kernel.org
+	linux-mm@kvack.org, rust-for-linux@vger.kernel.org, 
+	Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="utf-8"
 
-On Thu, Feb 05, 2026 at 11:29:04AM +0000, Lorenzo Stoakes wrote:
-> We either need a wrapper that eliminates this parameter (but then we're adding a
-> wrapper to this behaviour that is literally for one driver that is _temporarily_
-> being modularised which is weak justifiction), or use of a function that invokes
-> it that is currently exported.
+On Thu, Feb 05, 2026 at 12:52:37PM +0100, Jan Kara wrote:
+> 
+> Agreed. And just to demonstrate the point binder's use would become the
+> first of such bugs because it is prone to the module being removed while
+> the task work is in flight and thus do_close_fd() code can be freed by the
+> time it gets executed.
 
-I have not talked with distros about it, but quite a few of them enable
-Binder because one or two applications want to use Binder to emulate
-Android. I imagine that even if Android itself goes back to built-in,
-distros would want it as a module so that you don't have to load it for
-every user, rather than for the few users that want to use waydroid or
-similar.
+Good point ...
 
-A few examples:
-https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/blob/5711a17344ec7cfd90443374a30d5cd3e9a9439e/config#L10993
-https://salsa.debian.org/kernel-team/linux/-/blob/debian/latest/debian/config/arm64/config?ref_type=heads#L106
-https://gitlab.com/cki-project/kernel-ark/-/blob/os-build/redhat/configs/fedora/generic/x86/CONFIG_ANDROID_BINDER_IPC?ref_type=heads
-
-Alice
+> Generally, making some code modular usually requires more effort than just
+> flipping the Kconfig to tristate. You usually need to make sure all objects
+> and queued work is flushed before the module can be removed. Not sure how
+> much of this is taken care of by Rust though...
+> 
+> 								Honza
+> -- 
+> Jan Kara <jack@suse.com>
+> SUSE Labs, CR
