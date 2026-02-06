@@ -1,39 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1723735DCF2;
-	Fri,  6 Feb 2026 16:51:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3BE5364E83;
+	Fri,  6 Feb 2026 16:51:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770396693; cv=none; b=VRPjMxIqw+FnVsF2+LnSquMaTWk5o8JF8ICx1XJEEke2A/lyLvcpj9v8C/Gpt9579fFAr+ZfI/eXv4vrYBQQmRqGNfatTt7rFR5zEGPQasbvJLBFCK/Om64BW9g+EDDlIMeqZLtJu0KHPoceopLfld3PGi7vOMnZ8VA8LKYJcU8=
+	t=1770396695; cv=none; b=hFZoIMx/o0IMqrgkHhto7g1+FtbHK/UFnIxXAMFpEO95xVXAwlC5yfKelREncINCdt3wN7XBPQr1eN6eU4J+V6+GxQpnGIGr4YzDyclI1kxpl45bvy7tcvFVAdnAhFvb4vCmnNxYubDPA1rTmHg91vfz33X6b+w0ynx51O5ldUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770396693; c=relaxed/simple;
-	bh=rtx6MQuKGsMkGa6pdQwtTVbbhFMtalHH9NJdtqEgurs=;
+	s=arc-20240116; t=1770396695; c=relaxed/simple;
+	bh=TLYzkC+NaeIUfbeK9L18U6Dk3UIrgSL7K8ZjrX1nFEg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JEqbh+MlaZ8P2geVikw5s0CWcfjBCCRjNrNiSUfQbGNOoXF15Wcc1NT/DD99QwldzksgyioFL/HP9CYEC2QKyUkVMn8peQTvSWOVGbhddtkmzhnI4/fFrOIYkAoGZRDRc7CkSrDb0PAneI2zpxbvRH1uAwv1RAL/YT0eE/2nefw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=epP4pnGd; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=RTVg1/LDCT38zaxyJ3hMqrOOY1DcZjq1II+lGDGiILcoyOKfxNXYEOB9PYVvRwKh/trt8XbpXJsqGtjJPP/LD9yPtlQZWzeHVJgvVNPnwh66hOCVUYLdzWSfhY7i4WR69GYYTo9ejFyPA0Ido7DMXtdBxnTW9eQYhNPgaKjLnck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UhnZXGv+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="epP4pnGd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4677C116C6;
-	Fri,  6 Feb 2026 16:51:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UhnZXGv+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B16CC2BC86;
+	Fri,  6 Feb 2026 16:51:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770396693;
-	bh=rtx6MQuKGsMkGa6pdQwtTVbbhFMtalHH9NJdtqEgurs=;
+	s=k20201202; t=1770396694;
+	bh=TLYzkC+NaeIUfbeK9L18U6Dk3UIrgSL7K8ZjrX1nFEg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=epP4pnGdXTvZSAfKjvHAp03uSE12pJMmauV2e6HD5BHWUfMMncPqIVib3Fwvm4wvb
-	 eeEt6uDnu1HA6WL5G9VrX/WLoqhnJ3YXjHr2WFTDO64GbN3lYLZkCl23U35AST5Y9J
-	 evqBpWZ+MCkETEVz1tbBAt5umfasIMCKkeL2VbFiRxEbqeT0LjS2/qDBWZZ2d6gV3k
-	 3hEnApAYJPp+vnU+dadrog+AI3fhOce+icLFgvn8C5IcwBK1S1NRG8kWIr7QQeY+n9
-	 4lNEHUmh7x06QPqBiRzmiVgg4kSa2w2xPD86KHY73oAvTF4TKrqrJtw15WQI5NBhEZ
-	 xDNoVRF9hCBqA==
+	b=UhnZXGv+wgurYA+GGnM+Fp1qF6+yQujKDtEHI+//XgNBfUdBmdMf5BKpIiYQW1imI
+	 1likJyOdJFvRfTZ54zDfBOIaesYmSpA9UaHgvEpYarlZwEnfomye3I9CNlGCPARsou
+	 yx2ntOfj7NOmyxeZiJf0KbgBOzUr+UKPAKNzqJRiyY+tQfHSjKaVqCfEm6DhQ+qI8j
+	 DJFN6RHRBDxVHhwDNN3E1A9JYmB/mldALct0UKrKl0sf52fU/zsuvmpi0meIKcYk3q
+	 KHZYzcGJgSYiypmDHvSKoczIJ3oBsImMVCfDPGx5ZQ+VOPNNmgwVg07emlMfGPxpHW
+	 C0WCKAlr4KylQ==
 From: Christian Brauner <brauner@kernel.org>
 To: Linus Torvalds <torvalds@linux-foundation.org>
 Cc: Christian Brauner <brauner@kernel.org>,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [GIT PULL 06/12 for v7.0] vfs btrfs
-Date: Fri,  6 Feb 2026 17:50:02 +0100
-Message-ID: <20260206-vfs-btrfs-v70-7e05d1142772@brauner>
+Subject: [GIT PULL 07/12 for v7.0] vfs minix
+Date: Fri,  6 Feb 2026 17:50:03 +0100
+Message-ID: <20260206-vfs-minix-v70-94555c213288@brauner>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260206-vfs-v70-7df0b750d594@brauner>
 References: <20260206-vfs-v70-7df0b750d594@brauner>
@@ -43,28 +43,23 @@ List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2304; i=brauner@kernel.org; h=from:subject:message-id; bh=rtx6MQuKGsMkGa6pdQwtTVbbhFMtalHH9NJdtqEgurs=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS2Se/cEPUtM/zMGRn+K4zxV23mmwnefdzf1+u0a8Zx4 ftfX29Z11HKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjARaT1Ghv3MKtaB1uleBz72 GumeMp2XlL3uXI/N9YU3LM++U1t+wIKR4eet7fvVLv/UfJYf+VlwyZyc5R1tqqYvp/x7FGv/Is4 1iQcA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1633; i=brauner@kernel.org; h=from:subject:message-id; bh=TLYzkC+NaeIUfbeK9L18U6Dk3UIrgSL7K8ZjrX1nFEg=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS2Se9KslfLur1n1xEttXqLU0cDTuer7J/xa/+7XeyT8 13YGetvdpSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEyEdzfD/whLVVGDF5v1Fi07 szdl3eqTLvmvAyoZzZ9Fq+dNXPnGZTbD/6gezcIDztlx1tOUHnrZnj2ctYb197QN5784xgg4LLP VYAAA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 Hey Linus,
 
 /* Summary */
 
-This contains some changes for btrfs that are taken to the vfs tree to
-stop duplicating VFS code for subvolume/snapshot dentry
+This contains minix changes for this cycle.
 
-  Btrfs has carried private copies of the VFS may_delete() and
-  may_create() functions in fs/btrfs/ioctl.c for permission checks
-  during subvolume creation and snapshot destruction. These copies have
-  drifted out of sync with the VFS originals — btrfs_may_delete() is
-  missing the uid/gid validity check and btrfs_may_create() is missing
-  the audit_inode_child() call.
+Add required sanity checking to minix_check_superblock() The minix
+filesystem driver does not validate several superblock fields before
+using them during mount, allowing a crafted filesystem image to trigger
+out-of-bounds accesses (reported by syzbot).
 
-  Export the VFS functions as may_create_dentry() and
-  may_delete_dentry() and switch btrfs to use them, removing ~70 lines
-  of duplicated code.
+Consolidate and strengthen superblock validation in
+minix_check_superblock().
 
 /* Testing */
 
@@ -89,31 +84,23 @@ The following changes since commit 8f0b4cce4481fb22653697cced8d0d04027cb1e8:
 
 are available in the Git repository at:
 
-  git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.0-rc1.btrfs
+  git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.0-rc1.minix
 
-for you to fetch changes up to f97f020075e83d05695d3f86469d50e21eccffab:
+for you to fetch changes up to 8c97a6ddc95690a938ded44b4e3202f03f15078c:
 
-  Merge patch series "btrfs: stop duplicating VFS code for subvolume/snapshot dentry" (2026-01-14 17:17:53 +0100)
+  minix: Add required sanity checking to minix_check_superblock() (2026-01-19 12:16:06 +0100)
 
 ----------------------------------------------------------------
-vfs-7.0-rc1.btrfs
+vfs-7.0-rc1.minix
 
-Please consider pulling these changes from the signed vfs-7.0-rc1.btrfs tag.
+Please consider pulling these changes from the signed vfs-7.0-rc1.minix tag.
 
 Thanks!
 Christian
 
 ----------------------------------------------------------------
-Christian Brauner (1):
-      Merge patch series "btrfs: stop duplicating VFS code for subvolume/snapshot dentry"
+Jori Koolstra (1):
+      minix: Add required sanity checking to minix_check_superblock()
 
-Filipe Manana (4):
-      fs: export may_delete() as may_delete_dentry()
-      fs: export may_create() as may_create_dentry()
-      btrfs: use may_delete_dentry() in btrfs_ioctl_snap_destroy()
-      btrfs: use may_create_dentry() in btrfs_mksubvol()
-
- fs/btrfs/ioctl.c   | 73 ++----------------------------------------------------
- fs/namei.c         | 36 ++++++++++++++-------------
- include/linux/fs.h |  5 ++++
- 3 files changed, 26 insertions(+), 88 deletions(-)
+ fs/minix/inode.c | 50 +++++++++++++++++++++++++++++---------------------
+ 1 file changed, 29 insertions(+), 21 deletions(-)
