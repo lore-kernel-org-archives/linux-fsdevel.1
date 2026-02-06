@@ -1,130 +1,67 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4249431D372
-	for <linux-fsdevel@vger.kernel.org>; Fri,  6 Feb 2026 07:41:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30C9232571A;
+	Fri,  6 Feb 2026 07:42:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770363689; cv=none; b=HDd3a/+fsOxznoi+OSVw2LefEvQR7Jdj8b7Qzs8nXXeq7c7JHP6TwBWf6ZIlkkKi05phDwRf72r62pHFjQvAt2F5rEk67RjBCnrgjuroihDDvBlxYMdA1reiGJKdCAinEasmpRhXIbuf92gdvN9CGaEbqkddN9vV/zwyfNy5NGI=
+	t=1770363745; cv=none; b=bJNLxue7/LWgLjOkQiIzkMQYWr67ArpQKd5uVmikunP1TR15JXYfsPDAL+Xshg+zRvynZH5eA6gB2FzzYRYrXOD/2627hVvdjG9YQV7w1eeKxygrPmL7MGUDWdDzppBN4lhlM4sQ/OTR74YgHoKpLpYlIWTaWpOjMRtlDlOsDhI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770363689; c=relaxed/simple;
-	bh=bWFJs6r263JtjQNMFvJD5zRnrK9Z06Zx7sQEkDqhWnk=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=hj9LSMh7d2Q0O1BaaKs+EpxCjyzonNOSZhqKV0bzMHwM6Rvbefmmw8rmw2TpXJJiuWsdXoM5krgWg8KDGvVaQQR2rIetLkHXj0ydChuZXHWqIJoPw4H5+GhuRKAMh6oFJIwELevaQE0I7J8TBacvx+zynszrXBVq1ogF5VbVX1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2a7bceb6cd0so12884185ad.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Feb 2026 23:41:29 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770363688; x=1770968488;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=iSziNcqCzi3scPg6UFzBIzYNZ5dqi/bOe+UUAaW7TX8=;
-        b=t3c98iaV7I4Glnc4fo2MlO+nQIgyk3WtnkKKGMnIzdYOvH/sjBMyZ1CLMbKzkSbFis
-         oPWS8J/dZbzitXMw/GqDIsGPicPifqp4jjyjMOJgA5TUW9r28S9T1oK6XwHe3X4RFs+f
-         /519JnOhYlAbFpnSC6LvTzkOcP6gfnzTB/jm9yQuxhCwvzgcCDIDe62U5skQjNvRk4YH
-         tshZWvAkLFwDYmbxqF0sFd274wvAzU8r3CsWJRieUu3e9p+CzTl9Jq2YMlBPGCyvqYVH
-         ftG0bfvWUTA3JiPBR6q55LWalwWjWTF9oqu+vbIcpfLHwXBqCQ2698Yv5rSxy4KTmwex
-         XGlw==
-X-Gm-Message-State: AOJu0Yxms3GQiF+pzTauinCtnR/9Crb/QEmvOavSBuOhN3+9RhKK0O8X
-	IdKamdIsBZsvuyF56ezEI7L6nu9lK9gHFIyLg+on5bniIOIkcXzZEJJ7
-X-Gm-Gg: AZuq6aKQ6q4KxTLbw5r1WIs1gm2pWxzol/9L5aK6+8KNjw9Dif3l5mSUG2WvP+DB134
-	1hDhatJCOFJcnGZ/HyOvVyZX53J+vcJvtimuj4wQnRRvPwM2DJzhKcF/qRoLtZdExS8nUPcjqhb
-	LqHLQwppQQv1xGGF5iOybKUjzdKla/COdLStCM2ERQFWR0nhm027Pd1FqVXYHUtBmCUeApYRQaj
-	mJxR+vjh3/pJeX/56f7QAwlGu70+bgHSA+HwR3rbBhhzRrpztsFv6Uoeajt4WUO/riFWUn4gova
-	7oonCSui+qw2HvuZ4MhQgaSvGLERlIZq389vVVaaDKUslc8gcWanZIGDdwyN238Fq8wYoq8SyMp
-	roJrYp1m8Bt08/DTIchX30KH7SPl+ZuY6ge9mZl9I/dXOE8og8JrvlovznifjF8zP49aaOaNOdn
-	Bdw/r4ZI0tlhVxl3l/vWEuLlBHBg==
-X-Received: by 2002:a17:902:da83:b0:2a7:d7dd:8812 with SMTP id d9443c01a7336-2a9516d5133mr22647835ad.38.1770363688610;
-        Thu, 05 Feb 2026 23:41:28 -0800 (PST)
-Received: from localhost.localdomain ([1.227.206.162])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a951c7a047sm13575125ad.27.2026.02.05.23.41.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Feb 2026 23:41:27 -0800 (PST)
-From: Namjae Jeon <linkinjeon@kernel.org>
-To: viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	hch@lst.de,
-	tytso@mit.edu,
-	willy@infradead.org,
-	jack@suse.cz,
-	djwong@kernel.org,
-	dsterba@suse.com,
-	pali@kernel.org,
-	amir73il@gmail.com,
-	xiang@kernel.org
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Anton Altaparmakov <anton@tuxera.com>
-Subject: [PATCH v8 17/17] MAINTAINERS: update ntfs filesystem entry
-Date: Fri,  6 Feb 2026 16:19:00 +0900
-Message-Id: <20260206071900.6800-18-linkinjeon@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260206071900.6800-1-linkinjeon@kernel.org>
-References: <20260206071900.6800-1-linkinjeon@kernel.org>
+	s=arc-20240116; t=1770363745; c=relaxed/simple;
+	bh=WeVmhn33iwZYsaBPkxpYtNiRgSAWxahrvzcjNmwtGhU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MvSfqW/9g7H6Hp6SUbVzQ1LemMLiU2RZSnAlMw27m9WRgDLtgA+1NzFPIU9lgog9i7GZfytRijkgU546zVZutgX1W0keIFXZIKxmmSlj+nV5voPREXtWDWDYp8gA4KJJV7AC3yQRg8Kf3zqM30Jq/hCmPWmecFis1S2v/O9iRmw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=1l4a5UiE; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="1l4a5UiE"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=9Zu5Sn8tUPbS51W0jfTqrezTHnrJClgJeJJdhVN8z+Q=; b=1l4a5UiE4ghuKYHlKJdllioTt7
+	ACusxxnnbzdcxSjFuLZD7lfcYlOSSKxdH8Ibk+tN9sXuTG9/aKNA5c54WCnlyErJFzRAB+9Zcrjg1
+	COit7Ud0+mefdU+6Zht2Gp0p1JHLgw7sdgSWbIFU42RuKrjbR1M3ipyIXrhTIH8rFjRp9hTERSCyJ
+	+m2Lc4a5yje6NwZ5RxxvtSh3Sn0b7B98YyCXBFjIhXRFwigTNYlyglxR7zRS/uTBkRgUo+OXPYQ4N
+	KogCialo1FJGIitsThI/4xRmot+jwaJX1Y+/1Hr2IMmy3l9U+fYzENmubwkPksfoLzkbhLe9CFgRW
+	iAAtSdaw==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1voGTt-0000000B08t-2jaW;
+	Fri, 06 Feb 2026 07:42:21 +0000
+Date: Thu, 5 Feb 2026 23:42:21 -0800
+From: Christoph Hellwig <hch@infradead.org>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: axboe@kernel.dk, miklos@szeredi.hu, bschubert@ddn.com,
+	csander@purestorage.com, krisman@suse.de, io-uring@vger.kernel.org,
+	asml.silence@gmail.com, xiaobing.li@samsung.com,
+	safinaskar@gmail.com, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v4 00/25] fuse/io-uring: add kernel-managed buffer rings
+ and zero-copy
+Message-ID: <aYWbXV9pfyLwfy-t@infradead.org>
+References: <20260116233044.1532965-1-joannelkoong@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260116233044.1532965-1-joannelkoong@gmail.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Add myself and Hyunchul Lee as ntfs maintainer.
-Since Anton is already listed in CREDITS, only his outdated information
-is updated here. the web address in the W: field in his entry is no longer
-accessible. Update his CREDITS with the web and email address found in
-the ntfs filesystem entry.
+On Fri, Jan 16, 2026 at 03:30:19PM -0800, Joanne Koong wrote:
+> This series adds buffer ring and zero-copy capabilities to fuse over io-uring.
+> This requires adding a new kernel-managed buf (kmbuf) ring type to io-uring
+> where the buffers are provided and managed by the kernel instead of by
+> userspace.
+> 
+> On the io-uring side, the kmbuf interface is basically identical to pbufs.
+> They differ mostly in how the memory region is set up and whether it is
+> userspace or kernel that recycles back the buffer. Internally, the
+> IOBL_KERNEL_MANAGED flag is used to mark the buffer ring as kernel-managed. 
 
-Cc: Anton Altaparmakov <anton@tuxera.com>
-Reviewed-by: Amir Goldstein <amir73il@gmail.com>
-Acked-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Namjae Jeon <linkinjeon@kernel.org>
----
- CREDITS     |  4 ++--
- MAINTAINERS | 11 +++++------
- 2 files changed, 7 insertions(+), 8 deletions(-)
-
-diff --git a/CREDITS b/CREDITS
-index 52f4df2cbdd1..4cf780e71775 100644
---- a/CREDITS
-+++ b/CREDITS
-@@ -80,8 +80,8 @@ S: B-2610 Wilrijk-Antwerpen
- S: Belgium
- 
- N: Anton Altaparmakov
--E: aia21@cantab.net
--W: http://www-stu.christs.cam.ac.uk/~aia21/
-+E: anton@tuxera.com
-+W: http://www.tuxera.com/
- D: Author of new NTFS driver, various other kernel hacks.
- S: Christ's College
- S: Cambridge CB2 3BU
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8b2476a91e7c..d813e9b120b1 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -18651,12 +18651,11 @@ T:	git https://github.com/davejiang/linux.git
- F:	drivers/ntb/hw/intel/
- 
- NTFS FILESYSTEM
--M:	Anton Altaparmakov <anton@tuxera.com>
--R:	Namjae Jeon <linkinjeon@kernel.org>
--L:	linux-ntfs-dev@lists.sourceforge.net
--S:	Supported
--W:	http://www.tuxera.com/
--T:	git git://git.kernel.org/pub/scm/linux/kernel/git/aia21/ntfs.git
-+M:	Namjae Jeon <linkinjeon@kernel.org>
-+M:	Hyunchul Lee <hyc.lee@gmail.com>
-+L:	linux-fsdevel@vger.kernel.org
-+S:	Maintained
-+T:	git git://git.kernel.org/pub/scm/linux/kernel/git/linkinjeon/ntfs.git
- F:	Documentation/filesystems/ntfs.rst
- F:	fs/ntfs/
- 
--- 
-2.25.1
+Can you split that series out as it also has other applications
+and smaller series might be easier to review?
 
