@@ -1,52 +1,52 @@
 Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CAFA37F0E4;
-	Mon,  9 Feb 2026 15:24:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D535337FF46;
+	Mon,  9 Feb 2026 15:35:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770650691; cv=none; b=DF4PBbgmJOcy1MsbeB5EcbVUccHd0kbCNNvVKLWhaLgCQhNpR0QTHtHAzLWILqt7XefqLH5ATZk8bjgfm+mUDOrUd08UQqlhR9TKFNZ3ZLFqFJBMHYLxP20UAqNoCXvFVcREdFaphWRnvAfgLkaBZ1vNLWG+WTOUOVlex4dA1kk=
+	t=1770651346; cv=none; b=k5KnNWuADgAK3vuyO1gH7S0uc4j8fjR32akUcXGnIy1OeI0XCcUuWx1QGJXbWwbamIK/BtKEXF/b+jRqzPh/ZoiLbHPH/GLjcQ2Mz5CRjN7u5JpYgLvh8mH/R102XCWzq5WhFprDiF0bRZ20ZdqwUnWTKLiiDTWyeWIcd/6GOeE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770650691; c=relaxed/simple;
+	s=arc-20240116; t=1770651346; c=relaxed/simple;
 	bh=FFXCc43I3tk/mxj/aCNjnGC7RY/QzOM1guMiQf3LESk=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KuvmSvT63wg9xXh0n0DJMPWERanmcyMz3ZJLfCefj7Yivl+BmWg6yYblGZOYCdSY5iQrzjyfB5GBIOlzV4zodE8+rs+wp1t3chL8lR47OpmQtwUBHJUqjP2ORMfo3WSm7PqeGxrkQwyut9ikFKo7Afy5x39Z0tfPX2qZDiODaMk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=Z9HS0wFA; arc=none smtp.client-ip=35.157.23.187
+	 MIME-Version:Content-Type; b=OdBX3+WvqnruFm2TIr4d8FSw+Y3qB0EwbVMgDaIt3ZLZCZ5n0zY12sNP1M6VHPxS4F7t+So+v2rP+suoVb/De7aGHOLofYRq1abLEVoMcLdP7bHCFQIP1EdxafeK+TTq2DtkVHH1UNdDN0T5vT9lBrkwTbze65TsYlq33aBBHYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=E/Wo6n2J; arc=none smtp.client-ip=35.157.23.187
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="Z9HS0wFA"
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="E/Wo6n2J"
 Received: from relayfre-01.paragon-software.com (unknown [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id BB239241;
-	Mon,  9 Feb 2026 15:22:42 +0000 (UTC)
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 22225241;
+	Mon,  9 Feb 2026 15:33:37 +0000 (UTC)
 Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=Z9HS0wFA;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=E/Wo6n2J;
 	dkim-atps=neutral
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id B28442187;
-	Mon,  9 Feb 2026 15:24:49 +0000 (UTC)
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 069652120;
+	Mon,  9 Feb 2026 15:35:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1770650689;
+	d=paragon-software.com; s=mail; t=1770651339;
 	bh=CYd5rcNnOaKSh23TI/e5OE/xbQ5AsdzUoPUlc04ix/w=;
 	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=Z9HS0wFAFZ5byhJiHI/hGpRC4cxccP3znXOIYk90DbpxyqUjIXkfLI4e51fB9e7EF
-	 5zL+rPFI3YEc65pMSNQMDYoJAlA1NOIL8XIECn+84PmKt0ANJYTlYzcHA2ttPoQvSE
-	 ui7ImzYVNinQdVwQReSFlMqT1gcLPXqmmSO/oI18=
+	b=E/Wo6n2JOKxiq9h38I1IvuqmOoawuem7eR6bOl8pkjitNGPePBxd1wZ0+Qdx1cMKN
+	 VaSDoy+0j6aPxgeQo/zfKnUQWuCEYuaQeL3Fg/8PL8kYAPEzEV36QvzBgPt1LhNTj4
+	 C+haQ/a5R7Fvsj/F55StLwaitXJ/2nJgPcb+SFsE=
 Received: from localhost.localdomain (172.30.20.159) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Mon, 9 Feb 2026 18:24:48 +0300
+ 15.1.2375.7; Mon, 9 Feb 2026 18:35:37 +0300
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 To: <ntfs3@lists.linux.dev>
 CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
 	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, kernel test
  robot <lkp@intel.com>, Dan Carpenter <dan.carpenter@linaro.org>
-Subject: [PATCH] fs/ntfs3: avoid calling run_get_entry() when run == NULL in ntfs_read_run_nb_ra()
-Date: Mon, 9 Feb 2026 16:24:40 +0100
-Message-ID: <20260209152440.9832-1-almaz.alexandrovich@paragon-software.com>
+Subject: [PATCH] (resend: correct threading) fs/ntfs3: avoid calling run_get_entry() when run == NULL in ntfs_read_run_nb_ra()
+Date: Mon, 9 Feb 2026 16:35:25 +0100
+Message-ID: <20260209153525.9979-1-almaz.alexandrovich@paragon-software.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20210824075819.GA13628@kili>
-References: <20210824075819.GA13628@kili>
+In-Reply-To: <aYXvc_N3LzX3Ef7Q@stanley.mountain>
+References: <aYXvc_N3LzX3Ef7Q@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
