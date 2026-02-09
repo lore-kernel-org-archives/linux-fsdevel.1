@@ -1,78 +1,125 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE613239E75
-	for <linux-fsdevel@vger.kernel.org>; Mon,  9 Feb 2026 17:03:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770656633; cv=none; b=NFIcd279NQmkZkBRx+9c+P6MT7ljf1nki8zb0BCAqm5F5IVwdXQCxBEmWjZMAMpYJIt7CRew2PdduGLGA/6bPlLsr1pZeFlEjJEUxqeC198Z1eyxkMSuAAeU2LZ5jM1F0ex5aKalGkr4uWw+BHnA6RHCM0cUerW1k4wlZXJCKog=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770656633; c=relaxed/simple;
-	bh=mQU+PSy3DUt4Ba5QB/r/C8tjmtjEIXHVIDDiAfHtCV8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZXufao9JyI3r/3nx1NJJmp2G7ch2ZfRuEQ8TF808O9sw4e3hjJSs7foELiyCERoo/1ku6Snymqd4t2CZqH/AMxmxQqYz0hODP9lDwKtAVb3mE5se5HyuzomDioVMmAKet4RvzXLIYPTwiPHpFf0F1a3fw2D9w0ORkzEDO/mutDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=l9GzceMS; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93F72274FEB
+	for <linux-fsdevel@vger.kernel.org>; Mon,  9 Feb 2026 17:31:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.175
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770658319; cv=pass; b=g3Gli2yAFnJouwBSMOYSVxP/WGwpfTQ/69iRW9/ZUbO5blSbE8+V2JFTYw6QAgnzdKzhEUSaxPSRBKd5gojtAZ2uWzPluyd2TJIpkvw/D6yGX1U/ThfiXvfoPim8SLE/f1x2RFk0pkBc6dMe+c/0GZp+B1uFvDeiFvCEc0tuevc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770658319; c=relaxed/simple;
+	bh=A7Bemy7E0jyiRqsRJXizeGyfe9brY6d0bZ1gI/sSMQs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VUoc5DHMIY7oQtGQWiVbkyWQvfyOp4mG/yqfePcRUUTWF/qfGOUxqILdLDHRRW8n6tlpSFkfRJRDt/Crr5hpFTqGaUNZ/G8cQhrmSYHDvZ+msVLTAOP1Y4w61/RUR5ZnL2EDQIzclQL/4LvNZL+IJ5OYTswIi+3LadXFnGZ3dDk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DSGFpZi0; arc=pass smtp.client-ip=209.85.160.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="l9GzceMS"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=yFYT5KAsSK/+i8yjAkGONo4LAjzIcnt+WlVcpAm32c4=; b=l9GzceMScI+HVZEVOYYinRjvh+
-	Z5tpUEfnVA+FQUVvP/nxBpkm6gALeEgR33ZW54EhOnp5SOSN4KgEh5xtYjfr+PDrlMH8V83FUNGb/
-	43gMVg0iTodJXp8h3MO7BZSDKDf58lJ/5qLrreXmMNBSRzcrBOf21LH+4SFdPlvDxO7sDJFJilX37
-	I8Hx+zaIQgEU5UhLKEY+EaIcHrEBNz6rByGaAMg4Xdplv2LQqgZepkHHz7p4O3ZYzIunCEUwQHBXF
-	t4UXFd5SRnluUg6jNJ/nC2e/lH3D+GMT01y8z6gW8Z1/UZt7irqK+O7hJTpI/MiePKwMdBwdsiGUa
-	pZMLdIhA==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vpUfs-00000009nTP-2BNW;
-	Mon, 09 Feb 2026 17:03:48 +0000
-Date: Mon, 9 Feb 2026 17:03:48 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: oaygnahzz <oaygnahzz@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org, viro@zeniv.linux.org.uk,
-	brauner@kernel.org, jack@suse.cz
-Subject: Re: [PATCH] [QUESTION] ext4: Why does fsconfig allow repeated
- mounting?
-Message-ID: <aYoTdL_6hvjrwJ3W@casper.infradead.org>
-References: <20260209165944.12649-1-oaygnahzz@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DSGFpZi0"
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-50146483bf9so50853491cf.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 09 Feb 2026 09:31:59 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770658318; cv=none;
+        d=google.com; s=arc-20240605;
+        b=aD/dmSg4CM1jyDj+Z0xtvrfoibmKs6OnmrOERN5VBM6oojnh6UItL3O4Zxtix5COWn
+         KODex5Q57ow2kCCJ3+CsVC7+EveUPEUPYRRkXBHpcGhWQsNYx7qzy8ayABg4Sm5d+Vo3
+         7tLygkDVWLmXj9LYO5FuLP7i8FJmtO0xDrUpG9U4toMe9LGWVbjBy9/F9RrCYDfb9NKC
+         VEd4nuTig+TTBZ829InMB4iC7EZQoMxdfcbOXjoKMzl+UWYI4jhlLU11HJ70NodukeAz
+         TyYdk/8nMCHIIWRvxoZtPBbdtOhB8SixyEv1lq32T9c9Z9ckJE6Cuzurn3xXwVBMv0H0
+         cHIw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=A7Bemy7E0jyiRqsRJXizeGyfe9brY6d0bZ1gI/sSMQs=;
+        fh=IwLVdiOBfDVPmqJkN8kKsW0U4urD3+WYquTiZyXv+3E=;
+        b=DEHxCpIP3Dzacrj3zU4lWdL8qHSgPO77ClS8yL2oSlHIzuaiM9+WxeJxIOmtPqWWBO
+         E0LGrwyL+rf2BHnIdqNN9ShxARCgYUxs2BgbmiMAtJ252Mcmbbkmrh3uTIl/dfjHN5h5
+         YuD0UM10DgzbAq3eHGUvZcEDmN9o27PoBiTG/+SCiQiTfdO4iszWHuKcMy1gi4aI1ZEK
+         zKn3BwU/PndEddltVmghOzTtEa4ZAvP1auboE2woZmNWRU0kTHovvGQzgXM19nP/khTv
+         jfbB171EMp40x5e38HW0gneCFULKiWpZHTk2MdN/YxuTfc6x906SoW39SDrgXK85/plT
+         sp7A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770658318; x=1771263118; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=A7Bemy7E0jyiRqsRJXizeGyfe9brY6d0bZ1gI/sSMQs=;
+        b=DSGFpZi06+Ifj8xMUmopTDeYKSp4ZfQrL7UDxzTGKNglm9L3ackg7CkUChFTLeaQGL
+         zdOyVYzF51+OBuBVdqGf81qjBAHYVkIxtlxCUg8rjGG+eQ0Ypyb0qg3koteZz3wlHU+h
+         Nq4yNoXOB5DCm1o/AGuqHNZ7tQNefgXDnDa48Zc6L01CWn9JVc8TU6r2E3rqYLBx6c5o
+         DpH9iOHTS3YLRz2K+PmodEhUyZl5PxArn1P3eJZBL3LCf7ReqBAojesarOlXdljRm9yT
+         n5C1rKtKwPDU73HSD+8ler1ipNOhYw+0pD5Dt2QV/P10+Wb/qs7IXFgXOu+3vEyAakhl
+         4znQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770658318; x=1771263118;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=A7Bemy7E0jyiRqsRJXizeGyfe9brY6d0bZ1gI/sSMQs=;
+        b=vU4loch7IPyPzh+mwSi6k4sY38e9FJ4rhi5yWxGdj+xT4kVp3lUuz2wC6cVsdr4VFf
+         7D9JgBz7QFNcpAvLFrQP9iKdbUjUc8IP43NQEUdGfM/2UbuTDeWRBcUgNUlUudknE/hC
+         04IP7SB3l/EZEYyFsUKJHhFbn5do19/alB11pZ/VIGq3P5FqyJt9NeY6V061rLMaMRQn
+         8MBmoQ3M4VRReWjFzlBH5r4ku01/OxlnAdnNrByhayUt9c26tn6jdRt+bkUVG4QECXeR
+         ugByGGK2b2vSaFXeK5gnZnL0s+PU5ZodtNHFELytu2VU3dNX/XJBo2JHt0wT8PbOhR+F
+         ATEQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXO3PDAVTR5plEM+S8Rjve8OMlPpbKWWL1kSMMxgftiaOLgSR5byw1xupTP6iVd+uc8Fei0kkrP+Fdo/XS+@vger.kernel.org
+X-Gm-Message-State: AOJu0YxIoOLkWOn8NIG+mBhm8NekKaLVkx/3TLDGjDnXthjtA0M8lqTm
+	LiYwx9Sp7vXn5vJNjqPD+SCqSIDk14TMXn30yXwM15a3MU1mUcS/vNJ52UZXKAMBiEaIo8YSpry
+	QJtHVrM21wQm/+2BfVHhTKLUrg78ogho=
+X-Gm-Gg: AZuq6aLXXLmXyoaCUc6J8zOmVEjVrqpigtkF3aLM0JxeoDbld6JMo6KEwhVUWMh6EUQ
+	008svaxwCo8x++lLOswE6L70huSxMasZEJxOGFtsWBiYSwCS2tV8BLpSgrzSlZT1s8sPgLvRZV/
+	6gFzrslXDtDhIPeU3FxRpWYozGQ+8HWMl8pxQZf0bj35319VBxVdd/wnbH522uLyK9agBp7WUfE
+	GmvORjKDT1m9EJcs3pRF+sy+b11mIaiQVTBkENkiF3NxHuRdoFSc3Z5fdb5U90YLrG//A==
+X-Received: by 2002:ac8:7e82:0:b0:4ee:45e1:24e3 with SMTP id
+ d75a77b69052e-5063999af40mr155510251cf.67.1770658318255; Mon, 09 Feb 2026
+ 09:31:58 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260209165944.12649-1-oaygnahzz@gmail.com>
+References: <20260116233044.1532965-4-joannelkoong@gmail.com>
+ <20260206133950.3133771-1-safinaskar@gmail.com> <CAJnrk1YEw2CJb5Vv__BX7DaZXmZMfTsH3WYtQ2s4RGDWNRW4_A@mail.gmail.com>
+ <CAPnZJGCPNHS=R9s2dW4ebA2vtW5AQOmX7RLUtEiC2QOHKUdBmQ@mail.gmail.com>
+In-Reply-To: <CAPnZJGCPNHS=R9s2dW4ebA2vtW5AQOmX7RLUtEiC2QOHKUdBmQ@mail.gmail.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Mon, 9 Feb 2026 09:31:47 -0800
+X-Gm-Features: AZwV_QhnvPop5QG8SjbDcxI4POma1wqiv8UbGDbgwQQrh0tPm3hQ69v2uwM00-Y
+Message-ID: <CAJnrk1Y_e1prLGX2Wo7VqRM8=upLqP29Cwv81J+bULRvCCbx_Q@mail.gmail.com>
+Subject: Re: [PATCH v4 03/25] io_uring/kbuf: add support for kernel-managed
+ buffer rings
+To: Askar Safin <safinaskar@gmail.com>
+Cc: asml.silence@gmail.com, axboe@kernel.dk, bschubert@ddn.com, 
+	csander@purestorage.com, io-uring@vger.kernel.org, krisman@suse.de, 
+	linux-fsdevel@vger.kernel.org, miklos@szeredi.hu, hch@infradead.org, 
+	xiaobing.li@samsung.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 10, 2026 at 12:59:44AM +0800, oaygnahzz wrote:
-> Hi all,
-> The mount interface will report an error for repeated mounting,
-> but fsconfig seems to allow this. Why is that?
+On Sat, Feb 7, 2026 at 8:13=E2=80=AFAM Askar Safin <safinaskar@gmail.com> w=
+rote:
+>
+> On Sat, Feb 7, 2026 at 4:22=E2=80=AFAM Joanne Koong <joannelkoong@gmail.c=
+om> wrote:
+> > I don't think this is related to kmbufs. Zero-copying is done through
+> > registered buffers (eg userspace registers sparse buffers for the ring
+>
+> Thank you for your answer.
+>
+> Please, don't CC me when sending future versions of this patchset.
 
-The patch is incorrect and unrelated to the question
+For context, your email address was cc-ed because you had left a
+comment [1] on v1 of this patchset series. I'll make sure to remove
+you from the cc list going forward.
 
-> Thanks.
-> ---
->  fs/fsopen.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/fs/fsopen.c b/fs/fsopen.c
-> index 1aaf4cb2afb2..06a8711dd627 100644
-> --- a/fs/fsopen.c
-> +++ b/fs/fsopen.c
-> @@ -300,6 +300,7 @@ static int vfs_fsconfig_locked(struct fs_context *fc, int cmd,
->  
->  /**
->   * sys_fsconfig - Set parameters and trigger actions on a context
-> + *
->   * @fd: The filesystem context to act upon
->   * @cmd: The action to take
->   * @_key: Where appropriate, the parameter key to set
-> -- 
-> 2.33.0
-> 
-> 
+Thanks,
+Joanne
+
+[1] https://lore.kernel.org/linux-fsdevel/20251213075246.164290-1-safinaska=
+r@gmail.com/
+
+>
+> --
+> Askar Safin
