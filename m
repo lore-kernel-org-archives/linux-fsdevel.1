@@ -1,354 +1,258 @@
-Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011050.outbound.protection.outlook.com [52.101.62.50])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A69232B9BE;
-	Tue, 10 Feb 2026 06:45:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770705942; cv=fail; b=V/Lunc2qC3lWv8iUuq3JelDtbCiXBvL+HU6wIphFH2e9awt5LM600+GBxzuBuG9vbVolwBLrDdtH2Nb9V4xTDflHn6VjeD8pTuBmUJHjrdJ3dUbfYbjoXVJbMFO/tDvCpApA+dtB1+BpGN0R/kcnCxuXO6h/nmlhfsPgVtOSlQg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770705942; c=relaxed/simple;
-	bh=7tn6YtUWsWedhVWe1eIn2wQWWWJ4CG00wCOCCSd0W/4=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BD4sLGbTVBq0hH53gQ8npmg9sOlCgaK11xJNlFxr8daHf3qlkhMYEUQSZFS4/r5vPDWG8J+lfQRv7ZE91YUwGWFQtuKLTDONEPcEgLL1MNc53/0KWn7fqtzZWHcZfdX4J9jFnOhU6yMBZtHVLntX27ooN0/r4KY+kLiZETn6Rc8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=b6ZcyoPY; arc=fail smtp.client-ip=52.101.62.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 661C732ED29;
+	Tue, 10 Feb 2026 07:06:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770707175; cv=none; b=T5R55zXrzssUzKQ5QZzp4TveswBIeklr7SuChO97XnRrIajhvaRQeyzPM5OlAIC6wsvPpm7Vc9PyBloHVxh3bB3pltuWicZlJczH3e4Snk5ZrPCv2NK0KXgeKibnMfvZQnsFtB8wj/G/RSBzcoXgTN/yuuCalhmLUGs/m52AFXU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770707175; c=relaxed/simple;
+	bh=jwsv2/KtgFMkKHil0XDlMSA5/KLwQXAsmOj1m8Km++I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qAZeiOJJUdB0CqfZ3PG7zjksbE7LnBhr7d+o0nKgDu4+nm4MVDnhjrncns6LXbzYTaFBZpQRClPXW3+MHTYi770qRJSCYPt4u+/Qh7cJ10gFPXaVH2KIwxvQqDrmN3YlbEe97c+mARe4IVEqV+cbnUHLIjBAdpTj4TFRl/dqJe0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=AL+i7A8l; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="b6ZcyoPY"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=IuDRR1w7KuSrLvvhrll4gTVdfqRPHQOdXTjVn4Ohj+imednnFuOdMNrG1bCpSmeI+NsmKxjqh5kODwrGy+sr+a+6UXzRxa/CYrf5dR9iBmJWs4RgliFtp+w7eqjt8ObiXiI7TDVDZfjjzkbZpMBTuNs97lWguM2OaRj7iVoOrwieAUbWBOzTfuLSdJJnIW+2wiTE7OcRCRfUZWHPDb4fKyh5X9Vhk+CwgA/uX/zHlQMqwFcfAwe97MSxsavNsUmhISxFBBCXNf50MYbDRGE6E7C7Wf9DK+nbaaJwOLGdwXGXKgBBeA2duKvLj7Xi1CodQSJSa8C+EROBdkvYXw6nPQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=M+Dl2SvGIWj7ta18s7cC0Ifd7tWD3cQg4ExhFp8Ogv0=;
- b=fCOdCugpqzMs8oPD9COR3ZrhA5S+PMirOflcphyIkmYDPBg4ucRGy6aDEEW5ffScQTQDyy27XFFqDGdJdQRlm1l1oTZKj82J31XOldsoiYMQzEQ8MXA68fBk7l0UL/PmnS0khMlD4aTj2TxHYZF8fCnuCZsBGvSesgAZr/afH9t0GsB/Upq8BxSSeTqWimDPLa1TeRQJUSs48ZCcH2uS4lGhq7L2wBBkTSkPD9ImM/A3BLWxFnrVmIVGwvtLlkdJPdjf3qOpHGaILd8jRl7PYAx3bx8OnKUHecjrCW8Mo7Wow4Bju3eo7qFCqEOV5JmE6xWLv3dJd63DmLtbhEqweQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=M+Dl2SvGIWj7ta18s7cC0Ifd7tWD3cQg4ExhFp8Ogv0=;
- b=b6ZcyoPYvKLV8zkdzkrOnOhv2w50rAwlVKL48o3AlttWEw1nYy/f4matVxbi/wMYft/dronlCTPWLX2wjP0BAjhzQL1w9SR4edhyVPhYUJh9ceHSc4HG1qv5uGM+V07Ay6BpcpiWbXIiyLthuS3GQ2s+JL3dlIAxAbcUafILUCA=
-Received: from BYAPR06CA0019.namprd06.prod.outlook.com (2603:10b6:a03:d4::32)
- by BL3PR12MB6595.namprd12.prod.outlook.com (2603:10b6:208:38e::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.18; Tue, 10 Feb
- 2026 06:45:26 +0000
-Received: from SJ1PEPF000026C3.namprd04.prod.outlook.com
- (2603:10b6:a03:d4:cafe::dd) by BYAPR06CA0019.outlook.office365.com
- (2603:10b6:a03:d4::32) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9587.19 via Frontend Transport; Tue,
- 10 Feb 2026 06:45:23 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- SJ1PEPF000026C3.mail.protection.outlook.com (10.167.244.100) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9611.8 via Frontend Transport; Tue, 10 Feb 2026 06:45:25 +0000
-Received: from ethanolx50f7host.amd.com (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Tue, 10 Feb
- 2026 00:45:21 -0600
-From: Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>
-To: <linux-cxl@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<nvdimm@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
-	<linux-pm@vger.kernel.org>
-CC: Ard Biesheuvel <ardb@kernel.org>, Alison Schofield
-	<alison.schofield@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, "Ira
- Weiny" <ira.weiny@intel.com>, Dan Williams <dan.j.williams@intel.com>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>, Yazen Ghannam
-	<yazen.ghannam@amd.com>, Dave Jiang <dave.jiang@intel.com>, Davidlohr Bueso
-	<dave@stgolabs.net>, Matthew Wilcox <willy@infradead.org>, Jan Kara
-	<jack@suse.cz>, "Rafael J . Wysocki" <rafael@kernel.org>, Len Brown
-	<len.brown@intel.com>, Pavel Machek <pavel@kernel.org>, Li Ming
-	<ming.li@zohomail.com>, Jeff Johnson <jeff.johnson@oss.qualcomm.com>, "Ying
- Huang" <huang.ying.caritas@gmail.com>, Yao Xingtao <yaoxt.fnst@fujitsu.com>,
-	Peter Zijlstra <peterz@infradead.org>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, Nathan Fontenot <nathan.fontenot@amd.com>,
-	Terry Bowman <terry.bowman@amd.com>, Robert Richter <rrichter@amd.com>,
-	Benjamin Cheatham <benjamin.cheatham@amd.com>, Zhijian Li
-	<lizhijian@fujitsu.com>, Borislav Petkov <bp@alien8.de>, Smita Koralahalli
-	<Smita.KoralahalliChannabasappa@amd.com>, Tomasz Wolski
-	<tomasz.wolski@fujitsu.com>
-Subject: [PATCH v6 8/9] dax/hmem, cxl: Defer and resolve ownership of Soft Reserved memory ranges
-Date: Tue, 10 Feb 2026 06:45:00 +0000
-Message-ID: <20260210064501.157591-9-Smita.KoralahalliChannabasappa@amd.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20260210064501.157591-1-Smita.KoralahalliChannabasappa@amd.com>
-References: <20260210064501.157591-1-Smita.KoralahalliChannabasappa@amd.com>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="AL+i7A8l"
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 619KE8FV2412224;
+	Tue, 10 Feb 2026 07:05:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pp1; bh=5OjoYUPE3yK/YinjqtBe8xGXMDL85l
+	aQJ0o8ZZGfjOg=; b=AL+i7A8lEevLghY0FzytrAi2mjsap3EV2+bmnsd8feFZ45
+	aAuv1cpOC6pwKDLZXpbJqN0WVucemhqhBkBmxxFNUkRXPg1Se7IMCTbfh/jRp8hk
+	FJImVkZMkQULXC+A1mMNiEro+h+n8sKgMdblRy/r1N6zThzYeqiT+Y86CqUlADpc
+	6Tp3U4YeHbwRPj3SfOcUi5YsByMFkhq4l+3U5IpdQck84Q63TfPwUviK2fIUWcfp
+	wdv4ikz/nsAiOyZSbyclEX6/hDR7xgjZgIr/3ycY6ZVPfx3NWC5GF3K1Tlbnc6Dp
+	+ec8+3SQAcdkF6an0bLJsAzZthAPPPAh3MX9gkMw==
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4c696v1004-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 10 Feb 2026 07:05:30 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 61A62IBH019221;
+	Tue, 10 Feb 2026 07:05:29 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4c6hxk03b6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 10 Feb 2026 07:05:29 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 61A75RrE47710572
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 10 Feb 2026 07:05:27 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 8770C20043;
+	Tue, 10 Feb 2026 07:05:27 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 66CB22004F;
+	Tue, 10 Feb 2026 07:05:24 +0000 (GMT)
+Received: from li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com (unknown [9.109.219.158])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Tue, 10 Feb 2026 07:05:24 +0000 (GMT)
+Date: Tue, 10 Feb 2026 12:35:38 +0530
+From: Ojaswin Mujoo <ojaswin@linux.ibm.com>
+To: Zhang Yi <yi.zhang@huawei.com>
+Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca,
+        jack@suse.cz, ritesh.list@gmail.com, hch@infradead.org,
+        djwong@kernel.org, yi.zhang@huaweicloud.com, yizhang089@gmail.com,
+        libaokun1@huawei.com, yangerkun@huawei.com, yukuai@fnnas.com
+Subject: Re: [PATCH -next v2 03/22] ext4: only order data when partially
+ block truncating down
+Message-ID: <aYrYwhO5LvIYbxWg@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
+References: <20260203062523.3869120-1-yi.zhang@huawei.com>
+ <20260203062523.3869120-4-yi.zhang@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF000026C3:EE_|BL3PR12MB6595:EE_
-X-MS-Office365-Filtering-Correlation-Id: d5c3ffb1-fa08-4d07-aa6a-08de686ff8a5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|1800799024|36860700013|82310400026|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?apYXWQmomNTploW5iE4MnCywOwjsphr50V08k/YOdd1y0CXTv+HuLI+j8bHs?=
- =?us-ascii?Q?+6LM43GzbTjlLJJ7FIi1zqc98gZwJCsk4/2uWIeR+mS8KLY7c41kXnAfruoV?=
- =?us-ascii?Q?IYgYO+GFnlDmfQGte5OSxQVxduNTBXH08y+f+ZF3hrXabf+jpClJCmAcbZWg?=
- =?us-ascii?Q?Ygu/mImjE6/5ktzicIHcBjgAIJcmV5yF6f0QiFPTN1UlbpTUWY4tyz3gHENe?=
- =?us-ascii?Q?Q42XGqwNewRxQTub/Tp7MDxj/geeR+mFZK0JiEQAa66MY0eepl8PcAg8DPKG?=
- =?us-ascii?Q?vhjXTvXhvSnSNWoA8BfqmuwIr6uqqOOcw0t6UW1yoarN4BmsAQ2/xZc3eVon?=
- =?us-ascii?Q?H7Em2I+cz1ZITOVJWLiuxAob6PTPzkS+uGJKOob3zkqGezh1yUc/ByhvNUaR?=
- =?us-ascii?Q?QX6F0j65yW4kDsn973gQWkP+S5L0tuBtfzjh5n4tkHRJfjsK3hqoOCbRvNvY?=
- =?us-ascii?Q?1AsVgdiBOMK/X6hUAOWuaGywS2FCS29CYUsq3j9LryFJ3XcK+bKrg6WVQ94x?=
- =?us-ascii?Q?jRAWcKL+jKbbh7bJLwh8bDMZeqomOeQrcT2KVTblNnrItgXpD7o/5QwudRT3?=
- =?us-ascii?Q?mKb/GyG6ETxEFtooFGqywUVWutKi8MBCx6L8qiHWWuSFCks+yFp6rWzzTlKh?=
- =?us-ascii?Q?Z178W2CsJ8hWtjCpbN2K1JJKlRO71/2bIwr1trwOUjwm6Cv4H8RGCh0SS4qd?=
- =?us-ascii?Q?yCGXxijgMwOI4PGvq6++r+QVyv/bGSngrCCb7KvQuSg6kbPtUClEoKYZfEOP?=
- =?us-ascii?Q?a1pIJkSYGupDLsndOV/4mRafgNSqHpGrYlhAuUTghjT/Hh5zWW0hHOIIJUed?=
- =?us-ascii?Q?Hx6a2IRMG1YthrAusri4HMjHYlJd2In7L7Xzzx5RJVXg3MDdpymvnGA9VCIJ?=
- =?us-ascii?Q?YaveBqaiT/e93iW+1r0ckVeCMdxnhnwBL+a60a+yzXjHrKKB8iRkybqyAcjm?=
- =?us-ascii?Q?MjZo3+/4XelGxmP8pGbT9fat6IsMo8dq+MB8t/g6/AH5j8R9bPm3HAn8RSNM?=
- =?us-ascii?Q?ioJOntax4XJ0e15R9JpyyftLndacBpTurZeAHu+x5VgHomFTSNK6KgPZoMLH?=
- =?us-ascii?Q?DGVd3c9DtcdDZ+SRl1eRh00ZPNjxbJ87ClLrZywIqAaL2a959hwwRM0hN/pp?=
- =?us-ascii?Q?8+oKWRxKxn4YcBgszOHhbryCjO/ZrFaWLItGkmgazWN1Lwu9CGhk++nrSxDA?=
- =?us-ascii?Q?OmcE5+CoEoYcwNnTO6+O8pCUd3kJBUjcOP2jsgapxLDCXC4fkq+ftAROyndg?=
- =?us-ascii?Q?BJg5uMmKvBVfWF2+AYF8uA3NLs8R6xliP4sce9k4cwprqpmUWK+8vdiQx6tH?=
- =?us-ascii?Q?ujTcg+Z/UCCYTEsBV/L/7fyqUXihRI7dYVTRArPQk+5Gytaa/e0cW60otHPl?=
- =?us-ascii?Q?OxxdvzCx3MMVcADrPKlClE1tJeLtdYcvpjFJaQRwags5quHt+mlpDA5s1S+a?=
- =?us-ascii?Q?0CpJ54lA6P11RrAkLZQA78q5e9oDNUxgGJSGgKk3JUi4zuEuYsmMJmwbYgDk?=
- =?us-ascii?Q?gWwOzlh90jlnvHtuSsKaY6wwo94C4+Us4MyvWVEUeVHdEIIXVNsFHQqvHQPw?=
- =?us-ascii?Q?J4siQ2SQAEaC3aM/PBj5+CdvvRcGe77gVT7N3abpD+Cvi5hgCNGkOFqoFO4D?=
- =?us-ascii?Q?aacwKA8o+0cR3Rb+Hwm7IS8LHT4lepofWqHlBzhzeKvFFIqQ24mNCWbnquyV?=
- =?us-ascii?Q?7pGO1w=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(36860700013)(82310400026)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	hIyFuh8vmtOf0H74Gia0f5to6+u1jXmYDh9Tt8TSUzriTu+XdMNOx3ErFeHRzvRcA3oaK5o9r0ddD/Ljwke6RxVUhW9QAxZfOe3gZ5yOgoKkaV+g4QxAj863DAN9be8V1Ee1MRVZ/MbHpTgBMTt1l5W+uwMSGXnfWzUn7ZgonIPL6yXOlObfulzPotKS4HlKzgVPvUsZFXZuTjtY3gc6yaDG+SGXQwYJuf4bAuPUT0MWcqpbDqhSuldLAMlvB6+0hTtctDTmX/zTdk71ImT+R7vcSmLmCYOOo227+m31WNGsrl8IhpvBVOmco+FACgmHz9Yfd6Kp6RQMBk8kzYRSd4vWQGA0ztM/r+TxWnAJJErXP497QResSSQ6YzLU4VpgGyKPDrQ/GL0+c3DmNLIsgIqVPilXLd/JHMHeNEhbbqVpdUSc95Nwg3BSv0SrPUvN
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2026 06:45:25.4373
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d5c3ffb1-fa08-4d07-aa6a-08de686ff8a5
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ1PEPF000026C3.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6595
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260203062523.3869120-4-yi.zhang@huawei.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-GUID: xrnWYPAb_WWWp3nTvsajyB6nsqL1Kt23
+X-Proofpoint-ORIG-GUID: cUootUO0_1JFpKkNdOG_TWzKn3Vbv28w
+X-Authority-Analysis: v=2.4 cv=JdWxbEKV c=1 sm=1 tr=0 ts=698ad8ba cx=c_pps
+ a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
+ a=kj9zAlcOel0A:10 a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=i0EeH86SAAAA:8
+ a=1d5E5kGQmFa6-cc4gocA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjEwMDA1NSBTYWx0ZWRfX1vZyyCyaXbjb
+ RS8b+SiZXoxFvMvfpL+3yZeVQV/zgAN0qb2XjOdZYGw7NvVDQBfDViooBml8UWM1YKOzTzqVGY6
+ 9h8FQ6uI6CEHVjEuufDrhHF2ZA4VCweDEJjULOCplSGT4cDbzU+Xb2Wcmz+//s+9AHlDvKwZMJP
+ op1QkCQVwzSovrsdtci3BomzK4dz11dVdN4PgtOoS4QP/J+88pcEHtt5laYQsgvFFJ3bKTxHUZH
+ ScpLd+f6wQXaYohPtsxM+jRI/tSF7qCiX8WldEddO8UOJGsaQ4lZwiUyg0jd1ilvPKhqXyYfRJz
+ Pm9UL8ETOHQDA41C8pW+GqUaOZyibs9eZhPUT2FnXof672BWnzwgn2qe1Tqw2lt81ZuxLPHi6Bh
+ YcTpJBJRqAgXQF3Nl/eogksStXp94y5uCoPxDi3y/D0IjTyEB60jOKhk/778M4lvYAgOkUDtxQu
+ DekylsoWQBlrIef8GKw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-09_01,2026-02-09_04,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 clxscore=1011 impostorscore=0 bulkscore=0
+ lowpriorityscore=0 suspectscore=0 adultscore=0 spamscore=0 malwarescore=0
+ phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
+ definitions=main-2602100055
 
-The current probe time ownership check for Soft Reserved memory based
-solely on CXL window intersection is insufficient. dax_hmem probing is not
-always guaranteed to run after CXL enumeration and region assembly, which
-can lead to incorrect ownership decisions before the CXL stack has
-finished publishing windows and assembling committed regions.
+On Tue, Feb 03, 2026 at 02:25:03PM +0800, Zhang Yi wrote:
+> Currently, __ext4_block_zero_page_range() is called in the following
+> four cases to zero out the data in partial blocks:
+> 
+> 1. Truncate down.
+> 2. Truncate up.
+> 3. Perform block allocation (e.g., fallocate) or append writes across a
+>    range extending beyond the end of the file (EOF).
+> 4. Partial block punch hole.
+> 
+> If the default ordered data mode is used, __ext4_block_zero_page_range()
+> will write back the zeroed data to the disk through the order mode after
+> zeroing out.
+> 
+> Among the cases 1,2 and 3 described above, only case 1 actually requires
+> this ordered write. Assuming no one intentionally bypasses the file
+> system to write directly to the disk. When performing a truncate down
+> operation, ensuring that the data beyond the EOF is zeroed out before
+> updating i_disksize is sufficient to prevent old data from being exposed
+> when the file is later extended. In other words, as long as the on-disk
+> data in case 1 can be properly zeroed out, only the data in memory needs
+> to be zeroed out in cases 2 and 3, without requiring ordered data.
+> 
+> Case 4 does not require ordered data because the entire punch hole
+> operation does not provide atomicity guarantees. Therefore, it's safe to
+> move the ordered data operation from __ext4_block_zero_page_range() to
+> ext4_truncate().
+> 
+> It should be noted that after this change, we can only determine whether
+> to perform ordered data operations based on whether the target block has
+> been zeroed, rather than on the state of the buffer head. Consequently,
+> unnecessary ordered data operations may occur when truncating an
+> unwritten dirty block. However, this scenario is relatively rare, so the
+> overall impact is minimal.
+> 
+> This is prepared for the conversion to the iomap infrastructure since it
+> doesn't use ordered data mode and requires active writeback, which
+> reduces the complexity of the conversion.
 
-Introduce deferred ownership handling for Soft Reserved ranges that
-intersect CXL windows. When such a range is encountered during dax_hmem
-probe, schedule deferred work and wait for the CXL stack to complete
-enumeration and region assembly before deciding ownership.
+Hi Yi,
 
-Evaluate ownership of Soft Reserved ranges based on CXL region
-containment.
+Took me quite some time to understand what we are doing here, I'll
+just add my understanding here to confirm/document :) 
 
-   - If all Soft Reserved ranges are fully contained within committed CXL
-     regions, DROP handling Soft Reserved ranges from dax_hmem and allow
-     dax_cxl to bind.
+So your argument is that currently all paths that change the i_size take
+care of zeroing the (newsize, eof block boundary) before i_size change
+is seen by users:
+  - dio does it in iomap_dio_bio_iter if IOMAP_UNWRITTEN (true for first allocation)
+	- buffered IO/mmap write does it in ext4_da_write_begin() ->
+		ext4_block_write_begin() for buffer_new (true for first allocation)
+	- falloc doesn't zero the new eof block but it allocates an unwrit
+		extent so no stale data issue. When an allocation happens from the
+		above 2 methods then we anyways will zero it.
+	- truncate down also takes care of this via ext4_truncate() ->
+		ext4_block_truncate_page()
 
-   - If any Soft Reserved range is not fully claimed by committed CXL
-     region, REGISTER the Soft Reserved ranges with dax_hmem.
+Now, parallely there are also codepaths that say grow the i_size but
+then also zero the (old_size, block boundary) range before the i_size
+commits. This is so that they want to be sure the newly visible range
+doesn't expose stale data.
+For example:
+  - truncate up from 2kb to 8kb will zero (2kb,4kb) via ext4_block_truncate_page()
+  - with i_size = 2kb, buffered IO at 6kb would zero 2kb,4kb in ext4_da_write_end()
+  - I'm unable to see if/where we do it via dio path.
 
-Use dax_cxl_mode to coordinate ownership decisions for Soft Reserved
-ranges. Once, ownership resolution is complete, flush the deferred work
-from dax_cxl before allowing dax_cxl to bind.
+You originally proposed that we can remove the logic to zeroout
+(old_size, block_boundary) in data=ordered fashion, ie we don't need to
+trigger the zeroout IO before the i_size change commits, we can just zero the
+range in memory because we would have already zeroed them earlier when
+we had allocated at old_isize, or truncated down to old_isize.
 
-This enforces a strict ownership. Either CXL fully claims the Soft
-reserved ranges or it relinquishes it entirely.
+To this Jan pointed out that although we take care to zeroout (new_size,
+block_boundary) its not enough because we could still end up with data
+past eof:
 
-Co-developed-by: Dan Williams <dan.j.williams@intel.com>
-Signed-off-by: Dan Williams <dan.j.williams@intel.com>
-Signed-off-by: Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>
----
- drivers/dax/bus.c       |  3 ++
- drivers/dax/bus.h       | 19 ++++++++++
- drivers/dax/cxl.c       |  1 +
- drivers/dax/hmem/hmem.c | 78 +++++++++++++++++++++++++++++++++++++++--
- 4 files changed, 99 insertions(+), 2 deletions(-)
+1. race of buffered write vs mmap write past eof. i_size = 2kb,
+   we write (2kb, 3kb). 
+2. The write goes through but we crash before i_size=3kb txn can commit.
+   Again we have data past 2kb ie the eof block.
 
-diff --git a/drivers/dax/bus.c b/drivers/dax/bus.c
-index 92b88952ede1..81985bcc70f9 100644
---- a/drivers/dax/bus.c
-+++ b/drivers/dax/bus.c
-@@ -25,6 +25,9 @@ DECLARE_RWSEM(dax_region_rwsem);
-  */
- DECLARE_RWSEM(dax_dev_rwsem);
- 
-+enum dax_cxl_mode dax_cxl_mode = DAX_CXL_MODE_DEFER;
-+EXPORT_SYMBOL_NS_GPL(dax_cxl_mode, "CXL");
-+
- static DEFINE_MUTEX(dax_hmem_lock);
- static dax_hmem_deferred_fn hmem_deferred_fn;
- static void *dax_hmem_data;
-diff --git a/drivers/dax/bus.h b/drivers/dax/bus.h
-index b58a88e8089c..82616ff52fd1 100644
---- a/drivers/dax/bus.h
-+++ b/drivers/dax/bus.h
-@@ -41,6 +41,25 @@ struct dax_device_driver {
- 	void (*remove)(struct dev_dax *dev);
- };
- 
-+/*
-+ * enum dax_cxl_mode - State machine to determine ownership for CXL
-+ * tagged Soft Reserved memory ranges.
-+ * @DAX_CXL_MODE_DEFER: Ownership resolution pending. Set while waiting
-+ * for CXL enumeration and region assembly to complete.
-+ * @DAX_CXL_MODE_REGISTER: CXL regions do not fully cover Soft Reserved
-+ * ranges. Fall back to registering those ranges via dax_hmem.
-+ * @DAX_CXL_MODE_DROP: All Soft Reserved ranges intersecting CXL windows
-+ * are fully contained within committed CXL regions. Drop HMEM handling
-+ * and allow dax_cxl to bind.
-+ */
-+enum dax_cxl_mode {
-+	DAX_CXL_MODE_DEFER,
-+	DAX_CXL_MODE_REGISTER,
-+	DAX_CXL_MODE_DROP,
-+};
-+
-+extern enum dax_cxl_mode dax_cxl_mode;
-+
- typedef void (*dax_hmem_deferred_fn)(void *data);
- 
- int dax_hmem_register_work(dax_hmem_deferred_fn fn, void *data);
-diff --git a/drivers/dax/cxl.c b/drivers/dax/cxl.c
-index a2136adfa186..3ab39b77843d 100644
---- a/drivers/dax/cxl.c
-+++ b/drivers/dax/cxl.c
-@@ -44,6 +44,7 @@ static struct cxl_driver cxl_dax_region_driver = {
- 
- static void cxl_dax_region_driver_register(struct work_struct *work)
- {
-+	dax_hmem_flush_work();
- 	cxl_driver_register(&cxl_dax_region_driver);
- }
- 
-diff --git a/drivers/dax/hmem/hmem.c b/drivers/dax/hmem/hmem.c
-index 1e3424358490..85854e25254b 100644
---- a/drivers/dax/hmem/hmem.c
-+++ b/drivers/dax/hmem/hmem.c
-@@ -3,6 +3,7 @@
- #include <linux/memregion.h>
- #include <linux/module.h>
- #include <linux/dax.h>
-+#include <cxl/cxl.h>
- #include "../bus.h"
- 
- static bool region_idle;
-@@ -69,8 +70,18 @@ static int hmem_register_device(struct device *host, int target_nid,
- 	if (IS_ENABLED(CONFIG_DEV_DAX_CXL) &&
- 	    region_intersects(res->start, resource_size(res), IORESOURCE_MEM,
- 			      IORES_DESC_CXL) != REGION_DISJOINT) {
--		dev_dbg(host, "deferring range to CXL: %pr\n", res);
--		return 0;
-+		switch (dax_cxl_mode) {
-+		case DAX_CXL_MODE_DEFER:
-+			dev_dbg(host, "deferring range to CXL: %pr\n", res);
-+			dax_hmem_queue_work();
-+			return 0;
-+		case DAX_CXL_MODE_REGISTER:
-+			dev_dbg(host, "registering CXL range: %pr\n", res);
-+			break;
-+		case DAX_CXL_MODE_DROP:
-+			dev_dbg(host, "dropping CXL range: %pr\n", res);
-+			return 0;
-+		}
- 	}
- 
- 	rc = region_intersects_soft_reserve(res->start, resource_size(res));
-@@ -123,8 +134,70 @@ static int hmem_register_device(struct device *host, int target_nid,
- 	return rc;
- }
- 
-+static int hmem_register_cxl_device(struct device *host, int target_nid,
-+				    const struct resource *res)
-+{
-+	if (region_intersects(res->start, resource_size(res), IORESOURCE_MEM,
-+			      IORES_DESC_CXL) != REGION_DISJOINT)
-+		return hmem_register_device(host, target_nid, res);
-+
-+	return 0;
-+}
-+
-+static int soft_reserve_has_cxl_match(struct device *host, int target_nid,
-+				      const struct resource *res)
-+{
-+	if (region_intersects(res->start, resource_size(res), IORESOURCE_MEM,
-+			      IORES_DESC_CXL) != REGION_DISJOINT) {
-+		if (!cxl_region_contains_soft_reserve((struct resource *)res))
-+			return 1;
-+	}
-+
-+	return 0;
-+}
-+
-+static void process_defer_work(void *data)
-+{
-+	struct platform_device *pdev = data;
-+	int rc;
-+
-+	/* relies on cxl_acpi and cxl_pci having had a chance to load */
-+	wait_for_device_probe();
-+
-+	rc = walk_hmem_resources(&pdev->dev, soft_reserve_has_cxl_match);
-+
-+	if (!rc) {
-+		dax_cxl_mode = DAX_CXL_MODE_DROP;
-+		dev_dbg(&pdev->dev, "All Soft Reserved ranges claimed by CXL\n");
-+	} else {
-+		dax_cxl_mode = DAX_CXL_MODE_REGISTER;
-+		dev_warn(&pdev->dev,
-+			 "Soft Reserved not fully contained in CXL; using HMEM\n");
-+	}
-+
-+	walk_hmem_resources(&pdev->dev, hmem_register_cxl_device);
-+}
-+
-+static void kill_defer_work(void *data)
-+{
-+	struct platform_device *pdev = data;
-+
-+	dax_hmem_flush_work();
-+	dax_hmem_unregister_work(process_defer_work, pdev);
-+}
-+
- static int dax_hmem_platform_probe(struct platform_device *pdev)
- {
-+	int rc;
-+
-+	rc = dax_hmem_register_work(process_defer_work, pdev);
-+	if (rc)
-+		return rc;
-+
-+	rc = devm_add_action_or_reset(&pdev->dev, kill_defer_work, pdev);
-+	if (rc)
-+		return rc;
-+
- 	return walk_hmem_resources(&pdev->dev, hmem_register_device);
- }
- 
-@@ -174,3 +247,4 @@ MODULE_ALIAS("platform:hmem_platform*");
- MODULE_DESCRIPTION("HMEM DAX: direct access to 'specific purpose' memory");
- MODULE_LICENSE("GPL v2");
- MODULE_AUTHOR("Intel Corporation");
-+MODULE_IMPORT_NS("CXL");
--- 
-2.17.1
+Now, Im still looking into this part but the reason we want to get rid of
+this data=ordered IO is so that we don't trigger a writeback due to
+journal commit which tries to acquire folio_lock of a folio already
+locked by iomap. However we will now try an alternate way to get past
+this.
 
+Is my understanding correct?
+
+Regards,
+ojaswin
+
+PS: -g auto tests are passing (no regressions) with 64k and 4k bs on
+powerpc 64k pagesize box so thats nice :D 
+
+> 
+> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+> ---
+>  fs/ext4/inode.c | 32 +++++++++++++++++++-------------
+>  1 file changed, 19 insertions(+), 13 deletions(-)
+> 
+> diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
+> index f856ea015263..20b60abcf777 100644
+> --- a/fs/ext4/inode.c
+> +++ b/fs/ext4/inode.c
+> @@ -4106,19 +4106,10 @@ static int __ext4_block_zero_page_range(handle_t *handle,
+>  	folio_zero_range(folio, offset, length);
+>  	BUFFER_TRACE(bh, "zeroed end of block");
+>  
+> -	if (ext4_should_journal_data(inode)) {
+> +	if (ext4_should_journal_data(inode))
+>  		err = ext4_dirty_journalled_data(handle, bh);
+> -	} else {
+> +	else
+>  		mark_buffer_dirty(bh);
+> -		/*
+> -		 * Only the written block requires ordered data to prevent
+> -		 * exposing stale data.
+> -		 */
+> -		if (!buffer_unwritten(bh) && !buffer_delay(bh) &&
+> -		    ext4_should_order_data(inode))
+> -			err = ext4_jbd2_inode_add_write(handle, inode, from,
+> -					length);
+> -	}
+>  	if (!err && did_zero)
+>  		*did_zero = true;
+>  
+> @@ -4578,8 +4569,23 @@ int ext4_truncate(struct inode *inode)
+>  		goto out_trace;
+>  	}
+>  
+> -	if (inode->i_size & (inode->i_sb->s_blocksize - 1))
+> -		ext4_block_truncate_page(handle, mapping, inode->i_size);
+> +	if (inode->i_size & (inode->i_sb->s_blocksize - 1)) {
+> +		unsigned int zero_len;
+> +
+> +		zero_len = ext4_block_truncate_page(handle, mapping,
+> +						    inode->i_size);
+> +		if (zero_len < 0) {
+> +			err = zero_len;
+> +			goto out_stop;
+> +		}
+> +		if (zero_len && !IS_DAX(inode) &&
+> +		    ext4_should_order_data(inode)) {
+> +			err = ext4_jbd2_inode_add_write(handle, inode,
+> +					inode->i_size, zero_len);
+> +			if (err)
+> +				goto out_stop;
+> +		}
+> +	}
+>  
+>  	/*
+>  	 * We add the inode to the orphan list, so that if this
+> -- 
+> 2.52.0
+> 
