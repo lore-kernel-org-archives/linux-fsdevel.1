@@ -1,254 +1,188 @@
-Received: from canpmsgout01.his.huawei.com (canpmsgout01.his.huawei.com [113.46.200.216])
+Received: from smtp01-ext2.udag.de (smtp01-ext2.udag.de [62.146.106.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A89F01F1534;
-	Tue, 10 Feb 2026 07:31:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.216
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11DDA2857F1;
+	Tue, 10 Feb 2026 08:46:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.146.106.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770708699; cv=none; b=OhJLb+FlV6j5n++xojcWDg/qPqt1dyVhDYC9rKu19QCaUvYKegQG1s+a2zRM4xuXqIHujwaUNWV0l1j0mi9HJ6bfn/nF2iGVgZZDrw5iqNn51ExTgB6fJqaUg8LxyYBi02LjKtYqy3cvKGcLcPRF3phvBsz1DWgJC6y165Fz5wE=
+	t=1770713190; cv=none; b=HX9pPdFGOtj+kDhMKjg3WKHYS0lv1VSgi5PYanwL6Smly1u4F3k5Vpq/F/3LBv34FhO4LRg5MAcjOIlbDXWxREiMrRRU4FCm1m+DNpjXHf8tq05Dw7Mv7KmEBNOFm+QH6SsiDCgtra3JcKTfcA8xY3zX5yyA9BdgxWj74AJ7xFo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770708699; c=relaxed/simple;
-	bh=aCoqhIAMFIViG1SQn+JcM52uIO6I31WHZ5Jil7A8iBc=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=U7V8Sw003YN+yDjm0lgtkjXq3CqeOAI+3GJG2VcqTYlAY5pgwo+W+jmJuNZr46f/8QJ3HVAd6zgsst2d145JYvsqtmdIjHiN1eK5Y96ODMo71gTJhQPqVR7HdnCO756Yl+XVGfv0WofClPfvASK0rnWdlhRBlehNFbeVPjVmyqM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=QqAZweSc; arc=none smtp.client-ip=113.46.200.216
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1770713190; c=relaxed/simple;
+	bh=thEj7m81zXaFkuH8PMc/UfoL5Qw2HhqcWZT10qucOYU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=SqpGxpcUis+nkpvjvRIIPkqJ03y6Wx5vbe59daKOnxk0owwhU1JnZMhCuOvK+bldm5svX64PUI16eBu3wKWjPsNrFORmmFnAvA4Uf+kNsICWIMDicjanaw2xnTM2AqNhmcvDJpvp6ndrvISD1JJlumKsngaZqiusRWdRu8Gt/No=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.com; spf=pass smtp.mailfrom=birthelmer.com; dkim=pass (2048-bit key) header.d=birthelmer.com header.i=@birthelmer.com header.b=hXwJH3As; arc=none smtp.client-ip=62.146.106.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birthelmer.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="QqAZweSc"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=JnPhcm04RgXUByNiUINhP/lHOk9f0CuIXS0OCcNO/mI=;
-	b=QqAZweScfKIM0otUDQqRMBYp4ndRK7LYYcRAz9om1y/6VCdCqZmLRdebrW1x/l1F6G7yJZcbL
-	dW3H7vlomSaq0K2bkM43blnD/hAM7e4DQ1uvAda6EULhNQR29GEe3l67MEjd906ROoaUqHRH6yr
-	wZ/sZSH0NHCUEjNIWYH7sDc=
-Received: from mail.maildlp.com (unknown [172.19.163.0])
-	by canpmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4f9Cn040KTz1T4JY;
-	Tue, 10 Feb 2026 15:27:00 +0800 (CST)
-Received: from dggemv706-chm.china.huawei.com (unknown [10.3.19.33])
-	by mail.maildlp.com (Postfix) with ESMTPS id 430AB4036C;
-	Tue, 10 Feb 2026 15:31:31 +0800 (CST)
-Received: from kwepemq500010.china.huawei.com (7.202.194.235) by
- dggemv706-chm.china.huawei.com (10.3.19.33) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Tue, 10 Feb 2026 15:31:31 +0800
-Received: from [10.173.125.37] (10.173.125.37) by
- kwepemq500010.china.huawei.com (7.202.194.235) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Tue, 10 Feb 2026 15:31:29 +0800
-Subject: Re: [PATCH v3 1/3] mm: memfd/hugetlb: introduce memfd-based userspace
- MFR policy
-To: Jiaqi Yan <jiaqiyan@google.com>
-CC: <nao.horiguchi@gmail.com>, <tony.luck@intel.com>,
-	<wangkefeng.wang@huawei.com>, <willy@infradead.org>,
-	<akpm@linux-foundation.org>, <osalvador@suse.de>, <rientjes@google.com>,
-	<duenwen@google.com>, <jthoughton@google.com>, <jgg@nvidia.com>,
-	<ankita@nvidia.com>, <peterx@redhat.com>, <sidhartha.kumar@oracle.com>,
-	<ziy@nvidia.com>, <david@redhat.com>, <dave.hansen@linux.intel.com>,
-	<muchun.song@linux.dev>, <linux-mm@kvack.org>,
-	<linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-	<william.roche@oracle.com>, <harry.yoo@oracle.com>, <jane.chu@oracle.com>
-References: <20260203192352.2674184-1-jiaqiyan@google.com>
- <20260203192352.2674184-2-jiaqiyan@google.com>
- <7ad34b69-2fb4-770b-14e5-bea13cf63d2f@huawei.com>
- <CACw3F50PwJ+sSOX0wySQgBzrEW2XOctxuX5jM37OG0HS_kHdbQ@mail.gmail.com>
-From: Miaohe Lin <linmiaohe@huawei.com>
-Message-ID: <31cc7bed-c30f-489c-3ac3-4842aa00b869@huawei.com>
-Date: Tue, 10 Feb 2026 15:31:29 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+	dkim=pass (2048-bit key) header.d=birthelmer.com header.i=@birthelmer.com header.b="hXwJH3As"
+Received: from fedora.fritz.box (200-143-067-156.ip-addr.inexio.net [156.67.143.200])
+	by smtp01-ext2.udag.de (Postfix) with ESMTPA id BED38E05EB;
+	Tue, 10 Feb 2026 09:46:19 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=birthelmer.com;
+	s=uddkim-202310; t=1770713180;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=d4P5Rx+c3QyJ6fROuBa6MvqRG4jtnnEBOUbCvXMfpDk=;
+	b=hXwJH3AsUbWH3+LadTkcFUUE7ZF0DF3Y5+5V9Ge4Y5pCQmfhNLdYA3+3JHJdzxcnm29xYf
+	l8KQj4l9ShzKnbX+sQJsX39wTL8ULtrya9aLW3bSYSmCCPp+lpWdTOpLn8G/aJamjvaOwS
+	2d7JV13GODDl3TUVdoa/djX3ZtTtHmp72bsQcbps86C8wR6YhNC20ZJx3Xipco1DOAzcUn
+	XJ2OwbNAPC+Xk64h5oSghM1KMjClv7QN7IIUP4C0u9AWR3VfkfSyoACEYjoiOaIIjSj38F
+	gawId1PHjn0lPmEQuwCpG9InwZi1kvXEEeuVQkmbE+pNLEEA21Zd4ahVBF88IA==
+Authentication-Results: smtp01-ext2.udag.de;
+	auth=pass smtp.auth=birthelmercom-0001 smtp.mailfrom=horst@birthelmer.com
+From: Horst Birthelmer <horst@birthelmer.com>
+Date: Tue, 10 Feb 2026 09:46:17 +0100
+Subject: [PATCH v5 2/3] fuse: create helper functions for filling in fuse
+ args for open and getattr
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <CACw3F50PwJ+sSOX0wySQgBzrEW2XOctxuX5jM37OG0HS_kHdbQ@mail.gmail.com>
 Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
- kwepemq500010.china.huawei.com (7.202.194.235)
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260210-fuse-compounds-upstream-v5-2-ea0585f62daa@ddn.com>
+References: <20260210-fuse-compounds-upstream-v5-0-ea0585f62daa@ddn.com>
+In-Reply-To: <20260210-fuse-compounds-upstream-v5-0-ea0585f62daa@ddn.com>
+To: Miklos Szeredi <miklos@szeredi.hu>, Bernd Schubert <bschubert@ddn.com>, 
+ Joanne Koong <joannelkoong@gmail.com>, Luis Henriques <luis@igalia.com>
+Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ Horst Birthelmer <hbirthelmer@ddn.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1770713177; l=4228;
+ i=hbirthelmer@ddn.com; s=20251006; h=from:subject:message-id;
+ bh=pMlEWlzZop3CWtcz586lgLhHwSNGfNcjXvt2p/x52L4=;
+ b=d2Zz5T428GTTqNXniY15TQm3TG6lOMwjjp9azKbNHVF4Q2IBr8Iyx/fdiXgpb2i3LkR3aAzHk
+ YmKfsIi0AlOBs3p9nJhpyCw2ktova3TVosUHM2aWNqljUoHLNSwKSZw
+X-Developer-Key: i=hbirthelmer@ddn.com; a=ed25519;
+ pk=v3BVDFoy16EzgHZ23ObqW+kbpURtjrwxgKu8YNDKjGg=
 
-On 2026/2/10 12:47, Jiaqi Yan wrote:
-> On Mon, Feb 9, 2026 at 3:54 AM Miaohe Lin <linmiaohe@huawei.com> wrote:
->>
->> On 2026/2/4 3:23, Jiaqi Yan wrote:
->>> Sometimes immediately hard offlining a large chunk of contigous memory
->>> having uncorrected memory errors (UE) may not be the best option.
->>> Cloud providers usually serve capacity- and performance-critical guest
->>> memory with 1G HugeTLB hugepages, as this significantly reduces the
->>> overhead associated with managing page tables and TLB misses. However,
->>> for today's HugeTLB system, once a byte of memory in a hugepage is
->>> hardware corrupted, the kernel discards the whole hugepage, including
->>> the healthy portion. Customer workload running in the VM can hardly
->>> recover from such a great loss of memory.
->>
->> Thanks for your patch. Some questions below.
->>
->>>
->>> Therefore keeping or discarding a large chunk of contiguous memory
->>> owned by userspace (particularly to serve guest memory) due to
->>> recoverable UE may better be controlled by userspace process
->>> that owns the memory, e.g. VMM in the Cloud environment.
->>>
->>> Introduce a memfd-based userspace memory failure (MFR) policy,
->>> MFD_MF_KEEP_UE_MAPPED. It is possible to support for other memfd,
->>> but the current implementation only covers HugeTLB.
->>>
->>> For a hugepage associated with MFD_MF_KEEP_UE_MAPPED enabled memfd,
->>> whenever it runs into a new UE,
->>>
->>> * MFR defers hard offline operations, i.e., unmapping and
->>
->> So the folio can't be unpoisoned until hugetlb folio becomes free?
-> 
-> Are you asking from testing perspective, are we still able to clean up
-> injected test errors via unpoison_memory() with MFD_MF_KEEP_UE_MAPPED?
-> 
-> If so, unpoison_memory() can't turn the HWPoison hugetlb page to
-> normal hugetlb page as MFD_MF_KEEP_UE_MAPPED automatically dissolves
+From: Horst Birthelmer <hbirthelmer@ddn.com>
 
-We might loss some testability but that should be an acceptable compromise.
+create fuse_getattr_args_fill() and fuse_open_args_fill() to fill in
+the parameters for the open and getattr calls.
 
-> it. unpoison_memory(pfn) can probably still turn the HWPoison raw page
-> back to a normal one, but you already lost the hugetlb page.
-> 
->>
->>>   dissolving. MFR still sets HWPoison flag, holds a refcount
->>>   for every raw HWPoison page, record them in a list, sends SIGBUS
->>>   to the consuming thread, but si_addr_lsb is reduced to PAGE_SHIFT.
->>>   If userspace is able to handle the SIGBUS, the HWPoison hugepage
->>>   remains accessible via the mapping created with that memfd.
->>>
->>> * If the memory was not faulted in yet, the fault handler also
->>>   allows fault in the HWPoison folio.
->>>
->>> For a MFD_MF_KEEP_UE_MAPPED enabled memfd, when it is closed, or
->>> when userspace process truncates its hugepages:
->>>
->>> * When the HugeTLB in-memory file system removes the filemap's
->>>   folios one by one, it asks MFR to deal with HWPoison folios
->>>   on the fly, implemented by filemap_offline_hwpoison_folio().
->>>
->>> * MFR drops the refcounts being held for the raw HWPoison
->>>   pages within the folio. Now that the HWPoison folio becomes
->>>   free, MFR dissolves it into a set of raw pages. The healthy pages
->>>   are recycled into buddy allocator, while the HWPoison ones are
->>>   prevented from re-allocation.
->>>
->> ...
->>
->>>
->>> +static void filemap_offline_hwpoison_folio_hugetlb(struct folio *folio)
->>> +{
->>> +     int ret;
->>> +     struct llist_node *head;
->>> +     struct raw_hwp_page *curr, *next;
->>> +
->>> +     /*
->>> +      * Since folio is still in the folio_batch, drop the refcount
->>> +      * elevated by filemap_get_folios.
->>> +      */
->>> +     folio_put_refs(folio, 1);
->>> +     head = llist_del_all(raw_hwp_list_head(folio));
->>
->> We might race with get_huge_page_for_hwpoison()? llist_add() might be called
->> by folio_set_hugetlb_hwpoison() just after llist_del_all()?
-> 
-> Oh, when there is a new UE while we releasing the folio here, right?
+This is in preparation for implementing open+getattr and does not
+represent any functional change.
 
-Right.
+Suggested-by: Joanne Koong <joannelkoong@gmail.com>
+Signed-off-by: Horst Birthelmer <hbirthelmer@ddn.com>
+---
+ fs/fuse/dir.c    | 26 ++++++++++++++++++--------
+ fs/fuse/file.c   | 26 ++++++++++++++++++--------
+ fs/fuse/fuse_i.h |  6 ++++++
+ 3 files changed, 42 insertions(+), 16 deletions(-)
 
-> In that case, would mutex_lock(&mf_mutex) eliminate potential race?
+diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
+index 4b6b3d2758ff225dc389016017753b09fadff9d1..33fa5fc97ff7f65db585ee1386156ef13cf330cf 100644
+--- a/fs/fuse/dir.c
++++ b/fs/fuse/dir.c
+@@ -1472,6 +1472,23 @@ static int fuse_do_statx(struct mnt_idmap *idmap, struct inode *inode,
+ 	return 0;
+ }
+ 
++/*
++ * Helper function to initialize fuse_args for GETATTR operations
++ */
++void fuse_getattr_args_fill(struct fuse_args *args, u64 nodeid,
++			     struct fuse_getattr_in *inarg,
++			     struct fuse_attr_out *outarg)
++{
++	args->opcode = FUSE_GETATTR;
++	args->nodeid = nodeid;
++	args->in_numargs = 1;
++	args->in_args[0].size = sizeof(*inarg);
++	args->in_args[0].value = inarg;
++	args->out_numargs = 1;
++	args->out_args[0].size = sizeof(*outarg);
++	args->out_args[0].value = outarg;
++}
++
+ static int fuse_do_getattr(struct mnt_idmap *idmap, struct inode *inode,
+ 			   struct kstat *stat, struct file *file)
+ {
+@@ -1493,14 +1510,7 @@ static int fuse_do_getattr(struct mnt_idmap *idmap, struct inode *inode,
+ 		inarg.getattr_flags |= FUSE_GETATTR_FH;
+ 		inarg.fh = ff->fh;
+ 	}
+-	args.opcode = FUSE_GETATTR;
+-	args.nodeid = get_node_id(inode);
+-	args.in_numargs = 1;
+-	args.in_args[0].size = sizeof(inarg);
+-	args.in_args[0].value = &inarg;
+-	args.out_numargs = 1;
+-	args.out_args[0].size = sizeof(outarg);
+-	args.out_args[0].value = &outarg;
++	fuse_getattr_args_fill(&args, get_node_id(inode), &inarg, &outarg);
+ 	err = fuse_simple_request(fm, &args);
+ 	if (!err) {
+ 		if (fuse_invalid_attr(&outarg.attr) ||
+diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+index 3b2a171e652f0c9dd1c9e37253d3d3e88caab148..a408a9668abbb361e2c1e386ebab9dfcb0a7a573 100644
+--- a/fs/fuse/file.c
++++ b/fs/fuse/file.c
+@@ -23,6 +23,23 @@
+ #include <linux/task_io_accounting_ops.h>
+ #include <linux/iomap.h>
+ 
++/*
++ * Helper function to initialize fuse_args for OPEN/OPENDIR operations
++ */
++static void fuse_open_args_fill(struct fuse_args *args, u64 nodeid, int opcode,
++			 struct fuse_open_in *inarg, struct fuse_open_out *outarg)
++{
++	args->opcode = opcode;
++	args->nodeid = nodeid;
++	args->in_numargs = 1;
++	args->in_args[0].size = sizeof(*inarg);
++	args->in_args[0].value = inarg;
++	args->out_numargs = 1;
++	args->out_args[0].size = sizeof(*outarg);
++	args->out_args[0].value = outarg;
++}
++
++
+ static int fuse_send_open(struct fuse_mount *fm, u64 nodeid,
+ 			  unsigned int open_flags, int opcode,
+ 			  struct fuse_open_out *outargp)
+@@ -40,14 +57,7 @@ static int fuse_send_open(struct fuse_mount *fm, u64 nodeid,
+ 		inarg.open_flags |= FUSE_OPEN_KILL_SUIDGID;
+ 	}
+ 
+-	args.opcode = opcode;
+-	args.nodeid = nodeid;
+-	args.in_numargs = 1;
+-	args.in_args[0].size = sizeof(inarg);
+-	args.in_args[0].value = &inarg;
+-	args.out_numargs = 1;
+-	args.out_args[0].size = sizeof(*outargp);
+-	args.out_args[0].value = outargp;
++	fuse_open_args_fill(&args, nodeid, opcode, &inarg, outargp);
+ 
+ 	return fuse_simple_request(fm, &args);
+ }
+diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+index 9ebcd96b6b309d75c86a9c716cbd88aaa55c57ef..fba14f26b67888831fcba6e2ac73399f3c95d5ad 100644
+--- a/fs/fuse/fuse_i.h
++++ b/fs/fuse/fuse_i.h
+@@ -1179,6 +1179,12 @@ struct fuse_io_args {
+ void fuse_read_args_fill(struct fuse_io_args *ia, struct file *file, loff_t pos,
+ 			 size_t count, int opcode);
+ 
++/*
++ * Helper functions to initialize fuse_args for common operations
++ */
++void fuse_getattr_args_fill(struct fuse_args *args, u64 nodeid,
++			    struct fuse_getattr_in *inarg,
++			    struct fuse_attr_out *outarg);
+ 
+ struct fuse_file *fuse_file_alloc(struct fuse_mount *fm, bool release);
+ void fuse_file_free(struct fuse_file *ff);
 
-IMO spin_lock_irq(&hugetlb_lock) might be better.
+-- 
+2.53.0
 
-> 
->>
->>> +
->>> +     /*
->>> +      * Release refcounts held by try_memory_failure_hugetlb, one per
->>> +      * HWPoison-ed page in the raw hwp list.
->>> +      *
->>> +      * Set HWPoison flag on each page so that free_has_hwpoisoned()
->>> +      * can exclude them during dissolve_free_hugetlb_folio().
->>> +      */
->>> +     llist_for_each_entry_safe(curr, next, head, node) {
->>> +             folio_put(folio);
->>
->> The hugetlb folio refcnt will only be increased once even if it contains multiple UE sub-pages.
->> See __get_huge_page_for_hwpoison() for details. So folio_put() might be called more times than
->> folio_try_get() in __get_huge_page_for_hwpoison().
-> 
-> The changes in folio_set_hugetlb_hwpoison() should make
-> __get_huge_page_for_hwpoison() not to take the "out" path which
-> decrease the increased refcount for folio. IOW, every time a new UE
-> happens, we handle the hugetlb page as if it is an in-use hugetlb
-> page.
-
-See below code snippet (comment [1] and [2]):
-
-int __get_huge_page_for_hwpoison(unsigned long pfn, int flags,
-				 bool *migratable_cleared)
-{
-	struct page *page = pfn_to_page(pfn);
-	struct folio *folio = page_folio(page);
-	int ret = 2;	/* fallback to normal page handling */
-	bool count_increased = false;
-
-	if (!folio_test_hugetlb(folio))
-		goto out;
-
-	if (flags & MF_COUNT_INCREASED) {
-		ret = 1;
-		count_increased = true;
-	} else if (folio_test_hugetlb_freed(folio)) {
-		ret = 0;
-	} else if (folio_test_hugetlb_migratable(folio)) {
-
-		   ^^^^*hugetlb_migratable is checked before trying to get folio refcnt* [1]
-
-		ret = folio_try_get(folio);
-		if (ret)
-			count_increased = true;
-	} else {
-		ret = -EBUSY;
-		if (!(flags & MF_NO_RETRY))
-			goto out;
-	}
-
-	if (folio_set_hugetlb_hwpoison(folio, page)) {
-		ret = -EHWPOISON;
-		goto out;
-	}
-
-	/*
-	 * Clearing hugetlb_migratable for hwpoisoned hugepages to prevent them
-	 * from being migrated by memory hotremove.
-	 */
-	if (count_increased && folio_test_hugetlb_migratable(folio)) {
-		folio_clear_hugetlb_migratable(folio);
-
-		^^^^^*hugetlb_migratable is cleared when first time seeing folio* [2]
-
-		*migratable_cleared = true;
-	}
-
-Or am I miss something?
-
-> 
->>
->>> +             SetPageHWPoison(curr->page);
->>
->> If hugetlb folio vmemmap is optimized, I think SetPageHWPoison might trigger BUG.
-> 
-> Ah, I see, vmemmap optimization doesn't allow us to move flags from
-> raw_hwp_list to tail pages. I guess the best I can do is to bail out
-> if vmemmap is enabled like folio_clear_hugetlb_hwpoison().
-
-I think you can do this after hugetlb_vmemmap_restore_folio() is called.
-
-Thanks.
-.
