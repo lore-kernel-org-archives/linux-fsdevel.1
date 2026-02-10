@@ -1,46 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8498427FB3A;
-	Tue, 10 Feb 2026 00:50:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C9952DC76F;
+	Tue, 10 Feb 2026 00:50:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770684623; cv=none; b=WgmjTMQP5oNKE9d2T5yhprm3UiQi4UwpJRJS3CqnJwtSQKZXAsf4P4cjv4H0Lbka8wPT8fc3dGvAIttY6TXKQlI1e3PE+dCxDqY05EBC9bjiSK61DuNL90zkC3gLjQXpLa0ATnkJRBZ9xdEkQw5lmRMCIbU9MEzT9DXF6S90FTE=
+	t=1770684624; cv=none; b=SxLI1kFOKC5XvIFgsVL/USAYQU4XDj3UNXT/yKsNw5z3qp45EGPLTD2A26tovMhrktL+b7B9a4/w7+s7vHkoNTAKzG/5k7rWMOe1NorEfQ9UsOCY6nZas6yfFms09nAC4syYdju6230hT/qlNqELUkvxnwEANH/Wher7YbgkMQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770684623; c=relaxed/simple;
-	bh=g/YTwNmMiw1gSVBD0XdnOTVooXrQgoo3AMtOvVBUoRQ=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=oC6lIVy+zIcIP5Ow2wHWOjjBe/cNz7eKP69U+a7j6fQ2KfboOZOSf/eVacxnkp+q+Z89MkmXwbL3MMeze+abhY8D0Ryhtr+yVpanM7iQHFI10OfKkEC65hhF9mSDPW8thhQiER9mEjzI/irwSd8mjsHkQqrr9sa4hA2S16zVfGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DAyWwNru; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770684624; c=relaxed/simple;
+	bh=yFc5toQBSMEwbOutn1PC+Bb9ysBpsIeNdh+S1+I9Hq8=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=Hb1pFPWe8R5ntIi/BnSQYbPNTcKyxV8zhqhfReoRfcr8IHVZTl2fP/KGTzvrC0WY/JqTSpeJqdohhfqJA3GZcOV47Jfn4c9W81/rJV+WTZZYzhcO8K1T7uwecDfRZdQbFdiiFBmYMxEg9SZl/hfoLCZZrA2cvtXGybpzMSEQxqk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c4xjWRs8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DAyWwNru"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69A9CC2BC87;
-	Tue, 10 Feb 2026 00:50:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c4xjWRs8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83AC5C2BCB0;
+	Tue, 10 Feb 2026 00:50:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770684623;
-	bh=g/YTwNmMiw1gSVBD0XdnOTVooXrQgoo3AMtOvVBUoRQ=;
+	s=k20201202; t=1770684624;
+	bh=yFc5toQBSMEwbOutn1PC+Bb9ysBpsIeNdh+S1+I9Hq8=;
 	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=DAyWwNrukzGkpwPqE+z/AWg4BndMJbMllFbhWPjZ8Dm04lQ/U0wsUVtqXOUbWYJph
-	 pjpC4R3ZfvOxf8eNQGC9ahytWyfaBUBu/rvO62UbJfQJ/QKxUlx3M90UuqT9ybnevz
-	 EjvL6au+eFPlfRSm54gqEH9L+ilSLXnkZVlPjdXcFG32ISuKfS75CaqENRG5PzQu7v
-	 IkucL75KRf7b8Rno+uT0WBUFJVHgeEKVPOp7IJLuoJkbUFZr65VJTMlkLEuVqWz9xf
-	 Y1wgGNQVupKrmKhxoORtA0jMV3CRDMABidODzdMEjkH8RFw+DWUCmNW6O/1T64MHud
-	 5fq1B7yRytfmA==
+	b=c4xjWRs81gehCnCXqWdoXyb36cAGnWRBSRGoV/RLQKrRGC/NGdprL3H5cGKYwgWME
+	 PHOoEAYM3C54GXSfLGLqAxq5w3mwj/9xSfs3nV04SmMuMGqeP7TqUo3p6YyT2zikZ7
+	 UJBmgATpVN9oIY535fJM3a2csQI3W29wqbhHYxqqvrrYq+JhOG3dsEnjGf7aE82PSk
+	 a8Nz5I3lQtV8nSZlGJMdzOulF9LvtNBdkdB7V61mHNAN4gsMgAk1kSSm4BzTsvR0Do
+	 Gunue9r2jZtVi06u+MLwx57iB9dLnAETGaTnckGTeY51XGww/OirHQwF5UOe3i+jXD
+	 ryVxZDwTMeMxQ==
 Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 5A827380AA4B;
-	Tue, 10 Feb 2026 00:50:20 +0000 (UTC)
-Subject: Re: [GIT PULL 02/12 for v7.0] vfs initrd
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 7462F380AA4C;
+	Tue, 10 Feb 2026 00:50:21 +0000 (UTC)
+Subject: Re: [GIT PULL 03/12 for v7.0] vfs nonblocking_timestamps
 From: pr-tracker-bot@kernel.org
-In-Reply-To: <20260206-vfs-initrd-v70-5b2e335bdce0@brauner>
-References: <20260206-vfs-v70-7df0b750d594@brauner> <20260206-vfs-initrd-v70-5b2e335bdce0@brauner>
+In-Reply-To: <20260206-vfs-nonblocking_timestamps-v70-59f22fca9b3a@brauner>
+References: <20260206-vfs-v70-7df0b750d594@brauner> <20260206-vfs-nonblocking_timestamps-v70-59f22fca9b3a@brauner>
 X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20260206-vfs-initrd-v70-5b2e335bdce0@brauner>
-X-PR-Tracked-Remote: git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.0-rc1.initrd
-X-PR-Tracked-Commit-Id: ef12d0573a7f5e7a495e81d773ae5f3e98230cd4
+X-PR-Tracked-Message-Id: <20260206-vfs-nonblocking_timestamps-v70-59f22fca9b3a@brauner>
+X-PR-Tracked-Remote: git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.0-rc1.nonblocking_timestamps
+X-PR-Tracked-Commit-Id: 77ef2c3ff5916d358c436911ca6a961060709f04
 X-PR-Merge-Tree: torvalds/linux.git
 X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 996812c453cafa042f2e674738dbf8fa495661f3
-Message-Id: <177068461927.3270491.5859564286073198478.pr-tracker-bot@kernel.org>
-Date: Tue, 10 Feb 2026 00:50:19 +0000
+X-PR-Merge-Commit-Id: 74554251dfc9374ebf1a9dfc54d6745d56bb9265
+Message-Id: <177068462042.3270491.4119627027000738477.pr-tracker-bot@kernel.org>
+Date: Tue, 10 Feb 2026 00:50:20 +0000
 To: Christian Brauner <brauner@kernel.org>
 Cc: Linus Torvalds <torvalds@linux-foundation.org>, Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
 Precedence: bulk
@@ -49,12 +49,12 @@ List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 
-The pull request you sent on Fri,  6 Feb 2026 17:49:58 +0100:
+The pull request you sent on Fri,  6 Feb 2026 17:49:59 +0100:
 
-> git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.0-rc1.initrd
+> git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.0-rc1.nonblocking_timestamps
 
 has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/996812c453cafa042f2e674738dbf8fa495661f3
+https://git.kernel.org/torvalds/c/74554251dfc9374ebf1a9dfc54d6745d56bb9265
 
 Thank you!
 
