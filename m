@@ -1,73 +1,128 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from kylie.crudebyte.com (kylie.crudebyte.com [5.189.157.229])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E61B317701;
-	Wed, 11 Feb 2026 15:45:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CA9E32548D;
+	Wed, 11 Feb 2026 15:58:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.189.157.229
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770824739; cv=none; b=WlapOVzCQ7EnVIDVktiejuDCJjssGvp4x9y+rpZs5itxkwetbqYKLmqcNDdtxqtRtpa0WfQ0BNtwzg4ARqoFK0OWcpdP9/DRqHfdWk5A3Bm8/TbGWc+m5nXfD4DKT+6QwUTTwKViTUVSXuHUB0YeyHt+fmyCt1z386QKKym8SBs=
+	t=1770825487; cv=none; b=ecVeft2sxAbacsrDbDr2wv4GWNwvXTXZEBrK7zfvLtuPXLZ+1YBHAUdFW/js+o4BK5OXTJCgMcyKE6fvNenSu02sHyJi5ngE5guaBNb4/RFUMG+pG0BgjoPCgke2/hUB8u1xT98XosBxVHRItKcb27rJqkeHMbEspY+EVQhR+js=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770824739; c=relaxed/simple;
-	bh=Vi2rVLK9jD5gt4NZfmDrB+4OmvfQhlw6kIPIVrTmh3Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Mm5YQc2DNpEueM//Ti12oBS1AlWu3XdyYlEG92Qf/b54x6stsXqr78CA8zULdry2EEkKtcm1Kl1le1mlHuszShJ3q6805kyL/42HvxVeZuQ8VlFtsZOa6Nz0HJdjPHNQ7OmdAAPal76HzE39XYpV4QR9d+VdP719PEPEvoT2DLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ct67Suxf; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	s=arc-20240116; t=1770825487; c=relaxed/simple;
+	bh=HboLgwrrJSBpIVbQmtbxi3id/yn56qSaq/Ws66MZEz8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QWqUJvMvUNLY6CO4Ya6JNrXvSoOi9BTp2bEQmB+JUD+JwB1eCo+ty/+LhDWFTLUGvUvBdaEPLPTSJC5Y5E4hKiMjDbgdE/tGcjcwKbL6CujN6Akvh7HRdBQVPCgUCTPYOB7DxTRG660rwuN5ar87vcQUKHwgJYa3yGgRfHsaZS8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=crudebyte.com; spf=pass smtp.mailfrom=crudebyte.com; dkim=pass (4096-bit key) header.d=crudebyte.com header.i=@crudebyte.com header.b=YVqWCmw3; arc=none smtp.client-ip=5.189.157.229
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=crudebyte.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crudebyte.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ct67Suxf"
+	dkim=pass (4096-bit key) header.d=crudebyte.com header.i=@crudebyte.com header.b="YVqWCmw3"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=quchVHCEJxHoMugGym9DQDRQY2PW3QylUONV+ZucEdQ=; b=ct67SuxfQmejEHA6GQjo3xwOSk
-	0ozgeBLfcbYcWFkgGeDFl7Fot5XhEDNDmZ1GrR0k/ysBmNyaDr/u+6EBb8NotviOKEHNvbnazWFQA
-	yaEXCrt21ljw7KTPoLvissLDBJAiUPZAgiMFGASsbgbugnj31zxKOUSiG7GpU0IyxI9eGmhV3/m6N
-	YKMBKgq8eKw3x5ZJJXXxL9myM+yeAtPN7+5XAZKYoQiq+gvxhMBim14bnpCXmuafKSItQZu4vWOky
-	5IYuOxqBBK0EsflQThknHeT1UIZV8zeIk2BzotBRsEUfnL4B6OwVp1m1ekHkBKYuCT5FkNHM66xKS
-	hp91MjXw==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vqCPI-00000000nzI-1v5g;
-	Wed, 11 Feb 2026 15:45:37 +0000
-Date: Wed, 11 Feb 2026 07:45:36 -0800
-From: Christoph Hellwig <hch@infradead.org>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: Joanne Koong <joannelkoong@gmail.com>, axboe@kernel.dk,
-	io-uring@vger.kernel.org, csander@purestorage.com, krisman@suse.de,
-	bernd@bsbernd.com, hch@infradead.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v1 03/11] io_uring/kbuf: add support for kernel-managed
- buffer rings
-Message-ID: <aYykILfX_u9-feH-@infradead.org>
-References: <20260210002852.1394504-1-joannelkoong@gmail.com>
- <20260210002852.1394504-4-joannelkoong@gmail.com>
- <89c75fc1-2def-4681-a790-78b12b45478a@gmail.com>
+	d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Content-ID:Content-Description;
+	bh=XHs+MvJHP7lm1GyHxgPTtCKn4yhsw71bbxz6K7cmxMA=; b=YVqWCmw3pDbyedqAUhHAjTiqUt
+	NckSUNlaq7mtjn0V6BMRQs7ObxzZyXoKbWEgK4sTMnnu+DEC2135Hew/IjWvG33uCmVMWM+/kAik1
+	8dM8MzG7p1jqVqUCcCcEB5BNaiMXmPfqUqz+kGRi6V4Awwh4F12zUNEKIk3QXNC7xAzJdBslllZ00
+	3/tsKST6lVjxr4dv1fuRjVclfGkg07h+s4/iyjZbIbkX7RGgcqdSjFip41heudAL9EU0ZorAk5noE
+	naG1ARHWz+PLncyfEgpUx3+iRZBqVcN2nwjzJtFRVjHSwQ4NyfGJBA+grAd30bk2T3FdTV4OzTMI3
+	MW3ZunWSduYwWYqj8bNOvRIBnFjYylWxOyupuug5lUhSf91A3TiG3NrxSqv3Fn2+HDrm2ixU08ePw
+	7HT4Yeu/dKDQTY7Ba7KRHCmCkK5R57czVXAWDAHPnLqn/4i7apQWf7Pn71cvw8oFAjQRm2QNF8j9m
+	GvFedvARdeoPj3ZB0q4WHtepwhg0y/NFAAqgINhWg+hT0XpMOOQ+1hx72G78CwIjbsaQ5YtKs8VTS
+	3Fozz7M2K4mks3vuNUS7OKVbrLoHeEM9CGjafGXZCGb5ct2mGVhEdW1TayuQxaTZGtmf6J4WS3a+f
+	M0sQhKn0xRDl8Ap4VN+sQDXHIq6JF3Yw27qVl6+TQ=;
+From: Christian Schoenebeck <linux_oss@crudebyte.com>
+To: v9fs@lists.linux.dev, Remi Pommarel <repk@triplefau.lt>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Eric Van Hensbergen <ericvh@kernel.org>, Latchesar Ionkov <lucho@ionkov.net>,
+ Dominique Martinet <asmadeus@codewreck.org>,
+ Remi Pommarel <repk@triplefau.lt>
+Subject:
+ Re: [PATCH v2 2/3] 9p: Introduce option for negative dentry cache retention
+ time
+Date: Wed, 11 Feb 2026 16:58:02 +0100
+Message-ID: <3929797.kQq0lBPeGt@weasel>
+In-Reply-To:
+ <7e38e7bd31674208ab2b0de909c0744feda2c03f.1769013622.git.repk@triplefau.lt>
+References:
+ <cover.1769013622.git.repk@triplefau.lt>
+ <7e38e7bd31674208ab2b0de909c0744feda2c03f.1769013622.git.repk@triplefau.lt>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <89c75fc1-2def-4681-a790-78b12b45478a@gmail.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
-On Tue, Feb 10, 2026 at 04:34:47PM +0000, Pavel Begunkov wrote:
-> > +	union {
-> > +		/* used for pbuf rings */
-> > +		__u64	ring_addr;
-> > +		/* used for kmbuf rings */
-> > +		__u32   buf_size;
+On Wednesday, 21 January 2026 20:56:09 CET Remi Pommarel wrote:
+> Add support for a new mount option in v9fs that allows users to specify
+> the duration for which negative dentries are retained in the cache. The
+> retention time can be set in milliseconds using the ndentrytmo option.
 > 
-> If you're creating a region, there should be no reason why it
-> can't work with user passed memory. You're fencing yourself off
-> optimisations that are already there like huge pages.
+> For the same consistency reasons, this option should only be used in
+> exclusive or read-only mount scenarios, aligning with the cache=loose
+> usage.
+> 
+> Signed-off-by: Remi Pommarel <repk@triplefau.lt>
+> ---
+>  fs/9p/v9fs.c | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+> 
+> diff --git a/fs/9p/v9fs.c b/fs/9p/v9fs.c
+> index 1da7ab186478..f58a2718e412 100644
+> --- a/fs/9p/v9fs.c
+> +++ b/fs/9p/v9fs.c
+> @@ -39,7 +39,7 @@ enum {
+>  	 * source if we rejected it as EINVAL */
+>  	Opt_source,
+>  	/* Options that take integer arguments */
+> -	Opt_debug, Opt_dfltuid, Opt_dfltgid, Opt_afid,
+> +	Opt_debug, Opt_dfltuid, Opt_dfltgid, Opt_afid, Opt_ndentrytmo,
+>  	/* String options */
+>  	Opt_uname, Opt_remotename, Opt_cache, Opt_cachetag,
+>  	/* Options that take no arguments */
+> @@ -93,6 +93,7 @@ const struct fs_parameter_spec v9fs_param_spec[] = {
+>  	fsparam_string	("access",	Opt_access),
+>  	fsparam_flag	("posixacl",	Opt_posixacl),
+>  	fsparam_u32	("locktimeout",	Opt_locktimeout),
+> +	fsparam_s32	("ndentrytmo",	Opt_ndentrytmo),
 
-Any pages mapped to userspace can be allocated in the kernel as well.
+Not better "ndentrytimeout" ?
 
-And I really do like this design, because it means we can have a
-buffer ring that is only mapped read-only into userspace.  That way
-we can still do zero-copy raids if the device requires stable pages
-for checksumming or raid.  I was going to implement this as soon
-as this series lands upstream.
+My first thought was whether it was really worth introducing a dedicated
+timeout option exactly for negative dentries (instead of a general cache
+timeout option). But on a 2nd thought it actually needs separate handling, as
+negative dentries have the potential to pollute with a ridiculous amount of
+bogus entries.
+
+Wouldn't it make sense to enable this option with some meaningful value for
+say cache=loose by default? 24 hours maybe?
+
+> 
+>  	/* client options */
+>  	fsparam_u32	("msize",	Opt_msize),
+> @@ -159,6 +160,8 @@ int v9fs_show_options(struct seq_file *m, struct dentry
+> *root) from_kgid_munged(&init_user_ns, v9ses->dfltgid));
+>  	if (v9ses->afid != ~0)
+>  		seq_printf(m, ",afid=%u", v9ses->afid);
+> +	if (v9ses->ndentry_timeout != 0)
+> +		seq_printf(m, ",ndentrytmo=%d", v9ses->ndentry_timeout);
+>  	if (strcmp(v9ses->uname, V9FS_DEFUSER) != 0)
+>  		seq_printf(m, ",uname=%s", v9ses->uname);
+>  	if (strcmp(v9ses->aname, V9FS_DEFANAME) != 0)
+> @@ -337,6 +340,10 @@ int v9fs_parse_param(struct fs_context *fc, struct
+> fs_parameter *param) session_opts->session_lock_timeout =
+> (long)result.uint_32 * HZ; break;
+> 
+> +	case Opt_ndentrytmo:
+> +		session_opts->ndentry_timeout = result.int_32;
+> +		break;
+> +
+>  	/* Options for client */
+>  	case Opt_msize:
+>  		if (result.uint_32 < 4096) {
+
+
+
 
