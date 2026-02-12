@@ -1,39 +1,49 @@
-Received: from smtp06-ext.udag.de (smtp06-ext.udag.de [62.146.106.76])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE22D286416;
-	Thu, 12 Feb 2026 10:01:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.146.106.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F339E246BA7;
+	Thu, 12 Feb 2026 10:07:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770890513; cv=none; b=M6pA74thOvdhtikjIamARipQ/7Z5axia2zvwOTS3X97tY1ZpBisXlD6YCRmEGQVn3KAAFuslz2urRSNbmhNb5imyNnGsGHM4HVnXqT0OlwkvjHw6zRjWkmUQ+hyMtXYtFSLv8QZ6dnudhXn2MIoRAq2I91oA1R6rq3tiTeQecf0=
+	t=1770890874; cv=none; b=leDY7TAtojcmdOoNrOnI2lT8aFcLEcNSJzle3QsynJDduWuK/2hVoNC0iH3KLs1JF8IRfMwEA7zI91xJJ2y7EjJw39Kb17HpnDb50zOCiHSRTFd3iNpx0oUtHWZHURebbuTnAU0H3J3GAgzU0G6JUp4ThTbb/pbkzQGwFv9eMjU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770890513; c=relaxed/simple;
-	bh=sqM5uidyw/i5Gwi1M1tkqn1is+J7Wo1VqIc0bKEe3rY=;
+	s=arc-20240116; t=1770890874; c=relaxed/simple;
+	bh=uTyItwhkWyUdGHdWTNVgB/OwNLaAluY2qSDBafx/3dU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XLeXqHn/LvKq94QQSHz+FMwJm4ARxy2jWkQgC6AnIFmS+Kjas3V+lXoZIB8S1JibWlYjzo+TjHnURgHeIUnYQD+lsuGDNQdORAZJjsdaEbat0P7taAZBbWEfHXpVNMYsvKsOURgS/Cfq7LRoIjJXTCPciDyLEYzjdyfOjcQOyDw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de; spf=pass smtp.mailfrom=birthelmer.de; arc=none smtp.client-ip=62.146.106.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birthelmer.de
-Received: from localhost (200-143-067-156.ip-addr.inexio.net [156.67.143.200])
-	by smtp06-ext.udag.de (Postfix) with ESMTPA id 0240BE01DC;
-	Thu, 12 Feb 2026 10:53:29 +0100 (CET)
-Authentication-Results: smtp06-ext.udag.de;
-	auth=pass smtp.auth=birthelmercom-0001 smtp.mailfrom=horst@birthelmer.de
-Date: Thu, 12 Feb 2026 10:53:29 +0100
-From: Horst Birthelmer <horst@birthelmer.de>
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Horst Birthelmer <horst@birthelmer.com>, 
-	Bernd Schubert <bschubert@ddn.com>, Joanne Koong <joannelkoong@gmail.com>, 
-	Luis Henriques <luis@igalia.com>, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	Horst Birthelmer <hbirthelmer@ddn.com>
-Subject: Re: Re: Re: [PATCH v5 1/3] fuse: add compound command to combine
- multiple requests
-Message-ID: <aY2gS8q0AclXbXJT@fedora-2.fritz.box>
-References: <20260210-fuse-compounds-upstream-v5-0-ea0585f62daa@ddn.com>
- <20260210-fuse-compounds-upstream-v5-1-ea0585f62daa@ddn.com>
- <CAJfpegvt0HwHOmOTzkCoOqdmvU6pf-wM228QQSauDsbcL+mmUA@mail.gmail.com>
- <aYysaoP0y4_j9erG@fedora-2.fritz.box>
- <CAJfpegsoF3dgBpiO=96HPS_xckfWbP2dF2Ne94Qdb5M743kuJw@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=sx++4e1/RCB+Hxn3e7z0kH5NhFtB3D8En37dPrZC2StUTAyOSwXeshDdN+Oho1WYZ+40UhfMdRwGLAMJC0d44bEBSEyI0lD90r1ZMl9ws9DqNxU7B4NMFgrGOW9V3qgGvGkbu/3OQ/pE1/C4vT453OzxnqhsHLu4JX7HraWJB/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=YWH/5Izb; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="YWH/5Izb"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=jSlX9h8f/KU7AnNLwZBHlCdwR/NrX+FSMXQajoFNUxM=; b=YWH/5IzbWtN6t6m9InMkRDgPEa
+	dc6Fov4F7pnYfAY6Foqeaqu3e/ph7K4ikhMfu2iwY75Hxui4x6QOdCzsosdpdukZD81HIwk74H4UE
+	gVLWa4AMOovmCpmM6+DbcJp3xgPnYY2KeA/FAHFKS1OE77FFUJLii+sdJFkDeFWfEvHBbJ2nvSlAr
+	Ga0wyfoqOjrDWzyU6FNDLaYIXp34DoRWhUh386XdxLzwiuv2e5cRHe3mvDPR0iUfNfG64et1Ugzc6
+	KXOtHkASTjm7qtPDsL5TV1rHBltpX8mOBydYleC9WHZSH8heK3BhAzpEf/sxbWO6JhZVP0uEXim47
+	KUXG4oIQ==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vqTbw-00000001tyA-08vU;
+	Thu, 12 Feb 2026 10:07:48 +0000
+Date: Thu, 12 Feb 2026 02:07:48 -0800
+From: Christoph Hellwig <hch@infradead.org>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: Pavel Begunkov <asml.silence@gmail.com>, axboe@kernel.dk,
+	io-uring@vger.kernel.org, csander@purestorage.com, krisman@suse.de,
+	bernd@bsbernd.com, hch@infradead.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v1 03/11] io_uring/kbuf: add support for kernel-managed
+ buffer rings
+Message-ID: <aY2mdLkqPM0KfPMC@infradead.org>
+References: <20260210002852.1394504-1-joannelkoong@gmail.com>
+ <20260210002852.1394504-4-joannelkoong@gmail.com>
+ <89c75fc1-2def-4681-a790-78b12b45478a@gmail.com>
+ <CAJnrk1ZZyYmwtzcHAnv2x8rt=ZVsz7CXCVV6jtgMMDZytyxp3A@mail.gmail.com>
+ <1c657f67-0862-4e13-9c71-7217aeecef61@gmail.com>
+ <CAJnrk1YXmxqUnT561-J7seaicxFRJTyJ=F3_MX1rmtAROC6Ybg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -42,99 +52,24 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAJfpegsoF3dgBpiO=96HPS_xckfWbP2dF2Ne94Qdb5M743kuJw@mail.gmail.com>
+In-Reply-To: <CAJnrk1YXmxqUnT561-J7seaicxFRJTyJ=F3_MX1rmtAROC6Ybg@mail.gmail.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On Thu, Feb 12, 2026 at 10:38:25AM +0100, Miklos Szeredi wrote:
-> On Wed, 11 Feb 2026 at 17:35, Horst Birthelmer <horst@birthelmer.de> wrote:
-> >
-> > >
-> > > > +#define FUSE_MAX_COMPOUND_OPS   16        /* Maximum operations per compound */
-> > >
-> > > Don't see a good reason to declare this in the API.   More sensible
-> > > would be to negotiate a max_request_size during INIT.
-> > >
-> >
-> > Wouldn't that make for a very complicated implementation of larger compounds.
-> > If a fuse server negotiates something like 2?
+On Wed, Feb 11, 2026 at 02:06:18PM -0800, Joanne Koong wrote:
+> > I don't think I follow. I'm saying that it might be interesting
+> > to separate rings from how and with what they're populated on the
+> > kernel API level, but the fuse kernel module can do the population
 > 
-> I didn't mean negotiating the number of ops, rather the size of the
-> buffer for the compound.
-> 
-OK, so the current limit would be the size of the whole operation.
+> Oh okay, from your first message I (and I think christoph too) thought
+> what you were saying is that the user should be responsible for
+> allocating the buffers with complete ownership over them, and then
+> just pass those allocated to the kernel to use. But what you're saying
+> is that just use a different way for getting the kernel to allocate
+> the buffers (eg through the IORING_REGISTER_MEM_REGION interface). Am
+> I reading this correctly?
 
-> But let's not overthink this.   If compound doesn't fit in 4k, then it
-> probably not worth doing anyway.
+I'm arguing exactly against this.  For my use case I need a setup
+where the kernel controls the allocation fully and guarantees user
+processes can only read the memory but never write to it.  I'd love
+to be able to piggy back than onto your work.
 
-Got it!
-Unless some people have the idea of doing some atomic operation with
-WRITE+<some attribute operation> ;-)
-
-> 
-> > > > +
-> > > > +#define FUSE_COMPOUND_SEPARABLE (1<<0)
-> > > > +#define FUSE_COMPOUND_ATOMIC (1<<1)
-> > >
-> > > What is the meaning of these flags?
-> >
-> > FUSE_COMPOUND_SEPARABLE is a hint for the fuse server that the requests are all
-> > complete and there is no need to use the result of one request to complete the input
-> > of another request further down the line.
-> 
-> Aha, so it means parallel execution is allowed.
-
-Yes.
-
-> 
-> > Think of LOOKUP+MKNOD+OPEN ... that would never be 'separable'.
-> 
-> Right.  I think for the moment we don't need to think about parallel
-> execution within a compound.
-
-Not only for parallel execution. You cannot craft the args for this to be
-complete, independent of parallel execution.
-
-You will need the result of LOOKUP to know what to do with MKNOD and to fill the args for OPEN.
-
-> 
-> > At the moment I use this flag to signal libfuse that it can decode the compund
-> > and execute sequencially completely in the lib and just call the separate requests
-> > of the fuse server.
-> 
-> I think decoding and executing the ops sequentially should always be
-> possible, and it would be one of the major advantages of the compound
-> architecture: kernel packs a number of requests that it would do
-> sequentially, sends to server, server decodes and calls individual
-> callbacks in filesystem, then replies with the compound result.  This
-> reduces the number of syscalls/context switches which can be a win
-> even with an unchanged library API.
-
-Yes, but some combinations are not complete when you have interdependencies
-within the packed requests.
-
-> 
-> The trick in a case like MKNOD + OPEN is to let the server know how to
-> feed the output of one request to the input of the next.
-> 
-
-Exactly. And the FUSE_COMPOUND_SEPARABLE was actually there to tell the fuse server,
-that we know that this is not done in this case, so the requests can be processed
-'separately'.
-If that is missing the fuse server has to look at the combination and decide wether it
-will execute it as a 'compound' or return an error.
-
-> > FUSE_COMPOUND_ATOMIC was an idea to hint to the fuse server that the kernel treats
-> > the compound as one atomic request. This can maybe save us some checks for some
-> > compounds.
-> 
-> Do you have an example?
-
-Yes, I have used it for my (not yet ready for scrutiny) implementation of atomic open.
-If you know that LOOKUP got a valid result and the operation was atomic on fuse server side,
-you don't have to check for MKNODs result.
-
-> 
-> Thanks,
-> Miklos
-
-Thanks,
-Horst
