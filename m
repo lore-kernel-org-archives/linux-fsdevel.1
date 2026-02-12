@@ -1,158 +1,159 @@
-Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C13FB2A1BA;
-	Thu, 12 Feb 2026 09:48:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA43A2E06EF
+	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Feb 2026 09:59:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770889733; cv=none; b=qQzeRx+JW2lqpwxxeUKGIdxdJ5+2og9a2oyWaRYnHhLZmB58Qysajw6hScI9jJdRJXk5zgaWyJndBLn/GNwc+CHpejLCZxSOHkyx3H938KS1Ao2WF9y6aDjX5mYntL/pCgiGMCPPImaqBI22++15CVrpxg3v3J9mQ+6vXjyRVTk=
+	t=1770890383; cv=none; b=PfA8ZUrXgIvy3uvxwxY9VibJ/qxqzM6caAHUBXgywbfJxe6VT91LopckvqVzfbOdJSW0KwR2CeeQZ2DShvX6g7XQq7iizQYHCzbTxuHwl2bMtaP09ZLrdYBqZBA85mRtUBhHeCffnwgqo5DJYn8oGWaevjmfUPKQqp0OMAexTDM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770889733; c=relaxed/simple;
-	bh=hD0lkAh5BSVhWcPi9b1RpkGwyQbvz/wmvOExF+ZvG4s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=npA8K9cGkNa1IbIfXDPzG/I5YA43CfYp56AFhsa93T+Nrb3TtIwGrWgg/9ngc3c1HrakPV5jZUxaEv5F6ZCIDIbJtgnSPUiyZRu3vRGKbdUwS1A+4DG9/faBG5OUg6p2Z0+2S9w+2DSbq43T6vtFklx76AHSbW5I7cKLGy9vBac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=HrUJudG3; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Yyg7pROo; arc=none smtp.client-ip=202.12.124.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	s=arc-20240116; t=1770890383; c=relaxed/simple;
+	bh=cGTIIVBSYYIEP/aYkmS4ZcVw6+l1AQU1xSHvYaXt8yw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iuYSGW2NUwqVx0Zp4oi1A7SOYUhOeRkkbEUYZjrzG4FhX7p4vS75/7qYfadP+QIDrE+9iLfd6qEzR7lw/vDpLKN6MXNJoKNjAf8aefsziNuXR6vq9u9dkv5oli/03Prk0bn0TLb0UbDyADOo4Fqpt3m1gNVa5YAclot5bkTsNwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=D12vpx5E; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=zUAUc2Id; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=T6jbtf0Z; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=LFMzTLCx; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="HrUJudG3";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Yyg7pROo"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 9760C7A009C;
-	Thu, 12 Feb 2026 04:48:50 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Thu, 12 Feb 2026 04:48:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1770889730;
-	 x=1770976130; bh=H7yihoYeRLt0nKbeZEzZZ8rWMnZAbmFXawWreuTtdxE=; b=
-	HrUJudG3ktoltjAL9YTLeOlwkiEnd5rcvyT5GYtV27UaGCo/NASeiuLoaW4fSgyR
-	sfckBHbfSAZY5Mkh5dLURYG2nRtvTbggbc/fzsYIe8bAqx5a7EtAgUPcyTSJqsbM
-	R6HOqNfSy+xi2ZkKmDyvcmM7bcEou/ojAMVdqagBBlIeiinuV3DQSqEYDVx7UWOv
-	K9vCsXI/ncPIfdVHTCwGGYPPUTSock2Woku0uzasklLRAZsbmLU4PetkTS3e12mx
-	WS5QEwcJfRgrU1EeVCndvAa0fgToKVZZR8r0f0jsLaZw5BUJgOAV/Nuls/DaVGrD
-	+ve9NwZ0qh5FDb3WE2vbuw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1770889730; x=
-	1770976130; bh=H7yihoYeRLt0nKbeZEzZZ8rWMnZAbmFXawWreuTtdxE=; b=Y
-	yg7pROok4EGodgmLeQANQJE6sk/klTl9ADOUCm3qBMwnZGhkeJs6+IsOKyACFVRy
-	YCnAYNBJO6Y0H4rhM6jABuQ34s8QwinFHraIp4KGpqSoml1bysGIpORAog/PCEQ3
-	LwIBchN58d7kY2LyHi+YTRQZeMH0q1/4Ii+cRfGWUk+yhXurDzhxbD/Rw1pSjauN
-	hTAM47HbFt8UCfIE2jOG7z/wN+EYlhP+jjSXMmnbaOL65RNHMgngBrPJ6fdbMUti
-	oYAbnt4xKey7m0mmGlHPRcbAOuCWxQPhUrfNDhb7MF4kq+4C12mqrmmZg3QlGh5U
-	o9L4FZzKsqTrlTs0/lQIg==
-X-ME-Sender: <xms:AqKNaaZmNqOXd5eBcYFE7uDLfTuLThvfIrzqqSbD1LDTd54SiPip0Q>
-    <xme:AqKNaXb2U2jRidbga6ZIhFCdGkagiSQekO0_4XCjRVGMLXj48XE_lWy4r5b2qe66g
-    2QsDRpwT9-IjU1yAX6wYF0sCHQRIPOcfxE5tk7F6AFJkVCNZ4mU>
-X-ME-Received: <xmr:AqKNabmCNIw1cM1Gz_lAAy7u-F8zMn18mc7Ze78Ns5JjAbl1Ck_OiGe23lEtwbBu8CY6Wpx36-2_K_IEKjtZ4cBJabeJnhLKNQZHQA-1fAi2REW4Gg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvtdehtdeiucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
-    ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
-    htthgvrhhnpeehhfejueejleehtdehteefvdfgtdelffeuudejhfehgedufedvhfehueev
-    udeugeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    gsvghrnhgusegsshgsvghrnhgurdgtohhmpdhnsggprhgtphhtthhopeekpdhmohguvgep
-    shhmthhpohhuthdprhgtphhtthhopehmihhklhhoshesshiivghrvgguihdrhhhupdhrtg
-    hpthhtohephhhorhhsthessghirhhthhgvlhhmvghrrdgtohhmpdhrtghpthhtohepsghs
-    tghhuhgsvghrthesuggunhdrtghomhdprhgtphhtthhopehjohgrnhhnvghlkhhoohhngh
-    esghhmrghilhdrtghomhdprhgtphhtthhopehluhhishesihhgrghlihgrrdgtohhmpdhr
-    tghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpd
-    hrtghpthhtoheplhhinhhugidqfhhsuggvvhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhr
-    ghdprhgtphhtthhopehhsghirhhthhgvlhhmvghrseguughnrdgtohhm
-X-ME-Proxy: <xmx:AqKNaa3cEbGZfVG5Fn-CE-d6EmC39Q7M8BTQq4vr2cwsE0DFZA6DCw>
-    <xmx:AqKNaT20HWlDCsC6roTx5urzJztQC4U14y5o-_YeeVBqeUEodjxOfA>
-    <xmx:AqKNaUpshLLU_mMVclQe5Ff-YZtkwgMmrXXyZoXDxowhHCMXK3BGBQ>
-    <xmx:AqKNaXhsAoNMDJp79GWBomiBtIoQjxOJyrJI1PR3uipLbOCDDs8TCg>
-    <xmx:AqKNaVQuFRhpDhE4jAr809P2obk77Q1m_f3aFaVgj8-gwPuiP5ocpxG5>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 12 Feb 2026 04:48:48 -0500 (EST)
-Message-ID: <bb5bf6c8-22b2-4ca8-808b-4a3c00ec72fd@bsbernd.com>
-Date: Thu, 12 Feb 2026 10:48:47 +0100
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="D12vpx5E";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="zUAUc2Id";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="T6jbtf0Z";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="LFMzTLCx"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 23D693E715;
+	Thu, 12 Feb 2026 09:59:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1770890380; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OFWkfuduU3wERXWexUXMS8/sH4JTVUHJb6JIi8LK3sM=;
+	b=D12vpx5ESAz4JMoGgu8WFgJqyBq5b9TIWvP2J8qAGnB9mrus+HTDNJ48sVVET9jgM/poWR
+	qxIi4TUggbIyMibBZeoDGUDg5Qqf3RXCaO94bRT3bDIvbD+nhFrDFGhuoIRQxs0hgvpJMU
+	2kmEdlS7W2nhBZMSC48O6gWdfbiXT94=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1770890380;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OFWkfuduU3wERXWexUXMS8/sH4JTVUHJb6JIi8LK3sM=;
+	b=zUAUc2Id4qDcgiVryc5AYp2K8iBlugLGj6cTpNsE3DVEIxf5AQhyEUqAZlFdf62nH2sgdB
+	XzqEF+f6DOUcbdBQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=T6jbtf0Z;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=LFMzTLCx
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1770890379; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OFWkfuduU3wERXWexUXMS8/sH4JTVUHJb6JIi8LK3sM=;
+	b=T6jbtf0ZaCeGe7Y8yRiqH4szTrqx5CEFzzVuxQXZLX3o6n1DBuALHhVqLXk+MB5TmQ1XMB
+	j07kLolBXWYJ48eZ5br3KdQ4gR1BWrBhcMmmE2nM28AaDJnU82O7pT3ea2prZlHRKHh8gI
+	xCIf0ETrw6YQIWfna02EfDwy0U0Ny0U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1770890379;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OFWkfuduU3wERXWexUXMS8/sH4JTVUHJb6JIi8LK3sM=;
+	b=LFMzTLCx7p34FHRF+rI0HhQJ7uARWtOCieOXDR7d1tVvaJjf/O3DIzcRVoRPyb1uovboC5
+	cpwEd6p0wgI6iSCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 101D83EA62;
+	Thu, 12 Feb 2026 09:59:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id mFbwA4ukjWkMUwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 12 Feb 2026 09:59:39 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id BE921A0A4C; Thu, 12 Feb 2026 10:59:34 +0100 (CET)
+Date: Thu, 12 Feb 2026 10:59:34 +0100
+From: Jan Kara <jack@suse.cz>
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: Jan Kara <jack@suse.com>, linux-fsdevel@vger.kernel.org, 
+	Eric Sandeen <sandeen@redhat.com>
+Subject: Re: [PATCH] udf: fix nls leak on udf_fill_super() failure
+Message-ID: <n7blo2z6tk25p2pkjk53ifm2p2nejodngojrnmgdcr2bqpv3m4@up4qbcufnfii>
+References: <20260211201845.GN3183987@ZenIV>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/3] fuse: add compound command to combine multiple
- requests
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Horst Birthelmer <horst@birthelmer.com>,
- Bernd Schubert <bschubert@ddn.com>, Joanne Koong <joannelkoong@gmail.com>,
- Luis Henriques <luis@igalia.com>, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, Horst Birthelmer <hbirthelmer@ddn.com>
-References: <20260210-fuse-compounds-upstream-v5-0-ea0585f62daa@ddn.com>
- <20260210-fuse-compounds-upstream-v5-1-ea0585f62daa@ddn.com>
- <CAJfpegvt0HwHOmOTzkCoOqdmvU6pf-wM228QQSauDsbcL+mmUA@mail.gmail.com>
- <f38cf69e-57b9-494b-a90a-ede72aa12a54@bsbernd.com>
- <CAJfpegscqhGikqZsaAKiujWyAy6wusdVCCQ1jirnKiGX9bE5oQ@mail.gmail.com>
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: en-US, de-DE, fr
-In-Reply-To: <CAJfpegscqhGikqZsaAKiujWyAy6wusdVCCQ1jirnKiGX9bE5oQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260211201845.GN3183987@ZenIV>
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	URIBL_BLOCKED(0.00)[suse.cz:dkim,suse.cz:email,linux.org.uk:email,suse.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	FROM_EQ_ENVFROM(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	MISSING_XM_UA(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.cz:dkim,suse.cz:email]
+X-Spam-Flag: NO
+X-Spam-Score: -4.01
+X-Rspamd-Queue-Id: 23D693E715
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spam-Level: 
 
-
-
-On 2/12/26 10:07, Miklos Szeredi wrote:
-> On Wed, 11 Feb 2026 at 21:36, Bernd Schubert <bernd@bsbernd.com> wrote:
+On Wed 11-02-26 20:18:45, Al Viro wrote:
+> [in viro/vfs.git #fixes at the moment; if you want to put it through your
+> tree, just say so]
 > 
->> With simple request and a single request per buffer, one can re-use the
->> existing buffer for the reply in fuse-server
->>
->> - write: Do the write operation, then store the result into the io-buffer
->> - read: Copy the relatively small header, store the result into the
->> io-buffer
->>
->> - Meta-operations: Same as read
-> 
-> Reminds me of the header/payload separation in io-uring.
-> 
-> We could actually do that on the /dev/fuse interface as well, just
-> never got around to implementing it:  first page reserved for
-> header(s), payload is stored at PAGE_SIZE offset in the supplied
-> buffer.
+> On all failure exits that go to error_out there we have already moved the
+> nls reference from uopt->nls_map to sbi->s_nls_map, leaving NULL behind.
+>     
+> Fixes: c4e89cc674ac ("udf: convert to new mount API")
+> Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
 
-Yeah, same here, I never came around to that during the past year.
+Thanks for catching this! It's fine if you merge it so feel free to add:
 
-> 
-> That doesn't solve the overwriting problem, since in theory we could
-> have a compound with a READ and a WRITE but in practice we can just
-> disallow such combinations.
-> 
-> In fact I'd argue that most/all practical compounds will not even have
-> a payload and can fit into a page sized buffer.
+Acked-by: Jan Kara <jack@suse.cz>
 
-That is what Horst had said as well, until I came up with a use case -
-write and immediately fetch updated attributes.
+								Honza
 
-A bit side tracking background, I disabled auto-invalidate in the DDN
-file system, because we use DLM anyway (additional patches for
-background writes and mmap in our branches, should be published to the
-list asap). And then that disabled auto-invalidation introduced another
-xfstest failure, I think generic/323, but I would need to look it up. I
-didn't have time for the details yet, but I think page read beyond EOF.
-And that made me think that all operations that change file size and
-time stamps could immediately return the updates attributes, if the file
-system supports it - with our DLM we would support that.
-
-> 
-> So as a first iteration can we just limit compounds to small in/out sizes?
-
-Even without write payload, there is still FUSE_NAME_MAX, that can be up
-to PATH_MAX -1. Let's say there is LOOKUP, CREATE/OPEN, GETATTR. Lookup
-could take >4K, CREATE/OPEN another 4K. Copying that pro-actively out of
-the buffer seems a bit overhead? Especially as libfuse needs to iterate
-over each compound first and figure out the exact size.
-
-
-Thanks,
-Bernd
+> ---
+> diff --git a/fs/udf/super.c b/fs/udf/super.c
+> index b2f168b0a0d1..97a51c64ad48 100644
+> --- a/fs/udf/super.c
+> +++ b/fs/udf/super.c
+> @@ -2320,7 +2320,7 @@ static int udf_fill_super(struct super_block *sb, struct fs_context *fc)
+>  
+>  error_out:
+>  	iput(sbi->s_vat_inode);
+> -	unload_nls(uopt->nls_map);
+> +	unload_nls(sbi->s_nls_map);
+>  	if (lvid_open)
+>  		udf_close_lvid(sb);
+>  	brelse(sbi->s_lvid_bh);
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
