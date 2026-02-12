@@ -1,63 +1,70 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9937028134C
-	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Feb 2026 19:14:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F269C3EBF3F
+	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Feb 2026 19:20:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770923667; cv=none; b=bbvqlEK3QssOz2x9vAy0A862mXgcIRC9rVnLQhpATdaYuoqzTQ8cIuGVMK1r8cbLBlpi1Rriyhc7CY74xcaRqLDpUpaPzqqJBUv4Kkb3ALhVs1xUdBBvKhSbVzOGDel5ot013bh+iQ/RVbL4nniEBGazD0qEjPjG+CVuMzlruCc=
+	t=1770924045; cv=none; b=rrfgAqP3dyGjgc6M3CoIXTfhcHsSz/VYJT4HLwUGdbdq3sXx/VJCJomMCNUia7NI6w+73wxPoPRTIL8LddFaLhH1Q5Dsxf96vP52LGQkY1NHRiWSVL/SHGeeVsv2YdoHGWjz7KgApIS72S015VQQxddmYu7ROX9sRWYPrrv/VVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770923667; c=relaxed/simple;
-	bh=SUjGGIOxsNZRpaLLXE51TCoZlWnwyzetnnEBKmN/OOY=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=mwbXqwOXYJLV/4ooPkcKQLGhO2W5Q9TBJi9BFd/sdW54XSKrCKFpQsb5RLSds1RkwlH0M+Uif7gjf4WGYxyfw0uFcoJ1lL5q5dI0lNZD1Ix7S0+f5BEQ9jeMvki7Up9t6rfn/bn4Ud3w4iBn9d+gIdgdVpOLcUpODBBVM4v3ikA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ut8+L2gJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770924045; c=relaxed/simple;
+	bh=MlpBW/OtVnPFuOYKeYody2iK9V9sYUf8O+QFfNgw1Gk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ebzNGQ5wwsC/JgGW01UXolN+/TLtOBlNvLMubdLezKOJZQjiqU1QrZKrwhG8IkLFaELg8ovPDhBbbxDBO2h7Aasyw/oDKiq7OKoT7Jr1WTqUbfDJkPri1keeWUaDgquq1a4IT34zZ1Xv27UCBCrKunc7Q1zcQxsdY4KQEHYWyKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=Hs3hbO2m; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ut8+L2gJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C69AC4CEF7;
-	Thu, 12 Feb 2026 19:14:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770923667;
-	bh=SUjGGIOxsNZRpaLLXE51TCoZlWnwyzetnnEBKmN/OOY=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=ut8+L2gJHQXlKdiJu61yi4RFPO42E3scEUdnsKB2CU4ybTTMPhGSNXjZZWIlsAjXJ
-	 8CtShwafD4UJoVb75+4JMrFTR44H3sjajm2310mmVLGmsGPaD5KXvAY7YFptFFkFb9
-	 exf5qNuXMYum9DNWluFEtTr65p7j1NPEy2vycn9tDA5ctXWKeuvMKMtHdXvMMbfEyU
-	 M86j9s6tGxtuRqt7a3Avke803e/AyovRpD0KnMtbPzYIRQT8K55ywbFYQ6Bhb0QGNT
-	 WRgil4HhF1/Co00U/0n1I72RQge/e1yRDuP+ak2IZC2zBPiJodmix/Dya5L1UkEbKR
-	 DELhbFY3Jm8Yw==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id C20B43800346;
-	Thu, 12 Feb 2026 19:14:22 +0000 (UTC)
-Subject: Re: [GIT PULL] quota and isofs fixes for 6.20-rc1
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <xpx7drxgrtrzlcazrmqqepfdtognnodyucziepzakx4adm3aau@zwmaecmugo5h>
-References: <xpx7drxgrtrzlcazrmqqepfdtognnodyucziepzakx4adm3aau@zwmaecmugo5h>
-X-PR-Tracked-List-Id: <linux-fsdevel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <xpx7drxgrtrzlcazrmqqepfdtognnodyucziepzakx4adm3aau@zwmaecmugo5h>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs.git fs_for_v6.20-rc1
-X-PR-Tracked-Commit-Id: 18a777eee28938a70a7fb103e37ff4ba56e5b673
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 541c43310e85dbf35368b43b720c6724bc8ad8ec
-Message-Id: <177092366139.1663336.811545620644633135.pr-tracker-bot@kernel.org>
-Date: Thu, 12 Feb 2026 19:14:21 +0000
-To: Jan Kara <jack@suse.cz>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, linux-fsdevel@vger.kernel.org
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="Hs3hbO2m"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=kGUFQESGdsCsSAUeMyRVXFjlRygdIpycJaM4lrSe8w8=; b=Hs3hbO2mjDT8a2XSKyQm3jDTLs
+	VXhlBXc/I85REZk8wz6Bs8BMEWB1BNz1PHf8S4dEJSpXfCoS5g3gOFyB5t1yyxSMK/ivV11vwh90n
+	Iw0wKxnd1/eWfekL7VGrOv+5aySxT01cLbt6vZtLvc0MIqdEM9dNY/V8UQ/P/H6BhNRECny4PAhFT
+	GJMdTYaOTf1B/tqO9ucElwrnbtjdvtZJQvqUr1H4KMtfIGFZfrr94m6CAqSt15Exs6nnduTozCyr1
+	KP/daiipvnxw/zIK2lmzV34xuPP0NfGzA15KN4O53k65bqGxTk0OqMMFdEXe5PoB2uW6t0ttlmpDV
+	w678LC6w==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1vqcH8-00000005oPA-28KM;
+	Thu, 12 Feb 2026 19:22:55 +0000
+Date: Thu, 12 Feb 2026 19:22:54 +0000
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: linux-fsdevel@vger.kernel.org, Christian Brauner <christian@brauner.io>,
+	Jan Kara <jack@suse.cz>, "H. Peter Anvin" <hpa@zytor.com>,
+	Werner Almesberger <werner@almesberger.net>
+Subject: Re: [RFC] pivot_root(2) races
+Message-ID: <20260212192254.GO3183987@ZenIV>
+References: <20260209003437.GF3183987@ZenIV>
+ <CAHk-=whoVEhWbBJK9SiA0XoUbyurn9gN8O0gUAne88a4gXDLyQ@mail.gmail.com>
+ <20260209063454.GI3183987@ZenIV>
+ <CAHk-=wikNJ82dh097VZbqNf_jAiwwZ_opzfvMr-8Ub3_1cx3jQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wikNJ82dh097VZbqNf_jAiwwZ_opzfvMr-8Ub3_1cx3jQ@mail.gmail.com>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-The pull request you sent on Wed, 11 Feb 2026 13:20:40 +0100:
+On Sun, Feb 08, 2026 at 10:44:31PM -0800, Linus Torvalds wrote:
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs.git fs_for_v6.20-rc1
+> 
+> Am I mis-reading things entirely, or can a random process in that
+> container (that has mount permissions in that thing) basically do
+> pivot_root(), and in the process change the CWD of that root process
+> that just happens to be looking at that container state?
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/541c43310e85dbf35368b43b720c6724bc8ad8ec
+They can.  But then they can do other fun things to the environment
+there, so naive root process walking in might be in for really
+unpleasant things.  Creating use of mount --move, for example.  Or
+umount -l, or...
 
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+We could restrict the set of those who could be flipped, but I doubt
+that "could ptrace" is workable - that would exclude all kernel threads,
+and that could easily break existing setups in hard-to-recover ways.
