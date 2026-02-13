@@ -1,48 +1,48 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ED2B33B6D2
-	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Feb 2026 08:38:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A8D733DEED
+	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Feb 2026 08:40:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770971903; cv=none; b=gtcNInVtk7STWziIw+v4vU2IWsqn0gr+oHnIh4DqjfCAYVjRAUY+vdGsDpFDHxpSn12cYF1szmVZA8ey39yQjPc8IguWp1ZH8/pnMLmLoW1qDpOFKi6YYdCy17sEopHxscLHRXmI07Fvq6CKGsoQ46+gu/tC06SFf4eaWKB/bvY=
+	t=1770972049; cv=none; b=OMLlNIj18juyiQwaD+Al/Kd7a2Inlea2JJN9YVHWHk1nBmeO+AX4B3JaPiXQWyCcOvuDf2Pupz7SWFOqIe7iw2A2uZgAjg2bawmSSbturigEP1b520GJaGm3oflOlWTsEcj8yb/vtsJ3dW/yqIZAdnHJwjFCgY1hRyBCNW1zKNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770971903; c=relaxed/simple;
-	bh=rqCTJwzKn+pJ3DD2nIHyEpUxM+GSsFJLIy028CweCvE=;
+	s=arc-20240116; t=1770972049; c=relaxed/simple;
+	bh=RfcOvw5yN33+tXsa55Q8cuBx0+mtbmhjRrjKaSuxylY=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Vj8oN2ut6M2pxmTrcq/YEJB+cDUEE9Nww02+HKbMljj2DpcJjWSD9Le/KjLg7aZZHLSXUdNNLYTH+BNBtfdTJcmLVdctdMSC/tD39DsL5Pe+d4AxsyZ8+SclXHaOOekO1fbjI3lFWZw9l2MUDm4tAm01tCYcwAEfaVa0WsnumMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.214.172
+	 MIME-Version; b=X03SWYHxCbdff8SCUEmMhJu3VLaQr/GRKM7yEIRndJKNofmU/qDv+vajOFAzNIM1+EVHZyfzvSoszjbJZf0HvnXvaVC0XJivHFV6EOHrgwlJHHFoFRv6RaMD6lJJwXw81BezecjHQFTiAp/MSpObOakZl7zS++l8jQ9rcg7hpg4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.214.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2a7bced39cfso8196235ad.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 13 Feb 2026 00:38:22 -0800 (PST)
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2a8fba3f769so3052015ad.2
+        for <linux-fsdevel@vger.kernel.org>; Fri, 13 Feb 2026 00:40:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770971902; x=1771576702;
+        d=1e100.net; s=20230601; t=1770972048; x=1771576848;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=qHJOhxvb6qJ+fM2rPAHuRPEgQxIBGWX2FRMCekhGl3g=;
-        b=v6hxc5qkxlY3GKzrRuGEVMfurCC0So4ygqCcffKj2wXzdckUjoXM0P+zx00JGbySqY
-         /5i4Om88KA6fQVcnKJMB+t9OjZKr67Q79QxtX4MQeYaZ9hrZrgANN4QqDTN4w8IzwKd3
-         sLqKF/brcKzH+cUqgJA/q05MlmqjwI43JOVoDD0IApmy6ozACPkMBrVbRPjsihSdQs+o
-         N+qR16GKM7keiZbiyvtxyTY8WWEJuWcxXv9OyQHeeRYxE9zS1EJdYYhHu3ptOwSJt2NZ
-         ZE4EkeuNvDOfa+lLiaeU8/hmXmacPd+DLixMmnHWmnM7RoYVVALmJ6AYCPRGf3iprmla
-         WN4A==
-X-Gm-Message-State: AOJu0YzFgh9EO4bma9kCK17Zo3/XJRGR/oXlLK79xQy/DRnxQFTunic3
-	es29JABchQd6xhaJ2CNe7YJpYE40QVBc9IoFjL/xMbAKL7BxkwOMTG9q
-X-Gm-Gg: AZuq6aIAV8GaAEwriSFCtAkhJWyKzv1WAByH1no096GuirK+cyrt1AwgbeTkIG/oDAZ
-	GpNYsvvh+2xdbibLjrvGR8tzcAvcY7A9ey3NPvbK7+7nnytC8jTMU9xggJTxc3Q56Eh3yWiXNbS
-	7BokkJLzWmWSQ+03WUHCpyP1TaIq5MzkyIl+jVW7DQVaFXxOzTKYrkpCfphQuB4upAAxtUB3wJJ
-	u3zDNgezx5LMATdVB6dZPRZ70X7wH6MoO/JRMiAy+8D0JYuju0RqrhLupjvibRY7QpGJIsevcdG
-	ERt8qhPJ0ZtO2jAf5iDriUOCg/Vr6fFXlv4ykgXKQZrk2Wsl7QFpeIBCJCjdAOYIX3nBNsJL/aQ
-	DHC68zACCQ47ona2aUlLHSKV28XITk3Sam5MDAGLNRdfpcHcmlk2R+1FX0O/fEsbW5YKC+A7Ft7
-	Iv+sJwo6DpAxPNce5/rsXRTWnQXSrI8p8MK9SoOA==
-X-Received: by 2002:a17:903:8c6:b0:2a8:dc87:6280 with SMTP id d9443c01a7336-2ab505c9b05mr12129535ad.45.1770971901962;
-        Fri, 13 Feb 2026 00:38:21 -0800 (PST)
+        bh=OeHnuiAfBG5nnkXA1A6CIwnItbqrfQoFZ8wRxTD8QCU=;
+        b=IxCtGp/9bzGMeFBUkaZSpawyqNhwcxAMarKWAuggXjmvm1i4EN4WCoSoP2dkjX3S6d
+         wv8Z3pQvp2flLXv5nh+kna98nHIHpPzaKOw/y9EiYqd9es+j6qaBKPziUw+FvJypvLO9
+         ZhXxSuQWxwecfx6Dnmi+FohWZqRpRZDe2f3HtGwjog2LYiquujfeyr2I74IiiZ0ccUIa
+         y2i0fRElBcdsK5p/lYUX2kGkZDRm4zP8zzyOssnw0XD0ltN8I6X6BS43PyuxqczJv7Ec
+         nGNd2frPBh5BfF/uq/9+VRZ6ULvFwC51HGQIi/jFY2QqS0ZIlopnw3YDumLoAy2eHx86
+         liUQ==
+X-Gm-Message-State: AOJu0Yx3JTD2ltDNjHzVql4VAs8DFM/o1mUWczh+XQqt52KpBZAJxOhm
+	qH+FDxDeaSXqr1MCjDSr0sTLU37GEGF1sliY4EvFkk7+UxxYgG7c60N2
+X-Gm-Gg: AZuq6aImDyFpWznYR8JP90TPdNYKV7u9dYknieA1zeVrLiflR5pCQBSQdOoDjdDXeSI
+	xefXFRJRHG1pxJzUJ1mP5kbMBAp3JN02bKarsSsmz3qb1G0CZ+GLcWM/oYE91qsXuRWjFr5Z76W
+	BX3RS7hcaaMXcZKOXxflRprhsxJXsAKLmZklToV+W+Zp3J9pvYpp4J/bpnEdyqkgyu90tATdWDj
+	jSyA76mcqMa76XyJ9kZXVGn7a4bOq4RoiEFQekI9sulGSupPitSdaR9PUE/v0+a34toXpD1uByX
+	0ZfiGtYKU8BrMt6DKFCwyt9RX0T/d+vOhZwT9+pv0lFHPWPuZMpojx/Vbpsk2+sutQtKWXGRCfZ
+	D+c53NEZlWABcMafrueDpGqBmo5OE1UGldTlbHiXCbE3ZgXE4/5FojC3AW9GEvltsDf+L4ddykA
+	NbygNZujQj9DCcM8HMrzMv3kmJm1QMqQYMFFDQVvxl/WdzKLG7
+X-Received: by 2002:a17:902:ea0a:b0:2a9:63de:b374 with SMTP id d9443c01a7336-2ab50521f0dmr11074055ad.3.1770972047655;
+        Fri, 13 Feb 2026 00:40:47 -0800 (PST)
 Received: from localhost.localdomain ([1.227.206.162])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ab2984ad4asm75236495ad.6.2026.02.13.00.38.18
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ab2984ad4asm75236495ad.6.2026.02.13.00.40.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Feb 2026 00:38:21 -0800 (PST)
+        Fri, 13 Feb 2026 00:40:46 -0800 (PST)
 From: Namjae Jeon <linkinjeon@kernel.org>
 To: viro@zeniv.linux.org.uk,
 	brauner@kernel.org,
@@ -57,10 +57,11 @@ To: viro@zeniv.linux.org.uk,
 	xiang@kernel.org
 Cc: linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Namjae Jeon <linkinjeon@kernel.org>
-Subject: [PATCH v9 15/17] ntfs: add Kconfig and Makefile
-Date: Fri, 13 Feb 2026 17:18:02 +0900
-Message-Id: <20260213081804.13351-16-linkinjeon@kernel.org>
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Anton Altaparmakov <anton@tuxera.com>
+Subject: [PATCH v9 17/17] MAINTAINERS: update ntfs filesystem entry
+Date: Fri, 13 Feb 2026 17:18:04 +0900
+Message-Id: <20260213081804.13351-18-linkinjeon@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20260213081804.13351-1-linkinjeon@kernel.org>
 References: <20260213081804.13351-1-linkinjeon@kernel.org>
@@ -72,129 +73,58 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Introduce Kconfig and Makefile for remade ntfs.
-And this patch make ntfs and ntfs3 mutually exclusive so only one can be
-built-in(y), while both can still be built as modules(m).
+Add myself and Hyunchul Lee as ntfs maintainer.
+Since Anton is already listed in CREDITS, only his outdated information
+is updated here. the web address in the W: field in his entry is no longer
+accessible. Update his CREDITS with the web and email address found in
+the ntfs filesystem entry.
 
+Cc: Anton Altaparmakov <anton@tuxera.com>
 Reviewed-by: Amir Goldstein <amir73il@gmail.com>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
 Acked-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Namjae Jeon <linkinjeon@kernel.org>
 ---
- fs/Kconfig       |  1 +
- fs/Makefile      |  1 +
- fs/ntfs/Kconfig  | 47 +++++++++++++++++++++++++++++++++++++++++++++++
- fs/ntfs/Makefile | 10 ++++++++++
- fs/ntfs3/Kconfig |  1 +
- 5 files changed, 60 insertions(+)
- create mode 100644 fs/ntfs/Kconfig
- create mode 100644 fs/ntfs/Makefile
+ CREDITS     |  4 ++--
+ MAINTAINERS | 11 +++++------
+ 2 files changed, 7 insertions(+), 8 deletions(-)
 
-diff --git a/fs/Kconfig b/fs/Kconfig
-index 0bfdaecaa877..43cb06de297f 100644
---- a/fs/Kconfig
-+++ b/fs/Kconfig
-@@ -152,6 +152,7 @@ menu "DOS/FAT/EXFAT/NT Filesystems"
+diff --git a/CREDITS b/CREDITS
+index c0fc6ec7db13..04a57d164044 100644
+--- a/CREDITS
++++ b/CREDITS
+@@ -80,8 +80,8 @@ S: B-2610 Wilrijk-Antwerpen
+ S: Belgium
  
- source "fs/fat/Kconfig"
- source "fs/exfat/Kconfig"
-+source "fs/ntfs/Kconfig"
- source "fs/ntfs3/Kconfig"
+ N: Anton Altaparmakov
+-E: aia21@cantab.net
+-W: http://www-stu.christs.cam.ac.uk/~aia21/
++E: anton@tuxera.com
++W: http://www.tuxera.com/
+ D: Author of new NTFS driver, various other kernel hacks.
+ S: Christ's College
+ S: Cambridge CB2 3BU
+diff --git a/MAINTAINERS b/MAINTAINERS
+index ca37f4b27301..9ca0d93a4a70 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -18811,12 +18811,11 @@ T:	git https://github.com/davejiang/linux.git
+ F:	drivers/ntb/hw/intel/
  
- endmenu
-diff --git a/fs/Makefile b/fs/Makefile
-index cf4a745e9679..ae1b07f9c6a0 100644
---- a/fs/Makefile
-+++ b/fs/Makefile
-@@ -90,6 +90,7 @@ obj-$(CONFIG_NLS)		+= nls/
- obj-y				+= unicode/
- obj-$(CONFIG_SMBFS)		+= smb/
- obj-$(CONFIG_HPFS_FS)		+= hpfs/
-+obj-$(CONFIG_NTFS_FS)		+= ntfs/
- obj-$(CONFIG_NTFS3_FS)		+= ntfs3/
- obj-$(CONFIG_UFS_FS)		+= ufs/
- obj-$(CONFIG_EFS_FS)		+= efs/
-diff --git a/fs/ntfs/Kconfig b/fs/ntfs/Kconfig
-new file mode 100644
-index 000000000000..e5fd1378fbbf
---- /dev/null
-+++ b/fs/ntfs/Kconfig
-@@ -0,0 +1,47 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+config NTFS_FS
-+	tristate "NTFS file system support"
-+	select NLS
-+	help
-+	  NTFS is the file system of Microsoft Windows NT, 2000, XP and 2003.
-+	  This allows you to mount devices formatted with the ntfs file system.
-+
-+	  To compile this as a module, choose M here: the module will be called
-+	  ntfs.
-+
-+config NTFS_DEBUG
-+	bool "NTFS debugging support"
-+	depends on NTFS_FS
-+	help
-+	  If you are experiencing any problems with the NTFS file system, say
-+	  Y here.  This will result in additional consistency checks to be
-+	  performed by the driver as well as additional debugging messages to
-+	  be written to the system log.  Note that debugging messages are
-+	  disabled by default.  To enable them, supply the option debug_msgs=1
-+	  at the kernel command line when booting the kernel or as an option
-+	  to insmod when loading the ntfs module.  Once the driver is active,
-+	  you can enable debugging messages by doing (as root):
-+	  echo 1 > /proc/sys/fs/ntfs-debug
-+	  Replacing the "1" with "0" would disable debug messages.
-+
-+	  If you leave debugging messages disabled, this results in little
-+	  overhead, but enabling debug messages results in very significant
-+	  slowdown of the system.
-+
-+	  When reporting bugs, please try to have available a full dump of
-+	  debugging messages while the misbehaviour was occurring.
-+
-+config NTFS_FS_POSIX_ACL
-+	bool "NTFS POSIX Access Control Lists"
-+	depends on NTFS_FS
-+	select FS_POSIX_ACL
-+	help
-+	  POSIX Access Control Lists (ACLs) support additional access rights
-+	  for users and groups beyond the standard owner/group/world scheme.
-+
-+	  This option enables ACL support for ntfs, providing functional parity
-+	  with ntfs3 drivier.
-+
-+	  NOTE: this is linux only feature. Windows will ignore these ACLs.
-+
-+	  If you don't know what Access Control Lists are, say N.
-diff --git a/fs/ntfs/Makefile b/fs/ntfs/Makefile
-new file mode 100644
-index 000000000000..0ce4d9a9388a
---- /dev/null
-+++ b/fs/ntfs/Makefile
-@@ -0,0 +1,10 @@
-+# SPDX-License-Identifier: GPL-2.0
-+
-+obj-$(CONFIG_NTFS_FS) += ntfs.o
-+
-+ntfs-y := aops.o attrib.o collate.o dir.o file.o index.o inode.o \
-+	  mft.o mst.o namei.o runlist.o super.o unistr.o attrlist.o ea.o \
-+	  upcase.o bitmap.o lcnalloc.o logfile.o reparse.o compress.o \
-+	  iomap.o debug.o sysctl.o quota.o object_id.o bdev-io.o
-+
-+ccflags-$(CONFIG_NTFS_DEBUG) += -DDEBUG
-diff --git a/fs/ntfs3/Kconfig b/fs/ntfs3/Kconfig
-index cdfdf51e55d7..876dbc613ae6 100644
---- a/fs/ntfs3/Kconfig
-+++ b/fs/ntfs3/Kconfig
-@@ -1,6 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-only
- config NTFS3_FS
- 	tristate "NTFS Read-Write file system support"
-+	depends on !NTFS_FS || m
- 	select BUFFER_HEAD
- 	select NLS
- 	select LEGACY_DIRECT_IO
+ NTFS FILESYSTEM
+-M:	Anton Altaparmakov <anton@tuxera.com>
+-R:	Namjae Jeon <linkinjeon@kernel.org>
+-L:	linux-ntfs-dev@lists.sourceforge.net
+-S:	Supported
+-W:	http://www.tuxera.com/
+-T:	git git://git.kernel.org/pub/scm/linux/kernel/git/aia21/ntfs.git
++M:	Namjae Jeon <linkinjeon@kernel.org>
++M:	Hyunchul Lee <hyc.lee@gmail.com>
++L:	linux-fsdevel@vger.kernel.org
++S:	Maintained
++T:	git git://git.kernel.org/pub/scm/linux/kernel/git/linkinjeon/ntfs.git
+ F:	Documentation/filesystems/ntfs.rst
+ F:	fs/ntfs/
+ 
 -- 
 2.25.1
 
