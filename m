@@ -1,164 +1,1182 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2DB622FF22
-	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Feb 2026 17:47:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 104333659FD
+	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Feb 2026 18:00:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771004851; cv=none; b=LV/OoeChyTWlEOFNCUKXuC9mOJuuMu/Ba8wqQoWS2ubBtQQhLo14ThdPC95wJxfaKlV2dCaVGKmgsMIGvbTD5SsahMo02RWToDufnTGrN4wm+lusvW94NEqxG5DXVyPC5pcNgFRyLUJRw/xrTtLJYi9tK4TarcfdgbgRY3ieFhM=
+	t=1771005631; cv=none; b=pE8TtyZq0vcE29V5cGu0kOJLi3oeI+FbqeiM6hcn5hAP/GHLGFS1wbApGV8LsopckW9GXMy7UtwWxzhKjbfrPRLhU3wAU4rK8hiQwZbuXW/pfViLehdhTEkzS+oteb8fIVMFQ+R/5fqR8o9+m7ZG9+a2KHGIzXfSU5x/tSzJCmk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771004851; c=relaxed/simple;
-	bh=yUnzePiwffHI/TgKPgP58/Z8tF6NfduSJ3IwuqHP7Yo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gzkP0KigExzmpODMJ19djjsNqKH9kObrn9uyzpK22+EtRiEKCwcn476oeHSaPkMIkooVVMrVFmt5+A5p5jx5mwCbsTNIRF7bgR4w7BcIoNWinatFjcapdXL7JuFyRdy1O1mYGuGpq8H4ObWxZZW2XFt5cASMgiQkU2oz78z77Io=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=W61V3Bk2; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1771005631; c=relaxed/simple;
+	bh=+WV1YBiwq1cn5Ri97h3khgnUrYsgPgYvdL7ymu0xKhU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ouJOU0NxEWx6guriFFaAHPO/yiBxbNoPpFSpiOx6VHgIpJFldDZXy3Tt/CsfxJ5rJxAL37N5u1H6r7npJUGpJxiMoS+7OQqwmwNh7A/A0UvKVS7Ic+BbmYg92unhbtCUvhXCmFRUwQufUjHvY+zG5hn8YlG9xwQdSkVEwSJdvYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=JqPF5gM7; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="W61V3Bk2"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-b8fa79b9fcdso193819566b.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 13 Feb 2026 09:47:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1771004848; x=1771609648; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=vXuysKnU/8mZ4MhSe+ed8bQCsORmZGyWICllP1pQiGU=;
-        b=W61V3Bk2cDRDP7CTW/3I5kEWUWDIbsx+slMS5eGQTDSTlgb3gFJLoR6zKwbIIxwgeG
-         W2QiocaQzESoenBip3hrkroPYfZDIGJnuExLHRBaXClJUEXhcxT5FBKpgkTcX+YG6Arf
-         3jI7M6CLpgUl8iS0FXcsBXOiCzEjzyfqQ7LIc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771004848; x=1771609648;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vXuysKnU/8mZ4MhSe+ed8bQCsORmZGyWICllP1pQiGU=;
-        b=L/uJbLBPFjg6cICfV3hwa/zh7vmvqUffTvDd+mEwmg464IL3BnppQ0EOS66uEI3T5g
-         52kAZXoo2jrBaYCf36XitegW6PjaWGtPzUoPH29xB/1hIdKBohTgCrv8e5YOcpaFBj3H
-         QSrrFtxc/T4BNKvXajTTTnxqEPuGutWc4UosKB+5BKOGgEhhdxJ0wgK6lOo5QkZgLkt5
-         5LPtX8rpeqZgmKvc2X4/wuT/xaBsqEG8DrqRGVg3i2nA8yusGCGUe2BsSWYuA6v6wJwO
-         DPfH4zI6hN24a7cn6NwdaqtWRrRt8fE8r/Oj0XnePPS9qM8zJdQn0wC8ykANuSSrO6dQ
-         WYSQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXSOKhGsWhg2/R3/OEs5rZD95MFJOCydBHSKSdhesH5SpqhongA4/snScSlw1bRsG2oe/dPlDLDTkv6mHVy@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy1vYdsSk2GSy6cnMPbiFbSsfHfCUdqqRm7GOXlhAdWDF01avX1
-	U8b1j+wfsh1cbwwlCXJxnUUgs6RUBFb6y6ADLRJef0nMjZoe080kQi49nDXum7gl27YJNLfwnXB
-	/s66EZE4=
-X-Gm-Gg: AZuq6aKbnsLTgBC3EZT4uOHRA+GDIMAsoJ4wbXAv3pq0JBmlKQnlpIZ+1JL1/J7OmEI
-	jxq+sEXjVGdFuLm7bg5M4glzUSJbhLmSUNHL9YpOsNMXJ0EgJM0JC77EhaeKGA0hIEvP3GD2wpi
-	W3eym6zzKMs8w77KoOaUH6O13EKsc2pu+qx7Ra3JiYKmO1IO538czh6AZCbaYKi9J4muGgniLh+
-	IJpq1LsT0yRzM+Q32TAXdWEK70/0duvAvFHdpXIDy+JzHdOqedYKlscpRY5tPGy5bRp14OGJWzS
-	/33OiqYkwxLCAaJqcufXxPoy6bpI2ufBsRlVy5ICD028rMhNxVm9mmtBHWB0iufZt0UNQjAQqqV
-	mYhsDVbFRfojeHbxbjB70SxI0I4TERAxmaWVOWXhcAEgcZDar4yoTmvD/TNqBT33ok7v6VL4g+8
-	63501LpQq4ehqoXjiecDFZnGv+JOzHOj2x0sxfFr1pH8lu+tzV3Ir18DuqLIuBmvvhM7LD33Rd
-X-Received: by 2002:a17:906:ee89:b0:b8f:8054:504 with SMTP id a640c23a62f3a-b8fc071d6cdmr65508866b.29.1771004847839;
-        Fri, 13 Feb 2026 09:47:27 -0800 (PST)
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com. [209.85.208.41])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8f6ebd986fsm281165066b.37.2026.02.13.09.47.27
-        for <linux-fsdevel@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Feb 2026 09:47:27 -0800 (PST)
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-65a36583ef9so2238845a12.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 13 Feb 2026 09:47:27 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVsUMs56hv+1Z/Wy38nbL7Keoh1NuSmerALKu7DKEroLiG5t6EUGTO+U7kkRACuibwRwbAcPxtme4tUx4hP@vger.kernel.org
-X-Received: by 2002:a05:6402:1467:b0:65a:3527:c5d1 with SMTP id
- 4fb4d7f45d1cf-65bc424a4d2mr581292a12.2.1771004847015; Fri, 13 Feb 2026
- 09:47:27 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JqPF5gM7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1771005628;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=rd411M5TW7Fun2lJJ6DOZ0iLzrgobY/ywXFhkQ7bdYQ=;
+	b=JqPF5gM72T/ZkqbD9NDxh3ppqmRQimNB1bLkdyE1QTrRJS3w8vQhW+ux05F+wyHYYX+PTg
+	IWbdhHFsQPAN45lCuaZMCueSYcjkJ2ODctGKQCjSwHl/MpY2SPZfSK8+irhYqCqE8L5Ckm
+	2fFGg6JF2G8WhVKONLKIsUZsox7wYRQ=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-325-_kyUrgK7M1S-Gr0-plMeXw-1; Fri,
+ 13 Feb 2026 13:00:23 -0500
+X-MC-Unique: _kyUrgK7M1S-Gr0-plMeXw-1
+X-Mimecast-MFC-AGG-ID: _kyUrgK7M1S-Gr0-plMeXw_1771005621
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 9C11B1956046;
+	Fri, 13 Feb 2026 18:00:20 +0000 (UTC)
+Received: from fs-i40c-03.mgmt.fast.eng.rdu2.dc.redhat.com (fs-i40c-03.mgmt.fast.eng.rdu2.dc.redhat.com [10.6.24.150])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 7427930001B9;
+	Fri, 13 Feb 2026 18:00:18 +0000 (UTC)
+From: Alexander Aring <aahringo@redhat.com>
+To: teigland@redhat.com
+Cc: aahringo@redhat.com,
+	gfs2@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	mark@fasheh.com,
+	jlbec@evilplan.org,
+	joseph.qi@linux.alibaba.com,
+	jlayton@kernel.org,
+	chuck.lever@oracle.com,
+	gtully@redhat.com,
+	djansa@redhat.com
+Subject: [RFC v6.19] dlm: introduce dlmpfs
+Date: Fri, 13 Feb 2026 13:00:14 -0500
+Message-ID: <20260213180014.614646-1-aahringo@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAHk-=wikNJ82dh097VZbqNf_jAiwwZ_opzfvMr-8Ub3_1cx3jQ@mail.gmail.com>
- <20260212171717.2927887-1-safinaskar@gmail.com> <CAHk-=wgS5T7sCbjweEKTqbT94XxmcPzppz6Mi6b8nKve-TFarg@mail.gmail.com>
- <2026-02-13-bronze-curly-digs-hopes-6qdLKp@cyphar.com> <4007566C-458F-45C3-BA9A-D99BCF8F16B4@zytor.com>
-In-Reply-To: <4007566C-458F-45C3-BA9A-D99BCF8F16B4@zytor.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Fri, 13 Feb 2026 09:47:09 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wgQDOUff_F28xaTB-BvSHs9YC3bxXJa0HjpSTAUyPF-Ew@mail.gmail.com>
-X-Gm-Features: AZwV_QiwTJFupwLooQzJb2LFaAbZtq9tVGq84JA82voA6mk7usLEOG3jGwZsbys
-Message-ID: <CAHk-=wgQDOUff_F28xaTB-BvSHs9YC3bxXJa0HjpSTAUyPF-Ew@mail.gmail.com>
-Subject: Re: [RFC] pivot_root(2) races
-To: "H. Peter Anvin" <hpa@zytor.com>
-Cc: Aleksa Sarai <cyphar@cyphar.com>, Askar Safin <safinaskar@gmail.com>, christian@brauner.io, 
-	jack@suse.cz, linux-fsdevel@vger.kernel.org, viro@zeniv.linux.org.uk, 
-	werner@almesberger.net
-Content-Type: multipart/mixed; boundary="000000000000cdd8b1064ab83231"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
---000000000000cdd8b1064ab83231
-Content-Type: text/plain; charset="UTF-8"
+DLMPFS is a new filesystem to offer distributed locking API (in this
+case DLM) over the already known and easy portable file locking API.
 
-On Fri, 13 Feb 2026 at 07:04, H. Peter Anvin <hpa@zytor.com> wrote:
->
-> On February 13, 2026 5:46:34 AM PST, Aleksa Sarai <cyphar@cyphar.com> wrote:
-> >
-> >I think the init(rd) people will care more -- my impression this was
-> >only really needed because of the initrd switch (to change the root of
-> >kthreads to the new root)?
->
-> That was the original motivation, yes. The real question is if they are anytime out there abusing it in other ways...
+Why?
 
-I guess we could just try it.
+Because there are user outside that just use a distributed filesystem
+for locking. They don't have a use case to actually using a distributed
+filesystem to store data. Offering a DLM distributed API over a
+filesystem makes it easy for users to such switch to it as thats their
+only need as flock()/fcntl() is already being used in their application.
 
-How does something like this feel to people?
+How to use, 2 node cluster:
 
-I also changed the name from 'chroot' to 'pivot'. Comments?
+1. node1:
 
-Entirely untested in every way possible.
+$ mount -t dlmpfs -o clname=$CLUSTERNAME none /mnt
+$ touch /mnt/lock
+$ flock /mnt/lock -c "echo 'acquired'; sleep 20; echo 'released'"
 
-            Linus
+2. node2:
 
---000000000000cdd8b1064ab83231
-Content-Type: text/x-patch; charset="US-ASCII"; name="patch.diff"
-Content-Disposition: attachment; filename="patch.diff"
-Content-Transfer-Encoding: base64
-Content-ID: <f_mll6jky70>
-X-Attachment-Id: f_mll6jky70
+$ mount -t dlmpfs -o clname=$CLUSTERNAME none /mnt
+$ touch /mnt/lock
+$ flock /mnt/lock -c "echo 'acquired'; sleep 20; echo 'released'"
 
-IGZzL2ZzX3N0cnVjdC5jIHwgNTMgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrLS0t
-LS0tLS0tLS0tLS0tLS0tLS0KIGZzL2ludGVybmFsLmggIHwgIDIgKy0KIGZzL25hbWVzcGFjZS5j
-IHwgIDIgKy0KIDMgZmlsZXMgY2hhbmdlZCwgMzUgaW5zZXJ0aW9ucygrKSwgMjIgZGVsZXRpb25z
-KC0pCgpkaWZmIC0tZ2l0IGEvZnMvZnNfc3RydWN0LmMgYi9mcy9mc19zdHJ1Y3QuYwppbmRleCAz
-OTQ4NzVkMDZmZDYuLjc2YTQ2ZmQ3ODYwMiAxMDA2NDQKLS0tIGEvZnMvZnNfc3RydWN0LmMKKysr
-IGIvZnMvZnNfc3RydWN0LmMKQEAgLTUyLDMwICs1Miw0MyBAQCBzdGF0aWMgaW5saW5lIGludCBy
-ZXBsYWNlX3BhdGgoc3RydWN0IHBhdGggKnAsIGNvbnN0IHN0cnVjdCBwYXRoICpvbGQsIGNvbnN0
-IHN0cgogCXJldHVybiAxOwogfQogCi12b2lkIGNocm9vdF9mc19yZWZzKGNvbnN0IHN0cnVjdCBw
-YXRoICpvbGRfcm9vdCwgY29uc3Qgc3RydWN0IHBhdGggKm5ld19yb290KQorc3RhdGljIGludCBw
-aXZvdF9wcm9jZXNzX3JlZnMoc3RydWN0IHRhc2tfc3RydWN0ICogcCwgY29uc3Qgc3RydWN0IHBh
-dGggKm9sZF9yb290LCBjb25zdCBzdHJ1Y3QgcGF0aCAqbmV3X3Jvb3QpCiB7Ci0Jc3RydWN0IHRh
-c2tfc3RydWN0ICpnLCAqcDsKKwlpbnQgY291bnQgPSAwOwogCXN0cnVjdCBmc19zdHJ1Y3QgKmZz
-OworCisJdGFza19sb2NrKHApOworCWZzID0gcC0+ZnM7CisJaWYgKGZzKSB7CisJCWludCBoaXRz
-ID0gMDsKKwkJd3JpdGVfc2VxbG9jaygmZnMtPnNlcSk7CisJCWhpdHMgKz0gcmVwbGFjZV9wYXRo
-KCZmcy0+cm9vdCwgb2xkX3Jvb3QsIG5ld19yb290KTsKKwkJaGl0cyArPSByZXBsYWNlX3BhdGgo
-JmZzLT5wd2QsIG9sZF9yb290LCBuZXdfcm9vdCk7CisJCXdoaWxlIChoaXRzLS0pIHsKKwkJCWNv
-dW50Kys7CisJCQlwYXRoX2dldChuZXdfcm9vdCk7CisJCX0KKwkJd3JpdGVfc2VxdW5sb2NrKCZm
-cy0+c2VxKTsKKwl9CisJdGFza191bmxvY2socCk7CisJcmV0dXJuIGNvdW50OworfQorCit2b2lk
-IHBpdm90X2ZzX3JlZnMoY29uc3Qgc3RydWN0IHBhdGggKm9sZF9yb290LCBjb25zdCBzdHJ1Y3Qg
-cGF0aCAqbmV3X3Jvb3QpCit7CiAJaW50IGNvdW50ID0gMDsKIAotCXJlYWRfbG9jaygmdGFza2xp
-c3RfbG9jayk7Ci0JZm9yX2VhY2hfcHJvY2Vzc190aHJlYWQoZywgcCkgewotCQl0YXNrX2xvY2so
-cCk7Ci0JCWZzID0gcC0+ZnM7Ci0JCWlmIChmcykgewotCQkJaW50IGhpdHMgPSAwOwotCQkJd3Jp
-dGVfc2VxbG9jaygmZnMtPnNlcSk7Ci0JCQloaXRzICs9IHJlcGxhY2VfcGF0aCgmZnMtPnJvb3Qs
-IG9sZF9yb290LCBuZXdfcm9vdCk7Ci0JCQloaXRzICs9IHJlcGxhY2VfcGF0aCgmZnMtPnB3ZCwg
-b2xkX3Jvb3QsIG5ld19yb290KTsKLQkJCXdoaWxlIChoaXRzLS0pIHsKLQkJCQljb3VudCsrOwot
-CQkJCXBhdGhfZ2V0KG5ld19yb290KTsKLQkJCX0KLQkJCXdyaXRlX3NlcXVubG9jaygmZnMtPnNl
-cSk7Ci0JCX0KLQkJdGFza191bmxvY2socCk7Ci0JfQotCXJlYWRfdW5sb2NrKCZ0YXNrbGlzdF9s
-b2NrKTsKKwkvKiBTcGVjaWFsIGNhc2U6ICdpbml0JyBjaGFuZ2VzIGV2ZXJ5dGhpbmcgKi8KKwlp
-ZiAoY3VycmVudCA9PSAgJmluaXRfdGFzaykgeworCQlzdHJ1Y3QgdGFza19zdHJ1Y3QgKmcsICpw
-OworCisJCXJlYWRfbG9jaygmdGFza2xpc3RfbG9jayk7CisJCWZvcl9lYWNoX3Byb2Nlc3NfdGhy
-ZWFkKGcsIHApCisJCQljb3VudCArPSBwaXZvdF9wcm9jZXNzX3JlZnMocCwgb2xkX3Jvb3QsIG5l
-d19yb290KTsKKwkJcmVhZF91bmxvY2soJnRhc2tsaXN0X2xvY2spOworCX0gZWxzZQorCQljb3Vu
-dCA9IHBpdm90X3Byb2Nlc3NfcmVmcyhjdXJyZW50LCBvbGRfcm9vdCwgbmV3X3Jvb3QpOworCiAJ
-d2hpbGUgKGNvdW50LS0pCiAJCXBhdGhfcHV0KG9sZF9yb290KTsKIH0KZGlmZiAtLWdpdCBhL2Zz
-L2ludGVybmFsLmggYi9mcy9pbnRlcm5hbC5oCmluZGV4IGNiYzM4NGExYWEwOS4uMjYxNTQwMWU4
-YzY2IDEwMDY0NAotLS0gYS9mcy9pbnRlcm5hbC5oCisrKyBiL2ZzL2ludGVybmFsLmgKQEAgLTk5
-LDcgKzk5LDcgQEAgaW50IHNob3dfcGF0aChzdHJ1Y3Qgc2VxX2ZpbGUgKm0sIHN0cnVjdCBkZW50
-cnkgKnJvb3QpOwogLyoKICAqIGZzX3N0cnVjdC5jCiAgKi8KLWV4dGVybiB2b2lkIGNocm9vdF9m
-c19yZWZzKGNvbnN0IHN0cnVjdCBwYXRoICosIGNvbnN0IHN0cnVjdCBwYXRoICopOworZXh0ZXJu
-IHZvaWQgcGl2b3RfZnNfcmVmcyhjb25zdCBzdHJ1Y3QgcGF0aCAqLCBjb25zdCBzdHJ1Y3QgcGF0
-aCAqKTsKIAogLyoKICAqIGZpbGVfdGFibGUuYwpkaWZmIC0tZ2l0IGEvZnMvbmFtZXNwYWNlLmMg
-Yi9mcy9uYW1lc3BhY2UuYwppbmRleCBhNjdjYmU0Mjc0NmQuLmIwMTc0OTY4MzQzOSAxMDA2NDQK
-LS0tIGEvZnMvbmFtZXNwYWNlLmMKKysrIGIvZnMvbmFtZXNwYWNlLmMKQEAgLTQ2ODEsNyArNDY4
-MSw3IEBAIGludCBwYXRoX3Bpdm90X3Jvb3Qoc3RydWN0IHBhdGggKm5ldywgc3RydWN0IHBhdGgg
-Km9sZCkKIAl1bmxvY2tfbW91bnRfaGFzaCgpOwogCW1udF9ub3RpZnlfYWRkKHJvb3RfbW50KTsK
-IAltbnRfbm90aWZ5X2FkZChuZXdfbW50KTsKLQljaHJvb3RfZnNfcmVmcygmcm9vdCwgbmV3KTsK
-KwlwaXZvdF9mc19yZWZzKCZyb290LCBuZXcpOwogCXJldHVybiAwOwogfQogCg==
---000000000000cdd8b1064ab83231--
+do 2. at the 20 seconds range and you will victim the locking.
+
+Limitations:
+
+One limitation is that the filepath need to be known before as DLM
+cannot discover locks, but this is DLM nature as the resource name
+need to be based on a rule that every node has the same locking
+context for a specific resource. Usually this can be just hardcoded
+in an implementation.
+
+Future work:
+
+1. POSIX distributed locking specification:
+
+The file locking API isn't made for distributed locking and has its
+problems because every distributed filesystem does their own stuff to
+somehow "map" distributed locking to the flock()/fcntl() behaviour. The
+goal is to use this filesystem to also allow "experiments" to introduce
+in a community effort new file locking callbacks/systemcalls that are
+more distributed locking friendly.
+
+2. Support different lock manager backends
+
+This filesystem is for DLM only, but I can also think of to support nfs
+"lockd" lock manager to it. Then this filesystem should be named more as
+"lockfs".
+
+DLM stuff:
+
+dlmpfs vs dlmfs:
+
+There is a dlmfs already in the kernel but this offers ocfs2 DLM
+specific API to the user as user space interface. dlmpfs is offering
+file locking API to the user that uses DLM as backend.
+
+Distributed inode problem (very DLM specific):
+
+We need to use the same inode on all nodes that belongs to the same
+"context". We do that over the LVB area and using e.g. the filepath
+as identifier to request/allocate a clutser wide inode number.
+
+E.g. if "/lock" regular file is created a lock request is being done
+with the filepath as resource name. This resource name will be asked if
+its already exists as this information is part of the LVB area. If
+such filepath/resource does not exists this node will write LVB data and
+allocate a unused inode number, also done over LVB and resource name. If
+the filepath/resource would exists then the node will held the lock only
+to keep this information alive. The LVB area will only be written by the
+first node trying creating the first file, this should make it safe that
+the LVB area keeps alive due recovery.
+
+Other stuff:
+
+This filesystem is based on ramfs, many thanks to provide such a filesystem
+and I was able to simple change it for my needs.
+
+And yes, you cannot write/read any data, this filesystem is only for
+creating files/dirs and call flock()/fcntl() locking api on it.
+
+Signed-off-by: Alexander Aring <aahringo@redhat.com>
+---
+ fs/dlm/Kconfig             |  10 +
+ fs/dlm/Makefile            |   2 +-
+ fs/dlm/dlmpfs/Makefile     |   8 +
+ fs/dlm/dlmpfs/file.c       | 134 +++++++++++
+ fs/dlm/dlmpfs/inode.c      | 476 +++++++++++++++++++++++++++++++++++++
+ fs/dlm/dlmpfs/internal.h   |  65 +++++
+ fs/dlm/dlmpfs/newdlm.c     | 258 ++++++++++++++++++++
+ include/uapi/linux/magic.h |   1 +
+ 8 files changed, 953 insertions(+), 1 deletion(-)
+ create mode 100644 fs/dlm/dlmpfs/Makefile
+ create mode 100644 fs/dlm/dlmpfs/file.c
+ create mode 100644 fs/dlm/dlmpfs/inode.c
+ create mode 100644 fs/dlm/dlmpfs/internal.h
+ create mode 100644 fs/dlm/dlmpfs/newdlm.c
+
+diff --git a/fs/dlm/Kconfig b/fs/dlm/Kconfig
+index b46165df5a918..3d75a6ab113b8 100644
+--- a/fs/dlm/Kconfig
++++ b/fs/dlm/Kconfig
+@@ -14,3 +14,13 @@ config DLM_DEBUG
+ 	Under the debugfs mount point, the name of each lockspace will
+ 	appear as a file in the "dlm" directory.  The output is the
+ 	list of resource and locks the local node knows about.
++
++config DLM_DLMPFS
++	tristate "DLM locking filesystem"
++	depends on DLM
++	help
++	Offers DLM locking API over filesystem operations locking callbacks
++	each node needs to create the same named file under this filesystem
++	and do locking API as flock or fcntl on it. It can be used if
++	using an applications that already use file locking for distributed
++	locking operations.
+diff --git a/fs/dlm/Makefile b/fs/dlm/Makefile
+index 5a471af1d1fe5..157acd6305003 100644
+--- a/fs/dlm/Makefile
++++ b/fs/dlm/Makefile
+@@ -18,4 +18,4 @@ dlm-y :=			ast.o \
+ 				user.o \
+ 				util.o 
+ dlm-$(CONFIG_DLM_DEBUG) +=	debug_fs.o
+-
++obj-$(CONFIG_DLM_DLMPFS) +=	dlmpfs/
+diff --git a/fs/dlm/dlmpfs/Makefile b/fs/dlm/dlmpfs/Makefile
+new file mode 100644
+index 0000000000000..ccf9d23cc3e0a
+--- /dev/null
++++ b/fs/dlm/dlmpfs/Makefile
+@@ -0,0 +1,8 @@
++# SPDX-License-Identifier: GPL-2.0-only
++#
++# Makefile for the linux dlmpfs routines.
++#
++
++obj-y += dlmpfs.o
++
++dlmpfs-objs += inode.o newdlm.o file.o
+diff --git a/fs/dlm/dlmpfs/file.c b/fs/dlm/dlmpfs/file.c
+new file mode 100644
+index 0000000000000..d1a030d57ce8c
+--- /dev/null
++++ b/fs/dlm/dlmpfs/file.c
+@@ -0,0 +1,134 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/* dlmpfs file implementation mostly flock/fcntl
++ */
++
++#include <linux/fs.h>
++#include <linux/dlm.h>
++#include <linux/slab.h>
++#include <linux/dcache.h>
++#include <linux/filelock.h>
++
++#include "internal.h"
++
++struct dlmpfs_file {
++	struct dlmlk *flk;
++};
++
++static int dlmpfs_open(struct inode *inode, struct file *file)
++{
++	struct dlmpfs_fs_info *fsi = DLMPFS_FSI(file->f_inode);
++	char strname[DLMPFS_NUM_RESNAME_LEN];
++	struct dlmpfs_file *fp;
++
++	fp = kzalloc_obj(*fp, GFP_NOFS);
++	if (!fp)
++		return -ENOMEM;
++
++	dlmpfs_fill_resname_num("flock", strname, file->f_inode->i_ino);
++	fp->flk = dlmlk_alloc(fsi->ls, strname, strlen(strname));
++	file->private_data = fp;
++	return simple_open(inode, file);
++}
++
++static int dlmpfs_do_flock(struct file *file, int cmd, struct file_lock *fl)
++{
++	struct dlmpfs_file *fp = file->private_data;
++	unsigned long flags = 0;
++	int mode;
++	int rv;
++
++	mode = lock_is_write(fl) ? DLM_LOCK_EX : DLM_LOCK_PR;
++	/* user should not do that but we catch this case here */
++	if (dlmlk_grmode(fp->flk) == mode)
++		return 0;
++
++	if (!IS_SETLKW(cmd))
++		flags |= DLM_LKF_NOQUEUE;
++
++	/* avoid SH->EX, do SH->NL->EX to avoid deadlocks */
++	if (IS_SETLKW(cmd) &&
++	    dlmlk_grmode(fp->flk) == DLM_LOCK_PR &&
++	    mode == DLM_LOCK_EX)
++		dlmlk_convert(fp->flk, DLM_LOCK_NL, flags);
++
++	rv = dlmlk_convert_interuptible(fp->flk, mode, flags);
++	if (rv == -EINTR)
++		return rv;
++
++	if (dlmlk_sb(fp->flk)->sb_status == -EAGAIN) {
++		rv = -EAGAIN;
++	} else {
++		rv = locks_lock_file_wait(file, fl);
++		/* should never be the case */
++		WARN_ON(rv == -EINTR);
++	}
++
++	return rv;
++}
++
++static void dlmpfs_do_unflock(struct file *file, struct file_lock *fl)
++{
++	struct dlmpfs_file *fp = file->private_data;
++
++	if (dlmlk_grmode(fp->flk) == DLM_LOCK_NL)
++		return;
++
++	dlmlk_convert(fp->flk, DLM_LOCK_NL, 0);
++	locks_lock_file_wait(file, fl);
++}
++
++static int dlmpfs_flock(struct file *file, int cmd, struct file_lock *fl)
++{
++	if (!(fl->c.flc_flags & FL_FLOCK))
++		return -ENOLCK;
++
++	if (lock_is_unlock(fl)) {
++		dlmpfs_do_unflock(file, fl);
++		return 0;
++	} else {
++		return dlmpfs_do_flock(file, cmd, fl);
++	}
++}
++
++static int dlmpfs_lock(struct file *file, int cmd, struct file_lock *fl)
++{
++	struct dlmpfs_fs_info *fsi = DLMPFS_FSI(file->f_inode);
++	struct inode *i = file->f_inode;
++
++	if (!(fl->c.flc_flags & FL_POSIX))
++		return -ENOLCK;
++
++	if (cmd == F_CANCELLK)
++		return dlmplk_cancel(fsi->ls, i->i_ino, file, fl);
++	else if (IS_GETLK(cmd))
++		return dlmplk_get(fsi->ls, i->i_ino, file, fl);
++	else if (lock_is_unlock(fl))
++		return dlmplk_unlock(fsi->ls, i->i_ino, file, fl);
++
++	return dlmplk_lock(fsi->ls, i->i_ino, file, cmd, fl);
++}
++
++static int dlmpfs_release(struct inode *inode, struct file *file)
++{
++	struct dlmpfs_file *fp = file->private_data;
++
++	if (fp->flk)
++		dlmlk_free_nowait(fp->flk);
++
++	kfree(fp);
++	file->private_data = NULL;
++	return 0;
++}
++
++const struct file_operations dlmpfs_file_operations = {
++	.open		= dlmpfs_open,
++	.flock		= dlmpfs_flock,
++	.lock		= dlmpfs_lock,
++	.fsync		= noop_fsync,
++	.release	= dlmpfs_release,
++};
++
++const struct inode_operations dlmpfs_file_inode_operations = {
++	.setattr	= simple_setattr,
++	.getattr	= simple_getattr,
++};
+diff --git a/fs/dlm/dlmpfs/inode.c b/fs/dlm/dlmpfs/inode.c
+new file mode 100644
+index 0000000000000..f79cc545404a9
+--- /dev/null
++++ b/fs/dlm/dlmpfs/inode.c
+@@ -0,0 +1,476 @@
++// SPDX-License-Identifier: GPL-2.0-only
++
++#include <linux/pagemap.h>
++#include <linux/highmem.h>
++#include <linux/time.h>
++#include <linux/hex.h>
++#include <linux/init.h>
++#include <linux/string.h>
++#include <linux/backing-dev.h>
++#include <linux/sched.h>
++#include <linux/parser.h>
++#include <linux/magic.h>
++#include <linux/slab.h>
++#include <linux/uaccess.h>
++#include <linux/fs_context.h>
++#include <linux/fs_parser.h>
++#include <linux/seq_file.h>
++
++#include "internal.h"
++
++#define DLMPFS_DEFAULT_MODE	0755
++
++static const struct super_operations dlmpfs_ops;
++static const struct inode_operations dlmpfs_dir_inode_operations;
++
++struct dlm_pdata_lvb {
++	__le32 inum;
++#define DLMPFS_LVB_USED	BIT(0)
++	__le32 flags;
++};
++
++struct dlmpfs_inode {
++	struct inode inode;
++	struct dlmlk *lkinum;
++	struct dlmlk *lkfpath;
++};
++
++static inline struct dlmpfs_inode *DLMPFS_I(struct inode *inode)
++{
++	return container_of(inode, struct dlmpfs_inode, inode);
++}
++
++static struct inode *dlmpfs_alloc_inode(struct super_block *sb)
++{
++	struct dlmpfs_inode *di;
++
++	di = kzalloc_obj(*di, GFP_NOFS);
++	if (!di)
++		return NULL;
++
++	inode_init_once(&di->inode);
++	return &di->inode;
++}
++
++static void dlmpfs_free_inode(struct inode *inode)
++{
++	struct dlmpfs_inode *ip = DLMPFS_I(inode);
++
++	if (ip->lkfpath) {
++		dlmlk_free_nowait(ip->lkfpath);
++		ip->lkfpath = NULL;
++	}
++
++	if (ip->lkinum) {
++		dlmlk_free_nowait(ip->lkinum);
++		ip->lkinum = NULL;
++	}
++
++	kfree(ip);
++}
++
++static void dlmpfs_reverse_hex(char *c, u64 value)
++{
++	*c = '0';
++	while (value) {
++		*c-- = hex_asc[value & 0x0f];
++		value >>= 4;
++	}
++}
++
++void dlmpfs_fill_resname_num(const char *prefix, char *resname,
++			     unsigned int num)
++{
++	size_t len;
++
++	memset(resname, 0, DLMPFS_NUM_RESNAME_LEN);
++	len = strlen(prefix);
++	memcpy(resname, prefix, len);
++	resname[len] = ' ';
++	dlmpfs_reverse_hex(resname + len + 1, num);
++}
++
++static unsigned int dlmpfs_reserve_inum(struct dlmpfs_fs_info *fsi,
++					struct dlmpfs_inode *di)
++{
++	char strname[DLMPFS_NUM_RESNAME_LEN];
++	unsigned int num = fsi->last_inum;
++	struct dlm_pdata_lvb *lvb;
++
++retry_inum:
++	num++;
++	if (!num)
++		num++;
++
++	if (!di->lkinum) {
++		dlmpfs_fill_resname_num("inode", strname, num);
++		di->lkinum = dlmlk_alloc(fsi->ls, strname, strlen(strname));
++	}
++
++	dlmlk_convert(di->lkinum, DLM_LOCK_EX, DLM_LKF_VALBLK);
++
++	lvb = dlmlk_lvb(di->lkinum);
++	if (lvb->flags & cpu_to_le32(DLMPFS_LVB_USED)) {
++		dlmlk_free(di->lkinum);
++		di->lkinum = NULL;
++		goto retry_inum;
++	}
++
++	lvb->flags |= cpu_to_le32(DLMPFS_LVB_USED);
++	dlmlk_convert(di->lkinum, DLM_LOCK_NL, DLM_LKF_VALBLK);
++	fsi->last_inum = num;
++	return num;
++}
++
++static int dlmpfs_add_inum_usage(struct dlmpfs_fs_info *fsi,
++				 struct dlmpfs_inode *di,
++				 __le32 num)
++{
++	char strname[DLMPFS_NUM_RESNAME_LEN];
++	struct dlm_pdata_lvb *lvb;
++
++	if (!di->lkinum) {
++		dlmpfs_fill_resname_num("inode", strname, le32_to_cpu(num));
++		di->lkinum = dlmlk_alloc(fsi->ls, strname, strlen(strname));
++	}
++
++	dlmlk_convert(di->lkinum, DLM_LOCK_NL, DLM_LKF_VALBLK);
++
++	lvb = dlmlk_lvb(di->lkinum);
++	if (!(lvb->flags & cpu_to_le32(DLMPFS_LVB_USED))) {
++		dlmlk_free(di->lkinum);
++		di->lkinum = NULL;
++		/* failed to add usage */
++		return 1;
++	}
++
++	return 0;
++}
++
++static unsigned int dlmpfs_alloc_inode_num(struct dlmpfs_fs_info *fsi,
++					   struct dlmpfs_inode *di,
++					   const void *res, size_t reslen)
++{
++	struct dlm_pdata_lvb *lvb;
++	unsigned int num;
++	int rv;
++
++	if (!di->lkfpath)
++		di->lkfpath = dlmlk_alloc(fsi->ls, res, reslen);
++
++retry:
++	dlmlk_convert(di->lkfpath, DLM_LOCK_NL, DLM_LKF_VALBLK);
++
++	lvb = dlmlk_lvb(di->lkfpath);
++	/* cluster wide inum being set */
++	if (lvb->flags & cpu_to_le32(DLMPFS_LVB_USED)) {
++		/* increment inode user */
++		rv = dlmpfs_add_inum_usage(fsi, di, lvb->inum);
++		if (rv)
++			goto retry;
++
++		return le32_to_cpu(lvb->inum);
++	}
++
++	dlmlk_convert(di->lkfpath, DLM_LOCK_EX, DLM_LKF_VALBLK);
++	if (lvb->flags & cpu_to_le32(DLMPFS_LVB_USED)) {
++		/* increment inode user */
++		rv = dlmpfs_add_inum_usage(fsi, di, lvb->inum);
++		if (rv)
++			goto retry;
++
++		dlmlk_convert(di->lkfpath, DLM_LOCK_NL, 0);
++		return le32_to_cpu(lvb->inum);
++	}
++
++	num = dlmpfs_reserve_inum(fsi, di);
++	lvb->flags |= cpu_to_le32(DLMPFS_LVB_USED);
++	lvb->inum = cpu_to_le32(num);
++
++	dlmlk_convert(di->lkfpath, DLM_LOCK_NL, DLM_LKF_VALBLK);
++	return num;
++}
++
++static struct dlmpfs_inode *dlmpfs_new_inode(struct super_block *sb)
++{
++	return DLMPFS_I(new_inode(sb));
++}
++
++static struct inode *dlmpfs_get_inode(struct super_block *sb, const void *res,
++				      size_t reslen, const struct inode *dir,
++				      umode_t mode, dev_t dev)
++{
++	struct dlmpfs_inode *dinode = dlmpfs_new_inode(sb);
++	struct dlmpfs_fs_info *fsi = sb->s_fs_info;
++	struct inode *inode;
++
++	if (dinode) {
++		inode = &dinode->inode;
++		inode->i_ino = dlmpfs_alloc_inode_num(fsi, dinode, res, reslen);
++		inode_init_owner(&nop_mnt_idmap, inode, dir, mode);
++		simple_inode_init_ts(inode);
++		switch (mode & S_IFMT) {
++		case S_IFREG:
++			inode->i_op = &dlmpfs_file_inode_operations;
++			inode->i_fop = &dlmpfs_file_operations;
++			break;
++		case S_IFDIR:
++			inode->i_op = &dlmpfs_dir_inode_operations;
++			inode->i_fop = &simple_dir_operations;
++
++			/* directory inodes start off with i_nlink == 2 (for "." entry) */
++			inc_nlink(inode);
++			break;
++		default:
++			WARN_ON(1);
++			break;
++		}
++	}
++	return inode;
++}
++
++/*
++ * File creation. Allocate an inode, and we're done..
++ */
++/* SMP-safe */
++static int
++dlmpfs_mknod(struct mnt_idmap *idmap, struct inode *dir,
++	     struct dentry *dentry, umode_t mode, dev_t dev)
++{
++	unsigned char *resname[DLM_RESNAME_MAXLEN] = {};
++	struct inode *inode;
++	char *path, *pbuf;
++	size_t pathlen;
++	int error;
++
++	switch (mode & S_IFMT) {
++	case S_IFREG:
++		break;
++	case S_IFDIR:
++		break;
++	default:
++		return -EOPNOTSUPP;
++	}
++
++	pbuf = (char *)__get_free_page(GFP_KERNEL);
++	if (!pbuf)
++		return -ENOSPC;
++
++	path = dentry_path_raw(dentry, pbuf, PAGE_SIZE);
++	if (IS_ERR(path)) {
++		free_page((unsigned long)pbuf);
++		return -ENOSPC;
++	}
++
++	pathlen = strlen(path);
++	if (pathlen > DLM_RESNAME_MAXLEN) {
++		error = -ENAMETOOLONG;
++		goto out;
++	}
++
++	memcpy(resname, path, pathlen);
++	/* use next power of 2 as pathlen */
++	pathlen = ALIGN(pathlen, 8);
++	error = -ENOSPC;
++	inode = dlmpfs_get_inode(dir->i_sb, resname, pathlen, dir, mode, dev);
++	if (inode) {
++		error = security_inode_init_security(inode, dir,
++						     &dentry->d_name, NULL,
++						     NULL);
++		if (error) {
++			iput(inode);
++			goto out;
++		}
++
++		d_make_persistent(dentry, inode);
++		error = 0;
++		inode_set_mtime_to_ts(dir, inode_set_ctime_current(dir));
++	}
++
++out:
++	free_page((unsigned long)pbuf);
++	return error;
++}
++
++static struct dentry *dlmpfs_mkdir(struct mnt_idmap *idmap, struct inode *dir,
++				   struct dentry *dentry, umode_t mode)
++{
++	int retval = dlmpfs_mknod(&nop_mnt_idmap, dir, dentry, mode | S_IFDIR, 0);
++
++	if (!retval)
++		inc_nlink(dir);
++	return ERR_PTR(retval);
++}
++
++static int dlmpfs_create(struct mnt_idmap *idmap, struct inode *dir,
++			 struct dentry *dentry, umode_t mode, bool excl)
++{
++	return dlmpfs_mknod(&nop_mnt_idmap, dir, dentry, mode | S_IFREG, 0);
++}
++
++static const struct inode_operations dlmpfs_dir_inode_operations = {
++	.create		= dlmpfs_create,
++	.lookup		= simple_lookup,
++	.mkdir		= dlmpfs_mkdir,
++	.rmdir		= simple_rmdir,
++	.unlink         = simple_unlink,
++	.mknod          = dlmpfs_mknod,
++};
++
++/*
++ * Display the mount options in /proc/mounts.
++ */
++static int dlmpfs_show_options(struct seq_file *m, struct dentry *root)
++{
++	struct dlmpfs_fs_info *fsi = root->d_sb->s_fs_info;
++
++	if (fsi->mount_opts.mode != DLMPFS_DEFAULT_MODE)
++		seq_printf(m, ",mode=%o", fsi->mount_opts.mode);
++	return 0;
++}
++
++static const struct super_operations dlmpfs_ops = {
++	.alloc_inode	= dlmpfs_alloc_inode,
++	.free_inode	= dlmpfs_free_inode,
++	.statfs		= simple_statfs,
++	.drop_inode	= inode_just_drop,
++	.show_options	= dlmpfs_show_options,
++};
++
++enum dlmpfs_param {
++	Opt_mode,
++	Opt_clname,
++	Opt_lsname,
++};
++
++static const struct fs_parameter_spec dlmpfs_fs_parameters[] = {
++	fsparam_u32oct("mode",	Opt_mode),
++	fsparam_string("clname",	Opt_clname),
++	fsparam_string("lsname",	Opt_lsname),
++	{}
++};
++
++static int dlmpfs_parse_param(struct fs_context *fc, struct fs_parameter *param)
++{
++	struct dlmpfs_fs_info *fsi = fc->s_fs_info;
++	struct fs_parse_result result;
++	int opt;
++
++	opt = fs_parse(fc, dlmpfs_fs_parameters, param, &result);
++	if (opt == -ENOPARAM) {
++		opt = vfs_parse_fs_param_source(fc, param);
++		if (opt != -ENOPARAM)
++			return opt;
++		/*
++		 * We might like to report bad mount options here;
++		 * but traditionally dlmpfs has ignored all mount options,
++		 * and as it is used as a !CONFIG_SHMEM simple substitute
++		 * for tmpfs, better continue to ignore other mount options.
++		 */
++		return 0;
++	}
++	if (opt < 0)
++		return opt;
++
++	switch (opt) {
++	case Opt_mode:
++		fsi->mount_opts.mode = result.uint_32 & S_IALLUGO;
++		break;
++	case Opt_clname:
++		strscpy(fsi->clname, param->string, DLM_RESNAME_MAXLEN);
++		break;
++	case Opt_lsname:
++		strscpy(fsi->lsname, param->string, DLM_RESNAME_MAXLEN);
++		break;
++	}
++
++	return 0;
++}
++
++static int dlmpfs_fill_super(struct super_block *sb, struct fs_context *fc)
++{
++	struct dlmpfs_fs_info *fsi = sb->s_fs_info;
++	unsigned char res[8] = {};
++	struct inode *inode;
++	int rv;
++
++	rv = dlmls_new(fsi->lsname, fsi->clname, 0, 8, NULL, NULL,
++		       NULL, &fsi->ls);
++	if (rv) {
++		fsi->ls = NULL;
++		return rv;
++	}
++
++	sb->s_maxbytes		= MAX_LFS_FILESIZE;
++	sb->s_blocksize		= PAGE_SIZE;
++	sb->s_blocksize_bits	= PAGE_SHIFT;
++	sb->s_magic		= DLMPFS_MAGIC;
++	sb->s_op		= &dlmpfs_ops;
++	sb->s_d_flags		= DCACHE_DONTCACHE;
++	sb->s_time_gran		= 1;
++
++	res[0] = '/';
++	inode = dlmpfs_get_inode(sb, res, sizeof(res), NULL, S_IFDIR | fsi->mount_opts.mode, 0);
++	sb->s_root = d_make_root(inode);
++	if (!sb->s_root)
++		return -ENOMEM;
++
++	return 0;
++}
++
++static int dlmpfs_get_tree(struct fs_context *fc)
++{
++	return get_tree_nodev(fc, dlmpfs_fill_super);
++}
++
++static void dlmpfs_free_fc(struct fs_context *fc)
++{
++	kfree(fc->s_fs_info);
++}
++
++static const struct fs_context_operations dlmpfs_context_ops = {
++	.free		= dlmpfs_free_fc,
++	.parse_param	= dlmpfs_parse_param,
++	.get_tree	= dlmpfs_get_tree,
++};
++
++static int dlmpfs_init_fs_context(struct fs_context *fc)
++{
++	struct dlmpfs_fs_info *fsi;
++
++	fsi = kzalloc_obj(*fsi, GFP_KERNEL);
++	if (!fsi)
++		return -ENOMEM;
++
++	strscpy(fsi->clname, "cluster");
++	strscpy(fsi->lsname, "dlmpfs");
++	fsi->mount_opts.mode = DLMPFS_DEFAULT_MODE;
++	fc->s_fs_info = fsi;
++	fc->ops = &dlmpfs_context_ops;
++	return 0;
++}
++
++static void dlmpfs_kill_sb(struct super_block *sb)
++{
++	struct dlmpfs_fs_info *fsi = sb->s_fs_info;
++	struct dlmls *ls = fsi->ls;
++
++	kfree(sb->s_fs_info);
++	kill_anon_super(sb);
++
++	if (ls)
++		dlmls_release(ls, 2);
++}
++
++static struct file_system_type dlmpfs_fs_type = {
++	.name		= "dlmpfs",
++	.init_fs_context = dlmpfs_init_fs_context,
++	.parameters	= dlmpfs_fs_parameters,
++	.kill_sb	= dlmpfs_kill_sb,
++};
++
++static int __init init_dlmpfs_fs(void)
++{
++	return register_filesystem(&dlmpfs_fs_type);
++}
++fs_initcall(init_dlmpfs_fs);
+diff --git a/fs/dlm/dlmpfs/internal.h b/fs/dlm/dlmpfs/internal.h
+new file mode 100644
+index 0000000000000..7119a005fca61
+--- /dev/null
++++ b/fs/dlm/dlmpfs/internal.h
+@@ -0,0 +1,65 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++
++#ifndef __DLMPFS_H__
++#define __DLMPFS_H__
++
++#include <linux/fs.h>
++#include <linux/dlm.h>
++
++struct dlmls;
++struct dlmlk;
++
++#define DLMPFS_NUM_RESNAME_LEN 32
++
++struct dlmpfs_mount_opts {
++	umode_t mode;
++};
++
++struct dlmpfs_fs_info {
++	struct dlmpfs_mount_opts mount_opts;
++	unsigned int last_inum;
++	char clname[DLM_RESNAME_MAXLEN];
++	char lsname[DLM_RESNAME_MAXLEN];
++	struct dlmls *ls;
++};
++
++extern const struct file_operations dlmpfs_file_operations;
++extern const struct inode_operations dlmpfs_file_inode_operations;
++
++void dlmpfs_fill_resname_num(const char *prefix, char *resname,
++			     unsigned int num);
++struct dlmlk *dlmlk_alloc(struct dlmls *ls, const void *name, size_t namelen);
++void dlmlk_free(struct dlmlk *lk);
++void dlmlk_free_nowait(struct dlmlk *lk);
++void dlmlk_convert(struct dlmlk *lk, int mode, unsigned long flags);
++int dlmlk_convert_interuptible(struct dlmlk *lk, int mode, unsigned long flags);
++const struct dlm_lksb *dlmlk_sb(struct dlmlk *lk);
++int dlmlk_grmode(struct dlmlk *lk);
++int dlmls_new(const char *lsname, const char *clname,
++	      uint32_t flags, int lvblen,
++	      const struct dlm_lockspace_ops *ops,
++	      void *ops_arg, int *ops_result,
++	      struct dlmls **ls_ret);
++void dlmls_release(struct dlmls *ls, uint32_t flags);
++int dlmpfs_get_path(struct dentry *dentry, char **path,
++		    size_t *pathlen, char **page_buf);
++
++int dlmplk_lock(struct dlmls *ls, u64 number, struct file *file,
++		int cmd, struct file_lock *fl);
++int dlmplk_unlock(struct dlmls *ls, u64 number, struct file *file,
++		  struct file_lock *fl);
++int dlmplk_cancel(struct dlmls *ls, u64 number, struct file *file,
++		  struct file_lock *fl);
++int dlmplk_get(struct dlmls *ls, u64 number, struct file *file,
++	       struct file_lock *fl);
++static inline void *dlmlk_lvb(struct dlmlk *lk)
++{
++	return (void *)dlmlk_sb(lk)->sb_lvbptr;
++}
++
++static inline struct dlmpfs_fs_info *DLMPFS_FSI(const struct inode *inode)
++{
++	return inode->i_sb->s_fs_info;
++}
++
++#endif /* __DLMPFS_H__ */
+diff --git a/fs/dlm/dlmpfs/newdlm.c b/fs/dlm/dlmpfs/newdlm.c
+new file mode 100644
+index 0000000000000..0f565ada0268d
+--- /dev/null
++++ b/fs/dlm/dlmpfs/newdlm.c
+@@ -0,0 +1,258 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/* creating a better to use DLM API above the current API
++ */
++
++#include <linux/dlm.h>
++#include <linux/delay.h>
++#include <linux/filelock.h>
++#include <linux/dlm_plock.h>
++
++#include "internal.h"
++
++struct dlmlk {
++	/* need to aligned */
++	unsigned char lvb[8];
++	struct dlm_lksb sb;
++	struct completion compl;
++	struct dlmls *ls;
++	bool nowait;
++	unsigned char name[DLM_RESNAME_MAXLEN];
++	size_t namelen;
++	int grmode;
++};
++
++struct dlmls {
++	dlm_lockspace_t *ls;
++	struct kref kref;
++	bool released;
++};
++
++static void release_ls(struct kref *kref)
++{
++	struct dlmls *ls = container_of(kref, struct dlmls, kref);
++
++	kfree(ls);
++}
++
++static void ast(void *astarg)
++{
++	struct dlmlk *lk = astarg;
++
++	if (lk->nowait) {
++		WARN_ON(lk->sb.sb_status != -DLM_EUNLOCK);
++		kref_put(&lk->ls->kref, release_ls);
++		kfree(lk);
++	} else {
++		complete(&lk->compl);
++	}
++}
++
++static int dlm_lock_sync(struct dlmlk *lk,
++			 int mode, uint32_t _flags,
++			 bool interruptible)
++{
++	unsigned long flags = _flags;
++	int rv;
++
++	/* invalid sb_status because racing API with prev status */
++	lk->sb.sb_status = -1;
++
++	/* stupid DLM_LKF_CONVERT setting */
++	if (lk->grmode != DLM_LOCK_IV)
++		flags |= DLM_LKF_CONVERT;
++
++retry:
++	rv = dlm_lock(lk->ls->ls, mode, &lk->sb, flags, lk->name, lk->namelen,
++		      0, ast, lk, NULL);
++	switch (rv) {
++	case 0:
++		break;
++	case -EBUSY:
++		/* stupid DLM API behaviour */
++		mdelay(50);
++		goto retry;
++	default:
++		goto out;
++	}
++
++	if (interruptible) {
++		rv = wait_for_completion_interruptible(&lk->compl);
++		if (rv == -ERESTARTSYS) {
++			dlm_unlock(lk->ls->ls, lk->sb.sb_lkid,
++				   DLM_LKF_CANCEL, NULL, lk);
++
++			wait_for_completion(&lk->compl);
++			switch (lk->sb.sb_status) {
++			case -DLM_ECANCEL:
++				rv = -EINTR;
++				break;
++			case 0:
++				rv = 0;
++				break;
++			default:
++				rv = -1;
++				WARN_ON(1);
++				break;
++			}
++		}
++	} else {
++		/* TODO waiting on demote makes only sense if DLM_LKF_VALBLK */
++		wait_for_completion(&lk->compl);
++	}
++
++	/* user might can request that because the user space user
++	 * makes stupid things like NL -> NL conversions.
++	 */
++	if (!rv)
++		lk->grmode = mode;
++
++out:
++	return rv;
++}
++
++static int dlm_unlock_sync(struct dlmlk *lk, bool nowait)
++{
++	int rv;
++
++	/* never did a lock change */
++	if (lk->grmode == DLM_LOCK_IV)
++		return 0;
++
++	rv = dlm_unlock(lk->ls->ls, lk->sb.sb_lkid, 0,
++			NULL, lk);
++	if (rv)
++		goto out;
++
++	if (!nowait)
++		wait_for_completion(&lk->compl);
++
++out:
++	return rv;
++}
++
++struct dlmlk *dlmlk_alloc(struct dlmls *ls, const void *name, size_t namelen)
++{
++	struct dlmlk *lk;
++
++	lk = kzalloc_obj(*lk, GFP_NOFS);
++	if (!lk)
++		return NULL;
++
++	lk->ls = ls;
++	kref_get(&ls->kref);
++	lk->sb.sb_lvbptr = lk->lvb;
++	init_completion(&lk->compl);
++	memcpy(lk->name, name, namelen);
++	lk->namelen = namelen;
++	lk->grmode = DLM_LOCK_IV;
++
++	/* TODO tell DLM to perform master lookup, even before alloc */
++	return lk;
++}
++
++void dlmlk_convert(struct dlmlk *lk, int mode, unsigned long flags)
++{
++	int rv;
++
++	rv = dlm_lock_sync(lk, mode, flags, false);
++	WARN_ON(rv);
++}
++
++int dlmlk_convert_interuptible(struct dlmlk *lk, int mode, unsigned long flags)
++{
++	/* demotes never run into contention, TODO more states */
++	WARN_ON(mode == DLM_LOCK_NL);
++	/* can return -EINTR */
++	return dlm_lock_sync(lk, mode, flags, true);
++}
++
++void dlmlk_free(struct dlmlk *lk)
++{
++	int rv;
++
++	/* if we already released we don't perform unlocks */
++	if (!lk->ls->released) {
++		rv = dlm_unlock_sync(lk, false);
++		WARN_ON(rv);
++	}
++
++	kref_put(&lk->ls->kref, release_ls);
++	kfree(lk);
++}
++
++void dlmlk_free_nowait(struct dlmlk *lk)
++{
++	int rv;
++
++	/* if we already released we don't perform unlocks */
++	if (!lk->ls->released) {
++		rv = dlm_unlock_sync(lk, true);
++		WARN_ON(rv);
++	} else {
++		kref_put(&lk->ls->kref, release_ls);
++		kfree(lk);
++	}
++}
++
++const struct dlm_lksb *dlmlk_sb(struct dlmlk *lk)
++{
++	return &lk->sb;
++}
++
++int dlmlk_grmode(struct dlmlk *lk)
++{
++	return lk->grmode;
++}
++
++int dlmls_new(const char *lsname, const char *clname,
++	      uint32_t flags, int lvblen,
++	      const struct dlm_lockspace_ops *ops,
++	      void *ops_arg, int *ops_result,
++	      struct dlmls **ls_ret)
++{
++	struct dlmls *ls;
++	int rv;
++
++	ls = kzalloc_obj(*ls, GFP_NOFS);
++	if (!ls)
++		return -ENOMEM;
++
++	rv = dlm_new_lockspace(lsname, clname, flags, lvblen,
++			       ops, ops_arg, ops_result, &ls->ls);
++	if (!rv) {
++		kref_init(&ls->kref);
++		*ls_ret = ls;
++	}
++
++	return rv;
++}
++
++void dlmls_release(struct dlmls *ls, uint32_t flags)
++{
++	ls->released = true;
++	dlm_release_lockspace(ls->ls, flags);
++}
++
++int dlmplk_lock(struct dlmls *ls, u64 number, struct file *file,
++		int cmd, struct file_lock *fl)
++{
++	return dlm_posix_lock(ls->ls, number, file, cmd, fl);
++}
++
++int dlmplk_unlock(struct dlmls *ls, u64 number, struct file *file,
++		  struct file_lock *fl)
++{
++	return dlm_posix_unlock(ls->ls, number, file, fl);
++}
++
++int dlmplk_cancel(struct dlmls *ls, u64 number, struct file *file,
++		  struct file_lock *fl)
++{
++	return dlm_posix_cancel(ls->ls, number, file, fl);
++}
++
++int dlmplk_get(struct dlmls *ls, u64 number, struct file *file,
++	       struct file_lock *fl)
++{
++	return dlm_posix_get(ls->ls, number, file, fl);
++}
+diff --git a/include/uapi/linux/magic.h b/include/uapi/linux/magic.h
+index 4f2da935a76cc..2cd5eeaac51ce 100644
+--- a/include/uapi/linux/magic.h
++++ b/include/uapi/linux/magic.h
+@@ -38,6 +38,7 @@
+ #define OVERLAYFS_SUPER_MAGIC	0x794c7630
+ #define FUSE_SUPER_MAGIC	0x65735546
+ #define BCACHEFS_SUPER_MAGIC	0xca451a4e
++#define DLMPFS_MAGIC		0x858458f7	/* some random number */
+ 
+ #define MINIX_SUPER_MAGIC	0x137F		/* minix v1 fs, 14 char names */
+ #define MINIX_SUPER_MAGIC2	0x138F		/* minix v1 fs, 30 char names */
+-- 
+2.43.0
+
