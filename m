@@ -1,703 +1,295 @@
-Received: from mail-dy1-f193.google.com (mail-dy1-f193.google.com [74.125.82.193])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from esa5.hgst.iphmx.com (esa5.hgst.iphmx.com [216.71.153.144])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E7132E5B27
-	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Feb 2026 08:45:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.193
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770972331; cv=none; b=tP9qB8m+iggxApxxaD9uerWHTblV1e26fa+Uln+NCogFf4xHx3KiGOIb2o2EMnyOjgTYipl2NiukTp6Qy/dzJlB4i7RYqmYQ6cPCGK4uHF52YGdvX/ed6Z7Sa1IbsaKoZ0irWA4Oipq1mKDhFQbQRfvcbYkHyoGPmrQra0MtoSA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770972331; c=relaxed/simple;
-	bh=4PczEZDZVhcaSZmqNOYexDQLMusy4u//YyU/vcuzldo=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=OjXAjyr9JhXYEvyO2Mgaet+Wx6DhxYoKSjCWayOsdDzLPGBfcQMUXx4OiGNyQMVLEfX+YDcxovmCKM5cXkPP5DXEMtsUsGSFR7FcjlRuGlFVhCnEbYv/ST2muE9pfjNnSuDUdYs7kp0qWMUSsjXG88x6stzd9ETlD07tHL5GxXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=74.125.82.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dy1-f193.google.com with SMTP id 5a478bee46e88-2ba9d13f10eso1240080eec.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 13 Feb 2026 00:45:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770972328; x=1771577128;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Y5daGpqKfDcaZN7ZcKWp1/I5Q690nNNBS3OngCeWl80=;
-        b=XPdkgrnU3V33RtsdyAavekXqPQbRBNv3z26rfqOZDeYZ0jo/qleW8feHIxUXEc8PSP
-         ICC9ccxXp8V6XjXb9zwyjek9OMAO1JEADr6d2eRZpdBfbSQuDx3AoHZEYWMgyuX3BDJy
-         RM+WjoAKiT82z6rJFI66W37yBPry8vzx9QpkxWU1ke4du/osceK2QTM9reVcjfJsJYub
-         8hfpMaDC9JTKVtS66YX4qdA0NiYE3tK7EK+fwIBjC51I1wSp81Cnd4an5jy18erwQqxV
-         YF+sLtHNAvmhfccjxon+jKE9OOLoYL3cATgGsVyhyd3qRNeA55pjKlwIlkUH+1BVivcQ
-         bljw==
-X-Gm-Message-State: AOJu0YwhRorA3XIQywsJbU1zUMi5H2TCP/FgSh3hnP9A6eOed7tS3I2S
-	G2DTOjEnDBsNiu4WK2iFrP5J+gpvJ0YHTBWzOLg/Ekyqg4gmodLP0TjmYUGvBcDj
-X-Gm-Gg: AZuq6aIw7iO2LUlmO2kWK+1wTheRrDkPhBMBpI2Z4vEKESx84aNQaXT8JHQAOxIoQqv
-	KLngSp9Zz5HPgm6TMt0IPOX9lobIdJUpEvzJNjLG81glny/0q55Wu73FI8ZUxFLSwFJ9xJsTYCO
-	b5A9CFaPCPY6/+abKY+ZQq81u/XdQUIy6ozVFTyhP8tee67PixBc28QMNRqmaR9tdaPAkV8UIQG
-	WvtWxQ5p2kQ8H0kqV6UqSTNDVqGtLsbJiK0DCQYjYd+5wuRbIFRWw0bRXYqqANdSDVhYMej2KBB
-	+Ekqh4/CpXCE2YPEtiLBoqjp3K8vdX86Br6UTi15XhAk9x/XLpcSmQnDlW7rBq37Sm8RwQcTf4q
-	fcLWWjNd8YDLHY8FVYqvwDZv2suJmH1OXoa8E6g+A8OG4kJsZtlPgclZmh0aPlTmb8CSS+lcsRJ
-	jWr+i/DpqjJtgMGdBfDiq1b+CHNve2N8qKxYskWA==
-X-Received: by 2002:a17:902:f551:b0:29b:e512:752e with SMTP id d9443c01a7336-2ab505f6cc8mr11301555ad.47.1770971978635;
-        Fri, 13 Feb 2026 00:39:38 -0800 (PST)
-Received: from localhost.localdomain ([1.227.206.162])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ab2984ad4asm75236495ad.6.2026.02.13.00.39.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Feb 2026 00:39:37 -0800 (PST)
-From: Namjae Jeon <linkinjeon@kernel.org>
-To: viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	hch@lst.de,
-	tytso@mit.edu,
-	willy@infradead.org,
-	jack@suse.cz,
-	djwong@kernel.org,
-	dsterba@suse.com,
-	pali@kernel.org,
-	amir73il@gmail.com,
-	xiang@kernel.org
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Namjae Jeon <linkinjeon@kernel.org>
-Subject: [PATCH v9 16/17] Documentation: filesystems: update NTFS driver documentation
-Date: Fri, 13 Feb 2026 17:18:03 +0900
-Message-Id: <20260213081804.13351-17-linkinjeon@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260213081804.13351-1-linkinjeon@kernel.org>
-References: <20260213081804.13351-1-linkinjeon@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDB3633DED9
+	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Feb 2026 09:14:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=216.71.153.144
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770974042; cv=fail; b=oNkIcfv/rNBE2fRSgE6jo6WxW4jJ1762TQCNl358l3Z+kgp4ygBbW18/suKSIBI4epFGagkc4dHmnLA4qw+lNvQteyXXRtehxOe4CWvClnRuHvV4UeSYS8bQi9pbxdSRM5J5uGhspeMW52fDEj7QtckG6nlXVgmWENPPE8cCXEI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770974042; c=relaxed/simple;
+	bh=fsTzMUXbJr0/HbLbKf/qd/oSAdSqFOVoKlenDUmEc6Q=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=cMZ1JYbMstY3TnPuooEKFyXnsvZTOWuDLst1ssTZdV4yDBOPLGwJGZNxVKS+hLf3SCeP2mSGGyx7y9JVB0R8x/1rclPlr8FweAoxZIZIdPf1ezGCdafvfuxjl/Pn+KgcTMjV6wW3aoyQvAv/uWQg1KFDS+wow0GQvuhP9DadkQs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wdc.com; spf=pass smtp.mailfrom=wdc.com; dkim=pass (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b=F7WXkq73; dkim=pass (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b=Y1gQ/fD1; arc=fail smtp.client-ip=216.71.153.144
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wdc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wdc.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="F7WXkq73";
+	dkim=pass (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="Y1gQ/fD1"
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1770974040; x=1802510040;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=fsTzMUXbJr0/HbLbKf/qd/oSAdSqFOVoKlenDUmEc6Q=;
+  b=F7WXkq73zE+It/GvLF9Ev/6bNHDu/i0zokxMugjILFHUyjrlvi7DDi6E
+   TJeWWVuhMhw3UU3SoOGsSJbVAUhc19YvNy1lEgTzU8LbVBI/as5hWSUpw
+   uzsJ2JnYVdfoFdZx9KYL3EsGl4EB50RPZ4CWOLEIEfqY/cmrW7Wzm+T+c
+   8S6KYCJpIJivYLsAjNqFvLuP4OWrCNe9ETh70Z/48D7e7bZvfpPbCw98b
+   6CKZ7w06lSp6JqvTkm+PUZccHufD0EfH0cEPsazdAQyRtT+P7dE+QOkm4
+   JSmGMhY7W0nwEsE5qeAzhmm3MKOdUtUy9sXKu+RtVEo2wdvgx2NS3d7M/
+   A==;
+X-CSE-ConnectionGUID: bvg1Ho+OSjyAF+q55fukYA==
+X-CSE-MsgGUID: NnoyPCWVTzuOODMkE2SUzA==
+X-IronPort-AV: E=Sophos;i="6.21,288,1763395200"; 
+   d="scan'208";a="140337255"
+Received: from mail-westcentralusazon11013023.outbound.protection.outlook.com (HELO CY3PR05CU001.outbound.protection.outlook.com) ([40.93.201.23])
+  by ob1.hgst.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 13 Feb 2026 17:13:59 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=HNBgDKRcEwIsl+jCpPcdYXTLpfltM0MVcaLDCWzh4fylBozk7lwwLgK0Kv1HmEabJmw3bL4hiNKD0xcghAXxCCjBRLZkyFyoqxjGQTMBAwZnrSHqqY7xuE3/uaicZZERQYkJYv1MCP65dhaA+MlEAp935vaoMUIDUSnN86UC/ePTEx1YgzNTwK7TOvpzT7DtZyihJVKIYXtbiKv4T2Ds2I50HRIw1dWI4pycUk3JHSjUpuZpnSzQTdf7+p1lfKA/UszZdRGux8CQ1Gfnw3yFQ2QHc7PFS2+lHj/uyxoY3rgLy24qHJptdkmW/Bwwmdltf8VCvxeabExroPMtVNzzjg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=fsTzMUXbJr0/HbLbKf/qd/oSAdSqFOVoKlenDUmEc6Q=;
+ b=hGbdbT1VRFwvDxBaPxe3lejs4MtmIXFf9Jgp/KG3hK1veu9IcNoOqtj1HlY0fXawJrKpNiVsccQg+TexVIQ0GzmeciEVCCWuS8j9/0+ut6UQ2Tboq6WcQQ5f6LZPuxzVu2ehtDzGYFhLbTV0gnk6JVx5JCaXrrlyt19H19jJIqTWXEiadCd/+2SsF1CTmJkE1OWmBgGxkH9bJzUL78Y8fuKuYkpa0QzCrknnZY8KzVn6fFn4CG5uEQ+tRCrG6YqLZZdbc6sYtAKj9Rpwhj7D7QcxhKjS97Bo7Mno8ZfgCy4iGCsKOPtY4RTFsSmuALn9qjRANdPxC9wGqE8Rv363dQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fsTzMUXbJr0/HbLbKf/qd/oSAdSqFOVoKlenDUmEc6Q=;
+ b=Y1gQ/fD1T434gF9bM+pRLvfLtY3Dehsr59dkH6BtD5Y6c1VBuDYlvFaWdWnWHzR/GgvRZG+QuLv6qtX1V2Xlau436yp8kkysK7aw1Q2b570BYUEDyduq+dRNWVrmkCB/HKqif8ZC+g3GIJJj7CZBEbku9J60pTn+Gi/xMHv0KCA=
+Received: from PH7PR04MB8755.namprd04.prod.outlook.com (2603:10b6:510:236::8)
+ by PH0PR04MB7511.namprd04.prod.outlook.com (2603:10b6:510:4d::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9611.13; Fri, 13 Feb
+ 2026 09:13:57 +0000
+Received: from PH7PR04MB8755.namprd04.prod.outlook.com
+ ([fe80::5df3:d910:6da7:49ba]) by PH7PR04MB8755.namprd04.prod.outlook.com
+ ([fe80::5df3:d910:6da7:49ba%4]) with mapi id 15.20.9611.012; Fri, 13 Feb 2026
+ 09:13:56 +0000
+From: Hans Holmberg <Hans.Holmberg@wdc.com>
+To: Josef Bacik <josef@toxicpanda.com>, Amir Goldstein <amir73il@gmail.com>
+CC: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
+	"lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, Damien Le
+ Moal <Damien.LeMoal@wdc.com>, hch <hch@lst.de>, Naohiro Aota
+	<Naohiro.Aota@wdc.com>, "jack@suse.com" <jack@suse.com>, Shinichiro Kawasaki
+	<shinichiro.kawasaki@wdc.com>
+Subject: Re: [Lsf-pc] [LSF/MM/BPF TOPIC] A common project for file system
+ performance testing
+Thread-Topic: [Lsf-pc] [LSF/MM/BPF TOPIC] A common project for file system
+ performance testing
+Thread-Index: AQHcnCVy+M/y38WvJkeD9gq7IpAat7V/ROOAgAAN6oCAAAFkAIAAF+6AgADtvwA=
+Date: Fri, 13 Feb 2026 09:13:56 +0000
+Message-ID: <cf036899-33ce-40cf-902d-bd1d649b55d4@wdc.com>
+References: <b9f6cd20-8f0f-48d6-9819-e0c915206a3f@wdc.com>
+ <bcedbc03-c307-4de5-9973-94237f05cd85@wdc.com>
+ <CAEzrpqd_-V691dQzVF1WmrvLNXnDR0THuxGCieDMZcWdRN5WEQ@mail.gmail.com>
+ <CAOQ4uxia_BDVOLLnuN=OzhpUYBdFkd10T+079h7+PjHXkt208w@mail.gmail.com>
+ <CAEzrpqdOmT_U=+7wrD+x-ZS9JH9TM-j=ASW=xP2zvmVu0+wnHg@mail.gmail.com>
+In-Reply-To:
+ <CAEzrpqdOmT_U=+7wrD+x-ZS9JH9TM-j=ASW=xP2zvmVu0+wnHg@mail.gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+user-agent: Mozilla Thunderbird
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PH7PR04MB8755:EE_|PH0PR04MB7511:EE_
+x-ms-office365-filtering-correlation-id: 1b9fc7d8-aac9-487a-6a91-08de6ae0376d
+x-ld-processed: b61c8803-16f3-4c35-9b17-6f65f441df86,ExtAddr
+wdcipoutbound: EOP-TRUE
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|376014|1800799024|366016|19092799006|38070700021;
+x-microsoft-antispam-message-info:
+ =?utf-8?B?U0NOSFNnT2JSYWZpbWs3WmNrYnphZXBiakg4cTY2NzdwMXRxbzY5SkNUMDBN?=
+ =?utf-8?B?VWxvLzNkYTh1dHl5YTVVY2tqQ1lFTVZwWW5ZMi82a09xeG9SeTRpdmlYdito?=
+ =?utf-8?B?elo5YUJzRXBTaDZkSzlsR1NqN0JJRUtMci9vVlJSa1JGK0hiMVBLTXVPaUtQ?=
+ =?utf-8?B?d3BNVk5wenZsai9rQi9oaHpWRFJOM2YvOG1jVEV2U0YxclMzUzJvUTdCM1Ry?=
+ =?utf-8?B?OEFrb2Z3MkNXNW9LakNkR3pKaThiYUh4MFA1dWV0T042YnlrMk5GSUVyd05y?=
+ =?utf-8?B?WGI5bklsL3FERHdUU3dyZzlaOHpEbTBtdEFKdHF1QklBMEtaYUtqWjYwSTBY?=
+ =?utf-8?B?NGxEeklacnJYeDhDNmFzVlRDQTNqZDJaVFdMakhtdjBpYmlpOGpaRWtzakYy?=
+ =?utf-8?B?QldQMTZnNTBqckhkSVo1UkRIWUZvNy9hd3hBWWI0QnJBSS9maGNtSmlvWGE2?=
+ =?utf-8?B?bGo4aHA0amRYVUNFdnZBc3ZDUXlFYzZnK2VZa29RT21HVGdwbHZiaGhPWGp1?=
+ =?utf-8?B?RS9EMGR2OXhxQ3NMQzRoelVyNERqeXM1RE5VdUVpV1BBbkp0N25DQ3E1SVhK?=
+ =?utf-8?B?SExBVytOMjNSNndFdkh2Y25hWmdSa2J3YW5LcldQVmhRaGhzYW9qeHlKUHBy?=
+ =?utf-8?B?V0M0UXR6YTh3aTFyNzhteHVkb0pKMWtiVlIrQ0hDdlhzYTVGUWxNM05hZFQw?=
+ =?utf-8?B?dmVMMW8yVys4cHpHSmYxOVVCNWFpc05KMU8vb3VWZmRaNzZuQVJ0dUxWMW9m?=
+ =?utf-8?B?VEJXUnhzeE5HbGJnZ2NFOS9LUXE1Wnd0cnFJUGlGVDJqOEx5dm9VbmlWbVVy?=
+ =?utf-8?B?VlJjM2RLZkY2SjJBL0dXUnNmMXpqemZDbURVZDJMcjF5UWttRlA4RWVUUlRi?=
+ =?utf-8?B?ZVpERXpvcGtpcEttaEQybmNRdnhRRFBteVF4SFc1R1BhT1N4NWFkVWkvblhs?=
+ =?utf-8?B?Y3FncGNQZzZRbnZ3NzlwakdsZE5ZMldqNTcwUHovUnl4TGJhYUxNczV0WDJr?=
+ =?utf-8?B?eVNsREtUdWs4S05KUTRRU3lHTEsvV0dvN25vN1Q4QXhXM0hRRmV4UXNKc01s?=
+ =?utf-8?B?aWdxR1JoSGNab0ZYb2tIeTJqVy9XUzlKMVJMUFYxU2RxNWFvVzFLUWQrUjNz?=
+ =?utf-8?B?elZIK3VqTlhreXlPdHo4Qkd6T0xrdXhtQ0lCN3BCaC96V2cwdXM3QUUvU0Z0?=
+ =?utf-8?B?eS9lMkFQd095YWozTWxlOS8xMHhGb0g2YlRORUtyMmRqaUY4b1ltUHo2K3Rx?=
+ =?utf-8?B?blFKWTBKOEgxMm92aHFkV09JRHNtMXF1eE10MThqL2JWQTJoZjRoMVdRVDdr?=
+ =?utf-8?B?T2tJYngrNVFqa00zQ2wwNFZtcW1rNjlzNTVXTVNuYTRLNU9Ka2sxWHZ4bTVP?=
+ =?utf-8?B?WW16WEdob2pGamVPRlh4NDF1VXFFbUxwWUdNenpTQytDRnJHQ1J3QjkwbC84?=
+ =?utf-8?B?eGRLTy9VUHo1ZEViZHhETU5tWTY4UUg5WHM0alRoSE9BMHhjczlON09rd01l?=
+ =?utf-8?B?aHdCQzdGaE9wWHRPckhGcEp1UUhJc0Naa1dRZkR6ekV1enBzdjh3VW5vb1hO?=
+ =?utf-8?B?SENMYTdiSXVPaHgyQ1JPWjNnbkxXdzVBNjc4cmpmU21RMnBjemRHNEEwYlFB?=
+ =?utf-8?B?ckVjWXg5b3dVM25vQUFkRkdIYWxadGNOM2ZqWXFEOXdxdVFFdWJrb3VZV0h2?=
+ =?utf-8?B?RnN5eHFKOG9iWndzVzBEeUs0Q3FxaUZoYzE1ai9hYTlpY3dsd3BvOXhNc2Zx?=
+ =?utf-8?B?VmdKMlFoa0FtKzI5dS9TbUNrTDYwd3dyaEpzV1ZJWnJOdXd1aWo1WlFpZndY?=
+ =?utf-8?B?cHFKb0lsOStlVzdUdit1c2xvam9HbTBVVWFFYm5heURCN0NlcE9yVkh2MUY4?=
+ =?utf-8?B?Mk9oMkxnNmxqUEFZVmgxbUJVT0J0eUw1TFpKVFRrWVJnTHhtcmFDelQweGZx?=
+ =?utf-8?B?R2Y0YmMvWkVxTGVjMHhzblhORzBQc1czcG1RdFJRb1RhTVoyNzR6SGNib0lH?=
+ =?utf-8?B?elhJWjhNTE15NjRSMnhJdE81UC9tMU9UUFdMV3hHeklzbTFMOVVXTFVoelA1?=
+ =?utf-8?B?cTZjRnZkZVFjZVJOUGp2ZmZ4R0ZaNkRpbnRUeUFUSlJhWHlISnZoYm1iWUZX?=
+ =?utf-8?B?ZnBsZTl1UlhpVDNxMEdHTUZnZlYyajllMFBueUdqVDBkb2ZidVpWM3VOVTFl?=
+ =?utf-8?Q?sNBk1bUjxednMFlPg3dsdrA=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR04MB8755.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(19092799006)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?ZnE0bmhMNXhCbUs4R005VjV5NDdUZkpoRTMyZ1NGRlBCc0NpVWlxbXRwMWtt?=
+ =?utf-8?B?a1VNN0lTSjdrNTl4dFg5SlVidXBpYjNmMHJPQkdER1FzcndNRThjaVNKd1kx?=
+ =?utf-8?B?dTZLeEJqL3pVS1AycCs3NGo0Vi9rVi80ZmlZK3lBcHdqWjB5QkgwcVFkWXJz?=
+ =?utf-8?B?SWJuVGErSTFMdEtabVBzMlR6eUxzSzZwWWJCMHVXMVRVTXJwZkJSbGJ5bFFJ?=
+ =?utf-8?B?amYrMUxlMjZXdXo2Y1R2Zlh1a1IvWGJhSXpZdDkrL25TTzh1ZUdNd2V3QVBl?=
+ =?utf-8?B?S3RyaWh5aUVYRE9VYStNMlFCOEpySndTRmVTdEg1NDJRelJxU0twbDVoKy8r?=
+ =?utf-8?B?UFc3WGh1T040T2h3OTNHT21pV2VVNVhwZUtQZHo2WGZ4YXFPS0FLM2tEZG1j?=
+ =?utf-8?B?UUtmU1VYNlRtTmRnVXZXczBVRGVnN25wQXBCMWxXWlVsRlgrZXJiV0MzSkRN?=
+ =?utf-8?B?ZVluSUVReGQySmVnMWZoKzhoQXZ1b25DUWFudnVta05XVE96dXZ5dG9MWGdV?=
+ =?utf-8?B?VW44czBxSzExSDhMbmRSUFVFQjJ6RnpYK05OSUdlRDk2OEFBRURnWVhkVlVV?=
+ =?utf-8?B?UmN4MEN1bFd2a1BibHNWZFF6ZHBiMmpQUGNqdzdES3UreEVldEZ6TEJBd0dF?=
+ =?utf-8?B?TTlmUE9CekhjcXFlSGc1M3c5eVIyVWtYVEdwK1hZV3BrZGNuSnF4NlRheXl0?=
+ =?utf-8?B?WlJwOW9qZ0I3TnZIMSsyYjFBcmpjeVJJYXJ1a1ZxbjY4OHc0SG8yWXR2Vmhj?=
+ =?utf-8?B?Ync5UWJyZkVvcjVZT1pmSU5sbTdDZmJ1Smg2YkJWeDc5TStHRDVhbTN6dGhT?=
+ =?utf-8?B?WW9jWlpxeWpDcmEvaE1YMG5vbjRpMFBrcUxWK0JZWlRBQVcyTmlZbVp2ZGVG?=
+ =?utf-8?B?SS85ZjF2MUNTbkx0Z1U2ckx5QjNyNXhSY0JUbC80eTRzVnNhZ2dBOEd1RWow?=
+ =?utf-8?B?V29CampWMndncjAyM3JCV0lMWE13VTNYQmlyby9yeGdMZHpPTERRWllzOTJx?=
+ =?utf-8?B?dmRWbmN5c2FyMFZxU3h3U3g2ZitFZ0ZMS1pDYmZPRTlIRzA3K0NxTlR5TlRW?=
+ =?utf-8?B?VWl6cGMzNDdDYzBHVDVyenQzTlJjRURrcncrOTlxS3RwSkphNGlUKzUrOHNt?=
+ =?utf-8?B?MUNFRDhuaTVTMVpZQXpPbTNtdUlUQ20rSURMZlYvcnN5aWhmSFBhQ3FXZU9a?=
+ =?utf-8?B?SStNVHZSZm9RTnNtdVFhS3RPU3NtSmVkY25DKy83V3lwME1sTE9IeDBNV0N0?=
+ =?utf-8?B?aUwxZnVFdVpSNDNXQjJoN3RueWx6VEljV3lxOHV0S1d6QW9wK1RmWmFmQWUy?=
+ =?utf-8?B?NEpkZTNYYmFCblJhNENLZXI3U3EybCt2Zm9rd3lsTEt3cGFlMWZYNlVNc3Rl?=
+ =?utf-8?B?VEZEN3VzN3lwSWQyVWZPTnc4WnlVSURBUitYSXhGTUJvWm5yVjNrYkd5Umh3?=
+ =?utf-8?B?aFU1NnhkamswVUVldTIydWxjZm5xTG1FNE40NjkxS1NRTisvWERnek1wOFdk?=
+ =?utf-8?B?VmhBSCs0R1lsUjIreTBKWktpNlZqMXNXbWE4VTZ1SFFBTmV3WHp5Y0dXSlpH?=
+ =?utf-8?B?c2dNUVFyWFA0dUMxNVJkeEZTUXplZUxwV2FrQnlmQ0J2V0d6RUgyNFFTcncr?=
+ =?utf-8?B?M1BieWg1cnV5bncvSU5vcTlKbUh4RzJaUnNaamcvTVJiT3hWVXFuZlVOY1Ez?=
+ =?utf-8?B?SFA4R0I5WVlEanVzcDRlWTBDMkljVmJNaFFHZ2laQUhoSU9nR05xMm9UTHFX?=
+ =?utf-8?B?T0IzNjFCR2dlcXl5YjlLNWpaQVNTS1QvN1JkUGFRNEhNSkMxVFd2ajVRVUtF?=
+ =?utf-8?B?K2xCMWM4VkhXQ2tqRUNBcVlqRHBjOGlDMGV2cWI1UGMzQWxYM2ZMRXRBZFhR?=
+ =?utf-8?B?Q1dtTUNSSDA3aGYwRXdtc2lvdDRmWGNQd0Uvc2lWdVRGN2hmWXpqVjBqdlZo?=
+ =?utf-8?B?TkxlcmxSZEJDeVZXc2d6ckkya0Y1UllYekNwNE1hRDV3NUNoTVAwcC8yWC9D?=
+ =?utf-8?B?Zy9OMmozeVNGT0VTdHA4SE5ISEQwL0wwYmZiVmw0VjA5cm52dlVYempCZXdj?=
+ =?utf-8?B?c256VUg2d2FGSjVoTm9TT3dzNDFlSEoxQU13WUhkamt3QXZIMzFZWXE4a3A1?=
+ =?utf-8?B?VmkrU2xBTjZua1pPWEgrbnl6d3JoTzA1QnRFTWU0NTRvU0k0aVRERWNtZ0Fr?=
+ =?utf-8?B?L0lzcGNIaExoSFB1WG1DbHRIbXRIREZMcGhsaHgxWEVTRllGekNVQlZycXR5?=
+ =?utf-8?B?blR2ZHFnZDFZbDA4ZDVEdHc2TlRMcnd1UjJxS3Q3Mk9lR2hNWG53NnVEMXNl?=
+ =?utf-8?B?S25TdkhFK2lDdm5SR1JQVU5UcmdWYzFVeE1IQ242YWNNU1dacXgyZz09?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <AA2BCFCE286B1C40A21194367AA45DF6@namprd04.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	rSsxaeDvDVkJSSCHnlSDQrZdvz+WMojiZENTUV97FaKJpMm9VNVGY+M9NBAh9lvLcofWnAsOxuTSQUxVs7oeBXQZmY3Ae7VXpvD/mHMIWmT/m1rJU1KJMr8KfKVpDq++2s+Xdu9WfAN7Dl/SRWGHautxDG/z24H5M0j4uywc8cttT+gzWaSeVKJwhQa8HoDgkhomw6+qRoZk/cCnFAfUajlVUi6WKyJv4Q+SnZcDA+BCfuLgnGZSjulbMqC8JsaHHbNBL5KgUbwXctTv1uP6MNt68SdmLBkaD1OXmTP0v3yvSqjrXiV2fC/SSUvrofGI2lF1+6kYG/4fi1xjI9E2CuqpBw6CED2w3mi2zX8XbmQH9sUxqhlNE7Gzd4bmGDdZ8BYqN6skhRfII9DFcHD5E4EJyhNJlLuiAtuta24Z1pDbi4mqvCS/d72mRlkhKDufHubP0LJWNQGIK/iafrIyJAttuIjbGOnbvrUY2iHq+Vmy2EvoCOT++KfKuduIIXbbG9ykrw+KFKAzd30bVDZfDmBRZSOp7g1s+BbeX/5Q37TObDYQS657CxxRJKnV4zz5ScIq0dou81nziKcKnK1FoKBVgSz+72o8LFgIr0YlD8zgkxmUmyJm4biGkdtmBQxp
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR04MB8755.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1b9fc7d8-aac9-487a-6a91-08de6ae0376d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Feb 2026 09:13:56.7756
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: mOiDQCBbDJgap0MhFXDr175f87xsLChibZ9JPvkDNgxKq0I6qvrkQytj2o0L8NVkW0a9ooDDFDYxgQjOHuy0GQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR04MB7511
 
-Update the NTFS driver documentation to reflect the update implementation.
-Remove outdated sections (web site, old features list, known bugs,
-volume/stripe sets with MD/DM driver, limitations of old driver), add a
-concise overview of current driver features and long-term maintenance
-focus, add a utilities support section pointing to ntfsprogs-plus project
-and update mount options list with current supported options.
-
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Acked-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Namjae Jeon <linkinjeon@kernel.org>
----
- Documentation/filesystems/index.rst |   1 +
- Documentation/filesystems/ntfs.rst  | 563 +++++++---------------------
- 2 files changed, 129 insertions(+), 435 deletions(-)
-
-diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-index f4873197587d..0d1f88185b73 100644
---- a/Documentation/filesystems/index.rst
-+++ b/Documentation/filesystems/index.rst
-@@ -98,6 +98,7 @@ Documentation for filesystem implementations.
-    isofs
-    nilfs2
-    nfs/index
-+   ntfs
-    ntfs3
-    ocfs2
-    ocfs2-online-filecheck
-diff --git a/Documentation/filesystems/ntfs.rst b/Documentation/filesystems/ntfs.rst
-index 5bb093a26485..94f368fb3b06 100644
---- a/Documentation/filesystems/ntfs.rst
-+++ b/Documentation/filesystems/ntfs.rst
-@@ -1,466 +1,159 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
--================================
-+=================================
- The Linux NTFS filesystem driver
--================================
-+=================================
- 
- 
- .. Table of contents
- 
-    - Overview
--   - Web site
--   - Features
-+   - Utilities support
-    - Supported mount options
--   - Known bugs and (mis-)features
--   - Using NTFS volume and stripe sets
--     - The Device-Mapper driver
--     - The Software RAID / MD driver
--     - Limitations when using the MD driver
- 
- 
- Overview
- ========
- 
--Linux-NTFS comes with a number of user-space programs known as ntfsprogs.
--These include mkntfs, a full-featured ntfs filesystem format utility,
--ntfsundelete used for recovering files that were unintentionally deleted
--from an NTFS volume and ntfsresize which is used to resize an NTFS partition.
--See the web site for more information.
--
--To mount an NTFS 1.2/3.x (Windows NT4/2000/XP/2003) volume, use the file
--system type 'ntfs'.  The driver currently supports read-only mode (with no
--fault-tolerance, encryption or journalling) and very limited, but safe, write
--support.
--
--For fault tolerance and raid support (i.e. volume and stripe sets), you can
--use the kernel's Software RAID / MD driver.  See section "Using Software RAID
--with NTFS" for details.
-+NTFS is a Linux kernel filesystem driver that provides full read and write
-+support for NTFS volumes. It is designed for high performance, modern
-+kernel infrastructure (iomap, folio), and stable long-term maintenance.
- 
- 
--Web site
--========
--
--There is plenty of additional information on the linux-ntfs web site
--at http://www.linux-ntfs.org/
-+Utilities support
-+=================
- 
--The web site has a lot of additional information, such as a comprehensive
--FAQ, documentation on the NTFS on-disk format, information on the Linux-NTFS
--userspace utilities, etc.
-+The NTFS utilities project, called ntfsprogs-plus, provides mkfs.ntfs,
-+fsck.ntfs, and other related tools (e.g., ntfsinfo, ntfsclone, etc.) for
-+creating, checking, and managing NTFS volumes. These utilities can be used
-+for filesystem testing with xfstests as well as for recovering corrupted
-+NTFS devices.
- 
-+The project is available at:
- 
--Features
--========
-+  https://github.com/ntfsprogs-plus/ntfsprogs-plus
- 
--- This is a complete rewrite of the NTFS driver that used to be in the 2.4 and
--  earlier kernels.  This new driver implements NTFS read support and is
--  functionally equivalent to the old ntfs driver and it also implements limited
--  write support.  The biggest limitation at present is that files/directories
--  cannot be created or deleted.  See below for the list of write features that
--  are so far supported.  Another limitation is that writing to compressed files
--  is not implemented at all.  Also, neither read nor write access to encrypted
--  files is so far implemented.
--- The new driver has full support for sparse files on NTFS 3.x volumes which
--  the old driver isn't happy with.
--- The new driver supports execution of binaries due to mmap() now being
--  supported.
--- The new driver supports loopback mounting of files on NTFS which is used by
--  some Linux distributions to enable the user to run Linux from an NTFS
--  partition by creating a large file while in Windows and then loopback
--  mounting the file while in Linux and creating a Linux filesystem on it that
--  is used to install Linux on it.
--- A comparison of the two drivers using::
--
--	time find . -type f -exec md5sum "{}" \;
--
--  run three times in sequence with each driver (after a reboot) on a 1.4GiB
--  NTFS partition, showed the new driver to be 20% faster in total time elapsed
--  (from 9:43 minutes on average down to 7:53).  The time spent in user space
--  was unchanged but the time spent in the kernel was decreased by a factor of
--  2.5 (from 85 CPU seconds down to 33).
--- The driver does not support short file names in general.  For backwards
--  compatibility, we implement access to files using their short file names if
--  they exist.  The driver will not create short file names however, and a
--  rename will discard any existing short file name.
--- The new driver supports exporting of mounted NTFS volumes via NFS.
--- The new driver supports async io (aio).
--- The new driver supports fsync(2), fdatasync(2), and msync(2).
--- The new driver supports readv(2) and writev(2).
--- The new driver supports access time updates (including mtime and ctime).
--- The new driver supports truncate(2) and open(2) with O_TRUNC.  But at present
--  only very limited support for highly fragmented files, i.e. ones which have
--  their data attribute split across multiple extents, is included.  Another
--  limitation is that at present truncate(2) will never create sparse files,
--  since to mark a file sparse we need to modify the directory entry for the
--  file and we do not implement directory modifications yet.
--- The new driver supports write(2) which can both overwrite existing data and
--  extend the file size so that you can write beyond the existing data.  Also,
--  writing into sparse regions is supported and the holes are filled in with
--  clusters.  But at present only limited support for highly fragmented files,
--  i.e. ones which have their data attribute split across multiple extents, is
--  included.  Another limitation is that write(2) will never create sparse
--  files, since to mark a file sparse we need to modify the directory entry for
--  the file and we do not implement directory modifications yet.
- 
- Supported mount options
- =======================
- 
--In addition to the generic mount options described by the manual page for the
--mount command (man 8 mount, also see man 5 fstab), the NTFS driver supports the
--following mount options:
--
--======================= =======================================================
--iocharset=name		Deprecated option.  Still supported but please use
--			nls=name in the future.  See description for nls=name.
-+The NTFS driver supports the following mount options:
- 
--nls=name		Character set to use when returning file names.
--			Unlike VFAT, NTFS suppresses names that contain
--			unconvertible characters.  Note that most character
--			sets contain insufficient characters to represent all
--			possible Unicode characters that can exist on NTFS.
--			To be sure you are not missing any files, you are
--			advised to use nls=utf8 which is capable of
--			representing all Unicode characters.
-+======================= ===================================================
-+iocharset=name          Character set to use for converting between
-+                        the encoding is used for user visible filename and
-+                        16 bit Unicode characters.
- 
--utf8=<bool>		Option no longer supported.  Currently mapped to
--			nls=utf8 but please use nls=utf8 in the future and
--			make sure utf8 is compiled either as module or into
--			the kernel.  See description for nls=name.
-+nls=name                Deprecated option.  Still supported but please use
-+                        iocharset=name in the future.
- 
- uid=
- gid=
--umask=			Provide default owner, group, and access mode mask.
--			These options work as documented in mount(8).  By
--			default, the files/directories are owned by root and
--			he/she has read and write permissions, as well as
--			browse permission for directories.  No one else has any
--			access permissions.  I.e. the mode on all files is by
--			default rw------- and for directories rwx------, a
--			consequence of the default fmask=0177 and dmask=0077.
--			Using a umask of zero will grant all permissions to
--			everyone, i.e. all files and directories will have mode
--			rwxrwxrwx.
-+umask=                  Provide default owner, group, and access mode mask.
-+                        These options work as documented in mount(8).  By
-+                        default, the files/directories are owned by root
-+                        and he/she has read and write permissions, as well
-+                        as browse permission for directories.  No one else
-+                        has any access permissions.  I.e. the mode on all
-+                        files is by default rw------- and
-+                        for directories rwx------, a consequence of
-+                        the default fmask=0177 and dmask=0077.
-+                        Using a umask of zero will grant all permissions to
-+                        everyone, i.e. all files and directories will have
-+                        mode rwxrwxrwx.
- 
- fmask=
--dmask=			Instead of specifying umask which applies both to
--			files and directories, fmask applies only to files and
--			dmask only to directories.
--
--sloppy=<BOOL>		If sloppy is specified, ignore unknown mount options.
--			Otherwise the default behaviour is to abort mount if
--			any unknown options are found.
--
--show_sys_files=<BOOL>	If show_sys_files is specified, show the system files
--			in directory listings.  Otherwise the default behaviour
--			is to hide the system files.
--			Note that even when show_sys_files is specified, "$MFT"
--			will not be visible due to bugs/mis-features in glibc.
--			Further, note that irrespective of show_sys_files, all
--			files are accessible by name, i.e. you can always do
--			"ls -l \$UpCase" for example to specifically show the
--			system file containing the Unicode upcase table.
--
--case_sensitive=<BOOL>	If case_sensitive is specified, treat all file names as
--			case sensitive and create file names in the POSIX
--			namespace.  Otherwise the default behaviour is to treat
--			file names as case insensitive and to create file names
--			in the WIN32/LONG name space.  Note, the Linux NTFS
--			driver will never create short file names and will
--			remove them on rename/delete of the corresponding long
--			file name.
--			Note that files remain accessible via their short file
--			name, if it exists.  If case_sensitive, you will need
--			to provide the correct case of the short file name.
--
--disable_sparse=<BOOL>	If disable_sparse is specified, creation of sparse
--			regions, i.e. holes, inside files is disabled for the
--			volume (for the duration of this mount only).  By
--			default, creation of sparse regions is enabled, which
--			is consistent with the behaviour of traditional Unix
--			filesystems.
--
--errors=opt		What to do when critical filesystem errors are found.
--			Following values can be used for "opt":
--
--			  ========  =========================================
--			  continue  DEFAULT, try to clean-up as much as
--				    possible, e.g. marking a corrupt inode as
--				    bad so it is no longer accessed, and then
--				    continue.
--			  recover   At present only supported is recovery of
--				    the boot sector from the backup copy.
--				    If read-only mount, the recovery is done
--				    in memory only and not written to disk.
--			  ========  =========================================
--
--			Note that the options are additive, i.e. specifying::
--
--			   errors=continue,errors=recover
--
--			means the driver will attempt to recover and if that
--			fails it will clean-up as much as possible and
--			continue.
--
--mft_zone_multiplier=	Set the MFT zone multiplier for the volume (this
--			setting is not persistent across mounts and can be
--			changed from mount to mount but cannot be changed on
--			remount).  Values of 1 to 4 are allowed, 1 being the
--			default.  The MFT zone multiplier determines how much
--			space is reserved for the MFT on the volume.  If all
--			other space is used up, then the MFT zone will be
--			shrunk dynamically, so this has no impact on the
--			amount of free space.  However, it can have an impact
--			on performance by affecting fragmentation of the MFT.
--			In general use the default.  If you have a lot of small
--			files then use a higher value.  The values have the
--			following meaning:
--
--			      =====	    =================================
--			      Value	     MFT zone size (% of volume size)
--			      =====	    =================================
--				1		12.5%
--				2		25%
--				3		37.5%
--				4		50%
--			      =====	    =================================
--
--			Note this option is irrelevant for read-only mounts.
--======================= =======================================================
--
--
--Known bugs and (mis-)features
--=============================
--
--- The link count on each directory inode entry is set to 1, due to Linux not
--  supporting directory hard links.  This may well confuse some user space
--  applications, since the directory names will have the same inode numbers.
--  This also speeds up ntfs_read_inode() immensely.  And we haven't found any
--  problems with this approach so far.  If you find a problem with this, please
--  let us know.
--
--
--Please send bug reports/comments/feedback/abuse to the Linux-NTFS development
--list at sourceforge: linux-ntfs-dev@lists.sourceforge.net
--
--
--Using NTFS volume and stripe sets
--=================================
--
--For support of volume and stripe sets, you can either use the kernel's
--Device-Mapper driver or the kernel's Software RAID / MD driver.  The former is
--the recommended one to use for linear raid.  But the latter is required for
--raid level 5.  For striping and mirroring, either driver should work fine.
--
--
--The Device-Mapper driver
--------------------------
--
--You will need to create a table of the components of the volume/stripe set and
--how they fit together and load this into the kernel using the dmsetup utility
--(see man 8 dmsetup).
--
--Linear volume sets, i.e. linear raid, has been tested and works fine.  Even
--though untested, there is no reason why stripe sets, i.e. raid level 0, and
--mirrors, i.e. raid level 1 should not work, too.  Stripes with parity, i.e.
--raid level 5, unfortunately cannot work yet because the current version of the
--Device-Mapper driver does not support raid level 5.  You may be able to use the
--Software RAID / MD driver for raid level 5, see the next section for details.
--
--To create the table describing your volume you will need to know each of its
--components and their sizes in sectors, i.e. multiples of 512-byte blocks.
--
--For NT4 fault tolerant volumes you can obtain the sizes using fdisk.  So for
--example if one of your partitions is /dev/hda2 you would do::
--
--    $ fdisk -ul /dev/hda
--
--    Disk /dev/hda: 81.9 GB, 81964302336 bytes
--    255 heads, 63 sectors/track, 9964 cylinders, total 160086528 sectors
--    Units = sectors of 1 * 512 = 512 bytes
--
--	Device Boot      Start         End      Blocks   Id  System
--	/dev/hda1   *          63     4209029     2104483+  83  Linux
--	/dev/hda2         4209030    37768814    16779892+  86  NTFS
--	/dev/hda3        37768815    46170809     4200997+  83  Linux
--
--And you would know that /dev/hda2 has a size of 37768814 - 4209030 + 1 =
--33559785 sectors.
--
--For Win2k and later dynamic disks, you can for example use the ldminfo utility
--which is part of the Linux LDM tools (the latest version at the time of
--writing is linux-ldm-0.0.8.tar.bz2).  You can download it from:
--
--	http://www.linux-ntfs.org/
--
--Simply extract the downloaded archive (tar xvjf linux-ldm-0.0.8.tar.bz2), go
--into it (cd linux-ldm-0.0.8) and change to the test directory (cd test).  You
--will find the precompiled (i386) ldminfo utility there.  NOTE: You will not be
--able to compile this yourself easily so use the binary version!
--
--Then you would use ldminfo in dump mode to obtain the necessary information::
--
--    $ ./ldminfo --dump /dev/hda
--
--This would dump the LDM database found on /dev/hda which describes all of your
--dynamic disks and all the volumes on them.  At the bottom you will see the
--VOLUME DEFINITIONS section which is all you really need.  You may need to look
--further above to determine which of the disks in the volume definitions is
--which device in Linux.  Hint: Run ldminfo on each of your dynamic disks and
--look at the Disk Id close to the top of the output for each (the PRIVATE HEADER
--section).  You can then find these Disk Ids in the VBLK DATABASE section in the
--<Disk> components where you will get the LDM Name for the disk that is found in
--the VOLUME DEFINITIONS section.
--
--Note you will also need to enable the LDM driver in the Linux kernel.  If your
--distribution did not enable it, you will need to recompile the kernel with it
--enabled.  This will create the LDM partitions on each device at boot time.  You
--would then use those devices (for /dev/hda they would be /dev/hda1, 2, 3, etc)
--in the Device-Mapper table.
--
--You can also bypass using the LDM driver by using the main device (e.g.
--/dev/hda) and then using the offsets of the LDM partitions into this device as
--the "Start sector of device" when creating the table.  Once again ldminfo would
--give you the correct information to do this.
--
--Assuming you know all your devices and their sizes things are easy.
--
--For a linear raid the table would look like this (note all values are in
--512-byte sectors)::
--
--    # Offset into	Size of this	Raid type	Device		Start sector
--    # volume	device						of device
--    0		1028161		linear		/dev/hda1	0
--    1028161		3903762		linear		/dev/hdb2	0
--    4931923		2103211		linear		/dev/hdc1	0
--
--For a striped volume, i.e. raid level 0, you will need to know the chunk size
--you used when creating the volume.  Windows uses 64kiB as the default, so it
--will probably be this unless you changes the defaults when creating the array.
--
--For a raid level 0 the table would look like this (note all values are in
--512-byte sectors)::
--
--    # Offset   Size	    Raid     Number   Chunk  1st        Start	2nd	  Start
--    # into     of the   type     of	      size   Device	in	Device	  in
--    # volume   volume	     stripes			device		  device
--    0	   2056320  striped  2	      128    /dev/hda1	0	/dev/hdb1 0
--
--If there are more than two devices, just add each of them to the end of the
--line.
--
--Finally, for a mirrored volume, i.e. raid level 1, the table would look like
--this (note all values are in 512-byte sectors)::
--
--    # Ofs Size   Raid   Log  Number Region Should Number Source  Start Target Start
--    # in  of the type   type of log size   sync?  of     Device  in    Device in
--    # vol volume		 params		     mirrors	     Device	  Device
--    0    2056320 mirror core 2	16     nosync 2	   /dev/hda1 0   /dev/hdb1 0
--
--If you are mirroring to multiple devices you can specify further targets at the
--end of the line.
--
--Note the "Should sync?" parameter "nosync" means that the two mirrors are
--already in sync which will be the case on a clean shutdown of Windows.  If the
--mirrors are not clean, you can specify the "sync" option instead of "nosync"
--and the Device-Mapper driver will then copy the entirety of the "Source Device"
--to the "Target Device" or if you specified multiple target devices to all of
--them.
--
--Once you have your table, save it in a file somewhere (e.g. /etc/ntfsvolume1),
--and hand it over to dmsetup to work with, like so::
--
--    $ dmsetup create myvolume1 /etc/ntfsvolume1
--
--You can obviously replace "myvolume1" with whatever name you like.
--
--If it all worked, you will now have the device /dev/device-mapper/myvolume1
--which you can then just use as an argument to the mount command as usual to
--mount the ntfs volume.  For example::
--
--    $ mount -t ntfs -o ro /dev/device-mapper/myvolume1 /mnt/myvol1
--
--(You need to create the directory /mnt/myvol1 first and of course you can use
--anything you like instead of /mnt/myvol1 as long as it is an existing
--directory.)
--
--It is advisable to do the mount read-only to see if the volume has been setup
--correctly to avoid the possibility of causing damage to the data on the ntfs
--volume.
--
--
--The Software RAID / MD driver
-------------------------------
--
--An alternative to using the Device-Mapper driver is to use the kernel's
--Software RAID / MD driver.  For which you need to set up your /etc/raidtab
--appropriately (see man 5 raidtab).
--
--Linear volume sets, i.e. linear raid, as well as stripe sets, i.e. raid level
--0, have been tested and work fine (though see section "Limitations when using
--the MD driver with NTFS volumes" especially if you want to use linear raid).
--Even though untested, there is no reason why mirrors, i.e. raid level 1, and
--stripes with parity, i.e. raid level 5, should not work, too.
--
--You have to use the "persistent-superblock 0" option for each raid-disk in the
--NTFS volume/stripe you are configuring in /etc/raidtab as the persistent
--superblock used by the MD driver would damage the NTFS volume.
--
--Windows by default uses a stripe chunk size of 64k, so you probably want the
--"chunk-size 64k" option for each raid-disk, too.
--
--For example, if you have a stripe set consisting of two partitions /dev/hda5
--and /dev/hdb1 your /etc/raidtab would look like this::
--
--    raiddev /dev/md0
--	    raid-level	0
--	    nr-raid-disks	2
--	    nr-spare-disks	0
--	    persistent-superblock	0
--	    chunk-size	64k
--	    device		/dev/hda5
--	    raid-disk	0
--	    device		/dev/hdb1
--	    raid-disk	1
--
--For linear raid, just change the raid-level above to "raid-level linear", for
--mirrors, change it to "raid-level 1", and for stripe sets with parity, change
--it to "raid-level 5".
--
--Note for stripe sets with parity you will also need to tell the MD driver
--which parity algorithm to use by specifying the option "parity-algorithm
--which", where you need to replace "which" with the name of the algorithm to
--use (see man 5 raidtab for available algorithms) and you will have to try the
--different available algorithms until you find one that works.  Make sure you
--are working read-only when playing with this as you may damage your data
--otherwise.  If you find which algorithm works please let us know (email the
--linux-ntfs developers list linux-ntfs-dev@lists.sourceforge.net or drop in on
--IRC in channel #ntfs on the irc.freenode.net network) so we can update this
--documentation.
--
--Once the raidtab is setup, run for example raid0run -a to start all devices or
--raid0run /dev/md0 to start a particular md device, in this case /dev/md0.
--
--Then just use the mount command as usual to mount the ntfs volume using for
--example::
--
--    mount -t ntfs -o ro /dev/md0 /mnt/myntfsvolume
--
--It is advisable to do the mount read-only to see if the md volume has been
--setup correctly to avoid the possibility of causing damage to the data on the
--ntfs volume.
--
--
--Limitations when using the Software RAID / MD driver
-------------------------------------------------------
--
--Using the md driver will not work properly if any of your NTFS partitions have
--an odd number of sectors.  This is especially important for linear raid as all
--data after the first partition with an odd number of sectors will be offset by
--one or more sectors so if you mount such a partition with write support you
--will cause massive damage to the data on the volume which will only become
--apparent when you try to use the volume again under Windows.
--
--So when using linear raid, make sure that all your partitions have an even
--number of sectors BEFORE attempting to use it.  You have been warned!
--
--Even better is to simply use the Device-Mapper for linear raid and then you do
--not have this problem with odd numbers of sectors.
-+dmask=                  Instead of specifying umask which applies both to
-+                        files and directories, fmask applies only to files
-+                        and dmask only to directories.
-+
-+showmeta=<BOOL>
-+show_sys_files=<BOOL>   If show_sys_files is specified, show the system
-+                        files in directory listings.  Otherwise the default
-+                        behaviour is to hide the system files.
-+                        Note that even when show_sys_files is specified,
-+                        "$MFT" will not be visible due to bugs/mis-features
-+                        in glibc. Further, note that irrespective of
-+                        show_sys_files, all files are accessible by name,
-+                        i.e. you can always do "ls -l \$UpCase" for example
-+                        to specifically show the system file containing
-+                        the Unicode upcase table.
-+
-+case_sensitive=<BOOL>   If case_sensitive is specified, treat all filenames
-+                        as case sensitive and create file names in
-+                        the POSIX namespace (default behavior). Note,
-+                        the Linux NTFS driver will never create short
-+                        filenames and will remove them on rename/delete of
-+                        the corresponding long file name. Note that files
-+                        remain accessible via their short file name, if it
-+                        exists.
-+
-+nocase=<BOOL>           If nocase is specified, treat filenames
-+                        case-insensitively.
-+
-+disable_sparse=<BOOL>   If disable_sparse is specified, creation of sparse
-+                        regions, i.e. holes, inside files is disabled for
-+                        the volume (for the duration of this mount only).
-+                        By default, creation of sparse regions is enabled,
-+                        which is consistent with the behaviour of
-+                        traditional Unix filesystems.
-+
-+errors=opt              Specify NTFS behavior on critical errors: panic,
-+                        remount the partition in read-only mode or
-+                        continue without doing anything (default behavior).
-+
-+mft_zone_multiplier=    Set the MFT zone multiplier for the volume (this
-+                        setting is not persistent across mounts and can be
-+                        changed from mount to mount but cannot be changed
-+                        on remount).  Values of 1 to 4 are allowed, 1 being
-+                        the default.  The MFT zone multiplier determines
-+                        how much space is reserved for the MFT on the
-+                        volume.  If all other space is used up, then the
-+                        MFT zone will be shrunk dynamically, so this has no
-+                        impact on the amount of free space.  However, it
-+                        can have an impact on performance by affecting
-+                        fragmentation of the MFT. In general use the
-+                        default.  If you have a lot of small files then use
-+                        a higher value.  The values have the following
-+                        meaning:
-+
-+                        =====   =================================
-+                        Value   MFT zone size (% of volume size)
-+                        =====   =================================
-+                          1             12.5%
-+                          2             25%
-+                          3             37.5%
-+                          4             50%
-+                        =====   =================================
-+
-+                        Note this option is irrelevant for read-only mount.
-+
-+preallocated_size=      Set preallocated size to optimize runlist merge
-+                        overhead with small chunck size.(64KB size by
-+                        default)
-+
-+acl=<BOOL>              Enable POSIX ACL support. When specified, POSIX
-+                        ACLs stored in extended attributes are enforced.
-+                        Default is off. Requires kernel config
-+                        NTFS_FS_POSIX_ACL enabled.
-+
-+sys_immutable=<BOOL>    Make NTFS system files (e.g. $MFT, $LogFile,
-+                        $Bitmap, $UpCase, etc.) immutable to user initiated
-+                        modifications for extra safety. Default is off.
-+
-+nohidden=<BOOL>         Hide files and directories marked with the Windows
-+                        "hidden" attribute. By default hidden items are
-+                        shown.
-+
-+hide_dot_files=<BOOL>   Hide names beginning with a dot ("."). By default
-+                        dot files are shown. When enabled, files and
-+                        directories created with a leading '.' will be
-+                        hidden from directory listings.
-+
-+windows_names=<BOOL>    Refuse creation/rename of files with characters or
-+                        reserved device names disallowed on Windows (e.g.
-+                        CON, NUL, AUX, COM1, LPT1, etc.). Default is off.
-+discard=<BOOL>          Issue block device discard for clusters freed on
-+                        file deletion/truncation to inform underlying
-+                        storage.
-+======================= ==================================================
--- 
-2.25.1
-
+T24gMTIvMDIvMjAyNiAyMDowMywgSm9zZWYgQmFjaWsgd3JvdGU6DQo+IE9uIFRodSwgRmViIDEy
+LCAyMDI2IGF0IDEyOjM34oCvUE0gQW1pciBHb2xkc3RlaW4gPGFtaXI3M2lsQGdtYWlsLmNvbT4g
+d3JvdGU6DQo+Pg0KPj4gT24gVGh1LCBGZWIgMTIsIDIwMjYgYXQgNzozMuKAr1BNIEpvc2VmIEJh
+Y2lrIDxqb3NlZkB0b3hpY3BhbmRhLmNvbT4gd3JvdGU6DQo+Pj4NCj4+PiBPbiBUaHUsIEZlYiAx
+MiwgMjAyNiBhdCAxMTo0MuKAr0FNIEpvaGFubmVzIFRodW1zaGlybg0KPj4+IDxKb2hhbm5lcy5U
+aHVtc2hpcm5Ad2RjLmNvbT4gd3JvdGU6DQo+Pj4+DQo+Pj4+IE9uIDIvMTIvMjYgMjo0MiBQTSwg
+SGFucyBIb2xtYmVyZyB3cm90ZToNCj4+Pj4+IEhpIGFsbCwNCj4+Pj4+DQo+Pj4+PiBJJ2QgbGlr
+ZSB0byBwcm9wb3NlIGEgdG9waWMgb24gZmlsZSBzeXN0ZW0gYmVuY2htYXJraW5nOg0KPj4+Pj4N
+Cj4+Pj4+IENhbiB3ZSBlc3RhYmxpc2ggYSBjb21tb24gcHJvamVjdChsaWtlIHhmc3Rlc3RzLCBi
+bGt0ZXN0cykgZm9yDQo+Pj4+PiBtZWFzdXJpbmcgZmlsZSBzeXN0ZW0gcGVyZm9ybWFuY2U/IFRo
+ZSBpZGVhIGlzIHRvIHNoYXJlIGEgY29tbW9uIGJhc2UNCj4+Pj4+IGNvbnRhaW5pbmcgcGVlci1y
+ZXZpZXdlZCB3b3JrbG9hZHMgYW5kIHNjcmlwdHMgdG8gcnVuIHRoZXNlLCBjb2xsZWN0IGFuZA0K
+Pj4+Pj4gc3RvcmUgcmVzdWx0cy4NCj4+Pj4+DQo+Pj4+PiBCZW5jaG1hcmtpbmcgaXMgaGFyZCBo
+YXJkIGhhcmQsIGxldCdzIHNoYXJlIHRoZSBidXJkZW4hDQo+Pj4+DQo+Pj4+IERlZmluaXRlbHkg
+SSdtIGFsbCBpbiENCj4+Pj4NCj4+Pj4+IEEgc2hhcmVkIHByb2plY3Qgd291bGQgcmVtb3ZlIHRo
+ZSBuZWVkIGZvciBldmVyeW9uZSB0byBjb29rIHVwIHRoZWlyDQo+Pj4+PiBvd24gZnJhbWV3b3Jr
+cyBhbmQgaGVscCBkZWZpbmUgYSBzZXQgb2Ygd29ya2xvYWRzIHRoYXQgdGhlIGNvbW11bml0eQ0K
+Pj4+Pj4gY2FyZXMgYWJvdXQuDQo+Pj4+Pg0KPj4+Pj4gTXlzZWxmLCBJIHdhbnQgdG8gZW5zdXJl
+IHRoYXQgYW55IG9wdGltaXphdGlvbnMgSSB3b3JrIG9uOg0KPj4+Pj4NCj4+Pj4+IDEpIERvIG5v
+dCBpbnRyb2R1Y2UgcmVncmVzc2lvbnMgaW4gcGVyZm9ybWFuY2UgZWxzZXdoZXJlIGJlZm9yZSBJ
+DQo+Pj4+PiAgICAgc3VibWl0IHBhdGNoZXMNCj4+Pj4+IDIpIENhbiBiZSByZWxpYWJseSByZXBy
+b2R1Y2VkLCB2ZXJpZmllZCwgYW5kIHJlZ3Jlc3Npb27igJF0ZXN0ZWQgYnkgdGhlDQo+Pj4+PiAg
+ICAgY29tbXVuaXR5DQo+Pj4+Pg0KPj4+Pj4gVGhlIGZvY3VzLCBJIHRoaW5rLCB3b3VsZCBmaXJz
+dCBiZSBvbiBzeW50aGV0aWMgd29ya2xvYWRzIChlLmcuIGZpbykNCj4+Pj4+IGJ1dCBpdCBjb3Vs
+ZCBleHBhbmRlZCB0byBydW5uaW5nIGFwcGxpY2F0aW9uIGFuZCBkYXRhYmFzZSB3b3JrbG9hZHMN
+Cj4+Pj4+IChlLmcuIFJvY2tzREIpLg0KPj4+Pj4NCj4+Pj4+IFRoZSBmc3BlcmZbMV0gcHJvamVj
+dCBpcyBhIHB5dGhvbi1iYXNlZCBpbXBsZW1lbnRhdGlvbiBmb3IgZmlsZSBzeXN0ZW0NCj4+Pj4+
+IGJlbmNobWFya2luZyB0aGF0IHdlIGNhbiB1c2UgYXMgYSBiYXNlIGZvciB0aGUgZGlzY3Vzc2lv
+bi4NCj4+Pj4+IFRoZXJlIGFyZSBwcm9iYWJseSBvdGhlcnMgb3V0IHRoZXJlIGFzIHdlbGwuDQo+
+Pj4+Pg0KPj4+Pj4gWzFdIGh0dHBzOi8vZ2l0aHViLmNvbS9qb3NlZmJhY2lrL2ZzcGVyZg0KPj4+
+Pg0KPj4+PiBJIHdhcyBhYm91dCB0byBtZW50aW9uIEpvc2VmJ3MgZnNwZXJmIHByb2plY3QuIFdl
+IGFsc28gdXNlZCB0byBoYXZlIHNvbWUNCj4+Pj4gc29ydCBvZiBhIGRhc2hib2FyZCBmb3IgZnNw
+ZXJmIHJlc3VsdHMgZm9yIEJUUkZTLCBidXQgdGhhdCB2YW5pc2hlZA0KPj4+PiB0b2dldGhlciB3
+aXRoIEpvc2VmLg0KPj4+Pg0KPj4+PiBBIGNvbW1vbiBkYXNoYm9hcmQgd2l0aCBwZXIgd29ya2xv
+YWQgc3RhdGlzdGljcyBmb3IgZGlmZmVyZW50DQo+Pj4+IGZpbGVzeXN0ZW1zIHdvdWxkIGJlIGEg
+Z3JlYXQgdGhpbmcgdG8gaGF2ZSwgYnV0IGZvciB0aGF0IHRvIHdvcmssIHdlJ2QNCj4+Pj4gbmVl
+ZCBkaWZmZXJlbnQgaGFyZHdhcmUgYW5kIHByb2JhYmx5IHRoZSB2ZW5kb3JzIG9mIHNhaWQgaGFy
+ZHdhcmUgdG8gYnV5DQo+Pj4+IGluIGludG8gaXQuDQo+Pj4+DQo+Pj4+IEZvciBkZXZlbG9wZXJz
+IGl0IHdvdWxkIGJlIGEgYmVuZWZpdCB0byBzZWUgZXZlbnR1YWwgcmVncmVzc2lvbnMgYW5kDQo+
+Pj4+IG92ZXJhbGwgd2VhayBwb2ludHMsIGZvciB1c2VycyBpdCB3b3VsZCBiZSBhIG5pY2UgdG9v
+bCB0byBzZWUgd2hhdCBGUyB0bw0KPj4+PiBwaWNrIGZvciB3aGF0IHdvcmtsb2FkLg0KPj4+Pg0K
+Pj4+PiBCVVQgc29tZW9uZSBoYXMgdG8gZG8gdGhlIGpvYiBzZXR0aW5nIGV2ZXJ5dGhpbmcgdXAg
+YW5kIG1haW50YWluaW5nIGl0Lg0KPj4+Pg0KPj4+DQo+Pj4gSSdtIHN0aWxsIGhlcmUsIHRoZSBk
+YXNoYm9hcmQgZGlzYXBwZWFyZWQgYmVjYXVzZSB0aGUgZHJpdmVzIGRpZWQsIGFuZA0KPj4+IGFs
+dGhvdWdoIHRoZSBoaXN0b3J5IGlzIGludGVyZXN0aW5nIGl0IGRpZG4ndCBzZWVtIGxpa2Ugd2Ug
+d2VyZSB1c2luZw0KPj4+IGl0IG11Y2guIFRoZSBBL0IgdGVzdGluZyBwYXJ0IG9mIGZzcGVyZiBz
+dGlsbCBpcyBiZWluZyB1c2VkIHJlZ3VsYXJseQ0KPj4+IGFzIGZhciBhcyBJIGNhbiB0ZWxsLg0K
+Pj4+DQo+Pj4gQnV0IHllYWggbWFpbnRhaW5pbmcgYSBkYXNoYm9hcmQgaXMgYWx3YXlzIHRoZSBo
+YXJkZXN0IHBhcnQsIGJlY2F1c2UNCj4+PiBpdCBtZWFucyBzZXR0aW5nIHVwIGEgd2Vic2l0ZSBz
+b21ld2hlcmUgYW5kIGEgd2F5IHRvIHN5bmMgdGhlIHBhZ2VzLg0KPj4+IFdoYXQgSSBoYWQgZm9y
+IGZzcGVyZiB3YXMgcXVpdGUgamFua3ksIGJhc2ljYWxseSBJJ2QgcnVuIGl0IGV2ZXJ5DQo+Pj4g
+bmlnaHQsIGdlbmVyYXRlIHRoZSBuZXcgcmVwb3J0IHBhZ2VzLCBhbmQgc2NwIHRoZW0gdG8gdGhl
+IFZQUyBJIGhhZC4NCj4+PiBXaXRoIENsYXVkZSB3ZSBjb3VsZCBwcm9iYWJseSBjb21lIHVwIHdp
+dGggYSBiZXR0ZXIgd2F5IHRvIGRvIHRoaXMNCj4+PiBxdWlja2x5LCBzaW5jZSBJJ20gY2xlYXJs
+eSBub3QgYSB3ZWIgZGV2ZWxvcGVyLiBUaGF0IGJlaW5nIHNhaWQgd2UNCj4+PiBzdGlsbCBoYXZl
+IHRvIGhhdmUgc29tZXBsYWNlIHRvIHB1dCBpdCwgYW5kIGhhdmUgc29tZSBzb3J0IG9mIGhhcmR3
+YXJlDQo+Pj4gdGhhdCBydW5zIHN0dWZmIGNvbnNpc3RlbnRseS4NCj4+Pg0KPj4NCj4+IFRoYXQn
+cyB0aGUgbWFpbiBwb2ludCBJTU8uDQo+Pg0KPj4gUGVyZiByZWdyZXNzaW9uIHRlc3RzIG11c3Qg
+cmVseSBvbiBjb25zaXN0ZW50IGhhcmR3YXJlIHNldHVwcy4NCj4+IElmIHdlIGRvIG5vdCBoYXZl
+IG9yZ2FuaXphdGlvbnMgdG8gZnVuZC9kb25hdGUgdGhpcyBoYXJkd2FyZSBhbmQgcHV0IGluDQo+
+PiB0aGUgZW5naW5lZXJpbmcgZWZmb3J0IHRvIGRyaXZlIGl0LCB0YWxraW5nIGFib3V0IFdIQVQg
+dG8gcnVuIGluIExTRk1NDQo+PiBpcyB1c2VsZXNzIElNTy4NCj4+DQo+PiBUaGUgZmFjdCB0aGF0
+IHRoZXJlIGlzIHN0aWxsIGEgc2luZ2xlIHRlc3QgaW4gZnN0ZXN0cy90ZXN0cy9wZXJmIHNpbmNl
+IDIwMTcNCj4+IHNheXMgaXQgYWxsIC0gaXQncyBub3QgYWJvdXQgbGFjayBvZiB0ZXN0cyB0byBy
+dW4sIGl0IGlzIGFib3V0IGxhY2sgb2YgcmVzb3VyY2VzDQo+PiBhbmQgdGhpcyBpcyBub3QgdGhl
+IHNvcnQgb2YgdGhpbmcgdGhhdCBnZXRzIHJlc29sdmVkIGluIExTRk1NIGRpc2N1c3Npb24gSU1P
+Lg0KDQpBbWlyLCBub3Qgc3VyZSB0aGF0IGkgZm9sbG93IHlvdSBoZXJlLCB0aGF0IHNpbmdsZSB0
+ZXN0IGlzIGNlcnRhaW5seSBub3QNCmVub3VnaCB0byBtb3RpdmF0ZSBpbnZlc3RtZW50cyBpbiBy
+ZXNvdXJjZXMgdG8gcnVuIGl0IDopDQoNCkJ1dCBtYXliZSB5b3UgcmVmZXIgdG8gYXZhaWxhYmxl
+IGZzIGJlbmNobWFya2luZyBlbHNld2hlcmU/DQpXaGVyZSB3b3VsZCB5b3UgcG9pbnQgcGVvcGxl
+IHRvIGZvciBhZGRpbmcgbmV3IGJlbmNobWFya3M/IG1tdGVzdHM/DQoNCj4+DQo+IA0KPiBXZWxs
+IHRoYXQncyBiZWNhdXNlIGdldHRpbmcgY29kZSBpbnRvIGZzdGVzdHMgaXMgbWlzZXJhYmxlLCBz
+byB3ZSBqdXN0DQo+IHdvcmtlZCBvbiBmc3BlcmYgb3V0c2lkZSBvZiBmc3Rlc3RzLiBXZSd2ZSBh
+ZGRlZCBhIGZhaXIgbnVtYmVyIG9mDQo+IHRlc3RzLCBhIGdvb2QgYml0IG9mIGluZnJhc3RydWN0
+dXJlIHRvIGRvIGRpZmZlcmVudCB0aGluZ3MgYW5kIGNvbGxlY3QNCj4gZGlmZmVyZW50IG1ldHJp
+Y3MsIGV2ZW4gcnVuIGJwZiBzY3JpcHRzIHRvIGdldCBhZGRpdGlvbmFsIG1ldHJpY3MuDQoNCkpv
+c2VmLCBkaWQgeW91IGNvbnNpZGVyIGV4dGVuZGluZyBtbXRlc3RzIGluIHN0ZWFkIG9mIGNyZWF0
+aW5nIGZzcGVyZj8NCg0KPiANCj4gSGFyZHdhcmUgaXMgYWx3YXlzIGEgcHJvYmxlbSwgdGhhdCdz
+IHdoeSBJIHRoaW5rIGl0J3MgYmV0dGVyIHRvIGp1c3QNCj4gdXNlIHRoaXMgc3R1ZmYgYXMgQS9C
+IHRlc3RpbmcuIE1ha2luZyBpdCBlYXN5IHRvIHJ1biBtZWFucyB3ZSBjYW4gaGF2ZQ0KPiBhIGNv
+bnNpc3RlbnQgdG9vbCB0byBydW4gb24gZGlmZmVyZW50IG1hY2hpbmVzIHRoYXQgbWF5IGhhdmUg
+ZGlmZmVyZW50DQo+IGNoYXJhY3RlcmlzdGljcy4gSSBjYW4gdmFsaWRhdGUgbXkgZml4IHdvcmtz
+IGdvb2Qgb24gbXkgTlZNRSBkcml2ZSwNCj4gYnV0IHRoZW4gSm9oYW5uZXMgY2FuIHJ1biBvbiB0
+aGVpciBaTlMgZHJpdmVzIGFuZCBzZWUgaXQgcmVncmVzc2VzLA0KPiBhbmQgdGhlbiB3ZSBoYXZl
+IGEgY29uc2lzdGVudCB0ZXN0IHRvIGdvIGJhY2sgYW5kIGZvcnRoIGFuZCB3b3JrIHdpdGgNCj4g
+dG8gZ2V0IHRvIGEgZml4LiAgVGhhbmtzLA0KPiANCg0KWWVhaCwgSSB0b28gZmluZCBmc3BlcmYg
+cmVhbGx5IHVzZWZ1bCBmb3IgQS9CIHRlc3RpbmcuIEl0IGlzIGFsc28gcmVsYXRpdmVseQ0KZWFz
+eSB0byBleHRlbmQgYW5kIGZvY3VzZWQgc29sZWx5IG9uIGZpbGUgc3lzdGVtIHBlcmZvcm1hbmNl
+Lg0KDQo=
