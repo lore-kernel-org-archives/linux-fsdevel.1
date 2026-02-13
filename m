@@ -1,72 +1,83 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20EDB285C98
-	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Feb 2026 23:41:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42CFB3EBF2A;
+	Fri, 13 Feb 2026 23:45:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771026063; cv=none; b=L4oBeWmubiMOlzVG+mlj+H1Tk2cfbWdo41elof+McUPQoH+1vhiC5nwh2QB8HMqBc9xstzzuIxHp4qjPlWWCJvdocFJDEe4pmIcYKJrTHx1/7VpzrpjLKnzLLVPtUBYUWeLramkTDBPkeYODsc4TVt0shgCZXT1cTGIRjaMO7nI=
+	t=1771026348; cv=none; b=Dp8BtGEiCvl6je9vC7w68c1b/oc4U9vpnF4eqU6AdQWVrmlWXfmmgn2BLzVtbDO30YKiHxlnAK7cWYte1jbSOfzKsveJ8DdXCXVFvg8yrqrG2jCnz5D29Z4PYAWwsaxBX67KoI95iGxCGP10BWHda4q91hhsJlrWzLXneQ7JLzg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771026063; c=relaxed/simple;
-	bh=nVAg5uymM79Q8Tpw7L7KHUmUEf+4b1gxzpGaMJnK8fQ=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=e3f5HPb490mWNyztfoOUU+m7QUDDsv/nO3xMv9OQTY+h6Skh1dRLxvkykvn9IGdIbb8CFfPfJCT2S9CBnqJ/Yj75fdR0dcInlJTilhAtcm+ECgbAyQWUBFbriv8gRUGfdFbla5wFXLNIoWXdTm/2JP0T6CGeLenWtQ3+XVmSAPo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=fCtNIvJO; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	s=arc-20240116; t=1771026348; c=relaxed/simple;
+	bh=EWfaKJCaJC2GErydog5q9S65WnGr3OmrX5J6uwCpiPk=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=JMCR7mpFeV9giA2eyIEgYs0kvALAUyNtrkdzAyGApdq80NGEb3+XA3/Zyw1V6twUK3ebBWtkCUgyd6/v4qWpV+gIJX+DnswhHBYyIImm3DtFBHiut981Vbh9BregkCrYKaK+oeoUYFIh8JvSdvGp4XfTyAoRJDd8ZxqSYZC8uho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GZ6LJlyZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="fCtNIvJO"
-Received: from ehlo.thunderbird.net (c-76-133-66-138.hsd1.ca.comcast.net [76.133.66.138])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 61DNeg351039255
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Fri, 13 Feb 2026 15:40:42 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 61DNeg351039255
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2026012301; t=1771026043;
-	bh=ewsxZNzSz/YSBTA/lR3Wy3Wj0hJvTFd5ZNSmuQThrNo=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=fCtNIvJOJ9L41qIkZAqFw3yrSbA4ny3+Fnx76rnzBgdikMP8roWxJpJ5WJNkgS8c3
-	 0TfU0ra0rhjmcM6fd5qYzfDoF1+bqACy2wIbqh8gQOySUnIQWaV3UNMLgUMGlIu30V
-	 dEmu8BCvfrAuaKBHVRMvYmvUr0/3pvScIMPUbdgyfXPp+buJj5xCxd1ZOWbOzzyGD7
-	 SGQhWW2N1itZA0PW/ED4DvMkzrPp+Y9Z2nWrXCvWE/JE4TIdOwBPb1UKvzOxoxHsV2
-	 SSmqIQNMkOpNnro1/kF+oInAla5SalmPSGGlePwSk7+xGWzVHsBAOVSGPC1rjp8Frp
-	 qPHYH1d1/QNPg==
-Date: Fri, 13 Feb 2026 15:40:37 -0800
-From: "H. Peter Anvin" <hpa@zytor.com>
-To: Al Viro <viro@zeniv.linux.org.uk>
-CC: Askar Safin <safinaskar@gmail.com>, christian@brauner.io,
-        cyphar@cyphar.com, jack@suse.cz, linux-fsdevel@vger.kernel.org,
-        torvalds@linux-foundation.org, werner@almesberger.net
-Subject: Re: [RFC] pivot_root(2) races
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20260213234147.GS3183987@ZenIV>
-References: <1FC2FB1F-BDA5-472D-A7DB-D146F6F75B16@zytor.com> <20260213174721.132662-1-safinaskar@gmail.com> <1caf6a70-e49b-42c7-81d0-bd0d6f5027bf@zytor.com> <20260213222521.GQ3183987@ZenIV> <92837188-C667-4A2A-9D34-85E5F1A5D597@zytor.com> <20260213234147.GS3183987@ZenIV>
-Message-ID: <5F1429A9-A1BF-4FF1-A33F-4CE29C423419@zytor.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GZ6LJlyZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9850FC116C6;
+	Fri, 13 Feb 2026 23:45:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771026347;
+	bh=EWfaKJCaJC2GErydog5q9S65WnGr3OmrX5J6uwCpiPk=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=GZ6LJlyZWLf4CDD5S/zkdrpwC2BXwCpeTxgo1tIB1sIcZco7UXK8Hdj4gaVXMxXwz
+	 IyqXcv7lo9oeR//v00ELuNg66qlpw9bzGf7XqxUsNZMUy2EUCuPJfnzRQ1UU8fcLlH
+	 XG3ptvUaXIezNwP1k8g2s9vlYWAy5TLqIVLvJpQllknBDZYAWaxwdcpzqzL9a8DSFM
+	 vnZGWriKQS6uWTi8U36rK9OmdRe3GVAcGatiya2g+PIQbWFkJZLl68iGfdtr/ckr+d
+	 tNCTSaRznDdLmk0AHz72k2L6ZggIyYEgpgkRpO+AMCQt8ZOgVU9i01qo8tS+bjd69S
+	 YnCUoqkY9aHvg==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 852673811A44;
+	Fri, 13 Feb 2026 23:45:42 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH mm-hotfixes-stable] procfs: fix possible double mmput() in
+ do_procmap_query()
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <177102634133.2575868.4556838261873713161.git-patchwork-notify@kernel.org>
+Date: Fri, 13 Feb 2026 23:45:41 +0000
+References: <20260210192738.3041609-1-andrii@kernel.org>
+In-Reply-To: <20260210192738.3041609-1-andrii@kernel.org>
+To: Andrii Nakryiko <andrii@kernel.org>
+Cc: akpm@linux-foundation.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, bpf@vger.kernel.org, surenb@google.com,
+ shakeel.butt@linux.dev, ruikai@pwno.io, tglx@kernel.org,
+ syzbot+237b5b985b78c1da9600@syzkaller.appspotmail.com
 
-On February 13, 2026 3:41:47 PM PST, Al Viro <viro@zeniv=2Elinux=2Eorg=2Euk=
-> wrote:
->On Fri, Feb 13, 2026 at 03:00:49PM -0800, H=2E Peter Anvin wrote:
->
->> Incidentally, how is =2E treated?
->
->Explicit no-op at any point of pathname=2E  "=2E=2E" is
->	while dentry =3D=3D root(mount) && (mount,dentry) !=3D nd->root
->		(mount,dentry) =3D under(mount, dentry)
->	if (mount,dentry) !=3D nd->root
->		dentry =3D parent(dentry)
->	step_into(dentry)
->and crossing into overmounts (if any) happens in step_into()=2E
->
->See handle_dots() and its callers=2E=2E=2E
+Hello:
 
-Ok, I was just curious=2E
+This patch was applied to bpf/bpf.git (master)
+by Andrew Morton <akpm@linux-foundation.org>:
+
+On Tue, 10 Feb 2026 11:27:38 -0800 you wrote:
+> When user provides incorrectly sized buffer for build ID for PROCMAP_QUERY we
+> return with -ENAMETOOLONG error. After recent changes this condition happens
+> later, after we unlocked mmap_lock/per-VMA lock and did mmput(), so original
+> goto out is now wrong and will double-mmput() mm_struct. Fix by jumping
+> further to clean up only vm_file and name_buf.
+> 
+> Fixes: b5cbacd7f86f ("procfs: avoid fetching build ID while holding VMA lock")
+> Reported-by: Ruikai Peng <ruikai@pwno.io>
+> Reported-by: Thomas Gleixner <tglx@kernel.org>
+> Reported-by: syzbot+237b5b985b78c1da9600@syzkaller.appspotmail.com
+> Signed-off-by: Andrii Nakryiko <andrii@kernel.org>
+> 
+> [...]
+
+Here is the summary with links:
+  - [mm-hotfixes-stable] procfs: fix possible double mmput() in do_procmap_query()
+    https://git.kernel.org/bpf/bpf/c/61dc9f776705
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
