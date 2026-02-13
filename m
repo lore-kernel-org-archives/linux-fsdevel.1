@@ -1,120 +1,72 @@
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com [209.85.161.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 577D1F9C0
-	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Feb 2026 10:34:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A750E2DF146
+	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Feb 2026 10:42:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.70
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770978900; cv=none; b=s3+hNpBfjFtYfHsVICrCHZktq4hoGkMzBTL6eqWK1mqyeiLIE6sdxSt5sJK7lvE+Wm5yAsKmGhkDIuZGSSpNXoC8LmvXOC50Wsis/hCxWyHQsOhrSxAzijyIq0wqHDtcWGQEZOu3lmfZfymwZYsk2nYE3nUFwbhP4Z0RrYObj6U=
+	t=1770979325; cv=none; b=HohuEchmDKM86E90ZH+Z1atXS2WNgFVRWesfi+OJGi6EHQalCX8uuz1KZooxW9yRdpqIHEmJL3TPEDpTPVmFzwGsPuvGwJUkykFrktC1qtL/cgZVzRVh7nIpKsYGxh2Satt/jEI/qWTixV0Dl7/xwJGwj9aiuOoG8YDW4tA3R/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770978900; c=relaxed/simple;
-	bh=vhsH9mtau4Uz2YG/+Z0LgY0/5RXOh+YijD4TJlExTtA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=cqfTvaAuKQw+BgrG6s5ftk5rv+GprUj02c0zYQouLQ02OSPvRTKKnN62BClk01anlDvuNH8oa0ZBvCF7od//VEWIuwW7ckSv/2dfP3Y2xeuJhDDkN2bhbLK6OKDFyDfQSdbtBxegl9WMBhtvj36fXahdwnYwDMDjpdh4dFuLVS8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UvQDHmuG; arc=none smtp.client-ip=209.85.128.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UvQDHmuG"
-Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-48371bb515eso6211155e9.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 13 Feb 2026 02:34:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770978898; x=1771583698; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=huhmJuBCDaJLhpU5/7i3Q5nwShl4MBS9pZW3ziMh3Gw=;
-        b=UvQDHmuGy5nNxSBzHDKswfQMJg4EGSUO7Vxp3uVKj3VR03HPgbaHSi1OlKjiLMxIuB
-         1c2o2y+PvrPepFOm9TFcM2WvNaXpmnTL+Q+nrVc9wjrY9JG1MFIn4XzFsaYEpUyeVFbq
-         nohwHC1f2OfHxDkSRHAGX9Vwi+CUeMhE+XX13REfrdI3CbKOIQmC9xfmGlWWeOZEfWcF
-         04PRudoz8NnNH1pvYkiPMp02RSuIgs9L7iOPSb3HmvjUI+xoxzd07xi8ZRHcLBqmlHa6
-         OGuqi5IuVrPGCKLSXaBt4L2OC5ZmWIfoQB0EL3xs8QG/+3up2a7RmO7yJ2a3GORZ26fn
-         +jpA==
+	s=arc-20240116; t=1770979325; c=relaxed/simple;
+	bh=tu3FIAq9qMCAcEKVg2hAsllav+0DXYBJG+4kr5bOBLQ=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=VO+pcFKd0dovxxNC7gQscm6UZgC86F1Jh8WWh+7q+xwaNZeBUc3wshCKe0x85qmgTri63AhAtb7PbqMIqR7xKm86TguAyRklczGCbkSu0pPy0bAmfsqU20igHG5ubZ+XTC0isgdOfZW3K52u7F9pt+E5Ea/eAVEYWreai2K7bY8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo1-f70.google.com with SMTP id 006d021491bc7-677f78e66ccso61117eaf.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 13 Feb 2026 02:42:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770978898; x=1771583698;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=huhmJuBCDaJLhpU5/7i3Q5nwShl4MBS9pZW3ziMh3Gw=;
-        b=YxeV0AtJim6lzwhjPVcjjFZaRyVfeznhAElFafflCDw+Ay4pz/N0somzt8+bv/OV/L
-         eIeKs4tEYkYS+QFGkYqsqausWOiXmZeKGAN203jfCLE2hzxOOQwG9Izj7yLVnMLSynep
-         f0Tdmh5u6gJZFrjaa5A5PZxF2bjMmUaEDYJKALoqf1v97Me/bz2NCbn7YLrRqmwDXreU
-         AXL9+O20v4gvdEXZm51/YQBrJV3c4UVVAgsJ/PerzA3gLv28GUkET3VOOMhUFhjIHAwN
-         SLQVuGX+YJkJbqpyRdpbqdEvF3cXfNR3mnsvVTrbYRUKtt7yeAdxFTQ9IrK+Oqvh7zIW
-         cW8w==
-X-Forwarded-Encrypted: i=1; AJvYcCVBY3am0kC8ieCblWs3MFjprhEuVjWRCN6IdZmbyvXDBR83HVKocGsm5ACGE/sbyoiAcv+XmMW7Vs74J8gt@vger.kernel.org
-X-Gm-Message-State: AOJu0YwYamU3RF92D9LXirfthV+Z9U1uO3aBw4euLoRnRYlT6nOAv1Om
-	9M3sL2XRPdOcyF9q0Ewd43sbMcsowXpDGZDvzN5btMaIpMyP9OULZnvG
-X-Gm-Gg: AZuq6aK/VtwT553sD1tR2qgQCSmaXtw6JC3Fe69Tf8eJiJqPcTCSAiJdSYjW4FLku9L
-	Ed1Ueqp+D03emNhk3VaeLkA0zpfMUPHEeDTlvv3LTWdJIhOX057OjweYGQaq7ANMUbqug/hxHDl
-	T88TT4nZmIkL+0HA4Wb4Ue8gy4N9xKvGFV124SsC/zgoIRT48qLUbRX5IQOkXTTIqZWuGrcbeNs
-	9pPZl0W2bkWb3FrYKvwa++E8vDzBDXqaiNFt9ORXJPJk/zmmjaKwj6aPzbGKzrl/iByvLqhSqbd
-	KcTjtYkdyXLgqwmBQf9PnQYLTvhhrO9USyPrlxOtuqdhxBm1RnyvCemFn5TjfGvW4OZvbXKJvap
-	uzt/8cf9y6Cg1rNhVkXQmvPlA1oyWCUmJDCFJFEs/3DpYErPC+mOQ6bkbN6nDxqZawmISMTZKlh
-	mVxyGPhagUhzkdzYX2Ni7qVIpBrTJgDnwJShBUQREkf+QEZb5XXujJNJch85E1
-X-Received: by 2002:a05:600c:5246:b0:483:71f7:2782 with SMTP id 5b1f17b1804b1-48373a14406mr21442465e9.12.1770978897621;
-        Fri, 13 Feb 2026 02:34:57 -0800 (PST)
-Received: from lima-ubuntu.hz.ali.com ([47.246.98.214])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43796ac8d46sm5118594f8f.32.2026.02.13.02.34.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Feb 2026 02:34:57 -0800 (PST)
-From: Qing Wang <wangqing7171@gmail.com>
-To: b.sachdev1904@gmail.com
-Cc: avagin@gmail.com,
-	brauner@kernel.org,
-	jack@suse.cz,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	ptikhomirov@virtuozzo.com,
-	syzbot+9e03a9535ea65f687a44@syzkaller.appspotmail.com,
-	viro@zeniv.linux.org.uk,
-	wangqing7171@gmail.com
-Subject: Re: Re: [PATCH] statmount: Fix the null-ptr-deref in do_statmount()
-Date: Fri, 13 Feb 2026 18:34:48 +0800
-Message-Id: <20260213103448.2474564-1-wangqing7171@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <DGDQFGJLPLU0.19QNB0MQLITQO@gmail.com>
-References: <DGDQFGJLPLU0.19QNB0MQLITQO@gmail.com>
+        d=1e100.net; s=20230601; t=1770979322; x=1771584122;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tFQzNQR/qmPz49C0Lv5yYKa+CubjQy/ZMokykimNfyo=;
+        b=wfUSeczJEeF1mT+D3GrWbrcxHncq5/nAoQ3EJbWnoZ9T9kulHx7HJmGBZMAAR9DPJS
+         AkAkEqaTIlz0j3FK+3zWcQJogrHXf2Q+qgpyW0DPUzU4eHREmkUcCwmjBtPPXOF4h4B2
+         yyjz6cv05S2ia1MpjBTachCwNKan/C2llKm2hm8nj7alXPNdQfESI2c9MxhBqJuH0e1G
+         uLEk3aTrdRV3phLcnKSRfpADv6IQ0s/uWMymlafv3NCOWgj7Xwwt+1GssWQgGOHtew66
+         yUheLx2OEXiB8Gv9tvG3TECWsCtYNMa9MkzA133VwvX+dzY1uU0DUeF+NaFa9FMmztcV
+         E1Xw==
+X-Forwarded-Encrypted: i=1; AJvYcCXqosK3OqHQg94pRqXhM0nqFZ7MOTXcTNj2NDXgmR1IOlMu5iHnvIgnukNlpi8ql7rC6j8EqYNo5sfOFuhg@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxi9Q1RwC3LbAhol8rCke+pI9d0bC7oq0swXPE1N3y5Wr9uhhF9
+	YOrlmrda4OmshldRePjSj63PSVnqBtt6IxkFBTjqsv4beNf8LBTWpWOXkWDXI0jNsim3foXNrO8
+	ljxE77yZJETwtYIDHATTxN+tcChn4dSVGn/quSjRF3XQd1wLpNaRg012FN+A=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6820:4c89:b0:662:bf74:ebaa with SMTP id
+ 006d021491bc7-67768bd4a3cmr556699eaf.54.1770979322701; Fri, 13 Feb 2026
+ 02:42:02 -0800 (PST)
+Date: Fri, 13 Feb 2026 02:42:02 -0800
+In-Reply-To: <20260213101730.2466521-1-wangqing7171@gmail.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <698efffa.a70a0220.2c38d7.00c0.GAE@google.com>
+Subject: Re: [syzbot] [fs?] general protection fault in grab_requested_root
+From: syzbot <syzbot+9e03a9535ea65f687a44@syzkaller.appspotmail.com>
+To: brauner@kernel.org, jack@suse.cz, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com, 
+	viro@zeniv.linux.org.uk, wangqing7171@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 13 Feb 2026 at 17:38, "Bhavik Sachdev" <b.sachdev1904@gmail.com> wrote:
-> Hey!
-> I think the fix should be the following instead, AFAIU we don't want a
-> call to an internal mount to succeed.
-> 
-> diff --git a/fs/namespace.c b/fs/namespace.c
-> index a67cbe42746d..55152bf64785 100644
-> --- a/fs/namespace.c
-> +++ b/fs/namespace.c
-> @@ -5678,6 +5678,8 @@ static int do_statmount(struct kstatmount *s, u64 mnt=
-> _id, u64 mnt_ns_id,
-> 
->                 s->mnt =3D mnt_file->f_path.mnt;
->                 ns =3D real_mount(s->mnt)->mnt_ns;
-> +               if (IS_ERR(ns))
-> +                       return -EINVAL;
->                 if (!ns)
->                         /*
->                          * We can't set mount point and mnt_ns_id since we =
-> don't have a
-> 
-> Thanks,
-> Bhavik
+Hello,
 
-I had considered returning an error code before but finally decided to
-not. Thank you for your suggestion, I agree with it and resend the patch
-v3 [0].
+syzbot has tested the proposed patch and the reproducer did not trigger any issue:
 
-[0] https://lore.kernel.org/all/20260213103006.2472569-1-wangqing7171@gmail.com/T/
+Reported-by: syzbot+9e03a9535ea65f687a44@syzkaller.appspotmail.com
+Tested-by: syzbot+9e03a9535ea65f687a44@syzkaller.appspotmail.com
 
-Look forward to your review.
+Tested on:
 
----
-Thanks,
-Qing
+commit:         cee73b1e Merge tag 'riscv-for-linus-7.0-mw1' of git://..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=1718be5a580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=fe62ec9519bfdb19
+dashboard link: https://syzkaller.appspot.com/bug?extid=9e03a9535ea65f687a44
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+patch:          https://syzkaller.appspot.com/x/patch.diff?x=13f6e652580000
+
+Note: testing is done by a robot and is best-effort only.
