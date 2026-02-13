@@ -1,70 +1,75 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com [209.85.210.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A8D733DEED
-	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Feb 2026 08:40:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C05033EAEA
+	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Feb 2026 08:43:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770972049; cv=none; b=OMLlNIj18juyiQwaD+Al/Kd7a2Inlea2JJN9YVHWHk1nBmeO+AX4B3JaPiXQWyCcOvuDf2Pupz7SWFOqIe7iw2A2uZgAjg2bawmSSbturigEP1b520GJaGm3oflOlWTsEcj8yb/vtsJ3dW/yqIZAdnHJwjFCgY1hRyBCNW1zKNU=
+	t=1770972188; cv=none; b=sCsOXGEdLSLHquQCmpq3OP5SmCCE2bRK0uuli+0kliBeBQh6Tu8vXNU//zEGJkoWFwBIs6I54DHj04AuR1AgqigtLNdlQvgUHjsQ69QVZQqJ0U5ypc255KIFeHE0F1zRB0BTF0Y8WisAhhEG8W2CFJIR7SSbQ38pL9h4u3lJJds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770972049; c=relaxed/simple;
-	bh=RfcOvw5yN33+tXsa55Q8cuBx0+mtbmhjRrjKaSuxylY=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=X03SWYHxCbdff8SCUEmMhJu3VLaQr/GRKM7yEIRndJKNofmU/qDv+vajOFAzNIM1+EVHZyfzvSoszjbJZf0HvnXvaVC0XJivHFV6EOHrgwlJHHFoFRv6RaMD6lJJwXw81BezecjHQFTiAp/MSpObOakZl7zS++l8jQ9rcg7hpg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
+	s=arc-20240116; t=1770972188; c=relaxed/simple;
+	bh=NxCYqN34WLJTc9Pcc4BBDRodegrRP2eI+h4ZqaAjuug=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ry/hdMV50CKMY05yZSf/WmV9Da1MDr51rHQdHTulCoYCb9xevE3zlbCrEOMava4SIfTCUIhIfDwui0nRp4i5SNX5a5HyfVUF9gGP123GLOBzFxW7MFIzXVNkZm49Txj+lmdX7xfVnMNpHpR01S5QBewbvKTfZUvCfGDaB11zvEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DZJgcu95; arc=none smtp.client-ip=209.85.210.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2a8fba3f769so3052015ad.2
-        for <linux-fsdevel@vger.kernel.org>; Fri, 13 Feb 2026 00:40:48 -0800 (PST)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DZJgcu95"
+Received: by mail-pf1-f196.google.com with SMTP id d2e1a72fcca58-82318b640beso364354b3a.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 13 Feb 2026 00:43:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770972187; x=1771576987; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qKwph4S2MzqY9v322yTKXjJqoikUFMHZn7P1jGTDzr0=;
+        b=DZJgcu95MKY/mqE6xT5ZY7gnkFKKZKpjk3AIys2UsMj0eCuadQqQ+ZfngbDsHuc4d7
+         cV8I4rwPBO/+SPTHmVISPE0KAjzxxj7hlLJY6FajKV62Nn0hPPMlBVCmgUeSLKlIXUlH
+         5RBhwd4eH0WuUm3LBaNgfyfx7dJfXcR3flBFaSWshbk5djd7eiLpEQpLT3j2ptTuSUi+
+         m6thuKA3PyFBNMnyUochOUs/tHKbL0vG+m2a1sFvb/S8CvAGrv1FB5NJzQv2clz+GRu4
+         qHVF8TSrOkGQCmHkWTU9Avd9S9BRl8NiCcjr1v/ldrnvxh1jt9bg/b9krc/adYEJxB1x
+         GsIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770972048; x=1771576848;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=OeHnuiAfBG5nnkXA1A6CIwnItbqrfQoFZ8wRxTD8QCU=;
-        b=IxCtGp/9bzGMeFBUkaZSpawyqNhwcxAMarKWAuggXjmvm1i4EN4WCoSoP2dkjX3S6d
-         wv8Z3pQvp2flLXv5nh+kna98nHIHpPzaKOw/y9EiYqd9es+j6qaBKPziUw+FvJypvLO9
-         ZhXxSuQWxwecfx6Dnmi+FohWZqRpRZDe2f3HtGwjog2LYiquujfeyr2I74IiiZ0ccUIa
-         y2i0fRElBcdsK5p/lYUX2kGkZDRm4zP8zzyOssnw0XD0ltN8I6X6BS43PyuxqczJv7Ec
-         nGNd2frPBh5BfF/uq/9+VRZ6ULvFwC51HGQIi/jFY2QqS0ZIlopnw3YDumLoAy2eHx86
-         liUQ==
-X-Gm-Message-State: AOJu0Yx3JTD2ltDNjHzVql4VAs8DFM/o1mUWczh+XQqt52KpBZAJxOhm
-	qH+FDxDeaSXqr1MCjDSr0sTLU37GEGF1sliY4EvFkk7+UxxYgG7c60N2
-X-Gm-Gg: AZuq6aImDyFpWznYR8JP90TPdNYKV7u9dYknieA1zeVrLiflR5pCQBSQdOoDjdDXeSI
-	xefXFRJRHG1pxJzUJ1mP5kbMBAp3JN02bKarsSsmz3qb1G0CZ+GLcWM/oYE91qsXuRWjFr5Z76W
-	BX3RS7hcaaMXcZKOXxflRprhsxJXsAKLmZklToV+W+Zp3J9pvYpp4J/bpnEdyqkgyu90tATdWDj
-	jSyA76mcqMa76XyJ9kZXVGn7a4bOq4RoiEFQekI9sulGSupPitSdaR9PUE/v0+a34toXpD1uByX
-	0ZfiGtYKU8BrMt6DKFCwyt9RX0T/d+vOhZwT9+pv0lFHPWPuZMpojx/Vbpsk2+sutQtKWXGRCfZ
-	D+c53NEZlWABcMafrueDpGqBmo5OE1UGldTlbHiXCbE3ZgXE4/5FojC3AW9GEvltsDf+L4ddykA
-	NbygNZujQj9DCcM8HMrzMv3kmJm1QMqQYMFFDQVvxl/WdzKLG7
-X-Received: by 2002:a17:902:ea0a:b0:2a9:63de:b374 with SMTP id d9443c01a7336-2ab50521f0dmr11074055ad.3.1770972047655;
-        Fri, 13 Feb 2026 00:40:47 -0800 (PST)
-Received: from localhost.localdomain ([1.227.206.162])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ab2984ad4asm75236495ad.6.2026.02.13.00.40.44
+        d=1e100.net; s=20230601; t=1770972187; x=1771576987;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qKwph4S2MzqY9v322yTKXjJqoikUFMHZn7P1jGTDzr0=;
+        b=YDHaX7c4fJ3uGkK760VnExPuQ3lWqIrsA8urnjmkBmYXXafmU6urGgRnzmp5CCiY+Y
+         LrqfP/e71zbAe2dHewxmXttoCRlusuzoznMgxr5x3FjQg8qlJ8yz8FX56o7ZMQ13txki
+         MKx6fClyp5/iH0OurUNePWrqgRTWB+koRTIbIMVqR4IGISaHLcKNseoqp3eTZWIJj3qe
+         2GlfNsI0g1De55HL4+CGnqzPb6muBGE+wDklCyBgn0lwZwR2+HD0Cj9njY7lh7pY2UwK
+         KIr//EDRPq1uvhsKLuYhJIDI1OBRudXJ1xHhDd0m5Pp+iZRE78CM9AVaudjhQwdGyhRN
+         SRVg==
+X-Gm-Message-State: AOJu0YyuQfom0elQ77FYMKuZEar4wb4ZTs31pHwMBwEYZUreRC2p1vRP
+	ZxQjp9KhXUneOcV3Lr/vyz7xK+JQHBkVvsll4D+oiqQT8UiGCcQ/xFTd
+X-Gm-Gg: AZuq6aJ120YUnWbkoFrj2NWy076FKTJJoeOM9WsgFsiqR/kj66pGS4o8qdaylclCe/A
+	ry1892apg+IzZtw6CyPpSR38hztULhUkO6Qo8+iFJ/7BRce8Wyw/VDtUD53KUWdeHa6hByxX2eW
+	rOWsWyJEAHAa4Ixg/qB3oC3aiQ5qz3vEY2SfybpBKXqv5lMvQKIdlIeWvFe5/xaHJEXK2FhXlzs
+	xqT/yyqTzXgvCGiYq0Q6ArT+6hSWiRmhq15k/FFKlEs2PTPld9w1umTHdUcHwbkcvaIbjsBhrFU
+	v0D2WsUFBWlPeOpgG+hHvza1LaTgUeDCnA+GEKWtNKc8VPXtqXYsoMfzBVBPV8pXjZRCvoxDSai
+	S+V9ga3601UKoQXTXh9PJKjAtdoVkFHRwq2N3jSdlpLxYB6RjmPplCoKZn8y6QiJYjQ81vBhyVn
+	qDA/qeSkFAm0AKYNkrvg97jGsBED2XSNU72ug/eGP+jimos/piOg==
+X-Received: by 2002:a05:6a00:6c8a:b0:820:2f9b:fe31 with SMTP id d2e1a72fcca58-824c94efd3emr1305748b3a.30.1770972186853;
+        Fri, 13 Feb 2026 00:43:06 -0800 (PST)
+Received: from lima-ubuntu.hz.ali.com ([47.246.98.214])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-824c6a62c48sm1695723b3a.29.2026.02.13.00.43.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Feb 2026 00:40:46 -0800 (PST)
-From: Namjae Jeon <linkinjeon@kernel.org>
-To: viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	hch@lst.de,
-	tytso@mit.edu,
-	willy@infradead.org,
-	jack@suse.cz,
-	djwong@kernel.org,
-	dsterba@suse.com,
-	pali@kernel.org,
-	amir73il@gmail.com,
-	xiang@kernel.org
+        Fri, 13 Feb 2026 00:43:06 -0800 (PST)
+From: Qing Wang <wangqing7171@gmail.com>
+To: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
+	Bhavik Sachdev <b.sachdev1904@gmail.com>,
+	Andrei Vagin <avagin@gmail.com>
 Cc: linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Anton Altaparmakov <anton@tuxera.com>
-Subject: [PATCH v9 17/17] MAINTAINERS: update ntfs filesystem entry
-Date: Fri, 13 Feb 2026 17:18:04 +0900
-Message-Id: <20260213081804.13351-18-linkinjeon@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260213081804.13351-1-linkinjeon@kernel.org>
-References: <20260213081804.13351-1-linkinjeon@kernel.org>
+	Qing Wang <wangqing7171@gmail.com>,
+	syzbot+9e03a9535ea65f687a44@syzkaller.appspotmail.com
+Subject: [PATCH] statmount: Fix the null-ptr-deref in do_statmount()
+Date: Fri, 13 Feb 2026 16:42:59 +0800
+Message-Id: <20260213084259.2423971-1-wangqing7171@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -73,58 +78,41 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add myself and Hyunchul Lee as ntfs maintainer.
-Since Anton is already listed in CREDITS, only his outdated information
-is updated here. the web address in the W: field in his entry is no longer
-accessible. Update his CREDITS with the web and email address found in
-the ntfs filesystem entry.
+If the mount is internal, it's mnt_ns will be MNT_NS_INTERNAL, which is
+defined as ERR_PTR(-EINVAL). So, in the do_statmount(), need to check ns
+of mount by IS_ERR_OR_NULL().
 
-Cc: Anton Altaparmakov <anton@tuxera.com>
-Reviewed-by: Amir Goldstein <amir73il@gmail.com>
-Acked-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Namjae Jeon <linkinjeon@kernel.org>
+Fixes: 0e5032237ee5 ("statmount: accept fd as a parameter")
+Reported-by: syzbot+9e03a9535ea65f687a44@syzkaller.appspotmail.com
+Closes: https://lore.kernel.org/all/698e287a.a70a0220.2c38d7.009e.GAE@google.com/
+Tested-by: syzbot+9e03a9535ea65f687a44@syzkaller.appspotmail.com
+Signed-off-by: Qing Wang <wangqing7171@gmail.com>
 ---
- CREDITS     |  4 ++--
- MAINTAINERS | 11 +++++------
- 2 files changed, 7 insertions(+), 8 deletions(-)
+ fs/namespace.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/CREDITS b/CREDITS
-index c0fc6ec7db13..04a57d164044 100644
---- a/CREDITS
-+++ b/CREDITS
-@@ -80,8 +80,8 @@ S: B-2610 Wilrijk-Antwerpen
- S: Belgium
+diff --git a/fs/namespace.c b/fs/namespace.c
+index a67cbe42746d..d769d50de5d6 100644
+--- a/fs/namespace.c
++++ b/fs/namespace.c
+@@ -5678,13 +5678,15 @@ static int do_statmount(struct kstatmount *s, u64 mnt_id, u64 mnt_ns_id,
  
- N: Anton Altaparmakov
--E: aia21@cantab.net
--W: http://www-stu.christs.cam.ac.uk/~aia21/
-+E: anton@tuxera.com
-+W: http://www.tuxera.com/
- D: Author of new NTFS driver, various other kernel hacks.
- S: Christ's College
- S: Cambridge CB2 3BU
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ca37f4b27301..9ca0d93a4a70 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -18811,12 +18811,11 @@ T:	git https://github.com/davejiang/linux.git
- F:	drivers/ntb/hw/intel/
- 
- NTFS FILESYSTEM
--M:	Anton Altaparmakov <anton@tuxera.com>
--R:	Namjae Jeon <linkinjeon@kernel.org>
--L:	linux-ntfs-dev@lists.sourceforge.net
--S:	Supported
--W:	http://www.tuxera.com/
--T:	git git://git.kernel.org/pub/scm/linux/kernel/git/aia21/ntfs.git
-+M:	Namjae Jeon <linkinjeon@kernel.org>
-+M:	Hyunchul Lee <hyc.lee@gmail.com>
-+L:	linux-fsdevel@vger.kernel.org
-+S:	Maintained
-+T:	git git://git.kernel.org/pub/scm/linux/kernel/git/linkinjeon/ntfs.git
- F:	Documentation/filesystems/ntfs.rst
- F:	fs/ntfs/
- 
+ 		s->mnt = mnt_file->f_path.mnt;
+ 		ns = real_mount(s->mnt)->mnt_ns;
+-		if (!ns)
++		if (IS_ERR_OR_NULL(ns)) {
+ 			/*
+ 			 * We can't set mount point and mnt_ns_id since we don't have a
+ 			 * ns for the mount. This can happen if the mount is unmounted
+-			 * with MNT_DETACH.
++			 * with MNT_DETACH or if it's an internal mount.
+ 			 */
+ 			s->mask &= ~(STATMOUNT_MNT_POINT | STATMOUNT_MNT_NS_ID);
++			ns = NULL;
++		}
+ 	} else {
+ 		/* Has the namespace already been emptied? */
+ 		if (mnt_ns_id && mnt_ns_empty(ns))
 -- 
-2.25.1
+2.34.1
 
