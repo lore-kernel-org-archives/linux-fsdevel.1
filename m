@@ -1,97 +1,154 @@
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+Received: from smtp02-ext3.udag.de (smtp02-ext3.udag.de [62.146.106.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C98B21624C0
-	for <linux-fsdevel@vger.kernel.org>; Sat, 14 Feb 2026 17:38:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 731A7155C82;
+	Sat, 14 Feb 2026 17:51:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.146.106.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771090700; cv=none; b=fcnnEsy4pjabBWZHQpBdQmk+KiIKadSH2amuZna1cJ/c9EKNGZZFP/gvtrr3WRjKJwedBGA4TBqsWZ9wiO56vVsB8ZyE087Yxjm1jO9V/QLfCGBCyQtkCvEr+TOi77LRi/VVYg7nIyYOqOVYjsEcSdLqzhFzXpzqUJZmlLTfNWQ=
+	t=1771091470; cv=none; b=Crvzgt9EgjbQHABDlEQ4KVPtAb7+cISsV15Gmn/Xcz2XqkLMNfOoYqCrNsPAT6siK2pXUcAO6Cy1uIYSBqQLGb3ihPiQsagUpBlzcSf52OOO9zzFPGlUK1wtVximVZaZYC4zJbfNIbhxlTg46QztYdJI39D3uWmFLleOKuX2f/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771090700; c=relaxed/simple;
-	bh=eRiMdy+kvqgWky7sxMSe0eX8qWo3ZrCs/cj9xPt+Q+M=;
+	s=arc-20240116; t=1771091470; c=relaxed/simple;
+	bh=y6EbmyGspHh4LzwRLlILnklBh1yh6Hp0wePXfgzXvx0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Mf+PQt1dJKMtcm/4hi3u6jghCMqv29d8dNrdo0kF+WwlwtfAX7aX8/ISKc9SqGPKtuU/SqqLIfQ2Z/+QL1MVuT0NXaFu/yO6laEx1XcJT6Tq8I4DWsAikPTDFW2TgTDRwUu8vezLThrRFQpUDKQG9w2Q6IzPiqhpVT5oQ4+Ie8A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=XuuwY2aL; arc=none smtp.client-ip=62.89.141.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="XuuwY2aL"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=r5YCzEMx5jIDvrvaWRd9+EzGuH1Z5UCLnQFZpwOOH48=; b=XuuwY2aLTeLxraz3dLX35+mpYx
-	3SeIQYOKwt8IjtbobsVD//j/SBTtmNZlDqLVNwzJyljaRJvRqOjklxBhkMzYePWAaMGk1cjnK3NDj
-	L58Ji0tSPmZ/5qC0IVCf1AF1frY+DjQWkaImXV/nu7uPS4d+iGhEVZl888bl2Es8AkaomdwfRENta
-	NRGDIpLR3KHejVyIkk4BKJRPU0fqqW8SvZ+PQwAvHGP5s3ijV07qPeyulYDSk/FkasV6YLPiEIxUE
-	i+uV22lMgLRIMkaiI2BeN6r7wtGqbeYzM53pCHFpqrvRbiMeoHoQ1/80Tj5kTgYrWOrifJGVEeP3V
-	Kd8PRvKw==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1vrJd8-0000000ERVR-1Jhh;
-	Sat, 14 Feb 2026 17:40:30 +0000
-Date: Sat, 14 Feb 2026 17:40:30 +0000
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Askar Safin <safinaskar@gmail.com>, christian@brauner.io,
-	cyphar@cyphar.com, hpa@zytor.com, jack@suse.cz,
-	linux-fsdevel@vger.kernel.org, werner@almesberger.net
-Subject: Re: [RFC] pivot_root(2) races
-Message-ID: <20260214174030.GT3183987@ZenIV>
-References: <CAHk-=wgQDOUff_F28xaTB-BvSHs9YC3bxXJa0HjpSTAUyPF-Ew@mail.gmail.com>
- <20260213182732.196792-1-safinaskar@gmail.com>
- <CAHk-=wiB7BN2BnBjk5y2Zim_vveYg7GAZA_N+XjrptY59Qnzzw@mail.gmail.com>
- <20260214-duzen-inschrift-9382ae6a5c2b@brauner>
- <CAHk-=wiG5uhN1F7fxyEiEQdMtK_j8TCd7FoStbCFpNbn8qx7iQ@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=uVBGRkcVMedJk9ZeHJnAXB+v6A/ot7sZqBAW6oo6czWzUf/RnE+O4jpXDc7svEx2Ggip4Fqjl1Cgmggt//JIA9rNcMnywS5nzyuNPd7FOh284Hx5tSUPmttRjdtiU8o5shidLO8Ypydy0npNt9rzo8OsgRacR/UTbKm3GyeCItI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de; spf=pass smtp.mailfrom=birthelmer.de; arc=none smtp.client-ip=62.146.106.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birthelmer.de
+Received: from localhost (ip-176-198-081-007.um43.pools.vodafone-ip.de [176.198.81.7])
+	by smtp02-ext3.udag.de (Postfix) with ESMTPA id 3D33FE0323;
+	Sat, 14 Feb 2026 18:50:56 +0100 (CET)
+Authentication-Results: smtp02-ext3.udag.de;
+	auth=pass smtp.auth=birthelmercom-0001 smtp.mailfrom=horst@birthelmer.de
+Date: Sat, 14 Feb 2026 18:50:53 +0100
+From: Horst Birthelmer <horst@birthelmer.de>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: Bernd Schubert <bernd@bsbernd.com>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Horst Birthelmer <horst@birthelmer.com>, Bernd Schubert <bschubert@ddn.com>, 
+	Luis Henriques <luis@igalia.com>, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	Horst Birthelmer <hbirthelmer@ddn.com>
+Subject: Re: Re: Re: [PATCH v5 1/3] fuse: add compound command to combine
+ multiple requests
+Message-ID: <aZC0WdZKA7ohRuHN@fedora>
+References: <20260210-fuse-compounds-upstream-v5-0-ea0585f62daa@ddn.com>
+ <20260210-fuse-compounds-upstream-v5-1-ea0585f62daa@ddn.com>
+ <CAJfpegvt0HwHOmOTzkCoOqdmvU6pf-wM228QQSauDsbcL+mmUA@mail.gmail.com>
+ <f38cf69e-57b9-494b-a90a-ede72aa12a54@bsbernd.com>
+ <CAJfpegscqhGikqZsaAKiujWyAy6wusdVCCQ1jirnKiGX9bE5oQ@mail.gmail.com>
+ <bb5bf6c8-22b2-4ca8-808b-4a3c00ec72fd@bsbernd.com>
+ <CAJfpegv4OvANQ-ZemENASyy=m-eWedx=yz85TL+1EFwCx+C9CQ@mail.gmail.com>
+ <d37cca3f-217d-4303-becd-c82a3300b199@bsbernd.com>
+ <aY25uu56irqfFVxG@fedora-2.fritz.box>
+ <CAJnrk1bg+GG8RkDtrunHW-P-7o=wtVUvjbiwQa_5Te4aPkbw1g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAHk-=wiG5uhN1F7fxyEiEQdMtK_j8TCd7FoStbCFpNbn8qx7iQ@mail.gmail.com>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJnrk1bg+GG8RkDtrunHW-P-7o=wtVUvjbiwQa_5Te4aPkbw1g@mail.gmail.com>
 
-On Sat, Feb 14, 2026 at 08:18:55AM -0800, Linus Torvalds wrote:
-> On Sat, 14 Feb 2026 at 04:15, Christian Brauner <brauner@kernel.org> wrote:
+On Fri, Feb 13, 2026 at 05:35:30PM -0800, Joanne Koong wrote:
+> On Thu, Feb 12, 2026 at 3:44 AM Horst Birthelmer <horst@birthelmer.de> wrote:
+> > On Thu, Feb 12, 2026 at 11:43:12AM +0100, Bernd Schubert wrote:
+> > > On 2/12/26 11:16, Miklos Szeredi wrote:
+> > > > On Thu, 12 Feb 2026 at 10:48, Bernd Schubert <bernd@bsbernd.com> wrote:
+> > > >> On 2/12/26 10:07, Miklos Szeredi wrote:
+> > > >>> On Wed, 11 Feb 2026 at 21:36, Bernd Schubert <bernd@bsbernd.com> wrote:
+> > > >>>
+> > > >
+> > > >>> So as a first iteration can we just limit compounds to small in/out sizes?
+> > > >>
+> > > >> Even without write payload, there is still FUSE_NAME_MAX, that can be up
+> > > >> to PATH_MAX -1. Let's say there is LOOKUP, CREATE/OPEN, GETATTR. Lookup
+> > > >> could take >4K, CREATE/OPEN another 4K. Copying that pro-actively out of
+> > > >> the buffer seems a bit overhead? Especially as libfuse needs to iterate
+> > > >> over each compound first and figure out the exact size.
+> > > >
+> > > > Ah, huge filenames are a thing.  Probably not worth doing
+> > > > LOOKUP+CREATE as a compound since it duplicates the filename.  We
+> > > > already have LOOKUP_CREATE, which does both.  Am I missing something?
+> > >
+> > > I think you mean FUSE_CREATE? Which is create+getattr, but always
+> > > preceded by FUSE_LOOKUP is always sent first? Horst is currently working
+> > > on full atomic open based on compounds, i.e. a totally new patch set to
+> > > the earlier versions. With that LOOKUP
+> > >
+> > > Yes, we could use the same file name for the entire compound, but then
+> > > individual requests of the compound rely on an uber info. This info
+> > > needs to be created, it needs to be handled on the other side as part of
+> > > the individual parts. Please correct me if I'm wrong, but this sounds
+> > > much more difficult than just adding an info how much space is needed to
+> > > hold the result?
 > >
-> > But my point has been: we don't need it anymore.
+> > I have a feeling we have different use cases in mind and misunderstand each other.
+> >
+> > As I see it:
+> > From the discussion a while ago that actually started the whole thing I understand
+> > that we have combinations of requests that we want to bunch together for a
+> > specific semantic effect. (see OPEN+GETATTR that started it all)
+> >
+> > If that is true, then bunching together more commands to create 'compounds' that
+> > semantically linked should not be a problem and we don't need any algorithm for
+> > recosntructing the args. We know the semantics on both ends and craft the compounds
+> > according to what is to be accomplished (the fuse server just provides the 'how')
+> >
+> > From the newer discussion I have a feeling that there is the idea floating around
+> > that we should bunch together arbitrary requests to have some performance advantage.
+> > This was not my initial intention.
+> > We could do that however if we can fill the args and the requests are not
+> > interdependent.
 > 
-> I don't think that makes much of a difference. We'd still need to have
-> pivot_root() around for the legacy case, and I do think we want to
-> make sure it can't be used as an attack vector (perhaps not directly,
-> but by possibly confusing other people).
-> 
-> Not that you should use containers as security boundaries anyway, but
-> I do think the current behavior needs to be limited. Because it's
-> dangerous.
-> 
-> Maybe just limiting it by namespace is ok.
-> 
-> Because even if the "white hat" users stop using pivot_root, we'd keep
-> it around for legacy - and we want to limit the damage.
+> I have a series of (very unpolished) patches from last year that does
+> basically this. When libfuse does a read on /dev/fuse, the kernel
+> crams in as many requests off the fiq list as it can fit into the
+> buffer. On the libfuse side, when it iterates through that buffer it
+> offloads each request to a worker thread to process/execute that
+> request. It worked the same way on the dev uring side. I put those
+> changes aside to work on the zero copy stuff, but if there's interest
+> I can go back to those patches and clean them up and put them through
+> some testing. I don't think the work overlaps with your compound
+> requests stuff though. The compound requests would be a request inside
+> the larger batch.
 
-Indeed.  Let's backtrack a bit:
-1) pivot_root() screwing around with root/pwd is unfortunate, but it's not
-going away and neither is pivot_root() itself - not for several years,
-at the very least.
-2) having the set of affected threads limited shouldn't be a problem, as
-long as we don't get too enthisiastic about that (relying upon the
-assumptions about kernel threads getting picked along with init is
-a bad idea, IMO).
-3) walking into a container and expecting that mount tree won't get fucked
-under you is a Bloody Bad Idea(tm) even without pivot_root() in the mix.
-Sure, having pwd changed under you is still nice to avoid, but that's far
-from the only thing to be cautious about.  That doesn't affect the
-desirability of (2).
-4) as long as we change pwd and root of _any_ threads that are not aware of
-pivot_root() being done, we ought to have that change atomic wrt fork();
-if child gets spawned by any such thread, the resulting state should not
-depend upon the timinig of fork() vs. pivot_root().  The same goes for
-unshare(2) (and while we are at it, in absense of pivot_root(2) and other
-mount-related activity a caller of unshare(2) that gets ENOMEM can reasonably
-expect their mount tree to remain unchanged).
+I would like to have your patch for the processing of multiple requests
+and the compound for handling semantically related requests.
 
-Does anybody have objections to the above?
+> >
+> > If we can signal to the fuse server what we expect as result
+> > (at least the allocated memory) I think we can do both, but I would like to have the
+> > emphasis more on the semantic grouping for the moment.
+> >
+> > Do you guys think that there will ever be a fuse server that doesn't support compounds
+> > and all of them are handled by something like libfuse and the request handlers are just
+> > called without having to handle not even one unseparatebale semantic 'group'?
+> 
+> If I'm understanding the question correctly, yes imo this is likely.
+> But I think that's fine. In my opinion, the main benefit from this is
+> saving on the context switching cost. I don't really see the problem
+> if libfuse has to issue the requests separately and sequentially if
+> the requests have dependency chains and  the server doesn't have a
+> special handler for that specific compound request combo (which imo I
+> don't think libfuse should even add, as I dont see what the purpose of
+> it is that can't be done by sending each request to each separate
+> handler sequentially).
+
+Which part would process those interdependencies?
+We have multiple options and I'm not entirely sure, 
+the kernel, libfuse, fuse server?
+
+In the current version none would do any special interpretation and the
+fuse server will have a specialized handler for a compound type, which
+automatically 'knows' how to get the right args.
+
+> Thanks,
+> Joanne
+> 
+> > >
+> > > Thanks,
+> > > Bernd
+
+Thanks,
+Horst
