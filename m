@@ -1,143 +1,245 @@
-Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE83823A9B3
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Feb 2026 10:04:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80D872F744A
+	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Feb 2026 10:10:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771236284; cv=none; b=CszfflpdtonQZ08ee0T/+5CqcwTTxdIzR6d2NN5/vFN4vYnkeQQnYaEIseIe2cHLxn6FXa71O7BQyC8tGbglwPV5MuvVZ+nb2fp2I2UnO94UPG2iqE2Fz0WLKEygzrEhVRV+jmyW5jFVdXULa/IEbS0AFvS85VXNKvyFwj3FR5k=
+	t=1771236605; cv=none; b=pdbBwWs3EcCqIF6DJ+MEfmEvyw2ujX7waPZvlPRntWa9J5AvlY9ofCIN31M84NM0+8qwKg0hEWQc/T19dcNdLzxQ35P59UONEUDWOj7r16iiYrrIJN/o8T0cPXhvtxbeDiPzWizUPajgPIowXyG/AgKz+CFjXJbB1qQX9MdwOtQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771236284; c=relaxed/simple;
-	bh=d8Qd12F18dz38cJG2jVNsi9Tc/YQOz/BnUkYP42iiNE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type:
-	 References; b=Kc8PUemrd6yY74hi8dW1Ge8CdScnim5BbmSZNwmGYqyr34b9aVVK3zF/ykkbwdSfWL9HSnMFGfkqZck0A+SdAci7uvIKAob4zqKVPgllyJ+DyfDGGfRq1bHQzDbOs1z4P/jIZDzBKxQoyqUgqiyPzgVKSaYCEmgPCNzFSC3xQQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=I73bV5w5; arc=none smtp.client-ip=203.254.224.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1771236605; c=relaxed/simple;
+	bh=wRAFwqbAt0UjKRNKy36uPRYgKoaVVQSeBUt7EvD6UOI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XsorwhEODl6SA7oNtkoGfdVDtsS77vgWuuN72BaBunxD1+T+Q627XNM7QTFW5HqUzPzlbOiBXYAlfiaesmEGuPxc5u8Djo+dblonS/z9XLjZMqg7e2R/XHwip+Bxnd+pgDXs4PAFjim1ZIgTLmQIAWEE6DrzX3YiX6JyE26ertI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=C3qQwCQ5; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=VOYla/Ri; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=gfX3t3sX; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=tFI/63PV; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="I73bV5w5"
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20260216100439epoutp02d4a1a34f8d15bd629e80e1cb839c7943~UsgMD3BY22113621136epoutp02t
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Feb 2026 10:04:39 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20260216100439epoutp02d4a1a34f8d15bd629e80e1cb839c7943~UsgMD3BY22113621136epoutp02t
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1771236279;
-	bh=fvoqRTjxxSqU0BzCrZxx9CepkQTakbT6f/JIM6TtTJE=;
-	h=From:To:Cc:Subject:Date:References:From;
-	b=I73bV5w5uQrFUL2DZAlm2F5D3BqfQgSnweEmaUC6r/KCguxSjhMEzbPHLceDKLJKd
-	 8m2Ca3Xk/mcymhnxeLcgnijMM+v7ATSjJkb6uSQoakTSDBFtf22SE0u28OYrJbyPhq
-	 X1mofVMYPuThWB4WVOTzaWfWBP+cjxViFzc60d7s=
-Received: from epsnrtp01.localdomain (unknown [182.195.42.153]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPS id
-	20260216100438epcas5p38d5f4caa4ff21eb796912c5440717ed1~UsgLjSUPv0793707937epcas5p3Y;
-	Mon, 16 Feb 2026 10:04:38 +0000 (GMT)
-Received: from epcas5p3.samsung.com (unknown [182.195.38.91]) by
-	epsnrtp01.localdomain (Postfix) with ESMTP id 4fDz056Z1lz6B9m5; Mon, 16 Feb
-	2026 10:04:37 +0000 (GMT)
-Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
-	20260216100437epcas5p415590b08bb19d887bc065f5feba8346a~UsgKNrnRr1610516105epcas5p4W;
-	Mon, 16 Feb 2026 10:04:37 +0000 (GMT)
-Received: from localhost.localdomain (unknown [107.99.41.245]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20260216100434epsmtip2814a36ed09219e42d75f7f78e381d376~UsgHpKrol2109021090epsmtip2Q;
-	Mon, 16 Feb 2026 10:04:34 +0000 (GMT)
-From: Kundan Kumar <kundan.kumar@samsung.com>
-To: lsf-pc@lists.linux-foundation.org, linux-fsdevel@vger.kernel.org
-Cc: anuj20.g@samsung.com, hch@lst.de, jack@suse.cz, djwong@kernel.org,
-	david@fromorbit.com, amir73il@gmail.com, brauner@kernel.org, clm@meta.com,
-	axboe@kernel.dk, willy@infradead.org, gost.dev@samsung.com,
-	vishak.g@samsung.com, joshi.k@samsung.com, mcgrof@kernel.org,
-	pankaj.raghav@linux.dev, ritesh.list@gmail.com, Kundan Kumar
-	<kundan.kumar@samsung.com>
-Subject: [LSF/MM/BPF TOPIC] Parallel writeback: design directions and
- sharding models
-Date: Mon, 16 Feb 2026 15:28:52 +0530
-Message-Id: <20260216095852.4611-1-kundan.kumar@samsung.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="C3qQwCQ5";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="VOYla/Ri";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="gfX3t3sX";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="tFI/63PV"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 747505BCC4;
+	Mon, 16 Feb 2026 10:10:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1771236602; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7lSSTT9W7EnOu03evGDVlDH3HtveihAlEwuA9eL1wP8=;
+	b=C3qQwCQ5u+joy0//SJgWoiA5UmhQvqmN3ygD3rkf1Qm+n5R0NrGyZQxj9+n/xyhUaeGc5E
+	VnegKvag+zPf76dV8rrujqFSdAgOdDx0bIjAfM8MAX9IWQrwO+aZcNXJby/Sacazf3vUqH
+	NCrma+YUOj79unXBZ0AnouCSzPWgtf4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1771236602;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7lSSTT9W7EnOu03evGDVlDH3HtveihAlEwuA9eL1wP8=;
+	b=VOYla/RiDuKouHeETuTeP4M1zZBb5ON1B1GaTTzafz6wEuGDs/D9zF+cBJ9NjEvVtzVbb0
+	1JSpfQhbo2DJhNDQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=gfX3t3sX;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b="tFI/63PV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1771236601; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7lSSTT9W7EnOu03evGDVlDH3HtveihAlEwuA9eL1wP8=;
+	b=gfX3t3sXuXX1C1BLSkWE2ATOUI9umOCgD6O/lpF6rnPNXdSq3TpDvISm23waq5139KqzqI
+	c4DGBwIsq2MaHXWEBEJzXOjqkLlFsOanG8wyzmsD2d38m02RnNylVoHgvzasIcjlhiVDZm
+	35Y0ekp9NAsJTzDfJ9fCvnzSa5ZKsHo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1771236601;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7lSSTT9W7EnOu03evGDVlDH3HtveihAlEwuA9eL1wP8=;
+	b=tFI/63PVd044AznU39aacdwLGhJiPZgAe2poZcoBjSb1fmLd3QzAt4Jzn3VnmHJJyXB2t1
+	xqiUqk6Uj2Bv27DQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 59DCA3EA62;
+	Mon, 16 Feb 2026 10:10:01 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Q4HoFfnskmkrJAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 16 Feb 2026 10:10:01 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 01608A0AA5; Mon, 16 Feb 2026 11:10:00 +0100 (CET)
+Date: Mon, 16 Feb 2026 11:10:00 +0100
+From: Jan Kara <jack@suse.cz>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Josef Bacik <josef@toxicpanda.com>, 
+	Johannes Thumshirn <Johannes.Thumshirn@wdc.com>, Hans Holmberg <Hans.Holmberg@wdc.com>, 
+	"lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
+	Damien Le Moal <Damien.LeMoal@wdc.com>, hch <hch@lst.de>, Naohiro Aota <Naohiro.Aota@wdc.com>, 
+	"jack@suse.com" <jack@suse.com>, Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Subject: Re: [Lsf-pc] [LSF/MM/BPF TOPIC] A common project for file system
+ performance testing
+Message-ID: <5lk2kolr3ntrbma3dw4qtq7lmxlu2ghdf2mavt5fu4cuuo3f2h@fztn6lesv6qb>
+References: <b9f6cd20-8f0f-48d6-9819-e0c915206a3f@wdc.com>
+ <bcedbc03-c307-4de5-9973-94237f05cd85@wdc.com>
+ <CAEzrpqd_-V691dQzVF1WmrvLNXnDR0THuxGCieDMZcWdRN5WEQ@mail.gmail.com>
+ <CAOQ4uxia_BDVOLLnuN=OzhpUYBdFkd10T+079h7+PjHXkt208w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20260216100437epcas5p415590b08bb19d887bc065f5feba8346a
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-cpgsPolicy: CPGSC10-542,Y
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20260216100437epcas5p415590b08bb19d887bc065f5feba8346a
-References: <CGME20260216100437epcas5p415590b08bb19d887bc065f5feba8346a@epcas5p4.samsung.com>
+In-Reply-To: <CAOQ4uxia_BDVOLLnuN=OzhpUYBdFkd10T+079h7+PjHXkt208w@mail.gmail.com>
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:email]
+X-Spam-Flag: NO
+X-Spam-Score: -4.01
+X-Rspamd-Queue-Id: 747505BCC4
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spam-Level: 
 
-Good day everyone,
+On Thu 12-02-26 18:37:22, Amir Goldstein wrote:
+> On Thu, Feb 12, 2026 at 7:32 PM Josef Bacik <josef@toxicpanda.com> wrote:
+> > On Thu, Feb 12, 2026 at 11:42 AM Johannes Thumshirn
+> > <Johannes.Thumshirn@wdc.com> wrote:
+> > >
+> > > On 2/12/26 2:42 PM, Hans Holmberg wrote:
+> > > > Hi all,
+> > > >
+> > > > I'd like to propose a topic on file system benchmarking:
+> > > >
+> > > > Can we establish a common project(like xfstests, blktests) for
+> > > > measuring file system performance? The idea is to share a common base
+> > > > containing peer-reviewed workloads and scripts to run these, collect and
+> > > > store results.
+> > > >
+> > > > Benchmarking is hard hard hard, let's share the burden!
+> > >
+> > > Definitely I'm all in!
+> > >
+> > > > A shared project would remove the need for everyone to cook up their
+> > > > own frameworks and help define a set of workloads that the community
+> > > > cares about.
+> > > >
+> > > > Myself, I want to ensure that any optimizations I work on:
+> > > >
+> > > > 1) Do not introduce regressions in performance elsewhere before I
+> > > >     submit patches
+> > > > 2) Can be reliably reproduced, verified, and regression‑tested by the
+> > > >     community
+> > > >
+> > > > The focus, I think, would first be on synthetic workloads (e.g. fio)
+> > > > but it could expanded to running application and database workloads
+> > > > (e.g. RocksDB).
+> > > >
+> > > > The fsperf[1] project is a python-based implementation for file system
+> > > > benchmarking that we can use as a base for the discussion.
+> > > > There are probably others out there as well.
+> > > >
+> > > > [1] https://github.com/josefbacik/fsperf
+> > >
+> > > I was about to mention Josef's fsperf project. We also used to have some
+> > > sort of a dashboard for fsperf results for BTRFS, but that vanished
+> > > together with Josef.
+> > >
+> > > A common dashboard with per workload statistics for different
+> > > filesystems would be a great thing to have, but for that to work, we'd
+> > > need different hardware and probably the vendors of said hardware to buy
+> > > in into it.
+> > >
+> > > For developers it would be a benefit to see eventual regressions and
+> > > overall weak points, for users it would be a nice tool to see what FS to
+> > > pick for what workload.
+> > >
+> > > BUT someone has to do the job setting everything up and maintaining it.
+> > >
+> >
+> > I'm still here, the dashboard disappeared because the drives died, and
+> > although the history is interesting it didn't seem like we were using
+> > it much. The A/B testing part of fsperf still is being used regularly
+> > as far as I can tell.
+> >
+> > But yeah maintaining a dashboard is always the hardest part, because
+> > it means setting up a website somewhere and a way to sync the pages.
+> > What I had for fsperf was quite janky, basically I'd run it every
+> > night, generate the new report pages, and scp them to the VPS I had.
+> > With Claude we could probably come up with a better way to do this
+> > quickly, since I'm clearly not a web developer. That being said we
+> > still have to have someplace to put it, and have some sort of hardware
+> > that runs stuff consistently.
+> >
+> 
+> That's the main point IMO.
+> 
+> Perf regression tests must rely on consistent hardware setups.
+> If we do not have organizations to fund/donate this hardware and put in
+> the engineering effort to drive it, talking about WHAT to run in LSFMM
+> is useless IMO.
 
-Parallel writeback was discussed last year at LSF/MM[1], and since then
-me and Anuj have posted three iterations exploring different design
-directions and sharding approaches:
+My dayjob is watching kernel performance for our distro so I feel a bit
+obliged to share my view :) I agree the problem here isn't the lack of
+tools. We use mmtests as a suite for benchmarking - since that is rather
+generic suite for running benchmarks with quite some benchmark integrated
+the learning curve is relatively steep but once you get a hunch of it it
+isn't difficult to use. Fsperf is IMO also fine to use if you are fine with
+the limited benchmarking it can do. This isn't the hard part - anyone can
+download these suites and run them.
 
-v1 – Inode affined writeback contexts, introducing high-level parallelism
-by mapping inodes to independent writeback contexts.
-https://lore.kernel.org/all/20250529111504.89912-1-kundan.kumar@samsung.com/
+The hard part on benchmarking is having sensible hardware to run the test
+on, selecting a benchmark and setup that's actually exercising the code
+you're interested in, and getting statistically significant results (i.e.,
+discerning random noise from real differences). And these are things that
+are difficult to share or solve by discussion.
 
-v2 – Threads affined to XFS allocation groups (AGs), reducing cross-AG
-contention by routing writeback work to AG local workers.
-https://lore.kernel.org/all/20251014120845.2361-1-kundan.kumar@samsung.com/
+As others wrote one solution to this is if someone dedicates the hardware
+and engineers with know-how for this. But realistically I don't see that
+happening in the nearterm. There might be other solutions how to share more
+- like sharing a VM with preconfigured set of benchmarks covering the
+basics (similarly to some people sharing VM images with preconfigured
+fstests runs). But I don't have a clear picture how much such thing would
+help.
 
-v3 – XFS AG aware writeback using folio level tagging for more precise
-geometry-based routing.
-https://lore.kernel.org/all/20260116100818.7576-1-kundan.kumar@samsung.com/
-
-Multiple approaches have been explored and the design continues to
-evolve. In v3, folio level AG tagging improved scalability and routing
-precision, but it also increased implementation complexity and expanded
-MM filesystem interaction beyond traditional boundaries.
-
-Following v3, Christoph suggested a stream ID based approach[2], where
-per inode streams guide writeback routing and allocation decisions.
-This transition adopts a sharding model by modifying the XFS allocation
-policy, helping to reduce contention and achieve a more balanced
-distribution.
-
-Anuj and I would like to gather feedback on overall design direction and
-appropriate sharding models for scalable writeback.
-
-Discussion Points
-=================
-
-Stream as abstraction over AG locality
---------------------------------------
-Is using stream IDs (mapping to one/bounded AG-set) the right way to
-express AG-aware writeback and delayed allocation steering.
-
-Allocation integration
-----------------------
-Is it reasonable for XFS allocation policy to incorporate stream bias,
-while keeping the writeback core agnostic of AG semantics?
-
-Folio-level routing
--------------------
-v3 explored folio level routing but significantly increased the MM/FS
-coupling. Is filesystem contained sharding the right model now?
-
-Infrastructure
---------------
-What minimal generic infrastructure is required in writeback, and what
-should remain filesystem-specific policy?
-
-Anuj and I intend to lead this discussion. Filesystem, MM, and block
-maintainers participation would be highly valuable to converge on a
-design direction.
-
-We are currently working on the next version based on the stream ID
-approach suggested by Christoph and will post the patches shortly.
-
-Best regards,
-Kundan Kumar
-[1] https://lwn.net/Articles/1024402/
-[2] https://lore.kernel.org/all/20260210153854.GA2484@lst.de/
-
+								Honza
 -- 
-2.25.1
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
