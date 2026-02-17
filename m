@@ -1,350 +1,143 @@
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BB7B32AAA2
-	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Feb 2026 13:38:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.181.97.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C5E2361DC9
+	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Feb 2026 14:21:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771335528; cv=none; b=sJuBVc7l5XUqo0/BeZTNOxVmmrVuf/+VkhbZryxry2AeIpm4Rwl6lhX08mh6ImQ2QmCuTqk/UhvaWOQrLnG056+3BpDBzGB1TzvP0z3etzxFWZlErz7A8jVVdf2N1Li03q/4tSsfhS6eXsdNPo+HNLEXEGsUcKiO+GKH+2ccJAs=
+	t=1771338106; cv=none; b=AWfPj8LIRsYjf16O6U8p0oEHhISaJaI4Qnb0Zrv7nLGwV48RNMsjzq++22dWiN80KHh0zcuvDpjq0pv7cNSzfwk8TuVV0xodgNRkKavyD1SzYTomSoSm2GYwbJ51pach5k5i1YwqIlpyw31WYCrbfp5iexDMDABQ+qRqId9Ks6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771335528; c=relaxed/simple;
-	bh=g3ciZjNQtPfg80AuuwCzZQIRvxuDrGiym1CmfASYXCw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QifKF/ZncMStH3Aiyxsy5rNsA3nz3U5h0fjmLeFMGZTsn9LLxyZzWXshGeNF2t9vMRVuBZlb70HphFAWasCUbuLw6Tg1eeAyXIGVxwQ3Owb8+Gvca5vs9ixKWHSSqUj+XxxOTgeNxATpzIN+nIAHUNAZDphNviR4MBXMivNflrk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp; arc=none smtp.client-ip=202.181.97.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp
-Received: from www262.sakura.ne.jp (localhost [127.0.0.1])
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 61HCfiGJ033433;
-	Tue, 17 Feb 2026 21:41:44 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from [192.168.1.10] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
-	(authenticated bits=0)
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 61HCfiDr033429
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-	Tue, 17 Feb 2026 21:41:44 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <524bed1e-fceb-4061-b274-219e64a6b619@I-love.SAKURA.ne.jp>
-Date: Tue, 17 Feb 2026 21:41:45 +0900
+	s=arc-20240116; t=1771338106; c=relaxed/simple;
+	bh=b4YXp4Doy/1JvSdAtQaHXNMAj7nhowBDstvdnJgDnRU=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=uN5TUsOdD/nqnq2cfat1FSHot4b/vKNgRy8CSJMZaPynSGdtZYJu467LFlzX97dBz7Xc2kWEfV+Qj86ubFjckqb67FceccEoRvOrNUcgT/FfOXyZFt4sZTLXZj5coljyyUas7Ke9L2YToWbQ8NWV4YtI7Rrrl77qzESrWveUbQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B8svIcDT; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B8svIcDT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4B6BC19423;
+	Tue, 17 Feb 2026 14:21:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771338105;
+	bh=b4YXp4Doy/1JvSdAtQaHXNMAj7nhowBDstvdnJgDnRU=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=B8svIcDTSEa5yWDTuiwxmJ2luP6QEn1JuMb0L+LKTMGIS/+voSxEqm4KqW6fHd6i9
+	 DXi76QB1O+3kd8asd2ZmfWZvMtKbzROWRKvQ503r9Bbm03xtqusdVv5FnfCGoof5Jm
+	 5WdeloR4EgWJaV1cWmURNv9HrAcpsJsN24z1urSy2IIoCw7cXLOe05P0IHb8KI9XB9
+	 37AoPU/uy5nHa+gcuszUi5tBXkdYdohrFganzv5dDBuv9Ca7g0B7cOZBF42TyINukY
+	 h4q7EI7g6/Gp6VgZ/MLr8CA5+8Zlegu3G0+Y9hcUXuyHu+RfHkDs/EKzUG+B82XwNc
+	 iKUv+birv9YlA==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 89597F40068;
+	Tue, 17 Feb 2026 09:21:44 -0500 (EST)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Tue, 17 Feb 2026 09:21:44 -0500
+X-ME-Sender: <xms:eHmUac5-kpBcU512In2Gd_-S3_JOV_sacFz4auPvatRgklveCVqnIA>
+    <xme:eHmUaYvlw5EMa3RAd9ais2CqXLo-qaXJEAFz3F5EvV6NhRvLAErSR7EZIU78BRAp-
+    lC9jkqr0Dw3elaxVqZmj4AGcTWHLCi9Ukp_oryQ9PdrXq8PXCvNoZ8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvudelleelucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtqhertdertdejnecuhfhrohhmpedfvehhuhgt
+    khcunfgvvhgvrhdfuceotggvlheskhgvrhhnvghlrdhorhhgqeenucggtffrrghtthgvrh
+    hnpeejleeftdetjeellefgtdelfffhueefhfejgfehtddvkeefgeevffevudefveeuieen
+    ucffohhmrghinhepphhlrghnvgdrnhgvthdpghhithhhuhgsrdgtohhmnecuvehluhhsth
+    gvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheptghhuhgtkhhlvghvvghr
+    odhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduieefgeelleelheelqdefvd
+    elkeeggedvfedqtggvlheppehkvghrnhgvlhdrohhrghesfhgrshhtmhgrihhlrdgtohhm
+    pdhnsggprhgtphhtthhopeekpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehnsh
+    hpmhgrnhhgrghlohhrvgesghhmrghilhdrtghomhdprhgtphhtthhopegsrhgruhhnvghr
+    sehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlshhfqdhptgeslhhishhtshdrlhhinh
+    hugidqfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtohepughhohifvghllhhssehr
+    vgguhhgrthdrtghomhdprhgtphhtthhopehkvgihrhhinhhgshesvhhgvghrrdhkvghrnh
+    gvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdgtihhfshesvhhgvghrrdhkvghrnhgv
+    lhdrohhrghdprhgtphhtthhopehlihhnuhigqdhfshguvghvvghlsehvghgvrhdrkhgvrh
+    hnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqnhhfshesvhhgvghrrdhkvghrnhgv
+    lhdrohhrgh
+X-ME-Proxy: <xmx:eHmUaQJTFBaxA55MSGdoV1LGZik03Iv_bsP7HUiGO4dfcVE7b8x6IA>
+    <xmx:eHmUaQnatPz4snrriLH1CAW3LEUZPhEXkCSkvwWpN59eyyYhs6-GKw>
+    <xmx:eHmUaRboN6yNperUCfb-FbVrdTVKYeQiheQAU9Nxk-y6nfgadHslbA>
+    <xmx:eHmUaU98ZQ42Jah3AnOQaaaCuS2H5G8gcVS0IPtxZmmdtCIcoUKRdg>
+    <xmx:eHmUaYYgX93v66rSNGfGAPff1dBs9b_LDQDIzFA28uilTjy5ig7ajXmy>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 5D4F278007A; Tue, 17 Feb 2026 09:21:44 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] hfs: evaluate the upper 32bits for detecting overflow
-To: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>,
-        "glaubitz@physik.fu-berlin.de" <glaubitz@physik.fu-berlin.de>,
-        "frank.li@vivo.com" <frank.li@vivo.com>,
-        "slava@dubeyko.com" <slava@dubeyko.com>,
-        "jkoolstra@xs4all.nl" <jkoolstra@xs4all.nl>
-Cc: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-References: <6e5fd94e-9073-4307-beb7-ee87f3f0665c@I-love.SAKURA.ne.jp>
- <68811931931db09c0ea84f1be8e1bdc0fd453776.camel@ibm.com>
- <4a026754-1c58-40a6-96f9-ecaafa67a2ae@I-love.SAKURA.ne.jp>
- <62e01a3505bca9d1e8779f85e0223ec02c24a6de.camel@ibm.com>
- <ef597d09-0fe0-44bc-93ff-b0223eb97ce8@I-love.SAKURA.ne.jp>
- <37b976e33847b4e3370d423825aaa23bdc081606.camel@ibm.com>
- <f8700c59-3763-4ea9-b5c2-f4510c2106ed@I-love.SAKURA.ne.jp>
- <40a8f3a228cf8f3580f633b9289cd371b553c3e4.camel@ibm.com>
-Content-Language: en-US
-From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-In-Reply-To: <40a8f3a228cf8f3580f633b9289cd371b553c3e4.camel@ibm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Anti-Virus-Server: fsav102.rs.sakura.ne.jp
-X-Virus-Status: clean
-
-On 2026/02/17 9:59, Viacheslav Dubeyko wrote:
->> We can represent __be32 using signed 32bits integer when counting number of
->> files/directories (which by definition cannot take a negative value), for
->> we can interpret [-2147483648,-1] range as [2147483648,4294967295] range
->> because we don't need to handle [-2147483648,-1] range.
-> 
-> If you suggest to increment the atomic_t until U32_MAX and somehow keep in the
-> mind that we need to treat negative value as positive, then it's confusing and
-> nobody will follow to this solution. It will introduce the bugs easily. Using
-> atomic64_t is clear solution, we don't need to use any tricks and everybody can
-> follow to such technique.
-
-Then, we can use u32 and U32_MIN/U32_MAX like below. (I'm not trying to convert
-next_id to u32, for it needs more inspection before we are convinced that there is
-no possibility for overflow.) Do you still dislike converting to u32?
-
- fs/hfs/hfs_fs.h |   37 ++++++++++++++++++++++++++++++++++---
- fs/hfs/inode.c  |   54 +++++++++++++++++++++++++++++++-----------------------
- fs/hfs/mdb.c    |   31 ++++---------------------------
- fs/hfs/super.c  |   12 +++++++-----
- 4 files changed, 76 insertions(+), 58 deletions(-)
-
-diff --git a/fs/hfs/hfs_fs.h b/fs/hfs/hfs_fs.h
-index ac0e83f77a0f..73792460f938 100644
---- a/fs/hfs/hfs_fs.h
-+++ b/fs/hfs/hfs_fs.h
-@@ -80,10 +80,10 @@ struct hfs_sb_info {
- 						   the extents b-tree */
- 	struct hfs_btree *cat_tree;			/* Information about
- 						   the catalog b-tree */
--	atomic64_t file_count;			/* The number of
-+	u32 file_count;				/* The number of
- 						   regular files in
- 						   the filesystem */
--	atomic64_t folder_count;		/* The number of
-+	u32 folder_count;			/* The number of
- 						   directories in the
- 						   filesystem */
- 	atomic64_t next_id;			/* The next available
-@@ -132,6 +132,7 @@ struct hfs_sb_info {
- 	int work_queued;		/* non-zero delayed work is queued */
- 	struct delayed_work mdb_work;	/* MDB flush delayed work */
- 	spinlock_t work_lock;		/* protects mdb_work and work_queued */
-+	bool suggest_fsck;
- };
- 
- #define HFS_FLG_BITMAP_DIRTY	0
-@@ -199,7 +200,6 @@ extern void hfs_delete_inode(struct inode *inode);
- extern const struct xattr_handler * const hfs_xattr_handlers[];
- 
- /* mdb.c */
--extern bool is_hfs_cnid_counts_valid(struct super_block *sb);
- extern int hfs_mdb_get(struct super_block *sb);
- extern void hfs_mdb_commit(struct super_block *sb);
- extern void hfs_mdb_close(struct super_block *sb);
-@@ -289,4 +289,35 @@ static inline void hfs_bitmap_dirty(struct super_block *sb)
- 	__bh;						\
- })
- 
-+static inline bool inc_u32_unless_wraparound(u32 *v)
-+{
-+	while (1) {
-+		const u32 t = data_race(READ_ONCE(*v)); /* silence KCSAN */
-+
-+		if (unlikely(t == U32_MAX))
-+			return false;
-+		if (likely(cmpxchg(v, t, t + 1) == t))
-+			return true;
-+	}
-+}
-+
-+static inline bool dec_u32_unless_wraparound(u32 *v)
-+{
-+	while (1) {
-+		const u32 t = data_race(READ_ONCE(*v)); /* silence KCSAN */
-+
-+		if (unlikely(t == U32_MIN))
-+			return false;
-+		if (likely(cmpxchg(v, t, t - 1) == t))
-+			return true;
-+	}
-+}
-+
-+static inline bool is_hfs_cnid_counts_valid(struct super_block *sb)
-+{
-+	s64 next_id = atomic64_read(&HFS_SB(sb)->next_id);
-+
-+	return next_id >= HFS_FIRSTUSER_CNID && !upper_32_bits(next_id);
-+}
-+
- #endif
-diff --git a/fs/hfs/inode.c b/fs/hfs/inode.c
-index 878535db64d6..5dc48629d27c 100644
---- a/fs/hfs/inode.c
-+++ b/fs/hfs/inode.c
-@@ -185,8 +185,6 @@ struct inode *hfs_new_inode(struct inode *dir, const struct qstr *name, umode_t
- 	struct super_block *sb = dir->i_sb;
- 	struct inode *inode = new_inode(sb);
- 	s64 next_id;
--	s64 file_count;
--	s64 folder_count;
- 	int err = -ENOMEM;
- 
- 	if (!inode)
-@@ -199,7 +197,7 @@ struct inode *hfs_new_inode(struct inode *dir, const struct qstr *name, umode_t
- 	spin_lock_init(&HFS_I(inode)->open_dir_lock);
- 	hfs_cat_build_key(sb, (btree_key *)&HFS_I(inode)->cat_key, dir->i_ino, name);
- 	next_id = atomic64_inc_return(&HFS_SB(sb)->next_id);
--	if (next_id > U32_MAX) {
-+	if (upper_32_bits(next_id)) {
- 		atomic64_dec(&HFS_SB(sb)->next_id);
- 		pr_err("cannot create new inode: next CNID exceeds limit\n");
- 		goto out_discard;
-@@ -216,28 +214,28 @@ struct inode *hfs_new_inode(struct inode *dir, const struct qstr *name, umode_t
- 	HFS_I(inode)->tz_secondswest = sys_tz.tz_minuteswest * 60;
- 	if (S_ISDIR(mode)) {
- 		inode->i_size = 2;
--		folder_count = atomic64_inc_return(&HFS_SB(sb)->folder_count);
--		if (folder_count> U32_MAX) {
--			atomic64_dec(&HFS_SB(sb)->folder_count);
--			pr_err("cannot create new inode: folder count exceeds limit\n");
--			goto out_discard;
-+		if (unlikely(!inc_u32_unless_wraparound(&HFS_SB(sb)->folder_count)))
-+			HFS_SB(sb)->suggest_fsck = true;
-+		if (dir->i_ino == HFS_ROOT_CNID) {
-+			if (unlikely(HFS_SB(sb)->root_dirs == U16_MAX))
-+				HFS_SB(sb)->suggest_fsck = true;
-+			else
-+				HFS_SB(sb)->root_dirs++;
- 		}
--		if (dir->i_ino == HFS_ROOT_CNID)
--			HFS_SB(sb)->root_dirs++;
- 		inode->i_op = &hfs_dir_inode_operations;
- 		inode->i_fop = &hfs_dir_operations;
- 		inode->i_mode |= S_IRWXUGO;
- 		inode->i_mode &= ~HFS_SB(inode->i_sb)->s_dir_umask;
- 	} else if (S_ISREG(mode)) {
- 		HFS_I(inode)->clump_blocks = HFS_SB(sb)->clumpablks;
--		file_count = atomic64_inc_return(&HFS_SB(sb)->file_count);
--		if (file_count > U32_MAX) {
--			atomic64_dec(&HFS_SB(sb)->file_count);
--			pr_err("cannot create new inode: file count exceeds limit\n");
--			goto out_discard;
-+		if (unlikely(!inc_u32_unless_wraparound(&HFS_SB(sb)->file_count)))
-+			HFS_SB(sb)->suggest_fsck = true;
-+		if (dir->i_ino == HFS_ROOT_CNID) {
-+			if (unlikely(HFS_SB(sb)->root_files == U16_MAX))
-+				HFS_SB(sb)->suggest_fsck = true;
-+			else
-+				HFS_SB(sb)->root_files++;
- 		}
--		if (dir->i_ino == HFS_ROOT_CNID)
--			HFS_SB(sb)->root_files++;
- 		inode->i_op = &hfs_file_inode_operations;
- 		inode->i_fop = &hfs_file_operations;
- 		inode->i_mapping->a_ops = &hfs_aops;
-@@ -272,17 +270,27 @@ void hfs_delete_inode(struct inode *inode)
- 
- 	hfs_dbg("ino %lu\n", inode->i_ino);
- 	if (S_ISDIR(inode->i_mode)) {
--		atomic64_dec(&HFS_SB(sb)->folder_count);
--		if (HFS_I(inode)->cat_key.ParID == cpu_to_be32(HFS_ROOT_CNID))
--			HFS_SB(sb)->root_dirs--;
-+		if (unlikely(!dec_u32_unless_wraparound(&HFS_SB(sb)->folder_count)))
-+			HFS_SB(sb)->suggest_fsck = true;
-+		if (HFS_I(inode)->cat_key.ParID == cpu_to_be32(HFS_ROOT_CNID)) {
-+			if (unlikely(!HFS_SB(sb)->root_dirs))
-+				HFS_SB(sb)->suggest_fsck = true;
-+			else
-+				HFS_SB(sb)->root_dirs--;
-+		}
- 		set_bit(HFS_FLG_MDB_DIRTY, &HFS_SB(sb)->flags);
- 		hfs_mark_mdb_dirty(sb);
- 		return;
- 	}
- 
--	atomic64_dec(&HFS_SB(sb)->file_count);
--	if (HFS_I(inode)->cat_key.ParID == cpu_to_be32(HFS_ROOT_CNID))
--		HFS_SB(sb)->root_files--;
-+	if (unlikely(!dec_u32_unless_wraparound(&HFS_SB(sb)->file_count)))
-+		HFS_SB(sb)->suggest_fsck = true;
-+	if (HFS_I(inode)->cat_key.ParID == cpu_to_be32(HFS_ROOT_CNID)) {
-+		if (unlikely(!HFS_SB(sb)->root_files))
-+			HFS_SB(sb)->suggest_fsck = true;
-+		else
-+			HFS_SB(sb)->root_files--;
-+	}
- 	if (S_ISREG(inode->i_mode)) {
- 		if (!inode->i_nlink) {
- 			inode->i_size = 0;
-diff --git a/fs/hfs/mdb.c b/fs/hfs/mdb.c
-index a97cea35ca2e..c0e55e7233c9 100644
---- a/fs/hfs/mdb.c
-+++ b/fs/hfs/mdb.c
-@@ -64,27 +64,6 @@ static int hfs_get_last_session(struct super_block *sb,
- 	return 0;
- }
- 
--bool is_hfs_cnid_counts_valid(struct super_block *sb)
--{
--	struct hfs_sb_info *sbi = HFS_SB(sb);
--	bool corrupted = false;
--
--	if (unlikely(atomic64_read(&sbi->next_id) > U32_MAX)) {
--		pr_warn("next CNID exceeds limit\n");
--		corrupted = true;
--	}
--	if (unlikely(atomic64_read(&sbi->file_count) > U32_MAX)) {
--		pr_warn("file count exceeds limit\n");
--		corrupted = true;
--	}
--	if (unlikely(atomic64_read(&sbi->folder_count) > U32_MAX)) {
--		pr_warn("folder count exceeds limit\n");
--		corrupted = true;
--	}
--
--	return !corrupted;
--}
--
- /*
-  * hfs_mdb_get()
-  *
-@@ -177,8 +156,8 @@ int hfs_mdb_get(struct super_block *sb)
- 	atomic64_set(&HFS_SB(sb)->next_id, be32_to_cpu(mdb->drNxtCNID));
- 	HFS_SB(sb)->root_files = be16_to_cpu(mdb->drNmFls);
- 	HFS_SB(sb)->root_dirs = be16_to_cpu(mdb->drNmRtDirs);
--	atomic64_set(&HFS_SB(sb)->file_count, be32_to_cpu(mdb->drFilCnt));
--	atomic64_set(&HFS_SB(sb)->folder_count, be32_to_cpu(mdb->drDirCnt));
-+	HFS_SB(sb)->file_count = be32_to_cpu(mdb->drFilCnt);
-+	HFS_SB(sb)->folder_count = be32_to_cpu(mdb->drDirCnt);
- 
- 	if (!is_hfs_cnid_counts_valid(sb)) {
- 		pr_warn("filesystem possibly corrupted, running fsck.hfs is recommended. Mounting read-only.\n");
-@@ -300,10 +279,8 @@ void hfs_mdb_commit(struct super_block *sb)
- 			cpu_to_be32((u32)atomic64_read(&HFS_SB(sb)->next_id));
- 		mdb->drNmFls = cpu_to_be16(HFS_SB(sb)->root_files);
- 		mdb->drNmRtDirs = cpu_to_be16(HFS_SB(sb)->root_dirs);
--		mdb->drFilCnt =
--			cpu_to_be32((u32)atomic64_read(&HFS_SB(sb)->file_count));
--		mdb->drDirCnt =
--			cpu_to_be32((u32)atomic64_read(&HFS_SB(sb)->folder_count));
-+		mdb->drFilCnt = cpu_to_be32(HFS_SB(sb)->file_count);
-+		mdb->drDirCnt = cpu_to_be32(HFS_SB(sb)->folder_count);
- 
- 		/* write MDB to disk */
- 		mark_buffer_dirty(HFS_SB(sb)->mdb_bh);
-diff --git a/fs/hfs/super.c b/fs/hfs/super.c
-index 97546d6b41f4..e150550a5ded 100644
---- a/fs/hfs/super.c
-+++ b/fs/hfs/super.c
-@@ -34,7 +34,6 @@ MODULE_LICENSE("GPL");
- 
- static int hfs_sync_fs(struct super_block *sb, int wait)
- {
--	is_hfs_cnid_counts_valid(sb);
- 	hfs_mdb_commit(sb);
- 	return 0;
- }
-@@ -50,6 +49,10 @@ static void hfs_put_super(struct super_block *sb)
- {
- 	cancel_delayed_work_sync(&HFS_SB(sb)->mdb_work);
- 	hfs_mdb_close(sb);
-+
-+	if (!is_hfs_cnid_counts_valid(sb) || HFS_SB(sb)->suggest_fsck)
-+		pr_warn("filesystem error was detected, running fsck.hfs is recommended.\n");
-+
- 	/* release the MDB's resources */
- 	hfs_mdb_put(sb);
- }
-@@ -66,8 +69,6 @@ static void flush_mdb(struct work_struct *work)
- 	sbi->work_queued = 0;
- 	spin_unlock(&sbi->work_lock);
- 
--	is_hfs_cnid_counts_valid(sb);
--
- 	hfs_mdb_commit(sb);
- }
- 
-@@ -322,8 +323,9 @@ static int hfs_fill_super(struct super_block *sb, struct fs_context *fc)
- 	int silent = fc->sb_flags & SB_SILENT;
- 	int res;
- 
--	atomic64_set(&sbi->file_count, 0);
--	atomic64_set(&sbi->folder_count, 0);
-+	sbi->suggest_fsck = false;
-+	sbi->file_count = 0;
-+	sbi->folder_count = 0;
- 	atomic64_set(&sbi->next_id, 0);
- 
- 	/* load_nls_default does not fail */
+X-ThreadId: A-xRDuNKAwPJ
+Date: Tue, 17 Feb 2026 09:21:23 -0500
+From: "Chuck Lever" <cel@kernel.org>
+To: "Shyam Prasad N" <nspmangalore@gmail.com>
+Cc: lsf-pc@lists.linux-foundation.org,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>, keyrings@vger.kernel.org,
+ CIFS <linux-cifs@vger.kernel.org>, linux-nfs@vger.kernel.org,
+ "Christian Brauner" <brauner@kernel.org>,
+ "David Howells" <dhowells@redhat.com>
+Message-Id: <510c1f0a-4f42-4ce5-ab85-20d491019c53@app.fastmail.com>
+In-Reply-To: 
+ <CANT5p=rpJDx0xXfeS3G01VEWGS4SzTeFqm2vO6tEnq9kS=+iOw@mail.gmail.com>
+References: 
+ <CANT5p=rDxeYKXoCJoWRwGGXv4tPCM2OuX+US_G3hm_tL3UyqtA@mail.gmail.com>
+ <7570f43c-8f6c-4419-a8b8-141efdb1363a@app.fastmail.com>
+ <CANT5p=rpJDx0xXfeS3G01VEWGS4SzTeFqm2vO6tEnq9kS=+iOw@mail.gmail.com>
+Subject: Re: [LSF/MM/BPF TOPIC] Namespace-aware upcalls from kernel filesystems
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
 
+
+On Mon, Feb 16, 2026, at 11:14 PM, Shyam Prasad N wrote:
+> On Sat, Feb 14, 2026 at 9:10=E2=80=AFPM Chuck Lever <cel@kernel.org> w=
+rote:
+>>
+>>
+>> On Sat, Feb 14, 2026, at 5:06 AM, Shyam Prasad N wrote:
+>> > Kernel filesystems sometimes need to upcall to userspace to get some
+>> > work done, which cannot be achieved in kernel code (or rather it is
+>> > better to be done in userspace). Some examples are DNS resolutions,
+>> > user authentication, ID mapping etc.
+>> >
+>> > Filesystems like SMB and NFS clients use the kernel keys subsystem =
+for
+>> > some of these, which has an upcall facility that can exec a binary =
+in
+>> > userspace. However, this upcall mechanism is not namespace aware and
+>> > upcalls to the host namespaces (namespaces of the init process).
+>>
+>> Hello Shyam, we've been introducing netlink control interfaces, which
+>> are namespace-aware. The kernel TLS handshake mechanism now uses
+>> this approach, as does the new NFSD netlink protocol.
+>>
+>>
+>> --
+>> Chuck Lever
+>
+> Hi Chuck,
+>
+> Interesting. Let me explore this a bit more.
+> I'm assuming that this is the file that I should be looking into:
+> fs/nfsd/nfsctl.c
+
+Yes, clustered towards the end of the file. NFSD's use of netlink
+is as a downcall-style administrative control plane.
+
+net/handshake/netlink.c uses netlink as an upcall for driving
+kernel-initiated TLS handshake requests up to a user daemon. This
+mechanism has been adopted by NFSD, the NFS client, and the NVMe
+over TCP drivers. An in-kernel QUIC implementation is planned and
+will also be using this.
+
+
+> And that there would be a corresponding handler in nfs-utils?
+
+For NFSD, nfs-utils has a new tool called nfsdctl.
+
+The TLS handshake user space components are in ktls-utils. See:
+https://github.com/oracle/ktls-utils
+
+--=20
+Chuck Lever
