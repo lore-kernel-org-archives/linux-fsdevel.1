@@ -1,48 +1,52 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2500C2BDC2A;
-	Tue, 17 Feb 2026 19:06:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B1E637473C;
+	Tue, 17 Feb 2026 19:08:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771355218; cv=none; b=h4KamXg96g0bP/M4tZ9LljVH4ZaAZw2K1g2a/tMH1t1rFN1kRmKLuen3B36OM//yunvoE69Bx+dl/XRAoIFKWO9pncl9hUWPC7Icby/qhhDr8Upi1wn+JGwuWUQGyDjztdwkQ7srqnSRe7ol4IoYGPf5U/jA1qDijKMr2rk3JAQ=
+	t=1771355325; cv=none; b=JSv1DOVTrc/u5TLttTcAyFL0k0PK9FnmNVQq9zMU/q7z10x7tM7dqr+cj6dNKfmw5vU9pakfx8+2hC2UB8jPw9ShT17l/L6VR/GnAIY6y01KOyKBejuJ5fCHz22HZQVgs4WWR8AFD5911cbuIigYHKXvRqngRraw0PY9pCInyD4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771355218; c=relaxed/simple;
-	bh=0eTUwQKISaIkBAAAO4vm9nrNcDRJC8QVpqOsJpdqKTY=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=jhYXkzomgFOl7OrbLCeU0CTopuAi3YY1eu2CI6C0nZonNTbPhvlyjwJftFomO4o09W3VpqM8O1gGaQmwosBdQM47DbXc/lg75A9fPtKuzYMYPReT93c9wP2PYbZ93A6dmVviD0ykyoKPIxzi6Jlv2c2pIcfgOHVMTGwp9KgFlFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=JitqNBW3; arc=none smtp.client-ip=35.157.23.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
+	s=arc-20240116; t=1771355325; c=relaxed/simple;
+	bh=2HaoEaqCL8zwpfCAm3reUWDQWV+0SqrP0agM2OtfwoA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=WxN00LOIyzvsEz2iVY0qMHGDYo3BYjjmh2MtQkTBPhQ1ZECEDrk4xSuTuSBuD1bSHLdILH0hgx+jbHsklVoW/b4iUjbFZuh/lqfBX82228DigaDNfc2AT8yEEnBNWsgtDm7ap3IyTTBj9h28NV5HMd6XysQSnykD7wKhzi+7PC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=IgxlNwCg; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="JitqNBW3"
-Received: from relayfre-01.paragon-software.com (unknown [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id B773A1D11;
-	Tue, 17 Feb 2026 19:04:51 +0000 (UTC)
-Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=JitqNBW3;
-	dkim-atps=neutral
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 7D93021E7;
-	Tue, 17 Feb 2026 19:06:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1771355203;
-	bh=sYVlSLla9FfDDKhzIpKI1ZKiZv1Oke9d5z8mszSIPu4=;
-	h=From:To:CC:Subject:Date;
-	b=JitqNBW3OTOARxBoLvXTHzmPdKDydEfQDgCOPwSTn4CA2HQZvj+HdjNFTYrBqj+WZ
-	 IcO4JdTaFzG41KUWTZAioOoAuO8Y981zSF5WCFhhBO6k9wvetUPKFR9N871bRHKsNg
-	 nZmppyyx9baekZ/ogLgtPCr76qG1P/a65yx0x6eA=
-Received: from localhost.localdomain (172.30.20.168) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Tue, 17 Feb 2026 22:06:42 +0300
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-To: <torvalds@linux-foundation.org>
-CC: <ntfs3@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: [GIT PULL] ntfs3: changes for 7.0
-Date: Tue, 17 Feb 2026 20:06:30 +0100
-Message-ID: <20260217190630.19176-1-almaz.alexandrovich@paragon-software.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="IgxlNwCg"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-Type:Content-ID:Content-Description;
+	bh=g1BJmclM0DpVp6g5t24qtwHIcCxS+r+MNjOHxAFuLkg=; b=IgxlNwCgbskU1Uo51Lga1Vi197
+	NogL3Bz0baZ+81xxlQco+P/S7Nv4mEhYvZAsrVGEOjJh4kbHi3AUUx4NwVRAgGboXcj6VWf+QxSOG
+	UVGRJjdmZ7kDn4run5TJ5nna8Rky4Q62D8pFovrkuc0btqSmZijN9eo7QhTqEm/iduhIg0e1tubDz
+	vpCL5Wy/CfZuqyv6/5oG71ZiQa0ZJQpChYQAG0NkwAxIkx4SlUhFVDlIKyEluxM2NkeWLqAzMrCBs
+	7zchPz9lGAs1FRTfjjRq5C/mWuF9hzHNcIm6hq6Xj9XQUGwrEsprGcsFMDG3kh56maFmRxMczS/wv
+	31vuM/Zg==;
+Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vsQR3-00000004pgK-2VT8;
+	Tue, 17 Feb 2026 19:08:37 +0000
+From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+To: 
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Will Deacon <will@kernel.org>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Waiman Long <longman@redhat.com>,
+	linux-kernel@vger.kernel.org,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Christoph Hellwig <hch@infradead.org>,
+	linux-fsdevel@vger.kernel.org
+Subject: [RFC 1/1] rwsem: Shrink rwsem by one pointer
+Date: Tue, 17 Feb 2026 19:08:34 +0000
+Message-ID: <20260217190835.1151964-2-willy@infradead.org>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260217190835.1151964-1-willy@infradead.org>
+References: <20260217190835.1151964-1-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -50,125 +54,257 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-Regards,
-Konstantin
+Instead of embedding a list_head in struct rw_semaphore, store a pointer
+to the first waiter.  The list of waiters remains a doubly linked list
+so we can efficiently add to the tail of the list, remove from the front
+(or middle) of the list.
 
-----------------------------------------------------------------
-The following changes since commit 8f0b4cce4481fb22653697cced8d0d04027cb1e8:
+Some of the list manipulation becomes more complicated, but it's a
+reasonable tradeoff on the slow paths to shrink some core data structures
+like struct inode.
 
-  Linux 6.19-rc1 (2025-12-14 16:05:07 +1200)
+Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+---
+ include/linux/rwsem.h  |  8 ++---
+ kernel/locking/rwsem.c | 74 +++++++++++++++++++++++++++++++-----------
+ 2 files changed, 59 insertions(+), 23 deletions(-)
 
-are available in the Git repository at:
+diff --git a/include/linux/rwsem.h b/include/linux/rwsem.h
+index f1aaf676a874..1771c96a01d2 100644
+--- a/include/linux/rwsem.h
++++ b/include/linux/rwsem.h
+@@ -57,7 +57,7 @@ struct rw_semaphore {
+ 	struct optimistic_spin_queue osq; /* spinner MCS lock */
+ #endif
+ 	raw_spinlock_t wait_lock;
+-	struct list_head wait_list;
++	struct rwsem_waiter *first_waiter;
+ #ifdef CONFIG_DEBUG_RWSEMS
+ 	void *magic;
+ #endif
+@@ -104,7 +104,7 @@ static inline void rwsem_assert_held_write_nolockdep(const struct rw_semaphore *
+ 	  .owner = ATOMIC_LONG_INIT(0),				\
+ 	  __RWSEM_OPT_INIT(name)				\
+ 	  .wait_lock = __RAW_SPIN_LOCK_UNLOCKED(name.wait_lock),\
+-	  .wait_list = LIST_HEAD_INIT((name).wait_list),	\
++	  .first_waiter = NULL,					\
+ 	  __RWSEM_DEBUG_INIT(name)				\
+ 	  __RWSEM_DEP_MAP_INIT(name) }
+ 
+@@ -127,9 +127,9 @@ do {								\
+  * rwsem to see if somebody from an incompatible type is wanting access to the
+  * lock.
+  */
+-static inline int rwsem_is_contended(struct rw_semaphore *sem)
++static inline bool rwsem_is_contended(struct rw_semaphore *sem)
+ {
+-	return !list_empty(&sem->wait_list);
++	return sem->first_waiter != NULL;
+ }
+ 
+ #if defined(CONFIG_DEBUG_RWSEMS) || defined(CONFIG_DETECT_HUNG_TASK_BLOCKER)
+diff --git a/kernel/locking/rwsem.c b/kernel/locking/rwsem.c
+index 24df4d98f7d2..4226eb0ec5da 100644
+--- a/kernel/locking/rwsem.c
++++ b/kernel/locking/rwsem.c
+@@ -72,7 +72,7 @@
+ 		#c, atomic_long_read(&(sem)->count),		\
+ 		(unsigned long) sem->magic,			\
+ 		atomic_long_read(&(sem)->owner), (long)current,	\
+-		list_empty(&(sem)->wait_list) ? "" : "not "))	\
++		(sem)->first_waiter ? "" : "not "))		\
+ 			debug_locks_off();			\
+ 	} while (0)
+ #else
+@@ -321,7 +321,7 @@ void __init_rwsem(struct rw_semaphore *sem, const char *name,
+ #endif
+ 	atomic_long_set(&sem->count, RWSEM_UNLOCKED_VALUE);
+ 	raw_spin_lock_init(&sem->wait_lock);
+-	INIT_LIST_HEAD(&sem->wait_list);
++	sem->first_waiter = NULL;
+ 	atomic_long_set(&sem->owner, 0L);
+ #ifdef CONFIG_RWSEM_SPIN_ON_OWNER
+ 	osq_lock_init(&sem->osq);
+@@ -341,8 +341,7 @@ struct rwsem_waiter {
+ 	unsigned long timeout;
+ 	bool handoff_set;
+ };
+-#define rwsem_first_waiter(sem) \
+-	list_first_entry(&sem->wait_list, struct rwsem_waiter, list)
++#define rwsem_first_waiter(sem)	sem->first_waiter
+ 
+ enum rwsem_wake_type {
+ 	RWSEM_WAKE_ANY,		/* Wake whatever's at head of wait list */
+@@ -368,11 +367,36 @@ enum rwsem_wake_type {
+ static inline void
+ rwsem_add_waiter(struct rw_semaphore *sem, struct rwsem_waiter *waiter)
+ {
++	struct rwsem_waiter *first = sem->first_waiter;
+ 	lockdep_assert_held(&sem->wait_lock);
+-	list_add_tail(&waiter->list, &sem->wait_list);
++	if (first) {
++		list_add_tail(&waiter->list, &first->list);
++	} else {
++		INIT_LIST_HEAD(&waiter->list);
++		sem->first_waiter = waiter;
++	}
+ 	/* caller will set RWSEM_FLAG_WAITERS */
+ }
+ 
++static inline
++bool __rwsem_del_waiter(struct rw_semaphore *sem, struct rwsem_waiter *waiter)
++{
++	if (sem->first_waiter == waiter) {
++		if (list_empty(&waiter->list)) {
++			sem->first_waiter = NULL;
++			return true;
++		} else {
++			sem->first_waiter = list_first_entry(&waiter->list,
++					struct rwsem_waiter, list);
++			list_del(&waiter->list);
++		}
++	} else {
++		list_del(&waiter->list);
++	}
++
++	return false;
++}
++
+ /*
+  * Remove a waiter from the wait_list and clear flags.
+  *
+@@ -385,14 +409,22 @@ static inline bool
+ rwsem_del_waiter(struct rw_semaphore *sem, struct rwsem_waiter *waiter)
+ {
+ 	lockdep_assert_held(&sem->wait_lock);
+-	list_del(&waiter->list);
+-	if (likely(!list_empty(&sem->wait_list)))
++	if (__rwsem_del_waiter(sem, waiter))
+ 		return true;
+-
+ 	atomic_long_andnot(RWSEM_FLAG_HANDOFF | RWSEM_FLAG_WAITERS, &sem->count);
+ 	return false;
+ }
+ 
++static inline struct rwsem_waiter *next_waiter(const struct rw_semaphore *sem,
++		const struct rwsem_waiter *waiter)
++{
++	struct rwsem_waiter *next = list_first_entry(&waiter->list,
++			struct rwsem_waiter, list);
++	if (next == sem->first_waiter)
++		return NULL;
++	return next;
++}
++
+ /*
+  * handle the lock release when processes blocked on it that can now run
+  * - if we come here from up_xxxx(), then the RWSEM_FLAG_WAITERS bit must
+@@ -411,7 +443,7 @@ static void rwsem_mark_wake(struct rw_semaphore *sem,
+ 			    enum rwsem_wake_type wake_type,
+ 			    struct wake_q_head *wake_q)
+ {
+-	struct rwsem_waiter *waiter, *tmp;
++	struct rwsem_waiter *waiter, *next;
+ 	long oldcount, woken = 0, adjustment = 0;
+ 	struct list_head wlist;
+ 
+@@ -506,25 +538,28 @@ static void rwsem_mark_wake(struct rw_semaphore *sem,
+ 	 *    put them into wake_q to be woken up later.
+ 	 */
+ 	INIT_LIST_HEAD(&wlist);
+-	list_for_each_entry_safe(waiter, tmp, &sem->wait_list, list) {
++	do {
++		next = next_waiter(sem, waiter);
+ 		if (waiter->type == RWSEM_WAITING_FOR_WRITE)
+ 			continue;
+ 
+ 		woken++;
+ 		list_move_tail(&waiter->list, &wlist);
++		if (sem->first_waiter == waiter)
++			sem->first_waiter = next;
+ 
+ 		/*
+ 		 * Limit # of readers that can be woken up per wakeup call.
+ 		 */
+ 		if (unlikely(woken >= MAX_READERS_WAKEUP))
+ 			break;
+-	}
++	} while ((waiter = next) != NULL);
+ 
+ 	adjustment = woken * RWSEM_READER_BIAS - adjustment;
+ 	lockevent_cond_inc(rwsem_wake_reader, woken);
+ 
+ 	oldcount = atomic_long_read(&sem->count);
+-	if (list_empty(&sem->wait_list)) {
++	if (!sem->first_waiter) {
+ 		/*
+ 		 * Combined with list_move_tail() above, this implies
+ 		 * rwsem_del_waiter().
+@@ -545,7 +580,7 @@ static void rwsem_mark_wake(struct rw_semaphore *sem,
+ 		atomic_long_add(adjustment, &sem->count);
+ 
+ 	/* 2nd pass */
+-	list_for_each_entry_safe(waiter, tmp, &wlist, list) {
++	list_for_each_entry_safe(waiter, next, &wlist, list) {
+ 		struct task_struct *tsk;
+ 
+ 		tsk = waiter->task;
+@@ -639,7 +674,7 @@ static inline bool rwsem_try_write_lock(struct rw_semaphore *sem,
+ 			new |= RWSEM_WRITER_LOCKED;
+ 			new &= ~RWSEM_FLAG_HANDOFF;
+ 
+-			if (list_is_singular(&sem->wait_list))
++			if (list_empty(&first->list))
+ 				new &= ~RWSEM_FLAG_WAITERS;
+ 		}
+ 	} while (!atomic_long_try_cmpxchg_acquire(&sem->count, &count, new));
+@@ -659,7 +694,8 @@ static inline bool rwsem_try_write_lock(struct rw_semaphore *sem,
+ 	 * Have rwsem_try_write_lock() fully imply rwsem_del_waiter() on
+ 	 * success.
+ 	 */
+-	list_del(&waiter->list);
++	__rwsem_del_waiter(sem, waiter);
++
+ 	rwsem_set_owner(sem);
+ 	return true;
+ }
+@@ -1019,7 +1055,7 @@ rwsem_down_read_slowpath(struct rw_semaphore *sem, long count, unsigned int stat
+ 		 */
+ 		if ((rcnt == 1) && (count & RWSEM_FLAG_WAITERS)) {
+ 			raw_spin_lock_irq(&sem->wait_lock);
+-			if (!list_empty(&sem->wait_list))
++			if (sem->first_waiter)
+ 				rwsem_mark_wake(sem, RWSEM_WAKE_READ_OWNED,
+ 						&wake_q);
+ 			raw_spin_unlock_irq(&sem->wait_lock);
+@@ -1035,7 +1071,7 @@ rwsem_down_read_slowpath(struct rw_semaphore *sem, long count, unsigned int stat
+ 	waiter.handoff_set = false;
+ 
+ 	raw_spin_lock_irq(&sem->wait_lock);
+-	if (list_empty(&sem->wait_list)) {
++	if (!sem->first_waiter) {
+ 		/*
+ 		 * In case the wait queue is empty and the lock isn't owned
+ 		 * by a writer, this reader can exit the slowpath and return
+@@ -1218,7 +1254,7 @@ static struct rw_semaphore *rwsem_wake(struct rw_semaphore *sem)
+ 
+ 	raw_spin_lock_irqsave(&sem->wait_lock, flags);
+ 
+-	if (!list_empty(&sem->wait_list))
++	if (sem->first_waiter)
+ 		rwsem_mark_wake(sem, RWSEM_WAKE_ANY, &wake_q);
+ 
+ 	raw_spin_unlock_irqrestore(&sem->wait_lock, flags);
+@@ -1239,7 +1275,7 @@ static struct rw_semaphore *rwsem_downgrade_wake(struct rw_semaphore *sem)
+ 
+ 	raw_spin_lock_irqsave(&sem->wait_lock, flags);
+ 
+-	if (!list_empty(&sem->wait_list))
++	if (sem->first_waiter)
+ 		rwsem_mark_wake(sem, RWSEM_WAKE_READ_OWNED, &wake_q);
+ 
+ 	raw_spin_unlock_irqrestore(&sem->wait_lock, flags);
+-- 
+2.47.3
 
-  https://github.com/Paragon-Software-Group/linux-ntfs3.git tags/ntfs3_for_7.0
-
-for you to fetch changes up to 10d7c95af043b45a85dc738c3271bf760ff3577e:
-
-  fs/ntfs3: add delayed-allocation (delalloc) support (2026-02-16 17:23:51 +0100)
-
-----------------------------------------------------------------
-Changes for 7.0-rc1
-
-Added:
-        improve readahead for bitmap initialization and large directory scans
-	fsync files by syncing parent inodes
-	drop of preallocated clusters for sparse and compressed files
-	zero-fill folios beyond i_valid in ntfs_read_folio()
-	implement llseek SEEK_DATA/SEEK_HOLE by scanning data runs
-	implement iomap-based file operations
-	allow explicit boolean acl/prealloc mount options
-	a fall-through between switch labels
-	a delayed-allocation (delalloc) support
-
-Fixed:
-        check return value of indx_find to avoid infinite loop
-	initialize new folios before use
-	an infinite loop in attr_load_runs_range on inconsistent metadata
-	an infinite loop triggered by zero-sized ATTR_LIST
-	ntfs_mount_options leak in ntfs_fill_super()
-	a deadlock in ni_read_folio_cmpr
-	a circular locking dependency in run_unpack_ex
-	prevent infinite loops caused by the next valid being the same
-	restore NULL folio initialization in ntfs_writepages()
-	a slab-out-of-bounds read in DeleteIndexEntryRoot
-
-Changed:
-        allow readdir() to finish after directory mutations without rewinddir()
-	handle attr_set_size() errors when truncating files
-	make ntfs_writeback_ops static
-	refactor duplicate kmemdup pattern in do_action()
-	avoid calling run_get_entry() when run == NULL in ntfs_read_run_nb_ra()
-
-Replaced:
-	use wait_on_buffer() directly
-	rename ni_readpage_cmpr into ni_read_folio_cmpr
-
-----------------------------------------------------------------
-Baokun Li (1):
-      fs/ntfs3: fix ntfs_mount_options leak in ntfs_fill_super()
-
-Baolin Liu (1):
-      ntfs3: Refactor duplicate kmemdup pattern in do_action()
-
-Bartlomiej Kubik (1):
-      fs/ntfs3: Initialize new folios before use
-
-Edward Adam Davis (1):
-      fs/ntfs3: prevent infinite loops caused by the next valid being the same
-
-Jaehun Gou (3):
-      fs: ntfs3: check return value of indx_find to avoid infinite loop
-      fs: ntfs3: fix infinite loop in attr_load_runs_range on inconsistent metadata
-      fs: ntfs3: fix infinite loop triggered by zero-sized ATTR_LIST
-
-Jiasheng Jiang (1):
-      fs/ntfs3: Fix slab-out-of-bounds read in DeleteIndexEntryRoot
-
-Konstantin Komarov (13):
-      fs/ntfs3: rename ni_readpage_cmpr into ni_read_folio_cmpr
-      fs/ntfs3: improve readahead for bitmap initialization and large directory scans
-      fs/ntfs3: allow readdir() to finish after directory mutations without rewinddir()
-      fs/ntfs3: fsync files by syncing parent inodes
-      fs/ntfs3: drop preallocated clusters for sparse and compressed files
-      fs/ntfs3: handle attr_set_size() errors when truncating files
-      fs/ntfs3: zero-fill folios beyond i_valid in ntfs_read_folio()
-      fs/ntfs3: implement llseek SEEK_DATA/SEEK_HOLE by scanning data runs
-      fs/ntfs3: implement iomap-based file operations
-      fs/ntfs3: allow explicit boolean acl/prealloc mount options
-      fs/ntfs3: add fall-through between switch labels
-      fs/ntfs3: avoid calling run_get_entry() when run == NULL in ntfs_read_run_nb_ra()
-      fs/ntfs3: add delayed-allocation (delalloc) support
-
-Lalit Shankar Chowdhury (1):
-      fs/ntfs3: Use wait_on_buffer() directly
-
-Nathan Chancellor (1):
-      ntfs3: Restore NULL folio initialization in ntfs_writepages()
-
-Szymon Wilczek (2):
-      fs/ntfs3: fix deadlock in ni_read_folio_cmpr
-      ntfs3: fix circular locking dependency in run_unpack_ex
-
-sunliming (1):
-      fs/ntfs3: make ntfs_writeback_ops static
-
- fs/ntfs3/attrib.c   | 412 ++++++++++++++++++---------
- fs/ntfs3/attrlist.c |  17 +-
- fs/ntfs3/bitmap.c   |  17 ++
- fs/ntfs3/dir.c      | 108 ++++---
- fs/ntfs3/file.c     | 599 ++++++++++++++++++++++-----------------
- fs/ntfs3/frecord.c  | 382 +++++++++++++------------
- fs/ntfs3/fslog.c    |  65 +++--
- fs/ntfs3/fsntfs.c   | 112 +++++---
- fs/ntfs3/index.c    |  49 ++--
- fs/ntfs3/inode.c    | 800 ++++++++++++++++++++++++++++------------------------
- fs/ntfs3/ntfs.h     |   4 +
- fs/ntfs3/ntfs_fs.h  | 153 +++++++---
- fs/ntfs3/run.c      | 163 ++++++++++-
- fs/ntfs3/super.c    |  73 +++--
- fs/ntfs3/xattr.c    |   2 +-
- 15 files changed, 1822 insertions(+), 1134 deletions(-)
