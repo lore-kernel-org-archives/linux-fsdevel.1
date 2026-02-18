@@ -1,94 +1,77 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B3BE145348;
-	Wed, 18 Feb 2026 10:23:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E52BE2C21ED
+	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Feb 2026 10:52:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771410203; cv=none; b=TX+e7ZPhhwuUxO+lCHCoohR+CKjpbs+PH60ZGKdMPA7GvFmz/q9+Dvwd+Zj7bKtc3rW54X0DjxeOPCdZk6foNfkNAihxufibKruYXRv16/GvDaCG//q0S37ufTJMRcTwdN0UYYoZrjhK6cV37BHBQ3Q31qIwD7/aVTkXq0+Zr4A=
+	t=1771411976; cv=none; b=rUzIQQcmshg5xm4aLs5vnhw80Cv/VoOReYD3AEFGTPy3FDvnV3wOsv8oEOBaVjIDA6/Um7hQthj38iYnCOrT7sXU00mVwbtzigipdJn04g3GFn3eu0UmrXOUqRWz345nC65g520gGxNTJ/S0kgcIZdhSLWiC7Hd1/Py1O0KtiPg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771410203; c=relaxed/simple;
-	bh=oXenyoOf6ubR0OAzaErVRJ09tPZl9ka/sy7cxMIfFgk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I8yJupn7Sd3mGdEka1slJivVoPBRZGSTyRsUsU/pb/z272ApJph60APcS3mwUhgIkF7HWnrNd+B2us/CGCeX1L5cbWZdDWqfXDl6A5PvkPGMGgtxa6VQ+o67w53MeUBD+d/ygY9Vsu3TacXjC5EmsHuRuHDLQ0upN2zWuuxSf74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eN11PawY; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1771411976; c=relaxed/simple;
+	bh=MPy2dmqKlCsrw5okIZFwkiGzwVi0bWXg1j0NfWvMFRQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
+	 Content-Type:References; b=oa1SCYLkUOW7TfWXL+Ct7wEgCo3SFXb4T/Iwb6uXRfN1xOq7r0oaR6e2sygMc0vGH6SKIaA6RzioOJ7FHWqxPHWBv/1ag2sFyPS3cfX3W3byjUbrEkBKWmuPDz8Vdgy2f4ddHF8OC3wwwX22Jzyu7Mghh44BtjOKD4/1wlsN5AA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=MYGC1Pxj; arc=none smtp.client-ip=203.254.224.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eN11PawY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771410200; x=1802946200;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=oXenyoOf6ubR0OAzaErVRJ09tPZl9ka/sy7cxMIfFgk=;
-  b=eN11PawY49pRa5ap08Zr4woiAdxQimf4ymxH+MUhccKe28nukRbVbS4w
-   GbFLGEdqGv5tn1b+zJpqRuU3AhoBuFYo5QEtA6Y3XWUI/jb5McXMhSBIU
-   CoT20pUsJbFAil6TBdyyLdzRBRYz4F5On2jMetRZwYeBkGgE0CynWmX1/
-   YMPs3qLj1UORqeqUElD63hrl2vjkRDvx7QVyOyMZrUM9FFmEo+bwz8uWc
-   qaZD28Rzen1HNRar+XKHgHvreVCNAurLAjmyytT84lHGMor4z8NB284zn
-   Bk+DxkVUIc27j2hLgLh/TeoWd3Zy6GXvyozX38iuvyYRUf7LazmsEL1Zp
-   w==;
-X-CSE-ConnectionGUID: HqEvs+F9RSm79iVwZ7miJw==
-X-CSE-MsgGUID: LbRCqElHTQa5uJrETyboCQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11704"; a="72195952"
-X-IronPort-AV: E=Sophos;i="6.21,298,1763452800"; 
-   d="scan'208";a="72195952"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2026 02:23:20 -0800
-X-CSE-ConnectionGUID: 3qDFRDz4QPC8MQHm8rM4GA==
-X-CSE-MsgGUID: fBOcfXBmSseTUcD99kqEAw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,298,1763452800"; 
-   d="scan'208";a="218292192"
-Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 18 Feb 2026 02:23:19 -0800
-Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vseiC-000000003Yf-17vP;
-	Wed, 18 Feb 2026 10:23:16 +0000
-Date: Wed, 18 Feb 2026 11:22:20 +0100
-From: kernel test robot <lkp@intel.com>
-To: Ethan Ferguson <ethan.ferguson@zetier.com>, hirofumi@mail.parknet.co.jp
-Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Ethan Ferguson <ethan.ferguson@zetier.com>
-Subject: Re: [PATCH v2 2/2] fat: Add FS_IOC_SETFSLABEL ioctl
-Message-ID: <202602181149.k8dhUKY6-lkp@intel.com>
-References: <20260217230628.719475-3-ethan.ferguson@zetier.com>
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="MYGC1Pxj"
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20260218105252epoutp03e4dd8cda86817b563953e92d94960edb~VUc3Pi-4B2913729137epoutp03X
+	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Feb 2026 10:52:52 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20260218105252epoutp03e4dd8cda86817b563953e92d94960edb~VUc3Pi-4B2913729137epoutp03X
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1771411972;
+	bh=MPy2dmqKlCsrw5okIZFwkiGzwVi0bWXg1j0NfWvMFRQ=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=MYGC1PxjznuhiOWZu70tL4bYSlPmvjJ5fGp7ptC6gLYqdx1l7RKpNU69WhRXkh0TH
+	 6WydTKrvq7cj3KUxBMpVB59u+9t+tR0lSgd+qBYUyXcHNwMV/rHBSlyIjlImotWKPP
+	 9oRd7nDLpBMKXQNg6acGUvjn0o7zDuNfhzpWnyVg=
+Received: from epsnrtp04.localdomain (unknown [182.195.42.156]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTPS id
+	20260218105252epcas5p2a1cd5fd4a4fa3e5a71cbbe99421ef9b6~VUc2nkLM00982209822epcas5p2x;
+	Wed, 18 Feb 2026 10:52:52 +0000 (GMT)
+Received: from epcas5p1.samsung.com (unknown [182.195.38.91]) by
+	epsnrtp04.localdomain (Postfix) with ESMTP id 4fGCyq3G6Xz6B9m6; Wed, 18 Feb
+	2026 10:52:51 +0000 (GMT)
+Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20260218105250epcas5p3d63a86bf5f61784ccd0f02bbaf2cd280~VUc1PEMui1692816928epcas5p3V;
+	Wed, 18 Feb 2026 10:52:50 +0000 (GMT)
+Received: from [107.122.11.51] (unknown [107.122.11.51]) by
+	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20260218105249epsmtip10a20eda6b4f4ae6e5d841b750a3e92d2~VUczwmyvL1133211332epsmtip11;
+	Wed, 18 Feb 2026 10:52:48 +0000 (GMT)
+Message-ID: <e40e6a2f-a03a-4133-b863-a88df0b967cf@samsung.com>
+Date: Wed, 18 Feb 2026 16:22:48 +0530
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260217230628.719475-3-ethan.ferguson@zetier.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 07/15] block: pass a maxlen argument to
+ bio_iov_iter_bounce
+To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>, Christian
+	Brauner <brauner@kernel.org>
+Cc: "Darrick J. Wong" <djwong@kernel.org>, Carlos Maiolino <cem@kernel.org>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>, Anuj Gupta
+	<anuj20.g@samsung.com>, linux-block@vger.kernel.org, nvdimm@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org
+Content-Language: en-US
+From: Kanchan Joshi <joshi.k@samsung.com>
+In-Reply-To: <20260218061238.3317841-8-hch@lst.de>
+Content-Transfer-Encoding: 7bit
+X-CMS-MailID: 20260218105250epcas5p3d63a86bf5f61784ccd0f02bbaf2cd280
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+cpgsPolicy: CPGSC10-542,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20260218061322epcas5p2ad69ece4b346b48d47f90a52a120801e
+References: <20260218061238.3317841-1-hch@lst.de>
+	<CGME20260218061322epcas5p2ad69ece4b346b48d47f90a52a120801e@epcas5p2.samsung.com>
+	<20260218061238.3317841-8-hch@lst.de>
 
-Hi Ethan,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 9f2693489ef8558240d9e80bfad103650daed0af]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ethan-Ferguson/fat-Add-FS_IOC_GETFSLABEL-ioctl/20260218-071019
-base:   9f2693489ef8558240d9e80bfad103650daed0af
-patch link:    https://lore.kernel.org/r/20260217230628.719475-3-ethan.ferguson%40zetier.com
-patch subject: [PATCH v2 2/2] fat: Add FS_IOC_SETFSLABEL ioctl
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260218/202602181149.k8dhUKY6-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260218/202602181149.k8dhUKY6-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602181149.k8dhUKY6-lkp@intel.com/
-
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
->> ERROR: modpost: "msdos_format_name" [fs/fat/fat.ko] undefined!
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Reviewed-by: Kanchan Joshi <joshi.k@samsung.com>
