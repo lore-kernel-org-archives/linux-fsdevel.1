@@ -1,82 +1,66 @@
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 009D03271E0
-	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Feb 2026 13:30:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3CE42D837E;
+	Wed, 18 Feb 2026 13:31:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771421432; cv=none; b=WXLjw+4YD0XHenyW8qTtRkwv3L9jKZc/cuPmyE6N+6jhSbUHPpK4231feb/4SbjBdXfvUyJP25Vxd8Fc+P0UW80SVuLXeLoayKDiTgPeflmCddQA9e84pLLi6vOrtm1d3bTB//kNL84gAteyl5dTAII/jQp1kgXVxqMzwtHsKgY=
+	t=1771421482; cv=none; b=UAyzja8svdZPaG8J1d1K9js1YETK/spxwNR9Y8Quh/Dxr8LelYIKzKTIEiN32kp7gq6nKMFtOklVmOmVyG7UvWEC+lTkw6O53UOzZg4MXEuGQsjg8p8VSTDJunKJTp85ekrj8K3XgET1Rbqg2QZV+xLO89Co0XcaHGYV904pwFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771421432; c=relaxed/simple;
-	bh=BUcbqGXHuR1KNA7AOVUKexsQGN8FVHG6OgIdvHbwxhA=;
-	h=Date:From:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I5uNenomDnua72JKh+FtFKjphiC+xbvJ/O0kZAf7DflHs4CgaVmGaFYy/xNDcicFKQ+lmi8EPzf4OK7SxNEsLvtv72JP/94EDJy8Re+R5VYhIyeR1z0Ybcc0ZqGVBBtamzLTkgXnCwhFIxMSkZRon/tTPuNyICE5Jh4pFsd+aqI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=NXAsZZ6d; arc=none smtp.client-ip=18.9.28.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+	s=arc-20240116; t=1771421482; c=relaxed/simple;
+	bh=VgU6I28atZXLQWOybT9ngkln1YsKlEcZz84d8eKEl9k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=W1clSPoKLj5Yq6jr00xN2df2XYkVJUhf6nb0ObAZYxC3tqtcIGt+x9XVn0O0/TtnAQnvEcZNc5VD6gM5+GPR6CO8s7iapZErsbAWhVM8EHaK5Yy/T1lsZbtTA70wJbcSk9IzcNCLjN5d4LdAn7SnEN8h6cFUDXCIRTNhblEwps8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NW15zfro; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="NXAsZZ6d"
-Received: from macsyma.thunk.org (pool-173-48-113-47.bstnma.fios.verizon.net [173.48.113.47])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 61IDTtYH018341
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 18 Feb 2026 08:29:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1771421397; bh=ttRrWrhPrzLzmBLq8cse1fRC/Cd5ZBOuRs3LOAaPw2g=;
-	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
-	b=NXAsZZ6dfomZQDhQDoXUYVVnsdoELU1CMDZkwfnRjcDsXbYipDX9bUREA/wiAhhMw
-	 UO8G3+ipWoUbqG9v7pz9RwNVOXmUYTIKGlzLxcNnJfjLHKEsnlCIjMxjroY5W+0Ual
-	 jzrDv7Gkqc83fMCglCLkDerIiLxaAir0a+1AQo2cRVMkebTR48nTuUniaqGj6vgXIG
-	 YP88DgunCIw/z3B4nXCwyjOVmsq4byEd/tAEiorBiSQl7AdModYKnnNmN6UcppC8X6
-	 xrVVCqf1y7R/wCs08VKsz6lNE4xhgnJBeoteMrm5t86MDluBjZ9CovO/eDZkPxbN3/
-	 LP+0K9CBPef1g==
-Received: by macsyma.thunk.org (Postfix, from userid 15806)
-	id 1A8CA58FE818; Wed, 18 Feb 2026 08:29:55 -0500 (EST)
-Date: Wed, 18 Feb 2026 08:29:54 -0500
-From: "Theodore Tso" <tytso@mit.edu>
-Cc: Jann Horn <jannh@google.com>, Christian Brauner <brauner@kernel.org>,
-        Oleg Nesterov <oleg@redhat.com>, Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NW15zfro"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDD1EC19421;
+	Wed, 18 Feb 2026 13:31:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771421482;
+	bh=VgU6I28atZXLQWOybT9ngkln1YsKlEcZz84d8eKEl9k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NW15zfrofWGJMfqdEJMnMRxUk5HiwLD4mwTCYizQNM7G5YYwaoBsKv0SWES2MHyB/
+	 TUvnkcamcRq+yU6LwnWJjVasGWgc12le3RwNMNXtncntRtwl/R3PxnBxQ2BygIYkUj
+	 5Ck6FnJshTja3OvDiGmKgSguvk1dCgcsLeKHEIEwiEPSUB6+WQpy86MsHlV1EG7xNp
+	 o6AC8ceF6dMCKPKQhROEgldkyD6x8QvhzNSaWMvRBZnJougx53h34vt1iULQReCYn7
+	 gss7jBc0tg2n6CXR3MsvoXM/uvbNyxp0fAZtc7svieNSGbd2dekIP0fQSOmdFD9zDk
+	 H5cjZBDdoHh/A==
+Date: Wed, 18 Feb 2026 14:31:18 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Oleg Nesterov <oleg@redhat.com>
+Cc: Jann Horn <jannh@google.com>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Ingo Molnar <mingo@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
 Subject: Re: [PATCH RFC v3 2/4] pidfd: add CLONE_PIDFD_AUTOKILL
-Message-ID: <20260218132954.GA45984@macsyma-wired.lan>
+Message-ID: <20260218-wildkatzen-emporsteigen-9eb20f74a8c0@brauner>
 References: <20260217-work-pidfs-autoreap-v3-0-33a403c20111@kernel.org>
  <20260217-work-pidfs-autoreap-v3-2-33a403c20111@kernel.org>
- <CAHk-=wj80zwxy=5jp5SAi64cqCZgRjY1cRokVuDPd9_t3XMvUw@mail.gmail.com>
- <CAG48ez2YiL7RZ1fm9vwOCDGr9OsDrCHrCmkyRRoGRMWUZjyyBg@mail.gmail.com>
- <CAHk-=wiPJfnTVq6vUF8K8kF0FfrY2svAqSwsL8xLEV76pVyEkg@mail.gmail.com>
+ <aZWnkY_XqQ1-kKO0@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAHk-=wiPJfnTVq6vUF8K8kF0FfrY2svAqSwsL8xLEV76pVyEkg@mail.gmail.com>
+In-Reply-To: <aZWnkY_XqQ1-kKO0@redhat.com>
 
-On Tue, Feb 17, 2026 at 03:44:52PM -0800, Linus Torvalds wrote:
-> On Tue, 17 Feb 2026 at 15:38, Jann Horn <jannh@google.com> wrote:
+On Wed, Feb 18, 2026 at 12:50:41PM +0100, Oleg Nesterov wrote:
+> On 02/17, Christian Brauner wrote:
 > >
-> > You can already send SIGHUP to such binaries through things like job
-> > control, right?
+> > @@ -2470,8 +2479,11 @@ __latent_entropy struct task_struct *copy_process(
+> >  	syscall_tracepoint_update(p);
+> >  	write_unlock_irq(&tasklist_lock);
+> >  
+> > -	if (pidfile)
+> > +	if (pidfile) {
+> > +		if (clone_flags & CLONE_PIDFD_AUTOKILL)
+> > +			p->signal->autokill_pidfd = pidfile;
+> >  		fd_install(pidfd, pidfile);
 > 
-> But at least those can be blocked, and people can disassociate
-> themselves from a tty if they care etc.
+> Just curious... Instead of adding signal->autokill_pidfd, can't we
+> add another "not fcntl" PIDFD_AUTOKILL flag that lives in ->f_flags ?
 
-Does CLONE_PIDFD_AUTOKILL need to send a SIGKILL?  Could it be
-something that could be trapped/blocked, like SIGHUP or SIGTERM?  Or
-maybe we could do the SIGHUP, wait 30 seconds (+/- a random delay), if
-it hasn't exited, send SIGTERM, wait another 30 seconds (+/- a random
-delay) if it hasn't exited send a SIGKILL.  That's still a change in
-the security model, but it's less likely to cause problems if the goal
-is to try to catch a setuid program while it is in the middle of
-editing some critical file such as /etc/sudo.conf or /etc/passwd or
-some such.
-
-I bet we'll still see some zero days coming out of this, but we can at
-least mitigate likelihood of security breach.
-
-							- Ted
-							
+This is a version I had as well and yes, that works too!
