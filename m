@@ -1,98 +1,94 @@
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A6BF2D0600
-	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Feb 2026 13:29:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.181.97.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C260C3271E0;
+	Wed, 18 Feb 2026 13:30:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771421367; cv=none; b=FUkA/ul26CKTmwbMvemWuTRD2LhuRCdhYXQ/lKx0JDpMYk2nqvBaFJQeSonSGWAlDTiLclAzJ7q8ugsHCdxGSC79q2Zwxa+a0ZF6AtvmLV72pP/gih9Q0D87UZNGFgGAx13wp318qxoofYF4NfmqIOW8KnpSEDbSGQelXC9X5bU=
+	t=1771421427; cv=none; b=gbRKkehAkfFNUdfGSYG5R6nxlTmrPEVjocNwr+ns5o7D7sdVawCtULphdbp3bjfaQ24ePtXLPKzdA6nrvLDAk+hkF5pnYLoJXNUIyVyYJOI8869uOTgJbcq346U7vhxLWtgpgF/obq8T3P3EBJUZdLgQ96UWEaVJJfGR0ZYVe7c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771421367; c=relaxed/simple;
-	bh=s/XMvdTBdPd1f+58sWF7/9G1CtnmywoXRvwCmobe9yY=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=DWLY5XCVMBxFEj4rwofji/e8da+wyls2kiD0EfJbxEC93XYpAatVe9BNhxpCxum6mBdgzDQeH2OOLqXPuX4Y696rgzsqU4l2InC0/EUFVt6v9jv9IdrJpQKJrfC1XJ7UK04CsaYBWtiZoB+jwqS6zMlt6p84hVggJAAJoJr581g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp; arc=none smtp.client-ip=202.181.97.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp
-Received: from www262.sakura.ne.jp (localhost [127.0.0.1])
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 61IDSrbU097444;
-	Wed, 18 Feb 2026 22:28:53 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from [192.168.1.10] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
-	(authenticated bits=0)
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 61IDSrER097441
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-	Wed, 18 Feb 2026 22:28:53 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <ade617e7-553d-477a-95e7-aa1598b6a8c9@I-love.SAKURA.ne.jp>
-Date: Wed, 18 Feb 2026 22:28:50 +0900
+	s=arc-20240116; t=1771421427; c=relaxed/simple;
+	bh=2fLB0i2yglOtWFsO52/y6Bp31O0fZSkROhOjV//ILHE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZT4PQOSQX2pBASUbbvF6MsAjws9EakXVu5FxbHYmsF6aCm/QWgaogusImjSgXottglU1l/aLFg3Xh+LE5F9heLW3/JZRFP1zWOCzU73PC6QV1nBYkBWMzm/hw8oQG9MZjVqv5UIxUztPpeDEJSr59BzWUDG1saYzLgWb4Us5FVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Uryp0667; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Uryp0667"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDA7AC19421;
+	Wed, 18 Feb 2026 13:30:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771421427;
+	bh=2fLB0i2yglOtWFsO52/y6Bp31O0fZSkROhOjV//ILHE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Uryp0667Za5vj7bVl0n+jFgJE2yZ1LSq/OfX2vUNDNIhJYmWCmGwT9mQp9e3s6CLT
+	 UwTGgCR/zksknGFu79PkscNA6yaSojCK9xCDOkbooYplWCkJP6X84yWrl203QZP5aX
+	 YZb6v6pxZL9dsXBFokkwlo//RqobrXFf1jRo0P7MWB4qvtWzMV07TmjboTO0GWO7gR
+	 grHUONJFrcoLUMzUPay2Yt0iW+ZzKuEKXI6lqnZvHht5cf1aNZkdn+0Io40IY6j4aK
+	 MKcXUPHNDAAkLrMmJKHzZDVzcgS2IBWB8qVpqqIfDP5rU32Z2KXPZtSKxLUFsu5/es
+	 z5oDyx35tP9Xw==
+Date: Wed, 18 Feb 2026 14:30:23 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Oleg Nesterov <oleg@redhat.com>
+Cc: Jann Horn <jannh@google.com>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Ingo Molnar <mingo@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH RFC v3 1/4] clone: add CLONE_AUTOREAP
+Message-ID: <20260218-fracht-geburt-2ba7db094f95@brauner>
+References: <20260217-work-pidfs-autoreap-v3-0-33a403c20111@kernel.org>
+ <20260217-work-pidfs-autoreap-v3-1-33a403c20111@kernel.org>
+ <aZWhpo7-1a0ChJMN@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: [PATCH v6] hfs: update sanity check of the root record
-From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-To: George Anthony Vernon <contact@gvernon.com>,
-        Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>,
-        "glaubitz@physik.fu-berlin.de" <glaubitz@physik.fu-berlin.de>,
-        "frank.li@vivo.com" <frank.li@vivo.com>,
-        "slava@dubeyko.com" <slava@dubeyko.com>
-Cc: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-References: <d2b28f73-49c8-4e30-9913-01702da4dfe4@I-love.SAKURA.ne.jp>
- <20251104014738.131872-3-contact@gvernon.com>
- <df9ed36b-ec8a-45e6-bff2-33a97ad3162c@I-love.SAKURA.ne.jp>
- <a31336352b94595c3b927d7d0ba40e4273052918.camel@ibm.com>
- <aSTuaUFnXzoQeIpv@Bertha>
- <43eb85b9-4112-488b-8ea0-084a5592d03c@I-love.SAKURA.ne.jp>
- <75fd5e4a-65af-48b1-a739-c9eb04bc72c5@I-love.SAKURA.ne.jp>
- <d1e3e3f6-e0c4-4e70-8759-c8aa273cbe37@I-love.SAKURA.ne.jp>
-Content-Language: en-US
-In-Reply-To: <d1e3e3f6-e0c4-4e70-8759-c8aa273cbe37@I-love.SAKURA.ne.jp>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Virus-Status: clean
-X-Anti-Virus-Server: fsav404.rs.sakura.ne.jp
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <aZWhpo7-1a0ChJMN@redhat.com>
 
-syzbot is reporting that BUG() in hfs_write_inode() fires
-when the inode number of the record retrieved as a result of
-hfs_cat_find_brec(HFS_ROOT_CNID) is not HFS_ROOT_CNID, for
-commit b905bafdea21 ("hfs: Sanity check the root record") checked
-the record size and the record type but did not check the inode number.
+On Wed, Feb 18, 2026 at 12:25:26PM +0100, Oleg Nesterov wrote:
+> On 02/17, Christian Brauner wrote:
+> >
+> > CLONE_AUTOREAP can be combined with CLONE_PIDFD to allow the parent to
+> > monitor the child's exit via poll() and retrieve exit status via
+> > PIDFD_GET_INFO. Without CLONE_PIDFD it provides a fire-and-forget
+> > pattern where the parent simply doesn't care about the child's exit
+> > status. No exit signal is delivered so exit_signal must be zero.
+>                                          ^^^^^^^^^^^^^^^^^^^^^^^^
+> 
+> Well, it has no effect if signal->autoreap is true. Probably makes
+> sense to enforce this rule anyway... but see below.
+> 
+> > @@ -2028,6 +2028,13 @@ __latent_entropy struct task_struct *copy_process(
+> >  			return ERR_PTR(-EINVAL);
+> >  	}
+> >
+> > +	if (clone_flags & CLONE_AUTOREAP) {
+> > +		if (clone_flags & CLONE_THREAD)
+> > +			return ERR_PTR(-EINVAL);
+> > +		if (args->exit_signal)
+> > +			return ERR_PTR(-EINVAL);
+> > +	}
+> > +
+> >  	/*
+> >  	 * Force any signals received before this point to be delivered
+> >  	 * before the fork happens.  Collect up signals sent to multiple
+> > @@ -2374,6 +2381,8 @@ __latent_entropy struct task_struct *copy_process(
+> >  		p->parent_exec_id = current->parent_exec_id;
+> >  		if (clone_flags & CLONE_THREAD)
+> >  			p->exit_signal = -1;
+> > +		else if (clone_flags & CLONE_AUTOREAP)
+> > +			p->exit_signal = 0;
+> 
+> So this is only needed for the CLONE_PARENT|CLONE_AUTOREAP case. Do we
+> really need to support this case? Not that I see anything wrong, but let
+> me ask anyway.
+> 
+> OTOH, what if a CLONE_AUTOREAP'ed child does clone(CLONE_PARENT) ?
+> in this case args->exit_signal is ignored, so the new child will run
+> with exit_signal == 0 but without signal->autoreap. This means it will
+> become a zombie without sending a signal. Again, I see nothing really
+> wrong, just this looks a bit confusing to me.
 
-Reported-by: syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=97e301b4b82ae803d21b
-Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
----
-Viacheslav Dubeyko and George Anthony Vernon are trying to fix this problem
-in hfs_read_inode(), but no new patch is proposed for three months
-( https://lkml.kernel.org/r/20251104014738.131872-3-contact@gvernon.com ) .
-This problem is "one of top crashers which is wasting syzbot resources" and
-"a very low-hanging fruit which can be trivially avoided". I already tested
-this patch using linux-next tree for two weeks, and syzbot did not find
-problems. Therefore, while what they would propose might partially overwrap
-with my proposal, let's make it possible to utilize syzbot resources for
-finding other bugs.
-
- fs/hfs/super.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/fs/hfs/super.c b/fs/hfs/super.c
-index 97546d6b41f4..c283fc9c5e88 100644
---- a/fs/hfs/super.c
-+++ b/fs/hfs/super.c
-@@ -361,7 +361,7 @@ static int hfs_fill_super(struct super_block *sb, struct fs_context *fc)
- 			goto bail_hfs_find;
- 		}
- 		hfs_bnode_read(fd.bnode, &rec, fd.entryoffset, fd.entrylength);
--		if (rec.type != HFS_CDR_DIR)
-+		if (rec.type != HFS_CDR_DIR || rec.dir.DirID != cpu_to_be32(HFS_ROOT_CNID))
- 			res = -EIO;
- 	}
- 	if (res)
--- 
-2.53.0
-
-
+Good point, I think makes sense to not allow CLONE_PARENT with this.
