@@ -1,87 +1,126 @@
-Received: from embla.dev.snart.me (embla.dev.snart.me [54.252.183.203])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC44F5733E;
-	Fri, 20 Feb 2026 05:44:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.252.183.203
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89B632FFF90
+	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Feb 2026 05:55:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771566243; cv=none; b=bPFTimacKzRgcucM83w3Cdm9qQG+mqWBaZdVXzcbBaJ8sbDzk8qaF9SzGfLOef2BACf9mMC7c7C1g3xW96RiokmOgD/mPUvpe2oMbGa03UrLaPGw+K5F9rRU8FzlfCePfzIunGi6QQeyp0cBchCmzzr/Urcwq6TeGjf8Xw4kv8Y=
+	t=1771566909; cv=none; b=MmMmRxjgQd8JyWBnSWCsYARl1Gvu0u70cyJWGihednF+FkbKhK0I+qR6VV0WA27Sf3Cq7PI3SubM7stKGgfbM0KXQ7jos0OYHiotSsHhoCrBc30sSdx+F3n0GjXZaWMzR3W6QOuPIUQhCz0lMfJFb1rdNuMK71ty0hizMK5waOo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771566243; c=relaxed/simple;
-	bh=nAwASGi5c/XcXYGVV67cIULqGiwOoqBepR7MHcsA1Ms=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VN/bLtzMO403ae1dIOFY4BigDKg9PzaApNGMZkqPuGoEU4tMQJt9mCBtJGyjJrWpM8350/6LIZQzYwwVoUTWPhTas/hVsQFFGux7VzUN6UqnD+OsZvz3IgLNabaPpW0gzE99lcoLDwEOww+IWJ905UwyfQLUlaA6gJXuUejfw1o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me; spf=pass smtp.mailfrom=dev.snart.me; dkim=pass (1024-bit key) header.d=dev.snart.me header.i=@dev.snart.me header.b=DAnpc4w7; arc=none smtp.client-ip=54.252.183.203
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dev.snart.me
+	s=arc-20240116; t=1771566909; c=relaxed/simple;
+	bh=SETEcec1D+mm0BU0dgNl2Gb3HG9APdLtZ19G+u8CMQc=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=c96SyqSIgHBAoXC6qbs1fyoHr+Lvoo10mTRD+2zalSsg0wcLnonTa2Oj1uzTxh8pq14JOjYDJ80Aww6SWdJWUG2/NI9ltlHyZktaIJDjTPBR2A2WOjadfkylblKyIo5O6jVhRUdAB1SRaVkBQ7o3YySRSeV84/DCB6B4nnitrXY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tjmercier.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=I4ja4f0L; arc=none smtp.client-ip=209.85.216.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--tjmercier.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=dev.snart.me header.i=@dev.snart.me header.b="DAnpc4w7"
-Received: from embla.dev.snart.me (localhost [IPv6:::1])
-	by embla.dev.snart.me (Postfix) with ESMTP id CAEE51D49A;
-	Fri, 20 Feb 2026 05:43:59 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 embla.dev.snart.me CAEE51D49A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=dev.snart.me; s=00;
-	t=1771566240; bh=nAwASGi5c/XcXYGVV67cIULqGiwOoqBepR7MHcsA1Ms=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=DAnpc4w7DPMpux3k8n9028GXe5YHPsOE/VINiFMy2Y4vpZa1/EMts/Grxcwvzc7Ik
-	 IcisP9RWXKR4XGPh0/OdyVr/HBmcH9TDQiWjxGUmqg6F8vesbHmQ7qpAF7O/Yzr0u8
-	 w8bAM5ex9R8wUmfp8MNU/hK1sxX5/10d5mbogfQ8=
-Received: from [192.168.1.18] ([182.226.25.243])
-	by embla.dev.snart.me with ESMTPSA
-	id RdSmHJ/0l2kVlgIA8KYfjw
-	(envelope-from <dxdt@dev.snart.me>); Fri, 20 Feb 2026 05:43:59 +0000
-Message-ID: <a676fa73-bb73-485b-9ace-36a841be2b15@dev.snart.me>
-Date: Fri, 20 Feb 2026 14:43:58 +0900
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="I4ja4f0L"
+Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-3561f5bd22eso1499755a91.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 19 Feb 2026 21:55:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1771566908; x=1772171708; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=PhOr9xc8hsjU1exlkJ9o+lRZ6CwgWrB0En0qqwGcrsk=;
+        b=I4ja4f0LlfshNDN7PredsaOvaI4MSfe7fyNx7Z5nCKc6eVnE0pLROUbjX/FKA93rTG
+         SiJL9HkpuaKQzP2UO6X7TIrDKvl28KeKYHFz+Wz3kd52ygj2K6vQjmaNoFfyd1Ax6+Jk
+         M0xAYnn0DPVM2372e3Pd9CnjA6MziZ7Z8/lNv3IXn3St2NxpQo5a5NAmyUs6ozELbO86
+         /XxJE6iSMHcv8hV/b0BPNQSgI2RMmtn0vXvOkgQQa22bSYb9XuSiwVHSAKzpPp+2D8WY
+         3Avsga2DUGOWica3gKQ+wzNITJW5r4Xuu3Cl4IXxZRFPyvNeMXVEpK0uHzvIrFh/4tdt
+         Fazw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771566908; x=1772171708;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=PhOr9xc8hsjU1exlkJ9o+lRZ6CwgWrB0En0qqwGcrsk=;
+        b=MUY5VrMuuJ73ya+Wb0LTpBCJodu2uG0lFCQ3ijy48Mroxu4KrEy58F63zskeAnVsvn
+         O9wVEXvjbAzydthFLSoG1YI0h/H0B81cRExxe7zcWNEOjHjpR56EhqcTAShsuSfJECSU
+         8XTASiMD2I98h1oJHJ7qV7UMN4uBlAUCSiwQoF5UqL5UWM2GeQNYT+C/xmMbnj7buy1X
+         SJtgy2HleIewgQO4zg5rjC203ii1LZ1uYpYAQciELcHKb6OPark5uSY3XinOVYUMrlC/
+         PvYU/GafHXx/sAmuMIu5ixkEyPf4jWLbHFofZ+zhuAVVynbJoXhqGJzABKdE3mwKcxdq
+         O55w==
+X-Forwarded-Encrypted: i=1; AJvYcCW8z8HdjDZ8Soti8gaNUfnjWyIun8dDt77zBtkbAb/bmFUJqPtIDkVdtvxqFG4t54vBUk8LyW3nmklPr7/n@vger.kernel.org
+X-Gm-Message-State: AOJu0YzEEs4XxawIMuylUAZwakuCzFy3EmL0cdgZ9XsGQeEHyfSPmGgm
+	HklrtZtuBWfui66yH8/uAeBTr3bm6npIyQ3/4Nga4i5q0Z48BSiDbsgPafxhh3UFZto+2evlFaZ
+	YCaPuKzKuin8+M8pmRQ==
+X-Received: from pjbsj6.prod.google.com ([2002:a17:90b:2d86:b0:34e:90d2:55c0])
+ (user=tjmercier job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:90a:da86:b0:354:a9f3:68bc with SMTP id 98e67ed59e1d1-358891cb92bmr6358367a91.30.1771566907697;
+ Thu, 19 Feb 2026 21:55:07 -0800 (PST)
+Date: Thu, 19 Feb 2026 21:54:45 -0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH] Introduce filesystem type tracking
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- git@vger.kernel.org
-References: <1211196126-7442-1-git-send-email-tspink@gmail.com>
- <7b9198260805200606u6ebc2681o8af7a8eebc1cb96@mail.gmail.com>
- <20080520134306.GA28946@ZenIV.linux.org.uk>
- <20080520135732.GA30349@infradead.org>
- <20260218-goldrausch-hochmoderne-2b96018fbe5b@brauner>
- <aZakzr_QAY6a-dlB@infradead.org>
- <20260219-galaxie-sensibel-b6d27e60d524@brauner>
- <20260219-kavaliersdelikt-ansatz-9bdd1aa77326@brauner>
-From: David Timber <dxdt@dev.snart.me>
-Content-Language: en-US, ko
-Autocrypt: addr=dxdt@dev.snart.me; keydata=
- xjMEYmJg1hYJKwYBBAHaRw8BAQdAf5E+ri1XLtjqYbZdHOyc8oS+1/XJ5bSlbx5WHXmVBZzN
- IERhdmlkIFRpbWJlciA8ZHhkdEBkZXYuc25hcnQubWU+wpQEExYKADwWIQQn/Jn96EMUaIoF
- X+T/ldyyrZpWaAUCYmJg1gIbAwULCQgHAgMiAgEGFQoJCAsCBBYCAwECHgcCF4AACgkQ/5Xc
- sq2aVmjJZwD8COjPlUwccrlRvbNQ6f87DWchtYO0o8W2DNRM3RLps0EA/jEhIbRV6AsyC8jr
- 30Ut3aJ3/mO/6G4sLj7OvkEEBH0MzjgEYmJg1hIKKwYBBAGXVQEFAQEHQFpgtIgaByv9lIEY
- EmpavMO0pYjtu7TMJynwdnGYkN9LAwEIB8J4BBgWCgAgFiEEJ/yZ/ehDFGiKBV/k/5Xcsq2a
- VmgFAmJiYNYCGwwACgkQ/5Xcsq2aVmhFCwEA0kM9VyYB4bLCM7+SuXUUH+5Ec99Nj4RXxFad
- Key9GuwA/2BZK6bNyrLSfEk2JDRoskqf7OIL0wa6JOD5SrBnMe8E
-In-Reply-To: <20260219-kavaliersdelikt-ansatz-9bdd1aa77326@brauner>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.53.0.414.gf7e9f6c205-goog
+Message-ID: <20260220055449.3073-1-tjmercier@google.com>
+Subject: [PATCH v4 0/3] kernfs: Add inotify IN_DELETE_SELF, IN_IGNORED support
+From: "T.J. Mercier" <tjmercier@google.com>
+To: gregkh@linuxfoundation.org, tj@kernel.org, driver-core@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, jack@suse.cz, amir73il@gmail.com, 
+	shuah@kernel.org, linux-kselftest@vger.kernel.org
+Cc: "T.J. Mercier" <tjmercier@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-> All these mails have a broken header and set In-Reply-To: to <>:
->
->   In-Reply-To: <>
->
-> So all of these messages share a single bogus parent with the empty
-> message ID <> and then Neomutt groups them together which makes it look
-> like a really old thread got new replies...
-Sorry for off-topic
+This series adds support for IN_DELETE_SELF and IN_IGNORED inotify
+events to kernfs files and directories.
 
-I run my own Postfix+Dovecot stack and for an added layer of security, I
-enabled client cert verification for all MUA ports(submission and imap)
-so that bots don't even have a chance at establishing a TLS session.
+Currently, kernfs (used by cgroup and others) supports IN_MODIFY events
+but fails to notify watchers when the file is removed (e.g. during
+cgroup destruction). This forces userspace monitors to maintain resource
+intensive side-channels like pidfds, procfs polling, or redundant
+directory watches to detect when a cgroup dies and a watched file is
+removed.
 
-The downside of this would be lack of client support. I'd love to use
-but unfortunately git-send-email cannot be configured to present a
-client cert to the server. I just learned that git-send-email is only a
-single 2k-line perl script, so I could submit the patch if anyone's
-interested. Just a few lines for the script to pass the PEM paths to the
-openssl lib.
+By generating IN_DELETE_SELF events on destruction, we allow watchers to
+rely on a single watch descriptor for the entire lifecycle of the
+monitored file, reducing resource usage (file descriptors, CPU cycles)
+and complexity in userspace.
+
+The series is structured as follows:
+Patch 1 preemptively addresses a race to set/clear i_nlink that would
+        arise in patch 2.
+Patch 2 implements the logic to generate DELETE_SELF and IGNORED events
+        on file / dir removal.
+Patch 3 adds selftests to verify the new behavior.
+
+---
+Changes in v4:
+Clear inode i_nlink upon kernfs removal instead of calling fsnotify
+from kernfs per Jan. This adds support for directories.
+Abandon support for files removed from vfs_writes.
+Add selftest for directory watch per Amir.
+Add Amir's Ack to selftests.
+
+Changes in v3:
+Remove parent IN_DELETE notification per Amir.
+  Refactored kernfs_notify_workfn to avoid grabbing parent when
+  unnecessary for DELETE events as a result.
+Use notify_event for fsnotify_inode call per Amir
+Initialize memcg pointers to NULL in selftests
+Add Amir's Ack
+Add Tejun's Acks to the series
+
+Changes in v2:
+Remove unused variables from new selftests per kernel test robot
+Fix kernfs_type argument per Tejun
+Inline checks for FS_MODIFY, FS_DELETE in kernfs_notify_workfn per Tejun
+
+T.J. Mercier (3):
+  kernfs: Don't set_nlink for directories being removed
+  kernfs: Send IN_DELETE_SELF and IN_IGNORED
+  selftests: memcg: Add tests for IN_DELETE_SELF and IN_IGNORED
+
+ fs/kernfs/dir.c                               |  32 ++++-
+ fs/kernfs/inode.c                             |   2 +-
+ .../selftests/cgroup/test_memcontrol.c        | 112 ++++++++++++++++++
+ 3 files changed, 144 insertions(+), 2 deletions(-)
+
+
+base-commit: ba268514ea14b44570030e8ed2aef92a38679e85
+-- 
+2.53.0.414.gf7e9f6c205-goog
+
