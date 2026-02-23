@@ -1,47 +1,63 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5A1C30FC1D;
-	Mon, 23 Feb 2026 16:27:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5271B313539;
+	Mon, 23 Feb 2026 16:33:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771864060; cv=none; b=LZFIouZD2SWuOWWzdIgJMvDtIJfQi3DxwtYkZFUk6Wc+YvtBlXtZz6TgOAGy2M7//UkV4SM1FFPWKD38uOamqL0vgGS2/a41hEHm2iozPoibJjUOFaHfSBkJCntd9zP1RuBUv8JfVaUVsqkQSlixYWVbzou5Ufqbz84oLhCSzgk=
+	t=1771864395; cv=none; b=UtDXxBQyUV3lNYWg5lGtDOkzM3aWkjCURoCyeG6jpUOHIPVJx9XPBPuUvQJWmWHtBkoDzSdz62smZwTu9OU5wyBv32qcVHuYdQuZZL8k5/dZMxS9xb2IypCSNtsgfgO2eQM9wWvFAvpzEDKADrItmUMUWZ9bsXNVgNXzqS3GzJQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771864060; c=relaxed/simple;
-	bh=fzmMAPqHr6UY1W4QOVefe5i2Klnyid7y4W4h12ZJ2Lo=;
+	s=arc-20240116; t=1771864395; c=relaxed/simple;
+	bh=Lx3d4xCCjQqM4hNnnOHqhZ8wgehpmy9M0RqpkyDnTVI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TwMW/WX1Lx42fVqraMDhJpwsbkntahoPoXrc8zxcbgzgNc9+pp0I4pKy18NE9bkILaMcUoK8UXbbqD2M1WENro+MVd16b2xYVfWJm0TU6CaWnrvNr1goJHYFd/7/UpBzvoUxI0v9BtHge5Tu0W+ID4DnYmQeKHfyFt1cfmHm43c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZpZHqKCQ; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=tq6xcnQ8yfEVqHYjENDXHpbmMw6nlHYgXgCCTKmEaGcS1EMuYYxt9+wL0l3UMNkDdDFq1uH9g/40Zji/ja94/jbWzxTuY6mMY0MS0JD/jUzKywiPdI+7xUv4BfwqpLVmpTttk2G8Ke2xulA8seKCQnt7vB56BsKv/bbbVFiILU0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RbVgKdin; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZpZHqKCQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B4C0C116C6;
-	Mon, 23 Feb 2026 16:27:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771864060;
-	bh=fzmMAPqHr6UY1W4QOVefe5i2Klnyid7y4W4h12ZJ2Lo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZpZHqKCQVoqovvBwyXxOJHCiEMZrA6Q/JpYJGnJIIc2oQPs06MEKkI2nY/zfzmSWW
-	 RUMoIBImCulZAFA1eRig7dOUjjvPSv7vrLnjoa5hpGddB6C8VZjV9DU4c5omi5GA3V
-	 kbB0tp1pQ4yEZCNRLtkWc/NrBeyohlbB9FoijXBqBflMlKjQa+/gXYebPitszzgJUv
-	 76a515aLdWGxWI/p9dF+d2BNiOHcnnrwsg1RCAZbpUyI9HB5oyHCU9SRwIoBytvTdg
-	 eBnyigzBpUc4z5n0YMet2oqc1k0UhJU4y9u22UoLfJJqBTVOPfxsZ50XKnQE1Okwbx
-	 2Kc+0pi50pInA==
-Date: Mon, 23 Feb 2026 08:27:39 -0800
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Christian Brauner <brauner@kernel.org>,
-	Carlos Maiolino <cem@kernel.org>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Anuj Gupta <anuj20.g@samsung.com>,
-	Kanchan Joshi <joshi.k@samsung.com>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	ntfs3@lists.linux.dev, linux-block@vger.kernel.org,
-	nvdimm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-xfs@vger.kernel.org
-Subject: Re: [PATCH 12/16] ntfs3: remove copy and pasted iomap code
-Message-ID: <20260223162739.GC2390353@frogsfrogsfrogs>
-References: <20260223132021.292832-1-hch@lst.de>
- <20260223132021.292832-13-hch@lst.de>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RbVgKdin"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1771864393; x=1803400393;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Lx3d4xCCjQqM4hNnnOHqhZ8wgehpmy9M0RqpkyDnTVI=;
+  b=RbVgKdin5k0nOa4HFFL1/iWa1oHoI6xfuA880M76MiopqObWHb9LekNB
+   n16nRFCeVZKEV9L+h8XdBiQiuhhkOhBbLUaGHd+Sg4PWx8EHdeKckE8Dn
+   kTVZSXiBOvEIxeh7prWkiQnXD5beRv/ditPdlE01dRUTsD9OyWxmE7+Uz
+   FqS1IQ89m5QmRwT+xik/aFtGRoMFmhV3x5Y6JZFDltnAZamtA+7/ncwPy
+   wEtkRFpr5dizWPsgquliSfx+XZHHd9D5HMxzhgstLfVhs7de8NvTxYyHF
+   Nh8Vxh4Jkx5lldPkSOnKdSnO37SNN3ROML+WCQjtGpDf6kVZV3bRFcTgJ
+   g==;
+X-CSE-ConnectionGUID: Cr+AFm8URAq2RF3kH4o7bw==
+X-CSE-MsgGUID: 68ALZjEXTDCpWzNUgVKNPg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11710"; a="75473023"
+X-IronPort-AV: E=Sophos;i="6.21,307,1763452800"; 
+   d="scan'208";a="75473023"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2026 08:33:13 -0800
+X-CSE-ConnectionGUID: 5eDstWmVSTuQYmT8trOspg==
+X-CSE-MsgGUID: xW3CMIadS5CwrtommhN3PQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,307,1763452800"; 
+   d="scan'208";a="213951680"
+Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
+  by fmviesa010.fm.intel.com with ESMTP; 23 Feb 2026 08:33:10 -0800
+Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vuYrr-000000000XF-2ez3;
+	Mon, 23 Feb 2026 16:33:07 +0000
+Date: Tue, 24 Feb 2026 00:32:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jori Koolstra <jkoolstra@xs4all.nl>, jlayton@kernel.org,
+	chuck.lever@oracle.com, alex.aring@gmail.com,
+	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz,
+	arnd@arndb.de, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, jkoolstra@xs4all.nl
+Subject: Re: [PATCH] Add support for empty path in openat and openat2 syscalls
+Message-ID: <202602240038.MTqLbuRR-lkp@intel.com>
+References: <20260223151652.582048-1-jkoolstra@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -50,107 +66,75 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260223132021.292832-13-hch@lst.de>
+In-Reply-To: <20260223151652.582048-1-jkoolstra@xs4all.nl>
 
-On Mon, Feb 23, 2026 at 05:20:12AM -0800, Christoph Hellwig wrote:
-> ntfs3 copied the iomap code without attribution or talking to the
-> maintainers, to hook into the bio completion for (unexplained) zeroing.
+Hi Jori,
 
-Well they /did/ attribute it...
+kernel test robot noticed the following build errors:
 
-> Fix this by just overriding the bio completion handler in the submit
-> handler.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->  fs/ntfs3/inode.c | 51 +++---------------------------------------------
->  1 file changed, 3 insertions(+), 48 deletions(-)
-> 
-> diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-> index 7ab4e18f8013..60af9f8e0366 100644
-> --- a/fs/ntfs3/inode.c
-> +++ b/fs/ntfs3/inode.c
-> @@ -605,63 +605,18 @@ static void ntfs_iomap_read_end_io(struct bio *bio)
->  	bio_put(bio);
->  }
->  
-> -/*
-> - * Copied from iomap/bio.c.
+[auto build test ERROR on brauner-vfs/vfs.all]
+[also build test ERROR on linus/master v7.0-rc1 next-20260220]
+[cannot apply to arnd-asm-generic/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-...extremely poorly, by not recording their reasons for copy-pasting the
-code.
+url:    https://github.com/intel-lab-lkp/linux/commits/Jori-Koolstra/Add-support-for-empty-path-in-openat-and-openat2-syscalls/20260223-232002
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/20260223151652.582048-1-jkoolstra%40xs4all.nl
+patch subject: [PATCH] Add support for empty path in openat and openat2 syscalls
+config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20260224/202602240038.MTqLbuRR-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260224/202602240038.MTqLbuRR-lkp@intel.com/reproduce)
 
-> - */
-> -static int ntfs_iomap_bio_read_folio_range(const struct iomap_iter *iter,
-> -					   struct iomap_read_folio_ctx *ctx,
-> -					   size_t plen)
-> -{
-> -	struct folio *folio = ctx->cur_folio;
-> -	const struct iomap *iomap = &iter->iomap;
-> -	loff_t pos = iter->pos;
-> -	size_t poff = offset_in_folio(folio, pos);
-> -	loff_t length = iomap_length(iter);
-> -	sector_t sector;
-> -	struct bio *bio = ctx->read_ctx;
-> -
-> -	sector = iomap_sector(iomap, pos);
-> -	if (!bio || bio_end_sector(bio) != sector ||
-> -	    !bio_add_folio(bio, folio, plen, poff)) {
-> -		gfp_t gfp = mapping_gfp_constraint(folio->mapping, GFP_KERNEL);
-> -		gfp_t orig_gfp = gfp;
-> -		unsigned int nr_vecs = DIV_ROUND_UP(length, PAGE_SIZE);
-> -
-> -		if (bio)
-> -			submit_bio(bio);
-> -
-> -		if (ctx->rac) /* same as readahead_gfp_mask */
-> -			gfp |= __GFP_NORETRY | __GFP_NOWARN;
-> -		bio = bio_alloc(iomap->bdev, bio_max_segs(nr_vecs), REQ_OP_READ,
-> -				gfp);
-> -		/*
-> -		 * If the bio_alloc fails, try it again for a single page to
-> -		 * avoid having to deal with partial page reads.  This emulates
-> -		 * what do_mpage_read_folio does.
-> -		 */
-> -		if (!bio)
-> -			bio = bio_alloc(iomap->bdev, 1, REQ_OP_READ, orig_gfp);
-> -		if (ctx->rac)
-> -			bio->bi_opf |= REQ_RAHEAD;
-> -		bio->bi_iter.bi_sector = sector;
-> -		bio->bi_end_io = ntfs_iomap_read_end_io;
-> -		bio_add_folio_nofail(bio, folio, plen, poff);
-> -		ctx->read_ctx = bio;
-> -	}
-> -	return 0;
-> -}
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602240038.MTqLbuRR-lkp@intel.com/
 
-Yeah, identical to iomap_bio_read_folio_range except for setting
-bi_end_io.
+All errors (new ones prefixed by >>):
 
-Don't copy-paste stuff.
-Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
+   In file included from <command-line>:
+   fs/fcntl.c: In function 'fcntl_init':
+>> include/linux/compiler_types.h:705:45: error: call to '__compiletime_assert_393' declared with attribute error: BUILD_BUG_ON failed: 21 - 1 != HWEIGHT32( (VALID_OPEN_FLAGS & ~(O_NONBLOCK | O_NDELAY)) | __FMODE_EXEC)
+     705 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:686:25: note: in definition of macro '__compiletime_assert'
+     686 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:705:9: note: in expansion of macro '_compiletime_assert'
+     705 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   fs/fcntl.c:1172:9: note: in expansion of macro 'BUILD_BUG_ON'
+    1172 |         BUILD_BUG_ON(21 - 1 /* for O_RDONLY being 0 */ !=
+         |         ^~~~~~~~~~~~
 
---D
 
-> -
->  static void ntfs_iomap_bio_submit_read(const struct iomap_iter *iter,
->  		struct iomap_read_folio_ctx *ctx)
->  {
->  	struct bio *bio = ctx->read_ctx;
->  
-> +	bio->bi_end_io = ntfs_iomap_read_end_io;
->  	submit_bio(bio);
->  }
->  
->  static const struct iomap_read_ops ntfs_iomap_bio_read_ops = {
-> -	.read_folio_range = ntfs_iomap_bio_read_folio_range,
-> -	.submit_read = ntfs_iomap_bio_submit_read,
-> +	.read_folio_range	= iomap_bio_read_folio_range,
-> +	.submit_read		= ntfs_iomap_bio_submit_read,
->  };
->  
->  static int ntfs_read_folio(struct file *file, struct folio *folio)
-> -- 
-> 2.47.3
-> 
-> 
+vim +/__compiletime_assert_393 +705 include/linux/compiler_types.h
+
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  691  
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  692  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  693  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  694  
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  695  /**
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  696   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  697   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  698   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  699   *
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  700   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  701   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  702   * compiler has support to do so.
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  703   */
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  704  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2d Will Deacon 2020-07-21 @705  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  706  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
