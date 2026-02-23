@@ -1,128 +1,91 @@
-Received: from flow-b3-smtp.messagingengine.com (flow-b3-smtp.messagingengine.com [202.12.124.138])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2408E2EB87E;
-	Mon, 23 Feb 2026 16:48:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD38C30C368
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Feb 2026 17:05:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771865340; cv=none; b=MC+kIaSbQjzq6jUhOswyba2gixwM6z9tec+zbrq/vjbF1XeFknsQNeB98okPeR7BhQIwp6bc9Z25s1FekK8xJjmao6I5z3+n2EiXMS5mkeT07VrdGPNqAEWrKF9aNY2bJld4Bc+mRg1F0OEqrQNREpqAd6Mm8xieAMvJ1bwzI+o=
+	t=1771866356; cv=none; b=DGTO5f87BXr9D/RfYOeNS37X+RtNuy4MRwF/T5/v4yVlOX/tNm1fsROOCblQsfdTHoGGI3TMQXEGnaJ6zd2ajAVyqbq9wLFXqeKcxJYGE/q6EIOTqR8PIO40MeEfhlhIdv8t6u7tu/SQMXrxvGG0tnaLd+tQ2IrefhNJ0oU0Uhc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771865340; c=relaxed/simple;
-	bh=yZKQV2mpfM4iDzIQsKdy6kTUemeDFyoF9+Q3IM7/VDU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=P4K7jADGX+ofHAc/CkJLA0mkywTzMbvpuCivXf58Ef4Fai0+IDDgRfhHFReIpsJBJIxdvrcxmat/audJMfnGruqDgdPNYt1etaDwmutVZ6o21t4M0KfIMOD+3qYuG8Ta/Lf4Xzchhd8Ghujgqp/DJDZOI17rNBbrvh6r6/DHRgA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=PZGo6PtE; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=H+z0zVvw; arc=none smtp.client-ip=202.12.124.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	s=arc-20240116; t=1771866356; c=relaxed/simple;
+	bh=SFmhNdnf3rACdXJjupmrzAWA8eXyokF2iD8l0cARuIw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RUEW4jnY17Uo8UW+ERv5fGcYSIWMGarzXT8hat9toxwqUcEweAuFrpIULW8rm5jK1mklhThEuWGvcVOmgxtjuzwvhhOKXjxgC4MMYPJKHAHAKUCtvTETyh4FNdi/k+/1oRZOQYKVZOkDXzDKWjCH4zVvz432CCi7qALSN6NINhU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CUsdABLZ; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="PZGo6PtE";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="H+z0zVvw"
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailflow.stl.internal (Postfix) with ESMTP id 4DD2A1300CC5;
-	Mon, 23 Feb 2026 11:48:58 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-02.internal (MEProxy); Mon, 23 Feb 2026 11:48:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1771865338;
-	 x=1771872538; bh=SgyJEL0qpQ94qCoEm7lHBgWoF3B64V+GFWj6Q/R4J4s=; b=
-	PZGo6PtEpJSEwl87fgpkl4/ThYM25Q7hLy8N15Rdb/9R//SS82yALwMnkjEa8ZUS
-	SSnKw9rcCp5w7nOxSb4K7MYhCcS+yqTvOZUpshvsbJrUXnBVYPGaPszV2zDtiMYZ
-	WuDIDCpPx8Jq6MXq5B3fyR37U2BV+oYeUAOHUgAsXDnUFK9PCBtJiVIx6a6rl2Wc
-	lyvr8muaxh00rGhG2vNLNl0ak2FKBQOdCRsEf+KgUlyRX59CaCSfB5qMhpvGcDbw
-	7kyjWUKG0RNfBNNwP/wWXIO/qLaiHRtizY7GsJBXPBEQE+MBFDjADCrhNGlmmVzE
-	GeinbVQPVKRgMuFB1sJTIg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1771865338; x=
-	1771872538; bh=SgyJEL0qpQ94qCoEm7lHBgWoF3B64V+GFWj6Q/R4J4s=; b=H
-	+z0zVvw+ImGK9X2q/Z0ojf6pOn+7n29b0VTkthW/aEXCp2+U61wBiAXl3gwsX/Rf
-	YRRxFQmgY+lKXSIxOcTHXOSlPhGffB75O7E0pYiZvGM4oNQRR/gaiTf9dg42Oama
-	j4X+o2Gb5AWka/rC6MkHRDXnUi/9zdhBCVJjPaZ/z4cOighh2xkw1W3zvCwpIbcN
-	rlNNP0cMh/pQILtPwN/rFwdVRHplJI0/plju3zS27vYVHEYb+t1AXYEsezq+5u0Y
-	jSwy7XTYRcif8IsGXFa/APgzEE8i6pJyR2tgrvzHdoKDWmFSEvHgY4Z7i+iZZrYD
-	DFMUUiGToVSPHqQLI9YeQ==
-X-ME-Sender: <xms:-YScaVGKbypzPa8QBM72gd3CFthlNhtn-gibbY1mUJQfQw5ScFDg-A>
-    <xme:-YScaUXIV31o2OsNEvUkg_ZA-bBsipAxaCqbp-ZW_-Himk9ImIBPGyU5j84zPDAZz
-    shNkmAgC-STyNGzoQhlZJkM1jBLCHZ5wB87ioNZ_HZbNSbLK3Zx_g>
-X-ME-Received: <xmr:-YScadzRKNqKX1ASeETtIgfGkm67JIzLzxJ583V3sQ4h40tNg9gBtBujLzoIQ9t7Sw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvfeejjeehucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
-    ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
-    htthgvrhhnpeehhfejueejleehtdehteefvdfgtdelffeuudejhfehgedufedvhfehueev
-    udeugeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    gsvghrnhgusegsshgsvghrnhgurdgtohhmpdhnsggprhgtphhtthhopeekpdhmohguvgep
-    shhmthhpohhuthdprhgtphhtthhopehmihhklhhoshesshiivghrvgguihdrhhhupdhrtg
-    hpthhtohephhhorhhsthessghirhhthhgvlhhmvghrrdguvgdprhgtphhtthhopehjihhm
-    rdhhrghrrhhishesnhhvihguihgrrdgtohhmpdhrtghpthhtoheplhhinhhugidqfhhsug
-    gvvhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhk
-    vghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehmghhurhhtoh
-    hvohihsehnvhhiughirgdrtghomhdprhgtphhtthhopehkshiithihsggvrhesnhhvihgu
-    ihgrrdgtohhmpdhrtghpthhtoheplhhuihhssehighgrlhhirgdrtghomh
-X-ME-Proxy: <xmx:-YScaZQAda-QIpfaF89fXiQ5IB-SBvOoAsaopI12tgPS1dR_EuGmAA>
-    <xmx:-YScaZiHiTYS_WxlWZ1P-knJLXttqDIOjQTlTA2PTicQPAAs6s7Ddg>
-    <xmx:-YScaQksNcvKg7rBHFHrA8xFuTQNYIu7ZmTVuliqhj9XFGXlMihNVg>
-    <xmx:-YScacuqnThy92owbTGZOQ9q0otqd8gqzPnWhHZ3gkquby1B66UEYw>
-    <xmx:-oScafu5X5D2MZFY8XzoeUD4An4Jg62GLCmw474ON_UOxoJ5ZUbjc6Go>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 23 Feb 2026 11:48:54 -0500 (EST)
-Message-ID: <82c136b9-a198-4ad3-a386-9dbb9df56d9a@bsbernd.com>
-Date: Mon, 23 Feb 2026 17:48:50 +0100
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CUsdABLZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1771866354;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=h+nYqL8YQNY5qw0Z4TJIuXoqkgZMoxLSKm/GfAztHKU=;
+	b=CUsdABLZaAWebiI6f8hgrZJRSj5+MRgVDkAzWjN2wzQVO9oZu1DT5omHpgTQVjdOQJEvGT
+	PbTa1XhCbIB1H7g6tqCM2WC3oAvNIZkW4sSPRUCsHLAaJ3VU07BcXFubo81srmRFq8Qw1G
+	w39XwIxbhJi5AR43O4k2jcRLOxdLzqE=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-527-VJH6wrlwMx-GzMaurugLxw-1; Mon,
+ 23 Feb 2026 12:05:51 -0500
+X-MC-Unique: VJH6wrlwMx-GzMaurugLxw-1
+X-Mimecast-MFC-AGG-ID: VJH6wrlwMx-GzMaurugLxw_1771866350
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 25E541956058;
+	Mon, 23 Feb 2026 17:05:50 +0000 (UTC)
+Received: from fedora (unknown [10.44.32.38])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 874D819560B2;
+	Mon, 23 Feb 2026 17:05:46 +0000 (UTC)
+Received: by fedora (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Mon, 23 Feb 2026 18:05:49 +0100 (CET)
+Date: Mon, 23 Feb 2026 18:05:44 +0100
+From: Oleg Nesterov <oleg@redhat.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Jann Horn <jannh@google.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: pidfd && O_RDWR
+Message-ID: <aZyI6Aht747CTLiC@redhat.com>
+References: <20260223-work-pidfs-autoreap-v4-0-e393c08c09d1@kernel.org>
+ <20260223-work-pidfs-autoreap-v4-2-e393c08c09d1@kernel.org>
+ <aZx2dlV9tJaL5gDG@redhat.com>
+ <aZx3ctUf-ZyF-Krc@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fuse: skip lookup during atomic_open() when O_CREAT is
- set
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Horst Birthelmer <horst@birthelmer.de>, Jim Harris
- <jim.harris@nvidia.com>, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, mgurtovoy@nvidia.com, ksztyber@nvidia.com,
- Luis Henriques <luis@igalia.com>
-References: <20260220204102.21317-1-jiharris@nvidia.com>
- <aZnLtrqN3u8N66GU@fedora-2.fritz.box>
- <CAJfpegstf_hPN2+jyO_vNfjSqZpUZPJqNg59hGSqTYqyWx1VVg@mail.gmail.com>
- <fa1b23a7-1dcb-4141-9334-8f9609bb13f7@bsbernd.com>
- <CAJfpeguoQ4qnvYvv2_-e7POXiPeBR2go_J68S2E6c-YW-1tYbA@mail.gmail.com>
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: en-US, de-DE, fr
-In-Reply-To: <CAJfpeguoQ4qnvYvv2_-e7POXiPeBR2go_J68S2E6c-YW-1tYbA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aZx3ctUf-ZyF-Krc@redhat.com>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
+On 02/23, Oleg Nesterov wrote:
+>
+> Sorry for noise!
 
+Yes, but let me add more (off-topic) noise to this thread...
 
-On 2/23/26 16:53, Miklos Szeredi wrote:
-> On Mon, 23 Feb 2026 at 16:37, Bernd Schubert <bernd@bsbernd.com> wrote:
-> 
->> After the discussion about LOOKUO_HANDLE my impression was actually that
->> we want to use compounds for the atomic open.
-> 
-> I think we want to introduce an atomic operation that does a lookup +
-> an optional mknod, lets call this LOOKUP_CREATE_FH, this would return
-> a flag indicating whether the file was created or if it existed prior
-> to the operation.
-> 
-> Then, instead of the current CREATE operation there would be a
-> compound with LOOKUP_CREATE_FH + OPEN.
-> 
-> Does that make sense?
+pidfd_prepare() does pidfs_alloc_file(pid, flags | O_RDWR) and "| O_RDWR"
+makes no sense because pidfs_alloc_file() itself does
 
-Fine with me, but I need to process a bit if we want to that lookup to
-return attributes or if it should be LOOKUP_CREATE_FH + OPEN + GETATTR.
-Currently in the wrong time zone to do that today and also not much time
-in general this week.
+	flags |= O_RDWR;
 
+I was going to send the trivial cleanup, but why a pidfs file needs
+O_RDWR/FMODE_WRITE ?
 
-Thanks,
-Bernd
+Actually the same question about some anon_inode_getfile_fmode(O_RDWR)
+users, for example signalfd.c.
+
+Can you explain just for my education?
+
+Oleg.
+
