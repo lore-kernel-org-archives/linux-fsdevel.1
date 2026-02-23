@@ -1,67 +1,127 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC5B82BE03B
-	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Feb 2026 13:06:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B6AF86337;
+	Mon, 23 Feb 2026 13:20:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771851990; cv=none; b=hB5qOdSHZFrwIRRujtP5ZgYYWJGo3HQapyccSXmULrta+17nL+S48qYMqRcxxm1jw1YZdYjPIcp3siTmIlgvdfryk/VuiLR27r32+1QVk4AAiNeyh4VBJojQZaShGBgMeH6/S+VSMzA9XWQZkOgVAZHFwHb9aDaxxJPufrGw994=
+	t=1771852816; cv=none; b=ImTN1VOGyvCN4H3Zm0iADvR17wHW4G+ZpLJk5+QWSD3qIIu6g+Aszwyuy+Qw6hezm6mP/zVMmsqM8xObHawLJ48C049x1Drp/14rTjcTju//Z067kv9oNaNI5piOAI0iFnN49tGj6k1DzEFC3bvz6ossmJIbWx9N9UMKzu3DKTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771851990; c=relaxed/simple;
-	bh=6yWyfnVxBepJosO0+FyQqNWsD/Z5LVr+Vi+Qp3IhJx8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cjJis53f1e0VjeM3PcaTuy7oSSPJtN3sV+eknguW7WY6i7H3fQa+3T1Pw89UR8R066Pap14UI+ySWuSXe79iWrBz0xqg/Xqe4FybcC1noKXpK1cA14RY9GCu+PkKno1TBmSO/1wV98mpL85UruvXS+mqIN7FrVr/dat6nBbuW4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=zShTbAnk; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	s=arc-20240116; t=1771852816; c=relaxed/simple;
+	bh=iX7f4BYNyN7OXPgks7cDMKq43X3JYPYgohE1GM360Tg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=O+BNzy/LLjoZ/+5jsuzou3j6vcYee2gBEXq0AzVUErblQcJjlsNIkFHXOXfUvW9WFkdObpWxAyh2tyIiymLZDAJWuAFGn27cO8kAe7u1xnKl6dYqwTH7tkYwu1ikhd2WU4DHqSWoABKG4wFW8KEvVUZPWbPTGBrCxSKwZBtpvH4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fSvOqhNP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="zShTbAnk"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=jnu6mIDmIYHEiF+CXoY6QG8nXitFQtsDNI2o0rRrwxs=; b=zShTbAnkMBHdJCVem2DJpxXKtb
-	i6htXawgsieaXmeE2HeBvFRI4oi+EZaqNL/hlWUNq/wNZK6kLhkC1neCOZwx67l4mfKKBbQGqgIR5
-	A6BB4ssDd6Dq7srvMbxYqRi9SQ+6mN8f4HBD9Xp/qVDhHUnIcVndMKmPdFllQzEHqwZHLCoGRonNw
-	5/ux69uCXd0uqJ6u3LYKDU42rAQUS9ld2hwkYi9NzbXGnQmJKh6Gjqc4pU0HAA75FejgguUkmUCq4
-	gOT7i0A0VxbHfERMRycHbKhq89vreDEPu7g0vgRec3IHn1DtOXjLqhh6XXZvlfqXOOYi0IOVekLIe
-	5I/tUbpg==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vuVdq-00000000KSU-1d4B;
-	Mon, 23 Feb 2026 13:06:26 +0000
-Date: Mon, 23 Feb 2026 05:06:26 -0800
-From: Christoph Hellwig <hch@infradead.org>
-To: Qu Wenruo <wqu@suse.com>
-Cc: Nanzhe Zhao <nzzhao@126.com>, lsf-pc@lists.linux-foundation.org,
-	linux-fsdevel@vger.kernel.org,
-	Christoph Hellwig <hch@infradead.org>, willy@infradead.org,
-	yi.zhang@huaweicloud.com, jaegeuk@kernel.org,
-	Chao Yu <chao@kernel.org>, Barry Song <21cnbao@gmail.com>
-Subject: Re: Iomap and compression? (Was "Re: [LSF/MM/BPF TOPIC] Large folio
- support: iomap framework changes versus filesystem-specific
- implementations")
-Message-ID: <aZxQ0kwaDqknE8Gq@infradead.org>
-References: <75f43184.d57.19c7b2269dd.Coremail.nzzhao@126.com>
- <8a66f4d4-601c-4e1c-97f0-0ba7781d6ae8@suse.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fSvOqhNP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64662C116C6;
+	Mon, 23 Feb 2026 13:20:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771852816;
+	bh=iX7f4BYNyN7OXPgks7cDMKq43X3JYPYgohE1GM360Tg=;
+	h=From:Subject:Date:To:Cc:From;
+	b=fSvOqhNPMwrkavNq7NUt3p75FM4tRVjbYc1dHTaZWsodXXT0qB2nXGKvBvyBCzRyu
+	 mgQnkMwjEZdmQAs4IRXhLfV68UO8ljsZkBkJmQohmkSATIKuGhaB4nh09tnrTxqDVV
+	 xHRzZiamxjgcATjqz8oHNTuUMt6w7pjKllvjYE8PMS6fdoMT36ZrR4ws0KpHUuQwxw
+	 k2r5UZq4dK3aj4AFKYxJYjjR1+eh2W+Vx8VvHCtQQ//kYWLYyfBFoLcZAZNLq8MiDF
+	 Kl7d9nbEl8zD1+2IraGgXOFSbT2MJo5ZKu9GImkqugHKL/t5qzViRBJsXRNhgs1yg/
+	 dAn3AmBySystg==
+From: Christian Brauner <brauner@kernel.org>
+Subject: [PATCH RFC v3 0/2] pidfs: make the effective {g,u}id the owner of
+ the inode
+Date: Mon, 23 Feb 2026 14:20:07 +0100
+Message-Id: <20260223-work-pidfs-inode-owner-v3-0-490855c59999@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8a66f4d4-601c-4e1c-97f0-0ba7781d6ae8@suse.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAdUnGkC/3WOywrCMBBFf0Wydkoe2lZXguAHuBUXSTtpQyWRi
+ USl9N9tiwtddHkvc8+ZnkUkh5HtVz0jTC664Meg1itWtdo3CK4eM5Nc5lwKAc9AHdxdbSM4H2q
+ E8PRIwCsteY07tFKxcXwntO41gy/sfDqy61gaHREMaV+1EzMVGQeqxHTfuvgI9J7/SGJefZX5k
+ jIJEGBLq3VuCrUr1aFD8njLAjWzLslfTrHIkROHb8w2V6USW/3HGYbhA6arMislAQAA
+X-Change-ID: 20260211-work-pidfs-inode-owner-0ca20de9ef23
+To: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>
+Cc: Kees Cook <kees@kernel.org>, Andy Lutomirski <luto@amacapital.net>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ linux-kernel@vger.kernel.org, Christian Brauner <brauner@kernel.org>
+X-Mailer: b4 0.15-dev-47773
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3288; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=iX7f4BYNyN7OXPgks7cDMKq43X3JYPYgohE1GM360Tg=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTOCeE9fOqsd4cGZ+LUwitRzpPNz94/w2OVfoP1lZDRC
+ aFklxMrOkpZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACZi4cLIMMeyfZXE5JQVrDe/
+ 3TR6ZX+7vsX8oI+3yTpmfbZ45wjWowz/w9oLFxm2eh4u9jguMfPCWpP5098my/a73OwwP7J+p+N
+ 5TgA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Mon, Feb 23, 2026 at 07:04:55PM +1030, Qu Wenruo wrote:
-> And for the example of complexity, btrfs has a complex async extent
-> submission at delalloc time (similar to iomap_begin time), where we keep the
-> whole contig dirty range (can go beyond the current folio) locked, and do
-> the compression in a workqueue, and submit them in that workqueue.
+Hey,
 
-I still think btrfs would benefit greatly from killing the async
-submission workqueue, and I hope that the multiple writeback thread
-work going on currently will help with this.  I think you really should
-talk to Kundan.
+This adds inode ownership and permission checking to pidfs.
+
+Right now pidfs only supports trusted.* xattrs which require
+CAP_SYS_ADMIN so there was never a need for real permission checking.
+In order to support user.* xattrs and custom pidfs.* xattrs in the
+future we need a permission model for pidfs inodes.
+
+The effective {u,g}id of the target task becomes the owner of the pidfs
+inode similar to what procfs does. Ownership is reported dynamically via
+getattr since credentials may change due to setuid() and similar
+operations. For kernel threads the owner is root, for exited tasks the
+credentials saved at exit time via pidfs_exit() are used.
+
+The permission callback checks access in two steps. First it verifies
+the caller is either in the same thread group as the target or has
+equivalent signal permissions reusing the same uid-based logic as
+kill(). Then it performs standard POSIX permission checking via
+generic_permission() against the inode's mode bits (S_IRWXU / 0700).
+
+This is intentionally less strict than ptrace_may_access() because pidfs
+currently does not allow operating on data that is completely private to
+the process such as its mm or file descriptors. Additional checks can be
+layered on once that changes.
+
+The second patch adds selftests covering ownership reporting via fstat
+and the permission model via user.* xattr operations which trigger
+pidfs_permission() through xattr_permission(). The tests exercise live
+credential changes, exited tasks with saved exit credentials, same-user
+cross-process access, cross-user denial, and kernel thread denial.
+
+Christian
+
+Signed-off-by: Christian Brauner <brauner@kernel.org>
+---
+Changes in v3:
+- Simplify pidfs_fill_owner() into pidfs_update_owner() writing directly
+  to the inode via WRITE_ONCE() instead of using output parameters.
+- Drop the separate pidfs_update_inode() helper and the
+  security_task_to_inode() call.
+- Update pidfs_getattr() to write ownership to the inode via
+  pidfs_update_owner() instead of writing directly to stat.
+- Update pidfs_permission() to also write ownership to the inode before
+  calling generic_permission(), handling kernel threads with -EPERM.
+- Drop VFS_WARN_ON_ONCE() for idmap check from pidfs_permission().
+- Link to v2: https://patch.msgid.link/20260217-work-pidfs-inode-owner-v2-1-f04b5638315a@kernel.org
+
+Changes in v2:
+- Fix an obvious null-deref during PIDFD_STALE (CLONE_PIDFD).
+- Link to v1: https://patch.msgid.link/20260216-work-pidfs-inode-owner-v1-1-f8faa6b73983@kernel.org
+
+---
+Christian Brauner (2):
+      pidfs: add inode ownership and permission checks
+      selftests/pidfd: add inode ownership and permission tests
+
+ fs/pidfs.c                                         | 133 +++++++++-
+ include/linux/cred.h                               |   2 +
+ kernel/signal.c                                    |  19 +-
+ tools/testing/selftests/pidfd/.gitignore           |   1 +
+ tools/testing/selftests/pidfd/Makefile             |   2 +-
+ .../selftests/pidfd/pidfd_inode_owner_test.c       | 289 +++++++++++++++++++++
+ 6 files changed, 427 insertions(+), 19 deletions(-)
+---
+base-commit: 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
+change-id: 20260211-work-pidfs-inode-owner-0ca20de9ef23
 
