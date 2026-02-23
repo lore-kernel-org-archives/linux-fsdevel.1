@@ -1,71 +1,55 @@
-Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com [67.231.145.42])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EB0D1E5714;
-	Mon, 23 Feb 2026 13:21:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.145.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6D8B1E991B;
+	Mon, 23 Feb 2026 13:21:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771852880; cv=none; b=ujhLqwB7uf9yTiqnt/Rr0HEwMI3iprfdw/IH0MysiGcIri9mOvKMf7YJ1vRAfq6D+2yLG/3cW4gxW1UAIofVMT7Krc5mEWiK0aer3Zprbb2nIOE14K6KW3JYZrgnvQh57NYGUigZdfvW0yDfLuxPbMtnGh1MLimIfB0dgbajP3o=
+	t=1771852887; cv=none; b=F2j43oJDmLyBU+1ialKdZ+0h5nYSc5ewkwtCahE9Srty+IP7ykJCVocRGwlqMHgliWLTyKaJPChI6IkQqwp9Nz7T6JZwK2vRkjd2PQFgIywRHAipTKtZUVncmRHVOfUDHYUdzS+la47glC0A6jR/n05MbEq/QnPxCu7kDxryk6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771852880; c=relaxed/simple;
-	bh=iWgTsjCk89uebRcrjCX70k5LZkhHzAYydV7uu88NyCg=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TWvPthM66Z0AqWBwFdV0YA6wWb9kC2jJSrNvTqW0li3SGnEIka7XDyebKHSQtlcHbE3DfHJ3A1oT1Ch2cjQQAddg4At+ZwBPuBaPd3vqGrmUI5zjdoKT8hibcZvPH5f0Kxkq7rGrikzM/XW80pTdTi4555ce4iLu0RPLLrC22NE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b=uQ3peFVp; arc=none smtp.client-ip=67.231.145.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
+	s=arc-20240116; t=1771852887; c=relaxed/simple;
+	bh=D6rOwegbMZ4s71Tnt4Al5P2kTIjmQ+Mz1FFVxE9C99E=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=kHfGwEU89VS4rvrOnQCo+txXLof7t3liyItugHksmsxve85QPVZ+G66fxrizXANqVPErBIiKManVGiLmERl03saAqXUDwmAekjIU5OE3hSTpnNmjVLxu5XyeXlqwbJaFNmD3zk0hY3jthbCysAEY7Ttu7+Elqq7yVONlJNU9H78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=UdnhjvsW; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b="uQ3peFVp"
-Received: from pps.filterd (m0148461.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61N7LjTw1689366;
-	Mon, 23 Feb 2026 05:20:44 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=s2048-2025-q2;
-	 bh=+jj35zgXKhtaxe8slFh2KjLza6PRHJYalc4EKFRj1xk=; b=uQ3peFVpfrPv
-	P1eNTCmO7sZzHHxSMqkZfrVpKFA1ZEnJiWX/K6a64owsi6ZEvoptl9inCEq4kFSR
-	Su3fW5cc6nGdrgVNPCMEUHbdk304q1HIsAN5FKV59LzaXWQZsFEs71Pf7qXlwkbr
-	F1H13bcXnIobrOpdVfZtgIPQN5ydQKhi0m9N/GEp8DNUUNu5Rob+j0mAtAx1MUoS
-	73kX4wyXHXprW//vO0Qp4cgTVmqpvdF/05FYmEpkjjsqM2FdjNLFT7GqCHFxTynJ
-	bR/pXaaD35diR2KJiYAqPbwXBM2QqHLdbXRSVrAGsxgdiHxWZRHZZjVcXqa4V3D4
-	puHFLDf/GA==
-Received: from mail.thefacebook.com ([163.114.134.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4cgjehhvnu-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 23 Feb 2026 05:20:44 -0800 (PST)
-Received: from devbig003.atn7.facebook.com (2620:10d:c085:208::f) by
- mail.thefacebook.com (2620:10d:c08b:78::c78f) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.35; Mon, 23 Feb 2026 13:20:42 +0000
-From: Chris Mason <clm@meta.com>
-To: NeilBrown <neil@brown.name>
-CC: Christian Brauner <brauner@kernel.org>,
-        Alexander Viro
-	<viro@zeniv.linux.org.uk>,
-        David Howells <dhowells@redhat.com>, Jan Kara
-	<jack@suse.cz>,
-        Chuck Lever <chuck.lever@oracle.com>,
-        Jeff Layton
-	<jlayton@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>,
-        Amir Goldstein
-	<amir73il@gmail.com>,
-        John Johansen <john.johansen@canonical.com>,
-        Paul Moore
-	<paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn"
-	<serge@hallyn.com>,
-        Stephen Smalley <stephen.smalley.work@gmail.com>,
-        "Darrick J. Wong" <djwong@kernel.org>, <linux-kernel@vger.kernel.org>,
-        <netfs@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
-        <linux-nfs@vger.kernel.org>, <linux-unionfs@vger.kernel.org>,
-        <apparmor@lists.ubuntu.com>, <linux-security-module@vger.kernel.org>,
-        <selinux@vger.kernel.org>
-Subject: Re: [PATCH v2 09/15] ovl: Simplify ovl_lookup_real_one()
-Date: Mon, 23 Feb 2026 05:13:37 -0800
-Message-ID: <20260223132027.4165509-1-clm@meta.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="UdnhjvsW"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
+	:Reply-To:Content-Type:Content-ID:Content-Description;
+	bh=If97NPopB2aA5criH9xk1y/Mr1JA79KNCx16/qAZARI=; b=UdnhjvsWz0QYx8nkKg1qqOaE4X
+	3xqip7CH/E/cyC9iPBgQARJ6TywAmS4ubIlC8e3Jgo7VrRoHdUZ66sPSdsXgoESO4JeZTujKAK4ZK
+	ozoTflf+Xm8vAPeWd7aRLGw+yxtnMFZOO1Vf0V74ObzQwJwrDT3RJ5B1aoRASPJNAPiDXDSWmwJ1b
+	1FX9sWsGNE90Cr6lsdaCtmiadizeJHqcmS5LG0svbjV3Ms5yAJy6vBLaM0O1qsoEoeGxOIjmc4zDC
+	MFOP4cViALKggo493OCiDFdkKK4hPSFMhAV/tljyvG/hCwMstXtZVcrZkHX++bEfOmTBvidR4hTNO
+	xzGsU7FA==;
+Received: from [94.156.175.41] (helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vuVsJ-00000000LvJ-2nFC;
+	Mon, 23 Feb 2026 13:21:24 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Jens Axboe <axboe@kernel.dk>,
+	Christian Brauner <brauner@kernel.org>
+Cc: "Darrick J. Wong" <djwong@kernel.org>,
+	Carlos Maiolino <cem@kernel.org>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Anuj Gupta <anuj20.g@samsung.com>,
+	Kanchan Joshi <joshi.k@samsung.com>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	ntfs3@lists.linux.dev,
+	linux-block@vger.kernel.org,
+	nvdimm@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	linux-xfs@vger.kernel.org
+Subject: [PATCH 04/16] block: prepare generation / verification helpers for fs usage
+Date: Mon, 23 Feb 2026 05:20:04 -0800
+Message-ID: <20260223132021.292832-5-hch@lst.de>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260223011210.3853517-10-neilb@ownmail.net>
-References: <20260223011210.3853517-1-neilb@ownmail.net> <20260223011210.3853517-10-neilb@ownmail.net>
+In-Reply-To: <20260223132021.292832-1-hch@lst.de>
+References: <20260223132021.292832-1-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -73,210 +57,101 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjIzMDExNCBTYWx0ZWRfX+kME6KZmr89V
- FuKP+HbtK6Ll3Q33VPnvmu6dSF4itJ8mVYWVnJ7GZz07InfaInBIu5fTcVWC3E0zX9IPFY3omT/
- NFDzwO5fxPFfsJlAau4AJFE+l9AIU3wjNX4G3ORzecBxHBbJ8oF+WaRyFx+8A/R3s1DZchoPfZn
- BibQx0Mjpw9jKbymWVR73+564ZbtEGwqzDPmsW7IOuY/8Obw6csoIk2hJfyMafNi5SrOz8czyFJ
- uJ70XH74dPoeTLXMkqjRRdbf1qWlwih5nYz3Hg/ux3VdEAVnTH6MFH+Puak3DUvyCgsTd+5B5ZN
- rWHWmiL/tZIpuwkvGsKU1fAPjFfWQNcucF5wuE/C/bPPnyiF4xRWJPNDkDJWCTjma7twh5jrIJ4
- J19KZBZpHaCGFAR0Vi8F67Zew8QnYtdM0FhaOWXjdsvx/vRaCJFcBkpGw5CiMVv0w84749y9QKq
- 0TDcj6dO/tU+Kqu3s2Q==
-X-Proofpoint-GUID: Fa5SgpH4NiF5_GiC7hGWmJ-OFXDNqwP8
-X-Proofpoint-ORIG-GUID: Fa5SgpH4NiF5_GiC7hGWmJ-OFXDNqwP8
-X-Authority-Analysis: v=2.4 cv=cK/tc1eN c=1 sm=1 tr=0 ts=699c542c cx=c_pps
- a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
- a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22 a=Mpw57Om8IfrbqaoTuvik:22
- a=GgsMoib0sEa3-_RKJdDe:22 a=e8O0uTMVAAAA:20 a=I-1mG6jRAAAA:8
- a=jAaqfGSQgQmH2hLIMWsA:9 a=vAntc5lzOlbkVmf1VcWC:22 a=bA3UWDv6hWIuX7UZL3qL:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-23_02,2026-02-23_02,2025-10-01_01
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-NeilBrown <neilb@ownmail.net> wrote:
-> From: NeilBrown <neil@brown.name>
-> 
-> The primary purpose of this patch is to remove the locking from
-> ovl_lookup_real_one() as part of centralising all locking of directories
-> for name operations.
-> 
-> The locking here isn't needed.  By performing consistency tests after
-> the lookup we can be sure that the result of the lookup was valid at
-> least for a moment, which is all the original code promised.
-> 
-> lookup_noperm_unlocked() is used for the lookup and it will take the
-> lock if needed only where it is needed.
-> 
-> Also:
->  - don't take a reference to real->d_parent.  The parent is
->    only use for a pointer comparison, and no reference is needed for
->    that.
->  - Several "if" statements have a "goto" followed by "else" - the
->    else isn't needed: the following statement can directly follow
->    the "if" as a new statement
->  - Use a consistent pattern of setting "err" before performing a test
->    and possibly going to "fail".
->  - remove the "out" label (now that we don't need to dput(parent) or
->    unlock) and simply return from fail:.
+Return the status from verify instead of directly stashing it in the bio,
+and rename the helpers to use the usual bio_ prefix for things operating
+on a bio.
 
-Hi everyone,
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Anuj Gupta <anuj20.g@samsung.com>
+Reviewed-by: Kanchan Joshi <joshi.k@samsung.com>
+Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
+Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
+Tested-by: Anuj Gupta <anuj20.g@samsung.com>
+---
+ block/bio-integrity-auto.c |  4 ++--
+ block/blk.h                |  6 ++++--
+ block/t10-pi.c             | 12 ++++++------
+ 3 files changed, 12 insertions(+), 10 deletions(-)
 
-Amir asked me to run these through, and this commit was flagged.  I recently
-changed the prompts to include some vfs knowledge:
-
-https://github.com/masoncl/review-prompts/blob/main/kernel/subsystem/vfs.md
-
-And I also put in some words to make it prefer reporting problems that might
-not be bugs, but that do violate some rule in the .md files.  This might
-be a false positive from that new shift toward blindly trusting the guides,
-but I'll let everyone here decide:
-
-commit d1bfcef048896cdc9e4c57e3249b6ad344d64c02
-Author: NeilBrown <neil@brown.name>
-
-ovl: Simplify ovl_lookup_real_one()
-
-This patch removes locking from ovl_lookup_real_one() and reorganizes the
-control flow. The function now uses lookup_noperm_unlocked() instead of
-lookup_noperm() and performs consistency validation after the lookup rather
-than holding a lock during the operation.
-
-> diff --git a/fs/overlayfs/export.c b/fs/overlayfs/export.c
-> index 83f80fdb15674..b448fc9424b64 100644
-> --- a/fs/overlayfs/export.c
-> +++ b/fs/overlayfs/export.c
-> @@ -349,69 +349,64 @@ static struct dentry *ovl_dentry_real_at(struct dentry *dentry, int idx)
->  	return NULL;
->  }
->
-> -/*
-> - * Lookup a child overlay dentry to get a connected overlay dentry whose real
-> - * dentry is @real. If @real is on upper layer, we lookup a child overlay
-> - * dentry with the same name as the real dentry. Otherwise, we need to consult
-> - * index for lookup.
-> +/**
-> + * ovl_lookup_real_one -  Lookup a child overlay dentry to get an overlay dentry whose real dentry is given
-> + * @connected: parent overlay dentry
-> + * @real: given child real dentry
-> + * @layer: layer in which @real exists
-> + *
-> + *
-> + * Lookup a child overlay dentry in @connected with the same name as the @real
-> + * dentry.  Then check that the parent of the result is the real dentry for
-> + * @connected, and @real is the real dentry for the result.
-> + *
-> + * Returns:
-> + *   %-ECHILD if the parent of @real is no longer the real dentry for @connected.
-> + *   %-ESTALE if @real is no the real dentry of the found dentry.
-                                       ^^
-There's a typo here: "is no the" should be "is not the".
-
-> + *   Otherwise the found dentry is returned.
->   */
->  static struct dentry *ovl_lookup_real_one(struct dentry *connected,
->  					  struct dentry *real,
->  					  const struct ovl_layer *layer)
->  {
-> -	struct inode *dir = d_inode(connected);
-> -	struct dentry *this, *parent = NULL;
-> +	struct dentry *this;
->  	struct name_snapshot name;
->  	int err;
->
->  	/*
-> -	 * Lookup child overlay dentry by real name. The dir mutex protects us
-> -	 * from racing with overlay rename. If the overlay dentry that is above
-> -	 * real has already been moved to a parent that is not under the
-> -	 * connected overlay dir, we return -ECHILD and restart the lookup of
-> -	 * connected real path from the top.
-> -	 */
-> -	inode_lock_nested(dir, I_MUTEX_PARENT);
-> -	err = -ECHILD;
-> -	parent = dget_parent(real);
-> -	if (ovl_dentry_real_at(connected, layer->idx) != parent)
-> -		goto fail;
-> -
-> -	/*
-> -	 * We also need to take a snapshot of real dentry name to protect us
-> +	 * We need to take a snapshot of real dentry name to protect us
->  	 * from racing with underlying layer rename. In this case, we don't
->  	 * care about returning ESTALE, only from dereferencing a free name
->  	 * pointer because we hold no lock on the real dentry.
->  	 */
->  	take_dentry_name_snapshot(&name, real);
-> -	/*
-> -	 * No idmap handling here: it's an internal lookup.
-> -	 */
-> -	this = lookup_noperm(&name.name, connected);
-> +	this = lookup_noperm_unlocked(&name.name, connected);
->  	release_dentry_name_snapshot(&name);
-> +
-> +	err = -ECHILD;
-> +	if (ovl_dentry_real_at(connected, layer->idx) != real->d_parent)
-> +		goto fail;
-> +
-
-A subsystem pattern flags this as potentially concerning: the VFS subsystem
-guide indicates that TOCTOU validation checking d_parent should also check
-d_unhashed() because a dentry can be unhashed (removed from dcache by
-concurrent operations) while its d_parent pointer remains unchanged.
-
-The old code held inode_lock_nested(dir, I_MUTEX_PARENT) during the entire
-lookup and validation, which serialized with operations that could unhash the
-dentry. The new lockless pattern creates a window where:
-
-1. lookup_noperm_unlocked() completes and returns dentry `this`
-2. A concurrent unlink/remove operation unhashes `this`
-3. The d_parent validation passes (parent pointer unchanged)
-4. The function returns an unhashed dentry
-
-Other overlayfs code uses the complete pattern. For example, in
-ovl_lock_rename_workdir() at fs/overlayfs/util.c:
-
-    if (work->d_parent != workdir || d_unhashed(work)) {
-        ...
-    }
-
-Could this validation miss a race where the dentry is unhashed but d_parent
-still matches? The subsequent checks (!this->d_inode for -ENOENT,
-wrong real dentry for -ESTALE) might catch some cases, but is that
-sufficient for all the scenarios where an unhashed dentry could cause
-problems?
-
->  	err = PTR_ERR(this);
-> -	if (IS_ERR(this)) {
-> +	if (IS_ERR(this))
->  		goto fail;
-> -	} else if (!this || !this->d_inode) {
-> -		dput(this);
-> -		err = -ENOENT;
-> +
-> +	err = -ENOENT;
-> +	if (!this || !this->d_inode)
->  		goto fail;
-> -	} else if (ovl_dentry_real_at(this, layer->idx) != real) {
-> -		dput(this);
-> -		err = -ESTALE;
-> +
-> +	err = -ESTALE;
-> +	if (ovl_dentry_real_at(this, layer->idx) != real)
->  		goto fail;
-> -	}
->
-> -out:
-> -	dput(parent);
-> -	inode_unlock(dir);
->  	return this;
->
->  fail:
->  	pr_warn_ratelimited("failed to lookup one by real (%pd2, layer=%d, connected=%pd2, err=%i)\n",
->  			    real, layer->idx, connected, err);
-> -	this = ERR_PTR(err);
-> -	goto out;
-> +	if (!IS_ERR(this))
-> +		dput(this);
-> +	return ERR_PTR(err);
->  }
->
->  static struct dentry *ovl_lookup_real(struct super_block *sb,
+diff --git a/block/bio-integrity-auto.c b/block/bio-integrity-auto.c
+index b64c71a7fc82..ebd17f47e0f9 100644
+--- a/block/bio-integrity-auto.c
++++ b/block/bio-integrity-auto.c
+@@ -39,7 +39,7 @@ static void bio_integrity_verify_fn(struct work_struct *work)
+ 		container_of(work, struct bio_integrity_data, work);
+ 	struct bio *bio = bid->bio;
+ 
+-	blk_integrity_verify_iter(bio, &bid->saved_bio_iter);
++	bio->bi_status = bio_integrity_verify(bio, &bid->saved_bio_iter);
+ 	bio_integrity_finish(bid);
+ 	bio_endio(bio);
+ }
+@@ -100,7 +100,7 @@ void bio_integrity_prep(struct bio *bio, unsigned int action)
+ 
+ 	/* Auto-generate integrity metadata if this is a write */
+ 	if (bio_data_dir(bio) == WRITE && bip_should_check(&bid->bip))
+-		blk_integrity_generate(bio);
++		bio_integrity_generate(bio);
+ 	else
+ 		bid->saved_bio_iter = bio->bi_iter;
+ }
+diff --git a/block/blk.h b/block/blk.h
+index f6053e9dd2aa..c5b2115b9ea4 100644
+--- a/block/blk.h
++++ b/block/blk.h
+@@ -699,8 +699,10 @@ int bdev_open(struct block_device *bdev, blk_mode_t mode, void *holder,
+ 	      const struct blk_holder_ops *hops, struct file *bdev_file);
+ int bdev_permission(dev_t dev, blk_mode_t mode, void *holder);
+ 
+-void blk_integrity_generate(struct bio *bio);
+-void blk_integrity_verify_iter(struct bio *bio, struct bvec_iter *saved_iter);
++void bio_integrity_generate(struct bio *bio);
++blk_status_t bio_integrity_verify(struct bio *bio,
++		struct bvec_iter *saved_iter);
++
+ void blk_integrity_prepare(struct request *rq);
+ void blk_integrity_complete(struct request *rq, unsigned int nr_bytes);
+ 
+diff --git a/block/t10-pi.c b/block/t10-pi.c
+index 0c4ed9702146..d27be6041fd3 100644
+--- a/block/t10-pi.c
++++ b/block/t10-pi.c
+@@ -372,7 +372,7 @@ static void ext_pi_type1_complete(struct request *rq, unsigned int nr_bytes)
+ 	}
+ }
+ 
+-void blk_integrity_generate(struct bio *bio)
++void bio_integrity_generate(struct bio *bio)
+ {
+ 	struct blk_integrity *bi = blk_get_integrity(bio->bi_bdev->bd_disk);
+ 	struct bio_integrity_payload *bip = bio_integrity(bio);
+@@ -404,7 +404,7 @@ void blk_integrity_generate(struct bio *bio)
+ 	}
+ }
+ 
+-void blk_integrity_verify_iter(struct bio *bio, struct bvec_iter *saved_iter)
++blk_status_t bio_integrity_verify(struct bio *bio, struct bvec_iter *saved_iter)
+ {
+ 	struct blk_integrity *bi = blk_get_integrity(bio->bi_bdev->bd_disk);
+ 	struct bio_integrity_payload *bip = bio_integrity(bio);
+@@ -439,11 +439,11 @@ void blk_integrity_verify_iter(struct bio *bio, struct bvec_iter *saved_iter)
+ 		}
+ 		kunmap_local(kaddr);
+ 
+-		if (ret) {
+-			bio->bi_status = ret;
+-			return;
+-		}
++		if (ret)
++			return ret;
+ 	}
++
++	return BLK_STS_OK;
+ }
+ 
+ void blk_integrity_prepare(struct request *rq)
+-- 
+2.47.3
 
