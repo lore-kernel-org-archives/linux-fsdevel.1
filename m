@@ -1,143 +1,140 @@
-Received: from chocolate.ash.relay.mailchannels.net (chocolate.ash.relay.mailchannels.net [23.83.222.35])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f202.google.com (mail-pf1-f202.google.com [209.85.210.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95EFF20B80B;
-	Mon, 23 Feb 2026 02:43:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=23.83.222.35
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771814605; cv=pass; b=dOa99I/hs8kOWOpvb7wxKoP2213gGymsqRckP7k/jh2jiPMVlchrJK3qYNC5twER6xdIfuGGK7fRDAVLBtl5OQ/L2Iu4BvCNvjRHwIvKICXP1MyK4vY2CdoZXCsmLiNgtZO4eHFLaHqZS2EnNzCNrNVuiAw4kh37nLXLnS+/U3A=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771814605; c=relaxed/simple;
-	bh=Fppz4XqbW7vpobAU4JG/17grv29+FYDLFAOpl+bgv4E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dsVPtKOzVb//NDNNvI+XNZ+kGcgV9gtfNtAEAhfJ9HeKOjrgiYAzv5Sv3vW9HboPKPXTszWKH+6c9i/TKq+fWMAi9WjVL79O0xI9lt1REfzP2KTm76cPhL8OfzmYLrEIU0u0autDbW8zvNYO+jIccayZ4PVqtj/uG5znHbhEdyQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=landley.net; spf=pass smtp.mailfrom=landley.net; dkim=pass (2048-bit key) header.d=landley.net header.i=@landley.net header.b=lxehg/1E; arc=pass smtp.client-ip=23.83.222.35
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=landley.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=landley.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0891D18C03E
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Feb 2026 07:04:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.202
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771830292; cv=none; b=PnH6NozYnUYwWABGW5/D7EZhGjmlCsc377HPCBAI5hjDtik30I4271bbRhRyCGx1Sit0GZNh2hA28j/OEE7YkHbTCOkWbbIvORAClmh6TL8HyuWCFp0nFUvIa77t611UjvwgI/3qBHzfhC3eX72gW0tP2BFmPpvUWO1xkAAfOGQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771830292; c=relaxed/simple;
+	bh=FZRWd7OFFr94c+sVebCFrm+qPTKtpygBGZ1I5UbUj8Q=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=tu0842P/yfs1OUE6u6XnS6KDKQ7LABRdlclbooxRv6nAjRTt/JT2AKexrR3zn52jmrm5g19isRr6BjHp5ok3EQ3HEVvH6HJKS0FnWRWmVcMx0w8S/xlDWNBmkMfHNqrb73z5NcgQfcDH5lr6WUB60lSuvmm3Ynri2Z9tVH6MTTo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--ackerleytng.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=pWvhd9qN; arc=none smtp.client-ip=209.85.210.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--ackerleytng.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=landley.net header.i=@landley.net header.b="lxehg/1E"
-X-Sender-Id: dreamhost|x-authsender|rob@landley.net
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
-	by relay.mailchannels.net (Postfix) with ESMTP id DB68192273F;
-	Mon, 23 Feb 2026 01:27:52 +0000 (UTC)
-Received: from pdx1-sub0-mail-a220.dreamhost.com (trex-green-9.trex.outbound.svc.cluster.local [100.99.99.94])
-	(Authenticated sender: dreamhost)
-	by relay.mailchannels.net (Postfix) with ESMTPA id 787B0922749;
-	Mon, 23 Feb 2026 01:27:52 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; d=mailchannels.net; s=arc-2022; cv=none;
-	t=1771810072;
-	b=a4TfLbL+xWkl3FoRGPcvZXNFn3VWLS4RXhDLC1KITO/46AiXKDYcYmRknZqRd2g7nYbZcQ
-	k/VTABhhm7Zn3yscxxHTYULAVNJqbUU1PLLoRrBGwoBkiLW+AmN9QqdoQdybP6C4ijX3Bz
-	8TcDH3r63d57+soL/dCLrawV8iZId4lfoGr3mkqndFpINTWdkmjfxQI9bPv8tmcOsc5r6B
-	GQmo+rDUxyLX0LJvWazS82AksNk6eCbnj8gGGp36g572JivFZmZtkKrIiCJBrpXSgYKfsE
-	CriSJ54qiofQ4NqeYdXLr7UhBeVcFia63qopSQGlDjtk4wb2mlAp3YJYTn4NnA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mailchannels.net;
-	s=arc-2022; t=1771810072;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:dkim-signature;
-	bh=b6UUucr5palJUDrml2pz1tY23CzM6eiRyVkxM3xGuAA=;
-	b=HdoEr90CECUgiNkWcdKhY9qPiubDCqdcgP93IcgbJ6bGIJdLPT9mTOqQWq9/KGzSPzpPVM
-	iz0tjCQiflDqV799rxXYm+1600dMsIr7Xyl+Na/fSq9W505Z04B/zT54hAubOOYfWbh4/q
-	n6JCCES3uB+6VvjQSLT8tIQv20Tp+EnOrEzXTpmRMDlq29Jq6kHqaT7InUUvH61nTramUq
-	Wvd33wBqNSJ4P0aUQKSC97ZYm1TxBQXr37iJRDUZ36tvJ5Up0T4wxmo6HassoubYHxofDQ
-	L5sfUyRfjMUgvVB8kt5AKNb9EXkBTjSsPg8di3bk+AaQyTpc8kqJRHJcLX2ejA==
-ARC-Authentication-Results: i=1;
-	rspamd-7f65b64645-vf9m5;
-	auth=pass smtp.auth=dreamhost smtp.mailfrom=rob@landley.net
-X-Sender-Id: dreamhost|x-authsender|rob@landley.net
-X-MC-Relay: Neutral
-X-MailChannels-SenderId: dreamhost|x-authsender|rob@landley.net
-X-MailChannels-Auth-Id: dreamhost
-X-Abiding-Exultant: 6f84e5a4203b0a61_1771810072783_2986007946
-X-MC-Loop-Signature: 1771810072783:965855009
-X-MC-Ingress-Time: 1771810072782
-Received: from pdx1-sub0-mail-a220.dreamhost.com (pop.dreamhost.com
- [64.90.62.162])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
-	by 100.99.99.94 (trex/7.1.3);
-	Mon, 23 Feb 2026 01:27:52 +0000
-Received: from [192.168.14.155] (unknown [209.81.127.98])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	(Authenticated sender: rob@landley.net)
-	by pdx1-sub0-mail-a220.dreamhost.com (Postfix) with ESMTPSA id 4fK3Bb49zqzQf;
-	Sun, 22 Feb 2026 17:27:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=landley.net;
-	s=dreamhost; t=1771810072;
-	bh=b6UUucr5palJUDrml2pz1tY23CzM6eiRyVkxM3xGuAA=;
-	h=Date:Subject:To:Cc:From:Content-Type:Content-Transfer-Encoding;
-	b=lxehg/1EVHOBltxoiNS7w5jDgzxv0VeeWXCmyzs3sqvAEWSbnZP7s4pdZmqwScG+8
-	 1AxNCRb9pzm2ejZi/cG0jbrXSV9KBgl/p5jA9/PwK9/ZMi2mGm73jyIezlfgp+pmz+
-	 XMEdh7Y5/1tgWjG/EF0W2d72DPfNPTiqiXM8qI+23WiZEYzl2OftBprj0AZ4EG8vq3
-	 /oLGIG7LBbXeeajFrZgV9mMO7G+1Km9hqMpN+pZK5midNHTVKs3fWrEyan6WbUf+o4
-	 CaZxbDbBexTUZ6Gy8q5AQCeVSfp2ZUODULd6qk0tUqNk0ntr896ekvaQYQTGrRW0On
-	 mf8Jex8dpsmrA==
-Message-ID: <6d34c95a-a2ea-46a4-b491-45e7cb86049b@landley.net>
-Date: Sun, 22 Feb 2026 19:27:50 -0600
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="pWvhd9qN"
+Received: by mail-pf1-f202.google.com with SMTP id d2e1a72fcca58-824b5637daaso2019048b3a.3
+        for <linux-fsdevel@vger.kernel.org>; Sun, 22 Feb 2026 23:04:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1771830290; x=1772435090; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=4ACR+5opE2f1Qb7L32b78WaUJ2hKK306WtP3f4Mrpeg=;
+        b=pWvhd9qNuvzQ572O9PaGrTJAuMhFcr6E10rwLG4X/ylZYq3ljR25JK7vOQcihNQHRd
+         4AsDElBydnpRqPKT6jkSuLoVfEEmlstEMBucbrUaU5j+KwBzSHTf98tNWa9BLQ+Oa1fv
+         QfkP3gMJkqV1GZvKPilJgjltY5ckCG24iPoHV5LwnVr48v3jK5c7wPybdYT1LwXdDim6
+         8AYrqiR6/MrGjPy3KCyZ6nx3gehYeR2BBY6emDi6+l61gFKXOmZaYmY8JaVBf9GimD9L
+         ldRricmNp0lRhZvWNB/6oq21iCyl377gGgPNJbynpG1muZFAq1Bf1XTu0CiEMLovJTqL
+         7bdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771830290; x=1772435090;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=4ACR+5opE2f1Qb7L32b78WaUJ2hKK306WtP3f4Mrpeg=;
+        b=QrkUgpKsVeslv3Un7kk5OzWbtxBq0+/bn+QcNEpls7oA9wqIBy2NG2XDXPCncw/z/a
+         x7I++vaYL5gahvbWr47RZgqIv7IJyZ3qtUGYQ251b3NyAtQJR9UaZHrmZ6Aq7iONjbz9
+         KpDUJVoOTKCJ9KZsNiwwKECkOyC2dSUJYJZZSST3RG4Q3/8R6zlRB+0kNYD83MR0+byg
+         iamr4R1XUHu7QziC4x2wgGwbVbQTRwa0x8EKbdTe/81mQWqePsAMC0Ny83yE+aul1+Ao
+         5FI1RE+DKnEtUMwiLmXz9dZmqPsnygaLVIMhhpzq/0UYElW1W1euzUyKggxnT1XoW22V
+         2dWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUbnPrL/3EsOHYDgx0GU+p+3QPIzna9sICeGuZvwRbGfCPZl7SDr5FFDaqX8b0CC0yGvdySHxM1we/6+cWn@vger.kernel.org
+X-Gm-Message-State: AOJu0YxvuBULi+vN1riv4fmYgPH6vGBeS1YNLmhQXrmNMAgpEn/Zk9hW
+	i8ZMJk4SYV5eaTGywZ3Q1d8Vq84tz/j+6+3EogfYriHNNO8uWLnl5afUat8HBmg+5ZjmrZinElQ
+	aj/M2jIL7gQJ+FNv6EQYLdoHNMA==
+X-Received: from pfbgr10.prod.google.com ([2002:a05:6a00:4d0a:b0:7b8:ac8f:27c])
+ (user=ackerleytng job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6a00:2ea8:b0:823:f04:e89b with SMTP id d2e1a72fcca58-826daa5de1cmr5219573b3a.48.1771830290192;
+ Sun, 22 Feb 2026 23:04:50 -0800 (PST)
+Date: Mon, 23 Feb 2026 07:04:33 +0000
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] init: ensure that /dev/console is (nearly) always
- available in initramfs
-To: David Disseldorp <ddiss@suse.de>, Askar Safin <safinaskar@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
- Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
- linux-kbuild@vger.kernel.org, initramfs@vger.kernel.org,
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
- patches@lists.linux.dev
-References: <20260219210312.3468980-1-safinaskar@gmail.com>
- <20260219210312.3468980-2-safinaskar@gmail.com>
- <20260220105913.4b62e124.ddiss@suse.de>
-Content-Language: en-US
-From: Rob Landley <rob@landley.net>
-In-Reply-To: <20260220105913.4b62e124.ddiss@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.53.0.345.g96ddfc5eaa-goog
+Message-ID: <cover.1771826352.git.ackerleytng@google.com>
+Subject: [RFC PATCH v1 00/10] guest_memfd: Track amount of memory allocated on inode
+From: Ackerley Tng <ackerleytng@google.com>
+To: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org
+Cc: akpm@linux-foundation.org, david@kernel.org, lorenzo.stoakes@oracle.com, 
+	Liam.Howlett@oracle.com, vbabka@suse.cz, rppt@kernel.org, surenb@google.com, 
+	mhocko@suse.com, willy@infradead.org, pbonzini@redhat.com, shuah@kernel.org, 
+	ackerleytng@google.com, seanjc@google.com, shivankg@amd.com, 
+	rick.p.edgecombe@intel.com, yan.y.zhao@intel.com, rientjes@google.com, 
+	fvdl@google.com, jthoughton@google.com, vannapurve@google.com, 
+	pratyush@kernel.org, pasha.tatashin@soleen.com, kalyazin@amazon.com, 
+	tabba@google.com, michael.roth@amd.com
+Content-Type: text/plain; charset="UTF-8"
 
-On 2/19/26 17:59, David Disseldorp wrote:
->> This problem can be solved by using gen_init_cpio.
+Hi,
 
-It used to work, then they broke it. (See below.)
+Currently, guest_memfd doesn't update inode's i_blocks or i_bytes at
+all. Hence, st_blocks in the struct populated by a userspace fstat()
+call on a guest_memfd will always be 0. This patch series makes
+guest_memfd track the amount of memory allocated on an inode, which
+allows fstat() to accurately report that on requests from userspace.
 
->> But I think that proper solution is to ensure that /dev/console
->> is always available, no matter what. This is quality-of-implementation
->> feature. This will reduce number of possible failure modes. And
->> this will make easier for developers to get early boot right.
->> (Early boot issues are very hard to debug.)
-> 
-> I'd prefer not to go down this path:
-> - I think it's reasonable to expect that users who override the default
->    internal initramfs know what they're doing WRT /dev/console creation.
-> - initramfs can be made up of concatenated cpio archives, so tools which
->    insist on using GNU cpio and run into mknod EPERM issues could append
->    the nodes via gen_init_cpio, while continuing to use GNU cpio for
->    everything else.
+The inode's i_blocks and i_bytes fields are updated when the folio is
+associated or disassociated from the guest_memfd inode, which are at
+allocation and truncation times respectively.
 
-Who said anything about gnu? Busybox has a cpio, toybox has a cpio... 
-once upon a time it was a posix command, removed from the standard for 
-the same reason tar was removed, and that was just as widely ignored.
+To update inode fields at truncation time, this series implements a
+custom truncation function for guest_memfd. An alternative would be to
+update truncate_inode_pages_range() to return the number of bytes
+truncated or add/use some hook.
 
-It's an archive format. There are tools that create that archive format 
-from a directory.
+Implementing a custom truncation function was chosen to provide
+flexibility for handling truncations in future when guest_memfd
+supports sources of pages other than the buddy allocator. This
+approach of a custom truncation function also aligns with shmem, which
+has a custom shmem_truncate_range().
 
-The kernel itself had a fairly generic one one built-in, which you 
-_could_ use to create cpio archives with /dev/console as a regular 
-user... until the kernel guys decided to break it. I carried a patch to 
-fix that for a little while myself:
+To update inode fields at allocation time, kvm_gmem_get_folio() is
+simply augmented such that when a folio is added to the filemap, the
+size of the folio is updated into inode fields.
 
-https://landley.net/bin/mkroot/0.8.10/linux-patches/0011-gen_init_cpio-regression.patch
+The second patch, to use filemap_alloc_folio() during allocation of
+guest_memfd folios, was written as a debugging step to resolve a bug
+found by syzbot [1], but turned out to not be the fix. I include it
+here because it cleans up the allocation process and provides a nice
+foundation for updating inode fields during allocations.
 
-But I just got tired of fighting lkml.
+The first patch was separately submitted [2], and provided here since
+it is a prerequisite simplication before application of the second
+patch.
 
-> Thanks, David
+[1] https://lore.kernel.org/all/29c347bde68ec027259654e8e85371307edf7058.1770148108.git.ackerleytng@google.com/
+[2] https://lore.kernel.org/all/20260129172646.2361462-1-ackerleytng@google.com/
 
-Rob
+Ackerley Tng (10):
+  KVM: guest_memfd: Don't set FGP_ACCESSED when getting folios
+  KVM: guest_memfd: Directly allocate folios with filemap_alloc_folio()
+  mm: truncate: Expose preparation steps for
+    truncate_inode_pages_final()
+  KVM: guest_memfd: Implement evict_inode for guest_memfd
+  mm: Export unmap_mapping_folio() for KVM
+  mm: filemap: Export filemap_remove_folio()
+  KVM: guest_memfd: Implement custom truncation function
+  KVM: guest_memfd: Track amount of memory allocated on inode
+  KVM: selftests: Wrap fstat() to assert success
+  KVM: selftests: Test that st_blocks is updated on allocation
+
+ include/linux/mm.h                            |   3 +
+ mm/filemap.c                                  |   2 +
+ mm/internal.h                                 |   2 -
+ mm/memory.c                                   |   2 +
+ mm/truncate.c                                 |  21 +++-
+ .../testing/selftests/kvm/guest_memfd_test.c  |  32 +++--
+ .../selftests/kvm/include/kvm_syscalls.h      |   2 +
+ virt/kvm/guest_memfd.c                        | 116 +++++++++++++++---
+ 8 files changed, 149 insertions(+), 31 deletions(-)
+
+
+base-commit: b1195183ed42f1522fae3fe44ebee3af437aa000
+--
+2.53.0.345.g96ddfc5eaa-goog
