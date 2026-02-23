@@ -1,83 +1,48 @@
-Received: from beige.elm.relay.mailchannels.net (beige.elm.relay.mailchannels.net [23.83.212.16])
+Received: from 013.lax.mailroute.net (013.lax.mailroute.net [199.89.1.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2094B32939C;
-	Mon, 23 Feb 2026 17:07:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=23.83.212.16
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771866431; cv=pass; b=uPSwl/3YdX+s2sRDixxIIbtdNfZJBYhEPD4hHQTDmUxWgA6ACyakJgPDuKLQNWcySxt1Q6PwIfKnssThiJ1YXQlIkmCesPFdG4WFWmKdrgYsISUIjTOt7FOvXbtdUjmNBEtaZBUGY4ChDJcrRr+ifXy1W+zylWaIiZ4vvWAAg6c=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771866431; c=relaxed/simple;
-	bh=QmuNg1tBtzwmz+wkhgiXHLezpaCUDOCDyd8P/htnkvc=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C40043101DB;
+	Mon, 23 Feb 2026 17:08:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.89.1.16
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771866522; cv=none; b=kbPCtO6v6jek+PrVJ9tMo9swSxYVJiGQC2B7JJyx+cDUBLD6x/1/dRgZeqeSnFyisWXBMSnaQ2p3dx1w6VYZRK9J4I9cZzK196tK+8bnH9SJQivKcgKDXEJfjufIb5iVmFtTBl5ggQSW0yDUY4yAOeqWQa7P62HRM+TyFij21T4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771866522; c=relaxed/simple;
+	bh=By1Ioj8GbL/V6zno4RRJtTxk1Y+neGd5c2WUwPqo6t4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PuyuPB6eaRFsjLx/5JKE8UESFFnafWugjypXOn77c0+dVK1EN4++Y4W8zdpX9yQSX1OhXqm0mhLLi9IB0sQ9rCll5PVmuE/XZN07mSioryMTFQM+utpgoxUw7i5eClWEsTvRJ6nal87R4/+u+IXOLF/yeOWLLaedzBzxZvqchwU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=landley.net; spf=pass smtp.mailfrom=landley.net; dkim=pass (2048-bit key) header.d=landley.net header.i=@landley.net header.b=E7yTKFH6; arc=pass smtp.client-ip=23.83.212.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=landley.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=landley.net
+	 In-Reply-To:Content-Type; b=qTs/6lMI0JuLPelFLz0y2rbABW8uwRRWMCbasGg8WcZKBG9HVY3MnZ/ljMequAjVgHSG7Cc1xniDWrn4PPegEZZl1BNYQnTgUPp1UckAe05NnfKvsmYn5YpSSW56K5vZDqKuJn82gLop4GRH+NsQC3Vl3sR/+BHzqr3Swxv1VLw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=su8kXIo1; arc=none smtp.client-ip=199.89.1.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=landley.net header.i=@landley.net header.b="E7yTKFH6"
-X-Sender-Id: dreamhost|x-authsender|rob@landley.net
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
-	by relay.mailchannels.net (Postfix) with ESMTP id 96639160C57;
-	Mon, 23 Feb 2026 16:11:12 +0000 (UTC)
-Received: from pdx1-sub0-mail-a229.dreamhost.com (100-103-37-158.trex-nlb.outbound.svc.cluster.local [100.103.37.158])
-	(Authenticated sender: dreamhost)
-	by relay.mailchannels.net (Postfix) with ESMTPA id 13DC4163A9E;
-	Mon, 23 Feb 2026 16:11:10 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; d=mailchannels.net; s=arc-2022; cv=none;
-	t=1771863070;
-	b=D10lQ/C9uKN0awKaoY1DJbyw883z2sXTh1CP2yS9BDRhSH58rsf1CoH5LujX2k7UdyXoBD
-	t1bhwmCoGJUp9Vlj46sIobRvYohwXZMku0zgzlMBomVvtklhx9MTfMCq18nqt7BfSfv5sy
-	JVyRXMl+RWIB9TE/S+JSDtdPUzvkDAid+ovXQx2YKRnNJmpm5dGpxNqaSlaH32r3Q7Bgj8
-	Df91LPvo+OF+8/1j3YKIG3yfMANeWaohaeRJukOVHk0/p9XDuYaSP7vRB736CZPbK9+1uR
-	Q5fyNplw8uWgFHsNE6fxqfshimehi1AB1J9EDCVb/DyMbdGOH2nQUoa/y2CAhg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mailchannels.net;
-	s=arc-2022; t=1771863070;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:dkim-signature;
-	bh=XuD6XCjlTOuLfHYtXzVsTlp4WOA/ge30qcw+P5i9Neg=;
-	b=J4JKNO/Aq56Qgvep1jBeLGTX0W4LsZYTzravitWIiHbtcBK53abXlKnP3aSwFPPxC8WCdU
-	2HKgwjMY25lyHqUUf86/lzeAksAERcKa5INoAEp/MKbQs0d2mcu9Vh7PZdoezJ3mJP05lD
-	9YgRxaG/As8lvZTDA3Ry3nd2hF4QVxeimG3XC4CAgaSbTC3J7Y1U6NJowVojfIyx2Ds9Dw
-	JldXum/9uH/Pg/DjU6owlT5lDyq1K7rZYtfgNDqXZbFJf3u6vf8yNkQzu+9oPmutrcJdcE
-	eMdaySlElaVd84WcD02Igp0Re0WMlbkG4IY++BztF09xTyEHTrW2wno/ZJNfTw==
-ARC-Authentication-Results: i=1;
-	rspamd-6fbd58c58b-q6pqj;
-	auth=pass smtp.auth=dreamhost smtp.mailfrom=rob@landley.net
-X-Sender-Id: dreamhost|x-authsender|rob@landley.net
-X-MC-Relay: Neutral
-X-MailChannels-SenderId: dreamhost|x-authsender|rob@landley.net
-X-MailChannels-Auth-Id: dreamhost
-X-Glossy-Stupid: 51eb68441b29b606_1771863072406_1607851710
-X-MC-Loop-Signature: 1771863072406:3925674246
-X-MC-Ingress-Time: 1771863072404
-Received: from pdx1-sub0-mail-a229.dreamhost.com (pop.dreamhost.com
- [64.90.62.162])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
-	by 100.103.37.158 (trex/7.1.3);
-	Mon, 23 Feb 2026 16:11:12 +0000
-Received: from [IPV6:2607:fb90:9a0f:889c:175:8594:632c:fd9c] (unknown [172.56.10.34])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="su8kXIo1"
+Received: from localhost (localhost [127.0.0.1])
+	by 013.lax.mailroute.net (Postfix) with ESMTP id 4fKS414hq7zlh1Vk;
+	Mon, 23 Feb 2026 17:08:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:from:from:content-language:references:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1771866509; x=1774458510; bh=By1Ioj8GbL/V6zno4RRJtTxk
+	1Y+neGd5c2WUwPqo6t4=; b=su8kXIo1EVVPqrEph4n4SLJz+IZllnLbmCMPcRRW
+	zHxl9VLPCWWB7lAs/QFZXSzt+jpl1qYPIdQtgrYFZCmVKNY1WrNNdnmofyq7DeFD
+	M6fimJiVVJTwBhkhCJFsK7BBvRT3IrPunQNfjIU4WPzXFFBMwKkFTNeN/anwE/jj
+	Izb6OBxY00m75DfXIdnCTrok6Unii/ABlX+p9C/YSd23OHNYrUpHWZ0W9ECiMtmL
+	F1FiXYAhzVPeM6vyUxVTp+MvD0NWSpYGSheNAQQ30qn5e8G0b81iOp/EEhHzTB8A
+	F4eSZgZpMrTO5rvvjdSoFdq4mu1zqwUh/asrmDi6S3VzUw==
+X-Virus-Scanned: by MailRoute
+Received: from 013.lax.mailroute.net ([127.0.0.1])
+ by localhost (013.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id Snina6HJ5Dga; Mon, 23 Feb 2026 17:08:29 +0000 (UTC)
+Received: from [100.119.48.131] (unknown [104.135.180.219])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: rob@landley.net)
-	by pdx1-sub0-mail-a229.dreamhost.com (Postfix) with ESMTPSA id 4fKQnm4c9Yz6N;
-	Mon, 23 Feb 2026 08:11:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=landley.net;
-	s=dreamhost; t=1771863069;
-	bh=XuD6XCjlTOuLfHYtXzVsTlp4WOA/ge30qcw+P5i9Neg=;
-	h=Date:Subject:To:Cc:From:Content-Type:Content-Transfer-Encoding;
-	b=E7yTKFH61K6Rf3nyxMlL5gJn8Vu7IRd1pAZWYgnNR9pCVRRJUpvhMLFsUk6Xig3sX
-	 d6NWEP3DpNrj+DxqHNetE2uHwz9ZJUf/MP/SxA4TNEVqYNX1XyMQxsMbqnOItaYmhx
-	 kMG9i8DHBsDuwQZ/6swAy5TFwwx11Zc5Ry3lX1XRq5mq4C6CTDl7cGtAYkgBgq25SO
-	 fh7Lt1Up1B6KsjeaobDjAYsrfx59zhVGH+ott0uRMP1JJ71tbhFsbxkxnwXEXqRvlu
-	 t7uZaYSEx+P719OVfP3zRy8hYDm/Xq10VI5hBE26ZbFU1tWk0vFK0xtefoKtamHS2O
-	 AcHbh4zCO+A7w==
-Message-ID: <7e309fc3-7d55-4e95-8dea-f164a7a96b6c@landley.net>
-Date: Mon, 23 Feb 2026 10:11:05 -0600
+	(Authenticated sender: bvanassche@acm.org)
+	by 013.lax.mailroute.net (Postfix) with ESMTPSA id 4fKS3q2HxZzlh1Vg;
+	Mon, 23 Feb 2026 17:08:23 +0000 (UTC)
+Message-ID: <40edeeec-dbc3-4aef-ac86-691e1ed2ed06@acm.org>
+Date: Mon, 23 Feb 2026 09:08:22 -0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -85,52 +50,44 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] init: ensure that /dev/console is (nearly) always
- available in initramfs
-To: David Disseldorp <ddiss@suse.de>
-Cc: Askar Safin <safinaskar@gmail.com>, linux-fsdevel@vger.kernel.org,
+Subject: Re: [LSF/MM/BPF ATTEND][LSF/MM/BPF TOPIC] : blktests: status,
+ expansion plan for the storage stack test framework
+To: Haris Iqbal <haris.iqbal@ionos.com>,
+ Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: Daniel Wagner <dwagner@suse.de>,
+ Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>,
+ Hannes Reinecke <hare@suse.de>, hch <hch@lst.de>,
+ Jens Axboe <axboe@kernel.dk>, "sagi@grimberg.me" <sagi@grimberg.me>,
+ "tytso@mit.edu" <tytso@mit.edu>,
+ Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
  Christian Brauner <brauner@kernel.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
- Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
- linux-kbuild@vger.kernel.org, initramfs@vger.kernel.org,
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
- patches@lists.linux.dev
-References: <20260219210312.3468980-1-safinaskar@gmail.com>
- <20260219210312.3468980-2-safinaskar@gmail.com>
- <20260220105913.4b62e124.ddiss@suse.de>
- <6d34c95a-a2ea-46a4-b491-45e7cb86049b@landley.net>
- <20260223133357.0c3b8f8e.ddiss@suse.de>
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ =?UTF-8?Q?Javier_Gonz=C3=A1lez?= <javier@javigon.com>,
+ "willy@infradead.org" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ "amir73il@gmail.com" <amir73il@gmail.com>, "vbabka@suse.cz"
+ <vbabka@suse.cz>, Damien Le Moal <dlemoal@kernel.org>
+References: <31a2a4c2-8c33-429a-a2b1-e1f3a0e90d72@nvidia.com>
+ <459953fa-5330-4eb1-a1b4-7683b04e3d45@flourine.local>
+ <aY77ogf5nATlJUg_@shinmob>
+ <CAJpMwyis1iZB2dQMC4VC8stVhRhOg0mfauCWQd_Nv8Ojb+X-Yw@mail.gmail.com>
 Content-Language: en-US
-From: Rob Landley <rob@landley.net>
-In-Reply-To: <20260223133357.0c3b8f8e.ddiss@suse.de>
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <CAJpMwyis1iZB2dQMC4VC8stVhRhOg0mfauCWQd_Nv8Ojb+X-Yw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 2/22/26 20:33, David Disseldorp wrote:
->> It's an archive format. There are tools that create that archive format
->> from a directory.
->>
->> The kernel itself had a fairly generic one one built-in, which you
->> _could_ use to create cpio archives with /dev/console as a regular
->> user... until the kernel guys decided to break it. I carried a patch to
->> fix that for a little while myself:
->>
->> https://landley.net/bin/mkroot/0.8.10/linux-patches/0011-gen_init_cpio-regression.patch
-> 
-> This seems like a helpful feature to me.
+On 2/15/26 1:18 PM, Haris Iqbal wrote:
+> A possible feature for blktest could be integration with something
+> like virtme-ng.
+> Running on VM can be versatile and fast. The run can be made parallel
+> too, by spawning multiple VMs simultaneously.
+Hmm ... this probably would break tests that measure performance and
+also tests that modify data or reservations of a physical storage
+device.
 
-It was, but I want mkroot to at least be _able_ to build with vanilla 
-kernels, so couldn't depend on a feature upstream had abandoned.
-
-The real problem isn't cpio, it's that the kernel interface for 
-statically linking a cpio into the kernel wants you to point it at a 
-directory of files for _it_ to cpio up, and when you do that you need 
-root access (or fakeroot) to mknod.
-
-You used to be able to point it at one of those generated files (and 
-thus edit the file yourself to add the extra nodes), but that went away 
-the same time they broke the rest of the interface.
-
-> Thanks, David
-
-Rob
+Bart.
