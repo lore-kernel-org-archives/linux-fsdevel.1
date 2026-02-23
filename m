@@ -1,91 +1,136 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from beige.elm.relay.mailchannels.net (beige.elm.relay.mailchannels.net [23.83.212.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD38C30C368
-	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Feb 2026 17:05:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771866356; cv=none; b=DGTO5f87BXr9D/RfYOeNS37X+RtNuy4MRwF/T5/v4yVlOX/tNm1fsROOCblQsfdTHoGGI3TMQXEGnaJ6zd2ajAVyqbq9wLFXqeKcxJYGE/q6EIOTqR8PIO40MeEfhlhIdv8t6u7tu/SQMXrxvGG0tnaLd+tQ2IrefhNJ0oU0Uhc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771866356; c=relaxed/simple;
-	bh=SFmhNdnf3rACdXJjupmrzAWA8eXyokF2iD8l0cARuIw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RUEW4jnY17Uo8UW+ERv5fGcYSIWMGarzXT8hat9toxwqUcEweAuFrpIULW8rm5jK1mklhThEuWGvcVOmgxtjuzwvhhOKXjxgC4MMYPJKHAHAKUCtvTETyh4FNdi/k+/1oRZOQYKVZOkDXzDKWjCH4zVvz432CCi7qALSN6NINhU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CUsdABLZ; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2094B32939C;
+	Mon, 23 Feb 2026 17:07:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=23.83.212.16
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771866431; cv=pass; b=uPSwl/3YdX+s2sRDixxIIbtdNfZJBYhEPD4hHQTDmUxWgA6ACyakJgPDuKLQNWcySxt1Q6PwIfKnssThiJ1YXQlIkmCesPFdG4WFWmKdrgYsISUIjTOt7FOvXbtdUjmNBEtaZBUGY4ChDJcrRr+ifXy1W+zylWaIiZ4vvWAAg6c=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771866431; c=relaxed/simple;
+	bh=QmuNg1tBtzwmz+wkhgiXHLezpaCUDOCDyd8P/htnkvc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PuyuPB6eaRFsjLx/5JKE8UESFFnafWugjypXOn77c0+dVK1EN4++Y4W8zdpX9yQSX1OhXqm0mhLLi9IB0sQ9rCll5PVmuE/XZN07mSioryMTFQM+utpgoxUw7i5eClWEsTvRJ6nal87R4/+u+IXOLF/yeOWLLaedzBzxZvqchwU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=landley.net; spf=pass smtp.mailfrom=landley.net; dkim=pass (2048-bit key) header.d=landley.net header.i=@landley.net header.b=E7yTKFH6; arc=pass smtp.client-ip=23.83.212.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=landley.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=landley.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CUsdABLZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1771866354;
+	dkim=pass (2048-bit key) header.d=landley.net header.i=@landley.net header.b="E7yTKFH6"
+X-Sender-Id: dreamhost|x-authsender|rob@landley.net
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id 96639160C57;
+	Mon, 23 Feb 2026 16:11:12 +0000 (UTC)
+Received: from pdx1-sub0-mail-a229.dreamhost.com (100-103-37-158.trex-nlb.outbound.svc.cluster.local [100.103.37.158])
+	(Authenticated sender: dreamhost)
+	by relay.mailchannels.net (Postfix) with ESMTPA id 13DC4163A9E;
+	Mon, 23 Feb 2026 16:11:10 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; d=mailchannels.net; s=arc-2022; cv=none;
+	t=1771863070;
+	b=D10lQ/C9uKN0awKaoY1DJbyw883z2sXTh1CP2yS9BDRhSH58rsf1CoH5LujX2k7UdyXoBD
+	t1bhwmCoGJUp9Vlj46sIobRvYohwXZMku0zgzlMBomVvtklhx9MTfMCq18nqt7BfSfv5sy
+	JVyRXMl+RWIB9TE/S+JSDtdPUzvkDAid+ovXQx2YKRnNJmpm5dGpxNqaSlaH32r3Q7Bgj8
+	Df91LPvo+OF+8/1j3YKIG3yfMANeWaohaeRJukOVHk0/p9XDuYaSP7vRB736CZPbK9+1uR
+	Q5fyNplw8uWgFHsNE6fxqfshimehi1AB1J9EDCVb/DyMbdGOH2nQUoa/y2CAhg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net;
+	s=arc-2022; t=1771863070;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=h+nYqL8YQNY5qw0Z4TJIuXoqkgZMoxLSKm/GfAztHKU=;
-	b=CUsdABLZaAWebiI6f8hgrZJRSj5+MRgVDkAzWjN2wzQVO9oZu1DT5omHpgTQVjdOQJEvGT
-	PbTa1XhCbIB1H7g6tqCM2WC3oAvNIZkW4sSPRUCsHLAaJ3VU07BcXFubo81srmRFq8Qw1G
-	w39XwIxbhJi5AR43O4k2jcRLOxdLzqE=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-527-VJH6wrlwMx-GzMaurugLxw-1; Mon,
- 23 Feb 2026 12:05:51 -0500
-X-MC-Unique: VJH6wrlwMx-GzMaurugLxw-1
-X-Mimecast-MFC-AGG-ID: VJH6wrlwMx-GzMaurugLxw_1771866350
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:dkim-signature;
+	bh=XuD6XCjlTOuLfHYtXzVsTlp4WOA/ge30qcw+P5i9Neg=;
+	b=J4JKNO/Aq56Qgvep1jBeLGTX0W4LsZYTzravitWIiHbtcBK53abXlKnP3aSwFPPxC8WCdU
+	2HKgwjMY25lyHqUUf86/lzeAksAERcKa5INoAEp/MKbQs0d2mcu9Vh7PZdoezJ3mJP05lD
+	9YgRxaG/As8lvZTDA3Ry3nd2hF4QVxeimG3XC4CAgaSbTC3J7Y1U6NJowVojfIyx2Ds9Dw
+	JldXum/9uH/Pg/DjU6owlT5lDyq1K7rZYtfgNDqXZbFJf3u6vf8yNkQzu+9oPmutrcJdcE
+	eMdaySlElaVd84WcD02Igp0Re0WMlbkG4IY++BztF09xTyEHTrW2wno/ZJNfTw==
+ARC-Authentication-Results: i=1;
+	rspamd-6fbd58c58b-q6pqj;
+	auth=pass smtp.auth=dreamhost smtp.mailfrom=rob@landley.net
+X-Sender-Id: dreamhost|x-authsender|rob@landley.net
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: dreamhost|x-authsender|rob@landley.net
+X-MailChannels-Auth-Id: dreamhost
+X-Glossy-Stupid: 51eb68441b29b606_1771863072406_1607851710
+X-MC-Loop-Signature: 1771863072406:3925674246
+X-MC-Ingress-Time: 1771863072404
+Received: from pdx1-sub0-mail-a229.dreamhost.com (pop.dreamhost.com
+ [64.90.62.162])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+	by 100.103.37.158 (trex/7.1.3);
+	Mon, 23 Feb 2026 16:11:12 +0000
+Received: from [IPV6:2607:fb90:9a0f:889c:175:8594:632c:fd9c] (unknown [172.56.10.34])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 25E541956058;
-	Mon, 23 Feb 2026 17:05:50 +0000 (UTC)
-Received: from fedora (unknown [10.44.32.38])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 874D819560B2;
-	Mon, 23 Feb 2026 17:05:46 +0000 (UTC)
-Received: by fedora (nbSMTP-1.00) for uid 1000
-	oleg@redhat.com; Mon, 23 Feb 2026 18:05:49 +0100 (CET)
-Date: Mon, 23 Feb 2026 18:05:44 +0100
-From: Oleg Nesterov <oleg@redhat.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Jann Horn <jannh@google.com>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: pidfd && O_RDWR
-Message-ID: <aZyI6Aht747CTLiC@redhat.com>
-References: <20260223-work-pidfs-autoreap-v4-0-e393c08c09d1@kernel.org>
- <20260223-work-pidfs-autoreap-v4-2-e393c08c09d1@kernel.org>
- <aZx2dlV9tJaL5gDG@redhat.com>
- <aZx3ctUf-ZyF-Krc@redhat.com>
+	(Authenticated sender: rob@landley.net)
+	by pdx1-sub0-mail-a229.dreamhost.com (Postfix) with ESMTPSA id 4fKQnm4c9Yz6N;
+	Mon, 23 Feb 2026 08:11:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=landley.net;
+	s=dreamhost; t=1771863069;
+	bh=XuD6XCjlTOuLfHYtXzVsTlp4WOA/ge30qcw+P5i9Neg=;
+	h=Date:Subject:To:Cc:From:Content-Type:Content-Transfer-Encoding;
+	b=E7yTKFH61K6Rf3nyxMlL5gJn8Vu7IRd1pAZWYgnNR9pCVRRJUpvhMLFsUk6Xig3sX
+	 d6NWEP3DpNrj+DxqHNetE2uHwz9ZJUf/MP/SxA4TNEVqYNX1XyMQxsMbqnOItaYmhx
+	 kMG9i8DHBsDuwQZ/6swAy5TFwwx11Zc5Ry3lX1XRq5mq4C6CTDl7cGtAYkgBgq25SO
+	 fh7Lt1Up1B6KsjeaobDjAYsrfx59zhVGH+ott0uRMP1JJ71tbhFsbxkxnwXEXqRvlu
+	 t7uZaYSEx+P719OVfP3zRy8hYDm/Xq10VI5hBE26ZbFU1tWk0vFK0xtefoKtamHS2O
+	 AcHbh4zCO+A7w==
+Message-ID: <7e309fc3-7d55-4e95-8dea-f164a7a96b6c@landley.net>
+Date: Mon, 23 Feb 2026 10:11:05 -0600
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aZx3ctUf-ZyF-Krc@redhat.com>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] init: ensure that /dev/console is (nearly) always
+ available in initramfs
+To: David Disseldorp <ddiss@suse.de>
+Cc: Askar Safin <safinaskar@gmail.com>, linux-fsdevel@vger.kernel.org,
+ Christian Brauner <brauner@kernel.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+ Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, initramfs@vger.kernel.org,
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+ patches@lists.linux.dev
+References: <20260219210312.3468980-1-safinaskar@gmail.com>
+ <20260219210312.3468980-2-safinaskar@gmail.com>
+ <20260220105913.4b62e124.ddiss@suse.de>
+ <6d34c95a-a2ea-46a4-b491-45e7cb86049b@landley.net>
+ <20260223133357.0c3b8f8e.ddiss@suse.de>
+Content-Language: en-US
+From: Rob Landley <rob@landley.net>
+In-Reply-To: <20260223133357.0c3b8f8e.ddiss@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 02/23, Oleg Nesterov wrote:
->
-> Sorry for noise!
+On 2/22/26 20:33, David Disseldorp wrote:
+>> It's an archive format. There are tools that create that archive format
+>> from a directory.
+>>
+>> The kernel itself had a fairly generic one one built-in, which you
+>> _could_ use to create cpio archives with /dev/console as a regular
+>> user... until the kernel guys decided to break it. I carried a patch to
+>> fix that for a little while myself:
+>>
+>> https://landley.net/bin/mkroot/0.8.10/linux-patches/0011-gen_init_cpio-regression.patch
+> 
+> This seems like a helpful feature to me.
 
-Yes, but let me add more (off-topic) noise to this thread...
+It was, but I want mkroot to at least be _able_ to build with vanilla 
+kernels, so couldn't depend on a feature upstream had abandoned.
 
-pidfd_prepare() does pidfs_alloc_file(pid, flags | O_RDWR) and "| O_RDWR"
-makes no sense because pidfs_alloc_file() itself does
+The real problem isn't cpio, it's that the kernel interface for 
+statically linking a cpio into the kernel wants you to point it at a 
+directory of files for _it_ to cpio up, and when you do that you need 
+root access (or fakeroot) to mknod.
 
-	flags |= O_RDWR;
+You used to be able to point it at one of those generated files (and 
+thus edit the file yourself to add the extra nodes), but that went away 
+the same time they broke the rest of the interface.
 
-I was going to send the trivial cleanup, but why a pidfs file needs
-O_RDWR/FMODE_WRITE ?
+> Thanks, David
 
-Actually the same question about some anon_inode_getfile_fmode(O_RDWR)
-users, for example signalfd.c.
-
-Can you explain just for my education?
-
-Oleg.
-
+Rob
