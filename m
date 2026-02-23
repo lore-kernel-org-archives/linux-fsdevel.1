@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD5241E5714;
-	Mon, 23 Feb 2026 13:20:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24F0918D658;
+	Mon, 23 Feb 2026 13:20:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771852818; cv=none; b=UEo5yl9iAJnAobe7EzeehvcK6ag+xL7Xq0Ewz58tIryUmgUmT5b9Vk+juvFy28Kd8itvAcD9UlpNFd3rLY0j4Mw1ENXhC40+zS/84wGE4WIkCTbpqFEBC1ir+6aR//xfWtq3oS51HJiaNhC74C1eveoOLHmZhCajxlFbFk8Wy0Q=
+	t=1771852821; cv=none; b=si+GKZlx8wsuO20aqCV4ibZ/cWOySmz+6xA2LJeUTPEnWH0yVzF/I3HGqTnbL2Qk51nAfRU7Z+nhiaSHi44uYnFXVc0TKbQy8ATK9IG6wfv9KDfN2FYXDUbvmODVE9eFGMebXUZsQgPeYM1nTlMn6Nhy30bTTGpv9VZwcW8zr7I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771852818; c=relaxed/simple;
-	bh=+qgQYnwfB2gngyjRy2a9+KA/iJByrUnbrOUc+xPRuaY=;
+	s=arc-20240116; t=1771852821; c=relaxed/simple;
+	bh=ZxJIMdlct5l9zBlEujtxSo3Sysm2g8soeik3PzMFxM0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Nnkvl8PPiBg46GAVpZZJEseXWT5DuSwRvMXAh53BjPliFhyAE/vq2twJ/ilWiDJmU4theFy2O0WJ7qMOzVQVpNGqtep9qcvpofneb6eu2BpYcL/6JSQXlrCDcYVwZQgRGXB+jlA4qEbmXhTneFb8MsqzNxGh1lMpKZs9EzXLXG8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VOamIrlZ; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=upvXIw5RUFu7Fn0w+YiUl+5GzTH8voKEfQOWa/oWoR58VvjmHNX+4b3fisiHWluIqT+D48CdLCCHBpeKP5RMExl9+SgNXfBZXSfcrC7Jm86M5wetXC7v3Sg+uBFAqSPSTQQHeE5hE9vPJedKD83ryQwAhoiC3CIBCZynCpjLMI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=An+WTrsq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VOamIrlZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C267C116C6;
-	Mon, 23 Feb 2026 13:20:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="An+WTrsq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBF70C19424;
+	Mon, 23 Feb 2026 13:20:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771852818;
-	bh=+qgQYnwfB2gngyjRy2a9+KA/iJByrUnbrOUc+xPRuaY=;
+	s=k20201202; t=1771852820;
+	bh=ZxJIMdlct5l9zBlEujtxSo3Sysm2g8soeik3PzMFxM0=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=VOamIrlZrX/1NtIBpnwiuMz1jeyJb2HiwGEitbvg5HiLv1oFN8W6wGnTkGqiNOjeH
-	 MVjJHz3eWxiNQth/Zpr8GCmwYN8GogEU+alF6ZmR9E1Rst5sXjrZOTJ3tR/8ZWlYxF
-	 x/sanBlO2leCdO8N3XrEcfENbQlwmpFL1/kbd9TxV191njZYvcx7ClqinORVQ0V0BL
-	 3nru7bCjFyNM72OJ31owuDZutXXvQQZGyZRHV4Hw7yNfvPi7IjDjnqcZD3NZM3Ulk8
-	 NISToIpUp51Kb2IGAdnNVN0LwyUP59IVlxlaQQWKOmS7d+Yk1TS8G6SejHiTctiavs
-	 f1FVRcLjVNSDQ==
+	b=An+WTrsqWyb+tpcRCwRd8YbfPY3xvbwa96UmrAJkhmLyt4KoA7G/32AsMDEodrn9c
+	 V1NSjQE9LI3roWPRnzu939M18D0daXjsQMDv2OoUUanPz+TZmCNFzwWC+UZ6j5P5NB
+	 71W1xvexBiV5TyxIfPggrJZ51sl/Ql4iNcG4DSmGhlawlSCH+XmvaxHdnEr446HiUN
+	 t2G022llZh3KLnctdYeJD3T71CgaW2RrSyCCG52zri5UAfjT6EJhj/Mb6fJR9rXdLv
+	 LDToT1OQqcuUlOSQ3tUDRDMT36zml74ZvaeIUm/eVpx/lqVkptwCxwW3s9rUp46vfI
+	 j3ySGEuWu4ZVg==
 From: Christian Brauner <brauner@kernel.org>
-Date: Mon, 23 Feb 2026 14:20:08 +0100
-Subject: [PATCH RFC v3 1/2] pidfs: add inode ownership and permission
- checks
+Date: Mon, 23 Feb 2026 14:20:09 +0100
+Subject: [PATCH RFC v3 2/2] selftests/pidfd: add inode ownership and
+ permission tests
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -38,7 +38,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260223-work-pidfs-inode-owner-v3-1-490855c59999@kernel.org>
+Message-Id: <20260223-work-pidfs-inode-owner-v3-2-490855c59999@kernel.org>
 References: <20260223-work-pidfs-inode-owner-v3-0-490855c59999@kernel.org>
 In-Reply-To: <20260223-work-pidfs-inode-owner-v3-0-490855c59999@kernel.org>
 To: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>
@@ -46,322 +46,361 @@ Cc: Kees Cook <kees@kernel.org>, Andy Lutomirski <luto@amacapital.net>,
  Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
  linux-kernel@vger.kernel.org, Christian Brauner <brauner@kernel.org>
 X-Mailer: b4 0.15-dev-47773
-X-Developer-Signature: v=1; a=openpgp-sha256; l=10071; i=brauner@kernel.org;
- h=from:subject:message-id; bh=+qgQYnwfB2gngyjRy2a9+KA/iJByrUnbrOUc+xPRuaY=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTOCeFrsX3H/ZWld+Yq//sz1JIF/j3fLFPPumtncdyn+
- 1nMZs2MHaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABPpfsjwv2byUo243eX33HbV
- dhzefJBLcUnNticrN58rW3QmefqBPzWMDMvFH/K8sAiZ1Oq+eNH0pR6aPNFikyc3L6p786yj2WB
- lPSsA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=9030; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=ZxJIMdlct5l9zBlEujtxSo3Sysm2g8soeik3PzMFxM0=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTOCeErviKnxqMjcKk6yFqG4/mhXNn2muPz7r24c4PP7
+ 3yiXI52RykLgxgXg6yYIotDu0m43HKeis1GmRowc1iZQIYwcHEKwESWpjEy7BXheuL3LnbV7QNd
+ 1tK1XkldpXmlrnnRl25Y1xkdcvnyiJFhtlvVzyMLilfWqmxafFwnW3KvX8Xhlo1Mtcv12x/c3+L
+ JDAA=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Right now we only support trusted.* xattrs which require CAP_SYS_ADMIN
-which doesn't really require any meaningful permission checking. But in
-order to support user.* xattrs and custom pidfs.* xattrs in the future
-we need permission checking for pidfs inodes. Add baseline permission
-checking that can later be extended with additional write-time checks
-for specific pidfs.* xattrs.
+Test the pidfs inode ownership reporting (via fstat) and the permission
+model (via user.* xattr operations that trigger pidfs_permission()):
 
-Make the effective {u,g}id of the task the owner of the pidfs inode
-(like procfs does). The ownership is set when the dentry is first
-stashed and reported dynamically via getattr since credentials may
-change due to setuid() and similar operations. For kernel threads use
-root, for exited tasks use the credentials saved at exit time.
+Ownership tests:
+- owner_self: own pidfd reports caller's euid/egid
+- owner_child: child pidfd reports correct ownership
+- owner_child_changed_euid: ownership tracks live credential changes
+- owner_exited_child: ownership persists after exit and reap
+- owner_exited_child_changed_euid: exit_cred preserves changed credentials
 
-The inode's ownership is updated via WRITE_ONCE() from the getattr()
-and permission() callbacks. This doesn't serialize against
-inode->i_op->setattr() but since pidfs rejects setattr() this isn't
-currently an issue. A seqcount-based approach can be used if setattr()
-support is added in the future [1].
+Permission tests:
+- permission_same_user: same-user xattr access succeeds (EOPNOTSUPP)
+- permission_different_user_denied: cross-user access denied (EPERM)
+- permission_kthread: kernel thread access always denied (EPERM)
 
-Save the task's credentials and thread group pid inode number at exit
-time so that ownership and permission checks remain functional after
-the task has been reaped.
+The user.* xattr namespace is used to exercise pidfs_permission() from
+userspace: xattr_permission() calls inode_permission() for user.* on
+S_IFREG inodes, so fgetxattr() returns EOPNOTSUPP when permission is
+granted (no handler) and EPERM when denied.
 
-Add a permission callback that checks access in two steps:
+Tests requiring root skip gracefully via SKIP().
 
- (1) Verify the caller is either in the same thread group as the target
-     or has equivalent signal permissions. This reuses the same
-     uid-based logic as kill() by extracting may_signal_creds() from
-     kill_ok_by_cred() so it can operate on credential pointers
-     directly. For exited tasks the check uses the saved exit
-     credentials and compares thread group identity.
-
- (2) Perform standard POSIX permission checking via generic_permission()
-     against the inode's ownership and mode bits.
-
-This is intentionally less strict than ptrace_may_access() because pidfs
-currently does not allow operating on data that is completely private to
-the process such as its mm or file descriptors. Additional checks will
-be needed once that changes.
-
-Link: https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git/log/?h=work.inode.seqcount [1]
 Signed-off-by: Christian Brauner <brauner@kernel.org>
 ---
- fs/pidfs.c           | 133 +++++++++++++++++++++++++++++++++++++++++++++++----
- include/linux/cred.h |   2 +
- kernel/signal.c      |  19 ++++----
- 3 files changed, 136 insertions(+), 18 deletions(-)
+ tools/testing/selftests/pidfd/.gitignore           |   1 +
+ tools/testing/selftests/pidfd/Makefile             |   2 +-
+ .../selftests/pidfd/pidfd_inode_owner_test.c       | 289 +++++++++++++++++++++
+ 3 files changed, 291 insertions(+), 1 deletion(-)
 
-diff --git a/fs/pidfs.c b/fs/pidfs.c
-index 318253344b5c..16a3cfa84af4 100644
---- a/fs/pidfs.c
-+++ b/fs/pidfs.c
-@@ -14,6 +14,7 @@
- #include <linux/proc_ns.h>
- #include <linux/pseudo_fs.h>
- #include <linux/ptrace.h>
-+#include <linux/security.h>
- #include <linux/seq_file.h>
- #include <uapi/linux/pidfd.h>
- #include <linux/ipc_namespace.h>
-@@ -46,15 +47,23 @@ enum pidfs_attr_mask_bits {
- 	PIDFS_ATTR_BIT_COREDUMP	= 1,
- };
+diff --git a/tools/testing/selftests/pidfd/.gitignore b/tools/testing/selftests/pidfd/.gitignore
+index 144e7ff65d6a..1981d39fe3dc 100644
+--- a/tools/testing/selftests/pidfd/.gitignore
++++ b/tools/testing/selftests/pidfd/.gitignore
+@@ -12,3 +12,4 @@ pidfd_info_test
+ pidfd_exec_helper
+ pidfd_xattr_test
+ pidfd_setattr_test
++pidfd_inode_owner_test
+diff --git a/tools/testing/selftests/pidfd/Makefile b/tools/testing/selftests/pidfd/Makefile
+index 764a8f9ecefa..904c9fd595c1 100644
+--- a/tools/testing/selftests/pidfd/Makefile
++++ b/tools/testing/selftests/pidfd/Makefile
+@@ -4,7 +4,7 @@ CFLAGS += -g $(KHDR_INCLUDES) $(TOOLS_INCLUDES) -pthread -Wall
+ TEST_GEN_PROGS := pidfd_test pidfd_fdinfo_test pidfd_open_test \
+ 	pidfd_poll_test pidfd_wait pidfd_getfd_test pidfd_setns_test \
+ 	pidfd_file_handle_test pidfd_bind_mount pidfd_info_test \
+-	pidfd_xattr_test pidfd_setattr_test
++	pidfd_xattr_test pidfd_setattr_test pidfd_inode_owner_test
  
-+struct pidfs_exit_attr {
-+	__u64 cgroupid;
-+	__s32 exit_code;
-+	const struct cred *exit_cred;
-+	u64 exit_tgid_ino;
-+};
+ TEST_GEN_PROGS_EXTENDED := pidfd_exec_helper
+ 
+diff --git a/tools/testing/selftests/pidfd/pidfd_inode_owner_test.c b/tools/testing/selftests/pidfd/pidfd_inode_owner_test.c
+new file mode 100644
+index 000000000000..58666b87638b
+--- /dev/null
++++ b/tools/testing/selftests/pidfd/pidfd_inode_owner_test.c
+@@ -0,0 +1,289 @@
++// SPDX-License-Identifier: GPL-2.0
 +
-+struct pidfs_coredump_attr {
-+	__u32 coredump_mask;
-+	__u32 coredump_signal;
-+};
++#define _GNU_SOURCE
++#include <errno.h>
++#include <fcntl.h>
++#include <limits.h>
++#include <linux/types.h>
++#include <sched.h>
++#include <signal.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <syscall.h>
++#include <sys/stat.h>
++#include <sys/wait.h>
++#include <sys/xattr.h>
++#include <unistd.h>
 +
- struct pidfs_attr {
- 	unsigned long attr_mask;
- 	struct simple_xattrs *xattrs;
--	struct /* exit info */ {
--		__u64 cgroupid;
--		__s32 exit_code;
--	};
--	__u32 coredump_mask;
--	__u32 coredump_signal;
-+	struct pidfs_exit_attr;
-+	struct pidfs_coredump_attr;
- };
- 
- static struct rhashtable pidfs_ino_ht;
-@@ -200,6 +209,7 @@ void pidfs_free_pid(struct pid *pid)
- 	if (IS_ERR(attr))
- 		return;
- 
-+	put_cred(attr->exit_cred);
- 	xattrs = no_free_ptr(attr->xattrs);
- 	if (xattrs)
- 		simple_xattrs_free(xattrs, NULL);
-@@ -703,12 +713,14 @@ void pidfs_exit(struct task_struct *tsk)
- 	 * is put
- 	 */
- 
--#ifdef CONFIG_CGROUPS
- 	rcu_read_lock();
-+#ifdef CONFIG_CGROUPS
- 	cgrp = task_dfl_cgroup(tsk);
- 	attr->cgroupid = cgroup_id(cgrp);
--	rcu_read_unlock();
- #endif
-+	attr->exit_cred = get_cred(__task_cred(tsk));
-+	rcu_read_unlock();
-+	attr->exit_tgid_ino = task_tgid(tsk)->ino;
- 	attr->exit_code = tsk->exit_code;
- 
- 	/* Ensure that PIDFD_GET_INFO sees either all or nothing. */
-@@ -741,6 +753,47 @@ void pidfs_coredump(const struct coredump_params *cprm)
- 
- static struct vfsmount *pidfs_mnt __ro_after_init;
- 
-+static void pidfs_update_owner(struct inode *inode)
++#include "pidfd.h"
++#include "kselftest_harness.h"
++
++FIXTURE(pidfs_inode_owner)
 +{
-+	struct pid *pid = inode->i_private;
-+	struct task_struct *task;
-+	const struct cred *cred;
-+	kuid_t kuid;
-+	kgid_t kgid;
++	pid_t child_pid;
++	int child_pidfd;
++};
 +
-+	VFS_WARN_ON_ONCE(!pid);
++FIXTURE_SETUP(pidfs_inode_owner)
++{
++	int pipe_fds[2];
++	char buf;
 +
-+	guard(rcu)();
-+	task = pid_task(pid, PIDTYPE_PID);
-+	if (!task) {
-+		struct pidfs_attr *attr = READ_ONCE(pid->attr);
++	self->child_pid = -1;
++	self->child_pidfd = -1;
 +
-+		VFS_WARN_ON_ONCE(!attr);
-+		/*
-+		 * During copy_process() with CLONE_PIDFD the
-+		 * task hasn't been attached to the pid yet so
-+		 * pid_task() returns NULL and there's no
-+		 * exit_cred as the task obviously hasn't
-+		 * exited. Use the parent's credentials.
-+		 */
-+		cred = attr->exit_cred;
-+		if (!cred)
-+			cred = current_cred();
-+		kuid = cred->euid;
-+		kgid = cred->egid;
-+	} else if (unlikely(task->flags & PF_KTHREAD)) {
-+		kuid = GLOBAL_ROOT_UID;
-+		kgid = GLOBAL_ROOT_GID;
-+	} else {
-+		cred = __task_cred(task);
-+		kuid = cred->euid;
-+		kgid = cred->egid;
++	ASSERT_EQ(pipe(pipe_fds), 0);
++
++	self->child_pid = create_child(&self->child_pidfd, 0);
++	ASSERT_GE(self->child_pid, 0);
++
++	if (self->child_pid == 0) {
++		close(pipe_fds[0]);
++		write_nointr(pipe_fds[1], "c", 1);
++		close(pipe_fds[1]);
++		pause();
++		_exit(EXIT_SUCCESS);
 +	}
 +
-+	WRITE_ONCE(inode->i_uid, kuid);
-+	WRITE_ONCE(inode->i_gid, kgid);
++	close(pipe_fds[1]);
++	ASSERT_EQ(read_nointr(pipe_fds[0], &buf, 1), 1);
++	close(pipe_fds[0]);
 +}
 +
- /*
-  * The vfs falls back to simple_setattr() if i_op->setattr() isn't
-  * implemented. Let's reject it completely until we have a clean
-@@ -756,7 +809,11 @@ static int pidfs_getattr(struct mnt_idmap *idmap, const struct path *path,
- 			 struct kstat *stat, u32 request_mask,
- 			 unsigned int query_flags)
- {
--	return anon_inode_getattr(idmap, path, stat, request_mask, query_flags);
-+	struct inode *inode = d_inode(path->dentry);
-+
-+	pidfs_update_owner(inode);
-+	anon_inode_getattr(idmap, path, stat, request_mask, query_flags);
-+	return 0;
- }
- 
- static ssize_t pidfs_listxattr(struct dentry *dentry, char *buf, size_t size)
-@@ -773,10 +830,64 @@ static ssize_t pidfs_listxattr(struct dentry *dentry, char *buf, size_t size)
- 	return simple_xattr_list(inode, xattrs, buf, size);
- }
- 
-+static int pidfs_permission(struct mnt_idmap *idmap, struct inode *inode,
-+			    int mask)
++FIXTURE_TEARDOWN(pidfs_inode_owner)
 +{
-+	struct pid *pid = inode->i_private;
-+	struct task_struct *task;
-+	const struct cred *cred;
-+	u64 pid_tg_ino;
++	if (self->child_pid > 0) {
++		kill(self->child_pid, SIGKILL);
++		sys_waitid(P_PID, self->child_pid, NULL, WEXITED);
++	}
++	if (self->child_pidfd >= 0)
++		close(self->child_pidfd);
++}
 +
-+	scoped_guard(rcu) {
-+		task = pid_task(pid, PIDTYPE_PID);
-+		if (task) {
-+			if (unlikely(task->flags & PF_KTHREAD))
-+				return -EPERM;
++/* Own pidfd reports correct ownership. */
++TEST_F(pidfs_inode_owner, owner_self)
++{
++	int pidfd;
++	struct stat st;
 +
-+			cred = __task_cred(task);
-+			pid_tg_ino = task_tgid(task)->ino;
-+		} else {
-+			struct pidfs_attr *attr;
++	pidfd = sys_pidfd_open(getpid(), 0);
++	ASSERT_GE(pidfd, 0);
 +
-+			attr = READ_ONCE(pid->attr);
-+			VFS_WARN_ON_ONCE(!attr);
-+			/*
-+			 * During copy_process() with CLONE_PIDFD the
-+			 * task hasn't been attached to the pid yet so
-+			 * pid_task() returns NULL and there's no
-+			 * exit_cred as the task obviously hasn't
-+			 * exited. Use the parent's credentials.
-+			 */
-+			cred = attr->exit_cred;
-+			if (!cred)
-+				cred = current_cred();
-+			pid_tg_ino = attr->exit_tgid_ino;
++	ASSERT_EQ(fstat(pidfd, &st), 0);
++	EXPECT_EQ(st.st_uid, geteuid());
++	EXPECT_EQ(st.st_gid, getegid());
++
++	close(pidfd);
++}
++
++/* Child pidfd reports correct ownership. */
++TEST_F(pidfs_inode_owner, owner_child)
++{
++	struct stat st;
++
++	ASSERT_EQ(fstat(self->child_pidfd, &st), 0);
++	EXPECT_EQ(st.st_uid, geteuid());
++	EXPECT_EQ(st.st_gid, getegid());
++}
++
++/* Ownership tracks credential changes in a live task. */
++TEST_F(pidfs_inode_owner, owner_child_changed_euid)
++{
++	pid_t pid;
++	int pidfd, pipe_fds[2];
++	struct stat st;
++	char buf;
++
++	if (getuid() != 0)
++		SKIP(return, "Test requires root");
++
++	ASSERT_EQ(pipe(pipe_fds), 0);
++
++	pid = create_child(&pidfd, 0);
++	ASSERT_GE(pid, 0);
++
++	if (pid == 0) {
++		close(pipe_fds[0]);
++		if (setresgid(65534, 65534, 65534))
++			_exit(PIDFD_ERROR);
++		if (setresuid(65534, 65534, 65534))
++			_exit(PIDFD_ERROR);
++		write_nointr(pipe_fds[1], "c", 1);
++		close(pipe_fds[1]);
++		pause();
++		_exit(EXIT_SUCCESS);
++	}
++
++	close(pipe_fds[1]);
++	ASSERT_EQ(read_nointr(pipe_fds[0], &buf, 1), 1);
++	close(pipe_fds[0]);
++
++	ASSERT_EQ(fstat(pidfd, &st), 0);
++	EXPECT_EQ(st.st_uid, (uid_t)65534);
++	EXPECT_EQ(st.st_gid, (gid_t)65534);
++
++	kill(pid, SIGKILL);
++	sys_waitid(P_PID, pid, NULL, WEXITED);
++	close(pidfd);
++}
++
++/* Ownership persists after the child exits and is reaped. */
++TEST_F(pidfs_inode_owner, owner_exited_child)
++{
++	pid_t pid;
++	int pidfd;
++	struct stat st;
++
++	pid = create_child(&pidfd, 0);
++	ASSERT_GE(pid, 0);
++
++	if (pid == 0)
++		_exit(EXIT_SUCCESS);
++
++	ASSERT_EQ(sys_waitid(P_PID, pid, NULL, WEXITED), 0);
++
++	ASSERT_EQ(fstat(pidfd, &st), 0);
++	EXPECT_EQ(st.st_uid, geteuid());
++	EXPECT_EQ(st.st_gid, getegid());
++
++	close(pidfd);
++}
++
++/* Exit credentials preserve changed credentials. */
++TEST_F(pidfs_inode_owner, owner_exited_child_changed_euid)
++{
++	pid_t pid;
++	int pidfd;
++	struct stat st;
++
++	if (getuid() != 0)
++		SKIP(return, "Test requires root");
++
++	pid = create_child(&pidfd, 0);
++	ASSERT_GE(pid, 0);
++
++	if (pid == 0) {
++		if (setresgid(65534, 65534, 65534))
++			_exit(PIDFD_ERROR);
++		if (setresuid(65534, 65534, 65534))
++			_exit(PIDFD_ERROR);
++		_exit(EXIT_SUCCESS);
++	}
++
++	ASSERT_EQ(sys_waitid(P_PID, pid, NULL, WEXITED), 0);
++
++	ASSERT_EQ(fstat(pidfd, &st), 0);
++	EXPECT_EQ(st.st_uid, (uid_t)65534);
++	EXPECT_EQ(st.st_gid, (gid_t)65534);
++
++	close(pidfd);
++}
++
++/* Same-user cross-process permission check succeeds. */
++TEST_F(pidfs_inode_owner, permission_same_user)
++{
++	pid_t pid;
++	int pidfd;
++	pid_t parent_pid = getpid();
++
++	pid = create_child(&pidfd, 0);
++	ASSERT_GE(pid, 0);
++
++	if (pid == 0) {
++		int fd;
++		char buf;
++
++		fd = sys_pidfd_open(parent_pid, 0);
++		if (fd < 0)
++			_exit(PIDFD_ERROR);
++
++		/*
++		 * user.* xattr access triggers pidfs_permission().
++		 * Same user passes may_signal_creds() and
++		 * generic_permission(), so we get EOPNOTSUPP
++		 * (no user.* xattr handler) instead of EPERM.
++		 */
++		if (fgetxattr(fd, "user.test", &buf, sizeof(buf)) < 0 &&
++		    errno == EOPNOTSUPP) {
++			close(fd);
++			_exit(PIDFD_PASS);
 +		}
 +
-+		/*
-+		 * If the caller and the target are in the same
-+		 * thread-group or the caller can signal the target
-+		 * we're good.
-+		 */
-+		if (pid_tg_ino != task_tgid(current)->ino &&
-+		    !may_signal_creds(current_cred(), cred))
-+			return -EPERM;
-+
-+		/*
-+		 * This is racy but not more racy then what we generally
-+		 * do for permission checking.
-+		 */
-+		WRITE_ONCE(inode->i_uid, cred->euid);
-+		WRITE_ONCE(inode->i_gid, cred->egid);
++		close(fd);
++		_exit(PIDFD_FAIL);
 +	}
-+	return generic_permission(&nop_mnt_idmap, inode, mask);
++
++	ASSERT_EQ(wait_for_pid(pid), PIDFD_PASS);
++	close(pidfd);
 +}
 +
- static const struct inode_operations pidfs_inode_operations = {
- 	.getattr	= pidfs_getattr,
- 	.setattr	= pidfs_setattr,
- 	.listxattr	= pidfs_listxattr,
-+	.permission	= pidfs_permission,
- };
- 
- static void pidfs_evict_inode(struct inode *inode)
-@@ -983,7 +1094,8 @@ static struct dentry *pidfs_stash_dentry(struct dentry **stashed,
- 					 struct dentry *dentry)
- {
- 	int ret;
--	struct pid *pid = d_inode(dentry)->i_private;
-+	struct inode *inode = d_inode(dentry);
-+	struct pid *pid = inode->i_private;
- 
- 	VFS_WARN_ON_ONCE(stashed != &pid->stashed);
- 
-@@ -991,6 +1103,7 @@ static struct dentry *pidfs_stash_dentry(struct dentry **stashed,
- 	if (ret)
- 		return ERR_PTR(ret);
- 
-+	pidfs_update_owner(inode);
- 	return stash_dentry(stashed, dentry);
- }
- 
-diff --git a/include/linux/cred.h b/include/linux/cred.h
-index ed1609d78cd7..d14b29fe9fee 100644
---- a/include/linux/cred.h
-+++ b/include/linux/cred.h
-@@ -168,6 +168,8 @@ extern int set_create_files_as(struct cred *, struct inode *);
- extern int cred_fscmp(const struct cred *, const struct cred *);
- extern void __init cred_init(void);
- extern int set_cred_ucounts(struct cred *);
-+bool may_signal_creds(const struct cred *signaler_cred,
-+		      const struct cred *signalee_cred);
- 
- static inline bool cap_ambient_invariant_ok(const struct cred *cred)
- {
-diff --git a/kernel/signal.c b/kernel/signal.c
-index d65d0fe24bfb..e20dabf143c2 100644
---- a/kernel/signal.c
-+++ b/kernel/signal.c
-@@ -777,19 +777,22 @@ static inline bool si_fromuser(const struct kernel_siginfo *info)
- 		(!is_si_special(info) && SI_FROMUSER(info));
- }
- 
-+bool may_signal_creds(const struct cred *signaler_cred,
-+		      const struct cred *signalee_cred)
++/* Cross-user access is denied without signal permission. */
++TEST_F(pidfs_inode_owner, permission_different_user_denied)
 +{
-+	return uid_eq(signaler_cred->euid, signalee_cred->suid) ||
-+	       uid_eq(signaler_cred->euid, signalee_cred->uid) ||
-+	       uid_eq(signaler_cred->uid, signalee_cred->suid) ||
-+	       uid_eq(signaler_cred->uid, signalee_cred->uid) ||
-+	       ns_capable(signalee_cred->user_ns, CAP_KILL);
++	pid_t pid;
++	int pidfd;
++
++	if (getuid() != 0)
++		SKIP(return, "Test requires root");
++
++	pid = create_child(&pidfd, 0);
++	ASSERT_GE(pid, 0);
++
++	if (pid == 0) {
++		int fd;
++		char buf;
++
++		/* Drop to uid/gid 65534 and lose all capabilities. */
++		if (setresgid(65534, 65534, 65534))
++			_exit(PIDFD_ERROR);
++		if (setresuid(65534, 65534, 65534))
++			_exit(PIDFD_ERROR);
++
++		/* Open pidfd for init (uid 0). */
++		fd = sys_pidfd_open(1, 0);
++		if (fd < 0)
++			_exit(PIDFD_ERROR);
++
++		/*
++		 * uid 65534 cannot signal uid 0 (no CAP_KILL),
++		 * so pidfs_permission() denies access.
++		 */
++		if (fgetxattr(fd, "user.test", &buf, sizeof(buf)) < 0 &&
++		    errno == EPERM) {
++			close(fd);
++			_exit(PIDFD_PASS);
++		}
++
++		close(fd);
++		_exit(PIDFD_FAIL);
++	}
++
++	ASSERT_EQ(wait_for_pid(pid), PIDFD_PASS);
++	close(pidfd);
 +}
 +
- /*
-  * called with RCU read lock from check_kill_permission()
-  */
- static bool kill_ok_by_cred(struct task_struct *t)
- {
--	const struct cred *cred = current_cred();
--	const struct cred *tcred = __task_cred(t);
--
--	return uid_eq(cred->euid, tcred->suid) ||
--	       uid_eq(cred->euid, tcred->uid) ||
--	       uid_eq(cred->uid, tcred->suid) ||
--	       uid_eq(cred->uid, tcred->uid) ||
--	       ns_capable(tcred->user_ns, CAP_KILL);
-+	return may_signal_creds(current_cred(), __task_cred(t));
- }
- 
- /*
++/* Kernel thread access is always denied. */
++TEST_F(pidfs_inode_owner, permission_kthread)
++{
++	int pidfd;
++	struct stat st;
++	char buf;
++
++	/* pid 2 is kthreadd. */
++	pidfd = sys_pidfd_open(2, 0);
++	ASSERT_GE(pidfd, 0);
++
++	/* pidfs_permission() returns EPERM for kernel threads. */
++	ASSERT_LT(fgetxattr(pidfd, "user.test", &buf, sizeof(buf)), 0);
++	EXPECT_EQ(errno, EPERM);
++
++	/* fstat bypasses permission and reports root ownership. */
++	ASSERT_EQ(fstat(pidfd, &st), 0);
++	EXPECT_EQ(st.st_uid, (uid_t)0);
++	EXPECT_EQ(st.st_gid, (gid_t)0);
++
++	close(pidfd);
++}
++
++TEST_HARNESS_MAIN
 
 -- 
 2.47.3
