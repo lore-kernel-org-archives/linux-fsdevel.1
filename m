@@ -1,191 +1,156 @@
-Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com [67.231.145.42])
+Received: from pdx-out-012.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-012.esa.us-west-2.outbound.mail-perimeter.amazon.com [35.162.73.231])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCEC526CE11;
-	Mon, 23 Feb 2026 13:55:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.145.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AA0B25CC63;
+	Mon, 23 Feb 2026 14:03:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.162.73.231
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771854957; cv=none; b=LqzaL+yIwlxAkHEwBraBUqa6WqoKFGk6vUKiVy4WmdtqdEJHl6bxhUdP3YEW+dYIl1zUKIqw+/0WBmcPEUhs9BURwiuHqSSuZLluhMzE/glQt/FDAh1JqYJ0049JuqYCf4IPkcWfChcL12zmtzam6Hz+zat8i0MH15EDd74Q8BU=
+	t=1771855428; cv=none; b=Esau6fJj2AjnZ8Nf7+V43hs09TqUxr32xtycKnyVI7imjIEVNs98msGD1Je1VqtF9ZwxhiReZ5tO875WOBOEdf0ThNy0MzdX6ji4zEBmWk6/nIATtAaOfXBGlmSOchUudAfZKFs4ez039RKkgQCnKTwFGPMbW6BxekP3PSnH1/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771854957; c=relaxed/simple;
-	bh=cob0C8Ov+h8656u06111mqzKR1cDutR4IPFn7vbdlZU=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MZSMdRVRYG7AVxwc40Ks8BNMA0fLQ//sgwM5Tq/t0FXrkPuQedfj98ppS43/3BARLJHUAYxEIEfmaYkTYYOuxmrhNu14dejponDVY3E3BfbIhfrp4KgnD3exL68Q0ewgwNcrUSdQ9rMhJQmFvCxScyRs2O7fYyFxj2yNQHwQB+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b=O7iWbrkM; arc=none smtp.client-ip=67.231.145.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
+	s=arc-20240116; t=1771855428; c=relaxed/simple;
+	bh=PHhibRiWtOMhWdLvwu7KSdJkmjux9bknEzRlXW/0YIw=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Kvxw3nodNZdXq/5IOcxmH1jxcnbVhlV28g3WXV9ZY0XSX8Bwzm2h53VAqfsOQaAJx8Cz6e4kmGdBV87uP0h4atZquYltvv/CrjPf3p8JzTiv4+6jnG6VFZO6+FijDIPXVVKwBRo7xiXTUNtgLAR00Z2rWW56GjL965S3Q4rV+xs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=U1sIG9Kx; arc=none smtp.client-ip=35.162.73.231
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b="O7iWbrkM"
-Received: from pps.filterd (m0044010.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61N2DCME2422251;
-	Mon, 23 Feb 2026 05:55:32 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=s2048-2025-q2;
-	 bh=c1zYe2uBv30hniiOy2AATcivJzhRYWxq08QkgSI+OoM=; b=O7iWbrkMm4tk
-	2RCH4QP+2zBMZMAmVpCkKZQjHJ+WY5txycbt9tSHFy+hA61bQuo5oehU/EdTgFvr
-	+0T3mOOhe41mRHOqRi6lWvNMOSOb5wjFWYjPe60+r4whTji2axdtE6vmNySdHQjM
-	LiUjhTnnGsPjtwxvO+fbtKG9Y3wnDhxjkdWU89BVtlylMYk1ro1GlETET2Vm/q2A
-	6eLrsBfuo3df+n8adNnQBdnPIiYiI34MRsUwYgBazfJw4rxXVEPl6QBRmvZf1AcB
-	A98EzEen20WvcDY0ZSjCXINVFey9aQXJSy538qpkeiQQ/7XBrtYbOfhnLBh7cXid
-	vmAF2XS4GA==
-Received: from mail.thefacebook.com ([163.114.134.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4cgdwwk975-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 23 Feb 2026 05:55:32 -0800 (PST)
-Received: from devbig003.atn7.facebook.com (2620:10d:c085:208::7cb7) by
- mail.thefacebook.com (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.35; Mon, 23 Feb 2026 13:55:30 +0000
-From: Chris Mason <clm@meta.com>
-To: NeilBrown <neil@brown.name>
-CC: Christian Brauner <brauner@kernel.org>,
-        Alexander Viro
-	<viro@zeniv.linux.org.uk>,
-        David Howells <dhowells@redhat.com>, Jan Kara
-	<jack@suse.cz>,
-        Chuck Lever <chuck.lever@oracle.com>,
-        Jeff Layton
-	<jlayton@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>,
-        Amir Goldstein
-	<amir73il@gmail.com>,
-        John Johansen <john.johansen@canonical.com>,
-        Paul Moore
-	<paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn"
-	<serge@hallyn.com>,
-        Stephen Smalley <stephen.smalley.work@gmail.com>,
-        "Darrick J. Wong" <djwong@kernel.org>, <linux-kernel@vger.kernel.org>,
-        <netfs@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
-        <linux-nfs@vger.kernel.org>, <linux-unionfs@vger.kernel.org>,
-        <apparmor@lists.ubuntu.com>, <linux-security-module@vger.kernel.org>,
-        <selinux@vger.kernel.org>
-Subject: Re: [PATCH v2 01/15] VFS: note error returns is documentation for various lookup functions
-Date: Mon, 23 Feb 2026 05:52:10 -0800
-Message-ID: <20260223135517.1229434-1-clm@meta.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260223011210.3853517-2-neilb@ownmail.net>
-References: <20260223011210.3853517-1-neilb@ownmail.net> <20260223011210.3853517-2-neilb@ownmail.net>
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="U1sIG9Kx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1771855427; x=1803391427;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=lwLULFijd/Kg2LAqEMzyjJw0jiVZEmm09jejetpA0CA=;
+  b=U1sIG9Kxm0AAgzMJeBU2AEAiEaJqhzBLCHDiagW3qmzI+rc89usQCFTn
+   wY35F9GuzYtBoknFXvGlEwuVlYzdvh/jdhktWRMWp/WSeBi5MPpKNwn5M
+   1CVjeOjIQt5zvXrf0Ag2UNub7bt4vHhINTa2ntQy7DKzSx4jpvF7KMqpW
+   L30Up1BWHx1783Dddk84/mBTQyIjs4PeqA9Mfu9c574CoXzRzgeb8LQ7e
+   4rUMw1wUeBjdglbYyiZ3ePBIHEfjGIYTDoGrHqkBzoW7VtspnvU6TI2pr
+   JCA6qObdDEzFu/OinXZrOOD0A4fEBU6L+fEvREtF8r403PHwKaWbtFnoA
+   w==;
+X-CSE-ConnectionGUID: vNwxqNXaSBCne2ZaTsWyPQ==
+X-CSE-MsgGUID: ZrxQ855HRLCHIKpWiROpXQ==
+X-IronPort-AV: E=Sophos;i="6.21,306,1763424000"; 
+   d="scan'208";a="13399707"
+Received: from ip-10-5-0-115.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.0.115])
+  by internal-pdx-out-012.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2026 14:03:44 +0000
+Received: from EX19MTAUWA002.ant.amazon.com [205.251.233.234:27928]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.12.129:2525] with esmtp (Farcaster)
+ id 545c3670-1318-4c06-a980-32fa72933b7b; Mon, 23 Feb 2026 14:03:44 +0000 (UTC)
+X-Farcaster-Flow-ID: 545c3670-1318-4c06-a980-32fa72933b7b
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWA002.ant.amazon.com (10.250.64.202) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37;
+ Mon, 23 Feb 2026 14:03:42 +0000
+Received: from c889f3b07a0a.amazon.com (10.106.83.11) by
+ EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37;
+ Mon, 23 Feb 2026 14:03:41 +0000
+From: Yuto Ohnuki <ytohnuki@amazon.com>
+To: Miklos Szeredi <miklos@szeredi.hu>
+CC: Bernd Schubert <bschubert@ddn.com>, <linux-fsdevel@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, Yuto Ohnuki <ytohnuki@amazon.com>
+Subject: [PATCH] fuse: refactor duplicate queue teardown operation
+Date: Mon, 23 Feb 2026 14:03:33 +0000
+Message-ID: <20260223140332.36618-2-ytohnuki@amazon.com>
+X-Mailer: git-send-email 2.50.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: 3VAPDQqQA9urDNWnBOCbuGLWeYoMbRO9
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjIzMDExNyBTYWx0ZWRfX4S3buN7Z5VJc
- jXcVuMMKhmmICPL4fOCNdNF5o0+DIGSGFsoIz1K+XpE2dIMgRWbAvMafxzvEE5SgN900SEU6sNj
- 0lY5IZUXE4bxGELXRUVaByAVy1poJLTGWq8UzKyS7IKeggwbf3BxhbDyg1oQlzgrkkDwz9/54f9
- O/qnxxrLH/kZvyWp2RiaZxfyrQk0zv6Msk2AyLdEjr7wklkEHwOQvOv+YjIFJUdlKXgfzp5Pzuk
- poaBSL7OVrIxXyGH9sNOtfatZJJ3RAhts+F89zflYZ7NnVNPhf+pPrONOzZILTH6GaoBbAMcG8p
- FwesOaPe+X6to4yiJxCdtGBzPIQZKrC2kKC+V699bCJaWNdf/Ayh0imZi7ADN7vU4BDKEn5aYUI
- 70aIqZ4cW/fuHpz9Osi9qNgEWi4W++qzJg8J3KSWERnITEpdG94I2yBA0ohjn/Jqp9LTvIQBSpw
- kfEXyFbrjHMEtRtYGmA==
-X-Proofpoint-GUID: 3VAPDQqQA9urDNWnBOCbuGLWeYoMbRO9
-X-Authority-Analysis: v=2.4 cv=a+49NESF c=1 sm=1 tr=0 ts=699c5c54 cx=c_pps
- a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
- a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22 a=Mpw57Om8IfrbqaoTuvik:22
- a=GgsMoib0sEa3-_RKJdDe:22 a=VwQbUJbxAAAA:8 a=I-1mG6jRAAAA:8
- a=v_1R9vC89HT8ZXP7cqwA:9 a=vAntc5lzOlbkVmf1VcWC:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-23_03,2026-02-23_02,2025-10-01_01
+X-ClientProxiedBy: EX19D042UWB004.ant.amazon.com (10.13.139.150) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-NeilBrown <neilb@ownmail.net> wrote:
-> From: NeilBrown <neil@brown.name>
-> 
-> Darrick recently noted that try_lookup_noperm() is documented as
-> "Look up a dentry by name in the dcache, returning NULL if it does not
-> currently exist." but it can in fact return an error.
-> 
-> So update the documentation for that and related function.
->
+Extract common queue iteration and teardown logic into
+fuse_uring_teardown_all_queues() helper function to eliminate code
+duplication between fuse_uring_async_stop_queues() and
+fuse_uring_stop_queues().
 
-Hi everyone,
+This is a pure refactoring with no functional changes, intended to
+improve maintainability.
 
-I don't normally forward the typos, but since this is a documentation-y patch:
+Signed-off-by: Yuto Ohnuki <ytohnuki@amazon.com>
+---
+ fs/fuse/dev_uring.c | 36 ++++++++++++++++--------------------
+ 1 file changed, 16 insertions(+), 20 deletions(-)
 
-commit 0254b9b974f23889898562aa94f6428bf30eb6b5
-Author: NeilBrown <neil@brown.name>
+diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
+index 3a38b61aac26..7b9822e8837b 100644
+--- a/fs/fuse/dev_uring.c
++++ b/fs/fuse/dev_uring.c
+@@ -397,6 +397,20 @@ static void fuse_uring_teardown_entries(struct fuse_ring_queue *queue)
+ 				     FRRS_AVAILABLE);
+ }
+ 
++static void fuse_uring_teardown_all_queues(struct fuse_ring *ring)
++{
++	int qid;
++
++	for (qid = 0; qid < ring->nr_queues; qid++) {
++		struct fuse_ring_queue *queue = READ_ONCE(ring->queues[qid]);
++
++		if (!queue)
++			continue;
++
++		fuse_uring_teardown_entries(queue);
++	}
++}
++
+ /*
+  * Log state debug info
+  */
+@@ -431,19 +445,10 @@ static void fuse_uring_log_ent_state(struct fuse_ring *ring)
+ 
+ static void fuse_uring_async_stop_queues(struct work_struct *work)
+ {
+-	int qid;
+ 	struct fuse_ring *ring =
+ 		container_of(work, struct fuse_ring, async_teardown_work.work);
+ 
+-	/* XXX code dup */
+-	for (qid = 0; qid < ring->nr_queues; qid++) {
+-		struct fuse_ring_queue *queue = READ_ONCE(ring->queues[qid]);
+-
+-		if (!queue)
+-			continue;
+-
+-		fuse_uring_teardown_entries(queue);
+-	}
++	fuse_uring_teardown_all_queues(ring);
+ 
+ 	/*
+ 	 * Some ring entries might be in the middle of IO operations,
+@@ -469,16 +474,7 @@ static void fuse_uring_async_stop_queues(struct work_struct *work)
+  */
+ void fuse_uring_stop_queues(struct fuse_ring *ring)
+ {
+-	int qid;
+-
+-	for (qid = 0; qid < ring->nr_queues; qid++) {
+-		struct fuse_ring_queue *queue = READ_ONCE(ring->queues[qid]);
+-
+-		if (!queue)
+-			continue;
+-
+-		fuse_uring_teardown_entries(queue);
+-	}
++	fuse_uring_teardown_all_queues(ring);
+ 
+ 	if (atomic_read(&ring->queue_refs) > 0) {
+ 		ring->teardown_time = jiffies;
+-- 
+2.50.1
 
-VFS: note error returns is documentation for various lookup functions
-                       ^^^^^ in?
 
-Darrick recently noted that try_lookup_noperm() is documented as
-"Look up a dentry by name in the dcache, returning NULL if it does not
-currently exist." but it can in fact return an error. So update the
-documentation for that and related function.
 
-Link: https://lore.kernel.org/all/20260218234917.GA6490@frogsfrogsfrogs/
 
-> diff --git a/fs/namei.c b/fs/namei.c
-> index 58f715f7657e2..e4ac07a4090e7 100644
-> --- a/fs/namei.c
-> +++ b/fs/namei.c
-> @@ -3124,7 +3124,8 @@ static int lookup_one_common(struct mnt_idmap *idmap,
->   * @base:	base directory to lookup from
->   *
->   * Look up a dentry by name in the dcache, returning NULL if it does not
-> - * currently exist.  The function does not try to create a dentry and if one
-> + * currently exist or an error is there is a problem with the name.
-                                       ^^
+Amazon Web Services EMEA SARL, 38 avenue John F. Kennedy, L-1855 Luxembourg, R.C.S. Luxembourg B186284
 
-There's a grammar error: "is there is" should be "if there is".
+Amazon Web Services EMEA SARL, Irish Branch, One Burlington Plaza, Burlington Road, Dublin 4, Ireland, branch registration number 908705
 
-> + * The function does not try to create a dentry and if one
->   * is found it doesn't try to revalidate it.
->   *
->   * Note that this routine is purely a helper for filesystem usage and should
-> @@ -3132,6 +3133,11 @@ static int lookup_one_common(struct mnt_idmap *idmap,
->   *
->   * No locks need be held - only a counted reference to @base is needed.
->   *
-> + * Returns:
-> + *   - ref-counted dentry on success, or
-> + *   - %NULL if name could not be found, or
-> + *   - ERR_PTR(-EACCES) if name is dot or dotdot or contains a slash or nul, or
-> + *   - ERR_PTR() if fs provide ->d_hash, and this returned an error.
->   */
->  struct dentry *try_lookup_noperm(struct qstr *name, struct dentry *base)
->  {
 
-[ ... ]
-
-> @@ -3208,6 +3214,11 @@ EXPORT_SYMBOL(lookup_one);
->   *
->   * Unlike lookup_one, it should be called without the parent
->   * i_rwsem held, and will take the i_rwsem itself if necessary.
-> + *
-> + * Returns:= A dentry, possibly negative, or
-           ^^^
-
-There's a typo: "Returns:=" should be "Returns:".
-
-> + *	   - same errors as try_lookup_noperm() or
-> + *	   - ERR_PTR(-ENOENT) if parent has been removed, or
-> + *	   - ERR_PTR(-EACCES) if parent directory is not searchable.
->   */
->  struct dentry *lookup_one_unlocked(struct mnt_idmap *idmap, struct qstr *name,
->  				   struct dentry *base)
-
-[ ... ]
-
-> @@ -3244,6 +3255,10 @@ EXPORT_SYMBOL(lookup_one_unlocked);
->   * It should be called without the parent i_rwsem held, and will take
->   * the i_rwsem itself if necessary.  If a fatal signal is pending or
->   * delivered, it will return %-EINTR if the lock is needed.
-> + *
-> + * Returns: A dentry, possibly negative, or
-> + *	   - same errors as lookup_one_unlocked() or
-> + *	   - ERR_PTR(-EINTR) is a fatal signal is pending.
-                             ^^
-
-There's a grammar error: "is a fatal signal is pending" should be "if a
-fatal signal is pending".
-
-> + */
->  struct dentry *lookup_one_positive_killable(struct mnt_idmap *idmap,
->  					    struct qstr *name,
 
