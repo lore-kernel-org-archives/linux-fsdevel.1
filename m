@@ -1,40 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31613377550
-	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Feb 2026 11:08:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA46137BE91;
+	Tue, 24 Feb 2026 11:18:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771931325; cv=none; b=RXtJayP2+0InN5FDHTTam7Hf41Sq3Vkd5k9yHevY4ywsjZJ7Mu5JvOPcbRrIXuqdGVEQD/JwCmudnPxBsxZR4vXp5mz9dzg793Ce3iweggkk34Jn9IuVT8Jx5UqNeryl9aKw6BvmbP5HBk1PzclMAbnLwnMazVDaRpEw4S3DPVM=
+	t=1771931936; cv=none; b=Ldl3Iq5xQJ5pc55x5JMuVhJ5bhp7oDGHXZvDED4pPscpgAt9JJhNSD2W+iQrz9utC8vndy+N7Q9y32EKv2aoigXY3myLQIj4Qccd1xhzNDTKGp4TsXoh6TprJLGoc0YjqkiSJvBGrdpqwy4O/OTM+XYeEoTkipsLbOwrFRd43z8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771931325; c=relaxed/simple;
-	bh=Ow6ytAqwNRGQ+o252H5PAFOkSl4Gq7Js863eLoNkPvQ=;
+	s=arc-20240116; t=1771931936; c=relaxed/simple;
+	bh=CATKDKa2uGpd7sHZMSNUih88RUZlznJauHdO/GUeTF4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hjpVI+2TLZjGvGuRwsY4lDx6DH0ijZATiji/X6lRV7llENRI1O6qiVCmYGg2zu2uGxc7UJcFEoMZcTlZjd0o3DJS9rzPktOOsueMZE/IppBhflRY82eTnLHyEdci+njA9ZmuZTpG0VGXEUI4Seuj4mC9bwj8Udm8jId/EGfxazk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qzaYSO1P; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=WjWew3+v3xljY8KSLFkqd3i6TazsdCwMefn3Pws/rRjkbKaNDXt1224rrhkWTGB4hYGRRxshDgi3rJUz73UiFT6a5PmoeEx4N3xoNKXNIsDfg1AB3oXTmgUG0HeLIEtgFvGhYELUfcGeu730HOnhBP/Sb+7PoPnl9RSkqGy5Z6E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wxf1lCXl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qzaYSO1P"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00D39C116D0;
-	Tue, 24 Feb 2026 11:08:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wxf1lCXl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98C26C19424;
+	Tue, 24 Feb 2026 11:18:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771931324;
-	bh=Ow6ytAqwNRGQ+o252H5PAFOkSl4Gq7Js863eLoNkPvQ=;
+	s=k20201202; t=1771931936;
+	bh=CATKDKa2uGpd7sHZMSNUih88RUZlznJauHdO/GUeTF4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qzaYSO1Peu1rPR7j8BJZ9K5pXlWmSFRJbAi1FBtkHOPBUfBDi0cOGKKlfuOypTlG0
-	 Hg+yGG+rLioR9iWcE0HNJx79t7iVo9+zf7/UCSlN4kZyX+NnDavjVZMad82djMTmjH
-	 z4/zq1HjjMl334Xn20rN6XthkKvts/5RUJY+vh/kNeqUbsX4ndUZkYQFjKhaYr3AmF
-	 EqtYSuVoTzqL9vaEO4zUCwx4Y/HWS1Mbghl7mrWNTHk5zJzH/W9gp+5qtXT+Y7StBQ
-	 nvPa4iWWJZu8OrKClw/RvVdb8wSe+c6OOOBXzdqJcsv84vK8h2uqkxLlHiFrVejZou
-	 Bu5InCecYkBZg==
-Date: Tue, 24 Feb 2026 12:08:40 +0100
+	b=Wxf1lCXl+lJ0Co7kXivrfwAqGXijzoffhjR9eZU+NmPDftcplF9o3Qsw5NFAiBIhR
+	 0kIMnNjSYLlwFUxNvP9VY0YhI0gn06UvM2j05Z5DYQeDJJfkYTrB0xoAin3gEKBNeJ
+	 UvoI7s+Rvujr5r/TOT9tKA5/v+VslFKJXjdQCzobvuGAfg1Ggw9ezB1Z8/ZICGQAFd
+	 bwhMnOqnAK7amG7auTuDHZ6m+D4WfEgI54SYKfP1d3mCn6NYw4EmvNnIqmdjKDulx2
+	 4QpTGbSOdVsr8mHI3+zrBbM4Yar3zCS2W5f0rTEfJwIS+YZjalFEh+7IZo/2drV9HZ
+	 UiaoNkcmBtyEA==
+Date: Tue, 24 Feb 2026 12:18:51 +0100
 From: Christian Brauner <brauner@kernel.org>
-To: David Lechner <dlechner@baylibre.com>
-Cc: linux-fsdevel@vger.kernel.org, Jeff Layton <jlayton@kernel.org>, 
-	Josef Bacik <josef@toxicpanda.com>, Jan Kara <jack@suse.cz>, Amir Goldstein <amir73il@gmail.com>
-Subject: Re: [PATCH] pidfs: simplify PIDFD_GET_<type>_NAMESPACE ioctls
-Message-ID: <20260224-ohrfeigen-kurhotel-34f7d21f4487@brauner>
-References: <20251117-eidesstattlich-apotheke-36d2e644079f@brauner>
- <cd2153f1-098b-463c-bbc1-5c6ca9ef1f12@baylibre.com>
+To: Daniel Durning <danieldurning.work@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	selinux@vger.kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz, paul@paul-moore.com, 
+	stephen.smalley.work@gmail.com, omosnace@redhat.com, Oleg Nesterov <oleg@redhat.com>
+Subject: Re: [RFC PATCH] fs/pidfs: Add permission check to pidfd_info()
+Message-ID: <20260224-wohle-abarbeiten-25effeed0479@brauner>
+References: <20260206180248.12418-1-danieldurning.work@gmail.com>
+ <20260209-spanplatten-zerrt-73851db30f18@brauner>
+ <CAKrb_fEXR0uQnX5iK-ACH=amKMQ8qBSPGXmJb=1PgvEq8qsDEQ@mail.gmail.com>
+ <20260217-abgedankt-eilte-2386c98b3ef7@brauner>
+ <CAKrb_fFEvf5VzY_-zcc800wjVGOFbiGrpzC7S6Ghy9qhYJrZ1w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -43,97 +47,84 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <cd2153f1-098b-463c-bbc1-5c6ca9ef1f12@baylibre.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAKrb_fFEvf5VzY_-zcc800wjVGOFbiGrpzC7S6Ghy9qhYJrZ1w@mail.gmail.com>
 
-On Mon, Feb 23, 2026 at 09:50:13AM -0600, David Lechner wrote:
-> On 11/17/25 6:36 AM, Christian Brauner wrote:
-> > We have reworked namespaces sufficiently that all this special-casing
-> > shouldn't be needed anymore
-> > 
-> > Signed-off-by: Christian Brauner <brauner@kernel.org>
-> > ---
-> >  fs/pidfs.c | 75 ++++++++++++++++++++++++++----------------------------
-> >  1 file changed, 36 insertions(+), 39 deletions(-)
-> > 
-> > diff --git a/fs/pidfs.c b/fs/pidfs.c
-> > index db236427fc2c..78dee3c201af 100644
-> > --- a/fs/pidfs.c
-> > +++ b/fs/pidfs.c
+On Fri, Feb 20, 2026 at 03:45:00PM -0500, Daniel Durning wrote:
+> On Tue, Feb 17, 2026 at 7:01 AM Christian Brauner <brauner@kernel.org> wrote:
+> >
+> > On Wed, Feb 11, 2026 at 02:43:21PM -0500, Daniel Durning wrote:
+> > > On Mon, Feb 9, 2026 at 9:01 AM Christian Brauner <brauner@kernel.org> wrote:
+> > > >
+> > > > On Fri, Feb 06, 2026 at 06:02:48PM +0000, danieldurning.work@gmail.com wrote:
+> > > > > From: Daniel Durning <danieldurning.work@gmail.com>
+> > > > >
+> > > > > Added a permission check to pidfd_info(). Originally, process info
+> > > > > could be retrieved with a pidfd even if proc was mounted with hidepid
+> > > > > enabled, allowing pidfds to be used to bypass those protections. We
+> > > > > now call ptrace_may_access() to perform some DAC checking as well
+> > > > > as call the appropriate LSM hook.
+> > > > >
+> > > > > The downside to this approach is that there are now more restrictions
+> > > > > on accessing this info from a pidfd than when just using proc (without
+> > > > > hidepid). I am open to suggestions if anyone can think of a better way
+> > > > > to handle this.
+> > > >
+> > > > This isn't really workable since this would regress userspace quite a
+> > > > bit. I think we need a different approach. I've given it some thought
+> > > > and everything's kinda ugly but this might work.
+> > > >
+> > > > In struct pid_namespace record whether anyone ever mounted a procfs
+> > > > with hidepid turned on for this pidns. In pidfd_info() we check whether
+> > > > hidepid was ever turned on. If it wasn't we're done and can just return
+> > > > the info. This will be the common case. If hidepid was ever turned on
+> > > > use kern_path("/proc") to lookup procfs. If not found check
+> > > > ptrace_may_access() to decide whether to return the info or not. If
+> > > > /proc is found check it's hidepid settings and make a decision based on
+> > > > that.
+> > > >
+> > > > You can probably reorder this to call ptrace_may_access() first and then
+> > > > do the procfs lookup dance. Thoughts?
+> > >
+> > > Thanks for the feedback. I think your solution makes sense.
+> > >
+> > > Unfortunately, it seems like systemd mounts procfs with hidepid enabled on
+> > > boot for services with the ProtectProc option enabled. This means that
+> > > procfs will always have been mounted with hidepid in the init pid namespace.
+> > > Do you think it would be viable to record whether or not procfs was mounted
+> > > with hidepid enabled in the mount namespace instead?
+> >
+> > I guess we can see what it looks like.
 > 
-> ...
+> Having looked into this some more I am not sure if the mount
+> namespace is viable either since a single proc instance could be in
+> multiple mount namespaces. In addition the mount namespace
+> does not seem to be easily accessible in the function where proc
+> mount options are applied. I also considered adding an option
+> similar to hidepid to pidfs, but since pidfs is not userspace-mounted
+> I do not think that is possible without some significant changes.
 > 
-> >  	case PIDFD_GET_USER_NAMESPACE:
-> > -		if (IS_ENABLED(CONFIG_USER_NS)) {
-> > -			rcu_read_lock();
-> > -			ns_common = to_ns_common(get_user_ns(task_cred_xxx(task, user_ns)));
-> > -			rcu_read_unlock();
-> > +		scoped_guard(rcu) {
-> > +			struct user_namespace *user_ns;
-> > +
-> > +			user_ns = task_cred_xxx(task, user_ns);
-> > +			if (!ns_ref_get(user_ns))
-> > +				break;
+> Doing a proc lookup with kern_path() does work, but it does not seem
+> practical in terms of performance unless we had some other way to
+> skip it in the common case.
 > 
-> I think this code is a bit misleading and could lead to unintentional
-> mistakes in future changes.
-> 
-> scoped_guard() is implemented using a for loop, so this break statement
-> is only breaking out of the the scoped_guard() scope and not breaking
-> out of the case as one might expect.
-> 
-> I suggest to change the logic to avoid the break or at least add a
-> comment pointing out the unusual behavior.
-> 
-> > +			ns_common = to_ns_common(user_ns);
-> >  		}
-> >  		break;
-> >  	case PIDFD_GET_PID_NAMESPACE:
-> > -		if (IS_ENABLED(CONFIG_PID_NS)) {
-> > -			rcu_read_lock();
-> > +		scoped_guard(rcu) {
-> > +			struct pid_namespace *pid_ns;
-> > +
-> >  			pid_ns = task_active_pid_ns(task);
-> > -			if (pid_ns)
-> > -				ns_common = to_ns_common(get_pid_ns(pid_ns));
-> > -			rcu_read_unlock();
-> > +			if (!ns_ref_get(pid_ns))
-> > +				break;
-> 
-> Same situation here.
-> 
-> > +			ns_common = to_ns_common(pid_ns);
-> >  		}
-> >  		break;
-> >  	default:
+> Curious if anyone else has any ideas or suggestions on how this
+> could be implemented.
 
-Good point, we can change this to:
+Ok, so there's another series that adds support for allowing to mount
+procfs with subset=pid. That series currently uses an arcane mechanism
+where it walks all mounts in the caller mounts namespace to find procfs
+mounts and check its mount options (mount_too_revealing()). To get away
+from this barbaric hack I proposed recording all fully visible procfs
+mounts in a separate list on struct mnt_namespace that it can walk
+whenever a new procfs mount gets plugged in. Once we've done that work
+we effectively track whenever a procfs mount comes and goes from a given
+mount namespace. When we plug in that mount we simply remember the
+option used for the least restrictive procfs mount in that namespace in
+a per-mntns "proc_visiblity" field or something.
 
-diff --git a/fs/pidfs.c b/fs/pidfs.c
-index 1e20e36e0ed5..21f9f011a957 100644
---- a/fs/pidfs.c
-+++ b/fs/pidfs.c
-@@ -577,9 +577,8 @@ static long pidfd_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
-                        struct user_namespace *user_ns;
+Then in pidfs we simply do a:
 
-                        user_ns = task_cred_xxx(task, user_ns);
--                       if (!ns_ref_get(user_ns))
--                               break;
--                       ns_common = to_ns_common(user_ns);
-+                       if (ns_ref_get(user_ns))
-+                               ns_common = to_ns_common(user_ns);
-                }
- #endif
-                break;
-@@ -589,9 +588,8 @@ static long pidfd_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
-                        struct pid_namespace *pid_ns;
+visibility_restricted = READ_ONCE(current->ns_proxy->mnt_ns);
 
-                        pid_ns = task_active_pid_ns(task);
--                       if (!ns_ref_get(pid_ns))
--                               break;
--                       ns_common = to_ns_common(pid_ns);
-+                       if (ns_ref_get(pid_ns))
-+                               ns_common = to_ns_common(pid_ns);
-                }
- #endif
-                break;
+and be done with it. No locks, no lookup, no perf hit. Thoughts?
