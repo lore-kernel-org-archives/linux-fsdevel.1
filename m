@@ -1,89 +1,65 @@
-Received: from mail.synology.com (mail.synology.com [211.23.38.101])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78B0236D51A;
-	Tue, 24 Feb 2026 09:44:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.23.38.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CDA736D50A;
+	Tue, 24 Feb 2026 09:53:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771926264; cv=none; b=CLdaq3ovcBrmb1nVFiFXe/SGvRrl0oGtzaR/FK2sdM8lWMDoZWwnXmdQuNAb5vQOo+49Mq/CYs6w2uPyZF2cAH9VGnIj7caui7JeQGY36GOax65TV8FJQN+6tDEIaO9ISqoTrDdMTN2XacFgaGmeKTVOXJaqkRp26UuCecIF0Z8=
+	t=1771926794; cv=none; b=tvk/Jao8jD1+fGDuQr64HGtcaksNL36lLK0u41actddpogTVdztmVlg1lwTpqKZisiinINRs9hAjJROGDcMcE074eKP80W7NuCnBrI2L/x8djoUTiPCC9Z+hxq/2ceh4I9hRZ3ze4ahenHu8H2hjQogOMz4Ui46MADSptPFpcgk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771926264; c=relaxed/simple;
-	bh=OmPphWIswswzkb8ygwgtW6VZUdzTMmZz7ARHmGWQNwI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=LdgABJmt56dZUo2YLt3TeHgKCrcP2CaEMovp4OD+kukXQThsbR+V/2whD1+8rcVtkRVVNnJiBHRg+iPzC3CA1TEwocVibguK5xUyCKvVIqAdCMUfIFQnNiPrLWdmaUu23SMaJjU+IFPL+SowehfJMQ/ZfuNq0y5UjrWfJbvq7do=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=synology.com; spf=pass smtp.mailfrom=synology.com; dkim=pass (1024-bit key) header.d=synology.com header.i=@synology.com header.b=Ehr8TQsq; arc=none smtp.client-ip=211.23.38.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=synology.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=synology.com
+	s=arc-20240116; t=1771926794; c=relaxed/simple;
+	bh=dqLOm0PM7kcvpjftBJlRGEhwi4F/wqsNJqUoHigpCYU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OWWEi8Pw+GY2gP78PQxtTtIA9aAFUPE2t4jl7YXVTiQXuavJUlxkN7KmME4eRFlbGhnLlmQqcNGy5scnMe6koFxa6hyCq8UDHSSem4B4LS3rZXC3JXqJBPf30hVsdA+QulW2G5iHfVzRnwT1u1TrFFCoDov2nuF1rmTOeoFccrc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PazVMNIV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=synology.com header.i=@synology.com header.b="Ehr8TQsq"
-From: Chia-Ming Chang <chiamingc@synology.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synology.com; s=123;
-	t=1771925697; bh=OmPphWIswswzkb8ygwgtW6VZUdzTMmZz7ARHmGWQNwI=;
-	h=From:To:Cc:Subject:Date;
-	b=Ehr8TQsqdHuX5XfMp3dWLA2nvxJCM8zgTT2LbIkd3ou4gcEqqWDIrBHxWNryXiE1M
-	 J0NLsXEDyzgfIcUQvqvpnEhjJh6n9AhqswFgFHbbbWB8KBUBlVZkH7pNPtpN1PnYTc
-	 0Tvro0YBq3fZf/wFBkxyhlpIE+5WpMPSUCvvwcDE=
-To: jack@suse.cz
-Cc: amir73il@gmail.com,
-	serge@hallyn.com,
-	ebiederm@xmission.com,
-	n.borisov.lkml@gmail.com,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Chia-Ming Chang <chiamingc@synology.com>,
-	stable@vger.kernel.org,
-	robbieko <robbieko@synology.com>
-Subject: [PATCH] inotify: fix watch count leak when fsnotify_add_inode_mark_locked() fails
-Date: Tue, 24 Feb 2026 17:34:42 +0800
-Message-Id: <20260224093442.3076294-1-chiamingc@synology.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PazVMNIV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C02DEC116D0;
+	Tue, 24 Feb 2026 09:53:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771926794;
+	bh=dqLOm0PM7kcvpjftBJlRGEhwi4F/wqsNJqUoHigpCYU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PazVMNIVrnDgSPiJ3FUli5BCxqck3xy49vEaki781IWSysnCstNXLDJHfT2CY7mxz
+	 6UZAKfjuBBy6v9NZDDMFZyz6nezomxLaLhOCC4hz+BReH7i7oDebgBVXanCgikIBbC
+	 fMYYI6uQlNm7M47ehvrcFq7UfeTFgHPXO3k85TdYP1L3EumeOzBUuUjyo1t7414yc5
+	 /aJ7ym+RPxCD+eD8K65j0IFpc9Mv/JCyyA61V7T0jRgGkvPV0eA9t/ifE7Oz4ItytR
+	 kK+aUQiaItrgLsWnb1lSuMLdVNFUWM+nel9DKT9ya/IJ8v88xxH1Yo70IKbMsIk7t7
+	 1TCDPuCqcTUuA==
+Date: Tue, 24 Feb 2026 10:53:09 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-block@vger.kernel.org, linux-ide@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, bpf@vger.kernel.org, lwn@lwn.net
+Cc: lsf-pc@lists.linux-foundation.org, linux-kernel@vger.kernel.org
+Subject: Re: LSF/MM/BPF: 2026: Call for Proposals
+Message-ID: <20260224-sangen-aufatmen-06ba16719f33@brauner>
+References: <20260110-lsfmm-2026-cfp-ae970765d60e@brauner>
+ <20260119-bagger-desaster-e11c27458c49@brauner>
+ <20260129-beidseitig-unwohl-9ae543e9f9f5@brauner>
+ <20260216-ruhelosigkeit-umlegen-548e2a107686@brauner>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Synology-Virus-Status: no
-X-Synology-MCP-Status: no
-X-Synology-Spam-Status: score=0, required 6, WHITELIST_FROM_ADDRESS 0
-X-Synology-Spam-Flag: no
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260216-ruhelosigkeit-umlegen-548e2a107686@brauner>
 
-When fsnotify_add_inode_mark_locked() fails in inotify_new_watch(),
-the error path calls inotify_remove_from_idr() but does not call
-dec_inotify_watches() to undo the preceding inc_inotify_watches().
-This leaks a watch count, and repeated failures can exhaust the
-max_user_watches limit with -ENOSPC even when no watches are active.
+> Don't forget to pester^wask^wremind your respective organizations to
+> sponsor LSF/MM/BPF 2026! If it helps, you can tell them that we're
+> considering renaming it LSF/MM/BPF/AI.
 
-Prior to commit 1cce1eea0aff ("inotify: Convert to using per-namespace
-limits"), the watch count was incremented after fsnotify_add_mark_locked()
-succeeded, so this path was not affected. The conversion moved
-inc_inotify_watches() before the mark insertion without adding the
-corresponding rollback.
+I have just looked at the sponsorship site for LSF/MM/BPF/AI again and
+we all really need to go out and go steal some of that AI funding money
+and funnel it into one of the conferences that really drives development
+of the operating system that drives the compute for all of this.
 
-Add the missing dec_inotify_watches() call in the error path.
+Please go and remind your organizations to sponsor. They should know how
+to get in touch with the Linux Foundation. Just going by the sponsorship
+page we're missing a bunch of large organizations that we would
+appreciate if they decided to pitch in. :)
 
-Fixes: 1cce1eea0aff ("inotify: Convert to using per-namespace limits")
-Cc: stable@vger.kernel.org
-Signed-off-by: Chia-Ming Chang <chiamingc@synology.com>
-Signed-off-by: robbieko <robbieko@synology.com>
----
- fs/notify/inotify/inotify_user.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/fs/notify/inotify/inotify_user.c b/fs/notify/inotify/inotify_user.c
-index b372fb2c56bd..0d813c52ff9c 100644
---- a/fs/notify/inotify/inotify_user.c
-+++ b/fs/notify/inotify/inotify_user.c
-@@ -621,6 +621,7 @@ static int inotify_new_watch(struct fsnotify_group *group,
- 	if (ret) {
- 		/* we failed to get on the inode, get off the idr */
- 		inotify_remove_from_idr(group, tmp_i_mark);
-+		dec_inotify_watches(group->inotify_data.ucounts);
- 		goto out_err;
- 	}
- 
--- 
-2.34.1
-
-
-Disclaimer: The contents of this e-mail message and any attachments are confidential and are intended solely for addressee. The information may also be legally privileged. This transmission is sent in trust, for the sole purpose of delivery to the intended recipient. If you have received this transmission in error, any use, reproduction or dissemination of this transmission is strictly prohibited. If you are not the intended recipient, please immediately notify the sender by reply e-mail or phone and delete this message and its attachments, if any.
+Christian
