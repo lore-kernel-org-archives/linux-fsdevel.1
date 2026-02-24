@@ -1,74 +1,121 @@
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6C4827E1DC
-	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Feb 2026 15:33:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771947184; cv=none; b=F5Y+hgaS31ioXOdRx3Q4NX62/wJjIZzpBPtI7RBRTXUA7htgRtxBPx5/S5dP6a6Sy1pvA9cz8D7JoRNdFGwStU4B563DUXe7NU1eY07iuOaDVvzMUCI9G7YdQlD7ZDdxDf8LY8JP4ebtZrmlrtgEHeqzkBHjsz2kOGGCJYQIpHw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771947184; c=relaxed/simple;
-	bh=VQTDYyp2KUyp65Y3HfpJzq+MwHKYQd3K/vE5/GWxUW0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Rri8CcgCr/d61PmokHCnJNtZ9wb5a2YyAmgHOYMdVrMN+QU3eMdMYKYoL5Q1sqc0Q2XdHN1Lwv+0hdQ+7hHaaNLMVotlIshn1Sa8ZJKJSnS5M9pQJFaEEF+SRprVjpF36utOJD9MHAzmitfpJRL5OyUNdgKgFtkVxBs9urVFfVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=iaInRZKz; arc=none smtp.client-ip=18.9.28.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8054927380A
+	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Feb 2026 15:33:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.171
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771947226; cv=pass; b=C3T0Lr50gYq2hqCxrSjr6TXfvzkk+nF4yZnnB4mxjQ6UZ0BT57W1Lau3LShJH02t5OB1bmsbLC1sjMGepF2gC++YqA7gHswYLjQcHbq0NpXiqIsUj8itypjBzTot4h1KMWMg6fxqopcIIOaW5ABsJ4ZZmD4jI1Pl9q1Oa9sxagw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771947226; c=relaxed/simple;
+	bh=mcIhrVy4N2qlGxdPCkr+8Ie+aeZgHuS6eyHLWbWlvk8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QnoTLLi1p9cdtCtvGBxQ4swLYpQG18WtaOWF+2uQH1IHmDZ/PjpEaKhszOgzX1qXsA6yeEIEGOidaaLggQvzChXCfNluitFB6/gHKb3R0ZLDtWjT4cV6GN2yPD6q0WQydWmOlISWVuq1+0IpHzZZmRIufsEO95D049w9u9/zKdI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=EymRLdch; arc=pass smtp.client-ip=209.85.160.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="iaInRZKz"
-Received: from macsyma.thunk.org (pool-173-48-111-182.bstnma.fios.verizon.net [173.48.111.182])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 61OFWSmh014511
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 24 Feb 2026 10:32:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1771947151; bh=LCrtRQLNlXJ2+RMPTomjO9zvY5ULKnNAP+Rx2oaqJTY=;
-	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
-	b=iaInRZKzaFmwbD0wNIxEZWWMO9hrAn0VLeTMlSnaY8bAvNdERtlqSNJqsF2bJHGuX
-	 QFTUQ40h14UmMAB+ncnFFpT0n19A1u3+PcUUoB1Kvo7YBT1cJo6vxIluKw5TCdWwnQ
-	 CrPTx0zFGW8olNTbS6tCe7DuT9RnRtPPrbW83S4LbIRrCk6L537bh/PH5bXvI4LNZl
-	 5vv1Kp2MunTQo7PLw27xom0Qf25XsuYY+gdpSJSqBIpiHvqG+5D+UYF91Elf/qy57I
-	 lVz6s9o8sopQ3AAZbLd9bafx/4ccNWwFICzmU70GxeSbGtysyQjvMGflGIkzopWr5d
-	 wesJycyrLZSMw==
-Received: by macsyma.thunk.org (Postfix, from userid 15806)
-	id 712BC59B49DC; Tue, 24 Feb 2026 10:32:28 -0500 (EST)
-Date: Tue, 24 Feb 2026 10:32:28 -0500
-From: "Theodore Tso" <tytso@mit.edu>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Eric Biggers <ebiggers@kernel.org>, fsverity@lists.linux.dev,
-        linux-fsdevel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        linux-btrfs@vger.kernel.org, linux-xfs@vger.kernel.org,
-        Andrey Albershteyn <aalbersh@kernel.org>,
-        "Darrick J. Wong" <djwong@kernel.org>
-Subject: Re: [PATCH] fsverity: add dependency on 64K or smaller pages
-Message-ID: <20260224153228.GC16846@macsyma-wired.lan>
-References: <20260221204525.30426-1-ebiggers@kernel.org>
- <20260224145156.GA13173@lst.de>
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="EymRLdch"
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-50336cffef9so44103291cf.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 24 Feb 2026 07:33:44 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771947223; cv=none;
+        d=google.com; s=arc-20240605;
+        b=L0rWWuO3oQqv0pMzvsfY5yqXzdxtQphom8iBEeG2F9F4LWzMyPkA0vTwo+s1ZEVKx1
+         grRo+/ukBUFcX4aHOZdL/OZQvJsSJr1avRVQZJbtsTC054vwSCDEHy74tRSbXm+j2sRk
+         kE1p9KmGKleogtBR8RFsOHLbHA4hHY6JwNBTp0iXJ0Ekqi9qFBVhLItz2cVj2rqI7R5I
+         FBOqS5nhu9FvUYo0INUbgvznt5k+0R8oKD6aU/5c4ZNGFpyTYyn0VdksPPUJ0FlNVU6G
+         7mxK/Q0GNkwzqoWMDoaL/LJVoehpuk13WGwoLHa+u9iJH8brKJDzmisFYiH10ITRma9n
+         sFVg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=j8vK2PoxqyfTvn1s+umNDZZz0IG/77B9ZtXLXLB4Zjg=;
+        fh=r5jrcNWk+QyCSpn/VlN4XChGHoOqBd1B5+Ha6qngoUE=;
+        b=Df/8GUlN8JfcblNtObqrPxO+Q2FULKrf0T0rFEQoMj0xGyf9z7m9Sj/PHKmmCuXfBh
+         ekG5SGPQA4+O1OCIX/S1CNUrDlnwut9D02XF1Gr7Bz5rW+ZrFSQzk4TVJeB40bji/3Ee
+         Gp9RUKCSNkxXfCIwilTncfU94Om6h1aQ26hXPZgoBs8AYq1IdaxC/Kg7u/9juISEIDZg
+         JzR06yIo2OCQp4jSykY7zdjrE1tS1yoJsjTvy6JpS7cZdp7f8swKlRmz+aPu6fevAizS
+         Y0Z5VMQbQ1IQGWEb3Ei37uwAri4EujW3yGvG9Da2bg5y6mH9Ct/C4rcqrMowwFLXDBLQ
+         ti8w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1771947223; x=1772552023; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=j8vK2PoxqyfTvn1s+umNDZZz0IG/77B9ZtXLXLB4Zjg=;
+        b=EymRLdchX5/QVSwlLsWI4fBShcIsj0moilkCndhKtm2Bo1VGLunwOgDkbkINMagVHB
+         amEODb57eJnFlMCGxHFzpcjwnaXolgYBUI4iWhWcShot6i+awB2bAEAdCx1kcbAd+RJ3
+         dYOUiWgw86oUcIYibWEnfpni4wZkywr2tBNpg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771947223; x=1772552023;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=j8vK2PoxqyfTvn1s+umNDZZz0IG/77B9ZtXLXLB4Zjg=;
+        b=ekq5B4KYk8Iu44JhOvzLmDc6u671q18M2jinLoxsLmFiHJRAPQf2H+sG8RttQxeG4I
+         PWNMkfEfbiCEanwfMloMhMdnYN1es8zcQbaRjzkW4dUtpOupKgpyajatM/S7TtCy+06k
+         o4/HT0EL1r/rGOW0YhSwZopaD7Ob8+T/L/WkyT+fIYkwmV4yxHOUy1KOXN3JTsqgVWRl
+         ZgWsObDgEDFecde8alO9x1Mt6ANiIPLa6khX1rmXdVzlcg9BNXg01Gw94WgxWtG1xM6M
+         6iFuaTtU4vrIdQw3eVZeDuIQz6cwFC1s/XrYCUfVURuOD2rKxy9zHTH04GNrt4RKb3+/
+         THKg==
+X-Forwarded-Encrypted: i=1; AJvYcCVWOcMM7jtzfeuuk5Tp2o2hKqc76ECrW6VM5HagS5WPIDBp27rEV5YDOtCHCQlln0lIe/IkX/bZrJDojSWn@vger.kernel.org
+X-Gm-Message-State: AOJu0YwJCSEWMeZI9KmxqmN8gYWlYecVdrlPeTRrza5TkOnX8F9dutbs
+	VYVg3vxtLZvGHOZOww4w8ZyUNrAJb1HbsWZvpLt9tg5nCikwooeg4Mc+3IqYa6kVElj9fVN5OOh
+	3XcVXZb0I6GX9VMgoJftAybItD5e2VdEvLd/0+NiVEQ==
+X-Gm-Gg: AZuq6aISOg0YfN1Th4JidzDjJe9Y1DA2FIkvnBzKd2fVE3j8Jbw0WZZh9sjfZ/h1fna
+	Z+VmXgA9jolc5QvKbpbFALEvREB23dZgb2vnCzsotCkCpZCrlO7l9QbGRLO6TXhuZQe0dfOWtrJ
+	Ej8o6NqHGxqrEo5NqFZqgMsoDSPbep9YmYyEx+ROuUEhKlm68v4KIqT1fLBHE62rYSLdWxSIK88
+	p0rHqt2LQ302AULk7YZh4qbkMsEl3R+pWJmFsXoC2QHjjufOG16r24B1w31CSvioSC7gV+7UYxt
+	+BmmPw==
+X-Received: by 2002:a05:622a:1b8b:b0:4ff:c14d:65cc with SMTP id
+ d75a77b69052e-5070bcb2d46mr155016191cf.51.1771947223251; Tue, 24 Feb 2026
+ 07:33:43 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260224145156.GA13173@lst.de>
+References: <20260220204102.21317-1-jiharris@nvidia.com> <aZnLtrqN3u8N66GU@fedora-2.fritz.box>
+ <CAJfpegstf_hPN2+jyO_vNfjSqZpUZPJqNg59hGSqTYqyWx1VVg@mail.gmail.com>
+ <fa1b23a7-1dcb-4141-9334-8f9609bb13f7@bsbernd.com> <CAJfpeguoQ4qnvYvv2_-e7POXiPeBR2go_J68S2E6c-YW-1tYbA@mail.gmail.com>
+ <aZyhkJSO7Ae7y1Pv@fedora.fritz.box>
+In-Reply-To: <aZyhkJSO7Ae7y1Pv@fedora.fritz.box>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Tue, 24 Feb 2026 16:33:32 +0100
+X-Gm-Features: AaiRm53a5UNONpLiEimd4xU0OpNMNm9R7JWewPURY4JHQLrXCzVRugCMPz4D-pE
+Message-ID: <CAJfpegvFhvbzTEjyPXP4jX26qPOVYCyvBmzrbkO3CWOmVCHhSw@mail.gmail.com>
+Subject: Re: Re: [PATCH] fuse: skip lookup during atomic_open() when O_CREAT
+ is set
+To: Horst Birthelmer <horst@birthelmer.de>
+Cc: Bernd Schubert <bernd@bsbernd.com>, Jim Harris <jim.harris@nvidia.com>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	mgurtovoy@nvidia.com, ksztyber@nvidia.com, Luis Henriques <luis@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Feb 24, 2026 at 03:51:56PM +0100, Christoph Hellwig wrote:
-> Do we want to throw in the towel here for the forseable future and if we
-> ever need to support fsverity on > 64k page size just do a on-disk
-> version rev?
-> 
-> Because if so we could just simply the pending xfs fsverity support to
-> drop all the offset adjustment and simplify it a lot..
+On Mon, 23 Feb 2026 at 19:55, Horst Birthelmer <horst@birthelmer.de> wrote:
 
-I wholeheartedly agree.  Especially given the benefit of large folios,
-increasing the base page size beyond 64k has enough downsides without
-compelling upsides that can't be achieved via other means, I'm highly
-skeptical that page sizes > 64k is going to be appealing for most
-system designers.  So trying to design in support for this possibility
-in fsverrity is not worth it.
+> What is wrong with a compound doing LOOKUP + MKNOD + OPEN?
+> If the fuse server knows how to process that 'group' atomically
+> in one big step it will do the right thing,
+> if not, we will call those in series and sort out the data
+> in kernel afterwards.
+>
+> If we preserve all flags and the real results we can do pretty
+> much exactly the same thing that is done at the moment with just
+> one call to user space.
+>
+> That was actually what I was experimenting with.
+>
+> The MKNOD in the middle is optional depending on the O_CREAT flag.
 
-						- Ted
+Okay, I won't stop you experimenting.
+
+My thinking is that it's simpler as a separate op (dir handle and name
+are the same for LOOKUP and MKNOD).   But adding this special "stop if
+error or non-regular, else skip create if positive" dependency would
+also work.
+
+Thanks,
+Miklos
