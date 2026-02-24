@@ -1,287 +1,168 @@
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from flow-a2-smtp.messagingengine.com (flow-a2-smtp.messagingengine.com [103.168.172.137])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ECBD263F34
-	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Feb 2026 22:20:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.178
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771971610; cv=pass; b=OdXvNZtz0bwPcuOCXmM0dp1s90kY7C/vJxCToeLz9Btq/cD4M4TljpeHq/2iQvM8K3jCco5G57MYZsBch6XFeu2+WB0IV5wdsMsGsUqsthzQiG7BH8cxj2lLkBT12G5IUw3sJOy/d5vtBXKHcVFKdfncG4EkiMsT29wO8eyNCjA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771971610; c=relaxed/simple;
-	bh=TMIFMqdBl4eMMy+jCyFV21h7j8GU0gDuLzYzqhVKvVY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NzZqllWMkUnfZ/lWwPxc0ZEznXV2QTswGhkalAhThvB49Idj4i+4j08Pdgk3W0N7fkN4pcrjq9dgXajov75ICIXdK5sSLPp8CnJxC5+wRyTWikyaDVZ1Wjz0u1R6aMgprku0fsJVbV+IGZ8Ej/sfVnOtPox9NQqTyPvK1mJD8Kg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mbyR0iMF; arc=pass smtp.client-ip=209.85.160.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F6FB33A9C4;
+	Tue, 24 Feb 2026 22:25:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.137
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771971962; cv=none; b=CX1XtqMiUWoFYxxNbwiRWqB8t26d3UIuL+thzkn7Mbw+CQxw7xOT+/MjAjTCapb0/8F/Uk7GHwLWAqAlgXUrFPRWuM/D6XYNRHdRm7HdbiianuSVNjJYXY0t1Of5UNu0K8L1q+Tl2VRiA++QVhrfSitfoIUPY2wJGB2+lkxRFDo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771971962; c=relaxed/simple;
+	bh=XNsgNmZoNlsbdzYWAoyx+rMJkU0C5hWhl58m7ePFqX8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JMAVZm8FpKEv8A1iJbO3iKwS+SwnPZZCQKWuAbC4LVyjaXIEe70ednw5htv9S3FVtVkMQLWjiJgu0akPfEKA/8kTFxsDADBWZJVaaql8i/W4i9ss8Fq/tYyvgZ+O0wstU2TVH4sexWAZcJk7l+YNf13f8Cw4v09HTw/R81JIkd8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=Bm41EYvD; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=YVWCZYzt; arc=none smtp.client-ip=103.168.172.137
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mbyR0iMF"
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-506a019a7f3so76185621cf.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 24 Feb 2026 14:20:08 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771971608; cv=none;
-        d=google.com; s=arc-20240605;
-        b=POXAYB49ydphfk87dqHrI1U5Vz7yMQ/ByA7rCzQvBM6ZJKi1SzsV11yBM0A+gFZ6+G
-         V3uJOZFU/UJYACfR1zKmfGKV46BrcVLfy1ozlpgGMBn8qScBjYYvrP1Vfp4sZujfKogw
-         Z7Oc+ORnSt3qXj8WWpcj9kHLZyovnL3qLgY5en7ouDGkjTTsrjRiAkXNefueTuNmyGUn
-         UL8xJEIkG5CIjMB1g8rw1DXSg6nQQcn5Cy5dQn9Rsi0SIbxCnjLaeRo8lnxP5eDbSpmw
-         H3c7FWKBP7OKYv/daN4YueMqhaCtdECTzzTxEeBT+3U3opn1u2Wh87jA3bIlxsq/8xO0
-         VKJA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=TMIFMqdBl4eMMy+jCyFV21h7j8GU0gDuLzYzqhVKvVY=;
-        fh=XX7VX/xT1eCawMId5fvCyJhrd4z792v6iVyqX85quIw=;
-        b=UwsVqghcJsGEL9Tc1ejHxDN13ycTIK14AJJqsqB6KQ9smFwvjRgIGslb/MtB6Ln1Ge
-         3K7mCBpT+L6RKxajkCEB4K0etUWL/F8f1ZZ1LGqfpBHW6lyLBDcjmzzm9RtVfZwCUHtQ
-         CqfSZYEJX9bDhznHuFcPgJfuC3DSTa6kMvNJHkGQmFxzhOTO8zNk2K2qPpJXGsNemCMz
-         o7h/vmCNbkbHnXno3TC6WcZzrVIOfpNeRC4712vgm2wMa6JeZ5MixbVQJlNR4PGMWVKp
-         TITBegN0xqGt0OwI2QjUPA/AGNw7xtrxJvviTEAJFTCDAoNgYsonoDADbkA4dAbpqeJg
-         68JQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771971608; x=1772576408; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TMIFMqdBl4eMMy+jCyFV21h7j8GU0gDuLzYzqhVKvVY=;
-        b=mbyR0iMFQ7EHSGPAylOzgv1CR3Op0UHLIZUuHZhwX1sgmmONJFq75imbCT1EYUJ1ws
-         bnoK8F2KabWF2w+JNK3hkPXR6IVAbuB1nZL7Fe+Y0C9DGhMpjwRAOQgwVdXp4L3ldtCh
-         dRBwj+zr7UiaD+plyfbsbwmeESeJkEZStxW5/EwnPjsR74WPt55uimQDWRHs3/pRqsJ2
-         wPEjyzykH8Ku+/1z3DdcjvWpn8NPZWjyYDIbpG3LRR9Js4TuSfvEkRYuVOfIYMbz4EYl
-         KDMZ3OdyMIXor9ABhSf9oOo/QctglDZHBj3cprUWxMxgIItdyR4WXKQg9JV7uxT1W2Mz
-         uQOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771971608; x=1772576408;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=TMIFMqdBl4eMMy+jCyFV21h7j8GU0gDuLzYzqhVKvVY=;
-        b=lyiwe71RfE6x8utKus+6nQPrLdN91KxcpPY4Bc6vHyxRsLDLpiMA2nmKgCUmKCsbgp
-         wTCS9ayW/Jz5q7NpNA2c6KtnTUZuojVIdoqQ9sRuoD6kR8wb2A6Se4ZyNUgSQi1IvlUz
-         IYvecvoL+CYZNxQ5c3Lja1W9b/I35IBWv/GPiIr2FxklJQ51CY5YebdTO8HcdL7t6KUo
-         +kCu8mmBdW2YGpJAM9WGz8SMl52lrz46PErktFq400GUEl6bNx2TljSbzvOVrpw/6pGX
-         gmUVuuCl8mBosJEmdLUaurY1Hhf/as5Wg8hircIZiiL4fCym6xARJxh1CDR+4upJaL/m
-         xQvg==
-X-Forwarded-Encrypted: i=1; AJvYcCWQLmJYjHV5YPFUl5lmtDOPZX+BQsNu/XiqZzHQL3p7+cnXS1gbP2/52xO+YKFlZXYNRrLb3P0/G7E9IX8I@vger.kernel.org
-X-Gm-Message-State: AOJu0YxonPxbYubHEfPEm9/eiCo1472TMIKKIkI+OiY2EKmvf6EJkVHc
-	36SsQPfF2gOtV0LjBaD/sG6SNeUp2pWWWsbOZWfV6G21RJEfyrBcATV3NOItH730ekL2OO/Tfib
-	W75VmMQTBT7NkjoObDJCaX1yQwmO2Ie4=
-X-Gm-Gg: ATEYQzwX4dMOvC2HCJxvevVxAyV4LyHzOJ2Wc8uM3PCTf056hOnZ9W4lNDxNEdMIU7h
-	2l/QwRRC5ESMdkKQkhudWO9LkMUBOwkdLH1mtcM6HgfIyYnfkDtfd+kkDiPAQtc+RAYHNe0yaqx
-	YIbp5WAXUskKZ8W3TR7jv+XNUopriwhNQtneibkkrzz81QB7jJqCAJimS3arTbtXD4T9+5Z71uW
-	bl0n8HVUOMz5C59Ek3Dei3GlL6JhQFxPi2tsUD2Dlhpj5/y9Z7ANdsiTOlmcBI0QprlEzags5Gl
-	c1s2Hg==
-X-Received: by 2002:ac8:570e:0:b0:4ed:2ff9:b325 with SMTP id
- d75a77b69052e-5073a329538mr3977721cf.59.1771971607910; Tue, 24 Feb 2026
- 14:20:07 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="Bm41EYvD";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="YVWCZYzt"
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailflow.phl.internal (Postfix) with ESMTP id 3CA271380B87;
+	Tue, 24 Feb 2026 17:25:58 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-06.internal (MEProxy); Tue, 24 Feb 2026 17:25:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:reply-to:subject
+	:subject:to:to; s=fm3; t=1771971958; x=1771979158; bh=h1rNXkHkcZ
+	4cMhepaUBJCHY4sMt0fLPm1jE4sfNdLx8=; b=Bm41EYvDY3wWjoKO9Dg4GQs+K7
+	cZ+9rkdCqW4DWg2/n02Xxhll8WET1UKRv2xjVnyISv5eTeXPxw9lMuqv5LWlj2/l
+	YzC39szJXiGzqhHmPIW5unvAljd9AINf44jC46QUbSkxJC4Uzj5S8g9wTyymc5eK
+	6umAKASGZ5SNoXvX4WYCPTmKnbviVxKOlaNXi81+nMH7HsX3Dwh2OQCaVce5MXUm
+	TOefBGwt4W4JhCs2+rPA2w1fHcgyz/0nJrkPoTgnTm7f1ragqA5M49ZsUqF41+Lz
+	48FljGfvzG8iuI1HHzhizGeeqEg7uEPgx68xfh1Fw0MLAPKTcktOG4vlSi/g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1771971958; x=1771979158; bh=h1rNXkHkcZ4cMhepaUBJCHY4sMt0
+	fLPm1jE4sfNdLx8=; b=YVWCZYztzFJEgw0/P15jwVo2Zq6mHpQLCPU8/3LKBLGh
+	57MvUxA/kPjZOfEgwroCqeJIvAocpDonpTTzeO7VkSd0vdcYEgfAjfz1S+J27yPH
+	ibp9xn/SlbXIOAANLTgfTdZ1VBtOVuFLNu74RzyUBZ2rzwFmi84V1lO1ee7nU5eU
+	Swv0iwDFvsYUytGKwUXuWkuDN3ReejDJF50ww/Sv1JfeqxdlO97psVCMg5qpJdLN
+	l5589hLjqQ/AdCfNnx6DH184ui/VMrHllibdRaU1oS7s4SUxTuLHTlhmeIUXIPmc
+	3w/hA6dPTMTYuh/8a/5BjLr6Ydwxhtk1buo0GnixtA==
+X-ME-Sender: <xms:dCWeaeN68INVWUP76lm6LSn_-KPn-BpbZV20agYBbf3-MRusda4nxg>
+    <xme:dCWeaQ6MOi1M6jhBiz321-vu_icRM95I_6tTHrBS3kjPG6P4H7qv4MS40GFqlOXeL
+    JWaPc9gZdbNSC717W5pWIYUDnEX-0yoZjFskhRJ0jAXvUrcsPs>
+X-ME-Received: <xmr:dCWeadx1Z2VeucV0GVjerBQHJFbLfewF1ivvXIk7V7xM93rCDRjuVW8hJh3_pbP0Wvi7GoOlKRPxJbTKzbfoXXp4xdHx9RB-R1G_GBK_NM7c>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvgedufeejucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhephffvvefufffkofhrggfgsedtkeertdertddtnecuhfhrohhmpefpvghilheurhho
+    fihnuceonhgvihhlsgesohifnhhmrghilhdrnhgvtheqnecuggftrfgrthhtvghrnhepge
+    etfeegtddtvdeigfegueevfeelleelgfejueefueektdelieeikeevtdelveelnecuvehl
+    uhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhgvihhlsgesoh
+    ifnhhmrghilhdrnhgvthdpnhgspghrtghpthhtohepvddvpdhmohguvgepshhmthhpohhu
+    thdprhgtphhtthhopehvihhrohesiigvnhhivhdrlhhinhhugidrohhrghdruhhkpdhrtg
+    hpthhtohepshgvlhhinhhugiesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthho
+    pehlihhnuhigqdhunhhiohhnfhhssehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpth
+    htoheplhhinhhugidqshgvtghurhhithihqdhmohguuhhlvgesvhhgvghrrdhkvghrnhgv
+    lhdrohhrghdprhgtphhtthhopehlihhnuhigqdhnfhhssehvghgvrhdrkhgvrhhnvghlrd
+    horhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghl
+    rdhorhhgpdhrtghpthhtoheplhhinhhugidqfhhsuggvvhgvlhesvhhgvghrrdhkvghrnh
+    gvlhdrohhrghdprhgtphhtthhopehmihhklhhoshesshiivghrvgguihdrhhhupdhrtghp
+    thhtohepjhgrtghksehsuhhsvgdrtgii
+X-ME-Proxy: <xmx:dCWeaYTnnAGgE05nS_GR7sZfZRuy59Y0zqIVusI9LOlQQpHGDIRuzA>
+    <xmx:dCWead99R1zdBpDm82pTcMeZYBPKAx6sGnfp62gsSSCupDW5ykpRug>
+    <xmx:dCWeadIDZPDRPdCUp43NByezinPatv8WUvR63xK4ud410k9ifxlfSw>
+    <xmx:dCWeaZtyjSe5uARiEy6VurJ-WbKbb-zsEPhCG0-qX0zcrp0SUVBvMg>
+    <xmx:diWeaSWS-R28POMt9UY8aq--iCqH1D9ZQByHSNfCqNcdrRW7UTOfk-tL>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 24 Feb 2026 17:25:50 -0500 (EST)
+From: NeilBrown <neilb@ownmail.net>
+To: Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	David Howells <dhowells@redhat.com>,
+	Jan Kara <jack@suse.cz>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Jeff Layton <jlayton@kernel.org>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Amir Goldstein <amir73il@gmail.com>,
+	John Johansen <john.johansen@canonical.com>,
+	Paul Moore <paul@paul-moore.com>,
+	James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Stephen Smalley <stephen.smalley.work@gmail.com>,
+	"Darrick J. Wong" <djwong@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+	netfs@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	linux-nfs@vger.kernel.org,
+	linux-unionfs@vger.kernel.org,
+	apparmor@lists.ubuntu.com,
+	linux-security-module@vger.kernel.org,
+	selinux@vger.kernel.org
+Subject: [PATCH v3 00/15] Further centralising of directory locking for name ops.
+Date: Wed, 25 Feb 2026 09:16:45 +1100
+Message-ID: <20260224222542.3458677-1-neilb@ownmail.net>
+X-Mailer: git-send-email 2.50.0.107.gf914562f5916.dirty
+Reply-To: NeilBrown <neil@brown.name>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260210002852.1394504-1-joannelkoong@gmail.com>
- <20260210002852.1394504-4-joannelkoong@gmail.com> <89c75fc1-2def-4681-a790-78b12b45478a@gmail.com>
- <aYykILfX_u9-feH-@infradead.org> <bd488a4e-a856-4fa5-b2bb-427280e6a053@gmail.com>
- <aY7QX-BIW-SMJ3h_@infradead.org> <34cf24a3-f7f3-46ed-96be-bf716b2db060@gmail.com>
- <CAJnrk1a+YuPpoLghA01uJhEKrhmrLhQ+5bw2OeeuLG3tG8p6Ew@mail.gmail.com>
- <7a62c5a9-1ac2-4cc2-a22f-e5b0c52dabea@gmail.com> <CAJnrk1Y5iTOhj4_RbnR7RJPkr7fFcCdh1gY=3Hm72M91D-SnyQ@mail.gmail.com>
- <11869d3d-1c40-4d49-a6c2-607fd621bf91@gmail.com> <CAJnrk1Zr=9RMGpNXpe6=fSDkG2uVijB9qa1vENHpQozB3iPQtg@mail.gmail.com>
- <94ae832e-209a-4427-925c-d4e2f8217f5a@gmail.com>
-In-Reply-To: <94ae832e-209a-4427-925c-d4e2f8217f5a@gmail.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Tue, 24 Feb 2026 14:19:56 -0800
-X-Gm-Features: AaiRm52fYZKXpBWIpBV_6pmVZ_13_zNMt5QmejWfADpJGVdq1QSE2sEdRzWOlJ4
-Message-ID: <CAJnrk1a1FAARebZ0Aqw18zxtOy8WTMb2UfcAK6jQaigXiZbTfQ@mail.gmail.com>
-Subject: Re: [PATCH v1 03/11] io_uring/kbuf: add support for kernel-managed
- buffer rings
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: Christoph Hellwig <hch@infradead.org>, axboe@kernel.dk, io-uring@vger.kernel.org, 
-	csander@purestorage.com, krisman@suse.de, bernd@bsbernd.com, 
-	linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Feb 23, 2026 at 12:00=E2=80=AFPM Pavel Begunkov <asml.silence@gmail=
-.com> wrote:
->
-> On 2/21/26 02:14, Joanne Koong wrote:
-> > On Fri, Feb 20, 2026 at 4:53=E2=80=AFAM Pavel Begunkov <asml.silence@gm=
-ail.com> wrote:
-> ...
-> >> So I'm asking whether you expect that a server or other user space
-> >> program should be able to issue a READ_OP_RECV, READ_OP_READ or any
-> >> other similar request, which would consume buffers/entries from the
-> >> km ring without any fuse kernel code involved? Do you have some
-> >> use case for that in mind?
-> >
-> > Thanks for clarifying your question. Yes, this would be a useful
-> > optimization in the future for fuse servers with certain workload
-> > characteristics (eg network-backed servers with high concurrency and
-> > unpredictable latencies). I don't think the concept of kmbufrings is
-> > exclusively fuse-specific though (for example, Christoph's use case
-> > being a recent instance);
->
-> Sorry, I don't see relevance b/w km rings and what Christoph wants.
-> I explained why in some sub-thread, but maybe someone can tell
-> what I'm missing.
->
-> > I think other subsystems/users that'll use
-> > kmbuf rings would also generically find it useful to have the option
-> > of READ_OP_RECV/READ_OP_READ operating directly on the ring.
->
-> Yep, it could be, potentially, it's just the patchset doesn't plumb
-> it to other requests and uses it within fuse. It's just cases like
+Following Chris Mason's tool-based review, here is v3 with some fixes.
+Particularly 06/15 mistakenly tested the result of start_creating for NULL
+and 09/15 had some really messed up flow in error handling.
+Also human-language typos fixed.
 
-This patchset just represents the most basic foundation. The
-optimization patches (eg incremental buffer consumption, plumbing it
-to other io-uring requests, etc) were to be follow-up patchsets that
-would be on top of this.
+This code is in 
+  github.com:neilbrown/linux.git
+  branch pdirops
 
-> that always make me wonder, here it was why what is basically an
-> internal kernel fuse API is exposed as an io_uring uapi. Maybe there
+For anyone interested, my next batch is in branch pdirops-next
 
-It's not really an internal kernel fuse API. There's nothing
-fuse-specific about it - the infrastructure that's added is the
-infrastructure for a generic buffer ring.
-
-The memory that backs the buffers for the buf ring needs to be
-io-uring specific. io-uring already has all the infrastructure for
-buffer rings. So I'm not really fully understanding why it's better in
-this case to just have the fuse kernel code re-implement all the logic
-for a buffer ring and go through these layers of indirection to use
-registered buffers, instead of just leveraging what's already in
-io-uring.
-
-> was a discussion about it I missed?
->
-> >> So you already can do all that using the mmap()'ed region user
-> >> pointer, and you just want it to be more efficient, right?
-> >> For that let's just reuse registered buffers, we don't need a
-> >> new mechanism that needs to be propagated to all request types.
-> >> And registered buffer are already optimised for I/O in a bunch
-> >> of ways. And as a bonus, it'll be similar to the zero-copy
-> >> internally registered buffers if you still plan to add them.
-> >>
-> >> The simplest way to do that is to create a registered buffer out
-> >> of the mmap'ed region pointer. Pseudo code:
-> >>
-> >> // mmap'ed if it's kernel allocated.
-> >> {region_ptr, region_size} =3D create_region();
-> >>
-> >> struct iovec iov;
-> >> iov.iov_base =3D region_ptr;
-> >> iov.iov_len =3D region_size;
-> >> io_uring_register_buffers(ring, &iov, 1);
-> >>
-> >> // later instead of this:
-> >> ptr =3D region_ptr + off;
-> >> io_uring_prep_read(sqe, fd, ptr, ...);
-> >>
-> >> // you use registered buffers as usual:
-> >> io_uring_prep_read_fixed(sqe, fd, off, regbuf_idx, ...);
-> >>
-> >
-> > I feel like this design makes the interface more convoluted and now
-> > muddies different concepts together by adding new complexity /
-> > relationships between them whereas they were otherwise cleanly
-> > isolated. Maybe I'm just not seeing/understanding the overarching
-> > vision for why conceptually it makes sense for them to be tied
-> > together besides as a mechanism to tell io-uring requests where to
-> > copy from by reusing what exists for fixed buffer ids. There's more
-> > complexity now on the kernel side (eg having to detect if the buffer
-> > passed in is kernel-allocated to know whether to pin the pages /
-> > charge it against the user's RLIMIT_MEMLOCK limit) but I'm not
-> > understanding what we gain from it.
->
-> That would avoid doing a large revamp of uapi and plumbing it
-> to each every request type when there is already a uapi that does
-> what you want, does it well and have lots of things figured out.
-> Keeping the I/O path sane is important, io_uring already has 3
-> different ways of passing buffers, let's not add a 4th one
-> unless it achieves something meaningful.
->
-> > I got the sense from your previous
-> > comments that memory regions are the de facto way to go and should be
->
-> Sorry, maybe I wasn't clear. With what I see you're trying to do,
-> i.e. copying client's data into user space (server), I think
-> registered buffers would be a better abstraction. However, I just
-> went with your design on top of regions, since it's not the first
-> iteration of the series and I wasn't following previous ones, and
-> IIRC you was already using registered buffers in previous revisions
-> but moved from that for some reason. IOW, I was taking you main I/O
-> path and was trying to make the setup path a bit more flexible and
-> reusable.
->
-> > decoupled from other structures, so if that's the case, why doesn't it
-> > make sense for io-uring to add native support for using memory regions
-> > for io-uring requests? I feel like from the userspace side it makes
-> > things more confusing with this extra layer of indirection that now
-> > has to go through a fixed buffer.
->
-> There is a high bar for adding a new interface for passing buffers
-> that needs to be propagated to a good number of request handlers,
-> and there is already one that gives you all you need to write
-> efficient user space.
->
-> >> IIRC the registration would fail because it doesn't allow file
-> >> backed pages, but it should be fine if we know it's io_uring
-> >> region memory, so that would need to be patched.
-> >>
-> >> There might be a bunch of other ways you can do that like
-> >> create a kernel allocated registered buffer like what Cristoph
-> >> wants, and then register it as a region. Or allow creating
-> >> registered buffers out of a region. etc.
-> >>
-> >> I wanted to unify registered buffers and regions internally
-> >> at some point, but then drifted away from active io_uring core
-> >> infrastructure development, so I guess that could've been useful.
-> >>
-> >>> Right now there's only a uapi to register a memory region and none to
-> >>> unregister one. Is it guaranteed that io-uring will never add
-> >>> something in the future that will let userspace unregister the memory
-> >>> region or at least unregister it while it's being used (eg if we add
-> >>> future refcounting to it to track active uses of it)?
-> >>
-> >> Let's talk about it when it's needed or something changes, but if
-> >> you do registered buffers instead as per above, they'll be holding
-> >> page references and or have to pin the region in some other way.
-> >
-> > I don't think we can guarantee that the caller will register the
-> > memory region as a fixed buffer (eg if it doesn't need/want to use the
-> > buffer for normal io-uring requests). On the kernel side, the internal
->
-> It's up to the user (i.e. fuse server) to either use OP_READ/etc. using
-> user addresses that you have in your design from mmap()ing regions, or
-> registering it and using OP_READ_FIXED.
-
-Yes but I don't think this solves the concern of userspace being able
-to unregister the memory region at any time (eg while not doing
-io-uring requests) while the kernel still points to those addresses
-for the backing buffers of the bufring, since there's no callback that
-gets triggered in the subsystem when a memory region is unregistered,
-which means there will need to be extra per I/O overhead for having to
-ensure the memory region is still valid. Though since there's no uapi
-for unregistering a memory region this is not a concern, unless this
-is planned to be added in the future.
+Original patch description below.
 
 Thanks,
-Joanne
+NeilBrown
 
->
-> > buffer entry uses the kaddr of the registered memory region buffer for
-> > any memcpys. If it's not guaranteed that registered memory regions
-> > persist for the lifetime of the ring, there'll have to be extra
-> > overhead for every I/O (eg grab the io-uring lock, checking if the mem
-> > region is still registered, grab a refcount to that mem region, unlock
-> > the ring, do the memcpy to the kaddr, then grab the io-uring lock
-> > again, decrement the refcount, and unlock). Or I guess we could add
-> > pinning to a registered memory region.
->
->
->
-> --
-> Pavel Begunkov
->
+I am working towards changing the locking rules for name-operations: locking
+the name rather than the whole directory.
+
+The current part of this process is centralising all the locking so that
+it can be changed in one place.
+
+Recently "start_creating", "start_removing", "start_renaming" and related
+interaces were added which combine the locking and the lookup.  At that time
+many callers were changed to use the new interfaces.  However there are still
+an assortment of places out side of fs/namei.c where the directory is locked
+explictly, whether with inode_lock() or lock_rename() or similar.  These were
+missed in the first pass for an assortment of uninteresting reasons.
+
+This series addresses the remaining places where explicit locking is
+used, and changes them to use the new interfaces, or otherwise removes
+the explicit locking.
+
+The biggest changes are in overlayfs.  The other changes are quite
+simple, though maybe the cachefiles changes is the least simple of those.
+
+I'm running the --overlay tests in xfstests and nothing has popped yet.
+I'll continue with this and run some NFS tests too.
+
+Thanks for your review of these patches!
+
+NeilBrown
+
+ [PATCH v3 01/15] VFS: note error returns in documentation for various
+ [PATCH v3 02/15] fs/proc: Don't lock root inode when creating "self"
+ [PATCH v3 03/15] VFS: move the start_dirop() kerndoc comment to
+ [PATCH v3 04/15] libfs: change simple_done_creating() to use
+ [PATCH v3 05/15] Apparmor: Use simple_start_creating() /
+ [PATCH v3 06/15] selinux: Use simple_start_creating() /
+ [PATCH v3 07/15] nfsd: switch purge_old() to use
+ [PATCH v3 08/15] VFS: make lookup_one_qstr_excl() static.
+ [PATCH v3 09/15] ovl: Simplify ovl_lookup_real_one()
+ [PATCH v3 10/15] cachefiles: change cachefiles_bury_object to use
+ [PATCH v3 11/15] ovl: pass name buffer to ovl_start_creating_temp()
+ [PATCH v3 12/15] ovl: change ovl_create_real() to get a new lock when
+ [PATCH v3 13/15] ovl: use is_subdir() for testing if one thing is a
+ [PATCH v3 14/15] ovl: remove ovl_lock_rename_workdir()
+ [PATCH v3 15/15] VFS: unexport lock_rename(), lock_rename_child(),
