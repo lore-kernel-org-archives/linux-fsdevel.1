@@ -1,57 +1,179 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A5C2288C3F;
-	Wed, 25 Feb 2026 14:16:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C61E271471;
+	Wed, 25 Feb 2026 14:16:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772029004; cv=none; b=or5tpjCrjed+7l1BuhBEkNOHiTO7woPhhlJ89OfZfWEnyR8+32f9KiBps/7KAQgI8CbYVrkRqjo5d3SHxE0FGNp22gpxZ8DQ2u9wIgXHmVLDxQ4sL9FBRjb5/eT3z+jo0M2fRoUWVsT2hhHHMQJbIrb0X9tT5U6Zj+Yeq0fE8Lw=
+	t=1772029008; cv=none; b=vDK5XeuGXMZAlJw42q5NboYZIK4njbRabpOfkMMvYuZiYCrNiJKyxyEYV9di99Uyui/WUrbsu0WCRmOWjAYyAhJwy260N1bHcj/5OA/WgagaLCsYm1hnicM8nruo0j08FadrmvjgLNKN+pmruTbi6UFlmk8zSacojMbPxrUa1ig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772029004; c=relaxed/simple;
-	bh=67Y/eQf9Mv1ECigVJ7DGKEdMWEnkGupQ3A/1Sqz4/UM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LN7SWlYZuPmpsEMxoWbjmSFWSLF3CYvnWqemnwnUGOJKaQHnbX9IF/e1GXkPmsKrxq5T/aJ73GcB4TV2FKICJCI9QGMmLLcrPgunfWoLquT4SpC8MKE/i0BwiHuecSz6Tbf+VcYxIULZmwnCmrQE8pckWQCUMWTQ40NCR1Jc5GE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 5901968B05; Wed, 25 Feb 2026 15:16:40 +0100 (CET)
-Date: Wed, 25 Feb 2026 15:16:39 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, brauner@kernel.org, miklos@szeredi.hu,
-	bpf@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-ext4@vger.kernel.org
-Subject: Re: [PATCH 2/2] iomap: allow NULL swap info bdev when activating
- swapfile
-Message-ID: <20260225141639.GB2732@lst.de>
-References: <177188733433.3935463.11119081161286211234.stgit@frogsfrogsfrogs> <177188733484.3935463.443855246947996750.stgit@frogsfrogsfrogs> <20260224140118.GB9516@lst.de> <20260224192653.GC13829@frogsfrogsfrogs>
+	s=arc-20240116; t=1772029008; c=relaxed/simple;
+	bh=MpVg0YfU8QE7l76zxdteib1w5gs5rFfWZGUql+vguaY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YJjnK05iAZZI+pRMcL8RQyIDqBkl4pB29VZMk/dMfqqo7B1zE8dN9DHtGXKPFksZOII1p2WuDxuwE+jNCyF6pWtBe0E0u2CF38UwMIVhqr+ag6qhOVrjRmm2sGqtcgBkIJSZ/C6oFiqdvy96+jiu9/dUdpBjELd6tTPyHRQ5upU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=URL4RfX6; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="URL4RfX6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FF97C116D0;
+	Wed, 25 Feb 2026 14:16:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772029008;
+	bh=MpVg0YfU8QE7l76zxdteib1w5gs5rFfWZGUql+vguaY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=URL4RfX6JwLr1G3gN0rKUpK8xswAYjHxtFr48RpqoH0dAZ2vlqwnRBPTYoioTIIOY
+	 kaMnAbth1QLNLZpI6VW8NShbSIyFGgIIrl2mZsTF1mep9u92Mvu6vbLUQU1thQGlsC
+	 AO8zvonOMyJX3OZIvkqVw4tdSpFYlpVvAP34ettcreZQ83kZOkG3bMKVd1sCrq0TLC
+	 u9NBilo4LvSgvugkjJaxnw8s5a9bf4eGJESbQ6ykonzkitcDJ1oi0MeQgPnyvyjOTZ
+	 ErtelyTUfCwvD0S5JBke+vymxWNohCPuxXIuP92LcHZS9B3PmtbJElHJyLcNYdTiLK
+	 HtPUhsKsV5Z3A==
+From: Christian Brauner <brauner@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Christian Brauner <brauner@kernel.org>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [GIT PULL for v7.0] vfs fixes
+Date: Wed, 25 Feb 2026 15:16:23 +0100
+Message-ID: <20260225-vfs-fixes-5b96f026f275@brauner>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260224192653.GC13829@frogsfrogsfrogs>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4550; i=brauner@kernel.org; h=from:subject:message-id; bh=MpVg0YfU8QE7l76zxdteib1w5gs5rFfWZGUql+vguaY=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTOZ7F/u+xgks2HhcfOvv3/jInp2Qd+R9cJtf1v6vWPR P3hZQrb2VHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCR3cmMDKuyTptZu1RFbjIv uHQuzFPB+0bUMRUz2+C+tQtuRfBNuMfIsPTCTI6dpl0Z/W/kl2VuDVm7wlBmt930n+6nDqw79tb RjR8A
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-On Tue, Feb 24, 2026 at 11:26:53AM -0800, Darrick J. Wong wrote:
-> > That sounds pretty sketchy.  How do you make sure that is safe vs
-> > memory reclaim deadlocks?  Does someone really need this feature?
-> 
-> Err, which part is sketchy, specifically?  This patch that adjusts stuff
-> in fs/iomap/, or the (much later) patch to fuse-iomap?
+Hey Linus,
 
-The concept of swapping to fuse.
+/* Summary */
 
-> Obviously this means that the fuse server is granting a longterm layout
-> lease to the kernel swapfile code, so it should reply to
-> fuse_iomap_begin with a error code if it doesn't want to do that.
-> 
-> I don't know that anyone really needs this feature, but pre-iomap
-> fuse2fs supports swapfiles, as does any other fuse server that
-> implements bmap.
+This contains fixes for this cycle:
 
-Eww, I didn't know people were already trying to support swap to fuse.
+- Fix an uninitialized variable in file_getattr(). The flags_valid field
+  wasn't initialized before calling vfs_fileattr_get(), triggering KMSAN
+  uninit-value reports in fuse.
+
+- Fix writeback wakeup and logging timeouts when DETECT_HUNG_TASK is not
+  enabled. sysctl_hung_task_timeout_secs is 0 in that case causing
+  spurious "waiting for writeback completion for more than 1 seconds"
+  warnings.
+
+- Fix a null-ptr-deref in do_statmount() when the mount is internal.
+
+- Add missing kernel-doc description for the @private parameter in
+  iomap_readahead().
+
+- Fix mount namespace creation to hold namespace_sem across the mount
+  copy in create_new_namespace(). The previous drop-and-reacquire
+  pattern was fragile and failed to clean up mount propagation links if
+  the real rootfs was a shared or dependent mount.
+
+- Fix /proc mount iteration where m->index wasn't updated when
+  m->show() overflows, causing a restart to repeatedly show the same
+  mount entry in a rapidly expanding mount table.
+
+- Return EFSCORRUPTED instead of ENOSPC in minix_new_inode() when the
+  inode number is out of range.
+
+- Fix unshare(2) when CLONE_NEWNS is set and current->fs isn't shared.
+  copy_mnt_ns() received the live fs_struct so if a subsequent namespace
+  creation failed the rollback would leave pwd and root pointing to
+  detached mounts. Always allocate a new fs_struct when CLONE_NEWNS is
+  requested.
+
+- fserror bug fixes:
+
+  - Remove the unused fsnotify_sb_error() helper now that all callers
+    have been converted to fserror_report_metadata.
+
+  - Fix a lockdep splat in fserror_report() where igrab() takes
+    inode::i_lock which can be held in IRQ context. Replace igrab() with
+    a direct i_count bump since filesystems should not report inodes that
+    are about to be freed or not yet exposed.
+
+- Handle error pointer in procfs for try_lookup_noperm().
+
+- Fix an integer overflow in ep_loop_check_proc() where recursive calls
+  returning INT_MAX would overflow when +1 is added, breaking the
+  recursion depth check.
+
+- Fix a misleading break in pidfs.
+
+/* Conflicts */
+
+Merge conflicts with mainline
+=============================
+
+No known conflicts.
+
+Merge conflicts with other trees
+================================
+
+The following changes since commit 770aaedb461a055f79b971d538678942b6607894:
+
+  Merge tag 'bootconfig-v7.0' of git://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace (2026-02-13 19:33:39 -0800)
+
+are available in the Git repository at:
+
+  git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.0-rc2.fixes
+
+for you to fetch changes up to 4a1ddb0f1c48c2b56f21d8b5200e2e29adf4c1df:
+
+  pidfs: avoid misleading break (2026-02-24 12:09:00 +0100)
+
+----------------------------------------------------------------
+vfs-7.0-rc2.fixes
+
+Please consider pulling these changes from the signed vfs-7.0-rc2.fixes tag.
+
+Thanks!
+Christian
+
+----------------------------------------------------------------
+Al Viro (1):
+      unshare: fix unshare_fs() handling
+
+Christian Brauner (4):
+      mount: hold namespace_sem across copy in create_new_namespace()
+      namespace: fix proc mount iteration
+      Merge patch series "fserror: bug fixes"
+      pidfs: avoid misleading break
+
+Darrick J. Wong (2):
+      fsnotify: drop unused helper
+      fserror: fix lockdep complaint when igrabbing inode
+
+Edward Adam Davis (1):
+      fs: init flags_valid before calling vfs_fileattr_get
+
+Ethan Tidmore (1):
+      proc: Fix pointer error dereference
+
+Hongbo Li (1):
+      iomap: Describe @private in iomap_readahead()
+
+Huacai Chen (1):
+      writeback: Fix wakeup and logging timeouts for !DETECT_HUNG_TASK
+
+Jann Horn (1):
+      eventpoll: Fix integer overflow in ep_loop_check_proc()
+
+Jori Koolstra (1):
+      minix: Correct errno in minix_new_inode
+
+Qing Wang (1):
+      statmount: Fix the null-ptr-deref in do_statmount()
+
+ fs/eventpoll.c           |   5 +-
+ fs/file_attr.c           |   2 +-
+ fs/fs-writeback.c        |   9 ++--
+ fs/iomap/buffered-io.c   |   1 +
+ fs/iomap/ioend.c         |  46 ++++++++++++++++
+ fs/minix/bitmap.c        |   2 +-
+ fs/namespace.c           | 133 ++++++++++++++++++++++++++---------------------
+ fs/pidfs.c               |  10 ++--
+ fs/proc/base.c           |   3 ++
+ include/linux/fsnotify.h |  13 -----
+ kernel/fork.c            |   2 +-
+ 11 files changed, 139 insertions(+), 87 deletions(-)
