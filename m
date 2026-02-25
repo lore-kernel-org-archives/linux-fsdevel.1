@@ -1,37 +1,36 @@
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 074BA3939B1;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07695393DD4;
 	Wed, 25 Feb 2026 11:25:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772018721; cv=none; b=myLd/smQbzAacBb8qHTs8eeOamrglnme5TAQyUpaxNrelhkqG13HVEHXVF3MV+kkUPcGXNWul0SdibKQYQymJX4+tbv0Ab+7upVPl1+TuwPOIg9WS5FAa2w1muORby+688Ri9WcOmQkESvWdUQoTH/iSUWcCvhq79Or1gQu+Aig=
+	t=1772018722; cv=none; b=RZbGSIBvRZ56EYvQU0/z5nTDw+ZeicTwZJ4i5+Lht5gZ1Qgq/d8D2Z9VB73UF4ugqQak/OOpMQl870rZDm21okr3QVtVuUYL4fHqtpmpUaglDQKSQt7ZZhhQD0gkFpmalVDZKKoegvHMFTqYuPvzAOU6i6WA7lHhFV0WDv0Uutg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772018721; c=relaxed/simple;
-	bh=d4CAhtgSioguYg2upsew64NwHgPmgU2XvI3EYTdSKr4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=f4C9fl17ac0Fj+ipbhQay30jCG9NtoDrv8N/CHcopHBLOjrnHlORYfKQyLjjOxnPQ8RWMcPJFQCiyVPSznTHD5MaknI5v6Ge1cL5fyZjwUjMgfwE046g1Rdiojv5WV/oXSFXo3vxE4dytl3k7GNxiTrguBg1HxQ4/PXWyFErgMg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=GInl6byK; arc=none smtp.client-ip=213.97.179.56
+	s=arc-20240116; t=1772018722; c=relaxed/simple;
+	bh=lT22izI8sgoW/C/t80ZowtaCweHrvDkXSOs99B7bHPs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aT5s19mjARf4NXxGEhwp151yWIAX4+mufos2taz8xu/rIvKbyoavjPXwwfCn5mVlTHOAfsCbAZtR/xTrOEGtFIeAcurYFh5U2AQfAm0w+/EyrlxQ5k49fQ/1yP1iAVz1Uc/DfMU7D8aPy+HL62TiV+muHcPJ5vnQI3J2wm21H1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=EnuDIEtN; arc=none smtp.client-ip=213.97.179.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="GInl6byK"
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="EnuDIEtN"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
-	Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	s=20170329; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
+	Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
 	List-Post:List-Owner:List-Archive;
-	bh=DXtMVtmrxddzuhbM1DC/GuIOIXfI5qn7KhrEBeX/Thc=; b=GInl6byKesFpK516vUUaA3eLQK
-	OEZEqSj05AXyLcHd1iLvYT1siMAxjOG+M0Hnv9CLMiCiCQR0Kkde+pxwbI7GhTVtUs2oeijYR3YHZ
-	gRv+6YiL8TUbce0Kt3WbzHyQG8UYUXfC/iIHUUmiJ90ZgI0ycxD1BShNAip9HPL4x82FOmC25XhJL
-	ovDiYwrQHImNfGeo63Rmi2gXOXmc/EqAf68DZechQb+F9VzUGJSLFCafyPT2S6Jq8pFCJ4qrtWyza
-	4W/0Hi/1kL+L2frsAErAJ70V+gw5gHW+WZ8z3qyPIfbYQ19/Dd2Z2XV4iXvcV333M1Y8GnOT+Kj8s
-	LAWLdvPA==;
+	bh=KCnleIjzefa5kbSjtVoZ+JQuA9tYgVXcHWLh9iNoYMA=; b=EnuDIEtNI/G/PsYvSXx5lGzawH
+	dl9aXVIHsJIAg3xUxqMqF9j5LZX1v6IXJZhacnsIQushns1nXwnJeqXsQjP5woXzNHoAA+6U8SpnW
+	851TMEZSr92L3uysnyMazOh7SEqhnkgkQ47Xx8pG5CiUJFQVYnzHyLPivsgOGU4WyQg6/nz6bIAwL
+	GNrFxcoafRBvEEMBm6clIvsEEeVRlySN50+Duo+OxMW343H1XYJAJYdVw0pWX6rZK7WlpHdCRx1fq
+	JbWZUtj5kZWLlajNLW5L+3N5728kAsvv9cvfCykp2hXHLwRm4MuWvU63MgEhhtb5Z96g1qpyrg6Mu
+	eC1Gr0NA==;
 Received: from bl17-145-117.dsl.telepac.pt ([188.82.145.117] helo=localhost)
 	by fanzine2.igalia.com with utf8esmtpsa 
 	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1vvD0p-005Cma-IG; Wed, 25 Feb 2026 12:25:03 +0100
+	id 1vvD0l-005CmC-Vg; Wed, 25 Feb 2026 12:25:00 +0100
 From: Luis Henriques <luis@igalia.com>
 To: Miklos Szeredi <miklos@szeredi.hu>,
 	Amir Goldstein <amir73il@gmail.com>,
@@ -46,11 +45,9 @@ Cc: linux-fsdevel@vger.kernel.org,
 	Matt Harvey <mharvey@jumptrading.com>,
 	kernel-dev@igalia.com,
 	Luis Henriques <luis@igalia.com>
-Subject: [RFC PATCH v3 5/8] fuse: extract helper functions from fuse_do_statx()
-Date: Wed, 25 Feb 2026 11:24:36 +0000
-Message-ID: <20260225112439.27276-6-luis@igalia.com>
-In-Reply-To: <20260225112439.27276-1-luis@igalia.com>
-References: <20260225112439.27276-1-luis@igalia.com>
+Subject: [RFC PATCH v3 0/8] fuse: LOOKUP_HANDLE operation
+Date: Wed, 25 Feb 2026 11:24:31 +0000
+Message-ID: <20260225112439.27276-1-luis@igalia.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -59,131 +56,65 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Split function fuse_do_statx(), so that we get two helper functions: one
-to initialise the arguments and another to update the attributes and
-statistics.  This will allow compound operations to re-use these two helpers.
+Hi,
 
-Signed-off-by: Luis Henriques <luis@igalia.com>
----
- fs/fuse/dir.c | 88 +++++++++++++++++++++++++++++++--------------------
- 1 file changed, 53 insertions(+), 35 deletions(-)
+I'm sending a new version of my work on lookup_handle, even though it's
+still incomplete.  As suggested elsewhere, it is now based on compound
+commands and thus it sits on top of Horst's patchset [0].  Also, because
+this version is a complete re-write of the approach presented in my previous
+RFC [1] I'm not going to detail what changed.
 
-diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
-index 92c9ebfb4985..5c0f1364c392 100644
---- a/fs/fuse/dir.c
-+++ b/fs/fuse/dir.c
-@@ -1406,43 +1406,37 @@ static void fuse_statx_to_attr(struct fuse_statx *sx, struct fuse_attr *attr)
- 	attr->blksize = sx->blksize;
- }
- 
--static int fuse_do_statx(struct mnt_idmap *idmap, struct inode *inode,
--			 struct file *file, struct kstat *stat)
-+static void fuse_statx_init(struct fuse_args *args, struct fuse_statx_in *inarg,
-+			    u64 nodeid, struct fuse_file *ff,
-+			    struct fuse_statx_out *outarg)
- {
--	int err;
--	struct fuse_attr attr;
--	struct fuse_statx *sx;
--	struct fuse_statx_in inarg;
--	struct fuse_statx_out outarg;
--	struct fuse_mount *fm = get_fuse_mount(inode);
--	u64 attr_version = fuse_get_attr_version(fm->fc);
--	FUSE_ARGS(args);
--
--	memset(&inarg, 0, sizeof(inarg));
--	memset(&outarg, 0, sizeof(outarg));
--	/* Directories have separate file-handle space */
--	if (file && S_ISREG(inode->i_mode)) {
--		struct fuse_file *ff = file->private_data;
-+	memset(inarg, 0, sizeof(*inarg));
-+	memset(outarg, 0, sizeof(*outarg));
- 
--		inarg.getattr_flags |= FUSE_GETATTR_FH;
--		inarg.fh = ff->fh;
-+	if (ff) {
-+		inarg->getattr_flags |= FUSE_GETATTR_FH;
-+		inarg->fh = ff->fh;
- 	}
- 	/* For now leave sync hints as the default, request all stats. */
--	inarg.sx_flags = 0;
--	inarg.sx_mask = STATX_BASIC_STATS | STATX_BTIME;
--	args.opcode = FUSE_STATX;
--	args.nodeid = get_node_id(inode);
--	args.in_numargs = 1;
--	args.in_args[0].size = sizeof(inarg);
--	args.in_args[0].value = &inarg;
--	args.out_numargs = 1;
--	args.out_args[0].size = sizeof(outarg);
--	args.out_args[0].value = &outarg;
--	err = fuse_simple_request(fm, &args);
--	if (err)
--		return err;
-+	inarg->sx_flags = 0;
-+	inarg->sx_mask = STATX_BASIC_STATS | STATX_BTIME;
-+	args->opcode = FUSE_STATX;
-+	args->nodeid = nodeid;
-+	args->in_numargs = 1;
-+	args->in_args[0].size = sizeof(*inarg);
-+	args->in_args[0].value = inarg;
-+	args->out_numargs = 1;
-+	args->out_args[0].size = sizeof(*outarg);
-+	args->out_args[0].value = outarg;
-+}
-+
-+static int fuse_statx_update(struct mnt_idmap *idmap,
-+			     struct fuse_statx_out *outarg, struct inode *inode,
-+			     u64 attr_version, struct kstat *stat)
-+{
-+	struct fuse_statx *sx = &outarg->stat;
-+	struct fuse_attr attr;
- 
--	sx = &outarg.stat;
- 	if (((sx->mask & STATX_SIZE) && !fuse_valid_size(sx->size)) ||
- 	    ((sx->mask & STATX_TYPE) && (!fuse_valid_type(sx->mode) ||
- 					 inode_wrong_type(inode, sx->mode)))) {
-@@ -1450,10 +1444,10 @@ static int fuse_do_statx(struct mnt_idmap *idmap, struct inode *inode,
- 		return -EIO;
- 	}
- 
--	fuse_statx_to_attr(&outarg.stat, &attr);
-+	fuse_statx_to_attr(sx, &attr);
- 	if ((sx->mask & STATX_BASIC_STATS) == STATX_BASIC_STATS) {
--		fuse_change_attributes(inode, &attr, &outarg.stat,
--				       ATTR_TIMEOUT(&outarg), attr_version);
-+		fuse_change_attributes(inode, &attr, sx,
-+				       ATTR_TIMEOUT(outarg), attr_version);
- 	}
- 
- 	if (stat) {
-@@ -1467,6 +1461,30 @@ static int fuse_do_statx(struct mnt_idmap *idmap, struct inode *inode,
- 	return 0;
- }
- 
-+static int fuse_do_statx(struct mnt_idmap *idmap, struct inode *inode,
-+			 struct file *file, struct kstat *stat)
-+{
-+	int err;
-+	struct fuse_statx_in inarg;
-+	struct fuse_statx_out outarg;
-+	struct fuse_mount *fm = get_fuse_mount(inode);
-+	struct fuse_file *ff = NULL;
-+	u64 attr_version = fuse_get_attr_version(fm->fc);
-+	FUSE_ARGS(args);
-+
-+	/* Directories have separate file-handle space */
-+	if (file && S_ISREG(inode->i_mode))
-+		ff = file->private_data;
-+
-+	fuse_statx_init(&args, &inarg, get_node_id(inode), ff, &outarg);
-+
-+	err = fuse_simple_request(fm, &args);
-+	if (err)
-+		return err;
-+
-+	return fuse_statx_update(idmap, &outarg, inode, attr_version, stat);
-+}
-+
- /*
-  * Helper function to initialize fuse_args for GETATTR operations
-  */
+Here's a few notes:
+
+- The code isn't yet fully testable as there are several pieces missing.
+  For example, the FUSE_TMPFILE and FUSE_READDIRPLUS operations are not yet
+  implemented.  The NFS-related changes have also been dropped in this
+  revision.
+
+- There are several details still to be sorted out in the compound
+  operations.  For example, the nodeid for the statx operation in the
+  lookup+statx is set to FUSE_ROOT_ID.
+
+- The second operation (mkobj_handle+statx+open) is still draft (or maybe
+  just wrong!).  It's not handling flags correctly, and the error handling
+  has to be better thought out.
+
+- Some of the patches in this set could probably be picked independently
+  (e.g. patch 4 or even patch 1)
+
+So, why am I sending this broken and incomplete patchset?  Well, simply
+because I'd feel more confidence getting this approach validated.  I don't
+expect any through review, but I would appreciate feedback on anything that
+would help me correct major flaws.
+
+[0] https://lore.kernel.org/all/20260210-fuse-compounds-upstream-v5-0-ea0585f62daa@ddn.com
+[1] https://lore.kernel.org/all/20251212181254.59365-1-luis@igalia.com
+
+Cheers,
+-- 
+Luis
+
+Luis Henriques (8):
+  fuse: simplify fuse_lookup_name() interface
+  fuse: export extend_arg() and factor out fuse_ext_size()
+  fuse: store index of the variable length argument
+  fuse: drop unnecessary argument from fuse_lookup_init()
+  fuse: extract helper functions from fuse_do_statx()
+  fuse: implementation of lookup_handle+statx compound operation
+  fuse: export fuse_open_args_fill() helper function
+  fuse: implementation of mkobj_handle+statx+open compound operation
+
+ fs/fuse/compound.c        |   1 +
+ fs/fuse/cuse.c            |   1 +
+ fs/fuse/dev.c             |   4 +-
+ fs/fuse/dir.c             | 650 +++++++++++++++++++++++++++++++++-----
+ fs/fuse/file.c            |   3 +-
+ fs/fuse/fuse_i.h          |  42 ++-
+ fs/fuse/inode.c           |  50 ++-
+ fs/fuse/ioctl.c           |   1 +
+ fs/fuse/readdir.c         |   2 +-
+ fs/fuse/virtio_fs.c       |   6 +-
+ fs/fuse/xattr.c           |   2 +
+ include/uapi/linux/fuse.h |  25 +-
+ 12 files changed, 679 insertions(+), 108 deletions(-)
+
