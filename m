@@ -1,37 +1,37 @@
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07614393DCD;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 074BA3939B1;
 	Wed, 25 Feb 2026 11:25:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772018721; cv=none; b=ReQOQtYapwZS8JkDlRHRZj536DbBJBgrvAYcG/aWXV3bAqfSuP0QzZiHpm6N2hJmOwhuzl3geqfbx8yCiNcY3ySCorV06y0PEAtcXfcNekitL47b0j796BQo4y1pJ7+qTTHIQzpjekD3ZU/RKuVOV48ZMWwWP1stdlZUPGuMgEY=
+	t=1772018721; cv=none; b=myLd/smQbzAacBb8qHTs8eeOamrglnme5TAQyUpaxNrelhkqG13HVEHXVF3MV+kkUPcGXNWul0SdibKQYQymJX4+tbv0Ab+7upVPl1+TuwPOIg9WS5FAa2w1muORby+688Ri9WcOmQkESvWdUQoTH/iSUWcCvhq79Or1gQu+Aig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1772018721; c=relaxed/simple;
-	bh=dzyiJxL+0IciaVcFaUcwBHiLG2oPDsxQJvk/FQi1UrI=;
+	bh=d4CAhtgSioguYg2upsew64NwHgPmgU2XvI3EYTdSKr4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XXU/grLhNWWUMGcVxFp5YxK8VyZdl7G70FWqp5zs4+cw3vUdhb8SE3e+3AQWqvIFFIimg93SaW0gN0/f36fHECSTWq4Gl3AX8coxxJrufoCGPSjqpjS12raxTRGllndiTohbIYAt/eVPI9mWHXomMcbF83KOzpADmZLSVMIyAoE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=byGkzESl; arc=none smtp.client-ip=213.97.179.56
+	 MIME-Version; b=f4C9fl17ac0Fj+ipbhQay30jCG9NtoDrv8N/CHcopHBLOjrnHlORYfKQyLjjOxnPQ8RWMcPJFQCiyVPSznTHD5MaknI5v6Ge1cL5fyZjwUjMgfwE046g1Rdiojv5WV/oXSFXo3vxE4dytl3k7GNxiTrguBg1HxQ4/PXWyFErgMg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=GInl6byK; arc=none smtp.client-ip=213.97.179.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="byGkzESl"
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="GInl6byK"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
 	s=20170329; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
 	Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
 	List-Post:List-Owner:List-Archive;
-	bh=+T9xNGkQlR6pAOOmLdTi86TC/esKS7VSnEOEMfQaXK0=; b=byGkzESlXYxD28tyleHXrVy22D
-	02qPXjLFNhZjn5R64Dk1kBHXJZLhSsqOYI9p7GiPAyJq5mWO8KayVZM4rsupfsVJRsVUrO0xapPaM
-	6Kt77SYD93d+mcgg5q+/2uVYE3jstEfCEtXHgYr1Zlb5Y030LBGo/YZoGONbLw+CIRCn5RyId0tDw
-	m3OXrsUlB8qzUS/ZcV9F0DInFyE+lOM0fkUvlcG3c4Wiwk24N2bdQEP0Q/xTpVU+S/fJeiYGBPxUq
-	7bOpsvc7Q4Z+j+Zufa5YMtEzh958LqEz5JuSiyT90evyvfEs1jj/gEngJiUq9/Ky6bPMKFsK37BuO
-	w3NET8qA==;
+	bh=DXtMVtmrxddzuhbM1DC/GuIOIXfI5qn7KhrEBeX/Thc=; b=GInl6byKesFpK516vUUaA3eLQK
+	OEZEqSj05AXyLcHd1iLvYT1siMAxjOG+M0Hnv9CLMiCiCQR0Kkde+pxwbI7GhTVtUs2oeijYR3YHZ
+	gRv+6YiL8TUbce0Kt3WbzHyQG8UYUXfC/iIHUUmiJ90ZgI0ycxD1BShNAip9HPL4x82FOmC25XhJL
+	ovDiYwrQHImNfGeo63Rmi2gXOXmc/EqAf68DZechQb+F9VzUGJSLFCafyPT2S6Jq8pFCJ4qrtWyza
+	4W/0Hi/1kL+L2frsAErAJ70V+gw5gHW+WZ8z3qyPIfbYQ19/Dd2Z2XV4iXvcV333M1Y8GnOT+Kj8s
+	LAWLdvPA==;
 Received: from bl17-145-117.dsl.telepac.pt ([188.82.145.117] helo=localhost)
 	by fanzine2.igalia.com with utf8esmtpsa 
 	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1vvD0o-005CmM-1u; Wed, 25 Feb 2026 12:25:02 +0100
+	id 1vvD0p-005Cma-IG; Wed, 25 Feb 2026 12:25:03 +0100
 From: Luis Henriques <luis@igalia.com>
 To: Miklos Szeredi <miklos@szeredi.hu>,
 	Amir Goldstein <amir73il@gmail.com>,
@@ -46,9 +46,9 @@ Cc: linux-fsdevel@vger.kernel.org,
 	Matt Harvey <mharvey@jumptrading.com>,
 	kernel-dev@igalia.com,
 	Luis Henriques <luis@igalia.com>
-Subject: [RFC PATCH v3 3/8] fuse: store index of the variable length argument
-Date: Wed, 25 Feb 2026 11:24:34 +0000
-Message-ID: <20260225112439.27276-4-luis@igalia.com>
+Subject: [RFC PATCH v3 5/8] fuse: extract helper functions from fuse_do_statx()
+Date: Wed, 25 Feb 2026 11:24:36 +0000
+Message-ID: <20260225112439.27276-6-luis@igalia.com>
 In-Reply-To: <20260225112439.27276-1-luis@igalia.com>
 References: <20260225112439.27276-1-luis@igalia.com>
 Precedence: bulk
@@ -59,177 +59,131 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Operations that have a variable length argument assume that it will always
-be the last argument on the list.  This patch allows this assumption to be
-removed by keeping track of the index of variable length argument.
+Split function fuse_do_statx(), so that we get two helper functions: one
+to initialise the arguments and another to update the attributes and
+statistics.  This will allow compound operations to re-use these two helpers.
 
 Signed-off-by: Luis Henriques <luis@igalia.com>
 ---
- fs/fuse/compound.c  | 1 +
- fs/fuse/cuse.c      | 1 +
- fs/fuse/dev.c       | 4 ++--
- fs/fuse/dir.c       | 1 +
- fs/fuse/file.c      | 1 +
- fs/fuse/fuse_i.h    | 2 ++
- fs/fuse/inode.c     | 1 +
- fs/fuse/ioctl.c     | 1 +
- fs/fuse/virtio_fs.c | 6 +++---
- fs/fuse/xattr.c     | 2 ++
- 10 files changed, 15 insertions(+), 5 deletions(-)
+ fs/fuse/dir.c | 88 +++++++++++++++++++++++++++++++--------------------
+ 1 file changed, 53 insertions(+), 35 deletions(-)
 
-diff --git a/fs/fuse/compound.c b/fs/fuse/compound.c
-index 1a85209f4e99..2dc024301aad 100644
---- a/fs/fuse/compound.c
-+++ b/fs/fuse/compound.c
-@@ -153,6 +153,7 @@ ssize_t fuse_compound_send(struct fuse_compound_req *compound)
- 		.in_numargs = 2,
- 		.out_numargs = 2,
- 		.out_argvar = true,
-+		.out_argvar_idx = 1,
- 	};
- 	unsigned int req_count = compound->compound_header.count;
- 	size_t total_expected_out_size = 0;
-diff --git a/fs/fuse/cuse.c b/fs/fuse/cuse.c
-index dfcb98a654d8..3ce8ee9a4275 100644
---- a/fs/fuse/cuse.c
-+++ b/fs/fuse/cuse.c
-@@ -460,6 +460,7 @@ static int cuse_send_init(struct cuse_conn *cc)
- 	ap->args.out_args[0].value = &ia->out;
- 	ap->args.out_args[1].size = CUSE_INIT_INFO_MAX;
- 	ap->args.out_argvar = true;
-+	ap->args.out_argvar_idx = 1;
- 	ap->args.out_pages = true;
- 	ap->num_folios = 1;
- 	ap->folios = &ia->folio;
-diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-index 0b0241f47170..5b02724f4377 100644
---- a/fs/fuse/dev.c
-+++ b/fs/fuse/dev.c
-@@ -694,7 +694,7 @@ ssize_t __fuse_simple_request(struct mnt_idmap *idmap,
- 	ret = req->out.h.error;
- 	if (!ret && args->out_argvar) {
- 		BUG_ON(args->out_numargs == 0);
--		ret = args->out_args[args->out_numargs - 1].size;
-+		ret = args->out_args[args->out_argvar_idx].size;
- 	}
- 	fuse_put_request(req);
- 
-@@ -2157,7 +2157,7 @@ int fuse_copy_out_args(struct fuse_copy_state *cs, struct fuse_args *args,
- 	if (reqsize < nbytes || (reqsize > nbytes && !args->out_argvar))
- 		return -EINVAL;
- 	else if (reqsize > nbytes) {
--		struct fuse_arg *lastarg = &args->out_args[args->out_numargs-1];
-+		struct fuse_arg *lastarg = &args->out_args[args->out_argvar_idx];
- 		unsigned diffsize = reqsize - nbytes;
- 
- 		if (diffsize > lastarg->size)
 diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
-index f5eacea44896..a1121feb63ee 100644
+index 92c9ebfb4985..5c0f1364c392 100644
 --- a/fs/fuse/dir.c
 +++ b/fs/fuse/dir.c
-@@ -1835,6 +1835,7 @@ static int fuse_readlink_folio(struct inode *inode, struct folio *folio)
- 	ap.args.nodeid = get_node_id(inode);
- 	ap.args.out_pages = true;
- 	ap.args.out_argvar = true;
-+	ap.args.out_argvar_idx = 0;
- 	ap.args.page_zeroing = true;
- 	ap.args.out_numargs = 1;
- 	ap.args.out_args[0].size = desc.length;
-diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-index 49c21498230d..1045d74dd95f 100644
---- a/fs/fuse/file.c
-+++ b/fs/fuse/file.c
-@@ -682,6 +682,7 @@ void fuse_read_args_fill(struct fuse_io_args *ia, struct file *file, loff_t pos,
- 	args->in_args[0].size = sizeof(ia->read.in);
- 	args->in_args[0].value = &ia->read.in;
- 	args->out_argvar = true;
-+	args->out_argvar_idx = 0;
- 	args->out_numargs = 1;
- 	args->out_args[0].size = count;
+@@ -1406,43 +1406,37 @@ static void fuse_statx_to_attr(struct fuse_statx *sx, struct fuse_attr *attr)
+ 	attr->blksize = sx->blksize;
  }
-diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-index 135027efec7a..04f09e2ccfd0 100644
---- a/fs/fuse/fuse_i.h
-+++ b/fs/fuse/fuse_i.h
-@@ -331,6 +331,8 @@ struct fuse_args {
- 	uint32_t opcode;
- 	uint8_t in_numargs;
- 	uint8_t out_numargs;
-+	/* The index of the variable length out arg */
-+	uint8_t out_argvar_idx;
- 	uint8_t ext_idx;
- 	bool force:1;
- 	bool noreply:1;
-diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
-index 8231c207abea..006436a3ad06 100644
---- a/fs/fuse/inode.c
-+++ b/fs/fuse/inode.c
-@@ -1540,6 +1540,7 @@ static struct fuse_init_args *fuse_new_init(struct fuse_mount *fm)
- 	   with interface version < 7.5.  Rest of init_out is zeroed
- 	   by do_get_request(), so a short reply is not a problem */
- 	ia->args.out_argvar = true;
-+	ia->args.out_argvar_idx = 0;
- 	ia->args.out_args[0].size = sizeof(ia->out);
- 	ia->args.out_args[0].value = &ia->out;
- 	ia->args.force = true;
-diff --git a/fs/fuse/ioctl.c b/fs/fuse/ioctl.c
-index 07a02e47b2c3..7eb8d7a59edc 100644
---- a/fs/fuse/ioctl.c
-+++ b/fs/fuse/ioctl.c
-@@ -337,6 +337,7 @@ long fuse_do_ioctl(struct file *file, unsigned int cmd, unsigned long arg,
- 	ap.args.out_args[1].size = out_size;
- 	ap.args.out_pages = true;
- 	ap.args.out_argvar = true;
-+	ap.args.out_argvar_idx = 1;
  
- 	transferred = fuse_send_ioctl(fm, &ap.args, &outarg);
- 	err = transferred;
-diff --git a/fs/fuse/virtio_fs.c b/fs/fuse/virtio_fs.c
-index 057e65b51b99..dd681bc672b8 100644
---- a/fs/fuse/virtio_fs.c
-+++ b/fs/fuse/virtio_fs.c
-@@ -738,7 +738,7 @@ static void copy_args_from_argbuf(struct fuse_args *args, struct fuse_req *req)
- 		unsigned int argsize = args->out_args[i].size;
+-static int fuse_do_statx(struct mnt_idmap *idmap, struct inode *inode,
+-			 struct file *file, struct kstat *stat)
++static void fuse_statx_init(struct fuse_args *args, struct fuse_statx_in *inarg,
++			    u64 nodeid, struct fuse_file *ff,
++			    struct fuse_statx_out *outarg)
+ {
+-	int err;
+-	struct fuse_attr attr;
+-	struct fuse_statx *sx;
+-	struct fuse_statx_in inarg;
+-	struct fuse_statx_out outarg;
+-	struct fuse_mount *fm = get_fuse_mount(inode);
+-	u64 attr_version = fuse_get_attr_version(fm->fc);
+-	FUSE_ARGS(args);
+-
+-	memset(&inarg, 0, sizeof(inarg));
+-	memset(&outarg, 0, sizeof(outarg));
+-	/* Directories have separate file-handle space */
+-	if (file && S_ISREG(inode->i_mode)) {
+-		struct fuse_file *ff = file->private_data;
++	memset(inarg, 0, sizeof(*inarg));
++	memset(outarg, 0, sizeof(*outarg));
  
- 		if (args->out_argvar &&
--		    i == args->out_numargs - 1 &&
-+		    i == args->out_argvar_idx &&
- 		    argsize > remaining) {
- 			argsize = remaining;
- 		}
-@@ -746,13 +746,13 @@ static void copy_args_from_argbuf(struct fuse_args *args, struct fuse_req *req)
- 		memcpy(args->out_args[i].value, req->argbuf + offset, argsize);
- 		offset += argsize;
+-		inarg.getattr_flags |= FUSE_GETATTR_FH;
+-		inarg.fh = ff->fh;
++	if (ff) {
++		inarg->getattr_flags |= FUSE_GETATTR_FH;
++		inarg->fh = ff->fh;
+ 	}
+ 	/* For now leave sync hints as the default, request all stats. */
+-	inarg.sx_flags = 0;
+-	inarg.sx_mask = STATX_BASIC_STATS | STATX_BTIME;
+-	args.opcode = FUSE_STATX;
+-	args.nodeid = get_node_id(inode);
+-	args.in_numargs = 1;
+-	args.in_args[0].size = sizeof(inarg);
+-	args.in_args[0].value = &inarg;
+-	args.out_numargs = 1;
+-	args.out_args[0].size = sizeof(outarg);
+-	args.out_args[0].value = &outarg;
+-	err = fuse_simple_request(fm, &args);
+-	if (err)
+-		return err;
++	inarg->sx_flags = 0;
++	inarg->sx_mask = STATX_BASIC_STATS | STATX_BTIME;
++	args->opcode = FUSE_STATX;
++	args->nodeid = nodeid;
++	args->in_numargs = 1;
++	args->in_args[0].size = sizeof(*inarg);
++	args->in_args[0].value = inarg;
++	args->out_numargs = 1;
++	args->out_args[0].size = sizeof(*outarg);
++	args->out_args[0].value = outarg;
++}
++
++static int fuse_statx_update(struct mnt_idmap *idmap,
++			     struct fuse_statx_out *outarg, struct inode *inode,
++			     u64 attr_version, struct kstat *stat)
++{
++	struct fuse_statx *sx = &outarg->stat;
++	struct fuse_attr attr;
  
--		if (i != args->out_numargs - 1)
-+		if (i != args->out_argvar_idx)
- 			remaining -= argsize;
+-	sx = &outarg.stat;
+ 	if (((sx->mask & STATX_SIZE) && !fuse_valid_size(sx->size)) ||
+ 	    ((sx->mask & STATX_TYPE) && (!fuse_valid_type(sx->mode) ||
+ 					 inode_wrong_type(inode, sx->mode)))) {
+@@ -1450,10 +1444,10 @@ static int fuse_do_statx(struct mnt_idmap *idmap, struct inode *inode,
+ 		return -EIO;
  	}
  
- 	/* Store the actual size of the variable-length arg */
- 	if (args->out_argvar)
--		args->out_args[args->out_numargs - 1].size = remaining;
-+		args->out_args[args->out_argvar_idx].size = remaining;
+-	fuse_statx_to_attr(&outarg.stat, &attr);
++	fuse_statx_to_attr(sx, &attr);
+ 	if ((sx->mask & STATX_BASIC_STATS) == STATX_BASIC_STATS) {
+-		fuse_change_attributes(inode, &attr, &outarg.stat,
+-				       ATTR_TIMEOUT(&outarg), attr_version);
++		fuse_change_attributes(inode, &attr, sx,
++				       ATTR_TIMEOUT(outarg), attr_version);
+ 	}
  
- 	kfree(req->argbuf);
- 	req->argbuf = NULL;
-diff --git a/fs/fuse/xattr.c b/fs/fuse/xattr.c
-index 93dfb06b6cea..f123446fe537 100644
---- a/fs/fuse/xattr.c
-+++ b/fs/fuse/xattr.c
-@@ -73,6 +73,7 @@ ssize_t fuse_getxattr(struct inode *inode, const char *name, void *value,
- 	args.out_numargs = 1;
- 	if (size) {
- 		args.out_argvar = true;
-+		args.out_argvar_idx = 0;
- 		args.out_args[0].size = size;
- 		args.out_args[0].value = value;
- 	} else {
-@@ -135,6 +136,7 @@ ssize_t fuse_listxattr(struct dentry *entry, char *list, size_t size)
- 	args.out_numargs = 1;
- 	if (size) {
- 		args.out_argvar = true;
-+		args.out_argvar_idx = 0;
- 		args.out_args[0].size = size;
- 		args.out_args[0].value = list;
- 	} else {
+ 	if (stat) {
+@@ -1467,6 +1461,30 @@ static int fuse_do_statx(struct mnt_idmap *idmap, struct inode *inode,
+ 	return 0;
+ }
+ 
++static int fuse_do_statx(struct mnt_idmap *idmap, struct inode *inode,
++			 struct file *file, struct kstat *stat)
++{
++	int err;
++	struct fuse_statx_in inarg;
++	struct fuse_statx_out outarg;
++	struct fuse_mount *fm = get_fuse_mount(inode);
++	struct fuse_file *ff = NULL;
++	u64 attr_version = fuse_get_attr_version(fm->fc);
++	FUSE_ARGS(args);
++
++	/* Directories have separate file-handle space */
++	if (file && S_ISREG(inode->i_mode))
++		ff = file->private_data;
++
++	fuse_statx_init(&args, &inarg, get_node_id(inode), ff, &outarg);
++
++	err = fuse_simple_request(fm, &args);
++	if (err)
++		return err;
++
++	return fuse_statx_update(idmap, &outarg, inode, attr_version, stat);
++}
++
+ /*
+  * Helper function to initialize fuse_args for GETATTR operations
+  */
