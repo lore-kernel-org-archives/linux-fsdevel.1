@@ -1,37 +1,37 @@
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6104D393DF7;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E421393DF4;
 	Wed, 25 Feb 2026 11:25:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772018721; cv=none; b=CcdwmjKuKZ2LDFOauOJz0bpAy+LDquWn46ZP/VV6et+GfR1BFm8TI/gM3g+NAogQt9BZEh3iS8VAj7SFFrZ9FqOP9TxQt3NpdwkNt5Y1f7ySmM+VfvBt0+hrUO0XmY0N1/lBJG0UAqLvUqefdqUjjUK4jWHcQsBMu2EA9bcQj5E=
+	t=1772018721; cv=none; b=JiaX+CzhmXaNdc7LJj3hwEXCGH0P0DAHUYlxXc8OALPE5GrTfbVoyWAWkgth+vPClUhTde30hm3IbMf2MNoFHF6HBqCfrQEeoH/pLXmX4vBWOLN4MJGhJ7JpMUD8Utz+O2owV6jEpwhXxIJC8zhW1oHGrTwFZt0u3eZLOXMpwl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1772018721; c=relaxed/simple;
-	bh=Qh8KwzManAX1Jvn1/cEkLKhWxqyawNeQEFLzMnfIC/w=;
+	bh=LXipgu/gi1Nc+PULiJhx0dVsXZWHHNgh0npXMeV5JhI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=H65VPQGmN8jMvJoq9MvTMuTwIkMXot7jB0jEIW5PE1CCy3vo2MJCzHhySAsNo9f7sRnQkerW/zpq6jQAlr+aUOI+qvQMSMFwbw+Qfzy8gA2CUL0ttM9QLlmoNivjOeOsEX6DAFiORBchcdUbLrIO0CdoqweCbwrY/GkuW2GYhAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=alfu1oFC; arc=none smtp.client-ip=213.97.179.56
+	 MIME-Version; b=j860f3nuTI2qSe0papA92pxd75WWcaYMOy2V38NaCJhOplyUcKoE3Yj4FqOto0B2DbOwrBsdNvgt7xae+bkBxZiSSePWrusovch/DH5sZ60gh+1UdTuLKMOA5rtFPW6ZURmvVPxLQ7yrJvB4DQcZrTropivCrU5X+jVsVWn8mIs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=B3n9gPOS; arc=none smtp.client-ip=213.97.179.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="alfu1oFC"
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="B3n9gPOS"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
 	s=20170329; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
 	Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
 	List-Post:List-Owner:List-Archive;
-	bh=9keiUKuR9YO5TYYSpyLSfn+0/T4EYYqevZQeVZSKLv8=; b=alfu1oFC0u+2Y6KZiVHfKiLN0t
-	FqRk/3uYvP8UY2N5Pqo2gJcW6oUzYC/iv66AqkTr3jD0pDY0gfODtXc65cQvVGYg487N3Gp3/aF0y
-	gtObpKSQeibkBG0KaTR/n3GBcdVQ/cwckJQFyLa31Ez8nWn/R6lhOIzWoV0xx7fgYUQe25gelDsNV
-	AUUsR4nFnIOm8BucPmp9Zt2XU2w/rNi8KWrC7cFzs1oPS+E/lD+SnWeGrQhKWoKWSOXvEytIb2IJI
-	vKEaAWtwiFMWKCt+pI7YXQ32qGELhl5Pn7XFNMS8nUwK1/lowJDqe7U5+fAFtIn5eSHiosoUphMLv
-	Kgp658qQ==;
+	bh=saZDrpINJVghEJy5/rEMg4b8oT1k8DDbtqGwK8JORVI=; b=B3n9gPOSWnZvre2b+n1POsGQf7
+	UgvcZLGgApRdg9eLKYzC9ujYCc6OvVAEurm1NDdjjNVJk+/3OJcnOVSz2ksHYP7qpqxazkZT1KLDV
+	bOLOI3R3W6f2Esdk/gC/I4ac7a1XIOvyo6ijoHGvEc3Tc6jFXlh5ubIyI1SQGn+PuIck4b6eJUrQe
+	wKQIBN+6IYlichc3b4LsNhcn7CygoMtf4g/VatkfQnkutoccGWbqHIQyIp6rTJGS39qFbFDNx2Gme
+	BIRjmlpklNpMJXYkkFZ69UaqarWNynZmzpGeXitkTAt9ViazegmyfoLNSjn1rk+8ZVmfoRyDv5jtq
+	EFKqgtVA==;
 Received: from bl17-145-117.dsl.telepac.pt ([188.82.145.117] helo=localhost)
 	by fanzine2.igalia.com with utf8esmtpsa 
 	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1vvD0o-005CmO-OQ; Wed, 25 Feb 2026 12:25:02 +0100
+	id 1vvD0m-005CmE-MC; Wed, 25 Feb 2026 12:25:00 +0100
 From: Luis Henriques <luis@igalia.com>
 To: Miklos Szeredi <miklos@szeredi.hu>,
 	Amir Goldstein <amir73il@gmail.com>,
@@ -46,9 +46,9 @@ Cc: linux-fsdevel@vger.kernel.org,
 	Matt Harvey <mharvey@jumptrading.com>,
 	kernel-dev@igalia.com,
 	Luis Henriques <luis@igalia.com>
-Subject: [RFC PATCH v3 4/8] fuse: drop unnecessary argument from fuse_lookup_init()
-Date: Wed, 25 Feb 2026 11:24:35 +0000
-Message-ID: <20260225112439.27276-5-luis@igalia.com>
+Subject: [RFC PATCH v3 1/8] fuse: simplify fuse_lookup_name() interface
+Date: Wed, 25 Feb 2026 11:24:32 +0000
+Message-ID: <20260225112439.27276-2-luis@igalia.com>
 In-Reply-To: <20260225112439.27276-1-luis@igalia.com>
 References: <20260225112439.27276-1-luis@igalia.com>
 Precedence: bulk
@@ -59,45 +59,167 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove the fuse_conn argument from function fuse_lookup_init() as it isn't
-used since commit 21f621741a77 ("fuse: fix LOOKUP vs INIT compat handling").
+fuse_lookup_name() requires a struct fuse_entry_out to be passed in.
+However, the only caller that really needs it is fuse_lookup().  And even
+this function only cares about the dentry time.
+
+This patch simplifies fuse_lookup_name() so that it doesn't require a struct
+as a parameter, replacing it by a local variable.  Instead, there'll be an
+(optional) out argument, that can be used to return the dentry time.
 
 Signed-off-by: Luis Henriques <luis@igalia.com>
 ---
- fs/fuse/dir.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ fs/fuse/dir.c    | 36 +++++++++++++++++++-----------------
+ fs/fuse/fuse_i.h |  2 +-
+ fs/fuse/inode.c  |  7 ++-----
+ 3 files changed, 22 insertions(+), 23 deletions(-)
 
 diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
-index a1121feb63ee..92c9ebfb4985 100644
+index ef297b867060..e3000affff88 100644
 --- a/fs/fuse/dir.c
 +++ b/fs/fuse/dir.c
-@@ -354,8 +354,8 @@ static void fuse_invalidate_entry(struct dentry *entry)
- 	fuse_invalidate_entry_cache(entry);
+@@ -548,10 +548,11 @@ bool fuse_invalid_attr(struct fuse_attr *attr)
  }
  
--static void fuse_lookup_init(struct fuse_conn *fc, struct fuse_args *args,
--			     u64 nodeid, const struct qstr *name,
-+static void fuse_lookup_init(struct fuse_args *args, u64 nodeid,
-+			     const struct qstr *name,
- 			     struct fuse_entry_out *outarg)
+ int fuse_lookup_name(struct super_block *sb, u64 nodeid, const struct qstr *name,
+-		     struct fuse_entry_out *outarg, struct inode **inode)
++		     u64 *time, struct inode **inode)
  {
- 	memset(outarg, 0, sizeof(struct fuse_entry_out));
-@@ -421,8 +421,7 @@ static int fuse_dentry_revalidate(struct inode *dir, const struct qstr *name,
- 
- 		attr_version = fuse_get_attr_version(fm->fc);
- 
--		fuse_lookup_init(fm->fc, &args, get_node_id(dir),
--				 name, &outarg);
-+		fuse_lookup_init(&args, get_node_id(dir), name, &outarg);
- 		ret = fuse_simple_request(fm, &args);
- 		/* Zero nodeid is same as -ENOENT */
- 		if (!ret && !outarg.nodeid)
-@@ -571,7 +570,7 @@ int fuse_lookup_name(struct super_block *sb, u64 nodeid, const struct qstr *name
+ 	struct fuse_mount *fm = get_fuse_mount_super(sb);
+ 	FUSE_ARGS(args);
++	struct fuse_entry_out outarg;
+ 	struct fuse_forget_link *forget;
+ 	u64 attr_version, evict_ctr;
+ 	int err;
+@@ -570,30 +571,34 @@ int fuse_lookup_name(struct super_block *sb, u64 nodeid, const struct qstr *name
  	attr_version = fuse_get_attr_version(fm->fc);
  	evict_ctr = fuse_get_evict_ctr(fm->fc);
  
--	fuse_lookup_init(fm->fc, &args, nodeid, name, &outarg);
-+	fuse_lookup_init(&args, nodeid, name, &outarg);
+-	fuse_lookup_init(fm->fc, &args, nodeid, name, outarg);
++	fuse_lookup_init(fm->fc, &args, nodeid, name, &outarg);
  	err = fuse_simple_request(fm, &args);
  	/* Zero nodeid is same as -ENOENT, but with valid timeout */
- 	if (err || !outarg.nodeid)
+-	if (err || !outarg->nodeid)
++	if (err || !outarg.nodeid)
+ 		goto out_put_forget;
+ 
+ 	err = -EIO;
+-	if (fuse_invalid_attr(&outarg->attr))
++	if (fuse_invalid_attr(&outarg.attr))
+ 		goto out_put_forget;
+-	if (outarg->nodeid == FUSE_ROOT_ID && outarg->generation != 0) {
++	if (outarg.nodeid == FUSE_ROOT_ID && outarg.generation != 0) {
+ 		pr_warn_once("root generation should be zero\n");
+-		outarg->generation = 0;
++		outarg.generation = 0;
+ 	}
+ 
+-	*inode = fuse_iget(sb, outarg->nodeid, outarg->generation,
+-			   &outarg->attr, ATTR_TIMEOUT(outarg),
++	*inode = fuse_iget(sb, outarg.nodeid, outarg.generation,
++			   &outarg.attr, ATTR_TIMEOUT(&outarg),
+ 			   attr_version, evict_ctr);
+ 	err = -ENOMEM;
+ 	if (!*inode) {
+-		fuse_queue_forget(fm->fc, forget, outarg->nodeid, 1);
++		fuse_queue_forget(fm->fc, forget, outarg.nodeid, 1);
+ 		goto out;
+ 	}
+ 	err = 0;
+ 
++	if (time)
++		*time = fuse_time_to_jiffies(outarg.entry_valid,
++					     outarg.entry_valid_nsec);
++
+  out_put_forget:
+ 	kfree(forget);
+  out:
+@@ -603,12 +608,11 @@ int fuse_lookup_name(struct super_block *sb, u64 nodeid, const struct qstr *name
+ static struct dentry *fuse_lookup(struct inode *dir, struct dentry *entry,
+ 				  unsigned int flags)
+ {
+-	struct fuse_entry_out outarg;
+ 	struct fuse_conn *fc;
+ 	struct inode *inode;
+ 	struct dentry *newent;
++	u64 time = 0;
+ 	int err, epoch;
+-	bool outarg_valid = true;
+ 	bool locked;
+ 
+ 	if (fuse_is_bad(dir))
+@@ -619,12 +623,10 @@ static struct dentry *fuse_lookup(struct inode *dir, struct dentry *entry,
+ 
+ 	locked = fuse_lock_inode(dir);
+ 	err = fuse_lookup_name(dir->i_sb, get_node_id(dir), &entry->d_name,
+-			       &outarg, &inode);
++			       &time, &inode);
+ 	fuse_unlock_inode(dir, locked);
+-	if (err == -ENOENT) {
+-		outarg_valid = false;
++	if (err == -ENOENT)
+ 		err = 0;
+-	}
+ 	if (err)
+ 		goto out_err;
+ 
+@@ -639,8 +641,8 @@ static struct dentry *fuse_lookup(struct inode *dir, struct dentry *entry,
+ 
+ 	entry = newent ? newent : entry;
+ 	entry->d_time = epoch;
+-	if (outarg_valid)
+-		fuse_change_entry_timeout(entry, &outarg);
++	if (time)
++		fuse_dentry_settime(entry, time);
+ 	else
+ 		fuse_invalidate_entry_cache(entry);
+ 
+diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+index 3184ef864cf0..6178a012f36c 100644
+--- a/fs/fuse/fuse_i.h
++++ b/fs/fuse/fuse_i.h
+@@ -1149,7 +1149,7 @@ struct inode *fuse_iget(struct super_block *sb, u64 nodeid,
+ 			u64 evict_ctr);
+ 
+ int fuse_lookup_name(struct super_block *sb, u64 nodeid, const struct qstr *name,
+-		     struct fuse_entry_out *outarg, struct inode **inode);
++		     u64 *time, struct inode **inode);
+ 
+ /**
+  * Send FORGET command
+diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+index 38ca362ee2ca..8231c207abea 100644
+--- a/fs/fuse/inode.c
++++ b/fs/fuse/inode.c
+@@ -1089,14 +1089,12 @@ static struct dentry *fuse_get_dentry(struct super_block *sb,
+ 
+ 	inode = ilookup5(sb, handle->nodeid, fuse_inode_eq, &handle->nodeid);
+ 	if (!inode) {
+-		struct fuse_entry_out outarg;
+ 		const struct qstr name = QSTR_INIT(".", 1);
+ 
+ 		if (!fc->export_support)
+ 			goto out_err;
+ 
+-		err = fuse_lookup_name(sb, handle->nodeid, &name, &outarg,
+-				       &inode);
++		err = fuse_lookup_name(sb, handle->nodeid, &name, NULL, &inode);
+ 		if (err && err != -ENOENT)
+ 			goto out_err;
+ 		if (err || !inode) {
+@@ -1190,14 +1188,13 @@ static struct dentry *fuse_get_parent(struct dentry *child)
+ 	struct fuse_conn *fc = get_fuse_conn(child_inode);
+ 	struct inode *inode;
+ 	struct dentry *parent;
+-	struct fuse_entry_out outarg;
+ 	int err;
+ 
+ 	if (!fc->export_support)
+ 		return ERR_PTR(-ESTALE);
+ 
+ 	err = fuse_lookup_name(child_inode->i_sb, get_node_id(child_inode),
+-			       &dotdot_name, &outarg, &inode);
++			       &dotdot_name, NULL, &inode);
+ 	if (err) {
+ 		if (err == -ENOENT)
+ 			return ERR_PTR(-ESTALE);
