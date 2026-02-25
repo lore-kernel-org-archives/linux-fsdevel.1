@@ -1,91 +1,92 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A34D3ACEF9
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Feb 2026 12:59:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EDCA38E5FB
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Feb 2026 12:59:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772024361; cv=none; b=VBv2sBBZ2x2lrrVFOqg8iTg1N9WQKk3j/wFP0V5UktxzeyEVh+SNkN0rUfKo01nslqKjxUXnvyOEpMrceR/S0QLePLb81tKNw+JOp/qDFHZz0djaG/U8/VxuZK+2IVXUWB/uAUrEHB4fEHsKekC5oW5vtrRu7Rj22cWyuGf2yl8=
+	t=1772024362; cv=none; b=gxRS1xDUBwSmvXGJuzYRQCQ0pvRLICla46EHkaalPD/Zs64/qt1+j1EAtNv3g6981+jixVPtVgTokMFdHLr2RgJ6vYSnYh5lHy7H/fcw7Gh6N1hZLEm9ZSNVLaz5ukqB45kLYYy/Hfv7dkDQxY61dnuFqCxD2FJ5SZCnUeMoqu4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772024361; c=relaxed/simple;
-	bh=E2dzRWH62X5awZNR6gjvhwvrtvUsaWSNYShyIxzwdjc=;
+	s=arc-20240116; t=1772024362; c=relaxed/simple;
+	bh=bGwRVvd3ajNn4t+dSLjh1eK2i+/FzUMc5/O4uhriyQw=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=YDGQmDtUzKYtiZ29SPE5sZ3HXVMvha8LTxVrW53x8gQkOlyobykYHuZNI+a2qnG+Ns8Co7Q6NxrOYcFwe2hv8zd5jChTYXmXmbLN9j0qnPNuOhLTeYI1vC0SBV6uAqABGeh/5MpwKnBJ8uVS9umU4IxwKDEQx/UlkL+6TYVHy60=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CqOIBlVU; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=kX+AoH65; arc=none smtp.client-ip=170.10.129.124
+	 MIME-Version; b=Uw82uOsgknPa/ctbLqGUR93bWH6HwF92cIL4bk3/O6ajEfe0pl4c+DILvCxn//ctSUp41uJ2Dh+1k3QVU9tEVYYLVwWGpidLCWRmTncuM5t8Xgf7S2ZCGrgILEkPHwTQssHkwK0S5Q9EFneM8TeEdJkwVzdOW0u1xgqOJN/khBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LlPNEieb; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=nlpnbb2B; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CqOIBlVU";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="kX+AoH65"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LlPNEieb";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="nlpnbb2B"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1772024359;
+	s=mimecast20190719; t=1772024360;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Oi/vZ/gQMDX5xe1jLKXYQEZ+7mw1O3edlueKkQ+5r4M=;
-	b=CqOIBlVUHnBLDyLl4uoI1C9zBNx6pX8DTkv7CC6Y2XsHR9GX+Q4hVx2bauO5jDt/ewH1ph
-	O3VF8VMV8K98zj4RTVAFeTaRlQ/+dDHvqKS8u64mVseJcyQv8AlwDQNr/1BUWFUvzKEyGS
-	GNqQ0T6/7m4VMAMYfbpQg9Ay+A/1PIg=
+	bh=0kOIIK0zwnK1vvhLt6PsS43bfbxLU6KWtPkGNCJ0ZHw=;
+	b=LlPNEiebrvI+7UqZI244Vk+TYew8d3YYC8WTNUp+OFdCBK90GonoQU7w7OaASeOOObQjiH
+	41W3rNMXvfFG68rmHtYOiiRvdFAsuESFUtzDS3HgdCd2zbnyLpE1UeOc+Y+E9jc3+zQOiW
+	VLyant2gVH69hB/qMMw5FW7UnNRTI2s=
 Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
  [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-679-3dZmSvwgMa-isE76sXzU4A-1; Wed, 25 Feb 2026 07:59:16 -0500
-X-MC-Unique: 3dZmSvwgMa-isE76sXzU4A-1
-X-Mimecast-MFC-AGG-ID: 3dZmSvwgMa-isE76sXzU4A_1772024356
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-8c70ab7f67fso4684161385a.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Feb 2026 04:59:16 -0800 (PST)
+ us-mta-693-uYdsV5DENQC9G55KxahCig-1; Wed, 25 Feb 2026 07:59:19 -0500
+X-MC-Unique: uYdsV5DENQC9G55KxahCig-1
+X-Mimecast-MFC-AGG-ID: uYdsV5DENQC9G55KxahCig_1772024359
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-8c71655aa11so8207331285a.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Feb 2026 04:59:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1772024356; x=1772629156; darn=vger.kernel.org;
+        d=redhat.com; s=google; t=1772024359; x=1772629159; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Oi/vZ/gQMDX5xe1jLKXYQEZ+7mw1O3edlueKkQ+5r4M=;
-        b=kX+AoH65tnaAb5tgTgsO+mC6A5lmvYOky9tMKC7U22Zue7zuXJhoXApxkUSlc9FQ1Y
-         koTUhS4QjPjBbDo/cdLebyMXgibeu22nCgbCJkw6Uzk/GttuPPyl3Bi3BAcYQhVSZIFP
-         gaF4AlBLeb/dTCIlpNZgOnpX2z/J4RFAOB9K0mep8cFhVg19pIrp6inditQUfoWPsQwE
-         3Sf949YJH1/8UJfhCBr6NMVWBjZL7wVwUlVW67N1FaBFPqHXq60gtQzLiIaEYgv5qdv0
-         uywVHSu7ZXzCER3+7ki4DhF8qQ2sARJrQ4dj5rXTstk3QGy4MnJgZKZXmbPQ13dGSY/d
-         VasQ==
+        bh=0kOIIK0zwnK1vvhLt6PsS43bfbxLU6KWtPkGNCJ0ZHw=;
+        b=nlpnbb2B266JFeGs2HZmgqmBHMv45vCuu/+zGqQryZ52h3Dff42cXmOMJG355fneYt
+         mLBts8T0LdEGzdaawVF6SEF/zfWMXY/tVsSiSETi8Evm1ct8zFrBtBbjl67ICfzni21I
+         k4qdHljsiTf9JT+KwzWDfLvXFcUJoH69apLMCMVPpM5PnfNZdFYPaUTz3n9JMi5OiUjf
+         H23bMyhV7uz52tCKrWKPeFYl1BTWFwATJWUWU2ACiMQ9WgwdaC2QvHo8bbRfQ4I8ErDh
+         EKeLQ9ETt8xTWD+M2Lz0bUWw8bhkVNFdqGdFPItDfjX30uBFnjH4NZyzsbuyhz7BShQQ
+         rhag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772024356; x=1772629156;
+        d=1e100.net; s=20230601; t=1772024359; x=1772629159;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Oi/vZ/gQMDX5xe1jLKXYQEZ+7mw1O3edlueKkQ+5r4M=;
-        b=hUAjyyVDa2Br/+s5Dzfmzl1ePXV/MGqkNC9ocZpJaZXDXjzMtS6QnJttGT/u37hxgs
-         bdkPtVL93RgykG4D2Kv4Vyi5s/YYuIXsQvFN/xbL7mFCJb03mpNMEPV9VyMMJ/VqhBhP
-         aZm908wu9peCX3U1RU7fVLD24I6FHVbQNCk4i+kka7G2mfIWGw7UH2hTRBWDzhMPTmdz
-         TuzdaU3dQpQH0cAA5rBKnMJA5dAxmKnMdD1/vzaxUwjCdjqKNF59JtFMi3Fhat6DaPOf
-         kFcm9w8iOilsZ2J/uZTBefMgcNgagddLAb8twpUfyTU1xvY8+J6uiIo7EMz4jrclsId3
-         E0EQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVjFFnHszupmTF0w5gqYCQG83vmcvyeHD71Fl/VXkBN1fSH3YHJbpt3UJz/WkAcz97juLqMQHErSTmzJZWK@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyz4bglHmBdOldU3xZ+68af7p4EAN3DA0dMKvgmf8kYWhQ9af9W
-	8GUrFwbOgXZFK36iaSXRTAc31xCIuJIh7k5yMKKvwDO2FMHlmg4+iC487mi9MV3/CxG0aTRN4ML
-	/i9dHtsqv4C5K3xTGiA5xbzNLkmtWNJ8AvL3/PziwNigbNIxF/9b/JZKf9BIHXSk9XoQ=
-X-Gm-Gg: ATEYQzwd80E7jGcMc4U2hSyUiQSGSkwicu3c/cdx7YFmO+sgzKedEiIaumL8T0eRCvg
-	ZI+VqLv636Xi+eTMyWaxw7IMUMN6Vz1cv+P+ot5T9yU2AHzFNLUL6uWwy9AzV/I/1MWigPROwGM
-	z7lJtWsiGwoxhEnRtEbVJjCQ+lN6I55ejuNzYiqmEEQy8KtN3+wXCuEC67mvDi2FvbCutMVyddL
-	rLrEKRq3T1hPVaqNDe1T0vCMie+hPxFeMffaToSyL+Bd39T4+6iqSVREFJDREa/h3bzI9rHN1K2
-	KwCUqynKt5UJq3DaERZFsdeQyMHkELVEgQv+i3sCKmxnWdAyybom5TVHDSCLKnCUqSzV+xoGEA4
-	05K4DyVUU0q4r8FFlQJmc3LxCA/gZYVRkORAGkpb5RgkG01A+jn9Z1jU=
-X-Received: by 2002:a05:620a:4494:b0:8c6:e11c:5ec4 with SMTP id af79cd13be357-8cbbcfab258mr41041885a.35.1772024355569;
-        Wed, 25 Feb 2026 04:59:15 -0800 (PST)
-X-Received: by 2002:a05:620a:4494:b0:8c6:e11c:5ec4 with SMTP id af79cd13be357-8cbbcfab258mr41038385a.35.1772024355040;
-        Wed, 25 Feb 2026 04:59:15 -0800 (PST)
+        bh=0kOIIK0zwnK1vvhLt6PsS43bfbxLU6KWtPkGNCJ0ZHw=;
+        b=rCvrgHZ0nsufOlxQQEeFyIPPfkAhwcPbWsY9atpzsJqQNG99rT+L8ZRONV5mHR+HwY
+         T1G94SUgEdv9cJ7UdXofG842T5usFDW55Bw0xMbWCTGURqwqBfPr9thuWDNX380TtDuS
+         d9Z6O0e9q4eunQAF3fMAxFpAt42h9ozCjHmywBfcCSpIWKH15LhehBeAMagYRL2OlLyz
+         jcXnhuw6FJApMoDdF9hL02tnoTEd+ZvjViqkJp9gJDWu8Xxo4HBWA842tY9pvsOwFhZ1
+         0lttCMP2A0V/6e5mcMoONPLZESj1y+pC/oWzBHVdwHsJHGoEc+ws51O5qc6vKxsGlrM0
+         9XdA==
+X-Forwarded-Encrypted: i=1; AJvYcCWxDoM5xAabuF25xmDtG38Y10CvqBMdvYUXl3x9vJR0N8QqdezqF0tLBOvOFbm0/sx4Qj9snep7Oh8hLGDB@vger.kernel.org
+X-Gm-Message-State: AOJu0YzvC+IglZoDW6zwZOjDnvNBCeYCtZ2/REo4wrd9+cS5V9Th56gp
+	b3I3tCdRMnVXUebS65wpWU3ZnDkFwE7Nd03v+C9AyGhJF6+FoaEYzNA9ObUO8S20wWX4LNOrsRE
+	xQ4xnjF8k49b/CePxjurAeSKluKO2faB0IFscDOYnykdzOExooBJ9efDE01F9K9ULZm6l3cmIUf
+	BbqeTL
+X-Gm-Gg: ATEYQzySo5BZvXpavpBXFe4ftJH3IV5c1Efb63cahUOBSxOhe+lXqe5G1Y5ZmRgSrdU
+	QR9yO1OqAst8amS9xWxv33MJ4/Xa+kKxOVYsFh7/sDWPTDhIKeeKAkrq8DWS7BsJ/SQ+tHlyJmY
+	SxhMU8vszCcqAmYK3ZkskI4akyV/CSKY+W2Fe23NGuLLnSa8KP5jMcVXsEnZP4EWmrr891N7Egv
+	BjrDBWMmIQAi/yDdADJfy8btOYTAoVZcdrL3jhgLk4zBSmJZYsotkn11L5/VBOdn8I1Oo9mSP3T
+	xJZdoOJ/74sg8yAMiPK1FUxPva59Zy6G9QQcdAypRHMVkX3uKp25GiW0ss3DFymMohUhCxbmimz
+	EUtKHoYUNL21BOeojzWvnNo9pq47YP/lug6y7L9ukNm98s0Upyokzxe0=
+X-Received: by 2002:a05:620a:45ab:b0:8c6:d2ca:1d0e with SMTP id af79cd13be357-8cb8c9e62a4mr1886938985a.11.1772024358733;
+        Wed, 25 Feb 2026 04:59:18 -0800 (PST)
+X-Received: by 2002:a05:620a:45ab:b0:8c6:d2ca:1d0e with SMTP id af79cd13be357-8cb8c9e62a4mr1886935885a.11.1772024358265;
+        Wed, 25 Feb 2026 04:59:18 -0800 (PST)
 Received: from cluster.. (4f.55.790d.ip4.static.sl-reverse.com. [13.121.85.79])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cb8d046055sm1514219685a.8.2026.02.25.04.59.13
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cb8d046055sm1514219685a.8.2026.02.25.04.59.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Feb 2026 04:59:14 -0800 (PST)
+        Wed, 25 Feb 2026 04:59:18 -0800 (PST)
 From: Alex Markuze <amarkuze@redhat.com>
 To: ceph-devel@vger.kernel.org
 Cc: idryomov@gmail.com,
 	linux-fsdevel@vger.kernel.org,
 	amarkuze@redhat.com,
 	vdubeyko@redhat.com
-Subject: [RFC PATCH v1 2/4] ceph: add bounded timeout and diagnostics to wait_caps_flush()
-Date: Wed, 25 Feb 2026 12:59:05 +0000
-Message-Id: <20260225125907.53851-3-amarkuze@redhat.com>
+Subject: [RFC PATCH v1 4/4] ceph: rework mds_peer_reset() for robust session recovery
+Date: Wed, 25 Feb 2026 12:59:07 +0000
+Message-Id: <20260225125907.53851-5-amarkuze@redhat.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260225125907.53851-1-amarkuze@redhat.com>
 References: <20260225125907.53851-1-amarkuze@redhat.com>
@@ -97,152 +98,130 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert wait_caps_flush() from an unbounded wait_event() to a
-bounded wait_event_timeout() with a 60-second period. If the
-flush hasn't completed after each timeout, dump the pending
-cap_flush list (up to 5 times) to aid debugging hung flush
-scenarios.
+Rewrite mds_peer_reset() to properly handle all session states when
+the MDS resets our connection. Previously it unconditionally called
+send_mds_reconnect() for any state >= RECONNECT, which could leave
+sessions in inconsistent states.
 
-Add a ci back-pointer to struct ceph_cap_flush so the diagnostic
-dump can identify which inodes have outstanding flushes. Add
-i_last_cap_flush_ack to ceph_inode_info for tracking the latest
-acknowledged flush tid per inode.
+The new implementation:
+  - Returns early for FENCE_IO or MDS not yet in reconnect state
+  - For MDS in RECONNECT state, directly reconnects (no locks)
+  - For active sessions (OPEN/OPENING/CLOSING), performs full
+    cleanup: unregister session, wake waiting requests, clean up
+    caps, and kick pending requests
+  - For RECONNECTING sessions, restarts the reconnect
+  - Snapshots session state under s_mutex, then re-acquires locks
+    in the correct order (s_mutex -> mdsc->mutex) matching the
+    convention used by check_new_map() and cleanup_session_requests()
 
 Signed-off-by: Alex Markuze <amarkuze@redhat.com>
 ---
- fs/ceph/caps.c       |  7 +++++++
- fs/ceph/mds_client.c | 41 +++++++++++++++++++++++++++++++++++++++--
- fs/ceph/super.h      |  2 ++
- 3 files changed, 48 insertions(+), 2 deletions(-)
+ fs/ceph/mds_client.c | 89 ++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 86 insertions(+), 3 deletions(-)
 
-diff --git a/fs/ceph/caps.c b/fs/ceph/caps.c
-index d51454e995a8..be030fb8e864 100644
---- a/fs/ceph/caps.c
-+++ b/fs/ceph/caps.c
-@@ -1648,6 +1648,7 @@ static void __ceph_flush_snaps(struct ceph_inode_info *ci,
- 
- 		spin_lock(&mdsc->cap_dirty_lock);
- 		capsnap->cap_flush.tid = ++mdsc->last_cap_flush_tid;
-+		capsnap->cap_flush.ci = ci;
- 		list_add_tail(&capsnap->cap_flush.g_list,
- 			      &mdsc->cap_flush_list);
- 		if (oldest_flush_tid == 0)
-@@ -1846,6 +1847,9 @@ struct ceph_cap_flush *ceph_alloc_cap_flush(void)
- 		return NULL;
- 
- 	cf->is_capsnap = false;
-+	cf->ci = NULL;
-+	cf->tid = 0;
-+	cf->wake = false;
- 	return cf;
- }
- 
-@@ -1931,6 +1935,7 @@ static u64 __mark_caps_flushing(struct inode *inode,
- 	doutc(cl, "%p %llx.%llx now !dirty\n", inode, ceph_vinop(inode));
- 
- 	swap(cf, ci->i_prealloc_cap_flush);
-+	cf->ci = ci;
- 	cf->caps = flushing;
- 	cf->wake = wake;
- 
-@@ -3826,6 +3831,8 @@ static void handle_cap_flush_ack(struct inode *inode, u64 flush_tid,
- 	bool wake_ci = false;
- 	bool wake_mdsc = false;
- 
-+	ci->i_last_cap_flush_ack = flush_tid;
-+
- 	list_for_each_entry_safe(cf, tmp_cf, &ci->i_cap_flush_list, i_list) {
- 		/* Is this the one that was flushed? */
- 		if (cf->tid == flush_tid)
 diff --git a/fs/ceph/mds_client.c b/fs/ceph/mds_client.c
-index 28bb27b09b40..e27f2f148dea 100644
+index d350bf502a15..d9baa0073bbd 100644
 --- a/fs/ceph/mds_client.c
 +++ b/fs/ceph/mds_client.c
-@@ -27,6 +27,8 @@
- #include <trace/events/ceph.h>
- 
- #define RECONNECT_MAX_SIZE (INT_MAX - PAGE_SIZE)
-+#define CEPH_CAP_FLUSH_WAIT_TIMEOUT_SEC 60
-+#define CEPH_CAP_FLUSH_MAX_DUMP_COUNT 5
- 
- /*
-  * A cluster of MDS (metadata server) daemons is responsible for
-@@ -2285,6 +2287,34 @@ static int check_caps_flush(struct ceph_mds_client *mdsc,
- 	return ret;
- }
- 
-+static void dump_cap_flushes(struct ceph_mds_client *mdsc, u64 want_tid)
-+{
-+	struct ceph_client *cl = mdsc->fsc->client;
-+	struct ceph_cap_flush *cf;
-+
-+	pr_info_client(cl, "still waiting for cap flushes through %llu:\n",
-+		       want_tid);
-+	spin_lock(&mdsc->cap_dirty_lock);
-+	list_for_each_entry(cf, &mdsc->cap_flush_list, g_list) {
-+		if (cf->tid > want_tid)
-+			break;
-+		if (!cf->ci) {
-+			pr_info_client(cl,
-+				       "(null ci) %s tid=%llu wake=%d%s\n",
-+				       ceph_cap_string(cf->caps), cf->tid,
-+				       cf->wake,
-+				       cf->is_capsnap ? " is_capsnap" : "");
-+			continue;
-+		}
-+		pr_info_client(cl, "%llx:%llx %s %llu %llu %d%s\n",
-+			       ceph_vinop(&cf->ci->netfs.inode),
-+			       ceph_cap_string(cf->caps), cf->tid,
-+			       cf->ci->i_last_cap_flush_ack, cf->wake,
-+			       cf->is_capsnap ? " is_capsnap" : "");
-+	}
-+	spin_unlock(&mdsc->cap_dirty_lock);
-+}
-+
- /*
-  * flush all dirty inode data to disk.
-  *
-@@ -2294,11 +2324,18 @@ static void wait_caps_flush(struct ceph_mds_client *mdsc,
- 			    u64 want_flush_tid)
+@@ -6737,12 +6737,95 @@ static void mds_peer_reset(struct ceph_connection *con)
  {
- 	struct ceph_client *cl = mdsc->fsc->client;
-+	int i = 0;
-+	long ret;
+ 	struct ceph_mds_session *s = con->private;
+ 	struct ceph_mds_client *mdsc = s->s_mdsc;
++	int session_state;
  
- 	doutc(cl, "want %llu\n", want_flush_tid);
- 
--	wait_event(mdsc->cap_flushing_wq,
--		   check_caps_flush(mdsc, want_flush_tid));
-+	do {
-+		ret = wait_event_timeout(mdsc->cap_flushing_wq,
-+			   check_caps_flush(mdsc, want_flush_tid),
-+			   CEPH_CAP_FLUSH_WAIT_TIMEOUT_SEC * HZ);
-+		if (ret == 0 && i++ < CEPH_CAP_FLUSH_MAX_DUMP_COUNT)
-+			dump_cap_flushes(mdsc, want_flush_tid);
-+	} while (ret == 0);
- 
- 	doutc(cl, "ok, flushed thru %llu\n", want_flush_tid);
+ 	pr_warn_client(mdsc->fsc->client, "mds%d closed our session\n",
+ 		       s->s_mds);
+-	if (READ_ONCE(mdsc->fsc->mount_state) != CEPH_MOUNT_FENCE_IO &&
+-	    ceph_mdsmap_get_state(mdsc->mdsmap, s->s_mds) >= CEPH_MDS_STATE_RECONNECT)
+-		send_mds_reconnect(mdsc, s);
++
++	if (READ_ONCE(mdsc->fsc->mount_state) == CEPH_MOUNT_FENCE_IO ||
++	    ceph_mdsmap_get_state(mdsc->mdsmap, s->s_mds) < CEPH_MDS_STATE_RECONNECT)
++		return;
++
++	if (ceph_mdsmap_get_state(mdsc->mdsmap, s->s_mds) == CEPH_MDS_STATE_RECONNECT) {
++		int rc = send_mds_reconnect(mdsc, s, false);
++		if (rc)
++			pr_err_client(mdsc->fsc->client,
++				      "mds%d reconnect failed: %d\n",
++				      s->s_mds, rc);
++		return;
++	}
++
++	/*
++	 * Snapshot session state under s->s_mutex, then release before
++	 * re-acquiring in the correct order: s->s_mutex -> mdsc->mutex
++	 * (matching check_new_map() and cleanup_session_requests()).
++	 */
++	mutex_lock(&s->s_mutex);
++	session_state = s->s_state;
++	mutex_unlock(&s->s_mutex);
++
++	switch (session_state) {
++	case CEPH_MDS_SESSION_RECONNECTING: {
++		int rc;
++
++		pr_info_client(mdsc->fsc->client,
++			       "mds%d reset during reconnect, restarting\n",
++			       s->s_mds);
++		rc = send_mds_reconnect(mdsc, s, false);
++		if (rc) {
++			pr_err_client(mdsc->fsc->client,
++				      "mds%d reconnect restart failed: %d\n",
++				      s->s_mds, rc);
++			mutex_lock(&s->s_mutex);
++			ceph_mdsc_reconnect_session_done(mdsc, s);
++			mutex_unlock(&s->s_mutex);
++		}
++		return;
++	}
++	case CEPH_MDS_SESSION_CLOSING:
++	case CEPH_MDS_SESSION_OPEN:
++	case CEPH_MDS_SESSION_HUNG:
++	case CEPH_MDS_SESSION_OPENING:
++		mutex_lock(&s->s_mutex);
++		mutex_lock(&mdsc->mutex);
++		if (s->s_state != session_state) {
++			pr_info_client(mdsc->fsc->client,
++				       "mds%d state changed to %s during peer reset\n",
++				       s->s_mds,
++				       ceph_session_state_name(s->s_state));
++			mutex_unlock(&mdsc->mutex);
++			mutex_unlock(&s->s_mutex);
++			return;
++		}
++
++		ceph_get_mds_session(s);
++		__unregister_session(mdsc, s);
++
++		s->s_state = CEPH_MDS_SESSION_CLOSED;
++		__wake_requests(mdsc, &s->s_waiting);
++		mutex_unlock(&mdsc->mutex);
++		mutex_unlock(&s->s_mutex);
++
++		mutex_lock(&s->s_mutex);
++		cleanup_session_requests(mdsc, s);
++		remove_session_caps(s);
++		mutex_unlock(&s->s_mutex);
++
++		wake_up_all(&mdsc->session_close_wq);
++
++		mutex_lock(&mdsc->mutex);
++		kick_requests(mdsc, s->s_mds);
++		mutex_unlock(&mdsc->mutex);
++
++		ceph_put_mds_session(s);
++		break;
++	default:
++		pr_warn_client(mdsc->fsc->client,
++			       "mds%d peer reset in unexpected state %s\n",
++			       s->s_mds,
++			       ceph_session_state_name(session_state));
++		break;
++	}
  }
-diff --git a/fs/ceph/super.h b/fs/ceph/super.h
-index 69a71848240f..9e80c816aa7a 100644
---- a/fs/ceph/super.h
-+++ b/fs/ceph/super.h
-@@ -238,6 +238,7 @@ struct ceph_cap_flush {
- 	bool is_capsnap; /* true means capsnap */
- 	struct list_head g_list; // global
- 	struct list_head i_list; // per inode
-+	struct ceph_inode_info *ci;
- };
  
- /*
-@@ -443,6 +444,7 @@ struct ceph_inode_info {
- 	struct ceph_snap_context *i_head_snapc;  /* set if wr_buffer_head > 0 or
- 						    dirty|flushing caps */
- 	unsigned i_snap_caps;           /* cap bits for snapped files */
-+	u64 i_last_cap_flush_ack;		/* latest cap flush_ack tid for this inode */
- 
- 	unsigned long i_last_rd;
- 	unsigned long i_last_wr;
+ static void mds_dispatch(struct ceph_connection *con, struct ceph_msg *msg)
 -- 
 2.34.1
 
