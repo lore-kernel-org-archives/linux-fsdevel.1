@@ -1,164 +1,109 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3CE33C196C;
-	Wed, 25 Feb 2026 15:33:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37A0E3B961D;
+	Wed, 25 Feb 2026 16:25:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772033580; cv=none; b=L7QmKn/wrUAN8t9nf6YVedLroEhMW6s8+Pb+Raw+kDY/AdLzxo2JMWpdymhqoJIYHGEMUBAKtKBjhgzJJmxdZNVwIqMcXYIsgk1R8xoDpBwAeajlQpoxUddBdregsb2CIH+HirWSMvfydzvXYxGtx7Ea4D+9jMF+VstbNy8XkGk=
+	t=1772036738; cv=none; b=iqUbETIUzH4zB24gKYBFw9Le4pgS9bwzFeTdCz6FOJ4WSUKcrEbUCCfxSSIUknuwRvMpV9CqrvJyiViZIQsax6wG6EnEjqxyZENWcSX5sUAfa16Iba4my/zFJNaCuHyJxILe1+tyzR//FQ2yYpW/ABG67OmAlrnLViGyPDN5b18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772033580; c=relaxed/simple;
-	bh=ejv/mRfUbXF468CIc489ioG34KPLb26wLd92zAG+CRo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Dn95FXsYULZsf/gqE4CFfZJNByyILt76VpusO6sB1dJ5hWV1P3lkTzqIPaltwA5jS6WBP8wnWnoW99RcfpPZu6Zf1IeskRHU5a9kmhblFUnf6lrX2ob5Lxc/OCe0OY+XTHqzktqQu7yH2zpefLwlleL3o3kMpXsCSc77HB/Ost8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=phikrZyf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772036738; c=relaxed/simple;
+	bh=LSEBcmcy4hg777AP0yVT25Qd/Sm0XmSI6qQHjKgeZBo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QGtPwNFohaCNKt+JUuqV8o72V/AooPXWfAPWStXQ/jpstxjhZkFOibuq3ekU1zXndcwL+6Vp6bTOdubkL6dNgdo5hjGlxNhWWxHTScJFWJPtm6aY2H/ZizxLfQr0GTE38/dITlQ6lEN45q9FsFBCSjUV+/T13rWN4VQ2BUW/5Wc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SpDovYHl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="phikrZyf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C07BC2BC86;
-	Wed, 25 Feb 2026 15:32:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SpDovYHl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29A57C19421;
+	Wed, 25 Feb 2026 16:25:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772033580;
-	bh=ejv/mRfUbXF468CIc489ioG34KPLb26wLd92zAG+CRo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=phikrZyfZDggoQS1T8Y7FHRJn2vB0PtL7Mx8GSnanznYzwl59wcufHUR+Uvem8pzG
-	 ECfzYgh06RpyfJ6RbAyTch0dEAbSWf1aJIxKX4/MxM9kfdPkXG97PT/GXSRl8uNgwM
-	 TylyHHBx1sxbH5MFCZeCY+tmUJaYrJenXII/rTmlCYBujnX5dTQxFIYu7nN/QwvEcu
-	 l9uLmRGuiRIgQo52U2aOuiOrfoHbb06XGfqPTu3+5EPXspiUiXdX+8nwVTzZmNhcJ6
-	 mWQWirc7iJme5Kw0OLEh2F7llId+1+JU9vswl8GQfigZIgbL6FJwoD7J7eog1RezRt
-	 laSlpriqu5MXg==
-Date: Wed, 25 Feb 2026 16:32:55 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Jann Horn <jannh@google.com>
-Cc: linux-fsdevel@vger.kernel.org, Kees Cook <kees@kernel.org>, 
-	Andy Lutomirski <luto@amacapital.net>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Jan Kara <jack@suse.cz>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC v3 1/2] pidfs: add inode ownership and permission
- checks
-Message-ID: <20260225-ziellinie-albatros-b589b713de8a@brauner>
-References: <20260223-work-pidfs-inode-owner-v3-0-490855c59999@kernel.org>
- <20260223-work-pidfs-inode-owner-v3-1-490855c59999@kernel.org>
- <CAG48ez10oDKLBRfM-Tc9Bj6AXEEY+PECPSP=Dr96vAu9GnWELQ@mail.gmail.com>
+	s=k20201202; t=1772036737;
+	bh=LSEBcmcy4hg777AP0yVT25Qd/Sm0XmSI6qQHjKgeZBo=;
+	h=From:To:Cc:Subject:Date:From;
+	b=SpDovYHlAimH6Ijko6fpz+Dn4mujtUfptFoSqSty+kOBLZirzbDT0LRqZgRIGjz8D
+	 w5v3EzzFmraIbL0C/8unijxXEjf462LFJcQBj7R/6qJNl+xRhhf/eIGgHhCQUBDR8T
+	 kQshnI6gsJq+2B17+S4CZDgIglCQHlGQ4d46UgKh0OhLh3BnmqfDMZxRnnsOQNzaVK
+	 JmvEaGY5geUutWoOnZVReYsPkRRn90k9+NgURJS42beFQZw4PWFv46TehAqTBBWQYF
+	 H52zgTBjUGyEYjYBtJyiKckK3fRtC9cITtCeoWiFUYUPfLjFEXZWkQ9+m6kjDBe6LT
+	 3In0gINFnr4zQ==
+From: Chuck Lever <cel@kernel.org>
+To: davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com
+Cc: David Howells <dhowells@redhat.com>,
+	<netdev@vger.kernel.org>,
+	<linux-fsdevel@vger.kernel.org>,
+	Chuck Lever <chuck.lever@oracle.com>
+Subject: [PATCH net-next] net: datagram: Bypass usercopy checks for kernel iterators
+Date: Wed, 25 Feb 2026 11:25:32 -0500
+Message-ID: <20260225162532.30587-1-cel@kernel.org>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAG48ez10oDKLBRfM-Tc9Bj6AXEEY+PECPSP=Dr96vAu9GnWELQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-> > +static int pidfs_permission(struct mnt_idmap *idmap, struct inode *inode,
-> > +                           int mask)
-> > +{
-> > +       struct pid *pid = inode->i_private;
-> > +       struct task_struct *task;
-> > +       const struct cred *cred;
-> > +       u64 pid_tg_ino;
-> > +
-> > +       scoped_guard(rcu) {
-> > +               task = pid_task(pid, PIDTYPE_PID);
-> > +               if (task) {
-> > +                       if (unlikely(task->flags & PF_KTHREAD))
-> > +                               return -EPERM;
-> > +
-> > +                       cred = __task_cred(task);
-> > +                       pid_tg_ino = task_tgid(task)->ino;
-> 
-> Can this NULL deref if the task concurrently gets reaped and has
-> detach_pid() called on it?
+From: Chuck Lever <chuck.lever@oracle.com>
 
-So the thread-group leader task/pid is kept around until all subthreads
-have exited. That's what delay_group_leader() does. So two cases:
+Profiling NFSD under an iozone workload showed that hardened
+usercopy checks consume roughly 1.3% of CPU in the TCP receive path.
+These checks validate memory regions during copies, but provide no
+security benefit when both source (skb data) and destination (kernel
+pages in BVEC/KVEC iterators) reside in kernel address space.
 
-(1) So if @task wasn't a thread-group leader but a subthread then
-    task_tgid(task) cannot be NULL.
+Modify simple_copy_to_iter() and crc32c_and_copy_to_iter() to call
+_copy_to_iter() directly when the destination is a kernel-only
+iterator, bypassing the usercopy hardening validation. User-backed
+iterators (ITER_UBUF, ITER_IOVEC) continue to use copy_to_iter()
+with full validation.
 
-(2) If @task is itself a thread-group leader then yes, it's possible via
-    __unhash_process().
+This benefits kernel consumers of TCP receive such as the NFS client
+and server and NVMe-TCP, which use ITER_BVEC for their receive
+buffers.
 
-So yeah, this needs handling.
+Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
+---
+ net/core/datagram.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-> > +               } else {
-> > +                       struct pidfs_attr *attr;
-> > +
-> > +                       attr = READ_ONCE(pid->attr);
-> > +                       VFS_WARN_ON_ONCE(!attr);
-> > +                       /*
-> > +                        * During copy_process() with CLONE_PIDFD the
-> > +                        * task hasn't been attached to the pid yet so
-> > +                        * pid_task() returns NULL and there's no
-> > +                        * exit_cred as the task obviously hasn't
-> > +                        * exited. Use the parent's credentials.
-> > +                        */
-> > +                       cred = attr->exit_cred;
-> > +                       if (!cred)
-> > +                               cred = current_cred();
-> > +                       pid_tg_ino = attr->exit_tgid_ino;
-> > +               }
-> > +
-> > +               /*
-> > +                * If the caller and the target are in the same
-> > +                * thread-group or the caller can signal the target
-> > +                * we're good.
-> > +                */
-> > +               if (pid_tg_ino != task_tgid(current)->ino &&
-> > +                   !may_signal_creds(current_cred(), cred))
-> > +                       return -EPERM;
-> > +
-> > +               /*
-> > +                * This is racy but not more racy then what we generally
-> > +                * do for permission checking.
-> > +                */
-> > +               WRITE_ONCE(inode->i_uid, cred->euid);
-> > +               WRITE_ONCE(inode->i_gid, cred->egid);
-> 
-> I realize that using ->euid here matches what procfs does in
-> task_dump_owner(), but it doesn't make sense to me. The EUID is kinda
-> inherently "subjective" and doesn't really make sense in a context
-> like this where we're treating the process as an object. See also how,
-> when sending a signal to a process, kill_ok_by_cred() doesn't care
-> about the EUID of the target process, because it would be silly to
-> allow a user to send signals to a fileserver that happens to briefly
-> call seteuid() to access the filesystem in the name of the user, or
-> something like that.
-> 
-> The thing that IMO most expresses the objective identity of a process
-> is the RUID (notably that includes that it stays the same across
-> setuid execution unless the process explicitly changes RUID).
-> 
-> I think this should be using cred->uid and cred->gid so that the
-> permission check below makes more sense. That said, if you want to
-> instead follow the precedent of procfs and rely on the more explicit
-> permission checks above to actually provide security, I guess that
-> works too...
-> 
-> > +       }
-> > +       return generic_permission(&nop_mnt_idmap, inode, mask);
-> > +}
-> [...]
-> >  {
-> > diff --git a/kernel/signal.c b/kernel/signal.c
-> > index d65d0fe24bfb..e20dabf143c2 100644
-> > --- a/kernel/signal.c
-> > +++ b/kernel/signal.c
-> > @@ -777,19 +777,22 @@ static inline bool si_fromuser(const struct kernel_siginfo *info)
-> >                 (!is_si_special(info) && SI_FROMUSER(info));
-> >  }
-> >
-> > +bool may_signal_creds(const struct cred *signaler_cred,
-> > +                     const struct cred *signalee_cred)
-> > +{
-> > +       return uid_eq(signaler_cred->euid, signalee_cred->suid) ||
-> > +              uid_eq(signaler_cred->euid, signalee_cred->uid) ||
-> > +              uid_eq(signaler_cred->uid, signalee_cred->suid) ||
-> > +              uid_eq(signaler_cred->uid, signalee_cred->uid) ||
-> > +              ns_capable(signalee_cred->user_ns, CAP_KILL);
-> > +}
-> 
-> I don't like reusing the signal sending permission checks here - in my
-> opinion, filesystem operations shouldn't be allowed based on the
-> caller's *RUID*. They should ideally be using the caller's FSUID.
+diff --git a/net/core/datagram.c b/net/core/datagram.c
+index c285c6465923..e83cf0125008 100644
+--- a/net/core/datagram.c
++++ b/net/core/datagram.c
+@@ -490,7 +490,10 @@ static size_t crc32c_and_copy_to_iter(const void *addr, size_t bytes,
+ 	u32 *crcp = _crcp;
+ 	size_t copied;
+ 
+-	copied = copy_to_iter(addr, bytes, i);
++	if (user_backed_iter(i))
++		copied = copy_to_iter(addr, bytes, i);
++	else
++		copied = _copy_to_iter(addr, bytes, i);
+ 	*crcp = crc32c(*crcp, addr, copied);
+ 	return copied;
+ }
+@@ -515,10 +518,17 @@ int skb_copy_and_crc32c_datagram_iter(const struct sk_buff *skb, int offset,
+ EXPORT_SYMBOL(skb_copy_and_crc32c_datagram_iter);
+ #endif /* CONFIG_NET_CRC32C */
+ 
++/*
++ * Bypass usercopy hardening for kernel-only iterators: no data
++ * crosses the user/kernel boundary, so the slab whitelist check
++ * on the source buffer is unnecessary overhead.
++ */
+ static size_t simple_copy_to_iter(const void *addr, size_t bytes,
+ 		void *data __always_unused, struct iov_iter *i)
+ {
+-	return copy_to_iter(addr, bytes, i);
++	if (user_backed_iter(i))
++		return copy_to_iter(addr, bytes, i);
++	return _copy_to_iter(addr, bytes, i);
+ }
+ 
+ /**
+-- 
+2.52.0
 
-Ok, a combined model sounds great to me based on ruid/rgid of the target
-task and the fsuid/fsgid of the caller.
