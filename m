@@ -1,173 +1,122 @@
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4CA8392802
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Feb 2026 10:15:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.179
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772014529; cv=pass; b=kg28sfxD4Mr2ubwKv5zzt6ek8vI74LqDKr6kF2czGhZ3DKbIiOxV3VXEba+Pkjaw9hYtp6DSqgzVSExyk34UeJm00nPszW+b2CQa6XSGCub1RTkTV1542+giLmVn/gh7gV1cO0eQQ363fIPta/0bC0gpnWQS444ZdzqBn9FcdRA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772014529; c=relaxed/simple;
-	bh=cEhN1Iv+3+5AHAwjY+4bbx1KSfiXSQ19i96bxSRH5p0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bHgTsIt7dmAVaZtcb6+sHYk1Cspya0cWKQKmm2+awbGqOjhAPtlOPPR7w7JDpW6QJ3/aYR5H+cFHQX2OCGFLIrQikuMFOBjS/KIygp3f0mpkGY+ABQUvIfOceZcWGoWq1TVJ7qJvVBUlNOTFasDh4Rbx5OjbX4QFUiNaxi+a5wQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ionos.com; spf=pass smtp.mailfrom=ionos.com; dkim=pass (2048-bit key) header.d=ionos.com header.i=@ionos.com header.b=UwmxbtOV; arc=pass smtp.client-ip=209.85.208.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ionos.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ionos.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 075593939CE;
+	Wed, 25 Feb 2026 11:25:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772018720; cv=none; b=HbjG6saOy693KCpsgmqxx9pJ4Rzl4b2Yn9GFIfDLwXRUsWowMSyeIM/G24hAv3NBlKi8tGJWNoS+4p2V5HoVn/y5hBXeTJixByEI+05GoRRqxPw8mCant/tJQcPWlO9Zl87jO5HlBRJJqErXUPc8obCWPJ6YQGJstJ22UV/OZHY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772018720; c=relaxed/simple;
+	bh=f6lcVUK6pgrWtIVFsTWEzx5AVlThjPuX4q1NOOOOg4g=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ITnqsDINGdQy+bcTUZ8XhtkFV97vJhRPhWw4GSmYjtNcqbjR4ozNl5JbmEtUoq62ZZTPDDCfGqUh2PCTp+NASEUmgRgRTJppZEGjN/5G1uYEtmd4Bw7IVkOlBBcgsTsclsagftoGdya/SrlBLm/lWsjgYfiuoAFsOql3OrT9wWw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=W5yfc0cY; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ionos.com header.i=@ionos.com header.b="UwmxbtOV"
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-389e71756d8so4019641fa.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Feb 2026 02:15:23 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772014522; cv=none;
-        d=google.com; s=arc-20240605;
-        b=HGEtzkJCDvyiTmjkTMmsLnoeJuBnEOHhGBvTNnHMT9H/jdCB1TXVOZjcQFG9kSoHYk
-         LHSS8uAZrJKrlmxf495rSlt2bqMcFV2tH5daMz1KISftObgx6JjqAK3fPx3NfuN34txr
-         5aYOPGRYD/g8+A2cjQ0F3lWnZ9XTYVL1DDba8a1fr6Tx6ovnRx2udtKhFzlxmkU49eIK
-         qyKQHZU168vqCU3Y4FtZkau3VurV77NtJyEUa65ogrFpn+DwHTkR5/uBxPIsy86mmRsl
-         6ZQZNVnBR+ziafFcFFpvVFObjwkOYEYP1l5HIKzluMtDYyXtJv4Uk+EGcU7zGh44LGfL
-         Fhcg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=2wbI3HVGAdmJBOB+Q2PfG58Jqhmlw+640Tj7L991s1k=;
-        fh=qebdMxCyGhmlHEvKIgHwLnSBYRsUqeakfGeFS02ZpEw=;
-        b=WlBogENPEv+dWh4K8MN8Zc+y8kVxWin613kx4Dz6rSb/kaiuEmOjH0lsn5tvjYX/0o
-         MsnBfar1ErNZGY/kqsVZ9gRCiWA4dR7CoyTDNiyUrO3G3RRVtK7Eo6zSUTslqZmekpND
-         8A3XNXz7QmAnRUHCNshYeOuwr1crSJI7KUU3yJlSsIykTvtE44apjWMr1Fm9v6Op5nFx
-         IMC5Aqe2Sixrthsvm1mzZVe+HP0GjYJ9b1myCiCNckqIiVk+fqoSyLWFeDG0ndOmJtz8
-         S9L6+HmokW5EJemS0BWgSmwsoT+oJr7fofZpK4G9meeBrzEhcK3c1TZVPiHLOtMiehkR
-         qKuA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ionos.com; s=google; t=1772014522; x=1772619322; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2wbI3HVGAdmJBOB+Q2PfG58Jqhmlw+640Tj7L991s1k=;
-        b=UwmxbtOV/nmBYuGKi6UEDOpjEpvqRBEHYzg6GXhGFuCv6F2c0ln5jRhSEuGWXMEIas
-         ZGbF66mk1OBxyZTgEzdiq9SqaR6dkIUffoTe3ofa+8HgaJFzpC/yLt32HJBx73UmMB9r
-         RlGPIsC6Gt32pLnpp4Ek19kkYGsNPcGCZFrBt+WLj4sBWaioDuOe+1Vh7oBMuIAUmyLX
-         2Ss/ANz3rtwZUZsvzXZjGAYkhtTJSKsvR62bhCpCJkMlOXGSPYAgCMgc/ooJRgfRkVTI
-         Zp/Sm1X3mB4H/9EnvLBwsS8QH2ewFtV+LLo5BYzDGJiBRc+AyHg042erl0IVfydZyCM7
-         1Ssg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772014522; x=1772619322;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=2wbI3HVGAdmJBOB+Q2PfG58Jqhmlw+640Tj7L991s1k=;
-        b=vb0zRIBEgcfuyNMS29kDS2WZhfpI6FgsPoI/5vfWKJgpQ8FX1kQGxO23tk73l3KGXV
-         YBdOiQYDE/A7iRbgOZiq7dwYuDrp4x7wnmaQTCl9Yfo6ew+Ikntn+UM/WjjHtm0nK+a5
-         ALmf6bZuIh3oL6p5q+U8S++pvsMhYFKCNVMih+FHBcwFZGZAUabEo09QiVLHvGLteJ5C
-         AP+DaN95Vft1+huAWQal6EDbKrySa4Rs9OEbD1j0pazNcPZqws+6qOY9thxbqDa4R2qn
-         1Y96nyb7aGZlue4WsGG7Mtx8TTWbpeQpVxF0X/ODsN0W0xxNB4oCgFPIBVDcpXbBRapL
-         VR5g==
-X-Forwarded-Encrypted: i=1; AJvYcCVhlM6lTlsfr72Rifyi28TrOKdegZhziHk6yHA6o3ArKopxn7aalqAoGoETenjJtJXDctpAp8RJpNfOGh4u@vger.kernel.org
-X-Gm-Message-State: AOJu0YzmpqGO5bVZVzcBsiWgIU4NDbPXqeGuOSpy2S0dVDvyZ7Fecdyk
-	wm4xPGokQXNrJ9+kNSaGEkH+AJjm/ZpxoZ+AEMFwUfMgtNSsOOqmi5jPgjA0vGPgsn5uhlYpPFG
-	amtToGBlMF450lJDtnLUWFAGGZ/IyGZUvVS6R6sWXcg==
-X-Gm-Gg: ATEYQzyoGz4ytnvEGDPfkwzVTKqqMMYoCL/bYj6jDA2d/snmQEU3IOmaNj75qOzdAu6
-	Ik/vc8SZMuyl29pwApRjSgLG75AdbWjDECL9gYqxZfjLz3cyaSmvWOFzteOFlD064qLwdspg+oA
-	wj5+X5NxASrHNiKuPOb35ZwAhBT4FwPq6A+zEwdxeJQOwbzk+BCPLAmrS5Ye7mGj9dOlqs2fVMV
-	RPEN8s5ooe6mf2GCt18F5ojzO5+tzFuncSPH1NVCnAYUGATdczSizkvM3rw5Cla3lt/wLHt6fSd
-	tqPo4KDY/n3klx7Rdyxf+G1YD36L7Ep/0jKTNmdJSwM559eRAJwrnu5SfzYxjNqwFzCg
-X-Received: by 2002:a05:651c:981:b0:385:9b50:91a8 with SMTP id
- 38308e7fff4ca-389a5d4e691mr49137391fa.15.1772014521621; Wed, 25 Feb 2026
- 02:15:21 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="W5yfc0cY"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
+	Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=UKvw97aLLhmYWeg2HbSDZr64p/f1GKlxJKIAPRD8xWg=; b=W5yfc0cYXoqCoYjR52vwRHGVja
+	1sBSAfc4HhOmYQ17Q/FqAhszuyzXV6p7J9qbUwDEsZTVPCQOjz3YVeYKM/HTvtYrEA8pWMR0pJ5Il
+	no9uLcQAnK86aqz/zePcMgIV9MWuBJSDpdBUc5WdixhS2rTLXGhoPe1uihhMEXvMy/W7B7AlrSKUQ
+	nIRukiiVGaqbok0XjaD15JNxFsKOCxMq9gxFM5/dpo6dhVzh6VA9af01Wr+R5pF4noY5iAslDSZQK
+	ccNFNzeBqw2UZzojzOxe6L+SZpPCmHQ7mDfysICMeCS25RxkFvhNAVrhE9eVecKiwsPrE+Coi9eyG
+	fG0OW6gw==;
+Received: from bl17-145-117.dsl.telepac.pt ([188.82.145.117] helo=localhost)
+	by fanzine2.igalia.com with utf8esmtpsa 
+	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1vvD0n-005CmH-D6; Wed, 25 Feb 2026 12:25:01 +0100
+From: Luis Henriques <luis@igalia.com>
+To: Miklos Szeredi <miklos@szeredi.hu>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Bernd Schubert <bschubert@ddn.com>,
+	Bernd Schubert <bernd@bsbernd.com>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Horst Birthelmer <hbirthelmer@ddn.com>,
+	Joanne Koong <joannelkoong@gmail.com>,
+	Kevin Chen <kchen@ddn.com>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Matt Harvey <mharvey@jumptrading.com>,
+	kernel-dev@igalia.com,
+	Luis Henriques <luis@igalia.com>
+Subject: [RFC PATCH v3 2/8] fuse: export extend_arg() and factor out fuse_ext_size()
+Date: Wed, 25 Feb 2026 11:24:33 +0000
+Message-ID: <20260225112439.27276-3-luis@igalia.com>
+In-Reply-To: <20260225112439.27276-1-luis@igalia.com>
+References: <20260225112439.27276-1-luis@igalia.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <31a2a4c2-8c33-429a-a2b1-e1f3a0e90d72@nvidia.com>
- <459953fa-5330-4eb1-a1b4-7683b04e3d45@flourine.local> <aY77ogf5nATlJUg_@shinmob>
- <CAJpMwyis1iZB2dQMC4VC8stVhRhOg0mfauCWQd_Nv8Ojb+X-Yw@mail.gmail.com> <ae47ef06-3f66-4aab-b4ab-f3ae2b634f87@wdc.com>
-In-Reply-To: <ae47ef06-3f66-4aab-b4ab-f3ae2b634f87@wdc.com>
-From: Haris Iqbal <haris.iqbal@ionos.com>
-Date: Wed, 25 Feb 2026 11:15:10 +0100
-X-Gm-Features: AaiRm526FWUEGWm_hy7H18Kx_R9h0RTFeFOS6FCw0pCWHIRaUmeSA-DegrV6Fgs
-Message-ID: <CAJpMwyiys85=WG-EQtsioo3OOiRDToUh1jE18Uj2Be2JdzNXDA@mail.gmail.com>
-Subject: Re: [LSF/MM/BPF ATTEND][LSF/MM/BPF TOPIC] : blktests: status,
- expansion plan for the storage stack test framework
-To: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>
-Cc: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>, Daniel Wagner <dwagner@suse.de>, 
-	Chaitanya Kulkarni <chaitanyak@nvidia.com>, 
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, 
-	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>, 
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, 
-	"lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>, Bart Van Assche <bvanassche@acm.org>, 
-	Hannes Reinecke <hare@suse.de>, hch <hch@lst.de>, Jens Axboe <axboe@kernel.dk>, 
-	"sagi@grimberg.me" <sagi@grimberg.me>, "tytso@mit.edu" <tytso@mit.edu>, Christian Brauner <brauner@kernel.org>, 
-	"Martin K. Petersen" <martin.petersen@oracle.com>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, =?UTF-8?Q?Javier_Gonz=C3=A1lez?= <javier@javigon.com>, 
-	"willy@infradead.org" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	"amir73il@gmail.com" <amir73il@gmail.com>, "vbabka@suse.cz" <vbabka@suse.cz>, Damien Le Moal <dlemoal@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Feb 23, 2026 at 8:44=E2=80=AFAM Johannes Thumshirn
-<Johannes.Thumshirn@wdc.com> wrote:
->
-> On 2/15/26 10:18 PM, Haris Iqbal wrote:
-> >>  From my view, blktests keep on finding kernel bugs. I think it demons=
-trates the
-> >> value of this community effort, and I'm happy about it. Said that, I f=
-ind what
-> >> blktests can improve more, of course. Here I share the list of improve=
-ment
-> >> opportunities from my view point (I already mentioned the first three =
-items).
-> > A possible feature for blktest could be integration with something
-> > like virtme-ng.
-> > Running on VM can be versatile and fast. The run can be made parallel
-> > too, by spawning multiple VMs simultaneously.
->
-> This is actually rather trivial to solve I have some pre-made things for
-> fstests and that can be adopted for blktests as well:
->
-> vng \
->      --user=3Droot -v --name vng-tcmu-runner \
->      -a loglevel=3D3 \
->      --run $KDIR \
->      --cpus=3D8 --memory=3D8G \
->      --exec "~johannes/src/ci/run-fstests.sh" \
->      --qemu-opts=3D"-device virtio-scsi,id=3Dscsi0 -drive
-> file=3D/dev/sda,format=3Draw,if=3Dnone,id=3Dzbc0 -device
-> scsi-block,bus=3Dscsi0.0,drive=3Dzbc0" \
->      --qemu-opts=3D"-device virtio-scsi,id=3Dscsi1 -drive
-> file=3D/dev/sdb,format=3Draw,if=3Dnone,id=3Dzbc1 -device
-> scsi-block,bus=3Dscsi1.0,drive=3Dzbc1"
->
-> and run-fstests.sh is:
->
-> #!/bin/sh
-> # SPDX-License-Identifier: GPL-2.0
->
-> DIR=3D"/tmp/"
-> MKFS=3D"mkfs.btrfs -f"
-> FSTESTS_DIR=3D"/home/johannes/src/fstests"
-> HOSTCONF=3D"$FSTESTS_DIR/configs/$(hostname -s)"
-> TESTDEV=3D"$(grep TEST_DEV $HOSTCONF | cut -d '=3D' -f 2)"
->
-> mkdir -p $DIR/{test,scratch,results}
-> $MKFS $TESTDEV
->
-> cd $FSTESTS_DIR
-> ./check -x raid
->
-> I'm not sure it'll make sense to include this into blktests other than
-> maybe providing an example in the README.
+Export (and rename) extend_arg() and fuse_ext_size() as these functions
+are useful for using extension headers in other places.
 
-You're right. It is pretty trivial to run on VMs, but only after
-everything is set up.
-Adding it to blktests would allow this setup to be done (and run tests
-after that) on any system by running just a couple of commands.
+Signed-off-by: Luis Henriques <luis@igalia.com>
+---
+ fs/fuse/dir.c    | 9 ++-------
+ fs/fuse/fuse_i.h | 7 +++++++
+ 2 files changed, 9 insertions(+), 7 deletions(-)
 
->
->
-> Byte,
->
->      Johannes
->
+diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
+index e3000affff88..f5eacea44896 100644
+--- a/fs/fuse/dir.c
++++ b/fs/fuse/dir.c
+@@ -713,7 +713,7 @@ static int get_security_context(struct dentry *entry, umode_t mode,
+ 	return err;
+ }
+ 
+-static void *extend_arg(struct fuse_in_arg *buf, u32 bytes)
++void *fuse_extend_arg(struct fuse_in_arg *buf, u32 bytes)
+ {
+ 	void *p;
+ 	u32 newlen = buf->size + bytes;
+@@ -733,11 +733,6 @@ static void *extend_arg(struct fuse_in_arg *buf, u32 bytes)
+ 	return p + newlen - bytes;
+ }
+ 
+-static u32 fuse_ext_size(size_t size)
+-{
+-	return FUSE_REC_ALIGN(sizeof(struct fuse_ext_header) + size);
+-}
+-
+ /*
+  * This adds just a single supplementary group that matches the parent's group.
+  */
+@@ -758,7 +753,7 @@ static int get_create_supp_group(struct mnt_idmap *idmap,
+ 	    !vfsgid_in_group_p(vfsgid))
+ 		return 0;
+ 
+-	xh = extend_arg(ext, sg_len);
++	xh = fuse_extend_arg(ext, sg_len);
+ 	if (!xh)
+ 		return -ENOMEM;
+ 
+diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+index 6178a012f36c..135027efec7a 100644
+--- a/fs/fuse/fuse_i.h
++++ b/fs/fuse/fuse_i.h
+@@ -1410,6 +1410,13 @@ int fuse_valid_type(int m);
+ 
+ bool fuse_invalid_attr(struct fuse_attr *attr);
+ 
++void *fuse_extend_arg(struct fuse_in_arg *buf, u32 bytes);
++
++static inline u32 fuse_ext_size(size_t size)
++{
++	return FUSE_REC_ALIGN(sizeof(struct fuse_ext_header) + size);
++}
++
+ /**
+  * Is current process allowed to perform filesystem operation?
+  */
