@@ -1,164 +1,176 @@
-Received: from YT3PR01CU008.outbound.protection.outlook.com (mail-canadacentralazon11020142.outbound.protection.outlook.com [52.101.189.142])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C7FD4418EE;
-	Thu, 26 Feb 2026 16:08:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.189.142
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772122111; cv=fail; b=RBWtIus3kgFGYavxozaLUv9lMh7c33creUeowc9MlExOTwCmPY7o7wjG6P4pBQtTukuxByzzFXLpBiZfXt1pHpUGOKttY0s/BKmxAiho3y5qGLPwclXxGrc2vMxPs5qGC+JixoCLXWbDVc/mXKU7w7DTS+oh5nXWiNiw202g6KU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772122111; c=relaxed/simple;
-	bh=QiXy8EraQQFdGl5K0oLR6LR8SlB+Zl6E45ANXOsdKPA=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=HD0Qvf5fkDN8PBVDa31N9eMPPdcLUhTDkmf6yqlWqR3em9p+t+E2wTABld2R9L4yKZMfjn1LfLiUo9c7nVmyT1/C92Rzc2RBoGHqZnPgYqLWRimeAT9/CmGrSUwwg4J+Dz86VWdkd1tc7eJFOE8EMPVJhWKdbgqJmhaLvC6ofX0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com; spf=pass smtp.mailfrom=efficios.com; dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.b=D2fOi7aA; arc=fail smtp.client-ip=52.101.189.142
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9266C3290CB;
+	Thu, 26 Feb 2026 16:08:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772122116; cv=none; b=kUja/NNg+nSwsbtnMLZXPfAmiS32p1YCVSvj8iApYRQ622uekcZuqzGcEoc4fKp/PPZYD4YeDvX3YuDB6y3TlFqOEhE+fpDZD4dZvE2o6jFHKaAZXCWczDH9NpMrpZfwwuQGUq6vAJVmipfayXEylEC7sGvfrTeLCCxZQhHnbWg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772122116; c=relaxed/simple;
+	bh=mJz0eEHEaRbf0z67WFaaYbKMrUAzDbjOomm21BzaG1w=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=AcLZ97WHDYFBVIn25iIW7L6vaRbydG2I0w2KdJFNDZgkGdkV5g2UgegJ7QkWDxUQorXRaaJ6YFBbrgpTvmBpOW+8pgAUWU+Xy2U8wpx26baasgxicH9RA8/1/j8J5aMQtjIuz2m4U8XGl3owo2On3/5hyYan+6rzfDAPrhRfGw4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t0Vv/8r7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.b="D2fOi7aA"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qmX4DcEoeE0F88eSu+5nYZeys9dDaq9uITQ+/rd2blKjw5ERzRSD3nUUxVYU6aNfncMDhFjm98/j2OPS4ZgKCcnSdQ4DddLz24ZRqrxa8ALrPuQL2uyHQaKx61Ml/RXVHfiayGo9dJ6BVZHFhwZ+oHvR0kZXdbonmL/lmFJqZyWH6gEHB4Ot0sGaBbwFyKWG51Lg4ir8oUC9sSpmYGBLE4+LZwqFJ+6DuBhC9WdmJjEMt7kivqNFFMGN+U5AWq/kjZIfLRs3sJow0gPqRcdwOAfMyypvLH21YcF81+DjRtfBpaQJBkWHVAWn4BHiFE2WyGMBNc3v10r/LPAJBnM5OA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RqF9vLca7TuNJDGJYEIr+YojC6HJf/3OaVry/XzXW/Y=;
- b=b9IJj4/U8MQe7AAtKVQSb3+F8xULy1KuJOCcvtvTn8HyttqNpQ4GO236TuLc9XXV0EMwBtDmBNm91e0KX7svTMfH+yKvgL4NnlZD0CG4q4Ft/xjLoSixRD+2ni3dX4OttW5zHfehWMTwWvMvSwh/qOvjgmBR16KQTx8iZIozIhaVAjs2yCq14jfn9FoIG7+vFx5AP64x9xvJsQhORfSNGs6dzd0bb6a1mqB91FMJXJJBSOZXCobINyaNf0V7XWP9WmnN46rWqGhZZh3Tv6SZDRX8Tz4sWVemMpWlADvEsjmtv5dNM1VMbSNEr7esUnnNTHzpcZHf/i5iqdZIXqxiDA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=efficios.com; dmarc=pass action=none header.from=efficios.com;
- dkim=pass header.d=efficios.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RqF9vLca7TuNJDGJYEIr+YojC6HJf/3OaVry/XzXW/Y=;
- b=D2fOi7aASzeMTtuUcYL4p+28oW1bxYDgbO35q6mO8HTj/ZnbZQrdHXSzrHLN2EIo1xPykYh+Hav0sqFqnLs9KUpEbYYfzlwSNAecIXgYSJ8vYiNhHSlWbh3wNwG48TuzKZoH4kjwSPtLjszL+G0KgBRRbW4KL7mP2eR+DuSRkPzh/Itvh+Wz8qLrnfEbboI3gnK/9tD6o5UkTTeiKeehYF9QCEeZUaavVrvK8udcbT7amXggKXaw90nOStrdxBQykNXZslGPA/h+4HZ44Mc5fKwSafPvbj/IkpPnVjLQfL2Aw7wjWDj1rLIOZYu0Mjm7tNWhEfDKl9beLcTCe8TUoQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=efficios.com;
-Received: from YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:be::5)
- by YQXPR01MB6511.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:c01:43::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.15; Thu, 26 Feb
- 2026 16:08:19 +0000
-Received: from YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM
- ([fe80::6004:a862:d45d:90c1]) by YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM
- ([fe80::6004:a862:d45d:90c1%3]) with mapi id 15.20.9654.014; Thu, 26 Feb 2026
- 16:08:19 +0000
-Message-ID: <421a41a0-6199-4e2c-9184-4b4d0d95d86a@efficios.com>
-Date: Thu, 26 Feb 2026 11:08:16 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 24/61] cachefiles: update format strings for u64 i_ino
-To: Jeff Layton <jlayton@kernel.org>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
- Jan Kara <jack@suse.cz>, Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Dan Williams <dan.j.williams@intel.com>, Matthew Wilcox
- <willy@infradead.org>, Eric Biggers <ebiggers@kernel.org>,
- "Theodore Y. Ts'o" <tytso@mit.edu>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260226-iino-u64-v1-0-ccceff366db9@kernel.org>
- <20260226-iino-u64-v1-24-ccceff366db9@kernel.org>
-From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Content-Language: en-US
-In-Reply-To: <20260226-iino-u64-v1-24-ccceff366db9@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YQZPR01CA0098.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:83::17) To YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:be::5)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t0Vv/8r7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D02FEC19423;
+	Thu, 26 Feb 2026 16:08:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772122116;
+	bh=mJz0eEHEaRbf0z67WFaaYbKMrUAzDbjOomm21BzaG1w=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=t0Vv/8r7hvTEyyrgpQEos+lyQHw8VuPB+RKx+RgG1btJBNaNAxEkO+60lW6HbyPby
+	 lHSflQP1RDVfk8I83JhIewxB80P6D7EcglTFUB/NZenAdVCdLaEuesq/G3oHdy4Ase
+	 QfDdy4jDvQ29V9tOsfw8Nu4t8CIhI0KsVuJVltcrjRL/2YMFWZQ4LrLBsZy5i7ta+w
+	 gwyT7GdMLiGYkFsO8ihc5ehJvozLKUp+Hv3sU3WCp+lsij1NBAqgspLMxoEqqFwPqR
+	 JZHdXQQN18uOq1UCy5pC3jx+yHPhdfRzmomqq/fjlBEW6XdhnADZZ673SDFrJPxa0p
+	 45Mc6++8Tu9jw==
+From: Jeff Layton <jlayton@kernel.org>
+Date: Thu, 26 Feb 2026 10:56:01 -0500
+Subject: [PATCH 59/61] iomap: update format string for u64 i_ino
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: YT2PR01MB9175:EE_|YQXPR01MB6511:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8402eac2-920c-44cf-d27b-08de755141d2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|1800799024|366016|921020;
-X-Microsoft-Antispam-Message-Info:
-	+7sN6eLdbZd5MbA1bd9MxSDly+gT1lqvtdFjCgNmjD1y/i09ZZe2FKfv/eHbrDQoSRoDow/47vOxwZJkllzHdHWGUJxKj4++6GcT0F7Zv32O8slRrajiEALI5gIqVd5Lm5DdN/jy/3eTNncZc+9/752jHKnq5zJf0/nndtSHantmdk8KHedDm44HDNivybrpwvXYPm8nrLkwnHnzFcn39Huu8fddCM17JZGXjDLjdebtEIIy8BqcJ8BIFm2+WrfF/XxnWNpDl7Q+vE2jwNj1ZJglUfF3wyhd07ozOZZXDj6eBwnehrEySVEC3fjXBOVFUwqlir+/XzNkm6RPAA+ransaLfg3zvyvo0icqdnjhzdOSl0DqQHom/bswtqli+3xdgscWyPrgrEBzgvoH9ddMyI5/CWf8u8XDps3BiVBCY4TBMcxJXa24M7dwYcRJAwyjZgj8GVYjJm7DEcUlWK9fhPc/wnnWiPz/pifAgHLAfpE8sHcYPhPSzOd4k6Lz68G5tUtdUIYYD+/MlIfv5Q5osxgCKrXqM/pTF/Ckgn4EUbTGkiKWh7Jwt5kUOq8B6eyPSg2UxUba1rfsaR/4WVzOjDy198rPx0jZdfI30U8UNbW+hscwZfYltEeWqwCQES2drdPWo+TFGM3MGprcPcrRS5j05H3npM4gvmNKiLAJVVOC7yg+nHiC0LZeNipQKIKUwKWdxijpc5LN9FYKA1/cduHVPCFtr+xWK0oXPRo9vw=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(921020);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?L1Z2RXk5SXl6bGh2K2JMTjZZQldYMGdCTG1ZK2hqQkJpZWxVdEVFMm9MczlF?=
- =?utf-8?B?aXJSeDZsdTJqdmpQclRETVpjanNvNGN6cmdUcGNxTXNqWnpRZVNIY2k4QXdO?=
- =?utf-8?B?ZXVXL1NiQUU5MXozdlZoVDdmdzQ2d2pZSU1QaEpUWWNsNFdBOCt0TTlyK2xV?=
- =?utf-8?B?N1BIWWxwMy9mV0Z2bW1qV2JieERldzRJVTlsYVpxRXRaaVl2SncvVm1VN2tp?=
- =?utf-8?B?RFBQVmxHdWxONGRIR2hoYW4vVkQwbVZnZkl5OURoaVZ5MzQzT0ZjdXVpeDF5?=
- =?utf-8?B?MUFVTkdNRXRIYTNDVkdMbGhmQlNuV0w3V0o5Zm11b2ptSlhNeVV3MTdzUFlF?=
- =?utf-8?B?REZNVk9IckZnOGtNZFBOSEU5SjJxcVZPWWJnQzFST1NsWk4vdGxteGhYMVpi?=
- =?utf-8?B?aW9rVGFPYTVHdjNnVWxVU09LVDQ2MkM0aFNpSjNSVFNlUXh2NVNrM3RIZVpp?=
- =?utf-8?B?UnVEUXgvNXEyUndGbDhFRDB1a1BWeGhkcFc0MDBLMngxRFl6OERNSC9KTjh6?=
- =?utf-8?B?MmNSd1VtcmUrNm5ESE5VcUtaSUExWG5zOFk3blpNdGNWNW9GamRtOVBFMEp5?=
- =?utf-8?B?amhYd2tSNDArSXhmZDdkM3cxL2ZGYU1ZQkdwNklaK3Foak1aY2xBK3BsWTFQ?=
- =?utf-8?B?OERETHMyLzJ4ZE9qWW5XMUlxVWRINTNKVTRYWGJQUGJIdVFNNlpYQXhRbTdq?=
- =?utf-8?B?UlVLbi9wbWo4OGdxVjZXcGZZMHRLNjlTblRKYXdPdkEyQlJRc09LUE9nSDlR?=
- =?utf-8?B?b3hHTi85dHVsK2tPVlZ4ZXY4cFcyN3BFdlNwTTlRK1NNWTR3QjVCK1FNSUhZ?=
- =?utf-8?B?cHJwZnAxa0t6eDdrWFlLMnprRE5vaUY3UjF5OE5CaWtSL1BYdFlvZWdqamM3?=
- =?utf-8?B?bDhhbEdxTGFmaXIxM3NHdUx5cDdMTjBLalBWNHg5THkra3NvY2hucU1hZkFS?=
- =?utf-8?B?STdLS1A2V3dxNWhMVlpkeWRHZnE3Uk9vZU5xTnZMMXRwRTBSZDZKb2RESDM0?=
- =?utf-8?B?NU9BMGRRcjRsay9CVStaOFlhakN0OGdscW9VblF1R01oV0hlb3ZzSHJPc3ov?=
- =?utf-8?B?bmNPY0pWWHhta0t2VmVZOXo5d1FZd1dpdDkzWm03aWM2OW1rNzlSRlpVdFJm?=
- =?utf-8?B?R0hZcWJ1NUFTT0RNZ2w1THRuMm9jbFNZMmJqdW54VHBUaVAvUmcvRWYxZXZx?=
- =?utf-8?B?Q1VMWWJQcnFTcFJVeU5hMTR6OXRhdXZNbTY5cklCbG1ENncxd1dTaUFDOWRT?=
- =?utf-8?B?S2tNblM3WUl4UGpWcUVGRW1lSldJQTlxT3UwTlpEbGRES1hha0xaVXlqMHJO?=
- =?utf-8?B?aXlEUDhXSk03dGtJSm1RTW1MTXU4SVBmTTFNQnJGUFJraFBBTU80VStDaWdi?=
- =?utf-8?B?eHphV2N5Z21JdzczSWE0cm5VekVoS0o5ODA3TWF2Sk0rSUhWNjVWaWNLR3p6?=
- =?utf-8?B?dXN2OXJkcEhQVi91MWdOa2FqbkJhVklZeHduaVNvSEY2SVk2SWJYTmVaeVEr?=
- =?utf-8?B?UlNWaHRjaEYySGNqNGtNdnlRWGV2QkJTbFBJZTIrVXNHVmpGRFlFeHROUWxB?=
- =?utf-8?B?R1NaNThwRHVPQ3VkaWtlby8rcEJCTndUOUpLU3hwRGxXN2phbW1RU1lEcncy?=
- =?utf-8?B?dmpMK0tLREpaRWhpSUpVT3NpblhNeDRDbndQSTF2L1BKeHlwNkpJWGs1dGdY?=
- =?utf-8?B?WTFraGQyMGl2MG4vK2hYNGFjM3ZrSWtCcXdTM05ieGFmeC8vcTZQK25QSUcv?=
- =?utf-8?B?b0ZiWVZmUlFmUk54ZEh3a0VWNFJoRE0rQWw1cjVXU3ZLTlQxanFoSjREY3E5?=
- =?utf-8?B?SkNZRVczYitTc1BvTmJ1V3Y5TGJ6OGFrWEFSZlVjSUloVGpiYVlTUDljeVEw?=
- =?utf-8?B?QStlQUkxbHVtNE9ZcmtEZTlzQmRFRkJXa3RudTNpdCtJdXNFMWtPVUdLZnM3?=
- =?utf-8?B?Y2ZDakUvZXFpUmR0L2lqejZoekNFQ2l6aFFpb0hxaXRXMFMwL3ZUZ3NEMGhN?=
- =?utf-8?B?dkFFaEFoeFFTbTdybVBVVHFwanJxelNWb2RIVjhlUXp5blhyQ1UxOXZ5akxk?=
- =?utf-8?B?YnU4ZUdyU2xMSitONWg1VWVmTzBUdjFQR04vdUw2WEZlcjJoaFEvdFBPRWEr?=
- =?utf-8?B?eWRjcGlQVmdZWFNyWlhLeVEwZzNTYzBtMDh4RkNGbXZGcFJ4WUdiWitBcC9h?=
- =?utf-8?B?Z2l1ZmdHNVV3SU9JT01tek9YY2FaU0xmajJRSnJRejBpTW1ndGtOT2hwbTZH?=
- =?utf-8?B?UGk5M2dKS0NUL1FrdlVpbkpsMHUySE1nMUlyUmttOUxMUHNPMWpMbnpIczlr?=
- =?utf-8?B?UnYzUDhKT0plQWs0UFBvWGV6UXVxcmtpaFB6dDZkeXVrVDI0TnJKNEpDTm9T?=
- =?utf-8?Q?p1f6Y3Vr7jt1iUEe0Qs/bfPqOeeGtggjxRBSu?=
-X-OriginatorOrg: efficios.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8402eac2-920c-44cf-d27b-08de755141d2
-X-MS-Exchange-CrossTenant-AuthSource: YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Feb 2026 16:08:19.1579
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4f278736-4ab6-415c-957e-1f55336bd31e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FS+fq7MDkQISfoyILFh+J2DDQcFWuU+h2ZHNOTb6Z9MZJg24JUp/Fax2jN93Oz/BXDwekAgjcjX2MxugzITrGkKv4EDjlPeOehNpy42uw8E=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: YQXPR01MB6511
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260226-iino-u64-v1-59-ccceff366db9@kernel.org>
+References: <20260226-iino-u64-v1-0-ccceff366db9@kernel.org>
+In-Reply-To: <20260226-iino-u64-v1-0-ccceff366db9@kernel.org>
+To: Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Steven Rostedt <rostedt@goodmis.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>, 
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+ Dan Williams <dan.j.williams@intel.com>, 
+ Matthew Wilcox <willy@infradead.org>, Eric Biggers <ebiggers@kernel.org>, 
+ "Theodore Y. Ts'o" <tytso@mit.edu>, Muchun Song <muchun.song@linux.dev>, 
+ Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@kernel.org>, 
+ David Howells <dhowells@redhat.com>, Paulo Alcantara <pc@manguebit.org>, 
+ Andreas Dilger <adilger.kernel@dilger.ca>, Jan Kara <jack@suse.com>, 
+ Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>, 
+ Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
+ Chuck Lever <chuck.lever@oracle.com>, NeilBrown <neil@brown.name>, 
+ Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, 
+ Tom Talpey <tom@talpey.com>, Steve French <sfrench@samba.org>, 
+ Ronnie Sahlberg <ronniesahlberg@gmail.com>, 
+ Shyam Prasad N <sprasad@microsoft.com>, 
+ Bharath SM <bharathsm@microsoft.com>, 
+ Alexander Aring <alex.aring@gmail.com>, 
+ Ryusuke Konishi <konishi.ryusuke@gmail.com>, 
+ Viacheslav Dubeyko <slava@dubeyko.com>, 
+ Eric Van Hensbergen <ericvh@kernel.org>, 
+ Latchesar Ionkov <lucho@ionkov.net>, 
+ Dominique Martinet <asmadeus@codewreck.org>, 
+ Christian Schoenebeck <linux_oss@crudebyte.com>, 
+ David Sterba <dsterba@suse.com>, Marc Dionne <marc.dionne@auristor.com>, 
+ Ian Kent <raven@themaw.net>, Luis de Bethencourt <luisbg@kernel.org>, 
+ Salah Triki <salah.triki@gmail.com>, 
+ "Tigran A. Aivazian" <aivazian.tigran@gmail.com>, 
+ Ilya Dryomov <idryomov@gmail.com>, Alex Markuze <amarkuze@redhat.com>, 
+ Jan Harkes <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu, 
+ Nicolas Pitre <nico@fluxnic.net>, Tyler Hicks <code@tyhicks.com>, 
+ Amir Goldstein <amir73il@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
+ Yangtao Li <frank.li@vivo.com>, 
+ Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>, 
+ David Woodhouse <dwmw2@infradead.org>, Richard Weinberger <richard@nod.at>, 
+ Dave Kleikamp <shaggy@kernel.org>, 
+ Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
+ Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>, 
+ Joseph Qi <joseph.qi@linux.alibaba.com>, 
+ Mike Marshall <hubcap@omnibond.com>, 
+ Martin Brandenburg <martin@omnibond.com>, 
+ Miklos Szeredi <miklos@szeredi.hu>, Anders Larsen <al@alarsen.net>, 
+ Zhihao Cheng <chengzhihao1@huawei.com>, Damien Le Moal <dlemoal@kernel.org>, 
+ Naohiro Aota <naohiro.aota@wdc.com>, Johannes Thumshirn <jth@kernel.org>, 
+ John Johansen <john.johansen@canonical.com>, 
+ Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
+ "Serge E. Hallyn" <serge@hallyn.com>, Mimi Zohar <zohar@linux.ibm.com>, 
+ Roberto Sassu <roberto.sassu@huawei.com>, 
+ Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
+ Eric Snowberg <eric.snowberg@oracle.com>, Fan Wu <wufan@kernel.org>, 
+ Stephen Smalley <stephen.smalley.work@gmail.com>, 
+ Ondrej Mosnacek <omosnace@redhat.com>, 
+ Casey Schaufler <casey@schaufler-ca.com>, 
+ Alex Deucher <alexander.deucher@amd.com>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, Eric Dumazet <edumazet@google.com>, 
+ Kuniyuki Iwashima <kuniyu@google.com>, Paolo Abeni <pabeni@redhat.com>, 
+ Willem de Bruijn <willemb@google.com>, 
+ "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
+ Simon Horman <horms@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
+ Arnaldo Carvalho de Melo <acme@kernel.org>, 
+ Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+ Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
+ Adrian Hunter <adrian.hunter@intel.com>, 
+ James Clark <james.clark@linaro.org>, "Darrick J. Wong" <djwong@kernel.org>, 
+ Martin Schiller <ms@dev.tdt.de>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-trace-kernel@vger.kernel.org, nvdimm@lists.linux.dev, 
+ fsverity@lists.linux.dev, linux-mm@kvack.org, netfs@lists.linux.dev, 
+ linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
+ linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org, 
+ samba-technical@lists.samba.org, linux-nilfs@vger.kernel.org, 
+ v9fs@lists.linux.dev, linux-afs@lists.infradead.org, autofs@vger.kernel.org, 
+ ceph-devel@vger.kernel.org, codalist@coda.cs.cmu.edu, 
+ ecryptfs@vger.kernel.org, linux-mtd@lists.infradead.org, 
+ jfs-discussion@lists.sourceforge.net, ntfs3@lists.linux.dev, 
+ ocfs2-devel@lists.linux.dev, devel@lists.orangefs.org, 
+ linux-unionfs@vger.kernel.org, apparmor@lists.ubuntu.com, 
+ linux-security-module@vger.kernel.org, linux-integrity@vger.kernel.org, 
+ selinux@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
+ linaro-mm-sig@lists.linaro.org, netdev@vger.kernel.org, 
+ linux-perf-users@vger.kernel.org, linux-fscrypt@vger.kernel.org, 
+ linux-xfs@vger.kernel.org, linux-hams@vger.kernel.org, 
+ linux-x25@vger.kernel.org, Jeff Layton <jlayton@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=872; i=jlayton@kernel.org;
+ h=from:subject:message-id; bh=mJz0eEHEaRbf0z67WFaaYbKMrUAzDbjOomm21BzaG1w=;
+ b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBpoG0TpQY7eovVW3Aydx7V0aRSrqmhzKyz82kFg
+ yDGXy932HWJAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCaaBtEwAKCRAADmhBGVaC
+ FcA4D/44LMTaI1yNGSRMRxeUlEYsH2ArWGWr0IQXM4Qdw1OnUTPSbH/n3gZo+wcSet5Gzug02cO
+ jcXlMnvYWM3OVTF6i18cUaqSFTbugS4UAO9Mk+Lke+sy9yUakMTo7FNfkQ+f/sk398/6/5szQVZ
+ MUy4ewI2nXzMwq5afGcOoIDLVZixL+oLOl6QLfvgpnWK3/gNoES2uh72pEVkjSgdQZnY+UKaqd4
+ 7n0ARSW3OCvonRlusw3OlE79ed7NBP4olnKzZba6tqeYjtcCyWaVmxYVBa6j0M57j7pvxZ96OJc
+ 7a2Fq44zHEF9dtwJewVlFtThajHSJrr92jbICM7uR/B7Hz7EyYD0LhmcdLaepe4FdL25GRmPCOe
+ XSX9mfjHvfnq1Y3wE+Pb0DVhA2WocfUKncSNil3vb8yI55n2CEtXvfPsoyJ9pqpS5rCTgqukoqt
+ sZQBQhXYqPb1/AxxjHtM8qeoVyjkFaZRJPDW3Hw1TtxR0fq/K7+zgUPffxE9ni16UTo4q/ZqxRi
+ rDVEotes7qKCDtvl4VFlr7CLGXtrsZVu/xWV1Uod99oci9bsUb+js1G5WQByBvq8VuRRCwdGhG0
+ YRSpXvriSFf8pG8NEGkkkH+DddjxU9ZbrxdudoSGdU+UaRLNBLKM1dRSqJOjxl5oAYK15lrk5NB
+ wtLloV9zJaVgRTg==
+X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
+ fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
 
-On 2026-02-26 10:55, Jeff Layton wrote:
-> Update format strings and local variable types in cachefiles for the
-> i_ino type change from unsigned long to u64.
+Update format string from %lu to %llu for inode->i_ino now that
+i_ino is u64 instead of unsigned long.
 
-[ Trimming huge CC list. ]
+Signed-off-by: Jeff Layton <jlayton@kernel.org>
+---
+ fs/iomap/ioend.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-May I recommend shrinking the CC list to the list of people who actually
-need to be CC'd on individual changes ? Yes, this is a big task on a 61
-patches series, but it's part of the expected work that goes into
-submitting a large series like this.
-
->   
-> -	_enter("%pD,%li,%llx,%zx/%llx",
-> +	_enter("%pD,%llu,%llx,%zx/%llx",
-
-This changes from signed to unsigned without any mention of why in the
-commit message.
-
-Thanks,
-
-Mathieu
-
+diff --git a/fs/iomap/ioend.c b/fs/iomap/ioend.c
+index 4d1ef8a2cee90b91591d387f8e1c3f75350c1da0..94d9a3c77bd68581d752fef4c16b88e1cb5f88da 100644
+--- a/fs/iomap/ioend.c
++++ b/fs/iomap/ioend.c
+@@ -48,7 +48,7 @@ static u32 iomap_finish_ioend_buffered(struct iomap_ioend *ioend)
+ 		mapping_set_error(inode->i_mapping, ioend->io_error);
+ 		if (!bio_flagged(bio, BIO_QUIET)) {
+ 			pr_err_ratelimited(
+-"%s: writeback error on inode %lu, offset %lld, sector %llu",
++"%s: writeback error on inode %llu, offset %lld, sector %llu",
+ 				inode->i_sb->s_id, inode->i_ino,
+ 				ioend->io_offset, ioend->io_sector);
+ 		}
 
 -- 
-Mathieu Desnoyers
-EfficiOS Inc.
-https://www.efficios.com
+2.53.0
+
