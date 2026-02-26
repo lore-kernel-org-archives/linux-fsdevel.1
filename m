@@ -1,179 +1,246 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8645A43DA5B
-	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Feb 2026 15:57:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 437CF43DA5B;
+	Thu, 26 Feb 2026 15:58:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772121488; cv=none; b=Gqv9g1yM/w2dWZGDgO8rNUg55ih2y2Mb1peMRWI8AWNf2osdKh/hE9GZb7693dNnrkkMefJ0MraC/gpmh/MaHsPd1rLN33O6q2N3xBboJZG4oqXy+JkgnJR96qMCjoBEIoimkT5R2/koTQND6pobeXjxEQKQnbselzFOiiDSnFM=
+	t=1772121491; cv=none; b=PeYZmj/L5xI1QLKlv55jnblNd52F4v39xaaj0yTTNJVThWQ8hIPfgPxxhKZYHWLh+N7BXbJ3ZJ5/i3Qh50WxHVesgRtAB4N6ihwJc9t3oF/K45OXC3LJUoggSLoUttcmfmLPamKZTO2Gz30GEkJLNFFGO5hPL1H7LF+33Wo6iYs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772121488; c=relaxed/simple;
-	bh=+3rgpsLVX9mZ19UFhL39bQlgBOJHDwAAlzpTDofRvBk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j7mhMNVX739nghytJi/RPN+nUMYo6+ZWFt1u/UJHYgWuFGzVzBoA1XYy9UDg2+Wq5Lev7I93vxm5Zv/e+Wfm+dGZLE2oli73vtnBfnF6cfkk5jbqnjQO+n7dERqvTh5b3E9zfKxNxjg1HTzMNdiI55322aT6ehhBFSmpHhetwsc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=NG02SaEA; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=vZUpkvzU; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=HfOhQgRY; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ou9/ol6P; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1772121491; c=relaxed/simple;
+	bh=ozE/lysUboEWCQ4+AsDbyvozbN/xqnJrVIKCk8YVbZ8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=bUT1Gd/XrrmUYqlm5ZLccPGtpgUZAO9N3IZNfLWs8ecV1yD07BrT4APol5CHRQnnkDGR6YN9CRI/qxh04X/CAy8GASvtfl5Ja5+JtqEVyw4VXH4Zxxiu36GTgiKGOyl0Vr1rCZomWBNPmV8D1qG1WmvbeWHfcy3611OyLE/aBnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tl95cpRH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="NG02SaEA";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="vZUpkvzU";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="HfOhQgRY";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ou9/ol6P"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 7BEE64D3A3;
-	Thu, 26 Feb 2026 15:57:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1772121475; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/i2DZUCnLiSh6tyQFm0xCUt8fe3VYUbhBSYNeIXhkxg=;
-	b=NG02SaEAsXx+lDCSiB3amx64tqbg8TG1jtqSbe9w2ZAcGzD8OPQMQbk3OyqBnVHljB8ER3
-	jwp0HDKJ5svhCCUfz9+fnrHIY0J6hxiHZvIOdeKoVHnyhkP+esATYtGuvhR9kjBcF3c8qe
-	Jknj16VXc6/8W8zcnAZxMt/eClONpUo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1772121475;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/i2DZUCnLiSh6tyQFm0xCUt8fe3VYUbhBSYNeIXhkxg=;
-	b=vZUpkvzU+q6hT29J0iw8lo0GnI9doWRm/MlSCNeFBZeVo2njjviIYge35511ZWhXUq3ifp
-	vW7Pcr2AotFSEkCA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=HfOhQgRY;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b="ou9/ol6P"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1772121474; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/i2DZUCnLiSh6tyQFm0xCUt8fe3VYUbhBSYNeIXhkxg=;
-	b=HfOhQgRYpIlp1Uv3yeURbbMHZIL6QVp0rbyUaqGhZyTtpKnoTpYgNp0taGnBc0EmVJvLX1
-	iUO8Gb3N1niWZTU2N+uxoZn/WDVluRQcRoNsSSF6XS8dtU5p8DG1vqLi2xJSz0vFLzWVb7
-	pxEU0/euYzt/JwCJlN+uH7u1llAiL3o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1772121474;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/i2DZUCnLiSh6tyQFm0xCUt8fe3VYUbhBSYNeIXhkxg=;
-	b=ou9/ol6P/TAzf69n7/tN9yd3xUIGBxpNMRWF7raz3J8Jzul6LTg5BJuzyRLbLWWhk2GV/x
-	p7hDo7WQr7RC+WBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 703EB3EA62;
-	Thu, 26 Feb 2026 15:57:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id p7RfG4JtoGnNegAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 26 Feb 2026 15:57:54 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 28214A0A27; Thu, 26 Feb 2026 16:57:39 +0100 (CET)
-Date: Thu, 26 Feb 2026 16:57:39 +0100
-From: Jan Kara <jack@suse.cz>
-To: Sasha Levin <sashal@kernel.org>
-Cc: Jan Kara <jack@suse.cz>, Amir Goldstein <amir73il@gmail.com>, 
-	patches@lists.linux.dev, stable@vger.kernel.org, Jakub Acs <acsjakub@amazon.de>, 
-	Christian Brauner <brauner@kernel.org>, viro@zeniv.linux.org.uk, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH AUTOSEL 6.19-5.15] fsnotify: Shutdown fsnotify before
- destroying sb's dcache
-Message-ID: <xsb2gj3d7vokquylyk3zsnzugjlojnzqyamvyouz5usqn7g2rk@ab56trnvkoq7>
-References: <20260214212452.782265-1-sashal@kernel.org>
- <20260214212452.782265-85-sashal@kernel.org>
- <CAOQ4uxgKwp2FSAUwqhHN-kTBcy0DsFmLstGUY+zJWppOzTAmHA@mail.gmail.com>
- <z6nyopsvzubwxowiqxdg2yt5v6yu4i3uzlflvryjwuk2su7z4m@35ikyzqbxb46>
- <aaBUCU50P-GYMnne@laps>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tl95cpRH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D41DC2BCB2;
+	Thu, 26 Feb 2026 15:57:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772121490;
+	bh=ozE/lysUboEWCQ4+AsDbyvozbN/xqnJrVIKCk8YVbZ8=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=Tl95cpRHVEy9a69M1dPyVMNrFACinfcHkMSnrsJSJ41F1IPipWKjqo400vZ/NbQmL
+	 YUPeHdgF2ouooH4/jZnPdmjQPX2RSD6dAFNXEQ4tMNkFK1U5S52ZKh6MacyqQwTE26
+	 wtSaX+iIVp1eFKbZDh7W12pyubn8xXSAdxvT8s1HINUFUGTtKWmViGgo3to2LJ/GNZ
+	 x3e9HhxcQyaf3N7GJfprPRO8OPW0OeidM/kJazebnZ1I5YfZCZuocYOM79vYH//gbU
+	 evmOTHvoE55jR4g40jSZIXcwGHIK51p3FtqxaWtIEiTLZ9sMRLpKTTeDM+GABiHWej
+	 gMu4A7jJHqAHQ==
+From: Jeff Layton <jlayton@kernel.org>
+Date: Thu, 26 Feb 2026 10:55:11 -0500
+Subject: [PATCH 09/61] nfs: remove nfs_fattr_to_ino_t() and
+ nfs_fileid_to_ino_t()
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aaBUCU50P-GYMnne@laps>
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[suse.cz,gmail.com,lists.linux.dev,vger.kernel.org,amazon.de,kernel.org,zeniv.linux.org.uk];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:email];
-	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Rspamd-Queue-Id: 7BEE64D3A3
-X-Spam-Flag: NO
-X-Spam-Score: -4.01
-X-Spam-Level: 
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260226-iino-u64-v1-9-ccceff366db9@kernel.org>
+References: <20260226-iino-u64-v1-0-ccceff366db9@kernel.org>
+In-Reply-To: <20260226-iino-u64-v1-0-ccceff366db9@kernel.org>
+To: Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Steven Rostedt <rostedt@goodmis.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>, 
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+ Dan Williams <dan.j.williams@intel.com>, 
+ Matthew Wilcox <willy@infradead.org>, Eric Biggers <ebiggers@kernel.org>, 
+ "Theodore Y. Ts'o" <tytso@mit.edu>, Muchun Song <muchun.song@linux.dev>, 
+ Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@kernel.org>, 
+ David Howells <dhowells@redhat.com>, Paulo Alcantara <pc@manguebit.org>, 
+ Andreas Dilger <adilger.kernel@dilger.ca>, Jan Kara <jack@suse.com>, 
+ Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>, 
+ Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
+ Chuck Lever <chuck.lever@oracle.com>, NeilBrown <neil@brown.name>, 
+ Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, 
+ Tom Talpey <tom@talpey.com>, Steve French <sfrench@samba.org>, 
+ Ronnie Sahlberg <ronniesahlberg@gmail.com>, 
+ Shyam Prasad N <sprasad@microsoft.com>, 
+ Bharath SM <bharathsm@microsoft.com>, 
+ Alexander Aring <alex.aring@gmail.com>, 
+ Ryusuke Konishi <konishi.ryusuke@gmail.com>, 
+ Viacheslav Dubeyko <slava@dubeyko.com>, 
+ Eric Van Hensbergen <ericvh@kernel.org>, 
+ Latchesar Ionkov <lucho@ionkov.net>, 
+ Dominique Martinet <asmadeus@codewreck.org>, 
+ Christian Schoenebeck <linux_oss@crudebyte.com>, 
+ David Sterba <dsterba@suse.com>, Marc Dionne <marc.dionne@auristor.com>, 
+ Ian Kent <raven@themaw.net>, Luis de Bethencourt <luisbg@kernel.org>, 
+ Salah Triki <salah.triki@gmail.com>, 
+ "Tigran A. Aivazian" <aivazian.tigran@gmail.com>, 
+ Ilya Dryomov <idryomov@gmail.com>, Alex Markuze <amarkuze@redhat.com>, 
+ Jan Harkes <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu, 
+ Nicolas Pitre <nico@fluxnic.net>, Tyler Hicks <code@tyhicks.com>, 
+ Amir Goldstein <amir73il@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
+ Yangtao Li <frank.li@vivo.com>, 
+ Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>, 
+ David Woodhouse <dwmw2@infradead.org>, Richard Weinberger <richard@nod.at>, 
+ Dave Kleikamp <shaggy@kernel.org>, 
+ Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
+ Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>, 
+ Joseph Qi <joseph.qi@linux.alibaba.com>, 
+ Mike Marshall <hubcap@omnibond.com>, 
+ Martin Brandenburg <martin@omnibond.com>, 
+ Miklos Szeredi <miklos@szeredi.hu>, Anders Larsen <al@alarsen.net>, 
+ Zhihao Cheng <chengzhihao1@huawei.com>, Damien Le Moal <dlemoal@kernel.org>, 
+ Naohiro Aota <naohiro.aota@wdc.com>, Johannes Thumshirn <jth@kernel.org>, 
+ John Johansen <john.johansen@canonical.com>, 
+ Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
+ "Serge E. Hallyn" <serge@hallyn.com>, Mimi Zohar <zohar@linux.ibm.com>, 
+ Roberto Sassu <roberto.sassu@huawei.com>, 
+ Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
+ Eric Snowberg <eric.snowberg@oracle.com>, Fan Wu <wufan@kernel.org>, 
+ Stephen Smalley <stephen.smalley.work@gmail.com>, 
+ Ondrej Mosnacek <omosnace@redhat.com>, 
+ Casey Schaufler <casey@schaufler-ca.com>, 
+ Alex Deucher <alexander.deucher@amd.com>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, Eric Dumazet <edumazet@google.com>, 
+ Kuniyuki Iwashima <kuniyu@google.com>, Paolo Abeni <pabeni@redhat.com>, 
+ Willem de Bruijn <willemb@google.com>, 
+ "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
+ Simon Horman <horms@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
+ Arnaldo Carvalho de Melo <acme@kernel.org>, 
+ Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+ Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
+ Adrian Hunter <adrian.hunter@intel.com>, 
+ James Clark <james.clark@linaro.org>, "Darrick J. Wong" <djwong@kernel.org>, 
+ Martin Schiller <ms@dev.tdt.de>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-trace-kernel@vger.kernel.org, nvdimm@lists.linux.dev, 
+ fsverity@lists.linux.dev, linux-mm@kvack.org, netfs@lists.linux.dev, 
+ linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
+ linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org, 
+ samba-technical@lists.samba.org, linux-nilfs@vger.kernel.org, 
+ v9fs@lists.linux.dev, linux-afs@lists.infradead.org, autofs@vger.kernel.org, 
+ ceph-devel@vger.kernel.org, codalist@coda.cs.cmu.edu, 
+ ecryptfs@vger.kernel.org, linux-mtd@lists.infradead.org, 
+ jfs-discussion@lists.sourceforge.net, ntfs3@lists.linux.dev, 
+ ocfs2-devel@lists.linux.dev, devel@lists.orangefs.org, 
+ linux-unionfs@vger.kernel.org, apparmor@lists.ubuntu.com, 
+ linux-security-module@vger.kernel.org, linux-integrity@vger.kernel.org, 
+ selinux@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
+ linaro-mm-sig@lists.linaro.org, netdev@vger.kernel.org, 
+ linux-perf-users@vger.kernel.org, linux-fscrypt@vger.kernel.org, 
+ linux-xfs@vger.kernel.org, linux-hams@vger.kernel.org, 
+ linux-x25@vger.kernel.org, Jeff Layton <jlayton@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3123; i=jlayton@kernel.org;
+ h=from:subject:message-id; bh=ozE/lysUboEWCQ4+AsDbyvozbN/xqnJrVIKCk8YVbZ8=;
+ b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBpoG0GZ9mae1UfEzZjvJD4JiNnRPl5Nhr/tQ1B0
+ m90fRG+XeKJAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCaaBtBgAKCRAADmhBGVaC
+ FUNNEACfph9HeCWuD/qrlt/anxXHRLFJ+N55/jO9WUFZDUHVC1uWe/qFGQB4inv5lvQdKqPNVQz
+ kLo8M1E4LrqRBj3bgzhpjGtBRtdmYiYiFQt2QN/RTJcbwBIijGa0Lkeld9r6/v0YlyZZAyCJfRD
+ NhjnwmW+pXiLmqpSqPxIJDI//+XA3Zd7HZfWNvamWsLP7P6pRi50+mxB4gSwNuE82jNnfysQ4hr
+ xNgXlVCvaQVFcnQY4nIFqDesc7HZ3I6HsZs5cugSfIC7YhrAHnHgzUX1X3F1N7EqHIvN/ETvTxT
+ 5Kb1+IsLgP78RH9rlvcaM4+z6gCKQ4I0LX0nhb1q+nOK0/yF0B5Wj4FIAJRtnNLtUiyUcBn2yDU
+ 2B1itmjUhIwUONEgxN6+sBxZsrkmEvCoxhWKbIvKEt7ouyoJPHotIkpyi4Fy6G3gVMX+D962p6U
+ +MNYPcdKlUz440uTYnQ0WbFTn+gtR9UZa+8V2v+kTpWMFOlvIa5ChRPEGDqjaMEAzTtgIJJigwL
+ hAJZyp1hVGDXzIakUmhDjansPNiZV5PNsqjr3VQle3FQeHZ7zFF2ts2dXb0dky9ODuyE8mmPumA
+ Sq2urAsWLtVirge+Vok4tOUNhvuZqt+IVPyWX3gk0VwWIFDl/IGHt+VH4jnZFmOmgKOzkMYIVTI
+ c26wc1AgzjeJcnA==
+X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
+ fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
 
-On Thu 26-02-26 09:09:13, Sasha Levin wrote:
-> On Tue, Feb 17, 2026 at 11:00:42AM +0100, Jan Kara wrote:
-> > On Sun 15-02-26 09:11:30, Amir Goldstein wrote:
-> > > On Sat, Feb 14, 2026 at 11:27 PM Sasha Levin <sashal@kernel.org> wrote:
-> > > >
-> > > > From: Jan Kara <jack@suse.cz>
-> > > >
-> > > > [ Upstream commit 74bd284537b3447c651588101c32a203e4fe1a32 ]
-> > > >
-> > > > Currently fsnotify_sb_delete() was called after we have evicted
-> > > > superblock's dcache and inode cache. This was done mainly so that we
-> > > > iterate as few inodes as possible when removing inode marks. However, as
-> > > > Jakub reported, this is problematic because for some filesystems
-> > > > encoding of file handles uses sb->s_root which gets cleared as part of
-> > > > dcache eviction. And either delayed fsnotify events or reading fdinfo
-> > > > for fsnotify group with marks on fs being unmounted may trigger encoding
-> > > > of file handles during unmount.
-> > > 
-> > > In retrospect, the text "Now that we iterate inode connectors..."
-> > > would have helped LLM (as well as human) patch backports understand
-> > > that this is NOT a standalone patch.
-> > 
-> > Good point :)
-> > 
-> > > Sasha,
-> > > 
-> > > I am very for backporting this fix, but need to backport the series
-> > > https://lore.kernel.org/linux-fsdevel/20260121135513.12008-1-jack@suse.cz/
-> > 
-> > Yes. Without commits 94bd01253c3d5 ("fsnotify: Track inode connectors for a
-> > superblock") and a05fc7edd988c ("fsnotify: Use connector list for
-> > destroying inode marks") the reordering alone can cause large latencies
-> > during filesystem unmount.
-> 
-> Looks like going even to 6.18 requires a bunch of dependencies, so a backport
-> would be appreciated :)
+Now that i_ino is u64, these helpers are trivial identity functions that
+just return the fileid unchanged. Remove them and use fattr->fileid
+directly at the two call sites.
 
-Well, given nobody hit the race in practice (not even syzbot) and I don't
-know of a way to even theoretically trigger this without CAP_SYS_ADMIN, I
-don't think significant effort in fixing this is really warranted...
+nfs_fileid_to_ino_t() had no callers at all.
 
-								Honza
+Signed-off-by: Jeff Layton <jlayton@kernel.org>
+---
+ fs/nfs/inode.c         | 17 +++--------------
+ include/linux/nfs_fs.h |  6 ------
+ 2 files changed, 3 insertions(+), 20 deletions(-)
+
+diff --git a/fs/nfs/inode.c b/fs/nfs/inode.c
+index 38c7b79e76b3f9eb21d325b98708fe67d159076f..d88f5689548bcb4e27d6087a49b525762fbaa9e2 100644
+--- a/fs/nfs/inode.c
++++ b/fs/nfs/inode.c
+@@ -66,12 +66,6 @@ static int nfs_update_inode(struct inode *, struct nfs_fattr *);
+ 
+ static struct kmem_cache * nfs_inode_cachep;
+ 
+-static inline u64
+-nfs_fattr_to_ino_t(struct nfs_fattr *fattr)
+-{
+-	return fattr->fileid;
+-}
+-
+ int nfs_wait_bit_killable(struct wait_bit_key *key, int mode)
+ {
+ 	if (unlikely(nfs_current_task_exiting()))
+@@ -413,14 +407,12 @@ nfs_ilookup(struct super_block *sb, struct nfs_fattr *fattr, struct nfs_fh *fh)
+ 		.fattr	= fattr,
+ 	};
+ 	struct inode *inode;
+-	unsigned long hash;
+ 
+ 	if (!(fattr->valid & NFS_ATTR_FATTR_FILEID) ||
+ 	    !(fattr->valid & NFS_ATTR_FATTR_TYPE))
+ 		return NULL;
+ 
+-	hash = nfs_fattr_to_ino_t(fattr);
+-	inode = ilookup5(sb, hash, nfs_find_actor, &desc);
++	inode = ilookup5(sb, fattr->fileid, nfs_find_actor, &desc);
+ 
+ 	dprintk("%s: returning %p\n", __func__, inode);
+ 	return inode;
+@@ -456,7 +448,6 @@ nfs_fhget(struct super_block *sb, struct nfs_fh *fh, struct nfs_fattr *fattr)
+ 	};
+ 	struct inode *inode = ERR_PTR(-ENOENT);
+ 	u64 fattr_supported = NFS_SB(sb)->fattr_valid;
+-	unsigned long hash;
+ 
+ 	nfs_attr_check_mountpoint(sb, fattr);
+ 
+@@ -467,9 +458,7 @@ nfs_fhget(struct super_block *sb, struct nfs_fh *fh, struct nfs_fattr *fattr)
+ 	if ((fattr->valid & NFS_ATTR_FATTR_TYPE) == 0)
+ 		goto out_no_inode;
+ 
+-	hash = nfs_fattr_to_ino_t(fattr);
+-
+-	inode = iget5_locked(sb, hash, nfs_find_actor, nfs_init_locked, &desc);
++	inode = iget5_locked(sb, fattr->fileid, nfs_find_actor, nfs_init_locked, &desc);
+ 	if (inode == NULL) {
+ 		inode = ERR_PTR(-ENOMEM);
+ 		goto out_no_inode;
+@@ -481,7 +470,7 @@ nfs_fhget(struct super_block *sb, struct nfs_fh *fh, struct nfs_fattr *fattr)
+ 
+ 		/* We set i_ino for the few things that still rely on it,
+ 		 * such as stat(2) */
+-		inode->i_ino = hash;
++		inode->i_ino = fattr->fileid;
+ 
+ 		/* We can't support update_atime(), since the server will reset it */
+ 		inode->i_flags |= S_NOATIME|S_NOCMTIME;
+diff --git a/include/linux/nfs_fs.h b/include/linux/nfs_fs.h
+index 0e6d03c10c3de91cac4cd4d08c961e171cbf9a41..816670562d17b3f46ec2d22d4f9412e42f7e1a3b 100644
+--- a/include/linux/nfs_fs.h
++++ b/include/linux/nfs_fs.h
+@@ -667,12 +667,6 @@ static inline loff_t nfs_size_to_loff_t(__u64 size)
+ 	return min_t(u64, size, OFFSET_MAX);
+ }
+ 
+-static inline u64
+-nfs_fileid_to_ino_t(u64 fileid)
+-{
+-	return fileid;
+-}
+-
+ static inline void nfs_ooo_clear(struct nfs_inode *nfsi)
+ {
+ 	nfsi->cache_validity &= ~NFS_INO_DATA_INVAL_DEFER;
+
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.53.0
+
