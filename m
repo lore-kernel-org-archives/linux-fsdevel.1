@@ -1,145 +1,109 @@
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
+Received: from mail-yx1-f51.google.com (mail-yx1-f51.google.com [74.125.224.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D9932D94B5
-	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Feb 2026 03:15:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64A1A329E43
+	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Feb 2026 04:04:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772075733; cv=none; b=lsJoHscEhjXmTmCuT59xqCpVspoCjU6XFb99IjbfMy0vXUnpDnW9/K0NLmZ1Ds1ScM40V/rsMqJECInRXmDv8ZrLpK+IkGSnQlm1p5Rn6CbBRYCuoV9GCX2bCtKPTnOhO1+X209sMpSq08GRVKDH0ITfZR1yDzljgiBxPvT69WU=
+	t=1772078658; cv=none; b=NFdOQUk2xNVgnytw19xFOGERw9T0hSlNPHb3k+/E4pPwG8sHeVUvR50MSqMAh2sE0x5HZ0f/FheH7KZQVSjlk5m6tml6DlvRHLGbZvynxiM8UhAVWBcjr816tw2AlFUJLikzCQ6kV2h44YYwSSc40rD3nRD972TrWL8ZWxMcfSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772075733; c=relaxed/simple;
-	bh=3Uj98JRcjkXg45L932sgBQ4jyAOkKnrA4eVXq0Mc2RQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iT1aEv/XURsa5QOIexzww8RSBXljwHfKJd204Ha/6f0RvPgCKT5XbMN4+Fasoi18+6gFJUHQmBhrobWoZgzMM1EHuo0lm8gJk8Fx4GJ4QWeVTsaGZzBGn23qj8fkNRxzs6ajU/FH9Lu6S9BMMGFHapjOzD+IabNpBglkAoTViCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=Pt3QESqe; arc=none smtp.client-ip=209.85.167.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
+	s=arc-20240116; t=1772078658; c=relaxed/simple;
+	bh=9QnsUH1b8xu9HS7Lr8NBFEdFNO86Z9sWzIxCtwZ5Yio=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=AyoxuFwVg2EuaV1m9sWeVVD3vMDvgERJg/UwS8dPEpH39NbqTAirUX6Mm7OXejJvMyax4LeObttmlQGYFxjKP4q/gs+GyGfoA/mO8QrO+ypd3XrjTCg7KZiXb9xnbiPH3KxeX52QWAuIrJS+M/hEK8h6kWSYcoXSYSsI+mbQ3vw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iJJ60pW/; arc=none smtp.client-ip=74.125.224.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="Pt3QESqe"
-Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-463a0e14b4dso156096b6e.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Feb 2026 19:15:32 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iJJ60pW/"
+Received: by mail-yx1-f51.google.com with SMTP id 956f58d0204a3-64ad9fabd08so355621d50.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Feb 2026 20:04:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1772075731; x=1772680531; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=myOpzKKufRrzTXzkKkTioHHnRh1Fxba9oHbsZ8bSehI=;
-        b=Pt3QESqeGYGEyfcbtu599/TaELTldNHt9ng7MdkbQscEZnkRuSh25I41b9c9dvwbs0
-         pbRiegVYVhXxN6kv/Eg0EFcqolSkF8sW2dHcoxou+89/W6wTpoKs3MeS5dRmlnq0QHLz
-         beD0NKXnUFkxdzpurznywZsv0jcAXSFUEZlDVEaGEZX/fH8nT2ZLRuRzU4wRZYWgAJYK
-         HjXy/ScGA0aB6TeNRft1Dvn6Qb35HEKMPwb1Y7g7J2FWEhFtSj7eArl0e01dC8zPx26E
-         xYJnhHsEiybj+rxDtRCtjALwF7rqZEnbad8aUzCkCd2gR90/cfeFhG91HuY5K4g9N7cT
-         grQw==
+        d=gmail.com; s=20230601; t=1772078656; x=1772683456; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OW2A0GS7O+4pmpGmbAo6fa4SoWiUi8MSUjgZBunJX3U=;
+        b=iJJ60pW/vBrRRj6NVIV0KCXXsTF6YSr7yx/kRgmD5A8GXesWanT59o9ataANxw1/NO
+         PRNY1UXQX7GpmNujqQHU8KZZa3KCscGfRJEdEvNXvLW8a5g7DDHCWTuua04PiMl+BTIj
+         RxMRvp3vKBFvNtyxgNu73SXH4k7tY9bkBfaUtSB7W+vqqpDaSGaisbvUqy1cwqvpYFsK
+         FZXh0PFaku+aDnKSNc8JCsGQdg6AwPojh6RFFsOfAyVXk5AdPz0TuLaQB9Y4FnX/nc2D
+         nB2ng9t5plr6lig8pBRUTkmCksKlbJadndeBxY2GskV85KHuiF4GJgCeefvAZokzeHaL
+         i26w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772075731; x=1772680531;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=myOpzKKufRrzTXzkKkTioHHnRh1Fxba9oHbsZ8bSehI=;
-        b=UuL5D4lWixHm7wqtZ8Ik+96TGew3wIyjGCasUThAVoRL8EnTz0Q0n/8F14+vwNpp2x
-         7W1eCGAiwI/qBUZMBuXPa/l5GmBmBMbBx1E+lWIE5xActZab3IULPuHsZYGLn7+CyW0+
-         hgs1H8vrxl+AYZUO8D955++uHYqrqRxxVtZeTUy2zfJvjnKypeH2WHUivM1iPuGdNw0V
-         7mmJuNmFb1VZU6FBjog2REoFe6/gt8wvAvL9KuDH6JPBu4Iw1FHKnEGnzUKZ3ixvvmAD
-         rRadDTSvCN8B+72qi+4E6pY5fAim+5LH8Ceyx2aHgNLheHaiZJgq20NRNqpHoorxY4ih
-         q5wQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVZjRH3p402bRxrILNqnf0Et05Vre7xhfG1hsI6ezB1dOXYSRDqhBgfEd51393Y1DMH/13D2x0hw8iVyHL/@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzs51NqdUHJtxngfsruHKMPHSY/HOMep7NXL7WJ1at3hYUct24B
-	HyVr0OACwdcYQ6KBl5vcGAsJE/WUBeasPKy/EumZOg23V1I5ZW6A01iPWIRqeUinPx0=
-X-Gm-Gg: ATEYQzzrHgCU8GWsu47cmHXis8XmlNrUe1yxuDln7nafRgb8j2ecBsq8sNGWT6oMl40
-	eB0yP8aQxStmXqMEkzN2gBEkI2HRCJHf6dca5EGTC+lZOgl2OEYAb9ayE2KFWkxP3PZ7Y/cUrH6
-	0cLnRLvLp3zafJNxFGApL4WSaOudxD/jLNtNdK7Xh2FxmNU6UiRhvBhCp4RWJxeuDkyox0xzzA2
-	C0wvOyF1ZMsVy2fMswP24LPLc2muSQnFh7T698C11SZREStpzcHVkm3CMzs+3vsagC8hq9zvWek
-	yExuTfXs4UhlpJcAlqVUo84Q1CSbbvNyKWJ7CTfaM+uVyX4ZXDAvW3DXcykWW82XV1rdTgHoeQC
-	P0AVBHLi795ND9SBTlBjOceNaOI7vsWC6iq40LeOBN+xRUUqrBzohudMP7Ml2GvB5fk5HkwA6OB
-	shj39gWnUTqk/2TiykJxI6DumC9vJnKeZiGiHDOsbyOdRWj0TdAKXS+t6Z+MDLZSvT0cd30S+ln
-	99K6uWYjA==
-X-Received: by 2002:a05:6808:320b:b0:462:d9a2:84e1 with SMTP id 5614622812f47-464463ef61fmr8794809b6e.60.1772075731397;
-        Wed, 25 Feb 2026 19:15:31 -0800 (PST)
-Received: from [192.168.1.150] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4160cf9b240sm786090fac.8.2026.02.25.19.15.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Feb 2026 19:15:30 -0800 (PST)
-Message-ID: <44e3e9ea-350b-4357-ba50-726e506feab5@kernel.dk>
-Date: Wed, 25 Feb 2026 20:15:28 -0700
+        d=1e100.net; s=20230601; t=1772078656; x=1772683456;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=OW2A0GS7O+4pmpGmbAo6fa4SoWiUi8MSUjgZBunJX3U=;
+        b=GCud1H6uThT9G6vFK/zg76yxNbNMt3P/GYPwJQlEt7kno3amNRY1D35QbJSdlEz/gF
+         KDefgwHyziv5+jyN3iEl90B5utCEhd/HLgiHWyyA9zPX566p/yNfa0M7KBdxxctr8auz
+         shlV47P7pmG+yBTfR0pNdxRFdySSFOeV1xnhFXPJtvfnyJSqHIivuTDI1CfUG3MMpaMo
+         Tv8NP4OosLp0ItSuc4D5IrglPnFZqZcjIUQNHSQ2k6IfxxnnDm4g3WxJ4sdpEuftpvGW
+         LSY77eJXSkVB+l2XHZ7FgtOQHtdItnIuZYh+B9/XX5VKMxMsH0RfrAoqJzNvnB1/qU5s
+         0gtg==
+X-Gm-Message-State: AOJu0YzO5/nvJj25CBjfQ7FgYALfsQxXHO+yDCvViQ15WWOs83NtTaNU
+	JJyAyhIpAd4ySEqecH6wLTLVE2FU2CRtCmPMOTO+KMyp2SAGpMsiemfW
+X-Gm-Gg: ATEYQzzi96loHcNTXFeFRT5XPSGtQA+BrCz421l0spKUUnWKH7vej6BLT4GVdukXgXL
+	XsXz92iEkEzKSbwRVhgkzcPOTGGxVGnKJEVYwMfnNRvCSJWmfnnMWbo3gUfSGCBhS44Ki3gXsu1
+	KvFHIoyucVXYcyaEGgTze4J8uws5442ZO4/YlAaNa6LyY8fOJiqeomokP4+YnTJKZk6CcqTQefw
+	nAsZdvrC5V8uDXtDAed3vV9EY9o2H1TpM/wU9VU+eHwG3HbOFFsuSGNsAHsibHMdMHntqDgiBAR
+	rLzE8PbDmo15Cs1WU5cx1vy2RkGCwH0oTE/5tS6HKpwDdnZ3Iqz1rkLlVgrA0AE8/PnUDi9p11N
+	OE8zf+fcy2/gg67VjE50n9+9AiGA7+QZ7S7AQQomSKRfHLh6qa1diHOA8KIY/AArPoe+HSjNYN5
+	ntt81OKEcQIkJf8GIvF4iklk32yGjDRSwvk5p24K+jczNxouJwSwXz7Kbzzd7EEM0+qDwGIkYjV
+	UKRKFSRDE+KucBD+3hHEygo
+X-Received: by 2002:a05:690e:168d:b0:649:d79c:1608 with SMTP id 956f58d0204a3-64c787d43b6mr16826743d50.18.1772078656402;
+        Wed, 25 Feb 2026 20:04:16 -0800 (PST)
+Received: from tux ([2601:7c0:c37c:4c00::5c0b])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-64cb759f638sm498466d50.7.2026.02.25.20.04.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Feb 2026 20:04:16 -0800 (PST)
+From: Ethan Tidmore <ethantidmore06@gmail.com>
+To: linkinjeon@kernel.org,
+	hyc.lee@gmail.com
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Ethan Tidmore <ethantidmore06@gmail.com>
+Subject: [PATCH 1/2] ntfs: Replace ERR_PTR(0) with NULL
+Date: Wed, 25 Feb 2026 22:03:54 -0600
+Message-ID: <20260226040355.1974628-2-ethantidmore06@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260226040355.1974628-1-ethantidmore06@gmail.com>
+References: <20260226040355.1974628-1-ethantidmore06@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC v2 1/2] filemap: defer dropbehind invalidation from
- IRQ context
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Tal Zussman <tz2294@columbia.edu>,
- "Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Namjae Jeon <linkinjeon@kernel.org>, Sungjong Seo <sj1557.seo@samsung.com>,
- Yuezhang Mo <yuezhang.mo@sony.com>, Dave Kleikamp <shaggy@kernel.org>,
- Ryusuke Konishi <konishi.ryusuke@gmail.com>,
- Viacheslav Dubeyko <slava@dubeyko.com>,
- Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
- Bob Copeland <me@bobcopeland.com>, Andrew Morton
- <akpm@linux-foundation.org>, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-ext4@vger.kernel.org, jfs-discussion@lists.sourceforge.net,
- linux-nilfs@vger.kernel.org, ntfs3@lists.linux.dev,
- linux-karma-devel@lists.sourceforge.net, linux-mm@kvack.org,
- "Vishal Moola (Oracle)" <vishal.moola@gmail.com>
-References: <20260225-blk-dontcache-v2-0-70e7ac4f7108@columbia.edu>
- <20260225-blk-dontcache-v2-1-70e7ac4f7108@columbia.edu>
- <c8078a80-f801-4f8a-b3cd-e2ccbfca1def@kernel.dk>
- <aZ-2G_6lDZePLSyx@casper.infradead.org>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <aZ-2G_6lDZePLSyx@casper.infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 2/25/26 7:55 PM, Matthew Wilcox wrote:
-> On Wed, Feb 25, 2026 at 03:52:41PM -0700, Jens Axboe wrote:
->> How well does this scale? I did a patch basically the same as this, but
->> not using a folio batch though. But the main sticking point was
->> dropbehind_lock contention, to the point where I left it alone and
->> thought "ok maybe we just do this when we're done with the awful
->> buffer_head stuff". What happens if you have N threads doing IO at the
->> same time to N block devices? I suspect it'll look absolutely terrible,
->> as each thread will be banging on that dropbehind_lock.
->>
->> One solution could potentially be to use per-cpu lists for this. If you
->> have N threads working on separate block devices, they will tend to be
->> sticky to their CPU anyway.
-> 
-> Back in 2021, I had Vishal look at switching the page cache from using
-> hardirq-disabling locks to softirq-disabling locks [1].  Some of the
-> feedback (which doesn't seem to be entirely findable on the lists ...)
-> was that we'd be better off punting writeback completion from interrupt
-> context to task context and going from spin_lock_irq() to spin_lock()
-> rather than going to spin_lock_bh().
-> 
-> I recently saw something (possibly XFS?) promoting this idea again.
-> And now there's this.  Perhaps the time has come to process all
-> write-completions in task context, rather than everyone coming up with
-> their own workqueues to solve their little piece of the problem?
+The variable err is confirmed to be 0 and then never reassigned in the
+success path. The function then returns with ERR_PTR(err) which just
+equals NULL and can be misleading.
 
-Perhaps, even though the punting tends to suck... One idea I toyed with
-but had to abandon due to fs freezeing was letting callers that process
-completions in task context anyway just do the necessary work at that
-time. There's literally nothing worse than having part of a completion
-happen in IRQ, then punt parts of that to a worker, and need to wait for
-the worker to finish whatever it needs to do - only to then wake the
-target task. We can trivially do this in io_uring, as the actual
-completion is posted from the task itself anyway. We just need to have
-the task do the bottom half of the completion as well, rather than some
-unrelated kthread worker.
+Detected by Smatch:
+fs/ntfs/namei.c:1091 ntfs_mkdir() warn:
+passing zero to 'ERR_PTR'
 
-I'd be worried a generic solution would be the worst of all worlds, as
-it prevents optimizations that happen in eg iomap and other spots, where
-only completions that absolutely need to happen in task context get
-punted. There's a big difference between handling a completion inline vs
-needing a round-trip to some worker to do it.
+Signed-off-by: Ethan Tidmore <ethantidmore06@gmail.com>
+---
+ fs/ntfs/namei.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/fs/ntfs/namei.c b/fs/ntfs/namei.c
+index a21eeaec57b4..cecfaabfbfe7 100644
+--- a/fs/ntfs/namei.c
++++ b/fs/ntfs/namei.c
+@@ -1088,7 +1088,7 @@ static struct dentry *ntfs_mkdir(struct mnt_idmap *idmap, struct inode *dir,
+ 	}
+ 
+ 	d_instantiate_new(dentry, VFS_I(ni));
+-	return ERR_PTR(err);
++	return NULL;
+ }
+ 
+ static int ntfs_rmdir(struct inode *dir, struct dentry *dentry)
 -- 
-Jens Axboe
+2.53.0
+
