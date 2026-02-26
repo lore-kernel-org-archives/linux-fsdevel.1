@@ -1,156 +1,83 @@
-Received: from smtpbg151.qq.com (smtpbg151.qq.com [18.169.211.239])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D12A3859F7;
-	Thu, 26 Feb 2026 13:34:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.169.211.239
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A812036B06C;
+	Thu, 26 Feb 2026 13:38:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772112891; cv=none; b=skVDrXx6Y0iMZBVBv6ejH1A9yzPihAtYmYlRHaaax0KH4PmrBnMoyJLtUmql5nwpI8N76l1waFTPnVqdm6WBV1+ze/IiAPENgfemm6gMbmPOapBoMR71zbRirmSeH/awrwO3+SWs4BdKoPRnqVDf4CG/aUM8acqRcMH4YKE93hc=
+	t=1772113113; cv=none; b=SLeQ0apbKvsoQ9+UxOvxyMax1HkyTRvjfWOKWUW1v6i9K8E4a8LOwlSSaMljwwup7P1UbSCLIZxb+3JtFPQVaBNrdFjLH+RDSKFYABqxinDkYPxEyFY2u1kDnb1UGLJFIAaGtYVtdLlf6NxuylFMtvEvTi2iBRPA+li2urrbKV8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772112891; c=relaxed/simple;
-	bh=TlUQXYrnjSoaCbkHb1MVILPUcB5rWl72ygSzJU59jJo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jm6vlegyvBYhlU01H1YDjy++5HxtR97sVPWW42V7OFNmyvxb4wR9KgVSn927D9LRTSLuT9jO6z//3Sqp8GDvNhR5DWs3y2J7/KnMkq76IGrKDcdNf01cQXZ0PLTWIBqH7JcE4J4xlEfzVsXqN0EHKkXNFHIVxNP6F9MEsPUWCVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=eYza4UBR; arc=none smtp.client-ip=18.169.211.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+	s=arc-20240116; t=1772113113; c=relaxed/simple;
+	bh=iTpLMqU5w/8tqAe4zu/zNooByLEZgVqkMWGip2X/rq4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iBv+ztHIt+pO89ZAVrnnXOEW8i7lOBPyIa4Prr4XnsnCh+u2UN3zm3ipTTxpOlEtGADZpr5p3gwL4HefUvXF4E4wNHa2bgFEWV6gOSa6GOazMPGJ5QZ0eN6t6KnSB5OH3s11orEATnF+MmcIugbndcRUb3jisO5yl+ZlgVnuqUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U4GY1B0K; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="eYza4UBR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1772112730;
-	bh=wIAqc9ZjSWfa/F2Z89KnaSRh5o6S817igYSMsy6Yias=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=eYza4UBRaVzP6QafQtmzd4Ou8+Lvsp3TceeLtja//jGOmPtr2TbDk12RlNj6uYKXK
-	 acYeGLzYP0/9JVI4+NKtjYCGDnJ1Dg2ae6EFP84Zb53++PBIJDHYna7fZ5tr0UIdEa
-	 PHDowcjlvycd1G4QE2Zb/ekQTJusC40IRXaWjiN4=
-X-QQ-mid: zesmtpip4t1772112714t22e84ed1
-X-QQ-Originating-IP: y4BUbQojiwAYU3AEeB9zl5yJkZDVNE3EZ4cRoAVfcKs=
-Received: from uos-PC ( [localhost])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 26 Feb 2026 21:31:52 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 1048834162358125244
-EX-QQ-RecipientCnt: 6
-From: Morduan Zang <zhangdandan@uniontech.com>
-To: bfoster@redhat.com
-Cc: linux-ext4@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org,
-	willy@infradead.org,
-	Morduan Zang <zhangdandan@uniontech.com>
-Subject: [PATCH] mm: fix pagecache_isize_extended() early-return bypass for large folio mappings
-Date: Thu, 26 Feb 2026 21:31:49 +0800
-Message-ID: <3F3A46783F8E9D52+20260226133149.79586-1-zhangdandan@uniontech.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20240919160741.208162-3-bfoster@redhat.com>
-References: <20240919160741.208162-3-bfoster@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U4GY1B0K"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF624C19422;
+	Thu, 26 Feb 2026 13:38:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772113113;
+	bh=iTpLMqU5w/8tqAe4zu/zNooByLEZgVqkMWGip2X/rq4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=U4GY1B0KERPulNSyrV+BeHgUd6w4hYjSMoK084zyJrEewnPKisa/GW5HdwuT9XCOZ
+	 J5JOfCSQV474Esb+z9EaQpjy6date7QhQ+ZUTNwKJF/H7tCgYOdrr1Y9nurjLq1OfP
+	 npJLT+uI66BvKcuMGEVzPReTbPOE3m5Lu8J+YYNW1iV6Ui0IuFDQGMBL+3l1fcHePP
+	 y+9StW4+ttTdTB1H9olwd3q8g8CvOpqvXtDQxwfWFqHLpJdE7oq+16SBgQvTkl3Kls
+	 lScJN1GfG0wc0nJSR5QgFCdedRIRwzVkI+vKIb1qjT60C3dpV+1mjcb7xdUeJOyNFA
+	 eWYqNvgWOmHZA==
+Date: Thu, 26 Feb 2026 14:38:29 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Jan Kara <jack@suse.cz>
+Cc: Christian =?utf-8?B?R8O2dHRzY2hl?= <cgzones@googlemail.com>, 
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>, SElinux list <selinux@vger.kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>
+Subject: Re: Generic approach to avoid truncation of file on pseudo fs
+Message-ID: <20260226-ruhetag-unsauber-7bb117fc6239@brauner>
+References: <CAJ2a_Df6GOirF8TnNWTqNMpdWLHgjT9_v7G-PiL4e7LU2nr1PA@mail.gmail.com>
+ <nivmqedi2e4wgufmr74fed5jda24dmzj6kroufd5krqrnj4fdm@jnfkf27ncjy3>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpip:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
-X-QQ-XMAILINFO: ODcDgdcDagQKK73kbnoKVnPAelgFd7Q6Mg6OyC7hgcKFpHFWBkzjjlmp
-	g5Rq9T2TLhJC0skg/q0ul79P4ZzcquUzKn/uvFOZY11/U23Buz22qL+kBfJbNX/ll4YLmj0
-	2zB4sAyugLaRRWWp4axXbr3I8NiqTWgTLX0nlkO7mZ4yivC45MMnCC+fFt9PaV0pW9gMlnz
-	9uUS4prTcLH/EsvYUYJQ3uFTRJ3iSsHlY93b9mUXLgytGgbQMVksS7uuzYvwT7kn0XcRrpU
-	yy/CWG609P3JZgd4z0cFs0e4jTTKePY9/Da0zpxUTOwOsYFSBodddq0D6JB1svxvcB2Rpm3
-	uQdC2+RMqJKRY82HkXvPkaKPma8s5EqANcIUDMTBc0pT6Mtmu5YthikZOEQie0u0x49mWrW
-	Tr+iv44nsnV2DqbEn9HCFvK4TrGH+VJb+rndyDgn/vZwJRxGuRsyEiN4FVgjOVX63GYLQ2p
-	klBBDahAm0C00dBanm5HLp/DGP+XodoBy5PzQgLE4gAaZRMFaLwu0evWbND/gsQRbz4LzAw
-	cWAmKcum8VbFW/mLo+XTAA4KE4GD02ufecukPzyzDdbwjP1WznIkOniXHsKrCFwa/AHxL4j
-	CcCIxZ1bldViPLk223Zcpc/RxUR5GQOCgxWQ2xFw8lpKfnE1YfCHgXmWvsnyGSG1wHmPrWU
-	l0iO83vJskwMJr5yD92dIu2TlEHl5/iVlyGyRGTRvX7AK5vrxY8NOYCDX0r9dcYQo14DC2Z
-	gsoLWMslbMvwGFs3+KHAuQrsqq+kNAJ+3cXtvHS+vQdQOS4MJRC9htVepg/v1pkJjqiGJtT
-	LXVhdLOsaAACn44UZHu7/fQNhS0EOYoX7PCI4dYFOoj4hu5MdkFo4YKxCyk13EnU5fvG4vK
-	eGwMoq8p6DdOVH4pqdp0fx8LdfvuWMbSsUrgghp8WjmQ3sr9kPnPhdaIT4IgDqZP445jrGS
-	C7oxVE8g3bNNaZTRyD34GCCgxfl0C2+bJeSaHJ8K67KdT/VmE2LbANPh7WOgnq3mEiWLIQ8
-	rCIzBYnQ==
-X-QQ-XMRINFO: OD9hHCdaPRBwH5bRRRw8tsiH4UAatJqXfg==
-X-QQ-RECHKSPAM: 0
+In-Reply-To: <nivmqedi2e4wgufmr74fed5jda24dmzj6kroufd5krqrnj4fdm@jnfkf27ncjy3>
 
-pagecache_isize_extended() has two early-return guards that were designed
-for the traditional sub-page block-size case:
+On Thu, Feb 26, 2026 at 12:29:33PM +0100, Jan Kara wrote:
+> On Thu 19-02-26 14:37:05, Christian Göttsche wrote:
+> > Hi all,
+> > 
+> > SELinux offers a memory mapping for userspace for status changes via
+> > the pseudo file /sys/fs/selinux/status.
+> > Currently this file can be truncated by a privileged process, leading
+> > to other userland processes getting signalled a bus error (SIGBUS).
+> > This affects for example systemd [1].
+> > I proposed a targeted fix [2], overriding the inode setattr handler
+> > and filtering O_TRUNC on open.
+> > 
+> > Is there there a general solution how to prevent truncation of pseudo
+> > files backed up by real memory?
+> > Are there more ways a file can be truncated that should be handled?
+> > 
+> > 
+> > If there is no generic way would the following patch be acceptable?
+> 
+> OK, since my knowledge about this code is limited, I did some research :).
+> Firstly, I've checked how other virtual filesystems behave and the answer
+> is "it depends". E.g. those that are based on kernfs (e.g. sysfs) have
+> their own .setattr handler which just ignores ATTR_SIZE. From those that
+> are based on simple_fill_super as is the case for selinux (but also
+> debugfs, nfsctl, tracefs, fusectl, binfmt) all of them just allow the file
+> size to be changed which likely has some potential for confusing userspace
+> for some of them. So I don't see a problem with allowing to pass
+> inode_operations to use by simple_fill_super() but I'm a bit undecided
+> whether it wouldn't be more sensible for pseudo_fs_fill_super() to just
+> set inode->i_op to inode operations that don't allow truncate because for
+> none of the filesystems using it, it looks useful to say the least.
 
-  Guard 1:  if (from >= to || bsize >= PAGE_SIZE)
-                return;
-
-  Guard 2:  rounded_from = round_up(from, bsize);
-            if (to <= rounded_from || !(rounded_from & (PAGE_SIZE - 1)))
-                return;
-
-Guard 1 was originally "bsize == PAGE_SIZE" and was widened to
-"bsize >= PAGE_SIZE" by commit 2ebe90dab980 ("mm: convert
-pagecache_isize_extended to use a folio").  The rationale is correct
-for the traditional buffer_head path: when the block size equals the page
-size, every folio covers exactly one block, so writeback's EOF handling
-(e.g. iomap_writepage_handle_eof()) zeros the post-EOF tail of the folio
-before writing it out, and no action is needed here.
-
-Guard 2 covers the case where @from rounded up to the next block boundary
-is already PAGE_SIZE-aligned, meaning no hole block straddles a page
-boundary.
-
-Both guards are correct for the traditional case.  However, commit
-52aecaee1c26 ("mm: zero range of eof folio exposed by inode size extension")
-added post-EOF zeroing inside pagecache_isize_extended() to
-handle dirty folios that will not go through writeback before the new
-i_size becomes visible.  That zeroing code is placed after both guards,
-so it is unreachable whenever either guard fires.
-
-The same stale-data window is also covered by xfstests generic/363
-which uses fsx with "-e 1" (EOF pollution mode) and exercises a broad
-range of size-changing operations.
-
-Fixes: 52aecaee1c26 ("mm: zero range of eof folio exposed by inode size extension")
-Fixes: 2ebe90dab980 ("mm: convert pagecache_isize_extended to use a folio")
-Signed-off-by: Morduan Zang <zhangdandan@uniontech.com>
----
- mm/truncate.c | 21 ++++++++++++++++++++-
- 1 file changed, 20 insertions(+), 1 deletion(-)
-
-diff --git a/mm/truncate.c b/mm/truncate.c
-index 12467c1bd711..d3e473a206b3 100644
---- a/mm/truncate.c
-+++ b/mm/truncate.c
-@@ -847,13 +847,32 @@ void pagecache_isize_extended(struct inode *inode, loff_t from, loff_t to)
- 
- 	WARN_ON(to > inode->i_size);
- 
--	if (from >= to || bsize >= PAGE_SIZE)
-+	if (from >= to)
- 		return;
-+
-+	/*
-+	 * For filesystems with bsize >= PAGE_SIZE, the traditional buffer_head
-+	 * path handles post-EOF zeroing correctly at writeback time. However,
-+	 * with large folios enabled, a single folio can span multiple PAGE_SIZE
-+	 * blocks, so mmap writes beyond EOF within the same folio are not zeroed
-+	 * at writeback time before i_size is extended. We must handle this here.
-+	 */
-+	if (bsize >= PAGE_SIZE) {
-+		/*
-+		 * Only needed if the mapping supports large folios, since otherwise
-+		 * each folio is exactly one page and writeback handles EOF zeroing.
-+		 */
-+		if (!mapping_large_folio_support(inode->i_mapping))
-+			return;
-+		goto find_folio;
-+	}
-+
- 	/* Page straddling @from will not have any hole block created? */
- 	rounded_from = round_up(from, bsize);
- 	if (to <= rounded_from || !(rounded_from & (PAGE_SIZE - 1)))
- 		return;
- 
-+find_folio:
- 	folio = filemap_lock_folio(inode->i_mapping, from / PAGE_SIZE);
- 	/* Folio not cached? Nothing to do */
- 	if (IS_ERR(folio))
--- 
-2.50.1
-
+It would at least be worth trying. For backwards compat we must probably
+ignore it instead of reporting an error though.
