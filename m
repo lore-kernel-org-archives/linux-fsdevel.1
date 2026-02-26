@@ -1,188 +1,191 @@
-Received: from smtp03-ext2.udag.de (smtp03-ext2.udag.de [62.146.106.30])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF0A736B04B;
-	Thu, 26 Feb 2026 16:44:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.146.106.30
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82446395DBB;
+	Thu, 26 Feb 2026 16:45:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772124249; cv=none; b=m513UhwYUpAnmr58cXJnibdKsiykYLo1mmpIKEhSWrTg13Z7Q79ECs1HvoQE53F5KWXONamITGmrWj27waEl/73AkdW3Pr+SYHh13pW6g3UmBxX6Ifzo+30jcWBDkczuO7LdaEhptgFYANPdjSeFRHtDBbofBbpj2j6XJO5ePgU=
+	t=1772124319; cv=none; b=uUpptZfNnpIKPVfmldbyRMeouE11pVuYPSR+srDLrSEjg31FPuokfYXzslI5ch1NU5LnnEuYEqkDGFwFVsWb7IyBs11PpjKbLZuHvDIh/ZETqffXldavsLWJcHhXGIZQSg4z4tY8AaXiVlwKyMFU3fKPUHs7ydZ1LbE7nnE2a4E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772124249; c=relaxed/simple;
-	bh=0kzc9erjXODarwfpNMQnQ3iZ7a8L3MxgsLdlgnpU7Zo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=R4lX6qdg13DpFafV8Jljsd6j5A0R7q07LA/rz8sEpulEjSPX2oKOqaIajffuhYiaIqZxZZa2wC5Plgrr9rUsNbDLOWqQOR/QK14s5VHjBvFJYw/L8OYO9BtfVxSLMTPi6BsF7hEy7wmXSfoBNz+A4egC11h+elC7LlCzZJyN0z4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.com; spf=pass smtp.mailfrom=birthelmer.com; dkim=pass (2048-bit key) header.d=birthelmer.com header.i=@birthelmer.com header.b=DWRS2aar; arc=none smtp.client-ip=62.146.106.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birthelmer.com
+	s=arc-20240116; t=1772124319; c=relaxed/simple;
+	bh=ezO0QdpdYr8KRaRoBbGysgWJxKLV3sCVpLj4/+qFFdI=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=qlCIoeY7vx6s2FesE16/AZwNMxi+3oxASirtZUG6vhV4WDRmfRJmCStKGIjaRs79Vn2n720RbLDLa1QomcJH2nV1kGCEJm8fgNL9OtC8GNEbovGh0c6aHDOPKYBG1luKCWLRqqiTCeNw+KiYlXWpeuTz94xA6tqlXg/Y2SiJZ8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XyZSDt1J; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=birthelmer.com header.i=@birthelmer.com header.b="DWRS2aar"
-Received: from fedora.fritz.box (200-143-067-156.ip-addr.inexio.net [156.67.143.200])
-	by smtp03-ext2.udag.de (Postfix) with ESMTPA id BE3BAE0360;
-	Thu, 26 Feb 2026 17:43:57 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=birthelmer.com;
-	s=uddkim-202310; t=1772124238;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eGydO6FwFqLLphmOSbDH/70Uh6txyr6vYs0h8O6bVb4=;
-	b=DWRS2aarxCP7nUIvSpxjjkPMTtrJwZ5L8DydvWWkF0t0luLakoY82ZWQ4HY1teetm4GQCp
-	JRN7gKy2fO4c6PBG6QrGJUnY+IuWwfBjz0KZjQUHEcurpoUkhB/3VyhrT48ldmMF8e0agl
-	1HddZcdwqtD1CYmauU6G4kHrRsxTw75eNwNDAMp6iO+eGvUZeMGp7HjyhAb/Bnl75ZgGbB
-	Y3y6ORHf6ym60vdwk0JvSsvex0CtxyM0vQOSF0psXFMubJ5if6K8nSZEeHgJz/W8afZAS1
-	ZByQqJW5NNKqiiDQawZ37Oszy2SBbzuGuEVSIaVhEHE8DmZhh9N9PdIA4seQVQ==
-Authentication-Results: smtp03-ext2.udag.de;
-	auth=pass smtp.auth=birthelmercom-0001 smtp.mailfrom=horst@birthelmer.com
-From: Horst Birthelmer <horst@birthelmer.com>
-Date: Thu, 26 Feb 2026 17:43:54 +0100
-Subject: [PATCH v6 2/3] fuse: create helper functions for filling in fuse
- args for open and getattr
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XyZSDt1J"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5660EC116C6;
+	Thu, 26 Feb 2026 16:45:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772124319;
+	bh=ezO0QdpdYr8KRaRoBbGysgWJxKLV3sCVpLj4/+qFFdI=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=XyZSDt1J4Lm/U90CuaN2GmoWhbQCAcnP6dWHiq86Mch8/lcdRXCEu9eUBBOeMq0XX
+	 dpo26bFovaj2aelCVTPSKncnqM8Xbe56S1qHxoDE5KGgKveD4w6Fhcu7usDQbwqzx3
+	 UaXSqOE3MmsZtNS7SMQxmLFy2dbM+wouD+YkMDLu9Po8YIZ6Gus6nJooMNMyGfgzEY
+	 G4h6Iujiy1TA393nTs2oXgNAYS/z84syKfDMzYnZ6r4kbUTxfgqXWdS5TbwwiOJ7nJ
+	 Kbe03Aw7jlio4Xak1+sFO32WMEQUmRhzC5kftJ3/tGdqw+uwtYR93mFftMheyiRpRV
+	 5SuFZqV2C5S6Q==
+Message-ID: <e0759209c02d81b877b136f1e2b9500ba69b4f35.camel@kernel.org>
+Subject: Re: [PATCH 02/61] vfs: change i_ino from unsigned long to u64
+From: Jeff Layton <jlayton@kernel.org>
+To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Alexander Viro	
+ <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara
+	 <jack@suse.cz>, Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu	
+ <mhiramat@kernel.org>, "Theodore Y. Ts'o" <tytso@mit.edu>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Thu, 26 Feb 2026 11:45:16 -0500
+In-Reply-To: <540a4fa6-40fc-4302-aaef-3df5fb3a8cef@efficios.com>
+References: <20260226-iino-u64-v1-0-ccceff366db9@kernel.org>
+	 <20260226-iino-u64-v1-2-ccceff366db9@kernel.org>
+	 <06c94e29-32d8-4753-a78c-8f5497680cf4@efficios.com>
+	 <df0b9e26fca0dc56a10e2f6792892c7b5f23c84b.camel@kernel.org>
+	 <540a4fa6-40fc-4302-aaef-3df5fb3a8cef@efficios.com>
+Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
+ keydata=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
+ QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260226-fuse-compounds-upstream-v6-2-8585c5fcd2fc@ddn.com>
-References: <20260226-fuse-compounds-upstream-v6-0-8585c5fcd2fc@ddn.com>
-In-Reply-To: <20260226-fuse-compounds-upstream-v6-0-8585c5fcd2fc@ddn.com>
-To: Miklos Szeredi <miklos@szeredi.hu>, Bernd Schubert <bschubert@ddn.com>, 
- Joanne Koong <joannelkoong@gmail.com>, Luis Henriques <luis@igalia.com>
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- Horst Birthelmer <hbirthelmer@ddn.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1772124235; l=4228;
- i=hbirthelmer@ddn.com; s=20251006; h=from:subject:message-id;
- bh=fIrksBFbOfxzwmxEToaZUQ6D6sUY/NeffJ6fTnRgRhQ=;
- b=U7QVwGjdVV5qIwsDoRFOKdclptpzWtGK6qECtVOdXFZde0Vgzi2b95NZoOmTbqIdvlwZessfV
- VwZet4OemXwAQ5xQVEdVkJMx8Pc0SPZK4NwWPjvjGJ6GP4QLal35jT4
-X-Developer-Key: i=hbirthelmer@ddn.com; a=ed25519;
- pk=v3BVDFoy16EzgHZ23ObqW+kbpURtjrwxgKu8YNDKjGg=
 
-From: Horst Birthelmer <hbirthelmer@ddn.com>
+On Thu, 2026-02-26 at 11:40 -0500, Mathieu Desnoyers wrote:
+> On 2026-02-26 11:35, Jeff Layton wrote:
+> > On Thu, 2026-02-26 at 11:16 -0500, Mathieu Desnoyers wrote:
+> > > On 2026-02-26 10:55, Jeff Layton wrote:
+> > > > Change the type of i_ino in struct inode from unsigned long to u64.
+> > > >=20
+> > > > On 64-bit architectures, unsigned long is already 64 bits, so this =
+is
+> > > > effectively a type alias change with no runtime impact. On 32-bit
+> > > > architectures, this widens i_ino from 32 to 64 bits, allowing
+> > > > filesystems like NFS, CIFS, XFS, Ceph, and FUSE to store their nati=
+ve
+> > > > 64-bit inode numbers without folding/hashing.
+> > > >=20
+> > > > The VFS already handles 64-bit inode numbers in kstat.ino (u64) and
+> > > > statx.stx_ino (__u64). The existing overflow checks in cp_new_stat(=
+),
+> > > > cp_old_stat(), and cp_compat_stat() handle narrowing to 32-bit st_i=
+no
+> > > > with -EOVERFLOW, so userspace ABI is preserved.
+> > > >=20
+> > > > struct inode will grow by 4 bytes on 32-bit architectures.
+> > >=20
+> > > Changing this type first without changing its associated format strin=
+gs
+> > > breaks git bisect.
+> > >=20
+> > > One alternative would be to introduce something like the PRIu64 macro
+> > > but for printing inode values. This would allow gradually introducing
+> > > the change without breaking the world as you do so.
+> > >=20
+> > >=20
+> >=20
+> > True, but it makes all of the format strings even harder to read. After
+> > the conversion, we could go back and eliminate the macro though and it
+> > would keep things more bisectable. I'm not sure what to do about
+> > tracepoints though. I guess we could declare a new typedef and change
+> > its definition when i_ino's type changes?
+>=20
+> For tracepoints there are two things: a TP_printk format string (which
+> would be handled by a new pretty printing macro similar to PRIu64), and
+> the type used within TP_STRUCT__entry. I don't see why you'd need to
+> change from ino_t to u64 there. The conversion will happen when you flip
+> the ino_t typedef from unsigned long to u64.
+>=20
 
-create fuse_getattr_args_fill() and fuse_open_args_fill() to fill in
-the parameters for the open and getattr calls.
+My worry here is that ino_t is a UAPI type, and I don't think we can
+change it there. I think we'll need a new (kernel-internal) typedef
+just for this.
 
-This is in preparation for implementing open+getattr and does not
-represent any functional change.
+> >=20
+> > I'll let others chime in first, but I'm open to going back and doing it
+> > that way if we don't want to live with the compiler warnings during a
+> > bisect.
+>=20
+> On 32-bit archs, I suspect it will do more than emit compiler warnings.
+> Trying to boot a kernel in the middle of the series is likely to lead to
+> interesting inode value printout results.
+>=20
 
-Suggested-by: Joanne Koong <joannelkoong@gmail.com>
-Signed-off-by: Horst Birthelmer <hbirthelmer@ddn.com>
----
- fs/fuse/dir.c    | 26 ++++++++++++++++++--------
- fs/fuse/file.c   | 26 ++++++++++++++++++--------
- fs/fuse/fuse_i.h |  6 ++++++
- 3 files changed, 42 insertions(+), 16 deletions(-)
-
-diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
-index 3927cb069236e9c52674301831c6d655397f24c5..e5ae033a15e85757a10a38b5e7d03dac86067c2a 100644
---- a/fs/fuse/dir.c
-+++ b/fs/fuse/dir.c
-@@ -1471,6 +1471,23 @@ static int fuse_do_statx(struct mnt_idmap *idmap, struct inode *inode,
- 	return 0;
- }
- 
-+/*
-+ * Helper function to initialize fuse_args for GETATTR operations
-+ */
-+void fuse_getattr_args_fill(struct fuse_args *args, u64 nodeid,
-+			     struct fuse_getattr_in *inarg,
-+			     struct fuse_attr_out *outarg)
-+{
-+	args->opcode = FUSE_GETATTR;
-+	args->nodeid = nodeid;
-+	args->in_numargs = 1;
-+	args->in_args[0].size = sizeof(*inarg);
-+	args->in_args[0].value = inarg;
-+	args->out_numargs = 1;
-+	args->out_args[0].size = sizeof(*outarg);
-+	args->out_args[0].value = outarg;
-+}
-+
- static int fuse_do_getattr(struct mnt_idmap *idmap, struct inode *inode,
- 			   struct kstat *stat, struct file *file)
- {
-@@ -1492,14 +1509,7 @@ static int fuse_do_getattr(struct mnt_idmap *idmap, struct inode *inode,
- 		inarg.getattr_flags |= FUSE_GETATTR_FH;
- 		inarg.fh = ff->fh;
- 	}
--	args.opcode = FUSE_GETATTR;
--	args.nodeid = get_node_id(inode);
--	args.in_numargs = 1;
--	args.in_args[0].size = sizeof(inarg);
--	args.in_args[0].value = &inarg;
--	args.out_numargs = 1;
--	args.out_args[0].size = sizeof(outarg);
--	args.out_args[0].value = &outarg;
-+	fuse_getattr_args_fill(&args, get_node_id(inode), &inarg, &outarg);
- 	err = fuse_simple_request(fm, &args);
- 	if (!err) {
- 		if (fuse_invalid_attr(&outarg.attr) ||
-diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-index 3b2a171e652f0c9dd1c9e37253d3d3e88caab148..a408a9668abbb361e2c1e386ebab9dfcb0a7a573 100644
---- a/fs/fuse/file.c
-+++ b/fs/fuse/file.c
-@@ -23,6 +23,23 @@
- #include <linux/task_io_accounting_ops.h>
- #include <linux/iomap.h>
- 
-+/*
-+ * Helper function to initialize fuse_args for OPEN/OPENDIR operations
-+ */
-+static void fuse_open_args_fill(struct fuse_args *args, u64 nodeid, int opcode,
-+			 struct fuse_open_in *inarg, struct fuse_open_out *outarg)
-+{
-+	args->opcode = opcode;
-+	args->nodeid = nodeid;
-+	args->in_numargs = 1;
-+	args->in_args[0].size = sizeof(*inarg);
-+	args->in_args[0].value = inarg;
-+	args->out_numargs = 1;
-+	args->out_args[0].size = sizeof(*outarg);
-+	args->out_args[0].value = outarg;
-+}
-+
-+
- static int fuse_send_open(struct fuse_mount *fm, u64 nodeid,
- 			  unsigned int open_flags, int opcode,
- 			  struct fuse_open_out *outargp)
-@@ -40,14 +57,7 @@ static int fuse_send_open(struct fuse_mount *fm, u64 nodeid,
- 		inarg.open_flags |= FUSE_OPEN_KILL_SUIDGID;
- 	}
- 
--	args.opcode = opcode;
--	args.nodeid = nodeid;
--	args.in_numargs = 1;
--	args.in_args[0].size = sizeof(inarg);
--	args.in_args[0].value = &inarg;
--	args.out_numargs = 1;
--	args.out_args[0].size = sizeof(*outargp);
--	args.out_args[0].value = outargp;
-+	fuse_open_args_fill(&args, nodeid, opcode, &inarg, outargp);
- 
- 	return fuse_simple_request(fm, &args);
- }
-diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-index e46315aa428c9d0e704c62a0b80811172c5ec9c1..ff8222b66c4f7b04c0671a980237a43871affd0a 100644
---- a/fs/fuse/fuse_i.h
-+++ b/fs/fuse/fuse_i.h
-@@ -1179,6 +1179,12 @@ struct fuse_io_args {
- void fuse_read_args_fill(struct fuse_io_args *ia, struct file *file, loff_t pos,
- 			 size_t count, int opcode);
- 
-+/*
-+ * Helper functions to initialize fuse_args for common operations
-+ */
-+void fuse_getattr_args_fill(struct fuse_args *args, u64 nodeid,
-+			    struct fuse_getattr_in *inarg,
-+			    struct fuse_attr_out *outarg);
- 
- struct fuse_file *fuse_file_alloc(struct fuse_mount *fm, bool release);
- void fuse_file_free(struct fuse_file *ff);
-
--- 
-2.53.0
-
+Definitely. None of that would be trustworthy in the middle of the
+series.
+--=20
+Jeff Layton <jlayton@kernel.org>
