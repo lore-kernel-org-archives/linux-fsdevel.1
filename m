@@ -1,187 +1,125 @@
-Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
+Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com [91.218.175.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B4A22FE59A
-	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Feb 2026 02:57:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AC9832AACE
+	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Feb 2026 03:31:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772161041; cv=none; b=EDF5EY/WBZjmFaBewp/SvATpxMy2GEwLL/RcgyDW4xZas7Vc0udTNF9wDt8PcSwfqwSFGd2zcIyyY0iudYzXR+Z4YZuMsskBGgozREA71OCw1c2R9HpuXPghXnIt2+0fWHfStnIJstpxu5gpXYbZTGyIGxIGx81lQf+4KNtZ9yY=
+	t=1772163120; cv=none; b=Aa6O2wqXBOd6fm1HyLj2c/fh1J2jrjlFAJic3qbWxyzwEiz3U7ZrSYjgq3AN/swRvh7CyLnJMDUxY1dZ0dJ0MLYdBSbYg+zbwgVaJr0moW7VHabVZB2QOmxivOTLHazSzmawUYIDc3t1elpRpy66cuH3ZLIWwSj7cUFso5Yd/uk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772161041; c=relaxed/simple;
-	bh=ddLNyHjDLzGS+UCPAxPHSmMv6NcWH2rQTi6C6ekt+Ng=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=biUN8bkGFcjH2eHe6jPE/nr8HfIaMdmzOMOHN/EFlgZi/X7vvJiAfkvo8VeyOtuz5J3YXFy3M6RRN1DfM7tZsXzdptiPmYGfHccoEbhGFuazz/mibXXNTX5PEW626uMH4V6Ags4751jVr4icHZgKqj1TUV/JpBSExTHgOp/VRvg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.177])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4fMXym5VRKzKHMQW
-	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Feb 2026 10:56:16 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id 086F84058C
-	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Feb 2026 10:57:15 +0800 (CST)
-Received: from huaweicloud.com (unknown [10.50.87.132])
-	by APP4 (Coremail) with SMTP id gCh0CgBXuPgJCKFpsEGdIw--.32070S5;
-	Fri, 27 Feb 2026 10:57:14 +0800 (CST)
-From: Ye Bin <yebin@huaweicloud.com>
-To: viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	jack@suse.cz,
-	linux-fsdevel@vger.kernel.org
-Cc: akpm@linux-foundation.org,
-	david@fromorbit.com,
-	zhengqi.arch@bytedance.com,
-	roman.gushchin@linux.dev,
-	muchun.song@linux.dev,
-	linux-mm@kvack.org,
-	yebin10@huawei.com
-Subject: [PATCH v3 1/3] mm/vmscan: introduce drop_sb_dentry_inode() helper
-Date: Fri, 27 Feb 2026 10:55:46 +0800
-Message-Id: <20260227025548.2252380-2-yebin@huaweicloud.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260227025548.2252380-1-yebin@huaweicloud.com>
-References: <20260227025548.2252380-1-yebin@huaweicloud.com>
+	s=arc-20240116; t=1772163120; c=relaxed/simple;
+	bh=ISKquQhqIJSHIc+WSYsjQmPNfXOAlUpNqmx6gz3TOjY=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=fYKimnZjR/IyhOUPQjR5nuCoOlkFnMJjpEaQuZ8IX9lGMaGN1bvR+5rIbE7to2wkNlaTL9yuZdCdHKVsT4+cshGUR5rpoOEw6N9E0c+jgBebuZt0qounxunw2lI0NnIuBs2YmQhYv4kk8dOKL3QNS15aiLp9GuIxn+3lkCYeAEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=upLOXXJB; arc=none smtp.client-ip=91.218.175.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="upLOXXJB"
+Content-Type: text/plain;
+	charset=us-ascii
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1772163116;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Nr4zyboFdAPQ3Cak33Bpk6ampsu5iWEcatVRj6UGzbk=;
+	b=upLOXXJB5UXrgeCQzrsGUxZEF1D3mrKy6Rj9kcUrj+82JPeXSw/miuAomPgutSLnzOce9l
+	d6n97fFDvsQpw27NUesDKBVP/e1Ra/v49rzBWLeDFaXtLPcDDe4KU0zKEfwkcXMdgvib2R
+	vl+2mbopA9te9KyKQuYniQDS8ShLqpE=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:gCh0CgBXuPgJCKFpsEGdIw--.32070S5
-X-Coremail-Antispam: 1UD129KBjvJXoWxXw1fGFW7JFy3Cw4DGw4fuFg_yoW5ZFWfpF
-	ZxG34fJrWrZrnFgryfZFWUZa43t3y0yayxGrZ7W34Yy3Waqa45Xr12yr45tFyUCayrWFy7
-	trWaqr1Uur1UXFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUPFb4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUGw
-	A2048vs2IY020Ec7CjxVAFwI0_Gr0_Xr1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
-	w2x7M28EF7xvwVC0I7IYx2IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
-	W8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v2
-	6rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMc
-	Ij6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_
-	Jr0_Gr1lF7xvr2IYc2Ij64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AFwI
-	0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG
-	67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MI
-	IYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E
-	14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJV
-	W8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxU7mLv
-	DUUUU
-X-CM-SenderInfo: p1hex046kxt4xhlfz01xgou0bp/
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.400.21\))
+Subject: Re: [PATCH v3 0/3] add support for drop_caches for individual
+ filesystem
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Muchun Song <muchun.song@linux.dev>
+In-Reply-To: <20260227025548.2252380-1-yebin@huaweicloud.com>
+Date: Fri, 27 Feb 2026 11:31:14 +0800
+Cc: viro@zeniv.linux.org.uk,
+ brauner@kernel.org,
+ jack@suse.cz,
+ linux-fsdevel@vger.kernel.org,
+ akpm@linux-foundation.org,
+ david@fromorbit.com,
+ zhengqi.arch@bytedance.com,
+ roman.gushchin@linux.dev,
+ linux-mm@kvack.org,
+ yebin10@huawei.com
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <4FDE845E-BDD6-45FE-98FA-40ABAF62608B@linux.dev>
+References: <20260227025548.2252380-1-yebin@huaweicloud.com>
+To: Ye Bin <yebin@huaweicloud.com>
+X-Migadu-Flow: FLOW_OUT
 
-From: Ye Bin <yebin10@huawei.com>
 
-This patch is prepare for support drop_caches for specify file system.
 
-Signed-off-by: Ye Bin <yebin10@huawei.com>
----
- include/linux/mm.h |  1 +
- mm/internal.h      |  3 +++
- mm/shrinker.c      |  4 ++--
- mm/vmscan.c        | 50 ++++++++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 56 insertions(+), 2 deletions(-)
+> On Feb 27, 2026, at 10:55, Ye Bin <yebin@huaweicloud.com> wrote:
+>=20
+> From: Ye Bin <yebin10@huawei.com>
+>=20
+> In order to better analyze the issue of file system uninstallation =
+caused
+> by kernel module opening files, it is necessary to perform dentry =
+recycling
+> on a single file system. But now, apart from global dentry recycling, =
+it is
+> not supported to do dentry recycling on a single file system =
+separately.
 
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 5be3d8a8f806..5bab9472a758 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -4470,6 +4470,7 @@ static inline int in_gate_area(struct mm_struct *mm, unsigned long addr)
- bool process_shares_mm(const struct task_struct *p, const struct mm_struct *mm);
- 
- void drop_slab(void);
-+void drop_sb_dentry_inode(struct super_block *sb);
- 
- #ifndef CONFIG_MMU
- #define randomize_va_space 0
-diff --git a/mm/internal.h b/mm/internal.h
-index cb0af847d7d9..4690a58c4820 100644
---- a/mm/internal.h
-+++ b/mm/internal.h
-@@ -1662,6 +1662,9 @@ void __meminit __init_page_from_nid(unsigned long pfn, int nid);
- unsigned long shrink_slab(gfp_t gfp_mask, int nid, struct mem_cgroup *memcg,
- 			  int priority);
- 
-+unsigned long do_shrink_slab(struct shrink_control *shrinkctl,
-+			     struct shrinker *shrinker, int priority);
-+
- int shmem_add_to_page_cache(struct folio *folio,
- 			    struct address_space *mapping,
- 			    pgoff_t index, void *expected, gfp_t gfp);
-diff --git a/mm/shrinker.c b/mm/shrinker.c
-index 4a93fd433689..075e4393da9c 100644
---- a/mm/shrinker.c
-+++ b/mm/shrinker.c
-@@ -368,8 +368,8 @@ static long add_nr_deferred(long nr, struct shrinker *shrinker,
- 
- #define SHRINK_BATCH 128
- 
--static unsigned long do_shrink_slab(struct shrink_control *shrinkctl,
--				    struct shrinker *shrinker, int priority)
-+unsigned long do_shrink_slab(struct shrink_control *shrinkctl,
-+			     struct shrinker *shrinker, int priority)
- {
- 	unsigned long freed = 0;
- 	unsigned long long delta;
-diff --git a/mm/vmscan.c b/mm/vmscan.c
-index 01d3364fe506..310bed25df78 100644
---- a/mm/vmscan.c
-+++ b/mm/vmscan.c
-@@ -455,6 +455,56 @@ void drop_slab(void)
- 	} while ((freed >> shift++) > 1);
- }
- 
-+static unsigned long drop_shrinker_node(int nid, struct shrinker *shrinker)
-+{
-+	unsigned long freed = 0;
-+	struct mem_cgroup *memcg = NULL;
-+
-+	memcg = mem_cgroup_iter(NULL, NULL, NULL);
-+	do {
-+		unsigned long ret;
-+
-+		struct shrink_control sc = {
-+			.gfp_mask = GFP_KERNEL,
-+			.nid = nid,
-+			.memcg = memcg,
-+		};
-+
-+		if (!mem_cgroup_disabled() &&
-+		    !mem_cgroup_is_root(memcg) &&
-+		    !mem_cgroup_online(memcg))
-+			continue;
-+
-+		ret = do_shrink_slab(&sc, shrinker, 0);
-+		if (ret == SHRINK_EMPTY)
-+			ret = 0;
-+		freed += ret;
-+		cond_resched();
-+	} while ((memcg = mem_cgroup_iter(NULL, memcg, NULL)) != NULL);
-+
-+	return freed;
-+}
-+
-+void drop_sb_dentry_inode(struct super_block *sb)
-+{
-+	int nid;
-+	int shift = 0;
-+	unsigned long freed;
-+
-+	if (!sb || !sb->s_shrink)
-+		return;
-+
-+	do {
-+		freed = 0;
-+
-+		for_each_online_node(nid) {
-+			if (fatal_signal_pending(current))
-+				return;
-+			freed += drop_shrinker_node(nid, sb->s_shrink);
-+		}
-+	} while ((freed >> shift++) > 1);
-+}
-+
- #define CHECK_RECLAIMER_OFFSET(type)					\
- 	do {								\
- 		BUILD_BUG_ON(PGSTEAL_##type - PGSTEAL_KSWAPD !=		\
--- 
-2.34.1
+Would shrinker-debugfs satisfy your needs (See =
+Documentation/admin-guide/mm/shrinker_debugfs.rst)?
+
+Thanks,
+Muchun
+
+> This feature has usage scenarios in problem localization scenarios.At =
+the
+> same time, it also provides users with a slightly fine-grained
+> pagecache/entry recycling mechanism.
+> This patchset supports the recycling of pagecache/entry for individual =
+file
+> systems.
+>=20
+> Diff v3 vs v2
+> 1. Introduce introduce drop_sb_dentry_inode() helper instead of
+> reclaim_dcache_sb()/reclaim_icache_sb() helper for reclaim =
+dentry/inode.
+> 2. Fixing compilation issues in specific architectures and =
+configurations.
+>=20
+> Diff v2 vs v1:
+> 1. Fix possible live lock for shrink_icache_sb().
+> 2. Introduce reclaim_dcache_sb() for reclaim dentry.
+> 3. Fix potential deadlocks as follows:
+> =
+https://lore.kernel.org/linux-fsdevel/00000000000098f75506153551a1@google.=
+com/
+> After some consideration, it was decided that this feature would =
+primarily
+> be used for debugging purposes. Instead of adding a new IOCTL command, =
+the
+> task_work mechanism was employed to address potential deadlock issues.
+>=20
+> Ye Bin (3):
+>  mm/vmscan: introduce drop_sb_dentry_inode() helper
+>  sysctl: add support for drop_caches for individual filesystem
+>  Documentation: add instructions for using 'drop_fs_caches sysctl'
+>    sysctl
+>=20
+> Documentation/admin-guide/sysctl/vm.rst |  44 +++++++++
+> fs/drop_caches.c                        | 125 ++++++++++++++++++++++++
+> include/linux/mm.h                      |   1 +
+> mm/internal.h                           |   3 +
+> mm/shrinker.c                           |   4 +-
+> mm/vmscan.c                             |  50 ++++++++++
+> 6 files changed, 225 insertions(+), 2 deletions(-)
+>=20
+> --=20
+> 2.34.1
+>=20
 
