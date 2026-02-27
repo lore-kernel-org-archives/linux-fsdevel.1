@@ -1,181 +1,262 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F06742EEC1
-	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Feb 2026 20:05:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9A14436353;
+	Fri, 27 Feb 2026 20:09:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772222755; cv=none; b=FRq4qu7pKme+AtKRQatyOMnJl7JdIQjnuSSlsq/I9vC2RKJVcm4V9gtOh4TebtDaCOVskElWVj/d3/8hR3GFSPW210WghRomyANI2CFPQM5TpmE3/nKmI3hwsM8F/CVFoelULMX5iyK7KDg/h8NQT6R8NiUgo/Kt/k2g0Jq4kXk=
+	t=1772222948; cv=none; b=pGFzacWEc6Amj8LiGF2pGv9z3bjLTIcq89KY0uozbm7dbsLydNEU3tESFagTIjfNLDmpynYe/CI+90bP8scKgU50VoxgDR5ADITw045zlHnQMpY+BPH2Q4Mhw0WQCrBfXrURpElJ6rAJaBCkaejgj6tn186H6mqBni1ozbwQiQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772222755; c=relaxed/simple;
-	bh=k9io99d/tyAXYmYv61T29R8zd4lRbNHO1Vz/AUydSoo=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=VZTCVI4CtqI+JGDvIqjUUR5zN26xdlxk0Nn7Fya1Q+mHdEU3xbFaBck+fA8nlpiepZF/kWzlaBVAVURbLsK8+9B+bbvfFlhmZEahWbZafABW10krmjRT1mwtcq/npn77+gYs/+drAoRAVbyJWc4zbHExTZiv6HVQ5wapV77JWbM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fKS94CwA; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1772222948; c=relaxed/simple;
+	bh=uHYxem2rcFuwlV7scbCWwSyUtQMuMwhNJjysCrEHJOo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=YbvCO6JDGqgYiEjuhsslSKBkQEZUt3dExi+/dAlLm73KS0EsMiorQHiTgkrXS/AaBod4VmCYvyf7A9yGbsQZ35cPugS+p0V0SXyxeCo/P0eOlFX1uz63KtVzN4UxmU+yv7nRFo5n5t+RpMZHGBuVgjNsdjGjPUN4KRa0evH3dHE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P+U9FbqK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fKS94CwA"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-48334ee0aeaso20631605e9.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 27 Feb 2026 12:05:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772222752; x=1772827552; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=80N7RgSjtp+iVOpKN1mjgTzo46nZb29UdWriVCAO4DA=;
-        b=fKS94CwAlc/TFM3713KKlCOfggNmdaWBVe7BMJlA6gcT4D/SpDP2ltgVceMQf/pxxC
-         oATOSkugUMuav/PD62zBQBXUjTuuJVlWI2qCFtZL5LyPydtDiKZYx1VxLEV3Rx1t5Bu5
-         o8j/6t5bpd07jVPomrA1Uq3xGiw57D+/gAlPswjrNfi1w8SNQkpezzTr9+BFl+Lk3O+Y
-         oKMG8rKlpWec9mWoMty89MKNdX1V1RW4Nm1RjxyPX3RewrBRlZvAurDWwKJQJrWN+JBn
-         ezBb8Z01cLnHgc6UxOrzSnoo1pZjRt4PjLtTxdhhsdcNa4NmZgmESzvajQPp3FUixw0i
-         ueFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772222752; x=1772827552;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=80N7RgSjtp+iVOpKN1mjgTzo46nZb29UdWriVCAO4DA=;
-        b=dTwbugwlZsTt8Bnywye7zcb99EPWw7cBpZtwc7OMRuDVRGK4OvsPCpcCkdAk+Mi3sc
-         jwNqCK3cpgaHR/ti072xSSpu0TlmzDOKn7OitoGA4CXm2VWw5bPn8Y1+qGgJ+WcOw/w1
-         delRulTplabzOHNeeSPm+eNvrjvJH+GCVncxH4oHRs9LJhAf0j+XHbY1i8nrogMqqV3v
-         yw0WY8ot78zLkjOyBXfeTTZivsePa2RexDLQ9s5W6PZUQxVx5+Tcy9GYPTqyAtSonG0X
-         nQZOBeLiFHTnOyvsfLbwEHfP5ZaF6Av8YBUuke6pPKYtDdNliDlOfH5G31EbeHEgqG4C
-         A19g==
-X-Forwarded-Encrypted: i=1; AJvYcCUUsSTGJMRl/r11UzJjSYKLp9K/LQyplL23KU5IL1uawrSkJK97DiZQNL6hUKztGFxv2MqoyHceSFeSDemF@vger.kernel.org
-X-Gm-Message-State: AOJu0YxMSGa5G/9cn8VkCqMl4lMh5Pa6vTRUQM2SA+/uTqUlis94Nz2U
-	D26cTvYPOROWi7l1bAngm31VrvB5760593TvJkcd9EJ9M4/b8RnC4Pjh
-X-Gm-Gg: ATEYQzxOyBF3GslNiB3WBqn/5HPIED6JdmuD0d65YiaKNos8Dk3+srFu/wW8YVlVfFE
-	ISKt2VCaiylkBh/HtfByCEBCgDFuOyHYkQ9u+5IMKdDp/MKN0hyVtZsvr7trgVhheASaJRVRqRa
-	M6F3iQh2jyLCrpfbF8QA+GLlzeVYBl6sADkbW4Dn9mk5L2czNEo5E3g8vSaC8y8QcCm7sF8GWKp
-	AN7eAzCxzRfeKalzOYmwON8cynaRbvUKE9RlX4fSmB6M9Zkj9kpW3jKNE9XPiGNAgWeJ8gVX0fA
-	svxAU92bVQGsAo1KAygvH2NobLnQiUE3M5m/RuztzenszzkaRKAgwVf0ADnJvJoAcF4d/CV6d4V
-	ITROO+vw+PSo7r4OfgxTaEswXzDEN7xhrwoOhhEvvodYs1YpSQ9GFAfkQC+L58L77NT+TFiAR+A
-	UQ78JfezJtBVvImeup3PxQOKWqg+/r62nlrLFRMli9waoeR/KCgN09TRUvMPKc1xSEA2i2wBItH
-	If74TJojnyElJSfEQjwNtDF3584FaEMrSSMXh7SHHDtmLEzjyD93jqAni08BMe2YmphEYEvV02G
-	dg==
-X-Received: by 2002:a05:600c:6085:b0:46e:4e6d:79f4 with SMTP id 5b1f17b1804b1-483c9bb4ce4mr71248125e9.15.1772222752361;
-        Fri, 27 Feb 2026 12:05:52 -0800 (PST)
-Received: from ?IPV6:2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c? ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483bfb29715sm168629085e9.0.2026.02.27.12.05.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 Feb 2026 12:05:51 -0800 (PST)
-Message-ID: <000f7db7-5546-4680-bef2-84ce740ad8fd@gmail.com>
-Date: Fri, 27 Feb 2026 20:05:48 +0000
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P+U9FbqK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56E88C116C6;
+	Fri, 27 Feb 2026 20:08:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772222948;
+	bh=uHYxem2rcFuwlV7scbCWwSyUtQMuMwhNJjysCrEHJOo=;
+	h=From:To:Cc:Subject:Date:From;
+	b=P+U9FbqKF3CgiBsEPqPexZzZ93XmAcCqzSbUwaOX1Y8siePI12ijG2mxzI5YIf0mL
+	 /ms5mDjzZ41zbR+y1lyjSjd5si16Ajj3yoCRxi8QeNf7VJlp5WbLWxR/Cm1nnjaTYO
+	 IOJj8irdOEN+aJhdaLJh+fKK7+dKb7KlCCDxdNslqcoGrctiSrHy1YeE9LnRXJRhDK
+	 ivNZRpe0JCZ8M0dux5O/xFyufs7KMwSQdWCOqjqmQAjFgGIXu0NS+l21cUs4WBsHt5
+	 gFLiipJYdZxphu1iU6VvsVMrLyOefgdnpc25102oxNzG5Kz3JMlEpdrlW7fczulnx6
+	 d9eorSp6XyA4Q==
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+To: linux-kernel@vger.kernel.org
+Cc: "linux-mm @ kvack . org" <linux-mm@kvack.org>,
+	"David Hildenbrand (Arm)" <david@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Jann Horn <jannh@google.com>,
+	Pedro Falcato <pfalcato@suse.de>,
+	David Rientjes <rientjes@google.com>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Janosch Frank <frankja@linux.ibm.com>,
+	Claudio Imbrenda <imbrenda@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	=?UTF-8?q?Arve=20Hj=C3=B8nnev=C3=A5g?= <arve@android.com>,
+	Todd Kjos <tkjos@android.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Carlos Llamas <cmllamas@google.com>,
+	Ian Abbott <abbotti@mev.co.uk>,
+	H Hartley Sweeten <hsweeten@visionengravers.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Leon Romanovsky <leon@kernel.org>,
+	Dimitri Sivanich <dimitri.sivanich@hpe.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Andy Lutomirski <luto@kernel.org>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Neal Cardwell <ncardwell@google.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	David Ahern <dsahern@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	linuxppc-dev@lists.ozlabs.org,
+	kvm@vger.kernel.org,
+	linux-s390@vger.kernel.org,
+	linux-sgx@vger.kernel.org,
+	intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org,
+	linux-rdma@vger.kernel.org,
+	bpf@vger.kernel.org,
+	linux-perf-users@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	netdev@vger.kernel.org,
+	rust-for-linux@vger.kernel.org,
+	x86@kernel.org
+Subject: [PATCH v1 00/16] mm: cleanups around unmapping / zapping
+Date: Fri, 27 Feb 2026 21:08:31 +0100
+Message-ID: <20260227200848.114019-1-david@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Pavel Begunkov <asml.silence@gmail.com>
-Subject: Re: [PATCH v1 03/11] io_uring/kbuf: add support for kernel-managed
- buffer rings
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Christoph Hellwig <hch@infradead.org>, axboe@kernel.dk,
- io-uring@vger.kernel.org, csander@purestorage.com, krisman@suse.de,
- bernd@bsbernd.com, linux-fsdevel@vger.kernel.org
-References: <20260210002852.1394504-1-joannelkoong@gmail.com>
- <20260210002852.1394504-4-joannelkoong@gmail.com>
- <89c75fc1-2def-4681-a790-78b12b45478a@gmail.com>
- <aYykILfX_u9-feH-@infradead.org>
- <bd488a4e-a856-4fa5-b2bb-427280e6a053@gmail.com>
- <aY7QX-BIW-SMJ3h_@infradead.org>
- <34cf24a3-f7f3-46ed-96be-bf716b2db060@gmail.com>
- <CAJnrk1a+YuPpoLghA01uJhEKrhmrLhQ+5bw2OeeuLG3tG8p6Ew@mail.gmail.com>
- <7a62c5a9-1ac2-4cc2-a22f-e5b0c52dabea@gmail.com>
- <CAJnrk1Y5iTOhj4_RbnR7RJPkr7fFcCdh1gY=3Hm72M91D-SnyQ@mail.gmail.com>
- <11869d3d-1c40-4d49-a6c2-607fd621bf91@gmail.com>
- <CAJnrk1Zr=9RMGpNXpe6=fSDkG2uVijB9qa1vENHpQozB3iPQtg@mail.gmail.com>
- <94ae832e-209a-4427-925c-d4e2f8217f5a@gmail.com>
- <CAJnrk1a1FAARebZ0Aqw18zxtOy8WTMb2UfcAK6jQaigXiZbTfQ@mail.gmail.com>
-Content-Language: en-US
-In-Reply-To: <CAJnrk1a1FAARebZ0Aqw18zxtOy8WTMb2UfcAK6jQaigXiZbTfQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 2/24/26 22:19, Joanne Koong wrote:
-> On Mon, Feb 23, 2026 at 12:00 PM Pavel Begunkov <asml.silence@gmail.com> wrote:
->>
->> On 2/21/26 02:14, Joanne Koong wrote:
->>> On Fri, Feb 20, 2026 at 4:53 AM Pavel Begunkov <asml.silence@gmail.com> wrote:
->> ...
->>>> So I'm asking whether you expect that a server or other user space
->>>> program should be able to issue a READ_OP_RECV, READ_OP_READ or any
->>>> other similar request, which would consume buffers/entries from the
->>>> km ring without any fuse kernel code involved? Do you have some
->>>> use case for that in mind?
->>>
->>> Thanks for clarifying your question. Yes, this would be a useful
->>> optimization in the future for fuse servers with certain workload
->>> characteristics (eg network-backed servers with high concurrency and
->>> unpredictable latencies). I don't think the concept of kmbufrings is
->>> exclusively fuse-specific though (for example, Christoph's use case
->>> being a recent instance);
->>
->> Sorry, I don't see relevance b/w km rings and what Christoph wants.
->> I explained why in some sub-thread, but maybe someone can tell
->> what I'm missing.
->>
->>> I think other subsystems/users that'll use
->>> kmbuf rings would also generically find it useful to have the option
->>> of READ_OP_RECV/READ_OP_READ operating directly on the ring.
->>
->> Yep, it could be, potentially, it's just the patchset doesn't plumb
->> it to other requests and uses it within fuse. It's just cases like
-> 
-> This patchset just represents the most basic foundation. The
-> optimization patches (eg incremental buffer consumption, plumbing it
-> to other io-uring requests, etc) were to be follow-up patchsets that
-> would be on top of this.
+A bunch of cleanups around unmapping and zapping. Mostly simplifications,
+code movements, documentation and renaming of zapping functions.
 
-Got it. Any understanding how the work flow would look like if used
-with non-cmd io_uring requests? Is there some particular use case
-you have in mind for fuse servers?
+With this series, we'll have the following high-level zap/unmap functions
+(excluding high-level folio zapping):
+* unmap_vmas() for actual unmapping (vmas will go away)
+* zap_vma(): zap all page table entries in a vma
+* zap_vma_for_reaping(): zap_vma() that must not block
+* zap_vma_range(): zap a range of page table entries
+* zap_vma_range_batched(): zap_vma_range() with more options and batching
+* zap_special_vma_range(): limited zap_vma_range() for modules
+* __zap_vma_range(): internal helper
 
->> that always make me wonder, here it was why what is basically an
->> internal kernel fuse API is exposed as an io_uring uapi. Maybe there
-> 
-> It's not really an internal kernel fuse API. There's nothing
-> fuse-specific about it - the infrastructure that's added is the
-> infrastructure for a generic buffer ring.
-> 
-> The memory that backs the buffers for the buf ring needs to be
-> io-uring specific. io-uring already has all the infrastructure for
-> buffer rings. So I'm not really fully understanding why it's better in
-> this case to just have the fuse kernel code re-implement all the logic
-> for a buffer ring and go through these layers of indirection to use
-> registered buffers, instead of just leveraging what's already in
-> io-uring.
+Patch #1 is not about unmapping/zapping, but I stumbled over it while
+verifying MADV_DONTNEED range handling.
 
-It's simple. If user space (i.e. fuse server) knows the buffer
-address prior to request submission, then it should either use plain
-user addresses or registered buffers. Introducing a major io_uring
-uapi extension that does the same thing as registered buffers but
-for regions, as you suggested, is not the right approach.
+Patch #16 is related to [1], but makes sense even independent of that.
 
-...
->> It's up to the user (i.e. fuse server) to either use OP_READ/etc. using
->> user addresses that you have in your design from mmap()ing regions, or
->> registering it and using OP_READ_FIXED.
-> 
-> Yes but I don't think this solves the concern of userspace being able
-> to unregister the memory region at any time (eg while not doing
-> io-uring requests) while the kernel still points to those addresses
-> for the backing buffers of the bufring, since there's no callback that
+[1] https://lore.kernel.org/r/aYSKyr7StGpGKNqW@google.com
 
-If you allow normal requests to use it, a fuse callback on region
-unregistration wouldn't help anyway.
+The CC list is already long enough. As these are simple changes to
+drivers/arch code, I'm only CCing maintainers of all changes but only
+reviewers of the MM bits.
 
-> gets triggered in the subsystem when a memory region is unregistered,
-> which means there will need to be extra per I/O overhead for having to
-> ensure the memory region is still valid. Though since there's no uapi
-> for unregistering a memory region this is not a concern, unless this
-> is planned to be added in the future.
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>
+Cc: Vlastimil Babka <vbabka@kernel.org>
+Cc: Mike Rapoport <rppt@kernel.org>
+Cc: Suren Baghdasaryan <surenb@google.com>
+Cc: Michal Hocko <mhocko@suse.com>
+Cc: Jann Horn <jannh@google.com>
+Cc: Pedro Falcato <pfalcato@suse.de>
+Cc: David Rientjes <rientjes@google.com>
+Cc: Shakeel Butt <shakeel.butt@linux.dev>
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: Alice Ryhl <aliceryhl@google.com>
+Cc: Madhavan Srinivasan <maddy@linux.ibm.com>
+Cc: Michael Ellerman <mpe@ellerman.id.au>
+Cc: Christian Borntraeger <borntraeger@linux.ibm.com>
+Cc: Janosch Frank <frankja@linux.ibm.com>
+Cc: Claudio Imbrenda <imbrenda@linux.ibm.com>
+Cc: Alexander Gordeev <agordeev@linux.ibm.com>
+Cc: Gerald Schaefer <gerald.schaefer@linux.ibm.com>
+Cc: Heiko Carstens <hca@linux.ibm.com>
+Cc: Vasily Gorbik <gor@linux.ibm.com>
+Cc: Jarkko Sakkinen <jarkko@kernel.org>
+Cc: Thomas Gleixner <tglx@kernel.org>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "Arve Hjønnevåg" <arve@android.com>
+Cc: Todd Kjos <tkjos@android.com>
+Cc: Christian Brauner <brauner@kernel.org>
+Cc: Carlos Llamas <cmllamas@google.com>
+Cc: Alice Ryhl <aliceryhl@google.com>
+Cc: Ian Abbott <abbotti@mev.co.uk>
+Cc: H Hartley Sweeten <hsweeten@visionengravers.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Tvrtko Ursulin <tursulin@ursulin.net>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Simona Vetter <simona@ffwll.ch>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Leon Romanovsky <leon@kernel.org>
+Cc: Dimitri Sivanich <dimitri.sivanich@hpe.com>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Alexei Starovoitov <ast@kernel.org>
+Cc: Daniel Borkmann <daniel@iogearbox.net>
+Cc: Andrii Nakryiko <andrii@kernel.org>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Arnaldo Carvalho de Melo <acme@kernel.org>
+Cc: Namhyung Kim <namhyung@kernel.org>
+Cc: Andy Lutomirski <luto@kernel.org>
+Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>
+Cc: Eric Dumazet <edumazet@google.com>
+Cc: Neal Cardwell <ncardwell@google.com>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: David Ahern <dsahern@kernel.org>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: Paolo Abeni <pabeni@redhat.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>
 
-You can assume it's not going to be unregistered.
+Cc: linuxppc-dev@lists.ozlabs.org
+Cc: kvm@vger.kernel.org
+Cc: linux-s390@vger.kernel.org
+Cc: linux-sgx@vger.kernel.org
+Cc: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-rdma@vger.kernel.org
+Cc: bpf@vger.kernel.org
+Cc: linux-perf-users@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org
+Cc: netdev@vger.kernel.org
+Cc: rust-for-linux@vger.kernel.org
+Cc: x86@kernel.org
 
+
+David Hildenbrand (Arm) (16):
+  mm/madvise: drop range checks in madvise_free_single_vma()
+  mm/memory: remove "zap_details" parameter from zap_page_range_single()
+  mm/memory: inline unmap_mapping_range_vma() into
+    unmap_mapping_range_tree()
+  mm/memory: simplify calculation in unmap_mapping_range_tree()
+  mm/oom_kill: use MMU_NOTIFY_CLEAR in __oom_reap_task_mm()
+  mm/oom_kill: factor out zapping of VMA into zap_vma_for_reaping()
+  mm/memory: rename unmap_single_vma() to __zap_vma_range()
+  mm/memory: move adjusting of address range to unmap_vmas()
+  mm/memory: convert details->even_cows into details->skip_cows
+  mm/memory: use __zap_vma_range() in zap_vma_for_reaping()
+  mm/memory: inline unmap_page_range() into __zap_vma_range()
+  mm: rename zap_vma_pages() to zap_vma()
+  mm: rename zap_page_range_single_batched() to zap_vma_range_batched()
+  mm: rename zap_page_range_single() to zap_vma_range()
+  mm: rename zap_vma_ptes() to zap_special_vma_range()
+  mm/memory: support VM_MIXEDMAP in zap_special_vma_range()
+
+ arch/powerpc/platforms/book3s/vas-api.c |   2 +-
+ arch/powerpc/platforms/pseries/vas.c    |   2 +-
+ arch/s390/mm/gmap_helpers.c             |   2 +-
+ arch/x86/kernel/cpu/sgx/encl.c          |   2 +-
+ drivers/android/binder/page_range.rs    |   4 +-
+ drivers/android/binder_alloc.c          |   2 +-
+ drivers/comedi/comedi_fops.c            |   2 +-
+ drivers/gpu/drm/i915/i915_mm.c          |   4 +-
+ drivers/infiniband/core/uverbs_main.c   |   6 +-
+ drivers/misc/sgi-gru/grumain.c          |   2 +-
+ include/linux/mm.h                      |  23 ++-
+ kernel/bpf/arena.c                      |   3 +-
+ kernel/events/core.c                    |   2 +-
+ lib/vdso/datastore.c                    |   2 +-
+ mm/internal.h                           |   7 +-
+ mm/interval_tree.c                      |   5 -
+ mm/madvise.c                            |  24 +--
+ mm/memory.c                             | 217 ++++++++++++------------
+ mm/oom_kill.c                           |  15 +-
+ mm/page-writeback.c                     |   2 +-
+ net/ipv4/tcp.c                          |   7 +-
+ rust/kernel/mm/virt.rs                  |   4 +-
+ 22 files changed, 162 insertions(+), 177 deletions(-)
+
+
+base-commit: df9c51269a5e2a6fbca2884a756a4011a5e78748
 -- 
-Pavel Begunkov
+2.43.0
 
