@@ -1,41 +1,58 @@
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71769220F2D
-	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Feb 2026 15:19:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8252E43C07B;
+	Fri, 27 Feb 2026 15:20:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772205577; cv=none; b=Jbg2Km6bX3c0gDRlFa/8EcOAC3+qB5xbnTZKsUTrdUB2l61rj1Ail9giTFXGZjO0lH5XTCYrFlU5z92In26nVJ42Y8LSvxZgWH7YyvvDOem7h9OYP/anQfxZxEHHkaUju7LeCnUxukn7Tk/54gPyKVnQdfPPURkn+fJisj8zv/s=
+	t=1772205614; cv=none; b=IJtYqfJ9+D+qdllSrkz8VjUzJA2xVqJ9zYLUuu+tZLfwFzciYvX/3O9zQW994DGB982OCctoxNYdniRzpi44utdBDRpkWYyz4EMsR1gNqWCQ4uKnUqfRc92FDOXe/tqS6NYWzh4H/XQO0YYvCjCk92HFo4pLGglFd+S72/d1mqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772205577; c=relaxed/simple;
-	bh=04FZaqkVEhg84Q1umwpvGK79aJfyhgFm3Bcy6v5nt7A=;
+	s=arc-20240116; t=1772205614; c=relaxed/simple;
+	bh=xGnhZ6cyzcE6XY1nG/LDxblnQBcXSXIBaA0mnqv9XWM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ujvC+kAY9QAWLutCCfe1aJfaPU5ZNMqNDfQDfj3A8YyqmktzgF/QJOmLiSnsgqJNviYXWZ7u5WRPsj9ZmT0GWlPBpT4H/aAOTQiXZiYxbTDGgRR4oTdsEfbNqEziPTX3Yi++aQ/UkwjpEkG7awwciAJ5vvqgxRUTuQ8ivJB9GrM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=XA/QaRea; arc=none smtp.client-ip=62.89.141.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+	 Content-Type:Content-Disposition:In-Reply-To; b=u17YJPqCUjq9pmW02DrGngtjkKWxnqVpOPwn7srfEzkrSexxhhEgPosTjr8L3IgLb4fkcTYsPCroLLcFaHbOcbKOT5lmc7u3Rgo25jtaijtTuzUDZQmr3b4esONwvKPfzJ41rmmt+hOnjr0zk1HlgaFeJTnKwkUNq6/ktNmHoNw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=BP9gWk1R; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="XA/QaRea"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="BP9gWk1R"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=M+rMQQjpfREnEirMRx1pwCQH+CtMm8K++5IcPtNx06M=; b=XA/QaReaOg1VPXHDZKNFKEBUJP
-	ZiNv7OegJsQ3TbeBPvQyNwPkoLvLe7gnDkIowV/7lJk5qVYQt5Z9D7hDejcqxvyKPcgmvclO3UPGs
-	qVcGToKYpVUbv70l/HXSxaADc3kpQe3maGdQ/CE3frgHwdI4dY3xLFFqmNzZLtxPUTtgt2NlvKr7J
-	ibdkQax4Tj3oEEZW6rAkR2zG1ysYuXmIuXizW5P0na6yJ+Dc1PcRs3fa684p0GKBXT2IvaELBizHL
-	p6zGA/WFowpBVsshQUYKz7h7+uSvv95B1+YRZHrQzSVxaps4WPufei8MoWz3vS7a07C6DRIw/sA5G
-	g7YGjRJg==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1vvzfP-00000008Meb-3k0S;
-	Fri, 27 Feb 2026 15:22:12 +0000
-Date: Fri, 27 Feb 2026 15:22:11 +0000
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: "J. R. Okajima" <hooanon05g@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org
-Subject: Re: v7.0-rc1, name_to_handle_at(..., AT_EMPTY_PATH)
-Message-ID: <20260227152211.GB3836593@ZenIV>
-References: <14544.1772189098@jrotkm2>
+	bh=re+X6ck1AQZQchao0ynbIryXcVgPOwh7dKHH9EvgBr4=; b=BP9gWk1RTiW1qovhNGxhD9zEDq
+	H24UnepRzhoEGp8jmVB75TB3tgUrUkwOAV2s9QulxkEWG6xFpqFV+BljiLpJeXGcWUKEFvcaq56lu
+	UY7cbVSBEONJ5NmV88jrLLgL7aTMrnsHfRWRXhiQPguUjSctEqAFP83fM4tESFmHx/8kivPpdgi/y
+	z7+zCF68ep7RIKRgMbJR6jrtlBmzgQQpUeA1dOv0RkmpzZF55PwtEjkyQUQcWmBd0J5Uf8cj9Uy7T
+	ktLJUj8cXYEevOxSRDdzzqgJh2xXNECvf7M+7fVZgcCO9/eaovNg6sKxAryWF5DSt8RGXTqA0TxDC
+	GB0qG6UQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vvzdC-00000004kz2-17tX;
+	Fri, 27 Feb 2026 15:19:54 +0000
+Date: Fri, 27 Feb 2026 15:19:54 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Pankaj Raghav <p.raghav@samsung.com>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Ryan Roberts <ryan.roberts@arm.com>, Michal Hocko <mhocko@suse.com>,
+	Lance Yang <lance.yang@linux.dev>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Nico Pache <npache@redhat.com>, Zi Yan <ziy@nvidia.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Jens Axboe <axboe@kernel.dk>, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-block@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, mcgrof@kernel.org,
+	gost.dev@samsung.com, kernel@pankajraghav.com, tytso@mit.edu
+Subject: Re: [RFC v2 0/3] Decoupling large folios dependency on THP
+Message-ID: <aaG2GkICML-St3B4@casper.infradead.org>
+References: <20251206030858.1418814-1-p.raghav@samsung.com>
+ <aaEsOu0hgCUznzl3@casper.infradead.org>
+ <8ca84535-861c-4ab0-a46b-5dfe319ac8ac@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -44,35 +61,48 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <14544.1772189098@jrotkm2>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+In-Reply-To: <8ca84535-861c-4ab0-a46b-5dfe319ac8ac@kernel.org>
 
-On Fri, Feb 27, 2026 at 07:44:58PM +0900, J. R. Okajima wrote:
-> Hello Al Viro,
+On Fri, Feb 27, 2026 at 09:45:07AM +0100, David Hildenbrand (Arm) wrote:
+> I guess it would be rather trivial to just replace
+> add_to_page_cache_lru() by filemap_add_folio() in below code.
+
+In the Ottawa interpretation, that's true, but I'd prefer not to revisit
+this code when transitioning to the New York interpretation.  This is
+the NOMMU code after all, and the less time we spend on it, the better.
+
+> > So either we need to reimplement all the good stuff that folio_split()
+> > does for us, or we need to make folio_split() available on nommu.
 > 
-> By the commit in v7.0-rc1,
-> 	154ef7dce6a4d 2026-01-16 name_to_handle_at(): use CLASS(filename_uflags)
-> name_to_handle_at(2) stopped handling AT_EMPTY_PATH, and an application
-> which issues
-> 	name_to_handle_at(fd, "", handle, &mnt_id, AT_EMPTY_PATH);
-> started failing.
+> folio splitting usually involves unmapping pages, which is rather
+> cumbersome on nommu ;) So we'd have to think about that and the
+> implications.
+
+Depending on your point of view, either everything is mapped on nommu,
+or nothing is mapped ;-)  In any case, the folio is freshly-allocated
+and locked, so there's no chance anybody has mapped it yet.
+
+> ramfs_nommu_expand_for_mapping() is all about allocating memory, not
+> splitting something that might already in use somewhere.
 > 
-> It is due to the commit dropped setting LOOKUP_EMPTY to lookup_flags in
-> name_to_handle_at(2).
+> So I folio_split() on nommu is a bit weird in that context.
 
-Huh?
-	CLASS(filename_uflags, filename)(name, flag);
-*does* accept empty path if flag & AT_EMPTY_PATH is non-zero.
+Well, it is, but it's also exactly what we need to do -- frees folios
+which are now entirely beyond i_size.  And it's code that's also used on
+MMU systems, and the more code that's shared, the better.
 
-So if you are really observing such failures, something else must've gone
-wrong.  Details, please.
+> When it comes to allocating memory, I would assume that it would be
+> better (and faster!) to
+> 
+> a) allocate a frozen high-order page
+> 
+> b) Create the (large) folios directly on chunks of the frozen page, and
+> add them through filemap_add_folio().
+> 
+> We'd have a function that consumes a suitable page range and turns it
+> into a folio (later allocates memdesc).
+> 
+> c) Return all unused frozen bits to the page allocator
 
-This
-struct filename *getname_uflags(const char __user *filename, int uflags)
-{
-        int flags = (uflags & AT_EMPTY_PATH) ? LOOKUP_EMPTY : 0;
-
-	return getname_flags(filename, flags);
-}
-is where AT_EMPTY_PATH is handled; could you check the arguuments it's getting
-in your reproducer and argument passed to getname_flags()?
+Right, we could do that.  But that's more code and special code in the
+nommu codebase.
