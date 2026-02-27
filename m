@@ -1,27 +1,28 @@
-Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CBEF2FF140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B3F42FE596
 	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Feb 2026 02:57:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772161040; cv=none; b=C+j6DyNk7xWIAsNPi6bjiMi898yurXGl+JFW6LLovgkGncNkGIHF3TNNZjw99SRfBkD1Qo5xHzbKI9JAvByjqCQpLBUlij3PJ2ozM1DQ9F37jpZF1EhN/fdASmPevL7CBhIMfthv6Jl2tP4CYOYtKVsk7KMcnNT4U5zOp8dWi7E=
+	t=1772161040; cv=none; b=T24hkwCpixxrLUfZGoTMsrocZnwq1JMhIgknNLJ1FoCUJMuBr/6X+B/0psXlnN6DTUyukGkQPW2XMoom61hUF2Bk3eeL31LO576aj4SVHu+DGW7V6bgFCnxUrKojCeLyxnTFdK+TJHI4aLdmLJRIPZmPJl6IxBaOH1vC3wra/Xs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1772161040; c=relaxed/simple;
-	bh=YQPDUz6dwT2AAzb3zKocnX1wL6n/fVlA1xzTuZIjYMI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=pTvtjbfqjIrCyEf7xHejuqt/ifSt6Mq+HEuUl4pLix4zy918/tqsuNVVAkc5pz01gv1MD+m5txhNVe/QFeodLhYWVVuMyidIsCpBkFJiwmXl2bNxY9UPkxndEraZj0espfU3V1atdMgf6HL7kumb3MqPVgmLDQff1V4yPFikgms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
+	bh=IMB/WNlvgG/KqItUDfSrW+6x5oBguOJRjkDAVKAJ27U=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=ZmvpHK09fM7m8AG/BuJJ85to0tNShHN6HLu/eXyg16GPGSURkf4+bIiQk1hdS+qcD3ufzAl2pWKNsp6KwV2Qx9cbPZsmi+1Y+5TP8c+EZegSoccIcN5P5RPXinsrKWmpyUbYVhwaL1DOpRmJ4RZWJnOslBCTAs9CQqhXlsy51Xk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=none smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.177])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4fMXzN3tSNzYQtj0
-	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Feb 2026 10:56:48 +0800 (CST)
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.198])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4fMXym6ry3zKHMSp
+	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Feb 2026 10:56:16 +0800 (CST)
 Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id EF1AE40590
-	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Feb 2026 10:57:14 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTP id 3772240575
+	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Feb 2026 10:57:15 +0800 (CST)
 Received: from huaweicloud.com (unknown [10.50.87.132])
-	by APP4 (Coremail) with SMTP id gCh0CgBXuPgJCKFpsEGdIw--.32070S4;
-	Fri, 27 Feb 2026 10:57:13 +0800 (CST)
+	by APP4 (Coremail) with SMTP id gCh0CgBXuPgJCKFpsEGdIw--.32070S7;
+	Fri, 27 Feb 2026 10:57:15 +0800 (CST)
 From: Ye Bin <yebin@huaweicloud.com>
 To: viro@zeniv.linux.org.uk,
 	brauner@kernel.org,
@@ -34,10 +35,12 @@ Cc: akpm@linux-foundation.org,
 	muchun.song@linux.dev,
 	linux-mm@kvack.org,
 	yebin10@huawei.com
-Subject: [PATCH v3 0/3] add support for drop_caches for individual filesystem
-Date: Fri, 27 Feb 2026 10:55:45 +0800
-Message-Id: <20260227025548.2252380-1-yebin@huaweicloud.com>
+Subject: [PATCH v3 3/3] Documentation: add instructions for using 'drop_fs_caches sysctl' sysctl
+Date: Fri, 27 Feb 2026 10:55:48 +0800
+Message-Id: <20260227025548.2252380-4-yebin@huaweicloud.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260227025548.2252380-1-yebin@huaweicloud.com>
+References: <20260227025548.2252380-1-yebin@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -45,65 +48,97 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:gCh0CgBXuPgJCKFpsEGdIw--.32070S4
-X-Coremail-Antispam: 1UD129KBjvJXoW7Kw1fCF4UKw4kJr4xZw1xGrg_yoW8Cr1xpa
-	9ruw15Kr4rAF1fGr93Aw48Z3WFvw4kua17t3ZxWw1FyrnxAFyIvrnI93y5XFyDZrW7uw4q
-	v3WDtr1Yg34DZw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUv2b4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
-	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
-	6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
-	Cjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0E
-	n4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I
-	0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWU
-	tVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcV
-	CY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAF
-	wI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa
-	7IUbmii3UUUUU==
+X-CM-TRANSID:gCh0CgBXuPgJCKFpsEGdIw--.32070S7
+X-Coremail-Antispam: 1UD129KBjvJXoW7CrW3Gw18ZrWDZw15WF4fuFg_yoW5JFWrpF
+	ZrAryIgw18Xay3WrnxXr47tFyfXay8JFy0q3s7Kr1rZw15CFyj9rsFyw4YqFy7GFW8C3yI
+	qrW5Kwn8Ww1DtFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUPFb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUWw
+	A2048vs2IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
+	w2x7M28EF7xvwVC0I7IYx2IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
+	W8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v2
+	6rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMc
+	Ij6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_
+	Jr0_Gr1lF7xvr2IYc2Ij64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AFwI
+	0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG
+	67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MI
+	IYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E
+	14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJV
+	W8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUOGQ6
+	DUUUU
 X-CM-SenderInfo: p1hex046kxt4xhlfz01xgou0bp/
 
 From: Ye Bin <yebin10@huawei.com>
 
-In order to better analyze the issue of file system uninstallation caused
-by kernel module opening files, it is necessary to perform dentry recycling
-on a single file system. But now, apart from global dentry recycling, it is
-not supported to do dentry recycling on a single file system separately.
-This feature has usage scenarios in problem localization scenarios.At the
-same time, it also provides users with a slightly fine-grained
-pagecache/entry recycling mechanism.
-This patchset supports the recycling of pagecache/entry for individual file
-systems.
+Add instructions for 'drop_fs_caches sysctl' sysctl in 'vm.rst'.
 
-Diff v3 vs v2
-1. Introduce introduce drop_sb_dentry_inode() helper instead of
-reclaim_dcache_sb()/reclaim_icache_sb() helper for reclaim dentry/inode.
-2. Fixing compilation issues in specific architectures and configurations.
+Signed-off-by: Ye Bin <yebin10@huawei.com>
+---
+ Documentation/admin-guide/sysctl/vm.rst | 44 +++++++++++++++++++++++++
+ 1 file changed, 44 insertions(+)
 
-Diff v2 vs v1:
-1. Fix possible live lock for shrink_icache_sb().
-2. Introduce reclaim_dcache_sb() for reclaim dentry.
-3. Fix potential deadlocks as follows:
-https://lore.kernel.org/linux-fsdevel/00000000000098f75506153551a1@google.com/
-After some consideration, it was decided that this feature would primarily
-be used for debugging purposes. Instead of adding a new IOCTL command, the
-task_work mechanism was employed to address potential deadlock issues.
-
-Ye Bin (3):
-  mm/vmscan: introduce drop_sb_dentry_inode() helper
-  sysctl: add support for drop_caches for individual filesystem
-  Documentation: add instructions for using 'drop_fs_caches sysctl'
-    sysctl
-
- Documentation/admin-guide/sysctl/vm.rst |  44 +++++++++
- fs/drop_caches.c                        | 125 ++++++++++++++++++++++++
- include/linux/mm.h                      |   1 +
- mm/internal.h                           |   3 +
- mm/shrinker.c                           |   4 +-
- mm/vmscan.c                             |  50 ++++++++++
- 6 files changed, 225 insertions(+), 2 deletions(-)
-
+diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
+index 97e12359775c..76545da53e20 100644
+--- a/Documentation/admin-guide/sysctl/vm.rst
++++ b/Documentation/admin-guide/sysctl/vm.rst
+@@ -37,6 +37,7 @@ Currently, these files are in /proc/sys/vm:
+ - dirtytime_expire_seconds
+ - dirty_writeback_centisecs
+ - drop_caches
++- drop_fs_caches
+ - enable_soft_offline
+ - extfrag_threshold
+ - highmem_is_dirtyable
+@@ -286,6 +287,49 @@ used::
+ These are informational only.  They do not mean that anything is wrong
+ with your system.  To disable them, echo 4 (bit 2) into drop_caches.
+ 
++drop_fs_caches
++==============
++
++Writing to this will cause the kernel to drop clean for a specific file system
++caches, as well as reclaimable slab objects like dentries and inodes. Once
++dropped, their memory becomes free. Except for specifying the device number
++or file path for a specific file system, everything else is consistent with
++drop_caches. The device number can be viewed through "cat /proc/self/montinfo"
++or 'lsblk'.
++
++To free pagecache::
++
++	echo "1 MAJOR:MINOR" > /proc/sys/vm/drop_fs_caches
++Or
++	echo "1 /mnt/XX" > /proc/sys/vm/drop_fs_caches
++
++To free reclaimable slab objects (includes dentries and inodes)::
++
++	echo "2 MAJOR:MINOR" > /proc/sys/vm/drop_fs_caches
++Or
++	echo "2 /mnt/XX" > /proc/sys/vm/drop_fs_caches
++
++To free slab objects and pagecache::
++
++	echo "3 MAJOR:MINOR" > /proc/sys/vm/drop_fs_caches
++Or
++	echo "3 /mnt/XX" > /proc/sys/vm/drop_fs_caches
++
++You may see error messages in your kernel log when incorrect path or device
++number provided::
++
++	echo (1234): drop_fs_caches: failed to get path(/mnt/XX) ERRNO
++Or
++	echo (1234): drop_fs_caches: failed to get dev(MAJOR:MINOR)'s sb
++
++You may see informational messages in your kernel log when this file is
++used::
++
++	echo (1234): drop_fs_caches: 3 MAJOR:MINOR
++
++These are informational only. They do not mean that anything is wrong
++with your system. To disable them, echo 4 (bit 2) into drop_fs_caches.
++
+ enable_soft_offline
+ ===================
+ Correctable memory errors are very common on servers. Soft-offline is kernel's
 -- 
 2.34.1
 
