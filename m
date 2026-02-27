@@ -1,105 +1,111 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9334B43C056;
-	Fri, 27 Feb 2026 15:20:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772205644; cv=none; b=dH9lIvOxGkf9+oSLDODA7cKxlfXuBUIYbtrOY/bKF1G7LJNa5mJ5g+Ias8mppikU4QxhPggSNgfeeHFxJsYtRWNvGmlRHZpBnm/XcZM2L8YroEdQBLb0pW4MW5Zl+4MVmNXP5Udiuh9gzxtxA8QPTEXhG1qgu3HuiyiWFyBjMNg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772205644; c=relaxed/simple;
-	bh=zjmsx5oq16zysg8L8WJOCU1HqD9oMxXD4LVv5E0RhVs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=WaG1rrW/OGZue/PXdBP2hbuJ9nEDeIDuD+WgtDpbPOOIE3kNvy5aHm1l+b0JaSwFMdMJU/Kx79c5l6fmZqEmDzDUxkslHzxbUs3+4hmkg9K7PPqeNmzsU+YHg9mXfUr4ms8s0nQXITQPjKE87GpzX3gOEQx/ywJ7+V09ACZ7U3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BMY0rTOk; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1E8741C2FB
+	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Feb 2026 15:23:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772205829; cv=pass; b=HchpHRKBwahsCXXhKwCuYMgyb71+L/JiMgqgJZVZ2a0sxw+YfKv8qL8lzqyZvUPU3+UDCyxYGBSzcirxs7PpgmtxcYbwxIyspGZa7qBXYnJ86cI3wzzaOYq0gH8k70YBi8sz53cO8jlejteBMAzjyAseYU2FLrFXBJJVtLA1XCw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772205829; c=relaxed/simple;
+	bh=uotwpilcOm6eLw810YFolPuoHWSHu/NQz1CxqH++rLk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fcO/xWdEb/TcHhdDyha+cvv6OLOvsTz5r2lmI2env8RJaPKRlvlJ4rT+on76kOC3ZyUkXIpypSUQx8Lx0Z9ondLjStfAPXFgoIocVHK3L/J51t62k6k/vtnG/Dgif847wX5mIKzp7EsbNpdhLFgNruqMRedUfPjfKxDNOsU2Ftc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=VblWcR57; arc=pass smtp.client-ip=209.85.219.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BMY0rTOk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2C12C19422;
-	Fri, 27 Feb 2026 15:20:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772205644;
-	bh=zjmsx5oq16zysg8L8WJOCU1HqD9oMxXD4LVv5E0RhVs=;
-	h=From:Date:Subject:To:Cc:From;
-	b=BMY0rTOk+ymiw8JyvlaMBxBJvkLronYSxySGlluGWWAC4K+mAVveBozSi697R518x
-	 uunsQqREDm1CE8Ncip6NUmztFaP6RPTdsrIK7wp7nqG5ksaYsE2jLJXIDXSbN4cPey
-	 8VBY5kY1GoFLhUef10+yvv2HyK0vDTPxnjrOb558SMUbOpuxUehiC91os1Nd1wgkCA
-	 gmzz5oMyotcSoMmcN1MZZoMMqKdqmIO0Vu6y8WsoZrCrK/yiUJAbz86Q0DL8/UbAs9
-	 iYQHFY7k7M/43vH8doWFdnnSvzRer09tFIb90Wp1bdHXoQ6ipYnwd+M9DYjShaa+DG
-	 j8qNaPe32Tlfg==
-From: Mark Brown <broonie@kernel.org>
-Date: Fri, 27 Feb 2026 15:20:35 +0000
-Subject: [PATCH v3] selftests/filesystems: Assume that TIOCGPTPEER is
- defined
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="VblWcR57"
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-8954a050c19so25236406d6.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 27 Feb 2026 07:23:47 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772205827; cv=none;
+        d=google.com; s=arc-20240605;
+        b=kfQF6xwwElPqMgmqZYPq3Uk/lEAN3zz2Dh4+iUztMjWiwhdM1FJ4JX0Z20qmIZ5U6N
+         Hon1J2lsuFMvOvXq61cMJJW6nTlyPTvQkC37sQOU76eqVSbu9+uCHrUtrmKzu3Uo8ev5
+         2sq4GYRaH5xC/zBzJk734GbN9pyd/7fv3RB6zHBtHAqsQqnLB6J+XWdfZC2aemCfA2+2
+         roUZf33NQdDHGeEHZe1fE8HQk7Toj5eWw8WjlHaLjZ9WbXqV5hLJHTCTy39/+iqP9c5/
+         aeMzAj7Fi7e1lY12Y9SNmnDijhNFOcqjUY8Uw8XEHHJdo/yWvBS6Jp/akvUO8FUkR4wO
+         trwg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=RWykH1VKjJ0+tQ9BziQ6DTgQHZVX93ZWpnJrLsd4AEA=;
+        fh=50zgNv101Q4UEvJpwlD7IRGGnDPphu+pW9P3S44SUKY=;
+        b=Fb9Uz8mT2cjvXKcG2999frNMA5lT7UQ39o5XgOUH18vTbejtkjTKKlVrSMk3/NXa5j
+         XkW+nN5aSnhKi81VXzlvDS+LT9bOduPQk1UPBDCCYyi2jSkS6AEi9F4feJSQtKA4F7lg
+         Yvy6yBXMdPO/TFlKhmmZW/3hnCtJjkIPZjWD6bxdDo78XbrKM6FFfQtRm4e8apWujneJ
+         FIfueiflJswPvdhufQwr9Hr4zfSN98ku+n9rjX2SQ76jm+N18Sj2qtmVaQyqLQXeOEe9
+         nj4jAsAMKlKZxnnLjH+3fkQKiO/zE3Ohun3ev/VjXsozWb6EOTlLOUO0fKc74ntJbvyt
+         9TGQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1772205827; x=1772810627; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=RWykH1VKjJ0+tQ9BziQ6DTgQHZVX93ZWpnJrLsd4AEA=;
+        b=VblWcR574HAk3YFDPvCfCxHPKS3dTbBlWTb+xZHYBDc55D1WIg7Ok5wAwHDmnqrXhx
+         cXIS+uffH1laBTAMsRdHqhd5421e1SqA7VNiD9WaY83Rqii6XrmPjxAlgOgp9rvA5gl9
+         7Lwlwkh0xTAdVKVrIbA2rsBGX1j9BHcv0r70Q=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772205827; x=1772810627;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RWykH1VKjJ0+tQ9BziQ6DTgQHZVX93ZWpnJrLsd4AEA=;
+        b=U4F1Xa1FzwUouOeYJDY54URDMA3DoJ3fEmkZCg3CU2A3uC5hAag/3F8qWL0fmLhLj5
+         5HZu+ZzDOqxPrt94i7E0bC0cqamU3iIpyyWlASwY/Xo7FZeu2i7jcSGD6itwdeookr2C
+         QS6ljf5G0aC/GcUvPqEf03wfpSVOBuS8KUCOGJmsnh9J/gIYMi62YVQ6HT4T+A+2jjVM
+         NXIPyiQXxsk6ty6nXTHgXmKBL9G/9vorcmpAmKuDZkpdOWSH6s+QautyIY4W1mFCP5+K
+         Nu0V3SDQnFyJOVUKunyyO1mz22SROtAsH3Ui/O+/H9dtFRY6QTk/Dw29TVkTJeMpGmyG
+         96iw==
+X-Gm-Message-State: AOJu0Ywj+9pVXstdwqjfj3HpVE8dKesVPHfRDSSxyybEkUn0jONlMmko
+	QRhvI8l3Vst7kEze9F3BcsftFnFohAH6drVzMp1SwntSwmoYmjkNCp3qNDDc4IdFnGbBm10f6R+
+	gTCLGB++qXPpmTDw0Sk4LDHtC/tZkB+SYd1b2P97vsQ==
+X-Gm-Gg: ATEYQzwvcnhPa1zuULGcNfrDUh9RgBGQ2XmYq4YlUlAMM6tGJ57GTakqk2Qs3PtjajI
+	hASg1N00GDnz2Q+CaSor1147UeuZcAN/33cYVcJK9Yk/6mcFecVkzrz9YS51Pq4cD5/y8lHddyJ
+	2u+svWZ+OHB3tJ0e6JJMHc5nlXmRn+D2YFKtbAKYA6No3k4JvBWBbVtOsP1CT8jjIzSh55ShvwJ
+	FdFVKCHUKe4H4QeqNLDYBaeVylg/reIQ6vHxSiYb4NVdj+l1ZeaPewGtIeLrQzSNo0vEPzv29Jl
+	SudB/w==
+X-Received: by 2002:a05:622a:87:b0:501:1795:9d52 with SMTP id
+ d75a77b69052e-5075290c36fmr41798241cf.33.1772205826895; Fri, 27 Feb 2026
+ 07:23:46 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260227-selftests-filesystems-devpts-tiocgptpeer-v3-1-07db4d85d5aa@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAEK2oWkC/52NsQ6DIBQAf6VhLo1gUejU/2g6qDyU1ArhEVJj/
- PeiS9OxHe+Gu4UgBAtILoeFBEgWrZsylMcD6YZm6oFanZnwggvGeEURRhMBI1JjR8AZIzyRakg
- +q2hd1/voAQI1rS4LELWSQpGc8wGMfe2r2z3zYDG6MO/nxDb7xyQxyqjira6ELriS7PqAMMF4c
- qEn2yXxT5kz+UOZ53IjTCvkuTYg5Fd5Xdc3NHoiDzsBAAA=
-X-Change-ID: 20251126-selftests-filesystems-devpts-tiocgptpeer-fbd30e579859
-To: Shuah Khan <shuah@kernel.org>, Christian Brauner <brauner@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
- linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>
-X-Mailer: b4 0.15-dev-47773
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1627; i=broonie@kernel.org;
- h=from:subject:message-id; bh=zjmsx5oq16zysg8L8WJOCU1HqD9oMxXD4LVv5E0RhVs=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBpobZJ5ekNHznEW5s/NuBTABpDBWVZVBUe6c/4k
- UTlLh3D4A2JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaaG2SQAKCRAk1otyXVSH
- 0NdJB/9C9ZyAjlme8dJSu2hjuAsCd65gzpOSfFl3U6UY7b7mNVxPfR/hMeMHqcQiJeaHMEykuni
- +EqgIkyDKM3dRbaY5sOztbrRDe8pSy++89KUt9ZmAisyZSlC27rf3UH5a2t46Pt3eWsM/zXaVze
- 0ek7vLJgkJKY43dOHkQ5w5qtnGsH1vcsDDWzwg1tXw/UNZB5sey0KBPKhPc3U3DW1IdL/SMAJWh
- aVXpysp2SRtxEAV2L09jI28l/QtxJWsDWXlSj29GiYoNOXy4G/JMLpm07X/B99q7MjVU4mjLXil
- gqmc0phCcNvyOg6V9SnnTFBWY6UaHhUbRfaU80Mit77l8GQ5
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+References: <20260115023607.77349-1-jefflexu@linux.alibaba.com>
+In-Reply-To: <20260115023607.77349-1-jefflexu@linux.alibaba.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Fri, 27 Feb 2026 16:23:35 +0100
+X-Gm-Features: AaiRm52_D9bGlidCd8LznbS5U79XqZexpDSMuESIpIURqCF9-MEsGPF7s7rPbC4
+Message-ID: <CAJfpegts6NiEokGSC7t+bXKHWHadYhxjYZDZ0+PabNSTnWVDLg@mail.gmail.com>
+Subject: Re: [PATCH v3] fuse: fix premature writetrhough request for large folio
+To: Jingbo Xu <jefflexu@linux.alibaba.com>
+Cc: linux-fsdevel@vger.kernel.org, joannelkoong@gmail.com, 
+	linux-kernel@vger.kernel.org, horst@birthelmer.de, 
+	joseph.qi@linux.alibaba.com
+Content-Type: text/plain; charset="UTF-8"
 
-The devpts_pts selftest has an ifdef in case an architecture does not
-define TIOCGPTPEER, but the handling for this is broken since we need
-errno to be set to EINVAL in order to skip the test as we should. Given
-that this ioctl() has been defined since v4.15 we may as well just assume
-it's there rather than write handling code which will probably never get
-used.
+On Thu, 15 Jan 2026 at 03:36, Jingbo Xu <jefflexu@linux.alibaba.com> wrote:
+>
+> When large folio is enabled and the initial folio offset exceeds
+> PAGE_SIZE, e.g. the position resides in the second page of a large
+> folio, after the folio copying the offset (in the page) won't be updated
+> to 0 even though the expected range is successfully copied until the end
+> of the folio.  In this case fuse_fill_write_pages() exits prematurelly
+> before the request has reached the max_write/max_pages limit.
+>
+> Fix this by eliminating page offset entirely and use folio offset
+> instead.
+>
+> Fixes: d60a6015e1a2 ("fuse: support large folios for writethrough writes")
+> Reviewed-by: Horst Birthelmer <hbirthelmer@ddn.com>
+> Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
+> Signed-off-by: Jingbo Xu <jefflexu@linux.alibaba.com>
 
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
-Changes in v3:
-- Rebase onto v7.0-rc1
-- Link to v2: https://patch.msgid.link/20251218-selftests-filesystems-devpts-tiocgptpeer-v2-1-a5fb5847fe58@kernel.org
+Applied, thanks.
 
-Changes in v2:
-- Rebase onto v6.19-rc1.
-- Link to v1: https://patch.msgid.link/20251126-selftests-filesystems-devpts-tiocgptpeer-v1-1-92bd65d02981@kernel.org
----
- tools/testing/selftests/filesystems/devpts_pts.c | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/tools/testing/selftests/filesystems/devpts_pts.c b/tools/testing/selftests/filesystems/devpts_pts.c
-index 54fea349204e..aa8d5324f2a6 100644
---- a/tools/testing/selftests/filesystems/devpts_pts.c
-+++ b/tools/testing/selftests/filesystems/devpts_pts.c
-@@ -119,9 +119,7 @@ static int do_tiocgptpeer(char *ptmx, char *expected_procfd_contents)
- 		goto do_cleanup;
- 	}
- 
--#ifdef TIOCGPTPEER
- 	slave = ioctl(master, TIOCGPTPEER, O_RDWR | O_NOCTTY | O_CLOEXEC);
--#endif
- 	if (slave < 0) {
- 		if (errno == EINVAL) {
- 			fprintf(stderr, "TIOCGPTPEER is not supported. "
-
----
-base-commit: 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
-change-id: 20251126-selftests-filesystems-devpts-tiocgptpeer-fbd30e579859
-
-Best regards,
---  
-Mark Brown <broonie@kernel.org>
-
+Miklos
