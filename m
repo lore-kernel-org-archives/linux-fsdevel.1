@@ -1,94 +1,206 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 510912877C3
-	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Feb 2026 15:41:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B02FA43DA32
+	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Feb 2026 15:41:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772206868; cv=none; b=GEwaMRDtUReUwDo0tujOqcY2gxv9v7D87iSS069HA4Qkn+yzgvL0a3fHPHSoruuYvG5K6XHKcdtNPAasOzth1vWOueLBdF/05VqRQT+D5UJ6KfwNBUl1q/vPIqeO8mLkMT3wbCu5IcuzwCGvuCOsIKZyz03kbNI4yxvsyQWWYfc=
+	t=1772206905; cv=none; b=I/+w6rJzwjuioPYNhYWaQK121j1tMtx57HYxHb7XARcKZpPJ/9Ly1BDXZXDy9DeZ4tgKNpoDcV8AP1ZRZBKJJWnoPr+Bf6tS+7mPRhxzo4C1dWr+7GfUy3oaVjy76pWTThvVJuwBUbUxoBoGo8TePLYhxPGGPgSGaoIRQim2GeE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772206868; c=relaxed/simple;
-	bh=nX/jHH44bl+AlT2PlBDE3dEu5Z+loqlx8IDa3H7UJKU=;
-	h=Subject:To:Cc:In-Reply-To:References:From:MIME-Version:
-	 Content-Type:Date:Message-ID; b=sgO9zh2PxriNub5XtVjQvOQJM4O6iS0gxPcDs7//l/hHHBbBRQlV1i67N/MlsHuVIUtSQSK8KgMHzI4Z0L/nSlhVvbLXRTRWH7sX0hRWxlsh79KLMlmXeheT5jxzCq8hTv2XxfojukDOZDijEqBjIJ48LI1C3uNMRkWRaCikiAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Wz+Cv1Rb; arc=none smtp.client-ip=209.85.210.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1772206905; c=relaxed/simple;
+	bh=5cIiKo/fQLPVCAfUeXRXs1YmF8ZcPiWmYt8R2yggZAI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Hi3YLSMgzmwl/0f6PRVyLusNJO2Dmz3LRkbiOoJj7SQvd7HnfHa2STcw4fWpKY5DCXcOYW8guXXSM/XhvroBN5GIntikPJGMY2DKCACM3UwMgGGHt13Kdrye3Ap4QGzopVB1OA4uMjaaFlnKeSJg3NTTTv07Nf+GzBvdC2nMbcc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=xYUAN8sr; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=iQZoXb8e; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=xYUAN8sr; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=iQZoXb8e; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wz+Cv1Rb"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-82748095892so835090b3a.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 27 Feb 2026 07:41:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772206866; x=1772811666; darn=vger.kernel.org;
-        h=message-id:date:content-id:mime-version:from:references:in-reply-to
-         :cc:to:subject:from:to:cc:subject:date:message-id:reply-to;
-        bh=s2jOgbxrjWDyh4FLNcSqpUzf8JY36cLv1UD8DXTlkg4=;
-        b=Wz+Cv1Rboj5WOeNbtKw4xp8fsEuPM6Qq4Ia/XbJOd3Evd6DVjMGJFhWj6s60tDaAmj
-         8ua3L8qhpoD7GbzD6a4NKTlXgmU+QlBWjHKycSFpKxOol1lBVbcfhkaDMcUn6RFlzfSB
-         W4Jbx3t3XWFYkX0pv8bj0MjfSbgzhWCILiU3oHnrRUF7wqDYYEpvuSHhlh6BIN+OXeGV
-         8hBz9u6Lwz4ApG5fwU3D7HtMLcTwuTomkmw+3R0zneqBIPMkMmnSfIMcdZm1swlxyt4x
-         4HLsLRPb3RowZ+D0oIIjxThRfeynwmA39ZdkefECPV0xZg5RchY04VLqzYXzDZxM+Tni
-         dq7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772206866; x=1772811666;
-        h=message-id:date:content-id:mime-version:from:references:in-reply-to
-         :cc:to:subject:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=s2jOgbxrjWDyh4FLNcSqpUzf8JY36cLv1UD8DXTlkg4=;
-        b=UmFTc1xn39LeJj5GwVEus3zhH0yppR7IjMsqOzSd9gaXchxqXqXIAYrmB7MJt59Ye3
-         cGic4OQddox19YW47PQpGTo6slQDm958n1AYLRSR9wOHj1bp5ERuPUM/qpaLp4msFNiT
-         RR1lD4yEVSG7pfyxdkjwa3Z2yNUR+5ETmH/dohYl7LPfr9eMzPvq95YxPmfHdehTw9nR
-         3mf7Tojjybfh1OHUzO26yFC7YYfZam2etjiI/iiIhunYmSzXJoKkIUcaY4qOfSeTtwG5
-         UHyzH8YmMuGQKBwhyULWWtmEg4H4NKyIxvlzhnVZKJFBLRMaRmm4QQ0ZDbvJhpQncIEU
-         0+iQ==
-X-Gm-Message-State: AOJu0YwUlryh5V0A8GCY0/2pMAvznD8W7dlYxVtezi7Hwslpxw/MdrRU
-	F9uRXcPWOdY/HskipUM0uACGafacrMZaDWwLDflVQMZikHPxSCCWerpEJSSGRA==
-X-Gm-Gg: ATEYQzwHlWzEqmDlykhHo+cj+uFMIaD9ZMbNqeNPPTvCcmn8JVNXWFTHeafITIWezBU
-	HN0YFWHVAzO4HE0hT0U+u8/UgiYtEYdD1B/+1p5wn9MMk/tqMZWHdGuArIXCM8YqHj35/NSKMJg
-	DNRnG7A3a72bd8u4CDTr070dzt0Im2hhO6s9AJD2gdIz5uIDMq48afCFC6FF20yf99NWWAZNb41
-	cj3JVP5f8wq22iVf55rQt6ZC+fOTrwhHy2YUONQImqO7JFtZZiRySRsen1Dp8M/823Ddf+nkHM3
-	8E3aeUlOhVdl6ZyQ4DPqGWakSjs/0/36lOz+H7wdo9ZYPsZtoyiJJT0AJ4uwtWqg4IST572uxeU
-	revtJUHdhv65PmCrqPHi8+pMsABs7m4lOuOykwJviTlRI5j9P8mfuC8m0XFHRC8FpqNXHj3hZ+R
-	+eByqqONs2klv5FOVM6Qxp9v5VC/hTSyoDWmg4UDaclVzWHVZUKp/oVqDaQL5cA3BC
-X-Received: by 2002:a05:6a00:e0a:b0:823:652:d2a8 with SMTP id d2e1a72fcca58-8274d921f6bmr3271249b3a.5.1772206866201;
-        Fri, 27 Feb 2026 07:41:06 -0800 (PST)
-Received: from jromail.nowhere (h219-110-241-048.catv02.itscom.jp. [219.110.241.48])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82739d8bcd3sm7327529b3a.20.2026.02.27.07.41.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Feb 2026 07:41:05 -0800 (PST)
-Received: from jro by jrotkm2 id 1vvzxg-0006qM-1j ;
-	Sat, 28 Feb 2026 00:41:04 +0900
-Subject: Re: v7.0-rc1, name_to_handle_at(..., AT_EMPTY_PATH)
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: linux-fsdevel@vger.kernel.org
-In-Reply-To: <20260227152211.GB3836593@ZenIV>
-References: <14544.1772189098@jrotkm2> <20260227152211.GB3836593@ZenIV>
-From: hooanon05g@gmail.com
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="xYUAN8sr";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="iQZoXb8e";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="xYUAN8sr";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="iQZoXb8e"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 074CC4DA95;
+	Fri, 27 Feb 2026 15:41:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1772206901; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VhF2G6Z5061vbfNwfyrCX/8unOXEc30npSiOmm4lEgA=;
+	b=xYUAN8srxLRGa/bNI0WCBpvF+iH0q5DJ8KSuFs5//Z2BkGUc/FaNEzqV++RY5kptyzgbem
+	qO59OJjlKEZQ67FJKJwPouaVeYtRMidR55dqtbDfqsXcfQqXxDXK8KhRXRq0WQNCL/MhII
+	muzsRDQzwa17492n2QZk7K8HaT9TuIw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1772206901;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VhF2G6Z5061vbfNwfyrCX/8unOXEc30npSiOmm4lEgA=;
+	b=iQZoXb8em8jRoviVgVy2a5NyIS1QO3owbeG8/9L2ET+vMeK8LjjaTFAN6uZXosTqKy5fNG
+	cScUtxEEveMe2LBA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1772206901; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VhF2G6Z5061vbfNwfyrCX/8unOXEc30npSiOmm4lEgA=;
+	b=xYUAN8srxLRGa/bNI0WCBpvF+iH0q5DJ8KSuFs5//Z2BkGUc/FaNEzqV++RY5kptyzgbem
+	qO59OJjlKEZQ67FJKJwPouaVeYtRMidR55dqtbDfqsXcfQqXxDXK8KhRXRq0WQNCL/MhII
+	muzsRDQzwa17492n2QZk7K8HaT9TuIw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1772206901;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VhF2G6Z5061vbfNwfyrCX/8unOXEc30npSiOmm4lEgA=;
+	b=iQZoXb8em8jRoviVgVy2a5NyIS1QO3owbeG8/9L2ET+vMeK8LjjaTFAN6uZXosTqKy5fNG
+	cScUtxEEveMe2LBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F274C3EA69;
+	Fri, 27 Feb 2026 15:41:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id VtgsOzS7oWnRNgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Fri, 27 Feb 2026 15:41:40 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id B98BFA06D4; Fri, 27 Feb 2026 16:41:40 +0100 (CET)
+Date: Fri, 27 Feb 2026 16:41:40 +0100
+From: Jan Kara <jack@suse.cz>
+To: Yuto Ohnuki <ytohnuki@amazon.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v2] fs: remove stale and duplicate forward declarations
+Message-ID: <tzjqeyms46zvrcl4ai7hes4unshkdqnr4kcbj4hjfmrj7nlpve@ujg2satvhk4u>
+References: <20260226201857.27310-2-ytohnuki@amazon.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <26308.1772206864.1@jrotkm2>
-Date: Sat, 28 Feb 2026 00:41:04 +0900
-Message-ID: <26309.1772206864@jrotkm2>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260226201857.27310-2-ytohnuki@amazon.com>
+X-Spam-Score: -3.80
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,suse.com:email,intel.com:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
 
-Al Viro:
-> This
-> struct filename *getname_uflags(const char __user *filename, int uflags)
-> {
->         int flags = (uflags & AT_EMPTY_PATH) ? LOOKUP_EMPTY : 0;
->
-> 	return getname_flags(filename, flags);
-> }
-> is where AT_EMPTY_PATH is handled; could you check the arguuments it's getting
-> in your reproducer and argument passed to getname_flags()?
+On Thu 26-02-26 20:18:58, Yuto Ohnuki wrote:
+> Remove the following unnecessary forward declarations from fs.h, which
+> improves maintainability.
+> 
+> - struct hd_geometry: became unused in fs.h when
+>   block_device_operations was moved to blkdev.h in commit 08f858512151
+>   ("[PATCH] move block_device_operations to blkdev.h"). The forward
+>   declaration is now added to blkdev.h where it is actually used.
+> 
+> - struct iovec: became unused when aio_read/aio_write were removed in
+>   commit 8436318205b9 ("->aio_read and ->aio_write removed")
+> 
+> - struct iov_iter: duplicate forward declaration. This removes the
+>   redundant second declaration, added in commit 293bc9822fa9
+>   ("new methods: ->read_iter() and ->write_iter()")
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202512301303.s7YWTZHA-lkp@intel.com/
+> Closes: https://lore.kernel.org/oe-kbuild-all/202512302139.Wl0soAlz-lkp@intel.com/
+> Closes: https://lore.kernel.org/oe-kbuild-all/202512302105.pmzYfmcV-lkp@intel.com/
+> Closes: https://lore.kernel.org/oe-kbuild-all/202512302125.FNgHwu5z-lkp@intel.com/
+> Closes: https://lore.kernel.org/oe-kbuild-all/202512302108.nIV8r5ES-lkp@intel.com/
+> Signed-off-by: Yuto Ohnuki <ytohnuki@amazon.com>
 
-getname_flags() is not a problem.
-For me, the problem looks that LOOKUP_EMPTY is NOT passed to
-path_lookupat().
+Makes sense. Thanks. Feel free to add:
 
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-J. R. Okajima
+								Honza
+
+> ---
+> Changes in v2:
+> - Add forward declaration of struct hd_geometry to blkdev.h to fix
+>   build errors reported by kernel test robot.
+> - Verified with allmodconfig build and all configs reported by 
+>   kernel test robot.
+> 
+> v1: https://lore.kernel.org/lkml/20251229071401.98146-1-ytohnuki@amazon.com/
+> ---
+>  include/linux/blkdev.h | 1 +
+>  include/linux/fs.h     | 3 ---
+>  2 files changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+> index d463b9b5a0a5..0b5942e08754 100644
+> --- a/include/linux/blkdev.h
+> +++ b/include/linux/blkdev.h
+> @@ -38,6 +38,7 @@ struct blk_flush_queue;
+>  struct kiocb;
+>  struct pr_ops;
+>  struct rq_qos;
+> +struct hd_geometry;
+>  struct blk_report_zones_args;
+>  struct blk_queue_stats;
+>  struct blk_stat_callback;
+> diff --git a/include/linux/fs.h b/include/linux/fs.h
+> index 8b3dd145b25e..75c97faf8799 100644
+> --- a/include/linux/fs.h
+> +++ b/include/linux/fs.h
+> @@ -55,8 +55,6 @@ struct bdi_writeback;
+>  struct bio;
+>  struct io_comp_batch;
+>  struct fiemap_extent_info;
+> -struct hd_geometry;
+> -struct iovec;
+>  struct kiocb;
+>  struct kobject;
+>  struct pipe_inode_info;
+> @@ -1917,7 +1915,6 @@ struct dir_context {
+>   */
+>  #define COPY_FILE_SPLICE		(1 << 0)
+>  
+> -struct iov_iter;
+>  struct io_uring_cmd;
+>  struct offset_ctx;
+>  
+> -- 
+> 2.50.1
+> 
+> 
+> 
+> 
+> Amazon Web Services EMEA SARL, 38 avenue John F. Kennedy, L-1855 Luxembourg, R.C.S. Luxembourg B186284
+> 
+> Amazon Web Services EMEA SARL, Irish Branch, One Burlington Plaza, Burlington Road, Dublin 4, Ireland, branch registration number 908705
+> 
+> 
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
