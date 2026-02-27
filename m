@@ -1,27 +1,27 @@
 Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B3722FE589
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B4A22FE59A
 	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Feb 2026 02:57:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772161041; cv=none; b=nUGYFarbZnEFvwAXubZ8SwAaJmv749OfuUdBWZ5u950oko4vw36WqW/Nq1J7DUps92IhjNKqLehlDISIyWpVO4sQxAGOZPQyCyh7CWn4Av1eByIyJB3EGHCw3d0QH12y+DJH5E3P/oDA1h0qJjQ2ZF1UNkzGgF3yNa1TMARVjrM=
+	t=1772161041; cv=none; b=EDF5EY/WBZjmFaBewp/SvATpxMy2GEwLL/RcgyDW4xZas7Vc0udTNF9wDt8PcSwfqwSFGd2zcIyyY0iudYzXR+Z4YZuMsskBGgozREA71OCw1c2R9HpuXPghXnIt2+0fWHfStnIJstpxu5gpXYbZTGyIGxIGx81lQf+4KNtZ9yY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1772161041; c=relaxed/simple;
-	bh=uAVX1gMhxLNrfo5+MM/WUf2YsfQlJxWqAeG/2+OLr5k=;
+	bh=ddLNyHjDLzGS+UCPAxPHSmMv6NcWH2rQTi6C6ekt+Ng=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=lOgHwP0UYUtEkN+kPtoIcm0yFTJeT14uetmBPwIHUUTLQHTAnYw4jtmPFbYstH3FHBbaKZQO9A6uZ1kAuq4u6tj9/SRHylTqePXc09GhTY73DDeD2Z7nTOqQZX+QptQhodfHdj74TdTYC9984PAjJYCJhkQK5nACJ9Tb77HbaMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=none smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
+	 MIME-Version; b=biUN8bkGFcjH2eHe6jPE/nr8HfIaMdmzOMOHN/EFlgZi/X7vvJiAfkvo8VeyOtuz5J3YXFy3M6RRN1DfM7tZsXzdptiPmYGfHccoEbhGFuazz/mibXXNTX5PEW626uMH4V6Ags4751jVr4icHZgKqj1TUV/JpBSExTHgOp/VRvg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.170])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4fMXym6Jn9zKHMSp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.177])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4fMXym5VRKzKHMQW
 	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Feb 2026 10:56:16 +0800 (CST)
 Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id 21FBB4056F
+	by mail.maildlp.com (Postfix) with ESMTP id 086F84058C
 	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Feb 2026 10:57:15 +0800 (CST)
 Received: from huaweicloud.com (unknown [10.50.87.132])
-	by APP4 (Coremail) with SMTP id gCh0CgBXuPgJCKFpsEGdIw--.32070S6;
+	by APP4 (Coremail) with SMTP id gCh0CgBXuPgJCKFpsEGdIw--.32070S5;
 	Fri, 27 Feb 2026 10:57:14 +0800 (CST)
 From: Ye Bin <yebin@huaweicloud.com>
 To: viro@zeniv.linux.org.uk,
@@ -35,9 +35,9 @@ Cc: akpm@linux-foundation.org,
 	muchun.song@linux.dev,
 	linux-mm@kvack.org,
 	yebin10@huawei.com
-Subject: [PATCH v3 2/3] sysctl: add support for drop_caches for individual filesystem
-Date: Fri, 27 Feb 2026 10:55:47 +0800
-Message-Id: <20260227025548.2252380-3-yebin@huaweicloud.com>
+Subject: [PATCH v3 1/3] mm/vmscan: introduce drop_sb_dentry_inode() helper
+Date: Fri, 27 Feb 2026 10:55:46 +0800
+Message-Id: <20260227025548.2252380-2-yebin@huaweicloud.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260227025548.2252380-1-yebin@huaweicloud.com>
 References: <20260227025548.2252380-1-yebin@huaweicloud.com>
@@ -48,13 +48,13 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:gCh0CgBXuPgJCKFpsEGdIw--.32070S6
-X-Coremail-Antispam: 1UD129KBjvJXoWxJw1fJryDtry3Gw1kWF1ftFb_yoWrWw48pF
-	Wa9Fy5KrWrAF13tr9xAr4vvF1S93yktw17Kwnru34Ikw1Svr1vq3Z2yryYqF45JrWUurW7
-	WF4DKF1DW3yDXFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUPFb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUXw
-	A2048vs2IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
+X-CM-TRANSID:gCh0CgBXuPgJCKFpsEGdIw--.32070S5
+X-Coremail-Antispam: 1UD129KBjvJXoWxXw1fGFW7JFy3Cw4DGw4fuFg_yoW5ZFWfpF
+	ZxG34fJrWrZrnFgryfZFWUZa43t3y0yayxGrZ7W34Yy3Waqa45Xr12yr45tFyUCayrWFy7
+	trWaqr1Uur1UXFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUPFb4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUGw
+	A2048vs2IY020Ec7CjxVAFwI0_Gr0_Xr1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
 	w2x7M28EF7xvwVC0I7IYx2IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
 	W8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v2
 	6rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMc
@@ -64,177 +64,124 @@ X-Coremail-Antispam: 1UD129KBjvJXoWxJw1fJryDtry3Gw1kWF1ftFb_yoWrWw48pF
 	67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MI
 	IYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E
 	14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJV
-	W8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUob18
+	W8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxU7mLv
 	DUUUU
 X-CM-SenderInfo: p1hex046kxt4xhlfz01xgou0bp/
 
 From: Ye Bin <yebin10@huawei.com>
 
-In order to better analyze the issue of file system uninstallation caused
-by kernel module opening files, it is necessary to perform dentry recycling
-on a single file system. But now, apart from global dentry recycling, it is
-not supported to do dentry recycling on a single file system separately.
-This feature has usage scenarios in problem localization scenarios.At the
-same time, it also provides users with a slightly fine-grained
-pagecache/entry recycling mechanism.
-This patch supports the recycling of pagecache/entry for individual file
-systems.
+This patch is prepare for support drop_caches for specify file system.
 
 Signed-off-by: Ye Bin <yebin10@huawei.com>
 ---
- fs/drop_caches.c | 125 +++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 125 insertions(+)
+ include/linux/mm.h |  1 +
+ mm/internal.h      |  3 +++
+ mm/shrinker.c      |  4 ++--
+ mm/vmscan.c        | 50 ++++++++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 56 insertions(+), 2 deletions(-)
 
-diff --git a/fs/drop_caches.c b/fs/drop_caches.c
-index 49f56a598ecb..0cd8ad9df07a 100644
---- a/fs/drop_caches.c
-+++ b/fs/drop_caches.c
-@@ -11,6 +11,8 @@
- #include <linux/sysctl.h>
- #include <linux/gfp.h>
- #include <linux/swap.h>
-+#include <linux/task_work.h>
-+#include <linux/namei.h>
- #include "internal.h"
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index 5be3d8a8f806..5bab9472a758 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -4470,6 +4470,7 @@ static inline int in_gate_area(struct mm_struct *mm, unsigned long addr)
+ bool process_shares_mm(const struct task_struct *p, const struct mm_struct *mm);
  
- /* A global variable is a bit ugly, but it keeps the code simple */
-@@ -78,6 +80,124 @@ static int drop_caches_sysctl_handler(const struct ctl_table *table, int write,
- 	return 0;
+ void drop_slab(void);
++void drop_sb_dentry_inode(struct super_block *sb);
+ 
+ #ifndef CONFIG_MMU
+ #define randomize_va_space 0
+diff --git a/mm/internal.h b/mm/internal.h
+index cb0af847d7d9..4690a58c4820 100644
+--- a/mm/internal.h
++++ b/mm/internal.h
+@@ -1662,6 +1662,9 @@ void __meminit __init_page_from_nid(unsigned long pfn, int nid);
+ unsigned long shrink_slab(gfp_t gfp_mask, int nid, struct mem_cgroup *memcg,
+ 			  int priority);
+ 
++unsigned long do_shrink_slab(struct shrink_control *shrinkctl,
++			     struct shrinker *shrinker, int priority);
++
+ int shmem_add_to_page_cache(struct folio *folio,
+ 			    struct address_space *mapping,
+ 			    pgoff_t index, void *expected, gfp_t gfp);
+diff --git a/mm/shrinker.c b/mm/shrinker.c
+index 4a93fd433689..075e4393da9c 100644
+--- a/mm/shrinker.c
++++ b/mm/shrinker.c
+@@ -368,8 +368,8 @@ static long add_nr_deferred(long nr, struct shrinker *shrinker,
+ 
+ #define SHRINK_BATCH 128
+ 
+-static unsigned long do_shrink_slab(struct shrink_control *shrinkctl,
+-				    struct shrinker *shrinker, int priority)
++unsigned long do_shrink_slab(struct shrink_control *shrinkctl,
++			     struct shrinker *shrinker, int priority)
+ {
+ 	unsigned long freed = 0;
+ 	unsigned long long delta;
+diff --git a/mm/vmscan.c b/mm/vmscan.c
+index 01d3364fe506..310bed25df78 100644
+--- a/mm/vmscan.c
++++ b/mm/vmscan.c
+@@ -455,6 +455,56 @@ void drop_slab(void)
+ 	} while ((freed >> shift++) > 1);
  }
  
-+struct drop_fs_caches_work {
-+	struct callback_head task_work;
-+	dev_t dev;
-+	char *path;
-+	unsigned int ctl;
-+};
-+
-+static void drop_fs_caches(struct callback_head *twork)
++static unsigned long drop_shrinker_node(int nid, struct shrinker *shrinker)
 +{
-+	int ret;
-+	struct super_block *sb;
-+	static bool suppress;
-+	struct drop_fs_caches_work *work = container_of(twork,
-+			struct drop_fs_caches_work, task_work);
-+	unsigned int ctl = work->ctl;
-+	dev_t dev = work->dev;
++	unsigned long freed = 0;
++	struct mem_cgroup *memcg = NULL;
 +
-+	if (work->path) {
-+		struct path path;
++	memcg = mem_cgroup_iter(NULL, NULL, NULL);
++	do {
++		unsigned long ret;
 +
-+		ret = kern_path(work->path, LOOKUP_FOLLOW, &path);
-+		if (ret) {
-+			pr_err("%s (%d): %s: failed to get path(%s) %d\n",
-+			       current->comm, task_pid_nr(current),
-+			       __func__, work->path, ret);
-+			goto out;
-+		}
-+		dev = path.dentry->d_sb->s_dev;
-+		/* Make this file's dentry and inode recyclable */
-+		path_put(&path);
-+	}
++		struct shrink_control sc = {
++			.gfp_mask = GFP_KERNEL,
++			.nid = nid,
++			.memcg = memcg,
++		};
 +
-+	sb = user_get_super(dev, false);
-+	if (!sb) {
-+		pr_err("%s (%d): %s: failed to get dev(%u:%u)'s sb\n",
-+		       current->comm, task_pid_nr(current), __func__,
-+		       MAJOR(dev), MINOR(dev));
-+		goto out;
-+	}
++		if (!mem_cgroup_disabled() &&
++		    !mem_cgroup_is_root(memcg) &&
++		    !mem_cgroup_online(memcg))
++			continue;
 +
-+	if (ctl & BIT(0)) {
-+		lru_add_drain_all();
-+		drop_pagecache_sb(sb, NULL);
-+		count_vm_event(DROP_PAGECACHE);
-+	}
++		ret = do_shrink_slab(&sc, shrinker, 0);
++		if (ret == SHRINK_EMPTY)
++			ret = 0;
++		freed += ret;
++		cond_resched();
++	} while ((memcg = mem_cgroup_iter(NULL, memcg, NULL)) != NULL);
 +
-+	if (ctl & BIT(1)) {
-+		drop_sb_dentry_inode(sb);
-+		count_vm_event(DROP_SLAB);
-+	}
-+
-+	if (!READ_ONCE(suppress)) {
-+		pr_info("%s (%d): %s: %d %u:%u\n", current->comm,
-+			task_pid_nr(current), __func__, ctl,
-+			MAJOR(sb->s_dev), MINOR(sb->s_dev));
-+
-+		if (ctl & BIT(2))
-+			WRITE_ONCE(suppress, true);
-+	}
-+
-+	drop_super(sb);
-+out:
-+	kfree(work->path);
-+	kfree(work);
++	return freed;
 +}
 +
-+static int drop_fs_caches_sysctl_handler(const struct ctl_table *table,
-+					 int write, void *buffer,
-+					 size_t *length, loff_t *ppos)
++void drop_sb_dentry_inode(struct super_block *sb)
 +{
-+	struct drop_fs_caches_work *work = NULL;
-+	unsigned int major, minor;
-+	unsigned int ctl;
-+	int ret;
-+	char *path = NULL;
++	int nid;
++	int shift = 0;
++	unsigned long freed;
 +
-+	if (!write)
-+		return 0;
++	if (!sb || !sb->s_shrink)
++		return;
 +
-+	if (sscanf(buffer, "%u %u:%u", &ctl, &major, &minor) != 3) {
-+		path = kstrdup(buffer, GFP_NOFS);
-+		if (!path) {
-+			ret = -ENOMEM;
-+			goto out;
++	do {
++		freed = 0;
++
++		for_each_online_node(nid) {
++			if (fatal_signal_pending(current))
++				return;
++			freed += drop_shrinker_node(nid, sb->s_shrink);
 +		}
-+
-+		if (sscanf(buffer, "%u %s", &ctl, path) != 2) {
-+			ret = -EINVAL;
-+			goto out;
-+		}
-+	}
-+
-+	if (ctl < 1 || ctl > 7) {
-+		ret = -EINVAL;
-+		goto out;
-+	}
-+
-+	work = kzalloc(sizeof(*work), GFP_KERNEL);
-+	if (!work) {
-+		ret = -ENOMEM;
-+		goto out;
-+	}
-+
-+	init_task_work(&work->task_work, drop_fs_caches);
-+	if (!path)
-+		work->dev = MKDEV(major, minor);
-+	work->path = path;
-+	work->ctl = ctl;
-+	ret = task_work_add(current, &work->task_work, TWA_RESUME);
-+out:
-+	if (ret) {
-+		kfree(path);
-+		kfree(work);
-+	}
-+
-+	return ret;
++	} while ((freed >> shift++) > 1);
 +}
 +
- static const struct ctl_table drop_caches_table[] = {
- 	{
- 		.procname	= "drop_caches",
-@@ -88,6 +208,11 @@ static const struct ctl_table drop_caches_table[] = {
- 		.extra1		= SYSCTL_ONE,
- 		.extra2		= SYSCTL_FOUR,
- 	},
-+	{
-+		.procname	= "drop_fs_caches",
-+		.mode		= 0200,
-+		.proc_handler	= drop_fs_caches_sysctl_handler,
-+	},
- };
- 
- static int __init init_vm_drop_caches_sysctls(void)
+ #define CHECK_RECLAIMER_OFFSET(type)					\
+ 	do {								\
+ 		BUILD_BUG_ON(PGSTEAL_##type - PGSTEAL_KSWAPD !=		\
 -- 
 2.34.1
 
