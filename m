@@ -1,147 +1,117 @@
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 707BF2FD1B3
-	for <linux-fsdevel@vger.kernel.org>; Sun,  1 Mar 2026 15:20:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.175
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772378402; cv=pass; b=dtIaKuicFLW7Qlia94m0PSTk5X40sOWx6rP5uVcsrzto/6ROM++nvTkIWA2IYUFVEQaKuMZssykoIWBTlxRpKsHCSKzpOklZCpztt8m/Q0b7wOiXSZxBZdhS6C9aCBEoXIb3ttYl58xmtzsV3imqR03PifiatgylNF6b2xBU+UE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772378402; c=relaxed/simple;
-	bh=Fiwwjp3q58poFbwEi1UnSoyKncjAv5ZQQsyqXdz0VPE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rBSiB7M8JPYf7rX7RieXqaWJaMl/XwvC4J0bbTOMBbzMTB3FIpD/C0Ye/YUsNJDxIMCVVPXjfy3QNhXczN/4ZEzlGOnyyfKteEKN5/sfxgTDKdt9KucoB2CjTicJ6zi98ybO+kK5Aq5GrKtrDPJQhuLjaqg9gnvl6+t/uDG7fMM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H4sAIl9E; arc=pass smtp.client-ip=209.85.221.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C5D2430BB5;
+	Sun,  1 Mar 2026 16:34:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772382883; cv=none; b=k4DwpMcwBGola/2RCSTJgaofnBo275c4aaDUAl1306dlVrtOtexxgACISjcYaQ1OtuFmDqvb2kDm13fEO1CHNu+6dxG3CA7Ve6jTl7hhKFWEzP0Yi6iPFRcxRQ/G7iNdFzy6iEil2gnJqU9wG2a4BQfuRMco/BHJRpvr1gMdL4A=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772382883; c=relaxed/simple;
+	bh=je5mLoR2Jxu2IjLDAPypnbsm91i4Kuu9GRu6352moZk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=PcIinGqutMH4jAj/WjLH85L/ZWt5bmXJkmzPSCNtkxD/RqmYzGHoKI/Ei68XgfXI8YcdtsyALTtWwsTrEoErJPhSXwnyt2jJ5k1XUqZ9/uL/z97ldP9aNm52ddSXODjGpDXP2gX2vCQUh9VnQVhWeK5eWRYUx4ZvCu3XGVSnmeA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TKgzX0hf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H4sAIl9E"
-Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-56a973a7bdfso3430476e0c.3
-        for <linux-fsdevel@vger.kernel.org>; Sun, 01 Mar 2026 07:20:01 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772378400; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Trs5hRK7x37+ce9r/ohtOpaFA9iftfnqVmR30cuDY8+x5WnipDZAsygbUGPq/WoWbV
-         blbH6JRxk1q3OTTZulTMvE7tfH81FJQlFN0YLJ8Gx7ZEvc9cHa2lTTqhWkNcUhpal6MV
-         N+Q+jHazGzRIh6dECaWJUy0WjSJtdUb7l+iAwZKf4RGD4HkHiB0UGPY9OyMiltdSlJN7
-         TMt0JPZzuYZQnIbNC9yYdZDhtETRxi6cKMxTTchvmkcu5uoMyAQCVUHjd6o/q4PDAph7
-         LzsKwHTWa0vijA7gpLKxEFd4RPr7bmMHGoZxWRYPexvcjSbzbtpqgLCIAq9g4i6hEgty
-         4TxQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Fiwwjp3q58poFbwEi1UnSoyKncjAv5ZQQsyqXdz0VPE=;
-        fh=QFWmsbLEBGpAi3iKgW5PN5bAARVbq2G6TqNTFlR8KHg=;
-        b=JSJe+1sMNyDYxYVtq+S6NHgX1v8JINPjPmFOex0rYLDkUSqpXwDC55Hh/hWPt6Mjx0
-         jA0aQf0+5DVs53DU+5mDbkgaBzaHdLMI/hVzwqK+KK+OBPk7VVVlVwlwswJFf7jX15tt
-         KMNH36v9H6thJq6RYM6AQiNwk5jKulZNbMk30Oholl727AQLxK+8EYKUOAr4W4xQHnNp
-         NjadbPE7eGmSv05siQCsxP/jwDYZGx0O+KrLBq7bzKf2iIapUMZjv5UXgW/DH2i6RVAy
-         X8476oKU+ra7bgSeq3nCZld1TDkxnReNyHF612hvsFkb2J0G5ZbkdyfmzYMJjCp90mCd
-         w4ew==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772378400; x=1772983200; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Fiwwjp3q58poFbwEi1UnSoyKncjAv5ZQQsyqXdz0VPE=;
-        b=H4sAIl9El3DNOjSs6WpoPmMrg64nxdhM2ZU5p6QYdJgq0rtcVMiLtOknYAp3Sg1HnR
-         zuEPbTmKD1ahGkEt3CE7W/3H5T9dhJifaqxhoa4FnJIn1ZHEkCrP0KrT0cHSvWzxETnb
-         MbQOhGyR7CPg5xgLKg7YKeEJVtdUNLNdy+utBZZbL/Jp+UK/UYfxbYJC/r09iyrQkrq8
-         mxKbP0RTNPaULQk5XcC0nqNjCJTCy9r4hOpSX+4eaoRxRsX2lGltWHfOVKOZiO6+5udc
-         ZHmxplPmgnjfFEzR/g0/DYxbZ9xUIHWOxlu9NKNyarI58YO2J4A566bqfoxSDFengttt
-         GXiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772378400; x=1772983200;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Fiwwjp3q58poFbwEi1UnSoyKncjAv5ZQQsyqXdz0VPE=;
-        b=VbMUpvFZfcTX3J+YgvcPtiOTWRVMh7/dY7IgwxPyRbkPbbsRCJ0VbXdXhqphCHLErD
-         UTEVVk7M96FnPGflRIhKfuEOrIqLkn1zYkazWdzDumocmS7CXQTLT4brEpamkgnTGOZK
-         hXw4bh5PaRIjMhiQ5CPAT+YptG5uIPBcouAyzquX6INzrCDkZ2AI7lO0/kZ8j0YKGPZm
-         Y8E3nWkj2e0zaH/mEzO6ug2+Vvdj1bXrel3YxCrFKfNnb2fzeXS98kLDuTfqfo4DspvC
-         PTg3/pQh3WI3/vKGanEajjZ6luUX94dfGZvCgTJWaTYfw5vvvTnj7PMjbFL6Wby6Ebqa
-         QGfQ==
-X-Gm-Message-State: AOJu0Yy3B4CP1sLRyNZP3ydfbwdbZOWFzLMoI5DqA2FOy1tj0tlTqdeC
-	I3SfxU0GXgo/yy7FD9hJzBYlRKkdvDWv50+2PN+mhIUvrwEvyoey2ewmN3OesX6Hn1SoJrD4MY3
-	LamKNur00mvfBUqT3mZ4eDPN446T0OQI=
-X-Gm-Gg: ATEYQzxS1tsD7R0Y8Bc8H72WwRZHqF7otdt8ipddwKkTSwx28HV3UekS7PNmUoIVJKz
-	eukAhaEcso/v/yF2Q/KDJykOCj/xLnUgUg0wtHX6zgUfKkynY6sBDsjvffv2w8VTK4/DiOWBBvl
-	mdLHYczfUJoyeMShsbzWEZk55Tfs4FLwNv4NYB1I4XvmH3SI8FrmJxMURjaXzavv0W4UuCBTVvQ
-	EAICSzc5PzfCGJ4MiDN3HdV+L+tFrxwbiZqGlAn1Iyg91Crp8mtqy5mU6dtyAYJRL/8OMCUF1Et
-	nR425YofWBr2SMoQPiYEFcnbckmSBu3/EBSIVbDnVA==
-X-Received: by 2002:a05:6102:160c:b0:5ff:1981:aba6 with SMTP id
- ada2fe7eead31-5ff31fab9ffmr5005001137.0.1772378400433; Sun, 01 Mar 2026
- 07:20:00 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TKgzX0hf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FC44C116C6;
+	Sun,  1 Mar 2026 16:34:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772382883;
+	bh=je5mLoR2Jxu2IjLDAPypnbsm91i4Kuu9GRu6352moZk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=TKgzX0hf3d0lhMQetjAEiiWCOKnFnzvXZWHgmPaqhbewdN3fJRosoCZCc9qBvc/po
+	 evHx93y+6jGFm1MG3XNqYQsOr8ddGPjYTtni3MBr4+Wfeg0Bdp7DgyJtpeSaRoBKsq
+	 /8EmI4goKRcWrT+Ty8VXffQn9jZgFIq3COzQDhZXz+v1zP/sZmvi7J3/9qpNTmJlXX
+	 dvga5zyWNUWjv9DVOk3rU4gbLyOte0fKmobQCF487i0iZ6UJJpeiE7pdPHIoBrDEge
+	 JZG83Fy8G1/GE+0kCzgow04ihq31SX509/egQfJwEahHcltsBfRDzs14I3kQCC0Q4D
+	 NTYljGVX/IW5w==
+From: Andreas Hindborg <a.hindborg@kernel.org>
+To: Gary Guo <gary@garyguo.net>, Miguel Ojeda <ojeda@kernel.org>, Gary Guo
+ <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn?= Roy Baron
+ <bjorn3_gh@protonmail.com>, Benno
+ Lossin <lossin@kernel.org>, Alice Ryhl <aliceryhl@google.com>, Trevor
+ Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Dave Ertman
+ <david.m.ertman@intel.com>, Ira Weiny <ira.weiny@intel.com>, Leon
+ Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>, Serge
+ Hallyn <sergeh@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, David
+ Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Alexander
+ Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
+ Jan Kara <jack@suse.cz>, Igor Korotin <igor.korotin.linux@gmail.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>, Lorenzo Stoakes
+ <lorenzo.stoakes@oracle.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, Stephen
+ Boyd <sboyd@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, Krzysztof
+ =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, Boqun
+ Feng <boqun@kernel.org>, Vlastimil Babka <vbabka@suse.cz>, Uladzislau
+ Rezki <urezki@gmail.com>
+Cc: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-security-module@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, linux-pm@vger.kernel.org, linux-pci@vger.kernel.org
+Subject: Re: [PATCH v16 01/10] rust: alloc: add `KBox::into_nonnull`
+In-Reply-To: <DGRHAEM7OFBD.27RUUCHCRHI6K@garyguo.net>
+References: <20260224-unique-ref-v16-0-c21afcb118d3@kernel.org>
+ <20260224-unique-ref-v16-1-c21afcb118d3@kernel.org>
+ <eeDADnWQGSX9PG7jNOEyh9Z-iXlTEy6eK8CZ-KE7UWlWo-TJy15t_R1SkLj-Zway00qMRKkb0xBdxADLH766dA==@protonmail.internalid>
+ <DGRHAEM7OFBD.27RUUCHCRHI6K@garyguo.net>
+Date: Sun, 01 Mar 2026 17:34:26 +0100
+Message-ID: <87ldgbbjal.fsf@t14s.mail-host-address-is-not-set>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260221145915.81749-1-dorjoychy111@gmail.com>
- <20260221145915.81749-2-dorjoychy111@gmail.com> <2f430eb613d4f6f6564f83d06f802ff47adea230.camel@kernel.org>
- <CAFfO_h7i86qdKZObdFpWd8Mh+8VXVMFYoGgYBgzomzhGJJFnEQ@mail.gmail.com>
- <ed5aeaa81ad9b87926fa7ebee0308aeb8df9f0ac.camel@kernel.org>
- <CAFfO_h5za6gV99TQS3pwHnf7zyCeVySn3CdRyV+_jFqjovGBqA@mail.gmail.com>
- <beead8bbff344ddfc279e0fc86db0dd5dd98562b.camel@kernel.org>
- <CAFfO_h4brg90tMNp6VAzs5Lo8Lbu=DK2csjDqr2zspOygKEFCg@mail.gmail.com> <73c8ea54bcda0b64093d84fe047914c0632c2d0c.camel@kernel.org>
-In-Reply-To: <73c8ea54bcda0b64093d84fe047914c0632c2d0c.camel@kernel.org>
-From: Dorjoy Chowdhury <dorjoychy111@gmail.com>
-Date: Sun, 1 Mar 2026 21:19:49 +0600
-X-Gm-Features: AaiRm51DyMEBRNPI1HVDhCyC4qT7r77uNpEMtKgft97OSaudIMk11BvPwkDJ_3M
-Message-ID: <CAFfO_h59LQSjncu_4YE5YB+mt-FL2c1GN-jF_WtoKj1u43DcuA@mail.gmail.com>
-Subject: Re: [PATCH v4 1/4] openat2: new OPENAT2_REGULAR flag support
-To: Jeff Layton <jlayton@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	ceph-devel@vger.kernel.org, gfs2@lists.linux.dev, linux-nfs@vger.kernel.org, 
-	linux-cifs@vger.kernel.org, v9fs@lists.linux.dev, 
-	linux-kselftest@vger.kernel.org, viro@zeniv.linux.org.uk, brauner@kernel.org, 
-	jack@suse.cz, chuck.lever@oracle.com, alex.aring@gmail.com, arnd@arndb.de, 
-	adilger@dilger.ca, mjguzik@gmail.com, smfrench@gmail.com, 
-	richard.henderson@linaro.org, mattst88@gmail.com, linmag7@gmail.com, 
-	tsbogend@alpha.franken.de, James.Bottomley@hansenpartnership.com, 
-	deller@gmx.de, davem@davemloft.net, andreas@gaisler.com, idryomov@gmail.com, 
-	amarkuze@redhat.com, slava@dubeyko.com, agruenba@redhat.com, 
-	trondmy@kernel.org, anna@kernel.org, sfrench@samba.org, pc@manguebit.org, 
-	ronniesahlberg@gmail.com, sprasad@microsoft.com, tom@talpey.com, 
-	bharathsm@microsoft.com, shuah@kernel.org, miklos@szeredi.hu, 
-	hansg@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Sun, Mar 1, 2026 at 9:17=E2=80=AFPM Jeff Layton <jlayton@kernel.org> wro=
-te:
->
-> On Sun, 2026-03-01 at 21:15 +0600, Dorjoy Chowdhury wrote:
-> > > >
-> > > > I only added a kselftest for the new flag in
-> > > > tools/testing/selftests/openat2/openat2_test.c in my second commit =
-in
-> > > > this patch series. Where are the fstests that I should add tests? I
-> > > > think you added the wrong URL above, probably a typo.
-> > > >
-> > > >
-> > >
-> > > I did indeed, sorry. They're here:
-> > >
-> > > https://git.kernel.org/pub/scm/fs/xfs/xfstests-dev.git
-> > >
-> >
-> > Thanks! This is a separate git repository, so I guess for both
-> > manpages and fstests I need to submit separate patch series for
-> > O_REGULAR. Do I need to wait first for this patch series to be merged?
-> > How does it work?
-> >
-> >
->
-> No, you can submit them in parallel, but they probably won't get merged
-> until the kernel patches go in.
->
+"Gary Guo" <gary@garyguo.net> writes:
 
-Alright. I can look into submitting patches in parallel. Thanks for
-all the info!
+> On Tue Feb 24, 2026 at 11:17 AM GMT, Andreas Hindborg wrote:
+>> Add a method to consume a `Box<T, A>` and return a `NonNull<T>`. This
+>> is a convenience wrapper around `Self::into_raw` for callers that need
+>> a `NonNull` pointer rather than a raw pointer.
+>>
+>> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
+>> ---
+>>  rust/kernel/alloc/kbox.rs | 8 ++++++++
+>>  1 file changed, 8 insertions(+)
+>>
+>> diff --git a/rust/kernel/alloc/kbox.rs b/rust/kernel/alloc/kbox.rs
+>> index 622b3529edfcb..e6efdd572aeea 100644
+>> --- a/rust/kernel/alloc/kbox.rs
+>> +++ b/rust/kernel/alloc/kbox.rs
+>> @@ -213,6 +213,14 @@ pub fn leak<'a>(b: Self) -> &'a mut T {
+>>          // which points to an initialized instance of `T`.
+>>          unsafe { &mut *Box::into_raw(b) }
+>>      }
+>> +
+>> +    /// Consumes the `Box<T,A>` and returns a `NonNull<T>`.
+>> +    ///
+>> +    /// Like [`Self::into_raw`], but returns a `NonNull`.
+>> +    pub fn into_nonnull(b: Self) -> NonNull<T> {
+>> +        // SAFETY: `KBox::into_raw` returns a valid pointer.
+>> +        unsafe { NonNull::new_unchecked(Self::into_raw(b)) }
+>> +    }
+>
+> Hi Andreas,
+>
+> It looks like this patch and many others in the series are missing `#[inline]`
+> for quite a few very simple functions. Could you go through the series and mark
+> small functions as such?
 
-Regards,
-Dorjoy
+Sure.
+
+Could you remind me why we need this directive? Would the compiler not
+be able to decide?
+
+I know we have an issue when we have call to C function in short
+functions, but not in the general case?
+
+
+Best regards,
+Andreas Hindborg
+
+
+
