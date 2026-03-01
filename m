@@ -1,121 +1,217 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D92231A9FA0
-	for <linux-fsdevel@vger.kernel.org>; Sun,  1 Mar 2026 10:11:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772359889; cv=none; b=uoXGbU+JaAZExgwA1lnKiYZhSqi7d7jn5rPzhjBoxA6iRjmxq0MxVKidoz3JtPAFQaxFovn0Ee1+07AS928OtuAE1I/m28hyZDQnUdsOSSJhgTxQBxkr5bGsdgMEDhEac2o9KTIJLyCDhXzHs06l17gfnm+TBk4fmw8ZuAxtiq8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772359889; c=relaxed/simple;
-	bh=woIS/wsHPvPvHWzL5+iJBEcWbuA0XO2nXIIe/7Qg0EM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Pfg9TZ6/dzurlKFFuULmbqGCA5mkuj7hb9k+ZYWLF6RViaHCPpNPuLG7ts+7c/+eeA7DO7Rw1SdDAkf868OS9cEyA0Z8zri4vVsZw2IE22ifNrtoyNDQnEmCE0P8rp/0UT+wzt1Yd5s54QQ83RvGJUPYP7vJBYOAIwJF7Zj0w4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hFeiTvDE; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53B3C430BB1
+	for <linux-fsdevel@vger.kernel.org>; Sun,  1 Mar 2026 10:16:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772360186; cv=pass; b=eAO4M80dM7tjV8QKQZDTVSpUhS+FpWWZJu3BmTVmlj0c0SkdMnTpkfTX8oy18MDGn+ALLSlQX4me2cJJjtwhwt5reYwzoBVAIPIna3AQPKDZCgol3BLuzKZv1G6aDFKHNURm/P26MvK5bb0xYy7mPMXNeSZOvhDBNQL4D7yYE5Q=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772360186; c=relaxed/simple;
+	bh=s7rfjnPtFd6SU6xoPH3SYe9hNrVk5+6PWUoUYgGCnIM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KQniZ0UHdc0Yizy9PmPTEGDp2OFhJKPCRjfPV77k/T8NkaKK0CYx4j4zfGA5VcMkTwo+u5cw5fnZth1nOiTaprVbahdfzXNqT7JIe/4JZ3QxORvLoWArORPsJUlqNitaMaFUbYxJ6pFnwY0h2lbZgVbGApa2k7Cxz2NrjD++9pU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N04lOntM; arc=pass smtp.client-ip=209.85.222.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hFeiTvDE"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-8274843810cso1705664b3a.3
-        for <linux-fsdevel@vger.kernel.org>; Sun, 01 Mar 2026 02:11:27 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N04lOntM"
+Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-948029fb1f2so1043464241.0
+        for <linux-fsdevel@vger.kernel.org>; Sun, 01 Mar 2026 02:16:25 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772360184; cv=none;
+        d=google.com; s=arc-20240605;
+        b=JC1UVw9aIlhq6cPRia+YQlrGG0beIUDjv2zmJ/NsYPwyDRTDCxUwZubpfvnAZ8ZsAg
+         leX+GS1eUtLZbYbsVXBuAh5MBb44iD4N174I8lrvWZUHbBENfVfQFLRt2JeWVkWnbLsO
+         ADIgZdvqzhnd67vHP6fLN5IvFEj/hznWuFkPLfKJTqUD7MP1O1dheu8seDSU8xMyn7tS
+         Pzkm89HzJbAGxzkYTyprmG7Dxl8f6Wnj82cpC88NYlYkck1vlqd1aDfnCiu8n3cKzaGM
+         0S2JAL1U1mTkduOYoAhbVqbYycdlNmB1Npcea8qr+PTXwxB4441RYIP8Fbl+Gmoy0NXg
+         NB8A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ZrlN72XdG30IkaSiOSU/cpdfc/g67VmbA5qDRZerWc4=;
+        fh=QmP7FmnHBnfXKJWHkz8FRhPdYzdsDA8OP6XZkpJDshc=;
+        b=gi5rL+Ky+StMmCZ2zouCIvby5ibkqS0WDSLrd6hQTnXUz/YtTaCg5PNJIF2GfxJgUj
+         /joYuSV3IgMN7z60gQdvTcuz8d8Xtg5aEkmh7Wuz4n+e5kJTM424whjT1TmG3YfJ+P7e
+         0pafLgCwk6XOxj+kThjqA4WJWSw1dEBS/7niOtdl4bHMFIaj7VMq6k6Uu9jPJJ+9G0Iy
+         qg/Zw6PkUoOD+jT2f7Z7ngiBcknXACW6318EnVIO+5BrxOOf0BYS615LbG0NToPAM7Ve
+         EWvDaCJm704l9Q6+NNXLfzuxtaMBr33yhUJg/1RlljE45lZXnmcroYspXUWyVXlpkDCi
+         CPGw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772359887; x=1772964687; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Cp14pMKS6bkJE/Z/f1aNlGhNOXRNaHWCDHan9dnJcZo=;
-        b=hFeiTvDEZyKuXLEIrztl8hrKJYwI7L2sfCXMIvoGECfpMSYPSQVAvdjdGQcM1XdKfj
-         //lZZ3J8Mqyo4SHxEXP/BGbhNt5ZA/GzBm2KHbRIZDt4SZoJ4hhqlAQhbu8EXEsY8cTT
-         8IGtG7JTc3BCRpsaouJInrtdrYR/78C1xojufDpIFSc7VfoZB75YJX5hYRU8vOJoXn93
-         mhzLUK3lLwb1c0RX8BA4sqKW7bZxqdFIIhIzWjBi5cCJziqA2r2RT8Cujk+F0ykBfAag
-         eiUNjPGX9AUZeid6gF468yYw0itn9s0Zyps9z549P1m8OE7GKZqD6g1D1bDPLIW2Oc95
-         qHgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772359887; x=1772964687;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1772360184; x=1772964984; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Cp14pMKS6bkJE/Z/f1aNlGhNOXRNaHWCDHan9dnJcZo=;
-        b=HzcfFeuZNeI4C09mYymXQTkG9q1saIEc/uDjo0paBphJ01w6uGdd7gWJbHUWYffa/U
-         RmkRs+xLemQOMSBbo1RHdeBudmcgY4JttV9C+TotrlTAipti+klbkZsybnsZBpoNStUy
-         6f680sLUJP81iuorMBhTJLBbdpWo5w0Rd1l/IYhvfkdgDTpmol3d7xncawPvENPLT0ks
-         eFNJhFO954qZ96FYoHQnNkoloPn2jYy8CRRgZkZ3ItC4K1p4Zoa0NItuZHRZMTEz9Q7D
-         N+HPkH/JI0WcFR+F4qlBNK4Pd4eXfg3hs7KDhv9wG233G+aAfGEVtZWKYij/5+byIFSW
-         sZuw==
-X-Forwarded-Encrypted: i=1; AJvYcCWwPdDl4Xrzy7QnE2DBr+fpUnGFuxJ4h78gDCHCHQnVl+dWuGZr9gEPAsjM6S14uE3xarPRELSirkw4OWlC@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx7eco/BOO6rpJiB/HQyfIDFZJL+/Wlevr2L3mJxcBrCdB5LPed
-	G/0ehYP72A/D3IMf+fb0ffleBXEZRwRCPdFt0nuC2MetOtqwAhd3aALQ
-X-Gm-Gg: ATEYQzwAn6X7+Vvc+jsPVvmjQ7z7t+DNQkb/r681xMSfgGVuXSPk0Z30rMf3ta7hIr5
-	twdH2jNqzGBXCoimASv/Wc7XJVy2pdALEYWe1Oo7dBi3almRKxW4rzT3anltqt1k0FSljJNxrgM
-	sZuWCPPdEadK6lBy87Zub7Y6QaBATGL3VLeX1+R8g95WyA1KnTdug0wYSP0p4lLvJYbktZMX7mF
-	w1iZA+xWDNlwu/vKEceVPFUcA+wOT2Tfg8M94ceJOZHGX/WCOKotsd0Q2sOjv6fEqYoPucDtGMT
-	IomRDqXn7+L5dHxmz7xaTNUY/a9Auh1Y7lljqrdmOdccQWfaulGijGFFC4Uul4lk2LGoU0Xrh/1
-	AamneqIarDS8jGX3o1ihCYc/ceXYj29dFu77tshwYGnSGR2AB5fyqnO5eW/otxM7nD/wjpSeMRB
-	wcHXvkNojSOpBnDwG5TF657gYRfOwOPhKGt9Io+VrFqd78
-X-Received: by 2002:a05:6a21:d89:b0:394:56ae:8a73 with SMTP id adf61e73a8af0-395c3af018amr8410142637.48.1772359887093;
-        Sun, 01 Mar 2026 02:11:27 -0800 (PST)
-Received: from yangwen.localdomain ([121.225.53.117])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c70fa62147esm9205452a12.12.2026.03.01.02.11.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Mar 2026 02:11:26 -0800 (PST)
-From: Yang Wen <anmuxixixi@gmail.com>
-To: linkinjeon@kernel.org,
-	sj1557.seo@samsung.com
-Cc: yuezhang.mo@sony.com,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Yang Wen <anmuxixixi@gmail.com>
-Subject: [PATCH] exfat: initialize caching fields during inode allocation
-Date: Sun,  1 Mar 2026 18:11:19 +0800
-Message-ID: <20260301101119.447-1-anmuxixixi@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        bh=ZrlN72XdG30IkaSiOSU/cpdfc/g67VmbA5qDRZerWc4=;
+        b=N04lOntMi64Tm+WqmzZhhWbQVrZnkQBqb/MlNznFDsXrPLPhUMz2dw+9bZmRLd62x6
+         gIZip+2v7bDGN3YmJtyk4HJAS4UVN1WG1U0Aqu+faG+/IK+3n9PscrvR3J8Hc2r3L5vD
+         A5uXJoMIZWCHG9gWgha3KPr9hJU5Pwao6gkNx9B+qbzu5kCnHRCJ5NXOFZVE81rWZMuy
+         oNEWxKfvREP7ll/7g5gPcPb1e+5IBkH+hqPqacUdRkaFalxafjYraKIm9CEePams18fe
+         kE2Ybd6TdGJv+3qXBbPDTeW23hLy3ZGb08T1SoziBB2S3B18vq2kSbBKkP1SUMhuR+Hw
+         L1zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772360184; x=1772964984;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ZrlN72XdG30IkaSiOSU/cpdfc/g67VmbA5qDRZerWc4=;
+        b=rBuD/F8VKwySbkErr1Plg+UC4xAuAWmO2Yobtkge3zdMJ0WPtCBezI6Kq1jP4m7CcY
+         xwR470Kxj0QMNQej5lqVxSpEkrfw+hNqwAN7Ba6rv2O5tkmmycrsjOTdAXMYetLgPn1i
+         u36lO2gk78hzby2dU9/byGNOCZZGzuuNSDr0ip3wkwIkeIT0uJMEEPqWP3A0nut2ym3k
+         G1CtKd5c0G28dCCohTjrfR1xpWWaVghfCPnHN+mDQEGCYbDOUO6VHVKWAzr6aYzuihOO
+         lItBol1gVrQAYxZdJOHWZmoPdPfhX6hv9fPSN0ogkwu3dzfG8ALCMNb4wp3oKFAB9zEW
+         3GVQ==
+X-Gm-Message-State: AOJu0YwbGThsnxW1O/ZbNMs70dSyIg60WG7pnVIVrQckAXQwmp3OSdvF
+	YFGsVHBP4Yk72vKjwrR8tIaV4qE8xm2ZQh4uuWCgZFZ1FNbEk5aZKN33jDYKbZF3eT0/G5MNPSC
+	LbDTBKj9CLXRiGwGKtd7qV2lyLko2PfmGBA==
+X-Gm-Gg: ATEYQzxPfMlbR/GZ5hkCHNq2IWW1XSwyN26X8yYg4/MiPs1Oy3E2ZtZFg+V21M1DZP/
+	jwcS1Z3R25wVibIUjWbPFE9hJQ2ZPvHEnKk+s5ua3siiMoeJYg7ktVsqzf/PUo0ZiMi+0Z8+1/7
+	/MwXMk8U+UtzrsApjBRscTpgM6nkotvaZ9zEgbTFnjyykuWATvHNYVHC6GJKqKR7/+/q0xLgOhO
+	2b8A6nwlISPRmuLyZCwQopKTz+Z+FfAGP7ZoMRWSYI5OW5z/qStUVE1Ea/ew769RRP7YlfoEIiX
+	OPp6qrg/e+OgykaAjOd2fvxtbTSx4VkmQAy4yuL2+g==
+X-Received: by 2002:a05:6102:5091:b0:5f7:24dc:3ac3 with SMTP id
+ ada2fe7eead31-5ff322bf4bdmr2863289137.7.1772360184080; Sun, 01 Mar 2026
+ 02:16:24 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260221145915.81749-1-dorjoychy111@gmail.com>
+In-Reply-To: <20260221145915.81749-1-dorjoychy111@gmail.com>
+From: Dorjoy Chowdhury <dorjoychy111@gmail.com>
+Date: Sun, 1 Mar 2026 16:16:13 +0600
+X-Gm-Features: AaiRm52S_i7uxGvz2GvDZgmu6T0jp37pcUwvZrAaDhnW-l9lgBlZerFtvlbrSME
+Message-ID: <CAFfO_h6Y1QcW7mNGdCuY-_J6zrF_F8aW+Q8O9SvoBbXTxteFjQ@mail.gmail.com>
+Subject: Re: [PATCH v4 0/4] OPENAT2_REGULAR flag support in openat2
+To: linux-fsdevel@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, ceph-devel@vger.kernel.org, 
+	gfs2@lists.linux.dev, linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org, 
+	v9fs@lists.linux.dev, linux-kselftest@vger.kernel.org, 
+	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, jlayton@kernel.org, 
+	chuck.lever@oracle.com, alex.aring@gmail.com, arnd@arndb.de, 
+	adilger@dilger.ca, mjguzik@gmail.com, smfrench@gmail.com, 
+	richard.henderson@linaro.org, mattst88@gmail.com, linmag7@gmail.com, 
+	tsbogend@alpha.franken.de, James.Bottomley@hansenpartnership.com, 
+	deller@gmx.de, davem@davemloft.net, andreas@gaisler.com, idryomov@gmail.com, 
+	amarkuze@redhat.com, slava@dubeyko.com, agruenba@redhat.com, 
+	trondmy@kernel.org, anna@kernel.org, sfrench@samba.org, pc@manguebit.org, 
+	ronniesahlberg@gmail.com, sprasad@microsoft.com, tom@talpey.com, 
+	bharathsm@microsoft.com, shuah@kernel.org, miklos@szeredi.hu, 
+	hansg@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-exfat_alloc_inode() does not initialize the cache_lru list head of
-struct exfat_inode_info.
+Ping...
+Requesting for review on this patch series please.
 
-If an inode is evicted before its cache structures are properly
-initialized (e.g., during a forced unmount), the cleanup
-path in __exfat_cache_inval_inode() may observe an uninitialized
-list head.
+Regards,
+Dorjoy
 
-The check:
-
-    while (!list_empty(&ei->cache_lru))
-
-may incorrectly succeed when stale pointers remain from a reused
-slab object. Subsequent list traversal can then operate on invalid
-entries, potentially leading to a NULL pointer dereference or
-memory corruption.
-
-Initialize cache_lru, cache_lru_lock, nr_caches, and cache_valid_id
-in exfat_alloc_inode() to ensure a well-defined state at allocation
-time.
-
-Signed-off-by: Yang Wen <anmuxixixi@gmail.com>
----
- fs/exfat/super.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/fs/exfat/super.c b/fs/exfat/super.c
-index 83396fd265cd..0c4a22b8d5fa 100644
---- a/fs/exfat/super.c
-+++ b/fs/exfat/super.c
-@@ -195,6 +195,10 @@ static struct inode *exfat_alloc_inode(struct super_block *sb)
- 	if (!ei)
- 		return NULL;
- 
-+	spin_lock_init(&ei->cache_lru_lock);
-+	ei->nr_caches = 0;
-+	ei->cache_valid_id = EXFAT_CACHE_VALID + 1;
-+	INIT_LIST_HEAD(&ei->cache_lru);
- 	init_rwsem(&ei->truncate_lock);
- 	return &ei->vfs_inode;
- }
--- 
-2.43.0
-
+On Sat, Feb 21, 2026 at 8:59=E2=80=AFPM Dorjoy Chowdhury <dorjoychy111@gmai=
+l.com> wrote:
+>
+> Hi,
+>
+> I came upon this "Ability to only open regular files" uapi feature sugges=
+tion
+> from https://uapi-group.org/kernel-features/#ability-to-only-open-regular=
+-files
+> and thought it would be something I could do as a first patch and get to
+> know the kernel code a bit better.
+>
+> I only tested this new flag on my local system (fedora btrfs).
+>
+> Note that I had submitted a v4 previously (that had -EINVAL for the atomi=
+c_open
+> code paths) but did not do a get_maintainers.pl. It didn't get any review=
+ and
+> please ignore that one anyway. In this version, I have tried to properly =
+update
+> the filesystems that provide atomic_open (fs/ceph, fs/nfs, fs/smb, fs/gfs=
+2,
+> fs/fuse, fs/vboxsf, fs/9p) for the new OPENAT2_REGULAR flag. Some of them
+> (fs/fuse, fs/vboxsf, fs/9p) didn't need any changing. As far as I see, mo=
+st of
+> the filesystems do finish_no_open for ~O_CREAT and have file->f_mode |=3D=
+ FMODE_CREATED
+> for the O_CREAT code path which I assume means they always create new fil=
+e which
+> is a regular file. OPENAT2_REGULAR | O_DIRECTORY returns -EINVAL (instead=
+ of working
+> if path is either a directory or regular file) as it was easier to reason=
+ about when
+> making changes in all the filesystems.
+>
+> Changes in v4:
+> - changed O_REGULAR to OPENAT2_REGULAR
+> - OPENAT2_REGULAR does not affect O_PATH
+> - atomic_open codepaths updated to work properly for OPENAT2_REGULAR
+> - commit message includes the uapi-group URL
+> - v3 is at: https://lore.kernel.org/linux-fsdevel/20260127180109.66691-1-=
+dorjoychy111@gmail.com/T/
+>
+> Changes in v3:
+> - included motivation about O_REGULAR flag in commit message e.g., progra=
+ms not wanting to be tricked into opening device nodes
+> - fixed commit message wrongly referencing ENOTREGULAR instead of ENOTREG
+> - fixed the O_REGULAR flag in arch/parisc/include/uapi/asm/fcntl.h from 0=
+60000000 to 0100000000
+> - added 2 commits converting arch/{mips,sparc}/include/uapi/asm/fcntl.h O=
+_* macros from hex to octal
+> - v2 is at: https://lore.kernel.org/linux-fsdevel/20260126154156.55723-1-=
+dorjoychy111@gmail.com/T/
+>
+> Changes in v2:
+> - rename ENOTREGULAR to ENOTREG
+> - define ENOTREG in uapi/asm-generic/errno.h (instead of errno-base.h) an=
+d in arch/*/include/uapi/asm/errno.h files
+> - override O_REGULAR in arch/{alpha,sparc,parisc}/include/uapi/asm/fcntl.=
+h due to clash with include/uapi/asm-generic/fcntl.h
+> - I have kept the kselftest but now that O_REGULAR and ENOTREG can have d=
+ifferent value on different architectures I am not sure if it's right
+> - v1 is at: https://lore.kernel.org/linux-fsdevel/20260125141518.59493-1-=
+dorjoychy111@gmail.com/T/
+>
+> Thanks.
+>
+> Regards,
+> Dorjoy
+>
+> Dorjoy Chowdhury (4):
+>   openat2: new OPENAT2_REGULAR flag support
+>   kselftest/openat2: test for OPENAT2_REGULAR flag
+>   sparc/fcntl.h: convert O_* flag macros from hex to octal
+>   mips/fcntl.h: convert O_* flag macros from hex to octal
+>
+>  arch/alpha/include/uapi/asm/errno.h           |  2 +
+>  arch/alpha/include/uapi/asm/fcntl.h           |  1 +
+>  arch/mips/include/uapi/asm/errno.h            |  2 +
+>  arch/mips/include/uapi/asm/fcntl.h            | 22 +++++------
+>  arch/parisc/include/uapi/asm/errno.h          |  2 +
+>  arch/parisc/include/uapi/asm/fcntl.h          |  1 +
+>  arch/sparc/include/uapi/asm/errno.h           |  2 +
+>  arch/sparc/include/uapi/asm/fcntl.h           | 35 +++++++++---------
+>  fs/ceph/file.c                                |  4 ++
+>  fs/gfs2/inode.c                               |  2 +
+>  fs/namei.c                                    |  4 ++
+>  fs/nfs/dir.c                                  |  4 +-
+>  fs/open.c                                     |  4 +-
+>  fs/smb/client/dir.c                           | 11 +++++-
+>  include/linux/fcntl.h                         |  2 +
+>  include/uapi/asm-generic/errno.h              |  2 +
+>  include/uapi/asm-generic/fcntl.h              |  4 ++
+>  tools/arch/alpha/include/uapi/asm/errno.h     |  2 +
+>  tools/arch/mips/include/uapi/asm/errno.h      |  2 +
+>  tools/arch/parisc/include/uapi/asm/errno.h    |  2 +
+>  tools/arch/sparc/include/uapi/asm/errno.h     |  2 +
+>  tools/include/uapi/asm-generic/errno.h        |  2 +
+>  .../testing/selftests/openat2/openat2_test.c  | 37 ++++++++++++++++++-
+>  23 files changed, 119 insertions(+), 32 deletions(-)
+>
+> --
+> 2.53.0
+>
