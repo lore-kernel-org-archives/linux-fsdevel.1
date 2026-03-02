@@ -1,42 +1,42 @@
-Received: from mailtransmit05.runbox.com (mailtransmit05.runbox.com [185.226.149.38])
+Received: from mailtransmit04.runbox.com (mailtransmit04.runbox.com [185.226.149.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC3362C9D
-	for <linux-fsdevel@vger.kernel.org>; Mon,  2 Mar 2026 13:28:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.226.149.38
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5034E3346AD;
+	Mon,  2 Mar 2026 13:28:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.226.149.37
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772458130; cv=none; b=RNX9bSSREdC920GcvObR7MVIdUn3n0KFY/+t7qzPCvSG3ULqLLRRlg0mW5xJLJK4RgJJxVUxh8rRHiqaZANLjLSIptEryahoJ/JU37ZjE+Bgv50MP3qS9ra/mnhGp+aifH3Tl4fD7SWMqYNJbTxhj9lhxx1QhdUqO434sS+yGwA=
+	t=1772458131; cv=none; b=bTJEPPzZVHH3qBrzApwsRbYQwi8c2cteM5XeE2GQ7CYWqjld25UdhUXyWZSvKlvN6TDImnFJFzOBnY/RNUyI7cLPACWtppnPtcgyngRqKfCKvK9JEWoMpjFaSEFfsNl5UESmEdbUo/iLBOy+1shtlSm/y32TwgIJB3sksUwFrOs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772458130; c=relaxed/simple;
-	bh=+8jUA1pIhBmowlO1jxzQc7kmakXtjz0IlbAyic50DRM=;
+	s=arc-20240116; t=1772458131; c=relaxed/simple;
+	bh=/vw1o/tgaqgXlymwWBfNq0gtWd8qwqkw++waY5+/oWo=;
 	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=XAf50qp3txCUIQY2PNzy8QgI0FrMuxFSn3+d/E3cJAD3lztoeLzTh8adJ2T/gj3HdoLfa0X8/e6QQBNVhTeEbuAfGXNmWwLY5QPaeXTb0HcEwCOG9xRTUWRT07RKNz2PU7Ix03IXFXcwMnxcc/OotL5E33PjpsqWRCSMQVZqHmQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=runbox.com; dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b=WNKhqMbv; arc=none smtp.client-ip=185.226.149.38
+	 MIME-Version; b=shbsRoCRMfdXnziC/NzqGtgzuCVaMbvSrTSeFN6X1X3yAwEV/K9CzSJBBx6zTmWcsDfQgkmoeESoEl3T9nwTt1N5sDbyS8vw8yEWqJJEFQlX7b+24kzRUwBGZOu4txG3fv3uNNDwcKInK1diIdZubSCMklZMNNOwGpHXTt5irh4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=runbox.com; dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b=pfYMBjDr; arc=none smtp.client-ip=185.226.149.37
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=runbox.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b="WNKhqMbv"
+	dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b="pfYMBjDr"
 Received: from mailtransmit02.runbox ([10.9.9.162] helo=aibo.runbox.com)
-	by mailtransmit05.runbox.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	by mailtransmit04.runbox.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
 	(Exim 4.93)
 	(envelope-from <david.laight.linux_spam@runbox.com>)
-	id 1vx3Jw-003bl2-4q; Mon, 02 Mar 2026 14:28:24 +0100
+	id 1vx3Jw-003ZE4-Au; Mon, 02 Mar 2026 14:28:24 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=runbox.com;
 	 s=selector2; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To
 	:Message-Id:Date:Subject:To:From;
-	bh=gjy8VzZho98qn7gDgAP8doLSL96/gQyRo0dz/GrFn7E=; b=WNKhqMbveWP+K3PmL7U2N/ZjgC
-	CRkQIzZeOHgk5k2HnpMOotG24V0hTJvr6OyT7PqOl2Dm4nA4urOR3OWpHobtPgDSlAr7nWHDbEPwt
-	tSQA2Q7DOv2iXbAH5WTGLe+U0ioyZh17n7ApFQAc/XkWeA54mqXch5dDYlog2nx7U8hngM1sDJ11s
-	tNRhThx7ejIxz+T6UR24ZnQQNxcdrxg2eAm04+CH6ikcFduLKZhvpfDwjgDgloDXZCXGRn/V4LJTr
-	wYXmGMM3HPxkLojYe9Z7XsbLpV20rgoagwKiSMoPtipXBJZirNaVllMP0+p8CbfIcQhj00YQaveaN
-	J3vQaaWw==;
+	bh=7cjIEqDAe6MTPa2yql8v8L5e7mjA+roV54bcD0Te3Y4=; b=pfYMBjDrxtDGIuseYyHfRKhdlY
+	wxGF1P6KMNx6ObRuGN6ZC4wsAsw2hRQ/moIf5DlPtJ4OdcFDVbbZfYlXOaHjFV7UCzwT+RFpEzmxH
+	qWXXDA4ONYMAsNi6ePJIKCLTLb8MT74QJNuqJ6sdh6Tq/4chxS0eBiQlHuCMuynNI3HaM4H+mIWD+
+	MfMF3aDGj96f3wG2XdkXTZREX71lpkYTiXzClo5Rgz07oqNqD1x1j5Sva9T4TMi13zMpJPrbafMuY
+	y2tpwibHn24xe00sD61gejFnTEEHP9CDzwhRxR2Z0zEadqZouQs+4eZ2DS+v9eN8M5kbcQczC3zdl
+	N7bMTDQg==;
 Received: from [10.9.9.73] (helo=submission02.runbox)
 	by mailtransmit02.runbox with esmtp (Exim 4.86_2)
 	(envelope-from <david.laight.linux_spam@runbox.com>)
-	id 1vx3Ju-0003tB-95; Mon, 02 Mar 2026 14:28:22 +0100
+	id 1vx3Jv-0003tI-NG; Mon, 02 Mar 2026 14:28:23 +0100
 Received: by submission02.runbox with esmtpsa  [Authenticated ID (1493616)]  (TLS1.2:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
 	(Exim 4.93)
-	id 1vx3Jg-008UTR-FQ; Mon, 02 Mar 2026 14:28:08 +0100
+	id 1vx3Ji-008UTR-OY; Mon, 02 Mar 2026 14:28:10 +0100
 From: david.laight.linux@gmail.com
 To: Alexander Viro <viro@zeniv.linux.org.uk>,
 	Andre Almeida <andrealmeid@igalia.com>,
@@ -72,9 +72,9 @@ To: Alexander Viro <viro@zeniv.linux.org.uk>,
 	x86@kernel.org,
 	Kees Cook <kees@kernel.org>,
 	akpm@linux-foundation.org
-Subject: [PATCH v2 1/5] uaccess: Fix scoped_user_read_access() for 'pointer to const'
-Date: Mon,  2 Mar 2026 13:27:51 +0000
-Message-Id: <20260302132755.1475451-2-david.laight.linux@gmail.com>
+Subject: [PATCH v2 3/5] uaccess.h: Use with() and and_with() in __scoped_user_access()
+Date: Mon,  2 Mar 2026 13:27:53 +0000
+Message-Id: <20260302132755.1475451-4-david.laight.linux@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20260302132755.1475451-1-david.laight.linux@gmail.com>
 References: <20260302132755.1475451-1-david.laight.linux@gmail.com>
@@ -88,95 +88,33 @@ Content-Transfer-Encoding: 8bit
 
 From: David Laight <david.laight.linux@gmail.com>
 
-If a 'const struct foo __user *ptr' is used for the address passed
-to scoped_user_read_access() then you get a warning/error
-uaccess.h:691:1: error: initialization discards 'const' qualifier
-    from pointer target type [-Werror=discarded-qualifiers]
-for the
-    void __user *_tmpptr = __scoped_user_access_begin(mode, uptr, size, elbl)
-assignment.
+Wrappers for autoterminating nested for() loops have been added to
+compiler.h, use them to hide the gory details.
 
-Fix by using 'auto' for both _tmpptr and the redeclaration of uptr.
-Replace the CLASS() with explicit __cleanup() functions on uptr.
-
-Fixes: e497310b4ffb "(uaccess: Provide scoped user access regions)"
 Signed-off-by: David Laight <david.laight.linux@gmail.com>
 ---
- include/linux/uaccess.h | 54 +++++++++++++++--------------------------
- 1 file changed, 20 insertions(+), 34 deletions(-)
+ include/linux/uaccess.h | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
 diff --git a/include/linux/uaccess.h b/include/linux/uaccess.h
-index 1f3804245c06..809e4f7dfdbd 100644
+index 809e4f7dfdbd..64bc2492eb99 100644
 --- a/include/linux/uaccess.h
 +++ b/include/linux/uaccess.h
-@@ -647,36 +647,22 @@ static inline void user_access_restore(unsigned long flags) { }
- /* Define RW variant so the below _mode macro expansion works */
- #define masked_user_rw_access_begin(u)	masked_user_access_begin(u)
- #define user_rw_access_begin(u, s)	user_access_begin(u, s)
--#define user_rw_access_end()		user_access_end()
- 
- /* Scoped user access */
--#define USER_ACCESS_GUARD(_mode)				\
--static __always_inline void __user *				\
--class_user_##_mode##_begin(void __user *ptr)			\
--{								\
--	return ptr;						\
--}								\
--								\
--static __always_inline void					\
--class_user_##_mode##_end(void __user *ptr)			\
--{								\
--	user_##_mode##_access_end();				\
--}								\
--								\
--DEFINE_CLASS(user_ ##_mode## _access, void __user *,		\
--	     class_user_##_mode##_end(_T),			\
--	     class_user_##_mode##_begin(ptr), void __user *ptr)	\
--								\
--static __always_inline class_user_##_mode##_access_t		\
--class_user_##_mode##_access_ptr(void __user *scope)		\
--{								\
--	return scope;						\
--}
- 
--USER_ACCESS_GUARD(read)
--USER_ACCESS_GUARD(write)
--USER_ACCESS_GUARD(rw)
--#undef USER_ACCESS_GUARD
-+/* Cleanup wrapper functions */
-+static __always_inline void __scoped_user_read_access_end(const void *p)
-+{
-+	user_read_access_end();
-+};
-+static __always_inline void __scoped_user_write_access_end(const void *p)
-+{
-+	user_write_access_end();
-+};
-+static __always_inline void __scoped_user_rw_access_end(const void *p)
-+{
-+	user_access_end();
-+};
- 
- /**
-  * __scoped_user_access_begin - Start a scoped user access
-@@ -750,13 +736,13 @@ USER_ACCESS_GUARD(rw)
+@@ -736,13 +736,10 @@ static __always_inline void __scoped_user_rw_access_end(const void *p)
   *
   * Don't use directly. Use scoped_masked_user_$MODE_access() instead.
   */
--#define __scoped_user_access(mode, uptr, size, elbl)					\
--for (bool done = false; !done; done = true)						\
--	for (void __user *_tmpptr = __scoped_user_access_begin(mode, uptr, size, elbl); \
--	     !done; done = true)							\
--		for (CLASS(user_##mode##_access, scope)(_tmpptr); !done; done = true)	\
--			/* Force modified pointer usage within the scope */		\
--			for (const typeof(uptr) uptr = _tmpptr; !done; done = true)
-+#define __scoped_user_access(mode, uptr, size, elbl)				\
-+for (bool done = false; !done; done = true)					\
-+	for (auto _tmpptr = __scoped_user_access_begin(mode, uptr, size, elbl);	\
-+	     !done; done = true)						\
-+		/* Force modified pointer usage within the scope */		\
-+		for (const auto uptr  __cleanup(__scoped_user_##mode##_access_end) = \
-+		     _tmpptr; !done; done = true)
+-#define __scoped_user_access(mode, uptr, size, elbl)				\
+-for (bool done = false; !done; done = true)					\
+-	for (auto _tmpptr = __scoped_user_access_begin(mode, uptr, size, elbl);	\
+-	     !done; done = true)						\
+-		/* Force modified pointer usage within the scope */		\
+-		for (const auto uptr  __cleanup(__scoped_user_##mode##_access_end) = \
+-		     _tmpptr; !done; done = true)
++#define __scoped_user_access(mode, uptr, size, elbl)					\
++	with (auto _tmpptr = __scoped_user_access_begin(mode, uptr, size, elbl))	\
++		/* Force modified pointer usage within the scope */			\
++		and_with (const auto uptr __cleanup(__scoped_user_##mode##_access_end) = _tmpptr)
  
  /**
   * scoped_user_read_access_size - Start a scoped user read access with given size
