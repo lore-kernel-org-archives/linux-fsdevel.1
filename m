@@ -1,40 +1,42 @@
-Received: from mailtransmit04.runbox.com (mailtransmit04.runbox.com [185.226.149.37])
+Received: from mailtransmit05.runbox.com (mailtransmit05.runbox.com [185.226.149.38])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CBF7383C6B;
-	Mon,  2 Mar 2026 13:28:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.226.149.37
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD21536C9D0;
+	Mon,  2 Mar 2026 13:28:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.226.149.38
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772458124; cv=none; b=aI3rFz0QcrJYJ35fxY1hlQf4qLNz4YxuNG0X2yZ0kNW0hSI7Pd52euG7ESyxykydHsIqmFwoMui4gl0D9FDpJKQbS3K+HsWZyFcuWMUyXmbpjf0bl64ogDUV3TqxFhm6bBPW4YNhcfaj7ubBHpnb3RRNU/b1y3iFcI9X9/+ctno=
+	t=1772458128; cv=none; b=eVfaPez3X0nsWx26xXwsEIXqVTEBM/g8u0hn4wGLxcdHCOUqUVdGRFJZ4PpdH0oJi2kGyK1Hm9q4emsBai2RcCK65PYOoaBBllF4lQHlorfrSYLSSKez958dIjrhvXMSHk8U6PfZi3w6aYoiOX88dLlty7Rezev+nH6fiA1wlZ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772458124; c=relaxed/simple;
-	bh=XuD5v7vcsXp0J/YdrUJ8HL0Un9orsSbvu2jek84EM1A=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version; b=kzWxVjAqHwT13hmphsddriGoF2xGZ2FJFF0Uuq9hlul5ShxaOaQsltw1+HpCQvLsOjoSbpck33CzC8paIMwJ7tGLcpnlNF5WSnkhMNat403XWKSDUwNfdLvBZhqysNr9GXp5WfcHh+JEkka0gmwiLeKuytZzJ7srzbLWQJJ/Q7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=runbox.com; dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b=CnVsYB+8; arc=none smtp.client-ip=185.226.149.37
+	s=arc-20240116; t=1772458128; c=relaxed/simple;
+	bh=W6qmQbOUEvCz4cAy/edHoPzKepofa/JIaVO2fGniCcs=;
+	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=OAz0TjbfB99Idj5VISoU37PvALOUIcONJvGPLVk4PsTuLSRcvLRjiU9r9imrNOkSxTdasYf5m8rcdZ4hva2k9lFirlRSVAjWwKe5TOUDwxGmi/QoMgwjFVhYGU72w/J2SS5+cY1iRo3s/fCjSPsXa8ZEwnfK8KY6fJNS8KNtwGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=runbox.com; dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b=C3w8X+KC; arc=none smtp.client-ip=185.226.149.38
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=runbox.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b="CnVsYB+8"
-Received: from mailtransmit02.runbox ([10.9.9.162] helo=aibo.runbox.com)
-	by mailtransmit04.runbox.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b="C3w8X+KC"
+Received: from mailtransmit03.runbox ([10.9.9.163] helo=aibo.runbox.com)
+	by mailtransmit05.runbox.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
 	(Exim 4.93)
 	(envelope-from <david.laight.linux_spam@runbox.com>)
-	id 1vx3Jw-003ZDt-84; Mon, 02 Mar 2026 14:28:24 +0100
+	id 1vx3Jw-003bl4-7x; Mon, 02 Mar 2026 14:28:24 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=runbox.com;
-	 s=selector2; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:
-	Subject:To:From; bh=TqCugejn+OGjGM2P4bwUziYu78OGaka0Bim+UNMgjx0=; b=CnVsYB+8+
-	VTkexEkCIXtWxDk0ct8bmk056FpnSkPCeP5i9Yz34bIo3y9sfFFKxB70WZvWoa5uqvPOn8FGr0qGf
-	EbIp0aausm3TBu9LxPZnWweSATT+ezR5WZWL2ZB5A/AohwyvAn5sRz/2VIhze8//praDWx5tUs3Kh
-	uSZ5LHvoL37lkFaTAFRYZPn6z3367lk4BEMixUtiAnxmBvTrEt3Nok0C2xREQl+pFHBZNSGve89hN
-	sVBOcOV0Nc47MyZUOiMqCn7FnHZ5wI0tCUtCptdrGMcotngqvg2PlvnsYF2JihFCbaufaLijoNZFG
-	NDR1Prmpt8MS2YYeGDqIb7kqQ==;
+	 s=selector2; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To
+	:Message-Id:Date:Subject:To:From;
+	bh=DqGOd6ipwPciYOEGbBHYVc1F4qmoJna8wv2iZM4469g=; b=C3w8X+KCNPwwUnlCUtq46S90t1
+	DaIzVd1U67pGzKoSNwRgDY0CkJR1WNOs2reVFFLbpCZJ5PTfZVq5TZTYpBtxMw2AfBFKsnU8eNfzL
+	UyKZj1Ao3zw24M6GhXmw4q7AcjpvZz9fajrVInZguhOGa8NYPBkUrjhNlngU3Mr5PEAWm9Jc6JFne
+	y3SR7NYQbKrUQi7nwwLTjarrREdk17HVYnhrX+G5V/PSUpfdGc3Axbaqn/zyoRSLpoMrqqb5dL7RX
+	smVDc6yiyZoQchORsC5WgAugpAW3KLRRAwN3ak0bumYpByVPz6HVuheyobbQNDuH27z7AyGB9th3/
+	IYE9RgWA==;
 Received: from [10.9.9.73] (helo=submission02.runbox)
-	by mailtransmit02.runbox with esmtp (Exim 4.86_2)
+	by mailtransmit03.runbox with esmtp (Exim 4.86_2)
 	(envelope-from <david.laight.linux_spam@runbox.com>)
-	id 1vx3Js-0003sJ-UZ; Mon, 02 Mar 2026 14:28:21 +0100
+	id 1vx3Ju-0001hC-Np; Mon, 02 Mar 2026 14:28:22 +0100
 Received: by submission02.runbox with esmtpsa  [Authenticated ID (1493616)]  (TLS1.2:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
 	(Exim 4.93)
-	id 1vx3Jf-008UTR-B9; Mon, 02 Mar 2026 14:28:07 +0100
+	id 1vx3Jl-008UTR-0w; Mon, 02 Mar 2026 14:28:13 +0100
 From: david.laight.linux@gmail.com
 To: Alexander Viro <viro@zeniv.linux.org.uk>,
 	Andre Almeida <andrealmeid@igalia.com>,
@@ -70,10 +72,12 @@ To: Alexander Viro <viro@zeniv.linux.org.uk>,
 	x86@kernel.org,
 	Kees Cook <kees@kernel.org>,
 	akpm@linux-foundation.org
-Subject: [PATCH v2 0/5] uaccess: Updates to scoped_user_access()
-Date: Mon,  2 Mar 2026 13:27:50 +0000
-Message-Id: <20260302132755.1475451-1-david.laight.linux@gmail.com>
+Subject: [PATCH v2 next 5/5] signal: Use scoped_user_access() instead of __put/get_user()
+Date: Mon,  2 Mar 2026 13:27:55 +0000
+Message-Id: <20260302132755.1475451-6-david.laight.linux@gmail.com>
 X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20260302132755.1475451-1-david.laight.linux@gmail.com>
+References: <20260302132755.1475451-1-david.laight.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -84,44 +88,139 @@ Content-Transfer-Encoding: 8bit
 
 From: David Laight <david.laight.linux@gmail.com>
 
-Converting kernel/signal.c to use scoped_user_access() had compilation
-warnings because some of the pointers are 'pointer to const'.
-This is fixed in patch 1.
+Mechanically change the access_ok() and __get/put_user() to use
+scoped_user_read/write_access() and unsafe_get/put_user().
 
-The same problem has been found compiling arch/powerpc/lib/checksum_wrappers.c
+This generates better code with fewer STAC/CLAC pairs.
 
-For v2 I've changed the code to use 'auto' and replaced the over-complex
-CLASS definition (and its for loop) with a much simpler __cleanup() function
-on the second loop.
+It also ensures that access_ok() is called near the user accesses.
+I failed to find the one for __save_altstack().
 
-Patches 2 and 3 factor out the 'autoterminating nested for loops'.
-I'm sure there'll be a 'bikeshed' discussion about the names.
+Looking at the change, perhaps there should be aliases:
+#define scoped_put_user unsafe_put_user
+#define scoped_get_user unsafe_get_user
 
-Patch 4 stops warnings from -Wshadow (enabled by W=2).
-I did think about making the _diag_xxx conditional on a W=2 build,
-but since the pre-processor just emits #pragma lines and they are
-smaller that the for() loop it doesn't seem worth while.
+Signed-off-by: David Laight <david.laight.linux@gmail.com>
+---
+ kernel/signal.c | 72 ++++++++++++++++++++++++++++---------------------
+ 1 file changed, 42 insertions(+), 30 deletions(-)
 
-Patch 5 is the change to signal.c that prompted patch 1.
-The generated code looks fine, but I've not tested it.
-Most of the changes are to 'compat' code - so are probably not
-usually performance critical.
-IIRC the non-compat code uses copy_to/from_user() for the structures
-so is probably slower than the compat code's member by member copy.
-
-David Laight (5):
-  uaccess: Fix scoped_user_read_access() for 'pointer to const'
-  compiler.h: Add generic support for 'autoterminating nested for()
-    loops'
-  uaccess.h: Use with() and and_with() in __scoped_user_access()
-  uaccess: Disable -Wshadow in __scoped_user_access()
-  signal: Use scoped_user_access() instead of __put/get_user()
-
- include/linux/compiler.h | 26 +++++++++++++++
- include/linux/uaccess.h  | 51 ++++++++++------------------
- kernel/signal.c          | 72 +++++++++++++++++++++++-----------------
- 3 files changed, 86 insertions(+), 63 deletions(-)
-
+diff --git a/kernel/signal.c b/kernel/signal.c
+index d65d0fe24bfb..fca257398cbc 100644
+--- a/kernel/signal.c
++++ b/kernel/signal.c
+@@ -4469,10 +4469,16 @@ int restore_altstack(const stack_t __user *uss)
+ int __save_altstack(stack_t __user *uss, unsigned long sp)
+ {
+ 	struct task_struct *t = current;
+-	int err = __put_user((void __user *)t->sas_ss_sp, &uss->ss_sp) |
+-		__put_user(t->sas_ss_flags, &uss->ss_flags) |
+-		__put_user(t->sas_ss_size, &uss->ss_size);
+-	return err;
++
++	scoped_user_write_access(uss, Efault) {
++		unsafe_put_user((void __user *)t->sas_ss_sp, &uss->ss_sp, Efault);
++		unsafe_put_user(t->sas_ss_flags, &uss->ss_flags, Efault);
++		unsafe_put_user(t->sas_ss_size, &uss->ss_size, Efault);
++	}
++	return 0;
++
++Efault:
++	return -EFAULT;
+ }
+ 
+ #ifdef CONFIG_COMPAT
+@@ -4705,12 +4711,12 @@ SYSCALL_DEFINE3(sigaction, int, sig,
+ 
+ 	if (act) {
+ 		old_sigset_t mask;
+-		if (!access_ok(act, sizeof(*act)) ||
+-		    __get_user(new_ka.sa.sa_handler, &act->sa_handler) ||
+-		    __get_user(new_ka.sa.sa_restorer, &act->sa_restorer) ||
+-		    __get_user(new_ka.sa.sa_flags, &act->sa_flags) ||
+-		    __get_user(mask, &act->sa_mask))
+-			return -EFAULT;
++		scoped_user_read_access(act, Efault) {
++		    unsafe_get_user(new_ka.sa.sa_handler, &act->sa_handler, Efault);
++		    unsafe_get_user(new_ka.sa.sa_restorer, &act->sa_restorer, Efault);
++		    unsafe_get_user(new_ka.sa.sa_flags, &act->sa_flags, Efault);
++		    unsafe_get_user(mask, &act->sa_mask, Efault);
++		}
+ #ifdef __ARCH_HAS_KA_RESTORER
+ 		new_ka.ka_restorer = NULL;
+ #endif
+@@ -4720,15 +4726,18 @@ SYSCALL_DEFINE3(sigaction, int, sig,
+ 	ret = do_sigaction(sig, act ? &new_ka : NULL, oact ? &old_ka : NULL);
+ 
+ 	if (!ret && oact) {
+-		if (!access_ok(oact, sizeof(*oact)) ||
+-		    __put_user(old_ka.sa.sa_handler, &oact->sa_handler) ||
+-		    __put_user(old_ka.sa.sa_restorer, &oact->sa_restorer) ||
+-		    __put_user(old_ka.sa.sa_flags, &oact->sa_flags) ||
+-		    __put_user(old_ka.sa.sa_mask.sig[0], &oact->sa_mask))
+-			return -EFAULT;
++		scoped_user_write_access(oact, Efault) {
++		    unsafe_put_user(old_ka.sa.sa_handler, &oact->sa_handler, Efault);
++		    unsafe_put_user(old_ka.sa.sa_restorer, &oact->sa_restorer, Efault);
++		    unsafe_put_user(old_ka.sa.sa_flags, &oact->sa_flags, Efault);
++		    unsafe_put_user(old_ka.sa.sa_mask.sig[0], &oact->sa_mask, Efault);
++		}
+ 	}
+ 
+ 	return ret;
++
++Efault:
++	return -EFAULT;
+ }
+ #endif
+ #ifdef CONFIG_COMPAT_OLD_SIGACTION
+@@ -4742,12 +4751,12 @@ COMPAT_SYSCALL_DEFINE3(sigaction, int, sig,
+ 	compat_uptr_t handler, restorer;
+ 
+ 	if (act) {
+-		if (!access_ok(act, sizeof(*act)) ||
+-		    __get_user(handler, &act->sa_handler) ||
+-		    __get_user(restorer, &act->sa_restorer) ||
+-		    __get_user(new_ka.sa.sa_flags, &act->sa_flags) ||
+-		    __get_user(mask, &act->sa_mask))
+-			return -EFAULT;
++		scoped_user_read_access(act, Efault) {
++		    unsafe_get_user(handler, &act->sa_handler, Efault);
++		    unsafe_get_user(restorer, &act->sa_restorer, Efault);
++		    unsafe_get_user(new_ka.sa.sa_flags, &act->sa_flags, Efault);
++		    unsafe_get_user(mask, &act->sa_mask, Efault);
++		}
+ 
+ #ifdef __ARCH_HAS_KA_RESTORER
+ 		new_ka.ka_restorer = NULL;
+@@ -4760,16 +4769,19 @@ COMPAT_SYSCALL_DEFINE3(sigaction, int, sig,
+ 	ret = do_sigaction(sig, act ? &new_ka : NULL, oact ? &old_ka : NULL);
+ 
+ 	if (!ret && oact) {
+-		if (!access_ok(oact, sizeof(*oact)) ||
+-		    __put_user(ptr_to_compat(old_ka.sa.sa_handler),
+-			       &oact->sa_handler) ||
+-		    __put_user(ptr_to_compat(old_ka.sa.sa_restorer),
+-			       &oact->sa_restorer) ||
+-		    __put_user(old_ka.sa.sa_flags, &oact->sa_flags) ||
+-		    __put_user(old_ka.sa.sa_mask.sig[0], &oact->sa_mask))
+-			return -EFAULT;
++		scoped_user_write_access(oact, Efault) {
++		    unsafe_put_user(ptr_to_compat(old_ka.sa.sa_handler),
++			       &oact->sa_handler, Efault);
++		    unsafe_put_user(ptr_to_compat(old_ka.sa.sa_restorer),
++			       &oact->sa_restorer, Efault);
++		    unsafe_put_user(old_ka.sa.sa_flags, &oact->sa_flags, Efault);
++		    unsafe_put_user(old_ka.sa.sa_mask.sig[0], &oact->sa_mask, Efault);
++		}
+ 	}
+ 	return ret;
++
++Efault:
++	return -EFAULT;
+ }
+ #endif
+ 
 -- 
 2.39.5
 
