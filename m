@@ -1,205 +1,245 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011014.outbound.protection.outlook.com [52.101.62.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DBA5382F3C;
-	Mon,  2 Mar 2026 20:34:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772483647; cv=none; b=G2ftXMRQJhoOsaBiOukSA6Gufl3v6mSWIW0yIgMsKPAogeaNLxZS/W4OMeCXNmZkTHaVrp0pkPBNN+JjMzGoBMmlpJbMB4T3KDVSiBHcHkkS0VD0euTB4i/POoviK67qaPU8SUxt+JIFw3YwP1rU8POm5pP3d0LWLK3v1PdZixg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772483647; c=relaxed/simple;
-	bh=O6E/wWymcmTFXnHRYlBNuOEnEuI3iSQ7UQxyw69+kG8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=RK79VpUA6MkX0FPDmlbb7hyK4BbtVPfS29jRENxiViYL3Th3w4nEbIOTF+45L1CtFol4b4WVnIEoFTBtykdGzqrELbK/bd99dxMNnmiqmLG6Oybdj3MSHfBm5A6+NcmuC2Dj6tuxQcoyzYoYkOVr0VOA2sYbdrnseJFJSZ9cMFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=us9kuFVN; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96A63382F19;
+	Mon,  2 Mar 2026 20:34:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.14
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772483651; cv=fail; b=VvEOl4bzhN3C1bhn1LLCSn8PDprt8hKKU1we8I0CqL0vYfqK/v1jjmYcjTtyKtetQg8wq/OdccfyCDTlzDo9cAFKpJRiWgOAhveWTpqy7qRmceytv0T0nuRBwsxa9LgG12mVeoByhtBsebBjcFjr2SRh/3k56OkkpKS2x8rVjBM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772483651; c=relaxed/simple;
+	bh=r8ZzHVIRbc4vc9KsFtG9I0h38tjqfyb6Yt3xPr+sFHo=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=svSRG08Q/0+Z3o+WL780IUypjCvYhlTL9ZLspymNQJvFEV3dbjYVrfE945uOtWHTPcokfsVxaLvYze9hEmSYGTWDmY3LoMsYtmVuk9btnAzIeMoiBeBM8N6PUXJQTjvIvLQCbsTmOJMi/MFIqK3OxEBEC5UUm/ZZejo5ma6fBt0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=h5Na3SZS; arc=fail smtp.client-ip=52.101.62.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="us9kuFVN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EE46C2BCB5;
-	Mon,  2 Mar 2026 20:33:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772483647;
-	bh=O6E/wWymcmTFXnHRYlBNuOEnEuI3iSQ7UQxyw69+kG8=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=us9kuFVN5+eJcWNCT1WvuDJBcdT4qSgZm5FciUUdFDPVCrpEdAtotU3qdHtNsEZ6G
-	 fl67hg1lyDRhO2v+62bpFTS2fX6Q0GimDVN9ZxLUpCExms/R1PfW4BzRPaoGYFjPoM
-	 JVzFrDbkMmYLKuVFQWwOg6rPr/tNLhNz67Wp1T3cERICx4UHd1h8JDplhVBL6xmirR
-	 3BanCCeVRAD5haF1qLoNT1NvuAIvcs/+xUaBO7eNY7n0ywsCixWy7syP/vpLa2M6Ry
-	 mVkDEGojwZpP+AVFWleuKqc8Y5IvMQ8i5pkK5Qfy4RxYodcEvAeWB8GB1lOX8L8ZAr
-	 7sCX83iwYeaPA==
-From: Jeff Layton <jlayton@kernel.org>
-Date: Mon, 02 Mar 2026 15:24:22 -0500
-Subject: [PATCH v2 038/110] nsfs: use PRIino format for i_ino
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="h5Na3SZS"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=apw73pUQQJYEWAdraKoFNbL1Lc7QEnyf4DhDw9RvujAr+cQ4Cp+cS2JaogYeCNZzGVZXSsctwNWly7XNVlZzLSExxqEhGXV3to6Aew1fIdgcvPIuaznTDM9NUguAHT1pBpGiZJDK8PXZg77HHByaCW2KSXK1b7sFjVMNGumVml5cIplqwugFC9PyLa2xjwMri2XE9KBU+7X91ArXDcJNSIleyEveVZN7p0QC8/5v7OgOR86hip0iEFxs07khwm/wZ5LsYuTkSa/MYN/sPtZM4LT4UtegmhFXFZhdepzTHkujnGfYyHqk7A9IVdwU+9mHXQFDmRsTJOQu3Qj+Y4dDFA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=FIJR+S3VvBRrbI22E4eFJrKOLiW/e1x3KyERvj1h3RE=;
+ b=Ma5N/cJl36Pip83xZFWktGnnWs0nKCxMb4UOrVrfJfh2FE7g1yui9xuqik6gTLn8o1405wsElyRIhkHiePUIeULQvLky0l/ap4V7Zwc6OrYxECY4RJMghw70KkT/i4/Zl28kSIjS9UWb5zjKIudxJ6EwzqGb2O4cWsBQWS07zL6+BNugKEXHEvNHSKd0dGSw/I/AuiJl5l084+1Yzm6YC1OarVNY85xgudb+3fboGyJnh7CvjvX1etJD/7ylFKk9vY3Vdn/+BwmEO8WBX29D+6NJeqQ7Do09r35xQgTGvlYSBB11GWXNmc27A5/TTmsOB5xkgfM+7ThDeEE4f8vHVw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FIJR+S3VvBRrbI22E4eFJrKOLiW/e1x3KyERvj1h3RE=;
+ b=h5Na3SZS2xuydCfTRz9mjr56SkBZIryh+0F2SmJ9u4/WLB0GyMBoo6klRxLkt20S+7wN3/BJ4CmdO0JtANmPW4ml978ozSuBhDAiIqbOBM5Gr5n2aGVlUIPyoBEmp00M0RTuofxf5L/txKa3btswePG6Ty+TJhJY9ydURLAGKb0J20veEPwh92jZvaETR/9g0MVGPUsoKUQDyWkBpok74J/7riN3bCfhP171Avip5sh9nMpiRnovZoLyJofYlFqbcZHiSgUtoRSVv7wgtf0cKNG1aZDvL+v9c8rUpn5yp/iopI4ca1xU7ULqEt3g1UJ0XhELm+WJ8Zo1HMu3snJqGg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
+ DM4PR12MB6373.namprd12.prod.outlook.com (2603:10b6:8:a4::7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9654.20; Mon, 2 Mar 2026 20:33:57 +0000
+Received: from DS7PR12MB9473.namprd12.prod.outlook.com
+ ([fe80::f01d:73d2:2dda:c7b2]) by DS7PR12MB9473.namprd12.prod.outlook.com
+ ([fe80::f01d:73d2:2dda:c7b2%4]) with mapi id 15.20.9654.020; Mon, 2 Mar 2026
+ 20:33:57 +0000
+From: Zi Yan <ziy@nvidia.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Zi Yan <ziy@nvidia.com>,
+	Hugh Dickins <hughd@google.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Nico Pache <npache@redhat.com>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Dev Jain <dev.jain@arm.com>,
+	Barry Song <baohua@kernel.org>,
+	Lance Yang <lance.yang@linux.dev>,
+	Matthew Wilcox <willy@infradead.org>,
+	Bas van Dijk <bas@dfinity.org>,
+	Eero Kelly <eero.kelly@dfinity.org>,
+	Andrew Battat <andrew.battat@dfinity.org>,
+	Adam Bratschi-Kaye <adam.bratschikaye@dfinity.org>,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH v2] mm/huge_memory: fix a folio_split() race condition with folio_try_get()
+Date: Mon,  2 Mar 2026 15:31:59 -0500
+Message-ID: <20260302203159.3208341-1-ziy@nvidia.com>
+X-Mailer: git-send-email 2.51.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: MN2PR08CA0014.namprd08.prod.outlook.com
+ (2603:10b6:208:239::19) To DS7PR12MB9473.namprd12.prod.outlook.com
+ (2603:10b6:8:252::5)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260302-iino-u64-v2-38-e5388800dae0@kernel.org>
-References: <20260302-iino-u64-v2-0-e5388800dae0@kernel.org>
-In-Reply-To: <20260302-iino-u64-v2-0-e5388800dae0@kernel.org>
-To: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- Steven Rostedt <rostedt@goodmis.org>, 
- Masami Hiramatsu <mhiramat@kernel.org>, 
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
- Dan Williams <dan.j.williams@intel.com>, 
- Matthew Wilcox <willy@infradead.org>, Eric Biggers <ebiggers@kernel.org>, 
- "Theodore Y. Ts'o" <tytso@mit.edu>, Muchun Song <muchun.song@linux.dev>, 
- Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@kernel.org>, 
- David Howells <dhowells@redhat.com>, Paulo Alcantara <pc@manguebit.org>, 
- Andreas Dilger <adilger.kernel@dilger.ca>, Jan Kara <jack@suse.com>, 
- Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>, 
- Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
- Chuck Lever <chuck.lever@oracle.com>, NeilBrown <neil@brown.name>, 
- Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, 
- Tom Talpey <tom@talpey.com>, Steve French <sfrench@samba.org>, 
- Ronnie Sahlberg <ronniesahlberg@gmail.com>, 
- Shyam Prasad N <sprasad@microsoft.com>, 
- Bharath SM <bharathsm@microsoft.com>, 
- Alexander Aring <alex.aring@gmail.com>, 
- Ryusuke Konishi <konishi.ryusuke@gmail.com>, 
- Viacheslav Dubeyko <slava@dubeyko.com>, 
- Eric Van Hensbergen <ericvh@kernel.org>, 
- Latchesar Ionkov <lucho@ionkov.net>, 
- Dominique Martinet <asmadeus@codewreck.org>, 
- Christian Schoenebeck <linux_oss@crudebyte.com>, 
- David Sterba <dsterba@suse.com>, Marc Dionne <marc.dionne@auristor.com>, 
- Ian Kent <raven@themaw.net>, Luis de Bethencourt <luisbg@kernel.org>, 
- Salah Triki <salah.triki@gmail.com>, 
- "Tigran A. Aivazian" <aivazian.tigran@gmail.com>, 
- Ilya Dryomov <idryomov@gmail.com>, Alex Markuze <amarkuze@redhat.com>, 
- Jan Harkes <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu, 
- Nicolas Pitre <nico@fluxnic.net>, Tyler Hicks <code@tyhicks.com>, 
- Amir Goldstein <amir73il@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
- Yangtao Li <frank.li@vivo.com>, 
- Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>, 
- David Woodhouse <dwmw2@infradead.org>, Richard Weinberger <richard@nod.at>, 
- Dave Kleikamp <shaggy@kernel.org>, 
- Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
- Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>, 
- Joseph Qi <joseph.qi@linux.alibaba.com>, 
- Mike Marshall <hubcap@omnibond.com>, 
- Martin Brandenburg <martin@omnibond.com>, 
- Miklos Szeredi <miklos@szeredi.hu>, Anders Larsen <al@alarsen.net>, 
- Zhihao Cheng <chengzhihao1@huawei.com>, Damien Le Moal <dlemoal@kernel.org>, 
- Naohiro Aota <naohiro.aota@wdc.com>, Johannes Thumshirn <jth@kernel.org>, 
- John Johansen <john.johansen@canonical.com>, 
- Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
- "Serge E. Hallyn" <serge@hallyn.com>, Mimi Zohar <zohar@linux.ibm.com>, 
- Roberto Sassu <roberto.sassu@huawei.com>, 
- Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
- Eric Snowberg <eric.snowberg@oracle.com>, Fan Wu <wufan@kernel.org>, 
- Stephen Smalley <stephen.smalley.work@gmail.com>, 
- Ondrej Mosnacek <omosnace@redhat.com>, 
- Casey Schaufler <casey@schaufler-ca.com>, 
- Alex Deucher <alexander.deucher@amd.com>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Sumit Semwal <sumit.semwal@linaro.org>, Eric Dumazet <edumazet@google.com>, 
- Kuniyuki Iwashima <kuniyu@google.com>, Paolo Abeni <pabeni@redhat.com>, 
- Willem de Bruijn <willemb@google.com>, 
- "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
- Simon Horman <horms@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
- Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
- Arnaldo Carvalho de Melo <acme@kernel.org>, 
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
- Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
- Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
- Adrian Hunter <adrian.hunter@intel.com>, 
- James Clark <james.clark@linaro.org>, "Darrick J. Wong" <djwong@kernel.org>, 
- Martin Schiller <ms@dev.tdt.de>, Eric Paris <eparis@redhat.com>, 
- Joerg Reuter <jreuter@yaina.de>, Marcel Holtmann <marcel@holtmann.org>, 
- Johan Hedberg <johan.hedberg@gmail.com>, 
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
- Oliver Hartkopp <socketcan@hartkopp.net>, 
- Marc Kleine-Budde <mkl@pengutronix.de>, David Ahern <dsahern@kernel.org>, 
- Neal Cardwell <ncardwell@google.com>, 
- Steffen Klassert <steffen.klassert@secunet.com>, 
- Herbert Xu <herbert@gondor.apana.org.au>, 
- Remi Denis-Courmont <courmisch@gmail.com>, 
- Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>, 
- Xin Long <lucien.xin@gmail.com>, 
- Magnus Karlsson <magnus.karlsson@intel.com>, 
- Maciej Fijalkowski <maciej.fijalkowski@intel.com>, 
- Stanislav Fomichev <sdf@fomichev.me>, Alexei Starovoitov <ast@kernel.org>, 
- Daniel Borkmann <daniel@iogearbox.net>, 
- Jesper Dangaard Brouer <hawk@kernel.org>, 
- John Fastabend <john.fastabend@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-trace-kernel@vger.kernel.org, nvdimm@lists.linux.dev, 
- fsverity@lists.linux.dev, linux-mm@kvack.org, netfs@lists.linux.dev, 
- linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
- linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org, 
- samba-technical@lists.samba.org, linux-nilfs@vger.kernel.org, 
- v9fs@lists.linux.dev, linux-afs@lists.infradead.org, autofs@vger.kernel.org, 
- ceph-devel@vger.kernel.org, codalist@coda.cs.cmu.edu, 
- ecryptfs@vger.kernel.org, linux-mtd@lists.infradead.org, 
- jfs-discussion@lists.sourceforge.net, ntfs3@lists.linux.dev, 
- ocfs2-devel@lists.linux.dev, devel@lists.orangefs.org, 
- linux-unionfs@vger.kernel.org, apparmor@lists.ubuntu.com, 
- linux-security-module@vger.kernel.org, linux-integrity@vger.kernel.org, 
- selinux@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
- linaro-mm-sig@lists.linaro.org, netdev@vger.kernel.org, 
- linux-perf-users@vger.kernel.org, linux-fscrypt@vger.kernel.org, 
- linux-xfs@vger.kernel.org, linux-hams@vger.kernel.org, 
- linux-x25@vger.kernel.org, audit@vger.kernel.org, 
- linux-bluetooth@vger.kernel.org, linux-can@vger.kernel.org, 
- linux-sctp@vger.kernel.org, bpf@vger.kernel.org, 
- Jeff Layton <jlayton@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1123; i=jlayton@kernel.org;
- h=from:subject:message-id; bh=O6E/wWymcmTFXnHRYlBNuOEnEuI3iSQ7UQxyw69+kG8=;
- b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBppfH4nr1zAdiW5p2+lCqnezrC50G0DgPOGslhI
- SVgDwbzfQOJAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCaaXx+AAKCRAADmhBGVaC
- FQ7qD/9Crc5dXcYjfDYsJq0pJ2tGKu0dX9jXy1EPC80+gepRKX95KNN8/+NDUKNZJ2X8nun84QH
- 6CSV8mUcd36OvMzmw8CsOR23929nd8IU6sfDxv6IY6zF7iW/N/Q3lG9ZhxTP2VsC2MVnlg3ed4m
- gK97DBUZ1yLvx1MWYR5mNxUbaIdrFxlQufcHmLmQbnRK53W0PLahurhcvgndRQ1ARgjV8PPuKt6
- IqgUKKK54IiKTMAGPULJPF23H1eZJ5UHXRxsTqb0fD8ewbSM5HtaGAJ1PFLJR+lnfzc1mwR3ZA2
- WeK78R5S3k6/IifwNgBDKnno7pW8KBlUv5UmNgxKqGIhbm8umg6ZWPW1TWmn2eCwW/AuZT34LQ7
- cfpccxYJAjwdk0VRhRBJ50TtmVFhDS8v8qBaeqbQfHNUEe9a6sAsj90dAfDFBMvNdsUEXeoWJHM
- ZbfQbHc/28m9ydAf+AYHZkZiNXz3rlH/KwSUnkaOzozOshxNe65gvHTwoooRagSzjMWAN1nbyTT
- WSrnCapknoBfQW/lBNp10qtIs8c1ht8t+huigk6Jqw+qGpkFwO7bBk0mCm/p8jT1yKICL7bcZ8A
- 5+NgyIDMEPDvMUUcnc81ZJ/1yv9UUcs9daePE760epq5urvrcj6qyAiIIDPEhfzs8WLJiw+RRL7
- nYRmX3jQMrIuTWw==
-X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
- fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|DM4PR12MB6373:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0694e7dc-ded7-41dd-9410-08de789b0723
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
+X-Microsoft-Antispam-Message-Info:
+	jk0A9PT7wUxwelh7KmAM0eLvjmCNCElqUQkexeLP0mA06EywAuMQu40X0Pv2TbVRmUICMbwqhe7mOQAyoacsBrdYF0XbL62Bfza8tsoghSVXxLBI5qr7DXZkqLIfeQ9pOlMhgpGpm9Z7W6MJDotUtD0g/Hy2op7xsTewCiZv77ZttyDRR1NlL2e8v6pEPyWCM/nMskyJyiuLm2cdZW89+JWM8Dn8ywScPp00yfkV0Dh+YFpn4bggHhmbzB8LRTrEDdmgSf5kvonfRZ1wPXs/1nBqjBeAwtShrBUKRr2RAoqvSt1gcyiVgf7te9v+dnNEx4aPj723xYPTy7mf0l7OVIx0Km+sY9NUIidN/SkGdX2RDqNSBtAHJoY/iiwTn2fUQ9BXvubeFkt4jUIrulPKe+e40d+sD1rkIAv1TF/JI5oJ5YJVYWNLqcEzOoAp7zDiUA53aXAkPnm5AfjzwueDMow2REnhUOLPtywr/HX9uVSnb59WwHct6ZkuyjrNU0pXDbZHnyjBVdc2TODZ+V3lZXQP7SF2FNsPvufZtxVuvBoRr7Wdi2vlaJbyUJ45+V7gHtZRpcHOvHTCrxcyhcMAYTeIrJikFMxu5Rkm1dumpHgNAeaD8aXbslbnDTF1VHgVaaQXDUXElvTvPQR8oJlMlCh9vp22ZE6YOdpFa7An/2dKZxN455CMfygaX8lsIMpsSu2EZAErCpusSzPrPlVSh9xxM/hOY4eQsANhe+gspYw=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?dsQTy062+n6Mdku4TgnfE4W5Q+YPcElZNzjEQhjTIfzxB0xvvqhVKUZod8wh?=
+ =?us-ascii?Q?EHpijodYBvs8T4awiqQydI5MBc0kf1rNuWUK7RYffXBJnYAIkMw0c8m371x2?=
+ =?us-ascii?Q?qA77FcealKxkLMudlJdoj5y2a90IuYLsho8nh35i5qty0tUW6HUdhU5ogiO+?=
+ =?us-ascii?Q?RevaLeZFH0kDwfwCNM8kWi4/7J4WC6M5d/vVNI5TqdxJERBYoDbt2MxNK+8z?=
+ =?us-ascii?Q?FJV5AOq5tZQDBrO1J5TgTh5HtTpM2MauJ154C/DZ1NytT3OB0YnpzjKphlFr?=
+ =?us-ascii?Q?eFXqzb4mtAqN1JHyFImuT/fXVdKZDU17C3Wyu3bX8BcCRS5USoYHmqOoDEP7?=
+ =?us-ascii?Q?j5c7np5ifalJnJuPfpN527tRLEqC47Ng+LX7o7oUA2pexdeSgvb01fuLm/AV?=
+ =?us-ascii?Q?sqaTUiFowDLc4JnuTsLtjbIjW0nI1q1Th7e8Xkk+cah61pd4k5b1Itw8sjg4?=
+ =?us-ascii?Q?26AKdq/O2oq/tn4n4wy8b2875iRiyjD9DaPmM0Qf5PQJ912xfZKPs7Cc86jh?=
+ =?us-ascii?Q?OubaRi2HR2GNyqOvwupu72RL90JKxZaKXjf/XZDjP6uqJX713xcaWnQqYH0O?=
+ =?us-ascii?Q?MVm6lFbM1PBrq7nvmgZaPKavQZl2ReVQv9skddbE6GFWnJba6RdyiCVoCLVN?=
+ =?us-ascii?Q?OR82e5UQv4qxILQCMX6EE49GRQ2fe0+ZUKWuhzL7O0A0/vknkZHHDE1x7Ij+?=
+ =?us-ascii?Q?YcfBhV0Jmh9BH8yqbyBGfCCFpogGsYkyS5LjBKKb3v4kpL1CBliVQyPAv1eT?=
+ =?us-ascii?Q?f5Em7ikHOooClmISeIBPxbwHJT/FT9bgJcqwrKdyIna398uCEF16WeSSh2o0?=
+ =?us-ascii?Q?bEVV2PFxdMKAPWxuqJ+PTA61GRjFARdJTVJqzW2GlSylq2Rc5mBxSDEAR7Qh?=
+ =?us-ascii?Q?SAiyHqgcN+CsVO/lceVekjjApeEp8atGEjrTadQ2wTPrPf/i98/hl/9XLDch?=
+ =?us-ascii?Q?hwiUBc6NECCvoG7L8p7Iz7EeqgaSNVUR2RVAfyEi9ZXbqyvP4zNKmXPQ0v6v?=
+ =?us-ascii?Q?li4gMgxUkmqbu7cJPnav6S1HluEw715RWDriuB4Uq6C1dn3ch2ZWqUJXK0Sp?=
+ =?us-ascii?Q?/1k7WY0lBkgtso2r5bfdvpUG9HtWa52nfrEAOf3Jq3Is5eimxbhNoaZnAvOB?=
+ =?us-ascii?Q?Vjo9idLgzBAIqUfrgBRFZrb8SdF1EPSXLuBcRvVDLhq/DpNL2dERkZyj5hIx?=
+ =?us-ascii?Q?q6YqMAs90Ca8JeqFsoiZ6XY2/qpLHWud8lTJqJRyX4nNd1QzXngaomXUPNdp?=
+ =?us-ascii?Q?N5Ga/nYhS/Je03E+3SftK2L+7jg050cD4Evi9MsAhNlnMVKA8eyQ5K3wxB11?=
+ =?us-ascii?Q?FCOSiy1dIav5k0NVjcZjTuf2PCetAn6FKVVHYEsEgSpyoAkH50zHZ0nWIiPu?=
+ =?us-ascii?Q?YynaL0JZQYvT2i9C3G6DIHrkmZsMsdFM9L/SmHo/MXGnIivsX9h1HxQCZefc?=
+ =?us-ascii?Q?/W2qDmWeJqpLNbNvL8dWMPnUfUn9vKmelGWe3jebSh94NFji+3Zp7VKEdefA?=
+ =?us-ascii?Q?TR5DB0u0xTeUvsPGjih/bGFxDD8IU0S3GUb9cQveybIXYSk8+49c9L001x2J?=
+ =?us-ascii?Q?ZQeQSclD0ITFzAGjxwwwoYFB+wrdc04hqPZhgSMQee2dJ7GIA9XSj4ZRn+UN?=
+ =?us-ascii?Q?LdIE0Mnoxy1F7YjoQPwctlYUW0yb7FFpMHwUSvBdDDtm1Ild5jFTCLThFd0/?=
+ =?us-ascii?Q?HT/7k7ca04ySaTvJbIOo7rzlXlkikdf7fdrIV12OgevwvDrk?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0694e7dc-ded7-41dd-9410-08de789b0723
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2026 20:33:57.0184
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: eajFENui4QHHZD3rfgCEV67fI2vuw5vrCNvnt90QEtx2+SLb9YLtsUQF9o275+Rp
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6373
 
-Convert nsfs i_ino format strings to use the PRIino format
-macro in preparation for the widening of i_ino via kino_t.
+During a pagecache folio split, the values in the related xarray should not
+be changed from the original folio at xarray split time until all
+after-split folios are well formed and stored in the xarray. Current use
+of xas_try_split() in __split_unmapped_folio() lets some after-split folios
+show up at wrong indices in the xarray. When these misplaced after-split
+folios are unfrozen, before correct folios are stored via __xa_store(), and
+grabbed by folio_try_get(), they are returned to userspace at wrong file
+indices, causing data corruption. More detailed explanation is at the
+bottom.
 
-Signed-off-by: Jeff Layton <jlayton@kernel.org>
+The reproducer is at: https://github.com/dfinity/thp-madv-remove-test
+It
+1. creates a memfd,
+2. forks,
+3. in the child process, maps the file with large folios (via shmem code
+   path) and reads the mapped file continuously with 16 threads,
+4. in the parent process, uses madvise(MADV_REMOVE) to punch poles in the
+   large folio.
+
+Data corruption can be observed without the fix. Basically, data from a
+wrong page->index is returned.
+
+Fix it by using the original folio in xas_try_split() calls, so that
+folio_try_get() can get the right after-split folios after the original
+folio is unfrozen.
+
+Uniform split, split_huge_page*(), is not affected, since it uses
+xas_split_alloc() and xas_split() only once and stores the original folio
+in the xarray. Change xas_split() used in uniform split branch to use
+the original folio to avoid confusion.
+
+Fixes below points to the commit introduces the code, but folio_split() is
+used in a later commit 7460b470a131f ("mm/truncate: use folio_split() in
+truncate operation").
+
+More details:
+
+For example, a folio f is split non-uniformly into f, f2, f3, f4 like
+below:
++----------------+---------+----+----+
+|       f        |    f2   | f3 | f4 |
++----------------+---------+----+----+
+but the xarray would look like below after __split_unmapped_folio() is
+done:
++----------------+---------+----+----+
+|       f        |    f2   | f3 | f3 |
++----------------+---------+----+----+
+
+After __split_unmapped_folio(), the code changes the xarray and unfreezes
+after-split folios:
+
+1. unfreezes f2, __xa_store(f2)
+2. unfreezes f3, __xa_store(f3)
+3. unfreezes f4, __xa_store(f4), which overwrites the second f3 to f4.
+4. unfreezes f.
+
+Meanwhile, a parallel filemap_get_entry() can read the second f3 from the
+xarray and use folio_try_get() on it at step 2 when f3 is unfrozen. Then,
+f3 is wrongly returned to user.
+
+After the fix, the xarray looks like below after __split_unmapped_folio():
++----------------+---------+----+----+
+|       f        |    f    | f  | f  |
++----------------+---------+----+----+
+so that the race window no longer exists.
+
+Fixes: 00527733d0dc8 ("mm/huge_memory: add two new (not yet used) functions for folio_split()")
+Signed-off-by: Zi Yan <ziy@nvidia.com>
+Reported-by: Bas van Dijk <bas@dfinity.org>
+Closes: https://lore.kernel.org/all/CAKNNEtw5_kZomhkugedKMPOG-sxs5Q5OLumWJdiWXv+C9Yct0w@mail.gmail.com/
+Tested-by: Lance Yang <lance.yang@linux.dev>
+Cc: <stable@vger.kernel.org>
 ---
- fs/nsfs.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ mm/huge_memory.c | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/fs/nsfs.c b/fs/nsfs.c
-index db91de2086456bb9fe0547be7dbbd2de87c97ca7..0e099ee2121f8831645c3a25d759793ef2ff9ce6 100644
---- a/fs/nsfs.c
-+++ b/fs/nsfs.c
-@@ -46,7 +46,7 @@ static char *ns_dname(struct dentry *dentry, char *buffer, int buflen)
- 	struct ns_common *ns = inode->i_private;
- 	const struct proc_ns_operations *ns_ops = ns->ops;
+diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+index 56db54fa48181..f0bdac3f270b5 100644
+--- a/mm/huge_memory.c
++++ b/mm/huge_memory.c
+@@ -3647,6 +3647,7 @@ static int __split_unmapped_folio(struct folio *folio, int new_order,
+ 	const bool is_anon = folio_test_anon(folio);
+ 	int old_order = folio_order(folio);
+ 	int start_order = split_type == SPLIT_TYPE_UNIFORM ? new_order : old_order - 1;
++	struct folio *old_folio = folio;
+ 	int split_order;
  
--	return dynamic_dname(buffer, buflen, "%s:[%lu]",
-+	return dynamic_dname(buffer, buflen, "%s:[%" PRIino "u]",
- 		ns_ops->name, inode->i_ino);
- }
- 
-@@ -394,7 +394,7 @@ static int nsfs_show_path(struct seq_file *seq, struct dentry *dentry)
- 	const struct ns_common *ns = inode->i_private;
- 	const struct proc_ns_operations *ns_ops = ns->ops;
- 
--	seq_printf(seq, "%s:[%lu]", ns_ops->name, inode->i_ino);
-+	seq_printf(seq, "%s:[%" PRIino "u]", ns_ops->name, inode->i_ino);
- 	return 0;
- }
- 
-
+ 	/*
+@@ -3668,11 +3669,17 @@ static int __split_unmapped_folio(struct folio *folio, int new_order,
+ 			 * irq is disabled to allocate enough memory, whereas
+ 			 * non-uniform split can handle ENOMEM.
+ 			 */
+-			if (split_type == SPLIT_TYPE_UNIFORM)
+-				xas_split(xas, folio, old_order);
+-			else {
++			if (split_type == SPLIT_TYPE_UNIFORM) {
++				xas_split(xas, old_folio, old_order);
++			} else {
+ 				xas_set_order(xas, folio->index, split_order);
+-				xas_try_split(xas, folio, old_order);
++				/*
++				 * use the to-be-split folio, so that a parallel
++				 * folio_try_get() waits on it until xarray is
++				 * updated with after-split folios and
++				 * the original one is unfrozen.
++				 */
++				xas_try_split(xas, old_folio, old_order);
+ 				if (xas_error(xas))
+ 					return xas_error(xas);
+ 			}
 -- 
-2.53.0
+2.51.0
 
