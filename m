@@ -1,135 +1,81 @@
-Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp05-ext.udag.de (smtp05-ext.udag.de [62.146.106.75])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3E43395240
-	for <linux-fsdevel@vger.kernel.org>; Mon,  2 Mar 2026 10:01:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D58C437C0F8;
+	Mon,  2 Mar 2026 10:01:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.146.106.75
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772445675; cv=none; b=q/04hN25uhXd99pKyjkQl3xha1+2iXufNhbkYe/bCCOMd4dBxWcTK6Qhfdatg+5kExC55LQZmpdkGa8PbT/I8onvvhIlaIAld2Uufxa5BaANiOBbjAdtjTVKqbNX5WPAIwh485Wxtgx3+wLxNWkLxsX5+ZYTQf+z1MMm1eB6GYc=
+	t=1772445713; cv=none; b=bnLscfpqXcvZNJ9jUWDCqCmK28r/fuzPzSFk0CD9A+iCyj1CKcWFlEWkmoqICBQmPhYnTmXnPrhb4dHnM/QWKGxrEnxB3CILOLq5c1P6ZlGsajGZwQ+/R1ETQaORvLU7r1IGmRUkPpFfBA/NaeyuSNJp8BgQ0br+tyWHWz1tndQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772445675; c=relaxed/simple;
-	bh=XcDBiF+tm+FToq8gICWmU+m/nRh9Ny7buWewqeSSE5s=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=sUNRtkBRF7quAylRkJDJsCWMenZDNMjP3voZh/dljqtafnC7dTSbqMxexQlu6DlhMj1UAOmU3VYZjFRt1pN2DSmBP6cYSWguMuZ9mf9Yu4xlgV666Kh5Hc26moT7GpjGhN/Gwg8SCvSm+Ker/r7SkKb1lbbdHvZSbSru362p5GM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=pKcMeK5z; arc=none smtp.client-ip=209.85.128.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="pKcMeK5z"
-Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-4836c819456so28859315e9.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 02 Mar 2026 02:01:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1772445672; x=1773050472; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=tjS8FX592qmj/rFkafjn+lojx6cnlsSGWxK3ppaLTGU=;
-        b=pKcMeK5zFCeuyEDqN9uC2KaA70X8zgbgjnqAslsyyaFYEXtkS9V6COy+BZIyCzxSmQ
-         pOEovWK8dwfeI8hGnwiaqcOR0b2SAyvlou6AEigYeorhF6m2bin/+hJiFLV9gNI5yJ9X
-         5VbDb+pbUiHmxG/B6jxauf6w66cmYQoGlfDcBBhNz9g73G6Xfxxfk2cqgDlaiRQTKaSH
-         2TMAEi4ATjIBTiC2y3HnwO5ZQIREWjEyEayiTutzK8+3fCDcwXrIjy29bqj+MgfJewS+
-         TQdyTuXurfVHvukuPqLt4qL+/V7ElyQD1yki55tyknaGoKa4sg5MjKF7WPiUKOM217sF
-         9gCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772445672; x=1773050472;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tjS8FX592qmj/rFkafjn+lojx6cnlsSGWxK3ppaLTGU=;
-        b=B8K2MT2rkv8R88ZHpddTrb/mlpGV9rxrh6Uz1KW8oHex//bfwJzKHxRLJSRvAJmXwI
-         cNjfPE8Gy/E1+dDq8swhGkWKoHydRuWuegIoReLwk1Qw3TSICH1Bj1IsnLaDeSQaAska
-         xqooZi/qq8TSYjWxoBkacW27s9ZA9c/hGvMneF/7/Ek2VagBdGCBldVNhrdZ2F6prL4I
-         RK676NeMRL5mL7h47P76KR4KjU/Xj5YQl3zKf1bpvHMq4JwMEnGAoAiTTssEW9NgTCdb
-         1hdVJEbaMGjdKTsTg+GNGTfs2MikAmQNIrZ1XgQ6V8+glqkXtVoGkrcrnfkTGrYb2z8e
-         mSPA==
-X-Forwarded-Encrypted: i=1; AJvYcCUjxAVBViQ02iyvYgzUU7QotauX6QXuplS8mgVSblaFg28qg1VEcRnWobTG171kLFOUvteYTfb/P7iT1UKE@vger.kernel.org
-X-Gm-Message-State: AOJu0YygawJX0JTSiv3EjQThv+uv2QUPNeFHQNb95j2pswWFAVyz8wvK
-	thYobT+qdEJ3PHV51eKaNWdBpCLhP6pc0R2Ffsz3BBvFjciCsnklTFZOPvbnDAyesxpwjsYkKtL
-	8Duere0LWhRSygH51LA==
-X-Received: from wmbg9.prod.google.com ([2002:a05:600c:a409:b0:483:7827:ade4])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:3110:b0:480:2521:4d92 with SMTP id 5b1f17b1804b1-483c9c23ffbmr196674855e9.24.1772445671732;
- Mon, 02 Mar 2026 02:01:11 -0800 (PST)
-Date: Mon, 2 Mar 2026 10:01:10 +0000
-In-Reply-To: <8a27e9ac-2025-4724-a46d-0a7c90894ba7@kernel.org>
+	s=arc-20240116; t=1772445713; c=relaxed/simple;
+	bh=IciqQJzhiVCjx00QC/4TH8gZ1mstpwjZXHhgqOwjoOA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PyX3IjWnZP0FDMAEH4EzmV4IVYkkbSjxZOUvi8bsvvX+8Q1jZwY27/2rcjiiXT6lmhRZ3nk08KAkqigvVE9hkUv/qndDolmGdmAFNw2+zKvSSgcO3CSLw28yYyCnwGX079KYiWiM3cHEDJTryTq+tqjwzpM1yVc1e38iUjs2dJ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de; spf=pass smtp.mailfrom=birthelmer.de; arc=none smtp.client-ip=62.146.106.75
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birthelmer.de
+Received: from localhost (200-143-067-156.ip-addr.inexio.net [156.67.143.200])
+	by smtp05-ext.udag.de (Postfix) with ESMTPA id 8C91FE00CB;
+	Mon,  2 Mar 2026 10:56:18 +0100 (CET)
+Authentication-Results: smtp05-ext.udag.de;
+	auth=pass smtp.auth=birthelmercom-0001 smtp.mailfrom=horst@birthelmer.de
+Date: Mon, 2 Mar 2026 10:56:17 +0100
+From: Horst Birthelmer <horst@birthelmer.de>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Horst Birthelmer <horst@birthelmer.com>, 
+	Bernd Schubert <bschubert@ddn.com>, Joanne Koong <joannelkoong@gmail.com>, 
+	Luis Henriques <luis@igalia.com>, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	Horst Birthelmer <hbirthelmer@ddn.com>
+Subject: Re: Re: [PATCH v6 1/3] fuse: add compound command to combine
+ multiple requests
+Message-ID: <aaVcSK1x7qTr1dlc@fedora.fritz.box>
+References: <20260226-fuse-compounds-upstream-v6-0-8585c5fcd2fc@ddn.com>
+ <20260226-fuse-compounds-upstream-v6-1-8585c5fcd2fc@ddn.com>
+ <CAJfpegsNpWb-miyx+P-W_=11dB3Shz6ikNOQ6Qp_hyOp1DqE9A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260227200848.114019-1-david@kernel.org> <20260227200848.114019-3-david@kernel.org>
- <aaLh2BxSgC9Jl5iS@google.com> <8a27e9ac-2025-4724-a46d-0a7c90894ba7@kernel.org>
-Message-ID: <aaVf5gv4XjV6Ddt-@google.com>
-Subject: Re: [PATCH v1 02/16] mm/memory: remove "zap_details" parameter from zap_page_range_single()
-From: Alice Ryhl <aliceryhl@google.com>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: linux-kernel@vger.kernel.org, 
-	"linux-mm @ kvack . org" <linux-mm@kvack.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, 
-	Pedro Falcato <pfalcato@suse.de>, David Rientjes <rientjes@google.com>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, Jarkko Sakkinen <jarkko@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Arve =?utf-8?B?SGrDuG5uZXbDpWc=?=" <arve@android.com>, Todd Kjos <tkjos@android.com>, 
-	Christian Brauner <brauner@kernel.org>, Carlos Llamas <cmllamas@google.com>, Ian Abbott <abbotti@mev.co.uk>, 
-	H Hartley Sweeten <hsweeten@visionengravers.com>, Jani Nikula <jani.nikula@linux.intel.com>, 
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
-	Dimitri Sivanich <dimitri.sivanich@hpe.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, Andy Lutomirski <luto@kernel.org>, 
-	Vincenzo Frascino <vincenzo.frascino@arm.com>, Eric Dumazet <edumazet@google.com>, 
-	Neal Cardwell <ncardwell@google.com>, "David S. Miller" <davem@davemloft.net>, 
-	David Ahern <dsahern@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Miguel Ojeda <ojeda@kernel.org>, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, 
-	linux-s390@vger.kernel.org, linux-sgx@vger.kernel.org, 
-	intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
-	linux-rdma@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	netdev@vger.kernel.org, rust-for-linux@vger.kernel.org, x86@kernel.org
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJfpegsNpWb-miyx+P-W_=11dB3Shz6ikNOQ6Qp_hyOp1DqE9A@mail.gmail.com>
 
-On Mon, Mar 02, 2026 at 09:18:45AM +0100, David Hildenbrand (Arm) wrote:
-> On 2/28/26 13:38, Alice Ryhl wrote:
-> > On Fri, Feb 27, 2026 at 09:08:33PM +0100, David Hildenbrand (Arm) wrote:
-> >> Nobody except memory.c should really set that parameter to non-NULL. So
-> >> let's just drop it and make unmap_mapping_range_vma() use
-> >> zap_page_range_single_batched() instead.
-> >>
-> >> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
-> > 
-> >> diff --git a/rust/kernel/mm/virt.rs b/rust/kernel/mm/virt.rs
-> >> index da21d65ccd20..b8e59e4420f3 100644
-> >> --- a/rust/kernel/mm/virt.rs
-> >> +++ b/rust/kernel/mm/virt.rs
-> >> @@ -124,7 +124,7 @@ pub fn zap_page_range_single(&self, address: usize, size: usize) {
-> >>          // sufficient for this method call. This method has no requirements on the vma flags. The
-> >>          // address range is checked to be within the vma.
-> >>          unsafe {
-> >> -            bindings::zap_page_range_single(self.as_ptr(), address, size, core::ptr::null_mut())
-> >> +            bindings::zap_page_range_single(self.as_ptr(), address, size)
-> >>          };
-> > 
-> > Please run rustfmt on Rust changes. Here, rustfmt leads to this being
-> > formatted on a single line:
+On Fri, Feb 27, 2026 at 10:45:36AM +0100, Miklos Szeredi wrote:
+> On Thu, 26 Feb 2026 at 17:43, Horst Birthelmer <horst@birthelmer.com> wrote:
+> > +
+> > +       unsigned int max_count;
+> > +       unsigned int count;
+> > +};
+> > +/*
+> > + * This is a hint to the fuse server that all requests are complete and it can
+> > + * use automatic decoding and sequential processing from libfuse.
+> > + */
+> > +#define FUSE_COMPOUND_SEPARABLE (1 << 0)
 > 
-> Having to run tooling I don't even have installed when removing a single
-> function parameter; did not expect that :)
+> We really need per sub-request flags, not per-compound flags.
+> 
+> I.e:
+> 
+> FUSE_SUB_IS_ENTRY - this sub request will return a new entry on
+> success (nodeid, filehandle)
+> FUSE_SUB_DEP_ENTRY - this sub request depends on the result of a previous lookup
+> 
 
-Well, rustfmt comes with the compiler, and it would be ideal to build
-test changes before sending them :)
+Couldn't we just save boolean flags in the fuse_args?
+Something like 'bool is_sub_entry:1' and so on?
 
-But no worries, I took care of testing it. Thanks for taking the time to
-update the Rust code as well.
+If we have the automatic separation and call of requests in the kernel 
+when the fuse server returns ENOSYS, I don't see the point in adding this 
+to libfuse as well, since there will never be the case,  that kernel 
+doesn't support compounds but libfuse does.
+It's either the fuse server handles the whole compound, or the kernel does.
 
-Documentation/rust/quick-start.rst has details for most distros.
+My point is, we don't need to send that information anywhere.
 
-Alice
+> Thanks,
+> Miklos
+
+Thanks for taking the time,
+Horst
