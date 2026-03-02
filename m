@@ -1,117 +1,101 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5CBD296BBC
-	for <linux-fsdevel@vger.kernel.org>; Mon,  2 Mar 2026 17:18:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31A3141B37F;
+	Mon,  2 Mar 2026 17:30:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772471889; cv=none; b=SmIo+j8KZroXmxA0LTBk2do+CEHCRbyGTp3qyNgxXkq/6ork4Vo0BdTIxVQA0HlaSYd7d4rgwdG5D7vRku/9PNIJq7cAAc1hMQDBvXeG3Y7nnfO796BXpwhegBJcl5j4NFMMJb709Kgq600J7IPmazxRm/I9YwIkl7TIH/xi0Tw=
+	t=1772472603; cv=none; b=sxeCnU8tC4i3MktrdjHrkhQjUIfI9WjKmHxjFw/nNp4ysEw6xDS0cz9NjzV+kPyWMrmBOWFbEclp5XEEvrPOp13l5sktUlQhN3F0AP8F59YXoLpRg1j/g6fN6BCqv2kl2BDM4iFeIsbHkNa5BRKAciBdWhWCDlRJFSwrdwcaoVQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772471889; c=relaxed/simple;
-	bh=bHDpiT/DMBChb2eg6esWRxtOQQQsukrENMa/lbFayFE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fLampw8BA4wgFuHWHURt9gD5hxFSIaOebU0v7jx95xCvym+iJIMLBRjE41U+yqb/WJPszqhB8fhxe6xsp4vlGwx8+Hbx/FUCuSMim8KKHY8ahbROEAQ27FxQ6YPK/tBQ9QlLnyoAnt6qilvj1OKmPuIRiAE2/K5VT02EvNT+pAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=ONWU5f4e; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1772472603; c=relaxed/simple;
+	bh=Nly5sXHSZSElEXvap2Gcu05FIOb2vvEenOSgirA+vEw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GgoeXfcf3pjsr57lAA3KG8EHB5q/iB9ME9jxKOyBdj0UwnANwX8y5jwNMPjbrZDY59ed0bqxdVHuzaAaJQsYbOP59mQ2+1njj4ZEd1iiCnOAqvYdJYSLqGlBPM2TXh6QrAgXBiRgDq2CSylWEWpeGKsHnyj9liiomMSzlIhy3cI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZWBphbH+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="ONWU5f4e"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-b8f992167dcso487584466b.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 02 Mar 2026 09:18:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1772471886; x=1773076686; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=TbIkpYLS9gbJFch6OaF8nYKkHDJKdsVHvQjZGTHSn/8=;
-        b=ONWU5f4e85G4QbtZLDlvfhCkDCvuqPD/iWB/QiK1Z+ADGvir8TkfblktI7LaSjuEey
-         sxppX1LltLFdd4ttxu3EJKB1fnSw7oaxlIdyf+7XVJApFR0LGUFG3TsnOzKDOCeYWTOP
-         40qMTJvde9QFA4BrjAcxx5aCBf0b/gBVlVzb4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772471886; x=1773076686;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TbIkpYLS9gbJFch6OaF8nYKkHDJKdsVHvQjZGTHSn/8=;
-        b=EB1D9ypJgPzyy8LI0JUGMtbv77C3tmIfZovVFcij1PgZNKK/Nk4OBVAP2SmMh4LP46
-         Hw5RiUugmJGl8MlrvPRjOZDz0hRzwWFTTl8fMFCP8qk7giS0mWnsDb0Db8GXgwCnbMqG
-         MZI/6NhWbV77I+4WgFt5xeMlwmuRXbu0QR2YEfsEhz/EPWefKgk2/idd2LRz3elEmid4
-         R928eX/5CoOcrOgRDmNzayKGKurgqOn4o/m0X+Xi6p+HUNEcRSdy1dgKQ17Tk9zWxTFo
-         y1xY+0lhjlLazs1gb4yu6dQHFaYHx8zCdSpDgKYFxA+2kjlO+yQ5bD+ijX9qDQue+C+0
-         xCpQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV7gJzh++UtQ++SCbYjffLQRZcd6ISWFlGUsxudOthlqAolYvx+0eHXx9e7uyqKR4vq9WYUl/R9MytmDTzC@vger.kernel.org
-X-Gm-Message-State: AOJu0YzJI3qufCI5vcsz3zGpEdgvSPlUjfWMGthfRishSmR11GFX4HI+
-	u2EWKM/Tra+cn7MX2oQPwfadhWUpt0HsnFsFTfk5ZCKPX0ZF2bM0CF67WMq8x5S7ZqYQqqydE8r
-	RDGkmgrTHww==
-X-Gm-Gg: ATEYQzxlJYcZAn2v/W4LKeo6NgUNtJC5AU8wesOXulcnkBuyPvSUvmN4V9qjtFJAcBD
-	eMOqg7omekSJqyyZuyzHBaPvDi+CLXbRtPJCb6a4MNePd/mNLxZCNywDE56cRcWvJQONa/lf400
-	TunGzG0AvfP4Y3iSPQTZhcY3VTKpAD5OsbtK8NIUVLBmxlgc4rn8Oy5llSoZhzQZmma64H7CYBo
-	WhXtZ4vc4jBcHUINjWOMWpVh3e9bQszgdJ/X1emPqUwh5TYORxa1Npf3bIj3Yw2QZ3CeQoUE406
-	5bDxGibRSlIA4WVw5ntyC0+zU8YOSIAVTUVsOpQqjVGr5SFsb8UTTNAi90JscfFSR3JvU0pLOpC
-	UXmQzow4gSPJIBRZwSWh+xctBGWjlhq9u0sYKEsTfxD01En8iw8EBIKjDZ895vUrOS0ZFmNtIFY
-	DedzDhEmzYKBgJiS4gvxR4gEniisLc+KkCFNd9VyKd9xUaqRvjN9apu71kj/mHcJ8ErxTIUQEAD
-	nVRT38NYtE=
-X-Received: by 2002:a17:907:97c6:b0:b72:58b6:b263 with SMTP id a640c23a62f3a-b93765c7e06mr831030366b.60.1772471885811;
-        Mon, 02 Mar 2026 09:18:05 -0800 (PST)
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com. [209.85.208.54])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b935ac73d2asm484242666b.26.2026.03.02.09.18.05
-        for <linux-fsdevel@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Mar 2026 09:18:05 -0800 (PST)
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-65f73225f45so7502561a12.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 02 Mar 2026 09:18:05 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXkQlW8jjmRLTjaxRAVcS4SYJ2UJy09/RmsNxkxyc0fpLn523CDdEvoBKqGmlUzPKr8xT5RE1D7A8kF3RU1@vger.kernel.org
-X-Received: by 2002:a17:907:25c2:b0:b8e:7dcb:7f1b with SMTP id
- a640c23a62f3a-b93763af8f8mr867609766b.21.1772471885098; Mon, 02 Mar 2026
- 09:18:05 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZWBphbH+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A40F5C19423;
+	Mon,  2 Mar 2026 17:30:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772472602;
+	bh=Nly5sXHSZSElEXvap2Gcu05FIOb2vvEenOSgirA+vEw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZWBphbH+Xdo3l/R44g/YUF6AhyMeiMnaK0s/sj+cknNPMTHNX1NpaKuLnVZ7a6xjM
+	 9BclTTehkK+eN7eW+mkrNqIUcGskok/H4kam/jOVgWmQJLAaaCkEjzq35LZF1hO3Jl
+	 XrNNLj322ibSF1h3xNhIQ3lXEq9DXakLaish79rqPQP5E5OmWMWgiELXNl6ZD8t0WM
+	 brjfOiutGGbT0HHW3Ii6je00Dnr8wyEU5u7oFFL+ErdXIsCFwpVbdytNKgHCorPnUc
+	 UJgw+hvAplL8XxDuDzTJuPu/4mJtU5wgGerTQR/kfCmVvOJRhee6AAuHxb4qSPqhaO
+	 PpJyZI5QlfQSg==
+Date: Mon, 2 Mar 2026 09:30:02 -0800
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+	xfs <linux-xfs@vger.kernel.org>,
+	Christoph Hellwig <hch@infradead.org>,
+	Carlos Maiolino <cmaiolino@redhat.com>
+Subject: [PATCH v3] iomap: reject delalloc mappings during writeback
+Message-ID: <20260302173002.GL13829@frogsfrogsfrogs>
+References: <20260226233442.GH13853@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260302132755.1475451-1-david.laight.linux@gmail.com> <20260302132755.1475451-5-david.laight.linux@gmail.com>
-In-Reply-To: <20260302132755.1475451-5-david.laight.linux@gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Mon, 2 Mar 2026 09:17:48 -0800
-X-Gmail-Original-Message-ID: <CAHk-=whaR_ujJvWGTe_fZxg_d2YSORZWnXwHLa5Gao+x136pYA@mail.gmail.com>
-X-Gm-Features: AaiRm52ly83FU0bUfVtu2Rv39h3JOZJTzcdxMzg3AYFviKySZcFGK5yhPqg6aWc
-Message-ID: <CAHk-=whaR_ujJvWGTe_fZxg_d2YSORZWnXwHLa5Gao+x136pYA@mail.gmail.com>
-Subject: Re: [PATCH v2 4/5] uaccess: Disable -Wshadow in __scoped_user_access()
-To: david.laight.linux@gmail.com
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Andre Almeida <andrealmeid@igalia.com>, 
-	Andrew Cooper <andrew.cooper3@citrix.com>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Christian Brauner <brauner@kernel.org>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, 
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Darren Hart <dvhart@infradead.org>, 
-	Davidlohr Bueso <dave@stgolabs.net>, Heiko Carstens <hca@linux.ibm.com>, Jan Kara <jack@suse.cz>, 
-	Julia Lawall <Julia.Lawall@inria.fr>, linux-arm-kernel@lists.infradead.org, 
-	linux-fsdevel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, 
-	LKML <linux-kernel@vger.kernel.org>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Nicholas Piggin <npiggin@gmail.com>, Nicolas Palix <nicolas.palix@imag.fr>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Russell King <linux@armlinux.org.uk>, 
-	Sven Schnelle <svens@linux.ibm.com>, Thomas Gleixner <tglx@linutronix.de>, x86@kernel.org, 
-	Kees Cook <kees@kernel.org>, akpm@linux-foundation.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260226233442.GH13853@frogsfrogsfrogs>
 
-On Mon, 2 Mar 2026 at 05:28, <david.laight.linux@gmail.com> wrote:
->
-> From: David Laight <david.laight.linux@gmail.com>
->
-> -Wshadow is enabled by W=2 builds and __scoped_user_access() quite
-> deliberately creates a 'const' shadow of the 'user' address that
-> references a 'guard page' when the application passes a kernel pointer.
+From: Darrick J. Wong <djwong@kernel.org>
 
-This is too ugly to live.
+Filesystems should never provide a delayed allocation mapping to
+writeback; they're supposed to allocate the space before replying.
+This can lead to weird IO errors and crashes in the block layer if the
+filesystem is being malicious, or if it hadn't set iomap->dev because
+it's a delalloc mapping.
 
-There is no way that we should make an already unreadable macro even
-worse just because somebody - incorrectly - thinks that W=2 matters.
+Fix this by failing writeback on delalloc mappings.  Currently no
+filesystems actually misbehave in this manner, but we ought to be
+stricter about things like that.
 
-No - what matters a whole lot more is keeping the kernel sources
-readable (well, at least as readable as is possible).
+Cc: <stable@vger.kernel.org> # v5.5
+Fixes: 598ecfbaa742ac ("iomap: lift the xfs writeback code to iomap")
+Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Carlos Maiolino <cmaiolino@redhat.com>
+---
+v3: add review tags
+v2: futureproof new iomap types
+---
+ fs/iomap/ioend.c |   13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
-Because W=2 is one of those "you get what you deserve" things.
-
-             Linus
+diff --git a/fs/iomap/ioend.c b/fs/iomap/ioend.c
+index 4d1ef8a2cee90b..60546fa14dfe4d 100644
+--- a/fs/iomap/ioend.c
++++ b/fs/iomap/ioend.c
+@@ -215,17 +215,18 @@ ssize_t iomap_add_to_ioend(struct iomap_writepage_ctx *wpc, struct folio *folio,
+ 	WARN_ON_ONCE(!folio->private && map_len < dirty_len);
+ 
+ 	switch (wpc->iomap.type) {
+-	case IOMAP_INLINE:
+-		WARN_ON_ONCE(1);
+-		return -EIO;
++	case IOMAP_UNWRITTEN:
++		ioend_flags |= IOMAP_IOEND_UNWRITTEN;
++		break;
++	case IOMAP_MAPPED:
++		break;
+ 	case IOMAP_HOLE:
+ 		return map_len;
+ 	default:
+-		break;
++		WARN_ON_ONCE(1);
++		return -EIO;
+ 	}
+ 
+-	if (wpc->iomap.type == IOMAP_UNWRITTEN)
+-		ioend_flags |= IOMAP_IOEND_UNWRITTEN;
+ 	if (wpc->iomap.flags & IOMAP_F_SHARED)
+ 		ioend_flags |= IOMAP_IOEND_SHARED;
+ 	if (folio_test_dropbehind(folio))
