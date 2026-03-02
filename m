@@ -1,117 +1,112 @@
-Received: from mailtransmit05.runbox.com (mailtransmit05.runbox.com [185.226.149.38])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A098C3242AB;
-	Mon,  2 Mar 2026 13:28:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.226.149.38
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772458125; cv=none; b=JCCCOYAHb6WZXBiGjkTmqihzWHg9jdyk3Q585AVW2F2Dicv8ZkvbbPSTrWr0Qvr9rfE0sFBFE8yBQNPNoibspiwYlOX7tdB0ycVAwXlvyF56gmOqeVG4Bbb06be3oK1N+Fh33C4gI1xYRXKdP5bJrqqGKvpan+Qzta7D4zZ1+zQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772458125; c=relaxed/simple;
-	bh=FKFw9WDEltFsWTOOSmYNAvvnsX/tHlWIyPea6wX7cZU=;
-	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=iIih01IsR0kAR3nLwp9UrRRf5dodOzXhX5FsAfD3G6WUO4qmb3r8WiiTFw0/dKzg9ajELeBc/EQPi4yOm2QO1Xn7ztmF6c9b03nesUkfYKcFCNNnv1aLD2aAmFQUmAPyOlOQKd7u12Pc4OIf3HP2X+ZsEcy6nuU7O1z+kwPu96M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=runbox.com; dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b=RaIJo34Y; arc=none smtp.client-ip=185.226.149.38
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=runbox.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDE7C2E9EB5
+	for <linux-fsdevel@vger.kernel.org>; Mon,  2 Mar 2026 13:30:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.170
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772458231; cv=pass; b=E/0krbKGNdpck3dAzy7Twu465YTf4Teo5BmbkvBSKLSiwZK2Fr1Bee/RgHIRyQ17fFoBj4kt8KY0ezsk+nlY1e80e282uhRnzLD9tBv73DZdCwd9VNjA+YWQehEyit2MtkGIVCsuyLrv6Ym9ul6oAlKMbugvVOxNcSl/LV6mXUc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772458231; c=relaxed/simple;
+	bh=0JcPUrObuZN4VWhMv6nLmBZ9VNb1wpq9tjHe1Sa//qA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=I2PAqtILKJRfzkhggmH8pcDlEAZdPBGfYxfd/BPFlWmwr+L8PhyZV/vd5k3jlSMhqVPZscJ22a+rPyzWvwzEtNxTvy0E9UGxJViEB1nocTVD0R5x3jP68Tc7jlJV2ONBxGiRo81z4ZZ3d6tbuVAwCGVlUEWh+y0UIYO73ef3JkY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=UnWkuTJd; arc=pass smtp.client-ip=209.85.160.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b="RaIJo34Y"
-Received: from mailtransmit03.runbox ([10.9.9.163] helo=aibo.runbox.com)
-	by mailtransmit05.runbox.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.93)
-	(envelope-from <david.laight.linux_spam@runbox.com>)
-	id 1vx3Jx-003blN-9N; Mon, 02 Mar 2026 14:28:25 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=runbox.com;
-	 s=selector2; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To
-	:Message-Id:Date:Subject:To:From;
-	bh=o2ClYLRupqDrO68wbhPYoX/KO8vhOPlwFWoOd/NbY3w=; b=RaIJo34Y0Q7j2egm9oaHOlOtOd
-	qIf5fI6+l/d2wpNaqq8G9dXTQ9MMLD3B96RqcrmcIuZWAbHSJrVvAOsCyxNnHmB0ApiOwjvIA/WUq
-	2QHmlroveisu5RbpBCARdjIwFelcSMWSgnuhcGGnezIcVvrdSc/czwp60dIuZ0dJ0UBhYTt3Dir6A
-	kPjMxT6Sx+w5jzEelLAoWpF5WZwr5068t7N9pLbu3BuEHsUXyhRpZNDULOe1NTcLEJsTarSsqPA3q
-	jO3BiP4+6U4spuDiRYWorjNHk7ZXXdxC/8mJTlzMjB17nS6wB8o7mn+sdiXsOXXocQv+tO32ThUWi
-	FRs2OCew==;
-Received: from [10.9.9.73] (helo=submission02.runbox)
-	by mailtransmit03.runbox with esmtp (Exim 4.86_2)
-	(envelope-from <david.laight.linux_spam@runbox.com>)
-	id 1vx3Jw-0001hU-9m; Mon, 02 Mar 2026 14:28:24 +0100
-Received: by submission02.runbox with esmtpsa  [Authenticated ID (1493616)]  (TLS1.2:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.93)
-	id 1vx3Jj-008UTR-SY; Mon, 02 Mar 2026 14:28:11 +0100
-From: david.laight.linux@gmail.com
-To: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andre Almeida <andrealmeid@igalia.com>,
-	Andrew Cooper <andrew.cooper3@citrix.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Darren Hart <dvhart@infradead.org>,
-	David Laight <david.laight.linux@gmail.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Jan Kara <jack@suse.cz>,
-	Julia Lawall <Julia.Lawall@inria.fr>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org,
-	LKML <linux-kernel@vger.kernel.org>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Nicolas Palix <nicolas.palix@imag.fr>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <pjw@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	x86@kernel.org,
-	Kees Cook <kees@kernel.org>,
-	akpm@linux-foundation.org
-Subject: [PATCH v2 4/5] uaccess: Disable -Wshadow in __scoped_user_access()
-Date: Mon,  2 Mar 2026 13:27:54 +0000
-Message-Id: <20260302132755.1475451-5-david.laight.linux@gmail.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20260302132755.1475451-1-david.laight.linux@gmail.com>
-References: <20260302132755.1475451-1-david.laight.linux@gmail.com>
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="UnWkuTJd"
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-506362ac5f7so41178731cf.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 02 Mar 2026 05:30:30 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772458230; cv=none;
+        d=google.com; s=arc-20240605;
+        b=TVGP4AAqj0D6cjurDwDWgV4ZemG7xBbruJwCzNmUEnI/Rsp6tmfgGNDazNUUtI2KT8
+         Hz3eIR0kf7i3FCV44qAryCRHVpZXCmcGfyFK6uHycTMYpF+ji0/uf8nZXvpRk3JyZhyP
+         d6WdVUemFSxfd0FZqRyzkU1q/hQeJs1ZNPJLjp/Z13+V5jWCUrdMzljRXrblV1bmUx65
+         VnTDA85W90EcxtUCPPwCjbNhPywUH46nWpeO6FgNOwdkr7Zf9ZHCS43avIDVNe15msjy
+         raD1V0uPzQUdlnc5lclhrxmICf6AEip+Q/l6XKj7AaDpm2ZNtXg5FIPjcDLt7h8c/MF0
+         06lw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=0JcPUrObuZN4VWhMv6nLmBZ9VNb1wpq9tjHe1Sa//qA=;
+        fh=cyCqTrMvW5BVbxIUO/mDs8JgoyZaHSoDa8giBxMCIU4=;
+        b=X/ZenGblBGN3j2UmXLceoosz+0AJrVEjvBZNCGhfFZdLHvcCZsg+NBfbOid1b4yn71
+         XxE3CpzqsuL9sXxsTkCIUjkKDDwLtVcBj0JT2A3EiNBkN+frsLMqk6H83O7Nn2DlMPa0
+         e49UTaVSg6vA02pc+wxCX4XMULw7R8WsrcedUZWHK7ZKUifPoPlYTrvji64Sn9gpNbPe
+         KIY7abA9/LXaSg8yFO/WnlFkESy83vgWnZHkvlP3dn/Q6hT2g29FqtsZhyEn9cXPFpYB
+         QL2RHCgPN8H6DAnHZNd9UJpMhNcbxAPHi6dPziWJzglFZnBMwv5J9QNVwlOyP6EhyBgJ
+         ZhyQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1772458230; x=1773063030; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=0JcPUrObuZN4VWhMv6nLmBZ9VNb1wpq9tjHe1Sa//qA=;
+        b=UnWkuTJdToMA4lYmJC6U8e1nmMcFVTZ0IquXawAS0N1+lMyRlFd50pwdBBlm+zvmLk
+         aBBdH1x4Dldsp7kbZowIlDPP6DCEbsvC4k12pZbHHXYdRGlkHvN4fZAoJ42Bmcw/dxBT
+         c+Ess+d8cw+slix+RikO61yMC6VY2R8zJr4CE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772458230; x=1773063030;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0JcPUrObuZN4VWhMv6nLmBZ9VNb1wpq9tjHe1Sa//qA=;
+        b=jdXq4J47QHlXCaT6lO2nIodeR4dDu4rYDLRNqeAVElF7+60x9qdoFqIXLb9qLNdvbw
+         41aL7m13LtGsYoql7GeKgheIspwF4+7PzgNq80k5fly4+g2pkVvywRDJuaOvgJX85XU0
+         45Lh4eGOO90uJwwmKTzmg+zykH70Sj4WiTNKSqZBNn/eaBi2suUqcBvsQwRqoTlDC+Uw
+         4Lr530zuGJkYRAHMFEi7VTDkgZ8E19yw3vIFJi+/xLiOTKlsC+EeRGbPhQJxEZBgmq8Q
+         SmzDkb7UFcJITBe7UDsi2gTMlignBYGoCkKpZDFp26V18eCIiXXBsa4+aqHqhPxtLNbL
+         BB7A==
+X-Forwarded-Encrypted: i=1; AJvYcCUj268rRqz1p5FwuZj9wMlo0+Qy0W7qdzX11yIgstALfNRPIXMXW5CGaYqEa/5fTugXEK02lCbhyHlg1FDt@vger.kernel.org
+X-Gm-Message-State: AOJu0YyxvhV1+yccTRqBrgqEd0wN6R87elPjShl6OKTcSkxYPJPvJMWC
+	rzrw79aYjYJGArlCFM9v2IIT4x3/5FT9LadUdCzECE6IR802IqfKPFByc//Jb9q0rHxlxzuy2nS
+	ALQGXx+kbFpwnEgJyF3xbkvBo0GjIepthvztiupISjL8Zr6IzeO6e
+X-Gm-Gg: ATEYQzySPZ6HzNE2PIWEN+/nxrEeWCb2ZZ8nkngVPxGtEC/hqZvCowHLgs/697YRLk2
+	NPtpMuydY6fXLRgK9djDens62rJv7nauSxtU1C4/3771F3YE2FomLthyigYL2VRQS84lcsX1nyN
+	oP9pgZ1YlswlLQvYd29A1MiCEAEGLNIDFpga761EeJLmRsh3ofI935QACYviOTMJeFBlGONNRHa
+	BUnwyVIGLQPsp3MLrDQmb1K9o3rdfoR/WlwaJR4t5mAsQ64ZjvIna/6MDQhpt4ZHl5e16poq/bG
+	rFh6vqddFw==
+X-Received: by 2002:a05:622a:30e:b0:4ff:b231:eea8 with SMTP id
+ d75a77b69052e-507527146b8mr150688621cf.14.1772458229634; Mon, 02 Mar 2026
+ 05:30:29 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260226-fuse-compounds-upstream-v6-0-8585c5fcd2fc@ddn.com>
+ <20260226-fuse-compounds-upstream-v6-1-8585c5fcd2fc@ddn.com>
+ <CAJfpegsNpWb-miyx+P-W_=11dB3Shz6ikNOQ6Qp_hyOp1DqE9A@mail.gmail.com>
+ <aaVcSK1x7qTr1dlc@fedora.fritz.box> <CAJfpegvPD3nrOjuXtQzJpg_krH0SUhSwewAMNfZmGjju50jK2Q@mail.gmail.com>
+ <aaWNGdV6XoZZXvJW@fedora.fritz.box>
+In-Reply-To: <aaWNGdV6XoZZXvJW@fedora.fritz.box>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Mon, 2 Mar 2026 14:30:18 +0100
+X-Gm-Features: AaiRm505YcujvLHY17DjaAVHwPGceKyW0ixd2rrHUIPqhPpDkWTKUdYcbxKGQ4Y
+Message-ID: <CAJfpeguPvEN++1P=dv-h0WRSf-VEVFqHRniH6DZo9ffN-U3B8g@mail.gmail.com>
+Subject: Re: Re: Re: [PATCH v6 1/3] fuse: add compound command to combine
+ multiple requests
+To: Horst Birthelmer <horst@birthelmer.de>
+Cc: Horst Birthelmer <horst@birthelmer.com>, Bernd Schubert <bschubert@ddn.com>, 
+	Joanne Koong <joannelkoong@gmail.com>, Luis Henriques <luis@igalia.com>, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, Horst Birthelmer <hbirthelmer@ddn.com>
+Content-Type: text/plain; charset="UTF-8"
 
-From: David Laight <david.laight.linux@gmail.com>
+On Mon, 2 Mar 2026 at 14:19, Horst Birthelmer <horst@birthelmer.de> wrote:
 
--Wshadow is enabled by W=2 builds and __scoped_user_access() quite
-deliberately creates a 'const' shadow of the 'user' address that
-references a 'guard page' when the application passes a kernel pointer.
+> OK, if I have to send flags, that are only present if the fuse request
+> is inside a compound then I would suggest that we preface the fuse request
+> with a small compound header, where we store that information.
+>
+> I would not want to change the fuse request, especially not define the same
+> flags for every type of fuse requests.
+>
+> Would that be acceptable?
 
-Signed-off-by: David Laight <david.laight.linux@gmail.com>
----
- include/linux/uaccess.h | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Yes, a separate header is the cleanest approach,
 
-diff --git a/include/linux/uaccess.h b/include/linux/uaccess.h
-index 64bc2492eb99..445391ec5a6d 100644
---- a/include/linux/uaccess.h
-+++ b/include/linux/uaccess.h
-@@ -739,7 +739,9 @@ static __always_inline void __scoped_user_rw_access_end(const void *p)
- #define __scoped_user_access(mode, uptr, size, elbl)					\
- 	with (auto _tmpptr = __scoped_user_access_begin(mode, uptr, size, elbl))	\
- 		/* Force modified pointer usage within the scope */			\
--		and_with (const auto uptr __cleanup(__scoped_user_##mode##_access_end) = _tmpptr)
-+		__diag_push() __diag_ignore_all("-Wshadow", "uptr is readonly copy")	\
-+		and_with (const auto uptr __cleanup(__scoped_user_##mode##_access_end) = _tmpptr) \
-+		__diag_pop()
- 
- /**
-  * scoped_user_read_access_size - Start a scoped user read access with given size
--- 
-2.39.5
-
+Thanks,
+Miklos
