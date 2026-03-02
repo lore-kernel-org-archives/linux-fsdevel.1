@@ -1,76 +1,53 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B19AE3FB066
-	for <linux-fsdevel@vger.kernel.org>; Mon,  2 Mar 2026 14:10:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66BA83E0C74;
+	Mon,  2 Mar 2026 14:19:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772460611; cv=none; b=R3sX5fT2n1mO9zZGjaSSJada9OScpLl0nUzoIHD1D5xSy9McYsaB5yg+acxt5jEsuKcRtCWDBXrus8sURfVWn2tlvIo0fUpyCyFknIi0TEip3JmjIg2nXVez08i+1QheOUpGsUnDjbjZyV1lP8dIaRB9yh4giauW2bR+qcahA3Y=
+	t=1772461167; cv=none; b=YukEYYpyfkU8mVCVBs1MbUt+B+RflfwkJOLuqcAY4ovpEnWdGwqUkVCvepzyXS/ZWytnLWlWiEIPicRWBHHjf5s05EF/ZeWPCMnyFS1QISasUjha7xCpPhWnf6m7pomGrI6uKI93yQ+5ZmTW5KBz8tpaMFnw//k1V2j3sYdvU/U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772460611; c=relaxed/simple;
-	bh=qyZTSf5Si3NqMjr5V8jrFs3PXm4h5IveD0OTiI10Xwc=;
+	s=arc-20240116; t=1772461167; c=relaxed/simple;
+	bh=sMj5Rrk0tnxZzVImADVa/k3m7uqKi3l93kY0BsAiUXM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iabpmz0bVD6XawFH3IzNgpRt2d41Op+VfZQwq1fnXnJ+y3ce8O6l/QlkX/v70WQUMSHB+XwcpngHAyxxhdShDqWBAKTrCKETBKV7nXL2YY6jDQ1f41rJtfJfRSuPpGeJqWyt88WWNYQkRlRpS9viPdGUW0akp9yFyIJ9WvtKbWw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jGyoAzwf; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 MIME-Version; b=B651zsnmz+8wBsKqvT7PmQXm3Mx3jbiy4uRen4yO/fe4fwQ1BSKxEHueHVuxaopkElcbkXUI1HUtFs1qthEK5KFZo++4LeBFhKu1YUQvLbzQEZG7KGd13MvP8JT2Ulv5xz5YBdYH9hvwlG0p/s7H3iHY8wQ18+gPctBZTgXrn6w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=TApuq1k9; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jGyoAzwf"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2ae4d48dc2fso4943945ad.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 02 Mar 2026 06:10:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772460610; x=1773065410; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EZR4SU7BAv0LyCxj4xdBAOVWg9UwODZh/qWxLhm3ig0=;
-        b=jGyoAzwfup0t0eREeWQ/2p1nDGjbRtGtbPuRSTB35zKbhkpE57V1w6KVAxvNr4yU4t
-         BK9QaeE/PEMVZ74dhfNKfYOyii7OTvE9AYHA4hekq7XLAYupMt4FoxWfvzTMeOwKvrn0
-         x/MPHsI1Lim4ordxZoLUdWqjbmwCchsv0/vuYRYifWtndzSHFIzzipEQttr9CDQGkJyj
-         HoRWMn6RSzGG6DTcYyCW5reVev0ar/cq6EE+h6qdXYT104zNc2+QCTZahudS8yXFiMae
-         R0F/dkVOItml48B3WjGriF1nPkoUmb5C33u538puO2iHIi4S9SYb+uPiVddRholt7wMa
-         fDbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772460610; x=1773065410;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=EZR4SU7BAv0LyCxj4xdBAOVWg9UwODZh/qWxLhm3ig0=;
-        b=PHAFaMjIA5eWtWDHCNjd7vbYEEbieNOf7BAng3uJ/7pzJ8G3tBarvFdZRkoaTKaHaf
-         8j/SQA4JGnahhN5F29oMYqnBr8EykLzO1K01bQdZmzIhTTxttnWvmogsTMCaSqPNLk+I
-         NBjkqThrQlyaNZwhrdXJP9FpiJT+W+ziYVZNLHWH78WrKkPiSV9tep95peYULn/a1/o1
-         NwDXSIbb3U1YQA/bnrzswwijQ6jP1ydwSY3hquFbgPSjTcWPO+7wlVQqS1vEjFlnzzg1
-         XXD0X91WlKbrqVP5aT2VfjhwWTWHZYfRybYMvmEB7dUtuEKJS5zAT/tCDpjOqCsHxIsL
-         cVoQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXl5lHGhpdjyhD4JZ9loiqDoSWNB6gKQDeXl8j5+rAtyTiyl4rFBpt5nprjdtmOeqcOKUqQGFTZWOTnPpMs@vger.kernel.org
-X-Gm-Message-State: AOJu0YzdfxTFvPa6oPqWqsFbJ0x8629HOtQqfHMQbAadxtGJNu6oJ1/M
-	F8CREBhvvjUBhixAWCC5ulgLWP1jWdgQTjzUohOnD0LeuQNuhFhvAGCd
-X-Gm-Gg: ATEYQzxX136nmo/rrZe4H8t11pKUfpAaYU7C1Ja30GG27lmvNdt1uTxm3MWgDcufhCH
-	3m+vxlXeIINFFZGd6DAAMuoyziin0fDpSmwurAQec/nyvK+TLsWo4E/5OvZmdxg/ICCaFgVVK6Y
-	FHwSA209kQs3lS+MWAheR/F2aISXVIXa/x4V43KGjR9U8h4FxrsU/4HL/6ET08M1wHQL6Xi6qmR
-	nenQyTGySgBmHxvwHv0O1r01ij+vPHp3Zyj2OE8AaLG1c5LmUA/ngrUks7LEWVXjJWmlTtkAP1W
-	zQCMD3qcHbuVYI8uq4YA7jQSfUCr5nXIN9UTENYt/0vVjxSvZw8H3p9PPkXtLVn3qkHiN+ggVAZ
-	BordOs8BUcYILzqrrGCxj0C/6oMT+E1YCOl0YQz2nyheQjlI4/NoUQgobNOZaoul6wdilHclzdD
-	nUHH43XvyFiE6HLHWjpbhbHh51IyfK4f0wdQ==
-X-Received: by 2002:a17:902:dacc:b0:2ae:50ec:fa27 with SMTP id d9443c01a7336-2ae50ed022fmr30688775ad.45.1772460609891;
-        Mon, 02 Mar 2026 06:10:09 -0800 (PST)
-Received: from yangwen.localdomain ([121.225.53.117])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ae5043971esm31045165ad.3.2026.03.02.06.10.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Mar 2026 06:10:09 -0800 (PST)
-From: Yang Wen <anmuxixixi@gmail.com>
-To: linkinjeon@kernel.org
-Cc: anmuxixixi@gmail.com,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	sj1557.seo@samsung.com,
-	yuezhang.mo@sony.com
-Subject: Re: [PATCH] exfat: initialize caching fields during inode allocation
-Date: Mon,  2 Mar 2026 22:10:05 +0800
-Message-ID: <20260302141005.107-1-anmuxixixi@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <CAKYAXd8PmK6jXa+6kbF2Gf2HZ7Ne1-3_ZwBS9kSOY-JwogZTpg@mail.gmail.com>
-References: <CAKYAXd8PmK6jXa+6kbF2Gf2HZ7Ne1-3_ZwBS9kSOY-JwogZTpg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="TApuq1k9"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
+	:Reply-To:Content-Type:Content-ID:Content-Description;
+	bh=olHs/EBkSlbRjwcneX6lFlR0i6BJlKrjnJjRCQNIpEw=; b=TApuq1k9pvOvmvL+kNfV9T5QgJ
+	XYl/mRKaDOQ0/oBdffoZ4OpZIWuQ+nEvqlnRH4OU1DY6j74mQ3fOgRX3eQHSjgBulhh16geGrsUBR
+	mS2ttvc3VCOIlAcuGddtd/G7E1t9UlUzzEuNyW3XZb26e8HxTZgU7F6O/A7uK4RtQU5GplPwQHcsa
+	QMAcN7P2fPWVbacmYFcF8Vg4noi94rCBBCmtjZUhdRcZvgPtostYb8n8iDsCDOVEv3Rlo1VTM9enn
+	CWp4kQBVZiazWIuRlqRut3PTyB0vPWrX+fyD2623ZKbtBC3YfmeAiFcsZ05Q37wQDwdF4W5DQZypk
+	ly+tJ/qQ==;
+Received: from [2604:3d08:797f:2840::9d5f] (helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vx47J-0000000DDRg-2Ws4;
+	Mon, 02 Mar 2026 14:19:25 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: "Theodore Y. Ts'o" <tytso@mit.edu>,
+	Jaegeuk Kim <jaegeuk@kernel.org>,
+	Andreas Dilger <adilger.kernel@dilger.ca>,
+	Chao Yu <chao@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	linux-fscrypt@vger.kernel.org,
+	linux-ext4@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net,
+	linux-fsdevel@vger.kernel.org
+Subject: [PATCH 01/14] ext4: initialize the write hint in io_submit_init_bio
+Date: Mon,  2 Mar 2026 06:18:06 -0800
+Message-ID: <20260302141922.370070-2-hch@lst.de>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260302141922.370070-1-hch@lst.de>
+References: <20260302141922.370070-1-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -78,38 +55,48 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On Mon, 2 Mar 2026 18:58:41 Namjae Jeon <linkinjeon@kernel.org> wrote:
+Make io_submit_init_bio complete by also initializing the write hint.
 
-> >diff --git a/fs/exfat/super.c b/fs/exfat/super.c
-> >index 83396fd265cd..0c4a22b8d5fa 100644
-> >--- a/fs/exfat/super.c
-> >+++ b/fs/exfat/super.c
-> >@@ -195,6 +195,10 @@ static struct inode *exfat_alloc_inode(struct super_block *sb)
-> >        if (!ei)
-> >                return NULL;
-> >
-> >+       spin_lock_init(&ei->cache_lru_lock);
-> >+       ei->nr_caches = 0;
-> >+       ei->cache_valid_id = EXFAT_CACHE_VALID + 1;
-> >+       INIT_LIST_HEAD(&ei->cache_lru);
-> These fields are already initialized in exfat_inode_init_once().
-> Please check exfat_inode_init_once().
-> Thanks.
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ fs/ext4/page-io.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Thanks for your replay. While it's true that exfat_inode_init_once()
-initializes these fields, that constructor is only invoked when the
-slab object is first created.
+diff --git a/fs/ext4/page-io.c b/fs/ext4/page-io.c
+index a8c95eee91b7..b8cf9f6f9e0b 100644
+--- a/fs/ext4/page-io.c
++++ b/fs/ext4/page-io.c
+@@ -416,6 +416,7 @@ void ext4_io_submit_init(struct ext4_io_submit *io,
+ }
+ 
+ static void io_submit_init_bio(struct ext4_io_submit *io,
++			       struct inode *inode,
+ 			       struct buffer_head *bh)
+ {
+ 	struct bio *bio;
+@@ -429,6 +430,7 @@ static void io_submit_init_bio(struct ext4_io_submit *io,
+ 	bio->bi_iter.bi_sector = bh->b_blocknr * (bh->b_size >> 9);
+ 	bio->bi_end_io = ext4_end_bio;
+ 	bio->bi_private = ext4_get_io_end(io->io_end);
++	bio->bi_write_hint = inode->i_write_hint;
+ 	io->io_bio = bio;
+ 	io->io_next_block = bh->b_blocknr;
+ 	wbc_init_bio(io->io_wbc, bio);
+@@ -445,10 +447,8 @@ static void io_submit_add_bh(struct ext4_io_submit *io,
+ submit_and_retry:
+ 		ext4_io_submit(io);
+ 	}
+-	if (io->io_bio == NULL) {
+-		io_submit_init_bio(io, bh);
+-		io->io_bio->bi_write_hint = inode->i_write_hint;
+-	}
++	if (io->io_bio == NULL)
++		io_submit_init_bio(io, inode, bh);
+ 	if (!bio_add_folio(io->io_bio, io_folio, bh->b_size, bh_offset(bh)))
+ 		goto submit_and_retry;
+ 	wbc_account_cgroup_owner(io->io_wbc, folio, bh->b_size);
+-- 
+2.47.3
 
-In the case of inode reuse (when an object is freed to the slab cache
-and subsequently re-allocated), the fields inherit stale values from
-the previous user of that memory block. If an eviction occurs before
-these fields are re-initialized by the new owner,
-__exfat_cache_inval_inode() sees a non-empty list due to stale
-pointers, leading to a NULL pointer dereference.
-
-We have recently observed kernel panics on mobile devices, which were
-traced back to a NULL pointer dereference in list_del_init()
-within __exfat_cache_inval_inode().
-
-Thanks.
