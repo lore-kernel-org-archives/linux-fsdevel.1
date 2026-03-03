@@ -1,80 +1,39 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 126AB39B950
-	for <linux-fsdevel@vger.kernel.org>; Tue,  3 Mar 2026 10:35:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7465382383
+	for <linux-fsdevel@vger.kernel.org>; Tue,  3 Mar 2026 10:35:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772534151; cv=none; b=ixT7aBTF3xlMqTnvP2YelyUPmE2qnLCHmfXg8bjt+mf3mlu7GpOJcbzTY+D7XpmDmi63y6MTbrvw0EKBEVq/3rAxmj2rVBJ3pLMb/ufLygPrkrK1hvlJzPUicY8ecCFctKJHiDRt3EXfHVDncDNqQlv3H2r96z4vPHg5HZSHB9Q=
+	t=1772534156; cv=none; b=ekHLMIaZRg7ryVCLRlS7uyLa0topVK0y9OzoJEvGcfoHYGrzaciESR/11IRXh/GzFFO9rwbKjHBvCiiMwxEqZ9ydPyV6mpsZt3nrT3zeBMgltm0mkedh11lWKrZqXLhUN5zMFiXAxBvga9H3I6l/Pq4LvwOjya1WrvT2SPPZG0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772534151; c=relaxed/simple;
-	bh=iAQYf1Qy8SGxN1+aEnxN/hmRSnVqswowuoNdYM87ou8=;
+	s=arc-20240116; t=1772534156; c=relaxed/simple;
+	bh=jRmpGnBIbXf3zwY1aurODz7DyXpIxnDKpqd2BEFflmQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=R1PGNP/MEIQUO0Fm2nl3tsLEb8Xa5ZwkLMRZ/UlhU2+ymUaI2E438cQurdkgb03OOVmsFAWkffUTPDUNyYZEG9SDT5oyD1hBfNzFwRiJwbrOtYZLWV4NFvnis27pohqaojXEzwtp0GVO2NKJq5FO1qiFaYrAnH1dzhYIpFaYZeA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=CyzlAe4L; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=DvK+DTiT; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=CyzlAe4L; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=DvK+DTiT; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=RXljodStdABT83Yc6Sm9yXvDCqxmIsdCaMulvrTe6pww4I1rMYlIYkluLtdHegA5dK0Q8/nLHPXldCAo4aaqc7RV3Z0CfZ9OpDIBaJMXrDYriY0tO6vNwxjzRU6pXdoW2gXnMoquskrE5Ci5YB2Bjcyiu8+u5wH9S5dt88WNnZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="CyzlAe4L";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="DvK+DTiT";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="CyzlAe4L";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="DvK+DTiT"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 2F9D23F929;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 799795BE32;
 	Tue,  3 Mar 2026 10:34:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1772534085; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ayutdjATkfIJsyi9w7bhVOmHaFZZfPEvqi93VrREg+I=;
-	b=CyzlAe4L3HqgIZiyZrYlmfOTNprQP6+SvArWyc9E5oQFYf012FxA3BtI1HbO45NcH/L2ti
-	d2/+6Kunl7+ts64jGrCfrGhzzoI1bWSmGAMdgak8DlIiv9YmTX6kd7Y3ymHAHpfuNzBJs5
-	OPoacYYPQnXACdBGf/mI1J14tfYVrO4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1772534085;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ayutdjATkfIJsyi9w7bhVOmHaFZZfPEvqi93VrREg+I=;
-	b=DvK+DTiTmQkSAKFjj2D2jqh/HRRXgvMyfCseBN8se/zRRqAnWTsBztdOnq2FD/y1CtToCZ
-	9fPpL595ZYW++fAQ==
-Authentication-Results: smtp-out1.suse.de;
+Authentication-Results: smtp-out2.suse.de;
 	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1772534085; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ayutdjATkfIJsyi9w7bhVOmHaFZZfPEvqi93VrREg+I=;
-	b=CyzlAe4L3HqgIZiyZrYlmfOTNprQP6+SvArWyc9E5oQFYf012FxA3BtI1HbO45NcH/L2ti
-	d2/+6Kunl7+ts64jGrCfrGhzzoI1bWSmGAMdgak8DlIiv9YmTX6kd7Y3ymHAHpfuNzBJs5
-	OPoacYYPQnXACdBGf/mI1J14tfYVrO4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1772534085;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ayutdjATkfIJsyi9w7bhVOmHaFZZfPEvqi93VrREg+I=;
-	b=DvK+DTiTmQkSAKFjj2D2jqh/HRRXgvMyfCseBN8se/zRRqAnWTsBztdOnq2FD/y1CtToCZ
-	9fPpL595ZYW++fAQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 22E653EA69;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6F60B3EA6D;
 	Tue,  3 Mar 2026 10:34:45 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 8yqECEW5pml9FQAAD6G6ig
+	id X3QwG0W5pmmkFQAAD6G6ig
 	(envelope-from <jack@suse.cz>); Tue, 03 Mar 2026 10:34:45 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id C8F9DA0AE1; Tue,  3 Mar 2026 11:34:40 +0100 (CET)
+	id 4FCEEA0B80; Tue,  3 Mar 2026 11:34:41 +0100 (CET)
 From: Jan Kara <jack@suse.cz>
 To: <linux-fsdevel@vger.kernel.org>
 Cc: Christian Brauner <brauner@kernel.org>,
@@ -91,9 +50,9 @@ Cc: Christian Brauner <brauner@kernel.org>,
 	linux-aio@kvack.org,
 	Benjamin LaHaise <bcrl@kvack.org>,
 	Jan Kara <jack@suse.cz>
-Subject: [PATCH 16/32] fs: Fold fsync_buffers_list() into sync_mapping_buffers()
-Date: Tue,  3 Mar 2026 11:34:05 +0100
-Message-ID: <20260303103406.4355-48-jack@suse.cz>
+Subject: [PATCH 31/32] kvm: Use private inode list instead of i_private_list
+Date: Tue,  3 Mar 2026 11:34:20 +0100
+Message-ID: <20260303103406.4355-63-jack@suse.cz>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260303101717.27224-1-jack@suse.cz>
 References: <20260303101717.27224-1-jack@suse.cz>
@@ -103,263 +62,91 @@ List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7504; i=jack@suse.cz; h=from:subject; bh=iAQYf1Qy8SGxN1+aEnxN/hmRSnVqswowuoNdYM87ou8=; b=owEBbQGS/pANAwAIAZydqgc/ZEDZAcsmYgBpprkret9/c1xpxPu/HVbqz9oF76wD6wt3S0VAk fZSs6HxtgCJATMEAAEIAB0WIQSrWdEr1p4yirVVKBycnaoHP2RA2QUCaaa5KwAKCRCcnaoHP2RA 2aDRB/9ONHR3CHXaC9Dt8EF2Alucrv+2KoC6QvP67hC5JUwzvTa04STNFTHTv7npgR30ioCCpK+ 7zu9PYgTPbCFxHvL/sswxIxHIFcUWDC30dN3vJ64bCztTB8UpfvcMKi4XlhX8oWbG4XXVDXyxb/ Y05ivmiBrVYouoa6YO1dSos2EL3Rx0cldyxvOaGh+78+gB6EX9EVOyTSrRECvHRNg+X044PWRbn TwWWZea+fqAt1U0FRMJP0o2FxOdEg+Rj+pl9QA9CO8A8eoI+bhK/MEnbkzZ+oklCkKxGYoTHEbf joYLTGBG6fqUxjxIJRqHZgbA+0IWj5gArfSKoTAX85VsJ1EW
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2129; i=jack@suse.cz; h=from:subject; bh=jRmpGnBIbXf3zwY1aurODz7DyXpIxnDKpqd2BEFflmQ=; b=owEBbQGS/pANAwAIAZydqgc/ZEDZAcsmYgBpprk4KwaWC8zyZ0s7V4lXzGzsQQHzPJJwD80C1 Zy1LnL7DwCJATMEAAEIAB0WIQSrWdEr1p4yirVVKBycnaoHP2RA2QUCaaa5OAAKCRCcnaoHP2RA 2bSEB/4h+viVsZtNldyok/qfyaKtPMr65DkOGhl1KBx7viW8XI3Jg99sH6b3b3LJxhWsD9vznvj UsjvvKMXRVTrRUop/xmuCm0BR1+F43XCOLruCIBpImghBT+yCdN6hwjrSt8o0FV+rt0vQw8vx/f RHup/w4Zcn4OtRHiDFDeXptIhUSdoXGB8f8kPQdk84DfGagyjnHpMuGomYGOCIBxeBkSz5Lr1ab aBP6abWoi4dzSvs94Obdaa2A/Mh9W55p8/Y0fG3fuiiUL3gISlSfYdTHFWqlUTqCBIGT9vLdJ/A 8rK1AUNHQXNplQIZTpWM1Gjo94jV/z0zzc/zI4qnNuETqgbt
 X-Developer-Key: i=jack@suse.cz; a=openpgp; fpr=93C6099A142276A28BBE35D815BC833443038D8C
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-5.30 / 50.00];
-	REPLY(-4.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,ZenIV.linux.org.uk,vger.kernel.org,mit.edu,gmail.com,suse.com,mail.parknet.co.jp,linux.dev,suse.de,kvack.org,suse.cz];
-	FROM_HAS_DN(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	R_RATELIMIT(0.00)[to_ip_from(RLck8brw5hxmszoarioc7838it)];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com]
-X-Spam-Flag: NO
-X-Spam-Score: -5.30
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Rspamd-Queue-Id: 799795BE32
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Rspamd-Action: no action
+X-Spam-Score: -4.00
 X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	REPLY(-4.00)[];
+	TAGGED_RCPT(0.00)[]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 
-There's only single caller of fsync_buffers_list() so untangle the code
-a bit by folding fsync_buffers_list() into sync_mapping_buffers(). Also
-merge the comments and update them to reflect current state of code.
+Instead of using mapping->i_private_list use a list in private part of
+the inode.
 
 Signed-off-by: Jan Kara <jack@suse.cz>
 ---
- fs/buffer.c | 180 +++++++++++++++++++++++-----------------------------
- 1 file changed, 80 insertions(+), 100 deletions(-)
+ virt/kvm/guest_memfd.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/fs/buffer.c b/fs/buffer.c
-index 1c0e7c81a38b..18012afb8289 100644
---- a/fs/buffer.c
-+++ b/fs/buffer.c
-@@ -54,7 +54,6 @@
+diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
+index 017d84a7adf3..6d36a7827870 100644
+--- a/virt/kvm/guest_memfd.c
++++ b/virt/kvm/guest_memfd.c
+@@ -30,6 +30,7 @@ struct gmem_file {
+ struct gmem_inode {
+ 	struct shared_policy policy;
+ 	struct inode vfs_inode;
++	struct list_head gem_file_list;
  
- #include "internal.h"
+ 	u64 flags;
+ };
+@@ -39,8 +40,8 @@ static __always_inline struct gmem_inode *GMEM_I(struct inode *inode)
+ 	return container_of(inode, struct gmem_inode, vfs_inode);
+ }
  
--static int fsync_buffers_list(spinlock_t *lock, struct list_head *list);
- static void submit_bh_wbc(blk_opf_t opf, struct buffer_head *bh,
- 			  enum rw_hint hint, struct writeback_control *wbc);
+-#define kvm_gmem_for_each_file(f, mapping) \
+-	list_for_each_entry(f, &(mapping)->i_private_list, entry)
++#define kvm_gmem_for_each_file(f, inode) \
++	list_for_each_entry(f, &GMEM_I(inode)->gem_file_list, entry)
  
-@@ -531,22 +530,96 @@ EXPORT_SYMBOL_GPL(inode_has_buffers);
-  * @mapping: the mapping which wants those buffers written
-  *
-  * Starts I/O against the buffers at mapping->i_private_list, and waits upon
-- * that I/O.
-+ * that I/O. Basically, this is a convenience function for fsync().  @mapping
-+ * is a file or directory which needs those buffers to be written for a
-+ * successful fsync().
-  *
-- * Basically, this is a convenience function for fsync().
-- * @mapping is a file or directory which needs those buffers to be written for
-- * a successful fsync().
-+ * We have conflicting pressures: we want to make sure that all
-+ * initially dirty buffers get waited on, but that any subsequently
-+ * dirtied buffers don't.  After all, we don't want fsync to last
-+ * forever if somebody is actively writing to the file.
-+ *
-+ * Do this in two main stages: first we copy dirty buffers to a
-+ * temporary inode list, queueing the writes as we go. Then we clean
-+ * up, waiting for those writes to complete. mark_buffer_dirty_inode()
-+ * doesn't touch b_assoc_buffers list if b_assoc_map is not NULL so we
-+ * are sure the buffer stays on our list until IO completes (at which point
-+ * it can be reaped).
-  */
- int sync_mapping_buffers(struct address_space *mapping)
+ /**
+  * folio_file_pfn - like folio_file_page, but return a pfn.
+@@ -202,7 +203,7 @@ static void kvm_gmem_invalidate_begin(struct inode *inode, pgoff_t start,
+ 
+ 	attr_filter = kvm_gmem_get_invalidate_filter(inode);
+ 
+-	kvm_gmem_for_each_file(f, inode->i_mapping)
++	kvm_gmem_for_each_file(f, inode)
+ 		__kvm_gmem_invalidate_begin(f, start, end, attr_filter);
+ }
+ 
+@@ -223,7 +224,7 @@ static void kvm_gmem_invalidate_end(struct inode *inode, pgoff_t start,
  {
- 	struct address_space *buffer_mapping =
- 				mapping->host->i_sb->s_bdev->bd_mapping;
-+	struct buffer_head *bh;
-+	int err = 0;
-+	struct blk_plug plug;
-+	LIST_HEAD(tmp);
+ 	struct gmem_file *f;
  
- 	if (list_empty(&mapping->i_private_list))
- 		return 0;
- 
--	return fsync_buffers_list(&buffer_mapping->i_private_lock,
--					&mapping->i_private_list);
-+	blk_start_plug(&plug);
-+
-+	spin_lock(&buffer_mapping->i_private_lock);
-+	while (!list_empty(&mapping->i_private_list)) {
-+		bh = BH_ENTRY(list->next);
-+		WARN_ON_ONCE(bh->b_assoc_map != mapping);
-+		__remove_assoc_queue(bh);
-+		/* Avoid race with mark_buffer_dirty_inode() which does
-+		 * a lockless check and we rely on seeing the dirty bit */
-+		smp_mb();
-+		if (buffer_dirty(bh) || buffer_locked(bh)) {
-+			list_add(&bh->b_assoc_buffers, &tmp);
-+			bh->b_assoc_map = mapping;
-+			if (buffer_dirty(bh)) {
-+				get_bh(bh);
-+				spin_unlock(&buffer_mapping->i_private_lock);
-+				/*
-+				 * Ensure any pending I/O completes so that
-+				 * write_dirty_buffer() actually writes the
-+				 * current contents - it is a noop if I/O is
-+				 * still in flight on potentially older
-+				 * contents.
-+				 */
-+				write_dirty_buffer(bh, REQ_SYNC);
-+
-+				/*
-+				 * Kick off IO for the previous mapping. Note
-+				 * that we will not run the very last mapping,
-+				 * wait_on_buffer() will do that for us
-+				 * through sync_buffer().
-+				 */
-+				brelse(bh);
-+				spin_lock(&buffer_mapping->i_private_lock);
-+			}
-+		}
-+	}
-+
-+	spin_unlock(&buffer_mapping->i_private_lock);
-+	blk_finish_plug(&plug);
-+	spin_lock(&buffer_mapping->i_private_lock);
-+
-+	while (!list_empty(&tmp)) {
-+		bh = BH_ENTRY(tmp.prev);
-+		get_bh(bh);
-+		__remove_assoc_queue(bh);
-+		/* Avoid race with mark_buffer_dirty_inode() which does
-+		 * a lockless check and we rely on seeing the dirty bit */
-+		smp_mb();
-+		if (buffer_dirty(bh)) {
-+			list_add(&bh->b_assoc_buffers,
-+				 &mapping->i_private_list);
-+			bh->b_assoc_map = mapping;
-+		}
-+		spin_unlock(&buffer_mapping->i_private_lock);
-+		wait_on_buffer(bh);
-+		if (!buffer_uptodate(bh))
-+			err = -EIO;
-+		brelse(bh);
-+		spin_lock(&buffer_mapping->i_private_lock);
-+	}
-+	spin_unlock(&buffer_mapping->i_private_lock);
-+	return err;
+-	kvm_gmem_for_each_file(f, inode->i_mapping)
++	kvm_gmem_for_each_file(f, inode)
+ 		__kvm_gmem_invalidate_end(f, start, end);
  }
- EXPORT_SYMBOL(sync_mapping_buffers);
  
-@@ -719,99 +792,6 @@ bool block_dirty_folio(struct address_space *mapping, struct folio *folio)
+@@ -609,7 +610,7 @@ static int __kvm_gmem_create(struct kvm *kvm, loff_t size, u64 flags)
+ 	kvm_get_kvm(kvm);
+ 	f->kvm = kvm;
+ 	xa_init(&f->bindings);
+-	list_add(&f->entry, &inode->i_mapping->i_private_list);
++	list_add(&f->entry, &GMEM_I(inode)->gem_file_list);
+ 
+ 	fd_install(fd, file);
+ 	return fd;
+@@ -945,6 +946,7 @@ static struct inode *kvm_gmem_alloc_inode(struct super_block *sb)
+ 	mpol_shared_policy_init(&gi->policy, NULL);
+ 
+ 	gi->flags = 0;
++	INIT_LIST_HEAD(&gi->gem_file_list);
+ 	return &gi->vfs_inode;
  }
- EXPORT_SYMBOL(block_dirty_folio);
  
--/*
-- * Write out and wait upon a list of buffers.
-- *
-- * We have conflicting pressures: we want to make sure that all
-- * initially dirty buffers get waited on, but that any subsequently
-- * dirtied buffers don't.  After all, we don't want fsync to last
-- * forever if somebody is actively writing to the file.
-- *
-- * Do this in two main stages: first we copy dirty buffers to a
-- * temporary inode list, queueing the writes as we go.  Then we clean
-- * up, waiting for those writes to complete.
-- * 
-- * During this second stage, any subsequent updates to the file may end
-- * up refiling the buffer on the original inode's dirty list again, so
-- * there is a chance we will end up with a buffer queued for write but
-- * not yet completed on that list.  So, as a final cleanup we go through
-- * the osync code to catch these locked, dirty buffers without requeuing
-- * any newly dirty buffers for write.
-- */
--static int fsync_buffers_list(spinlock_t *lock, struct list_head *list)
--{
--	struct buffer_head *bh;
--	struct address_space *mapping;
--	int err = 0;
--	struct blk_plug plug;
--	LIST_HEAD(tmp);
--
--	blk_start_plug(&plug);
--
--	spin_lock(lock);
--	while (!list_empty(list)) {
--		bh = BH_ENTRY(list->next);
--		mapping = bh->b_assoc_map;
--		__remove_assoc_queue(bh);
--		/* Avoid race with mark_buffer_dirty_inode() which does
--		 * a lockless check and we rely on seeing the dirty bit */
--		smp_mb();
--		if (buffer_dirty(bh) || buffer_locked(bh)) {
--			list_add(&bh->b_assoc_buffers, &tmp);
--			bh->b_assoc_map = mapping;
--			if (buffer_dirty(bh)) {
--				get_bh(bh);
--				spin_unlock(lock);
--				/*
--				 * Ensure any pending I/O completes so that
--				 * write_dirty_buffer() actually writes the
--				 * current contents - it is a noop if I/O is
--				 * still in flight on potentially older
--				 * contents.
--				 */
--				write_dirty_buffer(bh, REQ_SYNC);
--
--				/*
--				 * Kick off IO for the previous mapping. Note
--				 * that we will not run the very last mapping,
--				 * wait_on_buffer() will do that for us
--				 * through sync_buffer().
--				 */
--				brelse(bh);
--				spin_lock(lock);
--			}
--		}
--	}
--
--	spin_unlock(lock);
--	blk_finish_plug(&plug);
--	spin_lock(lock);
--
--	while (!list_empty(&tmp)) {
--		bh = BH_ENTRY(tmp.prev);
--		get_bh(bh);
--		mapping = bh->b_assoc_map;
--		__remove_assoc_queue(bh);
--		/* Avoid race with mark_buffer_dirty_inode() which does
--		 * a lockless check and we rely on seeing the dirty bit */
--		smp_mb();
--		if (buffer_dirty(bh)) {
--			list_add(&bh->b_assoc_buffers,
--				 &mapping->i_private_list);
--			bh->b_assoc_map = mapping;
--		}
--		spin_unlock(lock);
--		wait_on_buffer(bh);
--		if (!buffer_uptodate(bh))
--			err = -EIO;
--		brelse(bh);
--		spin_lock(lock);
--	}
--	
--	spin_unlock(lock);
--	return err;
--}
--
- /*
-  * Invalidate any and all dirty buffers on a given inode.  We are
-  * probably unmounting the fs, but that doesn't mean we have already
 -- 
 2.51.0
 
