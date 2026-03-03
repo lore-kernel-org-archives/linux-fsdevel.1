@@ -1,213 +1,167 @@
-Received: from fout-a2-smtp.messagingengine.com (fout-a2-smtp.messagingengine.com [103.168.172.145])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9540394784
-	for <linux-fsdevel@vger.kernel.org>; Tue,  3 Mar 2026 10:28:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.145
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D05739D6CB
+	for <linux-fsdevel@vger.kernel.org>; Tue,  3 Mar 2026 10:34:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772533715; cv=none; b=Ntw6FkZzFAbLMQgyEdP3ajkQetr6HHoxnn7ObHv4ZZHEpxU5sMqWeWIf3lcgDhu1Ei+2/C5wEHl7wQCvz9iGT0FixiCBRQeD90ZBV1cUTa1VFH3d706rhhU59aYUhc8UcvwCQEOnNBDAhj7+sb+GWoIds1RYolVIpn4wYYt0YOI=
+	t=1772534084; cv=none; b=C1w+gcmdILdH/lNkXCAN0VHZWlVmQD6yonrbaLbW2bZUl/Ba6cGe15uDzAhQZ5t6WpqLvnpXzcQvE8QrWbflVtQBUZMUhXPQKy++pUNl3CGxTxdT0rPT+XhMBZt4DvzKWPHcAoMi+AqQ9s7k6Ldx5igA5Ag+UOaELk95znRnhZs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772533715; c=relaxed/simple;
-	bh=gvz/8x7Tf2rbhIatR3v0P6bGPCOYGHh4sU9EkiwuiN0=;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=tiEwJJ1YF92qx3NXuU5RVVLdfRvuuZeGtVLgEUb7sACo7eBk05H1ytRU6crCZGz+G9O6TdMPA3ovKXjqqL/Z3XZ58XdQF4Vg90o0jkbh+yvB8IujU/D4hWqM0j09JmmUj7P3hSY7bwdP75cRGNpjI6bfvp6K0DzYobEEbMXcHg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=VIGbJSW1; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=aL6HYt4o; arc=none smtp.client-ip=103.168.172.145
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	s=arc-20240116; t=1772534084; c=relaxed/simple;
+	bh=rtWRYYCi+3xOxheWOY6jlzCuMWKqys5cHOCNYJEuNWY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=SzZ/v4KLLnkd1mlzD5a8zBRxLciId8wbzPM4vEJURJTxRBEVOatZHLHKlF21FfJIW7UUFia+dk0dMC73vwzMgep+xUI3H5tC4CztXn7ReVK3Uyh9hKvQkWK88E37Ewn0b1KCaryX3gdjOxX4BOMtaM/Svhnfat+xxhfNNdpB3I0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=HUtj8IoW; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=i70SHgcT; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=HUtj8IoW; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=i70SHgcT; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="VIGbJSW1";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="aL6HYt4o"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfout.phl.internal (Postfix) with ESMTP id 28261EC05A4;
-	Tue,  3 Mar 2026 05:28:32 -0500 (EST)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Tue, 03 Mar 2026 05:28:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm1; t=
-	1772533712; x=1772620112; bh=GDp+I2LdiRG8B32IgsU1Nfb1ljxEM2CAWWU
-	+Pns+apY=; b=VIGbJSW1Q+zSXXu4oBJXA7lgtO8qkApdUxwLeUR9hsvhJXTUAIH
-	LEKt8Qi1Wbdmm9XDABMZl7BVWCQWnKr4x4Vgr9po4MqsIUrVhA+CbD+vxO/6XW/F
-	UVk+dwYeZ+XVX3kcGe4a25imRzBY3s10Flj3HMP7tpVIXCQZRj/NLw/LWUnCCk02
-	WX3Fh87Yci9dZn0AJEDLFR0eGDaKoxwCyzdENjaZvw/ku1MNav6LkWg4Kt0+fKXF
-	HycoJrpM+hGrOab5jH7sfBoEfIyNetaQzTNrOEi8ftUlBo71U/8XZokCJCGAcu6i
-	wk9nt49lUngkVmho+lqJ8HCYF0A+IObKskA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1772533712; x=
-	1772620112; bh=GDp+I2LdiRG8B32IgsU1Nfb1ljxEM2CAWWU+Pns+apY=; b=a
-	L6HYt4oZtF+6dF6RavGkRBJ4HPXPJKw+RT0LR4B7d2/4I7qFPlg8wvpelC7LFh1Z
-	3i1VQyVJYd+BAic8Uo5ckCdE+BPSP/z7iILi6f8BaBumY4lhugNp1Ayqlcqom9IU
-	DKjVJsND9fL/h2dUMr1mobgx/0TkkvM9bs35O9Kmfb1CKdVo+8wJZV9wMyc+NAn5
-	0Ai1xXbHPCmFsAYUgL0jzX54NNtYPCyBqL8jH34pPWSje9zZHUhwG0lstX831oZE
-	XPxsIzJW5O/qSBpz335QJSy2YWko1OxaF5pFmULk+EOGKP++S+MhIIq3IoEGJ7jF
-	3BEcge3cYPjUjtc9TDe+w==
-X-ME-Sender: <xms:z7emaah2R0aoDGVjY9IVLYq_Xjlcs_ZMgD6IjpboS3f7CHssAvAd4w>
-    <xme:z7emabcrikWGK1sBHR03R6UukcSluUtkFOdV-1t7NVhLKW6feUYFRpvqL1WOdoPw0
-    ayRba_S00alOM4jWY0Yg8zcGDTMECuu7bE-b-kg-_GaLStdTg>
-X-ME-Received: <xmr:z7emaSwD1obnYfgK5vt08p1usLu0kHg5r1B3PGxU_z9c2UhAYWD_w79WJ36smVQ_HI-cmBy4ENFOqURitklbvG6I_YFrQ3xUHrzkMOHMhFh8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddviedtfeegucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurheptgfgggfhvfevufgjfhffkfhrsehtqhertddttdejnecuhfhrohhmpefpvghilheu
-    rhhofihnuceonhgvihhlsgesohifnhhmrghilhdrnhgvtheqnecuggftrfgrthhtvghrnh
-    epvdeuteelkeejkeevteetvedtkeegleduieeftdeftefgtddtleejgfelgfevffeinecu
-    ffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurf
-    grrhgrmhepmhgrihhlfhhrohhmpehnvghilhgssehofihnmhgrihhlrdhnvghtpdhnsggp
-    rhgtphhtthhopeelpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehvihhrohesii
-    gvnhhivhdrlhhinhhugidrohhrghdruhhkpdhrtghpthhtoheplhhinhhugidqfhhsuggv
-    vhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehjrggtkhesshhush
-    gvrdgtiidprhgtphhtthhopegthhhutghkrdhlvghvvghrsehorhgrtghlvgdrtghomhdp
-    rhgtphhtthhopehgrhgvghhkhheslhhinhhugihfohhunhgurghtihhonhdrohhrghdprh
-    gtphhtthhopehjlhgrhihtohhnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegsrhgr
-    uhhnvghrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehrohhsthgvughtsehgohhoug
-    hmihhsrdhorhhgpdhrtghpthhtoheprghmihhrjeefihhlsehgmhgrihhlrdgtohhm
-X-ME-Proxy: <xmx:z7emaa3IVDwjnDdhMrGu_zrrHGNde5reM4TbT_0fltLKqgF_qi70Xg>
-    <xmx:z7emaYwYh1V_8GiWMQRDf-2Jtu9uY81Oyacw7QGwgzkWSrSPxhBbkw>
-    <xmx:z7emafU8GATRztJBBmT5-3J4CA7Wd5SOzdWipFbOshgCOPbEXyAcIA>
-    <xmx:z7emaU_qD4kfV4mZdZrNdcov9hydRtlXAKMvOPGJQtHZlk9kHnLR7g>
-    <xmx:0LemadmoczgGJ_OHcB-9aQnG-yIZSK_B6qQ1gKv1Q-btlYX7cPHUYhZM>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 3 Mar 2026 05:28:28 -0500 (EST)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="HUtj8IoW";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="i70SHgcT";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="HUtj8IoW";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="i70SHgcT"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A35AA3F8ED;
+	Tue,  3 Mar 2026 10:34:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1772534080; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2PW0X+G87Q0jqXEESIhnV7Zw/Azr5UfRKiauVgcVR0w=;
+	b=HUtj8IoWsOwo/attLdC4UcmKD4HtbndQZYTS7fZBHo0KwodaHnCqBxznjievlQ4UQJm89Z
+	Lg0YPyK4RuNYs8230r3At73PGZUj43N6khysk9sPk1kypegI5rF5mAdnKgHIZt7s9+3yp8
+	/LD9SUcTczbjbShDqyJXg/mzfA/ruYk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1772534080;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2PW0X+G87Q0jqXEESIhnV7Zw/Azr5UfRKiauVgcVR0w=;
+	b=i70SHgcTNUJ7NMAjo96n8YgGmzVbHFUF6jPlmdsdNnCuSZlw/33zd7Kq6bFyPqdgt7A+Qu
+	zYwNIB6TLNM/qYCA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1772534080; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2PW0X+G87Q0jqXEESIhnV7Zw/Azr5UfRKiauVgcVR0w=;
+	b=HUtj8IoWsOwo/attLdC4UcmKD4HtbndQZYTS7fZBHo0KwodaHnCqBxznjievlQ4UQJm89Z
+	Lg0YPyK4RuNYs8230r3At73PGZUj43N6khysk9sPk1kypegI5rF5mAdnKgHIZt7s9+3yp8
+	/LD9SUcTczbjbShDqyJXg/mzfA/ruYk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1772534080;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2PW0X+G87Q0jqXEESIhnV7Zw/Azr5UfRKiauVgcVR0w=;
+	b=i70SHgcTNUJ7NMAjo96n8YgGmzVbHFUF6jPlmdsdNnCuSZlw/33zd7Kq6bFyPqdgt7A+Qu
+	zYwNIB6TLNM/qYCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 96B373EA69;
+	Tue,  3 Mar 2026 10:34:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Hj3EJEC5pmnDFAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 03 Mar 2026 10:34:40 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 51FE1A0A0B; Tue,  3 Mar 2026 11:34:40 +0100 (CET)
+From: Jan Kara <jack@suse.cz>
+To: <linux-fsdevel@vger.kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>,
+	Al Viro <viro@ZenIV.linux.org.uk>,
+	<linux-ext4@vger.kernel.org>,
+	Ted Tso <tytso@mit.edu>,
+	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
+	David Sterba <dsterba@suse.com>,
+	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+	Muchun Song <muchun.song@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	David Hildenbrand <david@kernel.org>,
+	linux-mm@kvack.org,
+	linux-aio@kvack.org,
+	Benjamin LaHaise <bcrl@kvack.org>,
+	Jan Kara <jack@suse.cz>
+Subject: [PATCH 01/32] fat: Sync and invalidate metadata buffers from fat_evict_inode()
+Date: Tue,  3 Mar 2026 11:33:50 +0100
+Message-ID: <20260303103406.4355-33-jack@suse.cz>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260303101717.27224-1-jack@suse.cz>
+References: <20260303101717.27224-1-jack@suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Amir Goldstein" <amir73il@gmail.com>
-Cc: "Chuck Lever" <chuck.lever@oracle.com>, "Jan Kara" <jack@suse.cz>,
- "Christian Brauner" <brauner@kernel.org>, "Al Viro" <viro@zeniv.linux.org.uk>,
- "Jeff Layton" <jlayton@kernel.org>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Steven Rostedt" <rostedt@goodmis.org>, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 2/2] fs: use simple_end_creating helper to consolidate
- fsnotify hooks
-In-reply-to:
- <CAOQ4uxjHeUBfFLwahmaHj+ZKq=CxQGShi1-m_HQuWSjMa=f1-A@mail.gmail.com>
-References: <20260302183741.1308767-1-amir73il@gmail.com>,
- <20260302183741.1308767-3-amir73il@gmail.com>,
- <fc9c776f-bc8b-4081-ad9e-b4ebc40b9974@oracle.com>,
- <CAOQ4uxjHeUBfFLwahmaHj+ZKq=CxQGShi1-m_HQuWSjMa=f1-A@mail.gmail.com>
-Date: Tue, 03 Mar 2026 21:28:23 +1100
-Message-id: <177253370359.7472.12148587434874484168@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=858; i=jack@suse.cz; h=from:subject; bh=rtWRYYCi+3xOxheWOY6jlzCuMWKqys5cHOCNYJEuNWY=; b=owEBbQGS/pANAwAIAZydqgc/ZEDZAcsmYgBpprkeVzC4YbQ9T0Z4TeuYJcjZHgbt9+t9ryNIR 3V2CHcYpCeJATMEAAEIAB0WIQSrWdEr1p4yirVVKBycnaoHP2RA2QUCaaa5HgAKCRCcnaoHP2RA 2ca8CACs8G3pdHr9kW9Q+TKPXSn2npqd4bM2vAfsVoOQ/P2gyi0t8/O8mkzMj/CohCUiyH0qNTc 4TySVlIGRafg5gnSttomZAd3lIx9qrRY2p9FsV2YnjfMGJJKOjm4MGnc7uCut4GOf5H4MUpHrfM kY5/VzZQy7/HyZE435Tg5wuWLOXdMNY1sA9wd2bbSwPO7ZB6kDU1huFJDvu6ik/KYUxgbFeZYzR WO3GlipQ/dmUqVw4HjTWkPA+Xifi2VZ/SnisOeUBk51Es0ro0swV0JsRiTQ7L1nlj5s/f4507Ez +tW0uBn0ZVAmxI2PNJ3LiduM4x+XORJJYCHHL+YkYc/USDl2
+X-Developer-Key: i=jack@suse.cz; a=openpgp; fpr=93C6099A142276A28BBE35D815BC833443038D8C
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -5.30
+X-Spam-Level: 
+X-Spamd-Result: default: False [-5.30 / 50.00];
+	REPLY(-4.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,ZenIV.linux.org.uk,vger.kernel.org,mit.edu,gmail.com,suse.com,mail.parknet.co.jp,linux.dev,suse.de,kvack.org,suse.cz];
+	FROM_HAS_DN(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	R_RATELIMIT(0.00)[to_ip_from(RLck8brw5hxmszoarioc7838it)];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com]
+X-Spam-Flag: NO
 
-On Tue, 03 Mar 2026, Amir Goldstein wrote:
-> On Mon, Mar 2, 2026 at 11:28=E2=80=AFPM Chuck Lever <chuck.lever@oracle.com=
-> wrote:
-> >
-> > On 3/2/26 1:37 PM, Amir Goldstein wrote:
-> > > Add simple_end_creating() helper which combines fsnotify_create/mkdir()
-> > > hook and simple_done_creating().
-> > >
-> > > Use the new helper to consolidate this pattern in several pseudo fs
-> > > which had open coded fsnotify_create/mkdir() hooks:
-> > > binderfs, debugfs, nfsctl, tracefs, rpc_pipefs.
-> > >
-> > > For those filesystems, the paired fsnotify_delete() hook is already
-> > > inside the library helper simple_recursive_removal().
-> > >
-> > > Note that in debugfs_create_symlink(), the fsnotify hook was missing,
-> > > so the missing hook is fixed by this change.
-> > >
-> > > Signed-off-by: Amir Goldstein <amir73il@gmail.com>
-> >
-> > > diff --git a/fs/nfsd/nfsctl.c b/fs/nfsd/nfsctl.c
-> > > index e9acd2cd602cb..6e600d52b66d0 100644
-> > > --- a/fs/nfsd/nfsctl.c
-> > > +++ b/fs/nfsd/nfsctl.c
-> > > @@ -17,7 +17,6 @@
-> > >  #include <linux/sunrpc/rpc_pipe_fs.h>
-> > >  #include <linux/sunrpc/svc.h>
-> > >  #include <linux/module.h>
-> > > -#include <linux/fsnotify.h>
-> > >  #include <linux/nfslocalio.h>
-> > >
-> > >  #include "idmap.h"
-> > > @@ -1146,8 +1145,7 @@ static struct dentry *nfsd_mkdir(struct dentry *p=
-arent, struct nfsdfs_client *nc
-> > >       }
-> > >       d_make_persistent(dentry, inode);
-> > >       inc_nlink(dir);
-> > > -     fsnotify_mkdir(dir, dentry);
-> > > -     simple_done_creating(dentry);
-> > > +     simple_end_creating(dentry);
-> > >       return dentry;  // borrowed
-> > >  }
-> > >
-> > > @@ -1178,8 +1176,7 @@ static void _nfsd_symlink(struct dentry *parent, =
-const char *name,
-> > >       inode->i_size =3D strlen(content);
-> > >
-> > >       d_make_persistent(dentry, inode);
-> > > -     fsnotify_create(dir, dentry);
-> > > -     simple_done_creating(dentry);
-> > > +     simple_end_creating(dentry);
-> > >  }
-> > >  #else
-> > >  static inline void _nfsd_symlink(struct dentry *parent, const char *na=
-me,
-> > > @@ -1219,7 +1216,6 @@ static int nfsdfs_create_files(struct dentry *roo=
-t,
-> > >                               struct nfsdfs_client *ncl,
-> > >                               struct dentry **fdentries)
-> > >  {
-> > > -     struct inode *dir =3D d_inode(root);
-> > >       struct dentry *dentry;
-> > >
-> > >       for (int i =3D 0; files->name && files->name[0]; i++, files++) {
-> > > @@ -1236,10 +1232,9 @@ static int nfsdfs_create_files(struct dentry *ro=
-ot,
-> > >               inode->i_fop =3D files->ops;
-> > >               inode->i_private =3D ncl;
-> > >               d_make_persistent(dentry, inode);
-> > > -             fsnotify_create(dir, dentry);
-> > >               if (fdentries)
-> > >                       fdentries[i] =3D dentry; // borrowed
-> > > -             simple_done_creating(dentry);
-> > > +             simple_end_creating(dentry);
-> > >       }
-> > >       return 0;
-> > >  }
-> >
-> > For the NFSD hunks:
-> >
-> > Acked-by: Chuck Lever <chuck.lever@oracle.com>
->=20
-> FWIW, you are technically also CCed for the sunrpc hunk ;)
->=20
-> BTW, forgot to CC Neil and mention this patch:
-> https://lore.kernel.org/linux-fsdevel/20260224222542.3458677-5-neilb@ownmai=
-l.net/
->=20
-> Since simple_done_creating() starts using end_creating()
-> so should simple_end_creating().
-> I will change that in v2 after waiting for more feedback on v1.
->=20
-> I don't want to get into naming discussion - I will just say that I wanted
-> to avoid renaming simple_done_creating() to avoid unneeded churn.
->=20
-> Thanks,
-> Amir.
->=20
+There are only very few filesystems using generic metadata buffer head
+tracking and everybody is paying the overhead. When we remove this
+tracking for inode reclaim code .evict will start to see inodes with
+metadata buffers attached so write them out and prune them.
 
-Thanks for the Cc.
+Signed-off-by: Jan Kara <jack@suse.cz>
+---
+ fs/fat/inode.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Would there be a problem with doing the fs-notify for *every* caller of
-simple_done_creating?
-It does make sense to include the notify in the common code, but having
-two different interfaces that only differ in the notification (and don't
-contain some form of "notify" in their name) does seem like a recipe for
-confusion.
+diff --git a/fs/fat/inode.c b/fs/fat/inode.c
+index 3cc5fb01afa1..ce88602b0d57 100644
+--- a/fs/fat/inode.c
++++ b/fs/fat/inode.c
+@@ -657,8 +657,10 @@ static void fat_evict_inode(struct inode *inode)
+ 	if (!inode->i_nlink) {
+ 		inode->i_size = 0;
+ 		fat_truncate_blocks(inode, 0);
+-	} else
++	} else {
++		sync_mapping_buffers(inode->i_mapping);
+ 		fat_free_eofblocks(inode);
++	}
+ 
+ 	invalidate_inode_buffers(inode);
+ 	clear_inode(inode);
+-- 
+2.51.0
 
-Thanks,
-NeilBrown
