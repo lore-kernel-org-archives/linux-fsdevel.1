@@ -1,97 +1,181 @@
-Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com [209.85.210.70])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80996386C0A
-	for <linux-fsdevel@vger.kernel.org>; Tue,  3 Mar 2026 08:06:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.70
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CE48319858
+	for <linux-fsdevel@vger.kernel.org>; Tue,  3 Mar 2026 08:28:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772525190; cv=none; b=q2MvkEVjJkGQMIQKDxDayit0tTm0w+Fixa3Q327235OFnkBjDPmoZmnWbukU6JqagAjt1sBxUprZFZ/wSUnP5ZBPDv/OQE9JmSl+E1CVVX/paaLrLDYcemlra9dpAHeSZ60x6NgsYI5WIm8M99ckch18VrakBXTbK+IweEIhWCU=
+	t=1772526512; cv=none; b=PxufQyBsFFkE1GjO528qluma86sAop+kgayHaY/l12HEF/sSgTqwj6nJruu37L8+ZpyE+TvQmDhsV4mgzIcwCMRO04rK/NXV85LnmfPNFMBpz4SnnVVit3c9uEMW9g2+ebFbgg4JUuFsZ8WWFT5QS3ncEMilc1ddW/iclaLeO1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772525190; c=relaxed/simple;
-	bh=sHxlB3zCfQ91w9dUsT75JxLL8VrdvktIH1CmrgK03wQ=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=RZ9/laIyWBz7stib8wtOT0SvXkSw7Dbu1nM75qPjj6iE4YBFV+fv4HJ/v7uoghn5dXAwwbxibCwMmnSVGjbIMs+WpDyRBCqdhBjiK0t2bJyRbqMWjzbaluxmOTfwDFelz1xXhhJXrc7/DqJLfz8j5V0fpYVVuKzoAakOLTu/4xs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-ot1-f70.google.com with SMTP id 46e09a7af769-7d4d4db1523so27816489a34.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 03 Mar 2026 00:06:29 -0800 (PST)
+	s=arc-20240116; t=1772526512; c=relaxed/simple;
+	bh=Aj5EdWjVF2jxAv9z+0TobEuciQMJWsagsW0+QMnh1Sw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XU83CwAXusB5/UHrEXTTY1HXzPvq0/mrloQ/Q5mDBP+oUZdaXQYU41k7i7BL+cYE/tCna4oJs6EVO1NUc7pUrQUjuydRC+xs90bxHOgXf3ooMyDv5iIvrCLL5qs1cCrdUQeBft9EvARj90+EfUe/A19zhabXFTrk85QsPNKxozI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=auuNx0TI; arc=none smtp.client-ip=209.85.208.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="auuNx0TI"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-65f812e0d93so8395990a12.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 03 Mar 2026 00:28:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772526510; x=1773131310; darn=vger.kernel.org;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tvQ9ogjqY7GpWZR0jhfLALG/vdl5wh/KcgbqbjmLgoM=;
+        b=auuNx0TITUBFiDejhfcWAgaKfZGi66w9epcPluFifmQQVMHeAbWmAbxxpkd00+voNs
+         VaLtWNSYtcrnH1IfNzIocbnswtPjEnfpYwfmd1gqQ9s8eMB7uuISwzOjt9fotju89BYB
+         /h0GTQR6udvguK8EEgTsIZtJPn35KqpS+Vfm0Hhh7gsKpTcggxfebbDMl/EnL9M+m+xA
+         4G0eAdK05eb0D/9BZdnub7EdoCnrSVgfuVVe7xGi9/z2mxcjz+2stb0un8I4hcUoVGxw
+         bLf/Br2IUi7heuQHX3Pfk3TBLK3EsG5LzoS4pki/7ia0j0qT52QWIdTYGgaJ1bqX/+0+
+         HETg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772525188; x=1773129988;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/d4LObrNVHsWNJkhsJ6Yu7SkS9ZlWkbbvw8wRBU8tBE=;
-        b=VsbVBUMOnKXcLPEhiDQxMazkDvlxvlLBNr2wFCWHiYy9S6VHoigp6v9bo8PhaDjrCn
-         XXEr+uEgi5yKn2HhkDU5azLnN6sR/9N7D3zjNI9Cul1YmHpo3kisEwXikxHH7DulB3R+
-         txuYI/tuD2HGBnhQCHIN0QelrkJULsdJ62O3+bq4/kxW8RWkyLJzP0hW4vmF+GJfMUUv
-         Isc+6fC5XiI2+BYSOFtyHwgkLDkexyNyCc9yx0XVgOcVOLjvmlBWa5870I/t4KocwGID
-         DBU00L15QxTLiqUZ5h+40GYDmU8WTTdQ54Gug8dAswVKGmVGBeVwF2Nxr5NJFcz7c3w9
-         eklA==
-X-Forwarded-Encrypted: i=1; AJvYcCXf/fjzp7gFWGLIifj/grywCIRd/6u5vmGtkT4M8JR1mQRDpdeW4b/7ACNwa8pyj+Nd45F4j3Nv2NxWSW9c@vger.kernel.org
-X-Gm-Message-State: AOJu0YwUbxxlEO5l7PvV6EcIXwQywAQYjyJYT/PPk+NAMyQtrxA5wGJk
-	1MVPoCTKtVjjhQxzHMqmF4p8jMrf+qibuBkDMTa3r+s0pLUOE+SNpGs6D90wZKIb7py5QogQojq
-	6Sv4GOnEZokwVktNx3aqxAI9ulrTyz/8HyiTJsYaBzyFxyojD5Jx52zWXVA8=
+        d=1e100.net; s=20230601; t=1772526510; x=1773131310;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tvQ9ogjqY7GpWZR0jhfLALG/vdl5wh/KcgbqbjmLgoM=;
+        b=qkaBjpZGXv4I2JPbYxPGhpeVpWeBAXP6G13LiZQeQUOqfhIr+hztvLvoR6T6OfoaN6
+         tQNOa7kftuUa/BYT+eV5pRjqZ1/m3O7eaaTUGXUCP9AkoLWxbapHPGYbtiNYuKQvW63S
+         V+r8mxgj7Xwk4KQDJvRRcJj2kYbnNDjmOE85NZtx1m/phOecaYwCO+a3QDu6iyWwFkeU
+         OeUOVeNb5nD+Q/NGWSDURRDElivLp3N/YN5uZg+eflTzLgSVkt08eDdVzY0I5udjK3wT
+         /X+hnY+E1/o6MCBs5N7DlZ9wAuXwlHtnPTVbor+Ot08fQqoCl65FP6I5dIEE1dobfxR2
+         Inog==
+X-Forwarded-Encrypted: i=1; AJvYcCUP/tDc4eVj7479vftj9M3yoJhKdQp/gnHFpPRPRsSei3DZ4k8tqthMyPNxUR1NSBKIvmAw8sNSSkfUBZiD@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx0beoF4Lkzhf8SpX+/oYJPhiWc8eoJuUNAEZBvWKMzAl21Ctci
+	sMfFFozeGcvUswCWJOyFqWvNS7HdBrH1x/8dkmmaB2kjwXhjNBt168A8
+X-Gm-Gg: ATEYQzzq+KbPts1tsLDkf4SJndQwNi+c1jXXqgCzCoahHu+hXGTayh1kGcfygdM/ybT
+	0CjlPJJoNO6XiwzEgp422Tse7TX6ee10aN3hvZ+/2xWngsYy0PnvdPL8DKJtqOn3fLuW05C71dI
+	s+dxnz4h3OMEgWvGqY1mlLML9WVwnxMBrjERipp1ORaXRnMgzqlt8xpoYM3z7G4Tfgu62KnavnF
+	0+TYEnC4h5Cxdiu+owqxyzV10IobgREWXchpd3oX+x4byKRAly2MbioyAZxrZvvmkmLO5lgruq6
+	URXkcQziuT+kTFYvQJYWEtjcxkycjo+FYnqvRdhd5kFkuUsQn7c6T9VOK3oiYgbWiWIn732rf19
+	I/QzXg+kjqRWwr7YPDpwt5AcfWXpAMsanBF25+Pr9hdwdkCRB7CoEpFdgecazkj0UJQmEzYSKzj
+	8qqLdTzS3WDIBC8ogA9iGjqg==
+X-Received: by 2002:a17:907:9492:b0:b93:94b9:26fe with SMTP id a640c23a62f3a-b9394b98ceamr771288166b.52.1772526509327;
+        Tue, 03 Mar 2026 00:28:29 -0800 (PST)
+Received: from localhost ([185.92.221.13])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b935ac70b01sm559271466b.23.2026.03.03.00.28.28
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 03 Mar 2026 00:28:28 -0800 (PST)
+Date: Tue, 3 Mar 2026 08:28:28 +0000
+From: Wei Yang <richard.weiyang@gmail.com>
+To: Zi Yan <ziy@nvidia.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Hugh Dickins <hughd@google.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+	Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+	Lance Yang <lance.yang@linux.dev>,
+	Matthew Wilcox <willy@infradead.org>,
+	Bas van Dijk <bas@dfinity.org>, Eero Kelly <eero.kelly@dfinity.org>,
+	Andrew Battat <andrew.battat@dfinity.org>,
+	Adam Bratschi-Kaye <adam.bratschikaye@dfinity.org>,
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH v2] mm/huge_memory: fix a folio_split() race condition
+ with folio_try_get()
+Message-ID: <20260303082828.x2gypytceqn6pb6x@master>
+Reply-To: Wei Yang <richard.weiyang@gmail.com>
+References: <20260302203159.3208341-1-ziy@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:1794:b0:679:a650:cc0b with SMTP id
- 006d021491bc7-679faf3393amr8859377eaf.51.1772525188343; Tue, 03 Mar 2026
- 00:06:28 -0800 (PST)
-Date: Tue, 03 Mar 2026 00:06:28 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <69a69684.050a0220.21ae90.0007.GAE@google.com>
-Subject: [syzbot] Monthly hfs report (Mar 2026)
-From: syzbot <syzbot+list619d5de2eff2c556826f@syzkaller.appspotmail.com>
-To: frank.li@vivo.com, glaubitz@physik.fu-berlin.de, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	slava@dubeyko.com, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260302203159.3208341-1-ziy@nvidia.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 
-Hello hfs maintainers/developers,
+On Mon, Mar 02, 2026 at 03:31:59PM -0500, Zi Yan wrote:
+>During a pagecache folio split, the values in the related xarray should not
+>be changed from the original folio at xarray split time until all
+>after-split folios are well formed and stored in the xarray. Current use
+>of xas_try_split() in __split_unmapped_folio() lets some after-split folios
+>show up at wrong indices in the xarray. When these misplaced after-split
+>folios are unfrozen, before correct folios are stored via __xa_store(), and
+>grabbed by folio_try_get(), they are returned to userspace at wrong file
+>indices, causing data corruption. More detailed explanation is at the
+>bottom.
+>
+>The reproducer is at: https://github.com/dfinity/thp-madv-remove-test
+>It
+>1. creates a memfd,
+>2. forks,
+>3. in the child process, maps the file with large folios (via shmem code
+>   path) and reads the mapped file continuously with 16 threads,
+>4. in the parent process, uses madvise(MADV_REMOVE) to punch poles in the
+>   large folio.
+>
+>Data corruption can be observed without the fix. Basically, data from a
+>wrong page->index is returned.
+>
+>Fix it by using the original folio in xas_try_split() calls, so that
+>folio_try_get() can get the right after-split folios after the original
+>folio is unfrozen.
+>
+>Uniform split, split_huge_page*(), is not affected, since it uses
+>xas_split_alloc() and xas_split() only once and stores the original folio
+>in the xarray. Change xas_split() used in uniform split branch to use
+>the original folio to avoid confusion.
+>
+>Fixes below points to the commit introduces the code, but folio_split() is
+>used in a later commit 7460b470a131f ("mm/truncate: use folio_split() in
+>truncate operation").
+>
+>More details:
+>
+>For example, a folio f is split non-uniformly into f, f2, f3, f4 like
+>below:
+>+----------------+---------+----+----+
+>|       f        |    f2   | f3 | f4 |
+>+----------------+---------+----+----+
+>but the xarray would look like below after __split_unmapped_folio() is
+>done:
+>+----------------+---------+----+----+
+>|       f        |    f2   | f3 | f3 |
+>+----------------+---------+----+----+
+>
 
-This is a 31-day syzbot report for the hfs subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/hfs
+Thanks for the detailed explanation, I finally realized it behaves like this.
 
-During the period, 1 new issues were detected and 0 were fixed.
-In total, 24 issues are still open and 35 have already been fixed.
+>After __split_unmapped_folio(), the code changes the xarray and unfreezes
+>after-split folios:
+>
+>1. unfreezes f2, __xa_store(f2)
+>2. unfreezes f3, __xa_store(f3)
+>3. unfreezes f4, __xa_store(f4), which overwrites the second f3 to f4.
+>4. unfreezes f.
+>
+>Meanwhile, a parallel filemap_get_entry() can read the second f3 from the
+>xarray and use folio_try_get() on it at step 2 when f3 is unfrozen. Then,
+>f3 is wrongly returned to user.
+>
+>After the fix, the xarray looks like below after __split_unmapped_folio():
+>+----------------+---------+----+----+
+>|       f        |    f    | f  | f  |
+>+----------------+---------+----+----+
+>so that the race window no longer exists.
 
-Some of the still happening issues:
+Since we unfreeze f at last.
 
-Ref  Crashes Repro Title
-<1>  15321   Yes   possible deadlock in hfsplus_get_block
-                   https://syzkaller.appspot.com/bug?extid=b7ef7c0c8d8098686ae2
-<2>  7285    Yes   WARNING in hfs_bnode_create
-                   https://syzkaller.appspot.com/bug?extid=a19ca73b21fe8bc69101
-<3>  6882    Yes   possible deadlock in hfs_find_init (2)
-                   https://syzkaller.appspot.com/bug?extid=e390d66dda462b51fde1
-<4>  3897    Yes   possible deadlock in hfs_extend_file (3)
-                   https://syzkaller.appspot.com/bug?extid=2a62f58f1a4951a549bb
-<5>  1851    Yes   KMSAN: uninit-value in hfsplus_rename_cat
-                   https://syzkaller.appspot.com/bug?extid=93f4402297a457fc6895
-<6>  998     Yes   possible deadlock in hfsplus_find_init
-                   https://syzkaller.appspot.com/bug?extid=f8ce6c197125ab9d72ce
-<7>  991     Yes   WARNING in mark_buffer_dirty (7)
-                   https://syzkaller.appspot.com/bug?extid=2327bccb02eef9291c1c
-<8>  837     Yes   possible deadlock in hfsplus_file_extend (2)
-                   https://syzkaller.appspot.com/bug?extid=4cba2fd444e9a16ae758
-<9>  471     Yes   KASAN: wild-memory-access Read in hfsplus_bnode_dump
-                   https://syzkaller.appspot.com/bug?extid=f687659f3c2acfa34201
-<10> 420     Yes   possible deadlock in hfsplus_block_allocate
-                   https://syzkaller.appspot.com/bug?extid=b6ccd31787585244a855
+>
+>Fixes: 00527733d0dc8 ("mm/huge_memory: add two new (not yet used) functions for folio_split()")
+>Signed-off-by: Zi Yan <ziy@nvidia.com>
+>Reported-by: Bas van Dijk <bas@dfinity.org>
+>Closes: https://lore.kernel.org/all/CAKNNEtw5_kZomhkugedKMPOG-sxs5Q5OLumWJdiWXv+C9Yct0w@mail.gmail.com/
+>Tested-by: Lance Yang <lance.yang@linux.dev>
+>Cc: <stable@vger.kernel.org>
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+So thanks for the fix.
 
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
+Reviewed-by: Wei Yang <richard.weiyang@gmail.com>
 
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
-
-You may send multiple commands in a single email message.
+-- 
+Wei Yang
+Help you, Help me
