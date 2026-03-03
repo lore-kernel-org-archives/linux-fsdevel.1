@@ -1,312 +1,263 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from outbound-ip191a.ess.barracuda.com (outbound-ip191a.ess.barracuda.com [209.222.82.58])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8550638F64C;
-	Tue,  3 Mar 2026 10:07:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 944E539099A;
+	Tue,  3 Mar 2026 10:23:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=209.222.82.58
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772532423; cv=fail; b=q0C5jNNFMaJtNbsxevC7XqPNWOlWHqgKqYXW1MTSx5a6fkG7Y/bV9WrKKL3CpGrYzuuol0njOmGhvFCiwmSTAhhhPGZd5E/3e0sxw+fl9TbT7v2rH1NssSTlKdoGqlGHr4NNsv3xqD/vKNTBfRfBh+ZwlEAP5PMBdikdyKFZG+M=
+	t=1772533435; cv=fail; b=GdO2Vt4MVhGAcuDdUVdVRMIGMf/i4RGn8Gyn9dQEQkJE7AWcwQFDG15y31viPdiwkXLff/MnHgF5cguoDS3v23LVwwQYz9V+FUhKZNjUP/SkqWsKBmI646Ihb5M0iHY4TjUM8/2ocDsy/Rdea3sS2nVfGWzwB2vBlbJvqIyK6WQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772532423; c=relaxed/simple;
-	bh=u28Saqfg4eSxEkAagWdb1il0SYrMMsgKdxT8NlJHNRY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=ivgDOT+s+DIwRDworTXUbKa+Hg/7SeALy5gwQj6CMFb/pAAIJqiEE6Y7wvU8QXM9JvkAu2JprQ007IR4UyxL35AnOfm9TyM+JSgE+rCTDkNm/M8NPjBkXwnTw4wLRubZM758/rwd7lgGSUv4HavX72lCuCO83jJhKgMfJAo7bxg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=Z1417fXr; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=Pwwmv6c9; arc=fail smtp.client-ip=205.220.177.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	s=arc-20240116; t=1772533435; c=relaxed/simple;
+	bh=MAwrNDmCln0z0M8XjBWhT9tjfTQojs/WnK2fjuStDsQ=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=OCuOC5RzqMa1wULdSLF6FJR+t9kGVqdTuD6eF10BUUIHlNI7XiIyNikPTI0G7Rv+8RkCNlCG5OaDlj3ECQJYv3b5El6493KSpc9PdmJbJwXv8AKwI1BBGy2NIKU7X5ny6DrodU9kPfNX9cxQphSXW0gvEXhKPyj9AANg9ZBpLyQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ddn.com; spf=pass smtp.mailfrom=ddn.com; dkim=pass (1024-bit key) header.d=ddn.com header.i=@ddn.com header.b=ZPcgRwYS; arc=fail smtp.client-ip=209.222.82.58
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ddn.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ddn.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Z1417fXr";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="Pwwmv6c9"
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62392H3s046360;
-	Tue, 3 Mar 2026 10:01:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2025-04-25; bh=clv3fMrEQxZ8VHMFDs
-	hW+Wc8SGzSnvhm4aZGphgDbtA=; b=Z1417fXrJWNz3Q0bnBHj+cLaglfj2yfmPD
-	rUefwygKwUOLKeyhKVyBHgH/EWtYDUAoLXD/cAikMbjTnWzScqix53jhHiTiEbkO
-	50ZzaHmgCcZCJH6XTsfttmP7mGkd5TA8J/Iqk/kU9zVq7PtoAjN7tjeM9846Xu9b
-	cbShpMMFMg4rgi0wJSvYZEXdHJ6OWvIwsFLgZHcz6yRn9KOghLwcv4hhjT01jwvv
-	QAofDPoPK0a5mMn5eqcOE+UQRiI8HF9JUEeexv9EXnzHuFVBbzHmOD48KEa2FXH5
-	VVJnTZD3ujtDYfhys4jK1HXBPegTz2NOdFp8gmp07HXaRZuWmWow==
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4cnvnn832m-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 03 Mar 2026 10:01:38 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 6238IiuI026740;
-	Tue, 3 Mar 2026 10:01:37 GMT
-Received: from ch1pr05cu001.outbound.protection.outlook.com (mail-northcentralusazon11010035.outbound.protection.outlook.com [52.101.193.35])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4ckpt9uy3w-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 03 Mar 2026 10:01:37 +0000
+	dkim=pass (1024-bit key) header.d=ddn.com header.i=@ddn.com header.b="ZPcgRwYS"
+Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11022107.outbound.protection.outlook.com [52.101.43.107]) by mx-outbound12-114.us-east-2a.ess.aws.cudaops.com (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO); Tue, 03 Mar 2026 10:23:45 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=s5wM81ZkwoQdQoMhHlQ/AyLBKSRR8gG/9G3PspTOSf2g+vuYkiCHytgnklpNW5qoBsUGItoJHk43LoJzK+PrmtwOpDhhvO66VlBoRCOdB+88x5J7Z2Fb2IMPYxwsJr3uYFeMxdesh2KLEyBNGtcdNjCXI659aXC4o8umFFreFKALvARSQSl/gSvnR1wc2kU0w4q1CDA6PeE2gcThIzsMKCZ33rpmmKJPwx5AxuzTWaXdk/hAVrk+p4P1xliSEB5SWPKKLiw+I7tCaHa14GehLKa4Mkjwj6RtwmKxez/sZ5ZMI4KUik0TI1jCMVa+rptUholly1QnnJhQOHlAmqRSOQ==
+ b=nOVt11sY91euP+zs8pARCR0NFdy7lDc9bFNT+y3SHNH/Sp6uzhc9qW0pZF3Bf9STmr8goKUVGfTuGyV1llAzd0gyDo/ifBIGot3n9elXkstNknqyeXXE4h1SYwWGxtXmF+C1ZZKhUwJzuL6KmS9a+yZg3a8EMMs5wcAvNAN95E7c6NDHYCPmSKKF35FizxxHt88fo1tE0MiHGcB5siRkFGtBdS99yF2V4mOT/WvCvEF5b8+UKMvsYq+g0lbo+o9j/OHNu6U7Z0Ts5m9TaVWqE5sgj0KSyBeqS2/or8C0w7CLgt2ce2WdfmhNV/1FM/7WBgNGjfaf8mPslRmTELNU9w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=clv3fMrEQxZ8VHMFDshW+Wc8SGzSnvhm4aZGphgDbtA=;
- b=n1v320yexNoFfNJtf7TV9eJPnTU3fwZgnWrbBjRchF6/+uiY3BpCSBWRrOP645NJ0paza3MfImNijsMYqJF7ZVI2d5Tn5rXfKXQxcN1q7Rec0kE2fP4Vt2ePTRZWMFGDuRRrTINWQ2eRxBzyxpgJ4vOn4TiPmEx8UpLKD+99+d208/HTCdQfBPllqhVJNGLG6B7LMI15w+q5Abt7pqOxvsTNwScm+9Kn7ABxLlsAnK+39zZfO5b2SWKvE+tNIU5v1zr9VfMGqGDsAjY/kVIC7RmXc5S2cDutagzVOqdJt1fL1m0SZp0HuUmg7brr5jFu4ay8IGiiXVsbiKPsGBVt6Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ bh=k3fE1ZKUziC5ZLKZ1BVN07Vt+c1kTUlUTEAoXTDVhZk=;
+ b=C0BjYDl7LNE/s9MhFCEnrTVy39/Em9FXXZzWYsYzKFseM1aHe0po3vXGGo5JtA8szsrXuPj/0Yyd0siEFfuYroSrGGheUY9o5M3KmoCSL1IOVMpPnS3Sj94UBgFMzwJeO0TJOGe+HK672T0saB31Lwr5po1wUpEPamwwy4dR8xZyib9mrgkMm8gFzgjYQYeuEcwnWe+Xrt1EKoXDavjChH9yp30x7+bktDtHm3DBnOqB7mOeersCtkknyB4W4ofKayL7fF0/Z8slp0S3avdFwgGl1c2n4Q4snH1M5K5p7FS7tVG4hkJOReRbPa11xdk/9+ohYlklgQ87ND2kNSCVuQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 50.222.100.11) smtp.rcpttodomain=ddn.com smtp.mailfrom=ddn.com; dmarc=pass
+ (p=reject sp=reject pct=100) action=none header.from=ddn.com; dkim=none
+ (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ddn.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=clv3fMrEQxZ8VHMFDshW+Wc8SGzSnvhm4aZGphgDbtA=;
- b=Pwwmv6c9MBZy4/FGrZktxyb2QLSPE3X6iZZx6opu0YQtgXnZoziDr6n3dCKJ0U2yco6FVpRuS6C7xdINYIFGqbUeEnWDzEcSda/Oz2KV+aPcKNPH8U06DVUhfkr2VbxlaX9eaV0ohlIbta7kj/J9rywE/LGp/lpIzJ8VT/g9FWA=
-Received: from DM4PR10MB8218.namprd10.prod.outlook.com (2603:10b6:8:1cc::16)
- by CH0PR10MB5177.namprd10.prod.outlook.com (2603:10b6:610:df::17) with
+ bh=k3fE1ZKUziC5ZLKZ1BVN07Vt+c1kTUlUTEAoXTDVhZk=;
+ b=ZPcgRwYS2Ge64/SJC8NRSanunqTnVSPZ0+3BuqqWb0DnimsaAS7xjIxtds2gzxMCTKEghLKTQNYne1D8SnKKkEcM2LAknAuOozPYLH0guXjYWDf9nnFW4jC14mpY3CJfypQ51/OIjokvk9aSwVu34/gWqSLjpmmlBXu3bJZUJM0=
+Received: from IA1P220CA0014.NAMP220.PROD.OUTLOOK.COM (2603:10b6:208:464::8)
+ by SA0PR19MB4508.namprd19.prod.outlook.com (2603:10b6:806:b8::7) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.22; Tue, 3 Mar
- 2026 10:01:33 +0000
-Received: from DM4PR10MB8218.namprd10.prod.outlook.com
- ([fe80::f3ea:674e:7f2e:b711]) by DM4PR10MB8218.namprd10.prod.outlook.com
- ([fe80::f3ea:674e:7f2e:b711%4]) with mapi id 15.20.9632.010; Tue, 3 Mar 2026
- 10:01:33 +0000
-Date: Tue, 3 Mar 2026 10:01:31 +0000
-From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-To: Zi Yan <ziy@nvidia.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-        David Hildenbrand <david@kernel.org>, Hugh Dickins <hughd@google.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        "Liam R. Howlett" <Liam.Howlett@oracle.com>,
-        Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
-        Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
-        Lance Yang <lance.yang@linux.dev>,
-        Matthew Wilcox <willy@infradead.org>, Bas van Dijk <bas@dfinity.org>,
-        Eero Kelly <eero.kelly@dfinity.org>,
-        Andrew Battat <andrew.battat@dfinity.org>,
-        Adam Bratschi-Kaye <adam.bratschikaye@dfinity.org>, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        stable@vger.kernel.org
-Subject: Re: [PATCH v2] mm/huge_memory: fix a folio_split() race condition
- with folio_try_get()
-Message-ID: <d79d74f0-a61f-4763-9970-15422af486a5@lucifer.local>
-References: <20260302203159.3208341-1-ziy@nvidia.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260302203159.3208341-1-ziy@nvidia.com>
-X-ClientProxiedBy: LO4P123CA0432.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:18b::23) To DM4PR10MB8218.namprd10.prod.outlook.com
- (2603:10b6:8:1cc::16)
+ 2026 10:23:42 +0000
+Received: from BL02EPF0002992A.namprd02.prod.outlook.com
+ (2603:10b6:208:464:cafe::87) by IA1P220CA0014.outlook.office365.com
+ (2603:10b6:208:464::8) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9654.21 via Frontend Transport; Tue,
+ 3 Mar 2026 10:23:41 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 50.222.100.11)
+ smtp.mailfrom=ddn.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=ddn.com;
+Received-SPF: Pass (protection.outlook.com: domain of ddn.com designates
+ 50.222.100.11 as permitted sender) receiver=protection.outlook.com;
+ client-ip=50.222.100.11; helo=uww-mrp-01.datadirectnet.com; pr=C
+Received: from uww-mrp-01.datadirectnet.com (50.222.100.11) by
+ BL02EPF0002992A.mail.protection.outlook.com (10.167.249.55) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9654.16
+ via Frontend Transport; Tue, 3 Mar 2026 10:23:41 +0000
+Received: from localhost (unknown [10.68.0.8])
+	by uww-mrp-01.datadirectnet.com (Postfix) with ESMTP id 682705B4;
+	Tue,  3 Mar 2026 10:23:40 +0000 (UTC)
+From: Bernd Schubert <bschubert@ddn.com>
+Date: Tue, 03 Mar 2026 11:23:39 +0100
+Subject: [PATCH] fuse: move page cache invalidation after AIO to workqueue
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260303-async-dio-aio-cache-invalidation-v1-1-fba0fd0426c3@ddn.com>
+X-B4-Tracking: v=1; b=H4sIAKq2pmkC/x2NSwqEMBBEryK9nob4N3OVwUWbtNogUZJBFPHuN
+ i5q8aBe1QWJo3CCb3ZB5F2SrEEh/2TgZgoTo3hlKEzRmNKUSOkMDr2sSBpHbtZK2GkRT3+V0dq
+ 2GnjwdddY0Jkt8ijHe/Hr7/sBkDze23IAAAA=
+X-Change-ID: 20260303-async-dio-aio-cache-invalidation-9974bebd5869
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Cheng Ding <cding@ddn.com>, Jingbo Xu <jefflexu@linux.alibaba.com>, 
+ Bernd Schubert <bschubert@ddn.com>
+X-Mailer: b4 0.15-dev-2a633
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1772533419; l=4670;
+ i=bschubert@ddn.com; s=20240529; h=from:subject:message-id;
+ bh=Wa+p1Weg2NqNyjv1eyyHatJk/do6M0GRboo9OLCKkdI=;
+ b=e+FKtSd7254zNkwD4L5UHUzRyYfpQiBmiBfi/etDoOGo7REhKAD7fPx6swioKjULaD4CJlVjN
+ ZHphAZxB2XFAxCFr4blIVnIGNQ5yGWftBCRA426FAz7xcjLd9l+eiLK
+X-Developer-Key: i=bschubert@ddn.com; a=ed25519;
+ pk=EZVU4bq64+flgoWFCVQoj0URAs3Urjno+1fIq9ZJx8Y=
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR10MB8218:EE_|CH0PR10MB5177:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6b191d43-8698-4c3f-b063-08de790bd97e
+X-MS-TrafficTypeDiagnostic: BL02EPF0002992A:EE_|SA0PR19MB4508:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5a0a32f7-f5c7-4242-4282-08de790ef127
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|19092799006|82310400026|1800799024|376014|36860700013|13003099007|7053199007;
 X-Microsoft-Antispam-Message-Info:
-	llJ1cOR7Bv7GKHdRfgnWUoaJHorymfxVLywgN+BGfzgNcj+buS0mwmTTtQWD+v5YlxLsLLyZgETGjKFIc9PPw2AP9WH5RpzfL7Yn07rNagjAbfsupa2M5avSmboTJGVyVsyAYTFMePS7oUpQjW7hQAlsVslw0DcTYYJvv+80tFUW4K6ZAvX65K0vHpJ3VwpwRa07oaMZaiIGtauvLfTJHCyqPBSX0biHddxwKY13ZtmleaSIKc0BX8+Zfu+e+9Ju9F6OO/3YQPzSHn8PGJfRekZ6kszUsv/6OBNrKttXbsDZD40v10etcvKL8na74/9EpKoV0X4xFmZhUNmdnnKZVVjBPAD9X5c1GWYwJNbvbTfk0MzN+7TM+p9+rP7oQ9z6GYyYTF1GIpzSJNjmuiZ/XpH0YCGO5wg8LtLK/MNmRZY0ev2QWUdHknGHfE3V2i06NZBV2QJ6Qfft+dHOe1GAhuNXkYDwD4QfB3hdPs7wrNM0d0r/ENsMIYWUL8fwOI5lnsBZydAwRF1pwY7BWeU+JV5jDB09/2jBiWjVVD9x+qcumQBGp+mu/aIoHsHIBFtGmEyq5u8msx4e0eCiUHS0fSJVQVQtKBmr4kQQzD0YUsT7uGyIJ/Qt28ft+dEk1se73jsu76jOdWWIZv+Oy6JilPuaVMjVkClrW7Vs8jpAOfUSnkqythMoJ7b1ltHUBjTiKGRXZjcFO1nieWaDEgpKJaK7hge7YgsKywzlx+hHIZF7+QtAlrCjxcgxDS04jG4Z
+	r53fuRrzGq/6omxJ/cnoRh7tPfunU4NggzgoU9Um61yrYEzQCgvg/gMpepueRgANl/AvDHl9/+gopjeQhjJwJzPUi77yv3EwPAtYY6ZLTq8unTn2yWIsBpHqoIgpGhzQbiRSFBUwm8gNgeflHFrYWtl/BTMQ+TrGXSQOujwXQ7v4as8Iwd2RPbp4Ucxcta31xUZLJmFmzFr236N9Vuf9mBoPkOL2stj3cQbUVG7f8wHgYlrJQg9V47cekgwB3mTb5jeE5CIeTJDwQ7PbTUk2qsALblV+TS2ALTwQyyDmVPr12CdAe91181PWRrurvXH31wSx7NWXY5hh+v35yUgp3OU2MEMjtpF7hxCqC8YyzmspYAhZUuf0B8D34/nIux+Wsig4QP6qAXbJf+TYBWI6kCqYaM+Y8nrH53KcUO/ftcRaujde/lphDo1mDbNqWIQ/ckplHT1oeoIxP0swPUGXCzfZvs0cyXqB7wOu5Qfe2gIT+Wt2I+z9wCZQAgytgWiBsGFxj9hnwBk2g1cgR5xz5/16Zvi7Tu77FFjy7SkrkGuLfHYoiifexEPjNfaUaCfdSy5hnkbNKx+Y0c1vFSTHN7BbeH+tC8ZyMLxNM0BGtQtRKzXTmUMNOGYV3EDiH3JIf5gV6G2tDCOPA8dxNCjVUMAF+WxrS+L0yDhpHMOuMRxs/uBRtmZQcdV8rMO36BeCSBuQ4K4hpoVKaDE3YQz2g9pKBuslWASleB70pELU0e0CD3WsgtcDWpIRvLUzPlxcNu57s5qA0R358tZly2/EcaEHaGKEC43M5GPSn8TFdrVqP8oju//QOy9pa3uEs7dxRgceuGBeQH68GzluG0DYCg==
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR10MB8218.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
+	CIP:50.222.100.11;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:uww-mrp-01.datadirectnet.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(19092799006)(82310400026)(1800799024)(376014)(36860700013)(13003099007)(7053199007);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?Ro7SvduHTWC0EOZkxDa+E6u+C0rNMqggI7SitLZOUnLdW75x1PjrFAnETobL?=
- =?us-ascii?Q?mEeWYjnogvYyDmTGx6yi9w+P7iF48j2nw53PATHMAcl94f76yHnjJ2l5gRt5?=
- =?us-ascii?Q?FnlFUAB5DmhMwUfYeqFDc/SS675VbP2c9bfRiawDC0BNWbKDAEAPOeTn7w0I?=
- =?us-ascii?Q?9Njz3NdeR+Eogxz/+Dyt1ebhmqi7T16CDcNMBDqcXd0kfvFeUtRUciCuKIAf?=
- =?us-ascii?Q?BqJhcpPuOnIxcd8YnHeSYwa6oA1x5V2LtbuGKPxJB8TGq1tyeDOppGsP5npo?=
- =?us-ascii?Q?xsUYaMO2ysUfyzrCnXHfq4uudZMC4gDuobHHPKZddyo8toIaFpsmfEkJv6wb?=
- =?us-ascii?Q?thx0MC0F4jZJMRgTKSPe9EbJdfOCNWXWRjvTjBlkkRjX6fG8srPD6yx0cAfx?=
- =?us-ascii?Q?xmF3ads+hRsgVgAI1QGJKnZw2C3Df89W4yPTtShuSAYXt64cEaNHDOQKzNxH?=
- =?us-ascii?Q?YcwbKMEGI0kXuI+w5clN0G9FbVmukdm7c4cyWXUflqVDd5/mZOxyPZtMnqUn?=
- =?us-ascii?Q?tlnrlw8fVDsEBix+rvXYfrLZL49MjMFcU7gKJVQ5lVj+ybHrjdQFJcZPKaJJ?=
- =?us-ascii?Q?jsY8lJlDL2vp/HrtSRrtztvo39stDTSEVKZtSbfdSu0BCEb9KfB3aA/fDZH4?=
- =?us-ascii?Q?yxOdHRl4wfF88FexQQs8TkViOMdQkjddhGB4vudvBoZrpXD0OPpVXLMJHlPQ?=
- =?us-ascii?Q?TyhZUnLf9+Rdk1gB736fJiYJ7pzGpBqcNxWiSUNIrv+MQKjInsu5jHXCv/UM?=
- =?us-ascii?Q?b3/Q3eSbBhInmBBAcUyvQZPXWDBhCIgD4tckRv5QcuHcXs1b/k7Kvbg9EVB0?=
- =?us-ascii?Q?SsTPHk/v59swsWUEfo4IDPMKrn8Zvnf06WkDr/vb+AAg+Au9ac7q6h3gI1K7?=
- =?us-ascii?Q?YeAvK1ktPzWEqLJLLssExQZ9JF2xlULuhsFNdkkKdv9Q99uIkX6kcq6YgdhH?=
- =?us-ascii?Q?MP7NXf4RdJXY8xwoIhQpjTJM1HiWY6tkfQ6OwgdtaoFISRXE9Ows34c0HMOq?=
- =?us-ascii?Q?5XolyiPGjn1Hi2GIO3+peCPkM6fu1rY//UyR1VtCrRCxxzMTs/M++34SrnZf?=
- =?us-ascii?Q?IL5JwlZx+TZeVMjb8eO8EnvtKOAQDgmAIzNth9z1okNFSY2Q6LV27WBXeIlU?=
- =?us-ascii?Q?o2hYinXi+QZesjPOXFiQQS168P+ks8tEMI8FHA9eZiXA0APUHz9ccM5iTLYA?=
- =?us-ascii?Q?QN0ZnoPuN11JIUpksrp1vAZHEgeucG4XLIeJOzOcrbA1rgZquKLRUzdAfusx?=
- =?us-ascii?Q?17//PAvZuOOQBWCIhXKgzI9iPteaVNAcfGkg8wKt8HkOvI9X2M+8i5cYDnJC?=
- =?us-ascii?Q?CRJocvImvuJpQlC5drQoUNTxtMVHGP5LDYVln60bDPPcx/R+xeTkQEFRgzWS?=
- =?us-ascii?Q?L6mMdkr3jNQ4Fqs/k2duFQ2zlEblKBw/pkHmQFZJEAvWQH4xf1DMMkljt6JW?=
- =?us-ascii?Q?F6HkCUrHmWj6dDLCUsvWlgO1qFP9JI62Apa6t5R3MPE0ZpYZoY/tGmV6nwvj?=
- =?us-ascii?Q?ImXUOa7NYX4aUPNe5yXKLNJaPm3A9m3IJ/o7ZH3istHTbweEoU1G9tZEDvvH?=
- =?us-ascii?Q?aZD8IfeaoDFT4wy1B0gHADuvB7Fq/uzcJmm6SpS+Wv51cdGGBk8nPmS5bYbk?=
- =?us-ascii?Q?trEdOYG0ruUdVRr7RunZG2LSWdGXeImnWBstekrZrV03fKxSt2G8HGHrFd2O?=
- =?us-ascii?Q?6EQnTGxI9Fu3Yi/A5aplSjde4GWjPITbc0YxeB4WDe/MmMcDeNzS9qFhb+Ob?=
- =?us-ascii?Q?4cEYbCxX8GP+sF5kzhNKUAImZbc/5Pw=3D?=
-X-Exchange-RoutingPolicyChecked:
-	ZeOx/jvY+gOr/61XHblxL22gGA0eERogSPOh/H6kjRIDjjWPQ6WeKE75+Nwoy9qjZsUGYLmBolfhEnO5dEwDtia6FqYgGYFTnkPSwH7V6Ygn2j5fqIgM6EsNRmZPmN9DV39mLGFx769aaZ+UvosBTHNQDLCMXUIdhlXkidKRA0FUb5NB9Y0ZRgNQM5zFX2J7pJoHtLOSwPczi9Gdrzp17dBfvtFnArLDb/9ELJie8Wa9jlC+olHDzU4LMIxMmkumhbU5MVEXftrtVwOKDgl1ylsAmMjW/hHOisZyp6Y+nag2k1QxG0gaR9YtXuCkDdVTmrnO8CqwI/iWtIWQVMDSTA==
+	e8FZKlv95qyzovjt1oHuWHdSOn5SoxNFrq3YFXrxMPka0XgLVrmcDA3q79greLeAYAY3dlwWBGgXww2Chicm8+SEWf+z+SHRq6sFZm9b1owsuzyJBV6jgWO4jpBTawgBK/b1howg7NOhMzm1QE5X8sNn68hYIsumURhAmPhyCcrvj5WkVfmRYDerg3kz3m51XS/+BuTI4RXOuSTeyvSKP+7ajT8msUZlk1HDX5Y3MhGt103mncbBYRSIYzhoYyYGgAsXFCEyEQgUEXyM6TqLcYa5xBtmB8vrfe0PNtpxoVqBguOCEasLMh3oUX2mZBvYanMUNUKUHjtnn1976rMe8sVpNu9XxjtHvv8cOAmJHIRMKuTjXmJIzgtRukkHNofVBDC0jHs7B1uIunZjqkCRBJXbittwd1WjK3peFg22N7ESMpZHRxtb95BrdZKQCmni
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	PsgQiZKzfQaoitNaRLx1VNYayh9/QiyoDbzqpn/6aoy512OIT81Gnbn5IELnjVXN+RJ9hvUyn1+n7OGgMQtdySenHTafrg/+Gf4BNxMtl+cfdjEwMwMqXsu1Z6op9eY1jh5RHp21ppKuVdxC5AvHNE1Dpy3TbM+5eeayoVAyvzArekB9dWInR4S4/DmTA9MhG7uj3hxNyov2ayuUhMWVM2PIY7qJjybYDyvQoSC/SBb9BJyyxIB5AUUDPugKMG/2ARpQReyZ5uNQqliRtFMoLckp/nY4rh2f0PwvK6Yb//Ux4+mJlGaB0mDUUS0EQkG7sKmkriEYPqxqj/sqRbLn3Ls12QWPhobyQ9WpkmqCsRLK0QPDXlxLwf7kQ2VtvqjCKGc5jbh8a6uwsdWK36FV6R8nOyyQckgLAhrTTFrqzD0iN6sJEWi1AK5i2JFtFqlLJjTBrR/w+xHiO1Sa31ghQyG/tVRZLYQRmVTV59FtTrVjLQH/SThBc63ahXVJBAgsb9aeSuVmC2k9H79muROBb4S8hRCG+XWH0cijAJlo18MalP1t9y2R6RPJ7A8ezCzis5KvCQg+C8MAy4d08zg8wUOyAvfKHq1SwwPizyszP4w=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6b191d43-8698-4c3f-b063-08de790bd97e
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR10MB8218.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2026 10:01:33.4866
+	0NAsRZosM17b6K4dOaNN+d4mlPxCnQfDE2M1Xl9ttvvuepik+A51cF45LUUuDyMXYh0q+ldpHk5wMijlKIy8/kLWxiQS8SUvvnCNvh6ps6SADNyAGrJtaLWdR3O/l+OJyka85fncd+DkOJDeL4az6FzOCTNdB3JiAPzy5rpq0fwnSYn/V3j80xTLYEAlNuR7Dathg1cv+NTexpGu/TH3G7NUATSx3p2EztmrXBuLA2S+yiliQJXjUIO1vvbztXRbUCMBAXm0Tg1wmFL/Ewuh5/73a4+xyJFlOfA9iAu3D8SmQk/u1gwPGGBPZblVyhoDyEEsgoAd7bVhc9MJ8dp2bbOmcO5Ktrjv/13LYdqG9AwojDHZJX1ta//JuslJ0Y9OzOy2ikkmpC7zq0Qc38N4eMW0TUfp8tMf0uRw8xumEr+kMS0pvMAjp2ISflzUcMB+qcH8HklMoaWBBgL57qYvzeoeMoLvo98Skq5cPG0jh8tUe+0TCa+Ao30yH7EhNARVtw6hKTroTluLNDGS1IWlLJNdxaqXCR5hhlPEzUNbi7jCFp1q9fQF02EIwb2lcop+ie7xUQZMP4aDRCpbhpQs2uCMdoeKUaskn4T1uq07ECZEpMWwPbPNfVRO65tntTJwFoCF+SuWv4qSdJaYMEa7EQ==
+X-OriginatorOrg: ddn.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2026 10:23:41.4079
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lLPF9dcOrjvdNkOTtTbSNIae0yEgBd+aZ8odkWRF/RauFCD9xQtz89GECyWaQt09I0xOnh7KENfAPrz07jr4fQdnR4/kBpCh67ouhsaPQGE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR10MB5177
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-02_05,2026-03-03_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 bulkscore=0 mlxscore=0
- malwarescore=0 spamscore=0 suspectscore=0 adultscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2602130000
- definitions=main-2603030075
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzAzMDA3NiBTYWx0ZWRfX6xS7p/i5N8zp
- DZOLHZOEMK7nV8gdA87SCkZQU23a1m5Jdnn1xOeT1J3wnN58CRwb8sBJieyBRoqNGvjoZusZY+O
- x4wXAyULbD1LvI9wyRFaYUyKib/zkug14FlMQXq34BpKgBMfQ1YNaUX1B9htzTTUFLv0UmXnEAV
- EiuFaf0sg9R1/XWjkhPwBHxppBk6fG7SaUM3awlEt4BRAlX/LnPIsz5zuBmuL3HoSSWX/yopJjZ
- 8bxxeFjHqg6/72buVsjX3E7/Yfpmp4mmy02xrokx4S5u5+NbSaJAacMy4NnBc4JIajcxKwAD5ox
- 9SrywcoUfbbMv3BD8uvySc7dGSKS8Yu+2AEjcfviu+c+zYCoO9rdJtTiFvkDRy31OkgxUDWVwdJ
- ivHYkfccWbhIDMDDKa2OIeBcWiGL6PzXIVS7KwQLLRdn2KvBuELZPj4A8dkm/0cXtbk6+tX87m+
- vyDpTPP7O8+2smJFbGA==
-X-Authority-Analysis: v=2.4 cv=P+k3RyAu c=1 sm=1 tr=0 ts=69a6b182 cx=c_pps
- a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=Yq5XynenixoA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=jiCTI4zE5U7BLdzWsZGv:22 a=3I1J8UUJPc9JN9BFgKH3:22 a=NEAV23lmAAAA:8
- a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8 a=Ikd4Dj_1AAAA:8 a=m6ntEmJwAAAA:8
- a=yPCof4ZbAAAA:8 a=uyy6HusMYkPfAz23_cgA:9 a=CjuIK1q_8ugA:10
- a=-07UcHROD-JCDqjaZ46G:22
-X-Proofpoint-GUID: DuYD_V-JIA3P4gfkk7-9Ona6Wo63Vmvz
-X-Proofpoint-ORIG-GUID: DuYD_V-JIA3P4gfkk7-9Ona6Wo63Vmvz
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5a0a32f7-f5c7-4242-4282-08de790ef127
+X-MS-Exchange-CrossTenant-Id: 753b6e26-6fd3-43e6-8248-3f1735d59bb4
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=753b6e26-6fd3-43e6-8248-3f1735d59bb4;Ip=[50.222.100.11];Helo=[uww-mrp-01.datadirectnet.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BL02EPF0002992A.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR19MB4508
+X-BESS-ID: 1772533424-103186-7674-116270-1
+X-BESS-VER: 2019.1_20260224.2149
+X-BESS-Apparent-Source-IP: 52.101.43.107
+X-BESS-Parts: H4sIAAAAAAACA4uuVkqtKFGyUioBkjpK+cVKViam5sZAVgZQ0CDF1NDY2NDC1N
+	wk1SIx1dDCKC05Kc0gNdnCPMnCINlIqTYWAESbl5tBAAAA
+X-BESS-Outbound-Spam-Score: 0.00
+X-BESS-Outbound-Spam-Report: Code version 3.2, rules version 3.2.2.271537 [from 
+	cloudscan22-222.us-east-2b.ess.aws.cudaops.com]
+	Rule breakdown below
+	 pts rule name              description
+	---- ---------------------- --------------------------------
+	0.00 BSF_BESS_OUTBOUND      META: BESS Outbound 
+X-BESS-Outbound-Spam-Status: SCORE=0.00 using account:ESS124931 scores of KILL_LEVEL=7.0 tests=BSF_BESS_OUTBOUND
+X-BESS-BRTS-Status:1
 
-On Mon, Mar 02, 2026 at 03:31:59PM -0500, Zi Yan wrote:
-> During a pagecache folio split, the values in the related xarray should not
-> be changed from the original folio at xarray split time until all
-> after-split folios are well formed and stored in the xarray. Current use
-> of xas_try_split() in __split_unmapped_folio() lets some after-split folios
-> show up at wrong indices in the xarray. When these misplaced after-split
-> folios are unfrozen, before correct folios are stored via __xa_store(), and
-> grabbed by folio_try_get(), they are returned to userspace at wrong file
-> indices, causing data corruption. More detailed explanation is at the
-> bottom.
->
-> The reproducer is at: https://github.com/dfinity/thp-madv-remove-test
-> It
-> 1. creates a memfd,
-> 2. forks,
-> 3. in the child process, maps the file with large folios (via shmem code
->    path) and reads the mapped file continuously with 16 threads,
-> 4. in the parent process, uses madvise(MADV_REMOVE) to punch poles in the
->    large folio.
->
-> Data corruption can be observed without the fix. Basically, data from a
-> wrong page->index is returned.
->
-> Fix it by using the original folio in xas_try_split() calls, so that
-> folio_try_get() can get the right after-split folios after the original
-> folio is unfrozen.
->
-> Uniform split, split_huge_page*(), is not affected, since it uses
-> xas_split_alloc() and xas_split() only once and stores the original folio
-> in the xarray. Change xas_split() used in uniform split branch to use
-> the original folio to avoid confusion.
->
-> Fixes below points to the commit introduces the code, but folio_split() is
-> used in a later commit 7460b470a131f ("mm/truncate: use folio_split() in
-> truncate operation").
->
-> More details:
->
-> For example, a folio f is split non-uniformly into f, f2, f3, f4 like
-> below:
-> +----------------+---------+----+----+
-> |       f        |    f2   | f3 | f4 |
-> +----------------+---------+----+----+
-> but the xarray would look like below after __split_unmapped_folio() is
-> done:
-> +----------------+---------+----+----+
-> |       f        |    f2   | f3 | f3 |
-> +----------------+---------+----+----+
->
-> After __split_unmapped_folio(), the code changes the xarray and unfreezes
-> after-split folios:
->
-> 1. unfreezes f2, __xa_store(f2)
-> 2. unfreezes f3, __xa_store(f3)
-> 3. unfreezes f4, __xa_store(f4), which overwrites the second f3 to f4.
-> 4. unfreezes f.
->
-> Meanwhile, a parallel filemap_get_entry() can read the second f3 from the
-> xarray and use folio_try_get() on it at step 2 when f3 is unfrozen. Then,
-> f3 is wrongly returned to user.
->
-> After the fix, the xarray looks like below after __split_unmapped_folio():
-> +----------------+---------+----+----+
-> |       f        |    f    | f  | f  |
-> +----------------+---------+----+----+
-> so that the race window no longer exists.
+From: Cheng Ding <cding@ddn.com>
 
-Nice, love that you added this to the commit message :)
+Invalidating the page cache in fuse_aio_complete() causes deadlock.
+Call Trace:
+ <TASK>
+ __schedule+0x27c/0x6b0
+ schedule+0x33/0x110
+ io_schedule+0x46/0x80
+ folio_wait_bit_common+0x136/0x330
+ __folio_lock+0x17/0x30
+ invalidate_inode_pages2_range+0x1d2/0x4f0
+ fuse_aio_complete+0x258/0x270 [fuse]
+ fuse_aio_complete_req+0x87/0xd0 [fuse]
+ fuse_request_end+0x18e/0x200 [fuse]
+ fuse_uring_req_end+0x87/0xd0 [fuse]
+ fuse_uring_cmd+0x241/0xf20 [fuse]
+ io_uring_cmd+0x9f/0x140
+ io_issue_sqe+0x193/0x410
+ io_submit_sqes+0x128/0x3e0
+ __do_sys_io_uring_enter+0x2ea/0x490
+ __x64_sys_io_uring_enter+0x22/0x40
 
-It is my mission in life to encourage ever more ASCII diagrams everywhere... ;)
+Move the invalidate_inode_pages2_range() call to a workqueue worker
+to avoid this issue. This approach is similar to
+iomap_dio_bio_end_io().
 
->
-> Fixes: 00527733d0dc8 ("mm/huge_memory: add two new (not yet used) functions for folio_split()")
-> Signed-off-by: Zi Yan <ziy@nvidia.com>
-> Reported-by: Bas van Dijk <bas@dfinity.org>
-> Closes: https://lore.kernel.org/all/CAKNNEtw5_kZomhkugedKMPOG-sxs5Q5OLumWJdiWXv+C9Yct0w@mail.gmail.com/
-> Tested-by: Lance Yang <lance.yang@linux.dev>
-> Cc: <stable@vger.kernel.org>
+(Minor edit by Bernd to avoid a merge conflict in Miklos' for-next
+branch). The commit is based on that branch with the addition of
+https://lore.kernel.org/r/20260111073701.6071-1-jefflexu@linux.alibaba.com)
 
-LGTM, so:
+Cc: Jingbo Xu <jefflexu@linux.alibaba.com>
+Signed-off-by: Cheng Ding <cding@ddn.com>
+Signed-off-by: Bernd Schubert <bschubert@ddn.com>
+---
+ fs/fuse/file.c   | 39 +++++++++++++++++++++++++++++----------
+ fs/fuse/fuse_i.h |  1 +
+ 2 files changed, 30 insertions(+), 10 deletions(-)
 
-Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+index 64282c68d1ec7e4616e51735c1c0e8f2ec29cfad..b16515e3b42d33795ad45cf1e374ffab674714f7 100644
+--- a/fs/fuse/file.c
++++ b/fs/fuse/file.c
+@@ -23,6 +23,8 @@
+ #include <linux/task_io_accounting_ops.h>
+ #include <linux/iomap.h>
+ 
++int sb_init_dio_done_wq(struct super_block *sb);
++
+ static int fuse_send_open(struct fuse_mount *fm, u64 nodeid,
+ 			  unsigned int open_flags, int opcode,
+ 			  struct fuse_open_out *outargp)
+@@ -635,6 +637,19 @@ static ssize_t fuse_get_res_by_io(struct fuse_io_priv *io)
+ 	return io->bytes < 0 ? io->size : io->bytes;
+ }
+ 
++static void fuse_aio_invalidate_worker(struct work_struct *work)
++{
++	struct fuse_io_priv *io = container_of(work, struct fuse_io_priv, work);
++	struct address_space *mapping = io->iocb->ki_filp->f_mapping;
++	ssize_t res = fuse_get_res_by_io(io);
++	pgoff_t start = io->offset >> PAGE_SHIFT;
++	pgoff_t end = (io->offset + res - 1) >> PAGE_SHIFT;
++
++	invalidate_inode_pages2_range(mapping, start, end);
++	io->iocb->ki_complete(io->iocb, res);
++	kref_put(&io->refcnt, fuse_io_release);
++}
++
+ /*
+  * In case of short read, the caller sets 'pos' to the position of
+  * actual end of fuse request in IO request. Otherwise, if bytes_requested
+@@ -667,28 +682,32 @@ static void fuse_aio_complete(struct fuse_io_priv *io, int err, ssize_t pos)
+ 	spin_unlock(&io->lock);
+ 
+ 	if (!left && !io->blocking) {
++		struct inode *inode = file_inode(io->iocb->ki_filp);
++		struct address_space *mapping = io->iocb->ki_filp->f_mapping;
+ 		ssize_t res = fuse_get_res_by_io(io);
+ 
+ 		if (res >= 0) {
+-			struct inode *inode = file_inode(io->iocb->ki_filp);
+ 			struct fuse_conn *fc = get_fuse_conn(inode);
+ 			struct fuse_inode *fi = get_fuse_inode(inode);
+-			struct address_space *mapping = io->iocb->ki_filp->f_mapping;
+ 
++			spin_lock(&fi->lock);
++			fi->attr_version = atomic64_inc_return(&fc->attr_version);
++			spin_unlock(&fi->lock);
++		}
++
++		if (io->write && res > 0 && mapping->nrpages) {
+ 			/*
+ 			 * As in generic_file_direct_write(), invalidate after the
+ 			 * write, to invalidate read-ahead cache that may have competed
+ 			 * with the write.
+ 			 */
+-			if (io->write && res && mapping->nrpages) {
+-				invalidate_inode_pages2_range(mapping,
+-						io->offset >> PAGE_SHIFT,
+-						(io->offset + res - 1) >> PAGE_SHIFT);
++			if (!inode->i_sb->s_dio_done_wq)
++				res = sb_init_dio_done_wq(inode->i_sb);
++			if (res >= 0) {
++				INIT_WORK(&io->work, fuse_aio_invalidate_worker);
++				queue_work(inode->i_sb->s_dio_done_wq, &io->work);
++				return;
+ 			}
+-
+-			spin_lock(&fi->lock);
+-			fi->attr_version = atomic64_inc_return(&fc->attr_version);
+-			spin_unlock(&fi->lock);
+ 		}
+ 
+ 		io->iocb->ki_complete(io->iocb, res);
+diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+index 7f16049387d15e869db4be23a93605098588eda9..6e8c8cf6b2c82163acbfbd15c44b849898f945c1 100644
+--- a/fs/fuse/fuse_i.h
++++ b/fs/fuse/fuse_i.h
+@@ -377,6 +377,7 @@ union fuse_file_args {
+ /** The request IO state (for asynchronous processing) */
+ struct fuse_io_priv {
+ 	struct kref refcnt;
++	struct work_struct work;
+ 	int async;
+ 	spinlock_t lock;
+ 	unsigned reqs;
 
-> ---
->  mm/huge_memory.c | 15 +++++++++++----
->  1 file changed, 11 insertions(+), 4 deletions(-)
->
-> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-> index 56db54fa48181..f0bdac3f270b5 100644
-> --- a/mm/huge_memory.c
-> +++ b/mm/huge_memory.c
-> @@ -3647,6 +3647,7 @@ static int __split_unmapped_folio(struct folio *folio, int new_order,
->  	const bool is_anon = folio_test_anon(folio);
->  	int old_order = folio_order(folio);
->  	int start_order = split_type == SPLIT_TYPE_UNIFORM ? new_order : old_order - 1;
-> +	struct folio *old_folio = folio;
->  	int split_order;
->
->  	/*
-> @@ -3668,11 +3669,17 @@ static int __split_unmapped_folio(struct folio *folio, int new_order,
->  			 * irq is disabled to allocate enough memory, whereas
->  			 * non-uniform split can handle ENOMEM.
->  			 */
-> -			if (split_type == SPLIT_TYPE_UNIFORM)
-> -				xas_split(xas, folio, old_order);
-> -			else {
-> +			if (split_type == SPLIT_TYPE_UNIFORM) {
-> +				xas_split(xas, old_folio, old_order);
-> +			} else {
->  				xas_set_order(xas, folio->index, split_order);
-> -				xas_try_split(xas, folio, old_order);
-> +				/*
-> +				 * use the to-be-split folio, so that a parallel
-> +				 * folio_try_get() waits on it until xarray is
-> +				 * updated with after-split folios and
-> +				 * the original one is unfrozen.
-> +				 */
-> +				xas_try_split(xas, old_folio, old_order);
+---
+base-commit: c8724f58a948da8be255e407d4623feaf76fe7da
+change-id: 20260303-async-dio-aio-cache-invalidation-9974bebd5869
 
-Nice, looks good! :) thanks for fixing all this!
+Best regards,
+-- 
+Bernd Schubert <bschubert@ddn.com>
 
->  				if (xas_error(xas))
->  					return xas_error(xas);
->  			}
-> --
-> 2.51.0
->
-
-Cheers, Lorenzo
