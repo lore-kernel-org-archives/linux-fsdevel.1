@@ -1,65 +1,119 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from out30-112.freemail.mail.aliyun.com (out30-112.freemail.mail.aliyun.com [115.124.30.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CC4F3822AD;
-	Tue,  3 Mar 2026 14:09:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E77133F368;
+	Tue,  3 Mar 2026 14:16:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.112
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772546945; cv=none; b=rOJwXqRC/snk5+6uYZbWACIrGvs3hSvScw1DX2aqKButo5o/StxN4SXBD5FkNaSfrY2cXAl7+KsmM2AmcXFDUH5BFnOgcu+l8RmraLyTry/Xnhz0wR9jslejMc840S5gEay2zRuG8dFpbPDrdGt1cxKz0g52incam13v+ME65H8=
+	t=1772547410; cv=none; b=bwL0tmUSTToBl9yAIkz8GW+c2lJdjuOhUl/3R/Pbs6vlKGqHDQZEC+ZkmUNbTJx8orqn8Vsmwckm0WYqP7mLaeN8N2xiiogNBbr0+TPeVpzE5u5Hf2SXfnmdzRotO07KskBpirV2BEZtRmi8OvXX34PG/BV9sBqEUVW07gtHUTE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772546945; c=relaxed/simple;
-	bh=od45ue3vu32GoRqWe7Ux4lCSbKCltE1Eibw2V39jTeQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H8UaVvyDRfNkT978M0v5FVu7XYCFCRH7qSzONBXdOgA6r1k8YwH09lni1svw7+QJ/P3X6fTZLCtil6YP7yJlvNAdsbN/Bn5dq0XRmwBlyqv+nkBfqxX6PystVzjKI1g+4LFe0LPodFjmvErAthpGmDZxsIj//RwV+9s7ySPXG20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=KoDW+rSW; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	s=arc-20240116; t=1772547410; c=relaxed/simple;
+	bh=ApAB8lq/CJr0t8QJgTWRvFPhbvSG8uxfkxPtTkxzua8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=doZKB53a/4kyVuB+uQpFrpZteLTB2qjVdjDA4cD9nS/Xuu51qf+m7GqV7ooDs0zVcgLFPcRvHup/ZWBvkfb9ZTVwwAa4s4E1AF5HhLTI4WVh4i1L93WOOqs8EuAYCzB2xC5G9pDs+jd0jz5Qf6K3K1R1DxPHp36YaUFDEFSm3Js=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=rXEMHuAj; arc=none smtp.client-ip=115.124.30.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="KoDW+rSW"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=od45ue3vu32GoRqWe7Ux4lCSbKCltE1Eibw2V39jTeQ=; b=KoDW+rSWC0BRlHPnPMSudCi6a/
-	dNEomDDqiRYTFO3dxAk3ny0bQZVUxhDlUKrhWUvlVbrjoOswnfJBNwL40HQlczaKK3hRa4j0hpcWf
-	IUGK+dVJ3OJP1tflf7i5R1Dxt3oFTsAQI6fOWyEIQTafb0GwrFF/R3ZulxGZEngFJlviYzcpW0hjg
-	RS5kCwoRtBTwuTbJC5Aj5/5KDXU6V5UTiQeAyq8sVet0aH4U5SUyVRt1JgND0muS+hhMuD1r4Ecsb
-	BwbBwkt3qHgddXG0kDKJHw64DA4OXu/ocqMq7zSLmH9kOyOoFoSU2i80zkqjlXkLG1rWA0mpdQg5a
-	9RDSefnw==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vxQQp-0000000FI17-0hgy;
-	Tue, 03 Mar 2026 14:09:03 +0000
-Date: Tue, 3 Mar 2026 06:09:03 -0800
-From: Christoph Hellwig <hch@infradead.org>
-To: Jan Kara <jack@suse.cz>
-Cc: linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
-	Al Viro <viro@zeniv.linux.org.uk>, linux-ext4@vger.kernel.org,
-	Ted Tso <tytso@mit.edu>,
-	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
-	David Sterba <dsterba@suse.com>,
-	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
-	Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	David Hildenbrand <david@kernel.org>, linux-mm@kvack.org,
-	linux-aio@kvack.org, Benjamin LaHaise <bcrl@kvack.org>,
-	Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org
-Subject: Re: [PATCH 21/32] bdev: Drop pointless invalidate_mapping_buffers()
- call
-Message-ID: <aabrf4YhPJ2X7n9q@infradead.org>
-References: <20260303101717.27224-1-jack@suse.cz>
- <20260303103406.4355-53-jack@suse.cz>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="rXEMHuAj"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1772547405; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=npi6ZTogrvn9jOfVsJYDqbJ9HJZdPvs+NRTzxelLi7A=;
+	b=rXEMHuAj+ffujMupEsKWbEYSFC40cbhNgHi4bWUgU9nVNqCchlt3b1gIT5VqywQsoGJeq6hZYSttHP0kqRDact1y3JvxaRoWUkxAJvi1nwvxR27fPwqYnXMFOMBmCl7FfTcm4Gcn9CcuASMIrUQzf6S6+ltEE1/Bg3/w5ufoLBA=
+Received: from 192.168.31.58(mailfrom:jefflexu@linux.alibaba.com fp:SMTPD_---0X-A0vf6_1772547404 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Tue, 03 Mar 2026 22:16:44 +0800
+Message-ID: <2d59cd68-5013-4c4e-8088-7357cf314b14@linux.alibaba.com>
+Date: Tue, 3 Mar 2026 22:16:43 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260303103406.4355-53-jack@suse.cz>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] fuse: move page cache invalidation after AIO to workqueue
+To: Bernd Schubert <bernd@bsbernd.com>, Bernd Schubert <bschubert@ddn.com>,
+ Miklos Szeredi <miklos@szeredi.hu>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Cheng Ding <cding@ddn.com>
+References: <20260303-async-dio-aio-cache-invalidation-v1-1-fba0fd0426c3@ddn.com>
+ <8e322296-52c7-4826-adb3-7fb476cdf35b@linux.alibaba.com>
+ <e548152e-a831-4b5a-bc18-52fdb7dc1d7f@bsbernd.com>
+Content-Language: en-US
+From: Jingbo Xu <jefflexu@linux.alibaba.com>
+In-Reply-To: <e548152e-a831-4b5a-bc18-52fdb7dc1d7f@bsbernd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-FYI, linux-block only got this patch which is totally messed up.
-Please always send all patches to every list and person, otherwise
-you fill peoples inboxes with unreviewable junk.
+
+
+On 3/3/26 8:37 PM, Bernd Schubert wrote:
+> 
+> 
+> On 3/3/26 13:03, Jingbo Xu wrote:
+>>
+>>
+>> On 3/3/26 6:23 PM, Bernd Schubert wrote:
+>>> From: Cheng Ding <cding@ddn.com>
+>>>
+>>> Invalidating the page cache in fuse_aio_complete() causes deadlock.
+>>> Call Trace:
+>>>  <TASK>
+>>>  __schedule+0x27c/0x6b0
+>>>  schedule+0x33/0x110
+>>>  io_schedule+0x46/0x80
+>>>  folio_wait_bit_common+0x136/0x330
+>>>  __folio_lock+0x17/0x30
+>>>  invalidate_inode_pages2_range+0x1d2/0x4f0
+>>>  fuse_aio_complete+0x258/0x270 [fuse]
+>>>  fuse_aio_complete_req+0x87/0xd0 [fuse]
+>>>  fuse_request_end+0x18e/0x200 [fuse]
+>>>  fuse_uring_req_end+0x87/0xd0 [fuse]
+>>>  fuse_uring_cmd+0x241/0xf20 [fuse]
+>>>  io_uring_cmd+0x9f/0x140
+>>>  io_issue_sqe+0x193/0x410
+>>>  io_submit_sqes+0x128/0x3e0
+>>>  __do_sys_io_uring_enter+0x2ea/0x490
+>>>  __x64_sys_io_uring_enter+0x22/0x40
+>>>
+>>> Move the invalidate_inode_pages2_range() call to a workqueue worker
+>>> to avoid this issue. This approach is similar to
+>>> iomap_dio_bio_end_io().
+>>>
+>>> (Minor edit by Bernd to avoid a merge conflict in Miklos' for-next
+>>> branch). The commit is based on that branch with the addition of
+>>> https://lore.kernel.org/r/20260111073701.6071-1-jefflexu@linux.alibaba.com)
+>>
+>> I think it would be better to completely drop my previous patch and
+>> rework on the bare ground, as the patch
+>> (https://lore.kernel.org/r/20260111073701.6071-1-jefflexu@linux.alibaba.com)
+>> is only in Miklos's branch, not merged to the master yet.
+>>
+>>
+>> After reverting my previous patch, I think it would be cleaner by:
+>>
+>>
+>> "The page cache invalidation for FOPEN_DIRECT_IO write in
+>> fuse_direct_io() is moved to fuse_direct_write_iter() (with any progress
+>> in write), to keep consistent with generic_file_direct_write().  This
+>> covers the scenarios of both synchronous FOPEN_DIRECT_IO write
+>> (regardless FUSE_ASYNC_DIO) and asynchronous FOPEN_DIRECT_IO write
+>> without FUSE_ASYNC_DIO.
+>>
+>> After that, only asynchronous direct write (for both FOPEN_DIRECT_IO and
+>> non-FOPEN_DIRECT_IO) with FUSE_ASYNC_DIO is left."
+> 
+> I think your suggestion moves into this direction
+> 
+> https://lore.kernel.org/all/20230918150313.3845114-1-bschubert@ddn.com/
+> 
+
+Yes it's similar in some way, but it's still simple enough as the short
+term fix.
+
+-- 
+Thanks,
+Jingbo
 
