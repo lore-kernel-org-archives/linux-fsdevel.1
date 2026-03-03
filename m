@@ -1,39 +1,39 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 421A531B114
-	for <linux-fsdevel@vger.kernel.org>; Tue,  3 Mar 2026 10:35:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E89E839D6CB
+	for <linux-fsdevel@vger.kernel.org>; Tue,  3 Mar 2026 10:35:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772534125; cv=none; b=JcVq8agCYNbApsStmggffo2MePCeLW3Ye++ZckHXzoPVQJW/EnP8O4OcYrJ+gYSX3G/b7KVNTBxaqBMuAo2TbMQk/jVt5mNn7SyWHdYiv+dlekIPfifxOd7zBaZlI247jfjIdbvRlhuAmOvee8xdTDAozI1jJEzg0mMqLJ3/Zfs=
+	t=1772534131; cv=none; b=m0MtfwiTaFKjIKMgCor+JnZaGIsJ8Dw84G1mvitgpNBY1GXvwX3DnwKILitXc8euudUmnUyNCyEbM5SKpKm1uZOn+JGpodJy6342ijlIZlfXYaQoB7m/waKIObQ+s4EFfGtRm9OmXZQOxy29UA5rZj8MZDM2U5skN04gVYD7Gew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772534125; c=relaxed/simple;
-	bh=2/a9eqgQlz/3Mb1WXg09pHnceFw4nNkq4pR2iqKrJoM=;
+	s=arc-20240116; t=1772534131; c=relaxed/simple;
+	bh=h0e6MIg5l952kKWgsDkEqfN2Mt10ryaKvGQbfI027K0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=G2EJKuWdSgJlnIHK+W9JYaFwgTkTErI8vkvGHVGMLSsny8M+E3mBdEPRiAwzyJD7FTVEoRJrvD63Jxz0kJktQCetl/bqG1HfPk1hfi3mhsVBJsimBLJ/9apWcAXTWCGVJDoXFZkbTquUFKOoWnslM7upvf/Dnf6wEVk4Vz6CtJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=TY9q5FZTzrhsIgx7rKIXkJ7XYzZT5mwmmQsFiRKAW0Og5txHWSSCftUJbmXoKXFCY1OFGLenaGtXWxDb6buIMtwCQNtvGjyaFtH85hdp9anVGAYxr1GOOKGpC0fdEn+X9BLEGBuKm8LAbPicCqjOasYEO/DfBe1GpkdZhVZTRgo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 2E4983F924;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 49C2A5BE26;
 	Tue,  3 Mar 2026 10:34:45 +0000 (UTC)
-Authentication-Results: smtp-out1.suse.de;
+Authentication-Results: smtp-out2.suse.de;
 	none
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 243B83EA6E;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3E0493EA6C;
 	Tue,  3 Mar 2026 10:34:45 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id EyzXCEW5pml/FQAAD6G6ig
+	id ixYeD0W5pmmLFQAAD6G6ig
 	(envelope-from <jack@suse.cz>); Tue, 03 Mar 2026 10:34:45 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id C00ADA0ADA; Tue,  3 Mar 2026 11:34:40 +0100 (CET)
+	id 068E6A0B73; Tue,  3 Mar 2026 11:34:41 +0100 (CET)
 From: Jan Kara <jack@suse.cz>
 To: <linux-fsdevel@vger.kernel.org>
 Cc: Christian Brauner <brauner@kernel.org>,
@@ -50,9 +50,9 @@ Cc: Christian Brauner <brauner@kernel.org>,
 	linux-aio@kvack.org,
 	Benjamin LaHaise <bcrl@kvack.org>,
 	Jan Kara <jack@suse.cz>
-Subject: [PATCH 15/32] fs: Drop osync_buffers_list()
-Date: Tue,  3 Mar 2026 11:34:04 +0100
-Message-ID: <20260303103406.4355-47-jack@suse.cz>
+Subject: [PATCH 22/32] fs: Switch inode_has_buffers() to take mapping_metadata_bhs
+Date: Tue,  3 Mar 2026 11:34:11 +0100
+Message-ID: <20260303103406.4355-54-jack@suse.cz>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260303101717.27224-1-jack@suse.cz>
 References: <20260303101717.27224-1-jack@suse.cz>
@@ -62,106 +62,112 @@ List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2464; i=jack@suse.cz; h=from:subject; bh=2/a9eqgQlz/3Mb1WXg09pHnceFw4nNkq4pR2iqKrJoM=; b=owEBbQGS/pANAwAIAZydqgc/ZEDZAcsmYgBpprkq3a5/P0oUM3bDlZR3EzEk1N3kzljC9F9eH VlmIijoJKmJATMEAAEIAB0WIQSrWdEr1p4yirVVKBycnaoHP2RA2QUCaaa5KgAKCRCcnaoHP2RA 2YEWCADXaZjDgnEzRya8WwzOnAHZ4qj1cJhsps4vNe6LN2OzqXU9hRA0KCwyN1q3267mhf/Gtn8 cQRRvJrD7nTw1RB+acUok2EmA3WYOJGhPuSPpbrTyUgR+Z9yVqPuzZGop3fq7MfcFurZB3iLUx5 YTSQW0lx6H+QxRAeT1WU7SG9nAQn5ZNJpUFSpu49/+AaVQ4AQdrOmYLSY/z/z8uk+dbKs90w7JO 2Q67MYypYmHj19Hq5sjvXf30jcBQ+l4AlZSUrv4jJpk6eoN/Sq/dyC+CJT0RmslIUQc5Vg5w9vS U3/whdj22wIw13yayC2IA5mBBn6ZOi3aVH65TNsw32MyfLGR
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3341; i=jack@suse.cz; h=from:subject; bh=h0e6MIg5l952kKWgsDkEqfN2Mt10ryaKvGQbfI027K0=; b=owEBbQGS/pANAwAIAZydqgc/ZEDZAcsmYgBpprkwiZ1a8GXqSyp+bg1UghDh217roqsu+Pqts 3l7xohlZBqJATMEAAEIAB0WIQSrWdEr1p4yirVVKBycnaoHP2RA2QUCaaa5MAAKCRCcnaoHP2RA 2VsCCACymLlBzpHgLUzLMLNGiTzCzJYKtadD8BzeD3oIfJpU55WORZv8s9WWKnJx0DuugeHHYaJ /dABsPjGb7ZAJqvnvJD7vTxnH4Ripsn5ClgKEzseSezvzeoYc9f4NK1wcxE8xOaqC3p+GixOn2w 3IX5XdJqLGfPwlrOlmS2qYNCfgFGg7GWJqyaQGY5/dpiO0ypa5pUcBUryqcmYIZNBl9t6MceMcu wEHO808n6FSVwuQHghWYooFwiF8jYx6uFn2AFYTGpVofVdn+MVLqXE0jQoU+bZRVsOP8rAexQrR f+VIdfVyuHdnurySWXk+Kfo33m+PVmSNN6koXlwWEdP3RwC1
 X-Developer-Key: i=jack@suse.cz; a=openpgp; fpr=93C6099A142276A28BBE35D815BC833443038D8C
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Pre-Result: action=no action;
 	module=replies;
 	Message is reply to one we originated
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	REPLY(-4.00)[];
-	TAGGED_RCPT(0.00)[]
-X-Rspamd-Queue-Id: 2E4983F924
+X-Rspamd-Queue-Id: 49C2A5BE26
 X-Rspamd-Pre-Result: action=no action;
 	module=replies;
 	Message is reply to one we originated
 X-Rspamd-Action: no action
-X-Spam-Flag: NO
 X-Spam-Score: -4.00
 X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	REPLY(-4.00)[];
+	TAGGED_RCPT(0.00)[]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 
-The function only waits for already locked buffers in the list of
-metadata bhs. fsync_buffers_list() has just waited for all outstanding
-IO on buffers so this isn't adding anything useful. Comment in front of
-fsync_buffers_list() mentions concerns about buffers being moved out
-from tmp list back to mappings i_private_list but these days
-mark_buffer_dirty_inode() doesn't touch inodes with b_assoc_map set so
-that cannot happen. Just delete the stale code.
+inode_has_buffers() is also used internally and it is trivial so it's
+pointless to grab mapping_metadata_bhs for each invocation. Just let
+that function take mapping_metadata_bhs struct instead and rename the
+function to mmb_has_buffers().
 
 Signed-off-by: Jan Kara <jack@suse.cz>
 ---
- fs/buffer.c | 43 ++-----------------------------------------
- 1 file changed, 2 insertions(+), 41 deletions(-)
+ fs/buffer.c                 | 14 +++++++-------
+ fs/ext4/inode.c             |  2 +-
+ include/linux/buffer_head.h |  2 +-
+ 3 files changed, 9 insertions(+), 9 deletions(-)
 
 diff --git a/fs/buffer.c b/fs/buffer.c
-index c85ccfb1a4ec..1c0e7c81a38b 100644
+index d7a1d72302da..096a8d9e3280 100644
 --- a/fs/buffer.c
 +++ b/fs/buffer.c
-@@ -526,41 +526,6 @@ int inode_has_buffers(struct inode *inode)
+@@ -468,7 +468,7 @@ EXPORT_SYMBOL(mark_buffer_async_write);
+  * written back and waited upon before fsync() returns.
+  *
+  * The functions mark_buffer_dirty_inode(), fsync_inode_buffers(),
+- * inode_has_buffers() and invalidate_inode_buffers() are provided for the
++ * mmb_has_buffers() and invalidate_inode_buffers() are provided for the
+  * management of a list of dependent buffers in mapping_metadata_bhs struct.
+  *
+  * The locking is a little subtle: The list of buffer heads is protected by
+@@ -542,11 +542,11 @@ static void remove_assoc_queue(struct buffer_head *bh)
+ 	}
  }
- EXPORT_SYMBOL_GPL(inode_has_buffers);
  
--/*
-- * osync is designed to support O_SYNC io.  It waits synchronously for
-- * all already-submitted IO to complete, but does not queue any new
-- * writes to the disk.
-- *
-- * To do O_SYNC writes, just queue the buffer writes with write_dirty_buffer
-- * as you dirty the buffers, and then use osync_inode_buffers to wait for
-- * completion.  Any other dirty buffers which are not yet queued for
-- * write will not be flushed to disk by the osync.
-- */
--static int osync_buffers_list(spinlock_t *lock, struct list_head *list)
--{
--	struct buffer_head *bh;
--	struct list_head *p;
--	int err = 0;
--
--	spin_lock(lock);
--repeat:
--	list_for_each_prev(p, list) {
--		bh = BH_ENTRY(p);
--		if (buffer_locked(bh)) {
--			get_bh(bh);
--			spin_unlock(lock);
--			wait_on_buffer(bh);
--			if (!buffer_uptodate(bh))
--				err = -EIO;
--			brelse(bh);
--			spin_lock(lock);
--			goto repeat;
--		}
--	}
--	spin_unlock(lock);
--	return err;
--}
--
+-int inode_has_buffers(struct inode *inode)
++bool mmb_has_buffers(struct mapping_metadata_bhs *mmb)
+ {
+-	return !list_empty(&inode->i_data.i_metadata_bhs.list);
++	return !list_empty(&mmb->list);
+ }
+-EXPORT_SYMBOL_GPL(inode_has_buffers);
++EXPORT_SYMBOL_GPL(mmb_has_buffers);
+ 
  /**
   * sync_mapping_buffers - write out & wait upon a mapping's "associated" buffers
-  * @mapping: the mapping which wants those buffers written
-@@ -777,7 +742,7 @@ static int fsync_buffers_list(spinlock_t *lock, struct list_head *list)
- {
- 	struct buffer_head *bh;
- 	struct address_space *mapping;
--	int err = 0, err2;
-+	int err = 0;
+@@ -578,7 +578,7 @@ int sync_mapping_buffers(struct address_space *mapping)
  	struct blk_plug plug;
  	LIST_HEAD(tmp);
  
-@@ -844,11 +809,7 @@ static int fsync_buffers_list(spinlock_t *lock, struct list_head *list)
- 	}
- 	
- 	spin_unlock(lock);
--	err2 = osync_buffers_list(lock, list);
--	if (err)
--		return err;
--	else
--		return err2;
-+	return err;
- }
+-	if (list_empty(&mmb->list))
++	if (!mmb_has_buffers(mmb))
+ 		return 0;
  
- /*
+ 	blk_start_plug(&plug);
+@@ -820,9 +820,9 @@ EXPORT_SYMBOL(block_dirty_folio);
+  */
+ void invalidate_inode_buffers(struct inode *inode)
+ {
+-	if (inode_has_buffers(inode)) {
+-		struct mapping_metadata_bhs *mmb = inode_get_metadata_bhs(inode);
++	struct mapping_metadata_bhs *mmb = inode_get_metadata_bhs(inode);
+ 
++	if (mmb_has_buffers(mmb)) {
+ 		spin_lock(&mmb->lock);
+ 		while (!list_empty(&mmb->list))
+ 			__remove_assoc_queue(mmb, BH_ENTRY(mmb->list.next));
+diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
+index 6f892abef003..011cb2eb16a2 100644
+--- a/fs/ext4/inode.c
++++ b/fs/ext4/inode.c
+@@ -3436,7 +3436,7 @@ static bool ext4_inode_datasync_dirty(struct inode *inode)
+ 	}
+ 
+ 	/* Any metadata buffers to write? */
+-	if (inode_has_buffers(inode))
++	if (mmb_has_buffers(&inode->i_mapping->i_metadata_bhs))
+ 		return true;
+ 	return inode_state_read_once(inode) & I_DIRTY_DATASYNC;
+ }
+diff --git a/include/linux/buffer_head.h b/include/linux/buffer_head.h
+index 623ee66d41a8..ebbd73c45e63 100644
+--- a/include/linux/buffer_head.h
++++ b/include/linux/buffer_head.h
+@@ -516,7 +516,7 @@ bool block_dirty_folio(struct address_space *mapping, struct folio *folio);
+ void buffer_init(void);
+ bool try_to_free_buffers(struct folio *folio);
+ void mmb_init(struct mapping_metadata_bhs *mmb);
+-int inode_has_buffers(struct inode *inode);
++bool mmb_has_buffers(struct mapping_metadata_bhs *mmb);
+ void invalidate_inode_buffers(struct inode *inode);
+ int sync_mapping_buffers(struct address_space *mapping);
+ void invalidate_bh_lrus(void);
 -- 
 2.51.0
 
