@@ -1,31 +1,50 @@
-Received: from out30-112.freemail.mail.aliyun.com (out30-112.freemail.mail.aliyun.com [115.124.30.112])
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E77133F368;
-	Tue,  3 Mar 2026 14:16:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.112
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A16C033F368
+	for <linux-fsdevel@vger.kernel.org>; Tue,  3 Mar 2026 14:17:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772547410; cv=none; b=bwL0tmUSTToBl9yAIkz8GW+c2lJdjuOhUl/3R/Pbs6vlKGqHDQZEC+ZkmUNbTJx8orqn8Vsmwckm0WYqP7mLaeN8N2xiiogNBbr0+TPeVpzE5u5Hf2SXfnmdzRotO07KskBpirV2BEZtRmi8OvXX34PG/BV9sBqEUVW07gtHUTE=
+	t=1772547462; cv=none; b=Fl1oedzS4i81tqrNnMtAGRUMiqHJLNHeTxYIFMmasLrdrLsN6RN9yfzGdMB/P+iuS+vjxwitOdayQ1IPB5qI52qoKwutGsh+bmgMSrx0wXxPjKlpdN3rVcKPm1D2BtrdWmqGLhQLzoZE5mQRSbeaGTiHWFfPCotIw4f6jSW6/Hs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772547410; c=relaxed/simple;
-	bh=ApAB8lq/CJr0t8QJgTWRvFPhbvSG8uxfkxPtTkxzua8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=doZKB53a/4kyVuB+uQpFrpZteLTB2qjVdjDA4cD9nS/Xuu51qf+m7GqV7ooDs0zVcgLFPcRvHup/ZWBvkfb9ZTVwwAa4s4E1AF5HhLTI4WVh4i1L93WOOqs8EuAYCzB2xC5G9pDs+jd0jz5Qf6K3K1R1DxPHp36YaUFDEFSm3Js=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=rXEMHuAj; arc=none smtp.client-ip=115.124.30.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1772547462; c=relaxed/simple;
+	bh=KXtPR45XlwA5t9dJ3rfNgFxtzZ9y5nb7ehtXyJUvGRM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:From:In-Reply-To:
+	 Content-Type:References; b=STRxgzvBAx2C1qiCz3/xk4DU2nuYAmWIrq5HvB0m2dfEnm0ZjjywtyDXmurktvNB1zaygwXE9KfJiC73EdiBXQwa4XFEuxnWwdWF6XgAZnYOo2uTDXaLf4B4Sw/mPb07QkmQuGEwBtV0FyLwMksiqghISatikUSXvMvTPcw/oQA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=nAHolJpm; arc=none smtp.client-ip=210.118.77.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="rXEMHuAj"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1772547405; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=npi6ZTogrvn9jOfVsJYDqbJ9HJZdPvs+NRTzxelLi7A=;
-	b=rXEMHuAj+ffujMupEsKWbEYSFC40cbhNgHi4bWUgU9nVNqCchlt3b1gIT5VqywQsoGJeq6hZYSttHP0kqRDact1y3JvxaRoWUkxAJvi1nwvxR27fPwqYnXMFOMBmCl7FfTcm4Gcn9CcuASMIrUQzf6S6+ltEE1/Bg3/w5ufoLBA=
-Received: from 192.168.31.58(mailfrom:jefflexu@linux.alibaba.com fp:SMTPD_---0X-A0vf6_1772547404 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Tue, 03 Mar 2026 22:16:44 +0800
-Message-ID: <2d59cd68-5013-4c4e-8088-7357cf314b14@linux.alibaba.com>
-Date: Tue, 3 Mar 2026 22:16:43 +0800
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="nAHolJpm"
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20260303141732euoutp021c377a92bb840d861d168a3dc53b040e~ZWoQ9cE8H1205912059euoutp02u
+	for <linux-fsdevel@vger.kernel.org>; Tue,  3 Mar 2026 14:17:32 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20260303141732euoutp021c377a92bb840d861d168a3dc53b040e~ZWoQ9cE8H1205912059euoutp02u
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1772547452;
+	bh=yI63eG0TpyudB4EbuxKXYS2S0olMXbkfWRAVH8sYml4=;
+	h=Date:Subject:To:CC:From:In-Reply-To:References:From;
+	b=nAHolJpmRCQ4gHFFWFKGXTt1mm4rLcsJZwxxRVqII9a8+aRkttC5F2e0ONfQcPxHw
+	 3JVo+Gtcdd248Xf0fW4Swmdfb+xq06oSLF0CjoSYEG/BzpexuQVYcWOeNUqJmrX3w1
+	 sIlwE2iFK4XGOA1aW7Y+5ZaIEhTK0qNMGjWb6dwo=
+Received: from eucas1p1.samsung.com (unknown [203.254.199.20]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+	20260303141731eucas1p2e2776e83eaddf31d46a04572d08ecb6d~ZWoQeWN_70751407514eucas1p24;
+	Tue,  3 Mar 2026 14:17:31 +0000 (GMT)
+Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+	20260303141731eucas1p294a43af96c9468f35fc3b88ddda944b8~ZWoQMnWCl0751807518eucas1p20;
+	Tue,  3 Mar 2026 14:17:31 +0000 (GMT)
+Received: from CAMSPWEXC02.scsc.local (unknown [106.1.227.4]) by
+	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20260303141731eusmtip1a2108785e03078cd80aeba1cd79b3739~ZWoQEqtIM1956719567eusmtip1N;
+	Tue,  3 Mar 2026 14:17:31 +0000 (GMT)
+Received: from [106.210.248.154] (106.210.248.154) by CAMSPWEXC02.scsc.local
+	(106.1.227.4) with Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.39; Tue, 3 Mar
+	2026 14:17:29 +0000
+Message-ID: <6e86c417-c410-4deb-9b47-08e3d5d9be71@samsung.com>
+Date: Tue, 3 Mar 2026 15:17:29 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -33,87 +52,65 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fuse: move page cache invalidation after AIO to workqueue
-To: Bernd Schubert <bernd@bsbernd.com>, Bernd Schubert <bschubert@ddn.com>,
- Miklos Szeredi <miklos@szeredi.hu>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- Cheng Ding <cding@ddn.com>
-References: <20260303-async-dio-aio-cache-invalidation-v1-1-fba0fd0426c3@ddn.com>
- <8e322296-52c7-4826-adb3-7fb476cdf35b@linux.alibaba.com>
- <e548152e-a831-4b5a-bc18-52fdb7dc1d7f@bsbernd.com>
+Subject: Re: [RFC v2 0/3] Decoupling large folios dependency on THP
+To: Matthew Wilcox <willy@infradead.org>
+CC: Suren Baghdasaryan <surenb@google.com>, Mike Rapoport <rppt@kernel.org>,
+	David Hildenbrand <david@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+	Michal Hocko <mhocko@suse.com>, Lance Yang <lance.yang@linux.dev>, "Lorenzo
+ Stoakes" <lorenzo.stoakes@oracle.com>, Baolin Wang
+	<baolin.wang@linux.alibaba.com>, Dev Jain <dev.jain@arm.com>, Barry Song
+	<baohua@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Nico Pache
+	<npache@redhat.com>, Zi Yan <ziy@nvidia.com>, Vlastimil Babka
+	<vbabka@suse.cz>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, Jens Axboe
+	<axboe@kernel.dk>, <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
+	<linux-block@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+	<mcgrof@kernel.org>, <gost.dev@samsung.com>, <kernel@pankajraghav.com>,
+	<tytso@mit.edu>
 Content-Language: en-US
-From: Jingbo Xu <jefflexu@linux.alibaba.com>
-In-Reply-To: <e548152e-a831-4b5a-bc18-52fdb7dc1d7f@bsbernd.com>
-Content-Type: text/plain; charset=UTF-8
+From: Pankaj Raghav <p.raghav@samsung.com>
+In-Reply-To: <aaEsOu0hgCUznzl3@casper.infradead.org>
+Content-Type: text/plain; charset="UTF-8"; format="flowed"
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: CAMSPWEXC01.scsc.local (106.1.227.3) To
+	CAMSPWEXC02.scsc.local (106.1.227.4)
+X-CMS-MailID: 20260303141731eucas1p294a43af96c9468f35fc3b88ddda944b8
+X-Msg-Generator: CA
+X-RootMTR: 20260227053155eucas1p2b4b92cca44cefd084ae528fea27419d3
+X-EPHeader: CA
+cpgsPolicy: EUCPGSC10-065,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20260227053155eucas1p2b4b92cca44cefd084ae528fea27419d3
+References: <20251206030858.1418814-1-p.raghav@samsung.com>
+	<CGME20260227053155eucas1p2b4b92cca44cefd084ae528fea27419d3@eucas1p2.samsung.com>
+	<aaEsOu0hgCUznzl3@casper.infradead.org>
 
 
 
-On 3/3/26 8:37 PM, Bernd Schubert wrote:
+On 2/27/2026 6:31 AM, Matthew Wilcox wrote:
+> On Sat, Dec 06, 2025 at 04:08:55AM +0100, Pankaj Raghav wrote:
+>> There are multiple solutions to solve this problem and this is one of
+>> them with minimal changes. I plan on discussing possible other solutions
+>> at the talk.
 > 
+> Here's an argument.  The one remaining caller of add_to_page_cache_lru()
+> is ramfs_nommu_expand_for_mapping().  Attached is a patch which
+> eliminates it ... but it doesn't compile because folio_split() is
+> undefined on nommu.
 > 
-> On 3/3/26 13:03, Jingbo Xu wrote:
->>
->>
->> On 3/3/26 6:23 PM, Bernd Schubert wrote:
->>> From: Cheng Ding <cding@ddn.com>
->>>
->>> Invalidating the page cache in fuse_aio_complete() causes deadlock.
->>> Call Trace:
->>>  <TASK>
->>>  __schedule+0x27c/0x6b0
->>>  schedule+0x33/0x110
->>>  io_schedule+0x46/0x80
->>>  folio_wait_bit_common+0x136/0x330
->>>  __folio_lock+0x17/0x30
->>>  invalidate_inode_pages2_range+0x1d2/0x4f0
->>>  fuse_aio_complete+0x258/0x270 [fuse]
->>>  fuse_aio_complete_req+0x87/0xd0 [fuse]
->>>  fuse_request_end+0x18e/0x200 [fuse]
->>>  fuse_uring_req_end+0x87/0xd0 [fuse]
->>>  fuse_uring_cmd+0x241/0xf20 [fuse]
->>>  io_uring_cmd+0x9f/0x140
->>>  io_issue_sqe+0x193/0x410
->>>  io_submit_sqes+0x128/0x3e0
->>>  __do_sys_io_uring_enter+0x2ea/0x490
->>>  __x64_sys_io_uring_enter+0x22/0x40
->>>
->>> Move the invalidate_inode_pages2_range() call to a workqueue worker
->>> to avoid this issue. This approach is similar to
->>> iomap_dio_bio_end_io().
->>>
->>> (Minor edit by Bernd to avoid a merge conflict in Miklos' for-next
->>> branch). The commit is based on that branch with the addition of
->>> https://lore.kernel.org/r/20260111073701.6071-1-jefflexu@linux.alibaba.com)
->>
->> I think it would be better to completely drop my previous patch and
->> rework on the bare ground, as the patch
->> (https://lore.kernel.org/r/20260111073701.6071-1-jefflexu@linux.alibaba.com)
->> is only in Miklos's branch, not merged to the master yet.
->>
->>
->> After reverting my previous patch, I think it would be cleaner by:
->>
->>
->> "The page cache invalidation for FOPEN_DIRECT_IO write in
->> fuse_direct_io() is moved to fuse_direct_write_iter() (with any progress
->> in write), to keep consistent with generic_file_direct_write().  This
->> covers the scenarios of both synchronous FOPEN_DIRECT_IO write
->> (regardless FUSE_ASYNC_DIO) and asynchronous FOPEN_DIRECT_IO write
->> without FUSE_ASYNC_DIO.
->>
->> After that, only asynchronous direct write (for both FOPEN_DIRECT_IO and
->> non-FOPEN_DIRECT_IO) with FUSE_ASYNC_DIO is left."
-> 
-> I think your suggestion moves into this direction
-> 
-> https://lore.kernel.org/all/20230918150313.3845114-1-bschubert@ddn.com/
+> So either we need to reimplement all the good stuff that folio_split()
+> does for us, or we need to make folio_split() available on nommu.
 > 
 
-Yes it's similar in some way, but it's still simple enough as the short
-term fix.
+I had a question, one conclusion I came to was: folio splitting depends on THP, 
+so we either need to implement the split logic without THP dependency or just 
+make sure we don't split a large folio at all when we use large folio (what I 
+did in this RFC but not a great long term solution).
 
--- 
-Thanks,
-Jingbo
+So even if we implement folio_split without any dependency on THP, do we need to 
+re-implement or make folio_split available for nommu? I am also wondering how 
+nommu code is related to removing large folios dependency on THP.
+
+--
+Pankaj
+
 
