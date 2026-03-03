@@ -1,39 +1,80 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCE3539C623
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 100B839D6CB
 	for <linux-fsdevel@vger.kernel.org>; Tue,  3 Mar 2026 10:35:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772534112; cv=none; b=QuP4TPMgWdKk9K7/fikbdoqW0F8BR7P53YOq/DHymTjfPS+Z/k2IFgKOKkum1h9Yx7VRZJCnZL+j8mV87IqimFaoI0gio+YAz1erq7m69KaG2ZOp61eqknmDqtM0z8dyqcdSy1BqgGqdvptjJtBgCvzM1n4RPBSUKi2Xqpko5QQ=
+	t=1772534113; cv=none; b=bols+TyNKuUF0e4TSJLMs2p+NHEK+8yjBpH2DnAoVUEkdRevh+E5o3keBrrxWUb2orfc2iFn560jiDEc6bvGzJT9N3bSfH/tmS9Oe++UqUzw3bcTQ6zrQx+jh4o1z6cinTVfaKGqbuSCwWWDZ7LU2N0C9ZNtXplFgsR/c2U2VNs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772534112; c=relaxed/simple;
-	bh=p58QfOPdeBSF+GFT64AjIbjHzbd4gdcT7JjSAJNis4Y=;
+	s=arc-20240116; t=1772534113; c=relaxed/simple;
+	bh=IGpn2U38477v+c6PsdjKXPDX/u4w8/iXEhPzBY2PBAQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=srWo1D3A70ruklI87osiSgZ+HjUmkf+E9hwOA8F+rQX34hEaJ0LvcFhA7P8z7+RHijnCJdvyrVjqXodHbUoe3zSA+qTms1m4QgU6nCVrOcu0MSraKvbRSmWlZshHz20F8aVKcehfvLNWy6hkmpkohItA821vZi5HqQ4WgdQFtNM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=c8dXKQob9cwHHe7iCixNN4siRIcfiLUJCDKLArzRU+tc+qKbo0nVUqqbnXuITqgONWFJyNLa17kzx8YE+/GcqyHqBxUA0hmuQyC6Ndci8YtWfCXsez1hXOVoqlLi4UNCX5PwqWP7QpNrGmXWHL1u7gIvf6uyH0OQ4YIZDP3ZuEU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=sQWs6zGP; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=662EpqO8; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=sQWs6zGP; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=662EpqO8; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="sQWs6zGP";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="662EpqO8";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="sQWs6zGP";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="662EpqO8"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 18AEC5BE21;
-	Tue,  3 Mar 2026 10:34:45 +0000 (UTC)
-Authentication-Results: smtp-out2.suse.de;
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E4A9C3F8F1;
+	Tue,  3 Mar 2026 10:34:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1772534084; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6BrEbcwxHzsuw5/1iQnP6jk/azHihcilg6iUu/naUsg=;
+	b=sQWs6zGPYLXKaYf9cvr1oyKMK4RgMpnvEfedtkA5GV4fopa4whQfkn6EsrbAH7+/wBeGJL
+	ZNaI8ZUJRCUiUkY2yq6ydwP8faMROvV3MX9MKXq0GnhmDiEgnAd89FFyivExEF9Xy57cDs
+	Th+8QQdzaXioKukJiGLAcCKUtPky0as=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1772534084;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6BrEbcwxHzsuw5/1iQnP6jk/azHihcilg6iUu/naUsg=;
+	b=662EpqO8HHYWgaVUqeEtdELcTIeiD0t55bGUqR7mw5HjDCgqE0NJLZ78EE953OAgbNcgrx
+	KiBo2dHpqmFDuDBg==
+Authentication-Results: smtp-out1.suse.de;
 	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1772534084; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6BrEbcwxHzsuw5/1iQnP6jk/azHihcilg6iUu/naUsg=;
+	b=sQWs6zGPYLXKaYf9cvr1oyKMK4RgMpnvEfedtkA5GV4fopa4whQfkn6EsrbAH7+/wBeGJL
+	ZNaI8ZUJRCUiUkY2yq6ydwP8faMROvV3MX9MKXq0GnhmDiEgnAd89FFyivExEF9Xy57cDs
+	Th+8QQdzaXioKukJiGLAcCKUtPky0as=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1772534084;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6BrEbcwxHzsuw5/1iQnP6jk/azHihcilg6iUu/naUsg=;
+	b=662EpqO8HHYWgaVUqeEtdELcTIeiD0t55bGUqR7mw5HjDCgqE0NJLZ78EE953OAgbNcgrx
+	KiBo2dHpqmFDuDBg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0612E3EA72;
-	Tue,  3 Mar 2026 10:34:45 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D7E5C3EA69;
+	Tue,  3 Mar 2026 10:34:44 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id /Zx0AUW5pml1FQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 03 Mar 2026 10:34:45 +0000
+	id DfutNES5pmlkFQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 03 Mar 2026 10:34:44 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id B7201A0AAA; Tue,  3 Mar 2026 11:34:40 +0100 (CET)
+	id 6E7B7A0AFD; Tue,  3 Mar 2026 11:34:40 +0100 (CET)
 From: Jan Kara <jack@suse.cz>
 To: <linux-fsdevel@vger.kernel.org>
 Cc: Christian Brauner <brauner@kernel.org>,
@@ -50,9 +91,9 @@ Cc: Christian Brauner <brauner@kernel.org>,
 	linux-aio@kvack.org,
 	Benjamin LaHaise <bcrl@kvack.org>,
 	Jan Kara <jack@suse.cz>
-Subject: [PATCH 14/32] fs: Remove i_private_data
-Date: Tue,  3 Mar 2026 11:34:03 +0100
-Message-ID: <20260303103406.4355-46-jack@suse.cz>
+Subject: [PATCH 05/32] ext4: Sync and invalidate metadata buffers from ext4_evict_inode()
+Date: Tue,  3 Mar 2026 11:33:54 +0100
+Message-ID: <20260303103406.4355-37-jack@suse.cz>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260303101717.27224-1-jack@suse.cz>
 References: <20260303101717.27224-1-jack@suse.cz>
@@ -62,65 +103,79 @@ List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1510; i=jack@suse.cz; h=from:subject; bh=p58QfOPdeBSF+GFT64AjIbjHzbd4gdcT7JjSAJNis4Y=; b=owGbwMvMwME4Z+4qdvsUh5uMp9WSGDKX7dT065ga7rhq2VKrJX7nHe39/7zbtUahecZ7L+W2+ WeEtZOfdjIaszAwcjDIiimyrI68qH1tnlHX1lANGZhBrEwgUxi4OAVgIl5rOBg+2HvtSMtctuXI 5Y+JO5YV6J9vLV94yWqe7WObnA079NPfdna0eK+VOBstVSebEBa0WXabZKAGd6XCaeNK+Wifm/e d0sVlPzhnK1wzvbwl9Ul30QuGjxYJX3a/OXHQfckZs0OG/2aucGdtO3rOJeVI19b57uddrkgeqG +ubdZpFhb00zO+LButkJi9Q/PJHU2NsMlW+79HGqSssQq8KBmg8fkTa6rcnRRZ4UJHpizfGZ71w Stl5CQ2Srx2P3Te+Ukye0x9nnht1I6PLk4Bx26wvHh1tSiYa26i5bv6J5bfVO7whVlGbK6SbP1S +Ytne1aLzPKMZw7WbmF5va5BB7jVnxhMTlm+5uEOx+/JAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1415; i=jack@suse.cz; h=from:subject; bh=IGpn2U38477v+c6PsdjKXPDX/u4w8/iXEhPzBY2PBAQ=; b=owEBbQGS/pANAwAIAZydqgc/ZEDZAcsmYgBpprkiwvoOz0rMEX/Q3fhsgA4Ot0pM7sp6flswL aWQHP6KuUWJATMEAAEIAB0WIQSrWdEr1p4yirVVKBycnaoHP2RA2QUCaaa5IgAKCRCcnaoHP2RA 2VnHCACqstiVFtyMN9RhMfncMO1Ev44P2kUvv/aYJoePCuTOIE+9vai6hetbUiwxr+tAZAaRqX4 TDkl2nwgsJ7fp92ylLb1+FFtpQTdkIzI6F7fVWcjJ0V0naqyZX2Mavnp5EOyZJBWP/1Yx0iy9eN KEMnlDQqNf2TmO9ocTFD4rxLgbJS3pIH7vmjGaxgEjCCmnHCl0bPiW5kkkKkF5oTYw8r9dCLx6Z P4Q87rkalL5TI5os2Nl1ncKmAo6HJHNurYSaUIeqgsIiSWNbSDCfEEjInh+EeZw3wsls88BREZn 7sxW20dAcaEUXrolKyv2VNzV5Mf/Nj1k6aiPk8n5PHGNS9a+
 X-Developer-Key: i=jack@suse.cz; a=openpgp; fpr=93C6099A142276A28BBE35D815BC833443038D8C
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	REPLY(-4.00)[];
-	TAGGED_RCPT(0.00)[]
-X-Rspamd-Queue-Id: 18AEC5BE21
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -4.00
+X-Spam-Score: -5.30
 X-Spam-Level: 
+X-Spamd-Result: default: False [-5.30 / 50.00];
+	REPLY(-4.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,ZenIV.linux.org.uk,vger.kernel.org,mit.edu,gmail.com,suse.com,mail.parknet.co.jp,linux.dev,suse.de,kvack.org,suse.cz];
+	FROM_HAS_DN(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	R_RATELIMIT(0.00)[to_ip_from(RLck8brw5hxmszoarioc7838it)];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com]
+X-Spam-Flag: NO
 
-Nobody is using it anymore.
+There are only very few filesystems using generic metadata buffer head
+tracking and everybody is paying the overhead. When we remove this
+tracking for inode reclaim code .evict will start to see inodes with
+metadata buffers attached so write them out and prune them.
 
 Signed-off-by: Jan Kara <jack@suse.cz>
 ---
- fs/inode.c         | 1 -
- include/linux/fs.h | 2 --
- 2 files changed, 3 deletions(-)
+ fs/ext4/inode.c | 4 +++-
+ fs/ext4/super.c | 3 ++-
+ 2 files changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/fs/inode.c b/fs/inode.c
-index 4f98a5f04bbd..d5774e627a9c 100644
---- a/fs/inode.c
-+++ b/fs/inode.c
-@@ -283,7 +283,6 @@ int inode_init_always_gfp(struct super_block *sb, struct inode *inode, gfp_t gfp
- 	atomic_set(&mapping->nr_thps, 0);
- #endif
- 	mapping_set_gfp_mask(mapping, GFP_HIGHUSER_MOVABLE);
--	mapping->i_private_data = NULL;
- 	mapping->writeback_index = 0;
- 	init_rwsem(&mapping->invalidate_lock);
- 	lockdep_set_class_and_name(&mapping->invalidate_lock,
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index 8b3dd145b25e..10b96eb5391d 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -465,7 +465,6 @@ extern const struct address_space_operations empty_aops;
-  * @wb_err: The most recent error which has occurred.
-  * @i_private_lock: For use by the owner of the address_space.
-  * @i_private_list: For use by the owner of the address_space.
-- * @i_private_data: For use by the owner of the address_space.
-  */
- struct address_space {
- 	struct inode		*host;
-@@ -486,7 +485,6 @@ struct address_space {
- 	spinlock_t		i_private_lock;
- 	struct list_head	i_private_list;
- 	struct rw_semaphore	i_mmap_rwsem;
--	void *			i_private_data;
- } __attribute__((aligned(sizeof(long)))) __randomize_layout;
- 	/*
- 	 * On most architectures that alignment is already the case; but
+diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
+index 396dc3a5d16b..c2692b9c7123 100644
+--- a/fs/ext4/inode.c
++++ b/fs/ext4/inode.c
+@@ -185,7 +185,9 @@ void ext4_evict_inode(struct inode *inode)
+ 		ext4_evict_ea_inode(inode);
+ 	if (inode->i_nlink) {
+ 		truncate_inode_pages_final(&inode->i_data);
+-
++		/* Avoid mballoc special inode which has no proper iops */
++		if (!EXT4_SB(inode->i_sb)->s_journal)
++			sync_mapping_buffers(&inode->i_data);
+ 		goto no_delete;
+ 	}
+ 
+diff --git a/fs/ext4/super.c b/fs/ext4/super.c
+index 43f680c750ae..ea827b0ecc8d 100644
+--- a/fs/ext4/super.c
++++ b/fs/ext4/super.c
+@@ -1524,7 +1524,8 @@ static void destroy_inodecache(void)
+ void ext4_clear_inode(struct inode *inode)
+ {
+ 	ext4_fc_del(inode);
+-	invalidate_inode_buffers(inode);
++	if (!EXT4_SB(inode->i_sb)->s_journal)
++		invalidate_inode_buffers(inode);
+ 	clear_inode(inode);
+ 	ext4_discard_preallocations(inode);
+ 	ext4_es_remove_extent(inode, 0, EXT_MAX_BLOCKS);
 -- 
 2.51.0
 
