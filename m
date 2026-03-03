@@ -1,155 +1,182 @@
-Received: from out30-112.freemail.mail.aliyun.com (out30-112.freemail.mail.aliyun.com [115.124.30.112])
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EE272F851;
-	Tue,  3 Mar 2026 02:56:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.112
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22D5037CD29;
+	Tue,  3 Mar 2026 03:15:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772506579; cv=none; b=H6coNFSQg1dsDLGCg4gJf1S1XJvKSL02ikhmZuaVna9TfLaJHRaCYjkeSYsR2IrR4qhJO/5d1VHBFhmyK0WLTxFasc7GO4KoIkKbzIfANmqBTR5atvXSrMlpUAxIflqs5cbKgHfts3mZSUMtud5eay+tgIJIPpUD9KyC2S3OpHc=
+	t=1772507751; cv=none; b=ISCajUDxOkjevvHfkr+fzDKRocdwuMNahcdoLLbgGGanWNhRZKftCHcaBlH1beOCLYzDV1OLS91mGFpJzz81Jrnox+BrgNjyDxJI5X3StVG99ss1Hbc0joqXeMvnpshfatIYKzBuFp+1CosCa1Cjz8giPjd9BSaWX5BZO/LM41o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772506579; c=relaxed/simple;
-	bh=p29Ts/uQiLNRaNqbZCttMVOgOGYb9T+C+5LvWrq8KF4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aT4u4kOvZAC55HlX/+1TbTccjbcTdwn7vJrh/kKbJsWoSRphdwSDFPVsni0trGLzftwvOJ5XjGYdHCgvAMa5KGpnaz1gTd5vOsgz3ZIhheoXh4jG1nzo9Rkw20Jw35dzuEp6btgXp2ouStbCY7VJ9IDj+wp0JxPuJORp02+Z53k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=wXARC7jM; arc=none smtp.client-ip=115.124.30.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1772507751; c=relaxed/simple;
+	bh=w8rNkWEjUFCXjSAhc3cIFAG542b2c3mihzEDpHI9qfI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=tDBvD+LorvcV5rijQrv0/eNFMqtAq6fFCps8JPQa1SurgJdVDwaWWT2Epzbw4GwA+eT1Y6GxLFJIbVxl4bM/K7+Hk+4kehNsrc71TMAt1LeekkIwLm78dVFGnFMIU4uCRZaDA+Xst2XQ7UTzJHyxGgPBg4qBpiH1cyZOrPyVnco=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=nVA5AFcB; arc=none smtp.client-ip=220.197.31.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="wXARC7jM"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1772506573; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=0kZUN0VL57Cyttda3xmQnVN1rtw05kxUs7xfZwCM9f0=;
-	b=wXARC7jMoXFlM73sJMxc7f3o0i6qARs76qH1pcbzt9NQsfXuXY48ydQ+iHJiZoONDvkWeNyer8fS6Of5UGQx7jryxxHrl7ARze43XnHryIYS4dv1VfyNDaGBioN6dr8c91f5eoiF5NDU7TfJLZUk7QIhhDtyuJN8qtyjZjeDi3s=
-Received: from 30.221.146.213(mailfrom:jefflexu@linux.alibaba.com fp:SMTPD_---0X-8AdhS_1772506572 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Tue, 03 Mar 2026 10:56:13 +0800
-Message-ID: <a1a7c175-65d2-4015-9669-93702ce64ffd@linux.alibaba.com>
-Date: Tue, 3 Mar 2026 10:56:12 +0800
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="nVA5AFcB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=ZL
+	gy4MSlrRZC+zc/j95iZRJF8V8QJqf5zvBN0CeFOkQ=; b=nVA5AFcBaZsbMjh45q
+	ixuwskp/2G0t72/HC0TatB++vsjmn5QBs6on1ixVXK/u15kK/Z+YlYkPATlXsIEn
+	ZFgQ35pfKP88AI3IDKAJ7FH+twZPwdaRe4g9kFSYEZ0DcJ3YQB8sYcCIeAEiPGMZ
+	Jr2lt2Z20Tu5ODcfdscNSpg+s=
+Received: from czl-ubuntu-pc.. (unknown [])
+	by gzsmtp4 (Coremail) with SMTP id PygvCgAXh6xQUqZpOLCWQw--.188S7;
+	Tue, 03 Mar 2026 11:15:34 +0800 (CST)
+From: Chi Zhiling <chizhiling@163.com>
+To: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Namjae Jeon <linkinjeon@kernel.org>,
+	Sungjong Seo <sj1557.seo@samsung.com>,
+	Yuezhang Mo <yuezhang.mo@sony.com>,
+	Chi Zhiling <chizhiling@kylinos.cn>
+Subject: [PATCH v2 5/6] exfat: optimize exfat_chain_cont_cluster with cached buffer heads
+Date: Tue,  3 Mar 2026 11:14:08 +0800
+Message-ID: <20260303031409.129136-6-chizhiling@163.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260303031409.129136-1-chizhiling@163.com>
+References: <20260303031409.129136-1-chizhiling@163.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] fuse: invalidate the page cache after direct write
-To: Bernd Schubert <bernd@bsbernd.com>, Miklos Szeredi <miklos@szeredi.hu>
-Cc: linux-fsdevel@vger.kernel.org, bschubert@ddn.com,
- linux-kernel@vger.kernel.org, Cheng Ding <cding@ddn.com>
-References: <20260111073701.6071-1-jefflexu@linux.alibaba.com>
- <CAJfpegtS+rX37qLVPW+Ciso_+yqjTqGKNnvSacpd7HdniGXjAQ@mail.gmail.com>
- <f7903a99-c8c3-4dd6-8ec4-a1b1da8f20e0@bsbernd.com>
- <e57c91ac-09b1-4e28-9a92-d721dc314dfd@bsbernd.com>
-Content-Language: en-US
-From: Jingbo Xu <jefflexu@linux.alibaba.com>
-In-Reply-To: <e57c91ac-09b1-4e28-9a92-d721dc314dfd@bsbernd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:PygvCgAXh6xQUqZpOLCWQw--.188S7
+X-Coremail-Antispam: 1Uf129KBjvJXoWxAFy8tFyDXr48KF15tw1DKFg_yoWrJr1fpF
+	ZIka93tr4UJ3ZFv3Z7tw4kXr1fC397J3WkGa13G34fAr90yFnY9ry8Kry8try0kayDuFyY
+	vF4UtF15CwnrWFDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j2XdUUUUUU=
+X-CM-SenderInfo: hfkl6xxlol0wi6rwjhhfrp/xtbC9xatS2mmUlaMBgAA3G
 
-Hi Bernd,
+From: Chi Zhiling <chizhiling@kylinos.cn>
 
-Thanks for reporting it!
+When converting files from NO_FAT_CHAIN to FAT_CHAIN format, profiling
+reveals significant time spent in mark_buffer_dirty() and exfat_mirror_bh()
+operations. This overhead occurs because each FAT entry modification
+triggers a full block dirty marking and mirroring operation.
 
-On 3/3/26 5:19 AM, Bernd Schubert wrote:
-> 
-> 
-> On 3/2/26 20:29, Bernd Schubert wrote:
->>
->>
->> On 2/27/26 16:09, Miklos Szeredi wrote:
->>> On Sun, 11 Jan 2026 at 08:37, Jingbo Xu <jefflexu@linux.alibaba.com> wrote:
->>>>
->>>> This fixes xfstests generic/451 (for both O_DIRECT and FOPEN_DIRECT_IO
->>>> direct write).
->>>>
->>>> Commit b359af8275a9 ("fuse: Invalidate the page cache after
->>>> FOPEN_DIRECT_IO write") tries to fix the similar issue for
->>>> FOPEN_DIRECT_IO write, which can be reproduced by xfstests generic/209.
->>>> It only fixes the issue for synchronous direct write, while omitting
->>>> the case for asynchronous direct write (exactly targeted by
->>>> generic/451).
->>>>
->>>> While for O_DIRECT direct write, it's somewhat more complicated.  For
->>>> synchronous direct write, generic_file_direct_write() will invalidate
->>>> the page cache after the write, and thus it can pass generic/209.  While
->>>> for asynchronous direct write, the invalidation in
->>>> generic_file_direct_write() is bypassed since the invalidation shall be
->>>> done when the asynchronous IO completes.  This is omitted in FUSE and
->>>> generic/451 fails whereby.
->>>>
->>>> Fix this by conveying the invalidation for both synchronous and
->>>> asynchronous write.
->>>>
->>>> - with FOPEN_DIRECT_IO
->>>>   - sync write,  invalidate in fuse_send_write()
->>>>   - async write, invalidate in fuse_aio_complete() with FUSE_ASYNC_DIO,
->>>>                  fuse_send_write() otherwise
->>>> - without FOPEN_DIRECT_IO
->>>>   - sync write,  invalidate in generic_file_direct_write()
->>>>   - async write, invalidate in fuse_aio_complete() with FUSE_ASYNC_DIO,
->>>>                  generic_file_direct_write() otherwise
->>>>
->>>> Reviewed-by: Bernd Schubert <bschubert@ddn.com>
->>>> Signed-off-by: Jingbo Xu <jefflexu@linux.alibaba.com>
->>>
->>> Applied, thanks.
->>>
->>
->> Hi Miklos,
->>
->> just back from a week off and we got a QA report last week. This commit
->> leads to a deadlock. Is there a chance you can revert and not send it
->> to Linus yet? 
->>
->> [Wed Feb 25 07:14:29 2026] INFO: task clt_reactor_3:49041 blocked for more than 122 seconds.
->> [Wed Feb 25 07:14:29 2026]       Tainted: G           OE      6.8.0-79-generic #79-Ubuntu
->> [Wed Feb 25 07:14:29 2026] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
->> [Wed Feb 25 07:14:29 2026] task:clt_reactor_3   state:D stack:0     pid:49041 tgid:49014 ppid:1      flags:0x00000006
->> [Wed Feb 25 07:14:29 2026] Call Trace:
->> [Wed Feb 25 07:14:29 2026] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
->> [Wed Feb 25 07:14:29 2026] task:clt_reactor_3   state:D stack:0     pid:49041 tgid:49014 ppid:1      flags:0x00000006
->> [Wed Feb 25 07:14:29 2026] Call Trace:
->> [Wed Feb 25 07:14:29 2026]  <TASK>
->> [Wed Feb 25 07:14:29 2026]  __schedule+0x27c/0x6b0
->> [Wed Feb 25 07:14:29 2026]  schedule+0x33/0x110
->> [Wed Feb 25 07:14:29 2026]  io_schedule+0x46/0x80
->> [Wed Feb 25 07:14:29 2026]  folio_wait_bit_common+0x136/0x330
->> [Wed Feb 25 07:14:29 2026]  __folio_lock+0x17/0x30
->> [Wed Feb 25 07:14:29 2026]  invalidate_inode_pages2_range+0x1d2/0x4f0
->> [Wed Feb 25 07:14:29 2026]  fuse_aio_complete+0x258/0x270 [fuse]
->> [Wed Feb 25 07:14:29 2026]  fuse_aio_complete_req+0x87/0xd0 [fuse]
->> [Wed Feb 25 07:14:29 2026]  fuse_request_end+0x18e/0x200 [fuse]
->> [Wed Feb 25 07:14:29 2026]  fuse_uring_req_end+0x87/0xd0 [fuse]
->> [Wed Feb 25 07:14:29 2026]  fuse_uring_cmd+0x241/0xf20 [fuse]
->> [Wed Feb 25 07:14:29 2026]  io_uring_cmd+0x9f/0x140
->> [Wed Feb 25 07:14:29 2026]  io_issue_sqe+0x193/0x410
->> [Wed Feb 25 07:14:29 2026]  io_submit_sqes+0x128/0x3e0
->> [Wed Feb 25 07:14:29 2026]  __do_sys_io_uring_enter+0x2ea/0x490
->> [Wed Feb 25 07:14:29 2026]  __x64_sys_io_uring_enter+0x22/0x40
+For consecutive clusters that reside in the same block, optimize by caching
+the buffer head and performing dirty marking only once at the end of the
+block's modifications.
 
-I can reproduce it with xfstests generic/451 with io_uring enabled.
+Performance improvements for converting a 30GB file:
 
+| Cluster Size | Before Patch | After Patch | Speedup |
+|--------------|--------------|-------------|---------|
+| 512 bytes    | 4.243s       | 1.866s      | 2.27x   |
+| 4KB          | 0.863s       | 0.236s      | 3.66x   |
+| 32KB         | 0.069s       | 0.034s      | 2.03x   |
+| 256KB        | 0.012s       | 0.006s      | 2.00x   |
 
->>
->>
->> Issue is that invalidate_inode_pages2_range() might trigger another
->> write to the same core (in our case a reactor / coroutine) and
->> then deadlocks.
->> Cheng suggests to offload that into a worker queue, but FOPEN_DIRECT_IO
->> code starts to get complex - I'm more inclined to get back to my patches
->> from about 3 years ago that the unified the DIO handlers and let it go
->> through the normal vfs handlers.
->>
-> 
-> Hmm, maybe in the short term maybe the better solution is to update the
-> patch (not posted to the list) that Cheng made and to use
-> i_sb->s_dio_done_wq similar to what iomap_dio_bio_end_io() does.
+Signed-off-by: Chi Zhiling <chizhiling@kylinos.cn>
+---
+ fs/exfat/fatent.c | 49 +++++++++++++++++++++++++++++++++++------------
+ 1 file changed, 37 insertions(+), 12 deletions(-)
 
-Hi Bernd, would Cheng mind sending the patch out and I could help review
-together :)
-
+diff --git a/fs/exfat/fatent.c b/fs/exfat/fatent.c
+index 4177a933e0be..a973aa4de57b 100644
+--- a/fs/exfat/fatent.c
++++ b/fs/exfat/fatent.c
+@@ -32,6 +32,17 @@ static int exfat_mirror_bh(struct super_block *sb, struct buffer_head *bh)
+ 	return err;
+ }
+ 
++static int exfat_end_bh(struct super_block *sb, struct buffer_head *bh)
++{
++	int err;
++
++	exfat_update_bh(bh, sb->s_flags & SB_SYNCHRONOUS);
++	err = exfat_mirror_bh(sb, bh);
++	brelse(bh);
++
++	return err;
++}
++
+ static int __exfat_ent_get(struct super_block *sb, unsigned int loc,
+ 		unsigned int *content, struct buffer_head **last)
+ {
+@@ -62,29 +73,40 @@ static int __exfat_ent_get(struct super_block *sb, unsigned int loc,
+ 	return 0;
+ }
+ 
+-int exfat_ent_set(struct super_block *sb, unsigned int loc,
+-		unsigned int content)
++static int __exfat_ent_set(struct super_block *sb, unsigned int loc,
++		unsigned int content, struct buffer_head **cache)
+ {
+-	unsigned int off;
+ 	sector_t sec;
+ 	__le32 *fat_entry;
+-	struct buffer_head *bh;
++	struct buffer_head *bh = cache ? *cache : NULL;
++	unsigned int off;
+ 
+ 	sec = FAT_ENT_OFFSET_SECTOR(sb, loc);
+ 	off = FAT_ENT_OFFSET_BYTE_IN_SECTOR(sb, loc);
+ 
+-	bh = sb_bread(sb, sec);
+-	if (!bh)
+-		return -EIO;
++	if (!bh || bh->b_blocknr != sec || !buffer_uptodate(bh)) {
++		if (bh)
++			exfat_end_bh(sb, bh);
++		bh = sb_bread(sb, sec);
++		if (cache)
++			*cache = bh;
++		if (unlikely(!bh))
++			return -EIO;
++	}
+ 
+ 	fat_entry = (__le32 *)&(bh->b_data[off]);
+ 	*fat_entry = cpu_to_le32(content);
+-	exfat_update_bh(bh, sb->s_flags & SB_SYNCHRONOUS);
+-	exfat_mirror_bh(sb, bh);
+-	brelse(bh);
++	if (!cache)
++		exfat_end_bh(sb, bh);
+ 	return 0;
+ }
+ 
++int exfat_ent_set(struct super_block *sb, unsigned int loc,
++		unsigned int content)
++{
++	return __exfat_ent_set(sb, loc, content, NULL);
++}
++
+ /*
+  * Caller must release the buffer_head if no error return.
+  */
+@@ -170,6 +192,7 @@ int exfat_blk_readahead(struct super_block *sb, sector_t sec,
+ int exfat_chain_cont_cluster(struct super_block *sb, unsigned int chain,
+ 		unsigned int len)
+ {
++	struct buffer_head *bh = NULL;
+ 	sector_t sec, end, ra;
+ 	blkcnt_t ra_cnt = 0;
+ 
+@@ -183,14 +206,16 @@ int exfat_chain_cont_cluster(struct super_block *sb, unsigned int chain,
+ 		sec = FAT_ENT_OFFSET_SECTOR(sb, chain);
+ 		exfat_blk_readahead(sb, sec, &ra, &ra_cnt, end);
+ 
+-		if (exfat_ent_set(sb, chain, chain + 1))
++		if (__exfat_ent_set(sb, chain, chain + 1, &bh))
+ 			return -EIO;
+ 		chain++;
+ 		len--;
+ 	}
+ 
+-	if (exfat_ent_set(sb, chain, EXFAT_EOF_CLUSTER))
++	if (__exfat_ent_set(sb, chain, EXFAT_EOF_CLUSTER, &bh))
+ 		return -EIO;
++
++	exfat_end_bh(sb, bh);
+ 	return 0;
+ }
+ 
 -- 
-Thanks,
-Jingbo
+2.43.0
 
