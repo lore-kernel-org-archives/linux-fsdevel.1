@@ -1,24 +1,25 @@
 Received: from mail.avm.de (mail.avm.de [212.42.244.120])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AD773E0C73;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D7B53E0C78;
 	Tue,  3 Mar 2026 10:59:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.120
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772535577; cv=none; b=O0LujDgr1HKenAia15kVTlKlJvADklkjOa1mfneJzQw/abwdh7AyUpGDoY4OOdkY+ToLeXvDZ+s/TEwSCYjL6yOLlnGcqe1DloNZtCFoj1v/wT5z9CJxJx+aiWGj9ZWVv5leA6i/ePMy/5suF0y3nvy8wvXsmAGDyYLNsjmvwyo=
+	t=1772535577; cv=none; b=gDZOO3dPsKACLKFgC5Exih+RsScPkeQOzSuz2zhlke7u8V+OKCrvTFkfQ84gAbYFcjhlvoj+nCAdXTN4R7ikasLkdD5p9PSk7xx5xaMtP7MA7O6hPZzUaKJAqJtpRmKDNC4B3adkHb+mGW97X9LcfaRG3zPVhx4N5kguZjMxVWc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1772535577; c=relaxed/simple;
-	bh=fxfNMY1/bETtKv/qGV2veO9GsO00dZq3D5BMTLQiLuY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eGrFwUmjy7DLNn1l2DGPgvi4yRurspRFW++8OlBecArKdGc1Am1oKnwVW6fLNlUrFxR2JC0OuUYt03j9A9gGSlwoku3wNduSq7fnNVZwVtwA4GYWuEhd2vZ2e8jikgfJRiZynAXta7R0qbb0Uc0oMUIpflCjxSDQbLaosTVogks=
+	bh=AVDOvUysLeRsjpzey4Uh6N374SNRAn9i+6EF37t8PC0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=inwtta8rzozRwtyBwOF3ABrur3FpjSJMQpJq2k0RwSESnqNdfueO+IIiGJPz0MJ2U9NUXaZbfawEdS4+CJ+UpzKgEvZV2S3FyYjfvdO1H+XJ4tHFGZnimSV5UCa4cou21nfdV6hIGHBf0PtI98RUZKmQ+zCplJSliTuCJ+21Nzk=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de; spf=pass smtp.mailfrom=avm.de; arc=none smtp.client-ip=212.42.244.120
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=avm.de
-Received: from [212.42.244.71] (helo=mail.avm.de)
+Received: from [2001:bf0:244:244::71] (helo=mail.avm.de)
 	by mail.avm.de with ESMTP (eXpurgate 4.55.2)
 	(envelope-from <phahn-oss@avm.de>)
-	id 69a6bf0c-0473-7f0000032729-7f0000019b32-1
+	id 69a6bf0c-0473-7f0000032729-7f0000019b3a-1
 	for <multiple-recipients>; Tue, 03 Mar 2026 11:59:24 +0100
-Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [212.42.244.71])
+Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [IPv6:2001:bf0:244:244::71])
 	by mail.avm.de (Postfix) with ESMTPS;
 	Tue,  3 Mar 2026 11:59:24 +0100 (CET)
 From: Philipp Hahn <phahn-oss@avm.de>
@@ -28,9 +29,11 @@ To: Namjae Jeon <linkinjeon@kernel.org>,
 Cc: Philipp Hahn <phahn-oss@avm.de>,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] exfat: Fix 2 issues found by static code analysis
-Date: Tue,  3 Mar 2026 11:59:13 +0100
-Message-ID: <cover.1772534707.git.p.hahn@avm.de>
+Subject: [PATCH] exfat: Fix bitwise operation having different size
+Date: Tue,  3 Mar 2026 11:59:14 +0100
+Message-ID: <4cadd27e654d6f0d2c421729f8b3045d4c162dcc.1772534707.git.p.hahn@avm.de>
+In-Reply-To: <cover.1772534707.git.p.hahn@avm.de>
+References: <cover.1772534707.git.p.hahn@avm.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -39,33 +42,39 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Organization: FRITZ! Technology GmbH, Berlin, Germany
 Content-Transfer-Encoding: 8bit
-X-purgate-ID: 149429::1772535564-CD7F895F-0275334D/0/0
+X-purgate-ID: 149429::1772535564-38FF795F-D88A120D/0/0
 X-purgate-type: clean
-X-purgate-size: 696
+X-purgate-size: 864
 X-purgate-Ad: Categorized by eleven eXpurgate (R) https://www.eleven.de
 X-purgate: This mail is considered clean (visit https://www.eleven.de for further information)
 X-purgate: clean
 
-Hello,
+cpos has type loff_t (long long), while s_blocksize has type u32. The
+inversion wil happen on u32, the coercion to s64 happens afterwards and
+will do 0-left-paddding, resulting in the upper bits getting masked out.
 
-I'm going through our list of issues found by static code analysis using Klocwork.
-It found two issues worth fixing:
+Cast s_blocksize to loff_t before negating it.
 
-1. The 1st seems to be a real bug due to C's integer coercion, where the
-   inverted bitmask `s_blocksize` gets 0 extended.
-2. The 2nd might just be a dead variable assignment, but maybe `num_clusters`
-   is supposed to be returned or stored elsewhere?
+Found by static code analysis using Klocwork.
 
-I hope my alaysis is correct. If yes, please apply. Thank you.
+Signed-off-by: Philipp Hahn <phahn-oss@avm.de>
+---
+ fs/exfat/dir.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Philipp Hahn (2):
-  exfat: Fix bitwise operation having different size
-  exfat: Drop dead assignment of num_clusters
-
- fs/exfat/dir.c   | 2 +-
- fs/exfat/inode.c | 1 -
- 2 files changed, 1 insertion(+), 2 deletions(-)
-
+diff --git a/fs/exfat/dir.c b/fs/exfat/dir.c
+index 3a4853693d8bf..e710dd196e2f0 100644
+--- a/fs/exfat/dir.c
++++ b/fs/exfat/dir.c
+@@ -249,7 +249,7 @@ static int exfat_iterate(struct file *file, struct dir_context *ctx)
+ 		 */
+ 		if (err == -EIO) {
+ 			cpos += 1 << (sb->s_blocksize_bits);
+-			cpos &= ~(sb->s_blocksize - 1);
++			cpos &= ~(loff_t)(sb->s_blocksize - 1);
+ 		}
+ 
+ 		err = -EIO;
 -- 
 2.43.0
 
