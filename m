@@ -1,40 +1,31 @@
-Received: from mout.web.de (mout.web.de [212.227.17.11])
+Received: from out30-101.freemail.mail.aliyun.com (out30-101.freemail.mail.aliyun.com [115.124.30.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE36431E852;
-	Tue,  3 Mar 2026 11:50:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72BA5313267;
+	Tue,  3 Mar 2026 12:03:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772538629; cv=none; b=nfRlQw1WiNVaGCnkeWfjKLzG9bgTZas7sKJmkk41fANRjYG8DNgtBASMJchTtBOpEynuQ73Qs+Zon6oKv1MRZ/vdelQmu10nnYJW4G348X3zNX9ZILt0+n3eNVILoOIz3FfmU7EntcfKnrDAW6fY0nGcAnqTwenPuCQ8gBhdrMI=
+	t=1772539405; cv=none; b=IsRGZsrgfIE8PYqm53QLQW2XZG1Skam2if/UoYxLEaCqWup86CZ5IHv7okfzrKApLbIZX2wTW5VtkIGQIkOVl74Q22PoJJab8vkl36GW4gji94j1jofnGFYpcGZrrfb3JZdmDxMqkB2KKEWR2LRHEXZIm6YaExUYCnvUjZU67Ws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772538629; c=relaxed/simple;
-	bh=rEnfXoK9PPeLhRGTx7/bqbqwciYbLBCA0DEw/rKp1oU=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=HydQJkUoeR6OrIiMrps1xRBXVUKq/DWA1LXZNAp2cJaz8MIy2EmWdOp+wMdJQHu7kBvPciyd5TKztpW9+7RSbpUD7r0L3wZCvVAE72aytTQvd35wvKGYsVVOvEthPK/fz+0du9S57WLnU0KeoCuOpaMpg2mlzlnfFChv2XDmXow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=vYUwCl+3; arc=none smtp.client-ip=212.227.17.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1772539405; c=relaxed/simple;
+	bh=mIQs2vdLKFUMztx3UNVyUH9h1kjRTwVEl+7zZkflIBM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PoluJLm5xc3TK2jo/L5YRlAhZe5euNuXw7CtBC3YM5n8uZwIsLfH5qkU3HTKdbz7g3GR0wxPOrqIQXmyCclYyH42e1zIeuBxsxoRpEMoLjfuWFZl0nB8wAeqWbVQSCRvK+tn+gWP401Mqi/umFDkQEQXWohDWKQg+NfPAcTGNPE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=OgudaeqH; arc=none smtp.client-ip=115.124.30.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="vYUwCl+3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1772538620; x=1773143420; i=markus.elfring@web.de;
-	bh=ryf9jAZuujJ5wov4A6y9YG3AmyvtJMpMR3CViMzAwjA=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=vYUwCl+3os1Wwf6wnZgVM1iTJCL2ds7z4d9PveDXAWMR75Qz0YLusUFc2UtqS4ms
-	 za1XHuo0RnTo4MzeyD+asV28ic1z+l4fa7wqllXpIBgZ2zip4SuXU8eydGZ6kn8zT
-	 SZIp95eMKM1tTCUnv2jm6HbWwEaM0YX/Xw9W/bAqTzH/8RmO9eafl1RNtWTmtwB6r
-	 kY5CBAlEcx6mn9u9mu8sfTWKjB0ToghHElxG0fTRM/pg1XQ/kFrReM2DkP6Nv6ala
-	 k5N0Hv/YfmAIshcVgnkhh4uigc5/5VceTExOQLQ0Zop4g7uTXXSyo9VEfqcXLNEKT
-	 iCppbJCQYHMeP6XcPA==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from client.hidden.invalid by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MRF3W-1wIF20155I-00JCLb; Tue, 03
- Mar 2026 12:50:20 +0100
-Message-ID: <a53ff72a-6464-438c-8210-01834dc27512@web.de>
-Date: Tue, 3 Mar 2026 12:50:07 +0100
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="OgudaeqH"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1772539400; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=4uW/1DwYKIVfN4L6I1i7GFtwixrQXETBMl0xi9nUwgs=;
+	b=OgudaeqHjcKD2P+Dlgp33SOKXmkfNPkcOaLpTrxlddtCDrFZspL1Vg420LLgMNhos0Rbqd7V8nkFmdm+436cANY7WYsQA+nsyRrECabTN7weM1S0DIp/z9Kv//YrIOvfvBKgmSoPD5/ut41LnQVsQzAPfpSnoje6d84v/7Bv2eQ=
+Received: from 30.221.146.213(mailfrom:jefflexu@linux.alibaba.com fp:SMTPD_---0X-9rZM5_1772539398 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Tue, 03 Mar 2026 20:03:19 +0800
+Message-ID: <8e322296-52c7-4826-adb3-7fb476cdf35b@linux.alibaba.com>
+Date: Tue, 3 Mar 2026 20:03:18 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -42,99 +33,217 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-To: Philipp Hahn <phahn-oss@avm.de>, linux-fsdevel@vger.kernel.org,
- Namjae Jeon <linkinjeon@kernel.org>, Sungjong Seo <sj1557.seo@samsung.com>,
- Yuezhang Mo <yuezhang.mo@sony.com>
-Cc: LKML <linux-kernel@vger.kernel.org>
-References: <36b3573bb3e4277ad448852479f2cfea7a8ba902.1772534707.git.p.hahn@avm.de>
-Subject: Re: [PATCH] exfat: Drop dead assignment of num_clusters
-Content-Language: en-GB, de-DE
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <36b3573bb3e4277ad448852479f2cfea7a8ba902.1772534707.git.p.hahn@avm.de>
+Subject: Re: [PATCH] fuse: move page cache invalidation after AIO to workqueue
+To: Bernd Schubert <bschubert@ddn.com>, Miklos Szeredi <miklos@szeredi.hu>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Cheng Ding <cding@ddn.com>
+References: <20260303-async-dio-aio-cache-invalidation-v1-1-fba0fd0426c3@ddn.com>
+Content-Language: en-US
+From: Jingbo Xu <jefflexu@linux.alibaba.com>
+In-Reply-To: <20260303-async-dio-aio-cache-invalidation-v1-1-fba0fd0426c3@ddn.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:KUp/H0no3P4bexvbAKJNM8AmYkdZf04GQcygzCspu8tonHyBNwM
- GjTKn2Hhy9r/CQWKPoiTZjrWKJYQQXBHdKg0wSftoPMwIgyZqc3GnqujuBEEYRiE2PAhGxK
- 1yUWA92AEhYAgKssQgOgJOr1C6kpfGM1QHVDKx1czKCjm/vx8CMSltic/7DJ5vKtuaEANE0
- LLf6JX2r84f1zLwmkWbSQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:qLm9o7vcQ6c=;YNbXwSJmO8HYC9RJMXipM4BScnV
- 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
- oZcBVvgD39bW/oAxk=
+Content-Transfer-Encoding: 7bit
 
-> num_clusters is not used naywhere afterwards. =E2=80=A6
 
-                           anywhere?
 
-Regards,
-Markus
+On 3/3/26 6:23 PM, Bernd Schubert wrote:
+> From: Cheng Ding <cding@ddn.com>
+> 
+> Invalidating the page cache in fuse_aio_complete() causes deadlock.
+> Call Trace:
+>  <TASK>
+>  __schedule+0x27c/0x6b0
+>  schedule+0x33/0x110
+>  io_schedule+0x46/0x80
+>  folio_wait_bit_common+0x136/0x330
+>  __folio_lock+0x17/0x30
+>  invalidate_inode_pages2_range+0x1d2/0x4f0
+>  fuse_aio_complete+0x258/0x270 [fuse]
+>  fuse_aio_complete_req+0x87/0xd0 [fuse]
+>  fuse_request_end+0x18e/0x200 [fuse]
+>  fuse_uring_req_end+0x87/0xd0 [fuse]
+>  fuse_uring_cmd+0x241/0xf20 [fuse]
+>  io_uring_cmd+0x9f/0x140
+>  io_issue_sqe+0x193/0x410
+>  io_submit_sqes+0x128/0x3e0
+>  __do_sys_io_uring_enter+0x2ea/0x490
+>  __x64_sys_io_uring_enter+0x22/0x40
+> 
+> Move the invalidate_inode_pages2_range() call to a workqueue worker
+> to avoid this issue. This approach is similar to
+> iomap_dio_bio_end_io().
+> 
+> (Minor edit by Bernd to avoid a merge conflict in Miklos' for-next
+> branch). The commit is based on that branch with the addition of
+> https://lore.kernel.org/r/20260111073701.6071-1-jefflexu@linux.alibaba.com)
+
+I think it would be better to completely drop my previous patch and
+rework on the bare ground, as the patch
+(https://lore.kernel.org/r/20260111073701.6071-1-jefflexu@linux.alibaba.com)
+is only in Miklos's branch, not merged to the master yet.
+
+
+After reverting my previous patch, I think it would be cleaner by:
+
+
+"The page cache invalidation for FOPEN_DIRECT_IO write in
+fuse_direct_io() is moved to fuse_direct_write_iter() (with any progress
+in write), to keep consistent with generic_file_direct_write().  This
+covers the scenarios of both synchronous FOPEN_DIRECT_IO write
+(regardless FUSE_ASYNC_DIO) and asynchronous FOPEN_DIRECT_IO write
+without FUSE_ASYNC_DIO.
+
+After that, only asynchronous direct write (for both FOPEN_DIRECT_IO and
+non-FOPEN_DIRECT_IO) with FUSE_ASYNC_DIO is left."
+
+
+```
+@@ -1736,15 +1760,6 @@ ssize_t fuse_direct_io(struct fuse_io_priv *io,
+struct iov_iter *iter,
+        if (res > 0)
+                *ppos = pos;
+
+-       if (res > 0 && write && fopen_direct_io) {
+-               /*
+-                * As in generic_file_direct_write(), invalidate after
+-                * write, to invalidate read-ahead cache that may have
+-                * with the write.
+-                */
+-               invalidate_inode_pages2_range(mapping, idx_from, idx_to);
+-       }
+-
+        return res > 0 ? res : err;
+ }
+ EXPORT_SYMBOL_GPL(fuse_direct_io);
+
+@@ -1799,6 +1814,14 @@ static ssize_t fuse_direct_write_iter(struct
+kiocb *iocb, struct iov_iter *from)
+                                             FUSE_DIO_WRITE);
+                        fuse_write_update_attr(inode, iocb->ki_pos, res);
+                }
++
++               /*
++                * As in generic_file_direct_write(), invalidate after
++                * write, to invalidate read-ahead cache that may have
++                * with the write.
++                */
++               if (res > 0)
++                       kiocb_invalidate_post_direct_write(iocb, res);
+        }
+        fuse_dio_unlock(iocb, exclusive);
+```
+
+> 
+> Cc: Jingbo Xu <jefflexu@linux.alibaba.com>
+> Signed-off-by: Cheng Ding <cding@ddn.com>
+> Signed-off-by: Bernd Schubert <bschubert@ddn.com>
+> ---
+>  fs/fuse/file.c   | 39 +++++++++++++++++++++++++++++----------
+>  fs/fuse/fuse_i.h |  1 +
+>  2 files changed, 30 insertions(+), 10 deletions(-)
+> 
+> diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+> index 64282c68d1ec7e4616e51735c1c0e8f2ec29cfad..b16515e3b42d33795ad45cf1e374ffab674714f7 100644
+> --- a/fs/fuse/file.c
+> +++ b/fs/fuse/file.c
+> @@ -23,6 +23,8 @@
+>  #include <linux/task_io_accounting_ops.h>
+>  #include <linux/iomap.h>
+>  
+> +int sb_init_dio_done_wq(struct super_block *sb);
+> +
+
+#include "../internal.h" ?
+
+>  static int fuse_send_open(struct fuse_mount *fm, u64 nodeid,
+>  			  unsigned int open_flags, int opcode,
+>  			  struct fuse_open_out *outargp)
+> @@ -635,6 +637,19 @@ static ssize_t fuse_get_res_by_io(struct fuse_io_priv *io)
+>  	return io->bytes < 0 ? io->size : io->bytes;
+>  }
+>  
+> +static void fuse_aio_invalidate_worker(struct work_struct *work)
+> +{
+> +	struct fuse_io_priv *io = container_of(work, struct fuse_io_priv, work);
+> +	struct address_space *mapping = io->iocb->ki_filp->f_mapping;
+> +	ssize_t res = fuse_get_res_by_io(io);
+> +	pgoff_t start = io->offset >> PAGE_SHIFT;
+> +	pgoff_t end = (io->offset + res - 1) >> PAGE_SHIFT;
+> +
+> +	invalidate_inode_pages2_range(mapping, start, end);
+> +	io->iocb->ki_complete(io->iocb, res);
+> +	kref_put(&io->refcnt, fuse_io_release);
+> +}
+> +
+>  /*
+>   * In case of short read, the caller sets 'pos' to the position of
+>   * actual end of fuse request in IO request. Otherwise, if bytes_requested
+> @@ -667,28 +682,32 @@ static void fuse_aio_complete(struct fuse_io_priv *io, int err, ssize_t pos)
+>  	spin_unlock(&io->lock);
+>  
+>  	if (!left && !io->blocking) {
+> +		struct inode *inode = file_inode(io->iocb->ki_filp);
+> +		struct address_space *mapping = io->iocb->ki_filp->f_mapping;
+>  		ssize_t res = fuse_get_res_by_io(io);
+>  
+>  		if (res >= 0) {
+> -			struct inode *inode = file_inode(io->iocb->ki_filp);
+>  			struct fuse_conn *fc = get_fuse_conn(inode);
+>  			struct fuse_inode *fi = get_fuse_inode(inode);
+> -			struct address_space *mapping = io->iocb->ki_filp->f_mapping;
+>  
+> +			spin_lock(&fi->lock);
+> +			fi->attr_version = atomic64_inc_return(&fc->attr_version);
+> +			spin_unlock(&fi->lock);
+> +		}
+> +
+> +		if (io->write && res > 0 && mapping->nrpages) {
+>  			/*
+>  			 * As in generic_file_direct_write(), invalidate after the
+>  			 * write, to invalidate read-ahead cache that may have competed
+>  			 * with the write.
+>  			 */
+> -			if (io->write && res && mapping->nrpages) {
+> -				invalidate_inode_pages2_range(mapping,
+> -						io->offset >> PAGE_SHIFT,
+> -						(io->offset + res - 1) >> PAGE_SHIFT);
+> +			if (!inode->i_sb->s_dio_done_wq)
+> +				res = sb_init_dio_done_wq(inode->i_sb);
+
+Better to call sb_init_dio_done_wq() from fuse_direct_IO(), and fail the
+IO directly if sb_init_dio_done_wq() fails.
+
+> +			if (res >= 0) {
+> +				INIT_WORK(&io->work, fuse_aio_invalidate_worker);
+> +				queue_work(inode->i_sb->s_dio_done_wq, &io->work);
+> +				return;
+>  			}
+
+Otherwise, the page cache invalidation would be missed if the previous
+sb_init_dio_done_wq() fails.
+
+> -
+> -			spin_lock(&fi->lock);
+> -			fi->attr_version = atomic64_inc_return(&fc->attr_version);
+> -			spin_unlock(&fi->lock);
+>  		}
+>  
+>  		io->iocb->ki_complete(io->iocb, res);
+> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+> index 7f16049387d15e869db4be23a93605098588eda9..6e8c8cf6b2c82163acbfbd15c44b849898f945c1 100644
+> --- a/fs/fuse/fuse_i.h
+> +++ b/fs/fuse/fuse_i.h
+> @@ -377,6 +377,7 @@ union fuse_file_args {
+>  /** The request IO state (for asynchronous processing) */
+>  struct fuse_io_priv {
+>  	struct kref refcnt;
+> +	struct work_struct work;
+>  	int async;
+>  	spinlock_t lock;
+>  	unsigned reqs;
+
+
+-- 
+Thanks,
+Jingbo
+
