@@ -1,39 +1,39 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06C1D39B950
-	for <linux-fsdevel@vger.kernel.org>; Tue,  3 Mar 2026 10:36:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AAAE39B966
+	for <linux-fsdevel@vger.kernel.org>; Tue,  3 Mar 2026 10:36:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772534162; cv=none; b=GiU49ezQTVcCvg7Wb0c+1r05secXKDE4dodNa/gbdGteqLEFL4N9vJzyEyaF18Ox63BAIH+b5vL9FvMw3cipBDZTGVcwXG0nIPQEe3S2m4rljfJqrhx2qLNg0JL7bACH5fYsENZAW1+eyZ0jQMi/Hx9msgBlKfWorYLWaxcBcQw=
+	t=1772534163; cv=none; b=bK8ek8WHMrGhvyV/If+jCFyxC4IO+Wbh/NNkxuaY/gTVXORneU6n4xxvrSlbGpwz60Nq2VGHYiUeqP1mnnHlt7jVc9iqtc2yhf4m9Yj+sJvXIb+pY+hJzhvCtL914HEsVaR2QA2hHi7fLdaT6WPn07hKKDIPBnc32MJjzM//8B8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772534162; c=relaxed/simple;
-	bh=t1ZJ98uKW/mjTlAtf9li2hXoonFOHXZVBOd5Czf0muc=;
+	s=arc-20240116; t=1772534163; c=relaxed/simple;
+	bh=ud/28G3xYrWf6hhDA8l9j5Yn2n0f8oX/rNwQdYapQHM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CQiyppunJ7v4R9qGAYVO/oWhKxG+fvByg0IPs/GmOTyQN+M50JpEqT31ZMItCVKDY6Dv80pc/dvpRNWwJM3F/7RUzOKSUxI+HNjxI69sedf8BsycJSU2N4rXnMNjIwCasz2/SBu1fz1gzok79WE0i/ZlUO9rcIt9kKTSklBUBVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=qbnDbpE0nMqdqNCzXGJsOwIvs5ye9YWmEfTQLWVpxaCOPz8lAp5h3gygw9fOX2HUj+cfR3o1W48uK7YLkWEOqCRwDbcq4+JK5HQc94ZSPvM1+j8Ln/fCq+s7PDHlPt6UIjFnoxA+s2H2Ro/oRCauKHvio2c6R6sByB6mNZ297I8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 7B47A5BE33;
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 447483F93A;
 	Tue,  3 Mar 2026 10:34:45 +0000 (UTC)
-Authentication-Results: smtp-out2.suse.de;
+Authentication-Results: smtp-out1.suse.de;
 	none
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6EC693EA6C;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3639C3EA6E;
 	Tue,  3 Mar 2026 10:34:45 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id nHwKG0W5pmmfFQAAD6G6ig
+	id WXk3DUW5pmmHFQAAD6G6ig
 	(envelope-from <jack@suse.cz>); Tue, 03 Mar 2026 10:34:45 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 463E1A0B7F; Tue,  3 Mar 2026 11:34:41 +0100 (CET)
+	id E8EEFA0B6D; Tue,  3 Mar 2026 11:34:40 +0100 (CET)
 From: Jan Kara <jack@suse.cz>
 To: <linux-fsdevel@vger.kernel.org>
 Cc: Christian Brauner <brauner@kernel.org>,
@@ -49,10 +49,13 @@ Cc: Christian Brauner <brauner@kernel.org>,
 	linux-mm@kvack.org,
 	linux-aio@kvack.org,
 	Benjamin LaHaise <bcrl@kvack.org>,
-	Jan Kara <jack@suse.cz>
-Subject: [PATCH 30/32] vfs: Drop mapping_metadata_bhs from address space
-Date: Tue,  3 Mar 2026 11:34:19 +0100
-Message-ID: <20260303103406.4355-62-jack@suse.cz>
+	Jan Kara <jack@suse.cz>,
+	Joel Becker <jlbec@evilplan.org>,
+	Joseph Qi <joseph.qi@linux.alibaba.com>,
+	ocfs2-devel@lists.linux.dev
+Subject: [PATCH 20/32] ocfs2: Drop pointless sync_mapping_buffers() calls
+Date: Tue,  3 Mar 2026 11:34:09 +0100
+Message-ID: <20260303103406.4355-52-jack@suse.cz>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260303101717.27224-1-jack@suse.cz>
 References: <20260303101717.27224-1-jack@suse.cz>
@@ -62,13 +65,13 @@ List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2964; i=jack@suse.cz; h=from:subject; bh=t1ZJ98uKW/mjTlAtf9li2hXoonFOHXZVBOd5Czf0muc=; b=owEBbQGS/pANAwAIAZydqgc/ZEDZAcsmYgBpprk32Wxql2wtTkldVHgQyouf3CalCsOswKYUJ sSpBtaI5ZGJATMEAAEIAB0WIQSrWdEr1p4yirVVKBycnaoHP2RA2QUCaaa5NwAKCRCcnaoHP2RA 2SkZCADLjRuMocQoKB6Huvda5j98SKmeWKpdEXSnbq26Ng0XEuFXFEkxnuwzhg3/zoIHhmJ4hc6 V2x3XgNJZSxtORfX7CMU9xit+xaKCRcpNW9XK+JYjmdSi1y+fpqzHqbceOtPnNoQ9mzDrwKvdlL ve8qnUNotEyH3DKsaPJZrUlEzq3PhCKJT7eyQysuSqgketXfzetTdLN/njPfReA9nq313q4VcY1 fu8RNYPFC3XPNFCxJ4zzXqLgd1zNmR0LYEx+DY0QIx2tVT1cXHujtkjbfRUTxHLUcv762X7+ynw CGVtg9VV4BMqYPOi2NyaIcF1JYncPuqXu1OiAsCjU8N9DXpc
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1308; i=jack@suse.cz; h=from:subject; bh=ud/28G3xYrWf6hhDA8l9j5Yn2n0f8oX/rNwQdYapQHM=; b=owEBbQGS/pANAwAIAZydqgc/ZEDZAcsmYgBpprkvRii9H+t97Y2LO0i9U30mEMXFAbwMkKJma eYyaJh30hyJATMEAAEIAB0WIQSrWdEr1p4yirVVKBycnaoHP2RA2QUCaaa5LwAKCRCcnaoHP2RA 2UAuCACl44+oSXoKVpLMMjiOlzsSYJhi83OocmKg+n6aNdrCBaLaW5GL4UJkAqg3vGC4NxBSbVI dN+/zOKfB6jEEZavQOjXSs8gm3yTIzY/LUR2vkI3wARuyz6LfXqRMAOyfpEsPatajFUP3/GJvPg 9WohJCCNRhEOI5OhIJNpNBD+A9T7KF7yv/pGurqHjAasCRN7RpqBbyjc+5HjgLrHFxZll7hf36I pJY5vGfgxZ+de5q3Sy9Atdq7p8jGPM6/TvVmtqdyR1M+Dwsc4hMMlIkeCu79+XMSCWy6wD7P8j7 yHolzEvmVH4b0K1tZQ3OEumtFv/IfIvFx2yGiie9QmONH6Xd
 X-Developer-Key: i=jack@suse.cz; a=openpgp; fpr=93C6099A142276A28BBE35D815BC833443038D8C
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Pre-Result: action=no action;
 	module=replies;
 	Message is reply to one we originated
-X-Rspamd-Queue-Id: 7B47A5BE33
+X-Rspamd-Queue-Id: 447483F93A
 X-Rspamd-Pre-Result: action=no action;
 	module=replies;
 	Message is reply to one we originated
@@ -81,84 +84,45 @@ X-Spamd-Result: default: False [-4.00 / 50.00];
 	TAGGED_RCPT(0.00)[]
 X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 
-Nobody uses mapping_metadata_bhs in struct address_space anymore. Just
-remove it.
+ocfs2 never calls mark_buffer_dirty_inode() and thus its metadata
+buffers list is always empty. Drop the pointless sync_mapping_buffers()
+calls.
 
+CC: Joel Becker <jlbec@evilplan.org>
+CC: Joseph Qi <joseph.qi@linux.alibaba.com>
+CC: ocfs2-devel@lists.linux.dev
 Signed-off-by: Jan Kara <jack@suse.cz>
 ---
- fs/buffer.c        | 16 ++++++++++------
- fs/inode.c         |  2 --
- include/linux/fs.h |  1 -
- 3 files changed, 10 insertions(+), 9 deletions(-)
+ fs/ocfs2/dlmglue.c | 1 -
+ fs/ocfs2/namei.c   | 3 ---
+ 2 files changed, 4 deletions(-)
 
-diff --git a/fs/buffer.c b/fs/buffer.c
-index 096a8d9e3280..02176e0acfe1 100644
---- a/fs/buffer.c
-+++ b/fs/buffer.c
-@@ -501,9 +501,13 @@ EXPORT_SYMBOL(mmb_init);
+diff --git a/fs/ocfs2/dlmglue.c b/fs/ocfs2/dlmglue.c
+index bd2ddb7d841d..7283bb2c5a31 100644
+--- a/fs/ocfs2/dlmglue.c
++++ b/fs/ocfs2/dlmglue.c
+@@ -3971,7 +3971,6 @@ static int ocfs2_data_convert_worker(struct ocfs2_lock_res *lockres,
+ 		mlog(ML_ERROR, "Could not sync inode %llu for downconvert!",
+ 		     (unsigned long long)OCFS2_I(inode)->ip_blkno);
+ 	}
+-	sync_mapping_buffers(mapping);
+ 	if (blocking == DLM_LOCK_EX) {
+ 		truncate_inode_pages(mapping, 0);
+ 	} else {
+diff --git a/fs/ocfs2/namei.c b/fs/ocfs2/namei.c
+index 268b79339a51..1277666c77cd 100644
+--- a/fs/ocfs2/namei.c
++++ b/fs/ocfs2/namei.c
+@@ -1683,9 +1683,6 @@ static int ocfs2_rename(struct mnt_idmap *idmap,
+ 	if (rename_lock)
+ 		ocfs2_rename_unlock(osb);
  
- static struct mapping_metadata_bhs *inode_get_metadata_bhs(struct inode *inode)
- {
-+	/*
-+	 * We can get called for various half-initialized or bad inodes so
-+	 * verify .get_metadata_bhs callback exists.
-+	 */
- 	if (inode->i_op->get_metadata_bhs)
- 		return inode->i_op->get_metadata_bhs(inode);
--	return &inode->i_mapping->i_metadata_bhs;
-+	return NULL;
- }
+-	if (new_inode)
+-		sync_mapping_buffers(old_inode->i_mapping);
+-
+ 	iput(new_inode);
  
- static void __remove_assoc_queue(struct mapping_metadata_bhs *mmb,
-@@ -544,7 +548,7 @@ static void remove_assoc_queue(struct buffer_head *bh)
- 
- bool mmb_has_buffers(struct mapping_metadata_bhs *mmb)
- {
--	return !list_empty(&mmb->list);
-+	return mmb && !list_empty(&mmb->list);
- }
- EXPORT_SYMBOL_GPL(mmb_has_buffers);
- 
-@@ -552,10 +556,10 @@ EXPORT_SYMBOL_GPL(mmb_has_buffers);
-  * sync_mapping_buffers - write out & wait upon a mapping's "associated" buffers
-  * @mapping: the mapping which wants those buffers written
-  *
-- * Starts I/O against the buffers at mapping->i_metadata_bhs and waits upon
-- * that I/O. Basically, this is a convenience function for fsync().  @mapping
-- * is a file or directory which needs those buffers to be written for a
-- * successful fsync().
-+ * Starts I/O against the buffers tracked in mapping_metadata_bhs for the
-+ * mapping and waits upon that I/O. Basically, this is a convenience function
-+ * for fsync().  @mapping is a file or directory which needs those buffers to
-+ * be written for a successful fsync().
-  *
-  * We have conflicting pressures: we want to make sure that all
-  * initially dirty buffers get waited on, but that any subsequently
-diff --git a/fs/inode.c b/fs/inode.c
-index 393f586d050a..d5774e627a9c 100644
---- a/fs/inode.c
-+++ b/fs/inode.c
-@@ -483,8 +483,6 @@ static void __address_space_init_once(struct address_space *mapping)
- 	init_rwsem(&mapping->i_mmap_rwsem);
- 	INIT_LIST_HEAD(&mapping->i_private_list);
- 	spin_lock_init(&mapping->i_private_lock);
--	spin_lock_init(&mapping->i_metadata_bhs.lock);
--	INIT_LIST_HEAD(&mapping->i_metadata_bhs.list);
- 	mapping->i_mmap = RB_ROOT_CACHED;
- }
- 
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index b4d9be1fefa4..1611d8ce4b66 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -490,7 +490,6 @@ struct address_space {
- 	errseq_t		wb_err;
- 	spinlock_t		i_private_lock;
- 	struct list_head	i_private_list;
--	struct mapping_metadata_bhs i_metadata_bhs;
- 	struct rw_semaphore	i_mmap_rwsem;
- } __attribute__((aligned(sizeof(long)))) __randomize_layout;
- 	/*
+ 	ocfs2_free_dir_lookup_result(&target_lookup_res);
 -- 
 2.51.0
 
