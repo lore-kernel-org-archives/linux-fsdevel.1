@@ -1,30 +1,29 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22D5037CD29;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB68837B013;
 	Tue,  3 Mar 2026 03:15:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772507751; cv=none; b=ISCajUDxOkjevvHfkr+fzDKRocdwuMNahcdoLLbgGGanWNhRZKftCHcaBlH1beOCLYzDV1OLS91mGFpJzz81Jrnox+BrgNjyDxJI5X3StVG99ss1Hbc0joqXeMvnpshfatIYKzBuFp+1CosCa1Cjz8giPjd9BSaWX5BZO/LM41o=
+	t=1772507751; cv=none; b=nLmmd+iZzUlGH0QGmGG8cSvB/2oZnEtDp5xYdJeYfSYPjz+3kKXYqa/7sOdaxSUD1130l2LJU4qDjfuZkAtronzDLaDvkAPvB33KhH+WFDiNjJUVyZoXtsi61Tkm1wEbj5U1CQXdSbUiN4Yv2KNIC6JIZVt3BfmUbls/vLGnqUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1772507751; c=relaxed/simple;
-	bh=w8rNkWEjUFCXjSAhc3cIFAG542b2c3mihzEDpHI9qfI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tDBvD+LorvcV5rijQrv0/eNFMqtAq6fFCps8JPQa1SurgJdVDwaWWT2Epzbw4GwA+eT1Y6GxLFJIbVxl4bM/K7+Hk+4kehNsrc71TMAt1LeekkIwLm78dVFGnFMIU4uCRZaDA+Xst2XQ7UTzJHyxGgPBg4qBpiH1cyZOrPyVnco=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=nVA5AFcB; arc=none smtp.client-ip=220.197.31.5
+	bh=HjJIlzLqtOvW6ZmYsyV42NR96C1mcm7HVpRyE8vb+E0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eJeirD7EN0ps98pMOq5pCH5W1p+7wVRZP+jJ6iqTTu/xg8IzrU5Lbmt6ksuwzx4O0Ur0X+byOWgJS+VRK5SD+Un33Wd5f6GlwePBuUah/YXZazOyNVgzB6EaGQ+C+QjmJs9U77QlaE66QTuTwOyCDSQ1mv8pxWfJnAisGuyR77k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=JGEUvT3A; arc=none smtp.client-ip=117.135.210.2
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="nVA5AFcB"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="JGEUvT3A"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=ZL
-	gy4MSlrRZC+zc/j95iZRJF8V8QJqf5zvBN0CeFOkQ=; b=nVA5AFcBaZsbMjh45q
-	ixuwskp/2G0t72/HC0TatB++vsjmn5QBs6on1ixVXK/u15kK/Z+YlYkPATlXsIEn
-	ZFgQ35pfKP88AI3IDKAJ7FH+twZPwdaRe4g9kFSYEZ0DcJ3YQB8sYcCIeAEiPGMZ
-	Jr2lt2Z20Tu5ODcfdscNSpg+s=
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=Ni
+	+khd9KioYs7Snfbc4XsGR8k1E8WKil1E+J8Z63/D8=; b=JGEUvT3ATFCPQ0Tkvb
+	6d1vFg49cdvYLMiKr4w0KhG/Pr4nwhzrpMKxMOJMkmyNrW4xyc2GcxoKR5Mujf8k
+	0dPVYRy5m6T10vuvIqHkj022igYivPqKBySSb8w3fcXf6YG7ujxtiyWAXcgrrwib
+	beiNzDMe8bULtCtY/g2KhiZxE=
 Received: from czl-ubuntu-pc.. (unknown [])
-	by gzsmtp4 (Coremail) with SMTP id PygvCgAXh6xQUqZpOLCWQw--.188S7;
-	Tue, 03 Mar 2026 11:15:34 +0800 (CST)
+	by gzsmtp4 (Coremail) with SMTP id PygvCgAXh6xQUqZpOLCWQw--.188S2;
+	Tue, 03 Mar 2026 11:15:32 +0800 (CST)
 From: Chi Zhiling <chizhiling@163.com>
 To: linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
@@ -32,12 +31,10 @@ Cc: Namjae Jeon <linkinjeon@kernel.org>,
 	Sungjong Seo <sj1557.seo@samsung.com>,
 	Yuezhang Mo <yuezhang.mo@sony.com>,
 	Chi Zhiling <chizhiling@kylinos.cn>
-Subject: [PATCH v2 5/6] exfat: optimize exfat_chain_cont_cluster with cached buffer heads
-Date: Tue,  3 Mar 2026 11:14:08 +0800
-Message-ID: <20260303031409.129136-6-chizhiling@163.com>
+Subject: [PATCH v2 0/6] exfat: improve performance of NO_FAT_CHAIN to FAT_CHAIN conversion
+Date: Tue,  3 Mar 2026 11:14:03 +0800
+Message-ID: <20260303031409.129136-1-chizhiling@163.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260303031409.129136-1-chizhiling@163.com>
-References: <20260303031409.129136-1-chizhiling@163.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -45,138 +42,53 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PygvCgAXh6xQUqZpOLCWQw--.188S7
-X-Coremail-Antispam: 1Uf129KBjvJXoWxAFy8tFyDXr48KF15tw1DKFg_yoWrJr1fpF
-	ZIka93tr4UJ3ZFv3Z7tw4kXr1fC397J3WkGa13G34fAr90yFnY9ry8Kry8try0kayDuFyY
-	vF4UtF15CwnrWFDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j2XdUUUUUU=
-X-CM-SenderInfo: hfkl6xxlol0wi6rwjhhfrp/xtbC9xatS2mmUlaMBgAA3G
+X-CM-TRANSID:PygvCgAXh6xQUqZpOLCWQw--.188S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7ZF1UWFyxKFyxtw47JF47Arb_yoW8Ar1rpF
+	4fGwsxJr1kJw1fXwsxA3yUXw1F9rs3tFWUXr17t3WfCr4Ykr1a9rWIqryrKFyUJ34kXF1j
+	qr1Yqr1j9FnrGaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UP73PUUUUU=
+X-CM-SenderInfo: hfkl6xxlol0wi6rwjhhfrp/xtbC+BWtS2mmUlWodQAA3e
 
 From: Chi Zhiling <chizhiling@kylinos.cn>
 
-When converting files from NO_FAT_CHAIN to FAT_CHAIN format, profiling
-reveals significant time spent in mark_buffer_dirty() and exfat_mirror_bh()
-operations. This overhead occurs because each FAT entry modification
-triggers a full block dirty marking and mirroring operation.
+This series improves the performance when converting files from NO_FAT_CHAIN
+to FAT_CHAIN format (which happens when a file cannot allocate contiguous
+clusters). It also adds proper error handling for FAT table write operations.
 
-For consecutive clusters that reside in the same block, optimize by caching
-the buffer head and performing dirty marking only once at the end of the
-block's modifications.
+- Patch 1: Add block readahead for FAT blocks during conversion
+- Patch 2-3: Refactor existing readahead code to use the new helper
+- Patch 4: Remove redundant sec parameter from exfat_mirror_bh
+- Patch 5: Cache buffer heads to reduce mark_buffer_dirty overhead
+- Patch 6: Fix error handling to propagate FAT write errors to callers
 
 Performance improvements for converting a 30GB file:
 
-| Cluster Size | Before Patch | After Patch | Speedup |
-|--------------|--------------|-------------|---------|
-| 512 bytes    | 4.243s       | 1.866s      | 2.27x   |
-| 4KB          | 0.863s       | 0.236s      | 3.66x   |
-| 32KB         | 0.069s       | 0.034s      | 2.03x   |
-| 256KB        | 0.012s       | 0.006s      | 2.00x   |
+| Cluster Size | Before | After  | Speedup |
+|--------------|--------|--------|---------|
+| 512 bytes    | 47.667s| 1.866s | 25.5x   |
+| 4KB          | 6.436s | 0.236s | 27.3x   |
+| 32KB         | 0.758s | 0.034s | 22.3x   |
+| 256KB        | 0.117s | 0.006s | 19.5x   |
 
-Signed-off-by: Chi Zhiling <chizhiling@kylinos.cn>
----
- fs/exfat/fatent.c | 49 +++++++++++++++++++++++++++++++++++------------
- 1 file changed, 37 insertions(+), 12 deletions(-)
+v1: https://lore.kernel.org/all/20260204071435.602246-1-chizhiling@163.com/
 
-diff --git a/fs/exfat/fatent.c b/fs/exfat/fatent.c
-index 4177a933e0be..a973aa4de57b 100644
---- a/fs/exfat/fatent.c
-+++ b/fs/exfat/fatent.c
-@@ -32,6 +32,17 @@ static int exfat_mirror_bh(struct super_block *sb, struct buffer_head *bh)
- 	return err;
- }
- 
-+static int exfat_end_bh(struct super_block *sb, struct buffer_head *bh)
-+{
-+	int err;
-+
-+	exfat_update_bh(bh, sb->s_flags & SB_SYNCHRONOUS);
-+	err = exfat_mirror_bh(sb, bh);
-+	brelse(bh);
-+
-+	return err;
-+}
-+
- static int __exfat_ent_get(struct super_block *sb, unsigned int loc,
- 		unsigned int *content, struct buffer_head **last)
- {
-@@ -62,29 +73,40 @@ static int __exfat_ent_get(struct super_block *sb, unsigned int loc,
- 	return 0;
- }
- 
--int exfat_ent_set(struct super_block *sb, unsigned int loc,
--		unsigned int content)
-+static int __exfat_ent_set(struct super_block *sb, unsigned int loc,
-+		unsigned int content, struct buffer_head **cache)
- {
--	unsigned int off;
- 	sector_t sec;
- 	__le32 *fat_entry;
--	struct buffer_head *bh;
-+	struct buffer_head *bh = cache ? *cache : NULL;
-+	unsigned int off;
- 
- 	sec = FAT_ENT_OFFSET_SECTOR(sb, loc);
- 	off = FAT_ENT_OFFSET_BYTE_IN_SECTOR(sb, loc);
- 
--	bh = sb_bread(sb, sec);
--	if (!bh)
--		return -EIO;
-+	if (!bh || bh->b_blocknr != sec || !buffer_uptodate(bh)) {
-+		if (bh)
-+			exfat_end_bh(sb, bh);
-+		bh = sb_bread(sb, sec);
-+		if (cache)
-+			*cache = bh;
-+		if (unlikely(!bh))
-+			return -EIO;
-+	}
- 
- 	fat_entry = (__le32 *)&(bh->b_data[off]);
- 	*fat_entry = cpu_to_le32(content);
--	exfat_update_bh(bh, sb->s_flags & SB_SYNCHRONOUS);
--	exfat_mirror_bh(sb, bh);
--	brelse(bh);
-+	if (!cache)
-+		exfat_end_bh(sb, bh);
- 	return 0;
- }
- 
-+int exfat_ent_set(struct super_block *sb, unsigned int loc,
-+		unsigned int content)
-+{
-+	return __exfat_ent_set(sb, loc, content, NULL);
-+}
-+
- /*
-  * Caller must release the buffer_head if no error return.
-  */
-@@ -170,6 +192,7 @@ int exfat_blk_readahead(struct super_block *sb, sector_t sec,
- int exfat_chain_cont_cluster(struct super_block *sb, unsigned int chain,
- 		unsigned int len)
- {
-+	struct buffer_head *bh = NULL;
- 	sector_t sec, end, ra;
- 	blkcnt_t ra_cnt = 0;
- 
-@@ -183,14 +206,16 @@ int exfat_chain_cont_cluster(struct super_block *sb, unsigned int chain,
- 		sec = FAT_ENT_OFFSET_SECTOR(sb, chain);
- 		exfat_blk_readahead(sb, sec, &ra, &ra_cnt, end);
- 
--		if (exfat_ent_set(sb, chain, chain + 1))
-+		if (__exfat_ent_set(sb, chain, chain + 1, &bh))
- 			return -EIO;
- 		chain++;
- 		len--;
- 	}
- 
--	if (exfat_ent_set(sb, chain, EXFAT_EOF_CLUSTER))
-+	if (__exfat_ent_set(sb, chain, EXFAT_EOF_CLUSTER, &bh))
- 		return -EIO;
-+
-+	exfat_end_bh(sb, bh);
- 	return 0;
- }
- 
+Chi Zhiling (6):
+  exfat: add block readahead in exfat_chain_cont_cluster
+  exfat: use readahead helper in exfat_allocate_bitmap
+  exfat: use readahead helper in exfat_get_dentry
+  exfat: drop redundant sec parameter from exfat_mirror_bh
+  exfat: optimize exfat_chain_cont_cluster with cached buffer heads
+  exfat: fix error handling for FAT table operations
+
+ fs/exfat/balloc.c   | 18 +++------
+ fs/exfat/dir.c      | 52 +++++++------------------
+ fs/exfat/exfat_fs.h | 13 +++++--
+ fs/exfat/fatent.c   | 95 ++++++++++++++++++++++++++++++++++++---------
+ fs/exfat/inode.c    |  5 ++-
+ fs/exfat/misc.c     |  8 +++-
+ fs/exfat/namei.c    |  3 +-
+ 7 files changed, 118 insertions(+), 76 deletions(-)
+
 -- 
 2.43.0
 
