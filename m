@@ -1,114 +1,157 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B2B629D27A;
-	Wed,  4 Mar 2026 13:48:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0204D238C1B;
+	Wed,  4 Mar 2026 14:03:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772632139; cv=none; b=idqOmuTXPOUz8DivAi+JPQ025paRRPbMx5C/oxA3y+8YgLqJwbvJZ/VTHBHa7zUoZA2LDWUJxV3ZA3iRHPD+f6cpwwXfUNeLopUGWfShrMV6Uvolm6gChr0FhTetE1AIBwqRSs64iTJj6Bn71ulqVrAt+H4svWsj0urqwuWNBDw=
+	t=1772632994; cv=none; b=ZDBatipHDM9dUSAostYr/TxteNaa6ogEN4auW6MmFQLTurEC8GNwPL2UwtJolp/KQhMZE4eJcWT/6mUmM4Wxw9dYXHPa39B8Az7f4B6Vg6H7WCmpmjAzlMd5vcGpPsySagdlb8HGSiEfnYSHKmpQPwTNbczClmenVh2pm+LGCWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772632139; c=relaxed/simple;
-	bh=Jr6DsopwGUBqcray5BvRdrHJDVFD0HbviFZXBvRLfRw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LIt7IaJ4R/zM+6i21ZFVe4zX9oPSNyJAhauFbNzf0QPMEDpAkcGzrsGBLyzI4xG7gc6jwhKqMM6OgdAYnLtKJnzF728LvZVhXNdUqQCIh43M4mL1t9Z5vzG7eyEqstsnBLEtGKAdEiUNBiZw0hdEIwNZuu76cvQRDjNC5lq3X2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZaS3RWOT; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772632994; c=relaxed/simple;
+	bh=4GVOeqkDXGvYfCt0oL/Wk91424ZQyeBosFo+Pg27+i0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=beviNxIqzHeFEGd701qAzX9Gv7XOG3asRK8b+VIRDCgIMZ0fNHVvlPn1v1zAhnmREWoeUDAhqnRHc+MZH6XHmOFXET+bEe/Bz1URnflc95wjqf9JGRfcmRGHQu67lwLJ73Vmf2dqg/AQb0AIYpQGEo7NrfWR4oaMQ5AUaLfRVRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JVS7P4fV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZaS3RWOT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B571BC2BC9E;
-	Wed,  4 Mar 2026 13:48:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JVS7P4fV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37538C4CEF7;
+	Wed,  4 Mar 2026 14:03:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772632139;
-	bh=Jr6DsopwGUBqcray5BvRdrHJDVFD0HbviFZXBvRLfRw=;
-	h=Date:From:To:Cc:Subject:From;
-	b=ZaS3RWOTG/2NwRXE3IsOIGOGunsXPK7shhvQDxaQmHv8LvmXmgVcpy4WFT/IRlrHL
-	 YhvHQtzoQSUikiBBehbawbBUo/b5Ftrb8gu4BSEJXeHRkhFK5rSZJlpRvP6RPogLlX
-	 EO0UNtFCgD7voJ03sZwr2m14nGVCN4q07b3nmB4BFOaHSUoKmXFTe0nLZtTOzA9Xwo
-	 UuyXbP7eug7Ci1ZexMlrJe8FJUFdzX2LFED2m/GAud7th93ScbCQboKBl+8zDpbHxR
-	 ykcyzmbqTaMf9ho36LveYfqK8JACVkulOx9Ri+ROcobLywP8TxGFmPQ9U8cJIMSrRY
-	 tA44QGQrh7Icg==
-Date: Wed, 4 Mar 2026 14:48:52 +0100
-From: Joel Granados <joel.granados@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Kees Cook <kees@kernel.org>, 
-	Colm Harrington <colm.harrington@oracle.com>, Gerd Rausch <gerd.rausch@oracle.com>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [GIT PULL] sysctl fixes for v7.00-rc3
-Message-ID: <nya2yy22oifvepb4g7q3kukfq7f3s5zoab4yb7ahkcn6t7qdfv@eknh6exiog26>
+	s=k20201202; t=1772632993;
+	bh=4GVOeqkDXGvYfCt0oL/Wk91424ZQyeBosFo+Pg27+i0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JVS7P4fVjVUYcFd0u+LVnFghIKYt15fsqVSgUzb+4g3rAqu0gTN0uRb0WagN7j3Nk
+	 pyoLCapu7Qg5340Z3Jb16Qjk1PPRVFtJTxcCU7x1sd84v3xeBYywsxYquxq+G8itna
+	 GrPjLYC9fg6d6nu6d1RYZoKVLKR6SCu32pLk8kU0hRxmO9OLQoOHXfiMTBoMCEkStA
+	 wClt8xIupu/a2FBddmUSLSxqOpk9FwuDEZxJXJwS+nv8zzepJLI3h9+Rof/KduGqjY
+	 xO9sY/8uC4xrFuCNV9HciUBIj8M+pgg05MA6QBujxStlT7zk3tOC6YFrWNBSnyhxeK
+	 Y2DFBy1oa4CGw==
+Date: Wed, 4 Mar 2026 15:03:08 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Jori Koolstra <jkoolstra@xs4all.nl>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Jeff Layton <jlayton@kernel.org>, Chuck Lever <chuck.lever@oracle.com>, Jan Kara <jack@suse.cz>, 
+	Alexander Aring <alex.aring@gmail.com>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Aleksa Sarai <cyphar@cyphar.com>
+Subject: Re: [PATCH v2] vfs: add support for empty path to openat2(2)
+Message-ID: <20260304-larven-wiewohl-dba04626ded5@brauner>
+References: <20260302131650.3259153-1-jkoolstra@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="7qmzvoet4kzde34f"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+In-Reply-To: <20260302131650.3259153-1-jkoolstra@xs4all.nl>
 
+On Mon, Mar 02, 2026 at 02:16:50PM +0100, Jori Koolstra wrote:
+> To get an operable version of an O_PATH file descriptors, it is possible
+> to use openat(fd, ".", O_DIRECTORY) for directories, but other files
+> currently require going through open("/proc/<pid>/fd/<nr>") which
+> depends on a functioning procfs.
+> 
+> This patch adds the OPENAT2_EMPTY_PATH flag to openat2(2). If passed
+> LOOKUP_EMPTY is set at path resolve time.
+> 
+> Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
+> ---
+>  fs/open.c                    | 9 ++++-----
+>  include/linux/fcntl.h        | 5 ++++-
+>  include/uapi/linux/openat2.h | 4 ++++
+>  3 files changed, 12 insertions(+), 6 deletions(-)
+> 
+> diff --git a/fs/open.c b/fs/open.c
+> index 91f1139591ab..4f0a76dc8993 100644
+> --- a/fs/open.c
+> +++ b/fs/open.c
+> @@ -1160,7 +1160,7 @@ struct file *kernel_file_open(const struct path *path, int flags,
+>  EXPORT_SYMBOL_GPL(kernel_file_open);
+>  
+>  #define WILL_CREATE(flags)	(flags & (O_CREAT | __O_TMPFILE))
+> -#define O_PATH_FLAGS		(O_DIRECTORY | O_NOFOLLOW | O_PATH | O_CLOEXEC)
+> +#define O_PATH_FLAGS		(O_DIRECTORY | O_NOFOLLOW | O_PATH | O_CLOEXEC | OPENAT2_EMPTY_PATH)
+>  
+>  inline struct open_how build_open_how(int flags, umode_t mode)
+>  {
+> @@ -1185,9 +1185,6 @@ inline int build_open_flags(const struct open_how *how, struct open_flags *op)
+>  	int lookup_flags = 0;
+>  	int acc_mode = ACC_MODE(flags);
+>  
+> -	BUILD_BUG_ON_MSG(upper_32_bits(VALID_OPEN_FLAGS),
+> -			 "struct open_flags doesn't yet handle flags > 32 bits");
+> -
+>  	/*
+>  	 * Strip flags that aren't relevant in determining struct open_flags.
+>  	 */
+> @@ -1281,6 +1278,8 @@ inline int build_open_flags(const struct open_how *how, struct open_flags *op)
+>  		lookup_flags |= LOOKUP_DIRECTORY;
+>  	if (!(flags & O_NOFOLLOW))
+>  		lookup_flags |= LOOKUP_FOLLOW;
+> +	if (flags & OPENAT2_EMPTY_PATH)
+> +		lookup_flags |= LOOKUP_EMPTY;
+>  
+>  	if (how->resolve & RESOLVE_NO_XDEV)
+>  		lookup_flags |= LOOKUP_NO_XDEV;
+> @@ -1362,7 +1361,7 @@ static int do_sys_openat2(int dfd, const char __user *filename,
+>  	if (unlikely(err))
+>  		return err;
+>  
+> -	CLASS(filename, name)(filename);
+> +	CLASS(filename_flags, name)(filename, op.lookup_flags);
+>  	return FD_ADD(how->flags, do_file_open(dfd, name, &op));
+>  }
+>  
+> diff --git a/include/linux/fcntl.h b/include/linux/fcntl.h
+> index a332e79b3207..d1bb87ff70e3 100644
+> --- a/include/linux/fcntl.h
+> +++ b/include/linux/fcntl.h
+> @@ -7,10 +7,13 @@
+>  
+>  /* List of all valid flags for the open/openat flags argument: */
+>  #define VALID_OPEN_FLAGS \
+> +	 /* lower 32-bit flags */ \
+>  	(O_RDONLY | O_WRONLY | O_RDWR | O_CREAT | O_EXCL | O_NOCTTY | O_TRUNC | \
+>  	 O_APPEND | O_NDELAY | O_NONBLOCK | __O_SYNC | O_DSYNC | \
+>  	 FASYNC	| O_DIRECT | O_LARGEFILE | O_DIRECTORY | O_NOFOLLOW | \
+> -	 O_NOATIME | O_CLOEXEC | O_PATH | __O_TMPFILE)
+> +	 O_NOATIME | O_CLOEXEC | O_PATH | __O_TMPFILE | \
+> +	 /* upper 32-bit flags (openat2(2) only) */ \
+> +	 OPENAT2_EMPTY_PATH)
 
---7qmzvoet4kzde34f
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I forgot to mention this cautionary little nugget in the last review...
 
-Linus
+The legacy open(2)/openat(2) codepaths currently aren't able to deal
+with flag values in the upper 32-bit of a u64 flag parameter.
 
-Please pull very small fix for sysctl
+Basically, by adding OPENAT2_EMPTY_PATH into VALID_OPEN_FLAGS that's now
+a u64. That has fun consequences:
 
-Best
+inline struct open_how build_open_how(int flags, umode_t mode)
+{
+     struct open_how how = {
+             .flags = flags & VALID_OPEN_FLAGS,
 
-The following changes since commit 11439c4635edd669ae435eec308f4ab8a0804808:
+This will now cause bits 32 to 63 to be raised and how.flags ends up
+with OPENAT2_EMPTY_PATH by pure chance.
 
-  Linux 7.0-rc2 (2026-03-01 15:39:31 -0800)
+That in turn means open(2), openat(2), and io_uring openat can
+inadvertently enable OPENAT2_EMPTY_PATH when the flags value has bit 31
+set.
 
-are available in the Git repository at:
+So that needs to be fixed.
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/sysctl/sysctl.git tags/sysc=
-tl-7.00-fixes-rc3
+Another thing that I would like to see explicitly mentioned in the
+commit message is that OPENAT2_EMPTY_PATH means that it will now be
+possible to reopen an O_PATH file descriptor in sandboxes that don't
+mount procfs.
 
-for you to fetch changes up to 6932256d3a3764f3a5e06e2cb8603be45b6a9fef:
+IOW, if there's any program out there that - weirdly - relies on the
+fact that you can create a container without procfs mounted, drop
+cap_sys_admin and then funnel O_PATH fds into there via SCM_RIGHTS
+relying on them not being able to be re-opened read-write will be
+surprised.
 
-  time/jiffies: Fix sysctl file error on configurations where USER_HZ < HZ =
-(2026-03-04 13:48:31 +0100)
-
-----------------------------------------------------------------
-Summary
-
-* Fix error when reporting jiffies converted values back to user space
-
-  Return the converted value instead of "Invalid argument" error.
-
-* Testing
-
-  Spent around a week in linux-next -enough for this small fix-
-
-----------------------------------------------------------------
-Gerd Rausch (1):
-      time/jiffies: Fix sysctl file error on configurations where USER_HZ <=
- HZ
-
- kernel/time/jiffies.c | 2 --
- 1 file changed, 2 deletions(-)
-
---=20
-
-Joel Granados
-
---7qmzvoet4kzde34f
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmmoOEMACgkQupfNUreW
-QU9ymwwAk5NgP4FUi47/nYzXAgJfY61pyQOtS43JeiJZ+85jSgH7OPh0PGdbcsjL
-484ohrMp0UnYNme4aYel0P8Xh2ql3pm+4YiMd1UYFCKvqDFr/FuKWeosEqAw9U0c
-i/oOeT7tsr3FxMM0/mnGocMqRlceIC+PzkFZst5cnKflX38dj2zDTFZwpV0BaIJH
-E2zEAC4XZy5H+MMUZtHo0l+TWx0OgVIDn/cKbpUBF7XKGXXQ06L+BfPKP0/ecuat
-o2Xz/A8/yeutI3UlHl3d/Bun6Twm2D6P6scyLbfq5QblTE4pHtem09cU7VGbREQm
-5LOHuuEpFxHBsw0weiiUTABz4Uz0XOxv9OMI6gE/glVQy1PFoVH831twIEVOh4uH
-JDVJQ2EUC1fXiqWl2MBGxizcW6k4rwFkDCF2jrTSg8n7T8XRj8/uWnSc5Etroc7M
-hvujB41au1G6VxA5ccv8FR6ZynKb/VnQSIXHKq7NxLOQnGELlk5tRVsS+oCE5J/N
-xCYQHMQE
-=rs6/
------END PGP SIGNATURE-----
-
---7qmzvoet4kzde34f--
+While I don't necessarily think (anymore) that this is a realistic
+scenario it is worth documenting it.
