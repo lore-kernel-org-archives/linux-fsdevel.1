@@ -1,148 +1,104 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B598A35CB6C
-	for <linux-fsdevel@vger.kernel.org>; Tue,  3 Mar 2026 23:35:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41F821FCFFC
+	for <linux-fsdevel@vger.kernel.org>; Wed,  4 Mar 2026 00:10:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772580941; cv=none; b=n7HbjF2KrLIYo81v51GPo8ahcg6ZREtxbuHO0Mae8bFGxiqBwsEiIh3Y9azN14EP0sAC72rxUF0A0KRffiky2pEJQX6cbc7DaG6RvZUrPuIVtZ1L9PrPs1nLQCDFjqp4onuir/vaUjq2cgwjZsUxU+z/cIPD7EiQby7F6BaUYNs=
+	t=1772583015; cv=none; b=NF6FRptzowf/tV66Oea6/k2zOluqCGwu2crAXqMMTTIMPqK4WKEgPAeIEXpW4UwybjS8lF7su6tPYF7dTNY+9wY6w0zgqS84etp69UbLIBm13e3L0+JC+XtgpOH8nib4z5oK8UhoXYg2RBNcWxjW9Twb+Zvr4qixHCOgSK/FWhY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772580941; c=relaxed/simple;
-	bh=jkrHDNgM25d59kJT571jsnGyvqtlao7ohHl2wkdYRY8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=skVoShff21/F9AUa/u+c+ixBf9yFYH8scRHc4HmLwe+GkwYNw1jMDkbXbZDSiBYuXxa8sXDl1DHaoz6yYFBwOuOECUezoBQKDye4i01Hg6Me6Qh/M/Rt0j+JVlE7e2E/YqP44ZPgjUdaRRypTadBiuvUw+HeoiaW56dT2w0uE3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YX7c+Onv; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1772583015; c=relaxed/simple;
+	bh=sOhKbisWaxdxNs1DLXSvelFshcvHFsV9Pm9yLXTVTw8=;
+	h=Date:Subject:From:To:Cc:Message-ID:MIME-Version:Content-Type; b=lCTckz3+btd7iFFPdR1U7630EWmO1Pl0KOG47arvYeJSuSu3R8Yw/3QLc762Fc3RdHdtKdJ1u8SUJ3c4hGgejrfFSts3OCEVry3YMVbAfCl3DA1vUPKGPwVGmu9Unw3CF5k2uYqtZ3rDHx8syeghCL2LRHwuUGLzoLEQqeNc2OQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tKehSAVu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YX7c+Onv"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2ae43042ea7so35907005ad.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 03 Mar 2026 15:35:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772580940; x=1773185740; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=obiQ76qiUJNFcjhp64R+cgHHcte5lFLkqq9i5N4t7sU=;
-        b=YX7c+OnvhyNMzk8gdQRX/X1slGQ1cyv/Rs+IolRFbjcAToi+gpnWuZ5i/ajfHXT435
-         Wm4kEtDHoMjgWnIGuYM5fZFnl2VrUKiJULhXQJKAw6xAuhJl5MEooXyG4OQ9IckFxSGL
-         MUlsM7zjcJ+Sadifs7DkMFk4kwu1pPuNycPmVW5oa1Y+mpKW1La3IjHMp6S4U4Kp4U/Q
-         kPEGxHLoEv0/VDOs5OsScofad0plVYoDsUJhwZ17WYJPKuX8Jy+MzMRJTupeevoq0P0Z
-         wNwzC6TPJDe03jsS1P+vnFcCsaZWke4i2yI3QGx9xmEWGElZKC9h78l2X2E/bDbcbcq5
-         JXEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772580940; x=1773185740;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=obiQ76qiUJNFcjhp64R+cgHHcte5lFLkqq9i5N4t7sU=;
-        b=DVNn/86kXazrwpJ0sir6IEMRBkBH1CvdC+4qvv0btyPY66bE/KTrJ7DynEOj3PSweZ
-         YQyroRMbYi12KvSK6V876snv7tTns7tTEGsVXsW+Vr1LCCdTnucjmUAkWhZLoWJDHIFx
-         JtHB7+ZqEtCOUE4UPQsEBmxdFdIfrUcMGV8qCXF5GHeB3jAXDOz/Zr+ZwV5MeDbZGvLa
-         /FinKvigsWcgr0YlozXmjYKLUgeq0Hd+EPo60yWjTAi+muDoQIIqfhGsHjn1cNTkNpU8
-         TP7wtlYdOUlm0T3kGeahmPtce0Xykpa+kRWiH23Ki2f/BG45dXP2LW9m7QRK24ycVBDh
-         tHMQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX1irwhhXW8tMYAtPOaDs4iIL4AkaK3x01aUWuWdUW6B+/gutoUPZVNekhCdz/mO0hcpH+qZc+ECJGv0K0v@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx0cGA5bkvKtmVbAXlL8aKWxSBGpB9ZH/sN45e6bH74a15iqGr/
-	+Z7pN5fEuGVSFzSuRUtMazP3TTQIiAzHwFBRNczDZ5RIYiHMdVI2mjTM
-X-Gm-Gg: ATEYQzzguQxSrxY/AxF89T71ISLQ2Q+D5L+RI9JBgD849YkCB2z6F8KGKNcAtL2agks
-	AQxmsOj4D5bfgqFQCFK+J2tp16OW8rpNxC/D5GogNCtk1Lf5l/4MmaDOcZOUWHUjXtNcmrp9GA/
-	pdyR+q8jv0URfCTz7Chz5x2aPrUK2MfM9bSyl1rSM00oGaDiNGYwEQpNoJ+4WpGC2iNslIOnwFC
-	OKjmNP/o2i/Kw20FSZnxKZAvFb4Mafp0yfrI88APgCU4vYOs8aah7APOUDkeJp4uoDrjiBjv+CQ
-	DflVvB14541UNgc+hlmp7eqVGPbYvmhSHXWTsBNc32VCtMajHxtfqaPyJ0cK0t9RDAP0FTvGP2u
-	J1QU4B/E+gyVyZ11U3KH01po6RQykuzoUZMsdfb6qV9ib3GBncRdUOJFN4xrhOXBYLU7HQAQLwR
-	mHHeuLc+OTfi792tuMGw==
-X-Received: by 2002:a17:902:ccd0:b0:2ae:3f72:fdc5 with SMTP id d9443c01a7336-2ae6aaae6camr1189365ad.26.1772580939922;
-        Tue, 03 Mar 2026 15:35:39 -0800 (PST)
-Received: from localhost ([2a03:2880:ff:4d::])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ae45e07626sm107308075ad.39.2026.03.03.15.35.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Mar 2026 15:35:39 -0800 (PST)
-From: Joanne Koong <joannelkoong@gmail.com>
-To: brauner@kernel.org
-Cc: djwong@kernel.org,
-	hch@infradead.org,
-	willy@infradead.org,
-	wegao@suse.com,
-	sashal@kernel.org,
-	stable@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH v2 1/1] iomap: don't mark folio uptodate if read IO has bytes pending
-Date: Tue,  3 Mar 2026 15:34:20 -0800
-Message-ID: <20260303233420.874231-2-joannelkoong@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260303233420.874231-1-joannelkoong@gmail.com>
-References: <20260303233420.874231-1-joannelkoong@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tKehSAVu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2917C2BCB1;
+	Wed,  4 Mar 2026 00:10:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772583014;
+	bh=sOhKbisWaxdxNs1DLXSvelFshcvHFsV9Pm9yLXTVTw8=;
+	h=Date:Subject:From:To:Cc:From;
+	b=tKehSAVuAX+NzoTzNH+IXtpKMTHKFEPBJEzUSyEm+G/AymkefGVRWfC0LI6S2BK+L
+	 X0aKy94OE3Q2D1fn14Op052DJOgNwghSz6L20QKhg6nVdkvmL9REN8mgqTqe0iwoQ6
+	 a6/VpHWY21oi64GxcciOiIGVj5FpY1/VQgdGWDZmhXAPU6PQvanX7YVcXAogjsUT6w
+	 t+/P0Gj5toUVm0Q4PqI7BNojV5N6jLQYiE1lv4MXhh0ZkTP3vCysTIS88503OY57Bm
+	 lq8wsBz1MB8YLNM8bxhDlf5Qc9aSkQoYOZnQQmvjV2yTsjPXBhEHxWhRaALmy2r9Sx
+	 2ExyXAto+r9dg==
+Date: Tue, 03 Mar 2026 16:10:13 -0800
+Subject: [PATCHSET v8] libfuse: run fuse servers as a contained service
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: bschubert@ddn.com, djwong@kernel.org
+Cc: miklos@szeredi.hu, neal@gompa.dev, joannelkoong@gmail.com,
+ linux-fsdevel@vger.kernel.org, bernd@bsbernd.com
+Message-ID: <177258266040.1161627.14968799557253463876.stgit@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-If a folio has ifs metadata attached to it and the folio is partially
-read in through an async IO helper with the rest of it then being read
-in through post-EOF zeroing or as inline data, and the helper
-successfully finishes the read first, then post-EOF zeroing / reading
-inline will mark the folio as uptodate in iomap_set_range_uptodate().
+Hi all,
 
-This is a problem because when the read completion path later calls
-iomap_read_end(), it will call folio_end_read(), which sets the uptodate
-bit using XOR semantics. Calling folio_end_read() on a folio that was
-already marked uptodate clears the uptodate bit.
+This patchset defines the necessary communication protocols and library
+code so that users can mount fuse servers that run in unprivileged
+systemd service containers.  That in turn allows unprivileged untrusted
+mounts, because the worst that can happen is that a malicious image
+crashes the fuse server and the mount dies, instead of corrupting the
+kernel.
 
-Fix this by not marking the folio as uptodate if the read IO has bytes
-pending. The folio uptodate state will be set in the read completion
-path through iomap_end_read() -> folio_end_read().
+Bernd indicated that he might be interested in looking at the fuse
+system service containment patches sooner than later, so I've separated
+them from the iomap stuff and here we are.  With this patchset, we can
+at least shift fuse servers to contained systemd services, albeit
+without any of the performance improvements of iomap.
 
-Reported-by: Wei Gao <wegao@suse.com>
-Suggested-by: Sasha Levin <sashal@kernel.org>
-Tested-by: Wei Gao <wegao@suse.com>
-Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
-Cc: <stable@vger.kernel.org> # v6.19
-Link: https://lore.kernel.org/linux-fsdevel/aYbmy8JdgXwsGaPP@autotest-wegao.qe.prg2.suse.org/
-Fixes: b2f35ac4146d ("iomap: add caller-provided callbacks for read and readahead")
-Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+With a bit of luck, this should all go splendidly.
+Comments and questions are, as always, welcome.
+
+--D
 ---
- fs/iomap/buffered-io.c | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
-
-diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
-index bc82083e420a..00f0efaf12b2 100644
---- a/fs/iomap/buffered-io.c
-+++ b/fs/iomap/buffered-io.c
-@@ -80,18 +80,27 @@ static void iomap_set_range_uptodate(struct folio *folio, size_t off,
- {
- 	struct iomap_folio_state *ifs = folio->private;
- 	unsigned long flags;
--	bool uptodate = true;
-+	bool mark_uptodate = true;
- 
- 	if (folio_test_uptodate(folio))
- 		return;
- 
- 	if (ifs) {
- 		spin_lock_irqsave(&ifs->state_lock, flags);
--		uptodate = ifs_set_range_uptodate(folio, ifs, off, len);
-+		/*
-+		 * If a read with bytes pending is in progress, we must not call
-+		 * folio_mark_uptodate(). The read completion path
-+		 * (iomap_read_end()) will call folio_end_read(), which uses XOR
-+		 * semantics to set the uptodate bit. If we set it here, the XOR
-+		 * in folio_end_read() will clear it, leaving the folio not
-+		 * uptodate.
-+		 */
-+		mark_uptodate = ifs_set_range_uptodate(folio, ifs, off, len) &&
-+				!ifs->read_bytes_pending;
- 		spin_unlock_irqrestore(&ifs->state_lock, flags);
- 	}
- 
--	if (uptodate)
-+	if (mark_uptodate)
- 		folio_mark_uptodate(folio);
- }
- 
--- 
-2.47.3
+Commits in this patchset:
+ * libfuse: add systemd/inetd socket service mounting helper
+ * libfuse: integrate fuse services into mount.fuse3
+ * example/service_ll: create a sample systemd service fuse server
+---
+ include/fuse_service.h       |  180 +++++++
+ include/fuse_service_priv.h  |  118 +++++
+ lib/fuse_i.h                 |    5 
+ util/mount_service.h         |   41 ++
+ doc/fuservicemount3.8        |   32 +
+ doc/meson.build              |    3 
+ example/meson.build          |    7 
+ example/service_ll.c         |  823 +++++++++++++++++++++++++++++++++
+ example/service_ll.socket.in |   16 +
+ example/service_ll@.service  |   99 ++++
+ include/meson.build          |    4 
+ lib/fuse_service.c           |  859 ++++++++++++++++++++++++++++++++++
+ lib/fuse_service_stub.c      |   91 ++++
+ lib/fuse_versionscript       |   15 +
+ lib/helper.c                 |   53 ++
+ lib/meson.build              |   14 +
+ lib/mount.c                  |   57 ++
+ meson.build                  |   37 +
+ meson_options.txt            |    6 
+ util/fuservicemount.c        |   66 +++
+ util/meson.build             |   13 -
+ util/mount.fuse.c            |   58 +-
+ util/mount_service.c         | 1056 ++++++++++++++++++++++++++++++++++++++++++
+ 23 files changed, 3617 insertions(+), 36 deletions(-)
+ create mode 100644 include/fuse_service.h
+ create mode 100644 include/fuse_service_priv.h
+ create mode 100644 util/mount_service.h
+ create mode 100644 doc/fuservicemount3.8
+ create mode 100644 example/service_ll.c
+ create mode 100644 example/service_ll.socket.in
+ create mode 100644 example/service_ll@.service
+ create mode 100644 lib/fuse_service.c
+ create mode 100644 lib/fuse_service_stub.c
+ create mode 100644 util/fuservicemount.c
+ create mode 100644 util/mount_service.c
 
