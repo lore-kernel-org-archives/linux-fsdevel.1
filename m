@@ -1,126 +1,134 @@
-Received: from e3i214.smtp2go.com (e3i214.smtp2go.com [158.120.84.214])
+Received: from kylie.crudebyte.com (kylie.crudebyte.com [5.189.157.229])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A414308F26
-	for <linux-fsdevel@vger.kernel.org>; Wed,  4 Mar 2026 08:59:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=158.120.84.214
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 180732F3621;
+	Wed,  4 Mar 2026 09:01:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.189.157.229
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772614790; cv=none; b=oXg2s6W75SqlNk7FYPuv19mT4lVIz65yF+WzmOa2NygH7VjfOea5aDM5msSHy0SvQBhw9XKH6C/LIVTYs//g3awpEnL1FGTeD/7od58KpO7vQ44zGlHG3+r3FcuGdv7f6C+GgfITnWXcqva9Z5y55S2wxPnDdE0WeqhWfdFISss=
+	t=1772614908; cv=none; b=XvSyVc3CHidsYjIy2nEPNbhdjBLGqtlNKi55IbH7GC4WAX6KjJKt9oHFsFqd+gvyhQuEyDeboXvS/P3NhykBdyHtzbM6GlUi32Q9O1GA4WfF562UZDj+QrTx8Xm8/WnXDZkTXRh795o2cHatP5n/vOUgeNdvKv6QNJj31a0fTlM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772614790; c=relaxed/simple;
-	bh=s3YTevfNULOu7OTTUNNxgQc2Xj3CV6y1o+18YQgmD7g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=feyQg/r49VytPz7+cuUriV7GAM/83I/6rb8F2kfByneAeZJwTaLEuo3rQrmrmTd1Q7PHzrvyAAGN0K+5QuGZOIc5M1jVtApnhLt9dROKedIynBtcCmbAo1bmZkbyq7IJMvcTI30wSujCDKqkVJ9GkjfLrXygG7VTBmo8k8FjKpI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=triplefau.lt; spf=pass smtp.mailfrom=em510616.triplefau.lt; dkim=pass (2048-bit key) header.d=triplefau.lt header.i=@triplefau.lt header.b=IgwhGUHg; arc=none smtp.client-ip=158.120.84.214
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=triplefau.lt
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=em510616.triplefau.lt
+	s=arc-20240116; t=1772614908; c=relaxed/simple;
+	bh=ehGPFM+kWOBBQgLWCGajYsr8v24skGnCz836BkXkxkA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ALpckjr6CJajd7XwgKVEWt/8Fu+yLca33VaZHIog0GfkHI0tFg9+OCp8EQ9VmziCaewDx3IJa/TM/KLQawIDSdsRB6h6tUNSGjP/UoUVXVT+yLlEc4qeR+X6LsBxgBmoG3rApF9IEMEvtm27Vyhf57fg84uEIxSOBRFygFd8tUA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=crudebyte.com; spf=pass smtp.mailfrom=crudebyte.com; dkim=pass (4096-bit key) header.d=crudebyte.com header.i=@crudebyte.com header.b=d2OXpG0t; arc=none smtp.client-ip=5.189.157.229
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=crudebyte.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crudebyte.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=triplefau.lt header.i=@triplefau.lt header.b="IgwhGUHg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=triplefau.lt;
- i=@triplefau.lt; q=dns/txt; s=s510616; t=1772613880; h=from : subject
- : to : message-id : date;
- bh=xbrA9YZeGMtG25RjPVPDTCWMxFBr6tAPEzmQlhLARLA=;
- b=IgwhGUHgo+YW3cS0sPmIigDTi+tAoZzO9QeQHmj6UDQK2PjpeRBzlTyBGke1eG1JDk+Dt
- Gpd4P4r93RD39Ooi5C909SyWlphHzSYUTPrt4gr9XKF08pgeoaPJjWVJjkrip1SUEtySTd2
- xBFGG20jlzF7HqRj/Pazln1VxjjKCNYxMp8HHAkOjKQhnJu7VrW4M8eJ9PC+Cn9vw4MeJj/
- QdAoFlrkxFo1zMcaV1i69aD5JJb0apAoUSDrOQiCMjrvEFWgkH6niYClpRvUVWm2v4Z2eRF
- QFMnyd3Y+hUPlXeuPNOhbKyXMYCh2BpwArlZJ1H+21zijcmgz801+FrHgecg==
-Received: from [10.12.239.196] (helo=localhost)
-	by smtpcorp.com with esmtpsa (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.99.1-S2G)
-	(envelope-from <repk@triplefau.lt>)
-	id 1vxhqL-4o5NDgroe1r-qrjL;
-	Wed, 04 Mar 2026 08:44:33 +0000
-Date: Wed, 4 Mar 2026 09:25:27 +0100
-From: Remi Pommarel <repk@triplefau.lt>
-To: Dominique Martinet <asmadeus@codewreck.org>
-Cc: Christian Schoenebeck <linux_oss@crudebyte.com>, v9fs@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Eric Van Hensbergen <ericvh@kernel.org>,
-	Latchesar Ionkov <lucho@ionkov.net>
-Subject: Re: [PATCH v3 2/4] 9p: Add mount option for negative dentry cache
- retention
-Message-ID: <aafsd7ScsUFs7xhp@pilgrim>
-References: <cover.1772178819.git.repk@triplefau.lt>
- <7c2a5ba3e229b4e820f0fcd565ca38ab3ca5493f.1772178819.git.repk@triplefau.lt>
- <4490625.ejJDZkT8p0@weasel>
- <aadWf2Ox2YXdy0Yl@codewreck.org>
+	dkim=pass (4096-bit key) header.d=crudebyte.com header.i=@crudebyte.com header.b="d2OXpG0t"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Content-ID:Content-Description;
+	bh=g8WKjVXqbK6twrBgILur2L+B82ZgxqV/6TBWKxNGmgA=; b=d2OXpG0tHtQnUCnrJti7DloqYg
+	ptypQc/9ysbmXEbO+6xv2NETM9t8mnx+uX9r7jorDuaOefKBOT9E/WdnRMW6dCvQlpbRl5OK3+1aA
+	AN6pMhiCERTY7bMYus4xfKt2GNxRZvuu1lSZn0KK7SKpO6pp0HDdWhXmCjTmcoYP7vXpxPdQyGkkR
+	aEjefdq8S6oPeAGrL4mNDwUacccNYuFGknsUVmnDbULWWx3EMfi82dTmRvhh+K+0D90Ij1FIfbrOF
+	at0auD9zbdJ2Y/UoolqFara3IuJ+NNDgN8jVmsA0arq47csD0TljzQM20wY65lQX0eiIawa8VHEfA
+	sp0gReNxOALX4lpj9nfjQdXe9nxZ3R6r6jD8Ll5QLgEPZTBFnC5zxjCwSN/JVFXVIEa8L2md0iUZL
+	Nk3v8NGyz/BdGQny5mQte5+px74I5uG16XLOdCMHdz+kZh9Q9cv5vvksUCXxFQLoWSgUmzo1oQNhg
+	Q5br78ANCBgceOiVZBT8p4LpD/3hleeVc1FgjFzBe6V8SXjav+39C7kVMmXecn0EAQJxEAb2Wp4O4
+	kdXTmHSnU2LPLUY9LP/Ty6RG2QJhZyKktjlujIbymDhoIRgnGhca2UX6PIHYS8yBCm82n77CsA3Wx
+	d3/wNZvfk/g+74eIrhfOC3FM8K7iJcBv19WQnsnu0=;
+From: Christian Schoenebeck <linux_oss@crudebyte.com>
+To: Dominique Martinet <asmadeus@codewreck.org>,
+ Remi Pommarel <repk@triplefau.lt>
+Cc: v9fs@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Eric Van Hensbergen <ericvh@kernel.org>,
+ Latchesar Ionkov <lucho@ionkov.net>
+Subject:
+ Re: [PATCH v3 2/4] 9p: Add mount option for negative dentry cache retention
+Date: Wed, 04 Mar 2026 10:01:42 +0100
+Message-ID: <13960739.uLZWGnKmhe@weasel>
+In-Reply-To: <aafsd7ScsUFs7xhp@pilgrim>
+References:
+ <cover.1772178819.git.repk@triplefau.lt> <aadWf2Ox2YXdy0Yl@codewreck.org>
+ <aafsd7ScsUFs7xhp@pilgrim>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aadWf2Ox2YXdy0Yl@codewreck.org>
-X-Report-Abuse: Please forward a copy of this message, including all headers, to <abuse-report@smtp2go.com>
-Feedback-ID: 510616m:510616apGKSTK:510616sdCwzjTJ0C
-X-smtpcorp-track: ekPbQi5zuc_G.zuiPp7gv_52L.bFKSMQv3zn0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
-On Wed, Mar 04, 2026 at 06:45:35AM +0900, Dominique Martinet wrote:
-> Christian Schoenebeck wrote on Tue, Mar 03, 2026 at 03:53:47PM +0100:
-> > > +	fsparam_string	("source",		Opt_source),
-> > > +	fsparam_u32hex	("debug",		Opt_debug),
-> > > +	fsparam_uid	("dfltuid",		Opt_dfltuid),
-> > > +	fsparam_gid	("dfltgid",		Opt_dfltgid),
-> > > +	fsparam_u32	("afid",		Opt_afid),
-> > > +	fsparam_string	("uname",		Opt_uname),
-> > > +	fsparam_string	("aname",		Opt_remotename),
-> > > +	fsparam_flag	("nodevmap",		Opt_nodevmap),
-> > > +	fsparam_flag	("noxattr",		Opt_noxattr),
-> > > +	fsparam_flag	("directio",		Opt_directio),
-> > > +	fsparam_flag	("ignoreqv",		Opt_ignoreqv),
-> > > +	fsparam_string	("cache",		Opt_cache),
-> > > +	fsparam_string	("cachetag",		Opt_cachetag),
-> > > +	fsparam_string	("access",		Opt_access),
-> > > +	fsparam_flag	("posixacl",		Opt_posixacl),
-> > > +	fsparam_u32	("locktimeout",		Opt_locktimeout),
-> > > +	fsparam_flag	("ndentrycache",	Opt_ndentrycache),
-> > > +	fsparam_u32	("ndentrycache",	Opt_ndentrycachetmo),
+On Wednesday, 4 March 2026 09:25:27 CET Remi Pommarel wrote:
+> On Wed, Mar 04, 2026 at 06:45:35AM +0900, Dominique Martinet wrote:
+> > Christian Schoenebeck wrote on Tue, Mar 03, 2026 at 03:53:47PM +0100:
+> > > > +	fsparam_string	("source",		Opt_source),
+> > > > +	fsparam_u32hex	("debug",		Opt_debug),
+> > > > +	fsparam_uid	("dfltuid",		Opt_dfltuid),
+> > > > +	fsparam_gid	("dfltgid",		Opt_dfltgid),
+> > > > +	fsparam_u32	("afid",		Opt_afid),
+> > > > +	fsparam_string	("uname",		Opt_uname),
+> > > > +	fsparam_string	("aname",		Opt_remotename),
+> > > > +	fsparam_flag	("nodevmap",		Opt_nodevmap),
+> > > > +	fsparam_flag	("noxattr",		Opt_noxattr),
+> > > > +	fsparam_flag	("directio",		Opt_directio),
+> > > > +	fsparam_flag	("ignoreqv",		Opt_ignoreqv),
+> > > > +	fsparam_string	("cache",		Opt_cache),
+> > > > +	fsparam_string	("cachetag",		Opt_cachetag),
+> > > > +	fsparam_string	("access",		Opt_access),
+> > > > +	fsparam_flag	("posixacl",		Opt_posixacl),
+> > > > +	fsparam_u32	("locktimeout",		Opt_locktimeout),
+> > > > +	fsparam_flag	("ndentrycache",	Opt_ndentrycache),
+> > > > +	fsparam_u32	("ndentrycache",	Opt_ndentrycachetmo),
+> > > 
+> > > That double entry is surprising. So this mount option is supposed to be
+> > > used like ndentrycache=n for a specific timeout value (in ms) and just
+> > > ndentrycache (without any assignment) for infinite timeout. That's a
+> > > bit weird.
+> Yes I have seen this used in several other fs (see init_itable mount
+> option for ext4fs or compress one for btrfs). I do agree that is a bit
+> weird but this allow the whole 32bit range for timeout.
+> 
+> > Could make it a s32 and say <0 means infinite? I think we have that
+> > somewhere
+> 
+> I did that on previous version, but was afraid that ~20days timeout max
+> value may be too restrictive?
+> 
+> I do agree that this is a bit odd though and if you both think s32 is
+> better that is fine with me.
+
+What about just making this mount option a string and doing the parsing on our
+end? That would have the benefit of simply allowing arguments like "i00s",
+"5d", "1y", and if you really wanted "inf".
+
+I would find units for this much more useful in practice than allowing
+infinite. Like discussed before, it is in general a bad idea to configure
+negative dentries to persist for good due to the huge amount of bogus entries
+that pile up.
+
+> > > Documentation/filesystems/9p.rst should be updated as well BTW.
+> > > 
+> > > Nevertheless, like mentioned before, I really think the string "timeout"
+> > > should be used, at least in a user visible mount option. Keep in mind
+> > > that
+> > > timeouts are a common issue to look at, so it is common to just grep for
+> > > "timeout" in a code base or documentation. An abbrevation like "tmo" or
+> > > leaving it out entirely is for me therefore IMHO inappropriate.
+> > > 
+> > > You found "ndentrycachetimeout" too horribly long, or was that again
+> > > just
+> > > motivated by the code indention below? I personally find those indention
+> > > alignments completely irrelevant, not sure how Dominique sees that.
+> > > Personally I avoid them, as they cost unnecessary time on git blame.
 > > 
-> > That double entry is surprising. So this mount option is supposed to be used
-> > like ndentrycache=n for a specific timeout value (in ms) and just ndentrycache
-> > (without any assignment) for infinite timeout. That's a bit weird.
-
-Yes I have seen this used in several other fs (see init_itable mount
-option for ext4fs or compress one for btrfs). I do agree that is a bit
-weird but this allow the whole 32bit range for timeout.
-
-> 
-> Could make it a s32 and say <0 means infinite? I think we have that
-> somewhere
-
-I did that on previous version, but was afraid that ~20days timeout max
-value may be too restrictive?
-
-I do agree that this is a bit odd though and if you both think s32 is
-better that is fine with me.
-
-> 
-> > Documentation/filesystems/9p.rst should be updated as well BTW.
+> > I rarely use blame at all and it's possible to ignore whitespaces for
+> > blame, but I'd tend to agree here, I don't care if this stays aligned.
 > > 
-> > Nevertheless, like mentioned before, I really think the string "timeout"
-> > should be used, at least in a user visible mount option. Keep in mind that
-> > timeouts are a common issue to look at, so it is common to just grep for
-> > "timeout" in a code base or documentation. An abbrevation like "tmo" or
-> > leaving it out entirely is for me therefore IMHO inappropriate.
-> > 
-> > You found "ndentrycachetimeout" too horribly long, or was that again just
-> > motivated by the code indention below? I personally find those indention
-> > alignments completely irrelevant, not sure how Dominique sees that.
-> > Personally I avoid them, as they cost unnecessary time on git blame.
+> > OTOH ndentrycachetimeout as a mount option is a mouthful,
+> > negativetimeout or negtimeout sounds clear enough to me?
+> > I can't think of anything else that'd be negative related
+> > to timeouts, but perhaps it's the lack of sleep speaking
 > 
-> I rarely use blame at all and it's possible to ignore whitespaces for
-> blame, but I'd tend to agree here, I don't care if this stays aligned.
-> 
-> OTOH ndentrycachetimeout as a mount option is a mouthful,
-> negativetimeout or negtimeout sounds clear enough to me?
-> I can't think of anything else that'd be negative related
-> to timeouts, but perhaps it's the lack of sleep speaking
+> No strong opinion on the option name though so any name that suits you
+> is alse fine by me.
 
-No strong opinion on the option name though so any name that suits you
-is alse fine by me.
+Another suggestion: "ndtimeout"?
 
--- 
-Remi
+/Christian
+
+
