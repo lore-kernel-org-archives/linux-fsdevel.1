@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB85535E92F;
-	Thu,  5 Mar 2026 23:30:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4833D30C35C;
+	Thu,  5 Mar 2026 23:30:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772753428; cv=none; b=Th7Cs7Muvfe5kWBY6/Sc0zt/cnf2iYgExz6PyrPz/MFbLGt5ZczmnkQr6wYhWStv9J/uUqq/Ha72hXlxyVMtTrLw7hcBvfpsodKFGXO7e87FS6W1szQE2ZPeDa+JA3umOLPOH3JpyqM+uFQ6GLalJNON+HsNcN+BeMo6eGKiIhE=
+	t=1772753431; cv=none; b=umDDayKleE5oIgpadI0xZmbZOg9JcrjZMwmMotnToKnDvY8xVf7DiXstyvjtr+WzhTGPW6kRh2Sxrl7Y522ZsX4gS4VW0/XLJ1mrmMpe+T7n5eNMGVCq8C83vYTDAyrj8Yq6rfoNxdfWpv4lZOdFoqaX7Ay0OTUHJmWQqcxTl1Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772753428; c=relaxed/simple;
-	bh=jsmYqEfin/W6QXrJh5f/89X3/kJ/bACDGoIAjq0LjVg=;
+	s=arc-20240116; t=1772753431; c=relaxed/simple;
+	bh=GZsbB5/oS0c6lwFJZSOuaHi3hJ1zBvMulcElef7p9ak=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=BQc2AyOiA9EYjPv7nE5tHHRgCnKvVT7VBl8A9WS5aBjEYpVPBpvV/Tt95g2hEAXzhcMwEBcrz4ARfpZSaxaIqfBiHo78+s7rLjbhEN68hODNnrs2yJ7vMkdTjZ5ltz2j0ucZF3GRkwWaV1czcx1c6DDzfRFRwZF8fU0y8rf1ioY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NTQAPQCw; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=XEbLeDD18quc8nFX9imlI/LUY9UaSLtIvLWeCioTBQn4M5pL+jQbtldwIYWFAJMprDJZUULEwNFZXbgtpVt11CTPTkDrYI2ulgxXiMltlh9VnQXUXzRfy8wPxsqBRNZ0PIZ9hdn3u8pQeCueh8Jv9Cl5984SRVly/C0wR/86jxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H+WSp9HB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NTQAPQCw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A3A1C116C6;
-	Thu,  5 Mar 2026 23:30:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H+WSp9HB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED34DC2BCAF;
+	Thu,  5 Mar 2026 23:30:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772753428;
-	bh=jsmYqEfin/W6QXrJh5f/89X3/kJ/bACDGoIAjq0LjVg=;
+	s=k20201202; t=1772753431;
+	bh=GZsbB5/oS0c6lwFJZSOuaHi3hJ1zBvMulcElef7p9ak=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=NTQAPQCwE7GWorbCtaq2XPX40KiiqXAO5phQMZne8DPF0ceqeg1R5PhDHPOyb/wfN
-	 7djs+ZUVjODLfRGTcUQnhke+bVrl+293ECA1DNc6p75EzcGBqYgdsu4+bwy1KaXVMn
-	 kPTBoSsVqRApQPIj7Qsz8LEWkl7eCFXLJwPchbTpsRV8WQ5+K6/DVtuUKTuEHFf75L
-	 aS7qXRg8uw66+MHODZ7Zl5S2lJLeUWqCX67eDkSMyRR8I4kl0M9ogtBBoZWbjzY+YS
-	 QvsnjvW59yNNhkI/6NXi6sGiwQ/4YbKSvqHRiOX8K1Kn/xHT5aog0XJglQmOGjfN3M
-	 X8er0b+CmSIsw==
+	b=H+WSp9HBLcJEoo8qEvE0WuHJImxdXCE8ZgJ8caPYMyUJMFzb1jTsOS4wLA5flFg8V
+	 mAFxumNB5tQY3PcNAGfztfNpMMHtQkLridjuFqKnlpShJAlkN/bndcsr8X1f1I/kCP
+	 nqWoAyBrLkifZXZzf/F+gLWv/2KEN1+TuNo8qnBMhX9jzXEVMJZlVbJRMl3Oshzezi
+	 578xmsTIS9gZS5f3R9T5xESK9anU24oEdLD4m/FYn2VI3DyC5gqPosBofK0YrTtha3
+	 YwDZNVTh06PSoZGSdsTiRekDUL7l/sZ4wp7v1D27D/KdJfbEA9ZbY/e13m8cpIq4HA
+	 s2J/K85BH539w==
 From: Christian Brauner <brauner@kernel.org>
-Date: Fri, 06 Mar 2026 00:30:06 +0100
-Subject: [PATCH RFC v2 03/23] rnbd: use scoped_with_init_fs() for block
- device open
+Date: Fri, 06 Mar 2026 00:30:07 +0100
+Subject: [PATCH RFC v2 04/23] crypto: ccp: use scoped_with_init_fs() for
+ SEV file access
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -38,7 +38,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260306-work-kthread-nullfs-v2-3-ad1b4bed7d3e@kernel.org>
+Message-Id: <20260306-work-kthread-nullfs-v2-4-ad1b4bed7d3e@kernel.org>
 References: <20260306-work-kthread-nullfs-v2-0-ad1b4bed7d3e@kernel.org>
 In-Reply-To: <20260306-work-kthread-nullfs-v2-0-ad1b4bed7d3e@kernel.org>
 To: linux-fsdevel@vger.kernel.org, 
@@ -48,49 +48,59 @@ Cc: linux-kernel@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>,
  Tejun Heo <tj@kernel.org>, Jann Horn <jannh@google.com>, 
  Christian Brauner <brauner@kernel.org>
 X-Mailer: b4 0.15-dev-47773
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1270; i=brauner@kernel.org;
- h=from:subject:message-id; bh=jsmYqEfin/W6QXrJh5f/89X3/kJ/bACDGoIAjq0LjVg=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSuEuIMVTipc2tu4JWcZHH5/fPO3ZuxKtjj8o4a1bpvz
- Mduqeu97ShlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZgIrx0jw2G10l1+atyy6ZM/
- n4nsaXIN2JpR2Hzur4eX+1PNxY2Tixn+qQkVcmsslP0j4uPP8n3Oho0Ncd1bj3hlfJurWPggct9
- nTgA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1507; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=GZsbB5/oS0c6lwFJZSOuaHi3hJ1zBvMulcElef7p9ak=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSuEuI8baaxrvvpnqku04XTEuau7Jsbv8jLSdRzF8eZR
+ AVR+3lHO0pZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACaia8zIMJXvW2XqkmPyEQGB
+ RxPm7Ft85IfYt4sCqkdaDGdvd0pu+cbIsMj6/MvF26rz3E4u3y68OtlpRmy65V/DFp5X2ckC+/d
+ b8AEA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Use scoped_with_init_fs() to temporarily override current->fs for
-the bdev_file_open_by_path() call so the path lookup happens in
-init's filesystem context.
+Replace the manual init_task root retrieval with scoped_with_init_fs()
+to temporarily override current->fs. This allows using the simpler
+filp_open() instead of the init_root() + file_open_root() pattern.
 
-process_msg_open() ← rnbd_srv_rdma_ev() ← RDMA completion callback ←
-ib_cq_poll_work() ← kworker (InfiniBand completion workqueue)
+open_file_as_root() ← sev_read_init_ex_file() / sev_write_init_ex_file()
+← sev_platform_init() ← __sev_guest_init() ← KVM ioctl — user process context
+
+Needs init's root because the SEV init_ex file path should resolve
+against the real root, not a KVM user's chroot.
 
 Signed-off-by: Christian Brauner <brauner@kernel.org>
 ---
- drivers/block/rnbd/rnbd-srv.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/crypto/ccp/sev-dev.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/block/rnbd/rnbd-srv.c b/drivers/block/rnbd/rnbd-srv.c
-index 10e8c438bb43..79c9a5fb418f 100644
---- a/drivers/block/rnbd/rnbd-srv.c
-+++ b/drivers/block/rnbd/rnbd-srv.c
-@@ -11,6 +11,7 @@
+diff --git a/drivers/crypto/ccp/sev-dev.c b/drivers/crypto/ccp/sev-dev.c
+index 096f993974d1..4320054da0f6 100644
+--- a/drivers/crypto/ccp/sev-dev.c
++++ b/drivers/crypto/ccp/sev-dev.c
+@@ -260,20 +260,16 @@ static int sev_cmd_buffer_len(int cmd)
  
- #include <linux/module.h>
- #include <linux/blkdev.h>
-+#include <linux/fs_struct.h>
+ static struct file *open_file_as_root(const char *filename, int flags, umode_t mode)
+ {
+-	struct path root __free(path_put) = {};
+-
+-	task_lock(&init_task);
+-	get_fs_root(init_task.fs, &root);
+-	task_unlock(&init_task);
+-
+ 	CLASS(prepare_creds, cred)();
+ 	if (!cred)
+ 		return ERR_PTR(-ENOMEM);
  
- #include "rnbd-srv.h"
- #include "rnbd-srv-trace.h"
-@@ -734,7 +735,8 @@ static int process_msg_open(struct rnbd_srv_session *srv_sess,
- 		goto reject;
- 	}
+ 	cred->fsuid = GLOBAL_ROOT_UID;
  
--	bdev_file = bdev_file_open_by_path(full_path, open_flags, NULL, NULL);
-+	scoped_with_init_fs()
-+		bdev_file = bdev_file_open_by_path(full_path, open_flags, NULL, NULL);
- 	if (IS_ERR(bdev_file)) {
- 		ret = PTR_ERR(bdev_file);
- 		pr_err("Opening device '%s' on session %s failed, failed to open the block device, err: %pe\n",
+-	scoped_with_creds(cred)
+-		return file_open_root(&root, filename, flags, mode);
++	scoped_with_init_fs() {
++		scoped_with_creds(cred)
++			return filp_open(filename, flags, mode);
++	}
+ }
+ 
+ static int sev_read_init_ex_file(void)
 
 -- 
 2.47.3
