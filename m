@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92A60346E7D;
-	Thu,  5 Mar 2026 23:30:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BA131459FA;
+	Thu,  5 Mar 2026 23:30:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772753433; cv=none; b=dlF7FXczt13wRANubbYxrxfCrnJhuCs1G+l5qOp6ZKqCBdx+QFn72M4++aDldgTdOWImvNP/ptbRnWAZOhCmXzUMA/1qIcAeu8FXTtYJlIP5yjbr0OHjZ5wfdKgHaDUF5hPI+p1MGW9JIhxCGn3+RaBadbRXwPDloZddzQYgcjk=
+	t=1772753436; cv=none; b=WIqe8OGZiGa0vvGoVUjwG4mHoSDvP2wzwTxfelVZixIcGEYoLkQWKrPD/ZrFa5F1+brN0shykmQSpRHKk+3+Ns6phPSOnunu00fJ8czX/BW+ax0Nu1d/I+qPS/PvAdWyTcCOCP9ceYyCGZTaNABeGtuv7mnftzh2/1DrBDqzGU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772753433; c=relaxed/simple;
-	bh=BkzEXSS/aDyD/0RcykK+9iDod6MNEZ0v8zFBHEaX1Bk=;
+	s=arc-20240116; t=1772753436; c=relaxed/simple;
+	bh=mTnIonLZYMjXHvkplxKLW57Mj6daBEBoDy+9bwPX4hU=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=XWCbqtOoiMMVrQnDxSJzoVbcCQsv3iebqVpxugxbGR6u82CwQet3YijJdeL6bbCYb57mT7jvJOOdzw2yA2o/tUsIsmR0vQFG5s/lsvsVSvno2rzYjnpJ5qTJQDl4iL+u6z2MopMQYb5njnwD2O7O1vo2ttnwruA5FrKyLte5rAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ujwOcZVf; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=AgzxpVlt97hamqugxw3sBu73miKc72NQdEPmSQLU8CNpAhL7goZvwHD9nrGuv0iGdDvxbc/9dJE/gMMZTy4OBjfa9fOe+tfk2m545MxXYH7FkLmjAn7Vn2PXEPJfMqn7bqFlo+iro+GZ871swu6BSQiRcx/8To0qfAIM2bUijm4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uQQIgiGP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ujwOcZVf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7713DC2BC9E;
-	Thu,  5 Mar 2026 23:30:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uQQIgiGP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F927C19423;
+	Thu,  5 Mar 2026 23:30:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772753433;
-	bh=BkzEXSS/aDyD/0RcykK+9iDod6MNEZ0v8zFBHEaX1Bk=;
+	s=k20201202; t=1772753436;
+	bh=mTnIonLZYMjXHvkplxKLW57Mj6daBEBoDy+9bwPX4hU=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=ujwOcZVfWBoUIlAjZe1ivZpLIenFzt+MmFOa4xbzisCbtwhTHAQPV5dduAZQ+NG2k
-	 NqEJ8jiM7l5bzMpOc/mUGfLuxjmnS06AwY2R3+jbsa98JWV7EMOt5PQ6H0hpx1lKS/
-	 06sKMzmUArqGjwgAwWrH16AilswszH7QtynePdKwQPNpnQeaKDcOLiws/QgORhV+wH
-	 YKsNGXc/IPqw57tjiJ0SIJS1LMuzNk4Gx/02ZanCqpeim9h9G1yQCiIAzNcClTm78x
-	 1OCDKzXVk156is46+Ku36Yn4jF/E3OcfMCf81cxmCwYESR7Fn9VK4cGpkLC67i8vYZ
-	 aJ75kNMnNq3dA==
+	b=uQQIgiGP+4KPGYq7C7y6G/gliGx1mtDkiMChTpymclR689L/QwD+oIBBarKzFi1W9
+	 f9pncDpq+uu6s3tKyaZVcVVQ0fvlqx6gBj8jvCvLvZqw6D3coRSeOrQZprnFVRzWll
+	 lwQ7+x+gwm6fmnYFbl85sczKOlW8cRNFRFI5YXxbZ3Q+hBkDxxNtrL7KUStrY8pQzO
+	 23vDoSpZ1MX+GSwfJZpHVRxhtO05pC5u96QckujXHhEn81oQLgrtcEQaxWu5ydhZpO
+	 Ujh46CL4Vz2E9/xN+FnVtylo0k1Zoa7NfMnJKi/N4ZTecU9ELTplV2Esg0apefwY5b
+	 67e9ALnZe+6eQ==
 From: Christian Brauner <brauner@kernel.org>
-Date: Fri, 06 Mar 2026 00:30:08 +0100
-Subject: [PATCH RFC v2 05/23] scsi: target: use scoped_with_init_fs() for
- ALUA metadata
+Date: Fri, 06 Mar 2026 00:30:09 +0100
+Subject: [PATCH RFC v2 06/23] scsi: target: use scoped_with_init_fs() for
+ APTPL metadata
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -38,7 +38,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260306-work-kthread-nullfs-v2-5-ad1b4bed7d3e@kernel.org>
+Message-Id: <20260306-work-kthread-nullfs-v2-6-ad1b4bed7d3e@kernel.org>
 References: <20260306-work-kthread-nullfs-v2-0-ad1b4bed7d3e@kernel.org>
 In-Reply-To: <20260306-work-kthread-nullfs-v2-0-ad1b4bed7d3e@kernel.org>
 To: linux-fsdevel@vger.kernel.org, 
@@ -48,55 +48,49 @@ Cc: linux-kernel@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>,
  Tejun Heo <tj@kernel.org>, Jann Horn <jannh@google.com>, 
  Christian Brauner <brauner@kernel.org>
 X-Mailer: b4 0.15-dev-47773
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1383; i=brauner@kernel.org;
- h=from:subject:message-id; bh=BkzEXSS/aDyD/0RcykK+9iDod6MNEZ0v8zFBHEaX1Bk=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSuEuKs1urKveXZKGOwKiNIQvnDLo34KyWXryntqDN7y
- dZrk9/XUcrCIMbFICumyOLQbhIut5ynYrNRpgbMHFYmkCEMXJwCMJFp+gz/FHeVXJwl3hW4kP+O
- hdps83emufpJPItkV8/W9BC9pVDgx8gwNdRPtPLmOesqSYdeCcNEzsUHpjjtTFR4yFz5xGXVLEY
- eAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1199; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=mTnIonLZYMjXHvkplxKLW57Mj6daBEBoDy+9bwPX4hU=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSuEuKsmjqjXar5znadQiOzaRcErlx47xt+0uTcXxcdo
+ TXhCWdsOkpZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACZyj5fhn03l9ZyZj5z278p6
+ Xan3RivySPWrc/2MuXaLlkbFB2zy/MXwz3jaFbnbXiK1Fafma97s6/qg2qOvnfhxb7q/NV9DEec
+ hHgA=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
 Use scoped_with_init_fs() to temporarily override current->fs for
-the filp_open() call in core_alua_write_tpg_metadata() so the
+the filp_open() call in __core_scsi3_write_aptpl_to_file() so the
 path lookup happens in init's filesystem context.
 
-core_alua_write_tpg_metadata() ← core_alua_update_tpg_primary_metadata()
-← core_alua_do_transition_tg_pt() ← target_queued_submit_work() ←
-kworker (target submission workqueue)
+__core_scsi3_write_aptpl_to_file() ← core_scsi3_update_and_write_aptpl()
+← PR command handlers ← target_queued_submit_work() ← kworker
 
 Signed-off-by: Christian Brauner <brauner@kernel.org>
 ---
- drivers/target/target_core_alua.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drivers/target/target_core_pr.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/target/target_core_alua.c b/drivers/target/target_core_alua.c
-index 10250aca5a81..fde88642a43a 100644
---- a/drivers/target/target_core_alua.c
-+++ b/drivers/target/target_core_alua.c
+diff --git a/drivers/target/target_core_pr.c b/drivers/target/target_core_pr.c
+index f88e63aefcd8..2a030f119b24 100644
+--- a/drivers/target/target_core_pr.c
++++ b/drivers/target/target_core_pr.c
 @@ -18,6 +18,7 @@
- #include <linux/fcntl.h>
  #include <linux/file.h>
+ #include <linux/fcntl.h>
  #include <linux/fs.h>
 +#include <linux/fs_struct.h>
  #include <scsi/scsi_proto.h>
  #include <linux/unaligned.h>
  
-@@ -856,10 +857,13 @@ static int core_alua_write_tpg_metadata(
- 	unsigned char *md_buf,
- 	u32 md_buf_len)
- {
--	struct file *file = filp_open(path, O_RDWR | O_CREAT | O_TRUNC, 0600);
-+	struct file *file;
- 	loff_t pos = 0;
- 	int ret;
+@@ -1969,7 +1970,8 @@ static int __core_scsi3_write_aptpl_to_file(
+ 	if (!path)
+ 		return -ENOMEM;
  
+-	file = filp_open(path, flags, 0600);
 +	scoped_with_init_fs()
-+		file = filp_open(path, O_RDWR | O_CREAT | O_TRUNC, 0600);
-+
++		file = filp_open(path, flags, 0600);
  	if (IS_ERR(file)) {
- 		pr_err("filp_open(%s) for ALUA metadata failed\n", path);
- 		return -ENODEV;
+ 		pr_err("filp_open(%s) for APTPL metadata"
+ 			" failed\n", path);
 
 -- 
 2.47.3
