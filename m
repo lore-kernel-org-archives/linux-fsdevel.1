@@ -1,95 +1,149 @@
-Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com [209.85.161.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ECB7365A18
-	for <linux-fsdevel@vger.kernel.org>; Fri,  6 Mar 2026 11:53:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20FD52874FF;
+	Fri,  6 Mar 2026 12:03:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772798001; cv=none; b=nxvW4l9QkEJQxM1yzhfrZOggme1dcSLvouWIwocsZVYZNPDK2t6DWLqBJd14XJt0K6Kk+sXmToceH5PlZK+UPvhp98/ePx4zB0KqWyrjz2mQwnD5xLrAL1l/IdjZyEw1bzoYCQuem8E+mcP/ETW3pr2y89Qv+vE/BpBxmzN9Tak=
+	t=1772798607; cv=none; b=BBWuHlULqxdMkxUF1YalK4PfrYrEkYkiWP+C1fBkUuLBnkX46CbCBOABZy5Pqld06m3IDbfzWgl5tpzEKfX9caTmFvd6z9AazQOjHxlwmL5cC1mTxnIcoUKKuUybkxNkM2plI6CGcV38Xj2mQzD5OYKyxeZTEOQ53DR1sNiyukc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772798001; c=relaxed/simple;
-	bh=m+C7ElA3bRPaH0W1UtP7FgRTLi7nAINy2AyJxyBcanQ=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=ZlY9nJWzOLrxyR/VSa4iJU4PAxKGoE2bY2HjtwwgNA4S/JUIpBw+gJEbeYDxQ9BIttsKcoCWySoDpfy+ipx7MIx26gjeQU+WaXTsGK7Yuriq1I56x1OQ9Hfd38NLg6B9WNoanyRdo2+4DXrpNzb4QkwxqpFmcEtmRGWg4W+7EPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo1-f72.google.com with SMTP id 006d021491bc7-679dcf1f680so176771744eaf.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 06 Mar 2026 03:53:20 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772797999; x=1773402799;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=htYTekGI96RRzHG8EdGkIPequJxrAfxWaa5pkEEJZKY=;
-        b=GR2WnmjnxCAVr7Y3kk/NPBLKiUH4Nwb8x9AZn/6uFu0JdvW2Cfe6Vw1TJ+1su4d8WJ
-         3hZxppO+efrjAT3R0BkIHK39joOsSnf6ilcWuW6DGK/IkmiXvTD0DgOE0jzUtfabVVv+
-         Lxvw/3P2ybC8WNFYFTZ8h9Y7ylB5iOeiI/w8fgu+jOgujrMxmsYTX+Cnr92pfnldPt8H
-         wohS8UIf4eimDeoKTsrv0fiAmD5pgfsObs+622o7SicZ6RAK888bd12UXQCrw7nF2gTT
-         iP4woONS4mFOlrgttk3BkmtE1sogcOvZlKmm6keYf9MkfDULSZYPoWJb8JSda5OecoCN
-         nTiQ==
-X-Gm-Message-State: AOJu0YwtmLQCHs3Kqst7h0E2CPu9mPl0Y2mnVylKUj0of0r6gkcMRo3D
-	pDM5GWRo8oLmxuAaQzYbeY2g6B134GbgV3MQp8MJ2dwXffHMls370bE4SCajXqMOkwBuLxTSSa9
-	ln01lHGGRF6jJYfxSdfyg0wbHMvgjb1M4jXh7QfTOEGgdRkw9cxN0caVF1eU=
+	s=arc-20240116; t=1772798607; c=relaxed/simple;
+	bh=8tIEjkmwTnv14wqiBx5utAVT1y4BywX848doWLEUMyQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=l/pvDdoh12cyyBQhF3uShKmq3RUUWBseTFvnjqbEWbxVg3TpWX6tPCm2nrll0IDjvmrm2zt0nulCI8hCNWiNNWsJFFvHspMGWh7rA1h4AGkdW0hX7YwRbWWRwSSAmxeyphAIRY5KrJe4Lsu8l5O5L4sJjlrf/G7AypTlNSoKYvw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h1hNNt/g; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h1hNNt/g"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6488CC4CEF7;
+	Fri,  6 Mar 2026 12:03:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772798607;
+	bh=8tIEjkmwTnv14wqiBx5utAVT1y4BywX848doWLEUMyQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=h1hNNt/ggkmOIg6nOIs6YVKXxpvjxXfuNC1/E243FERUMlrdAP/1JGuS8WftUsd7f
+	 sEmFfcrfCzizYh1WflGJxM+Mh8s8/NGzCybtmxDbPIa+RYlLhAC8M2mVomjBVzk4GJ
+	 ovvi/YoGsX9AnKFqWBjW+IpIUt/t0ThtH++DKgi9JosbOXhePSuaAgqwo9ysipyiZZ
+	 tJR6V8PVm0Q3rJsUQBZpi2/tPfiYYA+aTsakBMmVszHI4rXW/zZE1/jrzMC/3s/CgY
+	 3bcJ8hm+9ce3MEINimXRaNGIqZXC4Xd93/yIA5/AX590NC8dE2fbRiLTj205GiFNUz
+	 8UXcS4I1Opdeg==
+Date: Fri, 6 Mar 2026 12:03:24 +0000
+From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: linux-kernel@vger.kernel.org, 
+	"linux-mm @ kvack . org" <linux-mm@kvack.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, 
+	Pedro Falcato <pfalcato@suse.de>, David Rientjes <rientjes@google.com>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
+	Michael Ellerman <mpe@ellerman.id.au>, Christian Borntraeger <borntraeger@linux.ibm.com>, 
+	Janosch Frank <frankja@linux.ibm.com>, Claudio Imbrenda <imbrenda@linux.ibm.com>, 
+	Alexander Gordeev <agordeev@linux.ibm.com>, Gerald Schaefer <gerald.schaefer@linux.ibm.com>, 
+	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
+	Jarkko Sakkinen <jarkko@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Arve =?utf-8?B?SGrDuG5uZXbDpWc=?= <arve@android.com>, 
+	Todd Kjos <tkjos@android.com>, Christian Brauner <brauner@kernel.org>, 
+	Carlos Llamas <cmllamas@google.com>, Ian Abbott <abbotti@mev.co.uk>, 
+	H Hartley Sweeten <hsweeten@visionengravers.com>, Jani Nikula <jani.nikula@linux.intel.com>, 
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+	Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Leon Romanovsky <leon@kernel.org>, Dimitri Sivanich <dimitri.sivanich@hpe.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Arnaldo Carvalho de Melo <acme@kernel.org>, 
+	Namhyung Kim <namhyung@kernel.org>, Andy Lutomirski <luto@kernel.org>, 
+	Vincenzo Frascino <vincenzo.frascino@arm.com>, Eric Dumazet <edumazet@google.com>, 
+	Neal Cardwell <ncardwell@google.com>, "David S. Miller" <davem@davemloft.net>, 
+	David Ahern <dsahern@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Miguel Ojeda <ojeda@kernel.org>, linuxppc-dev@lists.ozlabs.org, 
+	kvm@vger.kernel.org, linux-s390@vger.kernel.org, linux-sgx@vger.kernel.org, 
+	intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-perf-users@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	netdev@vger.kernel.org, rust-for-linux@vger.kernel.org, x86@kernel.org
+Subject: Re: [PATCH v1 01/16] mm/madvise: drop range checks in
+ madvise_free_single_vma()
+Message-ID: <c5a89c14-0c6b-4c1e-a68c-0680c7d64f4c@lucifer.local>
+References: <20260227200848.114019-1-david@kernel.org>
+ <20260227200848.114019-2-david@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:81d0:b0:65f:1012:69c5 with SMTP id
- 006d021491bc7-67b9bd8f1f7mr1120617eaf.76.1772797999387; Fri, 06 Mar 2026
- 03:53:19 -0800 (PST)
-Date: Fri, 06 Mar 2026 03:53:19 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <69aac02f.050a0220.13f275.001d.GAE@google.com>
-Subject: [syzbot] Monthly fs report (Mar 2026)
-From: syzbot <syzbot+list8af9c88e9e1bcf5eee09@syzkaller.appspotmail.com>
-To: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260227200848.114019-2-david@kernel.org>
 
-Hello fs maintainers/developers,
+On Fri, Feb 27, 2026 at 09:08:32PM +0100, David Hildenbrand (Arm) wrote:
+> madvise_vma_behavior()-> madvise_dontneed_free()->madvise_free_single_vma()
+> is only called from madvise_walk_vmas()
+>
+> (a) After try_vma_read_lock() confirmed that the whole range falls into
+>     a single VMA (see is_vma_lock_sufficient()).
+>
+> (b) After adjusting the range to the VMA in the loop afterwards.
+>
+> madvise_dontneed_free() might drop the MM lock when handling
+> userfaultfd, but it properly looks up the VMA again to adjust the range.
+>
+> So in madvise_free_single_vma(), the given range should always fall into
+> a single VMA and should also span at least one page.
+>
+> Let's drop the error checks.
+>
+> The code now matches what we do in madvise_dontneed_single_vma(), where
+> we call zap_vma_range_batched() that documents: "The range must fit into
+> one VMA.". Although that function still adjusts that range, we'll change
+> that soon.
+>
+> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 
-This is a 31-day syzbot report for the fs subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/fs
+Yeah I did wonder about some of these checks, thanks for going through and
+confirming these are useless.
 
-During the period, 1 new issues were detected and 2 were fixed.
-In total, 59 issues are still open and 631 have already been fixed.
+Checked the madvise_dontneed_free() case to be sure and LGTM so overall:
 
-Some of the still happening issues:
+Reviewed-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
 
-Ref  Crashes Repro Title
-<1>  19138   Yes   WARNING in path_noexec (2)
-                   https://syzkaller.appspot.com/bug?extid=a9391462075ffb9f77c6
-<2>  6953    Yes   WARNING in inc_nlink (3)
-                   https://syzkaller.appspot.com/bug?extid=2b3af42c0644df1e4da9
-<3>  6821    Yes   possible deadlock in input_event (2)
-                   https://syzkaller.appspot.com/bug?extid=d4c06e848a1c1f9f726f
-<4>  6409    Yes   INFO: task hung in __iterate_supers
-                   https://syzkaller.appspot.com/bug?extid=b10aefdd9ef275e9368d
-<5>  4748    Yes   INFO: task hung in path_openat (7)
-                   https://syzkaller.appspot.com/bug?extid=950a0cdaa2fdd14f5bdc
-<6>  2554    Yes   INFO: task hung in synchronize_rcu (4)
-                   https://syzkaller.appspot.com/bug?extid=222aa26d0a5dbc2e84fe
-<7>  2540    Yes   INFO: task hung in filename_create (4)
-                   https://syzkaller.appspot.com/bug?extid=72c5cf124089bc318016
-<8>  1956    Yes   INFO: task hung in lookup_slow (3)
-                   https://syzkaller.appspot.com/bug?extid=7cfc6a4f6b025f710423
-<9>  1683    Yes   kernel BUG in __filemap_add_folio
-                   https://syzkaller.appspot.com/bug?extid=4d3cc33ef7a77041efa6
-<10> 1310    Yes   INFO: task hung in user_get_super (2)
-                   https://syzkaller.appspot.com/bug?extid=ba09f4a317431df6cddf
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
-
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
-
-You may send multiple commands in a single email message.
+> ---
+>  mm/madvise.c | 13 ++++---------
+>  1 file changed, 4 insertions(+), 9 deletions(-)
+>
+> diff --git a/mm/madvise.c b/mm/madvise.c
+> index c0370d9b4e23..efc04334a000 100644
+> --- a/mm/madvise.c
+> +++ b/mm/madvise.c
+> @@ -799,9 +799,10 @@ static int madvise_free_single_vma(struct madvise_behavior *madv_behavior)
+>  {
+>  	struct mm_struct *mm = madv_behavior->mm;
+>  	struct vm_area_struct *vma = madv_behavior->vma;
+> -	unsigned long start_addr = madv_behavior->range.start;
+> -	unsigned long end_addr = madv_behavior->range.end;
+> -	struct mmu_notifier_range range;
+> +	struct mmu_notifier_range range = {
+> +		.start = madv_behavior->range.start,
+> +		.end = madv_behavior->range.end,
+> +	};
+>  	struct mmu_gather *tlb = madv_behavior->tlb;
+>  	struct mm_walk_ops walk_ops = {
+>  		.pmd_entry		= madvise_free_pte_range,
+> @@ -811,12 +812,6 @@ static int madvise_free_single_vma(struct madvise_behavior *madv_behavior)
+>  	if (!vma_is_anonymous(vma))
+>  		return -EINVAL;
+>
+> -	range.start = max(vma->vm_start, start_addr);
+> -	if (range.start >= vma->vm_end)
+> -		return -EINVAL;
+> -	range.end = min(vma->vm_end, end_addr);
+> -	if (range.end <= vma->vm_start)
+> -		return -EINVAL;
+>  	mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0, mm,
+>  				range.start, range.end);
+>
+> --
+> 2.43.0
+>
