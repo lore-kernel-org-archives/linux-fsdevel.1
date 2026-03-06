@@ -1,96 +1,144 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3BEB3B8BC8
-	for <linux-fsdevel@vger.kernel.org>; Fri,  6 Mar 2026 16:28:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7EBC36AB5F;
+	Fri,  6 Mar 2026 17:18:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772814531; cv=none; b=okUaKX+8iXDkEfTWKtsKGM9FQ4I6faftV29IdCoiXtENShZvLowNlqa+97OC4epwkH0gSdSrd3kuF+VfKz+V8O72tRxO9QVXq0TDcMYysgtTNQ7rBgpWhBZdcBf1jluQnOokyOzW5iE+pWGhsUWeFZc/mNXmu+OZJ6+lSgCjdpE=
+	t=1772817506; cv=none; b=oZQUjX6UWoCdWTqhdHlKdNr4ZUrNqyrFWHy4LRLAfGd0IctuttcKst/50QXMHIMNcULpFcAcqijITdBJ0bO3nSjKjMNDe2ndtJO75sdW38qfs62p+tUQftpeOMZVr80N1DZkvaOYsvCd4Werco7xAcdTvF9rkOmWM2r7hG/k5S4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772814531; c=relaxed/simple;
-	bh=cX79kSZCH28VGIfUtFNJ+kXqzh0sITzmmuj1Jpvh9c8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AWfouS6wMxkPwr8kpqmWBLrdzQJewdCp3pjOKNDRJxR14sOQ88foZAku7HA3qcj00Rg9kjDaCsLVVaHreljp2NwuK1ceo48S0ZBiTb86KIPu5fXUyD0eTD3R7UeENQhRvjPq49Jt100af11xlR77KaCboPtNeSmD5akckmYUzF8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=BaBKQ7Cj; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1772817506; c=relaxed/simple;
+	bh=v65cD3N8Br5TyxfaG6Wxwe38me5rZ0c7uZMHqtZlcpM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Y8s6mW7DRnQaY4nTEtXX5W+Ii97KprSTLYj9syJ9hyHjb1dGw0e05r3QfKtGKE3FGfFJ8U46PgzHZivhxoYuTcdn3SMCQMAWU/hEh0QjuqV9gQfhBLvSCYtdd5XXENgfLpPd0OjVNNQ+FC8RWJXVJPNIVvDQHS3t8K4FEtoqCDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iyJNlXWY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="BaBKQ7Cj"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-b9431300833so122134566b.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 06 Mar 2026 08:28:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1772814524; x=1773419324; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=aXIl+Rx1DH3bfO0TDXGYaY5Er/AJrKyveW+IxjspZg4=;
-        b=BaBKQ7CjI5ZOEK38a84r07tE3CP2H1lY07crpdUW4fjgQXTJJOOZFJ07nzvaGmUlpY
-         BJ9Q0qAXIiX4fAC/iWiYlWCh1bZvag/1XJqiJRQZ69aEI6ZFkAE+INcu9LEteOy50rcY
-         1IymEwPnuwQxCA1VOv8FKSKl9aBaeOtanbXNM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772814524; x=1773419324;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aXIl+Rx1DH3bfO0TDXGYaY5Er/AJrKyveW+IxjspZg4=;
-        b=V8+QutwORtf1220eGkYc+fghC722o1ducAOUg61A+7Z6+Ye2LxFpYJbbNIj9+bR6no
-         HKOrLR0xsYuvhdZyEnJ+izQ91/IoFYzTta2S9WQpoc6m2R74CApZHVZbm+HRz0WYy5Un
-         gf3Hjj6gNVSbBvGCf1pwubNJqs2Vct2Azh5PSfHmCEl4RIAfPP54Cu+oPE6X5R9EB5sB
-         LrIKxnGjyWhYJPyR3RmyfnN8w8Rz7IcSkU7f6P+ZpYLJYTLKYa1o9PvvdkXuUcEAXqOs
-         /3ZuZFF+jP/PBFMg0yVjstjmFjbp4hEzUq+o74XQmnBJhYOOJe2evRjHJjUZYRkdzbl/
-         LTyg==
-X-Forwarded-Encrypted: i=1; AJvYcCXayx31Foap1jmDFz4m+XicHInG8tmCzkgYPNGiLyRGbcLyugzGAJoUOmM2u7u/58cncGIdSNjWD+trJSSM@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywrs/Dbk1eai4UEjOnGWw/jxc1ayxlbtGeKb/G/p6uLi9z3+RvL
-	LluG3GHn/O3cPz7RbeZfoM4cJ5D7mkYV9FcgYB5hRLGIGz285Sc+6EPrH+W/nWC6SCoTkWJy/2c
-	OzMSDdBc=
-X-Gm-Gg: ATEYQzxPVtg/PqwwCvwE9TNlx6FtDTiEFwl3PtvZI/4hdfpHAvDlaaq7eF7rfINT/F8
-	7j333hM49DcYlM5WbJjHScit3V79zjBukbVRtfnnylPLxWhccwbsjvD+GF/js581PCeC3jebk8W
-	ly1+GE88aUo9SyHiXhvl11LmSlC1dU3xwufLPWl4CyLwc5ufHzdZjCAqG3xS10v27m7HBOBrkeR
-	yBbKtO9csCbsYYKLKwVfDSQY9+e4UUUDusYUT9mTlu02PdMGBJhc1SQmumPcLjzbLHROn64+bMd
-	upPPUht+kX86iSvlBIMwWOokFNKuBXvKzNOfh/YS/R7E0B2lpDV5kCYZlBykQummXxpX5Ej8UXb
-	0VDA3Z/VUYEEc/7TUq2RLwtz1la+C3wdoTfgaWqkySV6bmCsOFffL82If36Z5IOXww1CxhdtkW9
-	zQ3YdZauBsoF/R5kZTTcdvSCXclxsVSNS8X3/j0ml4Z0uriVr1hAnSaLwjJJEGzOARw4XGT4IBX
-	SW6fvLbKYA=
-X-Received: by 2002:a17:907:94d3:b0:b87:4bdb:1061 with SMTP id a640c23a62f3a-b942db86962mr154618866b.1.1772814523688;
-        Fri, 06 Mar 2026 08:28:43 -0800 (PST)
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com. [209.85.218.42])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b942f15c23fsm71804166b.49.2026.03.06.08.28.42
-        for <linux-fsdevel@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 06 Mar 2026 08:28:43 -0800 (PST)
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-b9431300833so122127066b.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 06 Mar 2026 08:28:42 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUEqzdmXgCrrGB5qHHsgDwTrBrpzsmWkvUTKSbQ0QXV4T37RpMcobxm8PEjXQaLXAo0MAHlQVAfXtqTYtAY@vger.kernel.org
-X-Received: by 2002:a17:906:2092:b0:b94:82bc:ed13 with SMTP id
- a640c23a62f3a-b9482bcf242mr5892566b.7.1772814522554; Fri, 06 Mar 2026
- 08:28:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iyJNlXWY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BA46C4CEF7;
+	Fri,  6 Mar 2026 17:18:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772817506;
+	bh=v65cD3N8Br5TyxfaG6Wxwe38me5rZ0c7uZMHqtZlcpM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=iyJNlXWYG+bjR/gJhhrmzh9pBnw8sWL+QBOHdKQNMZ6rpLSb+yHZNoyQoTpLd08NP
+	 T714R3BgPR+lSW+R2gPVak0oKSXdaXOf+qvoLvUza23w6LW0j8/TRZAQM+LgY0oBQI
+	 Je+u50iWrjpTjKzBCHimbGNyMjofwuXW6pyc7U1w3tGzYba/F6eqwI6Q7r7F9sEEcR
+	 AR8U9wY6/xdShFjpFRBmdO5lBXMkhnLYIqyTtzARg+GqetrSO0RDItdFOXx/rS8SGu
+	 bxzY6rqPquiMavoVra2BfGwl9agSz1WpMuIr99Fz+d+HLby5uYJ80q59vUwA0FJCdK
+	 lKa031garTQdA==
+From: Mike Rapoport <rppt@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Andrea Arcangeli <aarcange@redhat.com>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	David Hildenbrand <david@kernel.org>,
+	Hugh Dickins <hughd@google.com>,
+	James Houghton <jthoughton@google.com>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Muchun Song <muchun.song@linux.dev>,
+	Nikita Kalyazin <kalyazin@amazon.com>,
+	Oscar Salvador <osalvador@suse.de>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Peter Xu <peterx@redhat.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	kvm@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [PATCH v2 00/15]  mm, kvm: allow uffd support in guest_memfd
+Date: Fri,  6 Mar 2026 19:18:00 +0200
+Message-ID: <20260306171815.3160826-1-rppt@kernel.org>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260120-work-pidfs-rhashtable-v2-1-d593c4d0f576@kernel.org>
- <0150e237-41d2-40ae-a857-4f97ca664468@gtucker.io> <20260224-kurzgeschichten-urteil-976e57a38c5c@brauner>
- <20260224-mittlerweile-besessen-2738831ae7f6@brauner> <CAHk-=whEtuxXcgYLZPk1_mWd2VsLP2WPPCOr5fjPb2SpDsYdew@mail.gmail.com>
- <20260226-ungeziefer-erzfeind-13425179c7b2@brauner> <1ff1bce2-8bb4-463c-a631-16e14f4ea7e2@arm.com>
-In-Reply-To: <1ff1bce2-8bb4-463c-a631-16e14f4ea7e2@arm.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Fri, 6 Mar 2026 08:28:26 -0800
-X-Gmail-Original-Message-ID: <CAHk-=whEEBaMuM0iR6yY2CyfoLDJZxzWvi1yrCsEBoGTWDVUBQ@mail.gmail.com>
-X-Gm-Features: AaiRm50b8ukFOu0LH3eYoVAWaJ2bzveqWv_zfm2sIB1zmUoShkXh3RMYjMBbX0Y
-Message-ID: <CAHk-=whEEBaMuM0iR6yY2CyfoLDJZxzWvi1yrCsEBoGTWDVUBQ@mail.gmail.com>
-Subject: Re: make_task_dead() & kthread_exit()
-To: Christian Loehle <christian.loehle@arm.com>
-Cc: Christian Brauner <brauner@kernel.org>, Guillaume Tucker <gtucker@gtucker.io>, Tejun Heo <tj@kernel.org>, 
-	Mateusz Guzik <mjguzik@gmail.com>, Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
-	linux-fsdevel@vger.kernel.org, Mark Brown <broonie@kernel.org>, 
-	kunit-dev@googlegroups.com, David Gow <davidgow@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Fri, 6 Mar 2026 at 03:06, Christian Loehle <christian.loehle@arm.com> wrote:
->
-> FWIW this leaves the stale BTF reference:
+From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
 
-Thanks. Applied.
+Hi,
 
-              Linus
+These patches enable support for userfaultfd in guest_memfd.
+
+As the ground work I refactored userfaultfd handling of PTE-based memory types
+(anonymous and shmem) and converted them to use vm_uffd_ops for allocating a
+folio or getting an existing folio from the page cache. shmem also implements
+callbacks that add a folio to the page cache after the data passed in
+UFFDIO_COPY was copied and remove the folio from the page cache if page table
+update fails.
+
+In order for guest_memfd to notify userspace about page faults, there are new
+VM_FAULT_UFFD_MINOR and VM_FAULT_UFFD_MISSING that a ->fault() handler can
+return to inform the page fault handler that it needs to call
+handle_userfault() to complete the fault.
+
+Nikita helped to plumb these new goodies into guest_memfd and provided basic
+tests to verify that guest_memfd works with userfaultfd.
+The handling of UFFDIO_MISSING in guest_memfd requires ability to remove a
+folio from page cache, the best way I could find was exporting
+filemap_remove_folio() to KVM.
+
+I deliberately left hugetlb out, at least for the most part.
+hugetlb handles acquisition of VMA and more importantly establishing of parent
+page table entry differently than PTE-based memory types. This is a different
+abstraction level than what vm_uffd_ops provides and people objected to
+exposing such low level APIs as a part of VMA operations.
+
+Also, to enable uffd in guest_memfd refactoring of hugetlb is not needed and I
+prefer to delay it until the dust settles after the changes in this set.
+
+v1 changes:
+* instead of returning uffd-specific values from ->fault() handlers add
+  __do_userfault() helper to resolve user faults in __do_fault()
+* address comments from Peter
+* rebased on v7.0-c1
+
+RFC: https://lore.kernel.org/all/20260127192936.1250096-1-rppt@kernel.org
+
+Mike Rapoport (Microsoft) (11):
+  userfaultfd: introduce mfill_copy_folio_locked() helper
+  userfaultfd: introduce struct mfill_state
+  userfaultfd: introduce mfill_get_pmd() helper.
+  userfaultfd: introduce mfill_get_vma() and mfill_put_vma()
+  userfaultfd: retry copying with locks dropped in mfill_atomic_pte_copy()
+  userfaultfd: move vma_can_userfault out of line
+  userfaultfd: introduce vm_uffd_ops
+  shmem, userfaultfd: use a VMA callback to handle UFFDIO_CONTINUE
+  userfaultfd: introduce vm_uffd_ops->alloc_folio()
+  shmem, userfaultfd: implement shmem uffd operations using vm_uffd_ops
+  userfaultfd: mfill_atomic(): remove retry logic
+
+Nikita Kalyazin (3):
+  KVM: guest_memfd: implement userfaultfd operations
+  KVM: selftests: test userfaultfd minor for guest_memfd
+  KVM: selftests: test userfaultfd missing for guest_memfd
+
+Peter Xu (1):
+  mm: generalize handling of userfaults in __do_fault()
+
+ include/linux/mm.h                            |   5 +
+ include/linux/shmem_fs.h                      |  14 -
+ include/linux/userfaultfd_k.h                 |  73 +-
+ mm/filemap.c                                  |   1 +
+ mm/hugetlb.c                                  |  15 +
+ mm/memory.c                                   |  43 ++
+ mm/shmem.c                                    | 188 ++---
+ mm/userfaultfd.c                              | 692 ++++++++++--------
+ .../testing/selftests/kvm/guest_memfd_test.c  | 191 +++++
+ virt/kvm/guest_memfd.c                        |  84 ++-
+ 10 files changed, 858 insertions(+), 448 deletions(-)
+
+
+base-commit: 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
+--
+2.51.0
