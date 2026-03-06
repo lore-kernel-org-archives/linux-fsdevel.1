@@ -1,121 +1,100 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8586F3EDABC;
-	Fri,  6 Mar 2026 16:28:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88A9B407566
+	for <linux-fsdevel@vger.kernel.org>; Fri,  6 Mar 2026 16:28:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772814510; cv=none; b=mgm/GYov/NYwWliDTxwgzsUQTfZd3yFujZQZwTsz4daKMILuWOBxdd5lpzRezo67e9x+i1TMLECwO7dnoqaWqHA/PfjhsMbiFV7a2NzbkRaYuE/DS/lTexJAUZcSIA19xijH4LmEiSxlxtZMYj76nqkBO0zG/DVhknOcrcCEhsw=
+	t=1772814523; cv=none; b=md89esFfExl7aP30pb/yurbj5nce2cvUbOcrEwSBqo0fT++mH+lO1Tr3EUYDnly6UXxSk9isufKWxMWd5hsq0DcctOpBV0MYT9K2GcP7IZZcNj1XGAOb9x2ota2RAI9EqQ9UHJr8LYmrMOzfIfXRdh85mSYxiurzqhVcJ6jbW2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772814510; c=relaxed/simple;
-	bh=AYMWoThi0NnfjPGX1UGO0PLN/rhWl59XCxXvQqb7xrc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SQ8mVu1FCOeArnpVOlvAtrQyWPPQZYBolcYFqij3GqRL47ou4YMdTB1HuXoPvn0zQPLI22Jp71mClEwbKKfVJJMHqWVmorw5UX4pT0Zz1S8q6/dpZYfc1dXMXbWEfmSg2RldWjIt2z89rwkuLtdjtc/Z2PMhDkXPcZPMMjE/kSU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=CFJJubN2; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1772814523; c=relaxed/simple;
+	bh=PzWWv0VsnAPgrex3gIvNGOtw6lTUsQZtwiNiTpnaF6w=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To; b=BKkdCzyighIYSR9Lhw7gEwtvQcsGOhqqyr+c0Z/CYbKigPE13eZw/fkYhBAnlcssw2FXTKxazifjl6AcLhnwfQeSeT7U29bd7fXGIkdWdsulWA/TivjG5xV7YtQNMMi7NwOTodQkIQp2daa3kl342IkyT0GwUOX999ROLuiMP+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tR9/o42X; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="CFJJubN2"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=IcWzAUhUQsNspCv6GqG4MtP9jZ6m38H8CKI6GAuV6PQ=; b=CFJJubN2q+3CnInjWYPhV8zU28
-	mPjm1wr/eqieb7/M3uozkIsZRuMXZJ9JNU78GCm5o6ssr/BFYYP1TW9LWNIO4wOiWbxQlEXwZ2n2t
-	WA6wGJ7RDsGhz8A36cS8svTVNiWOGMetYU/ZbSSOXMbr6b4AaaPp4phkxxn5PeHG4F61wI2znjgGU
-	r+l1fjV3WuBSfKJ/PexXiufIYHLJDXQjvs1j/yl1K3hugCpX5Kx2CZKONDqlUkKlXzwAHqJ4iM8EZ
-	H59qpDHTn2g46K5bxD9n/mbH/DvhOvsG7RHpNJhbrVfgRiZuaoqAfqY1S1CxIDvdqcx+LYNizGAlU
-	yDjezxzg==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vyY2F-0000000GzX5-2dMe;
-	Fri, 06 Mar 2026 16:28:19 +0000
-Date: Fri, 6 Mar 2026 16:28:19 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Kiryl Shutsemau <kirill@shutemov.name>
-Cc: Chris J Arges <carges@cloudflare.com>, akpm@linux-foundation.org,
-	william.kucharski@oracle.com, linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-	kernel-team@cloudflare.com
-Subject: Re: [PATCH RFC 1/1] mm/filemap: handle large folio split race in
- page cache lookups
-Message-ID: <aasAo8qRCV9XSuax@casper.infradead.org>
-References: <20260305183438.1062312-1-carges@cloudflare.com>
- <20260305183438.1062312-2-carges@cloudflare.com>
- <aanYdvdJVG6f5WL2@casper.infradead.org>
- <aarVMrFptdXhHsX1@thinkstation>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tR9/o42X"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBAC9C4CEF7;
+	Fri,  6 Mar 2026 16:28:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772814522;
+	bh=PzWWv0VsnAPgrex3gIvNGOtw6lTUsQZtwiNiTpnaF6w=;
+	h=From:Subject:Date:To:From;
+	b=tR9/o42X8fTQaQuSP4C4CslDTSDzjm6azJ1HtjV7iXn2MH1TSsF4CoMBHtCeIVKkU
+	 DLZSiCh2SHtmJCnEFigWJSV1z/Pd6XCjniU0dC0Q775iHmQb97lgLPnG2bXQR70atE
+	 HQ1XFCRbzinghLieC02eSzgO1pk6jLfuXOyj303ehihKRBEQbD/Wjj+TZmbB81xWwh
+	 xvXTrFIZ0FnQTOj29xPQlOxSQNZgEEt+FMNKmPh7RHqxDu7rDnqVfK1il2zx7ZvpBE
+	 5e/W3qAF5aRzcVU+dN+oeY7or0R8aCISgZrIfZTNrnoXt8tcAlquCV+nUrwxvmp3zP
+	 RaszmBBrmJTWA==
+From: Christian Brauner <brauner@kernel.org>
+Subject: [PATCH 0/3] namespace: allow creating empty mount namespaces
+Date: Fri, 06 Mar 2026 17:28:36 +0100
+Message-Id: <20260306-work-empty-mntns-consolidated-v1-0-6eb30529bbb0@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aarVMrFptdXhHsX1@thinkstation>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALQAq2kC/yXMSw7CIBSF4a0YxmKA8tKtGAdwuVrUQgP4StO92
+ +rwPzn5JlKxRKzksJlIwWesMacl+HZDoHfpgjSGpYlgQrOOafrK5UZxGNuHDqmlSiGnmu8xuIa
+ BMmOlFKD2UgayGGPBc3z//OPp3/XhrwhtRdeHdxWpLy5Bv06Dqw3LDjgzxiowaIN3PnDgtmPcc
+ ei0UFJ6ZawWVpB5/gLzzvKywwAAAA==
+X-Change-ID: 20260306-work-empty-mntns-consolidated-078442c5944d
+To: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ Jeff Layton <jlayton@kernel.org>, Josef Bacik <josef@toxicpanda.com>, 
+ linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>
+X-Mailer: b4 0.15-dev-e55a6
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2162; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=PzWWv0VsnAPgrex3gIvNGOtw6lTUsQZtwiNiTpnaF6w=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSuZthxcb2fevTZI1WRX8Ntm7UcdI/brYrVZNFuKfx7o
+ sOqL0qqo5SFQYyLQVZMkcWh3SRcbjlPxWajTA2YOaxMIEMYuDgFYCL1Txn+e6e5pa4pipkRXF56
+ 58xN/lO/j578cZKz/wnz0Uf2mpsf9DEyPE6606q9lvXj6hczCzx61vsHXA2NuPZd/m/Pnxb7+lm
+ nOQE=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Fri, Mar 06, 2026 at 02:13:26PM +0000, Kiryl Shutsemau wrote:
-> On Thu, Mar 05, 2026 at 07:24:38PM +0000, Matthew Wilcox wrote:
-> > folio_split() needs to be sure that it's the only one holding a reference
-> > to the folio.  To that end, it calculates the expected refcount of the
-> > folio, and freezes it (sets the refcount to 0 if the refcount is the
-> > expected value).  Once filemap_get_entry() has incremented the refcount,
-> > freezing will fail.
-> > 
-> > But of course, we can race.  filemap_get_entry() can load a folio first,
-> > the entire folio_split can happen, then it calls folio_try_get() and
-> > succeeds, but it no longer covers the index we were looking for.  That's
-> > what the xas_reload() is trying to prevent -- if the index is for a
-> > folio which has changed, then the xas_reload() should come back with a
-> > different folio and we goto repeat.
-> > 
-> > So how did we get through this with a reference to the wrong folio?
-> 
-> What would xas_reload() return if we raced with split and index pointed
-> to a tail page before the split?
-> 
-> Wouldn't it return the folio that was a head and check will pass?
+Currently, creating a new mount namespace always copies the entire mount
+tree from the caller's namespace.  For containers and sandboxes that
+intend to build their mount table from scratch this is wasteful: they
+inherit a potentially large mount tree only to immediately tear it down.
 
-It's not supposed to return the head in this case.  But, check the code:
+This series adds support for creating a mount namespace that contains
+only a clone of the root mount, with none of the child mounts.  Two new
+flags are introduced:
 
-        if (!node)
-                return xa_head(xas->xa);
-        if (IS_ENABLED(CONFIG_XARRAY_MULTI)) {
-                offset = (xas->xa_index >> node->shift) & XA_CHUNK_MASK;
-                entry = xa_entry(xas->xa, node, offset);
-                if (!xa_is_sibling(entry))
-                        return entry;
-                offset = xa_to_sibling(entry);
-        }
-        return xa_entry(xas->xa, node, offset);
+- CLONE_EMPTY_MNTNS (0x400000000) for clone3(), using the 64-bit flag
+  space.
+- UNSHARE_EMPTY_MNTNS (0x00100000) for unshare(), reusing the
+  CLONE_PARENT_SETTID bit which has no meaning for unshare.
 
-(obviously CONFIG_XARRAY_MULTI is enabled)
+Both flags imply CLONE_NEWNS.  The resulting namespace contains a single
+nullfs root mount with an immutable empty directory.  The intended
+workflow is to then mount a real filesystem (e.g., tmpfs) over the root
+and build the mount table from there.
 
-!node is almost certainly not true -- that's only the case if there's a
-single entry at offset 0, and we're talking about a situation where we
-have a large folio.
+Signed-off-by: Christian Brauner <brauner@kernel.org>
+---
+Christian Brauner (3):
+      namespace: allow creating empty mount namespaces
+      selftests/filesystems: add tests for empty mount namespaces
+      selftests/filesystems: add clone3 tests for empty mount namespaces
 
-I think we have two cases to consider; one where we've allocated a new
-node because we split an entry from order >=6 to order <6, and one where
-we just split an entry that stays at the same level in the tree.
+ fs/namespace.c                                     |  85 +-
+ include/uapi/linux/sched.h                         |   7 +
+ kernel/fork.c                                      |  17 +-
+ kernel/nsproxy.c                                   |  21 +-
+ .../selftests/filesystems/empty_mntns/.gitignore   |   4 +
+ .../selftests/filesystems/empty_mntns/Makefile     |  12 +
+ .../empty_mntns/clone3_empty_mntns_test.c          | 938 +++++++++++++++++++++
+ .../filesystems/empty_mntns/empty_mntns.h          |  50 ++
+ .../filesystems/empty_mntns/empty_mntns_test.c     | 725 ++++++++++++++++
+ .../empty_mntns/overmount_chroot_test.c            | 225 +++++
+ tools/testing/selftests/filesystems/utils.c        |   4 +-
+ tools/testing/selftests/filesystems/utils.h        |   2 +
+ 12 files changed, 2052 insertions(+), 38 deletions(-)
+---
+base-commit: c107785c7e8dbabd1c18301a1c362544b5786282
+change-id: 20260306-work-empty-mntns-consolidated-078442c5944d
 
-So let's say we're looking up an entry at index 1499 and first we got
-a folio that is at index 1024 order 9.  So first, let's look at what
-happens if it's split into two order-8 folios.  We get a reference on the
-first one, then we calculate offset as ((1499 >> 6) & 63) which is 23.
-Unless folio splitting is buggy, the original folio is in slot 16 and
-has sibling entries in 17,18,19 and the new folio is in slot 20 and has
-sibling entries in 21,22,23.  So we should find a sibling entry in slot
-23 that points to 20, then return the new folio in slot 20 which would
-mismatch the old folio that we got a refcount on.
-
-Then let's consider what happens if we split the index at 1499 into an
-order-0 folio.  folio split allocated a new node and put it at offset 23
-(and populated the new node, but we don't need to be concerned with that
-here).  This time the lookup finds the new node and actually returns the
-node instead of a folio.  But that's OK, because we'ree just checking
-for pointer equality, and there's no way this node compares equal to
-any folio we found (not least because it has a low bit set to indicate
-this is a node and not a pointer).  So again the pointer equality check
-fails and we drop the speculative refcount we obtained and retry the loop.
-
-Have I missed something?  Maybe a memory ordering problem?
