@@ -1,154 +1,118 @@
-Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com [209.85.161.69])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4F79371046
-	for <linux-fsdevel@vger.kernel.org>; Fri,  6 Mar 2026 06:36:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B698372ED4
+	for <linux-fsdevel@vger.kernel.org>; Fri,  6 Mar 2026 07:26:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772778981; cv=none; b=QsKr7i9EXco5h2JHsYErJyOttvZFYsjWRDnEC2P0gLsRDOiO9iFG3gbboLlcB0XcBOxoSG7Vp5TRSBpNTUfYiT/ehQHG2l3Y0RiJ7Yts3i+aiSevof6ocFGUIB3iDkqPZ8N7OUs1EY0jbRIlUCOUogyAeh3YObjdSQwjnTeQXeM=
+	t=1772782011; cv=none; b=dORy58z2OyESZT9Qj5nwfp/IQQxd96+jorb4fpDZD9+d6STahizJfjkPckFpsc7Gf/Xk9hEQyKU4qpXtsv7LWRxGxvSf8SAePpw4wenISqlVODKur55uBCe+pONNyLfBCHAbAWxsDyn09YJGevH4QWqFmHYFET+Qa96QOWHg3hU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772778981; c=relaxed/simple;
-	bh=vNum4srGc5ORMInpONutwPrC4E9EEdH+0lnajRvuj9w=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=M8JOMxpFu5oY+XkQmdyijbeQUoOij67i+EqzgSUO6Cm6J9vdf5zIK13+hzmPUjOtlS3wiYYkoPCRax8WNVCfVUCKgYCHeotc473XwdOeLlIzx5xQoLdu4xNEfJF79jNO3dXKB3lgoLyWCsi68Sa7Xj1194NI7rMYAtPJoK9OXVs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo1-f69.google.com with SMTP id 006d021491bc7-6798747187eso132729958eaf.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Mar 2026 22:36:19 -0800 (PST)
+	s=arc-20240116; t=1772782011; c=relaxed/simple;
+	bh=WytjbZ0qhYdE8DhbNmTyH4k86rIIYjGXvL2X04djZNE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=TJiapdjdnc6r0T5+jZ1OxZLAlzsceFEY14UWxW2MU83gm0iNeg/bHSUZupCdaQXWMOejdK25MS9V7efQNA6oGrpJ23AGQw8ME/TRC2dRf8zPrKfBJlapFil+aCvdjHsAY3SmTLD9Z/FpuZpD5yp2N4h8bZGfywuVUPqYWZ21Mw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Yecmu4Pm; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Yecmu4Pm"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4806cc07ce7so102023535e9.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Mar 2026 23:26:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772782009; x=1773386809; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pnmjVX6JImP9WCGFTMSM7Kh0jevJDk+KG2z/pOD1Fhg=;
+        b=Yecmu4PmbZ+u3/6reZxqj1xJ+Szdvqg1Y0Nwo26dYbHw+38c32Kd81ZSTyFdVbyUCl
+         4K5Uw+kaxfkqjdU+EwWPJMZBtzPHha1kdNHnjLcZ4hVUgJB1VMo8UF/TF8rbNk0yOdcW
+         ziuCYkFaxsnAX2rFNuOcknq8lckzeZhrdbqwQn1fHuYk1PO+rkuKSQAz7ClAPSmjQ2U2
+         mMQHRTumB4IGlNrcWZrwVUhzwJCNpRZiW7pCvv1HLTDLo+6RutjRoYCnStltgc/1Q/Oj
+         jmCtcB52EycrSQxCmXxJCwOXWbBrhQUFD0g3A3Tn1gq/rh0GvI1QWkoe6SVjO5w4jmpk
+         5LpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772778979; x=1773383779;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=cJ64YFn8UUA1y2uPrXf95iWTGshR2gj7Q9p2jyzHyL4=;
-        b=U9dv/LdLIOuddxxJzYdfy96q66AxsOYZBtFBkPkefzMDnyv+dlyLH+k3JM7VwSDBih
-         zaj+jXpgc/9pygiU4fjdp9oi3vmq5ysv8WdUmO5bja8dcribGkbXa0uEhbaKDrySEvKl
-         qwtxc+YGQb1SEGjBgMQ82AWCb7EDc6qoJKhy969rmUcbvo1uGq9HOxMfpbU5lqYvuA2r
-         KrmUkI+SVhRJe0eRw6qh7aLieQK6VRHyxk/bs+0m4D7TPWEfxEQqKU3CoYj8t6d6kNl6
-         0fcXc0ZbZV9V3SWz+G+uVqYEpYN9PYKd1gdQ/fFOU3yCJuOnDg9Qb1IOLbB1N1A+fYum
-         qSKQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWO881e/lPrZ55qSYg+JICU2ZHG983ixwaPXLYtW6zVJYEtO457DBWvbfxtEJ1OPkeB9IUriHcPAvcZri7R@vger.kernel.org
-X-Gm-Message-State: AOJu0YyDhv1mp1CFuh355IkS0IVczHt7tYmeZnJnMChTs3PteztZo6nP
-	TLGhk2GwxyvmwJj1iMoIElbTjQlqtxTgsLBPAPuLsUICBpw4LSXfihDIAyYZ4sXdYq7Lh7VcseZ
-	yiiNfLPEd0id3b12KkakZhfJ5lkfD9RgOKitw17po63vd8rpG5kHk7Qc7xTk=
+        d=1e100.net; s=20230601; t=1772782009; x=1773386809;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=pnmjVX6JImP9WCGFTMSM7Kh0jevJDk+KG2z/pOD1Fhg=;
+        b=gU3WhjbwSlzEVHIoQfyelhf8Xt/IRsYzFMfuCHVqCxa9Tp28J7gdVqdXLy+d/WWu/C
+         qvDt2xSFfrULXXVlUXKViwzhS8astIgPdReVe1LwdNb62nJis5tF6DE92C0Rzh/ib5Pm
+         HuwZvWDkpZADPp/HkASgp44MFfKowMjalgqz05EIaQ2Ngj1cI3R7Xn74OmqltH3uOuCi
+         D+kUSeok9Rnze2EezlnUtRZQhEjtV8R3QY84/pEKDehcZQ3BLe/PBwbfyVdgcmDWPcfy
+         4btDUXI5XkzwYNnou5saB/nGQclwIE48bqSaHWHJOOncSnlvED4M67JYSubD/i5D7Om7
+         3Gtw==
+X-Forwarded-Encrypted: i=1; AJvYcCW6B0Ryx34umtrbnqCDiPLXIjObtRAufQiyJz4bah1NhjZgtSEcv+5KCzdU8DMCW58Xz1P35wxo+fwSMXHT@vger.kernel.org
+X-Gm-Message-State: AOJu0YyJOjuWFxhTYb9gJyyQWX8FXg3hs5SoZ4v2UfPt/uDE6vzB9yS+
+	HLuht6vS2kyQufcCpIV1Mie0oamWc84Z89YpPAbyvHXtNxNrcl57IeVJ
+X-Gm-Gg: ATEYQzzmAkyNLKfsf+gwQE5SNL6xSBOdJt1VTGZIBBLwvEBryAZgCtYYMParxuNTdB1
+	+JH+pP3yzLGhb4d8uZRcedCQV867fGQr5TdSQFDdvScUmOrj23GSUgSLp/XLEklSEkkgPfRBgfg
+	TEwIOhCIRtznVNsgOj4+386r1KA7dTeMyyNlC9N6WU5ugHxf/xNEeQ9EQR3aCQXNTF8Zvkyap8C
+	0wr7cVklbLvYaceszdkYWLshI6SfsPMuz1UQxoMSwXoyPmGTl5EWK/mvyHVke47yVBmH7KCQ1MB
+	qvLBB8ndNiMpf4dU0LvMrYxIKoYnfzubrXsf6dz8vZXTc9xpRiAOkacnzdKGXafBRWMfC2z4zql
+	kcwW4ez/S4cNAMiVy7qvzJ8cTtlz9WHe53Ja5FYBFEw26+TfnBffxlLsFzxKTFNv7rskFH3nM/S
+	TX2wWVoNLd7lwBvSchFOQ=
+X-Received: by 2002:a05:600c:45d1:b0:480:4a90:1b06 with SMTP id 5b1f17b1804b1-48526978962mr15112605e9.34.1772782008828;
+        Thu, 05 Mar 2026 23:26:48 -0800 (PST)
+Received: from localhost ([212.73.77.104])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-485244b6e9esm18648865e9.5.2026.03.05.23.26.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 05 Mar 2026 23:26:48 -0800 (PST)
+From: Askar Safin <safinaskar@gmail.com>
+To: brauner@kernel.org
+Cc: axboe@kernel.dk,
+	jack@suse.cz,
+	jannh@google.com,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	tj@kernel.org,
+	torvalds@linux-foundation.org,
+	viro@zeniv.linux.org.uk
+Subject: Re: [PATCH RFC DRAFT POC 00/11] fs,kthread: isolate all kthreads in nullfs
+Date: Fri,  6 Mar 2026 10:26:39 +0300
+Message-ID: <20260306072639.1731059-1-safinaskar@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260303-work-kthread-nullfs-v1-0-87e559b94375@kernel.org>
+References: <20260303-work-kthread-nullfs-v1-0-87e559b94375@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:81cb:b0:679:f11b:a511 with SMTP id
- 006d021491bc7-67b9bd1690dmr825645eaf.45.1772778978939; Thu, 05 Mar 2026
- 22:36:18 -0800 (PST)
-Date: Thu, 05 Mar 2026 22:36:18 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <69aa75e2.050a0220.13f275.0010.GAE@google.com>
-Subject: [syzbot] [netfs?] BUG: unable to handle kernel NULL pointer
- dereference in netfs_unbuffered_write
-From: syzbot <syzbot+7227db0fbac9f348dba0@syzkaller.appspotmail.com>
-To: dhowells@redhat.com, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, netfs@lists.linux.dev, pc@manguebit.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hello,
+Christian Brauner <brauner@kernel.org>:
+> Instead of sharing fs_struct between kernel threads and pid 1 we give
+> pid a separate userspace_init_fs struct.
 
-syzbot found the following issue on:
-
-HEAD commit:    c107785c7e8d Merge tag 'modules-7.0-rc3.fixes' of git://gi..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=15db7b5a580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=976ba5a93c4add9e
-dashboard link: https://syzkaller.appspot.com/bug?extid=7227db0fbac9f348dba0
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1628ab5a580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16a5414a580000
-
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-c107785c.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/3a4a4abcd973/vmlinux-c107785c.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/f60667f16840/bzImage-c107785c.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+7227db0fbac9f348dba0@syzkaller.appspotmail.com
-
-netfs: Couldn't get user pages (rc=-14)
-BUG: kernel NULL pointer dereference, address: 0000000000000000
-#PF: supervisor instruction fetch in kernel mode
-#PF: error_code(0x0010) - not-present page
-PGD 31867067 P4D 31867067 PUD 0 
-Oops: Oops: 0010 [#1] SMP KASAN NOPTI
-CPU: 3 UID: 0 PID: 6079 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-RIP: 0010:0x0
-Code: Unable to access opcode bytes at 0xffffffffffffffd6.
-RSP: 0018:ffffc90003b7fb90 EFLAGS: 00010246
-RAX: 0000000000000000 RBX: ffff88803bd3a5b0 RCX: ffffffff82c49d0a
-RDX: ffff88802b9ca4c0 RSI: ffffffff82c49b9c RDI: ffff88803bd3a500
-RBP: 0000000000140000 R08: 0000000000000001 R09: 0000000000000000
-R10: 0000000000000001 R11: 0000000000000000 R12: ffff88803bd3a598
-R13: dffffc0000000000 R14: ffff88803bd3a500 R15: ffff888023066580
-FS:  00007f9e9a09f6c0(0000) GS:ffff8880d6644000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: ffffffffffffffd6 CR3: 000000002c65b000 CR4: 0000000000352ef0
-Call Trace:
- <TASK>
- netfs_unbuffered_write+0xae5/0x2080 fs/netfs/direct_write.c:189
- netfs_unbuffered_write_iter_locked+0x801/0xab0 fs/netfs/direct_write.c:287
- netfs_unbuffered_write_iter+0x40c/0x710 fs/netfs/direct_write.c:377
- v9fs_file_write_iter+0xbf/0x100 fs/9p/vfs_file.c:409
- new_sync_write fs/read_write.c:595 [inline]
- vfs_write+0x6ac/0x1070 fs/read_write.c:688
- ksys_write+0x12a/0x250 fs/read_write.c:740
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x106/0xf80 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f9e9919c799
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f9e9a09f028 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
-RAX: ffffffffffffffda RBX: 00007f9e99415fa0 RCX: 00007f9e9919c799
-RDX: 000000000208e24b RSI: 0000200000000000 RDI: 0000000000000003
-RBP: 00007f9e99232bd9 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007f9e99416038 R14: 00007f9e99415fa0 R15: 00007fff05034208
- </TASK>
-Modules linked in:
-CR2: 0000000000000000
----[ end trace 0000000000000000 ]---
-RIP: 0010:0x0
-Code: Unable to access opcode bytes at 0xffffffffffffffd6.
-RSP: 0018:ffffc90003b7fb90 EFLAGS: 00010246
-RAX: 0000000000000000 RBX: ffff88803bd3a5b0 RCX: ffffffff82c49d0a
-RDX: ffff88802b9ca4c0 RSI: ffffffff82c49b9c RDI: ffff88803bd3a500
-RBP: 0000000000140000 R08: 0000000000000001 R09: 0000000000000000
-R10: 0000000000000001 R11: 0000000000000000 R12: ffff88803bd3a598
-R13: dffffc0000000000 R14: ffff88803bd3a500 R15: ffff888023066580
-FS:  00007f9e9a09f6c0(0000) GS:ffff8880d6644000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: ffffffffffffffd6 CR3: 000000002c65b000 CR4: 0000000000352ef0
+You meant "we give pid 1 a separate"
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+> The only remaining kernel tasks that actually share init's filesystem
+> state are usermodhelpers
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+This sounds like usermodhelpers actually *share* init's fs_struct.
+This is false, otherwise usermodhelpers could just do "chdir" and change
+cwd of pid 1. So, please, rephrase this sentence.
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
 
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+> Be aggressive about this: We simply reject operating on stale
+> fs_struct state by reverting userspace_init_fs to nullfs.
 
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
+I think in this case unshare should simply fail and return error to
+userspace.
 
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
+> PID 1 uses pid1_fs which points to the initramfs
 
-If you want to undo deduplication, reply with:
-#syz undup
+You meant userspace_init_fs, not pid1_fs. (pid1_fs is mentioned two times
+in cover letter. Also in comments in patch 06/11.)
+
+> `init_chroot_to_overmount()` at the start of `kernel_init()`)
+
+There is no function named "init_chroot_to_overmount".
+
+I hope you are not offended. I just did some proof-reading.
+
+-- 
+Askar Safin
