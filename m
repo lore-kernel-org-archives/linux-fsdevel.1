@@ -1,45 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D02B363C6B;
-	Sat,  7 Mar 2026 18:00:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 124113E47B;
+	Sat,  7 Mar 2026 18:05:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772906419; cv=none; b=fkwCe+RlabOgBXoHu/LwK4TL+LYwpJFcAGzpi+F1Dq+aEDGPDpzLyWAsWdZhAYbiAx/aTtYNd0M83ARdyqp5Ur2bZxE7xzUuAEuK3CZeTPjM3w+tfhenEHK2hDYq7iR/hvFC+uaHh/pppn2epX2wPhawgo+3YMO04oZOu3hr8Ss=
+	t=1772906720; cv=none; b=DjGHDJVvqIWWcvrs+sCS/yeXem2Y+eGPnEioKT3LBTUb3Aj0fSRa8J+zgK5f6q83Nc5AX9Y4u5K2u0ny8b5c5Y2p4lAu0EWwP6blZHyj6Cv7C0A1KYmqCS6KJnZw7hHoB+TLesmPz2COq4/T8/QYl+EHY8ck5PGUgmeJrNhlEBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772906419; c=relaxed/simple;
-	bh=U4FQRFM5ktae4DdHbOC1yYMst6Xkvr6eFg6+5YLMV2o=;
+	s=arc-20240116; t=1772906720; c=relaxed/simple;
+	bh=jJRLr33ss8Q18GuYN8km4eZirO+6oghWCdl5DEhOSWs=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=FkxJnuBB/qqfQpdefwqmO1GhQrD6ZJ8JPzwZEwmdIXEDBmhOtL2GPJLdVTtRf2knC7jx5rmTl/LWqqL3tlrdJCp1Wuw4xPJ04YCBdPMLBQi+Ct3axoq7b9voMIgC5UYet8/zgshk1PD46b7jmSPD/tkA7afjRR1rF2qszdBdv04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hq555y2T; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=MZt72bPioUF06NQEAuIRpdD5QcvzmFeaMV6Kh3msco3yDPKLPFUUJrvAdqpWDxSEA3AWChfZ1NgbYBsLYD18MI2ICrJuLog3qywWRXdX+4BxOn3RWNFlmmSpZj4d82DF9LuDJ7egxbaZHhG12vzdxRvkkJ1PmYkXmAUKv/qGnxM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ieqM/8lM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hq555y2T"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8C20C19422;
-	Sat,  7 Mar 2026 18:00:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ieqM/8lM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AD20C19422;
+	Sat,  7 Mar 2026 18:05:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772906418;
-	bh=U4FQRFM5ktae4DdHbOC1yYMst6Xkvr6eFg6+5YLMV2o=;
+	s=k20201202; t=1772906719;
+	bh=jJRLr33ss8Q18GuYN8km4eZirO+6oghWCdl5DEhOSWs=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=Hq555y2TZyTteRfNtjTBwtLRp5R4FYG23P+HOxL+JUpSFAzD8qEHKQ5fh2Zh+TAT6
-	 +OnbfMWFQoL8MVVsxhj3q34aczT1yghf025KVzngGpCH9cGP5JaDKcdn95A3VkBkG+
-	 2CWy3sL4Dn5cXIrVo/LQEGXq9PId+PRs7bZMTMqaIGrIxh1oaJ3BpFbH6RpePNjJyn
-	 V3TE5E3LmMZyFbvmRfeHku+Zyb28WDq9u1JysUep9pft1D4SyfuiCNeTcIleOD6rR8
-	 aXrZABS6s9Dqp/5Z9KRQ7TIrvu2+9VT/fwKpOadLUSiA+J3JGbJcpStxiaD0jmMboj
-	 J8T/LmE+Gmfqw==
-Message-ID: <3d940ceb8026cff3ce8fc14ed7aa7be8ae677190.camel@kernel.org>
+	b=ieqM/8lMHEjS1EaPAaKjqq6g9/OgW3Z3yj47AtAbYYkne30Y8QkpDxGezr1iQWLs7
+	 DFPpclT8rA35+RmyfEMofjbBoW6ITsw3/vYPGbRZrmZmxVYNVfU7bWj5xEnKNjT7Pj
+	 rQpfaRpk+EAetaAky5Gb6oWgM0KQhvfgnXYjWucoHi8H++Ty4tdezdCjeREduy+pgv
+	 PyZy524WzW+s2V0DoveWxrLL9xoy+UI2AUhVaFohrKro0iuUNKmhX4wxA82Mw6RweI
+	 eRuHvoQsAquAFgDEFeqO8xvSnzcl6arf0+WhlMFqu/nqAwQErmmcjwqLhAVFEfNd9o
+	 G6m0dFkMhSEvw==
+Message-ID: <ca823a5d56ff4c68fd4f17c2eaab51ed04d6b01e.camel@kernel.org>
 Subject: Re: [PATCH] vfs: remove externs from fs.h on functions modified by
  i_ino widening
 From: Jeff Layton <jlayton@kernel.org>
-To: "Darrick J. Wong" <djwong@kernel.org>, Matthew Wilcox
- <willy@infradead.org>
+To: Mateusz Guzik <mjguzik@gmail.com>
 Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner	
  <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Christoph Hellwig
  <hch@lst.de>, 	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Sat, 07 Mar 2026 13:00:15 -0500
-In-Reply-To: <20260307061053.GU13829@frogsfrogsfrogs>
+Date: Sat, 07 Mar 2026 13:05:16 -0500
+In-Reply-To: <vuorddxuncggijjthaeilz26jd6tnbgf6wjicv3n3pt52ceyv2@fijkpocwutaw>
 References: <20260306-iino-u64-v1-1-116b53b5ca42@kernel.org>
-	 <aau4LBhdBfnDJAsl@casper.infradead.org>
-	 <20260307061053.GU13829@frogsfrogsfrogs>
+	 <vuorddxuncggijjthaeilz26jd6tnbgf6wjicv3n3pt52ceyv2@fijkpocwutaw>
 Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
  keydata=mQINBE6V0TwBEADXhJg7s8wFDwBMEvn0qyhAnzFLTOCHooMZyx7XO7dAiIhDSi7G1NPxw
  n8jdFUQMCR/GlpozMFlSFiZXiObE7sef9rTtM68ukUyZM4pJ9l0KjQNgDJ6Fr342Htkjxu/kFV1Wv
@@ -124,54 +122,33 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-On Fri, 2026-03-06 at 22:10 -0800, Darrick J. Wong wrote:
-> On Sat, Mar 07, 2026 at 05:31:24AM +0000, Matthew Wilcox wrote:
-> > On Fri, Mar 06, 2026 at 08:27:01AM -0500, Jeff Layton wrote:
-> > > @@ -2951,26 +2951,26 @@ struct inode *iget5_locked(struct super_block=
- *, u64,
-> > >  struct inode *iget5_locked_rcu(struct super_block *, u64,
-> > >  			       int (*test)(struct inode *, void *),
-> > >  			       int (*set)(struct inode *, void *), void *);
-> > > -extern struct inode *iget_locked(struct super_block *, u64);
-> > > +struct inode *iget_locked(struct super_block *, u64);
+On Fri, 2026-03-06 at 23:17 +0100, Mateusz Guzik wrote:
+> On Fri, Mar 06, 2026 at 08:27:01AM -0500, Jeff Layton wrote:
+> > Christoph says, in response to one of the patches in the i_ino widening
+> > series, which changes the prototype of several functions in fs.h:
 > >=20
-> > I think plain 'u64' deserves a name.  I know some people get very
-> > upset when they see any unnamed parameter, but I don't think that you
-> > need to put "sb" in the first parameter.  A u64 is non-obvious though;
-> > is it i_ino?  Or hashval?
+> >     "Can you please drop all these pointless externs while you're at it=
+?"
 > >=20
-> > > -extern struct inode *find_inode_nowait(struct super_block *,
-> > > +struct inode *find_inode_nowait(struct super_block *,
-> > >  				       u64,
-> > >  				       int (*match)(struct inode *,
-> > >  						    u64, void *),
-> > >  				       void *data);
+> > Remove extern keyword from functions touched by that patch (and a few
+> > that happened to be nearby).
 > >=20
-> > I think these need to be reflowed.  Before they were aligned with the
-> > open bracket, and this demonstrates why that's a stupid convention.
-> > And the u64 needs a name.
 >=20
-> I think inode numbers ought to be their own typedef to make it *really
-> obvious* when you're dealing with one, and was pretty sad to see "vfs:
-> remove kino_t typedef and PRIino format macro" so soon after one was
-> added.  But our really excellent checkpatch tool says "do not add new
-> typedefs" so instead everyone else has to be really smart about what
-> "u64" represents when they see one, particularly because arithmetic is
-> meaningless for this particular "u64".
->=20
-> Yay.
->=20
+> Is there a reason to not straight up whack the keyword from *all* funcs i=
+n
+> the file?
 
-My take on typedefs is that they are mostly useful when you have a
-variable type that needs to be accessed in a particular way. For
-instance, I added a typedef for errseq_t since it's not just a plain
-integer (there are fields within it), and you need to use the correct
-functions to work with it.
+We could but that makes merge conflicts for backporters.
 
-In this case though, it really is just a write-once read-many times
-bog-standard u64. I sort of wonder if we ought to label it const since
-inode numbers really shouldn't ever change after being established, but
-I didn't go that far.
+In this case I'm already touching these function prototypes (well, most
+of them anyway. I took some liberties with adjacent declarations).=C2=A0
 
+Doing this in a limited fashion shouldn't be a huge burden on people
+backporting since we're already changing this area of the file.
+Certainly we could do more cleanup in there, but that makes it trickier
+to backport later patches that touch fs.h to older kernels.
+
+Ultimately, it's a judgement call though. A one-time "let's fix all of
+the warts in fs.h" patch is not out of the question, IMO.
 --=20
 Jeff Layton <jlayton@kernel.org>
