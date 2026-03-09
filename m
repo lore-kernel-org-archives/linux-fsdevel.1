@@ -1,114 +1,105 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCEC521507F
-	for <linux-fsdevel@vger.kernel.org>; Mon,  9 Mar 2026 23:25:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ED463BA24D
+	for <linux-fsdevel@vger.kernel.org>; Mon,  9 Mar 2026 23:28:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773098723; cv=none; b=Z/Ia/fWRIt5jDSeTNg5/H1mBsv3eXyPtdt/3qObbQyPtmY1rV+HhecZPQWTksZ5Lvy6Zrck1rCjUcgjpapzN4QxTwDFlEXahKuoebMksvC3Ck83X2CA+KJXGyunqzmnQgU2oPBJsxWFfIFJ2Eu11l7+ZrxQFRR817cW1ufOROEU=
+	t=1773098906; cv=none; b=n/p1jk12a7U+ZPEYt3xaobdVHhBkL0+OpLh3dEo2hhvUABC7NzR3DYPfGIIdtMt7ZGwyF0n3zeYiwhpF5VNT+EMDNPRwWITEO69EaNoYmP5n7BhpsTpXFaSERcQyk2acvsMbXq1oIGsgUnhxYEIbcAvploEIGhKqaUVeCmNhttc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773098723; c=relaxed/simple;
-	bh=kYRhnI5zOl0eL4LaPPUZrdcsw0J3vVgADR93bgDflY8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I69jwEDGTsZnjTzcVd9T7eW6/7yF95CzBzERu3FmHrE/sWggb+YDqe9f6KRVsYocQsKihjqS5pDXFZYyrj0U7+Tbc9rf5x/oJo9RaZWjwNiPmgvHTA5EMmxwOCKf9zqfGfhoJyru6gqGNbw2jSkXCbn3MjmIIcgO4l8uymRslDo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aJTKHIT6; arc=none smtp.client-ip=209.85.216.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773098906; c=relaxed/simple;
+	bh=4ksMIesX7IAnVe6f/RIMPAw6ttbJkaebju8W2cwjeOE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YJJAYaQ9d2VRIawVsBPygAdd7zGMR7Z+wkFg8BlUe6r7dDGC8BKK4JkdnEbdAxHWDn4wBGAixZBWiz7OV80LqoJd+s+j866ZYZ1u872ha59dgqdl8nlzGjCy7q6AK8CS+YbAwAVuPH/4ltPdByS9XJxh0NY/W7rO4hmCpnYqOFo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SaagYgMz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aJTKHIT6"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-35691a231a7so7589803a91.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 09 Mar 2026 16:25:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773098722; x=1773703522; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=+Rul9euUSY1VXyT4m6rmdkDbgLWpRqcvC7DTDH9ZQ14=;
-        b=aJTKHIT6nSJNfJz+FllF30gwFvFYbNe/WBmhicod+sBVVnoWkZPtaOpDyZZZHCqRT8
-         WFfz0m11TwbmdmqSg6Q1UL8ACslKkXP9t2FnIvgJn1W7QPx5gRRHuuyVWdg/77FrvI5m
-         lYDH3b5p7nYEUPYRbYd5z5PZzAUkK1/GC571b8h8/F8O34hHN5GPNwAbAqzTQM/lHjG0
-         AixasdIEG90+rH7ATKPbC7CLGItjAA4tTamTHFnJgdXoiij7rCSdfjJgrrH+jcfekgvo
-         0pysYoDqu/efdojMzudgIruHNYtVkNR4Es9e3LuMZiO9Hy+GtVwZ7da+KoOjnLug/4Mw
-         Od1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773098722; x=1773703522;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+Rul9euUSY1VXyT4m6rmdkDbgLWpRqcvC7DTDH9ZQ14=;
-        b=lVw1VdN6meZW1fmecOPUXmscdbzjHk9JX7Zabl+4tgY/+TW+ScqqSiVDzxOKHk+nb5
-         E6YtAk9FTKazPsN8P2sPQIRl3OCS22/rhBBXllA55uXPcZDFXujCvJV00z9ctQMHms09
-         aHSs+uUVKrxusRz4/F7C2OTkvqvudvQYzi1p7Crf+pMH1zWrYXv5kCpY8Dhx3pIGo/zS
-         7iYR4FKiqBA9w3dOlqHcnBJlTrehUEP8yD8FaBzu/7mcraXzYbgfPyiCXFgVZP2LUZTe
-         DAzG+VQfwBBPPAyiCJWul1++rdf/DQQ9m7Wv0l2vX9adRVcEYFNzzAX9NkciuRVGEwHa
-         gPRA==
-X-Forwarded-Encrypted: i=1; AJvYcCXljN6hRhi7w5FXcCwPwiJ0CW16JJtVCWmdDkiT3NxAlBWD1PbCgVDFXef5UP8J/JtneLdaEI7nW05c126B@vger.kernel.org
-X-Gm-Message-State: AOJu0YzF+/DNJY2mtasBzT+J7dwcYH/5mWnGtvsGUrXDvP+XXZniXY5i
-	t0dwq4XvQEY4Q2jdnDyVSVV9QKBbLLrlRjgzVq3bWL27UA5x1Xju732D
-X-Gm-Gg: ATEYQzygJSfgTBQvboMDzKqVfrCQcvHZ4yRuCS+dAyErLYOUT0zeiJhzYNYSfDsnBVd
-	VVSmAYm6FH5ljqhQ241df92I1aXI4CzFRvVPY0HdFNBk3/g5IejESJpdC/bvNIm5SbeQWDkHkXR
-	0SkY3S9NYoP+oFOYm3CRriwTxosEHBoYM+J/LhdWP89fapCPdLbLFlMiMrsJT/YnEJb+mfR4ytT
-	izo1M8jtgt18aGkkFFvFKFS9H0Q6YarBp5qF4lLnCwOmqpVVz3fW2157OYss63w7+/K9fEekyD6
-	BD2XmLKPTaWNdhDhvgwbnJYmS9BzJfU9liUK7/HA2qf3MAbNK4GkGjanWAKXtrZw8AORnKjxCca
-	owVOLsb3azFFvh+FK1kRRxQ71z5j4/F6Sj5kK71pAtTHXgCrXiHSG1Jlb74xl84xZSLQd4EPYZy
-	CxgvER3O/HUotbEL7lxce1TSJa
-X-Received: by 2002:a17:90b:1848:b0:359:974a:b73d with SMTP id 98e67ed59e1d1-359be34aaa9mr11232807a91.35.1773098722147;
-        Mon, 09 Mar 2026 16:25:22 -0700 (PDT)
-Received: from localhost ([27.122.242.71])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-359f110991esm592991a91.13.2026.03.09.16.25.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Mar 2026 16:25:21 -0700 (PDT)
-Date: Tue, 10 Mar 2026 08:25:19 +0900
-From: Hyunchul Lee <hyc.lee@gmail.com>
-To: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
-Cc: "glaubitz@physik.fu-berlin.de" <glaubitz@physik.fu-berlin.de>,
-	"frank.li@vivo.com" <frank.li@vivo.com>,
-	"slava@dubeyko.com" <slava@dubeyko.com>,
-	"hch@infradead.org" <hch@infradead.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"cheol.lee@lge.com" <cheol.lee@lge.com>
-Subject: Re: [PATCH] hfsplus: limit sb_maxbytes to partition size
-Message-ID: <aa9W33RcQDDalfNF@hyunchul-PC02>
-References: <aajObSSRGVXG3sI_@hyunchul-PC02>
- <532c5cdf12ced8eee5e5a93efe592937b63b889d.camel@ibm.com>
- <CANFS6bZm3G9HA3X5Bi2_KGZDNGuguQzG44-cMcQHto2+qe_05g@mail.gmail.com>
- <e979abaf61fa6d7fab444eac293fcbc2993c78ee.camel@ibm.com>
- <aaomj9LgbfSem-aF@hyunchul-PC02>
- <f174f7f928c9ee29f1c138d9ca1b23abfbc77d0c.camel@ibm.com>
- <aao2Ua94b16am-BE@hyunchul-PC02>
- <cecaebb4c333439ea6e10808908f69cd3f3dbf95.camel@ibm.com>
- <aa4ZxJ1Lkk_9-f-C@hyunchul-PC02>
- <32997ac487b258aa219c66d870eb3fad71bb9de9.camel@ibm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SaagYgMz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3B63C4CEF7
+	for <linux-fsdevel@vger.kernel.org>; Mon,  9 Mar 2026 23:28:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773098905;
+	bh=4ksMIesX7IAnVe6f/RIMPAw6ttbJkaebju8W2cwjeOE=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=SaagYgMzseH0v2QhrrHHFK4t3X9DgRRey+uQpjYEHdoHLhLySmWMK/LiDckRe2DbH
+	 +jToB/LatqyftRVZhob7rAMO9K12byI5V/fXcPBYHP8b2cePopaY4LcEHqAqXYc5+T
+	 m9plwcu1038JL9a558bX254RO6oBAPwd0NWD19rxca520xW31g3jkCzSPMUzcP/Gd8
+	 wnMN4QyZKff4i4g5/c8ea8LBroL/0dKmjI2TXSNtLsJGy6v1N6RmlB+/UCZjzVjJ6l
+	 W6wuVVUDWaKXrdpPDra88KFEOLhOgYx11XOW8oG/mU1NR77RiGlxHWa8DTkQbiecUr
+	 PzCNRJY6rrqfw==
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-b96e9c59339so317720566b.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 09 Mar 2026 16:28:25 -0700 (PDT)
+X-Gm-Message-State: AOJu0YzBshy0AZ0gQbUbYmVa6P5GBxJjxPVt6Y8hYZUinCTd6YXorEyO
+	Gyc6qTkxP3SA9T/JMy5V20AqmTKUP8qyER1BPITNIV3+4hTcfXxnuLBWdD6L4pSNLk5WKRsPh6j
+	Jj/58KlrVnnJ2anljMgcREtP6LD0A1lU=
+X-Received: by 2002:a17:906:6a0a:b0:b88:5953:2f14 with SMTP id
+ a640c23a62f3a-b942db8bcf7mr706067566b.16.1773098904469; Mon, 09 Mar 2026
+ 16:28:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <32997ac487b258aa219c66d870eb3fad71bb9de9.camel@ibm.com>
+References: <CAKYAXd_8vG6V0NRT_kb76n_yo+d9vvcx6JZbMARC5+C1ovboqw@mail.gmail.com>
+ <20260304141713.533168-1-dxdt@dev.snart.me> <20260304141713.533168-2-dxdt@dev.snart.me>
+ <CAKYAXd_RiCKF1nJK_Jg385VeGxeOUo08s0a_SNgtty2508wDmg@mail.gmail.com> <72446d20-f3ae-4acc-86cc-bd8fa3d86f41@dev.snart.me>
+In-Reply-To: <72446d20-f3ae-4acc-86cc-bd8fa3d86f41@dev.snart.me>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Tue, 10 Mar 2026 08:28:12 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd97EDFy1yeF=MB0Pc5hR3UTF_u9h=58F6pW6c61DGeWuA@mail.gmail.com>
+X-Gm-Features: AaiRm53ozuEHUpHIhfduwkF2baDnw4rN3KPs7KHwpITUuu7rV_RkVLdB8VfZpQA
+Message-ID: <CAKYAXd97EDFy1yeF=MB0Pc5hR3UTF_u9h=58F6pW6c61DGeWuA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/1] exfat: EXFAT_IOC_GET_VALID_DATA ioctl
+To: David Timber <dxdt@dev.snart.me>
+Cc: linux-fsdevel@vger.kernel.org, Sungjong Seo <sj1557.seo@samsung.com>, 
+	Yuezhang Mo <yuezhang.mo@sony.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 09, 2026 at 07:47:53PM +0000, Viacheslav Dubeyko wrote:
-> On Mon, 2026-03-09 at 09:52 +0900, Hyunchul Lee wrote:
-> > 
-> <skipped>
-> 
-> > 
-> > The email is getting lengty, so I will try to summarize the
-> > discussion. :)
-> > 
-> 
-> I think I would like to see the second version of the patch. It will be easier
-> to review and discuss your solution in the form of patch. Otherwise, our
-> discussion goes nowhere now. :)
-> 
+On Sat, Mar 7, 2026 at 5:05=E2=80=AFPM David Timber <dxdt@dev.snart.me> wro=
+te:
+>
+> > What do you think about having its own
+> > dedicated magic number (e.g., EXFAT_IOCTL_MAGIC : 0xEF) for
+> > exFAT-specific extensions?
+> Absolutely. I was expecting this discusstion about the ioctl magic.
+>
+> https://lwn.net/Articles/897202/
+>
+> My intuition was that the 16-bit namespace is already quite crowded
+> hence my initial decision to add to the existing FAT magic. If the new
+> magic could be afforded, that's definitely the right way forward.
+> However, the ioctl namespace is becoming a scarce commodity in Linux.
+> (ex)FAT is a simple filesystem by design, so there's not a whole lot to
+> it. Perhaps it doesn't really deserve its own ioctl magic. I'd like to
+> leave it up to the skillful maintainers.
+>
+> FYI, the room to grow(TODO) for exFAT/NTFS on my list include(somewhat
+> related to the topic, not in particular order):
+Sounds great:)
+>
+> 1. FIEMAP support for 512-bytes-per-sector flash memory drives with
+> capacities over 2TB(512 * 2^32). Don't worry - exFAT works fine with 4k
+> advanced format and > 2TB 512B LBA. This is only for filefrag report
+Since we can find out the unwritten area through fiemap ioctl(i.e. if
+fiemap ioctl is supported), wouldn't vdl ioctl be unnecessary?
 
-Okay, I will prepare the patch and send it out. 
+> 2. VDL in NTFS. Although different in on-disk format, the behaviour
+> apparent to userspace is identical (share the ioctl?)
+> 3. exFAT/NTFS fs-level encryption(EFS, similar to Ext4 encryption) which
+> may require a set of ioctls for key management - if allowed, that is(EFS
+> could be patent/licence protected)
+> 4. bad cluster tagging(offline or online) and some ioctl facilities to
+> query info about bad clusters
+>
+> I'd say, exFAT and NTFS specs are designed maintained by the same
+> organisation and that often leads to new filesystem features ending up
+> similar or almost identical. So, yes, assign a new magic but maybe share
+> it between exFAT and NTFS, if that doesn't break any rules I'm not aware =
+of.
+Okay, And if we allocate new ioctl number for this, we need to update
+Documentation/userspace-api/ioctl/ioctl-number.rst
 
-> Thanks,
-> Slava.
-
--- 
-Thanks,
-Hyunchul
+Thanks.
+>
+> Davo
