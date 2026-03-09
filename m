@@ -1,127 +1,114 @@
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7C7835839D
-	for <linux-fsdevel@vger.kernel.org>; Mon,  9 Mar 2026 21:50:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCEC521507F
+	for <linux-fsdevel@vger.kernel.org>; Mon,  9 Mar 2026 23:25:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773093011; cv=none; b=IYqhtjIAPVkaSw1WmR4qp0dhRUsaNkuysLnbtc4BQA/sqRwwbTRJu+tOoX644a3mnA5ZcEFfonRA7exBJFnfDacG7ldDUa+lsYbxbWianUiNXq2g9C9ght1jLzK0KSdJtvC2vqa2O9J+FzZr6gW2v6AZZNIOmxUJ78vlB0V4Giw=
+	t=1773098723; cv=none; b=Z/Ia/fWRIt5jDSeTNg5/H1mBsv3eXyPtdt/3qObbQyPtmY1rV+HhecZPQWTksZ5Lvy6Zrck1rCjUcgjpapzN4QxTwDFlEXahKuoebMksvC3Ck83X2CA+KJXGyunqzmnQgU2oPBJsxWFfIFJ2Eu11l7+ZrxQFRR817cW1ufOROEU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773093011; c=relaxed/simple;
-	bh=TCNDVI1ESlAU7xsc70D4E4dQ/v2Yzwb+pEMzqKqyZwY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Mudi/Os4HWbY+9HSrKjKQskLDmiHW2tVcUFd0XSeW1Sh9SnoL+hjOx+wbOx3bzRGiabLgDc0nnQYaGQ0kSMmE1M6Z+5sKtKI90skbwzoBL70fwYaMxJuVw1/9E8XAMeZzyqTUiIZjDcWcS631kxdeSgNIifCQDrkMca40s9gc3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b=KCofmEfB; arc=none smtp.client-ip=209.85.210.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
+	s=arc-20240116; t=1773098723; c=relaxed/simple;
+	bh=kYRhnI5zOl0eL4LaPPUZrdcsw0J3vVgADR93bgDflY8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=I69jwEDGTsZnjTzcVd9T7eW6/7yF95CzBzERu3FmHrE/sWggb+YDqe9f6KRVsYocQsKihjqS5pDXFZYyrj0U7+Tbc9rf5x/oJo9RaZWjwNiPmgvHTA5EMmxwOCKf9zqfGfhoJyru6gqGNbw2jSkXCbn3MjmIIcgO4l8uymRslDo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aJTKHIT6; arc=none smtp.client-ip=209.85.216.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b="KCofmEfB"
-Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-7d751ef36ccso558617a34.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 09 Mar 2026 14:50:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aJTKHIT6"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-35691a231a7so7589803a91.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 09 Mar 2026 16:25:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20230601.gappssmtp.com; s=20230601; t=1773093009; x=1773697809; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=nFvFh4oOChvkx2bi3ZrF/2CPDlLYteGJSvbMKr7ye5o=;
-        b=KCofmEfBv2y3uYqbAlchq6WyBN02Reu4VBqIkWpCDLmP6chYyg3CJyc2c16r9MTeNL
-         Pca0VhQ9svj3Y1RawMayCO6VRT18Mls1dbbUsKI5slja8kgv96GP74c1vPCHcXjesH4i
-         k1ocmDPAgeZjQLFnG0H4HvyOfXL37ODU2hb0Mn5FVihnBfggyWoycxInNjRiyGqXYHSq
-         2WTrXFmVFO4GYVJvzSUffGF7SlRlozRU/0Ls6gcHPEF2rIrrYo7nCvdCbZukfpPxq9si
-         oMIBSIEfM3hICTFoxY1d9VnfywGhcCxJwNi+I2jdN2rZpfgFtEIM48OYEK9pssbE3zYq
-         2QrQ==
+        d=gmail.com; s=20230601; t=1773098722; x=1773703522; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+Rul9euUSY1VXyT4m6rmdkDbgLWpRqcvC7DTDH9ZQ14=;
+        b=aJTKHIT6nSJNfJz+FllF30gwFvFYbNe/WBmhicod+sBVVnoWkZPtaOpDyZZZHCqRT8
+         WFfz0m11TwbmdmqSg6Q1UL8ACslKkXP9t2FnIvgJn1W7QPx5gRRHuuyVWdg/77FrvI5m
+         lYDH3b5p7nYEUPYRbYd5z5PZzAUkK1/GC571b8h8/F8O34hHN5GPNwAbAqzTQM/lHjG0
+         AixasdIEG90+rH7ATKPbC7CLGItjAA4tTamTHFnJgdXoiij7rCSdfjJgrrH+jcfekgvo
+         0pysYoDqu/efdojMzudgIruHNYtVkNR4Es9e3LuMZiO9Hy+GtVwZ7da+KoOjnLug/4Mw
+         Od1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773093009; x=1773697809;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nFvFh4oOChvkx2bi3ZrF/2CPDlLYteGJSvbMKr7ye5o=;
-        b=cpd1OYeAJ+xFzmUvRq47zxK8uSTA+2aRQTVL9ArrvG/tkzDGmDzWzEiidVyzG28uKm
-         2L6K2GOZe8AYdxwI8NjPNHCeLXa5I0eBpU8nFL2aBOiHVS9qin121JQ4IuTuxZ4ybliw
-         N4/i0ZiI/61+QUgD96Hl6Z8YehCFDz1opGNA2t9r0PNOeG/Hd3mhkXq9nsRDdX6vWgUN
-         b/xGp28mo3HUPcHCrxTPYHgKdRQAlmJKGe4uJg6g2RzEaIt6sOedGTTRQ9TXpGLAlmQo
-         NkSV6J16YPKoivn8Lnx7omvO6TovmgH7e9DbC6pZmw78TjDan+D20zH9pEWYJ1WluAVk
-         7JhQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWbKeGgPLAyQZrOp+r+yHYBlAl91Iuy48/7paWNuP5IY0yHJc93K6boo0riKerGfS8WtIJmgQowUQfWvRlT@vger.kernel.org
-X-Gm-Message-State: AOJu0YxkSEpd6fd5Zz5LSSmIfxOo5C+gTk+qpXm9cS/I+XUDU78d2gG0
-	pzMp1PUWJCFQ3MFQ/ALir1k+eiS3aw2oPGZDqMGpCRdU4fv8PU9zb/3g/F1NiIdryH4=
-X-Gm-Gg: ATEYQzzL2vL4ng3EDFidFyBRvz6yvfialKTK1ndiFX59V/AJ7dq0RgwozS26oIUs9ED
-	VwFvoi8qAGh6cz403lO1cnRTGyrwuDtTcvUr5nkT4VgoAZakPrqkZNm5rOj1lUs3iXAAGaZEeyB
-	FAOMlyxf+afwVPkpKcMFfRFRd3yF0L0fixAfExn4W1UE1NXEnKXfoYB1kujL9dUdWHo2mBbKSIu
-	Ui7lJ1Ji7XiY0BDIpMPQMgivU5ToYCiurDWtfER5t5cUnR6J8rV1nSeMq+k1PwFm3eRBUN8wzq4
-	ozBO4hUrCHE+tCNlomjFbBWD9zqL4XhQb3l6r93GJ0IUE6UtbZp8F9WvIB4tUzNgapSuFCQzNWD
-	6g/TAxBwFAvlJkdwRxqTKWOEermH99gJs2uXVcoitzhGJabNlRrvvRlbatNSNvsaztkkz3BrQFh
-	dQyICvu871Ep9+/GXd0Nw2emPdgo+cOrvHQPbeQ6ynJ4LSnEknhYY+P2HCnx4yGGoYR7etuZiNy
-	vP0ePmlPLteIsKTgfvOEFo=
-X-Received: by 2002:a9d:5a05:0:b0:7d7:382f:f005 with SMTP id 46e09a7af769-7d7382ffda0mr3501582a34.35.1773093008706;
-        Mon, 09 Mar 2026 14:50:08 -0700 (PDT)
-Received: from pop-os.attlocal.net ([2600:1700:6476:1430:f17e:6b8:fdb8:b541])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7d728d1238csm7334464a34.15.2026.03.09.14.50.07
+        d=1e100.net; s=20230601; t=1773098722; x=1773703522;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+Rul9euUSY1VXyT4m6rmdkDbgLWpRqcvC7DTDH9ZQ14=;
+        b=lVw1VdN6meZW1fmecOPUXmscdbzjHk9JX7Zabl+4tgY/+TW+ScqqSiVDzxOKHk+nb5
+         E6YtAk9FTKazPsN8P2sPQIRl3OCS22/rhBBXllA55uXPcZDFXujCvJV00z9ctQMHms09
+         aHSs+uUVKrxusRz4/F7C2OTkvqvudvQYzi1p7Crf+pMH1zWrYXv5kCpY8Dhx3pIGo/zS
+         7iYR4FKiqBA9w3dOlqHcnBJlTrehUEP8yD8FaBzu/7mcraXzYbgfPyiCXFgVZP2LUZTe
+         DAzG+VQfwBBPPAyiCJWul1++rdf/DQQ9m7Wv0l2vX9adRVcEYFNzzAX9NkciuRVGEwHa
+         gPRA==
+X-Forwarded-Encrypted: i=1; AJvYcCXljN6hRhi7w5FXcCwPwiJ0CW16JJtVCWmdDkiT3NxAlBWD1PbCgVDFXef5UP8J/JtneLdaEI7nW05c126B@vger.kernel.org
+X-Gm-Message-State: AOJu0YzF+/DNJY2mtasBzT+J7dwcYH/5mWnGtvsGUrXDvP+XXZniXY5i
+	t0dwq4XvQEY4Q2jdnDyVSVV9QKBbLLrlRjgzVq3bWL27UA5x1Xju732D
+X-Gm-Gg: ATEYQzygJSfgTBQvboMDzKqVfrCQcvHZ4yRuCS+dAyErLYOUT0zeiJhzYNYSfDsnBVd
+	VVSmAYm6FH5ljqhQ241df92I1aXI4CzFRvVPY0HdFNBk3/g5IejESJpdC/bvNIm5SbeQWDkHkXR
+	0SkY3S9NYoP+oFOYm3CRriwTxosEHBoYM+J/LhdWP89fapCPdLbLFlMiMrsJT/YnEJb+mfR4ytT
+	izo1M8jtgt18aGkkFFvFKFS9H0Q6YarBp5qF4lLnCwOmqpVVz3fW2157OYss63w7+/K9fEekyD6
+	BD2XmLKPTaWNdhDhvgwbnJYmS9BzJfU9liUK7/HA2qf3MAbNK4GkGjanWAKXtrZw8AORnKjxCca
+	owVOLsb3azFFvh+FK1kRRxQ71z5j4/F6Sj5kK71pAtTHXgCrXiHSG1Jlb74xl84xZSLQd4EPYZy
+	CxgvER3O/HUotbEL7lxce1TSJa
+X-Received: by 2002:a17:90b:1848:b0:359:974a:b73d with SMTP id 98e67ed59e1d1-359be34aaa9mr11232807a91.35.1773098722147;
+        Mon, 09 Mar 2026 16:25:22 -0700 (PDT)
+Received: from localhost ([27.122.242.71])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-359f110991esm592991a91.13.2026.03.09.16.25.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Mar 2026 14:50:08 -0700 (PDT)
-From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: glaubitz@physik.fu-berlin.de,
-	linux-fsdevel@vger.kernel.org,
-	frank.li@vivo.com
-Cc: Slava.Dubeyko@ibm.com,
-	Viacheslav Dubeyko <slava@dubeyko.com>
-Subject: [PATCH] hfsplus: set ctime after setxattr and removexattr
-Date: Mon,  9 Mar 2026 14:49:48 -0700
-Message-ID: <20260309214947.1114618-2-slava@dubeyko.com>
-X-Mailer: git-send-email 2.43.0
+        Mon, 09 Mar 2026 16:25:21 -0700 (PDT)
+Date: Tue, 10 Mar 2026 08:25:19 +0900
+From: Hyunchul Lee <hyc.lee@gmail.com>
+To: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
+Cc: "glaubitz@physik.fu-berlin.de" <glaubitz@physik.fu-berlin.de>,
+	"frank.li@vivo.com" <frank.li@vivo.com>,
+	"slava@dubeyko.com" <slava@dubeyko.com>,
+	"hch@infradead.org" <hch@infradead.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	"cheol.lee@lge.com" <cheol.lee@lge.com>
+Subject: Re: [PATCH] hfsplus: limit sb_maxbytes to partition size
+Message-ID: <aa9W33RcQDDalfNF@hyunchul-PC02>
+References: <aajObSSRGVXG3sI_@hyunchul-PC02>
+ <532c5cdf12ced8eee5e5a93efe592937b63b889d.camel@ibm.com>
+ <CANFS6bZm3G9HA3X5Bi2_KGZDNGuguQzG44-cMcQHto2+qe_05g@mail.gmail.com>
+ <e979abaf61fa6d7fab444eac293fcbc2993c78ee.camel@ibm.com>
+ <aaomj9LgbfSem-aF@hyunchul-PC02>
+ <f174f7f928c9ee29f1c138d9ca1b23abfbc77d0c.camel@ibm.com>
+ <aao2Ua94b16am-BE@hyunchul-PC02>
+ <cecaebb4c333439ea6e10808908f69cd3f3dbf95.camel@ibm.com>
+ <aa4ZxJ1Lkk_9-f-C@hyunchul-PC02>
+ <32997ac487b258aa219c66d870eb3fad71bb9de9.camel@ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <32997ac487b258aa219c66d870eb3fad71bb9de9.camel@ibm.com>
 
-The generic/728 test-case complains that:
-(1) Expected ctime needs to be changed after setxattr;
-(2) Expected ctime needs to be changed after removexattr.
+On Mon, Mar 09, 2026 at 07:47:53PM +0000, Viacheslav Dubeyko wrote:
+> On Mon, 2026-03-09 at 09:52 +0900, Hyunchul Lee wrote:
+> > 
+> <skipped>
+> 
+> > 
+> > The email is getting lengty, so I will try to summarize the
+> > discussion. :)
+> > 
+> 
+> I think I would like to see the second version of the patch. It will be easier
+> to review and discuss your solution in the form of patch. Otherwise, our
+> discussion goes nowhere now. :)
+> 
 
-This patch adds calling inode_set_ctime_current() in
-__hfsplus_setxattr() and hfsplus_removexattr().
+Okay, I will prepare the patch and send it out. 
 
-sudo ./check generic/728
-FSTYP         -- hfsplus
-PLATFORM      -- Linux/x86_64 hfsplus-testing-0001 7.0.0-rc1+ #6 SMP PREEMPT_DYNAMIC Mon Mar  9 14:29:30 PDT 2026
-MKFS_OPTIONS  -- /dev/loop51
-MOUNT_OPTIONS -- /dev/loop51 /mnt/scratch
+> Thanks,
+> Slava.
 
-generic/728 35s ...  44s
-Ran: generic/728
-Passed all 1 tests
-
-Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
-cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-cc: Yangtao Li <frank.li@vivo.com>
-cc: linux-fsdevel@vger.kernel.org
----
- fs/hfsplus/xattr.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/fs/hfsplus/xattr.c b/fs/hfsplus/xattr.c
-index 9904944cbd54..796a649ea5af 100644
---- a/fs/hfsplus/xattr.c
-+++ b/fs/hfsplus/xattr.c
-@@ -399,6 +399,8 @@ int __hfsplus_setxattr(struct inode *inode, const char *name,
- 		goto end_setxattr;
- 	}
- 
-+	inode_set_ctime_current(inode);
-+
- end_setxattr:
- 	hfs_find_exit(&cat_fd);
- 	hfs_dbg("finished: res %d\n", err);
-@@ -880,6 +882,8 @@ static int hfsplus_removexattr(struct inode *inode, const char *name)
- 		goto end_removexattr;
- 	}
- 
-+	inode_set_ctime_current(inode);
-+
- end_removexattr:
- 	hfs_find_exit(&cat_fd);
- 
 -- 
-2.43.0
-
+Thanks,
+Hyunchul
