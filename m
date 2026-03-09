@@ -1,150 +1,164 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 612003DA5B5
-	for <linux-fsdevel@vger.kernel.org>; Mon,  9 Mar 2026 15:38:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9B88211A05
+	for <linux-fsdevel@vger.kernel.org>; Mon,  9 Mar 2026 15:45:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.217.50
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773070703; cv=pass; b=Wo1dqryAQwBcQquNnOPTKjAPPW3VcfVM7ygtXZmz2iUGFq7RZ2Puqqyj0BzncwIwJbNxnHsB7XnI+VG9cgdVb6oF2fDkBfF1pstKhL5Uw9+5e7RGstWAF+PKR3BpXBUrXF3dYqFFGy0sdI78yEm2Z2GmPaMNS03t0Up92SwRcPo=
+	t=1773071114; cv=pass; b=L50frk8RxIj/whRCdypO89KiTf0VFAz6RY1MjANuxgYBweeUPzeIKa4j1t6hrgt1yUNSM/Kp234Gk+jiAPPDf6+mCWQQ1YpOgt+yLzeQlLis39BSlHQgbt4zHlhvq5jen1eqpj1mKYg+uRkcq63I+ljEWbUnsHD1Vr5WTG4GSaM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773070703; c=relaxed/simple;
-	bh=iNHLiCDf49reb7pKbRitTgLTHJvgQkPQChd4fviY9A0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kJtN8x5Nnu5GCqtni7Ae1dNjade0PU6QzdPKs/O8psc1Cfo5Boa06L88cjKBvte4P7Q9TnUCyQG/sKWcKP/gjzh5rFsABrX56TIBKeIdFutT1le3kIK/AK2AuQpAtBtHdv6k1q9/8Cx9fXDor+0dbcVt376OvQsfuUdCbRfdm5c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VjLEaYsQ; arc=pass smtp.client-ip=209.85.208.48
+	s=arc-20240116; t=1773071114; c=relaxed/simple;
+	bh=FQ+rfw6YSM+Ur2t0O+8S8EZHYkkVvAytEeux3uABvPk=;
+	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CLyPk1sfIT6EmOcFT/gP/lEhHaVzt0Zo+csFr41twxtjfJl84rC0CDTYVABKAJJRTqxCBQpwAEtOk4G15Ue43mrmhVyabrkhxQ6vmpfreqPEE4O6kC8eEA22CIcwv8SkdvOs+RVP7gAm93sRal7pqEEVn5YCjLla9OMXJXmVrm8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=xI5mH1Ok; arc=pass smtp.client-ip=209.85.217.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VjLEaYsQ"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-661169cd6d8so13591a12.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 09 Mar 2026 08:38:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773070701; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="xI5mH1Ok"
+Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-5ffe6887e29so1615332137.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 09 Mar 2026 08:45:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773071112; cv=none;
         d=google.com; s=arc-20240605;
-        b=IL9n/EAwv0P0QHIB/40kU9SxuvySKoVikoPqte2r9y5eTDfaNiU71t6kxUJsvFY1Xt
-         p/ZhV0jjqmQo33FxmcS6o1eFJ4Znr4+T7ACEymIN0YcDSNTHpdy6Z1tgrFwDLR4wjTpt
-         yuwWU2rwFU+q5K17QA5Brru6fFbEHG6wHGg2MSRcsQO9iQYNeoMu9z7mwcgMlmKElsus
-         /UM5VRD0ZY8x8NLPfgmdtPzq6whq4fP+om1UoC382cmtQwzGiSZSgVRE4YcQ53t+pKuM
-         5te7JxeNlVvU5yr1KqBqHAxIgSrVV+5Qpyfo3omV518hDIx5ghk6R2H+JhK8WMyj6L90
-         nMtQ==
+        b=fHdWVqQugh1dL0R2Cbs66A5gYpoWhLp9cqYrMBlw72ZIbSd/g3MlBERbD9gPhg5ChB
+         Hi36XsW3DdPllbKKwo8/pMiTOXlD3dzuJY01nxUedlPsZnrDWeU/mq4+h0e6yFLQWgVq
+         SzV9N9dNqKFP3Z9Wi6nUVVuHgLGYfzlkYKQOZbKhjDTWmCwA4XfwmNEKHiuOh0003iqA
+         q89yFxM4JeGKbveK73v4TbUfqFTzb/bAi8gpW53BDB9QeIe4OYOxq2atjJO3A+qynioh
+         rFhfC/DyqHb4aXZPTdl3UtEXOyFxr9a0UOqrHr7xkTrO2p4EbmgY5iWDys+vO9g0cKeD
+         m3vg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Uu1JyhWrGMTUefQ+KHAPU+wFh3BG2I8H+RnO/Jnz++8=;
-        fh=+/WjqGOODrJjRWEFHLCYnr7yJLLuUBSws8YhyjZh+N8=;
-        b=ToQY+wGG8PSoIGZpaNQQjMEs1Wh3WipdQvHB3E1ClzHtXzZy+vxQH9ZXUL7eTnA5dR
-         XQvGs3IEFkxC9gT/0CM1FTiXT2ftZiL/jy/DQclTLbwUk6uqokakPrAaR45dsW0EwST+
-         ZqGlbG5mMZ1y7lv0tVoxEdfRcNN5hCD+u0DuRs9kx2v4Rr302MUyEY2/br2+9GhGKroz
-         4aFzi0TOHOEydFf7tJRnUe+edq5xYH7D1Lxii0fnkf1CBK9Q6p4lAV23pj8UgTKKb3w4
-         VnAhJvrdQ+UXcDab4Fmdm08u2MtwZEiwXepO4+sJPlPNEJsw1JjUqKCrnOZXoMW2oaha
-         bKCA==;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:dkim-signature;
+        bh=bKp7UfWwsR+Qtr2/5qSzMlZ35ZQUtFxqOaPiGk/f9/o=;
+        fh=b4ba1lKoFlHx5Z4Gq1z21ngmLEXgDMmp1S5LJQy9ozM=;
+        b=gjbYo/jrEy8XsnsjoybDxoXXR7HewWAgP+XGniKvuRc8VAqGPie4sTd8Nx3lfYFSz9
+         pS3VtYbJEimC7ZsXJt7a+c768lza8xGdJLQ67F2hxJyDLoajY57CcWJPH+yl2zo78Q+P
+         GCEiSIvSp3NTTtJQIINWsHKk8k6dzfy+AVyfITGw3fgogx1YgHhQVXo3BWKp4qoIVCJm
+         y3k1FJjIv4lNtOKHEga/tbao6kz5Vz6RhZs+zbp5hr4yHj0Lbqx5N7wRAiT63XfRxnAL
+         VE9+2KlJz+Zw3XztvGDwqn0NctL//SMvcDhBpYAz7YxiWydrdU2dzQE8fC1OIOdhJdMZ
+         AS3w==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1773070701; x=1773675501; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Uu1JyhWrGMTUefQ+KHAPU+wFh3BG2I8H+RnO/Jnz++8=;
-        b=VjLEaYsQUPfnR5xOgC73kM7S1SwbjpADnZ8QOzZcIYphB2L73ZRwZzecty0RaUl20F
-         PhJ4eKUr0WhSmVT1T1cfhmcEB5d1qji5Jdrhtzy5u45e15tGTaj31JBEu8gBrQ1SD00X
-         ugkLcfnwy+oDw0C8SXB4zgvTiMof3GVJ3oGfhWw3xSk+KFAd8ohPq8gG+ko96R6CgwIA
-         2WgvuGcFw8QXu52DGYn0UV5rJKq9u5h+noBYBvmn7I79BmbO30uYZs/EXc+QPvfJQI+2
-         yV34/O5xxJbYmPJj6u7LRAqWlt5fBoWo+etsmrJbJ5g8QvV70Ja0Hhn6cu1XybkRG4cm
-         MoRA==
+        d=google.com; s=20230601; t=1773071112; x=1773675912; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=bKp7UfWwsR+Qtr2/5qSzMlZ35ZQUtFxqOaPiGk/f9/o=;
+        b=xI5mH1OkbEx5rEciwSIW1r8sSiLBgdGlSOlZdRK6ui/M4nAvFHW8cqdINYfAXsV8uG
+         nI8bSnfXg0WmJyzGTT4KYmmik5uOhjiWXFNNN14RCQ6kfG8md8JpD12d9PnsFp8CBb1s
+         M8dPVYwMPiKqykvvLzCaRCNuF6x88XCJz0UtP/nxZjLTELP5LxX3WZ9mmh4rvorqeHDC
+         FyXPy7Jpc0aPA/cTi1HrTrP/p+3xCtoe/TNwAtZwTewTH8loPRekj2HfeUsE0o5Y8BdT
+         E9EMgjx38u6ekuFmEvOkfZ9NWw8lFW9GeB+xS0zv/EBLsB1y0gkdSa1SZtV4LgVKrjRb
+         EGow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773070701; x=1773675501;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Uu1JyhWrGMTUefQ+KHAPU+wFh3BG2I8H+RnO/Jnz++8=;
-        b=RZlhNeSJkmhY4oIgqiTTCuI9GPvnDZmjHaCdRjujw+RygqKFsweaY3TegIhGycyw5+
-         Nig3kOkmF94fv4S3VLgPFv3J+T6N/lg7xD05FQF/RjwTNs6jpnx7FehbIipkuSxHFov+
-         4yfjTUBK/0MpDyLOLgGtsXwMpp2RxDIK64ndGY6P7nAsSJdN9BYIwfBoZD7+gxDsh5NK
-         J2WRA4z4hqbuA3RF/waMECbx4Qb9Tn6FVLJWUFVx3+3+I+uL+33xVenIKkpeDE4l2632
-         w4bSCcdWbjXmohnT5KNkb4OnsXOt5NIbFvZXru/c5t02lE705ZRrv9a2PFIEiNOv1Bh7
-         L6ow==
-X-Gm-Message-State: AOJu0YxYKIo1YwYgWD9blXvMb+XfptR/ucJmDfQCZPLm29lYdjHyQuCV
-	bkS5XG6njiYnjEe6dxLKslRkoAiMKerslKwfzDq+Qip7VFSpEhhLvPn+DkBLM5d66KBSLVXx3q4
-	F8VDYsJL52aU7tko+surPMLeYoeNxJeb4i91qusmF
-X-Gm-Gg: ATEYQzwumiSk8UJJ4wOV3wKDvVAezDVWiudXjUI0NyOAdlgUd7Q9TN3OaBsuAExH/xj
-	DsaD+4zWhDm11sTMG7pWROFBRmK0O1h997ooSFUkPYMkU6r4ybamQA/2gDWbaTSpLjc/GnqIbZC
-	YHM2LkufSq805SFma0jIcjdFA6HEGHSeYJRjlrvjCuTYKXaJV1NcuAKXw7PN76ZAFV7ZVhe1Ezp
-	0sTCwoPDie/nojAE3K/tcQCgFa/IYmGebw6Co7BfqWtToAyo7emN/O2ffnEUBCoRtuV4C1OFdLj
-	0wHWDRFzqGWNTa6wekV4NEVEnUnJvDCf4FHsmmlVYLM2+QbL
-X-Received: by 2002:a05:6402:3506:b0:661:1019:5388 with SMTP id
- 4fb4d7f45d1cf-661e7d9e789mr90378a12.10.1773070700341; Mon, 09 Mar 2026
- 08:38:20 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1773071112; x=1773675912;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bKp7UfWwsR+Qtr2/5qSzMlZ35ZQUtFxqOaPiGk/f9/o=;
+        b=d7eFLHBb3FEUwqJ31F7MAfTdMRVkfCpL71tZnF42oZke6+ymBcRp4U8RgmvMqBwzKp
+         smnIC8Jy7nRnJSXt9k9kjSE1zk1NYgFUMo6wE5ORGXZwndsnKorg41GXU/R+MPJj3ce/
+         PStJF21xJFDRhKAQk5MCpNGLmtHGNB4vHYEjk/4hlYtIVgO9KJ7EGDru/cBO+iRsNWhv
+         D/xk1vjffEoeLdi5E/kJqvZljVE5EHXqcnol4A2kNfP0Gs5Y7y7NPkpy7mnOBDQW3fHA
+         8cEDS9Y2T5qT2Fsazp40ZWxfgyp0iVaW9KOTNqu7Bd0s51qdyjHE45SvVIcvygVi5H6s
+         hmrQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVKsuudQ/uLEQRCzn9RER7ZEfVVwaPPcTfTo1AHAJL/9viXvzu4veoAK7YUUMxwT8Qg0fcaKbTA9ur+X2ks@vger.kernel.org
+X-Gm-Message-State: AOJu0YxIFAD0QC5ktKwN9wI1LwN/4R/ssOcYjl9adBxGJIr+yqStqlo3
+	gsUb6vv94PY9UVe2fQO7MD9/lnwz3bAecseXMEgB2Dt/1eqrwsgQyJLWjonxyOMnuLKimOAtrR2
+	FHDzJa2SfXHmv2Ruk6PLCi2ZhMh4U+DXuY7YRb5Dl
+X-Gm-Gg: ATEYQzyn59qt/qfkcUcSIBXWZwJvUyBOvl+zDu+ptbDJ7+P20edIKPr+wn/np7dXun7
+	m2tQC9tYRixVVYEOOAw4106ufvk9KzDdF5J9Qoqo/Zlh/FP3wZldk/gffM8qGBxwuu2Ma3kwwDo
+	Qs4GjSPwZxD4h0jR4i/imKtN6Nsrftb1bcOA11LtYcknIC0cLcSM8sDRuGEh6q2AaZQ7qOrg9Lh
+	782X2QNgd+3Bh9EZy/WwIKLtxN/+0KZ0lpLob+K5AVH66wmuktTx8TMGVfVqeZAA6aJep3E78DJ
+	bk0XJ5okp/FDuBGkpSIxjg0ZTvbBPEHoWREFz9sqnA==
+X-Received: by 2002:a05:6102:ccf:b0:600:131f:b68a with SMTP id
+ ada2fe7eead31-600131fe1bemr2252059137.23.1773071109964; Mon, 09 Mar 2026
+ 08:45:09 -0700 (PDT)
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 9 Mar 2026 08:45:09 -0700
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 9 Mar 2026 08:45:09 -0700
+From: Ackerley Tng <ackerleytng@google.com>
+In-Reply-To: <577c4725-7eda-4693-a55a-413572541161@kernel.org>
+References: <20260309-gmem-st-blocks-v3-0-815f03d9653e@google.com>
+ <20260309-gmem-st-blocks-v3-1-815f03d9653e@google.com> <577c4725-7eda-4693-a55a-413572541161@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260306-work-kthread-nullfs-v2-0-ad1b4bed7d3e@kernel.org> <20260306-work-kthread-nullfs-v2-4-ad1b4bed7d3e@kernel.org>
-In-Reply-To: <20260306-work-kthread-nullfs-v2-4-ad1b4bed7d3e@kernel.org>
-From: Jann Horn <jannh@google.com>
-Date: Mon, 9 Mar 2026 16:37:44 +0100
-X-Gm-Features: AaiRm536JZNgrz4IdQWbn2SU23Zp9qTUQkcydIk89QEkamQfmXH-CFmqDZ7PP-k
-Message-ID: <CAG48ez060t6NXRt6Hua45aXxAmD0r1vAnm8eEyZSUh95GZG-vg@mail.gmail.com>
-Subject: Re: [PATCH RFC v2 04/23] crypto: ccp: use scoped_with_init_fs() for
- SEV file access
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, 
-	Linus Torvalds <torvalds@linux-foundation.org>, linux-kernel@vger.kernel.org, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jens Axboe <axboe@kernel.dk>, Jan Kara <jack@suse.cz>, 
-	Tejun Heo <tj@kernel.org>
+Date: Mon, 9 Mar 2026 08:45:09 -0700
+X-Gm-Features: AaiRm50NI2W_b1s4wqVK3z2E19_F4wrYli0WrzITukeFFAKkCo-7bYk8Lb2_YMI
+Message-ID: <CAEvNRgHhFoyh__shK_YefhUOTP4RaG-sivUH=4Gj-2iy1HX+tw@mail.gmail.com>
+Subject: Re: [PATCH RFC v3 1/4] KVM: guest_memfd: Track amount of memory
+ allocated on inode
+To: "David Hildenbrand (Arm)" <david@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	seanjc@google.com, rientjes@google.com, rick.p.edgecombe@intel.com, 
+	yan.y.zhao@intel.com, fvdl@google.com, jthoughton@google.com, 
+	vannapurve@google.com, shivankg@amd.com, michael.roth@amd.com, 
+	pratyush@kernel.org, pasha.tatashin@soleen.com, kalyazin@amazon.com, 
+	tabba@google.com, Vlastimil Babka <vbabka@kernel.org>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Mar 6, 2026 at 12:30=E2=80=AFAM Christian Brauner <brauner@kernel.o=
-rg> wrote:
-> Replace the manual init_task root retrieval with scoped_with_init_fs()
-> to temporarily override current->fs. This allows using the simpler
-> filp_open() instead of the init_root() + file_open_root() pattern.
->
-> open_file_as_root() =E2=86=90 sev_read_init_ex_file() / sev_write_init_ex=
-_file()
-> =E2=86=90 sev_platform_init() =E2=86=90 __sev_guest_init() =E2=86=90 KVM =
-ioctl =E2=80=94 user process context
->
-> Needs init's root because the SEV init_ex file path should resolve
-> against the real root, not a KVM user's chroot.
->
-> Signed-off-by: Christian Brauner <brauner@kernel.org>
-> ---
->  drivers/crypto/ccp/sev-dev.c | 12 ++++--------
->  1 file changed, 4 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/crypto/ccp/sev-dev.c b/drivers/crypto/ccp/sev-dev.c
-> index 096f993974d1..4320054da0f6 100644
-> --- a/drivers/crypto/ccp/sev-dev.c
-> +++ b/drivers/crypto/ccp/sev-dev.c
-> @@ -260,20 +260,16 @@ static int sev_cmd_buffer_len(int cmd)
->
->  static struct file *open_file_as_root(const char *filename, int flags, u=
-mode_t mode)
->  {
-> -       struct path root __free(path_put) =3D {};
-> -
-> -       task_lock(&init_task);
-> -       get_fs_root(init_task.fs, &root);
-> -       task_unlock(&init_task);
-> -
->         CLASS(prepare_creds, cred)();
->         if (!cred)
->                 return ERR_PTR(-ENOMEM);
->
->         cred->fsuid =3D GLOBAL_ROOT_UID;
->
-> -       scoped_with_creds(cred)
-> -               return file_open_root(&root, filename, flags, mode);
-> +       scoped_with_init_fs() {
-> +               scoped_with_creds(cred)
-> +                       return filp_open(filename, flags, mode);
-> +       }
+"David Hildenbrand (Arm)" <david@kernel.org> writes:
 
-This patch, along with the others that start using
-scoped_with_init_fs, should probably go closer to the end of the
-series? As-is, if someone bisects to just after this patch, SEV will
-be in a broken state where it wrongly looks up a file from the process
-root.
+> On 3/9/26 10:53, Ackerley Tng wrote:
+>> The guest memfd currently does not update the inode's i_blocks and i_bytes
+>> count when memory is allocated or freed. Hence, st_blocks returned from
+>> fstat() is always 0.
+>>
+>> Introduce byte accounting for guest memfd inodes.  When a new folio is
+>> added to the filemap, add the folio's size.  Use the .invalidate_folio()
+>> callback to subtract the folio's size from inode fields when folios are
+>> truncated and removed from the filemap.
+>>
+>> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
+>> ---
+>>  virt/kvm/guest_memfd.c | 14 ++++++++++++++
+>>  1 file changed, 14 insertions(+)
+>>
+>> diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
+>> index 462c5c5cb602a..77219551056a7 100644
+>> --- a/virt/kvm/guest_memfd.c
+>> +++ b/virt/kvm/guest_memfd.c
+>> @@ -136,6 +136,9 @@ static struct folio *kvm_gmem_get_folio(struct inode *inode, pgoff_t index)
+>>  					 mapping_gfp_mask(inode->i_mapping), policy);
+>>  	mpol_cond_put(policy);
+>>
+>> +	if (!IS_ERR(folio))
+>> +		inode_add_bytes(inode, folio_size(folio));
+>> +
+>
+> Can't we have two concurrent calls to __filemap_get_folio_mpol(), and we
+> don't really know whether our call allocated the folio or simply found
+> one (the other caller allocated) in the pagecache?
+>
+
+Ah that is true. Two threads can get past filemap_lock_folio(), then get
+to __filemap_get_folio_mpol(), and then thread 1 will return from
+__filemap_get_folio_mpol() with an allocated folio while thread 2
+returns with the folio allocated by thread 1. Both threads would end up
+incrementing the number of bytes in the inode.
+
+Sean, Vlastimil, is this a good argument for open coding, like in RFC v2
+[1]? So that guest_memfd can do inode_add_bytes() specifically when the
+folio is added to the filemap.
+
+An alternative I can think of is to add a callback that is called from
+within __filemap_add_folio(). Would that be preferred?
+
+[1] https://lore.kernel.org/all/20260225-gmem-st-blocks-v2-2-87d7098119a9@google.com/
+
+> --
+> Cheers,
+>
+> David
