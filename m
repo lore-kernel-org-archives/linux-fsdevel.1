@@ -1,188 +1,56 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D54B035FF50
-	for <linux-fsdevel@vger.kernel.org>; Mon,  9 Mar 2026 15:47:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773071255; cv=pass; b=rdOBwbFESR9yJxLsz/YEeJz0X3w3kIZpz0tfKs0n2Z5BrdLDWPgsKSlpTXJ+nkXAP7a+4vHjtzIg82FcS8ZMFW9kXVZyTJedEEDAh6jSjUelJsNHsZ8ZL/IUY0Yg0RFw25jblVDTJGisgyijc8RHukU8vboQvvm8ry4RnayWVAY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773071255; c=relaxed/simple;
-	bh=AWcg7Gn+oiGEab7vbKYeZk8hrDdXKLO5xS5NVoz4S5w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XtGSiPjOOWjTGqGXfEQrSGAOEFKFnKzacD/OB4epMJ/kTDHfqmHJiB7KWLgJykSGCn/Kg38SdmiA82mRQLoaeMMP1u4QV8J2u6t2stCwxQo0Q1Z1mlVIgP+q10zZ7zHKYROlmWZ6mmaVw3ZOWGjQgS6YpbKzokjC5/+cvV7rwN8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RNnQ2Xp8; arc=pass smtp.client-ip=209.85.218.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RNnQ2Xp8"
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-b9423d62cbbso447165566b.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 09 Mar 2026 08:47:33 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773071252; cv=none;
-        d=google.com; s=arc-20240605;
-        b=HAI2X/btpczVbn/GYUk28asMwYHysbCP2QSNgNs/3UqsBpXpWeP6yHe3hMthzMxT3X
-         OBZlSnGPFV/d4k31zalh7j3y+NsaZz9wGzdJu1lxvjxpjaL5mn14osvAta5AVTGUpKOP
-         NekHjgl6xJUTXlr2PUGw3L80QJFO6+bDAwg0VCqvaUYuzcKIUGfUuiD2RmfeytcDcqEO
-         q3leul+d75LHnXtjYkS1MgjUSz3vD2sX08jzIh1hJpHj08vvaT9goCkng6RoHIb9EHa0
-         eybgg1I9CvIpLM6lQO5IIiUmYLO5BLji3b5VyHlZ1pVildw3fQMtQXh1fzdZo9Cu+LYg
-         Nw7w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=AWcg7Gn+oiGEab7vbKYeZk8hrDdXKLO5xS5NVoz4S5w=;
-        fh=/XnXfljYhnWBGw5kFERNibIA2LnFyKGlyzp0ps7nXoA=;
-        b=Zk3g5A0RK82RU99xJDsNEwIJ8TJX5jrnKp+40AjymqtGVAe2bvi9mqxUDZskyOe6EX
-         hlSIijEKL3sFMvgd2A7+cdmDkgJNkAdb0cW2l4FRlU8mLxlE+dKWqigMwQ9JEV5ZjW+Q
-         /PnwV++h3q99+m17u55fnliYpixA0upKS+MLPSAx+yDkM3j8cw02g8KdBcsZftVLLkYP
-         iogfyScjv24V780hGZmxGYkX42ZA1xpc4BN70vulJzVuDNUGeP1ex1d7JArrUZs9cfr3
-         H66zJldBlVFYwOkcqynDVrvdaUyZmsd3cAuJov4+aHDPW1TRrzIkNdAELG0C4iacczkV
-         tqXg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773071252; x=1773676052; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AWcg7Gn+oiGEab7vbKYeZk8hrDdXKLO5xS5NVoz4S5w=;
-        b=RNnQ2Xp8GueIX5te5SkrKfVqYLRFM3b22gecNba0ZJgKoSk/lDyFWrF/uPNsF1TYog
-         Wd4G/IlxI02eqwcl7Ty3nRnJblwSel2rTipqOoqBKKMux9Ar/RBmpnQP5AniZXtC2C/c
-         8ExFBBWPLzzTFh/5bIp0htCGZASlCoCGXd0hZOqsVbf5sPHCSzpLgp/Dw56ez3+Iz28Y
-         hAfRIBvPVBnGj4XOIR+/8xZPY1pQSvdLeKZnL6yVZW0k0AKrkFngjgRUj/8bX4mBsNT6
-         ZxXep0gVCdfH005Lby3au4FBTn2QPXx2oX4Qi5b/OP85EOyRtTAIfahcC3n7xrR6xiRd
-         0oyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773071252; x=1773676052;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=AWcg7Gn+oiGEab7vbKYeZk8hrDdXKLO5xS5NVoz4S5w=;
-        b=rIoPKWDvRtVLKdzG9pgD8Jh5rCAk5VAZOKqjIHtb5+1EGmxdaY21LucGlRftPqcDHu
-         I+a1JwRHogrSgZ7HU9W4XroHG+nHuu3qhsBejO0e7BQi7jLSrDyRT92kBxVm2m7aafcj
-         NQZw88xVqdvA4frF1g78xmfhBDOgYx3vigyLY+LU634TbVHR9q43ESaojCCcSbX5DkYh
-         /aloTmwxYTgBZRdDxe5QIX6SjIj9kcYMd+cYEPdSsaHCn6ueIiDBIu0g3CfX/b1y9CoC
-         P/pA8965cYuWxW06EREeg45y9BkUNapkc2wGAQ6LVhZi4796kaAjWJ86Bu5i7ITr8QAd
-         A6Xg==
-X-Forwarded-Encrypted: i=1; AJvYcCVvEJw7oZTtEhlwETu10KtkUF3gr6PyG1KozsqgwPxDAuBYLm0QFW6ivB0AqBH/CL1ElOZ4coYewMEjBqDZ@vger.kernel.org
-X-Gm-Message-State: AOJu0YyLKCclSKToxnXoVz4UtsUL8oDhL2nnoceBp9pLNbMB3jmcRthN
-	nVcDAx4AutEJS9TgoIT9nxTEm3ODJPdW2oJACtfoKUt13Bjc/RVtVBjtcT1E0NnmHHGYQ83BbiJ
-	9ku95+EcqLgwqmYsbqFQ4yWP0pYvqfJ8=
-X-Gm-Gg: ATEYQzwvZNwrgHEf8riDExKB/sVXWzHRmM17VjQGwY22zrFCCws45bDQK+Tuq/ab62v
-	x/AjFxFH8mGQuEicI1HH7DAyjfSC3S47o3EDYfNURh6a3i6WwiqfwpGP3ccRJ1EQFdy2QkLZoc9
-	c+gb1JIwjBKcBxiW8/PwPJ7fmE5EKehr0bA1N0bLvPmdhxy0JUbElidTDvgGcpMTKUmOk/Hup9r
-	SKfhWkyAtdlIDutjOxTy0j68v8Jf1Xvnm58gF9yea+fNUtTBye4e6O9Gc3C7GlCTq594jHFEU9o
-	YDADPpybKtEz8UDYYdkPT4GFZbRimuvB68Wn9p8A
-X-Received: by 2002:a17:906:f596:b0:b96:f4f6:2a02 with SMTP id
- a640c23a62f3a-b9711a76a7emr2591966b.25.1773071251580; Mon, 09 Mar 2026
- 08:47:31 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7226323ABA8;
+	Mon,  9 Mar 2026 15:48:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773071283; cv=none; b=BNp5quXlDq/kM6MJwr5EaRTv/sG0q3tNYGjHjOr6tzl6tuFPhzeda0Gvi6MO4dsNaqbWis0vQ1qTF0ED1P3Zyk4Uc7MohWFq8UzooK+osOW+UXNwbDp7Z6gK/YNoAOjSNsb8B0QMPFYMajoOa1Y3h5tOm+eNTZRHyYMvYcKUOkI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773071283; c=relaxed/simple;
+	bh=mEIWqwGbrW27d8D2B++HR9GmKX1wltJ+IazL+DWKnVM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uyouDTdYKfGtpIsD0CQeRMsH0t63JdM3O7c2qxkLLz24jS954If8VEUAg7i/osCQtO9d4Y/vxvju6rGaJijV6DdY7oxFVptPJy7abNXFoyRG9pP/g3awAImsMQhD183+yMrzl5W2dishOU9gwMyVDhlxLiTibB8zF+q1e4tyW3Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id C6B2568C7B; Mon,  9 Mar 2026 16:40:47 +0100 (CET)
+Date: Mon, 9 Mar 2026 16:40:47 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Kanchan Joshi <joshi.k@samsung.com>
+Cc: brauner@kernel.org, hch@lst.de, djwong@kernel.org, jack@suse.cz,
+	cem@kernel.org, kbusch@kernel.org, axboe@kernel.dk,
+	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	gost.dev@samsung.com, Hans Holmberg <hans.holmberg@wdc.com>
+Subject: Re: [PATCH v2 0/5] write streams and xfs spatial isolation
+Message-ID: <20260309154047.GA18538@lst.de>
+References: <CGME20260309053425epcas5p32886580a4fbe646ceee66f2864970e9f@epcas5p3.samsung.com> <20260309052944.156054-1-joshi.k@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260307110550.373762-1-amir73il@gmail.com> <20260309-einrad-mitarbeit-18397e65afd3@brauner>
-In-Reply-To: <20260309-einrad-mitarbeit-18397e65afd3@brauner>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Mon, 9 Mar 2026 16:47:20 +0100
-X-Gm-Features: AaiRm512di5dV0MRlvDLCP-8jOD5p0b3zQc8c8g7_80hs-DiIj3ENIt06ur3Pzo
-Message-ID: <CAOQ4uxgmttSum2a2gKBkpdzg4110rpaH4mayy=9+QzWjFRNB6w@mail.gmail.com>
-Subject: Re: [RFC][PATCH 0/5] fanotify namespace monitoring
-To: Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>, Lennart Poettering <lennart@poettering.net>, Tejun Heo <tj@kernel.org>, 
-	"T . J . Mercier" <tjmercier@google.com>, linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260309052944.156054-1-joshi.k@samsung.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Mon, Mar 9, 2026 at 1:33=E2=80=AFPM Christian Brauner <brauner@kernel.or=
-g> wrote:
->
-> On Sat, Mar 07, 2026 at 12:05:45PM +0100, Amir Goldstein wrote:
-> > Jan,
-> >
-> > Similar to mount notifications and listmount(), this is the complementa=
-ry
-> > part of listns().
-> >
-> > The discussion about FAN_DELETE_SELF events for kernfs [1] for cgroup
-> > tree monitoring got me thinking that this sort of monitoring should not=
- be
-> > tied to vfs inodes.
-> >
-> > Monitoring the cgroups tree has some semantic nuances, but I am told by
-> > Christian, that similar requirement exists for monitoring namepsace tre=
-e,
-> > where the semantics w.r.t userns are more clear.
-> >
-> > I prepared this RFC to see if it meets the requirements of userspace
-> > and think if that works, the solution could be extended to monitoring
-> > cgroup trees.
-> >
-> > IMO monitoring namespace trees and monitoring filesystem objects do not
-> > need to be mixed in the same fanotify group, so I wanted to try using
-> > the high 32bits for event flags rather than wasting more event flags
-> > in low 32bit. I remember that I wanted to so that for mount monitoring
-> > events, but did not insist, so too bad.
-> >
-> > However, the code for using the high 32bit in uapi is quite ugly and
-> > hackish ATM, so I kept it as a separate patch, that we can either throw
-> > away or improve later.
-> >
-> > Christian/Lennart,
-> >
-> > I had considered if doing "recursive watches" to get all events from
-> > descendant namepsaces is worth while and decided with myself that it wa=
-s
-> > not.
-> >
-> > Please let me know if this UAPI meets your requirements.
->
-> I think this looks great overall and is very useful as it allows to
-> monitor namespace events outside of bpf lsms. I agree with the
-> non-recursive design. You could generalize this approach by deriving the
-> watch from the namespace file descriptor? Then you can get notifications
-> for all types of namespaces.
+This is laking numbers to justify all the changes.
 
-Not sure what you mean?
-Which type of notifications?
-This RFC generates notifications for all types of namespaces created/delete=
-d
-under the watched userns.
+From previous experiments the most important isolations is to put
+the file system log and metadata into a separate stream each, which
+would be the first step before exposing user knobs.
 
-Which notifications did you intend to watch for other types of ns?
-DELETE_SELF?
+And once we look into application optimizations I think your best bet is
+to resurrect the FDP/write streams support for zoned XFS that Hans and I
+did and posted in reply to one of Keith' iterations of the write stream
+patches.  This will reuse all the intelligent placement decisions we've
+put into that allocator.  Once that is done we can look into exposing the
+write streams already inherent in that to user space, but we really
+should be doing all the ground work first.  And maybe some of this can
+apply to the conventional allocator, but given that it has no way to
+track the placement unit sizes I'm a bit doubtful that the results will
+look great.
 
-That would be easy to add.
-Would just need to move the n_fsnotify_marks/mask to struct ns_common
-(also from mnt_namespace).
-
->
-> If we ever want recursive watches, then we just need to add a separate
-> flag. This is only applicable to userns and pidns anyway.
-
-Yes, if we wanted to.
-
->
-> I want to put another - crazier idea - in your head: Since pidfds are
-> file descriptors and now have the ability to persist information past
-> pidfd closure via struct pid->attr it is possible to allow fanotify
-> watches on pidfds.
->
-> I think that this opens up a crazy amount of possibilities that will be
-> tremendously useful - also would mean fsnotify outside of fs/ proper.
-> Just thinking on the spot: if you allow marking a pidfd it's super easy
-> to plumb exec notifications via fanotify on top of it. It's also easy to
-> monitor _all_ namespace events for a specific process via pidfds.
-
-Anything's possible, but we need to make sure it's worth it.
-Aren't there already enough ways to monitor a process via ptrace/landlock?
-
->
-> This obviously needs some thinking wrt security etc but I just want to
-> put the thought out there that the integration of pidfds and fanotify is
-> possible.
-
-I was thinking more about watching the entire pidfs space, but sure.
-
-Thanks,
-Amir.
