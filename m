@@ -1,253 +1,127 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46D393ECBCE
-	for <linux-fsdevel@vger.kernel.org>; Mon,  9 Mar 2026 20:56:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773089798; cv=pass; b=rBotwcpd67+0zrI5oIj1H0l+PdRUYo3ABGMJAudPmwLpxo66iGNMZ6D3EjAkKVPg+TQMWG4Gfrp1N6mnW9zEHI6z7Qx58ZWHAbns3ykUWQ2lDODMlWRKh1hzoS01sWc/2pLtnlH/6hsakbljJqJL02Fy+fvr22BTwQLUYGuHwLc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773089798; c=relaxed/simple;
-	bh=DpY1+5ZLFty2qUUwcxBedQ08mbz4NqnH9CJ5HbhDqSs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IS71kLjtKG2phmxOuvN7TiC3jPr3VyYsPSQXOc60zI8zAKcBS/vHKSh2H4XlJd4HLUYnk48dTiO4IrKap5sPbn9O1+ghr7uTJ4iMxsrZkyL8cL4mRAAXrV27QwJqKpXRkeDOMFRR34afcGwljgAEDwFzuScRI4JMs4OZliUYVw4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=brl1k4b2; arc=pass smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7C7835839D
+	for <linux-fsdevel@vger.kernel.org>; Mon,  9 Mar 2026 21:50:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.41
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773093011; cv=none; b=IYqhtjIAPVkaSw1WmR4qp0dhRUsaNkuysLnbtc4BQA/sqRwwbTRJu+tOoX644a3mnA5ZcEFfonRA7exBJFnfDacG7ldDUa+lsYbxbWianUiNXq2g9C9ght1jLzK0KSdJtvC2vqa2O9J+FzZr6gW2v6AZZNIOmxUJ78vlB0V4Giw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773093011; c=relaxed/simple;
+	bh=TCNDVI1ESlAU7xsc70D4E4dQ/v2Yzwb+pEMzqKqyZwY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Mudi/Os4HWbY+9HSrKjKQskLDmiHW2tVcUFd0XSeW1Sh9SnoL+hjOx+wbOx3bzRGiabLgDc0nnQYaGQ0kSMmE1M6Z+5sKtKI90skbwzoBL70fwYaMxJuVw1/9E8XAMeZzyqTUiIZjDcWcS631kxdeSgNIifCQDrkMca40s9gc3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b=KCofmEfB; arc=none smtp.client-ip=209.85.210.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="brl1k4b2"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-439a89b6fd0so8781745f8f.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 09 Mar 2026 13:56:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773089796; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Y61UZ4Da+amwjq76bWqZ/tQcs9lWdABP1eNtnB56EPjPNjW2jBUkiePggTNyzpnG//
-         I042PMsOlZSnubkBRDWInWICdEuVTCmcPLyqHFDkm3UEXuCD0+5K1dB/z4wPuvvCOjUk
-         p1j4m2tlyPTKtT8dJX7qdO3e/yozx554hPWCwM+c7lj+hMnF+jCwW56K+5IHfzKQm5xB
-         JDVh7IZfywjxKgpAlXnsLPMHB6EDRpFlKUelxCCX+mJiC9bdA/BGIZlmxRLoITal5DmM
-         xOSENdCxKC93NMJMaGr53In1DfmJ+KAC9x+H21s3vhKZeqquy9GNK4cKEzq1+dNQUgLh
-         Qlng==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=QJ/IW2/A11N7X/hXefg4Hp0XyobRCNWdnikI9Sb5Sx4=;
-        fh=h/dfvY/M0fgQSU5sjMaOGS/FGT8IM9WVJs5hcX5Rb08=;
-        b=Bmu5OEyk0ekOW4GOTtNKK25L27KwGQQobwj+lyyfwbQWvSB0uT0W1/Fjug3lUdeREK
-         haiHHzZHd/K54ybQMHUzUHZpTG0Cj0kRR12TksY7AQxGIeS+YI6rV7zP6LBNa7niIJI0
-         TN8EMxMpgUGypc4FQnRxwznFlKHKbNhN7cdO1oBOs+mmXBHYSepba6lYCEevWzWrOMLP
-         inVP2mQ18IENbIZwnA+zXixH6TdWE8KF51rjowoocJtlC4Cs+rEbkXg5qT3WuzJOmcwb
-         Onvl1ey//k6HFVFFCJpXYMM1YC2P04BNm+yfZtKtGo1Qv6j4q73Ho8HvPTAk3uXxhon2
-         07rw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b="KCofmEfB"
+Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-7d751ef36ccso558617a34.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 09 Mar 2026 14:50:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773089796; x=1773694596; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QJ/IW2/A11N7X/hXefg4Hp0XyobRCNWdnikI9Sb5Sx4=;
-        b=brl1k4b2zAu+KuBREX8lya2Szl+8+htk5VO2RVis36cAtZiHmCkB52ebTe4wmyAuJn
-         0XP5MahaejGUIl+CMgHU3uNSHIRYzbhPijdNqKLaqeh1+wybDHbHh+7+G209MH/AcefN
-         LJ+cydnpMK76LH0UGKiF36I/6v/3GDpEtzlSmfC+wTFdAOb8SNyGuNec+7+8PnVDKddM
-         JrJQpybbKaZcyPL79X6K4RnBxkfrKTTW9wfKsV04gaF2KhDNjEdMpPHhsjGRFSieQK/f
-         ngIb4cZ/bApV6b53ECG3P4ex9277g/crXPEB3iVReT6i27Hz5q+Wiz4rTm2HQRbKoLxN
-         gQPw==
+        d=dubeyko-com.20230601.gappssmtp.com; s=20230601; t=1773093009; x=1773697809; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nFvFh4oOChvkx2bi3ZrF/2CPDlLYteGJSvbMKr7ye5o=;
+        b=KCofmEfBv2y3uYqbAlchq6WyBN02Reu4VBqIkWpCDLmP6chYyg3CJyc2c16r9MTeNL
+         Pca0VhQ9svj3Y1RawMayCO6VRT18Mls1dbbUsKI5slja8kgv96GP74c1vPCHcXjesH4i
+         k1ocmDPAgeZjQLFnG0H4HvyOfXL37ODU2hb0Mn5FVihnBfggyWoycxInNjRiyGqXYHSq
+         2WTrXFmVFO4GYVJvzSUffGF7SlRlozRU/0Ls6gcHPEF2rIrrYo7nCvdCbZukfpPxq9si
+         oMIBSIEfM3hICTFoxY1d9VnfywGhcCxJwNi+I2jdN2rZpfgFtEIM48OYEK9pssbE3zYq
+         2QrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773089796; x=1773694596;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=QJ/IW2/A11N7X/hXefg4Hp0XyobRCNWdnikI9Sb5Sx4=;
-        b=ELvzCXorDcyhTyxKcVAoUMo4Uh6venqRfMYI+HFsze+Mqv5DJJ1ydYsAfqo4jg7F1P
-         pybdTvNzU9fGxyiHu3SO09wVd7SKmPxzTsImr5KxcGvzWw3Ik52sK4Nyj5Qo5dFuQMAY
-         X6nta0FRW3S4RFtY4jBPoMyeYoZ0Dk699sdZhZVy1rVPa6KGjsCuTOhwfmwG3p2jRc91
-         TDFhYG/PXUvQoZSB6GM7lmqMQDfnXxs4A7uUMkJMVUE5EIBt3NjrwtqL4DtW3J6mfWKu
-         qvCTimadaz1/+iOD9RLC4sMQUQFeZiRpPfWYgHM+41VENYrm39aGaTxsbgLcoqZaTpW6
-         7wyQ==
-X-Gm-Message-State: AOJu0YwDohuIQw+HGZSbZFmbZE8OBnnHM579vOMRhobMmY33sxSDiTJj
-	zx0bG7Ju3LHPT3aDR/NsSEYJYPB83zE+UGyep+oiZrMpHFEkAbqRZY8AVF/FGLwTzECpL/3+qHT
-	6gV0jOGL79J9OZKh82M+aiJrS0YHyd02Qvq9oWPs=
-X-Gm-Gg: ATEYQzwyT81TO8vWYB3hRJtpNMK3+GwmaHlUwLQ81SnuljJL3DDfgSPxIJoTH0g9T2U
-	iqR+w/YkPexjGeMcB1iY68C9pTDldjsPXiFgXb2JiXSnWvtc0dKoRtjPHfkPgjdTvDH8ILaaQ31
-	Ig9yM3G/A1Ok0690HWYzSk2Pyvof7I+U3wLWYbYy9qQNpLScC71fX8WeFLC+g85EUTwfWBv9XOX
-	kGaYi0DRP9roAjM3LbMknuTSmXB9M/UxnmNw06vR1BwVjmL7BW3H+7+51Ivwv7ntyYj/VcVsD8C
-	XnCo+A==
-X-Received: by 2002:a05:6000:1a87:b0:439:c157:256f with SMTP id
- ffacd0b85a97d-439da882138mr22222465f8f.33.1773089795303; Mon, 09 Mar 2026
- 13:56:35 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1773093009; x=1773697809;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nFvFh4oOChvkx2bi3ZrF/2CPDlLYteGJSvbMKr7ye5o=;
+        b=cpd1OYeAJ+xFzmUvRq47zxK8uSTA+2aRQTVL9ArrvG/tkzDGmDzWzEiidVyzG28uKm
+         2L6K2GOZe8AYdxwI8NjPNHCeLXa5I0eBpU8nFL2aBOiHVS9qin121JQ4IuTuxZ4ybliw
+         N4/i0ZiI/61+QUgD96Hl6Z8YehCFDz1opGNA2t9r0PNOeG/Hd3mhkXq9nsRDdX6vWgUN
+         b/xGp28mo3HUPcHCrxTPYHgKdRQAlmJKGe4uJg6g2RzEaIt6sOedGTTRQ9TXpGLAlmQo
+         NkSV6J16YPKoivn8Lnx7omvO6TovmgH7e9DbC6pZmw78TjDan+D20zH9pEWYJ1WluAVk
+         7JhQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWbKeGgPLAyQZrOp+r+yHYBlAl91Iuy48/7paWNuP5IY0yHJc93K6boo0riKerGfS8WtIJmgQowUQfWvRlT@vger.kernel.org
+X-Gm-Message-State: AOJu0YxkSEpd6fd5Zz5LSSmIfxOo5C+gTk+qpXm9cS/I+XUDU78d2gG0
+	pzMp1PUWJCFQ3MFQ/ALir1k+eiS3aw2oPGZDqMGpCRdU4fv8PU9zb/3g/F1NiIdryH4=
+X-Gm-Gg: ATEYQzzL2vL4ng3EDFidFyBRvz6yvfialKTK1ndiFX59V/AJ7dq0RgwozS26oIUs9ED
+	VwFvoi8qAGh6cz403lO1cnRTGyrwuDtTcvUr5nkT4VgoAZakPrqkZNm5rOj1lUs3iXAAGaZEeyB
+	FAOMlyxf+afwVPkpKcMFfRFRd3yF0L0fixAfExn4W1UE1NXEnKXfoYB1kujL9dUdWHo2mBbKSIu
+	Ui7lJ1Ji7XiY0BDIpMPQMgivU5ToYCiurDWtfER5t5cUnR6J8rV1nSeMq+k1PwFm3eRBUN8wzq4
+	ozBO4hUrCHE+tCNlomjFbBWD9zqL4XhQb3l6r93GJ0IUE6UtbZp8F9WvIB4tUzNgapSuFCQzNWD
+	6g/TAxBwFAvlJkdwRxqTKWOEermH99gJs2uXVcoitzhGJabNlRrvvRlbatNSNvsaztkkz3BrQFh
+	dQyICvu871Ep9+/GXd0Nw2emPdgo+cOrvHQPbeQ6ynJ4LSnEknhYY+P2HCnx4yGGoYR7etuZiNy
+	vP0ePmlPLteIsKTgfvOEFo=
+X-Received: by 2002:a9d:5a05:0:b0:7d7:382f:f005 with SMTP id 46e09a7af769-7d7382ffda0mr3501582a34.35.1773093008706;
+        Mon, 09 Mar 2026 14:50:08 -0700 (PDT)
+Received: from pop-os.attlocal.net ([2600:1700:6476:1430:f17e:6b8:fdb8:b541])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7d728d1238csm7334464a34.15.2026.03.09.14.50.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Mar 2026 14:50:08 -0700 (PDT)
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: glaubitz@physik.fu-berlin.de,
+	linux-fsdevel@vger.kernel.org,
+	frank.li@vivo.com
+Cc: Slava.Dubeyko@ibm.com,
+	Viacheslav Dubeyko <slava@dubeyko.com>
+Subject: [PATCH] hfsplus: set ctime after setxattr and removexattr
+Date: Mon,  9 Mar 2026 14:49:48 -0700
+Message-ID: <20260309214947.1114618-2-slava@dubeyko.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <b3dfe271-4e3d-4922-b618-e73731242bca@wdc.com>
-In-Reply-To: <b3dfe271-4e3d-4922-b618-e73731242bca@wdc.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Mon, 9 Mar 2026 13:56:24 -0700
-X-Gm-Features: AaiRm51aXVMFxKsJbR-LD3_2zLUFOipVvVtcthTE8DDfi3fO_HuzfXz46BmMPm8
-Message-ID: <CAJnrk1a0BLS1+1uf8BqKCZ6+vXdxDHkp3WtjGgz8A4e=sx9C0g@mail.gmail.com>
-Subject: Re: Hang in generic/648 on zoned btrfs after aa35dd5cbc06 ("iomap:
- fix invalid folio access after folio_end_read()")
-To: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>
-Cc: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Mar 9, 2026 at 9:37=E2=80=AFAM Johannes Thumshirn
-<Johannes.Thumshirn@wdc.com> wrote:
->
-> Hi Joanne,
->
-> After commit aa35dd5cbc06 ("iomap: fix invalid folio access after
-> folio_end_read()") my zoned btrfs test setup hangs. I've bisected it to
-> this commit and reverting fixes my problem. The last thing I see in
-> dmesg is:
->
-> [    9.387175] ------------[ cut here ]------------
-> [    9.387320] WARNING: fs/iomap/buffered-io.c:487 at
-> iomap_read_end+0x11c/0x140, CPU#5: (udev-worker)/463
-> [    9.387431] Modules linked in:
-> [    9.387502] CPU: 5 UID: 0 PID: 463 Comm: (udev-worker) Not tainted
-> 6.19.0-rc1+ #385 PREEMPT(full)
-> [    9.387626] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996),
-> BIOS 1.17.0-9.fc43 06/10/2025
-> [    9.387810] RIP: 0010:iomap_read_end+0x11c/0x140
-> [    9.387886] Code: 00 48 89 ef 48 3b 04 24 0f 94 04 24 44 0f b6 34 24
-> e8 b8 88 69 00 48 89 df 48 83 c4 08 41 0f b6 f6 5b 5d 41 5e e9 54 e7 e8
-> ff <0f> 0b e9 48 ff ff ff ba 00 10 00 00 eb 9d 0f 0b e9 53 ff ff ff 0f
-> [    9.388096] RSP: 0018:ffffc90000e279c0 EFLAGS: 00010206
-> [    9.388178] RAX: ffff888111c6b800 RBX: ffffea0004363900 RCX:
-> 0000000000000000
-> [    9.388281] RDX: 0000000000000000 RSI: 0000000000000400 RDI:
-> ffffea0004363900
-> [    9.388386] RBP: 0000000000000000 R08: 0000000000000000 R09:
-> 0000000000000001
-> [    9.388491] R10: ffffc90000e279a0 R11: ffff888111c6c168 R12:
-> ffffffff81e5cdb0
-> [    9.388585] R13: ffffc90000e27c58 R14: ffffea0004363900 R15:
-> ffffc90000e27c58
-> [    9.388690] FS:  00007f6e03fdfc00(0000) GS:ffff8882b4c13000(0000)
-> knlGS:0000000000000000
-> [    9.388793] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [    9.388873] CR2: 00007f6e03280000 CR3: 00000001106d7006 CR4:
-> 0000000000770eb0
-> [    9.388967] PKRU: 55555554
-> [    9.389006] Call Trace:
-> [    9.389044]  <TASK>
-> [    9.389087]  iomap_readahead+0x23c/0x2e0
-> [    9.389167]  blkdev_readahead+0x3d/0x50
-> [    9.389222]  read_pages+0x56/0x200
-> [    9.389277]  ? __folio_batch_add_and_move+0x1cf/0x2d0
-> [    9.389354]  page_cache_ra_unbounded+0x1db/0x2c0
-> [    9.389423]  force_page_cache_ra+0x96/0xb0
-> [    9.389470]  filemap_get_pages+0x12f/0x490
-> [    9.389532]  filemap_read+0xed/0x400
-> [    9.389590]  ? lock_acquire+0xd5/0x2b0
-> [    9.389633]  ? blkdev_read_iter+0x6b/0x180
-> [    9.389678]  ? lock_acquire+0xe5/0x2b0
-> [    9.389720]  ? lock_is_held_type+0xcd/0x130
-> [    9.389761]  ? find_held_lock+0x2b/0x80
-> [    9.389813]  ? lock_acquired+0x1e9/0x3c0
-> [    9.389864]  blkdev_read_iter+0x79/0x180
-> [    9.389911]  ? local_clock_noinstr+0x17/0x110
-> [    9.389975]  vfs_read+0x240/0x340
-> [    9.390033]  ksys_read+0x61/0xd0
-> [    9.390083]  do_syscall_64+0x74/0x3a0
-> [    9.390143]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-> [    9.390204] RIP: 0033:0x7f6e048c5c5e
-> [    9.390255] Code: 4d 89 d8 e8 34 bd 00 00 4c 8b 5d f8 41 8b 93 08 03
-> 00 00 59 5e 48 83 f8 fc 74 11 c9 c3 0f 1f 80 00 00 00 00 48 8b 45 10 0f
-> 05 <c9> c3 83 e2 39 83 fa 08 75 e7 e8 13 ff ff ff 0f 1f 00 f3 0f 1e fa
-> [    9.390447] RSP: 002b:00007ffdf50cded0 EFLAGS: 00000202 ORIG_RAX:
-> 0000000000000000
-> [    9.390529] RAX: ffffffffffffffda RBX: 000000013aa55200 RCX:
-> 00007f6e048c5c5e
-> [    9.390619] RDX: 0000000000000200 RSI: 00007f6e0327f000 RDI:
-> 0000000000000014
-> [    9.390704] RBP: 00007ffdf50cdee0 R08: 0000000000000000 R09:
-> 0000000000000000
-> [    9.390789] R10: 0000000000000000 R11: 0000000000000202 R12:
-> 0000000000000000
-> [    9.390866] R13: 000055d5f99fa270 R14: 000055d5f96e5cb0 R15:
-> 000055d5f96e5cc8
-> [    9.390967]  </TASK>
-> [    9.390997] irq event stamp: 54269
-> [    9.391044] hardirqs last  enabled at (54279): [<ffffffff8138ac02>]
-> __up_console_sem+0x52/0x60
-> [    9.391141] hardirqs last disabled at (54288): [<ffffffff8138abe7>]
-> __up_console_sem+0x37/0x60
-> [    9.391240] softirqs last  enabled at (53796): [<ffffffff81304768>]
-> irq_exit_rcu+0x78/0x110
-> [    9.391327] softirqs last disabled at (53787): [<ffffffff81304768>]
-> irq_exit_rcu+0x78/0x110
-> [    9.391420] ---[ end trace 0000000000000000 ]---
->
-> I haven't debugged this further yet, maybe you have an idea what
-> could've caused it. On my side it's trivial to reproduce, so if you
-> can't reproduce it just yell.
+The generic/728 test-case complains that:
+(1) Expected ctime needs to be changed after setxattr;
+(2) Expected ctime needs to be changed after removexattr.
 
-Hi Johannes,
+This patch adds calling inode_set_ctime_current() in
+__hfsplus_setxattr() and hfsplus_removexattr().
 
-Thanks for your report and for bisecting this.
+sudo ./check generic/728
+FSTYP         -- hfsplus
+PLATFORM      -- Linux/x86_64 hfsplus-testing-0001 7.0.0-rc1+ #6 SMP PREEMPT_DYNAMIC Mon Mar  9 14:29:30 PDT 2026
+MKFS_OPTIONS  -- /dev/loop51
+MOUNT_OPTIONS -- /dev/loop51 /mnt/scratch
 
-A few questions:
-1.  From the stack trace it looks like this is happening during a
-block device read triggered by udev-worker's device probing. Does this
-trigger for you consistently when the zoned device is probed or only
-when running the btrfs xfstests generic/648?
+generic/728 35s ...  44s
+Ran: generic/728
+Passed all 1 tests
 
-2.  I tried to repro your setup by running:
-sudo modprobe null_blk nr_devices=3D2 zoned=3D1 zone_size=3D256
-zone_nr_conv=3D8 memory_backed=3D1
-sudo mkdir -p /mnt/test && sudo mkdir -p /mnt/scratch
-sudo mkfs.btrfs -f /dev/nullb0
-sudo mount /dev/nullb0 /mnt/test
-sudo ./check generic/648
+Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
+cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+cc: Yangtao Li <frank.li@vivo.com>
+cc: linux-fsdevel@vger.kernel.org
+---
+ fs/hfsplus/xattr.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-with local.config set to:
-TEST_DEV=3D/dev/nullb0
-TEST_DIR=3D/mnt/test
-SCRATCH_DEV=3D/dev/nullb1
-SCRATCH_MNT=3D/mnt/scratch
-export FSTYP=3Dbtrfs
-
-but I=E2=80=99m not seeing the hang or the WARNING in dmesg show up.  I am
-running it with PREEMPT(full) enabled. Does this match your setup or
-are you doing something differently? Are you using null_blk or an
-actual zoned device? If you are using null_blk, what module parameters
-are you using?
-
-3. If you're able to repro this consistently, would you be able to add
-these lines right above the WARN_ON on line 487 and sharing what it
-prints out?
-
-+++ b/fs/iomap/buffered-io.c
-@@ -484,6 +484,17 @@ static void iomap_read_end(struct folio *folio,
-size_t bytes_submitted)
-                 * to the IO helper, in which case we are responsible for
-                 * unlocking the folio here.
-                 */
-+               if (bytes_submitted) {
-+                       struct inode *inode =3D folio->mapping->host;
-+                       struct block_device *bdev =3D inode->i_sb->s_bdev;
+diff --git a/fs/hfsplus/xattr.c b/fs/hfsplus/xattr.c
+index 9904944cbd54..796a649ea5af 100644
+--- a/fs/hfsplus/xattr.c
++++ b/fs/hfsplus/xattr.c
+@@ -399,6 +399,8 @@ int __hfsplus_setxattr(struct inode *inode, const char *name,
+ 		goto end_setxattr;
+ 	}
+ 
++	inode_set_ctime_current(inode);
 +
-+                       pr_warn("bytes_submitted=3D%zu folio_size=3D%zu
-blkbits=3D%u isize=3D%lld "
-+                               "logical_bs=3D%u physical_bs=3D%u\n",
-+                               bytes_submitted, folio_size(folio),
-inode->i_blkbits,
-+                               i_size_read(inode),
-+                               bdev ? bdev_logical_block_size(bdev) : 0,
-+                               bdev ? bdev_physical_block_size(bdev) : 0);
-+               }
-                WARN_ON_ONCE(bytes_submitted);
-                folio_unlock(folio);
-        }
+ end_setxattr:
+ 	hfs_find_exit(&cat_fd);
+ 	hfs_dbg("finished: res %d\n", err);
+@@ -880,6 +882,8 @@ static int hfsplus_removexattr(struct inode *inode, const char *name)
+ 		goto end_removexattr;
+ 	}
+ 
++	inode_set_ctime_current(inode);
++
+ end_removexattr:
+ 	hfs_find_exit(&cat_fd);
+ 
+-- 
+2.43.0
 
-Thanks,
-Joanne
->
-> Byte,
->
->      Johannes
->
