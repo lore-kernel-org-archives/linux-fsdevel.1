@@ -1,37 +1,31 @@
-Received: from embla.dev.snart.me (embla.dev.snart.me [54.252.183.203])
+Received: from out30-130.freemail.mail.aliyun.com (out30-130.freemail.mail.aliyun.com [115.124.30.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5989D326939
-	for <linux-fsdevel@vger.kernel.org>; Tue, 10 Mar 2026 07:02:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.252.183.203
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 569033CC9F6;
+	Tue, 10 Mar 2026 07:02:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773126125; cv=none; b=PuTzYwFAt2WzRF1SnOu4ERCtY2LOpviTXbp/Mj9cTl91kUex0obAyO4W1qcntlrcggYEZ4NK/brPrIfziAo3cddby7o6/trW8aLwE+6h2x34ktZU0NSR+QPVuMFeVMepR9kqeNyWtGDXHY1rWrG9rnS+mJt4Cq/rWcTDl8Pcg7k=
+	t=1773126154; cv=none; b=GAWTtHErpFtLw/wuiGq3fqln3y6BOcbt4IUCharv/qgUJFLiU4ZyrOKC5JilRLSV2qdM9z1JAxtr+OkLQuQIN/WT8MaBv8RMvPcn2rNai1LKb+g7B9WtNeALmJjKZY5SGKJqyHrsS7xl49ovDHlSg8ArHamrhrjqebBdsKp8iSM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773126125; c=relaxed/simple;
-	bh=CDFAowXSXney0ksXggC7TJpx9IHCIC0+vaMl9LqLXHw=;
+	s=arc-20240116; t=1773126154; c=relaxed/simple;
+	bh=atHg+Sgdle+GXIMCIjO1yPxucOxYmPhxd+RSQKasRmk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YMxZA34BnfX3kyvxx4VmRpvjm+vheJP+ln7RvH7/yLsflofQVdCNCXlYdjh6rHkTGw5in7mnNIpKLoWLiZ5m3LbwbZDN/mGSJUqj4KfAZ1TtpD6dMbN6YBqgr7iCw0OCsKQ2nmNW8Un/3n7Y19l88emNeLiXXzWzqBGRW8zXIYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me; spf=pass smtp.mailfrom=dev.snart.me; dkim=pass (1024-bit key) header.d=dev.snart.me header.i=@dev.snart.me header.b=foJx+wdW; arc=none smtp.client-ip=54.252.183.203
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dev.snart.me
+	 In-Reply-To:Content-Type; b=hJgbs9A0AuW4Q8bWZYhE57xSpq8E9WXR+326vw0iRGRW1ddDZfYuLNWmyEorcTNJ/HOqRMcy81Cg1U4eNXQA5WZLzPr61mjWTLDvSVz5NyFc0pU9rrvm3eBScMdLqOcpZUFV+kMYO+7VwyDz4MK5LTiWwnjKpkVdbtTxCdi7q+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=aQ+yv2k1; arc=none smtp.client-ip=115.124.30.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=dev.snart.me header.i=@dev.snart.me header.b="foJx+wdW"
-Received: from embla.dev.snart.me (localhost [IPv6:::1])
-	by embla.dev.snart.me (Postfix) with ESMTP id 397DD1CBC0;
-	Tue, 10 Mar 2026 07:01:53 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 embla.dev.snart.me 397DD1CBC0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=dev.snart.me; s=00;
-	t=1773126114; bh=CDFAowXSXney0ksXggC7TJpx9IHCIC0+vaMl9LqLXHw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=foJx+wdWSok2pardEAL39vJuk/W9iE8hiA2+tWd7evih0N405Eaoe9z99nWGn031X
-	 YIzo5ZMW0P/uocpKoAtNnQXZKLyCH9FRrxQy1cPxGjHoKoUSi0waMgKJ33oPr7H1Sl
-	 pSur7SHNhVSjsX66ZpkiTBPY7bletUVwn4OOdl44=
-Received: from [192.168.1.18] ([182.226.25.243])
-	by embla.dev.snart.me with ESMTPSA
-	id mlJzNeDBr2nB+wMA8KYfjw
-	(envelope-from <dxdt@dev.snart.me>); Tue, 10 Mar 2026 07:01:53 +0000
-Message-ID: <cf6c2b08-b7ff-4f70-95f4-cdb12ef5a666@dev.snart.me>
-Date: Tue, 10 Mar 2026 16:01:47 +0900
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="aQ+yv2k1"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1773126146; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=8OfXxbZRS7165p6jxMorXrfU7kFI5hv4wFv/bCV1+9s=;
+	b=aQ+yv2k1eXwy1tglptd+aOxzp14ntmoyARiLFP7omumCw9l3qrVMSzUz9luqfbX0w5C2gh9mMTf469aziMQh2abu65CJ85rrMmLyESP8cYsjUGyI3OypsN1r/8F3eRj9/CnxrPNJX7jTo6ha0x5KXZogXamjdO9wwY8F9++CIZc=
+Received: from 30.221.132.177(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0X-fCCDd_1773126144 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Tue, 10 Mar 2026 15:02:25 +0800
+Message-ID: <a15eeac5-8035-4ac5-93b5-5c71f3ce7105@linux.alibaba.com>
+Date: Tue, 10 Mar 2026 15:02:24 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -39,50 +33,62 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/1] exfat: EXFAT_IOC_GET_VALID_DATA ioctl
-To: Namjae Jeon <linkinjeon@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, Sungjong Seo <sj1557.seo@samsung.com>,
- Yuezhang Mo <yuezhang.mo@sony.com>, hyc.lee@gmail.com
-References: <CAKYAXd_8vG6V0NRT_kb76n_yo+d9vvcx6JZbMARC5+C1ovboqw@mail.gmail.com>
- <20260304141713.533168-1-dxdt@dev.snart.me>
- <20260304141713.533168-2-dxdt@dev.snart.me>
- <CAKYAXd_RiCKF1nJK_Jg385VeGxeOUo08s0a_SNgtty2508wDmg@mail.gmail.com>
- <72446d20-f3ae-4acc-86cc-bd8fa3d86f41@dev.snart.me>
- <CAKYAXd97EDFy1yeF=MB0Pc5hR3UTF_u9h=58F6pW6c61DGeWuA@mail.gmail.com>
-From: David Timber <dxdt@dev.snart.me>
-Content-Language: en-US, ko
-Autocrypt: addr=dxdt@dev.snart.me; keydata=
- xjMEYmJg1hYJKwYBBAHaRw8BAQdAf5E+ri1XLtjqYbZdHOyc8oS+1/XJ5bSlbx5WHXmVBZzN
- IERhdmlkIFRpbWJlciA8ZHhkdEBkZXYuc25hcnQubWU+wpQEExYKADwWIQQn/Jn96EMUaIoF
- X+T/ldyyrZpWaAUCYmJg1gIbAwULCQgHAgMiAgEGFQoJCAsCBBYCAwECHgcCF4AACgkQ/5Xc
- sq2aVmjJZwD8COjPlUwccrlRvbNQ6f87DWchtYO0o8W2DNRM3RLps0EA/jEhIbRV6AsyC8jr
- 30Ut3aJ3/mO/6G4sLj7OvkEEBH0MzjgEYmJg1hIKKwYBBAGXVQEFAQEHQFpgtIgaByv9lIEY
- EmpavMO0pYjtu7TMJynwdnGYkN9LAwEIB8J4BBgWCgAgFiEEJ/yZ/ehDFGiKBV/k/5Xcsq2a
- VmgFAmJiYNYCGwwACgkQ/5Xcsq2aVmhFCwEA0kM9VyYB4bLCM7+SuXUUH+5Ec99Nj4RXxFad
- Key9GuwA/2BZK6bNyrLSfEk2JDRoskqf7OIL0wa6JOD5SrBnMe8E
-In-Reply-To: <CAKYAXd97EDFy1yeF=MB0Pc5hR3UTF_u9h=58F6pW6c61DGeWuA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] erofs: introduce nolargefolio mount option
+To: Chao Yu <chao@kernel.org>, xiang@kernel.org
+Cc: linux-erofs@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ Yue Hu <zbestahu@gmail.com>, Jeffle Xu <jefflexu@linux.alibaba.com>,
+ Sandeep Dhavale <dhavale@google.com>, Chunhai Guo <guochunhai@vivo.com>,
+ Hongbo Li <lihongbo22@huawei.com>, Matthew Wilcox <willy@infradead.org>,
+ Jan Kara <jack@suse.cz>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+References: <20260309023053.1685839-1-chao@kernel.org>
+ <02925ac8-64a6-4cd6-bbd4-c37d838f862a@linux.alibaba.com>
+ <dc645bd1-2881-4472-8918-0eada3786ab3@kernel.org>
+From: Gao Xiang <hsiangkao@linux.alibaba.com>
+In-Reply-To: <dc645bd1-2881-4472-8918-0eada3786ab3@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 3/10/26 08:28, Namjae Jeon wrote:
-> Since we can find out the unwritten area through fiemap ioctl(i.e. if
-> fiemap ioctl is supported), wouldn't vdl ioctl be unnecessary?
-Good point. That's one way to estimate VDL, but not the exact VDL.
-FIEMAP is in block unit. The last written cluster does not necessarily
-have all the bytes written to it. AFAIK, struct fiemap_extent does not
-have the info on the actual bytes in use. Also, the info is already
-available through st->st_blocks. Besides, FIEMAP is not that efficient
-when the file is huge and heavily fragmented. The userspace would have
-to do multiple ioctl calls to get to the unwritten extent.
 
-The whole point of the new ioctl is because the VDL does not fit into
-any standard userspace interface. i.e. the case where
 
-    vdl < st->st_size <= st->st_blocks
+On 2026/3/10 14:43, Chao Yu wrote:
+> Xiang,
+> 
+> On 3/9/26 11:03, Gao Xiang wrote:
+>> Hi Chao,
+>>
+>> (+cc -fsdevel, willy, Jan kara)
+>>
+>> On 2026/3/9 10:30, Chao Yu wrote:
+>>> This patch introduces a new mount option 'nolargefolio' for EROFS.
+>>> When this option is specified, large folio will be disabled by
+>>> default for all inodes, this option can be used for environments
+>>> where large folio resources are limited, it's necessary to only
+>>> let specified user to allocate large folios on demand.
+>>
+>> For this kind of options, I think more real backgrounds
+>> about avoiding high-order allocations are needed in the
+>> commit message (at least for later reference) also like
+>> what I observed in:
+>> https://android-review.googlesource.com/c/kernel/common/+/3877981
+> 
+> Basically, the background is about contention scenario on large folio allocation,
+> it's among multiple users including EROFS in Android-system, as it's related to
+> internal scene of product, so I can not provide more details now, I'm sorry
+> about that, but I'm glad to discuss based on the background and pain point once
+> if I can share more, let's see. :)
 
-> Okay, And if we allocate new ioctl number for this, we need to update
-> Documentation/userspace-api/ioctl/ioctl-number.rst
-Sure. Will report back in a few days.
+Understood, but I think it's hard to justify an upstream
+solution without a public load for discussion.  Anyway,
+I can imagine some real workloads which large folios could
+cause unnecessary pressure since I once worked for Android,
+but I think others need an explicit one anyway to justify
+this.
 
-Regards,
-Davo
+As Matthew and Jan mentioned, it's hard to add a per-fs
+knob like this.  If it's Android-specific and no possible
+public infos, I suggest leaving the changes Android
+downstream for now, until the workloads can be made public.
+
+Thanks,
+Gao Xiang
