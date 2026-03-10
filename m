@@ -1,269 +1,157 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9993138A711
-	for <linux-fsdevel@vger.kernel.org>; Tue, 10 Mar 2026 11:14:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773141300; cv=pass; b=H9zi4wBaG4wY1WmsN9wnUuHEcUMGZ2MnC0+Qy4+3fHwKuSbl4lIRk2Q169c5EuPZVo30u8kvGuiwvyhRBITY4VYMHjWVuemP0cx2JFnYD+zTd4icHKl5TqJDdK6D2q0TcfGbv+G9tFAqt4SLP7NqMq7BFyqmq4aIY7UGMsDDB9Y=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773141300; c=relaxed/simple;
-	bh=dbHtgtjj1uiCpkKO0izFY5I6j7foesFHL/JsNithh3U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sUpiI7ZANwldTa4jxEXbIHKpbdhIBJbJYTdrhrJFrghAMkVRmloTNc2NKB+ODnYhck0pAYKTWVXYB5lUgi85WgOgXE2HB6CJwgfT2+5L8u0yThAq8AcIyVi4WBvD8W5KFVOp5Sy1mQTmr6A+9uvtvWEfoKs9jKM6ixHAZLTs+ig=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cmhTVabR; arc=pass smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 689413876B0;
+	Tue, 10 Mar 2026 11:24:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773141858; cv=none; b=VeTUd4UCVxmrskyMzm87HzIkcQDWfwEELIyEPvzvjZ1z/CToxLjseW9v+5dVrxC0FspmgHKpOYBnGHonHhNYInGF6TpRY3/09ZBDNDsEQ+UforgiDsXIBUu7r+p5CxXdnNwcjB9NiEZ0c6dOD6zKDewFZT5C95Rk+QSbiaE9NP8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773141858; c=relaxed/simple;
+	bh=xT53Ttf/NyogikS/gfdkFymB7LtDXRO0Yz6j+bwKsPU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aX1r5lG+WDjqGkk0Fwqqs1hScgJi2aitgJJMRJiBwd2iN1Yn+leS1n+Ocle9dUuoq/aZRRv8QyaTfSaIqHHb0GsFiE2JNGWQHzztFTZdLlqS7cLwTQq3n+LEpqNaqTZtmSs2KQ3Ebcwg2PJ00Bj8qnW5qMgigTuTWtOeqo/7388=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JkOoejQb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cmhTVabR"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-661f8ea8a2bso5132786a12.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 10 Mar 2026 04:14:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773141297; cv=none;
-        d=google.com; s=arc-20240605;
-        b=kWNgYoR3enKsbK8gEusJv9iLU2KLL38LoDr8dnHuuh+7iobT9p1NxzOiE8E7NYa9cJ
-         42c4C7zNuIEZAGFuHSY2seaW0ORj4Nq5z/CIa6rKE/xO51I6jpe1vqWx/odzLaokFtRc
-         u5IHGl92ANCPyCiU9EXcRbnev6kzS1i6AzzqquKxGH76MGSeyylQw6Mk2D0axg9B923Q
-         YqlBjRM6cI2HOHDtiaJiQM39gBCawe7FZyB0tAx7OFN/BMzHMnpTQHCk8bCvByQLTskW
-         mSIkF2ODabtkQ90f1yWvHKKqxVVKvA7fwxnzj+Ud9bTgriZqNNk0vAlpUHDXrGm+x2wc
-         /KqA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=dbHtgtjj1uiCpkKO0izFY5I6j7foesFHL/JsNithh3U=;
-        fh=lHDOyPk3whSDIo+2UHjBFvLwRQpiAOA5WqRCRSHQjGY=;
-        b=lApLlfNgG3cPYsAkJ40+loYWts+gAkhAAWvb5KZmHsOrsxyMy+bO8zhmAOzk9eC3q/
-         sZcDKENVi5WEHRYYDB9vgPiek3g1LnxgSqqiyKX1UEoWaQuxMiBpgBvZrEQ8HGasbO2Y
-         Xu7inb9OM/fSx5d8JYEHrB7IFFujl+eOm6kWch/wEdrwc60WPv0/9voVX2GdGmPjfLBD
-         fNgCtw9w4jSfjU3CdCoLemxeF/udb2X1/uJkygUvXCIxpAJkZUtcV++dsNfW+P9o2U36
-         MM76fdeglZ3dlPH9H7+QSTRg6476Mj4U2W74PcX6zbGYZjDKzqJ/XTzYx26KHhisW60K
-         ciNQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773141297; x=1773746097; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dbHtgtjj1uiCpkKO0izFY5I6j7foesFHL/JsNithh3U=;
-        b=cmhTVabRfcMrc4wSXFnp3OcwjLUjUzFFp1itpIDQLtUXsvzwjdIXq0+v0GG+hV9s9j
-         fu11+h70q3XaFt2qM+Dk/QvzbQJyVHlHSlVlUK95JD/0O+pKckjeWtiPr1KH/FjCbtIt
-         MCrQdBCH/CwlYlhg7siXxu3jqPeW9t4DgfqjWAjMHhXDtYzRiQNHdzrMWTtj5hU2G7Qa
-         ZNd5y/GjKVbqAdIttKjAhyaNsBpzXavjSZq6x8SVBlOXzIbzjXlvtXqJahVR30r9ciCh
-         wn2AozUI0qUrgRRZuhiyUXL0uA6hFsG8cj6sDmI+G7AveN6eprpzQm7W/X8LHB7QZ+hT
-         GSsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773141297; x=1773746097;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=dbHtgtjj1uiCpkKO0izFY5I6j7foesFHL/JsNithh3U=;
-        b=J7R8fMvfh37+6hBjtqalF84madnRdrEwYpiUqHBGBZMFKiL0hAORyeNGVffe2Nf1/I
-         GCEIf5Nvko4iuJgDsWIy8hQafjIRVfW57nS6FeeqwQM6ZXQrTSF8+w2KxhcaqO4u8gx2
-         SyUBTgLsMsO4c86JMp0zuXwBifhDnNhlTw6wX7RNj7yjfz9RByqRWTHR5zcYQ9pyp07T
-         n9PTMbMjiMXi+10uFea+Gsba0UtXS03SHjDZFVysSps3P767/3iS0hyXdnmgAH/NwEg9
-         useLZnU2UgghrqkGu0fO6dsvtTnhYg5r3fZWx2qjq844mgVdUCxru6qDfnlVLNVyoy6m
-         Hulg==
-X-Forwarded-Encrypted: i=1; AJvYcCVEXPVuzWSXaIeHJMnSqgm7Eeb6YDWeaadVHMV8l1hRVUIOlUWnVlF1+mTjT08XEj4MDh4z5UNqC1piUGI/@vger.kernel.org
-X-Gm-Message-State: AOJu0YzkqPdbGwy2r3W0yKJYX20yDhk/g+CBFkWPTfnmaOtZ2OXaCj4C
-	rAxyC3f30tyzRSMPEuAZPA0O5MAPOdqCXDt3VG58W/XRE7w7DuwGqvIdt8PsmxQb4xgolcoMCro
-	v/GZrNaZzGsGt8yOHrJGVlIA60bhpQXQ=
-X-Gm-Gg: ATEYQzwbZrbz/rJXxzkaKDje6/P+Nwx4GRyQOlXS9OzT7YK4+D3IVtLgOaMtDywVDqg
-	moXL3d/YdeyiTxtXuTCFGg+pfgmEuwiG0Ic7xp9IJyuUNnWjLIeUmPjGHUoawvjQwDgp1Q87htD
-	2O1dbwZOhJMXfmpZ6q60QeEmClNG0IFdmB5gBt+PNjy0FICpCN0acKMTKc0ebC0HT6IVtNuhqcl
-	40e/Eca7h9TJDsO+upS8/W+nWm65biAqh1XqGNuZM9kJaVOxkjrRtwNr3hWrtMNkyJtzGab6LNu
-	dDnVyxIazOPdY/dEebjnxNg9gszV6mQCm0amiwBE4w==
-X-Received: by 2002:a17:907:9810:b0:b96:fbeb:f791 with SMTP id
- a640c23a62f3a-b96fbec06cbmr326472066b.47.1773141296269; Tue, 10 Mar 2026
- 04:14:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JkOoejQb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8497BC19423;
+	Tue, 10 Mar 2026 11:24:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773141858;
+	bh=xT53Ttf/NyogikS/gfdkFymB7LtDXRO0Yz6j+bwKsPU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JkOoejQbIY5sFLhLxCkOVN4kxiKJQN7lTCbiqMhI2bPYZCWqCDH0QcPHkf9E94N1P
+	 jGKWxOZDnrBvfZwk3KlNfSPE8lrfyGUmy/E8KZRXnZ3WA2W+jaNVCXVB0fdXzl2Epk
+	 xdyGfd3tLRQx0V4K/FAplurzOKD4T7ZCDXJbb1/yW+bnAtN/DEPHfz+j7RrHKIT4et
+	 mst/xUtfedv4qkVcmjou7az+d7Do3wm3dxVhtCDP9L1/BM2ZP0qghkq/jyHg4SSkSp
+	 MiB5UsygHd+YPYVvodLr6rfXKh/5Fgbcu9NvSb0LZNXu/UpDt3L4jAOcvxUwz9rzo4
+	 xluXx/3QcCvGA==
+Date: Tue, 10 Mar 2026 12:24:05 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Andy Lutomirski <luto@amacapital.net>
+Cc: Jeff Layton <jlayton@kernel.org>, 
+	Dorjoy Chowdhury <dorjoychy111@gmail.com>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-api@vger.kernel.org, ceph-devel@vger.kernel.org, gfs2@lists.linux.dev, 
+	linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org, v9fs@lists.linux.dev, 
+	linux-kselftest@vger.kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz, chuck.lever@oracle.com, 
+	alex.aring@gmail.com, arnd@arndb.de, adilger@dilger.ca, mjguzik@gmail.com, 
+	smfrench@gmail.com, richard.henderson@linaro.org, mattst88@gmail.com, 
+	linmag7@gmail.com, tsbogend@alpha.franken.de, James.Bottomley@hansenpartnership.com, 
+	deller@gmx.de, davem@davemloft.net, andreas@gaisler.com, idryomov@gmail.com, 
+	amarkuze@redhat.com, slava@dubeyko.com, agruenba@redhat.com, trondmy@kernel.org, 
+	anna@kernel.org, sfrench@samba.org, pc@manguebit.org, ronniesahlberg@gmail.com, 
+	sprasad@microsoft.com, tom@talpey.com, bharathsm@microsoft.com, shuah@kernel.org, 
+	miklos@szeredi.hu, hansg@kernel.org
+Subject: Re: [PATCH v5 1/4] openat2: new OPENAT2_REGULAR flag support
+Message-ID: <20260310-ausdehnen-wahrnehmen-f9d9c6224799@brauner>
+References: <20260307140726.70219-1-dorjoychy111@gmail.com>
+ <20260307140726.70219-2-dorjoychy111@gmail.com>
+ <CALCETrXVBA9uGEUdQPEZ2MVdxjLwwcWi5kzhOr1NdOWSSRaROw@mail.gmail.com>
+ <801cf2c42b80d486726ea0a3774e52abcb158100.camel@kernel.org>
+ <CALCETrVt7o+7JCMfTX3Vu9PANJJgR8hB5Z2THcXzam61kG9Gig@mail.gmail.com>
+ <20260309-umsturz-herfallen-067eb2df7ec2@brauner>
+ <CALCETrWjb+V-zrMT412MtmgDCx9y8simJBQ7+45C9MtdiSMnuw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260307110550.373762-1-amir73il@gmail.com> <20260309-einrad-mitarbeit-18397e65afd3@brauner>
- <CAOQ4uxgmttSum2a2gKBkpdzg4110rpaH4mayy=9+QzWjFRNB6w@mail.gmail.com> <20260310-inkompatibel-staufer-7c862857ac62@brauner>
-In-Reply-To: <20260310-inkompatibel-staufer-7c862857ac62@brauner>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Tue, 10 Mar 2026 12:14:45 +0100
-X-Gm-Features: AaiRm52y5lAAEAvon4UNdmu-oz74AEop0QTJY2p9s25yMxH4bm_VCMdHdlASpVw
-Message-ID: <CAOQ4uxiXE3Ko60_Y6ZNmxkORjOFTCACR0PeTz51nZKWHMR=+og@mail.gmail.com>
-Subject: Re: [RFC][PATCH 0/5] fanotify namespace monitoring
-To: Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>, Lennart Poettering <lennart@poettering.net>, Tejun Heo <tj@kernel.org>, 
-	"T . J . Mercier" <tjmercier@google.com>, linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CALCETrWjb+V-zrMT412MtmgDCx9y8simJBQ7+45C9MtdiSMnuw@mail.gmail.com>
 
-On Tue, Mar 10, 2026 at 11:31=E2=80=AFAM Christian Brauner <brauner@kernel.=
-org> wrote:
->
-> On Mon, Mar 09, 2026 at 04:47:20PM +0100, Amir Goldstein wrote:
-> > On Mon, Mar 9, 2026 at 1:33=E2=80=AFPM Christian Brauner <brauner@kerne=
-l.org> wrote:
-> > >
-> > > On Sat, Mar 07, 2026 at 12:05:45PM +0100, Amir Goldstein wrote:
-> > > > Jan,
-> > > >
-> > > > Similar to mount notifications and listmount(), this is the complem=
-entary
-> > > > part of listns().
-> > > >
-> > > > The discussion about FAN_DELETE_SELF events for kernfs [1] for cgro=
-up
-> > > > tree monitoring got me thinking that this sort of monitoring should=
- not be
-> > > > tied to vfs inodes.
-> > > >
-> > > > Monitoring the cgroups tree has some semantic nuances, but I am tol=
-d by
-> > > > Christian, that similar requirement exists for monitoring namepsace=
- tree,
-> > > > where the semantics w.r.t userns are more clear.
-> > > >
-> > > > I prepared this RFC to see if it meets the requirements of userspac=
-e
-> > > > and think if that works, the solution could be extended to monitori=
-ng
-> > > > cgroup trees.
-> > > >
-> > > > IMO monitoring namespace trees and monitoring filesystem objects do=
- not
-> > > > need to be mixed in the same fanotify group, so I wanted to try usi=
-ng
-> > > > the high 32bits for event flags rather than wasting more event flag=
-s
-> > > > in low 32bit. I remember that I wanted to so that for mount monitor=
-ing
-> > > > events, but did not insist, so too bad.
-> > > >
-> > > > However, the code for using the high 32bit in uapi is quite ugly an=
-d
-> > > > hackish ATM, so I kept it as a separate patch, that we can either t=
-hrow
-> > > > away or improve later.
-> > > >
-> > > > Christian/Lennart,
-> > > >
-> > > > I had considered if doing "recursive watches" to get all events fro=
-m
-> > > > descendant namepsaces is worth while and decided with myself that i=
-t was
-> > > > not.
-> > > >
-> > > > Please let me know if this UAPI meets your requirements.
-> > >
-> > > I think this looks great overall and is very useful as it allows to
-> > > monitor namespace events outside of bpf lsms. I agree with the
-> > > non-recursive design. You could generalize this approach by deriving =
-the
-> > > watch from the namespace file descriptor? Then you can get notificati=
-ons
-> > > for all types of namespaces.
+On Mon, Mar 09, 2026 at 09:50:18AM -0700, Andy Lutomirski wrote:
+> On Mon, Mar 9, 2026 at 1:58 AM Christian Brauner <brauner@kernel.org> wrote:
 > >
-> > Not sure what you mean?
-> > Which type of notifications?
-> > This RFC generates notifications for all types of namespaces created/de=
-leted
-> > under the watched userns.
->
-> I misunderstood that part. Yes, that's really useful as is.
->
+> > On Sun, Mar 08, 2026 at 10:10:05AM -0700, Andy Lutomirski wrote:
+> > > On Sun, Mar 8, 2026 at 4:40 AM Jeff Layton <jlayton@kernel.org> wrote:
+> > > >
+> > > > On Sat, 2026-03-07 at 10:56 -0800, Andy Lutomirski wrote:
+> > > > > On Sat, Mar 7, 2026 at 6:09 AM Dorjoy Chowdhury <dorjoychy111@gmail.com> wrote:
+> > > > > >
+> > > > > > This flag indicates the path should be opened if it's a regular file.
+> > > > > > This is useful to write secure programs that want to avoid being
+> > > > > > tricked into opening device nodes with special semantics while thinking
+> > > > > > they operate on regular files. This is a requested feature from the
+> > > > > > uapi-group[1].
+> > > > > >
+> > > > >
+> > > > > I think this needs a lot more clarification as to what "regular"
+> > > > > means.  If it's literally
+> > > > >
+> > > > > > A corresponding error code EFTYPE has been introduced. For example, if
+> > > > > > openat2 is called on path /dev/null with OPENAT2_REGULAR in the flag
+> > > > > > param, it will return -EFTYPE. EFTYPE is already used in BSD systems
+> > > > > > like FreeBSD, macOS.
+> > > > >
+> > > > > I think this needs more clarification as to what "regular" means,
+> > > > > since S_IFREG may not be sufficient.  The UAPI group page says:
+> > > > >
+> > > > > Use-Case: this would be very useful to write secure programs that want
+> > > > > to avoid being tricked into opening device nodes with special
+> > > > > semantics while thinking they operate on regular files. This is
+> > > > > particularly relevant as many device nodes (or even FIFOs) come with
+> > > > > blocking I/O (or even blocking open()!) by default, which is not
+> > > > > expected from regular files backed by “fast” disk I/O. Consider
+> > > > > implementation of a naive web browser which is pointed to
+> > > > > file://dev/zero, not expecting an endless amount of data to read.
+> > > > >
+> > > > > What about procfs?  What about sysfs?  What about /proc/self/fd/17
+> > > > > where that fd is a memfd?  What about files backed by non-"fast" disk
+> > > > > I/O like something on a flaky USB stick or a network mount or FUSE?
+> > > > >
+> > > > > Are we concerned about blocking open?  (open blocks as a matter of
+> > > > > course.)  Are we concerned about open having strange side effects?
+> > > > > Are we concerned about write having strange side effects?  Are we
+> > > > > concerned about cases where opening the file as root results in
+> > > > > elevated privilege beyond merely gaining the ability to write to that
+> > > > > specific path on an ordinary filesystem?
 > >
-> > Which notifications did you intend to watch for other types of ns?
-> > DELETE_SELF?
-> >
-> > That would be easy to add.
-> > Would just need to move the n_fsnotify_marks/mask to struct ns_common
-> > (also from mnt_namespace).
->
-> Yes, I was thinking about a way to monitor namespace destruction for an
-> arbitrary namespace.
->
-> >
-> > >
-> > > If we ever want recursive watches, then we just need to add a separat=
-e
-> > > flag. This is only applicable to userns and pidns anyway.
-> >
-> > Yes, if we wanted to.
-> >
-> > >
-> > > I want to put another - crazier idea - in your head: Since pidfds are
-> > > file descriptors and now have the ability to persist information past
-> > > pidfd closure via struct pid->attr it is possible to allow fanotify
-> > > watches on pidfds.
-> > >
-> > > I think that this opens up a crazy amount of possibilities that will =
-be
-> > > tremendously useful - also would mean fsnotify outside of fs/ proper.
-> > > Just thinking on the spot: if you allow marking a pidfd it's super ea=
-sy
-> > > to plumb exec notifications via fanotify on top of it. It's also easy=
- to
-> > > monitor _all_ namespace events for a specific process via pidfds.
-> >
-> > Anything's possible, but we need to make sure it's worth it.
-> > Aren't there already enough ways to monitor a process via ptrace/landlo=
-ck?
->
-> Oh god, no. ;)
-> ptrace() is way too heavy handed for usages outside of debugging tools
-> such as strace and also has the downside that only one ptracer can be
-> attached at any time. I have no idea about landlock but it is an LSM and
-> I don't know why an LSM should have such notification abilities.
->
-> fanotify on the other has no odd limitations and it naturally ties in
-> with filesystem objects and with pidfs we've made processes filesystem
-> objects. So I think this is a very natural fit.
->
-> So you could just register a pidfd with fanotify and then get notified
-> about exec events for that pidfd with arbitrary metadata attached to it
-> if need. I've wanted this for a long time and one way I thought about
-> going about this is by somehow plubming this into poll for pidfd but
-> that's not going to scale as we grow more notifications events for
-> pidfds.
->
-> I think fanotify is the perfect fit for this with its extensible model.
->
+> > I think this is opening up a barrage of question that I'm not sure are
+> > all that useful. The ability to only open regular file isn't intended to
+> > defend against hung FUSE or NFS servers or other random Linux
+> > special-sauce murder-suicide file descriptor traps. For a lot of those
+> > we have O_PATH which can easily function with the new extension. A lot
+> > of the other special-sauce files (most anonymous inode fds) cannot even
+> > be reopened via e.g., /proc.
+> 
+> On the flip side, /proc itself can certainly be opened.  Should
+> O_REGULAR be able to open the more magical /proc and /sys files?  Are
+> there any that are problematic?
 
-I have no objection to utilizing fanotify beyond fs boundaries,
-but if we do that, I think we need to carefully partition the event flags
-namespace.
+If procfs job isn't to provide problematic files to userspace I'm not
+sure what it is. Joking aside, I think in general you are of course
+right that procfs is full of files that under a very strict
+interpretation of "regular file" should absolutely not count as a
+regular file. sysfs probably as well and let's ignore debugfs and
+tracefs and all the other magic filesystems or files.
 
-As I wrote in the cover letter, I see no reason for FAN_MARK_FILESYSTEM
-watch to be in the same group (fanotifyfd) as FAN_MARK_USERNS or
-FAN_MARK_MNTNS for than matter.
+In general, Linux has been so loosey-goosey with "regular file" for such
+a long-time that making OPENAT2_REGULAR come up with some strict
+definition of "this is a regular file - no really, pinky-promise a
+regular one" - is just doomed to fail.
 
-I would rather use something like FAN_CLASS_PROC classification
-to explicitly say "this fanotifyfd is only for process/namespace notificati=
-ons"
-and in this context user would use completely different event constants.
+The other problem is that we cannot reasonably determine what odd file
+the user really wanted to defend against opening with OPENAT2_REGULAR.
+A caller may really want to open /proc/kmsg and just be sure that
+someone didn't overmount it with a fifo (systemd does that in containers
+iirc).
 
-OTOH, maybe it will be less confusing to add new syscalls
-pnotify_init()/pnotify_mark() as a frontend to this separate class of event=
-s.
-If for no other reason, then because fanotify_mark(2) man page is
-getting out of control ;)
+My personal "hot take" is that adding an api built around a regular file
+with immediate irreversible side-effects for the caller on VFS
+syscall-based open [1] is a bug. Such broken semantics is what ioctl()s
+are for.
 
-> >
-> > >
-> > > This obviously needs some thinking wrt security etc but I just want t=
-o
-> > > put the thought out there that the integration of pidfds and fanotify=
- is
-> > > possible.
-> >
-> > I was thinking more about watching the entire pidfs space, but sure.
->
-> That's certainly possible too. Initially it would have to be scoped to
-> global admin privileges but ultimately you could probably filter by
-> credentials - if needed.
+[1]: I mean specifically open(), openat2() etc. I'm excluding all
+     dedicated APIs that return file descriptors that cannot be reopened
+     via regular lookup.
 
-Or watch all processes in a pidns.
-
-The leading rule is if the object (e.g. pidns) is accessible in
-the context of the event, then we could setup a watch on the object.
-
-Thanks,
-Amir.
+From my pov, what would help is if one had a flexible way to scope opens
+on e.g., filesystem. But imo, that is not policy the kernel can
+reasonably express at the syscall api layer - it would look fugly as
+hell and how many other knobs would we have to add to satisfy all needs.
+I think that is best left to an lsm hooking into security_file_open()
+which can maintain a map of files and filesystems to allow or deny - a
+bpf lsm can do this quite nicely.
