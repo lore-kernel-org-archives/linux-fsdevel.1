@@ -1,220 +1,64 @@
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A58F2D9484
-	for <linux-fsdevel@vger.kernel.org>; Tue, 10 Mar 2026 14:24:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B002B27FB05;
+	Tue, 10 Mar 2026 14:40:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773152681; cv=none; b=klqO63JXBvOvt/xq0ZGPSKH23yg+/DIrwhDX62P282IWoTOzNJUqOSf4DFo7kBmqLxCzeMAJ2HF5AL08q9AkLXWIQmkQPu7zAaious6wSrfE52HZXcy3KRWjOA2HzGPbReT5hX7i0iJ1w8QK3wKghuZNplOJDIkT8E+CcprekMA=
+	t=1773153612; cv=none; b=oBp4Hcfh0ILzZf2qftZ1di7WpgFrfkVizZdRB0jkRde2HBH/vl7FRmAKQsSwKoLFIerC//Ltrhq09rP1OcgMulNh4PaTkLZPydU5JP7iH0T3gY9BM8F/pyD1RQG8xpnxjWsUQoHvZqy3IhTpA6XudGVJ9a2kQP/20P+FWFX5cd0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773152681; c=relaxed/simple;
-	bh=XwidptKIhvR+UF4aaOLrgKMULsgr14IRJkHhby+ViXQ=;
+	s=arc-20240116; t=1773153612; c=relaxed/simple;
+	bh=xfefwHQwZ0tT8OgxngTpIn/dJOBz/WqZnl9m10qhBbY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GEE67eAyAaV3PkSVrxz17Iv6h0h8FSh2uXcSj/ASBRVno6JU6/VjjS1Rgx0Rh6TT4jiwL0GjidmsiW65gxaABsEX/vpSrIAgzxRtHkTp1FsgJ54iSguCDdH6Ofm00EDjqYXV9GtRlUwoRFraYIwqILatzZXABb27chUDo1gJphA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=F6C5rtqO; arc=none smtp.client-ip=18.9.28.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+	 Content-Type:Content-Disposition:In-Reply-To; b=B/BB9eOhA3+jmJ38beBWBP52bA/SLhfgeJzLSUd7QYVg66r+44o+Agg5yhhJjnyaVF2GOMZk8fGs60g1KFClveMkia+0VzOdo2TFp5hD+vtQwEn0WxPb4vof9sTrn6CBuSYW0ggTV+y96k7K/NWhuhgeplvMC77+wNSel+C6prU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NzLkGsdr; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="F6C5rtqO"
-Received: from macsyma.thunk.org (pool-173-48-117-133.bstnma.fios.verizon.net [173.48.117.133])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 62AENmx0023256
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 10 Mar 2026 10:23:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1773152637; bh=4/p8AtxdJ3b4aYgpRIBgOOPVM9R5HZLzlaxPPsEZ2Q4=;
-	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
-	b=F6C5rtqODrQpEwdwVTgFCawAhLv3gwk1txjCpTf9qYEhws10oNToQIbXrBSiNnSGn
-	 HKzLPM0wlhbQz5hd3KNNbDsKNUIOcLP5D+4J1qJhv/m9AJCmBvmBntSwPXXBcrZ48c
-	 UG5I74ocwzVwmg9UHdT0hLejm00ahwJz4Tby2LgiJXvFIYDaYDAoayC1G2vaNRdttd
-	 dnaccWPVwGwuO0YYJTFV0/A1hSU2yI/onO0qlICZ11ISIKYrG0S38XY0XZ07wXHuQf
-	 SRLcsUXeYesD2NrtHf5Vg5nqM+e/voDzSfyx+6EAL02kYRxR5zwo7A3kwnstvVAN1a
-	 N4dmfF0o4YLWg==
-Received: by macsyma.thunk.org (Postfix, from userid 15806)
-	id 96A8A5C4FCED; Tue, 10 Mar 2026 10:23:48 -0400 (EDT)
-Date: Tue, 10 Mar 2026 10:23:48 -0400
-From: "Theodore Tso" <tytso@mit.edu>
-To: Philipp Hahn <phahn-oss@avm.de>
-Cc: amd-gfx@lists.freedesktop.org, apparmor@lists.ubuntu.com,
-        bpf@vger.kernel.org, ceph-devel@vger.kernel.org, cocci@inria.fr,
-        dm-devel@lists.linux.dev, dri-devel@lists.freedesktop.org,
-        gfs2@lists.linux.dev, intel-gfx@lists.freedesktop.org,
-        intel-wired-lan@lists.osuosl.org, iommu@lists.linux.dev,
-        kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
-        linux-btrfs@vger.kernel.org, linux-cifs@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-erofs@lists.ozlabs.org,
-        linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-mm@kvack.org,
-        linux-modules@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-nfs@vger.kernel.org, linux-omap@vger.kernel.org,
-        linux-phy@lists.infradead.org, linux-pm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-sctp@vger.kernel.org,
-        linux-security-module@vger.kernel.org, linux-sh@vger.kernel.org,
-        linux-sound@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
-        linux-trace-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
-        ntfs3@lists.linux.dev, samba-technical@lists.samba.org,
-        sched-ext@lists.linux.dev, target-devel@vger.kernel.org,
-        tipc-discussion@lists.sourceforge.net, v9fs@lists.linux.dev,
-        Julia Lawall <Julia.Lawall@inria.fr>,
-        Nicolas Palix <nicolas.palix@imag.fr>, Chris Mason <clm@fb.com>,
-        David Sterba <dsterba@suse.com>, Ilya Dryomov <idryomov@gmail.com>,
-        Alex Markuze <amarkuze@redhat.com>,
-        Viacheslav Dubeyko <slava@dubeyko.com>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Steve French <sfrench@samba.org>, Paulo Alcantara <pc@manguebit.org>,
-        Ronnie Sahlberg <ronniesahlberg@gmail.com>,
-        Shyam Prasad N <sprasad@microsoft.com>, Tom Talpey <tom@talpey.com>,
-        Bharath SM <bharathsm@microsoft.com>,
-        Eric Van Hensbergen <ericvh@kernel.org>,
-        Latchesar Ionkov <lucho@ionkov.net>,
-        Dominique Martinet <asmadeus@codewreck.org>,
-        Christian Schoenebeck <linux_oss@crudebyte.com>,
-        Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>,
-        Yue Hu <zbestahu@gmail.com>, Jeffle Xu <jefflexu@linux.alibaba.com>,
-        Sandeep Dhavale <dhavale@google.com>,
-        Hongbo Li <lihongbo22@huawei.com>, Chunhai Guo <guochunhai@vivo.com>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-        Andreas Gruenbacher <agruenba@redhat.com>, Kees Cook <kees@kernel.org>,
-        Tony Luck <tony.luck@intel.com>,
-        "Guilherme G. Piccoli" <gpiccoli@igalia.com>, Jan Kara <jack@suse.com>,
-        Phillip Lougher <phillip@squashfs.org.uk>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Tejun Heo <tj@kernel.org>, David Vernet <void@manifault.com>,
-        Andrea Righi <arighi@nvidia.com>, Changwoo Min <changwoo@igalia.com>,
-        Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Valentin Schneider <vschneid@redhat.com>,
-        Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
-        Daniel Gomez <da.gomez@kernel.org>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Aaron Tomlin <atomlin@atomlin.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        Max Filippov <jcmvbkbc@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
-        John Johansen <john.johansen@canonical.com>,
-        Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
-        Mikulas Patocka <mpatocka@redhat.com>,
-        Benjamin Marzinski <bmarzins@redhat.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        David Ahern <dsahern@kernel.org>, Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-        Simon Horman <horms@kernel.org>, Marcel Holtmann <marcel@holtmann.org>,
-        Johan Hedberg <johan.hedberg@gmail.com>,
-        Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        Stanislav Fomichev <sdf@fomichev.me>,
-        Jamal Hadi Salim <jhs@mojatatu.com>, Jiri Pirko <jiri@resnulli.us>,
-        Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
-        Xin Long <lucien.xin@gmail.com>, Trond Myklebust <trondmy@kernel.org>,
-        Anna Schumaker <anna@kernel.org>, Chuck Lever <chuck.lever@oracle.com>,
-        Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>,
-        Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>,
-        Jon Maloy <jmaloy@redhat.com>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Russell King <linux@armlinux.org.uk>, John Crispin <john@phrozen.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Zhenyu Wang <zhenyuw.linux@gmail.com>,
-        Zhi Wang <zhi.wang.linux@gmail.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Tvrtko Ursulin <tursulin@ursulin.net>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Sandy Huang <hjc@rock-chips.com>,
-        Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
-        Andy Yan <andy.yan@rock-chips.com>,
-        Igor Russkikh <irusskikh@marvell.com>,
-        Andrew Lunn <andrew+netdev@lunn.ch>,
-        Pavan Chebbi <pavan.chebbi@broadcom.com>,
-        Michael Chan <mchan@broadcom.com>,
-        Potnuri Bharat Teja <bharat@chelsio.com>,
-        Tony Nguyen <anthony.l.nguyen@intel.com>,
-        Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-        Taras Chornyi <taras.chornyi@plvision.eu>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Iyappan Subramanian <iyappan@os.amperecomputing.com>,
-        Keyur Chudgar <keyur@os.amperecomputing.com>,
-        Quan Nguyen <quan@os.amperecomputing.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>, Marc Zyngier <maz@kernel.org>,
-        Thomas Gleixner <tglx@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Vinod Koul <vkoul@kernel.org>, Linus Walleij <linusw@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Eduardo Valentin <edubezval@gmail.com>, Keerthy <j-keerthy@ti.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-        Alex Williamson <alex@shazbot.org>,
-        Mark Greer <mgreer@animalcreek.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>, Lee Jones <lee@kernel.org>,
-        Pavel Machek <pavel@kernel.org>, Dave Penkler <dpenkler@gmail.com>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
-        Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
-        Justin Sanders <justin@coraid.com>, Jens Axboe <axboe@kernel.dk>,
-        Georgi Djakov <djakov@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Subject: Re: [PATCH 00/61] treewide: Use IS_ERR_OR_NULL over manual NULL
- check - refactor
-Message-ID: <20260310142348.GA41218@macsyma-wired.lan>
-References: <20260310-b4-is_err_or_null-v1-0-bd63b656022d@avm.de>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NzLkGsdr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773153611; x=1804689611;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xfefwHQwZ0tT8OgxngTpIn/dJOBz/WqZnl9m10qhBbY=;
+  b=NzLkGsdrX1pOLujsZsqfJrSla/9hjWz3co3C/HxTQQJoyeo5QvtDDwBy
+   KGY7nO/IqZWW/vCRPZZ3E0ayhIDVTpcB6l9tnI7LKBWHyr7FXx0D0stRE
+   AgActgY0nQK3jhxEIgWDJfCCz3dF8O81ZaHRHIj0psSaneZGkckF0lFN8
+   ARi92OsQz5XHTB/xPrMojgVJ67RcJkjdpw5TabsmzR6tWOen1t1UBNXoQ
+   9g3/8nTzA0dtqtwsCtqdnKPmuqIRVSkG1O2rN2YdwLFMac08sBWBPtFeq
+   tjSO5BArUFNw/gVECuJE2DeIQRZFFIvTeGnolLhuCAhg+DXFcObxrcOsX
+   A==;
+X-CSE-ConnectionGUID: 5rj6YssoQbGgRnha4Fh7jg==
+X-CSE-MsgGUID: vXzmDnEITKiPemCMiy5xRQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="85679940"
+X-IronPort-AV: E=Sophos;i="6.23,112,1770624000"; 
+   d="scan'208";a="85679940"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 07:40:11 -0700
+X-CSE-ConnectionGUID: SGxghaRES3mfWIsUZ6Ze6A==
+X-CSE-MsgGUID: JrmFztmCTxihRpJzhIL77Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,112,1770624000"; 
+   d="scan'208";a="218094563"
+Received: from lkp-server01.sh.intel.com (HELO 434e41ea3c86) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 10 Mar 2026 07:40:07 -0700
+Received: from kbuild by 434e41ea3c86 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vzyFg-0000000025A-3i69;
+	Tue, 10 Mar 2026 14:40:04 +0000
+Date: Tue, 10 Mar 2026 22:39:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: George Anthony Vernon <contact@gvernon.com>, slava@dubeyko.com,
+	glaubitz@physik.fu-berlin.de, frank.li@vivo.com
+Cc: oe-kbuild-all@lists.linux.dev,
+	George Anthony Vernon <contact@gvernon.com>,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com,
+	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Subject: Re: [PATCH v3] hfs: Validate CNIDs in hfs_read_inode
+Message-ID: <202603102229.zVuUXq6v-lkp@intel.com>
+References: <20260310000826.242674-1-contact@gvernon.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -223,28 +67,118 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260310-b4-is_err_or_null-v1-0-bd63b656022d@avm.de>
+In-Reply-To: <20260310000826.242674-1-contact@gvernon.com>
 
-On Tue, Mar 10, 2026 at 12:48:26PM +0100, Philipp Hahn wrote:
-> While doing some static code analysis I stumbled over a common pattern,
-> where IS_ERR() is combined with a NULL check. For that there is
-> IS_ERR_OR_NULL().
-> 
-> I've written a Coccinelle patch to find and patch those instances.
-> The patches follow grouped by subsystem.
+Hi George,
 
-I'm going to gently suggest that you *not* try to do this as a
-tree-wide change, since we don't need to change some interface
-requiring a global, flag day change.  This is instead a cleanup, which
-maybe makes the code slightly better, but which also has a the
-downside of breaking lots of inflight development patches by
-potentially causing merge or patch conflicts.
+kernel test robot noticed the following build warnings:
 
-So why don't you send it to each subsystem as a separate patch or
-small patch series, instead of spamming a dozen-plus mailing lists,
-are probably hundreds of developers, most of whom aren't going to
-care about changs in some far flung part of the kernel?
+[auto build test WARNING on brauner-vfs/vfs.all]
+[also build test WARNING on linus/master v7.0-rc3 next-20260309]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Regards,
+url:    https://github.com/intel-lab-lkp/linux/commits/George-Anthony-Vernon/hfs-Validate-CNIDs-in-hfs_read_inode/20260310-081836
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/20260310000826.242674-1-contact%40gvernon.com
+patch subject: [PATCH v3] hfs: Validate CNIDs in hfs_read_inode
+config: microblaze-randconfig-r132-20260310 (https://download.01.org/0day-ci/archive/20260310/202603102229.zVuUXq6v-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 9.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260310/202603102229.zVuUXq6v-lkp@intel.com/reproduce)
 
-						- Ted
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603102229.zVuUXq6v-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> fs/hfs/inode.c:408:55: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] cnid @@     got restricted __be32 [usertype] FlNum @@
+   fs/hfs/inode.c:408:55: sparse:     expected unsigned int [usertype] cnid
+   fs/hfs/inode.c:408:55: sparse:     got restricted __be32 [usertype] FlNum
+>> fs/hfs/inode.c:431:54: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] cnid @@     got restricted __be32 [usertype] DirID @@
+   fs/hfs/inode.c:431:54: sparse:     expected unsigned int [usertype] cnid
+   fs/hfs/inode.c:431:54: sparse:     got restricted __be32 [usertype] DirID
+
+vim +408 fs/hfs/inode.c
+
+   378	
+   379	/*
+   380	 * hfs_read_inode
+   381	 */
+   382	static int hfs_read_inode(struct inode *inode, void *data)
+   383	{
+   384		struct hfs_iget_data *idata = data;
+   385		struct hfs_sb_info *hsb = HFS_SB(inode->i_sb);
+   386		hfs_cat_rec *rec;
+   387	
+   388		HFS_I(inode)->flags = 0;
+   389		HFS_I(inode)->rsrc_inode = NULL;
+   390		mutex_init(&HFS_I(inode)->extents_lock);
+   391		INIT_LIST_HEAD(&HFS_I(inode)->open_dir_list);
+   392		spin_lock_init(&HFS_I(inode)->open_dir_lock);
+   393	
+   394		/* Initialize the inode */
+   395		inode->i_uid = hsb->s_uid;
+   396		inode->i_gid = hsb->s_gid;
+   397		set_nlink(inode, 1);
+   398	
+   399		if (idata->key)
+   400			HFS_I(inode)->cat_key = *idata->key;
+   401		else
+   402			HFS_I(inode)->flags |= HFS_FLG_RSRC;
+   403		HFS_I(inode)->tz_secondswest = sys_tz.tz_minuteswest * 60;
+   404	
+   405		rec = idata->rec;
+   406		switch (rec->type) {
+   407		case HFS_CDR_FIL:
+ > 408			if (!is_valid_catalog_record(rec->file.FlNum, HFS_CDR_FIL))
+   409				goto make_bad_inode;
+   410			if (!HFS_IS_RSRC(inode)) {
+   411				hfs_inode_read_fork(inode, rec->file.ExtRec, rec->file.LgLen,
+   412						    rec->file.PyLen, be16_to_cpu(rec->file.ClpSize));
+   413			} else {
+   414				hfs_inode_read_fork(inode, rec->file.RExtRec, rec->file.RLgLen,
+   415						    rec->file.RPyLen, be16_to_cpu(rec->file.ClpSize));
+   416			}
+   417	
+   418			inode->i_ino = be32_to_cpu(rec->file.FlNum);
+   419			inode->i_mode = S_IRUGO | S_IXUGO;
+   420			if (!(rec->file.Flags & HFS_FIL_LOCK))
+   421				inode->i_mode |= S_IWUGO;
+   422			inode->i_mode &= ~hsb->s_file_umask;
+   423			inode->i_mode |= S_IFREG;
+   424			inode_set_mtime_to_ts(inode,
+   425					      inode_set_atime_to_ts(inode, inode_set_ctime_to_ts(inode, hfs_m_to_utime(rec->file.MdDat))));
+   426			inode->i_op = &hfs_file_inode_operations;
+   427			inode->i_fop = &hfs_file_operations;
+   428			inode->i_mapping->a_ops = &hfs_aops;
+   429			break;
+   430		case HFS_CDR_DIR:
+ > 431			if (!is_valid_catalog_record(rec->dir.DirID, HFS_CDR_DIR))
+   432				goto make_bad_inode;
+   433			inode->i_ino = be32_to_cpu(rec->dir.DirID);
+   434			inode->i_size = be16_to_cpu(rec->dir.Val) + 2;
+   435			HFS_I(inode)->fs_blocks = 0;
+   436			inode->i_mode = S_IFDIR | (S_IRWXUGO & ~hsb->s_dir_umask);
+   437			inode_set_mtime_to_ts(inode,
+   438					      inode_set_atime_to_ts(inode, inode_set_ctime_to_ts(inode, hfs_m_to_utime(rec->dir.MdDat))));
+   439			inode->i_op = &hfs_dir_inode_operations;
+   440			inode->i_fop = &hfs_dir_operations;
+   441			break;
+   442		make_bad_inode:
+   443			pr_warn("Invalid cnid %lu\n", inode->i_ino);
+   444			pr_warn("Volume is probably corrupted, try performing fsck.\n");
+   445			fallthrough;
+   446		default:
+   447			make_bad_inode(inode);
+   448			break;
+   449		}
+   450		return 0;
+   451	}
+   452	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
