@@ -1,181 +1,332 @@
-Received: from mail-pf1-f202.google.com (mail-pf1-f202.google.com [209.85.210.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E507026A1AC
-	for <linux-fsdevel@vger.kernel.org>; Tue, 10 Mar 2026 01:06:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EE52238C1F;
+	Tue, 10 Mar 2026 01:17:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773104781; cv=none; b=SeUWZYay58IGEPQJ7YdRfAs+EhJ+tyvJU+tQMLBTpo00kM94AGmABWB42jY8b1CBQCROALARJZ56jnH4PzaGwDbr9ZvO1iPzWxOydiZ4iGlivED1D+of5qeYFlVX3BO1CrpgOgp8Yfg7UEu6sOU2B6FqubQ0LwgidFE9BAxSihM=
+	t=1773105464; cv=none; b=QU2RnAY/0B8JrNwWfmZMVGMG0ITtfEYgvUlz51gb014d7b3Z+g9enWMfY0pOImvour1Lzz/XFEEt1QSWGhOkzdF7cTFZ1fsdlkiojOLOZWXVgREQUpM4d/EzOWSW+cnxaFTslNGmVIgRMOSKCuzrQ5xBljdcKMfzXbG4Or5f0Co=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773104781; c=relaxed/simple;
-	bh=Ps/B2Z4YbD6//yK0FTkoaGlvSB+kH3TEFIAsJhiHCps=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=o8YI16aVnp076yEGth3yjizkIsfhQyyFcG5bTeAWZ/qg5cST2vpG9jXEOaTNSSzVSmFHX4Bhm4jz9ssQWxSQMUBCjCsCSJty6ujUZ6T0EeZnyjBz/UbTsoMXCgmUgyOtE4ZkUd8Cidj1mY2d8tdXuu3IhUvjdpYD0UOAcjgvDl4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=YCdCasmV; arc=none smtp.client-ip=209.85.210.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1773105464; c=relaxed/simple;
+	bh=56nUjjKM7Ah5K6O4pNWS96wSR3WUSaWfhbp+8xaYKE8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HT0WZDcOSHKBeWKygVuH6fvMNckpmgAdmzwYLg8+KuHHEbvOKvoO5urMNTXzEIwuI04fWOVCwmmSZe5MkxU/BHFHFhW+K0hTl4k792BnMiyG8QiYqEzceNUbRL8os8PH0uB+u+aVb7sX0ymlG4Wd5vAWjAho+wTUo+a5GlgYz0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=stFSN5L8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="YCdCasmV"
-Received: by mail-pf1-f202.google.com with SMTP id d2e1a72fcca58-82988b04c5cso12582093b3a.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 09 Mar 2026 18:06:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1773104779; x=1773709579; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=O/pJjCJQTxqUtKgBQ/nXqQmMajRmz8+Q8yoKiNddz8s=;
-        b=YCdCasmVb7hZfq0q1E7i+qOoXnasgWLJJCsBBBY3YhG6VdJ8x7uczFdesdQ3nn8LOa
-         OY/D8zVdl9Oe+HR16c8hwj103vyW5gjGU+RoRZcM5FjGlPWsq6ajc1GDMaPOe+TIqMrq
-         9sl+AGcfoqQnQ5YChJNxrXlOZnaXQ0RKHCMZJHuk352zQB8ryB+sJVN3mYuzLcay90op
-         UOZbqfyDE3cMRnZUKOOHW1QokP2iq4WajIo6Eh/BtfHiV5Eh13r4Ngc/zMLRbHPzEZKI
-         1T4AR4tzXKXeHyTQa9TigT+I1vfqiWEWB3Lbd2shUhCEiUw1vjAqMhBddiC/9FD1pzbi
-         Qe8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773104779; x=1773709579;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=O/pJjCJQTxqUtKgBQ/nXqQmMajRmz8+Q8yoKiNddz8s=;
-        b=PoBKMd0pn+JUed0IUAYTpIfq8j7zIP20oylr9VwLt2Qy60RWXLULxXSdlqTv1qq1aW
-         ht6juvqRadhUYnJJI2GpNZf3fd6hbDOssr9qUzxNMUsqc5qhNthcHt9sC9OvhKrblLZE
-         /W/3jQT7DP5ztjnyAT8Z2znWBw3ajvg2+eG2dwo4OQSqm+DTpX4gyJivw/ah1bcFKzLl
-         1UBzMFej2zQ6hbhV9G3uvy5dLF991tigX998stS7IBfOLryTstoxeeXJAmLambDXqMdd
-         UZmpouyytpQAYf7G5OFpIysTOfrwH1T/NPp02gbm4ACfjoAUGguc4zb4zV5ncdXWt24z
-         oLmQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVf3DtFNSxpNFj+M+2zmman5pqBbWwogPmiZUPVA4xE1wnE4gU7Agpj0tJOkYE/XnqrWAd7/xCA6UdqOE85@vger.kernel.org
-X-Gm-Message-State: AOJu0YyK8ZfXUwmE/Ze4MzsjKKRNWYMONQHv4vEpdqLT7oQvepgxZZmz
-	p/DdKVl8ZPlSOk4JqnpEKgh2YKFt68bjGD3ItO2TdHL4WbSfK21QnuQTzgoHd5xSYFnPg+JKwD3
-	E+P1Ibw==
-X-Received: from pfld9.prod.google.com ([2002:a05:6a00:1989:b0:7dd:8bba:6393])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:3d98:b0:827:3307:170
- with SMTP id d2e1a72fcca58-829a2eaad00mr8915615b3a.37.1773104779156; Mon, 09
- Mar 2026 18:06:19 -0700 (PDT)
-Date: Mon, 9 Mar 2026 18:06:17 -0700
-In-Reply-To: <20260309-gmem-st-blocks-v3-2-815f03d9653e@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="stFSN5L8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 293B4C4CEF7;
+	Tue, 10 Mar 2026 01:17:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773105464;
+	bh=56nUjjKM7Ah5K6O4pNWS96wSR3WUSaWfhbp+8xaYKE8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=stFSN5L8sfCRPDMCe2F664UFPXnPmY8Pgr0bJXpIWNcENTM+E1sba/PXsnWA8wdoc
+	 sTy4itKJFWuH0zv0qcO87Xa65d6MRqq1ypre2/fX9RPuddA+lS6c5XqMOGRGyx6rYM
+	 Q4pjVzVx4kTAYyLHtkhM30XllxejOcI3+Luv5i1ygTfsDLEI0djm3BDssJvYLTFccF
+	 eOorbzm3opINq+yp2zWpEkBxKLBLz6hYBtp1eRG/UPh89mR2ALJcijZ6fLkiFiPL94
+	 ReXr8LH1jIhJK6Moxl+0GrP2n4FvOvf7PewhzUbrGlSKyVWAAZG48l1eQtmBeThwc0
+	 wSsmmYYAHNymg==
+Date: Mon, 9 Mar 2026 18:17:43 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Andrey Albershteyn <aalbersh@kernel.org>
+Cc: linux-xfs@vger.kernel.org, fsverity@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, ebiggers@kernel.org, hch@lst.de,
+	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+	linux-btrfs@vger.kernel.org
+Subject: Re: [PATCH v4 16/25] xfs: handle fsverity I/O in write/read path
+Message-ID: <20260310011743.GD1105363@frogsfrogsfrogs>
+References: <20260309192355.176980-1-aalbersh@kernel.org>
+ <20260309192355.176980-17-aalbersh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260309-gmem-st-blocks-v3-0-815f03d9653e@google.com> <20260309-gmem-st-blocks-v3-2-815f03d9653e@google.com>
-Message-ID: <aa9uiQ_KBcX7X0My@google.com>
-Subject: Re: [PATCH RFC v3 2/4] KVM: guest_memfd: Set release always on
- guest_memfd mappings
-From: Sean Christopherson <seanjc@google.com>
-To: Ackerley Tng <ackerleytng@google.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	rientjes@google.com, rick.p.edgecombe@intel.com, yan.y.zhao@intel.com, 
-	fvdl@google.com, jthoughton@google.com, vannapurve@google.com, 
-	shivankg@amd.com, michael.roth@amd.com, pratyush@kernel.org, 
-	pasha.tatashin@soleen.com, kalyazin@amazon.com, tabba@google.com, 
-	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260309192355.176980-17-aalbersh@kernel.org>
 
-On Mon, Mar 09, 2026, Ackerley Tng wrote:
-> Set release always on guest_memfd mappings to enable the use of
-> .invalidate_folio, which performs inode accounting for guest_memfd.
+On Mon, Mar 09, 2026 at 08:23:31PM +0100, Andrey Albershteyn wrote:
+> For write/writeback set IOMAP_F_FSVERITY flag telling iomap to not
+> update inode size and to not skip folios beyond EOF.
 > 
-> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
+> Initiate fsverity writeback with IOMAP_F_FSVERITY set to tell iomap
+> should not skip folio that is dirty beyond EOF.
+> 
+> In read path let iomap know that we are reading fsverity metadata. So,
+> treat holes in the tree as request to synthesize tree blocks and hole
+> after descriptor as end of the fsverity region.
+> 
+> Introduce a new inode flag meaning that merkle tree is being build on
+> the inode.
+> 
+> Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
 > ---
->  virt/kvm/guest_memfd.c | 1 +
->  1 file changed, 1 insertion(+)
+>  fs/xfs/Makefile          |  1 +
+>  fs/xfs/libxfs/xfs_bmap.c |  7 +++++++
+>  fs/xfs/xfs_aops.c        | 16 +++++++++++++++-
+>  fs/xfs/xfs_fsverity.c    | 34 ++++++++++++++++++++++++++++++++++
+>  fs/xfs/xfs_fsverity.h    | 20 ++++++++++++++++++++
+>  fs/xfs/xfs_inode.h       |  6 ++++++
+>  fs/xfs/xfs_iomap.c       | 15 +++++++++++++--
+>  7 files changed, 96 insertions(+), 3 deletions(-)
+>  create mode 100644 fs/xfs/xfs_fsverity.c
+>  create mode 100644 fs/xfs/xfs_fsverity.h
 > 
-> diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
-> index 77219551056a7..8246b9fbcf832 100644
-> --- a/virt/kvm/guest_memfd.c
-> +++ b/virt/kvm/guest_memfd.c
-> @@ -607,6 +607,7 @@ static int __kvm_gmem_create(struct kvm *kvm, loff_t size, u64 flags)
->  	mapping_set_inaccessible(inode->i_mapping);
->  	/* Unmovable mappings are supposed to be marked unevictable as well. */
->  	WARN_ON_ONCE(!mapping_unevictable(inode->i_mapping));
-> +	mapping_set_release_always(inode->i_mapping);
+> diff --git a/fs/xfs/Makefile b/fs/xfs/Makefile
+> index 9f7133e02576..38b7f51e5d84 100644
+> --- a/fs/xfs/Makefile
+> +++ b/fs/xfs/Makefile
+> @@ -149,6 +149,7 @@ xfs-$(CONFIG_XFS_POSIX_ACL)	+= xfs_acl.o
+>  xfs-$(CONFIG_SYSCTL)		+= xfs_sysctl.o
+>  xfs-$(CONFIG_COMPAT)		+= xfs_ioctl32.o
+>  xfs-$(CONFIG_EXPORTFS_BLOCK_OPS)	+= xfs_pnfs.o
+> +xfs-$(CONFIG_FS_VERITY)		+= xfs_fsverity.o
+>  
+>  # notify failure
+>  ifeq ($(CONFIG_MEMORY_FAILURE),y)
+> diff --git a/fs/xfs/libxfs/xfs_bmap.c b/fs/xfs/libxfs/xfs_bmap.c
+> index 7a4c8f1aa76c..931d02678d19 100644
+> --- a/fs/xfs/libxfs/xfs_bmap.c
+> +++ b/fs/xfs/libxfs/xfs_bmap.c
+> @@ -41,6 +41,8 @@
+>  #include "xfs_inode_util.h"
+>  #include "xfs_rtgroup.h"
+>  #include "xfs_zone_alloc.h"
+> +#include "xfs_fsverity.h"
+> +#include <linux/fsverity.h>
+>  
+>  struct kmem_cache		*xfs_bmap_intent_cache;
+>  
+> @@ -4451,6 +4453,11 @@ xfs_bmapi_convert_one_delalloc(
+>  	XFS_STATS_ADD(mp, xs_xstrat_bytes, XFS_FSB_TO_B(mp, bma.length));
+>  	XFS_STATS_INC(mp, xs_xstrat_quick);
+>  
+> +	if (xfs_iflags_test(ip, XFS_VERITY_CONSTRUCTION) &&
+> +	    XFS_FSB_TO_B(mp, bma.got.br_startoff) >=
+> +		    xfs_fsverity_metadata_offset(ip))
+> +		flags |= IOMAP_F_FSVERITY;
+> +
+>  	ASSERT(!isnullstartblock(bma.got.br_startblock));
+>  	xfs_bmbt_to_iomap(ip, iomap, &bma.got, 0, flags,
+>  				xfs_iomap_inode_sequence(ip, flags));
+> diff --git a/fs/xfs/xfs_aops.c b/fs/xfs/xfs_aops.c
+> index f279055fcea0..9503252a0fa4 100644
+> --- a/fs/xfs/xfs_aops.c
+> +++ b/fs/xfs/xfs_aops.c
+> @@ -22,6 +22,7 @@
+>  #include "xfs_icache.h"
+>  #include "xfs_zone_alloc.h"
+>  #include "xfs_rtgroup.h"
+> +#include "xfs_fsverity.h"
+>  #include <linux/bio-integrity.h>
+>  
+>  struct xfs_writepage_ctx {
+> @@ -339,12 +340,16 @@ xfs_map_blocks(
+>  	int			retries = 0;
+>  	int			error = 0;
+>  	unsigned int		*seq;
+> +	unsigned int		iomap_flags = 0;
+>  
+>  	if (xfs_is_shutdown(mp))
+>  		return -EIO;
+>  
+>  	XFS_ERRORTAG_DELAY(mp, XFS_ERRTAG_WB_DELAY_MS);
+>  
+> +	if (xfs_iflags_test(ip, XFS_VERITY_CONSTRUCTION))
+> +		iomap_flags |= IOMAP_F_FSVERITY;
+> +
+>  	/*
+>  	 * COW fork blocks can overlap data fork blocks even if the blocks
+>  	 * aren't shared.  COW I/O always takes precedent, so we must always
+> @@ -432,7 +437,8 @@ xfs_map_blocks(
+>  	    isnullstartblock(imap.br_startblock))
+>  		goto allocate_blocks;
+>  
+> -	xfs_bmbt_to_iomap(ip, &wpc->iomap, &imap, 0, 0, XFS_WPC(wpc)->data_seq);
+> +	xfs_bmbt_to_iomap(ip, &wpc->iomap, &imap, 0, iomap_flags,
+> +			  XFS_WPC(wpc)->data_seq);
+>  	trace_xfs_map_blocks_found(ip, offset, count, whichfork, &imap);
+>  	return 0;
+>  allocate_blocks:
+> @@ -705,6 +711,14 @@ xfs_vm_writepages(
+>  			},
+>  		};
+>  
+> +		/*
+> +		 * Writeback does not work for folios past EOF, let it know that
+> +		 * I/O happens for fsverity metadata and this restriction need
+> +		 * to be skipped
+> +		 */
+> +		if (xfs_iflags_test(ip, XFS_VERITY_CONSTRUCTION))
+> +			wpc.ctx.iomap.flags |= IOMAP_F_FSVERITY;
+> +
+>  		return iomap_writepages(&wpc.ctx);
+>  	}
+>  }
+> diff --git a/fs/xfs/xfs_fsverity.c b/fs/xfs/xfs_fsverity.c
+> new file mode 100644
+> index 000000000000..bc6020cc6e41
+> --- /dev/null
+> +++ b/fs/xfs/xfs_fsverity.c
+> @@ -0,0 +1,34 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (C) 2026 Red Hat, Inc.
+> + */
+> +#include "xfs_platform.h"
+> +#include "xfs_format.h"
+> +#include "xfs_inode.h"
+> +#include "xfs_shared.h"
+> +#include "xfs_trans_resv.h"
+> +#include "xfs_mount.h"
+> +#include "xfs_fsverity.h"
+> +#include "xfs_fsverity.h"
+> +#include <linux/fsverity.h>
+> +#include <linux/iomap.h>
+> +
+> +/*
+> + * At maximum of 8 levels with 128 hashes per block (32 bytes SHA-256) maximum
+> + * tree size is ((128^8 − 1)/(128 − 1)) = 567*10^12 blocks. This should fit in
+> + * 53 bits address space.
+> + *
+> + * At this Merkle tree size we can cover 295EB large file. This is much larger
+> + * than the currently supported file size.
+> + *
+> + * For sha512 the largest file we can cover ends at 1 << 50 offset, this is also
+> + * good.
+> + */
+> +#define XFS_FSVERITY_LARGEST_FILE ((loff_t)1ULL << 53)
 
-*sigh*
+I think this ought to go in xfs_format.h since it's related to the
+ondisk file layout.  In addition, I think the roundup value ought to
+get its own #define in xfs_format.h similar to the way btrfs does it.
 
-So... an internal AI review bot flagged setting AS_RELEASE_ALWAYS as being
-potentially problematic, and I started poking around, mostly because I was
-curious.  I'm pretty sure the exact scenario painted by the bot isn't possible,
-but I do think a similar issue exists in at least truncate_error_folio().  Or at
-least, *should* exist, but doesn't because of a different bug.
+#define XFS_FSVERITY_START_ALIGN		(65536)
 
-On memory error, kvm_gmem_error_folio() will get invoked via this code.  Note
-the "err != 0" check.  kvm_gmem_error_folio() returns MF_DELAYED, which has an
-arbitrary value of '2', and so KVM is always signalling "failure".
-
-		int err = mapping->a_ops->error_remove_folio(mapping, folio);
-
-		if (err != 0)
-			pr_info("%#lx: Failed to punch page: %d\n", pfn, err);
-		else if (!filemap_release_folio(folio, GFP_NOIO))
-			pr_info("%#lx: failed to release buffers\n", pfn);
-
-I _think_ that's bad?  On x86, if I'm following the breadcrubs correctly, we'll
-end up in this code in kill_me_maybe()
-
-	pr_err("Memory error not recovered");
-	kill_me_now(cb);
-
-and send what I assume is a relatively useless SIGBUS and likely kill the VM.
-
-	struct task_struct *p = container_of(ch, struct task_struct, mce_kill_me);
-
-	p->mce_count = 0;
-	force_sig(SIGBUS);
-
-But even if that's somehow the "right" behavior, we're doing it purely by
-accident.
-
-As for this patch, if we fix that bug by returning 0, then filemap_release_folio()
-is definitely reachable by at least one flow, so I think guest_memfd also needs
-to implement release_folio()?
+> +
+> +loff_t
+> +xfs_fsverity_metadata_offset(
+> +	const struct xfs_inode	*ip)
+> +{
+> +	return round_up(i_size_read(VFS_IC(ip)), 65536);
+> +}
 
 
-    
-Full AI bot text:
---
-Setting the AS_RELEASE_ALWAYS flag causes folio_needs_release() to return
-true. This correctly triggers .invalidate_folio during truncation, but does
-it also unintentionally expose guest_memfd folios to eviction via
-posix_fadvise(POSIX_FADV_DONTNEED)?
+then this turns into:
 
-If userspace calls posix_fadvise() on a guest_memfd file, the core mm
-calls mapping_evict_folio(). Because folio_needs_release() is true, it
-calls filemap_release_folio().
-
-Since guest_memfd does not implement a .release_folio address space
-operation, filemap_release_folio() falls back to calling
-try_to_free_buffers(). Could this fallback cause a warning?
-
-fs/buffer.c:try_to_free_buffers() {
-	...
-	/* Misconfigured folio check */
-	if (WARN_ON_ONCE(!folio_buffers(folio)))
-		return true;
-	...
+loff_t
+xfs_fsverity_metadata_offset(
+	const struct xfs_inode	*ip)
+{
+	return round_up(i_size_read(VFS_IC(ip)), XFS_FSVERITY_START_ALIGN);
 }
 
-Because the guest_memfd folio has no private data, folio_buffers()
-is NULL, which will trigger this WARN_ON_ONCE.
+With those two #define things addressed, I'm satisfied
+Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
 
-Furthermore, try_to_free_buffers() returns true, allowing the folio to be
-removed from the page cache. Because this eviction path bypasses
-truncate_cleanup_folio(), it never calls .invalidate_folio.
+--D
 
-Does this mean inode_sub_bytes() is skipped, leaking the inode block
-accounting?
 
-Userspace could potentially trigger the warning and infinitely inflate the
-inode's block count with:
-    struct kvm_create_guest_memfd args = { .size = 4096 };
-    int fd = ioctl(kvm_vm_fd, KVM_CREATE_GUEST_MEMFD, &args);
-    fallocate(fd, 0, 0, 4096);
-    posix_fadvise(fd, 0, 4096, POSIX_FADV_DONTNEED);
-Should guest_memfd implement a .release_folio callback that simply
-returns false to prevent these folios from being evicted?
---
+> diff --git a/fs/xfs/xfs_fsverity.h b/fs/xfs/xfs_fsverity.h
+> new file mode 100644
+> index 000000000000..5771db2cd797
+> --- /dev/null
+> +++ b/fs/xfs/xfs_fsverity.h
+> @@ -0,0 +1,20 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (C) 2026 Red Hat, Inc.
+> + */
+> +#ifndef __XFS_FSVERITY_H__
+> +#define __XFS_FSVERITY_H__
+> +
+> +#include "xfs_platform.h"
+> +
+> +#ifdef CONFIG_FS_VERITY
+> +loff_t xfs_fsverity_metadata_offset(const struct xfs_inode *ip);
+> +#else
+> +static inline loff_t xfs_fsverity_metadata_offset(const struct xfs_inode *ip)
+> +{
+> +	WARN_ON_ONCE(1);
+> +	return ULLONG_MAX;
+> +}
+> +#endif	/* CONFIG_FS_VERITY */
+> +
+> +#endif	/* __XFS_FSVERITY_H__ */
+> diff --git a/fs/xfs/xfs_inode.h b/fs/xfs/xfs_inode.h
+> index bd6d33557194..6df48d68a919 100644
+> --- a/fs/xfs/xfs_inode.h
+> +++ b/fs/xfs/xfs_inode.h
+> @@ -415,6 +415,12 @@ static inline bool xfs_inode_can_sw_atomic_write(const struct xfs_inode *ip)
+>   */
+>  #define XFS_IREMAPPING		(1U << 15)
+>  
+> +/*
+> + * fs-verity's Merkle tree is under construction. The file is read-only, the
+> + * only writes happening are for the fsverity metadata.
+> + */
+> +#define XFS_VERITY_CONSTRUCTION	(1U << 16)
+> +
+>  /* All inode state flags related to inode reclaim. */
+>  #define XFS_ALL_IRECLAIM_FLAGS	(XFS_IRECLAIMABLE | \
+>  				 XFS_IRECLAIM | \
+> diff --git a/fs/xfs/xfs_iomap.c b/fs/xfs/xfs_iomap.c
+> index 9c2f12d5fec9..71ccd4ff5f48 100644
+> --- a/fs/xfs/xfs_iomap.c
+> +++ b/fs/xfs/xfs_iomap.c
+> @@ -32,6 +32,8 @@
+>  #include "xfs_rtbitmap.h"
+>  #include "xfs_icache.h"
+>  #include "xfs_zone_alloc.h"
+> +#include "xfs_fsverity.h"
+> +#include <linux/fsverity.h>
+>  
+>  #define XFS_ALLOC_ALIGN(mp, off) \
+>  	(((off) >> mp->m_allocsize_log) << mp->m_allocsize_log)
+> @@ -1789,6 +1791,9 @@ xfs_buffered_write_iomap_begin(
+>  		return xfs_direct_write_iomap_begin(inode, offset, count,
+>  				flags, iomap, srcmap);
+>  
+> +	if (xfs_iflags_test(ip, XFS_VERITY_CONSTRUCTION))
+> +		iomap_flags |= IOMAP_F_FSVERITY;
+> +
+>  	error = xfs_qm_dqattach(ip);
+>  	if (error)
+>  		return error;
+> @@ -2113,12 +2118,17 @@ xfs_read_iomap_begin(
+>  	bool			shared = false;
+>  	unsigned int		lockmode = XFS_ILOCK_SHARED;
+>  	u64			seq;
+> +	unsigned int		iomap_flags = 0;
+>  
+>  	ASSERT(!(flags & (IOMAP_WRITE | IOMAP_ZERO)));
+>  
+>  	if (xfs_is_shutdown(mp))
+>  		return -EIO;
+>  
+> +	if (fsverity_active(inode) &&
+> +	    (offset >= xfs_fsverity_metadata_offset(ip)))
+> +		iomap_flags |= IOMAP_F_FSVERITY;
+> +
+>  	error = xfs_ilock_for_iomap(ip, flags, &lockmode);
+>  	if (error)
+>  		return error;
+> @@ -2132,8 +2142,9 @@ xfs_read_iomap_begin(
+>  	if (error)
+>  		return error;
+>  	trace_xfs_iomap_found(ip, offset, length, XFS_DATA_FORK, &imap);
+> -	return xfs_bmbt_to_iomap(ip, iomap, &imap, flags,
+> -				 shared ? IOMAP_F_SHARED : 0, seq);
+> +	iomap_flags |= shared ? IOMAP_F_SHARED : 0;
+> +
+> +	return xfs_bmbt_to_iomap(ip, iomap, &imap, flags, iomap_flags, seq);
+>  }
+>  
+>  const struct iomap_ops xfs_read_iomap_ops = {
+> -- 
+> 2.51.2
+> 
+> 
