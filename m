@@ -1,42 +1,72 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0466239937E;
-	Tue, 10 Mar 2026 12:54:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36162373BE7
+	for <linux-fsdevel@vger.kernel.org>; Tue, 10 Mar 2026 13:00:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773147258; cv=none; b=EnDL3E85SjCe33qV1u1gdcNdLfSZur8JFA0/nx9QMkpmkmh/pUZQzdTC8tjS9Hw60wLf7Ma4CSrDdU1dnW+tdy0SigJAh5VsJswZVDJiq2mXXaovv9x97p1eZhmFjVtKLhmmUwOLsf8OktAoiSaI3X4LyKhjwk3aMGE6PiULBkQ=
+	t=1773147608; cv=none; b=okb8nIJxM8hrMO4WXZSStk+fAt2VtIZaP4SIW+q/KlXBzUQ4BczloaJWJQDgxW4W78rmoQVyp/sqykCWEu88s4bI/3QSBuClaxha8L3E9hwCiYbQy/xN7abSenlTfdB45R+7/3z8DWDPCh4m3v4qBnaSbOlZVcCIV6+n0wc8vOs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773147258; c=relaxed/simple;
-	bh=Xw1mVQtvhVoNrJBDYR12XC0/Wogw2F1Mt9WBKlhiOM0=;
+	s=arc-20240116; t=1773147608; c=relaxed/simple;
+	bh=3Zd9egazAreKVbw3CgBV1Ekque51lAHc6BdIaLDdWR4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hb6ZMw6SIzo4ZeQGBpZLUZhAd3sfoXDJw7eBuNs68fxJ2oeGsuFJPDng0fjehUcBpWOQHVxuPVBftSYCxB6V2rvffy+S7X2dZ8Td/Xwj1D51OQwIxacbHP9S87OropBx6Nylj3iSwBAS0YaeYj5a58zZ9OihYuzOIoAyAChkk20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gt0BoOi+; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=iWxO8Ak3gpiNlBCNP2SIfo6qYKNC/C6UQb9SGbIH/kL3s+T7EBKjYY77upDdpsXqKdekDJ//0nWhI8pv52YXIPSC9J0XQ9E5gom7KgjcVEUuu+azumkf/Teea9LTJMGlRU5VyDj+fTLc30ihJcYwoiY/AkRTBwb1l/m7PYsSxyA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=dzzvztif; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gt0BoOi+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95A3FC19423;
-	Tue, 10 Mar 2026 12:54:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773147257;
-	bh=Xw1mVQtvhVoNrJBDYR12XC0/Wogw2F1Mt9WBKlhiOM0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gt0BoOi+nVV9jKU8Qbyp0Fri3VZe+y4MkbP5j69llEa2HO7GApC/ZIMS82EMmXnd5
-	 FtZkS/31wANexEn3LooDVX6DptaF6ZyZeFAbcAnOPRDbGOGE7I87HA6daxDpMxmTw0
-	 jTnQN+VmOOes8jS5VgsxBYqZoH1Y72qUBVycm7X9GTEL58o3VmfolLYJnrytM2oJjO
-	 d3jiBzauNer8IK+C40ZZco7Su3xLva8L/cyJhf/nO13oPv6ya8dbwJuU+8UPffMDxE
-	 pngaOqWODgcVa2jDPOvj7pqob8eEry1CSFBRhsCitFIka5Wr4HtGUbrkCqzthkyNrL
-	 N+ReJTltfQaBw==
-Date: Tue, 10 Mar 2026 13:54:13 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Jann Horn <jannh@google.com>
-Cc: linux-fsdevel@vger.kernel.org, 
-	Linus Torvalds <torvalds@linux-foundation.org>, linux-kernel@vger.kernel.org, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jens Axboe <axboe@kernel.dk>, Jan Kara <jack@suse.cz>, 
-	Tejun Heo <tj@kernel.org>
-Subject: Re: [PATCH RFC v2 00/23] fs,kthread: start all kthreads in nullfs
-Message-ID: <20260310-schummeln-akkord-db58004d6f59@brauner>
-References: <20260306-work-kthread-nullfs-v2-0-ad1b4bed7d3e@kernel.org>
- <CAG48ez1CN4hrYVi3dGYY-4vJgSeib-pb19qCNs7Gjkb2mrjKuA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dzzvztif"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-482f454be5bso129482995e9.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 10 Mar 2026 06:00:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1773147606; x=1773752406; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=W/9QICG0i6N0qMKANYrMNVd6a11sIuDIs7effYlII2s=;
+        b=dzzvztifKsYt1LzidFrfOwVN4Xw4Cz0ah54SZfXZgDzaId/8wQ2AP05YYcABDIDctI
+         c421aU4GUIdG9Spt9ax/KKdQnkD5kgXr4M3hrTbuq+nEX0yzmUWNcuGna3xs2nODmWXT
+         LTe892Y7Tt9S+wahCXLye+n6AtVlH5YZ9crYqg2sEJLuorrwPYd6Mn946qkZ8QRq5BLV
+         VwQefk5zBySdKfeakvxZzBJbd5u3DQA6PGY/s2cywsgAvSVOsOH36xpxNvaKC+2Qpiry
+         KgAlFsGe8v47GYf6EYo6BT3HFccZYywEwBK/ONUb3vRhmYEk/VmLYSw/KoA6lp3iOxTY
+         2fNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773147606; x=1773752406;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=W/9QICG0i6N0qMKANYrMNVd6a11sIuDIs7effYlII2s=;
+        b=Wl59K6Vmj1x3B+YwiEsOTaFGNOwWn1sYOGyVucK4a9mNHkoN9CVN8s23CLcN82DXQU
+         jbseMiBZirEzi5/jrdVhbIUVJ6H575tuccPLGAfjpn62hkPvlkgMadJn88XcdkGk3tsh
+         ekUqWMPstBQ/4dnf2Xn1p4GJ2JS3B51I7kc4JmkqLu2PsnRv5XHgzyzMLphNug02utVO
+         YxPwvenh+l9SlaZUhFRvDT/ySjmfJCc2JlpkcbO3b6GC59uStkP18isPUFBs/C1bb9vl
+         EbH2P8yA9k9DYKe3fYwIRI8nndENwUBsvVdhyQ012C4uWw4MbqLekj2hBnj2jENr0kz+
+         7iog==
+X-Gm-Message-State: AOJu0Yzg+S9GSHI/5J6CMpYzoVCq5DFZUl6u5RN7GUWLCIeRouQ59z7t
+	W201VJrzmQzZPVMEszycI/cJe0Xxl2wnHPvcQX11lm2kej6xq7iAXScN/aP3yq4r6w==
+X-Gm-Gg: ATEYQzw9wQsDlUtaYzy3qwCbMINwNAFA/PL2wWux96lqYJjQ6tsAV7ThMftOTNIUDsv
+	A6L03sg46O58DpqCNtMTxCxiayFdhGAAsxt2ziA5FSMG1qeMkX80aJwmR5wuvJJARuYIEojit9w
+	PUc6OqIUU34LvK/eX9x0jBduIc0FT8uieObcBoMsWq8ejKtefABlj9alhtSY6iKmC+3S8EDxeAz
+	L7y+7umA7hoHgiU/QrcgLZPDsivPZGxUTvo+oacrqgiSAFUxcm66TM5L5HWHjh6astb+vIMKoDW
+	bL60urqD4//7Tla9335jEplQIGFQ5e4Pth4KIiXagUetW2Hnsta4+czWwmCHvhJd4rXPC+BbR1x
+	rZYdDzzqklJZ7NbpAdVAXVNLPQCePMdaqzidZvWLtabAC7HUF4zUnPTvjhbBBHjAn4Fr1kGsuRo
+	Z8vGfavmrvNp3pRGiFuky2dSt8hW2iAK1PawGRmPlFxmdWV3utILwcMg==
+X-Received: by 2002:a05:600c:138e:b0:485:3e00:944a with SMTP id 5b1f17b1804b1-485419d759amr56148725e9.9.1773147604978;
+        Tue, 10 Mar 2026 06:00:04 -0700 (PDT)
+Received: from google.com ([2a00:79e0:288a:8:43dd:a0ed:65ba:bc74])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48541a6bc3bsm82523515e9.2.2026.03.10.06.00.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Mar 2026 06:00:04 -0700 (PDT)
+Date: Tue, 10 Mar 2026 13:59:59 +0100
+From: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>
+To: syzbot <syzbot+741e2278ef71fef03a10@syzkaller.appspotmail.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-security-module@vger.kernel.org, mic@digikod.net,
+	miklos@szeredi.hu, penguin-kernel@i-love.sakura.ne.jp,
+	syzkaller-bugs@googlegroups.com
+Subject: Re: [syzbot] [fuse?] general protection fault in task_work_cancel
+Message-ID: <abAVz4YsnCkGT2_H@google.com>
+References: <69abb4e3.050a0220.13f275.003d.GAE@google.com>
+ <69acf111.050a0220.310d8.0003.GAE@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -45,61 +75,103 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAG48ez1CN4hrYVi3dGYY-4vJgSeib-pb19qCNs7Gjkb2mrjKuA@mail.gmail.com>
+In-Reply-To: <69acf111.050a0220.310d8.0003.GAE@google.com>
 
-On Mon, Mar 09, 2026 at 05:50:36PM +0100, Jann Horn wrote:
-> On Fri, Mar 6, 2026 at 12:30 AM Christian Brauner <brauner@kernel.org> wrote:
-> > The places that need to perform lookup in init's filesystem state may
-> > use scoped_with_init_fs() which will temporarily override the caller's
-> > fs_struct with init's fs_struct.
+On Sat, Mar 07, 2026 at 07:46:25PM -0800, syzbot wrote:
+> syzbot has found a reproducer for the following issue on:
 > 
-> One small concern I have about the overall approach is that the use of
-> scoped_with_init_fs() in non-kernel tasks reminds me a _little_ bit of
-> the set_fs(KERNEL_DS) mechanism that was removed a few years ago:
-> There is state in the task that controls whether some argument is
-> interpreted as a user-supplied, untrusted value or a kernel-supplied
-> value that is interpreted in some more privileged scope. I think there
-> were occasionally security issues where userspace-supplied pointers
-> were accidentally accessed under KERNEL_DS, allowing userspace to
-> cause accesses to arbitrary kernel addresses - in particular,
-> performance interrupts could occur in KERNEL_DS sections and attempt
-> to access userspace stack memory, see
-> <https://project-zero.issues.chromium.org/42452355>.
+> HEAD commit:    4ae12d8bd9a8 Merge tag 'kbuild-fixes-7.0-2' of git://git.k..
+> git tree:       upstream
+> console output: https://syzkaller.appspot.com/x/log.txt?x=17dc475a580000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=779072223d02a312
+> dashboard link: https://syzkaller.appspot.com/bug?extid=741e2278ef71fef03a10
+> compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=130b075a580000
 > 
-> I think switching task_struct::fs is much less problematic - path
-> walks shouldn't happen in IRQ context or such, scoped_with_init_fs()
-> will likely only be used when accessing paths that unprivileged
-> userspace has no influence over, and VFS operations normally don't
-> operate on multiple logically unrelated file paths; but it means we'll
-> have to keep in mind that filesystem handlers for some operations like
-> lookup/open can run with weird task_struct::fs.
+> Downloadable assets:
+> disk image: https://storage.googleapis.com/syzbot-assets/010ac4052aed/disk-4ae12d8b.raw.xz
+> vmlinux: https://storage.googleapis.com/syzbot-assets/2aad8bef9031/vmlinux-4ae12d8b.xz
+> kernel image: https://storage.googleapis.com/syzbot-assets/fd350ec4896a/bzImage-4ae12d8b.xz
 > 
-> To be clear, I think what you're doing is fine; it's just something to
-> keep in mind.
+> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> Reported-by: syzbot+741e2278ef71fef03a10@syzkaller.appspotmail.com
+> 
+> Oops: general protection fault, probably for non-canonical address 0xdffffc000000013c: 0000 [#1] SMP KASAN NOPTI
+> KASAN: null-ptr-deref in range [0x00000000000009e0-0x00000000000009e7]
+> CPU: 1 UID: 0 PID: 13249 Comm: syz.1.1775 Not tainted syzkaller #0 PREEMPT(full) 
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 02/12/2026
+> RIP: 0010:task_work_pending include/linux/task_work.h:26 [inline]
+> RIP: 0010:task_work_cancel_match kernel/task_work.c:124 [inline]
+> RIP: 0010:task_work_cancel+0x8a/0x220 kernel/task_work.c:187
+> Code: b8 f1 f1 f1 f1 f8 f3 f3 f3 4b 89 44 25 00 e8 ad b9 35 00 43 c6 44 25 04 00 49 89 de 48 81 c3 e0 09 00 00 49 89 df 49 c1 ef 03 <43> 80 3c 27 00 74 08 48 89 df e8 17 fe 9f 00 48 83 3b 00 75 51 e8
+> RSP: 0018:ffffc9000ddffb20 EFLAGS: 00010216
+> RAX: ffffffff818fdfc3 RBX: 00000000000009e0 RCX: ffff88805d5c3d00
+> RDX: 0000000000000000 RSI: ffff888032f5c540 RDI: 0000000000000000
+> RBP: ffffc9000ddffbd0 R08: ffffc9000ddffc97 R09: 1ffff92001bbff92
+> R10: dffffc0000000000 R11: fffff52001bbff93 R12: dffffc0000000000
+> R13: 1ffff92001bbff68 R14: 0000000000000000 R15: 000000000000013c
+> FS:  00007f9c8a1cb6c0(0000) GS:ffff888125561000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 0000200000010000 CR3: 0000000059bf0000 CR4: 0000000000350ef0
+> Call Trace:
+>  <TASK>
+>  cancel_tsync_works security/landlock/tsync.c:415 [inline]
+>  landlock_restrict_sibling_threads+0xdc4/0x11f0 security/landlock/tsync.c:533
+>  __do_sys_landlock_restrict_self security/landlock/syscalls.c:574 [inline]
+>  __se_sys_landlock_restrict_self+0x540/0x810 security/landlock/syscalls.c:482
+>  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+>  do_syscall_64+0x14d/0xf80 arch/x86/entry/syscall_64.c:94
+>  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> RIP: 0033:0x7f9c8939c799
+> Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+> RSP: 002b:00007f9c8a1cb028 EFLAGS: 00000246 ORIG_RAX: 00000000000001be
+> RAX: ffffffffffffffda RBX: 00007f9c89616180 RCX: 00007f9c8939c799
+> RDX: 0000000000000000 RSI: 0000000000000008 RDI: 0000000000000003
+> RBP: 00007f9c89432bd9 R08: 0000000000000000 R09: 0000000000000000
+> R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+> R13: 00007f9c89616218 R14: 00007f9c89616180 R15: 00007ffee5d65d48
+>  </TASK>
+> Modules linked in:
+> ---[ end trace 0000000000000000 ]---
+> RIP: 0010:task_work_pending include/linux/task_work.h:26 [inline]
+> RIP: 0010:task_work_cancel_match kernel/task_work.c:124 [inline]
+> RIP: 0010:task_work_cancel+0x8a/0x220 kernel/task_work.c:187
+> Code: b8 f1 f1 f1 f1 f8 f3 f3 f3 4b 89 44 25 00 e8 ad b9 35 00 43 c6 44 25 04 00 49 89 de 48 81 c3 e0 09 00 00 49 89 df 49 c1 ef 03 <43> 80 3c 27 00 74 08 48 89 df e8 17 fe 9f 00 48 83 3b 00 75 51 e8
+> RSP: 0018:ffffc9000ddffb20 EFLAGS: 00010216
+> RAX: ffffffff818fdfc3 RBX: 00000000000009e0 RCX: ffff88805d5c3d00
+> RDX: 0000000000000000 RSI: ffff888032f5c540 RDI: 0000000000000000
+> RBP: ffffc9000ddffbd0 R08: ffffc9000ddffc97 R09: 1ffff92001bbff92
+> R10: dffffc0000000000 R11: fffff52001bbff93 R12: dffffc0000000000
+> R13: 1ffff92001bbff68 R14: 0000000000000000 R15: 000000000000013c
+> FS:  00007f9c8a1cb6c0(0000) GS:ffff888125561000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 00007f810d34da08 CR3: 0000000059bf0000 CR4: 0000000000350ef0
+> ----------------
+> Code disassembly (best guess):
+>    0:	b8 f1 f1 f1 f1       	mov    $0xf1f1f1f1,%eax
+>    5:	f8                   	clc
+>    6:	f3 f3 f3 4b 89 44 25 	repz repz xrelease mov %rax,0x0(%r13,%r12,1)
+>    d:	00
+>    e:	e8 ad b9 35 00       	call   0x35b9c0
+>   13:	43 c6 44 25 04 00    	movb   $0x0,0x4(%r13,%r12,1)
+>   19:	49 89 de             	mov    %rbx,%r14
+>   1c:	48 81 c3 e0 09 00 00 	add    $0x9e0,%rbx
+>   23:	49 89 df             	mov    %rbx,%r15
+>   26:	49 c1 ef 03          	shr    $0x3,%r15
+> * 2a:	43 80 3c 27 00       	cmpb   $0x0,(%r15,%r12,1) <-- trapping instruction
+>   2f:	74 08                	je     0x39
+>   31:	48 89 df             	mov    %rbx,%rdi
+>   34:	e8 17 fe 9f 00       	call   0x9ffe50
+>   39:	48 83 3b 00          	cmpq   $0x0,(%rbx)
+>   3d:	75 51                	jne    0x90
+>   3f:	e8                   	.byte 0xe8
+> 
+> 
+> ---
+> If you want syzbot to run the reproducer, reply with:
+> #syz test: git://repo/address.git branch-or-commit-hash
+> If you attach or paste a git patch, syzbot will apply it before testing.
 
-Just for some background. I think as it currently stands we have a 1:1
-sharing between all kthreads and pid 1. So effectively a kthread is in a
-permanent scope_with_init_fs() block. Any driver can just do:
+#syz fix: landlock: Fully release unused TSYNC work entries
 
-file = filp_open("/proc/sys/kernel/core_pattern")
-kernel_write(file, "/usr/bin/systemctl poweroff")
-
-which is ofc nonsense but still.
-
-But my wider point is that this implicit lookup context is probably in
-very few people's mind.
-
-Some people who are aware of this then end up with brilliant ideas such
-as writing kernel modules that perform mountains of actual path lookup
-work from kthread context because it's just so easy to do and lets them
-avoid having to do any real conceptual work to come up with a better
-solution.
-
-Offloading fs work to kthreads is really nasty... And we've relearned
-that lesson not too long ago when io_uring was still based on kthreads
-with custom credential overrides. It's a broken concept.
-
-scoped_with_init_fs() forces the users that do this to acknowledge that
-they are now performing lookup work within PID 1's filesystem state. We
-have few of those and this will make it harder to gain more.
+(See https://github.com/google/syzkaller/blob/master/docs/syzbot.md#communication-with-syzbot)
