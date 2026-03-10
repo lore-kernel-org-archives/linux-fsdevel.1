@@ -1,139 +1,172 @@
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B2703B5310
-	for <linux-fsdevel@vger.kernel.org>; Tue, 10 Mar 2026 18:40:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FBA333B6FB
+	for <linux-fsdevel@vger.kernel.org>; Tue, 10 Mar 2026 19:03:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773168054; cv=none; b=crsvpebP2aTC9krKneR5XHdlbPp6v0Zm1UxPyP4+WJxkHOgjSDPEzpKZvvkUwu+OU5tcnbKhZN6twnu12lp/Pr9qo1LEPVvg7Uk6xOwWPPxKl6OoMyBGYZiMRrjAS4IrCSjSSaM+nJNjVA95BwqB7L73UXyXh8cU6Qxie7hHtyY=
+	t=1773169432; cv=none; b=H9eZfROkjtp4RkndirRK8vvqMSta63ebqL1mCBjU0Pd3SJ1IEag8CXWXqSNneFJ/8j8F0nmmROUr1djIowtUZue4KA+ekJC5VaR8N2/nqawjJMSQHLEtRXsVDRj/x1K5Av4vtHOIhcuwEQy+Dr99dk04HfGUMj2r8B59mX3QWNA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773168054; c=relaxed/simple;
-	bh=67BO0RZg8rxb/E50RmGcBJlsPR5Ae9xmCy+Q7v8QtDY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V5YkjUUJBV1v9w6glWVAc19NSmabp+/ufD6M3HIg7xIQ9tPUgJy5EgsyEzePD9HAxwSAXlI3eLb5TtexFnzIjf2AJs2lzJaIT0uPKg/uCAG2KZDFXWryFngDUs8lQ09bBAFlW5M5qn2MOoXMuWCBdUu35regdlVW0rkKDJfSb04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kH0xiiWz; arc=none smtp.client-ip=209.85.215.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773169432; c=relaxed/simple;
+	bh=dlv00AgLM+KouvtSokdVKlP46ycLQjKEHfebwFemrBg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
+	 Content-Type:References; b=EQouwkPzHowPMja/91xWe+GT5185pSOJh6eJ85CjQxbxVha17B2ZOfPDpoUvGhnpn5GhNsYbF3TXhLu5yvvqnB9F7klAKnksL93jXrSjmssrx3B15DrK4vQ88DUfQosdrCt5GLuMx+vfMmz/TIeHkuCJ9PKk/P68gCBF6xUGVew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=sOxX9Pe5; arc=none smtp.client-ip=203.254.224.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kH0xiiWz"
-Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-c736261ee8dso3400306a12.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 10 Mar 2026 11:40:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773168050; x=1773772850; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=bjFZ9oZWWc3RZ4UdO5rq+AZbr7uPDX73K58gh1+yuH0=;
-        b=kH0xiiWz4KeHg8qM+UQYFRGEoaB5YhGQ1/l342lI48vVjCWqHFWSBUDJtSv8g6YdEb
-         WUvbLXs80bxV+xnMTu2IxnxqQ1WawTtw06PwWKuvZNeHk5D3euuYdO1/s0++E4FpGP2z
-         +c3ttwFV6WwPOQpNHM7WUIHZNaqG5koiMMCxTax1rBk+j7pB0850FJbGseMzgmcav/Sc
-         D4sAVnEuBVkUt07E/ANMW8DM/NJ+n/hx2N6JUcXYsLZYrFMsnwCK7vKttbH8x8ketzgA
-         AEJgLDRmf5idGKEt1ix0VwO4x51qzzz9/bjh5SLZJM6RE+ISqePxLY2ZYvsw4O/i3F73
-         NyLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773168050; x=1773772850;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bjFZ9oZWWc3RZ4UdO5rq+AZbr7uPDX73K58gh1+yuH0=;
-        b=B49so7wdywLJNiQGkrXofOHW15SwTr/ts0e5KtiQ3SvNxKTgZRHTxGU5WDiZE0u45d
-         9Ml9s6Jy+3xxEEBAKsJG21Q+TYG1g9IOS7dHAnWbCOejFGNYq9Fuml6liFcgc4Zyx6qm
-         dHnzMoZ2LMSaESI3rjN+7jzIEm2C6jUrahQJpaMDp41n2TkNvwMU58aEjRcSNyfE6bRb
-         rpdUUZjIaETCZpPMb6LJHFKfkdEfM7Tv/2oFy8RVq8NbBnnXOUf+d+gyJ+5yQDp8wgKy
-         10gerzVihfuyEE2vl38E84ytVTGUfYVF2jj9bjRQATO4sJ4Qiiir/Qw/axRymoXsbCXT
-         jbew==
-X-Forwarded-Encrypted: i=1; AJvYcCXD0Sv3dUTnCbRpkYdXlfJmbs/1CpMPaSzk63/pgi5h3uYqSJBnU8IAY61rtjGmTmrZKeTozR1jX6azIPUJ@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw1FhxL6y0kAB7fGsTAwn5gsTrmBnyDnvVcnAiKfhiuKN4anvms
-	orozp3cElOKYI3leTGHOHvT95NIPr+f+WINs49/x0M1xE5X+hXMOys13
-X-Gm-Gg: ATEYQzw0cwKGRxhoPILD1t7YAHapslVdZOpr8lQ1lF8c+7DEwBUzxbv2DiTxB7DccOj
-	lFpgL6vud1k1297+M1h2h6W6kg06nNtsBJ4IuTLJI4XSBO1kVJ5Iak01M3HYXg47l+/dJ/+jB1P
-	aK8vC662tGgXMnKqnGxZmwZzVt20jfmW3iTAdyexhroCWR/sM0bxnk8ESL+T7DOPSJYgYxeWOim
-	6GRrZvFq7Hy28NQsLKVo1EKnaqLaGRlxIamcxDWbtAfdyOAdodtDnyLASTgo4gHX9wx3UPWOaUn
-	McMKmTZvWUgG/NjYTJ87w7xyMwi3vC+JKhFlQMDhP44SURsHkGk28i3rcR7K894FAEwYjGT4xHu
-	fOkonTK6kMUYbYdueF1gWgflYiU4O8w3dTPOTdzA8ZPIG+/wWlHwfS4CbjhxgOms8ZY0aXsA0GJ
-	AsabhCVMTwSfnFfFWZ3gu6/rUT4ipKEOal4XwgqKTjhZH9vg==
-X-Received: by 2002:a17:903:28c8:b0:2ae:5671:7071 with SMTP id d9443c01a7336-2ae8252cf0fmr96662285ad.43.1773168050081;
-        Tue, 10 Mar 2026 11:40:50 -0700 (PDT)
-Received: from google.com ([2402:7500:a44:85b:2953:97d3:b283:95c3])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ae83e58592sm220535625ad.14.2026.03.10.11.40.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Mar 2026 11:40:49 -0700 (PDT)
-Date: Wed, 11 Mar 2026 02:40:36 +0800
-From: Kuan-Wei Chiu <visitorckw@gmail.com>
-To: Philipp Hahn <phahn-oss@avm.de>
-Cc: amd-gfx@lists.freedesktop.org, apparmor@lists.ubuntu.com,
-	bpf@vger.kernel.org, ceph-devel@vger.kernel.org, cocci@inria.fr,
-	dm-devel@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	gfs2@lists.linux.dev, intel-gfx@lists.freedesktop.org,
-	intel-wired-lan@lists.osuosl.org, iommu@lists.linux.dev,
-	kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
-	linux-btrfs@vger.kernel.org, linux-cifs@vger.kernel.org,
-	linux-clk@vger.kernel.org, linux-erofs@lists.ozlabs.org,
-	linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-gpio@vger.kernel.org, linux-hyperv@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-mips@vger.kernel.org, linux-mm@kvack.org,
-	linux-modules@vger.kernel.org, linux-mtd@lists.infradead.org,
-	linux-nfs@vger.kernel.org, linux-omap@vger.kernel.org,
-	linux-phy@lists.infradead.org, linux-pm@vger.kernel.org,
-	linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
-	linux-scsi@vger.kernel.org, linux-sctp@vger.kernel.org,
-	linux-security-module@vger.kernel.org, linux-sh@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-trace-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
-	ntfs3@lists.linux.dev, samba-technical@lists.samba.org,
-	sched-ext@lists.linux.dev, target-devel@vger.kernel.org,
-	tipc-discussion@lists.sourceforge.net, v9fs@lists.linux.dev
-Subject: Re: [PATCH 00/61] treewide: Use IS_ERR_OR_NULL over manual NULL
- check - refactor
-Message-ID: <abBlpGKO842B3yl9@google.com>
-References: <20260310-b4-is_err_or_null-v1-0-bd63b656022d@avm.de>
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="sOxX9Pe5"
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20260310190348epoutp0250445d93b6b9d149c398516af755dc1f~bkDM-HXHN0465304653epoutp025
+	for <linux-fsdevel@vger.kernel.org>; Tue, 10 Mar 2026 19:03:48 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20260310190348epoutp0250445d93b6b9d149c398516af755dc1f~bkDM-HXHN0465304653epoutp025
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1773169428;
+	bh=RSII0xHq4bz2UU0P23lD0uAewQb3K85xxRg2UTCbBVM=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=sOxX9Pe5Jna37SeKBIHP9GhA7DOVsoMSLKHE90bYRsTm8podOUy6Gp0qHwZWEZ8pc
+	 tkSzuadq1aHEmEUPMWBlDsXMJ13+phZcXICR8D4rgXKfd3IBFe485Et0Lc7zaug48z
+	 q0XeZib6y/ycIRMzPYkaDGNbK7bn7h4hswhM1QVA=
+Received: from epsnrtp04.localdomain (unknown [182.195.42.156]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTPS id
+	20260310190346epcas5p226e65dec37b1a28903da42190b3d5b0e~bkDLvl6DH3114431144epcas5p2H;
+	Tue, 10 Mar 2026 19:03:46 +0000 (GMT)
+Received: from epcas5p3.samsung.com (unknown [182.195.38.94]) by
+	epsnrtp04.localdomain (Postfix) with ESMTP id 4fVjw15SbNz6B9m6; Tue, 10 Mar
+	2026 19:03:45 +0000 (GMT)
+Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20260310190345epcas5p3177958f481ce13557a665c6f4223a022~bkDKYREoO0888908889epcas5p30;
+	Tue, 10 Mar 2026 19:03:45 +0000 (GMT)
+Received: from [107.122.11.51] (unknown [107.122.11.51]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20260310190343epsmtip2d2e2e5624a38c4d0b330bd1963c5b029~bkDIu6Uv22357523575epsmtip2U;
+	Tue, 10 Mar 2026 19:03:43 +0000 (GMT)
+Message-ID: <7a4f9902-d87d-4032-9df0-efa807c6aade@samsung.com>
+Date: Wed, 11 Mar 2026 00:33:42 +0530
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260310-b4-is_err_or_null-v1-0-bd63b656022d@avm.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 4/5] xfs: steer allocation using write stream
+To: Dave Chinner <dgc@kernel.org>
+Cc: brauner@kernel.org, hch@lst.de, djwong@kernel.org, jack@suse.cz,
+	cem@kernel.org, kbusch@kernel.org, axboe@kernel.dk,
+	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	gost.dev@samsung.com
+Content-Language: en-US
+From: Kanchan Joshi <joshi.k@samsung.com>
+In-Reply-To: <aa-whgDFL7h8-gIl@dread>
+Content-Transfer-Encoding: 7bit
+X-CMS-MailID: 20260310190345epcas5p3177958f481ce13557a665c6f4223a022
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+cpgsPolicy: CPGSC10-542,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20260309053434epcas5p308acff894c6735e382c0e5e1e737c9de
+References: <20260309052944.156054-1-joshi.k@samsung.com>
+	<CGME20260309053434epcas5p308acff894c6735e382c0e5e1e737c9de@epcas5p3.samsung.com>
+	<20260309052944.156054-5-joshi.k@samsung.com> <aa-whgDFL7h8-gIl@dread>
 
-Hi Philipp,
+On 3/10/2026 11:17 AM, Dave Chinner wrote:
+>> When write stream is set on the file, override the default
+>> directory-locality heuristic with a new heuristic that maps
+>> available AGs into streams.
+>>
+>> Isolating distinct write streams into dedicated allocation groups helps
+>> in reducing the block interleaving of concurrent writers. Keeping these
+>> streams spatially separated reduces AGF lock contention and logical file
+>> fragmentation.
+> a.k.a. the XFS filestreams allocator.
 
-On Tue, Mar 10, 2026 at 12:48:26PM +0100, Philipp Hahn wrote:
-> While doing some static code analysis I stumbled over a common pattern,
-> where IS_ERR() is combined with a NULL check. For that there is
-> IS_ERR_OR_NULL().
+Yes, but there is difference between what I am doing and what is 
+present. Let me write that in the end.
 > 
-> I've written a Coccinelle patch to find and patch those instances.
-> The patches follow grouped by subsystem.
+> i.e. we already have an allocator that performs this exact locality
+> mapping. See xfs_inode_is_filestream() and the allocator code path
+> that goes this way:
 > 
-> Patches 55-58 may be dropped as they have a (minor?) semantic change:
-> They use WARN_ON() or WARN_ON_ONCE(), but only in the IS_ERR() path, not
-> for the NULL check. Iff it is okay to print the warning also for NULL,
-> then the patches can be applied.
+> xfs_bmap_btalloc()
+>    xfs_bmap_btalloc_filestreams()
+>      xfs_filestream_select_ag()
 > 
-> While generating the patch set `checkpatch` complained about mixing
-> [un]likely() with IS_ERR_OR_NULL(), which already uses likely()
-> internally. I found and fixed several locations, where that combination
-> has been used.
+> Please integrate this write stream mapping functionality into that
+> allocator rather than hacking a new, almost identical allocator
+> policy into XFS.
+> 
+> filestreams currently uses the parent inode number as the stream ID
+> and maps that to an AG. It should be relatively trivial to use the
+> ip->i_write_stream as the stream ID instead of the parent inode.
 
-Thanks for the patchset. However, I think we need a explanation for why
-switching to IS_ERR_OR_NULL() is an improvement over the existing code.
+Yeah, should be possible. Will try that in V3.
 
-IMHO, the necessity of IS_ERR_OR_NULL() often highlights a confusing or
-flawed API design. It usually implies that the caller is unsure whether
-a failure results in an error pointer or a NULL pointer. Rather than
-doing a treewide conversion of this pattern, I believe it would be much
-more meaningful to review these instances case-by-case and fix the
-underlying APIs or caller logic instead.
+>> If AGs are fewer than write streams, write streams are distributed into
+>> available AGs in round robin fashion.
+>> If not, available AGs are partitioned into write streams. Since each
+>> write stream maps to a partition of multiple contiguous AGs, the inode hash
+>> is used to choose the specific AG within the stream partition. This can
+>> help with intra-stream concurency when multiple files are being written in
+>> a single stream that has 2 or more AGs.
+>>
+>> Example: 8 Allocation Groups, 4 Streams
+>> Partition Size = 2 AGs per Stream
+>>
+>>     Stream 1 (ID: 1)         Stream 2 (ID: 2)         Streams 3 & 4
+>>   +---------+---------+    +---------+---------+    +-------------
+>>   |   AG0   |   AG1   |    |   AG2   |   AG3   |    |  AG4...AG7
+>>   +---------+---------+    +---------+---------+    +-------------
+>>        ^         ^              ^         ^
+>>        |         |              |         |
+>>        | File B (ino: 101)      | File D (ino: 201)
+>>        | 101 % 2 = 1 -> AG 1    | 201 % 2 = 1 -> AG 3
+>>        |                        |
+>>   File A (ino: 100)        File C (ino: 200)
+>>   100 % 2 = 0 -> AG 0      200 % 2 = 0 -> AG 2
+>>
+>> If AGs can not be evenly distributed among streams, the last stream will
+>> absorb the remaining AGs.
+> Yeah, this should all be hidden behind xfs_filestream_select_ag()
+> when ip->i_write_stream is set....
 
-Additionally, a treewide refactoring like this has the practical
-drawback of creating unnecessary merge conflicts when backporting to
-stable trees.
+Added in the TBD list.
 
-Regards,
-Kuan-Wei
+>> Note that there are no hard boundaries; this only provides explicit
+>> routing hint to xfs allocator so that it can group/isolate files in the way
+>> application has decided to group/isolate. We still try to preserve file
+>> contiguity, and the full space can be utilized even with a single stream.
+> Yes, that's pretty much exactly what the filestreams allocator was
+> designed to do. It's a whole lot more dynamic that what you are
+> trying to do above and is not limited fixed AGs for streams - as
+> soon as an AG is out of space, it will select the AG with the most
+> free space for the stream and keep that relationship until that AG
+> is out of space.
+> 
+> IOWs, filestreams does not limit a stream to a fixed number of AGs.
+> All it does is keep IO with the same stream ID in the same AG until
+> the AG is full and, as much as possible, prevents multiple streams
+> from using the same AG.
+
+
+filestream: 1 filestream == 1AG, at a time. And that can cause AGF lock 
+contention on high-concurrency NVMe workloads i.e., when multiple 
+threads writing to different files in same filestream.
+
+What I am doing here with new write stream has two aspects:
+
+(a) inter stream concurrency: multiple threads writing to different 
+files in different streams are not going to run into AGF lock.
+
+(b) intra stream concurrency: multiple threads writing to different 
+files in single stream will also face 'reduced' contention if each 
+stream is a collection of AG and we are spreading the load (with inode 
+hash). Therefore, each stream is partitioned into a group of AGs.
+
+Also, with filestream we can't do cross-directory grouping, of 
+file-level granularity. Write stream is a more explicit model. 
+Application decides what files are to be spatially separated/grouped and 
+what kind of concurrency buckets should be chosen for its N threads/files.
+
