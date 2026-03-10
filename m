@@ -1,491 +1,269 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C5DA381AF8;
-	Tue, 10 Mar 2026 11:13:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773141199; cv=none; b=YuEHMeh7A4Ak5x/FyOYIvDNic2E+1UKHnutHNpWcGwJCiSvLogZD6z7Ig5syEXYPLVP4+dK8s+eQSRpuPUxBF8gvm/Oea/Ut39untqCKqcglpM24i/EyjWXNlh5HVvwlzXTU23qVmy2jxgNSQLY7dcFrorXlXQDj1Oruxy60egA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773141199; c=relaxed/simple;
-	bh=KHkNa2iY+LzydtP3MVJvWvXZcYuJYQktkJTPOV5J9bU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bldKezYa3CmBInVwGLdENftzLG5YOl8dAh/DF/GwBmrDrsdXjJifzquY4DWAGSe2jP+BxDTM92Y9c0etmn90GoKwm0WNaolziVIcxbCNhsBCRQO9CbFIh3ymte0llf37Rb+NLrCTp44DX8/ZJeexpeJrDXR94PeeOAnzk/QyJik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FYcVDVFq; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9993138A711
+	for <linux-fsdevel@vger.kernel.org>; Tue, 10 Mar 2026 11:14:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773141300; cv=pass; b=H9zi4wBaG4wY1WmsN9wnUuHEcUMGZ2MnC0+Qy4+3fHwKuSbl4lIRk2Q169c5EuPZVo30u8kvGuiwvyhRBITY4VYMHjWVuemP0cx2JFnYD+zTd4icHKl5TqJDdK6D2q0TcfGbv+G9tFAqt4SLP7NqMq7BFyqmq4aIY7UGMsDDB9Y=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773141300; c=relaxed/simple;
+	bh=dbHtgtjj1uiCpkKO0izFY5I6j7foesFHL/JsNithh3U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sUpiI7ZANwldTa4jxEXbIHKpbdhIBJbJYTdrhrJFrghAMkVRmloTNc2NKB+ODnYhck0pAYKTWVXYB5lUgi85WgOgXE2HB6CJwgfT2+5L8u0yThAq8AcIyVi4WBvD8W5KFVOp5Sy1mQTmr6A+9uvtvWEfoKs9jKM6ixHAZLTs+ig=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cmhTVabR; arc=pass smtp.client-ip=209.85.208.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FYcVDVFq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FA2BC19423;
-	Tue, 10 Mar 2026 11:13:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773141199;
-	bh=KHkNa2iY+LzydtP3MVJvWvXZcYuJYQktkJTPOV5J9bU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=FYcVDVFqhBGsAhcZx0HNv6PcGCXiAuKmIQYIIpHvpWPge/I1AX9cVjxwMkn3wosXd
-	 Gq06g3CYuLcwBc6a7LXkB3EsmUOT+VH4tii3WJAdQ/BmvYTmWpjpZzlYn0JEN8U8dt
-	 jPqADh5iMe77LUffCMm/mD7akY424heuQ2jwXcO99IA9Y48ZMLkMPGErcFiTcjpF3n
-	 eUoyPbvpneLTqPYSSDtrnyr7yM8XlJOMk6Wna6vqp4RHDYmX2JZCkIVYQ27wi3UJrA
-	 QQ/hAxRsGB6FSxH+J2hp37y4RpMRGCQWmh2zTptQzt6N36g8fBZsb8S00vmMNqq0CD
-	 8Q2QMHgYoQKxw==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: David Howells <dhowells@redhat.com>,
-	Steve French <sfrench@samba.org>,
-	"Paulo Alcantara (Red Hat)" <pc@manguebit.org>,
-	netfs@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	Christian Brauner <brauner@kernel.org>,
-	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 6.19 200/311] netfs: Fix unbuffered/DIO writes to dispatch subrequests in strict sequence
-Date: Tue, 10 Mar 2026 07:04:07 -0400
-Message-ID: <ee5d760a85b4bee4ab9a1ff4f800fa6586304c84.1773140655.git.sashal@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <cover.1773140654.git.sashal@kernel.org>
-References: <cover.1773140654.git.sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cmhTVabR"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-661f8ea8a2bso5132786a12.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 10 Mar 2026 04:14:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773141297; cv=none;
+        d=google.com; s=arc-20240605;
+        b=kWNgYoR3enKsbK8gEusJv9iLU2KLL38LoDr8dnHuuh+7iobT9p1NxzOiE8E7NYa9cJ
+         42c4C7zNuIEZAGFuHSY2seaW0ORj4Nq5z/CIa6rKE/xO51I6jpe1vqWx/odzLaokFtRc
+         u5IHGl92ANCPyCiU9EXcRbnev6kzS1i6AzzqquKxGH76MGSeyylQw6Mk2D0axg9B923Q
+         YqlBjRM6cI2HOHDtiaJiQM39gBCawe7FZyB0tAx7OFN/BMzHMnpTQHCk8bCvByQLTskW
+         mSIkF2ODabtkQ90f1yWvHKKqxVVKvA7fwxnzj+Ud9bTgriZqNNk0vAlpUHDXrGm+x2wc
+         /KqA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=dbHtgtjj1uiCpkKO0izFY5I6j7foesFHL/JsNithh3U=;
+        fh=lHDOyPk3whSDIo+2UHjBFvLwRQpiAOA5WqRCRSHQjGY=;
+        b=lApLlfNgG3cPYsAkJ40+loYWts+gAkhAAWvb5KZmHsOrsxyMy+bO8zhmAOzk9eC3q/
+         sZcDKENVi5WEHRYYDB9vgPiek3g1LnxgSqqiyKX1UEoWaQuxMiBpgBvZrEQ8HGasbO2Y
+         Xu7inb9OM/fSx5d8JYEHrB7IFFujl+eOm6kWch/wEdrwc60WPv0/9voVX2GdGmPjfLBD
+         fNgCtw9w4jSfjU3CdCoLemxeF/udb2X1/uJkygUvXCIxpAJkZUtcV++dsNfW+P9o2U36
+         MM76fdeglZ3dlPH9H7+QSTRg6476Mj4U2W74PcX6zbGYZjDKzqJ/XTzYx26KHhisW60K
+         ciNQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773141297; x=1773746097; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dbHtgtjj1uiCpkKO0izFY5I6j7foesFHL/JsNithh3U=;
+        b=cmhTVabRfcMrc4wSXFnp3OcwjLUjUzFFp1itpIDQLtUXsvzwjdIXq0+v0GG+hV9s9j
+         fu11+h70q3XaFt2qM+Dk/QvzbQJyVHlHSlVlUK95JD/0O+pKckjeWtiPr1KH/FjCbtIt
+         MCrQdBCH/CwlYlhg7siXxu3jqPeW9t4DgfqjWAjMHhXDtYzRiQNHdzrMWTtj5hU2G7Qa
+         ZNd5y/GjKVbqAdIttKjAhyaNsBpzXavjSZq6x8SVBlOXzIbzjXlvtXqJahVR30r9ciCh
+         wn2AozUI0qUrgRRZuhiyUXL0uA6hFsG8cj6sDmI+G7AveN6eprpzQm7W/X8LHB7QZ+hT
+         GSsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773141297; x=1773746097;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=dbHtgtjj1uiCpkKO0izFY5I6j7foesFHL/JsNithh3U=;
+        b=J7R8fMvfh37+6hBjtqalF84madnRdrEwYpiUqHBGBZMFKiL0hAORyeNGVffe2Nf1/I
+         GCEIf5Nvko4iuJgDsWIy8hQafjIRVfW57nS6FeeqwQM6ZXQrTSF8+w2KxhcaqO4u8gx2
+         SyUBTgLsMsO4c86JMp0zuXwBifhDnNhlTw6wX7RNj7yjfz9RByqRWTHR5zcYQ9pyp07T
+         n9PTMbMjiMXi+10uFea+Gsba0UtXS03SHjDZFVysSps3P767/3iS0hyXdnmgAH/NwEg9
+         useLZnU2UgghrqkGu0fO6dsvtTnhYg5r3fZWx2qjq844mgVdUCxru6qDfnlVLNVyoy6m
+         Hulg==
+X-Forwarded-Encrypted: i=1; AJvYcCVEXPVuzWSXaIeHJMnSqgm7Eeb6YDWeaadVHMV8l1hRVUIOlUWnVlF1+mTjT08XEj4MDh4z5UNqC1piUGI/@vger.kernel.org
+X-Gm-Message-State: AOJu0YzkqPdbGwy2r3W0yKJYX20yDhk/g+CBFkWPTfnmaOtZ2OXaCj4C
+	rAxyC3f30tyzRSMPEuAZPA0O5MAPOdqCXDt3VG58W/XRE7w7DuwGqvIdt8PsmxQb4xgolcoMCro
+	v/GZrNaZzGsGt8yOHrJGVlIA60bhpQXQ=
+X-Gm-Gg: ATEYQzwbZrbz/rJXxzkaKDje6/P+Nwx4GRyQOlXS9OzT7YK4+D3IVtLgOaMtDywVDqg
+	moXL3d/YdeyiTxtXuTCFGg+pfgmEuwiG0Ic7xp9IJyuUNnWjLIeUmPjGHUoawvjQwDgp1Q87htD
+	2O1dbwZOhJMXfmpZ6q60QeEmClNG0IFdmB5gBt+PNjy0FICpCN0acKMTKc0ebC0HT6IVtNuhqcl
+	40e/Eca7h9TJDsO+upS8/W+nWm65biAqh1XqGNuZM9kJaVOxkjrRtwNr3hWrtMNkyJtzGab6LNu
+	dDnVyxIazOPdY/dEebjnxNg9gszV6mQCm0amiwBE4w==
+X-Received: by 2002:a17:907:9810:b0:b96:fbeb:f791 with SMTP id
+ a640c23a62f3a-b96fbec06cbmr326472066b.47.1773141296269; Tue, 10 Mar 2026
+ 04:14:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+References: <20260307110550.373762-1-amir73il@gmail.com> <20260309-einrad-mitarbeit-18397e65afd3@brauner>
+ <CAOQ4uxgmttSum2a2gKBkpdzg4110rpaH4mayy=9+QzWjFRNB6w@mail.gmail.com> <20260310-inkompatibel-staufer-7c862857ac62@brauner>
+In-Reply-To: <20260310-inkompatibel-staufer-7c862857ac62@brauner>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Tue, 10 Mar 2026 12:14:45 +0100
+X-Gm-Features: AaiRm52y5lAAEAvon4UNdmu-oz74AEop0QTJY2p9s25yMxH4bm_VCMdHdlASpVw
+Message-ID: <CAOQ4uxiXE3Ko60_Y6ZNmxkORjOFTCACR0PeTz51nZKWHMR=+og@mail.gmail.com>
+Subject: Re: [RFC][PATCH 0/5] fanotify namespace monitoring
+To: Christian Brauner <brauner@kernel.org>
+Cc: Jan Kara <jack@suse.cz>, Lennart Poettering <lennart@poettering.net>, Tejun Heo <tj@kernel.org>, 
+	"T . J . Mercier" <tjmercier@google.com>, linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: David Howells <dhowells@redhat.com>
+On Tue, Mar 10, 2026 at 11:31=E2=80=AFAM Christian Brauner <brauner@kernel.=
+org> wrote:
+>
+> On Mon, Mar 09, 2026 at 04:47:20PM +0100, Amir Goldstein wrote:
+> > On Mon, Mar 9, 2026 at 1:33=E2=80=AFPM Christian Brauner <brauner@kerne=
+l.org> wrote:
+> > >
+> > > On Sat, Mar 07, 2026 at 12:05:45PM +0100, Amir Goldstein wrote:
+> > > > Jan,
+> > > >
+> > > > Similar to mount notifications and listmount(), this is the complem=
+entary
+> > > > part of listns().
+> > > >
+> > > > The discussion about FAN_DELETE_SELF events for kernfs [1] for cgro=
+up
+> > > > tree monitoring got me thinking that this sort of monitoring should=
+ not be
+> > > > tied to vfs inodes.
+> > > >
+> > > > Monitoring the cgroups tree has some semantic nuances, but I am tol=
+d by
+> > > > Christian, that similar requirement exists for monitoring namepsace=
+ tree,
+> > > > where the semantics w.r.t userns are more clear.
+> > > >
+> > > > I prepared this RFC to see if it meets the requirements of userspac=
+e
+> > > > and think if that works, the solution could be extended to monitori=
+ng
+> > > > cgroup trees.
+> > > >
+> > > > IMO monitoring namespace trees and monitoring filesystem objects do=
+ not
+> > > > need to be mixed in the same fanotify group, so I wanted to try usi=
+ng
+> > > > the high 32bits for event flags rather than wasting more event flag=
+s
+> > > > in low 32bit. I remember that I wanted to so that for mount monitor=
+ing
+> > > > events, but did not insist, so too bad.
+> > > >
+> > > > However, the code for using the high 32bit in uapi is quite ugly an=
+d
+> > > > hackish ATM, so I kept it as a separate patch, that we can either t=
+hrow
+> > > > away or improve later.
+> > > >
+> > > > Christian/Lennart,
+> > > >
+> > > > I had considered if doing "recursive watches" to get all events fro=
+m
+> > > > descendant namepsaces is worth while and decided with myself that i=
+t was
+> > > > not.
+> > > >
+> > > > Please let me know if this UAPI meets your requirements.
+> > >
+> > > I think this looks great overall and is very useful as it allows to
+> > > monitor namespace events outside of bpf lsms. I agree with the
+> > > non-recursive design. You could generalize this approach by deriving =
+the
+> > > watch from the namespace file descriptor? Then you can get notificati=
+ons
+> > > for all types of namespaces.
+> >
+> > Not sure what you mean?
+> > Which type of notifications?
+> > This RFC generates notifications for all types of namespaces created/de=
+leted
+> > under the watched userns.
+>
+> I misunderstood that part. Yes, that's really useful as is.
+>
+> >
+> > Which notifications did you intend to watch for other types of ns?
+> > DELETE_SELF?
+> >
+> > That would be easy to add.
+> > Would just need to move the n_fsnotify_marks/mask to struct ns_common
+> > (also from mnt_namespace).
+>
+> Yes, I was thinking about a way to monitor namespace destruction for an
+> arbitrary namespace.
+>
+> >
+> > >
+> > > If we ever want recursive watches, then we just need to add a separat=
+e
+> > > flag. This is only applicable to userns and pidns anyway.
+> >
+> > Yes, if we wanted to.
+> >
+> > >
+> > > I want to put another - crazier idea - in your head: Since pidfds are
+> > > file descriptors and now have the ability to persist information past
+> > > pidfd closure via struct pid->attr it is possible to allow fanotify
+> > > watches on pidfds.
+> > >
+> > > I think that this opens up a crazy amount of possibilities that will =
+be
+> > > tremendously useful - also would mean fsnotify outside of fs/ proper.
+> > > Just thinking on the spot: if you allow marking a pidfd it's super ea=
+sy
+> > > to plumb exec notifications via fanotify on top of it. It's also easy=
+ to
+> > > monitor _all_ namespace events for a specific process via pidfds.
+> >
+> > Anything's possible, but we need to make sure it's worth it.
+> > Aren't there already enough ways to monitor a process via ptrace/landlo=
+ck?
+>
+> Oh god, no. ;)
+> ptrace() is way too heavy handed for usages outside of debugging tools
+> such as strace and also has the downside that only one ptracer can be
+> attached at any time. I have no idea about landlock but it is an LSM and
+> I don't know why an LSM should have such notification abilities.
+>
+> fanotify on the other has no odd limitations and it naturally ties in
+> with filesystem objects and with pidfs we've made processes filesystem
+> objects. So I think this is a very natural fit.
+>
+> So you could just register a pidfd with fanotify and then get notified
+> about exec events for that pidfd with arbitrary metadata attached to it
+> if need. I've wanted this for a long time and one way I thought about
+> going about this is by somehow plubming this into poll for pidfd but
+> that's not going to scale as we grow more notifications events for
+> pidfds.
+>
+> I think fanotify is the perfect fit for this with its extensible model.
+>
 
-[ Upstream commit a0b4c7a49137ed21279f354eb59f49ddae8dffc2 ]
+I have no objection to utilizing fanotify beyond fs boundaries,
+but if we do that, I think we need to carefully partition the event flags
+namespace.
 
-Fix netfslib such that when it's making an unbuffered or DIO write, to make
-sure that it sends each subrequest strictly sequentially, waiting till the
-previous one is 'committed' before sending the next so that we don't have
-pieces landing out of order and potentially leaving a hole if an error
-occurs (ENOSPC for example).
+As I wrote in the cover letter, I see no reason for FAN_MARK_FILESYSTEM
+watch to be in the same group (fanotifyfd) as FAN_MARK_USERNS or
+FAN_MARK_MNTNS for than matter.
 
-This is done by copying in just those bits of issuing, collecting and
-retrying subrequests that are necessary to do one subrequest at a time.
-Retrying, in particular, is simpler because if the current subrequest needs
-retrying, the source iterator can just be copied again and the subrequest
-prepped and issued again without needing to be concerned about whether it
-needs merging with the previous or next in the sequence.
+I would rather use something like FAN_CLASS_PROC classification
+to explicitly say "this fanotifyfd is only for process/namespace notificati=
+ons"
+and in this context user would use completely different event constants.
 
-Note that the issuing loop waits for a subrequest to complete right after
-issuing it, but this wait could be moved elsewhere allowing preparatory
-steps to be performed whilst the subrequest is in progress.  In particular,
-once content encryption is available in netfslib, that could be done whilst
-waiting, as could cleanup of buffers that have been completed.
+OTOH, maybe it will be less confusing to add new syscalls
+pnotify_init()/pnotify_mark() as a frontend to this separate class of event=
+s.
+If for no other reason, then because fanotify_mark(2) man page is
+getting out of control ;)
 
-Fixes: 153a9961b551 ("netfs: Implement unbuffered/DIO write support")
-Signed-off-by: David Howells <dhowells@redhat.com>
-Link: https://patch.msgid.link/58526.1772112753@warthog.procyon.org.uk
-Tested-by: Steve French <sfrench@samba.org>
-Reviewed-by: Paulo Alcantara (Red Hat) <pc@manguebit.org>
-cc: netfs@lists.linux.dev
-cc: linux-fsdevel@vger.kernel.org
-Signed-off-by: Christian Brauner <brauner@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- fs/netfs/direct_write.c      | 228 ++++++++++++++++++++++++++++++++---
- fs/netfs/internal.h          |   4 +-
- fs/netfs/write_collect.c     |  21 ----
- fs/netfs/write_issue.c       |  41 +------
- include/trace/events/netfs.h |   4 +-
- 5 files changed, 221 insertions(+), 77 deletions(-)
+> >
+> > >
+> > > This obviously needs some thinking wrt security etc but I just want t=
+o
+> > > put the thought out there that the integration of pidfds and fanotify=
+ is
+> > > possible.
+> >
+> > I was thinking more about watching the entire pidfs space, but sure.
+>
+> That's certainly possible too. Initially it would have to be scoped to
+> global admin privileges but ultimately you could probably filter by
+> credentials - if needed.
 
-diff --git a/fs/netfs/direct_write.c b/fs/netfs/direct_write.c
-index a9d1c3b2c0842..dd1451bf7543d 100644
---- a/fs/netfs/direct_write.c
-+++ b/fs/netfs/direct_write.c
-@@ -9,6 +9,202 @@
- #include <linux/uio.h>
- #include "internal.h"
- 
-+/*
-+ * Perform the cleanup rituals after an unbuffered write is complete.
-+ */
-+static void netfs_unbuffered_write_done(struct netfs_io_request *wreq)
-+{
-+	struct netfs_inode *ictx = netfs_inode(wreq->inode);
-+
-+	_enter("R=%x", wreq->debug_id);
-+
-+	/* Okay, declare that all I/O is complete. */
-+	trace_netfs_rreq(wreq, netfs_rreq_trace_write_done);
-+
-+	if (!wreq->error)
-+		netfs_update_i_size(ictx, &ictx->inode, wreq->start, wreq->transferred);
-+
-+	if (wreq->origin == NETFS_DIO_WRITE &&
-+	    wreq->mapping->nrpages) {
-+		/* mmap may have got underfoot and we may now have folios
-+		 * locally covering the region we just wrote.  Attempt to
-+		 * discard the folios, but leave in place any modified locally.
-+		 * ->write_iter() is prevented from interfering by the DIO
-+		 * counter.
-+		 */
-+		pgoff_t first = wreq->start >> PAGE_SHIFT;
-+		pgoff_t last = (wreq->start + wreq->transferred - 1) >> PAGE_SHIFT;
-+
-+		invalidate_inode_pages2_range(wreq->mapping, first, last);
-+	}
-+
-+	if (wreq->origin == NETFS_DIO_WRITE)
-+		inode_dio_end(wreq->inode);
-+
-+	_debug("finished");
-+	netfs_wake_rreq_flag(wreq, NETFS_RREQ_IN_PROGRESS, netfs_rreq_trace_wake_ip);
-+	/* As we cleared NETFS_RREQ_IN_PROGRESS, we acquired its ref. */
-+
-+	if (wreq->iocb) {
-+		size_t written = umin(wreq->transferred, wreq->len);
-+
-+		wreq->iocb->ki_pos += written;
-+		if (wreq->iocb->ki_complete) {
-+			trace_netfs_rreq(wreq, netfs_rreq_trace_ki_complete);
-+			wreq->iocb->ki_complete(wreq->iocb, wreq->error ?: written);
-+		}
-+		wreq->iocb = VFS_PTR_POISON;
-+	}
-+
-+	netfs_clear_subrequests(wreq);
-+}
-+
-+/*
-+ * Collect the subrequest results of unbuffered write subrequests.
-+ */
-+static void netfs_unbuffered_write_collect(struct netfs_io_request *wreq,
-+					   struct netfs_io_stream *stream,
-+					   struct netfs_io_subrequest *subreq)
-+{
-+	trace_netfs_collect_sreq(wreq, subreq);
-+
-+	spin_lock(&wreq->lock);
-+	list_del_init(&subreq->rreq_link);
-+	spin_unlock(&wreq->lock);
-+
-+	wreq->transferred += subreq->transferred;
-+	iov_iter_advance(&wreq->buffer.iter, subreq->transferred);
-+
-+	stream->collected_to = subreq->start + subreq->transferred;
-+	wreq->collected_to = stream->collected_to;
-+	netfs_put_subrequest(subreq, netfs_sreq_trace_put_done);
-+
-+	trace_netfs_collect_stream(wreq, stream);
-+	trace_netfs_collect_state(wreq, wreq->collected_to, 0);
-+}
-+
-+/*
-+ * Write data to the server without going through the pagecache and without
-+ * writing it to the local cache.  We dispatch the subrequests serially and
-+ * wait for each to complete before dispatching the next, lest we leave a gap
-+ * in the data written due to a failure such as ENOSPC.  We could, however
-+ * attempt to do preparation such as content encryption for the next subreq
-+ * whilst the current is in progress.
-+ */
-+static int netfs_unbuffered_write(struct netfs_io_request *wreq)
-+{
-+	struct netfs_io_subrequest *subreq = NULL;
-+	struct netfs_io_stream *stream = &wreq->io_streams[0];
-+	int ret;
-+
-+	_enter("%llx", wreq->len);
-+
-+	if (wreq->origin == NETFS_DIO_WRITE)
-+		inode_dio_begin(wreq->inode);
-+
-+	stream->collected_to = wreq->start;
-+
-+	for (;;) {
-+		bool retry = false;
-+
-+		if (!subreq) {
-+			netfs_prepare_write(wreq, stream, wreq->start + wreq->transferred);
-+			subreq = stream->construct;
-+			stream->construct = NULL;
-+			stream->front = NULL;
-+		}
-+
-+		/* Check if (re-)preparation failed. */
-+		if (unlikely(test_bit(NETFS_SREQ_FAILED, &subreq->flags))) {
-+			netfs_write_subrequest_terminated(subreq, subreq->error);
-+			wreq->error = subreq->error;
-+			break;
-+		}
-+
-+		iov_iter_truncate(&subreq->io_iter, wreq->len - wreq->transferred);
-+		if (!iov_iter_count(&subreq->io_iter))
-+			break;
-+
-+		subreq->len = netfs_limit_iter(&subreq->io_iter, 0,
-+					       stream->sreq_max_len,
-+					       stream->sreq_max_segs);
-+		iov_iter_truncate(&subreq->io_iter, subreq->len);
-+		stream->submit_extendable_to = subreq->len;
-+
-+		trace_netfs_sreq(subreq, netfs_sreq_trace_submit);
-+		stream->issue_write(subreq);
-+
-+		/* Async, need to wait. */
-+		netfs_wait_for_in_progress_stream(wreq, stream);
-+
-+		if (test_bit(NETFS_SREQ_NEED_RETRY, &subreq->flags)) {
-+			retry = true;
-+		} else if (test_bit(NETFS_SREQ_FAILED, &subreq->flags)) {
-+			ret = subreq->error;
-+			wreq->error = ret;
-+			netfs_see_subrequest(subreq, netfs_sreq_trace_see_failed);
-+			subreq = NULL;
-+			break;
-+		}
-+		ret = 0;
-+
-+		if (!retry) {
-+			netfs_unbuffered_write_collect(wreq, stream, subreq);
-+			subreq = NULL;
-+			if (wreq->transferred >= wreq->len)
-+				break;
-+			if (!wreq->iocb && signal_pending(current)) {
-+				ret = wreq->transferred ? -EINTR : -ERESTARTSYS;
-+				trace_netfs_rreq(wreq, netfs_rreq_trace_intr);
-+				break;
-+			}
-+			continue;
-+		}
-+
-+		/* We need to retry the last subrequest, so first reset the
-+		 * iterator, taking into account what, if anything, we managed
-+		 * to transfer.
-+		 */
-+		subreq->error = -EAGAIN;
-+		trace_netfs_sreq(subreq, netfs_sreq_trace_retry);
-+		if (subreq->transferred > 0)
-+			iov_iter_advance(&wreq->buffer.iter, subreq->transferred);
-+
-+		if (stream->source == NETFS_UPLOAD_TO_SERVER &&
-+		    wreq->netfs_ops->retry_request)
-+			wreq->netfs_ops->retry_request(wreq, stream);
-+
-+		__clear_bit(NETFS_SREQ_NEED_RETRY, &subreq->flags);
-+		__clear_bit(NETFS_SREQ_BOUNDARY, &subreq->flags);
-+		__clear_bit(NETFS_SREQ_FAILED, &subreq->flags);
-+		subreq->io_iter		= wreq->buffer.iter;
-+		subreq->start		= wreq->start + wreq->transferred;
-+		subreq->len		= wreq->len   - wreq->transferred;
-+		subreq->transferred	= 0;
-+		subreq->retry_count	+= 1;
-+		stream->sreq_max_len	= UINT_MAX;
-+		stream->sreq_max_segs	= INT_MAX;
-+
-+		netfs_get_subrequest(subreq, netfs_sreq_trace_get_resubmit);
-+		stream->prepare_write(subreq);
-+
-+		__set_bit(NETFS_SREQ_IN_PROGRESS, &subreq->flags);
-+		netfs_stat(&netfs_n_wh_retry_write_subreq);
-+	}
-+
-+	netfs_unbuffered_write_done(wreq);
-+	_leave(" = %d", ret);
-+	return ret;
-+}
-+
-+static void netfs_unbuffered_write_async(struct work_struct *work)
-+{
-+	struct netfs_io_request *wreq = container_of(work, struct netfs_io_request, work);
-+
-+	netfs_unbuffered_write(wreq);
-+	netfs_put_request(wreq, netfs_rreq_trace_put_complete);
-+}
-+
- /*
-  * Perform an unbuffered write where we may have to do an RMW operation on an
-  * encrypted file.  This can also be used for direct I/O writes.
-@@ -70,35 +266,35 @@ ssize_t netfs_unbuffered_write_iter_locked(struct kiocb *iocb, struct iov_iter *
- 			 */
- 			wreq->buffer.iter = *iter;
- 		}
-+
-+		wreq->len = iov_iter_count(&wreq->buffer.iter);
- 	}
- 
- 	__set_bit(NETFS_RREQ_USE_IO_ITER, &wreq->flags);
--	if (async)
--		__set_bit(NETFS_RREQ_OFFLOAD_COLLECTION, &wreq->flags);
- 
- 	/* Copy the data into the bounce buffer and encrypt it. */
- 	// TODO
- 
- 	/* Dispatch the write. */
- 	__set_bit(NETFS_RREQ_UPLOAD_TO_SERVER, &wreq->flags);
--	if (async)
--		wreq->iocb = iocb;
--	wreq->len = iov_iter_count(&wreq->buffer.iter);
--	ret = netfs_unbuffered_write(wreq, is_sync_kiocb(iocb), wreq->len);
--	if (ret < 0) {
--		_debug("begin = %zd", ret);
--		goto out;
--	}
- 
--	if (!async) {
--		ret = netfs_wait_for_write(wreq);
--		if (ret > 0)
--			iocb->ki_pos += ret;
--	} else {
-+	if (async) {
-+		INIT_WORK(&wreq->work, netfs_unbuffered_write_async);
-+		wreq->iocb = iocb;
-+		queue_work(system_dfl_wq, &wreq->work);
- 		ret = -EIOCBQUEUED;
-+	} else {
-+		ret = netfs_unbuffered_write(wreq);
-+		if (ret < 0) {
-+			_debug("begin = %zd", ret);
-+		} else {
-+			iocb->ki_pos += wreq->transferred;
-+			ret = wreq->transferred ?: wreq->error;
-+		}
-+
-+		netfs_put_request(wreq, netfs_rreq_trace_put_complete);
- 	}
- 
--out:
- 	netfs_put_request(wreq, netfs_rreq_trace_put_return);
- 	return ret;
- 
-diff --git a/fs/netfs/internal.h b/fs/netfs/internal.h
-index 4319611f53544..d436e20d34185 100644
---- a/fs/netfs/internal.h
-+++ b/fs/netfs/internal.h
-@@ -198,6 +198,9 @@ struct netfs_io_request *netfs_create_write_req(struct address_space *mapping,
- 						struct file *file,
- 						loff_t start,
- 						enum netfs_io_origin origin);
-+void netfs_prepare_write(struct netfs_io_request *wreq,
-+			 struct netfs_io_stream *stream,
-+			 loff_t start);
- void netfs_reissue_write(struct netfs_io_stream *stream,
- 			 struct netfs_io_subrequest *subreq,
- 			 struct iov_iter *source);
-@@ -212,7 +215,6 @@ int netfs_advance_writethrough(struct netfs_io_request *wreq, struct writeback_c
- 			       struct folio **writethrough_cache);
- ssize_t netfs_end_writethrough(struct netfs_io_request *wreq, struct writeback_control *wbc,
- 			       struct folio *writethrough_cache);
--int netfs_unbuffered_write(struct netfs_io_request *wreq, bool may_wait, size_t len);
- 
- /*
-  * write_retry.c
-diff --git a/fs/netfs/write_collect.c b/fs/netfs/write_collect.c
-index 61eab34ea67ef..83eb3dc1adf8a 100644
---- a/fs/netfs/write_collect.c
-+++ b/fs/netfs/write_collect.c
-@@ -399,27 +399,6 @@ bool netfs_write_collection(struct netfs_io_request *wreq)
- 		ictx->ops->invalidate_cache(wreq);
- 	}
- 
--	if ((wreq->origin == NETFS_UNBUFFERED_WRITE ||
--	     wreq->origin == NETFS_DIO_WRITE) &&
--	    !wreq->error)
--		netfs_update_i_size(ictx, &ictx->inode, wreq->start, wreq->transferred);
--
--	if (wreq->origin == NETFS_DIO_WRITE &&
--	    wreq->mapping->nrpages) {
--		/* mmap may have got underfoot and we may now have folios
--		 * locally covering the region we just wrote.  Attempt to
--		 * discard the folios, but leave in place any modified locally.
--		 * ->write_iter() is prevented from interfering by the DIO
--		 * counter.
--		 */
--		pgoff_t first = wreq->start >> PAGE_SHIFT;
--		pgoff_t last = (wreq->start + wreq->transferred - 1) >> PAGE_SHIFT;
--		invalidate_inode_pages2_range(wreq->mapping, first, last);
--	}
--
--	if (wreq->origin == NETFS_DIO_WRITE)
--		inode_dio_end(wreq->inode);
--
- 	_debug("finished");
- 	netfs_wake_rreq_flag(wreq, NETFS_RREQ_IN_PROGRESS, netfs_rreq_trace_wake_ip);
- 	/* As we cleared NETFS_RREQ_IN_PROGRESS, we acquired its ref. */
-diff --git a/fs/netfs/write_issue.c b/fs/netfs/write_issue.c
-index 34894da5a23ec..437268f656409 100644
---- a/fs/netfs/write_issue.c
-+++ b/fs/netfs/write_issue.c
-@@ -154,9 +154,9 @@ EXPORT_SYMBOL(netfs_prepare_write_failed);
-  * Prepare a write subrequest.  We need to allocate a new subrequest
-  * if we don't have one.
-  */
--static void netfs_prepare_write(struct netfs_io_request *wreq,
--				struct netfs_io_stream *stream,
--				loff_t start)
-+void netfs_prepare_write(struct netfs_io_request *wreq,
-+			 struct netfs_io_stream *stream,
-+			 loff_t start)
- {
- 	struct netfs_io_subrequest *subreq;
- 	struct iov_iter *wreq_iter = &wreq->buffer.iter;
-@@ -698,41 +698,6 @@ ssize_t netfs_end_writethrough(struct netfs_io_request *wreq, struct writeback_c
- 	return ret;
- }
- 
--/*
-- * Write data to the server without going through the pagecache and without
-- * writing it to the local cache.
-- */
--int netfs_unbuffered_write(struct netfs_io_request *wreq, bool may_wait, size_t len)
--{
--	struct netfs_io_stream *upload = &wreq->io_streams[0];
--	ssize_t part;
--	loff_t start = wreq->start;
--	int error = 0;
--
--	_enter("%zx", len);
--
--	if (wreq->origin == NETFS_DIO_WRITE)
--		inode_dio_begin(wreq->inode);
--
--	while (len) {
--		// TODO: Prepare content encryption
--
--		_debug("unbuffered %zx", len);
--		part = netfs_advance_write(wreq, upload, start, len, false);
--		start += part;
--		len -= part;
--		rolling_buffer_advance(&wreq->buffer, part);
--		if (test_bit(NETFS_RREQ_PAUSE, &wreq->flags))
--			netfs_wait_for_paused_write(wreq);
--		if (test_bit(NETFS_RREQ_FAILED, &wreq->flags))
--			break;
--	}
--
--	netfs_end_issue_write(wreq);
--	_leave(" = %d", error);
--	return error;
--}
--
- /*
-  * Write some of a pending folio data back to the server and/or the cache.
-  */
-diff --git a/include/trace/events/netfs.h b/include/trace/events/netfs.h
-index 64a382fbc31a8..2d366be46a1c3 100644
---- a/include/trace/events/netfs.h
-+++ b/include/trace/events/netfs.h
-@@ -57,6 +57,7 @@
- 	EM(netfs_rreq_trace_done,		"DONE   ")	\
- 	EM(netfs_rreq_trace_end_copy_to_cache,	"END-C2C")	\
- 	EM(netfs_rreq_trace_free,		"FREE   ")	\
-+	EM(netfs_rreq_trace_intr,		"INTR   ")	\
- 	EM(netfs_rreq_trace_ki_complete,	"KI-CMPL")	\
- 	EM(netfs_rreq_trace_recollect,		"RECLLCT")	\
- 	EM(netfs_rreq_trace_redirty,		"REDIRTY")	\
-@@ -169,7 +170,8 @@
- 	EM(netfs_sreq_trace_put_oom,		"PUT OOM    ")	\
- 	EM(netfs_sreq_trace_put_wip,		"PUT WIP    ")	\
- 	EM(netfs_sreq_trace_put_work,		"PUT WORK   ")	\
--	E_(netfs_sreq_trace_put_terminated,	"PUT TERM   ")
-+	EM(netfs_sreq_trace_put_terminated,	"PUT TERM   ")	\
-+	E_(netfs_sreq_trace_see_failed,		"SEE FAILED ")
- 
- #define netfs_folio_traces					\
- 	EM(netfs_folio_is_uptodate,		"mod-uptodate")	\
--- 
-2.51.0
+Or watch all processes in a pidns.
 
+The leading rule is if the object (e.g. pidns) is accessible in
+the context of the event, then we could setup a watch on the object.
+
+Thanks,
+Amir.
