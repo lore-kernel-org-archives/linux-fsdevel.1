@@ -1,88 +1,155 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34D532BD5B4;
-	Tue, 10 Mar 2026 06:01:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773122487; cv=none; b=DRO13Re+QE93a/qAzXwIVPI9Dlz28NPU1twLwxTqHwUFKGl1EL8FHWe08K2dI1D4HhyqT97x846T2GwPubomudsYJ8adBtP9BRaqPyMw9+nXHvH9ecEe5gQxw6f9VjPxIBNapadxwc7C8gJNdjyOrzqNuFfZ5OCVjXdbV7+XRg0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773122487; c=relaxed/simple;
-	bh=pcVc9Pouz7lkg5v65oe7+D28QvskTR2dl5in922rYic=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a2AyaTBaKj0g/eDfhC4S6yn5IbkmXwSbnPhMPXvcm6HwpnyGdP6NQAUzxWEU10Uax8TlYiMSjCVtmXIxke2xfKVfagbTO681LU92hp6NRW9N7H0vZuZU455+KqGbbmSIr/aV05CkdkgvqHGHpZ9x+WZ4byHayMTJuJMSL1O8Up4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nz9IeBLY; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5CE8F4FA
+	for <linux-fsdevel@vger.kernel.org>; Tue, 10 Mar 2026 06:05:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773122706; cv=pass; b=qbusQATNmaz7YMaeMnW2bpT1lEPcphvnoqqrWKiZz4sFYgi7Zi0aRILPLBdnmdDWxsep+MLEqnK4miwFDQR9RQYAjKVWJ6KPGdBiFOWAhgrU6Nd/iLIMyKSaUT4qr/mCrjWJ+HM9t29uum0XTaxkahxMbGyJxV2N6n/WmXFeg3E=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773122706; c=relaxed/simple;
+	bh=4iGz7Lb6Hv2xcUHA9HcY/30Pcg9lN6M4cZeEpm0cTMI=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=eNza/8MqKw1mfTdkWP9xSEwEf5p7XskA1gvY5iO+hyDjElQPidOlqmB+CDBFsR3SQ1kmhKo0F/17LyiucJO8wn8PhQNbpgX9JJDDnma1lWWSOxEqnCZR62WwOxr18UPnTJnP645AoQxYtjSVjMclgYWmLIICyxhYPNbzh1wUn/Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jDPgaVrH; arc=pass smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nz9IeBLY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0415FC19423;
-	Tue, 10 Mar 2026 06:01:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773122486;
-	bh=pcVc9Pouz7lkg5v65oe7+D28QvskTR2dl5in922rYic=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nz9IeBLYWvwYXJeLU812UbuzIcBxgLZqPrDcdN+b+JX4LZrqR2igIpo6pI8FmVgui
-	 aXSSulclqsHn/Eh4BDqE0OaJaaAEJ8eMGAH0yXFm+ddQnNTj9nBpG/p1Sx8LOQnTMY
-	 1jKerhye52gKTjCVkp1ZGMl//8be3/X50YplRaO1C2mqQp4wVlITYSi704Vv/ddV+s
-	 GT/GU0ylJ5goQLWLyQTbmCxWSalmy1uyQh7PAqvHgN+ahQxK5iNDqs6G8CNhNFCDBb
-	 QsNxXpLD4BJv/4oTwxkABzo7FbIiiiT+DUkVj1bec0/MoY9H3oifC1UvW4iqrIJ0Xn
-	 6sVKO0IxZeW6Q==
-Date: Tue, 10 Mar 2026 17:01:15 +1100
-From: Dave Chinner <dgc@kernel.org>
-To: Kanchan Joshi <joshi.k@samsung.com>
-Cc: brauner@kernel.org, hch@lst.de, djwong@kernel.org, jack@suse.cz,
-	cem@kernel.org, kbusch@kernel.org, axboe@kernel.dk,
-	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	gost.dev@samsung.com
-Subject: Re: [PATCH v2 5/5] xfs: introduce software write streams
-Message-ID: <aa-zq5troQ91i73v@dread>
-References: <20260309052944.156054-1-joshi.k@samsung.com>
- <CGME20260309053436epcas5p3cdfff99c945032dc50503774770f4317@epcas5p3.samsung.com>
- <20260309052944.156054-6-joshi.k@samsung.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jDPgaVrH"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-35995cb33a8so4901807a91.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 09 Mar 2026 23:05:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773122705; cv=none;
+        d=google.com; s=arc-20240605;
+        b=EKjEinzpjwpvrle4+x/ktOJkdoFPI7eixmCX5ynsik5pAIaH1PQDmVNfARiRBclGWC
+         vShmzF+Hyh88+j5tCm4UmlPb2W368IReevKY0JioZZF2phaXcA/Mz4U20vgo+w4cRfl2
+         qqrq5iA22xf4I5cF70GurSjmwKO046U+EXfW5gU9WstepbdW/Fbs834zq/qB6I4BS7zw
+         G6FKF4niFA1KJ86cbR+DIBpAVb9N0QJ7sZj9V5tTR7qhKcR62h9Ooww4MuatSFY2HTpo
+         ZFawO3CveRf6WG9YKvSFdDALObQHClXeo1B6V7LMNAGhFo3t1mq88Ffvy4LMO6AyIsou
+         lHYA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=g3oCeeNo06dVSg0D2aS0+PS/IuJ2tDlfQKjHJT5nitc=;
+        fh=dL5RKLghII/g9pcli/cYcSM5zNHYNsgoUmgVVdIsYSA=;
+        b=Nq5wTBByM6GAyemx8XFE4CE6gAmKPQdQWlEYWwth8l2yrOJCh/NH7bC84jDPbIkLkK
+         r3IamVhGUBbv7oWY8bOIIIxwMJkpWE50+8Dk1o/hxzkFOPmwzbkxf8WBd0VLRHBXf5ps
+         VgRb9vAc8YDe0HnwA4QYVJFxTUEr4gcPpP+QJSHjKeK2DJfsSKRxEAYwLkQByicv7CaI
+         XJ0maSQGkUvgIzSMt4aIBIABDZDSlqZHshXEsQPHL59r8C5yhS30oPby7Nbd/fDurr5D
+         DRxESXM8VbYFCz4a0Op5RZT1kzjF8MNePJ6rCEciDqIWiR37qjqZamp+9d89HF9SvHNz
+         YDug==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773122705; x=1773727505; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=g3oCeeNo06dVSg0D2aS0+PS/IuJ2tDlfQKjHJT5nitc=;
+        b=jDPgaVrHtQBtpiuiUWgcYDtIOSIYVWFB8MzCT/YclUsD31EXmKcQ0H2gPuLx/tHDDu
+         Rhlh8pLpqLusskgLqomFEWOZ/WCblPV6u02rxJ7oUP8xxJsTY/cm2C21gvOD+KL4guCT
+         V0YHqRGf+imDJv5yKNdMZ1K7wQ+ljQS1HIvpXkEYk9gzGC4erg2dolyZIsAkyg1i1qon
+         /LzyxkWcsXpqVRQBgdrNWtoBbEGSWh7MmWLNPQBt78MEkJZya11MSpkkH0xTq4gO07/A
+         71WLgplhI/a/CN5+44VBNJaArDh9YUr77G9G7HLi0rJ0OHu4yZfdtv75G1d8L9eJ5ff1
+         3ZQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773122705; x=1773727505;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=g3oCeeNo06dVSg0D2aS0+PS/IuJ2tDlfQKjHJT5nitc=;
+        b=OZ2A9ZOu+3YT67V2z4TRI+3/KfXO5tFvvxAgVCroXbTLpeMTtJJMADLgRK+vgX0guS
+         5n7FqbBEsD2tk0WJ/ZXzj3JBO5d6eAWZfQdOlpaRjNV/tzhVBaPvxU/p8JdEAgYPzD2y
+         MHFAAAC/J9GOKy43M+HRjBuTkowpCFmjYL2ar59BJdMKX48ZGP+mmwa8lASL1VsEcoZd
+         umJY/PvSPG1sTey24tl5fyaD2OfI8sz9TfE/Bn0mamtHrAo7wb5padC/L75uYKUv/HaW
+         0eEA7r8+hl7Eyu9hYU+wMEB53JRLbZ1K8lZq7D0UWtGYBFjjQrRx7yUHrGztOHl0ZtK/
+         4CIg==
+X-Gm-Message-State: AOJu0YwFZrW4CKXmcIEpZK/FGn/dsdWrRFT0+L8fqcjKAK1AFZ1EVbAj
+	YUcnww1M7vcURWTj96YkixJpEoBXX8UZOpDKkkuMUaCU0PYEfEjbXtT+BGRcEnA7jNGmqQ9303v
+	xcHJhd3GThJ3o0X3emeQia32pSoo44yeV2OPY9NCE6Q==
+X-Gm-Gg: ATEYQzyk4ZJRine2QmYvVdC5dWnukJGj8maynu392NWqrSudr/facmon9odmCWrD4zx
+	Ltla8V9EMCobPR6VxTKJjo+FYMRhtSnHlMpYxXzVD4bVmVEpczewFTrkP3qotyhyQwfhMMdZzCB
+	Q/ONGgh1LJ957iWAOw1Wf1Zm+7VyiyX3H+wY9cIXXuxmgPwZU/CAndgRapNhYSV5DnnrB4Fdio7
+	3YSt8p/UC+X1f99oPhFfQ0qds5pWkuTUh5GJuxzAc49s7C6wmJoZ2fvswgcczS56LtdBZOgP/Kn
+	Bi/7bu0=
+X-Received: by 2002:a17:90b:5111:b0:359:806c:7aa1 with SMTP id
+ 98e67ed59e1d1-359f01055c3mr2012257a91.2.1773122704838; Mon, 09 Mar 2026
+ 23:05:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260309052944.156054-6-joshi.k@samsung.com>
+From: Hyungjung Joo <jhj140711@gmail.com>
+Date: Tue, 10 Mar 2026 15:04:53 +0900
+X-Gm-Features: AaiRm53mYaXIQ8qWjXdBi1eosiU_u_6TluL-VvLrQDegzGPKZbVHpsrXp4cErJA
+Message-ID: <CAP_j_b9BqyQrk3D5nj6RSa=eGcs2HkRYsWc3WdXeXp9O3=z4nQ@mail.gmail.com>
+Subject: [BUG] adfs: stack-out-of-bounds in adfs_dir_copyfrom+0x173/0x300
+ during getdents64()
+To: linux-fsdevel@vger.kernel.org, brauner@kernel.org, jack@suse.cz, 
+	viro@zeniv.linux.org.uk
+Cc: kees@kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Mar 09, 2026 at 10:59:44AM +0530, Kanchan Joshi wrote:
-> Even when the underlying block device does not advertise write streams,
-> XFS can choose do so as write-stream based AG allocation can improve the
-> concurrency and reduce interleaving of concurrent block allocation as well
-> as logical fragmentation.
+Hello,
 
-XFS's default allocation policy already does this "stream
-separation" implicitly on a per-directory basis. So you're going to
-need to be more specific about the workload that can benefit from
-software write streams being assigned to specific AGs...
+I am reporting a filesystem bug reproduced on current mainline with
+KASAN enabled.
 
-> Use a simple 3-tier (low/medium/high) AG count based heuristic to
-> publish streams. This enables logical spatial isolation for standard
-> storage, execluding rotational media and rtvolume.
+Target file: fs/adfs/dir_fplus.c
+Subsystem: fs/adfs
+Git head: 5ee8dbf54602dc340d6235b1d6aa17c0f283f48c
+Kernel release: 7.0.0-rc2+
 
-This is completely unnecessary if you use the filestreams allocator
-for write streams to do workload separation. There is no special
-hardware mapping of streams that we can use, so just an AG per
-stream will get you exactly the same stream separation behaviour.
+Root cause:
+On F+ ADFS volumes, `adfs_fill_super()` selects `adfs_fplus_dir_ops`
+when `dr->format_version` is non-zero. `adfs_fplus_validate_header()`
+only validates aggregate directory geometry, but
+`adfs_fplus_getnext()` trusts each entry's `bigdirobnamelen` and
+`bigdirobnameptr`. It copies `bigdirobnamelen` bytes into `struct
+object_info.name[260]` without checking `<= ADFS_MAX_NAME_LEN` or that
+the per-entry offset/length pair stays within the declared names area,
+so a crafted entry with length 261 or larger causes a stack
+out-of-bounds write during directory iteration or lookup.
 
-And, FWIW, filestreams works just fine on rotational devices. In
-fact, that is what filestreams was designed for: optimising IO
-to/from massive isochronous RAID arrays full of spinning disks that
-stored uncompressed high definition video streams in file-per-frame
-format. Keeping each video stream in a separate AG meant each frame
-of a video was placed on sequential RAID stripes and each video
-stream hit different disks in the RAID arrays. This mean video
-stream reads and writes always did full stripe IO and the IO from
-the different streams never interfered with each other.
+Reproducer
+C reproducer: https://pastebin.com/raw/dNisuusg
+KASAN full log: https://pastebin.com/raw/y2TZ2iQH
+Kernel config: https://pastebin.com/raw/BdHAvXuF
 
-So, yeah, get rid of the arbitrary "can't use software mappings on
-rotational devices" because we know from experience that it is just
-not true...
+Key config options:
+- CONFIG_KASAN=y
+- CONFIG_KASAN_GENERIC=y
+- CONFIG_KASAN_MULTI_SHOT=y
+- CONFIG_DEBUG_KERNEL=y
+- CONFIG_FRAME_POINTER=y
+- CONFIG_ADFS_FS=y
+- CONFIG_BLK_DEV_LOOP=y
+- CONFIG_KASAN_STACK=y
 
--Dave.
--- 
-Dave Chinner
-dgc@kernel.org
+Brief KASAN call trace:
+[   71.334335][  T144] BUG: KASAN: stack-out-of-bounds in
+adfs_dir_copyfrom+0x173/0x300
+[   71.334563][  T144] Write of size 261 at addr ffa0000001417aec by
+task poc-bin/144
+[   71.335206][  T144] Call Trace:
+[   71.335273][  T144]  dump_stack_lvl+0x95/0x100
+[   71.335320][  T144]  print_address_description.constprop.0+0x2c/0x3c0
+[   71.335377][  T144]  print_report+0xb4/0x280
+[   71.335482][  T144]  kasan_report+0xcf/0x140
+[   71.335550][  T144]  kasan_check_range+0x3b/0x200
+[   71.335575][  T144]  __asan_memcpy+0x3d/0x80
+[   71.335598][  T144]  adfs_dir_copyfrom+0x173/0x300
+[   71.335682][  T144]  adfs_fplus_getnext+0x360/0x500
+[   71.335800][  T144]  adfs_fplus_iterate+0x1ac/0x2c0
+[   71.336012][  T144]  adfs_iterate+0x196/0x480
+[   71.336035][  T144]  iterate_dir+0x238/0xa80
+[   71.336035][  T144]  __x64_sys_getdents64+0x132/0x240
+
+Reproducibility notes:
+- observed crash: stack-out-of-bounds in adfs_dir_copyfrom+0x173/0x300
+during getdents64()
+- rootfs mode: busybox
+- guest /init runs the case-specific trigger binary automatically
+
+If you need anything else, please let me know.
+Thank you.
+
+Best regards,
+Hyungjung Joo, jhj140711@gmail.com
