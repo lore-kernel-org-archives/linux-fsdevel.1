@@ -1,49 +1,49 @@
-Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
+Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1821939DBF7
-	for <linux-fsdevel@vger.kernel.org>; Tue, 10 Mar 2026 17:55:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D04E92EB0F
+	for <linux-fsdevel@vger.kernel.org>; Tue, 10 Mar 2026 17:58:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773165340; cv=none; b=ZOYJLKW7hnSWdsFircHYWt2pErTvJa5icPNQtFx1EQcM1D0ai018QxTXgx4lpmJ02JZhwJ9sT6Ioe3JRO7prOtH+Fp3h06d/oHEjh1nmCx+qKQe6KgaPk1ON25byXzZodF2UJJdoY3C+po+oR/YDjD62bweilu5ZbfOAlX11dtI=
+	t=1773165520; cv=none; b=vCjJXZ/MbhfavBsc2zilltlsa4PCT54lM+9i29ybFL4lKar7zOSdStgdqA9dmd6c7XWg+hx9ef5rdlx8FZ9Am5zxmeZa4iCaw5IyiF7mvIfNw7J33UiP1QM+9wsR2VXQ/AjDuqTu1VkUbllyWSJ3BHtzyMTeuu4Ngqpkv8pcY9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773165340; c=relaxed/simple;
-	bh=VCU+EpIetXArFMbXxWRS8WogDLF0jb+tsu314Avaalg=;
+	s=arc-20240116; t=1773165520; c=relaxed/simple;
+	bh=wEJOBh2NlInZXFFEuHXzo2nJZQ5UFeZc6PCjSkQQA9Y=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
-	 Content-Type:References; b=c+y9sCNvsamr6rn9aEWVs71iSdP9suZUrSw9CTtyfl7W/L4wuvcvpYEsTMOXiYPuYDaBRGb/uPyHa9U7+666gfHHwy/8dtT8g2ThrWwgMQKu1Tu6mWIJ7o/WRZQBeGElClTR4F135DtZmPHdWuLH+OaLprJjJJfAkltN1pvj2Vw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=ryuZ1UUw; arc=none smtp.client-ip=203.254.224.25
+	 Content-Type:References; b=Hq5LJvWsxScBBF9/L8P51nzQjQj86swKduS4O5Rxn9/Br+xXclpoiG/YRgcV2yUWkaS9Cf7rJESl7FRNAD6FdXcIeYNPHzDw1ZxSsRTd7fn/Pg+sgSWW8qPJGe0Sp7OHb5LVmKQSznHxnGZZdjLv7jkmf7UXSe+lYeIopeVaVs4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=ELuGW08m; arc=none smtp.client-ip=203.254.224.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="ryuZ1UUw"
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="ELuGW08m"
 Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20260310175530epoutp0252be08898e29cfe57dad3742ae8bd998~bjHko9hqW1496014960epoutp02V
-	for <linux-fsdevel@vger.kernel.org>; Tue, 10 Mar 2026 17:55:30 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20260310175530epoutp0252be08898e29cfe57dad3742ae8bd998~bjHko9hqW1496014960epoutp02V
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20260310175835epoutp0471d5b289acdec6d7b2ad34dbb045f842~bjKRHGGSf1314213142epoutp04T
+	for <linux-fsdevel@vger.kernel.org>; Tue, 10 Mar 2026 17:58:35 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20260310175835epoutp0471d5b289acdec6d7b2ad34dbb045f842~bjKRHGGSf1314213142epoutp04T
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1773165330;
-	bh=HziSH2/Cf5Alx7OkIwA/epyvhcQF8gIRyPzH4/4FbaI=;
+	s=mail20170921; t=1773165515;
+	bh=Y064StOmPwr6lQ0PMnnAJLXtBD9ksvl/A1W65AZe5Eg=;
 	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=ryuZ1UUwEEobVWVk0HzhPWygJpRPxXX9OVysCn7JI+FxfltU6zGEHJ9PqQKELr5Li
-	 g1evJRuqDQ8xHyIZneLN+Qp7TgEkek/5nvxpvYFkCELWaF3TPqS6jVEm9fvmUiWSZN
-	 sAGUY6NYqRmBWoNiEHvHzsqCtDTl9H0SNa5SmlB8=
-Received: from epsnrtp03.localdomain (unknown [182.195.42.155]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPS id
-	20260310175529epcas5p4c8b08a7af0c347f8db0b0e4d242ece17~bjHj4oFW30201002010epcas5p4k;
-	Tue, 10 Mar 2026 17:55:29 +0000 (GMT)
-Received: from epcas5p3.samsung.com (unknown [182.195.38.92]) by
-	epsnrtp03.localdomain (Postfix) with ESMTP id 4fVhPD3xKFz3hhT3; Tue, 10 Mar
-	2026 17:55:28 +0000 (GMT)
-Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
-	20260310175527epcas5p4b20cd0d70a4401b7b213d97540aa43c6~bjHifQe6C0660906609epcas5p4P;
-	Tue, 10 Mar 2026 17:55:27 +0000 (GMT)
+	b=ELuGW08mdeaJWnsQoTZyQ5RbMmZUySEKGftBs2rjKB9hKyOw2FME+7zNXx34kETrs
+	 SxxENQjEJ3KGfaCg63zYXAtrvEUnGJ/8xJ1Zlyb9Cw2C81cUZ30SuP9W/AJmcOgnNB
+	 X7xEjS5wweA6Vh16GZB/GeZ5CyGL3vJ4UxshAbxI=
+Received: from epsnrtp01.localdomain (unknown [182.195.42.153]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPS id
+	20260310175835epcas5p3ba8a95052199ee25dfb8daa22d4c6e3d~bjKQxXHor2493224932epcas5p3h;
+	Tue, 10 Mar 2026 17:58:35 +0000 (GMT)
+Received: from epcas5p2.samsung.com (unknown [182.195.38.93]) by
+	epsnrtp01.localdomain (Postfix) with ESMTP id 4fVhSp28Whz6B9m4; Tue, 10 Mar
+	2026 17:58:34 +0000 (GMT)
+Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20260310175833epcas5p378d51d27f5e55e915cbd4995c4602998~bjKPcd1Dy2493224932epcas5p3d;
+	Tue, 10 Mar 2026 17:58:33 +0000 (GMT)
 Received: from [107.122.11.51] (unknown [107.122.11.51]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20260310175526epsmtip196e441f42f3ac81bbdbafeb74fc677c7~bjHg9Tcpl2031820318epsmtip1M;
-	Tue, 10 Mar 2026 17:55:26 +0000 (GMT)
-Message-ID: <2cde8902-6d50-4035-b9c4-89bd5e2c9468@samsung.com>
-Date: Tue, 10 Mar 2026 23:25:25 +0530
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20260310175832epsmtip26a411643b284d122fa83a745dc6891cf~bjKOD2Y1q1376813768epsmtip2A;
+	Tue, 10 Mar 2026 17:58:32 +0000 (GMT)
+Message-ID: <7ee6ec73-6316-4746-8556-869073f2dbd2@samsung.com>
+Date: Tue, 10 Mar 2026 23:28:31 +0530
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -51,53 +51,33 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/5] fs: add generic write-stream management ioctl
+Subject: Re: [PATCH v2 2/5] iomap: introduce and propagate write_stream
 To: "Darrick J. Wong" <djwong@kernel.org>
 Cc: brauner@kernel.org, hch@lst.de, jack@suse.cz, cem@kernel.org,
 	kbusch@kernel.org, axboe@kernel.dk, linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, gost.dev@samsung.com,
-	linux-api@vger.kernel.org
+	linux-fsdevel@vger.kernel.org, gost.dev@samsung.com
 Content-Language: en-US
 From: Kanchan Joshi <joshi.k@samsung.com>
-In-Reply-To: <20260309163325.GE6033@frogsfrogsfrogs>
-Content-Transfer-Encoding: 7bit
-X-CMS-MailID: 20260310175527epcas5p4b20cd0d70a4401b7b213d97540aa43c6
+In-Reply-To: <20260309163449.GF6033@frogsfrogsfrogs>
+Content-Transfer-Encoding: 8bit
+X-CMS-MailID: 20260310175833epcas5p378d51d27f5e55e915cbd4995c4602998
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
 CMS-TYPE: 105P
 cpgsPolicy: CPGSC10-542,Y
 X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20260309053427epcas5p23419afbe49e4e35526388601e162ee94
+X-CMS-RootMailID: 20260309053430epcas5p3db87d346a4a816f385becac0212cd3ab
 References: <20260309052944.156054-1-joshi.k@samsung.com>
-	<CGME20260309053427epcas5p23419afbe49e4e35526388601e162ee94@epcas5p2.samsung.com>
-	<20260309052944.156054-2-joshi.k@samsung.com>
-	<20260309163325.GE6033@frogsfrogsfrogs>
+	<CGME20260309053430epcas5p3db87d346a4a816f385becac0212cd3ab@epcas5p3.samsung.com>
+	<20260309052944.156054-3-joshi.k@samsung.com>
+	<20260309163449.GF6033@frogsfrogsfrogs>
 
-On 3/9/2026 10:03 PM, Darrick J. Wong wrote:
->> +struct fs_write_stream {
->> +	__u32		op_flags;	/* IN: operation flags */
->> +	__u32		stream_id;	/* IN/OUT:  stream value to assign/guery */
->> +	__u32		max_streams;	/* OUT: max streams values supported */
->> +	__u32		rsvd;
->> +};
-> This isn't an very cohesive interface -- GET_MAX probably only needs
-> op_flags and max_streams, right?  And GET/SET only use op_flags and
-> stream_id, right?
+On 3/9/2026 10:04 PM, Darrick J. Wong wrote:
+>>   	u64			length;	/* length of mapping, bytes */
+>>   	u16			type;	/* type of mapping */
+>>   	u16			flags;	/* flags for mapping */
+>> +	/* 4-byte padding hole here */
+> It's 3 bytes now, right? 😉
 
-Yeah, right. That's the trade-off with swiss army knife type ioctl which 
-uses op_flags to decide what it should do. Apart from keeping a single 
-ioctl I was thinking a bit about extensibility (for anything new we may 
-be able to do a new op_flags with some rsvd or union) too. But if you 
-feel strong about this, I can take 3 ioctl route?
-
->> +#define FS_WRITE_STREAM_OP_GET_MAX		(1 << 0)
->> +#define FS_WRITE_STREAM_OP_GET			(1 << 1)
->> +#define FS_WRITE_STREAM_OP_SET			(1 << 2)
->> +
->> +#define FS_IOC_WRITE_STREAM		_IOWR('f', 43, struct fs_write_stream)
-> EXT4_IOC_CHECKPOINT already took 'f' / 43.  I/think/ there's no problem
-> because its argument is a u32 and ioctl definitions incorporate the
-> lower bits of of the argument size but you might want to be careful
-> anyway.
-
-Indeed, thanks!
+:-) Yup. Fat finger/brain. I wrote the comment first, and added the 
+field afterwards.
