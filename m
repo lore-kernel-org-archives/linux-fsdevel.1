@@ -1,154 +1,150 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 995E63D4130
-	for <linux-fsdevel@vger.kernel.org>; Tue, 10 Mar 2026 05:57:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 641073D6474
+	for <linux-fsdevel@vger.kernel.org>; Tue, 10 Mar 2026 06:01:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.174
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773122236; cv=pass; b=qGupS9Pg/ub400dEA1wtMYc1WFeUcvls1hw/Mjy1e6nwLhQAle2S/98BW387Ynp2Dcc/65ncUWrrx9p8l1iUpCkJsKbfJ17styzD0cWP5r+OEEUyLeDHLlkvmk/Ih/WU/WZIkxKd7rl0OKWmXq3HMt6k11xuxYILHqVQHHVfrHE=
+	t=1773122480; cv=pass; b=gIf2K0xbcrxAfBMXhUwFKuVnlwegArgY5hf8l2d1uICVVBwhGqZiZZWR1dAMVkxmRloNk8hu27ggIPYkT2A7SD6gxo7ogVL03tJcWHiyQkQvhQatQ1T05YIHKN9UGYbWcmtRt0PvdIHdNxD6AwRXEBwKiqSfVJFQthh95zQ2CUY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773122236; c=relaxed/simple;
-	bh=ANv358F7IxOX0eXSqe1G6At8+s5+kXll8s8ByEVsEhI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Lk3tknkF80hHLer/HHbEub5hea2Rt7TcKw4b3gEq3XzvAIq9yH4aeTdXvNk1DqkM49ZD35vHupLCWInFQ/ixNUnEZmSiziGYFTCFgGaHnhEWXuaPHL+h7XXvRn3jDbszf1WodvmLftBs7cTgOeA7q8Baj2Navrpskv2xsG6fqBc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g8gRCQtf; arc=pass smtp.client-ip=209.85.216.46
+	s=arc-20240116; t=1773122480; c=relaxed/simple;
+	bh=GCx/mQP2X+17EHtht+LIroWXhen1E0/wXQB2l6Amh6g=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=p3KrLatnfopRG9dBNwo3mIlOs1SWT9VJjb0mw9BIG7acYUMtyjM/61q7eMkhz1TbCoi4khJUkvNpdBoymNID+LzB1PNN0hXPv+jUg76J3R5qA7a0DY0FQ1vHmRRHFP/5q8IsyjJp3B1l4/dTMLfa7wTeeQlrI/itQW5un9L31q0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GFC/Glq7; arc=pass smtp.client-ip=209.85.215.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g8gRCQtf"
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-35980423087so4551595a91.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 09 Mar 2026 22:57:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773122227; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GFC/Glq7"
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-c6dd5b01e14so4293216a12.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 09 Mar 2026 23:01:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773122474; cv=none;
         d=google.com; s=arc-20240605;
-        b=GEo2RfTKF95Jt6cJiIann61Io4mvcGPnUjLThlwL7BIjo19wZBYQPa1QNXQwxDPWtz
-         F7ckkaGpfBU0C0uYjaLrLKFvBj+NPqLOhicPber9mTGWTmGvq8MuZ/TV0eT3flImB0Cg
-         Z05FUe+WjSRMBBC6oux8/d8EJ/wBeGqjveq5NzkhDAtFd4Xbl/tBtExkBkVe8c2b1VeZ
-         Hjy9i4kkJ4jI5RxQFXq9KDAbpkQtwH/thxZijxoOxVgUhHewrxcU3GFE3hEs/NRBfrBG
-         4DYtvqmBO0hXyA22CsDrt+UaZvIC4/bl1SQAENesa3qYtMV/L+7uTU8vQNBfudkO2gMN
-         YkeQ==
+        b=iPjwk+1Z0jNJ6Jkz6YdcHT4VuYwE01ElEnmRpwZ4oWYE45eXkxdj8JcxBJaX5oSk8X
+         OqHmjSDDWCkpiygZxG/CVMluL00Ctz4DuRwC2tXQgEetR+zC1gTh6KcA/L47hSDTpPSP
+         vPacVRrtnHDj0+VmAhZUThQYI+kWozRQyFs8LNRBh5D8JAZA1kxXv2hPm+0M6gijqopy
+         wZpQKpePXTVwakje2jVD+gWsk2uWnKrCPjwdQYLbozBTFnlfc/ZQLLBpB7J7dgHXz7pU
+         9K/FbMLZCiZXXhlOxlD8k9rYYS4mnIoB5L5pSP2zHeTv304qTN+LRwmzYCrNwERwUATz
+         W+Fw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ZcNlubHpDzg9UuNB5lBd47KfaAMIs6nOQ6fQXPLeBoM=;
-        fh=cDnoRoSimoZ9Bkoh6UzSIImBcUbNAN1I134hFCU/sj0=;
-        b=c+7FecHwWOcxnurXSpDu/kysVhlMSZ096rXXfODcVI3pe8krEpKCYcBrZ67uF1Oct/
-         yTdjjxyoETDuQxzroZTHHeOU2p5bT2zPKFkz9mXcxH92lMuj7SN4uglbdjFvm2aw6/Og
-         Xtqx1XaYAVfvEF+PE3CDVcdL/D7adPASot3RbYU7Wy2lhSpKyFFkAN3ChJUe0Fbpkh6B
-         j9gUEcn4aohTPKXUOXpGQYZOaznbmhETFWhJpKyhYeS9kfEWlTv38mCmvcBKMrSeLFzP
-         4h8PaUhWa3M9Bde20TrlcRDED3KfgiGeihQ0/uy3/M631BNLU9QWJpRTIyyL8ncZmjdQ
-         9ESA==;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=VhIUGBCyjJfiXk4yyFm8TRhyK85/OVCt5yhCECaikfc=;
+        fh=X0Yomd/8Lry7raFQ1oOdTobqO7ArenNkpGJ+KyAWHg4=;
+        b=IgcOishS/FeNeTIM0jadmtNvZ17umrthOzOdq2ptU+axetkZDr37CsTj3Sx0eOJpBy
+         RHi8Ns+97CtVarL5TrqPec5kOvO0ETtKi7T90Ij1vBx7wgTmIa++PInyztDKwSuVHtcF
+         BGQxlRdMzU47ddfOMN0/4nKECSX9iMcIk1NKHwBJqBqGj0OPHRQRyoV7JgQ7S13dd2gi
+         oaIrmB/Y2ozyQeXXcnYPFIVVehQK7RL0LjeDfzZKoZCCzh9YDqorY0s6g6eO5fbEWWqQ
+         sbNVaplFDNBB/bc2yM9OfUdnPzMfHSNvbTU/DZBAuRVryVxY2WucnUIPVaXzvBzu3AKB
+         /BBQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773122227; x=1773727027; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZcNlubHpDzg9UuNB5lBd47KfaAMIs6nOQ6fQXPLeBoM=;
-        b=g8gRCQtf+bosO8TdJf4pOj4V/hzLpnkGnr8YJLg3A0CeJezzyOMnkOt0SX2LA3NPax
-         CkNMq8XIBsVkNKU2mndftprkcuyzUy7aSd3SMjcYCF+BmonwS0Rwz0PVKUDbJR++tiyD
-         ElRKbAPQQWsRy/+siCi1ICMSvfkv+0+ARu1UQW6V5lpjVDMnCFRhISOKXLTjf51pX3YU
-         RE3JXrX7iPJl6wdyZjcZvI5rVhn8/7NFqBElXCCSSnOGtmEjjw5vXIY52Nw8Q3XCXC2a
-         NB43gyMeoWoUjtCtqKp4w5WffTrf1zv3IfJrVP4nTREyRBQqF1kvuZ8iQPkinncGRte/
-         0vBA==
+        d=gmail.com; s=20230601; t=1773122474; x=1773727274; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=VhIUGBCyjJfiXk4yyFm8TRhyK85/OVCt5yhCECaikfc=;
+        b=GFC/Glq7aRigxUws4S1GCfbsKJ/k1qj7Eru+84OvEu45It4gQOBCJlxMQbw69F+GIf
+         ZDDAifUlkFVfsYOPDAPwq3ZUuMLTzHQ/MEATfIyVzw68FbBzjRUaOVO/puM5DL0/cCwW
+         k87wYH3Mn1QTEol9tz9Hx8khO14BCc43Ia0fMCMGniD8xHmLDV9YM4y0cjx+CFu/dGMQ
+         XN91shIm0RJ8LxvGsHuDgypBFprycopgaLDM/1OmaOcb9duUSN0elnB16l5AGQiu5Oke
+         BYsVqa/LjjeQtp2/7ZpqFMHaI3l3zQBE4hH+rfs+6AIPLa+eJfVZIArZL2s5uTCF02Hk
+         uiLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773122227; x=1773727027;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ZcNlubHpDzg9UuNB5lBd47KfaAMIs6nOQ6fQXPLeBoM=;
-        b=OrpGYLmeKiQKAf437pL3tOOAmDbOx/xwj8PTysQqy/BnYeVQbiZxOZuAhoD1j+LTPs
-         WloIH72UrJZZCNa8qm4AAaiETDh52YquBJ9NXRjFpb7Yfgh/ht0ELq34K21VFaspaYnF
-         Ur9TfuK/C7cuvnKbnOi84TCosXrr8/WqL7RzPkMCrvX6Cs5LY7VDZzBbzqlm0FIUrMgE
-         9O30ccU+3irYi65KT6o5IBXWGqeT4+D27F7MYgFBxVzi0bAxEItLJwpF6MwTc8Hxh4R+
-         beX6pBC3eI25vvLKdSsfp5W/ORZ7j0vybnrms7U1OxipyhtWYfYz7ctDabKbGih6Yc/M
-         tlpQ==
-X-Gm-Message-State: AOJu0Ywku1rmMFfMYvzzU/YrjN1pb8I+ouQqE3QHdKYQSMND0wn1hf1T
-	9BTvyDC1N3pDgp1uv1iRdQwwJ1UzGaEWM9iTIAGbryYZViG3ZPAebyyzeaPn4xsGtQHst8dztL5
-	TlQ+/7NIvVsCiOBN72Oe1t/e4EtKwdW0F0rsFSv3Jyw==
-X-Gm-Gg: ATEYQzzZL0o0crJxOOPhkeNfBiggfuXe3JJkC1ND2qEpAxyppNe+3dzgzwN/KAtqy0T
-	9J1xUWm3Me1CqU3QpQjEzJtHwydzbTsSwDUrBlozgMbb2LWT/De3orGAZRLBWwQweBaX2IjxNlR
-	DVwC0qemAAFLXXenjeV873mHFnnyfrnKU8NIbdvy9QLu8VRczipeHgM8uI3XVHyXzDD2MtsQUwB
-	g+TX91XWwI2PDXL5Zd0cJcJoALZ1hpirOb1JsoyJp1ugvbKgjAMU3P5hfK8t4u1PhYAvOj+/EXv
-	rvE5YUw=
-X-Received: by 2002:a17:90b:2d0d:b0:359:8988:38d3 with SMTP id
- 98e67ed59e1d1-359be21d4b1mr13340841a91.7.1773122227297; Mon, 09 Mar 2026
- 22:57:07 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1773122474; x=1773727274;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=VhIUGBCyjJfiXk4yyFm8TRhyK85/OVCt5yhCECaikfc=;
+        b=taNwI1rvnnVPRemsV1uC8/SCUJpqlwWb6uNgv1NNHALtSt1LAsXiCfaJStekFQj67+
+         NUBfDJlmyrFTS19e17eCnyIqlsSDBdxpNYVF2eK2rBWA3+PJYpfo5XsSh5x0GAHJrXoB
+         qwB5coVchGCGrsbB280NBccgU5ZcHFgsA/qor3ehgmENml2Fc+9kutOQNb9LIrhuF0p9
+         i/RNF/yy5U8jUeJHicNpkPqmH+m8Sj8fbhbyFeln2DUHgT9P5R99y3Rs8+wIb3XezWlN
+         SXPFkxCnO2eSOBNDv+O5EpYUfnirEhg0zpSVeT0ZbORZcmkZUzPRe/vgw3ndN/Dxhf5v
+         HrSA==
+X-Gm-Message-State: AOJu0YzCH2RP3kqp9OSGfjZDYv4P2pbKiYQW6pNA8fH4HHl67FZzZaNC
+	SMfzX4Sz1XkcLMWojm6zjXU3Pj7hs6rocN+oMN6Sx0Rk4ypwgfA1h/Ou2ypKYENJ3zdRE30kRzU
+	0bQoXJSJY/UzxhKvMF+UWlrOtLJarUGhlW1prhNL0/Q==
+X-Gm-Gg: ATEYQzyN7PBr05YjLTRRAQR0SXm5CwDzyxUnWNwZu6/qh4yJtlrURuMzfG/EuP2ZRgc
+	hR7h0BaQp1FsDPhmHanh7/CmuFrooIvybHbMwRI1rVknZUg5NaDDTTLJDqIIOiNlPdiytDLHcVS
+	wkiYIHEGf+lITY/l1Sckmnu/RfoB6dk5VfoH6A88ntYKDB9wQPl2X71maN2FMl+rroqShc+EjeL
+	AGGGb0cL4tnZ0NrY+LuZFug7D6qCK9sUPuZDyY0qBED4OSozFJmqv5m9ZXYsjtMsUniVTyWzxFe
+	lCw/8zA=
+X-Received: by 2002:a05:6a20:a125:b0:398:82bb:87bf with SMTP id
+ adf61e73a8af0-39882bbacc8mr7765908637.19.1773122474266; Mon, 09 Mar 2026
+ 23:01:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAP_j_b-tEMgu=RLxJfs_j6W312qZWLFTDOrgxKzi9gKk1zgBhw@mail.gmail.com>
-In-Reply-To: <CAP_j_b-tEMgu=RLxJfs_j6W312qZWLFTDOrgxKzi9gKk1zgBhw@mail.gmail.com>
 From: Hyungjung Joo <jhj140711@gmail.com>
-Date: Tue, 10 Mar 2026 14:56:55 +0900
-X-Gm-Features: AaiRm513ik7Dd8HBaqy6m05sAwekfEn9_uy87Zv4AWN5MbESw7L8AB26CUA5JAY
-Message-ID: <CAP_j_b9ME3ZsK0L7BYP13evQnrF3tkO_9TDtHsL-Ye+ZJRPowQ@mail.gmail.com>
-Subject: Re: [BUG] efs: out-of-bounds in efs_symlink_read_folio+0x1b8/0x440
- during readlink()
-To: linux-fsdevel@vger.kernel.org, brauner@kernel.org, viro@zeniv.linux.org.uk
-Cc: linux-kernel@vger.kernel.org, jack@suse.cz
+Date: Tue, 10 Mar 2026 15:01:01 +0900
+X-Gm-Features: AaiRm52rina2D6_FLM3Zfmq52_KCBNtZvtcADPJkijpE-CEAOzXJg1FjwU9jTtw
+Message-ID: <CAP_j_b86D9BPz9Fn3R0B71FG=Ad=oQZ5BwXCecYds1grdAqfEw@mail.gmail.com>
+Subject: [BUG] bfs: mount-time null-ptr-deref in range [0x28-0x2f] in bfs_move_block()
+To: linux-fsdevel@vger.kernel.org, aivazian.tigran@gmail.com
+Cc: linux-kernel@vger.kernel.org, brauner@kernel.org, viro@zeniv.linux.org.uk, 
+	jack@suse.cz
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
 Hello,
 
-I add comment about filesystem bug reproduced on current mainline with
-KASAN enabled.
+I am reporting a filesystem bug reproduced on the current mainline
+with KASAN enabled.
 
-Target file: fs/efs/symlink.c
-Subsystem: fs/efs
+Target file: fs/bfs/file.c
+Subsystem: fs/bfs
 Git head: 5ee8dbf54602dc340d6235b1d6aa17c0f283f48c
 Kernel release: 7.0.0-rc2+
 
 Root cause:
-`fs/efs/inode.c` copies the on-disk `efs_dinode.di_size` field into
-`inode->i_size`, and `fs/efs/symlink.c` narrows that value back to
-signed `efs_block_t` with `efs_block_t size =3D inode->i_size;`. Because
-`efs_block_t` is `int32_t`, any crafted symlink size >=3D `0x80000000`
-becomes negative, bypasses the `size > 2 * EFS_BLOCKSIZE` guard, and
-is then used as both a `memcpy()` length and the index for
-`link[size]`, causing synchronous out-of-bounds memory access while
-filling the symlink folio.
+`bfs_get_block()` relocates a non-last file to `where =
+info->si_lf_eblk + 1` and only bounds-checks the intended new extent
+with `where + block < info->si_blocks`. `bfs_move_blocks()` then
+copies each source disk block `i` to `where + i` instead of `where +
+(i - start)`, so it treats the absolute source block number as a
+relative offset. For a one-block file whose `i_sblock` is greater than
+1, appending one block after another file has advanced `si_lf_eblk`
+near the end makes the real destination exceed the device.
+`bfs_move_block()` blindly dereferences `sb_getblk(sb, to)` via
+`memcpy(new->b_data, ...)`, producing a NULL dereference on a
+filesystem-sized backing device.
 
 Reproducer
-C reproducer: https://pastebin.com/raw/7wEdNCY1
-KASAN full log: https://pastebin.com/raw/R4iu5VhP
-Kernel config: https://pastebin.com/raw/AzSUkv1K
+C reproducer: https://pastebin.com/raw/awqH6UQb
+KASAN full log: https://pastebin.com/raw/qsa54J7j
+Kernel config: https://pastebin.com/raw/YrrmUMzr
 
 Key config options:
-- CONFIG_KASAN=3Dy
-- CONFIG_KASAN_GENERIC=3Dy
-- CONFIG_KASAN_MULTI_SHOT=3Dy
-- CONFIG_DEBUG_KERNEL=3Dy
-- CONFIG_FRAME_POINTER=3Dy
-- CONFIG_EFS_FS=3Dy
-- CONFIG_BLK_DEV_LOOP=3Dy
+- CONFIG_KASAN=y
+- CONFIG_KASAN_GENERIC=y
+- CONFIG_KASAN_MULTI_SHOT=y
+- CONFIG_DEBUG_KERNEL=y
+- CONFIG_FRAME_POINTER=y
+- CONFIG_BFS_FS=y
+- CONFIG_BLK_DEV_LOOP=y
 
 Brief KASAN call trace:
-[   72.452929][  T144] BUG: KASAN: out-of-bounds in
-efs_symlink_read_folio+0x1b8/0x440
-[   72.453107][  T144] Read of size 18446744073709551615 at addr
-ff11000018906800 by task poc-bin/144
-[   72.453642][  T144] Call Trace:
-[   72.453696][  T144]  dump_stack_lvl+0x95/0x100
-[   72.453735][  T144]  print_address_description.constprop.0+0x2c/0x3c0
-[   72.453788][  T144]  print_report+0xb4/0x280
-[   72.453855][  T144]  kasan_report+0xcf/0x140
-[   72.453906][  T144]  kasan_check_range+0x3b/0x200
-[   72.453923][  T144]  __asan_memcpy+0x24/0x80
-[   72.453942][  T144]  efs_symlink_read_folio+0x1b8/0x440
-[   72.453976][  T144]  filemap_read_folio+0xba/0x280
-[   72.454042][  T144]  do_read_cache_folio+0x1eb/0x500
-[   72.454081][  T144]  __page_get_link.isra.0+0x26/0x340
-[   72.454103][  T144]  page_get_link+0x40/0x100
-[   72.454121][  T144]  vfs_readlink+0x1de/0x400
+[   63.935062][  T143] Oops: general protection fault, probably for
+non-canonical address 0xdffffc0000000005: 0000 [#1] SMP
+DEBUG_PAGEALLOC KASAN NOPTI
+[   63.935560][  T143] KASAN: null-ptr-deref in range
+[0x0000000000000028-0x000000000000002f]
+[   63.936151][  T143] RIP: 0010:bfs_move_block+0x16e/0x280
+[   63.937255][  T143] Call Trace:
+[   63.937255][  T143]  bfs_get_block+0x205/0xd00
+[   63.937255][  T143]  __block_write_begin_int+0x3bd/0xbc0
+[   63.937255][  T143]  block_write_begin+0x85/0x240
+[   63.937255][  T143]  bfs_write_begin+0x30/0x100
+[   63.937255][  T143]  generic_perform_write+0x374/0x800
+[   63.937255][  T143]  generic_file_write_iter+0xd7/0x340
+[   63.937255][  T143]  vfs_write+0x9c9/0xfc0
+[   63.937255][  T143]  __x64_sys_pwrite64+0x19f/0x200
+[   63.937255][  T143]  do_syscall_64+0x141/0xf40
+[   63.937255][  T143]  entry_SYSCALL_64_after_hwframe+0x77/0x7f
 
 Reproducibility notes:
-- observed crash: out-of-bounds in efs_symlink_read_folio+0x1b8/0x440
-during readlink()
+- observed crash: mount-time null-ptr-deref in range
+[0x0000000000000028-0x000000000000002f] in bfs_move_block()
 - rootfs mode: busybox
 - guest /init runs the case-specific trigger binary automatically
 
@@ -157,179 +153,3 @@ Thank you.
 
 Best regards,
 Hyungjung Joo, jhj140711@gmail.com
-
-2026=EB=85=84 3=EC=9B=94 8=EC=9D=BC (=EC=9D=BC) PM 5:49, =EC=A3=BC=ED=98=95=
-=EC=A0=95 <jhj140711@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
->
-> Hello,
->
-> I am reporting a filesystem bug reproduced on current mainline with
-> KASAN enabled.
->
-> Target file: fs/efs/symlink.c
-> Subsystem: fs/efs
-> Git head: 5ee8dbf54602dc340d6235b1d6aa17c0f283f48c
-> Kernel release: 7.0.0-rc2+
-> Case ID: case-20260307T185409Z-093c
->
-> Root cause:
-> `fs/efs/inode.c` copies the on-disk `efs_dinode.di_size` field into
-> `inode->i_size`, and `fs/efs/symlink.c` narrows that value back to
-> signed `efs_block_t` with `efs_block_t size =3D inode->i_size;`. Because
-> `efs_block_t` is `int32_t`, any crafted symlink size >=3D `0x80000000`
-> becomes negative, bypasses the `size > 2 * EFS_BLOCKSIZE` guard, and
-> is then used as both a `memcpy()` length and the index for
-> `link[size]`, causing synchronous out-of-bounds memory access while
-> filling the symlink folio.
->
-> Observed crash: out-of-bounds in efs_symlink_read_folio+0x1b8/0x440
-> during readlink()
->
-> KASAN excerpt:
-> [   68.942491][    T1] CPA  protect  Rodata RO: 0xffffffffac95e000 -
-> 0xffffffffac95efff PFN 1ff5e req 8000000000000123 prevent
-> 0000000000000002
-> [   68.942669][    T1] CPA  protect  Rodata RO: 0xff1100001ff5e000 -
-> 0xff1100001ff5efff PFN 1ff5e req 8000000000000123 prevent
-> 0000000000000002
-> [   68.943342][    T1] Testing CPA: again
-> [   68.990028][    T1] debug: unmapping init [mem
-> 0xffffffffaa71e000-0xffffffffaa7fffff]
-> [   68.991190][    T1] debug: unmapping init [mem
-> 0xffffffffac95f000-0xffffffffac9fffff]
-> [   71.381565][    T1] x86/mm: Checked W+X mappings: passed, no W+X pages=
- found.
-> [   71.382779][    T1] rodata_test: all tests were successful
-> [   71.384395][    T1] Run /init as init process
-> [kaudit] guest init start
-> [kaudit] guest init start
-> + '[' -x /poc/serial-mark ]
-> + /poc/serial-mark '[kaudit] run.sh start\n'
-> [kaudit] run.sh start\n[   72.070980][  T143] serial-mark (143) used
-> greatest stack depth: 8 bytes left
-> + echo '[kaudit] trigger command: /poc/poc-bin'
-> [kaudit] trigger command: /poc/poc-bin
-> + /poc/poc-bin
-> [   72.382567][  T144] loop0: detected capacity change from 0 to 5
-> [*] crafted EFS image at /tmp/efs-symlink.img
-> [*] attached /dev/loop0 and invoking readlink(/mnt/efs/poc)
-> [   72.452535][  T144]
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> [   72.452929][  T144] BUG: KASAN: out-of-bounds in
-> efs_symlink_read_folio+0x1b8/0x440
-> [   72.453107][  T144] Read of size 18446744073709551615 at addr
-> ff11000018906800 by task poc-bin/144
-> [   72.453251][  T144]
-> [   72.453457][  T144] CPU: 0 UID: 0 PID: 144 Comm: poc-bin Tainted: G
->        W       T   7.0.0-rc2+ #14 PREEMPT(lazy)
-> e3b9bc880e916193e5a1a669fc7b8172bdbeb62e
-> [   72.453583][  T144] Tainted: [W]=3DWARN, [T]=3DRANDSTRUCT
-> [   72.453596][  T144] Hardware name: QEMU Standard PC (i440FX + PIIX,
-> 1996), BIOS 1.15.0-1 04/01/2014
-> [   72.453642][  T144] Call Trace:
-> [   72.453673][  T144]  <TASK>
-> [   72.453696][  T144]  dump_stack_lvl+0x95/0x100
-> [   72.453735][  T144]  print_address_description.constprop.0+0x2c/0x3c0
-> [   72.453762][  T144]  ? efs_symlink_read_folio+0x1b8/0x440
-> [   72.453788][  T144]  print_report+0xb4/0x280
-> [   72.453809][  T144]  ? kasan_addr_to_slab+0x27/0x80
-> [   72.453824][  T144]  ? kasan_complete_mode_report_info+0xa3/0xc0
-> [   72.453842][  T144]  ? efs_symlink_read_folio+0x1b8/0x440
-> [   72.453855][  T144]  kasan_report+0xcf/0x140
-> [   72.453876][  T144]  ? efs_symlink_read_folio+0x1b8/0x440
-> [   72.453906][  T144]  kasan_check_range+0x3b/0x200
-> [   72.453923][  T144]  __asan_memcpy+0x24/0x80
-> [   72.453942][  T144]  efs_symlink_read_folio+0x1b8/0x440
-> [   72.453960][  T144]  ? __pfx_efs_symlink_read_folio+0x40/0x40
-> [   72.453976][  T144]  filemap_read_folio+0xba/0x280
-> [   72.453999][  T144]  ? __pfx_filemap_read_folio+0x40/0x40
-> [   72.454014][  T144]  ? __filemap_get_folio_mpol+0x55/0x800
-> [   72.454042][  T144]  do_read_cache_folio+0x1eb/0x500
-> [   72.454056][  T144]  ? __pfx_efs_symlink_read_folio+0x40/0x40
-> [   72.454081][  T144]  __page_get_link.isra.0+0x26/0x340
-> [   72.454103][  T144]  page_get_link+0x40/0x100
-> [   72.454121][  T144]  vfs_readlink+0x1de/0x400
-> [   72.454139][  T144]  ? __pfx_vfs_readlink+0x40/0x40
-> [   72.454159][  T144]  ? touch_atime+0x91/0x640
-> [   72.454182][  T144]  do_readlinkat+0x1c1/0x300
-> [   72.454203][  T144]  ? __pfx_do_readlinkat+0x40/0x40
-> [   72.454235][  T144]  __x64_sys_readlink+0x78/0xc0
-> [   72.454251][  T144]  do_syscall_64+0x141/0xf40
-> [   72.454308][  T144]  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-> [   72.454362][  T144] RIP: 0033:0x448d5b
-> [   72.454767][  T144] Code: 0c 00 00 00 ba 0c 00 00 00 e9 7e fd ff ff
-> 64 c7 03 22 00 00 00 ba 22 00 00 00 e9 6d fd ff ff f3 0f 1e fa b8 59
-> 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8
-> 64 89 01 48
-> [   72.454792][  T144] RSP: 002b:00007fff8fdb1568 EFLAGS: 00000246
-> ORIG_RAX: 0000000000000059
-> [   72.454834][  T144] RAX: ffffffffffffffda RBX: 00007fff8fdb2798
-> RCX: 0000000000448d5b
-> [   72.454847][  T144] RDX: 0000000000000fff RSI: 00007fff8fdb1570
-> RDI: 000000000049905e
-> [   72.454857][  T144] RBP: 0000000000499004 R08: 00000000004b05fd
-> R09: 0000000000000000
-> [   72.454867][  T144] R10: 0000000000000001 R11: 0000000000000246
-> R12: 000000000049913c
-> [   72.454877][  T144] R13: 0000000000499136 R14: 00000000004c37d0
-> R15: 0000000000000001
-> [   72.454941][  T144]  </TASK>
-> [   72.454985][  T144]
-> [   72.457889][  T144] The buggy address belongs to the physical page:
-> [   72.458294][  T144] page: refcount:3 mapcount:0
-> mapping:ff11000001430a18 index:0x0 pfn:0x18906
-> [   72.458491][  T144] memcg:ff11000001c90040
-> [   72.458780][  T144] aops:def_blk_aops ino:700000 dentry name(?):""
-> [   72.458971][  T144] flags:
-> 0xfffffc6004204(referenced|workingset|private|node=3D0|zone=3D1|lastcpupi=
-d=3D0x1fffff)
-> [   72.459605][  T144] raw: 000fffffc6004204 0000000000000000
-> dead000000000122 ff11000001430a18
-> [   72.459730][  T144] raw: 0000000000000000 ff11000006a83948
-> 00000003ffffffff ff11000001c90040
-> [   72.459901][  T144] page dumped because: kasan: bad access detected
-> [   72.460006][  T144]
-> [   72.460097][  T144] Memory state around the buggy address:
-> [   72.460355][  T144]  ff11000018906700: 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00
-> [   72.460507][  T144]  ff11000018906780: 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00
-> [   72.460631][  T144] >ff11000018906800: 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00
-> [   72.460747][  T144]                    ^
-> [   72.460930][  T144]  ff11000018906880: 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00
-> [   72.461032][  T144]  ff11000018906900: 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00
-> [   72.461174][  T144]
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> [   72.461592][  T144] Disabling lock debugging due to kernel taint
-> [   72.461796][  T144]
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> [   72.462033][  T144] BUG: KASAN: slab-out-of-bounds in
-> efs_symlink_read_folio+0x309/0x440
-> [   72.462162][  T144] Write of size 1 at addr ff11000005f60fff by
-> task poc-bin/144
-> [   72.462261][  T144]
-> [   72.462347][  T144] CPU: 0 UID: 0 PID: 144 Comm: poc-bin Tainted: G
->    B   W       T   7.0.0-rc2+ #14 PREEMPT(lazy)
-> e3b9bc880e916193e5a1a669fc7b8172bdbeb62e
-> [   72.462391][  T144] Tainted: [B]=3DBAD_PAGE, [W]=3DWARN, [T]=3DRANDSTR=
-UCT
-> [   72.462401][  T144] Hardware name: QEMU Standard PC (i440FX + PIIX,
-> 1996), BIOS 1.15.0-1 04/01/2014
-> [   72.462415][  T144] Call Trace:
-> [   72.462464][  T144]  <TASK>
-> [   72.462493][  T144]  dump_stack_lvl+0x95/0x100
-> [   72.462525][  T144]  print_address_description.constprop.0+0x2c/0x3c0
-> [   72.462553][  T144]  ? efs_symlink_read_folio+0x309/0x440
-> [   72.462571][  T144]  print_report+0xb4/0x280
-> [   72.462590][  T144]  ? kasan_addr_to_slab+0x27/0x80
-> [   72.462606][  T144]  ? kasan_complete_mode_report_info+0x32/0xc0
-> [   72.462623][  T144]  ? efs_symlink_read_folio+0x309/0x440
