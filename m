@@ -1,127 +1,111 @@
-Received: from mail.avm.de (mail.avm.de [212.42.244.120])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 570D64C0401;
-	Tue, 10 Mar 2026 11:55:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.120
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 310C839DBD9;
+	Tue, 10 Mar 2026 11:58:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773143765; cv=none; b=WNdDxONumdlKT+o1LcUGbOoKq69jHrF2gcKW1JanVYhwZvpLc/6qpTN7CLZjVFfK5n4CNnQPs4tO+u3UqR62/WKacoaBoo6DKHs+UFgZL2sLlBo+6DANojbRxd1Q0o5KNanZANyDdXeBVur14kHXxJ0KyQf9wBBhjvEpnpDdvIA=
+	t=1773143927; cv=none; b=YSn2qLo4caYg9EpsisB20PQKIyql2GpCFmpLIT81SsCR5skD3ISFC56e9QFzn4x+yjuvlwTUIRKORk+wHz0BICPaMNBOAjUoWQ3gzMYV+qHDKBl3ji1dL6NYXQrKWObopp/XMcMeBeqq0CXOMt2+dDW4cPFHGwx9q7O8RJxX2b8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773143765; c=relaxed/simple;
-	bh=gOURDJcimLwc0Y7s7mu8KRblXgipzGTYZgiAn3dRwDI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=KtzkYuWkXBGkbBH70ZIVNeM1m/vatmw0W2LbUQNeEqp1yWctVF+dGc8P9gSuwtIgoGgtnIJkNZGTgHfmUlyk9GGaucGHkc+SOQT75uoQZSG8TP9al7Kd9am/LTQ2e5tcmM9t4XnZHiLaUAst7WlWgeWcD30mxv4SDxqUMz3is9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de; spf=pass smtp.mailfrom=avm.de; dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b=ex53I4YG; arc=none smtp.client-ip=212.42.244.120
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=avm.de
+	s=arc-20240116; t=1773143927; c=relaxed/simple;
+	bh=8KeK2FERi/dmfgYLBG6RVzd3fsNTTb0T5AdY7sw+4jE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=U8qpEH/XI/EjwfoEpHMFsoTeCRPLiTOGFcgaaW4LTxMlUA1Bvphj1NuHfQ4/HU/sspxXhTi+3jpTS71Sks7pWkExkAgZlMD2dOCVvp7FT75E0pJKDA0lgWRWV0RqlzYuLCWYMts16AlH6PS1zQTpUpaQ/TdXkI4PkTgtatt0YJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=big884u2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b="ex53I4YG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
-	t=1773143728; bh=gOURDJcimLwc0Y7s7mu8KRblXgipzGTYZgiAn3dRwDI=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=ex53I4YG0KjBerNqRD5wRIiox3FXFKTSd0JtZvKuo0ROgMoNdRRAPThrM/Qsevv02
-	 e8XWjmKIuppAES/QSOjqmEyPMBZJml1FZ+UNb0gDdtCYyQjh8crsZ0vtK8+gKHBfLt
-	 MJw5NhjMOgoL79FPNU9K+5wpre1mwH1utAmpyJeE=
-Received: from [2001:bf0:244:244::71] (helo=mail.avm.de)
-	by mail.avm.de with ESMTP (eXpurgate 4.55.2)
-	(envelope-from <phahn-oss@avm.de>)
-	id 69b006af-b734-7f0000032729-7f0000019c7a-1
-	for <multiple-recipients>; Tue, 10 Mar 2026 12:55:27 +0100
-Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [IPv6:2001:bf0:244:244::71])
-	by mail.avm.de (Postfix) with ESMTPS;
-	Tue, 10 Mar 2026 12:55:27 +0100 (CET)
-From: Philipp Hahn <phahn-oss@avm.de>
-Date: Tue, 10 Mar 2026 12:49:21 +0100
-Subject: [PATCH 55/61] interconnect: Prefer IS_ERR_OR_NULL over manual NULL
- check
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="big884u2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6196C19423;
+	Tue, 10 Mar 2026 11:58:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773143926;
+	bh=8KeK2FERi/dmfgYLBG6RVzd3fsNTTb0T5AdY7sw+4jE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=big884u2EA2Ufs3DTcZUW0wrnwLQk3RJ4ie1EeB4YpJ4UL43H+2mtCote/NdxuaMZ
+	 wuh76c7aDqMvoa1K5lCyYqounysmYLEcZk/dQuw9ivmTOdIZ576U5g4561VGgrgIxO
+	 4n4fVP1brxdOZiEMNnpww36bw5cexNa0dDPd1d3KkuV/Sn33HAEw0lLAwE+64vVNCM
+	 vLwGuWyZSxU/62tK5kgKxrDd/lQkVGS/83JUbdl9MaYBaOwtmmsF82D7Yll7QzNltY
+	 fYQjbpxRn4G1z6W9IU0FZbkGTgGV16aNwf+0gAqeVTNJgKEatpIKo4geGyjHkiciKM
+	 r475BKzF/OgFg==
+Date: Tue, 10 Mar 2026 12:58:42 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Jann Horn <jannh@google.com>
+Cc: linux-fsdevel@vger.kernel.org, 
+	Linus Torvalds <torvalds@linux-foundation.org>, linux-kernel@vger.kernel.org, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jens Axboe <axboe@kernel.dk>, Jan Kara <jack@suse.cz>, 
+	Tejun Heo <tj@kernel.org>
+Subject: Re: [PATCH RFC v2 18/23] fs: add umh argument to struct
+ kernel_clone_args
+Message-ID: <20260310-attest-bemerken-1a3ba981e917@brauner>
+References: <20260306-work-kthread-nullfs-v2-0-ad1b4bed7d3e@kernel.org>
+ <20260306-work-kthread-nullfs-v2-18-ad1b4bed7d3e@kernel.org>
+ <CAG48ez3Oei55q_b4Wbh5Z4R81ZjOvfKcJhZe1QVudbxMw3TAsQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260310-b4-is_err_or_null-v1-55-bd63b656022d@avm.de>
-References: <20260310-b4-is_err_or_null-v1-0-bd63b656022d@avm.de>
-In-Reply-To: <20260310-b4-is_err_or_null-v1-0-bd63b656022d@avm.de>
-To: amd-gfx@lists.freedesktop.org, apparmor@lists.ubuntu.com, 
- bpf@vger.kernel.org, ceph-devel@vger.kernel.org, cocci@inria.fr, 
- dm-devel@lists.linux.dev, dri-devel@lists.freedesktop.org, 
- gfs2@lists.linux.dev, intel-gfx@lists.freedesktop.org, 
- intel-wired-lan@lists.osuosl.org, iommu@lists.linux.dev, 
- kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org, 
- linux-btrfs@vger.kernel.org, linux-cifs@vger.kernel.org, 
- linux-clk@vger.kernel.org, linux-erofs@lists.ozlabs.org, 
- linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- linux-gpio@vger.kernel.org, linux-hyperv@vger.kernel.org, 
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-leds@vger.kernel.org, linux-media@vger.kernel.org, 
- linux-mips@vger.kernel.org, linux-mm@kvack.org, 
- linux-modules@vger.kernel.org, linux-mtd@lists.infradead.org, 
- linux-nfs@vger.kernel.org, linux-omap@vger.kernel.org, 
- linux-phy@lists.infradead.org, linux-pm@vger.kernel.org, 
- linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org, 
- linux-scsi@vger.kernel.org, linux-sctp@vger.kernel.org, 
- linux-security-module@vger.kernel.org, linux-sh@vger.kernel.org, 
- linux-sound@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
- linux-trace-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
- linux-wireless@vger.kernel.org, netdev@vger.kernel.org, 
- ntfs3@lists.linux.dev, samba-technical@lists.samba.org, 
- sched-ext@lists.linux.dev, target-devel@vger.kernel.org, 
- tipc-discussion@lists.sourceforge.net, v9fs@lists.linux.dev, 
- Philipp Hahn <phahn-oss@avm.de>
-Cc: Georgi Djakov <djakov@kernel.org>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=974; i=phahn-oss@avm.de;
- h=from:subject:message-id; bh=gOURDJcimLwc0Y7s7mu8KRblXgipzGTYZgiAn3dRwDI=;
- b=owEBbQGS/pANAwAKATQtBlPRrKzbAcsmYgBpsAaR6ZpvsAoRDFUpNu6G6elsfY3kgc27+uFRK
- ZLVDKnVLraJATMEAAEKAB0WIQQ5bPBtrWDUcDQCppg0LQZT0ays2wUCabAGkQAKCRA0LQZT0ays
- 28XJCACYmRByi8P7LIl1oc/g3aO1owAe5Q8Or8oVGhiLH2LhqHs6nfDqZLIqz1sL3qrQVyF7YGk
- kX0mFSo3Tm/dtN68cM8AHWfCx75PDZnJ1klwJaD/a5osoRSf4X3Ik4ZQj/cB7O+Zq1qUVCpMYTg
- XaFUKyzlehYbqEs1YGNkcYOQXSo6Ofkc0rCWX7WPlFeXlek3wVqFGPJYbk8vXFwaghiu8bk1jxs
- 5OWlABLNOMeICixwYBtsJBbBssbgobIHjFZNKGQbzYy6+2+uPNUf9NBHl8iaEQQnS3RZflKIJzs
- X0gv7zaxzUqJp37JtExDbIsVdOxpFm9EpGTYIR5B4gcmwoes
-X-Developer-Key: i=phahn-oss@avm.de; a=openpgp;
- fpr=58AF7C2E007CDBE62C59E078F50EFDCF8AD04B1A
-X-purgate-ID: 149429::1773143727-E55C3A3D-7BA9F82C/0/0
-X-purgate-type: clean
-X-purgate-size: 976
-X-purgate-Ad: Categorized by eleven eXpurgate (R) https://www.eleven.de
-X-purgate: This mail is considered clean (visit https://www.eleven.de for further information)
-X-purgate: clean
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAG48ez3Oei55q_b4Wbh5Z4R81ZjOvfKcJhZe1QVudbxMw3TAsQ@mail.gmail.com>
 
-Prefer using IS_ERR_OR_NULL() over using IS_ERR() and a manual NULL
-check.
+On Mon, Mar 09, 2026 at 05:06:24PM +0100, Jann Horn wrote:
+> On Fri, Mar 6, 2026 at 12:31 AM Christian Brauner <brauner@kernel.org> wrote:
+> > Add a umh field to struct kernel_clone_args. When set, copy_fs() copies
+> > from pid 1's fs_struct instead of the kthread's fs_struct. This ensures
+> > usermodehelper threads always get init's filesystem state regardless of
+> > their parent's (kthreadd's) fs.
+> >
+> > Usermodehelper threads are not allowed to create mount namespaces
+> > (CLONE_NEWNS), share filesystem state (CLONE_FS), or be started from
+> > a non-initial mount namespace. No usermodehelper currently does this so
+> > we don't need to worry about this restriction.
+> >
+> > Set .umh = 1 in user_mode_thread(). At this stage pid 1's fs points to
+> > rootfs which is the same as kthreadd's fs, so this is functionally
+> > equivalent.
+> [...]
+> > -static int copy_fs(u64 clone_flags, struct task_struct *tsk)
+> > +static int copy_fs(u64 clone_flags, struct task_struct *tsk, bool umh)
+> >  {
+> > -       struct fs_struct *fs = current->fs;
+> > +       struct fs_struct *fs;
+> > +
+> > +       /*
+> > +        * Usermodehelper may use userspace_init_fs filesystem state but
+> > +        * they don't get to create mount namespaces, share the
+> > +        * filesystem state, or be started from a non-initial mount
+> > +        * namespace.
+> > +        */
+> > +       if (umh) {
+> > +               if (clone_flags & (CLONE_NEWNS | CLONE_FS))
+> > +                       return -EINVAL;
+> > +               if (current->nsproxy->mnt_ns != &init_mnt_ns)
+> > +                       return -EINVAL;
+> > +               fs = userspace_init_fs;
+> > +       } else {
+> > +               fs = current->fs;
+> > +       }
+> >
+> >         VFS_WARN_ON_ONCE(current->fs != current->real_fs);
+> 
+> Should that VFS_WARN_ON_ONCE() be in the else {} block?
 
-Semantich change: Previously the code only printed the warning on error,
-but not when the pointer was NULL. Now the warning is printed in both
-cases!
+I think in spirit the placement you suggest makes more sense.
 
-Change found with coccinelle.
+> I don't know if it could happen that a VFS operation that happens with
+> overwritten current->fs calls back into firmware loading or such, or
+> if that is anyway impossible for locking reasons or such...
 
-To: Georgi Djakov <djakov@kernel.org>
-Cc: linux-pm@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Signed-off-by: Philipp Hahn <phahn-oss@avm.de>
----
- drivers/interconnect/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Usermodehelper are terrible hybrids that always go through workqueue
+dispatch. So let's say somehow someone ends up triggering a
+usermodehelper under scoped_with_init_fs() - no matter if regular task
+or kthread - what would actually happen is:
 
-diff --git a/drivers/interconnect/core.c b/drivers/interconnect/core.c
-index 8569b78a18517b33abeafac091978b25cbc1acc7..22e92b30f73853d5bd2e05b4f52cb5aa22556468 100644
---- a/drivers/interconnect/core.c
-+++ b/drivers/interconnect/core.c
-@@ -790,7 +790,7 @@ void icc_put(struct icc_path *path)
- 	size_t i;
- 	int ret;
- 
--	if (!path || WARN_ON(IS_ERR(path)))
-+	if (WARN_ON(IS_ERR_OR_NULL(path)))
- 		return;
- 
- 	ret = icc_set_bw(path, 0, 0);
+INIT_WORK(&sub_info->work, call_usermodehelper_exec_work)
 
--- 
-2.43.0
-
+which means all usermodehelper creations are done from some other
+kthread and never by the caller. IOW, even if the caller has overridden
+current->fs the usermodehelper would be created from a pristine kthread
+context.
