@@ -1,181 +1,172 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.186])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D00B3E8C7A
-	for <linux-fsdevel@vger.kernel.org>; Tue, 10 Mar 2026 20:44:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.186
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773175482; cv=none; b=FGkSGGIKg1ISDu4cJs/vG1ZJk2LqaROMs+dJwzUIdQAgdPD+261xog1f6gHrIqBxhbSVRlmPHGw8BdwEhZMs7XtmAS+BcqJ062MqM4CahRTgtW8LSJ9y4jI2sOwE5PhE9WqJnvJcZHnvzpMsJuJqQtf68SPvkznV/Xe6snfT1nI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773175482; c=relaxed/simple;
-	bh=WNg46g3df6saNK5G2Aum2Ymkqna2qK01Rs4ISdgpQ1g=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ov2pFIFT7s61JwBnJ3vjWkr74t46b49vrq+QI11izzQzlDX8JR9rs3F4WYF71zM58JFxCT/N9wopkx0qSQ1ZYWVenbNQyd7AyFEB9y3rOFhZgSrPrJuayCsfd1tv5goQbbCmkk0cUJ+r/tEa8ZuihCxMtRyU0bCaSmC6E8CLu5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=MM6d5x4Q; arc=none smtp.client-ip=195.121.94.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F076D279DCA
+	for <linux-fsdevel@vger.kernel.org>; Tue, 10 Mar 2026 21:08:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773176923; cv=pass; b=uJ+ckbyLxotnXQDm0FQk66n4RaYnJbCxOiPnaOo4lmrXSiq1ac8T+itjUga9NUv3GrCQNRHA3PLyERyzS/RVfzzsmw5ueDv9Q0FxTedzNfz5IEqUviewZJy5QjIDZvzcLgdolwdPeiG557AdhlMizsYQbLib5bDxaPJbgnNbO5A=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773176923; c=relaxed/simple;
+	bh=SERM1KIbVz+crSEjnqVaFo9yCCkiphW5Gf1Z2ZnRitM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Nh/SDDdwrNGhjFxwUsf/cO34uKbXV+a+qot3Z+ufERKE8ZB9u2Af2ys7PEoDLdiQy32zgE5ymoPzEzmo/2q2IA1LJlMU+/tCSGOhKldqGpnEcneJ6C6KxTFb35QD2xsxiIMAFFtXd4pg4V79gFpwkxEsKIYFXTkNeVj7BskPY+Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gpVWJqUY; arc=pass smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="MM6d5x4Q"
-X-KPN-MessageId: f0872402-1cc1-11f1-89dd-00505699b430
-Received: from smtp.kpnmail.nl (unknown [10.31.155.6])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id f0872402-1cc1-11f1-89dd-00505699b430;
-	Tue, 10 Mar 2026 21:44:31 +0100 (CET)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gpVWJqUY"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-439aa2f8ebaso6606161f8f.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 10 Mar 2026 14:08:41 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773176920; cv=none;
+        d=google.com; s=arc-20240605;
+        b=V3GbVmodk4pfwrqICpHbgNGFS0iBAqBNM+a8s/dUDDMWT4UTbldMQWaDQDgQ70GYkJ
+         xRzJCO3GWSmwpY5yFwQmrcO8Fdp6bRUa6D8RNC7bxM/HFo+BVPixZoYC0hiyB4dgOZje
+         Wo3b9QX/QTxpDpp3Fx8e/kJjUhwExnj/DAd3NOb5x/emPTz3z1PqxgzUP3cPwwikxI0x
+         heXjNYhKUGontVT7Vo/cr84XjdpGLxfQ85koXoKthTaIubNXmZ4aA0TZX6EvV1a+wQIo
+         KOVR1bGQZWLiUvMq6eXZictB816vJxRp3dmWwrjA+65sjnt7gZ0+dMLUG0LJLAS/Wey7
+         CUgw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=bm3E+N8oekJhnwTHafDthtPb0dhZaLByvpqtWh3IaZ4=;
+        fh=h/dfvY/M0fgQSU5sjMaOGS/FGT8IM9WVJs5hcX5Rb08=;
+        b=KPIpG9mTbRnSnoL7S+4YBfKkBEB7wgB7LD/7d91TgMMIzUQt/EW3DYqekFpd442DyG
+         u/F19Uox40reIyozF1kPREiAN7GAj/ltTroSI818EbBnEWCUuxdSFGfFfleBNcRZixxI
+         pV/v/pjZvvYXRosETeC31jtNOTWC2beayI+Yqsc6ln+2W2VQBwd8KNN7Lg2BxF8SoL24
+         iZw9wQWxnpbFkS26LrOeQV6gTQyEixPd+6RRiE5CamMkQgyhRxt/t5dpGYxEbhJyPrAA
+         bQwRswkcXdOOFY+fP8+COP2pLU+TCohkRFdvOiisixK09/pYs2tmHvtIrDTNvS9FgRXy
+         tqaQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=mime-version:message-id:date:subject:to:from;
-	bh=wp7ph0GxfocxZsIU1uEVImJtoPS/WVjNFCt1MEqrtvY=;
-	b=MM6d5x4QU57rH9ghnYAJ6+qV+DVcZxUzCvg+BczkANATuP8uM5kJata+CatOa+BW4gpYtrtTDPVMX
-	 rhuw6tOiWuTJrbrSomC1e/ZqMQB5qWuA1Rizg8kuQ4ntpWeqgOWX68wAKIM0BDoDWbw+PsuMqb2aMi
-	 BodZnuN1R5Jsfu3JSkz+3IMRCtmjV5xBQnYldzKo3npWx64rA838Ndszbc7u5/ME4bs/K8b28xgPET
-	 vMx4NBUhpB6VMlU2bX7Hnfd3tIUQh0yqtGwauHwojli2q7J60xEp5q2Bj5b19VHdWFSVHxr/jK7CPC
-	 BqdXIOyInJECb9EddUq0hhFI5VPicXA==
-X-KPN-MID: 33|VDeIT+tgDWOFljAr27nyLP8oZBknVvUtfKssnzskgmOPzgGmZStkW4avFG/pA6F
- kif8WWgPIn5DlAvRr9gB1X04agCKaxiV0470zeDPqxKk=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|rgnMZJsN9b24T928XSiC6hoq0vnv8WCPsRBjtGWHKaHyR0KpXqsDMZlSlSfjqEb
- V7rbOVwfwW3QWamq7kni4nA==
-Received: from daedalus.home (unknown [178.231.15.72])
-	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id ed64047e-1cc1-11f1-bff7-00505699772e;
-	Tue, 10 Mar 2026 21:44:31 +0100 (CET)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: ricardo@marliere.net,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Jeff Layton <jlayton@kernel.org>,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Alexander Aring <alex.aring@gmail.com>
-Cc: Jori Koolstra <jkoolstra@xs4all.nl>,
-	linux-fsdevel@vger.kernel.org (open list:FILE LOCKING (flock() and fcntl()/lockf())),
-	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v3] vfs: add support for empty path to openat2(2)
-Date: Tue, 10 Mar 2026 21:44:33 +0100
-Message-ID: <20260310204434.1840450-1-jkoolstra@xs4all.nl>
-X-Mailer: git-send-email 2.53.0
+        d=gmail.com; s=20230601; t=1773176920; x=1773781720; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bm3E+N8oekJhnwTHafDthtPb0dhZaLByvpqtWh3IaZ4=;
+        b=gpVWJqUYyo2P38liMXo3144VIFzMGgCOGPaJHNot2lIJ+iE4kEnWJ3f5WG2PYMfivH
+         MEgghOQ2RMuSIMK7MU7PVKNxXknPK5dzxwol5dAHuNg2mz8WylS8lmgNWfdPQcu0RxCS
+         2Qy8s0GqXEBHA6DR1SmL+1E7phsJXbNhORfrU8BJc8hws3fyrNfn3P/C6CROKIAtW9UY
+         AaE1AAK3geIDxgnZR3+diqkWm0+ug/21TCp2OYZAMdpBIBQ++yDcBxfqE+tAyUGdq9mI
+         Oa4RkwwPhkxdNQSiOSd721bkY2SfoxSdfFD5BQ7gf9WWwS4iJItExm0aabeaiSaBm6gi
+         8DBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773176920; x=1773781720;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=bm3E+N8oekJhnwTHafDthtPb0dhZaLByvpqtWh3IaZ4=;
+        b=pGdCtKM4gxDTbiqbOtJ/64B/1tkc216GKiF2u4gVtDrTeL3DDNPmF82g4ecj3PPG8N
+         96XLiV6QJeQtOUkKCHQw1j+neZIeLcAv94ZjNqVAjKqRtgWefJBJT38GxaOdK4ldnx8Y
+         AjF8N1l/p1cbnaCZztjaURp4AovQ+TxFeLoTgyLeHkKQH0w10A4wfJzgD0CH72dn4gt3
+         qfXGgEjiNy2qXDgSEnWRN+IsIeAAlzIySLTm44Ykqi9PO1xE+2gs5bDYA2G4ABSjqbMX
+         NQbDOZa5uu1ap4d8NUuVo3NpzcgWAcaAdItyvCUp0MK7SUC7SOP4zJV54keCzyaAO8lz
+         sCZg==
+X-Gm-Message-State: AOJu0Yzwmkye6wdlAh3sklfOZ/PVOK/QGDBcyGCl46WNm6NytwPAEnbn
+	xcGkn0dKRV9bfdg0dLIoTFn1qUp2L75fNZa5QZuVeUgGU1Z6Rv/DQxPSnM91SDgOGpsb/BIQ3e8
+	TIuuz7asP6H1y+c+8PNQpK1WXJ6YK9EF5KTjeds4=
+X-Gm-Gg: ATEYQzxxitvPnV7soyq/u+hFqVHp0nXso1qvmmG7QQL4YkzhsNM/RACLkOKtUCFxFJR
+	bTP4HyDLHIc/zRIW4QDfYBuPrd4QpAkNHJSTTUh2YjuGQWGdSDsIJ0PdlraeFJ65UTaP70xhlzr
+	yosvvjGlsdrCpBHh4nFDOflTby1rAtF5xthsUKLEqTMMv/SGzgsCxxwXUsMjg/lkkgjcI1h5sER
+	uVrYPDOjkyHwt7oladsZRw7HHHejS/HniGH+n+zVtj4VWhJGSBwMuf862reMmWi+xScJjcjH+UV
+	5TeOzw==
+X-Received: by 2002:a05:6000:2485:b0:439:c1ca:82be with SMTP id
+ ffacd0b85a97d-439f821b679mr632084f8f.28.1773176920172; Tue, 10 Mar 2026
+ 14:08:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <b3dfe271-4e3d-4922-b618-e73731242bca@wdc.com> <CAJnrk1a0BLS1+1uf8BqKCZ6+vXdxDHkp3WtjGgz8A4e=sx9C0g@mail.gmail.com>
+ <35327273-23ae-4fc7-93b9-03bd4abf631a@wdc.com>
+In-Reply-To: <35327273-23ae-4fc7-93b9-03bd4abf631a@wdc.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Tue, 10 Mar 2026 14:08:28 -0700
+X-Gm-Features: AaiRm50WJqxCv_v01ZAKzrmIFBGJwjCtbRIzf-ky4shoSOJeDmdmRSMif2IOcy4
+Message-ID: <CAJnrk1YSW5m6mHuFX6cMxZHBt2qdc8aEx9B623WGoTyL1cjjBg@mail.gmail.com>
+Subject: Re: Hang in generic/648 on zoned btrfs after aa35dd5cbc06 ("iomap:
+ fix invalid folio access after folio_end_read()")
+To: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>
+Cc: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-To get an operable version of an O_PATH file descriptor, it is possible
-to use openat(fd, ".", O_DIRECTORY) for directories, but other files
-currently require going through open("/proc/<pid>/fd/<nr>"), which
-depends on a functioning procfs.
+On Tue, Mar 10, 2026 at 4:44=E2=80=AFAM Johannes Thumshirn
+<Johannes.Thumshirn@wdc.com> wrote:
+>
+>
+> >
+> > 3. If you're able to repro this consistently, would you be able to add
+> > these lines right above the WARN_ON on line 487 and sharing what it
+> > prints out?
+> >
+> > +++ b/fs/iomap/buffered-io.c
+> > @@ -484,6 +484,17 @@ static void iomap_read_end(struct folio *folio,
+> > size_t bytes_submitted)
+> >                   * to the IO helper, in which case we are responsible =
+for
+> >                   * unlocking the folio here.
+> >                   */
+> > +               if (bytes_submitted) {
+> > +                       struct inode *inode =3D folio->mapping->host;
+> > +                       struct block_device *bdev =3D inode->i_sb->s_bd=
+ev;
+> > +
+> > +                       pr_warn("bytes_submitted=3D%zu folio_size=3D%zu
+> > blkbits=3D%u isize=3D%lld "
+> > +                               "logical_bs=3D%u physical_bs=3D%u\n",
+> > +                               bytes_submitted, folio_size(folio),
+> > inode->i_blkbits,
+> > +                               i_size_read(inode),
+> > +                               bdev ? bdev_logical_block_size(bdev) : =
+0,
+> > +                               bdev ? bdev_physical_block_size(bdev) :=
+ 0);
+> > +               }
+> >                  WARN_ON_ONCE(bytes_submitted);
+> >                  folio_unlock(folio);
+> >          }
+>
+> Here we go:
+>
+> [   17.872952] bytes_submitted=3D1024 folio_size=3D4096 blkbits=3D12
+> isize=3D5278880768 logical_bs=3D0 physical_bs=3D0
 
-This patch adds the OPENAT2_EMPTY_PATH flag to openat2(2). If passed,
-LOOKUP_EMPTY is set at path resolve time.
+Thank you, this is very helpful.
 
-Note: This implies that you cannot rely anymore on disabling procfs from
-being mounted (e.g. inside a container without procfs mounted and with
-CAP_SYS_ADMIN dropped) to prevent O_PATH fds from being re-opened
-read-write.
+Is it correct that the block device's inode->i_blkbits doesn't reflect
+its actual logical block size (512) or is that itself a bug somewhere
+in the block layer? On the iomap side, it uses inode->i_blkbits to
+determine whether or not an ifs should be attached and what logic to
+correspondingly call. For this case, shouldn't the inode's i_blkbits
+be 9 since "isize=3D 5278880768" indicates it's 512-byte aligned, not
+4096-byte aligned? I'm not familiar with the block layer, so your
+thoughts on this would be appreciated.
 
-Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
----
- fs/fcntl.c                   |  4 ++--
- fs/open.c                    | 11 +++++------
- include/linux/fcntl.h        |  5 ++++-
- include/uapi/linux/openat2.h |  4 ++++
- 4 files changed, 15 insertions(+), 9 deletions(-)
+If it is fine for the block device's inode->i_blkbits to be a
+different value from the logical block size, then I think the iomap
+side needs this fix:
 
-diff --git a/fs/fcntl.c b/fs/fcntl.c
-index beab8080badf..d9ae3c71edfe 100644
---- a/fs/fcntl.c
-+++ b/fs/fcntl.c
-@@ -1169,8 +1169,8 @@ static int __init fcntl_init(void)
- 	 * Exceptions: O_NONBLOCK is a two bit define on parisc; O_NDELAY
- 	 * is defined as O_NONBLOCK on some platforms and not on others.
- 	 */
--	BUILD_BUG_ON(20 - 1 /* for O_RDONLY being 0 */ !=
--		HWEIGHT32(
-+	BUILD_BUG_ON(21 - 1 /* for O_RDONLY being 0 */ !=
-+		HWEIGHT64(
- 			(VALID_OPEN_FLAGS & ~(O_NONBLOCK | O_NDELAY)) |
- 			__FMODE_EXEC));
- 
-diff --git a/fs/open.c b/fs/open.c
-index 91f1139591ab..e019ddecc73c 100644
---- a/fs/open.c
-+++ b/fs/open.c
-@@ -1160,12 +1160,12 @@ struct file *kernel_file_open(const struct path *path, int flags,
- EXPORT_SYMBOL_GPL(kernel_file_open);
- 
- #define WILL_CREATE(flags)	(flags & (O_CREAT | __O_TMPFILE))
--#define O_PATH_FLAGS		(O_DIRECTORY | O_NOFOLLOW | O_PATH | O_CLOEXEC)
-+#define O_PATH_FLAGS		(O_DIRECTORY | O_NOFOLLOW | O_PATH | O_CLOEXEC | OPENAT2_EMPTY_PATH)
- 
- inline struct open_how build_open_how(int flags, umode_t mode)
- {
- 	struct open_how how = {
--		.flags = flags & VALID_OPEN_FLAGS,
-+		.flags = ((unsigned int) flags) & VALID_OPEN_FLAGS,
- 		.mode = mode & S_IALLUGO,
- 	};
- 
-@@ -1185,9 +1185,6 @@ inline int build_open_flags(const struct open_how *how, struct open_flags *op)
- 	int lookup_flags = 0;
- 	int acc_mode = ACC_MODE(flags);
- 
--	BUILD_BUG_ON_MSG(upper_32_bits(VALID_OPEN_FLAGS),
--			 "struct open_flags doesn't yet handle flags > 32 bits");
--
- 	/*
- 	 * Strip flags that aren't relevant in determining struct open_flags.
- 	 */
-@@ -1281,6 +1278,8 @@ inline int build_open_flags(const struct open_how *how, struct open_flags *op)
- 		lookup_flags |= LOOKUP_DIRECTORY;
- 	if (!(flags & O_NOFOLLOW))
- 		lookup_flags |= LOOKUP_FOLLOW;
-+	if (flags & OPENAT2_EMPTY_PATH)
-+		lookup_flags |= LOOKUP_EMPTY;
- 
- 	if (how->resolve & RESOLVE_NO_XDEV)
- 		lookup_flags |= LOOKUP_NO_XDEV;
-@@ -1362,7 +1361,7 @@ static int do_sys_openat2(int dfd, const char __user *filename,
- 	if (unlikely(err))
- 		return err;
- 
--	CLASS(filename, name)(filename);
-+	CLASS(filename_flags, name)(filename, op.lookup_flags);
- 	return FD_ADD(how->flags, do_file_open(dfd, name, &op));
- }
- 
-diff --git a/include/linux/fcntl.h b/include/linux/fcntl.h
-index a332e79b3207..d1bb87ff70e3 100644
---- a/include/linux/fcntl.h
-+++ b/include/linux/fcntl.h
-@@ -7,10 +7,13 @@
- 
- /* List of all valid flags for the open/openat flags argument: */
- #define VALID_OPEN_FLAGS \
-+	 /* lower 32-bit flags */ \
- 	(O_RDONLY | O_WRONLY | O_RDWR | O_CREAT | O_EXCL | O_NOCTTY | O_TRUNC | \
- 	 O_APPEND | O_NDELAY | O_NONBLOCK | __O_SYNC | O_DSYNC | \
- 	 FASYNC	| O_DIRECT | O_LARGEFILE | O_DIRECTORY | O_NOFOLLOW | \
--	 O_NOATIME | O_CLOEXEC | O_PATH | __O_TMPFILE)
-+	 O_NOATIME | O_CLOEXEC | O_PATH | __O_TMPFILE | \
-+	 /* upper 32-bit flags (openat2(2) only) */ \
-+	 OPENAT2_EMPTY_PATH)
- 
- /* List of all valid flags for the how->resolve argument: */
- #define VALID_RESOLVE_FLAGS \
-diff --git a/include/uapi/linux/openat2.h b/include/uapi/linux/openat2.h
-index a5feb7604948..c34f32e6fa96 100644
---- a/include/uapi/linux/openat2.h
-+++ b/include/uapi/linux/openat2.h
-@@ -40,4 +40,8 @@ struct open_how {
- 					return -EAGAIN if that's not
- 					possible. */
- 
-+/* openat2(2) exclusive flags are defined in the upper 32 bits of
-+   open_how->flags  */
-+#define OPENAT2_EMPTY_PATH	0x100000000 /* (1ULL << 32) */
-+
- #endif /* _UAPI_LINUX_OPENAT2_H */
--- 
-2.53.0
+diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
+index 867e8ac761c8..03a97361570f 100644
+--- a/fs/iomap/buffered-io.c
++++ b/fs/iomap/buffered-io.c
+@@ -543,7 +543,7 @@ static int iomap_read_folio_iter(struct iomap_iter *ite=
+r,
+                         * helper, then the helper owns the folio and will =
+end
+                         * the read on it.
+                         */
+-                       if (*bytes_submitted =3D=3D folio_len)
++                       if (*bytes_submitted =3D=3D folio_len || !ifs)
+                                ctx->cur_folio =3D NULL;
+                }
 
+Could you verify that this fixes the hang?
+
+Thanks,
+Joanne
+>
