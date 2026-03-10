@@ -1,195 +1,181 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f202.google.com (mail-pf1-f202.google.com [209.85.210.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 115CB32ED29;
-	Tue, 10 Mar 2026 01:05:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E507026A1AC
+	for <linux-fsdevel@vger.kernel.org>; Tue, 10 Mar 2026 01:06:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773104753; cv=none; b=VT5yaiU3j3gWmWuqpcplzDejGmPz5p5uihGjn8VWq+d+tGXIKULPCM827XVJPgp4i1jrmnJxeZ4NHPNucj3dM6bfLbUhGdE0VN8Ubp3I6TIJ2lHBPNT4Lu45MVK2v2PDLyuf/ZLqdeUpRQbY7kzrfG7f7GNit+LTC4J2cpfVV0s=
+	t=1773104781; cv=none; b=SeUWZYay58IGEPQJ7YdRfAs+EhJ+tyvJU+tQMLBTpo00kM94AGmABWB42jY8b1CBQCROALARJZ56jnH4PzaGwDbr9ZvO1iPzWxOydiZ4iGlivED1D+of5qeYFlVX3BO1CrpgOgp8Yfg7UEu6sOU2B6FqubQ0LwgidFE9BAxSihM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773104753; c=relaxed/simple;
-	bh=aUKDupC9eg6IqmhfO1YbMuAZG/32Sgrd20f3Tc9BPdI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pJ6G2m3CAVB43lFv+7umqpkPSibV3FeM7p3sJD68oXx7JpkNcnqATDDb1kElFoD+WbS4Ue5nXpHKStBQnLQt/xZcm3OhmLI/eUBpDQhNNepjKfU/ZUpBM4cs8/gH4Pn8685w1yO/asEL+umjiV2C95YkVqfEDljOwLyPPGU8Slo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d1jGGpyi; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773104781; c=relaxed/simple;
+	bh=Ps/B2Z4YbD6//yK0FTkoaGlvSB+kH3TEFIAsJhiHCps=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=o8YI16aVnp076yEGth3yjizkIsfhQyyFcG5bTeAWZ/qg5cST2vpG9jXEOaTNSSzVSmFHX4Bhm4jz9ssQWxSQMUBCjCsCSJty6ujUZ6T0EeZnyjBz/UbTsoMXCgmUgyOtE4ZkUd8Cidj1mY2d8tdXuu3IhUvjdpYD0UOAcjgvDl4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=YCdCasmV; arc=none smtp.client-ip=209.85.210.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d1jGGpyi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9180CC4CEF7;
-	Tue, 10 Mar 2026 01:05:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773104752;
-	bh=aUKDupC9eg6IqmhfO1YbMuAZG/32Sgrd20f3Tc9BPdI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=d1jGGpyiSyUBEjiqzNypUpmXJsTHj07FCWLK6mv7BxQeHbQ9yApuaIyw4iD6hEWZt
-	 9UMeBVkNmLvcnwK/b2k3yLspTLZjvNMljELG/Uq3OaGFwCCxdTadxR1qjQxJKmCut3
-	 zicmzsUSBiCZFWQ6UbwIx3Sjngu4jGc8Dr3iYHjQzCuZagnbliDwweiHhrwnIaUQy2
-	 p3kLWeXgE6xh2p3hNZAkqer9VvdY8S/H4lHStKzbg9ipAWBgZ9aD5ez1tzDlQG0+AR
-	 zgxwNdn81hzFjuAfjVrsB5EOA1c4qOO4zInSUv3oGJU5em/WcyqPuz3foFUWsAOezq
-	 LhOyEpV9ocTfA==
-Date: Mon, 9 Mar 2026 18:05:52 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Andrey Albershteyn <aalbersh@kernel.org>
-Cc: linux-xfs@vger.kernel.org, fsverity@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, ebiggers@kernel.org, hch@lst.de,
-	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-	linux-btrfs@vger.kernel.org
-Subject: Re: [PATCH v4 12/25] xfs: introduce fsverity on-disk changes
-Message-ID: <20260310010552.GC1105363@frogsfrogsfrogs>
-References: <20260309192355.176980-1-aalbersh@kernel.org>
- <20260309192355.176980-13-aalbersh@kernel.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="YCdCasmV"
+Received: by mail-pf1-f202.google.com with SMTP id d2e1a72fcca58-82988b04c5cso12582093b3a.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 09 Mar 2026 18:06:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1773104779; x=1773709579; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=O/pJjCJQTxqUtKgBQ/nXqQmMajRmz8+Q8yoKiNddz8s=;
+        b=YCdCasmVb7hZfq0q1E7i+qOoXnasgWLJJCsBBBY3YhG6VdJ8x7uczFdesdQ3nn8LOa
+         OY/D8zVdl9Oe+HR16c8hwj103vyW5gjGU+RoRZcM5FjGlPWsq6ajc1GDMaPOe+TIqMrq
+         9sl+AGcfoqQnQ5YChJNxrXlOZnaXQ0RKHCMZJHuk352zQB8ryB+sJVN3mYuzLcay90op
+         UOZbqfyDE3cMRnZUKOOHW1QokP2iq4WajIo6Eh/BtfHiV5Eh13r4Ngc/zMLRbHPzEZKI
+         1T4AR4tzXKXeHyTQa9TigT+I1vfqiWEWB3Lbd2shUhCEiUw1vjAqMhBddiC/9FD1pzbi
+         Qe8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773104779; x=1773709579;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=O/pJjCJQTxqUtKgBQ/nXqQmMajRmz8+Q8yoKiNddz8s=;
+        b=PoBKMd0pn+JUed0IUAYTpIfq8j7zIP20oylr9VwLt2Qy60RWXLULxXSdlqTv1qq1aW
+         ht6juvqRadhUYnJJI2GpNZf3fd6hbDOssr9qUzxNMUsqc5qhNthcHt9sC9OvhKrblLZE
+         /W/3jQT7DP5ztjnyAT8Z2znWBw3ajvg2+eG2dwo4OQSqm+DTpX4gyJivw/ah1bcFKzLl
+         1UBzMFej2zQ6hbhV9G3uvy5dLF991tigX998stS7IBfOLryTstoxeeXJAmLambDXqMdd
+         UZmpouyytpQAYf7G5OFpIysTOfrwH1T/NPp02gbm4ACfjoAUGguc4zb4zV5ncdXWt24z
+         oLmQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVf3DtFNSxpNFj+M+2zmman5pqBbWwogPmiZUPVA4xE1wnE4gU7Agpj0tJOkYE/XnqrWAd7/xCA6UdqOE85@vger.kernel.org
+X-Gm-Message-State: AOJu0YyK8ZfXUwmE/Ze4MzsjKKRNWYMONQHv4vEpdqLT7oQvepgxZZmz
+	p/DdKVl8ZPlSOk4JqnpEKgh2YKFt68bjGD3ItO2TdHL4WbSfK21QnuQTzgoHd5xSYFnPg+JKwD3
+	E+P1Ibw==
+X-Received: from pfld9.prod.google.com ([2002:a05:6a00:1989:b0:7dd:8bba:6393])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:3d98:b0:827:3307:170
+ with SMTP id d2e1a72fcca58-829a2eaad00mr8915615b3a.37.1773104779156; Mon, 09
+ Mar 2026 18:06:19 -0700 (PDT)
+Date: Mon, 9 Mar 2026 18:06:17 -0700
+In-Reply-To: <20260309-gmem-st-blocks-v3-2-815f03d9653e@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260309192355.176980-13-aalbersh@kernel.org>
+Mime-Version: 1.0
+References: <20260309-gmem-st-blocks-v3-0-815f03d9653e@google.com> <20260309-gmem-st-blocks-v3-2-815f03d9653e@google.com>
+Message-ID: <aa9uiQ_KBcX7X0My@google.com>
+Subject: Re: [PATCH RFC v3 2/4] KVM: guest_memfd: Set release always on
+ guest_memfd mappings
+From: Sean Christopherson <seanjc@google.com>
+To: Ackerley Tng <ackerleytng@google.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	rientjes@google.com, rick.p.edgecombe@intel.com, yan.y.zhao@intel.com, 
+	fvdl@google.com, jthoughton@google.com, vannapurve@google.com, 
+	shivankg@amd.com, michael.roth@amd.com, pratyush@kernel.org, 
+	pasha.tatashin@soleen.com, kalyazin@amazon.com, tabba@google.com, 
+	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 
-On Mon, Mar 09, 2026 at 08:23:27PM +0100, Andrey Albershteyn wrote:
-> Introduce XFS_DIFLAG2_VERITY for inodes with fsverity. This flag
-> indicates that inode has fs-verity enabled (i.e. descriptor exist,
-> tree is built and file is read-only).
+On Mon, Mar 09, 2026, Ackerley Tng wrote:
+> Set release always on guest_memfd mappings to enable the use of
+> .invalidate_folio, which performs inode accounting for guest_memfd.
 > 
-> Introduce XFS_SB_FEAT_RO_COMPAT_VERITY for filesystems having
-> fsverity inodes. As on-disk changes applies to fsverity inodes only, let
-> older kernels read-only access. This will be enabled in the further
-> patch after full fsverity support.
-> 
-> Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
+> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 > ---
->  fs/xfs/libxfs/xfs_format.h     | 8 +++++++-
->  fs/xfs/libxfs/xfs_inode_buf.c  | 8 ++++++++
->  fs/xfs/libxfs/xfs_inode_util.c | 2 ++
->  fs/xfs/libxfs/xfs_sb.c         | 2 ++
->  fs/xfs/xfs_iops.c              | 2 ++
->  fs/xfs/xfs_mount.h             | 2 ++
->  6 files changed, 23 insertions(+), 1 deletion(-)
+>  virt/kvm/guest_memfd.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/fs/xfs/libxfs/xfs_format.h b/fs/xfs/libxfs/xfs_format.h
-> index 779dac59b1f3..d67b404964fc 100644
-> --- a/fs/xfs/libxfs/xfs_format.h
-> +++ b/fs/xfs/libxfs/xfs_format.h
-> @@ -374,6 +374,7 @@ xfs_sb_has_compat_feature(
->  #define XFS_SB_FEAT_RO_COMPAT_RMAPBT   (1 << 1)		/* reverse map btree */
->  #define XFS_SB_FEAT_RO_COMPAT_REFLINK  (1 << 2)		/* reflinked files */
->  #define XFS_SB_FEAT_RO_COMPAT_INOBTCNT (1 << 3)		/* inobt block counts */
-> +#define XFS_SB_FEAT_RO_COMPAT_VERITY   (1 << 4)		/* fs-verity */
->  #define XFS_SB_FEAT_RO_COMPAT_ALL \
->  		(XFS_SB_FEAT_RO_COMPAT_FINOBT | \
->  		 XFS_SB_FEAT_RO_COMPAT_RMAPBT | \
-> @@ -1230,16 +1231,21 @@ static inline void xfs_dinode_put_rdev(struct xfs_dinode *dip, xfs_dev_t rdev)
->   */
->  #define XFS_DIFLAG2_METADATA_BIT	5
->  
-> +/* inodes sealed with fs-verity */
-> +#define XFS_DIFLAG2_VERITY_BIT		6
-> +
->  #define XFS_DIFLAG2_DAX		(1ULL << XFS_DIFLAG2_DAX_BIT)
->  #define XFS_DIFLAG2_REFLINK	(1ULL << XFS_DIFLAG2_REFLINK_BIT)
->  #define XFS_DIFLAG2_COWEXTSIZE	(1ULL << XFS_DIFLAG2_COWEXTSIZE_BIT)
->  #define XFS_DIFLAG2_BIGTIME	(1ULL << XFS_DIFLAG2_BIGTIME_BIT)
->  #define XFS_DIFLAG2_NREXT64	(1ULL << XFS_DIFLAG2_NREXT64_BIT)
->  #define XFS_DIFLAG2_METADATA	(1ULL << XFS_DIFLAG2_METADATA_BIT)
-> +#define XFS_DIFLAG2_VERITY	(1ULL << XFS_DIFLAG2_VERITY_BIT)
->  
->  #define XFS_DIFLAG2_ANY \
->  	(XFS_DIFLAG2_DAX | XFS_DIFLAG2_REFLINK | XFS_DIFLAG2_COWEXTSIZE | \
-> -	 XFS_DIFLAG2_BIGTIME | XFS_DIFLAG2_NREXT64 | XFS_DIFLAG2_METADATA)
-> +	 XFS_DIFLAG2_BIGTIME | XFS_DIFLAG2_NREXT64 | XFS_DIFLAG2_METADATA | \
-> +	 XFS_DIFLAG2_VERITY)
->  
->  static inline bool xfs_dinode_has_bigtime(const struct xfs_dinode *dip)
->  {
-> diff --git a/fs/xfs/libxfs/xfs_inode_buf.c b/fs/xfs/libxfs/xfs_inode_buf.c
-> index a017016e9075..c5822d938d81 100644
-> --- a/fs/xfs/libxfs/xfs_inode_buf.c
-> +++ b/fs/xfs/libxfs/xfs_inode_buf.c
-> @@ -756,6 +756,14 @@ xfs_dinode_verify(
->  	    !xfs_has_rtreflink(mp))
->  		return __this_address;
->  
-> +	/* only regular files can have fsverity */
-> +	if (flags2 & XFS_DIFLAG2_VERITY) {
-> +		if (!xfs_has_verity(mp))
-> +			return __this_address;
-> +		if ((mode & S_IFMT) != S_IFREG)
+> diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
+> index 77219551056a7..8246b9fbcf832 100644
+> --- a/virt/kvm/guest_memfd.c
+> +++ b/virt/kvm/guest_memfd.c
+> @@ -607,6 +607,7 @@ static int __kvm_gmem_create(struct kvm *kvm, loff_t size, u64 flags)
+>  	mapping_set_inaccessible(inode->i_mapping);
+>  	/* Unmovable mappings are supposed to be marked unevictable as well. */
+>  	WARN_ON_ONCE(!mapping_unevictable(inode->i_mapping));
+> +	mapping_set_release_always(inode->i_mapping);
 
-Nit: This can be S_ISREG(mode)
+*sigh*
 
-With that tidied up,
-Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
+So... an internal AI review bot flagged setting AS_RELEASE_ALWAYS as being
+potentially problematic, and I started poking around, mostly because I was
+curious.  I'm pretty sure the exact scenario painted by the bot isn't possible,
+but I do think a similar issue exists in at least truncate_error_folio().  Or at
+least, *should* exist, but doesn't because of a different bug.
+
+On memory error, kvm_gmem_error_folio() will get invoked via this code.  Note
+the "err != 0" check.  kvm_gmem_error_folio() returns MF_DELAYED, which has an
+arbitrary value of '2', and so KVM is always signalling "failure".
+
+		int err = mapping->a_ops->error_remove_folio(mapping, folio);
+
+		if (err != 0)
+			pr_info("%#lx: Failed to punch page: %d\n", pfn, err);
+		else if (!filemap_release_folio(folio, GFP_NOIO))
+			pr_info("%#lx: failed to release buffers\n", pfn);
+
+I _think_ that's bad?  On x86, if I'm following the breadcrubs correctly, we'll
+end up in this code in kill_me_maybe()
+
+	pr_err("Memory error not recovered");
+	kill_me_now(cb);
+
+and send what I assume is a relatively useless SIGBUS and likely kill the VM.
+
+	struct task_struct *p = container_of(ch, struct task_struct, mce_kill_me);
+
+	p->mce_count = 0;
+	force_sig(SIGBUS);
+
+But even if that's somehow the "right" behavior, we're doing it purely by
+accident.
+
+As for this patch, if we fix that bug by returning 0, then filemap_release_folio()
+is definitely reachable by at least one flow, so I think guest_memfd also needs
+to implement release_folio()?
 
 
---D
+    
+Full AI bot text:
+--
+Setting the AS_RELEASE_ALWAYS flag causes folio_needs_release() to return
+true. This correctly triggers .invalidate_folio during truncation, but does
+it also unintentionally expose guest_memfd folios to eviction via
+posix_fadvise(POSIX_FADV_DONTNEED)?
 
-> +			return __this_address;
-> +	}
-> +
->  	if (xfs_has_zoned(mp) &&
->  	    dip->di_metatype == cpu_to_be16(XFS_METAFILE_RTRMAP)) {
->  		if (be32_to_cpu(dip->di_used_blocks) > mp->m_sb.sb_rgextents)
-> diff --git a/fs/xfs/libxfs/xfs_inode_util.c b/fs/xfs/libxfs/xfs_inode_util.c
-> index 551fa51befb6..6b1e20a4bb9b 100644
-> --- a/fs/xfs/libxfs/xfs_inode_util.c
-> +++ b/fs/xfs/libxfs/xfs_inode_util.c
-> @@ -126,6 +126,8 @@ xfs_ip2xflags(
->  			flags |= FS_XFLAG_DAX;
->  		if (ip->i_diflags2 & XFS_DIFLAG2_COWEXTSIZE)
->  			flags |= FS_XFLAG_COWEXTSIZE;
-> +		if (ip->i_diflags2 & XFS_DIFLAG2_VERITY)
-> +			flags |= FS_XFLAG_VERITY;
->  	}
->  
->  	if (xfs_inode_has_attr_fork(ip))
-> diff --git a/fs/xfs/libxfs/xfs_sb.c b/fs/xfs/libxfs/xfs_sb.c
-> index 38d16fe1f6d8..4401a5f16344 100644
-> --- a/fs/xfs/libxfs/xfs_sb.c
-> +++ b/fs/xfs/libxfs/xfs_sb.c
-> @@ -165,6 +165,8 @@ xfs_sb_version_to_features(
->  		features |= XFS_FEAT_REFLINK;
->  	if (sbp->sb_features_ro_compat & XFS_SB_FEAT_RO_COMPAT_INOBTCNT)
->  		features |= XFS_FEAT_INOBTCNT;
-> +	if (sbp->sb_features_ro_compat & XFS_SB_FEAT_RO_COMPAT_VERITY)
-> +		features |= XFS_FEAT_VERITY;
->  	if (sbp->sb_features_incompat & XFS_SB_FEAT_INCOMPAT_FTYPE)
->  		features |= XFS_FEAT_FTYPE;
->  	if (sbp->sb_features_incompat & XFS_SB_FEAT_INCOMPAT_SPINODES)
-> diff --git a/fs/xfs/xfs_iops.c b/fs/xfs/xfs_iops.c
-> index 208543e57eda..ca369eb96561 100644
-> --- a/fs/xfs/xfs_iops.c
-> +++ b/fs/xfs/xfs_iops.c
-> @@ -1415,6 +1415,8 @@ xfs_diflags_to_iflags(
->  		flags |= S_NOATIME;
->  	if (init && xfs_inode_should_enable_dax(ip))
->  		flags |= S_DAX;
-> +	if (xflags & FS_XFLAG_VERITY)
-> +		flags |= S_VERITY;
->  
->  	/*
->  	 * S_DAX can only be set during inode initialization and is never set by
-> diff --git a/fs/xfs/xfs_mount.h b/fs/xfs/xfs_mount.h
-> index 61c71128d171..c746bc90cf3e 100644
-> --- a/fs/xfs/xfs_mount.h
-> +++ b/fs/xfs/xfs_mount.h
-> @@ -385,6 +385,7 @@ typedef struct xfs_mount {
->  #define XFS_FEAT_EXCHANGE_RANGE	(1ULL << 27)	/* exchange range */
->  #define XFS_FEAT_METADIR	(1ULL << 28)	/* metadata directory tree */
->  #define XFS_FEAT_ZONED		(1ULL << 29)	/* zoned RT device */
-> +#define XFS_FEAT_VERITY		(1ULL << 30)	/* fs-verity */
->  
->  /* Mount features */
->  #define XFS_FEAT_NOLIFETIME	(1ULL << 47)	/* disable lifetime hints */
-> @@ -442,6 +443,7 @@ __XFS_HAS_FEAT(exchange_range, EXCHANGE_RANGE)
->  __XFS_HAS_FEAT(metadir, METADIR)
->  __XFS_HAS_FEAT(zoned, ZONED)
->  __XFS_HAS_FEAT(nolifetime, NOLIFETIME)
-> +__XFS_HAS_FEAT(verity, VERITY)
->  
->  static inline bool xfs_has_rtgroups(const struct xfs_mount *mp)
->  {
-> -- 
-> 2.51.2
-> 
-> 
+If userspace calls posix_fadvise() on a guest_memfd file, the core mm
+calls mapping_evict_folio(). Because folio_needs_release() is true, it
+calls filemap_release_folio().
+
+Since guest_memfd does not implement a .release_folio address space
+operation, filemap_release_folio() falls back to calling
+try_to_free_buffers(). Could this fallback cause a warning?
+
+fs/buffer.c:try_to_free_buffers() {
+	...
+	/* Misconfigured folio check */
+	if (WARN_ON_ONCE(!folio_buffers(folio)))
+		return true;
+	...
+}
+
+Because the guest_memfd folio has no private data, folio_buffers()
+is NULL, which will trigger this WARN_ON_ONCE.
+
+Furthermore, try_to_free_buffers() returns true, allowing the folio to be
+removed from the page cache. Because this eviction path bypasses
+truncate_cleanup_folio(), it never calls .invalidate_folio.
+
+Does this mean inode_sub_bytes() is skipped, leaking the inode block
+accounting?
+
+Userspace could potentially trigger the warning and infinitely inflate the
+inode's block count with:
+    struct kvm_create_guest_memfd args = { .size = 4096 };
+    int fd = ioctl(kvm_vm_fd, KVM_CREATE_GUEST_MEMFD, &args);
+    fallocate(fd, 0, 0, 4096);
+    posix_fadvise(fd, 0, 4096, POSIX_FADV_DONTNEED);
+Should guest_memfd implement a .release_folio callback that simply
+returns false to prevent these folios from being evicted?
+--
