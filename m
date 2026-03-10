@@ -1,149 +1,165 @@
-Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazon11013041.outbound.protection.outlook.com [40.107.201.41])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 192953E95B5;
-	Tue, 10 Mar 2026 10:24:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.201.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773138265; cv=fail; b=kU2eq8tqIuA4nQej2NZghaNr4V91S127SM0eLUrkv5txDFO6xxDtajqAyU3V4pV4lhV1tXSNYXMCyh7xUGarajkw0cUP5wO1wGMpKTEL26SLz0mBLPg0CKQuWmeN8wRj6aVH+YOmlPhO0R/jKKMjJlXn0Pr4kBW5gFNwwmFRLmM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773138265; c=relaxed/simple;
-	bh=T1IONWk0UhE3eU6oYuLQxIVDm/XVaqsaTRmYPiwGTxE=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=TIfHNq3mQfOvYWhjEzbsnC9IKJzJp5X8EU3Olif/2qaax78XjgThihSJE4D4tDNDp5uDvNhgk/gCxdK+irvvnfB+rpEO/mX2AjzPbprnS6XHITKr+3TsuG/KcQkaoO/1peLrbuFRDgMRCC8uWD90hL26DqomT7ODdK/+4Cv0+3Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=cnKjV65Y; arc=fail smtp.client-ip=40.107.201.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74CC136F439
+	for <linux-fsdevel@vger.kernel.org>; Tue, 10 Mar 2026 10:31:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773138700; cv=none; b=pKhL5+QM2RL6aLGeJ3+AcIW4LAyo9sMGan5jFzdbXqmQ6/NFdqItQWDPrgmP1XHz2BaPqMpbpQDP1hSVHW1159tRjD7QwDeA7sKRCmypni7uMhtWJu5QiC08alw5Erzlx71+i1M7lgS+D7iVkA0stfW/LsdRoI71zbFq5XxZXWM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773138700; c=relaxed/simple;
+	bh=ZIZPQTnbTGvqosbrmC3HJlaKHjmaD2P0Q1OJRB+XgRM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YeOfuqX+CSCRg6LFDwi9KN1X970H+JpfLur99DWYyo8mEMZXEU3/Ee9CRwA+in+/ML3yX9CFybyo6V6omzO8kMCUVBAwRG018TLN+yrfpWYLDl4ZC9Os8aNynqipVhADSkIPTOO4F4q+mAvX7FAqi/zaeZ4oWhQW2Gtg6kBX2bY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y9dWRws9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="cnKjV65Y"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=N7uZMxguOxBO311Lg+X7pSGZrYLZ0g9ObDF9vyX2g+ptMuX9Ni4L1SoezDJACe/ZU+SmFaE36o2QAuHu71uwEDDN5jBF84j5xFtxEQxP9wYOKmhy0qPnGYn7dZaWufxTTlPEucoKY/KSvOKarqVLk+xObkH4Qkm0t5Tv4U94VH5EcYIvmvG2OTbJG+NoyNe5/OHNsgnJYHuArmQCjVWtnwWek43t5d1fEbsKPix4dbsZ5u5wyufpfFO2Hsyh4dYCCiLkXJpfxzlBCJ+qIiLbGNFoXpeW1liE7GovAhcT1FHj2Q6Um6Qc66MTsEMryOPITyJMoLExpMWFgmiNn6Qf5Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BH4hdhGj3t2o8U5gr9X3Wl338oY0NdZR2Cux9BcQKhM=;
- b=G2WUUhiOqzph/cTyPl83LQPdt6cUPZGyfzSDxmTUyWkKmOOqGxvpMM6gsPyuhiwLCyvn4TXtPjdBOxPENz7X5EQb2k9NJR49xNJo3HmF13LxRBkjGQx3qsDr5OmBplus6cfzluArlto+1mryiXWWishGxMQ5cglHJFDbjGMH9SpXa0hQutulqo7UbHXXnuFKe4kPHqa7n7nMlvasJHpLwi5x69sxMwLcuvmgmQjZ2nPWufCrMK0yGMpBh5vKGMJ4G/Mydqt5dechYFqUmJK9l+vjdyF04/lSm1RqT0Jny2XB8fAsGdgvZd2kytskBX+SLpMkUbc1OnsZMPCxa3IVvA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=zeniv.linux.org.uk
- smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
- header.from=nvidia.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BH4hdhGj3t2o8U5gr9X3Wl338oY0NdZR2Cux9BcQKhM=;
- b=cnKjV65YLYcPbgHKs49vHVR+dRvqKP1SiHvHah5LIHz1167FX7Ttmy+ZHcf4re5JesrhMF40Kxsb5Ld3s97s1YKFxcf5jpQlCShCGhfBcURDa324+mRbdguzYijQ3O9dT0aLLEboZ9aVoZG/wN9Ljas7Jp0xfd4lvGSNB0tWBF+qJ5ImdZuUjxXaAlPqorrxz+IprMqc+7BZFREJ5w7ZSN7RiDfr2NScLYENXoNcOOco0up+DGJucHQ/J9Smnqscj4FuJyx7tMMyDGlwpULMBOVAxu2sThvwZ93wdnNZro1YHCkxPW7hcSBEGHm6LDRTQwJ6IfX/gZbjGsTQtzUjOQ==
-Received: from BLAPR03CA0096.namprd03.prod.outlook.com (2603:10b6:208:32a::11)
- by LV2PR12MB999096.namprd12.prod.outlook.com (2603:10b6:408:353::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.11; Tue, 10 Mar
- 2026 10:24:18 +0000
-Received: from MN1PEPF0000ECD6.namprd02.prod.outlook.com
- (2603:10b6:208:32a:cafe::e) by BLAPR03CA0096.outlook.office365.com
- (2603:10b6:208:32a::11) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9678.25 via Frontend Transport; Tue,
- 10 Mar 2026 10:24:18 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- MN1PEPF0000ECD6.mail.protection.outlook.com (10.167.242.135) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9678.18 via Frontend Transport; Tue, 10 Mar 2026 10:24:18 +0000
-Received: from rnnvmail203.nvidia.com (10.129.68.9) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 10 Mar
- 2026 03:24:06 -0700
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by rnnvmail203.nvidia.com
- (10.129.68.9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 10 Mar
- 2026 03:24:05 -0700
-Received: from arpithk-kernel.nvidia.com (10.127.8.14) by mail.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server id 15.2.2562.20 via Frontend
- Transport; Tue, 10 Mar 2026 03:24:05 -0700
-From: Arpith Kalaginanavoor <arpithk@nvidia.com>
-To: <viro@zeniv.linux.org.uk>
-CC: <brauner@kernel.org>, <stable@vger.kernel.org>,
-	<linux-fsdevel@vger.kernel.org>, Arpith Kalaginanavoor <arpithk@nvidia.com>
-Subject: [PATCH] fs/qnx6: fix pointer arithmetic in directory iteration
-Date: Tue, 10 Mar 2026 03:22:33 -0700
-Message-ID: <20260310102233.391113-1-arpithk@nvidia.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y9dWRws9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58DDAC19423;
+	Tue, 10 Mar 2026 10:31:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773138700;
+	bh=ZIZPQTnbTGvqosbrmC3HJlaKHjmaD2P0Q1OJRB+XgRM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Y9dWRws9PdpJnoeu0T262oB1L1PX5dhWw/iTNCC4wxVArJWEuoYzVNgkLnxnYGdY/
+	 GAfyVHjWRliWGVCKxnM4zvFhgnMIQwptg1gAYs+/wTSXTiPYMiOvi/54lKiHLBaxYH
+	 RweRqPrs7sjWrfSHn/IbpHWMnhsxj1v/5bvF18g5FnsXtbmiAw0vcVvPlWeBXJwPzp
+	 PtxOCh/XxcDYrwyrFw/yygqtwjUobWO/xmL1/lh+DNQeQp2KDpfi5yXY3+CpFQZINX
+	 UFdM//OIzuehJXtAKBx/k9uavNqi4pEcV+TyPd1v625ijON3+E9PS3pPpwBZ14XR/E
+	 qxecwWmAS6NKA==
+Date: Tue, 10 Mar 2026 11:31:35 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Jan Kara <jack@suse.cz>, Lennart Poettering <lennart@poettering.net>, 
+	Tejun Heo <tj@kernel.org>, "T . J . Mercier" <tjmercier@google.com>, 
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [RFC][PATCH 0/5] fanotify namespace monitoring
+Message-ID: <20260310-inkompatibel-staufer-7c862857ac62@brauner>
+References: <20260307110550.373762-1-amir73il@gmail.com>
+ <20260309-einrad-mitarbeit-18397e65afd3@brauner>
+ <CAOQ4uxgmttSum2a2gKBkpdzg4110rpaH4mayy=9+QzWjFRNB6w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-NVConfidentiality: public
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN1PEPF0000ECD6:EE_|LV2PR12MB999096:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1871a21c-6154-47a8-5314-08de7e8f2fff
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|36860700016|82310400026|376014;
-X-Microsoft-Antispam-Message-Info:
-	57X5WfHu3JvuANPXL93OpIsv3tWOtd8RonnLVFiVz0v18L0AeH+ovGwvwOgDItxQKa4A/yCHrm5lesjPbflyCs1ok1n/PjyUv1tgN40xfJeqwktzO5JkHjLyCvIsBj1h2AkcRUVLpgnW807X4Gh7j7moCOztFGzrYsapTxeuveyVptwQdynz52pFOP8fCimCeF9hfrJZROIuFSGKp9vcS83sLEFEDFkwRHR4p8VMfIuuk/hn/ecgekTtureQVVGuhwMXapvW+ojaoBXVORMdwkVCzxSs/Me39NRT9SHNMA+3fWtr6Q+kPfr1U64X66JDpEFY2hqOa6kZNxfqIt3vzQGzwEQ1SNpEtWa6eyfaroQ6rnygW3gmdTHzl/QN03yIq2eM4vzSp8se4SDmlin4qQlwGejA7qMr9WpMOsCitlh1GrkLs11L+SurAPTJRzu31C+HvZxjqeRfRuAk+lxSevFvmplwJSohbH/dIgMYrmldgBgNQEGEuz08UqiMir7IFSGoTVoPMn1xyvn4MLyHxBQKxeB6ob0o1MnWx1CFjiXtBX+1kcLp2Pfn1wiIvdcn00AFqKS3/N65UtzGNsDERTjtJeegxG21MZJ1x0B3nZe9fZGCKYNmkZzYdM+hHXnzEnurSmNyc3ndvuFI7R2XvxaeFdkPUOGt1GjmXVk6qi3fHoaq/uJTo3YQEOLD5F/i6MiiMzwhLVDNKEroltPF2Gq8CxDcusaqz5W3g14NUcgaDNg89LRW9b0Bk7Z+jKkezVty2ZTbVEU8CUeO9mibUw==
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(1800799024)(36860700016)(82310400026)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	5HaM113Z/EotAJnEFS1Nyh9SM5oedOs0cWDcFwRbvMSVpYytDivhTztEeT0DipgHa7qcbGe5bsiY2kp842wWR8ci+C+RKW6NSckMDYan1meigewim6TkPaKMQ/ktMMaRFv0GmXETvSH7yn4eFnyRntgQoQezogpSGiTWLhuh4Qqy2eJaC0PC9UzkM4WGEiQmTebfCNUk01+zBMNcZjI1TImRofVDSotAUJnCXnBYQnzAHGm+5Q47qCXO/POL7AzOrV4qM/KQCWcXHBAciC1RpghXt1d9WWkMnvrjVq0Ju4hQlqlKYnE8XokHRVEx6osPjJIRCziK9AWRdkHOyCpmWpTAR22WvAJ4Ow9XKGJuzewmQ93z+XRYji2sSgtdp59cjM762hpcU13o5fsDFpApRErpVT209LErgoP4YHlj0poy1ZXfZvLceI9OPxv6Bciz
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2026 10:24:18.2424
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1871a21c-6154-47a8-5314-08de7e8f2fff
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	MN1PEPF0000ECD6.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB999096
+In-Reply-To: <CAOQ4uxgmttSum2a2gKBkpdzg4110rpaH4mayy=9+QzWjFRNB6w@mail.gmail.com>
 
-The conversion to qnx6_get_folio() in commit b2aa61556fcf
-("qnx6: Convert qnx6_get_page() to qnx6_get_folio()")
-introduced a regression in directory iteration. The pointer 'de'
-and the 'limit' address were calculated using byte offsets from
-a char pointer without scaling by the size of a QNX6 directory
-entry.
+On Mon, Mar 09, 2026 at 04:47:20PM +0100, Amir Goldstein wrote:
+> On Mon, Mar 9, 2026 at 1:33 PM Christian Brauner <brauner@kernel.org> wrote:
+> >
+> > On Sat, Mar 07, 2026 at 12:05:45PM +0100, Amir Goldstein wrote:
+> > > Jan,
+> > >
+> > > Similar to mount notifications and listmount(), this is the complementary
+> > > part of listns().
+> > >
+> > > The discussion about FAN_DELETE_SELF events for kernfs [1] for cgroup
+> > > tree monitoring got me thinking that this sort of monitoring should not be
+> > > tied to vfs inodes.
+> > >
+> > > Monitoring the cgroups tree has some semantic nuances, but I am told by
+> > > Christian, that similar requirement exists for monitoring namepsace tree,
+> > > where the semantics w.r.t userns are more clear.
+> > >
+> > > I prepared this RFC to see if it meets the requirements of userspace
+> > > and think if that works, the solution could be extended to monitoring
+> > > cgroup trees.
+> > >
+> > > IMO monitoring namespace trees and monitoring filesystem objects do not
+> > > need to be mixed in the same fanotify group, so I wanted to try using
+> > > the high 32bits for event flags rather than wasting more event flags
+> > > in low 32bit. I remember that I wanted to so that for mount monitoring
+> > > events, but did not insist, so too bad.
+> > >
+> > > However, the code for using the high 32bit in uapi is quite ugly and
+> > > hackish ATM, so I kept it as a separate patch, that we can either throw
+> > > away or improve later.
+> > >
+> > > Christian/Lennart,
+> > >
+> > > I had considered if doing "recursive watches" to get all events from
+> > > descendant namepsaces is worth while and decided with myself that it was
+> > > not.
+> > >
+> > > Please let me know if this UAPI meets your requirements.
+> >
+> > I think this looks great overall and is very useful as it allows to
+> > monitor namespace events outside of bpf lsms. I agree with the
+> > non-recursive design. You could generalize this approach by deriving the
+> > watch from the namespace file descriptor? Then you can get notifications
+> > for all types of namespaces.
+> 
+> Not sure what you mean?
+> Which type of notifications?
+> This RFC generates notifications for all types of namespaces created/deleted
+> under the watched userns.
 
-This causes the driver to read from incorrect memory offsets,
-leading to "invalid direntry size" errors and premature
-termination of directory scans.
+I misunderstood that part. Yes, that's really useful as is.
 
-Fix this by explicitly scaling the offset and limit calculations
-by QNX6_DIR_ENTRY_SIZE to ensure the directory entry pointers
-align with the intended 32-byte structures.
+> 
+> Which notifications did you intend to watch for other types of ns?
+> DELETE_SELF?
+> 
+> That would be easy to add.
+> Would just need to move the n_fsnotify_marks/mask to struct ns_common
+> (also from mnt_namespace).
 
-Fixes: b2aa61556fcf ("qnx6: Convert qnx6_get_page() to qnx6_get_folio()")
-Cc: stable@vger.kernel.org
-Signed-off-by: Arpith Kalaginanavoor <arpithk@nvidia.com>
----
- fs/qnx6/dir.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Yes, I was thinking about a way to monitor namespace destruction for an
+arbitrary namespace.
 
-diff --git a/fs/qnx6/dir.c b/fs/qnx6/dir.c
-index ae0c9846833d..ba5cae49ad1d 100644
---- a/fs/qnx6/dir.c
-+++ b/fs/qnx6/dir.c
-@@ -139,8 +139,8 @@ static int qnx6_readdir(struct file *file, struct dir_context *ctx)
- 			ctx->pos = (n + 1) << PAGE_SHIFT;
- 			return PTR_ERR(kaddr);
- 		}
--		de = (struct qnx6_dir_entry *)(kaddr + offset);
--		limit = kaddr + last_entry(inode, n);
-+		de = (struct qnx6_dir_entry *)(kaddr + (offset * QNX6_DIR_ENTRY_SIZE));
-+		limit = kaddr + (last_entry(inode, n) * QNX6_DIR_ENTRY_SIZE);
- 		for (; (char *)de < limit; de++, ctx->pos += QNX6_DIR_ENTRY_SIZE) {
- 			int size = de->de_size;
- 			u32 no_inode = fs32_to_cpu(sbi, de->de_inode);
--- 
-2.43.0
+> 
+> >
+> > If we ever want recursive watches, then we just need to add a separate
+> > flag. This is only applicable to userns and pidns anyway.
+> 
+> Yes, if we wanted to.
+> 
+> >
+> > I want to put another - crazier idea - in your head: Since pidfds are
+> > file descriptors and now have the ability to persist information past
+> > pidfd closure via struct pid->attr it is possible to allow fanotify
+> > watches on pidfds.
+> >
+> > I think that this opens up a crazy amount of possibilities that will be
+> > tremendously useful - also would mean fsnotify outside of fs/ proper.
+> > Just thinking on the spot: if you allow marking a pidfd it's super easy
+> > to plumb exec notifications via fanotify on top of it. It's also easy to
+> > monitor _all_ namespace events for a specific process via pidfds.
+> 
+> Anything's possible, but we need to make sure it's worth it.
+> Aren't there already enough ways to monitor a process via ptrace/landlock?
 
+Oh god, no. ;)
+ptrace() is way too heavy handed for usages outside of debugging tools
+such as strace and also has the downside that only one ptracer can be
+attached at any time. I have no idea about landlock but it is an LSM and
+I don't know why an LSM should have such notification abilities.
+
+fanotify on the other has no odd limitations and it naturally ties in
+with filesystem objects and with pidfs we've made processes filesystem
+objects. So I think this is a very natural fit.
+
+So you could just register a pidfd with fanotify and then get notified
+about exec events for that pidfd with arbitrary metadata attached to it
+if need. I've wanted this for a long time and one way I thought about
+going about this is by somehow plubming this into poll for pidfd but
+that's not going to scale as we grow more notifications events for
+pidfds.
+
+I think fanotify is the perfect fit for this with its extensible model.
+
+> 
+> >
+> > This obviously needs some thinking wrt security etc but I just want to
+> > put the thought out there that the integration of pidfds and fanotify is
+> > possible.
+> 
+> I was thinking more about watching the entire pidfs space, but sure.
+
+That's certainly possible too. Initially it would have to be scoped to
+global admin privileges but ultimately you could probably filter by
+credentials - if needed.
