@@ -1,157 +1,491 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 689413876B0;
-	Tue, 10 Mar 2026 11:24:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E22653C3BF4;
+	Tue, 10 Mar 2026 11:28:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773141858; cv=none; b=VeTUd4UCVxmrskyMzm87HzIkcQDWfwEELIyEPvzvjZ1z/CToxLjseW9v+5dVrxC0FspmgHKpOYBnGHonHhNYInGF6TpRY3/09ZBDNDsEQ+UforgiDsXIBUu7r+p5CxXdnNwcjB9NiEZ0c6dOD6zKDewFZT5C95Rk+QSbiaE9NP8=
+	t=1773142138; cv=none; b=ZhGcAo9J4wvULShJuIqqKCHuCBdc04jlzHo+u4fEThtW9dbrGh9HSVfW3SHhIjPN5undzTUKDowGgvgex8QqYgruWYXqMj51t1XvSwdjH9UTwJPusvIgWVgwQ7RzqyjyUKa4A+q3r29i26NHUst/Fno1+DhDUp2Sr3uFLEDIbBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773141858; c=relaxed/simple;
-	bh=xT53Ttf/NyogikS/gfdkFymB7LtDXRO0Yz6j+bwKsPU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aX1r5lG+WDjqGkk0Fwqqs1hScgJi2aitgJJMRJiBwd2iN1Yn+leS1n+Ocle9dUuoq/aZRRv8QyaTfSaIqHHb0GsFiE2JNGWQHzztFTZdLlqS7cLwTQq3n+LEpqNaqTZtmSs2KQ3Ebcwg2PJ00Bj8qnW5qMgigTuTWtOeqo/7388=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JkOoejQb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773142138; c=relaxed/simple;
+	bh=KHkNa2iY+LzydtP3MVJvWvXZcYuJYQktkJTPOV5J9bU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=pZ+j5d/YC+jt61oyLQtyDUxOL9pof5zogL2hOnUq5H/6i4jzXsSRUbUf4oRaXdXyJ6AAsTJ3Pb9pWlQKTjJb2x7zVmCxKmEXbSA/ulGvgNFUXOKJGWqeokrG7tWj7gY/l4kIZFQDg+cfj3/JF2ANqVJCsMrKXSR+k20XAByeAJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R5lK42S3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JkOoejQb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8497BC19423;
-	Tue, 10 Mar 2026 11:24:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R5lK42S3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5325C2BC9E;
+	Tue, 10 Mar 2026 11:28:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773141858;
-	bh=xT53Ttf/NyogikS/gfdkFymB7LtDXRO0Yz6j+bwKsPU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JkOoejQbIY5sFLhLxCkOVN4kxiKJQN7lTCbiqMhI2bPYZCWqCDH0QcPHkf9E94N1P
-	 jGKWxOZDnrBvfZwk3KlNfSPE8lrfyGUmy/E8KZRXnZ3WA2W+jaNVCXVB0fdXzl2Epk
-	 xdyGfd3tLRQx0V4K/FAplurzOKD4T7ZCDXJbb1/yW+bnAtN/DEPHfz+j7RrHKIT4et
-	 mst/xUtfedv4qkVcmjou7az+d7Do3wm3dxVhtCDP9L1/BM2ZP0qghkq/jyHg4SSkSp
-	 MiB5UsygHd+YPYVvodLr6rfXKh/5Fgbcu9NvSb0LZNXu/UpDt3L4jAOcvxUwz9rzo4
-	 xluXx/3QcCvGA==
-Date: Tue, 10 Mar 2026 12:24:05 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Andy Lutomirski <luto@amacapital.net>
-Cc: Jeff Layton <jlayton@kernel.org>, 
-	Dorjoy Chowdhury <dorjoychy111@gmail.com>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-api@vger.kernel.org, ceph-devel@vger.kernel.org, gfs2@lists.linux.dev, 
-	linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org, v9fs@lists.linux.dev, 
-	linux-kselftest@vger.kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz, chuck.lever@oracle.com, 
-	alex.aring@gmail.com, arnd@arndb.de, adilger@dilger.ca, mjguzik@gmail.com, 
-	smfrench@gmail.com, richard.henderson@linaro.org, mattst88@gmail.com, 
-	linmag7@gmail.com, tsbogend@alpha.franken.de, James.Bottomley@hansenpartnership.com, 
-	deller@gmx.de, davem@davemloft.net, andreas@gaisler.com, idryomov@gmail.com, 
-	amarkuze@redhat.com, slava@dubeyko.com, agruenba@redhat.com, trondmy@kernel.org, 
-	anna@kernel.org, sfrench@samba.org, pc@manguebit.org, ronniesahlberg@gmail.com, 
-	sprasad@microsoft.com, tom@talpey.com, bharathsm@microsoft.com, shuah@kernel.org, 
-	miklos@szeredi.hu, hansg@kernel.org
-Subject: Re: [PATCH v5 1/4] openat2: new OPENAT2_REGULAR flag support
-Message-ID: <20260310-ausdehnen-wahrnehmen-f9d9c6224799@brauner>
-References: <20260307140726.70219-1-dorjoychy111@gmail.com>
- <20260307140726.70219-2-dorjoychy111@gmail.com>
- <CALCETrXVBA9uGEUdQPEZ2MVdxjLwwcWi5kzhOr1NdOWSSRaROw@mail.gmail.com>
- <801cf2c42b80d486726ea0a3774e52abcb158100.camel@kernel.org>
- <CALCETrVt7o+7JCMfTX3Vu9PANJJgR8hB5Z2THcXzam61kG9Gig@mail.gmail.com>
- <20260309-umsturz-herfallen-067eb2df7ec2@brauner>
- <CALCETrWjb+V-zrMT412MtmgDCx9y8simJBQ7+45C9MtdiSMnuw@mail.gmail.com>
+	s=k20201202; t=1773142137;
+	bh=KHkNa2iY+LzydtP3MVJvWvXZcYuJYQktkJTPOV5J9bU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=R5lK42S33dEfdY0nnzEpIPhL5LCjwzpLDESpFuEX/gygb29WHbqHh1Z196xLQ9s55
+	 eWKoVtJ2IC3mFseykXwwDDmrm5du+APtVAIAyHWYJx7xhRTc5PVGAc3YHPUxG3JVRa
+	 P+n/KYGwn3w55GrMUIjAt1zb54jmAj1WaW1MjnkYRJjj9oGx/OC0vRM2c7BrwEwG49
+	 WyN5BNWmPYJjuUoVnSdKMLZh4yor4kJk4qFfF0ZSKTMGnODANjjjkI1yBBrWMzDAX2
+	 l6IYxKnrRUyqch677J+ydG9FA9SlryD3berKYoP+R6Ggil4dKqBSShq0RkonvFniEY
+	 WEVegbagwpHXQ==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: David Howells <dhowells@redhat.com>,
+	Steve French <sfrench@samba.org>,
+	"Paulo Alcantara (Red Hat)" <pc@manguebit.org>,
+	netfs@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	Christian Brauner <brauner@kernel.org>,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 6.18 225/314] netfs: Fix unbuffered/DIO writes to dispatch subrequests in strict sequence
+Date: Tue, 10 Mar 2026 07:18:04 -0400
+Message-ID: <3e28c56e3de133e0be9714f4854199c58ce6ed69.1773141555.git.sashal@kernel.org>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <cover.1773141554.git.sashal@kernel.org>
+References: <cover.1773141554.git.sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CALCETrWjb+V-zrMT412MtmgDCx9y8simJBQ7+45C9MtdiSMnuw@mail.gmail.com>
 
-On Mon, Mar 09, 2026 at 09:50:18AM -0700, Andy Lutomirski wrote:
-> On Mon, Mar 9, 2026 at 1:58 AM Christian Brauner <brauner@kernel.org> wrote:
-> >
-> > On Sun, Mar 08, 2026 at 10:10:05AM -0700, Andy Lutomirski wrote:
-> > > On Sun, Mar 8, 2026 at 4:40 AM Jeff Layton <jlayton@kernel.org> wrote:
-> > > >
-> > > > On Sat, 2026-03-07 at 10:56 -0800, Andy Lutomirski wrote:
-> > > > > On Sat, Mar 7, 2026 at 6:09 AM Dorjoy Chowdhury <dorjoychy111@gmail.com> wrote:
-> > > > > >
-> > > > > > This flag indicates the path should be opened if it's a regular file.
-> > > > > > This is useful to write secure programs that want to avoid being
-> > > > > > tricked into opening device nodes with special semantics while thinking
-> > > > > > they operate on regular files. This is a requested feature from the
-> > > > > > uapi-group[1].
-> > > > > >
-> > > > >
-> > > > > I think this needs a lot more clarification as to what "regular"
-> > > > > means.  If it's literally
-> > > > >
-> > > > > > A corresponding error code EFTYPE has been introduced. For example, if
-> > > > > > openat2 is called on path /dev/null with OPENAT2_REGULAR in the flag
-> > > > > > param, it will return -EFTYPE. EFTYPE is already used in BSD systems
-> > > > > > like FreeBSD, macOS.
-> > > > >
-> > > > > I think this needs more clarification as to what "regular" means,
-> > > > > since S_IFREG may not be sufficient.  The UAPI group page says:
-> > > > >
-> > > > > Use-Case: this would be very useful to write secure programs that want
-> > > > > to avoid being tricked into opening device nodes with special
-> > > > > semantics while thinking they operate on regular files. This is
-> > > > > particularly relevant as many device nodes (or even FIFOs) come with
-> > > > > blocking I/O (or even blocking open()!) by default, which is not
-> > > > > expected from regular files backed by “fast” disk I/O. Consider
-> > > > > implementation of a naive web browser which is pointed to
-> > > > > file://dev/zero, not expecting an endless amount of data to read.
-> > > > >
-> > > > > What about procfs?  What about sysfs?  What about /proc/self/fd/17
-> > > > > where that fd is a memfd?  What about files backed by non-"fast" disk
-> > > > > I/O like something on a flaky USB stick or a network mount or FUSE?
-> > > > >
-> > > > > Are we concerned about blocking open?  (open blocks as a matter of
-> > > > > course.)  Are we concerned about open having strange side effects?
-> > > > > Are we concerned about write having strange side effects?  Are we
-> > > > > concerned about cases where opening the file as root results in
-> > > > > elevated privilege beyond merely gaining the ability to write to that
-> > > > > specific path on an ordinary filesystem?
-> >
-> > I think this is opening up a barrage of question that I'm not sure are
-> > all that useful. The ability to only open regular file isn't intended to
-> > defend against hung FUSE or NFS servers or other random Linux
-> > special-sauce murder-suicide file descriptor traps. For a lot of those
-> > we have O_PATH which can easily function with the new extension. A lot
-> > of the other special-sauce files (most anonymous inode fds) cannot even
-> > be reopened via e.g., /proc.
-> 
-> On the flip side, /proc itself can certainly be opened.  Should
-> O_REGULAR be able to open the more magical /proc and /sys files?  Are
-> there any that are problematic?
+From: David Howells <dhowells@redhat.com>
 
-If procfs job isn't to provide problematic files to userspace I'm not
-sure what it is. Joking aside, I think in general you are of course
-right that procfs is full of files that under a very strict
-interpretation of "regular file" should absolutely not count as a
-regular file. sysfs probably as well and let's ignore debugfs and
-tracefs and all the other magic filesystems or files.
+[ Upstream commit a0b4c7a49137ed21279f354eb59f49ddae8dffc2 ]
 
-In general, Linux has been so loosey-goosey with "regular file" for such
-a long-time that making OPENAT2_REGULAR come up with some strict
-definition of "this is a regular file - no really, pinky-promise a
-regular one" - is just doomed to fail.
+Fix netfslib such that when it's making an unbuffered or DIO write, to make
+sure that it sends each subrequest strictly sequentially, waiting till the
+previous one is 'committed' before sending the next so that we don't have
+pieces landing out of order and potentially leaving a hole if an error
+occurs (ENOSPC for example).
 
-The other problem is that we cannot reasonably determine what odd file
-the user really wanted to defend against opening with OPENAT2_REGULAR.
-A caller may really want to open /proc/kmsg and just be sure that
-someone didn't overmount it with a fifo (systemd does that in containers
-iirc).
+This is done by copying in just those bits of issuing, collecting and
+retrying subrequests that are necessary to do one subrequest at a time.
+Retrying, in particular, is simpler because if the current subrequest needs
+retrying, the source iterator can just be copied again and the subrequest
+prepped and issued again without needing to be concerned about whether it
+needs merging with the previous or next in the sequence.
 
-My personal "hot take" is that adding an api built around a regular file
-with immediate irreversible side-effects for the caller on VFS
-syscall-based open [1] is a bug. Such broken semantics is what ioctl()s
-are for.
+Note that the issuing loop waits for a subrequest to complete right after
+issuing it, but this wait could be moved elsewhere allowing preparatory
+steps to be performed whilst the subrequest is in progress.  In particular,
+once content encryption is available in netfslib, that could be done whilst
+waiting, as could cleanup of buffers that have been completed.
 
-[1]: I mean specifically open(), openat2() etc. I'm excluding all
-     dedicated APIs that return file descriptors that cannot be reopened
-     via regular lookup.
+Fixes: 153a9961b551 ("netfs: Implement unbuffered/DIO write support")
+Signed-off-by: David Howells <dhowells@redhat.com>
+Link: https://patch.msgid.link/58526.1772112753@warthog.procyon.org.uk
+Tested-by: Steve French <sfrench@samba.org>
+Reviewed-by: Paulo Alcantara (Red Hat) <pc@manguebit.org>
+cc: netfs@lists.linux.dev
+cc: linux-fsdevel@vger.kernel.org
+Signed-off-by: Christian Brauner <brauner@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ fs/netfs/direct_write.c      | 228 ++++++++++++++++++++++++++++++++---
+ fs/netfs/internal.h          |   4 +-
+ fs/netfs/write_collect.c     |  21 ----
+ fs/netfs/write_issue.c       |  41 +------
+ include/trace/events/netfs.h |   4 +-
+ 5 files changed, 221 insertions(+), 77 deletions(-)
 
-From my pov, what would help is if one had a flexible way to scope opens
-on e.g., filesystem. But imo, that is not policy the kernel can
-reasonably express at the syscall api layer - it would look fugly as
-hell and how many other knobs would we have to add to satisfy all needs.
-I think that is best left to an lsm hooking into security_file_open()
-which can maintain a map of files and filesystems to allow or deny - a
-bpf lsm can do this quite nicely.
+diff --git a/fs/netfs/direct_write.c b/fs/netfs/direct_write.c
+index a9d1c3b2c0842..dd1451bf7543d 100644
+--- a/fs/netfs/direct_write.c
++++ b/fs/netfs/direct_write.c
+@@ -9,6 +9,202 @@
+ #include <linux/uio.h>
+ #include "internal.h"
+ 
++/*
++ * Perform the cleanup rituals after an unbuffered write is complete.
++ */
++static void netfs_unbuffered_write_done(struct netfs_io_request *wreq)
++{
++	struct netfs_inode *ictx = netfs_inode(wreq->inode);
++
++	_enter("R=%x", wreq->debug_id);
++
++	/* Okay, declare that all I/O is complete. */
++	trace_netfs_rreq(wreq, netfs_rreq_trace_write_done);
++
++	if (!wreq->error)
++		netfs_update_i_size(ictx, &ictx->inode, wreq->start, wreq->transferred);
++
++	if (wreq->origin == NETFS_DIO_WRITE &&
++	    wreq->mapping->nrpages) {
++		/* mmap may have got underfoot and we may now have folios
++		 * locally covering the region we just wrote.  Attempt to
++		 * discard the folios, but leave in place any modified locally.
++		 * ->write_iter() is prevented from interfering by the DIO
++		 * counter.
++		 */
++		pgoff_t first = wreq->start >> PAGE_SHIFT;
++		pgoff_t last = (wreq->start + wreq->transferred - 1) >> PAGE_SHIFT;
++
++		invalidate_inode_pages2_range(wreq->mapping, first, last);
++	}
++
++	if (wreq->origin == NETFS_DIO_WRITE)
++		inode_dio_end(wreq->inode);
++
++	_debug("finished");
++	netfs_wake_rreq_flag(wreq, NETFS_RREQ_IN_PROGRESS, netfs_rreq_trace_wake_ip);
++	/* As we cleared NETFS_RREQ_IN_PROGRESS, we acquired its ref. */
++
++	if (wreq->iocb) {
++		size_t written = umin(wreq->transferred, wreq->len);
++
++		wreq->iocb->ki_pos += written;
++		if (wreq->iocb->ki_complete) {
++			trace_netfs_rreq(wreq, netfs_rreq_trace_ki_complete);
++			wreq->iocb->ki_complete(wreq->iocb, wreq->error ?: written);
++		}
++		wreq->iocb = VFS_PTR_POISON;
++	}
++
++	netfs_clear_subrequests(wreq);
++}
++
++/*
++ * Collect the subrequest results of unbuffered write subrequests.
++ */
++static void netfs_unbuffered_write_collect(struct netfs_io_request *wreq,
++					   struct netfs_io_stream *stream,
++					   struct netfs_io_subrequest *subreq)
++{
++	trace_netfs_collect_sreq(wreq, subreq);
++
++	spin_lock(&wreq->lock);
++	list_del_init(&subreq->rreq_link);
++	spin_unlock(&wreq->lock);
++
++	wreq->transferred += subreq->transferred;
++	iov_iter_advance(&wreq->buffer.iter, subreq->transferred);
++
++	stream->collected_to = subreq->start + subreq->transferred;
++	wreq->collected_to = stream->collected_to;
++	netfs_put_subrequest(subreq, netfs_sreq_trace_put_done);
++
++	trace_netfs_collect_stream(wreq, stream);
++	trace_netfs_collect_state(wreq, wreq->collected_to, 0);
++}
++
++/*
++ * Write data to the server without going through the pagecache and without
++ * writing it to the local cache.  We dispatch the subrequests serially and
++ * wait for each to complete before dispatching the next, lest we leave a gap
++ * in the data written due to a failure such as ENOSPC.  We could, however
++ * attempt to do preparation such as content encryption for the next subreq
++ * whilst the current is in progress.
++ */
++static int netfs_unbuffered_write(struct netfs_io_request *wreq)
++{
++	struct netfs_io_subrequest *subreq = NULL;
++	struct netfs_io_stream *stream = &wreq->io_streams[0];
++	int ret;
++
++	_enter("%llx", wreq->len);
++
++	if (wreq->origin == NETFS_DIO_WRITE)
++		inode_dio_begin(wreq->inode);
++
++	stream->collected_to = wreq->start;
++
++	for (;;) {
++		bool retry = false;
++
++		if (!subreq) {
++			netfs_prepare_write(wreq, stream, wreq->start + wreq->transferred);
++			subreq = stream->construct;
++			stream->construct = NULL;
++			stream->front = NULL;
++		}
++
++		/* Check if (re-)preparation failed. */
++		if (unlikely(test_bit(NETFS_SREQ_FAILED, &subreq->flags))) {
++			netfs_write_subrequest_terminated(subreq, subreq->error);
++			wreq->error = subreq->error;
++			break;
++		}
++
++		iov_iter_truncate(&subreq->io_iter, wreq->len - wreq->transferred);
++		if (!iov_iter_count(&subreq->io_iter))
++			break;
++
++		subreq->len = netfs_limit_iter(&subreq->io_iter, 0,
++					       stream->sreq_max_len,
++					       stream->sreq_max_segs);
++		iov_iter_truncate(&subreq->io_iter, subreq->len);
++		stream->submit_extendable_to = subreq->len;
++
++		trace_netfs_sreq(subreq, netfs_sreq_trace_submit);
++		stream->issue_write(subreq);
++
++		/* Async, need to wait. */
++		netfs_wait_for_in_progress_stream(wreq, stream);
++
++		if (test_bit(NETFS_SREQ_NEED_RETRY, &subreq->flags)) {
++			retry = true;
++		} else if (test_bit(NETFS_SREQ_FAILED, &subreq->flags)) {
++			ret = subreq->error;
++			wreq->error = ret;
++			netfs_see_subrequest(subreq, netfs_sreq_trace_see_failed);
++			subreq = NULL;
++			break;
++		}
++		ret = 0;
++
++		if (!retry) {
++			netfs_unbuffered_write_collect(wreq, stream, subreq);
++			subreq = NULL;
++			if (wreq->transferred >= wreq->len)
++				break;
++			if (!wreq->iocb && signal_pending(current)) {
++				ret = wreq->transferred ? -EINTR : -ERESTARTSYS;
++				trace_netfs_rreq(wreq, netfs_rreq_trace_intr);
++				break;
++			}
++			continue;
++		}
++
++		/* We need to retry the last subrequest, so first reset the
++		 * iterator, taking into account what, if anything, we managed
++		 * to transfer.
++		 */
++		subreq->error = -EAGAIN;
++		trace_netfs_sreq(subreq, netfs_sreq_trace_retry);
++		if (subreq->transferred > 0)
++			iov_iter_advance(&wreq->buffer.iter, subreq->transferred);
++
++		if (stream->source == NETFS_UPLOAD_TO_SERVER &&
++		    wreq->netfs_ops->retry_request)
++			wreq->netfs_ops->retry_request(wreq, stream);
++
++		__clear_bit(NETFS_SREQ_NEED_RETRY, &subreq->flags);
++		__clear_bit(NETFS_SREQ_BOUNDARY, &subreq->flags);
++		__clear_bit(NETFS_SREQ_FAILED, &subreq->flags);
++		subreq->io_iter		= wreq->buffer.iter;
++		subreq->start		= wreq->start + wreq->transferred;
++		subreq->len		= wreq->len   - wreq->transferred;
++		subreq->transferred	= 0;
++		subreq->retry_count	+= 1;
++		stream->sreq_max_len	= UINT_MAX;
++		stream->sreq_max_segs	= INT_MAX;
++
++		netfs_get_subrequest(subreq, netfs_sreq_trace_get_resubmit);
++		stream->prepare_write(subreq);
++
++		__set_bit(NETFS_SREQ_IN_PROGRESS, &subreq->flags);
++		netfs_stat(&netfs_n_wh_retry_write_subreq);
++	}
++
++	netfs_unbuffered_write_done(wreq);
++	_leave(" = %d", ret);
++	return ret;
++}
++
++static void netfs_unbuffered_write_async(struct work_struct *work)
++{
++	struct netfs_io_request *wreq = container_of(work, struct netfs_io_request, work);
++
++	netfs_unbuffered_write(wreq);
++	netfs_put_request(wreq, netfs_rreq_trace_put_complete);
++}
++
+ /*
+  * Perform an unbuffered write where we may have to do an RMW operation on an
+  * encrypted file.  This can also be used for direct I/O writes.
+@@ -70,35 +266,35 @@ ssize_t netfs_unbuffered_write_iter_locked(struct kiocb *iocb, struct iov_iter *
+ 			 */
+ 			wreq->buffer.iter = *iter;
+ 		}
++
++		wreq->len = iov_iter_count(&wreq->buffer.iter);
+ 	}
+ 
+ 	__set_bit(NETFS_RREQ_USE_IO_ITER, &wreq->flags);
+-	if (async)
+-		__set_bit(NETFS_RREQ_OFFLOAD_COLLECTION, &wreq->flags);
+ 
+ 	/* Copy the data into the bounce buffer and encrypt it. */
+ 	// TODO
+ 
+ 	/* Dispatch the write. */
+ 	__set_bit(NETFS_RREQ_UPLOAD_TO_SERVER, &wreq->flags);
+-	if (async)
+-		wreq->iocb = iocb;
+-	wreq->len = iov_iter_count(&wreq->buffer.iter);
+-	ret = netfs_unbuffered_write(wreq, is_sync_kiocb(iocb), wreq->len);
+-	if (ret < 0) {
+-		_debug("begin = %zd", ret);
+-		goto out;
+-	}
+ 
+-	if (!async) {
+-		ret = netfs_wait_for_write(wreq);
+-		if (ret > 0)
+-			iocb->ki_pos += ret;
+-	} else {
++	if (async) {
++		INIT_WORK(&wreq->work, netfs_unbuffered_write_async);
++		wreq->iocb = iocb;
++		queue_work(system_dfl_wq, &wreq->work);
+ 		ret = -EIOCBQUEUED;
++	} else {
++		ret = netfs_unbuffered_write(wreq);
++		if (ret < 0) {
++			_debug("begin = %zd", ret);
++		} else {
++			iocb->ki_pos += wreq->transferred;
++			ret = wreq->transferred ?: wreq->error;
++		}
++
++		netfs_put_request(wreq, netfs_rreq_trace_put_complete);
+ 	}
+ 
+-out:
+ 	netfs_put_request(wreq, netfs_rreq_trace_put_return);
+ 	return ret;
+ 
+diff --git a/fs/netfs/internal.h b/fs/netfs/internal.h
+index 4319611f53544..d436e20d34185 100644
+--- a/fs/netfs/internal.h
++++ b/fs/netfs/internal.h
+@@ -198,6 +198,9 @@ struct netfs_io_request *netfs_create_write_req(struct address_space *mapping,
+ 						struct file *file,
+ 						loff_t start,
+ 						enum netfs_io_origin origin);
++void netfs_prepare_write(struct netfs_io_request *wreq,
++			 struct netfs_io_stream *stream,
++			 loff_t start);
+ void netfs_reissue_write(struct netfs_io_stream *stream,
+ 			 struct netfs_io_subrequest *subreq,
+ 			 struct iov_iter *source);
+@@ -212,7 +215,6 @@ int netfs_advance_writethrough(struct netfs_io_request *wreq, struct writeback_c
+ 			       struct folio **writethrough_cache);
+ ssize_t netfs_end_writethrough(struct netfs_io_request *wreq, struct writeback_control *wbc,
+ 			       struct folio *writethrough_cache);
+-int netfs_unbuffered_write(struct netfs_io_request *wreq, bool may_wait, size_t len);
+ 
+ /*
+  * write_retry.c
+diff --git a/fs/netfs/write_collect.c b/fs/netfs/write_collect.c
+index 61eab34ea67ef..83eb3dc1adf8a 100644
+--- a/fs/netfs/write_collect.c
++++ b/fs/netfs/write_collect.c
+@@ -399,27 +399,6 @@ bool netfs_write_collection(struct netfs_io_request *wreq)
+ 		ictx->ops->invalidate_cache(wreq);
+ 	}
+ 
+-	if ((wreq->origin == NETFS_UNBUFFERED_WRITE ||
+-	     wreq->origin == NETFS_DIO_WRITE) &&
+-	    !wreq->error)
+-		netfs_update_i_size(ictx, &ictx->inode, wreq->start, wreq->transferred);
+-
+-	if (wreq->origin == NETFS_DIO_WRITE &&
+-	    wreq->mapping->nrpages) {
+-		/* mmap may have got underfoot and we may now have folios
+-		 * locally covering the region we just wrote.  Attempt to
+-		 * discard the folios, but leave in place any modified locally.
+-		 * ->write_iter() is prevented from interfering by the DIO
+-		 * counter.
+-		 */
+-		pgoff_t first = wreq->start >> PAGE_SHIFT;
+-		pgoff_t last = (wreq->start + wreq->transferred - 1) >> PAGE_SHIFT;
+-		invalidate_inode_pages2_range(wreq->mapping, first, last);
+-	}
+-
+-	if (wreq->origin == NETFS_DIO_WRITE)
+-		inode_dio_end(wreq->inode);
+-
+ 	_debug("finished");
+ 	netfs_wake_rreq_flag(wreq, NETFS_RREQ_IN_PROGRESS, netfs_rreq_trace_wake_ip);
+ 	/* As we cleared NETFS_RREQ_IN_PROGRESS, we acquired its ref. */
+diff --git a/fs/netfs/write_issue.c b/fs/netfs/write_issue.c
+index 34894da5a23ec..437268f656409 100644
+--- a/fs/netfs/write_issue.c
++++ b/fs/netfs/write_issue.c
+@@ -154,9 +154,9 @@ EXPORT_SYMBOL(netfs_prepare_write_failed);
+  * Prepare a write subrequest.  We need to allocate a new subrequest
+  * if we don't have one.
+  */
+-static void netfs_prepare_write(struct netfs_io_request *wreq,
+-				struct netfs_io_stream *stream,
+-				loff_t start)
++void netfs_prepare_write(struct netfs_io_request *wreq,
++			 struct netfs_io_stream *stream,
++			 loff_t start)
+ {
+ 	struct netfs_io_subrequest *subreq;
+ 	struct iov_iter *wreq_iter = &wreq->buffer.iter;
+@@ -698,41 +698,6 @@ ssize_t netfs_end_writethrough(struct netfs_io_request *wreq, struct writeback_c
+ 	return ret;
+ }
+ 
+-/*
+- * Write data to the server without going through the pagecache and without
+- * writing it to the local cache.
+- */
+-int netfs_unbuffered_write(struct netfs_io_request *wreq, bool may_wait, size_t len)
+-{
+-	struct netfs_io_stream *upload = &wreq->io_streams[0];
+-	ssize_t part;
+-	loff_t start = wreq->start;
+-	int error = 0;
+-
+-	_enter("%zx", len);
+-
+-	if (wreq->origin == NETFS_DIO_WRITE)
+-		inode_dio_begin(wreq->inode);
+-
+-	while (len) {
+-		// TODO: Prepare content encryption
+-
+-		_debug("unbuffered %zx", len);
+-		part = netfs_advance_write(wreq, upload, start, len, false);
+-		start += part;
+-		len -= part;
+-		rolling_buffer_advance(&wreq->buffer, part);
+-		if (test_bit(NETFS_RREQ_PAUSE, &wreq->flags))
+-			netfs_wait_for_paused_write(wreq);
+-		if (test_bit(NETFS_RREQ_FAILED, &wreq->flags))
+-			break;
+-	}
+-
+-	netfs_end_issue_write(wreq);
+-	_leave(" = %d", error);
+-	return error;
+-}
+-
+ /*
+  * Write some of a pending folio data back to the server and/or the cache.
+  */
+diff --git a/include/trace/events/netfs.h b/include/trace/events/netfs.h
+index 64a382fbc31a8..2d366be46a1c3 100644
+--- a/include/trace/events/netfs.h
++++ b/include/trace/events/netfs.h
+@@ -57,6 +57,7 @@
+ 	EM(netfs_rreq_trace_done,		"DONE   ")	\
+ 	EM(netfs_rreq_trace_end_copy_to_cache,	"END-C2C")	\
+ 	EM(netfs_rreq_trace_free,		"FREE   ")	\
++	EM(netfs_rreq_trace_intr,		"INTR   ")	\
+ 	EM(netfs_rreq_trace_ki_complete,	"KI-CMPL")	\
+ 	EM(netfs_rreq_trace_recollect,		"RECLLCT")	\
+ 	EM(netfs_rreq_trace_redirty,		"REDIRTY")	\
+@@ -169,7 +170,8 @@
+ 	EM(netfs_sreq_trace_put_oom,		"PUT OOM    ")	\
+ 	EM(netfs_sreq_trace_put_wip,		"PUT WIP    ")	\
+ 	EM(netfs_sreq_trace_put_work,		"PUT WORK   ")	\
+-	E_(netfs_sreq_trace_put_terminated,	"PUT TERM   ")
++	EM(netfs_sreq_trace_put_terminated,	"PUT TERM   ")	\
++	E_(netfs_sreq_trace_see_failed,		"SEE FAILED ")
+ 
+ #define netfs_folio_traces					\
+ 	EM(netfs_folio_is_uptodate,		"mod-uptodate")	\
+-- 
+2.51.0
+
