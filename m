@@ -1,81 +1,149 @@
-Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com [209.85.161.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazon11013041.outbound.protection.outlook.com [40.107.201.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58F2831CA4E
-	for <linux-fsdevel@vger.kernel.org>; Tue, 10 Mar 2026 10:23:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.72
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773138207; cv=none; b=I1Rfcg9xSpq9Hq1ePzLnWte8RlUlhfi8GQ/TPAFSmzuAKdDcPVomL+ofsSDFLnOmB/9WTH3Jk3gI9hqKKtZBy8EkOTTUbxZcx+q8vtCjq8qu4SQBaksJ2sf9VV6uzHbf8Q8ELdnjETZp061+gGHaFAZw3XKHpEca7NurEHYqoW4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773138207; c=relaxed/simple;
-	bh=dFk25sfHFYAW0z1gu3dm9T+7UIvPt8veR6BLo0sx6+Q=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=gw8yApiOdTtid9NIZ57qcH6IEAz9ljZU1LKb5rJS9m3H1cTDbT2jiJoQ7HLtC1QaXPF76gl+pgkrX9OGPSbYl6xY/+Jdc5Pp2gAld7J9YhFmUDI5zKEV3lDTMGrOuiHgEGJQwDggojxujnxdjM6YXe8/bMCEs4unNRSKjbPJX6Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo1-f72.google.com with SMTP id 006d021491bc7-66b612efb4aso142546382eaf.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 10 Mar 2026 03:23:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773138205; x=1773743005;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JaPj/p2E4dg+NLfI9Rdrz9PUiTFI3aHBH3K3v2zVHUY=;
-        b=aZkktD5JZYKzIlCAX14n2Dzi1uFWsmWgCWinCtOEPtIbxKeYrcJhlkTccZCwlCTgNc
-         DLb852zpje2FnEZFJx0m3FU7+Q0BEx1vp8ZFRqigwIkk5Fv279evs5xrVKuy8FjUVYpl
-         cjLMIAZemu0RsTLz8L5qM0z+PGHrDjMP32GZRpncBU/a/86bJxc9pAgnan9bLrYbL1Dn
-         3ecphXoNLY7wweFEnso9XVhziwWRMfO6iPlvDpSfmD8XcoQqdRO3tDOhPuhujWsgUxom
-         BGZ7VpTuHrOwILaTf+TS02YzuOZJoOmSpY0VjgSyu1EoNFzrs3KOn2z681ZOFVbxx/fn
-         WQiQ==
-X-Gm-Message-State: AOJu0Yw5hAXuoQHEvjEz72YHCfo4xGSHFm/wsyU2xRPAcYiif9wDqa46
-	r2pJ0RB/E79ryCMZqncpTYGYO82ZNSTJbLk2eEbzXhu1KoP+b3TBfhka2dt4QgvAhpCadpZJQf1
-	khkd+DzcqxU5U/0EhDD7UULbW1pA4Umd2ZHqQaDYDk/WyaTb9cf0WobVTMbY=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 192953E95B5;
+	Tue, 10 Mar 2026 10:24:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.201.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773138265; cv=fail; b=kU2eq8tqIuA4nQej2NZghaNr4V91S127SM0eLUrkv5txDFO6xxDtajqAyU3V4pV4lhV1tXSNYXMCyh7xUGarajkw0cUP5wO1wGMpKTEL26SLz0mBLPg0CKQuWmeN8wRj6aVH+YOmlPhO0R/jKKMjJlXn0Pr4kBW5gFNwwmFRLmM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773138265; c=relaxed/simple;
+	bh=T1IONWk0UhE3eU6oYuLQxIVDm/XVaqsaTRmYPiwGTxE=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=TIfHNq3mQfOvYWhjEzbsnC9IKJzJp5X8EU3Olif/2qaax78XjgThihSJE4D4tDNDp5uDvNhgk/gCxdK+irvvnfB+rpEO/mX2AjzPbprnS6XHITKr+3TsuG/KcQkaoO/1peLrbuFRDgMRCC8uWD90hL26DqomT7ODdK/+4Cv0+3Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=cnKjV65Y; arc=fail smtp.client-ip=40.107.201.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="cnKjV65Y"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=N7uZMxguOxBO311Lg+X7pSGZrYLZ0g9ObDF9vyX2g+ptMuX9Ni4L1SoezDJACe/ZU+SmFaE36o2QAuHu71uwEDDN5jBF84j5xFtxEQxP9wYOKmhy0qPnGYn7dZaWufxTTlPEucoKY/KSvOKarqVLk+xObkH4Qkm0t5Tv4U94VH5EcYIvmvG2OTbJG+NoyNe5/OHNsgnJYHuArmQCjVWtnwWek43t5d1fEbsKPix4dbsZ5u5wyufpfFO2Hsyh4dYCCiLkXJpfxzlBCJ+qIiLbGNFoXpeW1liE7GovAhcT1FHj2Q6Um6Qc66MTsEMryOPITyJMoLExpMWFgmiNn6Qf5Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BH4hdhGj3t2o8U5gr9X3Wl338oY0NdZR2Cux9BcQKhM=;
+ b=G2WUUhiOqzph/cTyPl83LQPdt6cUPZGyfzSDxmTUyWkKmOOqGxvpMM6gsPyuhiwLCyvn4TXtPjdBOxPENz7X5EQb2k9NJR49xNJo3HmF13LxRBkjGQx3qsDr5OmBplus6cfzluArlto+1mryiXWWishGxMQ5cglHJFDbjGMH9SpXa0hQutulqo7UbHXXnuFKe4kPHqa7n7nMlvasJHpLwi5x69sxMwLcuvmgmQjZ2nPWufCrMK0yGMpBh5vKGMJ4G/Mydqt5dechYFqUmJK9l+vjdyF04/lSm1RqT0Jny2XB8fAsGdgvZd2kytskBX+SLpMkUbc1OnsZMPCxa3IVvA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.160) smtp.rcpttodomain=zeniv.linux.org.uk
+ smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
+ header.from=nvidia.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BH4hdhGj3t2o8U5gr9X3Wl338oY0NdZR2Cux9BcQKhM=;
+ b=cnKjV65YLYcPbgHKs49vHVR+dRvqKP1SiHvHah5LIHz1167FX7Ttmy+ZHcf4re5JesrhMF40Kxsb5Ld3s97s1YKFxcf5jpQlCShCGhfBcURDa324+mRbdguzYijQ3O9dT0aLLEboZ9aVoZG/wN9Ljas7Jp0xfd4lvGSNB0tWBF+qJ5ImdZuUjxXaAlPqorrxz+IprMqc+7BZFREJ5w7ZSN7RiDfr2NScLYENXoNcOOco0up+DGJucHQ/J9Smnqscj4FuJyx7tMMyDGlwpULMBOVAxu2sThvwZ93wdnNZro1YHCkxPW7hcSBEGHm6LDRTQwJ6IfX/gZbjGsTQtzUjOQ==
+Received: from BLAPR03CA0096.namprd03.prod.outlook.com (2603:10b6:208:32a::11)
+ by LV2PR12MB999096.namprd12.prod.outlook.com (2603:10b6:408:353::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.11; Tue, 10 Mar
+ 2026 10:24:18 +0000
+Received: from MN1PEPF0000ECD6.namprd02.prod.outlook.com
+ (2603:10b6:208:32a:cafe::e) by BLAPR03CA0096.outlook.office365.com
+ (2603:10b6:208:32a::11) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9678.25 via Frontend Transport; Tue,
+ 10 Mar 2026 10:24:18 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ MN1PEPF0000ECD6.mail.protection.outlook.com (10.167.242.135) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9678.18 via Frontend Transport; Tue, 10 Mar 2026 10:24:18 +0000
+Received: from rnnvmail203.nvidia.com (10.129.68.9) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 10 Mar
+ 2026 03:24:06 -0700
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by rnnvmail203.nvidia.com
+ (10.129.68.9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 10 Mar
+ 2026 03:24:05 -0700
+Received: from arpithk-kernel.nvidia.com (10.127.8.14) by mail.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server id 15.2.2562.20 via Frontend
+ Transport; Tue, 10 Mar 2026 03:24:05 -0700
+From: Arpith Kalaginanavoor <arpithk@nvidia.com>
+To: <viro@zeniv.linux.org.uk>
+CC: <brauner@kernel.org>, <stable@vger.kernel.org>,
+	<linux-fsdevel@vger.kernel.org>, Arpith Kalaginanavoor <arpithk@nvidia.com>
+Subject: [PATCH] fs/qnx6: fix pointer arithmetic in directory iteration
+Date: Tue, 10 Mar 2026 03:22:33 -0700
+Message-ID: <20260310102233.391113-1-arpithk@nvidia.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:4511:b0:67b:badb:fa70 with SMTP id
- 006d021491bc7-67bbc4f0e7fmr1604610eaf.18.1773138205365; Tue, 10 Mar 2026
- 03:23:25 -0700 (PDT)
-Date: Tue, 10 Mar 2026 03:23:25 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <69aff11d.050a0220.23b02c.0000.GAE@google.com>
-Subject: [syzbot] Monthly fuse report (Mar 2026)
-From: syzbot <syzbot+list5d0dec15bfd0ac92ea89@syzkaller.appspotmail.com>
-To: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	miklos@szeredi.hu, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+X-NVConfidentiality: public
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN1PEPF0000ECD6:EE_|LV2PR12MB999096:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1871a21c-6154-47a8-5314-08de7e8f2fff
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|36860700016|82310400026|376014;
+X-Microsoft-Antispam-Message-Info:
+	57X5WfHu3JvuANPXL93OpIsv3tWOtd8RonnLVFiVz0v18L0AeH+ovGwvwOgDItxQKa4A/yCHrm5lesjPbflyCs1ok1n/PjyUv1tgN40xfJeqwktzO5JkHjLyCvIsBj1h2AkcRUVLpgnW807X4Gh7j7moCOztFGzrYsapTxeuveyVptwQdynz52pFOP8fCimCeF9hfrJZROIuFSGKp9vcS83sLEFEDFkwRHR4p8VMfIuuk/hn/ecgekTtureQVVGuhwMXapvW+ojaoBXVORMdwkVCzxSs/Me39NRT9SHNMA+3fWtr6Q+kPfr1U64X66JDpEFY2hqOa6kZNxfqIt3vzQGzwEQ1SNpEtWa6eyfaroQ6rnygW3gmdTHzl/QN03yIq2eM4vzSp8se4SDmlin4qQlwGejA7qMr9WpMOsCitlh1GrkLs11L+SurAPTJRzu31C+HvZxjqeRfRuAk+lxSevFvmplwJSohbH/dIgMYrmldgBgNQEGEuz08UqiMir7IFSGoTVoPMn1xyvn4MLyHxBQKxeB6ob0o1MnWx1CFjiXtBX+1kcLp2Pfn1wiIvdcn00AFqKS3/N65UtzGNsDERTjtJeegxG21MZJ1x0B3nZe9fZGCKYNmkZzYdM+hHXnzEnurSmNyc3ndvuFI7R2XvxaeFdkPUOGt1GjmXVk6qi3fHoaq/uJTo3YQEOLD5F/i6MiiMzwhLVDNKEroltPF2Gq8CxDcusaqz5W3g14NUcgaDNg89LRW9b0Bk7Z+jKkezVty2ZTbVEU8CUeO9mibUw==
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(1800799024)(36860700016)(82310400026)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	5HaM113Z/EotAJnEFS1Nyh9SM5oedOs0cWDcFwRbvMSVpYytDivhTztEeT0DipgHa7qcbGe5bsiY2kp842wWR8ci+C+RKW6NSckMDYan1meigewim6TkPaKMQ/ktMMaRFv0GmXETvSH7yn4eFnyRntgQoQezogpSGiTWLhuh4Qqy2eJaC0PC9UzkM4WGEiQmTebfCNUk01+zBMNcZjI1TImRofVDSotAUJnCXnBYQnzAHGm+5Q47qCXO/POL7AzOrV4qM/KQCWcXHBAciC1RpghXt1d9WWkMnvrjVq0Ju4hQlqlKYnE8XokHRVEx6osPjJIRCziK9AWRdkHOyCpmWpTAR22WvAJ4Ow9XKGJuzewmQ93z+XRYji2sSgtdp59cjM762hpcU13o5fsDFpApRErpVT209LErgoP4YHlj0poy1ZXfZvLceI9OPxv6Bciz
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2026 10:24:18.2424
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1871a21c-6154-47a8-5314-08de7e8f2fff
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	MN1PEPF0000ECD6.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB999096
 
-Hello fuse maintainers/developers,
+The conversion to qnx6_get_folio() in commit b2aa61556fcf
+("qnx6: Convert qnx6_get_page() to qnx6_get_folio()")
+introduced a regression in directory iteration. The pointer 'de'
+and the 'limit' address were calculated using byte offsets from
+a char pointer without scaling by the size of a QNX6 directory
+entry.
 
-This is a 31-day syzbot report for the fuse subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/fuse
+This causes the driver to read from incorrect memory offsets,
+leading to "invalid direntry size" errors and premature
+termination of directory scans.
 
-During the period, 2 new issues were detected and 0 were fixed.
-In total, 7 issues are still open and 46 have already been fixed.
+Fix this by explicitly scaling the offset and limit calculations
+by QNX6_DIR_ENTRY_SIZE to ensure the directory entry pointers
+align with the intended 32-byte structures.
 
-Some of the still happening issues:
-
-Ref Crashes Repro Title
-<1> 593     Yes   INFO: task hung in __fuse_simple_request
-                  https://syzkaller.appspot.com/bug?extid=0dbb0d6fda088e78a4d8
-<2> 47      Yes   INFO: task hung in fuse_lookup (3)
-                  https://syzkaller.appspot.com/bug?extid=b64df836ad08c8e31a47
-<3> 8       Yes   general protection fault in task_work_cancel
-                  https://syzkaller.appspot.com/bug?extid=741e2278ef71fef03a10
-
+Fixes: b2aa61556fcf ("qnx6: Convert qnx6_get_page() to qnx6_get_folio()")
+Cc: stable@vger.kernel.org
+Signed-off-by: Arpith Kalaginanavoor <arpithk@nvidia.com>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ fs/qnx6/dir.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
+diff --git a/fs/qnx6/dir.c b/fs/qnx6/dir.c
+index ae0c9846833d..ba5cae49ad1d 100644
+--- a/fs/qnx6/dir.c
++++ b/fs/qnx6/dir.c
+@@ -139,8 +139,8 @@ static int qnx6_readdir(struct file *file, struct dir_context *ctx)
+ 			ctx->pos = (n + 1) << PAGE_SHIFT;
+ 			return PTR_ERR(kaddr);
+ 		}
+-		de = (struct qnx6_dir_entry *)(kaddr + offset);
+-		limit = kaddr + last_entry(inode, n);
++		de = (struct qnx6_dir_entry *)(kaddr + (offset * QNX6_DIR_ENTRY_SIZE));
++		limit = kaddr + (last_entry(inode, n) * QNX6_DIR_ENTRY_SIZE);
+ 		for (; (char *)de < limit; de++, ctx->pos += QNX6_DIR_ENTRY_SIZE) {
+ 			int size = de->de_size;
+ 			u32 no_inode = fs32_to_cpu(sbi, de->de_inode);
+-- 
+2.43.0
 
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
-
-You may send multiple commands in a single email message.
