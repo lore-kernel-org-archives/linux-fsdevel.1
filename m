@@ -1,238 +1,372 @@
-Received: from out30-101.freemail.mail.aliyun.com (out30-101.freemail.mail.aliyun.com [115.124.30.101])
+Received: from canpmsgout10.his.huawei.com (canpmsgout10.his.huawei.com [113.46.200.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F2273019A9;
-	Tue, 10 Mar 2026 01:56:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3E4C36C0B5;
+	Tue, 10 Mar 2026 02:21:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.225
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773107779; cv=none; b=uOAwUjqIB51GVvURXa0ONPZN7KJIPaa1yNgEPyyCHR7umt8Fs4wtwmeC9tRJIwlJDInmrr++c02VwWBvuKMY0M9DyFiHiywxFwyrN9qinnRPHpoPtW+5iH6wVmYLy2dEqKqeQ4RsmMT2mBEQJX7ZblLxgB1cBi2mU2Z1Of7mO3E=
+	t=1773109310; cv=none; b=JQpuiNWumHhBiNY3JNYqMbmFl3+dR4SSK1jyfFcBkTZsSRDdaMOy7cgNVYyPm+Vr23cle+j4b2Uhw+bnsvRf87XuFW0wwbpBa9BsxPjxVoSwo91aVypehy7VJvyHotJbHIU5AleKa6Mz7F5J0T6l7IhdJa5U/yxxVGuQP9umNfw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773107779; c=relaxed/simple;
-	bh=7tE0mK/ORl16aroZ+0/IFlKZAYqs1C7Ln1U6nH6GVo4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=d2B4RPZEjaKLkjzm9RWwQIrzHchSNphAiCTkaGjGZMn+e+KON6auN4ssRxv1TqnTV0Xp/Iue8SaLCb3db9Z5QcrvfrggL3vyXgnxhz9aOldvdLZ7OxXQEe3SXTGOCMBFiMm4GlWo8ViW/8LwuDPn3ERafORmzIeVv2+p76aCSfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=HNJdMG9Y; arc=none smtp.client-ip=115.124.30.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1773109310; c=relaxed/simple;
+	bh=zmVJFwk58AybxKMXywtcUGAZkshh4KR5kSba0oQQNqo=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=C2B5PWn0a1Zy9Lu/6eHs8uyGW4hKa1FMgvp/9oHZ1O6Lri5lyI+W0GiZLXOhS1SFxZjJVAOOS/wVgV5g+xCs9PjD7NwIobrt5y9nn8aMuprqgnUK/I4J4m1J2bX8WbcUbyrS25dA3jSYQS/XKtpUPJmAEVSG00BHWyFnMmM3AzM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=cvKNfoE0; arc=none smtp.client-ip=113.46.200.225
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="HNJdMG9Y"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1773107766; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=XCkoy455rXFiAX+k4AHZCh5bO3uGh5YxAzZ1P5kvaVs=;
-	b=HNJdMG9YN7UKLQWBJIbyxj+NzOSo3L0TEqdx244VaOeIaN5jHsGdSxZwomnpDljs3M+/hYFZGRXu9jjdetOFiE2ARLVbpNUb64t19wulWJcwe/Wh7H4jCmYaGoWAa9Jrk1tYMoNGV7oNAEzioAy9NsqHsPE+PhI12bFKjE+KuII=
-Received: from 30.221.148.52(mailfrom:jefflexu@linux.alibaba.com fp:SMTPD_---0X-eA9mx_1773107765 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Tue, 10 Mar 2026 09:56:05 +0800
-Message-ID: <332ba149-035f-48c1-8bed-a586334ac068@linux.alibaba.com>
-Date: Tue, 10 Mar 2026 09:56:05 +0800
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="cvKNfoE0"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=AXjGztx/BX5wcnPp0cQJ/8oe6dfejXu8ICgIm66QIN8=;
+	b=cvKNfoE0tUgJu+WaN6nim0UwxI2ppxxOA1o+CTA3EKkeTKw9atxxP61gYVuljCbxU9Vf2fCRY
+	f+LtdqaqZM7yIjxHoqvbdeiMepbIlFh5PV+ZgBDm2qW4rMAKaZI9fOGe5hUlEjMAU2Vf6pPX6uP
+	xI2zM5LqqE8dl4FBjIT6pN4=
+Received: from mail.maildlp.com (unknown [172.19.163.214])
+	by canpmsgout10.his.huawei.com (SkyGuard) with ESMTPS id 4fVHZD67v5z1K9Cg;
+	Tue, 10 Mar 2026 10:16:52 +0800 (CST)
+Received: from dggemv705-chm.china.huawei.com (unknown [10.3.19.32])
+	by mail.maildlp.com (Postfix) with ESMTPS id 1ED414056C;
+	Tue, 10 Mar 2026 10:21:45 +0800 (CST)
+Received: from kwepemq500010.china.huawei.com (7.202.194.235) by
+ dggemv705-chm.china.huawei.com (10.3.19.32) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Tue, 10 Mar 2026 10:21:44 +0800
+Received: from [10.173.124.160] (10.173.124.160) by
+ kwepemq500010.china.huawei.com (7.202.194.235) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Tue, 10 Mar 2026 10:21:43 +0800
+Subject: Re: [PATCH v3 1/3] mm: memfd/hugetlb: introduce memfd-based userspace
+ MFR policy
+To: Jiaqi Yan <jiaqiyan@google.com>
+CC: <nao.horiguchi@gmail.com>, <tony.luck@intel.com>,
+	<wangkefeng.wang@huawei.com>, <willy@infradead.org>,
+	<akpm@linux-foundation.org>, <osalvador@suse.de>, <rientjes@google.com>,
+	<duenwen@google.com>, <jthoughton@google.com>, <jgg@nvidia.com>,
+	<ankita@nvidia.com>, <peterx@redhat.com>, <sidhartha.kumar@oracle.com>,
+	<ziy@nvidia.com>, <david@redhat.com>, <dave.hansen@linux.intel.com>,
+	<muchun.song@linux.dev>, <linux-mm@kvack.org>,
+	<linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+	<william.roche@oracle.com>, <harry.yoo@oracle.com>, <jane.chu@oracle.com>
+References: <20260203192352.2674184-1-jiaqiyan@google.com>
+ <20260203192352.2674184-2-jiaqiyan@google.com>
+ <7ad34b69-2fb4-770b-14e5-bea13cf63d2f@huawei.com>
+ <CACw3F50PwJ+sSOX0wySQgBzrEW2XOctxuX5jM37OG0HS_kHdbQ@mail.gmail.com>
+ <31cc7bed-c30f-489c-3ac3-4842aa00b869@huawei.com>
+ <CACw3F50BwnLJW75EXgz0t5g+eUhr+wKgJ3YfRFq5208N5KfaiA@mail.gmail.com>
+ <a0d25caf-a18b-e3d8-e74f-fc18fa85252e@huawei.com>
+ <CACw3F51+bAm03nvucV54bkThnYc-4ewgqGzq_c5i6oMmnGdEtw@mail.gmail.com>
+ <a3ff8c7b-69c1-fecc-3564-ecaa3e8a7e67@huawei.com>
+ <CACw3F53qr1Af=r__SNxU1ohr69s8apHqHz9tcEHg1hDSLsk5TQ@mail.gmail.com>
+From: Miaohe Lin <linmiaohe@huawei.com>
+Message-ID: <6b304954-f3d1-5581-5937-1464caf85ab1@huawei.com>
+Date: Tue, 10 Mar 2026 10:21:42 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] fuse: invalidate page cache after sync and async
- direct writes
-To: cding@ddn.com, Miklos Szeredi <miklos@szeredi.hu>
-Cc: Bernd Schubert <bschubert@ddn.com>, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260309-xfstests-generic-451-v3-1-bb6ad2f59512@ddn.com>
+In-Reply-To: <CACw3F53qr1Af=r__SNxU1ohr69s8apHqHz9tcEHg1hDSLsk5TQ@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-From: Jingbo Xu <jefflexu@linux.alibaba.com>
-In-Reply-To: <20260309-xfstests-generic-451-v3-1-bb6ad2f59512@ddn.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
+ kwepemq500010.china.huawei.com (7.202.194.235)
 
-
-
-On 3/9/26 4:35 PM, Cheng Ding via B4 Relay wrote:
-> From: Cheng Ding <cding@ddn.com>
+On 2026/3/9 23:47, Jiaqi Yan wrote:
+> On Mon, Mar 9, 2026 at 12:41 AM Miaohe Lin <linmiaohe@huawei.com> wrote:
+>>
+>> On 2026/3/9 12:53, Jiaqi Yan wrote:
+>>> On Mon, Feb 23, 2026 at 11:30 PM Miaohe Lin <linmiaohe@huawei.com> wrote:
+>>>>
+>>>> On 2026/2/13 13:01, Jiaqi Yan wrote:
+>>>>> On Mon, Feb 9, 2026 at 11:31 PM Miaohe Lin <linmiaohe@huawei.com> wrote:
+>>>>>>
+>>>>>> On 2026/2/10 12:47, Jiaqi Yan wrote:
+>>>>>>> On Mon, Feb 9, 2026 at 3:54 AM Miaohe Lin <linmiaohe@huawei.com> wrote:
+>>>>>>>>
+>>>>>>>> On 2026/2/4 3:23, Jiaqi Yan wrote:
+>>>>>>>>> Sometimes immediately hard offlining a large chunk of contigous memory
+>>>>>>>>> having uncorrected memory errors (UE) may not be the best option.
+>>>>>>>>> Cloud providers usually serve capacity- and performance-critical guest
+>>>>>>>>> memory with 1G HugeTLB hugepages, as this significantly reduces the
+>>>>>>>>> overhead associated with managing page tables and TLB misses. However,
+>>>>>>>>> for today's HugeTLB system, once a byte of memory in a hugepage is
+>>>>>>>>> hardware corrupted, the kernel discards the whole hugepage, including
+>>>>>>>>> the healthy portion. Customer workload running in the VM can hardly
+>>>>>>>>> recover from such a great loss of memory.
+>>>>>>>>
+>>>>>>>> Thanks for your patch. Some questions below.
+>>>>>>>>
+>>>>>>>>>
+>>>>>>>>> Therefore keeping or discarding a large chunk of contiguous memory
+>>>>>>>>> owned by userspace (particularly to serve guest memory) due to
+>>>>>>>>> recoverable UE may better be controlled by userspace process
+>>>>>>>>> that owns the memory, e.g. VMM in the Cloud environment.
+>>>>>>>>>
+>>>>>>>>> Introduce a memfd-based userspace memory failure (MFR) policy,
+>>>>>>>>> MFD_MF_KEEP_UE_MAPPED. It is possible to support for other memfd,
+>>>>>>>>> but the current implementation only covers HugeTLB.
+>>>>>>>>>
+>>>>>>>>> For a hugepage associated with MFD_MF_KEEP_UE_MAPPED enabled memfd,
+>>>>>>>>> whenever it runs into a new UE,
+>>>>>>>>>
+>>>>>>>>> * MFR defers hard offline operations, i.e., unmapping and
+>>>>>>>>
+>>>>>>>> So the folio can't be unpoisoned until hugetlb folio becomes free?
+>>>>>>>
+>>>>>>> Are you asking from testing perspective, are we still able to clean up
+>>>>>>> injected test errors via unpoison_memory() with MFD_MF_KEEP_UE_MAPPED?
+>>>>>>>
+>>>>>>> If so, unpoison_memory() can't turn the HWPoison hugetlb page to
+>>>>>>> normal hugetlb page as MFD_MF_KEEP_UE_MAPPED automatically dissolves
+>>>>>>
+>>>>>> We might loss some testability but that should be an acceptable compromise.
+>>>>>
+>>>>> To clarify, looking at unpoison_memory(), it seems unpoison should
+>>>>> still work if called before truncated or memfd closed.
+>>>>>
+>>>>> What I wanted to say is, for my test hugetlb-mfr.c, since I really
+>>>>> want to test the cleanup code (dissolving free hugepage having
+>>>>> multiple errors) after truncation or memfd closed, so we can only
+>>>>> unpoison the raw pages rejected by buddy allocator.
+>>>>>
+>>>>>>
+>>>>>>> it. unpoison_memory(pfn) can probably still turn the HWPoison raw page
+>>>>>>> back to a normal one, but you already lost the hugetlb page.
+>>>>>>>
+>>>>>>>>
+>>>>>>>>>   dissolving. MFR still sets HWPoison flag, holds a refcount
+>>>>>>>>>   for every raw HWPoison page, record them in a list, sends SIGBUS
+>>>>>>>>>   to the consuming thread, but si_addr_lsb is reduced to PAGE_SHIFT.
+>>>>>>>>>   If userspace is able to handle the SIGBUS, the HWPoison hugepage
+>>>>>>>>>   remains accessible via the mapping created with that memfd.
+>>>>>>>>>
+>>>>>>>>> * If the memory was not faulted in yet, the fault handler also
+>>>>>>>>>   allows fault in the HWPoison folio.
+>>>>>>>>>
+>>>>>>>>> For a MFD_MF_KEEP_UE_MAPPED enabled memfd, when it is closed, or
+>>>>>>>>> when userspace process truncates its hugepages:
+>>>>>>>>>
+>>>>>>>>> * When the HugeTLB in-memory file system removes the filemap's
+>>>>>>>>>   folios one by one, it asks MFR to deal with HWPoison folios
+>>>>>>>>>   on the fly, implemented by filemap_offline_hwpoison_folio().
+>>>>>>>>>
+>>>>>>>>> * MFR drops the refcounts being held for the raw HWPoison
+>>>>>>>>>   pages within the folio. Now that the HWPoison folio becomes
+>>>>>>>>>   free, MFR dissolves it into a set of raw pages. The healthy pages
+>>>>>>>>>   are recycled into buddy allocator, while the HWPoison ones are
+>>>>>>>>>   prevented from re-allocation.
+>>>>>>>>>
+>>>>>>>> ...
+>>>>>>>>
+>>>>>>>>>
+>>>>>>>>> +static void filemap_offline_hwpoison_folio_hugetlb(struct folio *folio)
+>>>>>>>>> +{
+>>>>>>>>> +     int ret;
+>>>>>>>>> +     struct llist_node *head;
+>>>>>>>>> +     struct raw_hwp_page *curr, *next;
+>>>>>>>>> +
+>>>>>>>>> +     /*
+>>>>>>>>> +      * Since folio is still in the folio_batch, drop the refcount
+>>>>>>>>> +      * elevated by filemap_get_folios.
+>>>>>>>>> +      */
+>>>>>>>>> +     folio_put_refs(folio, 1);
+>>>>>>>>> +     head = llist_del_all(raw_hwp_list_head(folio));
+>>>>>>>>
+>>>>>>>> We might race with get_huge_page_for_hwpoison()? llist_add() might be called
+>>>>>>>> by folio_set_hugetlb_hwpoison() just after llist_del_all()?
+>>>>>>>
+>>>>>>> Oh, when there is a new UE while we releasing the folio here, right?
+>>>>>>
+>>>>>> Right.
+>>>>>>
+>>>>>>> In that case, would mutex_lock(&mf_mutex) eliminate potential race?
+>>>>>>
+>>>>>> IMO spin_lock_irq(&hugetlb_lock) might be better.
+>>>>>
+>>>>> Looks like I don't need any lock given the correction below.
+>>>>>
+>>>>>>
+>>>>>>>
+>>>>>>>>
+>>>>>>>>> +
+>>>>>>>>> +     /*
+>>>>>>>>> +      * Release refcounts held by try_memory_failure_hugetlb, one per
+>>>>>>>>> +      * HWPoison-ed page in the raw hwp list.
+>>>>>>>>> +      *
+>>>>>>>>> +      * Set HWPoison flag on each page so that free_has_hwpoisoned()
+>>>>>>>>> +      * can exclude them during dissolve_free_hugetlb_folio().
+>>>>>>>>> +      */
+>>>>>>>>> +     llist_for_each_entry_safe(curr, next, head, node) {
+>>>>>>>>> +             folio_put(folio);
+>>>>>>>>
+>>>>>>>> The hugetlb folio refcnt will only be increased once even if it contains multiple UE sub-pages.
+>>>>>>>> See __get_huge_page_for_hwpoison() for details. So folio_put() might be called more times than
+>>>>>>>> folio_try_get() in __get_huge_page_for_hwpoison().
+>>>>>>>
+>>>>>>> The changes in folio_set_hugetlb_hwpoison() should make
+>>>>>>> __get_huge_page_for_hwpoison() not to take the "out" path which
+>>>>>>> decrease the increased refcount for folio. IOW, every time a new UE
+>>>>>>> happens, we handle the hugetlb page as if it is an in-use hugetlb
+>>>>>>> page.
+>>>>>>
+>>>>>> See below code snippet (comment [1] and [2]):
+>>>>>>
+>>>>>> int __get_huge_page_for_hwpoison(unsigned long pfn, int flags,
+>>>>>>                                  bool *migratable_cleared)
+>>>>>> {
+>>>>>>         struct page *page = pfn_to_page(pfn);
+>>>>>>         struct folio *folio = page_folio(page);
+>>>>>>         int ret = 2;    /* fallback to normal page handling */
+>>>>>>         bool count_increased = false;
+>>>>>>
+>>>>>>         if (!folio_test_hugetlb(folio))
+>>>>>>                 goto out;
+>>>>>>
+>>>>>>         if (flags & MF_COUNT_INCREASED) {
+>>>>>>                 ret = 1;
+>>>>>>                 count_increased = true;
+>>>>>>         } else if (folio_test_hugetlb_freed(folio)) {
+>>>>>>                 ret = 0;
+>>>>>>         } else if (folio_test_hugetlb_migratable(folio)) {
+>>>>>>
+>>>>>>                    ^^^^*hugetlb_migratable is checked before trying to get folio refcnt* [1]
+>>>>>>
+>>>>>>                 ret = folio_try_get(folio);
+>>>>>>                 if (ret)
+>>>>>>                         count_increased = true;
+>>>>>>         } else {
+>>>>>>                 ret = -EBUSY;
+>>>>>>                 if (!(flags & MF_NO_RETRY))
+>>>>>>                         goto out;
+>>>>>>         }
+>>>>>>
+>>>>>>         if (folio_set_hugetlb_hwpoison(folio, page)) {
+>>>>>>                 ret = -EHWPOISON;
+>>>>>>                 goto out;
+>>>>>>         }
+>>>>>>
+>>>>>>         /*
+>>>>>>          * Clearing hugetlb_migratable for hwpoisoned hugepages to prevent them
+>>>>>>          * from being migrated by memory hotremove.
+>>>>>>          */
+>>>>>>         if (count_increased && folio_test_hugetlb_migratable(folio)) {
+>>>>>>                 folio_clear_hugetlb_migratable(folio);
+>>>>>>
+>>>>>>                 ^^^^^*hugetlb_migratable is cleared when first time seeing folio* [2]
+>>>>>>
+>>>>>>                 *migratable_cleared = true;
+>>>>>>         }
+>>>>>>
+>>>>>> Or am I miss something?
+>>>>>
+>>>>> Thanks for your explaination! You are absolutely right. It turns out
+>>>>> the extra refcount I saw (during running hugetlb-mfr.c) on the folio
+>>>>> at the moment of filemap_offline_hwpoison_folio_hugetlb() is actually
+>>>>> because of the MF_COUNT_INCREASED during MADV_HWPOISON. In the past I
+>>>>> used to think that is the effect of folio_try_get() in
+>>>>> __get_huge_page_for_hwpoison(), and it is wrong. Now I see two cases:
+>>>>> - MADV_HWPOISON: instead of __get_huge_page_for_hwpoison(),
+>>>>> madvise_inject_error() is the one that increments hugepage refcount
+>>>>> for every error injected. Different from other cases,
+>>>>> MFD_MF_KEEP_UE_MAPPED makes the hugepage still a in-use page after
+>>>>> memory_failure(MF_COUNT_INCREASED), so I think madvise_inject_error()
+>>>>> should decrement in MFD_MF_KEEP_UE_MAPPED case.
+>>>>> - In the real world: as you pointed out, MF always just increments
+>>>>> hugepage refcount once in __get_huge_page_for_hwpoison(), even if it
+>>>>> runs into multiple errors. When
+>>>>
+>>>> This might not always hold true. When MF occurs while hugetlb folio is under isolation(hugetlb_migratable is
+>>>> cleared and extra folio refcnt is held by isolating code in that case), __get_huge_page_for_hwpoison won't get
+>>>> extra folio refcnt.
+>>>>
+>>>>> filemap_offline_hwpoison_folio_hugetlb() drops the refcount elevated
+>>>>> by filemap_get_folios(), it only needs to decrement again if
+>>>>> folio_ref_dec_and_test() returns false. I tested something like below:
+>>>>>
+>>>>>     /* drop the refcount elevated by filemap_get_folios. */
+>>>>>     folio_put(folio);
+>>>>>     if (folio_ref_count(folio))
+>>>>>         folio_put(folio);
+>>>>>     /* now refcount should be zero. */
+>>>>>     ret = dissolve_free_hugetlb_folio(folio);
+>>>>
+>>>> So I think above code might drop the folio refcnt held by isolating code.
+>>>
+>>> Hi Miaohe, thanks for raising the concern. Given two things below
+>>> - both folio_isolate_hugetlb() and get_huge_page_for_hwpoison() are
+>>> guarded by hugetlb_lock.
+>>> - hugetlb_update_hwpoison() only folio_test_set_hwpoison() for
+>>> non-isolated folio after folio_try_get() succeeds.
+>>>
+>>> as long as folio_test_set_hwpoison() is true here, this refcount
+>>> should never come from folio_isolate_hugetlb(). What do you think?
+>>>
+>>
+>> Let's think about below scenario. When __get_huge_page_for_hwpoison() encounters an
+>> isolated hugetlb folio:
+>>
+>> int __get_huge_page_for_hwpoison(unsigned long pfn, int flags,
+>>                                  bool *migratable_cleared)
+>> {
+>>         struct page *page = pfn_to_page(pfn);
+>>         struct folio *folio = page_folio(page);
+>>         bool count_increased = false;
+>>         int ret, rc;
+>>
+>>         if (!folio_test_hugetlb(folio)) {
+>>                 ret = MF_HUGETLB_NON_HUGEPAGE;
+>>                 goto out;
+>>         } else if (flags & MF_COUNT_INCREASED) {
+>>                 ret = MF_HUGETLB_IN_USED;
+>>                 count_increased = true;
+>>         } else if (folio_test_hugetlb_freed(folio)) {
+>>                 ret = MF_HUGETLB_FREED;
+>>         } else if (folio_test_hugetlb_migratable(folio)) {
+>>
+>>                    ^^^^*Since hugetlb_migratable is cleared for the isolated hugetlb folio*
+>>
+>>                 if (folio_try_get(folio)) {
+>>                         ret = MF_HUGETLB_IN_USED;
+>>                         count_increased = true;
+>>                 } else {
+>>                         ret = MF_HUGETLB_FREED;
+>>                 }
+>>         } else {
+>>
+>>                   ^^^^*Code will reach here without extra refcnt increased*
+>>
+>>                 ret = MF_HUGETLB_RETRY;
+>>                 if (!(flags & MF_NO_RETRY))
+>>                         goto out;
+>>         }
+>>
+>>         *Code will reach here after retry*
 > 
-> Fixes xfstests generic/451, similar to how commit b359af8275a9 ("fuse:
-> Invalidate the page cache after FOPEN_DIRECT_IO write") fixes xfstests
-> generic/209.
+> You are right, thanks for pointing that out. Let me think about more
+> how to handle this.
 > 
-> Signed-off-by: Cheng Ding <cding@ddn.com>
-
-LGTM.
-
-Reviewed-by: Jingbo Xu <jefflexu@linux.alibaba.com>
-
-> ---
-> Changes in v3:
-> - Address review comments: fix typo
-> - Address review comments: move sb_init_dio_done_wq() to fuse_direct_IO()
->   Note: We could skip sb_init_dio_done_wq() when io->blocking is true, but
->   I opted to keep the change simpler.
-> - Link to v2: https://lore.kernel.org/r/20260306-xfstests-generic-451-v2-1-93b2d540304b@ddn.com
+>>         rc = hugetlb_update_hwpoison(folio, page);
+>>         if (rc >= MF_HUGETLB_FOLIO_PRE_POISONED) {
+>>                 ret = rc;
+>>                 goto out;
+>>         }
+>>
+>> So hugetlb_update_hwpoison() will be called even for folio under isolation
+>> without folio_try_get(). Or am I miss something?
 > 
-> Changes in v2:
-> - Address review comments: move invalidation from fuse_direct_io() to
->   fuse_direct_write_iter()
-> - Link to v1: https://lore.kernel.org/r/20260303-async-dio-aio-cache-invalidation-v1-1-fba0fd0426c3@ddn.com
-> ---
->  fs/fuse/file.c   | 59 +++++++++++++++++++++++++++++++++++++++++++++-----------
->  fs/fuse/fuse_i.h |  1 +
->  2 files changed, 49 insertions(+), 11 deletions(-)
-> 
-> diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-> index b1bb7153cb78..c43fe74cdd46 100644
-> --- a/fs/fuse/file.c
-> +++ b/fs/fuse/file.c
-> @@ -23,6 +23,8 @@
->  #include <linux/task_io_accounting_ops.h>
->  #include <linux/iomap.h>
->  
-> +int sb_init_dio_done_wq(struct super_block *sb);
-> +
->  static int fuse_send_open(struct fuse_mount *fm, u64 nodeid,
->  			  unsigned int open_flags, int opcode,
->  			  struct fuse_open_out *outargp)
-> @@ -629,6 +631,19 @@ static ssize_t fuse_get_res_by_io(struct fuse_io_priv *io)
->  	return io->bytes < 0 ? io->size : io->bytes;
->  }
->  
-> +static void fuse_aio_invalidate_worker(struct work_struct *work)
-> +{
-> +	struct fuse_io_priv *io = container_of(work, struct fuse_io_priv, work);
-> +	struct address_space *mapping = io->iocb->ki_filp->f_mapping;
-> +	ssize_t res = fuse_get_res_by_io(io);
-> +	pgoff_t start = io->offset >> PAGE_SHIFT;
-> +	pgoff_t end = (io->offset + res - 1) >> PAGE_SHIFT;
-> +
-> +	invalidate_inode_pages2_range(mapping, start, end);
-> +	io->iocb->ki_complete(io->iocb, res);
-> +	kref_put(&io->refcnt, fuse_io_release);
-> +}
-> +
->  /*
->   * In case of short read, the caller sets 'pos' to the position of
->   * actual end of fuse request in IO request. Otherwise, if bytes_requested
-> @@ -661,10 +676,11 @@ static void fuse_aio_complete(struct fuse_io_priv *io, int err, ssize_t pos)
->  	spin_unlock(&io->lock);
->  
->  	if (!left && !io->blocking) {
-> +		struct inode *inode = file_inode(io->iocb->ki_filp);
-> +		struct address_space *mapping = io->iocb->ki_filp->f_mapping;
->  		ssize_t res = fuse_get_res_by_io(io);
->  
->  		if (res >= 0) {
-> -			struct inode *inode = file_inode(io->iocb->ki_filp);
->  			struct fuse_conn *fc = get_fuse_conn(inode);
->  			struct fuse_inode *fi = get_fuse_inode(inode);
->  
-> @@ -673,6 +689,17 @@ static void fuse_aio_complete(struct fuse_io_priv *io, int err, ssize_t pos)
->  			spin_unlock(&fi->lock);
->  		}
->  
-> +		if (io->write && res > 0 && mapping->nrpages) {
-> +			/*
-> +			 * As in generic_file_direct_write(), invalidate after the
-> +			 * write, to invalidate read-ahead cache that may have competed
-> +			 * with the write.
-> +			 */
-> +			INIT_WORK(&io->work, fuse_aio_invalidate_worker);
-> +			queue_work(inode->i_sb->s_dio_done_wq, &io->work);
-> +			return;
-> +		}
-> +
->  		io->iocb->ki_complete(io->iocb, res);
->  	}
->  
-> @@ -1738,15 +1765,6 @@ ssize_t fuse_direct_io(struct fuse_io_priv *io, struct iov_iter *iter,
->  	if (res > 0)
->  		*ppos = pos;
->  
-> -	if (res > 0 && write && fopen_direct_io) {
-> -		/*
-> -		 * As in generic_file_direct_write(), invalidate after the
-> -		 * write, to invalidate read-ahead cache that may have competed
-> -		 * with the write.
-> -		 */
-> -		invalidate_inode_pages2_range(mapping, idx_from, idx_to);
-> -	}
-> -
->  	return res > 0 ? res : err;
->  }
->  EXPORT_SYMBOL_GPL(fuse_direct_io);
-> @@ -1785,6 +1803,8 @@ static ssize_t fuse_direct_read_iter(struct kiocb *iocb, struct iov_iter *to)
->  static ssize_t fuse_direct_write_iter(struct kiocb *iocb, struct iov_iter *from)
->  {
->  	struct inode *inode = file_inode(iocb->ki_filp);
-> +	struct address_space *mapping = inode->i_mapping;
-> +	loff_t pos = iocb->ki_pos;
->  	ssize_t res;
->  	bool exclusive;
->  
-> @@ -1801,6 +1821,16 @@ static ssize_t fuse_direct_write_iter(struct kiocb *iocb, struct iov_iter *from)
->  					     FUSE_DIO_WRITE);
->  			fuse_write_update_attr(inode, iocb->ki_pos, res);
->  		}
-> +		if (res > 0 && mapping->nrpages) {
-> +			/*
-> +			 * As in generic_file_direct_write(), invalidate after
-> +			 * write, to invalidate read-ahead cache that may have
-> +			 * with the write.
-> +			 */
-> +			invalidate_inode_pages2_range(mapping,
-> +				pos >> PAGE_SHIFT,
-> +				(pos + res - 1) >> PAGE_SHIFT);
-> +		}
->  	}
->  	fuse_dio_unlock(iocb, exclusive);
->  
-> @@ -2826,6 +2856,7 @@ fuse_direct_IO(struct kiocb *iocb, struct iov_iter *iter)
->  	size_t count = iov_iter_count(iter), shortened = 0;
->  	loff_t offset = iocb->ki_pos;
->  	struct fuse_io_priv *io;
-> +	bool async = ff->fm->fc->async_dio;
->  
->  	pos = offset;
->  	inode = file->f_mapping->host;
-> @@ -2834,6 +2865,12 @@ fuse_direct_IO(struct kiocb *iocb, struct iov_iter *iter)
->  	if ((iov_iter_rw(iter) == READ) && (offset >= i_size))
->  		return 0;
->  
-> +	if ((iov_iter_rw(iter) == WRITE) && async && !inode->i_sb->s_dio_done_wq) {
-> +		ret = sb_init_dio_done_wq(inode->i_sb);
-> +		if (ret < 0)
-> +			return ret;
-> +	}
-> +
->  	io = kmalloc_obj(struct fuse_io_priv);
->  	if (!io)
->  		return -ENOMEM;
-> @@ -2849,7 +2886,7 @@ fuse_direct_IO(struct kiocb *iocb, struct iov_iter *iter)
->  	 * By default, we want to optimize all I/Os with async request
->  	 * submission to the client filesystem if supported.
->  	 */
-> -	io->async = ff->fm->fc->async_dio;
-> +	io->async = async;
->  	io->iocb = iocb;
->  	io->blocking = is_sync_kiocb(iocb);
->  
-> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-> index 7f16049387d1..6e8c8cf6b2c8 100644
-> --- a/fs/fuse/fuse_i.h
-> +++ b/fs/fuse/fuse_i.h
-> @@ -377,6 +377,7 @@ union fuse_file_args {
->  /** The request IO state (for asynchronous processing) */
->  struct fuse_io_priv {
->  	struct kref refcnt;
-> +	struct work_struct work;
->  	int async;
->  	spinlock_t lock;
->  	unsigned reqs;
-> 
-> ---
-> base-commit: 3c9332f821aa11552f19c331c5aa5299c78c7c94
-> change-id: 20260306-xfstests-generic-451-fed0f9d5a095
-> 
-> Best regards,
+> Just a random question: if MF never increments a hugepage's refcount,
 
--- 
-Thanks,
-Jingbo
+MF will hold hugetlb folio's refcount unless it's freed or isolated.
 
+> what does the folio_put() in me_huge_page() (when mapping = null) do?
+> Is it dropping for something other than MF?
+
+For isolated hugetlb folio, MF_HUGETLB_RETRY will be returned and code won't reach here.
+Thanks.
+.
