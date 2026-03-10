@@ -1,133 +1,491 @@
-Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 443383806C4
-	for <linux-fsdevel@vger.kernel.org>; Tue, 10 Mar 2026 10:56:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.179
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773140196; cv=pass; b=l4B93Mbjj3OBYABGnl6LSrchuwh8zJjZf2jfL9T45NXy+qMKzIN6fc7/jDZljBeTTRXc7D9MdqumFKNikhMisA8EKb0rZAwMsCZyVxmx4IRZirJebZWOqIduhNYXdxU+OYiP3iFiNuj14fHdiEVZE1hXihFZUEH58PC0a9qyCMw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773140196; c=relaxed/simple;
-	bh=nL8Tve9qxXBojU4CG3EUAlYMJTfM1E+ZMJp6NeH7Zns=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nzGjjgJttBBQMYUFotb8oqAIzUqRmn7FtaUCJ3bF8EEgLqswXqro7qzdf8X2arrzSQaT2x+6q+UTU7+AYryRoSLJncqtDYHMmP33FEra2Ot3IWPoBUaZN6XhUKjIR2rL6YhmGtn1Btf1QMrhBwCGDSR1JRtKACGED0+W8pNcf38=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MBbGtEBR; arc=pass smtp.client-ip=74.125.82.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C5DA381AF8;
+	Tue, 10 Mar 2026 11:13:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773141199; cv=none; b=YuEHMeh7A4Ak5x/FyOYIvDNic2E+1UKHnutHNpWcGwJCiSvLogZD6z7Ig5syEXYPLVP4+dK8s+eQSRpuPUxBF8gvm/Oea/Ut39untqCKqcglpM24i/EyjWXNlh5HVvwlzXTU23qVmy2jxgNSQLY7dcFrorXlXQDj1Oruxy60egA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773141199; c=relaxed/simple;
+	bh=KHkNa2iY+LzydtP3MVJvWvXZcYuJYQktkJTPOV5J9bU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=bldKezYa3CmBInVwGLdENftzLG5YOl8dAh/DF/GwBmrDrsdXjJifzquY4DWAGSe2jP+BxDTM92Y9c0etmn90GoKwm0WNaolziVIcxbCNhsBCRQO9CbFIh3ymte0llf37Rb+NLrCTp44DX8/ZJeexpeJrDXR94PeeOAnzk/QyJik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FYcVDVFq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MBbGtEBR"
-Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-2be0f64a05bso497035eec.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 10 Mar 2026 03:56:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773140194; cv=none;
-        d=google.com; s=arc-20240605;
-        b=ctiResD41MVdJiHh6DnCvc00ju60uiYdELqJmidfByfH8uoEUkW5ZwZIGU9r8LLV2n
-         k7ktlcp4ZHilJXJ4zhCHDpY2e6CS5gjZ1N8sr4QweB+qkbXErZyAFZ0V7FQqTy2Jo1YH
-         vCdtDgd5yHsqmrGEZmHCzh2VCM2oXrFSVw7m50roFJoKRrKjdFa01T0Rt9tq/Cojn6GQ
-         3yYaZY8FkmxgYGmmSAhg3M4ka53i2GpuZhtSKfVrKltYCkj4PPF5uxD0VnNqzr7EWXG3
-         0plf00k5RrmyUDN1YZ7thm1yOsPQwXRXJBaa517wyaFxNrMLQHBL1B25mgDqhEej5VGZ
-         u5JA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=4qBpWaqAk74juZmeca9VRmKlmVoYIHqDYNOH37dt7g0=;
-        fh=g67uc4GHYRuRwhPWe46xO+GG9XFlwydO1q0mcFTfb98=;
-        b=OcIgFyw2ryjNwrK1pG+Z1Mrc46VbSWCABu5RVYN5SGR3IxokjOcELKgc0fD2CTvfYz
-         s9V+WArMBL1BQ9Rr4HvXv3dWtoFu/kh7IPOgxcbi/V3rOdbOF6fN6Z+y4JsqSUGhsxWO
-         YE7OAeUnWclL855g5GTeJ7BFXgoXlDZnC77McRuNRMP7R68hnZM6GMpazK6QREIDEDYw
-         2DKqiuX8lBSVQuECXykKsLQJYfFRigz250qMv8Sg3Jp+zaw1DyDDO7p6kcuwPH2VZYim
-         xeWl9n/elWtYowyWzRLFkRLNmEqKIQAzl60ge6s7+EkusDyPKOjhNsrvd6FM/KPPMcUs
-         Dd2Q==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773140194; x=1773744994; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4qBpWaqAk74juZmeca9VRmKlmVoYIHqDYNOH37dt7g0=;
-        b=MBbGtEBRBoxPubDO7aR6dBNxnj1NeX5HfI/2iP8Lzp9seSiN+tybz+fCRUtGLW5x5H
-         Dk4DqYa2NIr6W29OV7/5WrHN0FEJ0+ScFhbkZQJ4OBIDWeIUWzj5869zWBkvAx1laXES
-         Udu4UtFP+aCcp5tqTGuMUR8kxmr0FTGzsSlplMqaY0hCenwPTPwkdVVfNjLo+2nmkSeb
-         ZLZA0ovPwmjNnfImTXGvS4gMKe4x5tYPKrZqYjvhXgCHtOZOaqyl0J7nwehmYLSwCQiN
-         4RvcjhTehRXfc9XMyLghddQw5UZF09s2CvUvSITa7ja7/9lOwh6jaZeNRFPG6ODik9Ho
-         PR+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773140194; x=1773744994;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=4qBpWaqAk74juZmeca9VRmKlmVoYIHqDYNOH37dt7g0=;
-        b=apPXFD0FAPpSHUNE3Cudo8vT816pfr/i1doqIoMXbweTcy7iLwFLnakw+XbOAF1p2L
-         PUzqdZv3EY5ydjZ4Ydh757wMLKMEg0r+lavIovy5BCGkiLcUGpyKFl8KZZNOYXXKCndX
-         3gnCAAjIaft7nAFHIlDk8ca0ud47wQs2o1TnI14DsjXxMDc39MT5Mb70iqbimT2qBxCJ
-         2nxyKAV703jO3vQI4HJZCT9VkK5zSNYNsOlwU3iXzxt4oXRSzciYBMMQt7yP7XTQ2yDg
-         5meX6jck9z2JF0nYw5AsM0cyGeoRBeYyLZ0JudUDEylUv/+btS9/+frYHL7SquUEooKV
-         lbRg==
-X-Forwarded-Encrypted: i=1; AJvYcCVyz5AVW1o0s4TdRDNxFEj9PX7sXs6yNGg8FfG3K6nm0gsu17H2/O0OLYKe6UGb3pjWEto4/UT2xwyeQxTt@vger.kernel.org
-X-Gm-Message-State: AOJu0YwbyYXSE2+i23AE0bDOH+CiVusk8j+rqjQJj1wpIEDZPsSRcfra
-	dNIAmdzMRdVHSBPbl5kpTBAP8AaPtocRM9ny7y79TbmpqbPbwYIXGE5ML2s4d+wWor8OBtSjB6L
-	0oTfC++PKLomrlkKn9cpLHGP5PhJW1Hs=
-X-Gm-Gg: ATEYQzymp9DjsQb879v2F8ireimBGWTzh8EYmxlNGqYQWVkjRBAZ+lfo6MXd75y5Izi
-	0fB+EIiLpPqcvXofTiw6bVfXWURaEfQPun12A44sIYFCZkJVOuiJ9SYrg0lM+Eaff42JS71BPs+
-	/vshOs0PHYCgEJuCHNJz1zUGErK+wF2+nJJm5SFP2gWvjFbVwnIPYhgvqXUTCykdLoVTwvVCIp2
-	x+1O4jgQUpUPOLUtj2ZfSO47eHT8wUNSDJXE7/218xuvn3sBDDwKa0Ds6bOH5+DUTcgMwBug+52
-	UedG0rpxnflaGbhcbICIl5aZxg0sccLsg+vmOqHDSFSOLjljcgVT4lXm2Ma2If3k9BjvD4z+f+V
-	SRGKCzD99TbgFo37oNPvaO4A=
-X-Received: by 2002:a05:7300:ef97:b0:2bd:bc33:ca32 with SMTP id
- 5a478bee46e88-2be4e09ebfdmr2731651eec.4.1773140194353; Tue, 10 Mar 2026
- 03:56:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FYcVDVFq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FA2BC19423;
+	Tue, 10 Mar 2026 11:13:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773141199;
+	bh=KHkNa2iY+LzydtP3MVJvWvXZcYuJYQktkJTPOV5J9bU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=FYcVDVFqhBGsAhcZx0HNv6PcGCXiAuKmIQYIIpHvpWPge/I1AX9cVjxwMkn3wosXd
+	 Gq06g3CYuLcwBc6a7LXkB3EsmUOT+VH4tii3WJAdQ/BmvYTmWpjpZzlYn0JEN8U8dt
+	 jPqADh5iMe77LUffCMm/mD7akY424heuQ2jwXcO99IA9Y48ZMLkMPGErcFiTcjpF3n
+	 eUoyPbvpneLTqPYSSDtrnyr7yM8XlJOMk6Wna6vqp4RHDYmX2JZCkIVYQ27wi3UJrA
+	 QQ/hAxRsGB6FSxH+J2hp37y4RpMRGCQWmh2zTptQzt6N36g8fBZsb8S00vmMNqq0CD
+	 8Q2QMHgYoQKxw==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: David Howells <dhowells@redhat.com>,
+	Steve French <sfrench@samba.org>,
+	"Paulo Alcantara (Red Hat)" <pc@manguebit.org>,
+	netfs@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	Christian Brauner <brauner@kernel.org>,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 6.19 200/311] netfs: Fix unbuffered/DIO writes to dispatch subrequests in strict sequence
+Date: Tue, 10 Mar 2026 07:04:07 -0400
+Message-ID: <ee5d760a85b4bee4ab9a1ff4f800fa6586304c84.1773140655.git.sashal@kernel.org>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <cover.1773140654.git.sashal@kernel.org>
+References: <cover.1773140654.git.sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260105-define-rust-helper-v2-0-51da5f454a67@google.com>
-In-Reply-To: <20260105-define-rust-helper-v2-0-51da5f454a67@google.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Tue, 10 Mar 2026 11:56:22 +0100
-X-Gm-Features: AaiRm523FMnYeZ1Cbp2n7uyCKjNSK8gDXCio5_BkegPeyUfSKYibfT47XJIo0_0
-Message-ID: <CANiq72mT2-8m71NtnodVXVBRkhUSiK3Byq5OkBntEQpW9hbU6w@mail.gmail.com>
-Subject: Re: [PATCH v2 00/27] Allow inlining C helpers into Rust when using LTO
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	Peter Zijlstra <peterz@infradead.org>, Elle Rhumsaa <elle@weathered-steel.dev>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, linux-block@vger.kernel.org, 
-	FUJITA Tomonori <fujita.tomonori@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org, 
-	Benno Lossin <lossin@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Thomas Gleixner <tglx@linutronix.de>, Paul Moore <paul@paul-moore.com>, 
-	Serge Hallyn <sergeh@kernel.org>, linux-security-module@vger.kernel.org, 
-	Josh Poimboeuf <jpoimboe@kernel.org>, Jason Baron <jbaron@akamai.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Ard Biesheuvel <ardb@kernel.org>, 
-	Andrew Ballance <andrewjballance@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, maple-tree@lists.infradead.org, 
-	linux-mm@kvack.org, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
-	Uladzislau Rezki <urezki@gmail.com>, Vitaly Wool <vitaly.wool@konsulko.se>, 
-	Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org, 
-	Daniel Almeida <daniel.almeida@collabora.com>, Michal Wilczynski <m.wilczynski@samsung.com>, 
-	linux-pwm@vger.kernel.org, "Paul E. McKenney" <paulmck@kernel.org>, rcu@vger.kernel.org, 
-	Will Deacon <will@kernel.org>, Fiona Behrens <me@kloenk.dev>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Vlastimil Babka <vbabka@suse.cz>, 
-	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, Ingo Molnar <mingo@redhat.com>, 
-	Waiman Long <longman@redhat.com>, Mitchell Levy <levymitchell0@gmail.com>, 
-	Frederic Weisbecker <frederic@kernel.org>, Lyude Paul <lyude@redhat.com>, 
-	Anna-Maria Behnsen <anna-maria@linutronix.de>, John Stultz <jstultz@google.com>, linux-usb@vger.kernel.org, 
-	Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
-	Matthew Wilcox <willy@infradead.org>, Tamir Duberstein <tamird@gmail.com>, linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jan 5, 2026 at 1:42=E2=80=AFPM Alice Ryhl <aliceryhl@google.com> wr=
-ote:
->
->       rust: clk: add __rust_helper to helpers
->       rust: jump_label: add __rust_helper to helpers
+From: David Howells <dhowells@redhat.com>
 
-Applied these to `rust-next` -- thanks everyone!
+[ Upstream commit a0b4c7a49137ed21279f354eb59f49ddae8dffc2 ]
 
-With these, the series is complete.
+Fix netfslib such that when it's making an unbuffered or DIO write, to make
+sure that it sends each subrequest strictly sequentially, waiting till the
+previous one is 'committed' before sending the next so that we don't have
+pieces landing out of order and potentially leaving a hole if an error
+occurs (ENOSPC for example).
 
-Cheers,
-Miguel
+This is done by copying in just those bits of issuing, collecting and
+retrying subrequests that are necessary to do one subrequest at a time.
+Retrying, in particular, is simpler because if the current subrequest needs
+retrying, the source iterator can just be copied again and the subrequest
+prepped and issued again without needing to be concerned about whether it
+needs merging with the previous or next in the sequence.
+
+Note that the issuing loop waits for a subrequest to complete right after
+issuing it, but this wait could be moved elsewhere allowing preparatory
+steps to be performed whilst the subrequest is in progress.  In particular,
+once content encryption is available in netfslib, that could be done whilst
+waiting, as could cleanup of buffers that have been completed.
+
+Fixes: 153a9961b551 ("netfs: Implement unbuffered/DIO write support")
+Signed-off-by: David Howells <dhowells@redhat.com>
+Link: https://patch.msgid.link/58526.1772112753@warthog.procyon.org.uk
+Tested-by: Steve French <sfrench@samba.org>
+Reviewed-by: Paulo Alcantara (Red Hat) <pc@manguebit.org>
+cc: netfs@lists.linux.dev
+cc: linux-fsdevel@vger.kernel.org
+Signed-off-by: Christian Brauner <brauner@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ fs/netfs/direct_write.c      | 228 ++++++++++++++++++++++++++++++++---
+ fs/netfs/internal.h          |   4 +-
+ fs/netfs/write_collect.c     |  21 ----
+ fs/netfs/write_issue.c       |  41 +------
+ include/trace/events/netfs.h |   4 +-
+ 5 files changed, 221 insertions(+), 77 deletions(-)
+
+diff --git a/fs/netfs/direct_write.c b/fs/netfs/direct_write.c
+index a9d1c3b2c0842..dd1451bf7543d 100644
+--- a/fs/netfs/direct_write.c
++++ b/fs/netfs/direct_write.c
+@@ -9,6 +9,202 @@
+ #include <linux/uio.h>
+ #include "internal.h"
+ 
++/*
++ * Perform the cleanup rituals after an unbuffered write is complete.
++ */
++static void netfs_unbuffered_write_done(struct netfs_io_request *wreq)
++{
++	struct netfs_inode *ictx = netfs_inode(wreq->inode);
++
++	_enter("R=%x", wreq->debug_id);
++
++	/* Okay, declare that all I/O is complete. */
++	trace_netfs_rreq(wreq, netfs_rreq_trace_write_done);
++
++	if (!wreq->error)
++		netfs_update_i_size(ictx, &ictx->inode, wreq->start, wreq->transferred);
++
++	if (wreq->origin == NETFS_DIO_WRITE &&
++	    wreq->mapping->nrpages) {
++		/* mmap may have got underfoot and we may now have folios
++		 * locally covering the region we just wrote.  Attempt to
++		 * discard the folios, but leave in place any modified locally.
++		 * ->write_iter() is prevented from interfering by the DIO
++		 * counter.
++		 */
++		pgoff_t first = wreq->start >> PAGE_SHIFT;
++		pgoff_t last = (wreq->start + wreq->transferred - 1) >> PAGE_SHIFT;
++
++		invalidate_inode_pages2_range(wreq->mapping, first, last);
++	}
++
++	if (wreq->origin == NETFS_DIO_WRITE)
++		inode_dio_end(wreq->inode);
++
++	_debug("finished");
++	netfs_wake_rreq_flag(wreq, NETFS_RREQ_IN_PROGRESS, netfs_rreq_trace_wake_ip);
++	/* As we cleared NETFS_RREQ_IN_PROGRESS, we acquired its ref. */
++
++	if (wreq->iocb) {
++		size_t written = umin(wreq->transferred, wreq->len);
++
++		wreq->iocb->ki_pos += written;
++		if (wreq->iocb->ki_complete) {
++			trace_netfs_rreq(wreq, netfs_rreq_trace_ki_complete);
++			wreq->iocb->ki_complete(wreq->iocb, wreq->error ?: written);
++		}
++		wreq->iocb = VFS_PTR_POISON;
++	}
++
++	netfs_clear_subrequests(wreq);
++}
++
++/*
++ * Collect the subrequest results of unbuffered write subrequests.
++ */
++static void netfs_unbuffered_write_collect(struct netfs_io_request *wreq,
++					   struct netfs_io_stream *stream,
++					   struct netfs_io_subrequest *subreq)
++{
++	trace_netfs_collect_sreq(wreq, subreq);
++
++	spin_lock(&wreq->lock);
++	list_del_init(&subreq->rreq_link);
++	spin_unlock(&wreq->lock);
++
++	wreq->transferred += subreq->transferred;
++	iov_iter_advance(&wreq->buffer.iter, subreq->transferred);
++
++	stream->collected_to = subreq->start + subreq->transferred;
++	wreq->collected_to = stream->collected_to;
++	netfs_put_subrequest(subreq, netfs_sreq_trace_put_done);
++
++	trace_netfs_collect_stream(wreq, stream);
++	trace_netfs_collect_state(wreq, wreq->collected_to, 0);
++}
++
++/*
++ * Write data to the server without going through the pagecache and without
++ * writing it to the local cache.  We dispatch the subrequests serially and
++ * wait for each to complete before dispatching the next, lest we leave a gap
++ * in the data written due to a failure such as ENOSPC.  We could, however
++ * attempt to do preparation such as content encryption for the next subreq
++ * whilst the current is in progress.
++ */
++static int netfs_unbuffered_write(struct netfs_io_request *wreq)
++{
++	struct netfs_io_subrequest *subreq = NULL;
++	struct netfs_io_stream *stream = &wreq->io_streams[0];
++	int ret;
++
++	_enter("%llx", wreq->len);
++
++	if (wreq->origin == NETFS_DIO_WRITE)
++		inode_dio_begin(wreq->inode);
++
++	stream->collected_to = wreq->start;
++
++	for (;;) {
++		bool retry = false;
++
++		if (!subreq) {
++			netfs_prepare_write(wreq, stream, wreq->start + wreq->transferred);
++			subreq = stream->construct;
++			stream->construct = NULL;
++			stream->front = NULL;
++		}
++
++		/* Check if (re-)preparation failed. */
++		if (unlikely(test_bit(NETFS_SREQ_FAILED, &subreq->flags))) {
++			netfs_write_subrequest_terminated(subreq, subreq->error);
++			wreq->error = subreq->error;
++			break;
++		}
++
++		iov_iter_truncate(&subreq->io_iter, wreq->len - wreq->transferred);
++		if (!iov_iter_count(&subreq->io_iter))
++			break;
++
++		subreq->len = netfs_limit_iter(&subreq->io_iter, 0,
++					       stream->sreq_max_len,
++					       stream->sreq_max_segs);
++		iov_iter_truncate(&subreq->io_iter, subreq->len);
++		stream->submit_extendable_to = subreq->len;
++
++		trace_netfs_sreq(subreq, netfs_sreq_trace_submit);
++		stream->issue_write(subreq);
++
++		/* Async, need to wait. */
++		netfs_wait_for_in_progress_stream(wreq, stream);
++
++		if (test_bit(NETFS_SREQ_NEED_RETRY, &subreq->flags)) {
++			retry = true;
++		} else if (test_bit(NETFS_SREQ_FAILED, &subreq->flags)) {
++			ret = subreq->error;
++			wreq->error = ret;
++			netfs_see_subrequest(subreq, netfs_sreq_trace_see_failed);
++			subreq = NULL;
++			break;
++		}
++		ret = 0;
++
++		if (!retry) {
++			netfs_unbuffered_write_collect(wreq, stream, subreq);
++			subreq = NULL;
++			if (wreq->transferred >= wreq->len)
++				break;
++			if (!wreq->iocb && signal_pending(current)) {
++				ret = wreq->transferred ? -EINTR : -ERESTARTSYS;
++				trace_netfs_rreq(wreq, netfs_rreq_trace_intr);
++				break;
++			}
++			continue;
++		}
++
++		/* We need to retry the last subrequest, so first reset the
++		 * iterator, taking into account what, if anything, we managed
++		 * to transfer.
++		 */
++		subreq->error = -EAGAIN;
++		trace_netfs_sreq(subreq, netfs_sreq_trace_retry);
++		if (subreq->transferred > 0)
++			iov_iter_advance(&wreq->buffer.iter, subreq->transferred);
++
++		if (stream->source == NETFS_UPLOAD_TO_SERVER &&
++		    wreq->netfs_ops->retry_request)
++			wreq->netfs_ops->retry_request(wreq, stream);
++
++		__clear_bit(NETFS_SREQ_NEED_RETRY, &subreq->flags);
++		__clear_bit(NETFS_SREQ_BOUNDARY, &subreq->flags);
++		__clear_bit(NETFS_SREQ_FAILED, &subreq->flags);
++		subreq->io_iter		= wreq->buffer.iter;
++		subreq->start		= wreq->start + wreq->transferred;
++		subreq->len		= wreq->len   - wreq->transferred;
++		subreq->transferred	= 0;
++		subreq->retry_count	+= 1;
++		stream->sreq_max_len	= UINT_MAX;
++		stream->sreq_max_segs	= INT_MAX;
++
++		netfs_get_subrequest(subreq, netfs_sreq_trace_get_resubmit);
++		stream->prepare_write(subreq);
++
++		__set_bit(NETFS_SREQ_IN_PROGRESS, &subreq->flags);
++		netfs_stat(&netfs_n_wh_retry_write_subreq);
++	}
++
++	netfs_unbuffered_write_done(wreq);
++	_leave(" = %d", ret);
++	return ret;
++}
++
++static void netfs_unbuffered_write_async(struct work_struct *work)
++{
++	struct netfs_io_request *wreq = container_of(work, struct netfs_io_request, work);
++
++	netfs_unbuffered_write(wreq);
++	netfs_put_request(wreq, netfs_rreq_trace_put_complete);
++}
++
+ /*
+  * Perform an unbuffered write where we may have to do an RMW operation on an
+  * encrypted file.  This can also be used for direct I/O writes.
+@@ -70,35 +266,35 @@ ssize_t netfs_unbuffered_write_iter_locked(struct kiocb *iocb, struct iov_iter *
+ 			 */
+ 			wreq->buffer.iter = *iter;
+ 		}
++
++		wreq->len = iov_iter_count(&wreq->buffer.iter);
+ 	}
+ 
+ 	__set_bit(NETFS_RREQ_USE_IO_ITER, &wreq->flags);
+-	if (async)
+-		__set_bit(NETFS_RREQ_OFFLOAD_COLLECTION, &wreq->flags);
+ 
+ 	/* Copy the data into the bounce buffer and encrypt it. */
+ 	// TODO
+ 
+ 	/* Dispatch the write. */
+ 	__set_bit(NETFS_RREQ_UPLOAD_TO_SERVER, &wreq->flags);
+-	if (async)
+-		wreq->iocb = iocb;
+-	wreq->len = iov_iter_count(&wreq->buffer.iter);
+-	ret = netfs_unbuffered_write(wreq, is_sync_kiocb(iocb), wreq->len);
+-	if (ret < 0) {
+-		_debug("begin = %zd", ret);
+-		goto out;
+-	}
+ 
+-	if (!async) {
+-		ret = netfs_wait_for_write(wreq);
+-		if (ret > 0)
+-			iocb->ki_pos += ret;
+-	} else {
++	if (async) {
++		INIT_WORK(&wreq->work, netfs_unbuffered_write_async);
++		wreq->iocb = iocb;
++		queue_work(system_dfl_wq, &wreq->work);
+ 		ret = -EIOCBQUEUED;
++	} else {
++		ret = netfs_unbuffered_write(wreq);
++		if (ret < 0) {
++			_debug("begin = %zd", ret);
++		} else {
++			iocb->ki_pos += wreq->transferred;
++			ret = wreq->transferred ?: wreq->error;
++		}
++
++		netfs_put_request(wreq, netfs_rreq_trace_put_complete);
+ 	}
+ 
+-out:
+ 	netfs_put_request(wreq, netfs_rreq_trace_put_return);
+ 	return ret;
+ 
+diff --git a/fs/netfs/internal.h b/fs/netfs/internal.h
+index 4319611f53544..d436e20d34185 100644
+--- a/fs/netfs/internal.h
++++ b/fs/netfs/internal.h
+@@ -198,6 +198,9 @@ struct netfs_io_request *netfs_create_write_req(struct address_space *mapping,
+ 						struct file *file,
+ 						loff_t start,
+ 						enum netfs_io_origin origin);
++void netfs_prepare_write(struct netfs_io_request *wreq,
++			 struct netfs_io_stream *stream,
++			 loff_t start);
+ void netfs_reissue_write(struct netfs_io_stream *stream,
+ 			 struct netfs_io_subrequest *subreq,
+ 			 struct iov_iter *source);
+@@ -212,7 +215,6 @@ int netfs_advance_writethrough(struct netfs_io_request *wreq, struct writeback_c
+ 			       struct folio **writethrough_cache);
+ ssize_t netfs_end_writethrough(struct netfs_io_request *wreq, struct writeback_control *wbc,
+ 			       struct folio *writethrough_cache);
+-int netfs_unbuffered_write(struct netfs_io_request *wreq, bool may_wait, size_t len);
+ 
+ /*
+  * write_retry.c
+diff --git a/fs/netfs/write_collect.c b/fs/netfs/write_collect.c
+index 61eab34ea67ef..83eb3dc1adf8a 100644
+--- a/fs/netfs/write_collect.c
++++ b/fs/netfs/write_collect.c
+@@ -399,27 +399,6 @@ bool netfs_write_collection(struct netfs_io_request *wreq)
+ 		ictx->ops->invalidate_cache(wreq);
+ 	}
+ 
+-	if ((wreq->origin == NETFS_UNBUFFERED_WRITE ||
+-	     wreq->origin == NETFS_DIO_WRITE) &&
+-	    !wreq->error)
+-		netfs_update_i_size(ictx, &ictx->inode, wreq->start, wreq->transferred);
+-
+-	if (wreq->origin == NETFS_DIO_WRITE &&
+-	    wreq->mapping->nrpages) {
+-		/* mmap may have got underfoot and we may now have folios
+-		 * locally covering the region we just wrote.  Attempt to
+-		 * discard the folios, but leave in place any modified locally.
+-		 * ->write_iter() is prevented from interfering by the DIO
+-		 * counter.
+-		 */
+-		pgoff_t first = wreq->start >> PAGE_SHIFT;
+-		pgoff_t last = (wreq->start + wreq->transferred - 1) >> PAGE_SHIFT;
+-		invalidate_inode_pages2_range(wreq->mapping, first, last);
+-	}
+-
+-	if (wreq->origin == NETFS_DIO_WRITE)
+-		inode_dio_end(wreq->inode);
+-
+ 	_debug("finished");
+ 	netfs_wake_rreq_flag(wreq, NETFS_RREQ_IN_PROGRESS, netfs_rreq_trace_wake_ip);
+ 	/* As we cleared NETFS_RREQ_IN_PROGRESS, we acquired its ref. */
+diff --git a/fs/netfs/write_issue.c b/fs/netfs/write_issue.c
+index 34894da5a23ec..437268f656409 100644
+--- a/fs/netfs/write_issue.c
++++ b/fs/netfs/write_issue.c
+@@ -154,9 +154,9 @@ EXPORT_SYMBOL(netfs_prepare_write_failed);
+  * Prepare a write subrequest.  We need to allocate a new subrequest
+  * if we don't have one.
+  */
+-static void netfs_prepare_write(struct netfs_io_request *wreq,
+-				struct netfs_io_stream *stream,
+-				loff_t start)
++void netfs_prepare_write(struct netfs_io_request *wreq,
++			 struct netfs_io_stream *stream,
++			 loff_t start)
+ {
+ 	struct netfs_io_subrequest *subreq;
+ 	struct iov_iter *wreq_iter = &wreq->buffer.iter;
+@@ -698,41 +698,6 @@ ssize_t netfs_end_writethrough(struct netfs_io_request *wreq, struct writeback_c
+ 	return ret;
+ }
+ 
+-/*
+- * Write data to the server without going through the pagecache and without
+- * writing it to the local cache.
+- */
+-int netfs_unbuffered_write(struct netfs_io_request *wreq, bool may_wait, size_t len)
+-{
+-	struct netfs_io_stream *upload = &wreq->io_streams[0];
+-	ssize_t part;
+-	loff_t start = wreq->start;
+-	int error = 0;
+-
+-	_enter("%zx", len);
+-
+-	if (wreq->origin == NETFS_DIO_WRITE)
+-		inode_dio_begin(wreq->inode);
+-
+-	while (len) {
+-		// TODO: Prepare content encryption
+-
+-		_debug("unbuffered %zx", len);
+-		part = netfs_advance_write(wreq, upload, start, len, false);
+-		start += part;
+-		len -= part;
+-		rolling_buffer_advance(&wreq->buffer, part);
+-		if (test_bit(NETFS_RREQ_PAUSE, &wreq->flags))
+-			netfs_wait_for_paused_write(wreq);
+-		if (test_bit(NETFS_RREQ_FAILED, &wreq->flags))
+-			break;
+-	}
+-
+-	netfs_end_issue_write(wreq);
+-	_leave(" = %d", error);
+-	return error;
+-}
+-
+ /*
+  * Write some of a pending folio data back to the server and/or the cache.
+  */
+diff --git a/include/trace/events/netfs.h b/include/trace/events/netfs.h
+index 64a382fbc31a8..2d366be46a1c3 100644
+--- a/include/trace/events/netfs.h
++++ b/include/trace/events/netfs.h
+@@ -57,6 +57,7 @@
+ 	EM(netfs_rreq_trace_done,		"DONE   ")	\
+ 	EM(netfs_rreq_trace_end_copy_to_cache,	"END-C2C")	\
+ 	EM(netfs_rreq_trace_free,		"FREE   ")	\
++	EM(netfs_rreq_trace_intr,		"INTR   ")	\
+ 	EM(netfs_rreq_trace_ki_complete,	"KI-CMPL")	\
+ 	EM(netfs_rreq_trace_recollect,		"RECLLCT")	\
+ 	EM(netfs_rreq_trace_redirty,		"REDIRTY")	\
+@@ -169,7 +170,8 @@
+ 	EM(netfs_sreq_trace_put_oom,		"PUT OOM    ")	\
+ 	EM(netfs_sreq_trace_put_wip,		"PUT WIP    ")	\
+ 	EM(netfs_sreq_trace_put_work,		"PUT WORK   ")	\
+-	E_(netfs_sreq_trace_put_terminated,	"PUT TERM   ")
++	EM(netfs_sreq_trace_put_terminated,	"PUT TERM   ")	\
++	E_(netfs_sreq_trace_see_failed,		"SEE FAILED ")
+ 
+ #define netfs_folio_traces					\
+ 	EM(netfs_folio_is_uptodate,		"mod-uptodate")	\
+-- 
+2.51.0
+
