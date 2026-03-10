@@ -1,65 +1,243 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com [209.85.161.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16BD443CEC2;
-	Tue, 10 Mar 2026 09:14:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0042734404E
+	for <linux-fsdevel@vger.kernel.org>; Tue, 10 Mar 2026 09:40:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773134079; cv=none; b=RtMCpymxud1bI9yoblJmDs3Iu0gikiwZh/1RROuy9s/hSWMDorxE6GPZcJEdODO1MWY+51mJzUvWnGijozz/fEsGZCnx98gVlZhqznX61b8XMLOb51kj/UD93/yU1K59IO50n/3nwlt9qcs0pwHJRrBLfzXi9SZpFW6Dd1rEo3o=
+	t=1773135606; cv=none; b=c0+hSky1HHXP2ZBBOSigq+dcotThunpCkBVIO+ZgTo/LGOE4zmyazy7Yzn+fEW1w4jYDJRQFwJUs47sm3tKDqPfqMeY/D62CBFTvdbjD0tbhLsU5HinN3eyOgzPyZkoK2KjDDKm5JBCzr/K2UYZa6tEyDlHszluJCZnc/udUC9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773134079; c=relaxed/simple;
-	bh=+PKQSpfrj5dAClmLIdJ8EDHg7wrNyg/a+y3cXENbXuI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EoaqzrBJddkHodIHPdOXtX0ykUzh6pVeNpk1t4eJtcgdgbpqMDj+kSAQg+0j+zMOgg/rl+jrA1afHa0Nazvro6VFDj/mMEmaPfwvr93E7+ShLAVsb0QzDvtBiA738Es1rUtzAHnkFWngMXs/rSimuJIdYvKm5GUrJJfQU0W2SMo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 9CFF868C4E; Tue, 10 Mar 2026 10:14:34 +0100 (CET)
-Date: Tue, 10 Mar 2026 10:14:33 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Andrey Albershteyn <aalbersh@kernel.org>
-Cc: linux-xfs@vger.kernel.org, fsverity@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, ebiggers@kernel.org, hch@lst.de,
-	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-	linux-btrfs@vger.kernel.org, djwong@kernel.org
-Subject: Re: [PATCH v4 10/25] iomap: teach iomap to handle fsverity holes
- and verify data holes
-Message-ID: <20260310091433.GB18959@lst.de>
-References: <20260309192355.176980-1-aalbersh@kernel.org> <20260309192355.176980-11-aalbersh@kernel.org>
+	s=arc-20240116; t=1773135606; c=relaxed/simple;
+	bh=YTcCz6QjCr6fTL8z/MODBb0VWzZOdmWfzcl84DH1Jjg=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=Lyfo6Z0638ViL2Zi4IDfxkuMkAxjZ2wn6H1xL7yH+38czEUif/SD2qQXhll7rsPG1WLpwPZSHzwJWkesq44hIOdj1shRywcfyBqujP4SqZEZSKTDEb1jtHdrcKQ+OIh4Oc4VskpqYu3OmE1OHQTatPyOEtIABKpynhId+KA/xdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo1-f72.google.com with SMTP id 006d021491bc7-679a47a1febso68808817eaf.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 10 Mar 2026 02:40:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773135604; x=1773740404;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=i8Z0gVF0uPQ8qNSugfsMNVMLQ4iv7U/CKd+gpIjRAX8=;
+        b=PWRoM6sYRCM7mSLcxMvCP+rPOYkt3d96G6GbjkUb061newzwXna4m5ZX0Ptn8ZnZrv
+         1ngAk8s3rJjGdrP/QMl5p5A0wiaiO4UaBUw5kfBxZdM7vF+9sZapMP0+lXRHJTg7ty8h
+         JwztTl9NDEX01b2SU7hmfRG1efawAHm+pCZTxAC/OWdK7dmnC/x53kYoD9TIs8Endd/Q
+         jZKaCGbdS4hdZbWL6xo0crMd2fEPxs9jjK+S3mUAq7PmXBHjZ2huek/y9W6KpE+4GbzG
+         6TFRggX1UsFZ4hVP8QkA2JNzqpQoSLPrFs2RAemRm5VZ2NlNz4kva3lg3KNHbd6qlywT
+         gWng==
+X-Forwarded-Encrypted: i=1; AJvYcCWvoB+/IhE4n9/culOmVx6miqbhgsfX/JV6INVzHY5EIvTYc7jqcXTAKxf65Kym68itS5rYR7NYJACyvICy@vger.kernel.org
+X-Gm-Message-State: AOJu0YxaKt1ut3GDrxqn7zLEJNviwxkJg5tr6OhcAI0G7MwzMmAlKlBf
+	R5mVRgAH1my4e1tx7GrYOIGpCDe+cxwSJESutZsLZ4Qu9/HwDNg95D7RYpDSQBz5p5UEg1yPln3
+	/YqXy5XZK2gMRBnh12DUuSAjUPrTumfFH5Gqp8Jr8YTHY3KEnSDyJ36mvlxE=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260309192355.176980-11-aalbersh@kernel.org>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+X-Received: by 2002:a05:6820:3102:b0:66f:c72c:7c7 with SMTP id
+ 006d021491bc7-67b9bca8899mr9412099eaf.18.1773135603949; Tue, 10 Mar 2026
+ 02:40:03 -0700 (PDT)
+Date: Tue, 10 Mar 2026 02:40:03 -0700
+In-Reply-To: <aa_R-6SdHYBBkQX-@hyeyoo>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <69afe6f3.050a0220.310d8.0038.GAE@google.com>
+Subject: Re: [syzbot] [mm?] [f2fs?] [exfat?] memory leak in __kfree_rcu_sheaf
+From: syzbot <syzbot+cae7809e9dc1459e4e63@syzkaller.appspotmail.com>
+To: akpm@linux-foundation.org, catalin.marinas@arm.com, chao@kernel.org, 
+	hao.li@linux.dev, harry.yoo@oracle.com, jaegeuk@kernel.org, jannh@google.com, 
+	liam.howlett@oracle.com, linkinjeon@kernel.org, 
+	linux-f2fs-devel@lists.sourceforge.net, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, lorenzo.stoakes@oracle.com, 
+	pfalcato@suse.de, sj1557.seo@samsung.com, syzkaller-bugs@googlegroups.com, 
+	vbabka@kernel.org, vbabka@suse.cz, wangqing7171@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Mar 09, 2026 at 08:23:25PM +0100, Andrey Albershteyn wrote:
-> +		/*
-> +		 * Handling of fsverity "holes". We hit this for two case:
-> +		 *   1. No need to go further, the hole after fsverity
-> +		 *	descriptor is the end of the fsverity metadata.
-> +		 *
-> +		 *   2. This folio contains merkle tree blocks which need to be
-> +		 *	synthesized. If we already have fsverity info (ctx->vi)
-> +		 *	synthesize these blocks.
-> +		 */
-> +		if ((iomap->flags & IOMAP_F_FSVERITY) &&
-> +		    iomap->type == IOMAP_HOLE) {
-> +			/*
-> +			 * Don't cause lookup if we already have fsverity
-> +			 * context from the previous tree hole
-> +			 */
-> +			if (!ctx->vi)
-> +				ctx->vi = fsverity_get_info(iter->inode);
+Hello,
 
-This makes the ctx->vi rules really weird, as it;s only set for
-the file data initially, but can later get set here for reading the
-fsverity data.  I think it might be better to just always set it in
-the higher level code if fsveirty is active, and then document how
-our rules subtly differ from ext4/f2fs.
+syzbot has tested the proposed patch but the reproducer is still triggering an issue:
+memory leak in __kthread_create_on_node
+
+BUG: memory leak
+unreferenced object 0xffff88811351d1b0 (size 16):
+  comm "syz.0.38", pid 7021, jiffies 4294948268
+  hex dump (first 16 bytes):
+    66 32 66 73 5f 66 6c 75 73 68 2d 37 3a 30 00 00  f2fs_flush-7:0..
+  backtrace (crc 73f9c04e):
+    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
+    slab_post_alloc_hook mm/slub.c:4548 [inline]
+    slab_alloc_node mm/slub.c:4870 [inline]
+    __do_kmalloc_node mm/slub.c:5263 [inline]
+    __kmalloc_node_track_caller_noprof+0x3e0/0x5d0 mm/slub.c:5372
+    kvasprintf+0x6e/0xf0 lib/kasprintf.c:25
+    __kthread_create_on_node+0x9e/0x1c0 kernel/kthread.c:491
+    kthread_create_on_node+0x73/0xa0 kernel/kthread.c:559
+    f2fs_create_flush_cmd_control+0x178/0x200 fs/f2fs/segment.c:707
+    f2fs_build_segment_manager+0x212/0x3630 fs/f2fs/segment.c:5734
+    f2fs_fill_super+0x14b1/0x3c20 fs/f2fs/super.c:5140
+    get_tree_bdev_flags+0x1c0/0x290 fs/super.c:1694
+    vfs_get_tree+0x30/0x120 fs/super.c:1754
+    fc_mount fs/namespace.c:1193 [inline]
+    do_new_mount_fc fs/namespace.c:3763 [inline]
+    do_new_mount fs/namespace.c:3839 [inline]
+    path_mount+0x5a9/0x1360 fs/namespace.c:4159
+    do_mount fs/namespace.c:4172 [inline]
+    __do_sys_mount fs/namespace.c:4361 [inline]
+    __se_sys_mount fs/namespace.c:4338 [inline]
+    __x64_sys_mount+0x1a3/0x1e0 fs/namespace.c:4338
+    do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+    do_syscall_64+0xe2/0xf80 arch/x86/entry/syscall_64.c:94
+    entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+BUG: memory leak
+unreferenced object 0xffff88810b6a4700 (size 4544):
+  comm "kthreadd", pid 2, jiffies 4294948268
+  hex dump (first 32 bytes):
+    04 00 08 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    00 00 00 00 01 00 00 00 80 00 00 00 00 00 00 00  ................
+  backtrace (crc 71339aaa):
+    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
+    slab_post_alloc_hook mm/slub.c:4548 [inline]
+    slab_alloc_node mm/slub.c:4870 [inline]
+    kmem_cache_alloc_node_noprof+0x373/0x4d0 mm/slub.c:4922
+    alloc_task_struct_node kernel/fork.c:185 [inline]
+    dup_task_struct kernel/fork.c:916 [inline]
+    copy_process+0x286/0x28c0 kernel/fork.c:2050
+    kernel_clone+0xac/0x6e0 kernel/fork.c:2654
+    kernel_thread+0x80/0xb0 kernel/fork.c:2715
+    create_kthread kernel/kthread.c:459 [inline]
+    kthreadd+0x186/0x250 kernel/kthread.c:817
+    ret_from_fork+0x23c/0x4b0 arch/x86/kernel/process.c:158
+    ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+BUG: memory leak
+unreferenced object 0xffff888109f45f00 (size 184):
+  comm "kthreadd", pid 2, jiffies 4294948268
+  hex dump (first 32 bytes):
+    02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  backtrace (crc 5ee6cb00):
+    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
+    slab_post_alloc_hook mm/slub.c:4548 [inline]
+    slab_alloc_node mm/slub.c:4870 [inline]
+    kmem_cache_alloc_noprof+0x372/0x480 mm/slub.c:4877
+    prepare_creds+0x22/0x600 kernel/cred.c:185
+    copy_creds+0x44/0x290 kernel/cred.c:286
+    copy_process+0x7a7/0x28c0 kernel/fork.c:2084
+    kernel_clone+0xac/0x6e0 kernel/fork.c:2654
+    kernel_thread+0x80/0xb0 kernel/fork.c:2715
+    create_kthread kernel/kthread.c:459 [inline]
+    kthreadd+0x186/0x250 kernel/kthread.c:817
+    ret_from_fork+0x23c/0x4b0 arch/x86/kernel/process.c:158
+    ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+BUG: memory leak
+unreferenced object 0xffff8881096f8240 (size 32):
+  comm "kthreadd", pid 2, jiffies 4294948268
+  hex dump (first 32 bytes):
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    f8 6e 0a 00 81 88 ff ff 00 00 00 00 00 00 00 00  .n..............
+  backtrace (crc 13ba6aa5):
+    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
+    slab_post_alloc_hook mm/slub.c:4548 [inline]
+    slab_alloc_node mm/slub.c:4870 [inline]
+    __do_kmalloc_node mm/slub.c:5263 [inline]
+    __kmalloc_noprof+0x3bd/0x560 mm/slub.c:5276
+    kmalloc_noprof include/linux/slab.h:954 [inline]
+    kzalloc_noprof include/linux/slab.h:1188 [inline]
+    lsm_blob_alloc+0x4d/0x80 security/security.c:192
+    lsm_cred_alloc security/security.c:209 [inline]
+    security_prepare_creds+0x2d/0x290 security/security.c:2763
+    prepare_creds+0x395/0x600 kernel/cred.c:215
+    copy_creds+0x44/0x290 kernel/cred.c:286
+    copy_process+0x7a7/0x28c0 kernel/fork.c:2084
+    kernel_clone+0xac/0x6e0 kernel/fork.c:2654
+    kernel_thread+0x80/0xb0 kernel/fork.c:2715
+    create_kthread kernel/kthread.c:459 [inline]
+    kthreadd+0x186/0x250 kernel/kthread.c:817
+    ret_from_fork+0x23c/0x4b0 arch/x86/kernel/process.c:158
+    ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+BUG: memory leak
+unreferenced object 0xffff888125626e40 (size 192):
+  comm "kthreadd", pid 2, jiffies 4294948268
+  hex dump (first 32 bytes):
+    02 00 00 00 00 00 00 00 00 00 00 00 ff ff ff ff  ................
+    01 00 00 00 00 00 00 00 60 4a 8a 82 ff ff ff ff  ........`J......
+  backtrace (crc 3a1ec858):
+    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
+    slab_post_alloc_hook mm/slub.c:4548 [inline]
+    slab_alloc_node mm/slub.c:4870 [inline]
+    __kmalloc_cache_noprof+0x377/0x480 mm/slub.c:5379
+    kmalloc_noprof include/linux/slab.h:950 [inline]
+    kzalloc_noprof include/linux/slab.h:1188 [inline]
+    set_kthread_struct+0x58/0x150 kernel/kthread.c:107
+    copy_process+0x15b8/0x28c0 kernel/fork.c:2152
+    kernel_clone+0xac/0x6e0 kernel/fork.c:2654
+    kernel_thread+0x80/0xb0 kernel/fork.c:2715
+    create_kthread kernel/kthread.c:459 [inline]
+    kthreadd+0x186/0x250 kernel/kthread.c:817
+    ret_from_fork+0x23c/0x4b0 arch/x86/kernel/process.c:158
+    ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+BUG: memory leak
+unreferenced object 0xffff88812cb53700 (size 64):
+  comm "kthreadd", pid 2, jiffies 4294948268
+  hex dump (first 32 bytes):
+    20 09 d5 89 ff ff ff ff 00 00 00 00 00 00 00 00   ...............
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  backtrace (crc e7a33bad):
+    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
+    slab_post_alloc_hook mm/slub.c:4548 [inline]
+    slab_alloc_node mm/slub.c:4870 [inline]
+    __do_kmalloc_node mm/slub.c:5263 [inline]
+    __kmalloc_noprof+0x3bd/0x560 mm/slub.c:5276
+    kmalloc_noprof include/linux/slab.h:954 [inline]
+    kzalloc_noprof include/linux/slab.h:1188 [inline]
+    lsm_blob_alloc+0x4d/0x80 security/security.c:192
+    lsm_task_alloc security/security.c:244 [inline]
+    security_task_alloc+0x2a/0x260 security/security.c:2682
+    copy_process+0xedf/0x28c0 kernel/fork.c:2205
+    kernel_clone+0xac/0x6e0 kernel/fork.c:2654
+    kernel_thread+0x80/0xb0 kernel/fork.c:2715
+    create_kthread kernel/kthread.c:459 [inline]
+    kthreadd+0x186/0x250 kernel/kthread.c:817
+    ret_from_fork+0x23c/0x4b0 arch/x86/kernel/process.c:158
+    ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+BUG: memory leak
+unreferenced object 0xffff88810b507180 (size 1152):
+  comm "kthreadd", pid 2, jiffies 4294948268
+  hex dump (first 32 bytes):
+    01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    90 71 50 0b 81 88 ff ff 90 71 50 0b 81 88 ff ff  .qP......qP.....
+  backtrace (crc ef1916d7):
+    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
+    slab_post_alloc_hook mm/slub.c:4548 [inline]
+    slab_alloc_node mm/slub.c:4870 [inline]
+    kmem_cache_alloc_noprof+0x372/0x480 mm/slub.c:4877
+    copy_signal kernel/fork.c:1700 [inline]
+    copy_process+0x10da/0x28c0 kernel/fork.c:2220
+    kernel_clone+0xac/0x6e0 kernel/fork.c:2654
+    kernel_thread+0x80/0xb0 kernel/fork.c:2715
+    create_kthread kernel/kthread.c:459 [inline]
+    kthreadd+0x186/0x250 kernel/kthread.c:817
+    ret_from_fork+0x23c/0x4b0 arch/x86/kernel/process.c:158
+    ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+connection error: failed to recv *flatrpc.ExecutorMessageRawT: EOF
+
+
+Tested on:
+
+commit:         1f318b96 Linux 7.0-rc3
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=1751f8d6580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=2c6ad6fefffa76b1
+dashboard link: https://syzkaller.appspot.com/bug?extid=cae7809e9dc1459e4e63
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+patch:          https://syzkaller.appspot.com/x/patch.diff?x=10def8d6580000
 
