@@ -1,76 +1,49 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E12232C08AD
-	for <linux-fsdevel@vger.kernel.org>; Tue, 10 Mar 2026 01:40:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA7982BE02C;
+	Tue, 10 Mar 2026 01:44:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773106837; cv=none; b=AZPCyBXbdkeiSTG3f2mc7tqjV1qDjP0i731grTMfl/LeLfx0rCP/FgxY1IILpMvukrB4ZCvwR5v/y7HPvztJFn7d4DbjkIh5+637MSwjaSMh+pRxGtog5sCz4orRrBBKdNT2mWYverf2YJ3b+1DJ/ERfdVIe4k4/Lucvptrg7Lw=
+	t=1773107102; cv=none; b=QRm32Sl9IHIZ9vQCZVuWSpGmWMZXDRaZmmSlO+yD1WTpWMxeQfAKXvaWvUBiuNf77iuUTESc+hQPlbLwgZBmA+5o2r641R6pbwTq819WU0tnGX6A6u6Wnjz7mUK/YeS0h7OIN22dHWjwqodlQikEWeBb/nPgYvM5nJ1aithQEY4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773106837; c=relaxed/simple;
-	bh=LGOHe3Q+N2DXozexMFe9YNC2S+lxzgYRIp9kDlu0v4M=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cwJjjSpVMndTZzYVSnmNxMapn2NtdMnziy7YAX/4WygkgPihlk8JkuuqWoZM1JQW5k2QVsIjxijHGP5c0mYVVyOJSJcwZdp8fOe/P7ZmMhED1oJZQVPnDvTq4yzU0cvptF/oPrqdE0CHkkFv4hrca21DhHdP12TRF4dnBTZBKa0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hev.cc; spf=pass smtp.mailfrom=hev.cc; dkim=pass (2048-bit key) header.d=hev-cc.20230601.gappssmtp.com header.i=@hev-cc.20230601.gappssmtp.com header.b=ICzd4zPg; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hev.cc
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hev.cc
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hev-cc.20230601.gappssmtp.com header.i=@hev-cc.20230601.gappssmtp.com header.b="ICzd4zPg"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2ae5636ab04so89627085ad.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 09 Mar 2026 18:40:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=hev-cc.20230601.gappssmtp.com; s=20230601; t=1773106834; x=1773711634; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=a7694XZeCof+FdxT7qTthMncnpG5NN0vfJefAJSmmkg=;
-        b=ICzd4zPgWKgEQ/T/amfiFSzEb0GsSb0DhDWwKJ4j7gAuN1ab+43OPdH1DxidFZJ/vb
-         SciPe5NxY1Cji/RcL6YjLn/FBPkPRa8H2pmvBoyYb/ilfMHFPf3nze5hZ0IgX8vSvd1A
-         koEFzTa/Cuyp5HW/55ScCd1JXvKcwIJ0GVkOE1VJbuSqvCS2rAse6xIAUR6+AuU+Y90K
-         zIrTtlGkzziIzVIpAp5xwoFteMRn+1LZbL+5JFk+wyRD9OWEReh8WYbCNaFTfSyCRkym
-         kRyZz9YMJGz00Ed1phPtU/+w7ZerACwDctRIv6FU/oTDCX35n+iZEANYnbypRl0eTSrv
-         yIwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773106834; x=1773711634;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=a7694XZeCof+FdxT7qTthMncnpG5NN0vfJefAJSmmkg=;
-        b=g2Zo/I69WELwfUKhBiw+ISvz877MyOBVwBpMtcI8yAS6LUdCUAhddU7f9mxqrz/lbS
-         2JKR9ivvNcl9I3oc9X+k9lshMq4NnoQehMXxhGmOUAkupQKkucgs8MCW2OAFExdS47yG
-         MIrqA47mifMovOIO4ohfF33kebFKh+PlQvKPofeXChKV1ufuC6XXNFnyab59h3zHgNan
-         aNqrVY+OhRiG/7fIVTHXuSlVcifWNexUZJ9DvN/wJL2A+Zv9Yc6Vg6jXaDadql8uGkQc
-         LcPuIJK0RGAtDnMq+6WVuJ0b8cg09K7D66CRzsGWsR5SWQ81aHhtl5i58nDkgLH7Qs6W
-         8nTQ==
-X-Gm-Message-State: AOJu0Yxi98y873ZxpyliD0W+8xIKrAgs6uQipXMoBhz8ixFIuVIbWyyn
-	o0RZ2biV8ZtDwg6raEO2O20skiY87YS6/S0QpE2rT7b+PTkzZB6S1pMU43Z/KGuNdPdOe6RGDPW
-	4rkUb2vQ=
-X-Gm-Gg: ATEYQzwD44pmfq4la/vRCf7D8etOdHJQNkLRs6t5sCBMR7L3584hCmaf8f3Fy+5NbwE
-	+sYVDijDHQEq0YXO0ZrqLUENDvavRMHj0QPpkcKil0+vmbakI5gfYZB37epUFXQHMmtgML5Dncf
-	nuLCza46HBlVS2U7wueKbYy3MfnYDiOzKG0nXxsCPWPjP0zoThlci1ehhemGluxCX86VtjJEGqY
-	aMkU4PC3ZtioKuQLS/k8kZfGOo3anmeD2VJxWKGFar1tZ+O3HQaQ/tCna0J/GFLP05m8Ss1pQYX
-	MOEGW++VQYo1wLShBnY9LoCyJCXC9ZU9t+kUrj1owSSEJoYiQicPwrSWbUQOCrF+AnUETD7jlKS
-	1oO5so2I8/Dj+ANal6q1iGuxG4pSBciiiaFxwtCqVuvzWp+oniOcmAYhUDdVqoK0e2QJIj1HVyJ
-	Tgt3vYmQUO
-X-Received: by 2002:a17:903:1968:b0:2ae:8062:8362 with SMTP id d9443c01a7336-2ae82266d9fmr126325985ad.0.1773106834233;
-        Mon, 09 Mar 2026 18:40:34 -0700 (PDT)
-Received: from localhost ([2400:8902:e002:de08:5754:7dac:85df:935a])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2aea3d26565sm6966515ad.2.2026.03.09.18.40.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Mar 2026 18:40:33 -0700 (PDT)
-From: WANG Rui <r@hev.cc>
-To: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Kees Cook <kees@kernel.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	"David Hildenbrand (Arm)" <david@kernel.org>
+	s=arc-20240116; t=1773107102; c=relaxed/simple;
+	bh=vJ32tUAUEfcZ5ZyTll1vYBEUPWvc2om6F4OlyCMMZOw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=KUc+Ng//RO4HQ+3/IXYYhZlSQWOiwZ9ubjpKbI87V6Xw5L7T1SKCRNnDaoc5DU16+bH13fjSB1vNJlAUQ10ppntsbuBbMar+0lYLs1baO5vl6DUuvbfFIdrsWWpLUOrF8fL253I3lzS+hOKx816R8+2AULxySvLGTKmP4zumWiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.198])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4fVGs70RTKzKHMgj;
+	Tue, 10 Mar 2026 09:44:43 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.112])
+	by mail.maildlp.com (Postfix) with ESMTP id 982EE4057C;
+	Tue, 10 Mar 2026 09:44:57 +0800 (CST)
+Received: from huaweicloud.com (unknown [10.50.85.155])
+	by APP1 (Coremail) with SMTP id cCh0CgB3edmQd69pXNliAQ--.11692S5;
+	Tue, 10 Mar 2026 09:44:57 +0800 (CST)
+From: Zhang Yi <yi.zhang@huaweicloud.com>
+To: linux-ext4@vger.kernel.org
 Cc: linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org,
-	WANG Rui <r@hev.cc>
-Subject: [PATCH v3] binfmt_elf: Align eligible read-only PT_LOAD segments to PMD_SIZE for THP
-Date: Tue, 10 Mar 2026 09:39:58 +0800
-Message-ID: <20260310013958.103636-1-r@hev.cc>
-X-Mailer: git-send-email 2.53.0
+	tytso@mit.edu,
+	adilger.kernel@dilger.ca,
+	jack@suse.cz,
+	ojaswin@linux.ibm.com,
+	ritesh.list@gmail.com,
+	libaokun@linux.alibaba.com,
+	yi.zhang@huawei.com,
+	yi.zhang@huaweicloud.com,
+	yizhang089@gmail.com,
+	yangerkun@huawei.com,
+	yukuai@fnnas.com
+Subject: [PATCH 01/10] ext4: add did_zero output parameter to ext4_block_zero_page_range()
+Date: Tue, 10 Mar 2026 09:40:52 +0800
+Message-ID: <20260310014101.4140698-2-yi.zhang@huaweicloud.com>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260310014101.4140698-1-yi.zhang@huaweicloud.com>
+References: <20260310014101.4140698-1-yi.zhang@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -78,127 +51,120 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:cCh0CgB3edmQd69pXNliAQ--.11692S5
+X-Coremail-Antispam: 1UD129KBjvJXoWxCF17XryxJF1rtF17KryUWrg_yoW5uF45pr
+	y5t345ur47u34q9F4xWF1jvr1Skwn3GFW8W3y3G3sYv3yIq3WxKF95K3ZYvF4jg3y7Xay0
+	qF4Yy3y2gw1UArJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUm014x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jr4l82xGYIkIc2
+	x26xkF7I0E14v26r4j6ryUM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
+	Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJw
+	A2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS
+	0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2
+	IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0
+	Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kIc2
+	xKxwCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWU
+	JVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67
+	kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY
+	6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0x
+	vEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVj
+	vjDU0xZFpf9x0JUfKs8UUUUU=
+X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 
-When Transparent Huge Pages (THP) are enabled in "always" mode,
-file-backed read-only mappings can be backed by PMD-sized huge pages
-if they meet the alignment and size requirements.
+From: Zhang Yi <yi.zhang@huawei.com>
 
-For ELF executables loaded by the kernel ELF binary loader, PT_LOAD
-segments are normally aligned according to p_align, which is often
-only page-sized. As a result, large read-only segments that are
-otherwise eligible may fail to be mapped using PMD-sized THP.
+Add a bool *did_zero output parameter to ext4_block_zero_page_range()
+and __ext4_block_zero_page_range(). The parameter reports whether a
+partial block was zeroed out, which is needed for the upcoming iomap
+buffered I/O conversion.
 
-A segment is considered eligible if:
-
-* THP is in "always" mode,
-* it is not writable,
-* both p_vaddr and p_offset are PMD-aligned,
-* its file size is at least PMD_SIZE, and
-* its existing p_align is smaller than PMD_SIZE.
-
-To avoid excessive address space padding on systems with very large
-PMD_SIZE values, this optimization is applied only when PMD_SIZE <= 32MB,
-since requiring larger alignments would be unreasonable, especially on
-32-bit systems with a much more limited virtual address space.
-
-This increases the likelihood that large text segments of ELF
-executables are backed by PMD-sized THP, reducing TLB pressure and
-improving performance for large binaries.
-
-This only affects ELF executables loaded directly by the kernel
-binary loader. Shared libraries loaded by user space (e.g. via the
-dynamic linker) are not affected.
-
-Benchmark
-
-Machine: AMD Ryzen 9 7950X (x86_64)
-Binutils: 2.46
-GCC: 15.2.1 (built with -z,noseparate-code + --enable-host-pie)
-
-Workload: building Linux v7.0-rc1 vmlinux with x86_64_defconfig.
-
-                Without patch        With patch
-instructions    8,246,133,611,932    8,246,025,137,750
-cpu-cycles      8,001,028,142,928    7,565,925,107,502
-itlb-misses     3,672,158,331        26,821,242
-time elapsed    64.66 s              61.97 s
-
-Instructions are basically unchanged. iTLB misses drop from ~3.67B to
-~26M (~99.27% reduction), which results in about a ~5.44% reduction in
-cycles and ~4.18% shorter wall time for this workload.
-
-Signed-off-by: WANG Rui <r@hev.cc>
+Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
 ---
-Changes since [v2]:
-* Renamed align_to_pmd() to should_align_to_pmd().
-* Added benchmark results to the commit message.
+ fs/ext4/inode.c | 23 ++++++++++++++---------
+ 1 file changed, 14 insertions(+), 9 deletions(-)
 
-Changes since [v1]:
-* Dropped the Kconfig option CONFIG_ELF_RO_LOAD_THP_ALIGNMENT.
-* Moved the alignment logic into a helper align_to_pmd() for clarity.
-* Improved the comment explaining why we skip the optimization
-  when PMD_SIZE > 32MB.
-
-[v2]: https://lore.kernel.org/linux-fsdevel/20260304114727.384416-1-r@hev.cc
-[v1]: https://lore.kernel.org/linux-fsdevel/20260302155046.286650-1-r@hev.cc
----
- fs/binfmt_elf.c | 29 +++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
-
-diff --git a/fs/binfmt_elf.c b/fs/binfmt_elf.c
-index fb857faaf0d6..a0d679c31ede 100644
---- a/fs/binfmt_elf.c
-+++ b/fs/binfmt_elf.c
-@@ -28,6 +28,7 @@
- #include <linux/highuid.h>
- #include <linux/compiler.h>
- #include <linux/highmem.h>
-+#include <linux/huge_mm.h>
- #include <linux/hugetlb.h>
- #include <linux/pagemap.h>
- #include <linux/vmalloc.h>
-@@ -489,6 +490,30 @@ static int elf_read(struct file *file, void *buf, size_t len, loff_t pos)
- 	return 0;
+diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
+index 396dc3a5d16b..1e037a314dab 100644
+--- a/fs/ext4/inode.c
++++ b/fs/ext4/inode.c
+@@ -4003,7 +4003,8 @@ void ext4_set_aops(struct inode *inode)
+  * racing writeback can come later and flush the stale pagecache to disk.
+  */
+ static int __ext4_block_zero_page_range(handle_t *handle,
+-		struct address_space *mapping, loff_t from, loff_t length)
++		struct address_space *mapping, loff_t from, loff_t length,
++		bool *did_zero)
+ {
+ 	unsigned int offset, blocksize, pos;
+ 	ext4_lblk_t iblock;
+@@ -4091,6 +4092,8 @@ static int __ext4_block_zero_page_range(handle_t *handle,
+ 			err = ext4_jbd2_inode_add_write(handle, inode, from,
+ 					length);
+ 	}
++	if (!err && did_zero)
++		*did_zero = true;
+ 
+ unlock:
+ 	folio_unlock(folio);
+@@ -4106,7 +4109,8 @@ static int __ext4_block_zero_page_range(handle_t *handle,
+  * that corresponds to 'from'
+  */
+ static int ext4_block_zero_page_range(handle_t *handle,
+-		struct address_space *mapping, loff_t from, loff_t length)
++		struct address_space *mapping, loff_t from, loff_t length,
++		bool *did_zero)
+ {
+ 	struct inode *inode = mapping->host;
+ 	unsigned blocksize = inode->i_sb->s_blocksize;
+@@ -4120,10 +4124,11 @@ static int ext4_block_zero_page_range(handle_t *handle,
+ 		length = max;
+ 
+ 	if (IS_DAX(inode)) {
+-		return dax_zero_range(inode, from, length, NULL,
++		return dax_zero_range(inode, from, length, did_zero,
+ 				      &ext4_iomap_ops);
+ 	}
+-	return __ext4_block_zero_page_range(handle, mapping, from, length);
++	return __ext4_block_zero_page_range(handle, mapping, from, length,
++					    did_zero);
  }
  
-+static inline bool should_align_to_pmd(const struct elf_phdr *cmd)
-+{
-+	/*
-+	 * Avoid excessive virtual address space padding when PMD_SIZE is very
-+	 * large (e.g. some 64K base-page configurations).
-+	 */
-+	if (PMD_SIZE > SZ_32M)
-+		return false;
-+
-+	if (!hugepage_global_always())
-+		return false;
-+
-+	if (!IS_ALIGNED(cmd->p_vaddr | cmd->p_offset, PMD_SIZE))
-+		return false;
-+
-+	if (cmd->p_filesz < PMD_SIZE)
-+		return false;
-+
-+	if (cmd->p_flags & PF_W)
-+		return false;
-+
-+	return true;
-+}
-+
- static unsigned long maximum_alignment(struct elf_phdr *cmds, int nr)
- {
- 	unsigned long alignment = 0;
-@@ -501,6 +526,10 @@ static unsigned long maximum_alignment(struct elf_phdr *cmds, int nr)
- 			/* skip non-power of two alignments as invalid */
- 			if (!is_power_of_2(p_align))
- 				continue;
-+
-+			if (should_align_to_pmd(&cmds[i]) && p_align < PMD_SIZE)
-+				p_align = PMD_SIZE;
-+
- 			alignment = max(alignment, p_align);
- 		}
+ /*
+@@ -4146,7 +4151,7 @@ static int ext4_block_truncate_page(handle_t *handle,
+ 	blocksize = i_blocksize(inode);
+ 	length = blocksize - (from & (blocksize - 1));
+ 
+-	return ext4_block_zero_page_range(handle, mapping, from, length);
++	return ext4_block_zero_page_range(handle, mapping, from, length, NULL);
+ }
+ 
+ int ext4_zero_partial_blocks(handle_t *handle, struct inode *inode,
+@@ -4169,13 +4174,13 @@ int ext4_zero_partial_blocks(handle_t *handle, struct inode *inode,
+ 	if (start == end &&
+ 	    (partial_start || (partial_end != sb->s_blocksize - 1))) {
+ 		err = ext4_block_zero_page_range(handle, mapping,
+-						 lstart, length);
++						 lstart, length, NULL);
+ 		return err;
  	}
+ 	/* Handle partial zero out on the start of the range */
+ 	if (partial_start) {
+-		err = ext4_block_zero_page_range(handle, mapping,
+-						 lstart, sb->s_blocksize);
++		err = ext4_block_zero_page_range(handle, mapping, lstart,
++						 sb->s_blocksize, NULL);
+ 		if (err)
+ 			return err;
+ 	}
+@@ -4183,7 +4188,7 @@ int ext4_zero_partial_blocks(handle_t *handle, struct inode *inode,
+ 	if (partial_end != sb->s_blocksize - 1)
+ 		err = ext4_block_zero_page_range(handle, mapping,
+ 						 byte_end - partial_end,
+-						 partial_end + 1);
++						 partial_end + 1, NULL);
+ 	return err;
+ }
+ 
 -- 
-2.53.0
+2.52.0
 
