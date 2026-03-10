@@ -1,85 +1,77 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3641634D4C1;
-	Tue, 10 Mar 2026 03:42:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D84C320A04;
+	Tue, 10 Mar 2026 03:50:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773114137; cv=none; b=WN9r8Vqfs2LL9d8OHWvwcPgrppDgnqcRMFGugWVe3lABnKhFc/u5BS5tUyNBKN7QT4t/8t75O9/mZ3oHqIEtas07CSdcAw9mIvFEaByJuYSKrBb/fMV0b/NXd6PjG77YpydOMYWBiNum1JCbUFOB8WCCUIjxqgCL5nrDP0Lw1lk=
+	t=1773114608; cv=none; b=lbgA3HO++jF57XmZ7BpHerjPM63kUaa1QcZhScqFLgkjYZ4n8vZSrnh5VJpJKNBkQ2v4ahf6ZQ/GU9opDBKbAP5HLYAwIR+FDWWt8n/3AvqjmJMXUso1b94vpq2tis2pSjpt3qWB8QT2TirxomuJ7hCC3Fz/pdH0qYZNKx9qvqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773114137; c=relaxed/simple;
-	bh=SO04fnJ9dXwEdmsIdaIovUzM5+Jv2Bc7nR4LTEdp6QY=;
-	h=Date:Subject:From:To:Cc:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Ghwp3r+BS7jX84Ya32dv2TMrBXjzQ7K5c5y2+SdxiBNOV+631mhJ3a4tw38nIay8YvmhUsA5WwPegZMnhtvODr4hniqTWSsHAT2NnG/IIR9I0iYhbdcl/4/JJq0V/xsaVsIZ8NOpJThUCFQGXbg0ScMpyX/zjXi0pCLh0SpBosc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EGh4UJxZ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773114608; c=relaxed/simple;
+	bh=08NZ+Tw3qv920gOa8hGaCxOPb1fEcvIi2et2+XzIvGs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lgT1wLFGr5HFaroFekNusA1jiLVR48D26uUpqxPrz9WS4eyhy2X/bEwBPoYNOkQ/EMHINvRzLkQfCbdzMK9Jctem+rW10lD4BF7q0O+XjESDuIqsqyPuPAH5pdsaqO5wj3I/sn2EYMVIjNSWX4bVY2c7kVoiov2LVDP1s4awXWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=1hDsLUSu; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EGh4UJxZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C06A6C4CEF7;
-	Tue, 10 Mar 2026 03:42:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773114136;
-	bh=SO04fnJ9dXwEdmsIdaIovUzM5+Jv2Bc7nR4LTEdp6QY=;
-	h=Date:Subject:From:To:Cc:In-Reply-To:References:From;
-	b=EGh4UJxZMllxVJc6qsqWFVwlI241p7j0hnVahy9+ZFrtJ/vzH+8UUUbEQht2rDjCK
-	 B0tiq+zIcKg6mHapFi+kzIwwzES6lcIgiJy71ShvQgTXaDTxqyO+uMZ63QpuY8/WOv
-	 2lThLn2FARe/1lQXxdTbQy/bMZ/FIeN80yKjCGmfVRgPhUf2rsc07hFpEB2yzlmpHQ
-	 h+RJNiPyIJf6K1g8jsAKk/wz9lpXG0+dhNfyf3H744BtZMHY1tb2yMQW/r4QiXUMTi
-	 8c+OrmAnNdfemr96VKJ/uIDbGb2wRZXIzhrAT1DG8Ef+lmkiyeVRzvfMn6A0OdxdFO
-	 BQS+n1Wg5DUtQ==
-Date: Mon, 09 Mar 2026 20:42:16 -0700
-Subject: [PATCHSET v9 1/2] fstests: test generic file IO error reporting
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: zlang@redhat.com, djwong@kernel.org
-Cc: jack@suse.cz, fstests@vger.kernel.org, amir73il@gmail.com,
- gabriel@krisman.be, linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org,
- hch@lst.de
-Message-ID: <177311403420.1186306.10503664469609309721.stgit@frogsfrogsfrogs>
-In-Reply-To: <20260310033846.GH1105363@frogsfrogsfrogs>
-References: <20260310033846.GH1105363@frogsfrogsfrogs>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="1hDsLUSu"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=KiMjX/yEqsV4wrwCPAl510Spg1vMYOTtNmsnpLdg4mU=; b=1hDsLUSutu3zoCRG/DUtiK9Ql+
+	XLoB6gmFb1gcuMOeyypHjgFuNCQZoEdJ4Vnwj1NTFng+xH2IxjlP9M768Lbc+qQyplLf71U5l4O2V
+	8a8JERRyRsTm+TPyIwAqppI0wMHZ89J+TMlNd8tcwETugGntIM2OVYf1bYl4MTdpqkq4azpHCQGqd
+	0ab0xOSrxPz97SPtPyIP16Asz08ens9INI1Vv5Z4WDevn67t7GRoXg/1oTV2my4ahJBSv03nbV5AO
+	0g2OwOFrtshqeUCbab5KAjU/aVcLoCVJdwQ/uiiEgfWbIXqdEW8q/7MzKEyDutqP+eCZiPD4aNThY
+	T1hwd4Vw==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vzo6d-00000008gDM-3QBt;
+	Tue, 10 Mar 2026 03:50:03 +0000
+Message-ID: <a1c852e6-85a9-4de2-a6ac-9a100e4a169d@infradead.org>
+Date: Mon, 9 Mar 2026 20:50:02 -0700
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: linux-next: Tree for Mar 9 (ntfs)
+To: Mark Brown <broonie@kernel.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Namjae Jeon <linkinjeon@kernel.org>, Hyunchul Lee <hyc.lee@gmail.com>,
+ Linux Filesystems Development <linux-fsdevel@vger.kernel.org>
+References: <aa8WV_KvEV_TFPPZ@sirena.org.uk>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <aa8WV_KvEV_TFPPZ@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi all,
 
-Refactor the iomap file I/O error handling code so that failures are
-reported in a generic way to fsnotify.  Then connect the XFS health
-reporting to the same fsnotify, and now XFS can notify userspace of
-problems.
 
-v9: tweak fstests per userspace changes; improve attribution of the
-    generic fserror test; fix some bugs pointed out by zorro
+On 3/9/26 11:49 AM, Mark Brown wrote:
+> Hi all,
+> 
+> Changes since 20260306:
+> 
 
-If you're going to start using this code, I strongly recommend pulling
-from my git trees, which are linked below.
+on ARCH=arm (32-bit):
 
-With a bit of luck, this should all go splendidly.
-Comments and questions are, as always, welcome.
+../fs/ntfs/namei.c: In function 'ntfs_test_inode_attr':
+../fs/ntfs/namei.c:813:22: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+  813 |         u64 mft_no = (u64)data;
+      |                      ^
+../fs/ntfs/namei.c: In function 'ntfs_delete':
+../fs/ntfs/namei.c:993:44: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+  993 |                                            (void *)ni->mft_no)) != NULL) {
+      |    
 
---D
 
-kernel git tree:
-https://git.kernel.org/cgit/linux/kernel/git/djwong/xfs-linux.git/log/?h=filesystem-error-reporting
-
-fstests git tree:
-https://git.kernel.org/cgit/linux/kernel/git/djwong/xfstests-dev.git/log/?h=filesystem-error-reporting
----
-Commits in this patchset:
- * generic: test fsnotify filesystem error reporting
----
- common/rc              |   25 ++++++
- doc/group-names.txt    |    1 
- src/Makefile           |    2 
- src/fs-monitor.c       |  153 ++++++++++++++++++++++++++++++++++
- tests/generic/1838     |  214 ++++++++++++++++++++++++++++++++++++++++++++++++
- tests/generic/1838.out |   20 ++++
- 6 files changed, 414 insertions(+), 1 deletion(-)
- create mode 100644 src/fs-monitor.c
- create mode 100755 tests/generic/1838
- create mode 100644 tests/generic/1838.out
+-- 
+~Randy
 
