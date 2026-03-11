@@ -1,172 +1,129 @@
-Received: from mail-ej1-f73.google.com (mail-ej1-f73.google.com [209.85.218.73])
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com [209.85.210.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DE6D3644DE
-	for <linux-fsdevel@vger.kernel.org>; Wed, 11 Mar 2026 09:38:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 322233B6C01
+	for <linux-fsdevel@vger.kernel.org>; Wed, 11 Mar 2026 09:57:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773221932; cv=none; b=BMfIe0Xb1aEaNTDTKEdxxX+9AWYQwjUijoa2mITheoY1qxJp6UQ1l95xmnhUjJVoUs4jJWB6nSHbKL9FlXzlfVkWpwYlm2xTRREUnMypSBOJNmQ0iCqGI4KE8uXC7ByJPuVd1gilgxf7OvAiXOrGNDD3I1bFeMCCg99jhzr7WrI=
+	t=1773223070; cv=none; b=E1XDm06n+35wvjMFdZxxpCQ3HaY1ofVuyKd7sl72miRwIfQ7yI+z0lTiPAHl1K3aOdFkfyY0j5rCTjjvlkwzYOrgcDExTWsA2uxYEJw9tXaGARfFoiqLzVL0M8FrpnFC2eWrpjLhVLzF+QPTh2E/pLNZEZNKWHfcVmTeJ7Z9FiQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773221932; c=relaxed/simple;
-	bh=ceq7ItjI410zJHY9ex/lB3H7siEVATfaO1bldTHFjis=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=Mqr5YngqhWdDDjCitKw/LzFT7I9hGUoRhhOlhj/kgLeNfk06/JzFlEwpEI4QAJ2jPVyOktorxzP9WCbeHvtTDK9C9IfrsUSJ4L7mIO5Nd/tbfzoNMmeRWJ/5VhuFkeldNx9sak5QjjFkOvaB60QQZDxc7hmVgyUiZtmC9aJnD1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=BnNzevha; arc=none smtp.client-ip=209.85.218.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+	s=arc-20240116; t=1773223070; c=relaxed/simple;
+	bh=QTMXuMhWH0Xv53pMrhqo3TWHZJnoVQRRVF9xlJKTYL0=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=fsJLLojLLf/xaO6/BBKCjbcDyKhL9WCvZZ7J7ZW9LL7wZf5jLkMI1ylycWQrx7CF2+TP9hxbB4E9BYkcWNU7WN0YCOrYAUQUXb0F+9ylja3KrUgN5WELT5mlLVsrR9d1vNNT32PKs20JVMxEzfWEGruci5a+xJbl67pJ4LYh+fQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y5cIHHfe; arc=none smtp.client-ip=209.85.210.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="BnNzevha"
-Received: by mail-ej1-f73.google.com with SMTP id a640c23a62f3a-b943a60ee02so470472066b.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 11 Mar 2026 02:38:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y5cIHHfe"
+Received: by mail-pf1-f196.google.com with SMTP id d2e1a72fcca58-8296d553142so3678358b3a.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 11 Mar 2026 02:57:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1773221929; x=1773826729; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RQubQpcCCRw5LR5oprIFTZzoSHmrBMbhMG4Ewb+bDNM=;
-        b=BnNzevhaOLmgv2VG3RJz5MjAMfYffQeX/O07otWuu5Vg3kJ+l8eK/VwR8aD0JHqx0v
-         0GBpWmAirkhFhsFyBUr2+qtsdtvU/Lz7VkN4rbvt52T98j10+k9rEUbNYNi5Rt2KlRij
-         dFrMaZnAsT0/bqy0ITXDFUhyOssdQGYMQejLlmohDF01F4I6EEyWj2S4T0VUqzvhY9O3
-         IviyDvBhD0KWS7EKN5Siyu5lacrKas35yFDnt9cw7pzdUqdhFCkHT1+1l/yRmadDjUpo
-         74N+8NuOP1haXz8kZkdGH/F6OjcC9IZMSl03SJnjQAHciV/kfZCCsJ4JMMHYQLotg7m6
-         aHGg==
+        d=gmail.com; s=20230601; t=1773223069; x=1773827869; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iOemOY3GRBon+h/gNtOxQ4VEEGmdm3FWxbjJem+FfZM=;
+        b=Y5cIHHfeN1BtQRGURItZG2EBlaLOBDCXpZzV23/iWmeNSbtlzmL8JJftkCEuqnmnck
+         0JAjXzg14VV6bI+v7tOy+sb6VKitlptBAiKqSrhBhePra27hU46oAjG8Q8DSeSckSlJb
+         EbZcBQjCFNEUoMlFYFJ3+MeGq6o0UfcyjWMDM4BVxF6xpDvK33B2Y++tPsK374BVPRbR
+         Dhz1Cf4DnVzsvGCO1hfuAKwAgaYgLI+z/mUdVCnjLIepycAgG0kLAXr+Q5ep1JusQoko
+         7N9QZiFLMmBhXb9xbZRsisbSsFeCs5W3KHn3au4OoSGwSZdjkpM37AZU8iXPplerB4En
+         EwKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773221929; x=1773826729;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RQubQpcCCRw5LR5oprIFTZzoSHmrBMbhMG4Ewb+bDNM=;
-        b=rLdVyssPRyI12NojicrYOVbR8Y6YrKC4HOPXyMVOoQpQiqC+RnV6R0Q4z1YnqMjGSC
-         7g2EbHLZF9wUcZHeQz3UdhH67LAFbmId+zEbpuk53jMkseORyZDyH2th2S3+eHFvhAVW
-         4b0hM9tzT0F7BlqK/E098Qm6kLNmVjFHk5jLvxe2NY5SI3zJxt8ZUsGD1jh8exnKwljz
-         YZdbS/5gTTA3sdvxAiUYbRWYnDtWnS8XF1TNgnToIWXOcskYaShLZ8rODFXcvjIKSbqE
-         61liyf5g09WZMWc5TuJZQBqKOoJW063r8XtVAqDTbSYmDEqt+txc6eAogD6gXyHhP1To
-         9W4g==
-X-Forwarded-Encrypted: i=1; AJvYcCVnkaGS55VO4aVTHbEqqWZuj7RsvVAm8cbc8/Rfrh+XgCRlfaMDlG0kY+Vj36f7Xod4bfQPg4DZaZxm9K9S@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyy8swL9VysbFR7WaBbpwJXTrh+fCklEUIJik/BF/vexYxpUiu5
-	ibQ+fN4aShWgAwxCmpIqw+H0lQ2l2d1IWMI1K6kwa6DgmZvZ6zOPH36XFwR9feFCxIQTdO3eWXA
-	TlPtHu1LDKMX6iFVu+g==
-X-Received: from ejja22.prod.google.com ([2002:a17:906:3e96:b0:b8e:ad99:be59])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:906:f592:b0:b87:2abc:4a32 with SMTP id a640c23a62f3a-b972e1d254cmr101140266b.18.1773221928398;
- Wed, 11 Mar 2026 02:38:48 -0700 (PDT)
-Date: Wed, 11 Mar 2026 09:38:45 +0000
-In-Reply-To: <61df6369-333c-430a-bd18-c5b1acae68ea@kernel.org>
+        d=1e100.net; s=20230601; t=1773223069; x=1773827869;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=iOemOY3GRBon+h/gNtOxQ4VEEGmdm3FWxbjJem+FfZM=;
+        b=LkPJrRdi+VNtOcgLVf2cosjHAMS3UD4DBSkXAKF2tXx80mbgnznGCoAlX/1SR9Jn6I
+         EXLU/1C4zpputtBMFAPE4v/3c3Fyk5+X1q5c8yiOEImp1OGyA/hGMih4VTB1LQtXMVSS
+         L1UXXQF1JS1PDGgF+F5oAXII+D0r4dXZfh1qbqqk8BHey7YYz/otOns0oq4wBndXr057
+         +faV8fhgmi9xgP37qN0nocP7ieFgO4vxbse+1BQjlUXEMi8ItEBjdCGlWZGJE6zuM6+u
+         nv2IGe2mNLow54Y1WmW1DT0PxuyEUB/1JlBsnB3i1yIO7hg9LGWeBN9zL0NrpyYBSF7w
+         7H1Q==
+X-Forwarded-Encrypted: i=1; AJvYcCW4t7ESB5J//hACtG8apllWiyqiFnOB44HVo9V5/ESTAzbMXr/RDc8tNOioeDeIXct+mmn0AUP30ojd8utF@vger.kernel.org
+X-Gm-Message-State: AOJu0YxOW3bzGcsTb9XB7iExm2os++GIhTm1PCWEO8sha7dLDieH9cYW
+	MCpU5UbFI324pFjOpw7/rSnZJpCsGNRSkd6hyn4RN1vVmYgK1S5DX2Wz
+X-Gm-Gg: ATEYQzxSQTm72YtrDavWW1qCQrZrqjNNwH/zjeo8HpbK7XkvpZRrojAksPLr8yXSm8m
+	6utzg/iJKvnjkhBg8KGMlsLxsnS/rwrL+2/m/64TCAH1yXOs5P3k9Sc0wTU4GQ8iSwJXt7Z/EMH
+	IkICYklpe3O+Nuo1awCE0nvh+1bQ/Nk/kR0XluUysceUUgMaFGgCYIf6dW1/mP4IEP8oyJQhsXc
+	FrZYWbirFxbNSlw9up8ih01gJKyHdnM8pJne3ncKW30FhmIACw72A8pNvsPgOd+wozajWOCPZcQ
+	gXnWYN1q82luTPGBg/Q85uttSgFc6fwyHoLtFKsRf5kMhy2p+8HvQj7YgicDTNmrofHC3OrwWNB
+	DXqsauhnajYwLa5f37zKRbkAqs+/6LwXwYmIXl0aNMKLkSQjAnaeHsszW+36BtK0qJy3yB3YGGo
+	lgX/wd0diotw9CibKDMrXh+3B9EiXr1Sqc6Atcw9OOzPhHqtI0Xid0ZwFfN+MB
+X-Received: by 2002:a05:6a00:1304:b0:81f:3fbd:ccf with SMTP id d2e1a72fcca58-829f7094b3bmr1933452b3a.23.1773223068600;
+        Wed, 11 Mar 2026 02:57:48 -0700 (PDT)
+Received: from lima-ubuntu.hz.ali.com ([47.246.98.213])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-829f6dc83cfsm1799712b3a.7.2026.03.11.02.57.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Mar 2026 02:57:48 -0700 (PDT)
+From: Qing Wang <wangqing7171@gmail.com>
+To: syzbot+cae7809e9dc1459e4e63@syzkaller.appspotmail.com
+Cc: Liam.Howlett@oracle.com,
+	akpm@linux-foundation.org,
+	chao@kernel.org,
+	jaegeuk@kernel.org,
+	jannh@google.com,
+	linkinjeon@kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	lorenzo.stoakes@oracle.com,
+	pfalcato@suse.de,
+	sj1557.seo@samsung.com,
+	syzkaller-bugs@googlegroups.com,
+	vbabka@suse.cz
+Subject: Re: [syzbot] [mm?] [f2fs?] [exfat?] memory leak in __kfree_rcu_sheaf
+Date: Wed, 11 Mar 2026 17:57:38 +0800
+Message-Id: <20260311095738.4177239-1-wangqing7171@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <698a26d3.050a0220.3b3015.007e.GAE@google.com>
+References: <698a26d3.050a0220.3b3015.007e.GAE@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260227200848.114019-1-david@kernel.org> <20260227200848.114019-17-david@kernel.org>
- <20260309142954.GM1687929@ziepe.ca> <61df6369-333c-430a-bd18-c5b1acae68ea@kernel.org>
-Message-ID: <abE4JYo223OxWCBQ@google.com>
-Subject: Re: [PATCH v1 16/16] mm/memory: support VM_MIXEDMAP in zap_special_vma_range()
-From: Alice Ryhl <aliceryhl@google.com>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>, linux-kernel@vger.kernel.org, 
-	"linux-mm @ kvack . org" <linux-mm@kvack.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, 
-	Pedro Falcato <pfalcato@suse.de>, David Rientjes <rientjes@google.com>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, Jarkko Sakkinen <jarkko@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Arve =?utf-8?B?SGrDuG5uZXbDpWc=?=" <arve@android.com>, Todd Kjos <tkjos@android.com>, 
-	Christian Brauner <brauner@kernel.org>, Carlos Llamas <cmllamas@google.com>, Ian Abbott <abbotti@mev.co.uk>, 
-	H Hartley Sweeten <hsweeten@visionengravers.com>, Jani Nikula <jani.nikula@linux.intel.com>, 
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Leon Romanovsky <leon@kernel.org>, 
-	Dimitri Sivanich <dimitri.sivanich@hpe.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, Andy Lutomirski <luto@kernel.org>, 
-	Vincenzo Frascino <vincenzo.frascino@arm.com>, Eric Dumazet <edumazet@google.com>, 
-	Neal Cardwell <ncardwell@google.com>, "David S. Miller" <davem@davemloft.net>, 
-	David Ahern <dsahern@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Miguel Ojeda <ojeda@kernel.org>, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, 
-	linux-s390@vger.kernel.org, linux-sgx@vger.kernel.org, 
-	intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
-	linux-rdma@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	netdev@vger.kernel.org, rust-for-linux@vger.kernel.org, x86@kernel.org
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Wed, Mar 11, 2026 at 10:15:12AM +0100, David Hildenbrand (Arm) wrote:
-> On 3/9/26 15:29, Jason Gunthorpe wrote:
-> > On Fri, Feb 27, 2026 at 09:08:47PM +0100, David Hildenbrand (Arm) wrote:
-> >> There is demand for also zapping page table entries by drivers in
-> >> VM_MIXEDMAP VMAs[1].
-> >>
-> >> Nothing really speaks against supporting VM_MIXEDMAP for driver use. We
-> >> just don't want arbitrary drivers to zap in ordinary (non-special) VMAs.
-> >>
-> >> [1] https://lore.kernel.org/r/aYSKyr7StGpGKNqW@google.com
-> > 
-> > Are we sure about this?
-> 
-> Yes, I don't think relaxing this for drivers to use it on VM_MIXEDMAP is
-> a problem.
-> 
-> > 
-> > This whole function seems like a hack to support drivers that are not
-> > using an address_space.
-> 
-> I assume, then using
-> unmap_mapping_folio()/unmap_mapping_pages()/unmap_mapping_range() instead.
-> 
-> > 
-> > I say that as one of the five driver authors who have made this
-> > mistake.
-> > 
-> > The locking to safely use this function is really hard to do properly,
-> > IDK if binder can shift to use address_space ??
-> I cannot really tell.
-> 
-> Skimming over the code, it looks like it really always handles "single
-> VMA" stuff ("Since a binder_alloc can only be mapped once, we ensure the
-> vma corresponds to this mapping by checking whether the binder_alloc is
-> still mapped"), which makes the locking rather trivial.
-> 
-> It does seem to mostly allocate/free pages in a single VMA, where I
-> think the existing usage of zap_vma_range() makes sense.
-> 
-> So I'm not sure if using address_space would really be an improvement there.
-> 
-> Having that said, maybe binder folks can be motivated to look into that.
-> But I would consider that future work.
+#syz test
 
-It doesn't really make sense to have multiple binder VMAs. What happens
-with Rust Binder is that process A is receiving transactions and has the
-VMA mapped once.
-
-* Process B sends a transaction to process A, and the ioctl (running in
-  process B) will memcpy the message to A directly into the pages of A's
-  VMA.
-* Then, B wakes up A, which causes A to return from the receive ioctl.
-* The return value of the receive ioctl is a pointer, which points
-  somewhere inside A's VMA to the location containing the message from
-  B.
-* Process A will deref the pointer to read the message from B.
-* Once Process A is done handling the transaction, it invokes another
-  ioctl to tell the kernel that it is done with this transaction, that
-  is, it is not safe for the kernel to reuse that subset of the VMA for
-  new incoming transactions.
-
-When Binder returns from its ioctl and gives you a pointer, it needs to
-know where the VMA is mapped, because otherwise it can't really give you
-a pointer into the VMA.
-
-It's generally not safe for userspace to touch its Binder VMA unless it
-has been told that there is a message there. Pages that do not contain
-any messages may be entirely missing, and trying to read them leads to
-segfault. (Though such pages may also be present if there was previously
-a message in the page. The unused pages are kept around to reuse them
-for future messages, unless there is memory pressure.)
-
-Alice
+diff --git a/mm/slub.c b/mm/slub.c
+index cdc1e652ec52..f029003e7368 100644
+--- a/mm/slub.c
++++ b/mm/slub.c
+@@ -2629,6 +2629,7 @@ static struct slab_sheaf *alloc_empty_sheaf(struct kmem_cache *s, gfp_t gfp)
+ 
+ static void free_empty_sheaf(struct kmem_cache *s, struct slab_sheaf *sheaf)
+ {
++	WARN_ON(sheaf->size > 0);
+ 	kfree(sheaf);
+ 
+ 	stat(s, SHEAF_FREE);
+@@ -2660,6 +2661,7 @@ static int refill_sheaf(struct kmem_cache *s, struct slab_sheaf *sheaf,
+ 	return 0;
+ }
+ 
++static void sheaf_flush_unused(struct kmem_cache *s, struct slab_sheaf *sheaf);
+ 
+ static struct slab_sheaf *alloc_full_sheaf(struct kmem_cache *s, gfp_t gfp)
+ {
+@@ -2669,6 +2671,7 @@ static struct slab_sheaf *alloc_full_sheaf(struct kmem_cache *s, gfp_t gfp)
+ 		return NULL;
+ 
+ 	if (refill_sheaf(s, sheaf, gfp | __GFP_NOMEMALLOC)) {
++		sheaf_flush_unused(s, sheaf);
+ 		free_empty_sheaf(s, sheaf);
+ 		return NULL;
+ 	}
+@@ -5027,6 +5030,7 @@ __pcs_replace_empty_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs,
+ 			 * we must be very low on memory so don't bother
+ 			 * with the barn
+ 			 */
++			sheaf_flush_unused(s, empty);
+ 			free_empty_sheaf(s, empty);
+ 		}
+ 	} else {
