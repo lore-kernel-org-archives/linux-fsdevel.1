@@ -1,183 +1,136 @@
-Received: from mail-m49198.qiye.163.com (mail-m49198.qiye.163.com [45.254.49.198])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76BB737700D;
-	Wed, 11 Mar 2026 11:43:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2FAE26A08A
+	for <linux-fsdevel@vger.kernel.org>; Wed, 11 Mar 2026 11:47:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773229432; cv=none; b=s1N6atohBVgZeKw4IGdCAhaii9fvJNhruacqpw7JiqPabSQiZI9GUr8aqafYahPmBGDhJnI3ixzqnEKQ+2tpKiORJntN8lHAsPcz1MSnnqjSQhKVPTycNylh19JxoPmnCUKXX6dACgoRmTTmES9hmf+ExXXcqkGNpfdDJo3AfqM=
+	t=1773229672; cv=none; b=IVNpXD9R18EYbIx1LBH0oaDDWBbR2EsrExs0h/HrX+luBx7DHGO8pYFEuXHGu+dt5JEz4QU8XxK4dTr24gNVbHJp0JCZhRaqHC4oEVBfpKxhtOxkTP08NQscbBo81AFSBfTtkBlMsxDoMd1Fvm9lYj1JDN/zwL++QN5MY6R+xCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773229432; c=relaxed/simple;
-	bh=DmiItKPQ9EHlZvu5av+MtnBOpWDzI1clnWp2NdKde3o=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=riaB3LodaxuwVxGVBcRDABgCs6dMKwOhVwPW6q0sm+NyWc0huaVeR41oT7II7iuLAtHW+cKBQYlwHMW9F17PRTuJH/6JTxhxPsTOlX98rTrxsQb6GtwFLCck08DSBs3LxMtTzx5u8DYMTOsTy2oUGI4jt9IrOVi+ytbZ07MXR7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=Zgk7t/M3; arc=none smtp.client-ip=45.254.49.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
+	s=arc-20240116; t=1773229672; c=relaxed/simple;
+	bh=Hot8zhdh4os52H/bQtBLbPFsGFzTkd5c7ypRjZf9624=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qDgEQ1DUUleweIOWUsDIqfJHBeIp44VE2HsXrmIg6Bh7krUR5pz6TI82qUdeMKe2Prqk2ZSz7zhvkPpmWeb9jrSkccsHqOfK304HKS27xpbuek2636QnfFhjV0uNfR+DrMDOFhwCZVv8LcqEZs83uhkGTUn/GATAgC4QiD5AKN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=bpDtRo8R; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=nlrWJJDN; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="Zgk7t/M3"
-Received: from DESKTOP-SUEFNF9.tailb3ad3b.ts.net (unknown [58.241.16.34])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 368f5fe5c;
-	Wed, 11 Mar 2026 19:43:38 +0800 (GMT+08:00)
-From: Zilin Guan <zilin@seu.edu.cn>
-To: slava@dubeyko.com
-Cc: glaubitz@physik.fu-berlin.de,
-	frank.li@vivo.com,
-	sougata@tuxera.com,
-	akpm@linux-foundation.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	jianhao.xu@seu.edu.cn,
-	Zilin Guan <zilin@seu.edu.cn>,
-	stable@vger.kernel.org
-Subject: [PATCH] hfsplus: fix held lock freed on hfsplus_fill_super()
-Date: Wed, 11 Mar 2026 19:43:36 +0800
-Message-Id: <20260311114336.155482-1-zilin@seu.edu.cn>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bpDtRo8R";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="nlrWJJDN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1773229669;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=asRPjwI5YmOjCP6UVRlsstGP3cgkUliMF2dXi85Qbqg=;
+	b=bpDtRo8RGzTpUVtHbeV1Dfx0edUf99zv/AurKK0p6Dim+ZIAMOCXO7FMDOlawS4Rb8c/WA
+	kDxSil3Q8EuN3ShfFOJ7Fgm/6/dGhp4m6qbLKVuxnItza5G0IH65V+pKHgmfh4icuuFJ0x
+	ZNn6YPCSolzS/a0CWqsPLlfvyWO+pHk=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-444-UJxlBfz-NsO-jN6ggW1PHw-1; Wed, 11 Mar 2026 07:47:48 -0400
+X-MC-Unique: UJxlBfz-NsO-jN6ggW1PHw-1
+X-Mimecast-MFC-AGG-ID: UJxlBfz-NsO-jN6ggW1PHw_1773229667
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-4853466655dso30914935e9.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 11 Mar 2026 04:47:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1773229667; x=1773834467; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=asRPjwI5YmOjCP6UVRlsstGP3cgkUliMF2dXi85Qbqg=;
+        b=nlrWJJDNrqzuaLdO7weVeErzoXcRpDb+mroRiA4Ojlp6ftlQckim8mzmsdEK6w/MRL
+         tTEdLEjKzJFNg1nRQA8NPfBusIK0FQTzZUZBuOrUZ/xCKnETTZB53aG7ubUnFEW/TKqu
+         hU9Je59avigpmas8q0upYaifR9Q/Qx6aWKZ9YX+s9pspxSpYMBE910DXGQn/Nviwe2c2
+         ORKDLw2T+YerhCFi+urov5IPaKvNyyvL04z7IJrWgpmICgVLS3x8LHPPibepVEiRAySz
+         tXLfdVEoSrrxTrowIUGkVCDwn4ATTNlUHlM6+QHEpuPsVfQIUDBCcID9anBQPvntf71I
+         HB5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773229667; x=1773834467;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=asRPjwI5YmOjCP6UVRlsstGP3cgkUliMF2dXi85Qbqg=;
+        b=UnyELXPjI7c86/olNmxqvSU6aNSu1v7oTFd2sp3jvocCUnsgDZM+4rZR1ymKVSaxCn
+         yskwztdViXv7ojt2LWiUppT23LX9cfTql1jYO7vYdL8vslAcRq5ZE7CIEPwvnXj9Fg5s
+         04prDxyKUnRHj1oakI69k84el/r9a1hkoi26RrRB09sak9dm1GJza1CbDqOQO0WYDKDk
+         bIW295nDUWzoQR/OSSYE2Y8xFyP9klz56igwW5GfL8a5o0IufM2HtCal50tw58gyaLcc
+         ev6BWAVtg9EXsUnx7jK08Pu/+yJfS5V7XxqwCIayPG82P2kFnZxkV6C07AosfEaaeicH
+         jJ1A==
+X-Forwarded-Encrypted: i=1; AJvYcCUcMuM5Xong5lhS6vdmyK1p9ze26e4fvVHbDzrYXAZdUv3+61X4QzPjKMcG+ixm5bOeWwgHHSC7doGMVX0d@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz+iLxQfhS1nzm+NALPqyno6NClnP2jcr30VnU0o4JBgMv2G8bx
+	zycflIYhIsTHNbcrE4TNMAy4RyBX8zlophMLzsDXONZPPBD9ep7+NOuiUzl/k7355wnmP1OrZPk
+	Me97k5tW0p+YF5PlfJqiqSYE+t3O/ScJE/JDnIFPb+E8QeU21bzLAAXNXa24eqskZUw==
+X-Gm-Gg: ATEYQzxUAA9hzYba7gXMBeazH8e4TdCoJt9eQlybi/dnf9pBnZA5NoKOvssrSyMYY8T
+	h6LQCRPdVxzP2mVngrt+bigxlzogIxVyIhvcFsNrzLSX2AVAi+MUAc+8HT0Naml8wz6L0D5UtTP
+	A2cE3WGdg2UT+8RHv2i89/WB0o0z/KFZLr4i3LtPhBbL+lcIRQUPWqf1T15EC5OXsoKf0WBZUOF
+	aTz8eOf7sTwVgtC2Fi3jEIBn+akUZnB0p+qH34CVL1+IHC7z670Bh9pMuaEIoHQ2mB4JBNN29ip
+	u0g28Lq8A4XfbvqmpNiAN8XipDLY36sfutdrRRLfHlHnn2+qLcZ+mPRZ2E1zNuji8miDnfp/qOK
+	w871Mb3kGdrw=
+X-Received: by 2002:a05:600c:6818:b0:485:3ca4:4eee with SMTP id 5b1f17b1804b1-4854b144e6dmr35215645e9.34.1773229667263;
+        Wed, 11 Mar 2026 04:47:47 -0700 (PDT)
+X-Received: by 2002:a05:600c:6818:b0:485:3ca4:4eee with SMTP id 5b1f17b1804b1-4854b144e6dmr35215345e9.34.1773229666807;
+        Wed, 11 Mar 2026 04:47:46 -0700 (PDT)
+Received: from thinky ([217.30.74.39])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4854ad5ee37sm37540885e9.2.2026.03.11.04.47.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Mar 2026 04:47:46 -0700 (PDT)
+Date: Wed, 11 Mar 2026 12:47:45 +0100
+From: Andrey Albershteyn <aalbersh@redhat.com>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Andrey Albershteyn <aalbersh@kernel.org>, linux-xfs@vger.kernel.org, 
+	fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org, ebiggers@kernel.org, hch@lst.de, 
+	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
+	linux-btrfs@vger.kernel.org
+Subject: Re: [PATCH v4 01/25] fsverity: report validation errors through
+ fserror to fsnotify
+Message-ID: <jezqpw7mjdren3gzvmkxv7dzviisf7mx2n6dwtq3iwgypghvne@z76sdkkk2x7n>
+References: <20260309192355.176980-1-aalbersh@kernel.org>
+ <20260309192355.176980-2-aalbersh@kernel.org>
+ <20260310004627.GV6033@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9cdcb5a91603a1kunm8d9d6d9e1735
-X-HM-MType: 10
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkZQ0tJVktLH0kZS0lLTx1PTFYeHw5VEwETFhoSFy
-	QUDg9ZV1kYEgtZQVlOQ1VJT0pVSk1VSE9ZV1kWGg8SFR0UWUFZT0tIVUpLSUhOQ0NVSktLVUtZBg
-	++
-DKIM-Signature: a=rsa-sha256;
-	b=Zgk7t/M3OlDpQhb6fhI3rF9fNZ1jzyy/qlGD3INqr7nDPoZzf/J1w322bsBZNm3qtkTReot6hfbtSWQcb0GF7wY3UYBE3fcwBB/MIqIJKKOXNMgzMNL+0b5eATT/aAwvn2KwhmEu2W8SaQnPR8vEfsEnk+B7VNd7kV8Z9rx95ME=; s=default; c=relaxed/relaxed; d=seu.edu.cn; v=1;
-	bh=f78VzEoA9VVNkvocFaYeL3bbNDA+AApacm2I3szd6Ok=;
-	h=date:mime-version:subject:message-id:from;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260310004627.GV6033@frogsfrogsfrogs>
 
-hfsplus_fill_super() calls hfs_find_init() to initialize a search
-structure, which acquires tree->tree_lock. If the subsequent call to
-hfsplus_cat_build_key() fails, the function jumps to the out_put_root
-error label without releasing the lock. The later cleanup path then
-frees the tree data structure with the lock still held, triggering a
-held lock freed warning.
+On 2026-03-09 17:46:27, Darrick J. Wong wrote:
+> On Mon, Mar 09, 2026 at 08:23:16PM +0100, Andrey Albershteyn wrote:
+> > Reported verification errors to fsnotify through recently added fserror
+> > interface.
+> > 
+> > Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
+> > ---
+> >  fs/verity/verify.c | 2 ++
+> >  1 file changed, 2 insertions(+)
+> > 
+> > diff --git a/fs/verity/verify.c b/fs/verity/verify.c
+> > index 4004a1d42875..99276053d3bb 100644
+> > --- a/fs/verity/verify.c
+> > +++ b/fs/verity/verify.c
+> > @@ -9,6 +9,7 @@
+> >  
+> >  #include <linux/bio.h>
+> >  #include <linux/export.h>
+> > +#include <linux/fserror.h>
+> >  
+> >  #define FS_VERITY_MAX_PENDING_BLOCKS 2
+> >  
+> > @@ -312,6 +313,7 @@ static bool verify_data_block(struct fsverity_info *vi,
+> >  		data_pos, level - 1, params->hash_alg->name, hsize, want_hash,
+> >  		params->hash_alg->name, hsize,
+> >  		level == 0 ? dblock->real_hash : real_hash);
+> > +	fserror_report_data_lost(inode, data_pos, params->block_size, GFP_NOFS);
+> 
+> Don't we also need to cover the "if (unlikely(data_pos >= inode->i_size))"
+> around line 199 in verify_data_block?
 
-Fix this by adding the missing hfs_find_exit(&fd) call before jumping
-to the out_put_root error label. This ensures that tree->tree_lock is
-properly released on the error path.
+make sense, will add it there too
 
-The bug was originally detected on v6.13-rc1 using an experimental
-static analysis tool we are developing, and we have verified that the
-issue persists in the latest mainline kernel. The tool is specifically
-designed to detect memory management issues. It is currently under active
-development and not yet publicly available.
-
-We confirmed the bug by runtime testing under QEMU with x86_64 defconfig,
-lockdep enabled, and CONFIG_HFSPLUS_FS=y. To trigger the error path, we
-used GDB to dynamically shrink the max_unistr_len parameter to 1 before
-hfsplus_asc2uni() is called. This forces hfsplus_asc2uni() to naturally
-return -ENAMETOOLONG, which propagates to hfsplus_cat_build_key() and
-exercises the faulty error path. The following warning was observed
-during mount:
-
-	=========================
-	WARNING: held lock freed!
-	7.0.0-rc3-00016-gb4f0dd314b39 #4 Not tainted
-	-------------------------
-	mount/174 is freeing memory ffff888103f92000-ffff888103f92fff, with a lock still held there!
-	ffff888103f920b0 (&tree->tree_lock){+.+.}-{4:4}, at: hfsplus_find_init+0x154/0x1e0
-	2 locks held by mount/174:
-	#0: ffff888103f960e0 (&type->s_umount_key#42/1){+.+.}-{4:4}, at: alloc_super.constprop.0+0x167/0xa40
-	#1: ffff888103f920b0 (&tree->tree_lock){+.+.}-{4:4}, at: hfsplus_find_init+0x154/0x1e0
-
-	stack backtrace:
-	CPU: 2 UID: 0 PID: 174 Comm: mount Not tainted 7.0.0-rc3-00016-gb4f0dd314b39 #4 PREEMPT(lazy)
-	Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.15.0-1 04/01/2014
-	Call Trace:
-	<TASK>
-	dump_stack_lvl+0x82/0xd0
-	debug_check_no_locks_freed+0x13a/0x180
-	kfree+0x16b/0x510
-	? hfsplus_fill_super+0xcb4/0x18a0
-	hfsplus_fill_super+0xcb4/0x18a0
-	? __pfx_hfsplus_fill_super+0x10/0x10
-	? srso_return_thunk+0x5/0x5f
-	? bdev_open+0x65f/0xc30
-	? srso_return_thunk+0x5/0x5f
-	? pointer+0x4ce/0xbf0
-	? trace_contention_end+0x11c/0x150
-	? __pfx_pointer+0x10/0x10
-	? srso_return_thunk+0x5/0x5f
-	? bdev_open+0x79b/0xc30
-	? srso_return_thunk+0x5/0x5f
-	? srso_return_thunk+0x5/0x5f
-	? vsnprintf+0x6da/0x1270
-	? srso_return_thunk+0x5/0x5f
-	? __mutex_unlock_slowpath+0x157/0x740
-	? __pfx_vsnprintf+0x10/0x10
-	? srso_return_thunk+0x5/0x5f
-	? srso_return_thunk+0x5/0x5f
-	? mark_held_locks+0x49/0x80
-	? srso_return_thunk+0x5/0x5f
-	? srso_return_thunk+0x5/0x5f
-	? irqentry_exit+0x17b/0x5e0
-	? trace_irq_disable.constprop.0+0x116/0x150
-	? __pfx_hfsplus_fill_super+0x10/0x10
-	? __pfx_hfsplus_fill_super+0x10/0x10
-	get_tree_bdev_flags+0x302/0x580
-	? __pfx_get_tree_bdev_flags+0x10/0x10
-	? vfs_parse_fs_qstr+0x129/0x1a0
-	? __pfx_vfs_parse_fs_qstr+0x3/0x10
-	vfs_get_tree+0x89/0x320
-	fc_mount+0x10/0x1d0
-	path_mount+0x5c5/0x21c0
-	? __pfx_path_mount+0x10/0x10
-	? trace_irq_enable.constprop.0+0x116/0x150
-	? trace_irq_enable.constprop.0+0x116/0x150
-	? srso_return_thunk+0x5/0x5f
-	? srso_return_thunk+0x5/0x5f
-	? kmem_cache_free+0x307/0x540
-	? user_path_at+0x51/0x60
-	? __x64_sys_mount+0x212/0x280
-	? srso_return_thunk+0x5/0x5f
-	__x64_sys_mount+0x212/0x280
-	? __pfx___x64_sys_mount+0x10/0x10
-	? srso_return_thunk+0x5/0x5f
-	? trace_irq_enable.constprop.0+0x116/0x150
-	? srso_return_thunk+0x5/0x5f
-	do_syscall_64+0x111/0x680
-	entry_SYSCALL_64_after_hwframe+0x77/0x7f
-	RIP: 0033:0x7ffacad55eae
-	Code: 48 8b 0d 85 1f 0f 00 f7 d8 64 89 01 48 83 c8 ff c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa 49 89 ca b8 a5 00 00 8
-	RSP: 002b:00007fff1ab55718 EFLAGS: 00000246 ORIG_RAX: 00000000000000a5
-	RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007ffacad55eae
-	RDX: 000055740c64e5b0 RSI: 000055740c64e630 RDI: 000055740c651ab0
-	RBP: 000055740c64e380 R08: 0000000000000000 R09: 0000000000000001
-	R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-	R13: 000055740c64e5b0 R14: 000055740c651ab0 R15: 000055740c64e380
-	</TASK>
-
-After applying this patch, the warning no longer appears.
-
-Fixes: 89ac9b4d3d1a ("hfsplus: fix longname handling")
-CC: stable@vger.kernel.org
-Signed-off-by: Zilin Guan <zilin@seu.edu.cn>
----
- fs/hfsplus/super.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/fs/hfsplus/super.c b/fs/hfsplus/super.c
-index 7229a8ae89f9..f396fee19ab8 100644
---- a/fs/hfsplus/super.c
-+++ b/fs/hfsplus/super.c
-@@ -569,8 +569,10 @@ static int hfsplus_fill_super(struct super_block *sb, struct fs_context *fc)
- 	if (err)
- 		goto out_put_root;
- 	err = hfsplus_cat_build_key(sb, fd.search_key, HFSPLUS_ROOT_CNID, &str);
--	if (unlikely(err < 0))
-+	if (unlikely(err < 0)) {
-+		hfs_find_exit(&fd);
- 		goto out_put_root;
-+	}
- 	if (!hfs_brec_read(&fd, &entry, sizeof(entry))) {
- 		hfs_find_exit(&fd);
- 		if (entry.type != cpu_to_be16(HFSPLUS_FOLDER)) {
 -- 
-2.34.1
+- Andrey
 
