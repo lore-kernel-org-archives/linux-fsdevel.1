@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6993736493F;
-	Wed, 11 Mar 2026 21:57:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C88CB37417C;
+	Wed, 11 Mar 2026 21:57:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773266223; cv=none; b=WzND2f102+7ejD9FxsTN11Di5fQC66j33mUa6pnZEOT/PI4dxvt2NMdx7ho7mAOotz6Aarn65cHkP0Qi+cHsooupyIgUpg5ihkzigVOnwtbmzH8/UuhM7Kb9ddxoqjI8UAfSov8dRWCX8Nnw65uPojafrd6bxNy+Bitgu6O3AU8=
+	t=1773266225; cv=none; b=qjtiYd8uTrkv+ynas5lbzkTOOeKouKlw1hwGpOwBs47gV/UB3qniZcL7LHb1a2Oha4IJKN0xjYbzZ6kUJOOtYMthnuyoLhfTeq+I2vP56ecV8bupxGgQYBcKQWprQHcazMpYawuGqDH+d7siz9iXLlJpkJTLdS/ZR3hm1XSIm68=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773266223; c=relaxed/simple;
-	bh=mGo5vgPxXKHRdLRU9ukAme3eIep7Ijcwdt87UtWZBEM=;
+	s=arc-20240116; t=1773266225; c=relaxed/simple;
+	bh=LEkYCP2B26VM04U/Xfgf30JgLqLChdLWXV57GkA2dNs=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=dlncJYDCQkb5YpbLN/6SoOeE2nllH34eVzj5h+e/5UIRgublWKbSaYn0O+X3dIwhDBhmPestIVaLk/kdNDE0u0mOmpipVhdR4PO7Z+qdHtFvtTwYoaTm7elB7jMAobfeKpIlLj6OJl5sVPU748LE1WzMxAAWMAmgS9L94tdCiLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k41r6gxK; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=OKuTEJ8lHnLwE2g+Sam6IuokufWD5TiQvroOdL2DliOvGInpD13zCBMebC7ihserlFCvT51sIVeumqfFEOTkkIRj+YxZMEaUwO0NeMHtEXazBf8hxCHTLI1tTO8drJ1HqbtUJB6dOwVVVk5v8SbEGS+xly4K3kzZDrfa5Dl/RKA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AKzPHBAT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k41r6gxK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B220C2BC9E;
-	Wed, 11 Mar 2026 21:57:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AKzPHBAT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6D73C4CEF7;
+	Wed, 11 Mar 2026 21:57:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773266223;
-	bh=mGo5vgPxXKHRdLRU9ukAme3eIep7Ijcwdt87UtWZBEM=;
+	s=k20201202; t=1773266225;
+	bh=LEkYCP2B26VM04U/Xfgf30JgLqLChdLWXV57GkA2dNs=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=k41r6gxKuRdpEeIuyFgrm3Gogs3TDNQh9fcKon0zj1xJIdMJr6/0xl2fJtKIt8VZV
-	 WfNgJOg3n2YmASOzKUBHmuCyCM/KqQRH9y7E9vFrZDBsqEPxKeeeR+sNpVamB7c/0Q
-	 f0tNlPpNx+FUZsoQ0KfnGWtHut0Thuw9Zs1lwMqqjzPIcmdENk5Djd31Je5Jyi+DKq
-	 Mc7CkOUl1zsx6ZLdz3fV201XB5zYqJ1yjYq/gUyn/3wC4Bsr+c9SagmGCpav7O9xgk
-	 uchPqYIigfjfBjt9YNMp01p3O8eZks1gfhTGDK1WYnLfLP1zrYsS9i8CoWZSC7CgA8
-	 ZSdWQHmvMpN6w==
+	b=AKzPHBATsS/mL4PJnheBXkgfMRwEVUBgU9XYFk2v+qqiFhskqcja0yivodaLiIzvD
+	 ZkWBwICPGmTxMtSkDcBOu46t+XeyWK5fZss6w3o8Zk8Gzz0sVbRhNz5omx14WkdRTg
+	 Ig4nyleH/C0Hv8/OFJwfuTBPxJtNOa6KHjCsMEayRkbqW4IIthKRi+2ajVPwmYnru7
+	 8oqGqXoEzCaIbJFGhSi2Pl4S4nSRv07nQd/ochmmwU9MvDrdl4fMtSanNTYRs6frZD
+	 dUo1KBLnymW1sM03Ilw3bMEMciT9RlxJcCEMmrPPs+IhIohIK9x/iBhqf5nW2r2TgX
+	 jkJGdNixFXa1g==
 From: Christian Brauner <brauner@kernel.org>
-Date: Wed, 11 Mar 2026 22:44:04 +0100
-Subject: [PATCH RFC v3 21/26] fs: add kthread_mntns()
+Date: Wed, 11 Mar 2026 22:44:05 +0100
+Subject: [PATCH RFC v3 22/26] devtmpfs: create private mount namespace
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -37,7 +37,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260311-work-kthread-nullfs-v3-21-3dd2cbe92ad0@kernel.org>
+Message-Id: <20260311-work-kthread-nullfs-v3-22-3dd2cbe92ad0@kernel.org>
 References: <20260311-work-kthread-nullfs-v3-0-3dd2cbe92ad0@kernel.org>
 In-Reply-To: <20260311-work-kthread-nullfs-v3-0-3dd2cbe92ad0@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -47,76 +47,37 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>,
  Tejun Heo <tj@kernel.org>, Jann Horn <jannh@google.com>, 
  Christian Brauner <brauner@kernel.org>
 X-Mailer: b4 0.15-dev-9fd7c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1890; i=brauner@kernel.org;
- h=from:subject:message-id; bh=mGo5vgPxXKHRdLRU9ukAme3eIep7Ijcwdt87UtWZBEM=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRufPJTdG691hr1FJMFm9Tzsze/V+zqtlX++3AVw9RlT
- u6Gq8zjOkpZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACZyfhcjw5V9Wcv87n8uz7nY
- Jc3zeHrs74f825QimxI93rZKBS/4xMTwP3HBi/knjd/+8Vlc1CP2WmdB6u/ary6T7i7N6TQyY1O
- ezAwA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=792; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=LEkYCP2B26VM04U/Xfgf30JgLqLChdLWXV57GkA2dNs=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRufPJTScfwXeA+tmr5OFctjcr4hq73h9wuZTz5rT9pz
+ fbcJsbVHSUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABN5v5Dhe4bra/3P3wJ/HXzE
+ d2KHctCdCS+2PTdya5w+SaMy/PoDVoZ/Rn0xQbMydT+xXj5vGXm31aDOqpVr+QGdNKcwA3WlPiE
+ GAA==
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Allow kthreads to create a private mount namespace.
+Kernel threads are located in a completely isolated nullfs mount.
+Make it possible for a kthread to create a private mount namespace so it
+can mount private filesystem instances. This is only used by devtmpfs.
 
 Signed-off-by: Christian Brauner <brauner@kernel.org>
 ---
- fs/namespace.c        | 30 ++++++++++++++++++++++++++++++
- include/linux/mount.h |  1 +
- 2 files changed, 31 insertions(+)
+ drivers/base/devtmpfs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fs/namespace.c b/fs/namespace.c
-index 854f4fc66469..e23d2fa7e255 100644
---- a/fs/namespace.c
-+++ b/fs/namespace.c
-@@ -6200,6 +6200,36 @@ static void __init init_mount_tree(void)
- 	ns_tree_add(&init_mnt_ns);
- }
- 
-+/*
-+ * Allow to give a specific kthread a private mount namespace anchored
-+ * in the userspace nullfs (mount id 1) so it can mount.
-+ */
-+int __init kthread_mntns(void)
-+{
-+	struct mount *m;
-+	struct path root;
-+	int ret;
-+
-+	/* Only allowed for kthreads in the initial mount namespace. */
-+	VFS_WARN_ON_ONCE(!(current->flags & PF_KTHREAD));
-+	VFS_WARN_ON_ONCE(current->nsproxy->mnt_ns != &init_mnt_ns);
-+
-+	/*
-+	 * TODO: switch to creating a completely empty mount namespace
-+	 * once that series lands.
-+	 */
-+	ret = ksys_unshare(CLONE_NEWNS);
-+	if (ret)
-+		return ret;
-+
-+	m = current->nsproxy->mnt_ns->root;
-+	root.mnt = &m->mnt;
-+	root.dentry = root.mnt->mnt_root;
-+	set_fs_pwd(current->fs, &root);
-+	set_fs_root(current->fs, &root);
-+	return 0;
-+}
-+
- void __init mnt_init(void)
+diff --git a/drivers/base/devtmpfs.c b/drivers/base/devtmpfs.c
+index b1c4ceb65026..246ac0b331fe 100644
+--- a/drivers/base/devtmpfs.c
++++ b/drivers/base/devtmpfs.c
+@@ -413,7 +413,7 @@ static noinline int __init devtmpfs_setup(void *p)
  {
  	int err;
-diff --git a/include/linux/mount.h b/include/linux/mount.h
-index acfe7ef86a1b..69d61f21b548 100644
---- a/include/linux/mount.h
-+++ b/include/linux/mount.h
-@@ -106,6 +106,7 @@ int do_mount(const char *, const char __user *,
- extern const struct path *collect_paths(const struct path *, struct path *, unsigned);
- extern void drop_collected_paths(const struct path *, const struct path *);
- extern void kern_unmount_array(struct vfsmount *mnt[], unsigned int num);
-+int __init kthread_mntns(void);
  
- extern int cifs_root_data(char **dev, char **opts);
- 
+-	err = ksys_unshare(CLONE_NEWNS);
++	err = kthread_mntns();
+ 	if (err)
+ 		goto out;
+ 	err = init_mount("devtmpfs", "/", "devtmpfs", DEVTMPFS_MFLAGS, NULL);
 
 -- 
 2.47.3
