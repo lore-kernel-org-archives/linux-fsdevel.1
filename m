@@ -1,53 +1,53 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 266453DC4B0
-	for <linux-fsdevel@vger.kernel.org>; Wed, 11 Mar 2026 16:25:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9E351EEA3C
+	for <linux-fsdevel@vger.kernel.org>; Wed, 11 Mar 2026 16:25:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773246314; cv=none; b=EqwO27zbfUEQca70uyZEq932be55Ct1Ra5XtIJOZ7sPIgWIpner8wdwGBKPAh7Wad0lbwUjauGKTxkvE0S0dmCYnD30LQ3fhPXjbifXPIOqPcY4O6hp8G0Eid4yan3blHnlPTRQjsvjipdBfuVwx7UZYHxafQ4SRPqwq1RQZNlM=
+	t=1773246320; cv=none; b=COVnueGsw4hCrgyRwROk/1AA+8stw5lD8X6/jomdEBerHlDRgJmuQCkcxcBUOl1AjsgpruaHnc1iyQTEX9QNelS3DAmTxq4YUc2IU8CSkwfDymQBwxqi4icn3CJ57w2mtws0BVNAliFAkjpjsJaYGyNqbw8FMiujQSdlV4cI2uU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773246314; c=relaxed/simple;
-	bh=d/G+fwzhuPdUSUUYXGYIiA5aTUFUQ/DIwdI15rtzyPw=;
+	s=arc-20240116; t=1773246320; c=relaxed/simple;
+	bh=lYrgTfsbbzFHnSvyLqLuhxPriVxTFpTy5XualUoAftg=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=eRQ8V20JIgns2nvKZ+vYe89zTcwPRpxJlDwOlDxY8lAmLnZqM8FYx+fzh3R1BhKQYLtK+RyYID7tv0mqNNe24daVUH//THUzNiBnqaJzS2uRT08O7O8SgsterlkBLD5mrURQM67Hsti1EqxlNFA81b9hGjC5SZyc85ihuYi5Tcg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=bhtPJD1q; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version:Content-Type; b=o2C9x07EpaGvgCkQ1wgMOwxAA3aIkHK6Fqgc0Rz2zI5patGbaU6ib1oaNEVS7ko1mkTQrEl4OFatxnPeoTSDD4z47/DZ7Uey4Bkk5t3vS2kjBx/SlABJQvsdNWQq9YDaJGN1BLSG5I3npsl6ySFVEoTVAlbqZIMzRPLI46QZ4FE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PdvAzwIf; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bhtPJD1q"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PdvAzwIf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1773246312;
+	s=mimecast20190719; t=1773246313;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=uWBChcSlSczLC/Rd6tIrftiUHaTA66Y2sgLJ7FqkvPg=;
-	b=bhtPJD1qiGtOSy//cqLFSTpKbPUeGKKKnysQCeKs7oT0RZERQBJVzn2lHqvit2CIsXJ3Rp
-	JLdR1h7dghwJuqnxLxHmi8B00HjK7Q7ZGMIk2FFajj3sZdQGWPwrYQVWl59cNUK3LpcwgN
-	2f3AtZoTYQbmI1lQ7g7ua7twqzSmrzY=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+	bh=PHAYv9w6iabiC70UdVOLnIlFpxWWJxjhXv1uwZxjBjM=;
+	b=PdvAzwIf2w07oMcVbKXZ31X3K97ngkdyYfm+121G1QSYmPh425MJfS1behPzsGLL3oCY+m
+	SXAe8SAUkKT2XFYVNJz+HBbdDQitmSAyr6XT4DCv59tYr10dACFzmADakqaP5drJQJNe79
+	VmPTZX3AyiNXOY9FCvYvhmalIF5GT60=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-646-iiWt73SjPk-9GeuUBvNzug-1; Wed,
- 11 Mar 2026 12:25:09 -0400
-X-MC-Unique: iiWt73SjPk-9GeuUBvNzug-1
-X-Mimecast-MFC-AGG-ID: iiWt73SjPk-9GeuUBvNzug_1773246308
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-496-0TTMPg9_OlS3nGUr9HkSzw-1; Wed,
+ 11 Mar 2026 12:25:10 -0400
+X-MC-Unique: 0TTMPg9_OlS3nGUr9HkSzw-1
+X-Mimecast-MFC-AGG-ID: 0TTMPg9_OlS3nGUr9HkSzw_1773246309
 Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1C96619560B3;
-	Wed, 11 Mar 2026 16:25:08 +0000 (UTC)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8EC3E18005B4;
+	Wed, 11 Mar 2026 16:25:09 +0000 (UTC)
 Received: from bfoster.redhat.com (unknown [10.22.89.107])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 916691800351;
-	Wed, 11 Mar 2026 16:25:07 +0000 (UTC)
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1111A1800351;
+	Wed, 11 Mar 2026 16:25:08 +0000 (UTC)
 From: Brian Foster <bfoster@redhat.com>
 To: linux-fsdevel@vger.kernel.org,
 	linux-xfs@vger.kernel.org
-Subject: [PATCH v4 6/8] xfs: only flush when COW fork blocks overlap data fork holes
-Date: Wed, 11 Mar 2026 12:25:00 -0400
-Message-ID: <20260311162502.192375-7-bfoster@redhat.com>
+Subject: [PATCH v4 8/8] xfs: report cow mappings with dirty pagecache for iomap zero range
+Date: Wed, 11 Mar 2026 12:25:02 -0400
+Message-ID: <20260311162502.192375-9-bfoster@redhat.com>
 In-Reply-To: <20260311162502.192375-1-bfoster@redhat.com>
 References: <20260311162502.192375-1-bfoster@redhat.com>
 Precedence: bulk
@@ -60,95 +60,111 @@ Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-The zero range hole mapping flush case has been lifted from iomap
-into XFS. Now that we have more mapping context available from the
-->iomap_begin() handler, we can isolate the flush further to when we
-know a hole is fronted by COW blocks.
+XFS has long supported the case where it is possible to have dirty
+data in pagecache backed by COW fork blocks and a hole in the data
+fork. This occurs for two reasons. On reflink enabled files, COW
+fork blocks are allocated with preallocation to help avoid
+fragmention. Second, if a mapping lookup for a write finds blocks in
+the COW fork, it consumes those blocks unconditionally. This might
+mean that COW fork blocks are backed by non-shared blocks or even a
+hole in the data fork, both of which are perfectly fine.
 
-Rather than purely rely on pagecache dirty state, explicitly check
-for the case where a range is a hole in both forks. Otherwise trim
-to the range where there does happen to be overlap and use that for
-the pagecache writeback check. This might prevent some spurious
-zeroing, but more importantly makes it easier to remove the flush
-entirely.
+This leaves an odd corner case for zero range, however, because it
+needs to distinguish between ranges that are sparse and thus do not
+require zeroing and those that are not. A range backed by COW fork
+blocks and a data fork hole might either be a legitimate hole in the
+file or a range with pending buffered writes that will be written
+back (which will remap COW fork blocks into the data fork).
+
+This "COW fork blocks over data fork hole" situation has
+historically been reported as a hole to iomap, which then has grown
+a flush hack as a workaround to ensure zeroing occurs correctly. Now
+that this has been lifted into the filesystem and replaced by the
+dirty folio lookup mechanism, we can do better and use the pagecache
+state to decide how to report the mapping. If a COW fork range
+exists with dirty folios in cache, then report a typical shared
+mapping. If the range is clean in cache, then we can consider the
+COW blocks preallocation and call it a hole.
+
+This doesn't fundamentally change behavior, but makes mapping
+reporting more accurate. Note that this does require splitting
+across the EOF boundary (similar to normal zero range) to ensure we
+don't spuriously perform post-eof zeroing. iomap will warn about
+zeroing beyond EOF because folios beyond i_size may not be written
+back.
 
 Signed-off-by: Brian Foster <bfoster@redhat.com>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
 ---
- fs/xfs/xfs_iomap.c | 36 ++++++++++++++++++++++++++++++------
- 1 file changed, 30 insertions(+), 6 deletions(-)
+ fs/xfs/xfs_iomap.c | 26 ++++++++++++++++++++++----
+ 1 file changed, 22 insertions(+), 4 deletions(-)
 
 diff --git a/fs/xfs/xfs_iomap.c b/fs/xfs/xfs_iomap.c
-index df1eab646cae..6229a0bf793b 100644
+index 51a55510d4a5..dbd49e838889 100644
 --- a/fs/xfs/xfs_iomap.c
 +++ b/fs/xfs/xfs_iomap.c
-@@ -1781,10 +1781,12 @@ xfs_buffered_write_iomap_begin(
- {
- 	struct iomap_iter	*iter = container_of(iomap, struct iomap_iter,
- 						     iomap);
-+	struct address_space	*mapping = inode->i_mapping;
- 	struct xfs_inode	*ip = XFS_I(inode);
- 	struct xfs_mount	*mp = ip->i_mount;
+@@ -1786,6 +1786,7 @@ xfs_buffered_write_iomap_begin(
  	xfs_fileoff_t		offset_fsb = XFS_B_TO_FSBT(mp, offset);
  	xfs_fileoff_t		end_fsb = xfs_iomap_end_fsb(mp, offset, count);
-+	xfs_fileoff_t		cow_fsb = NULLFILEOFF;
+ 	xfs_fileoff_t		cow_fsb = NULLFILEOFF;
++	xfs_fileoff_t		eof_fsb = XFS_B_TO_FSB(mp, XFS_ISIZE(ip));
  	struct xfs_bmbt_irec	imap, cmap;
  	struct xfs_iext_cursor	icur, ccur;
  	xfs_fsblock_t		prealloc_blocks = 0;
-@@ -1852,6 +1854,8 @@ xfs_buffered_write_iomap_begin(
- 		}
- 		cow_eof = !xfs_iext_lookup_extent(ip, ip->i_cowfp, offset_fsb,
- 				&ccur, &cmap);
-+		if (!cow_eof)
-+			cow_fsb = cmap.br_startoff;
- 	}
- 
- 	/* We never need to allocate blocks for unsharing a hole. */
-@@ -1866,17 +1870,37 @@ xfs_buffered_write_iomap_begin(
- 	 * writeback to remap pending blocks and restart the lookup.
+@@ -1868,7 +1869,8 @@ xfs_buffered_write_iomap_begin(
+ 	 * cache and fill the iomap batch with folios that need zeroing.
  	 */
  	if ((flags & IOMAP_ZERO) && imap.br_startoff > offset_fsb) {
--		if (filemap_range_needs_writeback(inode->i_mapping, offset,
--				offset + count - 1)) {
-+		loff_t	start, end;
-+
-+		imap.br_blockcount = imap.br_startoff - offset_fsb;
-+		imap.br_startoff = offset_fsb;
-+		imap.br_startblock = HOLESTARTBLOCK;
-+		imap.br_state = XFS_EXT_NORM;
-+
-+		if (cow_fsb == NULLFILEOFF)
-+			goto found_imap;
-+		if (cow_fsb > offset_fsb) {
-+			xfs_trim_extent(&imap, offset_fsb,
-+					cow_fsb - offset_fsb);
-+			goto found_imap;
-+		}
-+
-+		/* COW fork blocks overlap the hole */
-+		xfs_trim_extent(&imap, offset_fsb,
-+			    cmap.br_startoff + cmap.br_blockcount - offset_fsb);
-+		start = XFS_FSB_TO_B(mp, imap.br_startoff);
-+		end = XFS_FSB_TO_B(mp,
-+				   imap.br_startoff + imap.br_blockcount) - 1;
-+		if (filemap_range_needs_writeback(mapping, start, end)) {
- 			xfs_iunlock(ip, lockmode);
--			error = filemap_write_and_wait_range(inode->i_mapping,
--					offset, offset + count - 1);
-+			error = filemap_write_and_wait_range(mapping, start,
-+							     end);
- 			if (error)
- 				return error;
- 			goto restart;
+-		loff_t	start, end;
++		loff_t		start, end;
++		unsigned int	fbatch_count;
+ 
+ 		imap.br_blockcount = imap.br_startoff - offset_fsb;
+ 		imap.br_startoff = offset_fsb;
+@@ -1883,15 +1885,33 @@ xfs_buffered_write_iomap_begin(
+ 			goto found_imap;
  		}
--		xfs_hole_to_iomap(ip, iomap, offset_fsb, imap.br_startoff);
--		goto out_unlock;
+ 
++		/* no zeroing beyond eof, so split at the boundary */
++		if (offset_fsb >= eof_fsb)
++			goto found_imap;
++		if (offset_fsb < eof_fsb && end_fsb > eof_fsb)
++			xfs_trim_extent(&imap, offset_fsb,
++					eof_fsb - offset_fsb);
 +
-+		goto found_imap;
+ 		/* COW fork blocks overlap the hole */
+ 		xfs_trim_extent(&imap, offset_fsb,
+ 			    cmap.br_startoff + cmap.br_blockcount - offset_fsb);
+ 		start = XFS_FSB_TO_B(mp, imap.br_startoff);
+ 		end = XFS_FSB_TO_B(mp, imap.br_startoff + imap.br_blockcount);
+-		iomap_fill_dirty_folios(iter, &start, end, &iomap_flags);
++		fbatch_count = iomap_fill_dirty_folios(iter, &start, end,
++						       &iomap_flags);
+ 		xfs_trim_extent(&imap, offset_fsb,
+ 				XFS_B_TO_FSB(mp, start) - offset_fsb);
+ 
++		/*
++		 * Report the COW mapping if we have folios to zero. Otherwise
++		 * ignore the COW blocks as preallocation and report a hole.
++		 */
++		if (fbatch_count) {
++			xfs_trim_extent(&cmap, imap.br_startoff,
++					imap.br_blockcount);
++			imap.br_startoff = end_fsb;	/* fake hole */
++			goto found_cow;
++		}
+ 		goto found_imap;
  	}
  
- 	/*
+@@ -1901,8 +1921,6 @@ xfs_buffered_write_iomap_begin(
+ 	 * unwritten extent.
+ 	 */
+ 	if (flags & IOMAP_ZERO) {
+-		xfs_fileoff_t eof_fsb = XFS_B_TO_FSB(mp, XFS_ISIZE(ip));
+-
+ 		if (isnullstartblock(imap.br_startblock) &&
+ 		    offset_fsb >= eof_fsb)
+ 			goto convert_delay;
 -- 
 2.52.0
 
