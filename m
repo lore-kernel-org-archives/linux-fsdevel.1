@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6B26347BDC;
-	Wed, 11 Mar 2026 21:56:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9430731F9A3;
+	Wed, 11 Mar 2026 21:56:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773266174; cv=none; b=RXQqPec/4VK7JOuKRb/VNrJBgExPb4mhPvEotdmtzujsuQzmcqPxV2MeBK3Buku4bzzyNH1HdjDQAPQhBRzka7cx+6ea8c90RDszGpIfuuwzdvZFOvsNvTekujTRceL1w7BN1Sb2stGsSesm6AOyeO/QpBRQIflq/TJYR9j7JVM=
+	t=1773266177; cv=none; b=JkwCmOIm57pmC815Wd1k1uHH+ZSzPWO3uF26eFfmUhEspmlljMwL4A+073XsYnMC715fcH3K7dcFx9SfC3rCJP9CP+9K9defERFSMflMTdymOJrpz6uPtiD9+w9cq7qxmWbVhceUeUQndKmPBjT22oDPsywt40pNoE0GJExZc0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773266174; c=relaxed/simple;
-	bh=RqPfgxPamFr6lqnt39EHhN5Z6xIcw2+kX2pEDF2HePg=;
+	s=arc-20240116; t=1773266177; c=relaxed/simple;
+	bh=PLrJo7pAFoBlfQ7T9p5ztHY4D+o6TOQ9sANou7DEIh0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=QDbQ3rClhWcN416Gfo7/0LMeNKI9WPRR5cTEjQAsANmIxP+tXZexWmMUv3fItFWmjq2CNZtKBNcimTTaqOIzEU61G5raBer1O5UBbdva6uNMAoosQ7/Bz/7JwSNi/lLzzf2dV5PNBf5vpAB2vTNbsZsP2hsoJT1nitRyR3xSe8s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RR7cDe8s; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=OW/07IbJAtJzbDZCGIlrLTmd3lT5S//3evegl8WspdbQNMF3a42g+zPAO8EjUOrzmL4zsRX0DW+qvNtYhBRewNlc6udRNE1jzt4WI8qrkaycdSP7nEgsK9Hj4MiuRYhoEH/WiQrQOV5ZavCac+YC1Bu9cgN1toyHGJXQXz8J5m4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zw6BmCQg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RR7cDe8s"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF043C4CEF7;
-	Wed, 11 Mar 2026 21:56:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zw6BmCQg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 270A8C2BC9E;
+	Wed, 11 Mar 2026 21:56:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773266174;
-	bh=RqPfgxPamFr6lqnt39EHhN5Z6xIcw2+kX2pEDF2HePg=;
+	s=k20201202; t=1773266177;
+	bh=PLrJo7pAFoBlfQ7T9p5ztHY4D+o6TOQ9sANou7DEIh0=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=RR7cDe8sIoV7Mr9xozdCtxpRNbXFZR9o2LjH8/r4P+06X7ee6nQ4FLEXunljXi0pQ
-	 f6olV49eAEfBJOP3SMWPBMGO+mhjtMBkUKXzA42MDQALBtvhkWnUqLUmYYqYusTmLz
-	 WDHYBcYkVCjVdWPzPo7hhgqYWa7KTe0IlfeRUoxXOm0dNcHKC1zRrEZNSU20m5EG0U
-	 3t0a47XeRaVY5C4jb0Oeqp9XTG6B99vhzfawmZOD+RdcLRKNaBM+/tt5tAjp5GzHCu
-	 2UBu98VBb9i752LUTbpVbb2sgILk2WoF9Z0IBx+z0a+mIooWl24Vvv8hKDjpcw27o1
-	 Wi62iM29MLePg==
+	b=Zw6BmCQg5vchEkSaG7M0Ca+nLTgp0kz3WHf6qF+LM0jtEKvTYBtjEjcj7y3bBSrVP
+	 D+RAyoFli7wrtZ3us8Axx3KsNJlhfI2ftBqf7IL6brFKkBju216J3oXLxp3g/B6JsR
+	 GLFk0gONl3CBwVIAKt7TaqomqbZJgBtjAVBgvMRyJZTNzxf38oTLYlWTHmTnxTRkco
+	 tn16yPOl6Bb+yOepzIfEwEnGIZPd3COTEmkrdr+paBXEteFSdUmjHYqpnz5MSabfJ/
+	 kTySTK24/CO4Tc9shyUPf2TQaqyYoKl7Rh7VFvsoYtw/8+HiTGyXBJK9jPEvXLn8o7
+	 ayCN0NUng7JbA==
 From: Christian Brauner <brauner@kernel.org>
-Date: Wed, 11 Mar 2026 22:43:44 +0100
-Subject: [PATCH RFC v3 01/26] fs: add switch_fs_struct()
+Date: Wed, 11 Mar 2026 22:43:45 +0100
+Subject: [PATCH RFC v3 02/26] fs: notice when init abandons fs sharing
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -37,7 +37,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260311-work-kthread-nullfs-v3-1-3dd2cbe92ad0@kernel.org>
+Message-Id: <20260311-work-kthread-nullfs-v3-2-3dd2cbe92ad0@kernel.org>
 References: <20260311-work-kthread-nullfs-v3-0-3dd2cbe92ad0@kernel.org>
 In-Reply-To: <20260311-work-kthread-nullfs-v3-0-3dd2cbe92ad0@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -47,108 +47,74 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>,
  Tejun Heo <tj@kernel.org>, Jann Horn <jannh@google.com>, 
  Christian Brauner <brauner@kernel.org>
 X-Mailer: b4 0.15-dev-9fd7c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2582; i=brauner@kernel.org;
- h=from:subject:message-id; bh=RqPfgxPamFr6lqnt39EHhN5Z6xIcw2+kX2pEDF2HePg=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRufPJj+rFNsU46X1u/XJi8M5tDLFy/O60gOmI148/el
- TV/Tsyw7yhlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZjIld0M/3SEXea33vEo/fRz
- /8/Zi0on33nl0XF4Z4SJy0tj81U2ircY/ooE/5h31z+qcbWd9by3CqaxAuK/vb9Xzki9eeRYvgz
- 7b2YA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2264; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=PLrJo7pAFoBlfQ7T9p5ztHY4D+o6TOQ9sANou7DEIh0=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRufPJj6rI7oXYhJ7qdZRa0JTW8/PWl4+yJfXEZrbZR9
+ 4SYftUkdZSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAExk3U2G/zGHn7xQ2suyvuKX
+ 5M87qYaKxb+rzn1l3KN0eCfv3QZm99+MDLPUYutL5urKLrgarN/70qnVcY16ucLVv2cNj546ZeJ
+ 7lgMA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Don't open-code the guts of replacing current's fs struct.
+PID 1 may choose to stop sharing fs_struct state with us. Either via
+unshare(CLONE_FS) or unshare(CLONE_NEWNS). Of course, PID 1 could have
+chosen to create arbitrary process trees that all share fs_struct state
+via CLONE_FS. This is a strong statement: We only care about PID 1 aka
+the thread-group leader so subthread's fs_struct state doesn't matter.
+
+PID 1 unsharing fs_struct state is a bug. PID 1 relies on various
+kthreads to be able to perform work based on its fs_struct state.
+Breaking that contract sucks for both sides. So just don't bother with
+extra work for this. No sane init system should ever do this.
 
 Signed-off-by: Christian Brauner <brauner@kernel.org>
 ---
- fs/fs_struct.c            | 18 ++++++++++++++++++
- include/linux/fs_struct.h |  2 ++
- kernel/fork.c             | 22 ++++++----------------
- 3 files changed, 26 insertions(+), 16 deletions(-)
+ fs/fs_struct.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
 diff --git a/fs/fs_struct.c b/fs/fs_struct.c
-index 394875d06fd6..c441586537e7 100644
+index c441586537e7..fcecf209f1a9 100644
 --- a/fs/fs_struct.c
 +++ b/fs/fs_struct.c
-@@ -147,6 +147,24 @@ int unshare_fs_struct(void)
+@@ -147,6 +147,30 @@ int unshare_fs_struct(void)
  }
  EXPORT_SYMBOL_GPL(unshare_fs_struct);
  
-+struct fs_struct *switch_fs_struct(struct fs_struct *new_fs)
++/*
++ * PID 1 may choose to stop sharing fs_struct state with us.
++ * Either via unshare(CLONE_FS) or unshare(CLONE_NEWNS). Of
++ * course, PID 1 could have chosen to create arbitrary process
++ * trees that all share fs_struct state via CLONE_FS. This is a
++ * strong statement: We only care about PID 1 aka the thread-group
++ * leader so subthread's fs_struct state doesn't matter.
++ *
++ * PID 1 unsharing fs_struct state is a bug. PID 1 relies on
++ * various kthreads to be able to perform work based on its
++ * fs_struct state. Breaking that contract sucks for both sides.
++ * So just don't bother with extra work for this. No sane init
++ * system should ever do this.
++ */
++static inline void validate_fs_switch(struct fs_struct *old_fs)
 +{
-+	struct fs_struct *fs;
-+
-+	scoped_guard(task_lock, current) {
-+		fs = current->fs;
-+		read_seqlock_excl(&fs->seq);
-+		current->fs = new_fs;
-+		if (--fs->users)
-+			new_fs = NULL;
-+		else
-+			new_fs = fs;
-+		read_sequnlock_excl(&fs->seq);
-+	}
-+
-+	return new_fs;
++	if (likely(current->pid != 1))
++		return;
++	/* @old_fs may be dangling but for comparison it's fine */
++	if (old_fs != &init_fs)
++		return;
++	pr_warn("VFS: Pid 1 stopped sharing filesystem state\n");
 +}
 +
- /* to be mentioned only in INIT_TASK */
- struct fs_struct init_fs = {
- 	.users		= 1,
-diff --git a/include/linux/fs_struct.h b/include/linux/fs_struct.h
-index 0070764b790a..ade459383f92 100644
---- a/include/linux/fs_struct.h
-+++ b/include/linux/fs_struct.h
-@@ -40,6 +40,8 @@ static inline void get_fs_pwd(struct fs_struct *fs, struct path *pwd)
- 	read_sequnlock_excl(&fs->seq);
+ struct fs_struct *switch_fs_struct(struct fs_struct *new_fs)
+ {
+ 	struct fs_struct *fs;
+@@ -162,6 +186,7 @@ struct fs_struct *switch_fs_struct(struct fs_struct *new_fs)
+ 		read_sequnlock_excl(&fs->seq);
+ 	}
+ 
++	validate_fs_switch(fs);
+ 	return new_fs;
  }
  
-+struct fs_struct *switch_fs_struct(struct fs_struct *new_fs);
-+
- extern bool current_chrooted(void);
- 
- static inline int current_umask(void)
-diff --git a/kernel/fork.c b/kernel/fork.c
-index 65113a304518..67e57ee44548 100644
---- a/kernel/fork.c
-+++ b/kernel/fork.c
-@@ -3123,7 +3123,7 @@ static int unshare_fd(unsigned long unshare_flags, struct files_struct **new_fdp
-  */
- int ksys_unshare(unsigned long unshare_flags)
- {
--	struct fs_struct *fs, *new_fs = NULL;
-+	struct fs_struct *new_fs = NULL;
- 	struct files_struct *new_fd = NULL;
- 	struct cred *new_cred = NULL;
- 	struct nsproxy *new_nsproxy = NULL;
-@@ -3198,23 +3198,13 @@ int ksys_unshare(unsigned long unshare_flags)
- 		if (new_nsproxy)
- 			switch_task_namespaces(current, new_nsproxy);
- 
--		task_lock(current);
-+		if (new_fs)
-+			new_fs = switch_fs_struct(new_fs);
- 
--		if (new_fs) {
--			fs = current->fs;
--			read_seqlock_excl(&fs->seq);
--			current->fs = new_fs;
--			if (--fs->users)
--				new_fs = NULL;
--			else
--				new_fs = fs;
--			read_sequnlock_excl(&fs->seq);
--		}
--
--		if (new_fd)
-+		if (new_fd) {
-+			guard(task_lock)(current);
- 			swap(current->files, new_fd);
--
--		task_unlock(current);
-+		}
- 
- 		if (new_cred) {
- 			/* Install the new user namespace */
 
 -- 
 2.47.3
