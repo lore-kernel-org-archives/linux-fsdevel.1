@@ -1,208 +1,144 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1D5936EA82;
-	Wed, 11 Mar 2026 03:21:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773199293; cv=fail; b=tPZ+xCpW6tBAaV4iCDht37nUOe5wxot/cH7eYLlyaGD9utE5TVslDgYOp7cUJ+glCtsh4tAhWG6pv6mLBBJ6zVu0N//aHJuCEKy128vC4Bb0IzH40C3Mke3Ac9DsuL7vwSAmhieE2ZbE5d3lIz8vqdFYLkdDJII6oi8jIKE0g4c=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773199293; c=relaxed/simple;
-	bh=HTpEZKQITf5pOr62sXXAdecKXCNi5nTQ96OOxvugn48=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=J558vmyvAbT/OBCDRoI7OxbAEzuB+cNPj73Xdd3aYhE8mWWQWB7j8u1CrT9hMGKH3KiM1fKID7LgumX6nqk4lQkUCQjHWNIMglHgXazXRmlt0ag+eDg2S9ilAhUEA7SSfBU3TQU5X0cPIBvdxiENVrUcmdeytcVJA0lVgrU4YgE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=Hv0gKaGq; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=F/6mbnaP; arc=fail smtp.client-ip=205.220.177.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32FA223ABA8;
+	Wed, 11 Mar 2026 04:49:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773204585; cv=none; b=Zjvp2nLWcqKfs/TX/WDM94OYyswW+FDj4cxp4/vFk+l/mOD0QXilnpBLWPvsm9f5+wnxk3IjyTUouCa4rTL7x9oZINiOrH3Ewbc4iloftFsLx4wiInwOdzH8e9K2z/ZqCjEzyG81VONOKLZvZ9T7qnDX/Yu7+VJ2wnqSHbaArHs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773204585; c=relaxed/simple;
+	bh=luNAMKvhT3g6lZj4Bklpxcu5kotaBTWCH9qLtXuXCaE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QnwmYe85pn1HNnu89H9Fvq69Nc4LF9OQB8X87MS2x6qMbT0D4ctI+qm5Kx+EceOLDdSvJQIijM9mnR0LOvHdlUUJNoUzPfinNFr2w5K7ql9svynUBtTCGVawvhagAwj4bfNPV9WHdmOtCMWntU/9vHABiwBdgdh9rk92aK7vxiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=hwtIRhho; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Hv0gKaGq";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="F/6mbnaP"
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62B167iN3630177;
-	Wed, 11 Mar 2026 03:20:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2025-04-25; bh=fWRUCZOIVgAqaUol9I
-	cfAsuy0h2siOQCSNSW1Km6zZg=; b=Hv0gKaGq/jdzw8X1B/+okDZOaode2xkMY4
-	/p8Si09Xi/Pi2VGxdT6edW7IMRNAEqhN2YR9kCd2EX5cATPwrLOsk7xXXUw4QNGF
-	kp3vBpxNZOeWsoMXdxYzLgq1ii7KyJOEGX7CbuY9kCebeyVeqxgD2ORvgT4XObu7
-	Li7StM+R3ymsKZBwbfEiL1C9ZYtEoT2wvWZCCsycg/3298NmxSLdPns4zDmAX0HV
-	ybxhuh1bRh5mtJCQA0/6YtztKDwFWRTkJMYNeV+K1ihBELRoKr9HL5PRINv7naY1
-	08pxWGotsf6h4T+wyO5Byidn0fv8Kd2fJvZzqePRhdoUWGNnNBug==
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4cskua47uh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 11 Mar 2026 03:20:57 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 62B1XYOj012950;
-	Wed, 11 Mar 2026 03:20:56 GMT
-Received: from sa9pr02cu001.outbound.protection.outlook.com (mail-southcentralusazon11013048.outbound.protection.outlook.com [40.93.196.48])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4craffgdpj-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 11 Mar 2026 03:20:56 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=n59owF9IU6IAHB6khbPRU6z5ea8rMZuP/2Rq35Xz7m9F8IbGPmdbwf2C6NFyXGFqz1Xp4sqIt34zRepoW9amzxlIYUJFDHCOeH3Q5H+eV3PfBUZLjKK0N5k0aVryjBVbTDzQ/8HDbrm791Fv+J4nwrRSUywccRo4e7Ue06NGLzhQN98eW/WEll2u18jglBfDqv4HXuXhTRnXpGI7HVP2vYfAjxD0Djv7NkfQycHbEgXdSFKIlKFZZTUPSRwlJNGXAejODuvYMCIH8nXyf2cRtUkiP/3pWsHlUxJ5nBeZ2x6A7Jo/u24eEfF/F9uGlR2ViC339Ys/fIJ28NmjRalIAQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fWRUCZOIVgAqaUol9IcfAsuy0h2siOQCSNSW1Km6zZg=;
- b=ctEcPi8KtHE8vYrqmMlB2ZvwIg0eqT60GkNtxWT9U/S++3FkZCe8nIoKmxhyQEE1UukoZONWZTZggefg/DQQstnJnRT2CBnQvll1YKuDVf+ka51sQqcMhId+PVe7KNIA+5e8XjH50kUoTqK6X1F1Ny7K7EAWN2j+UaLK+uum5LZMcqxyJaphsi5vHsJOEKTcSscn3FAT/jCibMR1y9B8GvwCZKESt82IPzZNNEzfw0dC5K4smciHCIS/C8KKNorbkXPih3vSQ/52VQPoFDFp9T64S4BfWko0tbMkAMGf9Mzhfh7sdoeckoilJBPnT4xsG7AyWWKbQLKqtqYLZ249Mg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fWRUCZOIVgAqaUol9IcfAsuy0h2siOQCSNSW1Km6zZg=;
- b=F/6mbnaPASc3LZ+aPgPY0VUe/i8lb4dNtWnk/KHjwyq8SnjUmZrVVsYvsvVHmsEt7LdqypFJpNSQWlwinJENkNDLyoYz3KGSMRBrxD6SoIwokuQOt4hsmoC2cZNaIO7rmg1qtO4xxYbEByrENo9oE+jZZd4M2pXOcCyabkqw06Q=
-Received: from CH3PR10MB7329.namprd10.prod.outlook.com (2603:10b6:610:12c::16)
- by CH0PR10MB7535.namprd10.prod.outlook.com (2603:10b6:610:187::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.12; Wed, 11 Mar
- 2026 03:20:52 +0000
-Received: from CH3PR10MB7329.namprd10.prod.outlook.com
- ([fe80::c2a4:fdda:f0c2:6f71]) by CH3PR10MB7329.namprd10.prod.outlook.com
- ([fe80::c2a4:fdda:f0c2:6f71%7]) with mapi id 15.20.9700.010; Wed, 11 Mar 2026
- 03:20:52 +0000
-Date: Wed, 11 Mar 2026 12:20:42 +0900
-From: Harry Yoo <harry.yoo@oracle.com>
-To: Catalin Marinas <catalin.marinas@arm.com>
-Cc: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
-        Qing Wang <wangqing7171@gmail.com>,
-        syzbot+cae7809e9dc1459e4e63@syzkaller.appspotmail.com,
-        Liam.Howlett@oracle.com, akpm@linux-foundation.org, chao@kernel.org,
-        jaegeuk@kernel.org, jannh@google.com, linkinjeon@kernel.org,
-        linux-f2fs-devel@lists.sourceforge.net, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        lorenzo.stoakes@oracle.com, pfalcato@suse.de, sj1557.seo@samsung.com,
-        syzkaller-bugs@googlegroups.com, vbabka@suse.cz,
-        Hao Li <hao.li@linux.dev>
-Subject: Re: [syzbot] [mm?] [f2fs?] [exfat?] memory leak in __kfree_rcu_sheaf
-Message-ID: <abDfiqS7A8S6TsPd@hyeyoo>
-References: <698a26d3.050a0220.3b3015.007e.GAE@google.com>
- <20260302034102.3145719-1-wangqing7171@gmail.com>
- <20df8dd1-a32c-489d-8345-085d424a2f12@kernel.org>
- <aaeLT8mnMMj_kPJc@hyeyoo>
- <925a916a-6dfb-48c0-985c-0bdfb96ebd26@kernel.org>
- <aassZV5PjgFx8dSI@arm.com>
- <aa66XJDX4QfmEbNA@hyeyoo>
- <aa8uByvL9GwsGfnO@arm.com>
- <abDbxMmK0XEYgM1b@hyeyoo>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <abDbxMmK0XEYgM1b@hyeyoo>
-X-ClientProxiedBy: SE2P216CA0090.KORP216.PROD.OUTLOOK.COM
- (2603:1096:101:2c2::13) To CH3PR10MB7329.namprd10.prod.outlook.com
- (2603:10b6:610:12c::16)
+	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="hwtIRhho"
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4fVyvy3TbVz9v75;
+	Wed, 11 Mar 2026 05:49:34 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
+	t=1773204574;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jack6TdkHfubMZXj3t4BiSmX904hWsygllpLop+Gf9w=;
+	b=hwtIRhhoCxc2ZsNuUo0Icnvj7zQltMiaNclezRSyqc87wTc0wXe2NWtPTDDRE127dJXFTa
+	MCvirHZh8IiINxf7jg7PTdJYtUuDmCcpUYG4NR+HXoSIAKzshND6dvUCboZ1QPiY129i0p
+	vP6W/4Z8xKyvmGsmG0UVmuLtY8spR7CmaMu1rm8oyBUDj2N297M9U3vbYSmSuEgII2ps6v
+	EoQvRCIKwWGE9t+rxwSll9E6aSdYeE3eYYrNzVXpC0e5YOEIKqsC4w1Amkj3lkkGAd7FSr
+	N7xilzshuVk4hvo9TfDCZ4V5CdbP7DPW1inKdPlaPKLeY7uYE4a9QY7VVtwUug==
+Date: Wed, 11 Mar 2026 13:48:47 +0900
+From: Aleksa Sarai <cyphar@cyphar.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Andy Lutomirski <luto@amacapital.net>, 
+	Jeff Layton <jlayton@kernel.org>, Dorjoy Chowdhury <dorjoychy111@gmail.com>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, 
+	ceph-devel@vger.kernel.org, gfs2@lists.linux.dev, linux-nfs@vger.kernel.org, 
+	linux-cifs@vger.kernel.org, v9fs@lists.linux.dev, linux-kselftest@vger.kernel.org, 
+	viro@zeniv.linux.org.uk, jack@suse.cz, chuck.lever@oracle.com, alex.aring@gmail.com, 
+	arnd@arndb.de, adilger@dilger.ca, mjguzik@gmail.com, smfrench@gmail.com, 
+	richard.henderson@linaro.org, mattst88@gmail.com, linmag7@gmail.com, tsbogend@alpha.franken.de, 
+	James.Bottomley@hansenpartnership.com, deller@gmx.de, davem@davemloft.net, andreas@gaisler.com, 
+	idryomov@gmail.com, amarkuze@redhat.com, slava@dubeyko.com, agruenba@redhat.com, 
+	trondmy@kernel.org, anna@kernel.org, sfrench@samba.org, pc@manguebit.org, 
+	ronniesahlberg@gmail.com, sprasad@microsoft.com, tom@talpey.com, bharathsm@microsoft.com, 
+	shuah@kernel.org, miklos@szeredi.hu, hansg@kernel.org
+Subject: Re: [PATCH v5 1/4] openat2: new OPENAT2_REGULAR flag support
+Message-ID: <2026-03-11-regular-sore-census-shops-DqYcUT@cyphar.com>
+References: <20260307140726.70219-1-dorjoychy111@gmail.com>
+ <20260307140726.70219-2-dorjoychy111@gmail.com>
+ <CALCETrXVBA9uGEUdQPEZ2MVdxjLwwcWi5kzhOr1NdOWSSRaROw@mail.gmail.com>
+ <801cf2c42b80d486726ea0a3774e52abcb158100.camel@kernel.org>
+ <CALCETrVt7o+7JCMfTX3Vu9PANJJgR8hB5Z2THcXzam61kG9Gig@mail.gmail.com>
+ <20260309-umsturz-herfallen-067eb2df7ec2@brauner>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR10MB7329:EE_|CH0PR10MB7535:EE_
-X-MS-Office365-Filtering-Correlation-Id: ab10ed20-80d0-49f8-c10d-08de7f1d32e2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|7416014|366016|22082099003|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	kpQDv/+IJIO6ZTu3XrUt4Z5d7fNb4xVFalaEDENiLiWiXsDdOMjm5DQnK/9svOg25ZZSamwrIWmcWlU6If8Eukm/vRb2XoOjwP4rpHA4JRUQ0XNUz1jWn5tbDoRwQ8/Q6x6a5tEkHrtgDr+1vZjQLZyJcObSXwV/0VpSbFEMxTeDRjv/avbRfTOAYpeGPZgsM4riioliJ+KSrpJ5eof4PASYVcubuUCHrOvq273bYoZSJi6loITTtqTqnhBr21aKYf+xKcHsTEC8kJl6Bkepbpcv70V1uXjtlg9Q4dvqWN/j8t0ltWq5c25rb3wlmlQxm9Ed6NcDsvzzcS5IL9o5vyRunfSo60PkIlddwi1IjzSm0MLUh30MXfEr3gtZRkXMa33JQTqd1xK8GEjcnjWOMjMuriXjpHZ4gyfR0zRTx/F1eQ/f0NmR2BDHLqSmZb+J3EftlwjSZIupPtV+64JIsjldvCOqD+2HDEYQVtkIfSGjVUl67BOiZj6jCJXuTTtQIlO+VRwiW4OdiZ6DHRm4gpcPH91V34XhmvH2OYmupRuRRypbSLEee3R1yeoeET0/0dMCK2e1W2SoOfCQVDHB8j6bVL05SZIeGizinqApZTJrI9v4Ta5zfsKVD2hv4rKfgwQoOyV686sGzPnVnveoKch3Ml+oPHlLtpBhe0BcaUvlt0fLvC4gAa307tbAWrs+yW/Tiu07an8djrucHSSW/UPF5oLVgJqbaTmax0tPjOQ=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR10MB7329.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?WFFJot6shS+24dju5rkbkTZSL6C90fyGWCKN8lGd7Imgl+Yz4t5umcyc1iNW?=
- =?us-ascii?Q?i/r0gGKOmUEvW4EiANkvTyhesLKr0Z4o+4gtdqm2nu6HudHzYTx1bJcvyNEO?=
- =?us-ascii?Q?gibp1CC7b00gAuy129DUJNueai882ORlYGuEyKtxhP5ntZHJV2vQ9NcU7my5?=
- =?us-ascii?Q?dsDXXAodPnKt7JK8UKtfphZuUJ1oJQExDfV6RfCqiamr0VbtKrHy6NFM+vtC?=
- =?us-ascii?Q?bB6rUGobQcBAtoDmXMTYqcs/2CaKa4yGBxx37p8u83fdU6iAkZ0DKx3mIoAC?=
- =?us-ascii?Q?rV0p3YjsKzUvZEleVYc7VrLiyTIod2nEdTdmSsaoD+ihdzDrQM38S9KLRh5p?=
- =?us-ascii?Q?H4r7hTKmxvkZCNIjmLHFE1YTlB4k3wmF00k1fDYaRDpPL5fsURlkCYJn09Hm?=
- =?us-ascii?Q?g31eVvoM8tv/z37caU2A+aeMcEb25NNbivPjNz4lNWvF9C+PXtb5LYazqL4y?=
- =?us-ascii?Q?tHz/hoZtKnbnZ5/rQffoCo48crGbvTN+TkkBdekv96P5oycybWQHXzbpsU8J?=
- =?us-ascii?Q?JBGgj85bRTWKMBaqIFGf/2V/4wCMF/0y566ZMJlCLO5up7Gt2DKvaP6GjJ5H?=
- =?us-ascii?Q?Lqjhu8b24OPcpH5A6iEUJDMina5YrDjQ7lji3efg4nwKyTkrWjTSM8YfmsAf?=
- =?us-ascii?Q?A3NFikLkNYsAO1PSuDXlFvyxfT5T4RPecBUHYpQeQM7oNFVAZtbEBfrIgyPs?=
- =?us-ascii?Q?K1nuhNql8BLiVpr3F1ciuKuDJuwKod8jB4XWIC8g+ZPrRJnR6EOEHBkYaRxe?=
- =?us-ascii?Q?kjLAC1eVFen7sl/ETGf+s32PTDsR+KO871fv/Ua0EhpGske4XS1iUxkH3y3e?=
- =?us-ascii?Q?Mq46p7LWSYb1yaiNfK8OGBa/T9N5jOO/HOh2Ha5vmOMQb3036mlnvDq88u9T?=
- =?us-ascii?Q?qU1cPn43XAmEaAf/E9Byml1PjaXPMheamUlDVi8EY7MxEUzu4n8xnpfLq8gD?=
- =?us-ascii?Q?sjtRgVpTK4vEM/Z0bOD13zcKvQxSL0TvQrRKWNhmCqnAmVOevFWPPfB5e1Ki?=
- =?us-ascii?Q?xUMjWn3+nLlt4n4q1K2rt6At/CvdMp0m2A5g74DgW0+cHUeXiZyCOJRXM+f5?=
- =?us-ascii?Q?KKs6UgAcmZhlyalgpqqWipMoUYjdyvf6C9UfzX9YQAJsXXR30qtKv+BqMrIc?=
- =?us-ascii?Q?0I/j5B6nVMapz6VB86FuF7HEvi8Eh4mxpYqOwG6TRPxD/Cffcj0/5FlS71HK?=
- =?us-ascii?Q?FftXs/pD9x40U3v0sP8I0dT+ySZKxbQ4acDxzgEYeCBg4ndxDIZFPl4CJuRO?=
- =?us-ascii?Q?W3GBunvL58qz+KZLtauzSvT35S1EYZNGrrofw20hK4Ga3B3mUjgp13hUGKkU?=
- =?us-ascii?Q?hWmDzKeJ8wNWkKsQ+oh/9b8Wx/EsFJ3b5DQOqSJ17XwEqFfxx6iI0g5c9L41?=
- =?us-ascii?Q?M5Xo2WC7KJchE0Jj9vHe/n3K0EEsszTs3vXC8gtVifGmO9J62FJrj3fdo2D7?=
- =?us-ascii?Q?EfqF6vcs1QWT/g2VVbavrYjZv/YaWrCCUxDGnRQmm3NrtOGuII9f700CLAsO?=
- =?us-ascii?Q?a3DjVJ3+2T8UbLI5v3UrfHcRaoCoY3yWnXgfmuEouUfV/oK174Wy9qYoEPsp?=
- =?us-ascii?Q?U4zlQCCwVMcq/7NjOR14UtPk01f4ZFjYk3d1j/UBrKgs6bobxgONw4rKntHr?=
- =?us-ascii?Q?bRteSerMZvYf5UUG+uGbhRVeaSDDMz2uWP7ZOVyi5vcJD4SpWWsVTOU/BtF+?=
- =?us-ascii?Q?obdhvI4jwaeJ3GPG+TQkCSY/8DFZutVHM7L91YW2r41F4Ty6aSjDT2O4/CfH?=
- =?us-ascii?Q?zsVYlq/PYg=3D=3D?=
-X-Exchange-RoutingPolicyChecked:
-	GltdoRKKsNS6Bsv2PYhAPodpVxMFoYfNeexOXb3L/iJvOwEdMz0u/Oj8drVpJlKaqYGULqwoo3iypM/bQlCwLESjlJWGcz8dFnYY0TpJt33gAQbqJUk72GkLyQDl78E44wnTLApCpVwaQ8BQCTOoXrQUtA2ZWDtzvs/EOF3SzGQAsnFQ0QxbWqjV4o6T/3UdZPWE+tCA3Xn9mEyizLvyn3MWuKlKQddzZ/QMXL9RHiM+GSaz+Ja6u5VXRltPlEXKHw/rL1esUD6Ct2rlHMiuDQb57I3JF014OVtqS37eTFz2tmvV5SaL4/j5o790juiggvVhTzcWjHeqU7TGSxDpUA==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	Rr2BeikWG9sw5EX/LtgSqm4nP6TtdQmeTjkiWsw+QatLgFkH0vWCPXwd0ypHNsb3rVmCnByXVRZCh+B/kHH11CYgcq6LAGsLO3qXmr/EJHYdUNG9X4JEtme+w4RYXW5syytjJTxcIL4LG7ENld9Fr5nJ2YJGwyriviqm6wIo6kOf7saGn3CX5qBnI9z+BBg2oKxhn36j6btHym74ahmcwfGitN0LXVHvj3D03STh0W0jLieVaMgAIF5N0cIN/DXWNLCIAlowojPbEEowqtN9U8m5zC0eZkUnvPLrEeAzDrmWmlmVfRWjZp652eiy+1RMpreUzgUDRgwDCalVZTn+y7/j2KVgChYcOR+UxlfQWa7+3CrvFgHeiZ2JuxN7BZ4dpbdqI8LL6K+vRayx0zfkt+jlzLijvy9Ih2Pyv5KF/XsXyYJrHBYs3fbf7g13ky7miyTNmxWFmSDV0run9DozYU0rik+4e7U5TvtvCOahKAuNxvCanSGsHmgfI+j/f5gLkS+syTaoD10DvSETtaMKtVx2+Mnyac6AjcdTS1Vtd1rAuvCyfTzELuvVpjg37BB9uzoLNdQ4MurDU+667pdeqygZaAsF1U59uMaN7UFRBWA=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ab10ed20-80d0-49f8-c10d-08de7f1d32e2
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR10MB7329.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Mar 2026 03:20:52.0922
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: auRsLeBIqoaXtaboSTZhnx1CawdT2w7J79vhIRBrxvjfbNZQ2UAh+mr511c6t/Wlpn+tEle2b0ckB1vnInNpzg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR10MB7535
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-10_05,2026-03-09_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 malwarescore=0 bulkscore=0
- mlxlogscore=999 adultscore=0 phishscore=0 suspectscore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2602130000
- definitions=main-2603110026
-X-Authority-Analysis: v=2.4 cv=Methep/f c=1 sm=1 tr=0 ts=69b0df99 b=1 cx=c_pps
- a=e1sVV491RgrpLwSTMOnk8w==:117 a=e1sVV491RgrpLwSTMOnk8w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=Yq5XynenixoA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=jiCTI4zE5U7BLdzWsZGv:22 a=3I1J8UUJPc9JN9BFgKH3:22 a=_DZJeIRjfaHWHcdDIicA:9
- a=CjuIK1q_8ugA:10 cc=ntf awl=host:13819
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzExMDAyNSBTYWx0ZWRfX/ZWGebC5wp4A
- T4l0x/A8MaBLYDoat6ZdQEtJb5y4fL2Lof8ytaH/abFwkd1BM03/5OpECgw+t1rx5XW5661gfPC
- ugPAv0s3yAFZxIMWyJw2yy8FkDIcy7GbytrZAV1bjmk093nC17r+UvOPvG6duZ0VBzSZ8YbzVVd
- CFZdMif47xA61miZuC53mP4A7Y8R9p50qFd7fffekGvI5+bLaAhMaWCodatOmRjpQExqw4H1Zmt
- sIOMup11M5aFcrbYIEljGOJtRLuuPBY+Nhhp+sy1c4T4N0GJOT/fig2AYI0NSO5vp/ejEL4mV5Q
- kJ1vLattuzypCnRW2oCOmMJPTn5+42G5jYlhexR+Peo2WbxJqqWDejCrCYRih0aCnaT/yT2OeE5
- 0FrMG3iXqmbYpgV1DfBcvdo9rOkvYBmTsuC7clIoCVywDLD6p2nKkfX+c+ohDVbvnidH//zPi7q
- pPS1vTtvsxbjvO6ka3CU8g58hfUnNpuu9jFaV/nA=
-X-Proofpoint-ORIG-GUID: aHPGTOuir9WRX5kRQHIvk_ZY9Ybdk5tI
-X-Proofpoint-GUID: aHPGTOuir9WRX5kRQHIvk_ZY9Ybdk5tI
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="bywgq3w2vtdgrqnx"
+Content-Disposition: inline
+In-Reply-To: <20260309-umsturz-herfallen-067eb2df7ec2@brauner>
 
-On Wed, Mar 11, 2026 at 12:04:36PM +0900, Harry Yoo wrote:
-> > > > -----------8<-----------------------------------
-> > > > diff --git a/mm/slub.c b/mm/slub.c
-> > > > index 0c906fefc31b..401557ff5487 100644
-> > > > --- a/mm/slub.c
-> > > > +++ b/mm/slub.c
-> > > > @@ -7513,6 +7513,7 @@ static void early_kmem_cache_node_alloc(int node)
-> > > >  	slab->freelist = get_freepointer(kmem_cache_node, n);
-> > > >  	slab->inuse = 1;
-> > > >  	kmem_cache_node->node[node] = n;
-> > > > +	kmemleak_alloc(n, sizeof(*n), 1, GFP_NOWAIT);
-> 
-> By the way, this should have been kmem_cache_node->object_size.
-> Because... the length of kmem_cache_node.node array is not always
-> MAX_NUMNODES (yeah, that's confusing).
 
-Oops, please feel free to ignore this paragraph!
-I was totally confused, it's not size of struct kmem_cache.
+--bywgq3w2vtdgrqnx
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v5 1/4] openat2: new OPENAT2_REGULAR flag support
+MIME-Version: 1.0
 
--- 
-Cheers,
-Harry / Hyeonggon
+On 2026-03-09, Christian Brauner <brauner@kernel.org> wrote:
+> > > On Sat, 2026-03-07 at 10:56 -0800, Andy Lutomirski wrote:
+> > > > I think this needs more clarification as to what "regular" means,
+> > > > since S_IFREG may not be sufficient.  The UAPI group page says:
+> > > >
+> > > > Use-Case: this would be very useful to write secure programs that w=
+ant
+> > > > to avoid being tricked into opening device nodes with special
+> > > > semantics while thinking they operate on regular files. This is
+> > > > particularly relevant as many device nodes (or even FIFOs) come with
+> > > > blocking I/O (or even blocking open()!) by default, which is not
+> > > > expected from regular files backed by =E2=80=9Cfast=E2=80=9D disk I=
+/O. Consider
+> > > > implementation of a naive web browser which is pointed to
+> > > > file://dev/zero, not expecting an endless amount of data to read.
+> > > >
+> > > > What about procfs?  What about sysfs?  What about /proc/self/fd/17
+> > > > where that fd is a memfd?  What about files backed by non-"fast" di=
+sk
+> > > > I/O like something on a flaky USB stick or a network mount or FUSE?
+> > > >
+> > > > Are we concerned about blocking open?  (open blocks as a matter of
+> > > > course.)  Are we concerned about open having strange side effects?
+> > > > Are we concerned about write having strange side effects?  Are we
+> > > > concerned about cases where opening the file as root results in
+> > > > elevated privilege beyond merely gaining the ability to write to th=
+at
+> > > > specific path on an ordinary filesystem?
+>=20
+> I think this is opening up a barrage of question that I'm not sure are
+> all that useful. The ability to only open regular file isn't intended to
+> defend against hung FUSE or NFS servers or other random Linux
+> special-sauce murder-suicide file descriptor traps. For a lot of those
+> we have O_PATH which can easily function with the new extension. A lot
+> of the other special-sauce files (most anonymous inode fds) cannot even
+> be reopened via e.g., /proc.
+
+Indeed, I see OPENAT2_REGULAR as a way of optimising the tedious checks
+that userspace does using O_PATH+/proc/self/fd/$n re-opening when
+dealing with regular files.
+
+For the problem of stuck NFS handles and so on, an idea I've had on my
+backlog for a long time was RESOLVE_NO_REMOTE that would block those
+kinds of things. IMHO it doesn't make sense to block those things with
+an O_* flag because (especially in the NFS example) directory components
+can also cause the syscall to block indefinitely and so RESOLVE_* flags
+make more sense for this anyway. But in my mind this is a separate
+problem to OPENAT2_REGULAR.
+
+--=20
+Aleksa Sarai
+https://www.cyphar.com/
+
+--bywgq3w2vtdgrqnx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJEEABYKADkWIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCabD0LxsUgAAAAAAEAA5t
+YW51MiwyLjUrMS4xMSwyLDIACgkQKJf60rfpRG8NhAD+MfneuLAodU+abMZdkBr7
+4vpiPGD5MeVFeZmtEvqdIWkBAJeNjed85hr2GgmqbPaY2CpOcPAXut4kYqaCB9lM
+lHcK
+=vDl9
+-----END PGP SIGNATURE-----
+
+--bywgq3w2vtdgrqnx--
