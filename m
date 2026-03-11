@@ -1,255 +1,223 @@
-Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com [209.85.161.69])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E78BC3A383F
-	for <linux-fsdevel@vger.kernel.org>; Wed, 11 Mar 2026 11:03:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.69
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773226988; cv=none; b=I3XnySliyUmmQU418RPDbCx7MlGz1EsPcO9TZ5zfR2w9WEhvC9kPvJgo4b0zVIuUbHEcyFzAYySt0bWQJPMcKGsjdlBT6ZKiDXS0AYMoiRDi4fgoTebXhwzvPN8VXGOCtp3tz9cfJPUguQv7Kuo105ejqaARwrh3Ammodeq+NK4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773226988; c=relaxed/simple;
-	bh=GzBNSvQDgN4Gylhx3fqfNEKjHrAbaXLxx+o0FNemOuY=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=dg+d6t5cRdrUIFlQyA/tzIBeG4Dxtfs2n4nR8nR7ZOe/qOlw9EeWqdG3iklxOyVWkXvH813Du6fG2s3kjXzUfPMdChQArwf/SrKzN/GgGH/kHq5fOwgNEIdCsUHlr4rjjeqUTasFSmemJcmFmweHQHkAyKD61EEwhpEBNznXGKA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo1-f69.google.com with SMTP id 006d021491bc7-67bbb814617so12896919eaf.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 11 Mar 2026 04:03:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773226986; x=1773831786;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=00o6g65oUdrN243+trpF7SWGsKEiuTr8VPwUn01kWqM=;
-        b=K1dIQh4P/Vq+BVSpWjK4Ij4edZZe8HeZDyI3PzEsDU8o98BCwsr1fYhceKp/8GjY8h
-         GUBDejYCf3LS/r/T8SAhtCEeOM6DscfQzOKalk3UWP9FwcJyz4CFXpBMzB/upj7wCADw
-         4BfOsF1wTd/2LAouOC8mJpFVpMgiQ8SH3OD9wvYPpJKTWHaLoMujlVSHYpt8Xn5u0GPZ
-         ezKHxXkUmdHX3ZPDIxRhDpuik0/rJNgxmyPhAh+fjUG39GEh61YD2/k35ZPhsz6WE0Yj
-         Q8AB+iAlI2ojdyXwCOSUKGgxCzA8eNT1cRm2NDAwM2FGFj8JB6qtwoOLby8zrACLvfaq
-         v+iw==
-X-Forwarded-Encrypted: i=1; AJvYcCULOphXitl1rGGir0HeFRrdZ866uwVyvts6txoNWRj1UB3EshJCjZ4jTvrm9KqXqE9uuRqWcQnkHpr/KBRK@vger.kernel.org
-X-Gm-Message-State: AOJu0YxNfC4QVNUMYdyiaZoxqkN/Cio9JQdVX9J2hPodGZ8sIlKLmMUV
-	Ihn6ZdRiP+UDSTZynFhOP1LnkOQDKj2hdYZkHfsK/hIQ+umIFEI+pMkiBn/hrk5KuYBEZiZDM1z
-	kZizH4NcLn80JBLlsSieYQzArstQby72ENRD00OK0m0/0NTcGJ2JNX9fXShE=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F0AE3C0607;
+	Wed, 11 Mar 2026 11:24:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773228257; cv=fail; b=IyHc4lv7J5C034GD+aojJOFxUr6XEHFA0WEoNiO+c0f5OdjwMb0XYWNM8NKtPCmDmha2//ksbOKgpdjBUuMPfj+m+xp1r0o3cPkReD7XDnPsJeBqdroB/UlxngVQlL5mZEAxATdxE2Y6c9d1Lz4e2ov9YXiCqnWN6VrbnsL8LKA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773228257; c=relaxed/simple;
+	bh=/9FWUv/VMMjwk6DagzVIe99cKD6BXcfyuKex/aGyjbw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=jZt3UhfIUzLa0b+HJOszM2Kq0W/4iqKZWs+3QyYkjYm7jFP0sioBZWlNMNYQFi+4VsVQzaJyd05M4Ekd9rB5WMzppRP8erdDZedwP+5vkQv0qM7NcGYDxYd1YY/pStYtxKeCqnHbyfHNtpepV3ohpmnzZBLeKEcjmlL2XMWt8r0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=MSs1jmpr; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=qB9u1HsA; arc=fail smtp.client-ip=205.220.165.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="MSs1jmpr";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="qB9u1HsA"
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62B8K7me1398447;
+	Wed, 11 Mar 2026 11:23:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=corp-2025-04-25; bh=nSXgHFlonvaVEZ2o1L
+	7FefWOlGjDk9hUvyqdHMR4D+o=; b=MSs1jmprbsl6QjkJqwdWD7txuKbepx7tM/
+	zAi1POcaH6cM3ZKzzREK8YZf0FKp1IGIrydtBf0ZuInU9XKxlesaJGBtzn6YcaDL
+	kJqJdkjOU3esmoYcYKhwEa1UoYAuA/PgEjZtwLGO7AKEDt83tIjRzAkR72zB5Bxy
+	8NnyzGMYgsKiBmwpyIltNoqvZG+v/svswcscL8PrnIqSjoj5zmq0MdZvPu4sKAKf
+	OY420sGk8qs8hfzXty0wvL1znvGp0Ay3WvCwbzb+kiAl1lMBbheFo4Mlc/fdE881
+	hN6ZWKuBj476SF2SxSDyxyjTfp7XzJTb/zGP9js9inWyL3yY1eug==
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4cu4str7jj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 11 Mar 2026 11:23:42 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 62B90FOB039620;
+	Wed, 11 Mar 2026 11:23:42 GMT
+Received: from ph7pr06cu001.outbound.protection.outlook.com (mail-westus3azon11010071.outbound.protection.outlook.com [52.101.201.71])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4crafbf2qc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 11 Mar 2026 11:23:42 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=rZLm1EkS7Mev2JcLGeY44z90hFPk7nLrGDkNbXeXfIYIN7XHQINOaY7KrfC7AVZ/U944EDkii4XNfXpgP5onuDLYe+IdEiqrzl+xgjC9imv98dgxrG5nvkBrgKurxKgIEscEA7EyU3b4B1LhZgFXIbRpkV9I245MBEhP1VWIwouAG4meKhc0+pHOfbWwnF59VfjJ5sIywZCBe/ECybgk5dYpsuIqzD/C97KFL1bzoTDG4hEhfPPzfOlNPzdmJFTOPWOJhvGIh9zUFDbH05o+smCf7VPARJpHRKvt9cstKvH5Ntjt+CUs4kvf4kzyStiZ+ydkFu/MAKTN94dkVre+2g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nSXgHFlonvaVEZ2o1L7FefWOlGjDk9hUvyqdHMR4D+o=;
+ b=bR5Rw5bvpSvtlHbcc0q+ReDiV2XaPSHQJvt0J5t/UimwmuB8Ms+4miPBLVdCREfR31v0+UyGwWFax2thWwBnk69fw8Ypmhm6CqhsUTHTvHn7twgWqFWMUIMyRAS4gRtUVS3Cq31iLqAUO5hF1hHLg2pCdBpQhVdvfqQaOfk2Hyg3M09i3nYiFKRlg04dHwVg06QUfmJ9y2swVYj5C6PgPWKkbPglgnGfP7NIgcfDLX/Rz2/S4en+pJda/Aufm9DVZmqhJXnaTfo3TaJkH8Kvd1UnpqG9ZsQSiFCUF0wq+W4stS1PB1LOr3gI7ybtaA1m0zjps6Lz0+ChFOhTRb8Jmg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nSXgHFlonvaVEZ2o1L7FefWOlGjDk9hUvyqdHMR4D+o=;
+ b=qB9u1HsANtMrPDfwfMsGsOEEiY0o2IRJIm/S3sSFCD8R/v083OqnU7K/zZb+NoJlzn/x9ThP2zbmZ3RSmHVF6Xi8N+3l4yKzsYF0yLFZQaCgetxHYe1nHvA48kkZ4Zrw7Yc9tX0Y5dW5IPOsZtHMdWqyLDowiZVDua/R6peJPoI=
+Received: from CH3PR10MB7329.namprd10.prod.outlook.com (2603:10b6:610:12c::16)
+ by MW6PR10MB7549.namprd10.prod.outlook.com (2603:10b6:303:23c::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.12; Wed, 11 Mar
+ 2026 11:23:39 +0000
+Received: from CH3PR10MB7329.namprd10.prod.outlook.com
+ ([fe80::c2a4:fdda:f0c2:6f71]) by CH3PR10MB7329.namprd10.prod.outlook.com
+ ([fe80::c2a4:fdda:f0c2:6f71%7]) with mapi id 15.20.9700.010; Wed, 11 Mar 2026
+ 11:23:38 +0000
+Date: Wed, 11 Mar 2026 20:23:31 +0900
+From: Harry Yoo <harry.yoo@oracle.com>
+To: Qing Wang <wangqing7171@gmail.com>
+Cc: syzbot+cae7809e9dc1459e4e63@syzkaller.appspotmail.com,
+        Liam.Howlett@oracle.com, akpm@linux-foundation.org, chao@kernel.org,
+        jaegeuk@kernel.org, jannh@google.com, linkinjeon@kernel.org,
+        linux-f2fs-devel@lists.sourceforge.net, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        lorenzo.stoakes@oracle.com, pfalcato@suse.de, sj1557.seo@samsung.com,
+        syzkaller-bugs@googlegroups.com, vbabka@suse.cz
+Subject: Re: [syzbot] [mm?] [f2fs?] [exfat?] memory leak in __kfree_rcu_sheaf
+Message-ID: <abFQsxz6pp8H63Te@hyeyoo>
+References: <698a26d3.050a0220.3b3015.007e.GAE@google.com>
+ <20260311104855.102050-1-wangqing7171@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260311104855.102050-1-wangqing7171@gmail.com>
+X-ClientProxiedBy: SEWP216CA0030.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:101:2b5::18) To CH3PR10MB7329.namprd10.prod.outlook.com
+ (2603:10b6:610:12c::16)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:1c9e:b0:67b:b63b:6fe4 with SMTP id
- 006d021491bc7-67bbc7330d5mr4435697eaf.19.1773226985864; Wed, 11 Mar 2026
- 04:03:05 -0700 (PDT)
-Date: Wed, 11 Mar 2026 04:03:05 -0700
-In-Reply-To: <20260311104855.102050-1-wangqing7171@gmail.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <69b14be9.050a0220.209d0e.0001.GAE@google.com>
-Subject: Re: [syzbot] [mm?] [f2fs?] [exfat?] memory leak in __kfree_rcu_sheaf
-From: syzbot <syzbot+cae7809e9dc1459e4e63@syzkaller.appspotmail.com>
-To: akpm@linux-foundation.org, chao@kernel.org, jaegeuk@kernel.org, 
-	jannh@google.com, liam.howlett@oracle.com, linkinjeon@kernel.org, 
-	linux-f2fs-devel@lists.sourceforge.net, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, lorenzo.stoakes@oracle.com, 
-	pfalcato@suse.de, sj1557.seo@samsung.com, syzkaller-bugs@googlegroups.com, 
-	vbabka@suse.cz, wangqing7171@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR10MB7329:EE_|MW6PR10MB7549:EE_
+X-MS-Office365-Filtering-Correlation-Id: be1ca5cd-8233-4a8f-cfed-08de7f60a443
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|366016|1800799024|56012099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	02djn0tjef4OYP+yy8N1ojGS2QnlUAmBsSqj5oGQuTV9eM+8NAAx+CytfhFxPZhiv9GBe47rRCZoNGa/de4JHVvZeeUijxvG4gJ/UdcIno96yx7e8GgwUGZS4DE2MtLNv7xDn+BgQKBOwBhpsJNaWKScX9JbCqp2xskZRSexAx/LsAYeWGT6AoonnvXBuNdqQ1gLj1YL1FxDnFBJNDRlNnCAMhVT8Vc9wVYFioaCSQejzpOMmqHnfSQr70viopUVgC242L5/aWOQ5YPkbtH/xWDiQlTT1ARtOH15rtfBJC2GLbrzrnSUx46zQ2EXHaaYK6kB5098Gl2MOW+lb/4doUcoKI0OQQkDCHEz3CeW3/lRHyWMI6+dx521e4uYXPSgDxC90iUyRMO1SUgzGvsk1RAqcmVecnsS6R0f6b2IcqdFmwh7H8otHe054yf4zlEiWGJXBILEkExFRWeR/Z18DZD1YMdcOlEu28FY5/jvRBN9ZGT6WWeZFM6pIadlEdniG97AlA6X1aV+hXnwQZKSW8fcR7SwvLWG8V6/HUfOK+/PCWqvENZNZEkAUOrFA/iI8zuXnPyfA07RJxLlWVNs9wr1wGAIsGWYDojjqAB4jhBOdkmgwdqgYU40DPEpe8wyLFiWjkvo2ndfxHjTXOIo1b5B2fM25QZ5ulGhWz7Hky7LNy/KwKfnihgANWjZBDHkRsFABHYJ8PTc4gOR6gootdLoalmAOH22n2o4fe7sKsw=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR10MB7329.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?JI0myKfPmKFl1GqWi+APOh3DA2PPHWB5lxgYBmdlszxudyH0NljZ4xsIY76V?=
+ =?us-ascii?Q?WG2xbRHQqltuYnthqmXPmsmtCe0GqsxPPoREjmvlrU7P9ZhK+pQBjOimqavT?=
+ =?us-ascii?Q?CoFNbO5Yv8kXTXExIwBf5B/3GCPYNY5C58iamKiKqTQJ/G4z1OyX/VgMdE2W?=
+ =?us-ascii?Q?W1lFC4gepO+jNPtwcuFbxtz9wHNnvrDiBrs9UC/t/IG9nstuMLcx4/QJQnDT?=
+ =?us-ascii?Q?u4EoB9QfxhApP6ZG3nn8Znh1biRNadrM0NvfPqsuapF0kfdF0Qa3UNECfn4u?=
+ =?us-ascii?Q?1VLAoPpWx7BVgjxUiHKF/po1W8kHHpbUsGiFV0S/QRYnB6z+dX3oeRrEyK6s?=
+ =?us-ascii?Q?cYfT+nPHdekPVbJ0QS6PlYddYVcU+Xl6syZyUD8NL94KuK9xOz4Sz6zsyoHS?=
+ =?us-ascii?Q?O2hF7kwEXi8t8Ee7fMEGbJQgWHbCZgVIvSnVZ1JjuvSishjCLAZ37e9jELTE?=
+ =?us-ascii?Q?bysJ/IfytU5qPjD6KYS8hyAfFKB2Ul52V125G5C/ZDHOHrK3E4gBArBgfMOD?=
+ =?us-ascii?Q?TLOn2W5izkk1WpqY0xsFJm4nnHEqWa3y3T8EwhIgW1Jt1ryQsFKMZjBisckG?=
+ =?us-ascii?Q?4MsqB6FZioJ+4VbSLHrGp0BbBIPNlmwDNietnSTCD+EOD2Z+9bxw6tOBn08d?=
+ =?us-ascii?Q?HuifE7GNr+HuhNJdU9HL22IhwIg9JEw898OqiwYUhRl8SkA1o+pImwEAy99b?=
+ =?us-ascii?Q?5NTF/8pTazS/oaWOE1deIU+Y6DgmMMyDIveloayOvMfZ1ojVqUdvF3KoyKFh?=
+ =?us-ascii?Q?aRWd8yalIWm0w3fQntyLzKD8u37jAu61w1w4/2LcuIEZzDH7KABh905VOxtw?=
+ =?us-ascii?Q?pa9NYtLs+ZR8dPJQJlWBXj1sQ+RpQvgEvMqU2o78Be2S9KWG6AYlRIWpKFHz?=
+ =?us-ascii?Q?1Vo1Kt/DT5x9kRcfp74bJ2uKhYG2OVvGOkuH6osKixFw6o0H+eUGCXS1xA8A?=
+ =?us-ascii?Q?6K883wdtuYZh7PgfXbA81jfMKm3dYE4+AGE+PeE1GHpwfmKZAiJN0SsWK45T?=
+ =?us-ascii?Q?a0VYUgAekkK29rnP83+20F9rJZaMZPafKATbRmV9ZEsWk0ECsGPIJsERiCAV?=
+ =?us-ascii?Q?l7iOCmraSTfBH9A4OzsrhJ/Ld0ysYGbymnOMAfytZUQsRCTZ3NEVWnqjmw91?=
+ =?us-ascii?Q?HQjHqbAduTa47TkKkwCNHam5t5rGJ6412x8lbH9Xv26oYKRhFhuwm0S0tBqG?=
+ =?us-ascii?Q?xHsl/+LsJLgM1DM+GzfglcaMtCVL47iJ6uH8ZYzu7KFdKWj4RPPlPszfOh2A?=
+ =?us-ascii?Q?KE7EXjVSNVXxuVa0GoSTWcp5RYvK0uUHi4WmfryuN0UqArSejJHkurm8rt0Q?=
+ =?us-ascii?Q?Xx8ot5/Wa9AlFdNwGsq1cC9paZlzOcavKXrFpUa3yo46rq0l7AyVQLj9ji6e?=
+ =?us-ascii?Q?X7uhuSxLfsELMLo67i7hfcGrUQ17WsPjgK5x0Drjfzf5Hv+3hPtbXI6LNpkA?=
+ =?us-ascii?Q?OrKXIcr1PgYtNSWlOeTEUEGqFi/KliBkIStDFPrx4medkmiRr3AlxTbk0Qd8?=
+ =?us-ascii?Q?qIh0x3ure1T4Op+wLYHXvq6dWE8oBkvsJBD9+JkWY68kAHBJ0ZX+7YmSZe9l?=
+ =?us-ascii?Q?5con+Hs9Mptj6kxxN7qzUcxOyYQLJKqJlawABrzMYxAFhwcSu/zH3vb3PmFk?=
+ =?us-ascii?Q?5S8qo4Z8JlUWYkgxW2OpXSo45ju5ZW0z/2oKTnMcbXGu7dVh+Qn6SfKdEi3W?=
+ =?us-ascii?Q?wmGgno45+20COmXvQ3L8HYlUR2PeHmPeXPTCe1dCKok3R6YYDr5YgoKVBmOi?=
+ =?us-ascii?Q?q9GWkRjHCg=3D=3D?=
+X-Exchange-RoutingPolicyChecked:
+	IUDLyR7RVY/uTMxy8trq2RBF85EPIXvjcOZWlr1HsMXiC1Uu2LVYyPjffQc6zG3rnOUk9/af4aqbDzQ5w6pVDV7FaJhZYiZJUuSe43IN04DZotu5Nm2QG3muikwf7t1phA045EfvQzbo81tijlUQwY+/glC96b9oq5tCanX+wZQOqxl6WLfQRS8JC/tqQREdGL6yQ4hAGLZKCRNg3YJ/2NmD7nse6TvT8xgs+unfYnCakOTTat829kicTtd20DNrKQCQDxzTIAeVLid5FjRHCkZdenrrh/LJOwt1soYJaUJoFZMGi0zrZIlbH3pNRqKDlLTMVCnGsWLgLAiSkFr5fQ==
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	TBlbFH+1NHLybmDrra7IHIjPRzoyAe6g9hxM0QClqyaN5vXvuumjbcSKs2MRDKMH5ukzbFTuy5hpbozJhL6bRCIfOo+eAV59zxyWWc/9JkiyUIapBzg+VMwCKQSPFk3bWjHLMyR5Sk4+e+2ICDo+YXEYMvDndPjY+KnHH3OurULaf7qxba/ng/IWrWnMYTRs1nwl8Y1KmKDIgK3nSLyInBTDL3487+OPZBjsjJdvw8GPnnDRUm61JqagwNhhC9amHKbuGA+qo3sIWTz19QTPz/wTrHsxBk15JmTI4XIRro3gYEeI9KsKYhQKjPnmYRlZUus+VvuIyfslJ+s4FME9TxeMxyq4xXsaDT8PB94oT6lr81Im/99a7sG/sRN7ECk1/TlaVZ0c5N0xaGriKD1Gd6U97fTgtLe/Bmi9n1HirQEgcTPIhajKXBXEs8aIs385dq7ywbG0UwoHReGMWHij4l/6vWZpWj0yLDdgP/r0+CPrUCvReysQnqSXj691gvVMglqFOiMvy+Dpi8MW2ro0C73FTDNyCFl2IcqmUmqzHk+CKNmHqxlL2EPane/C4OCYtGO6B5EsZOuS7pd0nAppMYzweDvzG1vxhCBNSS6ATNY=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: be1ca5cd-8233-4a8f-cfed-08de7f60a443
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR10MB7329.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Mar 2026 11:23:38.6260
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: B9yd/nGA/BGl2GbS4i9clVnao9UEYAyxzHqDipi/yEbMHVtPL1cy8qvuMwM5sBxBD8KVyXcRWcu1Fv/Nlye8VQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR10MB7549
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-11_01,2026-03-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 malwarescore=0 spamscore=0 suspectscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2602130000
+ definitions=main-2603110096
+X-Authority-Analysis: v=2.4 cv=Fv8IPmrq c=1 sm=1 tr=0 ts=69b150bf cx=c_pps
+ a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=Yq5XynenixoA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=jiCTI4zE5U7BLdzWsZGv:22 a=RD47p0oAkeU5bO7t-o6f:22 a=Ef93L0gbSnvVx2YvGFEA:9
+ a=CjuIK1q_8ugA:10
+X-Proofpoint-GUID: JRFCWYAn0fOn7MTCGCJDUNsbPgq5kg2f
+X-Proofpoint-ORIG-GUID: JRFCWYAn0fOn7MTCGCJDUNsbPgq5kg2f
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzExMDA5NiBTYWx0ZWRfX6npWWazh5mlF
+ TOM9EydbzzTTPqwjJNNw2AmJPY61dSR9hfqFyarIESqNptcWjFcApSqra2YzhAzqdXniN5V74T0
+ qNqXNBa2u+OFiyeFMMpQQrNKu29yCx1wtp2zhK/AYzYVb6jSKwQhd51xFfTgE4anfjeo3Io+jJ8
+ mFz+mKsxge9U0ppI7xDcpU7dd5Sho4xoFRbu3aQOjuCLJ7IJZ+1poEkQGQraA8UV03KVLoXGr8T
+ 3wL//EoZ6+qKuOpsJp4EqtJzBQcvDSw39WNgCGGo5JOF38EtgHz4PkkxLIClEDG05jowFGRMBgY
+ xQyq/o3+7CCxeJ7c2QOiTWRmLIRDeNPyxSBifYcHPAvzHgUp+qVCuyASXoBb0a/5VzAP8YewVEK
+ 9RRvGU/pjEbpMbmiKL0KB7DMBqf1J8uCp6vp5SBKJCY2HcODvxZHaw9mKfAxNCe4qczo2MjJiSk
+ gYbjCx+W83JCqPrmDPQ==
 
-Hello,
+On Wed, Mar 11, 2026 at 06:48:55PM +0800, Qing Wang wrote:
+> #syz test
+> 
+> diff --git a/mm/slub.c b/mm/slub.c
+> index 20cb4f3b636d..73b2cfd0e123 100644
+> --- a/mm/slub.c
+> +++ b/mm/slub.c
+> @@ -2797,6 +2797,7 @@ static void free_empty_sheaf(struct kmem_cache *s, struct slab_sheaf *sheaf)
+>  	if (s->flags & SLAB_KMALLOC)
+>  		mark_obj_codetag_empty(sheaf);
+>  
+> +	WARN_ON(sheaf->size > 0);
+>  	kfree(sheaf);
+>  
+>  	stat(s, SHEAF_FREE);
+> @@ -2828,6 +2829,7 @@ static int refill_sheaf(struct kmem_cache *s, struct slab_sheaf *sheaf,
+>  	return 0;
+>  }
+>  
+> +static void sheaf_flush_unused(struct kmem_cache *s, struct slab_sheaf *sheaf);
+>  
+>  static struct slab_sheaf *alloc_full_sheaf(struct kmem_cache *s, gfp_t gfp)
+>  {
+> @@ -2837,6 +2839,7 @@ static struct slab_sheaf *alloc_full_sheaf(struct kmem_cache *s, gfp_t gfp)
+>  		return NULL;
+>  
+>  	if (refill_sheaf(s, sheaf, gfp | __GFP_NOMEMALLOC | __GFP_NOWARN)) {
+> +		sheaf_flush_unused(s, sheaf);
+>  		free_empty_sheaf(s, sheaf);
+>  		return NULL;
+>  	}
+> @@ -4623,6 +4626,7 @@ __pcs_replace_empty_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs,
+>  			 * we must be very low on memory so don't bother
+>  			 * with the barn
+>  			 */
+> +			sheaf_flush_unused(s, empty);
+>  			free_empty_sheaf(s, empty);
+>  		}
+>  	} else {
 
-syzbot has tested the proposed patch but the reproducer is still triggering an issue:
-memory leak in __pcs_replace_empty_main
+This won't fix any kmemleak reports because kmemleak couldn't detect this
+in the first place. kmemleak doesn't know that those objects exist
+until they are allocated and kmemleak_alloc() is called for them.
 
-BUG: memory leak
-unreferenced object 0xffff88810005f800 (size 512):
-  comm "swapper/0", pid 0, jiffies 4294937296
-  hex dump (first 32 bytes):
-    18 ca 17 2e 81 88 ff ff 00 b6 ad 81 ff ff ff ff  ................
-    00 12 04 00 81 88 ff ff 3c 00 00 00 00 00 00 00  ........<.......
-  backtrace (crc 9b7d1e76):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4550 [inline]
-    slab_alloc_node mm/slub.c:4873 [inline]
-    __do_kmalloc_node mm/slub.c:5266 [inline]
-    __kmalloc_noprof+0x3bd/0x560 mm/slub.c:5279
-    kmalloc_noprof include/linux/slab.h:954 [inline]
-    kzalloc_noprof include/linux/slab.h:1188 [inline]
-    __alloc_empty_sheaf+0x35/0x50 mm/slub.c:2771
-    alloc_empty_sheaf mm/slub.c:2786 [inline]
-    alloc_full_sheaf mm/slub.c:2836 [inline]
-    __pcs_replace_empty_main+0x1e0/0x2f0 mm/slub.c:4633
-    alloc_from_pcs mm/slub.c:4724 [inline]
-    slab_alloc_node mm/slub.c:4858 [inline]
-    __kmalloc_cache_noprof+0x3ac/0x480 mm/slub.c:5382
-    kmalloc_noprof include/linux/slab.h:950 [inline]
-    kzalloc_noprof include/linux/slab.h:1188 [inline]
-    __irq_domain_alloc_fwnode+0x37/0x140 kernel/irq/irqdomain.c:95
-    irq_domain_alloc_named_fwnode include/linux/irqdomain.h:271 [inline]
-    arch_early_irq_init+0x1c/0x70 arch/x86/kernel/apic/vector.c:803
-    start_kernel+0x931/0xb80 init/main.c:1114
-    x86_64_start_reservations+0x24/0x30 arch/x86/kernel/head64.c:310
-    x86_64_start_kernel+0xce/0xd0 arch/x86/kernel/head64.c:291
-    common_startup_64+0x13e/0x148
-
-BUG: memory leak
-unreferenced object 0xffff8881008f6c00 (size 512):
-  comm "kthreadd", pid 2, jiffies 4294937344
-  hex dump (first 32 bytes):
-    08 5e e1 28 81 88 ff ff 00 b6 ad 81 ff ff ff ff  .^.(............
-    00 12 04 00 81 88 ff ff 3c 00 00 00 00 00 00 00  ........<.......
-  backtrace (crc 89324f2):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4550 [inline]
-    slab_alloc_node mm/slub.c:4873 [inline]
-    __do_kmalloc_node mm/slub.c:5266 [inline]
-    __kmalloc_noprof+0x3bd/0x560 mm/slub.c:5279
-    kmalloc_noprof include/linux/slab.h:954 [inline]
-    kzalloc_noprof include/linux/slab.h:1188 [inline]
-    __alloc_empty_sheaf+0x35/0x50 mm/slub.c:2771
-    alloc_empty_sheaf mm/slub.c:2786 [inline]
-    alloc_full_sheaf mm/slub.c:2836 [inline]
-    __pcs_replace_empty_main+0x1e0/0x2f0 mm/slub.c:4633
-    alloc_from_pcs mm/slub.c:4724 [inline]
-    slab_alloc_node mm/slub.c:4858 [inline]
-    __kmalloc_cache_node_noprof+0x3ef/0x4e0 mm/slub.c:5395
-    kmalloc_node_noprof include/linux/slab.h:1077 [inline]
-    __get_vm_area_node+0xc6/0x1d0 mm/vmalloc.c:3221
-    __vmalloc_node_range_noprof+0x1d3/0xe50 mm/vmalloc.c:4024
-    __vmalloc_node_noprof+0x71/0x90 mm/vmalloc.c:4124
-    alloc_thread_stack_node kernel/fork.c:355 [inline]
-    dup_task_struct kernel/fork.c:924 [inline]
-    copy_process+0x3e5/0x28c0 kernel/fork.c:2050
-    kernel_clone+0xac/0x6e0 kernel/fork.c:2654
-    kernel_thread+0x80/0xb0 kernel/fork.c:2715
-    create_kthread kernel/kthread.c:459 [inline]
-    kthreadd+0x186/0x250 kernel/kthread.c:817
-    ret_from_fork+0x23c/0x4b0 arch/x86/kernel/process.c:158
-    ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
-BUG: memory leak
-unreferenced object 0xffff8881023c6800 (size 512):
-  comm "kworker/u8:3", pid 829, jiffies 4294937473
-  hex dump (first 32 bytes):
-    00 56 0a 2b 81 88 ff ff 00 fe 03 2b 81 88 ff ff  .V.+.......+....
-    00 12 04 00 81 88 ff ff 3c 00 00 00 00 00 00 00  ........<.......
-  backtrace (crc 175b82b9):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4550 [inline]
-    slab_alloc_node mm/slub.c:4873 [inline]
-    __do_kmalloc_node mm/slub.c:5266 [inline]
-    __kmalloc_noprof+0x3bd/0x560 mm/slub.c:5279
-    kmalloc_noprof include/linux/slab.h:954 [inline]
-    kzalloc_noprof include/linux/slab.h:1188 [inline]
-    __alloc_empty_sheaf+0x35/0x50 mm/slub.c:2771
-    alloc_empty_sheaf mm/slub.c:2786 [inline]
-    __pcs_replace_full_main+0xe8/0x300 mm/slub.c:5729
-    free_to_pcs mm/slub.c:5782 [inline]
-    slab_free mm/slub.c:6177 [inline]
-    kfree+0x352/0x390 mm/slub.c:6490
-    call_usermodehelper_freeinfo kernel/umh.c:43 [inline]
-    umh_complete kernel/umh.c:57 [inline]
-    call_usermodehelper_exec_async+0x1c7/0x1f0 kernel/umh.c:119
-    ret_from_fork+0x23c/0x4b0 arch/x86/kernel/process.c:158
-    ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
-BUG: memory leak
-unreferenced object 0xffff8881023e9000 (size 512):
-  comm "kworker/0:1", pid 10, jiffies 4294937519
-  hex dump (first 32 bytes):
-    e0 52 f6 28 81 88 ff ff 00 b6 ad 81 ff ff ff ff  .R.(............
-    00 12 04 00 81 88 ff ff 3c 00 00 00 00 00 00 00  ........<.......
-  backtrace (crc d8ec9e0d):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4550 [inline]
-    slab_alloc_node mm/slub.c:4873 [inline]
-    __do_kmalloc_node mm/slub.c:5266 [inline]
-    __kmalloc_noprof+0x3bd/0x560 mm/slub.c:5279
-    kmalloc_noprof include/linux/slab.h:954 [inline]
-    kzalloc_noprof include/linux/slab.h:1188 [inline]
-    __alloc_empty_sheaf+0x35/0x50 mm/slub.c:2771
-    alloc_empty_sheaf mm/slub.c:2786 [inline]
-    __pcs_replace_full_main+0xe8/0x300 mm/slub.c:5729
-    free_to_pcs mm/slub.c:5782 [inline]
-    slab_free mm/slub.c:6177 [inline]
-    kfree+0x352/0x390 mm/slub.c:6490
-    blk_free_flush_queue+0x28/0x40 block/blk-flush.c:514
-    srcu_invoke_callbacks+0x11a/0x1c0 kernel/rcu/srcutree.c:1941
-    process_one_work+0x26c/0x5d0 kernel/workqueue.c:3275
-    process_scheduled_works kernel/workqueue.c:3358 [inline]
-    worker_thread+0x243/0x490 kernel/workqueue.c:3439
-    kthread+0x14e/0x1a0 kernel/kthread.c:436
-    ret_from_fork+0x23c/0x4b0 arch/x86/kernel/process.c:158
-    ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
-BUG: memory leak
-unreferenced object 0xffff888104850a00 (size 512):
-  comm "kworker/0:1", pid 10, jiffies 4294937528
-  hex dump (first 32 bytes):
-    00 6c 8f 00 81 88 ff ff 00 10 0a 2b 81 88 ff ff  .l.........+....
-    00 12 04 00 81 88 ff ff 3c 00 00 00 00 00 00 00  ........<.......
-  backtrace (crc c75772dc):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4550 [inline]
-    slab_alloc_node mm/slub.c:4873 [inline]
-    __do_kmalloc_node mm/slub.c:5266 [inline]
-    __kmalloc_noprof+0x3bd/0x560 mm/slub.c:5279
-    kmalloc_noprof include/linux/slab.h:954 [inline]
-    kzalloc_noprof include/linux/slab.h:1188 [inline]
-    __alloc_empty_sheaf+0x35/0x50 mm/slub.c:2771
-    alloc_empty_sheaf mm/slub.c:2786 [inline]
-    __pcs_replace_full_main+0xe8/0x300 mm/slub.c:5729
-    free_to_pcs mm/slub.c:5782 [inline]
-    slab_free mm/slub.c:6177 [inline]
-    kfree+0x352/0x390 mm/slub.c:6490
-    blk_free_flush_queue+0x28/0x40 block/blk-flush.c:514
-    srcu_invoke_callbacks+0x11a/0x1c0 kernel/rcu/srcutree.c:1941
-    process_one_work+0x26c/0x5d0 kernel/workqueue.c:3275
-    process_scheduled_works kernel/workqueue.c:3358 [inline]
-    worker_thread+0x243/0x490 kernel/workqueue.c:3439
-    kthread+0x14e/0x1a0 kernel/kthread.c:436
-    ret_from_fork+0x23c/0x4b0 arch/x86/kernel/process.c:158
-    ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
-BUG: memory leak
-unreferenced object 0xffff888104850800 (size 512):
-  comm "kworker/0:1", pid 10, jiffies 4294937528
-  hex dump (first 32 bytes):
-    18 6a 89 26 81 88 ff ff 00 b6 ad 81 ff ff ff ff  .j.&............
-    00 12 04 00 81 88 ff ff 3c 00 00 00 00 00 00 00  ........<.......
-  backtrace (crc 1ece07b3):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4550 [inline]
-    slab_alloc_node mm/slub.c:4873 [inline]
-    __do_kmalloc_node mm/slub.c:5266 [inline]
-    __kmalloc_noprof+0x3bd/0x560 mm/slub.c:5279
-    kmalloc_noprof include/linux/slab.h:954 [inline]
-    kzalloc_noprof include/linux/slab.h:1188 [inline]
-    __alloc_empty_sheaf+0x35/0x50 mm/slub.c:2771
-    alloc_empty_sheaf mm/slub.c:2786 [inline]
-    __pcs_replace_full_main+0xe8/0x300 mm/slub.c:5729
-    free_to_pcs mm/slub.c:5782 [inline]
-    slab_free mm/slub.c:6177 [inline]
-    kfree+0x352/0x390 mm/slub.c:6490
-    vfree.part.0+0x1d5/0x4d0 mm/vmalloc.c:3485
-    vfree mm/vmalloc.c:3456 [inline]
-    delayed_vfree_work+0x5b/0x90 mm/vmalloc.c:3398
-    process_one_work+0x26c/0x5d0 kernel/workqueue.c:3275
-    process_scheduled_works kernel/workqueue.c:3358 [inline]
-    worker_thread+0x243/0x490 kernel/workqueue.c:3439
-    kthread+0x14e/0x1a0 kernel/kthread.c:436
-    ret_from_fork+0x23c/0x4b0 arch/x86/kernel/process.c:158
-    ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
-connection error: failed to recv *flatrpc.ExecutorMessageRawT: EOF
-
-
-Tested on:
-
-commit:         b29fb882 Merge tag 'v7.0-rc3-ksmbd-server-fixes' of gi..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=13fb694a580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=2c6ad6fefffa76b1
-dashboard link: https://syzkaller.appspot.com/bug?extid=cae7809e9dc1459e4e63
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-patch:          https://syzkaller.appspot.com/x/patch.diff?x=14023016580000
-
+-- 
+Cheers,
+Harry / Hyeonggon
