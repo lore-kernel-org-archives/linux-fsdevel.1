@@ -1,39 +1,40 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A52B638B142;
-	Wed, 11 Mar 2026 22:13:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 304A5296BCF;
+	Wed, 11 Mar 2026 22:14:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773267186; cv=none; b=nM34My3/W8MnCcY5IM7gVozLeDcwTwJwQtVWXXAiLSXmHS3gT4c8T8Dh2saIJiClMnKdc+9b7IVBprp2mpdKUQBR7B+31EX+ukEwCluAd71sTk71pxOSFD274w4uRua5LAH95lx1nMlfgC5BhIpoKPTMIDRTtfYjFPlTgqj6YiQ=
+	t=1773267250; cv=none; b=ldgedCG4JWtoAT8NEtjJzOeDz/lEwahKUuQvH3ctAcxcznM0IPTEzqOQqnmlng3hLn9Y7TgUEVkdSE3cM7nXuWaKFdCMZ45rKC0dgftWNdqhOWECOpp+hhmhFvjcW7cVayYZAtufP7ySNiw2+zfGWhbNou0ZslqJR7TTEib4NoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773267186; c=relaxed/simple;
-	bh=3fOHYetrexW5eyi81XaJfk6w2FgZkXn7haVvR5QBY7c=;
+	s=arc-20240116; t=1773267250; c=relaxed/simple;
+	bh=O8ufv9orCb9gjhbQTXjts26HeQJe0VHg+7ffSfToflo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VKpuWo1aqUCpRJnf5Ol6Hr+fshiWM7M6XHZgsO+UDYtbrebphD+J0Q1XF4Fv4tykXuFR67r+8Kb3yth3BaIdlf1mAAWXhW6zEKN3TSsZ5h2ag55FOCcwEcxhH9O1kESMT9DbH8Y8GRr8UWXtXeUhUAsXkSDujfgyh3VV4RM85bQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=ehBwcqC3; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=mebG4oYY4n8RRTKEnTmkSas4TOCmF5r0kv8+MKi4Hg3fc6x15c+XKzvE2WOasCTu7TPCOjyC+G76hxT6ftMw/ZDYLRYldgmzo5bkTBYgwyV10oFzfw58kDDkiTalJJXKcBhckFtGkXobE/EFUEI0pCamCFmw39uZ8oOuNtzRnQY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iQovA7sV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="ehBwcqC3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1773267181;
-	bh=3fOHYetrexW5eyi81XaJfk6w2FgZkXn7haVvR5QBY7c=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iQovA7sV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0A46C4CEF7;
+	Wed, 11 Mar 2026 22:14:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773267249;
+	bh=O8ufv9orCb9gjhbQTXjts26HeQJe0VHg+7ffSfToflo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ehBwcqC3VTBZAW5MEGW23tiseZ+np02isUp0Hb3jnzv/Me553KtShQzPBiFjkVTkQ
-	 rOAgLJp4fEhXsRcpnScJvocHS1vP3QE34nzgaTyDpjhYCnFrSNaDR9N0Lsakxy/LUD
-	 qStvRfzoVId9fdkuyoy3uAIpFJM16sdLawCoyJzE=
-Date: Wed, 11 Mar 2026 23:13:01 +0100
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, 
-	Linus Torvalds <torvalds@linux-foundation.org>, linux-kernel@vger.kernel.org, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jens Axboe <axboe@kernel.dk>, Jan Kara <jack@suse.cz>, 
-	Tejun Heo <tj@kernel.org>, Jann Horn <jannh@google.com>
-Subject: Re: [PATCH RFC v3 21/26] fs: add kthread_mntns()
-Message-ID: <679ceaa7-9ff4-41aa-b602-1c1e4fc129aa@t-8ch.de>
-References: <20260311-work-kthread-nullfs-v3-0-3dd2cbe92ad0@kernel.org>
- <20260311-work-kthread-nullfs-v3-21-3dd2cbe92ad0@kernel.org>
+	b=iQovA7sVKEYkt4XtYecOThXZEBSxyKJkMp0ZKpkUAW2PSJwENulhtJfJZFJjnEvzy
+	 Jq1eugqFxCJlaS3C60TkvvT59m3meVQ5YLhBWuo6gGEsZWlqYzL78KOMcEqeFZ+wgf
+	 d1DDB3LKvL0j+pWSzjlOwtOCYnyeePMxo0/D9zKARRJKtn1t2YjFxmFjWLZt16ejFG
+	 tqEkuDCng6sIUATbgUFh3JGFHnMeiRZ8ea+uh3Xx+/KJF3RD+zfKTGh3TMDTFCgMKv
+	 gN55jiKnrnOuoSTfc5maOhOGbhlGRWJ49LCf5rDIRzQaPr45QA1tCK1AEcmRsUQsEl
+	 m8PVfk5khZz+g==
+Date: Wed, 11 Mar 2026 15:14:08 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Brian Foster <bfoster@redhat.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org
+Subject: Re: [PATCH v4 2/8] xfs: flush dirty pagecache over hole in zoned
+ mode zero range
+Message-ID: <20260311221408.GE1770774@frogsfrogsfrogs>
+References: <20260311162502.192375-1-bfoster@redhat.com>
+ <20260311162502.192375-3-bfoster@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -42,39 +43,89 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260311-work-kthread-nullfs-v3-21-3dd2cbe92ad0@kernel.org>
+In-Reply-To: <20260311162502.192375-3-bfoster@redhat.com>
 
-On 2026-03-11 22:44:04+0100, Christian Brauner wrote:
-> Allow kthreads to create a private mount namespace.
+On Wed, Mar 11, 2026 at 12:24:56PM -0400, Brian Foster wrote:
+> For zoned filesystems a window exists between the first write to a
+> sparse range (i.e. data fork hole) and writeback completion where we
+> might spuriously observe holes in both the COW and data forks. This
+> occurs because a buffered write populates the COW fork with
+> delalloc, writeback submission removes the COW fork delalloc blocks
+> and unlocks the inode, and then writeback completion remaps the
+> physically allocated blocks into the data fork. If a zero range
+> operation does a lookup during this window where both forks show a
+> hole, it incorrectly reports a hole mapping for a range that
+> contains data.
 > 
-> Signed-off-by: Christian Brauner <brauner@kernel.org>
+> This currently works because iomap checks for dirty pagecache over
+> holes and unwritten mappings. If found, it flushes and retries the
+> lookup. We plan to remove the hole flush logic from iomap, however,
+> so lift the flush into xfs_zoned_buffered_write_iomap_begin() to
+> preserve behavior and document the purpose for it. Zoned XFS
+> filesystems don't support unwritten extents, so if zoned mode can
+> come up with a way to close this transient hole window in the
+> future, this flush can likely be removed.
+> 
+> Signed-off-by: Brian Foster <bfoster@redhat.com>
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
 > ---
->  fs/namespace.c        | 30 ++++++++++++++++++++++++++++++
->  include/linux/mount.h |  1 +
->  2 files changed, 31 insertions(+)
+>  fs/xfs/xfs_iomap.c | 19 +++++++++++++++++++
+>  1 file changed, 19 insertions(+)
 > 
-> diff --git a/fs/namespace.c b/fs/namespace.c
-> index 854f4fc66469..e23d2fa7e255 100644
-
-(...)
-
-> diff --git a/include/linux/mount.h b/include/linux/mount.h
-> index acfe7ef86a1b..69d61f21b548 100644
-> --- a/include/linux/mount.h
-> +++ b/include/linux/mount.h
-> @@ -106,6 +106,7 @@ int do_mount(const char *, const char __user *,
->  extern const struct path *collect_paths(const struct path *, struct path *, unsigned);
->  extern void drop_collected_paths(const struct path *, const struct path *);
->  extern void kern_unmount_array(struct vfsmount *mnt[], unsigned int num);
-> +int __init kthread_mntns(void);
-
-The usage of '__init' needs an '#include <linux/init.h>', otherwise
-compilation fails in some cases. Or drop the '__init' altogether, as
-it has no meaning in a declaration anyways.
-
->  extern int cifs_root_data(char **dev, char **opts);
+> diff --git a/fs/xfs/xfs_iomap.c b/fs/xfs/xfs_iomap.c
+> index 8c3469d2c73e..d3b8c018c883 100644
+> --- a/fs/xfs/xfs_iomap.c
+> +++ b/fs/xfs/xfs_iomap.c
+> @@ -1590,6 +1590,7 @@ xfs_zoned_buffered_write_iomap_begin(
+>  {
+>  	struct iomap_iter	*iter =
+>  		container_of(iomap, struct iomap_iter, iomap);
+> +	struct address_space	*mapping = inode->i_mapping;
+>  	struct xfs_zone_alloc_ctx *ac = iter->private;
+>  	struct xfs_inode	*ip = XFS_I(inode);
+>  	struct xfs_mount	*mp = ip->i_mount;
+> @@ -1614,6 +1615,7 @@ xfs_zoned_buffered_write_iomap_begin(
+>  	if (error)
+>  		return error;
 >  
-> 
+> +restart:
+>  	error = xfs_ilock_for_iomap(ip, flags, &lockmode);
+>  	if (error)
+>  		return error;
+> @@ -1686,8 +1688,25 @@ xfs_zoned_buffered_write_iomap_begin(
+>  	 * When zeroing, don't allocate blocks for holes as they are already
+>  	 * zeroes, but we need to ensure that no extents exist in both the data
+>  	 * and COW fork to ensure this really is a hole.
+> +	 *
+> +	 * A window exists where we might observe a hole in both forks with
+> +	 * valid data in cache. Writeback removes the COW fork blocks on
+> +	 * submission but doesn't remap into the data fork until completion. If
+> +	 * the data fork was previously a hole, we'll fail to zero. Until we
+> +	 * find a way to avoid this transient state, check for dirty pagecache
+> +	 * and flush to wait on blocks to land in the data fork.
+>  	 */
+>  	if ((flags & IOMAP_ZERO) && srcmap->type == IOMAP_HOLE) {
+> +		if (filemap_range_needs_writeback(mapping, offset,
+> +				offset + count - 1)) {
+> +			xfs_iunlock(ip, lockmode);
+> +			error = filemap_write_and_wait_range(mapping, offset,
+> +					offset + count - 1);
+> +			if (error)
+> +				return error;
+> +			goto restart;
+> +		}
+
+Seems fine to me.
+
+Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
+
+--D
+
+> +
+>  		xfs_hole_to_iomap(ip, iomap, offset_fsb, end_fsb);
+>  		goto out_unlock;
+>  	}
 > -- 
-> 2.47.3
+> 2.52.0
+> 
 > 
