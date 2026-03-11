@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C88CB37417C;
-	Wed, 11 Mar 2026 21:57:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A27E375AB5;
+	Wed, 11 Mar 2026 21:57:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773266225; cv=none; b=qjtiYd8uTrkv+ynas5lbzkTOOeKouKlw1hwGpOwBs47gV/UB3qniZcL7LHb1a2Oha4IJKN0xjYbzZ6kUJOOtYMthnuyoLhfTeq+I2vP56ecV8bupxGgQYBcKQWprQHcazMpYawuGqDH+d7siz9iXLlJpkJTLdS/ZR3hm1XSIm68=
+	t=1773266228; cv=none; b=jcf7sVzz13navzXojBtDDIhpS0iLoumCyYBHhubFTGigPRzTJmW/39wAJv/hGLLdJGjla96UHpB1k6w2gxb3+aez4RqNURX6fTewVm76zedgVMZI6Bpen09MDRHesW38UCgGdCNWjIlWXnA34SMYOcHsevBwc1UDLEquXgMyLR8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773266225; c=relaxed/simple;
-	bh=LEkYCP2B26VM04U/Xfgf30JgLqLChdLWXV57GkA2dNs=;
+	s=arc-20240116; t=1773266228; c=relaxed/simple;
+	bh=OfklnmmZPVz/ZNjVBmutvpLLH5yXolehLkyGmRTZNpc=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=OKuTEJ8lHnLwE2g+Sam6IuokufWD5TiQvroOdL2DliOvGInpD13zCBMebC7ihserlFCvT51sIVeumqfFEOTkkIRj+YxZMEaUwO0NeMHtEXazBf8hxCHTLI1tTO8drJ1HqbtUJB6dOwVVVk5v8SbEGS+xly4K3kzZDrfa5Dl/RKA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AKzPHBAT; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=NKJQtgDFgi686lDSJ1M8Pcd1eG/CwYiJH5O2RTm6QCXgCNYHyZggUUjrCEul9sOkjYK5cMpPpb7s4Y8XDK+Lv03oeB8tRi0w/sdh1OUioWZMgKczeIRNtwMxB5AqawPhNRmyPTX6c3zcvUyvJvfstzAPISd/VR9J5oRSlKMyciU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rq0tQS2N; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AKzPHBAT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6D73C4CEF7;
-	Wed, 11 Mar 2026 21:57:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rq0tQS2N"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AE96C19425;
+	Wed, 11 Mar 2026 21:57:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773266225;
-	bh=LEkYCP2B26VM04U/Xfgf30JgLqLChdLWXV57GkA2dNs=;
+	s=k20201202; t=1773266228;
+	bh=OfklnmmZPVz/ZNjVBmutvpLLH5yXolehLkyGmRTZNpc=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=AKzPHBATsS/mL4PJnheBXkgfMRwEVUBgU9XYFk2v+qqiFhskqcja0yivodaLiIzvD
-	 ZkWBwICPGmTxMtSkDcBOu46t+XeyWK5fZss6w3o8Zk8Gzz0sVbRhNz5omx14WkdRTg
-	 Ig4nyleH/C0Hv8/OFJwfuTBPxJtNOa6KHjCsMEayRkbqW4IIthKRi+2ajVPwmYnru7
-	 8oqGqXoEzCaIbJFGhSi2Pl4S4nSRv07nQd/ochmmwU9MvDrdl4fMtSanNTYRs6frZD
-	 dUo1KBLnymW1sM03Ilw3bMEMciT9RlxJcCEMmrPPs+IhIohIK9x/iBhqf5nW2r2TgX
-	 jkJGdNixFXa1g==
+	b=rq0tQS2Nh892QmB3bDzhPMwel/vYol1iMe+ZqbM5IlaZkRQU0HjP7MJIthikxsvPT
+	 /fFWSOU6wgCcZM42CkhKuL5ZDjy708Z0nEPk1gfqMWzyaFWijG7px09bDWcyzaKW0M
+	 l/lmXMj3yZPI8Fu4nLjKd0xpW/peZ189owf+u2vLOSzHOmPOcJsHx1pyxqn0D4hA53
+	 Uh4QAMyoymPsWzqMzQTvswi3qbwNdD2j/Z9YX0JG5plzCpgvO7yPetkhzDL9Sh730H
+	 0v2FrUoTdPG2Ik5A6hMDHO9wWilBKCyxRUJnfZp5VolR5sWp5SlrjVI9SzS3XwMlP5
+	 0Py2NgTeadERQ==
 From: Christian Brauner <brauner@kernel.org>
-Date: Wed, 11 Mar 2026 22:44:05 +0100
-Subject: [PATCH RFC v3 22/26] devtmpfs: create private mount namespace
+Date: Wed, 11 Mar 2026 22:44:06 +0100
+Subject: [PATCH RFC v3 23/26] nullfs: make nullfs multi-instance
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -37,7 +37,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260311-work-kthread-nullfs-v3-22-3dd2cbe92ad0@kernel.org>
+Message-Id: <20260311-work-kthread-nullfs-v3-23-3dd2cbe92ad0@kernel.org>
 References: <20260311-work-kthread-nullfs-v3-0-3dd2cbe92ad0@kernel.org>
 In-Reply-To: <20260311-work-kthread-nullfs-v3-0-3dd2cbe92ad0@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -47,37 +47,56 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>,
  Tejun Heo <tj@kernel.org>, Jann Horn <jannh@google.com>, 
  Christian Brauner <brauner@kernel.org>
 X-Mailer: b4 0.15-dev-9fd7c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=792; i=brauner@kernel.org;
- h=from:subject:message-id; bh=LEkYCP2B26VM04U/Xfgf30JgLqLChdLWXV57GkA2dNs=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRufPJTScfwXeA+tmr5OFctjcr4hq73h9wuZTz5rT9pz
- fbcJsbVHSUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABN5v5Dhe4bra/3P3wJ/HXzE
- d2KHctCdCS+2PTdya5w+SaMy/PoDVoZ/Rn0xQbMydT+xXj5vGXm31aDOqpVr+QGdNKcwA3WlPiE
- GAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1392; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=OfklnmmZPVz/ZNjVBmutvpLLH5yXolehLkyGmRTZNpc=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRufPIzbnN0aKP51vn7C4TPWby9+bAm/Mc21+ANq2x+v
+ 5rzV8TpQkcpC4MYF4OsmCKLQ7tJuNxynorNRpkaMHNYmUCGMHBxCsBEzioyMnx8uu6bl/rc6O1T
+ RO6/Or3r2I3FfzT+/Xgb+fT7wRNsvMt5GRkm3OdSkzDIr/gcu/8mZ9HyVRfWTLST4mpYrfvbLam
+ 3ppEFAA==
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Kernel threads are located in a completely isolated nullfs mount.
-Make it possible for a kthread to create a private mount namespace so it
-can mount private filesystem instances. This is only used by devtmpfs.
+Allow multiple instances of nullfs to be created. Right now we're only
+going to use it for kernel-internal purposes but ultimately we can allow
+userspace to use it too to e.g., safely overmount stuff.
 
 Signed-off-by: Christian Brauner <brauner@kernel.org>
 ---
- drivers/base/devtmpfs.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ fs/nullfs.c | 12 +++---------
+ 1 file changed, 3 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/base/devtmpfs.c b/drivers/base/devtmpfs.c
-index b1c4ceb65026..246ac0b331fe 100644
---- a/drivers/base/devtmpfs.c
-+++ b/drivers/base/devtmpfs.c
-@@ -413,7 +413,7 @@ static noinline int __init devtmpfs_setup(void *p)
- {
- 	int err;
+diff --git a/fs/nullfs.c b/fs/nullfs.c
+index fdbd3e5d3d71..c6f5b9493e26 100644
+--- a/fs/nullfs.c
++++ b/fs/nullfs.c
+@@ -40,14 +40,9 @@ static int nullfs_fs_fill_super(struct super_block *s, struct fs_context *fc)
+ 	return 0;
+ }
  
--	err = ksys_unshare(CLONE_NEWNS);
-+	err = kthread_mntns();
- 	if (err)
- 		goto out;
- 	err = init_mount("devtmpfs", "/", "devtmpfs", DEVTMPFS_MFLAGS, NULL);
+-/*
+- * For now this is a single global instance. If needed we can make it
+- * mountable by userspace at which point we will need to make it
+- * multi-instance.
+- */
+ static int nullfs_fs_get_tree(struct fs_context *fc)
+ {
+-	return get_tree_single(fc, nullfs_fs_fill_super);
++	return get_tree_nodev(fc, nullfs_fs_fill_super);
+ }
+ 
+ static const struct fs_context_operations nullfs_fs_context_ops = {
+@@ -57,9 +52,8 @@ static const struct fs_context_operations nullfs_fs_context_ops = {
+ static int nullfs_init_fs_context(struct fs_context *fc)
+ {
+ 	fc->ops		= &nullfs_fs_context_ops;
+-	fc->global	= true;
+-	fc->sb_flags	= SB_NOUSER;
+-	fc->s_iflags	= SB_I_NOEXEC | SB_I_NODEV;
++	fc->sb_flags	|= SB_NOUSER;
++	fc->s_iflags	|= SB_I_NOEXEC | SB_I_NODEV;
+ 	return 0;
+ }
+ 
 
 -- 
 2.47.3
