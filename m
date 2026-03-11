@@ -1,164 +1,132 @@
-Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43C0B2517AF;
-	Wed, 11 Mar 2026 02:17:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACD2CB652;
+	Wed, 11 Mar 2026 02:54:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773195452; cv=none; b=PsByJJ8IjDduT2O9Se5Q4q4rlV59EnIEa0nsLqXWC1pnGJuJPfRKZ6Mg4tMwRWd/VYIzFdjodgdDz3KSUL+gJytZAop2fz9Ylb+5zzfOchpez40jLFAaN1Us0enPabHeg4HJYjFGg3JrKrLgTcuFVRVRbzX+4u40UK7wm6M78MU=
+	t=1773197695; cv=none; b=jOgCq3G6LWv1UZD2Vd6v9FnVd26lR71s1WARFI/U5wZoTWWbYTfOQD0YqRiXfIPT2dTjDmirRCJ7fHb3tQqVhX6/MWOKNMgd+cueAIyxRu0pxD9043jL5ctYTjEOHBduDngtxvdUfvYZBcj8Om29UjOR4+McOzlvoGjpg1YPFbY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773195452; c=relaxed/simple;
-	bh=o6oCv60S4RRCXHCWraKQyOjlmh/+J4/OyQJJvIdsGfQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=d2yrY5A3nxlnERoFxuXPzEk+UTAIDeQGSBrT/XSGr4jOmO0cGu53PfP6kbektBzW4K2qDb4cCoMHzH+rS3zMVFHXVAcYaH9lWrb6WiUal0ZSVpxAAESdl5nn/Yvt2hIPKZYX9ja+STN1GAuqcuyAhiMmBHDkagJ8kDkJqSMOFoU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.177])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4fVvX72HlxzKHMqM;
-	Wed, 11 Mar 2026 10:17:11 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.112])
-	by mail.maildlp.com (Postfix) with ESMTP id 78D1340590;
-	Wed, 11 Mar 2026 10:17:27 +0800 (CST)
-Received: from [10.174.178.253] (unknown [10.174.178.253])
-	by APP1 (Coremail) with SMTP id cCh0CgD3+Ni10LBp4uHeAQ--.31859S3;
-	Wed, 11 Mar 2026 10:17:27 +0800 (CST)
-Message-ID: <1dce8b3b-29ee-4c45-98cb-8882a79c41c2@huaweicloud.com>
-Date: Wed, 11 Mar 2026 10:17:25 +0800
+	s=arc-20240116; t=1773197695; c=relaxed/simple;
+	bh=IgnFbRqg1z9IXEYVmAAUq/7TuevJW0UIhYq7v8N6T9U=;
+	h=Date:From:To:Subject:Content-Type:MIME-Version:Message-ID; b=Un/58HaM9Vx+fB4We9bndqezrJV8nYHfuXlOENDBlFej6LgmielRFXGUvpwseTIMRJ9s53Oya7X3cVa8J+VxZctcOAZXSoHtKob/6uk7NeE0k4pGk/OA3gCoi7RDva5DBcVZBz3rYfDsRGxUrux5EmHDiMVEf+b0lhZzi7zGo3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=QCypl6f0; arc=none smtp.client-ip=220.197.31.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="QCypl6f0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
+	Message-ID; bh=IgnFbRqg1z9IXEYVmAAUq/7TuevJW0UIhYq7v8N6T9U=; b=Q
+	Cypl6f0tO/5mWeihUSGsxmR94uxgvuvW8vARgYVf/sNoAMaVtfxQkGlMebIGDGOX
+	P8cnnUl97KWPNkLpHkhG84T7LZ3KnS8svzjzkzwZ9v5n8r1qP+4FDMrWgTvs2TkZ
+	UE/9ZNZ1+3N5yFNQUSVX38dNvctpP8qVUa4hqZ3BCE=
+Received: from luckd0g$163.com ( [183.205.138.18] ) by
+ ajax-webmail-wmsvr-40-146 (Coremail) ; Wed, 11 Mar 2026 10:54:28 +0800
+ (CST)
+Date: Wed, 11 Mar 2026 10:54:28 +0800 (CST)
+From: "Jianzhou Zhao" <luckd0g@163.com>
+To: jack@suse.cz, viro@zeniv.linux.org.uk, brauner@kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: KCSAN: data-race in path_lookupat / vfs_rename
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2023.4-cmXT build
+ 20251222(83accb85) Copyright (c) 2002-2026 www.mailtech.cn 163com
+X-NTES-SC: AL_Qu2cAf2SuE4t7iSfZekfmU4Rhug7UMO3uf8n24JfPJ9wjCzr5C4MZHpGN2Py3OuVMC+gqhiXXAlB7sV7cJNobacNuDlrHiId4MZjN1eutu+vig==
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=GBK
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] iomap: fix incorrect did_zero setting in
- iomap_zero_iter()
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org,
- brauner@kernel.org, hch@infradead.org, yi.zhang@huawei.com,
- yizhang089@gmail.com, yangerkun@huawei.com, yukuai@fnnas.com
-References: <20260310082250.3535486-1-yi.zhang@huaweicloud.com>
- <20260310221303.GA1770774@frogsfrogsfrogs>
-Content-Language: en-US
-From: Zhang Yi <yi.zhang@huaweicloud.com>
-In-Reply-To: <20260310221303.GA1770774@frogsfrogsfrogs>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:cCh0CgD3+Ni10LBp4uHeAQ--.31859S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxWw1rurW8CrWftw4fXry8Grg_yoW5AF4fpr
-	Z7KF4vkFs2q3y7uFn5tF9Fqr1Yyr1rXrW7Wr4UGwn8ZFsY9rWIkr18KayY9F1xJ34fCw1I
-	vF4jkas7AF1DAFDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUylb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I
-	0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
-	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
-	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vI
-	r41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
-	xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0
-	cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8V
-	AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E
-	14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUF1v3UUUUU
-X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
+Message-ID: <61ff6def.2d0d.19cdad1307e.Coremail.luckd0g@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:kigvCgD3H2xk2bBp9d91AA--.40679W
+X-CM-SenderInfo: poxfyvkqj6il2tof0z/xtbC9gQWoGmw2WQRgwAA3y
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 
-On 3/11/2026 6:13 AM, Darrick J. Wong wrote:
-> On Tue, Mar 10, 2026 at 04:22:50PM +0800, Zhang Yi wrote:
->> From: Zhang Yi <yi.zhang@huawei.com>
->>
->> The did_zero output parameter was unconditionally set after the loop,
->> which is incorrect. It should only be set when the zeroing operation
->> actually happens, not when IOMAP_F_STALE is set or when
->> IOMAP_F_FOLIO_BATCH is set but !folio causes the loop to break early,
->> or when iomap_iter_advance() returns an error.
->>
->> This causes did_zero to be incorrectly set when zeroing a clean
->> unwritten extent because the loop exits early without actually zeroing
->> any data.
->>
->> Fix it by using a local variable to track whether any folio was actually
->> zeroed, and only set did_zero after the loop if zeroing happened.
->>
->> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
->> ---
->>  fs/iomap/buffered-io.c | 8 ++++++--
->>  1 file changed, 6 insertions(+), 2 deletions(-)
->>
->> diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
->> index 5297491d5e3e..7a3780242cde 100644
->> --- a/fs/iomap/buffered-io.c
->> +++ b/fs/iomap/buffered-io.c
->> @@ -1537,6 +1537,7 @@ static int iomap_zero_iter(struct iomap_iter *iter, bool *did_zero,
->>  		const struct iomap_write_ops *write_ops)
->>  {
->>  	u64 bytes = iomap_length(iter);
->> +	bool zeroed = false;
->>  	int status;
->>  
->>  	do {
->> @@ -1555,6 +1556,8 @@ static int iomap_zero_iter(struct iomap_iter *iter, bool *did_zero,
->>  		/* a NULL folio means we're done with a folio batch */
->>  		if (!folio) {
->>  			status = iomap_iter_advance_full(iter);
->> +			if (status)
->> +				return status;
->>  			break;
->>  		}
->>  
->> @@ -1565,6 +1568,7 @@ static int iomap_zero_iter(struct iomap_iter *iter, bool *did_zero,
->>  				bytes);
->>  
->>  		folio_zero_range(folio, offset, bytes);
->> +		zeroed = true;
->>  		folio_mark_accessed(folio);
->>  
->>  		ret = iomap_write_end(iter, bytes, bytes, folio);
->> @@ -1574,10 +1578,10 @@ static int iomap_zero_iter(struct iomap_iter *iter, bool *did_zero,
->>  
->>  		status = iomap_iter_advance(iter, bytes);
->>  		if (status)
->> -			break;
->> +			return status;
-> 
-> I think this seems like an unrelated change?  Do any of the callers
-> behave differently if iomap_zero_range() returns an error but also sets
-> did_zero to true?
-> 
-
-In the event of an error return, no caller will be concerned with the
-did_zero state. It is only relevant when the operation is successful.
-So I think we can just return if some error happens, consistent with
-other error-handling practices in this loop.
-
->>  	} while ((bytes = iomap_length(iter)) > 0);
->>  
->> -	if (did_zero)
->> +	if (did_zero && zeroed)
->>  		*did_zero = true;
-> 
-> Why not just do:
-> 
-> 	if (did_zero)
-> 		*did_zero = zeroed;
-> 
-> ?
-> 
-
-If we proceed with this approach, when there are mixed extents and the
-final iteration of the iomap_zero_range() loop does not zero out any
-data, it will clear the flags that were set in previous loop when the
-data was zeroed.
-
-Thanks,
-Yi.
-
-> --D
-> 
->>  	return status;
->>  }
->> -- 
->> 2.52.0
->>
->>
-
+U3ViamVjdDogW0JVR10gZnMvbmFtZWk6IEtDU0FOOiBkYXRhLXJhY2UgaW4gcGF0aF9sb29rdXBh
+dCAvIHZmc19yZW5hbWUgKGBkX2ZsYWdzYCkKCkRlYXIgVkZTIE1haW50YWluZXJzLAoKT3VyIGZ1
+enppbmcgdG9vbCwgUmFjZVBpbG90LCBoYXMgZGV0ZWN0ZWQgYSBkYXRhIHJhY2UgaW4gdGhlIFZG
+UyBzdWJzeXN0ZW0gb24gYSA2LjE4IGtlcm5lbCB2ZXJzaW9uIChgNi4xOC4wLTA4NjkxLWcyMDYx
+ZjE4YWQ3NmUtZGlydHlgKS4gCgpUaGUgcmFjZSBvY2N1cnMgYmV0d2VlbiBgdmZzX3JlbmFtZSgp
+YCBtb2RpZnlpbmcgYSB2aWN0aW0gZGVudHJ5J3MgYGRfZmxhZ3NgIHZpYSBgZG9udF9tb3VudCgp
+YCBhbmQgYSBjb25jdXJyZW50IHBhdGggbG9va3VwIChgcGF0aF9sb29rdXBhdCgpYCkgZXhlY3V0
+aW5nIGxvY2tsZXNzIHJlYWRzIG9uIHRoZSBzYW1lIGBkX2ZsYWdzYCB2aWEgYGRfbWFuYWdlZCgp
+YC4KCiMjIyBDYWxsIFRyYWNlICYgQ29udGV4dAoKYGBgCkJVRzogS0NTQU46IGRhdGEtcmFjZSBp
+biBwYXRoX2xvb2t1cGF0IC8gdmZzX3JlbmFtZQoKd3JpdGUgdG8gMHhmZmZmODg4MDJkNjJiMTgw
+IG9mIDQgYnl0ZXMgYnkgdGFzayA0MjA0IG9uIGNwdSAwOgogZG9udF9tb3VudCBpbmNsdWRlL2xp
+bnV4L2RjYWNoZS5oOjM5MSBbaW5saW5lXQogdmZzX3JlbmFtZSsweGYwMy8weDEzYTAgZnMvbmFt
+ZWkuYzo1OTYzCiBkb19yZW5hbWVhdDIrMHg2YTkvMHg4ZTAgZnMvbmFtZWkuYzo2MDcyCiAuLi4K
+CnJlYWQgdG8gMHhmZmZmODg4MDJkNjJiMTgwIG9mIDQgYnl0ZXMgYnkgdGFzayA0NjkxIG9uIGNw
+dSAxOgogZF9tYW5hZ2VkIGluY2x1ZGUvbGludXgvZGNhY2hlLmg6NDEyIFtpbmxpbmVdCiBzdGVw
+X2ludG8gZnMvbmFtZWkuYzoyMTAyIFtpbmxpbmVdCiB3YWxrX2NvbXBvbmVudCBmcy9uYW1laS5j
+OjIyNTggW2lubGluZV0KIGxvb2t1cF9sYXN0IGZzL25hbWVpLmM6Mjc1MyBbaW5saW5lXQogcGF0
+aF9sb29rdXBhdCsweDFmYy8weDc0MCBmcy9uYW1laS5jOjI3NzcKIC4uLgoKdmFsdWUgY2hhbmdl
+ZDogMHgwMDMwMDA4MCAtPiAweDAwMDA0MTgwCmBgYAoKIyMjIyBFeGVjdXRpb24gRmxvdyAmIENv
+ZGUgQ29udGV4dDoKCioqMS4gVGhlIFdyaXRlIFBhdGggKGB2ZnNfcmVuYW1lYCAtPiBgZG9udF9t
+b3VudGApKioKCkR1cmluZyBhIHJlbmFtZSBvcGVyYXRpb24sIGlmIGEgdGFyZ2V0ICh2aWN0aW0p
+IGRlbnRyeSBpcyBnb2luZyB0byBiZSByZXBsYWNlZCwgYHZmc19yZW5hbWVgIHVubW91bnRzIGFu
+eSBtb3VudHMgYXR0YWNoZWQgdG8gaXQ6CmBgYGMKNTk3ODogCWlmICghKGZsYWdzICYgUkVOQU1F
+X0VYQ0hBTkdFKSAmJiB0YXJnZXQpIHsKNTk3OTogCQlpZiAoaXNfZGlyKSB7CjU5ODA6IAkJCXNo
+cmlua19kY2FjaGVfcGFyZW50KG5ld19kZW50cnkpOwo1OTgxOiAJCQl0YXJnZXQtPmlfZmxhZ3Mg
+fD0gU19ERUFEOwo1OTgyOiAJCX0KNTk4MzogCQlkb250X21vdW50KG5ld19kZW50cnkpOyAvLyA8
+LS0tIEludm9rZXMgZG9udF9tb3VudCBvbiB0aGUgdmljdGltCjU5ODQ6IAkJZGV0YWNoX21vdW50
+cyhuZXdfZGVudHJ5KTsKNTk4NTogCX0KYGBgCgpJbnNpZGUgYGRvbnRfbW91bnQoc3RydWN0IGRl
+bnRyeSAqZGVudHJ5KWAgKGBpbmNsdWRlL2xpbnV4L2RjYWNoZS5oYCksIGBkX2ZsYWdzYCBpcyB1
+cGRhdGVkIHdoaWxlIGhvbGRpbmcgdGhlIGBkX2xvY2tgOgpgYGBjCjM4ODogc3RhdGljIGlubGlu
+ZSB2b2lkIGRvbnRfbW91bnQoc3RydWN0IGRlbnRyeSAqZGVudHJ5KQozODk6IHsKMzkwOiAJc3Bp
+bl9sb2NrKCZkZW50cnktPmRfbG9jayk7CjM5MTogCWRlbnRyeS0+ZF9mbGFncyB8PSBEQ0FDSEVf
+Q0FOVF9NT1VOVDsgLy8gPC0tLSBSZWFkLU1vZGlmeS1Xcml0ZQozOTI6IAlzcGluX3VubG9jaygm
+ZGVudHJ5LT5kX2xvY2spOwozOTM6IH0KYGBgCgoqKjIuIFRoZSBSZWFkIFBhdGggKGBwYXRoX2xv
+b2t1cGF0YCAtPiBgc3RlcF9pbnRvYCAtPiBgZF9tYW5hZ2VkYCkqKgoKQ29uY3VycmVudGx5LCBh
+IHNlcGFyYXRlIHRocmVhZCB0cmF2ZXJzaW5nIHRoZSBmaWxlc3lzdGVtIHBlcmZvcm1zIGEgcGF0
+aCBsb29rdXAgYW5kIGluc3BlY3RzIHRoZSBzYW1lIGludGVybWVkaWF0ZSBkZW50cnkgKHRoZSBy
+ZW5hbWUgdmljdGltKSB3aXRoaW4gYHN0ZXBfaW50bygpYC4gSXQgdGVzdHMgaWYgdGhlIGRlbnRy
+eSBuZWVkcyBtb3VudC1wb2ludCB0cmFuc2xhdGlvbiBieSBjYWxsaW5nIGBkX21hbmFnZWQoKWA6
+CmBgYGMKNDEyOiBzdGF0aWMgaW5saW5lIGJvb2wgZF9tYW5hZ2VkKGNvbnN0IHN0cnVjdCBkZW50
+cnkgKmRlbnRyeSkKNDEzOiB7CjQxNDogCXJldHVybiBkZW50cnktPmRfZmxhZ3MgJiBEQ0FDSEVf
+TUFOQUdFRF9ERU5UUlk7IC8vIDwtLS0gTG9ja2xlc3MgUmVhZAo0MTU6IH0KYGBgCgojIyMgUm9v
+dCBDYXVzZSBBbmFseXNpcwoKVGhlIGRhdGEgcmFjZSBpcyB0cmlnZ2VyZWQgYmVjYXVzZSBgZF9t
+YW5hZ2VkKClgIGV4ZWN1dGVzIGEgcGxhaW4gcmVhZCBvZiBgZGVudHJ5LT5kX2ZsYWdzYCB3aXRo
+b3V0IGhvbGRpbmcgYGRfbG9ja2AgKG9yIHVzaW5nIGBSRUFEX09OQ0VgKSwgd2hpbGUgYGRvbnRf
+bW91bnQoKWAgY29uY3VycmVudGx5IG1vZGlmaWVzIGBkZW50cnktPmRfZmxhZ3NgIHVzaW5nIGEg
+cGxhaW4gcmVhZC1tb2RpZnktd3JpdGUgb3BlcmF0aW9uIChgfD0gRENBQ0hFX0NBTlRfTU9VTlRg
+KS4gCgpBbHRob3VnaCBgZG9udF9tb3VudCgpYCBwcm9wZXJseSBwcm90ZWN0cyB0aGUgd3JpdGUg
+d2l0aGluIGEgYHNwaW5fbG9ja2AsIHRoZSBsb2NrbGVzcyByZWFkZXIgaXMgb2JsaXZpb3VzIHRv
+IGl0LiBLQ1NBTiBpZGVudGlmaWVzIHRoaXMgYXMgYSBkYXRhIHJhY2UgYmVjYXVzZSB0aGUgcGxh
+aW4gcmVhZCBpbiBgZF9tYW5hZ2VkKClgIGNhbiBvdmVybGFwIHdpdGggdGhlIHVubG9ja2VkIHBv
+cnRpb24gb2YgdGhlIGNvbXBpbGVyJ3MgZW1pdHRlZCBzdG9yZSBzZXF1ZW5jZSBpbiBhbm90aGVy
+IENQVS4KClJlZ3JldHRhYmx5LCB3ZSB3ZXJlIHVuYWJsZSB0byBjcmVhdGUgYSByZXByb2R1Y3Rp
+b24gcHJvZ3JhbSBmb3IgdGhpcyBidWcuCgojIyMgUG90ZW50aWFsIEltcGFjdAoKV2hpbGUgYSB0
+b3JuIHJlYWQgb2YgYSAzMi1iaXQgYWxpZ25lZCBpbnRlZ2VyIGlzIGhpZ2hseSB1bmxpa2VseSBv
+biBtb3N0IG1vZGVybiBhcmNoaXRlY3R1cmVzLCBwbGFpbiBjb25jdXJyZW50IGFjY2VzcyBjb25z
+dGl0dXRlcyB1bmRlZmluZWQgYmVoYXZpb3IgdW5kZXIgdGhlIEMgbWVtb3J5IG1vZGVsLiBUaGUg
+Y29tcGlsZXIgbWlnaHQgYXBwbHkgdW5mb3Jlc2VlbiB0cmFuc2Zvcm1hdGlvbnMgY2FwYWJsZSBv
+ZiBwcm9kdWNpbmcgYSBzdGFsZSBvciB0cmFuc2llbnQgc3RhdGUgcmVwcmVzZW50YXRpb24uIEhv
+d2V2ZXIsIHByYWdtYXRpY2FsbHkgc3BlYWtpbmcsIHNpbmNlIHRoZSB2aWN0aW0gZGVudHJ5IGlz
+IGNvbmN1cnJlbnRseSBiZWluZyBwdXJnZWQvcmVuYW1lZCwgbWlzaW50ZXJwcmV0aW5nIHRoZSBt
+YW5hZ2VkIGZsYWdzIHdvdWxkIGxpa2VseSBsZWFkIHRvIHN1YnNlcXVlbnQgdmFsaWRhdGlvbiBm
+YWlsdXJlcyB1cHN0cmVhbSB3aXRoaW4gbmFtZWkuYywgY2F1c2luZyB0aGUgdHJhdmVyc2FsIHRv
+IGJvdW5jZSB0byBzbG93IHBhdGhzIHNhZmVseS4gVGhlcmVmb3JlLCB3ZSBldmFsdWF0ZSB0aGUg
+c2V2ZXJpdHkgb2YgdGhpcyBpc3N1ZSBhcyBhIG1pbm9yIGRhdGEgcmFjZSB0aGF0IHByaW1hcmls
+eSByaXNrcyB1bmRlZmluZWQgYmVoYXZpb3IgYW5kIHRyaWdnZXJzIEtDU0FOIHdhcm5pbmdzLgoK
+IyMjIFByb3Bvc2VkIEZpeAoKVG8gc2lsZW5jZSB0aGUgS0NTQU4gd2FybmluZyBhbmQgYWRoZXJl
+IHNlY3VyZWx5IHRvIGtlcm5lbCBjb25jdXJyZW5jeSBwcmFjdGljZXMsIHRoZSBsb2NrbGVzcyBy
+ZWFkIG9mIGBkX2ZsYWdzYCBpbiBgZF9tYW5hZ2VkKClgIHNob3VsZCBiZSBleHBsaWNpdGx5IGFu
+bm90YXRlZCB1c2luZyBgZGF0YV9yYWNlKClgIG9yLCBtb3JlIHJvYnVzdGx5LCBgUkVBRF9PTkNF
+KClgLiBVc2luZyBgUkVBRF9PTkNFKClgIGd1YXJhbnRlZXMgc2luZ2xlLWluc3RydWN0aW9uIGxv
+YWQgc2VtYW50aWNzIHByZXZlbnRpbmcgY29tcGlsZXIgb3B0aW1pemF0aW9ucyB0aGF0IG1pZ2h0
+IGluZHVjZSB0ZWFyaW5nLgoKYGBgZGlmZgotLS0gYS9pbmNsdWRlL2xpbnV4L2RjYWNoZS5oCisr
+KyBiL2luY2x1ZGUvbGludXgvZGNhY2hlLmgKQEAgLTQxMSw3ICs0MTEsNyBAQCBleHRlcm4gdm9p
+ZCBkcHV0KHN0cnVjdCBkZW50cnkgKik7CiAKIHN0YXRpYyBpbmxpbmUgYm9vbCBkX21hbmFnZWQo
+Y29uc3Qgc3RydWN0IGRlbnRyeSAqZGVudHJ5KQogewotCXJldHVybiBkZW50cnktPmRfZmxhZ3Mg
+JiBEQ0FDSEVfTUFOQUdFRF9ERU5UUlk7CisJcmV0dXJuIFJFQURfT05DRShkZW50cnktPmRfZmxh
+Z3MpICYgRENBQ0hFX01BTkFHRURfREVOVFJZOwogfQpgYGAKKEFsdGVybmF0aXZlbHksIHVzaW5n
+IGBkYXRhX3JhY2UoKWAgaWYgbm8gbG9hZC10ZWFyaW5nIGRhbmdlcnMgZXhpc3QgaW4gdGhlb3J5
+IG9uIHRoZSBzdXBwb3J0ZWQgYXJjaGl0ZWN0dXJlcywgZGVwZW5kaW5nIG9uIFZGUyBsb2NrbGVz
+cyBzY2FsaW5nIGNvbnZlbnRpb25zIGZvciBkX2ZsYWdzKS4KCldlIHdvdWxkIGJlIGhpZ2hseSBo
+b25vcmVkIGlmIHRoaXMgY291bGQgYmUgb2YgYW55IGhlbHAuCgpCZXN0IHJlZ2FyZHMsCltZb3Vy
+IE5hbWUvVGVhbV0KUmFjZVBpbG90IFRlYW0K
