@@ -1,197 +1,164 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 290371EEE6
-	for <linux-fsdevel@vger.kernel.org>; Wed, 11 Mar 2026 02:07:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773194855; cv=pass; b=t5pUSQRiqFGUX/p1/DqCCQciWuXZKcP3c53bhAYlzNbsP3ut3MCl9gvnmQMAJA0Uhlm7UWOw2uML9zxD++rb+jNYPzV80Hp+EvOMSrmaceHWDFxhDo0kA+x6XEsPZS4dI6mjmoEXr/qppePr45I4aWQj7ufrI+KRNiXVYdMI8t0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773194855; c=relaxed/simple;
-	bh=8UJnLa/DDQ+b65RDSHa97nR/Rm6zetnRjswOkVb13wc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BXpJVfRbo4LlXCcOZcdMTSZguzp+cVIx0KISpfGfBR5GZsgpQoVAlwFx48a7FZe92mvAfCs4pISJzIGD35j4fUHxXz1jh6LAAkO/dRo3RdeyRnOvOMKB8uyqlSRY6aMKh1lACEP4J4hko00bjgaT9gA/dJ05ihAnODVVoWzn1po=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=SqpOgAb4; arc=pass smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="SqpOgAb4"
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5a0fc5e2c59so9992842e87.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 10 Mar 2026 19:07:33 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773194852; cv=none;
-        d=google.com; s=arc-20240605;
-        b=jM93D2XEqyfv+LVABgRKQfbrsJlcmeb1RkZtm1rQ4Rw4kJEg/6DG5PsV5Nbrv2WhEv
-         GKN1ZEM16/wT+x7DvF8uPVbIRkY0cgD2QmNo4Lylw2ae7/FJjtHxaKkkG466S16MuupR
-         0EZBvC18YI1P1qWyfJjRkLO4B26JQDbZ9VZa+Rj1k1SMxdRzhLZhRjkzK6HB6vrp67Ch
-         L+qNw9L/6r9eViV272cQl3kTTCFdnsmJs61urK1q1geG9+MjpBSTHPgAt5ArjF48tCOq
-         I0CItlhy83FrtgTb2cGnbUe/tjPGEPLhqKWmIctLD35hmd9xkaL4e61bw4drzIHarrLI
-         +v+w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=+zLBLQzKjcztDlxJqoLP6w+B6xnZmfHibV4jlBQCebA=;
-        fh=aMGycohOUI4MwGTPG/Ooe5U9FhmJmN61mlwgHVJ/6hQ=;
-        b=VsJDL2BHrFKUNCShsMfILmpi9msE3esePEaHvKhhnOM4OLYBf7+ALuK3+QMHC+omQB
-         S75qRFgdv9j8VFnYwe/XBVtAwBHU3RPfDjwGT7MDLwCmcNBzbX8gF+fxDYRjcuvVAWWO
-         nHvZ/EyqZFXoUggcz9Wrp7D2TrmYi9hEepoyTcP6CqO6OQbcUpOODb1W2ZOJVJhM3wVc
-         d3dsa5U/FcKbs/dxGU7Q4tGRl0TQQ3dLVN7n8qlRZH4iq8AbX8RlurVG/2bkp7GCfwge
-         2RJNAdK0aOQz1bmkNNglPfWD4s5GuNlHZ7XbmfCTe6jyIImCBb2YNar1W9YwudwaHO2G
-         sPVw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1773194852; x=1773799652; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+zLBLQzKjcztDlxJqoLP6w+B6xnZmfHibV4jlBQCebA=;
-        b=SqpOgAb4CQOCp6QT1IhDiJXNOENCCAthmmQiQ2Xm1LqdH6AuNnr9pWEOxoaM6J2EHp
-         TaZvrNsWvEAAdeAh3rGZCGLrxzU767HUy57VJt43+079ae3+2kuAr2+JBVbU8T9+l/BT
-         vjjO+GANIyds0bGFgUhdgNG0FnF3NJi/nWQH4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773194852; x=1773799652;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=+zLBLQzKjcztDlxJqoLP6w+B6xnZmfHibV4jlBQCebA=;
-        b=qnf4NRnqv8FDmKfsyXj6s/aMagAQKTzRfk2lsr1gIHBguG9gAWX3wo6OoN2XRinast
-         0nG3WKqiuju9NlS868EizBenzF15854hNrbu3dWeKOJoy4YtfacB9PMKPGAIx6YkHEyb
-         IPu3BcUh71qNRiOHcKi65+tZabQdlwMNgfUKHF8Ri3hA23kKCTKZGoFGpRhAEIBkAcTs
-         PVza+j5ZOR+CmLLPGejYPew+LBarVl9Mcdjyl/YgFeI5q/Fbo6x180LP2WEWDXc/moBJ
-         UMQaxjPNoxELoSBYsiAuysb/E2XgDZ1I2kn7yCVbDI5QkaCd/tJWhgtAO/VTMdQWSLmr
-         Q7Bg==
-X-Forwarded-Encrypted: i=1; AJvYcCVvef5mqVFLtWNURBGV5JhyM+RFtzU2BNvfMe/Y1WTXsdyvvNw89fUuN7ZX+JAZh6vEfmdBvJEjZfwE6NVj@vger.kernel.org
-X-Gm-Message-State: AOJu0YwGjAEgibTaGKINO8uVmeQ9hO2cfiAxxX9Js3lyZNSEKRCtL8k3
-	bWqLdTa3chBGDTYUtiwXwt2bITd6Q07rHaOaOyOCrJfalD30ZNHkSo3dxEaYYSaqVMAnkdpHzT0
-	4Pd+CftHFmcvZE6O2qahK2wDyuLbzRpZ5Pxa0j/h2
-X-Gm-Gg: ATEYQzyl1JsWrrKcZPBkVYSmFwEqj3sFENjOXhFIQHkni8lsaf0noVE86oF2bOxviGB
-	6t3MhiatXy4iVVmKKMv6Ev3jDwyqQQdXqxehbAfHJFyB1n/uiq9I5PZ1sVVY9as8MiYdjDIfj51
-	KF8pa02lPRBIweaa8IBzxgsgEWNndBn3MEJDXeh/AKT8o3nTuUt/CJqhdlGQkOm0YFR4RYeHjuC
-	A7BHcyQ01CxsczLqPgHHslkyF1VHp0GZcQsL75r9dpylHB6386I8t2ubJ7vKYJa7U7gSCpXaCt3
-	JQgIT+u4xQ==
-X-Received: by 2002:ac2:4427:0:b0:5a1:3134:9bac with SMTP id
- 2adb3069b0e04-5a156cbd1bbmr169453e87.28.1773194852284; Tue, 10 Mar 2026
- 19:07:32 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43C0B2517AF;
+	Wed, 11 Mar 2026 02:17:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773195452; cv=none; b=PsByJJ8IjDduT2O9Se5Q4q4rlV59EnIEa0nsLqXWC1pnGJuJPfRKZ6Mg4tMwRWd/VYIzFdjodgdDz3KSUL+gJytZAop2fz9Ylb+5zzfOchpez40jLFAaN1Us0enPabHeg4HJYjFGg3JrKrLgTcuFVRVRbzX+4u40UK7wm6M78MU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773195452; c=relaxed/simple;
+	bh=o6oCv60S4RRCXHCWraKQyOjlmh/+J4/OyQJJvIdsGfQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=d2yrY5A3nxlnERoFxuXPzEk+UTAIDeQGSBrT/XSGr4jOmO0cGu53PfP6kbektBzW4K2qDb4cCoMHzH+rS3zMVFHXVAcYaH9lWrb6WiUal0ZSVpxAAESdl5nn/Yvt2hIPKZYX9ja+STN1GAuqcuyAhiMmBHDkagJ8kDkJqSMOFoU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.177])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4fVvX72HlxzKHMqM;
+	Wed, 11 Mar 2026 10:17:11 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.112])
+	by mail.maildlp.com (Postfix) with ESMTP id 78D1340590;
+	Wed, 11 Mar 2026 10:17:27 +0800 (CST)
+Received: from [10.174.178.253] (unknown [10.174.178.253])
+	by APP1 (Coremail) with SMTP id cCh0CgD3+Ni10LBp4uHeAQ--.31859S3;
+	Wed, 11 Mar 2026 10:17:27 +0800 (CST)
+Message-ID: <1dce8b3b-29ee-4c45-98cb-8882a79c41c2@huaweicloud.com>
+Date: Wed, 11 Mar 2026 10:17:25 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260310-b4-is_err_or_null-v1-0-bd63b656022d@avm.de> <20260310-b4-is_err_or_null-v1-56-bd63b656022d@avm.de>
-In-Reply-To: <20260310-b4-is_err_or_null-v1-56-bd63b656022d@avm.de>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Wed, 11 Mar 2026 11:07:21 +0900
-X-Gm-Features: AaiRm5028PWt8n-JnveiRgn8oYMksdR_-_nk4JOkvxMfplWs-GDr7RRk-OxICyw
-Message-ID: <CAGXv+5FQAVaJjqhv+Xq-ysOc4SHQn2mCNTgCAp8XocmWBWGGoA@mail.gmail.com>
-Subject: Re: [PATCH 56/61] clk: Prefer IS_ERR_OR_NULL over manual NULL check
-To: Philipp Hahn <phahn-oss@avm.de>
-Cc: amd-gfx@lists.freedesktop.org, apparmor@lists.ubuntu.com, 
-	bpf@vger.kernel.org, ceph-devel@vger.kernel.org, cocci@inria.fr, 
-	dm-devel@lists.linux.dev, dri-devel@lists.freedesktop.org, 
-	gfs2@lists.linux.dev, intel-gfx@lists.freedesktop.org, 
-	intel-wired-lan@lists.osuosl.org, iommu@lists.linux.dev, kvm@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org, 
-	linux-bluetooth@vger.kernel.org, linux-btrfs@vger.kernel.org, 
-	linux-cifs@vger.kernel.org, linux-clk@vger.kernel.org, 
-	linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-hyperv@vger.kernel.org, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-mips@vger.kernel.org, linux-mm@kvack.org, 
-	linux-modules@vger.kernel.org, linux-mtd@lists.infradead.org, 
-	linux-nfs@vger.kernel.org, linux-omap@vger.kernel.org, 
-	linux-phy@lists.infradead.org, linux-pm@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org, 
-	linux-scsi@vger.kernel.org, linux-sctp@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, linux-sh@vger.kernel.org, 
-	linux-sound@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-trace-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-wireless@vger.kernel.org, netdev@vger.kernel.org, ntfs3@lists.linux.dev, 
-	samba-technical@lists.samba.org, sched-ext@lists.linux.dev, 
-	target-devel@vger.kernel.org, tipc-discussion@lists.sourceforge.net, 
-	v9fs@lists.linux.dev, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Daniel Lezcano <daniel.lezcano@kernel.org>, 
-	Thomas Gleixner <tglx@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] iomap: fix incorrect did_zero setting in
+ iomap_zero_iter()
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org,
+ brauner@kernel.org, hch@infradead.org, yi.zhang@huawei.com,
+ yizhang089@gmail.com, yangerkun@huawei.com, yukuai@fnnas.com
+References: <20260310082250.3535486-1-yi.zhang@huaweicloud.com>
+ <20260310221303.GA1770774@frogsfrogsfrogs>
+Content-Language: en-US
+From: Zhang Yi <yi.zhang@huaweicloud.com>
+In-Reply-To: <20260310221303.GA1770774@frogsfrogsfrogs>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:cCh0CgD3+Ni10LBp4uHeAQ--.31859S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxWw1rurW8CrWftw4fXry8Grg_yoW5AF4fpr
+	Z7KF4vkFs2q3y7uFn5tF9Fqr1Yyr1rXrW7Wr4UGwn8ZFsY9rWIkr18KayY9F1xJ34fCw1I
+	vF4jkas7AF1DAFDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUylb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I
+	0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
+	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
+	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vI
+	r41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
+	xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0
+	cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8V
+	AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E
+	14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUF1v3UUUUU
+X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 
-On Tue, Mar 10, 2026 at 9:57=E2=80=AFPM Philipp Hahn <phahn-oss@avm.de> wro=
-te:
->
-> Prefer using IS_ERR_OR_NULL() over using IS_ERR() and a manual NULL
-> check.
->
-> Semantich change: Previously the code only printed the warning on error,
-> but not when the pointer was NULL. Now the warning is printed in both
-> cases!
->
-> Change found with coccinelle.
->
-> To: Michael Turquette <mturquette@baylibre.com>
-> To: Stephen Boyd <sboyd@kernel.org>
-> To: Daniel Lezcano <daniel.lezcano@kernel.org>
-> To: Thomas Gleixner <tglx@kernel.org>
-> Cc: linux-clk@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Signed-off-by: Philipp Hahn <phahn-oss@avm.de>
-> ---
->  drivers/clk/clk.c               | 4 ++--
->  drivers/clocksource/timer-pxa.c | 2 +-
->  2 files changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
-> index 47093cda9df32223c1120c3710261296027c4cd3..35146e3869a7dd93741d10b72=
-23d4488a9216ed1 100644
-> --- a/drivers/clk/clk.c
-> +++ b/drivers/clk/clk.c
-> @@ -4558,7 +4558,7 @@ void clk_unregister(struct clk *clk)
->         unsigned long flags;
->         const struct clk_ops *ops;
->
-> -       if (!clk || WARN_ON_ONCE(IS_ERR(clk)))
-> +       if (WARN_ON_ONCE(IS_ERR_OR_NULL(clk)))
->                 return;
->
->         clk_debug_unregister(clk->core);
-> @@ -4744,7 +4744,7 @@ void __clk_put(struct clk *clk)
->  {
->         struct module *owner;
->
-> -       if (!clk || WARN_ON_ONCE(IS_ERR(clk)))
-> +       if (WARN_ON_ONCE(IS_ERR_OR_NULL(clk)))
+On 3/11/2026 6:13 AM, Darrick J. Wong wrote:
+> On Tue, Mar 10, 2026 at 04:22:50PM +0800, Zhang Yi wrote:
+>> From: Zhang Yi <yi.zhang@huawei.com>
+>>
+>> The did_zero output parameter was unconditionally set after the loop,
+>> which is incorrect. It should only be set when the zeroing operation
+>> actually happens, not when IOMAP_F_STALE is set or when
+>> IOMAP_F_FOLIO_BATCH is set but !folio causes the loop to break early,
+>> or when iomap_iter_advance() returns an error.
+>>
+>> This causes did_zero to be incorrectly set when zeroing a clean
+>> unwritten extent because the loop exits early without actually zeroing
+>> any data.
+>>
+>> Fix it by using a local variable to track whether any folio was actually
+>> zeroed, and only set did_zero after the loop if zeroing happened.
+>>
+>> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+>> ---
+>>  fs/iomap/buffered-io.c | 8 ++++++--
+>>  1 file changed, 6 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
+>> index 5297491d5e3e..7a3780242cde 100644
+>> --- a/fs/iomap/buffered-io.c
+>> +++ b/fs/iomap/buffered-io.c
+>> @@ -1537,6 +1537,7 @@ static int iomap_zero_iter(struct iomap_iter *iter, bool *did_zero,
+>>  		const struct iomap_write_ops *write_ops)
+>>  {
+>>  	u64 bytes = iomap_length(iter);
+>> +	bool zeroed = false;
+>>  	int status;
+>>  
+>>  	do {
+>> @@ -1555,6 +1556,8 @@ static int iomap_zero_iter(struct iomap_iter *iter, bool *did_zero,
+>>  		/* a NULL folio means we're done with a folio batch */
+>>  		if (!folio) {
+>>  			status = iomap_iter_advance_full(iter);
+>> +			if (status)
+>> +				return status;
+>>  			break;
+>>  		}
+>>  
+>> @@ -1565,6 +1568,7 @@ static int iomap_zero_iter(struct iomap_iter *iter, bool *did_zero,
+>>  				bytes);
+>>  
+>>  		folio_zero_range(folio, offset, bytes);
+>> +		zeroed = true;
+>>  		folio_mark_accessed(folio);
+>>  
+>>  		ret = iomap_write_end(iter, bytes, bytes, folio);
+>> @@ -1574,10 +1578,10 @@ static int iomap_zero_iter(struct iomap_iter *iter, bool *did_zero,
+>>  
+>>  		status = iomap_iter_advance(iter, bytes);
+>>  		if (status)
+>> -			break;
+>> +			return status;
+> 
+> I think this seems like an unrelated change?  Do any of the callers
+> behave differently if iomap_zero_range() returns an error but also sets
+> did_zero to true?
+> 
 
-clk_get_optional() returns NULL if the clk isn't present.
+In the event of an error return, no caller will be concerned with the
+did_zero state. It is only relevant when the operation is successful.
+So I think we can just return if some error happens, consistent with
+other error-handling practices in this loop.
 
-Drivers would just pass this to clk_put(). Your change here would cause
-this pattern to emit a very big warning.
+>>  	} while ((bytes = iomap_length(iter)) > 0);
+>>  
+>> -	if (did_zero)
+>> +	if (did_zero && zeroed)
+>>  		*did_zero = true;
+> 
+> Why not just do:
+> 
+> 	if (did_zero)
+> 		*did_zero = zeroed;
+> 
+> ?
+> 
 
-I don't think this change should be landed.
+If we proceed with this approach, when there are mixed extents and the
+final iteration of the iomap_zero_range() loop does not zero out any
+data, it will clear the flags that were set in previous loop when the
+data was zeroed.
 
+Thanks,
+Yi.
 
-ChenYu
+> --D
+> 
+>>  	return status;
+>>  }
+>> -- 
+>> 2.52.0
+>>
+>>
 
->                 return;
->
->         clk_prepare_lock();
-> diff --git a/drivers/clocksource/timer-pxa.c b/drivers/clocksource/timer-=
-pxa.c
-> index 7ad0e5adb2ffac4125c34710fc67f4b45f30331d..f65fb0b7fc318b766227e5e7a=
-4c0fb08ba11c8f9 100644
-> --- a/drivers/clocksource/timer-pxa.c
-> +++ b/drivers/clocksource/timer-pxa.c
-> @@ -218,7 +218,7 @@ void __init pxa_timer_nodt_init(int irq, void __iomem=
- *base)
->
->         timer_base =3D base;
->         clk =3D clk_get(NULL, "OSTIMER0");
-> -       if (clk && !IS_ERR(clk)) {
-> +       if (!IS_ERR_OR_NULL(clk)) {
->                 clk_prepare_enable(clk);
->                 pxa_timer_common_init(irq, clk_get_rate(clk));
->         } else {
->
-> --
-> 2.43.0
->
->
