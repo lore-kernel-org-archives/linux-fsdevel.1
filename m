@@ -1,51 +1,55 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3C923D88E3
-	for <linux-fsdevel@vger.kernel.org>; Wed, 11 Mar 2026 16:25:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B8B7175A8F
+	for <linux-fsdevel@vger.kernel.org>; Wed, 11 Mar 2026 16:25:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773246311; cv=none; b=QLRnKSy9ErA72NRvLeVX5T6fDKnNiG6mG/qAU7dXGhD+etK73BMQJNZeURaJ40XDhpzUw2+UeaorHhovZGPSM8ZVaG7Jd7vfh1BK2c9EkBLRVZqVAtBPCwQnmqayMzJwUF4zGs2cdFkOQVlmEjCyXQJBiWpR1o8QRg2rClKuThQ=
+	t=1773246311; cv=none; b=RQU3q+0xFbTqJvY/IwipRHF/02zJVupq3pDxJ11z0m9BO/T4Xt6HDvxuQds5Az+B8/r3+ezZ0J3dy3R72kwQhLnjCfziapbN+XfL7TB/winoTvkv3LJDquhxItVAM9QY7HHOlhrQDc2x9dQSqcN4uSetxsNvkVymHH+0dUqL1Ts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1773246311; c=relaxed/simple;
-	bh=JjKyb+Sk9x5NFvi7VI5T6gHMswvIzGpjCKmaEwB/OsA=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=NMEkh/XoCWYvSuV4dkp+d9Ui+7I0UcYW8Z5WxhjgnU1RqZLSaddQ5zD1uqpfOn07CoraoMfgMTZB4AaS72UjmN4TTcQ5GlMRGyg3BkFNshuORvFnDC1tBiNF97z7ME8Ty4Cqmcbyd7QQE6WMgV6XFNpm4IdheM2GYynznajR2hY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=b0swTq+h; arc=none smtp.client-ip=170.10.129.124
+	bh=c5YkAW7ZqNy0og+8TnitLCFBxZ1F+v3pcNLW6bnbsx0=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=EzAFJ28y2nEkSLBWhQ2P8hqNWEKX/rO1Z7yQm4SFZP3j4XRVhvX467FPnYgAno2OWH4Wy2IFC1yBENgfMy44PqW0sAzgBSJDOEb/Kd/u/22dRvjIL+uWO0xoOCDHucQDVIepI9f4xzv4XZidos2lwtHtXlFm63DFG23vA+D+kkk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=av79QGUj; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="b0swTq+h"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="av79QGUj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1773246307;
+	s=mimecast20190719; t=1773246308;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=uzZXyF9YB+rmmDl+MJP20K14iQ4asCSQdi1lvYx2ybU=;
-	b=b0swTq+hzcLXq1t/DRiH3RNtdjSJauI02PR6YKSh9PXo4vjFKkeg61O2zfVxUZXY/bdI70
-	Qy53vo/pOXyy0pdqK/zW5BzR+BpoiFAzXU74QPjNAZs4ctJNmrRweBAdaNshWWtHrEa5U3
-	Lrk9/VA10jeP0uPBoFiH/h/n3qjSzgs=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=k6uA/Ql2oR4CG+vNtpkqQAGPqgDNPmz4GXJejQPOWjc=;
+	b=av79QGUjq5vdWQUuN5m4txuwztZitbnUtITIQMNObNFLTx6zteUgCy3pvFuZCVAicYqiA9
+	NzvQkAPkBE9RgohslAnVUTNgTx+I53t148W7krvQHoVhQAd2WVDkCoKVfSfdfw+oKK6Psr
+	olufkcE5UsteECe6gluRmuvPMpo5Jyg=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-633-calZ8TFUOZia71NmvqkT4Q-1; Wed,
- 11 Mar 2026 12:25:04 -0400
-X-MC-Unique: calZ8TFUOZia71NmvqkT4Q-1
-X-Mimecast-MFC-AGG-ID: calZ8TFUOZia71NmvqkT4Q_1773246303
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-629-pLOpfMegMzCup3RX38dFtQ-1; Wed,
+ 11 Mar 2026 12:25:06 -0400
+X-MC-Unique: pLOpfMegMzCup3RX38dFtQ-1
+X-Mimecast-MFC-AGG-ID: pLOpfMegMzCup3RX38dFtQ_1773246305
 Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A59D0195605F;
-	Wed, 11 Mar 2026 16:25:03 +0000 (UTC)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D4D4E180034E;
+	Wed, 11 Mar 2026 16:25:05 +0000 (UTC)
 Received: from bfoster.redhat.com (unknown [10.22.89.107])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1F9D018002A6;
-	Wed, 11 Mar 2026 16:25:03 +0000 (UTC)
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 588BF180035F;
+	Wed, 11 Mar 2026 16:25:05 +0000 (UTC)
 From: Brian Foster <bfoster@redhat.com>
 To: linux-fsdevel@vger.kernel.org,
 	linux-xfs@vger.kernel.org
-Subject: [PATCH v4 0/8] iomap, xfs: improve zero range flushing and lookup
-Date: Wed, 11 Mar 2026 12:24:54 -0400
-Message-ID: <20260311162502.192375-1-bfoster@redhat.com>
+Subject: [PATCH v4 3/8] iomap, xfs: lift zero range hole mapping flush into xfs
+Date: Wed, 11 Mar 2026 12:24:57 -0400
+Message-ID: <20260311162502.192375-4-bfoster@redhat.com>
+In-Reply-To: <20260311162502.192375-1-bfoster@redhat.com>
+References: <20260311162502.192375-1-bfoster@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -56,40 +60,100 @@ Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-Hi all,
+iomap zero range has a wart in that it also flushes dirty pagecache
+over hole mappings (rather than only unwritten mappings). This was
+included to accommodate a quirk in XFS where COW fork preallocation
+can exist over a hole in the data fork, and the associated range is
+reported as a hole. This is because the range actually is a hole,
+but XFS also has an optimization where if COW fork blocks exist for
+a range being written to, those blocks are used regardless of
+whether the data fork blocks are shared or not. For zeroing, COW
+fork blocks over a data fork hole are only relevant if the range is
+dirty in pagecache, otherwise the range is already considered
+zeroed.
 
-No significant changes in v4. A few whitespace fixes throughout and I've
-added some R-b tags from v3 review. Thanks.
+The easiest way to deal with this corner case is to flush the
+pagecache to trigger COW remapping into the data fork, and then
+operate on the updated on-disk state. The problem is that ext4
+cannot accommodate a flush from this context due to being a
+transaction deadlock vector.
 
-Brian
+Outside of the hole quirk, ext4 can avoid the flush for zero range
+by using the recently introduced folio batch lookup mechanism for
+unwritten mappings. Therefore, take the next logical step and lift
+the hole handling logic into the XFS iomap_begin handler. iomap will
+still flush on unwritten mappings without a folio batch, and XFS
+will flush and retry mapping lookups in the case where it would
+otherwise report a hole with dirty pagecache during a zero range.
 
-v4:
-- Minor whitespace cleanups.
-v3: https://lore.kernel.org/linux-fsdevel/20260309134506.167663-1-bfoster@redhat.com/
-- Inserted new patches 1-2 to fix up zoned mode zeroing.
-- Appended patch 8 to correctly report COW mappings backed by data fork
-  holes.
-- Various minor fixups to logic, whitespace, comments.
-v2: https://lore.kernel.org/linux-fsdevel/20260129155028.141110-1-bfoster@redhat.com/
-- Patch 1 from v1 merged separately.
-- Fixed up iomap_fill_dirty_folios() call in patch 5.
-v1: https://lore.kernel.org/linux-fsdevel/20251016190303.53881-1-bfoster@redhat.com/
+Note that this is intended to be a fairly straightforward lift and
+otherwise not change behavior. Now that the flush exists within XFS,
+follow on patches can further optimize it.
 
-Brian Foster (8):
-  xfs: fix iomap hole map reporting for zoned zero range
-  xfs: flush dirty pagecache over hole in zoned mode zero range
-  iomap, xfs: lift zero range hole mapping flush into xfs
-  xfs: flush eof folio before insert range size update
-  xfs: look up cow fork extent earlier for buffered iomap_begin
-  xfs: only flush when COW fork blocks overlap data fork holes
-  xfs: replace zero range flush with folio batch
-  xfs: report cow mappings with dirty pagecache for iomap zero range
+Signed-off-by: Brian Foster <bfoster@redhat.com>
+Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+---
+ fs/iomap/buffered-io.c |  2 +-
+ fs/xfs/xfs_iomap.c     | 25 ++++++++++++++++++++++---
+ 2 files changed, 23 insertions(+), 4 deletions(-)
 
- fs/iomap/buffered-io.c |   6 +-
- fs/xfs/xfs_file.c      |  17 +++++
- fs/xfs/xfs_iomap.c     | 146 +++++++++++++++++++++++++++++++----------
- 3 files changed, 130 insertions(+), 39 deletions(-)
-
+diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
+index bc82083e420a..0999aca6e5cc 100644
+--- a/fs/iomap/buffered-io.c
++++ b/fs/iomap/buffered-io.c
+@@ -1642,7 +1642,7 @@ iomap_zero_range(struct inode *inode, loff_t pos, loff_t len, bool *did_zero,
+ 		     srcmap->type == IOMAP_UNWRITTEN)) {
+ 			s64 status;
+ 
+-			if (range_dirty) {
++			if (range_dirty && srcmap->type == IOMAP_UNWRITTEN) {
+ 				range_dirty = false;
+ 				status = iomap_zero_iter_flush_and_stale(&iter);
+ 			} else {
+diff --git a/fs/xfs/xfs_iomap.c b/fs/xfs/xfs_iomap.c
+index d3b8c018c883..2ace8b8ffc86 100644
+--- a/fs/xfs/xfs_iomap.c
++++ b/fs/xfs/xfs_iomap.c
+@@ -1811,6 +1811,7 @@ xfs_buffered_write_iomap_begin(
+ 	if (error)
+ 		return error;
+ 
++restart:
+ 	error = xfs_ilock_for_iomap(ip, flags, &lockmode);
+ 	if (error)
+ 		return error;
+@@ -1838,9 +1839,27 @@ xfs_buffered_write_iomap_begin(
+ 	if (eof)
+ 		imap.br_startoff = end_fsb; /* fake hole until the end */
+ 
+-	/* We never need to allocate blocks for zeroing or unsharing a hole. */
+-	if ((flags & (IOMAP_UNSHARE | IOMAP_ZERO)) &&
+-	    imap.br_startoff > offset_fsb) {
++	/* We never need to allocate blocks for unsharing a hole. */
++	if ((flags & IOMAP_UNSHARE) && imap.br_startoff > offset_fsb) {
++		xfs_hole_to_iomap(ip, iomap, offset_fsb, imap.br_startoff);
++		goto out_unlock;
++	}
++
++	/*
++	 * We may need to zero over a hole in the data fork if it's fronted by
++	 * COW blocks and dirty pagecache. To make sure zeroing occurs, force
++	 * writeback to remap pending blocks and restart the lookup.
++	 */
++	if ((flags & IOMAP_ZERO) && imap.br_startoff > offset_fsb) {
++		if (filemap_range_needs_writeback(inode->i_mapping, offset,
++				offset + count - 1)) {
++			xfs_iunlock(ip, lockmode);
++			error = filemap_write_and_wait_range(inode->i_mapping,
++					offset, offset + count - 1);
++			if (error)
++				return error;
++			goto restart;
++		}
+ 		xfs_hole_to_iomap(ip, iomap, offset_fsb, imap.br_startoff);
+ 		goto out_unlock;
+ 	}
 -- 
 2.52.0
 
