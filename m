@@ -1,169 +1,145 @@
-Received: from mx0b-00364e01.pphosted.com (mx0b-00364e01.pphosted.com [148.163.139.74])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9DF482866
-	for <linux-fsdevel@vger.kernel.org>; Wed, 11 Mar 2026 18:31:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=148.163.139.74
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773253913; cv=pass; b=QdRduG6yM5jnWfC9eH8tzicPe8RiLQ7OVkgrBROl+/6G7BqiZ1EbcXg24Af5pjgyrj48k1MWwS5Bx3ptZT6KXZMHYtqH5V5w6LYCvERxJNhXYXl/j2Jx9u+mKYbJ0T8pXyq0cXkV8HHL41pkA3e3NRTcfSyO35oGrvf38MJNybg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773253913; c=relaxed/simple;
-	bh=Cq8+tWfGf0TNmdPtc7SAv9a2DVpNwq16jsP0bVMh1cM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=c/sh2f1D0v5r0f48SkONPDbolth6aumQC1pPeh21o/e07LZMOq9vtMrzer1GJFGgQgIptsxELx8YGFrE9Qq1ym6pj55E0Eml3cDtsL5C+mnLCxNLsl8xzR8Zz+i6nN+vB/5WZ50an3BN1KCwCfm202X5U6knrqwC/cmRm/vW1hg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu; spf=pass smtp.mailfrom=columbia.edu; dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b=UUM+ow1l; arc=pass smtp.client-ip=148.163.139.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=columbia.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1F113E92B1;
+	Wed, 11 Mar 2026 18:49:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773254952; cv=none; b=L6SZ0Q51A0GP+Y+mPxVFw76XH5VwaoCchvdEeAxoenXBL9xXKFfhhG/bkt439xjSDJZRY/oD7wdh16Fe0WFr3NAbI9qRmSop/1udCsNk8ARpmGBLS2jNTnbkYhLNY4vXLZ2j9q/+wqhW1CvUmpmb9KyoLUrInJgwPvhCq37FOEE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773254952; c=relaxed/simple;
+	bh=V6cFeRkZqby++mC9llt12uQIBRckotBb4PevLS2Zh7A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q57Tse0VKfS9Nzk1UaHKsIOXUuOsRnZmQFJLY9aCbJcldhOrMGFImFUeKoaEbnUHLAydo5t1DClziYrDup5bMjheUxC4N8xDNMvbBkMsKGQzqu0kBMTarhr5O3RbGZVp9JV8b6CfkzpBgwGgMJnYgc2daBAmJ2H9vIFa2t9y4wk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JgEdtbB2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b="UUM+ow1l"
-Received: from pps.filterd (m0167073.ppops.net [127.0.0.1])
-	by mx0b-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62BIDGOG1911278
-	for <linux-fsdevel@vger.kernel.org>; Wed, 11 Mar 2026 14:21:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=columbia.edu; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pps01; bh=Cq8+
-	tWfGf0TNmdPtc7SAv9a2DVpNwq16jsP0bVMh1cM=; b=UUM+ow1l9Ax4aODk3kCA
-	f7C6HX+J1u99B/02owTapIzmg/S3suK/So7h+9shCsOsMY31YQ+ehmWLJShBDZtJ
-	XSPB3SYVeDnU5cbRSko0FZu01N7ob0aWMQCkAQxNNKfYhkrHloUojrVFq2qb+lrm
-	6SwDtWiAxy8bBpNfFnmfwdfuhUVGAAvvZtsQsPKsxGPE9DClIL++hxAb18jfEGmt
-	XOjrspU7yPFaEr4YHZgDT7jQr7AF4Oi1HRsZTHLlWuzw7s9+LBlcYmbUdLVRCZms
-	ao5ZTen4Lmub3RDeEx9C7ttLVWXnex1T9F2275PLGcL4nuBCa3SsS9N40ALWOpX0
-	YQ==
-Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com [209.85.128.199])
-	by mx0b-00364e01.pphosted.com (PPS) with ESMTPS id 4cuawa1ket-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-fsdevel@vger.kernel.org>; Wed, 11 Mar 2026 14:21:01 -0400 (EDT)
-Received: by mail-yw1-f199.google.com with SMTP id 00721157ae682-7983f854288so3689627b3.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 11 Mar 2026 11:21:01 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773253261; cv=none;
-        d=google.com; s=arc-20240605;
-        b=S0VSqb60ZbkdnmV+RPLzf/168Zzqq4jtCX8+URwlP0cacHnzvaAvFhCUGLi81494YV
-         gFIrEi2eyvhQV8mklxED8o53K1sfGScXq+GXfy9JFvFxypm+bVWoA3AbVbCLi7TK7KS6
-         qU0F4TNRRHOo+Ljk8irKT18/7ePMVViVwMnWg+E8oq5X3Mer/tzd0OM5I3jA69hYq2On
-         mstcC56OPtNKEhx5f7f6modUUncsGy3OlsJ00CGf0HHexTIgQTLSWc7j/DiQaLPdBohW
-         KGcBrl+JU2GhGjV67gVf7LbQvcxD//cuUtojfzIS1qU8igl1TT76aXuKOhYehTA095tC
-         hpXg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version;
-        bh=Cq8+tWfGf0TNmdPtc7SAv9a2DVpNwq16jsP0bVMh1cM=;
-        fh=xUbQGyV0XzEHRQCwcvtfaBaLgaLQp7mbrh5XRNgtBQw=;
-        b=W8qQTgGp9PyUzOoHBb//Yq+IBIZL9aE8v4FHNHs2Xv/pwTxYVjJ7rJc4X186Btrr3x
-         mYP7PCK/tmgoCQjVPTbZ1iuruHR2XxeJ+W/uo6fLDbd7NgxeN40amxYWW8xJPQdzJAGA
-         WnLgafTRuWpoAUZ3ij+1hK0Y+/mmeG/fCSSSSWd6mIraYxCFodWxgnGLrLuIktfm8hrW
-         DG/1q9Cj+gomI+4xmPAB0K77mOIBwSKGqGj9N+0t/1/uMhR03a6gQzPNIskAsG9Mue2K
-         RmOk0SdEMBkEdN3gbWc9a4CsL+/aYDHYnyrd2+6erXqgIM16y37fpSp3yuejbL3XaQ85
-         SFsA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773253261; x=1773858061;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Cq8+tWfGf0TNmdPtc7SAv9a2DVpNwq16jsP0bVMh1cM=;
-        b=D74onFcPi9sC/AFUCroC0pbCiXZzISSEQ10VGc9iRCS0MjWdbe80BZA4ODgS7792Rb
-         APcGKO2ZcGNb5KsdhuK4Zm5UQbvDUetS7DjUOYois1OyX83W9nNk9Yg8fShb+U7F9b4F
-         84azwafvs5UYx2OOMFKXNTaIcbtd9gnLptSz7jU8Da+e1iy29Y0gV2qL7gjR3Yzo1/o9
-         N+tP8QosXacKsk33qKijmYElT8y9qLerwtGqYQ2+Y37SaqbSIbwHeS/wYS0xQj8xa+g7
-         9EO43XgdT0aj5dO3uj81eh19yuf/hesSEpRZnVWxkMLDCm5UqNN0z2ao6AimVHUkL8Pl
-         Zr1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVO3Jzx3iy8DTcA2T/YQAO2rpVWP8oCFbPG5YGGzhyCK5igZUmLcw7IH37dppyL0IbNDUR0i2Kx+soasyu6@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw7/PeL9FqtpaWnjIw529hNRtPoz0QXH7advr0DvDEs2iBNquPZ
-	wqrMbnvz/1qIRXg9PZ5zu554ARgQr0XcLau5O2SMz/kEtJnPPoq0OK4XvUz3/scME6f63VPtuf1
-	I0ZmDFEJeWnPYLwMyxOL5S1fOQ6G+A8XsztBdrYXCjBsdsD/lmjN1ZB8QwteNdf9eczfV+dSzk+
-	fE+3iLyMeFr9ikSOYa5Fd4/XZqEEtfdkgZDcnQ2w==
-X-Gm-Gg: ATEYQzzqmwbcYs+DyiL0mu8rr7hCbrox+TULaAKCDdHs6KfN55DGcdKqOh0LIsOvgmO
-	rs2HTeOKBC7SfZ0mgZ0Tl5Kj1JGXACNYOb1hdhagXgpQHwKOF1U7YBNYDuzv1Da03abTbhf17xh
-	wQniaAo/OjyuOll4/xxtGhLYpbsIcCybCjN8Qlgs970zvbWe2qs0571OSixdoRRKRk5dqVyW8aq
-	BzOFejz
-X-Received: by 2002:a05:690c:2704:b0:798:e281:a51d with SMTP id 00721157ae682-79917f7333dmr31676437b3.32.1773253261155;
-        Wed, 11 Mar 2026 11:21:01 -0700 (PDT)
-X-Received: by 2002:a05:690c:2704:b0:798:e281:a51d with SMTP id
- 00721157ae682-79917f7333dmr31676087b3.32.1773253260648; Wed, 11 Mar 2026
- 11:21:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JgEdtbB2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BED4C19425;
+	Wed, 11 Mar 2026 18:49:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773254951;
+	bh=V6cFeRkZqby++mC9llt12uQIBRckotBb4PevLS2Zh7A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JgEdtbB2552lw+CZNF+iT4qjBWPNoUdaJrGRaWJeqan1Mdfi5a9y3+1uJSR/wv32s
+	 QX4boMvXHOGzj77PQo1BGxHTnoQO0v/eCIx/awqOamXHSnQ99EQsHhBPgznbBS0lWi
+	 mCrjHiikGeOlJUuB75XBJmwWEMFGMt9uY1e77zsOHq+K45kQ56DZ7NqDw8GFvVZkL1
+	 DYO4WEaT0z6xMrEYBaptEqaIKq/SgXAXI1elpkm3mhjePR1FtlZ+1sJYrAr0FYZ5nl
+	 x92uuR21FLfkhDt1132NzhtHFAe4pC6zGlSi1bT1bhetb8YrwM5mbjw20h3PWQcnig
+	 aOoRuubqwjihw==
+Date: Wed, 11 Mar 2026 20:49:00 +0200
+From: Mike Rapoport <rppt@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Andrea Arcangeli <aarcange@redhat.com>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	David Hildenbrand <david@kernel.org>,
+	Hugh Dickins <hughd@google.com>,
+	James Houghton <jthoughton@google.com>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>,
+	Nikita Kalyazin <kalyazin@amazon.com>,
+	Oscar Salvador <osalvador@suse.de>,
+	Paolo Bonzini <pbonzini@redhat.com>, Peter Xu <peterx@redhat.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@suse.cz>, kvm@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v2 07/15] userfaultfd: introduce vm_uffd_ops
+Message-ID: <abG5HFV8yoEHOFkh@kernel.org>
+References: <20260306171815.3160826-1-rppt@kernel.org>
+ <20260306171815.3160826-8-rppt@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260227-blk-dontcache-v3-0-cd309ccd5868@columbia.edu>
- <20260227-blk-dontcache-v3-1-cd309ccd5868@columbia.edu> <wen63cjbk3k54mjzgw7zftsuze6bzxmdk5u5wdjabzdiqg645k@67666k5lrevh>
- <aaXK0_HqEnU5SK61@casper.infradead.org> <aaybsigvp33i54w244jy4jarwf53zph5mzwjy2hcfm4v7m5o5o@e5hljmjqa3kq>
-In-Reply-To: <aaybsigvp33i54w244jy4jarwf53zph5mzwjy2hcfm4v7m5o5o@e5hljmjqa3kq>
-From: Tal Zussman <tz2294@columbia.edu>
-Date: Wed, 11 Mar 2026 14:20:49 -0400
-X-Gm-Features: AaiRm52QGrwhBIHZ_poQdAn3zaJ3OJ_GcxWQiC5XIABJrq0SVTc4spz01Omwcfs
-Message-ID: <CAKha_sp3nF=UbVd3tjie2qat44P3_puZLABWJRXs24SLVpG+gQ@mail.gmail.com>
-Subject: Re: [PATCH RFC v3 1/2] filemap: defer dropbehind invalidation from
- IRQ context
-To: Jan Kara <jack@suse.cz>, Jens Axboe <axboe@kernel.dk>,
-        Matthew Wilcox <willy@infradead.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-        David Hildenbrand <david@kernel.org>,
-        Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-        "Liam R. Howlett" <Liam.Howlett@oracle.com>,
-        Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
-        Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
-        Brendan Jackman <jackmanb@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <brauner@kernel.org>,
-        Christoph Hellwig <hch@infradead.org>, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-block@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-GUID: aSFCMkEQMjPm1KbQK1Mre42Ieu7_7LOE
-X-Authority-Analysis: v=2.4 cv=ev3SD4pX c=1 sm=1 tr=0 ts=69b1b28d cx=c_pps
- a=72HoHk1woDtn7btP4rdmlg==:117 a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10
- a=x7bEGLp0ZPQA:10 a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22
- a=jHxIr1HyPKZ_Q5_91PL3:22 a=-5RlsJUDQDLQn6G50gQA:9 a=QEXdDO2ut3YA:10
- a=kA6IBgd4cpdPkAWqgNAz:22
-X-Proofpoint-ORIG-GUID: aSFCMkEQMjPm1KbQK1Mre42Ieu7_7LOE
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzExMDE1NSBTYWx0ZWRfX4lShiW5xF9Ug
- gd8jJHPKZpSeqwRIBWUJaA6qSXMXZjX+Eas0PHRz6LFhv2hIhAKpN2zRG2d589uRavgZb2fnGSo
- jSNwmPqaCQI+LvuV/Th0DQkvfAphrq5X73+QzqksILqdGkJZa0gUlIsCgaGhUljaPNKdk8CCqBz
- m3jE20yIykBj+3zV3WZTlcGzpiaZxBLCelshRDbNEoyvjpwUrpBwmAdNA7oBrbdcIj9JfIhVAFp
- DdCipHOW80kIHtTaXsHRX+aj9or1H+vlGHth69cuIH7rFM1RomrzoOSsOUjlmzFJqrAUeUWbtCD
- oGpAKCdU+BjvFQ5IsmPqJQrnUspaK4rLxDbTP2LiCueagKv95FAGltHVWCJ7ROs2ksy+rQGregN
- ln2EAPCuvJojNy7Nwbr9cvtCN23UUZRoU6TqQrH1tx9c1mqOUOuPQaI0BMeHhHz4pMJYMHdJbOe
- oDV1mpUhSqmSw4H93Qw==
-X-Proofpoint-Virus-Version: vendor=nai engine=6800 definitions=11726
- signatures=596818
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=10 impostorscore=10 clxscore=1015 spamscore=0 adultscore=0
- bulkscore=10 priorityscore=1501 suspectscore=0 phishscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603110155
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260306171815.3160826-8-rppt@kernel.org>
 
-On Tue, Mar 3, 2026 at 5:39=E2=80=AFAM Jan Kara <jack@suse.cz> wrote:
-> On Mon 02-03-26 17:37:23, Matthew Wilcox wrote:
-> > On Mon, Mar 02, 2026 at 10:11:19AM +0100, Jan Kara wrote:
-> > > Folio batches are relatively small (31 folios). With 4k folios it is =
-very
-> > > easy to overflow the batch with a single IO completion. Large folios =
-will
-> > > obviously make this less likely but I'm not sure reasonable working o=
-f
-> > > dropbehind should be dependent on large folios... Not sure how to bes=
-t
-> > > address this though. We could use larger batches but that would mean =
-using
-> > > our own array of folios instead of folio_batch.
-> >
-> > That's why I think we should allow the bio to be tagged as
-> > "finish the bio in workqueue context",
->
-> Yeah, what you suggested there makes sense to me. The workqueue would
-> probably have to be a per-cpu one for performance reasons but otherwise I
-> think it's worth a try.
+On Fri, Mar 06, 2026 at 07:18:07PM +0200, Mike Rapoport wrote:
+>  bool vma_can_userfault(struct vm_area_struct *vma, vm_flags_t vm_flags,
+>  		       bool wp_async)
+>  {
+> -	vm_flags &= __VM_UFFD_FLAGS;
+> +	const struct vm_uffd_ops *ops = vma_uffd_ops(vma);
+>  
+> -	if (vma->vm_flags & VM_DROPPABLE)
+> +	/* only VMAs that implement vm_uffd_ops are supported */
+> +	if (!ops)
+>  		return false;
 
-If the consensus is that completing tagged bios in workqueues is the right
-approach, I can give that a shot based on Matthew's suggestion.
+Just found out that rejecting a VMA that does not have uffd_ops but was
+registered in WP-only mode with WP_ASYNC uffd context breaks
+pagemap_ioctl() test and more broadly it breaks tracking of writes in SysV
+shared memory areas.
 
-Jens, does that approach sound reasonable to you?
+This is weird that it's possible to use uffd with SysV SHM, but it's out
+there for some time and I afraid we can't change that :/
 
-Thanks,
-Tal
+Andrew, can you apply this as a fixup please
+
+From 6e3319ceab93d84558e735e1f4f451e80c85b267 Mon Sep 17 00:00:00 2001
+From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+Date: Wed, 11 Mar 2026 20:21:38 +0200
+Subject: [PATCH 1/1] userfaultfd: allow registration of WP_ASYNC for any VMA
+
+Registration of a VMA with WP_ASYNC userfaulfd context in write-protect
+mode does not require any VMA-specific resolution of user faults and
+these faults are completely handled by the generic page fault handler.
+
+This functionality existed since the introduction of WP_ASYNC mode and
+it allows tracking writes to SysV shared memory mappings (shmget(2) and
+shmat(2)).
+
+Move the check for WP mode before checking for presence of ->uffd_ops in a
+VMA to restore the original behaviour.
+
+Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+---
+ mm/userfaultfd.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/mm/userfaultfd.c b/mm/userfaultfd.c
+index b55d4a8d88cc..436795bf218e 100644
+--- a/mm/userfaultfd.c
++++ b/mm/userfaultfd.c
+@@ -2044,22 +2044,22 @@ bool vma_can_userfault(struct vm_area_struct *vma, vm_flags_t vm_flags,
+ {
+ 	const struct vm_uffd_ops *ops = vma_uffd_ops(vma);
+ 
+-	/* only VMAs that implement vm_uffd_ops are supported */
+-	if (!ops)
+-		return false;
+-
+ 	vm_flags &= __VM_UFFD_FLAGS;
+ 
+-	if (vma->vm_flags & VM_DROPPABLE)
+-		return false;
+-
+ 	/*
+-	 * If wp async enabled, and WP is the only mode enabled, allow any
++	 * If WP is the only mode enabled and context is wp async, allow any
+ 	 * memory type.
+ 	 */
+ 	if (wp_async && (vm_flags == VM_UFFD_WP))
+ 		return true;
+ 
++	/* For any other mode reject VMAs that don't implement vm_uffd_ops */
++	if (!ops)
++		return false;
++
++	if (vma->vm_flags & VM_DROPPABLE)
++		return false;
++
+ 	/*
+ 	 * If user requested uffd-wp but not enabled pte markers for
+ 	 * uffd-wp, then only anonymous memory is supported
+-- 
+2.51.0
+
