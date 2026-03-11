@@ -1,49 +1,44 @@
 Received: from embla.dev.snart.me (embla.dev.snart.me [54.252.183.203])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A590390CB2;
-	Wed, 11 Mar 2026 22:24:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ABD8390C8B;
+	Wed, 11 Mar 2026 22:26:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.252.183.203
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773267880; cv=none; b=Lu0SOgQhUTFUNytMOe1bqFdX8Vuul1+YJsC8NzDsZviy3D7XQs9FxDOCTqYpXOvsUzKRDrQPoD6in7DzzFswdhPSPBNodHB2mNa1ZCEqzG4dFFOCV5LUKPF+pCpbPPtp7MKR93NtjibAu5vBS/hi+nzMfpHkej3RgXbfNbrxdS4=
+	t=1773267984; cv=none; b=h7DixkVyJaXUVIvmC9xFavpoZarM54YH6X0MGSD2bAY9ttxUTq9JhZlI//gC2Gfpnk0P0q4QLi0/dT0t/GCqAmBY4kHAD9jnF/N2bCzdDm1kPHeayikpUhdBEJD7t5TEZFl6Aubcqu07VFZ5NQHi/Hhgi9ljnG3cUgNFdDkMjgo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773267880; c=relaxed/simple;
-	bh=tqRXBf6DpqkEc0mIBTnLExF0Gh4b3XlTIWNDNYeyae4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=PIp1Z4T2ujT2il05Sz6PdWEZWCmZLdk3nTXJmgy/s9WlSA1DBxP/+VY6oWjGG+aX0/ZqXo9fbq0Vizkl+z7m9xwHmZbt9IdvfWusnA8ZQPS8gKwVR84Xk+fYdDyfS4DFNUI9EjgI6YceXGwQ+RBDZfL4ULfBBMWdXRRlA18WgP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me; spf=pass smtp.mailfrom=dev.snart.me; dkim=pass (1024-bit key) header.d=dev.snart.me header.i=@dev.snart.me header.b=VDudn5/q; arc=none smtp.client-ip=54.252.183.203
+	s=arc-20240116; t=1773267984; c=relaxed/simple;
+	bh=Vjvw77Pr4Dm7Oi1zVBCvO2CifIfuAUoy/I9/jkXqlg8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IWG+7Vr18VbWrJooPJBp0McRKeLw4g8R8JCssX5OwgvUAMc7WinaxrtPQT+8IY+o6x9SoJ2Cch2uFVd5BdNts0YAfJWMGLSKUi4dOvobAewuFrc6nnjEx5XCQhgqkoXizWqnNY8Q98gjR3xGYzSiP7V/oGKdR8JToC3te1dftvg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me; spf=pass smtp.mailfrom=dev.snart.me; dkim=pass (1024-bit key) header.d=dev.snart.me header.i=@dev.snart.me header.b=I9500/QA; arc=none smtp.client-ip=54.252.183.203
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dev.snart.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=dev.snart.me header.i=@dev.snart.me header.b="VDudn5/q"
+	dkim=pass (1024-bit key) header.d=dev.snart.me header.i=@dev.snart.me header.b="I9500/QA"
 Received: from embla.dev.snart.me (localhost [IPv6:::1])
-	by embla.dev.snart.me (Postfix) with ESMTP id 63D4E1CBC0;
-	Wed, 11 Mar 2026 22:24:29 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 embla.dev.snart.me 63D4E1CBC0
+	by embla.dev.snart.me (Postfix) with ESMTP id C472E1CBC3;
+	Wed, 11 Mar 2026 22:26:20 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 embla.dev.snart.me C472E1CBC3
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=dev.snart.me; s=00;
-	t=1773267871; bh=tqRXBf6DpqkEc0mIBTnLExF0Gh4b3XlTIWNDNYeyae4=;
+	t=1773267981; bh=Vjvw77Pr4Dm7Oi1zVBCvO2CifIfuAUoy/I9/jkXqlg8=;
 	h=From:To:Cc:Subject:Date:From;
-	b=VDudn5/qEcwYlXFsHl5HtdGIpOFaytDqSS4VnuBejOw3GEisz7A1e4GIzdl8xlgEy
-	 PA8G8BFw+rrEAYRwhIr0z6giH8+8kUVRzhIH2Hzb9lcInDEeSAYV+e+Agw8rVT2uqv
-	 26UqVzUIlmpA1ZIB0gQSN0ERpx6jAg8kO4GH/208=
+	b=I9500/QA36YXwifhco5UIYKouzclYdko8mfEuDE9v8UHF1XC37zt+DbXy82ntR1G7
+	 VY6UPOMP97c6cwYTuDa6MY5w4pKmECcxqRM6uFYcudc7J95lgkH8Jc7sHlvDbF48CL
+	 Smn6KwZ2UNEJ4r03rnh1wYldhlbKbOhJdJw8+na4=
 Received: from maya.d.snart.me ([182.226.25.243])
 	by embla.dev.snart.me with ESMTPSA
-	id gFKJBJ3rsWltqgQA8KYfjw
-	(envelope-from <dxdt@dev.snart.me>); Wed, 11 Mar 2026 22:24:29 +0000
+	id jUgSHgzssWmgqgQA8KYfjw
+	(envelope-from <dxdt@dev.snart.me>); Wed, 11 Mar 2026 22:26:20 +0000
 From: David Timber <dxdt@dev.snart.me>
-To: corbet@lwn.net,
-	linkinjeon@kernel.org,
-	sj1557.seo@samsung.com,
-	almaz.alexandrovich@paragon-software.com
-Cc: skhan@linuxfoundation.org,
-	yuezhang.mo@sony.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
+To: linkinjeon@kernel.org,
+	sj1557.seo@samsung.com
+Cc: yuezhang.mo@sony.com,
 	linux-fsdevel@vger.kernel.org,
-	ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
 	David Timber <dxdt@dev.snart.me>
-Subject: [PATCH v3 1/2] fs: reserve a new ioctl magic for exfat and ntfs
-Date: Thu, 12 Mar 2026 07:24:20 +0900
-Message-ID: <20260311222421.2008639-1-dxdt@dev.snart.me>
+Subject: [PATCH v3 2/2] exfat: EXFAT_IOC_GET_VALID_DATA ioctl
+Date: Thu, 12 Mar 2026 07:26:13 +0900
+Message-ID: <20260311222613.2010177-1-dxdt@dev.snart.me>
 X-Mailer: git-send-email 2.53.0.1.ga224b40d3f.dirty
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -51,129 +46,98 @@ List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-ntfs and ntfs3 had no ioctl magic assigned to them. A decision to share
-the new ioctl magic(0xEF) between ntfs and exfat has been made
+When a file in exfat fs gets truncated up or fallocate()'d up, only
+additional clusters are allocated and isize updated whilst VDL(valid
+data length) remains unchanged. If an application writes to the file
+past the VDL, significant IO delay can occur as the skipped range
+[VDL, offset) has to be zeroed out before returning to userspace. Some
+users may find this caveat unacceptible.
 
-  1. due to the similarities in API design
-  2. because they're maintained by the same group devs
-  3. to delay the eventual exhaustion of ioctl number namespace
+Some niche applications(especially embedded systems) may want to query
+the discrepancy between the VDL and isize before doing lseek() and
+write() to estimate the delay from implicit zeroring.
 
-Also, the uapi header file is named ntfs.h, not ntfs3.h to cater the
-on-going work of reviving ntfs classic and potentially consolidating
-it with ntfs3.
+The commit introduces a new ioctl EXFAT_IOC_GET_VALID_DATA, which
+correspond to `fsutil file queryvaliddata ...` available on Windows.
+With the new ioctl, applications could assess the delay that may incur
+and make decisions accordingly before seeking past the VDL to write.
 
-Link: https://lore.kernel.org/linux-fsdevel/72446d20-f3ae-4acc-86cc-bd8fa3d86f41@dev.snart.me/
 Signed-off-by: David Timber <dxdt@dev.snart.me>
 ---
- .../userspace-api/ioctl/ioctl-number.rst         |  1 +
- MAINTAINERS                                      |  2 ++
- fs/ntfs3/file.c                                  |  6 ------
- fs/ntfs3/ntfs_fs.h                               |  1 +
- include/uapi/linux/exfat.h                       |  3 ++-
- include/uapi/linux/ntfs.h                        | 16 ++++++++++++++++
- 6 files changed, 22 insertions(+), 7 deletions(-)
- create mode 100644 include/uapi/linux/ntfs.h
+ fs/exfat/file.c            | 22 ++++++++++++++++++++++
+ include/uapi/linux/exfat.h |  6 ++++--
+ 2 files changed, 26 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
-index 331223761fff..1c81f1f030ca 100644
---- a/Documentation/userspace-api/ioctl/ioctl-number.rst
-+++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
-@@ -410,6 +410,7 @@ Code  Seq#    Include File                                             Comments
-                                                                        <mailto:nchatrad@amd.com>
- 0xF9  00-0F  uapi/misc/amd-apml.h                                      AMD side band system management interface driver
-                                                                        <mailto:naveenkrishna.chatradhi@amd.com>
-+0xEF  00-0F  uapi/linux/exfat.h and uapi/linux/ntfs3.h
- 0xFD  all    linux/dm-ioctl.h
- 0xFE  all    linux/isst_if.h
- ====  =====  ========================================================= ================================================================
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 55af015174a5..59a722414e09 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -9597,6 +9597,7 @@ L:	linux-fsdevel@vger.kernel.org
- S:	Maintained
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/linkinjeon/exfat.git
- F:	fs/exfat/
-+F:	include/uapi/linux/exfat.h
+diff --git a/fs/exfat/file.c b/fs/exfat/file.c
+index 90cd540afeaa..a13044a7065a 100644
+--- a/fs/exfat/file.c
++++ b/fs/exfat/file.c
+@@ -449,6 +449,22 @@ static int exfat_ioctl_set_attributes(struct file *file, u32 __user *user_attr)
+ 	return err;
+ }
  
- EXPRESSWIRE PROTOCOL LIBRARY
- M:	Duje Mihanović <duje.mihanovic@skole.hr>
-@@ -18876,6 +18877,7 @@ W:	http://www.paragon-software.com/
- T:	git https://github.com/Paragon-Software-Group/linux-ntfs3.git
- F:	Documentation/filesystems/ntfs3.rst
- F:	fs/ntfs3/
-+F:	include/uapi/linux/ntfs.h
++static int exfat_ioctl_get_valid_data(struct inode *inode, unsigned long arg)
++{
++	u64 valid_size;
++
++	/*
++	 * Doesn't really make sense to acquire lock for a getter op but we have
++	 * to stay consistent with the grandfather clause -
++	 * ioctl_get_attributes().
++	 */
++	inode_lock(inode);
++	valid_size = EXFAT_I(inode)->valid_size;
++	inode_unlock(inode);
++
++	return put_user(valid_size, (__u64 __user *)arg);
++}
++
+ static int exfat_ioctl_fitrim(struct inode *inode, unsigned long arg)
+ {
+ 	struct fstrim_range range;
+@@ -544,10 +560,15 @@ long exfat_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
+ 	u32 __user *user_attr = (u32 __user *)arg;
  
- NTSYNC SYNCHRONIZATION PRIMITIVE DRIVER
- M:	Elizabeth Figura <zfigura@codeweavers.com>
-diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
-index 7eecf1e01f74..2dd15af0255c 100644
---- a/fs/ntfs3/file.c
-+++ b/fs/ntfs3/file.c
-@@ -21,12 +21,6 @@
- #include "ntfs.h"
- #include "ntfs_fs.h"
- 
--/*
-- * cifx, btrfs, exfat, ext4, f2fs use this constant.
-- * Hope this value will become common to all fs.
-- */
--#define NTFS3_IOC_SHUTDOWN _IOR('X', 125, __u32)
--
- /*
-  * Helper for ntfs_should_use_dio.
-  */
-diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
-index daf5a1f47275..633d8472fa1f 100644
---- a/fs/ntfs3/ntfs_fs.h
-+++ b/fs/ntfs3/ntfs_fs.h
-@@ -26,6 +26,7 @@
- #include <linux/time64.h>
- #include <linux/types.h>
- #include <linux/uidgid.h>
-+#include <uapi/linux/ntfs.h>
- #include <asm/div64.h>
- #include <asm/page.h>
- 
+ 	switch (cmd) {
++	/* inode-specific ops */
+ 	case FAT_IOCTL_GET_ATTRIBUTES:
+ 		return exfat_ioctl_get_attributes(inode, user_attr);
+ 	case FAT_IOCTL_SET_ATTRIBUTES:
+ 		return exfat_ioctl_set_attributes(filp, user_attr);
++	case EXFAT_IOC_GET_VALID_DATA:
++		return exfat_ioctl_get_valid_data(inode, arg);
++
++	/* fs-wide ops */
+ 	case EXFAT_IOC_SHUTDOWN:
+ 		return exfat_ioctl_shutdown(inode->i_sb, arg);
+ 	case FITRIM:
+@@ -556,6 +577,7 @@ long exfat_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
+ 		return exfat_ioctl_get_volume_label(inode->i_sb, arg);
+ 	case FS_IOC_SETFSLABEL:
+ 		return exfat_ioctl_set_volume_label(inode->i_sb, arg);
++
+ 	default:
+ 		return -ENOTTY;
+ 	}
 diff --git a/include/uapi/linux/exfat.h b/include/uapi/linux/exfat.h
-index 46d95b16fc4b..050dcea0aa12 100644
+index 050dcea0aa12..cbc10458122e 100644
 --- a/include/uapi/linux/exfat.h
 +++ b/include/uapi/linux/exfat.h
-@@ -12,7 +12,8 @@
+@@ -12,8 +12,10 @@
   * exfat-specific ioctl commands
   */
  
--#define EXFAT_IOC_SHUTDOWN _IOR('X', 125, __u32)
-+#define EXFAT_IOCTL_MAGIC	0xEF			/* shared with ntfs3 */
-+#define EXFAT_IOC_SHUTDOWN	_IOR('X', 125, __u32)
+-#define EXFAT_IOCTL_MAGIC	0xEF			/* shared with ntfs3 */
+-#define EXFAT_IOC_SHUTDOWN	_IOR('X', 125, __u32)
++#define EXFAT_IOCTL_MAGIC		0xEF			/* shared with ntfs */
++#define EXFAT_IOC_SHUTDOWN		_IOR('X', 125, __u32)
++/* Get the current valid data length(VDL) of a file */
++#define EXFAT_IOC_GET_VALID_DATA	_IOR(EXFAT_IOCTL_MAGIC, 0x01, __u64)
  
  /*
   * Flags used by EXFAT_IOC_SHUTDOWN
-diff --git a/include/uapi/linux/ntfs.h b/include/uapi/linux/ntfs.h
-new file mode 100644
-index 000000000000..f00428af6901
---- /dev/null
-+++ b/include/uapi/linux/ntfs.h
-@@ -0,0 +1,16 @@
-+/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-+
-+#ifndef _UAPI_LINUX_NTFS_H
-+#define _UAPI_LINUX_NTFS_H
-+#include <linux/types.h>
-+#include <linux/ioctl.h>
-+
-+#define NTFS_IOCTL_MAGIC	0xEF			/* shared with exfat */
-+
-+/*
-+ * cifx, btrfs, exfat, ext4, f2fs use this constant.
-+ * Hope this value will become common to all fs.
-+ */
-+#define NTFS3_IOC_SHUTDOWN	_IOR('X', 125, __u32)
-+
-+#endif /* _UAPI_LINUX_NTFS_H */
 -- 
 2.53.0.1.ga224b40d3f.dirty
 
