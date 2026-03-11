@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 565F62FFF8F;
-	Wed, 11 Mar 2026 21:56:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE08138D011;
+	Wed, 11 Mar 2026 21:56:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773266209; cv=none; b=GF3oUFS6k/yKHHGQDOnuSCv8Wr6dCnupwI7EQ5slZtyPPcednJJQYJHlD5CUmEG9H4DzeFMG84ORsUQTKwcTHvNV0pYq/ScIh3uRdmz82nDPAGU706m9xYS8HPku5nMRYRV+IguRXW1o6ft1lhDEsGB9FgxqCj8VBYGc50ZQ+hw=
+	t=1773266211; cv=none; b=RQ69SMEnTTQeiyDjnLG/S7VuEUDGexgmL9o2H6S4nuVpgzNTjBbVzDZv4V+e0JWEqVwceHVyNLwaASphFzPTXiQbGarpDKtbJ2GyCUP+uxkwgyJBTD1INTPWRFpWnpUGUOW0aBmkChAbhgaai1XMgc2hgTO5uImGTsV0Dqafvsk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773266209; c=relaxed/simple;
-	bh=wU9SxeJzZju+/xFBYvuJFjoOiP1dhPkfgSD6zYZdtUQ=;
+	s=arc-20240116; t=1773266211; c=relaxed/simple;
+	bh=k7fCly/aiwsbj3pgXjTBxZbf7C11W0fJ4pfAC6OMiro=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=T3vyA/RWlF+7nagkZZUzeaOdhlyiGH8fyL0ulVlppagSEenEyWtdDFx716PLQTSNhSGyhzMAnjlr1Bc8mdytI/HNMut2ZBY7r2p030MU1Gyp9TP8SOxJohi0qtUAFErpOPhrxLytnX1k62yR3AoyBg10M+9S+q4G5dvIDEynBxk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WBqUNdbU; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=psOQGoDTun0tuOJ8YpIyDh3Lzru0nlRRAMCUdgtIRYfsdOcQlgDQ8ICR0Yfh/v0i6hsU8M0dVPdct/+ICwv1NdOQ2QLsNC3azkUIzTffj8EfbO8S0f9ShH3Y00L2YY7O71F0JsgiwNntHuf9g0JzubMzs0+FhkIMfsPMDYadf/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BK5ysSza; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WBqUNdbU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CFC1C19425;
-	Wed, 11 Mar 2026 21:56:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BK5ysSza"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABD68C2BC86;
+	Wed, 11 Mar 2026 21:56:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773266209;
-	bh=wU9SxeJzZju+/xFBYvuJFjoOiP1dhPkfgSD6zYZdtUQ=;
+	s=k20201202; t=1773266211;
+	bh=k7fCly/aiwsbj3pgXjTBxZbf7C11W0fJ4pfAC6OMiro=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=WBqUNdbUP+eSSqeWnUJG7pVi6qXE+L1hb4RuJfr51ki9y6HCUJay9eOtfkWxnsG9f
-	 9iNXLq4JnudTFxxFhuTYdRvspnIRVEmvR/im6ZsUGmRteOiQ7SCZB+vKEq5+BOFBlk
-	 fHYu4s7U4DsiikhE5cX4rfRJCkjKpjAvN8iIDINRf9MJMpcJb/OtI9ohPxw7+JBhlN
-	 dGsIWtyNV7gbgk1wOTnj95+QGx3Wf+FDcai4yTfZXlw3xfchlVtrkJ1/O9yN8g+NRG
-	 aBRzwtlLptxKN+hkUBljHWNrdDFe8siAubdmFU5q+zy/LwFwEbMhU9JHAzWA5/cLMQ
-	 tjYbLCnM1+avw==
+	b=BK5ysSzaYqOzO5ZFPrZI6QeP/Z0Fs1Eci4fsqA6DMnAaOyNVjvz/G7KY0+lHWLQdW
+	 Q2MeG0ndikt6QvzQsoFF9wEH9qU4PBmoLpctJmdWTluxc0tQjd0Q2Ipc1NVNOeFeO/
+	 s3j7j1I4C+SOg6VsblfGd0uzt+vZKqC4DUdzagGUK/jqtkyD98Snq2pJvHBH1fe+4t
+	 J7PRYuiK6qlzInR/vfGD1aTjWtc8BlOomK9tailMOk1pLXSkWeJUP9SxU0SgRDFCDD
+	 eueFddewdQiOwPxfIokMoUyWlb3obgEYQT+afQuskSaVBfud1pO4IcrHAsniQcUSWE
+	 eVtEi8pXd+k4w==
 From: Christian Brauner <brauner@kernel.org>
-Date: Wed, 11 Mar 2026 22:43:58 +0100
-Subject: [PATCH RFC v3 15/26] ksmbd: use scoped_with_init_fs() for VFS path
- operations
+Date: Wed, 11 Mar 2026 22:43:59 +0100
+Subject: [PATCH RFC v3 16/26] pnfs/blocklayout: use scoped_with_init_fs()
+ for SCSI device lookup
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -37,8 +37,8 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260311-work-kthread-nullfs-v3-15-3dd2cbe92ad0@kernel.org>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260311-work-kthread-nullfs-v3-16-3dd2cbe92ad0@kernel.org>
 References: <20260311-work-kthread-nullfs-v3-0-3dd2cbe92ad0@kernel.org>
 In-Reply-To: <20260311-work-kthread-nullfs-v3-0-3dd2cbe92ad0@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -48,77 +48,101 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>,
  Tejun Heo <tj@kernel.org>, Jann Horn <jannh@google.com>, 
  Christian Brauner <brauner@kernel.org>
 X-Mailer: b4 0.15-dev-9fd7c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2156; i=brauner@kernel.org;
- h=from:subject:message-id; bh=wU9SxeJzZju+/xFBYvuJFjoOiP1dhPkfgSD6zYZdtUQ=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRufPKz6aLnT91nu7/sjDmxlclxfYfg/GNFrv6N2X7B0
- afzLr7711HKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCRuB2MDNuSpj9srPtb7JGy
- 45jq7JR7YS+qimdv3XQ3Raslu5Tjvwsjw9ScNG+Gkqq7v55OVfP6rBsh8/mYm97pvhnyGQsYqjc
- c4gQA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3216; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=k7fCly/aiwsbj3pgXjTBxZbf7C11W0fJ4pfAC6OMiro=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRufPJT0650WUwNwxUuruaDs7P6pm5dlPSjP+CJbTeT+
+ nfpDRonOkpZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACYyLZLhf8Ie4T/6Pf/KI2Yr
+ Tljt+4n97syQSaxiSQdP+Zw1Pnjn5HeG/znCgh0RiiU7Dvluqm2/uulZU6iZrPhFFe4JiTtd7y2
+ 4ygoA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Use scoped_with_init_fs() to temporarily override current->fs for
-path lookups in ksmbd VFS helpers:
-- ksmbd_vfs_path_lookup(): wrap vfs_path_parent_lookup()
-- ksmbd_vfs_link(): wrap kern_path() for old path resolution
-- ksmbd_vfs_kern_path_create(): wrap start_creating_path()
+bl_open_path() resolves pNFS block device paths under /dev/disk/by-id/
+via bdev_file_open_by_path() -> lookup_bdev() -> kern_path(). This
+path resolution uses current->fs->root.
 
-This ensures path lookups happen in init's filesystem context.
+With kthreads now starting in nullfs, this fails when the call
+originates from writeback kworker context because current->fs->root
+points at the empty nullfs. The full callchain from kworker is:
 
-All ksmbd paths ← SMB command handlers ← handle_ksmbd_work() ← workqueue
-← ksmbd_conn_handler_loop() ← kthread
+  wb_workfn                              [kworker writeback callback]
+    ...
+      nfs_writepages                     [address_space_operations.writepages]
+        nfs_do_writepage
+          nfs_pageio_add_request
+            ...
+              bl_pg_init_write           [nfs_pageio_ops.pg_init]
+                pnfs_generic_pg_init_write
+                  pnfs_update_layout
+                    nfs4_proc_layoutget  [synchronous RPC]
+                      pnfs_layout_process
+                        bl_alloc_lseg
+                          bl_alloc_extent
+                            bl_find_get_deviceid
+                              bl_alloc_deviceid_node
+                                bl_parse_deviceid
+                                  bl_parse_scsi
+                                    bl_open_path
+                                      bdev_file_open_by_path
+                                        lookup_bdev
+                                          kern_path  <- current->fs->root
+
+bl_open_path() can also be reached from userspace process context (e.g.
+open, read, write syscalls via pnfs_update_layout). In that case
+current->fs must not be overridden as the path should resolve against
+the calling process's filesystem root.
+
+Add a tsk_is_kthread() conditional in bl_open_path() to only apply
+scoped_with_init_fs() in kthread context.
 
 Signed-off-by: Christian Brauner <brauner@kernel.org>
 ---
- fs/smb/server/vfs.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+ fs/nfs/blocklayout/dev.c | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/fs/smb/server/vfs.c b/fs/smb/server/vfs.c
-index d08973b288e5..4b537e169160 100644
---- a/fs/smb/server/vfs.c
-+++ b/fs/smb/server/vfs.c
-@@ -7,6 +7,7 @@
- #include <crypto/sha2.h>
- #include <linux/kernel.h>
- #include <linux/fs.h>
+diff --git a/fs/nfs/blocklayout/dev.c b/fs/nfs/blocklayout/dev.c
+index cc6327d97a91..eed960839608 100644
+--- a/fs/nfs/blocklayout/dev.c
++++ b/fs/nfs/blocklayout/dev.c
+@@ -4,6 +4,7 @@
+  */
+ #include <linux/sunrpc/svc.h>
+ #include <linux/blkdev.h>
 +#include <linux/fs_struct.h>
- #include <linux/filelock.h>
- #include <linux/uaccess.h>
- #include <linux/backing-dev.h>
-@@ -67,9 +68,10 @@ static int ksmbd_vfs_path_lookup(struct ksmbd_share_config *share_conf,
- 	}
+ #include <linux/nfs4.h>
+ #include <linux/nfs_fs.h>
+ #include <linux/nfs_xdr.h>
+@@ -363,21 +364,27 @@ static struct file *
+ bl_open_path(struct pnfs_block_volume *v, const char *prefix)
+ {
+ 	struct file *bdev_file;
+-	const char *devname;
++	const char *devname __free(kfree) = NULL;
  
- 	CLASS(filename_kernel, filename)(pathname);
--	err = vfs_path_parent_lookup(filename, flags,
--				     path, &last, &type,
--				     root_share_path);
-+	scoped_with_init_fs()
-+		err = vfs_path_parent_lookup(filename, flags,
-+					     path, &last, &type,
-+					     root_share_path);
- 	if (err)
- 		return err;
- 
-@@ -622,7 +624,8 @@ int ksmbd_vfs_link(struct ksmbd_work *work, const char *oldname,
- 	if (ksmbd_override_fsids(work))
- 		return -ENOMEM;
- 
--	err = kern_path(oldname, LOOKUP_NO_SYMLINKS, &oldpath);
-+	scoped_with_init_fs()
-+		err = kern_path(oldname, LOOKUP_NO_SYMLINKS, &oldpath);
- 	if (err) {
- 		pr_err("cannot get linux path for %s, err = %d\n",
- 		       oldname, err);
-@@ -1258,7 +1261,8 @@ struct dentry *ksmbd_vfs_kern_path_create(struct ksmbd_work *work,
- 	if (!abs_name)
+ 	devname = kasprintf(GFP_KERNEL, "/dev/disk/by-id/%s%*phN",
+ 			prefix, v->scsi.designator_len, v->scsi.designator);
+ 	if (!devname)
  		return ERR_PTR(-ENOMEM);
  
--	dent = start_creating_path(AT_FDCWD, abs_name, path, flags);
-+	scoped_with_init_fs()
-+		dent = start_creating_path(AT_FDCWD, abs_name, path, flags);
- 	kfree(abs_name);
- 	return dent;
+-	bdev_file = bdev_file_open_by_path(devname, BLK_OPEN_READ | BLK_OPEN_WRITE,
++	if (tsk_is_kthread(current)) {
++		scoped_with_init_fs()
++			bdev_file = bdev_file_open_by_path(devname,
++					BLK_OPEN_READ | BLK_OPEN_WRITE,
+ 					NULL, NULL);
++	} else {
++		bdev_file = bdev_file_open_by_path(devname,
++				BLK_OPEN_READ | BLK_OPEN_WRITE, NULL, NULL);
++	}
+ 	if (IS_ERR(bdev_file)) {
+ 		dprintk("failed to open device %s (%ld)\n",
+ 			devname, PTR_ERR(bdev_file));
+ 	}
+ 
+-	kfree(devname);
+ 	return bdev_file;
  }
+ 
 
 -- 
 2.47.3
