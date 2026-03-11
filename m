@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E499535DA79;
-	Wed, 11 Mar 2026 21:56:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F3601E7660;
+	Wed, 11 Mar 2026 21:56:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773266190; cv=none; b=UC3oypvAcF1774SbqtizApIU4oXYLtT+cTu2a/4ZO78ax7HgtSvYQahYKW4j/upAaxUCSXnwySiNe7yaBtymGGXdy1hYyR1UWW6ASb/WBa713zDlJaE1lp5thrgMOnmswzPaWtXjtbUiNJxehiizgebuH5NElmnt6v6ZCK/7YoI=
+	t=1773266192; cv=none; b=Jx/G4X54WJb2n+/2sdcftxL2rZlp1yXs0CL+8sXqreuv+mIj/Pu8uwr0EnCLDW0ICWxes5sUScAkFNyf4Ct5sLtvyVsxOJKfcGNPvp0BOZ6xKqoSg43tDYvpzVdgwWuhjkqobXFCeer+esxQQAnCymdFLF8UZ16SNrmwlZT5Exw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773266190; c=relaxed/simple;
-	bh=GZsbB5/oS0c6lwFJZSOuaHi3hJ1zBvMulcElef7p9ak=;
+	s=arc-20240116; t=1773266192; c=relaxed/simple;
+	bh=BkzEXSS/aDyD/0RcykK+9iDod6MNEZ0v8zFBHEaX1Bk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=iNHe5AbFiTww4ChbLivJUX87aWJk0I7rc5T7WPyDAuUgXVwaT5YrD0SxPR/PGHW7LdnWdQUx/TDKBO0JMwZN+CEpFPADPGQM1CcnpxjARwrqNP7wXup66WSZZbhRzFBIYfJI7Bb3fiklXC/uBFIjsQ7hRFJppDreI2JycVeHYRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lRyL9HrN; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=nl8PoztYT5qNv6ni3Vo08zV7u0gl2W/+ZbC+pRt8hwExJrXL4g6jlEAkth+KVMtVxSbOPbB8JyM5pyVme6kNyHojKOQvsoGy7Eq/akTEhggC6u9wmy6B7rLv3CGCldlt6U8bQJnMzu76exU1G3/Mj1XVHHm6B3mHmZqqbXPGkdg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZwCnWaPv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lRyL9HrN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3540C19425;
-	Wed, 11 Mar 2026 21:56:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZwCnWaPv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43F8FC19425;
+	Wed, 11 Mar 2026 21:56:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773266189;
-	bh=GZsbB5/oS0c6lwFJZSOuaHi3hJ1zBvMulcElef7p9ak=;
+	s=k20201202; t=1773266192;
+	bh=BkzEXSS/aDyD/0RcykK+9iDod6MNEZ0v8zFBHEaX1Bk=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=lRyL9HrNFUbvelzoMtvBgwrXbzdVp7NhK7M9PGD9SiP5pFvL84sTNqT+lqivvPZFp
-	 1x8+XEdWUSHoWQoK8b6bhx40BMHJ2qKve3v2zxjQdOOleh5pO2r1gRVpZXTctdGNJZ
-	 D3gEGVATpGwqcf3dyx41ROJ0F0Zs2icMNiMb5J3kGcVjL5kQsO/X/yEMGv1UBMoiZy
-	 f7pDoRRSqIezvSI23mthcFTYC5aWMLFKwRyBmNxBbR+LIk5Mdy8MUAJ2/xp6Hb4g0J
-	 utOiuKFzmzYExcS6j1L+eeN0qN9uHQN/H4nIvDA8wIZap22TiXibpdAiNbJqLaZzH7
-	 ht0iQt/MvtyZQ==
+	b=ZwCnWaPvq5AHnnngvOsk11RmYjzfguwpJSnN3uwM/0P9IE9Om4MvP4mbegmWi3A6Z
+	 F6BaB5xOU7AG14zApLiU6T+iOFSK+Dle1iHWwEGYFXAp04XRlBFFolS7JQJglhG/Y/
+	 EJTUABKDCWEagg5Ff+8OokgzhRDiyZ0/Bzn/I9FGhh3sx1QwjRj3tLDP1dQwltn1WX
+	 DN/3MeHium5ZIWWNncv5K7C93pgm0PHV7Mk0nvwd9FSI9UL78zn3LlA5T7ME7cIKAt
+	 ccXS2RfnK9Cr+b3LG1fOImPE2EzS/eHYRDCRvqba7tklN5njOrZlFA6CTghBz4vf8/
+	 HzOGmRzw5G2TQ==
 From: Christian Brauner <brauner@kernel.org>
-Date: Wed, 11 Mar 2026 22:43:50 +0100
-Subject: [PATCH RFC v3 07/26] crypto: ccp: use scoped_with_init_fs() for
- SEV file access
+Date: Wed, 11 Mar 2026 22:43:51 +0100
+Subject: [PATCH RFC v3 08/26] scsi: target: use scoped_with_init_fs() for
+ ALUA metadata
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -38,7 +38,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260311-work-kthread-nullfs-v3-7-3dd2cbe92ad0@kernel.org>
+Message-Id: <20260311-work-kthread-nullfs-v3-8-3dd2cbe92ad0@kernel.org>
 References: <20260311-work-kthread-nullfs-v3-0-3dd2cbe92ad0@kernel.org>
 In-Reply-To: <20260311-work-kthread-nullfs-v3-0-3dd2cbe92ad0@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -48,59 +48,55 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>,
  Tejun Heo <tj@kernel.org>, Jann Horn <jannh@google.com>, 
  Christian Brauner <brauner@kernel.org>
 X-Mailer: b4 0.15-dev-9fd7c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1507; i=brauner@kernel.org;
- h=from:subject:message-id; bh=GZsbB5/oS0c6lwFJZSOuaHi3hJ1zBvMulcElef7p9ak=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRufPJj4hy+x0YL1rEGVcZqW33/WbbRI7UhkN8s2dNc5
- 3PPnelzO0pZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACby4QnDH45tFZx3lpxKe/lU
- esUs5vhM/qzubp9LThpvJvfG6C+228nI8KCEdceOqxuOGrRmmSXGzOFcfvSlf0PF7OiWbvWf6i9
- +8AMA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1383; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=BkzEXSS/aDyD/0RcykK+9iDod6MNEZ0v8zFBHEaX1Bk=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRufPIjI85+V+n7/SEbJsveixCX53tntn9DWF+CXK/UJ
+ MGXdziyOkpZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACaiysTIsCdy2sN/c8r4D1iZ
+ PGdadGTG7v+rV3Rrz/KXiPJMUUuczcjwP2OP0+1/CnPXSPB/EYyJ0//xV8H2VTWr33pzP5sQo5s
+ WXAA=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Replace the manual init_task root retrieval with scoped_with_init_fs()
-to temporarily override current->fs. This allows using the simpler
-filp_open() instead of the init_root() + file_open_root() pattern.
+Use scoped_with_init_fs() to temporarily override current->fs for
+the filp_open() call in core_alua_write_tpg_metadata() so the
+path lookup happens in init's filesystem context.
 
-open_file_as_root() ← sev_read_init_ex_file() / sev_write_init_ex_file()
-← sev_platform_init() ← __sev_guest_init() ← KVM ioctl — user process context
-
-Needs init's root because the SEV init_ex file path should resolve
-against the real root, not a KVM user's chroot.
+core_alua_write_tpg_metadata() ← core_alua_update_tpg_primary_metadata()
+← core_alua_do_transition_tg_pt() ← target_queued_submit_work() ←
+kworker (target submission workqueue)
 
 Signed-off-by: Christian Brauner <brauner@kernel.org>
 ---
- drivers/crypto/ccp/sev-dev.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+ drivers/target/target_core_alua.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/crypto/ccp/sev-dev.c b/drivers/crypto/ccp/sev-dev.c
-index 096f993974d1..4320054da0f6 100644
---- a/drivers/crypto/ccp/sev-dev.c
-+++ b/drivers/crypto/ccp/sev-dev.c
-@@ -260,20 +260,16 @@ static int sev_cmd_buffer_len(int cmd)
+diff --git a/drivers/target/target_core_alua.c b/drivers/target/target_core_alua.c
+index 10250aca5a81..fde88642a43a 100644
+--- a/drivers/target/target_core_alua.c
++++ b/drivers/target/target_core_alua.c
+@@ -18,6 +18,7 @@
+ #include <linux/fcntl.h>
+ #include <linux/file.h>
+ #include <linux/fs.h>
++#include <linux/fs_struct.h>
+ #include <scsi/scsi_proto.h>
+ #include <linux/unaligned.h>
  
- static struct file *open_file_as_root(const char *filename, int flags, umode_t mode)
+@@ -856,10 +857,13 @@ static int core_alua_write_tpg_metadata(
+ 	unsigned char *md_buf,
+ 	u32 md_buf_len)
  {
--	struct path root __free(path_put) = {};
--
--	task_lock(&init_task);
--	get_fs_root(init_task.fs, &root);
--	task_unlock(&init_task);
--
- 	CLASS(prepare_creds, cred)();
- 	if (!cred)
- 		return ERR_PTR(-ENOMEM);
+-	struct file *file = filp_open(path, O_RDWR | O_CREAT | O_TRUNC, 0600);
++	struct file *file;
+ 	loff_t pos = 0;
+ 	int ret;
  
- 	cred->fsuid = GLOBAL_ROOT_UID;
- 
--	scoped_with_creds(cred)
--		return file_open_root(&root, filename, flags, mode);
-+	scoped_with_init_fs() {
-+		scoped_with_creds(cred)
-+			return filp_open(filename, flags, mode);
-+	}
- }
- 
- static int sev_read_init_ex_file(void)
++	scoped_with_init_fs()
++		file = filp_open(path, O_RDWR | O_CREAT | O_TRUNC, 0600);
++
+ 	if (IS_ERR(file)) {
+ 		pr_err("filp_open(%s) for ALUA metadata failed\n", path);
+ 		return -ENODEV;
 
 -- 
 2.47.3
