@@ -1,132 +1,397 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACD2CB652;
-	Wed, 11 Mar 2026 02:54:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773197695; cv=none; b=jOgCq3G6LWv1UZD2Vd6v9FnVd26lR71s1WARFI/U5wZoTWWbYTfOQD0YqRiXfIPT2dTjDmirRCJ7fHb3tQqVhX6/MWOKNMgd+cueAIyxRu0pxD9043jL5ctYTjEOHBduDngtxvdUfvYZBcj8Om29UjOR4+McOzlvoGjpg1YPFbY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773197695; c=relaxed/simple;
-	bh=IgnFbRqg1z9IXEYVmAAUq/7TuevJW0UIhYq7v8N6T9U=;
-	h=Date:From:To:Subject:Content-Type:MIME-Version:Message-ID; b=Un/58HaM9Vx+fB4We9bndqezrJV8nYHfuXlOENDBlFej6LgmielRFXGUvpwseTIMRJ9s53Oya7X3cVa8J+VxZctcOAZXSoHtKob/6uk7NeE0k4pGk/OA3gCoi7RDva5DBcVZBz3rYfDsRGxUrux5EmHDiMVEf+b0lhZzi7zGo3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=QCypl6f0; arc=none smtp.client-ip=220.197.31.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B21C1DFDE;
+	Wed, 11 Mar 2026 03:05:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773198326; cv=fail; b=CTZvKhwurgVuoen3SHHa9bVk0fglxLU/UcxoUERHKBY3i7k+kEQAkfdgff5xPKRbNQHz8KgpfarcMsXRsONrp5S2R0TVaCvWWMd56hkhuQrf4oqv4wC6uKQ+/+5XQTPVdf9f2mTyIMsog8JnBdngQGj4tlKTpy/5bdzKPZf95eQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773198326; c=relaxed/simple;
+	bh=jJ8jV7Wi2hOz+eaylEcYJ1mhhNKWF+8GmH1XV2bq8dY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=IPtQCJ1oyFnfV6mysBYRFkc0i4hWg/Ta5BWjE82hU4LpJTYnAA2aFno82VlEWtQdnw+NDVqKnB/llOtRxe+B9qzy8jYAch55IVmdYmGT/XMOAxdMuv/KO8WU9XIstpYjlNR/xSXgtFZUngzco9ho6zc607q8V5tkO14IqKO7Kho=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=kRrS/yAd; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=SELgIiOn; arc=fail smtp.client-ip=205.220.165.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="QCypl6f0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
-	Message-ID; bh=IgnFbRqg1z9IXEYVmAAUq/7TuevJW0UIhYq7v8N6T9U=; b=Q
-	Cypl6f0tO/5mWeihUSGsxmR94uxgvuvW8vARgYVf/sNoAMaVtfxQkGlMebIGDGOX
-	P8cnnUl97KWPNkLpHkhG84T7LZ3KnS8svzjzkzwZ9v5n8r1qP+4FDMrWgTvs2TkZ
-	UE/9ZNZ1+3N5yFNQUSVX38dNvctpP8qVUa4hqZ3BCE=
-Received: from luckd0g$163.com ( [183.205.138.18] ) by
- ajax-webmail-wmsvr-40-146 (Coremail) ; Wed, 11 Mar 2026 10:54:28 +0800
- (CST)
-Date: Wed, 11 Mar 2026 10:54:28 +0800 (CST)
-From: "Jianzhou Zhao" <luckd0g@163.com>
-To: jack@suse.cz, viro@zeniv.linux.org.uk, brauner@kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: KCSAN: data-race in path_lookupat / vfs_rename
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version 2023.4-cmXT build
- 20251222(83accb85) Copyright (c) 2002-2026 www.mailtech.cn 163com
-X-NTES-SC: AL_Qu2cAf2SuE4t7iSfZekfmU4Rhug7UMO3uf8n24JfPJ9wjCzr5C4MZHpGN2Py3OuVMC+gqhiXXAlB7sV7cJNobacNuDlrHiId4MZjN1eutu+vig==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=GBK
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="kRrS/yAd";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="SELgIiOn"
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62B1WPUY1336828;
+	Wed, 11 Mar 2026 03:04:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=corp-2025-04-25; bh=d02wK2RC4mNTATsnVC
+	3tp5Ne2TK6JO4d3MmeXrl4CDc=; b=kRrS/yAdRnZmpz3qMVkbHVDLTNvQQxX0Ac
+	mpO+HhV8CSk8HkJBRz1Pj05i6EvD2snNBQKQdJ+DDZ4iImlNXtuexAIG3BpNq56n
+	H7hsjbqTV5aQRExQV6UlGQJqlbovbRvvS98gwvYX7aW+nS8IkSiwnvnb3oAKGXcd
+	bKsiBreuqHlvTedyRc0VAiVkU932d2te2EocgWVHq3jQ0dP76s/6etIxnhFcwrwO
+	tevhHeGhfsJP9CcaL10A0rk9oe/BzKYJErsj1/mrqSy7RhtuG0r3PPGVWzgqo3Cs
+	c1kTtcdx7TwXuDXQ3eenUWtYO1O9Fq7l410M16sTsit7bLFc/hyQ==
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4csmmac4x7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 11 Mar 2026 03:04:50 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 62B02DAB007063;
+	Wed, 11 Mar 2026 03:04:50 GMT
+Received: from sj2pr03cu001.outbound.protection.outlook.com (mail-westusazon11012011.outbound.protection.outlook.com [52.101.43.11])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4crafaxej5-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 11 Mar 2026 03:04:50 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PnyRKFHvb8XnpqfaEefsPwP5XvvYnOAzTuO20uCaYqn0frQWYQn/3HCnFCZUkjL9rx122D3nAw91VeKefWfJdzxrlhFCu3QYvS5Bf4Fr5yDqlGq3CFbH/Ufo5J6r73QchcAna9zE4hOiPymEnRstW29pUaR0lMlr0yEkOXOi5vMHl6fVZOL8VwdYou5asjZpDM/TSCJZz06KIMEdb1T4dUrP7pbFG6LCRFHgYEPEfQnDNRXz5+H0VJTjv87GbAPYri3bn9nBr5BwNI2qIG3lYPshFxZJA79ITVvmhE8aHml+SIz1o5iY/BhWStMdYm0qRUBNvZxSHBZJhUcIk80mbA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=d02wK2RC4mNTATsnVC3tp5Ne2TK6JO4d3MmeXrl4CDc=;
+ b=H6YOTo9WcyR0tLj0h4LksJ92lYMO4//8Bo/XoMSDT0ZDKijBtRcfpVXpUvxpsV9KYIbTwCXuLOkNSn4o+ajwL8UvjMUO0N6/zjTsWcwsT5Qy3/NYJRiDlsBGyuVkaHk4D7PjHTCLIBBAwVWWUxVxHhJRwK8J4stCTbWKwgZoVei3CJHpqf/IJPJs9zUggXOvI0LoGJhlAiXSvkFdO8rn3LT7r8cH2YV60Hp4cMQSSYebfdmHi096bH8yejXeDxe8XIsKtOwLzymmbt6RCmziED7r5+pHT5/ke56PbKWfOPRhsRInHHvadX2UrhziV6j4w7nAlnPyVbBP++xHnrYf3A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=d02wK2RC4mNTATsnVC3tp5Ne2TK6JO4d3MmeXrl4CDc=;
+ b=SELgIiOnqvpaoc+JsE7/Yw8YB7oB6uOYYrp59Bd+iOsq+AiBu54kxj8B0+hsL313mM7/Cpnlx5KnKo5Y3mODliG92kD+kndzcGE/uSbb84IcWe2/ajkhvPLtJfeCPqQ4ihaMq3+24cf50JSrLk/yUR+waCK6I8mlMqMHsxIgKjg=
+Received: from CH3PR10MB7329.namprd10.prod.outlook.com (2603:10b6:610:12c::16)
+ by DSVPR10MB997823.namprd10.prod.outlook.com (2603:10b6:8:389::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.25; Wed, 11 Mar
+ 2026 03:04:46 +0000
+Received: from CH3PR10MB7329.namprd10.prod.outlook.com
+ ([fe80::c2a4:fdda:f0c2:6f71]) by CH3PR10MB7329.namprd10.prod.outlook.com
+ ([fe80::c2a4:fdda:f0c2:6f71%7]) with mapi id 15.20.9700.010; Wed, 11 Mar 2026
+ 03:04:46 +0000
+Date: Wed, 11 Mar 2026 12:04:36 +0900
+From: Harry Yoo <harry.yoo@oracle.com>
+To: Catalin Marinas <catalin.marinas@arm.com>
+Cc: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
+        Qing Wang <wangqing7171@gmail.com>,
+        syzbot+cae7809e9dc1459e4e63@syzkaller.appspotmail.com,
+        Liam.Howlett@oracle.com, akpm@linux-foundation.org, chao@kernel.org,
+        jaegeuk@kernel.org, jannh@google.com, linkinjeon@kernel.org,
+        linux-f2fs-devel@lists.sourceforge.net, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        lorenzo.stoakes@oracle.com, pfalcato@suse.de, sj1557.seo@samsung.com,
+        syzkaller-bugs@googlegroups.com, vbabka@suse.cz,
+        Hao Li <hao.li@linux.dev>
+Subject: Re: [syzbot] [mm?] [f2fs?] [exfat?] memory leak in __kfree_rcu_sheaf
+Message-ID: <abDbxMmK0XEYgM1b@hyeyoo>
+References: <698a26d3.050a0220.3b3015.007e.GAE@google.com>
+ <20260302034102.3145719-1-wangqing7171@gmail.com>
+ <20df8dd1-a32c-489d-8345-085d424a2f12@kernel.org>
+ <aaeLT8mnMMj_kPJc@hyeyoo>
+ <925a916a-6dfb-48c0-985c-0bdfb96ebd26@kernel.org>
+ <aassZV5PjgFx8dSI@arm.com>
+ <aa66XJDX4QfmEbNA@hyeyoo>
+ <aa8uByvL9GwsGfnO@arm.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aa8uByvL9GwsGfnO@arm.com>
+X-ClientProxiedBy: SE2P216CA0206.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:101:2c3::11) To CH3PR10MB7329.namprd10.prod.outlook.com
+ (2603:10b6:610:12c::16)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-ID: <61ff6def.2d0d.19cdad1307e.Coremail.luckd0g@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:kigvCgD3H2xk2bBp9d91AA--.40679W
-X-CM-SenderInfo: poxfyvkqj6il2tof0z/xtbC9gQWoGmw2WQRgwAA3y
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR10MB7329:EE_|DSVPR10MB997823:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1c766ef5-12c2-42a2-4e6e-08de7f1af382
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|7416014|376014|22082099003|18002099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	vDOiNz1TekXl+7OaovpMkjNgS07AZPC+sYlKv3ahpnk7PWhIAotaHUbWXZPDQdO1bTMcB/tIQuRtE1TMRb/+sNJUle60lyYctfsPYEELPX8xUtUNNbHgW4gGraMmE9seHv+PAngdmPpO53rByfABLqbbFHLayy//rdwT5g2maEegtFm93Hcobqnh0qLiSCYs6tbHz8RorpoYJSejNxTb/anesGe8aYkZT0NSMqkGklvqWpTMRWZ25c4dRmuzo5xV0z0ezb7rKdxxuQsjC14jiP6M6/FxDs7C3R/vG52OOU0N9YNAt3OomuboJHA04ttezUUahsNjl9WiVCcjfL8OqDLlCAOrDGmD+ZziI47yN+uIEaJAHRvqGbzTRqQJ7GuSRLQjHagCL6vCn7qe5stkGL4tDuCFWj3rModW9iOOu+8Ov/FvPbx177JF7fruTHJ2XuGA45pfsj4mJMYvB4cOlVk+Ki52j9GBtt+HZzr0KfC7usRIGaUCF3rlrtyq/hiz14MPyIzoz6N6YJL0iSrNhl+RZ9xVkrtkqV9+Aqjw81eL97pZh0pdlzAlzjh061MJKHlHfTOVYbMQjLslTezDXnociz5zBwOeVsH0HuYe4KIrkhCs4E5fj0Hbj2MLx6vByQGfG/2uv6i50SV5CJszZC2pgoEhJfLtrfC5/KNYvkXMQ8pb2jKI09K8JLfSCFGinWIANmjPrkVLfG1flPKPJ3z6Q/t2dZo46kdF3wnEuFt1JjRJYcsL0Y1K14uhBJrJ
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR10MB7329.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?x4Rb810mq0oVs8PE6yDWp/E5a/jdA/EFFGar1ZgUodsm771U8syQuz1KH3LK?=
+ =?us-ascii?Q?6yuaKGXWy8Vkaj3ihKRoUgq96cSr3BZHZzL0dhyoBxLBYgSLX0TIFI6Fr8BA?=
+ =?us-ascii?Q?OZbp2MB8L2RPZ+TPITTXmAUeBCaJyRBLmsYqK4phyZh4nwj1eRWU4SpRxi5g?=
+ =?us-ascii?Q?xcGJIfjfpefv3CCiahEGmmntPbXdAeiIPHzdi6acU/0K5G7cBwW3evUmihby?=
+ =?us-ascii?Q?lYxbgj/QRdc3qgrQRdvDnR07JAfIGlwnuaaJE60zC1QOiIyuTYqf8XiNP9rp?=
+ =?us-ascii?Q?KkPMtkYOuHCuQTKqEaLLwd1M4M72l+jWGhLW5wBnUhJV7bTgHJz7xOXEx8jl?=
+ =?us-ascii?Q?OEf02SOH34NkW/eXSMUmIbzOgnENVXZ3/pSEhlzAwBd+QEoCUDbV5npoD8vd?=
+ =?us-ascii?Q?iul9AoHlBaI3U578YOFGJS5JzHV8cu3rLiXh1MDS4krA2fEoLVILVUVHkqok?=
+ =?us-ascii?Q?L6u+xWkLmCw6ZZoOtON32DN2NEsRIOTiRQXdx01hBoppDw57Aw5nsM5jYPVd?=
+ =?us-ascii?Q?kprBNo6E56H03DZ3rQqz6cdwYfzWefdNDYcZkFm5/Ai6WJDAadOfDvQ1wV4t?=
+ =?us-ascii?Q?qSQ1w9BvSUN9Y+OVY8VXhm4m87+del2F+iox/tqTvqVp7iRwlNDHR/LrzPNu?=
+ =?us-ascii?Q?Xs/mBYgM3s59UUvYMrieunGGduCNsDmZnr49xLMt1LpeV15admbMNhoN91DG?=
+ =?us-ascii?Q?PiCiWsuJABpyFw9miz4hvKafHdldDu3YJ1lGzOevBjPT0mtXzbLfAGmlR4YH?=
+ =?us-ascii?Q?jHC2R15XL3dUDWW5WzoqULwz9q9KIOhTK14BDEfCtPA5AJTLmprJuuCn7NxE?=
+ =?us-ascii?Q?Zwl43xqZXYL1vz0r6awh3uQIS0rXcI7dJtIIOQUPiBN2NVu5d+V1KA3mKXaA?=
+ =?us-ascii?Q?FKs7DVJ/L5YacAZV6PuOn9CwXmCPg9hQkKe44pMjL9Lc2weY2JtJdu+sFn+Z?=
+ =?us-ascii?Q?RuBTKbG6N8Z9ZfLwEE96TjEii/u+4zbFJVT5482TJylM/qp+ApnAN+7exwf9?=
+ =?us-ascii?Q?XckDtoCKpsaN1+hhsniFNYPiDVccEvR1S15sH3+Eg4DeWjATv5WJIGTvAPts?=
+ =?us-ascii?Q?Cp/c3Axh8Ri3OwsQV+7MfvQLyCFa4gY+dN3/ByH7huvKgIDTTTd02YAjsfE1?=
+ =?us-ascii?Q?EybjWOqX3xiKnSxKEtrLCAUXXYFCfz/laYycMscetOGpNkInjaR1i3L8nSuJ?=
+ =?us-ascii?Q?7S/KSFOAAZ6tqKwv6mzE1ioxjNIof/TYkE9c8CqauIUfopyCS/d0IeyEmrYn?=
+ =?us-ascii?Q?owT+IOj3ZciX8WSNK6zjJs1/ySH6+sl++CZC7eRloC/2/ty6IEHnTyAhAQj4?=
+ =?us-ascii?Q?voiUbvvDgHNKGUFd24dLr2HOMYtTo4ArKNE2lGc1FOVcfXfTSoccQrXtyX0Y?=
+ =?us-ascii?Q?kVc8VdiTo21gIASVIPBIj4SgzITG48XZPwEvZTOfqEAdVjNnX6NPze/j9/Nr?=
+ =?us-ascii?Q?VgpiMomkNbcvnNHQoYcd7I9hFxf7XA9sJveBmaQmiVmO72UYfizvR4gbjQti?=
+ =?us-ascii?Q?nZR0K1r8WVu74VJ1KbC8sH0UJZhfDCefEAUO3cWxmKwLaah9p6LVkkqL939n?=
+ =?us-ascii?Q?UfwqGWe9UEEsrL8TniD2e8CugEisC4EOzGGw8+o83Hzb33PVOEk7glsRMIab?=
+ =?us-ascii?Q?JMsvN2JoM5Kn7duUjcrW45kpIAyuEyfvMsnDJHrZfXPgDEH1JhEByJgc7bZB?=
+ =?us-ascii?Q?ASFm/mP2IKkgPD1cyB5bgOWNlqOqo+ljrKJNYCVb6yEdMuK+wOx+uFc2Ydi/?=
+ =?us-ascii?Q?yDtkLWuH+g=3D=3D?=
+X-Exchange-RoutingPolicyChecked:
+	XNeLJ20bGTDOCybYKzqjssxJULDPxP0OUnNpwB0L40x9Q9BpzYepPUIVduHEVpYJ/GurDrCamXqwsSZiFH3N6ZjaNjjLQFUHNAVDb2FWKTzckOPRErDN94V0U2DoUMlGf8MEsKiGfyZqOdrOv9Z3+pvwTiDwEL4yIFsXSRh8yiWVBpkwsYo2CCe7IYeULSMsB/tTl2uj5dz+yw+6EtmPwoOZ2mStIgvTX24zD+Tfa10RgWNrQPvrMLaROvzNb68FUWu8G5c2biNsYLHpZqKJ0RV5yR0TPaxDZNy+yHaqm+B3e/LfaoEJqsNN7c9au+jSw2PjpqxJ+sTleIush5U4BQ==
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	YoYEiMFu+79yUdTlMMufNOS2tMO21Oj/7AYEwaShWSHu8FzfUjY1tID3dF+D02KUo5L+hKe4lxAVbIJUQQNA7uQdz6ZEgrmBnaqvqgBtrevgtgaXt0TKq/sB6GnzLnucc0kCqhZQvu+yqtMXhWYhBemAYahoq//wtUkpbmviFWf6XKqfspa6NwQ7cfwXxhh+4NBaW2rmUmwFnmCrJXXL2XkdBKXVjQt5FXVINy29Tq4sZaQWyAZTN/1Q0gFcciGL/W15hHCzMB/PotT+DUa7A+vSCdHvcsbw2BfM0QR+OknADnqZMvfgdQUjM0Wbc6gQnl61mBi2JIsvzHgpqk13VzuDZ9c/BL7gxkDJdAFJpHz2Gqy/uuaasYVyYfIUpbxrZ5PmM92637v+5tlUYNwR5mAk5T9GbMJsWIutUWr/b5kz2Ga3Z/YOxJ5iH1IIawryF7AhA13v0JbAtkn0AVLzVFiGk/87z3OCJH9iquTQhMuqoJdOefhSg5R9A5RMQZdscp9T/JZvdQXwougVt2vrLNL5OEC1g9WH/Inr6wdmiylGzMeflbIKIPhLoEveYB48W6NU8iX7v7WkypWXcthjGEjvFWbuoQ/nhmD4ktWxuMM=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1c766ef5-12c2-42a2-4e6e-08de7f1af382
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR10MB7329.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Mar 2026 03:04:46.6414
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: y0h2pej5a/FLI+4qFc0ABYRCuSup1UMph6ZpJop4MgVZH2j1aJG767F7vHyw8xq7gtv0R2gt7lVKISTfVpWY8w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DSVPR10MB997823
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-10_05,2026-03-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 suspectscore=0 adultscore=0
+ bulkscore=0 spamscore=0 phishscore=0 malwarescore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2602130000
+ definitions=main-2603110023
+X-Proofpoint-GUID: 2iyEuLhcZMB1xCFR2uuTuJRASEWj9MKQ
+X-Proofpoint-ORIG-GUID: 2iyEuLhcZMB1xCFR2uuTuJRASEWj9MKQ
+X-Authority-Analysis: v=2.4 cv=U5efzOru c=1 sm=1 tr=0 ts=69b0dbd2 b=1 cx=c_pps
+ a=WeWmnZmh0fydH62SvGsd2A==:117 a=WeWmnZmh0fydH62SvGsd2A==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=Yq5XynenixoA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=jiCTI4zE5U7BLdzWsZGv:22 a=EIcjfB9IiI4px24ztqRk:22 a=VwQbUJbxAAAA:8
+ a=2yfsraa4F8vYRlcxvuwA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzExMDAyMyBTYWx0ZWRfX31vmKwwIJ0aN
+ YmTRTG8Op4NM0Rhz+beR5WE4yYvhoGHcqCWmsI02Y3irxQ4BUfgMyrPvB0nPL3kmVmt4cUm3EHW
+ S7JNb+/LXZ1vFmPpPHY+HDPnaNqEcZphS6vP08ADbL/8HfCuFiJvSEeSINGyAnIPyqjrXF59bk8
+ GvcpUHqwNVKXxmXkD0JydPoqwjdnVtBbLGfqh7XViDsw9Jx/AicC8Ut5TrOjsqCE7UWotNWZYeJ
+ 5Vhbi3BrKuPk6j47X5Nc4ruJFEvpnj4C9d/1nRRPqi/bMMjW086kPpgRuwpuVbhKEKPbRJnmx9w
+ ZPD5rCq61k9cRnwx17olhZDboeBFEqHCY9rALmDmot8wxAEVGtdKUrwliIro9YFRBkCmBvvnE39
+ w7aIecBncLcnMIbowlJNDP/UjpGhP0xFYZPLd4cZRJNQLNIoLCccFxPJokWFWtTppZM+tmAAVqt
+ oXTC4DuGBJCs8ctD9jw==
 
-U3ViamVjdDogW0JVR10gZnMvbmFtZWk6IEtDU0FOOiBkYXRhLXJhY2UgaW4gcGF0aF9sb29rdXBh
-dCAvIHZmc19yZW5hbWUgKGBkX2ZsYWdzYCkKCkRlYXIgVkZTIE1haW50YWluZXJzLAoKT3VyIGZ1
-enppbmcgdG9vbCwgUmFjZVBpbG90LCBoYXMgZGV0ZWN0ZWQgYSBkYXRhIHJhY2UgaW4gdGhlIFZG
-UyBzdWJzeXN0ZW0gb24gYSA2LjE4IGtlcm5lbCB2ZXJzaW9uIChgNi4xOC4wLTA4NjkxLWcyMDYx
-ZjE4YWQ3NmUtZGlydHlgKS4gCgpUaGUgcmFjZSBvY2N1cnMgYmV0d2VlbiBgdmZzX3JlbmFtZSgp
-YCBtb2RpZnlpbmcgYSB2aWN0aW0gZGVudHJ5J3MgYGRfZmxhZ3NgIHZpYSBgZG9udF9tb3VudCgp
-YCBhbmQgYSBjb25jdXJyZW50IHBhdGggbG9va3VwIChgcGF0aF9sb29rdXBhdCgpYCkgZXhlY3V0
-aW5nIGxvY2tsZXNzIHJlYWRzIG9uIHRoZSBzYW1lIGBkX2ZsYWdzYCB2aWEgYGRfbWFuYWdlZCgp
-YC4KCiMjIyBDYWxsIFRyYWNlICYgQ29udGV4dAoKYGBgCkJVRzogS0NTQU46IGRhdGEtcmFjZSBp
-biBwYXRoX2xvb2t1cGF0IC8gdmZzX3JlbmFtZQoKd3JpdGUgdG8gMHhmZmZmODg4MDJkNjJiMTgw
-IG9mIDQgYnl0ZXMgYnkgdGFzayA0MjA0IG9uIGNwdSAwOgogZG9udF9tb3VudCBpbmNsdWRlL2xp
-bnV4L2RjYWNoZS5oOjM5MSBbaW5saW5lXQogdmZzX3JlbmFtZSsweGYwMy8weDEzYTAgZnMvbmFt
-ZWkuYzo1OTYzCiBkb19yZW5hbWVhdDIrMHg2YTkvMHg4ZTAgZnMvbmFtZWkuYzo2MDcyCiAuLi4K
-CnJlYWQgdG8gMHhmZmZmODg4MDJkNjJiMTgwIG9mIDQgYnl0ZXMgYnkgdGFzayA0NjkxIG9uIGNw
-dSAxOgogZF9tYW5hZ2VkIGluY2x1ZGUvbGludXgvZGNhY2hlLmg6NDEyIFtpbmxpbmVdCiBzdGVw
-X2ludG8gZnMvbmFtZWkuYzoyMTAyIFtpbmxpbmVdCiB3YWxrX2NvbXBvbmVudCBmcy9uYW1laS5j
-OjIyNTggW2lubGluZV0KIGxvb2t1cF9sYXN0IGZzL25hbWVpLmM6Mjc1MyBbaW5saW5lXQogcGF0
-aF9sb29rdXBhdCsweDFmYy8weDc0MCBmcy9uYW1laS5jOjI3NzcKIC4uLgoKdmFsdWUgY2hhbmdl
-ZDogMHgwMDMwMDA4MCAtPiAweDAwMDA0MTgwCmBgYAoKIyMjIyBFeGVjdXRpb24gRmxvdyAmIENv
-ZGUgQ29udGV4dDoKCioqMS4gVGhlIFdyaXRlIFBhdGggKGB2ZnNfcmVuYW1lYCAtPiBgZG9udF9t
-b3VudGApKioKCkR1cmluZyBhIHJlbmFtZSBvcGVyYXRpb24sIGlmIGEgdGFyZ2V0ICh2aWN0aW0p
-IGRlbnRyeSBpcyBnb2luZyB0byBiZSByZXBsYWNlZCwgYHZmc19yZW5hbWVgIHVubW91bnRzIGFu
-eSBtb3VudHMgYXR0YWNoZWQgdG8gaXQ6CmBgYGMKNTk3ODogCWlmICghKGZsYWdzICYgUkVOQU1F
-X0VYQ0hBTkdFKSAmJiB0YXJnZXQpIHsKNTk3OTogCQlpZiAoaXNfZGlyKSB7CjU5ODA6IAkJCXNo
-cmlua19kY2FjaGVfcGFyZW50KG5ld19kZW50cnkpOwo1OTgxOiAJCQl0YXJnZXQtPmlfZmxhZ3Mg
-fD0gU19ERUFEOwo1OTgyOiAJCX0KNTk4MzogCQlkb250X21vdW50KG5ld19kZW50cnkpOyAvLyA8
-LS0tIEludm9rZXMgZG9udF9tb3VudCBvbiB0aGUgdmljdGltCjU5ODQ6IAkJZGV0YWNoX21vdW50
-cyhuZXdfZGVudHJ5KTsKNTk4NTogCX0KYGBgCgpJbnNpZGUgYGRvbnRfbW91bnQoc3RydWN0IGRl
-bnRyeSAqZGVudHJ5KWAgKGBpbmNsdWRlL2xpbnV4L2RjYWNoZS5oYCksIGBkX2ZsYWdzYCBpcyB1
-cGRhdGVkIHdoaWxlIGhvbGRpbmcgdGhlIGBkX2xvY2tgOgpgYGBjCjM4ODogc3RhdGljIGlubGlu
-ZSB2b2lkIGRvbnRfbW91bnQoc3RydWN0IGRlbnRyeSAqZGVudHJ5KQozODk6IHsKMzkwOiAJc3Bp
-bl9sb2NrKCZkZW50cnktPmRfbG9jayk7CjM5MTogCWRlbnRyeS0+ZF9mbGFncyB8PSBEQ0FDSEVf
-Q0FOVF9NT1VOVDsgLy8gPC0tLSBSZWFkLU1vZGlmeS1Xcml0ZQozOTI6IAlzcGluX3VubG9jaygm
-ZGVudHJ5LT5kX2xvY2spOwozOTM6IH0KYGBgCgoqKjIuIFRoZSBSZWFkIFBhdGggKGBwYXRoX2xv
-b2t1cGF0YCAtPiBgc3RlcF9pbnRvYCAtPiBgZF9tYW5hZ2VkYCkqKgoKQ29uY3VycmVudGx5LCBh
-IHNlcGFyYXRlIHRocmVhZCB0cmF2ZXJzaW5nIHRoZSBmaWxlc3lzdGVtIHBlcmZvcm1zIGEgcGF0
-aCBsb29rdXAgYW5kIGluc3BlY3RzIHRoZSBzYW1lIGludGVybWVkaWF0ZSBkZW50cnkgKHRoZSBy
-ZW5hbWUgdmljdGltKSB3aXRoaW4gYHN0ZXBfaW50bygpYC4gSXQgdGVzdHMgaWYgdGhlIGRlbnRy
-eSBuZWVkcyBtb3VudC1wb2ludCB0cmFuc2xhdGlvbiBieSBjYWxsaW5nIGBkX21hbmFnZWQoKWA6
-CmBgYGMKNDEyOiBzdGF0aWMgaW5saW5lIGJvb2wgZF9tYW5hZ2VkKGNvbnN0IHN0cnVjdCBkZW50
-cnkgKmRlbnRyeSkKNDEzOiB7CjQxNDogCXJldHVybiBkZW50cnktPmRfZmxhZ3MgJiBEQ0FDSEVf
-TUFOQUdFRF9ERU5UUlk7IC8vIDwtLS0gTG9ja2xlc3MgUmVhZAo0MTU6IH0KYGBgCgojIyMgUm9v
-dCBDYXVzZSBBbmFseXNpcwoKVGhlIGRhdGEgcmFjZSBpcyB0cmlnZ2VyZWQgYmVjYXVzZSBgZF9t
-YW5hZ2VkKClgIGV4ZWN1dGVzIGEgcGxhaW4gcmVhZCBvZiBgZGVudHJ5LT5kX2ZsYWdzYCB3aXRo
-b3V0IGhvbGRpbmcgYGRfbG9ja2AgKG9yIHVzaW5nIGBSRUFEX09OQ0VgKSwgd2hpbGUgYGRvbnRf
-bW91bnQoKWAgY29uY3VycmVudGx5IG1vZGlmaWVzIGBkZW50cnktPmRfZmxhZ3NgIHVzaW5nIGEg
-cGxhaW4gcmVhZC1tb2RpZnktd3JpdGUgb3BlcmF0aW9uIChgfD0gRENBQ0hFX0NBTlRfTU9VTlRg
-KS4gCgpBbHRob3VnaCBgZG9udF9tb3VudCgpYCBwcm9wZXJseSBwcm90ZWN0cyB0aGUgd3JpdGUg
-d2l0aGluIGEgYHNwaW5fbG9ja2AsIHRoZSBsb2NrbGVzcyByZWFkZXIgaXMgb2JsaXZpb3VzIHRv
-IGl0LiBLQ1NBTiBpZGVudGlmaWVzIHRoaXMgYXMgYSBkYXRhIHJhY2UgYmVjYXVzZSB0aGUgcGxh
-aW4gcmVhZCBpbiBgZF9tYW5hZ2VkKClgIGNhbiBvdmVybGFwIHdpdGggdGhlIHVubG9ja2VkIHBv
-cnRpb24gb2YgdGhlIGNvbXBpbGVyJ3MgZW1pdHRlZCBzdG9yZSBzZXF1ZW5jZSBpbiBhbm90aGVy
-IENQVS4KClJlZ3JldHRhYmx5LCB3ZSB3ZXJlIHVuYWJsZSB0byBjcmVhdGUgYSByZXByb2R1Y3Rp
-b24gcHJvZ3JhbSBmb3IgdGhpcyBidWcuCgojIyMgUG90ZW50aWFsIEltcGFjdAoKV2hpbGUgYSB0
-b3JuIHJlYWQgb2YgYSAzMi1iaXQgYWxpZ25lZCBpbnRlZ2VyIGlzIGhpZ2hseSB1bmxpa2VseSBv
-biBtb3N0IG1vZGVybiBhcmNoaXRlY3R1cmVzLCBwbGFpbiBjb25jdXJyZW50IGFjY2VzcyBjb25z
-dGl0dXRlcyB1bmRlZmluZWQgYmVoYXZpb3IgdW5kZXIgdGhlIEMgbWVtb3J5IG1vZGVsLiBUaGUg
-Y29tcGlsZXIgbWlnaHQgYXBwbHkgdW5mb3Jlc2VlbiB0cmFuc2Zvcm1hdGlvbnMgY2FwYWJsZSBv
-ZiBwcm9kdWNpbmcgYSBzdGFsZSBvciB0cmFuc2llbnQgc3RhdGUgcmVwcmVzZW50YXRpb24uIEhv
-d2V2ZXIsIHByYWdtYXRpY2FsbHkgc3BlYWtpbmcsIHNpbmNlIHRoZSB2aWN0aW0gZGVudHJ5IGlz
-IGNvbmN1cnJlbnRseSBiZWluZyBwdXJnZWQvcmVuYW1lZCwgbWlzaW50ZXJwcmV0aW5nIHRoZSBt
-YW5hZ2VkIGZsYWdzIHdvdWxkIGxpa2VseSBsZWFkIHRvIHN1YnNlcXVlbnQgdmFsaWRhdGlvbiBm
-YWlsdXJlcyB1cHN0cmVhbSB3aXRoaW4gbmFtZWkuYywgY2F1c2luZyB0aGUgdHJhdmVyc2FsIHRv
-IGJvdW5jZSB0byBzbG93IHBhdGhzIHNhZmVseS4gVGhlcmVmb3JlLCB3ZSBldmFsdWF0ZSB0aGUg
-c2V2ZXJpdHkgb2YgdGhpcyBpc3N1ZSBhcyBhIG1pbm9yIGRhdGEgcmFjZSB0aGF0IHByaW1hcmls
-eSByaXNrcyB1bmRlZmluZWQgYmVoYXZpb3IgYW5kIHRyaWdnZXJzIEtDU0FOIHdhcm5pbmdzLgoK
-IyMjIFByb3Bvc2VkIEZpeAoKVG8gc2lsZW5jZSB0aGUgS0NTQU4gd2FybmluZyBhbmQgYWRoZXJl
-IHNlY3VyZWx5IHRvIGtlcm5lbCBjb25jdXJyZW5jeSBwcmFjdGljZXMsIHRoZSBsb2NrbGVzcyBy
-ZWFkIG9mIGBkX2ZsYWdzYCBpbiBgZF9tYW5hZ2VkKClgIHNob3VsZCBiZSBleHBsaWNpdGx5IGFu
-bm90YXRlZCB1c2luZyBgZGF0YV9yYWNlKClgIG9yLCBtb3JlIHJvYnVzdGx5LCBgUkVBRF9PTkNF
-KClgLiBVc2luZyBgUkVBRF9PTkNFKClgIGd1YXJhbnRlZXMgc2luZ2xlLWluc3RydWN0aW9uIGxv
-YWQgc2VtYW50aWNzIHByZXZlbnRpbmcgY29tcGlsZXIgb3B0aW1pemF0aW9ucyB0aGF0IG1pZ2h0
-IGluZHVjZSB0ZWFyaW5nLgoKYGBgZGlmZgotLS0gYS9pbmNsdWRlL2xpbnV4L2RjYWNoZS5oCisr
-KyBiL2luY2x1ZGUvbGludXgvZGNhY2hlLmgKQEAgLTQxMSw3ICs0MTEsNyBAQCBleHRlcm4gdm9p
-ZCBkcHV0KHN0cnVjdCBkZW50cnkgKik7CiAKIHN0YXRpYyBpbmxpbmUgYm9vbCBkX21hbmFnZWQo
-Y29uc3Qgc3RydWN0IGRlbnRyeSAqZGVudHJ5KQogewotCXJldHVybiBkZW50cnktPmRfZmxhZ3Mg
-JiBEQ0FDSEVfTUFOQUdFRF9ERU5UUlk7CisJcmV0dXJuIFJFQURfT05DRShkZW50cnktPmRfZmxh
-Z3MpICYgRENBQ0hFX01BTkFHRURfREVOVFJZOwogfQpgYGAKKEFsdGVybmF0aXZlbHksIHVzaW5n
-IGBkYXRhX3JhY2UoKWAgaWYgbm8gbG9hZC10ZWFyaW5nIGRhbmdlcnMgZXhpc3QgaW4gdGhlb3J5
-IG9uIHRoZSBzdXBwb3J0ZWQgYXJjaGl0ZWN0dXJlcywgZGVwZW5kaW5nIG9uIFZGUyBsb2NrbGVz
-cyBzY2FsaW5nIGNvbnZlbnRpb25zIGZvciBkX2ZsYWdzKS4KCldlIHdvdWxkIGJlIGhpZ2hseSBo
-b25vcmVkIGlmIHRoaXMgY291bGQgYmUgb2YgYW55IGhlbHAuCgpCZXN0IHJlZ2FyZHMsCltZb3Vy
-IE5hbWUvVGVhbV0KUmFjZVBpbG90IFRlYW0K
+On Mon, Mar 09, 2026 at 08:31:03PM +0000, Catalin Marinas wrote:
+> On Mon, Mar 09, 2026 at 09:17:32PM +0900, Harry Yoo wrote:
+> > On Fri, Mar 06, 2026 at 07:35:01PM +0000, Catalin Marinas wrote:
+> > 
+> > [...snip...]
+> > 
+> > > I wonder whether some early kmem_cache_node allocations like the ones in
+> > > early_kmem_cache_node_alloc() are not tracked and then kmemleak cannot
+> > > find n->barn. I got lost in the slub code, but something like this:
+> > 
+> > This sounds plausible. Before sheaves, kmem_cache_node just maintained
+> > a list of slabs. Because struct page (and struct slab overlaying on it)
+> > is not tracked by kmemleak (as Vlastimil pointed out off-list),
+> > not calling kmemleak_alloc() for kmem_cache_node was not a problem.
+> > 
+> > But now it maintains barns and sheaves,
+> > and they are tracked by kmemleak...
+> 
+> We could simply add kmemleak_ignore(), especially as we don't need the
+> data in these structures to be scanned. We can assume the slab allocator
+> doesn't leak it's own data structures.
+
+Yeah that sounds reasonable to me.
+
+> But I couldn't figure out why
+> kmemleak couldn't track down the pointer in the first place and any
+> random kmemleak_alloc() I added did not solve it.
+
+Perhaps we're seeing mix of
+
+  - kmem_cache_node not being tracked by kmemleak causes false positives
+  - sheaves submitted to call_rcu() cause false positives
+  - not calling kmemleak_ignore() on kvfree_rcu'd objects cause
+    false positives
+
+So I tried both:
+
+  1) calling kmemleak_ignore() on kfree_rcu'd objects +
+     calling kmemleak_ignore() when submitting rcu sheaves to call_rcu() +
+     calling kmemleak_unignore() when rcu sheaves are reused  +
+     calling kmemleak_alloc() on early kmem_cache_node allocation
+
+     https://lore.kernel.org/linux-mm/aa-1-Y3v3D1hzPvL@hyeyoo
+
+  2) calling kmemleak_ignore() on kfree_rcu'd objects +
+     calling kmemleak_ignore() on all sheaves (__alloc_empty_sheaf) +
+     calling kmemleak_alloc() on early kmem_cache_node allocation
+   
+     https://lore.kernel.org/linux-mm/aa_R-6SdHYBBkQX-@hyeyoo
+
+They seem to resolve reports for sheaves and kfree_rcu'd objects.
+
+But yeah, there are still a bunch of leak reports
+(hopefully not false positives caused by slab anymore?) 
+
+I notice that some of those objects are freed in a call_rcu() callback.
+
+If submitting to call_rcu() put objects into rcu data structures
+that kmemleak is not aware of, how has kmemleak dealt with that?
+(perhaps users need to call kmemleak_ignore() before call_rcu()?)
+
+> > > -----------8<-----------------------------------
+> > > diff --git a/mm/slub.c b/mm/slub.c
+> > > index 0c906fefc31b..401557ff5487 100644
+> > > --- a/mm/slub.c
+> > > +++ b/mm/slub.c
+> > > @@ -7513,6 +7513,7 @@ static void early_kmem_cache_node_alloc(int node)
+> > >  	slab->freelist = get_freepointer(kmem_cache_node, n);
+> > >  	slab->inuse = 1;
+> > >  	kmem_cache_node->node[node] = n;
+> > > +	kmemleak_alloc(n, sizeof(*n), 1, GFP_NOWAIT);
+
+By the way, this should have been kmem_cache_node->object_size.
+Because... the length of kmem_cache_node.node array is not always
+MAX_NUMNODES (yeah, that's confusing).
+
+> > >  	init_kmem_cache_node(n, NULL);
+> > >  	inc_slabs_node(kmem_cache_node, node, slab->objects);
+> > 
+> > But this function is called for kmem_cache_node cache
+> > (in kmem_cache_init()), even before kmemleak_init()?
+> 
+> That's fine, kmemleak starts as enabled by default and tracks early
+> allocations in a local mem_pool[] array. kmemleak_init() just
+> initialises its kmem_caches for the long run.
+
+Ah, right. I totally missed that. Thanks for the correction!
+
+> > kmem_cache and kmalloc caches should call kmemleak_alloc() when
+> > allocating kmem_cache_node structures, but as they are also created
+> > before kmemleak_init(), I doubt that's actually doing its job...
+> 
+> It does. I just added a kmemleak_alloc() in create_kmalloc_cache() and
+> kmemleak complained that the object from the kmem_cache_zalloc() is
+> already registered. Of course, no stack trace saved for these early
+> allocations but it does track them.
+
+Right!
+
+> > > -------------8<----------------------------------------
+> > > 
+> > > Another thing I noticed, not sure it's related but we should probably
+> > > ignore an object once it has been passed to kvfree_call_rcu(), similar
+> > > to what we do on the main path in this function. Also see commit
+> > > 5f98fd034ca6 ("rcu: kmemleak: Ignore kmemleak false positives when
+> > > RCU-freeing objects") when we added this kmemleak_ignore().
+> > > 
+> > > ---------8<-----------------------------------
+> > > diff --git a/mm/slab_common.c b/mm/slab_common.c
+> > > index d5a70a831a2a..73f4668d870d 100644
+> > > --- a/mm/slab_common.c
+> > > +++ b/mm/slab_common.c
+> > > @@ -1954,8 +1954,14 @@ void kvfree_call_rcu(struct rcu_head *head, void *ptr)
+> > >  	if (!head)
+> > >  		might_sleep();
+> > >  
+> > > -	if (!IS_ENABLED(CONFIG_PREEMPT_RT) && kfree_rcu_sheaf(ptr))
+> > > +	if (!IS_ENABLED(CONFIG_PREEMPT_RT) && kfree_rcu_sheaf(ptr)) {
+> > > +		/*
+> > > +		 * The object is now queued for deferred freeing via an RCU
+> > > +		 * sheaf. Tell kmemleak to ignore it.
+> > > +		 */
+> > > +		kmemleak_ignore(ptr);
+> > 
+> > As Vlastimil pointed out off-list, we need to let kmemleak ignore
+> > sheaves when they are submitted to call_rcu() and ideally undo
+> > kmemleak_ignore() in __kfree_rcu_sheaf() when they are going to be reused.
+> > 
+> > But looking at mm/kmemleak.c, undoing kmemleak_ignore() doesn't seem to
+> > be a thing.
+> 
+> If that's needed, something like below:
+
+Thanks, that was helpful!
+
+In addition to that - assuming that OBJECT_NO_SCAN should be cleared
+when changing the color from black to white, I made that change when
+testing it using syzbot.
+
+> ----------------------8<---------------------------------
+> diff --git a/Documentation/dev-tools/kmemleak.rst b/Documentation/dev-tools/kmemleak.rst
+> index 7d784e03f3f9..da2c849d4735 100644
+> --- a/Documentation/dev-tools/kmemleak.rst
+> +++ b/Documentation/dev-tools/kmemleak.rst
+> @@ -163,6 +163,7 @@ See the include/linux/kmemleak.h header for the functions prototype.
+>  - ``kmemleak_not_leak``	 - mark an object as not a leak
+>  - ``kmemleak_transient_leak``	 - mark an object as a transient leak
+>  - ``kmemleak_ignore``		 - do not scan or report an object as leak
+> +- ``kmemleak_unignore``		 - undo a previous kmemleak_ignore()
+>  - ``kmemleak_scan_area``	 - add scan areas inside a memory block
+>  - ``kmemleak_no_scan``	 - do not scan a memory block
+>  - ``kmemleak_erase``		 - erase an old value in a pointer variable
+> diff --git a/include/linux/kmemleak.h b/include/linux/kmemleak.h
+> index fbd424b2abb1..4eec0560be09 100644
+> --- a/include/linux/kmemleak.h
+> +++ b/include/linux/kmemleak.h
+> @@ -28,6 +28,7 @@ extern void kmemleak_update_trace(const void *ptr) __ref;
+>  extern void kmemleak_not_leak(const void *ptr) __ref;
+>  extern void kmemleak_transient_leak(const void *ptr) __ref;
+>  extern void kmemleak_ignore(const void *ptr) __ref;
+> +extern void kmemleak_unignore(const void *ptr, int min_count) __ref;
+>  extern void kmemleak_ignore_percpu(const void __percpu *ptr) __ref;
+>  extern void kmemleak_scan_area(const void *ptr, size_t size, gfp_t gfp) __ref;
+>  extern void kmemleak_no_scan(const void *ptr) __ref;
+> @@ -104,6 +105,10 @@ static inline void kmemleak_ignore_percpu(const void __percpu *ptr)
+>  static inline void kmemleak_ignore(const void *ptr)
+>  {
+>  }
+> +
+> +static inline void kmemleak_unignore(const void *ptr, int min_count)
+> +{
+> +}
+>  static inline void kmemleak_scan_area(const void *ptr, size_t size, gfp_t gfp)
+>  {
+>  }
+> diff --git a/mm/kmemleak.c b/mm/kmemleak.c
+> index d79acf5c5100..99b7ebd03737 100644
+> --- a/mm/kmemleak.c
+> +++ b/mm/kmemleak.c
+> @@ -1292,6 +1292,24 @@ void __ref kmemleak_ignore(const void *ptr)
+>  }
+>  EXPORT_SYMBOL(kmemleak_ignore);
+>  
+> +/**
+> + * kmemleak_unignore - undo a previous kmemleak_ignore() on an object
+> + * @ptr:	pointer to beginning of the object
+> + * @min_count:	minimum number of references the object must have to be
+> + *		considered a non-leak (see kmemleak_alloc() for details)
+> + *
+> + * Calling this function undoes a prior kmemleak_ignore() by restoring the
+> + * given min_count, making the object visible to kmemleak again.
+> + */
+> +void __ref kmemleak_unignore(const void *ptr, int min_count)
+> +{
+> +	pr_debug("%s(0x%px)\n", __func__, ptr);
+> +
+> +	if (kmemleak_enabled && ptr && !IS_ERR(ptr))
+> +		paint_ptr((unsigned long)ptr, min_count, 0);
+> +}
+> +EXPORT_SYMBOL(kmemleak_unignore);
+> +
+>  /**
+>   * kmemleak_scan_area - limit the range to be scanned in an allocated object
+>   * @ptr:	pointer to beginning or inside the object. This also
+> ----------------------8<---------------------------------
+> 
+> -- 
+> Catalin
+
+-- 
+Cheers,
+Harry / Hyeonggon
