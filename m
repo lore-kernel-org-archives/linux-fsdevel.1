@@ -1,132 +1,285 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52D092BE057
-	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Mar 2026 13:51:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFF693502AA;
+	Thu, 12 Mar 2026 13:51:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773323464; cv=none; b=RL0ZpmpJhR+3XcW/n6s2QbTKHWN7OfU9vUPxQa+ugujwOnWraZUw/e/niadOkwkjItg7MMDyuQjzbm56FSLAXI0uIa1YO+m2P/30evfDBNdE1XKc9Zryzc7hRrIJePTYRUrgYRJWPmJV9jIFYafrLczvGnvx3mQ+QTKUYvQkN04=
+	t=1773323508; cv=none; b=nXp1tD5bLsrqBeEbl6lK/0A+Dcu4X+RmED/Xy+fcvKUwWCbyewNuj5xk7GWoGjd1J3QzJzJDcv4Dp1ObYgl8rro2/zm4GTODTYMzJyieLDcmIBrfCfmS49FkGIO/KSlO4+9MtWbhG8pWMAd1f6Q7OVv5ZuE4NWgcHpw6+zyin/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773323464; c=relaxed/simple;
-	bh=m79QPg3lZxtO3qB8FGmL4feJvOHf6hv0uj9IuHB+gbQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JyEHWrucRLBJ4uKJkfAQS46wjj8QtCLFnzoXnpjnkdwNChlsJgs2FWMsNCDZ+/pUMfM14AiA6PkCHQlBFnYuz6439LN5KdsjperWKBsbsHieM7GFgrxTHb2dT5Cwx+q75rB6cqFHAhHeU9OLlP2L8G2s3rezMG07lmMn8dPXWlE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WlsVTztL; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=UKkFTRLV; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1773323508; c=relaxed/simple;
+	bh=7JvcBNLvTKILv+2oRSTs3qORaMz002kR/mYNHZMo+bc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SWfnl74XjXbtPnksznhkdsyEXshVn1arRH9sOVoEnbWZW8qrn3hC79Z9FvQHhLUbIHZ+2r1j2SdkA8uj66XgSQeqR8/QQeyyzvt6NTg6lJ4ZT1tkpgJWOqXEQzkj9jKH062rj1MxGnF+VS02rIHHI7QVx8LA9opTYj3P0u3BHEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PjzaoxIP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WlsVTztL";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="UKkFTRLV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1773323462;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lusPCuwgPIO7EacrWQT9X+JN0PBRkgLuOI7TKiRgdsk=;
-	b=WlsVTztL9Q7LVBAKNoZOhRHsqYJFjMRLCEzzuXMvsNKwQYfyT1pwl/DnxPa9WNqHvUDBJo
-	vyf28QBR4OzI7ioOciTAFIJxcTMoMe+DuhlB1u0efcGmlCkJP+4RnZN4MbtnH6hQCaHPg4
-	TaKkerjrhWVgTFnzT0gTWQzXRiAvog0=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-58-tE_H779WPMm3-H-Gb-rcnA-1; Thu, 12 Mar 2026 09:51:01 -0400
-X-MC-Unique: tE_H779WPMm3-H-Gb-rcnA-1
-X-Mimecast-MFC-AGG-ID: tE_H779WPMm3-H-Gb-rcnA_1773323460
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-4852fbfc379so12912155e9.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 12 Mar 2026 06:51:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1773323460; x=1773928260; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=lusPCuwgPIO7EacrWQT9X+JN0PBRkgLuOI7TKiRgdsk=;
-        b=UKkFTRLV/0FpcgXxXaAqKqccZ+9UaoVYGX+kZeHJOOWrZj1hl4Pm7YWUH46/PUxJpR
-         JiHomMvQ9oq2nntEilD//7XxR2aeabWZujfCvZvx+y/D6LFXN3130DKQl5bQR9jCn0Nk
-         luCI6ukJKDwcMELQQFIKt90G3QIDBejsjAAFW8ge22JgldGzs3sRD2xxBUEb1FSPOhjr
-         bhkAbZyY6BVEUvWXfHfdXBiYE5Boodi3Xeuz0E79EcAcLYH4cDiuE21xHpiitsXzt7jc
-         yrR+1ajoWsiUsOqXxcpNCTQAFZFYKR/Fkuxy4D7CxUgHgGbg8i3gklud+A/F53XZG9DE
-         cGrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773323460; x=1773928260;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lusPCuwgPIO7EacrWQT9X+JN0PBRkgLuOI7TKiRgdsk=;
-        b=YqGxh4EI1QCM3WAT8OGYt7RRk3+54cptlJSs7CHqOzYovGc3tt3O2KySP2tRVXUqym
-         /fAx6gB4MUmofxpzYEEc1rql6yBJxTDOaeq4P/4I5h35hkfsdbIu0v0gygOU0sZiTkTM
-         yE3wqUKYkBF/KWegdMrdNO1GcDvnpAYt0kJz4idargNnZWa1+tgX7+PJfVqkP1P4wmPH
-         n4L86g80hM+ODi3ddggdrnootfUYclZvKawSC+k4CpJw9rpwM+IFq9FzOJ4rSvcMg4yu
-         vKeo+K5mInTmlpf2lWiuFLlrpTOXOsoJrYjH3c7yptg1mOxK/bGJJTe5jwm5HxYRKMnu
-         cAnQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXnWMJnc+AMKHPvdtdIMWS0ewQo4EeR6ykU+auBMIj7bcxKQhDV1uFtZkQ0M0czVniSFaCYENMj350XrxrH@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywi9IP/lGM/ZCAdAfKCfke4COzmPDOHvicqTbtSoqegsmh8gWGq
-	nLELuoeUBcNfNEGySJA7A2DnegoiUXZVbr+KuW+yq3Na0stjdsb44Q61nR0QF6f4vQalkqcA67X
-	LBfND2xvqaFsLOA9uJMR3lRc/B/tjB7NffPaORUvUqSY8Va+zZMsCaISRdPr/+cvfDA==
-X-Gm-Gg: ATEYQzw6CuriwmPRC8xrRZlA5OU7aCLu4tRS0LXg1kBrBJ5olEwlm1204Y4z6ZdeD12
-	AxTcJ/CiSxSur1fp/oBA11RkHrhnV+JN0+ItguJ2o/sjd2kLlMybB+4hdIZO688v0s4OqZkrUI0
-	K44+mMJJ502rCfkIdwl5p4nHCs6mj5eIEgMwmAVGpZdNYkXgs5BeGv44v9EhPasmKzEttqxgI8q
-	0aEmt8MhzVeWibXBHxNqHcfFUBC/049r/vlSXFnDrTM8c5/2rYGEj7yF+9NHCVOBoB7VjBhbIMP
-	GFkzX66QxTMkK5SrUiS3g3wqxb/9M23MZh1cR+RuB5dD9Y7rx6yAh+LweHRKO1IZ9e+P4PQ3WMD
-	MxiCfHCf0baI=
-X-Received: by 2002:a05:600c:1e8f:b0:485:2ce2:4c8a with SMTP id 5b1f17b1804b1-4854b0a4c24mr109097915e9.1.1773323459791;
-        Thu, 12 Mar 2026 06:50:59 -0700 (PDT)
-X-Received: by 2002:a05:600c:1e8f:b0:485:2ce2:4c8a with SMTP id 5b1f17b1804b1-4854b0a4c24mr109097485e9.1.1773323459224;
-        Thu, 12 Mar 2026 06:50:59 -0700 (PDT)
-Received: from thinky ([217.30.74.39])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439fdf09abesm8106385f8f.0.2026.03.12.06.50.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Mar 2026 06:50:58 -0700 (PDT)
-Date: Thu, 12 Mar 2026 14:50:57 +0100
-From: Andrey Albershteyn <aalbersh@redhat.com>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Andrey Albershteyn <aalbersh@kernel.org>, linux-xfs@vger.kernel.org, 
-	fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org, ebiggers@kernel.org, hch@lst.de, 
-	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
-	linux-btrfs@vger.kernel.org
-Subject: Re: [PATCH v4 19/25] xfs: remove unwritten extents after
- preallocations in fsverity metadata
-Message-ID: <ymisdrze3ohdnxa4inqfwp4riaz4qk5nmtil33adn5ukhngq7v@f3tcv3hbzobz>
-References: <20260309192355.176980-1-aalbersh@kernel.org>
- <20260309192355.176980-20-aalbersh@kernel.org>
- <20260310012914.GG1105363@frogsfrogsfrogs>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PjzaoxIP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77081C4CEF7;
+	Thu, 12 Mar 2026 13:51:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773323507;
+	bh=7JvcBNLvTKILv+2oRSTs3qORaMz002kR/mYNHZMo+bc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=PjzaoxIPK3VwaqE2fUDod5N6JD8PRIt8S6iU5yl3I6iaKHa5ZaL+5IQO9dqrCs/e7
+	 mMC7GIBl+WNsjLYVC3mwaTFg5ySgzt1h85VJAUUTuNH1741Pgu0xnvDhs7w0mkwNRM
+	 UrGoMj8k+T2dMYxSgrD42Io53BeGvtGwxXXuJs7gteVcg6eMkVeaMk1/qsEc5OaJkM
+	 uC74Z9mYOTI0PAQk2CiahjAROGSPp2c3FZrQpSvb2GzrrCuh3ob1IvErrcozeYX+vT
+	 cFvlm7hX12oE9H5zjUVSYeihQUVIK+owicrogd/Yv+sut6dbbwLRuwGVgsqq9DhVSj
+	 zsghcoyLUULYA==
+From: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
+To: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	David Laight <david.laight.linux@gmail.com>
+Cc: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] fs: Replace user_access_{begin/end} by scoped user access
+Date: Thu, 12 Mar 2026 14:51:34 +0100
+Message-ID: <9b8b9c7f7d533c96c0c1abe5b4aecb7dc19e2abf.1773306879.git.chleroy@kernel.org>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260310012914.GG1105363@frogsfrogsfrogs>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=8524; i=chleroy@kernel.org; h=from:subject:message-id; bh=7JvcBNLvTKILv+2oRSTs3qORaMz002kR/mYNHZMo+bc=; b=owGbwMvMwCV2d0KB2p7V54MZT6slMWRuOvJMjP1FM1/rJIUM4SfHJ6xbd/TC+0I+Qe9z/6uDt HY7a+o87ShlYRDjYpAVU2Q5/p9714yuL6n5U3fpw8xhZQIZwsDFKQATWXuU4X9E46f7z1l1vzZu d1xTVvnPbXZyRa/iofeXP7R/TnyR2vuGkeFIR6vp/ik/zWtWtc/S/aRy1yBoD98tvR/LdqtM16v 64cgCAA==
+X-Developer-Key: i=chleroy@kernel.org; a=openpgp; fpr=10FFE6F8B390DE17ACC2632368A92FEB01B8DD78
+Content-Transfer-Encoding: 8bit
 
-On 2026-03-09 18:29:14, Darrick J. Wong wrote:
-> > XFS preallocates spaces during writes. In normal I/O this space, if
-> > unused, is removed by truncate. For files with fsverity, XFS does not
-> > use truncate as fsverity metadata is stored past EOF.
-> > 
-> > After we're done with writing fsverity metadata iterate over extents in
-> > that region and remove any unwritten ones. These would be preallocation
-> > leftovers in the merkle tree holes and past fsverity descriptor.
-> > 
-> > Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
-> > ---
+Scoped user access reduces code complexity and seamlessly bring
+masked user access on architectures that support it.
 
-> There's an upper limit on the number of blocks you can unmap/free in a
-> single transaction.  Maybe move the xfs_trans_{alloc,commit} into the
-> loop body?
-> 
-> Oh wait, you skip the written extents.  Ok, so maybe just roll it after
-> you've done a bunmapi.
+Replace user_access_begin/user_access_end blocks by
+scoped user access.
 
-I see, I will add a rolling transaction. Btw, why skipping the
-written extents let's us use rolling here?
+Signed-off-by: Christophe Leroy (CS GROUP) <chleroy@kernel.org>
+---
+v2:
+- Fix build failure with CONFIG_COMPAT
+- Handled checkpatch.pl output
+---
+ fs/readdir.c | 94 +++++++++++++++++++++-------------------------------
+ fs/select.c  | 35 ++++++++-----------
+ 2 files changed, 51 insertions(+), 78 deletions(-)
 
-> 
-> Do you need to purge the cow fork too?
-
-hmm, what case are you thinking about here? The fsverity is written
-in past EOF region, I don't see how COW extent could be left there.
-Can they somehow be left mapped for blocks past i_size?
-
+diff --git a/fs/readdir.c b/fs/readdir.c
+index 73707b6816e9..bd7bdf4a9840 100644
+--- a/fs/readdir.c
++++ b/fs/readdir.c
+@@ -198,18 +198,14 @@ static bool fillonedir(struct dir_context *ctx, const char *name, int namlen,
+ 	}
+ 	buf->result++;
+ 	dirent = buf->dirent;
+-	if (!user_write_access_begin(dirent,
+-			(unsigned long)(dirent->d_name + namlen + 1) -
+-				(unsigned long)dirent))
+-		goto efault;
+-	unsafe_put_user(d_ino, &dirent->d_ino, efault_end);
+-	unsafe_put_user(offset, &dirent->d_offset, efault_end);
+-	unsafe_put_user(namlen, &dirent->d_namlen, efault_end);
+-	unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault_end);
+-	user_write_access_end();
++	scoped_user_write_access_size(dirent, (unsigned long)(dirent->d_name + namlen + 1) -
++					      (unsigned long)dirent, efault) {
++		unsafe_put_user(d_ino, &dirent->d_ino, efault);
++		unsafe_put_user(offset, &dirent->d_offset, efault);
++		unsafe_put_user(namlen, &dirent->d_namlen, efault);
++		unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault);
++	}
+ 	return true;
+-efault_end:
+-	user_write_access_end();
+ efault:
+ 	buf->result = -EFAULT;
+ 	return false;
+@@ -287,23 +283,19 @@ static bool filldir(struct dir_context *ctx, const char *name, int namlen,
+ 		return false;
+ 	dirent = buf->current_dir;
+ 	prev = (void __user *) dirent - prev_reclen;
+-	if (!user_write_access_begin(prev, reclen + prev_reclen))
+-		goto efault;
+-
+-	/* This might be 'dirent->d_off', but if so it will get overwritten */
+-	unsafe_put_user(offset, &prev->d_off, efault_end);
+-	unsafe_put_user(d_ino, &dirent->d_ino, efault_end);
+-	unsafe_put_user(reclen, &dirent->d_reclen, efault_end);
+-	unsafe_put_user(d_type, (char __user *) dirent + reclen - 1, efault_end);
+-	unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault_end);
+-	user_write_access_end();
++	scoped_user_write_access_size(prev, reclen + prev_reclen, efault) {
++		/* This might be 'dirent->d_off', but if so it will get overwritten */
++		unsafe_put_user(offset, &prev->d_off, efault);
++		unsafe_put_user(d_ino, &dirent->d_ino, efault);
++		unsafe_put_user(reclen, &dirent->d_reclen, efault);
++		unsafe_put_user(d_type, (char __user *)dirent + reclen - 1, efault);
++		unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault);
++	}
+ 
+ 	buf->current_dir = (void __user *)dirent + reclen;
+ 	buf->prev_reclen = reclen;
+ 	ctx->count -= reclen;
+ 	return true;
+-efault_end:
+-	user_write_access_end();
+ efault:
+ 	buf->error = -EFAULT;
+ 	return false;
+@@ -371,24 +363,20 @@ static bool filldir64(struct dir_context *ctx, const char *name, int namlen,
+ 		return false;
+ 	dirent = buf->current_dir;
+ 	prev = (void __user *)dirent - prev_reclen;
+-	if (!user_write_access_begin(prev, reclen + prev_reclen))
+-		goto efault;
+-
+-	/* This might be 'dirent->d_off', but if so it will get overwritten */
+-	unsafe_put_user(offset, &prev->d_off, efault_end);
+-	unsafe_put_user(ino, &dirent->d_ino, efault_end);
+-	unsafe_put_user(reclen, &dirent->d_reclen, efault_end);
+-	unsafe_put_user(d_type, &dirent->d_type, efault_end);
+-	unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault_end);
+-	user_write_access_end();
++	scoped_user_write_access_size(prev, reclen + prev_reclen, efault) {
++		/* This might be 'dirent->d_off', but if so it will get overwritten */
++		unsafe_put_user(offset, &prev->d_off, efault);
++		unsafe_put_user(ino, &dirent->d_ino, efault);
++		unsafe_put_user(reclen, &dirent->d_reclen, efault);
++		unsafe_put_user(d_type, &dirent->d_type, efault);
++		unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault);
++	}
+ 
+ 	buf->prev_reclen = reclen;
+ 	buf->current_dir = (void __user *)dirent + reclen;
+ 	ctx->count -= reclen;
+ 	return true;
+ 
+-efault_end:
+-	user_write_access_end();
+ efault:
+ 	buf->error = -EFAULT;
+ 	return false;
+@@ -460,18 +448,14 @@ static bool compat_fillonedir(struct dir_context *ctx, const char *name,
+ 	}
+ 	buf->result++;
+ 	dirent = buf->dirent;
+-	if (!user_write_access_begin(dirent,
+-			(unsigned long)(dirent->d_name + namlen + 1) -
+-				(unsigned long)dirent))
+-		goto efault;
+-	unsafe_put_user(d_ino, &dirent->d_ino, efault_end);
+-	unsafe_put_user(offset, &dirent->d_offset, efault_end);
+-	unsafe_put_user(namlen, &dirent->d_namlen, efault_end);
+-	unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault_end);
+-	user_write_access_end();
++	scoped_user_write_access_size(dirent, (unsigned long)(dirent->d_name + namlen + 1) -
++					      (unsigned long)dirent, efault) {
++		unsafe_put_user(d_ino, &dirent->d_ino, efault);
++		unsafe_put_user(offset, &dirent->d_offset, efault);
++		unsafe_put_user(namlen, &dirent->d_namlen, efault);
++		unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault);
++	}
+ 	return true;
+-efault_end:
+-	user_write_access_end();
+ efault:
+ 	buf->result = -EFAULT;
+ 	return false;
+@@ -543,22 +527,18 @@ static bool compat_filldir(struct dir_context *ctx, const char *name, int namlen
+ 		return false;
+ 	dirent = buf->current_dir;
+ 	prev = (void __user *) dirent - prev_reclen;
+-	if (!user_write_access_begin(prev, reclen + prev_reclen))
+-		goto efault;
+-
+-	unsafe_put_user(offset, &prev->d_off, efault_end);
+-	unsafe_put_user(d_ino, &dirent->d_ino, efault_end);
+-	unsafe_put_user(reclen, &dirent->d_reclen, efault_end);
+-	unsafe_put_user(d_type, (char __user *) dirent + reclen - 1, efault_end);
+-	unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault_end);
+-	user_write_access_end();
++	scoped_user_write_access_size(prev, reclen + prev_reclen, efault);
++		unsafe_put_user(offset, &prev->d_off, efault);
++		unsafe_put_user(d_ino, &dirent->d_ino, efault);
++		unsafe_put_user(reclen, &dirent->d_reclen, efault);
++		unsafe_put_user(d_type, (char __user *)dirent + reclen - 1, efault);
++		unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault);
++	}
+ 
+ 	buf->prev_reclen = reclen;
+ 	buf->current_dir = (void __user *)dirent + reclen;
+ 	ctx->count -= reclen;
+ 	return true;
+-efault_end:
+-	user_write_access_end();
+ efault:
+ 	buf->error = -EFAULT;
+ 	return false;
+diff --git a/fs/select.c b/fs/select.c
+index e0244dbe4429..75978b18f48f 100644
+--- a/fs/select.c
++++ b/fs/select.c
+@@ -1004,17 +1004,17 @@ static int do_sys_poll(struct pollfd __user *ufds, unsigned int nfds,
+ 	fdcount = do_poll(head, &table, end_time);
+ 	poll_freewait(&table);
+ 
+-	if (!user_write_access_begin(ufds, nfds * sizeof(*ufds)))
+-		goto out_fds;
++	scoped_user_write_access_size(ufds, nfds * sizeof(*ufds), out_fds) {
++		struct pollfd __user *_ufds = ufds;
+ 
+-	for (walk = head; walk; walk = walk->next) {
+-		struct pollfd *fds = walk->entries;
+-		unsigned int j;
++		for (walk = head; walk; walk = walk->next) {
++			struct pollfd *fds = walk->entries;
++			unsigned int j;
+ 
+-		for (j = walk->len; j; fds++, ufds++, j--)
+-			unsafe_put_user(fds->revents, &ufds->revents, Efault);
+-  	}
+-	user_write_access_end();
++			for (j = walk->len; j; fds++, _ufds++, j--)
++				unsafe_put_user(fds->revents, &_ufds->revents, out_fds);
++		}
++	}
+ 
+ 	err = fdcount;
+ out_fds:
+@@ -1026,11 +1026,6 @@ static int do_sys_poll(struct pollfd __user *ufds, unsigned int nfds,
+ 	}
+ 
+ 	return err;
+-
+-Efault:
+-	user_write_access_end();
+-	err = -EFAULT;
+-	goto out_fds;
+ }
+ 
+ static long do_restart_poll(struct restart_block *restart_block)
+@@ -1338,15 +1333,13 @@ static inline int get_compat_sigset_argpack(struct compat_sigset_argpack *to,
+ 					    struct compat_sigset_argpack __user *from)
+ {
+ 	if (from) {
+-		if (!user_read_access_begin(from, sizeof(*from)))
+-			return -EFAULT;
+-		unsafe_get_user(to->p, &from->p, Efault);
+-		unsafe_get_user(to->size, &from->size, Efault);
+-		user_read_access_end();
++		scoped_user_read_access(from, efault) {
++			unsafe_get_user(to->p, &from->p, efault);
++			unsafe_get_user(to->size, &from->size, efault);
++		}
+ 	}
+ 	return 0;
+-Efault:
+-	user_read_access_end();
++efault:
+ 	return -EFAULT;
+ }
+ 
 -- 
-- Andrey
+2.49.0
 
