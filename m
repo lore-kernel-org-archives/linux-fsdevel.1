@@ -1,45 +1,44 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71C01363C4D;
-	Thu, 12 Mar 2026 14:52:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC5473603C1;
+	Thu, 12 Mar 2026 14:57:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773327171; cv=none; b=oN5q3KP7gqroKJcJkWrl/Fqnw8HmhMAdswf5yualhnBKQqLMqJEiGbNOK2ufC0s2jNrM01qnzIB2c0MVsmQ+Ay9rem8S432q9kLcKSkq+BwDfrJi3ifZFvZTYj37Urfpqegju4KW42Hpkis9hbAeHJO/jp7HETyYFEvWcpAPIEk=
+	t=1773327434; cv=none; b=aEPfoAHlHfbWQ9OpGTleM5JV/KAugxNKa9ZtcvWgsbZTk6K1jnxQRzblSXMZyksLCyZZrvJGgbjinEDcBlVrnTAtpwXsB1keGp2PC53OiNHzbrODWR1HhRnqoYmfJD/h9lGG0Spb3WCVUtO07ExwBJyEuxY9ey/Sks4CzE3cb7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773327171; c=relaxed/simple;
-	bh=XXRoLW5PPkxCND8B4ImdToPWiFZE9WfidZSxqoOee0k=;
+	s=arc-20240116; t=1773327434; c=relaxed/simple;
+	bh=FOqsqm9jHQdypVxCQKGykY4jiYV2S56n/OhvKcOzcJ0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b1UowPtBAyEBo6fmCSzvbmff5kJgg0iZ1QgjNRG6/F+tDSd7lW3vwQnr32Dkn19VZa8gqoe3fHuJuDR78A1fovAHRS8/sB9dHvQfJWoxfaaiGeevbB8uDCtXBtDluQTRUx2YSlu5hN68bXDfuwo8rsm3o5lKGkrBvhbsgZ5lGDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tGWdX1gG; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ljj5nkIiD/1n64eRLfxNU3AOWUs3i2RvDWDpzKM7ElU7HhH3R385FJNI/baAPWNIcn3O43EwX4nrRY2Cgw5Lm+Ej6CjHxthAXyuTH4pg3Svus3QiwU+OpLLLnFfvSELgx2yAdWyVQPAkQcG7SaE5uRMBXgbasdJjoKVdZRNwQxo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=XrvcFSXl; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tGWdX1gG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DFF9C4CEF7;
-	Thu, 12 Mar 2026 14:52:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773327171;
-	bh=XXRoLW5PPkxCND8B4ImdToPWiFZE9WfidZSxqoOee0k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tGWdX1gGMIAsB7zM1mPWjtb1RZFPGD3vDnjI+sBmpir8tSsen2/ic68Ma9EBUNSw5
-	 P+Vdq92Iaf48by8SLyoH3yj/bwZySOXGsJcDkGbOUFDgCYWdtzozCJViroaLJW0M8n
-	 Y3easI+nkr/V2Zqk/TEWbbJ+fscjhQWlnm8i0KCgUGCHqe0cn35/Yl9C82vpHfx003
-	 yvq7h7bYqJdedFbW0c/Jul45OK8xK6KGZzXb+ZUkObYdrIZf085O5CBSrZCbrhVbJG
-	 NayUE0HtiaTpJrxbqIPjKJdvKLSyuJ8Dl6tMoWYpkh5g9WNlQ/pr3Bcdml9Oz/0JEh
-	 XlI/nhSbvPdiQ==
-Date: Thu, 12 Mar 2026 07:52:50 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Andrey Albershteyn <aalbersh@redhat.com>
-Cc: Andrey Albershteyn <aalbersh@kernel.org>, linux-xfs@vger.kernel.org,
-	fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	ebiggers@kernel.org, hch@lst.de, linux-ext4@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net, linux-btrfs@vger.kernel.org
-Subject: Re: [PATCH v4 19/25] xfs: remove unwritten extents after
- preallocations in fsverity metadata
-Message-ID: <20260312145250.GE6069@frogsfrogsfrogs>
-References: <20260309192355.176980-1-aalbersh@kernel.org>
- <20260309192355.176980-20-aalbersh@kernel.org>
- <20260310012914.GG1105363@frogsfrogsfrogs>
- <ymisdrze3ohdnxa4inqfwp4riaz4qk5nmtil33adn5ukhngq7v@f3tcv3hbzobz>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="XrvcFSXl"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=bFnXarLOOV8tXoOEpaAN0S3rKmLPL8YRDeLT2VLUcrw=; b=XrvcFSXlR7xBx1ooV9r9jcYEps
+	KhUJ+nWXwHqRzDxu6udA5EPTXsQ+eU515pDQEOjZnpsQSDYu3tOenvsRhTlbHUuI5dOTDtGcATnjO
+	M00PbvKNsYkSyqXsMa1T8lrQ6gs39rc5DiCed30CCNpjrLVo9CkzVIoOcTEIlnXQmOA9cgvSADMBk
+	ZJb8aOUH+mABtTdVx/xADur4muUvOrNaMW14mroZNM/yv5sfhhQ53vSYpmgsOVJrtMP3sXLnzjPFK
+	enb3fp5eB3A7vNEd3BofWUBBitNVGBwMuPaeb3MYPkQrcC9RwXdIwJu60j8+VO5ONSSHtFK5RZwuN
+	d9XusPpA==;
+Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1w0hTE-0000000BU84-2uRc;
+	Thu, 12 Mar 2026 14:57:04 +0000
+Date: Thu, 12 Mar 2026 14:57:04 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: David Timber <dxdt@dev.snart.me>
+Cc: linkinjeon@kernel.org, sj1557.seo@samsung.com, yuezhang.mo@sony.com,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] exfat: EXFAT_IOC_GET_VALID_DATA ioctl
+Message-ID: <abLUQECuMuxHNXjZ@casper.infradead.org>
+References: <20260311222613.2010177-1-dxdt@dev.snart.me>
+ <abIxl8XEftpku8yf@casper.infradead.org>
+ <b216af63-f65e-4c26-84bc-2693fad0fdf1@dev.snart.me>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -48,55 +47,46 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ymisdrze3ohdnxa4inqfwp4riaz4qk5nmtil33adn5ukhngq7v@f3tcv3hbzobz>
+In-Reply-To: <b216af63-f65e-4c26-84bc-2693fad0fdf1@dev.snart.me>
 
-On Thu, Mar 12, 2026 at 02:50:57PM +0100, Andrey Albershteyn wrote:
-> On 2026-03-09 18:29:14, Darrick J. Wong wrote:
-> > > XFS preallocates spaces during writes. In normal I/O this space, if
-> > > unused, is removed by truncate. For files with fsverity, XFS does not
-> > > use truncate as fsverity metadata is stored past EOF.
-> > > 
-> > > After we're done with writing fsverity metadata iterate over extents in
-> > > that region and remove any unwritten ones. These would be preallocation
-> > > leftovers in the merkle tree holes and past fsverity descriptor.
-> > > 
-> > > Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
-> > > ---
+On Thu, Mar 12, 2026 at 11:02:29PM +0900, David Timber wrote:
+> On 3/12/26 12:23, Matthew Wilcox wrote:
+> > We already have two interfaces for this on Linux.  One is SEEK_HOLE /
+> > SEEK_DATA and the other is fiemap (Documentation/filesystems/fiemap.rst)
+> > Why are both of these interfaces unsuitable?
+> https://lore.kernel.org/linux-fsdevel/cf6c2b08-b7ff-4f70-95f4-cdb12ef5a666@dev.snart.me/
 > 
-> > There's an upper limit on the number of blocks you can unmap/free in a
-> > single transaction.  Maybe move the xfs_trans_{alloc,commit} into the
-> > loop body?
-> > 
-> > Oh wait, you skip the written extents.  Ok, so maybe just roll it after
-> > you've done a bunmapi.
-> 
-> I see, I will add a rolling transaction. Btw, why skipping the
-> written extents let's us use rolling here?
+> Because exFAT is not a sparse file system. The VDL is only a shorthand
+> for fast cluster allocation without writing actual data to them. In
+> other words, the range between the VDL and isize is not actually a hole.
+> The blocks in the range are actually allocated, filled with garbage data
+> on the disk. The kernel has to be careful not to return it to userspace,
+> which is something Linux kernel actually does.
 
-Hrmm.  At first I thought: why can't xfs_fsverity_cancel_unwritten
-allocate (and commit) the transaction inside the loop body?  Then I
-thought "well, it's only conditionally unmapping things, and it's sort
-of a pain to allocate a transaction only then to find out if you
-actually want to run one".
+Uh, no it's not.  If you try to read from the file at positions mapped
+to those blocks, Linux will return zeroes.
 
-OTOH there could be billions of extents in the data fork, so holding the
-ILOCK for that many transactions isn't a good thing because tr_write
-only preallocates space for a certain number of transaction rolls.
-fsverity already holds IOLOCK_EXCL so there can't be any other programs
-using the file.
+You seem to be under the impression that SEEK_HOLE only finds blocks
+which have not been allocated.  That's not the behaviour of any
+filesystem whch uses iomap.  Look:
 
-So now I arrive back at "The transaction allocation and commit/cancel
-should be inside the loop body, since crashing midway through wouldn't
-result in user-visible changes to the file data".
+static int iomap_seek_hole_iter(struct iomap_iter *iter,
+                loff_t *hole_pos)
+{
+        loff_t length = iomap_length(iter);
 
-> > Do you need to purge the cow fork too?
-> 
-> hmm, what case are you thinking about here? The fsverity is written
-> in past EOF region, I don't see how COW extent could be left there.
-> Can they somehow be left mapped for blocks past i_size?
+        switch (iter->iomap.type) {
+        case IOMAP_UNWRITTEN:
+                *hole_pos = mapping_seek_hole_data(iter->inode->i_mapping,
+                                iter->pos, iter->pos + length, SEEK_HOLE);
+                if (*hole_pos == iter->pos + length)
+                        return iomap_iter_advance(iter, length);
+                return 0;
+        case IOMAP_HOLE:
+                *hole_pos = iter->pos;
+                return 0;
 
-I was talking about speculative cow fork preallocations below i_size.
-They'll eventually get purged by blockgc, but you could give the space
-back once you've committed enabling the fsverity file flag.
+Yes, if there's literally a hole, that counts as a hole, but what you're
+talking about is an unwritten extent.  And that counts as a hole
+*unless* we've written to the page cache covering the hole.
 
---D
