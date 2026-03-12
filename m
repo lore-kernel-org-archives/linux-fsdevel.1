@@ -1,147 +1,116 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2A483FB7FE
-	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Mar 2026 16:54:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 727E438839D
+	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Mar 2026 17:01:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773334495; cv=none; b=aAGnuKV3EMSMfWx9cO2FlgqbwgjmfTnbeDoDx5jv7MW9uQ7kcnUp2N9fI2/crv7lrsE7LV8h6aWbqNIvNAufF1Dq86WfQVFXF1BTkln6LFmxHEaqBLnb77MMOzhaKAaJUyqHZ89Ff1bRyBr8Q5w4Bfw+szt5Bn7d6n20B3OztOg=
+	t=1773334899; cv=none; b=QxwA5KvA/OnABZW8Oia1G/wLs8WNsZWw80btEhaXCjvDKmCPVdxpLe/tOhNcqf58nnzeG3kQukfp5eh2EHC/1ZKvWjmlA7E79TSSIWbB1MGK6Q6y0IuI2TVMi7xJG2RJ3Gux/lkkrbWosqKVgaB4ynmfHPCBP6ZbJkO3TfbhfFw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773334495; c=relaxed/simple;
-	bh=ENv0+4bH9YdpFLGeURNwJ3+rEUsnNn74RNCtOl26SEA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aw7xzWmzbU4e1BSqAP3f9KPmVNpZlSjt0nAvxcMf7cJmaH/c+8JjXmwGf16KZplDnRV7dRpn/IaJYC8yOrvNboR8xjhnun++VEjot5TpwXfHxhIpGIvBDwihcC3gC+Rrp6KxpjpF40MvZDyuOGcCWff8uydXVR59LTDm9GDhNZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=TCUycPJz; arc=none smtp.client-ip=209.85.160.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	s=arc-20240116; t=1773334899; c=relaxed/simple;
+	bh=5yYxKmqJEJDXBOmZi9+ExZf0XmeW6PGf9vMlGL3Ygxg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=fgZkziBf5xOxXl2Qx/kKRhGBcvq4T/hcqPdDqSyxMYLnjQA2cp5RN/cqPD7RpaKcrk5GfeM38jqXhahO9HVXZ7iNAE2rXN06dWU0LaZxIGa0DozCQpPMsiIARns6Pv0yg5JWayTBWLPlRj3FWfLXH19pX37cMcM/WzudyrCrDOA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MVpbCsKd; arc=none smtp.client-ip=209.85.167.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="TCUycPJz"
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-509164dce91so11154551cf.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 12 Mar 2026 09:54:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MVpbCsKd"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-59dea72099eso1298922e87.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 12 Mar 2026 10:01:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1773334491; x=1773939291; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=VQXCfPVu6b6dIVECzm0C8AUD7IL7VvpSkD5+M4S95sw=;
-        b=TCUycPJzE2fI+UEqk7FktReSuNB+qmtoLxCPQIhObf2GoM3FGGUoUzmOL4EcJ8nqrV
-         31wLWw0iuRrm5q/A3vl9oGJab4nkcB5GgE9L87TaBE5zWVhGKUEWMOYZrC4hQkz7+K+y
-         MdSN9PZxg9+VlLOffdwRmQphGTW7UoGABbBRu3CtgROAhKqAusDMmmrNFgCXGsGgS+um
-         4b3n9KF8H9mgZuxtPx/c84lVtPd3kX8R2XT1vLZ+RjANCZT5FGS44RpBGA5cN1JRJXTn
-         oCOtB2FnqO56y3+c6Fos0prISIneHSMHrQ7vAs2p/teTVBOn2DfneDCxuRpkTU9D9cja
-         6IGg==
+        d=gmail.com; s=20230601; t=1773334896; x=1773939696; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1FPLZLK/ARK3Chp/HwAUNJLe5P0+HW9eu31GldakyAM=;
+        b=MVpbCsKdn/yjddtOzeLi009c/kEQNGekvcdtd7oD03DV19ZiHFqO+kojRCn5AH6mfz
+         TI8l1oYvQuCVuxo5V1KGSMazxw9QkQiTClHzldnllgP+8c2091G0Nn6BGlWMBNtGcKdR
+         Zh+8uuRB3v5FQNXI+3lp9xwvW4pZ1tjaxIW1+ABYBxoKi30tvcMpF+FRKFak2VKmV6Ea
+         atYVANCIu20BY+LnyM11X0JmcbrZ9/DW/vEnHuQLi+EQBzicuC22dHxTaVfFYHnmLvdQ
+         EYcV+hgEarBl3eflkIO2mF2kJZ+0LpkQVUk3BqjdlPnHrPlLBmwFisBneHlQKZhgDJSq
+         qtag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773334491; x=1773939291;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VQXCfPVu6b6dIVECzm0C8AUD7IL7VvpSkD5+M4S95sw=;
-        b=RZxB8XdYFuO0ibr+nin+BrZIm+2ELd58HzwTkef64k+2OxolH3SrBAhwFONLJ1n6oI
-         VFSIdUoZZZ07v+1ki+tWfOZ7CZkN5Rs5j2rJdpmpgaSs21lXvyrXUTyAteCm17Q7xwQT
-         aV1PviQY9aA3g9WN1M8m1jdn4F3V9cy16E8743wFVU39TbEQ0ZcBL6HbPbyHjfkRiPS9
-         /5+3S+pWlMzFe9BtLVksgEyn1m/PuSGG4O/CH5Y7Z+g8hESacj9p0xoAg7NOyGOIAvsA
-         j0veJPQTk6DQ+ol1W9qmVM4DFclbM0t08yqyW0UEhPmX50qz7W+/grpp2QaoLvpJlNii
-         cXOQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVezH4QrdSCPcZda4RorQSUduKStbl5pB0p4l+LtCt71xe/6vYEZQYxMU2Yxo1+SEu+udcOOTk3ELGEpOfv@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx9+9Hjk7kmeHVJBSJRk5C9vuqHhfQN9MAoLVW8jGFFNS3yS5qn
-	SbbnicN2dWvzg+PRbzul//QcC6deLiQhXOVo9hDsuN4Ge/MD9ICGxolk7mwQjcAk1Aw=
-X-Gm-Gg: ATEYQzzwEaOAOwIq19Kyfl9Fnr4waUpabn6r2R/QzcxRUqRwi3GcH/btvHK1yKLzTF2
-	K2lfF+ttFq3TAdE3MtSKhAw0KXlisLZ8S9oSFyLsrRR+BX1pjh8IhcT6T0sJAUTmRW7t7nacFFQ
-	qS/r5VbmPGNdFlfaTQhjym4AWdpT39yyerpoeeV9/+jyoVwIVxI2rXRoGdYgy+UbGBVIHKnUZrk
-	NMgL5IVqUz9aWUoKo+NRb/2iUv1WKwvwu65GNhZg1abauSGNJpSPfJTpX/7U0OrwTLwkNvsPPmt
-	D9lRkcYwce46+SWY/chhpbE9HT2H/n+akUxCIVn/zP8Y+MQrs4sEhz1s0FPKTBFnx7geGfJABN2
-	l3tmZzwD/vm1Y7pcORmXR4KK2acMPPSIIgHJReKnne+qjtZskp4wk/FTV4jDAYRyF53YuyomuP/
-	erVXWj/4wUApPJ5zF2jRjsFz+XxPUS9wKAudegLu2Rt5bLUDfeXbx1Z91m+zKs6dduTjjBPxPX5
-	yOHPE3anFFobTCeBTw=
-X-Received: by 2002:a05:622a:289:b0:509:44c3:5ffa with SMTP id d75a77b69052e-50957e10673mr1403911cf.52.1773334490530;
-        Thu, 12 Mar 2026 09:54:50 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.112.119])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5093a119602sm36658181cf.28.2026.03.12.09.54.49
+        d=1e100.net; s=20230601; t=1773334896; x=1773939696;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1FPLZLK/ARK3Chp/HwAUNJLe5P0+HW9eu31GldakyAM=;
+        b=jdm9a3GPxFDJhvW7D9/sCZt2rg5lmBVw7q8VE92BLBhIvRahxFK1KKzWbbj3lNFjD1
+         J0xTUoaAvw+OzYBLfp0h9SpjjK2X1onbeDkCWqrYITk5ZVN3YagrkAQpMvTiJCPhEszB
+         9wKcGKOHawnlX6DaQh9/+SHsXp300HSDsFesvZ6G+RLi5EWd2XneFF3jMexWj3mUmJEA
+         2NBnAT+QacyTBp37Gn/6GCB4OQmOyXOKFQzX0jYq3CB1Qr4Ol1bZAWH19xGD4L+aT+le
+         cWHh8wiZVWEIUGDLN+xKmpwuBtSF3BXR2d5pCVZ1ZuyvquF03ZNpwwQhyMZR8zzvNkX2
+         q0uA==
+X-Gm-Message-State: AOJu0YzFyd6eLBckmKpRzcQ1U/9xjX6bFD4CYkfWuPVjr6c6NiQkDKww
+	Qeg552lmUsXBT3Oehc3IxgULH7tI6pjW0ahiRLfP8ohVJN2YTSAh9v8G
+X-Gm-Gg: ATEYQzy0UmOCnniw987qM/D0vVqgXT18d8ZjOgK5Zcie5GPSOl7mZCdYvaex/xiDeHG
+	iLPea2m1B+MJNEVbmUfmrVyfo+0inU/2iibaGEaNcIadCPXzELShbjOJxinh5JuTtTaobyLxO8p
+	W+PVwqzP3uDLus7bj+1m4Q6/X59Hm2m+mgSUf9NQDU4/ZmgGOMjTC+RZAlghZyeM6lwrNEdyGzk
+	zFghwsqCBvTOYMfnz8BJ2QKluwTwCbw7puSjK1nSyDKQa2MVr5zWzgSgNPN/Z4MMoGietPQMKqU
+	NI+wJRgfaH3n5dURfidUZg7X7t+5w/AZuPKyGYZpVNKo0Qp7lDj1C/jHb1q4ED4bTzG+kylrORC
+	V4ucG0EPsyH8SRRdgF83AAW5UBU36LL6I6r+BZ8kY8LbGPUx3yVut2d8oyo7MjIbLT0YfjPNWvZ
+	qoerokdHw4KqgBh/X2NYivedhwU4PKKaLYfNkxiKQwG/bmT2p3MLdngv7lCHiWIEUxXBUjlxU=
+X-Received: by 2002:ac2:592b:0:b0:5a1:26f7:85f5 with SMTP id 2adb3069b0e04-5a16270f30fmr65268e87.15.1773334894619;
+        Thu, 12 Mar 2026 10:01:34 -0700 (PDT)
+Received: from ubuntu.. (static.159.107.27.37.clients.your-server.de. [37.27.107.159])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38a67e5ecedsm9710711fa.21.2026.03.12.10.01.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Mar 2026 09:54:49 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1w0jJA-00000006i8N-40X9;
-	Thu, 12 Mar 2026 13:54:48 -0300
-Date: Thu, 12 Mar 2026 13:54:48 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: James Bottomley <James.Bottomley@hansenpartnership.com>
-Cc: Kuan-Wei Chiu <visitorckw@gmail.com>, Philipp Hahn <phahn-oss@avm.de>,
-	amd-gfx@lists.freedesktop.org, apparmor@lists.ubuntu.com,
-	bpf@vger.kernel.org, ceph-devel@vger.kernel.org, cocci@inria.fr,
-	dm-devel@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	gfs2@lists.linux.dev, intel-gfx@lists.freedesktop.org,
-	intel-wired-lan@lists.osuosl.org, iommu@lists.linux.dev,
-	kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
-	linux-btrfs@vger.kernel.org, linux-cifs@vger.kernel.org,
-	linux-clk@vger.kernel.org, linux-erofs@lists.ozlabs.org,
-	linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-gpio@vger.kernel.org, linux-hyperv@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-mips@vger.kernel.org, linux-mm@kvack.org,
-	linux-modules@vger.kernel.org, linux-mtd@lists.infradead.org,
-	linux-nfs@vger.kernel.org, linux-omap@vger.kernel.org,
-	linux-phy@lists.infradead.org, linux-pm@vger.kernel.org,
-	linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
-	linux-scsi@vger.kernel.org, linux-sctp@vger.kernel.org,
-	linux-security-module@vger.kernel.org, linux-sh@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-trace-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
-	ntfs3@lists.linux.dev, samba-technical@lists.samba.org,
-	sched-ext@lists.linux.dev, target-devel@vger.kernel.org,
-	tipc-discussion@lists.sourceforge.net, v9fs@lists.linux.dev
-Subject: Re: [PATCH 00/61] treewide: Use IS_ERR_OR_NULL over manual NULL
- check - refactor
-Message-ID: <20260312165448.GN1469476@ziepe.ca>
-References: <20260310-b4-is_err_or_null-v1-0-bd63b656022d@avm.de>
- <abBlpGKO842B3yl9@google.com>
- <20260312125730.GI1469476@ziepe.ca>
- <f5688b895eaebabae6545a0d9baf8f1404e8454e.camel@HansenPartnership.com>
+        Thu, 12 Mar 2026 10:01:34 -0700 (PDT)
+From: Josh Law <hlcj1234567@gmail.com>
+X-Google-Original-From: Josh Law <objecting@objecting.org>
+To: Matthew Wilcox <willy@infradead.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	Josh Law <hlcj1234567@gmail.com>,
+	Josh Law <objecting@objecting.org>
+Subject: [PATCH] lib/idr: fix infinite loop in idr_get_next()
+Date: Thu, 12 Mar 2026 17:01:33 +0000
+Message-Id: <20260312170133.6488-1-objecting@objecting.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f5688b895eaebabae6545a0d9baf8f1404e8454e.camel@HansenPartnership.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Mar 12, 2026 at 11:32:37AM -0400, James Bottomley wrote:
-> On Thu, 2026-03-12 at 09:57 -0300, Jason Gunthorpe wrote:
-> > On Wed, Mar 11, 2026 at 02:40:36AM +0800, Kuan-Wei Chiu wrote:
-> > 
-> > > IMHO, the necessity of IS_ERR_OR_NULL() often highlights a
-> > > confusing or flawed API design. It usually implies that the caller
-> > > is unsure whether a failure results in an error pointer or a NULL
-> > > pointer. 
-> > 
-> > +1
-> > 
-> > IS_ERR_OR_NULL() should always be looked on with suspicion. Very
-> > little should be returning some tri-state 'ERR' 'NULL' 'SUCCESS'
-> > pointer. What does the middle condition even mean? IS_ERR_OR_NULL()
-> > implies ERR and NULL are semanticly the same, so fix the things to
-> > always use ERR.
-> 
-> Not in any way supporting the original patch.  However, the pattern
-> ERR, NULL, PTR is used extensively in the dentry code of filesystems. 
-> See the try_lookup..() set of functions in fs/namei.c
-> 
-> The meaning is
-> 
-> PTR - I found it
-> NULL - It definitely doesn't exist
-> ERR - something went wrong during the lookup.
-> 
-> So I don't think you can blanket say this pattern is wrong.
+From: Josh Law <hlcj1234567@gmail.com>
 
-Lots of places also would return ENOENT, I'd argue that is easier to
-use..
+From: Josh Law <objecting@objecting.org>
 
-But yes, I did use the word "suspicion" not blanket wrong :)
+In idr_get_next(), if the returned id from idr_get_next_ul() is greater
+than INT_MAX, the function issues a warning and returns NULL without
+updating the *nextid pointer. This causes a soft lockup for any caller
+iterating over an IDR (e.g. via idr_for_each_entry) because they will
+receive NULL, fail to advance their index, and repeatedly query the same
+state forever.
 
-Jason
+Fix this by setting *nextid to INT_MAX when the bounds check fails,
+ensuring the caller's iteration will terminate.
+
+Signed-off-by: Josh Law <objecting@objecting.org>
+---
+ lib/idr.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/lib/idr.c b/lib/idr.c
+index f25bd2b9e9a4..07098eb4ddc3 100644
+--- a/lib/idr.c
++++ b/lib/idr.c
+@@ -268,8 +268,10 @@ void *idr_get_next(struct idr *idr, int *nextid)
+ 	unsigned long id = *nextid;
+ 	void *entry = idr_get_next_ul(idr, &id);
+ 
+-	if (WARN_ON_ONCE(id > INT_MAX))
++	if (WARN_ON_ONCE(id > INT_MAX)) {
++		*nextid = INT_MAX;
+ 		return NULL;
++	}
+ 	*nextid = id;
+ 	return entry;
+ }
+-- 
+2.34.1
+
