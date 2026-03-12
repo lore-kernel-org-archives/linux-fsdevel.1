@@ -1,211 +1,307 @@
-Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012030.outbound.protection.outlook.com [52.101.43.30])
+Received: from flow-b6-smtp.messagingengine.com (flow-b6-smtp.messagingengine.com [202.12.124.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C57D24A076;
-	Thu, 12 Mar 2026 21:31:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.30
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773351113; cv=fail; b=cgQWc6dvmSJ5lJuAdWSypbdNNMs6kx8RTjuwBkgkGI5BGlni/zSUocke+4Pr6nBxK3RMQ3fK8Mu580LVQF9cJhyMm/xM10XNmmSA3h3UrjgcGpnZMiH4w6QWOE/Lb35zY/PysbEkxDsNeRmvk9IjB5hYiGHe3tJFKJsRAvv6WMY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773351113; c=relaxed/simple;
-	bh=tIBCYf81aKRnTXRYop3ezYqDgjUSAFTqPBHwFocvCiU=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=achtAc3UxySuWHEyIjKlGJ+ydYT+cX4b6rSOZo3E+REvpJmgqZDPXYW1chj8ixKZhcevfo/yr2GUfIvcHTD6eiE794BzRF5idpjF6kxpuPOcE+Azu+LTRYCD7vnBnEj5Z8goraMBDt8kvXBQfCkpuJm5WFJHM3p6FHARXB5YObo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=MI4DccNw; arc=fail smtp.client-ip=52.101.43.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BB423F0768;
+	Thu, 12 Mar 2026 21:44:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.141
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773351870; cv=none; b=T8gi5K2EdvGVk41BvXFahFM2GeGswx0/QHlUSlz7hFlqmeDksAySsw8gaKHOPXSnN6Gzkyu85rZAL9NegwwXfG44EQ6VNYjQSV7L73LjuMfCVZ90Y/PVQ70mOQn/pIVbybI3E+AlnTwZXVcIN1h1O+VONBWk45Bw4aQ0wh5lvis=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773351870; c=relaxed/simple;
+	bh=Dfk/v8M2XGUkYMjdT8IWZm5Z9z/SvJrEfRIjyScAHm4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dXgEs+3emdQ4KvGP7H1b8+17qdstyp0+MLHZe+0utR3IbVnkFjUkotitD3iQDNyH8mzg19d7bBznEtQ8I6IjFCf7LjsA8L/5gQlRa89U5/ACzWL1JB5PjflR2rrxU3RH1Q3GFsEtNGrJtnQy+cc1HkRKgSo9l4Z8rmfdtG1p1jk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=HynKVXD7; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=sD1IpxmF; arc=none smtp.client-ip=202.12.124.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="MI4DccNw"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ONfyhBLlCTuuGBnZFr+aaPe1fjwJ4wGqTXpX6Dax+yCsDig3NGjIYxzICgd5SFRW4nRBhTXim3YBGoJ03DkSHR60BeTnWfoRxKU4Uy63WTBi6CuAKUWFrn9iyZZDDBiUNkn6mYW9pbENBIiUDhWCHoqxCaM6007g9ZR9ILADdvxUeJke0Qj7+4mTAnYyf9mX+UzWjiCBwPWusXQPvY2FTWsJqxZIfecs3Wxp4igvV3+9fmr5gbinFezes2umJEHcFdYHklYB6VhKvsw0ZT8bs5sIJyGBu5Fn2E49QRUUcSeqR9OS25RBx3wcjh995CFOtoDAf0Y8WiIC6eKcTkzS9Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=E2dBEBc0YATwXLivOwngGwphTh6bIpdIPot4oKdwj3s=;
- b=QXTEk+iGM16SANpbomssPBpwKNw+v8XjaJP5WvbYa/JXVJsXObHObZph3abxzV0bz5gV7c4hvzJe02PcrfgA20csiuLCA8Op9ZYkK+F8azgkq7O1zKiabr7jolt2XdwRq04W4vB77g7C+rvF2xmqikP2VavJ2n4d9JUdAENlKHKIyfVyhkpUjoe+pVuXjhT5NxGk/EKRu2pp/e5eXa4nljbF89vULp4u6RKF8LX8/Rx9KnPtpzdGY+GXWDq2YR3fquGa0KUySetstwBUbt6CBkKSuhHtYjwgV7vlwP0lqk0vn+w9grr2tNVf+WRa+fWjnxQ54zsGe5IlrfkKYX/M/A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=E2dBEBc0YATwXLivOwngGwphTh6bIpdIPot4oKdwj3s=;
- b=MI4DccNwJNlAIJ6vQXowk0NUYvHCdxQQYJQmcN6LjgnyELQjEd9L5HRQ6tcd/hnQnvEHntz5LlIU/+iRVi/vDseXnlBu89ww0TLRNo5vQjMGjiw5SWz+vFmsTdViLrK63EZcoF0ndug0Y7AACfPhaEBE2MMTD+mY9PHBQWvGD74=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from LV8PR12MB9714.namprd12.prod.outlook.com (2603:10b6:408:2a0::5)
- by CY8PR12MB8410.namprd12.prod.outlook.com (2603:10b6:930:6d::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.4; Thu, 12 Mar
- 2026 21:31:49 +0000
-Received: from LV8PR12MB9714.namprd12.prod.outlook.com
- ([fe80::8c9f:3a5b:974b:99c6]) by LV8PR12MB9714.namprd12.prod.outlook.com
- ([fe80::8c9f:3a5b:974b:99c6%6]) with mapi id 15.20.9723.006; Thu, 12 Mar 2026
- 21:31:49 +0000
-Message-ID: <e812f955-c696-4474-8dec-1b4654286876@amd.com>
-Date: Thu, 12 Mar 2026 14:31:44 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 5/9] dax: Track all dax_region allocations under a
- global resource tree
-To: Dan Williams <dan.j.williams@intel.com>,
- Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>,
- linux-cxl@vger.kernel.org, linux-kernel@vger.kernel.org,
- nvdimm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
- linux-pm@vger.kernel.org
-Cc: Ard Biesheuvel <ardb@kernel.org>,
- Alison Schofield <alison.schofield@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
- Jonathan Cameron <jonathan.cameron@huawei.com>,
- Yazen Ghannam <yazen.ghannam@amd.com>, Dave Jiang <dave.jiang@intel.com>,
- Davidlohr Bueso <dave@stgolabs.net>, Matthew Wilcox <willy@infradead.org>,
- Jan Kara <jack@suse.cz>, "Rafael J . Wysocki" <rafael@kernel.org>,
- Len Brown <len.brown@intel.com>, Pavel Machek <pavel@kernel.org>,
- Li Ming <ming.li@zohomail.com>, Jeff Johnson
- <jeff.johnson@oss.qualcomm.com>, Ying Huang <huang.ying.caritas@gmail.com>,
- Yao Xingtao <yaoxt.fnst@fujitsu.com>, Peter Zijlstra <peterz@infradead.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Nathan Fontenot <nathan.fontenot@amd.com>,
- Terry Bowman <terry.bowman@amd.com>, Robert Richter <rrichter@amd.com>,
- Benjamin Cheatham <benjamin.cheatham@amd.com>,
- Zhijian Li <lizhijian@fujitsu.com>, Borislav Petkov <bp@alien8.de>,
- Tomasz Wolski <tomasz.wolski@fujitsu.com>
-References: <20260210064501.157591-1-Smita.KoralahalliChannabasappa@amd.com>
- <20260210064501.157591-6-Smita.KoralahalliChannabasappa@amd.com>
- <69b2087cb0cb7_2132100c2@dwillia2-mobl4.notmuch>
-Content-Language: en-US
-From: "Koralahalli Channabasappa, Smita" <skoralah@amd.com>
-In-Reply-To: <69b2087cb0cb7_2132100c2@dwillia2-mobl4.notmuch>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BY5PR20CA0031.namprd20.prod.outlook.com
- (2603:10b6:a03:1f4::44) To LV8PR12MB9714.namprd12.prod.outlook.com
- (2603:10b6:408:2a0::5)
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="HynKVXD7";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="sD1IpxmF"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailflow.stl.internal (Postfix) with ESMTP id 649AD1300FE6;
+	Thu, 12 Mar 2026 17:44:25 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Thu, 12 Mar 2026 17:44:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:reply-to:subject
+	:subject:to:to; s=fm1; t=1773351865; x=1773359065; bh=FHJsH8Kre5
+	d09x8tLYt2s8UM1ZjvIsbiC0DN+DyY4Wk=; b=HynKVXD7sGiagH9pyAhm4nEmbG
+	vnoLEKsMRIiSoa4G7euyElVNaPJlW0anEmEFcWVt480xGfw7ZBeWqyJHh/ktIp9H
+	PvZZACKxP9UOdtcmm83xJahGzP6ashogKl0QDSMPEPl70AAQ3icBB8PfEnzEFMRq
+	sX3yWNvxvY/eWlaObNEhjpO2PDvl14q8XwgFR80C8mJOcy9vmuKQRaNg5N7I0NBu
+	YzYQ2wP8zbtuE/A1y/UOTxlh7tZ0N66BfUwAQyR2N36DYGboFbAHY0UTwAvDGw1M
+	d6RYVJexiZ6tvhPF9XL+NJ38N7femUBleqpharU4wR7cs3N8FjN0xclTa88Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1773351865; x=1773359065; bh=FHJsH8Kre5d09x8tLYt2s8UM1Zjv
+	IsbiC0DN+DyY4Wk=; b=sD1IpxmFFBbUWLaj2WkVbBMNwpLBYky36Wu3DMHfzT0X
+	nYRW/ck1rxXdAMzJNXUejfFN/jOa+nMSve9JT7wFkvNE8kcvSIA6yoXL/zieN3xM
+	iZ+dMzyq43JMAdlzXgdWh8E1/CDLAWkabqAdcZh+T2TEs39XC5Dyt8plLkNXPMtI
+	Y+r2Dz3efkKqhCljIQwPhIv8XYGf4dd7RG0/DSMZfTI3O1ghah+7C1QcisTS9EWV
+	p5Ay6DlW7fs9l7Lbcemw1oXfwXFw+gQWGOzjp8GKsZTmGNsABOtouzH+861W6TOI
+	iR7R/iP6i1+Z6AxnjMg7KFFlVxvvm0hDCXBMXVB/MQ==
+X-ME-Sender: <xms:tjOzaYKtAlzNy0f_EhbkSUlhoa8KZMOzdeNH9009TcjkYG6tbvC7Aw>
+    <xme:tjOzab1mfdu_QmTDPbYrOK1x4qA-DPLvzT8zO8FZQfoiZZpM2Q7PewNcOWSFkbzBx
+    CSJqJJgR4xO9u5VcliHKe4FVdaI6_GR5jWwjPvhZ8TLoSIpYA>
+X-ME-Received: <xmr:tjOzaTyaQLH6LrWbZtAo1MENQavCeD4QUFklDYoSz_Wa54OtONiqLZpomwLKI-d-C--YgCofWm54r8ueiEOhXittozc2IECd2HHHlL6ixNjG>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvkeejkeelucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhephffvvefufffkofhrggfgsedtkeertdertddtnecuhfhrohhmpefpvghilheurhho
+    fihnuceonhgvihhlsgesohifnhhmrghilhdrnhgvtheqnecuggftrfgrthhtvghrnhepge
+    etfeegtddtvdeigfegueevfeelleelgfejueefueektdelieeikeevtdelveelnecuvehl
+    uhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhgvihhlsgesoh
+    ifnhhmrghilhdrnhgvthdpnhgspghrtghpthhtohephedupdhmohguvgepshhmthhpohhu
+    thdprhgtphhtthhopehvihhrohesiigvnhhivhdrlhhinhhugidrohhrghdruhhkpdhrtg
+    hpthhtoheplhhinhhugidqgihfshesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphht
+    thhopehlihhnuhigqdhunhhiohhnfhhssehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtg
+    hpthhtoheplhhinhhugidqthhrrggtvgdqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghl
+    rdhorhhgpdhrtghpthhtoheplhhinhhugidqnhhfshesvhhgvghrrdhkvghrnhgvlhdroh
+    hrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdr
+    ohhrghdprhgtphhtthhopehlihhnuhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhnvg
+    hlrdhorhhgpdhrtghpthhtoheplhhinhhugidqvgigthegsehvghgvrhdrkhgvrhhnvghl
+    rdhorhhgpdhrtghpthhtoheplhhinhhugidqvghfihesvhhgvghrrdhkvghrnhgvlhdroh
+    hrgh
+X-ME-Proxy: <xmx:tjOzaS1z3HXh4-ifJRBEJTkKAyUPCr8OJLgJiRXU1S3hJu4gX6A32Q>
+    <xmx:tjOzaU6VCxafI3qHQH8oosSQuqDVIy-CStyT6UaG1DYXnTDBEu-EpA>
+    <xmx:tjOzadctLaB3wfFUZXTX37T5TIQ88OOFc6eu00-UyziGYU-aaSZemw>
+    <xmx:tjOzaQYHqOUYatlEsE5TwG61VUO_YB38t6wNqngJFK5w5KsHFjx8_w>
+    <xmx:uTOzacGeKHU7F90aeYZNDwvYEnwYDWXkCfp88n2OwGQGooB6gIONyBVa>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 12 Mar 2026 17:44:08 -0400 (EDT)
+From: NeilBrown <neilb@ownmail.net>
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,	Jan Kara <jack@suse.cz>,
+	Jeff Layton <jlayton@kernel.org>,	Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>,	Carlos Maiolino <cem@kernel.org>,
+	Miklos Szeredi <miklos@szeredi.hu>,	Amir Goldstein <amir73il@gmail.com>,
+	Jan Harkes <jaharkes@cs.cmu.edu>,	Hugh Dickins <hughd@google.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	David Howells <dhowells@redhat.com>,
+	Marc Dionne <marc.dionne@auristor.com>,	Steve French <sfrench@samba.org>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Sungjong Seo <sj1557.seo@samsung.com>,
+	Yuezhang Mo <yuezhang.mo@sony.com>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Breno Leitao <leitao@debian.org>,	"Theodore Ts'o" <tytso@mit.edu>,
+	Andreas Dilger <adilger.kernel@dilger.ca>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Ilya Dryomov <idryomov@gmail.com>,	Alex Markuze <amarkuze@redhat.com>,
+	Viacheslav Dubeyko <slava@dubeyko.com>,	Tyler Hicks <code@tyhicks.com>,
+	Andreas Gruenbacher <agruenba@redhat.com>,
+	Richard Weinberger <richard@nod.at>,
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+	Johannes Berg <johannes@sipsolutions.net>,	Jeremy Kerr <jk@ozlabs.org>,
+	Ard Biesheuvel <ardb@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-nfs@vger.kernel.org,
+	linux-xfs@vger.kernel.org,
+	linux-unionfs@vger.kernel.org,
+	coda@cs.cmu.edu,
+	linux-mm@kvack.org,
+	linux-afs@lists.infradead.org,
+	linux-cifs@vger.kernel.org,
+	linux-ext4@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	ceph-devel@vger.kernel.org,
+	ecryptfs@vger.kernel.org,
+	gfs2@lists.linux.dev,
+	linux-um@lists.infradead.org,
+	linux-efi@vger.kernel.org
+Subject: [PATCH RFC 00/53] lift lookup out of exclive lock for dir ops
+Date: Fri, 13 Mar 2026 08:11:47 +1100
+Message-ID: <20260312214330.3885211-1-neilb@ownmail.net>
+X-Mailer: git-send-email 2.50.0.107.gf914562f5916.dirty
+Reply-To: NeilBrown <neil@brown.name>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV8PR12MB9714:EE_|CY8PR12MB8410:EE_
-X-MS-Office365-Filtering-Correlation-Id: bbc90ad5-3738-4731-d97b-08de807ec4ed
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|376014|7416014|56012099003|22082099003|18002099003|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	YF5qpkqAA5YPC75mal8G/GWJ2Joe5eVLbdP0/gR5I+gdsPzhDFA8q5iIJ2vib5tBqL3g7lHnQaBJr3cGQB/EA54rhmBxag1EyL0ab7m8AWkuxn0IjR3R1H0RqyBhqWgNMI1+fs0VzNslMZTcPeRg5HwgBw7H5N76yH4ae58jPVgTxwu5dFvPzdDRbOvuuV83aLBhP3uAqw5FXVlYqA7HOTNHwxKctXL8uvCaWUrvCVlI7nTpe5bNnljzMUcZGiPcMEXCFwz8sYNBEXoQLb5NZrIcn9OOUc/5FWx5W8qU1OmvtEOt0HOXJBU8jclr9v1YjA09iwIs5efmO+F0W7TtLCXATNvIDbdXQX0uEJse9dWPQfO0uBg7G3yzkj+P9pEws/ymVjRCYLUT2ox9TvvICiIcKv7ndBl5a0yQ3ksiKEyTlJRQ7f4VAMIiaud9o7qbbV5nz0PlaVhJyBeKK0AVq3Zb7VZSObiUzUvnHeDAOUhQniSSzPwEelUACHzYrQIobWJhW1+JaXCzFTm1MS1bpe8yNqaPIBcpaWQeUPH7d6BQAxx4LpNjhJigCwcd40uj58dxZRDl1fS3Vu7z300visukFf1rBt44kMe1hGqLdh1MVay+C2ja+De1cp00U6j3I9HxaDqlpNpOLH5b53rHcSqctLzfrIr6eKlNc35LoEK4tI8oxGagVnyAoTY815n5aKn3qxW3vsNbfwmweWR6h01SrME2k7X54aTYB6Rjlig=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV8PR12MB9714.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(56012099003)(22082099003)(18002099003)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?azQrc05jQmVZVENwYVFnK2pJOXJUM1U5RENTdyt0a0dNcCtSQWxHcmtGaUh2?=
- =?utf-8?B?amtuTGxTUVhZd1ZlT2Z4aFliRVNDeEJwY1N4ZUtjSXFQM0hUMHRsd3FjbGl1?=
- =?utf-8?B?YkJzZ0M4T2tzRWFlYUgwK2hMSTZSSjZaVTVKN3hubkZucW1LdUJueUpCR1Vl?=
- =?utf-8?B?OWNvTUZ1RnlORG1wN0pSYlp5bEdpN3ZqTjN6M2lmYjl2OFN2TktHSDdQY1Q4?=
- =?utf-8?B?NE1RbTB5OUo1aU1iVHh0S3I4aitiUnhVWWsyOVB0aThyWFl4NXc4bXFuYnlR?=
- =?utf-8?B?MFoxWlpQb3NJUzdwa3Q1VWVEZHovSy9YaVVCL0lVQ0g0TUdDaWhoZDRnZ3NG?=
- =?utf-8?B?OHJuSHh4WDllM1Q5cVVRTmsrSVpwcVdrTVloa1hXRXJQTXlXZTRFK0lKcnM3?=
- =?utf-8?B?TWwzbnBqbG03K0xoNUs5Y28rNjZSZEZ2NTB1bGJTS2EvWDFWMm1SdmsrdThi?=
- =?utf-8?B?eTV4dGpVd052bTcyT1pXK2RtREkzcjVvZFFCdVQwaVo1cUpMWnd6bC9Ramk4?=
- =?utf-8?B?Zm1nL3BTc2k0YmNrd05lSlhuVWFvcEtWeVVLa0Z6ampCMnRZZWlTaldoMDBy?=
- =?utf-8?B?Sk9Ramx3ZVhiYldmTXp3ci92bVFVbDljbUhYZ0RBZG0xclQ0NnNsQmlaWHpq?=
- =?utf-8?B?UXpad2tDVUtxLzJNcFl0YkVxc3g0RTUxVHdTdEdvbTdpTHIzd1ZCeDlIYnZR?=
- =?utf-8?B?ZUhodUNFZXZ3R1lKTVRub0lWVUhRbGV1TEh4N2tGT1dEekk1ZUI4ZHdLWGw5?=
- =?utf-8?B?d0sxTWJvQ05KMWprdm1Vem05RGZFL3JaUExGMlMzSmVGQTIyb3V1VHZWMVJR?=
- =?utf-8?B?YUtGUmpackRMS1hyc242SjNnQm5PcHp5R054SUdSQ0tZQmp2dG9uaGYzNlNl?=
- =?utf-8?B?bGtuVlFVK2dEY2NFK05OV3lGYWtybU5OVEhPdXlkaWQxN3hqOUlSa2ZEcGZv?=
- =?utf-8?B?QUo2ekQ5bytSSXlvNmsyLzZZbEE1cEE3N0RWaU1IZ3RDU1duNmNDWTQ3OWNy?=
- =?utf-8?B?Y1llYU1ueW5sZkpkZ1ZkSmNyS203L3FRUmxWT2Iwei9CNU5ib1RlU2Zjditk?=
- =?utf-8?B?b2lPR3dTV1l2VTBxRm1FOUUxSVRReU5naEZvOU1GQ1J6TnNCVDlnZkgyeXZs?=
- =?utf-8?B?TTNoMjI0M1kyM0R3N0pwKzR6RjdobkQwWlRiSFhRZjNDRndxS2RSR2U2RjNJ?=
- =?utf-8?B?dUc1N1dPdGkxQi8xMkxKN0MwUG9tVVg2Z2pSSTFlZVQ3cllyWHMreVc2U0ZC?=
- =?utf-8?B?Q1ltNmxKUG0xeW9kTEtXdWtKV3FJWjE2SytJUFpQdjdOc25qdFJ2cGtpMmhX?=
- =?utf-8?B?RzQxT2R5emx2ZXYzcGVYS09LVHBlelkyQVl4VTRTUm1XS3dsc2tOVTFwaGdn?=
- =?utf-8?B?d3VVK2RjSUxiWXgvd0M3amZpbUpMNEM2Si9IVURCWUFjZ2oyaXZYd1ArNk1q?=
- =?utf-8?B?RU9GY1lOeUFhdStZc0V1OXdETm5IdFNzdlI1YkpKYjV4YXVURzVISS9qWmtU?=
- =?utf-8?B?c1BLWTU1K3VSUUtNVW9iR2d4UFI3Vjh3c0xmOUJIQWNzdzNPRTJwUENDN0ZU?=
- =?utf-8?B?ZHprZFdNTkdtd2lsSDNnRld1Y2NUdnhmNEdMNUJ0SldRZnFFZEtKNllGcGxW?=
- =?utf-8?B?aG9FTGtyMlN2ZmhMK0RzeDB1MmxFd0hpcEdUbXlScjlPUDJPV3JxaUZNTHh6?=
- =?utf-8?B?VDdQbkt4Ti9mNVZPMjlvM2ZwdExZZEYzU3NKVTlzTHdBUzlPTUtUWUw2a3Uv?=
- =?utf-8?B?ODI4T3cyemtqWDRYKzBKcHBqSlZJK3RYNVdMQTNCdFY4U0srZUFvOXEwaFNP?=
- =?utf-8?B?ZDFQbDFJcllwcmlDOUcwZlk0MjhhQ2RxbGQ3ZHJUR2JFVlFXT0NMZGFuWVU2?=
- =?utf-8?B?UHdnUDVISjI1Nkd0eXF5dzJ6T0RUR2hrV1FiWXdOZmNOVWZqRXNRb3BPNU1X?=
- =?utf-8?B?S1MwdXNKQkZSaEdMWWFVQ0FZNEJoYlZuWTR4ZEZXUnNqczkweld5YnVXSWti?=
- =?utf-8?B?YjA5ckl4WlJNQTBkU3dDM3JBeXpmaU9TMnpUZE9yT2lVd2FCckwwYWVpNDlW?=
- =?utf-8?B?djZzUXhTdk1Lamk4NEpWbnloUitQSGJWNVB0WlVWK0dUSVlKYWRoQ0JwZnVW?=
- =?utf-8?B?UmFYc2FFUzJsV3hRWWxHaTF6cFl3bHpTVzlYelo5OC9GRng5aitubkpyTWpa?=
- =?utf-8?B?TmZvdEFCRGRWWGF3ejlmSXovemdrcWRLa0xITnpLbmFKUjZqSVNTNTh3dmpH?=
- =?utf-8?B?MVBFT3J0YmpCVkpYZGpLZWEwajFCd0lsdEU0ajkyTG1tVDJyd3k2WnBQVmhF?=
- =?utf-8?B?bndhbEhYQUM0aDJHQXp3eExIYk5ZYmdIM0RXbUovL1NqcUxrdDFkUT09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bbc90ad5-3738-4731-d97b-08de807ec4ed
-X-MS-Exchange-CrossTenant-AuthSource: LV8PR12MB9714.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Mar 2026 21:31:49.2679
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XBuW0uwN48xY3zQRWzwTBnQtinY3XxWCZD+/++4uwFBtdNeYb5vFI78w/FH1i8ixE5myZ7s6YKGzWBzmOxmIZQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB8410
+Content-Transfer-Encoding: 8bit
 
-On 3/11/2026 5:27 PM, Dan Williams wrote:
-> Smita Koralahalli wrote:
->> Introduce a global "DAX Regions" resource root and register each
->> dax_region->res under it via request_resource(). Release the resource on
->> dax_region teardown.
->>
->> By enforcing a single global namespace for dax_region allocations, this
->> ensures only one of dax_hmem or dax_cxl can successfully register a
->> dax_region for a given range.
->>
->> Co-developed-by: Dan Williams <dan.j.williams@intel.com>
-> 
-> Did I send any code for this? If I suggested the locking below,
-> apologies, otherwise Suggested-by is expected unless code is adopted
-> from another patch.
+This patch set progresses my effort to improve concurrency of
+directory operations and specifically to allow concurrent updates
+in a given directory.
 
-No sorry the locking was added by me. I will make the changes and drop 
-the locking.
+There are a bunch of VFS patches which introduce some new APIs and
+improve existing ones.  Then a bunch of per-filesystem changes which
+adjust to meet new needs, often using the new APIs, then a final bunch
+of VFS patches which discard some APIs that are no longer wanted, and
+one (the second last) which makes the big change.  Some of the fs
+patches don't depend on any preceeding patch and if maintainers wanted
+to take those early I certainly wouldn't object!  I've put a '*' next
+to patches which I think can be taken at any time.
 
-> 
->> Signed-off-by: Dan Williams <dan.j.williams@intel.com>
->> Signed-off-by: Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>
->> ---
->>   drivers/dax/bus.c | 23 ++++++++++++++++++++---
->>   1 file changed, 20 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/dax/bus.c b/drivers/dax/bus.c
->> index fde29e0ad68b..5f387feb95f0 100644
->> --- a/drivers/dax/bus.c
->> +++ b/drivers/dax/bus.c
->> @@ -10,6 +10,7 @@
->>   #include "dax-private.h"
->>   #include "bus.h"
->>   
->> +static struct resource dax_regions = DEFINE_RES_MEM_NAMED(0, -1, "DAX Regions");
->>   static DEFINE_MUTEX(dax_bus_lock);
->>   
->>   /*
->> @@ -625,6 +626,8 @@ static void dax_region_unregister(void *region)
->>   {
->>   	struct dax_region *dax_region = region;
->>   
->> +	scoped_guard(rwsem_write, &dax_region_rwsem)
->> +		release_resource(&dax_region->res);
-> 
-> I continue to dislike what scoped_guard() does to indentation. Often
-> scoped_guard() usage can just be replaced by "helper that uses guard()"
-> 
-> However, dax_region_rwsem protects subdivision of a dax_region, not
-> coordination across regions.
-> 
-> Also, release_resource() and request_resource() are already protected by
-> the resource_lock, why is a new lock needed?
+My longer term goal involves pushing the parent-directory locking down
+into filesystems (which can then discard it if it isn't needed) and using
+exclusive dentry locking in the VFS for all directory operations other
+than readdir - which by its nature needs shared locking and will
+continue to use the directory lock.
 
-You are right. I will remove
+The VFS already has exclusive dentry locking for the limited case of
+lookup.  Newly created dentries (when created by d_alloc_parallel()) are
+exclusively locked using the DCACHE_PAR_LOOKUP bit.  They remain
+exclusive locked until they are hashed as negative or positive dentries,
+or they are discarded.
 
-Thanks
-Smita
-> 
+DCACHE_PAR_LOOKUP currently depends on a shared parent lock to exclude
+directory modifying operations.  This patch set removes this dependency
+so that d_alloc_parallel() can be called without locking and all
+directory modifying operations receive either a hashed dentry or an
+in-lookup dentry (they currently recieve either a hashed or unhashed,
+or sometimes in-lookup (atomic_open only)).
 
+The cases where a filesystem can receive an in-lookup dentry are:
+ - lookup. Currently can receive in-lookup or unhashed.  After this patch set
+    it always receives in-lookup
+ - atomic_open.  Currently can receive in-lookup or hashed-negative.
+    This doesn't change with this patchset.
+ - rename. currently can receive hashed or unhashed.  After this patchset
+    can also receive in-lookup where previously it would receive unhashed.
+    This is only for the target of a rename over NFS.
+ - link, mknod, mkdir, symlink.  currently received hashed-negative except for
+    NFS which notices the implied exclusive create and skips the lookup so
+    the filesystem can received unhashed-negative for the operation.
+
+There are two particular needs to be addressed before we can use d_alloc_parallel()
+outside of the directory lock.
+
+1/ d_alloc_parallel() effects a blocking lock so lock ordering is important.
+  If we are to take the directory lock *after* calling d_alloc_parallel() (and 
+  still holding an in-lookup dentry, as happens at least when ->atomic_open
+  is called) then we must never call d_alloc_parallel() while holding the
+  directory lock, even a shared lock.
+  This particularly affects readdir as several filesystems prime the dcache
+  with readdir results and so use d_alloc_parallel() in the ->iterate_shared
+  handler, which will now have deadlock potential.  To address this we
+  introduce d_alloc_noblock() which fails rather than blocking.
+
+  A few other cases of potential lock inversion exist.  These are
+  addressed by dropping the directory lock when it is safe to do so
+  before calling d_alloc_parallel().  This requires the addtion of
+  LOOKUP_SHARED so that ->lookup knows how the parent is locked.  This
+  is ugly but is gone by the end of the series. After the locking is
+  rearranged in the second last patch, ->lookup is only ever called
+  with a shared lock.
+
+
+2/ As d_alloc_parallel() will be able to run without the directory lock,
+  holding that lock exclusively is not enough to protect some dcache
+  manipulations.  In particular, several filesystems d_drop() a dentry
+  and (possibly) re-hash it.  This will no longer be safe as
+  d_alloc_parallel() could run while the dentry was dropped, would find
+  that name doesn't exist in the dcache, and would create a new dentry
+  leading to two uncoordinated dentries with the same name.
+
+  It will still be safe to d_drop() a dentry after the operation has
+  completed, whether in success or failure.  But d_drop()ing before that
+  is best avoided.  An early d_drop() that isn't followed by a rehash is
+  not clearly problematic for a filesystem which still uses parent locking
+  (as all do at present) but is good to discourage that pattern now.
+
+  This is addressed, in part, by changing d_splice_alias() to be able to
+  instantiate any negative dentry, whether hashed, unhashed, or
+  in-lookup.  This removes the need for d_drop() in most cases.
+
+New APIs added are:
+
+ - d_alloc_noblock - see patch 05 for details
+ - d_duplicate - patch 06
+
+Removed APIs:
+
+ - d_alloc
+ - d_rehash
+ - d_add
+ - lookup_one
+ - lookup_noperm
+
+Changed APIs:
+
+ - d_alloc_paralle - no longer requires a waitqueue_head_t
+ - d_splice_alias - now works with in-lookup dentry
+ - d_alloc_name - now works with ->d_hash
+
+d_alloc_name() should be used with d_make_persistent().  These don't require
+VFS locking as the filesystem doesn't permit create/remove via VFS calls,
+and provides its own locking to avoid duplicate names.
+
+d_splice_alias() should *always* be used:
+  in ->lookup 
+  in ->iterate_shared for cache priming.
+  in ->atomic_open, possibly via a call to ->lookup
+  in ->mkdir unless d_instantiate_new() can be used.
+  in ->link ->symlink ->mknod if ->lookup skips LOOKUP_CREATE|LOOKUP_EXCL
+
+Thanks for reading this far!  I've been testing NFS but haven't tried
+anything else yet.  As well as the normal review of details I'd love to
+know if I've missed any important conseqeunces of the locking change.
+It is a big conceptual change and there could easily be surprising
+implications.
+
+Thanks,
+NeilBrown
+
+
+ [PATCH 01/53] VFS: fix various typos in documentation for
+ [PATCH 02/53] VFS: enhance d_splice_alias() to handle in-lookup
+ [PATCH 03/53] VFS: allow d_alloc_name() to be used with ->d_hash
+ [PATCH 04/53] VFS: use global wait-queue table for d_alloc_parallel()
+ [PATCH 05/53] VFS: introduce d_alloc_noblock()
+ [PATCH 06/53] VFS: add d_duplicate()
+ [PATCH 07/53] VFS: Add LOOKUP_SHARED flag.
+ [PATCH 08/53] VFS/xfs: drop parent lock across d_alloc_parallel() in
+*[PATCH 09/53] nfs: remove d_drop()/d_alloc_parallel() from
+ [PATCH 10/53] nfs: use d_splice_alias() in nfs_link()
+ [PATCH 11/53] nfs: don't d_drop() before d_splice_alias()
+ [PATCH 12/53] nfs: don't d_drop() before d_splice_alias() in
+ [PATCH 13/53] nfs: Use d_alloc_noblock() in nfs_prime_dcache()
+ [PATCH 14/53] nfs: use d_alloc_noblock() in silly-rename
+ [PATCH 15/53] nfs: use d_duplicate()
+*[PATCH 16/53] ovl: drop dir lock for lookups in impure readdir
+*[PATCH 17/53] coda: don't d_drop() early.
+ [PATCH 18/53] shmem: use d_duplicate()
+*[PATCH 19/53] afs: use d_time instead of d_fsdata
+*[PATCH 20/53] afs: don't unhash/rehash dentries during unlink/rename
+ [PATCH 21/53] afs: use d_splice_alias() in afs_vnode_new_inode()
+ [PATCH 22/53] afs: use d_alloc_nonblock in afs_sillyrename()
+ [PATCH 23/53] afs: lookup_atsys to drop and reclaim lock.
+ [PATCH 24/53] afs: use d_duplicate()
+*[PATCH 25/53] smb/client: use d_time to store a timestamp in dentry,
+*[PATCH 26/53] smb/client: don't unhashed and rehash to prevent new
+*[PATCH 27/53] smb/client: use d_splice_alias() in atomic_open
+ [PATCH 28/53] smb/client: Use d_alloc_noblock() in
+*[PATCH 29/53] exfat: simplify exfat_lookup()
+*[PATCH 30/53] configfs: remove d_add() calls before
+ [PATCH 31/53] configfs: stop using d_add().
+*[PATCH 32/53] ext4: move dcache modifying code out of __ext4_link()
+*[PATCH 33/53] ext4: use on-stack dentries in
+ [PATCH 34/53] tracefs: stop using d_add().
+ [PATCH 35/53] cephfs: stop using d_add().
+*[PATCH 36/53] cephfs: remove d_alloc from CEPH_MDS_OP_LOOKUPNAME
+ [PATCH 37/53] cephfs: Use d_alloc_noblock() in
+ [PATCH 38/53] cephfs: Don't d_drop() before d_splice_alias()
+ [PATCH 39/53] ecryptfs: stop using d_add().
+ [PATCH 40/53] gfs2: stop using d_add().
+ [PATCH 41/53] libfs: stop using d_add().
+ [PATCH 42/53] fuse: don't d_drop() before d_splice_alias()
+ [PATCH 43/53] fuse: Use d_alloc_noblock() in fuse_direntplus_link()
+ [PATCH 44/53] hostfs: don't d_drop() before d_splice_alias() in
+ [PATCH 45/53] efivarfs: use d_alloc_name()
+ [PATCH 46/53] Remove references to d_add() in documentation and
+ [PATCH 47/53] VFS: make d_alloc() local to VFS.
+ [PATCH 48/53] VFS: remove d_add()
+ [PATCH 49/53] VFS: remove d_rehash()
+ [PATCH 50/53] VFS: remove lookup_one() and lookup_noperm()
+ [PATCH 51/53] VFS: use d_alloc_parallel() in lookup_one_qstr_excl().
+ [PATCH 52/53] VFS: lift d_alloc_parallel above inode_lock
+ [PATCH 53/53] VFS: remove LOOKUP_SHARED
