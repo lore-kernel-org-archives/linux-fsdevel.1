@@ -1,61 +1,60 @@
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01A412DF144
-	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Mar 2026 17:12:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F296438BF6D
+	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Mar 2026 17:18:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773335566; cv=none; b=MiBKMmIwrx449x2smATviAAtjKTQz/V8w4WAPTvviArRklOK3abdO2IhNP8tBd4EAbENqu808LpuTojR3D9CuSIOQvx3WcfOCwIMyno+2gGcLTbieaNAEy83s6Ko+7Qx1x1/Jt9rS/GsQcUsjwcy0GVr0zeSbo4DEXLQQnAnIzY=
+	t=1773335921; cv=none; b=jFeJ+KYF8CLtsNYAhFY54PbMCla2wRB3KY+8LIPXD/+BEorxVIVWvEb/YFV6n3+y8z5iVA9l4w6cw2BYeJoMbwlPS7YzyE/PFjiTYnoQWDfBRH74fVMrZVpgkTomW4UfW9+qlay1fAkCFRm+eaSCaqoJRiFreqS7Wkj2rxmjvAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773335566; c=relaxed/simple;
-	bh=LwGy5RmfdnJ6CE3NTItB5tfCzF35fs9VhWXuqoES7P4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=er/8PgN++N1xztgR8yccxacbZUlrB3sLUrcMQniCCVbOU6VXtxxAPFbpujgzCnRm3p4LHgCaifI8ScKdOgNNEKQI9cgL2dpqVWwLyNBUV2fHxsqt6rAWGuV378djD0LOREpfE46F/sXe5KHILdEW5bgK6AB/ac7Z/nODDSbD/Vc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jqW4tvc3; arc=none smtp.client-ip=209.85.208.174
+	s=arc-20240116; t=1773335921; c=relaxed/simple;
+	bh=QTXPd1hB5OoBOqzEGV6o8+Re6iD4o1doyu99EdaafYY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=eSl5wwm/9t2V2GxLWAe5wydU6StIUBJXvQ5punFrhHz55m6S6LXz4Pm9OW51l/SsTtn6HovGs7pD1SJ6fHAGO+0GwqObv8OZ80eGs/Z/QiykpoQjPnBX84wGUMrmxSJCkyyxbq64Qk5nfU7oWWbVvlugzCyft9+xWh+pguZAW1k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cvj4zvN5; arc=none smtp.client-ip=209.85.167.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jqW4tvc3"
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-38a694a3cf9so11665071fa.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 12 Mar 2026 10:12:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cvj4zvN5"
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5a126c8aab9so1843337e87.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 12 Mar 2026 10:18:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773335561; x=1773940361; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1773335917; x=1773940717; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Mg69a9vrgMcSAwKsm172J4h0Z4L6eK5f2x4mJHkOo+o=;
-        b=jqW4tvc3JvLMwg30xjAN+92NMbmNd4W0gbSuUYP7n6sER803+5/Jf7BQqLxOuTTDQv
-         XHoBBJr2SwUeUwOQjuq+r16TwyzG8MkKOpP68Q/lOv+aVYY1HYNIc+e9wsmaovCjJRVc
-         rOe/76zMDdPFjm9UfO/ynzuqD6whKr5eDm7vDKKoyPK62sqMPXwVIQhUBXfPtQ9Fw6zm
-         i2a++kBbIA8vgW/ItKZF9lj4aidAe4YR96B/fdsplf3bWxadMsVwqN+kwy7hMAmm+3Ot
-         +7g2VFat38W1zFI74sc74ic7UVQNkJy9IH64ar5O2zyxE1qDi2GYnGcZG4OxGhr3W961
-         +qhQ==
+        bh=a56UvS1s4hV4Kk+HM4JSgbIdUK40Wcvh+zEE5FW6h90=;
+        b=cvj4zvN52PE3wQt9D4r8wt8984WTs/gJZrzVHns8atoqpsbqIDqyEDHxN6lE1Xgt0N
+         UuFkq2zn36EvDvjV1KbOlI0IP8AAy/LAFWt7irC7SFj/R01nKftSQBa2tZQpjcMrelUN
+         sX8+fDZMS8CkyN/JEL/wZjHcTChDdlQFHV23nDLc53mHo8C0sCnAmVNR6m66wuOI1SRl
+         H9emxLuDXEdNeSU3WxQRcdU0OiLdAmQl2x7GCKjIOB3jTljFGj40YoPSDxskK2DZJFLI
+         bmqcunVl7f3gFD6MYOQ3j29bDVp6L0vL1t3Nf4MtqvjJ7nqOtHpU4/OPOxJE+uxj/Eee
+         cl5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773335561; x=1773940361;
+        d=1e100.net; s=20230601; t=1773335917; x=1773940717;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Mg69a9vrgMcSAwKsm172J4h0Z4L6eK5f2x4mJHkOo+o=;
-        b=oQrlBy+K9e0HtYRLCRTtZb6fpCUN+z48ADlhU9JN4aTOkxRc95tu5MnSi2WGpuYUhY
-         Rr5Av6jWSWgh42X2rTyVkRri8OFG9Yr2yB/YGbWUPCRbWxQMx6FEYoUr1mFj1/ff9ZPH
-         5+dluiWZGlwLBqEF6y8ARciHrVPveYemc/ABkT10XNeczxIhxm5hb4XS9SPqNOBqlf5O
-         aOYDRn4kG1mEOwP9rhmoBnfmk5q6wGR4tUcTQZ+wJvto67p7HGk+TDyYf90L4r7Tg+mx
-         QftFu7BpL+UWQbubme04M67hSWRS8FnYh/A9Vgctf151WQzjfya2Gj481xJTq7gGph76
-         YFDw==
-X-Gm-Message-State: AOJu0Yy9S4NnMglpuB1Bpari3PajHShhvb4ouQEz7Tp60rTdKMJ2BjYc
-	0FHNAL91TPHvcBtM5WsT4FkW+q0PtpOwwMRJWGhehQkzZmJ9uDJircN9fxD9sH4T
-X-Gm-Gg: ATEYQzyh5f8CaVk/asRDHOSeUg3XsQcWXkQXX8HmPKxvemarKi9wGED444f0nYq2jSk
-	Q9E99CS2IHy6VZLF3dAbKrAqmpq0HBxWYUVbOUSKy8niOYoXi0eokcLDuuaBddtQ3gGix2a7T/g
-	F7aSL63Wt54UI6XxXvL63IPMTFfySTU8GmxlunH9N6qJ7N98lWZjgMpGASh2yyzUPU98fqhM3pv
-	k3TmHfkuCuorHstfel1kb1/oDbm7vCnvh/U1wxwloLCR+Kv9xxnnM1aDg0W5rAiFEjTDTbeH8tp
-	53N8P6TMnYzfF0JFchG7QYyHY4euK0ZYzrpe6ERmSG6mWRoOCAAgrYrYKpvvh8iJqmK9pFkT27N
-	iNLiwx3U6hZe4GhQpGkezzY59JKIPGLk2j+bk4i+LEgALxLHcqEe9arFSP+EKs03ZYgKulmBfzq
-	4dKbKFk/wr+GinbgX1jvf27tRAUgCcWolTfJM6lctijT8Xkpa4K3PYzQNhBXhp2y85DxdMt3cWM
-	irAWhMU9Q==
-X-Received: by 2002:a2e:bc92:0:b0:38a:437a:516c with SMTP id 38308e7fff4ca-38a896c3ebcmr233521fa.17.1773335560464;
-        Thu, 12 Mar 2026 10:12:40 -0700 (PDT)
+        bh=a56UvS1s4hV4Kk+HM4JSgbIdUK40Wcvh+zEE5FW6h90=;
+        b=BuSsVQleynJJfuqZ12X6oRqgt61axwMV+Jeueug9upy5xsgMwvMlUlmog0hpt/6Wsu
+         r/P+cjFruQdDNvLxTYK0ZvonRrreKPVSpvD3OB8tSKV6uM1dYrFwJN+2mmFdzc8lIrpV
+         f4c8qFJvVrsbGOkM+PGyyPa7APsd+gWjCSHn19zBzRiU/aQoFd+uNjAbPB+p9Sh+Frk3
+         CnamMEsMz9qwmHo9aFL4UhCzvGNXJZbWvKLBBkM3ND3snHjVROObGDDWnfs1k2NH2Jf9
+         hxODPUBS5zBSXVUOoAJKb0q6ZcWepO1PwGZ89U1ul5QmHLmHQ0UZ298gvKkh7sM92uC8
+         81OA==
+X-Gm-Message-State: AOJu0YzGINHa01ul1hvMJsNO8t68WEr8NmCGsrEHEDMjFIrKhOapA4d9
+	rTWA1ldqKpCwhRQV0e7khvO2PLDBnZNoOj3tpI4Vto6rbhbnneRNY2JAnbzX4fYF
+X-Gm-Gg: ATEYQzzi7jQ4WbSdloL6qV477YVY0uIOU8nzgQYY3gZlCRk7/HMPEVkpVvpaf+0dA9E
+	xRRvmkIDqr8SIMwwtx1tVgfPgPKkp6G+ONcY/aXttjgDXImj1hn3+N7wZxspMNIWIx+XjKxWLqW
+	L/6VtNtQsw4QUmaF58uAYy1NxYN1cDeAjZGdqgN3x23XfICgxcbP3Kj6c2XUi6sAQlvGwyLZuW/
+	jx32z0A90Y5cUQBFWOtEJ2ieUNUYl2DUkDd1ovDfEgTO/wrIxQtJXV7YE9DSg4Lpwb6dM293lxr
+	E/Md3jWMV8/wHZMNYK6lhuQtGTD5gKSXRMAkeVFHwQKCcnPbUcbLp99ohJEfckNJOkHL7vQENFA
+	YvADz61ut7No4+SNzSVFtCr228UMON/64JNhVIi1rx0zcgaNv316lqmgMaqLnqZISd8TVsPZBXU
+	hSyOzULEDcHCqeC6KoEF65vSdtkpRU9NaIlQLgfzOMuPpFAD6swAo1KYavtv6GZ70IpdM0fwo=
+X-Received: by 2002:ac2:53bb:0:b0:5a1:3e55:8990 with SMTP id 2adb3069b0e04-5a1626ffcadmr86207e87.15.1773335916871;
+        Thu, 12 Mar 2026 10:18:36 -0700 (PDT)
 Received: from ubuntu.. (static.159.107.27.37.clients.your-server.de. [37.27.107.159])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38a67d6185csm10401921fa.3.2026.03.12.10.12.38
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a156373888sm1036829e87.86.2026.03.12.10.18.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Mar 2026 10:12:39 -0700 (PDT)
+        Thu, 12 Mar 2026 10:18:35 -0700 (PDT)
 From: Josh Law <hlcj1234567@gmail.com>
 X-Google-Original-From: Josh Law <objecting@objecting.org>
 To: Matthew Wilcox <willy@infradead.org>,
@@ -64,9 +63,9 @@ Cc: linux-fsdevel@vger.kernel.org,
 	linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org,
 	Josh Law <objecting@objecting.org>
-Subject: [PATCH v2] lib/idr: fix infinite loop in idr_get_next()
-Date: Thu, 12 Mar 2026 17:12:38 +0000
-Message-Id: <20260312171238.7961-1-objecting@objecting.org>
+Subject: [PATCH] lib/idr: fix memory leak in ida_alloc_range() error path
+Date: Thu, 12 Mar 2026 17:18:34 +0000
+Message-Id: <20260312171834.8837-1-objecting@objecting.org>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -76,39 +75,39 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Josh Law <objecting@objecting.org>
+In ida_alloc_range(), if the XArray operation encounters an error
+(e.g., -ENOSPC) during allocation, the function exits early via
+return xas_error(&xas). However, if an intermediate `alloc` bitmap
+was allocated via kzalloc() earlier in the function but the XArray
+insertion failed, the error path returns without freeing `alloc`.
 
-In idr_get_next(), if the returned id from idr_get_next_ul() is greater
-than INT_MAX, the function issues a warning and returns NULL without
-updating the *nextid pointer. This causes a soft lockup for any caller
-iterating over an IDR (e.g. via idr_for_each_entry) because they will
-receive NULL, fail to advance their index, and repeatedly query the same
-state forever.
-
-Fix this by setting *nextid to INT_MAX when the bounds check fails,
-ensuring the caller's iteration will terminate.
+Reorder the error handling to ensure `alloc` is properly freed when
+an XArray error occurs.
 
 Signed-off-by: Josh Law <objecting@objecting.org>
 ---
- lib/idr.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ lib/idr.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/lib/idr.c b/lib/idr.c
-index f25bd2b9e9a4..07098eb4ddc3 100644
+index 07098eb4ddc3..2ad96befa17a 100644
 --- a/lib/idr.c
 +++ b/lib/idr.c
-@@ -268,8 +268,10 @@ void *idr_get_next(struct idr *idr, int *nextid)
- 	unsigned long id = *nextid;
- 	void *entry = idr_get_next_ul(idr, &id);
- 
--	if (WARN_ON_ONCE(id > INT_MAX))
-+	if (WARN_ON_ONCE(id > INT_MAX)) {
-+		*nextid = INT_MAX;
- 		return NULL;
+@@ -460,10 +460,12 @@ int ida_alloc_range(struct ida *ida, unsigned int min, unsigned int max,
+ 		bit = min % IDA_BITMAP_BITS;
+ 		goto retry;
+ 	}
+-	if (bitmap != alloc)
++	if (xas_error(&xas)) {
+ 		kfree(alloc);
+-	if (xas_error(&xas))
+ 		return xas_error(&xas);
 +	}
- 	*nextid = id;
- 	return entry;
- }
++	if (bitmap != alloc)
++		kfree(alloc);
+ 	return xas.xa_index * IDA_BITMAP_BITS + bit;
+ alloc:
+ 	xas_unlock_irqrestore(&xas, flags);
 -- 
 2.34.1
 
