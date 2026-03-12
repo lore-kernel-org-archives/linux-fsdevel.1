@@ -1,165 +1,352 @@
-Received: from mail-yx1-f47.google.com (mail-yx1-f47.google.com [74.125.224.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 937393F23CD
-	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Mar 2026 16:12:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69A523F7A80;
+	Thu, 12 Mar 2026 16:12:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.12
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773331966; cv=pass; b=GjykQ3HCeSFjcqU1YAixI2miOzrZk+XTvpGCvvb1adwArapi4Ey/cUlYgJrmEezOzaGE2bMQh6Vh/ZYOQGnoihqGU+pYxkX+AnSaWR9slD8Vda3NmktHhYwTCj+lIe+6BqCRisoxB8BPC0P3bGoCCjvBp0VAaCkaPgeKCrAR0Fg=
+	t=1773331971; cv=fail; b=J4BpzCiWRZeY07235PGEBYkaPdfSsqjzJ8NGAyyPOBTTBwRoMjuzkEuXGOo0vb67PB6bK1wq5CVsGf3Cu7cp/EXoVfslQwAPbhZHLzzjdcX0YjHxU0UN7QkyT40dnrlwH92A1yermkoYQ/3liYid8EB+UeLSTkFV6GG0zZEcT6M=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773331966; c=relaxed/simple;
-	bh=LBGM4DDocsSyMDS7zACLSq9suw7ZRsqdWFQ0lFss3Xg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ig1tJ1pjlsPJYi82QvlJr0X4buGyYj6LUBI/d+1ZwWkMgHKWX6y0GQ7hhN9fmuOjOSc1ETNNbIM8OXr4QrPiFBnd//dByCSQE0d06bamV8UaCdNUAeUNts54SZQi7tFITUG51oiJCp+pr3hnZBBgOO05RdYMR2Ab+ZXwZKdDugA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hev.cc; spf=pass smtp.mailfrom=hev.cc; dkim=pass (2048-bit key) header.d=hev-cc.20230601.gappssmtp.com header.i=@hev-cc.20230601.gappssmtp.com header.b=NSIWy8ML; arc=pass smtp.client-ip=74.125.224.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hev.cc
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hev.cc
+	s=arc-20240116; t=1773331971; c=relaxed/simple;
+	bh=5bFRno/x5CuND9g6xv0lanCw5CYbDU9w0cEWHBHlDpc=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=Zgc14FN1TDrDk8KftinL7xjxOkeZMM7JFOJwgCtCISari/GIFUfXg69mt56R3JXAN8oFFVxDHLCJVKabGvXCCAX9K+EVEUw+ke3eoU8CuBvNF9PjrEaQdqlG8VNgT+nTJCJz0u1k2HRqPHAksRXeWG5FNGya9MX0+pdn154nMsI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QKxuje0U; arc=fail smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hev-cc.20230601.gappssmtp.com header.i=@hev-cc.20230601.gappssmtp.com header.b="NSIWy8ML"
-Received: by mail-yx1-f47.google.com with SMTP id 956f58d0204a3-64c9707fc11so960032d50.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 12 Mar 2026 09:12:45 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773331965; cv=none;
-        d=google.com; s=arc-20240605;
-        b=PJPGDgqHBt3H5n8EgpmPne1YROVGAUxmcxXVfur/BnE+YoUACh4jgyKeHsPuItdBPb
-         gGSDSJ2xfLcifpKFu1Xz8XSJXTSChvYteC6dc39KAxRMHcb5toxQeptY8ynV/NJnjTgj
-         VqK3o7h4fc+a57ZF1Ws82RSOa5WtXUq995rc57OIgzgi6+g6iIC2axcTWPKSw+kt9ChK
-         djT5vu9wtx4ZSZS983Amb0cHBBdIzC3YosSTgbjcpkV7t+7blIv59y1FDCKbkvAk8sP+
-         YYtojlNSqy8EVjzfvrF2gvB7jXNsalJkABWPZoBkt/RcaK6zuG/xevXHRR0ltKD1JFKi
-         cPtQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=dtV4pVssyyOMA/08yV/BNeq7V/A7TdhzmOy4bj+LB2w=;
-        fh=cz9xtBi39WZn7cMr5ZSOHe1+rc/Totc4X6VCVu5V0SM=;
-        b=hVygIm/JuJGCx8/nQaipF4gbpl4dW8VNiH8J00K4rfj2CTN2/Nw/yBG3xV41XCWN/H
-         hsFPAWg/WRSRix/0Y5BFA2T8OgvWkyURM1cmCRUqw4cepdsbyGMMsnZc/y+ZiAW3w+HZ
-         lCXc2uu3ulscztIH1VyYFTy+v497lTvo2Do0S/K9G765YEVt1+uhK1TTypXrojwnoZD+
-         +aTCNSxAekQAr3FHRuH90AgIuI7jhPZlS6lVf/DFttZfTCB37ZamRZgebITYK3+j4e/X
-         L/9iDKOT1+8c4Z73SDG1J+qNcKdpjy3uwHtJLzkaFxbJz/S4vrAYgs9I0hzOdMxBI44v
-         13iQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=hev-cc.20230601.gappssmtp.com; s=20230601; t=1773331965; x=1773936765; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dtV4pVssyyOMA/08yV/BNeq7V/A7TdhzmOy4bj+LB2w=;
-        b=NSIWy8ML21pljiHTcUnbwLMPHObxuLmgA2oKE1fkr2Xqc4DX7aea927hP9UJoGI7K1
-         +JE6h6CzsiMXXm2EflqaThj32itFFzEPVurn/79HDp8c0e3l5wmOeNGhpkemIbs0M+th
-         xk1K9amLGqIQ6NyxTGdBEDhuVjNj2Np8UXcsCvKModMpr8Jxg7Fpo1talZR+T2J+hQNE
-         W9ZJJbX3x6vquZAIVlsFpXywaSs5OY6UZwFzDlDIFsolK9xqHEw8e7HlWmG/LkOR0/A2
-         uQXfi7zkmm4Q85uZwUbWr/7UMVT9szJYhYQoX1MLsPURJbO06LEBQgYbBoMO8aK7nVIW
-         M1jg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773331965; x=1773936765;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=dtV4pVssyyOMA/08yV/BNeq7V/A7TdhzmOy4bj+LB2w=;
-        b=K9w76LwFwi3jdiz3qxNuD6HnzaAEkfobMUsgqhSqbkR70schINmfWE5T3m2a1buEE3
-         +yWLXLXwAo2lijbmffyWKVIl5KJsm5APUSO7r2Ipju4CZjUb3gxu1vD0DDnAHTpcyrMx
-         90DTytcF2ToDpwGNFINRRlmltulgrJmC8Nv5uaS9nWPdiE6EWr5+BW9tWDg3PlAYx07c
-         4rQ+mE6GfCyKGF84mCF2UT94hwHMsljwRO+9o2AoeJuy6tjxF4z9ouoWhtgc0NKN8D0g
-         kH0M/9yZRECc54f0vXfE4dnI7AaYIn4nHZYTOzF3StcrjgAYImkg9wsQY32BFdFPxrvq
-         V2wg==
-X-Forwarded-Encrypted: i=1; AJvYcCUD5VIMg2FqyvY3awfmrimWGUi5uvxcsve7E4B4nRRZ3jeELUZj/i1vM9Qu2JqDuBRBfcIAXljqZUkfv1j1@vger.kernel.org
-X-Gm-Message-State: AOJu0YwAHNAnc4VPaEJgpjhGmOlR1ZT9PuSnr53qnretN+qJPvIY92BZ
-	NyunhmidjDGGbHXmczpQgSvy+nfQauYntUUsa7eiXsiNpHm5BqBCDbkOP5JGRcvbkRfK/UVJxpj
-	0aU/onM4o15ZzB1Nj2GKiv1mgkaAV+OUn1D405Md+AQ==
-X-Gm-Gg: ATEYQzy8elH9cOEXX3/FOpknJtj42yhZ0lM4Rk/IxYTwseuJqH6TYe1vtK2rEnUW6ai
-	iYEn48674OBdZFELsLL6jRoigh2KKNbg7K38Seo2VMhDUUvgSR6+rrhfRHzdLRsVl7bfc/im6YK
-	ZSRcG643SFw472V20keajdcVvw8xII29UJGfRYpw5w7ASGhULfiW9nNczEVzZE5plTWs7zIkUbj
-	/epzq/O4r7Ux47RTMKRPs1JmjotNd8zSkzn5rC7i3lCJh+wCXFHDU+YH+fQIJZoweeHDtcQZtZc
-	itnhc4gXeDQA+m7pL89VOYmKDk0sYci8Cw7fxAqHQQ==
-X-Received: by 2002:a05:690e:23c4:b0:64a:fe95:2ba7 with SMTP id
- 956f58d0204a3-64e62fa66bfmr100462d50.31.1773331964675; Thu, 12 Mar 2026
- 09:12:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QKxuje0U"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773331970; x=1804867970;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=5bFRno/x5CuND9g6xv0lanCw5CYbDU9w0cEWHBHlDpc=;
+  b=QKxuje0UbuSKkxxULV7CO2cMxnqGSWJ7Fntx6Tq6FErGTcc7RglSN0de
+   JhISvRlMqVMv5V80ay72cIzVfbaoo/NE1c6sUheNll2MtDkhVXGyKgVOH
+   UUcm2CTOvMculuFAFgnkyhHxHjXxT+3l4K0XDA6nkg7YrfADTbE6wxaOH
+   9qgy+w84MDYsDPcHNnCnGW0LTMJEWiyFTDBa4uv6DTR+5jw3sb+Rirc/c
+   YpzeFSuX/SKgLErtic6ySzH4VqxUEu5Q0TOIk8EndrhGUFB+AgB2wvHAH
+   dQF6ix+2sr8qdwEvoAXTsNpBzOgkeZtdvTSKRQ48IqZOKs1vrGxzNO4Si
+   Q==;
+X-CSE-ConnectionGUID: sJsO/9TMTGWT6BqT3SckcQ==
+X-CSE-MsgGUID: XZRbuLVzRTKxt0TCfMR5aA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11727"; a="85910029"
+X-IronPort-AV: E=Sophos;i="6.23,116,1770624000"; 
+   d="scan'208";a="85910029"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2026 09:12:42 -0700
+X-CSE-ConnectionGUID: wo9a9boLQ3W77nLAysyVeA==
+X-CSE-MsgGUID: UCZc7QZASc6MQg3o49dwnQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,116,1770624000"; 
+   d="scan'208";a="221051544"
+Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
+  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2026 09:12:26 -0700
+Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Thu, 12 Mar 2026 09:12:16 -0700
+Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
+ FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Thu, 12 Mar 2026 09:12:16 -0700
+Received: from MW6PR02CU001.outbound.protection.outlook.com (52.101.48.16) by
+ edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Thu, 12 Mar 2026 09:12:16 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=aQffyITYkzTS7flG4mkV7DfqRy6p0yvoelsD1vPvzqmebccUjnkt1BqsOASVKXX4x3BQJ0/fhMjJjYTbKnlf3lvYGmjtJVizJ69cNSh5jhuSL2AQ01AGkoVtcw3unypqT9dvuaTwpqb+jjgJ7vlCBtf1HWVN6s4fqOYqq9QZwsk1A9WzGZGdEs/5dSSqLdPPfixlVnwkDluMZyAhItvv5kGdMIcI6g35NEL5jpCBIoBM372SFwDMdrPpAdQ5KcYZcdMKZRMeyPvTlVgDa8AjH2VNO5QGAihTlm5OehOlbQf/y69qehIByv+JbnNkYOFrLMG4EmrTpDQKs37UJp4uYg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=S2r3mEx4jaS69b6pg4TeplPYQyNYaMq5f3Q1pXlTbJ4=;
+ b=BztW+Cme5OBlZFfQyBCT3cw5ysoYvV9bvxO9E6neEsl0PT5FFXC3+hYCwymttBgqy/O1ZLFwr0kDKiWbQkgNkrKS4GIU57Keqr5x34a5354EeTMbgD3X8v5XNkdeHaxX/rr3vxJFgx2JDRU8FQbxz4nMP5ci3XJHEh43dAgT8+mP0ZXNwXUvKgg+BXL7/+njvxLtEkUIMgxIflWkKsSVdgeYD4aMFtVpIeABrP99SEHA1GvIK5GAlGmSYhMUpM5kPkTPOM6wrwVlwR5CjOhT6Qgc7hMTjtxIa8k1CJOgDbe0WZCQKoI2qggdWbyMknWbNKzpzgNtgx2i25vyrDOpjg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MN6PR11MB8102.namprd11.prod.outlook.com (2603:10b6:208:46d::9)
+ by DS4PPFDA9EFDFDB.namprd11.prod.outlook.com (2603:10b6:f:fc02::55) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.12; Thu, 12 Mar
+ 2026 16:12:12 +0000
+Received: from MN6PR11MB8102.namprd11.prod.outlook.com
+ ([fe80::8d98:e538:8d7:6311]) by MN6PR11MB8102.namprd11.prod.outlook.com
+ ([fe80::8d98:e538:8d7:6311%5]) with mapi id 15.20.9723.000; Thu, 12 Mar 2026
+ 16:12:12 +0000
+Message-ID: <0da51c50-3afd-464a-aad8-99e475a31339@intel.com>
+Date: Thu, 12 Mar 2026 17:11:56 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 38/61] net: Prefer IS_ERR_OR_NULL over manual NULL check
+To: Philipp Hahn <phahn-oss@avm.de>
+CC: <amd-gfx@lists.freedesktop.org>, <apparmor@lists.ubuntu.com>,
+	<bpf@vger.kernel.org>, <ceph-devel@vger.kernel.org>, <cocci@inria.fr>,
+	<dm-devel@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
+	<gfs2@lists.linux.dev>, <intel-gfx@lists.freedesktop.org>,
+	<intel-wired-lan@lists.osuosl.org>, <iommu@lists.linux.dev>,
+	<kvm@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-block@vger.kernel.org>, <linux-bluetooth@vger.kernel.org>,
+	<linux-btrfs@vger.kernel.org>, <linux-cifs@vger.kernel.org>,
+	<linux-clk@vger.kernel.org>, <linux-erofs@lists.ozlabs.org>,
+	<linux-ext4@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+	<linux-gpio@vger.kernel.org>, <linux-hyperv@vger.kernel.org>,
+	<linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-leds@vger.kernel.org>, <linux-media@vger.kernel.org>,
+	<linux-mips@vger.kernel.org>, <linux-mm@kvack.org>,
+	<linux-modules@vger.kernel.org>, <linux-mtd@lists.infradead.org>,
+	<linux-nfs@vger.kernel.org>, <linux-omap@vger.kernel.org>,
+	<linux-phy@lists.infradead.org>, <linux-pm@vger.kernel.org>,
+	<linux-rockchip@lists.infradead.org>, <linux-s390@vger.kernel.org>,
+	<linux-scsi@vger.kernel.org>, <linux-sctp@vger.kernel.org>,
+	<linux-security-module@vger.kernel.org>, <linux-sh@vger.kernel.org>,
+	<linux-sound@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>,
+	<linux-trace-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+	<linux-wireless@vger.kernel.org>, <netdev@vger.kernel.org>,
+	<ntfs3@lists.linux.dev>, <samba-technical@lists.samba.org>,
+	<sched-ext@lists.linux.dev>, <target-devel@vger.kernel.org>,
+	<tipc-discussion@lists.sourceforge.net>, <v9fs@lists.linux.dev>, "Igor
+ Russkikh" <irusskikh@marvell.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+	"Jakub Kicinski" <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Pavan
+ Chebbi <pavan.chebbi@broadcom.com>, Michael Chan <mchan@broadcom.com>,
+	"Potnuri Bharat Teja" <bharat@chelsio.com>, Tony Nguyen
+	<anthony.l.nguyen@intel.com>, Taras Chornyi <taras.chornyi@plvision.eu>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue
+	<alexandre.torgue@foss.st.com>, Iyappan Subramanian
+	<iyappan@os.amperecomputing.com>, Keyur Chudgar
+	<keyur@os.amperecomputing.com>, Quan Nguyen <quan@os.amperecomputing.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>
+References: <20260310-b4-is_err_or_null-v1-0-bd63b656022d@avm.de>
+ <20260310-b4-is_err_or_null-v1-38-bd63b656022d@avm.de>
+From: Przemek Kitszel <przemyslaw.kitszel@intel.com>
+Content-Language: en-US
+In-Reply-To: <20260310-b4-is_err_or_null-v1-38-bd63b656022d@avm.de>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: DB9PR05CA0028.eurprd05.prod.outlook.com
+ (2603:10a6:10:1da::33) To MN6PR11MB8102.namprd11.prod.outlook.com
+ (2603:10b6:208:46d::9)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260310031138.509730-1-r@hev.cc> <20260310031138.509730-2-r@hev.cc>
- <bca4ea00-3052-425b-8f39-729d504fd4db@kernel.org> <7937d789-539f-47db-838f-c153ca6cfc50@kernel.org>
-In-Reply-To: <7937d789-539f-47db-838f-c153ca6cfc50@kernel.org>
-From: hev <r@hev.cc>
-Date: Fri, 13 Mar 2026 00:12:32 +0800
-X-Gm-Features: AaiRm51siSCEAkZ-ba-2YedtaHq7E4-85jHPxVQW2_x0EqyQuvL291b70026mMs
-Message-ID: <CAHirt9gpZ98HQCXStEQMMfe6TEnSzmD04BM313h2LJGJ1K-hJw@mail.gmail.com>
-Subject: Re: [PATCH v4 1/2] huge_mm: add stubs for THP-disabled configs
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Andrew Morton <akpm@linux-foundation.org>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Barry Song <baohua@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, Dev Jain <dev.jain@arm.com>, Jan Kara <jack@suse.cz>, 
-	Kees Cook <kees@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
-	Matthew Wilcox <willy@infradead.org>, Nico Pache <npache@redhat.com>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Zi Yan <ziy@nvidia.com>, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN6PR11MB8102:EE_|DS4PPFDA9EFDFDB:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6f0f9ecc-edd7-4e03-1a3f-08de80521e93
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014|22082099003|7053199007|56012099003|18002099003;
+X-Microsoft-Antispam-Message-Info: 0JzyEtz+ZbY+UJfay1MMx6cC7k0VDpTAisQfHr8ee8fhRS9oZ/3EkK0SYa4H9xO+17cqN8E+INuWd0bDOhg6KyMSzQi4RLCB8yuN8addTN8WfkoDEXNJd3uynlJwQMFvJpVc5/6mTD+E8XvzGrnqrFo3mdW0yJLnV+UL+VFlNvaI7d3JY+amn8fmczN5NWzLWPhGBAt2EMHTRLTc8v8nGb0g73JENOqONAlmDCfKE0GXQx238nSbuoRBzBGsrkpYLX0pGkMHDk5HsKqQySnqWHSIGAs9FIfiQ40DdaWm8mwqbOfnJpoxF8PSYWVX02H6lUXF2NuGRZVoW0O6iEmJTBTtk47r/Uob+aS0SdHobYpGy2JhDE1CFbFyiD8Rhr9YqFpB6I7pUC5CO376reeOmS1ggrEUisVWCJ8UCW/cm7uZVmRS7KJnFOPnJ0H1rbHeXczxrtg13GUOjBpAoeHkI6e72lLPv5Xj5OOdYD8GCbWA6bNGCfVjbZXkKtYzNhOp9gtoZ1NNYTLIklJDjukLNoia6KYo5rUKZkX3sMViba6m8oY1T/8y6T83Q7cSeVNXpdvgJ+D3rUuF66Bn29BhUp50Gss35pc8jsAIvV92tpazJssg2Yfv3zGruCBTbGG6uKoA/+Lyct3jhQyr2suol6i7dMGHlSURpaY/Y65Ye+icJJRzr306I9/r63LzJ5Kl
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN6PR11MB8102.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(22082099003)(7053199007)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UTh0emRrTjRWY2xrdUwrdmFCeDU4bmVmeGtUQTI5MnZ2MnQ5UmJtWFllN3Nv?=
+ =?utf-8?B?WVZpMHFMNGREY2IxMllKYnY1UGxWanZTNlFHTGk1QjdyS0lvTVh4eU9BUkhk?=
+ =?utf-8?B?L2tJRUJEN1RQdmlqUUtvY2hhOGgrSis2Y00wTC9uU0U4WXZuOUZWL25kWXNX?=
+ =?utf-8?B?eXBRZkprWlpkUFU4M2RPckgxNlFBM0lCZnIxZzJpeWV0UmczVkMweGRHUFM3?=
+ =?utf-8?B?Sjh6TWE3WVNJd21XM1RQODMzT1J3c2ZTa1NyUEs4dTdmMlNtQXlzZU5nVzND?=
+ =?utf-8?B?K29aRHA4ZDllcmNWRFNZeDBRUTNheWd2dWNWdHY4RjJIVnhuRGNvRG93NVZv?=
+ =?utf-8?B?dGhPVkUvYlJSbmhxZDJFMEF5TU5Bb3RkbjlvVktNQWVqWWlRSWMyNlFYei8v?=
+ =?utf-8?B?ZFdzUFpFR0xseWs3ZDNRbW5qenowWXM3MEpjTldRc0J6eVdBT0prNTNqQUF2?=
+ =?utf-8?B?SjloL0Jzd0lnSC8yTkFvMzJtemJzckxHeEVKU1FmcU5lcXcrT29BWGsvNmFB?=
+ =?utf-8?B?SEE0ZlFaTlkvOUNHZDdjRDN2Vzg4Y1lEOFlRRitsOC9IOVJrSi93YnFyRnB0?=
+ =?utf-8?B?d1ZjTm1TUWl4TnBQSytnektHR1hzWk1mT1BuTi9ZVlJyaFlWTVJjSnZ1WUo3?=
+ =?utf-8?B?MEUyYkUraHNhcTRtMmNMa3VIS1ovVFlVbTYyc2NVMDlYN2svaDRHYmlpa0lz?=
+ =?utf-8?B?RjhZaEF0eVZTUDJBREtqZTdaMkNobkkwTURGTmFHOFlnNGUwSTFSRmEvSmFF?=
+ =?utf-8?B?TnE5RXp4MmZOeEFzZ0xUZTBZSlh0VWVnams3eWlpWTNOL1JmN3RleEExRVo4?=
+ =?utf-8?B?R0JyVUg1ZkxnV21LSUtocHMzSDJ4bTdYTFpBK1VPWjVoTnBEU1NKaHRLUW1z?=
+ =?utf-8?B?ODFUYTdUZm9ZUysrUm9pbEd5ZXZXd1J5ZGRsMjV6eXRmWVIvVUkva2FSYjVC?=
+ =?utf-8?B?OUFyTVhNQ2xCWkJEdnNjUm1VM0VLM2lEYkVnazRSalVzQUl3cFk3UDhMcHBJ?=
+ =?utf-8?B?U2pMWC93eUIzZy9QVGJGQkp6d21rRTR1R1gyWUdScVdkRVo5R1FTcDlvOGI4?=
+ =?utf-8?B?cmNLeWdZKzJnaDlYa0xMSXNRamg3YWE5eWhsTldaS21jaUNDVHBKZGdOcEZT?=
+ =?utf-8?B?V2wrZWNhOTBCVEdkMnpIdTNWdGt6MlJXTXlRdDIzanYreUEydGsrTU92SVFu?=
+ =?utf-8?B?OHluS3JyS0RiR2N0UVU0V01Ub1l0K2hZVjNjeTJiVEFhTklBWm52eHRWQjI3?=
+ =?utf-8?B?THByM21VZ3V2QVV2ZWJEWG5SbFNRZzdoR0lnM0F6aDBxSFU3aU1RbEZYa0VL?=
+ =?utf-8?B?SUc5ZDRkWXRhWkRvamZxMlh6eDBGSVJJeHZnanBRU0FUaE5lcUZXMzB4WSt2?=
+ =?utf-8?B?cFBNRC91b0FlaSthVXpjK1VnZXMrakl2enVYdFMrU09UZHNQbnY1dk15V243?=
+ =?utf-8?B?UEdGL05LczgzTHMrUlRVNk9IallyLzFyb0xwbkxYZ0wrZm9PeUx2MXVwbzEx?=
+ =?utf-8?B?NTA4Wk9GUlpFRElnUEpNNDZqODAxQ0F0ejdQS1JZaGtmd1V3MG5QYnZ5K1Rs?=
+ =?utf-8?B?MGFTK3VsblR1M3dQaDB6NHhkV3pUaUFERTd4UUxQQjlSK2JsZjRQNForNENm?=
+ =?utf-8?B?MFpKYjVWc21qOXBKSmR4T1F3TW9uaFpxY0EzWVZZZFRoMW5RWk5HdWNTMmJr?=
+ =?utf-8?B?OWtBbG9XODhZNEphWURHbjdwYnNEUlNPcGRQNmtvNHhuSHZQN2VBQ21MWUxD?=
+ =?utf-8?B?L04zYzQvRTBzc25HSGtLMHNBWlgzZTFud1VOUGdTVkhRU0lydExMZ1hiRUVk?=
+ =?utf-8?B?OEo3SGtYelUxRW1QT05oNG1FVlB6WDIxc05TVU5EMVpQb0w0WjJIdVFVTnNG?=
+ =?utf-8?B?eUhPZm5hZU1JeG5tbTRMbUNKR0h6R2xEaEdyWFRSWksrWnE4UkY5NkZlM2ZX?=
+ =?utf-8?B?N0h6WSszYVZhQUVOREhCNDdlZmlXV3UvUFMwbG5sbWFjS3pPWEdnMlBqRGxG?=
+ =?utf-8?B?ZWpmb1NNUWN6UDg3NVVwTlhKZGZ4RThBdUI5cFJjazZKWUhyTmZyRm9VZ0Nx?=
+ =?utf-8?B?VmVXMXg0T0dtODErRndFcndkWG5EeGY5NGNsSDdoYTZRZFpLbDAwU0pDSnRD?=
+ =?utf-8?B?NVRYS3RZNkZvRVEwVjNlajFJVTRVZlM0ek9JbnozeFBQY1U0c25BaFkzMGl5?=
+ =?utf-8?B?bG1FZlBZdGxZTGdmSnFHdXdjR240OGZGR3JiQ2w4UE1YSHNaVVMydG9CZHo2?=
+ =?utf-8?B?OVRkd0hTaENFTEhscWluWVN2N3RCOWUrTnRuTEs5NHRtWVoxK21LSDQvWnpD?=
+ =?utf-8?B?WkhKZkp4U3dVVzE2VG9Fc0hERXRBdUFWRHlSWjdGMDNmUEZzYW1VY1lDNEtF?=
+ =?utf-8?Q?lEcw5NvkT6Xp+YVo=3D?=
+X-Exchange-RoutingPolicyChecked: k+VKSPAM7KWe+eF9eQg7nB4SNgLOqJ5F7bFdYbbZTeKXANRkNzvGEEYyC8gBkAnYBQbBnLETSuGZzhg7V4slfrEEpJGCeVVYiKSNWO4OGl7pZi68LFMzCHTPrtuvVgpFVD4uDxqt1/HNubsnanmP1G8FAl6IOpxVKnaoPEg/NVcU52Q0KSEBFFkAPBogHPZy7e9fZJLJe3ETdjYg9N6IwBd9le+DB9VqnLVHfYvwevLcu2RqYd8Pnb86MrH17SC1qPrVolB8jsGaZJmKP6DFKbBWzt6ba1ADz8SHmFKvpVy8K5W1mh+EmY5zJIOQfUYIOwbE9LGf9+WF/pWC99LnEQ==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6f0f9ecc-edd7-4e03-1a3f-08de80521e93
+X-MS-Exchange-CrossTenant-AuthSource: MN6PR11MB8102.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Mar 2026 16:12:12.3882
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: NEdWwkLUzCzbtdV4esOcW+KF0h2yXcJdE4EMktG7LaB1JizSgLunmzY78asDDAwWKzmb3uxKUCQCT5c3xwKLv6ET/L3+njS36DMvqibeYL4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PPFDA9EFDFDB
+X-OriginatorOrg: intel.com
 
-Hi David,
+On 3/10/26 12:49, Philipp Hahn wrote:
+> Prefer using IS_ERR_OR_NULL() over using IS_ERR() and a manual NULL
+> check.
+> 
+> Change generated with coccinelle.
+> 
+> To: Igor Russkikh <irusskikh@marvell.com>
+> To: Andrew Lunn <andrew+netdev@lunn.ch>
+> To: "David S. Miller" <davem@davemloft.net>
+> To: Eric Dumazet <edumazet@google.com>
+> To: Jakub Kicinski <kuba@kernel.org>
+> To: Paolo Abeni <pabeni@redhat.com>
+> To: Pavan Chebbi <pavan.chebbi@broadcom.com>
+> To: Michael Chan <mchan@broadcom.com>
+> To: Potnuri Bharat Teja <bharat@chelsio.com>
+> To: Tony Nguyen <anthony.l.nguyen@intel.com>
+> To: Przemek Kitszel <przemyslaw.kitszel@intel.com>
+> To: Taras Chornyi <taras.chornyi@plvision.eu>
+> To: Maxime Coquelin <mcoquelin.stm32@gmail.com>
+> To: Alexandre Torgue <alexandre.torgue@foss.st.com>
+> To: Iyappan Subramanian <iyappan@os.amperecomputing.com>
+> To: Keyur Chudgar <keyur@os.amperecomputing.com>
+> To: Quan Nguyen <quan@os.amperecomputing.com>
+> To: Heiner Kallweit <hkallweit1@gmail.com>
+> To: Russell King <linux@armlinux.org.uk>
+> Cc: netdev@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: intel-wired-lan@lists.osuosl.org
+> Cc: linux-stm32@st-md-mailman.stormreply.com
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-usb@vger.kernel.org
+> Signed-off-by: Philipp Hahn <phahn-oss@avm.de>
 
-On Thu, Mar 12, 2026 at 11:57=E2=80=AFPM David Hildenbrand (Arm)
-<david@kernel.org> wrote:
->
-> On 3/12/26 16:53, David Hildenbrand (Arm) wrote:
-> > On 3/10/26 04:11, WANG Rui wrote:
-> >> hugepage_global_enabled() and hugepage_global_always() only exist
-> >> when CONFIG_TRANSPARENT_HUGEPAGE is set.  Add inline stubs that
-> >> return false to let code compile when THP is disabled.
-> >>
-> >> Signed-off-by: WANG Rui <r@hev.cc>
-> >> ---
-> >>  include/linux/huge_mm.h | 10 ++++++++++
-> >>  1 file changed, 10 insertions(+)
-> >>
-> >> diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
-> >> index a4d9f964dfde..badeebd4ea98 100644
-> >> --- a/include/linux/huge_mm.h
-> >> +++ b/include/linux/huge_mm.h
-> >> @@ -570,6 +570,16 @@ void map_anon_folio_pmd_nopf(struct folio *folio,=
- pmd_t *pmd,
-> >>
-> >>  #else /* CONFIG_TRANSPARENT_HUGEPAGE */
-> >>
-> >> +static inline bool hugepage_global_enabled(void)
-> >> +{
-> >> +    return false;
-> >> +}
-> >> +
-> >> +static inline bool hugepage_global_always(void)
-> >> +{
-> >> +    return false;
-> >> +}
-> >> +
-> >>  static inline bool folio_test_pmd_mappable(struct folio *folio)
-> >>  {
-> >>      return false;
-> >
-> > There are other ways to enable PMD THP. So I don't quite think this is
-> > the right tool for the job.
->
-> Ah, you care about file THPs ... gah.
->
-> Why can't we simply do the alignment without considering the current
-> setting?
+this is too trivial change, especially when combined like that
+https://docs.kernel.org/process/maintainer-netdev.html#clean-up-patches
 
-The main motivation of raising the alignment here is to increase the
-chance of getting PMD-sized THPs for executable mappings.
+> ---
+>   drivers/net/ethernet/aquantia/atlantic/aq_ring.c        | 2 +-
+>   drivers/net/ethernet/broadcom/tg3.c                     | 2 +-
+>   drivers/net/ethernet/chelsio/cxgb4/cxgb4_tc_flower.c    | 3 +--
+>   drivers/net/ethernet/intel/ice/devlink/devlink.c        | 2 +-
+>   drivers/net/ethernet/marvell/prestera/prestera_router.c | 2 +-
+>   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c       | 2 +-
+>   drivers/net/mdio/mdio-xgene.c                           | 2 +-
+>   drivers/net/usb/r8152.c                                 | 2 +-
+>   8 files changed, 8 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/net/ethernet/aquantia/atlantic/aq_ring.c b/drivers/net/ethernet/aquantia/atlantic/aq_ring.c
+> index e270327e47fd804cc8ee5cfd53ed1b993c955c41..43edef35c4b1ff606b2f1519a07fad4c9a990ad4 100644
+> --- a/drivers/net/ethernet/aquantia/atlantic/aq_ring.c
+> +++ b/drivers/net/ethernet/aquantia/atlantic/aq_ring.c
+> @@ -810,7 +810,7 @@ static int __aq_ring_xdp_clean(struct aq_ring_s *rx_ring,
+>   		}
+>   
+>   		skb = aq_xdp_run_prog(aq_nic, &xdp, rx_ring, buff);
+> -		if (IS_ERR(skb) || !skb)
+> +		if (IS_ERR_OR_NULL(skb))
+>   			continue;
+>   
+>   		if (ptp_hwtstamp_len > 0)
+> diff --git a/drivers/net/ethernet/broadcom/tg3.c b/drivers/net/ethernet/broadcom/tg3.c
+> index 2328fce336447eb4a796f9300ccc0ab536ff0a35..8ed79f34f03d81184dcc12e6eaff009cb8f7756e 100644
+> --- a/drivers/net/ethernet/broadcom/tg3.c
+> +++ b/drivers/net/ethernet/broadcom/tg3.c
+> @@ -7943,7 +7943,7 @@ static int tg3_tso_bug(struct tg3 *tp, struct tg3_napi *tnapi,
+>   
+>   	segs = skb_gso_segment(skb, tp->dev->features &
+>   				    ~(NETIF_F_TSO | NETIF_F_TSO6));
+> -	if (IS_ERR(segs) || !segs) {
+> +	if (IS_ERR_OR_NULL(segs)) {
+>   		tnapi->tx_dropped++;
+>   		goto tg3_tso_bug_end;
+>   	}
+> diff --git a/drivers/net/ethernet/chelsio/cxgb4/cxgb4_tc_flower.c b/drivers/net/ethernet/chelsio/cxgb4/cxgb4_tc_flower.c
+> index 3307e50426819087ad985178c4a5383f16b8e7b4..1c8a6445d4b2e3535d8f1b7908dd02d8dd2f23fa 100644
+> --- a/drivers/net/ethernet/chelsio/cxgb4/cxgb4_tc_flower.c
+> +++ b/drivers/net/ethernet/chelsio/cxgb4/cxgb4_tc_flower.c
+> @@ -1032,8 +1032,7 @@ static void ch_flower_stats_handler(struct work_struct *work)
+>   	do {
+>   		rhashtable_walk_start(&iter);
+>   
+> -		while ((flower_entry = rhashtable_walk_next(&iter)) &&
+> -		       !IS_ERR(flower_entry)) {
+> +		while (!IS_ERR_OR_NULL((flower_entry = rhashtable_walk_next(&iter)))) {
+>   			ret = cxgb4_get_filter_counters(adap->port[0],
+>   							flower_entry->filter_id,
+>   							&packets, &bytes,
+> diff --git a/drivers/net/ethernet/intel/ice/devlink/devlink.c b/drivers/net/ethernet/intel/ice/devlink/devlink.c
+> index 6c72bd15db6d75a1d4fa04ef8fefbd26fb6e84bd..3d08b9187fd76ca3198af28111b6f1c1765ea01e 100644
+> --- a/drivers/net/ethernet/intel/ice/devlink/devlink.c
+> +++ b/drivers/net/ethernet/intel/ice/devlink/devlink.c
+> @@ -791,7 +791,7 @@ static void ice_traverse_tx_tree(struct devlink *devlink, struct ice_sched_node
+>   						  node->parent->rate_node);
+>   	}
+>   
+> -	if (rate_node && !IS_ERR(rate_node))
+> +	if (!IS_ERR_OR_NULL(rate_node))
+>   		node->rate_node = rate_node;
+>   
+>   traverse_children:
+> diff --git a/drivers/net/ethernet/marvell/prestera/prestera_router.c b/drivers/net/ethernet/marvell/prestera/prestera_router.c
+> index b036b173a308b5f994ad8538eb010fa27196988c..4492938e8a3da91d32efe8d45ccbe2eb437c0e49 100644
+> --- a/drivers/net/ethernet/marvell/prestera/prestera_router.c
+> +++ b/drivers/net/ethernet/marvell/prestera/prestera_router.c
+> @@ -1061,7 +1061,7 @@ static void __prestera_k_arb_hw_state_upd(struct prestera_switch *sw,
+>   		n = NULL;
+>   	}
+>   
+> -	if (!IS_ERR(n) && n) {
+> +	if (!IS_ERR_OR_NULL(n)) {
+>   		neigh_event_send(n, NULL);
+>   		neigh_release(n);
+>   	} else {
+> diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+> index 6827c99bde8c22db42b363d2d36ad6f26075ed50..356a4e9ce04b1fcf8786d7274d31ace404be2cf6 100644
+> --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+> +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+> @@ -1275,7 +1275,7 @@ static int stmmac_init_phy(struct net_device *dev)
+>   	/* Some DT bindings do not set-up the PHY handle. Let's try to
+>   	 * manually parse it
+>   	 */
+> -	if (!phy_fwnode || IS_ERR(phy_fwnode)) {
+> +	if (IS_ERR_OR_NULL(phy_fwnode)) {
+>   		int addr = priv->plat->phy_addr;
+>   		struct phy_device *phydev;
+>   
+> diff --git a/drivers/net/mdio/mdio-xgene.c b/drivers/net/mdio/mdio-xgene.c
+> index a8f91a4b7fed0927ee14e408000cd3a2bfb9b09a..09b30b563295c6085dc1358ac361301e5cf6b2a8 100644
+> --- a/drivers/net/mdio/mdio-xgene.c
+> +++ b/drivers/net/mdio/mdio-xgene.c
+> @@ -265,7 +265,7 @@ struct phy_device *xgene_enet_phy_register(struct mii_bus *bus, int phy_addr)
+>   	struct phy_device *phy_dev;
+>   
+>   	phy_dev = get_phy_device(bus, phy_addr, false);
+> -	if (!phy_dev || IS_ERR(phy_dev))
+> +	if (IS_ERR_OR_NULL(phy_dev))
+>   		return NULL;
+>   
+>   	if (phy_device_register(phy_dev))
+> diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
+> index 0c83bbbea2e7c322ee6339893e281237663bd3ae..73f17ebd7d40007eec5004f887a46249defd28ab 100644
+> --- a/drivers/net/usb/r8152.c
+> +++ b/drivers/net/usb/r8152.c
+> @@ -2218,7 +2218,7 @@ static void r8152_csum_workaround(struct r8152 *tp, struct sk_buff *skb,
+>   
+>   		features &= ~(NETIF_F_SG | NETIF_F_IPV6_CSUM | NETIF_F_TSO6);
+>   		segs = skb_gso_segment(skb, features);
+> -		if (IS_ERR(segs) || !segs)
+> +		if (IS_ERR_OR_NULL(segs))
+>   			goto drop;
+>   
+>   		__skb_queue_head_init(&seg_list);
+> 
 
-If THP is not in "always" mode, the kernel will not automatically
-collapse file-backed mappings into THPs, so the increased alignment
-would not actually improve THP usage.
-
-In that case we would only be introducing additional padding in the
-virtual address layout, which slightly reduces ASLR entropy without
-providing a practical benefit.
-
-That's why the current code limits this to the "always" mode.
-
-Thanks,
-Rui
