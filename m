@@ -1,106 +1,110 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8855032B9B6
-	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Mar 2026 20:57:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 535753B5832;
+	Thu, 12 Mar 2026 21:14:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773349071; cv=none; b=m1Ls4vVclLuwktYuTTHvGG+SOCFj/dx3BcQyKgZ9sc4aD6ByL3tdW2hdq2EENoEVbD/i0EGvV1U218U+244eNQCp08M98YIxbx8JU/heMhzLI29PnvilWhDjOWa9tSf4Uwy53pmdi4VSucbN/4iUwBPCLEepnrzBA9hLK5GhONE=
+	t=1773350069; cv=none; b=ClazzjrQcwGjPmHPlzQNoIvqLnqie62ti5ZhuBrlk3rYTrHtPIpgMv7+AgZeDVa07e++5wK2mtgppkW9ghlIUUrFoYc8kVv0X7w/vGE+4w+W9Nl0b67FMnlwEmCuYWxpDhZWRrYhkknLU8XbwIM/a552h0cdoh7bYCrFL0+cvM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773349071; c=relaxed/simple;
-	bh=5TCU3IeL+CM9jwMcCHM5UD2nm48BrqqrHRJzKJccTi0=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=fqb1roYgTCq6RsyP2yf+toiLoGC0NJp2ahQNbofLyzlcTf/Mk5QMh9PdHzjRXC1+yUzeyiYt+sa3hDwk5RRnxv7iu+HeBZRrxs015oUqpQDptsY0ncLqClKptnklecfydFI9Yo0AEiLaCGKVec1kq3hwNrypYPtASkykpBm6nvU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jpdapM2j; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773350069; c=relaxed/simple;
+	bh=BHIeqMCeZ08yvAl5YqqjtddRClVSOvGwSHug5GXzEz8=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=JWtcw6Wr/qHSOHghAHwLNXQ5H9EjpKf+6d4b8QTvHv3t6m+X0i9kFc+rom59saPj9FbLW4B0X2nakzINPbA9u6comct7v/EN6H/r+KVgeY9qEXp/dYImmq1/vk27JyLGmD6QWIgGtM1DUDhn0OCXNUp9JlLYKMhA2PDM/4IWjDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=Duh+dhDj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jpdapM2j"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4853f2826f7so13281465e9.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 12 Mar 2026 13:57:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773349069; x=1773953869; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5TCU3IeL+CM9jwMcCHM5UD2nm48BrqqrHRJzKJccTi0=;
-        b=jpdapM2jWx6X3xqrXHOuhB1/x6KB96m+9q/ReCd/ny5e/81Nd/DjpuAWL3KTOYhEWj
-         d/r9d2ceZ0G8/euY+LewxKJVMZ8E8V4y/3RENSlG6YVXoBs204NE1vKCpkM2ft4IRbd+
-         KOpcIJ+hxEUblzIvhAAoa6AUoJ4dx6PT4rXff+2lVl20zrv9AFUD/c3pf1pBrEtFd9rk
-         y6yp3io4HgvLMi5hUihuiUwN548oj9hNL1a5qMKBc7Fyqt98L3bEnjwgqdNpwDV01o+9
-         MeTwJmD6Mw/UZmetnb0kjasgbk3EFrtL6Mq2vXxz0NRy/gjuyLeqITtk3bwjUM1feR7T
-         A04A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773349069; x=1773953869;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:cc:to:from:date:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5TCU3IeL+CM9jwMcCHM5UD2nm48BrqqrHRJzKJccTi0=;
-        b=fTj9i6JNXJmEpeiKDBnhLgyzOv4sm457CkTTTFy0YnazErmyDEnrbptLbJ2svaLbUT
-         iiGqjjWehlXwn4pFXzSmJaoHt0rCdpnneLGIwtmBib1/toecbpSQWONLwU/BnWDm9pky
-         QmNqvm9K90d1VwFvnVs3YYB9ce0MMMm4AEK4HBxhbaqamv2Nv/gGlOu5EWLZ/7qpzA5b
-         fURRFE+WTIE3jX/fmmsT1zvqLowEPNhpF3Gd7j9bv3404U5gaeImh+lqL+6XjssDfDJV
-         NR2D/+iiI4hiqN2FWWZVFQ4dt5KvTJWomMML8KGKT+QEzpAIoVxADbfgjq4Lt//uzo14
-         74dw==
-X-Forwarded-Encrypted: i=1; AJvYcCVZFc9RViN0QHTicR6vgK6YY8eyVc+ZyiCZTdB5+k9T4r+kBmEOyLddh/JpEwmCmdNizITBEq0QjxrVXTU8@vger.kernel.org
-X-Gm-Message-State: AOJu0YzuoiIA02jILEoPOnvscQxb3B/+rlkzHzHPl2cfbsM0r3B/59w1
-	Kmo36qraJ9tf4VUhA26vQn9DKOD1Vtg6im+QOKjN64Svpg6L1yfSqjG4
-X-Gm-Gg: ATEYQzynCO5I892FKUl+ysxQV5R9RceUmF7fyYadgYEQfmVQN5pXqmv1dQ/WKdUJl8J
-	6AvEVmHAAqCWctF7AkLhzuY+y+0ZNQDCSdlfyoEXKjXdM7v8LofjFvzXvF0pLOTcnzrbSizbETm
-	h9LA7wkpF6eRmdH8Z3gIRE6nFEFOaBCp/au9yo89dhVvBCpZRR2T6IQTQNrva58h6ywW3LfT1XE
-	dMuj5W8PhZiODLMcKdryNpYq9gsHNJ1FEvgab9pu5DhimVqcSBzZjX4XTxZpHzseoT7Ad+dp153
-	xte7NXL6DgLJGH0aFNaT/7HEH20BsYRNZUP4VQV4xngdhvrTB3U3uASXAdWF/lgjExISRWPZVJu
-	hIY6NqnsHmITSESGg4vTOCgKMDr+9QSMHNiB3CMNgMcWmn/a3ISHIPCiqi/zmSZA4lGlv+axzKy
-	W54vvKIRcwQ5574jNDhU3mzOD9og==
-X-Received: by 2002:a05:600c:4f8f:b0:485:3423:727d with SMTP id 5b1f17b1804b1-4855670c095mr12566595e9.26.1773349068753;
-        Thu, 12 Mar 2026 13:57:48 -0700 (PDT)
-Received: from ?IPv6:::1? ([2a00:23ee:2968:90cb:1c6d:1979:bcad:501a])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4855725572csm6531295e9.2.2026.03.12.13.57.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Mar 2026 13:57:48 -0700 (PDT)
-Date: Thu, 12 Mar 2026 20:57:46 +0000
-From: Josh Law <hlcj1234567@gmail.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Matthew Wilcox <willy@infradead.org>, linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-	Josh Law <objecting@objecting.org>
-Message-ID: <43bacae7-3891-417e-9384-20cede8eec6e@gmail.com>
-In-Reply-To: <20260312135514.e4fc0fa4c1f50e6fbda2644c@linux-foundation.org>
-References: <20260312181948.20020-1-objecting@objecting.org> <20260312181948.20020-2-objecting@objecting.org> <20260312135514.e4fc0fa4c1f50e6fbda2644c@linux-foundation.org>
-Subject: Re: [PATCH v3 1/2] lib/idr: fix infinite loop in idr_get_next()
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="Duh+dhDj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3794C4CEF7;
+	Thu, 12 Mar 2026 21:14:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1773350068;
+	bh=BHIeqMCeZ08yvAl5YqqjtddRClVSOvGwSHug5GXzEz8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Duh+dhDjn9i3oyIucNjLcpV7CKSwWMDBwP1nrAeCAWcyGXtDakHpRp+pm3kMEvL8y
+	 SEaAaWk5jP3gQGaz8kV5kaoD1HdJgTdnHuWBZE8KvOuDSG+7q7krHiTC3YYNdfGDfn
+	 Xpz6tLlo5tMrkq0Sz1LyxlbqOsozNn9yfZFUkN8M=
+Date: Thu, 12 Mar 2026 14:14:25 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Clemens Ladisch <clemens@ladisch.de>,
+ Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, "K . Y . Srinivasan" <kys@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+ Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, Alexander
+ Shishkin <alexander.shishkin@linux.intel.com>, Maxime Coquelin
+ <mcoquelin.stm32@gmail.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Bodo Stroesser <bostroesser@gmail.com>, "Martin K . Petersen"
+ <martin.petersen@oracle.com>, David Howells <dhowells@redhat.com>, Marc
+ Dionne <marc.dionne@auristor.com>, Alexander Viro
+ <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara
+ <jack@suse.cz>, David Hildenbrand <david@kernel.org>, "Liam R . Howlett"
+ <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>, Mike
+ Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal
+ Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, Pedro Falcato
+ <pfalcato@suse.de>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org,
+ linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org,
+ target-devel@vger.kernel.org, linux-afs@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, Ryan Roberts
+ <ryan.roberts@arm.com>
+Subject: Re: [PATCH 01/15] mm: various small mmap_prepare cleanups
+Message-Id: <20260312141425.1837736829210f2d0b00cac6@linux-foundation.org>
+In-Reply-To: <56372fe273f775b26675a04652c1229e14680741.1773346620.git.ljs@kernel.org>
+References: <cover.1773346620.git.ljs@kernel.org>
+	<56372fe273f775b26675a04652c1229e14680741.1773346620.git.ljs@kernel.org>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Correlation-ID: <43bacae7-3891-417e-9384-20cede8eec6e@gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-12 Mar 2026 20:55:15 Andrew Morton <akpm@linux-foundation.org>:
+On Thu, 12 Mar 2026 20:27:16 +0000 "Lorenzo Stoakes (Oracle)" <ljs@kernel.org> wrote:
 
-> On Thu, 12 Mar 2026 18:19:47 +0000 Josh Law <hlcj1234567@gmail.com> wrote=
-:
->
->> In idr_get_next(), if the returned id from idr_get_next_ul() is greater
->> than INT_MAX, the function issues a warning and returns NULL without
->> updating the *nextid pointer. This causes a soft lockup for any caller
->> iterating over an IDR (e.g. via idr_for_each_entry) because they will
->> receive NULL, fail to advance their index, and repeatedly query the same
->> state forever.
->
-> This assumes that the idr_get_next() caller ignores the NULL return and
-> just keeps on looping.=C2=A0 Isn't that a caller bug and if so, do we nee=
-d
-> to defend against it here?
+> +int mmap_action_prepare(struct vm_area_desc *desc,
+> +			struct mmap_action *action)
+> +
+>  {
+>  	switch (action->type) {
+>  	case MMAP_NOTHING:
+> -		break;
+> +		return 0;
+>  	case MMAP_REMAP_PFN:
+> -		remap_pfn_range_prepare(desc, action->remap.start_pfn);
+> -		break;
+> +		return remap_pfn_range_prepare(desc, action);
+>  	case MMAP_IO_REMAP_PFN:
+> -		io_remap_pfn_range_prepare(desc, action->remap.start_pfn,
+> -					   action->remap.size);
+> -		break;
+> +		return io_remap_pfn_range_prepare(desc, action);
+>  	}
+>  }
+>  EXPORT_SYMBOL(mmap_action_prepare);
 
-The risk isn't just a single loop failure; it's that idr_get_next() breaks =
-the 'forward-progress' guarantee of the iterator.
-In macros like idr_for_each_entry_continue, if idr_get_next() returns NULL =
-without advancing the pointer, the caller is left in a permanent trap. Any =
-attempt to resume or retry the iteration results in an infinite loop of the=
- same warning because the index is never incremented past the problematic I=
-D.
-Advancing the pointer ensures the infrastructure is robust against these 's=
-oft lockups', even if the caller's error handling is imperfect..
+hm, was this the correct version?
+
+mm/util.c: In function 'mmap_action_prepare':
+mm/util.c:1451:1: error: control reaches end of non-void function [-Werror=return-type]
+ 1451 | }
+
+--- a/mm/util.c~mm-various-small-mmap_prepare-cleanups-fix
++++ a/mm/util.c
+@@ -1356,6 +1356,8 @@ int mmap_action_prepare(struct vm_area_d
+ 		return remap_pfn_range_prepare(desc, action);
+ 	case MMAP_IO_REMAP_PFN:
+ 		return io_remap_pfn_range_prepare(desc, action);
++	default:
++		BUG();
+ 	}
+ }
+ EXPORT_SYMBOL(mmap_action_prepare);
+_
+
