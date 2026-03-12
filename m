@@ -1,33 +1,33 @@
-Received: from smtp-42ac.mail.infomaniak.ch (smtp-42ac.mail.infomaniak.ch [84.16.66.172])
+Received: from smtp-bc09.mail.infomaniak.ch (smtp-bc09.mail.infomaniak.ch [45.157.188.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B5C63BC678
-	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Mar 2026 10:05:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.16.66.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F8C43B389F
+	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Mar 2026 10:05:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.157.188.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773309920; cv=none; b=dfbINP5FAjjDgePz5+5uk1fil+6d66toerVatSi22K6/Eh/lQ8Xeg4UqtO8g1R82fZUOpmpBmTOut2l7aJHWDPEmtnLmbHQoS5LuvuqS6s5B+8JRFoFzOD2khAXgIaAbyZ76dsNiQJ6mp+SNSTP7/S9EhB4jU2G2ZqSDjJ9IakM=
+	t=1773309921; cv=none; b=lM+VkTsWeYlhkkNLQkqwTYmti4l1P4ahMcxCuC6R3N6h5FFNERKjHGXbE1BCCRy54iS8ArqVR6a0iiWMT1S1MT5U+H1oCt0IC0eHrm1BNz+vF/ofLvbEEsI3C+zXf3vkpe6M1SXCMr5tw0XzEQJtTsOkAbWDKpZhx8joQ1bXJ6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773309920; c=relaxed/simple;
-	bh=g1MVcFocwFprOD05JbUOdmnhJUbD1bzZqb2K4auCHi8=;
+	s=arc-20240116; t=1773309921; c=relaxed/simple;
+	bh=Kuk5M65TLV2DqlBhfIIA4Tfd/b9WlaqiLZsMXaDZRQQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gZih6B8yy4aRfHD8llHqO5CyvINd098oYuPj02e9U0YzTaKetGULK7izQlrqlUXCEUi23ge/BxVtMLUrwjAZSETWwzFn7YX/857UUxsatX+uSMz5p2z4Txg52SRdgd1ZGqQCZer+SETCjIRpdz8ok5XI6WaJ7AsdVq31Vq+QgJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=aJgntXRi; arc=none smtp.client-ip=84.16.66.172
+	 MIME-Version:Content-Type; b=jlmmkU3PQNNN5Bxy3KtUJjgzAFAiS7O6VfU5aqFldRp8VlslgDd+bj4/eT8O3uk6ifYx+E/0ebcgbTQXe6KKDsWmdXzXfVP3HiTr3+0cFVwVzyC/7ZFO1PWnRU2u/DURH9CyMjxel8eBDPjG0PeVHuNLVK7oeGftBsqINfrMmIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=jyIGR1tP; arc=none smtp.client-ip=45.157.188.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="aJgntXRi"
-Received: from smtp-3-0001.mail.infomaniak.ch (smtp-3-0001.mail.infomaniak.ch [10.4.36.108])
-	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4fWjsd5L76zBVQ;
-	Thu, 12 Mar 2026 11:05:09 +0100 (CET)
+	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="jyIGR1tP"
+Received: from smtp-4-0000.mail.infomaniak.ch (smtp-4-0000.mail.infomaniak.ch [10.7.10.107])
+	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4fWjsh2pkqz18rZ;
+	Thu, 12 Mar 2026 11:05:12 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
-	s=20191114; t=1773309909;
-	bh=EvBBUs2A2WPjeqOyCK1l/ch6Sn9K8GiRl+PW2utO5xU=;
+	s=20191114; t=1773309912;
+	bh=jw0yh2VxEdeafuAPsIR+ZYaijzn/nG0FVrH3u/L1ovk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=aJgntXRilr/mmkEhlQ8mlmQAUzPC4SoxQ59PDPGtJ7FjiwHJjBc24DKMuxBFuhNCn
-	 2l55Vy8v4rn8ioB5R2EOVybtme3PRo0M+d0lGDhtuB6qFQGgeXjW++FMx5Plqcwa4n
-	 jIfZhFqzrbxOOQtxcngQh0wLIT29se/ijJDSmecw=
-Received: from unknown by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4fWjsd1Gx7zDHv;
-	Thu, 12 Mar 2026 11:05:09 +0100 (CET)
+	b=jyIGR1tPRhv6TL7PsKJ1qo7f5c2QhfawtPZGigiLyY7aptF9vJvRxlAxhz1Vw5h5D
+	 UBCIQcULB6C887sFgFjD07MFE57vSPHyh9KLc/85cAX3+n4jAazNCpBKNqco50M44u
+	 oDWkJHyVKKHi+/+CJUNvfn7pJCwKafpYmB/tDD7g=
+Received: from unknown by smtp-4-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4fWjsg6LPVzBpK;
+	Thu, 12 Mar 2026 11:05:11 +0100 (CET)
 From: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
 To: Christian Brauner <brauner@kernel.org>,
 	=?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack@google.com>,
@@ -44,9 +44,9 @@ Cc: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-security-module@vger.kernel.org
-Subject: [RFC PATCH v1 01/11] security: add LSM blob and hooks for namespaces
-Date: Thu, 12 Mar 2026 11:04:34 +0100
-Message-ID: <20260312100444.2609563-2-mic@digikod.net>
+Subject: [RFC PATCH v1 03/11] nsproxy: Add FOR_EACH_NS_TYPE() X-macro and CLONE_NS_ALL
+Date: Thu, 12 Mar 2026 11:04:36 +0100
+Message-ID: <20260312100444.2609563-4-mic@digikod.net>
 In-Reply-To: <20260312100444.2609563-1-mic@digikod.net>
 References: <20260312100444.2609563-1-mic@digikod.net>
 Precedence: bulk
@@ -59,321 +59,172 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Infomaniak-Routing: alpha
 
-From: Christian Brauner <brauner@kernel.org>
+Introduce the FOR_EACH_NS_TYPE(X) macro as the single source of truth
+for the set of (struct type, CLONE_NEW* flag) pairs that define Linux
+namespace types.
 
-All namespace types now share the same ns_common infrastructure. Extend
-this to include a security blob so LSMs can start managing namespaces
-uniformly without having to add one-off hooks or security fields to
-every individual namespace type.
+Currently, the list of CLONE_NEW* flags is duplicated inline in
+multiple call sites and would need another copy in each new consumer.
+This makes it easy to miss one when a new namespace type is added.
 
-Add a ns_security pointer to ns_common and the corresponding lbs_ns
-blob size to lsm_blob_sizes. Allocation and freeing hooks are called
-from the common __ns_common_init() and __ns_common_free() paths so
-every namespace type gets covered in one go. All information about the
-namespace type and the appropriate casting helpers to get at the
-containing namespace are available via ns_common making it
-straightforward for LSMs to differentiate when they need to.
+Derive two things from the X-macro:
 
-A namespace_install hook is called from validate_ns() during setns(2)
-giving LSMs a chance to enforce policy on namespace transitions.
+- CLONE_NS_ALL: Bitmask of all known CLONE_NEW* flags, usable as a
+  validity mask or iteration bound.
 
-Individual namespace types can still have their own specialized security
-hooks when needed. This is just the common baseline that makes it easy
-to track and manage namespaces from the security side without requiring
-every namespace type to reinvent the wheel.
+- ns_common_type(): Rewritten to use the X-macro via a leading-comma
+  _Generic pattern, so the struct-to-flag mapping stays in sync with the
+  flag set automatically.
 
+Replace the inline flag enumerations in copy_namespaces(),
+unshare_nsproxy_namespaces(), check_setns_flags(), and
+ksys_unshare() with CLONE_NS_ALL.
+
+When a new namespace type is added, only FOR_EACH_NS_TYPE needs to
+be updated; CLONE_NS_ALL, ns_common_type(), and all the call sites
+pick up the change automatically.
+
+Cc: Christian Brauner <brauner@kernel.org>
 Cc: Günther Noack <gnoack@google.com>
-Cc: Paul Moore <paul@paul-moore.com>
-Cc: Serge E. Hallyn <serge@hallyn.com>
-Signed-off-by: Christian Brauner <brauner@kernel.org>
-Link: https://lore.kernel.org/r/20260216-work-security-namespace-v1-1-075c28758e1f@kernel.org
+Signed-off-by: Mickaël Salaün <mic@digikod.net>
 ---
- include/linux/lsm_hook_defs.h      |  3 ++
- include/linux/lsm_hooks.h          |  1 +
- include/linux/ns/ns_common_types.h |  3 ++
- include/linux/security.h           | 20 ++++++++
- kernel/nscommon.c                  | 12 +++++
- kernel/nsproxy.c                   |  8 +++-
- security/lsm_init.c                |  2 +
- security/security.c                | 76 ++++++++++++++++++++++++++++++
- 8 files changed, 124 insertions(+), 1 deletion(-)
+ include/linux/ns/ns_common_types.h | 44 +++++++++++++++++++++++-------
+ kernel/fork.c                      |  7 ++---
+ kernel/nsproxy.c                   | 13 +++------
+ 3 files changed, 41 insertions(+), 23 deletions(-)
 
-diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_defs.h
-index 8c42b4bde09c..fefd3aa6d8f4 100644
---- a/include/linux/lsm_hook_defs.h
-+++ b/include/linux/lsm_hook_defs.h
-@@ -260,6 +260,9 @@ LSM_HOOK(int, -ENOSYS, task_prctl, int option, unsigned long arg2,
- LSM_HOOK(void, LSM_RET_VOID, task_to_inode, struct task_struct *p,
- 	 struct inode *inode)
- LSM_HOOK(int, 0, userns_create, const struct cred *cred)
-+LSM_HOOK(int, 0, namespace_alloc, struct ns_common *ns)
-+LSM_HOOK(void, LSM_RET_VOID, namespace_free, struct ns_common *ns)
-+LSM_HOOK(int, 0, namespace_install, const struct nsset *nsset, struct ns_common *ns)
- LSM_HOOK(int, 0, ipc_permission, struct kern_ipc_perm *ipcp, short flag)
- LSM_HOOK(void, LSM_RET_VOID, ipc_getlsmprop, struct kern_ipc_perm *ipcp,
- 	 struct lsm_prop *prop)
-diff --git a/include/linux/lsm_hooks.h b/include/linux/lsm_hooks.h
-index d48bf0ad26f4..3e7afe76e86c 100644
---- a/include/linux/lsm_hooks.h
-+++ b/include/linux/lsm_hooks.h
-@@ -111,6 +111,7 @@ struct lsm_blob_sizes {
- 	unsigned int lbs_ipc;
- 	unsigned int lbs_key;
- 	unsigned int lbs_msg_msg;
-+	unsigned int lbs_ns;
- 	unsigned int lbs_perf_event;
- 	unsigned int lbs_task;
- 	unsigned int lbs_xattr_count; /* num xattr slots in new_xattrs array */
 diff --git a/include/linux/ns/ns_common_types.h b/include/linux/ns/ns_common_types.h
-index 0014fbc1c626..170288e2e895 100644
+index 170288e2e895..5cfe0ce3c881 100644
 --- a/include/linux/ns/ns_common_types.h
 +++ b/include/linux/ns/ns_common_types.h
-@@ -115,6 +115,9 @@ struct ns_common {
- 	struct dentry *stashed;
- 	const struct proc_ns_operations *ops;
- 	unsigned int inum;
-+#ifdef CONFIG_SECURITY
-+	void *ns_security;
-+#endif
- 	union {
- 		struct ns_tree;
- 		struct rcu_head ns_rcu;
-diff --git a/include/linux/security.h b/include/linux/security.h
-index 83a646d72f6f..611b9098367d 100644
---- a/include/linux/security.h
-+++ b/include/linux/security.h
-@@ -67,6 +67,7 @@ enum fs_value_type;
- struct watch;
- struct watch_notification;
- struct lsm_ctx;
-+struct nsset;
+@@ -7,6 +7,7 @@
+ #include <linux/rbtree.h>
+ #include <linux/refcount.h>
+ #include <linux/types.h>
++#include <uapi/linux/sched.h>
  
- /* Default (no) options for the capable function */
- #define CAP_OPT_NONE 0x0
-@@ -80,6 +81,7 @@ struct lsm_ctx;
+ struct cgroup_namespace;
+ struct dentry;
+@@ -187,15 +188,38 @@ struct ns_common {
+ 		struct user_namespace *:   (IS_ENABLED(CONFIG_USER_NS) ? &userns_operations   : NULL), \
+ 		struct uts_namespace *:    (IS_ENABLED(CONFIG_UTS_NS)  ? &utsns_operations    : NULL))
  
- struct ctl_table;
- struct audit_krule;
-+struct ns_common;
- struct user_namespace;
- struct timezone;
- 
-@@ -533,6 +535,9 @@ int security_task_prctl(int option, unsigned long arg2, unsigned long arg3,
- 			unsigned long arg4, unsigned long arg5);
- void security_task_to_inode(struct task_struct *p, struct inode *inode);
- int security_create_user_ns(const struct cred *cred);
-+int security_namespace_alloc(struct ns_common *ns);
-+void security_namespace_free(struct ns_common *ns);
-+int security_namespace_install(const struct nsset *nsset, struct ns_common *ns);
- int security_ipc_permission(struct kern_ipc_perm *ipcp, short flag);
- void security_ipc_getlsmprop(struct kern_ipc_perm *ipcp, struct lsm_prop *prop);
- int security_msg_msg_alloc(struct msg_msg *msg);
-@@ -1407,6 +1412,21 @@ static inline int security_create_user_ns(const struct cred *cred)
- 	return 0;
- }
- 
-+static inline int security_namespace_alloc(struct ns_common *ns)
-+{
-+	return 0;
-+}
+-#define ns_common_type(__ns)                                \
+-	_Generic((__ns),                                    \
+-		struct cgroup_namespace *: CLONE_NEWCGROUP, \
+-		struct ipc_namespace *:    CLONE_NEWIPC,    \
+-		struct mnt_namespace *:    CLONE_NEWNS,     \
+-		struct net *:              CLONE_NEWNET,    \
+-		struct pid_namespace *:    CLONE_NEWPID,    \
+-		struct time_namespace *:   CLONE_NEWTIME,   \
+-		struct user_namespace *:   CLONE_NEWUSER,   \
+-		struct uts_namespace *:    CLONE_NEWUTS)
++/*
++ * FOR_EACH_NS_TYPE - Canonical list of namespace types
++ *
++ * Enumerates all (struct type, CLONE_NEW* flag) pairs.  This is the
++ * single source of truth used to derive ns_common_type() and
++ * CLONE_NS_ALL.  When adding a new namespace type, add a single entry
++ * here; all consumers update automatically.
++ *
++ * @X: Callback macro taking (struct_name, clone_flag) as arguments.
++ */
++#define FOR_EACH_NS_TYPE(X)                  \
++	X(cgroup_namespace, CLONE_NEWCGROUP) \
++	X(ipc_namespace, CLONE_NEWIPC)       \
++	X(mnt_namespace, CLONE_NEWNS)        \
++	X(net, CLONE_NEWNET)                 \
++	X(pid_namespace, CLONE_NEWPID)       \
++	X(time_namespace, CLONE_NEWTIME)     \
++	X(user_namespace, CLONE_NEWUSER)     \
++	X(uts_namespace, CLONE_NEWUTS)
 +
-+static inline void security_namespace_free(struct ns_common *ns)
-+{
-+}
++/* Bitmask of all known CLONE_NEW* flags. */
++#define _NS_TYPE_FLAG_OR(struct_name, flag) | (flag)
++#define CLONE_NS_ALL                        (0 FOR_EACH_NS_TYPE(_NS_TYPE_FLAG_OR))
 +
-+static inline int security_namespace_install(const struct nsset *nsset,
-+					     struct ns_common *ns)
-+{
-+	return 0;
-+}
++/*
++ * ns_common_type - Map a namespace struct pointer to its CLONE_NEW* flag
++ *
++ * Uses a leading-comma pattern so the FOR_EACH_NS_TYPE expansion
++ * produces ", struct foo *: FLAG" entries without a trailing comma.
++ */
++#define _NS_TYPE_ASSOC(struct_name, flag) , struct struct_name *: (flag)
 +
- static inline int security_ipc_permission(struct kern_ipc_perm *ipcp,
- 					  short flag)
++#define ns_common_type(__ns) _Generic((__ns)FOR_EACH_NS_TYPE(_NS_TYPE_ASSOC))
+ 
+ #endif /* _LINUX_NS_COMMON_TYPES_H */
+diff --git a/kernel/fork.c b/kernel/fork.c
+index 65113a304518..767559acd060 100644
+--- a/kernel/fork.c
++++ b/kernel/fork.c
+@@ -46,6 +46,7 @@
+ #include <linux/mm_inline.h>
+ #include <linux/memblock.h>
+ #include <linux/nsproxy.h>
++#include <linux/ns/ns_common_types.h>
+ #include <linux/capability.h>
+ #include <linux/cpu.h>
+ #include <linux/cgroup.h>
+@@ -3046,11 +3047,9 @@ void __init proc_caches_init(void)
+  */
+ static int check_unshare_flags(unsigned long unshare_flags)
  {
-diff --git a/kernel/nscommon.c b/kernel/nscommon.c
-index bdc3c86231d3..de774e374f9d 100644
---- a/kernel/nscommon.c
-+++ b/kernel/nscommon.c
-@@ -4,6 +4,7 @@
- #include <linux/ns_common.h>
- #include <linux/nstree.h>
- #include <linux/proc_ns.h>
-+#include <linux/security.h>
- #include <linux/user_namespace.h>
- #include <linux/vfsdebug.h>
- 
-@@ -59,6 +60,9 @@ int __ns_common_init(struct ns_common *ns, u32 ns_type, const struct proc_ns_ope
- 
- 	refcount_set(&ns->__ns_ref, 1);
- 	ns->stashed = NULL;
-+#ifdef CONFIG_SECURITY
-+	ns->ns_security = NULL;
-+#endif
- 	ns->ops = ops;
- 	ns->ns_id = 0;
- 	ns->ns_type = ns_type;
-@@ -77,6 +81,13 @@ int __ns_common_init(struct ns_common *ns, u32 ns_type, const struct proc_ns_ope
- 		ret = proc_alloc_inum(&ns->inum);
- 	if (ret)
- 		return ret;
-+
-+	ret = security_namespace_alloc(ns);
-+	if (ret) {
-+		proc_free_inum(ns->inum);
-+		return ret;
-+	}
-+
+-	if (unshare_flags & ~(CLONE_THREAD|CLONE_FS|CLONE_NEWNS|CLONE_SIGHAND|
++	if (unshare_flags & ~(CLONE_THREAD|CLONE_FS|CLONE_SIGHAND|
+ 				CLONE_VM|CLONE_FILES|CLONE_SYSVSEM|
+-				CLONE_NEWUTS|CLONE_NEWIPC|CLONE_NEWNET|
+-				CLONE_NEWUSER|CLONE_NEWPID|CLONE_NEWCGROUP|
+-				CLONE_NEWTIME))
++				CLONE_NS_ALL))
+ 		return -EINVAL;
  	/*
- 	 * Tree ref starts at 0. It's incremented when namespace enters
- 	 * active use (installed in nsproxy) and decremented when all
-@@ -91,6 +102,7 @@ int __ns_common_init(struct ns_common *ns, u32 ns_type, const struct proc_ns_ope
- 
- void __ns_common_free(struct ns_common *ns)
- {
-+	security_namespace_free(ns);
- 	proc_free_inum(ns->inum);
- }
- 
+ 	 * Not implemented, but pretend it works if there is nothing
 diff --git a/kernel/nsproxy.c b/kernel/nsproxy.c
-index 259c4b4f1eeb..f0b30d1907e7 100644
+index f0b30d1907e7..7181886331c8 100644
 --- a/kernel/nsproxy.c
 +++ b/kernel/nsproxy.c
-@@ -379,7 +379,13 @@ static int prepare_nsset(unsigned flags, struct nsset *nsset)
+@@ -12,6 +12,7 @@
+ #include <linux/slab.h>
+ #include <linux/export.h>
+ #include <linux/nsproxy.h>
++#include <linux/ns/ns_common_types.h>
+ #include <linux/init_task.h>
+ #include <linux/mnt_namespace.h>
+ #include <linux/utsname.h>
+@@ -170,9 +171,7 @@ int copy_namespaces(u64 flags, struct task_struct *tsk)
+ 	struct user_namespace *user_ns = task_cred_xxx(tsk, user_ns);
+ 	struct nsproxy *new_ns;
  
- static inline int validate_ns(struct nsset *nsset, struct ns_common *ns)
+-	if (likely(!(flags & (CLONE_NEWNS | CLONE_NEWUTS | CLONE_NEWIPC |
+-			      CLONE_NEWPID | CLONE_NEWNET |
+-			      CLONE_NEWCGROUP | CLONE_NEWTIME)))) {
++	if (likely(!(flags & (CLONE_NS_ALL & ~CLONE_NEWUSER)))) {
+ 		if ((flags & CLONE_VM) ||
+ 		    likely(old_ns->time_ns_for_children == old_ns->time_ns)) {
+ 			get_nsproxy(old_ns);
+@@ -214,9 +213,7 @@ int unshare_nsproxy_namespaces(unsigned long unshare_flags,
+ 	struct user_namespace *user_ns;
+ 	int err = 0;
+ 
+-	if (!(unshare_flags & (CLONE_NEWNS | CLONE_NEWUTS | CLONE_NEWIPC |
+-			       CLONE_NEWNET | CLONE_NEWPID | CLONE_NEWCGROUP |
+-			       CLONE_NEWTIME)))
++	if (!(unshare_flags & (CLONE_NS_ALL & ~CLONE_NEWUSER)))
+ 		return 0;
+ 
+ 	user_ns = new_cred ? new_cred->user_ns : current_user_ns();
+@@ -292,9 +289,7 @@ int exec_task_namespaces(void)
+ 
+ static int check_setns_flags(unsigned long flags)
  {
--	return ns->ops->install(nsset, ns);
-+	int ret;
-+
-+	ret = ns->ops->install(nsset, ns);
-+	if (ret)
-+		return ret;
-+
-+	return security_namespace_install(nsset, ns);
- }
+-	if (!flags || (flags & ~(CLONE_NEWNS | CLONE_NEWUTS | CLONE_NEWIPC |
+-				 CLONE_NEWNET | CLONE_NEWTIME | CLONE_NEWUSER |
+-				 CLONE_NEWPID | CLONE_NEWCGROUP)))
++	if (!flags || (flags & ~CLONE_NS_ALL))
+ 		return -EINVAL;
  
- /*
-diff --git a/security/lsm_init.c b/security/lsm_init.c
-index 573e2a7250c4..637c2d65e131 100644
---- a/security/lsm_init.c
-+++ b/security/lsm_init.c
-@@ -301,6 +301,7 @@ static void __init lsm_prepare(struct lsm_info *lsm)
- 	lsm_blob_size_update(&blobs->lbs_ipc, &blob_sizes.lbs_ipc);
- 	lsm_blob_size_update(&blobs->lbs_key, &blob_sizes.lbs_key);
- 	lsm_blob_size_update(&blobs->lbs_msg_msg, &blob_sizes.lbs_msg_msg);
-+	lsm_blob_size_update(&blobs->lbs_ns, &blob_sizes.lbs_ns);
- 	lsm_blob_size_update(&blobs->lbs_perf_event,
- 			     &blob_sizes.lbs_perf_event);
- 	lsm_blob_size_update(&blobs->lbs_sock, &blob_sizes.lbs_sock);
-@@ -446,6 +447,7 @@ int __init security_init(void)
- 		lsm_pr("blob(ipc) size %d\n", blob_sizes.lbs_ipc);
- 		lsm_pr("blob(key) size %d\n", blob_sizes.lbs_key);
- 		lsm_pr("blob(msg_msg)_size %d\n", blob_sizes.lbs_msg_msg);
-+		lsm_pr("blob(ns) size %d\n", blob_sizes.lbs_ns);
- 		lsm_pr("blob(sock) size %d\n", blob_sizes.lbs_sock);
- 		lsm_pr("blob(superblock) size %d\n", blob_sizes.lbs_superblock);
- 		lsm_pr("blob(perf_event) size %d\n", blob_sizes.lbs_perf_event);
-diff --git a/security/security.c b/security/security.c
-index 67af9228c4e9..dcf073cac848 100644
---- a/security/security.c
-+++ b/security/security.c
-@@ -26,6 +26,7 @@
- #include <linux/string.h>
- #include <linux/xattr.h>
- #include <linux/msg.h>
-+#include <linux/ns_common.h>
- #include <linux/overflow.h>
- #include <linux/perf_event.h>
- #include <linux/fs.h>
-@@ -355,6 +356,19 @@ static int lsm_superblock_alloc(struct super_block *sb)
- 			      GFP_KERNEL);
- }
- 
-+/**
-+ * lsm_ns_alloc - allocate a composite namespace blob
-+ * @ns: the namespace that needs a blob
-+ *
-+ * Allocate the namespace blob for all the modules
-+ *
-+ * Returns 0, or -ENOMEM if memory can't be allocated.
-+ */
-+static int lsm_ns_alloc(struct ns_common *ns)
-+{
-+	return lsm_blob_alloc(&ns->ns_security, blob_sizes.lbs_ns, GFP_KERNEL);
-+}
-+
- /**
-  * lsm_fill_user_ctx - Fill a user space lsm_ctx structure
-  * @uctx: a userspace LSM context to be filled
-@@ -3255,6 +3269,68 @@ int security_create_user_ns(const struct cred *cred)
- 	return call_int_hook(userns_create, cred);
- }
- 
-+/**
-+ * security_namespace_alloc() - Allocate LSM security data for a namespace
-+ * @ns: the namespace being allocated
-+ *
-+ * Allocate and attach security data to the namespace. The namespace type
-+ * is available via ns->ns_type, and the owning user namespace (if any)
-+ * via ns->ops->owner(ns).
-+ *
-+ * Return: Returns 0 if successful, otherwise < 0 error code.
-+ */
-+int security_namespace_alloc(struct ns_common *ns)
-+{
-+	int rc;
-+
-+	rc = lsm_ns_alloc(ns);
-+	if (unlikely(rc))
-+		return rc;
-+
-+	rc = call_int_hook(namespace_alloc, ns);
-+	if (unlikely(rc))
-+		security_namespace_free(ns);
-+
-+	return rc;
-+}
-+
-+/**
-+ * security_namespace_free() - Release LSM security data from a namespace
-+ * @ns: the namespace being freed
-+ *
-+ * Release security data attached to the namespace. Called before the
-+ * namespace structure is freed.
-+ *
-+ * Note: The namespace may be freed via kfree_rcu(). LSMs must use
-+ * RCU-safe freeing for any data that might be accessed by concurrent
-+ * RCU readers.
-+ */
-+void security_namespace_free(struct ns_common *ns)
-+{
-+	if (!ns->ns_security)
-+		return;
-+
-+	call_void_hook(namespace_free, ns);
-+
-+	kfree(ns->ns_security);
-+	ns->ns_security = NULL;
-+}
-+
-+/**
-+ * security_namespace_install() - Check permission to install a namespace
-+ * @nsset: the target nsset being configured
-+ * @ns: the namespace being installed
-+ *
-+ * Check permission before allowing a namespace to be installed into the
-+ * process's set of namespaces via setns(2).
-+ *
-+ * Return: Returns 0 if permission is granted, otherwise < 0 error code.
-+ */
-+int security_namespace_install(const struct nsset *nsset, struct ns_common *ns)
-+{
-+	return call_int_hook(namespace_install, nsset, ns);
-+}
-+
- /**
-  * security_ipc_permission() - Check if sysv ipc access is allowed
-  * @ipcp: ipc permission structure
+ #ifndef CONFIG_USER_NS
 -- 
 2.53.0
 
