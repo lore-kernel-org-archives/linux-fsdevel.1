@@ -1,285 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from embla.dev.snart.me (embla.dev.snart.me [54.252.183.203])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFF693502AA;
-	Thu, 12 Mar 2026 13:51:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C1D026C39F;
+	Thu, 12 Mar 2026 14:02:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.252.183.203
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773323508; cv=none; b=nXp1tD5bLsrqBeEbl6lK/0A+Dcu4X+RmED/Xy+fcvKUwWCbyewNuj5xk7GWoGjd1J3QzJzJDcv4Dp1ObYgl8rro2/zm4GTODTYMzJyieLDcmIBrfCfmS49FkGIO/KSlO4+9MtWbhG8pWMAd1f6Q7OVv5ZuE4NWgcHpw6+zyin/E=
+	t=1773324157; cv=none; b=LJXg1wjGGdku8j8oA2i69/Zz32C+Kr+Ra4EhTdFDWayaneQghlka873IdzY2Nss0DJyP7S+lpg4j35D+77S8R+2jFoU/UYzN0yIRK62h7T6uDJx0QvD2IbXzxXN+XK2R8wh3W/PotgcA00vpDuR0XNYVa/4AqzxsjqoM846ef8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773323508; c=relaxed/simple;
-	bh=7JvcBNLvTKILv+2oRSTs3qORaMz002kR/mYNHZMo+bc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SWfnl74XjXbtPnksznhkdsyEXshVn1arRH9sOVoEnbWZW8qrn3hC79Z9FvQHhLUbIHZ+2r1j2SdkA8uj66XgSQeqR8/QQeyyzvt6NTg6lJ4ZT1tkpgJWOqXEQzkj9jKH062rj1MxGnF+VS02rIHHI7QVx8LA9opTYj3P0u3BHEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PjzaoxIP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773324157; c=relaxed/simple;
+	bh=o2ayR+Vcxt71NlcuR3GaeCC8Bd3uR0aPgVqLzHfLTWI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fyijn+Sfdi+mo9zceLOGjUMsxGl+Or59CcDw7ZKR+DwyEEUqzrlYKxA9ajXZlRYZueravLvJYiGP0xHjn1vOegjs5IDW6iOU7+XzR/JzEXUXpDzlW73O2Cs7kDMv7xM8hu5H1g6I1DQTrni87JHO8ABjwGujapnaoe5ePfGC48I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me; spf=pass smtp.mailfrom=dev.snart.me; dkim=pass (1024-bit key) header.d=dev.snart.me header.i=@dev.snart.me header.b=MivdtdVF; arc=none smtp.client-ip=54.252.183.203
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dev.snart.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PjzaoxIP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77081C4CEF7;
-	Thu, 12 Mar 2026 13:51:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773323507;
-	bh=7JvcBNLvTKILv+2oRSTs3qORaMz002kR/mYNHZMo+bc=;
-	h=From:To:Cc:Subject:Date:From;
-	b=PjzaoxIPK3VwaqE2fUDod5N6JD8PRIt8S6iU5yl3I6iaKHa5ZaL+5IQO9dqrCs/e7
-	 mMC7GIBl+WNsjLYVC3mwaTFg5ySgzt1h85VJAUUTuNH1741Pgu0xnvDhs7w0mkwNRM
-	 UrGoMj8k+T2dMYxSgrD42Io53BeGvtGwxXXuJs7gteVcg6eMkVeaMk1/qsEc5OaJkM
-	 uC74Z9mYOTI0PAQk2CiahjAROGSPp2c3FZrQpSvb2GzrrCuh3ob1IvErrcozeYX+vT
-	 cFvlm7hX12oE9H5zjUVSYeihQUVIK+owicrogd/Yv+sut6dbbwLRuwGVgsqq9DhVSj
-	 zsghcoyLUULYA==
-From: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
-To: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	David Laight <david.laight.linux@gmail.com>
-Cc: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] fs: Replace user_access_{begin/end} by scoped user access
-Date: Thu, 12 Mar 2026 14:51:34 +0100
-Message-ID: <9b8b9c7f7d533c96c0c1abe5b4aecb7dc19e2abf.1773306879.git.chleroy@kernel.org>
-X-Mailer: git-send-email 2.49.0
+	dkim=pass (1024-bit key) header.d=dev.snart.me header.i=@dev.snart.me header.b="MivdtdVF"
+Received: from embla.dev.snart.me (localhost [IPv6:::1])
+	by embla.dev.snart.me (Postfix) with ESMTP id 973E31CBC0;
+	Thu, 12 Mar 2026 14:02:33 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 embla.dev.snart.me 973E31CBC0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=dev.snart.me; s=00;
+	t=1773324154; bh=o2ayR+Vcxt71NlcuR3GaeCC8Bd3uR0aPgVqLzHfLTWI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=MivdtdVFODXd5ejLqczUWtgiUjCKmdT3e8K/RzGSZG/5nrDmzDp9FhiovO2HBL8ze
+	 eKySUJei0gfCzcnbBXat3ujoSvo4jDkMw/TeldewhANiIV5gcRHMlg9Gqu2Gd2lj2/
+	 lF5DcsKJb/rDXRa32WCgJffL8Qhphl5jBfyzdUVI=
+Received: from [192.168.1.18] ([182.226.25.243])
+	by embla.dev.snart.me with ESMTPSA
+	id bfh+E3nHsmmD7QQA8KYfjw
+	(envelope-from <dxdt@dev.snart.me>); Thu, 12 Mar 2026 14:02:33 +0000
+Message-ID: <b216af63-f65e-4c26-84bc-2693fad0fdf1@dev.snart.me>
+Date: Thu, 12 Mar 2026 23:02:29 +0900
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=8524; i=chleroy@kernel.org; h=from:subject:message-id; bh=7JvcBNLvTKILv+2oRSTs3qORaMz002kR/mYNHZMo+bc=; b=owGbwMvMwCV2d0KB2p7V54MZT6slMWRuOvJMjP1FM1/rJIUM4SfHJ6xbd/TC+0I+Qe9z/6uDt HY7a+o87ShlYRDjYpAVU2Q5/p9714yuL6n5U3fpw8xhZQIZwsDFKQATWXuU4X9E46f7z1l1vzZu d1xTVvnPbXZyRa/iofeXP7R/TnyR2vuGkeFIR6vp/ik/zWtWtc/S/aRy1yBoD98tvR/LdqtM16v 64cgCAA==
-X-Developer-Key: i=chleroy@kernel.org; a=openpgp; fpr=10FFE6F8B390DE17ACC2632368A92FEB01B8DD78
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/2] exfat: EXFAT_IOC_GET_VALID_DATA ioctl
+To: Matthew Wilcox <willy@infradead.org>
+Cc: linkinjeon@kernel.org, sj1557.seo@samsung.com, yuezhang.mo@sony.com,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260311222613.2010177-1-dxdt@dev.snart.me>
+ <abIxl8XEftpku8yf@casper.infradead.org>
+From: David Timber <dxdt@dev.snart.me>
+Content-Language: en-US, ko
+Autocrypt: addr=dxdt@dev.snart.me; keydata=
+ xjMEYmJg1hYJKwYBBAHaRw8BAQdAf5E+ri1XLtjqYbZdHOyc8oS+1/XJ5bSlbx5WHXmVBZzN
+ IERhdmlkIFRpbWJlciA8ZHhkdEBkZXYuc25hcnQubWU+wpQEExYKADwWIQQn/Jn96EMUaIoF
+ X+T/ldyyrZpWaAUCYmJg1gIbAwULCQgHAgMiAgEGFQoJCAsCBBYCAwECHgcCF4AACgkQ/5Xc
+ sq2aVmjJZwD8COjPlUwccrlRvbNQ6f87DWchtYO0o8W2DNRM3RLps0EA/jEhIbRV6AsyC8jr
+ 30Ut3aJ3/mO/6G4sLj7OvkEEBH0MzjgEYmJg1hIKKwYBBAGXVQEFAQEHQFpgtIgaByv9lIEY
+ EmpavMO0pYjtu7TMJynwdnGYkN9LAwEIB8J4BBgWCgAgFiEEJ/yZ/ehDFGiKBV/k/5Xcsq2a
+ VmgFAmJiYNYCGwwACgkQ/5Xcsq2aVmhFCwEA0kM9VyYB4bLCM7+SuXUUH+5Ec99Nj4RXxFad
+ Key9GuwA/2BZK6bNyrLSfEk2JDRoskqf7OIL0wa6JOD5SrBnMe8E
+In-Reply-To: <abIxl8XEftpku8yf@casper.infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Scoped user access reduces code complexity and seamlessly bring
-masked user access on architectures that support it.
+On 3/12/26 12:23, Matthew Wilcox wrote:
+> We already have two interfaces for this on Linux.  One is SEEK_HOLE /
+> SEEK_DATA and the other is fiemap (Documentation/filesystems/fiemap.rst)
+> Why are both of these interfaces unsuitable?
+https://lore.kernel.org/linux-fsdevel/cf6c2b08-b7ff-4f70-95f4-cdb12ef5a666@dev.snart.me/
 
-Replace user_access_begin/user_access_end blocks by
-scoped user access.
+Because exFAT is not a sparse file system. The VDL is only a shorthand
+for fast cluster allocation without writing actual data to them. In
+other words, the range between the VDL and isize is not actually a hole.
+The blocks in the range are actually allocated, filled with garbage data
+on the disk. The kernel has to be careful not to return it to userspace,
+which is something Linux kernel actually does.
 
-Signed-off-by: Christophe Leroy (CS GROUP) <chleroy@kernel.org>
----
-v2:
-- Fix build failure with CONFIG_COMPAT
-- Handled checkpatch.pl output
----
- fs/readdir.c | 94 +++++++++++++++++++++-------------------------------
- fs/select.c  | 35 ++++++++-----------
- 2 files changed, 51 insertions(+), 78 deletions(-)
+Suporting SEEK_DATA in exFAT will certainly give a wrong impression that
+it is a sparse fs. On the other hand, FALLOC_FL_PUNCH_HOLE on an
+arbitrary range(other than docking to EOF) is not possible. Therefore,
+it wouldn't make sense if a fs could do SEEK_HOLE, but not punch holes.
+That would most likely confuse many userland programs like cp. That's
+why I thought lseek() is not a good fit for querying VDL.
 
-diff --git a/fs/readdir.c b/fs/readdir.c
-index 73707b6816e9..bd7bdf4a9840 100644
---- a/fs/readdir.c
-+++ b/fs/readdir.c
-@@ -198,18 +198,14 @@ static bool fillonedir(struct dir_context *ctx, const char *name, int namlen,
- 	}
- 	buf->result++;
- 	dirent = buf->dirent;
--	if (!user_write_access_begin(dirent,
--			(unsigned long)(dirent->d_name + namlen + 1) -
--				(unsigned long)dirent))
--		goto efault;
--	unsafe_put_user(d_ino, &dirent->d_ino, efault_end);
--	unsafe_put_user(offset, &dirent->d_offset, efault_end);
--	unsafe_put_user(namlen, &dirent->d_namlen, efault_end);
--	unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault_end);
--	user_write_access_end();
-+	scoped_user_write_access_size(dirent, (unsigned long)(dirent->d_name + namlen + 1) -
-+					      (unsigned long)dirent, efault) {
-+		unsafe_put_user(d_ino, &dirent->d_ino, efault);
-+		unsafe_put_user(offset, &dirent->d_offset, efault);
-+		unsafe_put_user(namlen, &dirent->d_namlen, efault);
-+		unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault);
-+	}
- 	return true;
--efault_end:
--	user_write_access_end();
- efault:
- 	buf->result = -EFAULT;
- 	return false;
-@@ -287,23 +283,19 @@ static bool filldir(struct dir_context *ctx, const char *name, int namlen,
- 		return false;
- 	dirent = buf->current_dir;
- 	prev = (void __user *) dirent - prev_reclen;
--	if (!user_write_access_begin(prev, reclen + prev_reclen))
--		goto efault;
--
--	/* This might be 'dirent->d_off', but if so it will get overwritten */
--	unsafe_put_user(offset, &prev->d_off, efault_end);
--	unsafe_put_user(d_ino, &dirent->d_ino, efault_end);
--	unsafe_put_user(reclen, &dirent->d_reclen, efault_end);
--	unsafe_put_user(d_type, (char __user *) dirent + reclen - 1, efault_end);
--	unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault_end);
--	user_write_access_end();
-+	scoped_user_write_access_size(prev, reclen + prev_reclen, efault) {
-+		/* This might be 'dirent->d_off', but if so it will get overwritten */
-+		unsafe_put_user(offset, &prev->d_off, efault);
-+		unsafe_put_user(d_ino, &dirent->d_ino, efault);
-+		unsafe_put_user(reclen, &dirent->d_reclen, efault);
-+		unsafe_put_user(d_type, (char __user *)dirent + reclen - 1, efault);
-+		unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault);
-+	}
- 
- 	buf->current_dir = (void __user *)dirent + reclen;
- 	buf->prev_reclen = reclen;
- 	ctx->count -= reclen;
- 	return true;
--efault_end:
--	user_write_access_end();
- efault:
- 	buf->error = -EFAULT;
- 	return false;
-@@ -371,24 +363,20 @@ static bool filldir64(struct dir_context *ctx, const char *name, int namlen,
- 		return false;
- 	dirent = buf->current_dir;
- 	prev = (void __user *)dirent - prev_reclen;
--	if (!user_write_access_begin(prev, reclen + prev_reclen))
--		goto efault;
--
--	/* This might be 'dirent->d_off', but if so it will get overwritten */
--	unsafe_put_user(offset, &prev->d_off, efault_end);
--	unsafe_put_user(ino, &dirent->d_ino, efault_end);
--	unsafe_put_user(reclen, &dirent->d_reclen, efault_end);
--	unsafe_put_user(d_type, &dirent->d_type, efault_end);
--	unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault_end);
--	user_write_access_end();
-+	scoped_user_write_access_size(prev, reclen + prev_reclen, efault) {
-+		/* This might be 'dirent->d_off', but if so it will get overwritten */
-+		unsafe_put_user(offset, &prev->d_off, efault);
-+		unsafe_put_user(ino, &dirent->d_ino, efault);
-+		unsafe_put_user(reclen, &dirent->d_reclen, efault);
-+		unsafe_put_user(d_type, &dirent->d_type, efault);
-+		unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault);
-+	}
- 
- 	buf->prev_reclen = reclen;
- 	buf->current_dir = (void __user *)dirent + reclen;
- 	ctx->count -= reclen;
- 	return true;
- 
--efault_end:
--	user_write_access_end();
- efault:
- 	buf->error = -EFAULT;
- 	return false;
-@@ -460,18 +448,14 @@ static bool compat_fillonedir(struct dir_context *ctx, const char *name,
- 	}
- 	buf->result++;
- 	dirent = buf->dirent;
--	if (!user_write_access_begin(dirent,
--			(unsigned long)(dirent->d_name + namlen + 1) -
--				(unsigned long)dirent))
--		goto efault;
--	unsafe_put_user(d_ino, &dirent->d_ino, efault_end);
--	unsafe_put_user(offset, &dirent->d_offset, efault_end);
--	unsafe_put_user(namlen, &dirent->d_namlen, efault_end);
--	unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault_end);
--	user_write_access_end();
-+	scoped_user_write_access_size(dirent, (unsigned long)(dirent->d_name + namlen + 1) -
-+					      (unsigned long)dirent, efault) {
-+		unsafe_put_user(d_ino, &dirent->d_ino, efault);
-+		unsafe_put_user(offset, &dirent->d_offset, efault);
-+		unsafe_put_user(namlen, &dirent->d_namlen, efault);
-+		unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault);
-+	}
- 	return true;
--efault_end:
--	user_write_access_end();
- efault:
- 	buf->result = -EFAULT;
- 	return false;
-@@ -543,22 +527,18 @@ static bool compat_filldir(struct dir_context *ctx, const char *name, int namlen
- 		return false;
- 	dirent = buf->current_dir;
- 	prev = (void __user *) dirent - prev_reclen;
--	if (!user_write_access_begin(prev, reclen + prev_reclen))
--		goto efault;
--
--	unsafe_put_user(offset, &prev->d_off, efault_end);
--	unsafe_put_user(d_ino, &dirent->d_ino, efault_end);
--	unsafe_put_user(reclen, &dirent->d_reclen, efault_end);
--	unsafe_put_user(d_type, (char __user *) dirent + reclen - 1, efault_end);
--	unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault_end);
--	user_write_access_end();
-+	scoped_user_write_access_size(prev, reclen + prev_reclen, efault);
-+		unsafe_put_user(offset, &prev->d_off, efault);
-+		unsafe_put_user(d_ino, &dirent->d_ino, efault);
-+		unsafe_put_user(reclen, &dirent->d_reclen, efault);
-+		unsafe_put_user(d_type, (char __user *)dirent + reclen - 1, efault);
-+		unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault);
-+	}
- 
- 	buf->prev_reclen = reclen;
- 	buf->current_dir = (void __user *)dirent + reclen;
- 	ctx->count -= reclen;
- 	return true;
--efault_end:
--	user_write_access_end();
- efault:
- 	buf->error = -EFAULT;
- 	return false;
-diff --git a/fs/select.c b/fs/select.c
-index e0244dbe4429..75978b18f48f 100644
---- a/fs/select.c
-+++ b/fs/select.c
-@@ -1004,17 +1004,17 @@ static int do_sys_poll(struct pollfd __user *ufds, unsigned int nfds,
- 	fdcount = do_poll(head, &table, end_time);
- 	poll_freewait(&table);
- 
--	if (!user_write_access_begin(ufds, nfds * sizeof(*ufds)))
--		goto out_fds;
-+	scoped_user_write_access_size(ufds, nfds * sizeof(*ufds), out_fds) {
-+		struct pollfd __user *_ufds = ufds;
- 
--	for (walk = head; walk; walk = walk->next) {
--		struct pollfd *fds = walk->entries;
--		unsigned int j;
-+		for (walk = head; walk; walk = walk->next) {
-+			struct pollfd *fds = walk->entries;
-+			unsigned int j;
- 
--		for (j = walk->len; j; fds++, ufds++, j--)
--			unsafe_put_user(fds->revents, &ufds->revents, Efault);
--  	}
--	user_write_access_end();
-+			for (j = walk->len; j; fds++, _ufds++, j--)
-+				unsafe_put_user(fds->revents, &_ufds->revents, out_fds);
-+		}
-+	}
- 
- 	err = fdcount;
- out_fds:
-@@ -1026,11 +1026,6 @@ static int do_sys_poll(struct pollfd __user *ufds, unsigned int nfds,
- 	}
- 
- 	return err;
--
--Efault:
--	user_write_access_end();
--	err = -EFAULT;
--	goto out_fds;
- }
- 
- static long do_restart_poll(struct restart_block *restart_block)
-@@ -1338,15 +1333,13 @@ static inline int get_compat_sigset_argpack(struct compat_sigset_argpack *to,
- 					    struct compat_sigset_argpack __user *from)
- {
- 	if (from) {
--		if (!user_read_access_begin(from, sizeof(*from)))
--			return -EFAULT;
--		unsafe_get_user(to->p, &from->p, Efault);
--		unsafe_get_user(to->size, &from->size, Efault);
--		user_read_access_end();
-+		scoped_user_read_access(from, efault) {
-+			unsafe_get_user(to->p, &from->p, efault);
-+			unsafe_get_user(to->size, &from->size, efault);
-+		}
- 	}
- 	return 0;
--Efault:
--	user_read_access_end();
-+efault:
- 	return -EFAULT;
- }
- 
--- 
-2.49.0
+Truncating up a file in sparse file systems does not change st_blksize,
+but exFAT does. I have to say this is rather an unfortunate digergence,
+certainly not POSIX compliant, but the behaviour existed for a long time
+now and no one is coming forward to say that something caught on fire yet.
 
+I don't understand why people keep bringing up FIEMAP. It is a debugging
+interface and it should stay that way. It's simply not the right tool to
+find holes in files. SEEK_DATA and SEEK_HOLE became POSIX, so using
+FIEMAP to find holes and data shouldn't even be an option at this point.
+
+Davo
