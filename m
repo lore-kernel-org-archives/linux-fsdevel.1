@@ -1,133 +1,176 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2441C3A7F7E
-	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Mar 2026 09:08:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABA553B9DA5;
+	Thu, 12 Mar 2026 09:38:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773306502; cv=none; b=QHTba4xvZfwEtHG2zA3tXU3Jqc6RytrrLgXysm6yYsnNg5e/BMRYfp227coN5M5RiNEz+7Rd35bH22621kHGLMHljq2jesgeDtrXEjlrvHBdjPqe+n4KhUg6NLfx9/XYAhnpRcq0PmaCK/H6WUUipWwHSO8qXDVTohUL0JaUcLM=
+	t=1773308298; cv=none; b=mYQ2MGCKJdaZsC3w9o14Jc63vPbjv66YGXOOgswutDFt2XM7bP8xG7P/Gcu+g4YsjYzQ92E28MBhOQ4PKcl7bb0rMV0zEqe17652F7nANTZVXUOT1MFr8PtIkPmq0N78QQvE5T535r5Bb5bxOopb5r+5yNxK+ix7DYHyHLJrpCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773306502; c=relaxed/simple;
-	bh=684ISgQ8smHUyEZZTzGZngt64u/D6u1pEXkFQoQVAfo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LOIlR5pYjX1/1HDeu93apC8OPuPqQEDA0VKrd0HBMOIA7sx+Y3Z0OLSZYzWNSB6fmdJh+ybb/Z5UCx+546GblnDrsrcf8h8QZIFPWmNlN8tjVACcayydedQzPPpB7/UdbhdyXWNEtS0wCB592spoztT0/Alb0kC6ubwWohfZJBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=X8eXktWa; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=iuIV5lZ6; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1773308298; c=relaxed/simple;
+	bh=yFvK4TL7xsQGtUZ3aYppmkhAkjRmfVgtLz+/kUGSF4Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CoTDjW+2b/6M+rLWtnoBASnq/C+QZInu9NhP/L7NamTOriDy0Bre16+Nhui4zTqJ1RopJkYeKmmbuidc+FsAUMyl2FxYQ/KVqNT5ApVLbzHm7XkGek6r765DToEWGwK3plP0PShagDFtS1JlRF5ZwoB3dF5QkpW44Yhc5LCdnTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=nEv3gFay; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="X8eXktWa";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="iuIV5lZ6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1773306500;
+	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="nEv3gFay"
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4fWjGL4f51z9tQg;
+	Thu, 12 Mar 2026 10:38:02 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
+	t=1773308282;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=eYKj8TYhZs/mWZdGVkKQ790hFLSyw65FsP7IykSGsaI=;
-	b=X8eXktWaoAYZlSac3sD5eAAB7jeO3Y5nVdnnQBbrQuB729DFfNk5xrFJgRsWlhVxHCDPM7
-	ETy3v4h8eSb84dOe6akaQ3dIi0wlkrKJuNYi/kuJC28R/0gerDqXLW4x4YFKf//accfxuP
-	pB1ar21M4Ww9fHfYMrV/nnM6RAEVFG4=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-84-iHHE4aoJMFWdV5GFLKfS1Q-1; Thu, 12 Mar 2026 05:08:18 -0400
-X-MC-Unique: iHHE4aoJMFWdV5GFLKfS1Q-1
-X-Mimecast-MFC-AGG-ID: iHHE4aoJMFWdV5GFLKfS1Q_1773306498
-Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-89a116bf0f8so9621686d6.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 12 Mar 2026 02:08:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1773306498; x=1773911298; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=eYKj8TYhZs/mWZdGVkKQ790hFLSyw65FsP7IykSGsaI=;
-        b=iuIV5lZ6ddw7IuVSOgb6x6rFNYZrf7nWtNk2eeG09YAEv2qbBDbITPyHMm6WU6D+FM
-         Hr4RpbpIHf970d5IKFuChIIBqoFRmohkA01+7mUlEGhJuCNA4qLT8BAuFseWWM9DkRM2
-         ixj+5Bs0z54NenkQFjKwBBHXErta1LtF+7wB7HZkUz6PpCLGiYJYZL26bY12unCQKbA6
-         /F+m7mfWBvuJmQyeqgIouYV36m9irl8HAvj+7h2h8xLNfUeusdSGW4kq6J1VlbdV2Ut5
-         06TVYt4G+KWVPFEcBzbtisS84GDnJtNUtSjoVbsK4EXjRoSv1HOkTdNmLvsWnVrEzRr6
-         JfZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773306498; x=1773911298;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eYKj8TYhZs/mWZdGVkKQ790hFLSyw65FsP7IykSGsaI=;
-        b=bE95Na+vOZUwelbCspI0c87vI+XmRRykYGy5rNe+91mWW69lFmkeSi+nCkAbLs5bZk
-         1NE/puCYiOu7DJi5M19/V2pTNP//eA/2qw5zr0Tfdu6swc4s2EvcHNWOJIaOI0wZl+dO
-         eCrpE1+mwYGnJqjcZCWnefjdtioV/BmBQ+eLuqUFu8iCaaLVkEgek7PheeaU0khCUipb
-         U0hBVJCEESsp0o/NPyR1y8fKtm4l6vak7PJ+MSOHBJcE45v1G92kT8Y+pf/tgtZBIn2h
-         VTxYnqHvku3tum4N+bfIwG8Jjb43bTroAe14yikyE9ugeg/5KfxqH+juct+FC1XKYpCX
-         MZBg==
-X-Forwarded-Encrypted: i=1; AJvYcCWFZU3E04BaLEoV70SgUOJ/A/M+heUUTJovTXjQ1hOqFZdYo17N+VGB9l1i5o60W9MDypkZh72vN+RR41dd@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx+aT4CDF453fRVmV50YF2lY9xOAwa2JWHikOCwSZREujuLkzWG
-	SgvOZv4u7Ad407GK9nkEbyPD59Rr9hNci0q9vsUtWa5qHkexnAEJHVqFi3ThtK0Rl77oYnZPnm2
-	7kJh0/5dCz4ma/7xEfYk39rlYKdmVCzPOOzUDXLs+QscA0SIVzFjidZJb8b5iajhibp2d0DMBU8
-	tRIw==
-X-Gm-Gg: ATEYQzysCN8mxB12Gs9hJdcfNhzQG6rMZ78CO7LHNlP4wPb6Mr6OvHyEOxrZbztVber
-	V4ZpXByH7GQYjTUnqSv9V0ht4e279AiTy8WNmmERw6DIAUBI9PwXIFvUfirQtXeDJwUfp6kGymj
-	P6cH+crKAmH91QqWO5PakW4FXYSUvjTx6W5Ml+YHMj5xaY4fDdp37qWmVgcXGg45TWQYrVDTvWB
-	OqCEf6bqL7+Iso5aKo9x4WkASCTjBqPoMpJP3IMu3ZqMaLJMMIJ0uCBF9povi+lAFOS28HIAotE
-	41Ou9EQWh94eTh1WsCFioDnZYxBv863Mj+1yeY+p5oQrIKdbV4trJ4XSTLqYByrl1Gqx2DeTIpi
-	xduTt0KJH+NceuZ12
-X-Received: by 2002:ad4:5ec6:0:b0:899:e8b8:8744 with SMTP id 6a1803df08f44-89a66adcc90mr72412036d6.57.1773306497947;
-        Thu, 12 Mar 2026 02:08:17 -0700 (PDT)
-X-Received: by 2002:ad4:5ec6:0:b0:899:e8b8:8744 with SMTP id 6a1803df08f44-89a66adcc90mr72411796d6.57.1773306497533;
-        Thu, 12 Mar 2026 02:08:17 -0700 (PDT)
-Received: from fedora.. ([66.187.232.140])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89a65cffbdesm30780086d6.41.2026.03.12.02.08.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Mar 2026 02:08:17 -0700 (PDT)
-From: Ravi Singh <ravising@redhat.com>
-To: linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Cc: jack@suse.com,
-	cem@kernel.org,
-	dgc@kernel.org
-Subject: [RFC PATCH] quota: allow unprivileged users to query ID 0 default limits
-Date: Thu, 12 Mar 2026 17:08:10 +0800
-Message-ID: <20260312090810.1145908-1-ravising@redhat.com>
-X-Mailer: git-send-email 2.49.0
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=T4nPgKWUxbLSsXAZ7xnpvCJoD9xpuvM/yonZzi7ZuXE=;
+	b=nEv3gFayAZ9w4Dp1cWiq1UcmZbr+AVxZWSDwTVJzyq2a7dTgA8EWt3TPcSPeAw3jej6OXW
+	Pcy6WVyRafrQdwLnMhWua8km15WTIsPP2Egxk8ctZ2kwiHp04CE+ci72MIAnUbB2X3uFr2
+	m9TbgCaTUcnFmJKSHe98mj5hqI3Qzay9DRe0Umfx2oh7eNC/jG4i1DJ1cS6QrP9wELYs37
+	/9UaaXlTa5JuDMVGuxNl72vYPCySNn0PNn4gl11j4ufYX2X3WGume6qmtDEr6kyiwR0x9C
+	cxiPW6KyqQRJuzfkOfZeC+MVhuRec3d3eJIEUNq8AGc2z7YeAIhaADmP9uHRBQ==
+Date: Thu, 12 Mar 2026 18:37:10 +0900
+From: Aleksa Sarai <cyphar@cyphar.com>
+To: Andy Lutomirski <luto@amacapital.net>
+Cc: Christian Brauner <brauner@kernel.org>, 
+	Jeff Layton <jlayton@kernel.org>, Dorjoy Chowdhury <dorjoychy111@gmail.com>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, 
+	ceph-devel@vger.kernel.org, gfs2@lists.linux.dev, linux-nfs@vger.kernel.org, 
+	linux-cifs@vger.kernel.org, v9fs@lists.linux.dev, linux-kselftest@vger.kernel.org, 
+	viro@zeniv.linux.org.uk, jack@suse.cz, chuck.lever@oracle.com, alex.aring@gmail.com, 
+	arnd@arndb.de, adilger@dilger.ca, mjguzik@gmail.com, smfrench@gmail.com, 
+	richard.henderson@linaro.org, mattst88@gmail.com, linmag7@gmail.com, tsbogend@alpha.franken.de, 
+	James.Bottomley@hansenpartnership.com, deller@gmx.de, davem@davemloft.net, andreas@gaisler.com, 
+	idryomov@gmail.com, amarkuze@redhat.com, slava@dubeyko.com, agruenba@redhat.com, 
+	trondmy@kernel.org, anna@kernel.org, sfrench@samba.org, pc@manguebit.org, 
+	ronniesahlberg@gmail.com, sprasad@microsoft.com, tom@talpey.com, bharathsm@microsoft.com, 
+	shuah@kernel.org, miklos@szeredi.hu, hansg@kernel.org
+Subject: Re: [PATCH v5 1/4] openat2: new OPENAT2_REGULAR flag support
+Message-ID: <2026-03-12-naughty-cyan-tower-bats-CiRzU7@cyphar.com>
+References: <20260307140726.70219-1-dorjoychy111@gmail.com>
+ <20260307140726.70219-2-dorjoychy111@gmail.com>
+ <CALCETrXVBA9uGEUdQPEZ2MVdxjLwwcWi5kzhOr1NdOWSSRaROw@mail.gmail.com>
+ <801cf2c42b80d486726ea0a3774e52abcb158100.camel@kernel.org>
+ <CALCETrVt7o+7JCMfTX3Vu9PANJJgR8hB5Z2THcXzam61kG9Gig@mail.gmail.com>
+ <20260309-umsturz-herfallen-067eb2df7ec2@brauner>
+ <2026-03-11-regular-sore-census-shops-DqYcUT@cyphar.com>
+ <CALCETrVMF3VBr0cuEYOg-M_u+hX77Jfdujv3ZMtLGCzHgOcsGA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="i7hwymh2jbrl5osk"
+Content-Disposition: inline
+In-Reply-To: <CALCETrVMF3VBr0cuEYOg-M_u+hX77Jfdujv3ZMtLGCzHgOcsGA@mail.gmail.com>
 
-Default quota limits are stored on the ID 0 dquot record and are
-applied by the kernel to all users who have no explicit limits set.
-However, check_quotactl_permission() only allows unprivileged users to
-query their own user or group quota via Q_GETQUOTA/Q_XGETQUOTA.  This
-means unprivileged users cannot discover what default limits apply to
-them.
 
-Allow any user to query ID 0's quota via Q_GETQUOTA/Q_XGETQUOTA.
-Note that this does expose ID 0's usage counters and timers in
-addition to the default limits. This enables userspace tools like
-xfs_quota to fetch default limits and display them to unprivileged
-users.
+--i7hwymh2jbrl5osk
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v5 1/4] openat2: new OPENAT2_REGULAR flag support
+MIME-Version: 1.0
 
-This change does not affect Q_XGETNEXTQUOTA, Q_SETQLIM, or any other
-quota command -- those still require CAP_SYS_ADMIN.
+On 2026-03-11, Andy Lutomirski <luto@amacapital.net> wrote:
+> On Tue, Mar 10, 2026 at 9:49=E2=80=AFPM Aleksa Sarai <cyphar@cyphar.com> =
+wrote:
+> >
+> > On 2026-03-09, Christian Brauner <brauner@kernel.org> wrote:
+> > > > > On Sat, 2026-03-07 at 10:56 -0800, Andy Lutomirski wrote:
+> > > > > > I think this needs more clarification as to what "regular" mean=
+s,
+> > > > > > since S_IFREG may not be sufficient.  The UAPI group page says:
+> > > > > >
+> > > > > > Use-Case: this would be very useful to write secure programs th=
+at want
+> > > > > > to avoid being tricked into opening device nodes with special
+> > > > > > semantics while thinking they operate on regular files. This is
+> > > > > > particularly relevant as many device nodes (or even FIFOs) come=
+ with
+> > > > > > blocking I/O (or even blocking open()!) by default, which is not
+> > > > > > expected from regular files backed by =E2=80=9Cfast=E2=80=9D di=
+sk I/O. Consider
+> > > > > > implementation of a naive web browser which is pointed to
+> > > > > > file://dev/zero, not expecting an endless amount of data to rea=
+d.
+> > > > > >
+> > > > > > What about procfs?  What about sysfs?  What about /proc/self/fd=
+/17
+> > > > > > where that fd is a memfd?  What about files backed by non-"fast=
+" disk
+> > > > > > I/O like something on a flaky USB stick or a network mount or F=
+USE?
+> > > > > >
+> > > > > > Are we concerned about blocking open?  (open blocks as a matter=
+ of
+> > > > > > course.)  Are we concerned about open having strange side effec=
+ts?
+> > > > > > Are we concerned about write having strange side effects?  Are =
+we
+> > > > > > concerned about cases where opening the file as root results in
+> > > > > > elevated privilege beyond merely gaining the ability to write t=
+o that
+> > > > > > specific path on an ordinary filesystem?
+> > >
+> > > I think this is opening up a barrage of question that I'm not sure are
+> > > all that useful. The ability to only open regular file isn't intended=
+ to
+> > > defend against hung FUSE or NFS servers or other random Linux
+> > > special-sauce murder-suicide file descriptor traps. For a lot of those
+> > > we have O_PATH which can easily function with the new extension. A lot
+> > > of the other special-sauce files (most anonymous inode fds) cannot ev=
+en
+> > > be reopened via e.g., /proc.
+> >
+> > Indeed, I see OPENAT2_REGULAR as a way of optimising the tedious checks
+> > that userspace does using O_PATH+/proc/self/fd/$n re-opening when
+> > dealing with regular files.
+>=20
+> Can you give a brief decription or a link to what these checks are and
+> what problem they solve?
 
-Signed-off-by: Ravi Singh <ravising@redhat.com>
----
- fs/quota/quota.c | 3 +++
- 1 file changed, 3 insertions(+)
+There are a few variations, but in this particular case they are just
+doing fstat() and then checking whether the file is a regular file
+(i.e., S_IFREG) or not.
 
-diff --git a/fs/quota/quota.c b/fs/quota/quota.c
-index 33bacd707..8b21f3c1b 100644
---- a/fs/quota/quota.c
-+++ b/fs/quota/quota.c
-@@ -42,6 +42,9 @@ static int check_quotactl_permission(struct super_block *sb, int type, int cmd,
- 		if ((type == USRQUOTA && uid_eq(current_euid(), make_kuid(current_user_ns(), id))) ||
- 		    (type == GRPQUOTA && in_egroup_p(make_kgid(current_user_ns(), id))))
- 			break;
-+		 /* Allow unprivileged read of ID 0 (default quota limits) */
-+		if (id == 0)
-+			break;
- 		fallthrough;
- 	default:
- 		if (!capable(CAP_SYS_ADMIN))
--- 
-2.49.0
+A container rootfs can contain arbitrary files (because container images
+are just tar archives, usually with no restrictions on inodes -- a fair
+few container runtimes assume that the devices cgroup is sufficient to
+protect against the container overwriting your rootfs). The S_IFREG
+check avoids an administrative process from being tricked into opening a
+block device or an endlessly-streaming FIFO -- if you also use
+RESOLVE_NO_XDEV you can also make sure that you don't land on procfs or
+sysfs by accident.
 
+I will say that in a previous version of this patchset I said that I
+would prefer this be done with an allow-bitmask of S_IFMT rather than a
+single O_REGULAR toggle -- this would allow for usecases such as "only
+open a regular file or directory" (inode_type_can_chattr() from systemd
+is a practical example of this kind of usage) or "anything except for
+block/char devices", but the definition of S_IFBLK (S_IFCHR|S_IFDIR)
+makes this a little too ugly. :/
+
+--=20
+Aleksa Sarai
+https://www.cyphar.com/
+
+--i7hwymh2jbrl5osk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJEEABYKADkWIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCabKJRRsUgAAAAAAEAA5t
+YW51MiwyLjUrMS4xMSwyLDIACgkQKJf60rfpRG+vawEA1WxGEhn5Rc+wid/VGVxs
+yznMgHiA2Xe1m0YMiUy78u4BAJfditiWc61238EqwnDAWlH4X0xzDBvmXWOUuex3
+vw0K
+=3QVZ
+-----END PGP SIGNATURE-----
+
+--i7hwymh2jbrl5osk--
