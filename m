@@ -1,188 +1,193 @@
-Received: from out30-132.freemail.mail.aliyun.com (out30-132.freemail.mail.aliyun.com [115.124.30.132])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BB9C282F34;
-	Fri, 13 Mar 2026 05:54:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.132
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D5F136D9E8;
+	Fri, 13 Mar 2026 07:43:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773381280; cv=none; b=rqRqBwcZ7rgZJiPRhMuM255wvSYWBGGScjDyNSrvQ4OZ2rI3bMiXLXlZJBxDmh3x7ugpCWFt27oN0a5IXrU1Df5NTS0oWcg8E2OINvpfSB0XhD+1KIqaxXILMfEggxpzJHkeWn5I0G/57sxPrATTtQyQIyT0mTKRj8KTbwEXnz0=
+	t=1773387844; cv=none; b=fFYM4X9qOFzG8JS5m+iCjLUxqY9uNZfrRQs6qjtvuYi+CmLbgGB9PNDQ75Rd7iYVRu/cHVRnBSDxd0nq0eOu1zpQcNHgLG5feINOsYJV9i+aunizxf3ySnssKEhBDpq7pN/3gUCAZWyn59x0wzsGMAZnNkUwdIUT4x4Bw2SHeEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773381280; c=relaxed/simple;
-	bh=O2HXLpaxWlFj6yPv/IIIUKi+5QMsSa1obpT0DtqTmjI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rnMcGoLRobetzcNaSW0ooESd8gmEJvOSQ3+X7RmYBVaP4qosHeIstYFaOXB/lCBJLS0Ca2GIM2txNmOYPEIPwKGXummcehW54N01RQHf32MG+PvK8cg7mA12unh4OaLcL/lfTrXba4fuO/Odv1fE5ow/fihz9/GZsvzO4DD0tQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=g/3j/+pU; arc=none smtp.client-ip=115.124.30.132
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1773387844; c=relaxed/simple;
+	bh=cbGZGfV2CjzJ2vaDHw5p5SBqzz5UC0W/EU4NHhqaQd8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IJGmLNhNlq73fTHAjNARNSzb+OixUO9bWtSTuGGts69nEa9OluXpCzqUagNroXkZjTflB0GERi2z2ijQlLuTcy0hCNEH/rAwRSMULgkhoR783yAx1bEJRVAY5Z7tgnP7h5gd7Emzm5BwjPHBNcpIYCLxw04PcjkeYn29927L8tM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=qLgmYo4S; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="g/3j/+pU"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1773381274; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=oczUtkjqR/GKMWS4UhWTZ6MNDRiOWQJyorrZCEgN1Dg=;
-	b=g/3j/+pU5uQBscEcj0AHCQQt64eFGPksA756c1aEXtVk8CxslDf31hSFHzhdrH2HhqoIafxLZK0kXfaeaU+K7HKiEy30nFyYpc+Ve16cChXMKxlSy2rMe71iTBXZTp+KUhTGsOKExkHWgbxtUTxcE5pyBUopCb2jR6hRUKielLk=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R841e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045098064;MF=baolin.wang@linux.alibaba.com;NM=1;PH=DS;RN=18;SR=0;TI=SMTPD_---0X-rAXAR_1773381271;
-Received: from 30.74.144.121(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0X-rAXAR_1773381271 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Fri, 13 Mar 2026 13:54:32 +0800
-Message-ID: <726ee101-6978-49f6-8f2b-edc7f8d99074@linux.alibaba.com>
-Date: Fri, 13 Mar 2026 13:54:31 +0800
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="qLgmYo4S"
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62D67jXb2301775;
+	Fri, 13 Mar 2026 07:43:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pp1; bh=7R4bZX+8l6ab+aMNio8lrPp79kOpfd
+	mIIKS4MVABZ7w=; b=qLgmYo4SST0qlToLGHpbrgIh1hS0obUUyXEwuf01d2RfHf
+	tjnOP0L7WFyy/Dtuv21rSz7a8RgrydtBNMKGMS5HVfbP+waXY2mwRMSNX9kYvyhL
+	XdFDrfCJ/9NYirDLoK5Fo0dxxZ/4RtjtK6/VaVSnuRNev03KPHk/ONoADsdYHtO2
+	1qLMt7FaWRyOb6icGmQpVkzy/3PNDACK9ivl7YNCMy0AGwAl1FABQ67qyhsi0SvK
+	4PgJmwQx/dyJZxBfM2153mYlVVufvmfEnVXYkVqOfNut4WOJ7dlkT7XpUGiVclS1
+	DOQ3yTaNyzCAXWxiZQc9S4q/IJOVhA5r1WT5zLhw==
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4cuh95xdne-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 13 Mar 2026 07:43:31 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 62D5crX6025691;
+	Fri, 13 Mar 2026 07:43:31 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4cuha8dq5v-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 13 Mar 2026 07:43:31 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 62D7hTRF16187648
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 13 Mar 2026 07:43:29 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 62CAF20043;
+	Fri, 13 Mar 2026 07:43:29 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3734D20040;
+	Fri, 13 Mar 2026 07:43:26 +0000 (GMT)
+Received: from li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com (unknown [9.39.23.11])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Fri, 13 Mar 2026 07:43:25 +0000 (GMT)
+Date: Fri, 13 Mar 2026 13:13:23 +0530
+From: Ojaswin Mujoo <ojaswin@linux.ibm.com>
+To: Dave Chinner <dgc@kernel.org>
+Cc: linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        djwong@kernel.org, john.g.garry@oracle.com, willy@infradead.org,
+        hch@lst.de, ritesh.list@gmail.com, jack@suse.cz,
+        Luis Chamberlain <mcgrof@kernel.org>, tytso@mit.edu,
+        p.raghav@samsung.com, andres@anarazel.de, linux-kernel@vger.kernel.org
+Subject: Re: [RFC 1/3] iomap: Support buffered RWF_WRITETHROUGH via async dio
+ backend
+Message-ID: <abPAGwHuPK2ZoMpT@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
+References: <cover.1773076216.git.ojaswin@linux.ibm.com>
+ <c84ddc3f864f840d646b6aa19fd9b3e83e079c0b.1773076216.git.ojaswin@linux.ibm.com>
+ <aa--rBKQG7ck5nuM@dread>
+ <abFFcSTmUaAzbmOB@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
+ <abFacQlKfQj3aQZk@dread>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH] mm: filemap: fix nr_pages calculation overflow in
- filemap_map_pages()
-To: Dev Jain <dev.jain@arm.com>, akpm@linux-foundation.org,
- willy@infradead.org
-Cc: david@kernel.org, lorenzo.stoakes@oracle.com, kas@kernel.org,
- p.raghav@samsung.com, mcgrof@kernel.org, dhowells@redhat.com,
- djwong@kernel.org, hare@suse.de, da.gomez@samsung.com, dchinner@redhat.com,
- brauner@kernel.org, xiangzao@linux.alibaba.com,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org
-References: <066dd2e947ccc1c304b54e847fbe628dccea1d7c.1773370126.git.baolin.wang@linux.alibaba.com>
- <0890a207-354e-4da1-80c2-67754354a6a6@arm.com>
- <c7e8ac1c-0486-4e41-a62c-0917054b2fa1@arm.com>
-From: Baolin Wang <baolin.wang@linux.alibaba.com>
-In-Reply-To: <c7e8ac1c-0486-4e41-a62c-0917054b2fa1@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <abFacQlKfQj3aQZk@dread>
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzEzMDA1OSBTYWx0ZWRfXzX+jn8ytbnSN
+ TsVUEvVSV2DN57iQE5GRGNpNjsDzaRlothcwEVOhYk7+jJGILZ5qxBI8dqLk90RvFsRaBHoEfVB
+ PXHkGtSc0scicfGIRiPXe/MblkbD+k5eLq32A5AzuQbp4gwTkY7rZn4kUyIygDcAv/VAwtOdYjW
+ soyshrA0nlQsml7TbTpI6eUI+Z9x6bHUbR1wU97RHR+jO8FV4fUzbUYWjDl3GroBqQsu7Y0GwSO
+ rlN9mo/hZ7LcWFHg3N1wrfNAiKR2c3Xqxm2SgNhnO2sOB5YL4JNTzqGmzHToYu24wrtqIR4/NMd
+ pNauKrXiGBSCO+opIKFP7bTPfzF2/R+rADQMGjnSOCVGJN6cgSwPRJw66I/Mc1kx5KF6GUSKqgR
+ y55ANp/5B67ghZ8Zq96Nl90tfp6UK1kTt7CLtzyGKb47hGQBZQOxU7S6xqF0Qjf4pWuTivBWZOo
+ VrP5jFGfOp6Lz4og4og==
+X-Authority-Analysis: v=2.4 cv=FowIPmrq c=1 sm=1 tr=0 ts=69b3c024 cx=c_pps
+ a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
+ a=kj9zAlcOel0A:10 a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=VwQbUJbxAAAA:8
+ a=a2yihl7u5Ul82en_wFIA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-GUID: 6E4dMa8e6E51OHzvmHSxTRLrMvC8Pw9Y
+X-Proofpoint-ORIG-GUID: D6Zj7GUU2vQ712_5Hj05J2FfXWR88oHr
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-13_01,2026-03-12_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 clxscore=1015 suspectscore=0 bulkscore=0 impostorscore=0
+ lowpriorityscore=0 adultscore=0 phishscore=0 malwarescore=0
+ priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2603050001
+ definitions=main-2603130059
 
-
-
-On 3/13/26 1:14 PM, Dev Jain wrote:
+On Wed, Mar 11, 2026 at 11:05:05PM +1100, Dave Chinner wrote:
+> On Wed, Mar 11, 2026 at 04:05:29PM +0530, Ojaswin Mujoo wrote:
+> > On Tue, Mar 10, 2026 at 05:48:12PM +1100, Dave Chinner wrote:
+> > > On Mon, Mar 09, 2026 at 11:04:31PM +0530, Ojaswin Mujoo wrote:
+> > > This is not what I envisiaged write-through using DIO to look like.
+> > > This is a DIO per folio, rather than a DIO per write() syscall. We
+> > > want the latter to be the common case, not the former, especially
+> > > when it comes to RWF_ATOMIC support.
+> > > 
+> > > i.e. I was expecting something more like having a wt context
+> > > allocated up front with an appropriately sized bvec appended to it
+> > > (i.e. single allocation for the common case). Then in
+> > > iomap_write_end(), we'd mark the folio as under writeback and add it
+> > > to the bvec. Then we iterate through the IO range adding folio after
+> > > folio to the bvec.
+> > > 
+> > > When the bvec is full or we reach the end of the IO, we then push
+> > > that bvec down to the DIO code. Ideally we'd also push the iomap we
+> > > already hold down as well, so that the DIO code does not need to
+> > > look it up again (unless the mapping is stale). The DIO completion
+> > > callback then runs a completion callback that iterates the folios
+> > > attached ot the bvec and runs buffered writeback compeltion on them.
+> > > It can then decrements the wt-ctx IO-in-flight counter.
+> > > 
+> > > If there is more user data to submit, we keep going around (with a
+> > > new bvec if we need it) adding folios and submitting them to the dio
+> > > code until there is no more data to copy in and submit.
+> > > 
+> > > The writethrough context then drops it's own "in-flight" reference
+> > > and waits for the in-flight counter to go to zero.
+> > 
+> > Hi Dave,
+> > 
+> > Thanks for the review. IIUC you are suggesting a per iomap submission of
+> > dio rather than a per folio,
 > 
+> Yes, this is the original architectural premise of iomap: we map the
+> extent first, then iterate over folios, then submit a single bio for
+> the extent...
 > 
-> On 13/03/26 10:41 am, Dev Jain wrote:
->>
->>
->> On 13/03/26 9:15 am, Baolin Wang wrote:
->>> When running stress-ng on my Arm64 machine with v7.0-rc3 kernel, I encountered
->>> some very strange crash issues showing up as "Bad page state":
->>>
->>> "
->>> [  734.496287] BUG: Bad page state in process stress-ng-env  pfn:415735fb
->>> [  734.496427] page: refcount:0 mapcount:1 mapping:0000000000000000 index:0x4cf316 pfn:0x415735fb
->>> [  734.496434] flags: 0x57fffe000000800(owner_2|node=1|zone=2|lastcpupid=0x3ffff)
->>> [  734.496439] raw: 057fffe000000800 0000000000000000 dead000000000122 0000000000000000
->>> [  734.496440] raw: 00000000004cf316 0000000000000000 0000000000000000 0000000000000000
->>> [  734.496442] page dumped because: nonzero mapcount
->>> "
->>>
->>> After analyzing this page’s state, it is hard to understand why the mapcount
->>> is not 0 while the refcount is 0, since this page is not where the issue first
->>> occurred. By enabling the CONFIG_DEBUG_VM config, I can reproduce the crash as
->>> well and captured the first warning where the issue appears:
->>>
->>> "
->>> [  734.469226] page: refcount:33 mapcount:0 mapping:00000000bef2d187 index:0x81a0 pfn:0x415735c0
->>> [  734.469304] head: order:5 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
->>> [  734.469315] memcg:ffff000807a8ec00
->>> [  734.469320] aops:ext4_da_aops ino:100b6f dentry name(?):"stress-ng-mmaptorture-9397-0-2736200540"
->>> [  734.469335] flags: 0x57fffe400000069(locked|uptodate|lru|head|node=1|zone=2|lastcpupid=0x3ffff)
->>> ......
->>> [  734.469364] page dumped because: VM_WARN_ON_FOLIO((_Generic((page + nr_pages - 1),
->>> const struct page *: (const struct folio *)_compound_head(page + nr_pages - 1), struct page *:
->>> (struct folio *)_compound_head(page + nr_pages - 1))) != folio)
->>> [  734.469390] ------------[ cut here ]------------
->>> [  734.469393] WARNING: ./include/linux/rmap.h:351 at folio_add_file_rmap_ptes+0x3b8/0x468,
->>> CPU#90: stress-ng-mlock/9430
->>> [  734.469551]  folio_add_file_rmap_ptes+0x3b8/0x468 (P)
->>> [  734.469555]  set_pte_range+0xd8/0x2f8
->>> [  734.469566]  filemap_map_folio_range+0x190/0x400
->>> [  734.469579]  filemap_map_pages+0x348/0x638
->>> [  734.469583]  do_fault_around+0x140/0x198
->>> ......
->>> [  734.469640]  el0t_64_sync+0x184/0x188
->>> "
->>>
->>> The code that triggers the warning is: "VM_WARN_ON_FOLIO(page_folio(page + nr_pages - 1) != folio, folio)",
->>> which indicates that set_pte_range() tried to map beyond the large folio’s
->>> size.
->>>
->>> By adding more debug information, I found that 'nr_pages' had overflowed in
->>> filemap_map_pages(), causing set_pte_range() to establish mappings for a range
->>> exceeding the folio size, potentially corrupting fields of pages that do not
->>> belong to this folio (e.g., page->_mapcount).
->>>
->>> After above analysis, I think the possible race is as follows:
->>>
->>> CPU 0                                                  CPU 1
->>> filemap_map_pages()                                   ext4_setattr()
->>>     //get and lock folio with old inode->i_size
->>>     next_uptodate_folio()
->>>
->>>                                                            .......
->>>                                                            //shrink the inode->i_size
->>>                                                            i_size_write(inode, attr->ia_size);
->>>
->>>     //calculate the end_pgoff with the new inode->i_size
->>>     file_end = DIV_ROUND_UP(i_size_read(mapping->host), PAGE_SIZE) - 1;
->>>     end_pgoff = min(end_pgoff, file_end);
->>>
->>>     ......
->>>     //nr_pages can be overflowed, cause xas.xa_index > end_pgoff
->>>     end = folio_next_index(folio) - 1;
->>>     nr_pages = min(end, end_pgoff) - xas.xa_index + 1;
->>>
->>>     ......
->>>     //map large folio
->>>     filemap_map_folio_range()
->>>                                                            ......
->>>                                                            //truncate folios
->>>                                                            truncate_pagecache(inode, inode->i_size);
->>>
->>> To fix this issue, move the 'end_pgoff' calculation before next_uptodate_folio(),
->>> so the retrieved folio stays consistent with the file end to avoid 'nr_pages'
->>> calculation overflow. After this patch, the crash issue is gone.
->>>
->>> Fixes: 743a2753a02e ("filemap: cap PTE range to be created to allowed zero fill in folio_map_range()")
->>> Reported-by: Yuanhe Shu <xiangzao@linux.alibaba.com>
->>> Tested-by: Yuanhe Shu <xiangzao@linux.alibaba.com>
->>> Signed-off-by: Baolin Wang <baolin.wang@linux.alibaba.com>
->>> ---
->>>   mm/filemap.c | 6 +++---
->>>   1 file changed, 3 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/mm/filemap.c b/mm/filemap.c
->>> index bc6775084744..923d28e59642 100644
->>> --- a/mm/filemap.c
->>> +++ b/mm/filemap.c
->>> @@ -3879,14 +3879,14 @@ vm_fault_t filemap_map_pages(struct vm_fault *vmf,
->>>   	unsigned int nr_pages = 0, folio_type;
->>>   	unsigned short mmap_miss = 0, mmap_miss_saved;
->>>   
->>> +	file_end = DIV_ROUND_UP(i_size_read(mapping->host), PAGE_SIZE) - 1;
->>> +	end_pgoff = min(end_pgoff, file_end);
->>> +
->>>   	rcu_read_lock();
->>>   	folio = next_uptodate_folio(&xas, mapping, end_pgoff);
->>>   	if (!folio)
->>>   		goto out;
->>>   
->>> -	file_end = DIV_ROUND_UP(i_size_read(mapping->host), PAGE_SIZE) - 1;
->>> -	end_pgoff = min(end_pgoff, file_end);
->>> -
->>>   	/*
->>>   	 * Do not allow to map with PMD across i_size to preserve
->>>   	 * SIGBUS semantics.
->>
->> I am wondering whether something similar can happen in the do-while loop
->> below this code. We can retrieve a folio from next_uptodate_folio, and
->> then a massive truncate happens and we end up mapping a large folio
->> into the pagetables beyong i_size, violating SIGBUS semantics. (truncation
->> may back-off seeing the locked folio/increased refcount in filemap_map_pages)
+> > and for each iomap we submit we can
+> > maintain a per writethrough counter which helps us perform any sort of
+> > endio cleanup work. I can give this design a try in v2.
 > 
-> Read the bracket text as - (truncation may fail to unmap this folio seeing
-> it locked or with elevated refcount, therefore the illegal mapping stays
-> permanent)
+> Yes, this is exactly how iomap DIO completion tracking works for
+> IO that requires multiple bios to be submitted. i.e. completion
+> processing only runs once all IOs -and submission- have completed.
+> 
+> > > > index c24d94349ca5..f4d8ff08a83a 100644
+> > > > --- a/fs/iomap/direct-io.c
+> > > > +++ b/fs/iomap/direct-io.c
+> > > > @@ -713,7 +713,8 @@ __iomap_dio_rw(struct kiocb *iocb, struct iov_iter *iter,
+> > > >  	dio->i_size = i_size_read(inode);
 
-IMHO, the truncate_pagecache() will call unmap_mapping_range() twice, 
-and the folio lock and refcount will not block unmap_mapping_range() to 
-unmap the folio's mapping (only hold ptl lock).
+<...>
 
-So the truncate_pagecache() can still truncate large folios beyond i_size.
+> > currently.
+> 
+> For a write() style syscall, yes. For AIO/io_uring, no.
+> 
+> io_submit() only returns an error if there is something wrong
+> with the aio ctx or iocbs being submitted. It does not report
+> completion status of the iocbs that are submitted. You need to call
+> io_getevents() to obtain the completion status of individual iocbs
+> that have been submitted via io_submit().
+> 
+> Think about it: if you submit 16 IO in on io_submit() call and
+> one fails, how do you know find out which IO failed?
+> 
+> > However, with our idea of making the DSYNC buffered aio also
+> > truly async, via writethrough, won't we be violating this guarantee?
+> 
+> No, the error will be returned to the AIO completion ring, same as
+> it is now.
+
+Thanks for the pointers Dave, I now have a decent picture of how
+O_DSYNC/RWF_DSYNC IO will look like with writethrough. I'll try to
+incorporate this in the next version, along with your other suggestions.
+
+Regards,
+ojaswin
+
+> 
+> -Dave.
+> -- 
+> Dave Chinner
+> dgc@kernel.org
