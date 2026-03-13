@@ -1,219 +1,215 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-m49197.qiye.163.com (mail-m49197.qiye.163.com [45.254.49.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B764E2D46B3
-	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Mar 2026 00:52:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9B6A32AABD;
+	Fri, 13 Mar 2026 01:49:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773363156; cv=none; b=q4ultUaLndn9xDoXnRfZ0+5Q7ksxc7+Jrx11DyV7Tu8NItiBD22E9SoGek7TV7blmyiZs5+8+YRD3uT/MR6MbApK7ha+pSdoSt1LAEhzxKCw55R7UIZ/xSXGIWBR1TpmQfxSTIB45x+9N66Hl1Oxv9XREJbOaOouBfN2bBG93n8=
+	t=1773366608; cv=none; b=m/tcgSxRrf9KFcgKkLPAy4BCk24EA/8NLMxV9WiMqH+Uet+OFYmCUoytIFCzC6pYTBqD/5PvlvER3A3y6Eg7Ue4V+lKF0rNAuPHu/zIn3lgepoG0cLJs5wq8dhPsT1GDVYiFaHSUZtoASy9bmDlb7h7VJHwylTV6wz8YfUxU1QI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773363156; c=relaxed/simple;
-	bh=1wDo3jXKa/91+g4XbNkQ2u1DZG7fYIBpjFkTHK5C6kQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hDClvqHH+Yul3YOdFINkAFCABvPBUVqDMX18Jhue6bgEByvRDFwfqfd4+Fh8uxLzk3TxPllNITqLJZUM3FMvTIo2/kqBL1uNQb9D1jsIieGbE9GrieZJapgP5klAI3xEXNBz4YYzrdDg+MyJr3FCo8tu0oz5jCMYYOZUwndm9Us=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hev.cc; spf=pass smtp.mailfrom=hev.cc; dkim=pass (2048-bit key) header.d=hev-cc.20230601.gappssmtp.com header.i=@hev-cc.20230601.gappssmtp.com header.b=wrEsarjH; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hev.cc
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hev.cc
+	s=arc-20240116; t=1773366608; c=relaxed/simple;
+	bh=6KtpKOJDtkV6BORlHClu997PS0MH/vOvv0UwIKGsQWA=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jy0/74FzDww0zS+CSE7C6iDPgq2c1lQvo9aK+fJBiH68rZSVXhA3dnvGqBdSpvqjlS0GDl7ZnVhrvkpjTPYVR0lvqveyGYD+RsoLLhn22skRPA7cXhnP3XyDvzdkQRCvOQQLxeFlTHu15EfddCJnJgBJ/Nn3kzY1Z6PLmA6klvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=SYO7SUMd; arc=none smtp.client-ip=45.254.49.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hev-cc.20230601.gappssmtp.com header.i=@hev-cc.20230601.gappssmtp.com header.b="wrEsarjH"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-82418b0178cso982571b3a.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 12 Mar 2026 17:52:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=hev-cc.20230601.gappssmtp.com; s=20230601; t=1773363154; x=1773967954; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=dGznOHQEDu0JbgYRJJzSYbQuqE+ZUTZUlFHToiIO7T4=;
-        b=wrEsarjHeymS+a+yiJXaSFRye2GhfTySmQHQMW2EgTfJGPULsMQRMNNpG6nBAVH5r/
-         goomdyhusLgKvauHi8218AWw1GSe2Hl3a3j97AuSlW88XsT7DJ/KXBnHsWXla/Kyk5Yx
-         O3Ahx2/6NlTDE6RkcAdHLlmu0wlz4/X9X0E00ZSVBy/Fst0rlMhGVf/myHNbx0ilq3ld
-         r2zvx4qvkHdOUUKiJ7RBiuEBcbS3qJjUnLlrhtuG7XuppHEJWIAg7fGq9+r36eqBbuvj
-         BSslKmaeghMHANaUlbIBSEHVHyo7o39/EkV6Oyht6DFLc+8NgJeZt5hFVuBQD9nhkg7Q
-         s1vA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773363154; x=1773967954;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dGznOHQEDu0JbgYRJJzSYbQuqE+ZUTZUlFHToiIO7T4=;
-        b=D/C8Inj+QuLajjK3YlN0Yd7T2DXoOaWQkCYJzIFqDOfvB2ae151j/bnUIY3V7EL/IP
-         3U5rg+VoMuTrqZEV1i1SD4K5P0sVQyJt7Rs1onZ7XU7B9W/KojKMzzPKLGjmmKid5vyP
-         ++J/bj5moVcDcErNwMglIq3Tir+mlJDmZKno+jjqlHLL4Tl6/BAX9qwiyqnENKc0RB1O
-         uSLhYEo0rYeT3cK5ymdHEAD95dgbdySec5vHMMmgUuzHMh5sXd3B8vJkJwwFMFkZvIgX
-         lV78jqpQTIyoUFYT5ktvWE7fmY4OaskjM9p8fOl/bFQqw/IT9IvUcZaPym/Ng9CwmLyd
-         16fQ==
-X-Gm-Message-State: AOJu0YwnYQnL9iUPUtU/V/LiLQF45VeUe0zZdxa1QIvDzk326OhsmF4O
-	BA5vpOz8IQrPa0rkR2s+EGO/fAWuEW3jYIDrQ/GKaJYJGQi6UQJ4XS2ydm8dulih3Xk=
-X-Gm-Gg: ATEYQzzrtGufrGz5B2i5rFhI2kh1oqX7ngl2Mz3JSYg9DaoW6vXf4O16WiHNms5MuIE
-	NXRac0TPCSVjRor671YGnUwe7SRxH4LfPNFqk95iNeqAYB9yZezy4Aw5HKVWHDhiuobva9JFe8J
-	XhSw4N9oCrWTLAQ7DI1zZJJRmxkbp2mD91T4dD61eMkEJgjVU4J/uxyReKrFdLoUC2tWCvj62Wl
-	sNrzLdfgTZLC0BCS9uHbXkNexUzd4By1+Sd6DCP32UK64teeLTaahBc0KNWpOIlrILm720pkoFt
-	2dfnZh58ObVDErGiq3vOG3FLu55OqImwcqfnY3LnFmh2JaKOQS2feXnd6o5ZyNN1+9v4+Zo4JlB
-	5DO4GaZJQ3zfmDPgxMHp0PKw3LDa3ScmGcFv6bKJO2WEE5mG35XnYD4J/qhjauNqmMca2U8oemq
-	YMs+W1y0c16fT8q9mAcEQ=
-X-Received: by 2002:a05:6a20:3d88:b0:398:7357:bb92 with SMTP id adf61e73a8af0-398ec9e200amr981009637.5.1773363154010;
-        Thu, 12 Mar 2026 17:52:34 -0700 (PDT)
-Received: from localhost ([2400:8902:e002:de08:5754:7dac:85df:935a])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82a1e72cf33sm122827b3a.37.2026.03.12.17.52.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Mar 2026 17:52:33 -0700 (PDT)
-From: WANG Rui <r@hev.cc>
-To: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	David Hildenbrand <david@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Kees Cook <kees@kernel.org>,
-	Matthew Wilcox <willy@infradead.org>
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org,
+	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="SYO7SUMd"
+Received: from DESKTOP-SUEFNF9.tailb3ad3b.ts.net (unknown [223.112.146.162])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 36c692dc3;
+	Fri, 13 Mar 2026 09:49:47 +0800 (GMT+08:00)
+From: Zilin Guan <zilin@seu.edu.cn>
+To: slava.dubeyko@ibm.com
+Cc: akpm@linux-foundation.org,
+	frank.li@vivo.com,
+	glaubitz@physik.fu-berlin.de,
+	jianhao.xu@seu.edu.cn,
+	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	WANG Rui <r@hev.cc>
-Subject: [PATCH v5] binfmt_elf: Align eligible read-only PT_LOAD segments to PMD_SIZE for THP
-Date: Fri, 13 Mar 2026 08:52:11 +0800
-Message-ID: <20260313005211.882831-1-r@hev.cc>
-X-Mailer: git-send-email 2.53.0
+	slava@dubeyko.com,
+	sougata@tuxera.com,
+	stable@vger.kernel.org,
+	zilin@seu.edu.cn
+Subject: RE:  [PATCH] hfsplus: fix held lock freed on hfsplus_fill_super()
+Date: Fri, 13 Mar 2026 09:49:49 +0800
+Message-Id: <20260313014949.19178-1-zilin@seu.edu.cn>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <77a8534a8b7922a1c0cf85f68fd8bda2bd7a61dc.camel@ibm.com>
+References: <77a8534a8b7922a1c0cf85f68fd8bda2bd7a61dc.camel@ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9ce4e2b01a03a1kunm4d4ba3db1d2ae
+X-HM-MType: 10
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaSU5IVklCQkxKGEoYGEhKSFYeHw5VEwETFhoSFy
+	QUDg9ZV1kYEgtZQVlJSUhVSkpJVUpPTVVKTUlZV1kWGg8SFR0UWUFZT0tIVUJCSU5LVUpLS1VKQk
+	tCWQY+
+DKIM-Signature: a=rsa-sha256;
+	b=SYO7SUMdYOF03vRa30IWqaGsPjE0zvVt5x3maj+9yeEngdnRX8aiEf+6i9VOCPZeb01pJONY6ca9GsRTLyA6eUaiZtgyQg1nN6OipBQMGkNWlwkfJsrLrC2yuvhZM2kNR+bmTENWG1NSu/tmwQfCWkSKxIFElQFkBap5rLjkxVE=; s=default; c=relaxed/relaxed; d=seu.edu.cn; v=1;
+	bh=3f94yEpvLHTFyIc2v5X/OTnhWXa1TvgrDI017wFG8+s=;
+	h=date:mime-version:subject:message-id:from;
 
-File-backed mappings can only be collapsed into PMD-sized THP when the
-virtual address and file offset are both hugepage-aligned and the
-mapping is large enough to cover a huge page.
+On Thu, Mar 12, 2026 at 05:36:38PM +0000, Viacheslav Dubeyko wrote:
+> On Thu, 2026-03-12 at 10:17 +0800, Zilin Guan wrote:
+> > On Wed, Mar 11, 2026 at 09:17:59PM +0000, Viacheslav Dubeyko wrote:
+> > > On Wed, 2026-03-11 at 19:43 +0800, Zilin Guan wrote:
+> > > >  fs/hfsplus/super.c | 4 +++-
+> > > >  1 file changed, 3 insertions(+), 1 deletion(-)
+> > > > 
+> > > > diff --git a/fs/hfsplus/super.c b/fs/hfsplus/super.c
+> > > > index 7229a8ae89f9..f396fee19ab8 100644
+> > > > --- a/fs/hfsplus/super.c
+> > > > +++ b/fs/hfsplus/super.c
+> > > > @@ -569,8 +569,10 @@ static int hfsplus_fill_super(struct super_block *sb, struct fs_context *fc)
+> > > >  	if (err)
+> > > >  		goto out_put_root;
+> > > >  	err = hfsplus_cat_build_key(sb, fd.search_key, HFSPLUS_ROOT_CNID, &str);
+> > > > -	if (unlikely(err < 0))
+> > > > +	if (unlikely(err < 0)) {
+> > > > +		hfs_find_exit(&fd);
+> > > >  		goto out_put_root;
+> > > > +	}
+> > > >  	if (!hfs_brec_read(&fd, &entry, sizeof(entry))) {
+> > > >  		hfs_find_exit(&fd);
+> > > >  		if (entry.type != cpu_to_be16(HFSPLUS_FOLDER)) {
+> > > 
+> > > Makes sense.
+> > > 
+> > > Reviewed-by: Viacheslav Dubeyko <slava@dubeyko.com>
+> > > 
+> > > Frankly speaking, I think, potentially, we can introduce static inline function
+> > > for this code:
+> > > 
+> > > 	str.len = sizeof(HFSP_HIDDENDIR_NAME) - 1;
+> > > 	str.name = HFSP_HIDDENDIR_NAME;
+> > > 	err = hfs_find_init(sbi->cat_tree, &fd);
+> > > 	if (err)
+> > > 		goto out_put_root;
+> > > 	err = hfsplus_cat_build_key(sb, fd.search_key, HFSPLUS_ROOT_CNID,
+> > > &str);
+> > > 	if (unlikely(err < 0))
+> > > 		goto out_put_root;
+> > > 	if (!hfs_brec_read(&fd, &entry, sizeof(entry))) {
+> > > 		hfs_find_exit(&fd);
+> > > 		if (entry.type != cpu_to_be16(HFSPLUS_FOLDER)) {
+> > > 			err = -EIO;
+> > > 			goto out_put_root;
+> > > 		}
+> > > 		inode = hfsplus_iget(sb, be32_to_cpu(entry.folder.id));
+> > > 		if (IS_ERR(inode)) {
+> > > 			err = PTR_ERR(inode);
+> > > 			goto out_put_root;
+> > > 		}
+> > > 		sbi->hidden_dir = inode;
+> > > 	} else
+> > > 		hfs_find_exit(&fd);
+> > > 
+> > > Because, hiding this code into small function will provide opportunity to call
+> > > hfs_find_exit() in one place only (as for normal as for erroneous flow).
+> > > 
+> > > What do you think?
+> > > 
+> > > Thanks,
+> > > Slava.
+> > 
+> > Thanks for the feedback, Slava.
+> > 
+> > While I see the merit in refactoring this into a helper to centralize the 
+> > cleanup, I’m concerned that doing so wouldn’t actually achieve a single 
+> > hfs_find_exit() call without compromising the resource lifecycle.
+> > 
+> > In the current logic, we need to call hfs_find_exit(&fd) as early as 
+> > possible—specifically before entering hfsplus_iget(), which might involve 
+> > further I/O or sleeping. If we were to use a single-exit goto pattern in a 
+> > helper function, we would end up holding the search data and its 
+> > associated buffers/locks longer than necessary. To maintain the current 
+> > early-release behavior, we would still be forced to sprinkle multiple 
+> > hfs_find_exit() calls across different branches within that helper anyway, 
+> > which defeats the purpose of the refactoring.
+> > 
+> > Given that this is a straightforward fix for a specific leak, I believe 
+> > keeping the logic inline preserves the optimal resource release timing 
+> > without adding unnecessary abstraction.
+> > 
+> 
+> I mean really simple solution:
+> 
+> static inline
+> int hfsplus_get_hidden_dir_entry(struct super_block *sb,
+>                                  hfsplus_cat_entry *entry)
+> {
+>     int err = 0;
+> 
+> 	str.len = sizeof(HFSP_HIDDENDIR_NAME) - 1;
+> 	str.name = HFSP_HIDDENDIR_NAME;
+> 	err = hfs_find_init(sbi->cat_tree, &fd);
+> 	if (err)
+> 		goto finish_logic;
+> 
+> 	err = hfsplus_cat_build_key(sb, fd.search_key, HFSPLUS_ROOT_CNID,
+> &str);
+> 	if (unlikely(err < 0))
+> 		goto free_fd;
+> 
+>         err = hfs_brec_read(&fd, entry, sizeof(*entry));
+> 
+> free_fd:
+>      hfs_find_exit(&fd);
+> finish_logic:
+>      return err;
+> }
+> 
+> static int hfsplus_fill_super(struct super_block *sb, struct fs_context *fc)
+> {
+>   <skipped>
+> 
+>   err = hfsplus_get_hidden_dir_entry(sb, &entry);
+>   if (err)
+>       goto process_error;
+> 
+> 		if (entry.type != cpu_to_be16(HFSPLUS_FOLDER)) {
+> 			err = -EIO;
+> 			goto finish_logic;
+> 		}
+> 		inode = hfsplus_iget(sb, be32_to_cpu(entry.folder.id));
+> 		if (IS_ERR(inode)) {
+> 			err = PTR_ERR(inode);
+> 			goto finish_logic;
+> 		}
+> 		sbi->hidden_dir = inode;
+> 
+>   <skipped>
+> }
+> 
+> Does it makes sense to you?
+> 
+> Thanks,
+> Slava.
 
-For ELF executables loaded by the kernel ELF binary loader, PT_LOAD
-segments are aligned according to p_align, which is often just the
-normal page size.  As a result, large read-only segments that would
-otherwise be eligible may fail to get PMD-sized mappings.
+Hi Slava,
 
-Even when a PT_LOAD segment itself is not PMD-aligned, it may still
-contain a PMD-aligned subrange.  In that case only that subrange can
-be mapped with huge pages, while the unaligned head of the segment
-remains mapped with normal pages.
+Thanks for the detailed proposal. However, this proposed refactoring 
+changes the existing semantics and introduces a regression.
 
-In practice, many executables already have PMD-aligned file offsets
-for their text segments, but the virtual address is not aligned due
-to the small p_align value.  Aligning the segment to PMD_SIZE in such
-cases increases the chance of getting PMD-sized THP mappings.
+The hidden directory is optional. If hfs_brec_read() fails, the original 
+code simply calls hfs_find_exit() and proceeds with the mount. It is a 
+non-fatal error.
 
-This matters especially for 2MB huge pages, where many programs have
-text segments only slightly larger than a single huge page. If the
-start address is not aligned, the leading unaligned region can prevent
-the mapping from forming a huge page. For larger huge pages (e.g. 32MB),
-the unaligned head region may be close to the huge page size itself,
-making the potential performance impact even more significant.
+In contrast, failures from hfs_find_init() and hfsplus_cat_build_key() are 
+fatal and must abort the mount.
 
-A segment is considered eligible if:
+By wrapping these into a single helper and returning err, the caller can no 
+longer distinguish between them. A missing hidden directory will trigger 
+if (err) goto process_error; in hfsplus_fill_super(), making it a fatal 
+error. This will break mounting for any valid HFS+ volume that lacks the 
+private data directory.
 
-* it is not writable,
-* both p_vaddr and p_offset are PMD-aligned,
-* its size is at least PMD_SIZE, and
-* its existing p_align is smaller than PMD_SIZE.
-
-To avoid excessive virtual address space padding on systems with very
-large PMD_SIZE values, this is only applied when PMD_SIZE <= 32MB.
-
-This mainly benefits large text segments of executables by reducing
-iTLB pressure.
-
-This only affects ELF executables loaded directly by the kernel ELF
-binary loader.  Shared libraries loaded from user space (e.g. by the
-dynamic linker) are not affected.
-
-Benchmark
-
-Machine: AMD Ryzen 9 7950X (x86_64)
-Binutils: 2.46
-GCC: 15.2.1 (built with -z,noseparate-code + --enable-host-pie)
-
-Workload: building Linux v7.0-rc1 vmlinux with x86_64_defconfig.
-
-                Without patch        With patch
-instructions    8,246,133,611,932    8,246,025,137,750
-cpu-cycles      8,001,028,142,928    7,565,925,107,502
-itlb-misses     3,672,158,331        26,821,242
-time elapsed    64.66 s              61.97 s
-
-Instructions are basically unchanged. iTLB misses drop from ~3.67B to
-~26M (~99.27% reduction), which results in about a ~5.44% reduction in
-cycles and ~4.18% shorter wall time for this workload.
-
-Signed-off-by: WANG Rui <r@hev.cc>
----
-Changes since [v4]:
-* Drop runtime THP mode check, only gate on CONFIG_TRANSPARENT_HUGEPAGE.
-
-Changes since [v3]:
-* Fix compilation failure under !CONFIG_TRANSPARENT_HUGEPAGE.
-* No functional changes otherwise.
-
-Changes since [v2]:
-* Rename align_to_pmd() to should_align_to_pmd().
-* Add benchmark results to the commit message.
-
-Changes since [v1]:
-* Drop the Kconfig option CONFIG_ELF_RO_LOAD_THP_ALIGNMENT.
-* Move the alignment logic into a helper align_to_pmd() for clarity.
-* Improve the comment explaining why we skip the optimization
-  when PMD_SIZE > 32MB.
-
-[v4]: https://lore.kernel.org/linux-fsdevel/20260310031138.509730-1-r@hev.cc
-[v3]: https://lore.kernel.org/linux-fsdevel/20260310013958.103636-1-r@hev.cc
-[v2]: https://lore.kernel.org/linux-fsdevel/20260304114727.384416-1-r@hev.cc
-[v1]: https://lore.kernel.org/linux-fsdevel/20260302155046.286650-1-r@hev.cc
----
- fs/binfmt_elf.c | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
-
-diff --git a/fs/binfmt_elf.c b/fs/binfmt_elf.c
-index fb857faaf0d6..d5f5154079de 100644
---- a/fs/binfmt_elf.c
-+++ b/fs/binfmt_elf.c
-@@ -489,6 +489,32 @@ static int elf_read(struct file *file, void *buf, size_t len, loff_t pos)
- 	return 0;
- }
- 
-+static inline bool should_align_to_pmd(const struct elf_phdr *cmd)
-+{
-+	if (!IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE))
-+		return false;
-+
-+	/*
-+	 * Avoid excessive virtual address space padding when PMD_SIZE is very
-+	 * large, since this function increases PT_LOAD alignment.
-+	 * This threshold roughly matches the largest commonly used hugepage
-+	 * sizes on current architectures (e.g. x86 2M, arm64 32M with 16K pages).
-+	 */
-+	if (PMD_SIZE > SZ_32M)
-+		return false;
-+
-+	if (!IS_ALIGNED(cmd->p_vaddr | cmd->p_offset, PMD_SIZE))
-+		return false;
-+
-+	if (cmd->p_filesz < PMD_SIZE)
-+		return false;
-+
-+	if (cmd->p_flags & PF_W)
-+		return false;
-+
-+	return true;
-+}
-+
- static unsigned long maximum_alignment(struct elf_phdr *cmds, int nr)
- {
- 	unsigned long alignment = 0;
-@@ -501,6 +527,10 @@ static unsigned long maximum_alignment(struct elf_phdr *cmds, int nr)
- 			/* skip non-power of two alignments as invalid */
- 			if (!is_power_of_2(p_align))
- 				continue;
-+
-+			if (p_align < PMD_SIZE && should_align_to_pmd(&cmds[i]))
-+				p_align = PMD_SIZE;
-+
- 			alignment = max(alignment, p_align);
- 		}
- 	}
--- 
-2.53.0
-
+Thanks,
+Zilin
