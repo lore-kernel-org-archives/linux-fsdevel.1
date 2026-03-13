@@ -1,121 +1,124 @@
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA76B1DED42
-	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Mar 2026 14:39:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.172
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773412773; cv=pass; b=EPF7pX4mvFqdV6EjWiek5aEWgqqKSs4nROI7a9H/hx689VvDFlPpk83YbrjGpZWrMFgnm3D+ehbHRSToDLBzxdlfMXe2Mfv4Vl7zNeKCP0Bs3m4tWnxPBpaaS04T67zms3VLx+1yx0X7B3iH4U2/iZaOnN0KZLN6BIpdvH4j0lg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773412773; c=relaxed/simple;
-	bh=sJJ6qRXJASQg0fWEF1LqLZ2QXuC8vC3iSXfNlIz0VPs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=It8K22xvCLBSnY0Z5rQqdfXhz+VvtED1v6TQof6+BCPs08wMidBPK9A3apzvG/Wwa7MKla8CpjMHN3EDhiO+l1KiVDuf+uo3lbfyrUfCvuye3OuhIJLJWTtCWzg/QwRkikT01PUyGctvb/Ti7FN7n3eZ5xlVSdaVeC+BrOlfQXs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hev.cc; spf=pass smtp.mailfrom=hev.cc; dkim=pass (2048-bit key) header.d=hev-cc.20230601.gappssmtp.com header.i=@hev-cc.20230601.gappssmtp.com header.b=LmmFGeLX; arc=pass smtp.client-ip=209.85.128.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 335653A6F0B
+	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Mar 2026 14:42:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773412947; cv=none; b=DtrA0N+4ShRP7OlRlo26z/iINHQWuljnbBICrvoO9VGjSezd+bMbnsWz+0bzZ9B9atWNk+gWCeQs4Fk+2Yjyq/4lkV/c8jVoDCn18wQ6GTvIss+E8t62BICeFwF41lZmNCh0DK9n+1v7CV4KfNdsbfvN6HTgLkRwX00itfpnKZo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773412947; c=relaxed/simple;
+	bh=8114Na+BbK3Hw2QjXAtIsz6NBPw0bOuncf0+0DbDwwo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=t+yaVVsblYhEmh/uj/CevH2dxerO7XTUzsU5HH7CPzCFBSYuEeHNggzDzxtAFsKddTRQXHieNojhIhSyh/W6eiH6+IJG/dn6YMj3DTNFPl9ZkCEl6dWCzFPUdr108UZndEgQ4lWMlbRXbvKBrKrBrnCYrpcKBps0OEBWmCPjxss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hev.cc; spf=pass smtp.mailfrom=hev.cc; dkim=pass (2048-bit key) header.d=hev-cc.20230601.gappssmtp.com header.i=@hev-cc.20230601.gappssmtp.com header.b=ZeXrEtqF; arc=none smtp.client-ip=209.85.214.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hev.cc
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hev.cc
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hev-cc.20230601.gappssmtp.com header.i=@hev-cc.20230601.gappssmtp.com header.b="LmmFGeLX"
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-7986e538decso19565017b3.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 13 Mar 2026 07:39:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773412771; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Alu1491wSLiTuJXj0UhCI4gJXtT7HO6a4D5ZlNqBJolkhIO4h6AEvwbBmiEEArJ5kD
-         4TNPgIrHYJlbE6QKFxBJbj7bo97kDkvLQF5qlNf8ifjtLOGqOjdftBzCtG6505t7w+Gk
-         P8fTYeTQMG/AZU+FTX/uV83T+obkwsRqD9yGopadV2obCrsEHSeYgtXTASujsuqdBaIK
-         VeORz9lNtuusLPPsPTNyUot1n0/nCJHWG8x9nnqL+pgCCuX7BwaQzzWaJiP+om9hSL3m
-         wWdfw/8F9Lb2JqWDhK9fWIKtBhgKjAxEF8TwWtTYQjqYC4za3k5AOBr2FwVVQcnXSZC3
-         VGTg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=sJJ6qRXJASQg0fWEF1LqLZ2QXuC8vC3iSXfNlIz0VPs=;
-        fh=p5QOMISVBLu7WzDXnV54NGhp9l/MJr3aKicpCBnBYUU=;
-        b=C8LxltmyQdHlb4nwTd8CvM2lWJaTb0pzRGaq4I5gLr23kd1MHHvP6Uld05TMMMwsK6
-         aIy25skuHKEJJmNV4ApvUEVcxfRyl4iRsN+Kw6W0PEEtOG+/vY6ALHqmciT09ys1A+X9
-         Z+30C6DgWX8/aOfndvT8FGTI82QWX/XonGjlOHVGZjAxfZaDBuDEqcgXErNJRtLwT4Cs
-         UIQTh07CpoxRE6C2smmWSfOplf5uNqwhjjzT9FB57t8rX6T7sxMIiC9EmrML5Wt7jp/T
-         dC6jitCH5RNNDTjL6rCMHKW3vXLHRY2Cyj6pMIFF+OkRMyKZMNrIFPAE4n5p2Cx48DZ7
-         qusg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=hev-cc.20230601.gappssmtp.com header.i=@hev-cc.20230601.gappssmtp.com header.b="ZeXrEtqF"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2ae4e538abdso25434455ad.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 13 Mar 2026 07:42:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=hev-cc.20230601.gappssmtp.com; s=20230601; t=1773412771; x=1774017571; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=hev-cc.20230601.gappssmtp.com; s=20230601; t=1773412945; x=1774017745; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=sJJ6qRXJASQg0fWEF1LqLZ2QXuC8vC3iSXfNlIz0VPs=;
-        b=LmmFGeLX68MaQCVHRoiBScJRc+2bBTtuGfZzW55OTdRHy+O6Nejo6e83x1OTBCv1mK
-         w15uRBv9bVhoZg3PuZdELW17y4zOw+StTsflfsS8kiac2tI0Q9vFMR3nY4sdQBPLNKul
-         PxrTZXm5d6ohN9xxVrGwZoMKOSDbYprSjDreYvS6weQMhkysNbJVMY8ne/8RO2i8h3Yy
-         V4nsJPsSViizQ1Z2gu/DX6+gzbLvgBgysvnJiPsd8A5OFsOhVv6TvU3zjOFAJxGOOslf
-         AyIiKVv8Z9KZb/QJGjAxNdau9DfWPyWr6i5AB5Su22ye0OdAL5reZ3mvwsJyiZTLS87P
-         BGPQ==
+        bh=D6Y/n2o5yEo+tuZB5cloL22Tzkf84YmlhIt4ugqI5/U=;
+        b=ZeXrEtqF23XHjjA/FPOvWuD0XkqFkA+OUitPv6ljhH/01S1+8V0EatbZrG/lB9VlT8
+         kDVYqreJzUX77yXF15I3tI6zt/bBdMDLDCenmzJ0i3idG9W3y/hchs1mFBpgumAxjgrB
+         FlsqSjCmBYJjPEMtGFnNHfy1Z6F8q6/auTKvJyTnPMv8OOmJcx8FpX9x2yr7zjmt2K9M
+         UOJl86WTawdmSklfi96fF2WybFVovGDDVYI+cmV6YIKHxy43S8QSkLkyKmURGBPi+2xx
+         azJVhjciAcaMKak2NYxJv9QbxAdZk5Hcxix9s7ijZD4w0Wrtc2M1scXR7OKk2XYqpkZU
+         pilg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773412771; x=1774017571;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1773412945; x=1774017745;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=sJJ6qRXJASQg0fWEF1LqLZ2QXuC8vC3iSXfNlIz0VPs=;
-        b=qBbMm3nI9VYgSZcx+nFmBuoFmBpuRRN8JQcwChUXZWUxaV1XxzjKYvHPXRJ06UbQ/v
-         LIoXubRGgjIusj0w3et84rqlPizHZidJfU/XrVm1h3UhgYInR+5iKeLBKR5BfYh1+30V
-         8pFysWmSr3O+12l6ULimwutuOQSpAbxlPDGRV1kvar3KvcYNMHvS2lHF0JYI04KG7d3w
-         oE93Ek1ReTTwCEE0slUv/es29sR7mEyePbbV1INry+z+icuzUdZBGgJJfC6JvqNUAPm+
-         BJm7BkpGRE51i48Ld3Uwz3q4z0A9XwA2ghoE4wiZ0iw3CKTA8XZqhAnBMbWtcr5fthiF
-         0nig==
-X-Forwarded-Encrypted: i=1; AJvYcCUJs/wCy8f4s2BzdMUPif+eawW0BXDaGK0Pw4l1MO0V6sv0lJZqDoJ7INsxMbpn4IOcnZD7gOoeiBJNljBi@vger.kernel.org
-X-Gm-Message-State: AOJu0YwSRP1YZuGa3gxFXN1NHq6ydplYVgqP3GcWzVJbIS+njvfYualK
-	LUqOC4jwJT7g64XtzO61tGR+iucScDQ5tEm95+YWdw+/mDwH0jrmoMMBWP4N/S/Uhj5lEfwGIx0
-	bvEYwl/BTwDynAdCR7khjeTCKziqlx2CD8LTeeSM63g==
-X-Gm-Gg: ATEYQzw3N5YZbrJxj9UHl8gndFTAGxM6hdWwGii2reYrHScFdILcAjSdZuBdRW1xNNk
-	kMkMsH7Iax9WC3qYJ3Yajwa9Axc0rj/jUgCJpkO9CZSca4+6IZsoE5vpghQRIA02oXpzpAz44XK
-	bf2vvi2lW0+O34iOw0osvxLV0htZNDA2jjXDM7UjvVsiNBbLbVW1e5xk4Bj7ZL085tVl/FDPfQ6
-	GbFXGvkDuSW5VzGO2BbYgSTDr3CVVAB7bT3z7A0AYrF7M/obomberXLwqll7l0xtPoDIUraccm2
-	8NtVBouc4nH+huktggmiyUT0oM7Df5moR/PRXyzMQA==
-X-Received: by 2002:a05:690c:306:b0:78f:9801:7606 with SMTP id
- 00721157ae682-79a1c186f23mr38827757b3.34.1773412771512; Fri, 13 Mar 2026
- 07:39:31 -0700 (PDT)
+        bh=D6Y/n2o5yEo+tuZB5cloL22Tzkf84YmlhIt4ugqI5/U=;
+        b=VtU+HtZPqX1tISYUdnJ5iy9l8QgZXXDabRUAbviksY9cJQUe+lOdEcLf/yeMCJU+cO
+         ZKhQKT9Zwu7M9wj+pZG9QdLzKVsrOdQwuoFgX/WwBtf04dlFwsnEdTD4F73QPYpJAbpB
+         SHLUmYpOmgO84DXIG4fo8WJl9vKddGq6DmP1dMs26iFmvdpRY+qjngWbayRJti96145h
+         cW9E/UKu688s/eNjPL9mmgvBVstO9Uv7fKxUcykfPMgaWLooJ0MbdT7BoSioh869uITZ
+         dwW5fDGNSyIpumEgFieujaIUxb6WJXxASOeBPqTF034GCqomGnQoancZfi64rBpBGLtj
+         IhqQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVZdIjjvAPB6OdyrGpFP/1gjnMJ4P6j/Pm+S3t3U+5pzSMIN3t4BOp95OZyHP+vALwqtHrvBYZwlepu2fKe@vger.kernel.org
+X-Gm-Message-State: AOJu0YxtzE+hLkzrytQqd8if/uHoB3BMmYeckOPgRZzo9g+AVXvCQRRJ
+	nF1JlJ7RmsWRi5qsEu4XYYPC6sC0EHlfNkXiCdJsqTnZVg+yaoSt6pSjoftECEC7JBM=
+X-Gm-Gg: ATEYQzzqk8VGuOp99eET+lhN3Yz8dZcKL5+bT9NFd1cVuUOzlStN+4Vci4YTNYGuSUz
+	9KRp2drxWPAnKXwQ6dhwtptYrrAhMpwsqwG9Ab3JVsRmdSN6Wm5gLKSAR5rSwiptBcH3RmH6x9z
+	mmtB0stFi8Q8BQ/Ni5KBEJRequuNi/+mZZWms40EZRMD8E7yDrczWngyoj3FcW0WJXn7PuQvaX2
+	qUJuUSMevO6rwVGv+0vDzLeuLWXGCJyflpOrSyOPzM6P4X4ilbw3/8S2rwkctdOnloifHZszUCk
+	80vH/YAoEw7zep1fNzvlqPOtBAfOtepB5gG48YycYNAxm7e+TiLfBb+ojTWUHwi0guCUsjadM5F
+	4kvl4vwU3qKgfeYib0wV3pm0O0JuqX6PNkQiZDA9qvRHVhi7VSuejeuhq7IiCcxd1b/7iWrdUYX
+	4ia7lm3Q0Y1Vs=
+X-Received: by 2002:a17:902:cf12:b0:2a0:c1ed:d0d9 with SMTP id d9443c01a7336-2aecab32ec3mr35478735ad.46.1773412945451;
+        Fri, 13 Mar 2026 07:42:25 -0700 (PDT)
+Received: from gpc ([2400:8902:e002:de08:5754:7dac:85df:935a])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2aece7ed9cdsm25651935ad.60.2026.03.13.07.42.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Mar 2026 07:42:24 -0700 (PDT)
+From: WANG Rui <r@hev.cc>
+To: usama.arif@linux.dev
+Cc: Liam.Howlett@oracle.com,
+	ajd@linux.ibm.com,
+	akpm@linux-foundation.org,
+	anshuman.khandual@arm.com,
+	apopple@nvidia.com,
+	baohua@kernel.org,
+	baolin.wang@linux.alibaba.com,
+	brauner@kernel.org,
+	catalin.marinas@arm.com,
+	david@kernel.org,
+	dev.jain@arm.com,
+	hannes@cmpxchg.org,
+	jack@suse.cz,
+	kas@kernel.org,
+	kees@kernel.org,
+	kernel-team@meta.com,
+	kevin.brodsky@arm.com,
+	lance.yang@linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	lorenzo.stoakes@oracle.com,
+	npache@redhat.com,
+	rmclure@linux.ibm.com,
+	ryan.roberts@arm.com,
+	shakeel.butt@linux.dev,
+	viro@zeniv.linux.org.uk,
+	will@kernel.org,
+	willy@infradead.org,
+	ziy@nvidia.com,
+	WANG Rui <r@hev.cc>
+Subject: [PATCH 3/4] elf: align ET_DYN base to exec folio order for contpte mapping
+Date: Fri, 13 Mar 2026 22:42:13 +0800
+Message-ID: <20260313144213.95686-1-r@hev.cc>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260310145406.3073394-4-usama.arif@linux.dev>
+References: <20260310145406.3073394-4-usama.arif@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260310031138.509730-1-r@hev.cc> <349671d5-f5aa-48a2-9bba-00aef167b836@linux.alibaba.com>
-In-Reply-To: <349671d5-f5aa-48a2-9bba-00aef167b836@linux.alibaba.com>
-From: hev <r@hev.cc>
-Date: Fri, 13 Mar 2026 22:39:19 +0800
-X-Gm-Features: AaiRm52VWGkrpgV6kr1pOmEvbPempDQO61pMP0KiWiSuLBaXj1WE2q1TEU_x85I
-Message-ID: <CAHirt9g_PfEM+PzVrpsZwch44_6oeGQ4_abvYMAtjM3eNg5CHQ@mail.gmail.com>
-Subject: Re: [PATCH v4 0/2] binfmt_elf: Align eligible read-only PT_LOAD
- segments to PMD_SIZE for THP
-To: Baolin Wang <baolin.wang@linux.alibaba.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Andrew Morton <akpm@linux-foundation.org>, 
-	Barry Song <baohua@kernel.org>, Christian Brauner <brauner@kernel.org>, 
-	David Hildenbrand <david@kernel.org>, Dev Jain <dev.jain@arm.com>, Jan Kara <jack@suse.cz>, 
-	Kees Cook <kees@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
-	Matthew Wilcox <willy@infradead.org>, Nico Pache <npache@redhat.com>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Zi Yan <ziy@nvidia.com>, usama.arif@linux.dev, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, Mar 13, 2026 at 4:41=E2=80=AFPM Baolin Wang
-<baolin.wang@linux.alibaba.com> wrote:
->
-> CC Usama
->
-> Usama posted a similar patchset[1], and I think using exec_folio_order()
-> for exec-segment alignment is reasonable. In your case, you can override
-> exec_folio_order() to return a PMD=E2=80=91sized order.
->
-> [1]
-> https://lore.kernel.org/all/20260310145406.3073394-1-usama.arif@linux.dev=
-/
+Hi Usama,
 
-Thanks for the pointer!
+Glad to see you're pushing on this, I'm also following it. I first noticed this when rustc's perf regressed after a binutils upgrade. I'm trying to make ld.so to aware THP and adjust PT_LOAD alignment to increase the chances of shared libraries being mapped by THP [1]. As you're probably seen, I'm doing something similar in the kernel to improve it for executables [2].
 
-Cheers,
+> +			if (exec_folio_order())
+> +				alignment = max(alignment,
+> +					(unsigned long)PAGE_SIZE << exec_folio_order());
+
+I’m curious, does it make sense to add some constraints here, like only increasing p_align when the segment length, virtual address, and file offset are all huge-aligned, as I did in my patch? This has come up several times in the glibc review, where increasing alignment was noted to reduce ASLR entropy.
+
+[1] https://sourceware.org/pipermail/libc-alpha/2026-March/175776.html
+[2] https://lore.kernel.org/linux-fsdevel/20260313005211.882831-1-r@hev.cc
+
+Thanks,
 Rui
