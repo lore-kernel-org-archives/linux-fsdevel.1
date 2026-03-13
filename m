@@ -1,130 +1,75 @@
-Received: from flow-b5-smtp.messagingengine.com (flow-b5-smtp.messagingengine.com [202.12.124.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 241DB30FC29;
-	Fri, 13 Mar 2026 00:48:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B764E2D46B3
+	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Mar 2026 00:52:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773362905; cv=none; b=FfXDscDS/sEngEB/HT77iY/toZxY5fI51vrTdTXPNIQ7tmDG9qWONUGZzNAaAVjfBe+WdR7OnCnPMvt+IA3aIeqIzlaMn+OBSgi75iBEZDcgt0C2jvi1x8T2aNVXfiEdXN2uiHF60UntIi/GYBO9RmPPY2KeSBZJnWZshsrMli8=
+	t=1773363156; cv=none; b=q4ultUaLndn9xDoXnRfZ0+5Q7ksxc7+Jrx11DyV7Tu8NItiBD22E9SoGek7TV7blmyiZs5+8+YRD3uT/MR6MbApK7ha+pSdoSt1LAEhzxKCw55R7UIZ/xSXGIWBR1TpmQfxSTIB45x+9N66Hl1Oxv9XREJbOaOouBfN2bBG93n8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773362905; c=relaxed/simple;
-	bh=bPb+bIqpK5hvVK2d8DMn3IwNAwWZ+dX19WhkeuUgfD4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NB8qeLjWgF7NV0K0DYYOpDvQZQFO/o5P827Rhld7kvJxLpLITSKLbvz50eNHGVNezye97Q/ESKaK/ya/MXFD78HyaMwTNsTK6ePJ6SS/7mnlYsuf6nDu/IRKDO4QlWjcQDSC+380ayL2ZdvMbsjOsw7z9SG202NM194ArGIBxkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=dN+zoQ+X; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=34dgo/VI; arc=none smtp.client-ip=202.12.124.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	s=arc-20240116; t=1773363156; c=relaxed/simple;
+	bh=1wDo3jXKa/91+g4XbNkQ2u1DZG7fYIBpjFkTHK5C6kQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hDClvqHH+Yul3YOdFINkAFCABvPBUVqDMX18Jhue6bgEByvRDFwfqfd4+Fh8uxLzk3TxPllNITqLJZUM3FMvTIo2/kqBL1uNQb9D1jsIieGbE9GrieZJapgP5klAI3xEXNBz4YYzrdDg+MyJr3FCo8tu0oz5jCMYYOZUwndm9Us=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hev.cc; spf=pass smtp.mailfrom=hev.cc; dkim=pass (2048-bit key) header.d=hev-cc.20230601.gappssmtp.com header.i=@hev-cc.20230601.gappssmtp.com header.b=wrEsarjH; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hev.cc
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hev.cc
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="dN+zoQ+X";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="34dgo/VI"
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailflow.stl.internal (Postfix) with ESMTP id 723B61301B7D;
-	Thu, 12 Mar 2026 20:48:22 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-02.internal (MEProxy); Thu, 12 Mar 2026 20:48:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:reply-to:subject:subject:to:to; s=fm1; t=1773362902;
-	 x=1773370102; bh=3OVL4XXP8pGkqIJaCgrneigzeg9lURjpYtnSBAI2TgY=; b=
-	dN+zoQ+X4IMCOwHYdmkT/bGnzCHvuxlXBbrpp9O8UwCmnQeDDi7ioO7y2/TUY8l5
-	mQGtxsh3qVE4W70GI8wjUfwVDAFocwzcsunO2RHndj6ssUSoW5JU5xyWRUYJYDG9
-	NMIjn03yZHXunWH8BNEHahsglP7uOUYKduvq4RcsnRx45o5+YD6/oyA0D9GyutPP
-	mLXDY4UxeKqfkDk1pTNpvWvnW1/dJJmaIfcBQR9lGPgKHB0zDYqbbg/WeD543BZ1
-	YZZiFH4HEkOT7GPsszH0tbfrqAMP2nkAl+SHWoXH2ZfgLfzJ7G8Da4TigmEpPMMB
-	kWwgCUIZj7EH1b7QHZSsmw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm1; t=1773362902; x=1773370102; bh=3
-	OVL4XXP8pGkqIJaCgrneigzeg9lURjpYtnSBAI2TgY=; b=34dgo/VIKgtmzJGsl
-	miC6lP3iQWBH1TiVT3V5XLsNBZ4hEoP69rm02c/9mKZc3HpddJ+Jm5BVWcJn9DkB
-	57t0tJJgDeHpeL+ua3mR8GhZPmEwPi0lQb3PwN14P92l/6Ep6Qp5LUxmLxKuHb0F
-	wZYQlWii+7LBp+7LMX/8e2iuf/gsPxQRwWVKDTbZSMt9L0ZT01nsdAwc9YTMK1yk
-	3Ch2rxde/oduz5imnG5I61fP0o7Q2RmqJ7K3UEHPNtcBLNHsLWMstLaJPoAb0igY
-	8DF5fJdmXv6TlSvdhF6xHSluXNYiYlg4IeJQvDDCwPSoyDiP0Juj0NE2pRGV7aHr
-	PQHYQ==
-X-ME-Sender: <xms:1V6zaXtH06rAO7pV4rOdlFXVNkVijrUmCf0vVAv_Ujaykp9lWFkVUA>
-    <xme:1V6zaSL_4xMe1h15v6v_9nrb4svolCWWxRRWlp58JThkCtUqNOpn_7K56KAMV4jBN
-    cGtzCL1Thm9U_31I3DYNACQlL80mseSG3Y6nzMDWD0wdm-FNw>
-X-ME-Received: <xmr:1V6zaRsNHbq1HAAvorz2a4ifJogef7TXKmNqTpQcCe9PxHeFXpkqvRiwJY2ifrOJhZJ5aR-dtvC4AwJT1dpKudgAOgsZ9isPlFg0GubFOswr>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvkeekvdeiucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhephffvvefufffkofgjfhhrggfgsedtkeertdertddtnecuhfhrohhmpefpvghilheu
-    rhhofihnuceonhgvihhlsgesohifnhhmrghilhdrnhgvtheqnecuggftrfgrthhtvghrnh
-    epteetteeuteffveduveetgfdtuedvfffhudetuefgffejgffhgffhgfetffetudeinecu
-    ffhomhgrihhnpehsthgrthhushdruggrthgrnecuvehluhhsthgvrhfuihiivgeptdenuc
-    frrghrrghmpehmrghilhhfrhhomhepnhgvihhlsgesohifnhhmrghilhdrnhgvthdpnhgs
-    pghrtghpthhtohephedupdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehvihhroh
-    esiigvnhhivhdrlhhinhhugidrohhrghdruhhkpdhrtghpthhtoheplhhinhhugidqgihf
-    shesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhunhhioh
-    hnfhhssehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqthhr
-    rggtvgdqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplh
-    hinhhugidqnhhfshesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhn
-    uhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlih
-    hnuhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohep
-    lhhinhhugidqvgigthegsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplh
-    hinhhugidqvghfihesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:1V6zaaTzQHsC2J_WA_QH8YOW_5awtZOh6jhAGe4ctTmQ0wdnVKsSLA>
-    <xmx:1V6zaXWc7zV7rd1I7sVLWCAwTLiktPdZhBNJ4HbNuPxgBSFuw-c-Lg>
-    <xmx:1V6zaUwUe1ZPNR8n0_mEqCQ_Sd_NPmOB64IRNXt4wuoK-BJWr1Ospw>
-    <xmx:1V6zaT_DAKDOpJYW6voXCzE3Z5WD-QvwjIkw_5BxIl1FpW93PzBDgA>
-    <xmx:1l6zaV-vNAGrjs6_6LMnFfMVOi8yPfJmYBYHQZTtZUELj1jaKl8Npb0B>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 12 Mar 2026 20:48:08 -0400 (EDT)
-From: NeilBrown <neilb@ownmail.net>
-To: Linus Torvalds <torvalds@linux-foundation.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,	Jan Kara <jack@suse.cz>,
-	Jeff Layton <jlayton@kernel.org>,	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>,	Carlos Maiolino <cem@kernel.org>,
-	Miklos Szeredi <miklos@szeredi.hu>,	Amir Goldstein <amir73il@gmail.com>,
-	Jan Harkes <jaharkes@cs.cmu.edu>,	Hugh Dickins <hughd@google.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	David Howells <dhowells@redhat.com>,
-	Marc Dionne <marc.dionne@auristor.com>,	Steve French <sfrench@samba.org>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Sungjong Seo <sj1557.seo@samsung.com>,
-	Yuezhang Mo <yuezhang.mo@sony.com>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Breno Leitao <leitao@debian.org>,	"Theodore Ts'o" <tytso@mit.edu>,
-	Andreas Dilger <adilger.kernel@dilger.ca>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Ilya Dryomov <idryomov@gmail.com>,	Alex Markuze <amarkuze@redhat.com>,
-	Viacheslav Dubeyko <slava@dubeyko.com>,	Tyler Hicks <code@tyhicks.com>,
-	Andreas Gruenbacher <agruenba@redhat.com>,
-	Richard Weinberger <richard@nod.at>,
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-	Johannes Berg <johannes@sipsolutions.net>,	Jeremy Kerr <jk@ozlabs.org>,
-	Ard Biesheuvel <ardb@kernel.org>
+	dkim=pass (2048-bit key) header.d=hev-cc.20230601.gappssmtp.com header.i=@hev-cc.20230601.gappssmtp.com header.b="wrEsarjH"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-82418b0178cso982571b3a.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 12 Mar 2026 17:52:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=hev-cc.20230601.gappssmtp.com; s=20230601; t=1773363154; x=1773967954; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dGznOHQEDu0JbgYRJJzSYbQuqE+ZUTZUlFHToiIO7T4=;
+        b=wrEsarjHeymS+a+yiJXaSFRye2GhfTySmQHQMW2EgTfJGPULsMQRMNNpG6nBAVH5r/
+         goomdyhusLgKvauHi8218AWw1GSe2Hl3a3j97AuSlW88XsT7DJ/KXBnHsWXla/Kyk5Yx
+         O3Ahx2/6NlTDE6RkcAdHLlmu0wlz4/X9X0E00ZSVBy/Fst0rlMhGVf/myHNbx0ilq3ld
+         r2zvx4qvkHdOUUKiJ7RBiuEBcbS3qJjUnLlrhtuG7XuppHEJWIAg7fGq9+r36eqBbuvj
+         BSslKmaeghMHANaUlbIBSEHVHyo7o39/EkV6Oyht6DFLc+8NgJeZt5hFVuBQD9nhkg7Q
+         s1vA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773363154; x=1773967954;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dGznOHQEDu0JbgYRJJzSYbQuqE+ZUTZUlFHToiIO7T4=;
+        b=D/C8Inj+QuLajjK3YlN0Yd7T2DXoOaWQkCYJzIFqDOfvB2ae151j/bnUIY3V7EL/IP
+         3U5rg+VoMuTrqZEV1i1SD4K5P0sVQyJt7Rs1onZ7XU7B9W/KojKMzzPKLGjmmKid5vyP
+         ++J/bj5moVcDcErNwMglIq3Tir+mlJDmZKno+jjqlHLL4Tl6/BAX9qwiyqnENKc0RB1O
+         uSLhYEo0rYeT3cK5ymdHEAD95dgbdySec5vHMMmgUuzHMh5sXd3B8vJkJwwFMFkZvIgX
+         lV78jqpQTIyoUFYT5ktvWE7fmY4OaskjM9p8fOl/bFQqw/IT9IvUcZaPym/Ng9CwmLyd
+         16fQ==
+X-Gm-Message-State: AOJu0YwnYQnL9iUPUtU/V/LiLQF45VeUe0zZdxa1QIvDzk326OhsmF4O
+	BA5vpOz8IQrPa0rkR2s+EGO/fAWuEW3jYIDrQ/GKaJYJGQi6UQJ4XS2ydm8dulih3Xk=
+X-Gm-Gg: ATEYQzzrtGufrGz5B2i5rFhI2kh1oqX7ngl2Mz3JSYg9DaoW6vXf4O16WiHNms5MuIE
+	NXRac0TPCSVjRor671YGnUwe7SRxH4LfPNFqk95iNeqAYB9yZezy4Aw5HKVWHDhiuobva9JFe8J
+	XhSw4N9oCrWTLAQ7DI1zZJJRmxkbp2mD91T4dD61eMkEJgjVU4J/uxyReKrFdLoUC2tWCvj62Wl
+	sNrzLdfgTZLC0BCS9uHbXkNexUzd4By1+Sd6DCP32UK64teeLTaahBc0KNWpOIlrILm720pkoFt
+	2dfnZh58ObVDErGiq3vOG3FLu55OqImwcqfnY3LnFmh2JaKOQS2feXnd6o5ZyNN1+9v4+Zo4JlB
+	5DO4GaZJQ3zfmDPgxMHp0PKw3LDa3ScmGcFv6bKJO2WEE5mG35XnYD4J/qhjauNqmMca2U8oemq
+	YMs+W1y0c16fT8q9mAcEQ=
+X-Received: by 2002:a05:6a20:3d88:b0:398:7357:bb92 with SMTP id adf61e73a8af0-398ec9e200amr981009637.5.1773363154010;
+        Thu, 12 Mar 2026 17:52:34 -0700 (PDT)
+Received: from localhost ([2400:8902:e002:de08:5754:7dac:85df:935a])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82a1e72cf33sm122827b3a.37.2026.03.12.17.52.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Mar 2026 17:52:33 -0700 (PDT)
+From: WANG Rui <r@hev.cc>
+To: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	David Hildenbrand <david@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Kees Cook <kees@kernel.org>,
+	Matthew Wilcox <willy@infradead.org>
 Cc: linux-fsdevel@vger.kernel.org,
-	linux-nfs@vger.kernel.org,
-	linux-xfs@vger.kernel.org,
-	linux-unionfs@vger.kernel.org,
-	coda@cs.cmu.edu,
 	linux-mm@kvack.org,
-	linux-afs@lists.infradead.org,
-	linux-cifs@vger.kernel.org,
-	linux-ext4@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	ceph-devel@vger.kernel.org,
-	ecryptfs@vger.kernel.org,
-	gfs2@lists.linux.dev,
-	linux-um@lists.infradead.org,
-	linux-efi@vger.kernel.org
-Subject: [PATCH 19/53] afs: use d_time instead of d_fsdata
-Date: Fri, 13 Mar 2026 08:12:06 +1100
-Message-ID: <20260312214330.3885211-20-neilb@ownmail.net>
-X-Mailer: git-send-email 2.50.0.107.gf914562f5916.dirty
-In-Reply-To: <20260312214330.3885211-1-neilb@ownmail.net>
-References: <20260312214330.3885211-1-neilb@ownmail.net>
-Reply-To: NeilBrown <neil@brown.name>
+	WANG Rui <r@hev.cc>
+Subject: [PATCH v5] binfmt_elf: Align eligible read-only PT_LOAD segments to PMD_SIZE for THP
+Date: Fri, 13 Mar 2026 08:52:11 +0800
+Message-ID: <20260313005211.882831-1-r@hev.cc>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -133,130 +78,142 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: NeilBrown <neil@brown.name>
+File-backed mappings can only be collapsed into PMD-sized THP when the
+virtual address and file offset are both hugepage-aligned and the
+mapping is large enough to cover a huge page.
 
-afs uses ->d_fsdata to store version information for the parent
-directory.  ->d_time is arguably a better field to store this
-information as the version is like a time stamp, and ->d_time is an
-unsigned long, while ->d_fsdata is a void *.
+For ELF executables loaded by the kernel ELF binary loader, PT_LOAD
+segments are aligned according to p_align, which is often just the
+normal page size.  As a result, large read-only segments that would
+otherwise be eligible may fail to get PMD-sized mappings.
 
-This will leave ->d_fsdata free for a different use ...  which
-admittedly is also not a void*, but is certainly not at all a time.
+Even when a PT_LOAD segment itself is not PMD-aligned, it may still
+contain a PMD-aligned subrange.  In that case only that subrange can
+be mapped with huge pages, while the unaligned head of the segment
+remains mapped with normal pages.
 
-Interesting the value stored in ->d_time or d_fsdata is u64 which is a
-different size of 32 bit hosts.  Maybe that doesn't matter.
+In practice, many executables already have PMD-aligned file offsets
+for their text segments, but the virtual address is not aligned due
+to the small p_align value.  Aligning the segment to PMD_SIZE in such
+cases increases the chance of getting PMD-sized THP mappings.
 
-Signed-off-by: NeilBrown <neil@brown.name>
+This matters especially for 2MB huge pages, where many programs have
+text segments only slightly larger than a single huge page. If the
+start address is not aligned, the leading unaligned region can prevent
+the mapping from forming a huge page. For larger huge pages (e.g. 32MB),
+the unaligned head region may be close to the huge page size itself,
+making the potential performance impact even more significant.
+
+A segment is considered eligible if:
+
+* it is not writable,
+* both p_vaddr and p_offset are PMD-aligned,
+* its size is at least PMD_SIZE, and
+* its existing p_align is smaller than PMD_SIZE.
+
+To avoid excessive virtual address space padding on systems with very
+large PMD_SIZE values, this is only applied when PMD_SIZE <= 32MB.
+
+This mainly benefits large text segments of executables by reducing
+iTLB pressure.
+
+This only affects ELF executables loaded directly by the kernel ELF
+binary loader.  Shared libraries loaded from user space (e.g. by the
+dynamic linker) are not affected.
+
+Benchmark
+
+Machine: AMD Ryzen 9 7950X (x86_64)
+Binutils: 2.46
+GCC: 15.2.1 (built with -z,noseparate-code + --enable-host-pie)
+
+Workload: building Linux v7.0-rc1 vmlinux with x86_64_defconfig.
+
+                Without patch        With patch
+instructions    8,246,133,611,932    8,246,025,137,750
+cpu-cycles      8,001,028,142,928    7,565,925,107,502
+itlb-misses     3,672,158,331        26,821,242
+time elapsed    64.66 s              61.97 s
+
+Instructions are basically unchanged. iTLB misses drop from ~3.67B to
+~26M (~99.27% reduction), which results in about a ~5.44% reduction in
+cycles and ~4.18% shorter wall time for this workload.
+
+Signed-off-by: WANG Rui <r@hev.cc>
 ---
- fs/afs/dir.c      | 18 +++++++++---------
- fs/afs/internal.h |  8 ++++----
- 2 files changed, 13 insertions(+), 13 deletions(-)
+Changes since [v4]:
+* Drop runtime THP mode check, only gate on CONFIG_TRANSPARENT_HUGEPAGE.
 
-diff --git a/fs/afs/dir.c b/fs/afs/dir.c
-index 78caef3f1338..a0417292314c 100644
---- a/fs/afs/dir.c
-+++ b/fs/afs/dir.c
-@@ -808,7 +808,7 @@ static struct inode *afs_do_lookup(struct inode *dir, struct dentry *dentry)
- 		afs_dir_iterate(dir, &cookie->ctx, NULL, &data_version);
- 	}
- 
--	dentry->d_fsdata = (void *)(unsigned long)data_version;
-+	dentry->d_time = (unsigned long)data_version;
- 
- 	/* Check to see if we already have an inode for the primary fid. */
- 	inode = ilookup5(dir->i_sb, cookie->fids[1].vnode,
-@@ -895,9 +895,9 @@ static struct inode *afs_do_lookup(struct inode *dir, struct dentry *dentry)
- 	}
- 
- 	if (op->file[0].scb.have_status)
--		dentry->d_fsdata = (void *)(unsigned long)op->file[0].scb.status.data_version;
-+		dentry->d_time = (unsigned long)op->file[0].scb.status.data_version;
- 	else
--		dentry->d_fsdata = (void *)(unsigned long)op->file[0].dv_before;
-+		dentry->d_time = (unsigned long)op->file[0].dv_before;
- 	ret = afs_put_operation(op);
- out:
- 	kfree(cookie);
-@@ -1010,7 +1010,7 @@ static struct dentry *afs_lookup(struct inode *dir, struct dentry *dentry,
- 	_debug("splice %p", dentry->d_inode);
- 	d = d_splice_alias(inode, dentry);
- 	if (!IS_ERR_OR_NULL(d)) {
--		d->d_fsdata = dentry->d_fsdata;
-+		d->d_time = dentry->d_time;
- 		trace_afs_lookup(dvnode, &d->d_name, &fid);
- 	} else {
- 		trace_afs_lookup(dvnode, &dentry->d_name, &fid);
-@@ -1040,7 +1040,7 @@ static int afs_d_revalidate_rcu(struct afs_vnode *dvnode, struct dentry *dentry)
- 	 * version.
- 	 */
- 	dir_version = (long)READ_ONCE(dvnode->status.data_version);
--	de_version = (long)READ_ONCE(dentry->d_fsdata);
-+	de_version = (long)READ_ONCE(dentry->d_time);
- 	if (de_version != dir_version) {
- 		dir_version = (long)READ_ONCE(dvnode->invalid_before);
- 		if (de_version - dir_version < 0)
-@@ -1100,7 +1100,7 @@ static int afs_d_revalidate(struct inode *parent_dir, const struct qstr *name,
- 	 * version.
- 	 */
- 	dir_version = dir->status.data_version;
--	de_version = (long)dentry->d_fsdata;
-+	de_version = (long)dentry->d_time;
- 	if (de_version == (long)dir_version)
- 		goto out_valid_noupdate;
- 
-@@ -1161,7 +1161,7 @@ static int afs_d_revalidate(struct inode *parent_dir, const struct qstr *name,
- 	}
- 
- out_valid:
--	dentry->d_fsdata = (void *)(unsigned long)dir_version;
-+	dentry->d_time = (unsigned long)dir_version;
- out_valid_noupdate:
- 	key_put(key);
- 	_leave(" = 1 [valid]");
-@@ -1931,7 +1931,7 @@ static void afs_rename_edit_dir(struct afs_operation *op)
- 		spin_unlock(&new_inode->i_lock);
- 	}
- 
--	/* Now we can update d_fsdata on the dentries to reflect their
-+	/* Now we can update d_time on the dentries to reflect their
- 	 * new parent's data_version.
- 	 */
- 	afs_update_dentry_version(op, new_dvp, op->dentry);
-@@ -2167,7 +2167,7 @@ static int afs_rename(struct mnt_idmap *idmap, struct inode *old_dir,
- 	}
- 
- 	/* This bit is potentially nasty as there's a potential race with
--	 * afs_d_revalidate{,_rcu}().  We have to change d_fsdata on the dentry
-+	 * afs_d_revalidate{,_rcu}().  We have to change d_time_ on the dentry
- 	 * to reflect it's new parent's new data_version after the op, but
- 	 * d_revalidate may see old_dentry between the op having taken place
- 	 * and the version being updated.
-diff --git a/fs/afs/internal.h b/fs/afs/internal.h
-index 009064b8d661..106a7fe06b56 100644
---- a/fs/afs/internal.h
-+++ b/fs/afs/internal.h
-@@ -1746,17 +1746,17 @@ static inline struct inode *AFS_VNODE_TO_I(struct afs_vnode *vnode)
+Changes since [v3]:
+* Fix compilation failure under !CONFIG_TRANSPARENT_HUGEPAGE.
+* No functional changes otherwise.
+
+Changes since [v2]:
+* Rename align_to_pmd() to should_align_to_pmd().
+* Add benchmark results to the commit message.
+
+Changes since [v1]:
+* Drop the Kconfig option CONFIG_ELF_RO_LOAD_THP_ALIGNMENT.
+* Move the alignment logic into a helper align_to_pmd() for clarity.
+* Improve the comment explaining why we skip the optimization
+  when PMD_SIZE > 32MB.
+
+[v4]: https://lore.kernel.org/linux-fsdevel/20260310031138.509730-1-r@hev.cc
+[v3]: https://lore.kernel.org/linux-fsdevel/20260310013958.103636-1-r@hev.cc
+[v2]: https://lore.kernel.org/linux-fsdevel/20260304114727.384416-1-r@hev.cc
+[v1]: https://lore.kernel.org/linux-fsdevel/20260302155046.286650-1-r@hev.cc
+---
+ fs/binfmt_elf.c | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
+
+diff --git a/fs/binfmt_elf.c b/fs/binfmt_elf.c
+index fb857faaf0d6..d5f5154079de 100644
+--- a/fs/binfmt_elf.c
++++ b/fs/binfmt_elf.c
+@@ -489,6 +489,32 @@ static int elf_read(struct file *file, void *buf, size_t len, loff_t pos)
+ 	return 0;
  }
  
- /*
-- * Note that a dentry got changed.  We need to set d_fsdata to the data version
-+ * Note that a dentry got changed.  We need to set d_time to the data version
-  * number derived from the result of the operation.  It doesn't matter if
-- * d_fsdata goes backwards as we'll just revalidate.
-+ * d_time goes backwards as we'll just revalidate.
-  */
- static inline void afs_update_dentry_version(struct afs_operation *op,
- 					     struct afs_vnode_param *dir_vp,
- 					     struct dentry *dentry)
++static inline bool should_align_to_pmd(const struct elf_phdr *cmd)
++{
++	if (!IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE))
++		return false;
++
++	/*
++	 * Avoid excessive virtual address space padding when PMD_SIZE is very
++	 * large, since this function increases PT_LOAD alignment.
++	 * This threshold roughly matches the largest commonly used hugepage
++	 * sizes on current architectures (e.g. x86 2M, arm64 32M with 16K pages).
++	 */
++	if (PMD_SIZE > SZ_32M)
++		return false;
++
++	if (!IS_ALIGNED(cmd->p_vaddr | cmd->p_offset, PMD_SIZE))
++		return false;
++
++	if (cmd->p_filesz < PMD_SIZE)
++		return false;
++
++	if (cmd->p_flags & PF_W)
++		return false;
++
++	return true;
++}
++
+ static unsigned long maximum_alignment(struct elf_phdr *cmds, int nr)
  {
- 	if (!op->cumul_error.error)
--		dentry->d_fsdata =
--			(void *)(unsigned long)dir_vp->scb.status.data_version;
-+		dentry->d_time =
-+			(unsigned long)dir_vp->scb.status.data_version;
- }
- 
- /*
+ 	unsigned long alignment = 0;
+@@ -501,6 +527,10 @@ static unsigned long maximum_alignment(struct elf_phdr *cmds, int nr)
+ 			/* skip non-power of two alignments as invalid */
+ 			if (!is_power_of_2(p_align))
+ 				continue;
++
++			if (p_align < PMD_SIZE && should_align_to_pmd(&cmds[i]))
++				p_align = PMD_SIZE;
++
+ 			alignment = max(alignment, p_align);
+ 		}
+ 	}
 -- 
-2.50.0.107.gf914562f5916.dirty
+2.53.0
 
