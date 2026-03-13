@@ -1,111 +1,166 @@
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E74E13C0610
-	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Mar 2026 16:06:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57C063C5520;
+	Fri, 13 Mar 2026 16:24:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773418009; cv=none; b=DkBf4ShKRWLU2dLUevFkXvRIMqnOKhZINzIsT3AciWCXlPFgNNUEW7eV0HAC8D1Li6xbV1EeqEJ2gKJyE2J+bUiRQEM/X/8qprHFmkZtPRoc+Fo61hFMFSVXRF09sZxeWhPfFkw89BOFi6OeEq3daD+X4tyEgNyLZ1Z/W80V29M=
+	t=1773419049; cv=none; b=FTKGNFqACWD7EqpVog1kx/lXuPf/DurWAOhx4/iADvhn/MEJgcQ8eIGrM9GbBbU7q3MnVdG6bSJ4xuQ6ymxSaISxFyI7no3aZeNuJ/OoLGae1cg9cKUPTb4zdgAa+AVYfY3tgubvUsh3wHV0L0JABuiMsPLBxq/puNysfHnZ5yo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773418009; c=relaxed/simple;
-	bh=mrgB6OYq5fl6la156FZGEjM8+cGmsWQazLL+9mA/3YM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Uctj/ffIbGCtdD4z8xY1KIVz7KZUl6HD/biR9tMsz5z3/X41Ojw5sk7KzSY2IqlXKexb0yA5P4uA+kJoMXoblvgRnavbD6ibFg6IG/4LeQNhYYKLT6xTak+J9C0/P1swtnv1wvnUCfRtg0IrrxF7PavUkqNneFRSkQunSiebod0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=16zJbp0A; arc=none smtp.client-ip=209.85.210.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
+	s=arc-20240116; t=1773419049; c=relaxed/simple;
+	bh=lJoNBJQMcrN1Zzv9aLC4vR9jkUZ1MPOuyiBIO3eiDoQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Kad/iJoNny48KjYCUXokX3lAkCW+NjY12S2Y21Jvjcz2ONHWo/MJpIY2hnNsxOwdqXmf3xt7qGunbopQqnEK5mM9r9sPUUx6WAog3z/NZnRMl8gysBUfPWYcgJMVpBLSc1gRdN/NO0Rk1PI5iqZ6VquTq1efDY5NldcGqdqBP8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jFOsat0c; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="16zJbp0A"
-Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-7d73ccee442so2496771a34.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 13 Mar 2026 09:06:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1773418007; x=1774022807; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wIGUjW2HEf5IAtuw8pLHFD1v6D6psz7Cx6Shlu3igSk=;
-        b=16zJbp0ACT8RrIF2FoehxWQzpwxTRXPKVzfMIAgUGQ12zsW/H9XIfhff7ecLpkYKp4
-         Dg6aGzY4WuPb/bpEs8PE7Orb/wbWsbqUPOYynPqx002QSDAfz7ff0hhQGLgLrIa4+Xys
-         ZYxXkuN038Eh0M/4Okpg3uyTXtK5Jqvsars9HPGTYSxVqjAbwHhNlPMyJhml4E00q/Dd
-         HzEDdpK82ZGzwvZXFgpNRWrcpwNmm+LHHTwxHljz+PyQKE/bbvbwZgEW/ZCD5RMtQfNU
-         DR8sMYKEyjSYS9pSreA+/bhyAriD1SomiKBbp8vVLJ5aARG26ob3Eydq3LCYIK9SILdp
-         gl2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773418007; x=1774022807;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wIGUjW2HEf5IAtuw8pLHFD1v6D6psz7Cx6Shlu3igSk=;
-        b=cLgRMumhXNaPq6tiQIAz1wwLqztJLP4PDoTfdXCK4vkv46Bwe1ZfGWkHd+wtU4GHJa
-         nZ103rgNNPmwnRNz1SPaTo0sGf2frrepL9J1zof0rDc0wB27qEsgb9ZZCpJ1S+4X8LL3
-         mYpICcarDvu1aRMae/eu4Y4ALymL37IE45wqtjPpx3MBM1ud5rPsETzyZ7wpf+u0iMwp
-         4cZvzxCxxr4lsswO6Hf/aOWjk56B+o9sFN+pp9FgdbcH6wA14b0JXE3E3hjZHikyvahM
-         Hxc/7DeDjsrHJE7WY0Q/dxXfRBK0LY9tU5FkxFyx+C9iphSpOrz9BOwSpLL9lXk2VzKT
-         CCOw==
-X-Forwarded-Encrypted: i=1; AJvYcCVa78A1H27nb8FGdJVKjvyJqE0buc+vNyB/80CAFD2zjMMVKjaQFktxROPIriKKTy1oHE5Ods75WMp4MavM@vger.kernel.org
-X-Gm-Message-State: AOJu0YwKlxISQht6bO/eg6cilgPxH8hgwAVVO+X6U4tYJ6+y5c29uYUA
-	o+UwEDUX/O1482zEMFqRNG0bS55LxzJ8Y28cZ9uaHXE9LkAV5I5v24/TMJZnos30fo4=
-X-Gm-Gg: ATEYQzxHxw1Ulxgf7ezbr9pLhoiOSHgW/CtwBDi/2z3B1yFxjFE+cvCEx63HwGuV+c2
-	YRJYwGrSgxmT94EXEJUqhLlMf5QVMiUMqMyhFYp/hRJx/mxG9Euq+Z/YccOZ8NwIZ7kuWIVVjcf
-	QgTa7IRQQSPsUEe5T0qbvN/tCwyv79Vflk35HxBzvCPtH+L6gcRqT33LanA8kR7R122hHZ7hq3b
-	04XvluORZQGNbsKu9jAgWKx2PYuqmwiDonTaJzTzWtdHQzHp2cTcx6ZZkWM3YxubhL2cQPaDy8S
-	uJUGAeYV9UWc9yIR3Gb9f/3Im/9VOtYgZc17CGtDcfas4WLWj0/kBBYE8mxrVqatEw1ay0B3JUB
-	EP/dc1yUNfA3RRPhejYQj8N4gX2aVnYh5QN7td1dJiawH0yhT9EWVqngDrMUjKnHXnT/C7kgfif
-	6CtVZ02qCxV4nDvd5EQmj6TwUcxxPZwMZT0VzxMddIiROmGLC0j9GSQKL3uP8kU14BNTRNe5V/E
-	/fpmxZotw==
-X-Received: by 2002:a4a:d312:0:b0:67b:dd84:2798 with SMTP id 006d021491bc7-67bdd842e6cmr1168312eaf.57.1773418006742;
-        Fri, 13 Mar 2026 09:06:46 -0700 (PDT)
-Received: from [192.168.1.150] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-67bc9307b4esm4858249eaf.11.2026.03.13.09.06.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Mar 2026 09:06:45 -0700 (PDT)
-Message-ID: <9d8205fe-c788-429a-985b-8472217dbe32@kernel.dk>
-Date: Fri, 13 Mar 2026 10:06:44 -0600
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jFOsat0c"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8B7CC19421;
+	Fri, 13 Mar 2026 16:24:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773419048;
+	bh=lJoNBJQMcrN1Zzv9aLC4vR9jkUZ1MPOuyiBIO3eiDoQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jFOsat0cE9Z7G4xgLB2pA8/ocyScQZne+TTj3tQP4Xz+vLgJsSr3CtneBnxIaNabT
+	 1+ieOgUr37JOxzzXEb9nnO6HYw/wSAzwo7TpF7izB/16KbpnIU0q/A+oEksfyjdE9B
+	 0rG+qQ+46uLwTG2uwRPLJRZnLAstA8qhOU/2WBggCSwq2KHVrl4H6TIWL8clqLWP2+
+	 q5DqV6xTKblMCJXrgs34mFSeW2HtK6RFjwjZrMooP0U9ejoeli1nIR+6X91YF/wsTq
+	 FF/7VGV87fgBkIFoK1voGCr40raaC2GG7b8lrLsddBzwmkq8nyo9ruUM2X49XFqYEo
+	 FK3Cqkf/hU8jQ==
+Date: Fri, 13 Mar 2026 09:24:08 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: David Timber <dxdt@dev.snart.me>
+Cc: Matthew Wilcox <willy@infradead.org>, linkinjeon@kernel.org,
+	sj1557.seo@samsung.com, yuezhang.mo@sony.com,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] exfat: EXFAT_IOC_GET_VALID_DATA ioctl
+Message-ID: <20260313162408.GE6023@frogsfrogsfrogs>
+References: <20260311222613.2010177-1-dxdt@dev.snart.me>
+ <abIxl8XEftpku8yf@casper.infradead.org>
+ <b216af63-f65e-4c26-84bc-2693fad0fdf1@dev.snart.me>
+ <abLUQECuMuxHNXjZ@casper.infradead.org>
+ <20260312150623.GB1742010@frogsfrogsfrogs>
+ <14dc2f67-7916-4990-b1c4-5d442c5d51fc@dev.snart.me>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] MAINTAINERS: add Josh Law as reviewer for library code
-To: Josh Law <hlcj1234567@gmail.com>
-Cc: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
- Christian Brauner <brauner@kernel.org>, Vlastimil Babka <vbabka@suse.com>,
- linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
- Josh Law <objecting@objecting.org>, mm-commits@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>, "David Hildenbrand (Arm)"
- <david@kernel.org>
-References: <20260307221931.2848601-1-objecting@objecting.org>
- <3cd25de5-3737-49f4-aa8b-eaaee471af50@lucifer.local>
- <ee644e1b-5759-477f-8aec-35c91a5a938e@suse.com>
- <20260307222154.2848660-1-objecting@objecting.org>
- <667b75ad-bce9-4997-8ebf-8077952c2797@gmail.com>
- <20260313-anvisiert-gemeckert-352414e3d58d@brauner>
- <20260313-halskette-annahme-94e782eb4ae4@brauner>
- <01a6bbcc-1442-48c7-be5b-14f07fe655c9@lucifer.local>
- <28175752-2775-476d-9485-499335a99aea@gmail.com>
- <e2278198-22a4-402d-9179-c7cbbb186d5a@kernel.dk>
- <8bc3ea9f-4e56-4e41-8cf6-97e3b5a45b31@gmail.com>
-From: Jens Axboe <axboe@kernel.dk>
-Content-Language: en-US
-In-Reply-To: <8bc3ea9f-4e56-4e41-8cf6-97e3b5a45b31@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <14dc2f67-7916-4990-b1c4-5d442c5d51fc@dev.snart.me>
 
-On 3/13/26 10:00 AM, Josh Law wrote:
-> Thank you guys for the context and the history. I understand now why
-> my request was premature and how it looks from a security and
-> procedural standpoint. I appreciate you taking the time to explain the
-> 'Jia Tan' caution, it makes total sense why the bar is so high.
+On Fri, Mar 13, 2026 at 04:59:27PM +0900, David Timber wrote:
+> On 3/13/26 00:06, Darrick J. Wong wrote:
+> > /me wonders if the problem here is that the "unwritten" post-VDL range
+> > is worse than a regular unwritten range in the sense that you have to
+> > write zeroes to all the space between the VDL and wherever your write()
+> > starts, e.g. if the VDL is set to 1G and I pwrite a single byte at 8GB,
+> > that turns into a 7-billion-x write amplification.
+> Yes. That's the problem being addressed here.
+
+Ah, ok.  Does it do that zeroing at write() time, or only when you're
+initiating writeback from the pagecache?  I'm guessing write() time,
+since otherwise you're signing the kernel up for initiating a lot of IO
+at a time when memory could be scarce.
+
+> Again, imho, VDL is NOT a hole. It should be treated differently. VDL is
+> not required to be aligned to the block/extent/cluster size(holes in
+> sparse files tend to be albeit not a requirement). You can't punch or
+> dig holes in exFAT. Using SEEK_*HOLE* to find *VDL* doesn't make any
+> sense(to me, at least).
+
+<remembers to put on his language lawyering glasses>
+
+The lseek manpage states:
+
+   lseek() allows the file offset to be set beyond the end of the file
+   (but this does not change the size of the file).  If data is later
+   written at this  point,  subsequent  reads of the data in the gap (a
+   "hole") return null bytes ('\0') until data is actually written into
+   the gap.
+
+IOWs, a "hole" is defined here to be a region of a file which has never
+been written to, and therefore reads will return all zeroes.  It doesn't
+say anything about the storage that may or may not be backing that
+range.
+
+Mild logic leap here: ftruncate() to increase file size also creates a
+gap where reads will return null bytes.  From ftruncate:
+
+   If the file previously was larger than this  size,  the  extra  data
+   is lost.   If  the file previously was shorter, it is extended, and
+   the extended part reads as null bytes ('\0').
+
+In contrast, lot of people call readable file regions not backed by any
+space "sparse holes".  Unfortunately the fallocate manpage muddies
+things up by saying:
+
+   Deallocating file space
+       Specifying  the FALLOC_FL_PUNCH_HOLE flag (available since Linux
+       2.6.38) in mode deallocates space (i.e., creates  a  hole)  in
+       the byte  range starting  at  offset and continuing for len
+       bytes.  Within the specified range, partial filesystem blocks are
+       zeroed, and whole filesystem blocks are removed from the file.
+       After a successful  call,  subsequent  reads from this range will
+       return zeros.
+
+Note that it doesn't say "sparse hole", just "hole".  This ambiguity wrt
+fallocate is very unfortunate, because it regularly causes confusion on
+fsdevel and other places.  Note that classic Unixy filesystems will, in
+creating the "hole" as part of writing at a point past the end of the
+file, also create a "sparse hole" by not mapping blocks into the gap.
+
+Also, I sorta lie, because XFS and ext4 are Unixy filesystems, but they
+both have modes (large rt extent size and bigalloc) where they actually
+can map unwritten blocks into a never-written hole.
+
+exfat doesn't support "sparse holes".  But it does support holes per the
+lseek definition, because you can increase the file size via ftruncate,
+it'll allocate clusters to back the whole range, and (VDL, i_size] is
+the part that exfat knows has never been written and will always return
+null bytes in response to a read.
+
+Ok, back to lseek:
+
+  SEEK_HOLE
+      Adjust  the file offset to the next hole in the file greater than
+      or equal to offset.  If offset points into the middle of a  hole,
+      then  the file offset is set to offset.  If there is no hole past
+      offset, then the file offset is adjusted to the end of  the  file
+      (i.e., there is an implicit hole at the end of any file).
+
+So, SEEK_HOLE jumps to the next file range that has never been written.
+It doesn't say anything about backing storage at all.  For exfat, that
+would be the start of the VDL.  This is what willy was getting at.
+
+It's too bad that lseek, being a generic interface, has no way to convey
+that writes to a lseek hole will be potentially very expensive.  A
+program could infer that by the existence of SEEK_HOLE holes and
+FALLOC_FL_PUNCH_HOLE returning EOPNOTSUPP.
+
+OTOH I guess they could confirm that by calling the VDL ioctl and
+getting a non-error response.  But if we've solved finding the VDL by
+making SEEK_HOLE return values below EOF, then why do we need the ioctl?
+What if we added a statx flag to advertise sparse hole support on a
+file?  And then didn't set it for exfat?
+
+> thb, I don't really care if the ioctl patch is accepted or not. If
+> SEEK_HOLE/SEEK_DATA is really what maintainers see fit despite these
+> deviations, I'd have to honour that decision and bring iomap to exFAT, I
+> guess. That'd be a lot of work though because it mean will the rework of
+> the entire exFAT code base. Not saying exFAT doesn't deserve iomap but
+> that might be a little over my paygrade since there are thousands of
+> embedded devices already using in-kernel exFAT.
+
+/me notes that you can implement iomap only for lseek.
+
+--D
+
+> I retract the patches regarding the ioctl. For the time being, the focus
+> should be on making exFAT and NTFS useable and stable before introducing
+> ioctls. Sorry for my poor judgement.
 > 
-> I'm going to take the 'no rush' advice to heart. I'll focus on the
-> technical work, learn the etiquette, and prove myself through quality
-> contributions over time. Thank you for not being super mad
-
-That is the way! Just keep at it, it's a long road.
-
--- 
-Jens Axboe
+> Davo
+> 
+> 
