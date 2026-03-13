@@ -1,69 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6A4026B971
-	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Mar 2026 14:00:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773410414; cv=none; b=lYaHgwAHFsnZYE+F3A2P9vC6HwiDTlhmqvQBZFjutgiDK9iwf9YTv6O8ZwGxmsCgGzK/FmY2BN1pHv9YGk7NfrA/rgHGedSZn2/MXJFvHyt0wQ1a1qXO0zwwDuQO3S4iYJ97GURibQ+dNNoafTJ3PrBj+v7nAO9LYT/TMTk6l3k=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773410414; c=relaxed/simple;
-	bh=G7Pg42Ol8fpAqManfW9fLFIvzSBuHbEqB5mrH7+54/E=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA76B1DED42
+	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Mar 2026 14:39:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.172
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773412773; cv=pass; b=EPF7pX4mvFqdV6EjWiek5aEWgqqKSs4nROI7a9H/hx689VvDFlPpk83YbrjGpZWrMFgnm3D+ehbHRSToDLBzxdlfMXe2Mfv4Vl7zNeKCP0Bs3m4tWnxPBpaaS04T67zms3VLx+1yx0X7B3iH4U2/iZaOnN0KZLN6BIpdvH4j0lg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773412773; c=relaxed/simple;
+	bh=sJJ6qRXJASQg0fWEF1LqLZ2QXuC8vC3iSXfNlIz0VPs=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Rdu7bQVBT+B9Qtv8+rA5B7uQCEfsw7Ia+brdG+5og9UXQsJMhrC+Nh51ReSPS/xG/Ix1ZZzVUNotLJeSIej2RwiS9OvPFJPb4n0CPL0n+vj8MhICrwYFq0gGB4nmfARfzgAF2WqeI796sBFW851O5ZPJYCMbBTDYiv/J0BrPMNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lYOIQK5n; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=It8K22xvCLBSnY0Z5rQqdfXhz+VvtED1v6TQof6+BCPs08wMidBPK9A3apzvG/Wwa7MKla8CpjMHN3EDhiO+l1KiVDuf+uo3lbfyrUfCvuye3OuhIJLJWTtCWzg/QwRkikT01PUyGctvb/Ti7FN7n3eZ5xlVSdaVeC+BrOlfQXs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hev.cc; spf=pass smtp.mailfrom=hev.cc; dkim=pass (2048-bit key) header.d=hev-cc.20230601.gappssmtp.com header.i=@hev-cc.20230601.gappssmtp.com header.b=LmmFGeLX; arc=pass smtp.client-ip=209.85.128.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hev.cc
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hev.cc
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lYOIQK5n"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9406CC19425
-	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Mar 2026 14:00:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773410414;
-	bh=G7Pg42Ol8fpAqManfW9fLFIvzSBuHbEqB5mrH7+54/E=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=lYOIQK5nIZl/cqTsijCFRf+iZDWVC/co9y4rqlCcv82bK+hbEegBa9VgjJ5N/Fs1z
-	 zShpJJp8GrXcjR05BLgUgIDCYshVDi4oovGq0C9w00ul9HX4E2j+XGPjpLpuPWnJj8
-	 asY2dA+BgFguPg9aSk0NZ/gfwoo4luhlhEsR6OOFYt7dGevj+tc1Y3aDMOhvn2G2ic
-	 YnkgDQ3fr3vG+pPL7yaM+9Y26jSa5Vj6fe4MVAYa/XFpegPNknHIUf892656qwUk/b
-	 4YOPbNFd7BCM5JvB1KleDdpWex3dFSOF2USSL71V7wQFyn1s6jPHSCoPJjj61UoxeU
-	 Asyd5cQzpK9XA==
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-b941762394aso275550466b.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 13 Mar 2026 07:00:14 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVtzficKa8f6w84H9sYYKEpIMx+yRmjGfYll2krQ4KT8Uj/BtM1Tz4Z+YWSBJrj/pJmcalg4BPCdR/Qpimk@vger.kernel.org
-X-Gm-Message-State: AOJu0YwjxglYL7bvcgc7+9K2BPFbruY7OEj1KmdRuOfu1psekyjXY1YR
-	6ejQaYv+PDQmmIRwF58YbxGVSvX6gAODGOS5pQdwAiDQ2HCTtI9P+NvvXAg5vT6Uwnzdh50P65Y
-	2xDUPjAU05CDkqQVGgFfOnkFbAE/o6Ik=
-X-Received: by 2002:a17:907:a0c9:b0:b8f:b32e:e196 with SMTP id
- a640c23a62f3a-b9765141719mr211056966b.30.1773410412854; Fri, 13 Mar 2026
- 07:00:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=hev-cc.20230601.gappssmtp.com header.i=@hev-cc.20230601.gappssmtp.com header.b="LmmFGeLX"
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-7986e538decso19565017b3.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 13 Mar 2026 07:39:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773412771; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Alu1491wSLiTuJXj0UhCI4gJXtT7HO6a4D5ZlNqBJolkhIO4h6AEvwbBmiEEArJ5kD
+         4TNPgIrHYJlbE6QKFxBJbj7bo97kDkvLQF5qlNf8ifjtLOGqOjdftBzCtG6505t7w+Gk
+         P8fTYeTQMG/AZU+FTX/uV83T+obkwsRqD9yGopadV2obCrsEHSeYgtXTASujsuqdBaIK
+         VeORz9lNtuusLPPsPTNyUot1n0/nCJHWG8x9nnqL+pgCCuX7BwaQzzWaJiP+om9hSL3m
+         wWdfw/8F9Lb2JqWDhK9fWIKtBhgKjAxEF8TwWtTYQjqYC4za3k5AOBr2FwVVQcnXSZC3
+         VGTg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=sJJ6qRXJASQg0fWEF1LqLZ2QXuC8vC3iSXfNlIz0VPs=;
+        fh=p5QOMISVBLu7WzDXnV54NGhp9l/MJr3aKicpCBnBYUU=;
+        b=C8LxltmyQdHlb4nwTd8CvM2lWJaTb0pzRGaq4I5gLr23kd1MHHvP6Uld05TMMMwsK6
+         aIy25skuHKEJJmNV4ApvUEVcxfRyl4iRsN+Kw6W0PEEtOG+/vY6ALHqmciT09ys1A+X9
+         Z+30C6DgWX8/aOfndvT8FGTI82QWX/XonGjlOHVGZjAxfZaDBuDEqcgXErNJRtLwT4Cs
+         UIQTh07CpoxRE6C2smmWSfOplf5uNqwhjjzT9FB57t8rX6T7sxMIiC9EmrML5Wt7jp/T
+         dC6jitCH5RNNDTjL6rCMHKW3vXLHRY2Cyj6pMIFF+OkRMyKZMNrIFPAE4n5p2Cx48DZ7
+         qusg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=hev-cc.20230601.gappssmtp.com; s=20230601; t=1773412771; x=1774017571; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sJJ6qRXJASQg0fWEF1LqLZ2QXuC8vC3iSXfNlIz0VPs=;
+        b=LmmFGeLX68MaQCVHRoiBScJRc+2bBTtuGfZzW55OTdRHy+O6Nejo6e83x1OTBCv1mK
+         w15uRBv9bVhoZg3PuZdELW17y4zOw+StTsflfsS8kiac2tI0Q9vFMR3nY4sdQBPLNKul
+         PxrTZXm5d6ohN9xxVrGwZoMKOSDbYprSjDreYvS6weQMhkysNbJVMY8ne/8RO2i8h3Yy
+         V4nsJPsSViizQ1Z2gu/DX6+gzbLvgBgysvnJiPsd8A5OFsOhVv6TvU3zjOFAJxGOOslf
+         AyIiKVv8Z9KZb/QJGjAxNdau9DfWPyWr6i5AB5Su22ye0OdAL5reZ3mvwsJyiZTLS87P
+         BGPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773412771; x=1774017571;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=sJJ6qRXJASQg0fWEF1LqLZ2QXuC8vC3iSXfNlIz0VPs=;
+        b=qBbMm3nI9VYgSZcx+nFmBuoFmBpuRRN8JQcwChUXZWUxaV1XxzjKYvHPXRJ06UbQ/v
+         LIoXubRGgjIusj0w3et84rqlPizHZidJfU/XrVm1h3UhgYInR+5iKeLBKR5BfYh1+30V
+         8pFysWmSr3O+12l6ULimwutuOQSpAbxlPDGRV1kvar3KvcYNMHvS2lHF0JYI04KG7d3w
+         oE93Ek1ReTTwCEE0slUv/es29sR7mEyePbbV1INry+z+icuzUdZBGgJJfC6JvqNUAPm+
+         BJm7BkpGRE51i48Ld3Uwz3q4z0A9XwA2ghoE4wiZ0iw3CKTA8XZqhAnBMbWtcr5fthiF
+         0nig==
+X-Forwarded-Encrypted: i=1; AJvYcCUJs/wCy8f4s2BzdMUPif+eawW0BXDaGK0Pw4l1MO0V6sv0lJZqDoJ7INsxMbpn4IOcnZD7gOoeiBJNljBi@vger.kernel.org
+X-Gm-Message-State: AOJu0YwSRP1YZuGa3gxFXN1NHq6ydplYVgqP3GcWzVJbIS+njvfYualK
+	LUqOC4jwJT7g64XtzO61tGR+iucScDQ5tEm95+YWdw+/mDwH0jrmoMMBWP4N/S/Uhj5lEfwGIx0
+	bvEYwl/BTwDynAdCR7khjeTCKziqlx2CD8LTeeSM63g==
+X-Gm-Gg: ATEYQzw3N5YZbrJxj9UHl8gndFTAGxM6hdWwGii2reYrHScFdILcAjSdZuBdRW1xNNk
+	kMkMsH7Iax9WC3qYJ3Yajwa9Axc0rj/jUgCJpkO9CZSca4+6IZsoE5vpghQRIA02oXpzpAz44XK
+	bf2vvi2lW0+O34iOw0osvxLV0htZNDA2jjXDM7UjvVsiNBbLbVW1e5xk4Bj7ZL085tVl/FDPfQ6
+	GbFXGvkDuSW5VzGO2BbYgSTDr3CVVAB7bT3z7A0AYrF7M/obomberXLwqll7l0xtPoDIUraccm2
+	8NtVBouc4nH+huktggmiyUT0oM7Df5moR/PRXyzMQA==
+X-Received: by 2002:a05:690c:306:b0:78f:9801:7606 with SMTP id
+ 00721157ae682-79a1c186f23mr38827757b3.34.1773412771512; Fri, 13 Mar 2026
+ 07:39:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260311222613.2010177-1-dxdt@dev.snart.me> <abIxl8XEftpku8yf@casper.infradead.org>
- <b216af63-f65e-4c26-84bc-2693fad0fdf1@dev.snart.me> <abLUQECuMuxHNXjZ@casper.infradead.org>
- <20260312150623.GB1742010@frogsfrogsfrogs> <14dc2f67-7916-4990-b1c4-5d442c5d51fc@dev.snart.me>
-In-Reply-To: <14dc2f67-7916-4990-b1c4-5d442c5d51fc@dev.snart.me>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Fri, 13 Mar 2026 22:59:58 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd9_sUX8X9LWq4_MR5nN8CoBLtz4XayMpYduwyB578_jMQ@mail.gmail.com>
-X-Gm-Features: AaiRm51tAToj9GQPFIwCZSEJv28i0tUHJ3CDiM1oXmhvhuhL_Of8957rSd5VBWk
-Message-ID: <CAKYAXd9_sUX8X9LWq4_MR5nN8CoBLtz4XayMpYduwyB578_jMQ@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] exfat: EXFAT_IOC_GET_VALID_DATA ioctl
-To: David Timber <dxdt@dev.snart.me>
-Cc: "Darrick J. Wong" <djwong@kernel.org>, Matthew Wilcox <willy@infradead.org>, sj1557.seo@samsung.com, 
-	yuezhang.mo@sony.com, linux-fsdevel@vger.kernel.org, 
+References: <20260310031138.509730-1-r@hev.cc> <349671d5-f5aa-48a2-9bba-00aef167b836@linux.alibaba.com>
+In-Reply-To: <349671d5-f5aa-48a2-9bba-00aef167b836@linux.alibaba.com>
+From: hev <r@hev.cc>
+Date: Fri, 13 Mar 2026 22:39:19 +0800
+X-Gm-Features: AaiRm52VWGkrpgV6kr1pOmEvbPempDQO61pMP0KiWiSuLBaXj1WE2q1TEU_x85I
+Message-ID: <CAHirt9g_PfEM+PzVrpsZwch44_6oeGQ4_abvYMAtjM3eNg5CHQ@mail.gmail.com>
+Subject: Re: [PATCH v4 0/2] binfmt_elf: Align eligible read-only PT_LOAD
+ segments to PMD_SIZE for THP
+To: Baolin Wang <baolin.wang@linux.alibaba.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Andrew Morton <akpm@linux-foundation.org>, 
+	Barry Song <baohua@kernel.org>, Christian Brauner <brauner@kernel.org>, 
+	David Hildenbrand <david@kernel.org>, Dev Jain <dev.jain@arm.com>, Jan Kara <jack@suse.cz>, 
+	Kees Cook <kees@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	Matthew Wilcox <willy@infradead.org>, Nico Pache <npache@redhat.com>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Zi Yan <ziy@nvidia.com>, usama.arif@linux.dev, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
 	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> thb, I don't really care if the ioctl patch is accepted or not. If
-> SEEK_HOLE/SEEK_DATA is really what maintainers see fit despite these
-> deviations, I'd have to honour that decision and bring iomap to exFAT, I
-> guess. That'd be a lot of work though because it mean will the rework of
-> the entire exFAT code base. Not saying exFAT doesn't deserve iomap but
-> that might be a little over my paygrade since there are thousands of
-> embedded devices already using in-kernel exFAT.
-I'm working on adding iomap support to exFAT, and I think SEEK_HOLE
-will be able to address the requirements we discussed. I will bring
-this up again once the iomap work is complete.
+On Fri, Mar 13, 2026 at 4:41=E2=80=AFPM Baolin Wang
+<baolin.wang@linux.alibaba.com> wrote:
+>
+> CC Usama
+>
+> Usama posted a similar patchset[1], and I think using exec_folio_order()
+> for exec-segment alignment is reasonable. In your case, you can override
+> exec_folio_order() to return a PMD=E2=80=91sized order.
+>
+> [1]
+> https://lore.kernel.org/all/20260310145406.3073394-1-usama.arif@linux.dev=
+/
+
+Thanks for the pointer!
+
+Cheers,
+Rui
