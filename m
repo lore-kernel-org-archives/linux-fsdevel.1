@@ -1,166 +1,155 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57C063C5520;
-	Fri, 13 Mar 2026 16:24:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFC613019A6;
+	Fri, 13 Mar 2026 16:27:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773419049; cv=none; b=FTKGNFqACWD7EqpVog1kx/lXuPf/DurWAOhx4/iADvhn/MEJgcQ8eIGrM9GbBbU7q3MnVdG6bSJ4xuQ6ymxSaISxFyI7no3aZeNuJ/OoLGae1cg9cKUPTb4zdgAa+AVYfY3tgubvUsh3wHV0L0JABuiMsPLBxq/puNysfHnZ5yo=
+	t=1773419254; cv=none; b=lgC/OH9YrVxY6l4kEHIlsjYOdMT/kKp5buRr6/RuVOxqQSGL97oNXFuKcYGm54NQm3Z8RFwdqutUQOSztmMnXhHHURGjO21qVmkm4jRfq0yG/wnvM+roJBeYN/W32Pi6by4a0udtS/bXIMtArVuxIiQ6XkLMEFDzLRki1AsV75A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773419049; c=relaxed/simple;
-	bh=lJoNBJQMcrN1Zzv9aLC4vR9jkUZ1MPOuyiBIO3eiDoQ=;
+	s=arc-20240116; t=1773419254; c=relaxed/simple;
+	bh=/eJtS8h0mKw/fLWieWSxlYbg5ksWap1zDbR7F4gZ0Bk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Kad/iJoNny48KjYCUXokX3lAkCW+NjY12S2Y21Jvjcz2ONHWo/MJpIY2hnNsxOwdqXmf3xt7qGunbopQqnEK5mM9r9sPUUx6WAog3z/NZnRMl8gysBUfPWYcgJMVpBLSc1gRdN/NO0Rk1PI5iqZ6VquTq1efDY5NldcGqdqBP8k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jFOsat0c; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=JXg9wbU8h2lAhbV2qBl7rpN8CD/6gFh+gIS8t4hWRXVh2K2C5yvG8I99rzHmqmaJ9ndK90EL6Qn/HZiCqRSrINDHJDAYuaKoB26CEeiC38erp9DbHbFUsnRGJmhQUBlWCiSE4FX8AWvcuhTz5OHFG03kuWVvoz1x76bnDBsLfRE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g5ys7i1O; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jFOsat0c"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8B7CC19421;
-	Fri, 13 Mar 2026 16:24:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g5ys7i1O"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B561C19421;
+	Fri, 13 Mar 2026 16:27:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773419048;
-	bh=lJoNBJQMcrN1Zzv9aLC4vR9jkUZ1MPOuyiBIO3eiDoQ=;
+	s=k20201202; t=1773419254;
+	bh=/eJtS8h0mKw/fLWieWSxlYbg5ksWap1zDbR7F4gZ0Bk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jFOsat0cE9Z7G4xgLB2pA8/ocyScQZne+TTj3tQP4Xz+vLgJsSr3CtneBnxIaNabT
-	 1+ieOgUr37JOxzzXEb9nnO6HYw/wSAzwo7TpF7izB/16KbpnIU0q/A+oEksfyjdE9B
-	 0rG+qQ+46uLwTG2uwRPLJRZnLAstA8qhOU/2WBggCSwq2KHVrl4H6TIWL8clqLWP2+
-	 q5DqV6xTKblMCJXrgs34mFSeW2HtK6RFjwjZrMooP0U9ejoeli1nIR+6X91YF/wsTq
-	 FF/7VGV87fgBkIFoK1voGCr40raaC2GG7b8lrLsddBzwmkq8nyo9ruUM2X49XFqYEo
-	 FK3Cqkf/hU8jQ==
-Date: Fri, 13 Mar 2026 09:24:08 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: David Timber <dxdt@dev.snart.me>
-Cc: Matthew Wilcox <willy@infradead.org>, linkinjeon@kernel.org,
-	sj1557.seo@samsung.com, yuezhang.mo@sony.com,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] exfat: EXFAT_IOC_GET_VALID_DATA ioctl
-Message-ID: <20260313162408.GE6023@frogsfrogsfrogs>
-References: <20260311222613.2010177-1-dxdt@dev.snart.me>
- <abIxl8XEftpku8yf@casper.infradead.org>
- <b216af63-f65e-4c26-84bc-2693fad0fdf1@dev.snart.me>
- <abLUQECuMuxHNXjZ@casper.infradead.org>
- <20260312150623.GB1742010@frogsfrogsfrogs>
- <14dc2f67-7916-4990-b1c4-5d442c5d51fc@dev.snart.me>
+	b=g5ys7i1O4Oyyqudvfshayx5x83ZBrEEd0hPy5o7hcH9EDWSkBdxYYZhK0r1GGyM5G
+	 syCsC3eq1DUtsRKhNj21oAjko603bAQ8oYUQSwVNYXJYnpkqJrZrzL+Qr9e/x3BaDJ
+	 M37e6xzk+OxV1qR3jc4v11SJY98DLwi/oLO/z/dp5RHapEBh2nFHW1mxc2t1ayskjP
+	 OgjJTag8HwIxlnqHx55zKZEE15NKqEvjn2la7wrAn7lMgyKNFTLEAaJPUj811LesBL
+	 GRHk15xq6KF2kJ/9MYge7WEDYF85dN+2wkTaIg/SiwbDVxI2Mij/HaLc6uTCfqkcto
+	 kSe137WPVc22w==
+Date: Fri, 13 Mar 2026 12:27:32 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	workflows@vger.kernel.org, tools@kernel.org, x86@kernel.org,
+	Thomas Gleixner <tglx@kernel.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Cyril Hrubis <chrubis@suse.cz>, Kees Cook <kees@kernel.org>,
+	Jake Edge <jake@lwn.net>,
+	David Laight <david.laight.linux@gmail.com>,
+	Askar Safin <safinaskar@zohomail.com>,
+	Gabriele Paoloni <gpaoloni@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Ingo Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [PATCH 3/9] kernel/api: add debugfs interface for kernel API
+ specifications
+Message-ID: <abQ69FmtBqXX6Irz@laps>
+References: <20260313150928.2637368-1-sashal@kernel.org>
+ <20260313150928.2637368-4-sashal@kernel.org>
+ <2026031301-duplicate-finalist-b7a5@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <14dc2f67-7916-4990-b1c4-5d442c5d51fc@dev.snart.me>
+In-Reply-To: <2026031301-duplicate-finalist-b7a5@gregkh>
 
-On Fri, Mar 13, 2026 at 04:59:27PM +0900, David Timber wrote:
-> On 3/13/26 00:06, Darrick J. Wong wrote:
-> > /me wonders if the problem here is that the "unwritten" post-VDL range
-> > is worse than a regular unwritten range in the sense that you have to
-> > write zeroes to all the space between the VDL and wherever your write()
-> > starts, e.g. if the VDL is set to 1G and I pwrite a single byte at 8GB,
-> > that turns into a 7-billion-x write amplification.
-> Yes. That's the problem being addressed here.
+On Fri, Mar 13, 2026 at 04:32:23PM +0100, Greg Kroah-Hartman wrote:
+>On Fri, Mar 13, 2026 at 11:09:13AM -0400, Sasha Levin wrote:
+>> Add a debugfs interface to expose kernel API specifications at runtime.
+>> This allows tools and users to query the complete API specifications
+>> through the debugfs filesystem.
+>>
+>> The interface provides:
+>> - /sys/kernel/debug/kapi/list - lists all available API specifications
+>> - /sys/kernel/debug/kapi/specs/<name> - detailed info for each API
+>>
+>> Each specification file includes:
+>> - Function name, version, and descriptions
+>> - Execution context requirements and flags
+>> - Parameter details with types, flags, and constraints
+>> - Return value specifications and success conditions
+>> - Error codes with descriptions and conditions
+>> - Locking requirements and constraints
+>> - Signal handling specifications
+>> - Examples, notes, and deprecation status
+>>
+>> This enables runtime introspection of kernel APIs for documentation
+>> tools, static analyzers, and debugging purposes.
+>>
+>> Signed-off-by: Sasha Levin <sashal@kernel.org>
+>> ---
+>>  Documentation/dev-tools/kernel-api-spec.rst |  88 ++--
+>
+>You are removing stuff from the file you created earlier in this patch
+>series, is that ok?
 
-Ah, ok.  Does it do that zeroing at write() time, or only when you're
-initiating writeback from the pagecache?  I'm guessing write() time,
-since otherwise you're signing the kernel up for initiating a lot of IO
-at a time when memory could be scarce.
+Sorry, just a rebasing artifact from shuffling patches around. I'll fix it.
 
-> Again, imho, VDL is NOT a hole. It should be treated differently. VDL is
-> not required to be aligned to the block/extent/cluster size(holes in
-> sparse files tend to be albeit not a requirement). You can't punch or
-> dig holes in exFAT. Using SEEK_*HOLE* to find *VDL* doesn't make any
-> sense(to me, at least).
+>> --- /dev/null
+>> +++ b/kernel/api/kapi_debugfs.c
+>> @@ -0,0 +1,503 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +/*
+>> + * Kernel API specification debugfs interface
+>> + *
+>> + * This provides a debugfs interface to expose kernel API specifications
+>> + * at runtime, allowing tools and users to query the complete API specs.
+>> + */
+>
+>No copyright line?  :)
 
-<remembers to put on his language lawyering glasses>
+I'll add one.
 
-The lseek manpage states:
+>And this is, a totally and crazy interface with debugfs, I love it!
 
-   lseek() allows the file offset to be set beyond the end of the file
-   (but this does not change the size of the file).  If data is later
-   written at this  point,  subsequent  reads of the data in the gap (a
-   "hole") return null bytes ('\0') until data is actually written into
-   the gap.
+Thanks :)
 
-IOWs, a "hole" is defined here to be a region of a file which has never
-been written to, and therefore reads will return all zeroes.  It doesn't
-say anything about the storage that may or may not be backing that
-range.
+>Two minor minor nits:
+>
+>> +static int __init kapi_debugfs_init(void)
+>> +{
+>> +	struct kernel_api_spec *spec;
+>> +	struct dentry *spec_dir;
+>> +
+>> +	/* Create main directory */
+>> +	kapi_debugfs_root = debugfs_create_dir("kapi", NULL);
+>> +
+>> +	/* Create list file */
+>> +	debugfs_create_file("list", 0444, kapi_debugfs_root, NULL, &kapi_list_fops);
+>> +
+>> +	/* Create specs subdirectory */
+>> +	spec_dir = debugfs_create_dir("specs", kapi_debugfs_root);
+>> +
+>> +	/* Create a file for each API spec */
+>> +	for (spec = __start_kapi_specs; spec < __stop_kapi_specs; spec++) {
+>> +		debugfs_create_file(spec->name, 0444, spec_dir, spec, &kapi_spec_fops);
+>> +	}
+>
+>No need for { }
 
-Mild logic leap here: ftruncate() to increase file size also creates a
-gap where reads will return null bytes.  From ftruncate:
+ack
 
-   If the file previously was larger than this  size,  the  extra  data
-   is lost.   If  the file previously was shorter, it is extended, and
-   the extended part reads as null bytes ('\0').
+>> +
+>> +	pr_info("Kernel API debugfs interface initialized\n");
+>
+>When code is working properly, it should be quiet, no need for this as
+>initializing this can not fail.
 
-In contrast, lot of people call readable file regions not backed by any
-space "sparse holes".  Unfortunately the fallocate manpage muddies
-things up by saying:
+ack
 
-   Deallocating file space
-       Specifying  the FALLOC_FL_PUNCH_HOLE flag (available since Linux
-       2.6.38) in mode deallocates space (i.e., creates  a  hole)  in
-       the byte  range starting  at  offset and continuing for len
-       bytes.  Within the specified range, partial filesystem blocks are
-       zeroed, and whole filesystem blocks are removed from the file.
-       After a successful  call,  subsequent  reads from this range will
-       return zeros.
-
-Note that it doesn't say "sparse hole", just "hole".  This ambiguity wrt
-fallocate is very unfortunate, because it regularly causes confusion on
-fsdevel and other places.  Note that classic Unixy filesystems will, in
-creating the "hole" as part of writing at a point past the end of the
-file, also create a "sparse hole" by not mapping blocks into the gap.
-
-Also, I sorta lie, because XFS and ext4 are Unixy filesystems, but they
-both have modes (large rt extent size and bigalloc) where they actually
-can map unwritten blocks into a never-written hole.
-
-exfat doesn't support "sparse holes".  But it does support holes per the
-lseek definition, because you can increase the file size via ftruncate,
-it'll allocate clusters to back the whole range, and (VDL, i_size] is
-the part that exfat knows has never been written and will always return
-null bytes in response to a read.
-
-Ok, back to lseek:
-
-  SEEK_HOLE
-      Adjust  the file offset to the next hole in the file greater than
-      or equal to offset.  If offset points into the middle of a  hole,
-      then  the file offset is set to offset.  If there is no hole past
-      offset, then the file offset is adjusted to the end of  the  file
-      (i.e., there is an implicit hole at the end of any file).
-
-So, SEEK_HOLE jumps to the next file range that has never been written.
-It doesn't say anything about backing storage at all.  For exfat, that
-would be the start of the VDL.  This is what willy was getting at.
-
-It's too bad that lseek, being a generic interface, has no way to convey
-that writes to a lseek hole will be potentially very expensive.  A
-program could infer that by the existence of SEEK_HOLE holes and
-FALLOC_FL_PUNCH_HOLE returning EOPNOTSUPP.
-
-OTOH I guess they could confirm that by calling the VDL ioctl and
-getting a non-error response.  But if we've solved finding the VDL by
-making SEEK_HOLE return values below EOF, then why do we need the ioctl?
-What if we added a statx flag to advertise sparse hole support on a
-file?  And then didn't set it for exfat?
-
-> thb, I don't really care if the ioctl patch is accepted or not. If
-> SEEK_HOLE/SEEK_DATA is really what maintainers see fit despite these
-> deviations, I'd have to honour that decision and bring iomap to exFAT, I
-> guess. That'd be a lot of work though because it mean will the rework of
-> the entire exFAT code base. Not saying exFAT doesn't deserve iomap but
-> that might be a little over my paygrade since there are thousands of
-> embedded devices already using in-kernel exFAT.
-
-/me notes that you can implement iomap only for lseek.
-
---D
-
-> I retract the patches regarding the ioctl. For the time being, the focus
-> should be on making exFAT and NTFS useable and stable before introducing
-> ioctls. Sorry for my poor judgement.
-> 
-> Davo
-> 
-> 
+-- 
+Thanks,
+Sasha
