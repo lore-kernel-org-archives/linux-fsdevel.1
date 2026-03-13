@@ -1,40 +1,40 @@
 Received: from sender-of-o55.zoho.eu (sender-of-o55.zoho.eu [136.143.169.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 845DD3DD53E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9B083DD53F
 	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Mar 2026 18:11:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.169.55
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773425471; cv=pass; b=NdouLDQVnzdUA+EItVrDc+zOFKMuqSdl8DRSbqAM/SowXUn8M3uzn+tGbF1ByRxGQaVlo9DLz7CD4aeB6TIrNfwfbg75rlKYaTXlP3o/n/CddsOlJ6edDvjLv5Tth6konD22eDVkAIY6LXVicM3fEtRZiraD7ZHbczfmOe/dJyU=
+	t=1773425471; cv=pass; b=q6qk+wOdXudscWfTo7rApyTcTP5NA6bluBMHGMH7xKqb1DvWFQrpMO0XpR0taRiouQ0YHT7yMIcEfN5EEfEtJy3RmRS0WVZkyjEiigykqertPD/xezGd80/4CkHuTVGnPQ7KmPi7G40M9pCEHgvIDUETdt85zynkRhtUcgxbWRE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1773425471; c=relaxed/simple;
-	bh=ye++yCaIi++/JUm3r7TUbvt9fyJotOECRprcKn02vCc=;
+	bh=68sInYsoicDg0TLV4PCCCLWw+QLSpuXwS5sMTXmXnKA=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LNUHvmVi8xBg8Z9T32dK/L5EPEt7R7Ewjo9fx7O4P/wlelKAaE9JXOp87W8I8fqmP3CGjZkfkKq97rGc66JYEZWIcrEp7NJlIu8psi8lHgDw3rfcLePvkAh1MU/eVppPDxKCcV6wYWdsBKIOtdmzu2sotM2XPYAROzbcsRFXzo4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=objecting.org; spf=pass smtp.mailfrom=objecting.org; dkim=pass (1024-bit key) header.d=objecting.org header.i=objecting@objecting.org header.b=dEV+2uLb; arc=pass smtp.client-ip=136.143.169.55
+	 MIME-Version; b=jLcia8kAJ8Ku6oCWExBVIvuh5GAgZGtI7QSpNkUw4NhvFeAX0l67n6MPTaRYEZUZm0UBPWoNReA9+ujPYPUTYRUmCtglgXTjX0r6j6OkvpF14V2aVZ9qXeH9IJEnzH64u3+NfdbQTe5+9DhOru6+OOsrNi0bFrQit1iA0m7yRkY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=objecting.org; spf=pass smtp.mailfrom=objecting.org; dkim=pass (1024-bit key) header.d=objecting.org header.i=objecting@objecting.org header.b=HnVsUK0c; arc=pass smtp.client-ip=136.143.169.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=objecting.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=objecting.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=objecting.org header.i=objecting@objecting.org header.b="dEV+2uLb"
-ARC-Seal: i=1; a=rsa-sha256; t=1773425445; cv=none; 
+	dkim=pass (1024-bit key) header.d=objecting.org header.i=objecting@objecting.org header.b="HnVsUK0c"
+ARC-Seal: i=1; a=rsa-sha256; t=1773425447; cv=none; 
 	d=zohomail.eu; s=zohoarc; 
-	b=TOGDleYAhSqUoQSR4A9ZvswaPVJYXVvQfirhiVtVN0djwZqUwG4tgP8RtpvF2cPRfGiBVCtMa3k3KE92pk0Bm8RYML8MWRvtcl6eOjei2zURlbmJDvqKZvMBB3jXIXIIXY/xMdUn9nJHdPvqljATmyvVk5FKZopCaBXnaId+J1c=
+	b=OXMNEI/QJQqqDKhlhjLKwo8dObuTOmewG5jl6r2uAaN9TBMKxb+8eGQa76C4lL4djlnlX8/THmCSBQuRtJVGzZDQNKfJq58VqhKZgyvGftOa77P+aiYiwepb/V10Ek6JS2sC5w/vAgBLZ0dZEw16sUhOlxNSj+/uIhafLFjqBLk=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.eu; s=zohoarc; 
-	t=1773425445; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=bokNmjYprG9JKLLdcrb8B4GkUZ4kLxoTVOtpOc28ExI=; 
-	b=g197aCltpWFysutiXQm2vBT7+/OXcZZn62yCNGJmQ3M3x5xvdhlyFS/eRGUdsMofXCpJuWMsB++YK9NspcbeQ8ECBDDVRKic46HqIJCk9o+46dt+LUay+Vao7ACDc4DfXiAf3Z89KHHjcScuec3zdJk3yn5RyA6/4Hmpy2/eI/Q=
+	t=1773425447; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=JlnqFE/JwVAb0ZfMLbMBz0yidWm8ctSkmiGTlsgGfqE=; 
+	b=VdktjdFdqzqvRtPpwilaX3xT5oQ6W+WUDo0g2Avgzo7AB7R6thP7vawE6MAJYytZhoiS1d/7AS8knw2PZdf/qBQ6hGP6p969lHdyjTUpYCu0ZqVcbsJVvMtdHSCdYMGT5ImIWQFJhX6Oqfu81suUgK/JVokS4ZEkSwNv+cowlJg=
 ARC-Authentication-Results: i=1; mx.zohomail.eu;
 	dkim=pass  header.i=objecting.org;
 	spf=pass  smtp.mailfrom=objecting@objecting.org;
 	dmarc=pass header.from=<objecting@objecting.org>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1773425445;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1773425447;
 	s=zmail; d=objecting.org; i=objecting@objecting.org;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding:Reply-To;
-	bh=bokNmjYprG9JKLLdcrb8B4GkUZ4kLxoTVOtpOc28ExI=;
-	b=dEV+2uLb4sRA3wtFtcNe//xiIN5bxsZpLOeASQp6iyjOkAkzEMp7gQ6Ly4+j5K3Z
-	jwf5c9mOB/DkxFnag/Ksa2U9qbhwR/kYl3H8XBwOsKk7AoMVbRN6BUEA7Bhj1yjivfA
-	O8U98jEmQcPDsihNZlxyVNvb3PXBhV/n9X3UkAyE=
-Received: by mx.zoho.eu with SMTPS id 1773425444055232.31153927404955;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Reply-To;
+	bh=JlnqFE/JwVAb0ZfMLbMBz0yidWm8ctSkmiGTlsgGfqE=;
+	b=HnVsUK0cNYMvA4JMAH5JUPbPxj8ZNkvAUuSVZu8EGLGiE1upWRZbOcS3jXWHjCsa
+	W5besZAEUQUA81aEH9hInddIlLnVmHhhe6LBOJXalEBiJinjYmpDY0eb6qvx9t9y10S
+	+xl+m5p69ly9/bmHYZNUGN7qZT7RKh06HeZieJdE=
+Received: by mx.zoho.eu with SMTPS id 1773425444622119.22191903532143;
 	Fri, 13 Mar 2026 19:10:44 +0100 (CET)
 From: Josh Law <objecting@objecting.org>
 To: Andrew Morton <akpm@linux-foundation.org>,
@@ -43,9 +43,9 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-block@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	Josh Law <objecting@objecting.org>
-Subject: [PATCH 6/7] lib/iov_iter: guard iov_iter_alignment() against zero-count iovec/bvec iterators
-Date: Fri, 13 Mar 2026 18:10:37 +0000
-Message-Id: <20260313181038.30018-7-objecting@objecting.org>
+Subject: [PATCH 7/7] lib/iov_iter: add missing should_fail_usercopy() in copy_to_user_iter_mc()
+Date: Fri, 13 Mar 2026 18:10:38 +0000
+Message-Id: <20260313181038.30018-8-objecting@objecting.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260313181038.30018-1-objecting@objecting.org>
 References: <20260313181038.30018-1-objecting@objecting.org>
@@ -55,51 +55,43 @@ List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-ZohoMailClient: External
 
-When a direct I/O path calls iov_iter_alignment() on an iterator that
-has already been fully consumed (count == 0) — which can occur when the
-block layer re-checks alignment after draining all bytes — the
-iov_iter_alignment_iovec() and iov_iter_alignment_bvec() helpers enter
-their do-while loops unconditionally.  With count == 0 and a non-zero
-first segment length, the subtraction size -= len wraps the unsigned
-size_t to a large value, causing the loop to walk off the end of the
-iov/bvec array and read garbage memory.
+When running fault injection tests (CONFIG_FAULT_INJECTION_USERCOPY)
+against DAX/pmem read paths, the machine-check variant
+copy_to_user_iter_mc() is not covered because it skips the
+should_fail_usercopy() check that the normal copy_to_user_iter() has.
 
-The ubuf path already guards against this (checking if (size) before
-accessing the buffer), but the iovec and bvec paths do not.
+This means the dax_copy_to_iter() code path used for pmem reads cannot
+be exercised by the usercopy fault injector, leaving a gap in test
+coverage for a path that has its own distinct error handling (it must
+not retry on #MC).
 
-Found by reviewing the function for consistent handling of edge cases
-across all iterator types, noting the ubuf path's explicit zero check
-had no equivalent in the other branches.
+Found by auditing all copy_to_user/copy_from_user helper variants in
+the file for consistent use of the fault injection hook and noticing
+copy_to_user_iter_mc() was the only one without it.
 
-Add count == 0 guards in iov_iter_alignment() before calling into the
-iovec and bvec helpers, matching the ubuf path's behavior.
+Add the same should_fail_usercopy() check that copy_to_user_iter() has.
 
 Signed-off-by: Josh Law <objecting@objecting.org>
 ---
- lib/iov_iter.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ lib/iov_iter.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/lib/iov_iter.c b/lib/iov_iter.c
-index 18561108aa3a..a5bb4fbd9d38 100644
+index a5bb4fbd9d38..89e04066f737 100644
 --- a/lib/iov_iter.c
 +++ b/lib/iov_iter.c
-@@ -853,10 +853,10 @@ unsigned long iov_iter_alignment(const struct iov_iter *i)
- 
- 	/* iovec and kvec have identical layouts */
- 	if (likely(iter_is_iovec(i) || iov_iter_is_kvec(i)))
--		return iov_iter_alignment_iovec(i);
-+		return i->count ? iov_iter_alignment_iovec(i) : 0;
- 
- 	if (iov_iter_is_bvec(i))
--		return iov_iter_alignment_bvec(i);
-+		return i->count ? iov_iter_alignment_bvec(i) : 0;
- 
- 	/* With both xarray and folioq types, we're dealing with whole folios. */
- 	if (iov_iter_is_folioq(i))
+@@ -204,6 +204,8 @@ static __always_inline
+ size_t copy_to_user_iter_mc(void __user *iter_to, size_t progress,
+ 			    size_t len, void *from, void *priv2)
+ {
++	if (should_fail_usercopy())
++		return len;
+ 	if (access_ok(iter_to, len)) {
+ 		from += progress;
+ 		instrument_copy_to_user(iter_to, from, len);
 -- 
 2.34.1
 
