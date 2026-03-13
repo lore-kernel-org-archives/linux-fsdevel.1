@@ -1,140 +1,182 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 936E138CFF7;
-	Fri, 13 Mar 2026 15:32:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07B8F3A6F14;
+	Fri, 13 Mar 2026 15:33:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773415948; cv=none; b=OhsQ/Z8mCo6FwA8vW+Y/WYPGpi0Rawv5ThWmmCxKXz1JVNuMSX9CLCQxn7kvKJzR9MvG5A0g9FxD/s4jDanP2qr8kjAeiDjiLlItPhiEbFAPJJuQJRMM9gctQcqdDaHIi2WEfVe//0CYNlr0drK9rOT5llOTGhvP4zU9Gmj0t8M=
+	t=1773416036; cv=none; b=qpIGJmDLxmaUifytHtHYhfxlWXbj6oWRbDyoFs3aYfDOuI4AYDqnxOuKtrCQZcUXVT6kdgTloNtOLoRtEzTevZswAxaDC6Aq8kmnz+OHuktYjQHgEziRotr6xeAIr7RjZXxawJZT8C6cPOYYrFG37gbJShdZcS6uRf92umHW4Cw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773415948; c=relaxed/simple;
-	bh=a9N56qquIiA7KzR/QoVlAd2WIKW6Tap6TTUftb/rEhU=;
+	s=arc-20240116; t=1773416036; c=relaxed/simple;
+	bh=+2WVFPv5Wopw2CylUPNTgQsPlMjqFAHPGesXRLCaYK8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GyfAe5am1Nn9FI915WI5Z4Hr48WzFRJxEvYw7nXcJ1uhyIM56dfre0Q7DdqLePV0chAUwETlxbi+7RMn9QjuyTvxklv3D/dnlij7MzTIZBUi7+nJtrGo2ZAdY+ts1TcZS37dl2udrM3TSSyi0GeY2hGMJRuPxn5DKImx/oOxgRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=AJZBf/lk; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=X1c5rGz8zkfhIiMytAEaaojfJkMZfueg90BM7QblrZIDHFF3T+gjuiyGPWID4gxInGfbBJi5EhQPbmSliuhLSWePbVvnetVf+nd9x0bC/7XiRCJljV3oyE5+9qxm5iIBS66dBnSlb5p3gqtxIIDN375BR85UX6u/R1qFh9fDbok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X/zjjQWO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="AJZBf/lk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5F0DC19421;
-	Fri, 13 Mar 2026 15:32:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1773415948;
-	bh=a9N56qquIiA7KzR/QoVlAd2WIKW6Tap6TTUftb/rEhU=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X/zjjQWO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CF78C19421;
+	Fri, 13 Mar 2026 15:33:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773416035;
+	bh=+2WVFPv5Wopw2CylUPNTgQsPlMjqFAHPGesXRLCaYK8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AJZBf/lkOgDw/oG0tz5yl6vsWX7RiSNBCfq4pdSxHrdjxAfGAoil9NXUQI8/MKfgQ
-	 T0I126R5E/hEkZ8idIxV0+tbeF2mLuT1kzCNAU4YIHtEtK9YRcrNWezXHyNlgKM40y
-	 3LFB5JoewgSuiUOjRMM0F8JOxGRLvdzU0NluWtFo=
-Date: Fri, 13 Mar 2026 16:32:23 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Sasha Levin <sashal@kernel.org>
-Cc: linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	workflows@vger.kernel.org, tools@kernel.org, x86@kernel.org,
-	Thomas Gleixner <tglx@kernel.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Cyril Hrubis <chrubis@suse.cz>, Kees Cook <kees@kernel.org>,
-	Jake Edge <jake@lwn.net>,
-	David Laight <david.laight.linux@gmail.com>,
-	Askar Safin <safinaskar@zohomail.com>,
-	Gabriele Paoloni <gpaoloni@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Ingo Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH 3/9] kernel/api: add debugfs interface for kernel API
- specifications
-Message-ID: <2026031301-duplicate-finalist-b7a5@gregkh>
-References: <20260313150928.2637368-1-sashal@kernel.org>
- <20260313150928.2637368-4-sashal@kernel.org>
+	b=X/zjjQWOxacwq0iUzxFSBmjItd3PUFnlqSAHBkGRKf2bFY8q0Cka9nAlI+Z3LRvGA
+	 +UXb2iI6rD3WeImGCjiMi+qOBkW0n3jxhHW+rbJacz/u2TBGKX4cyLdKxVVNbMyh/H
+	 XrvwrwaKmhXrpD6hy3VR9+1st/yqTE8/nKvDhzl4p9voz1UnSuOxgt36B+XtL6Rnio
+	 kF0bdnWkCMAYRWI6pwqbngxJ1cJ5QVLAHEtOeiTnj2q/WvnayGgVCOsz1YuOXX5mWZ
+	 5fO92Cbaoa2ctk3/8DPaRKdc6vfRPyL2QjYf2nKSM3EItbR4YFqjxddXjLTWtj22YM
+	 rUNxF5DXY+nyg==
+Date: Fri, 13 Mar 2026 16:33:49 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Josh Law <hlcj1234567@gmail.com>, 
+	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, Vlastimil Babka <vbabka@suse.com>
+Cc: linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	Jens Axboe <axboe@kernel.dk>, Andrew Morton <akpm@linux-foundation.org>, 
+	linux-kernel@vger.kernel.org, Josh Law <objecting@objecting.org>, mm-commits@vger.kernel.org, 
+	Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH] MAINTAINERS: add Josh Law as reviewer for library code
+Message-ID: <20260313-halskette-annahme-94e782eb4ae4@brauner>
+References: <20260307221931.2848601-1-objecting@objecting.org>
+ <3cd25de5-3737-49f4-aa8b-eaaee471af50@lucifer.local>
+ <ee644e1b-5759-477f-8aec-35c91a5a938e@suse.com>
+ <20260307222154.2848660-1-objecting@objecting.org>
+ <667b75ad-bce9-4997-8ebf-8077952c2797@gmail.com>
+ <20260313-anvisiert-gemeckert-352414e3d58d@brauner>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260313150928.2637368-4-sashal@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260313-anvisiert-gemeckert-352414e3d58d@brauner>
 
-On Fri, Mar 13, 2026 at 11:09:13AM -0400, Sasha Levin wrote:
-> Add a debugfs interface to expose kernel API specifications at runtime.
-> This allows tools and users to query the complete API specifications
-> through the debugfs filesystem.
+On Fri, Mar 13, 2026 at 04:00:38PM +0100, Christian Brauner wrote:
+> On Sat, Mar 07, 2026 at 10:19:31PM +0000, Josh Law wrote:
+> > Add myself as a designated reviewer for the library code to help review
+> > incoming patches and improvements.
+> > 
+> > Signed-off-by: Josh Law <objecting@objecting.org>
+> > ---
+> >  MAINTAINERS | 1 +
+> >  1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 96e97d25e1c2..8fd03ab9c657 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -14613,6 +14613,7 @@ F:	tools/testing/nvdimm/
+> >  
+> >  LIBRARY CODE
+> >  M:	Andrew Morton <akpm@linux-foundation.org>
+> > +R:	Josh Law <objecting@objecting.org>
+> >  L:	linux-kernel@vger.kernel.org
+> >  S:	Supported
+> >  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
+> > -- 
+> > 2.43.0
+> > 
 > 
-> The interface provides:
-> - /sys/kernel/debug/kapi/list - lists all available API specifications
-> - /sys/kernel/debug/kapi/specs/<name> - detailed info for each API
+> On Fri, Mar 13, 2026 at 10:17:53AM +0000, Lorenzo Stoakes (Oracle) wrote:
+> > On Sat, Mar 07, 2026 at 10:19:31PM +0000, Josh Law wrote:
+> > > Add myself as a designated reviewer for the library code to help review
+> > > incoming patches and improvements.
+> > >
+> > > Signed-off-by: Josh Law <objecting@objecting.org>
+> > 
+> > Sorry but NAK, I appreciate your enthusiasm but this is literally _all_
+> > library code, and you don't have a long track history in the kernel.
+> > 
+> > Also in [0], [1], etc. you aren't demonstrating a great deal of maturity,
+> > so I don't think it's appropriate for you to be added at this time.
+> > 
+> > I really don't think a 'catch all' category should be getting arbitrary
+> > extra reviewers in any case.
+> > 
+> > Please take some time to contribute to the kernel, establish yourself, and
+> > then look to reviewership for a specific category.
+> > 
+> > Thanks, Lorenzo
+> > 
+> > > ---
+> > >  MAINTAINERS | 1 +
+> > >  1 file changed, 1 insertion(+)
+> > >
+> > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > index 96e97d25e1c2..8fd03ab9c657 100644
+> > > --- a/MAINTAINERS
+> > > +++ b/MAINTAINERS
+> > > @@ -14613,6 +14613,7 @@ F:	tools/testing/nvdimm/
+> > >
+> > >  LIBRARY CODE
+> > >  M:	Andrew Morton <akpm@linux-foundation.org>
+> > > +R:	Josh Law <objecting@objecting.org>
+> > >  L:	linux-kernel@vger.kernel.org
+> > >  S:	Supported
+> > >  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
+> > > --
+> > > 2.43.0
+> > >
+> > >
+> > 
+> > [0]:https://lore.kernel.org/all/c41dbb9d-b8a5-4b5f-9f71-3fe1bed210b6@gmail.com/
+> > [1]:https://lore.kernel.org/linux-mm/40767ecf-7e25-48f5-a604-c43b835b6b66@gmail.com/
 > 
-> Each specification file includes:
-> - Function name, version, and descriptions
-> - Execution context requirements and flags
-> - Parameter details with types, flags, and constraints
-> - Return value specifications and success conditions
-> - Error codes with descriptions and conditions
-> - Locking requirements and constraints
-> - Signal handling specifications
-> - Examples, notes, and deprecation status
+> On Fri, Mar 13, 2026 at 11:49:03AM +0100, Vlastimil Babka wrote:
+> > On 3/13/26 11:17, Lorenzo Stoakes (Oracle) wrote:
+> > > On Sat, Mar 07, 2026 at 10:19:31PM +0000, Josh Law wrote:
+> > >> Add myself as a designated reviewer for the library code to help review
+> > >> incoming patches and improvements.
+> > >>
+> > >> Signed-off-by: Josh Law <objecting@objecting.org>
+> > > 
+> > > Sorry but NAK, I appreciate your enthusiasm but this is literally _all_
+> > > library code, and you don't have a long track history in the kernel.
+> > 
+> > Agreed, just a week after first appearance on lists is really quite too soon.
+> > 
+> > Yes, getting Cc'd thanks to R: entry is one thing, but that can be achieved
+> > with lei as well. The other aspect of R: is giving weigh in replies to
+> > (potentially new) contributors and that's why it's not given out rather that
+> > quickly.
+> > 
+> > > Also in [0], [1], etc. you aren't demonstrating a great deal of maturity,
+> > > so I don't think it's appropriate for you to be added at this time.
+> > > 
+> > > I really don't think a 'catch all' category should be getting arbitrary
+> > > extra reviewers in any case.
+> > 
+> > Agreed. Many of the files under lib/ are listed in other sections with their
+> > own maintainers. They were not cc'd on this MAINTAINERS update and yet it
+> > would affect all patches to their files too, so they could at least have a
+> > say. It's unfortunate that it's how this catch-all works. Maybe X: entries
+> > could be used by the specific maintainers in the catch-all section, although
+> > it's somewhat tedious.
 > 
-> This enables runtime introspection of kernel APIs for documentation
-> tools, static analyzers, and debugging purposes.
+> Agreed. I'm sorry but there is no meaningful track record that would
+> justify this addition. lib/ encompasses locking.c, iov_iter.c,
+> rhashtable.c and a ton of other stuff that is consumed by literally the
+> whole kernel from core to drivers. If this was something innocous I
+> wouldn't care but there's a lot of really gnarly but important stuff in
+> there.
 > 
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
-> ---
->  Documentation/dev-tools/kernel-api-spec.rst |  88 ++--
+> And yes, all of the externally maintained files should be dropped from
+> the generic lib/ catch-all ideally.
 
-You are removing stuff from the file you created earlier in this patch
-series, is that ok?
+Ok, so let's look at this for a minute:
 
-> --- /dev/null
-> +++ b/kernel/api/kapi_debugfs.c
-> @@ -0,0 +1,503 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Kernel API specification debugfs interface
-> + *
-> + * This provides a debugfs interface to expose kernel API specifications
-> + * at runtime, allowing tools and users to query the complete API specs.
-> + */
+- first patch Feb 28 under pseudonym "techyguyperplexable", switched to "Josh Law" only when Andrew required a real name
+  in https://lore.kernel.org/all/20260228114939.de7d44de38d907a9b6632480@linux-foundation.org
+- 142+ emails in ~2 weeks — 37 patches in a single day (Mar 1)
+- All trivial/cosmetic — SPDX headers, comment grammar, spacing, const qualifiers. Zero bug fixes, zero new functionality
+- Carpet-bombed multiple subsystems — lib/, arm64/, staging/, input/, etc.
+- within 1 week of first-ever patch, submitted MAINTAINERS: add Josh Law as reviewer for library code covering all of lib/ (locking.c, iov_iter.c, rhashtable.c, etc.)
+- Email identity mismatch — From: hlcj1234567@gmail.com, Signed-off-by: objecting@objecting.org
+- Formatting problems — top-posting, line length violations, patches not applying cleanly
 
-No copyright line?  :)
-
-And this is, a totally and crazy interface with debugfs, I love it!
-
-Two minor minor nits:
-
-> +static int __init kapi_debugfs_init(void)
-> +{
-> +	struct kernel_api_spec *spec;
-> +	struct dentry *spec_dir;
-> +
-> +	/* Create main directory */
-> +	kapi_debugfs_root = debugfs_create_dir("kapi", NULL);
-> +
-> +	/* Create list file */
-> +	debugfs_create_file("list", 0444, kapi_debugfs_root, NULL, &kapi_list_fops);
-> +
-> +	/* Create specs subdirectory */
-> +	spec_dir = debugfs_create_dir("specs", kapi_debugfs_root);
-> +
-> +	/* Create a file for each API spec */
-> +	for (spec = __start_kapi_specs; spec < __stop_kapi_specs; spec++) {
-> +		debugfs_create_file(spec->name, 0444, spec_dir, spec, &kapi_spec_fops);
-> +	}
-
-No need for { }
-
-> +
-> +	pr_info("Kernel API debugfs interface initialized\n");
-
-When code is working properly, it should be quiet, no need for this as
-initializing this can not fail.
-
-thanks,
-
-greg k-h
+So I mean, one week to Reviewer. Even if we're being very generous here,
+we need to do a lot more due diligence going forward. We can't just hand
+out core components like this and risking our reputation and security
+posture.
