@@ -1,137 +1,156 @@
-Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EB0A328B58
-	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Mar 2026 19:47:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C61613B777C;
+	Fri, 13 Mar 2026 19:50:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773431280; cv=none; b=S5PxYCxGSO7L7uQODBp2zzotC4+b9zYf9F6zS63X1xRn5eSy2z7oOk5zpFc6Uy0/PBxqt8+vk+OAcmWEwGovKt07qKpXwJpeKENbVfu/keP5fPEa4yhohG1zq/IBjisp7QGmoM28bLi+630rs4XBko7+QpgsSTj3YJuYLZJzjLM=
+	t=1773431443; cv=none; b=hzVQlnIs4TfImTGHu8tTI0pspEmTcx5Aaj2IkKCK91bmG8b65saquIJ5tmnLsAMDEcXEVAXaLTQo65ofVMSDKxZ7fSVKdThKAnvX+lpSaTIvraTseJ/A1eNzw/A4LLQr1rvy3XGZJV0eswxL6PynVqwQkj+pNDtwJvuca3D6RdQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773431280; c=relaxed/simple;
-	bh=r0hJXWGu7qpk+B7BEZwLmuut7BIe/+AEQ1KXK0qy3k8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UppVYNOfMbDMVPPeCEtQFZie/Gj9BTg4OLEhTm6NXdikiSzdRbHtMlwmaGcWKcjMNaqsDWEumHt3aOe2+cE4s4SZ9CqiEdZYN7NsjJGffX0cZX8iGE7nPzuC1oZXcP4SvA07yAsXe4L2RBCvK/9jjV4PSZCNGXg+4D+Gn7Z/X74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=gQGLqbED; arc=none smtp.client-ip=95.215.58.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1773431443; c=relaxed/simple;
+	bh=hncn5BCKObZONCZsgpKJyKge4JN0MuOzMVcsOCaE9z8=;
+	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=tNM+FxciLRYf/FnnRh2A8tKiM8V+UPxV0wLdfvuhPDK8IGfmimkgvTQZ17IWvlUeTWZRG018Hfs3v/WIOjqqhByNnC434c06dFYgb5AgoH9xg3Q9DpqonClmTrbY1fXaWMYF2kv+9Qwh/e35M8Vf7JumHs2CoBpgsk+PgHxJ/Jw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=S3nOlJDd; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="gQGLqbED"
-Message-ID: <d3f60289-3ea1-43ce-9271-58c8b79bf7a0@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1773431275;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SPdzeDgO7p2Ex3q8WAh+g8zvKcfA3PAYlObdmzAMKhU=;
-	b=gQGLqbEDWJ7Lau535C9J/+AdIU5R9AQT9hlrQ/P5sl5PpuB6Ny6SsRf5h17NM8uO1B+GGK
-	tKWI8OZvAwF9tGrhepb9MZFTYi216KhN5QFZDJ4eWxrTq8RaNRAJeDBFEVTwTqZooR3cQn
-	5DU8VkkJGblgc2j5LiBsX1aoo2H2YdA=
-Date: Fri, 13 Mar 2026 22:47:36 +0300
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="S3nOlJDd"
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62DHrIMO2279199;
+	Fri, 13 Mar 2026 19:50:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=QCy4pl
+	8G59y/3LGebq3uU8uZ9lRFoZKVhvLxcLxUsL4=; b=S3nOlJDdApv9mEZQQHpPic
+	NZ//xMA6DLpu0SD1EMLQ4PNjwswKRiBHTpULZJEOsWFqrHg1YQT+yQubxeVbA9zP
+	Kvmke6ZVyslXDE7kIahznlihpBMKOdrHdn/yO73zoLjdxmaIorGUtP2dAY59plhs
+	dFp3VyPF4fo5fuF9ZXkAKr447L8CqHkKNhJvYGzDH2IYTjb960MtN0dkk0uwGmeR
+	A1phjR34oRZ7YQFxGwFCxqi68UBYuCjNnVvfrmtu1yQ+2rDybI5Bn1T2TvrhThwG
+	2OMZAX9WQ66KPYSeacwOU9lyeA09yy+IEANJpdg19vVEoU5ZVaIFQtVnneKaGJjg
+	==
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4cuh91sgb3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 13 Mar 2026 19:50:16 +0000 (GMT)
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 62DJ4foi008820;
+	Fri, 13 Mar 2026 19:50:15 GMT
+Received: from smtprelay06.wdc07v.mail.ibm.com ([172.16.1.73])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4cuha784j2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 13 Mar 2026 19:50:15 +0000
+Received: from smtpav01.wdc07v.mail.ibm.com (smtpav01.wdc07v.mail.ibm.com [10.39.53.228])
+	by smtprelay06.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 62DJoEir32244232
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 13 Mar 2026 19:50:14 GMT
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 9853958059;
+	Fri, 13 Mar 2026 19:50:14 +0000 (GMT)
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 1221458066;
+	Fri, 13 Mar 2026 19:50:13 +0000 (GMT)
+Received: from li-43857255-d5e6-4659-90f1-fc5cee4750ad.ibm.com (unknown [9.61.190.35])
+	by smtpav01.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Fri, 13 Mar 2026 19:50:12 +0000 (GMT)
+Message-ID: <247c2ee1da486aef7b66b317743ded6271d2b2e2.camel@linux.ibm.com>
+Subject: Re: [PATCH v2 2/2] EVM: add comment describing why ino field is
+ still unsigned long
+From: Mimi Zohar <zohar@linux.ibm.com>
+To: Jeff Layton <jlayton@kernel.org>,
+        Ryusuke Konishi	
+ <konishi.ryusuke@gmail.com>,
+        Viacheslav Dubeyko <slava@dubeyko.com>,
+        Christian Brauner	 <brauner@kernel.org>,
+        Roberto Sassu
+ <roberto.sassu@huawei.com>,
+        Dmitry Kasatkin	 <dmitry.kasatkin@gmail.com>,
+        Eric Snowberg <eric.snowberg@oracle.com>,
+        Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn"	 <serge@hallyn.com>
+Cc: linux-nilfs@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+In-Reply-To: <20260313-iino-u64-v2-2-f9abda2464d5@kernel.org>
+References: <20260313-iino-u64-v2-0-f9abda2464d5@kernel.org>
+	 <20260313-iino-u64-v2-2-f9abda2464d5@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 13 Mar 2026 15:50:12 -0400
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 3/4] elf: align ET_DYN base to exec folio order for
- contpte mapping
-Content-Language: en-GB
-To: WANG Rui <r@hev.cc>
-Cc: Liam.Howlett@oracle.com, ajd@linux.ibm.com, akpm@linux-foundation.org,
- anshuman.khandual@arm.com, apopple@nvidia.com, baohua@kernel.org,
- baolin.wang@linux.alibaba.com, brauner@kernel.org, catalin.marinas@arm.com,
- david@kernel.org, dev.jain@arm.com, hannes@cmpxchg.org, jack@suse.cz,
- kas@kernel.org, kees@kernel.org, kernel-team@meta.com,
- kevin.brodsky@arm.com, lance.yang@linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- lorenzo.stoakes@oracle.com, npache@redhat.com, rmclure@linux.ibm.com,
- ryan.roberts@arm.com, shakeel.butt@linux.dev, viro@zeniv.linux.org.uk,
- will@kernel.org, willy@infradead.org, ziy@nvidia.com
-References: <20260310145406.3073394-4-usama.arif@linux.dev>
- <20260313144213.95686-1-r@hev.cc>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Usama Arif <usama.arif@linux.dev>
-In-Reply-To: <20260313144213.95686-1-r@hev.cc>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-GUID: DuF97vR81Tvmpk6h4ouo44YtbbzRF-Ef
+X-Authority-Analysis: v=2.4 cv=E6/AZKdl c=1 sm=1 tr=0 ts=69b46a78 cx=c_pps
+ a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
+ a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=VnNF1IyMAAAA:8
+ a=VwQbUJbxAAAA:8 a=wTD1aXBEoiP3mpnRQToA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzEzMDE1NSBTYWx0ZWRfX4rBm9XPKx3jx
+ Sg9CIIbU6AzuVdeUUdqhj4v6r1WwJo1P8OyijzSDGmCg55SHkgAwNramzoY1hcEpJ0e4Pmi8XFY
+ aucTCbxi4Xwu0ChonruUzPcEiDaWFL8R8F457q1hsWs8jRGwecFwhRdGUa8xTa0WF2+scZ0zCoF
+ w5s+t7usi7B6fQTtBKHh1sMbhBBpMZxz1hxfnzhergusyaFAgulYhzW71AzsAP4Phgc+wPakaqx
+ SWO7bW71Serv/gIy/Rrx0dqGt5NxvnRzip3lOHIVx/iYbkpYIvQtkD6jf0YkyFXXPwWBF/eAkCS
+ c5+J6m4Mms19dXFABSyAkcs0+7UfJInMRiETGDtK6uA1I8JGGrZE/vaTw74TgFuaiavkO5Spf54
+ h53LiFy8AKw01xQlxWmU00ec5NJwvoOiIOL57uO44FL/zu7Gb0yFrlXwQrRRJ8+saHmN6S60662
+ lzD0az/jjbqyHb2OnlQ==
+X-Proofpoint-ORIG-GUID: GtoohHtJBL3J7ckGlBw5vIRtiEzmahFq
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-13_03,2026-03-13_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 impostorscore=0 clxscore=1015 malwarescore=0 phishscore=0
+ suspectscore=0 priorityscore=1501 spamscore=0 lowpriorityscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603130155
+
+On Fri, 2026-03-13 at 14:45 -0400, Jeff Layton wrote:
+> Mimi pointed out that we didn't widen the inode number field in struct
+> h_misc alongside the inode->i_ino widening. While we could make an
+> equivalent change there, that would require EVM resigning on all 32-bit
+> hosts.
+>=20
+> Instead, leave the field as an unsigned long. This should have no effect
+> on 64-bit hosts, and allow things to continue working on 32-bit hosts in
+> the cases where the i_ino fits in 32-bits.
+>=20
+> Add a comment explaining why it's being left as unsigned long.
+>=20
+> Cc: Mimi Zohar <zohar@linux.ibm.com>
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+
+Thanks, Jeff.
+
+Reviewed-by: Mimi Zohar <zohar@linux.ibm.com>
 
 
-
-On 13/03/2026 17:42, WANG Rui wrote:
-> Hi Usama,
-> 
-
-Hello!
-
-> Glad to see you're pushing on this, I'm also following it. I first noticed this when rustc's perf regressed after a binutils upgrade. I'm trying to make ld.so to aware THP and adjust PT_LOAD alignment to increase the chances of shared libraries being mapped by THP [1]. As you're probably seen, I'm doing something similar in the kernel to improve it for executables [2].
-
-For us it came about because we use 64K page size on ARM, and none of the
-text sections were getting hugified (because PMD size is 512M). I went with
-exec_folio_order() = cont-pte size (2M) for 16K and 64K as we can get both page
-fault benefit (which might not be that important) and iTLB coverage (due to
-cont-pte).
-x86 already faults in at 2M (HPAGE_PMD_ORDER) due to force_thp_readahead path in
-do_sync_mmap_readahead() so the memory pressure introduced in ARM won't be worse
-than what already exists in x86.
-
-> 
->> +			if (exec_folio_order())
->> +				alignment = max(alignment,
->> +					(unsigned long)PAGE_SIZE << exec_folio_order());
-> 
-> I’m curious, does it make sense to add some constraints here, like only increasing p_align when the segment length, virtual address, and file offset are all huge-aligned, as I did in my patch? This has come up several times in the glibc review, where increasing alignment was noted to reduce ASLR entropy.
-> 
-
-Yes I think this makes sense!
-
-Although maybe we should check all segments with PT_LOAD. So maybe something
-like below over this series?
-
-diff --git a/fs/binfmt_elf.c b/fs/binfmt_elf.c
-index 2d2b3e9fd474f..a0e83b541a7d8 100644
---- a/fs/binfmt_elf.c
-+++ b/fs/binfmt_elf.c
-@@ -1116,10 +1116,30 @@ static int load_elf_binary(struct linux_binprm *bprm)
-                         * the hardware cannot coalesce PTEs (e.g. arm64
-                         * contpte) even though the physical memory and
-                         * file offset are correctly aligned.
-+                        *
-+                        * Only increase alignment when at least one
-+                        * PT_LOAD segment is large enough to contain a
-+                        * full folio and has its file offset and virtual
-+                        * address folio-aligned. This avoids reducing
-+                        * ASLR entropy for small binaries that cannot
-+                        * benefit from contpte mapping.
-                         */
--                       if (exec_folio_order())
--                               alignment = max(alignment,
--                                       (unsigned long)PAGE_SIZE << exec_folio_order());
-+                       if (exec_folio_order()) {
-+                               unsigned long folio_sz = PAGE_SIZE << exec_folio_order();
-+
-+                               for (i = 0; i < elf_ex->e_phnum; i++) {
-+                                       if (elf_phdata[i].p_type != PT_LOAD)
-+                                               continue;
-+                                       if (elf_phdata[i].p_filesz < folio_sz)
-+                                               continue;
-+                                       if (!IS_ALIGNED(elf_phdata[i].p_vaddr, folio_sz))
-+                                               continue;
-+                                       if (!IS_ALIGNED(elf_phdata[i].p_offset, folio_sz))
-+                                               continue;
-+                                       alignment = max(alignment, folio_sz);
-+                                       break;
-+                               }
-+                       }
- 
-                        /**
-                         * DOC: PIE handling
-
-> [1] https://sourceware.org/pipermail/libc-alpha/2026-March/175776.html
-> [2] https://lore.kernel.org/linux-fsdevel/20260313005211.882831-1-r@hev.cc
-> 
-> Thanks,
-> Rui
-
+> ---
+>  security/integrity/evm/evm_crypto.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>=20
+> diff --git a/security/integrity/evm/evm_crypto.c b/security/integrity/evm=
+/evm_crypto.c
+> index c0ca4eedb0fe5d5c30f45f515a4bc90248ec64ea..1c41af2f91a60a714878ff93b=
+554c90e45546503 100644
+> --- a/security/integrity/evm/evm_crypto.c
+> +++ b/security/integrity/evm/evm_crypto.c
+> @@ -144,6 +144,12 @@ static void hmac_add_misc(struct shash_desc *desc, s=
+truct inode *inode,
+>  			  char type, char *digest)
+>  {
+>  	struct h_misc {
+> +		/*
+> +		 * Although inode->i_ino is now u64, this field remains
+> +		 * unsigned long to allow existing HMAC and signatures from
+> +		 * 32-bit hosts to continue working when i_ino hasn't changed
+> +		 * and fits in a u32.
+> +		 */
+>  		unsigned long ino;
+>  		__u32 generation;
+>  		uid_t uid;
