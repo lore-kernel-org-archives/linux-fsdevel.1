@@ -1,249 +1,169 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 957203859E1;
-	Fri, 13 Mar 2026 11:17:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E88538B7CB
+	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Mar 2026 11:17:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773400637; cv=none; b=DhwNsSgHzGaOq+n2f7wCkJ/AOht+5M6jyjRW744mhneIqCHVJe3Kw8sDcvDkarcCKwsx0rQew1j80t4ouTpHol3pUDo3VCLPJ5+t1kGhIA74Bp9719971GlIjCuIqkH7b0xnSg3R5Pm0MRmKcx4fE79Kve9pDBt8tmYr4uTAI48=
+	t=1773400645; cv=none; b=gcyuAHV43Ul3VypLYU8RI4rkdwoOm/N+hdPqQC9tHQVxUUda/xZC4ObfDSLhZYV9ZM9WsznFZd1vqQK/ngCwW7N3LCYgL9oP58lfcXO6snPTBS/N+rrsH49qCR4ZvJEPnD3umW0jdX6Lgf4NjzQnBMJd0FZf6Ylbm2qz/TWl8BQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773400637; c=relaxed/simple;
-	bh=YdSRc6yZDArzXE18aTywSwAcu/U+YIzDF7q03Jyff2Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YrEYCyPft2tJise17RK2Tto50n9AwcSSXGS7NnC9kjYFgaIrLXt3IeNvQCB8v4h+gBx8SXcIlZwU7tktEdfATLEcu/vtn9iwvDYraTq1B+O6ZdngJcHvDIA/mz0AkWWkZJ8luh42b5uOlVmoaXFoep+xJTM2ksUNKdit+Gpd+1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=ps.report@gmx.net header.b=TRWq8/7a; arc=none smtp.client-ip=212.227.15.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
+	s=arc-20240116; t=1773400645; c=relaxed/simple;
+	bh=2ocLF+6gDlSJ0COpbZ4Q1YW8LyldVKS8d2Q/lZFZfic=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GdgzgX3UvKChGPZwBXPTfbOcrZAB/eFe6nd+C85xGelXRK6id4htElzqHaQKSGDxoIzUg1nGmVMzPV4XsRumHN4nzKEV7RiRyKyCbc6cJbhhVYedA8QEbNWSu6aQe/kmAFrs+CGMnaxLxgqQajCs96qPYQGaQ9WROgBnM/vEfRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OKrNARqw; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=UK3vPB4M; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=ps.report@gmx.net header.b="TRWq8/7a"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1773400629; x=1774005429; i=ps.report@gmx.net;
-	bh=ypV3vYw83EYJ0vt2X0bGq6QL8N0WSnHy74z4DwwmweM=;
-	h=X-UI-Sender-Class:Date:From:To:Cc:Subject:Message-ID:In-Reply-To:
-	 References:MIME-Version:Content-Type:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=TRWq8/7a9Y+sn6VMldsYL5kdGTBtr/+dGNOiNLDRtcf+3ZyxdeUEFfCfcMNaq/rC
-	 HTYr1jXT6ThGq98UGBSD9Tk0uWT1eF7UGhie/psxpKbHSSspCysDmMlBBpd6kFeeG
-	 CJ+eOeKr0hOo3RX6fr7I7XKjx1hvUoX+mrVBX5iENw/1xmoe5D4KHls7XfZIPF9mJ
-	 t2PgstXESJeCQTmG76n5OeY/HlIqQWDKq3ABYT39dq6WAzbviyHp2XsZLXtaUt1xG
-	 6tz9LxT7FMHfaI3rtUOhjTmpzJzFaKcF1k7e4RJJrNbZwH42HtrD7fjcUTB1ZBHDm
-	 6ckNhVFHX/71HU9xdg==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from client.hidden.invalid by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MDQiS-1vsj2Y3k2A-00ACVj; Fri, 13
- Mar 2026 12:17:08 +0100
-Date: Fri, 13 Mar 2026 12:17:08 +0100
-From: Peter Seiderer <ps.report@gmx.net>
-To: Marc Buerg <buermarc@googlemail.com>
-Cc: Kees Cook <kees@kernel.org>, Joel Granados <joel.granados@kernel.org>,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- stable@vger.kernel.org, Elias Oezcan <elias.rw2@gmail.com>
-Subject: Re: [PATCH] sysctl: fix uninitialized variable in
- proc_do_large_bitmap
-Message-ID: <20260313121708.137dae22@pc-1>
-In-Reply-To: <20260312-fix-uninitialized-variable-in-proc_do_large_bitmap-v1-1-35ad2dddaf21@googlemail.com>
-References: <20260312-fix-uninitialized-variable-in-proc_do_large_bitmap-v1-1-35ad2dddaf21@googlemail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-suse-linux-gnu)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OKrNARqw";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="UK3vPB4M"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1773400640;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=G3aAJby17/qDvpdgHW3BwLZTyLi3K99yUle4/tTAV/E=;
+	b=OKrNARqwkYelqWGSTRuXPia0Hk9bJllMK93J6bCZsenFBTr2yAP8WoHr5HIUq1yJmxnNzJ
+	roRty5ThfMb56It1GF+ACxR58ERoxghdXQPbE/9WcJewxFRFNdhw7EVsgVA6EO8b0CpQt3
+	rB0HRscEx8F6ofgjV8gqmn6Stxp+rIE=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-351-93bPwraDO-20_UrGHVPKsQ-1; Fri, 13 Mar 2026 07:17:19 -0400
+X-MC-Unique: 93bPwraDO-20_UrGHVPKsQ-1
+X-Mimecast-MFC-AGG-ID: 93bPwraDO-20_UrGHVPKsQ_1773400638
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-439c12269f3so1275327f8f.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 13 Mar 2026 04:17:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1773400638; x=1774005438; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=G3aAJby17/qDvpdgHW3BwLZTyLi3K99yUle4/tTAV/E=;
+        b=UK3vPB4MSDCHkPA4jY4bB4yUOPaA7qwwS1LXEuynBfO59zoai/l5X8o2xCWclGXV9g
+         4smlqXR4kVAEJKriI1vdp3grxQvUKsV2of3/gf1PzJ27aS7trVLjTDcEitb0F2CgO2Yt
+         J9xA0neDom/pRM5O0V3MZO/y5APXFxyJjq7zXfFo9X9JuGZ1yMVtRJEAI7AiSG4eBclz
+         0vRL2PiokHB9CoCR1ecOeHpJAWdzUMQX03jiFgSyeMorFmcYq7l2K4q9A9LC+cQ46KND
+         LMU6DKVZ6zW1K2U7I+KLgkC+dp+pEhcNz/IR0XTeFQzcac/qO14FXgQ5g/+47jbD7jur
+         JDjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773400638; x=1774005438;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=G3aAJby17/qDvpdgHW3BwLZTyLi3K99yUle4/tTAV/E=;
+        b=FRTaBl2w4hmpClJpUy0g24riXGf+MIWoXCkE5p3KFirokuKyPUX7ch51bZFvbNTKg+
+         MQ4jJ7scK3YD4gV4O7MTNb+DP8buxUjQL7LJPpGH+t3nvkpuhh1c7r9BMg+UHwOcFywz
+         EhcTMs9s38mzZ/FEx0b8CoIYi6zZYr/Ahi6zW7nA6Wp7iso/s2k9KH4nwdhZw8NFrmUv
+         NyM6hlAebDdUovrewnE2tD9wnrDYeq2Q78+nu+CsCHc8sZVNl2G0bE1tmLAXvEAkFlDg
+         3O85IiOfswWUF9/K9GvCLvwCALZHXaIfym1mJ8EMfQ4l2Z9VWyAqtAzKvYRzjYVlpOST
+         fmpg==
+X-Forwarded-Encrypted: i=1; AJvYcCXFcMSMrZ06mnV86LTk7y1SCxHwR8TrOMSyEQ74kAGHb+mOjeWZsqJnvR/NAKe2t36lma6U8QhJ4AEkbI8/@vger.kernel.org
+X-Gm-Message-State: AOJu0YzYd0NPG+YX3O94n47tpOmydE30Fe2QlbOhR9CFgzJYiP+aSwuJ
+	o7myUVsqMZ+Rj2Ly2junllGlQeGN29E6eoNOirO6rd66dVAdH9P1ju/5/c95OSWmrtU5S4jnhDB
+	jOGiTlu7oM138ht2BuZLPU1w+5c1U2qEG4gE3q5Q0KTzN9oXw6QODlLMflbFvINlYVg==
+X-Gm-Gg: ATEYQzy2IvyPWj7Q3LvFh3+1tHBvnccM9nB5niiYqXwFPiX7aJlUeJ/GfJCetm40vzs
+	0Gi0QiDSNw8jl5EqoFX3W6+E49fGXv2IVc2j74EZev3wYloPnp+7E/oWPqtmm376klwNruO9v/T
+	furjXZmf2HNmIjTUKZFhbt0sBwaG7/ACLDNBdCr1amZp9UapSoSKeoaXdScVc/We+9FVXOtKQ+Z
+	dPlQnCjnvE77YcuaxxkZq0GSOm5I9mSCHefjH/7d+iGDPUkfr2ABBRPy/Rx0Y0beCjApze3HVks
+	w555o535q56oWMjtB6HrDFBPScOXb8IMTL3tl4JxICba96x/KjNXYbHZEMUjYiJm6K8oUjS+A+i
+	6Dd2cp73Y7r0=
+X-Received: by 2002:a05:6000:2010:b0:439:ddc0:4bee with SMTP id ffacd0b85a97d-43a04d86228mr5317857f8f.16.1773400637602;
+        Fri, 13 Mar 2026 04:17:17 -0700 (PDT)
+X-Received: by 2002:a05:6000:2010:b0:439:ddc0:4bee with SMTP id ffacd0b85a97d-43a04d86228mr5317761f8f.16.1773400636834;
+        Fri, 13 Mar 2026 04:17:16 -0700 (PDT)
+Received: from thinky ([217.30.74.39])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43a03cfd18fsm8558495f8f.36.2026.03.13.04.17.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Mar 2026 04:17:16 -0700 (PDT)
+Date: Fri, 13 Mar 2026 12:17:15 +0100
+From: Andrey Albershteyn <aalbersh@redhat.com>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Andrey Albershteyn <aalbersh@kernel.org>, linux-xfs@vger.kernel.org, 
+	fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org, ebiggers@kernel.org, hch@lst.de, 
+	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
+	linux-btrfs@vger.kernel.org
+Subject: Re: [PATCH v4 19/25] xfs: remove unwritten extents after
+ preallocations in fsverity metadata
+Message-ID: <dz3va7indkh4to2pingopyndck737qvyxvlfomkqqothzj4pdk@wu26ba5stnf6>
+References: <20260309192355.176980-1-aalbersh@kernel.org>
+ <20260309192355.176980-20-aalbersh@kernel.org>
+ <20260310012914.GG1105363@frogsfrogsfrogs>
+ <ymisdrze3ohdnxa4inqfwp4riaz4qk5nmtil33adn5ukhngq7v@f3tcv3hbzobz>
+ <20260312145250.GE6069@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:1txXnPKaIsmimdGxNhIbTHleLzY3rP1lt65i4KdVr5oPUsQ97S0
- IPhnvHsvjE6klItIRtdteSK+WIYUc3ggcHL66RSkg6ve6Y58hrZfkOurynJhAX+lx2p39Dr
- Bp1TBn5Kxqob0eif6B8jZ8kfNxDd/YchskNCMuFNNWExRaMEfPO9mLnlGApxva9G0lI7Exc
- Q4L9R/4Gk9KYec62c52Xg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:ytOGWQYTBVQ=;BoLVGF8mUE6Rx4Drf/3WX4JXTiC
- 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
- +CJnMYvHPLbKTNETT15y66U09fCBHNLkw==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260312145250.GE6069@frogsfrogsfrogs>
 
-Hello Marc,
+On 2026-03-12 07:52:50, Darrick J. Wong wrote:
+> On Thu, Mar 12, 2026 at 02:50:57PM +0100, Andrey Albershteyn wrote:
+> > On 2026-03-09 18:29:14, Darrick J. Wong wrote:
+> > > > XFS preallocates spaces during writes. In normal I/O this space, if
+> > > > unused, is removed by truncate. For files with fsverity, XFS does not
+> > > > use truncate as fsverity metadata is stored past EOF.
+> > > > 
+> > > > After we're done with writing fsverity metadata iterate over extents in
+> > > > that region and remove any unwritten ones. These would be preallocation
+> > > > leftovers in the merkle tree holes and past fsverity descriptor.
+> > > > 
+> > > > Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
+> > > > ---
+> > 
+> > > There's an upper limit on the number of blocks you can unmap/free in a
+> > > single transaction.  Maybe move the xfs_trans_{alloc,commit} into the
+> > > loop body?
+> > > 
+> > > Oh wait, you skip the written extents.  Ok, so maybe just roll it after
+> > > you've done a bunmapi.
+> > 
+> > I see, I will add a rolling transaction. Btw, why skipping the
+> > written extents let's us use rolling here?
+> 
+> Hrmm.  At first I thought: why can't xfs_fsverity_cancel_unwritten
+> allocate (and commit) the transaction inside the loop body?  Then I
+> thought "well, it's only conditionally unmapping things, and it's sort
+> of a pain to allocate a transaction only then to find out if you
+> actually want to run one".
+> 
+> OTOH there could be billions of extents in the data fork, so holding the
+> ILOCK for that many transactions isn't a good thing because tr_write
+> only preallocates space for a certain number of transaction rolls.
+> fsverity already holds IOLOCK_EXCL so there can't be any other programs
+> using the file.
+> 
+> So now I arrive back at "The transaction allocation and commit/cancel
+> should be inside the loop body, since crashing midway through wouldn't
+> result in user-visible changes to the file data".
+> 
+> > > Do you need to purge the cow fork too?
+> > 
+> > hmm, what case are you thinking about here? The fsverity is written
+> > in past EOF region, I don't see how COW extent could be left there.
+> > Can they somehow be left mapped for blocks past i_size?
+> 
+> I was talking about speculative cow fork preallocations below i_size.
+> They'll eventually get purged by blockgc, but you could give the space
+> back once you've committed enabling the fsverity file flag.
 
-On Thu, 12 Mar 2026 16:42:19 +0100, Marc Buerg <buermarc@googlemail.com> w=
-rote:
+hmm, if they're purged by blockgc, then why to do it here? I'm
+iterating and removing unwritten extents here only because
+xfs_inode_free_eofblocks() will skip fsverity inodes, the check in
+xfs_can_free_eofblocks():
 
-> proc_do_large_bitmap() does not initialize variable c, which is expected
-> to be set to a trailing character by proc_get_long().
->=20
-> However, proc_get_long() only sets c when the input buffer contains a
-> trailing character after the parsed value.
->=20
-> If c is not initialized it may happen to contain a '-'. If this is the
-> case proc_do_large_bitmap() expects to be able to parse a second part of
-> the input buffer. If there is no second part an unjustified -EINVAL will
-> be returned.
->=20
-> Initialize c to 0 to prevent returning -EINVAL on valid input.
->=20
-> ---
-> When writing to /proc/sys/net/ipv4/ip_local_reserved_ports it is
-> possible to receive an -EINVAL for a valid value.
->=20
-> This happens due to an uninitialized variable in the
-> proc_do_large_bitmap() function, namely char c. To trigger this behavior
-> the variable has to contain the later explicitly checked '-' char by
-> chance.
->=20
-> In proc_do_large_bitmap() it is expected that the variable might be
-> filled by the proc_get_long() function with the trailing character of
-> the given input. But only if a trailing character exists within the
-> passed size of the buffer.
->=20
-> The proc_get_long() function can set c if the length of the parsed long
-> is smaller than the given size of the buffer containing the user input.
-> This is not the case if the buffer only contains the port value (e.g.
-> "123") and sets the size exactly to that (3). Meaning if there is no
-> trailing character, c will not be set.
->=20
-> If no trailing character is present we still do a c =3D=3D '-' check. If=
- the
-> uninitialized variable contains this char the function continues
-> parsing. It will now set err to -EINVAL in the next proc_get_long()
-> call, as there is nothing more to parse.
->=20
-> Initializing c to 0 will solve the problem.
->=20
-> The problem will only arise sporadically, as the variable must contain
-> '-' by chance. On the affected system CONFIG_INIT_STACK_NONE=3Dy was
-> enabled. Further, when enabling eBPF tracing to dump contents of the
-> stack the issue disappears, which would fit the current explanation as a
-> root cause for the observed behavior.
->=20
-> Fixes: 9f977fb7ae9d ("sysctl: add proc_do_large_bitmap")
-> Signed-off-by: Marc Buerg <buermarc@googlemail.com>
-> ---
->  kernel/sysctl.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/kernel/sysctl.c b/kernel/sysctl.c
-> index 9d3a666ffde1..c9efb17cc255 100644
-> --- a/kernel/sysctl.c
-> +++ b/kernel/sysctl.c
-> @@ -1118,7 +1118,7 @@ int proc_do_large_bitmap(const struct ctl_table *t=
-able, int dir,
->  	unsigned long bitmap_len =3D table->maxlen;
->  	unsigned long *bitmap =3D *(unsigned long **) table->data;
->  	unsigned long *tmp_bitmap =3D NULL;
-> -	char tr_a[] =3D { '-', ',', '\n' }, tr_b[] =3D { ',', '\n', 0 }, c;
-> +	char tr_a[] =3D { '-', ',', '\n' }, tr_b[] =3D { ',', '\n', 0 }, c =3D=
- 0;
-> =20
->  	if (!bitmap || !bitmap_len || !left || (*ppos && SYSCTL_KERN_TO_USER(d=
-ir))) {
->  		*lenp =3D 0;
->=20
+	if (IS_VERITY(VFS_I(ip)))
+		return false;
 
-Given the description of proc_get_long() regarding @tr:
+The skipping is done to not remove all the fsverity metadata
+extents. With preallocations enabled there could be unwritten
+extents left in the metadata.
 
-   * @tr: pointer to store the trailer character
-   *
-   * In case of success %0 is returned and @buf and @size are updated with
-   * the amount of bytes read. If @tr is non-NULL and a trailing
-   * character exists (size is non-zero after returning from this
-   * function), @tr is updated with the trailing character.
+Am I missing something?
 
-Would the better fix be:
-
-diff --git a/kernel/sysctl.c b/kernel/sysctl.c
-index 354a2d294f52..89db88552987 100644
-=2D-- a/kernel/sysctl.c
-+++ b/kernel/sysctl.c
-@@ -1427,7 +1427,7 @@ int proc_do_large_bitmap(struct ctl_table *table, in=
-t write,
- 				left--;
- 			}
-=20
--			if (c =3D=3D '-') {
-+			if (left && c =3D=3D '-') {
- 				err =3D proc_get_long(&p, &left, &val_b,
- 						     &neg, tr_b, sizeof(tr_b),
- 						     &c);
-
-Regards,
-Peter
-
-> ---
-> base-commit: 80234b5ab240f52fa45d201e899e207b9265ef91
-> change-id: 20260312-fix-uninitialized-variable-in-proc_do_large_bitmap-3=
-0c6ef4ac1c5
->=20
-> Best regards,
+-- 
+- Andrey
 
