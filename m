@@ -1,257 +1,348 @@
-Received: from out-183.mta0.migadu.com (out-183.mta0.migadu.com [91.218.175.183])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AA5E36CE17
-	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Mar 2026 20:56:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B43C433689D
+	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Mar 2026 22:05:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773435362; cv=none; b=JGz5gfSays4XnGPkwA8d31jqNtRtTS636tdA1OoyV1DwO0LdJdMG5t+o8KBFRtWmRDQ5jtJ+7/Q+x8ATXe96UcIZrl3nrdGvgnqWof3DEBcoJmG3cKuXz/gOgj/L+VGbdzjLMrRCSqwiNThleEVoxKDZOJ6p7rrjNFUGWHym6+k=
+	t=1773439507; cv=none; b=qJYAmgiScIb0rQ/ttMmYYyR8iAzAT963GgTUGH8YeVgVryifeixgQpn/Foqe+xSOVU0KaZ69o3rdK7uYcggCEBbzNIkZ2Wmrma9ZCNzW0HlMOkU+/CB9A0Y5nLONfCErtyeQNETzWfM3QD8UkOttY3sOxnaLgmgKnZ9ZTOQVxpw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773435362; c=relaxed/simple;
-	bh=Texmc8mzLeTQE9OuhiLJZzDPnWehnCrzStTmy8Yut6Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZyV2OWjz/Lc76o7OP+s6GGJEx6u3ngmCm89dEifBDzcS/9WfFF6HdNx3CdYinXXSJ5g3dfJ15BjH1J/cQq1TM6RgozZMakyV1w8nj0/11khXWiwNUVEfLv8PWi9/4fyx4tjR/YBv9zl1kcPVJgUpfly2PvRXbQT0ZGL8JRnBAMs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ApaiXJQF; arc=none smtp.client-ip=91.218.175.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1773439507; c=relaxed/simple;
+	bh=A2NBlD4hMpQ3Le+Nhl5Thftcfpz52hEoDWMVefwcZpY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RM3+QmMQNU6p+58Ac4+l/UxcD7Gfh5TAqsrK9tANH4PhwyIeY4TcOQHYgT5THdpeYmBhvp/8Oc9N1Af7vbqIDkIuBHOaauet/x+NMJXYLuaBYcJrykJMejaF7nOkjitb2JVs1y8UoV/EtwXqm9ooSy2CvQb7G73e7+5xyIogTA4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jEXChH9Q; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ApaiXJQF"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1773435348;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tXlJyvFaDSUeU2InKFWUTUR4qu/Qcpq4+p/Os9IN1Fw=;
-	b=ApaiXJQFxRXVAx9DDLq9RZwe4REbPzug7MwIVwkyVrwgGTTKM067WGOEC1OvqGMuKccV1z
-	4g+PUS+RPIbPSGHphASw8n44kNhZovGOMPS5Qm8Eg7gpxLAZ6e84OCytvss97G1SO6utJ/
-	Q8z40Og4I69boCHij4m6ZmAFUR1ertQ=
-From: Usama Arif <usama.arif@linux.dev>
-To: Ryan Roberts <ryan.roberts@arm.com>
-Cc: Usama Arif <usama.arif@linux.dev>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	david@kernel.org,
-	ajd@linux.ibm.com,
-	anshuman.khandual@arm.com,
-	apopple@nvidia.com,
-	baohua@kernel.org,
-	baolin.wang@linux.alibaba.com,
-	brauner@kernel.org,
-	catalin.marinas@arm.com,
-	dev.jain@arm.com,
-	jack@suse.cz,
-	kees@kernel.org,
-	kevin.brodsky@arm.com,
-	lance.yang@linux.dev,
-	Liam.Howlett@oracle.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	lorenzo.stoakes@oracle.com,
-	npache@redhat.com,
-	rmclure@linux.ibm.com,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	will@kernel.org,
-	willy@infradead.org,
-	ziy@nvidia.com,
-	hannes@cmpxchg.org,
-	kas@kernel.org,
-	shakeel.butt@linux.dev,
-	kernel-team@meta.com
-Subject: Re: [PATCH 0/4] arm64/mm: contpte-sized exec folios for 16K and 64K pages
-Date: Fri, 13 Mar 2026 13:55:38 -0700
-Message-ID: <20260313205541.3830595-1-usama.arif@linux.dev>
-In-Reply-To: <cfdfca9c-4752-4037-a289-03e6e7a00d47@arm.com>
-References: 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jEXChH9Q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B3BEC19421;
+	Fri, 13 Mar 2026 22:05:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773439507;
+	bh=A2NBlD4hMpQ3Le+Nhl5Thftcfpz52hEoDWMVefwcZpY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jEXChH9QN+UkFxhP9VAg+v7hE5o0zI/2K6L3DGetf+yAjINLkT2/s8ZU3Cxcgh1Ea
+	 F35ieVR/O0jslZ0q6qCfDOZFZYuORuQa7lB0YYo/XJRNuu5m2NxSxi921WtO6Pf+i+
+	 3Kysgdbeb4pJtIULMz6en5JCcT6rwOR80U/tukr9nDQaB8plizJc63GdVaAGU7sJXE
+	 KFSfE4IST57TpYKSDWV1ecEJBeUj9E67nPvvVKoyy0UTYvH7csQjml+y4GZm2743qF
+	 Fyqh82+aTvEICmlPthOY1mp+DqaQhS30SOfUhNvA2ELBSqZA4M+rLjjSTVHLRUVifQ
+	 70jAa9ojiaPag==
+Date: Fri, 13 Mar 2026 15:05:06 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Miklos Szeredi <mszeredi@redhat.com>
+Cc: linux-fsdevel@vger.kernel.org, Bernd Schubert <bernd@bsbernd.com>
+Subject: Re: [PATCH v2 1/6] fuse: create fuse_dev on /dev/fuse open instead
+ of mount
+Message-ID: <20260313220506.GE1742010@frogsfrogsfrogs>
+References: <20260312194019.3077902-1-mszeredi@redhat.com>
+ <20260312194019.3077902-2-mszeredi@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260312194019.3077902-2-mszeredi@redhat.com>
 
-On Fri, 13 Mar 2026 16:33:42 +0000 Ryan Roberts <ryan.roberts@arm.com> wrote:
-
-> On 10/03/2026 14:51, Usama Arif wrote:
-> > On arm64, the contpte hardware feature coalesces multiple contiguous PTEs
-> > into a single iTLB entry, reducing iTLB pressure for large executable
-> > mappings.
-> > 
-> > exec_folio_order() was introduced [1] to request readahead at an
-> > arch-preferred folio order for executable memory, enabling contpte
-> > mapping on the fault path.
-> > 
-> > However, several things prevent this from working optimally on 16K and
-> > 64K page configurations:
-> > 
-> > 1. exec_folio_order() returns ilog2(SZ_64K >> PAGE_SHIFT), which only
-> >    produces the optimal contpte order for 4K pages. For 16K pages it
-> >    returns order 2 (64K) instead of order 7 (2M), and for 64K pages it
-> >    returns order 0 (64K) instead of order 5 (2M). 
+On Thu, Mar 12, 2026 at 08:39:59PM +0100, Miklos Szeredi wrote:
+> Allocate struct fuse_dev when opening the device.  This means that unlike
+> before, ->private_data is always set to a valid pointer.
 > 
-> This was deliberate, although perhaps a bit conservative. I was concerned about
-> the possibility of read amplification; pointlessly reading in a load of memory
-> that never actually gets used. And that is independent of page size.
+> The use of USE_DEV_SYNC_INIT magic pointer for the private_data is now
+> replaced with a simple bool sync_init member.
+
+Oh thank goodness, this became less clean in the iomap patchset when it
+came to add pre-approval for iomap. :)
+
+> If sync INIT is not set, I/O on the device returns error before mount.
+> Keep this behavior by checking for the ->fc member.  If fud->fc is set, the
+> mount has succeeded.  Testing this used READ_ONCE(file->private_data) and
+> smp_mb() to try and provide the necessary semantics.  Switch this to
+> smp_store_release() and smp_load_acquire().
 > 
-> 2M seems quite big as a default IMHO, I could imagine Android might complain
-> about memory pressure in their 16K config, for example.
+> Setting fud->fc is protected by fuse_mutex, this is unchanged.
 > 
-
-The force_thp_readahead path in do_sync_mmap_readahead() reads at
-HPAGE_PMD_ORDER (2M on x86) and even doubles it to 4M for
-non VM_RAND_READ mappings (ra->size *= 2), with async readahead
-enabled. exec_folio_order() is more conservative. a single 2M folio
-with async_size=0, no speculative prefetch. So I think the memory
-pressure would not be worse than what x86 has?
-
-For memory pressure on Android 16K: the readahead is clamped to VMA
-boundaries, so a small shared library won't read 2M.
-page_cache_ra_order() reduces folio order near EOF and on allocation
-failure, so the 2M order is a preference, not a guarantee with the
-current code?
-
-> Additionally, ELF files are normally only aligned to 64K and you can only get
-> the TLB benefits if the memory is aligned in physical and virtual memory.
+> Will need this later so the /dev/fuse open file reference is not held
+> during FSCONFIG_CMD_CREATE.
 > 
-> > Patch 1 fixes this by
-> >    using ilog2(CONT_PTES) which evaluates to the optimal order for all
-> >    page sizes.
-> > 
-> > 2. Even with the optimal order, the mmap_miss heuristic in
-> >    do_sync_mmap_readahead() silently disables exec readahead after 100
-> >    page faults. The mmap_miss counter tracks whether readahead is useful
-> >    for mmap'd file access:
-> > 
-> >    - Incremented by 1 in do_sync_mmap_readahead() on every page cache
-> >      miss (page needed IO).
-> > 
-> >    - Decremented by N in filemap_map_pages() for N pages successfully
-> >      mapped via fault-around (pages found in cache without faulting,
-> >      evidence that readahead was useful). Only non-workingset pages
-> >      count and recently evicted and re-read pages don't count as hits.
-> > 
-> >    - Decremented by 1 in do_async_mmap_readahead() when a PG_readahead
-> >      marker page is found (indicates sequential consumption of readahead
-> >      pages).
-> > 
-> >    When mmap_miss exceeds MMAP_LOTSAMISS (100), all readahead is
-> >    disabled. On 64K pages, both decrement paths are inactive:
-> > 
-> >    - filemap_map_pages() is never called because fault_around_pages
-> >      (65536 >> PAGE_SHIFT = 1) disables should_fault_around(), which
-> >      requires fault_around_pages > 1. With only 1 page in the
-> >      fault-around window, there is nothing "around" to map.
-> > 
-> >    - do_async_mmap_readahead() never fires for exec mappings because
-> >      exec readahead sets async_size = 0, so no PG_readahead markers
-> >      are placed.
-> > 
-> >    With no decrements, mmap_miss monotonically increases past
-> >    MMAP_LOTSAMISS after 100 faults, disabling exec readahead
-> >    for the remainder of the mapping.
-> >    Patch 2 fixes this by moving the VM_EXEC readahead block
-> >    above the mmap_miss check, since exec readahead is targeted (one
-> >    folio at the fault location, async_size=0) not speculative prefetch.
+> Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
+> ---
+>  fs/fuse/dev.c        | 47 +++++++++++++++++---------------------------
+>  fs/fuse/fuse_dev_i.h | 33 +++++++++++++++++++++++--------
+>  fs/fuse/fuse_i.h     |  5 ++---
+>  fs/fuse/inode.c      | 35 +++++++++++----------------------
+>  fs/fuse/virtio_fs.c  |  2 --
+>  5 files changed, 56 insertions(+), 66 deletions(-)
 > 
-> Interesting!
-> 
-> > 
-> > 3. Even with correct folio order and readahead, contpte mapping requires
-> >    the virtual address to be aligned to CONT_PTE_SIZE (2M on 64K pages).
-> >    The readahead path aligns file offsets and the buddy allocator aligns
-> >    physical memory, but the virtual address depends on the VMA start.
-> >    For PIE binaries, ASLR randomizes the load address at PAGE_SIZE (64K)
-> >    granularity, giving only a 1/32 chance of 2M alignment. When
-> >    misaligned, contpte_set_ptes() never sets the contiguous PTE bit for
-> >    any folio in the VMA, resulting in zero iTLB coalescing benefit.
-> > 
-> >    Patch 3 fixes this for the main binary by bumping the ELF loader's
-> >    alignment to PAGE_SIZE << exec_folio_order() for ET_DYN binaries.
-> > 
-> >    Patch 4 fixes this for shared libraries by adding a contpte-size
-> >    alignment fallback in thp_get_unmapped_area_vmflags(). The existing
-> >    PMD_SIZE alignment (512M on 64K pages) is too large for typical shared
-> >    libraries, so this smaller fallback (2M) succeeds where PMD fails.
-> 
-> I don't see how you can reliably influence this from the kernel? The ELF file
-> alignment is, by default, 64K (16K on Android) and there is no guarrantee that
-> the text section is the first section in the file. You need to align the start
-> of the text section to the 2M boundary and to do that, you'll need to align the
-> start of the file to some 64K boundary at a specific offset to the 2M boundary,
-> based on the size of any sections before the text section. That's a job for the
-> dynamic loader I think? Perhaps I've misunderstood what you're doing...
->
+> diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+> index 2c16b94357d5..4795e3d01b75 100644
+> --- a/fs/fuse/dev.c
+> +++ b/fs/fuse/dev.c
+> @@ -1542,32 +1542,24 @@ static ssize_t fuse_dev_do_read(struct fuse_dev *fud, struct file *file,
+>  
+>  static int fuse_dev_open(struct inode *inode, struct file *file)
+>  {
+> -	/*
+> -	 * The fuse device's file's private_data is used to hold
+> -	 * the fuse_conn(ection) when it is mounted, and is used to
+> -	 * keep track of whether the file has been mounted already.
+> -	 */
+> -	file->private_data = NULL;
+> +	struct fuse_dev *fud = fuse_dev_alloc();
+> +
+> +	if (!fud)
+> +		return -ENOMEM;
+> +
+> +	file->private_data = fud;
+>  	return 0;
+>  }
+>  
+>  struct fuse_dev *fuse_get_dev(struct file *file)
+>  {
+> -	struct fuse_dev *fud = __fuse_get_dev(file);
+> +	struct fuse_dev *fud = fuse_file_to_fud(file);
+>  	int err;
+>  
+> -	if (likely(fud))
+> -		return fud;
+> -
+> -	err = wait_event_interruptible(fuse_dev_waitq,
+> -				       READ_ONCE(file->private_data) != FUSE_DEV_SYNC_INIT);
+> +	err = wait_event_interruptible(fuse_dev_waitq, fuse_dev_fc_get(fud));
 
-I only started looking into how this works a few days before sending these
-patches, so I could be wrong (please do correct me if thats the case!)
+Nit: Would it be clearer that we're waiting on a condition if this were
+phrased as:
 
-For the main binary (patch 3): load_elf_binary() controls load_bias.
-Each PT_LOAD segment is mapped at load_bias + p_vaddr via elf_map().
-The alignment variable feeds directly into load_bias calculation.
-If p_vaddr=0 and p_offset=0, mapped_addr = load_bias + 0 = load_bias. By
-ensuring load_bias is folio size aligned, the text segment's virtual address
-is also folio size aligned.
+	err = wait_event_interruptible(fuse_dev_waitq,
+			fuse_dev_fc_get(fud) != NULL);
 
-For shared libraries (patch 4): ld.so loads these via mmap(), and the
-kernel's get_unmapped_area callback (thp_get_unmapped_area for ext4,
-xfs, btrfs) picks the virtual address. The existing code tries
-PMD_SIZE alignment first (512M on 64K pages), which is too large for
-typical shared libraries and always fails. Patch 4 adds a fallback
-that tries folio-size alignment (2M), which is small enough to succeed
-for most libraries.
+?
 
-> > 
-> > I created a benchmark that mmaps a large executable file and calls
-> > RET-stub functions at PAGE_SIZE offsets across it. "Cold" measures
-> > fault + readahead cost. "Random" first faults in all pages with a
-> > sequential sweep (not measured), then measures time for calling random
-> > offsets, isolating iTLB miss cost for scattered execution.
-> > 
-> > The benchmark results on Neoverse V2 (Grace), arm64 with 64K base pages,
-> > 512MB executable file on ext4, averaged over 3 runs:
-> > 
-> >   Phase      | Baseline     | Patched      | Improvement
-> >   -----------|--------------|--------------|------------------
-> >   Cold fault | 83.4 ms      | 41.3 ms      | 50% faster
-> >   Random     | 76.0 ms      | 58.3 ms      | 23% faster
-> 
-> I think the proper way to do this is to link the text section with 2M alignment
-> and have the dynamic linker mark the region with MADV_HUGEPAGE?
-> 
+>  	if (err)
+>  		return ERR_PTR(err);
+>  
+> -	fud = __fuse_get_dev(file);
+> -	if (!fud)
+> -		return ERR_PTR(-EPERM);
+> -
+>  	return fud;
+>  }
 
-On arm64 with 64K pages, the force_thp_readahead path triggered by
-MADV_HUGEPAGE reads at HPAGE_PMD_ORDER (512M). Even with file and
-anon khugepaged support aded for khugpaged, the collapse won't happen
-form the start.
+<snip>
 
-Yes I think dynamic linker is also a good alternate approach from Wangs
-patches [1]. But doing it in the kernel would be more transparent?
+> diff --git a/fs/fuse/fuse_dev_i.h b/fs/fuse/fuse_dev_i.h
+> index 134bf44aff0d..522b2012cd1f 100644
+> --- a/fs/fuse/fuse_dev_i.h
+> +++ b/fs/fuse/fuse_dev_i.h
+> @@ -39,18 +39,35 @@ struct fuse_copy_state {
+>  	} ring;
+>  };
+>  
+> -#define FUSE_DEV_SYNC_INIT ((struct fuse_dev *) 1)
+> -#define FUSE_DEV_PTR_MASK (~1UL)
+> +/*
+> + * Lockless access is OK, because fud->fc is set once during mount and is valid
+> + * until the file is released.
+> + */
+> +static inline struct fuse_conn *fuse_dev_fc_get(struct fuse_dev *fud)
+> +{
+> +	/* Pairs with smp_store_release() in fuse_dev_fc_set() */
+> +	return smp_load_acquire(&fud->fc);
+> +}
+> +
+> +static inline void fuse_dev_fc_set(struct fuse_dev *fud, struct fuse_conn *fc)
+> +{
+> +	/* Pairs with smp_load_acquire() in fuse_dev_fc_get() */
+> +	smp_store_release(&fud->fc, fc);
+> +}
+> +
+> +static inline struct fuse_dev *fuse_file_to_fud(struct file *file)
+> +{
+> +	return file->private_data;
+> +}
 
-[1] https://sourceware.org/pipermail/libc-alpha/2026-March/175776.html
+/me is no expert on load-acquire/store-release, but I think this works.
+We can't reorder code below the store-release, which means that if
+anyone calling _fc_get actually sees a non-null fuse_conn, then the fuse
+connection is fully initialized and ready to go, right?
 
-> Thanks,
-> Ryan
-> 
-> 
-> > 
-> > [1] https://lore.kernel.org/all/20250430145920.3748738-6-ryan.roberts@arm.com/
-> > 
-> > Usama Arif (4):
-> >   arm64: request contpte-sized folios for exec memory
-> >   mm: bypass mmap_miss heuristic for VM_EXEC readahead
-> >   elf: align ET_DYN base to exec folio order for contpte mapping
-> >   mm: align file-backed mmap to exec folio order in
-> >     thp_get_unmapped_area
-> > 
-> >  arch/arm64/include/asm/pgtable.h |  9 ++--
-> >  fs/binfmt_elf.c                  | 15 +++++++
-> >  mm/filemap.c                     | 72 +++++++++++++++++---------------
-> >  mm/huge_memory.c                 | 17 ++++++++
-> >  4 files changed, 75 insertions(+), 38 deletions(-)
-> > 
+>  static inline struct fuse_dev *__fuse_get_dev(struct file *file)
+>  {
+> -	/*
+> -	 * Lockless access is OK, because file->private data is set
+> -	 * once during mount and is valid until the file is released.
+> -	 */
+> -	struct fuse_dev *fud = READ_ONCE(file->private_data);
+> +	struct fuse_dev *fud = fuse_file_to_fud(file);
+> +
+> +	if (!fuse_dev_fc_get(fud))
+> +		return NULL;
+>  
+> -	return (typeof(fud)) ((unsigned long) fud & FUSE_DEV_PTR_MASK);
+> +	return fud;
+>  }
+>  
+>  struct fuse_dev *fuse_get_dev(struct file *file);
+> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+> index 7f16049387d1..739220d96b6f 100644
+> --- a/fs/fuse/fuse_i.h
+> +++ b/fs/fuse/fuse_i.h
+> @@ -576,6 +576,8 @@ struct fuse_pqueue {
+>   * Fuse device instance
+>   */
+>  struct fuse_dev {
+> +	bool sync_init;
+
+Does this need a kerneldoc comment, since the other fields have one?
+Granted the only thing I can think of is
+
+	/** Issue FUSE_INIT synchronously */
+
+
+> +
+>  	/** Fuse connection for this device */
+>  	struct fuse_conn *fc;
+>  
+> @@ -622,9 +624,6 @@ struct fuse_fs_context {
+>  
+>  	/* DAX device, may be NULL */
+>  	struct dax_device *dax_dev;
+> -
+> -	/* fuse_dev pointer to fill in, should contain NULL on entry */
+> -	void **fudptr;
+
+I'm glad the fudptr goes away!
+
+If I got the smp_store_release part right then
+Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
+
+--D
+
+>  };
+>  
+>  struct fuse_sync_bucket {
+> diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+> index e57b8af06be9..53663846db36 100644
+> --- a/fs/fuse/inode.c
+> +++ b/fs/fuse/inode.c
+> @@ -1637,7 +1637,7 @@ EXPORT_SYMBOL_GPL(fuse_dev_alloc);
+>  
+>  void fuse_dev_install(struct fuse_dev *fud, struct fuse_conn *fc)
+>  {
+> -	fud->fc = fuse_conn_get(fc);
+> +	fuse_dev_fc_set(fud, fuse_conn_get(fc));
+>  	spin_lock(&fc->lock);
+>  	list_add_tail(&fud->entry, &fc->devices);
+>  	spin_unlock(&fc->lock);
+> @@ -1659,7 +1659,7 @@ EXPORT_SYMBOL_GPL(fuse_dev_alloc_install);
+>  
+>  void fuse_dev_free(struct fuse_dev *fud)
+>  {
+> -	struct fuse_conn *fc = fud->fc;
+> +	struct fuse_conn *fc = fuse_dev_fc_get(fud);
+>  
+>  	if (fc) {
+>  		spin_lock(&fc->lock);
+> @@ -1822,7 +1822,7 @@ EXPORT_SYMBOL_GPL(fuse_init_fs_context_submount);
+>  
+>  int fuse_fill_super_common(struct super_block *sb, struct fuse_fs_context *ctx)
+>  {
+> -	struct fuse_dev *fud = NULL;
+> +	struct fuse_dev *fud = ctx->file ? fuse_file_to_fud(ctx->file) : NULL;
+>  	struct fuse_mount *fm = get_fuse_mount_super(sb);
+>  	struct fuse_conn *fc = fm->fc;
+>  	struct inode *root;
+> @@ -1856,18 +1856,11 @@ int fuse_fill_super_common(struct super_block *sb, struct fuse_fs_context *ctx)
+>  			goto err;
+>  	}
+>  
+> -	if (ctx->fudptr) {
+> -		err = -ENOMEM;
+> -		fud = fuse_dev_alloc_install(fc);
+> -		if (!fud)
+> -			goto err_free_dax;
+> -	}
+> -
+>  	fc->dev = sb->s_dev;
+>  	fm->sb = sb;
+>  	err = fuse_bdi_init(fc, sb);
+>  	if (err)
+> -		goto err_dev_free;
+> +		goto err_free_dax;
+>  
+>  	/* Handle umasking inside the fuse code */
+>  	if (sb->s_flags & SB_POSIXACL)
+> @@ -1889,15 +1882,15 @@ int fuse_fill_super_common(struct super_block *sb, struct fuse_fs_context *ctx)
+>  	set_default_d_op(sb, &fuse_dentry_operations);
+>  	root_dentry = d_make_root(root);
+>  	if (!root_dentry)
+> -		goto err_dev_free;
+> +		goto err_free_dax;
+>  
+>  	mutex_lock(&fuse_mutex);
+>  	err = -EINVAL;
+> -	if (ctx->fudptr && *ctx->fudptr) {
+> -		if (*ctx->fudptr == FUSE_DEV_SYNC_INIT)
+> -			fc->sync_init = 1;
+> -		else
+> +	if (fud) {
+> +		if (fuse_dev_fc_get(fud))
+>  			goto err_unlock;
+> +		if (fud->sync_init)
+> +			fc->sync_init = 1;
+>  	}
+>  
+>  	err = fuse_ctl_add_conn(fc);
+> @@ -1906,8 +1899,8 @@ int fuse_fill_super_common(struct super_block *sb, struct fuse_fs_context *ctx)
+>  
+>  	list_add_tail(&fc->entry, &fuse_conn_list);
+>  	sb->s_root = root_dentry;
+> -	if (ctx->fudptr) {
+> -		*ctx->fudptr = fud;
+> +	if (fud) {
+> +		fuse_dev_install(fud, fc);
+>  		wake_up_all(&fuse_dev_waitq);
+>  	}
+>  	mutex_unlock(&fuse_mutex);
+> @@ -1916,9 +1909,6 @@ int fuse_fill_super_common(struct super_block *sb, struct fuse_fs_context *ctx)
+>   err_unlock:
+>  	mutex_unlock(&fuse_mutex);
+>  	dput(root_dentry);
+> - err_dev_free:
+> -	if (fud)
+> -		fuse_dev_free(fud);
+>   err_free_dax:
+>  	if (IS_ENABLED(CONFIG_FUSE_DAX))
+>  		fuse_dax_conn_free(fc);
+> @@ -1944,13 +1934,10 @@ static int fuse_fill_super(struct super_block *sb, struct fs_context *fsc)
+>  	if ((ctx->file->f_op != &fuse_dev_operations) ||
+>  	    (ctx->file->f_cred->user_ns != sb->s_user_ns))
+>  		return -EINVAL;
+> -	ctx->fudptr = &ctx->file->private_data;
+>  
+>  	err = fuse_fill_super_common(sb, ctx);
+>  	if (err)
+>  		return err;
+> -	/* file->private_data shall be visible on all CPUs after this */
+> -	smp_mb();
+>  
+>  	fm = get_fuse_mount_super(sb);
+>  
+> diff --git a/fs/fuse/virtio_fs.c b/fs/fuse/virtio_fs.c
+> index 2f7485ffac52..f685916754ad 100644
+> --- a/fs/fuse/virtio_fs.c
+> +++ b/fs/fuse/virtio_fs.c
+> @@ -1590,8 +1590,6 @@ static int virtio_fs_fill_super(struct super_block *sb, struct fs_context *fsc)
+>  			goto err_free_fuse_devs;
+>  	}
+>  
+> -	/* virtiofs allocates and installs its own fuse devices */
+> -	ctx->fudptr = NULL;
+>  	if (ctx->dax_mode != FUSE_DAX_NEVER) {
+>  		if (ctx->dax_mode == FUSE_DAX_ALWAYS && !fs->dax_dev) {
+>  			err = -EINVAL;
+> -- 
+> 2.53.0
 > 
 > 
