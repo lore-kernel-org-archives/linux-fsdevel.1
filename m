@@ -1,184 +1,95 @@
-Received: from mail-m49198.qiye.163.com (mail-m49198.qiye.163.com [45.254.49.198])
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A813220ED;
-	Sat, 14 Mar 2026 05:58:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE97619D074;
+	Sat, 14 Mar 2026 06:35:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.181.97.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773467922; cv=none; b=QUFyhAH5oALcOr2PYD41GQnMkY1U6q40BB/h4wm9aYbmsHI2v0vV6UmM9tU2Mm1RrMMQon+xRR1sdJQtGWJcDy3LxwkBLh9MybeesvZfCSTlnCsZi4X6j06x7eFPkleJmLnUDaBdNxXF7MzxQFna0jyITxHJGloYTX2u1vRWWHE=
+	t=1773470146; cv=none; b=dTPWaNakk9nNmqZ0N36wBDtvRZeyBzRhi1Oq0xjr+3dQhgJ7x9gLlPpmnyqXOV80LollgrIsn28N1vmJrKT+2qPoN2C5h7hhulsS41SfO42vIvRfF6SK9mEoxSzrTdxSzFDocRdvQG4Tc9NONDk1DDRzVhVdRRXhzh+be/aaKpw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773467922; c=relaxed/simple;
-	bh=3noocLolEAOMUOJnlyUkLp0Mdq15PQE18CLrb+L8Ku4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=LqPcWbobHC34SWzYecc+ZNIjEWcYFgS+2Em9XyEj8zlM4wbCIa3fkO8Mghl6T/7unz43DVbdjJ6NMs1qZRkacYGC1ZT76EuepsEh/BBeqwTcd4x1duT3X1zTKi7hQ1p4Qj3XrSuYA7Y98CXqGmnd3Cfxdk79bs4PuryKvC4CmI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=ipSR2nfe; arc=none smtp.client-ip=45.254.49.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="ipSR2nfe"
-Received: from DESKTOP-SUEFNF9.tailb3ad3b.ts.net (unknown [221.228.238.82])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 36eb75935;
-	Sat, 14 Mar 2026 11:36:02 +0800 (GMT+08:00)
-From: Zilin Guan <zilin@seu.edu.cn>
-To: slava.dubeyko@ibm.com
-Cc: akpm@linux-foundation.org,
-	frank.li@vivo.com,
-	glaubitz@physik.fu-berlin.de,
-	jianhao.xu@seu.edu.cn,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	slava@dubeyko.com,
-	sougata@tuxera.com,
-	stable@vger.kernel.org,
-	zilin@seu.edu.cn
-Subject: RE:  [PATCH] hfsplus: fix held lock freed on hfsplus_fill_super()
-Date: Sat, 14 Mar 2026 11:36:03 +0800
-Message-Id: <20260314033603.14211-1-zilin@seu.edu.cn>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <74c78d0e14517ec28ad269113244562c081722a8.camel@ibm.com>
-References: <74c78d0e14517ec28ad269113244562c081722a8.camel@ibm.com>
+	s=arc-20240116; t=1773470146; c=relaxed/simple;
+	bh=8LCbvjwHAn/eARne8q5KNrrDj4RhGbAQfAylSyGydbo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=vDDI730pik4y6doi4ihHCdlgGqHkwE0Lv5X/vQY6puMMbJLDMocC1TitUIUgxTREU+N2KK9f6MMYYMShcxKyk3orRZgXeIdM4lkeuCZHBWRwy0zGwzpBT5e2aDP1PXvc/HwrbnWxqacj1IzFUACt37TRxpivxQR+b1AbV/pn+Go=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp; arc=none smtp.client-ip=202.181.97.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp
+Received: from www262.sakura.ne.jp (localhost [127.0.0.1])
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 62E6ZGoH028886;
+	Sat, 14 Mar 2026 15:35:16 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from [192.168.1.2] (M106072072000.v4.enabler.ne.jp [106.72.72.0])
+	(authenticated bits=0)
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 62E6ZFc2028879
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+	Sat, 14 Mar 2026 15:35:15 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <b332e546-e93f-4b79-a11c-695058d61fb1@I-love.SAKURA.ne.jp>
+Date: Sat, 14 Mar 2026 15:35:15 +0900
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9cea6a50aa03a1kunm954900825bda0
-X-HM-MType: 10
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlCHkJLVkxMGEwZHk1MS0xIH1YeHw5VEwETFhoSFy
-	QUDg9ZV1kYEgtZQVlJSUpVSUlDVUlIQ1VDSVlXWRYaDxIVHRRZQVlPS0hVQkJJTktVSktLVUpCS0
-	JZBg++
-DKIM-Signature: a=rsa-sha256;
-	b=ipSR2nfe9q5XJkLFADsAyHRnSws7J+PRQozJ+SLapaSBX/rW+oxVmrF79I4++/PV+JBd8HOlxulpUbJ6mNni9x6K1VTiH1YrpcCo7MflAzjDf+I99RkkVFsHjcmY2dC8fE8GVPZyhhfSC94rZ/KPyFdtMOCpRtmGGyTCL67wmQ0=; s=default; c=relaxed/relaxed; d=seu.edu.cn; v=1;
-	bh=WNQIZ2gDeyCKMj9X+gub3IQ40scVHpGY3SlWjZ3s+5c=;
-	h=date:mime-version:subject:message-id:from;
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4] hfs: Validate CNIDs in hfs_read_inode
+To: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>,
+        "glaubitz@physik.fu-berlin.de" <glaubitz@physik.fu-berlin.de>,
+        "contact@gvernon.com" <contact@gvernon.com>,
+        "slava@dubeyko.com" <slava@dubeyko.com>,
+        "frank.li@vivo.com" <frank.li@vivo.com>
+Cc: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com"
+ <syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com>
+References: <20260311211309.27856-1-contact@gvernon.com>
+ <93f202e6-81bc-4df7-b193-1a812094fa6f@I-love.SAKURA.ne.jp>
+ <752d15863effadd7789431137a3feff825594cc3.camel@ibm.com>
+ <b7318588-33b2-4dc6-9469-e11da855f8ad@I-love.SAKURA.ne.jp>
+ <5a52755364c7ca1438e06caf8e923cea723a0498.camel@ibm.com>
+Content-Language: en-US
+From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+In-Reply-To: <5a52755364c7ca1438e06caf8e923cea723a0498.camel@ibm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Virus-Status: clean
+X-Anti-Virus-Server: fsav401.rs.sakura.ne.jp
 
-On Fri, Mar 13, 2026 at 06:38:14PM +0000, Viacheslav Dubeyko wrote:
-> On Fri, 2026-03-13 at 09:49 +0800, Zilin Guan wrote:
-> > Hi Slava,
-> > 
-> > Thanks for the detailed proposal. However, this proposed refactoring 
-> > changes the existing semantics and introduces a regression.
-> > 
+On 2026/03/14 3:40, Viacheslav Dubeyko wrote:
+> On Fri, 2026-03-13 at 20:03 +0900, Tetsuo Handa wrote:
+>> On 2026/03/13 8:13, Viacheslav Dubeyko wrote:
+>>>> And even after both changes are applied, my patch still makes sense
+>>>> because mount() operation still succeeds for cnid >= 16. :-)
+>>>
+>>> I don't follow how it could happen. Please, take a look here [1]:
+>>
+>> Do you remember that you said
+>>
+>>   "Why do not localize the all checks in hfs_read_inode()?"
+>>
 > 
-> I don't quite follow to your point. I don't suggest to change the logic. I am
-> suggesting the small refactoring without changing the execution flow. Do you
-> mean that current hfsplus_fill_super() logic is incorrect and has bugs?
-
-Actually, I don't mean the original logic is incorrect. My concern is that 
-extracting this block into a helper makes it very difficult to preserve 
-that correct execution flow without complicating the error handling.
-
-> > The hidden directory is optional. If hfs_brec_read() fails, the original 
-> > code simply calls hfs_find_exit() and proceeds with the mount. It is a 
-> > non-fatal error.
-> > 
+> If we still have not correct implementation of hfs_read_inode() flow, then we
+> can make it right. The patch is under review yet and it can be changed.
 > 
-> You simply need slightly modify my suggestion to make it right:
-> 
-> err = hfsplus_get_hidden_dir_entry(sb, &entry);
-> if (!err) {
-> 
-> 		if (entry.type != cpu_to_be16(HFSPLUS_FOLDER)) {
-> 			err = -EIO;
-> 			goto finish_logic;
-> 		}
-> 		inode = hfsplus_iget(sb, be32_to_cpu(entry.folder.id));
-> 		if (IS_ERR(inode)) {
-> 			err = PTR_ERR(inode);
-> 			goto finish_logic;
-> 		}
-> 		sbi->hidden_dir = inode;
-> }
-> 
-> I simply shared the raw suggestion but you can make it right.
 
-The issue with this updated snippet is that it silently ignores fatal 
-errors from hfs_find_init() and hfsplus_cat_build_key() (e.g., -ENOMEM). 
-If they fail, the mount incorrectly continues. In the original code, 
-these correctly trigger goto out_put_root.
+Did you read relevant commit in my patch's description? What you have been
+failing to understand is that the value filled in by hfs_bnode_read() can be
+corrupted, for the value is given from relevant offset of the file system image.
 
-> > In contrast, failures from hfs_find_init() and hfsplus_cat_build_key() are 
-> > fatal and must abort the mount.
-> > 
-> > By wrapping these into a single helper and returning err, the caller can no 
-> > longer distinguish between them. A missing hidden directory will trigger 
-> > if (err) goto process_error; in hfsplus_fill_super(), making it a fatal 
-> > error. This will break mounting for any valid HFS+ volume that lacks the 
-> > private data directory.
-> > 
-> > 
-> 
-> Simply make my suggestion better and correct. That's all.
-> 
-> Thanks,
-> Slava.
+>>> We request to find exactly HFS_ROOT_CNID. If root folder has another CNID, then
+>>> we simply cannot find the record for root folder in Catalog File. So, we never
+>>> will call hfs_iget() if we cannot find the record.
 
-To make the helper completely correct, we face another issue: the original 
-code ignores all errors from hfs_brec_read() (which can return -ENOENT, 
--EINVAL, -EIO, etc.), treating them as non-fatal.
+Your assumption is absolutely wrong. We request to find HFS_ROOT_CNID, but
+there is no guarantee that the CNID value (the value of rec.dir.DirID if
+rec.type is HFS_CDR_DIR, or the value of rec->file.FlNum if rec->type is
+HFS_CDR_FIL) which is filled in by hfs_bnode_read() is actually HFS_ROOT_CNID,
+for the CNID value is nothing but 32bits read from relevant offset of the
+file system image.
 
-If we combine the fatal setup functions and the non-fatal read function 
-into one helper, it cannot simply return a standard error code. It would 
-need to return three distinct states:
+Since we are passing wrong CNID to hfs_iget(), we can't fix this problem
+by updating hfs_read_inode() flow. The correct fix for this report is
+"don't call hfs_iget() if CNID is wrong". Your patch can be applies as
+a further improvement rather than a fix for this report.
 
-1. Fatal error -> caller must abort mount.
-2. Non-fatal read error -> caller must continue mount, but skip init.
-3. Success -> caller must init hidden_dir.
-
-To handle all these cases properly, the helper would have to look 
-something like this:
-
-	/* Returns < 0 on fatal error, 0 on missing/read error, 1 on success */
-	static inline int hfsplus_get_hidden_dir_entry(struct super_block *sb,
-						       hfsplus_cat_entry *entry) 
-	{
-		struct hfs_find_data fd;
-		int err;
-		int ret = 0;
-		/* ... init str ... */
-
-		err = hfs_find_init(HFSPLUS_SB(sb)->cat_tree, &fd);
-		if (err)
-			return err; /* Fatal, fd not initialized */
-		
-		err = hfsplus_cat_build_key(sb, fd.search_key, HFSPLUS_ROOT_CNID, &str);
-		if (unlikely(err < 0)) {
-			ret = err;
-			goto free_fd; /* Fatal */
-		}
-
-		err = hfs_brec_read(&fd, entry, sizeof(*entry));
-		if (err) {
-			ret = 0; /* Non-fatal, but no entry to init */
-			goto free_fd;
-		}
-		
-		ret = 1; /* Success */
-
-	free_fd:
-		hfs_find_exit(&fd);
-		return ret;
-	}
-
-And the caller:
-	
-	err = hfsplus_get_hidden_dir_entry(sb, &entry);
-	if (err < 0)
-		goto out_put_root;
-	if (err == 1) {
-		/* ... init hidden_dir ... */
-	}
-
-We would have to invent a custom return state convention (1, 0, < 0) just to 
-hide a single hfs_find_exit() call.
-
-Given this, I think the current inline logic in my patch is much cleaner 
-and avoids this convoluted error routing. 
-
-What do you prefer?
-
-Thanks,
-Zilin
