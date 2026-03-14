@@ -1,129 +1,145 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 221E624BBF4
-	for <linux-fsdevel@vger.kernel.org>; Sat, 14 Mar 2026 09:37:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DA9134EF11
+	for <linux-fsdevel@vger.kernel.org>; Sat, 14 Mar 2026 09:50:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773481057; cv=none; b=SLHTgnMjeAr21qPj4HS0tdbz4rHrjB4G4fOJdlBFMlBVU6gB9Unzvs+QToEhh8CG74kAIMpP5XGLwSVUn92tTxOsN5IXqYa210WTtH31/uwKqXT1gCfDqDG9xt0tZhZgE1C2172NHUgx3+YiIJdFvee0pphuOaVLiE4DIwi+a7I=
+	t=1773481846; cv=none; b=E6bAGi/OWGDyMlSNN981nWoKJ/tc8TH0SR63frJJvjHz794yETl7A4RbhBxAwTFicF26B2LA6+IKF+XVbEG3v7cpbzdzRIHuM+gmbZ3LL3bzYNxvg8qmGWrVeaGZBUDviYXoJ/c4FswzuxsVPr6sDq0iCXkYGbMyoHe0q94DTcM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773481057; c=relaxed/simple;
-	bh=PW82vmyUoBo5SVpPvpbFQcYkYuhkW+kzsIfiM0ZCnUY=;
+	s=arc-20240116; t=1773481846; c=relaxed/simple;
+	bh=UtLsqGqmgw+1joNMOoNLl59Rq8QZjqfWHWtv+oAVcpw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YPKmz+69iUhxHXeXZWBLERhq6mkR4eSR7Pfs1dZ/rw/UoDLDvTEV54E9tvspDG7ihVNrEAIqc6dhQ316ueADc8pCt0w6KjnKWOF6lk/7T8MZ1akf1lfQZCUP2LUR3XwOrxF0CRNyvgxmpbmPDNInixhxysdM+LUOQUEg8XPWQ1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com; spf=pass smtp.mailfrom=googlemail.com; dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b=BCtUQJE1; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=googlemail.com
+	 MIME-Version:Content-Type; b=dDzLSWZPhmMsYUTIJO4lHARoUlckvmH+5NxMurrJeAHrwuVPX+perZvWFEBiy6v27zhHX6fhdRl+DW2ft25PYH2STm8J5JTh+l0CHCKbHTa4VNOWNX7kesH3oMzF9zbVqPbDMHqsj5s+GTtCOQ9atcWFeFz+8kIoL+hUoChkwTE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hev.cc; spf=pass smtp.mailfrom=hev.cc; dkim=pass (2048-bit key) header.d=hev-cc.20230601.gappssmtp.com header.i=@hev-cc.20230601.gappssmtp.com header.b=Va9MnArY; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hev.cc
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hev.cc
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="BCtUQJE1"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4852e09e23dso25460145e9.0
-        for <linux-fsdevel@vger.kernel.org>; Sat, 14 Mar 2026 02:37:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=hev-cc.20230601.gappssmtp.com header.i=@hev-cc.20230601.gappssmtp.com header.b="Va9MnArY"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2a7a9b8ed69so36790555ad.2
+        for <linux-fsdevel@vger.kernel.org>; Sat, 14 Mar 2026 02:50:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20230601; t=1773481054; x=1774085854; darn=vger.kernel.org;
+        d=hev-cc.20230601.gappssmtp.com; s=20230601; t=1773481844; x=1774086644; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VxsA2YZ471Q/xGiQuKEeLiqvlRJiwCfIC45xI+go3Hg=;
-        b=BCtUQJE1Rhvg2C17QMxGnp6flTDLEW3x1RPaYtxhVGqxIE21LJeOMOkPUHDuJLIVRA
-         O/1IssRmLAFe0LXojhHfrt7WeAmvyXb631QakA46BvEt+RB+pIZZ3x5OjfKQaMPinTA7
-         NBPUeweElMXn4MpSyFsQLtwGu951wZt6f8rXmkYGDCB5Km1tvd6QbYuFv2ikAN2UQ6d8
-         VFhwBMmMK2FmeCyVpd1YDD3iazX/heb7XsrMGg+2WzCZrrg9hgU1nForLEaHiXlYOOe9
-         OSusbP5LQrXZQLhJv+3QCTAVbePFBqgNEymJ+yHJJfmW2+n+v8enwMmcY5Mm+bUjtsj7
-         Qb2g==
+        bh=+89Xi37wcYlP/W+L3Ja1g3s+pCfX5Ep20EarskpAcwM=;
+        b=Va9MnArYnBnG/qbos2TefMR0C3oose51D4zkcFOYvvASNoX29V0cnSj0A88P/dNSFA
+         A720gjBVxC85iIFRpevWaBqHz6Ddrswqfwf2mHAjT2HOJg41JhCDVvRoKpVD7DXUvlHI
+         zpelIkLLJc/vDaK8zV3wDvTfSHxW0blNlOgAPsPC+E3io2GDwjvgH0Kt3/rpCmLugb72
+         epmh4Qw/dg3lJAiWYtNygsTw2y9Vx/JwAXusxw+nHExVwQnXCOc6+37B+apKBp0SmQ/r
+         j1mZWCxERyaEpb2EX7KQsbtaPD6cJHVqnu80TKHLpNenCZu3HxHpRSW6tPZN4eR9qtae
+         xmzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773481054; x=1774085854;
+        d=1e100.net; s=20251104; t=1773481844; x=1774086644;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=VxsA2YZ471Q/xGiQuKEeLiqvlRJiwCfIC45xI+go3Hg=;
-        b=q2/DHW5lv1rFh2T2mfZ1ELa9upjkaVD0uscxo9pOHrt++9INpBh2km596BsGjcU0s2
-         GLMXG75MLpLgfE3rfBBVPZxKlJq+zx16WL3lr0kVO1q7lAwRKGE4YKZkjFblhlqnsfrL
-         /J0EXUF2Uj05MuWPnY3c1xPEqiQ4Jv6TsvsiF6ylp9OPckZbqRxTdXJU9eKqEhrQ3swb
-         gyujlt5WbKZgWmO1VVPYNS0dF9wyMjM9gqINkP+jxUI4fp8qlnW+upZe7Jp/oXtpFPw/
-         R3RP1c2mPpvVY0DUuILszW8noG92/C2NdFGsvo6xqn9UTICPuI8UPVe2rPRgvUf9QwGd
-         J7ng==
-X-Forwarded-Encrypted: i=1; AJvYcCXofWfmlDDeoMDJULsI72NK65ee/KBWPLCd/YNKDw9l7wkwpOugh3YfWVt0yN+anhyLJhl08ff9miEiFV2z@vger.kernel.org
-X-Gm-Message-State: AOJu0YyUXaxwTn/V/vDpaG33NTV57y8ZdD9+3Fb+VhEcpP4ECsl1bpBU
-	Il1MlMPUGWkOBOenVzDY3JgQxq2iJ5f83clRGRQzh6DXJbUx/xoYMR0K
-X-Gm-Gg: ATEYQzxsUzOBYEHG9BP609L05OHmXQ635Tfff7DZXkAau2yQq4VZOsTzEY4cf1dJ09W
-	mPrpjvNqDgIn/0Q8+5kP+bTYBnQsC34RgVEeJ2NCLLfpeF9+ivjRrctcl4eak0J3uRSAXfIihg7
-	+sigXP6HWpY/8+7ouk80kz1aXLi5Gyn8TofmN0N3soROGMh54Zq2q4RtLlz3YmTT3ujnX6YwElb
-	npS7S4u1BkOXLgX+ujQ1j9ngU0Flgf8k4s0/tj4Iv2fi84buBwTNlbVLlGDLVoIl6ucmSIAhQgN
-	i5xT5Lqo53DpF8g+ot5326ACyEFV2MK/dgIClG8bE0jg74e6vX9FlnDEw1F0uvObbcl8dItd1yH
-	y3Gp4SElkQDY54YMlIklMRbz+A4IQfOxszVEDYmuXm+JxQelKUqskz+TgDWLsEQvMZmoRHEQtaT
-	4u+ibUDgz2Z5p0Nu91+ij4vOBq9zavjZwG0LARN6obyi8=
-X-Received: by 2002:a05:600c:1388:b0:483:badb:618f with SMTP id 5b1f17b1804b1-485567050dcmr98705965e9.25.1773481054070;
-        Sat, 14 Mar 2026 02:37:34 -0700 (PDT)
-Received: from ccde1gl2920.wdf.sap.corp ([130.214.226.57])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48557c89186sm113974345e9.1.2026.03.14.02.37.33
+        bh=+89Xi37wcYlP/W+L3Ja1g3s+pCfX5Ep20EarskpAcwM=;
+        b=mAROmVFm6pWt11ie1hnicazCGC9GDlHF1nec/Siq1iM8wN5kd0lFPAeOruukk4A/hd
+         QDo4i2bmK/lSKsi997RvRTOsTi16WkcyEp648hcjbD79DmNdL1bB6nKpHRvhgcVKTQOo
+         Yn/cANsMVG6xpN5j4KwhNllrppNoIKK3RqPlA68jsdtwzkJ4IS6ks0AikIxmBlmZdGOu
+         a8fDtrU0IStdY4WvqKiEtXdFCo4GAkhwOmC9JUiEI33HYspnWNxVuYCouvT657AfJ1nZ
+         qImfehlor0zigTKxVQ5G+/HI4f6ZTnNX4lKx04gmRl+l0cvZtKIlzzzPL+utZenuvwEA
+         qG+g==
+X-Forwarded-Encrypted: i=1; AJvYcCUUiU62cu9t2PF9qhEprVnN22iEQEKgRYresN0EYe0JGAKtbgRWLWXu5LiNPDdVv0EMOJoY40J1ufqBNXPs@vger.kernel.org
+X-Gm-Message-State: AOJu0YwDxD2f0ZZeS3MQ2fiZiCnsWzTLDfPide66FKgWNrDZ0REZCsEB
+	PKL0Ivby8yrqjKi2q2S9ua3D9HpWUL368sJmc0/dwqKJE7Fn+MKhyRQPO0Yv0RrPvPw=
+X-Gm-Gg: ATEYQzysQ1fYQ3DmHYaNYqx2tEuqqf9TDAn3gyF3HxCWHfECL40p9skbK/OPa2OgbnH
+	ykrZmDOedEXlgMPuujMMTgLYcYUxYjCfHPgeaVLDIhlZgnlo1PXiqyPjCXW7jcmmTsCvGCCSbU/
+	+MK4sc/5Bw/Qt5/9j6saK3/cU9KeAb5sIBH5Bvh04VqN0mcdr3eR3SK853k9srsYk8oGhRHg87n
+	WQAkJBDm7leDiVzWujHyt8z7LVDc5zpgYppcsrTBKiV3bZlT95+aD6YKaaG3flDe+oa5EwYKpoB
+	ZZPWzqcv/2fWdtCohYaMAF1ZpGoi0Pn737ocsqB3jVWS4vz1a23nmUuJ3d74mfZBftWgEdOs3SM
+	j1IcwmS9iqzBRjmXMIr6xSqfltt74QltWC0nxGHMusHWKDe+cFBDl8xZmhSUK7S/eBvn+NUaXPI
+	CFsMGToYCv7UU=
+X-Received: by 2002:a17:903:90f:b0:2ae:59d3:27f8 with SMTP id d9443c01a7336-2aeca999738mr61011205ad.19.1773481843716;
+        Sat, 14 Mar 2026 02:50:43 -0700 (PDT)
+Received: from gpc ([2400:8902:e002:de08:5754:7dac:85df:935a])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2aece5f8dafsm47520565ad.26.2026.03.14.02.50.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Mar 2026 02:37:33 -0700 (PDT)
-From: Marc Buerg <buermarc@googlemail.com>
-To: ps.report@gmx.net
-Cc: buermarc@googlemail.com,
-	elias.rw2@gmail.com,
-	joel.granados@kernel.org,
+        Sat, 14 Mar 2026 02:50:43 -0700 (PDT)
+From: WANG Rui <r@hev.cc>
+To: usama.arif@linux.dev
+Cc: Liam.Howlett@oracle.com,
+	ajd@linux.ibm.com,
+	akpm@linux-foundation.org,
+	anshuman.khandual@arm.com,
+	apopple@nvidia.com,
+	baohua@kernel.org,
+	baolin.wang@linux.alibaba.com,
+	brauner@kernel.org,
+	catalin.marinas@arm.com,
+	david@kernel.org,
+	dev.jain@arm.com,
+	hannes@cmpxchg.org,
+	jack@suse.cz,
+	kas@kernel.org,
 	kees@kernel.org,
+	kernel-team@meta.com,
+	kevin.brodsky@arm.com,
+	lance.yang@linux.dev,
+	linux-arm-kernel@lists.infradead.org,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH ] sysctl: fix uninitialized variable in proc_do_large_bitmap
-Date: Sat, 14 Mar 2026 10:37:25 +0100
-Message-ID: <20260314093725.12429-1-buermarc@googlemail.com>
-X-Mailer: git-send-email 2.43.7
-In-Reply-To: <20260313121708.137dae22@pc-1>
-References: <20260313121708.137dae22@pc-1>
+	linux-mm@kvack.org,
+	lorenzo.stoakes@oracle.com,
+	npache@redhat.com,
+	rmclure@linux.ibm.com,
+	ryan.roberts@arm.com,
+	shakeel.butt@linux.dev,
+	viro@zeniv.linux.org.uk,
+	will@kernel.org,
+	willy@infradead.org,
+	ziy@nvidia.com,
+	WANG Rui <r@hev.cc>
+Subject: Re: [PATCH 0/4] arm64/mm: contpte-sized exec folios for 16K and 64K pages
+Date: Sat, 14 Mar 2026 17:50:21 +0800
+Message-ID: <20260314095022.217231-1-r@hev.cc>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260310145406.3073394-1-usama.arif@linux.dev>
+References: <20260310145406.3073394-1-usama.arif@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hello Peter,
+I only just realized your focus was on 64K normal pages, what I was
+referring to here is AArch64 with 4K normal pages.
 
-Thanks for your feedback and the idea. You are correct proc_get_long()
-does not set @tr if @size is zero, therefore, left in
-proc_do_large_bitmap() should be zero when we expect @tr to not be
-written to and c still being uninitialized.
+Sorry about the earlier numbers. They were a bit low precision.
+RK3399 has pretty limited PMU events, and it looks like it can’t
+collect events from the A53 and A72 clusters at the same time, so
+I reran the measurements on the A53.
 
-> Would the better fix be:
-> 
-> diff --git a/kernel/sysctl.c b/kernel/sysctl.c
-> index 354a2d294f52..89db88552987 100644
-> --- a/kernel/sysctl.c
-> +++ b/kernel/sysctl.c
-> @@ -1427,7 +1427,7 @@ int proc_do_large_bitmap(struct ctl_table *table, in=
-> t write,
->  				left--;
->  			}
->  
-> -			if (c == '-') {
-> +			if (left && c == '-') {
->  				err = proc_get_long(&p, &left, &val_b,
->  						     &neg, tr_b, sizeof(tr_b),
->  						     &c);
+Even though the A53 backend isn’t very wide, we can still see the
+impact from iTLB pressure. With 4K pages, aligning the code to PMD
+size (2M) performs slightly better than 64K.
 
-This would explicitly fix the problem as it enforces that we only check
-if we know c contains what we want to check for. Fixing it like you
-proposed seems better to me.
+Binutils: 2.46
+GCC: 15.2.1 (--enable-host-pie)
 
-I am somewhat conflicted because leaving c uninitialized allows that a
-similar problematic access of c could be made in the future.
-Initializing c could prevent that. I also do not see an immediate
-downside, but that could just be my naivety. Further, that part would
-now behave similar to when we apply the default hardening configuration,
-if my understanding is correct.
+Workload: building vmlinux from Linux v7.0-rc1 with allnoconfig.
+Loop: 5
 
-On the other hand, we do not read c later on, and I do not see a reason
-why the function would change significantly. Still, it feels more
-defensive to me to also set c to 0.
+                Base                 Patchset [1]         Patchset [2]
+instructions    1,994,512,163,037    1,994,528,896,322    1,994,536,148,574
+cpu-cycles      6,890,054,789,351    6,870,685,379,047    6,720,442,248,967
+                                              ~ -0.28%             ~ -2.46%
+itlb-misses           579,692,117          455,848,211           43,814,795
+                                             ~ -21.36%            ~ -92.44%
+time elapsed            1331.15 s            1325.50 s            1296.35 s
+                                              ~ -0.42%             ~ -2.61%
 
-In the end, I am not so used to the kernel coding style. Is there
-anything that can be argued against providing both? If you think this is
-unnecessary I am happy to follow your reasoning and go with only the
-check for left being non-zero.
+Maybe we could make exec_folio_order() choose differently folio size
+depending on the configuration and conditional in some way, for example
+based on the size of the code segment?
 
-Kind Regards,
-Marc
+[1] https://lore.kernel.org/all/20260310145406.3073394-1-usama.arif@linux.dev
+[2] https://lore.kernel.org/linux-fsdevel/20260313005211.882831-1-r@hev.cc
+
+Thanks,
+Rui
