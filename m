@@ -1,150 +1,78 @@
-Received: from pdx-out-012.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-012.esa.us-west-2.outbound.mail-perimeter.amazon.com [35.162.73.231])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27CB5202997;
-	Sat, 14 Mar 2026 18:44:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.162.73.231
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7967234CFD7;
+	Sat, 14 Mar 2026 22:27:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773513877; cv=none; b=oXDST+dVUxlFqZFqQ/7sNyLYsUvPExozcrjyFvnQK6eBtGCqX8dTpF8S3kgCbkK6NUV12FqlTmkxTn1eMZsSnqpoIyMzAYw+brY4d3m9hnls3BylbaUR/zTj3qGP86d8TVKN/cwSe7EOn4/yOfTaKR/HeP3u3Q03U9kNimRwb/8=
+	t=1773527273; cv=none; b=m8RxttAqLs8cVmTB4LBkrCxNBTDmO9F0DuyQ5mgvT2uOlyN5vnbANyRDya3S/aeHPRj9B7G9JayClo5TXv81XZYDJgC5yJTbN40uB2u9lGOvajZHFXoF29ciALH5C5WdNCJu/9L9DYq7Y5Z/Wq1OPCAbiXosa0INsLySEsO/9iA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773513877; c=relaxed/simple;
-	bh=b/m0C98Ar1qk6GqkYHn0uxkv8LlQkvvWGQ54JoPFdFI=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=E9HNJFfY8viws8tCdOs+xBAp6+d8bSjQQ/KU95FHEwMNJOn8F87/V2Jxl1AAotYMW5adSmRWyAWDVyP/fL5DV1EdJD2NCTo5dMQ/bbUWjYxYc8Lue5nXLheV5dpDKnic385ihCGwTITU0neMKmLIrIoFFL0HchXVpiUKkmMjsb8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=GrYEwdei; arc=none smtp.client-ip=35.162.73.231
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
+	s=arc-20240116; t=1773527273; c=relaxed/simple;
+	bh=X38QD4+JyXnbtGHLHFF9MNkaPpIwI09kD0O+bLsHuws=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=OHPi6DNM1AnDdGLQhyML4KxhY5p4dWc7LfCudUleYlEORrw1kVb6JqCMO4ELSAYGxdEWWL9wSajYMwYBExYE+v41aHRJinQ02WCLlPO+m/npwfApquLLzAdMXQBBfqa3N5bAPVI++lRlK0K16MnURV2HEVshikkhNDQC33ifldk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=Sjn+o12p; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="GrYEwdei"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1773513876; x=1805049876;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=nucdgIT4ue9aPFJmvyBHRTxOW28+Q8aHVHM5lAkRMG4=;
-  b=GrYEwdei0+zzpY/IToHk3LuTlpM0t68bTp3e28la3Kcbqxh2T6Y9MEun
-   HR7FkMF69JFppyCOsbDYFwUMR6UD8nE1pCocMnUVHgGio/LMH+4qQijMj
-   SxRnpWwGwmECsG1XPSGpyznxHNJpcHGW25HG5oSZWnApT9vULUOlu5evx
-   rf+UCemsEluiUXVDJG77FARi5iYorriyIQwkG7n7G3yainDxUXhha4IwF
-   wpd/xvbXZTcFOVBUFFuu1mjD75/bkZE5UJmHJ+HfvzCQe8IPvl7L1pv4m
-   e2wiczEPlipBYgT5LkFVafSY20QFCDt+a1JYkEpqmaOPyd/yBzUI7A7pu
-   Q==;
-X-CSE-ConnectionGUID: f+QIM8NoSb2xa235nSjVPg==
-X-CSE-MsgGUID: QJi5NFfwQq2+zfmGpC8TMw==
-X-IronPort-AV: E=Sophos;i="6.23,119,1770595200"; 
-   d="scan'208";a="14848842"
-Received: from ip-10-5-9-48.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.9.48])
-  by internal-pdx-out-012.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2026 18:44:32 +0000
-Received: from EX19MTAUWB001.ant.amazon.com [205.251.233.51:27108]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.38.193:2525] with esmtp (Farcaster)
- id 0a86d918-46fb-435b-8db8-3fbeaf6c9c13; Sat, 14 Mar 2026 18:44:31 +0000 (UTC)
-X-Farcaster-Flow-ID: 0a86d918-46fb-435b-8db8-3fbeaf6c9c13
-Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWB001.ant.amazon.com (10.250.64.248) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37;
- Sat, 14 Mar 2026 18:44:31 +0000
-Received: from c889f3b07a0a.amazon.com (10.106.82.29) by
- EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37;
- Sat, 14 Mar 2026 18:44:30 +0000
-From: Yuto Ohnuki <ytohnuki@amazon.com>
-To: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner
-	<brauner@kernel.org>
-CC: Jan Kara <jack@suse.cz>, <linux-fsdevel@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Yuto Ohnuki <ytohnuki@amazon.com>,
-	<syzbot+c0fd9ea308d049c4e0b9@syzkaller.appspotmail.com>,
-	<stable@vger.kernel.org>
-Subject: [PATCH] fs: fix use-after-free in peer group traversal during mount release
-Date: Sat, 14 Mar 2026 18:44:22 +0000
-Message-ID: <20260314184421.47303-2-ytohnuki@amazon.com>
-X-Mailer: git-send-email 2.50.0
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="Sjn+o12p"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7ECF2C2BC86;
+	Sat, 14 Mar 2026 22:27:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1773527273;
+	bh=X38QD4+JyXnbtGHLHFF9MNkaPpIwI09kD0O+bLsHuws=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Sjn+o12pPgun6HUvrDrwzcQoQeLDcZZpgkEXZ7PKu7/yBSWp15sPVc5oqNahiQ29K
+	 DkoMISlpj0nlBMuSRWVRb8qboVs0ApNzzkzD/7R7dE9bqNEjTaugZiWeqNh7XInBbr
+	 mj9J5LKlZUITc3HqFOulrx6blNpkLRXXHfKpwR30=
+Date: Sat, 14 Mar 2026 15:27:51 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Zi Yan <ziy@nvidia.com>
+Cc: David Hildenbrand <david@kernel.org>, Lorenzo Stoakes
+ <lorenzo.stoakes@oracle.com>, Hugh Dickins <hughd@google.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, "Liam R. Howlett"
+ <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>, Ryan Roberts
+ <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song
+ <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, Matthew Wilcox
+ <willy@infradead.org>, Bas van Dijk <bas@dfinity.org>, Eero Kelly
+ <eero.kelly@dfinity.org>, Andrew Battat <andrew.battat@dfinity.org>, Adam
+ Bratschi-Kaye <adam.bratschikaye@dfinity.org>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] selftests/mm: add folio_split() and filemap_get_entry()
+ race test
+Message-Id: <20260314152751.101b5d04d3753f75027b9cd6@linux-foundation.org>
+In-Reply-To: <20260313114037.3593642-1-ziy@nvidia.com>
+References: <20260313114037.3593642-1-ziy@nvidia.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-ClientProxiedBy: EX19D037UWC002.ant.amazon.com (10.13.139.250) To
- EX19D001UWA001.ant.amazon.com (10.13.138.214)
-Content-Type: text/plain; charset="us-ascii"
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-mntput_no_expire_slowpath() does not remove a mount from its peer group
-(mnt_share list) or slave list before sending it to the free path. If a
-mount that was added to a peer group by clone_mnt() is freed through
-mntput() without going through umount_tree()/bulk_make_private(), it
-remains linked in the peer group's circular list after the slab object
-is freed.
+On Fri, 13 Mar 2026 07:40:37 -0400 Zi Yan <ziy@nvidia.com> wrote:
 
-When another mount namespace is later torn down, umount_tree() calls
-bulk_make_private() -> trace_transfers(), which walks the peer group via
-next_peer(). This dereferences the freed mount's mnt_share field,
-causing use-after-free:
+> The added folio_split_race_test is a modified C port of the race condition
+> test from [1]. The test creates shmem huge pages shared by both a parent
+> and a child processes, where the parent process punches holes in the shmem
+> to cause folio_split() in the kernel and the child process reads the shmem
+> in 16 threads to cause filemap_get_entry() in the kernel.
+> filemap_get_entry() reads the folio and xarray split by folio_split()
+> locklessly. The original test[2] is written in rust and uses memfd (shmem
+> backed). This C port uses shmem directly.
 
-  BUG: KASAN: slab-use-after-free in __list_del_entry_valid_or_report
-  Read of size 8 at addr ffff88807d533af8
+Cool.
 
-  Call Trace:
-   __list_del_entry_valid_or_report
-   bulk_make_private
-   umount_tree
-   put_mnt_ns
-   do_exit
+> Note: the initial rust to C conversion is done by Cursor.
 
-  Allocated by:
-   alloc_vfsmnt
-   clone_mnt
-   vfs_open_tree
+Hence the CaMeLcAsE "struct SharedCtl".  Fair enough.
 
-  Freed by:
-   kmem_cache_free
-   rcu_core
+> Link: https://lore.kernel.org/all/CAKNNEtw5_kZomhkugedKMPOG-sxs5Q5OLumWJdiWXv+C9Yct0w@mail.gmail.com/ [1]
+> Link: https://github.com/dfinity/thp-madv-remove-test [2]
 
-Fix this by calling change_mnt_propagation(mnt, MS_PRIVATE) in
-mntput_no_expire_slowpath() after mnt_del_instance(), while holding
-lock_mount_hash(). This removes the mount from both the peer group and
-any slave list before it enters the cleanup path.
+I couldn't immediately find any licensing info there.  Bas and Adam,
+please advise?  And sending your Signed-off-by's would be appropriate.
 
-This is safe without namespace_sem: the mount has MNT_DOOMED set and has
-been removed from the instance list by mnt_del_instance(), making it
-unreachable through normal lookup paths. lock_mount_hash() prevents
-concurrent peer group traversal. This call is also idempotent: mounts
-already made private by bulk_make_private() have IS_MNT_SHARED() and
-IS_MNT_SLAVE() both false, so the condition is skipped.
-
-Reported-by: syzbot+c0fd9ea308d049c4e0b9@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=c0fd9ea308d049c4e0b9
-Fixes: 75db7fd99075b ("umount_tree(): take all victims out of propagation graph at once")
-Cc: stable@vger.kernel.org
-Signed-off-by: Yuto Ohnuki <ytohnuki@amazon.com>
----
- fs/namespace.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/fs/namespace.c b/fs/namespace.c
-index 854f4fc66469..d25abf051ad6 100644
---- a/fs/namespace.c
-+++ b/fs/namespace.c
-@@ -1359,6 +1359,11 @@ static void noinline mntput_no_expire_slowpath(struct mount *mnt)
- 	rcu_read_unlock();
- 
- 	mnt_del_instance(mnt);
-+
-+	/* Remove from peer group / slave list before freeing */
-+	if (unlikely(IS_MNT_SHARED(mnt) || IS_MNT_SLAVE(mnt)))
-+		change_mnt_propagation(mnt, MS_PRIVATE);
-+
- 	if (unlikely(!list_empty(&mnt->mnt_expire)))
- 		list_del(&mnt->mnt_expire);
- 
--- 
-2.50.1
-
-
-
-
-Amazon Web Services EMEA SARL, 38 avenue John F. Kennedy, L-1855 Luxembourg, R.C.S. Luxembourg B186284
-
-Amazon Web Services EMEA SARL, Irish Branch, One Burlington Plaza, Burlington Road, Dublin 4, Ireland, branch registration number 908705
-
-
+Thanks.
 
