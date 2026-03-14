@@ -1,145 +1,151 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DA9134EF11
-	for <linux-fsdevel@vger.kernel.org>; Sat, 14 Mar 2026 09:50:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6DCE175D53
+	for <linux-fsdevel@vger.kernel.org>; Sat, 14 Mar 2026 12:47:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773481846; cv=none; b=E6bAGi/OWGDyMlSNN981nWoKJ/tc8TH0SR63frJJvjHz794yETl7A4RbhBxAwTFicF26B2LA6+IKF+XVbEG3v7cpbzdzRIHuM+gmbZ3LL3bzYNxvg8qmGWrVeaGZBUDviYXoJ/c4FswzuxsVPr6sDq0iCXkYGbMyoHe0q94DTcM=
+	t=1773492473; cv=none; b=gk6bd1s2ejUq6a7cCfh84A5MsjXo/gWBUjKJ0m0GahQLKb5dcu937CXr0nQm2lAQzUDh4PJe8DbIQbwsGx5LbjMEm5gS42KRV1j7UNj0IklFw/iPu7zPy6XspYHfrtF1DGxCI/Csy7yTGoih4lxZrvOvWs4FuL5YDNCTQDUhDrg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773481846; c=relaxed/simple;
-	bh=UtLsqGqmgw+1joNMOoNLl59Rq8QZjqfWHWtv+oAVcpw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dDzLSWZPhmMsYUTIJO4lHARoUlckvmH+5NxMurrJeAHrwuVPX+perZvWFEBiy6v27zhHX6fhdRl+DW2ft25PYH2STm8J5JTh+l0CHCKbHTa4VNOWNX7kesH3oMzF9zbVqPbDMHqsj5s+GTtCOQ9atcWFeFz+8kIoL+hUoChkwTE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hev.cc; spf=pass smtp.mailfrom=hev.cc; dkim=pass (2048-bit key) header.d=hev-cc.20230601.gappssmtp.com header.i=@hev-cc.20230601.gappssmtp.com header.b=Va9MnArY; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hev.cc
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hev.cc
+	s=arc-20240116; t=1773492473; c=relaxed/simple;
+	bh=fA+lyYP+110atZU61RzhzGbte3ZkKDvt1ynoLWRnNes=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=b8OKa7tXtSbuK5IwQbM3t0VWmJT5lKNtrF2Aaq3d7pfG1H/kH9sG8L6XfEAUnaEi8Tnq+MBxgS9os0kRxs7jKJiHemTiqQV4cW08jbJkFPjC1DfY1zrBME5dVbsV76g9X8e1UdP0RHv2zlpwalZ3R1s1UkCw66CdYKR9aGpDhKs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SLrjb/7e; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hev-cc.20230601.gappssmtp.com header.i=@hev-cc.20230601.gappssmtp.com header.b="Va9MnArY"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2a7a9b8ed69so36790555ad.2
-        for <linux-fsdevel@vger.kernel.org>; Sat, 14 Mar 2026 02:50:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SLrjb/7e"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-48558d6ef83so13787575e9.3
+        for <linux-fsdevel@vger.kernel.org>; Sat, 14 Mar 2026 05:47:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=hev-cc.20230601.gappssmtp.com; s=20230601; t=1773481844; x=1774086644; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1773492470; x=1774097270; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+89Xi37wcYlP/W+L3Ja1g3s+pCfX5Ep20EarskpAcwM=;
-        b=Va9MnArYnBnG/qbos2TefMR0C3oose51D4zkcFOYvvASNoX29V0cnSj0A88P/dNSFA
-         A720gjBVxC85iIFRpevWaBqHz6Ddrswqfwf2mHAjT2HOJg41JhCDVvRoKpVD7DXUvlHI
-         zpelIkLLJc/vDaK8zV3wDvTfSHxW0blNlOgAPsPC+E3io2GDwjvgH0Kt3/rpCmLugb72
-         epmh4Qw/dg3lJAiWYtNygsTw2y9Vx/JwAXusxw+nHExVwQnXCOc6+37B+apKBp0SmQ/r
-         j1mZWCxERyaEpb2EX7KQsbtaPD6cJHVqnu80TKHLpNenCZu3HxHpRSW6tPZN4eR9qtae
-         xmzw==
+        bh=vaFmVkPTbLRBufh3Qs4dGizBfbZxXt2RQDq/b/ikJHk=;
+        b=SLrjb/7ehi9mvnV2lp8cG6GHoo8DoxbKPQA9OfghINpA2cBulLrDFt0cTBop6qCybZ
+         Z74tVSY/x1UMCAkrib7HuJvcTIzN7xYqE9UVpD7QR9zFnOL+qAT8tSwBj6FArLhw+luj
+         4Tiqt0fBcpROCkc3zTYes+EsNyt39+15GaJuCcJe1dvPSmRlVT1nXxGC2GpPnjal9WDI
+         zKcwhYmsjtVhq1yVY3Yl65iSqGFjp7eQ2BIV+XnXSNN4DoPQCCTuwNWvGC4UJ+zpUhO6
+         C4aIF2gapzA3Db7q9kstfSnrhu043ksiaU+NBR9xrEacnxH3dLPVsi2tsquwp1R5tuEF
+         f72g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773481844; x=1774086644;
+        d=1e100.net; s=20251104; t=1773492470; x=1774097270;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=+89Xi37wcYlP/W+L3Ja1g3s+pCfX5Ep20EarskpAcwM=;
-        b=mAROmVFm6pWt11ie1hnicazCGC9GDlHF1nec/Siq1iM8wN5kd0lFPAeOruukk4A/hd
-         QDo4i2bmK/lSKsi997RvRTOsTi16WkcyEp648hcjbD79DmNdL1bB6nKpHRvhgcVKTQOo
-         Yn/cANsMVG6xpN5j4KwhNllrppNoIKK3RqPlA68jsdtwzkJ4IS6ks0AikIxmBlmZdGOu
-         a8fDtrU0IStdY4WvqKiEtXdFCo4GAkhwOmC9JUiEI33HYspnWNxVuYCouvT657AfJ1nZ
-         qImfehlor0zigTKxVQ5G+/HI4f6ZTnNX4lKx04gmRl+l0cvZtKIlzzzPL+utZenuvwEA
-         qG+g==
-X-Forwarded-Encrypted: i=1; AJvYcCUUiU62cu9t2PF9qhEprVnN22iEQEKgRYresN0EYe0JGAKtbgRWLWXu5LiNPDdVv0EMOJoY40J1ufqBNXPs@vger.kernel.org
-X-Gm-Message-State: AOJu0YwDxD2f0ZZeS3MQ2fiZiCnsWzTLDfPide66FKgWNrDZ0REZCsEB
-	PKL0Ivby8yrqjKi2q2S9ua3D9HpWUL368sJmc0/dwqKJE7Fn+MKhyRQPO0Yv0RrPvPw=
-X-Gm-Gg: ATEYQzysQ1fYQ3DmHYaNYqx2tEuqqf9TDAn3gyF3HxCWHfECL40p9skbK/OPa2OgbnH
-	ykrZmDOedEXlgMPuujMMTgLYcYUxYjCfHPgeaVLDIhlZgnlo1PXiqyPjCXW7jcmmTsCvGCCSbU/
-	+MK4sc/5Bw/Qt5/9j6saK3/cU9KeAb5sIBH5Bvh04VqN0mcdr3eR3SK853k9srsYk8oGhRHg87n
-	WQAkJBDm7leDiVzWujHyt8z7LVDc5zpgYppcsrTBKiV3bZlT95+aD6YKaaG3flDe+oa5EwYKpoB
-	ZZPWzqcv/2fWdtCohYaMAF1ZpGoi0Pn737ocsqB3jVWS4vz1a23nmUuJ3d74mfZBftWgEdOs3SM
-	j1IcwmS9iqzBRjmXMIr6xSqfltt74QltWC0nxGHMusHWKDe+cFBDl8xZmhSUK7S/eBvn+NUaXPI
-	CFsMGToYCv7UU=
-X-Received: by 2002:a17:903:90f:b0:2ae:59d3:27f8 with SMTP id d9443c01a7336-2aeca999738mr61011205ad.19.1773481843716;
-        Sat, 14 Mar 2026 02:50:43 -0700 (PDT)
-Received: from gpc ([2400:8902:e002:de08:5754:7dac:85df:935a])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2aece5f8dafsm47520565ad.26.2026.03.14.02.50.38
+        bh=vaFmVkPTbLRBufh3Qs4dGizBfbZxXt2RQDq/b/ikJHk=;
+        b=K4vzNJstvDD7oPfgqD6Bw01aB7f4TcboiNWNi8pkQTKj8Lw7TmcOwYtzPvNNm7s7cO
+         A/IVhsR0n6KYs1CNQTIi+L8KamHhXlacP4zBvEa0tWpqIS6V1TJSet+r/sNjtdX1b9t/
+         QLZ5WodhHmsRlq1iUiNrtMi2AOr3TE7r8B++wnxmFGBbYZ82uPQkA6PnaWp5MuDPEmG+
+         ZL7meMhENpZ0PV6afSqUVTMwnPj9c/6PLKCmGa4Uf7EeerbK6PpQ9o02RHrBDYEhaI5Z
+         5VyrZ+s3btcw/cNmdF8QtcgyoPu/IbUYqTTk2nrhJToy+OISDEaWGcpJRLGCyEKqYpv0
+         Grng==
+X-Forwarded-Encrypted: i=1; AJvYcCU9CrgyBqudr2UpSbTbXdXQvMXMFEPyj5sJJLbq7HlhJbNKW9+dP2sWi8upU4T/Ma3WBrivuDVZ0Lc07+cI@vger.kernel.org
+X-Gm-Message-State: AOJu0YwsYmMg8g4Be8G3Z8BFqubYDC4AtLmaqPLpw4sSNz2HbISD9lDb
+	8/uEY0ifzHsdi7cvL6dOaufownONUMiRSLaEMv+KTy10i+NLOyCdyNga
+X-Gm-Gg: ATEYQzyzV7T5VieQ711QxLwKj5Y+UibemjubVbI3KUabb4wGlRh6nWPxsR2JYklKFKA
+	jS3IjsbLWsPop/wZSTYtL8lHQcJ5BtXbqrLDVX/O8IPfspgCjCIKGAqGGQfpKxscARzNZQi2k55
+	kERh7JuC1HLb76vJvrP2toWPWt7PCh+4QNL4C+1puDpN2vChj2WWhAB61j8JPd84kz8BUzhy8op
+	/CXFHG31jctoJZPgen7asoKDuOBBO0Fy8v5iXvWl2bcTtO66ufNqPQ8znwFDP/3xj1ezYgqPZrl
+	B2x5Mzhvy65XoWAPS9fgv6YzmstlPG6k0+Nc9pK8FY1zDx8yZXUTPKFAn0srmdAZSW4prF5u1vn
+	IQxCAxyY7zEWDY69nCfgjZZtZs9ZI6wEj43xEDk1mJK3XzfSgj2mvz+086mA/c6UseO3aql6WTQ
+	lkHDEU1aQE9b78/uOSXynA/gkVsZ+4lYoIcn2rzQoLutOI6DvH7wkZIlh2HPTZvr7y
+X-Received: by 2002:a05:600c:8b83:b0:477:54f9:6ac2 with SMTP id 5b1f17b1804b1-4855648f5a3mr104574955e9.0.1773492469891;
+        Sat, 14 Mar 2026 05:47:49 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4854e2537c3sm281121385e9.15.2026.03.14.05.47.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Mar 2026 02:50:43 -0700 (PDT)
-From: WANG Rui <r@hev.cc>
-To: usama.arif@linux.dev
-Cc: Liam.Howlett@oracle.com,
-	ajd@linux.ibm.com,
-	akpm@linux-foundation.org,
-	anshuman.khandual@arm.com,
-	apopple@nvidia.com,
-	baohua@kernel.org,
-	baolin.wang@linux.alibaba.com,
-	brauner@kernel.org,
-	catalin.marinas@arm.com,
-	david@kernel.org,
-	dev.jain@arm.com,
-	hannes@cmpxchg.org,
-	jack@suse.cz,
-	kas@kernel.org,
-	kees@kernel.org,
-	kernel-team@meta.com,
-	kevin.brodsky@arm.com,
-	lance.yang@linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	lorenzo.stoakes@oracle.com,
-	npache@redhat.com,
-	rmclure@linux.ibm.com,
-	ryan.roberts@arm.com,
-	shakeel.butt@linux.dev,
-	viro@zeniv.linux.org.uk,
-	will@kernel.org,
-	willy@infradead.org,
-	ziy@nvidia.com,
-	WANG Rui <r@hev.cc>
-Subject: Re: [PATCH 0/4] arm64/mm: contpte-sized exec folios for 16K and 64K pages
-Date: Sat, 14 Mar 2026 17:50:21 +0800
-Message-ID: <20260314095022.217231-1-r@hev.cc>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260310145406.3073394-1-usama.arif@linux.dev>
-References: <20260310145406.3073394-1-usama.arif@linux.dev>
+        Sat, 14 Mar 2026 05:47:49 -0700 (PDT)
+Date: Sat, 14 Mar 2026 12:47:48 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Ryusuke Konishi <konishi.ryusuke@gmail.com>, Viacheslav Dubeyko
+ <slava@dubeyko.com>, Christian Brauner <brauner@kernel.org>, Mimi Zohar
+ <zohar@linux.ibm.com>, Roberto Sassu <roberto.sassu@huawei.com>, Dmitry
+ Kasatkin <dmitry.kasatkin@gmail.com>, Eric Snowberg
+ <eric.snowberg@oracle.com>, Paul Moore <paul@paul-moore.com>, James Morris
+ <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
+ linux-nilfs@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v2 1/2] nilfs2: fix 64-bit division operations in
+ nilfs_bmap_find_target_in_group()
+Message-ID: <20260314124748.1ccdf93b@pumpkin>
+In-Reply-To: <20260313-iino-u64-v2-1-f9abda2464d5@kernel.org>
+References: <20260313-iino-u64-v2-0-f9abda2464d5@kernel.org>
+	<20260313-iino-u64-v2-1-f9abda2464d5@kernel.org>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-I only just realized your focus was on 64K normal pages, what I was
-referring to here is AArch64 with 4K normal pages.
+On Fri, 13 Mar 2026 14:45:20 -0400
+Jeff Layton <jlayton@kernel.org> wrote:
 
-Sorry about the earlier numbers. They were a bit low precision.
-RK3399 has pretty limited PMU events, and it looks like it can’t
-collect events from the A53 and A72 clusters at the same time, so
-I reran the measurements on the A53.
+> With the change to make inode->i_ino a u64, the build started failing on
+> 32-bit ARM with:
+> 
+>     ERROR: modpost: "__aeabi_uldivmod" [fs/nilfs2/nilfs2.ko] undefined!
+> 
+> Fix this by using the 64-bit division interfaces in
+> nilfs_bmap_find_target_in_group().
+> 
+> Fixes: 998a59d371c2 ("treewide: fix missed i_ino format specifier conversions")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202603100602.KPxiClIO-lkp@intel.com/
+> Reviewed-by: Viacheslav Dubeyko <slava@dubeyko.com>
+> Acked-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> ---
+>  fs/nilfs2/bmap.c | 9 ++++++---
+>  1 file changed, 6 insertions(+), 3 deletions(-)
+> 
+> diff --git a/fs/nilfs2/bmap.c b/fs/nilfs2/bmap.c
+> index 824f2bd91c167965ec3a660202b6e6c5f1fe007e..abcf5252578ad24f694bfccf525893674bfcb4bc 100644
+> --- a/fs/nilfs2/bmap.c
+> +++ b/fs/nilfs2/bmap.c
+> @@ -455,11 +455,14 @@ __u64 nilfs_bmap_find_target_in_group(const struct nilfs_bmap *bmap)
+>  {
+>  	struct inode *dat = nilfs_bmap_get_dat(bmap);
+>  	unsigned long entries_per_group = nilfs_palloc_entries_per_group(dat);
+> -	unsigned long group = bmap->b_inode->i_ino / entries_per_group;
 
-Even though the A53 backend isn’t very wide, we can still see the
-impact from iTLB pressure. With 4K pages, aligning the code to PMD
-size (2M) performs slightly better than 64K.
+Are you sure entries_per_group can be more than 32 bits?
+It looks like something that will be the same size on 32 and 64bit.
 
-Binutils: 2.46
-GCC: 15.2.1 (--enable-host-pie)
+> +	unsigned long group;
+> +	u32 index;
+> +
+> +	group = div_u64(bmap->b_inode->i_ino, entries_per_group);
 
-Workload: building vmlinux from Linux v7.0-rc1 with allnoconfig.
-Loop: 5
+You don't need the full 64 by 64 divide.
+IIRC there are both div_u64_u32() and div_u64_ulong().
 
-                Base                 Patchset [1]         Patchset [2]
-instructions    1,994,512,163,037    1,994,528,896,322    1,994,536,148,574
-cpu-cycles      6,890,054,789,351    6,870,685,379,047    6,720,442,248,967
-                                              ~ -0.28%             ~ -2.46%
-itlb-misses           579,692,117          455,848,211           43,814,795
-                                             ~ -21.36%            ~ -92.44%
-time elapsed            1331.15 s            1325.50 s            1296.35 s
-                                              ~ -0.42%             ~ -2.61%
+> +	div_u64_rem(bmap->b_inode->i_ino, NILFS_BMAP_GROUP_DIV, &index);
 
-Maybe we could make exec_folio_order() choose differently folio size
-depending on the configuration and conditional in some way, for example
-based on the size of the code segment?
+NILFD_BMAP_GROUP_DIV is 8 (and probably has to be a power of 2).
+So:
+	index = bmap->b_inode->i_ino & (NILFS_BMAP_GROUP_DIV - 1);
+is the same and likely much faster to calculate.
+(The compiler will have done that optimisation before.)
 
-[1] https://lore.kernel.org/all/20260310145406.3073394-1-usama.arif@linux.dev
-[2] https://lore.kernel.org/linux-fsdevel/20260313005211.882831-1-r@hev.cc
+	David
 
-Thanks,
-Rui
+
+>  
+>  	return group * entries_per_group +
+> -		(bmap->b_inode->i_ino % NILFS_BMAP_GROUP_DIV) *
+> -		(entries_per_group / NILFS_BMAP_GROUP_DIV);
+> +	       index * (entries_per_group / NILFS_BMAP_GROUP_DIV);
+>  }
+>  
+>  static struct lock_class_key nilfs_bmap_dat_lock_key;
+> 
+
