@@ -1,102 +1,79 @@
-Received: from mail-oo1-f71.google.com (mail-oo1-f71.google.com [209.85.161.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80D0134E771
-	for <linux-fsdevel@vger.kernel.org>; Sun, 15 Mar 2026 12:30:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2FAD20299B
+	for <linux-fsdevel@vger.kernel.org>; Sun, 15 Mar 2026 13:12:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773577818; cv=none; b=XF+r4lS+MMlqCM2lDiZALquFrNrrKZ4Z0imRhGuhNbSz11SHRRw/W0pW/wOee8LVd+B1QJJvFsN4fWTMpyqbn+YL0sU/3vGJrE9sXu9Ilq5DZ0H9mlwaQJpgjN4w2eHg4QCzqkaCwCOiO7Rwx3EDKVKW2SkFN2MnSX+d046maZ8=
+	t=1773580345; cv=none; b=H/UokAfzfeu8gdr2Sds8XBtCeC8/dM1ZLtieJtf24T64p3KcG/cxv5wWxhe/YAoGsiaEzhMLUNNt8mNGI15mXXRrpBa7t5BpawzsC0EnsJURRmwl6o0klMPVfIgC4FoCf6w5Izc6CLLmki6/zzYAzT0YIw4gYl78evOSW6U1j50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773577818; c=relaxed/simple;
-	bh=dAF6EzhmfYjPCbJTGwcPxZtm0/JEAGDbN+Fj66nWJ/4=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
-	 Content-Type; b=ChN3nkECcFdSH7R4YYSMVxQCxMHDXXXVquVc9oxHCmYsLrEv654iP7dW9xL29NiWD2jseTKIHZ46u57hTS0dD8ae3ABSfb4TEpqYB+3MTYIHPwgT4iIPqdfCQ/NCWPgB/R9xOkOYoi+1j6mxL3h2jPqV76koLhdrtaV9fw0mcyg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo1-f71.google.com with SMTP id 006d021491bc7-67bcaf9a123so67262155eaf.0
-        for <linux-fsdevel@vger.kernel.org>; Sun, 15 Mar 2026 05:30:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773577816; x=1774182616;
-        h=cc:to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=I3L9arFEoq9A4E17prvbQNB9j3C1EDeY250Imyq4MNI=;
-        b=d/UYv6KtAxrZ6YhVQM5UKNxCQ0cUUx53qEQheWC9nHdga7pwN/XXes+7lAurPWYW72
-         uavCBRA7A4Wm/gur9LqaUfaejXEfeQ1e9fJgir6RgnL2qDwm6lZLA6xu0aA+dKklgJW4
-         NhsbjhtRaclWnEYavrTSL/n6OCy2QLilZcGlKaWPfEPx6A7SHVzg/hkKSGG1/RSlwj8H
-         /5wRilUus7Rshyhv03/vXTjfXMWh+m5uL4MpubY2OkuM/adEaFJeqDXC+QkcHpqnR7o3
-         vwP4/aMHpzG+rMyxg+o2YfLvjgE+x2J2Z+WihcGFISc1Qwm/DdCiMTq5VIlkIkwzKqf5
-         qtbw==
-X-Forwarded-Encrypted: i=1; AJvYcCXouupKIzhQWGI6D9M2CQnXvqfYzRng/WwjC2mHaKikr33DAC7I+dROlaiZKSSI98LN9CI741mdAa1Bqd19@vger.kernel.org
-X-Gm-Message-State: AOJu0YwcdLIbE7cHvi8BALcGerPM6D9145FzFn8A7Zelnsf4LKxmAEMJ
-	bcilTeYauM/uhDyrSuvG8ULNKGkIDdPqHW4FhMC3mSgnrYx5PMW7WvuZH+bugxKdQkTWOVwGiBd
-	ycqutcXc2+V0V+pipB3wZf1l8UcR/wc8qVaTaNcOonZsDYyyQwqfbyby+wms=
+	s=arc-20240116; t=1773580345; c=relaxed/simple;
+	bh=3gNzQRdnU3vCcN2PUBYD0NQ9J3vae2VxeRuOByNrWEk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dmj2YvH59ZtgWV6JpFFKYKjnoGjcjOyrBidsiakeiMq2FMVyEYE9xW44dPKtfqBjMTt+FBMoL8lKZVOA8OQzlLPEeSMwzEz2siLdjgIJUcLQLAOPwPJR0KdM4eWKLp15nttSXBpLnTrhVrYqE2CMPPhmFW3JYsHDPT7vPehIPTo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=o2amTglJ; arc=none smtp.client-ip=91.218.175.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="o2amTglJ"
+Message-ID: <0c2bd25d-1577-4935-8ebe-0762b480abfc@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1773580331;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=26yBis00uiMPtDS8aUzlNEkKNIcpZ/qQQw/Qafqh+68=;
+	b=o2amTglJM3JAnBL6XV4rgGAEVqgVrlFKflEOc3Ws/663wYLicZXtcSTQH/CQ0q1REGRYv7
+	mGvwb23SMOEbTqnr41lCerM107hhoFBtbAjKPHTtYT3pQe/gOvLCwEtJ/RqlAFkasmWRHd
+	scrDdVGDWCGhUBisO8rX4k/SyQwUvEo=
+Date: Sun, 15 Mar 2026 16:12:02 +0300
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:610:b0:67b:b2a0:6955 with SMTP id
- 006d021491bc7-67bdaa3213cmr6843122eaf.48.1773577816607; Sun, 15 Mar 2026
- 05:30:16 -0700 (PDT)
-Date: Sun, 15 Mar 2026 05:30:16 -0700
-In-Reply-To: <9b8b9c7f7d533c96c0c1abe5b4aecb7dc19e2abf.1773306879.git.chleroy@kernel.org>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <69b6a658.050a0220.12d28.0153.GAE@google.com>
-Subject: [syzbot ci] Re: fs: Replace user_access_{begin/end} by scoped user access
-From: syzbot ci <syzbot+cid75770a461d6c546@syzkaller.appspotmail.com>
-To: brauner@kernel.org, chleroy@kernel.org, david.laight.linux@gmail.com, 
-	jack@suse.cz, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	tglx@linutronix.de, torvalds@linux-foundation.org, viro@zeniv.linux.org.uk
-Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v5] binfmt_elf: Align eligible read-only PT_LOAD segments
+ to PMD_SIZE for THP
+Content-Language: en-GB
+To: Lance Yang <lance.yang@linux.dev>, r@hev.cc,
+ Ryan Roberts <ryan.roberts@arm.com>
+Cc: viro@zeniv.linux.org.uk, brauner@kernel.org, david@kernel.org,
+ jack@suse.cz, kees@kernel.org, willy@infradead.org,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, baolin.wang@linux.alibaba.com
+References: <20260313005211.882831-1-r@hev.cc>
+ <20260315034647.8462-1-lance.yang@linux.dev>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Usama Arif <usama.arif@linux.dev>
+In-Reply-To: <20260315034647.8462-1-lance.yang@linux.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-syzbot ci has tested the following series
 
-[v2] fs: Replace user_access_{begin/end} by scoped user access
-https://lore.kernel.org/all/9b8b9c7f7d533c96c0c1abe5b4aecb7dc19e2abf.1773306879.git.chleroy@kernel.org
-* [PATCH v2] fs: Replace user_access_{begin/end} by scoped user access
 
-and found the following issue:
-kernel build error
+On 15/03/2026 06:46, Lance Yang wrote:
+> Hi Rui,
+> 
+> CC Baolin and Usama
+> 
+> It would be better to keep earlier CC list across revisions, especially
+> for people who have already reviewed or were explicitly include before.
+> Otherwise, they may simply never see subsequent revisions, and from
+> their side the discussion just stops there ...
+> 
+> Thanks,
+> Lance
+> 
+Thanks! Also adding Ryan who did the exec_folio_order() work for ARM,
+and also raised good concerns in [1]
 
-Full report is available here:
-https://ci.syzbot.org/series/a2ff6791-00cd-4a47-8c1b-9224abc65d04
+The problem is not just alignment for elf, we need to fix more things like
+mmap heuristics [2] and how unmapped areas are gotten [3].
 
-***
+[1] https://lore.kernel.org/all/cfdfca9c-4752-4037-a289-03e6e7a00d47@arm.com/
+[2] https://lore.kernel.org/all/20260310145406.3073394-3-usama.arif@linux.dev/
+[3] https://lore.kernel.org/all/20260310145406.3073394-5-usama.arif@linux.dev/
 
-kernel build error
-
-tree:      torvalds
-URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linux
-base:      0257f64bdac7fdca30fa3cae0df8b9ecbec7733a
-arch:      amd64
-compiler:  Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
-config:    https://ci.syzbot.org/builds/ab2718fa-ea35-4282-a430-1ceab5b149aa/config
-
-fs/readdir.c:530:60: error: use of undeclared label 'efault'
-fs/readdir.c:538:2: error: unknown type name 'buf'
-fs/readdir.c:538:5: error: expected identifier or '('
-fs/readdir.c:539:2: error: unknown type name 'buf'
-fs/readdir.c:539:5: error: expected identifier or '('
-fs/readdir.c:540:2: error: unknown type name 'ctx'
-fs/readdir.c:540:5: error: expected identifier or '('
-fs/readdir.c:541:2: error: expected identifier or '('
-fs/readdir.c:542:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
-fs/readdir.c:542:7: error: expected ';' after top level declarator
-fs/readdir.c:543:2: error: unknown type name 'buf'
-fs/readdir.c:543:5: error: expected identifier or '('
-fs/readdir.c:544:2: error: expected identifier or '('
-fs/readdir.c:545:1: error: extraneous closing brace ('}')
-
-***
-
-If these findings have caused you to resend the series or submit a
-separate fix, please add the following tag to your commit message:
-  Tested-by: syzbot@syzkaller.appspotmail.com
-
----
-This report is generated by a bot. It may contain errors.
-syzbot ci engineers can be reached at syzkaller@googlegroups.com.
