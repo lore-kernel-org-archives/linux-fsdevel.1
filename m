@@ -1,108 +1,137 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68FA022A7F0
-	for <linux-fsdevel@vger.kernel.org>; Sun, 15 Mar 2026 04:10:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F5F935898;
+	Sun, 15 Mar 2026 06:36:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773547839; cv=none; b=AoNEsRlixcyIUBXcDY37XU0v0y7SpcaFVPoRMWD66J1BX6FFxCYQxyeXfvhz3LkWQGE+DkMXM7n4YiUUIKym/4TcW7UOdNllCZhx03hcfD+aK0e0CS1mV4HqvWK0JWUtCgBhFfK00JW/9OFD69GNLUvfAy1EVY8pqxmrBpYzKmU=
+	t=1773556613; cv=none; b=etlwFFLfBEVx7TJgbGPwvmGQ6azfus04EEMQrhNmpbCLDTEwg5sVRZbMM/gDwluwmb1QRQX0ib8oOHQm2fs0BTGgVafo9Wt7sYbWvhrsUgVEJK8UNiCmVXc8VKBfEhvGdttDY+2QvfFUGCBK5AYh9uGPAaFeE4y+6hmSklRVSUM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773547839; c=relaxed/simple;
-	bh=eKI+YqwJwuQjw262CBFVWp4TrJeGSGv4OI3cEOIx48M=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JF13qmZJqWm94Jyc4YDoMiunC7qWZJy8mMh+cTMIm1oDmUtSqEPwSp+dg604VBB8yf8qC5mb9+/D3LfF7DRO4LObDuXEIa9Q9LOlEeRql/nFe7GM89HbAWWKQnhanGEVIKYWVKDIYJfDMtQ9gdBVuSyR5KBhTgnw0D1Op9kP4Aw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hev.cc; spf=pass smtp.mailfrom=hev.cc; dkim=pass (2048-bit key) header.d=hev-cc.20230601.gappssmtp.com header.i=@hev-cc.20230601.gappssmtp.com header.b=u3sa5uap; arc=none smtp.client-ip=209.85.210.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hev.cc
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hev.cc
+	s=arc-20240116; t=1773556613; c=relaxed/simple;
+	bh=KBSdUW2G6hxoghM+ni0Lk6NucV+M0q3TNqfLhjtlu+Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tD4VVT5RWl+ZViVhIlihdD+TmC3BUUFhLllq+FkO4fwP7AIT2+h5B5VhVNoJ8qZuCJ4iHkLZ3bKF1iKtCHJRbU9lxhfGfzokVexncWjuVNhqYUl+YubFaDDjhJ5M1wNKK2m5Nd+0eCLeSEJZJieEuBBTxg1MGqsvTFP2f2ZE9Go=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XALRt/o0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hev-cc.20230601.gappssmtp.com header.i=@hev-cc.20230601.gappssmtp.com header.b="u3sa5uap"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-827270d50d4so3312212b3a.3
-        for <linux-fsdevel@vger.kernel.org>; Sat, 14 Mar 2026 21:10:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=hev-cc.20230601.gappssmtp.com; s=20230601; t=1773547838; x=1774152638; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eKI+YqwJwuQjw262CBFVWp4TrJeGSGv4OI3cEOIx48M=;
-        b=u3sa5uaplUcxgeUs4+VhKFaHrjgy7kHniJpxfLyeTz3UdtnD7j6gvNhQ53+ol5vKaO
-         uJ3eVQlAeF3N05xVB9L0LfrtzdXlE57HyU4P9z4WbpvQHkF0CkpaSOPhuGJ+NyU1sjCv
-         HVWPC4t/kEn6EirKgCWgUUyWUXtLR/yANm1aFpXpYK6L/5oGGjgTEc3FPbj3FBIAqZWu
-         CnIN548OUA4m/dIMLuku5fUidyDSaMVBbA8NG7WYaEP0nhXIPfmSwIx/196maXgRwuaT
-         qjjJXvSNam5/VHnnFmoqmqqW2JeGUyzGtQRbwZ9KQMJNaLB+Uorc7+i34fS46tJXOFGU
-         zEUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773547838; x=1774152638;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=eKI+YqwJwuQjw262CBFVWp4TrJeGSGv4OI3cEOIx48M=;
-        b=NCWy6D9P9tuzCeyKgOO5x8WbGPLXwc1oGxapOClRsRfHud9WLX/b0DMAFCAZlHYXS5
-         tjVmxNfstFt7AX6jLbPbwsH1wzKktCzI5BHl1jr8nWNs+Lf7kTUvm0FVxHe0hf5z6eBi
-         EJprscJLxY0p8D92ORnCltIgYtflp19UUnSNSh+yATwQMPJ9OIXQfRZjJuDD8cd7oshK
-         8qVeCmcv9IwPtubXOphXOLskSEkt05DVFmsDHNec9O+RvBX7dv9911AoX314Ift419Xd
-         MdTIeva9VAfMJlnL8ZDo/oj8OhvDvPkp7OkA3kOJc0zFgqwHlFrgQOjgl/7SC3hJji90
-         tjNQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXaY4yQqqFqcWaVthiNALKgZuwZqoBLu3qBOAzSouRQg3MgeLQdkL3UaqEJHkbgkHP7veyX87JueXdBSfyP@vger.kernel.org
-X-Gm-Message-State: AOJu0YzcXixouaP/OJsc2S6RWdUyyMGWT6b+xhdQU9teCXFa6FgBhvil
-	cad70JEGGk6fzKWVutQLnuhtsipRuXLZTkFmbTTgfWQS+aTfU5laCd3VNjbjTmAEtPI=
-X-Gm-Gg: ATEYQzyR/wDmNhmrktQd/nmkKQ0Y6X+Yfxf+HMWq/EgaL1hcoRQ8QllbTslyeHD4JyE
-	9NFnQqGcPuhYdKAGP5N62oNk+9BZmF3D+h2JkAtvduCy+WnVqYdjeUs8Boh6y6dqEUV/EQHkEo5
-	53pJF6jSBlIBEsl5cyx5HM5duIcxK6AFfcHedMdKwwoG+Ye5n6JzE8qA9GaMS/+cbvAnaBwMjlq
-	DZGbAVCYqR/zvSe58B0jCh8bdbieil0o0vWomb/Wmj7AyHixMr1qEytNCOxsyq7vXLRKnoig/oY
-	c3XEmvgp8EanO3Vw2vIWzxQ05BMeS2PLYiRJ4h2sLV76vPtM2mrrINUxUnOM5WymO4dAGJQqtMG
-	lpeGipYSDrBdSfA4N56Lg7wthtSYjEACs1QtBSyI3GJYLcWni0gRJ7jmqz+2TCuwfCHcz753SQg
-	ny
-X-Received: by 2002:a05:6a00:6c81:b0:827:2dbc:27d9 with SMTP id d2e1a72fcca58-82a19907f86mr7927525b3a.48.1773547824721;
-        Sat, 14 Mar 2026 21:10:24 -0700 (PDT)
-Received: from gpc ([2400:8902:e002:de08:5754:7dac:85df:935a])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82a0727c1d2sm10079491b3a.25.2026.03.14.21.10.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Mar 2026 21:10:24 -0700 (PDT)
-From: WANG Rui <r@hev.cc>
-To: lance.yang@linux.dev
-Cc: baolin.wang@linux.alibaba.com,
-	brauner@kernel.org,
-	david@kernel.org,
-	jack@suse.cz,
-	kees@kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	r@hev.cc,
-	usama.arif@linux.dev,
-	viro@zeniv.linux.org.uk,
-	willy@infradead.org
-Subject: Re: [PATCH v5] binfmt_elf: Align eligible read-only PT_LOAD segments to PMD_SIZE for THP
-Date: Sun, 15 Mar 2026 12:10:05 +0800
-Message-ID: <20260315041005.11682-1-r@hev.cc>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260315034647.8462-1-lance.yang@linux.dev>
-References: <20260315034647.8462-1-lance.yang@linux.dev>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XALRt/o0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7612DC4CEF7;
+	Sun, 15 Mar 2026 06:36:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773556612;
+	bh=KBSdUW2G6hxoghM+ni0Lk6NucV+M0q3TNqfLhjtlu+Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XALRt/o0dd2AxQBMPmSEoHdvSVrVl0oXns2o/a8Ey90Yg4CIvJGDRM7j/B9xDOTOv
+	 jVkwQfiy2XHpW6QGkRlISJca8zcc437g6Zst1xVvd/Nn3ZvfdIobB455dlA+fjZXun
+	 GYkGmlyzr37rzEwy1AapZ/pkqk1QNFoooCb6x1r7g+zWI5GFMpOe7rFD/PUgyrhvz3
+	 XPi7roPO9OIUo48wKKgk4p8/sFXHGlwSAXV11MrAbE3SXHRgLsh2L9SIFaN6/dG3jl
+	 jptJ5NIB5rWb5FrWRiKgxREhtCdmklti3MakwpEp07gLdDtys6XyVroLDF4G9kiviQ
+	 GDDOQ+Cfq8qAw==
+Date: Sun, 15 Mar 2026 02:36:51 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	workflows@vger.kernel.org, tools@kernel.org, x86@kernel.org,
+	Thomas Gleixner <tglx@kernel.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Cyril Hrubis <chrubis@suse.cz>, Kees Cook <kees@kernel.org>,
+	Jake Edge <jake@lwn.net>,
+	David Laight <david.laight.linux@gmail.com>,
+	Askar Safin <safinaskar@zohomail.com>,
+	Gabriele Paoloni <gpaoloni@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Ingo Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [PATCH 0/9] Kernel API Specification Framework
+Message-ID: <abZTg9ZwnE5J4qXa@laps>
+References: <20260313150928.2637368-1-sashal@kernel.org>
+ <20260314111822.63a2ba4a@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20260314111822.63a2ba4a@kernel.org>
 
-Hi Lance,
+On Sat, Mar 14, 2026 at 11:18:22AM -0700, Jakub Kicinski wrote:
+>On Fri, 13 Mar 2026 11:09:10 -0400 Sasha Levin wrote:
+>> This enables static analysis tools to verify userspace API usage at compile
+>> time, test generation based on formal specifications, consistent error handling
+>> validation, automated documentation generation, and formal verification of
+>> kernel interfaces.
+>
+>Could you give some examples? We have machine readable descriptions for
+>Netlink interfaces, we approached syzbot folks and they did not really
+>seem to care for those.
 
-> It would be better to keep earlier CC list across revisions, especially
-> for people who have already reviewed or were explicitly include before.
-> Otherwise, they may simply never see subsequent revisions, and from
-> their side the discussion just stops there ...
+Once the API is in a machine-readable format, we can write formatters to
+output whatever downstream tools need. The kapi tool in the series
+already ships with plain text, JSON, and RST formatters, and adding new
+output formats is straightforward. We don't need to convince the
+syzkaller folks to consume our specs, we can just output them in a
+format that syzkaller already understands.
 
-Thanks for pointing this out.
+For example, I have a syzlang formatter that produces the following
+from the sys_read spec in this series:
 
-After addressing David's feedback on v4 [1], v5 no longer looked
-mm-related to me, so I only sent it to linux-fsdevel.
+   # --- read ---
+   # Read data from a file descriptor
+   #
+   # @context process, sleepable
+   #
+   # @capability CAP_DAC_OVERRIDE: Bypass discretionary access control on read permission
+   # @capability CAP_DAC_READ_SEARCH: Bypass read permission checks on regular files
+   #
+   # @error EPERM (-1): Returned by fanotify permission events...
+   # @error EINTR (-4): The call was interrupted by a signal before any data was read.
+   # @error EIO (-5): A low-level I/O error occurred.
+   # @error EBADF (-9): fd is not a valid file descriptor, or fd was not opened for reading.
+   # @error EAGAIN (-11): O_NONBLOCK set and read would block.
+   # @error EACCES (-13): LSM denied the read operation via security_file_permission().
+   # @error EFAULT (-14): buf points outside the accessible address space.
+   # @error EISDIR (-21): fd refers to a directory.
+   # @error EINVAL (-22): fd not suitable for reading, O_DIRECT misaligned, count negative...
+   # @error ENODATA (-61): Data not available in cache...
+   # @error EOVERFLOW (-75): File position plus count would exceed LLONG_MAX.
+   # @error EOPNOTSUPP (-95): Read not supported for this file type...
+   # @error ENOBUFS (-105): Buffer too small for complete notification...
+   #
+   # @constraint MAX_RW_COUNT: actual_count = min(count, MAX_RW_COUNT)
+   # @constraint File must be open for reading: (file->f_mode & FMODE_READ) && (file->f_mode & FMODE_CAN_READ)
+   #
+   # @signal Any signal: restartable, error=-4
+   #
+   # @lock file->f_pos_lock (mutex, internal): For seekable files with FMODE_ATOMIC_POS
+   # @lock Filesystem-specific locks (rwlock, internal)
+   # @lock RCU read-side (rwlock, internal): File descriptor lookup protection
+   #
+   # @side-effect file->f_pos: f_pos advanced by bytes read [conditional, irreversible]
+   # @side-effect inode access time: atime updated unless O_NOATIME [conditional, irreversible]
+   # @side-effect task I/O accounting: rchar and syscr updated [conditional, irreversible]
+   # @side-effect fsnotify events: FS_ACCESS event generated [conditional, irreversible]
+   #
+   # @return ssize_t: bytes read on success, negative errno on error
+   #
+   read(fd fd, buf ptr[out, buffer[out]], count len[buf]) intptr
 
-But you're right, I should have kept the earlier CC list, especially
-for people who had already reviewed it or were CC'ed explicitly in the
-previous rounds.
+That said, I don't have a strong end-to-end example with the 4 syscalls
+proposed here, as open/close/read/write don't take complex structures,
+and the subsystems underneath them aren't specced yet. The value becomes
+clearer with richer interfaces where the gap between "we know the type
+signature" and "we know the full behavioral contract" is much wider.
 
-[1] https://lore.kernel.org/linux-fsdevel/60ba4311-01f8-4ff3-a2df-e1b3fb6db699@kernel.org
-
+-- 
 Thanks,
-Rui
+Sasha
