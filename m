@@ -1,113 +1,150 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail-43166.protonmail.ch (mail-43166.protonmail.ch [185.70.43.166])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9136417B50F;
-	Sun, 15 Mar 2026 06:46:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7259A19CD0A;
+	Sun, 15 Mar 2026 11:24:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.166
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773557186; cv=none; b=Eo7dsggxidqCW0S+rgPYE5uMqNqHlW7RqpVPR7yekSqNkuee6Q2M/WojHwOX+4/bjhsGONEk9YuGC841wsvSpnM9lBSDQr7gdX1y5W9WmSp6bg8lAMfcuBQNHVyBHTGz4ia1rpb8glI4H0RCqgIzG33DUS/J7EaCUQD8H84ilaM=
+	t=1773573877; cv=none; b=gGFPMuSYtNsJMusXG7xikdc9rU51KE1EU1jM3aY0jBem+Md6PhIAWS9vYYbE6yLCDSckFFZe7j+RLbLrKegpSPaCR4SZ8MausBa2o6AStzFE02MrKWSzMCtmqnX23WmSiwFgoCCsdf8pCIvDV+i5rdUMJFu15TALUdqwDkS3fQk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773557186; c=relaxed/simple;
-	bh=IpUTDcZ1Uu4Z1bfflk4CngBLm8hUBNUIhtC4bYm5ODw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YqkSKKnY17k9HaBeX9eWjSJn1jXckSjh6Zum4IKjCCyfCJ+q7JK9+9aSaTmVE97QwXDcH26LUsY81Oh29LUdKOldq7znSJfEVArP3BFBZdlM4HfWgeTGxEgEjJg8fs1qOkO5KzJ/dNqjZpZxIxy3YcdRMo8LlKE3zsV1MdZIBcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z4sTG/4E; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773573877; c=relaxed/simple;
+	bh=xkra8kEoCverdCIDZrHoFjQjX/uvuf0BEW3UwC8238A=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Ed4IxjNUHz5e4FDB/m2xUcCQcbtXMjDQ78P8Y2ReHKxS5iWzdY3/UbB7YahfVyqz7doeVTjc8AG+NqKfMOiq04A9lxmPN6oUenb+Q8+dtAyKh0OgQ9yC0DDnwPvcLX3EBJGjgWpd7rRHKAHHzZ3LA46wQVGpqwxrVzwk8EH5Uxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=jG9OC1hd; arc=none smtp.client-ip=185.70.43.166
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z4sTG/4E"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7B7DC4CEF7;
-	Sun, 15 Mar 2026 06:46:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773557186;
-	bh=IpUTDcZ1Uu4Z1bfflk4CngBLm8hUBNUIhtC4bYm5ODw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Z4sTG/4E6mbg52QlUCguplRl3s+AbHo/83S7cwIrGRmYk7p6ogy+RDg5b5gNufUzM
-	 XWlobTcH2/a8HyZR0gU2s0+avyy0Fza9PGIpBMLulzkWL6QjsUWBNKDiqTMw6nTODm
-	 NXPXNVnC8Vr5cvZN598o/xc8pjrkX7Ya0b9boOwsgWg8rRcnQB4dTATj5TMKV81o3y
-	 KqpoQB6xnb2BuzgFny89j5tSBGOXe3SBzu4jGmOrQqK/ZH+Aa/8d0zdoIKVq1PWIsP
-	 EsFrwGyjyj2BkZ9IP7N0DqY4AZ8A7l3Ye6N1a6aiAUFLCLFUwBQw9Y3AbCaTirhNSN
-	 wD0KzKDOK75nQ==
-Date: Sun, 15 Mar 2026 02:46:24 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: David Laight <david.laight.linux@gmail.com>
-Cc: Jakub Kicinski <kuba@kernel.org>, linux-api@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, workflows@vger.kernel.org,
-	tools@kernel.org, x86@kernel.org, Thomas Gleixner <tglx@kernel.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Cyril Hrubis <chrubis@suse.cz>, Kees Cook <kees@kernel.org>,
-	Jake Edge <jake@lwn.net>, Askar Safin <safinaskar@zohomail.com>,
-	Gabriele Paoloni <gpaoloni@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Ingo Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH 0/9] Kernel API Specification Framework
-Message-ID: <abZVwFwKSsxvwCw3@laps>
-References: <20260313150928.2637368-1-sashal@kernel.org>
- <20260314111822.63a2ba4a@kernel.org>
- <20260314224435.35465615@pumpkin>
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="jG9OC1hd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=aj2fmjlhhvbdnoqmet5uslglyy.protonmail; t=1773573870; x=1773833070;
+	bh=6kzIhSrQlefIonVwDS2QLdSZuz4jn+m6gzVCZWAvoXY=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=jG9OC1hdzmvYaLXR5Ur5hmKWynU7+BGfYCLwde3wqtjlDMwRXijjuDdlJxYxx8zuo
+	 fjpPm1JaurlPVg1gSWNJyCx994Huv7nAWi+rdme5drUMtzqYAZqGicwO00LeFYhFIY
+	 C/tSs5JQBPGVEPgJ7z7A5Xb1SMGRyRcvLo8/luo0Y4WeSQJ/JInUvP05LnsFd6Z04E
+	 bFJ3pKJD2o+vO8HacHGgmWX6sTcszVPBR21xrTOx2CNQvIhgi84zqhMsnAQKTaJrgo
+	 h0p6bKuzCbx03iGbkHlfdlLLBqYN39UjxtkLWRgVI/03aOMCn3nQwAln3H4OSG9VpB
+	 rIdEQZPZ/LG/Q==
+Date: Sun, 15 Mar 2026 11:24:25 +0000
+To: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+From: John <therealgraysky@proton.me>
+Cc: Joanne Koong <joannelkoong@gmail.com>, "linux-fuse@lists.sourceforge.net" <linux-fuse@lists.sourceforge.net>, "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>, Miklos Szeredi <miklos@szeredi.hu>
+Subject: [BUG] fuse: wb_wait_for_completion hang on suspend with fuse-overlayfs on tmpfs persists in 6.19.6 (AS_NO_DATA_INTEGRITY fix incomplete)
+Message-ID: <Utw_Cjiuq0_XhCoA5EXpzLE9qfRpiA0-fmXEmui7NnBnIeMiCDGOyXWPtE5DkxVNYNSsgiUotB7fsGYnlMQn1xDCx14yx1d0UJqx62vAwp4=@proton.me>
+Feedback-ID: 47473199:user:proton
+X-Pm-Message-ID: e2ffb5343d28f46feee85beb2462585b7ecc7789
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20260314224435.35465615@pumpkin>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Mar 14, 2026 at 10:44:35PM +0000, David Laight wrote:
->On Sat, 14 Mar 2026 11:18:22 -0700
->Jakub Kicinski <kuba@kernel.org> wrote:
->
->> On Fri, 13 Mar 2026 11:09:10 -0400 Sasha Levin wrote:
->> > This enables static analysis tools to verify userspace API usage at compile
->> > time, test generation based on formal specifications, consistent error handling
->> > validation, automated documentation generation, and formal verification of
->> > kernel interfaces.
->>
->> Could you give some examples? We have machine readable descriptions for
->> Netlink interfaces, we approached syzbot folks and they did not really
->> seem to care for those.
->
->The whole thing reminds me of doxygen comment blocks.
->They tend to make it hard to read the source files, hard to search
->the source files (due to all the extra matches) and are pretty much
->always out of date.
->
->The kerndoc comment blocks for trivial helper functions are hard enough
->to keep up to date.
->
->The only way even parameter descriptions are going to stay correct is if the
->compiler is using the definition and only the comment part is extra.
->For error returns you'll need the documentation to be at the return site.
+Kernel: 6.19.6-arch1-1
+Component: fs/fuse, fs/fs-writeback
 
-When CONFIG_KAPI_RUNTIME_CHECKS is enabled, the specs are enforced at
-the syscall boundary. The SYSCALL_DEFINEx macro grows a wrapper that
-calls kapi_validate_syscall_params() before the real implementation and
-kapi_validate_syscall_return() after it. Parameter constraints (ranges,
-valid flag masks, alignment) are checked on every syscall entry, and
-return values are validated against the documented success/error ranges
-on every exit.
+--- SUMMARY ---
 
-If a spec goes stale, it has runtime consequences. A new flag bit added
-without updating the spec's valid_mask means callers using that flag get
-EINVAL, which any test exercising that path catches immediately. An
-implementation returning an undocumented error code triggers a warning
-from the return validation.
+A suspend-to-RAM hang in wb_wait_for_completion() via sync_inodes_sb() pers=
+ists on 6.19.6 when fuse-overlayfs is mounted on tmpfs. The fix introduced =
+in 6.19~rc6 for Debian bug #1120058 ("fs/writeback: skip AS_NO_DATA_INTEGRI=
+TY mappings in wait_sb_inodes()") does not cover this code path.
 
-The selftest in the series (tools/testing/selftests/kapi/test_kapi.c)
-exercises this with real syscalls, both valid and invalid inputs,
-verifying the validation layer catches violations.
+--- BACKGROUND ---
 
--- 
-Thanks,
-Sasha
+This issue was originally reported in:
+https://github.com/containers/fuse-overlayfs/issues/386
+
+The fuse-overlayfs developer identified it as a kernel issue. It was subseq=
+uently bisected to commit 0c58a97f919c ("fuse: remove tmp folio for writeba=
+cks and internal rb tree", merged in 6.16) and tracked in Debian as bug #11=
+20058. The fix applied in 6.19~rc6 targets wait_sb_inodes(), but the hang i=
+n the reporter's original trace and in this report occurs in sync_inodes_sb=
+() via a separate code path that the fix does not reach.
+
+The issue is also known to syzbot as "INFO: task hung in sync_inodes_sb" wi=
+th open instances on linux-5.15, linux-6.1, and linux-6.6:
+
+https://syzkaller.appspot.com/bug?extid=3De0232bd63c6e293aaf6a
+https://syzkaller.appspot.com/bug?extid=3D4983a35cf671e5ed55b3
+
+--- REPRODUCTION ---
+
+mkdir -p /dev/shm/test/up
+mkdir -p /dev/shm/test/tmp
+mkdir -p /dev/shm/test/data
+
+fuse-overlayfs -o "static_nlink,noacl,\
+  upperdir=3D/dev/shm/test/up,\
+  lowerdir=3D$HOME/.config/mozilla/firefox,\
+  workdir=3D/dev/shm/test/tmp" \
+  /dev/shm/test/data
+
+firefox --profile /dev/shm/test/data/PROFILENAME
+
+Browse to youtube and start playing a video then trigger suspend while the =
+video is playing in the browser. I used XFCE4 suspend from the menu.
+
+The display goes blank and does not recover. The system does not enter susp=
+end. Switching to a tty shows the system is alive but X11 is frozen. Reboot=
+ is blocked:
+
+# reboot
+Call to Reboot failed: Action suspend already in progress, refusing request=
+ed reboot operation.
+
+--- CALL TRACE (6.19.6) ---
+
+Mar 15 06:44:42 kernel: INFO: task kworker/u128:0:106160 blocked for more t=
+han 122 seconds.
+Mar 15 06:44:42 kernel:       Not tainted 6.19.6-arch1-1 #1
+Mar 15 06:44:42 kernel: task:kworker/u128:0  state:D stack:0     pid:106160=
+ tgid:106160 ppid:2
+Mar 15 06:44:42 kernel: Workqueue: pm_fs_sync pm_fs_sync_work_fn
+Mar 15 06:44:42 kernel: Call Trace:
+Mar 15 06:44:42 kernel:  <TASK>
+Mar 15 06:44:42 kernel:  __schedule+0x457/0x1720
+Mar 15 06:44:42 kernel:  schedule+0x27/0xd0
+Mar 15 06:44:42 kernel:  wb_wait_for_completion+0x97/0xe0
+Mar 15 06:44:42 kernel:  sync_inodes_sb+0xf8/0x2e0
+Mar 15 06:44:42 kernel:  __iterate_supers+0xdc/0x160
+Mar 15 06:44:42 kernel:  ksys_sync+0x43/0xb0
+Mar 15 06:44:42 kernel:  pm_fs_sync_work_fn+0x17/0xa0
+Mar 15 06:44:42 kernel:  process_one_work+0x193/0x350
+Mar 15 06:44:42 kernel:  worker_thread+0x1a1/0x310
+Mar 15 06:44:42 kernel:  kthread+0xfc/0x240
+Mar 15 06:44:42 kernel:  ret_from_fork+0x243/0x280
+Mar 15 06:44:42 kernel:  ret_from_fork_asm+0x1a/0x30
+Mar 15 06:44:42 kernel:  </TASK>
+
+--- MORE CONTEXT ---
+
+Compared to the original report (which ran through systemd-sleep -> pm_susp=
+end -> ksys_sync), the sync call in 6.19 has been moved into a kernel workq=
+ueue via pm_fs_sync_work_fn. The hang point is identical: wb_wait_for_compl=
+etion() inside sync_inodes_sb() never returns because the FUSE daemon (fuse=
+-overlayfs) is unable to complete writeback while the suspend freezer is in=
+ progress.
+
+The AS_NO_DATA_INTEGRITY fix targets wait_sb_inodes(), which is a separate =
+function from sync_inodes_sb(). The hung writeback completion wait in sync_=
+inodes_sb() is not gated by the AS_NO_DATA_INTEGRITY check and remains unad=
+dressed.
+
+Note: prior to commit 0c58a97f919c, sync() on FUSE filesystems was effectiv=
+ely a no-op, which avoided this hang at the cost of correctness. The regres=
+sion was introduced when that commit made sync() actually wait on FUSE writ=
+eback completion.
+
+I am using Arch Linux but users of Fedora F43 and Debian testing are hittin=
+g this bug also. See refs below.
+
+References:
+1. fuse-overlayfs upstream issue: https://github.com/containers/fuse-overla=
+yfs/issues/386
+2. profile-sync-daemon issue: https://github.com/graysky2/profile-sync-daem=
+on/issues/411
+3. Debian bug #1120058: https://bugs.debian.org/1120058
