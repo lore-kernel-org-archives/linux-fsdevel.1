@@ -1,202 +1,102 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0CFA366050;
-	Sun, 15 Mar 2026 14:26:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD6643612F6
+	for <linux-fsdevel@vger.kernel.org>; Sun, 15 Mar 2026 15:35:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773584801; cv=none; b=XcuhAEKFxaMlbBsI+u4k4K90mXN+omWUQ72JIKAN0mSCWvSlInR0b4YyAEGyyfYcieCuuCRinjGN3XZ8ieqZtA+Y8QYLz08cVY6hYlpKixrjeMGwDfx7UduGRo/zVYyJxEosktSsj9Qa0aSvEtd/DSr6rF6ykTOWXULHdabAT3I=
+	t=1773588918; cv=none; b=s+Eq7rjuKI8YRmf3PMLsuKcKxK5Ds45jlRfCSkXKrT0rPsIoE0+IRDTUBAWSKdgEtUflNuGNulwR9mhDXVTz/91+1asRvMgX8R0MgDanUopiSG0Cw14hWRJrZENxUH2uLRX9QI/NezhbBjRvyb93RF3OIt8WBZ/i+YlLDOvLzF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773584801; c=relaxed/simple;
-	bh=senDZHEmYebQCAnLtwzi1Q/bk5sXkiAKoJBR4qJTN4s=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=saWPPRPIEscRZ3Y41f3KflDQqgZYy+H09XnFY8mUKI9GIUc/GvyTRJ55thujYmTgT7uhB6QjtdnWy5nwXpqSwFzDLXjjCuYXoGa9mrl6dQ5X8zCHdXCyxbM9OC1UaZlbrzH1+ik+yZgDlAYADC9FJJH3Xepnh2NjSbrjvkOAeG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=ps.report@gmx.net header.b=czX7u1YK; arc=none smtp.client-ip=212.227.15.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
+	s=arc-20240116; t=1773588918; c=relaxed/simple;
+	bh=mO13BHrKKr0NkSktX3fCkaYeb2tYhxBtLjWuzMRubho=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Dg9oz9T75Zmoy7E5EqYmeV2/py/w8pvFXy8PVoc5rvVODANaH/BUMkz0t4HvALx47VX0DymeAN3QX7K7ymgaBquu0OocKhC9oLXpn3zw0CeGHLP9rM0rIGZuUMu6U+tMrktTHLz9qlslvxLLxheazvwwG9EXdXvvG5Ix86UqJXI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eRRHzx8N; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=ps.report@gmx.net header.b="czX7u1YK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1773584796; x=1774189596; i=ps.report@gmx.net;
-	bh=4phVwyEWx1J9XfZ+dWJJNPe7PNfSIlQ75z9+gBftQk8=;
-	h=X-UI-Sender-Class:Date:From:To:Cc:Subject:Message-ID:In-Reply-To:
-	 References:MIME-Version:Content-Type:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=czX7u1YKU8YnUGQXn6jPhZqy/KosjAK+7EJUawJIxytHGm5vy4RPK6SkyUweGOf4
-	 eEzThQIPJj+2wTJC5kNqjr6bZ0sesMW8gQfNGX23XOR6Z9MdNt66butW70G3lKiVW
-	 5uhe1lqFaZbDZn/HXc3ABceJ54chWfB35n3cPGYgSRAtVPssCFC+GO8SGLAhmeuSp
-	 iMWdVLq66tOMyZZZJUP0Cv4gPt9wRkr7tuZILUI6hpejURJkIJyuhdLiBqdTqXn3O
-	 sdsnqmvi5ZW8qBSDeFyAYoIpC2GLCfrdf11U2dvub17Z3ZgGuSvJnBfYc5bwFE80c
-	 FC2hUHmaFqh3qSxOtw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from client.hidden.invalid by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1M5wLZ-1vzKdz018d-006hB3; Sun, 15
- Mar 2026 15:26:36 +0100
-Date: Sun, 15 Mar 2026 15:26:35 +0100
-From: Peter Seiderer <ps.report@gmx.net>
-To: Marc Buerg <buermarc@googlemail.com>
-Cc: elias.rw2@gmail.com, joel.granados@kernel.org, kees@kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-Subject: Re: [PATCH ] sysctl: fix uninitialized variable in
- proc_do_large_bitmap
-Message-ID: <20260315152635.4c20c6f0@pc-1>
-In-Reply-To: <20260314093725.12429-1-buermarc@googlemail.com>
-References: <20260313121708.137dae22@pc-1>
-	<20260314093725.12429-1-buermarc@googlemail.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-suse-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eRRHzx8N"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4853f2826f7so40204365e9.1
+        for <linux-fsdevel@vger.kernel.org>; Sun, 15 Mar 2026 08:35:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773588915; x=1774193715; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ilCE33luO5zcSw6pvT/x0TwGa05o3OBgHkATYEmMYB8=;
+        b=eRRHzx8NBng8WL8NHa40yFyP0aaOA7OtKiyr2w82L/jusiGSGR5M9ABkFdSxP4gvpZ
+         JX70AfyBEGxD/A2KeECRh4ttUdmGSLiNgGXIX9sKsjTgIUal6b39sva9odTaKrTmnfSo
+         wlHEBElAJdZs/CiUk/3VXzneBAbNI51dMZKhiHhcGy0u56B8x+Ti2rrI/PbsnvxqnxzO
+         6X0ut7e6GPxnIOICekLjCPIEOH5c1E/jo4RfVTAgI75EbtEwqSBD8Rs9a/F39KRgz/FO
+         Tg2VWc0ymRgeG+ykUtvczS+Zh337WtVmfetFiSdH9Jx/BuSWKU5/tTyYCx794JkdW4SB
+         Vhew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773588915; x=1774193715;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ilCE33luO5zcSw6pvT/x0TwGa05o3OBgHkATYEmMYB8=;
+        b=NkqfZZNQ3YyyWVZehSnrParuN2fd1Vsn6fs5om2//r9ZmVmvp946YXHb9kIj3efRZN
+         PghkRs+taihFAWiPwCd/66YP5VUWzptQEbWjEWSthqhIhIch1QOY5t3F03D6lTe82m9B
+         /IlwC2RbmloCnzdQmRd53+ncUSr+lDKf81UyR0yW3do9zw41cOzYCcsWyvrRHNvWsx5Q
+         +qFLCpHpZCOTb2a9jFodstJMaG4wutIJuE0E3hPhJXHTS0WI+hVuUvvmUAqZAksSokAL
+         5i21uvoad7vbUleNKiKM7v96U2GYJ6RK6kY1WGufKFnhDoOPtSsvre3WTzreK7zEjC6P
+         nVIA==
+X-Gm-Message-State: AOJu0YyQy2C7TStCu5UAUXyN9S2HVaqlVe2KGRpaHCDUwlnMhEEhgZJi
+	y60S3EV++ELOKB3Fh4CqvK+KLvMO688k5xGai1uYl9bXveg0G2FQkXKu
+X-Gm-Gg: ATEYQzwNb1CzCr2TptLKw6c8LR4Y4kX+lpF8RZ7tioRo6c9nzq2AzwOyYQQPHprK1Yy
+	7fASOtiSFz+efhE1T9d4JRHZeBedaYbbreZFc28LYDmIXO1sYSkKYLsiX1qOMcF7DQzu7ASASfB
+	DpSFYK207yxkqH9xQIOMR7QB9VLoobjNqAFOgxu3i8F5HilUP89vUvBLRUTodRID2QV6WIZPMtl
+	0m0Hmqt8jBH1eAsCHpl3Rv+Eq+bs07mi3R1X5/9vm5utwmBegRVURJ9qzp7aezD+OzNmQywJPU/
+	zdnPcaq0ob/Ez2nna1BTe8XJoOrR4IhyGKeiPnwnijS9L7bzLBc+n+SOCT63Mgy76IlrepybQOC
+	PmEj9jXx2yjTQXg07VJlp9qcQxhLVhaxegqn2ULkm1gdrHmiknwc2T7lltA/9Cn5cE6mzaPz+hI
+	9t5focJTPObkNrRZuMHSfn9R26pmtZlF+91zXHcMUx0RXmxwVxmf46ZO/oVXaSNhpxZdIQmmGDL
+	bri6tQjWAY0S4/pHM3qKIiGyz7ncABtPvWYtXO7
+X-Received: by 2002:a05:600c:1d1a:b0:485:2ce2:4c8a with SMTP id 5b1f17b1804b1-485566cfb00mr164141025e9.1.1773588915111;
+        Sun, 15 Mar 2026 08:35:15 -0700 (PDT)
+Received: from DESKTOP-TILNSD1.localdomain ([139.47.104.103])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4854b65fe27sm374102765e9.9.2026.03.15.08.35.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Mar 2026 08:35:14 -0700 (PDT)
+From: Kit Dallege <xaum.io@gmail.com>
+To: Jan Kara <jack@suse.cz>,
+	Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Kit Dallege <xaum.io@gmail.com>,
+	Claude <noreply@anthropic.com>
+Subject: [PATCH 6/9] writeback: fix kernel-doc function name mismatch for wb_put_many()
+Date: Sun, 15 Mar 2026 16:35:03 +0100
+Message-ID: <20260315153503.48583-1-xaum.io@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:Ig1xaAQ0+949JxY3JMvRhraHgbltCILHchzewdZeiUJB+3E35lA
- R8llC13Dy93hScIZoCsK6IzqY0WGdR+Y5qeF2yjF7TyutfWVq/vy8MJ08z73jymo2y10CA0
- jAczLc4z2LhsN5gD6xbyvfZm50wxRdYC9diU3iQhCj1csOaY1CczayYu8UIkOzOsJUrYALC
- W0N2FEEIqLXp32ZV3kz0A==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:tYu6fy0/5EM=;MWPce6m82ylYga0wuKq+ASsQ+3X
- 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
+Content-Transfer-Encoding: 8bit
 
-Hello Marc,
+The kernel-doc comment says wb_put but the actual function is
+wb_put_many. Fix the name to match.
 
-On Sat, 14 Mar 2026 10:37:25 +0100, Marc Buerg <buermarc@googlemail.com> w=
-rote:
+Assisted-by: Claude <noreply@anthropic.com>
+Signed-off-by: Kit Dallege <xaum.io@gmail.com>
+---
+ include/linux/backing-dev-defs.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> Hello Peter,
->=20
-> Thanks for your feedback and the idea. You are correct proc_get_long()
-> does not set @tr if @size is zero, therefore, left in
-> proc_do_large_bitmap() should be zero when we expect @tr to not be
-> written to and c still being uninitialized.
->=20
-> > Would the better fix be:
-> >=20
-> > diff --git a/kernel/sysctl.c b/kernel/sysctl.c
-> > index 354a2d294f52..89db88552987 100644
-> > --- a/kernel/sysctl.c
-> > +++ b/kernel/sysctl.c
-> > @@ -1427,7 +1427,7 @@ int proc_do_large_bitmap(struct ctl_table *table=
-, in=3D
-> > t write,
-> >  				left--;
-> >  			}
-> > =20
-> > -			if (c =3D=3D '-') {
-> > +			if (left && c =3D=3D '-') {
-> >  				err =3D proc_get_long(&p, &left, &val_b,
-> >  						     &neg, tr_b, sizeof(tr_b),
-> >  						     &c); =20
->=20
-> This would explicitly fix the problem as it enforces that we only check
-> if we know c contains what we want to check for. Fixing it like you
-> proposed seems better to me.
->=20
-> I am somewhat conflicted because leaving c uninitialized allows that a
-> similar problematic access of c could be made in the future.
-> Initializing c could prevent that. I also do not see an immediate
-> downside, but that could just be my naivety. Further, that part would
-> now behave similar to when we apply the default hardening configuration,
-> if my understanding is correct.
-
-Your 'initialize c' (outside of the while loop) approach will only fix the
-problem at the first iteration of the loop, on further iterations c will b=
-e
-overwritten by the prior proc_get_long() calls..., for me the 'check c onl=
-y
-if valid' seems the better approach.... ;-)
-
-Regards,
-Peter
-
->=20
-> On the other hand, we do not read c later on, and I do not see a reason
-> why the function would change significantly. Still, it feels more
-> defensive to me to also set c to 0.
->=20
-> In the end, I am not so used to the kernel coding style. Is there
-> anything that can be argued against providing both? If you think this is
-> unnecessary I am happy to follow your reasoning and go with only the
-> check for left being non-zero.
->=20
-> Kind Regards,
-> Marc
+diff --git a/include/linux/backing-dev-defs.h b/include/linux/backing-dev-defs.h
+index c88fd4d37d1f..a06b93446d10 100644
+--- a/include/linux/backing-dev-defs.h
++++ b/include/linux/backing-dev-defs.h
+@@ -237,7 +237,7 @@ static inline void wb_get(struct bdi_writeback *wb)
+ }
+ 
+ /**
+- * wb_put - decrement a wb's refcount
++ * wb_put_many - decrement a wb's refcount
+  * @wb: bdi_writeback to put
+  * @nr: number of references to put
+  */
+-- 
+2.53.0
 
