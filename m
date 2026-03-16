@@ -1,238 +1,467 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33F263B8BBF;
-	Mon, 16 Mar 2026 16:53:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25E261E7660;
+	Mon, 16 Mar 2026 16:54:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773680027; cv=none; b=ICIylsjkMUGwURsg0ZTx78iSx8h6qrRqZnAWCEhyjFSDOXtgE0JqEDKoppcxq8gL5rg5wKg53tL/FUfjB8tqVLrry1hhYZwEEX8zFoCkNJUMCyeNkZpaPb0S0frIsxqFHaWJdKlgf2EVBWf4GUwA+BOI+q0XsQ8Y2ecqXsmMT9c=
+	t=1773680058; cv=none; b=XFZDX20unUeKwNLEgfr3tezQw22jWWR2CUJZbmAyLqlKlOuubuqwMxymiugC2e3aWAIHe8KaftAvvThz2XWMSAY8J+eQjpZhRJy1vMAnu9E4StL2Bd29onbCUP58PdHXR4funcS0coOAXhwKRdmrLz/PiqPgCIXjGQlmd3ahoZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773680027; c=relaxed/simple;
-	bh=XGmk+bJYmHJVxnVa2fQvb/Pqvfns2aI1x7zCbX8yktc=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Z8TqJMw0XzElN6nH0zjs513JBDlVCUuE7y6IOLSpOuLh5abCwNAFDPMhm3ij5aDl8/wEw302IJQClCn1uC3op3XUs+bGx+6zeePD3jtr1wPf+LTEl96Pd20Ae/pShTx4Wp+O21YsAiOGEndrSdOgahHzpj4Mx31dR7FLQI1lXL8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R832Orfs; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773680058; c=relaxed/simple;
+	bh=zIZU4rznj3GxPgHukE1YbuSrTakM9B750YZ4WSHMPTY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NyibKjzTccm4RA4KZWg+2ypx/HQ0cTLk5x2dkSn/PZ8whF/PXjPt8mom6tBC5d9NJetYUBAUzKPLDXxTrvKF5mERVGHXu2nBQNPchNj1fORBJRTwW3XXmJSSTEX8XBGgY8T6e0Db5mKLcvD7YhlxJxV+GrakhVTjKohbZHhecA4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EMrD8o9P; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R832Orfs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 292E7C19421;
-	Mon, 16 Mar 2026 16:53:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EMrD8o9P"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1608C19421;
+	Mon, 16 Mar 2026 16:54:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773680026;
-	bh=XGmk+bJYmHJVxnVa2fQvb/Pqvfns2aI1x7zCbX8yktc=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=R832OrfsM9tquLmCOCzbAg5RHBExZBgmcHa+SJSvN7T3/P/Vsa4nvBcb1g7+BmmH9
-	 U2DxOMN9f+mlDaX6MrhB6Mj8wj8CnSxmcdiYjLf7+m8xCRGSTcHT4rKpGtU6kV7BRw
-	 1f6gXApOrW01lYc4GaKu0tU4D08BeY5uxiwYFSJbUPsplSYAe1eSfcfsvUVkl1Ncwd
-	 0KG6UZQ4M9KEL27YkV/V2UsedyUlJSosy5Vhx7/NhC/OK9WEOWGrjK/eKzoj5bZa0X
-	 77Cc01pEIrWAUvD0kuC/KeAokOmKF8nIvi/Q/lzEoqnEp6cIr97+rHAOEzkylLgss6
-	 zX0Jr1Spvs5vQ==
-Message-ID: <5fcc2a6e6d92dae0601c6b3b8faa8b2f83981afb.camel@kernel.org>
-Subject: Re: [PATCH v5 1/4] openat2: new OPENAT2_REGULAR flag support
-From: Jeff Layton <jlayton@kernel.org>
-To: Dorjoy Chowdhury <dorjoychy111@gmail.com>, linux-fsdevel@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, 
-	ceph-devel@vger.kernel.org, gfs2@lists.linux.dev,
- linux-nfs@vger.kernel.org, 	linux-cifs@vger.kernel.org,
- v9fs@lists.linux.dev, 	linux-kselftest@vger.kernel.org,
- viro@zeniv.linux.org.uk, brauner@kernel.org, 	jack@suse.cz,
- chuck.lever@oracle.com, alex.aring@gmail.com, arnd@arndb.de, 
-	adilger@dilger.ca, mjguzik@gmail.com, smfrench@gmail.com, 
-	richard.henderson@linaro.org, mattst88@gmail.com, linmag7@gmail.com, 
-	tsbogend@alpha.franken.de, James.Bottomley@HansenPartnership.com,
- deller@gmx.de, 	davem@davemloft.net, andreas@gaisler.com,
- idryomov@gmail.com, amarkuze@redhat.com, 	slava@dubeyko.com,
- agruenba@redhat.com, trondmy@kernel.org, anna@kernel.org, 
-	sfrench@samba.org, pc@manguebit.org, ronniesahlberg@gmail.com, 
-	sprasad@microsoft.com, tom@talpey.com, bharathsm@microsoft.com,
- shuah@kernel.org, 	miklos@szeredi.hu, hansg@kernel.org
-Date: Mon, 16 Mar 2026 12:53:40 -0400
-In-Reply-To: <20260307140726.70219-2-dorjoychy111@gmail.com>
-References: <20260307140726.70219-1-dorjoychy111@gmail.com>
-	 <20260307140726.70219-2-dorjoychy111@gmail.com>
-Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
- keydata=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
- QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
+	s=k20201202; t=1773680057;
+	bh=zIZU4rznj3GxPgHukE1YbuSrTakM9B750YZ4WSHMPTY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=EMrD8o9P0Bmg6vDwJp7H/T1I/y8HG18Ox5umJp1FoDPm1GS+E+QP3tnBxO+mNVDxk
+	 cE+hZ5RqNR/WRshaSrfcAvSG2IpX+oOqZwKECBNImpivH/SsgWqNT8wpHsO5cKXXy4
+	 I0x+ylBGJ4rhlc6aw3LhzM80DLzrJLWIwIf4jpbBBnNZXJ8bbms2PG2/e4Dm245e3u
+	 uGZYo5SQI/xUg5U3BJg3IjaZtP4wqH6KuiHlw8lDyD3ujgkX0zbtpqngtdOOL9Qgs7
+	 kFHAqshKQa9wITxLPliuuPuvZfY9D4rERz9PNlNDh4YKF7EBGh+TMPyjk3kdOhgRqA
+	 4TkJtGdRgdzNg==
+Message-ID: <d2598f65-8666-43f4-a9c1-73bee678f8d7@kernel.org>
+Date: Mon, 16 Mar 2026 17:54:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] iomap: add allocation cache for iomap_dio
+Content-Language: en-US
+To: changfengnan <changfengnan@bytedance.com>,
+ Dave Chinner <david@fromorbit.com>, Harry Yoo <harry.yoo@oracle.com>,
+ Hao Li <hao.li@linux.dev>
+Cc: guzebing <guzebing1612@gmail.com>, brauner@kernel.org, djwong@kernel.org,
+ hch@infradead.org, linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, guzebing@bytedance.com,
+ syzbot@syzkaller.appspotmail.com, linux-mm@kvack.org
+References: <20260115021108.1913695-1-guzebing1612@gmail.com>
+ <aWh06YoiJrR3-J-X@dread.disaster.area>
+ <d9210bcdf73fbe1ac8b6ec132865609a3ed68688.e7ce3c98.9b89.4c0d.96b4.bddcc787e1ed@bytedance.com>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+In-Reply-To: <d9210bcdf73fbe1ac8b6ec132865609a3ed68688.e7ce3c98.9b89.4c0d.96b4.bddcc787e1ed@bytedance.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sat, 2026-03-07 at 20:06 +0600, Dorjoy Chowdhury wrote:
-> This flag indicates the path should be opened if it's a regular file.
-> This is useful to write secure programs that want to avoid being
-> tricked into opening device nodes with special semantics while thinking
-> they operate on regular files. This is a requested feature from the
-> uapi-group[1].
->=20
-> A corresponding error code EFTYPE has been introduced. For example, if
-> openat2 is called on path /dev/null with OPENAT2_REGULAR in the flag
-> param, it will return -EFTYPE. EFTYPE is already used in BSD systems
-> like FreeBSD, macOS.
->=20
-> When used in combination with O_CREAT, either the regular file is
-> created, or if the path already exists, it is opened if it's a regular
-> file. Otherwise, -EFTYPE is returned.
->=20
-> When OPENAT2_REGULAR is combined with O_DIRECTORY, -EINVAL is returned
-> as it doesn't make sense to open a path that is both a directory and a
-> regular file.
->=20
-> [1]: https://uapi-group.org/kernel-features/#ability-to-only-open-regular=
--files
->=20
-> Signed-off-by: Dorjoy Chowdhury <dorjoychy111@gmail.com>
-> ---
->  arch/alpha/include/uapi/asm/errno.h        |  2 ++
->  arch/alpha/include/uapi/asm/fcntl.h        |  1 +
->  arch/mips/include/uapi/asm/errno.h         |  2 ++
->  arch/parisc/include/uapi/asm/errno.h       |  2 ++
->  arch/parisc/include/uapi/asm/fcntl.h       |  1 +
->  arch/sparc/include/uapi/asm/errno.h        |  2 ++
->  arch/sparc/include/uapi/asm/fcntl.h        |  1 +
->  fs/ceph/file.c                             |  4 ++++
->  fs/gfs2/inode.c                            |  6 ++++++
->  fs/namei.c                                 |  4 ++++
->  fs/nfs/dir.c                               |  4 ++++
->  fs/open.c                                  |  4 +++-
->  fs/smb/client/dir.c                        | 14 +++++++++++++-
->  include/linux/fcntl.h                      |  2 ++
->  include/uapi/asm-generic/errno.h           |  2 ++
->  include/uapi/asm-generic/fcntl.h           |  4 ++++
->  tools/arch/alpha/include/uapi/asm/errno.h  |  2 ++
->  tools/arch/mips/include/uapi/asm/errno.h   |  2 ++
->  tools/arch/parisc/include/uapi/asm/errno.h |  2 ++
->  tools/arch/sparc/include/uapi/asm/errno.h  |  2 ++
->  tools/include/uapi/asm-generic/errno.h     |  2 ++
->  21 files changed, 63 insertions(+), 2 deletions(-)
->=20
->=20
++CC Harry and Hao
 
-I pointed Claude at this patch and got this back. Both issues that it
-found will need to be fixed:
+On 3/16/26 12:22, changfengnan wrote:
+> 
+>> From: "Dave Chinner"<david@fromorbit.com>
+>> Date:  Thu, Jan 15, 2026, 13:02
+>> Subject:  Re: [PATCH v3] iomap: add allocation cache for iomap_dio
+>> To: "guzebing"<guzebing1612@gmail.com>
+>> Cc: <brauner@kernel.org>, <djwong@kernel.org>, <hch@infradead.org>, <linux-xfs@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>, <guzebing@bytedance.com>, <syzbot@syzkaller.appspotmail.com>, "Fengnan Chang"<changfengnan@bytedance.com>, <linux-mm@kvack.org>, "Vlastimil Babka"<vbabka@suse.cz>
+>> [cc linux-mm]
+>> 
+>> On Thu, Jan 15, 2026 at 10:11:08AM +0800, guzebing wrote:
+>> > As implemented by the bio structure, we do the same thing on the
+>> > iomap-dio structure. Add a per-cpu cache for iomap_dio allocations,
+>> > enabling us to quickly recycle them instead of going through the slab
+>> > allocator.
+>> > 
+>> > By making such changes, we can reduce memory allocation on the direct
+>> > IO path, so that direct IO will not block due to insufficient system
+>> > memory. In addition, for direct IO, the read performance of io_uring
+>> > is improved by about 2.6%.
+>> 
+>> Honestly, this just feels wrong.
+>> 
+>> If heap memory allocation has performance issues, then the right
+>> solution is to fix the memory allocator.
+>> 
+>> Oh, wait, you're copy-pasting the hacky per-cpu bio allocator cache
+>> lists into the iomap DIO code.
+>> 
+>> IMO, this really should be part of the generic memory allocation
+>> APIs, not repeatedly tacked on the outside of specific individual
+>> object allocations.
+>> 
+>> <thinks a bit>
+>> 
+>> Huh. per-cpu free lists is the traditional SLAB allocator
+>> architecture. That was removed a while back because SLUB performs
+>> better in most cases....
+>> 
+>> <thinks a bit more>
+>> 
+>> ISTR somebody was already working to optimise the SLUB allocator to
+>> address these corner case shortcomings w.r.t. traditional SLABs.
+>> 
+>> Yup:
+>> 
+>> 
+>> commit 2d517aa09bbc4203f10cdee7e1d42f3bbdc1b1cd
+>> Author: Vlastimil Babka <vbabka@suse.cz>
+>> Date:   Wed Sep 3 14:59:45 2025 +0200
+>> 
+>>     slab: add opt-in caching layer of percpu sheaves
+>> 
+>>     Specifying a non-zero value for a new struct kmem_cache_args field
+>>     sheaf_capacity will setup a caching layer of percpu arrays called
+>>     sheaves of given capacity for the created cache.
+>> 
+>>     Allocations from the cache will allocate via the percpu sheaves (main or
+>>     spare) as long as they have no NUMA node preference. Frees will also
+>>     put the object back into one of the sheaves.
+>> 
+>>     When both percpu sheaves are found empty during an allocation, an empty
+>>     sheaf may be replaced with a full one from the per-node barn. If none
+>>     are available and the allocation is allowed to block, an empty sheaf is
+>>     refilled from slab(s) by an internal bulk alloc operation. When both
+>>     percpu sheaves are full during freeing, the barn can replace a full one
+>>     with an empty one, unless over a full sheaves limit. In that case a
+>>     sheaf is flushed to slab(s) by an internal bulk free operation. Flushing
+>>     sheaves and barns is also wired to the existing cpu flushing and cache
+>>     shrinking operations.
+>> 
+>>     The sheaves do not distinguish NUMA locality of the cached objects. If
+>>     an allocation is requested with kmem_cache_alloc_node() (or a mempolicy
+>>     with strict_numa mode enabled) with a specific node (not NUMA_NO_NODE),
+>>     the sheaves are bypassed.
+>> 
+>>     The bulk operations exposed to slab users also try to utilize the
+>>     sheaves as long as the necessary (full or empty) sheaves are available
+>>     on the cpu or in the barn. Once depleted, they will fallback to bulk
+>>     alloc/free to slabs directly to avoid double copying.
+>> 
+>>     The sheaf_capacity value is exported in sysfs for observability.
+>> 
+>>     Sysfs CONFIG_SLUB_STATS counters alloc_cpu_sheaf and free_cpu_sheaf
+>>     count objects allocated or freed using the sheaves (and thus not
+>>     counting towards the other alloc/free path counters). Counters
+>>     sheaf_refill and sheaf_flush count objects filled or flushed from or to
+>>     slab pages, and can be used to assess how effective the caching is. The
+>>     refill and flush operations will also count towards the usual
+>>     alloc_fastpath/slowpath, free_fastpath/slowpath and other counters for
+>>     the backing slabs.  For barn operations, barn_get and barn_put count how
+>>     many full sheaves were get from or put to the barn, the _fail variants
+>>     count how many such requests could not be satisfied mainly  because the
+>>     barn was either empty or full. While the barn also holds empty sheaves
+>>     to make some operations easier, these are not as critical to mandate own
+>>     counters.  Finally, there are sheaf_alloc/sheaf_free counters.
+>> 
+>>     Access to the percpu sheaves is protected by local_trylock() when
+>>     potential callers include irq context, and local_lock() otherwise (such
+>>     as when we already know the gfp flags allow blocking). The trylock
+>>     failures should be rare and we can easily fallback. Each per-NUMA-node
+>>     barn has a spin_lock.
+>> 
+>>     When slub_debug is enabled for a cache with sheaf_capacity also
+>>     specified, the latter is ignored so that allocations and frees reach the
+>>     slow path where debugging hooks are processed. Similarly, we ignore it
+>>     with CONFIG_SLUB_TINY which prefers low memory usage to performance.
+>> 
+>>     [boot failure: https://lore.kernel.org/all/583eacf5-c971-451a-9f76-fed0e341b815@linux.ibm.com/ ]
+>> 
+>>     Reported-and-tested-by: Venkat Rao Bagalkote <venkat88@linux.ibm.com>
+>>     Reviewed-by: Harry Yoo <harry.yoo@oracle.com>
+>>     Reviewed-by: Suren Baghdasaryan <surenb@google.com>
+>>     Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+>> 
+>> Yeah, recent code, functionality is not enabled by default yet. So,
+>> kmem_cache_alloc() with:
+>> 
+>> struct kmem_cache_args {
+>> .....
+>>         /**
+>>          * @sheaf_capacity: Enable sheaves of given capacity for the cache.
+>>          *
+>>          * With a non-zero value, allocations from the cache go through caching
+>>          * arrays called sheaves. Each cpu has a main sheaf that's always
+>>          * present, and a spare sheaf that may be not present. When both become
+>>          * empty, there's an attempt to replace an empty sheaf with a full sheaf
+>>          * from the per-node barn.
+>>          *
+>>          * When no full sheaf is available, and gfp flags allow blocking, a
+>>          * sheaf is allocated and filled from slab(s) using bulk allocation.
+>>          * Otherwise the allocation falls back to the normal operation
+>>          * allocating a single object from a slab.
+>>          *
+>>          * Analogically when freeing and both percpu sheaves are full, the barn
+>>          * may replace it with an empty sheaf, unless it's over capacity. In
+>>          * that case a sheaf is bulk freed to slab pages.
+>>          *
+>>          * The sheaves do not enforce NUMA placement of objects, so allocations
+>>          * via kmem_cache_alloc_node() with a node specified other than
+>>          * NUMA_NO_NODE will bypass them.
+>>          *
+>>          * Bulk allocation and free operations also try to use the cpu sheaves
+>>          * and barn, but fallback to using slab pages directly.
+>>          *
+>>          * When slub_debug is enabled for the cache, the sheaf_capacity argument
+>>          * is ignored.
+>>          *
+>>          * %0 means no sheaves will be created.
+>>          */
+>>         unsigned int sheaf_capacity;
+>> }
+>> 
+>> set to the value required is all we need. i.e. something like this
+>> in iomap_dio_init():
+>> 
+>> 
+>>         struct kmem_cache_args kmem_args = {
+>>                 .sheaf_capacity = 256,
+>>         };
+>> 
+>>         dio_kmem_cache = kmem_cache_create("iomap_dio", sizeof(struct iomap_dio),
+>>                         &kmem_args, SLAB_PANIC | SLAB_ACCOUNT
+>> 
+>> And changing the allocation to kmem_cache_alloc(dio_kmem_cache,
+>> GFP_KERNEL) should provide the same sort of performance improvement
+>> as this patch does.
+>> 
+>> Can you test this, please?
+> 
+> Hi Dave:
+> Sorry it took so long to respond. Guzebing was busy with something else, I did
+> this test.
+> I test sheaf_capacity on 7.0-rc3, it doesn't show any performance improvment.
 
-  Analysis Summary
+7.0-rc3 already has sheaves in every cache and the old caching scheme
+removed. An explicit sheaf_capacity can now be used to increase the
+automatically calculated one, where the value you can observe in
+/sys/kernel/slab/$cache/sheaf_capacity
 
-  Commit: 7e7fa2653ca57 - openat2: new OPENAT2_REGULAR flag support
+> Besides, I wrote a simple kernel modules to test the performance difference by
+> creating a normal memcache and one with sheaf_capacity and testing the time
+> consuming to request 32 objects and then free 32 objects. which resulted in a
+> roughly 10% improvement in time spent.
 
-  This patch adds a new OPENAT2_REGULAR flag for openat2() that restricts o=
-pens to regular files only, returning a new
-  EFTYPE errno for non-regular files. It adds filesystem-specific checks in=
- ceph, gfs2, nfs, and cifs atomic_open paths,
-  plus a VFS-level fallback in do_open().
+That suggests in that test you used larger capacity than the automatically
+calculated.
+ 
+> I'm thinking that maybe these improvements may not be significant enough to
+> see the effect in the io flow.
+> Using a simple list seems to be the most efficient approach.
 
-  Issues found:
+I think the question is, what improvement do you now see with your added
+pcpu cache vs kmalloc() when 7.0-rc4 is used as the baseline?
 
-  1. OPENAT2_REGULAR leaks into f_flags - do_dentry_open() strips open-time=
--only flags (O_CREAT|O_EXCL|O_NOCTTY|O_TRUNC)
-  but does not strip OPENAT2_REGULAR. When a regular file is successfully o=
-pened via openat2() with this flag, the bit
-  persists in file->f_flags and will be returned by fcntl(fd, F_GETFL).
-  2. BUILD_BUG_ON not updated - The compile-time guard checks upper_32_bits=
-(VALID_OPEN_FLAGS) but the code now accepts
-  VALID_OPENAT2_FLAGS. The guard should cover the expanded flag set.
+Thanks,
+Vlastimil
 
-  Verified correct:
+> Thanks.
+> Fengnan.
+> 
+>> 
+>> If it doesn't provide any performance improvment, then I suspect
+>> that Vlastimil will be interested to find out why....
+>> 
+>> Also, if it does work, it is likely the bioset mempools (which are
+>> slab based) can be initialised similarly, removing the need for
+>> custom per-cpu free lists in the block layer, too.
+>> 
+>> -Dave.
+>> 
+>> > 
+>> > v3:
+>> > kmalloc now is called outside the get_cpu/put_cpu code section.
+>> > 
+>> > v2:
+>> > Factor percpu cache into common code and the iomap module uses it.
+>> > 
+>> > v1:
+>> > https://lore.kernel.org/all/20251121090052.384823-1-guzebing1612@gmail.com/
+>> > 
+>> > Tested-by: syzbot@syzkaller.appspotmail.com
+>> > 
+>> > Suggested-by: Fengnan Chang <changfengnan@bytedance.com>
+>> > Signed-off-by: guzebing <guzebing1612@gmail.com>
+>> > ---
+>> >  fs/iomap/direct-io.c | 133 ++++++++++++++++++++++++++++++++++++++++++-
+>> >  1 file changed, 130 insertions(+), 3 deletions(-)
+>> > 
+>> > diff --git a/fs/iomap/direct-io.c b/fs/iomap/direct-io.c
+>> > index 5d5d63efbd57..4421e4ad3a8f 100644
+>> > --- a/fs/iomap/direct-io.c
+>> > +++ b/fs/iomap/direct-io.c
+>> > @@ -56,6 +56,130 @@ struct iomap_dio {
+>> >          };
+>> >  };
+>> >  
+>> > +#define PCPU_CACHE_IRQ_THRESHOLD        16
+>> > +#define PCPU_CACHE_ELEMENT_SIZE(pcpu_cache_list) \
+>> > +        (sizeof(struct pcpu_cache_element) + pcpu_cache_list->element_size)
+>> > +#define PCPU_CACHE_ELEMENT_GET_HEAD_FROM_PAYLOAD(payload) \
+>> > +        ((struct pcpu_cache_element *)((unsigned long)(payload) - \
+>> > +                                       sizeof(struct pcpu_cache_element)))
+>> > +#define PCPU_CACHE_ELEMENT_GET_PAYLOAD_FROM_HEAD(head) \
+>> > +        ((void *)((unsigned long)(head) + sizeof(struct pcpu_cache_element)))
+>> > +
+>> > +struct pcpu_cache_element {
+>> > +        struct pcpu_cache_element        *next;
+>> > +        char        payload[];
+>> > +};
+>> > +struct pcpu_cache {
+>> > +        struct pcpu_cache_element        *free_list;
+>> > +        struct pcpu_cache_element        *free_list_irq;
+>> > +        int                nr;
+>> > +        int                nr_irq;
+>> > +};
+>> > +struct pcpu_cache_list {
+>> > +        struct pcpu_cache __percpu *cache;
+>> > +        size_t element_size;
+>> > +        int max_nr;
+>> > +};
+>> > +
+>> > +static struct pcpu_cache_list *pcpu_cache_list_create(int max_nr, size_t size)
+>> > +{
+>> > +        struct pcpu_cache_list *pcpu_cache_list;
+>> > +
+>> > +        pcpu_cache_list = kmalloc(sizeof(struct pcpu_cache_list), GFP_KERNEL);
+>> > +        if (!pcpu_cache_list)
+>> > +                return NULL;
+>> > +
+>> > +        pcpu_cache_list->element_size = size;
+>> > +        pcpu_cache_list->max_nr = max_nr;
+>> > +        pcpu_cache_list->cache = alloc_percpu(struct pcpu_cache);
+>> > +        if (!pcpu_cache_list->cache) {
+>> > +                kfree(pcpu_cache_list);
+>> > +                return NULL;
+>> > +        }
+>> > +        return pcpu_cache_list;
+>> > +}
+>> > +
+>> > +static void pcpu_cache_list_destroy(struct pcpu_cache_list *pcpu_cache_list)
+>> > +{
+>> > +        free_percpu(pcpu_cache_list->cache);
+>> > +        kfree(pcpu_cache_list);
+>> > +}
+>> > +
+>> > +static void irq_cache_splice(struct pcpu_cache *cache)
+>> > +{
+>> > +        unsigned long flags;
+>> > +
+>> > +        /* cache->free_list must be empty */
+>> > +        if (WARN_ON_ONCE(cache->free_list))
+>> > +                return;
+>> > +
+>> > +        local_irq_save(flags);
+>> > +        cache->free_list = cache->free_list_irq;
+>> > +        cache->free_list_irq = NULL;
+>> > +        cache->nr += cache->nr_irq;
+>> > +        cache->nr_irq = 0;
+>> > +        local_irq_restore(flags);
+>> > +}
+>> > +
+>> > +static void *pcpu_cache_list_alloc(struct pcpu_cache_list *pcpu_cache_list)
+>> > +{
+>> > +        struct pcpu_cache *cache;
+>> > +        struct pcpu_cache_element *cache_element;
+>> > +
+>> > +        cache = per_cpu_ptr(pcpu_cache_list->cache, get_cpu());
+>> > +        if (!cache->free_list) {
+>> > +                if (READ_ONCE(cache->nr_irq) >= PCPU_CACHE_IRQ_THRESHOLD)
+>> > +                        irq_cache_splice(cache);
+>> > +                if (!cache->free_list) {
+>> > +                        put_cpu();
+>> > +                        cache_element = kmalloc(PCPU_CACHE_ELEMENT_SIZE(pcpu_cache_list),
+>> > +                                                                        GFP_KERNEL);
+>> > +                        if (!cache_element)
+>> > +                                return NULL;
+>> > +                        return PCPU_CACHE_ELEMENT_GET_PAYLOAD_FROM_HEAD(cache_element);
+>> > +                }
+>> > +        }
+>> > +
+>> > +        cache_element = cache->free_list;
+>> > +        cache->free_list = cache_element->next;
+>> > +        cache->nr--;
+>> > +        put_cpu();
+>> > +        return PCPU_CACHE_ELEMENT_GET_PAYLOAD_FROM_HEAD(cache_element);
+>> > +}
+>> > +
+>> > +static void pcpu_cache_list_free(void *payload, struct pcpu_cache_list *pcpu_cache_list)
+>> > +{
+>> > +        struct pcpu_cache *cache;
+>> > +        struct pcpu_cache_element *cache_element;
+>> > +
+>> > +        cache_element = PCPU_CACHE_ELEMENT_GET_HEAD_FROM_PAYLOAD(payload);
+>> > +
+>> > +        cache = per_cpu_ptr(pcpu_cache_list->cache, get_cpu());
+>> > +        if (READ_ONCE(cache->nr_irq) + cache->nr >= pcpu_cache_list->max_nr)
+>> > +                goto out_free;
+>> > +
+>> > +        if (in_task()) {
+>> > +                cache_element->next = cache->free_list;
+>> > +                cache->free_list = cache_element;
+>> > +                cache->nr++;
+>> > +        } else if (in_hardirq()) {
+>> > +                lockdep_assert_irqs_disabled();
+>> > +                cache_element->next = cache->free_list_irq;
+>> > +                cache->free_list_irq = cache_element;
+>> > +                cache->nr_irq++;
+>> > +        } else {
+>> > +                goto out_free;
+>> > +        }
+>> > +        put_cpu();
+>> > +        return;
+>> > +out_free:
+>> > +        put_cpu();
+>> > +        kfree(cache_element);
+>> > +}
+>> > +
+>> > +#define DIO_ALLOC_CACHE_MAX                256
+>> > +static struct pcpu_cache_list *dio_pcpu_cache_list;
+>> > +
+>> >  static struct bio *iomap_dio_alloc_bio(const struct iomap_iter *iter,
+>> >                  struct iomap_dio *dio, unsigned short nr_vecs, blk_opf_t opf)
+>> >  {
+>> > @@ -135,7 +259,7 @@ ssize_t iomap_dio_complete(struct iomap_dio *dio)
+>> >                          ret += dio->done_before;
+>> >          }
+>> >          trace_iomap_dio_complete(iocb, dio->error, ret);
+>> > -        kfree(dio);
+>> > +        pcpu_cache_list_free(dio, dio_pcpu_cache_list);
+>> >          return ret;
+>> >  }
+>> >  EXPORT_SYMBOL_GPL(iomap_dio_complete);
+>> > @@ -620,7 +744,7 @@ __iomap_dio_rw(struct kiocb *iocb, struct iov_iter *iter,
+>> >          if (!iomi.len)
+>> >                  return NULL;
+>> >  
+>> > -        dio = kmalloc(sizeof(*dio), GFP_KERNEL);
+>> > +        dio = pcpu_cache_list_alloc(dio_pcpu_cache_list);
+>> >          if (!dio)
+>> >                  return ERR_PTR(-ENOMEM);
+>> >  
+>> > @@ -804,7 +928,7 @@ __iomap_dio_rw(struct kiocb *iocb, struct iov_iter *iter,
+>> >          return dio;
+>> >  
+>> >  out_free_dio:
+>> > -        kfree(dio);
+>> > +        pcpu_cache_list_free(dio, dio_pcpu_cache_list);
+>> >          if (ret)
+>> >                  return ERR_PTR(ret);
+>> >          return NULL;
+>> > @@ -834,6 +958,9 @@ static int __init iomap_dio_init(void)
+>> >          if (!zero_page)
+>> >                  return -ENOMEM;
+>> >  
+>> > +        dio_pcpu_cache_list = pcpu_cache_list_create(DIO_ALLOC_CACHE_MAX, sizeof(struct iomap_dio));
+>> > +        if (!dio_pcpu_cache_list)
+>> > +                return -ENOMEM;
+>> >          return 0;
+>> >  }
+>> >  fs_initcall(iomap_dio_init);
+>> > -- 
+>> > 2.20.1
+>> > 
+>> > 
+>> > 
+>> 
+>> -- 
+>> Dave Chinner
+>> david@fromorbit.com
+>> 
 
-  - All hex=E2=86=92octal conversions in MIPS and SPARC fcntl.h are numeric=
-ally correct
-  - Legacy open()/openat() properly strips OPENAT2_REGULAR via build_open_h=
-ow() masking with VALID_OPEN_FLAGS
-  - All filesystem cleanup paths (ceph, gfs2, nfs, cifs) properly handle re=
-sources when returning -EFTYPE
-  - O_DIRECTORY + OPENAT2_REGULAR mutual exclusion is correct
-  - O_PATH + OPENAT2_REGULAR is properly rejected by O_PATH_FLAGS check
-
-  Ruled out:
-
-  - NFS -ENOTDIR to -EFTYPE conversion: in atomic_open context, parent path=
- is VFS-resolved, server errors relate to
-  target
-  - CIFS resource leak: out_err label properly closes server handle and cal=
-ls iput()
-  - OPENAT2_REGULAR + O_TMPFILE: silently accepted but tmpfiles are always =
-regular, so harmless
-
-  FINAL REGRESSIONS FOUND: 2
-  FINAL TOKENS USED: ~45000
-  False positives eliminated: NFS -ENOTDIR conversion, CIFS resource leak, =
-O_TMPFILE interaction
-
-Cheers,
---=20
-Jeff Layton <jlayton@kernel.org>
