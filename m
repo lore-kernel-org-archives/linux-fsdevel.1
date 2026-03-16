@@ -1,71 +1,71 @@
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9441C30AD0A
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 02:19:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DBBC30AAD0
+	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 02:19:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773627569; cv=none; b=ex+hTMILK5IJ3DDDWbni5AMpKLf16X8y+IhY43Tf55OKfQd7FAnMRgUJp5jqa1lGNlE6jrSxBt90P4OAA6EXzHu6dBoI/CEIupwoVyQhK2oWYnIkd0RvZY+jKc2BLQiTMJSardYAlr7CMJrci2HfKbKXE0STAUGrbD2mC6o8mRo=
+	t=1773627570; cv=none; b=cQI4lazoQfZzcnVrEGJrvyLKQDwcRFTLH03eIBNHTzIRELRSEVfFqVM36fHbEUTcCS7+z9h6tbOahDSsYDn3PE2rj/hwMzv91ZZFLaBLPNkE3W/YO9+/Gt3XEKFInn8l+/Ua7Quzvio2IYNwDKtaDJiWIUoULW8u5rMh76Tv0L0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773627569; c=relaxed/simple;
-	bh=hgeL54slDNDBKaj/6RgxQVbirjDXwAsuMmaxkwRLVcQ=;
+	s=arc-20240116; t=1773627570; c=relaxed/simple;
+	bh=Zo64H4/ba0wMyPLefJQlBoXjxi/FRQZJfz/127DS6E4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iPRs5VjgvhuEsbKEWjBVxGgRV0xre4BKjhgQEnUDKUE881wNF9CuAjKVqZWLI1uIA9ZWo0BI/mPolt4+6S1tT5KF5JjefaIZhHE9ZnYD9HVP3DgkWErfK7J/zuMg/DPrrt6F0VZSaLd2yfwCJm66MQUWmA31u77QXjGRhLeXqYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b=VuoImi/7; arc=none smtp.client-ip=209.85.128.170
+	 MIME-Version; b=n2oUWVeS/h9a1umypjCMz2WtDN0X1BBgflHZVa4HoiTPg2s72E8lPjNoY09Zw4Qx2GieDJaNWFNtX76/HImrMNA6IBkrmfLBuau27lrci1LfdLAzheyls2ZC/m9o1nkxWxrkF9k1gKrvsnkyJR83WisV4iAvkm9ct7ka8O1g7So=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b=HIUEPY+p; arc=none smtp.client-ip=209.85.128.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b="VuoImi/7"
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-797ab169454so40087317b3.3
-        for <linux-fsdevel@vger.kernel.org>; Sun, 15 Mar 2026 19:19:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b="HIUEPY+p"
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-79853c0f5b9so30140207b3.0
+        for <linux-fsdevel@vger.kernel.org>; Sun, 15 Mar 2026 19:19:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=dubeyko-com.20230601.gappssmtp.com; s=20230601; t=1773627565; x=1774232365; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6eZw1fiebEuXWpFHoNZnvAXbxR8OGZ2BJdtwUmeWS2s=;
-        b=VuoImi/755GYTTqkHGdBXgWCz7cn1DtRmFVPgs/dudLJn+buoR+p1CYPYlkmM/vjd4
-         5R2skS0W+m28WXz02eGW1v+UY9zUF8GWdIKHPmzhU24FjyD5LWbbrILRrSZFkhSwX79O
-         BjJo8TJweLi+k/ThTHquNP9zrRstd8brxkxSiXO03xQZ6Ek/mQJIx8zpjm05i0jBcznr
-         jXKg2boS+QimJ2E7q80KgYSmmxaCymGiYJRIBCzl5t4JtpUAyFrvSxLMyDz3JKfKRm1m
-         xAIB2L6abqOAwJ/phX8hlOjqMdC1h+aKR7pSELpNBF7pGmdEgIDcfoZ2gPcE9yB3M3ul
-         bhrg==
+        bh=AdOeGJTK2cAbQYsIMmUdTMFweiVaDG5WhhY62T3rQ0I=;
+        b=HIUEPY+p1TJe2MUOP541VazikolgmYLZ1bbZqx6xsa3dkPAycXvigA+atifgivbouE
+         H8YrxO/DLFRATwIQXCs0ZMYt/w29qfyM7ca8uYW5550Kx/EOQN+ftFAYOXhbHEHFCztD
+         zGg6E3yTjJ2FiVrk8f3R+wTCxTnXhJJ06q+pEdzz6OQnR0+CXGUoYTfusLtNB7PDmm0s
+         R+8s1rGiUpxu8QPjq2cVefrpTXoqI+lt08HcM4Hsp6SBVWmYEuxqHjGvD5XHry8eXFUK
+         vQr0rQSFdyZTSgW+MNpLuksmmXhUwnQKOvb4F16xCvkRKW02E+VFduaml2iipABk6mzn
+         pN7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20251104; t=1773627565; x=1774232365;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=6eZw1fiebEuXWpFHoNZnvAXbxR8OGZ2BJdtwUmeWS2s=;
-        b=YjhxZI9ThoPwDkb65ggooZU52aIrkqmKv0RsFInpehiRwT6oxxwHiAhqBvJknGy//t
-         JYVOa+IlIOjbiZYhOgZ/d7PjqykEmy1qX0GHj5Gwckm4uaHgB9LvV9o8LS2R2LIuYown
-         l+9Q5RmJPv+NDxe3b9f+zDEo6LpWFBsGU0RqcV24fntrCA2pcHHHh6omeL+dwInOtzjc
-         JUy0p2OQ6p48jNY4QIhJKmdsb/ylVquIks9YwKKOKnm1uSZAa45T2Xx3WtW/11ZXmZ9t
-         zSmf2IxeMuCgO3H43PNMmwr6fpXBXkLDWaTKMDMvcQObeVJCIwdgKR2VNffHnblW603w
-         ShcQ==
-X-Gm-Message-State: AOJu0Yzj5bZgxM3ChrvssbyagzsVVqBbjAfs9FDe05Ehd+kXWlcUDgQC
-	q3FQ31iqcsdd3vedYtyAuYclmOcqpbqMSQ4SqWUgw7OYIrORHdNiUFwo6hzBTtZ8XsW/m/TtNPG
-	ncp9A
-X-Gm-Gg: ATEYQzxNn4IfYmhOsd26kzYqu51RzNdlxw4wm2VNt3HPq3VFBkF94nQmJT0ZqkTBSut
-	5zh8pCyz/fTcg/WdZTW61wW10yEioeNuMyF6p/Af70Yh7TjREYtR7N+1pFn16EyLam8/Y/wjSKu
-	gaJdxgCXf9xFJHYtiTk9mqr5Ld1BBmJ1iOBYdLi51YAd8o5jGpCmfrxubr6rBP8qwV0IMGaoHbm
-	wlw+HDjX1K3B4SSrHLDngEhvoIXJhdPDZCb24j3qNkhkMIKcD7LXyYMgiPdGMX1gJZm7PddssqT
-	9gC+T0gEIC7YseynJNepx5iSPeUiDu1sW7m6WvOPcT+K4uhJo/3dXDRrtOgJPAHrwGc6BnP/EeY
-	Jt8W+daspNYpfK+w/w7bX011Ej/xyuVXMV1+zaUO9d/hklfYkITBeMp1S1c69LazjaUwPmeoERH
-	zucOW92kSPiZ8VVcPew62W39nQKrKVO2/htRktsw8Tzua8NaK+f4ltQ1pL1Bd0izpZ4do7W73PN
-	4j2qhI0GtChk+pUs6YMy8Hg
-X-Received: by 2002:a05:690c:c50f:b0:79a:3d7f:e902 with SMTP id 00721157ae682-79a3d7ffc3dmr47280047b3.49.1773627564777;
-        Sun, 15 Mar 2026 19:19:24 -0700 (PDT)
+        bh=AdOeGJTK2cAbQYsIMmUdTMFweiVaDG5WhhY62T3rQ0I=;
+        b=IxXWVj/seNiPgKMYtZv19qPWNqtY0+71u97Fn0flYU6PeeoODDBxkPHRniDE8D51dk
+         x2sV7QVLIxkKAr2HJnffFHABJGoq8n8/CoDKzbmdUJwi3qkSjJwDCkMpAqtXfMBs5zZA
+         HWt+80FdiApIKh4qG6teOB2M9zp2PlvvddZfPTHzLr4IpiiaIW/SrOcTYAOMHH1gONtz
+         7s6g/2JLpQQEx8Nxep/OZZZ+Beo9lSjtZYugEETIkpTKXLTGx9pXPfR5jpulQdfXVeJI
+         YxjWjSX93xqpp3FqAy6/2scCchLTkrmyILKY9N8kp8pPb8W0u85WIbObYP4q971WmAvz
+         brIQ==
+X-Gm-Message-State: AOJu0Yz/82StokPWho2lF/4yYfJV6FR964m+5D5tO77tiX/ZggP7tEAn
+	+qa0070qXU5tt+k+Zk9ws0sHyd8tRbtejRAmlk5CSzV1v+2/v/X63NQNyyqwJdCgwgIsixbAG2I
+	+ZmtT
+X-Gm-Gg: ATEYQzzuS6nv4VyxvGd3IMJRG/WlZAjgEVcwwtsJhCFVb3zEFqJu1Zzz7Mcq15QCImz
+	ruyGABqJr9q6go1Njd1Sua8lEiEwH9z+dAgR2K0dhQQx/pzZNbm9mqAUwY70wOveKVl4rw1Z5Ii
+	X7A7fVo50V5D7kwz+9ZA6INv0c05kgndlHLqYm9sgIedkhvMNYuOPslo5BtqvvFLeijS00dFcLC
+	N5INy3aQoNi2anGQ4fJV5AlkOSk2CCrGuHp370wZDKCWvsSeL0AXMUfH70j0ni0xE4WyJJr5cXB
+	H/GkE+c2/arAYaF0nB6qMPihSSS9Db96odLDeCPZT8xgcDav+k8kOwtSMS5GOwn+NWz7MISMYaY
+	dMyRDZeI7heq6PtoiNkastCbVzDJl68WPDNhNC3Pk9Nw4OqH9eoU9n1bCv8gzUkn4L7GipMRJ7C
+	Jh0Da668hhISOu0p/MSQz8KUK7Gc16LN1RsY4mT6QdmEc4Za9T7SDzgM+GhlEn+oHiFN3ydoGz/
+	TExgejsFE8zmpuRcfA10mCX
+X-Received: by 2002:a05:690c:7084:b0:795:294c:fd31 with SMTP id 00721157ae682-79a1c1a7751mr112938917b3.38.1773627563545;
+        Sun, 15 Mar 2026 19:19:23 -0700 (PDT)
 Received: from pop-os.attlocal.net ([2600:1700:6476:1430:6939:3e01:5e8f:6093])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-79917deb69asm79721617b3.10.2026.03.15.19.19.23
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-79917deb69asm79721617b3.10.2026.03.15.19.19.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Mar 2026 19:19:24 -0700 (PDT)
+        Sun, 15 Mar 2026 19:19:22 -0700 (PDT)
 From: Viacheslav Dubeyko <slava@dubeyko.com>
 To: linux-fsdevel@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
 	Viacheslav Dubeyko <slava@dubeyko.com>
-Subject: [PATCH v2 02/79] ssdfs: add key file system declarations
-Date: Sun, 15 Mar 2026 19:17:29 -0700
-Message-ID: <20260316021800.1694650-3-slava@dubeyko.com>
+Subject: [PATCH v2 01/79] ssdfs: introduce SSDFS on-disk layout
+Date: Sun, 15 Mar 2026 19:17:28 -0700
+Message-ID: <20260316021800.1694650-2-slava@dubeyko.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260316021800.1694650-1-slava@dubeyko.com>
 References: <20260316021800.1694650-1-slava@dubeyko.com>
@@ -80,1562 +80,82 @@ Content-Transfer-Encoding: 8bit
 Complete patchset is available here:
 https://github.com/dubeyko/ssdfs-driver/tree/master/patchset/linux-kernel-6.18.0
 
-This patch adds declarations of key in-core file system's
-metadata structures and key constants.
+SSDFS architecture is based on segment concept. Segment is a portion of
+file system volume that has to be aligned on erase block size. Segment
+can include one or several erase blocks. It is basic unit to allocate
+and to manage a free space of file system volume. Erase block is a basic
+unit to keep metadata and user data. Every erase block contains a
+sequence of logs. Log starts from segment header (struct ssdfs_segment_header)
+or partial log header (struct ssdfs_partial_log_header). Full log can be
+finished with log footer (struct ssdfs_log_footer).
+
+Log's header (+footer) contains all necessary metadata describing
+the log's payload. The log's metadata includes:
+(1) block bitmap (struct ssdfs_block_bitmap_fragment) +
+    (struct ssdfs_block_bitmap_header): tracking the state of logical
+    blocks (free, pre-allocated, valid, invalid) in segment.
+(2) offset translation table (struct ssdfs_blk2off_table_header) +
+    (struct ssdfs_phys_offset_table_header) +
+    (struct ssdfs_area_block_table): converts logical block into
+    position inside of particular erase block.
+
+Additionally, log's header is the copy of superblock that keeps
+knowledge of location the all SSDFS metadata structures. SSDFS has:
+(1) mapping table (struct ssdfs_leb_table_fragment_header) +
+    (struct ssdfs_peb_table_fragment_header): implements the mapping of
+    logical erase blocks into "physical" ones.
+(2) mapping table cache (struct ssdfs_maptbl_cache_header): copy of content of
+    mapping table for some type of erase blocks. The cache is used for
+    conversion logical erase block ID into "physical" erase block ID in
+    the case when the fragment of mapping table is not initialized yet.
+(3) segment bitmap (struct ssdfs_segbmap_fragment_header): tracking state
+    (clean, using, used, pre-dirty, dirty, reserved) of segments with
+    the goal of searching, allocation, erase, and garbage collection.
+(4) b-tree (struct ssdfs_btree_descriptor) + (struct ssdfs_btree_index_key) +
+    (struct ssdfs_btree_node_header): all the rest metadata structures are
+    represented by b-trees.
+(5) inodes b-tree (struct ssdfs_inodes_btree) +
+    (struct ssdfs_inodes_btree_node_header): keeps raw inodes of existing
+    file system objects (struct ssdfs_inode).
+(6) dentries b-tree (struct ssdfs_dentries_btree_descriptor) +
+    (struct ssdfs_dentries_btree_node_header): keeps directory entries
+    (struct ssdfs_dir_entry).
+(7) extents b-tree (struct ssdfs_extents_btree_descriptor) +
+    (struct ssdfs_extents_btree_node_header): keeps raw extents describing
+    the location of piece of data (struct ssdfs_raw_fork) +
+    (struct ssdfs_raw_extent).
+(8) xattr b-tree (struct ssdfs_xattr_btree_descriptor) +
+    (struct ssdfs_xattrs_btree_node_header): keeps extended attributes of
+    file or folder (struct ssdfs_xattr_entry).
+(9) invalidated extents b-tree (struct ssdfs_invalidated_extents_btree) +
+    (struct ssdfs_invextree_node_header): keeps information about invalidated
+    extents for ZNS SSD + SMR HDD use cases.
+(10) shared dictionary b-tree (struct ssdfs_shared_dictionary_btree) +
+     (struct ssdfs_shared_dictionary_node_header): keeps long names
+     (more than 12 symbols) in the form of tries.
+(11) snapshots b-tree (struct ssdfs_snapshots_btree) +
+     (struct ssdfs_snapshots_btree_node_header): keeps snapshots info
+     (struct ssdfs_snapshot) and association of erase block IDs with
+     timestamps (struct ssdfs_peb2time_set) + (struct ssdfs_peb2time_pair).
 
 Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
 ---
- fs/ssdfs/ssdfs_constants.h    | 214 +++++++++
- fs/ssdfs/ssdfs_fs_info.h      | 821 ++++++++++++++++++++++++++++++++++
- fs/ssdfs/ssdfs_inode_info.h   | 144 ++++++
- fs/ssdfs/ssdfs_thread_info.h  |  43 ++
- fs/ssdfs/version.h            |   9 +
- include/trace/events/ssdfs.h  | 256 +++++++++++
- include/uapi/linux/ssdfs_fs.h | 126 ++++++
- 7 files changed, 1613 insertions(+)
- create mode 100644 fs/ssdfs/ssdfs_constants.h
- create mode 100644 fs/ssdfs/ssdfs_fs_info.h
- create mode 100644 fs/ssdfs/ssdfs_inode_info.h
- create mode 100644 fs/ssdfs/ssdfs_thread_info.h
- create mode 100644 fs/ssdfs/version.h
- create mode 100644 include/trace/events/ssdfs.h
- create mode 100644 include/uapi/linux/ssdfs_fs.h
+ include/linux/ssdfs_fs.h | 3565 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 3565 insertions(+)
+ create mode 100644 include/linux/ssdfs_fs.h
 
-diff --git a/fs/ssdfs/ssdfs_constants.h b/fs/ssdfs/ssdfs_constants.h
+diff --git a/include/linux/ssdfs_fs.h b/include/linux/ssdfs_fs.h
 new file mode 100644
-index 000000000000..073906d0cd81
+index 000000000000..1ed83126ca70
 --- /dev/null
-+++ b/fs/ssdfs/ssdfs_constants.h
-@@ -0,0 +1,214 @@
++++ b/include/linux/ssdfs_fs.h
+@@ -0,0 +1,3565 @@
 +/*
 + * SPDX-License-Identifier: BSD-3-Clause-Clear
 + *
 + * SSDFS -- SSD-oriented File System.
 + *
-+ * fs/ssdfs/ssdfs_constants.h - SSDFS constant declarations.
-+ *
-+ * Copyright (c) 2019-2026 Viacheslav Dubeyko <slava@dubeyko.com>
-+ *              http://www.ssdfs.org/
-+ * All rights reserved.
-+ *
-+ * Authors: Viacheslav Dubeyko <slava@dubeyko.com>
-+ */
-+
-+#ifndef _SSDFS_CONSTANTS_H
-+#define _SSDFS_CONSTANTS_H
-+
-+/*
-+ * Thread types
-+ */
-+enum {
-+	SSDFS_PEB_READ_THREAD,
-+	SSDFS_PEB_FLUSH_THREAD,
-+	SSDFS_PEB_GC_THREAD,
-+#ifdef CONFIG_SSDFS_ONLINE_FSCK
-+	SSDFS_PEB_FSCK_THREAD,
-+#endif /* CONFIG_SSDFS_ONLINE_FSCK */
-+	SSDFS_PEB_THREAD_TYPE_MAX,
-+};
-+
-+enum {
-+	SSDFS_SEG_USING_GC_THREAD,
-+	SSDFS_SEG_USED_GC_THREAD,
-+	SSDFS_SEG_PRE_DIRTY_GC_THREAD,
-+	SSDFS_SEG_DIRTY_GC_THREAD,
-+	SSDFS_DESTROY_SEG_GC_THREAD,
-+	SSDFS_BTREE_NODE_GC_THREAD,
-+	SSDFS_GC_THREAD_TYPE_MAX,
-+};
-+
-+enum {
-+	SSDFS_256B	= 256,
-+	SSDFS_512B	= 512,
-+	SSDFS_1KB	= 1024,
-+	SSDFS_2KB	= 2048,
-+	SSDFS_4KB	= 4096,
-+	SSDFS_8KB	= 8192,
-+	SSDFS_16KB	= 16384,
-+	SSDFS_32KB	= 32768,
-+	SSDFS_64KB	= 65536,
-+	SSDFS_128KB	= 131072,
-+	SSDFS_256KB	= 262144,
-+	SSDFS_512KB	= 524288,
-+	SSDFS_1MB	= 1048576,
-+	SSDFS_2MB	= 2097152,
-+	SSDFS_4MB	= 4194304,
-+	SSDFS_8MB	= 8388608,
-+	SSDFS_16MB	= 16777216,
-+	SSDFS_32MB	= 33554432,
-+	SSDFS_64MB	= 67108864,
-+	SSDFS_128MB	= 134217728,
-+	SSDFS_256MB	= 268435456,
-+	SSDFS_512MB	= 536870912,
-+	SSDFS_1GB	= 1073741824,
-+	SSDFS_2GB	= 2147483648,
-+	SSDFS_4GB	= 4294967296,
-+	SSDFS_8GB	= 8589934592,
-+	SSDFS_16GB	= 17179869184,
-+	SSDFS_32GB	= 34359738368,
-+	SSDFS_64GB	= 68719476736,
-+};
-+
-+#define SSDFS_256B_STRING	"265B"
-+#define SSDFS_512B_STRING	"512B"
-+#define SSDFS_1KB_STRING	"1KB"
-+#define SSDFS_2KB_STRING	"2KB"
-+#define SSDFS_4KB_STRING	"4KB"
-+#define SSDFS_8KB_STRING	"8KB"
-+#define SSDFS_16KB_STRING	"16KB"
-+#define SSDFS_32KB_STRING	"32KB"
-+#define SSDFS_64KB_STRING	"64KB"
-+#define SSDFS_128KB_STRING	"128KB"
-+#define SSDFS_256KB_STRING	"256KB"
-+#define SSDFS_512KB_STRING	"512KB"
-+#define SSDFS_1MB_STRING	"1MB"
-+#define SSDFS_2MB_STRING	"2MB"
-+#define SSDFS_4MB_STRING	"4MB"
-+#define SSDFS_8MB_STRING	"8MB"
-+#define SSDFS_16MB_STRING	"16MB"
-+#define SSDFS_32MB_STRING	"32MB"
-+#define SSDFS_64MB_STRING	"64MB"
-+#define SSDFS_128MB_STRING	"128MB"
-+#define SSDFS_256MB_STRING	"256MB"
-+#define SSDFS_512MB_STRING	"512MB"
-+#define SSDFS_1GB_STRING	"1GB"
-+#define SSDFS_2GB_STRING	"2GB"
-+#define SSDFS_4GB_STRING	"4GB"
-+#define SSDFS_8GB_STRING	"8GB"
-+#define SSDFS_16GB_STRING	"16GB"
-+#define SSDFS_32GB_STRING	"32GB"
-+#define SSDFS_64GB_STRING	"64GB"
-+#define SSDFS_NUMBER_UNKNOWN	"unknown"
-+
-+enum {
-+	SSDFS_UNKNOWN_PAGE_TYPE,
-+	SSDFS_USER_DATA_PAGES,
-+	SSDFS_METADATA_PAGES,
-+	SSDFS_PAGES_TYPE_MAX
-+};
-+
-+#define SSDFS_INVALID_CNO		U64_MAX
-+#define SSDFS_SECTOR_SHIFT		(9)
-+#define SSDFS_DEFAULT_TIMEOUT		(msecs_to_jiffies(120000))
-+#define SSDFS_DEFAULT_TIMEOUT_NS	(jiffies64_to_nsecs(SSDFS_DEFAULT_TIMEOUT))
-+#define SSDFS_USER_DATA_TIME_FACTOR	(3)
-+#define SSDFS_INDEX_NODE_TIME_FACTOR	(5)
-+#define SSDFS_LEAF_NODE_TIME_FACTOR	(5)
-+#define SSDFS_HYBRID_NODE_TIME_FACTOR	(10)
-+#define SSDFS_NANOSECS_PER_SEC		(1000000000)
-+#define SSDFS_SECS_PER_MINUTE		(60)
-+#define SSDFS_NANOSECS_PER_MINUTE	((u64)SSDFS_SECS_PER_MINUTE * \
-+					 SSDFS_NANOSECS_PER_SEC)
-+#define SSDFS_SECS_PER_HOUR		(60 * 60)
-+#define SSDFS_HOURS_PER_DAY		(24)
-+#define SSDFS_DAYS_PER_WEEK		(7)
-+#define SSDFS_WEEKS_PER_MONTH		(4)
-+#define SSDFS_EXTENT_LEN_MAX		(8)
-+#define SSDFS_MAX_NUMBER_OF_TRIES	(10)
-+#define SSDFS_UNMOUNT_NUMBER_OF_TRIES	(300)
-+#define SSDFS_SB_SNAPSHOT_LOG_PAGES	(2)
-+#define SSDFS_DEFAULT_PROTECTION_RANGE	((u64)20 * SSDFS_NANOSECS_PER_MINUTE)
-+
-+/*
-+ * Every PEB contains a sequence of logs. Log starts from
-+ * header and could be ended by footer. Header and footer
-+ * requires as minimum 2 logical blocks for metadata.
-+ * It needs to prevent 2 logical blocks from allocation
-+ * in every erase block (PEB).
-+ */
-+#define SSDFS_RESERVED_FREE_PAGE_THRESHOLD_PER_PEB	(2)
-+
-+static inline
-+const char *GRANULARITY2STRING(u64 value)
-+{
-+	switch (value) {
-+	case SSDFS_256B:
-+		return SSDFS_256B_STRING;
-+	case SSDFS_512B:
-+		return SSDFS_512B_STRING;
-+	case SSDFS_1KB:
-+		return SSDFS_1KB_STRING;
-+	case SSDFS_2KB:
-+		return SSDFS_2KB_STRING;
-+	case SSDFS_4KB:
-+		return SSDFS_4KB_STRING;
-+	case SSDFS_8KB:
-+		return SSDFS_8KB_STRING;
-+	case SSDFS_16KB:
-+		return SSDFS_16KB_STRING;
-+	case SSDFS_32KB:
-+		return SSDFS_32KB_STRING;
-+	case SSDFS_64KB:
-+		return SSDFS_64KB_STRING;
-+	case SSDFS_128KB:
-+		return SSDFS_128KB_STRING;
-+	case SSDFS_256KB:
-+		return SSDFS_256KB_STRING;
-+	case SSDFS_512KB:
-+		return SSDFS_512KB_STRING;
-+	case SSDFS_1MB:
-+		return SSDFS_1MB_STRING;
-+	case SSDFS_2MB:
-+		return SSDFS_2MB_STRING;
-+	case SSDFS_4MB:
-+		return SSDFS_4MB_STRING;
-+	case SSDFS_8MB:
-+		return SSDFS_8MB_STRING;
-+	case SSDFS_16MB:
-+		return SSDFS_16MB_STRING;
-+	case SSDFS_32MB:
-+		return SSDFS_32MB_STRING;
-+	case SSDFS_64MB:
-+		return SSDFS_64MB_STRING;
-+	case SSDFS_128MB:
-+		return SSDFS_128MB_STRING;
-+	case SSDFS_256MB:
-+		return SSDFS_256MB_STRING;
-+	case SSDFS_512MB:
-+		return SSDFS_512MB_STRING;
-+	case SSDFS_1GB:
-+		return SSDFS_1GB_STRING;
-+	case SSDFS_2GB:
-+		return SSDFS_2GB_STRING;
-+	case SSDFS_4GB:
-+		return SSDFS_4GB_STRING;
-+	case SSDFS_8GB:
-+		return SSDFS_8GB_STRING;
-+	case SSDFS_16GB:
-+		return SSDFS_16GB_STRING;
-+	case SSDFS_32GB:
-+		return SSDFS_32GB_STRING;
-+	case SSDFS_64GB:
-+		return SSDFS_64GB_STRING;
-+	}
-+
-+	return SSDFS_NUMBER_UNKNOWN;
-+}
-+
-+enum {
-+	SSDFS_PARENT_LOCK = 0,
-+	SSDFS_CHILD_LOCK,
-+};
-+
-+#endif /* _SSDFS_CONSTANTS_H */
-diff --git a/fs/ssdfs/ssdfs_fs_info.h b/fs/ssdfs/ssdfs_fs_info.h
-new file mode 100644
-index 000000000000..082b4314095e
---- /dev/null
-+++ b/fs/ssdfs/ssdfs_fs_info.h
-@@ -0,0 +1,821 @@
-+/*
-+ * SPDX-License-Identifier: BSD-3-Clause-Clear
-+ *
-+ * SSDFS -- SSD-oriented File System.
-+ *
-+ * fs/ssdfs/ssdfs_fs_info.h - in-core fs information.
-+ *
-+ * Copyright (c) 2019-2026 Viacheslav Dubeyko <slava@dubeyko.com>
-+ *              http://www.ssdfs.org/
-+ * All rights reserved.
-+ *
-+ * Authors: Viacheslav Dubeyko <slava@dubeyko.com>
-+ */
-+
-+#ifndef _SSDFS_FS_INFO_H
-+#define _SSDFS_FS_INFO_H
-+
-+/* Global FS states */
-+enum {
-+	SSDFS_UNKNOWN_GLOBAL_FS_STATE,
-+	SSDFS_REGULAR_FS_OPERATIONS,
-+	SSDFS_METADATA_GOING_FLUSHING,
-+	SSDFS_METADATA_UNDER_FLUSH,
-+	SSDFS_UNMOUNT_METADATA_GOING_FLUSHING,
-+	SSDFS_UNMOUNT_METADATA_UNDER_FLUSH,
-+	SSDFS_UNMOUNT_MAPTBL_UNDER_FLUSH,
-+	SSDFS_UNMOUNT_COMMIT_SUPERBLOCK,
-+	SSDFS_UNMOUNT_DESTROY_METADATA,
-+	SSDFS_GLOBAL_FS_STATE_MAX
-+};
-+
-+/*
-+ * struct ssdfs_volume_block - logical block
-+ * @seg_id: segment ID
-+ * @blk_index: block index in segment
-+ */
-+struct ssdfs_volume_block {
-+	u64 seg_id;
-+	u16 blk_index;
-+};
-+
-+/*
-+ * struct ssdfs_volume_extent - logical extent
-+ * @start: initial logical block
-+ * @len: extent length
-+ */
-+struct ssdfs_volume_extent {
-+	struct ssdfs_volume_block start;
-+	u16 len;
-+};
-+
-+/*
-+ * struct ssdfs_peb_extent - PEB's extent
-+ * @leb_id: LEB ID
-+ * @peb_id: PEB ID
-+ * @page_offset: offset in pages
-+ * @pages_count: pages count
-+ */
-+struct ssdfs_peb_extent {
-+	u64 leb_id;
-+	u64 peb_id;
-+	u32 page_offset;
-+	u32 pages_count;
-+};
-+
-+/*
-+ * struct ssdfs_zone_fragment - zone fragment
-+ * @ino: inode identification number
-+ * @logical_blk_offset: logical offset from file's beginning in blocks
-+ * @extent: zone fragment descriptor
-+ */
-+struct ssdfs_zone_fragment {
-+	u64 ino;
-+	u64 logical_blk_offset;
-+	struct ssdfs_raw_extent extent;
-+};
-+
-+/*
-+ * struct ssdfs_metadata_options - metadata options
-+ * @blk_bmap.flags: block bitmap's flags
-+ * @blk_bmap.compression: compression type
-+ *
-+ * @blk2off_tbl.flags: offset translation table's flags
-+ * @blk2off_tbl.compression: compression type
-+ *
-+ * @user_data.flags: user data's flags
-+ * @user_data.compression: compression type
-+ * @user_data.migration_threshold: default value of destination PEBs in migration
-+ */
-+struct ssdfs_metadata_options {
-+	struct {
-+		u16 flags;
-+		u8 compression;
-+	} blk_bmap;
-+
-+	struct {
-+		u16 flags;
-+		u8 compression;
-+	} blk2off_tbl;
-+
-+	struct {
-+		u16 flags;
-+		u8 compression;
-+		u16 migration_threshold;
-+	} user_data;
-+};
-+
-+/*
-+ * struct ssdfs_sb_info - superblock info
-+ * @vh_buf: volume header buffer
-+ * @vh_buf_size: size of volume header buffer in bytes
-+ * @vs_buf: volume state buffer
-+ * @vs_buf_size: size of volume state buffer in bytes
-+ * @last_log: latest sb log
-+ */
-+struct ssdfs_sb_info {
-+	void *vh_buf;
-+	size_t vh_buf_size;
-+	void *vs_buf;
-+	size_t vs_buf_size;
-+	struct ssdfs_peb_extent last_log;
-+};
-+
-+/*
-+ * struct ssdfs_sb_snapshot_seg_info - superblock snapshot segment info
-+ * @need_snapshot_sb: does it need to snapshot superblock state?
-+ * @sequence_id: index of log in the sequence
-+ * @last_log: latest segment log
-+ * @req: erase and re-write segment request
-+ */
-+struct ssdfs_sb_snapshot_seg_info {
-+	bool need_snapshot_sb;
-+	int sequence_id;
-+	struct ssdfs_peb_extent last_log;
-+	struct ssdfs_segment_request *req;
-+};
-+
-+/*
-+ * struct ssdfs_device_ops - device operations
-+ * @device_name: get device name
-+ * @device_size: get device size in bytes
-+ * @open_zone: open zone
-+ * @reopen_zone: reopen closed zone
-+ * @close_zone: close zone
-+ * @read: read from device
-+ * @read_block: read logical block
-+ * @read_blocks: read sequence of logical blocks
-+ * @can_write_block: can we write into logical block?
-+ * @write_block: write logical block to device
-+ * @write_blocks: write sequence of logical blocks to device
-+ * @erase: erase block
-+ * @trim: support of background erase operation
-+ * @peb_isbad: check that physical erase block is bad
-+ * @sync: synchronize page cache with device
-+ */
-+struct ssdfs_device_ops {
-+	const char * (*device_name)(struct super_block *sb);
-+	__u64 (*device_size)(struct super_block *sb);
-+	int (*open_zone)(struct super_block *sb, loff_t offset);
-+	int (*reopen_zone)(struct super_block *sb, loff_t offset);
-+	int (*close_zone)(struct super_block *sb, loff_t offset);
-+	int (*read)(struct super_block *sb, u32 block_size,
-+		    loff_t offset, size_t len, void *buf);
-+	int (*read_block)(struct super_block *sb, struct folio *folio,
-+			  loff_t offset);
-+	int (*read_blocks)(struct super_block *sb, struct folio_batch *batch,
-+			   loff_t offset);
-+	int (*can_write_block)(struct super_block *sb, u32 block_size,
-+				loff_t offset, bool need_check);
-+	int (*write_block)(struct super_block *sb, loff_t offset,
-+			   struct folio *folio);
-+	int (*write_blocks)(struct super_block *sb, loff_t offset,
-+			    struct folio_batch *batch);
-+	int (*erase)(struct super_block *sb, loff_t offset, size_t len);
-+	int (*trim)(struct super_block *sb, loff_t offset, size_t len);
-+	int (*peb_isbad)(struct super_block *sb, loff_t offset);
-+	int (*mark_peb_bad)(struct super_block *sb, loff_t offset);
-+	void (*sync)(struct super_block *sb);
-+};
-+
-+/*
-+ * struct ssdfs_snapshot_subsystem - snapshots subsystem
-+ * @reqs_queue: snapshot requests queue
-+ * @rules_list: snapshot rules list
-+ * @tree: snapshots btree
-+ */
-+struct ssdfs_snapshot_subsystem {
-+	struct ssdfs_snapshot_reqs_queue reqs_queue;
-+	struct ssdfs_snapshot_rules_list rules_list;
-+	struct ssdfs_snapshots_btree_info *tree;
-+};
-+
-+/*
-+ * Option possible states
-+ */
-+enum {
-+	/* REQUEST */
-+	SSDFS_IGNORE_OPTION,
-+	SSDFS_ENABLE_OPTION,
-+	SSDFS_DISABLE_OPTION,
-+
-+	/* RESPONCE */
-+	SSDFS_DONT_SUPPORT_OPTION,
-+	SSDFS_USE_RECOMMENDED_VALUE,
-+	SSDFS_UNRECOGNIZED_VALUE,
-+	SSDFS_NOT_IMPLEMENTED_OPTION,
-+	SSDFS_OPTION_HAS_BEEN_APPLIED,
-+};
-+
-+/*
-+ * struct ssdfs_tunefs_option - option state
-+ * @state: option state (ignore, enable, disable)
-+ * @value: option value
-+ * @recommended_value: value returned by driver as better option
-+ */
-+struct ssdfs_tunefs_option {
-+	int state;
-+	int value;
-+	int recommended_value;
-+};
-+
-+/*
-+ * struct ssdfs_tunefs_volume_label_option - volume label option
-+ * @state: option state (ignore, enable, disable)
-+ * @volume_label: volume label
-+ */
-+struct ssdfs_tunefs_volume_label_option {
-+	int state;
-+	char volume_label[SSDFS_VOLUME_LABEL_MAX];
-+};
-+
-+/*
-+ * struct ssdfs_tunefs_blkbmap_options - block bitmap options
-+ * @has_backup_copy: backup copy is present?
-+ * @compression: compression type
-+ */
-+struct ssdfs_tunefs_blkbmap_options {
-+	struct ssdfs_tunefs_option has_backup_copy;
-+	struct ssdfs_tunefs_option compression;
-+};
-+
-+/*
-+ * struct ssdfs_tunefs_blk2off_table_options - offsets table options
-+ * @has_backup_copy: backup copy is present?
-+ * @compression: compression type
-+ */
-+struct ssdfs_tunefs_blk2off_table_options {
-+	struct ssdfs_tunefs_option has_backup_copy;
-+	struct ssdfs_tunefs_option compression;
-+};
-+
-+/*
-+ * struct ssdfs_tunefs_segbmap_options - segment bitmap options
-+ * @has_backup_copy: backup copy is present?
-+ * @log_pages: count of pages in the full log
-+ * @migration_threshold: max amount of migrating PEBs for segment
-+ * @compression: compression type
-+ */
-+struct ssdfs_tunefs_segbmap_options {
-+	struct ssdfs_tunefs_option has_backup_copy;
-+	struct ssdfs_tunefs_option log_pages;
-+	struct ssdfs_tunefs_option migration_threshold;
-+	struct ssdfs_tunefs_option compression;
-+};
-+
-+/*
-+ * struct ssdfs_tunefs_maptbl_options - PEB mapping table options
-+ * @has_backup_copy: backup copy is present?
-+ * @log_pages: count of pages in the full log
-+ * @migration_threshold: max amount of migrating PEBs for segment
-+ * @reserved_pebs_per_fragment: percentage of reserved PEBs for fragment
-+ * @compression: compression type
-+ */
-+struct ssdfs_tunefs_maptbl_options {
-+	struct ssdfs_tunefs_option has_backup_copy;
-+	struct ssdfs_tunefs_option log_pages;
-+	struct ssdfs_tunefs_option migration_threshold;
-+	struct ssdfs_tunefs_option reserved_pebs_per_fragment;
-+	struct ssdfs_tunefs_option compression;
-+};
-+
-+/*
-+ * struct ssdfs_tunefs_btree_options - btree options
-+ * @min_index_area_size: minimal index area's size in bytes
-+ * @lnode_log_pages: leaf node's log pages
-+ * @hnode_log_pages: hybrid node's log pages
-+ * @inode_log_pages: index node's log pages
-+ */
-+struct ssdfs_tunefs_btree_options {
-+	struct ssdfs_tunefs_option min_index_area_size;
-+	struct ssdfs_tunefs_option lnode_log_pages;
-+	struct ssdfs_tunefs_option hnode_log_pages;
-+	struct ssdfs_tunefs_option inode_log_pages;
-+};
-+
-+/*
-+ * struct ssdfs_tunefs_user_data_options - user data options
-+ * @log_pages: count of pages in the full log
-+ * @migration_threshold: max amount of migrating PEBs for segment
-+ * @compression: compression type
-+ */
-+struct ssdfs_tunefs_user_data_options {
-+	struct ssdfs_tunefs_option log_pages;
-+	struct ssdfs_tunefs_option migration_threshold;
-+	struct ssdfs_tunefs_option compression;
-+};
-+
-+/*
-+ * struct ssdfs_current_volume_config - current volume config
-+ * @fs_uuid: 128-bit volume's uuid
-+ * @fs_label: volume name
-+ * @nsegs: number of segments on the volume
-+ * @pagesize: page size in bytes
-+ * @erasesize: physical erase block size in bytes
-+ * @segsize: segment size in bytes
-+ * @pebs_per_seg: physical erase blocks per segment
-+ * @pages_per_peb: pages per physical erase block
-+ * @pages_per_seg: pages per segment
-+ * @leb_pages_capacity: maximal number of logical blocks per LEB
-+ * @peb_pages_capacity: maximal number of NAND pages can be written per PEB
-+ * @fs_ctime: volume create timestamp (mkfs phase)
-+ * @raw_inode_size: raw inode size in bytes
-+ * @create_threads_per_seg: number of creation threads per segment
-+ * @metadata_options: metadata options
-+ * @sb_seg_log_pages: full log size in sb segment (pages count)
-+ * @segbmap_log_pages: full log size in segbmap segment (pages count)
-+ * @segbmap_flags: segment bitmap flags
-+ * @maptbl_log_pages: full log size in maptbl segment (pages count)
-+ * @maptbl_flags: mapping table flags
-+ * @lnodes_seg_log_pages: full log size in leaf nodes segment (pages count)
-+ * @hnodes_seg_log_pages: full log size in hybrid nodes segment (pages count)
-+ * @inodes_seg_log_pages: full log size in index nodes segment (pages count)
-+ * @user_data_log_pages: full log size in user data segment (pages count)
-+ * @migration_threshold: default value of destination PEBs in migration
-+ * @is_zns_device: file system volume is on ZNS device
-+ * @zone_size: zone size in bytes
-+ * @zone_capacity: zone capacity in bytes available for write operations
-+ * @max_open_zones: open zones limitation (upper bound)
-+ */
-+struct ssdfs_current_volume_config {
-+	unsigned char fs_uuid[SSDFS_UUID_SIZE];
-+	char fs_label[SSDFS_VOLUME_LABEL_MAX];
-+
-+	u64 nsegs;
-+	u32 pagesize;
-+	u32 erasesize;
-+	u32 segsize;
-+	u32 pebs_per_seg;
-+	u32 pages_per_peb;
-+	u32 pages_per_seg;
-+	u32 leb_pages_capacity;
-+	u32 peb_pages_capacity;
-+	u64 fs_ctime;
-+	u16 raw_inode_size;
-+	u16 create_threads_per_seg;
-+
-+	struct ssdfs_metadata_options metadata_options;
-+
-+	u16 sb_seg_log_pages;
-+
-+	u16 segbmap_log_pages;
-+	u16 segbmap_flags;
-+
-+	u16 maptbl_log_pages;
-+	u16 maptbl_flags;
-+
-+	u16 lnodes_seg_log_pages;
-+	u16 hnodes_seg_log_pages;
-+	u16 inodes_seg_log_pages;
-+	u16 user_data_log_pages;
-+
-+	u16 migration_threshold;
-+
-+	int is_zns_device;
-+	u64 zone_size;
-+	u64 zone_capacity;
-+	u32 max_open_zones;
-+};
-+
-+/*
-+ * struct ssdfs_tunefs_config_request - tunefs config request
-+ * @label: volume label option
-+ * @blkbmap: block bitmap options
-+ * @blk2off_tbl: offset translation table options
-+ * @segbmap: segment bitmap options
-+ * @maptbl: PEB mapping table options
-+ * @btree: btree options
-+ * @user_data_seg: user data segment's options
-+ */
-+struct ssdfs_tunefs_config_request {
-+	struct ssdfs_tunefs_volume_label_option label;
-+	struct ssdfs_tunefs_blkbmap_options blkbmap;
-+	struct ssdfs_tunefs_blk2off_table_options blk2off_tbl;
-+	struct ssdfs_tunefs_segbmap_options segbmap;
-+	struct ssdfs_tunefs_maptbl_options maptbl;
-+	struct ssdfs_tunefs_btree_options btree;
-+	struct ssdfs_tunefs_user_data_options user_data_seg;
-+};
-+
-+/*
-+ * struct ssdfs_tunefs_options - tunefs options
-+ * @old_config: current volume configuration
-+ * @new_config: tunefs configuration request
-+ */
-+struct ssdfs_tunefs_options {
-+	struct ssdfs_current_volume_config old_config;
-+	struct ssdfs_tunefs_config_request new_config;
-+};
-+
-+/*
-+ * struct ssdfs_tunefs_request_copy - tunefs request copy
-+ * @lock: tunefs request lock
-+ * @state: state of the tunefs request copy
-+ * @new_config: new config request
-+ */
-+struct ssdfs_tunefs_request_copy {
-+	struct mutex lock;
-+	int state;
-+	struct ssdfs_tunefs_config_request new_config;
-+};
-+
-+/*
-+ * struct ssdfs_requests_queue - requests queue descriptor
-+ * @lock: requests queue's lock
-+ * @list: requests queue's list
-+ */
-+struct ssdfs_requests_queue {
-+	spinlock_t lock;
-+	struct list_head list;
-+};
-+
-+/*
-+ * struct ssdfs_seg_objects_queue - segment objects queue descriptor
-+ * @lock: segment objects queue's lock
-+ * @list: segment objects queue's list
-+ */
-+struct ssdfs_seg_objects_queue {
-+	spinlock_t lock;
-+	struct list_head list;
-+};
-+
-+/*
-+ * struct ssdfs_global_fsck_thread - global fsck thread info
-+ * @thread: thread info
-+ * @wait_queue: wait queue
-+ * @rq: requests queue
-+ */
-+struct ssdfs_global_fsck_thread {
-+	struct ssdfs_thread_info thread;
-+	wait_queue_head_t wait_queue;
-+	struct ssdfs_requests_queue rq;
-+};
-+
-+/*
-+ * struct ssdfs_btree_nodes_list - btree nodes list
-+ * @lock: btree nodes list's lock
-+ * @list: btree nodes list's list
-+ */
-+struct ssdfs_btree_nodes_list {
-+	spinlock_t lock;
-+	struct list_head list;
-+};
-+
-+/*
-+ * struct ssdfs_fs_info - in-core fs information
-+ * @log_pagesize: log2(page size)
-+ * @pagesize: page size in bytes
-+ * @log_erasesize: log2(erase block size)
-+ * @erasesize: physical erase block size in bytes
-+ * @log_segsize: log2(segment size)
-+ * @segsize: segment size in bytes
-+ * @log_pebs_per_seg: log2(erase blocks per segment)
-+ * @pebs_per_seg: physical erase blocks per segment
-+ * @pages_per_peb: pages per physical erase block
-+ * @pages_per_seg: pages per segment
-+ * @leb_pages_capacity: maximal number of logical blocks per LEB
-+ * @peb_pages_capacity: maximal number of NAND pages can be written per PEB
-+ * @lebs_per_peb_index: difference of LEB IDs between PEB indexes in segment
-+ * @fs_ctime: volume create timestamp (mkfs phase)
-+ * @fs_cno: volume create checkpoint
-+ * @raw_inode_size: raw inode size in bytes
-+ * @create_threads_per_seg: number of creation threads per segment
-+ * @mount_opts: mount options
-+ * @metadata_options: metadata options
-+ * @volume_sem: volume semaphore
-+ * @last_vh: buffer for last valid volume header
-+ * @vh: volume header
-+ * @vs: volume state
-+ * @sbi: superblock info
-+ * @sbi_backup: backup copy of superblock info
-+ * @sb_snapi: superblock snapshot segment info
-+ * @sb_seg_log_pages: full log size in sb segment (pages count)
-+ * @segbmap_log_pages: full log size in segbmap segment (pages count)
-+ * @maptbl_log_pages: full log size in maptbl segment (pages count)
-+ * @lnodes_seg_log_pages: full log size in leaf nodes segment (pages count)
-+ * @hnodes_seg_log_pages: full log size in hybrid nodes segment (pages count)
-+ * @inodes_seg_log_pages: full log size in index nodes segment (pages count)
-+ * @user_data_log_pages: full log size in user data segment (pages count)
-+ * @volume_state_lock: lock for mutable volume metadata
-+ * @free_pages: free pages count on the volume
-+ * @reserved_new_user_data_pages: reserved pages of growing files' content
-+ * @updated_user_data_pages: number of updated pages of files' content
-+ * @read_user_data_requests: number of user data processing read/init request
-+ * @flushing_user_data_requests: number of user data processing flush request
-+ * @commit_log_requests: number of commit log request
-+ * @pending_wq: wait queue for flush threads of user data segments
-+ * @finish_user_data_read_wq: wait queue for waiting the end of user data reads
-+ * @finish_user_data_flush_wq: wait queue for waiting the end of user data flush
-+ * @finish_commit_log_flush_wq: wait queue for waiting the end of commit logs
-+ * @fs_mount_time: file system mount timestamp
-+ * @fs_mod_time: last write timestamp
-+ * @fs_mount_cno: mount checkpoint
-+ * @boot_vs_mount_timediff: difference between boottime and mounttime
-+ * @fs_flags: file system flags
-+ * @fs_state: file system state
-+ * @fs_errors: behaviour when detecting errors
-+ * @fs_feature_compat: compatible feature set
-+ * @fs_feature_compat_ro: read-only compatible feature set
-+ * @fs_feature_incompat: incompatible feature set
-+ * @fs_uuid: 128-bit volume's uuid
-+ * @fs_label: volume name
-+ * @migration_threshold: default value of destination PEBs in migration
-+ * @resize_mutex: resize mutex
-+ * @nsegs: number of segments on the volume
-+ * @sb_segs_sem: semaphore for superblock's array of LEB/PEB numbers
-+ * @sb_lebs: array of LEB ID numbers
-+ * @sb_pebs: array of PEB ID numbers
-+ * @segbmap: segment bitmap object
-+ * @segbmap_users: current number of segment bitmap's users
-+ * @segbmap_users_wq: waiting queue of finishing segbmap operations before umount
-+ * @maptbl: PEB mapping table object
-+ * @maptbl_cache: maptbl cache
-+ * @maptbl_users: current number of mapping table's users
-+ * @maptbl_users_wq: waiting queue of finishing maptbl operations before umount
-+ * @segs_tree: tree of segment objects
-+ * @cur_segs: array of current segments
-+ * @shextree: shared extents tree
-+ * @shdictree: shared dictionary
-+ * @inodes_tree: inodes btree
-+ * @invextree: invalidated extents btree
-+ * @snapshots: snapshots subsystem
-+ * @btree_nodes: list of all btree nodes
-+ * @gc_thread: array of GC threads
-+ * @gc_wait_queue: array of GC threads' wait queues
-+ * @gc_should_act: array of counters that define necessity of GC activity
-+ * @pre_destroyed_segs_rq: pre destroy segment objects queue
-+ * @flush_reqs: current number of flush requests
-+ * @global_fsck: global fsck thread
-+ * @sb: pointer on VFS superblock object
-+ * @mtd: MTD info
-+ * @devops: device access operations
-+ * @pending_bios: count of pending BIOs (dev_bdev.c ONLY)
-+ * @erase_folio: folio with content for erase operation (dev_bdev.c ONLY)
-+ * @is_zns_device: file system volume is on ZNS device
-+ * @zone_size: zone size in bytes
-+ * @zone_capacity: zone capacity in bytes available for write operations
-+ * @max_open_zones: open zones limitation (upper bound)
-+ * @open_zones: current number of opened zones
-+ * @fsck_priority: define priority of FSCK operations
-+ * @tunefs_request: tunefs request copy
-+ * @dev_kobj: /sys/fs/ssdfs/<device> kernel object
-+ * @dev_kobj_unregister: completion state for <device> kernel object
-+ * @maptbl_kobj: /sys/fs/<ssdfs>/<device>/maptbl kernel object
-+ * @maptbl_kobj_unregister: completion state for maptbl kernel object
-+ * @segbmap_kobj: /sys/fs/<ssdfs>/<device>/segbmap kernel object
-+ * @segbmap_kobj_unregister: completion state for segbmap kernel object
-+ * @segments_kobj: /sys/fs/<ssdfs>/<device>/segments kernel object
-+ * @segments_kobj_unregister: completion state for segments kernel object
-+ * @inodes_tree_kobj: /sys/fs/<ssdfs>/<device>/inodes_tree kernel object
-+ * @inodes_tree_kobj_unregister: completion state for inodes_tree kernel object
-+ * @snapshots_tree_kobj: /sys/fs/<ssdfs>/<device>/snapshots_tree kernel object
-+ * @snapshots_tree_kobj_unregister: completion state for snapshots_tree kernel object
-+ * @shared_dict_kobj: /sys/fs/<ssdfs>/<device>/shared_dict kernel object
-+ * @shared_dict_kobj_unregister: completion state for shared_dict kernel object
-+ * @invextree_kobj: /sys/fs/<ssdfs>/<device>/invextree kernel object
-+ * @invextree_kobj_unregister: completion state for invextree kernel object
-+ */
-+struct ssdfs_fs_info {
-+	u8 log_pagesize;
-+	u32 pagesize;
-+	u8 log_erasesize;
-+	u32 erasesize;
-+	u8 log_segsize;
-+	u32 segsize;
-+	u8 log_pebs_per_seg;
-+	u32 pebs_per_seg;
-+	u32 pages_per_peb;
-+	u32 pages_per_seg;
-+	u32 leb_pages_capacity;
-+	u32 peb_pages_capacity;
-+	u32 lebs_per_peb_index;
-+	u64 fs_ctime;
-+	u64 fs_cno;
-+	u16 raw_inode_size;
-+	u16 create_threads_per_seg;
-+
-+	unsigned long mount_opts;
-+	struct ssdfs_metadata_options metadata_options;
-+
-+	struct rw_semaphore volume_sem;
-+	struct ssdfs_volume_header last_vh;
-+	struct ssdfs_volume_header *vh;
-+	struct ssdfs_volume_state *vs;
-+	struct ssdfs_sb_info sbi;
-+	struct ssdfs_sb_info sbi_backup;
-+	struct ssdfs_sb_snapshot_seg_info sb_snapi;
-+	u16 sb_seg_log_pages;
-+	u16 segbmap_log_pages;
-+	u16 maptbl_log_pages;
-+	u16 lnodes_seg_log_pages;
-+	u16 hnodes_seg_log_pages;
-+	u16 inodes_seg_log_pages;
-+	u16 user_data_log_pages;
-+
-+	atomic_t global_fs_state;
-+	struct completion mount_end;
-+
-+	spinlock_t volume_state_lock;
-+	u64 free_pages;
-+	u64 reserved_new_user_data_pages;
-+	u64 updated_user_data_pages;
-+	u64 read_user_data_requests;
-+	u64 flushing_user_data_requests;
-+	u64 commit_log_requests;
-+	wait_queue_head_t pending_wq;
-+	wait_queue_head_t finish_user_data_read_wq;
-+	wait_queue_head_t finish_user_data_flush_wq;
-+	wait_queue_head_t finish_commit_log_flush_wq;
-+	u64 fs_mount_time;
-+	u64 fs_mod_time;
-+	u64 fs_mount_cno;
-+	u64 boot_vs_mount_timediff;
-+	u32 fs_flags;
-+	u16 fs_state;
-+	u16 fs_errors;
-+	u64 fs_feature_compat;
-+	u64 fs_feature_compat_ro;
-+	u64 fs_feature_incompat;
-+	unsigned char fs_uuid[SSDFS_UUID_SIZE];
-+	char fs_label[SSDFS_VOLUME_LABEL_MAX];
-+	u16 migration_threshold;
-+
-+	struct mutex resize_mutex;
-+	u64 nsegs;
-+
-+	struct rw_semaphore sb_segs_sem;
-+	u64 sb_lebs[SSDFS_SB_CHAIN_MAX][SSDFS_SB_SEG_COPY_MAX];
-+	u64 sb_pebs[SSDFS_SB_CHAIN_MAX][SSDFS_SB_SEG_COPY_MAX];
-+
-+	struct ssdfs_segment_bmap *segbmap;
-+	atomic_t segbmap_users;
-+	wait_queue_head_t segbmap_users_wq;
-+
-+	struct ssdfs_peb_mapping_table *maptbl;
-+	struct ssdfs_maptbl_cache maptbl_cache;
-+	atomic_t maptbl_users;
-+	wait_queue_head_t maptbl_users_wq;
-+
-+	struct ssdfs_segment_tree *segs_tree;
-+	struct ssdfs_current_segs_array *cur_segs;
-+
-+	struct ssdfs_shared_extents_tree *shextree;
-+	struct ssdfs_shared_dict_btree_info *shdictree;
-+	struct ssdfs_inodes_btree_info *inodes_tree;
-+	struct ssdfs_invextree_info *invextree;
-+
-+	struct ssdfs_snapshot_subsystem snapshots;
-+
-+	struct ssdfs_btree_nodes_list btree_nodes;
-+
-+	struct ssdfs_thread_info gc_thread[SSDFS_GC_THREAD_TYPE_MAX];
-+	wait_queue_head_t gc_wait_queue[SSDFS_GC_THREAD_TYPE_MAX];
-+	atomic_t gc_should_act[SSDFS_GC_THREAD_TYPE_MAX];
-+	struct ssdfs_seg_objects_queue pre_destroyed_segs_rq;
-+	atomic64_t flush_reqs;
-+
-+	struct ssdfs_global_fsck_thread global_fsck;
-+
-+	struct super_block *sb;
-+
-+	struct mtd_info *mtd;
-+	const struct ssdfs_device_ops *devops;
-+	atomic_t pending_bios;			/* for dev_bdev.c */
-+	struct folio *erase_folio;		/* for dev_bdev.c */
-+
-+	bool is_zns_device;
-+	u64 zone_size;
-+	u64 zone_capacity;
-+	u32 max_open_zones;
-+	atomic_t open_zones;
-+
-+#ifdef CONFIG_SSDFS_ONLINE_FSCK
-+	atomic_t fsck_priority;
-+#endif /* CONFIG_SSDFS_ONLINE_FSCK */
-+
-+	struct ssdfs_tunefs_request_copy tunefs_request;
-+
-+	/* /sys/fs/ssdfs/<device> */
-+	struct kobject dev_kobj;
-+	struct completion dev_kobj_unregister;
-+
-+	/* /sys/fs/<ssdfs>/<device>/maptbl */
-+	struct kobject maptbl_kobj;
-+	struct completion maptbl_kobj_unregister;
-+
-+	/* /sys/fs/<ssdfs>/<device>/maptbl/fragments */
-+	struct kobject maptbl_frags_kobj;
-+	struct completion maptbl_frags_kobj_unregister;
-+
-+	/* /sys/fs/<ssdfs>/<device>/segbmap */
-+	struct kobject segbmap_kobj;
-+	struct completion segbmap_kobj_unregister;
-+
-+	/* /sys/fs/<ssdfs>/<device>/segbmap/fragments */
-+	struct kobject segbmap_frags_kobj;
-+	struct completion segbmap_frags_kobj_unregister;
-+
-+	/* /sys/fs/<ssdfs>/<device>/segments */
-+	struct kobject segments_kobj;
-+	struct completion segments_kobj_unregister;
-+
-+	/* /sys/fs/<ssdfs>/<device>/inodes_tree */
-+	struct kobject inodes_tree_kobj;
-+	struct completion inodes_tree_kobj_unregister;
-+
-+	/* /sys/fs/<ssdfs>/<device>/snapshots_tree */
-+	struct kobject snapshots_tree_kobj;
-+	struct completion snapshots_tree_kobj_unregister;
-+
-+	/* /sys/fs/<ssdfs>/<device>/shared_dict */
-+	struct kobject shared_dict_kobj;
-+	struct completion shared_dict_kobj_unregister;
-+
-+	/* /sys/fs/<ssdfs>/<device>/invextree */
-+	struct kobject invextree_kobj;
-+	struct completion invextree_kobj_unregister;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	spinlock_t requests_lock;
-+	struct list_head user_data_requests_list;
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+#ifdef CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING
-+	atomic64_t ssdfs_writeback_folios;
-+#endif /* CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING */
-+
-+#ifdef CONFIG_SSDFS_TESTING
-+	struct address_space testing_pages;
-+	struct inode *testing_inode;
-+	bool do_fork_invalidation;
-+#endif /* CONFIG_SSDFS_TESTING */
-+};
-+
-+#define SSDFS_FS_I(sb) \
-+	((struct ssdfs_fs_info *)(sb->s_fs_info))
-+
-+/*
-+ * GC constants
-+ */
-+#define SSDFS_GC_LOW_BOUND_THRESHOLD	(50)
-+#define SSDFS_GC_UPPER_BOUND_THRESHOLD	(1000)
-+#define SSDFS_GC_DISTANCE_THRESHOLD	(5)
-+#define SSDFS_GC_DEFAULT_SEARCH_STEP	(100)
-+#define SSDFS_GC_DIRTY_SEG_SEARCH_STEP	(1000)
-+#define SSDFS_GC_DIRTY_SEG_DEFAULT_OPS	(50)
-+
-+/*
-+ * GC possible states
-+ */
-+enum {
-+	SSDFS_UNDEFINED_GC_STATE,
-+	SSDFS_COLLECT_GARBAGE_NOW,
-+	SSDFS_WAIT_IDLE_STATE,
-+	SSDFS_STOP_GC_ACTIVITY_NOW,
-+	SSDFS_GC_STATE_MAX
-+};
-+
-+/*
-+ * FSCK possible states
-+ */
-+enum {
-+	SSDFS_UNDEFINED_FSCK_STATE = SSDFS_UNDEFINED_GC_STATE,
-+	SSDFS_DO_FSCK_CHECK_NOW = SSDFS_COLLECT_GARBAGE_NOW,
-+	SSDFS_FSCK_WAIT_IDLE_STATE = SSDFS_WAIT_IDLE_STATE,
-+	SSDFS_STOP_FSCK_ACTIVITY_NOW = SSDFS_STOP_GC_ACTIVITY_NOW,
-+	SSDFS_FSCK_STATE_MAX
-+};
-+
-+/*
-+ * struct ssdfs_io_load_stats - I/O load estimation
-+ * @measurements: number of executed measurements
-+ * @reqs_count: number of I/O requests for every measurement
-+ */
-+struct ssdfs_io_load_stats {
-+	u32 measurements;
-+#define SSDFS_MEASUREMENTS_MAX		(10)
-+	s64 reqs_count[SSDFS_MEASUREMENTS_MAX];
-+};
-+
-+/*
-+ * GC thread functions
-+ */
-+int ssdfs_using_seg_gc_thread_func(void *data);
-+int ssdfs_used_seg_gc_thread_func(void *data);
-+int ssdfs_pre_dirty_seg_gc_thread_func(void *data);
-+int ssdfs_dirty_seg_gc_thread_func(void *data);
-+int ssdfs_destroy_seg_gc_thread_func(void *data);
-+int ssdfs_btree_node_gc_thread_func(void *data);
-+int ssdfs_start_gc_thread(struct ssdfs_fs_info *fsi, int type);
-+int ssdfs_stop_gc_thread(struct ssdfs_fs_info *fsi, int type);
-+int is_time_collect_garbage(struct ssdfs_fs_info *fsi,
-+			    struct ssdfs_io_load_stats *io_stats);
-+
-+/*
-+ * Device operations
-+ */
-+extern const struct ssdfs_device_ops ssdfs_mtd_devops;
-+extern const struct ssdfs_device_ops ssdfs_bdev_devops;
-+extern const struct ssdfs_device_ops ssdfs_zns_devops;
-+
-+#endif /* _SSDFS_FS_INFO_H */
-diff --git a/fs/ssdfs/ssdfs_inode_info.h b/fs/ssdfs/ssdfs_inode_info.h
-new file mode 100644
-index 000000000000..350923fab81b
---- /dev/null
-+++ b/fs/ssdfs/ssdfs_inode_info.h
-@@ -0,0 +1,144 @@
-+/*
-+ * SPDX-License-Identifier: BSD-3-Clause-Clear
-+ *
-+ * SSDFS -- SSD-oriented File System.
-+ *
-+ * fs/ssdfs/ssdfs_inode_info.h - SSDFS in-core inode.
-+ *
-+ * Copyright (c) 2019-2026 Viacheslav Dubeyko <slava@dubeyko.com>
-+ *              http://www.ssdfs.org/
-+ * All rights reserved.
-+ *
-+ * Authors: Viacheslav Dubeyko <slava@dubeyko.com>
-+ */
-+
-+#ifndef _SSDFS_INODE_INFO_H
-+#define _SSDFS_INODE_INFO_H
-+
-+/*
-+ * Inode flags (GETFLAGS/SETFLAGS)
-+ */
-+#define	SSDFS_SECRM_FL			FS_SECRM_FL	/* Secure deletion */
-+#define	SSDFS_UNRM_FL			FS_UNRM_FL	/* Undelete */
-+#define	SSDFS_COMPR_FL			FS_COMPR_FL	/* Compress file */
-+#define SSDFS_SYNC_FL			FS_SYNC_FL	/* Synchronous updates */
-+#define SSDFS_IMMUTABLE_FL		FS_IMMUTABLE_FL	/* Immutable file */
-+#define SSDFS_APPEND_FL			FS_APPEND_FL	/* writes to file may only append */
-+#define SSDFS_NODUMP_FL			FS_NODUMP_FL	/* do not dump file */
-+#define SSDFS_NOATIME_FL		FS_NOATIME_FL	/* do not update atime */
-+/* Reserved for compression usage... */
-+#define SSDFS_DIRTY_FL			FS_DIRTY_FL
-+#define SSDFS_COMPRBLK_FL		FS_COMPRBLK_FL	/* One or more compressed clusters */
-+#define SSDFS_NOCOMP_FL			FS_NOCOMP_FL	/* Don't compress */
-+#define SSDFS_ECOMPR_FL			FS_ECOMPR_FL	/* Compression error */
-+/* End compression flags --- maybe not all used */
-+#define SSDFS_BTREE_FL			FS_BTREE_FL	/* btree format dir */
-+#define SSDFS_INDEX_FL			FS_INDEX_FL	/* hash-indexed directory */
-+#define SSDFS_IMAGIC_FL			FS_IMAGIC_FL	/* AFS directory */
-+#define SSDFS_JOURNAL_DATA_FL		FS_JOURNAL_DATA_FL /* Reserved for ext3 */
-+#define SSDFS_NOTAIL_FL			FS_NOTAIL_FL	/* file tail should not be merged */
-+#define SSDFS_DIRSYNC_FL		FS_DIRSYNC_FL	/* dirsync behaviour (directories only) */
-+#define SSDFS_TOPDIR_FL			FS_TOPDIR_FL	/* Top of directory hierarchies*/
-+#define SSDFS_RESERVED_FL		FS_RESERVED_FL	/* reserved for ext2 lib */
-+
-+#define SSDFS_FL_USER_VISIBLE		FS_FL_USER_VISIBLE	/* User visible flags */
-+#define SSDFS_FL_USER_MODIFIABLE	FS_FL_USER_MODIFIABLE	/* User modifiable flags */
-+
-+/* Flags that should be inherited by new inodes from their parent. */
-+#define SSDFS_FL_INHERITED (SSDFS_SECRM_FL | SSDFS_UNRM_FL | SSDFS_COMPR_FL |\
-+			   SSDFS_SYNC_FL | SSDFS_NODUMP_FL |\
-+			   SSDFS_NOATIME_FL | SSDFS_COMPRBLK_FL |\
-+			   SSDFS_NOCOMP_FL | SSDFS_JOURNAL_DATA_FL |\
-+			   SSDFS_NOTAIL_FL | SSDFS_DIRSYNC_FL)
-+
-+/* Flags that are appropriate for regular files (all but dir-specific ones). */
-+#define SSDFS_REG_FLMASK (~(SSDFS_DIRSYNC_FL | SSDFS_TOPDIR_FL))
-+
-+/* Flags that are appropriate for non-directories/regular files. */
-+#define SSDFS_OTHER_FLMASK (SSDFS_NODUMP_FL | SSDFS_NOATIME_FL)
-+
-+/* Mask out flags that are inappropriate for the given type of inode. */
-+static inline __u32 ssdfs_mask_flags(umode_t mode, __u32 flags)
-+{
-+	if (S_ISDIR(mode))
-+		return flags;
-+	else if (S_ISREG(mode))
-+		return flags & SSDFS_REG_FLMASK;
-+	else
-+		return flags & SSDFS_OTHER_FLMASK;
-+}
-+
-+/*
-+ * struct ssdfs_inode_info - in-core inode
-+ * @vfs_inode: VFS inode object
-+ * @birthtime: creation time
-+ * @raw_inode_size: raw inode size in bytes
-+ * @private_flags: inode's private flags
-+ * @lock: inode lock
-+ * @parent_ino: parent inode ID
-+ * @flags: inode flags
-+ * @name_hash: name's hash code
-+ * @name_len: name length
-+ * @extents_tree: extents btree
-+ * @dentries_tree: dentries btree
-+ * @xattrs_tree: extended attributes tree
-+ * @inline_file: inline file buffer
-+ * @raw_inode: raw inode
-+ */
-+struct ssdfs_inode_info {
-+	struct inode vfs_inode;
-+	struct timespec64 birthtime;
-+	u16 raw_inode_size;
-+
-+	atomic_t private_flags;
-+
-+	struct rw_semaphore lock;
-+	u64 parent_ino;
-+	u32 flags;
-+	u64 name_hash;
-+	u16 name_len;
-+	struct ssdfs_extents_btree_info *extents_tree;
-+	struct ssdfs_dentries_btree_info *dentries_tree;
-+	struct ssdfs_xattrs_btree_info *xattrs_tree;
-+	void *inline_file;
-+	struct ssdfs_inode raw_inode;
-+};
-+
-+static inline struct ssdfs_inode_info *SSDFS_I(struct inode *inode)
-+{
-+	return container_of(inode, struct ssdfs_inode_info, vfs_inode);
-+}
-+
-+static inline
-+struct ssdfs_extents_btree_info *SSDFS_EXTREE(struct ssdfs_inode_info *ii)
-+{
-+	if (S_ISDIR(ii->vfs_inode.i_mode))
-+		return NULL;
-+	else
-+		return ii->extents_tree;
-+}
-+
-+static inline
-+struct ssdfs_dentries_btree_info *SSDFS_DTREE(struct ssdfs_inode_info *ii)
-+{
-+	if (S_ISDIR(ii->vfs_inode.i_mode))
-+		return ii->dentries_tree;
-+	else
-+		return NULL;
-+}
-+
-+static inline
-+struct ssdfs_xattrs_btree_info *SSDFS_XATTREE(struct ssdfs_inode_info *ii)
-+{
-+	return ii->xattrs_tree;
-+}
-+
-+extern const struct file_operations ssdfs_dir_operations;
-+extern const struct inode_operations ssdfs_dir_inode_operations;
-+extern const struct file_operations ssdfs_file_operations;
-+extern const struct inode_operations ssdfs_file_inode_operations;
-+extern const struct address_space_operations ssdfs_aops;
-+extern const struct inode_operations ssdfs_special_inode_operations;
-+extern const struct inode_operations ssdfs_symlink_inode_operations;
-+
-+#endif /* _SSDFS_INODE_INFO_H */
-diff --git a/fs/ssdfs/ssdfs_thread_info.h b/fs/ssdfs/ssdfs_thread_info.h
-new file mode 100644
-index 000000000000..6d18245327b5
---- /dev/null
-+++ b/fs/ssdfs/ssdfs_thread_info.h
-@@ -0,0 +1,43 @@
-+/*
-+ * SPDX-License-Identifier: BSD-3-Clause-Clear
-+ *
-+ * SSDFS -- SSD-oriented File System.
-+ *
-+ * fs/ssdfs/ssdfs_thread_info.h - thread declarations.
-+ *
-+ * Copyright (c) 2019-2026 Viacheslav Dubeyko <slava@dubeyko.com>
-+ *              http://www.ssdfs.org/
-+ * All rights reserved.
-+ *
-+ * Authors: Viacheslav Dubeyko <slava@dubeyko.com>
-+ */
-+
-+#ifndef _SSDFS_THREAD_INFO_H
-+#define _SSDFS_THREAD_INFO_H
-+
-+/*
-+ * struct ssdfs_thread_info - thread info
-+ * @task: task descriptor
-+ * @wait: wait queue
-+ * @full_stop: ending of thread's activity
-+ */
-+struct ssdfs_thread_info {
-+	struct task_struct *task;
-+	struct wait_queue_entry wait;
-+	struct completion full_stop;
-+};
-+
-+/* function prototype */
-+typedef int (*ssdfs_threadfn)(void *data);
-+
-+/*
-+ * struct ssdfs_thread_descriptor - thread descriptor
-+ * @threadfn: thread's function
-+ * @fmt: thread's name format
-+ */
-+struct ssdfs_thread_descriptor {
-+	ssdfs_threadfn threadfn;
-+	const char *fmt;
-+};
-+
-+#endif /* _SSDFS_THREAD_INFO_H */
-diff --git a/fs/ssdfs/version.h b/fs/ssdfs/version.h
-new file mode 100644
-index 000000000000..8c94b1653bf6
---- /dev/null
-+++ b/fs/ssdfs/version.h
-@@ -0,0 +1,9 @@
-+/*
-+ * SPDX-License-Identifier: BSD-3-Clause-Clear
-+ */
-+#ifndef _SSDFS_VERSION_H
-+#define _SSDFS_VERSION_H
-+
-+#define SSDFS_VERSION "SSDFS v.5.47"
-+
-+#endif /* _SSDFS_VERSION_H */
-diff --git a/include/trace/events/ssdfs.h b/include/trace/events/ssdfs.h
-new file mode 100644
-index 000000000000..492beb6e7c30
---- /dev/null
-+++ b/include/trace/events/ssdfs.h
-@@ -0,0 +1,256 @@
-+/*
-+ * SPDX-License-Identifier: BSD-3-Clause-Clear
-+ *
-+ * SSDFS -- SSD-oriented File System.
-+ *
-+ * include/trace/events/ssdfs.h - definition of tracepoints.
-+ *
-+ * Copyright (c) 2019-2026 Viacheslav Dubeyko <slava@dubeyko.com>
-+ *              http://www.ssdfs.org/
-+ * All rights reserved.
-+ *
-+ * Authors: Viacheslav Dubeyko <slava@dubeyko.com>
-+ */
-+
-+#undef TRACE_SYSTEM
-+#define TRACE_SYSTEM ssdfs
-+
-+#if !defined(_TRACE_SSDFS_H) || defined(TRACE_HEADER_MULTI_READ)
-+#define _TRACE_SSDFS_H
-+
-+#include <linux/tracepoint.h>
-+
-+DECLARE_EVENT_CLASS(ssdfs__inode,
-+
-+	TP_PROTO(struct inode *inode),
-+
-+	TP_ARGS(inode),
-+
-+	TP_STRUCT__entry(
-+		__field(dev_t,	dev)
-+		__field(ino_t,	ino)
-+		__field(umode_t, mode)
-+		__field(loff_t,	size)
-+		__field(unsigned int, nlink)
-+		__field(blkcnt_t, blocks)
-+	),
-+
-+	TP_fast_assign(
-+		__entry->dev	= inode->i_sb->s_dev;
-+		__entry->ino	= inode->i_ino;
-+		__entry->mode	= inode->i_mode;
-+		__entry->nlink	= inode->i_nlink;
-+		__entry->size	= inode->i_size;
-+		__entry->blocks	= inode->i_blocks;
-+	),
-+
-+	TP_printk("dev = (%d,%d), ino = %lu, i_mode = 0x%hx, "
-+		"i_size = %lld, i_nlink = %u, i_blocks = %llu",
-+		MAJOR(__entry->dev),
-+		MINOR(__entry->dev),
-+		(unsigned long)__entry->ino,
-+		__entry->mode,
-+		__entry->size,
-+		(unsigned int)__entry->nlink,
-+		(unsigned long long)__entry->blocks)
-+);
-+
-+DECLARE_EVENT_CLASS(ssdfs__inode_exit,
-+
-+	TP_PROTO(struct inode *inode, int ret),
-+
-+	TP_ARGS(inode, ret),
-+
-+	TP_STRUCT__entry(
-+		__field(dev_t,	dev)
-+		__field(ino_t,	ino)
-+		__field(int,	ret)
-+	),
-+
-+	TP_fast_assign(
-+		__entry->dev	= inode->i_sb->s_dev;
-+		__entry->ino	= inode->i_ino;
-+		__entry->ret	= ret;
-+	),
-+
-+	TP_printk("dev = (%d,%d), ino = %lu, ret = %d",
-+		MAJOR(__entry->dev),
-+		MINOR(__entry->dev),
-+		(unsigned long)__entry->ino,
-+		__entry->ret)
-+);
-+
-+DEFINE_EVENT(ssdfs__inode, ssdfs_inode_new,
-+
-+	TP_PROTO(struct inode *inode),
-+
-+	TP_ARGS(inode)
-+);
-+
-+DEFINE_EVENT(ssdfs__inode_exit, ssdfs_inode_new_exit,
-+
-+	TP_PROTO(struct inode *inode, int ret),
-+
-+	TP_ARGS(inode, ret)
-+);
-+
-+DEFINE_EVENT(ssdfs__inode, ssdfs_inode_request,
-+
-+	TP_PROTO(struct inode *inode),
-+
-+	TP_ARGS(inode)
-+);
-+
-+DEFINE_EVENT(ssdfs__inode, ssdfs_inode_evict,
-+
-+	TP_PROTO(struct inode *inode),
-+
-+	TP_ARGS(inode)
-+);
-+
-+DEFINE_EVENT(ssdfs__inode, ssdfs_iget,
-+
-+	TP_PROTO(struct inode *inode),
-+
-+	TP_ARGS(inode)
-+);
-+
-+DEFINE_EVENT(ssdfs__inode_exit, ssdfs_iget_exit,
-+
-+	TP_PROTO(struct inode *inode, int ret),
-+
-+	TP_ARGS(inode, ret)
-+);
-+
-+TRACE_EVENT(ssdfs_sync_fs,
-+
-+	TP_PROTO(struct super_block *sb, int wait),
-+
-+	TP_ARGS(sb, wait),
-+
-+	TP_STRUCT__entry(
-+		__field(dev_t,	dev)
-+		__field(int,	wait)
-+	),
-+
-+	TP_fast_assign(
-+		__entry->dev	= sb->s_dev;
-+		__entry->wait	= wait;
-+	),
-+
-+	TP_printk("dev = (%d,%d), wait = %d",
-+		MAJOR(__entry->dev),
-+		MINOR(__entry->dev),
-+		__entry->wait)
-+);
-+
-+TRACE_EVENT(ssdfs_sync_fs_exit,
-+
-+	TP_PROTO(struct super_block *sb, int wait, int ret),
-+
-+	TP_ARGS(sb, wait, ret),
-+
-+	TP_STRUCT__entry(
-+		__field(dev_t,	dev)
-+		__field(int,	wait)
-+		__field(int,	ret)
-+	),
-+
-+	TP_fast_assign(
-+		__entry->dev	= sb->s_dev;
-+		__entry->wait	= wait;
-+		__entry->ret	= ret;
-+	),
-+
-+	TP_printk("dev = (%d,%d), wait = %d, ret = %d",
-+		MAJOR(__entry->dev),
-+		MINOR(__entry->dev),
-+		__entry->wait,
-+		__entry->ret)
-+);
-+
-+DEFINE_EVENT(ssdfs__inode, ssdfs_sync_file_enter,
-+
-+	TP_PROTO(struct inode *inode),
-+
-+	TP_ARGS(inode)
-+);
-+
-+TRACE_EVENT(ssdfs_sync_file_exit,
-+
-+	TP_PROTO(struct file *file, int datasync, int ret),
-+
-+	TP_ARGS(file, datasync, ret),
-+
-+	TP_STRUCT__entry(
-+		__field(dev_t,	dev)
-+		__field(ino_t,	ino)
-+		__field(ino_t,	parent)
-+		__field(int,	datasync)
-+		__field(int,	ret)
-+	),
-+
-+	TP_fast_assign(
-+		struct dentry *dentry = file->f_path.dentry;
-+		struct inode *inode = dentry->d_inode;
-+
-+		__entry->dev		= inode->i_sb->s_dev;
-+		__entry->ino		= inode->i_ino;
-+		__entry->parent		= dentry->d_parent->d_inode->i_ino;
-+		__entry->datasync	= datasync;
-+		__entry->ret		= ret;
-+	),
-+
-+	TP_printk("dev = (%d,%d), ino = %lu, parent = %ld, "
-+		"datasync = %d, ret = %d",
-+		MAJOR(__entry->dev),
-+		MINOR(__entry->dev),
-+		(unsigned long)__entry->ino,
-+		(unsigned long)__entry->parent,
-+		__entry->datasync,
-+		__entry->ret)
-+);
-+
-+TRACE_EVENT(ssdfs_unlink_enter,
-+
-+	TP_PROTO(struct inode *dir, struct dentry *dentry),
-+
-+	TP_ARGS(dir, dentry),
-+
-+	TP_STRUCT__entry(
-+		__field(dev_t,	dev)
-+		__field(ino_t,	ino)
-+		__field(loff_t,	size)
-+		__field(blkcnt_t, blocks)
-+		__field(const char *,	name)
-+	),
-+
-+	TP_fast_assign(
-+		__entry->dev	= dir->i_sb->s_dev;
-+		__entry->ino	= dir->i_ino;
-+		__entry->size	= dir->i_size;
-+		__entry->blocks	= dir->i_blocks;
-+		__entry->name	= dentry->d_name.name;
-+	),
-+
-+	TP_printk("dev = (%d,%d), dir ino = %lu, i_size = %lld, "
-+		"i_blocks = %llu, name = %s",
-+		MAJOR(__entry->dev),
-+		MINOR(__entry->dev),
-+		(unsigned long)__entry->ino,
-+		__entry->size,
-+		(unsigned long long)__entry->blocks,
-+		__entry->name)
-+);
-+
-+DEFINE_EVENT(ssdfs__inode_exit, ssdfs_unlink_exit,
-+
-+	TP_PROTO(struct inode *inode, int ret),
-+
-+	TP_ARGS(inode, ret)
-+);
-+
-+#endif /* _TRACE_SSDFS_H */
-+
-+/* This part must be outside protection */
-+#include <trace/define_trace.h>
-diff --git a/include/uapi/linux/ssdfs_fs.h b/include/uapi/linux/ssdfs_fs.h
-new file mode 100644
-index 000000000000..74c8a1be8051
---- /dev/null
-+++ b/include/uapi/linux/ssdfs_fs.h
-@@ -0,0 +1,126 @@
-+/*
-+ * SPDX-License-Identifier: BSD-3-Clause-Clear
-+ *
-+ * SSDFS -- SSD-oriented File System.
-+ *
-+ * include/uapi/linux/ssdfs_fs.h - SSDFS common declarations.
++ * include/linux/ssdfs_fs.h - SSDFS on-disk structures and common declarations.
 + *
 + * Copyright (c) 2014-2019 HGST, a Western Digital Company.
 + *              http://www.hgst.com/
@@ -1652,110 +172,3549 @@ index 000000000000..74c8a1be8051
 + *                  Zvonimir Bandic
 + */
 +
-+#ifndef _UAPI_LINUX_SSDFS_H
-+#define _UAPI_LINUX_SSDFS_H
++#ifndef _LINUX_SSDFS_H
++#define _LINUX_SSDFS_H
 +
-+#include <linux/types.h>
-+#include <linux/ioctl.h>
++#include <uapi/linux/ssdfs_fs.h>
 +
-+/* SSDFS magic signatures */
-+#define SSDFS_SUPER_MAGIC			0x53734466	/* SsDf */
-+#define SSDFS_SEGMENT_HDR_MAGIC			0x5348		/* SH */
-+#define SSDFS_LOG_FOOTER_MAGIC			0x4C46		/* LF */
-+#define SSDFS_PARTIAL_LOG_HDR_MAGIC		0x5048		/* PH */
-+#define SSDFS_PADDING_HDR_MAGIC			0x5044		/* PD */
-+#define SSDFS_BLK_BMAP_MAGIC			0x424D		/* BM */
-+#define SSDFS_FRAGMENT_DESC_MAGIC		0x66		/* f */
-+#define SSDFS_CHAIN_HDR_MAGIC			0x63		/* c */
-+#define SSDFS_PHYS_OFF_TABLE_MAGIC		0x504F5448	/* POTH */
-+#define SSDFS_BLK2OFF_TABLE_HDR_MAGIC		0x5474		/* Tt */
-+#define SSDFS_SEGBMAP_HDR_MAGIC			0x534D		/* SM */
-+#define SSDFS_INODE_MAGIC			0x6469		/* di */
-+#define SSDFS_PEB_TABLE_MAGIC			0x5074		/* Pt */
-+#define SSDFS_LEB_TABLE_MAGIC			0x4C74		/* Lt */
-+#define SSDFS_MAPTBL_CACHE_MAGIC		0x4D63		/* Mc */
-+#define SSDFS_MAPTBL_CACHE_PEB_STATE_MAGIC	0x4D635053	/* McPS */
-+#define SSDFS_INODES_BTREE_MAGIC		0x496E4274	/* InBt */
-+#define SSDFS_INODES_BNODE_MAGIC		0x494E		/* IN */
-+#define SSDFS_DENTRIES_BTREE_MAGIC		0x44654274	/* DeBt */
-+#define SSDFS_DENTRIES_BNODE_MAGIC		0x444E		/* DN */
-+#define SSDFS_EXTENTS_BTREE_MAGIC		0x45784274	/* ExBt */
-+#define SSDFS_SHARED_EXTENTS_BTREE_MAGIC	0x53454274	/* SEBt */
-+#define SSDFS_EXTENTS_BNODE_MAGIC		0x454E		/* EN */
-+#define SSDFS_XATTR_BTREE_MAGIC			0x45414274	/* EABt */
-+#define SSDFS_SHARED_XATTR_BTREE_MAGIC		0x53454174	/* SEAt */
-+#define SSDFS_XATTR_BNODE_MAGIC			0x414E		/* AN */
-+#define SSDFS_SHARED_DICT_BTREE_MAGIC		0x53446963	/* SDic */
-+#define SSDFS_DICTIONARY_BNODE_MAGIC		0x534E		/* SN */
-+#define SSDFS_SNAPSHOTS_BTREE_MAGIC		0x536E4274	/* SnBt */
-+#define SSDFS_SNAPSHOTS_BNODE_MAGIC		0x736E		/* sn */
-+#define SSDFS_SNAPSHOT_RULES_MAGIC		0x536E5275	/* SnRu */
-+#define SSDFS_SNAPSHOT_RECORD_MAGIC		0x5372		/* Sr */
-+#define SSDFS_PEB2TIME_RECORD_MAGIC		0x5072		/* Pr */
-+#define SSDFS_DIFF_BLOB_MAGIC			0x4466		/* Df */
-+#define SSDFS_INVEXT_BTREE_MAGIC		0x49784274	/* IxBt */
-+#define SSDFS_INVEXT_BNODE_MAGIC		0x4958		/* IX */
++typedef u8 __le8;
 +
-+/* SSDFS padding blob */
-+#define SSDFS_PADDING_BLOB		0x50414444494E4730	/* PADDING0 */
-+
-+/* SSDFS revision */
-+#define SSDFS_MAJOR_REVISION		1
-+#define SSDFS_MINOR_REVISION		20
-+
-+/* SSDFS constants */
-+#define SSDFS_MAX_NAME_LEN		255
-+#define SSDFS_UUID_SIZE			16
-+#define SSDFS_VOLUME_LABEL_MAX		16
-+#define SSDFS_MAX_SNAP_RULE_NAME_LEN	16
-+#define SSDFS_MAX_SNAPSHOT_NAME_LEN	12
-+
-+#define SSDFS_RESERVED_VBR_SIZE		1024 /* Volume Boot Record size*/
-+#define SSDFS_DEFAULT_SEG_SIZE		8388608
++struct ssdfs_inode;
 +
 +/*
-+ * File system states
++ * struct ssdfs_revision - metadata structure version
++ * @major: major version number
++ * @minor: minor version number
 + */
-+#define SSDFS_MOUNTED_FS		0x0000  /* Mounted FS state */
-+#define SSDFS_VALID_FS			0x0001  /* Unmounted cleanly */
-+#define SSDFS_ERROR_FS			0x0002  /* Errors detected */
-+#define SSDFS_RESIZE_FS			0x0004	/* Resize required */
-+#define SSDFS_LAST_KNOWN_FS_STATE	SSDFS_RESIZE_FS
++struct ssdfs_revision {
++/* 0x0000 */
++	__le8 major;
++	__le8 minor;
++
++/* 0x0002 */
++}  __packed;
 +
 +/*
-+ * Behaviour when detecting errors
++ * struct ssdfs_signature - metadata structure magic signature
++ * @common: common magic value
++ * @key: detailed magic value
 + */
-+#define SSDFS_ERRORS_CONTINUE		1	/* Continue execution */
-+#define SSDFS_ERRORS_RO			2	/* Remount fs read-only */
-+#define SSDFS_ERRORS_PANIC		3	/* Panic */
-+#define SSDFS_ERRORS_DEFAULT		SSDFS_ERRORS_CONTINUE
-+#define SSDFS_LAST_KNOWN_FS_ERROR	SSDFS_ERRORS_PANIC
++struct ssdfs_signature {
++/* 0x0000 */
++	__le32 common;
++	__le16 key;
++	struct ssdfs_revision version;
 +
-+/* Reserved inode id */
-+#define SSDFS_INVALID_EXTENTS_BTREE_INO		5
-+#define SSDFS_SNAPSHOTS_BTREE_INO		6
-+#define SSDFS_TESTING_INO			7
-+#define SSDFS_SHARED_DICT_BTREE_INO		8
-+#define SSDFS_INODES_BTREE_INO			9
-+#define SSDFS_SHARED_EXTENTS_BTREE_INO		10
-+#define SSDFS_SHARED_XATTR_BTREE_INO		11
-+#define SSDFS_MAPTBL_INO			12
-+#define SSDFS_SEG_TREE_INO			13
-+#define SSDFS_SEG_BMAP_INO			14
-+#define SSDFS_PEB_CACHE_INO			15
-+#define SSDFS_ROOT_INO				16
++/* 0x0008 */
++} __packed;
 +
-+#define SSDFS_LINK_MAX				INT_MAX
++/*
++ * struct ssdfs_metadata_check - metadata structure checksum
++ * @bytes: bytes count of CRC calculation for the structure
++ * @flags: flags
++ * @csum: checksum
++ */
++struct ssdfs_metadata_check {
++/* 0x0000 */
++	__le16 bytes;
++#define SSDFS_CRC32			(1 << 0)
++#define SSDFS_ZLIB_COMPRESSED		(1 << 1)
++#define SSDFS_LZO_COMPRESSED		(1 << 2)
++	__le16 flags;
++	__le32 csum;
 +
-+#define SSDFS_CUR_SEG_DEFAULT_ID		3
-+#define SSDFS_LOG_PAGES_DEFAULT			32
-+#define SSDFS_CREATE_THREADS_DEFAULT		1
++/* 0x0008 */
++} __packed;
 +
-+#define SSDFS_INITIAL_SNAPSHOT_SEG_ID		0
-+#define SSDFS_INITIAL_SNAPSHOT_SEG_LEB_ID	0
-+#define SSDFS_INITIAL_SNAPSHOT_SEG_PEB_ID	0
++/*
++ * struct ssdfs_padding_header - padding block header
++ * @magic: magic signature + revision
++ * @check: metadata checksum
++ * @blob: padding blob
++ */
++struct ssdfs_padding_header {
++/* 0x0000 */
++	struct ssdfs_signature magic;
 +
-+#endif /* _UAPI_LINUX_SSDFS_H */
++/* 0x0008 */
++	struct ssdfs_metadata_check check;
++
++/* 0x0010 */
++	__le64 blob;
++
++/* 0x0020 */
++} __packed;
++
++/*
++ * struct ssdfs_raw_extent - raw (on-disk) extent
++ * @seg_id: segment number
++ * @logical_blk: logical block number
++ * @len: count of blocks in extent
++ */
++struct ssdfs_raw_extent {
++/* 0x0000 */
++	__le64 seg_id;
++	__le32 logical_blk;
++	__le32 len;
++
++/* 0x0010 */
++} __packed;
++
++/*
++ * struct ssdfs_meta_area_extent - metadata area extent
++ * @start_id: starting identification number
++ * @len: count of items in metadata area
++ * @type: item's type
++ * @flags: flags
++ */
++struct ssdfs_meta_area_extent {
++/* 0x0000 */
++	__le64 start_id;
++	__le32 len;
++	__le16 type;
++	__le16 flags;
++
++/* 0x0010 */
++} __packed;
++
++/* Type of item in metadata area */
++enum {
++	SSDFS_EMPTY_EXTENT_TYPE,
++	SSDFS_SEG_EXTENT_TYPE,
++	SSDFS_PEB_EXTENT_TYPE,
++	SSDFS_BLK_EXTENT_TYPE,
++};
++
++/* Type of segbmap's segments */
++enum {
++	SSDFS_MAIN_SEGBMAP_SEG,
++	SSDFS_COPY_SEGBMAP_SEG,
++	SSDFS_SEGBMAP_SEG_COPY_MAX,
++};
++
++#define SSDFS_SEGBMAP_SEGS	8
++
++/*
++ * struct ssdfs_segbmap_sb_header - superblock's segment bitmap header
++ * @fragments_count: fragments count in segment bitmap
++ * @fragments_per_seg: segbmap's fragments per segment
++ * @fragments_per_peb: segbmap's fragments per PEB
++ * @fragment_size: size of fragment in bytes
++ * @bytes_count: size of segment bitmap in bytes (payload part)
++ * @flags: segment bitmap's flags
++ * @segs_count: count of really reserved segments in one chain
++ * @segs: array of segbmap's segment numbers
++ */
++struct ssdfs_segbmap_sb_header {
++/* 0x0000 */
++	__le16 fragments_count;
++	__le16 fragments_per_seg;
++	__le16 fragments_per_peb;
++	__le16 fragment_size;
++
++/* 0x0008 */
++	__le32 bytes_count;
++	__le16 flags;
++	__le16 segs_count;
++
++/* 0x0010 */
++	__le64 segs[SSDFS_SEGBMAP_SEGS][SSDFS_SEGBMAP_SEG_COPY_MAX];
++
++/* 0x0090 */
++} __packed;
++
++/* Segment bitmap's flags */
++#define SSDFS_SEGBMAP_HAS_COPY		(1 << 0)
++#define SSDFS_SEGBMAP_ERROR		(1 << 1)
++#define SSDFS_SEGBMAP_MAKE_ZLIB_COMPR	(1 << 2)
++#define SSDFS_SEGBMAP_MAKE_LZO_COMPR	(1 << 3)
++#define SSDFS_SEGBMAP_FLAGS_MASK	(0xF)
++
++enum {
++	SSDFS_MAIN_MAPTBL_SEG,
++	SSDFS_COPY_MAPTBL_SEG,
++	SSDFS_MAPTBL_SEG_COPY_MAX,
++};
++
++#define SSDFS_MAPTBL_RESERVED_EXTENTS	(3)
++
++/*
++ * struct ssdfs_maptbl_sb_header - superblock's mapping table header
++ * @fragments_count: count of fragments in mapping table
++ * @fragment_bytes: bytes in one mapping table's fragment
++ * @last_peb_recover_cno: checkpoint of last trying to recover PEBs
++ * @lebs_count: count of Logical Erase Blocks (LEBs) are described by table
++ * @pebs_count: count of Physical Erase Blocks (PEBs) are described by table
++ * @fragments_per_seg: count of mapping table's fragments in segment
++ * @fragments_per_peb: count of mapping table's fragments in PEB
++ * @flags: mapping table's flags
++ * @pre_erase_pebs: count of PEBs in pre-erase state
++ * @lebs_per_fragment: count of LEBs are described by fragment
++ * @pebs_per_fragment: count of PEBs are described by fragment
++ * @pebs_per_stripe: count of PEBs are described by stripe
++ * @stripes_per_fragment: count of stripes in fragment
++ * @extents: metadata extents that describe mapping table location
++ */
++struct ssdfs_maptbl_sb_header {
++/* 0x0000 */
++	__le32 fragments_count;
++	__le32 fragment_bytes;
++	__le64 last_peb_recover_cno;
++
++/* 0x0010 */
++	__le64 lebs_count;
++	__le64 pebs_count;
++
++/* 0x0020 */
++	__le16 fragments_per_seg;
++	__le16 fragments_per_peb;
++	__le16 flags;
++	__le16 pre_erase_pebs;
++
++/* 0x0028 */
++	__le16 lebs_per_fragment;
++	__le16 pebs_per_fragment;
++	__le16 pebs_per_stripe;
++	__le16 stripes_per_fragment;
++
++/* 0x0030 */
++#define MAPTBL_LIMIT1	(SSDFS_MAPTBL_RESERVED_EXTENTS)
++#define MAPTBL_LIMIT2	(SSDFS_MAPTBL_SEG_COPY_MAX)
++	struct ssdfs_meta_area_extent extents[MAPTBL_LIMIT1][MAPTBL_LIMIT2];
++
++/* 0x0090 */
++} __packed;
++
++/* Mapping table's flags */
++#define SSDFS_MAPTBL_HAS_COPY		(1 << 0)
++#define SSDFS_MAPTBL_ERROR		(1 << 1)
++#define SSDFS_MAPTBL_MAKE_ZLIB_COMPR	(1 << 2)
++#define SSDFS_MAPTBL_MAKE_LZO_COMPR	(1 << 3)
++#define SSDFS_MAPTBL_UNDER_FLUSH	(1 << 4)
++#define SSDFS_MAPTBL_START_MIGRATION	(1 << 5)
++#define SSDFS_MAPTBL_FLAGS_MASK		(0x3F)
++
++/*
++ * struct ssdfs_btree_descriptor - generic btree descriptor
++ * @magic: magic signature
++ * @flags: btree flags
++ * @type: btree type
++ * @log_node_size: log2(node size in bytes)
++ * @pages_per_node: physical pages per btree node
++ * @node_ptr_size: size in bytes of pointer on btree node
++ * @index_size: size in bytes of btree's index
++ * @item_size: size in bytes of btree's item
++ * @index_area_min_size: minimal size in bytes of index area in btree node
++ *
++ * The goal of a btree descriptor is to keep
++ * the main features of a tree.
++ */
++struct ssdfs_btree_descriptor {
++/* 0x0000 */
++	__le32 magic;
++#define SSDFS_BTREE_DESC_INDEX_AREA_RESIZABLE		(1 << 0)
++#define SSDFS_BTREE_DESC_FLAGS_MASK			0x1
++	__le16 flags;
++	__le8 type;
++	__le8 log_node_size;
++
++/* 0x0008 */
++	__le8 pages_per_node;
++	__le8 node_ptr_size;
++	__le16 index_size;
++	__le16 item_size;
++	__le16 index_area_min_size;
++
++/* 0x0010 */
++} __packed;
++
++/* Btree types */
++enum {
++	SSDFS_BTREE_UNKNOWN_TYPE,
++	SSDFS_INODES_BTREE,
++	SSDFS_DENTRIES_BTREE,
++	SSDFS_EXTENTS_BTREE,
++	SSDFS_SHARED_EXTENTS_BTREE,
++	SSDFS_XATTR_BTREE,
++	SSDFS_SHARED_XATTR_BTREE,
++	SSDFS_SHARED_DICTIONARY_BTREE,
++	SSDFS_SNAPSHOTS_BTREE,
++	SSDFS_INVALIDATED_EXTENTS_BTREE,
++	SSDFS_BTREE_TYPE_MAX
++};
++
++/*
++ * struct ssdfs_dentries_btree_descriptor - dentries btree descriptor
++ * @desc: btree descriptor
++ */
++struct ssdfs_dentries_btree_descriptor {
++/* 0x0000 */
++	struct ssdfs_btree_descriptor desc;
++
++/* 0x0010 */
++	__le8 reserved[0x10];
++
++/* 0x0020 */
++} __packed;
++
++/*
++ * struct ssdfs_extents_btree_descriptor - extents btree descriptor
++ * @desc: btree descriptor
++ */
++struct ssdfs_extents_btree_descriptor {
++/* 0x0000 */
++	struct ssdfs_btree_descriptor desc;
++
++/* 0x0010 */
++	__le8 reserved[0x10];
++
++/* 0x0020 */
++} __packed;
++
++/*
++ * struct ssdfs_xattr_btree_descriptor - extended attr btree descriptor
++ * @desc: btree descriptor
++ */
++struct ssdfs_xattr_btree_descriptor {
++/* 0x0000 */
++	struct ssdfs_btree_descriptor desc;
++
++/* 0x0010 */
++	__le8 reserved[0x10];
++
++/* 0x0020 */
++} __packed;
++
++/* Type of superblock segments */
++enum {
++	SSDFS_MAIN_SB_SEG,
++	SSDFS_COPY_SB_SEG,
++	SSDFS_SB_SEG_COPY_MAX,
++};
++
++/* Different phases of superblok segment */
++enum {
++	SSDFS_CUR_SB_SEG,
++	SSDFS_NEXT_SB_SEG,
++	SSDFS_RESERVED_SB_SEG,
++	SSDFS_PREV_SB_SEG,
++	SSDFS_SB_CHAIN_MAX,
++};
++
++/*
++ * struct ssdfs_leb2peb_pair - LEB/PEB numbers association
++ * @leb_id: LEB ID number
++ * @peb_id: PEB ID number
++ */
++struct ssdfs_leb2peb_pair {
++/* 0x0000 */
++	__le64 leb_id;
++	__le64 peb_id;
++
++/* 0x0010 */
++} __packed;
++
++/*
++ * struct ssdfs_btree_index - btree index
++ * @hash: hash value
++ * @extent: btree node's extent
++ *
++ * The goal of btree index is to provide the way to search
++ * a proper btree node by means of hash value. The hash
++ * value could be inode_id, string hash and so on.
++ */
++struct ssdfs_btree_index {
++/* 0x0000 */
++	__le64 hash;
++
++/* 0x0008 */
++	struct ssdfs_raw_extent extent;
++
++/* 0x0018 */
++} __packed;
++
++#define SSDFS_BTREE_NODE_INVALID_ID	(U32_MAX)
++
++/*
++ * struct ssdfs_btree_index_key - node identification key
++ * @node_id: node identification key
++ * @node_type: type of the node
++ * @height: node's height
++ * @flags: index flags
++ * @index: node's index
++ */
++struct ssdfs_btree_index_key {
++/* 0x0000 */
++	__le32 node_id;
++	__le8 node_type;
++	__le8 height;
++#define SSDFS_BTREE_INDEX_HAS_VALID_EXTENT		(1 << 0)
++#define SSDFS_BTREE_INDEX_SHOW_EMPTY_NODE		(1 << 1)
++#define SSDFS_BTREE_INDEX_SHOW_FREE_ITEMS		(1 << 2)
++#define SSDFS_BTREE_INDEX_HAS_CHILD_WITH_FREE_ITEMS	(1 << 3)
++#define SSDFS_BTREE_INDEX_SHOW_PREALLOCATED_CHILD	(1 << 4)
++#define SSDFS_BTREE_INDEX_FLAGS_MASK			0x1F
++	__le16 flags;
++
++/* 0x0008 */
++	struct ssdfs_btree_index index;
++
++/* 0x0020 */
++} __packed;
++
++#define SSDFS_BTREE_ROOT_NODE_INDEX_COUNT	(2)
++
++/*
++ * struct ssdfs_btree_root_node_header - root node header
++ * @height: btree height
++ * @items_count: count of items in the root node
++ * @flags: root node flags
++ * @type: root node type
++ * @upper_node_id: last allocated the node identification number
++ * @node_ids: root node's children IDs
++ */
++struct ssdfs_btree_root_node_header {
++/* 0x0000 */
++#define SSDFS_BTREE_LEAF_NODE_HEIGHT	(0)
++	__le8 height;
++	__le8 items_count;
++	__le8 flags;
++	__le8 type;
++
++/* 0x0004 */
++#define SSDFS_BTREE_ROOT_NODE_ID		(0)
++	__le32 upper_node_id;
++
++/* 0x0008 */
++	__le32 node_ids[SSDFS_BTREE_ROOT_NODE_INDEX_COUNT];
++
++/* 0x0010 */
++} __packed;
++
++/*
++ * struct ssdfs_btree_inline_root_node - btree root node
++ * @header: node header
++ * @indexes: root node's index array
++ *
++ * The goal of root node is to live inside of 0x40 bytes
++ * space and to keep the root index node of the tree.
++ * The inline root node could be the part of inode
++ * structure or the part of btree root. The inode has
++ * 0x80 bytes space. But inode needs to store as
++ * extent/dentries tree as extended attributes tree.
++ * So, 0x80 bytes is used for storing two btrees.
++ *
++ * The root node's indexes has pre-defined type.
++ * If height of the tree equals to 1 - 3 range then
++ * root node's indexes define hybrid nodes. Otherwise,
++ * if tree's height is greater than 3 then root node's
++ * indexes define pure index nodes.
++ */
++struct ssdfs_btree_inline_root_node {
++/* 0x0000 */
++	struct ssdfs_btree_root_node_header header;
++
++/* 0x0010 */
++#define SSDFS_ROOT_NODE_LEFT_LEAF_NODE		(0)
++#define SSDFS_ROOT_NODE_RIGHT_LEAF_NODE		(1)
++#define SSDFS_BTREE_ROOT_NODE_INDEX_COUNT	(2)
++	struct ssdfs_btree_index indexes[SSDFS_BTREE_ROOT_NODE_INDEX_COUNT];
++
++/* 0x0040 */
++} __packed;
++
++/*
++ * struct ssdfs_inodes_btree - inodes btree
++ * @desc: btree descriptor
++ * @allocated_inodes: count of allocated inodes
++ * @free_inodes: count of free inodes
++ * @inodes_capacity: count of inodes in the whole btree
++ * @leaf_nodes: count of leaf btree nodes
++ * @nodes_count: count of nodes in the whole btree
++ * @upper_allocated_ino: maximal allocated inode ID number
++ * @root_node: btree's root node
++ *
++ * The goal of a btree root is to keep
++ * the main features of a tree and knowledge
++ * about two root indexes. These indexes splits
++ * the whole btree on two branches.
++ */
++struct ssdfs_inodes_btree {
++/* 0x0000 */
++	struct ssdfs_btree_descriptor desc;
++
++/* 0x0010 */
++	__le64 allocated_inodes;
++	__le64 free_inodes;
++
++/* 0x0020 */
++	__le64 inodes_capacity;
++	__le32 leaf_nodes;
++	__le32 nodes_count;
++
++/* 0x0030 */
++	__le64 upper_allocated_ino;
++	__le8 reserved[0x8];
++
++/* 0x0040 */
++	struct ssdfs_btree_inline_root_node root_node;
++
++/* 0x0080 */
++} __packed;
++
++/*
++ * struct ssdfs_shared_extents_btree - shared extents btree
++ * @desc: btree descriptor
++ * @root_node: btree's root node
++ *
++ * The goal of a btree root is to keep
++ * the main features of a tree and knowledge
++ * about two root indexes. These indexes splits
++ * the whole btree on two branches.
++ */
++struct ssdfs_shared_extents_btree {
++/* 0x0000 */
++	struct ssdfs_btree_descriptor desc;
++
++/* 0x0010 */
++	__le8 reserved[0x30];
++
++/* 0x0040 */
++	struct ssdfs_btree_inline_root_node root_node;
++
++/* 0x0080 */
++} __packed;
++
++/*
++ * ssdfs_shared_dictionary_btree - shared strings dictionary btree
++ * @desc: btree descriptor
++ * @root_node: btree's root node
++ *
++ * The goal of a btree root is to keep
++ * the main features of a tree and knowledge
++ * about two root indexes. These indexes splits
++ * the whole btree on two branches.
++ */
++struct ssdfs_shared_dictionary_btree {
++/* 0x0000 */
++	struct ssdfs_btree_descriptor desc;
++
++/* 0x0010 */
++	__le8 reserved[0x30];
++
++/* 0x0040 */
++	struct ssdfs_btree_inline_root_node root_node;
++
++/* 0x0080 */
++} __packed;
++
++/*
++ * struct ssdfs_shared_xattr_btree - shared extended attributes btree
++ * @desc: btree descriptor
++ * @root_node: btree's root node
++ *
++ * The goal of a btree root is to keep
++ * the main features of a tree and knowledge
++ * about two root indexes. These indexes splits
++ * the whole btree on two branches.
++ */
++struct ssdfs_shared_xattr_btree {
++/* 0x0000 */
++	struct ssdfs_btree_descriptor desc;
++
++/* 0x0010 */
++	__le8 reserved[0x30];
++
++/* 0x0040 */
++	struct ssdfs_btree_inline_root_node root_node;
++
++/* 0x0080 */
++} __packed;
++
++/*
++ * struct ssdfs_snapshots_btree - snapshots btree
++ * @desc: btree descriptor
++ * @root_node: btree's root node
++ *
++ * The goal of a btree root is to keep
++ * the main features of a tree and knowledge
++ * about two root indexes. These indexes splits
++ * the whole btree on two branches.
++ */
++struct ssdfs_snapshots_btree {
++/* 0x0000 */
++	struct ssdfs_btree_descriptor desc;
++
++/* 0x0010 */
++	__le8 reserved[0x30];
++
++/* 0x0040 */
++	struct ssdfs_btree_inline_root_node root_node;
++
++/* 0x0080 */
++} __packed;
++
++/*
++ * struct ssdfs_invalidated_extents_btree - invalidated extents btree
++ * @desc: btree descriptor
++ * @root_node: btree's root node
++ *
++ * The goal of a btree root is to keep
++ * the main features of a tree and knowledge
++ * about two root indexes. These indexes splits
++ * the whole btree on two branches.
++ */
++struct ssdfs_invalidated_extents_btree {
++/* 0x0000 */
++	struct ssdfs_btree_descriptor desc;
++
++/* 0x0010 */
++	__le8 reserved[0x30];
++
++/* 0x0040 */
++	struct ssdfs_btree_inline_root_node root_node;
++
++/* 0x0080 */
++} __packed;
++
++enum {
++	SSDFS_CUR_DATA_SEG,
++	SSDFS_CUR_LNODE_SEG,
++	SSDFS_CUR_HNODE_SEG,
++	SSDFS_CUR_IDXNODE_SEG,
++	SSDFS_CUR_DATA_UPDATE_SEG,
++	SSDFS_CUR_SEGS_COUNT,
++};
++
++/*
++ * struct ssdfs_blk_bmap_options - block bitmap options
++ * @flags: block bitmap's flags
++ * @compression: compression type
++ */
++struct ssdfs_blk_bmap_options {
++/* 0x0000 */
++#define SSDFS_BLK_BMAP_CREATE_COPY		(1 << 0)
++#define SSDFS_BLK_BMAP_MAKE_COMPRESSION		(1 << 1)
++#define SSDFS_BLK_BMAP_OPTIONS_MASK		(0x3)
++	__le16 flags;
++#define SSDFS_BLK_BMAP_NOCOMPR_TYPE		(0)
++#define SSDFS_BLK_BMAP_ZLIB_COMPR_TYPE		(1)
++#define SSDFS_BLK_BMAP_LZO_COMPR_TYPE		(2)
++	__le8 compression;
++	__le8 reserved;
++
++/* 0x0004 */
++} __packed;
++
++/*
++ * struct ssdfs_blk2off_tbl_options - offset translation table options
++ * @flags: offset translation table's flags
++ * @compression: compression type
++ */
++struct ssdfs_blk2off_tbl_options {
++/* 0x0000 */
++#define SSDFS_BLK2OFF_TBL_CREATE_COPY		(1 << 0)
++#define SSDFS_BLK2OFF_TBL_MAKE_COMPRESSION	(1 << 1)
++#define SSDFS_BLK2OFF_TBL_OPTIONS_MASK		(0x3)
++	__le16 flags;
++#define SSDFS_BLK2OFF_TBL_NOCOMPR_TYPE		(0)
++#define SSDFS_BLK2OFF_TBL_ZLIB_COMPR_TYPE	(1)
++#define SSDFS_BLK2OFF_TBL_LZO_COMPR_TYPE	(2)
++	__le8 compression;
++	__le8 reserved;
++
++/* 0x0004 */
++} __packed;
++
++/*
++ * struct ssdfs_user_data_options - user data options
++ * @flags: user data's flags
++ * @compression: compression type
++ * @migration_threshold: default value of destination PEBs in migration
++ */
++struct ssdfs_user_data_options {
++/* 0x0000 */
++#define SSDFS_USER_DATA_MAKE_COMPRESSION	(1 << 0)
++#define SSDFS_USER_DATA_OPTIONS_MASK		(0x1)
++	__le16 flags;
++#define SSDFS_USER_DATA_NOCOMPR_TYPE		(0)
++#define SSDFS_USER_DATA_ZLIB_COMPR_TYPE		(1)
++#define SSDFS_USER_DATA_LZO_COMPR_TYPE		(2)
++	__le8 compression;
++	__le8 reserved1;
++	__le16 migration_threshold;
++	__le16 reserved2;
++
++/* 0x0008 */
++} __packed;
++
++#define SSDFS_INODE_HASNT_INLINE_FORKS		(0)
++#define SSDFS_INLINE_FORKS_COUNT		(2)
++#define SSDFS_INLINE_EXTENTS_COUNT		(3)
++
++/*
++ * struct ssdfs_raw_fork - contiguous sequence of raw (on-disk) extents
++ * @start_offset: start logical offset in pages (blocks) from file's beginning
++ * @blks_count: count of logical blocks in the fork (no holes)
++ * @extents: sequence of raw (on-disk) extents
++ */
++struct ssdfs_raw_fork {
++/* 0x0000 */
++	__le64 start_offset;
++	__le64 blks_count;
++
++/* 0x0010 */
++	struct ssdfs_raw_extent extents[SSDFS_INLINE_EXTENTS_COUNT];
++
++/* 0x0040 */
++} __packed;
++
++/*
++ * struct ssdfs_name_hash - hash of the name
++ * @raw: raw value of the hash64
++ *
++ * The name's hash is 64 bits wide (8 bytes). But the hash64 has
++ * special structure. The first 4 bytes are the low hash (hash32_lo)
++ * of the name. The second 4 bytes is the high hash (hash32_hi)
++ * of the name. If the name lesser or equal to 12 symbols (inline
++ * name's string) then hash32_hi will be equal to zero always.
++ * If the name is greater than 12 symbols then the hash32_hi
++ * will be the hash of the rest of the name (excluding the
++ * first 12 symbols). The hash32_lo will be defined by inline
++ * name's length. The inline names (12 symbols long) will be
++ * stored into dentries only. The regular names will be stored
++ * partially in the dentry (12 symbols) and the whole name string
++ * will be stored into shared dictionary.
++ */
++struct ssdfs_name_hash {
++/* 0x0000 */
++	__le64 raw;
++
++/* 0x0008 */
++} __packed;
++
++/* Name hash related macros */
++#define SSDFS_NAME_HASH(hash32_lo, hash32_hi)({ \
++	u64 hash64 = (u32)hash32_lo; \
++	hash64 <<= 32; \
++	hash64 |= hash32_hi; \
++	hash64; \
++})
++#define SSDFS_NAME_HASH_LE64(hash32_lo, hash32_hi) \
++	(cpu_to_le64(SSDFS_NAME_HASH(hash32_lo, hash32_hi)))
++#define LE64_TO_SSDFS_HASH32_LO(hash_le64) \
++	((u32)(le64_to_cpu(hash_le64) >> 32))
++#define SSDFS_HASH32_LO(hash64) \
++	((u32)(hash64 >> 32))
++#define LE64_TO_SSDFS_HASH32_HI(hash_le64) \
++	((u32)(le64_to_cpu(hash_le64) & 0xFFFFFFFF))
++#define SSDFS_HASH32_HI(hash64) \
++	((u32)(hash64 & 0xFFFFFFFF))
++
++/*
++ * struct ssdfs_dir_entry - directory entry
++ * @ino: inode number
++ * @hash_code: name string's hash code
++ * @name_len: name length in bytes
++ * @dentry_type: dentry type
++ * @file_type: directory file types
++ * @flags: dentry's flags
++ * @inline_string: inline copy of the name or exclusive storage of short name
++ */
++struct ssdfs_dir_entry {
++/* 0x0000 */
++	__le64 ino;
++	__le64 hash_code;
++
++/* 0x0010 */
++	__le8 name_len;
++	__le8 dentry_type;
++	__le8 file_type;
++	__le8 flags;
++#define SSDFS_DENTRY_INLINE_NAME_MAX_LEN	(12)
++	__le8 inline_string[SSDFS_DENTRY_INLINE_NAME_MAX_LEN];
++
++/* 0x0020 */
++} __packed;
++
++/* Dentry types */
++enum {
++	SSDFS_DENTRY_UNKNOWN_TYPE,
++	SSDFS_INLINE_DENTRY,
++	SSDFS_REGULAR_DENTRY,
++	SSDFS_DENTRY_TYPE_MAX
++};
++
++/*
++ * SSDFS directory file types.
++ */
++enum {
++	SSDFS_FT_UNKNOWN,
++	SSDFS_FT_REG_FILE,
++	SSDFS_FT_DIR,
++	SSDFS_FT_CHRDEV,
++	SSDFS_FT_BLKDEV,
++	SSDFS_FT_FIFO,
++	SSDFS_FT_SOCK,
++	SSDFS_FT_SYMLINK,
++	SSDFS_FT_MAX
++};
++
++/* Dentry flags */
++#define SSDFS_DENTRY_HAS_EXTERNAL_STRING	(1 << 0)
++#define SSDFS_DENTRY_FLAGS_MASK			0x1
++
++/*
++ * struct ssdfs_blob_extent - blob's extent descriptor
++ * @hash: blob's hash
++ * @extent: blob's extent
++ */
++struct ssdfs_blob_extent {
++/* 0x0000 */
++	__le64 hash;
++	__le64 reserved;
++	struct ssdfs_raw_extent extent;
++
++/* 0x0020 */
++} __packed;
++
++#define SSDFS_XATTR_INLINE_BLOB_MAX_LEN		(32)
++#define SSDFS_XATTR_EXTERNAL_BLOB_MAX_LEN	(32768)
++
++/*
++ * struct ssdfs_blob_bytes - inline blob's byte stream
++ * @bytes: byte stream
++ */
++struct ssdfs_blob_bytes {
++/* 0x0000 */
++	__le8 bytes[SSDFS_XATTR_INLINE_BLOB_MAX_LEN];
++
++/* 0x0020 */
++} __packed;
++
++/*
++ * struct ssdfs_xattr_entry - extended attribute entry
++ * @name_hash: hash of the name
++ * @inline_index: index of the inline xattr
++ * @name_len: length of the name
++ * @name_type: type of the name
++ * @name_flags: flags of the name
++ * @blob_len: blob length in bytes
++ * @blob_type: type of the blob
++ * @blob_flags: flags of the blob
++ * @inline_string: inline string of the name
++ * @blob.descriptor.hash: hash of the blob
++ * @blob.descriptor.extent: extent of the blob
++ * @blob.inline_value: inline value of the blob
++ *
++ * The extended attribute can be described by fixed size
++ * descriptor. The name of extended attribute can be inline
++ * or to be stored into the shared dictionary. If the name
++ * is greater than 16 symbols then it will be stored into shared
++ * dictionary. The blob part can be stored inline or,
++ * otherwise, the descriptor contains the hash of the blob
++ * and blob will be stored as ordinary file inside
++ * of logical blocks.
++ */
++struct ssdfs_xattr_entry {
++/* 0x0000 */
++	__le64 name_hash;
++
++/* 0x0008 */
++	__le8 inline_index;
++	__le8 name_len;
++	__le8 name_type;
++	__le8 name_flags;
++
++/* 0x000C */
++	__le16 blob_len;
++	__le8 blob_type;
++	__le8 blob_flags;
++
++/* 0x0010 */
++#define SSDFS_XATTR_INLINE_NAME_MAX_LEN	(16)
++	__le8 inline_string[SSDFS_XATTR_INLINE_NAME_MAX_LEN];
++
++/* 0x0020 */
++	union {
++		struct ssdfs_blob_extent descriptor;
++		struct ssdfs_blob_bytes inline_value;
++	} blob;
++
++/* 0x0040 */
++} __packed;
++
++/* registered names' prefixes */
++enum {
++	SSDFS_USER_NS_INDEX,
++	SSDFS_TRUSTED_NS_INDEX,
++	SSDFS_SYSTEM_NS_INDEX,
++	SSDFS_SECURITY_NS_INDEX,
++	SSDFS_REGISTERED_NS_NUMBER
++};
++
++static const char * const SSDFS_NS_PREFIX[] = {
++	"user.",
++	"trusted.",
++	"system.",
++	"security.",
++};
++
++/* xattr name types */
++enum {
++	SSDFS_XATTR_NAME_UNKNOWN_TYPE,
++	SSDFS_XATTR_INLINE_NAME,
++	SSDFS_XATTR_USER_INLINE_NAME,
++	SSDFS_XATTR_TRUSTED_INLINE_NAME,
++	SSDFS_XATTR_SYSTEM_INLINE_NAME,
++	SSDFS_XATTR_SECURITY_INLINE_NAME,
++	SSDFS_XATTR_REGULAR_NAME,
++	SSDFS_XATTR_USER_REGULAR_NAME,
++	SSDFS_XATTR_TRUSTED_REGULAR_NAME,
++	SSDFS_XATTR_SYSTEM_REGULAR_NAME,
++	SSDFS_XATTR_SECURITY_REGULAR_NAME,
++	SSDFS_XATTR_NAME_TYPE_MAX
++};
++
++/* xattr name flags */
++#define SSDFS_XATTR_HAS_EXTERNAL_STRING		(1 << 0)
++#define SSDFS_XATTR_NAME_FLAGS_MASK		0x1
++
++/* xattr blob types */
++enum {
++	SSDFS_XATTR_BLOB_UNKNOWN_TYPE,
++	SSDFS_XATTR_INLINE_BLOB,
++	SSDFS_XATTR_REGULAR_BLOB,
++	SSDFS_XATTR_BLOB_TYPE_MAX
++};
++
++/* xattr blob flags */
++#define SSDFS_XATTR_HAS_EXTERNAL_BLOB		(1 << 0)
++#define SSDFS_XATTR_BLOB_FLAGS_MASK		0x1
++
++#define SSDFS_INLINE_DENTRIES_PER_AREA		(2)
++#define SSDFS_INLINE_STREAM_SIZE_PER_AREA	(64)
++#define SSDFS_DEFAULT_INLINE_XATTR_COUNT	(1)
++
++/*
++ * struct ssdfs_inode_inline_stream - inode's inline stream
++ * @bytes: bytes array
++ */
++struct ssdfs_inode_inline_stream {
++/* 0x0000 */
++	__le8 bytes[SSDFS_INLINE_STREAM_SIZE_PER_AREA];
++
++/* 0x0040 */
++} __packed;
++
++/*
++ * struct ssdfs_inode_inline_dentries - inline dentries array
++ * @array: dentries array
++ */
++struct ssdfs_inode_inline_dentries {
++/* 0x0000 */
++	struct ssdfs_dir_entry array[SSDFS_INLINE_DENTRIES_PER_AREA];
++
++/* 0x0040 */
++} __packed;
++
++/*
++ * struct ssdfs_inode_private_area - inode's private area
++ * @area1.inline_stream: inline file's content
++ * @area1.extents_root: extents btree root node
++ * @area1.fork: inline fork
++ * @area1.dentries_root: dentries btree root node
++ * @area1.dentries: inline dentries
++ * @area2.inline_stream: inline file's content
++ * @area2.inline_xattr: inline extended attribute
++ * @area2.xattr_root: extended attributes btree root node
++ * @area2.fork: inline fork
++ * @area2.dentries: inline dentries
++ */
++struct ssdfs_inode_private_area {
++/* 0x0000 */
++	union {
++		struct ssdfs_inode_inline_stream inline_stream;
++		struct ssdfs_btree_inline_root_node extents_root;
++		struct ssdfs_raw_fork fork;
++		struct ssdfs_btree_inline_root_node dentries_root;
++		struct ssdfs_inode_inline_dentries dentries;
++	} area1;
++
++/* 0x0040 */
++	union {
++		struct ssdfs_inode_inline_stream inline_stream;
++		struct ssdfs_xattr_entry inline_xattr;
++		struct ssdfs_btree_inline_root_node xattr_root;
++		struct ssdfs_raw_fork fork;
++		struct ssdfs_inode_inline_dentries dentries;
++	} area2;
++
++/* 0x0080 */
++} __packed;
++
++/*
++ * struct ssdfs_inode - raw (on-disk) inode
++ * @magic: inode magic
++ * @mode: file mode
++ * @flags: file attributes
++ * @uid: owner user ID
++ * @gid: owner group ID
++ * @atime: access time (seconds)
++ * @ctime: change time (seconds)
++ * @mtime: modification time (seconds)
++ * @birthtime: inode creation time (seconds)
++ * @atime_nsec: access time in nano scale
++ * @ctime_nsec: change time in nano scale
++ * @mtime_nsec: modification time in nano scale
++ * @birthtime_nsec: creation time in nano scale
++ * @generation: file version (for NFS)
++ * @size: file size in bytes
++ * @blocks: file size in blocks
++ * @parent_ino: parent inode number
++ * @refcount: links count
++ * @checksum: inode checksum
++ * @ino: inode number
++ * @hash_code: hash code of file name
++ * @name_len: lengh of file name
++ * @forks_count: count of forks
++ * @internal: array of inline private areas of inode
++ */
++struct ssdfs_inode {
++/* 0x0000 */
++	__le16 magic;			/* Inode magic */
++	__le16 mode;			/* File mode */
++	__le32 flags;			/* file attributes */
++
++/* 0x0008 */
++	__le32 uid;			/* user ID */
++	__le32 gid;			/* group ID */
++
++/* 0x0010 */
++	__le64 atime;			/* access time */
++	__le64 ctime;			/* change time */
++	__le64 mtime;			/* modification time */
++	__le64 birthtime;		/* inode creation time */
++
++/* 0x0030 */
++	__le32 atime_nsec;		/* access time in nano scale */
++	__le32 ctime_nsec;		/* change time in nano scale */
++	__le32 mtime_nsec;		/* modification time in nano scale */
++	__le32 birthtime_nsec;		/* creation time in nano scale */
++
++/* 0x0040 */
++	__le64 generation;		/* file version (for NFS) */
++	__le64 size;			/* file size in bytes */
++	__le64 blocks;			/* file size in blocks */
++	__le64 parent_ino;		/* parent inode number */
++
++/* 0x0060 */
++	__le32 refcount;		/* links count */
++	__le32 checksum;		/* inode checksum */
++
++/* 0x0068 */
++	__le64 ino;			/* Inode number */
++	__le64 hash_code;		/* hash code of file name */
++	__le16 name_len;		/* lengh of file name */
++#define SSDFS_INODE_HAS_INLINE_EXTENTS		(1 << 0)
++#define SSDFS_INODE_HAS_EXTENTS_BTREE		(1 << 1)
++#define SSDFS_INODE_HAS_INLINE_DENTRIES		(1 << 2)
++#define SSDFS_INODE_HAS_DENTRIES_BTREE		(1 << 3)
++#define SSDFS_INODE_HAS_INLINE_XATTR		(1 << 4)
++#define SSDFS_INODE_HAS_XATTR_BTREE		(1 << 5)
++#define SSDFS_INODE_HAS_INLINE_FILE		(1 << 6)
++#define SSDFS_INODE_PRIVATE_FLAGS_MASK		0x7F
++	__le16 private_flags;
++
++	union {
++		__le32 forks;
++		__le32 dentries;
++	} count_of __packed;
++
++/* 0x0080 */
++	struct ssdfs_inode_private_area internal[1];
++
++/* 0x0100 */
++} __packed;
++
++#define SSDFS_IFREG_PRIVATE_FLAG_MASK \
++	(SSDFS_INODE_HAS_INLINE_EXTENTS | \
++	 SSDFS_INODE_HAS_EXTENTS_BTREE | \
++	 SSDFS_INODE_HAS_INLINE_XATTR | \
++	 SSDFS_INODE_HAS_XATTR_BTREE | \
++	 SSDFS_INODE_HAS_INLINE_FILE)
++
++#define SSDFS_IFDIR_PRIVATE_FLAG_MASK \
++	(SSDFS_INODE_HAS_INLINE_DENTRIES | \
++	 SSDFS_INODE_HAS_DENTRIES_BTREE | \
++	 SSDFS_INODE_HAS_INLINE_XATTR | \
++	 SSDFS_INODE_HAS_XATTR_BTREE)
++
++/*
++ * struct ssdfs_volume_header - static part of superblock
++ * @magic: magic signature + revision
++ * @check: metadata checksum
++ * @log_pagesize: log2(page size)
++ * @log_erasesize: log2(erase block size)
++ * @log_segsize: log2(segment size)
++ * @log_pebs_per_seg: log2(erase blocks per segment)
++ * @megabytes_per_peb: MBs in one PEB
++ * @pebs_per_seg: number of PEBs per segment
++ * @create_time: volume create timestamp (mkfs phase)
++ * @create_cno: volume create checkpoint
++ * @flags: volume creation flags
++ * @lebs_per_peb_index: difference of LEB IDs between PEB indexes in segment
++ * @sb_pebs: array of prev, cur and next superblock's PEB numbers
++ * @segbmap: superblock's segment bitmap header
++ * @maptbl: superblock's mapping table header
++ * @sb_seg_log_pages: full log size in sb segment (pages count)
++ * @segbmap_log_pages: full log size in segbmap segment (pages count)
++ * @maptbl_log_pages: full log size in maptbl segment (pages count)
++ * @lnodes_seg_log_pages: full log size in leaf nodes segment (pages count)
++ * @hnodes_seg_log_pages: full log size in hybrid nodes segment (pages count)
++ * @inodes_seg_log_pages: full log size in index nodes segment (pages count)
++ * @user_data_log_pages: full log size in user data segment (pages count)
++ * @create_threads_per_seg: number of creation threads per segment
++ * @dentries_btree: descriptor of all dentries btrees
++ * @extents_btree: descriptor of all extents btrees
++ * @xattr_btree: descriptor of all extended attributes btrees
++ * @invextree: b-tree of invalidated extents (ZNS SSD)
++ * @uuid: 128-bit uuid for volume
++ */
++struct ssdfs_volume_header {
++/* 0x0000 */
++	struct ssdfs_signature magic;
++
++/* 0x0008 */
++	struct ssdfs_metadata_check check;
++
++/* 0x0010 */
++	__le8 log_pagesize;
++	__le8 log_erasesize;
++	__le8 log_segsize;
++	__le8 log_pebs_per_seg;
++	__le16 megabytes_per_peb;
++	__le16 pebs_per_seg;
++
++/* 0x0018 */
++	__le64 create_time;
++	__le64 create_cno;
++#define SSDFS_VH_ZNS_BASED_VOLUME	(1 << 0)
++#define SSDFS_VH_UNALIGNED_ZONE		(1 << 1)
++#define SSDFS_VH_FLAGS_MASK		(0x3)
++	__le32 flags;
++	__le32 lebs_per_peb_index;
++
++/* 0x0030 */
++#define VH_LIMIT1	SSDFS_SB_CHAIN_MAX
++#define VH_LIMIT2	SSDFS_SB_SEG_COPY_MAX
++	struct ssdfs_leb2peb_pair sb_pebs[VH_LIMIT1][VH_LIMIT2];
++
++/* 0x00B0 */
++	struct ssdfs_segbmap_sb_header segbmap;
++
++/* 0x0140 */
++	struct ssdfs_maptbl_sb_header maptbl;
++
++/* 0x01D0 */
++	__le16 sb_seg_log_pages;
++	__le16 segbmap_log_pages;
++	__le16 maptbl_log_pages;
++	__le16 lnodes_seg_log_pages;
++	__le16 hnodes_seg_log_pages;
++	__le16 inodes_seg_log_pages;
++	__le16 user_data_log_pages;
++	__le16 create_threads_per_seg;
++
++/* 0x01E0 */
++	struct ssdfs_dentries_btree_descriptor dentries_btree;
++
++/* 0x0200 */
++	struct ssdfs_extents_btree_descriptor extents_btree;
++
++/* 0x0220 */
++	struct ssdfs_xattr_btree_descriptor xattr_btree;
++
++/* 0x0240 */
++	struct ssdfs_invalidated_extents_btree invextree;
++
++/* 0x02C0 */
++	__le8 uuid[SSDFS_UUID_SIZE];
++
++/* 0x02D0 */
++	__le8 reserved4[0x130];
++
++/* 0x0400 */
++} __packed;
++
++#define SSDFS_LEBS_PER_PEB_INDEX_DEFAULT	(1)
++
++/*
++ * struct ssdfs_volume_state - changeable part of superblock
++ * @magic: magic signature + revision
++ * @check: metadata checksum
++ * @nsegs: segments count
++ * @free_pages: free pages count
++ * @timestamp: write timestamp
++ * @cno: write checkpoint
++ * @flags: volume flags
++ * @state: file system state
++ * @errors: behaviour when detecting errors
++ * @feature_compat: compatible feature set
++ * @feature_compat_ro: read-only compatible feature set
++ * @feature_incompat: incompatible feature set
++ * @uuid: 128-bit uuid for volume
++ * @label: volume name
++ * @cur_segs: array of current segment numbers
++ * @migration_threshold: default value of destination PEBs in migration
++ * @blkbmap: block bitmap options
++ * @blk2off_tbl: offset translation table options
++ * @user_data: user data options
++ * @open_zones: number of open/active zones
++ * @root_folder: copy of root folder's inode
++ * @inodes_btree: inodes btree root
++ * @shared_extents_btree: shared extents btree root
++ * @shared_dict_btree: shared dictionary btree root
++ * @snapshots_btree: snapshots btree root
++ */
++struct ssdfs_volume_state {
++/* 0x0000 */
++	struct ssdfs_signature magic;
++
++/* 0x0008 */
++	struct ssdfs_metadata_check check;
++
++/* 0x0010 */
++	__le64 nsegs;
++	__le64 free_pages;
++
++/* 0x0020 */
++	__le64 timestamp;
++	__le64 cno;
++
++/* 0x0030 */
++#define SSDFS_HAS_INLINE_INODES_TREE		(1 << 0)
++#define SSDFS_VOLUME_STATE_FLAGS_MASK		0x1
++	__le32 flags;
++	__le16 state;
++	__le16 errors;
++
++/* 0x0038 */
++	__le64 feature_compat;
++	__le64 feature_compat_ro;
++	__le64 feature_incompat;
++
++/* 0x0050 */
++	__le8 uuid[SSDFS_UUID_SIZE];
++	char label[SSDFS_VOLUME_LABEL_MAX];
++
++/* 0x0070 */
++	__le64 cur_segs[SSDFS_CUR_SEGS_COUNT];
++
++/* 0x0098 */
++	__le16 migration_threshold;
++	__le16 reserved1;
++
++/* 0x009C */
++	struct ssdfs_blk_bmap_options blkbmap;
++	struct ssdfs_blk2off_tbl_options blk2off_tbl;
++
++/* 0x00A4 */
++	struct ssdfs_user_data_options user_data;
++
++/* 0x00AC */
++	__le32 open_zones;
++
++/* 0x00B0 */
++	struct ssdfs_inode root_folder;
++
++/* 0x01B0 */
++	__le8 reserved3[0x50];
++
++/* 0x0200 */
++	struct ssdfs_inodes_btree inodes_btree;
++
++/* 0x0280 */
++	struct ssdfs_shared_extents_btree shared_extents_btree;
++
++/* 0x0300 */
++	struct ssdfs_shared_dictionary_btree shared_dict_btree;
++
++/* 0x0380 */
++	struct ssdfs_snapshots_btree snapshots_btree;
++
++/* 0x0400 */
++} __packed;
++
++/* Compatible feature flags */
++#define SSDFS_HAS_SEGBMAP_COMPAT_FLAG			(1 << 0)
++#define SSDFS_HAS_MAPTBL_COMPAT_FLAG			(1 << 1)
++#define SSDFS_HAS_SHARED_EXTENTS_COMPAT_FLAG		(1 << 2)
++#define SSDFS_HAS_SHARED_XATTRS_COMPAT_FLAG		(1 << 3)
++#define SSDFS_HAS_SHARED_DICT_COMPAT_FLAG		(1 << 4)
++#define SSDFS_HAS_INODES_TREE_COMPAT_FLAG		(1 << 5)
++#define SSDFS_HAS_SNAPSHOTS_TREE_COMPAT_FLAG		(1 << 6)
++#define SSDFS_HAS_INVALID_EXTENTS_TREE_COMPAT_FLAG	(1 << 7)
++
++/* Read-Only compatible feature flags */
++#define SSDFS_ZLIB_COMPAT_RO_FLAG	(1 << 0)
++#define SSDFS_LZO_COMPAT_RO_FLAG	(1 << 1)
++
++#define SSDFS_FEATURE_COMPAT_SUPP \
++	(SSDFS_HAS_SEGBMAP_COMPAT_FLAG | SSDFS_HAS_MAPTBL_COMPAT_FLAG | \
++	 SSDFS_HAS_SHARED_EXTENTS_COMPAT_FLAG | \
++	 SSDFS_HAS_SHARED_XATTRS_COMPAT_FLAG | \
++	 SSDFS_HAS_SHARED_DICT_COMPAT_FLAG | \
++	 SSDFS_HAS_INODES_TREE_COMPAT_FLAG | \
++	 SSDFS_HAS_SNAPSHOTS_TREE_COMPAT_FLAG | \
++	 SSDFS_HAS_INVALID_EXTENTS_TREE_COMPAT_FLAG)
++
++#define SSDFS_FEATURE_COMPAT_RO_SUPP \
++	(SSDFS_ZLIB_COMPAT_RO_FLAG | SSDFS_LZO_COMPAT_RO_FLAG)
++
++#define SSDFS_FEATURE_INCOMPAT_SUPP	0ULL
++
++/*
++ * struct ssdfs_metadata_descriptor - metadata descriptor
++ * @offset: offset in bytes
++ * @size: size in bytes
++ * @check: metadata checksum
++ */
++struct ssdfs_metadata_descriptor {
++/* 0x0000 */
++	__le32 offset;
++	__le32 size;
++	struct ssdfs_metadata_check check;
++
++/* 0x0010 */
++} __packed;
++
++enum {
++	SSDFS_BLK_BMAP_INDEX,
++	SSDFS_SNAPSHOT_RULES_AREA_INDEX,
++	SSDFS_OFF_TABLE_INDEX,
++	SSDFS_COLD_PAYLOAD_AREA_INDEX,
++	SSDFS_WARM_PAYLOAD_AREA_INDEX,
++	SSDFS_HOT_PAYLOAD_AREA_INDEX,
++	SSDFS_BLK_DESC_AREA_INDEX,
++	SSDFS_MAPTBL_CACHE_INDEX,
++	SSDFS_LOG_FOOTER_INDEX,
++	SSDFS_SEG_HDR_DESC_MAX = SSDFS_LOG_FOOTER_INDEX + 1,
++	SSDFS_LOG_FOOTER_DESC_MAX = SSDFS_OFF_TABLE_INDEX + 1,
++};
++
++enum {
++	SSDFS_PREV_MIGRATING_PEB,
++	SSDFS_CUR_MIGRATING_PEB,
++	SSDFS_MIGRATING_PEBS_CHAIN
++};
++
++/*
++ * struct ssdfs_segment_header - header of segment
++ * @volume_hdr: copy of static part of superblock
++ * @timestamp: log creation timestamp
++ * @cno: log checkpoint
++ * @log_pages: size of log (partial segment) in pages count
++ * @seg_type: type of segment
++ * @seg_flags: flags of segment
++ * @desc_array: array of segment's metadata descriptors
++ * @peb_migration_id: identification number of PEB in migration sequence
++ * @peb_create_time: PEB creation timestamp
++ * @seg_id: segment ID that contains this PEB
++ * @leb_id: LEB ID that mapped with this PEB
++ * @peb_id: PEB ID
++ * @relation_peb_id: source PEB ID during migration
++ * @payload: space for segment header's payload
++ */
++struct ssdfs_segment_header {
++/* 0x0000 */
++	struct ssdfs_volume_header volume_hdr;
++
++/* 0x0400 */
++	__le64 timestamp;
++	__le64 cno;
++
++/* 0x0410 */
++	__le16 log_pages;
++	__le16 seg_type;
++	__le32 seg_flags;
++
++/* 0x0418 */
++	struct ssdfs_metadata_descriptor desc_array[SSDFS_SEG_HDR_DESC_MAX];
++
++/* 0x04A8 */
++#define SSDFS_PEB_UNKNOWN_MIGRATION_ID		(0)
++#define SSDFS_PEB_MIGRATION_ID_START		(1)
++#define SSDFS_PEB_MIGRATION_ID_MAX		(U8_MAX)
++	__le8 peb_migration_id[SSDFS_MIGRATING_PEBS_CHAIN];
++	__le8 reserved[0x6];
++
++/* 0x4B0 */
++	__le64 peb_create_time;
++
++/* 0x4B8 */
++	__le64 seg_id;
++	__le64 leb_id;
++	__le64 peb_id;
++	__le64 relation_peb_id;
++
++/* 0x4D8 */
++	__le8 payload[0x328];
++
++/* 0x0800 */
++} __packed;
++
++/* Possible segment types */
++#define SSDFS_UNKNOWN_SEG_TYPE			(0)
++#define SSDFS_SB_SEG_TYPE			(1)
++#define SSDFS_INITIAL_SNAPSHOT_SEG_TYPE		(2)
++#define SSDFS_SEGBMAP_SEG_TYPE			(3)
++#define SSDFS_MAPTBL_SEG_TYPE			(4)
++#define SSDFS_LEAF_NODE_SEG_TYPE		(5)
++#define SSDFS_HYBRID_NODE_SEG_TYPE		(6)
++#define SSDFS_INDEX_NODE_SEG_TYPE		(7)
++#define SSDFS_USER_DATA_SEG_TYPE		(8)
++#define SSDFS_LAST_KNOWN_SEG_TYPE		SSDFS_USER_DATA_SEG_TYPE
++
++/* Segment flags' bits */
++#define SSDFS_BLK_BMAP_BIT			(0)
++#define SSDFS_OFFSET_TABLE_BIT			(1)
++#define SSDFS_COLD_PAYLOAD_BIT			(2)
++#define SSDFS_WARM_PAYLOAD_BIT			(3)
++#define SSDFS_HOT_PAYLOAD_BIT			(4)
++#define SSDFS_BLK_DESC_CHAIN_BIT		(5)
++#define SSDFS_MAPTBL_CACHE_BIT			(6)
++#define SSDFS_FOOTER_BIT			(7)
++#define SSDFS_PARTIAL_LOG_BIT			(8)
++#define SSDFS_PARTIAL_LOG_HEADER_BIT		(9)
++#define SSDFS_PLH_INSTEAD_FOOTER_BIT		(10)
++
++/* Segment flags */
++#define SSDFS_SEG_HDR_HAS_BLK_BMAP		(1 << SSDFS_BLK_BMAP_BIT)
++#define SSDFS_SEG_HDR_HAS_OFFSET_TABLE		(1 << SSDFS_OFFSET_TABLE_BIT)
++#define SSDFS_LOG_HAS_COLD_PAYLOAD		(1 << SSDFS_COLD_PAYLOAD_BIT)
++#define SSDFS_LOG_HAS_WARM_PAYLOAD		(1 << SSDFS_WARM_PAYLOAD_BIT)
++#define SSDFS_LOG_HAS_HOT_PAYLOAD		(1 << SSDFS_HOT_PAYLOAD_BIT)
++#define SSDFS_LOG_HAS_BLK_DESC_CHAIN		(1 << SSDFS_BLK_DESC_CHAIN_BIT)
++#define SSDFS_LOG_HAS_MAPTBL_CACHE		(1 << SSDFS_MAPTBL_CACHE_BIT)
++#define SSDFS_LOG_HAS_FOOTER			(1 << SSDFS_FOOTER_BIT)
++#define SSDFS_LOG_IS_PARTIAL			(1 << SSDFS_PARTIAL_LOG_BIT)
++#define SSDFS_LOG_HAS_PARTIAL_HEADER		(1 << SSDFS_PARTIAL_LOG_HEADER_BIT)
++#define SSDFS_PARTIAL_HEADER_INSTEAD_FOOTER	(1 << SSDFS_PLH_INSTEAD_FOOTER_BIT)
++#define SSDFS_SEG_HDR_FLAG_MASK			0x7FF
++
++/* Segment flags manipulation functions */
++#define SSDFS_SEG_HDR_FNS(bit, name)					\
++static inline void ssdfs_set_##name(struct ssdfs_segment_header *hdr)	\
++{									\
++	unsigned long seg_flags = le32_to_cpu(hdr->seg_flags);		\
++	set_bit(SSDFS_##bit, &seg_flags);				\
++	hdr->seg_flags = cpu_to_le32((u32)seg_flags);			\
++}									\
++static inline void ssdfs_clear_##name(struct ssdfs_segment_header *hdr)	\
++{									\
++	unsigned long seg_flags = le32_to_cpu(hdr->seg_flags);		\
++	clear_bit(SSDFS_##bit, &seg_flags);				\
++	hdr->seg_flags = cpu_to_le32((u32)seg_flags);			\
++}									\
++static inline int ssdfs_##name(struct ssdfs_segment_header *hdr)	\
++{									\
++	unsigned long seg_flags = le32_to_cpu(hdr->seg_flags);		\
++	return test_bit(SSDFS_##bit, &seg_flags);			\
++}
++
++/*
++ * ssdfs_set_seg_hdr_has_blk_bmap()
++ * ssdfs_clear_seg_hdr_has_blk_bmap()
++ * ssdfs_seg_hdr_has_blk_bmap()
++ */
++SSDFS_SEG_HDR_FNS(BLK_BMAP_BIT, seg_hdr_has_blk_bmap)
++
++/*
++ * ssdfs_set_seg_hdr_has_offset_table()
++ * ssdfs_clear_seg_hdr_has_offset_table()
++ * ssdfs_seg_hdr_has_offset_table()
++ */
++SSDFS_SEG_HDR_FNS(OFFSET_TABLE_BIT, seg_hdr_has_offset_table)
++
++/*
++ * ssdfs_set_log_has_cold_payload()
++ * ssdfs_clear_log_has_cold_payload()
++ * ssdfs_log_has_cold_payload()
++ */
++SSDFS_SEG_HDR_FNS(COLD_PAYLOAD_BIT, log_has_cold_payload)
++
++/*
++ * ssdfs_set_log_has_warm_payload()
++ * ssdfs_clear_log_has_warm_payload()
++ * ssdfs_log_has_warm_payload()
++ */
++SSDFS_SEG_HDR_FNS(WARM_PAYLOAD_BIT, log_has_warm_payload)
++
++/*
++ * ssdfs_set_log_has_hot_payload()
++ * ssdfs_clear_log_has_hot_payload()
++ * ssdfs_log_has_hot_payload()
++ */
++SSDFS_SEG_HDR_FNS(HOT_PAYLOAD_BIT, log_has_hot_payload)
++
++/*
++ * ssdfs_set_log_has_blk_desc_chain()
++ * ssdfs_clear_log_has_blk_desc_chain()
++ * ssdfs_log_has_blk_desc_chain()
++ */
++SSDFS_SEG_HDR_FNS(BLK_DESC_CHAIN_BIT, log_has_blk_desc_chain)
++
++/*
++ * ssdfs_set_log_has_maptbl_cache()
++ * ssdfs_clear_log_has_maptbl_cache()
++ * ssdfs_log_has_maptbl_cache()
++ */
++SSDFS_SEG_HDR_FNS(MAPTBL_CACHE_BIT, log_has_maptbl_cache)
++
++/*
++ * ssdfs_set_log_has_footer()
++ * ssdfs_clear_log_has_footer()
++ * ssdfs_log_has_footer()
++ */
++SSDFS_SEG_HDR_FNS(FOOTER_BIT, log_has_footer)
++
++/*
++ * ssdfs_set_log_is_partial()
++ * ssdfs_clear_log_is_partial()
++ * ssdfs_log_is_partial()
++ */
++SSDFS_SEG_HDR_FNS(PARTIAL_LOG_BIT, log_is_partial)
++
++/*
++ * ssdfs_set_log_has_partial_header()
++ * ssdfs_clear_log_has_partial_header()
++ * ssdfs_log_has_partial_header()
++ */
++SSDFS_SEG_HDR_FNS(PARTIAL_LOG_HEADER_BIT, log_has_partial_header)
++
++/*
++ * ssdfs_set_partial_header_instead_footer()
++ * ssdfs_clear_partial_header_instead_footer()
++ * ssdfs_partial_header_instead_footer()
++ */
++SSDFS_SEG_HDR_FNS(PLH_INSTEAD_FOOTER_BIT, partial_header_instead_footer)
++
++/*
++ * struct ssdfs_log_footer - footer of partial log
++ * @volume_state: changeable part of superblock
++ * @timestamp: writing timestamp
++ * @cno: writing checkpoint
++ * @log_bytes: payload size in bytes
++ * @log_flags: flags of log
++ * @reserved1: reserved field
++ * @desc_array: array of footer's metadata descriptors
++ * @peb_create_time: PEB creation timestamp
++ * @payload: space for log footer's payload
++ */
++struct ssdfs_log_footer {
++/* 0x0000 */
++	struct ssdfs_volume_state volume_state;
++
++/* 0x0400 */
++	__le64 timestamp;
++	__le64 cno;
++
++/* 0x0410 */
++	__le32 log_bytes;
++	__le32 log_flags;
++	__le64 reserved1;
++
++/* 0x0420 */
++	struct ssdfs_metadata_descriptor desc_array[SSDFS_LOG_FOOTER_DESC_MAX];
++
++/* 0x0450 */
++	__le64 peb_create_time;
++
++/* 0x0458 */
++	__le8 payload[0x3A8];
++
++/* 0x0800 */
++} __packed;
++
++/* Log footer flags' bits */
++#define __SSDFS_BLK_BMAP_BIT			(0)
++#define __SSDFS_OFFSET_TABLE_BIT		(1)
++#define __SSDFS_PARTIAL_LOG_BIT			(2)
++#define __SSDFS_ENDING_LOG_BIT			(3)
++#define __SSDFS_SNAPSHOT_RULE_AREA_BIT		(4)
++
++/* Log footer flags */
++#define SSDFS_LOG_FOOTER_HAS_BLK_BMAP		(1 << __SSDFS_BLK_BMAP_BIT)
++#define SSDFS_LOG_FOOTER_HAS_OFFSET_TABLE	(1 << __SSDFS_OFFSET_TABLE_BIT)
++#define SSDFS_PARTIAL_LOG_FOOTER		(1 << __SSDFS_PARTIAL_LOG_BIT)
++#define SSDFS_ENDING_LOG_FOOTER			(1 << __SSDFS_ENDING_LOG_BIT)
++#define SSDFS_LOG_FOOTER_HAS_SNAPSHOT_RULES	(1 << __SSDFS_SNAPSHOT_RULE_AREA_BIT)
++#define SSDFS_LOG_FOOTER_FLAG_MASK		0x1F
++
++/* Log footer flags manipulation functions */
++#define SSDFS_LOG_FOOTER_FNS(bit, name)					\
++static inline void ssdfs_set_##name(struct ssdfs_log_footer *footer)	\
++{									\
++	unsigned long log_flags = le32_to_cpu(footer->log_flags);	\
++	set_bit(__SSDFS_##bit, &log_flags);				\
++	footer->log_flags = cpu_to_le32((u32)log_flags);		\
++}									\
++static inline void ssdfs_clear_##name(struct ssdfs_log_footer *footer)	\
++{									\
++	unsigned long log_flags = le32_to_cpu(footer->log_flags);	\
++	clear_bit(__SSDFS_##bit, &log_flags);				\
++	footer->log_flags = cpu_to_le32((u32)log_flags);		\
++}									\
++static inline int ssdfs_##name(struct ssdfs_log_footer *footer)		\
++{									\
++	unsigned long log_flags = le32_to_cpu(footer->log_flags);	\
++	return test_bit(__SSDFS_##bit, &log_flags);			\
++}
++
++/*
++ * ssdfs_set_log_footer_has_blk_bmap()
++ * ssdfs_clear_log_footer_has_blk_bmap()
++ * ssdfs_log_footer_has_blk_bmap()
++ */
++SSDFS_LOG_FOOTER_FNS(BLK_BMAP_BIT, log_footer_has_blk_bmap)
++
++/*
++ * ssdfs_set_log_footer_has_offset_table()
++ * ssdfs_clear_log_footer_has_offset_table()
++ * ssdfs_log_footer_has_offset_table()
++ */
++SSDFS_LOG_FOOTER_FNS(OFFSET_TABLE_BIT, log_footer_has_offset_table)
++
++/*
++ * ssdfs_set_partial_log_footer()
++ * ssdfs_clear_partial_log_footer()
++ * ssdfs_partial_log_footer()
++ */
++SSDFS_LOG_FOOTER_FNS(PARTIAL_LOG_BIT, partial_log_footer)
++
++/*
++ * ssdfs_set_ending_log_footer()
++ * ssdfs_clear_ending_log_footer()
++ * ssdfs_ending_log_footer()
++ */
++SSDFS_LOG_FOOTER_FNS(ENDING_LOG_BIT, ending_log_footer)
++
++/*
++ * ssdfs_set_log_footer_has_snapshot_rules()
++ * ssdfs_clear_log_footer_has_snapshot_rules()
++ * ssdfs_log_footer_has_snapshot_rules()
++ */
++SSDFS_LOG_FOOTER_FNS(SNAPSHOT_RULE_AREA_BIT, log_footer_has_snapshot_rules)
++
++/*
++ * struct ssdfs_partial_log_header - header of partial log
++ * @magic: magic signature + revision
++ * @check: metadata checksum
++ * @timestamp: writing timestamp
++ * @cno: writing checkpoint
++ * @log_pages: size of log in pages count
++ * @seg_type: type of segment
++ * @pl_flags: flags of log
++ * @log_bytes: payload size in bytes
++ * @flags: volume flags
++ * @desc_array: array of log's metadata descriptors
++ * @nsegs: segments count
++ * @free_pages: free pages count
++ * @root_folder: copy of root folder's inode
++ * @inodes_btree: inodes btree root
++ * @shared_extents_btree: shared extents btree root
++ * @shared_dict_btree: shared dictionary btree root
++ * @sequence_id: index of partial log in the sequence
++ * @log_pagesize: log2(page size)
++ * @log_erasesize: log2(erase block size)
++ * @log_segsize: log2(segment size)
++ * @log_pebs_per_seg: log2(erase blocks per segment)
++ * @lebs_per_peb_index: difference of LEB IDs between PEB indexes in segment
++ * @create_threads_per_seg: number of creation threads per segment
++ * @snapshots_btree: snapshots btree root
++ * @open_zones: number of open/active zones
++ * @peb_create_time: PEB creation timestamp
++ * @invextree: invalidated extents btree root
++ * @seg_id: segment ID that contains this PEB
++ * @leb_id: LEB ID that mapped with this PEB
++ * @peb_id: PEB ID
++ * @relation_peb_id: source PEB ID during migration
++ * @uuid: 128-bit uuid for volume
++ * @volume_create_time: volume create timestamp (mkfs phase)
++ *
++ * This header is used when the full log needs to be built from several
++ * partial logs. The header represents the combination of the most
++ * essential fields of segment header and log footer. The first partial
++ * log starts from the segment header and partial log header. The next
++ * every partial log starts from the partial log header. Only the latest
++ * log ends with the log footer.
++ */
++struct ssdfs_partial_log_header {
++/* 0x0000 */
++	struct ssdfs_signature magic;
++
++/* 0x0008 */
++	struct ssdfs_metadata_check check;
++
++/* 0x0010 */
++	__le64 timestamp;
++	__le64 cno;
++
++/* 0x0020 */
++	__le16 log_pages;
++	__le16 seg_type;
++	__le32 pl_flags;
++
++/* 0x0028 */
++	__le32 log_bytes;
++	__le32 flags;
++
++/* 0x0030 */
++	struct ssdfs_metadata_descriptor desc_array[SSDFS_SEG_HDR_DESC_MAX];
++
++/* 0x00C0 */
++	__le64 nsegs;
++	__le64 free_pages;
++
++/* 0x00D0 */
++	struct ssdfs_inode root_folder;
++
++/* 0x01D0 */
++	struct ssdfs_inodes_btree inodes_btree;
++
++/* 0x0250 */
++	struct ssdfs_shared_extents_btree shared_extents_btree;
++
++/* 0x02D0 */
++	struct ssdfs_shared_dictionary_btree shared_dict_btree;
++
++/* 0x0350 */
++	__le32 sequence_id;
++	__le8 log_pagesize;
++	__le8 log_erasesize;
++	__le8 log_segsize;
++	__le8 log_pebs_per_seg;
++	__le32 lebs_per_peb_index;
++	__le16 create_threads_per_seg;
++	__le8 reserved1[0x2];
++
++/* 0x0360 */
++	struct ssdfs_snapshots_btree snapshots_btree;
++
++/* 0x03E0 */
++	__le32 open_zones;
++	__le8 reserved2[0x4];
++	__le64 peb_create_time;
++	__le8 reserved3[0x10];
++
++/* 0x0400 */
++	struct ssdfs_invalidated_extents_btree invextree;
++
++/* 0x0480 */
++	__le64 seg_id;
++	__le64 leb_id;
++	__le64 peb_id;
++	__le64 relation_peb_id;
++
++/* 0x04A0 */
++	__le8 uuid[SSDFS_UUID_SIZE];
++
++/* 0x04B0 */
++	__le64 volume_create_time;
++
++/* 0x04B8 */
++	__le8 payload[0x348];
++
++/* 0x0800 */
++} __packed;
++
++/* Partial log flags manipulation functions */
++#define SSDFS_PL_HDR_FNS(bit, name)					 \
++static inline void ssdfs_set_##name(struct ssdfs_partial_log_header *hdr) \
++{									 \
++	unsigned long pl_flags = le32_to_cpu(hdr->pl_flags);		 \
++	set_bit(SSDFS_##bit, &pl_flags);				 \
++	hdr->pl_flags = cpu_to_le32((u32)pl_flags);			 \
++}									 \
++static inline void ssdfs_clear_##name(struct ssdfs_partial_log_header *hdr) \
++{									 \
++	unsigned long pl_flags = le32_to_cpu(hdr->pl_flags);		 \
++	clear_bit(SSDFS_##bit, &pl_flags);				 \
++	hdr->pl_flags = cpu_to_le32((u32)pl_flags);			 \
++}									 \
++static inline int ssdfs_##name(struct ssdfs_partial_log_header *hdr)	 \
++{									 \
++	unsigned long pl_flags = le32_to_cpu(hdr->pl_flags);		 \
++	return test_bit(SSDFS_##bit, &pl_flags);			 \
++}
++
++/*
++ * ssdfs_set_pl_hdr_has_blk_bmap()
++ * ssdfs_clear_pl_hdr_has_blk_bmap()
++ * ssdfs_pl_hdr_has_blk_bmap()
++ */
++SSDFS_PL_HDR_FNS(BLK_BMAP_BIT, pl_hdr_has_blk_bmap)
++
++/*
++ * ssdfs_set_pl_hdr_has_offset_table()
++ * ssdfs_clear_pl_hdr_has_offset_table()
++ * ssdfs_pl_hdr_has_offset_table()
++ */
++SSDFS_PL_HDR_FNS(OFFSET_TABLE_BIT, pl_hdr_has_offset_table)
++
++/*
++ * ssdfs_set_pl_has_cold_payload()
++ * ssdfs_clear_pl_has_cold_payload()
++ * ssdfs_pl_has_cold_payload()
++ */
++SSDFS_PL_HDR_FNS(COLD_PAYLOAD_BIT, pl_has_cold_payload)
++
++/*
++ * ssdfs_set_pl_has_warm_payload()
++ * ssdfs_clear_pl_has_warm_payload()
++ * ssdfs_pl_has_warm_payload()
++ */
++SSDFS_PL_HDR_FNS(WARM_PAYLOAD_BIT, pl_has_warm_payload)
++
++/*
++ * ssdfs_set_pl_has_hot_payload()
++ * ssdfs_clear_pl_has_hot_payload()
++ * ssdfs_pl_has_hot_payload()
++ */
++SSDFS_PL_HDR_FNS(HOT_PAYLOAD_BIT, pl_has_hot_payload)
++
++/*
++ * ssdfs_set_pl_has_blk_desc_chain()
++ * ssdfs_clear_pl_has_blk_desc_chain()
++ * ssdfs_pl_has_blk_desc_chain()
++ */
++SSDFS_PL_HDR_FNS(BLK_DESC_CHAIN_BIT, pl_has_blk_desc_chain)
++
++/*
++ * ssdfs_set_pl_has_maptbl_cache()
++ * ssdfs_clear_pl_has_maptbl_cache()
++ * ssdfs_pl_has_maptbl_cache()
++ */
++SSDFS_PL_HDR_FNS(MAPTBL_CACHE_BIT, pl_has_maptbl_cache)
++
++/*
++ * ssdfs_set_pl_has_footer()
++ * ssdfs_clear_pl_has_footer()
++ * ssdfs_pl_has_footer()
++ */
++SSDFS_PL_HDR_FNS(FOOTER_BIT, pl_has_footer)
++
++/*
++ * ssdfs_set_pl_is_partial()
++ * ssdfs_clear_pl_is_partial()
++ * ssdfs_pl_is_partial()
++ */
++SSDFS_PL_HDR_FNS(PARTIAL_LOG_BIT, pl_is_partial)
++
++/*
++ * ssdfs_set_pl_has_partial_header()
++ * ssdfs_clear_pl_has_partial_header()
++ * ssdfs_pl_has_partial_header()
++ */
++SSDFS_PL_HDR_FNS(PARTIAL_LOG_HEADER_BIT, pl_has_partial_header)
++
++/*
++ * ssdfs_set_pl_header_instead_footer()
++ * ssdfs_clear_pl_header_instead_footer()
++ * ssdfs_pl_header_instead_footer()
++ */
++SSDFS_PL_HDR_FNS(PLH_INSTEAD_FOOTER_BIT, pl_header_instead_footer)
++
++/*
++ * struct ssdfs_diff_blob_header - diff blob header
++ * @magic: diff blob's magic
++ * @type: diff blob's type
++ * @desc_size: size of diff blob's descriptor in bytes
++ * @blob_size: size of diff blob in bytes
++ * @flags: diff blob's flags
++ */
++struct ssdfs_diff_blob_header {
++/* 0x0000 */
++	__le16 magic;
++	__le8 type;
++	__le8 desc_size;
++	__le16 blob_size;
++	__le16 flags;
++
++/* 0x0008 */
++} __packed;
++
++/* Diff blob flags */
++#define SSDFS_DIFF_BLOB_HAS_BTREE_NODE_HEADER	(1 << 0)
++#define SSDFS_DIFF_CHAIN_CONTAINS_NEXT_BLOB	(1 << 1)
++#define SSDFS_DIFF_BLOB_FLAGS_MASK		(0x3)
++
++/*
++ * struct ssdfs_metadata_diff_blob_header - metadata diff blob header
++ * @diff: generic diff blob header
++ * @bits_count: count of bits in bitmap
++ * @item_start_bit: item starting bit in bitmap
++ * @index_start_bit: index starting bit in bitmap
++ * @item_size: size of item in bytes
++ */
++struct ssdfs_metadata_diff_blob_header {
++/* 0x0000 */
++	struct ssdfs_diff_blob_header diff;
++
++/* 0x0008 */
++	__le16 bits_count;
++	__le16 item_start_bit;
++	__le16 index_start_bit;
++	__le16 item_size;
++
++/* 0x0010 */
++} __packed;
++
++/* Diff blob types */
++enum {
++	SSDFS_UNKNOWN_DIFF_BLOB_TYPE,
++	SSDFS_BTREE_NODE_DIFF_BLOB,
++	SSDFS_USER_DATA_DIFF_BLOB,
++	SSDFS_DIFF_BLOB_TYPE_MAX
++};
++
++/*
++ * struct ssdfs_fragments_chain_header - header of fragments' chain
++ * @compr_bytes: size of the whole fragments' chain in compressed state
++ * @uncompr_bytes: size of the whole fragments' chain in decompressed state
++ * @fragments_count: count of fragments in the chain
++ * @desc_size: size of one descriptor item
++ * @magic: fragments chain header magic
++ * @type: fragments chain header type
++ * @flags: flags of fragments' chain
++ */
++struct ssdfs_fragments_chain_header {
++/* 0x0000 */
++	__le32 compr_bytes;
++	__le32 uncompr_bytes;
++
++/* 0x0008 */
++	__le16 fragments_count;
++	__le16 desc_size;
++
++/* 0x000C */
++	__le8 magic;
++	__le8 type;
++	__le16 flags;
++
++/* 0x0010 */
++} __packed;
++
++/* Fragments chain types */
++#define SSDFS_UNKNOWN_CHAIN_HDR		0x0
++#define SSDFS_LOG_AREA_CHAIN_HDR	0x1
++#define SSDFS_BLK_STATE_CHAIN_HDR	0x2
++#define SSDFS_BLK_DESC_CHAIN_HDR	0x3
++#define SSDFS_BLK_DESC_ZLIB_CHAIN_HDR	0x4
++#define SSDFS_BLK_DESC_LZO_CHAIN_HDR	0x5
++#define SSDFS_BLK2OFF_CHAIN_HDR		0x6
++#define SSDFS_BLK2OFF_ZLIB_CHAIN_HDR	0x7
++#define SSDFS_BLK2OFF_LZO_CHAIN_HDR	0x8
++#define SSDFS_BLK_BMAP_CHAIN_HDR	0x9
++#define SSDFS_CHAIN_HDR_TYPE_MAX	(SSDFS_BLK_BMAP_CHAIN_HDR + 1)
++
++/* Fragments chain flags */
++#define SSDFS_MULTIPLE_HDR_CHAIN	(1 << 0)
++#define SSDFS_CHAIN_HDR_FLAG_MASK	0x1
++
++/* Fragments chain constants */
++#define SSDFS_FRAGMENTS_CHAIN_MAX		14
++#define SSDFS_BLK_BMAP_FRAGMENTS_CHAIN_MAX	64
++
++/*
++ * struct ssdfs_fragment_desc - fragment descriptor
++ * @offset: fragment's offset
++ * @compr_size: size of fragment in compressed state
++ * @uncompr_size: size of fragment after decompression
++ * @checksum: fragment checksum
++ * @sequence_id: fragment's sequential id number
++ * @magic: fragment descriptor's magic
++ * @type: fragment descriptor's type
++ * @flags: fragment descriptor's flags
++ */
++struct ssdfs_fragment_desc {
++/* 0x0000 */
++	__le32 offset;
++	__le16 compr_size;
++	__le16 uncompr_size;
++
++/* 0x0008 */
++	__le32 checksum;
++	__le8 sequence_id;
++	__le8 magic;
++	__le8 type;
++	__le8 flags;
++
++/* 0x0010 */
++} __packed;
++
++/* Fragment descriptor types */
++#define SSDFS_UNKNOWN_FRAGMENT_TYPE	0
++#define SSDFS_FRAGMENT_UNCOMPR_BLOB	1
++#define SSDFS_FRAGMENT_ZLIB_BLOB	2
++#define SSDFS_FRAGMENT_LZO_BLOB		3
++#define SSDFS_DATA_BLK_STATE_DESC	4
++#define SSDFS_DATA_BLK_DESC		5
++#define SSDFS_DATA_BLK_DESC_ZLIB	6
++#define SSDFS_DATA_BLK_DESC_LZO		7
++#define SSDFS_BLK2OFF_EXTENT_DESC	8
++#define SSDFS_BLK2OFF_EXTENT_DESC_ZLIB	9
++#define SSDFS_BLK2OFF_EXTENT_DESC_LZO	10
++#define SSDFS_BLK2OFF_DESC		11
++#define SSDFS_BLK2OFF_DESC_ZLIB		12
++#define SSDFS_BLK2OFF_DESC_LZO		13
++#define SSDFS_NEXT_TABLE_DESC		14
++#define SSDFS_FRAGMENT_DESC_MAX_TYPE	(SSDFS_NEXT_TABLE_DESC + 1)
++
++/* Fragment descriptor flags */
++#define SSDFS_FRAGMENT_HAS_CSUM		(1 << 0)
++#define SSDFS_FRAGMENT_DESC_FLAGS_MASK	0x1
++
++/*
++ * struct ssdfs_block_bitmap_header - header of segment's block bitmap
++ * @magic: magic signature and flags
++ * @fragments_count: count of block bitmap's fragments
++ * @bytes_count: count of bytes in fragments' sequence
++ * @flags: block bitmap's flags
++ * @type: type of block bitmap
++ */
++struct ssdfs_block_bitmap_header {
++/* 0x0000 */
++	struct ssdfs_signature magic;
++
++/* 0x0008 */
++	__le16 fragments_count;
++	__le32 bytes_count;
++
++#define SSDFS_BLK_BMAP_BACKUP		(1 << 0)
++#define SSDFS_BLK_BMAP_COMPRESSED	(1 << 1)
++#define SSDFS_BLK_BMAP_FLAG_MASK	0x3
++	__le8 flags;
++
++#define SSDFS_BLK_BMAP_UNCOMPRESSED_BLOB	(0)
++#define SSDFS_BLK_BMAP_ZLIB_BLOB		(1)
++#define SSDFS_BLK_BMAP_LZO_BLOB			(2)
++#define SSDFS_BLK_BMAP_TYPE_MAX			(SSDFS_BLK_BMAP_LZO_BLOB + 1)
++	__le8 type;
++
++/* 0x0010 */
++} __packed;
++
++/*
++ * struct ssdfs_block_bitmap_fragment - block bitmap's fragment header
++ * @peb_index: PEB's index
++ * @sequence_id: ID of block bitmap's fragment in the sequence
++ * @flags: fragment's flags
++ * @type: fragment type
++ * @last_free_blk: last logical free block
++ * @metadata_blks: count of physical pages are used by metadata
++ * @invalid_blks: count of invalid blocks
++ * @chain_hdr: descriptor of block bitmap's fragments' chain
++ */
++struct ssdfs_block_bitmap_fragment {
++/* 0x0000 */
++	__le16 peb_index;
++	__le8 sequence_id;
++
++#define SSDFS_MIGRATING_BLK_BMAP	(1 << 0)
++#define SSDFS_PEB_HAS_EXT_PTR		(1 << 1)
++#define SSDFS_PEB_HAS_RELATION		(1 << 2)
++#define SSDFS_INFLATED_BLK_BMAP		(1 << 3)
++#define SSDFS_FRAG_BLK_BMAP_FLAG_MASK	0xF
++	__le8 flags : 6;
++
++#define SSDFS_SRC_BLK_BMAP		(0)
++#define SSDFS_DST_BLK_BMAP		(1)
++#define SSDFS_FRAG_BLK_BMAP_TYPE_MAX	(SSDFS_DST_BLK_BMAP + 1)
++	__le8 type : 2;
++
++	__le32 last_free_blk;
++
++/* 0x0008 */
++	__le32 metadata_blks;
++	__le32 invalid_blks;
++
++/* 0x0010 */
++	struct ssdfs_fragments_chain_header chain_hdr;
++
++/* 0x0020 */
++} __packed;
++
++/*
++ * The block to offset table has structure:
++ *
++ * ----------------------------
++ * |                          |
++ * |  Blk2Off table Header    |
++ * |                          |
++ * ----------------------------
++ * |                          |
++ * |   Translation extents    |
++ * |        sequence          |
++ * |                          |
++ * ----------------------------
++ * |                          |
++ * |  Physical offsets table  |
++ * |         header           |
++ * |                          |
++ * ----------------------------
++ * |                          |
++ * |    Physical offset       |
++ * |  descriptors sequence    |
++ * |                          |
++ * ----------------------------
++ */
++
++/* Possible log's area types */
++enum {
++	SSDFS_LOG_BLK_DESC_AREA,
++	SSDFS_LOG_MAIN_AREA,
++	SSDFS_LOG_DIFFS_AREA,
++	SSDFS_LOG_JOURNAL_AREA,
++	SSDFS_LOG_AREA_MAX,
++};
++
++/*
++ * struct ssdfs_peb_page_descriptor - PEB's page descriptor
++ * @logical_offset: logical offset from file's begin in pages
++ * @logical_blk: logical number of the block in segment
++ * @peb_page: PEB's page index
++ */
++struct ssdfs_peb_page_descriptor {
++/* 0x0000 */
++	__le32 logical_offset;
++	__le16 logical_blk;
++	__le16 peb_page;
++
++/* 0x0008 */
++} __packed;
++
++/*
++ * struct ssdfs_blk_state_offset - block's state offset
++ * @log_start_page: start page of the log
++ * @log_area: identification number of log area
++ * @peb_migration_id: identification number of PEB in migration sequence
++ * @byte_offset: offset in bytes from area's beginning
++ */
++struct ssdfs_blk_state_offset {
++/* 0x0000 */
++	__le16 log_start_page;
++	__le8 log_area;
++	__le8 peb_migration_id;
++	__le32 byte_offset;
++
++/* 0x0008 */
++} __packed;
++
++/*
++ * struct ssdfs_phys_offset_descriptor - descriptor of physical offset
++ * @page_desc: PEB's page descriptor
++ * @blk_state: logical block's state offset
++ */
++struct ssdfs_phys_offset_descriptor {
++/* 0x0000 */
++	struct ssdfs_peb_page_descriptor page_desc;
++	struct ssdfs_blk_state_offset blk_state;
++
++/* 0x0010 */
++} __packed;
++
++/*
++ * struct ssdfs_phys_offset_table_header - physical offset table header
++ * @start_id: start id in the table's fragment
++ * @id_count: number of unique physical offsets in log's fragments chain
++ * @byte_size: size in bytes of table's fragment
++ * @peb_index: PEB index
++ * @sequence_id: table's fragment's sequential id number
++ * @type: table's type
++ * @flags: table's flags
++ * @magic: table's magic
++ * @checksum: table checksum
++ * @used_logical_blks: count of allocated logical blocks
++ * @free_logical_blks: count of free logical blocks
++ * @last_allocated_blk: last allocated block (hint for allocation)
++ * @next_fragment_off: offset till next table's fragment
++ *
++ * This table contains offsets of block descriptors in a segment.
++ * Generally speaking, table can be represented as array of
++ * ssdfs_phys_offset_descriptor structures are ordered by id
++ * numbers. The whole table can be split on several fragments.
++ * Every table's fragment begins from header.
++ */
++struct ssdfs_phys_offset_table_header {
++/* 0x0000 */
++	__le16 start_id;
++	__le16 id_count;
++	__le32 byte_size;
++
++/* 0x0008 */
++	__le16 peb_index;
++	__le16 sequence_id;
++	__le16 type;
++	__le16 flags;
++
++/* 0x0010 */
++	__le32 magic;
++	__le32 checksum;
++
++/* 0x0018 */
++	__le16 used_logical_blks;
++	__le16 free_logical_blks;
++	__le16 last_allocated_blk;
++	__le16 next_fragment_off;
++
++/* 0x0020 */
++} __packed;
++
++/* Physical offset table types */
++#define SSDFS_UNKNOWN_OFF_TABLE_TYPE	0
++#define SSDFS_SEG_OFF_TABLE		1
++#define SSDFS_OFF_TABLE_MAX_TYPE	(SSDFS_SEG_OFF_TABLE + 1)
++
++/* Physical offset table flags */
++#define SSDFS_OFF_TABLE_HAS_CSUM		(1 << 0)
++#define SSDFS_OFF_TABLE_HAS_NEXT_FRAGMENT	(1 << 1)
++#define SSDFS_BLK_DESC_TBL_COMPRESSED		(1 << 2)
++#define SSDFS_OFF_TABLE_HAS_OLD_LOG_FRAGMENT	(1 << 3)
++#define SSDFS_INFLATED_OFF_TABLE		(1 << 4)
++#define SSDFS_OFF_TABLE_FLAGS_MASK		0x1F
++
++/*
++ * struct ssdfs_translation_extent - logical block to offset id translation
++ * @logical_blk: starting logical block
++ * @offset_id: starting offset id
++ * @len: count of items in extent
++ * @sequence_id: id in sequence of extents
++ * @state: logical blocks' sequence state
++ */
++struct ssdfs_translation_extent {
++/* 0x0000 */
++	__le16 logical_blk;
++#define SSDFS_INVALID_OFFSET_ID		(U16_MAX)
++	__le16 offset_id;
++	__le16 len;
++	__le8 sequence_id;
++	__le8 state;
++
++/* 0x0008 */
++} __packed;
++
++enum {
++	SSDFS_LOGICAL_BLK_UNKNOWN_STATE,
++	SSDFS_LOGICAL_BLK_FREE,
++	SSDFS_LOGICAL_BLK_USED,
++	SSDFS_LOGICAL_BLK_STATE_MAX,
++};
++
++/*
++ * struct ssdfs_blk2off_table_header - translation table header
++ * @magic: magic signature
++ * @check: metadata checksum + flags
++ * @extents_off: offset in bytes from header begin till extents sequence
++ * @extents_count: count of extents in the sequence
++ * @offset_table_off: offset in bytes from header begin till phys offsets table
++ * @fragments_count: count of table's fragments for the whole PEB
++ * @sequence: first translation extent in the sequence
++ */
++struct ssdfs_blk2off_table_header {
++/* 0x0000 */
++	struct ssdfs_signature magic;
++
++/* 0x0008 */
++#define SSDFS_BLK2OFF_TBL_ZLIB_COMPR	(1 << 1)
++#define SSDFS_BLK2OFF_TBL_LZO_COMPR	(1 << 2)
++	struct ssdfs_metadata_check check;
++
++/* 0x0010 */
++	struct ssdfs_fragments_chain_header chain_hdr;
++
++/* 0x0020 */
++#define SSDFS_BLK2OFF_FRAG_CHAIN_MAX	(5)
++#define SSDFS_NEXT_BLK2OFF_TBL_INDEX	SSDFS_BLK2OFF_FRAG_CHAIN_MAX
++#define SSDFS_BLK2OFF_TBL_MAX		(SSDFS_BLK2OFF_FRAG_CHAIN_MAX + 1)
++	struct ssdfs_fragment_desc blk[SSDFS_BLK2OFF_TBL_MAX];
++
++/* 0x0080 */
++} __packed;
++
++/*
++ * The block's descriptor table has structure:
++ *
++ * ----------------------------
++ * |                          |
++ * | Area block table #0      |
++ * |  Fragment descriptor #0  |
++ * |          ***             |
++ * |  Fragment descriptor #14 |
++ * |  Next area block table   |
++ * |        descriptor        |
++ * |                          |
++ * ----------------------------
++ * |                          |
++ * |    Block descriptor #0   |
++ * |           ***            |
++ * |    Block descriptor #N   |
++ * |                          |
++ * ----------------------------
++ * |                          |
++ * |          ***             |
++ * |                          |
++ * ----------------------------
++ * |                          |
++ * |    Block descriptor #0   |
++ * |           ***            |
++ * |    Block descriptor #N   |
++ * |                          |
++ * ----------------------------
++ * |                          |
++ * |          ***             |
++ * |                          |
++ * ----------------------------
++ * |                          |
++ * | Area block table #N      |
++ * |  Fragment descriptor #0  |
++ * |          ***             |
++ * |  Fragment descriptor #14 |
++ * |  Next area block table   |
++ * |        descriptor        |
++ * |                          |
++ * ----------------------------
++ * |                          |
++ * |    Block descriptor #0   |
++ * |           ***            |
++ * |    Block descriptor #N   |
++ * |                          |
++ * ----------------------------
++ * |                          |
++ * |          ***             |
++ * |                          |
++ * ----------------------------
++ * |                          |
++ * |    Block descriptor #0   |
++ * |           ***            |
++ * |    Block descriptor #N   |
++ * |                          |
++ * ----------------------------
++ */
++
++#define SSDFS_BLK_STATE_OFF_MAX		6
++
++/*
++ * struct ssdfs_block_descriptor - block descriptor
++ * @ino: inode identification number
++ * @logical_offset: logical offset from file's begin in pages
++ * @peb_index: PEB's index
++ * @peb_page: PEB's page index
++ * @state: array of fragment's offsets
++ */
++struct ssdfs_block_descriptor {
++/* 0x0000 */
++	__le64 ino;
++	__le32 logical_offset;
++	__le16 peb_index;
++	__le16 peb_page;
++
++/* 0x0010 */
++	struct ssdfs_blk_state_offset state[SSDFS_BLK_STATE_OFF_MAX];
++
++/* 0x0040 */
++} __packed;
++
++/*
++ * struct ssdfs_area_block_table - descriptor of block state sequence in area
++ * @chain_hdr: descriptor of block states' chain
++ * @blk: table of fragment descriptors
++ *
++ * This table describes block state sequence in PEB's area. This table
++ * can consists from several parts. Every part can describe 14 blocks
++ * in partial sequence. If sequence contains more block descriptors
++ * then last fragment descriptor describes placement of next part of
++ * block table and so on.
++ */
++struct ssdfs_area_block_table {
++/* 0x0000 */
++	struct ssdfs_fragments_chain_header chain_hdr;
++
++/* 0x0010 */
++#define SSDFS_NEXT_BLK_TABLE_INDEX	SSDFS_FRAGMENTS_CHAIN_MAX
++#define SSDFS_BLK_TABLE_MAX		(SSDFS_FRAGMENTS_CHAIN_MAX + 1)
++	struct ssdfs_fragment_desc blk[SSDFS_BLK_TABLE_MAX];
++
++/* 0x0100 */
++} __packed;
++
++/*
++ * The data (diff, journaling) area has structure:
++ * -----------------------------
++ * |                           |
++ * | Block state descriptor #0 |
++ * |  Fragment descriptor #0   |
++ * |          ***              |
++ * |  Fragment descriptor #N   |
++ * |                           |
++ * -----------------------------
++ * |                           |
++ * |   Data portion #0         |
++ * |          ***              |
++ * |   Data portion #N         |
++ * |                           |
++ * -----------------------------
++ * |                           |
++ * |          ***              |
++ * |                           |
++ * -----------------------------
++ * |                           |
++ * | Block state descriptor #N |
++ * |  Fragment descriptor #0   |
++ * |          ***              |
++ * |  Fragment descriptor #N   |
++ * |                           |
++ * -----------------------------
++ * |                           |
++ * |   Data portion #0         |
++ * |          ***              |
++ * |   Data portion #N         |
++ * |                           |
++ * -----------------------------
++ */
++
++/*
++ * ssdfs_block_state_descriptor - block's state descriptor
++ * @cno: checkpoint
++ * @parent_snapshot: parent snapshot
++ * @chain_hdr: descriptor of data fragments' chain
++ */
++struct ssdfs_block_state_descriptor {
++/* 0x0000 */
++	__le64 cno;
++	__le64 parent_snapshot;
++
++/* 0x0010 */
++	struct ssdfs_fragments_chain_header chain_hdr;
++
++/* 0x0020 */
++} __packed;
++
++/*
++ * struct ssdfs_segbmap_fragment_header - segment bitmap fragment header
++ * @magic: magic signature
++ * @seg_index: segment index in segment bitmap fragments' chain
++ * @peb_index: PEB's index in segment
++ * @flags: fragment's flags
++ * @seg_type: segment type (main/backup)
++ * @start_item: fragment's start item number
++ * @sequence_id: fragment identification number
++ * @fragment_bytes: bytes count in fragment
++ * @checksum: fragment checksum
++ * @total_segs: count of total segments in fragment
++ * @clean_or_using_segs: count of clean or using segments in fragment
++ * @used_or_dirty_segs: count of used or dirty segments in fragment
++ * @bad_segs: count of bad segments in fragment
++ */
++struct ssdfs_segbmap_fragment_header {
++/* 0x0000 */
++	__le16 magic;
++	__le16 seg_index;
++	__le16 peb_index;
++#define SSDFS_SEGBMAP_FRAG_ZLIB_COMPR	(1 << 0)
++#define SSDFS_SEGBMAP_FRAG_LZO_COMPR	(1 << 1)
++	__le8 flags;
++	__le8 seg_type;
++
++/* 0x0008 */
++	__le64 start_item;
++
++/* 0x0010 */
++	__le16 sequence_id;
++	__le16 fragment_bytes;
++	__le32 checksum;
++
++/* 0x0018 */
++	__le16 total_segs;
++	__le16 clean_or_using_segs;
++	__le16 used_or_dirty_segs;
++	__le16 bad_segs;
++
++/* 0x0020 */
++} __packed;
++
++/*
++ * struct ssdfs_peb_descriptor - descriptor of PEB
++ * @erase_cycles: count of P/E cycles of PEB
++ * @type: PEB's type
++ * @state: PEB's state
++ * @flags: PEB's flags
++ * @shared_peb_index: index of external shared destination PEB
++ */
++struct ssdfs_peb_descriptor {
++/* 0x0000 */
++	__le32 erase_cycles;
++	__le8 type;
++	__le8 state;
++	__le8 flags;
++	__le8 shared_peb_index;
++
++/* 0x0008 */
++} __packed;
++
++/* PEB's types */
++enum {
++	SSDFS_MAPTBL_UNKNOWN_PEB_TYPE,				/* 0x00 */
++	SSDFS_MAPTBL_DATA_PEB_TYPE,				/* 0x01 */
++	SSDFS_MAPTBL_LNODE_PEB_TYPE,				/* 0x02 */
++	SSDFS_MAPTBL_HNODE_PEB_TYPE,				/* 0x03 */
++	SSDFS_MAPTBL_IDXNODE_PEB_TYPE,				/* 0x04 */
++	SSDFS_MAPTBL_INIT_SNAP_PEB_TYPE,			/* 0x05 */
++	SSDFS_MAPTBL_SBSEG_PEB_TYPE,				/* 0x06 */
++	SSDFS_MAPTBL_SEGBMAP_PEB_TYPE,				/* 0x07 */
++	SSDFS_MAPTBL_MAPTBL_PEB_TYPE,				/* 0x08 */
++	SSDFS_MAPTBL_PEB_TYPE_MAX				/* 0x09 */
++};
++
++/* PEB's states */
++enum {
++	SSDFS_MAPTBL_UNKNOWN_PEB_STATE,				/* 0x00 */
++	SSDFS_MAPTBL_BAD_PEB_STATE,				/* 0x01 */
++	SSDFS_MAPTBL_CLEAN_PEB_STATE,				/* 0x02 */
++	SSDFS_MAPTBL_USING_PEB_STATE,				/* 0x03 */
++	SSDFS_MAPTBL_USED_PEB_STATE,				/* 0x04 */
++	SSDFS_MAPTBL_PRE_DIRTY_PEB_STATE,			/* 0x05 */
++	SSDFS_MAPTBL_DIRTY_PEB_STATE,				/* 0x06 */
++	SSDFS_MAPTBL_MIGRATION_SRC_USING_STATE,			/* 0x07 */
++	SSDFS_MAPTBL_MIGRATION_SRC_USED_STATE,			/* 0x08 */
++	SSDFS_MAPTBL_MIGRATION_SRC_PRE_DIRTY_STATE,		/* 0x09 */
++	SSDFS_MAPTBL_MIGRATION_SRC_DIRTY_STATE,			/* 0x0A */
++	SSDFS_MAPTBL_MIGRATION_DST_CLEAN_STATE,			/* 0x0B */
++	SSDFS_MAPTBL_MIGRATION_DST_USING_STATE,			/* 0x0C */
++	SSDFS_MAPTBL_MIGRATION_DST_USED_STATE,			/* 0x0D */
++	SSDFS_MAPTBL_MIGRATION_DST_PRE_DIRTY_STATE,		/* 0x0E */
++	SSDFS_MAPTBL_MIGRATION_DST_DIRTY_STATE,			/* 0x0F */
++	SSDFS_MAPTBL_PRE_ERASE_STATE,				/* 0x10 */
++	SSDFS_MAPTBL_UNDER_ERASE_STATE,				/* 0x11 */
++	SSDFS_MAPTBL_SNAPSHOT_STATE,				/* 0x12 */
++	SSDFS_MAPTBL_RECOVERING_STATE,				/* 0x13 */
++	SSDFS_MAPTBL_USING_INVALIDATED_PEB_STATE,		/* 0x14 */
++	SSDFS_MAPTBL_MIGRATION_SRC_USING_INVALIDATED_STATE,	/* 0x15 */
++	SSDFS_MAPTBL_MIGRATION_DST_USING_INVALIDATED_STATE,	/* 0x16 */
++	SSDFS_MAPTBL_PEB_STATE_MAX				/* 0x17 */
++};
++
++/* PEB's flags */
++#define SSDFS_MAPTBL_SHARED_DESTINATION_PEB		(1 << 0)
++#define SSDFS_MAPTBL_SOURCE_PEB_HAS_EXT_PTR		(1 << 1)
++#define SSDFS_MAPTBL_SOURCE_PEB_HAS_ZONE_PTR		(1 << 2)
++
++#define SSDFS_PEBTBL_BMAP_SIZE \
++	((PAGE_SIZE / sizeof(struct ssdfs_peb_descriptor)) / \
++	 BITS_PER_BYTE)
++
++/* PEB table's bitmap types */
++enum {
++	SSDFS_PEBTBL_USED_BMAP,
++	SSDFS_PEBTBL_DIRTY_BMAP,
++	SSDFS_PEBTBL_RECOVER_BMAP,
++	SSDFS_PEBTBL_BADBLK_BMAP,
++	SSDFS_PEBTBL_BMAP_MAX
++};
++
++/*
++ * struct ssdfs_peb_table_fragment_header - header of PEB table fragment
++ * @magic: signature of PEB table's fragment
++ * @flags: flags of PEB table's fragment
++ * @recover_months: recovering duration in months
++ * @recover_threshold: recover threshold
++ * @checksum: checksum of PEB table's fragment
++ * @start_peb: starting PEB number
++ * @pebs_count: count of PEB's descriptors in table's fragment
++ * @last_selected_peb: index of last selected unused PEB
++ * @reserved_pebs: count of reserved PEBs in table's fragment
++ * @stripe_id: stripe identification number
++ * @portion_id: sequential ID of mapping table fragment
++ * @fragment_id: sequential ID of PEB table fragment in the portion
++ * @bytes_count: table's fragment size in bytes
++ * @bmap: PEB table fragment's bitmap
++ */
++struct ssdfs_peb_table_fragment_header {
++/* 0x0000 */
++	__le16 magic;
++	__le8 flags;
++	__le8 recover_months : 4;
++	__le8 recover_threshold : 4;
++	__le32 checksum;
++
++/* 0x0008 */
++	__le64 start_peb;
++
++/* 0x0010 */
++	__le16 pebs_count;
++	__le16 last_selected_peb;
++	__le16 reserved_pebs;
++	__le16 stripe_id;
++
++/* 0x0018 */
++	__le16 portion_id;
++	__le16 fragment_id;
++	__le32 bytes_count;
++
++/* 0x0020 */
++	__le8 bmaps[SSDFS_PEBTBL_BMAP_MAX][SSDFS_PEBTBL_BMAP_SIZE];
++
++/* 0x0120 */
++} __packed;
++
++/* PEB table fragment's flags */
++#define SSDFS_PEBTBL_FRAG_ZLIB_COMPR		(1 << 0)
++#define SSDFS_PEBTBL_FRAG_LZO_COMPR		(1 << 1)
++#define SSDFS_PEBTBL_UNDER_RECOVERING		(1 << 2)
++#define SSDFS_PEBTBL_BADBLK_EXIST		(1 << 3)
++#define SSDFS_PEBTBL_TRY_CORRECT_PEBS_AGAIN	(1 << 4)
++#define SSDFS_PEBTBL_FIND_RECOVERING_PEBS \
++	(SSDFS_PEBTBL_UNDER_RECOVERING | SSDFS_PEBTBL_BADBLK_EXIST)
++#define SSDFS_PEBTBL_FLAGS_MASK			0x1F
++
++/* PEB table recover thresholds */
++#define SSDFS_PEBTBL_FIRST_RECOVER_TRY		(0)
++#define SSDFS_PEBTBL_SECOND_RECOVER_TRY		(1)
++#define SSDFS_PEBTBL_THIRD_RECOVER_TRY		(2)
++#define SSDFS_PEBTBL_FOURTH_RECOVER_TRY		(3)
++#define SSDFS_PEBTBL_FIFTH_RECOVER_TRY		(4)
++#define SSDFS_PEBTBL_SIX_RECOVER_TRY		(5)
++#define SSDFS_PEBTBL_BADBLK_THRESHOLD		(6)
++
++#define SSDFS_PEBTBL_FRAGMENT_HDR_SIZE \
++	(sizeof(struct ssdfs_peb_table_fragment_header))
++
++#define SSDFS_PEB_DESC_PER_FRAGMENT(fragment_size) \
++	((fragment_size - SSDFS_PEBTBL_FRAGMENT_HDR_SIZE) / \
++	 sizeof(struct ssdfs_peb_descriptor))
++
++/*
++ * struct ssdfs_leb_descriptor - logical descriptor of erase block
++ * @physical_index: PEB table's offset till PEB's descriptor
++ * @relation_index: PEB table's offset till associated PEB's descriptor
++ */
++struct ssdfs_leb_descriptor {
++/* 0x0000 */
++	__le16 physical_index;
++	__le16 relation_index;
++
++/* 0x0004 */
++} __packed;
++
++/*
++ * struct ssdfs_leb_table_fragment_header - header of LEB table fragment
++ * @magic: signature of LEB table's fragment
++ * @flags: flags of LEB table's fragment
++ * @checksum: checksum of LEB table's fragment
++ * @start_leb: starting LEB number
++ * @lebs_count: count of LEB's descriptors in table's fragment
++ * @mapped_lebs: count of LEBs are mapped on PEBs
++ * @migrating_lebs: count of LEBs under migration
++ * @portion_id: sequential ID of mapping table fragment
++ * @fragment_id: sequential ID of LEB table fragment in the portion
++ * @bytes_count: table's fragment size in bytes
++ */
++struct ssdfs_leb_table_fragment_header {
++/* 0x0000 */
++	__le16 magic;
++#define SSDFS_LEBTBL_FRAG_ZLIB_COMPR	(1 << 0)
++#define SSDFS_LEBTBL_FRAG_LZO_COMPR	(1 << 1)
++	__le16 flags;
++	__le32 checksum;
++
++/* 0x0008 */
++	__le64 start_leb;
++
++/* 0x0010 */
++	__le16 lebs_count;
++	__le16 mapped_lebs;
++	__le16 migrating_lebs;
++	__le16 reserved1;
++
++/* 0x0018 */
++	__le16 portion_id;
++	__le16 fragment_id;
++	__le32 bytes_count;
++
++/* 0x0020 */
++} __packed;
++
++#define SSDFS_LEBTBL_FRAGMENT_HDR_SIZE \
++	(sizeof(struct ssdfs_leb_table_fragment_header))
++
++#define SSDFS_LEB_DESC_PER_FRAGMENT(fragment_size) \
++	((fragment_size - SSDFS_LEBTBL_FRAGMENT_HDR_SIZE) / \
++	 sizeof(struct ssdfs_leb_descriptor))
++
++/*
++ * The mapping table cache is the copy of content of mapping
++ * table for some type of PEBs. The goal of cache is to provide
++ * the space for storing the copy of LEB_ID/PEB_ID pairs with
++ * PEB state record. The cache is using for conversion LEB ID
++ * to PEB ID and retrieving the PEB state record in the case
++ * when the fragment of mapping table is not initialized yet.
++ * Also the cache needs for storing modified PEB state during
++ * the mapping table destruction. The fragment of mapping table
++ * cache has structure:
++ *
++ * ----------------------------
++ * |                          |
++ * |         Header           |
++ * |                          |
++ * ----------------------------
++ * |                          |
++ * |   LEB_ID/PEB_ID pairs    |
++ * |                          |
++ * ----------------------------
++ * |                          |
++ * |    PEB state records     |
++ * |                          |
++ * ----------------------------
++ */
++
++/*
++ * struct ssdfs_maptbl_cache_header - maptbl cache header
++ * @magic: magic signature
++ * @sequence_id: ID of fragment in the sequence
++ * @flags: maptbl cache header's flags
++ * @items_count: count of items in maptbl cache's fragment
++ * @bytes_count: size of fragment in bytes
++ * @start_leb: start LEB ID in fragment
++ * @end_leb: ending LEB ID in fragment
++ */
++struct ssdfs_maptbl_cache_header {
++/* 0x0000 */
++	struct ssdfs_signature magic;
++
++/* 0x0008 */
++	__le16 sequence_id;
++#define SSDFS_MAPTBL_CACHE_ZLIB_COMPR	(1 << 0)
++#define SSDFS_MAPTBL_CACHE_LZO_COMPR	(1 << 1)
++	__le16 flags;
++	__le16 items_count;
++	__le16 bytes_count;
++
++/* 0x0010 */
++	__le64 start_leb;
++	__le64 end_leb;
++
++/* 0x0020 */
++} __packed;
++
++/*
++ * struct ssdfs_maptbl_cache_peb_state - PEB state descriptor
++ * @consistency: PEB state consistency type
++ * @state: PEB's state
++ * @flags: PEB's flags
++ * @shared_peb_index: index of external shared destination PEB
++ *
++ * The mapping table cache is the copy of content of mapping
++ * table for some type of PEBs. If the mapping table cache and
++ * the mapping table contain the same content for the PEB then
++ * the PEB state record is consistent. Otherwise, the PEB state
++ * record is inconsistent. For example, the inconsistency takes
++ * place if a PEB state record was modified in the mapping table
++ * cache during the destruction of the mapping table.
++ */
++struct ssdfs_maptbl_cache_peb_state {
++/* 0x0000 */
++	__le8 consistency;
++	__le8 state;
++	__le8 flags;
++	__le8 shared_peb_index;
++
++/* 0x0004 */
++} __packed;
++
++/* PEB state consistency type */
++enum {
++	SSDFS_PEB_STATE_UNKNOWN,
++	SSDFS_PEB_STATE_CONSISTENT,
++	SSDFS_PEB_STATE_INCONSISTENT,
++	SSDFS_PEB_STATE_PRE_DELETED,
++	SSDFS_PEB_STATE_MAX
++};
++
++#define SSDFS_MAPTBL_CACHE_HDR_SIZE \
++	(sizeof(struct ssdfs_maptbl_cache_header))
++#define SSDFS_LEB2PEB_PAIR_SIZE \
++	(sizeof(struct ssdfs_leb2peb_pair))
++#define SSDFS_PEB_STATE_SIZE \
++	(sizeof(struct ssdfs_maptbl_cache_peb_state))
++
++#define SSDFS_LEB2PEB_PAIR_PER_FRAGMENT(fragment_size) \
++	((fragment_size - SSDFS_MAPTBL_CACHE_HDR_SIZE - \
++				SSDFS_PEB_STATE_SIZE) / \
++	 (SSDFS_LEB2PEB_PAIR_SIZE + SSDFS_PEB_STATE_SIZE))
++
++/*
++ * struct ssdfs_btree_node_header - btree's node header
++ * @magic: magic signature + revision
++ * @check: metadata checksum
++ * @height: btree node's height
++ * @log_node_size: log2(node size)
++ * @log_index_area_size: log2(index area size)
++ * @type: btree node type
++ * @flags: btree node flags
++ * @index_area_offset: offset of index area in bytes
++ * @index_count: count of indexes in index area
++ * @index_size: size of index in bytes
++ * @min_item_size: min size of item in bytes
++ * @max_item_size: max possible size of item in bytes
++ * @items_capacity: capacity of items in the node
++ * @start_hash: start hash value
++ * @end_hash: end hash value
++ * @create_cno: create checkpoint
++ * @node_id: node identification number
++ * @item_area_offset: offset of items area in bytes
++ */
++struct ssdfs_btree_node_header {
++/* 0x0000 */
++	struct ssdfs_signature magic;
++
++/* 0x0008 */
++	struct ssdfs_metadata_check check;
++
++/* 0x0010 */
++	__le8 height;
++	__le8 log_node_size;
++	__le8 log_index_area_size;
++	__le8 type;
++
++/* 0x0014 */
++#define SSDFS_BTREE_NODE_HAS_INDEX_AREA		(1 << 0)
++#define SSDFS_BTREE_NODE_HAS_ITEMS_AREA		(1 << 1)
++#define SSDFS_BTREE_NODE_HAS_L1TBL		(1 << 2)
++#define SSDFS_BTREE_NODE_HAS_L2TBL		(1 << 3)
++#define SSDFS_BTREE_NODE_HAS_HASH_TBL		(1 << 4)
++#define SSDFS_BTREE_NODE_PRE_ALLOCATED		(1 << 5)
++#define SSDFS_BTREE_NODE_FLAGS_MASK		0x3F
++	__le16 flags;
++	__le16 index_area_offset;
++
++/* 0x0018 */
++	__le16 index_count;
++	__le8 index_size;
++	__le8 min_item_size;
++	__le16 max_item_size;
++	__le16 items_capacity;
++
++/* 0x0020 */
++	__le64 start_hash;
++	__le64 end_hash;
++
++/* 0x0030 */
++	__le64 create_cno;
++	__le32 node_id;
++	__le32 item_area_offset;
++
++/* 0x0040 */
++} __packed;
++
++/* Index of btree node in node's items sequence */
++#define SSDFS_BTREE_NODE_HEADER_INDEX	(0)
++
++/* Btree node types */
++enum {
++	SSDFS_BTREE_NODE_UNKNOWN_TYPE,
++	SSDFS_BTREE_ROOT_NODE,
++	SSDFS_BTREE_INDEX_NODE,
++	SSDFS_BTREE_HYBRID_NODE,
++	SSDFS_BTREE_LEAF_NODE,
++	SSDFS_BTREE_NODE_TYPE_MAX
++};
++
++#define SSDFS_DENTRIES_PAGES_PER_NODE_MAX		(32)
++#define SSDFS_DENTRIES_INDEX_BMAP_SIZE \
++	((((SSDFS_DENTRIES_PAGES_PER_NODE_MAX * PAGE_SIZE) / \
++	  sizeof(struct ssdfs_btree_index_key)) + BITS_PER_LONG) / BITS_PER_BYTE)
++#define SSDFS_RAW_DENTRIES_BMAP_SIZE \
++	((((SSDFS_DENTRIES_PAGES_PER_NODE_MAX * PAGE_SIZE) / \
++	  sizeof(struct ssdfs_dir_entry)) + BITS_PER_LONG) / BITS_PER_BYTE)
++#define SSDFS_DENTRIES_BMAP_SIZE \
++	(SSDFS_DENTRIES_INDEX_BMAP_SIZE + SSDFS_RAW_DENTRIES_BMAP_SIZE)
++
++/*
++ * struct ssdfs_dentries_btree_node_header - directory entries node's header
++ * @node: generic btree node's header
++ * @parent_ino: parent inode number
++ * @dentries_count: count of allocated dentries in the node
++ * @inline_names: count of dentries with inline names
++ * @flags: dentries node's flags
++ * @free_space: free space of the node in bytes
++ * @lookup_table: table for clustering search in the node
++ *
++ * The @lookup_table has goal to provide the way of clustering
++ * the dentries in the node with the goal to speed-up the search.
++ */
++struct ssdfs_dentries_btree_node_header {
++/* 0x0000 */
++	struct ssdfs_btree_node_header node;
++
++/* 0x0040 */
++	__le64 parent_ino;
++
++/* 0x0048 */
++	__le16 dentries_count;
++	__le16 inline_names;
++	__le16 flags;
++	__le16 free_space;
++
++/* 0x0050 */
++#define SSDFS_DENTRIES_BTREE_LOOKUP_TABLE_SIZE		(22)
++	__le64 lookup_table[SSDFS_DENTRIES_BTREE_LOOKUP_TABLE_SIZE];
++
++/* 0x0100 */
++} __packed;
++
++#define SSDFS_SHARED_DICT_PAGES_PER_NODE_MAX		(32)
++#define SSDFS_SHARED_DICT_INDEX_BMAP_SIZE \
++	((((SSDFS_SHARED_DICT_PAGES_PER_NODE_MAX * PAGE_SIZE) / \
++	  sizeof(struct ssdfs_btree_index_key)) + BITS_PER_LONG) / BITS_PER_BYTE)
++#define SSDFS_RAW_SHARED_DICT_BMAP_SIZE \
++	(((SSDFS_SHARED_DICT_PAGES_PER_NODE_MAX * PAGE_SIZE) / \
++	  SSDFS_DENTRY_INLINE_NAME_MAX_LEN) / BITS_PER_BYTE)
++#define SSDFS_SHARED_DICT_BMAP_SIZE \
++	(SSDFS_SHARED_DICT_INDEX_BMAP_SIZE + SSDFS_RAW_SHARED_DICT_BMAP_SIZE)
++
++/*
++ * struct ssdfs_shdict_ltbl1_item - shared dictionary lookup table1 item
++ * @hash_lo: low hash32 value
++ * @start_index: starting index into lookup table2
++ * @range_len: number of items in the range of lookup table2
++ *
++ * The header of shared dictionary node contains the lookup table1.
++ * This table is responsible for clustering the items in lookup
++ * table2. The @hash_lo is hash32 of the first part of the name.
++ * The length of the first part is the inline name length.
++ */
++struct ssdfs_shdict_ltbl1_item {
++/* 0x0000 */
++	__le32 hash_lo;
++	__le16 start_index;
++	__le16 range_len;
++
++/* 0x0008 */
++} __packed;
++
++/*
++ * struct ssdfs_shdict_ltbl2_item - shared dictionary lookup table2 item
++ * @hash: hash value
++ * @prefix_len: prefix length in bytes
++ * @str_count: count of strings in the range
++ * @hash_index: index of the hash in the hash table
++ *
++ * The lookup table2 is located at the end of the node. It begins from
++ * the bottom and is growing in the node's beginning direction.
++ * Every item of the lookup table2 describes a position of the starting
++ * keyword of a name. The goal of such descriptor is to describe
++ * the starting position of the deduplicated keyword that is shared by
++ * several following names. But the keyword is used only in the beginning
++ * of the sequence because the rest of the names are represented by
++ * suffixes only (for example, the sequence of names "absurd, abcissa,
++ * abacus" can be reprensented by "abacuscissasurd" deduplicated range
++ * of names).
++ */
++struct ssdfs_shdict_ltbl2_item {
++/* 0x0000 */
++	__le64 hash;
++
++/* 0x0008 */
++	__le8 prefix_len;
++	__le8 str_count;
++	__le16 hash_index;
++	__le32 reserved;
++
++/* 0x0010 */
++} __packed;
++
++/*
++ * struct ssdfs_shdict_htbl_item - shared dictionary hash table item
++ * @hash: hash of the name
++ * @str_offset: offset in bytes to string
++ * @str_len: string length
++ * @type: string type
++ *
++ * The hash table contains descriptors of all strings in
++ * string area. The @str_offset is the offset in bytes from
++ * the items (strings) area's beginning.
++ */
++struct ssdfs_shdict_htbl_item {
++/* 0x0000 */
++	__le64 hash;
++
++/* 0x0008 */
++	__le16 str_offset;
++	__le8 str_len;
++	__le8 type;
++	__le32 reserved;
++
++/* 0x0010 */
++} __packed;
++
++/* Name string types */
++enum {
++	SSDFS_UNKNOWN_NAME_TYPE,
++	SSDFS_NAME_PREFIX,
++	SSDFS_NAME_SUFFIX,
++	SSDFS_FULL_NAME,
++	SSDFS_NAME_TYPE_MAX
++};
++
++/*
++ * union ssdfs_shdict_search_key - generalized search key
++ * @hash_lo: low hash32 value
++ * @hash: hash of the name
++ * @ltbl1_item: lookup1 table item
++ * @ltbl2_item: lookup2 table item
++ * @ltbl1_item: lookup1 table item
++ * @htbl_item: hash table item
++ *
++ * This key is generalized version of any item in lookup1,
++ * lookup2 and hash tables. This structure is needed for
++ * the generic way of making search in all tables.
++ */
++union ssdfs_shdict_search_key {
++/* 0x0000 */
++	__le32 hash_lo;
++	__le64 hash;
++	struct ssdfs_shdict_ltbl1_item ltbl1_item;
++	struct ssdfs_shdict_ltbl2_item ltbl2_item;
++	struct ssdfs_shdict_htbl_item htbl_item;
++
++/* 0x0010 */
++} __packed;
++
++/*
++ * struct ssdfs_shared_dict_area - area descriptor
++ * @offset: area offset in bytes
++ * @size: area size in bytes
++ * @free_space: free space in bytes
++ * @items_count: count of items in area
++ */
++struct ssdfs_shared_dict_area {
++/* 0x0000 */
++	__le16 offset;
++	__le16 size;
++	__le16 free_space;
++	__le16 items_count;
++
++/* 0x0008 */
++} __packed;
++
++/*
++ * struct ssdfs_shared_dictionary_node_header - shared dictionary node header
++ * @node: generic btree node's header
++ * @str_area: string area descriptor
++ * @hash_table: hash table descriptor
++ * @lookup_table2: lookup2 table descriptor
++ * @flags: private flags
++ * @lookup_table1_items: number of valid items in the lookup1 table
++ * @lookup_table1: lookup1 table
++ */
++struct ssdfs_shared_dictionary_node_header {
++/* 0x0000 */
++	struct ssdfs_btree_node_header node;
++
++/* 0x0040 */
++	struct ssdfs_shared_dict_area str_area;
++
++/* 0x0048 */
++	struct ssdfs_shared_dict_area hash_table;
++
++/* 0x0050 */
++	struct ssdfs_shared_dict_area lookup_table2;
++
++/* 0x0058 */
++	__le16 flags;
++	__le16 lookup_table1_items;
++	__le32 reserved2;
++
++/* 0x0060 */
++#define SSDFS_SHDIC_LTBL1_SIZE		(20)
++	struct ssdfs_shdict_ltbl1_item lookup_table1[SSDFS_SHDIC_LTBL1_SIZE];
++
++/* 0x0100 */
++} __packed;
++
++#define SSDFS_EXTENT_PAGES_PER_NODE_MAX		(32)
++#define SSDFS_EXTENT_INDEX_BMAP_SIZE \
++	((((SSDFS_EXTENT_PAGES_PER_NODE_MAX * PAGE_SIZE) / \
++	  sizeof(struct ssdfs_btree_index_key)) + BITS_PER_LONG) / BITS_PER_BYTE)
++#define SSDFS_RAW_EXTENT_BMAP_SIZE \
++	((((SSDFS_EXTENT_PAGES_PER_NODE_MAX * PAGE_SIZE) / \
++	  sizeof(struct ssdfs_raw_fork)) + BITS_PER_LONG) / BITS_PER_BYTE)
++#define SSDFS_EXTENT_MAX_BMAP_SIZE \
++	(SSDFS_EXTENT_INDEX_BMAP_SIZE + SSDFS_RAW_EXTENT_BMAP_SIZE)
++
++/*
++ * ssdfs_extents_btree_node_header - extents btree node's header
++ * @node: generic btree node's header
++ * @parent_ino: parent inode number
++ * @blks_count: count of blocks in all valid extents
++ * @forks_count: count of forks in the leaf node or sub-tree (hybrid/index node)
++ * @allocated_extents: count of allocated extents in all forks
++ * @valid_extents: count of valid extents
++ * @max_extent_blks: maximal number of blocks in one extent
++ * @lookup_table: table for clustering search in the node
++ *
++ * The @lookup_table has goal to provide the way of clustering
++ * the forks in the node with the goal to speed-up the search.
++ */
++struct ssdfs_extents_btree_node_header {
++/* 0x0000 */
++	struct ssdfs_btree_node_header node;
++
++/* 0x0040 */
++	__le64 parent_ino;
++	__le64 blks_count;
++
++/* 0x0050 */
++	__le32 forks_count;
++	__le32 allocated_extents;
++	__le32 valid_extents;
++	__le32 max_extent_blks;
++
++/* 0x0060 */
++#define SSDFS_EXTENTS_BTREE_LOOKUP_TABLE_SIZE		(20)
++	__le64 lookup_table[SSDFS_EXTENTS_BTREE_LOOKUP_TABLE_SIZE];
++
++/* 0x0100 */
++} __packed;
++
++#define SSDFS_XATTRS_PAGES_PER_NODE_MAX		(32)
++#define SSDFS_XATTRS_INDEX_BMAP_SIZE \
++	((((SSDFS_XATTRS_PAGES_PER_NODE_MAX * PAGE_SIZE) / \
++	  sizeof(struct ssdfs_btree_index_key)) + BITS_PER_LONG) / BITS_PER_BYTE)
++#define SSDFS_RAW_XATTRS_BMAP_SIZE \
++	((((SSDFS_XATTRS_PAGES_PER_NODE_MAX * PAGE_SIZE) / \
++	  sizeof(struct ssdfs_xattr_entry)) + BITS_PER_LONG) / BITS_PER_BYTE)
++#define SSDFS_XATTRS_BMAP_SIZE \
++	(SSDFS_XATTRS_INDEX_BMAP_SIZE + SSDFS_RAW_XATTRS_BMAP_SIZE)
++
++/*
++ * struct ssdfs_xattrs_btree_node_header - xattrs node's header
++ * @node: generic btree node's header
++ * @parent_ino: parent inode number
++ * @xattrs_count: count of allocated xattrs in the node
++ * @flags: xattrs node's flags
++ * @free_space: free space of the node in bytes
++ * @lookup_table: table for clustering search in the node
++ *
++ * The @lookup_table has goal to provide the way of clustering
++ * the xattrs in the node with the goal to speed-up the search.
++ */
++struct ssdfs_xattrs_btree_node_header {
++/* 0x0000 */
++	struct ssdfs_btree_node_header node;
++
++/* 0x0040 */
++	__le64 parent_ino;
++
++/* 0x0048 */
++	__le16 xattrs_count;
++	__le16 reserved;
++	__le16 flags;
++	__le16 free_space;
++
++/* 0x0050 */
++#define SSDFS_XATTRS_BTREE_LOOKUP_TABLE_SIZE		(22)
++	__le64 lookup_table[SSDFS_XATTRS_BTREE_LOOKUP_TABLE_SIZE];
++
++/* 0x0100 */
++} __packed;
++
++/*
++ * struct ssdfs_index_area - index area info
++ * @start_hash: start hash value
++ * @end_hash: end hash value
++ */
++struct ssdfs_index_area {
++/* 0x0000 */
++	__le64 start_hash;
++	__le64 end_hash;
++
++/* 0x0010 */
++} __packed;
++
++#define SSDFS_INODE_BMAP_SIZE		(0xA0)
++
++/*
++ * struct ssdfs_inodes_btree_node_header -inodes btree node's header
++ * @node: generic btree node's header
++ * @inodes_count: count of inodes in the node
++ * @valid_inodes: count of valid inodes in the node
++ * @index_area: index area info (hybrid node)
++ * @bmap: bitmap of valid/invalid inodes in the node
++ */
++struct ssdfs_inodes_btree_node_header {
++/* 0x0000 */
++	struct ssdfs_btree_node_header node;
++
++/* 0x0040 */
++	__le16 inodes_count;
++	__le16 valid_inodes;
++	__le8 reserved1[0xC];
++
++/* 0x0050 */
++	struct ssdfs_index_area index_area;
++
++/* 0x0060 */
++	__le8 bmap[SSDFS_INODE_BMAP_SIZE];
++
++/* 0x0100 */
++} __packed;
++
++/*
++ * struct ssdfs_snapshot_rule_info - snapshot rule info
++ * @mode: snapshot mode (READ-ONLY|READ-WRITE)
++ * @type: snapshot type (PERIODIC|ONE-TIME)
++ * @expiration: snapshot expiration time (WEEK|MONTH|YEAR|NEVER)
++ * @frequency: taking snapshot frequency (SYNCFS|HOUR|DAY|WEEK)
++ * @snapshots_threshold max number of simultaneously available snapshots
++ * @snapshots_number: current number of created snapshots
++ * @ino: root object inode ID
++ * @uuid: snapshot UUID
++ * @name: snapshot rule name
++ * @name_hash: name hash
++ * @last_snapshot_cno: latest snapshot checkpoint
++ */
++struct ssdfs_snapshot_rule_info {
++/* 0x0000 */
++	__le8 mode;
++	__le8 type;
++	__le8 expiration;
++	__le8 frequency;
++	__le16 snapshots_threshold;
++	__le16 snapshots_number;
++
++/* 0x0008 */
++	__le64 ino;
++
++/* 0x0010 */
++	__le8 uuid[SSDFS_UUID_SIZE];
++
++/* 0x0020 */
++	char name[SSDFS_MAX_SNAP_RULE_NAME_LEN];
++
++/* 0x0030 */
++	__le64 name_hash;
++	__le64 last_snapshot_cno;
++
++/* 0x0040 */
++} __packed;
++
++/* Snapshot mode */
++enum {
++	SSDFS_UNKNOWN_SNAPSHOT_MODE,
++	SSDFS_READ_ONLY_SNAPSHOT,
++	SSDFS_READ_WRITE_SNAPSHOT,
++	SSDFS_SNAPSHOT_MODE_MAX
++};
++
++#define SSDFS_READ_ONLY_MODE_STR	"READ_ONLY"
++#define SSDFS_READ_WRITE_MODE_STR	"READ_WRITE"
++
++/* Snapshot type */
++enum {
++	SSDFS_UNKNOWN_SNAPSHOT_TYPE,
++	SSDFS_ONE_TIME_SNAPSHOT,
++	SSDFS_PERIODIC_SNAPSHOT,
++	SSDFS_SNAPSHOT_TYPE_MAX
++};
++
++#define SSDFS_ONE_TIME_TYPE_STR		"ONE-TIME"
++#define SSDFS_PERIODIC_TYPE_STR		"PERIODIC"
++
++/* Snapshot expiration */
++enum {
++	SSDFS_UNKNOWN_EXPIRATION_POINT,
++	SSDFS_EXPIRATION_IN_WEEK,
++	SSDFS_EXPIRATION_IN_MONTH,
++	SSDFS_EXPIRATION_IN_YEAR,
++	SSDFS_NEVER_EXPIRED,
++	SSDFS_EXPIRATION_POINT_MAX
++};
++
++#define SSDFS_WEEK_EXPIRATION_POINT_STR		"WEEK"
++#define SSDFS_MONTH_EXPIRATION_POINT_STR	"MONTH"
++#define SSDFS_YEAR_EXPIRATION_POINT_STR		"YEAR"
++#define SSDFS_NEVER_EXPIRED_STR			"NEVER"
++
++/* Snapshot creation frequency */
++enum {
++	SSDFS_UNKNOWN_FREQUENCY,
++	SSDFS_SYNCFS_FREQUENCY,
++	SSDFS_HOUR_FREQUENCY,
++	SSDFS_DAY_FREQUENCY,
++	SSDFS_WEEK_FREQUENCY,
++	SSDFS_MONTH_FREQUENCY,
++	SSDFS_CREATION_FREQUENCY_MAX
++};
++
++#define SSDFS_SYNCFS_FREQUENCY_STR		"SYNCFS"
++#define SSDFS_HOUR_FREQUENCY_STR		"HOUR"
++#define SSDFS_DAY_FREQUENCY_STR			"DAY"
++#define SSDFS_WEEK_FREQUENCY_STR		"WEEK"
++#define SSDFS_MONTH_FREQUENCY_STR		"MONTH"
++
++#define SSDFS_INFINITE_SNAPSHOTS_NUMBER		U16_MAX
++#define SSDFS_UNDEFINED_SNAPSHOTS_NUMBER	(0)
++
++/*
++ * struct ssdfs_snapshot_rules_header - snapshot rules table's header
++ * @magic: magic signature
++ * @item_size: snapshot rule's size in bytes
++ * @flags: various flags
++ * @items_count: number of snapshot rules in table
++ * @items_capacity: capacity of the snaphot rules table
++ * @area_size: size of table in bytes
++ */
++struct ssdfs_snapshot_rules_header {
++/* 0x0000 */
++	__le32 magic;
++	__le16 item_size;
++	__le16 flags;
++
++/* 0x0008 */
++	__le16 items_count;
++	__le16 items_capacity;
++	__le32 area_size;
++
++/* 0x0010 */
++	__le8 padding[0x10];
++
++/* 0x0020 */
++} __packed;
++
++/*
++ * struct ssdfs_snapshot - snapshot info
++ * @magic: magic signature of snapshot
++ * @mode: snapshot mode (READ-ONLY|READ-WRITE)
++ * @expiration: snapshot expiration time (WEEK|MONTH|YEAR|NEVER)
++ * @flags: snapshot's flags
++ * @name: snapshot name
++ * @uuid: snapshot UUID
++ * @create_time: snapshot's timestamp
++ * @create_cno: snapshot's checkpoint
++ * @ino: root object inode ID
++ * @name_hash: name hash
++ */
++struct ssdfs_snapshot {
++/* 0x0000 */
++	__le16 magic;
++	__le8 mode : 4;
++	__le8 expiration : 4;
++	__le8 flags;
++	char name[SSDFS_MAX_SNAPSHOT_NAME_LEN];
++
++/* 0x0010 */
++	__le8 uuid[SSDFS_UUID_SIZE];
++
++/* 0x0020 */
++	__le64 create_time;
++	__le64 create_cno;
++
++/* 0x0030 */
++	__le64 ino;
++	__le64 name_hash;
++
++/* 0x0040 */
++} __packed;
++
++/* snapshot flags */
++#define SSDFS_SNAPSHOT_HAS_EXTERNAL_STRING	(1 << 0)
++#define SSDFS_SNAPSHOT_FLAGS_MASK		0x1
++
++/*
++ * struct ssdfs_peb2time_pair - PEB to timestamp pair
++ * @peb_id: PEB ID
++ * @last_log_time: last log creation time
++ */
++struct ssdfs_peb2time_pair {
++/* 0x0000 */
++	__le64 peb_id;
++	__le64 last_log_time;
++
++/* 0x0010 */
++} __packed;
++
++/*
++ * struct ssdfs_peb2time_set - PEB to timestamp set
++ * @magic: magic signature of set
++ * @pairs_count: number of valid pairs in the set
++ * @create_time: create time of the first PEB in pair set
++ * @array: array of PEB to timestamp pairs
++ */
++struct ssdfs_peb2time_set {
++/* 0x0000 */
++	__le16 magic;
++	__le8 pairs_count;
++	__le8 padding[0x5];
++
++/* 0x0008 */
++	__le64 create_time;
++
++/* 0x0010 */
++#define SSDFS_PEB2TIME_ARRAY_CAPACITY		(3)
++	struct ssdfs_peb2time_pair array[SSDFS_PEB2TIME_ARRAY_CAPACITY];
++
++/* 0x0040 */
++} __packed;
++
++/*
++ * union ssdfs_snapshot_item - snapshot item
++ * @magic: magic signature
++ * @snapshot: snapshot info
++ * @peb2time: PEB to timestamp set
++ */
++union ssdfs_snapshot_item {
++/* 0x0000 */
++	__le16 magic;
++	struct ssdfs_snapshot snapshot;
++	struct ssdfs_peb2time_set peb2time;
++
++/* 0x0040 */
++} __packed;
++
++#define SSDFS_SNAPSHOTS_PAGES_PER_NODE_MAX		(32)
++#define SSDFS_SNAPSHOTS_INDEX_BMAP_SIZE \
++	((((SSDFS_SNAPSHOTS_PAGES_PER_NODE_MAX * PAGE_SIZE) / \
++	  sizeof(struct ssdfs_btree_index_key)) + BITS_PER_LONG) / BITS_PER_BYTE)
++#define SSDFS_RAW_SNAPSHOTS_BMAP_SIZE \
++	((((SSDFS_SNAPSHOTS_PAGES_PER_NODE_MAX * PAGE_SIZE) / \
++	  sizeof(struct ssdfs_snapshot_info)) + BITS_PER_LONG) / BITS_PER_BYTE)
++#define SSDFS_SNAPSHOTS_BMAP_SIZE \
++	(SSDFS_SNAPSHOTS_INDEX_BMAP_SIZE + SSDFS_RAW_SNAPSHOTS_BMAP_SIZE)
++
++/*
++ * struct ssdfs_snapshots_btree_node_header - snapshots node's header
++ * @node: generic btree node's header
++ * @snapshots_count: snapshots count in the node
++ * @lookup_table: table for clustering search in the node
++ *
++ * The @lookup_table has goal to provide the way of clustering
++ * the snapshots in the node with the goal to speed-up the search.
++ */
++struct ssdfs_snapshots_btree_node_header {
++/* 0x0000 */
++	struct ssdfs_btree_node_header node;
++
++/* 0x0040 */
++	__le32 snapshots_count;
++	__le8 padding[0x0C];
++
++/* 0x0050 */
++#define SSDFS_SNAPSHOTS_BTREE_LOOKUP_TABLE_SIZE		(22)
++	__le64 lookup_table[SSDFS_SNAPSHOTS_BTREE_LOOKUP_TABLE_SIZE];
++
++/* 0x0100 */
++} __packed;
++
++/*
++ * struct ssdfs_shared_extent - shared extent
++ * @fingerprint: fingerprint of shared extent
++ * @extent: position of the extent on volume
++ * @fingerprint_len: length of fingerprint
++ * @fingerprint_type: type of fingerprint
++ * @flags: various flags
++ * @ref_count: reference counter of shared extent
++ */
++struct ssdfs_shared_extent {
++/* 0x0000 */
++#define SSDFS_FINGERPRINT_LENGTH_MAX	(32)
++	__le8 fingerprint[SSDFS_FINGERPRINT_LENGTH_MAX];
++
++/* 0x0020 */
++	struct ssdfs_raw_extent extent;
++
++/* 0x0030 */
++	__le8 fingerprint_len;
++	__le8 fingerprint_type;
++	__le16 flags;
++	__le8 padding[0x4];
++
++/* 0x0038 */
++	__le64 ref_count;
++
++/* 0x0040 */
++} __packed;
++
++#define SSDFS_SHEXTREE_PAGES_PER_NODE_MAX		(32)
++#define SSDFS_SHEXTREE_INDEX_BMAP_SIZE \
++	((((SSDFS_SHEXTREE_PAGES_PER_NODE_MAX * PAGE_SIZE) / \
++	  sizeof(struct ssdfs_btree_index_key)) + BITS_PER_LONG) / BITS_PER_BYTE)
++#define SSDFS_RAW_SHEXTREE_BMAP_SIZE \
++	((((SSDFS_SHEXTREE_PAGES_PER_NODE_MAX * PAGE_SIZE) / \
++	  sizeof(struct ssdfs_shared_extent)) + BITS_PER_LONG) / BITS_PER_BYTE)
++#define SSDFS_SHEXTREE_BMAP_SIZE \
++	(SSDFS_SHEXTREE_INDEX_BMAP_SIZE + SSDFS_RAW_SHEXTREE_BMAP_SIZE)
++
++/*
++ * struct ssdfs_shextree_node_header - shared extents btree node's header
++ * @node: generic btree node's header
++ * @shared_extents: number of shared extents in the node
++ * @lookup_table: table for clustering search in the node
++ *
++ * The @lookup_table has goal to provide the way of clustering
++ * the shared extents in the node with the goal to speed-up the search.
++ */
++struct ssdfs_shextree_node_header {
++/* 0x0000 */
++	struct ssdfs_btree_node_header node;
++
++/* 0x0040 */
++	__le32 shared_extents;
++	__le8 padding[0x0C];
++
++/* 0x0050 */
++#define SSDFS_SHEXTREE_LOOKUP_TABLE_SIZE		(22)
++	__le64 lookup_table[SSDFS_SHEXTREE_LOOKUP_TABLE_SIZE];
++
++/* 0x0100 */
++} __packed;
++
++#define SSDFS_INVEXTREE_PAGES_PER_NODE_MAX		(32)
++#define SSDFS_INVEXTREE_INDEX_BMAP_SIZE \
++	((((SSDFS_INVEXTREE_PAGES_PER_NODE_MAX * PAGE_SIZE) / \
++	  sizeof(struct ssdfs_btree_index_key)) + BITS_PER_LONG) / BITS_PER_BYTE)
++#define SSDFS_RAW_INVEXTREE_BMAP_SIZE \
++	((((SSDFS_INVEXTREE_PAGES_PER_NODE_MAX * PAGE_SIZE) / \
++	  sizeof(struct ssdfs_raw_extent)) + BITS_PER_LONG) / BITS_PER_BYTE)
++#define SSDFS_INVEXTREE_BMAP_SIZE \
++	(SSDFS_INVEXTREE_INDEX_BMAP_SIZE + SSDFS_RAW_INVEXTREE_BMAP_SIZE)
++
++/*
++ * struct ssdfs_invextree_node_header - invalidated extents btree node's header
++ * @node: generic btree node's header
++ * @extents_count: number of invalidated extents in the node
++ * @lookup_table: table for clustering search in the node
++ *
++ * The @lookup_table has goal to provide the way of clustering
++ * the invalidated extents in the node with the goal to speed-up the search.
++ */
++struct ssdfs_invextree_node_header {
++/* 0x0000 */
++	struct ssdfs_btree_node_header node;
++
++/* 0x0040 */
++	__le32 extents_count;
++	__le8 padding[0x0C];
++
++/* 0x0050 */
++#define SSDFS_INVEXTREE_LOOKUP_TABLE_SIZE		(22)
++	__le64 lookup_table[SSDFS_INVEXTREE_LOOKUP_TABLE_SIZE];
++
++/* 0x0100 */
++} __packed;
++
++#endif /* _LINUX_SSDFS_H */
 -- 
 2.34.1
 
