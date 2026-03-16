@@ -1,227 +1,155 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78A2D374182
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 23:09:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773702551; cv=pass; b=nApBDExhg4PKn9NHTJ8odQeQ7HhR+LuXAuvrhnRsRWfOr+vLhXCSHf85KbdBYd3FM8RL1BC7KFKZYUZ+DoSQE+/tlDzOxg4ZOX+Hj9/gRqrn88rO/9XAvncftQd1BrblQ0zE+ny3XXoooen/Ph4iJFa7Ttb8MClu8akr32Eke6I=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773702551; c=relaxed/simple;
-	bh=+cAJ4iIFIxRHig92sYo84qvhIaHp9W4lFkHVoCvc15Y=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lvyQNOCOE6goEXFYZFhO2PFLom0lb/8dHdSKHbZR5SOEURF0Az8nVRjsAF23uR672hzchojjulelJMlgxKMkJGBV7f+pzuWuaxwGQK/XshAto5YThKYHcGF2i43h6f9MyNn2cRVf2Oe5jRrlfg2obaeTvnezRtzqXoIB3UCqWOM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D6IntPEf; arc=pass smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98AAE372B37
+	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 23:19:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773703176; cv=none; b=IkL5ix+QJPM/fjgGMpnXsq6PkRWxshZedEKpSC/2UG7+L5b9ltZ5d7Ua783BSq1KLMCpock7lmNWNh8xbFYbFliicqt5FydZ4I4erSEWVL8BwuWQAE4Uw4a+2okDXr8NMLevchEP8l3dxKfouWztxsxnHca5JDzmLnX2O/Zz2hg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773703176; c=relaxed/simple;
+	bh=jOUZUx95LvrmEW0OcCljpXucgFDRGr4c4nbnmNCdqYc=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=NO6jsc2mDuGFey5bo1VC0RvzcdEkFU6ZDh6XODeS5Eec6sg3LDoc0GUgVICGKVRj2HgSK1UbxhAo2ff0FrhsykaM29LH2HYFBY5bY8iar8AHrDw1oMHT4OlP0F5LeMfXvzfQLFjbvzQqiczxU5qXyiLp3u3UEpZtISnlSmenczQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XSMs7/nF; arc=none smtp.client-ip=209.85.128.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D6IntPEf"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-43b40fb7f95so1693325f8f.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 16:09:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773702547; cv=none;
-        d=google.com; s=arc-20240605;
-        b=aWasZrnUEeth4kWjWROv8VLZcqAItjQbgCQKT3jZxucM4z1gx/uflQjbz2rUTBm5H7
-         jDn6E9i4NtaapM0q5qZ2iKGtX/VvcsXGXOZylvAvP2I4fLBWxxIF6fkOWedAm1MTJF38
-         mEFcaVr226yRH/iPc0j0B7OD6S8kMVJA+GMsoSSnhBABrnmYHXBI9yqsyrF2mtcYX3qo
-         K4PJClo8kT24jWFW4Bzo97nLWu3aGidV+j8G7MlZplya4oG7VVIqzCeLDk8yH+kxQMGI
-         mal0JsXlx8Uv53ynvsr0QbRDlIYDSaxZqmhoa3nt0hvOmGFb1/7oFGecPYJKoFs0575R
-         mPgg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=YTcEvH+GjDpjQFw+Gwl6J2Beep0t2E3u6sg9IRtiNzE=;
-        fh=kaJvDsEg6Hfwd6AS1oXlMIUNmP1hApMKRTQD0U/l5Xs=;
-        b=WLf87ep3q0UvODCMupjrvHHRidBujKCxJtMpmzedkuiPkBz6TVSXpMsU0Dtdf746I0
-         MVfT/gUDfmMivbU7xTmxQxO+ZtwgxnarnLq80H2yP97SrsLTiSQDPqkPu05aqXwmfewR
-         /ecHfmuYW1JQstUgVRp8xTiJ7DtPWYGxCNInHf6B9+DGE54uBv8qVFbUPg3HAdugpS31
-         3HTIHvWZrHCCGUF99AinPxP1pxNmTR2sA/XHW/inbBITDpORJOQFowkMAZ4xDcc2s/ja
-         ok13Gz/H5BA5OGF7+1Y1yktgFEGzzMGqYoZbcDukkDRLK+8w58rTN1eQLHqQQFdMnQE9
-         /Wpw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XSMs7/nF"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4852fdb36a8so59989455e9.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 16:19:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773702547; x=1774307347; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1773703173; x=1774307973; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YTcEvH+GjDpjQFw+Gwl6J2Beep0t2E3u6sg9IRtiNzE=;
-        b=D6IntPEfYTZg7kuSqNZ0xwoTJK/di7+wNmv9xTRAPJh5ttY158d3g3/AzB7k89M0UD
-         skF+XyXEA6cLESYOW1zdWFQ17weizHtb5Gt5qDukO1DwPh3jyGt7eMU+QbqvginTkvFF
-         R6Zp7n1uvzGcSSV385Z0RkxSRU5ReYA9DTbEBnyTkMtqcdveekmreDSIoJ5G0q3XA32v
-         U8+2gVKFYZkxke14ocXHcYnVYSpzxP0N57boHVZ0B7z2jlHOmW7va+hBjXqfzkkuW4BF
-         qWcfzP5fAK5BJR1zdz9KG+8vghwKFvnyHAGE4aNKdkv+lJSmFC84F/1o3ebPYt/0eHoo
-         vGiw==
+        bh=0QlT1+cD5mH+crxcqsXp9NhmJtTE6cI+0w6HT55leUk=;
+        b=XSMs7/nFUZv+2elh4izPL2FoCnAvM+LLU0BPV4y/2M7KC6mGVfSEvqlKZmSMwj+5g0
+         bVDzesgQMnghXTEGD8pGVFYFlzNCU9h4CdPwrEj/xbLMcaVAb0RNY9s5xYjNJcIJ22qj
+         rCWal1mPNUc8/o5uqIf3b0Y+fnL27d5sXdaAisYIhoRvT47VT32xdbXhHFllCgOPmV+W
+         3HEtOsjfE7UEBqDhqA8IjHUp9n87INNerA+Acx7Ntgao321a11Bci8MzorDNsY1S88Q5
+         1WRakiLw0B9AWvZt8QFCYkAEI7o0mE0mK3wF1oUOW1BVk6XV++iG2XVFLia23VcZmN9L
+         Z4tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773702547; x=1774307347;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1773703173; x=1774307973;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=YTcEvH+GjDpjQFw+Gwl6J2Beep0t2E3u6sg9IRtiNzE=;
-        b=XSPAjiHYcjUTqDbiqJOSiRITcmJL6FtizbXRjhVFmby1fMWaR6S+Sede82wDd03YWF
-         X5HMYUuJXEVeubDNb/ja/M3OoVnhYayX330Dlelt81nYTFbtq6WsDUDtd0/7sCfKcdJI
-         ZfGSZPMYq/nGVRX02HZYQz+y6T8hWyfTwqqQ1Nh9fi1fwZ5Wdr9a2SBJK1Dlr4w3oELw
-         ISn6oFjrUU3tJYUp3gFI/hg4v4o7zug/B8bb4C5l3TAOzT08WiBS5acImVG3mexjI24r
-         ZfJ0s3plk39XOOrvxwe5vAMElS0MUoJOgRDhGXMxTKISeHuaoZrV36t+YYbNihVUKL9Q
-         Ez/w==
-X-Gm-Message-State: AOJu0Yz5lCAensGXIMn7ZSkLT9zs0MZaHtrn9P+PJwsXitmQJqzUJFTn
-	JTUY/reSFIhIANnjEZE/YgUea1Xf189oFj9zDX9KeI7M4YmJy7ZTF5buEcz9YupwOvjJ7odK5Eq
-	DG/MwNBM4xp5ZPydkPhzOpHxMStAWs74=
-X-Gm-Gg: ATEYQzzTYmkNy4pyCmf1byvm66QAwgrLZzNaSgjkjexwA9Z+2TM97KwRJsvJmwX/8i2
-	igFynJod3SUq0Tq7xuBBNLB3RHQpHeLdnEiY8ijR+i723eCdszFxPdx3sciDSfbzy1JyQg9T/eB
-	5nM1bMwBKd8fVurebG0gVAv0FV3yxxwDdZ0F+KkV7QcTrVM11K6c71vqZkQ+GQqYZVV+3u+X7Fw
-	fEJQcuRNpunfSpIGWDOYD+IN/wR4xllwZVNZ/tb6g1JOv2cXSlDo3Mg7I8IRU9ZBNS/dvfvQX2Z
-	p9IINw==
-X-Received: by 2002:a5d:5f83:0:b0:439:b8b2:fad0 with SMTP id
- ffacd0b85a97d-43a04d83ff6mr28400817f8f.5.1773702546587; Mon, 16 Mar 2026
- 16:09:06 -0700 (PDT)
+        bh=0QlT1+cD5mH+crxcqsXp9NhmJtTE6cI+0w6HT55leUk=;
+        b=IdkVVcm5keY8d4hfHGZkxduO+aqecmnRvJih719OHCpj4QHdzGfxEb5Hx6egga5lWN
+         5VjgGCnr+KGYF+qh0Elz+hmhLYAfhuKRD8whFB2gLz2Yh0Ysc9+3s9CItsToyYTRVtck
+         1u5kNgjh21bucsctMB8qPwkN+NL8A9HEplJ+21FmMUxPtyXa99I+FEiLanzbvhDHpt/v
+         BVZkXiecqZAzZ5tKiofo8bUH7kwZqNkxlRYdAKR17cvN0EP1UvkMJ5yRV5rvA/bv9+nr
+         kCBfXDmnHh9hGCnC5riI6TXiDfq8sLKauJlhSJk0fDGYhxz16HrK7lYuAQDQx42ZsZbG
+         HBSw==
+X-Forwarded-Encrypted: i=1; AJvYcCWzcNUZw5jpQLgcffuANiThx5QLUw1UEbpGEc76lqlAPAVq/5cCMUMOKAKvgYMI3qwLEmWu8WQZjTBaVAjO@vger.kernel.org
+X-Gm-Message-State: AOJu0YxPAS7ndewg6KFo6RNi/rbSuvHLlkslQ/FisWEfIySXW93cEKNN
+	lNP0hgqdUQ0JLlis4C2TH+udQaRbsdKtm9tfoMfH+luGboRns1mq+eSY
+X-Gm-Gg: ATEYQzyLH3tFitPC44qn64DhoK2kzzYAAc+B7DjJ7TfXyWMIpotPvN8E77aPUjvIauB
+	qyyguP/5mNaAICp1PrL9J0CKcyxlE20n5XM4Qlyq9xxmomokllrF3XFDzkToQ2aN0T3CltQ+wmh
+	5qNjmoMKS6bbOz5O+uXKsr6bJd2nvOv3cK2GE/hs7jl+/Ppmaxl79KeZDobs0IdFnJl1wCsaw5G
+	xg0RBt+YfUXQEEhIJvAaBFdGnV7g2XtpGz0deR6ixMCOO0MJWiMLrF5yzwCz1ZPkeGAp7WpUP6Y
+	N3VZiBvOHecKuw0gS2z2x2ZN27579VNpVRzqAk8fkeSdz7TU24iNZ8pRAvKUrMV2DxVvTV105RB
+	OzYZx7B5Wai+JXR8PEKXFzOyuFL0sCLyhYWtTZ/+s/6CgFSgfrpm9uVBch7+zt5FXdeuQK/grtt
+	ASRlxDeD9UwrT7Q35x+ZdAdB77ed70ZcL8kMXmoj3flPGoSxasUykeGXgYbZvKIKMz
+X-Received: by 2002:a05:600c:8b45:b0:485:2ce2:4c87 with SMTP id 5b1f17b1804b1-485566cf8abmr257444255e9.4.1773703172772;
+        Mon, 16 Mar 2026 16:19:32 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4856ea8e3cdsm26131835e9.2.2026.03.16.16.19.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Mar 2026 16:19:32 -0700 (PDT)
+Date: Mon, 16 Mar 2026 23:19:30 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Alexander Viro
+ <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara
+ <jack@suse.cz>, Thomas Gleixner <tglx@linutronix.de>,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] fs: Replace user_access_{begin/end} by scoped user
+ access
+Message-ID: <20260316231930.288e9bf4@pumpkin>
+In-Reply-To: <CAHk-=whFS7D1M4=cMi9cR06Uoxr1QeM8HUtRB6V3cQth=QNoXg@mail.gmail.com>
+References: <23f19c88e763beb852a4891b2a908890bdd01b66.1773651096.git.chleroy@kernel.org>
+	<CAHk-=whFS7D1M4=cMi9cR06Uoxr1QeM8HUtRB6V3cQth=QNoXg@mail.gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260223224617.GA2390314@frogsfrogsfrogs> <CAJnrk1Yd1J60-Ek=O7jzZQg454pbr3O=b71yZHzYbrWfqJr__w@mail.gmail.com>
- <20260316180408.GN6069@frogsfrogsfrogs>
-In-Reply-To: <20260316180408.GN6069@frogsfrogsfrogs>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Mon, 16 Mar 2026 16:08:55 -0700
-X-Gm-Features: AaiRm53xx1udDBBozm1YmDs3kuURdsgNVNQ8IfBAmck4rGWxaKobRoPlK5vEPvg
-Message-ID: <CAJnrk1bmJYMt27xedN2Xza0KPXfYEbh-9g=3fNWru-HRM9WFEw@mail.gmail.com>
-Subject: Re: [PATCHBLIZZARD v7] fuse/libfuse/e2fsprogs: containerize ext4 for
- safer operation
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: linux-fsdevel <linux-fsdevel@vger.kernel.org>, bpf@vger.kernel.org, 
-	linux-ext4 <linux-ext4@vger.kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Bernd Schubert <bernd@bsbernd.com>, "Theodore Ts'o" <tytso@mit.edu>, Neal Gompa <neal@gompa.dev>, 
-	Amir Goldstein <amir73il@gmail.com>, Christian Brauner <brauner@kernel.org>, 
-	Jeff Layton <jlayton@kernel.org>, John@groves.net, demiobenour@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Mar 16, 2026 at 11:04=E2=80=AFAM Darrick J. Wong <djwong@kernel.org=
-> wrote:
->
-> On Mon, Mar 16, 2026 at 10:56:21AM -0700, Joanne Koong wrote:
-> > On Mon, Feb 23, 2026 at 2:46=E2=80=AFPM Darrick J. Wong <djwong@kernel.=
-org> wrote:
-> > >
-> > > There are some warts remaining:
-> > >
-> > > a. I would like to continue the discussion about how the design revie=
-w
-> > >    of this code should be structured, and how might I go about creati=
-ng
-> > >    new userspace filesystem servers -- lightweight new ones based off
-> > >    the existing userspace tools?  Or by merging lklfuse?
+On Mon, 16 Mar 2026 10:12:23 -0700
+Linus Torvalds <torvalds@linux-foundation.org> wrote:
+
+> On Mon, 16 Mar 2026 at 01:53, Christophe Leroy (CS GROUP)
+> <chleroy@kernel.org> wrote:
 > >
-> > What do you mean by "merging lklfuse"?
->
-> Merging the lklfuse project into upstream Linux, which involves running
-> the whole kit and caboodle through our review process, and then fixing
+> > -       if (!user_write_access_begin(dirent,
+> > -                       (unsigned long)(dirent->d_name + namlen + 1) -
+> > -                               (unsigned long)dirent))
+> > -               goto efault;  
+> 
+> This was already pretty unreadable (my bad), but..
+> 
+> > +       scoped_user_write_access_size(dirent, (unsigned long)(dirent->d_name + namlen + 1) -
+> > +                                             (unsigned long)dirent, efault) {  
+> 
+> .. in my opinion, this is even worse. It's a 90+ character long line
+> (or something), *and* it continues on the next line.
+> 
+> Yes, yes, the old code was disgusting too, but when changing it for
+> something that is supposed to be easier to read, please let's make it
+> *really* easier to read.
+> 
+> (And yes, there's another case of this same pattern a bit later).
+> 
+> Adding a helper inline function like dirent_size() might do it. And I
+> think it might as well be cleaned up while at it, and make it be
+> something like
+> 
+>     static inline size_t dirent_size(int namelen)
+>     {
+>         return offsetof(struct linux_dirent, d_name) + namelen + 1;
+>     }
 
-Gotcha, so it would basically be having to port this arch/lkl
-directory [1] into the linux tree
+That definition would fit one one line (possibly as a continuation line).
 
-> user-mode-linux to work anywhere other than x86.
+> [ Making things doubly sad, the size shouldn't even be *used* in sane
+> situations, because the user access validity is often checked by only
+> checking the beginning,
+> 
+>   The x86-64 __access_ok() does actually do that optimization, but
+> only if we can statically see that the thing is smaller than one page,
+> which in this case it can't, because while namelen is range checked,
+> it is allowed to be up to PATH_MAX in size, so even if the compiler
+> does do the full value range analysis, we'd need to relax that
+> __access_ok() check a bit more ]
 
-Are lklfuse and user-mode-linux (UML) two separate things or is
-lklfuse dependent on user-mode-linux?
+Except is doesn't matter for x86-64 because this is the 'masked' case
+where the accesses are required to be 'reasonably sequential'.
 
->
-> > Could you explain what the limitations of lklfuse are compared to the
-> > fuse iomap approach in this patchset?
->
-> The ones I know about are:
->
-> 1> There's no support for vmapped kernel memory in UML mode, so anyone
-> who requires a large contiguous memory buffer cannot assemble them out
-> of "physical" pages.  This has been a stumbling block for XFS in the
-> past.
->
-> 2> LKLFUSE still uses the classic fuse IO paths, which means that at
-> best you can directio the IO through the lklfuse kernel.  At worst you
-> have to use the pagecache inside the lklfuse kernel, which is very
-> wasteful.
+Although requiring a guard page on all architectures would make life
+simpler overall.
+I'm not even sure that some of the reasons that x86-64 has to have
+a guard page (to stop speculative execution and system call return
+to non-canonical addresses) don't have potential counterparts on x86-32
+and other architectures. 
 
-For the security / isolation use cases you've described, is
-near-native performance a hard requirement? As I understand it, the
-main use cases of this will be for mounting untrusted disk images and
-CI/filesystem testing, or are there broader use cases beyond this?
+For x86-32 I believe that historically the user stack was right at the
+top of the user address space (or the constant wouldn't be STACK_TOP).
+So forcing a guard page would realign the stack.
+But I've not got an x86-32 system setup (I've got plenty of hardware)
+so see what actually happens or test any hacking.
+I'm also not sure where the vdso ends up - I'd have thought it might
+be right at the top?
 
->
-> 3> lklfuse hasn't been updated since 6.6.
+	David
 
-Gotcha. So if I'm understanding it correctly, the pros/cons come down to:
-lklfuse pros:
-- (arguably) easier setup cost. once it's setup (assuming it's
-possible to add support for the vmapped kernel memory thing you
-mentioned above), it'll automatically work for every filesystem vs.
-having to implement a fuse-iomap server for every filesystem
-- easier to maintain vs. having to maintain each filesystem's
-userspace server implementation
+> 
+> Hmm? Can you do at least that dirent_size() kind of cleanup?
+> 
+>               Linus
 
-lklfuse cons:
-- worse (not sure by how much) performance
-- once it's merged into the kernel, we can't choose to not
-maintain/support it in the future
-
-Am I understanding this correctly?
-
-In my opinion, if near-native performance is not a hard requirement,
-it seems like less pain overall to go with lklfuse. lklfuse seems a
-lot easier to maintain and I'm not sure if some complexities like
-btrfs's copy-on-write could be handled properly with fuse-iomap.
-
-What are your thoughts on this?
-
-Thanks,
-Joanne
-
-[1] https://github.com/lkl/linux/tree/master/arch/lkl
-
->
-> --D
->
-> > Thanks,
-> > Joanne
-> >
-> > >
-> > > b. ext4 doesn't support out of place writes so I don't know if that
-> > >    actually works correctly.
-> > >
-> > > c. fuse2fs doesn't support the ext4 journal.  Urk.
-> > >
-> > > d. There's a VERY large quantity of fuse2fs improvements that need to=
- be
-> > >    applied before we get to the fuse-iomap parts.  I'm not sending th=
-ese
-> > >    (or the fstests changes) to keep the size of the patchbomb at
-> > >    "unreasonably large". :P  As a result, the fstests and e2fsprogs
-> > >    postings are very targeted.
-> > >
-> > > e. I've dropped the fstests part of the patchbomb because v6 was just
-> > >    way too long.
-> > >
-> > > I would like to get the main parts of this submission reviewed for 7.=
-1
-> > > now that this has been collecting comments and tweaks in non-rfc stat=
-us
-> > > for 3.5 months.
-> > >
-> > > Kernel:
-> > > https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git/=
-log/?h=3Dfuse-iomap-bpf
-> > >
-> > > libfuse:
-> > > https://git.kernel.org/pub/scm/linux/kernel/git/djwong/libfuse.git/lo=
-g/?h=3Dfuse-iomap-bpf
-> > >
-> > > e2fsprogs:
-> > > https://git.kernel.org/pub/scm/linux/kernel/git/djwong/e2fsprogs.git/=
-log/?h=3Dfuse-iomap-bpf
-> > >
-> > > fstests:
-> > > https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfstests-dev.g=
-it/log/?h=3Dfuse2fs
-> > >
-> > > --Darrick
