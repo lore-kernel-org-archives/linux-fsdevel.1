@@ -1,232 +1,262 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E459723E358
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 12:00:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBBB825228D;
+	Mon, 16 Mar 2026 13:08:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773662419; cv=none; b=u0Em9tFWOe+ETsoMvNGlLFAmRfG95uHbM+LBQbOoTTfD0FHujRCv9e8/WflgqU09T50hHSvV5pMqdGF1hdIyPaiiTgd/O3JRbBQEctK/nNcsmN2JB3z8jbGaYCM68JtGj+BGxDWyac+/rQ2eLI1FvnhjWniXp5YfND1CwbBZpeg=
+	t=1773666533; cv=none; b=azZ17lER7SDLdSp/dYtWpnhQZi6wY9ppxijc7qMMpUY2MxW2Vbzp6sPOnk98UDWIlOdZYZE6iYfJNYIeAcXA2AK6r7SOH8T7KMo0sLy69BwtAos8cVFn+7WFwZLSslVDX6mQkp3h5zKrr5epVmsFmTN0PYKqq+Cm5OGVZOjXckg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773662419; c=relaxed/simple;
-	bh=Q0VK/fXpeMFyb4XRBgC/8Fp6njX7ZmKFkwignOs4Znw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a5Y9T7FHxIj5F7s9YR6TH5H59JRHn5TXGenzkLuclm9VfA8A/jBKPKUs7QGbeJ4zZWQeYSCLd31fTaLNjsDwwhu0+Kdntcs7ItzmctBc7gyVB1gQYV+faTSo4OD2dOuJKLzxbck5ZHwg4hAd4QrOfK/2wmPgffmgzunBLE4GOBQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VOeLt4UM; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773666533; c=relaxed/simple;
+	bh=M8qB2Yi8G2KCxfalR2Xs/y9ReUIwgZw5xpyPQq7wYBo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CJGX8N3zw5ewGEKxX9PH6DiBJqylZcCWMftUGYoxbIErsVq6nn/GVg1tjqcij/CVfAS5c4qvYdmHSws2Bn1p7IX/QSsWUeJuUS2xIJRaeUlbaNwV4tQy4TZt1P+AhFS5dZm/jIjn/L2f6NWbi0fVqff3vZSKS6v5ELKxHzMPVp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T9pvKSi4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VOeLt4UM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19CA9C19424;
-	Mon, 16 Mar 2026 12:00:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T9pvKSi4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5BFFC19421;
+	Mon, 16 Mar 2026 13:08:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773662418;
-	bh=Q0VK/fXpeMFyb4XRBgC/8Fp6njX7ZmKFkwignOs4Znw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VOeLt4UMpwys8E0pMYYPYKhwU9wXj9dAQogOmUI6OpY5Z1ONqqK3Mp2uZ9WJnIes7
-	 h9Rqyn0gDldDn9Cvv7OkbXkFpxDfb7YTvAqIlyOYFZmbGB8bD+KMqmozxtcpcgrG9e
-	 OVW11PwcKtBJo9ccsrICEWU5/EWUs60wpUTKwCVPw3D1r4pV+VYDN4WG4O8UUjQupD
-	 dP4J7HrMNP1u/SR1eH/MUwYp/wK/dp+70tdL8KB2zuzP2ej0ruOIhq+PCq3yTFWlw9
-	 zlTs0sTS0OQMykXgFW7w/8balyNOB+EdM9nYvxOMiFte4pjdgO7T9NdFinGddD8Trg
-	 gWGFIezQGpVhQ==
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 33C50F40076;
-	Mon, 16 Mar 2026 08:00:17 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Mon, 16 Mar 2026 08:00:17 -0400
-X-ME-Sender: <xms:0fC3aUWEeLyG7ImCYzAp_kBnQSprrYvWkFklLJH3rLFgN9BPxlPGXA>
-    <xme:0fC3aX3wvqrc-knPVVnZX0SnpPbntISuCJjI99QYSj-fUxyeMf6wWQvkvcfLlbMeW
-    6CDferh-RhFJ2g-XK52dr3mrFS4XG9CYkYhMFbDmoL6yZjGG6qFY4U>
-X-ME-Received: <xmr:0fC3aUlI-ZYe0tqsu05WA3-Rs7csFBR1sz7geQAGtH0j7_gM2o5kMtngJ8syzA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvleekfeefucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefmihhrhihl
-    ucfuhhhuthhsvghmrghuuceokhgrsheskhgvrhhnvghlrdhorhhgqeenucggtffrrghtth
-    gvrhhnpeeigfdvtdekveejhfehtdduueeuieekjeekvdfggfdtkeegieevjedvgeetvdeh
-    gfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehkih
-    hrihhllhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudeiudduiedvieeh
-    hedqvdekgeeggeejvdekqdhkrghspeepkhgvrhhnvghlrdhorhhgsehshhhuthgvmhhovh
-    drnhgrmhgvpdhnsggprhgtphhtthhopeefiedpmhhouggvpehsmhhtphhouhhtpdhrtghp
-    thhtohepsggrohhlihhnrdifrghngheslhhinhhugidrrghlihgsrggsrgdrtghomhdprh
-    gtphhtthhopeguvghvrdhjrghinhesrghrmhdrtghomhdprhgtphhtthhopegrkhhpmhes
-    lhhinhhugidqfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtohepfihilhhlhiesih
-    hnfhhrrgguvggrugdrohhrghdprhgtphhtthhopegurghvihgusehkvghrnhgvlhdrohhr
-    ghdprhgtphhtthhopehlohhrvghniihordhsthhorghkvghssehorhgrtghlvgdrtghomh
-    dprhgtphhtthhopehprdhrrghghhgrvhesshgrmhhsuhhnghdrtghomhdprhgtphhtthho
-    pehmtghgrhhofheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughhohifvghllhhsse
-    hrvgguhhgrthdrtghomh
-X-ME-Proxy: <xmx:0fC3aeGVUszm7BESAbmeVVNYVKxp6mo6I208IJx7MAxToL2bdmy4yg>
-    <xmx:0fC3aRmjgnijvlPkGhutJ4UzqRqjSCO-Jh9jwTDJu7yERTBkynC3jw>
-    <xmx:0fC3aYMGc9U-aRBmf1Tt0Wqhozcx0PLycHkQHy8m8k4weY0aJxoDsA>
-    <xmx:0fC3aRB-SAEdbS81spY6uG-n_j-3tCQFqU1DkE_0wI9OKjlRNLPlxQ>
-    <xmx:0fC3aZVUSzfX1SBYye12Hp0Bf15OHXN9J4yioOcWQnY5j4zILG8d_T1N>
-Feedback-ID: i10464835:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 16 Mar 2026 08:00:14 -0400 (EDT)
-Date: Mon, 16 Mar 2026 12:00:09 +0000
-From: Kiryl Shutsemau <kas@kernel.org>
-To: Baolin Wang <baolin.wang@linux.alibaba.com>
-Cc: Dev Jain <dev.jain@arm.com>, akpm@linux-foundation.org, 
-	willy@infradead.org, david@kernel.org, lorenzo.stoakes@oracle.com, 
-	p.raghav@samsung.com, mcgrof@kernel.org, dhowells@redhat.com, djwong@kernel.org, 
-	hare@suse.de, da.gomez@samsung.com, dchinner@redhat.com, brauner@kernel.org, 
-	xiangzao@linux.alibaba.com, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH] mm: filemap: fix nr_pages calculation overflow in
- filemap_map_pages()
-Message-ID: <abfwUro4rJw7u5d5@thinkstation>
-References: <066dd2e947ccc1c304b54e847fbe628dccea1d7c.1773370126.git.baolin.wang@linux.alibaba.com>
- <0890a207-354e-4da1-80c2-67754354a6a6@arm.com>
- <c7e8ac1c-0486-4e41-a62c-0917054b2fa1@arm.com>
- <726ee101-6978-49f6-8f2b-edc7f8d99074@linux.alibaba.com>
+	s=k20201202; t=1773666533;
+	bh=M8qB2Yi8G2KCxfalR2Xs/y9ReUIwgZw5xpyPQq7wYBo=;
+	h=From:To:Cc:Subject:Date:From;
+	b=T9pvKSi4Tc2nnuQeD5Yvlyhi0UufdXQgMYoOn7BC5uSu03NjdqzIGTm1Tdv3TLSYa
+	 ZRhnhmQn0LEOOHogL294cpBY4Hx5wgcJH61d4VVf2CMkbG7Wp+svFxCaUrMrjKOILL
+	 +xyfGn6+4PetNtIu9y56emsCH1Vnr9u4Qi/SLG8O+zqXlH4mU2LEP+6fFZopPPQTBc
+	 iZl4h9qxTnhFE2aS1oMHmnUrqCtcGbnwO+i/lb2cVUuSq9zoi2n0QoFqUzeabs7zyP
+	 tbVtZbTy1UNWsliQt5qBdzNaCAJVWNqdZf7BNdfGttMzyLm6no5mzEMaXrnEoGyX8L
+	 yFaroSc0+vdhA==
+From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: David Hildenbrand <david@kernel.org>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Jann Horn <jannh@google.com>,
+	Pedro Falcato <pfalcato@suse.de>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Kees Cook <kees@kernel.org>,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	Vineet Gupta <vgupta@kernel.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Brian Cain <bcain@kernel.org>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <chleroy@kernel.org>,
+	Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	"H . Peter Anvin" <hpa@zytor.com>,
+	Richard Weinberger <richard@nod.at>,
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Xu Xin <xu.xin16@zte.com.cn>,
+	Chengming Zhou <chengming.zhou@linux.dev>,
+	Michal Hocko <mhocko@suse.com>,
+	Paul Moore <paul@paul-moore.com>,
+	Stephen Smalley <stephen.smalley.work@gmail.com>,
+	Ondrej Mosnacek <omosnace@redhat.com>,
+	linux-snps-arc@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-hexagon@vger.kernel.org,
+	loongarch@lists.linux.dev,
+	linux-mips@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-riscv@lists.infradead.org,
+	linux-s390@vger.kernel.org,
+	linux-um@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org,
+	selinux@vger.kernel.org
+Subject: [PATCH v2 00/23] mm/vma: convert vm_flags_t to vma_flags_t in vma code
+Date: Mon, 16 Mar 2026 13:07:49 +0000
+Message-ID: <cover.1773665966.git.ljs@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <726ee101-6978-49f6-8f2b-edc7f8d99074@linux.alibaba.com>
 
-On Fri, Mar 13, 2026 at 01:54:31PM +0800, Baolin Wang wrote:
-> 
-> 
-> On 3/13/26 1:14 PM, Dev Jain wrote:
-> > 
-> > 
-> > On 13/03/26 10:41 am, Dev Jain wrote:
-> > > 
-> > > 
-> > > On 13/03/26 9:15 am, Baolin Wang wrote:
-> > > > When running stress-ng on my Arm64 machine with v7.0-rc3 kernel, I encountered
-> > > > some very strange crash issues showing up as "Bad page state":
-> > > > 
-> > > > "
-> > > > [  734.496287] BUG: Bad page state in process stress-ng-env  pfn:415735fb
-> > > > [  734.496427] page: refcount:0 mapcount:1 mapping:0000000000000000 index:0x4cf316 pfn:0x415735fb
-> > > > [  734.496434] flags: 0x57fffe000000800(owner_2|node=1|zone=2|lastcpupid=0x3ffff)
-> > > > [  734.496439] raw: 057fffe000000800 0000000000000000 dead000000000122 0000000000000000
-> > > > [  734.496440] raw: 00000000004cf316 0000000000000000 0000000000000000 0000000000000000
-> > > > [  734.496442] page dumped because: nonzero mapcount
-> > > > "
-> > > > 
-> > > > After analyzing this page’s state, it is hard to understand why the mapcount
-> > > > is not 0 while the refcount is 0, since this page is not where the issue first
-> > > > occurred. By enabling the CONFIG_DEBUG_VM config, I can reproduce the crash as
-> > > > well and captured the first warning where the issue appears:
-> > > > 
-> > > > "
-> > > > [  734.469226] page: refcount:33 mapcount:0 mapping:00000000bef2d187 index:0x81a0 pfn:0x415735c0
-> > > > [  734.469304] head: order:5 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
-> > > > [  734.469315] memcg:ffff000807a8ec00
-> > > > [  734.469320] aops:ext4_da_aops ino:100b6f dentry name(?):"stress-ng-mmaptorture-9397-0-2736200540"
-> > > > [  734.469335] flags: 0x57fffe400000069(locked|uptodate|lru|head|node=1|zone=2|lastcpupid=0x3ffff)
-> > > > ......
-> > > > [  734.469364] page dumped because: VM_WARN_ON_FOLIO((_Generic((page + nr_pages - 1),
-> > > > const struct page *: (const struct folio *)_compound_head(page + nr_pages - 1), struct page *:
-> > > > (struct folio *)_compound_head(page + nr_pages - 1))) != folio)
-> > > > [  734.469390] ------------[ cut here ]------------
-> > > > [  734.469393] WARNING: ./include/linux/rmap.h:351 at folio_add_file_rmap_ptes+0x3b8/0x468,
-> > > > CPU#90: stress-ng-mlock/9430
-> > > > [  734.469551]  folio_add_file_rmap_ptes+0x3b8/0x468 (P)
-> > > > [  734.469555]  set_pte_range+0xd8/0x2f8
-> > > > [  734.469566]  filemap_map_folio_range+0x190/0x400
-> > > > [  734.469579]  filemap_map_pages+0x348/0x638
-> > > > [  734.469583]  do_fault_around+0x140/0x198
-> > > > ......
-> > > > [  734.469640]  el0t_64_sync+0x184/0x188
-> > > > "
-> > > > 
-> > > > The code that triggers the warning is: "VM_WARN_ON_FOLIO(page_folio(page + nr_pages - 1) != folio, folio)",
-> > > > which indicates that set_pte_range() tried to map beyond the large folio’s
-> > > > size.
-> > > > 
-> > > > By adding more debug information, I found that 'nr_pages' had overflowed in
-> > > > filemap_map_pages(), causing set_pte_range() to establish mappings for a range
-> > > > exceeding the folio size, potentially corrupting fields of pages that do not
-> > > > belong to this folio (e.g., page->_mapcount).
-> > > > 
-> > > > After above analysis, I think the possible race is as follows:
-> > > > 
-> > > > CPU 0                                                  CPU 1
-> > > > filemap_map_pages()                                   ext4_setattr()
-> > > >     //get and lock folio with old inode->i_size
-> > > >     next_uptodate_folio()
-> > > > 
-> > > >                                                            .......
-> > > >                                                            //shrink the inode->i_size
-> > > >                                                            i_size_write(inode, attr->ia_size);
-> > > > 
-> > > >     //calculate the end_pgoff with the new inode->i_size
-> > > >     file_end = DIV_ROUND_UP(i_size_read(mapping->host), PAGE_SIZE) - 1;
-> > > >     end_pgoff = min(end_pgoff, file_end);
-> > > > 
-> > > >     ......
-> > > >     //nr_pages can be overflowed, cause xas.xa_index > end_pgoff
-> > > >     end = folio_next_index(folio) - 1;
-> > > >     nr_pages = min(end, end_pgoff) - xas.xa_index + 1;
-> > > > 
-> > > >     ......
-> > > >     //map large folio
-> > > >     filemap_map_folio_range()
-> > > >                                                            ......
-> > > >                                                            //truncate folios
-> > > >                                                            truncate_pagecache(inode, inode->i_size);
-> > > > 
-> > > > To fix this issue, move the 'end_pgoff' calculation before next_uptodate_folio(),
-> > > > so the retrieved folio stays consistent with the file end to avoid 'nr_pages'
-> > > > calculation overflow. After this patch, the crash issue is gone.
-> > > > 
-> > > > Fixes: 743a2753a02e ("filemap: cap PTE range to be created to allowed zero fill in folio_map_range()")
-> > > > Reported-by: Yuanhe Shu <xiangzao@linux.alibaba.com>
-> > > > Tested-by: Yuanhe Shu <xiangzao@linux.alibaba.com>
-> > > > Signed-off-by: Baolin Wang <baolin.wang@linux.alibaba.com>
-> > > > ---
-> > > >   mm/filemap.c | 6 +++---
-> > > >   1 file changed, 3 insertions(+), 3 deletions(-)
-> > > > 
-> > > > diff --git a/mm/filemap.c b/mm/filemap.c
-> > > > index bc6775084744..923d28e59642 100644
-> > > > --- a/mm/filemap.c
-> > > > +++ b/mm/filemap.c
-> > > > @@ -3879,14 +3879,14 @@ vm_fault_t filemap_map_pages(struct vm_fault *vmf,
-> > > >   	unsigned int nr_pages = 0, folio_type;
-> > > >   	unsigned short mmap_miss = 0, mmap_miss_saved;
-> > > > +	file_end = DIV_ROUND_UP(i_size_read(mapping->host), PAGE_SIZE) - 1;
-> > > > +	end_pgoff = min(end_pgoff, file_end);
-> > > > +
-> > > >   	rcu_read_lock();
-> > > >   	folio = next_uptodate_folio(&xas, mapping, end_pgoff);
-> > > >   	if (!folio)
-> > > >   		goto out;
-> > > > -	file_end = DIV_ROUND_UP(i_size_read(mapping->host), PAGE_SIZE) - 1;
-> > > > -	end_pgoff = min(end_pgoff, file_end);
-> > > > -
-> > > >   	/*
-> > > >   	 * Do not allow to map with PMD across i_size to preserve
-> > > >   	 * SIGBUS semantics.
-> > > 
-> > > I am wondering whether something similar can happen in the do-while loop
-> > > below this code. We can retrieve a folio from next_uptodate_folio, and
-> > > then a massive truncate happens and we end up mapping a large folio
-> > > into the pagetables beyong i_size, violating SIGBUS semantics. (truncation
-> > > may back-off seeing the locked folio/increased refcount in filemap_map_pages)
-> > 
-> > Read the bracket text as - (truncation may fail to unmap this folio seeing
-> > it locked or with elevated refcount, therefore the illegal mapping stays
-> > permanent)
-> 
-> IMHO, the truncate_pagecache() will call unmap_mapping_range() twice, and
-> the folio lock and refcount will not block unmap_mapping_range() to unmap
-> the folio's mapping (only hold ptl lock).
-> 
-> So the truncate_pagecache() can still truncate large folios beyond i_size.
+This series converts a lot of the existing use of the legacy vm_flags_t
+data type to the new vma_flags_t type which replaces it.
 
-Yeah, we serialize here on the folio lock. It should be safe.
+In order to do so it adds a number of additional helpers:
 
-The fix looks sane to me:
+* vma_flags_empty() - Determines whether a vma_flags_t value has no bits
+  set.
 
-Acked-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
+* vma_flags_and() - Performs a bitwise AND between two vma_flags_t values.
 
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+* vma_flags_diff_pair() - Determines which flags are not shared between a
+  pair of VMA flags (typically non-constant values)
+
+* append_vma_flags() - Similar to mk_vma_flags(), but allows a vma_flags_t
+  value to be specified (typically a constant value) which will be copied
+  and appended to to create a new vma_flags_t value, with additional flags
+  specified to append to it.
+
+* vma_flags_same() - Determines if a vma_flags_t value is exactly equal to
+  a set of VMA flags.
+
+* vma_flags_same_mask() - Determines if a vma_flags_t value is eactly equal
+  to another vma_flags_t value (typically constant).
+
+* vma_flags_same_pair() - Determines if a pair of vma_flags_t values are
+  exactly equal to one another (typically both non-constant).
+
+* vma_flags_to_legacy() - Converts a vma_flags_t value to a vm_flags_t
+  value, used to enable more iterative introduction of the use of
+  vma_flags_t.
+
+* legacy_to_vma_flags() - Converts a vm_flags_t value to a vma_flags-t
+  value, for the same purpose.
+
+* vma_flags_test_single_mask() - Tests whether a vma_flags_t value contain
+  the single flag specified in an input vma_flags_t flag mask, or if that
+  flag mask is empty, is defined to return false. Useful for
+  config-predicated VMA flag mask defines.
+
+* vma_test() - Tests whether a VMA's flags contain a specific singular VMA
+  flag.
+
+* vma_test_any() - Tests whether a VMA's flags contain any of a set of VMA
+  flags.
+
+* vma_test_any_mask() - Tests whether a VMA's flags contain any of the
+  flags specified in another, typically constant, vma_flags_t value.
+
+* vma_test_single_mask() - Tests whether a VMA's flags contain the single
+  flag specified in an input vma_flags_t flag mask, or if that flag mask is
+  empty, is defined to return false. Useful for config-predicated VMA flag
+  mask defines.
+
+* vma_clear_flags() - Clears a specific set of VMA flags from a vma_flags_t
+  value.
+
+* vma_clear_flags_mask() - Clears those flag set in a vma_flags_t value
+  (typically constant) from a (typically not constant) vma_flags_t value.
+
+The series mostly focuses on the the VMA specific code, especially that
+contained in mm/vma.c and mm/vma.h.
+
+It updates both brk() and mmap() logic to utils vma_flags_t values as much
+as is practiaclly possible at this point, changing surrounding logic to be
+able to do so.
+
+It also updates the vma_modify_xxx() functions where they interact with VMA
+flags directly to use vm_flags_t values where possible.
+
+There is extensive testing added in the VMA userland tests to assert that
+all of these new VMA flag functions work correctly.
+
+
+v2:
+* Rebased on mm-unstable.
+* Added vma_flags_count() and vma[_flags]_test_single_mask() for testing whether
+  flags have a single flag set depending on an input flag mask, returning false
+  if the flag mask is empty.
+* Added tests for vma_flags_count() and vma[_flags]_test_single_mask().
+* Updated the KSM VMA_DROPPABLE test to use vma_flags_test_single_mask().
+* Updated the newly-introduced-since-rebase vma_supports_mlock() to use
+  vma_flags_t.
+
+v1:
+https://lore.kernel.org/linux-mm/cover.1773342102.git.ljs@kernel.org/
+
+Lorenzo Stoakes (Oracle) (23):
+  mm/vma: add vma_flags_empty(), vma_flags_and(), vma_flags_diff_pair()
+  tools/testing/vma: add unit tests flag empty, diff_pair, and[_mask]
+  mm/vma: add further vma_flags_t unions
+  tools/testing/vma: convert bulk of test code to vma_flags_t
+  mm/vma: use new VMA flags for sticky flags logic
+  tools/testing/vma: fix VMA flag tests
+  mm/vma: add append_vma_flags() helper
+  tools/testing/vma: add simple test for append_vma_flags()
+  mm: unexport vm_brk_flags() and eliminate vm_flags parameter
+  mm/vma: introduce vma_flags_same[_mask/_pair]()
+  mm/vma: introduce [vma_flags,legacy]_to_[legacy,vma_flags]() helpers
+  tools/testing/vma: test that legacy flag helpers work correctly
+  mm/vma: introduce vma_test[_any[_mask]](), and make inlining
+    consistent
+  tools/testing/vma: update VMA flag tests to test vma_test[_any_mask]()
+  mm: introduce vma_flags_count() and vma[_flags]_test_single_mask()
+  tools/testing/vma: test vma_flags_count,vma[_flags]_test_single_mask
+  mm: convert do_brk_flags() to use vma_flags_t
+  mm: update vma_supports_mlock() to use new VMA flags
+  mm/vma: introduce vma_clear_flags[_mask]()
+  tools/testing/vma: update VMA tests to test vma_clear_flags[_mask]()
+  mm/vma: convert as much as we can in mm/vma.c to vma_flags_t
+  mm/vma: convert vma_modify_flags[_uffd]() to use vma_flags_t
+  mm/vma: convert __mmap_region() to use vma_flags_t
+
+ arch/arc/include/asm/page.h        |   2 +-
+ arch/arm/include/asm/page.h        |   2 +-
+ arch/arm64/include/asm/page.h      |   3 +-
+ arch/hexagon/include/asm/page.h    |   2 +-
+ arch/loongarch/include/asm/page.h  |   2 +-
+ arch/mips/include/asm/page.h       |   2 +-
+ arch/nios2/include/asm/page.h      |   2 +-
+ arch/powerpc/include/asm/page.h    |   4 +-
+ arch/powerpc/include/asm/page_32.h |   2 +-
+ arch/powerpc/include/asm/page_64.h |  12 +-
+ arch/riscv/include/asm/page.h      |   2 +-
+ arch/s390/include/asm/page.h       |   2 +-
+ arch/x86/include/asm/page_types.h  |   2 +-
+ arch/x86/um/asm/vm-flags.h         |   4 +-
+ fs/binfmt_elf.c                    |   3 +-
+ include/linux/ksm.h                |  10 +-
+ include/linux/mm.h                 | 328 ++++++++++++++++++++------
+ include/linux/mm_types.h           |  52 ++++-
+ include/linux/mman.h               |  49 ----
+ include/linux/userfaultfd_k.h      |   3 +
+ mm/internal.h                      |   7 +-
+ mm/ksm.c                           |  43 ++--
+ mm/madvise.c                       |  10 +-
+ mm/mlock.c                         |  38 +--
+ mm/mmap.c                          |  19 +-
+ mm/mprotect.c                      |  53 +++--
+ mm/mremap.c                        |   6 +-
+ mm/mseal.c                         |  10 +-
+ mm/userfaultfd.c                   |  21 +-
+ mm/vma.c                           | 210 ++++++++++-------
+ mm/vma.h                           |  86 ++++++-
+ mm/vma_exec.c                      |   5 +-
+ security/selinux/hooks.c           |   4 +-
+ tools/include/linux/bitmap.h       |  13 ++
+ tools/lib/bitmap.c                 |  10 +
+ tools/testing/vma/include/custom.h |  25 --
+ tools/testing/vma/include/dup.h    | 277 ++++++++++++++++------
+ tools/testing/vma/include/stubs.h  |  11 +-
+ tools/testing/vma/shared.c         |   8 +-
+ tools/testing/vma/shared.h         |  22 +-
+ tools/testing/vma/tests/merge.c    | 311 +++++++++++++------------
+ tools/testing/vma/tests/mmap.c     |  18 +-
+ tools/testing/vma/tests/vma.c      | 358 ++++++++++++++++++++++++++---
+ tools/testing/vma/vma_internal.h   |   6 +
+ 44 files changed, 1423 insertions(+), 636 deletions(-)
+
+--
+2.53.0
