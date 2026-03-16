@@ -1,276 +1,184 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012064.outbound.protection.outlook.com [40.93.195.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 876CF35893
-	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 00:15:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64C388462
+	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 00:17:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.64
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773706546; cv=pass; b=X11bpbF7Ck0eSVHeGTwpQ2EnTlAlfLTK7ppaPDO/g2SR2/e3cdv2lA1AD6puz/qU3ZZ3C5SdKfEjcBdcDsB+Qs4qmGju2e0OY+7VbZWRSSNXXc0C4OV4XGiaAajaOYbZRFtwtjwDTU+nkI+eYzA/zuESRKMJjFALsUweY9HgaA8=
+	t=1773706662; cv=fail; b=i+xwLWwCucNZPe3qTE1NOdiRwb4pleaKXWhAEGxLcbB8FLbPwZQTTnVnVmHhBS6uDIYnUo41OF/p7TUKNSW1H0iaDFK/bM/bDLZsMUA7a5aa0uk4Rf/FKpFQO2PWufHLHd5UyAwUESMPuPJ0l3dbqfbd6wYkgBdb4cRz9DFla9A=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773706546; c=relaxed/simple;
-	bh=P3IdbVsgl1xZPAQ6WLAtiQrmftWjSmGNAKX/ISmlVQo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=skhogss6S8MtuGw/KdtIiLJPydZNOH1ipLg1o+XmMaRh0kUeQ7UHTw8F3aMsKJ3z2kIfhE0I/kH1y7U4TNa03Q+fn2fZWi9bL+42CmjMLxwM61hyj3mNNdoNS0wpiIE2FSgx0/CFkBqg4xKvzWhT5hPaIQAme4m9lmJ0SmG62fA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nToDhbq2; arc=pass smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773706662; c=relaxed/simple;
+	bh=5uYskm5LXnla1TOBHa9UHehSUEXfIojJ0L14uqZYmS8=;
+	h=From:Subject:Content-Type:To:CC:Message-ID:Date:MIME-Version; b=NaR2kSjBeJMwQH/F37CzDFyH/ars1b2dDiiDdjk5py14rgLvGSknqmnNC2WlI0/W439IFFIiPNTqjxKQLjTQ7H7w4Aup0hhxrXVc2ag8z1GeB0ARP2lrEkSLehaYqKWYVbM7ZwWIrZdJ8sn37MeW5M7pctYfhXFfFXinmdN53Bw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=kHNHm8cX; arc=fail smtp.client-ip=40.93.195.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nToDhbq2"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-439b9cf8cb5so5766103f8f.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 17:15:44 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773706543; cv=none;
-        d=google.com; s=arc-20240605;
-        b=ZUcV/x1VP/kswdDXgeDlAvkTGcpDUUTeGFnR9Lpc1U+UOM9JeyTtcUfYgFEgru7XRH
-         pQuu/iFuGORs+nazMUlduB9A6/bxl/M8eK8CIEFXXI7g6f8DaAQ5RtWTx7eExDJKwLIc
-         esTGuFZbxZmwRln/aPtKMxdNTj78owLS0+uQJ5dzM2vL75RYScZzSR+QF1vSAzvXMPv5
-         eA1deqqGm0qVxSMDiofe4g9uSM+S+kdGX/Y//k0Sec+vkDtW3Kr3QYyQiwOK47hQYPBH
-         wy/E5j1gB2V1XNVlK7Bi4rYugq/Ei9sScs/tDnIHeWS2Q40O3fiKkoopovRWN62pBkdw
-         dv/w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=3nMDLIp8iz1O7/jgBFBaCCI8dMIrwzJfKQb3Q/MIKQ4=;
-        fh=+jEsyLY7bzU2L6FrSbIPjpk6QKLcX6Jx3dKUJ8QU+rE=;
-        b=Kj9QO1eSHazzFdUGAt15S4mLYKaJhTiG7Z+rwRgF2elluLGmyhgk2L2fBSDzdKQ7Jb
-         HpMH5Yl1reRCSJkSRvkpdMSA0ZzFIijjnV+YBUvo4U5PkA4/PyQM0lQxw/xvcBxt5k/h
-         1VOmCWvgwUW8SJ0b1RPTq50EURGfvCELQm+dBPnu+lEcIqkoXDSe3lmlE+1IDE5CJT+x
-         svKc4XS7ybTBDrkxzXZiegmgxkjRC+BpeXJy8K+t2kA3bG4fGpphxnikSUG7R6hFiXQM
-         5LFwn/Cbo35F3+YrixjVTMsb/HXRyza+THa9HXAXYbSJR8KhcRCAc2CPEtEqT7iwxQ5/
-         697A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773706543; x=1774311343; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3nMDLIp8iz1O7/jgBFBaCCI8dMIrwzJfKQb3Q/MIKQ4=;
-        b=nToDhbq2KsKK20zu6Byc3cm9TLtaOQJU2n2KkGUJJl1SBjWbnj3cNXqK4FBwwpXytF
-         7lh80hxIKHkcvLvfQ8urWredSdcWhQRUp+SWe2jxOH12036dCiFQvQeI00IqqKCn0F3n
-         39cV4KUhJLJqcYfXdOmHQfUIQwhVQShBYKy7p+2J4gTl3dxB2DbQiOTZ2zPIXhy/T1FX
-         Kjd4zfi61PPD1PjN3ZI/cFG4JJB+SADglp781yfXluCDaFL8ADFPiRVkLtUru6XnCDnt
-         F69JhB9Lu2ev3e26GNn6nQ7FAdvZHp0s1+euTBfII/wZZc7NBPVMojdyrhS7KXbCz9n9
-         gx5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773706543; x=1774311343;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=3nMDLIp8iz1O7/jgBFBaCCI8dMIrwzJfKQb3Q/MIKQ4=;
-        b=d4r+4EcjyrOwvd4PlelEA+oNr6QrvN1GfMLUEcYoPADueDuO03v6QUkqaN9eUHc7Xv
-         D7x8dX8dQ0z6tN8ut8zizguE/Qyn3Hg0Zmx1XdRhqpAU4eH8RGyc51nNYFGGqr8DRGLo
-         q5bU2H1x6RtioiT0cCXO/vpFc8IdiNmkjKSU/cIoibEOk0CEJW5z6jEWiNgZdc2coohN
-         NQnAoCc5A0DDmPEpPI7MwWZ4rOXEYuPeG9aTGRWY6KNrGNwZwdaRMOWUBEKvVyCnJQ6I
-         JeVHxEd1+aWpQJG25gpj0+kaLCxyqfOYopyF73uYyoj1VWRaoMtnxnOACcwIFr0/ypQo
-         n+ww==
-X-Gm-Message-State: AOJu0YwiG09hwwxfTtCu0TiFgn3YmjkEfiBkPywtECdDye58kTN7syi6
-	plg5Wzfeds14S0KEH3YTTN+oaHrGyJwiYL0jqRKsMVFFntzrJjjzdmpY7C1uAJ8Iq/z76+IFUkD
-	PiATiRn9op7b5auG62fpVPa1Ga40+bfQ=
-X-Gm-Gg: ATEYQzyDCAk1/QHorWHw/au08RNqa1nkHjQTOgUYvO8ZVtL1HN9ZhVcb9/afmeizPuP
-	K/PoL5Xs6xStdwDAMD70/JdQVAexn7PwmMKm5md5aiozujyPutSBp/Olux9m3XZO1+TR9KsNWoK
-	rmj+QaHQ21KF7crMXgtn2joaCVUhxFnds1vaQ2Cv7l7EcJARN/cylvZbLwr+6SrK8J8OvGEYdtW
-	iWcNlDTyh3u4f1QpagpIjvpo3oj4GImsWJPeXJcjr5CekVxG7hjF0x2/8Jb+W/usOhGefz5k7Uz
-	FlPx8w==
-X-Received: by 2002:a5d:5f53:0:b0:439:c2b6:d5d8 with SMTP id
- ffacd0b85a97d-43a04db61b8mr26405485f8f.36.1773706542605; Mon, 16 Mar 2026
- 17:15:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="kHNHm8cX"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=YvVB2Ttz2TqZOFognPjpOZdu0YTwNulH4QVp3njhi1optc3+h0AE+u9Cz9altHOFJSsFWPZodPrUVxfXQNCLlIl2oV1L7pDX9FVzLRI19vtzq2HErxaEfLNwnFlZU0Dwi8bxgcmrxJ05VWBeYLJ1+vTWCK0xoCkuKf3hHHMKwIowvevnT5XMLfN65ECLHDJCRC7SHq5vynPdZ/R7mS5ntO5Wqu0qVvNgj79aQXqLiNKFry93Jzb45djg7r8+iKk7IWhHLSWLGGv9ayXMy5dNZ8J5WJqluqfvOwP/VgesvuknZsXLTUmI1MWjEmS7J0qT/wpSRHSHi83TuG2S0Z4jJg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uXYwiSZMCkrsw+QY+vx5x0Zdo0nF9pCr8otLO0dwGJw=;
+ b=nHytQZZgrZycg6t+h5usU1tVbw8RbM7ILw2BK+/pMPmojTIzGvGf9LadQvMOTIoA4rA66uqVbKwIUcjLm6kqktw98GZOxKNhwVmxk7XnC6EHWP3mmDnP8zYTZp7gJ+oAOFmBMcsxF3eQyybpMFK7HNdlHpNv0TBctAg2YgIwZZqWAX/zQi/Q4Y9xQ2bapnczcvHPoJlrVzUO4RaKUoIydbRRPdBPLqZCoUHzuulgcisBZ0q8Ab3Iz7ijWrWcX38nC4dKk5m33ncVy+wlpI3HRdnMUBDZHDgsohF2Xtwso6C/Dm83qrXmhrvaB7mPjUR0tXO/BAgzem6uOf3pXtvAxQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.160) smtp.rcpttodomain=redhat.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uXYwiSZMCkrsw+QY+vx5x0Zdo0nF9pCr8otLO0dwGJw=;
+ b=kHNHm8cX1Kgd1f0lgLZbYN+UGuEDMMFcoxQbTj8RwEANo4486e1jZbZC6iOqOo+td+O/h5pTvDHguzQqW/URyszMvSKgNZLfiPJ+rV7laNBXoE0vkQAyaHw2UICulP0FJwblextD6XGBcC4v7iG2tzz+ik+dNXwIjXQyV6oCri6F8Uo4hoPtJqb1al9SkG3eNIqtU65+/+gyf4kWAtjvv6I+aGxbPeISdfopZdojat7GqBInWSM3+etYV2HpnMexu4XXewraMPD0XL4Rr/Eau9FAwdcG43Z7kDEgjtC2KdwKlIBe/VmggLpSrBEdZVoiMnwItlEkBHsMCYI9n72tUA==
+Received: from SA0PR11CA0194.namprd11.prod.outlook.com (2603:10b6:806:1bc::19)
+ by CY5PR12MB6648.namprd12.prod.outlook.com (2603:10b6:930:3e::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.17; Tue, 17 Mar
+ 2026 00:17:37 +0000
+Received: from SA2PEPF00003AE4.namprd02.prod.outlook.com
+ (2603:10b6:806:1bc:cafe::d5) by SA0PR11CA0194.outlook.office365.com
+ (2603:10b6:806:1bc::19) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9700.25 via Frontend Transport; Tue,
+ 17 Mar 2026 00:17:33 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ SA2PEPF00003AE4.mail.protection.outlook.com (10.167.248.4) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9700.17 via Frontend Transport; Tue, 17 Mar 2026 00:17:37 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 16 Mar
+ 2026 17:17:21 -0700
+Received: from ubuntu.localdomain (10.126.231.35) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 16 Mar
+ 2026 17:17:21 -0700
+Received: by ubuntu.localdomain (Postfix, from userid 1000)
+	id BA2542605C3; Mon, 16 Mar 2026 07:54:35 -0700 (MST)
+From: <jim.harris@nvidia.com>
+Subject: fuse: buffered reads limited to 256KB regardless of negotiated max_pages
+Content-Type: text/plain; charset="UTF-8"
+To: <linux-fsdevel@vger.kernel.org>
+CC: Miklos Szeredi <miklos@szeredi.hu>, Stefan Hajnoczi <stefanha@redhat.com>,
+	Max Gurtovoy <mgurtovoy@nvidia.com>, Idan Zach <izach@nvidia.com>, "Konrad
+ Sztyber" <ksztyber@nvidia.com>
+Message-ID: <20260316145435.BA2542605C3@ubuntu.localdomain>
+Date: Mon, 16 Mar 2026 07:54:35 -0700
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <Utw_Cjiuq0_XhCoA5EXpzLE9qfRpiA0-fmXEmui7NnBnIeMiCDGOyXWPtE5DkxVNYNSsgiUotB7fsGYnlMQn1xDCx14yx1d0UJqx62vAwp4=@proton.me>
-In-Reply-To: <Utw_Cjiuq0_XhCoA5EXpzLE9qfRpiA0-fmXEmui7NnBnIeMiCDGOyXWPtE5DkxVNYNSsgiUotB7fsGYnlMQn1xDCx14yx1d0UJqx62vAwp4=@proton.me>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Mon, 16 Mar 2026 17:15:31 -0700
-X-Gm-Features: AaiRm518jWrlTin3GINGieOMhjnVYOu7wOJglMBudsbg7Ar2KU7MkviWAqR9hNI
-Message-ID: <CAJnrk1YAhWnOt-7yr9gDmHdjANiC74-fC5mKsePC6wFTzwPjUw@mail.gmail.com>
-Subject: Re: [BUG] fuse: wb_wait_for_completion hang on suspend with
- fuse-overlayfs on tmpfs persists in 6.19.6 (AS_NO_DATA_INTEGRITY fix incomplete)
-To: John <therealgraysky@proton.me>
-Cc: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
-	"linux-fuse@lists.sourceforge.net" <linux-fuse@lists.sourceforge.net>, 
-	"linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, Jan Kara <jack@suse.cz>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: rnnvmail201.nvidia.com (10.129.68.8) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA2PEPF00003AE4:EE_|CY5PR12MB6648:EE_
+X-MS-Office365-Filtering-Correlation-Id: d7c8de91-d05d-47e0-6823-08de83ba987b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|36860700016|376014|1800799024|56012099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	85M88DFNCrarWGBxxE77SoFueivsjmBbKIQ660PIUOd2/erCG/MX9TLAwuJ+Y6BsX3WP4oH+dpBYIykZ/mP9qqDF7LkJNz5mjrdiOVe1yFUqTTStJrhCl/jc5DHSaubIB/eC9kgZuAyM0rLdfSCwdZCreZw52f0EIM7CLPAj9fvmRp/qVt4Y4/sueQDShQEbIdnHq+XNSsEOs4eb7UzSCmUtx/DNdHWC3bdDUXnUFM6Wn01Dc5bJv6wy4mvhTasPNhrnSasu6beHLnDscz6Lnq4vo3ip0gWF6pYB2gg7NLIpVMDLDt/FfUyIUrZP+EcBHGSlzNz2X8HjWS/b/QrpLx98M3uRRkkVtMaQlnsHmChEnpGk05nL05dEaFFLXVJMRViP9fjxfIZnK9kjSyXDa7osUSnDKkmqZmDnap4yFP44hO65pHxwKYMO/qK1DDhH//ayLa3wuGE324iq27tIvwd8XYePu0GSQje5Si5y9vNsg66piK4ZQn3EGMOaDpSFKBSajtK9lgNZFGoF3eGlftGY1B7bXgHJnhLwI/NVnQWU89aHVWBGyYMlpkzaenXoFwLDmY5+YdZYdEpyRwOT1SghMoHXK1DOWm7FQ2+X1GajmgDsc8pAafn2fwEZXjJOl/vFrj4Ob19APm8aEhEF8gF+LYnWiiApDHecdbOyj0uQfN8p3yBeY5yE2BtY0wVMVpIFKxpvzy/AE0RqaEyqIx6Tx12U8AranyleUwOUqqlBH3ibBGc08VYVIVWCB8lwf0+cdda18m4+QalRl7KHPg==
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(36860700016)(376014)(1800799024)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	sIXsFgRggzQqjim1YeIQuu3pGQh7wI+t8ISF5EoZkw6O+r3pbPK9V5k45QgX+jp0pd+ly2yEXJ4WsbhO0t2TZ5i2OHqLdUV4tuej+6Io2FZbCGmFYmdTO56jZOwlMzqYSYQguSC/90dKpe3TiqNWFNyaDd8+b2K7AToQYWT9lAqRBh5FGahvear+35oo4KB109W5WFofCmIFsbMQ+BCWTfo2CGQAJeZcke8p+64ceP4iAuCn79A7/BgeO5GbY+ifqN4oZpNeZqqRY3fLOkQ6Ol8FRIyMoRm6SG0vdK8mFVtO91OzJWJ0Yd41LnXuecOm7k/U5vcXJ+p/V2W5L5DmdGoZWomuR+SWvyiPUWqLIkB4sbW37DIREPZoZsGMUw3lefafFlFTyZFUDhNlq99eHS9lUc34TWNlrg76Zz0/Ib4Oi8zi2/ac9v1wvy+LoYYq
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2026 00:17:37.7049
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d7c8de91-d05d-47e0-6823-08de83ba987b
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SA2PEPF00003AE4.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6648
 
-On Sun, Mar 15, 2026 at 4:24=E2=80=AFAM John <therealgraysky@proton.me> wro=
-te:
->
+Hi all,
 
-Hi John,
+We have a FUSE server that advertises max_write=1MB and max_pages=256
+in the FUSE_INIT response. Buffered sequential writes arrive at the
+server at the full 1MB as expected. However, buffered sequential reads
+are capped at 256KB per FUSE READ request.
 
-Thanks for your detailed report.
+The cap comes from the BDI readahead window. bdi->ra_pages defaults to
+VM_READAHEAD_PAGES (32 pages / 128KB). For sequential access (e.g. cp),
+posix_fadvise(POSIX_FADV_SEQUENTIAL) doubles the per-file readahead
+window to 2 * bdi->ra_pages (256KB), producing the observed 256KB
+limit. A 1MB application read() results in four sequential 256KB
+round trips to the FUSE server instead of one.
 
-> Kernel: 6.19.6-arch1-1
-> Component: fs/fuse, fs/fs-writeback
->
-> --- SUMMARY ---
->
-> A suspend-to-RAM hang in wb_wait_for_completion() via sync_inodes_sb() pe=
-rsists on 6.19.6 when fuse-overlayfs is mounted on tmpfs. The fix introduce=
-d in 6.19~rc6 for Debian bug #1120058 ("fs/writeback: skip AS_NO_DATA_INTEG=
-RITY mappings in wait_sb_inodes()") does not cover this code path.
->
-> --- BACKGROUND ---
->
-> This issue was originally reported in:
-> https://github.com/containers/fuse-overlayfs/issues/386
->
-> The fuse-overlayfs developer identified it as a kernel issue. It was subs=
-equently bisected to commit 0c58a97f919c ("fuse: remove tmp folio for write=
-backs and internal rb tree", merged in 6.16) and tracked in Debian as bug #=
-1120058. The fix applied in 6.19~rc6 targets wait_sb_inodes(), but the hang=
- in the reporter's original trace and in this report occurs in sync_inodes_=
-sb() via a separate code path that the fix does not reach.
->
-> The issue is also known to syzbot as "INFO: task hung in sync_inodes_sb" =
-with open instances on linux-5.15, linux-6.1, and linux-6.6:
->
-> https://syzkaller.appspot.com/bug?extid=3De0232bd63c6e293aaf6a
-> https://syzkaller.appspot.com/bug?extid=3D4983a35cf671e5ed55b3
->
-> --- REPRODUCTION ---
->
-> mkdir -p /dev/shm/test/up
-> mkdir -p /dev/shm/test/tmp
-> mkdir -p /dev/shm/test/data
->
-> fuse-overlayfs -o "static_nlink,noacl,\
->   upperdir=3D/dev/shm/test/up,\
->   lowerdir=3D$HOME/.config/mozilla/firefox,\
->   workdir=3D/dev/shm/test/tmp" \
->   /dev/shm/test/data
->
-> firefox --profile /dev/shm/test/data/PROFILENAME
->
-> Browse to youtube and start playing a video then trigger suspend while th=
-e video is playing in the browser. I used XFCE4 suspend from the menu.
->
-> The display goes blank and does not recover. The system does not enter su=
-spend. Switching to a tty shows the system is alive but X11 is frozen. Rebo=
-ot is blocked:
->
-> # reboot
-> Call to Reboot failed: Action suspend already in progress, refusing reque=
-sted reboot operation.
->
-> --- CALL TRACE (6.19.6) ---
->
-> Mar 15 06:44:42 kernel: INFO: task kworker/u128:0:106160 blocked for more=
- than 122 seconds.
-> Mar 15 06:44:42 kernel:       Not tainted 6.19.6-arch1-1 #1
-> Mar 15 06:44:42 kernel: task:kworker/u128:0  state:D stack:0     pid:1061=
-60 tgid:106160 ppid:2
-> Mar 15 06:44:42 kernel: Workqueue: pm_fs_sync pm_fs_sync_work_fn
-> Mar 15 06:44:42 kernel: Call Trace:
-> Mar 15 06:44:42 kernel:  <TASK>
-> Mar 15 06:44:42 kernel:  __schedule+0x457/0x1720
-> Mar 15 06:44:42 kernel:  schedule+0x27/0xd0
-> Mar 15 06:44:42 kernel:  wb_wait_for_completion+0x97/0xe0
-> Mar 15 06:44:42 kernel:  sync_inodes_sb+0xf8/0x2e0
-> Mar 15 06:44:42 kernel:  __iterate_supers+0xdc/0x160
-> Mar 15 06:44:42 kernel:  ksys_sync+0x43/0xb0
-> Mar 15 06:44:42 kernel:  pm_fs_sync_work_fn+0x17/0xa0
-> Mar 15 06:44:42 kernel:  process_one_work+0x193/0x350
-> Mar 15 06:44:42 kernel:  worker_thread+0x1a1/0x310
-> Mar 15 06:44:42 kernel:  kthread+0xfc/0x240
-> Mar 15 06:44:42 kernel:  ret_from_fork+0x243/0x280
-> Mar 15 06:44:42 kernel:  ret_from_fork_asm+0x1a/0x30
-> Mar 15 06:44:42 kernel:  </TASK>
->
-> --- MORE CONTEXT ---
->
-> Compared to the original report (which ran through systemd-sleep -> pm_su=
-spend -> ksys_sync), the sync call in 6.19 has been moved into a kernel wor=
-kqueue via pm_fs_sync_work_fn. The hang point is identical: wb_wait_for_com=
-pletion() inside sync_inodes_sb() never returns because the FUSE daemon (fu=
-se-overlayfs) is unable to complete writeback while the suspend freezer is =
-in progress.
->
-> The AS_NO_DATA_INTEGRITY fix targets wait_sb_inodes(), which is a separat=
-e function from sync_inodes_sb(). The hung writeback completion wait in syn=
-c_inodes_sb() is not gated by the AS_NO_DATA_INTEGRITY check and remains un=
-addressed.
+In process_init_reply(), the kernel processes the
+server's max_readahead response like this:
 
-I'll need to run the repro and verify this is the issue, but I think
-it's because it's hitting this call chain if there's a dirty folio
-that is already under writeback that needs to have writeback issued on
-it again:
+    ra_pages = arg->max_readahead / PAGE_SIZE;
+    fm->sb->s_bdi->ra_pages = min(fm->sb->s_bdi->ra_pages, ra_pages);
 
-wb_workfn()
-  wb_do_writeback()
-    wb_writeback()
-      writeback_sb_inodes()
-        __writeback_single_inode()
-          do_writepages()
-            fuse_writepages()
-              iomap_writepages()
-                writeback_iter()
-                  writeback_get_folio()
-                    folio_prepare_writeback()
+Since bdi->ra_pages starts at VM_READAHEAD_PAGES (128KB), and the
+kernel sends this value as init_in->max_readahead, the server can only
+decrease readahead -- never increase it. Even if the server responds
+with max_readahead=1MB, the min() clamps it back to 128KB.
 
-where in the folio_prepare_writeback() logic:
+Other filesystems set ra_pages or io_pages based on server/device
+capabilities:
 
-        if (!folio_test_dirty(folio))
-                return false;
+  - SMB/CIFS sets ra_pages directly (2 * rsize, or from mount option)
+  - Ceph sets ra_pages directly from mount option
+  - 9P sets both ra_pages and io_pages from maxdata
+  - NFS sets io_pages from rsize
 
-        if (folio_test_writeback(folio)) {
-                if (wbc->sync_mode =3D=3D WB_SYNC_NONE)
-                        return false;
-                folio_wait_writeback(folio);
+I see two possible approaches and would like feedback:
 
+Option A: Fix the max_readahead negotiation
 
-Could you verify if this fixes the issue?:
+Replace the current:
 
-diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
-index 8f8069fb76ba..4cbb22d80acf 100644
---- a/fs/fs-writeback.c
-+++ b/fs/fs-writeback.c
-@@ -1990,9 +1990,13 @@ static long writeback_sb_inodes(struct super_block *=
-sb,
-                 * Don't bother with new inodes or inodes being freed, firs=
-t
-                 * kind does not need periodic writeout yet, and for the la=
-tter
-                 * kind writeout is handled by the freer.
-+                *
-+                * For sync(2), skip inodes whose mappings have no data
-+                * integrity guarantees (eg FUSE).
-                 */
-                spin_lock(&inode->i_lock);
--               if (inode_state_read(inode) & (I_NEW | I_FREEING |
-I_WILL_FREE)) {
-+               if ((inode_state_read(inode) & (I_NEW | I_FREEING |
-I_WILL_FREE)) ||
-+                   (wbc.for_sync &&
-mapping_no_data_integrity(inode->i_mapping))) {
-                        redirty_tail_locked(inode, wb);
-                        spin_unlock(&inode->i_lock);
-                        continue;
+    fm->sb->s_bdi->ra_pages = min(fm->sb->s_bdi->ra_pages, ra_pages);
 
-I think the changes from commit f9a49aa302a0 ("fs/writeback: skip
-AS_NO_DATA_INTEGRITY mappings in wait_sb_inodes()") are still needed
-even with the above patch since afaics, the writeback we wait on could
-have been from a previous background/periodic writeback run before
-sync was triggered.
+with:
+
+    fm->sb->s_bdi->ra_pages = min(ra_pages, fc->max_pages);
+
+This uses the server's max_readahead response directly, capped by
+fc->max_pages for safety. I think this is backward compatible:
+existing servers that echo the kernel's 128KB value get the same
+result. Servers that return a lower value still reduce it. Only
+servers that return a higher value see changed behavior.
+
+FUSE servers can opt in by advertising a larger max_readahead in the
+FUSE_INIT response.
+
+Option B: Set io_pages from max_pages
+
+Set bdi->io_pages after FUSE_INIT negotiation:
+
+    fm->sb->s_bdi->io_pages = fc->max_pages;
+
+This matches what NFS does (setting io_pages from rsize). The
+readahead code uses max(bdi->io_pages, ra->ra_pages) to determine
+the maximum readahead size, so a large io_pages would allow larger
+readahead submissions.
+
+This is simpler since no server-side change is needed. However, it
+bypasses the max_readahead protocol field, making max_readahead
+effectively meaningless for any device with large max_pages.
+
+In both cases, fc->max_pages is already clamped by
+fc->max_pages_limit, which for virtio-fs accounts for the virtqueue
+descriptor count.
+
+Thoughts?
 
 Thanks,
-Joanne
-
->
-> Note: prior to commit 0c58a97f919c, sync() on FUSE filesystems was effect=
-ively a no-op, which avoided this hang at the cost of correctness. The regr=
-ession was introduced when that commit made sync() actually wait on FUSE wr=
-iteback completion.
->
-> I am using Arch Linux but users of Fedora F43 and Debian testing are hitt=
-ing this bug also. See refs below.
->
-> References:
-> 1. fuse-overlayfs upstream issue: https://github.com/containers/fuse-over=
-layfs/issues/386
-> 2. profile-sync-daemon issue: https://github.com/graysky2/profile-sync-da=
-emon/issues/411
-> 3. Debian bug #1120058: https://bugs.debian.org/1120058
+Jim
