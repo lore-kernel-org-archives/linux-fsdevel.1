@@ -1,71 +1,71 @@
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88811311957
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 02:19:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0248531327F
+	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 02:19:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773627589; cv=none; b=Xs4odaf+cO5SqThdR38SYpEbyhPtHEmN7h+1FV4N79TpGvecqiBTtvSaxppg1FsOUNEI5HpTzuj3zX/ENnA7rKwyld98O5enoYkLfMj253ClM3d2z+Blq5ShgJwGxQ8gRntwBQBoOkOrCC/AAjeCZYDuSAAiTFFyM6d7iEEO6kc=
+	t=1773627589; cv=none; b=oEl4r8tBg5DmxPqbRoDRax7mRcf2938EsbrGWLNFY/BywElfijjT599oGRqW0VhfMOqvqa4V3jCT6Y2W1TIvX06G7IH0bk/fxwvVNovfAYTF5a6Lo2oZmQp2wAv/LSgNVJ6j7wMMLkjSdDh1e4WqEigJQDn3a3R1OAAuujqvj+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1773627589; c=relaxed/simple;
-	bh=GUXgKi31klgB/DpbgHq3ccWawn9B8RKnwYmV4ws8gzQ=;
+	bh=zROYj2HJVB91cbrSBnrVMW1x7uY5rH6eBccXOW1wGog=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GEO9TYrVcE8qu5pczvL4N7ABm0BUEpJRbVhDLIPYwc90wmMenCH/PzNpD4eMbkq3a9iYXLjmYC93ujWZm++mZrqyV0y5bpe/RzVi+nu02vGJrMtgovd7oW4PqiSDUV7/PgagZuFKNU6N4v4750nevu1JqesNbvxKxcvMnTgY4Z0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b=uF7C3A0P; arc=none smtp.client-ip=209.85.128.177
+	 MIME-Version:Content-Type; b=FNUIn22ZfvbQiQid8K6m+9Q6DC11JvAE9ksw0KyJdDcoXvgHgIWsrU4fUL7EIvwJ8HFe7/yDwe2yyOtxqn8iDPd8DM896nqrlLqv1ON5k8X9vXUugIIz/4lrD6br2Vf7IoLzfKzRJ+o/vCWrduifZoHo4jhlZwRPDfkDG7kJ1CU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b=ZfjnbxMF; arc=none smtp.client-ip=209.85.128.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b="uF7C3A0P"
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-7986c7b8076so40654347b3.2
-        for <linux-fsdevel@vger.kernel.org>; Sun, 15 Mar 2026 19:19:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b="ZfjnbxMF"
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-79a40fb9890so6454887b3.1
+        for <linux-fsdevel@vger.kernel.org>; Sun, 15 Mar 2026 19:19:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20230601.gappssmtp.com; s=20230601; t=1773627582; x=1774232382; darn=vger.kernel.org;
+        d=dubeyko-com.20230601.gappssmtp.com; s=20230601; t=1773627583; x=1774232383; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6bx+DsQPqQW+Jzs25gtgsaSym8b42dg4zMtWIUMXiho=;
-        b=uF7C3A0PklSO9xTG331tPhOxAlge/hTBaW81IEl20tUpGlZ9Q/ycT63pS9EmQ5LfE4
-         TdM7D6I/TGk48PAdkfvU7cpBhTv+qC0cMpekLOXm1Aufd+dZzJNJqT7PsxUBG/98adaK
-         xCnxYWMptQORqYjKkE+j9VW0o2zhIg0CVj2U/5ABnX/rgvpF50ysGhLamZHL3zDLHiIC
-         IkAQi/2gY1ukU86JASrSYx8yT1nDmRxidj6b3YR1E8TPOjG2yOF5J83OPAK68Ar34EWA
-         rOfixUZyMFFDml+IC2h7jLXne5diqFynf3HT8cgpg0eRuvcsro56CUJlRGb42UGhO0zH
-         +bEQ==
+        bh=HNuB2J9dQLNXlEO3rZEqnzaUqzYfKUINF1/TXNYAcAE=;
+        b=ZfjnbxMFjJJT60DhdOL2JCzQhXr9I2HGNl0APDu8goQBTACwzgLLQV/XUXT+qtx9Ik
+         XSHjQ4by1WQWKpzYz2PquUjAUAMRc34uvShKo3p6gi6U/TZe6nxMmNWzmOkkNTJ1vSu2
+         btXlGVlbqL97pqH+qOnC4APufH623GvQdEOxKOvvdLGbPc5YuEBHRaZsoDaaYLLltDaI
+         fm8QxlqhqRpFXayvxcT8TjRmJHr+UEBE2Az+IX74uBOe9AbWJ/kiVZl4vsZ4oiELoOBP
+         KP/Aflr3Vcv73wQcssc6BH2PtshBKGsR3yYZhVnhlCAxBkF4PFllkiaQA4shHydmpcls
+         fvqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773627582; x=1774232382;
+        d=1e100.net; s=20251104; t=1773627583; x=1774232383;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=6bx+DsQPqQW+Jzs25gtgsaSym8b42dg4zMtWIUMXiho=;
-        b=YezTqs5PJ7DoWtJpR9BxMa8rkDy/FPkO8+bECvU7eYOoefmfIMnFVty2qaEQkxPZEj
-         0wJ0Eppp91jkn/HDCNx/DOLZnJzFxblftVouK1dL3nNU+tK0RPc51DAUwISibRYHbJJx
-         NyMB9IxgsGrpyURbqkY1KOktySgXfbyW+09U9frpBNM4GXktISVLhFB3wGMh8puV1qkh
-         vJeldp/XHzXy+opxYNOMgswpndWWxfcUsMTC7IeaGSPpzr+zO34RHyCO0GeGoB/Rb3/5
-         irQK8qZ6hVPgv5HxlkT3qJPtfF/QlCaSgY/1TKbywX/GnFafhhT/3+6YZd8TNh3lr+tl
-         /Jew==
-X-Gm-Message-State: AOJu0YxO6YzvmyPn3Lany6PyImiZBmQnvySgKt5Fi5gWYXFgX3imyVnC
-	cXM16kxm1zwJkC8Zey3X1jHwC8Rt5JFeO+zWFt0zTrelGwXMaAHbcNdqKqIXbPkI2C0bj0+xnNj
-	U8tzk
-X-Gm-Gg: ATEYQzzdn4HMABFx80qy1jCyXOlzaXX/wa3x+vYi0vI4GC+odc5X/228OL8fGn2hZfn
-	nPHEc640NVwjZ7xs4ydnBTyZgtYIgirWBx2Ss3n1h83TDgdbNARH2O49flrB5m2Z+tivqPQTlQR
-	Fw64He0xOxxCNBxUc9l380jo57O6eKvz8/dL1L/qb35Li4iH6bbHpUMXapu9qVJ64nZAd+1XPob
-	st1FWAkEIRGTK1vIZN8+tzsLWmXTMPvXt2DH4BkvxxDI2lWcrhNCIdxqW1YcvZppc2+akt9VKNw
-	iFHx3/G9JBpqyM9V7R4MeCnWYaf3szO0AEZhPFr7Dsh/RXcP2szKB3/NCMq6dPrp0PSXHBuDaE2
-	OgaXUNyaGfMTR+NTnq7XEdIOC5Zmrl+o08QPPQqmUM3LeUUBZNNIHRwCOBv2BBxmY53dJ2R/PZS
-	6N7GT9YbDBDC2r+YFQv1PT/5PHcncb2zCHZZrsz/1puufVRtaCQQwADo6xy6TreNY5kjjVYzupW
-	tzIZ0+qi38eMK12wDO7QT/r6jISm2s8l2E=
-X-Received: by 2002:a05:690c:e686:10b0:79a:52d8:fe6e with SMTP id 00721157ae682-79a52d9111amr6895277b3.30.1773627581813;
-        Sun, 15 Mar 2026 19:19:41 -0700 (PDT)
+        bh=HNuB2J9dQLNXlEO3rZEqnzaUqzYfKUINF1/TXNYAcAE=;
+        b=NHRwxveHw2KqthyCESEpl+2CUlhY+tKOZQ0mg1T0yJFoGdyuUnkDiS5zPpMgve4KaU
+         YaS3NHkHVWkNALyQ5KnScO442VNNHtadnErCD/8J16GNRolgiMsyO2jtpwDolhWs+NtS
+         Fsqx572QSDC7NlYekrobDS2WaqqTtzLMnfVpHrCYKRS+aOOdlfzZYJKeUNxJSLRDQDHa
+         gDIXk9uY8tFeSOhJ516vFgObqNBLAEZHDwhyraJy7mlD35eCkjZIMZaQqE67LKpHC4C1
+         bUBjX3YvlTkdXQpktR1HV0Eq3RvD4MwM+JKrdlO0LsH3mWNs20k0oo36Shz7ezkhrCZJ
+         juhQ==
+X-Gm-Message-State: AOJu0YxWBATD7mExpUrNX83b2vY7ZvmGtoUrJU/qSzmF8XsIwyItW12A
+	cTPx3SPpkdn6U2BLaoOlWlpeSiwoScPinGF1b9jY8Pco/19TYRKy8NWyPWL2zH/uVZHUedekf9x
+	pFdjS
+X-Gm-Gg: ATEYQzy7Ccf9ERR/vwYkAJZf27HmDQEaWABe1uDcZ0GlsMKbYKvKdRfgbGAkjuLL5oV
+	/8v3P2Fr2kdzeHCiY3PFZg2nTrntAEJ7KdyGjJsA4/9E7IG/dK5s4cX6aQkEhki/OR6XdRwpeIZ
+	MFcRhutMCQ7htNZ7FLfyKniVLfVLosvPYPHlVsumF4zrwkolr6WWpvby9T6HUv/WR0N44xImPn9
+	NKx60COSwLL4MdGVD766U1exGWp6lk8/JrlApuXLnGumZQuDVO4wxCxRuINeW9UpiDQsN9l1baN
+	r2kh89pMx9qAOLQfTM5o2o0YpOfAGglYidPFFkMfvVvi2cegfEZ9LQdHKO/p7zGPtmyRUAoXukD
+	VeinVyYqFgUUW/ja1u6Xdf/MaftYdiA/gQ9rxMDI9xa8vBpWvN99EM+OjXPMPX4p9QvIW43h7r8
+	yhAWRnTknCG68HUv1sVu3AhV8erTaY2c8b42zgJGUpfbU8mmueJSOXytZagClMEVldAorWVNssn
+	iDtxb49wXlsL8+/VB2oqLOs
+X-Received: by 2002:a05:690c:ed6:b0:79a:47b4:397b with SMTP id 00721157ae682-79a47b440a3mr28617237b3.57.1773627583370;
+        Sun, 15 Mar 2026 19:19:43 -0700 (PDT)
 Received: from pop-os.attlocal.net ([2600:1700:6476:1430:6939:3e01:5e8f:6093])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-79917deb69asm79721617b3.10.2026.03.15.19.19.40
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-79917deb69asm79721617b3.10.2026.03.15.19.19.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Mar 2026 19:19:41 -0700 (PDT)
+        Sun, 15 Mar 2026 19:19:42 -0700 (PDT)
 From: Viacheslav Dubeyko <slava@dubeyko.com>
 To: linux-fsdevel@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
 	Viacheslav Dubeyko <slava@dubeyko.com>
-Subject: [PATCH v2 33/79] ssdfs: introduce segment object
-Date: Sun, 15 Mar 2026 19:17:41 -0700
-Message-ID: <20260316021800.1694650-15-slava@dubeyko.com>
+Subject: [PATCH v2 38/79] ssdfs: introduce PEB mapping table
+Date: Sun, 15 Mar 2026 19:17:42 -0700
+Message-ID: <20260316021800.1694650-16-slava@dubeyko.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260316021800.1694650-1-slava@dubeyko.com>
 References: <20260316021800.1694650-1-slava@dubeyko.com>
@@ -75,88 +75,163 @@ List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 Complete patchset is available here:
 https://github.com/dubeyko/ssdfs-driver/tree/master/patchset/linux-kernel-6.18.0
 
-Segment is a basic unit for allocation, manage and free a file
-system volume space. It's a fixed size portion of volume that
-can contain one or several Logical Erase Blocks (LEB). Initially,
-segment is empty container that has clean state. File system logic
-can find a clean segment by means of search operation in segment
-bitmap. LEBs of clean segment need to be mapped into "Physical"
-Erase Blocks (PEB) by using PEB mapping table. Technically
-speaking, not every LEB can be mapped into PEB if mapping table
-hasn't any clean PEB. Segment can be imagined like a container
-that includes an array of PEB containers. Segment object implements
-the logic of logical blocks allocation, prepare create and update
-requests. Current segment has create queue that is used to add
-new data into file, for example. PEB container has update queue
-that is used for adding update requests. Flush thread is woken up
-after every operation of adding request into queue. Finally,
-flush thread executes create/update requests and commit logs with
-compressed and compacted user data or metadata.
+SSDFS file system is based on the concept of logical segment
+that is the aggregation of Logical Erase Blocks (LEB). Moreover,
+initially, LEB hasn’t association with a particular "Physical"
+Erase Block (PEB). It means that segment could have the association
+not for all LEBs or, even, to have no association at all with any
+PEB (for example, in the case of clean segment). Generally speaking,
+SSDFS file system needs a special metadata structure (PEB mapping
+table) that is capable of associating any LEB with any PEB. The PEB
+mapping table is the crucial metadata structure that has several goals:
+(1) mapping LEB to PEB, (2) implementation the logical extent concept,
+(3) implementation the concept of PEB migration, (4) implementation of
+the delayed erase operation by specialized thread.
 
-Segment object implements API of adding logical blocks
-into user files or metadata structures. It means that if file
-or metadata structure (for example, b-tree) needs to grow,
-then file system logic has to add/allocate new block or extent.
-Add/Allocate logical block operation requires several steps:
-(1) Reserve logical block(s) by means decrementing/checking
-    the counter of free logical blocks for the whole volume;
-(2) Allocate logical block ID(s) by offset translation table
-    of segment object;
-(3) Add create request into flush thread's queue;
-(4) Flush thread processes create request by means of
-    compressing user data or metadata and compact several
-    compressed logical block into one or several memory pages;
-(5) Flush thread execute commit operation by means of preparing
-    the log (header + payload + footer) and stores into offset
-    translation table the association of logical block ID with
-    particular offset into log's payload.
+PEB mapping table describes the state of all PEBs on a particular
+SSDFS file system’s volume. These descriptors are split on several
+fragments that are distributed amongst PEBs of specialized segments.
+Every fragment of PEB mapping table represents the log’s payload in
+a specialized segment. Generally speaking, the payload’s content is
+split on: (1) LEB table, and (2) PEB table. The LEB table starts from
+the header and it contains the array of records are ordered by LEB IDs.
+It means that LEB ID plays the role of index in the array of records.
+As a result, the responsibility of LEB table is to define an index inside
+of PEB table. Moreover, every LEB table’s record defines two indexes.
+The first index (physical index) associates the LEB ID with some PEB ID.
+Additionally, the second index (relation index) is able to define a PEB ID
+that plays the role of destination PEB during the migration process from
+the exhausted PEB into a new one. It is possible to see that PEB table
+starts from the header and it contains the array of PEB’s state records is
+ordered by PEB ID. The most important fields of the PEB’s state record
+are: (1) erase cycles, (2) PEB type, (3) PEB state.
 
-Any file or metadata structure can be updated, truncated, or
-deleted. Segment object supports the update and invalidate
-operations with user data or metadata. SSDFS uses logical extent
-concept to track the location of any user data or metadata.
-It means that every metadata structure is described by a sequence
-of extents. Inode object keeps inline extents or root node of
-extents b-tree that tracks the location of a file's content.
-Extent identifies a segment ID, logical block ID, and length of
-extent. Segment ID is used to create or access the segment object.
-The segment object has offset translation table that provides
-the mechanism to convert a logical block ID into "Physical"
-Erase Block (PEB) ID. Finally, it is possible to add update or
-invalidation request into PEB's update queue. PEB's flush thread
-takes the update/invalidate requests from the queue and executes
-the requests. Execution of request means the creation of new
-log that will contain the actual state of updated or invalidated
-data in the log's metadata (header, block bitmap, offset
-translation table) and payload.
+PEB type describes possible types of data that PEB could contain:
+(1) user data, (2) leaf b-tree node, (3) hybrid b-tree node,
+(4) index b-tree node, (5) snapshot, (6) superblock, (7) segment bitmap,
+(8) PEB mapping table. PEB state describes possible states of PEB during
+the lifecycle: (1) clean state means that PEB contains only free NAND flash
+pages are ready for write operations, (2) using state means that PEB could
+contain valid, invalid, and free pages, (3) used state means that PEB
+contains only valid pages, (4) pre-dirty state means that PEB contains
+as valid as invalid pages only, (5) dirty state means that PEB contains
+only invalid pages, (6) migrating state means that PEB is under migration,
+(7) pre-erase state means that PEB is added into the queue of PEBs are
+waiting the erase operation, (8) recovering state means that PEB will be
+untouched during some amount of time with the goal to recover the ability
+to fulfill the erase operation, (9) bad state means that PEB is unable
+to be used for storing the data. Generally speaking, the responsibility of
+PEB state is to track the passing of PEBs through various phases of their
+lifetime with the goal to manage the PEBs’ pool of the file system’s
+volume efficiently.
+
+"Physical" Erase Block (PEB) mapping table is represented by
+a sequence of fragments are distributed among several
+segments. Every map or unmap operation marks a fragment as
+dirty. Flush operation requires to check the dirty state of
+all fragments and to flush dirty fragments on the volume by
+means of creation of log(s) into PEB(s) is dedicated to store
+mapping table's content. Flush operation is executed in several
+steps: (1) prepare migration, (2) flush dirty fragments,
+(3) commit logs.
+
+Prepare migration operation is requested before mapping table
+flush with the goal to check the necessity to finish/start
+migration. Because, start/finish migration requires the modification of
+mapping table. However, mapping table's flush operation needs to be
+finished without any modifications of mapping table itself.
+Flush dirty fragments step implies the searching of dirty fragments
+and preparation of update requests for PEB(s) flush thread.
+Finally, commit log should be requested because metadata flush
+operation must be finished by storing new metadata state
+persistently.
+
+Logical extent represents fundamental concept of SSDFS file
+system. Any piece of data or metadata on file system volume
+is identified by: (1) segment ID, (2) logical block ID, and
+(3) length. As a result, any logical block is always located
+at the same segment because segment is logical portion of
+file system volume is always located at the same position.
+However, logical block's content should be located into some
+erase block. "Physical" Erase Block (PEB) mapping table
+implements mapping of Logical Erase Block (LEB) into PEB
+because any segment is a container for one or several LEBs.
+Moreover, mapping table supports migration scheme implementation.
+The migration scheme guarantee that logical block will be
+always located at the same segment even for the case of update
+requests.
+
+PEB mapping table implements two fundamental methods:
+(1) convert LEB to PEB; (2) map LEB to PEB. Conversion operation is
+required if we need to identify which particular PEB contains
+data for a LEB of particular segment. Mapping operation is required
+if a clean segment has been allocated because LEB(s) of clean
+segment need to be associated with PEB(s) that can store logs with
+user data or metadata.
+
+Migration scheme is the fundamental technique of GC overhead
+management in the SSDFS file system. The key responsibility of
+the migration scheme is to guarantee the presence of data at
+the same segment for any update operations. Generally speaking,
+the migration scheme’s model is implemented on the basis of
+association an exhausted PEB with a clean one. The goal of such
+association of two PEBs is to implement the gradual migration of
+data by means of the update operations in the initial (exhausted)
+PEB. As a result, the old, exhausted PEB becomes invalidated after
+complete data migration and it will be possible to apply
+the erase operation to convert it in the clean state. Moreover,
+the destination PEB in the association changes the initial PEB
+for some index in the segment and, finally, it becomes the only
+PEB for this position. Such technique implements the concept of
+logical extent with the goal to decrease the write amplification
+issue and to manage the GC overhead. Because the logical extent
+concept excludes the necessity to update metadata tracking
+the position of user data on the file system’s volume.
+Generally speaking, the migration scheme is capable to decrease
+the GC activity significantly by means of the excluding the necessity
+to update metadata and by means of self-migration of data
+between of PEBs is triggered by regular update operations.
+
+Mapping table supports two principal operations:
+(1) add migration PEB, (2) exclude migration PEB. Operation of
+adding migration PEB is required for the case of starting
+migration. Exclude migration PEB operation is executed during
+finishing migration. Adding migration PEB operation implies
+the association an exhausted PEB with a clean one. Excluding
+migration PEB operation implies removing completely invalidated
+PEB from the association and request to TRIM/erase this PEB.
+
+"Physical" Erase Block (PEB) mapping table has dedicated
+thread. This thread has goal to track the presence of dirty
+PEB(s) in mapping table and to execute TRIM/erase operation
+for dirty PEBs in the background. However, if the number of
+dirty PEBs is big enough, then erase operation(s) can be
+executed at the context of the thread that marks PEB as dirty.
 
 Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
 ---
- fs/ssdfs/current_segment.h |  116 +++
- fs/ssdfs/segment.h         | 1367 ++++++++++++++++++++++++++++++++++++
- fs/ssdfs/segment_tree.h    |  107 +++
- 3 files changed, 1590 insertions(+)
- create mode 100644 fs/ssdfs/current_segment.h
- create mode 100644 fs/ssdfs/segment.h
- create mode 100644 fs/ssdfs/segment_tree.h
+ fs/ssdfs/peb_mapping_table.h | 784 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 784 insertions(+)
+ create mode 100644 fs/ssdfs/peb_mapping_table.h
 
-diff --git a/fs/ssdfs/current_segment.h b/fs/ssdfs/current_segment.h
+diff --git a/fs/ssdfs/peb_mapping_table.h b/fs/ssdfs/peb_mapping_table.h
 new file mode 100644
-index 000000000000..28612fb6b555
+index 000000000000..aa2332ec8341
 --- /dev/null
-+++ b/fs/ssdfs/current_segment.h
-@@ -0,0 +1,116 @@
++++ b/fs/ssdfs/peb_mapping_table.h
+@@ -0,0 +1,784 @@
 +/*
 + * SPDX-License-Identifier: BSD-3-Clause-Clear
 + *
 + * SSDFS -- SSD-oriented File System.
 + *
-+ * fs/ssdfs/current_segment.h - current segment abstraction declarations.
++ * fs/ssdfs/peb_mapping_table.h - PEB mapping table declarations.
 + *
 + * Copyright (c) 2014-2019 HGST, a Western Digital Company.
 + *              http://www.hgst.com/
@@ -173,1586 +248,768 @@ index 000000000000..28612fb6b555
 + *                  Zvonimir Bandic
 + */
 +
-+#ifndef _SSDFS_CURRENT_SEGMENT_H
-+#define _SSDFS_CURRENT_SEGMENT_H
++#ifndef _SSDFS_PEB_MAPPING_TABLE_H
++#define _SSDFS_PEB_MAPPING_TABLE_H
++
++#include "request_queue.h"
++
++#define SSDFS_MAPTBL_FIRST_PROTECTED_INDEX	0
++#define SSDFS_MAPTBL_PROTECTION_STEP		50
++#define SSDFS_MAPTBL_PROTECTION_RANGE		3
++
++#define SSDFS_PRE_ERASE_PEB_THRESHOLD_PCT	(3)
++#define SSDFS_UNUSED_LEB_THRESHOLD_PCT		(1)
 +
 +/*
-+ * struct ssdfs_current_segment - current segment container
-+ * @lock: exclusive lock of current segment object
-+ * @type: current segment type
-+ * @seg_id: last known segment ID
-+ * @real_seg: concrete current segment
++ * struct ssdfs_maptbl_flush_pair - segment/request pair
++ * @si: pointer on segment object
++ * @req: request object
++ */
++struct ssdfs_maptbl_flush_pair {
++	struct ssdfs_segment_info *si;
++	struct ssdfs_segment_request req;
++};
++
++/*
++ * struct ssdfs_maptbl_fragment_desc - fragment descriptor
++ * @lock: fragment lock
++ * @state: fragment state
++ * @fragment_id: fragment's ID in the whole sequence
++ * @fragment_folios: count of memory folios in fragment
++ * @start_leb: start LEB of fragment
++ * @lebs_count: count of LEB descriptors in the whole fragment
++ * @lebs_per_page: count of LEB descriptors in memory folio
++ * @lebtbl_pages: count of memory folios are used for LEBs description
++ * @pebs_per_page: count of PEB descriptors in memory folio
++ * @stripe_pages: count of memory folios in one stripe
++ * @mapped_lebs: mapped LEBs count in the fragment
++ * @migrating_lebs: migrating LEBs count in the fragment
++ * @reserved_pebs: count of reserved PEBs in fragment
++ * @pre_erase_pebs: count of PEBs in pre-erase state per fragment
++ * @recovering_pebs: count of recovering PEBs per fragment
++ * @array: fragment's memory folios
++ * @init_end: wait of init ending
++ * @flush_req1: main flush requests array
++ * @flush_req2: backup flush requests array
++ * @flush_req_count: number of flush requests in the array
++ * @flush_seq_size: flush requests' array capacity
++ */
++struct ssdfs_maptbl_fragment_desc {
++	struct rw_semaphore lock;
++	atomic_t state;
++
++	u32 fragment_id;
++	u32 fragment_folios;
++
++	u64 start_leb;
++	u32 lebs_count;
++
++	u16 lebs_per_page;
++	u16 lebtbl_pages;
++
++	u16 pebs_per_page;
++	u16 stripe_pages;
++
++	u32 mapped_lebs;
++	u32 migrating_lebs;
++	u32 reserved_pebs;
++	u32 pre_erase_pebs;
++	u32 recovering_pebs;
++
++	struct ssdfs_folio_array array;
++	struct completion init_end;
++
++	struct ssdfs_maptbl_flush_pair *flush_pair1;
++	struct ssdfs_maptbl_flush_pair *flush_pair2;
++	u32 flush_req_count;
++	u32 flush_seq_size;
++
++	/* /sys/fs/<ssdfs>/<device>/maptbl/fragments/fragment<N> */
++	struct kobject frag_kobj;
++	struct completion frag_kobj_unregister;
++};
++
++/* Fragment's state */
++enum {
++	SSDFS_MAPTBL_FRAG_CREATED	= 0,
++	SSDFS_MAPTBL_FRAG_INIT_FAILED	= 1,
++	SSDFS_MAPTBL_FRAG_INITIALIZED	= 2,
++	SSDFS_MAPTBL_FRAG_DIRTY		= 3,
++	SSDFS_MAPTBL_FRAG_TOWRITE	= 4,
++	SSDFS_MAPTBL_FRAG_STATE_MAX	= 5,
++};
++
++/*
++ * struct ssdfs_maptbl_area - mapping table area
++ * @portion_id: sequential ID of mapping table fragment
++ * @folios: array of memory folio pointers
++ * @folios_capacity: capacity of array
++ * @folios_count: count of folios in array
++ */
++struct ssdfs_maptbl_area {
++	u16 portion_id;
++	struct folio **folios;
++	size_t folios_capacity;
++	size_t folios_count;
++};
++
++/*
++ * struct ssdfs_peb_mapping_table - mapping table object
++ * @tbl_lock: mapping table lock
++ * @fragments_count: count of fragments
++ * @fragments_per_seg: count of fragments in segment
++ * @fragments_per_peb: count of fragments in PEB
++ * @fragment_bytes: count of bytes in one fragment
++ * @fragment_folios: count of memory folios in one fragment
++ * @flags: mapping table flags
++ * @lebs_count: count of LEBs are described by mapping table
++ * @pebs_count: count of PEBs are described by mapping table
++ * @lebs_per_fragment: count of LEB descriptors in fragment
++ * @pebs_per_fragment: count of PEB descriptors in fragment
++ * @pebs_per_stripe: count of PEB descriptors in stripe
++ * @stripes_per_fragment: count of stripes in fragment
++ * @extents: metadata extents that describe mapping table location
++ * @segs: array of pointers on segment objects
++ * @segs_count: count of segment objects are used for mapping table
++ * @state: mapping table's state
++ * @erase_op_state: state of erase operation
++ * @min_pre_erase_pebs: minimum number of PEBs in pre-erase state
++ * @total_pre_erase_pebs: total number of PEBs in pre-erase state
++ * @max_erase_ops: upper bound of erase operations for one iteration
++ * @erase_ops_end_wq: wait queue of threads are waiting end of erase operation
++ * @bmap_lock: dirty bitmap's lock
++ * @dirty_bmap: bitmap of dirty fragments
++ * @desc_array: array of fragment descriptors
++ * @wait_queue: wait queue of mapping table's thread
++ * @flush_end: wait of flush ending
++ * @thread: descriptor of mapping table's thread
 + * @fsi: pointer on shared file system object
 + */
-+struct ssdfs_current_segment {
-+	struct mutex *lock;
-+	int type;
-+	u64 seg_id;
-+	struct ssdfs_segment_info *real_seg;
++struct ssdfs_peb_mapping_table {
++	struct rw_semaphore tbl_lock;
++	u32 fragments_count;
++	u16 fragments_per_seg;
++	u16 fragments_per_peb;
++	u32 fragment_bytes;
++	u32 fragment_folios;
++	atomic_t flags;
++	u64 lebs_count;
++	u64 pebs_count;
++	u16 lebs_per_fragment;
++	u16 pebs_per_fragment;
++	u16 pebs_per_stripe;
++	u16 stripes_per_fragment;
++	struct ssdfs_meta_area_extent extents[MAPTBL_LIMIT1][MAPTBL_LIMIT2];
++	struct ssdfs_segment_info **segs[SSDFS_MAPTBL_SEG_COPY_MAX];
++	u16 segs_count;
++
++	atomic_t state;
++
++	atomic_t erase_op_state;
++	atomic_t min_pre_erase_pebs;
++	atomic_t total_pre_erase_pebs;
++	atomic_t max_erase_ops;
++	wait_queue_head_t erase_ops_end_wq;
++
++	atomic64_t last_peb_recover_cno;
++
++	struct mutex bmap_lock;
++	unsigned long *dirty_bmap;
++	struct ssdfs_maptbl_fragment_desc *desc_array;
++
++	wait_queue_head_t wait_queue;
++	struct completion flush_end;
++	struct ssdfs_thread_info thread;
 +	struct ssdfs_fs_info *fsi;
 +};
 +
++/* PEB mapping table's state */
 +enum {
-+	SSDFS_CUR_DATA_SEG_LOCK,
-+	SSDFS_CUR_LNODE_SEG_LOCK,
-+	SSDFS_CUR_HNODE_SEG_LOCK,
-+	SSDFS_CUR_IDXNODE_SEG_LOCK,
-+	SSDFS_CUR_SEG_LOCK_COUNT
++	SSDFS_MAPTBL_CREATED			= 0,
++	SSDFS_MAPTBL_GOING_TO_BE_DESTROY	= 1,
++	SSDFS_MAPTBL_STATE_MAX			= 2,
 +};
 +
 +/*
-+ * struct ssdfs_current_segs_array - array of current segments
-+ * @lock: current segments array's lock
-+ * @objects: array of pointers on current segment objects
-+ * @buffer: buffer for all current segment objects
-+ * @lock_buffer: array of current segments' locks
++ * struct ssdfs_maptbl_peb_descriptor - PEB descriptor
++ * @peb_id: PEB identification number
++ * @shared_peb_index: index of external shared destination PEB
++ * @erase_cycles: P/E cycles
++ * @type: PEB type
++ * @state: PEB state
++ * @flags: PEB flags
++ * @consistency: PEB state consistency type
 + */
-+struct ssdfs_current_segs_array {
-+	struct rw_semaphore lock;
-+	struct ssdfs_current_segment *objects[SSDFS_CUR_SEGS_COUNT];
-+	u8 buffer[sizeof(struct ssdfs_current_segment) * SSDFS_CUR_SEGS_COUNT];
-+	struct mutex lock_buffer[SSDFS_CUR_SEG_LOCK_COUNT];
++struct ssdfs_maptbl_peb_descriptor {
++	u64 peb_id;
++	u8 shared_peb_index;
++	u32 erase_cycles;
++	u8 type;
++	u8 state;
++	u8 flags;
++	u8 consistency;
 +};
++
++/*
++ * struct ssdfs_maptbl_peb_relation - PEBs association
++ * @pebs: array of PEB descriptors
++ */
++struct ssdfs_maptbl_peb_relation {
++	struct ssdfs_maptbl_peb_descriptor pebs[SSDFS_MAPTBL_RELATION_MAX];
++};
++
++/*
++ * Erase operation state
++ */
++enum {
++	SSDFS_MAPTBL_NO_ERASE,
++	SSDFS_MAPTBL_ERASE_IN_PROGRESS
++};
++
++/* Stage of recovering try */
++enum {
++	SSDFS_CHECK_RECOVERABILITY,
++	SSDFS_MAKE_RECOVERING,
++	SSDFS_RECOVER_STAGE_MAX
++};
++
++/* Possible states of erase operation */
++enum {
++	SSDFS_ERASE_RESULT_UNKNOWN,
++	SSDFS_ERASE_DONE,
++	SSDFS_ERASE_SB_PEB_DONE,
++	SSDFS_IGNORE_ERASE,
++	SSDFS_ERASE_FAILURE,
++	SSDFS_BAD_BLOCK_DETECTED,
++	SSDFS_ERASE_RESULT_MAX
++};
++
++/*
++ * struct ssdfs_erase_result - PEB's erase operation result
++ * @fragment_index: index of mapping table's fragment
++ * @peb_index: PEB's index in fragment
++ * @peb_id: PEB ID number
++ * @state: state of erase operation
++ */
++struct ssdfs_erase_result {
++	u32 fragment_index;
++	u16 peb_index;
++	u64 peb_id;
++	int state;
++};
++
++/*
++ * struct ssdfs_erase_result_array - array of erase operation results
++ * @ptr: pointer on memory buffer
++ * @capacity: maximal number of erase operation results in array
++ * @size: count of erase operation results in array
++ */
++struct ssdfs_erase_result_array {
++	struct ssdfs_erase_result *ptr;
++	u32 capacity;
++	u32 size;
++};
++
++#define SSDFS_ERASE_RESULTS_PER_FRAGMENT	(10)
 +
 +/*
 + * Inline functions
 + */
++
++/*
++ * SSDFS_ERASE_RESULT_INIT() - init erase result
++ * @fragment_index: index of mapping table's fragment
++ * @peb_index: PEB's index in fragment
++ * @peb_id: PEB ID number
++ * @state: state of erase operation
++ * @result: erase operation result [out]
++ *
++ * This method initializes the erase operation result.
++ */
 +static inline
-+bool is_ssdfs_current_segment_empty(struct ssdfs_current_segment *cur_seg)
++void SSDFS_ERASE_RESULT_INIT(u32 fragment_index, u16 peb_index,
++			     u64 peb_id, int state,
++			     struct ssdfs_erase_result *result)
 +{
-+	return cur_seg->real_seg == NULL;
-+}
-+
-+static inline
-+struct mutex *CUR_SEG2LOCK(struct ssdfs_fs_info *fsi, int seg_type)
-+{
-+	struct ssdfs_current_segs_array *array = fsi->cur_segs;
-+
-+	switch (seg_type) {
-+	case SSDFS_CUR_DATA_SEG:
-+	case SSDFS_CUR_DATA_UPDATE_SEG:
-+		return &array->lock_buffer[SSDFS_CUR_DATA_SEG_LOCK];
-+
-+	case SSDFS_CUR_LNODE_SEG:
-+		return &array->lock_buffer[SSDFS_CUR_LNODE_SEG_LOCK];
-+
-+	case SSDFS_CUR_HNODE_SEG:
-+		return &array->lock_buffer[SSDFS_CUR_HNODE_SEG_LOCK];
-+
-+	case SSDFS_CUR_IDXNODE_SEG:
-+		return &array->lock_buffer[SSDFS_CUR_IDXNODE_SEG_LOCK];
-+
-+	default:
-+		/* do nothing */
-+		break;
-+	}
-+
-+	return NULL;
++	result->fragment_index = fragment_index;
++	result->peb_index = peb_index;
++	result->peb_id = peb_id;
++	result->state = state;
 +}
 +
 +/*
-+ * Current segment container's API
++ * DEFINE_PEB_INDEX_IN_FRAGMENT() - define PEB index in the whole fragment
++ * @fdesc: fragment descriptor
++ * @folio_index: folio index in the fragment
++ * @item_index: item index in the memory folio
 + */
-+int ssdfs_current_segment_array_create(struct ssdfs_fs_info *fsi);
-+void ssdfs_destroy_all_curent_segments(struct ssdfs_fs_info *fsi);
-+void ssdfs_current_segment_array_destroy(struct ssdfs_fs_info *fsi);
++static inline
++u16 DEFINE_PEB_INDEX_IN_FRAGMENT(struct ssdfs_maptbl_fragment_desc *fdesc,
++				 pgoff_t folio_index,
++				 u16 item_index)
++{
++#ifdef CONFIG_SSDFS_DEBUG
++	BUG_ON(!fdesc);
++	BUG_ON(folio_index < fdesc->lebtbl_pages);
 +
-+void ssdfs_current_segment_lock(struct ssdfs_current_segment *cur_seg);
-+void ssdfs_current_segment_unlock(struct ssdfs_current_segment *cur_seg);
-+bool is_ssdfs_current_segment_locked(struct ssdfs_current_segment *cur_seg);
++	SSDFS_DBG("fdesc %p, folio_index %lu, item_index %u\n",
++		  fdesc, folio_index, item_index);
++#endif /* CONFIG_SSDFS_DEBUG */
 +
-+int ssdfs_current_segment_add(struct ssdfs_current_segment *cur_seg,
-+			      struct ssdfs_segment_info *si,
-+			      struct ssdfs_segment_search_state *state);
-+void ssdfs_current_segment_remove(struct ssdfs_current_segment *cur_seg);
++	folio_index -= fdesc->lebtbl_pages;
++	folio_index *= fdesc->pebs_per_page;
++	folio_index += item_index;
 +
-+#endif /* _SSDFS_CURRENT_SEGMENT_H */
-diff --git a/fs/ssdfs/segment.h b/fs/ssdfs/segment.h
-new file mode 100644
-index 000000000000..9478683fdd6f
---- /dev/null
-+++ b/fs/ssdfs/segment.h
-@@ -0,0 +1,1367 @@
-+/*
-+ * SPDX-License-Identifier: BSD-3-Clause-Clear
-+ *
-+ * SSDFS -- SSD-oriented File System.
-+ *
-+ * fs/ssdfs/segment.h - segment concept declarations.
-+ *
-+ * Copyright (c) 2014-2019 HGST, a Western Digital Company.
-+ *              http://www.hgst.com/
-+ * Copyright (c) 2014-2026 Viacheslav Dubeyko <slava@dubeyko.com>
-+ *              http://www.ssdfs.org/
-+ *
-+ * (C) Copyright 2014-2019, HGST, Inc., All rights reserved.
-+ *
-+ * Created by HGST, San Jose Research Center, Storage Architecture Group
-+ *
-+ * Authors: Viacheslav Dubeyko <slava@dubeyko.com>
-+ *
-+ * Acknowledgement: Cyril Guyot
-+ *                  Zvonimir Bandic
-+ */
++#ifdef CONFIG_SSDFS_DEBUG
++	BUG_ON(folio_index >= U16_MAX);
++#endif /* CONFIG_SSDFS_DEBUG */
 +
-+#ifndef _SSDFS_SEGMENT_H
-+#define _SSDFS_SEGMENT_H
-+
-+#include "peb.h"
-+#include "segment_block_bitmap.h"
-+
-+/* Available indexes for destination */
-+enum {
-+	SSDFS_LAST_DESTINATION,
-+	SSDFS_CREATING_DESTINATION,
-+	SSDFS_DESTINATION_MAX
-+};
-+
-+/* Possible states of destination descriptor */
-+enum {
-+	SSDFS_EMPTY_DESTINATION,
-+	SSDFS_DESTINATION_UNDER_CREATION,
-+	SSDFS_VALID_DESTINATION,
-+	SSDFS_OBSOLETE_DESTINATION,
-+	SSDFS_DESTINATION_STATE_MAX
-+};
++	return (u16)folio_index;
++}
 +
 +/*
-+ * struct ssdfs_migration_destination - destination descriptor
-+ * @state: descriptor's state
-+ * @destination_pebs: count of destination PEBs for migration
-+ * @shared_peb_index: shared index of destination PEB for migration
++ * GET_PEB_ID() - define PEB ID for the index
++ * @kaddr: pointer on memory folio's content
++ * @item_index: item index inside of the folio
++ *
++ * This method tries to convert @item_index into
++ * PEB ID value.
++ *
++ * RETURN:
++ * [success] - PEB ID
++ * [failure] - U64_MAX
 + */
-+struct ssdfs_migration_destination {
-+	int state;
-+	int destination_pebs;
-+	int shared_peb_index;
-+};
-+
-+/*
-+ * struct ssdfs_segment_migration_info - migration info
-+ * @migrating_pebs: count of migrating PEBs
-+ * @lock: migration data lock
-+ * @array: destination descriptors
-+ */
-+struct ssdfs_segment_migration_info {
-+	atomic_t migrating_pebs;
-+
-+	spinlock_t lock;
-+	struct ssdfs_migration_destination array[SSDFS_DESTINATION_MAX];
-+};
-+
-+/*
-+ * struct ssdfs_segment_info - segment object description
-+ * @seg_id: segment identification number
-+ * @log_pages: count of pages in full partial log
-+ * @create_threads: number of flush PEB's threads for new page requests
-+ * @seg_type: segment type
-+ * @protection: segment's protection window
-+ * @obj_state: segment object's state
-+ * @activity_type: type of activity with segment object
-+ * @modification_lock: lock protecting modificaiton of segment's state
-+ * @seg_state: current state of segment
-+ * @peb_array: array of PEB's descriptors
-+ * @pebs_count: count of items in PEBS array
-+ * @migration: migration info
-+ * @refs_count: counter of references on segment object
-+ * @object_queue: wait queue for segment creation/destruction
-+ * @create_rq: new page requests queue
-+ * @pending_lock: lock of pending pages' counter
-+ * @pending_new_user_data_pages: counter of pending new user data pages
-+ * @invalidated_user_data_pages: counter of invalidated user data pages
-+ * @wait_queue: array of PEBs' wait queues
-+ * @blk_bmap: segment's block bitmap
-+ * @blk2off_table: offset translation table
-+ * @fsi: pointer on shared file system object
-+ * @seg_kobj: /sys/fs/ssdfs/<device>/segments/<segN> kernel object
-+ * @seg_kobj_unregister: completion state for <segN> kernel object
-+ * @pebs_kobj: /sys/fs/<ssdfs>/<device>/segments/<segN>/pebs kernel object
-+ * @pebs_kobj_unregister: completion state for pebs kernel object
-+ */
-+struct ssdfs_segment_info {
-+	/* Static data */
-+	u64 seg_id;
-+	u16 log_pages;
-+	u8 create_threads;
-+	u16 seg_type;
-+
-+	/* Checkpoints set */
-+	struct ssdfs_protection_window protection;
-+
-+	/* Mutable data */
-+	atomic_t obj_state;
-+	atomic_t activity_type;
-+
-+	struct rw_semaphore modification_lock;
-+	atomic_t seg_state;
-+
-+	/* Segment's PEB's containers array */
-+	struct ssdfs_peb_container *peb_array;
++static inline
++u64 GET_PEB_ID(void *kaddr, u16 item_index)
++{
++	struct ssdfs_peb_table_fragment_header *hdr;
++	u64 start_peb;
 +	u16 pebs_count;
 +
-+	/* Migration info */
-+	struct ssdfs_segment_migration_info migration;
-+
-+	/* Reference counter */
-+	atomic_t refs_count;
-+	wait_queue_head_t object_queue;
-+
-+	/*
-+	 * New pages processing:
-+	 * requests queue, wait queue
-+	 */
-+	struct ssdfs_requests_queue create_rq;
-+
-+	spinlock_t pending_lock;
-+	u32 pending_new_user_data_pages;
-+	u32 invalidated_user_data_pages;
-+
-+	/* Threads' wait queues */
-+	wait_queue_head_t wait_queue[SSDFS_PEB_THREAD_TYPE_MAX];
-+
-+	struct ssdfs_segment_blk_bmap blk_bmap;
-+	struct ssdfs_blk2off_table *blk2off_table;
-+	struct ssdfs_fs_info *fsi;
-+
-+	/* /sys/fs/ssdfs/<device>/segments/<segN> */
-+	struct kobject *seg_kobj;
-+	struct kobject seg_kobj_buf;
-+	struct completion seg_kobj_unregister;
-+
-+	/* /sys/fs/<ssdfs>/<device>/segments/<segN>/pebs */
-+	struct kobject pebs_kobj;
-+	struct completion pebs_kobj_unregister;
-+
-+#ifdef CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING
-+	atomic64_t writeback_folios;
-+#endif /* CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING */
-+};
-+
-+/* Segment object states */
-+enum {
-+	SSDFS_SEG_OBJECT_UNKNOWN_STATE,
-+	SSDFS_SEG_OBJECT_UNDER_CREATION,
-+	SSDFS_SEG_OBJECT_CREATED,
-+	SSDFS_CURRENT_SEG_OBJECT,
-+	SSDFS_SEG_OBJECT_FAILURE,
-+	SSDFS_SEG_OBJECT_PRE_DELETED,
-+	SSDFS_SEG_OBJECT_STATE_MAX
-+};
-+
-+/* Segment object's activity type */
-+enum {
-+	SSDFS_SEG_OBJECT_NO_ACTIVITY,
-+	SSDFS_SEG_OBJECT_REGULAR_ACTIVITY,
-+	SSDFS_SEG_UNDER_GC_ACTIVITY,
-+	SSDFS_SEG_UNDER_INVALIDATION,
-+	SSDFS_SEG_UNDER_FINISHING_MIGRATION,
-+	SSDFS_SEG_UNDER_GC_FINISHING_MIGRATION,
-+	SSDFS_SEG_OBJECT_ACTIVITY_TYPE_MAX
-+};
-+
-+/*
-+ * struct ssdfs_segment_search_state - state of segment search
-+ * @request.seg_type: type of segment
-+ * @request.start_search_id: starting segment ID for search
-+ * @request.need_find_new_segment: does it need to find a new segment?
-+ * @request.search_clean_segment_only: does it need to fins clean segment only?
-+ * @result.seg_state: segment state
-+ * @result.seg_id: requested or found segment ID
-+ * @result.free_pages: number of free pages in found segment
-+ * @result.used_pages: number of used pages in found segment
-+ * @result.invalid_pages: number of invalid_pages pages in found segment
-+ * @result.number_of_tries: number of tries to find segment
-+ */
-+struct ssdfs_segment_search_state {
-+	struct {
-+		int seg_type;
-+		u64 start_search_id;
-+		bool need_find_new_segment;
-+		bool search_clean_segment_only;
-+	} request;
-+
-+	struct {
-+		int seg_state;
-+		u64 seg_id;
-+		int free_pages;
-+		int used_pages;
-+		int invalid_pages;
-+		int number_of_tries;
-+	} result;
-+};
-+
-+/*
-+ * Inline functions
-+ */
-+
-+/*
-+ * ssdfs_segment_search_state_init() - initialize segment search state
-+ */
-+static inline
-+void ssdfs_segment_search_state_init(struct ssdfs_segment_search_state *state,
-+				     int seg_type, u64 seg_id,
-+				     u64 start_search_id)
-+{
 +#ifdef CONFIG_SSDFS_DEBUG
-+	BUG_ON(!state);
++	BUG_ON(!kaddr);
++
++	SSDFS_DBG("kaddr %p, item_index %u\n",
++		  kaddr, item_index);
 +#endif /* CONFIG_SSDFS_DEBUG */
 +
-+	state->request.seg_type = seg_type;
-+	state->request.start_search_id = start_search_id;
-+	state->request.need_find_new_segment = false;
-+	state->request.search_clean_segment_only = false;
++	hdr = (struct ssdfs_peb_table_fragment_header *)kaddr;
 +
-+	state->result.seg_state = SSDFS_SEG_STATE_MAX;
-+	state->result.seg_id = seg_id;
-+	state->result.free_pages = -1;
-+	state->result.used_pages = -1;
-+	state->result.invalid_pages = -1;
-+	state->result.number_of_tries = 0;
++	if (le16_to_cpu(hdr->magic) != SSDFS_PEB_TABLE_MAGIC) {
++		SSDFS_ERR("corrupted folio\n");
++		return U64_MAX;
++	}
++
++	start_peb = le64_to_cpu(hdr->start_peb);
++	pebs_count = le16_to_cpu(hdr->pebs_count);
++
++	if (item_index >= pebs_count) {
++		SSDFS_ERR("item_index %u >= pebs_count %u\n",
++			  item_index, pebs_count);
++		return U64_MAX;
++	}
++
++	return start_peb + item_index;
 +}
 +
 +/*
-+ * is_ssdfs_segment_created() - check that segment object is created
++ * PEBTBL_FOLIO_INDEX() - define PEB table folio index
++ * @fdesc: fragment descriptor
++ * @peb_index: index of PEB in the fragment
++ */
++static inline
++pgoff_t PEBTBL_FOLIO_INDEX(struct ssdfs_maptbl_fragment_desc *fdesc,
++			   u16 peb_index)
++{
++	pgoff_t folio_index;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	BUG_ON(!fdesc);
++
++	SSDFS_DBG("fdesc %p, peb_index %u\n",
++		  fdesc, peb_index);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	folio_index = fdesc->lebtbl_pages;
++	folio_index += peb_index / fdesc->pebs_per_page;
++	return folio_index;
++}
++
++/*
++ * GET_PEB_DESCRIPTOR() - retrieve PEB descriptor
++ * @kaddr: pointer on memory folio's content
++ * @item_index: item index inside of the folio
 + *
-+ * This function returns TRUE for the case of successful
-+ * creation of segment's object or failure of the creation.
-+ * The responsibility of the caller to check that
-+ * segment object has been created successfully.
++ * This method tries to return the pointer on
++ * PEB descriptor for @item_index.
++ *
++ * RETURN:
++ * [success] - pointer on PEB descriptor
++ * [failure] - error code:
++ *
++ * %-ERANGE     - internal error.
 + */
 +static inline
-+bool is_ssdfs_segment_created(struct ssdfs_segment_info *si)
++struct ssdfs_peb_descriptor *GET_PEB_DESCRIPTOR(void *kaddr, u16 item_index)
 +{
-+	bool is_created = false;
-+
-+	switch (atomic_read(&si->obj_state)) {
-+	case SSDFS_SEG_OBJECT_CREATED:
-+	case SSDFS_CURRENT_SEG_OBJECT:
-+	case SSDFS_SEG_OBJECT_FAILURE:
-+	case SSDFS_SEG_OBJECT_PRE_DELETED:
-+		is_created = true;
-+		break;
-+
-+	default:
-+		is_created = false;
-+		break;
-+	}
-+
-+	return is_created;
-+}
-+
-+/*
-+ * CUR_SEG_TYPE() - convert request class into current segment type
-+ */
-+static inline
-+int CUR_SEG_TYPE(int req_class)
-+{
-+	int cur_seg_type = SSDFS_CUR_SEGS_COUNT;
-+
-+	switch (req_class) {
-+	case SSDFS_PEB_PRE_ALLOCATE_DATA_REQ:
-+	case SSDFS_PEB_CREATE_DATA_REQ:
-+		cur_seg_type = SSDFS_CUR_DATA_SEG;
-+		break;
-+
-+	case SSDFS_PEB_PRE_ALLOCATE_LNODE_REQ:
-+	case SSDFS_PEB_CREATE_LNODE_REQ:
-+		cur_seg_type = SSDFS_CUR_LNODE_SEG;
-+		break;
-+
-+	case SSDFS_PEB_PRE_ALLOCATE_HNODE_REQ:
-+	case SSDFS_PEB_CREATE_HNODE_REQ:
-+		cur_seg_type = SSDFS_CUR_HNODE_SEG;
-+		break;
-+
-+	case SSDFS_PEB_PRE_ALLOCATE_IDXNODE_REQ:
-+	case SSDFS_PEB_CREATE_IDXNODE_REQ:
-+		cur_seg_type = SSDFS_CUR_IDXNODE_SEG;
-+		break;
-+
-+	case SSDFS_ZONE_USER_DATA_MIGRATE_REQ:
-+	case SSDFS_PEB_USER_DATA_MOVE_REQ:
-+		cur_seg_type = SSDFS_CUR_DATA_UPDATE_SEG;
-+		break;
-+
-+	default:
-+		BUG();
-+	}
-+
-+	return cur_seg_type;
-+}
-+
-+/*
-+ * SEG_TYPE() - convert request class into segment type
-+ */
-+static inline
-+int SEG_TYPE(int req_class)
-+{
-+	int seg_type = SSDFS_LAST_KNOWN_SEG_TYPE;
-+
-+	switch (req_class) {
-+	case SSDFS_PEB_PRE_ALLOCATE_DATA_REQ:
-+	case SSDFS_PEB_CREATE_DATA_REQ:
-+	case SSDFS_ZONE_USER_DATA_MIGRATE_REQ:
-+	case SSDFS_PEB_USER_DATA_MOVE_REQ:
-+		seg_type = SSDFS_USER_DATA_SEG_TYPE;
-+		break;
-+
-+	case SSDFS_PEB_PRE_ALLOCATE_LNODE_REQ:
-+	case SSDFS_PEB_CREATE_LNODE_REQ:
-+		seg_type = SSDFS_LEAF_NODE_SEG_TYPE;
-+		break;
-+
-+	case SSDFS_PEB_PRE_ALLOCATE_HNODE_REQ:
-+	case SSDFS_PEB_CREATE_HNODE_REQ:
-+		seg_type = SSDFS_HYBRID_NODE_SEG_TYPE;
-+		break;
-+
-+	case SSDFS_PEB_PRE_ALLOCATE_IDXNODE_REQ:
-+	case SSDFS_PEB_CREATE_IDXNODE_REQ:
-+		seg_type = SSDFS_INDEX_NODE_SEG_TYPE;
-+		break;
-+
-+	default:
-+		BUG();
-+	}
-+
-+	return seg_type;
-+}
-+
-+/*
-+ * SEG_TYPE_TO_USING_STATE() - convert segment type to segment using state
-+ * @seg_type: segment type
-+ */
-+static inline
-+int SEG_TYPE_TO_USING_STATE(u16 seg_type)
-+{
-+	switch (seg_type) {
-+	case SSDFS_USER_DATA_SEG_TYPE:
-+		return SSDFS_SEG_DATA_USING;
-+
-+	case SSDFS_LEAF_NODE_SEG_TYPE:
-+		return SSDFS_SEG_LEAF_NODE_USING;
-+
-+	case SSDFS_HYBRID_NODE_SEG_TYPE:
-+		return SSDFS_SEG_HYBRID_NODE_USING;
-+
-+	case SSDFS_INDEX_NODE_SEG_TYPE:
-+		return SSDFS_SEG_INDEX_NODE_USING;
-+	}
-+
-+	return SSDFS_SEG_STATE_MAX;
-+}
-+
-+/*
-+ * SEG_TYPE2MASK() - convert segment type into search mask
-+ */
-+static inline
-+int SEG_TYPE2MASK(int seg_type)
-+{
-+	int mask;
-+
-+	switch (seg_type) {
-+	case SSDFS_USER_DATA_SEG_TYPE:
-+		mask = SSDFS_SEG_DATA_USING_STATE_FLAG |
-+			SSDFS_SEG_DATA_USING_INVALIDATED_STATE_FLAG;
-+		break;
-+
-+	case SSDFS_LEAF_NODE_SEG_TYPE:
-+		mask = SSDFS_SEG_LEAF_NODE_USING_STATE_FLAG;
-+		break;
-+
-+	case SSDFS_HYBRID_NODE_SEG_TYPE:
-+		mask = SSDFS_SEG_HYBRID_NODE_USING_STATE_FLAG;
-+		break;
-+
-+	case SSDFS_INDEX_NODE_SEG_TYPE:
-+		mask = SSDFS_SEG_INDEX_NODE_USING_STATE_FLAG;
-+		break;
-+
-+	default:
-+		BUG();
-+	};
-+
-+	return mask;
-+}
-+
-+/*
-+ * SEG_TYPE_TO_CUR_SEG_TYPE() - convert segment type to current segment type
-+ * @seg_type: segment type
-+ */
-+static inline
-+int SEG_TYPE_TO_CUR_SEG_TYPE(u16 seg_type)
-+{
-+	int cur_seg_type = SSDFS_CUR_SEGS_COUNT;
-+
-+	switch (seg_type) {
-+	case SSDFS_USER_DATA_SEG_TYPE:
-+		return SSDFS_CUR_DATA_SEG;
-+
-+	case SSDFS_LEAF_NODE_SEG_TYPE:
-+		return SSDFS_CUR_LNODE_SEG;
-+
-+	case SSDFS_HYBRID_NODE_SEG_TYPE:
-+		return SSDFS_CUR_HNODE_SEG;
-+
-+	case SSDFS_INDEX_NODE_SEG_TYPE:
-+		return SSDFS_CUR_IDXNODE_SEG;
-+	}
-+
-+	return cur_seg_type;
-+}
-+
-+static inline
-+bool is_regular_fs_operations(struct ssdfs_segment_info *si)
-+{
-+	int state;
-+
-+	state = atomic_read(&si->fsi->global_fs_state);
-+	return state == SSDFS_REGULAR_FS_OPERATIONS;
-+}
-+
-+static inline
-+bool is_metadata_under_flush(struct ssdfs_segment_info *si)
-+{
-+	switch (atomic_read(&si->fsi->global_fs_state)) {
-+	case SSDFS_METADATA_UNDER_FLUSH:
-+	case SSDFS_UNMOUNT_METADATA_UNDER_FLUSH:
-+		return true;
-+
-+	default:
-+		/* continue logic */
-+		break;
-+	}
-+
-+	return false;
-+}
-+
-+static inline
-+bool is_metadata_going_flushing(struct ssdfs_segment_info *si)
-+{
-+	switch (atomic_read(&si->fsi->global_fs_state)) {
-+	case SSDFS_METADATA_GOING_FLUSHING:
-+	case SSDFS_UNMOUNT_METADATA_GOING_FLUSHING:
-+		return true;
-+
-+	default:
-+		/* continue logic */
-+		break;
-+	}
-+
-+	return false;
-+}
-+
-+static inline
-+bool is_unmount_in_progress(struct ssdfs_segment_info *si)
-+{
-+	switch (atomic_read(&si->fsi->global_fs_state)) {
-+	case SSDFS_UNMOUNT_METADATA_GOING_FLUSHING:
-+	case SSDFS_UNMOUNT_METADATA_UNDER_FLUSH:
-+	case SSDFS_UNMOUNT_MAPTBL_UNDER_FLUSH:
-+	case SSDFS_UNMOUNT_COMMIT_SUPERBLOCK:
-+	case SSDFS_UNMOUNT_DESTROY_METADATA:
-+		return true;
-+
-+	default:
-+		/* continue logic */
-+		break;
-+	}
-+
-+	return false;
-+}
-+
-+static inline
-+void ssdfs_account_user_data_read_request(struct ssdfs_segment_info *si,
-+					  struct ssdfs_segment_request *req)
-+{
-+	u64 read_requests = 0;
++	struct ssdfs_peb_table_fragment_header *hdr;
++	u16 pebs_count;
++	u32 peb_desc_off;
 +
 +#ifdef CONFIG_SSDFS_DEBUG
-+	BUG_ON(!si || !req);
++	BUG_ON(!kaddr);
++
++	SSDFS_DBG("kaddr %p, item_index %u\n",
++		  kaddr, item_index);
 +#endif /* CONFIG_SSDFS_DEBUG */
 +
-+	if (si->seg_type == SSDFS_USER_DATA_SEG_TYPE) {
-+		switch (atomic_read(&si->fsi->global_fs_state)) {
-+		case SSDFS_UNMOUNT_MAPTBL_UNDER_FLUSH:
-+		case SSDFS_UNMOUNT_COMMIT_SUPERBLOCK:
-+		case SSDFS_UNMOUNT_DESTROY_METADATA:
-+			/*
-+			 * Unexpected state.
-+			 */
-+			BUG();
-+			break;
++	hdr = (struct ssdfs_peb_table_fragment_header *)kaddr;
 +
-+		default:
-+			/* do nothing */
-+			break;
-+		}
-+
-+		spin_lock(&si->fsi->volume_state_lock);
-+		si->fsi->read_user_data_requests++;
-+		read_requests = si->fsi->read_user_data_requests;
-+		spin_unlock(&si->fsi->volume_state_lock);
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("seg_id %llu, read_requests %llu, "
-+			  "req->private.class %#x, req->private.cmd %#x\n",
-+			  si->seg_id, read_requests,
-+			  req->private.class,
-+			  req->private.cmd);
-+		BUG_ON(!is_request_command_valid(req->private.class,
-+						 req->private.cmd));
-+#endif /* CONFIG_SSDFS_DEBUG */
++	if (le16_to_cpu(hdr->magic) != SSDFS_PEB_TABLE_MAGIC) {
++		SSDFS_ERR("corrupted folio\n");
++		return ERR_PTR(-ERANGE);
 +	}
++
++	pebs_count = le16_to_cpu(hdr->pebs_count);
++
++	if (item_index >= pebs_count) {
++		SSDFS_ERR("item_index %u >= pebs_count %u\n",
++			  item_index, pebs_count);
++		return ERR_PTR(-ERANGE);
++	}
++
++	peb_desc_off = SSDFS_PEBTBL_FRAGMENT_HDR_SIZE;
++	peb_desc_off += item_index * sizeof(struct ssdfs_peb_descriptor);
++
++	if (peb_desc_off >= PAGE_SIZE) {
++		SSDFS_ERR("invalid offset %u\n", peb_desc_off);
++		return ERR_PTR(-ERANGE);
++	}
++
++	return (struct ssdfs_peb_descriptor *)((u8 *)kaddr + peb_desc_off);
++}
++
++/*
++ * SEG2PEB_TYPE() - convert segment into PEB type
++ */
++static inline
++int SEG2PEB_TYPE(int seg_type)
++{
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("seg_type %d\n", seg_type);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	switch (seg_type) {
++	case SSDFS_USER_DATA_SEG_TYPE:
++		return SSDFS_MAPTBL_DATA_PEB_TYPE;
++
++	case SSDFS_LEAF_NODE_SEG_TYPE:
++		return SSDFS_MAPTBL_LNODE_PEB_TYPE;
++
++	case SSDFS_HYBRID_NODE_SEG_TYPE:
++		return SSDFS_MAPTBL_HNODE_PEB_TYPE;
++
++	case SSDFS_INDEX_NODE_SEG_TYPE:
++		return SSDFS_MAPTBL_IDXNODE_PEB_TYPE;
++
++	case SSDFS_INITIAL_SNAPSHOT_SEG_TYPE:
++		return SSDFS_MAPTBL_INIT_SNAP_PEB_TYPE;
++
++	case SSDFS_SB_SEG_TYPE:
++		return SSDFS_MAPTBL_SBSEG_PEB_TYPE;
++
++	case SSDFS_SEGBMAP_SEG_TYPE:
++		return SSDFS_MAPTBL_SEGBMAP_PEB_TYPE;
++
++	case SSDFS_MAPTBL_SEG_TYPE:
++		return SSDFS_MAPTBL_MAPTBL_PEB_TYPE;
++	}
++
++	return SSDFS_MAPTBL_PEB_TYPE_MAX;
++}
++
++/*
++ * PEB2SEG_TYPE() - convert PEB into segment type
++ */
++static inline
++int PEB2SEG_TYPE(int peb_type)
++{
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("peb_type %d\n", peb_type);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	switch (peb_type) {
++	case SSDFS_MAPTBL_DATA_PEB_TYPE:
++		return SSDFS_USER_DATA_SEG_TYPE;
++
++	case SSDFS_MAPTBL_LNODE_PEB_TYPE:
++		return SSDFS_LEAF_NODE_SEG_TYPE;
++
++	case SSDFS_MAPTBL_HNODE_PEB_TYPE:
++		return SSDFS_HYBRID_NODE_SEG_TYPE;
++
++	case SSDFS_MAPTBL_IDXNODE_PEB_TYPE:
++		return SSDFS_INDEX_NODE_SEG_TYPE;
++
++	case SSDFS_MAPTBL_INIT_SNAP_PEB_TYPE:
++		return SSDFS_INITIAL_SNAPSHOT_SEG_TYPE;
++
++	case SSDFS_MAPTBL_SBSEG_PEB_TYPE:
++		return SSDFS_SB_SEG_TYPE;
++
++	case SSDFS_MAPTBL_SEGBMAP_PEB_TYPE:
++		return SSDFS_SEGBMAP_SEG_TYPE;
++
++	case SSDFS_MAPTBL_MAPTBL_PEB_TYPE:
++		return SSDFS_MAPTBL_SEG_TYPE;
++	}
++
++	return SSDFS_UNKNOWN_SEG_TYPE;
 +}
 +
 +static inline
-+void ssdfs_forget_user_data_read_request(struct ssdfs_segment_info *si,
-+					 struct ssdfs_segment_request *req)
++bool is_ssdfs_maptbl_under_flush(struct ssdfs_fs_info *fsi)
 +{
-+	u64 read_requests = 0;
++	return atomic_read(&fsi->maptbl->flags) & SSDFS_MAPTBL_UNDER_FLUSH;
++}
++
++static inline
++bool is_ssdfs_maptbl_start_migration(struct ssdfs_fs_info *fsi)
++{
++	return atomic_read(&fsi->maptbl->flags) & SSDFS_MAPTBL_START_MIGRATION;
++}
++
++/*
++ * is_peb_protected() - check that PEB is protected
++ * @found_item: PEB index in the fragment
++ */
++static inline
++bool is_peb_protected(unsigned long found_item)
++{
++	unsigned long remainder;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("found_item %lu\n", found_item);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	remainder = found_item % SSDFS_MAPTBL_PROTECTION_STEP;
++	return remainder == 0;
++}
++
++static inline
++bool is_ssdfs_maptbl_going_to_be_destroyed(struct ssdfs_peb_mapping_table *tbl)
++{
++	return atomic_read(&tbl->state) == SSDFS_MAPTBL_GOING_TO_BE_DESTROY;
++}
++
++static inline
++void set_maptbl_going_to_be_destroyed(struct ssdfs_fs_info *fsi)
++{
++	atomic_set(&fsi->maptbl->state, SSDFS_MAPTBL_GOING_TO_BE_DESTROY);
++}
++
++static inline
++void ssdfs_account_updated_user_data_pages(struct ssdfs_fs_info *fsi,
++					   u32 count)
++{
++#ifdef CONFIG_SSDFS_DEBUG
++	u64 updated = 0;
++
++	BUG_ON(!fsi);
++
++	SSDFS_DBG("fsi %p, count %u\n",
++		  fsi, count);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	spin_lock(&fsi->volume_state_lock);
++	fsi->updated_user_data_pages += count;
++#ifdef CONFIG_SSDFS_DEBUG
++	updated = fsi->updated_user_data_pages;
++#endif /* CONFIG_SSDFS_DEBUG */
++	spin_unlock(&fsi->volume_state_lock);
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("updated %llu\n", updated);
++#endif /* CONFIG_SSDFS_DEBUG */
++}
++
++int ssdfs_maptbl_change_peb_state(struct ssdfs_fs_info *fsi,
++				  u64 leb_id, u8 peb_type,
++				  int peb_state,
++				  struct completion **end);
++
++/*
++ * ssdfs_maptbl_wait_and_change_peb_state() - wait and change PEB state
++ * @fsi: file system info object
++ * @leb_id: LEB ID number
++ * @peb_type: type of the PEB
++ * @peb_state: new state of the PEB
++ */
++static inline
++int ssdfs_maptbl_wait_and_change_peb_state(struct ssdfs_fs_info *fsi,
++					   u64 leb_id, u8 peb_type,
++					   int peb_state)
++{
++	struct completion *end;
++	int number_of_tries = 0;
 +	int err = 0;
 +
-+#ifdef CONFIG_SSDFS_DEBUG
-+	BUG_ON(!si);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	if (si->seg_type == SSDFS_USER_DATA_SEG_TYPE) {
-+		spin_lock(&si->fsi->volume_state_lock);
-+		read_requests = si->fsi->read_user_data_requests;
-+		if (read_requests > 0) {
-+			si->fsi->read_user_data_requests--;
-+			read_requests = si->fsi->read_user_data_requests;
-+		} else
-+			err = -ERANGE;
-+		spin_unlock(&si->fsi->volume_state_lock);
-+
-+		if (unlikely(err))
-+			SSDFS_WARN("fail to decrement\n");
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+		if (req == NULL) {
-+			SSDFS_DBG("seg_id %llu, read_requests %llu\n",
-+				  si->seg_id, read_requests);
-+		} else {
-+			SSDFS_DBG("seg_id %llu, read_requests %llu, "
-+				  "req->private.class %#x, "
-+				  "req->private.cmd %#x\n",
-+				  si->seg_id, read_requests,
-+				  req->private.class,
-+				  req->private.cmd);
-+			BUG_ON(!is_request_command_valid(req->private.class,
-+							 req->private.cmd));
-+		}
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+		if (read_requests == 0)
-+			wake_up_all(&si->fsi->finish_user_data_read_wq);
-+	}
-+}
-+
-+static inline
-+void ssdfs_account_user_data_flush_request(struct ssdfs_segment_info *si,
-+					   struct ssdfs_segment_request *req)
-+{
-+	u64 flush_requests = 0;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	BUG_ON(!si || !req);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	if (si->seg_type == SSDFS_USER_DATA_SEG_TYPE) {
-+		switch (atomic_read(&si->fsi->global_fs_state)) {
-+		case SSDFS_UNMOUNT_MAPTBL_UNDER_FLUSH:
-+		case SSDFS_UNMOUNT_COMMIT_SUPERBLOCK:
-+		case SSDFS_UNMOUNT_DESTROY_METADATA:
-+			/*
-+			 * Unexpected state.
-+			 */
-+			BUG();
-+			break;
-+
-+		default:
-+			/* do nothing */
-+			break;
++	err = ssdfs_maptbl_change_peb_state(fsi, leb_id,
++					    peb_type, peb_state,
++					    &end);
++	if (err == -EAGAIN) {
++wait_completion_end:
++		err = SSDFS_WAIT_COMPLETION(end);
++		if (unlikely(err)) {
++			SSDFS_ERR("waiting failed: "
++				  "err %d\n", err);
++			return err;
 +		}
 +
-+		spin_lock(&si->fsi->volume_state_lock);
-+		si->fsi->flushing_user_data_requests++;
-+		flush_requests = si->fsi->flushing_user_data_requests;
++		err = ssdfs_maptbl_change_peb_state(fsi,
++						    leb_id,
++						    peb_type,
++						    peb_state,
++						    &end);
++		if (err == -EAGAIN && is_ssdfs_maptbl_under_flush(fsi)) {
++			if (number_of_tries < SSDFS_MAX_NUMBER_OF_TRIES) {
 +#ifdef CONFIG_SSDFS_DEBUG
-+		spin_lock(&si->fsi->requests_lock);
-+		list_add_tail(&req->user_data_requests_list,
-+				&si->fsi->user_data_requests_list);
-+		spin_unlock(&si->fsi->requests_lock);
++				SSDFS_DBG("mapping table is flushing: "
++					  "leb_id %llu, peb_type %#x, "
++					  "new_state %#x, number_of_tries %d\n",
++					  leb_id, peb_type, peb_state,
++					  number_of_tries);
 +#endif /* CONFIG_SSDFS_DEBUG */
-+		spin_unlock(&si->fsi->volume_state_lock);
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("seg_id %llu, flush_requests %llu, "
-+			  "req->private.class %#x, req->private.cmd %#x\n",
-+			  si->seg_id, flush_requests,
-+			  req->private.class,
-+			  req->private.cmd);
-+		BUG_ON(!is_request_command_valid(req->private.class,
-+						 req->private.cmd));
-+#endif /* CONFIG_SSDFS_DEBUG */
-+	}
-+}
-+
-+static inline
-+void ssdfs_forget_user_data_flush_request(struct ssdfs_segment_info *si,
-+					  struct ssdfs_segment_request *req)
-+{
-+	u64 flush_requests = 0;
-+	int err = 0;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	BUG_ON(!si);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	if (si->seg_type == SSDFS_USER_DATA_SEG_TYPE) {
-+		spin_lock(&si->fsi->volume_state_lock);
-+		flush_requests = si->fsi->flushing_user_data_requests;
-+		if (flush_requests > 0) {
-+			si->fsi->flushing_user_data_requests--;
-+			flush_requests = si->fsi->flushing_user_data_requests;
-+#ifdef CONFIG_SSDFS_DEBUG
-+			if (req) {
-+				spin_lock(&si->fsi->requests_lock);
-+				list_del(&req->user_data_requests_list);
-+				spin_unlock(&si->fsi->requests_lock);
++				number_of_tries++;
++				goto wait_completion_end;
 +			}
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		} else
-+			err = -ERANGE;
-+		spin_unlock(&si->fsi->volume_state_lock);
-+
-+		if (unlikely(err))
-+			SSDFS_WARN("fail to decrement\n");
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+		if (req == NULL) {
-+			SSDFS_DBG("seg_id %llu, flush_requests %llu\n",
-+				  si->seg_id, flush_requests);
-+		} else {
-+			SSDFS_DBG("seg_id %llu, flush_requests %llu, "
-+				  "req->private.class %#x, "
-+				  "req->private.cmd %#x\n",
-+				  si->seg_id, flush_requests,
-+				  req->private.class,
-+				  req->private.cmd);
-+			BUG_ON(!is_request_command_valid(req->private.class,
-+							 req->private.cmd));
-+		}
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+		if (flush_requests == 0)
-+			wake_up_all(&si->fsi->finish_user_data_flush_wq);
-+	}
-+}
-+
-+static inline
-+bool is_user_data_pages_invalidated(struct ssdfs_segment_info *si)
-+{
-+	u64 invalidated = 0;
-+
-+	if (si->seg_type != SSDFS_USER_DATA_SEG_TYPE)
-+		return false;
-+
-+	spin_lock(&si->pending_lock);
-+	invalidated = si->invalidated_user_data_pages;
-+	spin_unlock(&si->pending_lock);
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("seg_id %llu, invalidated %llu\n",
-+		  si->seg_id, invalidated);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	return invalidated > 0;
-+}
-+
-+static inline
-+void ssdfs_account_invalidated_user_data_pages(struct ssdfs_segment_info *si,
-+						u32 count)
-+{
-+	u64 invalidated = 0;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	BUG_ON(!si);
-+
-+	SSDFS_DBG("si %p, count %u\n",
-+		  si, count);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	if (si->seg_type == SSDFS_USER_DATA_SEG_TYPE) {
-+		switch (atomic_read(&si->fsi->global_fs_state)) {
-+		case SSDFS_UNMOUNT_MAPTBL_UNDER_FLUSH:
-+		case SSDFS_UNMOUNT_COMMIT_SUPERBLOCK:
-+		case SSDFS_UNMOUNT_DESTROY_METADATA:
-+			/*
-+			 * Unexpected state.
-+			 */
-+			BUG();
-+			break;
-+
-+		default:
-+			/* do nothing */
-+			break;
-+		}
-+
-+		spin_lock(&si->pending_lock);
-+		si->invalidated_user_data_pages += count;
-+		invalidated = si->invalidated_user_data_pages;
-+		spin_unlock(&si->pending_lock);
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("seg_id %llu, invalidated %llu\n",
-+			  si->seg_id, invalidated);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+	}
-+}
-+
-+static inline
-+void ssdfs_forget_invalidated_user_data_pages(struct ssdfs_segment_info *si)
-+{
-+	u64 invalidated = 0;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	BUG_ON(!si);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	if (si->seg_type == SSDFS_USER_DATA_SEG_TYPE) {
-+		spin_lock(&si->pending_lock);
-+		invalidated = si->invalidated_user_data_pages;
-+		si->invalidated_user_data_pages = 0;
-+		spin_unlock(&si->pending_lock);
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("seg_id %llu, invalidated %llu\n",
-+			  si->seg_id, invalidated);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+	}
-+}
-+
-+static inline
-+void ssdfs_account_commit_log_request(struct ssdfs_segment_info *si)
-+{
-+	u64 commit_log_requests = 0;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	BUG_ON(!si);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	if (si->seg_type == SSDFS_USER_DATA_SEG_TYPE) {
-+		switch (atomic_read(&si->fsi->global_fs_state)) {
-+		case SSDFS_UNMOUNT_MAPTBL_UNDER_FLUSH:
-+		case SSDFS_UNMOUNT_COMMIT_SUPERBLOCK:
-+		case SSDFS_UNMOUNT_DESTROY_METADATA:
-+			/*
-+			 * Unexpected state.
-+			 */
-+			BUG();
-+			break;
-+
-+		default:
-+			/* do nothing */
-+			break;
 +		}
 +	}
-+
-+	spin_lock(&si->fsi->volume_state_lock);
-+	si->fsi->commit_log_requests++;
-+	commit_log_requests = si->fsi->commit_log_requests;
-+	spin_unlock(&si->fsi->volume_state_lock);
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("seg_id %llu, commit_log_requests %llu\n",
-+		  si->seg_id, commit_log_requests);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+}
-+
-+static inline
-+void ssdfs_forget_commit_log_request(struct ssdfs_segment_info *si)
-+{
-+	u64 commit_log_requests = 0;
-+	int err = 0;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	BUG_ON(!si);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	spin_lock(&si->fsi->volume_state_lock);
-+	commit_log_requests = si->fsi->commit_log_requests;
-+	if (commit_log_requests > 0) {
-+		si->fsi->commit_log_requests--;
-+		commit_log_requests = si->fsi->commit_log_requests;
-+	} else
-+		err = -ERANGE;
-+	spin_unlock(&si->fsi->volume_state_lock);
 +
 +	if (unlikely(err)) {
-+		SSDFS_WARN("fail to decrement: "
-+			   "seg_id %llu\n",
-+			   si->seg_id);
++		SSDFS_ERR("fail to change the PEB state: "
++			  "leb_id %llu, peb_type %#x, "
++			  "new_state %#x, err %d\n",
++			  leb_id, peb_type,
++			  peb_state, err);
 +	}
 +
-+	if (commit_log_requests == 0)
-+		wake_up_all(&si->fsi->finish_commit_log_flush_wq);
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("seg_id %llu, commit_log_requests %llu\n",
-+		  si->seg_id, commit_log_requests);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+}
-+
-+static inline
-+void ssdfs_protection_account_request(struct ssdfs_protection_window *ptr,
-+				      u64 current_cno)
-+{
-+#ifdef CONFIG_SSDFS_DEBUG
-+	u64 create_cno;
-+	u64 last_request_cno;
-+	u32 reqs_count;
-+	u64 protected_range;
-+	u64 future_request_cno;
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	spin_lock(&ptr->cno_lock);
-+
-+	if (ptr->reqs_count == 0) {
-+		ptr->reqs_count = 1;
-+		ptr->last_request_cno = current_cno;
-+	} else
-+		ptr->reqs_count++;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	create_cno = ptr->create_cno;
-+	last_request_cno = ptr->last_request_cno;
-+	reqs_count = ptr->reqs_count;
-+	protected_range = ptr->protected_range;
-+	future_request_cno = ptr->future_request_cno;
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	spin_unlock(&ptr->cno_lock);
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("create_cno %llu, "
-+		  "last_request_cno %llu, reqs_count %u, "
-+		  "protected_range %llu, future_request_cno %llu\n",
-+		  create_cno,
-+		  last_request_cno, reqs_count,
-+		  protected_range, future_request_cno);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+}
-+
-+static inline
-+void ssdfs_protection_forget_request(struct ssdfs_protection_window *ptr,
-+				     u64 current_cno)
-+{
-+	u64 create_cno;
-+	u64 last_request_cno;
-+	u32 reqs_count;
-+	u64 protected_range;
-+	u64 future_request_cno;
-+	int err = 0;
-+
-+	spin_lock(&ptr->cno_lock);
-+
-+	if (ptr->reqs_count == 0) {
-+		err = -ERANGE;
-+		goto finish_process_request;
-+	} else if (ptr->reqs_count == 1) {
-+		ptr->reqs_count--;
-+
-+		if (ptr->last_request_cno >= current_cno) {
-+			err = -ERANGE;
-+			goto finish_process_request;
-+		} else {
-+			u64 diff = current_cno - ptr->last_request_cno;
-+			u64 last_range = ptr->protected_range;
-+			ptr->protected_range = max_t(u64, last_range, diff);
-+			ptr->last_request_cno = current_cno;
-+			ptr->future_request_cno =
-+				current_cno + ptr->protected_range;
-+		}
-+	} else
-+		ptr->reqs_count--;
-+
-+finish_process_request:
-+	create_cno = ptr->create_cno;
-+	last_request_cno = ptr->last_request_cno;
-+	reqs_count = ptr->reqs_count;
-+	protected_range = ptr->protected_range;
-+	future_request_cno = ptr->future_request_cno;
-+
-+	spin_unlock(&ptr->cno_lock);
-+
-+	if (unlikely(err)) {
-+		SSDFS_WARN("create_cno %llu, "
-+			   "last_request_cno %llu, reqs_count %u, "
-+			   "protected_range %llu, future_request_cno %llu\n",
-+			   create_cno,
-+			   last_request_cno, reqs_count,
-+			   protected_range, future_request_cno);
-+		return;
-+	}
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("create_cno %llu, "
-+		  "last_request_cno %llu, reqs_count %u, "
-+		  "protected_range %llu, future_request_cno %llu\n",
-+		  create_cno,
-+		  last_request_cno, reqs_count,
-+		  protected_range, future_request_cno);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+}
-+
-+static inline
-+void ssdfs_segment_create_request_cno(struct ssdfs_segment_info *si)
-+{
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("seg %llu\n", si->seg_id);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	ssdfs_protection_account_request(&si->protection,
-+				ssdfs_current_cno(si->fsi->sb));
-+}
-+
-+static inline
-+void ssdfs_segment_finish_request_cno(struct ssdfs_segment_info *si)
-+{
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("seg %llu\n", si->seg_id);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	ssdfs_protection_forget_request(&si->protection,
-+				ssdfs_current_cno(si->fsi->sb));
-+}
-+
-+static inline
-+bool should_gc_doesnt_touch_segment(struct ssdfs_segment_info *si)
-+{
-+#ifdef CONFIG_SSDFS_DEBUG
-+	u64 create_cno;
-+	u64 last_request_cno;
-+	u32 reqs_count;
-+	u64 protected_range;
-+	u64 future_request_cno;
-+#endif /* CONFIG_SSDFS_DEBUG */
-+	u64 cur_cno;
-+	bool dont_touch = false;
-+
-+	spin_lock(&si->protection.cno_lock);
-+	if (si->protection.reqs_count > 0) {
-+		/* segment is under processing */
-+		dont_touch = true;
-+	} else {
-+		cur_cno = ssdfs_current_cno(si->fsi->sb);
-+		if (cur_cno <= si->protection.future_request_cno) {
-+			/* segment is under protection window yet */
-+			dont_touch = true;
-+		}
-+	}
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	create_cno = si->protection.create_cno;
-+	last_request_cno = si->protection.last_request_cno;
-+	reqs_count = si->protection.reqs_count;
-+	protected_range = si->protection.protected_range;
-+	future_request_cno = si->protection.future_request_cno;
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	spin_unlock(&si->protection.cno_lock);
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("seg_id %llu, create_cno %llu, "
-+		  "last_request_cno %llu, reqs_count %u, "
-+		  "protected_range %llu, future_request_cno %llu, "
-+		  "dont_touch %#x\n",
-+		  si->seg_id, create_cno,
-+		  last_request_cno, reqs_count,
-+		  protected_range, future_request_cno,
-+		  dont_touch);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	return dont_touch;
-+}
-+
-+static inline
-+void ssdfs_peb_read_request_cno(struct ssdfs_peb_container *pebc)
-+{
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("seg %llu, peb_index %u\n",
-+		  pebc->parent_si->seg_id,
-+		  pebc->peb_index);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	ssdfs_protection_account_request(&pebc->cache_protection,
-+			ssdfs_current_cno(pebc->parent_si->fsi->sb));
-+}
-+
-+static inline
-+void ssdfs_peb_finish_read_request_cno(struct ssdfs_peb_container *pebc)
-+{
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("seg %llu, peb_index %u\n",
-+		  pebc->parent_si->seg_id,
-+		  pebc->peb_index);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	ssdfs_protection_forget_request(&pebc->cache_protection,
-+			ssdfs_current_cno(pebc->parent_si->fsi->sb));
-+}
-+
-+static inline
-+bool is_it_time_free_peb_cache_memory(struct ssdfs_peb_container *pebc)
-+{
-+#ifdef CONFIG_SSDFS_DEBUG
-+	u64 create_cno;
-+	u64 last_request_cno;
-+	u32 reqs_count;
-+	u64 protected_range;
-+	u64 future_request_cno;
-+#endif /* CONFIG_SSDFS_DEBUG */
-+	u64 cur_cno;
-+	bool dont_touch = false;
-+
-+	spin_lock(&pebc->cache_protection.cno_lock);
-+	if (pebc->cache_protection.reqs_count > 0) {
-+		/* PEB has read requests */
-+		dont_touch = true;
-+	} else {
-+		cur_cno = ssdfs_current_cno(pebc->parent_si->fsi->sb);
-+		if (cur_cno <= pebc->cache_protection.future_request_cno) {
-+			/* PEB is under protection window yet */
-+			dont_touch = true;
-+		}
-+	}
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	create_cno = pebc->cache_protection.create_cno;
-+	last_request_cno = pebc->cache_protection.last_request_cno;
-+	reqs_count = pebc->cache_protection.reqs_count;
-+	protected_range = pebc->cache_protection.protected_range;
-+	future_request_cno = pebc->cache_protection.future_request_cno;
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	spin_unlock(&pebc->cache_protection.cno_lock);
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("seg_id %llu, peb_index %u, create_cno %llu, "
-+		  "last_request_cno %llu, reqs_count %u, "
-+		  "protected_range %llu, future_request_cno %llu, "
-+		  "dont_touch %#x\n",
-+		  pebc->parent_si->seg_id,
-+		  pebc->peb_index,
-+		  create_cno,
-+		  last_request_cno, reqs_count,
-+		  protected_range, future_request_cno,
-+		  dont_touch);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	return !dont_touch;
-+}
-+
-+static inline
-+bool is_ssdfs_segment_under_invalidation(struct ssdfs_segment_info *si)
-+{
-+	return atomic_read(&si->activity_type) == SSDFS_SEG_UNDER_INVALIDATION;
++	return err;
 +}
 +
 +/*
-+ * Segment object's API
++ * PEB mapping table's API
 + */
-+struct ssdfs_segment_info *ssdfs_segment_allocate_object(u64 seg_id);
-+void ssdfs_segment_free_object(struct ssdfs_segment_info *si);
-+int ssdfs_segment_create_object(struct ssdfs_fs_info *fsi,
-+				u64 seg,
-+				int seg_state,
-+				u16 seg_type,
-+				u16 log_pages,
-+				u8 create_threads,
-+				struct ssdfs_segment_info *si);
-+int ssdfs_segment_destroy_object(struct ssdfs_segment_info *si);
-+void ssdfs_segment_get_object(struct ssdfs_segment_info *si);
-+void ssdfs_segment_put_object(struct ssdfs_segment_info *si);
++int ssdfs_maptbl_create(struct ssdfs_fs_info *fsi);
++void ssdfs_maptbl_destroy(struct ssdfs_fs_info *fsi);
++int ssdfs_maptbl_fragment_init(struct ssdfs_peb_container *pebc,
++				struct ssdfs_maptbl_area *area);
++int ssdfs_maptbl_flush(struct ssdfs_peb_mapping_table *tbl);
++int ssdfs_maptbl_resize(struct ssdfs_peb_mapping_table *tbl,
++			u64 new_pebs_count);
 +
-+struct ssdfs_segment_info *
-+ssdfs_grab_segment(struct ssdfs_fs_info *fsi,
-+		   struct ssdfs_segment_search_state *state);
-+bool is_ssdfs_segment_ready_for_requests(struct ssdfs_segment_info *si);
-+int ssdfs_wait_segment_init_end(struct ssdfs_segment_info *si);
++int ssdfs_maptbl_convert_leb2peb(struct ssdfs_fs_info *fsi,
++				 u64 leb_id, u8 peb_type,
++				 struct ssdfs_maptbl_peb_relation *pebr,
++				 struct completion **end);
++int ssdfs_maptbl_map_leb2peb(struct ssdfs_fs_info *fsi,
++			     u64 leb_id, u8 peb_type,
++			     struct ssdfs_maptbl_peb_relation *pebr,
++			     struct completion **end);
++int ssdfs_maptbl_recommend_search_range(struct ssdfs_fs_info *fsi,
++					u64 *start_leb,
++					u64 *end_leb,
++					struct completion **end);
++int ssdfs_maptbl_change_peb_state(struct ssdfs_fs_info *fsi,
++				  u64 leb_id, u8 peb_type,
++				  int peb_state,
++				  struct completion **end);
++int ssdfs_maptbl_prepare_pre_erase_state(struct ssdfs_fs_info *fsi,
++					 u64 leb_id, u8 peb_type,
++					 struct completion **end);
++int ssdfs_maptbl_set_pre_erased_snapshot_peb(struct ssdfs_fs_info *fsi,
++					     u64 peb_id,
++					     struct completion **end);
++int ssdfs_maptbl_add_migration_peb(struct ssdfs_fs_info *fsi,
++				   u64 leb_id, u8 peb_type,
++				   struct ssdfs_maptbl_peb_relation *pebr,
++				   struct completion **end);
++int ssdfs_maptbl_exclude_migration_peb(struct ssdfs_fs_info *fsi,
++					u64 leb_id, u8 peb_type,
++					u64 peb_create_time,
++					u64 last_log_time,
++					struct completion **end);
++int ssdfs_maptbl_set_indirect_relation(struct ssdfs_peb_mapping_table *tbl,
++					u64 leb_id, u8 peb_type,
++					u64 dst_leb_id, u16 dst_peb_index,
++					struct completion **end);
++int ssdfs_maptbl_break_indirect_relation(struct ssdfs_peb_mapping_table *tbl,
++					 u64 leb_id, u8 peb_type,
++					 u64 dst_leb_id, int dst_peb_refs,
++					 struct completion **end);
++int ssdfs_maptbl_set_zns_indirect_relation(struct ssdfs_peb_mapping_table *tbl,
++					   u64 leb_id, u8 peb_type,
++					   struct completion **end);
++int ssdfs_maptbl_break_zns_indirect_relation(struct ssdfs_peb_mapping_table *tbl,
++					     u64 leb_id, u8 peb_type,
++					     struct completion **end);
 +
-+int ssdfs_segment_read_block_sync(struct ssdfs_segment_info *si,
-+				  struct ssdfs_segment_request *req);
-+int ssdfs_segment_read_block_async(struct ssdfs_segment_info *si,
-+				  int req_type,
-+				  struct ssdfs_segment_request *req);
-+
-+int ssdfs_segment_pre_alloc_data_block_sync(struct ssdfs_fs_info *fsi,
-+					struct ssdfs_segment_request_pool *pool,
-+					struct ssdfs_dirty_folios_batch *batch);
-+int ssdfs_segment_pre_alloc_data_block_async(struct ssdfs_fs_info *fsi,
-+					struct ssdfs_segment_request_pool *pool,
-+					struct ssdfs_dirty_folios_batch *batch);
-+int ssdfs_segment_pre_alloc_leaf_node_block_sync(struct ssdfs_fs_info *fsi,
-+					struct ssdfs_segment_request *req,
-+					u64 *seg_id,
-+					struct ssdfs_blk2off_range *extent);
-+int ssdfs_segment_pre_alloc_leaf_node_block_async(struct ssdfs_fs_info *fsi,
-+					struct ssdfs_segment_request *req,
-+					u64 *seg_id,
-+					struct ssdfs_blk2off_range *extent);
-+int ssdfs_segment_pre_alloc_hybrid_node_block_sync(struct ssdfs_fs_info *fsi,
-+					struct ssdfs_segment_request *req,
-+					u64 *seg_id,
-+					struct ssdfs_blk2off_range *extent);
-+int ssdfs_segment_pre_alloc_hybrid_node_block_async(struct ssdfs_fs_info *fsi,
-+					struct ssdfs_segment_request *req,
-+					u64 *seg_id,
-+					struct ssdfs_blk2off_range *extent);
-+int ssdfs_segment_pre_alloc_index_node_block_sync(struct ssdfs_fs_info *fsi,
-+					struct ssdfs_segment_request *req,
-+					u64 *seg_id,
-+					struct ssdfs_blk2off_range *extent);
-+int ssdfs_segment_pre_alloc_index_node_block_async(struct ssdfs_fs_info *fsi,
-+					struct ssdfs_segment_request *req,
-+					u64 *seg_id,
-+					struct ssdfs_blk2off_range *extent);
-+
-+int ssdfs_segment_add_data_block_sync(struct ssdfs_fs_info *fsi,
-+					struct ssdfs_segment_request_pool *pool,
-+					struct ssdfs_dirty_folios_batch *batch);
-+int ssdfs_segment_add_data_block_async(struct ssdfs_fs_info *fsi,
-+					struct ssdfs_segment_request_pool *pool,
-+					struct ssdfs_dirty_folios_batch *batch);
-+int ssdfs_segment_migrate_zone_block_sync(struct ssdfs_fs_info *fsi,
-+					  int req_type,
-+					  struct ssdfs_segment_request *req,
-+					  u64 *seg_id,
-+					  struct ssdfs_blk2off_range *extent);
-+int ssdfs_segment_migrate_zone_block_async(struct ssdfs_fs_info *fsi,
-+					   int req_type,
-+					   struct ssdfs_segment_request *req,
-+					   u64 *seg_id,
-+					   struct ssdfs_blk2off_range *extent);
-+int ssdfs_segment_add_leaf_node_block_sync(struct ssdfs_fs_info *fsi,
-+					struct ssdfs_segment_request *req,
-+					u64 *seg_id,
-+					struct ssdfs_blk2off_range *extent);
-+int ssdfs_segment_add_leaf_node_block_async(struct ssdfs_fs_info *fsi,
-+					struct ssdfs_segment_request *req,
-+					u64 *seg_id,
-+					struct ssdfs_blk2off_range *extent);
-+int ssdfs_segment_add_hybrid_node_block_sync(struct ssdfs_fs_info *fsi,
-+					struct ssdfs_segment_request *req,
-+					u64 *seg_id,
-+					struct ssdfs_blk2off_range *extent);
-+int ssdfs_segment_add_hybrid_node_block_async(struct ssdfs_fs_info *fsi,
-+					struct ssdfs_segment_request *req,
-+					u64 *seg_id,
-+					struct ssdfs_blk2off_range *extent);
-+int ssdfs_segment_add_index_node_block_sync(struct ssdfs_fs_info *fsi,
-+					struct ssdfs_segment_request *req,
-+					u64 *seg_id,
-+					struct ssdfs_blk2off_range *extent);
-+int ssdfs_segment_add_index_node_block_async(struct ssdfs_fs_info *fsi,
-+					struct ssdfs_segment_request *req,
-+					u64 *seg_id,
-+					struct ssdfs_blk2off_range *extent);
-+
-+int ssdfs_segment_pre_alloc_data_extent_sync(struct ssdfs_fs_info *fsi,
-+					struct ssdfs_segment_request_pool *pool,
-+					struct ssdfs_dirty_folios_batch *batch);
-+int ssdfs_segment_pre_alloc_data_extent_async(struct ssdfs_fs_info *fsi,
-+					struct ssdfs_segment_request_pool *pool,
-+					struct ssdfs_dirty_folios_batch *batch);
-+int ssdfs_segment_pre_alloc_leaf_node_extent_sync(struct ssdfs_fs_info *fsi,
-+					struct ssdfs_segment_request *req,
-+					u64 *seg_id,
-+					struct ssdfs_blk2off_range *extent);
-+int ssdfs_segment_pre_alloc_leaf_node_extent_async(struct ssdfs_fs_info *fsi,
-+					struct ssdfs_segment_request *req,
-+					u64 *seg_id,
-+					struct ssdfs_blk2off_range *extent);
-+int ssdfs_segment_pre_alloc_hybrid_node_extent_sync(struct ssdfs_fs_info *fsi,
-+					struct ssdfs_segment_request *req,
-+					u64 *seg_id,
-+					struct ssdfs_blk2off_range *extent);
-+int ssdfs_segment_pre_alloc_hybrid_node_extent_async(struct ssdfs_fs_info *fsi,
-+					struct ssdfs_segment_request *req,
-+					u64 *seg_id,
-+					struct ssdfs_blk2off_range *extent);
-+int ssdfs_segment_pre_alloc_index_node_extent_sync(struct ssdfs_fs_info *fsi,
-+					struct ssdfs_segment_request *req,
-+					u64 *seg_id,
-+					struct ssdfs_blk2off_range *extent);
-+int ssdfs_segment_pre_alloc_index_node_extent_async(struct ssdfs_fs_info *fsi,
-+					struct ssdfs_segment_request *req,
-+					u64 *seg_id,
-+					struct ssdfs_blk2off_range *extent);
-+
-+int ssdfs_segment_add_data_extent_sync(struct ssdfs_fs_info *fsi,
-+					struct ssdfs_segment_request_pool *pool,
-+					struct ssdfs_dirty_folios_batch *batch);
-+int ssdfs_segment_add_data_extent_async(struct ssdfs_fs_info *fsi,
-+					struct ssdfs_segment_request_pool *pool,
-+					struct ssdfs_dirty_folios_batch *batch);
-+int ssdfs_segment_migrate_zone_extent_sync(struct ssdfs_fs_info *fsi,
-+					   int req_type,
-+					   struct ssdfs_segment_request *req,
-+					   u64 *seg_id,
-+					   struct ssdfs_blk2off_range *extent);
-+int ssdfs_segment_migrate_zone_extent_async(struct ssdfs_fs_info *fsi,
-+					    int req_type,
-+					    struct ssdfs_segment_request *req,
-+					    u64 *seg_id,
-+					    struct ssdfs_blk2off_range *extent);
-+int ssdfs_segment_move_peb_extent_sync(struct ssdfs_fs_info *fsi,
-+					int req_type,
-+					struct ssdfs_segment_request *req,
-+					u64 *seg_id,
-+					struct ssdfs_blk2off_range *extent);
-+int ssdfs_segment_move_peb_extent_async(struct ssdfs_fs_info *fsi,
-+					int req_type,
-+					struct ssdfs_segment_request *req,
-+					u64 *seg_id,
-+					struct ssdfs_blk2off_range *extent);
-+int ssdfs_segment_add_xattr_blob_sync(struct ssdfs_fs_info *fsi,
-+					struct ssdfs_segment_request *req,
-+					u64 *seg_id,
-+					struct ssdfs_blk2off_range *extent);
-+int ssdfs_segment_add_xattr_blob_async(struct ssdfs_fs_info *fsi,
-+					struct ssdfs_segment_request *req,
-+					u64 *seg_id,
-+					struct ssdfs_blk2off_range *extent);
-+int ssdfs_segment_add_leaf_node_extent_sync(struct ssdfs_fs_info *fsi,
-+					struct ssdfs_segment_request *req,
-+					u64 *seg_id,
-+					struct ssdfs_blk2off_range *extent);
-+int ssdfs_segment_add_leaf_node_extent_async(struct ssdfs_fs_info *fsi,
-+					struct ssdfs_segment_request *req,
-+					u64 *seg_id,
-+					struct ssdfs_blk2off_range *extent);
-+int ssdfs_segment_add_hybrid_node_extent_sync(struct ssdfs_fs_info *fsi,
-+					struct ssdfs_segment_request *req,
-+					u64 *seg_id,
-+					struct ssdfs_blk2off_range *extent);
-+int ssdfs_segment_add_hybrid_node_extent_async(struct ssdfs_fs_info *fsi,
-+					struct ssdfs_segment_request *req,
-+					u64 *seg_id,
-+					struct ssdfs_blk2off_range *extent);
-+int ssdfs_segment_add_index_node_extent_sync(struct ssdfs_fs_info *fsi,
-+					struct ssdfs_segment_request *req,
-+					u64 *seg_id,
-+					struct ssdfs_blk2off_range *extent);
-+int ssdfs_segment_add_index_node_extent_async(struct ssdfs_fs_info *fsi,
-+					struct ssdfs_segment_request *req,
-+					u64 *seg_id,
-+					struct ssdfs_blk2off_range *extent);
-+
-+int ssdfs_segment_update_data_block_sync(struct ssdfs_segment_info *si,
-+					struct ssdfs_segment_request_pool *pool,
-+					struct ssdfs_dirty_folios_batch *batch);
-+int ssdfs_segment_update_data_block_async(struct ssdfs_segment_info *si,
-+					int req_type,
-+					struct ssdfs_segment_request_pool *pool,
-+					struct ssdfs_dirty_folios_batch *batch);
-+int ssdfs_segment_update_data_extent_sync(struct ssdfs_segment_info *si,
-+					struct ssdfs_segment_request_pool *pool,
-+					struct ssdfs_dirty_folios_batch *batch);
-+int ssdfs_segment_update_data_extent_async(struct ssdfs_segment_info *si,
-+					int req_type,
-+					struct ssdfs_segment_request_pool *pool,
-+					struct ssdfs_dirty_folios_batch *batch);
-+int ssdfs_segment_update_block_sync(struct ssdfs_segment_info *si,
-+				    struct ssdfs_segment_request *req);
-+int ssdfs_segment_update_block_async(struct ssdfs_segment_info *si,
-+				     int req_type,
-+				     struct ssdfs_segment_request *req);
-+int ssdfs_segment_update_extent_sync(struct ssdfs_segment_info *si,
-+				     struct ssdfs_segment_request *req);
-+int ssdfs_segment_update_extent_async(struct ssdfs_segment_info *si,
-+				      int req_type,
-+				      struct ssdfs_segment_request *req);
-+int ssdfs_segment_update_pre_alloc_block_sync(struct ssdfs_segment_info *si,
-+					    struct ssdfs_segment_request *req);
-+int ssdfs_segment_update_pre_alloc_block_async(struct ssdfs_segment_info *si,
-+					    int req_type,
-+					    struct ssdfs_segment_request *req);
-+int ssdfs_segment_update_pre_alloc_extent_sync(struct ssdfs_segment_info *si,
-+					    struct ssdfs_segment_request *req);
-+int ssdfs_segment_update_pre_alloc_extent_async(struct ssdfs_segment_info *si,
-+					    int req_type,
-+					    struct ssdfs_segment_request *req);
-+
-+int ssdfs_segment_node_diff_on_write_sync(struct ssdfs_segment_info *si,
-+					  struct ssdfs_segment_request *req);
-+int ssdfs_segment_node_diff_on_write_async(struct ssdfs_segment_info *si,
-+					   int req_type,
-+					   struct ssdfs_segment_request *req);
-+int ssdfs_segment_data_diff_on_write_sync(struct ssdfs_segment_info *si,
-+					  struct ssdfs_segment_request *req);
-+int ssdfs_segment_data_diff_on_write_async(struct ssdfs_segment_info *si,
-+					   int req_type,
-+					   struct ssdfs_segment_request *req);
-+
-+int ssdfs_segment_prepare_migration_sync(struct ssdfs_segment_info *si,
-+					 struct ssdfs_segment_request *req);
-+int ssdfs_segment_prepare_migration_async(struct ssdfs_segment_info *si,
-+					  int req_type,
-+					  struct ssdfs_segment_request *req);
-+int ssdfs_segment_commit_log_sync(struct ssdfs_segment_info *si,
-+				  struct ssdfs_segment_request *req);
-+int ssdfs_segment_commit_log_async(struct ssdfs_segment_info *si,
-+				   int req_type,
-+				   struct ssdfs_segment_request *req);
-+int ssdfs_segment_commit_log_sync2(struct ssdfs_segment_info *si,
-+				   u16 peb_index,
-+				   struct ssdfs_segment_request *req);
-+int ssdfs_segment_commit_log_async2(struct ssdfs_segment_info *si,
-+				    int req_type, u16 peb_index,
-+				    struct ssdfs_segment_request *req);
-+
-+int ssdfs_segment_invalidate_logical_block(struct ssdfs_segment_info *si,
-+					   u32 blk_offset);
-+int ssdfs_segment_invalidate_logical_extent(struct ssdfs_segment_info *si,
-+					    u32 start_off, u32 blks_count);
-+
-+int ssdfs_segment_migrate_range_async(struct ssdfs_segment_info *si,
-+				      struct ssdfs_segment_request *req);
-+int ssdfs_segment_migrate_pre_alloc_page_async(struct ssdfs_segment_info *si,
-+					    struct ssdfs_segment_request *req);
-+int ssdfs_segment_migrate_fragment_async(struct ssdfs_segment_info *si,
-+					 struct ssdfs_segment_request *req);
++int ssdfs_reserve_free_pages(struct ssdfs_fs_info *fsi,
++			     u32 count, int type);
 +
 +/*
-+ * Internal segment object's API
++ * It makes sense to have special thread for the whole mapping table.
++ * The goal of the thread will be clearing of dirty PEBs,
++ * tracking P/E cycles, excluding bad PEBs and recovering PEBs
++ * in the background. Knowledge about PEBs will be hidden by
++ * mapping table. All other subsystems will operate by LEBs.
 + */
-+struct ssdfs_segment_info *
-+__ssdfs_create_new_segment(struct ssdfs_fs_info *fsi,
-+			   u64 seg_id, int seg_state,
-+			   u16 seg_type, u16 log_pages,
-+			   u8 create_threads);
-+int ssdfs_segment_change_state(struct ssdfs_segment_info *si);
-+int ssdfs_segment_detect_search_range(struct ssdfs_fs_info *fsi,
-+				      u64 *start_seg, u64 *end_seg);
-+
-+#endif /* _SSDFS_SEGMENT_H */
-diff --git a/fs/ssdfs/segment_tree.h b/fs/ssdfs/segment_tree.h
-new file mode 100644
-index 000000000000..c026f2e78424
---- /dev/null
-+++ b/fs/ssdfs/segment_tree.h
-@@ -0,0 +1,107 @@
-+/*
-+ * SPDX-License-Identifier: BSD-3-Clause-Clear
-+ *
-+ * SSDFS -- SSD-oriented File System.
-+ *
-+ * fs/ssdfs/segment_tree.h - segment tree declarations.
-+ *
-+ * Copyright (c) 2014-2019 HGST, a Western Digital Company.
-+ *              http://www.hgst.com/
-+ * Copyright (c) 2014-2026 Viacheslav Dubeyko <slava@dubeyko.com>
-+ *              http://www.ssdfs.org/
-+ *
-+ * (C) Copyright 2014-2019, HGST, Inc., All rights reserved.
-+ *
-+ * Created by HGST, San Jose Research Center, Storage Architecture Group
-+ *
-+ * Authors: Viacheslav Dubeyko <slava@dubeyko.com>
-+ *
-+ * Acknowledgement: Cyril Guyot
-+ *                  Zvonimir Bandic
-+ */
-+
-+#ifndef _SSDFS_SEGMENT_TREE_H
-+#define _SSDFS_SEGMENT_TREE_H
 +
 +/*
-+ * struct ssdfs_seg_object_info - segment object info
-+ * @list: segment objects queue list
-+ * @si: pointer on segment object
++ * PEB mapping table's internal API
 + */
-+struct ssdfs_seg_object_info {
-+	struct list_head list;
-+	struct ssdfs_segment_info *si;
-+};
++int ssdfs_maptbl_start_thread(struct ssdfs_peb_mapping_table *tbl);
++int ssdfs_maptbl_stop_thread(struct ssdfs_peb_mapping_table *tbl);
 +
-+/*
-+ * struct ssdfs_segment_tree - tree of segment objects
-+ * @lnodes_seg_log_pages: full log size in leaf nodes segment (pages count)
-+ * @hnodes_seg_log_pages: full log size in hybrid nodes segment (pages count)
-+ * @inodes_seg_log_pages: full log size in index nodes segment (pages count)
-+ * @user_data_log_pages: full log size in user data segment (pages count)
-+ * @default_log_pages: default full log size (pages count)
-+ * @dentries_btree: dentries b-tree descriptor
-+ * @extents_btree: extents b-tree descriptor
-+ * @xattr_btree: xattrs b-tree descriptor
-+ * @lock: folios array's lock
-+ * @capacity: maxumum possible capacity of folios in array
-+ * @folios: folios of segment tree
-+ */
-+struct ssdfs_segment_tree {
-+	u16 lnodes_seg_log_pages;
-+	u16 hnodes_seg_log_pages;
-+	u16 inodes_seg_log_pages;
-+	u16 user_data_log_pages;
-+	u16 default_log_pages;
++int ssdfs_maptbl_define_fragment_info(struct ssdfs_fs_info *fsi,
++				      u64 leb_id,
++				      u16 *pebs_per_fragment,
++				      u16 *pebs_per_stripe,
++				      u16 *stripes_per_fragment);
++struct ssdfs_maptbl_fragment_desc *
++ssdfs_maptbl_get_fragment_descriptor(struct ssdfs_peb_mapping_table *tbl,
++				     u64 leb_id);
++void ssdfs_maptbl_set_fragment_dirty(struct ssdfs_peb_mapping_table *tbl,
++				     struct ssdfs_maptbl_fragment_desc *fdesc,
++				     u64 leb_id, u8 peb_type);
++int ssdfs_maptbl_solve_inconsistency(struct ssdfs_peb_mapping_table *tbl,
++				     struct ssdfs_maptbl_fragment_desc *fdesc,
++				     u64 leb_id,
++				     struct ssdfs_maptbl_peb_relation *pebr);
++int ssdfs_maptbl_solve_pre_deleted_state(struct ssdfs_peb_mapping_table *tbl,
++				     struct ssdfs_maptbl_fragment_desc *fdesc,
++				     u64 leb_id,
++				     struct ssdfs_maptbl_peb_relation *pebr);
++void ssdfs_maptbl_move_fragment_folios(struct ssdfs_segment_request *req,
++					struct ssdfs_maptbl_area *area,
++					u16 folios_count);
++int ssdfs_maptbl_erase_peb(struct ssdfs_fs_info *fsi,
++			   struct ssdfs_erase_result *result);
++int ssdfs_maptbl_correct_dirty_peb(struct ssdfs_peb_mapping_table *tbl,
++				   struct ssdfs_maptbl_fragment_desc *fdesc,
++				   struct ssdfs_erase_result *result);
++int __ssdfs_maptbl_correct_peb_state(struct ssdfs_peb_mapping_table *tbl,
++				     struct ssdfs_maptbl_fragment_desc *fdesc,
++				     struct ssdfs_peb_table_fragment_header *hdr,
++				     struct ssdfs_erase_result *res);
++int ssdfs_maptbl_erase_reserved_peb_now(struct ssdfs_fs_info *fsi,
++					u64 leb_id, u8 peb_type,
++					struct completion **end);
++int ssdfs_maptbl_erase_dirty_pebs_now(struct ssdfs_peb_mapping_table *tbl);
 +
-+	struct ssdfs_dentries_btree_descriptor dentries_btree;
-+	struct ssdfs_extents_btree_descriptor extents_btree;
-+	struct ssdfs_xattr_btree_descriptor xattr_btree;
++void ssdfs_debug_maptbl_object(struct ssdfs_peb_mapping_table *tbl);
 +
-+	struct rw_semaphore lock;
-+	u32 capacity;
-+	struct ssdfs_folio_array folios;
-+};
-+
-+#define SSDFS_SEG_OBJ_PTR_PER_PAGE \
-+	(PAGE_SIZE / sizeof(struct ssdfs_segment_info *))
-+
-+/*
-+ * Segment objects queue API
-+ */
-+void ssdfs_seg_objects_queue_init(struct ssdfs_seg_objects_queue *soq);
-+bool is_ssdfs_seg_objects_queue_empty(struct ssdfs_seg_objects_queue *soq);
-+void ssdfs_seg_objects_queue_add_tail(struct ssdfs_seg_objects_queue *soq,
-+				      struct ssdfs_seg_object_info *soi);
-+void ssdfs_seg_objects_queue_add_head(struct ssdfs_seg_objects_queue *soq,
-+				      struct ssdfs_seg_object_info *soi);
-+int ssdfs_seg_objects_queue_remove_first(struct ssdfs_seg_objects_queue *soq,
-+					 struct ssdfs_seg_object_info **soi);
-+void ssdfs_seg_objects_queue_remove_all(struct ssdfs_seg_objects_queue *soq);
-+
-+/*
-+ * Segment object info's API
-+ */
-+void ssdfs_zero_seg_object_info_cache_ptr(void);
-+int ssdfs_init_seg_object_info_cache(void);
-+void ssdfs_shrink_seg_object_info_cache(void);
-+void ssdfs_destroy_seg_object_info_cache(void);
-+
-+struct ssdfs_seg_object_info *ssdfs_seg_object_info_alloc(void);
-+void ssdfs_seg_object_info_free(struct ssdfs_seg_object_info *soi);
-+void ssdfs_seg_object_info_init(struct ssdfs_seg_object_info *soi,
-+				struct ssdfs_segment_info *si);
-+
-+/*
-+ * Segments' tree API
-+ */
-+int ssdfs_segment_tree_create(struct ssdfs_fs_info *fsi);
-+void ssdfs_segment_tree_destroy(struct ssdfs_fs_info *fsi);
-+int ssdfs_segment_tree_add(struct ssdfs_fs_info *fsi,
-+			   struct ssdfs_segment_info *si);
-+int ssdfs_segment_tree_remove(struct ssdfs_fs_info *fsi,
-+			      struct ssdfs_segment_info *si);
-+struct ssdfs_segment_info *
-+ssdfs_segment_tree_find(struct ssdfs_fs_info *fsi, u64 seg_id);
-+
-+#endif /* _SSDFS_SEGMENT_TREE_H */
++#endif /* _SSDFS_PEB_MAPPING_TABLE_H */
 -- 
 2.34.1
 
