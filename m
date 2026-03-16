@@ -1,71 +1,71 @@
-Received: from mail-yx1-f49.google.com (mail-yx1-f49.google.com [74.125.224.49])
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C45A030BF5C
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 02:19:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34C8230EF6F
+	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 02:19:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773627580; cv=none; b=DQXZxtpBExaAc6OCtFOgAIATOK0nfPUvj/4uZaujfvQLQb9++S4subzHwmkAIFy/ugD71PrduCYKiDSUB2g6Vn5GHbPX3N5KEbs+FxrxuaSkWt+MfdZCIWcIqE1wkE/BG1amv/T1+UkqC/KrIq+mQoIZLS22r+oWLjhtsCAf4/0=
+	t=1773627583; cv=none; b=fc91BLrYSqrTkQlyekvmHZrKfBgvXW+vUjuhVOqw3bNXY3/cn1I2GCX4H9dsWekQ9TNPUxdpp6M3c5B4TMU3l6St+iXc9x/rLDuI9GNnMeNbthzUH7lO4tbP6vmhN/8yNEnYfABhaCNHdnN3IvIhQicVHjcPThCeMjJ2UmluRw8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773627580; c=relaxed/simple;
-	bh=54LWGroS+nNXvYiMETKcB1HipKEdQ71Z3M3LFKMEtIs=;
+	s=arc-20240116; t=1773627583; c=relaxed/simple;
+	bh=5WuxtIuGkP+JtK9kmJsKyzYNRBp+j+acTR4DfNYg5BM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lBt8okzrwE3tOz0f9MyEsrypzl/Xq4JjOeAlNtbxiP+evYttRmqZc6y9ExiA2Sh3OH8ZzBv99juJUmh6BXVHiBg2YrL6rf0mEMHq219sy5zhbUVya+LnK19jKNJzcf5PhtYuf3EQ/qoj+gAjC1Nf4bBUyE6dwg8iCruYkyoLhyg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b=QosOBgK7; arc=none smtp.client-ip=74.125.224.49
+	 MIME-Version; b=nqw052o+05fDj0xxdD1oS+WkuqAsr1fiKXgeGXxEw+3O9yYY+/e7vhdBE0jMSZn8EwyAbHYD2Y8CgJrD17A037y9fgBHbnshMZ62SHRLT511d0W5MZm2HD2WKbUG+84pees+trhTZDjM1cfzTkKi4AZ0qSsW8o+addBcy8gG+Lc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b=H6ZohBqk; arc=none smtp.client-ip=209.85.128.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b="QosOBgK7"
-Received: by mail-yx1-f49.google.com with SMTP id 956f58d0204a3-64ca9ec3ee7so4709966d50.3
-        for <linux-fsdevel@vger.kernel.org>; Sun, 15 Mar 2026 19:19:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b="H6ZohBqk"
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-79a46ebe2beso4612467b3.2
+        for <linux-fsdevel@vger.kernel.org>; Sun, 15 Mar 2026 19:19:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20230601.gappssmtp.com; s=20230601; t=1773627572; x=1774232372; darn=vger.kernel.org;
+        d=dubeyko-com.20230601.gappssmtp.com; s=20230601; t=1773627578; x=1774232378; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=XhRlM5i7rqmMMXr1KQ1L3aa1lp0cpQ5GpiMQAVF0L8A=;
-        b=QosOBgK7qylUJZ5uhco4b9pdEIBWUYQs+UZRROFRmhloOtALMYspDoQexon8orRDaV
-         voN+qtckF/LMH0y3KfRMSGtS+Yjqlfzt9KHZ9OcdPDptI5Q2ry2gidIeBJuHAbmRNcDG
-         5Cw4yigxLd68XlYb61HJlBdOEnkSCsStGsBj4tyyihjKmu6kTgvvUigLTD0B3UJe40qy
-         nfX4kHPpr3FvC9JwE55MX8A+nCTINqMMsTH+1nFtl+rkV4KQDeft5ofmhWzRNmmlL3CO
-         YS9Plt+wXWb0J+vgljb+6JOvz6wvePj78TucCN9APBKZhMKf2Hnq5e8wYdMpR7BAvGj3
-         kvVw==
+        bh=7yYMLNXjhx8ltbUcJk+/C0SxnxcTNsKpzvsK/qzUOiI=;
+        b=H6ZohBqkabzbeLo/I5TVDSa5syqHkqiimj6dGrjnJYB7VTlSw77dB0j0445KM/hRAX
+         y7mXgvQVWwS3H8b3qi8MwnCnGbqpTlY87Of0izQBg4W/u1p4twJzEFxopZto04vIWUT7
+         fuducz5KcAI4WhfmHvT8SMBkaAptCXDVDIJ1KCrlxZsfZcni5/XUSoA2W5HPF8YC9jd0
+         eo+GAGHqGvd1J5YGJoF+OH4hnUy0rJ/J0lhmfM48KwYi2etHtWencU84kFRSR7DZ2o+V
+         8/TAJ+UVu68U85fVfqaPjqEPdOpzdjOgnhUHUBJXmvEtsTDV24iid3dGDLMsAbsk92/C
+         48OA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773627572; x=1774232372;
+        d=1e100.net; s=20251104; t=1773627578; x=1774232378;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=XhRlM5i7rqmMMXr1KQ1L3aa1lp0cpQ5GpiMQAVF0L8A=;
-        b=OT0al3SzWdvqKzcXuBLJ66COoFmG2FaY6jknWGENM0sITQIeeTZgCmLtab9gswk6NR
-         K2K/wBj+ptiLK4qpRVtnErbNEB0bVZ7yflBfIRBUdRxpuZ06yxShBTlXy/snZhqMCC8n
-         T2u/rmLpgfpKn4/x4v+5IfDu0POQD/PJXyTLT+ECII4zDrkEEkm6xOvWaku1YTfSXlc2
-         PQII/IjKYEm9CzlWzliRzB3s58JmfKiurhAFpwWgAJbXEN0DnCyA1qZEsfAHUu2maPzb
-         x31SMPdIDs81hUYJsPRtPW7XXy4X8esLD46xbXxVFAbUdqijUtkhqFJaJWiSdiBDAjza
-         /XhQ==
-X-Gm-Message-State: AOJu0YyaMpFwh94TLnbMm4q0WyGbrQnb6Ekj4uHm3y1rCrHQY/jbURPW
-	QjnKLeDV9KLfBbyvxhqbj8mk23wHMRhYmVslp2WEzU49JwSrIRzSiGaYt9WXqwKa3rysZOUC46E
-	XvRge
-X-Gm-Gg: ATEYQzxzVarlePOVSv/451iK4TW0PQxqnSBzzX34JTL9JoDlcA+p6KUizj1gAepg3B8
-	jasCTriKjulOpyMVsYKJvLHsLQ3PYL3SeCUO1UO9rLHuHJJ5goQTIeh6NQx3df6dO+jkD992F9d
-	tuec+Fcg6P5awuUsjdq/07C9Kier5RoYVTYb4i/dtBcFRrosrBUJaQRKhZ5zzVByove2Lf//jxP
-	H7/Qa+JF2c2BHuHxQZt71GMdYfj/KTNRkqP9GklWUcsNpjxcTOIoM4mZeB+LFHoNRyFLz4qAjve
-	LkK66PYmWkLSMcBkIbMYP1qxD5RuOOvgz3FajqO6SpiDkxMvpc4obyMeyJguyPWPiurtdwKxJ/a
-	UZBN640yhDHiMvlI7TYg5juBUCduqWWSbD+DS3xgxmzhs44NQKZrXeczdayKzcmrCOEsabehO1t
-	pdgfOzOHYuz4kAzus5ohBF1y8EKtG1nf4e4bixWBgGYMlvnXLERAW0q7XPiZDFUk4wUCx7xAHFq
-	HmtVlgu93qWa+3F0aaPxoQiUttBApzypfw=
-X-Received: by 2002:a05:690c:6612:b0:79a:521b:8f23 with SMTP id 00721157ae682-79a521b92e7mr11726627b3.33.1773627571689;
-        Sun, 15 Mar 2026 19:19:31 -0700 (PDT)
+        bh=7yYMLNXjhx8ltbUcJk+/C0SxnxcTNsKpzvsK/qzUOiI=;
+        b=LZhPg5c2w8B8vjG/oMKDBuXZxndi/0SpdFLrL1QK8satZLz0Xuw2SlbssMj56/B29t
+         jjEAR5/8we0+J3UFjRuYQP+dZlTBX1BAijkuAZByiF8MpdiUCAM+oYuNf8OiSxGuPxL1
+         O7xV7VvCoj60CAMUk2Q5dhP9zUJeZI05BL/+N+f+I4ewoxix3Z3grsgVrjlmYX47noHB
+         2a1nOfbdKYDXL+hK19i95zgd1bHTpVPOdBuzpk4bM/PNMwvMzd3Ao+T/paGe3TUHn6eJ
+         n0w8B5tyct3RBEbgLIXvUY2PjsKGlBMMk7FuPegx8rQuX++g1u5k7wLE/pUIQHXRWTtz
+         iVtg==
+X-Gm-Message-State: AOJu0YwHQsO7DEGLucv+eOy2Vunswh/VyUkoZUyD5uGA9SmwGIka0wG2
+	ji3cGYsShEJV+0HmPgt/6ZQO8qwaNx3pDcQEkuLgM+WfVHN2dXitmxZAffrTC7Mfq0Ju933xQu2
+	e+V37
+X-Gm-Gg: ATEYQzwhRBl5fTP+rYrubeyFHsAoavok7VnYstLklxXi2ERj002uCgO78t/dFR/B8Vl
+	16rEwXPzCgcVGP/NzV2xzjAwWH+KAfxFQ+zphigRidvCgzD6BE3wcrV/AEgJ2Orz+SXlVXdPksq
+	bS69jC6nMhA2EHL3k5nPa/Xb7OO3TygN8gf0TDtgkOgIdx3afRk5Y4Ab434aKZJTV63hTY9pk7E
+	Sf9NzPoM+U7zWGihw6z7I8MhzX90uFnupQXx8sMA+LBABWJrESaRkMkJVQeq+jTUnwPBzCoOUF+
+	6axPlAP6y/BRg0LiBSE7ya59hhPh1eRwOL3pmhfWQjEQY3Rdza1NbEsqZMIOhVj6pn/gkVOmQ/q
+	hU6J8uSEnvug22fX35OqNWIfjSrBh5Bwx0IG27CKc1YFJtxaYYHRTFV9nQEgeXnFqmHv4hf3cJr
+	AElZl+rmxmdkA1yMsTEOd2s4ISpt4+fIiNqvj2P7t9hFQSwBCGW5YCIR2UiqZ+O4M8ztSfqXakB
+	JHMdvfNnCnfvhTiTGmFKO2g
+X-Received: by 2002:a05:690c:e3e9:b0:78e:6176:2c8b with SMTP id 00721157ae682-79a1c1dce1dmr120496637b3.49.1773627577555;
+        Sun, 15 Mar 2026 19:19:37 -0700 (PDT)
 Received: from pop-os.attlocal.net ([2600:1700:6476:1430:6939:3e01:5e8f:6093])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-79917deb69asm79721617b3.10.2026.03.15.19.19.30
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-79917deb69asm79721617b3.10.2026.03.15.19.19.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Mar 2026 19:19:31 -0700 (PDT)
+        Sun, 15 Mar 2026 19:19:36 -0700 (PDT)
 From: Viacheslav Dubeyko <slava@dubeyko.com>
 To: linux-fsdevel@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
 	Viacheslav Dubeyko <slava@dubeyko.com>
-Subject: [PATCH v2 08/79] ssdfs: segment header + log footer operations
-Date: Sun, 15 Mar 2026 19:17:34 -0700
-Message-ID: <20260316021800.1694650-8-slava@dubeyko.com>
+Subject: [PATCH v2 22/79] ssdfs: introduce offset translation table
+Date: Sun, 15 Mar 2026 19:17:38 -0700
+Message-ID: <20260316021800.1694650-12-slava@dubeyko.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260316021800.1694650-1-slava@dubeyko.com>
 References: <20260316021800.1694650-1-slava@dubeyko.com>
@@ -80,51 +80,73 @@ Content-Transfer-Encoding: 8bit
 Complete patchset is available here:
 https://github.com/dubeyko/ssdfs-driver/tree/master/patchset/linux-kernel-6.18.0
 
-SSDFS is Log-structured File System (LFS). It means that volume
-is a sequence of segments that can contain one or several erase
-blocks. Any write operation into erase block is a creation of log.
-And content of every erase block is a sequence of logs. Log can be
-full or partial. Full log starts by header and it is finished by footer.
-The size of full log is fixed and it is defined during mkfs phase.
-However, tunefs tool can change this value. But if commit operation
-has not enough data to prepare the full log, then partial log is created.
-Partial log starts with partial log header and it hasn't footer.
-The partial log can be imagined like mixture of segment header and
-log footer.
+One of the key goal of SSDFS is to decrease the write
+amplification factor. Logical extent concept is the
+fundamental technique to achieve the goal. Logical extent
+describes any volume extent on the basis of segment ID,
+logical block ID, and length. Migration scheme guarantee
+that segment ID will be always the same for any logical
+extent. Offset translation table provides the way to convert
+logical block ID into offset inside of a log of particular
+"Physical" Erase Block (PEB). As a result, extents b-tree
+never needs to be updated because logical extent will never
+change until intentional movement from one segment into
+another one.
 
-Segment header can be considered like static superblock info.
-It contains metadata that not changed at all after volume
-creation (logical block size, for example) or changed rarely
-(number of segments in the volume, for example). Log footer
-can be considered like dynamic part of superblock because
-it contains frequently updated metadata (for example, root
-node of inodes b-tree).
+Offset translation table is a metadata structure that
+is stored as metadata in every log. The responsibility of
+offset translation table keeps the knowledge which particular
+logical blocks are stored into log's payload and which offset
+in the payload should be used to access and retrieve the
+content of logical block.
+
+Offset translation table can be imagined like a sequence of
+fragments. Every fragment contains array of physical
+offset descriptors that provides the way to convert logical
+block ID into the physical offset in the log. Flush logic
+identifies dirty fragments and stores these fragments as
+part of log's metadata during log commit operation.
+
+The responsibility of offset translation table is to implement
+the mechanism of converting logical block ID into the physical
+offset in the log. As a result, offset translation table
+implements API:
+(1) create - create empty offset translation table
+(2) destroy - destroy offset translation table
+(3) partial_init - initialize offset translation table by one fragment
+(4) store_offsets_table - flush dirty fragments
+(5) convert - convert logical block ID into offset descriptor
+(6) allocate_block - allocate logical block
+(7) allocate_extent - allocate logical extent
+(8) change_offset - initialize offset of allocated logical block
+(9) free_block - free logical block
+(10) free_extent - free logical extent
 
 Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
 ---
- fs/ssdfs/log_footer.c    |  991 ++++++++++++++++++++++++++
- fs/ssdfs/volume_header.c | 1431 ++++++++++++++++++++++++++++++++++++++
- 2 files changed, 2422 insertions(+)
- create mode 100644 fs/ssdfs/log_footer.c
- create mode 100644 fs/ssdfs/volume_header.c
+ fs/ssdfs/offset_translation_table.h | 459 ++++++++++++++++++++++++++++
+ 1 file changed, 459 insertions(+)
+ create mode 100644 fs/ssdfs/offset_translation_table.h
 
-diff --git a/fs/ssdfs/log_footer.c b/fs/ssdfs/log_footer.c
+diff --git a/fs/ssdfs/offset_translation_table.h b/fs/ssdfs/offset_translation_table.h
 new file mode 100644
-index 000000000000..75ec1c470bad
+index 000000000000..7bc5a4764679
 --- /dev/null
-+++ b/fs/ssdfs/log_footer.c
-@@ -0,0 +1,991 @@
++++ b/fs/ssdfs/offset_translation_table.h
+@@ -0,0 +1,459 @@
 +/*
 + * SPDX-License-Identifier: BSD-3-Clause-Clear
 + *
 + * SSDFS -- SSD-oriented File System.
 + *
-+ * fs/ssdfs/log_footer.c - operations with log footer.
++ * fs/ssdfs/offset_translation_table.h - offset table declarations.
 + *
 + * Copyright (c) 2014-2019 HGST, a Western Digital Company.
 + *              http://www.hgst.com/
 + * Copyright (c) 2014-2026 Viacheslav Dubeyko <slava@dubeyko.com>
 + *              http://www.ssdfs.org/
++ * Copyright (c) 2022-2023 Bytedance Ltd. and/or its affiliates.
++ *              https://www.bytedance.com/
 + *
 + * (C) Copyright 2014-2019, HGST, Inc., All rights reserved.
 + *
@@ -134,2414 +156,443 @@ index 000000000000..75ec1c470bad
 + *
 + * Acknowledgement: Cyril Guyot
 + *                  Zvonimir Bandic
++ *                  Cong Wang
 + */
 +
-+#include <linux/kernel.h>
-+#include <linux/rwsem.h>
++#ifndef _SSDFS_OFFSET_TRANSLATION_TABLE_H
++#define _SSDFS_OFFSET_TRANSLATION_TABLE_H
++
 +#include <linux/pagevec.h>
 +
-+#include "peb_mapping_queue.h"
-+#include "peb_mapping_table_cache.h"
-+#include "folio_vector.h"
-+#include "ssdfs.h"
-+#include "segment_bitmap.h"
-+#include "folio_array.h"
-+#include "peb.h"
-+#include "offset_translation_table.h"
-+#include "peb_container.h"
-+#include "segment.h"
-+#include "current_segment.h"
-+
-+#include <trace/events/ssdfs.h>
++#include "request_queue.h"
++#include "sequence_array.h"
++#include "dynamic_array.h"
 +
 +/*
-+ * is_ssdfs_volume_state_info_consistent() - check volume state consistency
-+ * @fsi: pointer on shared file system object
-+ * @buf: log header
-+ * @footer: log footer
-+ * @dev_size: partition size in bytes
++ * struct ssdfs_phys_offset_table_fragment - fragment of phys offsets table
++ * @lock: table fragment lock
++ * @start_id: starting physical offset id number in fragment
++ * @sequence_id: fragment's sequence_id in PEB
++ * @id_count: count of id numbers in sequence
++ * @state: fragment state
++ * @peb_id: PEB ID containing the fragment
++ * @migrating_blocks: number of logical blocks under migration
++ * @actual_records: number of actual records in fragment
++ * @hdr: pointer on fragment's header
++ * @phys_offs: array of physical offsets in fragment
++ * @buf: buffer of fragment
++ * @buf_size: size of buffer in bytes
 + *
-+ * RETURN:
-+ * [true]  - volume state metadata is consistent.
-+ * [false] - volume state metadata is corrupted.
++ * One fragment can be used for one PEB's log. But one log can contain
++ * several fragments too. In memory exists the same count of fragments
++ * as on volume.
 + */
-+bool is_ssdfs_volume_state_info_consistent(struct ssdfs_fs_info *fsi,
-+					   void *buf,
-+					   struct ssdfs_log_footer *footer,
-+					   u64 dev_size)
-+{
-+	struct ssdfs_signature *magic;
-+	u64 nsegs;
-+	u64 free_pages;
-+	u8 log_segsize = U8_MAX;
-+	u32 seg_size = U32_MAX;
-+	u32 page_size = U32_MAX;
-+	u64 cno = U64_MAX;
-+	u16 log_pages = U16_MAX;
-+	u32 log_bytes = U32_MAX;
-+	u64 pages_count;
-+	u32 pages_per_seg;
-+	u32 remainder;
-+	u16 fs_state;
-+	u16 fs_errors;
++struct ssdfs_phys_offset_table_fragment {
++	struct rw_semaphore lock;
++	u16 start_id;
++	u16 sequence_id;
++	atomic_t id_count;
++	atomic_t state;
++	u64 peb_id;
++	atomic_t migrating_blocks;
++	atomic_t actual_records;
 +
-+#ifdef CONFIG_SSDFS_DEBUG
-+	BUG_ON(!buf || !footer);
++	struct ssdfs_phys_offset_table_header *hdr;
++	struct ssdfs_phys_offset_descriptor *phys_offs;
++	unsigned char *buf;
++	size_t buf_size;
++};
 +
-+	SSDFS_DBG("buf %p, footer %p, dev_size %llu\n",
-+		  buf, footer, dev_size);
-+#endif /* CONFIG_SSDFS_DEBUG */
++enum {
++	SSDFS_BLK2OFF_FRAG_UNDEFINED,
++	SSDFS_BLK2OFF_FRAG_CREATED,
++	SSDFS_BLK2OFF_FRAG_INITIALIZED,
++	SSDFS_BLK2OFF_FRAG_DIRTY,
++	SSDFS_BLK2OFF_FRAG_UNDER_COMMIT,
++	SSDFS_BLK2OFF_FRAG_COMMITED,
++	SSDFS_BLK2OFF_PLEASE_DELETE_FRAGMENT,
++	SSDFS_BLK2OFF_FRAG_STATE_MAX,
++};
 +
-+	magic = (struct ssdfs_signature *)buf;
-+
-+	if (!is_ssdfs_magic_valid(magic)) {
-+		SSDFS_DBG("valid magic is not detected\n");
-+		return false;
-+	}
-+
-+	if (__is_ssdfs_segment_header_magic_valid(magic)) {
-+		struct ssdfs_segment_header *hdr;
-+		struct ssdfs_volume_header *vh;
-+
-+		hdr = SSDFS_SEG_HDR(buf);
-+		vh = SSDFS_VH(buf);
-+
-+		log_segsize = vh->log_segsize;
-+		seg_size = 1 << vh->log_segsize;
-+		page_size = 1 << vh->log_pagesize;
-+		cno = le64_to_cpu(hdr->cno);
-+		log_pages = le16_to_cpu(hdr->log_pages);
-+	} else if (is_ssdfs_partial_log_header_magic_valid(magic)) {
-+		struct ssdfs_partial_log_header *pl_hdr;
-+
-+		pl_hdr = SSDFS_PLH(buf);
-+
-+		log_segsize = pl_hdr->log_segsize;
-+		seg_size = 1 << pl_hdr->log_segsize;
-+		page_size = 1 << pl_hdr->log_pagesize;
-+		cno = le64_to_cpu(pl_hdr->cno);
-+		log_pages = le16_to_cpu(pl_hdr->log_pages);
-+	} else {
-+		SSDFS_DBG("log header is corrupted\n");
-+		return false;
-+	}
-+
-+	nsegs = le64_to_cpu(footer->volume_state.nsegs);
-+
-+	if (nsegs == 0 || nsegs > (dev_size >> log_segsize)) {
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("invalid nsegs %llu, dev_size %llu, seg_size) %u\n",
-+			  nsegs, dev_size, seg_size);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		return false;
-+	}
-+
-+	free_pages = le64_to_cpu(footer->volume_state.free_pages);
-+
-+	pages_count = div_u64_rem(dev_size, page_size, &remainder);
-+	if (remainder) {
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("dev_size %llu is unaligned on page_size %u\n",
-+			  dev_size, page_size);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+	}
-+
-+	if (free_pages > pages_count) {
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("free_pages %llu is greater than pages_count %llu\n",
-+			  free_pages, pages_count);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		return false;
-+	}
-+
-+	pages_per_seg = seg_size / page_size;
-+	if (nsegs < div_u64(free_pages, pages_per_seg)) {
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("invalid nsegs %llu, free_pages %llu, "
-+			  "pages_per_seg %u\n",
-+			  nsegs, free_pages, pages_per_seg);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		return false;
-+	}
-+
-+	if (cno > le64_to_cpu(footer->cno)) {
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("create_cno %llu is greater than write_cno %llu\n",
-+			  cno, le64_to_cpu(footer->cno));
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		return false;
-+	}
-+
-+	log_bytes = (u32)log_pages * fsi->pagesize;
-+	if (le32_to_cpu(footer->log_bytes) > log_bytes) {
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("hdr log_bytes %u > footer log_bytes %u\n",
-+			  log_bytes,
-+			  le32_to_cpu(footer->log_bytes));
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		return false;
-+	}
-+
-+	fs_state = le16_to_cpu(footer->volume_state.state);
-+	if (fs_state > SSDFS_LAST_KNOWN_FS_STATE) {
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("unknown FS state %#x\n",
-+			  fs_state);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		return false;
-+	}
-+
-+	fs_errors = le16_to_cpu(footer->volume_state.errors);
-+	if (fs_errors > SSDFS_LAST_KNOWN_FS_ERROR) {
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("unknown FS error %#x\n",
-+			  fs_errors);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		return false;
-+	}
-+
-+	return true;
-+}
++#define SSDFS_INVALID_FRAG_ID				U16_MAX
++#define SSDFS_BLK2OFF_TBL_REVERT_THRESHOLD		(U16_MAX - 1)
++#define SSDFS_BLK2OFF_TBL_REVERT_PIVOT			(U16_MAX / 2)
++#define SSDFS_BLK2OFF_TBL_LBLK2OFF_CAPACITY_MAX		U16_MAX
 +
 +/*
-+ * ssdfs_check_log_footer() - check log footer consistency
-+ * @fsi: pointer on shared file system object
-+ * @buf: log header
-+ * @footer: log footer
-+ * @silent: show error or not?
-+ *
-+ * This function checks consistency of log footer.
-+ *
-+ * RETURN:
-+ * [success] - log footer is consistent.
-+ * [failure] - error code:
-+ *
-+ * %-ENODATA     - valid magic doesn't detected.
-+ * %-EIO         - log footer is corrupted.
++ * struct ssdfs_phys_offset_table_array - array of log's fragments in PEB
++ * @state: PEB's translation table state
++ * @fragment_count: fragments count
++ * @array: array of fragments
 + */
-+int ssdfs_check_log_footer(struct ssdfs_fs_info *fsi,
-+			   void *buf,
-+			   struct ssdfs_log_footer *footer,
-+			   bool silent)
-+{
-+	struct ssdfs_volume_state *vs;
-+	size_t footer_size = sizeof(struct ssdfs_log_footer);
-+	u64 dev_size;
-+	bool major_magic_valid, minor_magic_valid;
++struct ssdfs_phys_offset_table_array {
++	atomic_t state;
++	atomic_t fragment_count;
++	struct ssdfs_sequence_array *sequence;
++};
 +
-+#ifdef CONFIG_SSDFS_DEBUG
-+	BUG_ON(!fsi || !buf || !footer);
++enum {
++	SSDFS_BLK2OFF_TABLE_UNDEFINED,
++	SSDFS_BLK2OFF_TABLE_CREATED,
++	SSDFS_BLK2OFF_TABLE_PARTIAL_INIT,
++	SSDFS_BLK2OFF_TABLE_DIRTY_PARTIAL_INIT,
++	SSDFS_BLK2OFF_TABLE_COMPLETE_INIT,
++	SSDFS_BLK2OFF_TABLE_DIRTY,
++	SSDFS_BLK2OFF_TABLE_STATE_MAX,
++};
 +
-+	SSDFS_DBG("fsi %p, buf %p, footer %p, silent %#x\n",
-+		  fsi, buf, footer, silent);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	vs = SSDFS_VS(footer);
-+
-+	major_magic_valid = is_ssdfs_magic_valid(&vs->magic);
-+	minor_magic_valid = is_ssdfs_log_footer_magic_valid(footer);
-+
-+	if (!major_magic_valid && !minor_magic_valid) {
-+		if (!silent)
-+			SSDFS_ERR("valid magic doesn't detected\n");
-+		else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_ERR("valid magic doesn't detected\n");
-+#else
-+			SSDFS_DBG("valid magic doesn't detected\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		}
-+		return -ENODATA;
-+	} else if (!major_magic_valid) {
-+		if (!silent)
-+			SSDFS_ERR("invalid SSDFS magic signature\n");
-+		else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_ERR("invalid SSDFS magic signature\n");
-+#else
-+			SSDFS_DBG("invalid SSDFS magic signature\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		}
-+		return -EIO;
-+	} else if (!minor_magic_valid) {
-+		if (!silent)
-+			SSDFS_ERR("invalid log footer magic signature\n");
-+		else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_ERR("invalid log footer magic signature\n");
-+#else
-+			SSDFS_DBG("invalid log footer magic signature\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		}
-+		return -EIO;
-+	}
-+
-+	if (!is_ssdfs_log_footer_csum_valid(footer, footer_size)) {
-+		if (!silent)
-+			SSDFS_ERR("invalid checksum of log footer\n");
-+		else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_ERR("invalid checksum of log footer\n");
-+#else
-+			SSDFS_DBG("invalid checksum of log footer\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		}
-+		return -EIO;
-+	}
-+
-+	dev_size = fsi->devops->device_size(fsi->sb);
-+	if (!is_ssdfs_volume_state_info_consistent(fsi, buf,
-+						   footer, dev_size)) {
-+		if (!silent)
-+			SSDFS_ERR("log footer is corrupted\n");
-+		else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_ERR("log footer is corrupted\n");
-+#else
-+			SSDFS_DBG("log footer is corrupted\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		}
-+		return -EIO;
-+	}
-+
-+	if (le32_to_cpu(footer->log_flags) & ~SSDFS_LOG_FOOTER_FLAG_MASK) {
-+		if (!silent) {
-+			SSDFS_ERR("corrupted log_flags %#x\n",
-+				  le32_to_cpu(footer->log_flags));
-+		} else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_ERR("corrupted log_flags %#x\n",
-+				  le32_to_cpu(footer->log_flags));
-+#else
-+			SSDFS_DBG("corrupted log_flags %#x\n",
-+				  le32_to_cpu(footer->log_flags));
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		}
-+		return -EIO;
-+	}
-+
-+	return 0;
-+}
++#define SSDFS_BLK2OFF_TABLE_INVALID_ID		U16_MAX
 +
 +/*
-+ * ssdfs_read_unchecked_log_footer() - read log footer without check
-+ * @fsi: pointer on shared file system object
-+ * @peb_id: PEB identification number
-+ * @block_size: block size in bytes
-+ * @bytes_off: offset inside PEB in bytes
-+ * @buf: buffer for log footer
-+ * @silent: show error or not?
-+ * @log_pages: number of pages in the log
-+ *
-+ * This function reads log footer without
-+ * the consistency check.
-+ *
-+ * RETURN:
-+ * [success] - log footer is consistent.
-+ * [failure] - error code:
-+ *
-+ * %-ENODATA     - valid magic doesn't detected.
-+ * %-EIO         - log footer is corrupted.
++ * struct ssdfs_block_descriptor_state - block descriptor state
++ * @status: state of block descriptor buffer
++ * @buf: block descriptor buffer
 + */
-+int ssdfs_read_unchecked_log_footer(struct ssdfs_fs_info *fsi,
-+				    u64 peb_id, u32 block_size, u32 bytes_off,
-+				    void *buf, bool silent,
-+				    u32 *log_pages)
-+{
-+	struct ssdfs_signature *magic;
-+	struct ssdfs_log_footer *footer;
-+	struct ssdfs_volume_state *vs;
-+	size_t footer_size = sizeof(struct ssdfs_log_footer);
-+	struct ssdfs_partial_log_header *pl_hdr;
-+	size_t hdr_size = sizeof(struct ssdfs_partial_log_header);
-+	bool major_magic_valid, minor_magic_valid;
++struct ssdfs_block_descriptor_state {
++	u32 status;
++	struct ssdfs_block_descriptor buf;
++};
++
++/*
++ * Block descriptor buffer state
++ */
++enum {
++	SSDFS_BLK_DESC_BUF_UNKNOWN_STATE,
++	SSDFS_BLK_DESC_BUF_INITIALIZED,
++	SSDFS_BLK_DESC_BUF_STATE_MAX,
++	SSDFS_BLK_DESC_BUF_ALLOCATED = U32_MAX,
++};
++
++/*
++ * struct ssdfs_offset_position - defines offset id and position
++ * @cno: checkpoint of change
++ * @id: physical offset ID
++ * @peb_index: PEB's index
++ * @sequence_id: sequence ID of physical offset table's fragment
++ * @offset_index: offset index inside of fragment
++ * @blk_desc: logical block descriptor
++ */
++struct ssdfs_offset_position {
++	u64 cno;
++	u16 id;
++	u16 peb_index;
++	u16 sequence_id;
++	u16 offset_index;
++
++	struct ssdfs_block_descriptor_state blk_desc;
++};
++
++/*
++ * struct ssdfs_migrating_block - migrating block state
++ * @state: logical block's state
++ * @peb_index: PEB's index
++ * @sequence_id: fragment's sequence_id in PEB
++ * @batch: copy of logical block's content (under migration only)
++ */
++struct ssdfs_migrating_block {
++	int state;
++	u16 peb_index;
++	u16 sequence_id;
++	struct folio_batch batch;
++};
++
++/*
++ * Migrating block's states
++ */
++enum {
++	SSDFS_LBLOCK_UNKNOWN_STATE,
++	SSDFS_LBLOCK_UNDER_MIGRATION,
++	SSDFS_LBLOCK_UNDER_COMMIT,
++	SSDFS_LBLOCK_STATE_MAX
++};
++
++enum {
++	SSDFS_LBMAP_INIT_INDEX,
++	SSDFS_LBMAP_STATE_INDEX,
++	SSDFS_LBMAP_MODIFICATION_INDEX,
++	SSDFS_LBMAP_ARRAY_MAX,
++};
++
++
++/*
++ * struct ssdfs_bitmap_array - bitmap array
++ * @bits_count: number of available bits in every bitmap
++ * @bytes_count: number of allocated bytes in every bitmap
++ * @array: array of bitmaps
++ */
++struct ssdfs_bitmap_array {
++	u32 bits_count;
++	u32 bytes_count;
++	unsigned long *array[SSDFS_LBMAP_ARRAY_MAX];
++};
++
++/*
++ * struct ssdfs_blk2off_table - in-core translation table
++ * @flags: flags of translation table
++ * @state: translation table object state
++ * @pages_per_peb: pages per physical erase block
++ * @pages_per_seg: pages per segment
++ * @type: translation table type
++ * @translation_lock: lock of translation operation
++ * @init_cno: last actual checkpoint
++ * @used_logical_blks: count of used logical blocks
++ * @free_logical_blks: count of free logical blocks
++ * @last_allocated_blk: last allocated block (hint for allocation)
++ * @lbmap: array of block bitmaps
++ * @lblk2off: array of correspondence between logical numbers and phys off ids
++ * @migrating_blks: array of migrating blocks
++ * @lblk2off_capacity: capacity of correspondence array
++ * @peb: sequence of physical offset arrays
++ * @pebs_count: count of PEBs in segment
++ * @partial_init_end: wait of partial init ending
++ * @full_init_end: wait of full init ending
++ * @wait_queue: wait queue of blk2off table
++ * @fsi: pointer on shared file system object
++ */
++struct ssdfs_blk2off_table {
++	atomic_t flags;
++	atomic_t state;
++
 +	u32 pages_per_peb;
-+	int err;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	BUG_ON(!fsi || !fsi->devops->read);
-+	BUG_ON(!buf || !log_pages);
-+	BUG_ON(bytes_off >= fsi->erasesize);
-+
-+	SSDFS_DBG("peb_id %llu, block_size %u, bytes_off %u, buf %p\n",
-+		  peb_id, block_size, bytes_off, buf);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	*log_pages = U32_MAX;
-+	pages_per_peb = fsi->erasesize / block_size;
-+
-+	err = ssdfs_unaligned_read_buffer(fsi, peb_id, block_size, bytes_off,
-+					  buf, footer_size);
-+	if (unlikely(err)) {
-+		if (!silent) {
-+			SSDFS_ERR("fail to read log footer: "
-+				  "peb_id %llu, block_size %u, "
-+				  "bytes_off %u, err %d\n",
-+				  peb_id, block_size, bytes_off, err);
-+		} else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_DBG("unable to read log footer: "
-+				  "peb_id %llu, block_size %u, "
-+				  "bytes_off %u, err %d\n",
-+				  peb_id, block_size, bytes_off, err);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		}
-+		return err;
-+	}
-+
-+	magic = (struct ssdfs_signature *)buf;
-+
-+	if (!is_ssdfs_magic_valid(magic)) {
-+		if (!silent)
-+			SSDFS_ERR("valid magic is not detected\n");
-+		else
-+			SSDFS_DBG("valid magic is not detected\n");
-+
-+		return -ENODATA;
-+	}
-+
-+	if (__is_ssdfs_log_footer_magic_valid(magic)) {
-+		footer = SSDFS_LF(buf);
-+		vs = SSDFS_VS(footer);
-+
-+		major_magic_valid = is_ssdfs_magic_valid(&vs->magic);
-+		minor_magic_valid = is_ssdfs_log_footer_magic_valid(footer);
-+
-+		if (!major_magic_valid && !minor_magic_valid) {
-+			if (!silent)
-+				SSDFS_ERR("valid magic doesn't detected\n");
-+			else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+				SSDFS_ERR("valid magic doesn't detected\n");
-+#else
-+				SSDFS_DBG("valid magic doesn't detected\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+			}
-+			return -ENODATA;
-+		} else if (!major_magic_valid) {
-+			if (!silent)
-+				SSDFS_ERR("invalid SSDFS magic signature\n");
-+			else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+				SSDFS_ERR("invalid SSDFS magic signature\n");
-+#else
-+				SSDFS_DBG("invalid SSDFS magic signature\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+			}
-+			return -EIO;
-+		} else if (!minor_magic_valid) {
-+			if (!silent)
-+				SSDFS_ERR("invalid log footer magic\n");
-+			else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+				SSDFS_ERR("invalid log footer magic\n");
-+#else
-+				SSDFS_DBG("invalid log footer magic\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+			}
-+			return -EIO;
-+		}
-+
-+		if (!is_ssdfs_log_footer_csum_valid(footer, footer_size)) {
-+			if (!silent)
-+				SSDFS_ERR("invalid checksum of log footer\n");
-+			else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+				SSDFS_ERR("invalid checksum of log footer\n");
-+#else
-+				SSDFS_DBG("invalid checksum of log footer\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+			}
-+			return -EIO;
-+		}
-+
-+		*log_pages = le32_to_cpu(footer->log_bytes);
-+		*log_pages /= block_size;
-+
-+		if (*log_pages == 0 || *log_pages >= pages_per_peb) {
-+			if (!silent)
-+				SSDFS_ERR("invalid log pages %u\n", *log_pages);
-+			else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+				SSDFS_ERR("invalid log pages %u\n", *log_pages);
-+#else
-+				SSDFS_DBG("invalid log pages %u\n", *log_pages);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+			}
-+			return -EIO;
-+		}
-+	} else if (is_ssdfs_partial_log_header_magic_valid(magic)) {
-+		pl_hdr = SSDFS_PLH(buf);
-+
-+		major_magic_valid = is_ssdfs_magic_valid(&pl_hdr->magic);
-+		minor_magic_valid =
-+			is_ssdfs_partial_log_header_magic_valid(&pl_hdr->magic);
-+
-+		if (!major_magic_valid && !minor_magic_valid) {
-+			if (!silent)
-+				SSDFS_ERR("valid magic doesn't detected\n");
-+			else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+				SSDFS_ERR("valid magic doesn't detected\n");
-+#else
-+				SSDFS_DBG("valid magic doesn't detected\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+			}
-+			return -ENODATA;
-+		} else if (!major_magic_valid) {
-+			if (!silent)
-+				SSDFS_ERR("invalid SSDFS magic signature\n");
-+			else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+				SSDFS_ERR("invalid SSDFS magic signature\n");
-+#else
-+				SSDFS_DBG("invalid SSDFS magic signature\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+			}
-+			return -EIO;
-+		} else if (!minor_magic_valid) {
-+			if (!silent)
-+				SSDFS_ERR("invalid partial log header magic\n");
-+			else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+				SSDFS_ERR("invalid partial log header magic\n");
-+#else
-+				SSDFS_DBG("invalid partial log header magic\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+			}
-+			return -EIO;
-+		}
-+
-+		if (!is_ssdfs_partial_log_header_csum_valid(pl_hdr, hdr_size)) {
-+			if (!silent)
-+				SSDFS_ERR("invalid checksum of footer\n");
-+			else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+				SSDFS_ERR("invalid checksum of footer\n");
-+#else
-+				SSDFS_DBG("invalid checksum of footer\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+			}
-+			return -EIO;
-+		}
-+
-+		*log_pages = le32_to_cpu(pl_hdr->log_bytes);
-+		*log_pages /= block_size;
-+
-+		if (*log_pages == 0 || *log_pages >= pages_per_peb) {
-+			if (!silent)
-+				SSDFS_ERR("invalid log pages %u\n", *log_pages);
-+			else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+				SSDFS_ERR("invalid log pages %u\n", *log_pages);
-+#else
-+				SSDFS_DBG("invalid log pages %u\n", *log_pages);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+			}
-+			return -EIO;
-+		}
-+	} else {
-+		if (!silent) {
-+			SSDFS_ERR("log footer is corrupted: "
-+				  "peb_id %llu, block_size %u, bytes_off %u\n",
-+				  peb_id, block_size, bytes_off);
-+		} else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_ERR("log footer is corrupted: "
-+				  "peb_id %llu, block_size %u, bytes_off %u\n",
-+				  peb_id, block_size, bytes_off);
-+#else
-+			SSDFS_DBG("log footer is corrupted: "
-+				  "peb_id %llu, block_size %u, bytes_off %u\n",
-+				  peb_id, block_size, bytes_off);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		}
-+
-+		return -EIO;
-+	}
-+
-+	return 0;
-+}
-+
-+/*
-+ * ssdfs_read_checked_log_footer() - read and check log footer
-+ * @fsi: pointer on shared file system object
-+ * @log_hdr: log header
-+ * @peb_id: PEB identification number
-+ * @block_size: block size in bytes
-+ * @bytes_off: offset inside PEB in bytes
-+ * @buf: buffer for log footer
-+ * @silent: show error or not?
-+ *
-+ * This function reads and checks consistency of log footer.
-+ *
-+ * RETURN:
-+ * [success] - log footer is consistent.
-+ * [failure] - error code:
-+ *
-+ * %-ENODATA     - valid magic doesn't detected.
-+ * %-EIO         - log footer is corrupted.
-+ */
-+int ssdfs_read_checked_log_footer(struct ssdfs_fs_info *fsi, void *log_hdr,
-+				  u64 peb_id, u32 block_size,
-+				  u32 bytes_off, void *buf,
-+				  bool silent)
-+{
-+	struct ssdfs_signature *magic;
-+	struct ssdfs_log_footer *footer;
-+	struct ssdfs_partial_log_header *pl_hdr;
-+	size_t footer_size = sizeof(struct ssdfs_log_footer);
-+	int err;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	BUG_ON(!fsi || !fsi->devops->read);
-+	BUG_ON(!log_hdr || !buf);
-+	BUG_ON(bytes_off >= (fsi->pages_per_peb * fsi->pagesize));
-+
-+	SSDFS_DBG("peb_id %llu, block_size %u, bytes_off %u, buf %p\n",
-+		  peb_id, block_size, bytes_off, buf);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	err = ssdfs_unaligned_read_buffer(fsi, peb_id, block_size, bytes_off,
-+					  buf, footer_size);
-+	if (unlikely(err)) {
-+		if (!silent) {
-+			SSDFS_ERR("fail to read log footer: "
-+				  "peb_id %llu, block_size %u, "
-+				  "bytes_off %u, err %d\n",
-+				  peb_id, block_size, bytes_off, err);
-+		} else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_ERR("fail to read log footer: "
-+				  "peb_id %llu, block_size %u, "
-+				  "bytes_off %u, err %d\n",
-+				  peb_id, block_size, bytes_off, err);
-+#else
-+			SSDFS_DBG("fail to read log footer: "
-+				  "peb_id %llu, block_size %u, "
-+				  "bytes_off %u, err %d\n",
-+				  peb_id, block_size, bytes_off, err);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		}
-+		return err;
-+	}
-+
-+	magic = (struct ssdfs_signature *)buf;
-+
-+	if (!is_ssdfs_magic_valid(magic)) {
-+		if (!silent)
-+			SSDFS_ERR("valid magic is not detected\n");
-+		else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_ERR("valid magic is not detected\n");
-+#else
-+			SSDFS_DBG("valid magic is not detected\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		}
-+
-+		return -ENODATA;
-+	}
-+
-+	if (__is_ssdfs_log_footer_magic_valid(magic)) {
-+		footer = SSDFS_LF(buf);
-+
-+		err = ssdfs_check_log_footer(fsi, log_hdr, footer, silent);
-+		if (err) {
-+			if (!silent) {
-+				SSDFS_ERR("log footer is corrupted: "
-+					  "peb_id %llu, bytes_off %u, err %d\n",
-+					  peb_id, bytes_off, err);
-+			} else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+				SSDFS_ERR("log footer is corrupted: "
-+					  "peb_id %llu, bytes_off %u, err %d\n",
-+					  peb_id, bytes_off, err);
-+#else
-+				SSDFS_DBG("log footer is corrupted: "
-+					  "peb_id %llu, bytes_off %u, err %d\n",
-+					  peb_id, bytes_off, err);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+			}
-+			return err;
-+		}
-+	} else if (is_ssdfs_partial_log_header_magic_valid(magic)) {
-+		pl_hdr = SSDFS_PLH(buf);
-+
-+		err = ssdfs_check_partial_log_header(fsi, pl_hdr, silent);
-+		if (unlikely(err)) {
-+			if (!silent) {
-+				SSDFS_ERR("partial log header is corrupted: "
-+					  "peb_id %llu, bytes_off %u\n",
-+					  peb_id, bytes_off);
-+			} else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+				SSDFS_ERR("partial log header is corrupted: "
-+					  "peb_id %llu, bytes_off %u\n",
-+					  peb_id, bytes_off);
-+#else
-+				SSDFS_DBG("partial log header is corrupted: "
-+					  "peb_id %llu, bytes_off %u\n",
-+					  peb_id, bytes_off);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+			}
-+
-+			return err;
-+		}
-+	} else {
-+		if (!silent) {
-+			SSDFS_ERR("log footer is corrupted: "
-+				  "peb_id %llu, bytes_off %u\n",
-+				  peb_id, bytes_off);
-+		} else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_ERR("log footer is corrupted: "
-+				  "peb_id %llu, bytes_off %u\n",
-+				  peb_id, bytes_off);
-+#else
-+			SSDFS_DBG("log footer is corrupted: "
-+				  "peb_id %llu, bytes_off %u\n",
-+				  peb_id, bytes_off);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		}
-+
-+		return -EIO;
-+	}
-+
-+	return 0;
-+}
-+
-+/*
-+ * ssdfs_store_nsegs() - store volume's segments number in volume state
-+ * @fsi: pointer on shared file system object
-+ * @vs: volume state [out]
-+ *
-+ * This function stores volume's segments number in volume state.
-+ *
-+ * RETURN:
-+ * [success]
-+ * [failure] - error code:
-+ *
-+ * %-ENOLCK     - volume is under resize.
-+ */
-+static inline
-+int ssdfs_store_nsegs(struct ssdfs_fs_info *fsi,
-+			struct ssdfs_volume_state *vs)
-+{
-+	mutex_lock(&fsi->resize_mutex);
-+	vs->nsegs = cpu_to_le64(fsi->nsegs);
-+	mutex_unlock(&fsi->resize_mutex);
-+
-+	return 0;
-+}
-+
-+/*
-+ * ssdfs_prepare_current_segment_ids() - prepare current segment IDs
-+ * @fsi: pointer on shared file system object
-+ * @array: pointer on array of IDs [out]
-+ * @size: size the array in bytes
-+ *
-+ * This function prepares the current segment IDs.
-+ *
-+ * RETURN:
-+ * [success]
-+ * [failure] - error code.
-+ */
-+int ssdfs_prepare_current_segment_ids(struct ssdfs_fs_info *fsi,
-+					__le64 *array,
-+					size_t size)
-+{
-+	size_t count = size / sizeof(__le64);
-+	int i;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	BUG_ON(!fsi || !array);
-+
-+	SSDFS_DBG("fsi %p, array %p, size %zu\n",
-+		  fsi, array, size);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	if (size != (sizeof(__le64) * SSDFS_CUR_SEGS_COUNT)) {
-+		SSDFS_ERR("invalid array size %zu\n",
-+			  size);
-+		return -EINVAL;
-+	}
-+
-+	memset(array, 0xFF, size);
-+
-+	if (fsi->cur_segs) {
-+		down_read(&fsi->cur_segs->lock);
-+		for (i = 0; i < count; i++) {
-+			struct ssdfs_segment_info *real_seg;
-+			u64 seg;
-+
-+			if (!fsi->cur_segs->objects[i])
-+				continue;
-+
-+			ssdfs_current_segment_lock(fsi->cur_segs->objects[i]);
-+
-+			real_seg = fsi->cur_segs->objects[i]->real_seg;
-+			if (real_seg) {
-+				seg = real_seg->seg_id;
-+#ifdef CONFIG_SSDFS_DEBUG
-+				SSDFS_DBG("index %d, seg_id %llu\n",
-+					  i, seg);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+				array[i] = cpu_to_le64(seg);
-+			} else {
-+				seg = fsi->cur_segs->objects[i]->seg_id;
-+#ifdef CONFIG_SSDFS_DEBUG
-+				SSDFS_DBG("index %d, seg_id %llu\n",
-+					  i, seg);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+				array[i] = cpu_to_le64(seg);
-+			}
-+
-+			ssdfs_current_segment_unlock(fsi->cur_segs->objects[i]);
-+		}
-+		up_read(&fsi->cur_segs->lock);
-+	}
-+
-+	return 0;
-+}
-+
-+/*
-+ * ssdfs_prepare_volume_state_info_for_commit() - prepare volume state
-+ * @fsi: pointer on shared file system object
-+ * @fs_state: file system state
-+ * @array: pointer on array of IDs
-+ * @size: size the array in bytes
-+ * @last_log_time: log creation timestamp
-+ * @last_log_cno: last log checkpoint
-+ * @vs: volume state [out]
-+ *
-+ * This function prepares volume state info for commit.
-+ *
-+ * RETURN:
-+ * [success]
-+ * [failure] - error code.
-+ */
-+int ssdfs_prepare_volume_state_info_for_commit(struct ssdfs_fs_info *fsi,
-+						u16 fs_state,
-+						__le64 *cur_segs,
-+						size_t size,
-+						u64 last_log_time,
-+						u64 last_log_cno,
-+						struct ssdfs_volume_state *vs)
-+{
-+	int err;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	BUG_ON(!fsi || !vs);
-+
-+	SSDFS_DBG("fsi %p, fs_state %#x\n", fsi, fs_state);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	if (size != (sizeof(__le64) * SSDFS_CUR_SEGS_COUNT)) {
-+		SSDFS_ERR("invalid array size %zu\n",
-+			  size);
-+		return -EINVAL;
-+	}
-+
-+	err = ssdfs_store_nsegs(fsi, vs);
-+	if (err) {
-+		SSDFS_DBG("unable to store segments number: err %d\n", err);
-+		return err;
-+	}
-+
-+	vs->magic.common = cpu_to_le32(SSDFS_SUPER_MAGIC);
-+	vs->magic.version.major = SSDFS_MAJOR_REVISION;
-+	vs->magic.version.minor = SSDFS_MINOR_REVISION;
-+
-+	spin_lock(&fsi->volume_state_lock);
-+
-+	fsi->fs_mod_time = last_log_time;
-+	fsi->fs_state = fs_state;
-+
-+	vs->free_pages = cpu_to_le64(fsi->free_pages);
-+	vs->timestamp = cpu_to_le64(last_log_time);
-+	vs->cno = cpu_to_le64(last_log_cno);
-+	vs->flags = cpu_to_le32(fsi->fs_flags);
-+	vs->state = cpu_to_le16(fs_state);
-+	vs->errors = cpu_to_le16(fsi->fs_errors);
-+	vs->feature_compat = cpu_to_le64(fsi->fs_feature_compat);
-+	vs->feature_compat_ro = cpu_to_le64(fsi->fs_feature_compat_ro);
-+	vs->feature_incompat = cpu_to_le64(fsi->fs_feature_incompat);
-+
-+	ssdfs_memcpy(vs->uuid, 0, SSDFS_UUID_SIZE,
-+		     fsi->vs->uuid, 0, SSDFS_UUID_SIZE,
-+		     SSDFS_UUID_SIZE);
-+	ssdfs_memcpy(vs->label, 0, SSDFS_VOLUME_LABEL_MAX,
-+		     fsi->vs->label, 0, SSDFS_VOLUME_LABEL_MAX,
-+		     SSDFS_VOLUME_LABEL_MAX);
-+	ssdfs_memcpy(vs->cur_segs, 0, size,
-+		     cur_segs, 0, size,
-+		     size);
-+
-+	vs->migration_threshold = cpu_to_le16(fsi->migration_threshold);
-+	vs->open_zones = cpu_to_le32(atomic_read(&fsi->open_zones));
-+
-+	spin_unlock(&fsi->volume_state_lock);
-+
-+	if (atomic_read(&fsi->open_zones) < 0) {
-+		SSDFS_ERR("invalid open_zones %d\n",
-+			  atomic_read(&fsi->open_zones));
-+		return -ERANGE;
-+	}
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("open_zones %d\n",
-+		  atomic_read(&fsi->open_zones));
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	ssdfs_memcpy(&vs->blkbmap,
-+		     0, sizeof(struct ssdfs_blk_bmap_options),
-+		     &fsi->vs->blkbmap,
-+		     0, sizeof(struct ssdfs_blk_bmap_options),
-+		     sizeof(struct ssdfs_blk_bmap_options));
-+	ssdfs_memcpy(&vs->blk2off_tbl,
-+		     0, sizeof(struct ssdfs_blk2off_tbl_options),
-+		     &fsi->vs->blk2off_tbl,
-+		     0, sizeof(struct ssdfs_blk2off_tbl_options),
-+		     sizeof(struct ssdfs_blk2off_tbl_options));
-+
-+	ssdfs_memcpy(&vs->user_data,
-+		     0, sizeof(struct ssdfs_user_data_options),
-+		     &fsi->vs->user_data,
-+		     0, sizeof(struct ssdfs_user_data_options),
-+		     sizeof(struct ssdfs_user_data_options));
-+	ssdfs_memcpy(&vs->root_folder,
-+		     0, sizeof(struct ssdfs_inode),
-+		     &fsi->vs->root_folder,
-+		     0, sizeof(struct ssdfs_inode),
-+		     sizeof(struct ssdfs_inode));
-+
-+	ssdfs_memcpy(&vs->inodes_btree,
-+		     0, sizeof(struct ssdfs_inodes_btree),
-+		     &fsi->vs->inodes_btree,
-+		     0, sizeof(struct ssdfs_inodes_btree),
-+		     sizeof(struct ssdfs_inodes_btree));
-+	ssdfs_memcpy(&vs->shared_extents_btree,
-+		     0, sizeof(struct ssdfs_shared_extents_btree),
-+		     &fsi->vs->shared_extents_btree,
-+		     0, sizeof(struct ssdfs_shared_extents_btree),
-+		     sizeof(struct ssdfs_shared_extents_btree));
-+	ssdfs_memcpy(&vs->shared_dict_btree,
-+		     0, sizeof(struct ssdfs_shared_dictionary_btree),
-+		     &fsi->vs->shared_dict_btree,
-+		     0, sizeof(struct ssdfs_shared_dictionary_btree),
-+		     sizeof(struct ssdfs_shared_dictionary_btree));
-+	ssdfs_memcpy(&vs->snapshots_btree,
-+		     0, sizeof(struct ssdfs_snapshots_btree),
-+		     &fsi->vs->snapshots_btree,
-+		     0, sizeof(struct ssdfs_snapshots_btree),
-+		     sizeof(struct ssdfs_snapshots_btree));
-+
-+	return 0;
-+}
-+
-+/*
-+ * ssdfs_prepare_log_footer_for_commit() - prepare log footer for commit
-+ * @fsi: pointer on shared file system object
-+ * @block_size: block size in bytes
-+ * @log_pages: count of pages in the log
-+ * @log_flags: log's flags
-+ * @last_log_time: log creation timestamp
-+ * @last_log_cno: last log checkpoint
-+ * @footer: log footer [out]
-+ *
-+ * This function prepares log footer for commit.
-+ *
-+ * RETURN:
-+ * [success]
-+ * [failure] - error code:
-+ *
-+ * %-EINVAL     - invalid input values.
-+ */
-+int ssdfs_prepare_log_footer_for_commit(struct ssdfs_fs_info *fsi,
-+					u32 block_size,
-+					u32 log_pages,
-+					u32 log_flags,
-+					u64 last_log_time,
-+					u64 last_log_cno,
-+					struct ssdfs_log_footer *footer)
-+{
-+	u16 data_size = sizeof(struct ssdfs_log_footer);
-+	int err;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("fsi %p, block_size %u, log_pages %u, "
-+		  "log_flags %#x, footer %p\n",
-+		  fsi, block_size, log_pages, log_flags, footer);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	footer->volume_state.magic.key = cpu_to_le16(SSDFS_LOG_FOOTER_MAGIC);
-+
-+	footer->timestamp = cpu_to_le64(last_log_time);
-+	footer->cno = cpu_to_le64(last_log_cno);
-+
-+	if (log_pages >= (U32_MAX / block_size)) {
-+		SSDFS_ERR("invalid value of log_pages %u\n", log_pages);
-+		return -EINVAL;
-+	}
-+
-+	footer->log_bytes = cpu_to_le32(log_pages * block_size);
-+
-+	if (log_flags & ~SSDFS_LOG_FOOTER_FLAG_MASK) {
-+		SSDFS_ERR("unknow log flags %#x\n", log_flags);
-+		return -EINVAL;
-+	}
-+
-+	footer->log_flags = cpu_to_le32(log_flags);
-+
-+	footer->volume_state.check.bytes = cpu_to_le16(data_size);
-+	footer->volume_state.check.flags = cpu_to_le16(SSDFS_CRC32);
-+
-+	err = ssdfs_calculate_csum(&footer->volume_state.check,
-+				   footer, data_size);
-+	if (unlikely(err)) {
-+		SSDFS_ERR("unable to calculate checksum: err %d\n", err);
-+		return err;
-+	}
-+
-+	return 0;
-+}
-diff --git a/fs/ssdfs/volume_header.c b/fs/ssdfs/volume_header.c
-new file mode 100644
-index 000000000000..df44fb80e125
---- /dev/null
-+++ b/fs/ssdfs/volume_header.c
-@@ -0,0 +1,1431 @@
-+/*
-+ * SPDX-License-Identifier: BSD-3-Clause-Clear
-+ *
-+ * SSDFS -- SSD-oriented File System.
-+ *
-+ * fs/ssdfs/volume_header.c - operations with volume header.
-+ *
-+ * Copyright (c) 2014-2019 HGST, a Western Digital Company.
-+ *              http://www.hgst.com/
-+ * Copyright (c) 2014-2026 Viacheslav Dubeyko <slava@dubeyko.com>
-+ *              http://www.ssdfs.org/
-+ *
-+ * (C) Copyright 2014-2019, HGST, Inc., All rights reserved.
-+ *
-+ * Created by HGST, San Jose Research Center, Storage Architecture Group
-+ *
-+ * Authors: Viacheslav Dubeyko <slava@dubeyko.com>
-+ *
-+ * Acknowledgement: Cyril Guyot
-+ *                  Zvonimir Bandic
-+ */
-+
-+#include <linux/kernel.h>
-+#include <linux/rwsem.h>
-+#include <linux/pagevec.h>
-+
-+#include "peb_mapping_queue.h"
-+#include "peb_mapping_table_cache.h"
-+#include "folio_vector.h"
-+#include "ssdfs.h"
-+
-+#include <trace/events/ssdfs.h>
-+
-+static inline
-+void ssdfs_show_volume_header(struct ssdfs_volume_header *hdr)
-+{
-+	SSDFS_ERR("MAGIC: common %#x, key %#x, "
-+		  "version (major %u, minor %u)\n",
-+		  le32_to_cpu(hdr->magic.common),
-+		  le16_to_cpu(hdr->magic.key),
-+		  hdr->magic.version.major,
-+		  hdr->magic.version.minor);
-+	SSDFS_ERR("CHECK: bytes %u, flags %#x, csum %#x\n",
-+		  le16_to_cpu(hdr->check.bytes),
-+		  le16_to_cpu(hdr->check.flags),
-+		  le32_to_cpu(hdr->check.csum));
-+	SSDFS_ERR("KEY VALUES: log_pagesize %u, log_erasesize %u, "
-+		  "log_segsize %u, log_pebs_per_seg %u, "
-+		  "megabytes_per_peb %u, pebs_per_seg %u, "
-+		  "create_time %llu, create_cno %llu, flags %#x\n",
-+		  hdr->log_pagesize,
-+		  hdr->log_erasesize,
-+		  hdr->log_segsize,
-+		  hdr->log_pebs_per_seg,
-+		  le16_to_cpu(hdr->megabytes_per_peb),
-+		  le16_to_cpu(hdr->pebs_per_seg),
-+		  le64_to_cpu(hdr->create_time),
-+		  le64_to_cpu(hdr->create_cno),
-+		  le32_to_cpu(hdr->flags));
-+}
-+
-+/*
-+ * is_ssdfs_volume_header_consistent() - check volume header consistency
-+ * @fsi: pointer on shared file system object
-+ * @vh: volume header
-+ * @dev_size: partition size in bytes
-+ *
-+ * RETURN:
-+ * [true]  - volume header is consistent.
-+ * [false] - volume header is corrupted.
-+ */
-+bool is_ssdfs_volume_header_consistent(struct ssdfs_fs_info *fsi,
-+					struct ssdfs_volume_header *vh,
-+					u64 dev_size)
-+{
-+	u32 page_size;
-+	u64 erase_size;
-+	u32 seg_size;
-+	u32 pebs_per_seg;
-+	u64 leb_array[SSDFS_SB_CHAIN_MAX * SSDFS_SB_SEG_COPY_MAX] = {0};
-+	u64 peb_array[SSDFS_SB_CHAIN_MAX * SSDFS_SB_SEG_COPY_MAX] = {0};
-+	int array_index = 0;
-+	int i, j, k;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	BUG_ON(!vh);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	page_size = 1 << vh->log_pagesize;
-+	erase_size = 1 << vh->log_erasesize;
-+	seg_size = 1 << vh->log_segsize;
-+	pebs_per_seg = 1 << vh->log_pebs_per_seg;
-+
-+	if (page_size >= erase_size) {
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("page_size %u >= erase_size %llu\n",
-+			  page_size, erase_size);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		return false;
-+	}
-+
-+	switch (page_size) {
-+	case SSDFS_4KB:
-+	case SSDFS_8KB:
-+	case SSDFS_16KB:
-+	case SSDFS_32KB:
-+		/* do nothing */
-+		break;
-+
-+	default:
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("unexpected page_size %u\n", page_size);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		return false;
-+	}
-+
-+	switch (erase_size) {
-+	case SSDFS_128KB:
-+	case SSDFS_256KB:
-+	case SSDFS_512KB:
-+	case SSDFS_1MB:
-+	case SSDFS_2MB:
-+	case SSDFS_4MB:
-+	case SSDFS_8MB:
-+	case SSDFS_16MB:
-+	case SSDFS_32MB:
-+	case SSDFS_64MB:
-+	case SSDFS_128MB:
-+	case SSDFS_256MB:
-+	case SSDFS_512MB:
-+	case SSDFS_1GB:
-+	case SSDFS_2GB:
-+	case SSDFS_4GB:
-+	case SSDFS_8GB:
-+	case SSDFS_16GB:
-+	case SSDFS_32GB:
-+	case SSDFS_64GB:
-+		/* do nothing */
-+		break;
-+
-+	default:
-+		if (fsi->is_zns_device) {
-+			u64 zone_size = le16_to_cpu(vh->megabytes_per_peb);
-+
-+			zone_size *= SSDFS_1MB;
-+
-+			if (fsi->zone_size != zone_size) {
-+				SSDFS_ERR("invalid zone size: "
-+					  "size1 %llu != size2 %llu\n",
-+					  fsi->zone_size, zone_size);
-+				return -ERANGE;
-+			}
-+
-+			erase_size = zone_size;
-+		} else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_DBG("unexpected erase_size %llu\n", erase_size);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+			return false;
-+		}
-+	};
-+
-+	if (seg_size < erase_size) {
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("seg_size %u < erase_size %llu\n",
-+			  seg_size, erase_size);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		return false;
-+	}
-+
-+	if (pebs_per_seg != (seg_size >> vh->log_erasesize)) {
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("pebs_per_seg %u != (seg_size %u / erase_size %llu)\n",
-+			  pebs_per_seg, seg_size, erase_size);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		return false;
-+	}
-+
-+	if (seg_size >= dev_size) {
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("seg_size %u >= dev_size %llu\n",
-+			  seg_size, dev_size);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		return false;
-+	}
-+
-+	for (i = 0; i < SSDFS_SB_CHAIN_MAX; i++) {
-+		for (j = 0; j < SSDFS_SB_SEG_COPY_MAX; j++) {
-+			u64 leb_id = le64_to_cpu(vh->sb_pebs[i][j].leb_id);
-+			u64 peb_id = le64_to_cpu(vh->sb_pebs[i][j].peb_id);
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_DBG("i %d, j %d, LEB %llu, PEB %llu\n",
-+				  i, j, leb_id, peb_id);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+			for (k = 0; k < array_index; k++) {
-+				if (leb_id == leb_array[k]) {
-+#ifdef CONFIG_SSDFS_DEBUG
-+					SSDFS_DBG("corrupted LEB number: "
-+						  "leb_id %llu, "
-+						  "leb_array[%d] %llu\n",
-+						  leb_id, k,
-+						  leb_array[k]);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+					return false;
-+				}
-+
-+				if (peb_id == peb_array[k]) {
-+#ifdef CONFIG_SSDFS_DEBUG
-+					SSDFS_DBG("corrupted PEB number: "
-+						  "peb_id %llu, "
-+						  "peb_array[%d] %llu\n",
-+						  peb_id, k,
-+						  peb_array[k]);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+					return false;
-+				}
-+			}
-+
-+			if (i == SSDFS_PREV_SB_SEG &&
-+			    leb_id == U64_MAX && peb_id == U64_MAX) {
-+				/* prev id is U64_MAX after volume creation */
-+				continue;
-+			}
-+
-+			if (i == SSDFS_RESERVED_SB_SEG &&
-+			    leb_id == U64_MAX && peb_id == U64_MAX) {
-+				/*
-+				 * The reserved seg could be U64_MAX
-+				 * if there is no clean segment.
-+				 */
-+				continue;
-+			}
-+
-+			if (leb_id >= (dev_size >> vh->log_erasesize)) {
-+#ifdef CONFIG_SSDFS_DEBUG
-+				SSDFS_DBG("corrupted LEB number %llu\n",
-+					  leb_id);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+				return false;
-+			}
-+
-+			leb_array[array_index] = leb_id;
-+			peb_array[array_index] = peb_id;
-+
-+			array_index++;
-+		}
-+	}
-+
-+	return true;
-+}
-+
-+/*
-+ * ssdfs_check_segment_header() - check segment header consistency
-+ * @fsi: pointer on shared file system object
-+ * @hdr: segment header
-+ * @silent: show error or not?
-+ *
-+ * This function checks consistency of segment header.
-+ *
-+ * RETURN:
-+ * [success] - segment header is consistent.
-+ * [failure] - error code:
-+ *
-+ * %-ENODATA     - valid magic doesn't detected.
-+ * %-EIO         - segment header is corrupted.
-+ * %-ENOENT      - header has older FS creation time.
-+ */
-+int ssdfs_check_segment_header(struct ssdfs_fs_info *fsi,
-+				struct ssdfs_segment_header *hdr,
-+				bool silent)
-+{
-+	struct ssdfs_volume_header *vh;
-+	size_t hdr_size = sizeof(struct ssdfs_segment_header);
-+	bool major_magic_valid, minor_magic_valid;
-+	u64 dev_size;
-+	int res;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	BUG_ON(!fsi || !hdr);
-+
-+	SSDFS_DBG("fsi %p, hdr %p, silent %#x\n", fsi, hdr, silent);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	vh = SSDFS_VH(hdr);
-+
-+	major_magic_valid = is_ssdfs_magic_valid(&vh->magic);
-+	minor_magic_valid = is_ssdfs_segment_header_magic_valid(hdr);
-+
-+	if (!major_magic_valid && !minor_magic_valid) {
-+		if (!silent) {
-+			SSDFS_ERR("valid magic doesn't detected\n");
-+			ssdfs_show_volume_header(vh);
-+		} else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_ERR("valid magic doesn't detected\n");
-+			ssdfs_show_volume_header(vh);
-+#else
-+			SSDFS_DBG("valid magic doesn't detected\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		}
-+		return -ENODATA;
-+	} else if (!major_magic_valid) {
-+		if (!silent) {
-+			SSDFS_ERR("invalid SSDFS magic signature\n");
-+			ssdfs_show_volume_header(vh);
-+		} else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_ERR("invalid SSDFS magic signature\n");
-+			ssdfs_show_volume_header(vh);
-+#else
-+			SSDFS_DBG("invalid SSDFS magic signature\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		}
-+		return -EIO;
-+	} else if (!minor_magic_valid) {
-+		if (!silent) {
-+			SSDFS_ERR("invalid segment header magic signature\n");
-+			ssdfs_show_volume_header(vh);
-+		} else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_ERR("invalid segment header magic signature\n");
-+			ssdfs_show_volume_header(vh);
-+#else
-+			SSDFS_DBG("invalid segment header magic signature\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		}
-+		return -EIO;
-+	}
-+
-+	if (!is_ssdfs_volume_header_csum_valid(hdr, hdr_size)) {
-+		if (!silent) {
-+			SSDFS_ERR("invalid checksum of volume header\n");
-+			ssdfs_show_volume_header(vh);
-+		} else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_ERR("invalid checksum of volume header\n");
-+			ssdfs_show_volume_header(vh);
-+#else
-+			SSDFS_DBG("invalid checksum of volume header\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		}
-+		return -EIO;
-+	}
-+
-+	dev_size = fsi->devops->device_size(fsi->sb);
-+	if (!is_ssdfs_volume_header_consistent(fsi, vh, dev_size)) {
-+		if (!silent) {
-+			SSDFS_ERR("volume header is corrupted\n");
-+			ssdfs_show_volume_header(vh);
-+		} else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_ERR("volume header is corrupted\n");
-+			ssdfs_show_volume_header(vh);
-+#else
-+			SSDFS_DBG("volume header is corrupted\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		}
-+		return -EIO;
-+	}
-+
-+	if (SSDFS_VH_CNO(vh) > SSDFS_SEG_CNO(hdr)) {
-+		if (!silent) {
-+			SSDFS_ERR("invalid checkpoint/timestamp\n");
-+			ssdfs_show_volume_header(vh);
-+		} else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_DBG("invalid checkpoint/timestamp\n");
-+			ssdfs_show_volume_header(vh);
-+#else
-+			SSDFS_DBG("invalid checkpoint/timestamp\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		}
-+		return -EIO;
-+	}
-+
-+	if (le16_to_cpu(hdr->log_pages) > fsi->pages_per_peb) {
-+		if (!silent) {
-+			SSDFS_ERR("log_pages %u > pages_per_peb %u\n",
-+				  le16_to_cpu(hdr->log_pages),
-+				  fsi->pages_per_peb);
-+			ssdfs_show_volume_header(vh);
-+		} else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_ERR("log_pages %u > pages_per_peb %u\n",
-+				  le16_to_cpu(hdr->log_pages),
-+				  fsi->pages_per_peb);
-+			ssdfs_show_volume_header(vh);
-+#else
-+			SSDFS_DBG("log_pages %u > pages_per_peb %u\n",
-+				  le16_to_cpu(hdr->log_pages),
-+				  fsi->pages_per_peb);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		}
-+		return -EIO;
-+	}
-+
-+	if (le16_to_cpu(hdr->seg_type) > SSDFS_LAST_KNOWN_SEG_TYPE) {
-+		if (!silent) {
-+			SSDFS_ERR("unknown seg_type %#x\n",
-+				  le16_to_cpu(hdr->seg_type));
-+			ssdfs_show_volume_header(vh);
-+		} else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_ERR("unknown seg_type %#x\n",
-+				  le16_to_cpu(hdr->seg_type));
-+			ssdfs_show_volume_header(vh);
-+#else
-+			SSDFS_DBG("unknown seg_type %#x\n",
-+				  le16_to_cpu(hdr->seg_type));
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		}
-+		return -EIO;
-+	}
-+
-+	if (le32_to_cpu(hdr->seg_flags) & ~SSDFS_SEG_HDR_FLAG_MASK) {
-+		if (!silent) {
-+			SSDFS_ERR("corrupted seg_flags %#x\n",
-+				  le32_to_cpu(hdr->seg_flags));
-+			ssdfs_show_volume_header(vh);
-+		} else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_ERR("corrupted seg_flags %#x\n",
-+				  le32_to_cpu(hdr->seg_flags));
-+			ssdfs_show_volume_header(vh);
-+#else
-+			SSDFS_DBG("corrupted seg_flags %#x\n",
-+				  le32_to_cpu(hdr->seg_flags));
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		}
-+		return -EIO;
-+	}
-+
-+	res = ssdfs_compare_fs_ctime(fsi, hdr);
-+	if (res < 0) {
-+		/* header has younger FS creation time */
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("valid magic is not detected\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		return -ENODATA;
-+	} else if (res > 0) {
-+		/* header has older FS creation time */
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("header has older FS creation time\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		fsi->fs_ctime = le64_to_cpu(vh->create_time);
-+		spin_lock(&fsi->volume_state_lock);
-+		ssdfs_memcpy(fsi->fs_uuid, 0, sizeof(fsi->fs_uuid),
-+			     vh->uuid, 0, sizeof(vh->uuid),
-+			     sizeof(vh->uuid));
-+		spin_unlock(&fsi->volume_state_lock);
-+		return -ENOENT;
-+	}
-+
-+	return 0;
-+}
-+
-+/*
-+ * is_ssdfs_partial_log_header_consistent() - check partial header consistency
-+ * @fsi: pointer on shared file system object
-+ * @ph: partial log header
-+ * @dev_size: partition size in bytes
-+ *
-+ * RETURN:
-+ * [true]  - partial log header is consistent.
-+ * [false] - partial log header is corrupted.
-+ */
-+static
-+bool is_ssdfs_partial_log_header_consistent(struct ssdfs_fs_info *fsi,
-+					    struct ssdfs_partial_log_header *ph,
-+					    u64 dev_size)
-+{
-+	u32 page_size;
-+	u64 erase_size;
-+	u32 seg_size;
-+	u32 pebs_per_seg;
-+	u64 nsegs;
-+	u64 free_pages;
-+	u64 pages_count;
-+	u32 remainder;
 +	u32 pages_per_seg;
++	u8 type;
 +
-+#ifdef CONFIG_SSDFS_DEBUG
-+	BUG_ON(!ph);
-+#endif /* CONFIG_SSDFS_DEBUG */
++	struct rw_semaphore translation_lock;
++	u64 init_cno;
++	u16 used_logical_blks;
++	u16 free_logical_blks;
++	u16 last_allocated_blk;
++	struct ssdfs_bitmap_array lbmap;
++	struct ssdfs_dynamic_array lblk2off;
++	struct ssdfs_dynamic_array migrating_blks;
++	u16 lblk2off_capacity;
 +
-+	page_size = 1 << ph->log_pagesize;
-+	erase_size = 1 << ph->log_erasesize;
-+	seg_size = 1 << ph->log_segsize;
-+	pebs_per_seg = 1 << ph->log_pebs_per_seg;
++	struct ssdfs_phys_offset_table_array *peb;
++	u16 pebs_count;
 +
-+	if (page_size >= erase_size) {
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("page_size %u >= erase_size %llu\n",
-+			  page_size, erase_size);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		return false;
-+	}
++	struct completion partial_init_end;
++	struct completion full_init_end;
++	wait_queue_head_t wait_queue;
 +
-+	switch (page_size) {
-+	case SSDFS_4KB:
-+	case SSDFS_8KB:
-+	case SSDFS_16KB:
-+	case SSDFS_32KB:
-+		/* do nothing */
-+		break;
++	struct ssdfs_fs_info *fsi;
++};
 +
-+	default:
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("unexpected page_size %u\n", page_size);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		return false;
-+	}
++#define SSDFS_OFF_POS(ptr) \
++	((struct ssdfs_offset_position *)(ptr))
++#define SSDFS_MIGRATING_BLK(ptr) \
++	((struct ssdfs_migrating_block *)(ptr))
++#define SSDFS_TRANS_EXT(ptr) \
++	((struct ssdfs_translation_extent *)(ptr))
 +
-+	switch (erase_size) {
-+	case SSDFS_128KB:
-+	case SSDFS_256KB:
-+	case SSDFS_512KB:
-+	case SSDFS_1MB:
-+	case SSDFS_2MB:
-+	case SSDFS_4MB:
-+	case SSDFS_8MB:
-+	case SSDFS_16MB:
-+	case SSDFS_32MB:
-+	case SSDFS_64MB:
-+	case SSDFS_128MB:
-+	case SSDFS_256MB:
-+	case SSDFS_512MB:
-+	case SSDFS_1GB:
-+	case SSDFS_2GB:
-+	case SSDFS_4GB:
-+	case SSDFS_8GB:
-+	case SSDFS_16GB:
-+	case SSDFS_32GB:
-+	case SSDFS_64GB:
-+		/* do nothing */
-+		break;
-+
-+	default:
-+		if (fsi->is_zns_device) {
-+			u64 zone_size = le16_to_cpu(fsi->vh->megabytes_per_peb);
-+
-+			zone_size *= SSDFS_1MB;
-+
-+			if (fsi->zone_size != zone_size) {
-+				SSDFS_ERR("invalid zone size: "
-+					  "size1 %llu != size2 %llu\n",
-+					  fsi->zone_size, zone_size);
-+				return false;
-+			}
-+
-+			erase_size = (u32)zone_size;
-+		} else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_DBG("unexpected erase_size %llu\n", erase_size);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+			return false;
-+		}
-+	};
-+
-+	if (seg_size < erase_size) {
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("seg_size %u < erase_size %llu\n",
-+			  seg_size, erase_size);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		return false;
-+	}
-+
-+	if (pebs_per_seg != (seg_size >> ph->log_erasesize)) {
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("pebs_per_seg %u != (seg_size %u / erase_size %llu)\n",
-+			  pebs_per_seg, seg_size, erase_size);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		return false;
-+	}
-+
-+	if (seg_size >= dev_size) {
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("seg_size %u >= dev_size %llu\n",
-+			  seg_size, dev_size);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		return false;
-+	}
-+
-+	nsegs = le64_to_cpu(ph->nsegs);
-+
-+	if (nsegs == 0 || nsegs > (dev_size >> ph->log_segsize)) {
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("invalid nsegs %llu, dev_size %llu, seg_size) %u\n",
-+			  nsegs, dev_size, seg_size);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		return false;
-+	}
-+
-+	free_pages = le64_to_cpu(ph->free_pages);
-+
-+	pages_count = div_u64_rem(dev_size, page_size, &remainder);
-+	if (remainder) {
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("dev_size %llu is unaligned on page_size %u\n",
-+			  dev_size, page_size);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+	}
-+
-+	if (free_pages > pages_count) {
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("free_pages %llu is greater than pages_count %llu\n",
-+			  free_pages, pages_count);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		return false;
-+	}
-+
-+	pages_per_seg = seg_size / page_size;
-+	if (nsegs < div_u64(free_pages, pages_per_seg)) {
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("invalid nsegs %llu, free_pages %llu, "
-+			  "pages_per_seg %u\n",
-+			  nsegs, free_pages, pages_per_seg);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		return false;
-+	}
-+
-+	return true;
-+}
++enum {
++	SSDFS_BLK2OFF_OBJECT_UNKNOWN,
++	SSDFS_BLK2OFF_OBJECT_CREATED,
++	SSDFS_BLK2OFF_OBJECT_PARTIAL_INIT,
++	SSDFS_BLK2OFF_OBJECT_COMPLETE_INIT,
++	SSDFS_BLK2OFF_OBJECT_STATE_MAX,
++};
 +
 +/*
-+ * ssdfs_check_partial_log_header() - check partial log header consistency
-+ * @fsi: pointer on shared file system object
-+ * @hdr: partial log header
-+ * @silent: show error or not?
++ * struct ssdfs_blk2off_table_snapshot - table state snapshot
++ * @cno: checkpoint of snapshot
++ * @bmap_copy: copy of modification bitmap
++ * @tbl_copy: copy of translation table
++ * @capacity: capacity of table
++ * @used_logical_blks: count of used logical blocks
++ * @free_logical_blks: count of free logical blocks
++ * @last_allocated_blk: last allocated block (hint for allocation)
++ * @peb_index: PEB index
++ * @start_sequence_id: sequence ID of the first dirty fragment
++ * @new_sequence_id: sequence ID of the first newly added fragment
++ * @start_offset_id: starting offset ID
++ * @end_offset_id: ending offset ID
++ * @dirty_fragments: count of dirty fragments
++ * @fragments_count: total count of fragments
 + *
-+ * This function checks consistency of partial log header.
-+ *
-+ * RETURN:
-+ * [success] - partial log header is consistent.
-+ * [failure] - error code:
-+ *
-+ * %-ENODATA     - valid magic doesn't detected.
-+ * %-EIO         - partial log header is corrupted.
-+ * %-ENOENT      - header has older FS creation time.
++ * The @bmap_copy and @tbl_copy are allocated during getting
++ * snapshot inside of called function. Freeing of allocated
++ * memory SHOULD BE MADE by caller.
 + */
-+int ssdfs_check_partial_log_header(struct ssdfs_fs_info *fsi,
-+				   struct ssdfs_partial_log_header *hdr,
-+				   bool silent)
-+{
-+	size_t hdr_size = sizeof(struct ssdfs_partial_log_header);
-+	bool major_magic_valid, minor_magic_valid;
-+	u64 dev_size;
-+	u32 log_bytes;
-+	int res;
++struct ssdfs_blk2off_table_snapshot {
++	u64 cno;
 +
-+#ifdef CONFIG_SSDFS_DEBUG
-+	BUG_ON(!fsi || !hdr);
++	unsigned long *bmap_copy;
++	struct ssdfs_offset_position *tbl_copy;
++	u16 capacity;
 +
-+	SSDFS_DBG("fsi %p, hdr %p, silent %#x\n", fsi, hdr, silent);
-+#endif /* CONFIG_SSDFS_DEBUG */
++	u16 used_logical_blks;
++	u16 free_logical_blks;
++	u16 last_allocated_blk;
 +
-+	major_magic_valid = is_ssdfs_magic_valid(&hdr->magic);
-+	minor_magic_valid =
-+		is_ssdfs_partial_log_header_magic_valid(&hdr->magic);
-+
-+	if (!major_magic_valid && !minor_magic_valid) {
-+		if (!silent)
-+			SSDFS_ERR("valid magic doesn't detected\n");
-+		else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_ERR("valid magic doesn't detected\n");
-+#else
-+			SSDFS_DBG("valid magic doesn't detected\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		}
-+		return -ENODATA;
-+	} else if (!major_magic_valid) {
-+		if (!silent)
-+			SSDFS_ERR("invalid SSDFS magic signature\n");
-+		else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_ERR("invalid SSDFS magic signature\n");
-+#else
-+			SSDFS_DBG("invalid SSDFS magic signature\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		}
-+		return -EIO;
-+	} else if (!minor_magic_valid) {
-+		if (!silent)
-+			SSDFS_ERR("invalid partial log header magic\n");
-+		else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_ERR("invalid partial log header magic\n");
-+#else
-+			SSDFS_DBG("invalid partial log header magic\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		}
-+		return -EIO;
-+	}
-+
-+	if (!is_ssdfs_partial_log_header_csum_valid(hdr, hdr_size)) {
-+		if (!silent)
-+			SSDFS_ERR("invalid checksum of partial log header\n");
-+		else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_ERR("invalid checksum of partial log header\n");
-+#else
-+			SSDFS_DBG("invalid checksum of partial log header\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		}
-+		return -EIO;
-+	}
-+
-+	dev_size = fsi->devops->device_size(fsi->sb);
-+	if (!is_ssdfs_partial_log_header_consistent(fsi, hdr, dev_size)) {
-+		if (!silent)
-+			SSDFS_ERR("partial log header is corrupted\n");
-+		else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_ERR("partial log header is corrupted\n");
-+#else
-+			SSDFS_DBG("partial log header is corrupted\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		}
-+		return -EIO;
-+	}
-+
-+	if (le16_to_cpu(hdr->log_pages) > fsi->pages_per_peb) {
-+		if (!silent) {
-+			SSDFS_ERR("log_pages %u > pages_per_peb %u\n",
-+				  le16_to_cpu(hdr->log_pages),
-+				  fsi->pages_per_peb);
-+		} else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_ERR("log_pages %u > pages_per_peb %u\n",
-+				  le16_to_cpu(hdr->log_pages),
-+				  fsi->pages_per_peb);
-+#else
-+			SSDFS_DBG("log_pages %u > pages_per_peb %u\n",
-+				  le16_to_cpu(hdr->log_pages),
-+				  fsi->pages_per_peb);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		}
-+		return -EIO;
-+	}
-+
-+	log_bytes = (u32)le16_to_cpu(hdr->log_pages) * fsi->pagesize;
-+	if (le32_to_cpu(hdr->log_bytes) > log_bytes) {
-+		if (!silent) {
-+			SSDFS_ERR("calculated log_bytes %u < log_bytes %u\n",
-+				  log_bytes,
-+				  le32_to_cpu(hdr->log_bytes));
-+		} else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_ERR("calculated log_bytes %u < log_bytes %u\n",
-+				  log_bytes,
-+				  le32_to_cpu(hdr->log_bytes));
-+#else
-+			SSDFS_DBG("calculated log_bytes %u < log_bytes %u\n",
-+				  log_bytes,
-+				  le32_to_cpu(hdr->log_bytes));
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		}
-+		return -EIO;
-+	}
-+
-+	if (le16_to_cpu(hdr->seg_type) > SSDFS_LAST_KNOWN_SEG_TYPE) {
-+		if (!silent) {
-+			SSDFS_ERR("unknown seg_type %#x\n",
-+				  le16_to_cpu(hdr->seg_type));
-+		} else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_ERR("unknown seg_type %#x\n",
-+				  le16_to_cpu(hdr->seg_type));
-+#else
-+			SSDFS_DBG("unknown seg_type %#x\n",
-+				  le16_to_cpu(hdr->seg_type));
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		}
-+		return -EIO;
-+	}
-+
-+	if (le32_to_cpu(hdr->pl_flags) & ~SSDFS_SEG_HDR_FLAG_MASK) {
-+		if (!silent) {
-+			SSDFS_ERR("corrupted pl_flags %#x\n",
-+				  le32_to_cpu(hdr->pl_flags));
-+		} else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_ERR("corrupted pl_flags %#x\n",
-+				  le32_to_cpu(hdr->pl_flags));
-+#else
-+			SSDFS_DBG("corrupted pl_flags %#x\n",
-+				  le32_to_cpu(hdr->pl_flags));
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		}
-+		return -EIO;
-+	}
-+
-+	res = ssdfs_compare_fs_ctime(fsi, hdr);
-+	if (res < 0) {
-+		/* header has younger FS creation time */
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("valid magic is not detected\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		return -ENODATA;
-+	} else if (res > 0) {
-+		/* header has older FS creation time */
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("header has older FS creation time\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+		fsi->fs_ctime = le64_to_cpu(hdr->volume_create_time);
-+		spin_lock(&fsi->volume_state_lock);
-+		ssdfs_memcpy(fsi->fs_uuid, 0, sizeof(fsi->fs_uuid),
-+			     hdr->uuid, 0, sizeof(hdr->uuid),
-+			     sizeof(hdr->uuid));
-+		spin_unlock(&fsi->volume_state_lock);
-+		return -ENOENT;
-+	}
-+
-+	return 0;
-+}
++	u16 peb_index;
++	u16 start_sequence_id;
++	u16 new_sequence_id;
++	u16 start_offset_id;
++	u16 end_offset_id;
++	u16 dirty_fragments;
++	u32 fragments_count;
++};
 +
 +/*
-+ * ssdfs_read_checked_segment_header() - read and check segment header
-+ * @fsi: pointer on shared file system object
-+ * @peb_id: PEB identification number
-+ * @block_size: block size in bytes
-+ * @pages_off: offset from PEB's begin in pages
-+ * @buf: buffer
-+ * @silent: show error or not?
-+ *
-+ * This function reads and checks consistency of segment header.
-+ *
-+ * RETURN:
-+ * [success] - segment header is consistent.
-+ * [failure] - error code:
-+ *
-+ * %-ENODATA     - valid magic doesn't detected.
-+ * %-EIO         - segment header is corrupted.
-+ * %-ENOENT      - header has older FS creation time.
++ * Inline functions
 + */
-+int ssdfs_read_checked_segment_header(struct ssdfs_fs_info *fsi,
-+					u64 peb_id, u32 block_size,
-+					u32 pages_off,
-+					void *buf, bool silent)
-+{
-+	struct ssdfs_signature *magic;
-+	struct ssdfs_segment_header *hdr;
-+	struct ssdfs_partial_log_header *pl_hdr;
-+	size_t hdr_size = sizeof(struct ssdfs_segment_header);
-+	u64 offset = 0;
-+	size_t read_bytes;
-+	int err;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("peb_id %llu, block_size %u, "
-+		  "pages_off %u, buf %p, silent %#x\n",
-+		  peb_id, block_size, pages_off, buf, silent);
-+
-+	BUG_ON(!fsi);
-+	BUG_ON(!fsi->devops->read);
-+	BUG_ON(!buf);
-+	BUG_ON(pages_off >= (fsi->erasesize / block_size));
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	if (peb_id == 0 && pages_off == 0)
-+		offset = SSDFS_RESERVED_VBR_SIZE;
-+	else
-+		offset = (u64)pages_off * block_size;
-+
-+	err = ssdfs_aligned_read_buffer(fsi, peb_id,
-+					block_size, offset,
-+					buf, hdr_size,
-+					&read_bytes);
-+	if (unlikely(err)) {
-+		if (!silent) {
-+			SSDFS_ERR("fail to read segment header: "
-+				  "peb_id %llu, block_size %u, "
-+				  "pages_off %u, err %d\n",
-+				  peb_id, block_size, pages_off, err);
-+		} else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_ERR("fail to read segment header: "
-+				  "peb_id %llu, block_size %u, "
-+				  "pages_off %u, err %d\n",
-+				  peb_id, block_size, pages_off, err);
-+#else
-+			SSDFS_DBG("fail to read segment header: "
-+				  "peb_id %llu, block_size %u, "
-+				  "pages_off %u, err %d\n",
-+				  peb_id, block_size, pages_off, err);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		}
-+		return err;
-+	}
-+
-+	if (unlikely(read_bytes != hdr_size)) {
-+		if (!silent) {
-+			SSDFS_ERR("fail to read segment header: "
-+				  "peb_id %llu, pages_off %u: "
-+				  "read_bytes %zu != hdr_size %zu\n",
-+				  peb_id, pages_off, read_bytes, hdr_size);
-+		} else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_ERR("fail to read segment header: "
-+				  "peb_id %llu, pages_off %u: "
-+				  "read_bytes %zu != hdr_size %zu\n",
-+				  peb_id, pages_off, read_bytes, hdr_size);
-+#else
-+			SSDFS_DBG("fail to read segment header: "
-+				  "peb_id %llu, pages_off %u: "
-+				  "read_bytes %zu != hdr_size %zu\n",
-+				  peb_id, pages_off, read_bytes, hdr_size);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		}
-+		return -ERANGE;
-+	}
-+
-+	magic = (struct ssdfs_signature *)buf;
-+
-+	if (!is_ssdfs_magic_valid(magic)) {
-+		if (!silent)
-+			SSDFS_ERR("valid magic is not detected\n");
-+		else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_ERR("valid magic is not detected\n");
-+#else
-+			SSDFS_DBG("valid magic is not detected\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		}
-+		return -ENODATA;
-+	}
-+
-+	if (__is_ssdfs_segment_header_magic_valid(magic)) {
-+		hdr = SSDFS_SEG_HDR(buf);
-+
-+		err = ssdfs_check_segment_header(fsi, hdr, silent);
-+		if (err == -ENOENT) {
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_DBG("header has older FS creation time: "
-+				  "peb_id %llu, pages_off %u, err %d\n",
-+				  peb_id, pages_off, err);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		} else if (unlikely(err)) {
-+			if (!silent) {
-+				SSDFS_ERR("segment header is corrupted: "
-+					  "peb_id %llu, pages_off %u, err %d\n",
-+					  peb_id, pages_off, err);
-+			} else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+				SSDFS_ERR("segment header is corrupted: "
-+					  "peb_id %llu, pages_off %u, err %d\n",
-+					  peb_id, pages_off, err);
-+#else
-+				SSDFS_DBG("segment header is corrupted: "
-+					  "peb_id %llu, pages_off %u, err %d\n",
-+					  peb_id, pages_off, err);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+			}
-+
-+			return err;
-+		}
-+	} else if (is_ssdfs_partial_log_header_magic_valid(magic)) {
-+		pl_hdr = SSDFS_PLH(buf);
-+
-+		err = ssdfs_check_partial_log_header(fsi, pl_hdr, silent);
-+		if (err == -ENOENT) {
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_DBG("header has older FS creation time: "
-+				  "peb_id %llu, pages_off %u, err %d\n",
-+				  peb_id, pages_off, err);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		} else if (unlikely(err)) {
-+			if (!silent) {
-+				SSDFS_ERR("partial log header is corrupted: "
-+					  "peb_id %llu, pages_off %u\n",
-+					  peb_id, pages_off);
-+			} else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+				SSDFS_ERR("partial log header is corrupted: "
-+					  "peb_id %llu, pages_off %u\n",
-+					  peb_id, pages_off);
-+#else
-+				SSDFS_DBG("partial log header is corrupted: "
-+					  "peb_id %llu, pages_off %u\n",
-+					  peb_id, pages_off);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+			}
-+
-+			return err;
-+		}
-+	} else {
-+		if (!silent) {
-+			SSDFS_ERR("log header is corrupted: "
-+				  "peb_id %llu, pages_off %u\n",
-+				  peb_id, pages_off);
-+		} else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_ERR("log header is corrupted: "
-+				  "peb_id %llu, pages_off %u\n",
-+				  peb_id, pages_off);
-+#else
-+			SSDFS_DBG("log header is corrupted: "
-+				  "peb_id %llu, pages_off %u\n",
-+				  peb_id, pages_off);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		}
-+
-+		return -EIO;
-+	}
-+
-+	return 0;
-+}
 +
 +/*
-+ * ssdfs_create_volume_header() - initialize volume header from the scratch
-+ * @fsi: pointer on shared file system object
-+ * @vh: volume header
-+ */
-+void ssdfs_create_volume_header(struct ssdfs_fs_info *fsi,
-+				struct ssdfs_volume_header *vh)
-+{
-+	u64 erase_size;
-+	u32 megabytes_per_peb;
-+	u32 flags;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	BUG_ON(!fsi || !vh);
-+
-+	SSDFS_DBG("fsi %p, vh %p\n", fsi, vh);
-+	SSDFS_DBG("fsi->log_pagesize %u, fsi->log_erasesize %u, "
-+		  "fsi->log_segsize %u, fsi->log_pebs_per_seg %u\n",
-+		  fsi->log_pagesize,
-+		  fsi->log_erasesize,
-+		  fsi->log_segsize,
-+		  fsi->log_pebs_per_seg);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	vh->magic.common = cpu_to_le32(SSDFS_SUPER_MAGIC);
-+	vh->magic.key = cpu_to_le16(SSDFS_SEGMENT_HDR_MAGIC);
-+	vh->magic.version.major = SSDFS_MAJOR_REVISION;
-+	vh->magic.version.minor = SSDFS_MINOR_REVISION;
-+
-+	vh->log_pagesize = fsi->log_pagesize;
-+	vh->log_erasesize = fsi->log_erasesize;
-+	vh->log_segsize = fsi->log_segsize;
-+	vh->log_pebs_per_seg = fsi->log_pebs_per_seg;
-+
-+	megabytes_per_peb = fsi->erasesize / SSDFS_1MB;
-+#ifdef CONFIG_SSDFS_DEBUG
-+	BUG_ON(megabytes_per_peb >= U16_MAX);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+	vh->megabytes_per_peb = cpu_to_le16((u16)megabytes_per_peb);
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	BUG_ON(fsi->pebs_per_seg >= U16_MAX);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+	vh->pebs_per_seg = cpu_to_le16((u16)fsi->pebs_per_seg);
-+
-+	vh->create_time = cpu_to_le64(fsi->fs_ctime);
-+	vh->create_cno = cpu_to_le64(fsi->fs_cno);
-+	ssdfs_memcpy(vh->uuid, 0, SSDFS_UUID_SIZE,
-+		     fsi->fs_uuid, 0, SSDFS_UUID_SIZE,
-+		     SSDFS_UUID_SIZE);
-+
-+	vh->lebs_per_peb_index = cpu_to_le32(fsi->lebs_per_peb_index);
-+	vh->create_threads_per_seg = cpu_to_le16(fsi->create_threads_per_seg);
-+
-+	vh->flags = cpu_to_le32(0);
-+
-+	if (fsi->is_zns_device) {
-+		flags = le32_to_cpu(vh->flags);
-+		flags |= SSDFS_VH_ZNS_BASED_VOLUME;
-+
-+		erase_size = 1 << fsi->log_erasesize;
-+		if (erase_size != fsi->zone_size)
-+			flags |= SSDFS_VH_UNALIGNED_ZONE;
-+
-+		vh->flags = cpu_to_le32(flags);
-+	}
-+
-+	vh->sb_seg_log_pages = cpu_to_le16(fsi->sb_seg_log_pages);
-+	vh->segbmap_log_pages = cpu_to_le16(fsi->segbmap_log_pages);
-+	vh->maptbl_log_pages = cpu_to_le16(fsi->maptbl_log_pages);
-+	vh->lnodes_seg_log_pages = cpu_to_le16(fsi->lnodes_seg_log_pages);
-+	vh->hnodes_seg_log_pages = cpu_to_le16(fsi->hnodes_seg_log_pages);
-+	vh->inodes_seg_log_pages = cpu_to_le16(fsi->inodes_seg_log_pages);
-+	vh->user_data_log_pages = cpu_to_le16(fsi->user_data_log_pages);
-+
-+	ssdfs_memcpy(&vh->segbmap,
-+		     0, sizeof(struct ssdfs_segbmap_sb_header),
-+		     &fsi->vh->segbmap,
-+		     0, sizeof(struct ssdfs_segbmap_sb_header),
-+		     sizeof(struct ssdfs_segbmap_sb_header));
-+	ssdfs_memcpy(&vh->maptbl,
-+		     0, sizeof(struct ssdfs_maptbl_sb_header),
-+		     &fsi->vh->maptbl,
-+		     0, sizeof(struct ssdfs_maptbl_sb_header),
-+		     sizeof(struct ssdfs_maptbl_sb_header));
-+	ssdfs_memcpy(&vh->dentries_btree,
-+		     0, sizeof(struct ssdfs_dentries_btree_descriptor),
-+		     &fsi->vh->dentries_btree,
-+		     0, sizeof(struct ssdfs_dentries_btree_descriptor),
-+		     sizeof(struct ssdfs_dentries_btree_descriptor));
-+	ssdfs_memcpy(&vh->extents_btree,
-+		     0, sizeof(struct ssdfs_extents_btree_descriptor),
-+		     &fsi->vh->extents_btree,
-+		     0, sizeof(struct ssdfs_extents_btree_descriptor),
-+		     sizeof(struct ssdfs_extents_btree_descriptor));
-+	ssdfs_memcpy(&vh->xattr_btree,
-+		     0, sizeof(struct ssdfs_xattr_btree_descriptor),
-+		     &fsi->vh->xattr_btree,
-+		     0, sizeof(struct ssdfs_xattr_btree_descriptor),
-+		     sizeof(struct ssdfs_xattr_btree_descriptor));
-+	ssdfs_memcpy(&vh->invextree,
-+		     0, sizeof(struct ssdfs_invalidated_extents_btree),
-+		     &fsi->vh->invextree,
-+		     0, sizeof(struct ssdfs_invalidated_extents_btree),
-+		     sizeof(struct ssdfs_invalidated_extents_btree));
-+}
-+
-+/*
-+ * ssdfs_store_sb_segs_array() - store sb segments array
-+ * @fsi: pointer on shared file system object
-+ * @vh: volume header
++ * ssdfs_blk2off_table_bmap_bytes() - calculate bmap bytes count
++ * @items_count: bits count in bitmap
 + */
 +static inline
-+void ssdfs_store_sb_segs_array(struct ssdfs_fs_info *fsi,
-+				struct ssdfs_volume_header *vh)
++size_t ssdfs_blk2off_table_bmap_bytes(size_t items_count)
 +{
-+	int i, j;
++	size_t bytes;
++
++	bytes = (items_count + BITS_PER_LONG - 1) / BITS_PER_LONG;
++	bytes *= sizeof(unsigned long);
 +
 +#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("fsi %p, vh %p\n", fsi, vh);
++	SSDFS_DBG("items_count %zu, bmap_bytes %zu\n",
++		  items_count, bytes);
 +#endif /* CONFIG_SSDFS_DEBUG */
 +
-+	down_read(&fsi->sb_segs_sem);
-+
-+	for (i = SSDFS_CUR_SB_SEG; i < SSDFS_SB_CHAIN_MAX; i++) {
-+		for (j = SSDFS_MAIN_SB_SEG; j < SSDFS_SB_SEG_COPY_MAX; j++) {
-+			vh->sb_pebs[i][j].leb_id =
-+				cpu_to_le64(fsi->sb_lebs[i][j]);
-+			vh->sb_pebs[i][j].peb_id =
-+				cpu_to_le64(fsi->sb_pebs[i][j]);
-+		}
-+	}
-+
-+	up_read(&fsi->sb_segs_sem);
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("sb_lebs[CUR][MAIN] %llu, sb_pebs[CUR][MAIN] %llu\n",
-+		  fsi->sb_lebs[SSDFS_CUR_SB_SEG][SSDFS_MAIN_SB_SEG],
-+		  fsi->sb_pebs[SSDFS_CUR_SB_SEG][SSDFS_MAIN_SB_SEG]);
-+	SSDFS_DBG("sb_lebs[CUR][COPY] %llu, sb_pebs[CUR][COPY] %llu\n",
-+		  fsi->sb_lebs[SSDFS_CUR_SB_SEG][SSDFS_COPY_SB_SEG],
-+		  fsi->sb_pebs[SSDFS_CUR_SB_SEG][SSDFS_COPY_SB_SEG]);
-+	SSDFS_DBG("sb_lebs[NEXT][MAIN] %llu, sb_pebs[NEXT][MAIN] %llu\n",
-+		  fsi->sb_lebs[SSDFS_NEXT_SB_SEG][SSDFS_MAIN_SB_SEG],
-+		  fsi->sb_pebs[SSDFS_NEXT_SB_SEG][SSDFS_MAIN_SB_SEG]);
-+	SSDFS_DBG("sb_lebs[NEXT][COPY] %llu, sb_pebs[NEXT][COPY] %llu\n",
-+		  fsi->sb_lebs[SSDFS_NEXT_SB_SEG][SSDFS_COPY_SB_SEG],
-+		  fsi->sb_pebs[SSDFS_NEXT_SB_SEG][SSDFS_COPY_SB_SEG]);
-+	SSDFS_DBG("sb_lebs[RESERVED][MAIN] %llu, sb_pebs[RESERVED][MAIN] %llu\n",
-+		  fsi->sb_lebs[SSDFS_RESERVED_SB_SEG][SSDFS_MAIN_SB_SEG],
-+		  fsi->sb_pebs[SSDFS_RESERVED_SB_SEG][SSDFS_MAIN_SB_SEG]);
-+	SSDFS_DBG("sb_lebs[RESERVED][COPY] %llu, sb_pebs[RESERVED][COPY] %llu\n",
-+		  fsi->sb_lebs[SSDFS_RESERVED_SB_SEG][SSDFS_COPY_SB_SEG],
-+		  fsi->sb_pebs[SSDFS_RESERVED_SB_SEG][SSDFS_COPY_SB_SEG]);
-+	SSDFS_DBG("sb_lebs[PREV][MAIN] %llu, sb_pebs[PREV][MAIN] %llu\n",
-+		  fsi->sb_lebs[SSDFS_PREV_SB_SEG][SSDFS_MAIN_SB_SEG],
-+		  fsi->sb_pebs[SSDFS_PREV_SB_SEG][SSDFS_MAIN_SB_SEG]);
-+	SSDFS_DBG("sb_lebs[PREV][COPY] %llu, sb_pebs[PREV][COPY] %llu\n",
-+		  fsi->sb_lebs[SSDFS_PREV_SB_SEG][SSDFS_COPY_SB_SEG],
-+		  fsi->sb_pebs[SSDFS_PREV_SB_SEG][SSDFS_COPY_SB_SEG]);
-+#endif /* CONFIG_SSDFS_DEBUG */
++	return bytes;
 +}
 +
-+/*
-+ * ssdfs_prepare_volume_header_for_commit() - prepare volume header for commit
-+ * @fsi: pointer on shared file system object
-+ * @vh: volume header
-+ */
-+int ssdfs_prepare_volume_header_for_commit(struct ssdfs_fs_info *fsi,
-+					   struct ssdfs_volume_header *vh)
++static inline
++bool is_ssdfs_logical_block_migrating(int blk_state)
 +{
-+#ifdef CONFIG_SSDFS_DEBUG
-+	struct super_block *sb = fsi->sb;
-+	u64 dev_size;
++	bool is_migrating = false;
 +
-+	SSDFS_DBG("fsi %p, vh %p\n", fsi, vh);
-+#endif /* CONFIG_SSDFS_DEBUG */
++	switch (blk_state) {
++	case SSDFS_LBLOCK_UNDER_MIGRATION:
++	case SSDFS_LBLOCK_UNDER_COMMIT:
++		is_migrating = true;
++		break;
 +
-+	ssdfs_store_sb_segs_array(fsi, vh);
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	dev_size = fsi->devops->device_size(sb);
-+	if (!is_ssdfs_volume_header_consistent(fsi, vh, dev_size)) {
-+		SSDFS_ERR("volume header is inconsistent\n");
-+		return -EIO;
++	default:
++		/* do nothing */
++		break;
 +	}
-+#endif /* CONFIG_SSDFS_DEBUG */
 +
-+	return 0;
++	return is_migrating;
 +}
 +
-+/*
-+ * ssdfs_prepare_segment_header_for_commit() - prepare segment header
-+ * @fsi: pointer on shared file system object
-+ * @seg_id: segment ID that contains this PEB
-+ * @leb_id: LEB ID that mapped with this PEB
-+ * @peb_id: PEB ID
-+ * @relation_peb_id: source PEB ID during migration
-+ * @log_pages: full log pages count
-+ * @seg_type: segment type
-+ * @seg_flags: segment flags
-+ * @last_log_time: log creation time
-+ * @last_log_cno: log checkpoint
-+ * @hdr: segment header [out]
-+ */
-+int ssdfs_prepare_segment_header_for_commit(struct ssdfs_fs_info *fsi,
-+					    u64 seg_id,
-+					    u64 leb_id,
-+					    u64 peb_id,
-+					    u64 relation_peb_id,
-+					    u32 log_pages,
-+					    u16 seg_type,
-+					    u32 seg_flags,
-+					    u64 last_log_time,
-+					    u64 last_log_cno,
-+					    struct ssdfs_segment_header *hdr)
++/* Function prototypes */
++struct ssdfs_blk2off_table *
++ssdfs_blk2off_table_create(struct ssdfs_fs_info *fsi,
++			   u16 items_count, u8 type,
++			   int state);
++void ssdfs_blk2off_table_destroy(struct ssdfs_blk2off_table *table);
++int ssdfs_blk2off_table_partial_clean_init(struct ssdfs_blk2off_table *table,
++					   u16 peb_index);
++int ssdfs_blk2off_table_partial_init(struct ssdfs_blk2off_table *table,
++				     struct ssdfs_read_init_env *env,
++				     u16 peb_index, u64 peb_id, u64 cno);
++int ssdfs_blk2off_table_blk_desc_init(struct ssdfs_blk2off_table *table,
++					u16 logical_blk,
++					struct ssdfs_offset_position *pos);
++int ssdfs_blk2off_table_resize(struct ssdfs_blk2off_table *table,
++				u16 new_items_count);
++int ssdfs_blk2off_table_snapshot(struct ssdfs_blk2off_table *table,
++				 u16 peb_index, u64 peb_id,
++				 struct ssdfs_blk2off_table_snapshot *snapshot);
++void ssdfs_blk2off_table_free_snapshot(struct ssdfs_blk2off_table_snapshot *sp);
++int ssdfs_blk2off_table_extract_extents(struct ssdfs_blk2off_table_snapshot *sp,
++					struct ssdfs_dynamic_array *array,
++					u16 capacity, u16 *extent_count);
++
++int
++ssdfs_blk2off_table_prepare_for_commit(struct ssdfs_blk2off_table *table,
++				       u16 peb_index, u16 sequence_id,
++				       struct ssdfs_blk2off_table_snapshot *sp);
++int ssdfs_peb_store_offsets_table_header(struct ssdfs_peb_info *pebi,
++					struct ssdfs_blk2off_table_header *hdr,
++					struct ssdfs_peb_log_offset *log_offset);
++int
++ssdfs_peb_store_offsets_table_extents(struct ssdfs_peb_info *pebi,
++				      struct ssdfs_dynamic_array *array,
++				      u16 extent_count,
++				      struct ssdfs_peb_log_offset *log_offset);
++int ssdfs_peb_store_offsets_table_fragment(struct ssdfs_peb_info *pebi,
++					struct ssdfs_blk2off_table *table,
++					u16 peb_index, u16 sequence_id,
++					struct ssdfs_peb_log_offset *log_offset);
++int ssdfs_blk2off_table_pre_delete_fragment(void *item, u64 peb_id);
++int ssdfs_peb_store_offsets_table(struct ssdfs_peb_info *pebi,
++				  struct ssdfs_metadata_descriptor *desc,
++				  struct ssdfs_peb_log_offset *log_offset);
++int
++ssdfs_blk2off_table_forget_snapshot(struct ssdfs_blk2off_table *table,
++				    struct ssdfs_blk2off_table_snapshot *sp,
++				    struct ssdfs_dynamic_array *array,
++				    u16 extent_count);
++
++bool ssdfs_blk2off_table_dirtied(struct ssdfs_blk2off_table *table,
++				 u16 peb_index);
++bool ssdfs_blk2off_table_initialized(struct ssdfs_blk2off_table *table,
++				     u16 peb_index);
++
++int ssdfs_blk2off_table_get_used_logical_blks(struct ssdfs_blk2off_table *tbl,
++						u16 *used_blks);
++int ssdfs_blk2off_table_get_offset_position(struct ssdfs_blk2off_table *table,
++					    u16 logical_blk,
++					    struct ssdfs_offset_position *pos);
++struct ssdfs_phys_offset_descriptor *
++ssdfs_blk2off_table_convert(struct ssdfs_blk2off_table *table,
++			    u16 logical_blk, u16 *peb_index,
++			    int *migration_state,
++			    struct ssdfs_offset_position *pos);
++int ssdfs_blk2off_table_allocate_block(struct ssdfs_blk2off_table *table,
++					u32 max_blk,
++					u16 *logical_blk);
++int ssdfs_blk2off_table_allocate_extent(struct ssdfs_blk2off_table *table,
++					u16 len, u32 max_blk,
++					struct ssdfs_blk2off_range *extent);
++int ssdfs_blk2off_table_change_offset(struct ssdfs_blk2off_table *table,
++				      u16 logical_blk,
++				      u16 peb_index,
++				      u64 peb_id,
++				      struct ssdfs_block_descriptor *blk_desc,
++				      struct ssdfs_phys_offset_descriptor *off);
++int ssdfs_blk2off_table_free_block(struct ssdfs_blk2off_table *table,
++				   u16 peb_index, u64 peb_id, u16 logical_blk);
++int ssdfs_blk2off_table_free_extent(struct ssdfs_blk2off_table *table,
++				    u16 peb_index, u64 peb_id,
++				    struct ssdfs_blk2off_range *extent);
++bool is_ssdfs_blk2off_table_extent_modified(struct ssdfs_blk2off_table *table,
++					    u16 peb_index,
++					    struct ssdfs_blk2off_range *extent);
++
++int ssdfs_blk2off_table_get_block_migration(struct ssdfs_blk2off_table *table,
++					    u16 logical_blk,
++					    u16 peb_index);
++int ssdfs_blk2off_table_set_block_migration(struct ssdfs_blk2off_table *table,
++					    u16 logical_blk,
++					    u16 peb_index,
++					    struct ssdfs_segment_request *req);
++int ssdfs_blk2off_table_get_block_state(struct ssdfs_blk2off_table *table,
++					struct ssdfs_segment_request *req);
++int ssdfs_blk2off_table_update_block_state(struct ssdfs_blk2off_table *table,
++					   struct ssdfs_segment_request *req);
++int ssdfs_blk2off_table_set_block_commit(struct ssdfs_blk2off_table *table,
++					 u16 logical_blk,
++					 u16 peb_index);
++int ssdfs_blk2off_table_revert_migration_state(struct ssdfs_blk2off_table *tbl,
++						u16 peb_index);
++
++#ifdef CONFIG_SSDFS_TESTING
++int ssdfs_blk2off_table_fragment_set_clean(struct ssdfs_blk2off_table *table,
++					   u16 peb_index, u16 sequence_id);
++#else
++static inline
++int ssdfs_blk2off_table_fragment_set_clean(struct ssdfs_blk2off_table *table,
++					   u16 peb_index, u16 sequence_id)
 +{
-+	u16 data_size = sizeof(struct ssdfs_segment_header);
-+	int err;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("fsi %p, hdr %p, "
-+		  "seg_id %llu, leb_id %llu, "
-+		  "peb_id %llu, relation_peb_id %llu, "
-+		  "log_pages %u, seg_type %#x, seg_flags %#x\n",
-+		  fsi, hdr, seg_id, leb_id, peb_id, relation_peb_id,
-+		  log_pages, seg_type, seg_flags);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	hdr->timestamp = cpu_to_le64(last_log_time);
-+	hdr->cno = cpu_to_le64(last_log_cno);
-+
-+	if (log_pages > fsi->pages_per_seg || log_pages > U16_MAX) {
-+		SSDFS_ERR("invalid value of log_pages %u\n", log_pages);
-+		return -EINVAL;
-+	}
-+
-+	hdr->log_pages = cpu_to_le16((u16)log_pages);
-+
-+	if (seg_type == SSDFS_UNKNOWN_SEG_TYPE ||
-+	    seg_type > SSDFS_LAST_KNOWN_SEG_TYPE) {
-+		SSDFS_ERR("invalid value of seg_type %#x\n", seg_type);
-+		return -EINVAL;
-+	}
-+
-+	hdr->seg_type = cpu_to_le16(seg_type);
-+	hdr->seg_flags = cpu_to_le32(seg_flags);
-+
-+	hdr->seg_id = cpu_to_le64(seg_id);
-+	hdr->leb_id = cpu_to_le64(leb_id);
-+	hdr->peb_id = cpu_to_le64(peb_id);
-+	hdr->relation_peb_id = cpu_to_le64(relation_peb_id);
-+
-+	hdr->volume_hdr.check.bytes = cpu_to_le16(data_size);
-+	hdr->volume_hdr.check.flags = cpu_to_le16(SSDFS_CRC32);
-+
-+	err = ssdfs_calculate_csum(&hdr->volume_hdr.check,
-+				   hdr, data_size);
-+	if (unlikely(err)) {
-+		SSDFS_ERR("unable to calculate checksum: err %d\n", err);
-+		return err;
-+	}
-+
-+	return 0;
++	SSDFS_ERR("set fragment clean is not supported\n");
++	return -EOPNOTSUPP;
 +}
++#endif /* CONFIG_SSDFS_TESTING */
 +
-+/*
-+ * ssdfs_prepare_partial_log_header_for_commit() - prepare partial log header
-+ * @fsi: pointer on shared file system object
-+ * @sequence_id: sequence ID of the partial log inside the full log
-+ * @seg_id: segment ID that contains this PEB
-+ * @leb_id: LEB ID that mapped with this PEB
-+ * @peb_id: PEB ID
-+ * @relation_peb_id: source PEB ID during migration
-+ * @log_pages: log pages count
-+ * @seg_type: segment type
-+ * @pl_flags: partial log's flags
-+ * @last_log_time: log creation time
-+ * @last_log_cno: log checkpoint
-+ * @hdr: partial log's header [out]
-+ */
-+int ssdfs_prepare_partial_log_header_for_commit(struct ssdfs_fs_info *fsi,
-+					int sequence_id,
-+					u64 seg_id,
-+					u64 leb_id,
-+					u64 peb_id,
-+					u64 relation_peb_id,
-+					u32 log_pages,
-+					u16 seg_type,
-+					u32 pl_flags,
-+					u64 last_log_time,
-+					u64 last_log_cno,
-+					struct ssdfs_partial_log_header *hdr)
-+{
-+	u16 data_size = sizeof(struct ssdfs_partial_log_header);
-+	int err;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("fsi %p, hdr %p, sequence_id %d, "
-+		  "seg_id %llu, leb_id %llu, "
-+		  "peb_id %llu, relation_peb_id %llu, "
-+		  "log_pages %u, seg_type %#x, pl_flags %#x\n",
-+		  fsi, hdr, sequence_id,
-+		  seg_id, leb_id, peb_id, relation_peb_id,
-+		  log_pages, seg_type, pl_flags);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	hdr->magic.common = cpu_to_le32(SSDFS_SUPER_MAGIC);
-+	hdr->magic.key = cpu_to_le16(SSDFS_PARTIAL_LOG_HDR_MAGIC);
-+	hdr->magic.version.major = SSDFS_MAJOR_REVISION;
-+	hdr->magic.version.minor = SSDFS_MINOR_REVISION;
-+
-+	hdr->timestamp = cpu_to_le64(last_log_time);
-+	hdr->cno = cpu_to_le64(last_log_cno);
-+
-+	if (log_pages > fsi->pages_per_seg || log_pages > U16_MAX) {
-+		SSDFS_ERR("invalid value of log_pages %u\n", log_pages);
-+		return -EINVAL;
-+	}
-+
-+	hdr->log_pages = cpu_to_le16((u16)log_pages);
-+	hdr->log_bytes = cpu_to_le32(log_pages << fsi->log_pagesize);
-+
-+	if (seg_type == SSDFS_UNKNOWN_SEG_TYPE ||
-+	    seg_type > SSDFS_LAST_KNOWN_SEG_TYPE) {
-+		SSDFS_ERR("invalid value of seg_type %#x\n", seg_type);
-+		return -EINVAL;
-+	}
-+
-+	hdr->seg_type = cpu_to_le16(seg_type);
-+	hdr->pl_flags = cpu_to_le32(pl_flags);
-+
-+	spin_lock(&fsi->volume_state_lock);
-+	hdr->free_pages = cpu_to_le64(fsi->free_pages);
-+	hdr->flags = cpu_to_le32(fsi->fs_flags);
-+	spin_unlock(&fsi->volume_state_lock);
-+
-+	mutex_lock(&fsi->resize_mutex);
-+	hdr->nsegs = cpu_to_le64(fsi->nsegs);
-+	mutex_unlock(&fsi->resize_mutex);
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("seg_id %llu, peb_id %llu, "
-+		  "volume_free_pages %llu, nsegs %llu\n",
-+		  seg_id, peb_id,
-+		  le64_to_cpu(hdr->free_pages),
-+		  le64_to_cpu(hdr->nsegs));
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	ssdfs_memcpy(&hdr->root_folder,
-+		     0, sizeof(struct ssdfs_inode),
-+		     &fsi->vs->root_folder,
-+		     0, sizeof(struct ssdfs_inode),
-+		     sizeof(struct ssdfs_inode));
-+
-+	ssdfs_memcpy(&hdr->inodes_btree,
-+		     0, sizeof(struct ssdfs_inodes_btree),
-+		     &fsi->vs->inodes_btree,
-+		     0, sizeof(struct ssdfs_inodes_btree),
-+		     sizeof(struct ssdfs_inodes_btree));
-+	ssdfs_memcpy(&hdr->shared_extents_btree,
-+		     0, sizeof(struct ssdfs_shared_extents_btree),
-+		     &fsi->vs->shared_extents_btree,
-+		     0, sizeof(struct ssdfs_shared_extents_btree),
-+		     sizeof(struct ssdfs_shared_extents_btree));
-+	ssdfs_memcpy(&hdr->shared_dict_btree,
-+		     0, sizeof(struct ssdfs_shared_dictionary_btree),
-+		     &fsi->vs->shared_dict_btree,
-+		     0, sizeof(struct ssdfs_shared_dictionary_btree),
-+		     sizeof(struct ssdfs_shared_dictionary_btree));
-+	ssdfs_memcpy(&hdr->snapshots_btree,
-+		     0, sizeof(struct ssdfs_snapshots_btree),
-+		     &fsi->vs->snapshots_btree,
-+		     0, sizeof(struct ssdfs_snapshots_btree),
-+		     sizeof(struct ssdfs_snapshots_btree));
-+	ssdfs_memcpy(&hdr->invextree,
-+		     0, sizeof(struct ssdfs_invalidated_extents_btree),
-+		     &fsi->vh->invextree,
-+		     0, sizeof(struct ssdfs_invalidated_extents_btree),
-+		     sizeof(struct ssdfs_invalidated_extents_btree));
-+
-+	hdr->sequence_id = cpu_to_le32(sequence_id);
-+
-+	hdr->log_pagesize = fsi->log_pagesize;
-+	hdr->log_erasesize = fsi->log_erasesize;
-+	hdr->log_segsize = fsi->log_segsize;
-+	hdr->log_pebs_per_seg = fsi->log_pebs_per_seg;
-+	hdr->lebs_per_peb_index = cpu_to_le32(fsi->lebs_per_peb_index);
-+	hdr->create_threads_per_seg = cpu_to_le16(fsi->create_threads_per_seg);
-+
-+	hdr->open_zones = cpu_to_le32(atomic_read(&fsi->open_zones));
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("open_zones %d\n",
-+		  atomic_read(&fsi->open_zones));
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	hdr->seg_id = cpu_to_le64(seg_id);
-+	hdr->leb_id = cpu_to_le64(leb_id);
-+	hdr->peb_id = cpu_to_le64(peb_id);
-+	hdr->relation_peb_id = cpu_to_le64(relation_peb_id);
-+
-+	hdr->volume_create_time = cpu_to_le64(fsi->fs_ctime);
-+	ssdfs_memcpy(hdr->uuid, 0, SSDFS_UUID_SIZE,
-+		     fsi->fs_uuid, 0, SSDFS_UUID_SIZE,
-+		     SSDFS_UUID_SIZE);
-+
-+	hdr->check.bytes = cpu_to_le16(data_size);
-+	hdr->check.flags = cpu_to_le16(SSDFS_CRC32);
-+
-+	err = ssdfs_calculate_csum(&hdr->check,
-+				   hdr, data_size);
-+	if (unlikely(err)) {
-+		SSDFS_ERR("unable to calculate checksum: err %d\n", err);
-+		return err;
-+	}
-+
-+	return 0;
-+}
++#endif /* _SSDFS_OFFSET_TRANSLATION_TABLE_H */
 -- 
 2.34.1
 
