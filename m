@@ -1,129 +1,196 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 339351C6FF5
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 17:12:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773681163; cv=none; b=igaMr3hlF5s5HGIG0hLCUH2Mu6tVm2chAW9BkMo5MTw5+o6AR7H8pvom3jv5mOyOhKQclq6EhKqglZ4u8q6nLOG/VZ8zMBp36RYRFjDHHy47LuPvbwpgCcRf8J2OaWWpfHYV5OViEfy58IOSF/h5ImOeNht/XCzUYqCQOA5TP0g=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773681163; c=relaxed/simple;
-	bh=iAcwNb1yUC+KeXOYREZeT2CcBOBNScD6UASYT9uoIMc=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 821451E7660
+	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 17:22:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.217.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773681765; cv=pass; b=W6mR9AH+3h6JJLEJpbQzjEkFkVj9+/BDlWzeHgBNmNQRIJX7jksTNXh9hqHCmn9GOKJ1NQgkx2ugEnwwJQwjf/DerT2D7w90wdlsuDu+2KTyd8gSljB1YNV2ALR1c4gq4jNN/zzLa/KWS//ZpcFcdUzJgMtHYpo5eYQm/T+vu7M=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773681765; c=relaxed/simple;
+	bh=38YIF2h9LQRciTDudLh6dbVHlCWQ+CVfx4lmwVgz+TQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rPitg1/B0tksVva7Ts5IRng4iyqNiJdOgeMFD8B99oMb5ZUWBShb7zNyAAm8X+x0jnm8OfURLQU90vnwpLM0QTUS/RvwQC0zcmZGp0jQDDw2KUeMC8/TasyKqLkRdoDNcN1i/8b3s7etV3cxsJ3bUmSUvv9ra/zD310RXDs1GV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=QokYjukm; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	 To:Cc:Content-Type; b=nXPUyzEvI391B+PQDFnNX5h0xHcH9gG/xr8OB6NBwn5Y5n8TfJwCqRK+iZ/JPk/uZKlYx2kkdhyPqyCbyZLm9WOojawlmdmiPB8Sy+5c5RlKA3vxh9+fH+XuSdY1PhtBhOi5V/Y2U4w79o2aNib3rRAlG7Oy8uAYNlwqsEODWhk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HcYmuPi0; arc=pass smtp.client-ip=209.85.217.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="QokYjukm"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-b97a0f18a3aso257739166b.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 10:12:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HcYmuPi0"
+Received: by mail-vs1-f41.google.com with SMTP id ada2fe7eead31-5ffa277c115so2635088137.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 10:22:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773681761; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Gw/76m1bxPdspffGqy7ANLS/phfuRGUXLKs7fdaDaKfMkBiXLuGmcVRm9jIeT46MF0
+         LvouPZDVbxg2MThPDMLbwmS1o9XQEb2PIvSv7z5qJnYPr9q/Ec7wwAyKeIXcPJx6ck4a
+         RBLwg/OvS/1zMmIOKuybpAd+oiIIA6J0qPTwBRM/kdPcExvCGEAHXZ1DRESQvKBaoT/6
+         xESBb7eKwSHoIEoznDIHt+eCXVLwZJfy0pfy/XwJiLzZKIlBbb+6E6bU2rd1J5+MvOtu
+         voKEouq0ebY+QNdKqU+G/TJBqEyaRo9UPOmqxCT0FYRjGKF3LRNtBtdmQiu4oq1ky0/r
+         mdaw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=y3DZPi773JGtMdvcTYXrz3SkUkUANIodCa33A4wwy7k=;
+        fh=0YrBa/XAmvc2EfVzmLXoVo8r893lVAipfi4/g4vV8eo=;
+        b=RmkM1V9IY8eY7A4hCqCqX4dEKpuTh6wNuoZUy49FsCQL6onKspUdri/Pr0uOKlxCvt
+         AtkXgusClM3ShxD96A3kKS2B81SG6ieVmeJvGGWIdvFUxxsRbzd4RKJI4XxaIqPlnc8B
+         8J3vLtRG4y4fos1BWQF9VCXEHOjXUJL32aZYOdpQewAcRiDuTtam+9b1pyYGfPdOz0uC
+         y/O80zR/cRxTYftSHyrlJoCRf/t4ILKg94atIf2Dm1x0BfAgploptcJcLx3xJnWqJ8EU
+         D8i/mnqWkbUxGdS770riIUgtw4QrfhvV9idThEIAfbylujdH6VvW6BB3Tfm1EXtfRFko
+         eLkg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1773681160; x=1774285960; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=D47H1/9DWNZln2C6xWaf+lxnKwfPG/1sbTPxxqBOoXo=;
-        b=QokYjukmY22jX2ka6ngQJwj2JkiT3oyu2NRYTw7wORa4sFR3XgUxHKQaGSEYVSfuom
-         4Tx5MFgfD2hVN5XuSdsG4v58yOETSIDoouRpgIjrHkc5zKanKI2qP0djiYYDh9PvyLkL
-         uJsWJcCMbZ3XbO08hGLr/7y3WDKL+F16Rn6C4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773681160; x=1774285960;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1773681761; x=1774286561; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=D47H1/9DWNZln2C6xWaf+lxnKwfPG/1sbTPxxqBOoXo=;
-        b=kaRpjBfUbYiiJLdavwr4z6NFKB2FQAedofJw7X7tOIKgFX8Ukaa+L2MkRdGHMFbPjR
-         j0qH/dtVwAC+pKsGujN6ZVVRNoDuRiDMS3PNJJGOOyip2Wcw1uAmSyVys6XuonSYjJav
-         PrFqpk+zqPwvzDDUiVYSzlXP7f2uZ8ok5DZ7zAanInwfPl6D+HDmv01YpGJIoBp4LqA9
-         nz/yMmOUjlsSU6Q26m22U/mEglre9qiftLjH83u1Gx1nsSzNxXXCyeGlgaQ4O4xrA9Zv
-         i9K1HZZ3btgyxuzWMZvDLIoPDZMKXpBTN8c1jiwRiPmQtnKFGAY+rw3zQEaBTmzp3wSa
-         KJ/A==
-X-Forwarded-Encrypted: i=1; AJvYcCWR950JW8yTCgGX0nz4xZ0yOy/fRHQRC1FhXqQhgubl6w1xeCYOAKMYReKLDGJqNMFUJ8CKtnie64WQP649@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxnzu3oBcugM6k8iQcraMjlstZebLGCTZpjRn6DwRuEVdEhynhk
-	NyFlgAxo2aImzeKx4SQkjqQlduP0yn4tjdcj5NNcIQ5/u3O2rQ/X8ma4pMeNlaR55g7stP5XdvR
-	Nl8CJbCc=
-X-Gm-Gg: ATEYQzwZi8TOx+cG+IFSNNYrO+ivfIlPMKWDsTRwdb1/4/S4vLKSclgEQb568xIoo5r
-	t23th4yEjXvYVe/P6vX81U4E6uFFL9CkM1D4eVUrfOmQyYKlL/8xr6pGgzkx8Utyh4uUbN1WnDR
-	itOPBMU5jYOOV7ii+5oMF4k/lAIe7JnpGxZjn5UQiLblDinTaf1Z1SQ8VS0XWFTU8AYFutGFY6A
-	9dxdWpRV4zWnIGp8ZKIYxNqBFbCDNtjZOAuA/CFf3EIxEMQ1euXYYm/2NWWNokUtJyS0Z/MNtKf
-	FqwM4Dzg0C97Zpwl/83H3c4fImAWiJ6lCRNzfSEACTl1koFuCTDon7JD08LfrcyMAT0qzgUw5Hv
-	bTcjlXQPPXjjnq32cNYtpdTZJpE69Fd0tLsStg7WFNJ3UVxiSmS93UhY7vIuC//Jr8L1E4iwsmX
-	bN6pvgaTyTZQ5JGjtmkmqDB6sgupZ7RkuezGZGwzhppV19X0cP6vf3nFpkvFvzk8Z6+4z49j19
-X-Received: by 2002:a17:907:9346:b0:b97:23c7:2b5c with SMTP id a640c23a62f3a-b97650a527emr789774666b.25.1773681160217;
-        Mon, 16 Mar 2026 10:12:40 -0700 (PDT)
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com. [209.85.208.51])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b97a6d8986esm344839266b.1.2026.03.16.10.12.39
-        for <linux-fsdevel@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Mar 2026 10:12:39 -0700 (PDT)
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-6670ba39400so200674a12.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 10:12:39 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXpoifWbGm++WVBTfaekDccEvkIy5Mp2Cj9DgXsqOBzBKvxeVd3BQkviTlkqu68pDYowU+7KBdDQGIxzHtE@vger.kernel.org
-X-Received: by 2002:a05:6402:34c5:b0:665:5e1b:ddf2 with SMTP id
- 4fb4d7f45d1cf-6655e1be5f6mr2571949a12.3.1773681159693; Mon, 16 Mar 2026
- 10:12:39 -0700 (PDT)
+        bh=y3DZPi773JGtMdvcTYXrz3SkUkUANIodCa33A4wwy7k=;
+        b=HcYmuPi0X/TZNmyRIOXExfvEHRzD0UyzV54M82kVNgBzzjKlBf7yjuyMETcJ7LusHX
+         pr4wvj5PTOWmQLvZr0/nXx+Tqv/O77n+pWvH7woRd/u8jnCj3F1WihYuOO50zXEfUlpo
+         P7srtkllUt2jcefTNJ+39OAhm63tB8Y/e4qItfYY80voDNkTai5h05geghQmFWiqCtW0
+         lVyCyVhRPKH0p+C+PHpz9DqJJzT9jJr1wPNN1sOcV1X3tMTRY7A+UE4Hvqm+O1+2s7m+
+         dinmKniZOJu9i7oMW+aLBtXr11vx6l/tDr23e4AjmBuEk2vF8T8I0ICnInpqLgKzBWYR
+         m2dA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773681761; x=1774286561;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=y3DZPi773JGtMdvcTYXrz3SkUkUANIodCa33A4wwy7k=;
+        b=NXD4+mzUezmljtMuyYC+wSOg1YLtzES64cey40Atfrix5T4EgPufarIvUedCkaK860
+         pIlcgLD4Cxv57a1kppQh4dKaxNhX0A7hqn/4Q+M8LCIzzl0JlP1hhK9oBEfSgfJFU5DA
+         wf74RurjHd5pFG3+pLDKyu5Sgnatt/YUPoOkwO6ueOJTmHgflllcagY8olHQ5Ucn7YEV
+         kQmowNNsAob0kJW6A89LZyD9kg30Dwj0gbV1ndQqe8RL8/5BkXvmN9bweCipxhGwJjCf
+         OfZviFdBvL6lqhsCqk1uMQCrHqauivZfcydS5RLYu0thLi2yG26FQ99y2/aPeG/SUtMG
+         hWMA==
+X-Gm-Message-State: AOJu0YxpLFI61RaNBVnsgwz8kUcSYmEvvMyGJktSh+hZHhR4lmP5B7XA
+	XUCval3fyR51HHkqAfKZABvv1rAKilFVP7qnZZXPsX/I1A/WzzgB4ClWPC7INbzqhuC/YZ109vU
+	fyZZxxPv9b4Okihgy4LecUlWuAubad9k=
+X-Gm-Gg: ATEYQzyqFmtxvzyW+BhI3NuQP5UFh7iPxuaEZE5GbQH+02pKwo8lcTODoD2SoYIWVhD
+	xrjT+eiy6ztimAdPzhX6vJDmIS63Lv+JgSqT8oqcDBkZCFKNYqw2jcUlv+9Y+unysh7Lxh9rtKP
+	MTxus7Kx2z+I7738+KjHT/4vtxhHcaZjhvRIPaHSewNmhyuyMoBmqyCQ9lyTOv+eFjqd+9mHSdv
+	cI/lrh/cUrug+PUNqjVX4eDqlqLYJHea+Ubw8ZFh/rinhVzT4WHPHYKnpwgKZjSMY8XJrU/Gvwq
+	Nam2DM7pCS9kdGLp3Gp9YIJG4l4pId7BP+O7lNSEP2YgpY4r0l6/oFk=
+X-Received: by 2002:a05:6102:32c4:b0:5e1:866c:4f8a with SMTP id
+ ada2fe7eead31-6020e52dbbamr5788771137.20.1773681761421; Mon, 16 Mar 2026
+ 10:22:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <23f19c88e763beb852a4891b2a908890bdd01b66.1773651096.git.chleroy@kernel.org>
-In-Reply-To: <23f19c88e763beb852a4891b2a908890bdd01b66.1773651096.git.chleroy@kernel.org>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Mon, 16 Mar 2026 10:12:23 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whFS7D1M4=cMi9cR06Uoxr1QeM8HUtRB6V3cQth=QNoXg@mail.gmail.com>
-X-Gm-Features: AaiRm51b9UuuqYN0w-D1Vbi30YHEjMd68XoQaIApreWlSDySVTn6sa2mUa3X-ac
-Message-ID: <CAHk-=whFS7D1M4=cMi9cR06Uoxr1QeM8HUtRB6V3cQth=QNoXg@mail.gmail.com>
-Subject: Re: [PATCH v3] fs: Replace user_access_{begin/end} by scoped user access
-To: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Thomas Gleixner <tglx@linutronix.de>, David Laight <david.laight.linux@gmail.com>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260307140726.70219-1-dorjoychy111@gmail.com>
+ <20260307140726.70219-2-dorjoychy111@gmail.com> <5fcc2a6e6d92dae0601c6b3b8faa8b2f83981afb.camel@kernel.org>
+In-Reply-To: <5fcc2a6e6d92dae0601c6b3b8faa8b2f83981afb.camel@kernel.org>
+From: Dorjoy Chowdhury <dorjoychy111@gmail.com>
+Date: Mon, 16 Mar 2026 23:22:29 +0600
+X-Gm-Features: AaiRm519sCKeQSwcsAIj83-gCCcOtyLCMrhp4On2ZfkD8pFyjWgcliN3tJw964Y
+Message-ID: <CAFfO_h5pyrTTwJ3swHNLT=ZyeTJG=eHw626bTqQqAh+GeN3PhA@mail.gmail.com>
+Subject: Re: [PATCH v5 1/4] openat2: new OPENAT2_REGULAR flag support
+To: Jeff Layton <jlayton@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-api@vger.kernel.org, ceph-devel@vger.kernel.org, gfs2@lists.linux.dev, 
+	linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org, v9fs@lists.linux.dev, 
+	linux-kselftest@vger.kernel.org, viro@zeniv.linux.org.uk, brauner@kernel.org, 
+	jack@suse.cz, chuck.lever@oracle.com, alex.aring@gmail.com, arnd@arndb.de, 
+	adilger@dilger.ca, mjguzik@gmail.com, smfrench@gmail.com, 
+	richard.henderson@linaro.org, mattst88@gmail.com, linmag7@gmail.com, 
+	tsbogend@alpha.franken.de, James.Bottomley@hansenpartnership.com, 
+	deller@gmx.de, davem@davemloft.net, andreas@gaisler.com, idryomov@gmail.com, 
+	amarkuze@redhat.com, slava@dubeyko.com, agruenba@redhat.com, 
+	trondmy@kernel.org, anna@kernel.org, sfrench@samba.org, pc@manguebit.org, 
+	ronniesahlberg@gmail.com, sprasad@microsoft.com, tom@talpey.com, 
+	bharathsm@microsoft.com, shuah@kernel.org, miklos@szeredi.hu, 
+	hansg@kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 16 Mar 2026 at 01:53, Christophe Leroy (CS GROUP)
-<chleroy@kernel.org> wrote:
+On Mon, Mar 16, 2026 at 10:53=E2=80=AFPM Jeff Layton <jlayton@kernel.org> w=
+rote:
 >
-> -       if (!user_write_access_begin(dirent,
-> -                       (unsigned long)(dirent->d_name + namlen + 1) -
-> -                               (unsigned long)dirent))
-> -               goto efault;
+> On Sat, 2026-03-07 at 20:06 +0600, Dorjoy Chowdhury wrote:
+> > This flag indicates the path should be opened if it's a regular file.
+> > This is useful to write secure programs that want to avoid being
+> > tricked into opening device nodes with special semantics while thinking
+> > they operate on regular files. This is a requested feature from the
+> > uapi-group[1].
+> >
+> > A corresponding error code EFTYPE has been introduced. For example, if
+> > openat2 is called on path /dev/null with OPENAT2_REGULAR in the flag
+> > param, it will return -EFTYPE. EFTYPE is already used in BSD systems
+> > like FreeBSD, macOS.
+> >
+> > When used in combination with O_CREAT, either the regular file is
+> > created, or if the path already exists, it is opened if it's a regular
+> > file. Otherwise, -EFTYPE is returned.
+> >
+> > When OPENAT2_REGULAR is combined with O_DIRECTORY, -EINVAL is returned
+> > as it doesn't make sense to open a path that is both a directory and a
+> > regular file.
+> >
+> > [1]: https://uapi-group.org/kernel-features/#ability-to-only-open-regul=
+ar-files
+> >
+> > Signed-off-by: Dorjoy Chowdhury <dorjoychy111@gmail.com>
+> > ---
+> >  arch/alpha/include/uapi/asm/errno.h        |  2 ++
+> >  arch/alpha/include/uapi/asm/fcntl.h        |  1 +
+> >  arch/mips/include/uapi/asm/errno.h         |  2 ++
+> >  arch/parisc/include/uapi/asm/errno.h       |  2 ++
+> >  arch/parisc/include/uapi/asm/fcntl.h       |  1 +
+> >  arch/sparc/include/uapi/asm/errno.h        |  2 ++
+> >  arch/sparc/include/uapi/asm/fcntl.h        |  1 +
+> >  fs/ceph/file.c                             |  4 ++++
+> >  fs/gfs2/inode.c                            |  6 ++++++
+> >  fs/namei.c                                 |  4 ++++
+> >  fs/nfs/dir.c                               |  4 ++++
+> >  fs/open.c                                  |  4 +++-
+> >  fs/smb/client/dir.c                        | 14 +++++++++++++-
+> >  include/linux/fcntl.h                      |  2 ++
+> >  include/uapi/asm-generic/errno.h           |  2 ++
+> >  include/uapi/asm-generic/fcntl.h           |  4 ++++
+> >  tools/arch/alpha/include/uapi/asm/errno.h  |  2 ++
+> >  tools/arch/mips/include/uapi/asm/errno.h   |  2 ++
+> >  tools/arch/parisc/include/uapi/asm/errno.h |  2 ++
+> >  tools/arch/sparc/include/uapi/asm/errno.h  |  2 ++
+> >  tools/include/uapi/asm-generic/errno.h     |  2 ++
+> >  21 files changed, 63 insertions(+), 2 deletions(-)
+> >
+> >
+>
+> I pointed Claude at this patch and got this back. Both issues that it
+> found will need to be fixed:
+>
+>   Analysis Summary
+>
+>   Commit: 7e7fa2653ca57 - openat2: new OPENAT2_REGULAR flag support
+>
+>   This patch adds a new OPENAT2_REGULAR flag for openat2() that restricts=
+ opens to regular files only, returning a new
+>   EFTYPE errno for non-regular files. It adds filesystem-specific checks =
+in ceph, gfs2, nfs, and cifs atomic_open paths,
+>   plus a VFS-level fallback in do_open().
+>
+>   Issues found:
+>
+>   1. OPENAT2_REGULAR leaks into f_flags - do_dentry_open() strips open-ti=
+me-only flags (O_CREAT|O_EXCL|O_NOCTTY|O_TRUNC)
+>   but does not strip OPENAT2_REGULAR. When a regular file is successfully=
+ opened via openat2() with this flag, the bit
+>   persists in file->f_flags and will be returned by fcntl(fd, F_GETFL).
+>   2. BUILD_BUG_ON not updated - The compile-time guard checks upper_32_bi=
+ts(VALID_OPEN_FLAGS) but the code now accepts
+>   VALID_OPENAT2_FLAGS. The guard should cover the expanded flag set.
+>
 
-This was already pretty unreadable (my bad), but..
+Good catches! I guess for issue 1 I need to modify the line in
+do_dentry_open implementation to
+f->f_flags &=3D ~(O_CREAT | O_EXCL | O_NOCTTY | O_TRUNC | OPENAT2_REGULAR);
+right?
+And for issue 2, I should change the VALID_OPEN_FLAGS to
+VALID_OPENAT2_FLAGS in both build_open_flags in fs/open.c and in
+fcntl_init in fs/fcntl.c, correct?
 
-> +       scoped_user_write_access_size(dirent, (unsigned long)(dirent->d_name + namlen + 1) -
-> +                                             (unsigned long)dirent, efault) {
-
-.. in my opinion, this is even worse. It's a 90+ character long line
-(or something), *and* it continues on the next line.
-
-Yes, yes, the old code was disgusting too, but when changing it for
-something that is supposed to be easier to read, please let's make it
-*really* easier to read.
-
-(And yes, there's another case of this same pattern a bit later).
-
-Adding a helper inline function like dirent_size() might do it. And I
-think it might as well be cleaned up while at it, and make it be
-something like
-
-    static inline size_t dirent_size(int namelen)
-    {
-        return offsetof(struct linux_dirent, d_name) + namelen + 1;
-    }
-
-[ Making things doubly sad, the size shouldn't even be *used* in sane
-situations, because the user access validity is often checked by only
-checking the beginning,
-
-  The x86-64 __access_ok() does actually do that optimization, but
-only if we can statically see that the thing is smaller than one page,
-which in this case it can't, because while namelen is range checked,
-it is allowed to be up to PATH_MAX in size, so even if the compiler
-does do the full value range analysis, we'd need to relax that
-__access_ok() check a bit more ]
-
-Hmm? Can you do at least that dirent_size() kind of cleanup?
-
-              Linus
+Regards,
+Dorjoy
