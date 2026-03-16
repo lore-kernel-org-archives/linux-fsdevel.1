@@ -1,133 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C75C3EC2E2;
-	Mon, 16 Mar 2026 19:02:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7727633A9E9
+	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 19:17:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773687766; cv=none; b=r+22LtYqhp9CKG/EycSCqW9zRE10H11MUsIhPksQbk3wDSM3TjlmvTpyCLN2QaXkT30ZfOR+/R5zlHAFv5HKKu/tMserWL4jf8L8JbanOMqnVbDnWTn9ShY+2wkwgzr7aeHG/ucGqj1ZqyXUTAmtpmEE/hFJOAbPpmu8k5g4Jc8=
+	t=1773688623; cv=none; b=u85N0pW1Y82NjlmT3GKT2Yq9lqC1OyINSqDOcW5jNqQbRN2vXZLVSVFPUpktWRscA0ylgAKC6esraB7g87pXqd2t63Yqsd9r0L8MjUJNaJ79AzthajRlpAKuTuJuae3GJknfYq8ZReTgFRrlqt2gzr7HTuTLXnqftFUCDQilg+E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773687766; c=relaxed/simple;
-	bh=CUkhw3xl8xIRjoR4RbMKIcmO3c0dZFO7usOuKJlm4c4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Co8BaSrH4OJ9PbTt9IOPyuTMiOUQ5qO7uF/aP36NSNlwov7MMZtU+LfU5YxAbFgHYo8qgvEX0Et3Ji+8aHl4u9aPMQr3yYbPbQn+jlKmkzjzHQDbzZXlyQcHFX651wy7585kix524+25+04vy1Xe7J9lPP+6OuTILh/MvC6BINg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mJW4Vh0H; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773688623; c=relaxed/simple;
+	bh=PlGPZoglXUuh1dfeukJH/LeqqwBMJABO0C248s1v9As=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=H2UFh/XqzyC7ap79qKVwKtJQ2SxOPha0hOWfGOQcjECWSrED7SDh61s1I7oRgbGkCcYhRtc6b6v/GbG462VX6wgHezR+jxAei6ETged/0cw5hLKSSq+4xeU/EfB1EGnBrlD/oMGwM+zRi5soQMK1bkrJ5M7otpOd83JaY97iwQA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HD4WVQWy; arc=none smtp.client-ip=74.125.82.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mJW4Vh0H"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B275FC2BCB3;
-	Mon, 16 Mar 2026 19:02:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773687766;
-	bh=CUkhw3xl8xIRjoR4RbMKIcmO3c0dZFO7usOuKJlm4c4=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=mJW4Vh0HAFzhHgFoWvUIXGQKWxXFMsnpcqEiyNCLCT3r9CSByh3g0E0fND07bqgRb
-	 0Hb1/kBe+iFnKWX0GeqaraDUgsCr26BkJNw8y0jepowt3oWEKI6XlGubU2aNf4FV+T
-	 MaGVsXE5OfF/nu+sGW4eYjCggEDdSbn1lGoAVtCH3f2TssdyXZ9nFPfhJyhw4TO5aT
-	 HeFEzmdP3r491jMRfD3yhl7CQCiRNE/qzgWRCtYKnp0fOOK3PqSrpl2jRpf+ZyHtbu
-	 +FtVYvn+e4ucu/WfVKkzpjv8y4IqkVTPNhad4QZ4gwZV3J+pPEUX2b+REKYDripGw3
-	 mLJz/25prB3iA==
-From: Jeff Layton <jlayton@kernel.org>
-Date: Mon, 16 Mar 2026 15:02:23 -0400
-Subject: [PATCH v3 2/2] nilfs2: fix 64-bit division operations in
- nilfs_bmap_find_target_in_group()
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HD4WVQWy"
+Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-1279eced0b9so6626397c88.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 12:17:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773688620; x=1774293420; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7Hk2XaBHC8Qa6dgUkCoPcN4E9YBKjMdtHqI5bOd6Xjw=;
+        b=HD4WVQWyGgPLd3jJ1GHewURwI2RV136um/ZLg30U6PJAfKIrEqj+6n+G4wRMMjiuBl
+         jOxtr/KhWksLAsVS2bUzx7O6V6pv2zcXY67mVAUKWmNpVsdYM/xTg/D72dHrQYovLI3e
+         Xc8zwrB5H1BzBnHy+qvpqtBiBgv7kMIt97ICOkMTyBnip7Gh6YTYwW9UYg3ibW+J2y9f
+         /HB7uMi6w/jcLl4tLvaMxt2zIkHv/P+3r1jA5hdpi8F2ivOmWTcMm8h/IRIlZF+z3+iq
+         i+e0FdXRJGvD+P5ZsiY4Oe4t1L0iVnud09QWF6I1zhXuuCuhc9u69FUMELRjdH6sZJY3
+         6nWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773688620; x=1774293420;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=7Hk2XaBHC8Qa6dgUkCoPcN4E9YBKjMdtHqI5bOd6Xjw=;
+        b=MBpp2zOU6wscomnVpGxmoj96K5DRFncBbS+e6qSS9uz+2pJ6hi1HkHCDDut+1rVvlD
+         x5zMR6vbwt0+LYu+e4I9yHPoLMC7BEkroFXrg/WEb16CcpHxGIVRGx7lksFm35STRGUy
+         Ddcu5RxzA2Crw4KRBpHf8S25YOmYJHG1VZsaRiVuKFrb/61CHU5GzX5N5Y/4VzPiIrWo
+         T6WFXq0VHunprsz3SNapM768jgyvWk8+b2XnlLVYDXiZyo2288uTmQmfc+Fs41NuAwH/
+         H0EdJPZAjfduRst+QYO6OXAGm0nq2P2nLqrI8f4qNEp9hBp+VeD9hPorejubErWHLsv9
+         ErKg==
+X-Forwarded-Encrypted: i=1; AJvYcCU+0GkedMiHcrtzOLE79kzH+P+CV4r2+bRCUNCe60Qo2I1zSe13acjwKGib1aNPMob0v8UGhdeQJyHtG+tN@vger.kernel.org
+X-Gm-Message-State: AOJu0YzWcPKWmxa9THwN7Ale17UawyFz1bNzq+qLQCuZhrHPC16BYimE
+	BunDDz79Ii3kwqTAGsTu+CrvEHsPd4A9vZA8nI02KKqshCH9mPCKvgVV
+X-Gm-Gg: ATEYQzybl01wL+jFeTQ4cnojlzgVWHJN7yQNCAISm6mSUK4BpH6S00buTbLqU3RycmA
+	BvAEJ1DLYylJpxcIbj+goF/qf4y15oW1+vdA9W2+x2+JZnA5zkvxhCvIjJ/Uyi9uRtEyTi8H9M4
+	FgZ6khvpcac5sxW2UGJFyMSvhnXpSzwFWoj9yQvAZdTHTLnVwfUo+OKGBG8aaNMZVxewIIzC6jH
+	3KOoHeU6fsF3RwFxUtMUhQPjN8K9/2HFPY+paSMzCOlQVCNIBUpSFE5yh9CVRfKV69qV1xhGuw9
+	yUOtMM9uTjbtog7pMEqas7Nd4V1Hj+XBObquz7FptsU5zJ06LBPVvMRjrqmNqRC96OxCFOlE/Is
+	O15ytnBpTr727ajrIjfuJQXQk2obGsfM4GOZ4m2s2X+nSUQ+WIFdqL3WgPtQwZuH3jtihAviXiI
+	ReR71bvpoEhRwKMe6tuU5TbrZuJTp8shv3NKdv
+X-Received: by 2002:a05:7022:925:b0:128:bbad:9a52 with SMTP id a92af1059eb24-128f3e52ca3mr5874419c88.39.1773688620362;
+        Mon, 16 Mar 2026 12:17:00 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-128f62837ccsm17035721c88.3.2026.03.16.12.16.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Mar 2026 12:16:59 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Mon, 16 Mar 2026 12:16:58 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Kees Cook <keescook@chromium.org>
+Cc: Eric Biederman <ebiederm@xmission.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH 1/2] exec: Add KUnit test for bprm_stack_limits()
+Message-ID: <a3e9b1c2-40c1-45df-9fa2-14ee6a7b3fe2@roeck-us.net>
+References: <20240520021337.work.198-kees@kernel.org>
+ <20240520021615.741800-1-keescook@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260316-iino-u64-v3-2-d1076b8f7a20@kernel.org>
-References: <20260316-iino-u64-v3-0-d1076b8f7a20@kernel.org>
-In-Reply-To: <20260316-iino-u64-v3-0-d1076b8f7a20@kernel.org>
-To: Ryusuke Konishi <konishi.ryusuke@gmail.com>, 
- Viacheslav Dubeyko <slava@dubeyko.com>, 
- Christian Brauner <brauner@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>, 
- Roberto Sassu <roberto.sassu@huawei.com>, 
- Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
- Eric Snowberg <eric.snowberg@oracle.com>, Paul Moore <paul@paul-moore.com>, 
- James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>
-Cc: David Laight <david.laight.linux@gmail.com>, 
- linux-nilfs@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, Jeff Layton <jlayton@kernel.org>, 
- kernel test robot <lkp@intel.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2169; i=jlayton@kernel.org;
- h=from:subject:message-id; bh=CUkhw3xl8xIRjoR4RbMKIcmO3c0dZFO7usOuKJlm4c4=;
- b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBpuFPQVZMUYX+O8fn7SpAIPVmqwkRvPuMz5JaPj
- Tv7vfY/ClOJAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCabhT0AAKCRAADmhBGVaC
- FQZ9D/9E+wUpb9S2ol0rfVLUqP434oMLE4Z/2pT0pJ8AOVE2CMqfbA/2KzU2Y3HrHnYJAirEMNN
- v6WbqhZFaeVxOomaU9Gb5Kyasvd2dBEFWgjXc0U39kzMsyAhE3WRUGEk66Eqvi0bzdKYCpyfjbO
- fSO1JrbT9RPgHhlv2KCWiGhm5/5LRoaYd8k65+YMi4mLkIRhxInG6v9DCfMwjKStdoK37I93Rgq
- eUF78aT52ToEax/9u1vW+my6MkKSm9nXzvDsioOE2o5GoFAt2Nk1fxuO0qWHyCzVYKGN8i2ksvr
- bxODCyGUoOCQ3mq327mQeMlGAUOoXFwmV5nVstqNFhZIRIdsk281GbAajSZc1ScDrrfR2CDbzmp
- z1CbSRGcEs9h4OoJEho7gi4uldeXUAE3YDIJK68UaTAZJS6J+1aa5XXLTNrUGrN2lk4lzhIOWxZ
- kqv31A8mDElVKBLeF4c7/OwTGCi4cKDEFgK1sDVDpmOykQ+m5trn8jwUYwUVLQmF2pZ18gExtn3
- 9GEfptvkU/Hg/GUtoK+8nfuFNq6KHuAkxNHMXxSCjIYJxNURiy725EnzbTg7yzDshNOeeKbX8EU
- anxZv7rNTnkkyKqA5QiwbyAFmgbzIx5NlsDHGsrSuki0nrK+IxKwhU3dqFi78WkRCdTO+84Lcaq
- +s47Dz1vuvvgACA==
-X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
- fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240520021615.741800-1-keescook@chromium.org>
 
-With the change to make inode->i_ino a u64, the build started failing on
-32-bit ARM with:
+Hi,
 
-    ERROR: modpost: "__aeabi_uldivmod" [fs/nilfs2/nilfs2.ko] undefined!
+On Sun, May 19, 2024 at 07:16:11PM -0700, Kees Cook wrote:
+> Since bprm_stack_limits() operates with very limited side-effects, add
+> it as the first exec.c KUnit test. Add to Kconfig and adjust MAINTAINERS
+> file to include it.
+> 
+> Tested on 64-bit UML:
+> $ tools/testing/kunit/kunit.py run exec
+> 
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+> ---
+> Cc: Eric Biederman <ebiederm@xmission.com>
+> Cc: Justin Stitt <justinstitt@google.com>
+> Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+> Cc: Christian Brauner <brauner@kernel.org>
+> Cc: Jan Kara <jack@suse.cz>
+> Cc: linux-fsdevel@vger.kernel.org
+> Cc: linux-mm@kvack.org
+> ---
+...
+> +++ b/fs/exec.c
+...
+> +	  .expected_argmin = ULONG_MAX - (_STK_LIM / 4 * 3) + sizeof(void *) },
+> +	{ { .p = ULONG_MAX, .rlim_stack.rlim_cur = 4 * (_STK_LIM / 4 *  + sizeof(void *)),
+                                                                   ^^^^^^
 
-Fix this by using udiv_u64() for the division.
+Google's experimental AI review agent tagged the above change as syntactically wrong.
+How does this even compile ?
 
-For finding the index into the group, switch to using a bitwise &
-operation since that's more efficient. With this change however,
-NILFS_BMAP_GROUP_DIV must be a power of two, so add a compile-time
-assertion for that.
-
-Fixes: 998a59d371c2 ("treewide: fix missed i_ino format specifier conversions")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202603100602.KPxiClIO-lkp@intel.com/
-Reviewed-by: Viacheslav Dubeyko <slava@dubeyko.com>
-Acked-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Signed-off-by: Jeff Layton <jlayton@kernel.org>
----
- fs/nilfs2/bmap.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
-
-diff --git a/fs/nilfs2/bmap.c b/fs/nilfs2/bmap.c
-index 824f2bd91c167965ec3a660202b6e6c5f1fe007e..5f0f1f283af0208e1879e2e84b0b5b9629fd6b8a 100644
---- a/fs/nilfs2/bmap.c
-+++ b/fs/nilfs2/bmap.c
-@@ -450,18 +450,25 @@ __u64 nilfs_bmap_find_target_seq(const struct nilfs_bmap *bmap, __u64 key)
- 		return NILFS_BMAP_INVALID_PTR;
- }
- 
--#define NILFS_BMAP_GROUP_DIV	8
-+#define NILFS_BMAP_GROUP_DIV	8	/* must be power of 2 */
-+
- __u64 nilfs_bmap_find_target_in_group(const struct nilfs_bmap *bmap)
- {
- 	struct inode *dat = nilfs_bmap_get_dat(bmap);
- 	unsigned long entries_per_group = nilfs_palloc_entries_per_group(dat);
--	unsigned long group = bmap->b_inode->i_ino / entries_per_group;
-+	unsigned long group;
-+	u32 index;
-+
-+	BUILD_BUG_ON_NOT_POWER_OF_2(NILFS_BMAP_GROUP_DIV);
-+
-+	group = div_u64(bmap->b_inode->i_ino, entries_per_group);
-+	index = bmap->b_inode->i_ino & (NILFS_BMAP_GROUP_DIV - 1);
- 
- 	return group * entries_per_group +
--		(bmap->b_inode->i_ino % NILFS_BMAP_GROUP_DIV) *
--		(entries_per_group / NILFS_BMAP_GROUP_DIV);
-+	       index * (entries_per_group / NILFS_BMAP_GROUP_DIV);
- }
- 
-+
- static struct lock_class_key nilfs_bmap_dat_lock_key;
- static struct lock_class_key nilfs_bmap_mdt_lock_key;
- 
-
--- 
-2.53.0
-
+Thanks,
+Guenter
