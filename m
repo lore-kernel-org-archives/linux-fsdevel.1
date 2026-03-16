@@ -1,121 +1,106 @@
-Received: from embla.dev.snart.me (embla.dev.snart.me [54.252.183.203])
+Received: from lithops.sigma-star.at (mailout.nod.at [116.203.167.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08E291DFD96
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 21:42:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.252.183.203
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CADDD35CB8C;
+	Mon, 16 Mar 2026 21:45:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.167.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773697326; cv=none; b=TO0HugMFnxhq3h4APsiV14f2IkRuX5p2B5jrsMBYUkk7BAqzTOGzwew4wAhqBq3eGwjaLpwjqc3rZdnmra9TGqsPrFJTsrqMxaVmkyG+2lnPDvmUxVfZA5SnwZJNqGToFkPqQxL2M0ZwgCYPuzSwZI3u4BE/KKBT9TjLMZZAzvI=
+	t=1773697557; cv=none; b=u+PnAQuboyAeDh48TpCoTZ9TVi5oDYKbq6M9GmzlMSAYazgLPojdU9FBH86IuBNVV5BpTq51LK+UbhMPd4I9yfF75gj0kgfeQ3hGeJ6HMk+lz5cte6oGzJw9RbhNbdicCf2QGvzlj5GBuPDm2tHAG57rhu3n8ClywFh2WUTJtBU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773697326; c=relaxed/simple;
-	bh=NaFBertK/HrYV1u5GY4KHz6CmCGAkkV0oyej08gwKBY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iEnMs5C9o/EnhZnNYxTpDqeMv0KS6NO3Do+TgB5B+4HEAM0pvyGuSoJcz0058FTUowZfofARU/WhrsuT3BTK6QBWgXVnxac0onVGMP7tjcT/OS5pgenWr2Q8miQqLDtAcpb41CRIWpDgz0YNDqvCy6FjYPQzaXulsODRVGXLsfU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me; spf=pass smtp.mailfrom=dev.snart.me; dkim=pass (1024-bit key) header.d=dev.snart.me header.i=@dev.snart.me header.b=ePhF3p+c; arc=none smtp.client-ip=54.252.183.203
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dev.snart.me
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=dev.snart.me header.i=@dev.snart.me header.b="ePhF3p+c"
-Received: from embla.dev.snart.me (localhost [IPv6:::1])
-	by embla.dev.snart.me (Postfix) with ESMTP id 5A8231CBC3;
-	Mon, 16 Mar 2026 21:41:57 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 embla.dev.snart.me 5A8231CBC3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=dev.snart.me; s=00;
-	t=1773697318; bh=NaFBertK/HrYV1u5GY4KHz6CmCGAkkV0oyej08gwKBY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ePhF3p+cZWjyeJ8loGvtAJHzoRti5IWrUwW5R2Cx0I7qd4Qwqwjjzc4f6DqqIoSKe
-	 Rk2r+eiNcpzV79ULI7pNmECq8KXfDhluvhNZbMarzcc1Ouzen90q53/hLuFA9DH8Va
-	 7Dgzq+V+A5+8XyBhhBWnXlQSj2dAdERLcKVbDg9w=
-Received: from maya.d.snart.me ([182.226.25.243])
-	by embla.dev.snart.me with ESMTPSA
-	id eL6KLiF5uGltqAYA8KYfjw:T2
-	(envelope-from <dxdt@dev.snart.me>); Mon, 16 Mar 2026 21:41:57 +0000
-From: David Timber <dxdt@dev.snart.me>
-To: linkinjeon@kernel.org,
-	sj1557.seo@samsung.com,
-	linux-fsdevel@vger.kernel.org
-Cc: yuezhang.mo@sony.com,
-	David Timber <dxdt@dev.snart.me>
-Subject: [PATCH v0 1/1] exfat: fix s_maxbytes
-Date: Tue, 17 Mar 2026 06:41:37 +0900
-Message-ID: <20260316214137.1490070-2-dxdt@dev.snart.me>
-X-Mailer: git-send-email 2.53.0.1.ga224b40d3f.dirty
-In-Reply-To: <20260316214137.1490070-1-dxdt@dev.snart.me>
-References: <20260316214137.1490070-1-dxdt@dev.snart.me>
+	s=arc-20240116; t=1773697557; c=relaxed/simple;
+	bh=/UyC2rv+fuf1B8esy+O+vyfPhSfBzfj4uOXEAJ8jSnc=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=Savz+Lm6QpTQQUSWKV6DJsI6Cnni6rEBjhFryhb8hdBEEzq7ny1XvnuVC3ahUcWP8KAKpk75YNd7YwxISDut2qoJi6YnZU9/wmQ5CiYTtxn9XdvrkKorhLfKQXWb68u2qmoQcJ20Oon4PdgEhhmWZp6QO816WBj02PjeiiyzEzo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nod.at; spf=fail smtp.mailfrom=nod.at; arc=none smtp.client-ip=116.203.167.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nod.at
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nod.at
+Received: from localhost (localhost [127.0.0.1])
+	by lithops.sigma-star.at (Postfix) with ESMTP id DE7AC2C14A6;
+	Mon, 16 Mar 2026 22:45:45 +0100 (CET)
+Received: from lithops.sigma-star.at ([127.0.0.1])
+	by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10032)
+	with ESMTP id gGqg7UAYOlZ6; Mon, 16 Mar 2026 22:45:44 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+	by lithops.sigma-star.at (Postfix) with ESMTP id 3AEF62C14A8;
+	Mon, 16 Mar 2026 22:45:44 +0100 (CET)
+Received: from lithops.sigma-star.at ([127.0.0.1])
+	by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id Q-DUhqY-5-xt; Mon, 16 Mar 2026 22:45:43 +0100 (CET)
+Received: from lithops.sigma-star.at (lithops.sigma-star.at [195.201.40.130])
+	by lithops.sigma-star.at (Postfix) with ESMTP id A7EA82C14A6;
+	Mon, 16 Mar 2026 22:45:43 +0100 (CET)
+Date: Mon, 16 Mar 2026 22:45:43 +0100 (CET)
+From: Richard Weinberger <richard@nod.at>
+To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Clemens Ladisch <clemens@ladisch.de>, Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"K . Y . Srinivasan" <kys@microsoft.com>, 
+	Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
+	Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+	mcoquelin stm32 <mcoquelin.stm32@gmail.com>, 
+	alexandre torgue <alexandre.torgue@foss.st.com>, 
+	Miquel Raynal <miquel.raynal@bootlin.com>, 
+	Vignesh Raghavendra <vigneshr@ti.com>, 
+	Bodo Stroesser <bostroesser@gmail.com>, 
+	"Martin K. Petersen" <martin.petersen@oracle.com>, 
+	David Howells <dhowells@redhat.com>, 
+	Marc Dionne <marc.dionne@auristor.com>, 
+	Al Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	David Hildenbrand <david@kernel.org>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, 
+	Pedro Falcato <pfalcato@suse.de>, 
+	linux-kernel <linux-kernel@vger.kernel.org>, 
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>, 
+	linux-hyperv <linux-hyperv@vger.kernel.org>, 
+	linux-stm32 <linux-stm32@st-md-mailman.stormreply.com>, 
+	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, 
+	linux-mtd <linux-mtd@lists.infradead.org>, 
+	linux-staging@lists.linux.dev, 
+	linux-scsi <linux-scsi@vger.kernel.org>, 
+	target-devel <target-devel@vger.kernel.org>, 
+	linux-afs <linux-afs@lists.infradead.org>, 
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>, 
+	linux-mm <linux-mm@kvack.org>, ryan roberts <ryan.roberts@arm.com>
+Message-ID: <305430349.46051.1773697543461.JavaMail.zimbra@nod.at>
+In-Reply-To: <e3071ae43af79277d3919bafb71f009694d0854d.1773695307.git.ljs@kernel.org>
+References: <cover.1773695307.git.ljs@kernel.org> <e3071ae43af79277d3919bafb71f009694d0854d.1773695307.git.ljs@kernel.org>
+Subject: Re: [PATCH v2 09/16] mtdchar: replace deprecated mmap hook with
+ mmap_prepare, clean up
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Zimbra 8.8.12_GA_3807 (ZimbraWebClient - FF148 (Linux)/8.8.12_GA_3809)
+Thread-Topic: mtdchar: replace deprecated mmap hook with mmap_prepare, clean up
+Thread-Index: pNh82O8fJN+FJCj96uoZroIJd3hL7Q==
 
-With fallocate support, xfstest unit generic/213 fails with
+----- Urspr=C3=BCngliche Mail -----
+> Von: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
 
-   QA output created by 213
-   We should get: fallocate: No space left on device
-   Strangely, xfs_io sometimes says "Success" when something went wrong
-  -fallocate: No space left on device
-  +fallocate: File too large
+[...]
 
-because sb->s_maxbytes is set to the volume size.
+> Commit f5cf8f07423b ("mtd: Disable mtdchar mmap on MMU systems") commente=
+d
+> out the CONFIG_MMU part of this function back in 2012, so after ~14 years
+> it's probably reasonable to remove this altogether rather than updating
+> dead code.
+>=20
+> Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
+> ---
+> drivers/mtd/mtdchar.c | 21 +++------------------
+> 1 file changed, 3 insertions(+), 18 deletions(-)
 
-To be in line with other non-extent-based filesystems, set to max volume
-size possible with the cluster size of the volume.
+Acked-by: Richard Weinberger <richard@nod.at>
 
-Signed-off-by: David Timber <dxdt@dev.snart.me>
----
- fs/exfat/exfat_raw.h |  1 +
- fs/exfat/file.c      |  1 +
- fs/exfat/super.c     | 11 ++++++++---
- 3 files changed, 10 insertions(+), 3 deletions(-)
-
-diff --git a/fs/exfat/exfat_raw.h b/fs/exfat/exfat_raw.h
-index 4082fa7b8c14..ec70cd35bba0 100644
---- a/fs/exfat/exfat_raw.h
-+++ b/fs/exfat/exfat_raw.h
-@@ -25,6 +25,7 @@
- #define EXFAT_FIRST_CLUSTER	2
- #define EXFAT_DATA_CLUSTER_COUNT(sbi)	\
- 	((sbi)->num_clusters - EXFAT_RESERVED_CLUSTERS)
-+#define EXFAT_MAX_NUM_CLUSTER		(0xFFFFFFF5)
- 
- /* AllocationPossible and NoFatChain field in GeneralSecondaryFlags Field */
- #define ALLOC_POSSIBLE		0x01
-diff --git a/fs/exfat/file.c b/fs/exfat/file.c
-index 2daf0dbabb24..6fa720e99103 100644
---- a/fs/exfat/file.c
-+++ b/fs/exfat/file.c
-@@ -34,6 +34,7 @@ static int exfat_cont_expand(struct inode *inode, loff_t size)
- 		return ret;
- 
- 	num_clusters = EXFAT_B_TO_CLU(exfat_ondisk_size(inode), sbi);
-+	/* integer overflow is already checked in inode_newsize_ok(). */
- 	new_num_clusters = EXFAT_B_TO_CLU_ROUND_UP(size, sbi);
- 
- 	if (new_num_clusters == num_clusters)
-diff --git a/fs/exfat/super.c b/fs/exfat/super.c
-index 83396fd265cd..95d87e2d7717 100644
---- a/fs/exfat/super.c
-+++ b/fs/exfat/super.c
-@@ -531,9 +531,14 @@ static int exfat_read_boot_sector(struct super_block *sb)
- 	if (sbi->vol_flags & MEDIA_FAILURE)
- 		exfat_warn(sb, "Medium has reported failures. Some data may be lost.");
- 
--	/* exFAT file size is limited by a disk volume size */
--	sb->s_maxbytes = (u64)(sbi->num_clusters - EXFAT_RESERVED_CLUSTERS) <<
--		sbi->cluster_size_bits;
-+	/*
-+	 * Set to the max possible volume size for this volume's cluster size so
-+	 * that any integer overflow from bytes to cluster size conversion is
-+	 * checked in inode_newsize_ok(). Clamped to MAX_LFS_FILESIZE for 32-bit
-+	 * machines.
-+	 */
-+	sb->s_maxbytes = min(MAX_LFS_FILESIZE,
-+			     EXFAT_CLU_TO_B((loff_t)EXFAT_MAX_NUM_CLUSTER, sbi));
- 
- 	/* check logical sector size */
- 	if (exfat_calibrate_blocksize(sb, 1 << p_boot->sect_size_bits))
--- 
-2.53.0.1.ga224b40d3f.dirty
-
+Thanks,
+//richard
