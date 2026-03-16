@@ -1,71 +1,71 @@
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 578C330C359
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 02:19:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B86F130C372
+	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 02:19:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773627577; cv=none; b=KvFvmH+jpOJDgeH8GpJKhyJO/aiM1+YcvLZ0rMth0fPwesb9HFffS+d385IeIstt7Ts/TWs2d4D36Gy3NNfNut4EmRICaKhQ1v7uTOWg/p0gBzdiHPKT0zBQH7h2oYWFPCs2/PfA4+j5zellX52BgidW9yYkqhCymiVLCv0higg=
+	t=1773627578; cv=none; b=lpavKTjQ82Hc6htVoQAyEjdHQC45mQ1NoIb3rYdSJtHBRqOJEWfrrpNu0Qt2/rsYPyWSRzLuD9kTK5GinnzkqySqvU+gP7tH6GvVLzIfmlBg0wZLSiQAYkNoT1h9nBiaaipIeobTCeiTOS9PUoqMMVTk6IBi/wbKnkvd0K+MzEE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773627577; c=relaxed/simple;
-	bh=MXKFN2gKsk2pCG1lBHDSq9+QUPj7cAyvNcY9MnnX0p4=;
+	s=arc-20240116; t=1773627578; c=relaxed/simple;
+	bh=WZ1CtB4R4ogEqo946iz8bELqKsBvkzQMXfy1ivsSDpQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=oNdzbzHBel6fhae+Fm98VXrK75vz5eQKXaCIP2fkQrE+EaNd5CAedVBZcKCaGgFbqBavIel5Dfe0xH4F8H81vrr6JL/VB310aBonIzbtinManjUwVfhErNQqRMgicVkFbVjm3ZO1/SLlXo/sD4N/3zuMIgUtuCVYZBc9UiWc/ps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b=Dw9x0dec; arc=none smtp.client-ip=209.85.128.174
+	 MIME-Version:Content-Type; b=Zr1c8D2rf9aDwPAIxRP26SSqbGDyJgS11hdNiWLInRWTXgF6enW2jIKitt8uICNKYYFCUCy3zGWEpk7OfxOZ2egtCTWyvvYIJEs0vG/aNRZ3RzGtQqNfxgo5Q6bwDNg21HtCCcAKFSUkUX+MJsR0iSmzSnej31oI2HDn8NH2HvM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b=AEQkVn1v; arc=none smtp.client-ip=209.85.128.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b="Dw9x0dec"
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-799001d73bdso29518217b3.0
-        for <linux-fsdevel@vger.kernel.org>; Sun, 15 Mar 2026 19:19:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b="AEQkVn1v"
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-79860421382so35548517b3.0
+        for <linux-fsdevel@vger.kernel.org>; Sun, 15 Mar 2026 19:19:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20230601.gappssmtp.com; s=20230601; t=1773627569; x=1774232369; darn=vger.kernel.org;
+        d=dubeyko-com.20230601.gappssmtp.com; s=20230601; t=1773627574; x=1774232374; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=40XQ1l6x6gk/5L/dLJ/1HjuJaWJ8WvGJcgGraAHBHiY=;
-        b=Dw9x0decEFqb/G3Et4s53Jdt5r8O2QbIFYn75UCplyPL9Z6yQxbjAZSRxru4FCLJfA
-         sisvwA2MqakbRumMLODxcicQSmLH2UKDki+arxF+jfgPNI4xt+hj8518rUmgjv+0KkJB
-         d8TwHcg4COytqXjXeqPa+PkYSyX6EVNp7Aq7GGIQKNeHVAC7ijywefjN/VYNv6nc5TcW
-         YEN6wJ7lqBVbr0fgpmK81YckTpZ7RTQJ6l/U/MfU4f/2NK19jA5QYEo3DxblI0EW0qil
-         n+fmnKPzlkE45oKVFBxOO27SOgiJE3Wkz2OWxKAhhAPuRbnXsKVkM2v7WE9vFGH0OGJa
-         /JOg==
+        bh=R6XQGNiWusK0RJseJVT/F65FpZkGNVljC47qJ6LY3Ps=;
+        b=AEQkVn1v+Gi4bt8iLX/CPG83LofbeVhcIgufpOmJfPRZugnAq/kSs15unriLT+w9sC
+         UJLPHMhmbHof4SBlHARY6TSzZ2xLXsRnPpRrx3BC3ACEK7y/wgThVQvy51vQPyaEM36/
+         Vuoc6kKRji/kzRqxqFy00i347RPfkfd4WsvBQ/c4TC56thLTtzeR6bjBqvplmuEG+Awm
+         +QLAQRYUGFClx3iIpYNLcBK+4WTl3aCri5DYsCGAN3uk7RnM7faCyPsRBApa7Bfax7Pb
+         z7rqbyfnD94nEMiMjHdr2hhHmNy8naFeRaufdRaZIJtpGqF0Vs4ug0d6G7hyWM+B3WAH
+         T27Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773627569; x=1774232369;
+        d=1e100.net; s=20251104; t=1773627574; x=1774232374;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=40XQ1l6x6gk/5L/dLJ/1HjuJaWJ8WvGJcgGraAHBHiY=;
-        b=SRm6hJ7CjC1Gsvqd9DDosWSDzNWLtFOOUJUGYzp74qFBKmvUUPMkiXggOehny5Z9qO
-         H2/q/5G2o6t8OH3IOmb2R8I+nlE+4/ffs5BcsIgGjj8iRTayGGvYXObJor0ssirJiItl
-         NtsmzoJGboOf9XDg9tvsoLkoUCxMYK6RtdVTmpswXk9u4O1o1eSBpNuUX4PDkgkoh2ff
-         CGi8EQ1aKAxNM4qBGKtvmnk8IoZD/TKIeTC4W1D+R1DxDtF1WpIGHExYyfk8qZhV0doe
-         CeIM4fLNmr8BmQ8kl0z2AmXev+9+V8MdXuy9NzO97PkJw6b0DahVMKyNqlGr/3gfi/Ee
-         i0EA==
-X-Gm-Message-State: AOJu0YzH/oNbsTXgxDbtjf53MearLRxeauS9cZdZESacVkP9xiRaFakE
-	8pDYmPkWWbuV3gZtvcBL2aqh4IDFJox7QJw4qv0psvJTOG4P7WnbveUudL53vwH5fIa3iXhHVix
-	1UDhA
-X-Gm-Gg: ATEYQzyn8vVDYHiUcLx+lGBYXEUPlvovI+C0egl23rcn14byli4R0ZLsZ7SIgUmmgJ8
-	XaFKsM/s3VqKyfdNn2edXzOwb9JpiNOMQznZ67d973ltpl/FNWQwt4ndm1V12LrGrKgx2e/AV4z
-	Ki9zwnFMJYpVWpQdROwizxg69s2czsaRLVTfBUY0ED8DADckmemUrZTdM0ngDVoE+tBkXPrGlk9
-	B7NoBuIC/E3K5k6Ar1/FKOdcno3aCT3rtSawuMUQwDIAoboYh0DwGGxwMh4dFEopeJqtr2zr4YR
-	E7yluFlJdphSgwnQ8lTEAU3q/0tBbYGjsH8QRiEhfdKPkXiqVmOtgrMasMh3YQgJDHAAyijh1KV
-	XkwY/VTkWwxEoGClaYnlXSuJ7ojoe9o6NVmKODPMkdJNs8Ko1I2Vkk0sPu+1gVyyIY5A/dtTDA6
-	D0WnJQAWkL9T3RVhmcKGea4PpaC6gFkaHucH35A8Z5sbZm5eJbHFbU3nRb+wzLY4iO2KydD0we3
-	dxwyM4RefQFMgJh9/Sd5VQN
-X-Received: by 2002:a05:690c:6611:b0:79a:42f3:ff95 with SMTP id 00721157ae682-79a42f40593mr31768917b3.45.1773627569121;
-        Sun, 15 Mar 2026 19:19:29 -0700 (PDT)
+        bh=R6XQGNiWusK0RJseJVT/F65FpZkGNVljC47qJ6LY3Ps=;
+        b=m1vU8l0BjONvSDJoyuuppFqAcw0wwPAomevOdHu1a/ziCeSNlBWqyd8VxwwyeUgSAG
+         ZjJVs+lePJv4anZUymdpQ9XWWfh2uMppTMGpiBIbMfTbTzWvcOCP6Bf9oaWfCCy2XT64
+         w8R6QivoKN19EP2giZj2bFo2S9tVKlBZfykaDVTf6JQVo82qIQuc/j/iUy0YU/rDU/hs
+         1U+5GXkR/qVeNWVaboXyMFYuxtLHdqLbE52ASEeGtV0byEA9zQa/0YufkO+Nhg5TlLC8
+         AGkxb+hkveNqnG5kDAxhV+wEQn+tPpJ7RVTE96Rr1LwaO3UkwG4X5apqSKX+W1Teb1wX
+         r59Q==
+X-Gm-Message-State: AOJu0YxjgNjG9nG4zKVccAkrgkZNXc+S4vSvbFEBcwErRyzV5lT5GHWp
+	5MhVo20MP7+81kM+N7JPflgrrhqkAh7ra3wiHInZkNvo0+4rCQTi1vuGN2ZwzkJzD74hhbKQhbU
+	UNqB4
+X-Gm-Gg: ATEYQzyOPoCQIZFt6PcdUZYSDFKr5UurbmG3CwEquv9sqmGNDlrT27mT/AErN/gwAC+
+	ZlPXpg1dzT5UhqWEXx8vt1ZflBf+R8HqN3bCNvfMBN0f5hZ+RXv+fDmvvYuGtaNIZ94rsTRn80H
+	s4mSUZuLoQaFsHxbK8wGljnnnFTwZiq5Nf3o+PMglZD/dX06dscxn/WVuEpyEMsoyzuRgWqnTnK
+	Wy5q9N+J3rvbLjsBA6kA1d2XKrNlbEoX1XmDtY7W44PXHdN0yF+udlWvaTjoKUFZETpCUutdpf9
+	KQ5o4w9rvvvVQEEcNX2tEwKZeXmr0YFdkvGlfgOiqxUHOw5BxYsMRP8r8Eh9emt4tYau4AIjaf2
+	w6NGRKtgnTzWV7sOBg6whJ+ZFeld2BsIxlvC1FgPvqadJafIubdmsTl1w+wngXTLfAOwiANxo0T
+	UiC1wjR/PaZUdL/MvOZ+o7x0I3hvNmPwjqBY24BZSXeJQG9gsfVtPHs2vKlaiHKYEfSMXaOuir9
+	3LNL3WoGVI6pUk3Mvi3QjUj
+X-Received: by 2002:a05:690c:6d84:b0:79a:4482:10f6 with SMTP id 00721157ae682-79a44823cbemr30151567b3.7.1773627574242;
+        Sun, 15 Mar 2026 19:19:34 -0700 (PDT)
 Received: from pop-os.attlocal.net ([2600:1700:6476:1430:6939:3e01:5e8f:6093])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-79917deb69asm79721617b3.10.2026.03.15.19.19.28
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-79917deb69asm79721617b3.10.2026.03.15.19.19.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Mar 2026 19:19:28 -0700 (PDT)
+        Sun, 15 Mar 2026 19:19:33 -0700 (PDT)
 From: Viacheslav Dubeyko <slava@dubeyko.com>
 To: linux-fsdevel@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
 	Viacheslav Dubeyko <slava@dubeyko.com>
-Subject: [PATCH v2 06/79] ssdfs: implement super operations
-Date: Sun, 15 Mar 2026 19:17:32 -0700
-Message-ID: <20260316021800.1694650-6-slava@dubeyko.com>
+Subject: [PATCH v2 17/79] ssdfs: implement support of migration scheme in PEB bitmap
+Date: Sun, 15 Mar 2026 19:17:36 -0700
+Message-ID: <20260316021800.1694650-10-slava@dubeyko.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260316021800.1694650-1-slava@dubeyko.com>
 References: <20260316021800.1694650-1-slava@dubeyko.com>
@@ -75,83 +75,75 @@ List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 Complete patchset is available here:
 https://github.com/dubeyko/ssdfs-driver/tree/master/patchset/linux-kernel-6.18.0
 
-SSDFS has specialized superblock segment (erase block) that
-has goal to keep the sequence of committed superblocks.
-Superblock instance is stored on successful mount operation
-and during unmount operation. At first, logic tries to detect
-the state of current superblock segment. If segment (erase block)
-is completely full, then a new superblock segment is reserved.
-As a result, new superblock instance is stored into the sequence.
-Actually, SSDFS has main and backup copy of current superblock
-segments. Additionally, SSDFS keeps information about previous,
-current, next, and reserved superblock segments. SSDFS can use
-two policy of segment superblock allocation: (1) reserve a new
-segment for every new allocation, (2) use only set of superblock
-segments that have been reserved by mkfs tool.
+SSDFS implements a migration scheme. Migration scheme is
+a fundamental technique of GC overhead management. The key
+responsibility of the migration scheme is to guarantee
+the presence of data in the same segment for any update
+operations. Generally speaking, the migration scheme’s model
+is implemented on the basis of association an exhausted
+"Physical" Erase Block (PEB) with a clean one. The goal such
+association of two PEBs is to implement the gradual migration
+of data by means of the update operations in the initial
+(exhausted) PEB. As a result, the old, exhausted PEB becomes
+invalidated after complete data migration and it will be
+possible to apply the erase operation to convert it in the
+clean state. Moreover, the destination PEB in the association
+changes the initial PEB for some index in the segment and, finally,
+it becomes the only PEB for this position. Namely such technique
+implements the concept of logical extent with the goal to decrease
+the write amplification issue and to manage the GC overhead.
+Because the logical extent concept excludes the necessity
+to update metadata is tracking the position of user data on
+the file system’s volume. Generally speaking, the migration scheme
+is capable to decrease the GC activity significantly by means of
+excluding the necessity to update metadata and by means of
+self-migration of data between of PEBs is triggered by regular
+update operations.
 
-Every commit operation stores log into superblock segment.
-This log contains:
-(1) segment header,
-(2) payload (mapping table cache, for example),
-(3) log footer.
-
-Segment header can be considered like static superblock info.
-It contains metadata that not changed at all after volume
-creation (logical block size, for example) or changed rarely
-(number of segments in the volume, for example). Log footer
-can be considered like dynamic part of superblock because
-it contains frequently updated metadata (for example, root
-node of inodes b-tree).
-
-Patch implements register/unregister file system logic.
-The register FS logic includes caches creation/initialization,
-compression support initialization, sysfs subsystem
-initialization. Oppositely, unregister FS logic executes
-destruction of caches, compression subsystem, and sysfs
-entries.
-
-Also, patch implements basic mount/unmount logic.
-The ssdfs_fill_super() implements mount logic that includes:
-(1) parsing mount options,
-(2) extract superblock info,
-(3) create key in-core metadata structures (mapping table,
-    segment bitmap, b-trees),
-(4) create root inode,
-(5) start metadata structures' threads,
-(6) commit superblock on finish of mount operation.
-
-The ssdfs_put_super() implements unmount logic:
-(1) stop metadata threads,
-(2) wait unfinished user data requests,
-(3) flush dirty metadata structures,
-(4) commit superblock,
-(5) destroy in-core metadata structures.
+To implement the migration scheme concept, SSDFS introduces
+PEB container that includes source and destination erase blocks.
+As a result, PEB block bitmap object represents the same aggregation
+for source PEB's block bitmap and destination PEB's block bitmap.
+PEB block bitmap implements API:
+(1) create - create PEB block bitmap
+(2) destroy - destroy PEB block bitmap
+(3) init - initialize PEB block bitmap by metadata from a log
+(4) get_free_pages - get free pages in aggregation of block bitmaps
+(5) get_used_pages - get used pages in aggregation of block bitmaps
+(6) get_invalid_pages - get invalid pages in aggregation of block bitmaps
+(7) pre_allocate - pre_allocate page/range in aggregation of block bitmaps
+(8) allocate - allocate page/range in aggregation of block bitmaps
+(9) invalidate - invalidate page/range in aggregation of block bitmaps
+(10) update_range - change the state of range in aggregation of block bitmaps
+(11) collect_garbage - find contiguous range for requested state
+(12) start_migration - prepare PEB's environment for migration
+(13) migrate - move range from source block bitmap into destination one
+(14) finish_migration - clean source block bitmap and swap block bitmaps
 
 Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
 ---
- fs/ssdfs/options.c |  170 ++++
- fs/ssdfs/super.c   | 2077 ++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 2247 insertions(+)
- create mode 100644 fs/ssdfs/options.c
- create mode 100644 fs/ssdfs/super.c
+ fs/ssdfs/peb_block_bitmap.h | 179 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 179 insertions(+)
+ create mode 100644 fs/ssdfs/peb_block_bitmap.h
 
-diff --git a/fs/ssdfs/options.c b/fs/ssdfs/options.c
+diff --git a/fs/ssdfs/peb_block_bitmap.h b/fs/ssdfs/peb_block_bitmap.h
 new file mode 100644
-index 000000000000..4a1d710d9350
+index 000000000000..4d38cfb1aefb
 --- /dev/null
-+++ b/fs/ssdfs/options.c
-@@ -0,0 +1,170 @@
++++ b/fs/ssdfs/peb_block_bitmap.h
+@@ -0,0 +1,179 @@
 +/*
 + * SPDX-License-Identifier: BSD-3-Clause-Clear
 + *
 + * SSDFS -- SSD-oriented File System.
 + *
-+ * fs/ssdfs/options.c - mount options parsing.
++ * fs/ssdfs/peb_block_bitmap.h - PEB's block bitmap declarations.
 + *
 + * Copyright (c) 2014-2019 HGST, a Western Digital Company.
 + *              http://www.hgst.com/
@@ -168,2237 +160,163 @@ index 000000000000..4a1d710d9350
 + *                  Zvonimir Bandic
 + */
 +
-+#include <linux/string.h>
-+#include <linux/kernel.h>
-+#include <linux/parser.h>
-+#include <linux/mount.h>
-+#include <linux/slab.h>
-+#include <linux/seq_file.h>
-+#include <linux/pagevec.h>
-+#include <linux/fs_parser.h>
-+#include <linux/fs_context.h>
++#ifndef _SSDFS_PEB_BLOCK_BITMAP_H
++#define _SSDFS_PEB_BLOCK_BITMAP_H
 +
-+#include "peb_mapping_queue.h"
-+#include "peb_mapping_table_cache.h"
-+#include "folio_vector.h"
-+#include "ssdfs.h"
-+#include "segment_bitmap.h"
++#include "block_bitmap.h"
 +
-+/*
-+ * SSDFS mount options.
-+ *
-+ * Opt_err: behavior if fs error is detected
-+ * Opt_compr: change default compressor
-+ * Opt_ignore_fs_state: ignore on-disk file system state during mount
-+ */
++/* PEB's block bitmap indexes */
 +enum {
-+	Opt_err,
-+	Opt_compr,
-+	Opt_ignore_fs_state,
++	SSDFS_PEB_BLK_BMAP1,
++	SSDFS_PEB_BLK_BMAP2,
++	SSDFS_PEB_BLK_BMAP_ITEMS_MAX
 +};
-+
-+static const struct constant_table ssdfs_param_err[] = {
-+	{"panic",	SSDFS_MOUNT_ERRORS_PANIC},
-+	{"remount-ro",	SSDFS_MOUNT_ERRORS_RO},
-+	{"continue",	SSDFS_MOUNT_ERRORS_CONT},
-+	{}
-+};
-+
-+static const struct constant_table ssdfs_param_compr[] = {
-+	{"none",	SSDFS_MOUNT_COMPR_MODE_NONE},
-+#ifdef CONFIG_SSDFS_ZLIB
-+	{"zlib",	SSDFS_MOUNT_COMPR_MODE_ZLIB},
-+#endif
-+#ifdef CONFIG_SSDFS_LZO
-+	{"lzo",		SSDFS_MOUNT_COMPR_MODE_LZO},
-+#endif
-+	{}
-+};
-+
-+static const struct constant_table ssdfs_param_fs_state[] = {
-+	{"ignore",	SSDFS_MOUNT_IGNORE_FS_STATE},
-+	{}
-+};
-+
-+static const struct fs_parameter_spec ssdfs_fs_parameters[] = {
-+	fsparam_enum	("errors", Opt_err, ssdfs_param_err),
-+	fsparam_enum	("compr", Opt_compr, ssdfs_param_compr),
-+	fsparam_enum	("fs_state", Opt_ignore_fs_state, ssdfs_param_fs_state),
-+	{}
-+};
-+
-+int ssdfs_parse_param(struct fs_context *fc, struct fs_parameter *param)
-+{
-+	struct ssdfs_mount_context *ctx = fc->fs_private;
-+	struct fs_parse_result result;
-+	int opt;
-+
-+	opt = fs_parse(fc, ssdfs_fs_parameters, param, &result);
-+	if (opt < 0)
-+		return opt;
-+
-+	switch (opt) {
-+	case Opt_err:
-+		ssdfs_clear_opt(ctx->s_mount_opts, ERRORS_PANIC);
-+		ssdfs_clear_opt(ctx->s_mount_opts, ERRORS_RO);
-+		ssdfs_clear_opt(ctx->s_mount_opts, ERRORS_CONT);
-+		ctx->s_mount_opts |= result.uint_32;
-+		break;
-+
-+	case Opt_compr:
-+		ssdfs_clear_opt(ctx->s_mount_opts, COMPR_MODE_NONE);
-+		ssdfs_clear_opt(ctx->s_mount_opts, COMPR_MODE_ZLIB);
-+		ssdfs_clear_opt(ctx->s_mount_opts, COMPR_MODE_LZO);
-+		ctx->s_mount_opts |= result.uint_32;
-+		break;
-+
-+	case Opt_ignore_fs_state:
-+		ctx->s_mount_opts |= result.uint_32;
-+		break;
-+
-+	default:
-+		SSDFS_ERR("unrecognized mount option\n");
-+		return -EINVAL;
-+	}
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("DONE: parse options\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	return 0;
-+}
-+
-+void ssdfs_initialize_fs_errors_option(struct ssdfs_fs_info *fsi)
-+{
-+	if (fsi->fs_errors == SSDFS_ERRORS_PANIC)
-+		ssdfs_set_opt(fsi->mount_opts, ERRORS_PANIC);
-+	else if (fsi->fs_errors == SSDFS_ERRORS_RO)
-+		ssdfs_set_opt(fsi->mount_opts, ERRORS_RO);
-+	else if (fsi->fs_errors == SSDFS_ERRORS_CONTINUE)
-+		ssdfs_set_opt(fsi->mount_opts, ERRORS_CONT);
-+	else {
-+		u16 def_behaviour = SSDFS_ERRORS_DEFAULT;
-+
-+		switch (def_behaviour) {
-+		case SSDFS_ERRORS_PANIC:
-+			ssdfs_set_opt(fsi->mount_opts, ERRORS_PANIC);
-+			break;
-+
-+		case SSDFS_ERRORS_RO:
-+			ssdfs_set_opt(fsi->mount_opts, ERRORS_RO);
-+			break;
-+		}
-+	}
-+}
-+
-+int ssdfs_show_options(struct seq_file *seq, struct dentry *root)
-+{
-+	struct ssdfs_fs_info *fsi = SSDFS_FS_I(root->d_sb);
-+	char *compress_type;
-+
-+	if (ssdfs_test_opt(fsi->mount_opts, COMPR_MODE_ZLIB)) {
-+		compress_type = "zlib";
-+		seq_printf(seq, ",compress=%s", compress_type);
-+	} else if (ssdfs_test_opt(fsi->mount_opts, COMPR_MODE_LZO)) {
-+		compress_type = "lzo";
-+		seq_printf(seq, ",compress=%s", compress_type);
-+	}
-+
-+	if (ssdfs_test_opt(fsi->mount_opts, ERRORS_PANIC))
-+		seq_puts(seq, ",errors=panic");
-+	else if (ssdfs_test_opt(fsi->mount_opts, ERRORS_RO))
-+		seq_puts(seq, ",errors=remount-ro");
-+	else if (ssdfs_test_opt(fsi->mount_opts, ERRORS_CONT))
-+		seq_puts(seq, ",errors=continue");
-+
-+	if (ssdfs_test_opt(fsi->mount_opts, IGNORE_FS_STATE))
-+		seq_puts(seq, ",fs_state=ignore");
-+
-+	return 0;
-+}
-diff --git a/fs/ssdfs/super.c b/fs/ssdfs/super.c
-new file mode 100644
-index 000000000000..f430eee9aaf0
---- /dev/null
-+++ b/fs/ssdfs/super.c
-@@ -0,0 +1,2077 @@
-+/*
-+ * SPDX-License-Identifier: BSD-3-Clause-Clear
-+ *
-+ * SSDFS -- SSD-oriented File System.
-+ *
-+ * fs/ssdfs/super.c - module and superblock management.
-+ *
-+ * Copyright (c) 2014-2019 HGST, a Western Digital Company.
-+ *              http://www.hgst.com/
-+ * Copyright (c) 2014-2026 Viacheslav Dubeyko <slava@dubeyko.com>
-+ *              http://www.ssdfs.org/
-+ *
-+ * (C) Copyright 2014-2019, HGST, Inc., All rights reserved.
-+ *
-+ * Created by HGST, San Jose Research Center, Storage Architecture Group
-+ *
-+ * Authors: Viacheslav Dubeyko <slava@dubeyko.com>
-+ *
-+ * Acknowledgement: Cyril Guyot
-+ *                  Zvonimir Bandic
-+ */
-+
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/slab.h>
-+#include <linux/mtd/mtd.h>
-+#include <linux/mtd/super.h>
-+#include <linux/exportfs.h>
-+#include <linux/pagevec.h>
-+#include <linux/blkdev.h>
-+#include <linux/backing-dev.h>
-+#include <linux/delay.h>
-+#include <linux/fs_parser.h>
-+#include <linux/fs_context.h>
-+
-+#include <kunit/visibility.h>
-+
-+#include "peb_mapping_queue.h"
-+#include "peb_mapping_table_cache.h"
-+#include "folio_vector.h"
-+#include "ssdfs.h"
-+#include "version.h"
-+#include "folio_array.h"
-+#include "segment_bitmap.h"
-+#include "peb.h"
-+#include "offset_translation_table.h"
-+#include "peb_container.h"
-+#include "segment.h"
-+#include "segment_tree.h"
-+#include "current_segment.h"
-+#include "peb_mapping_table.h"
-+#include "btree_search.h"
-+#include "btree_node.h"
-+#include "extents_queue.h"
-+#include "btree.h"
-+#include "inodes_tree.h"
-+#include "shared_extents_tree.h"
-+#include "shared_dictionary.h"
-+#include "extents_tree.h"
-+#include "dentries_tree.h"
-+#include "xattr_tree.h"
-+#include "xattr.h"
-+#include "acl.h"
-+#include "snapshots_tree.h"
-+#include "invalidated_extents_tree.h"
-+
-+#define CREATE_TRACE_POINTS
-+#include <trace/events/ssdfs.h>
-+
-+#ifdef CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING
-+atomic64_t ssdfs_allocated_folios;
-+EXPORT_SYMBOL_IF_KUNIT(ssdfs_allocated_folios);
-+
-+atomic64_t ssdfs_memory_leaks;
-+atomic64_t ssdfs_super_folio_leaks;
-+atomic64_t ssdfs_super_memory_leaks;
-+atomic64_t ssdfs_super_cache_leaks;
-+
-+atomic64_t ssdfs_locked_folios;
-+EXPORT_SYMBOL_IF_KUNIT(ssdfs_locked_folios);
-+#endif /* CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING */
 +
 +/*
-+ * void ssdfs_super_cache_leaks_increment(void *kaddr)
-+ * void ssdfs_super_cache_leaks_decrement(void *kaddr)
-+ * void *ssdfs_super_kmalloc(size_t size, gfp_t flags)
-+ * void *ssdfs_super_kzalloc(size_t size, gfp_t flags)
-+ * void *ssdfs_super_kcalloc(size_t n, size_t size, gfp_t flags)
-+ * void ssdfs_super_kfree(void *kaddr)
-+ * struct folio *ssdfs_super_alloc_folio(gfp_t gfp_mask,
-+ *                                       unsigned int order)
-+ * struct folio *ssdfs_super_add_batch_folio(struct folio_batch *batch,
-+ *                                           unsigned int order)
-+ * void ssdfs_super_free_folio(struct folio *folio)
-+ * void ssdfs_super_folio_batch_release(struct folio_batch *batch)
++ * struct ssdfs_peb_blk_bmap - PEB container's block bitmap object
++ * @state: PEB container's block bitmap's state
++ * @peb_index: PEB index in array
++ * @pages_per_peb: pages per physical erase block
++ * @modification_lock: lock for modification operations
++ * @peb_valid_blks: PEB container's valid logical blocks count
++ * @peb_invalid_blks: PEB container's invalid logical blocks count
++ * @peb_free_blks: PEB container's free logical blocks count
++ * @peb_blks_capacity: PEB container's logical blocks capacity
++ * @buffers_state: buffers state
++ * @lock: buffers lock
++ * @init_cno: initialization checkpoint
++ * @src: source PEB's block bitmap object's pointer
++ * @dst: destination PEB's block bitmap object's pointer
++ * @buffers: block bitmap buffers
++ * @init_end: wait of init ending
++ * @parent: pointer on parent segment block bitmap
 + */
-+#ifdef CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING
-+	SSDFS_MEMORY_LEAKS_CHECKER_FNS(super)
-+#else
-+	SSDFS_MEMORY_ALLOCATOR_FNS(super)
-+#endif /* CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING */
++struct ssdfs_peb_blk_bmap {
++	atomic_t state;
 +
-+static inline
-+void ssdfs_super_memory_leaks_init(void)
-+{
-+#ifdef CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING
-+	atomic64_set(&ssdfs_super_folio_leaks, 0);
-+	atomic64_set(&ssdfs_super_memory_leaks, 0);
-+	atomic64_set(&ssdfs_super_cache_leaks, 0);
-+#endif /* CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING */
-+}
++	u16 peb_index;
++	u32 pages_per_peb;
 +
-+static inline
-+void ssdfs_super_check_memory_leaks(void)
-+{
-+#ifdef CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING
-+	if (atomic64_read(&ssdfs_super_folio_leaks) != 0) {
-+		SSDFS_ERR("SUPER: "
-+			  "memory leaks include %lld folios\n",
-+			  atomic64_read(&ssdfs_super_folio_leaks));
-+	}
++	struct rw_semaphore modification_lock;
++	atomic_t peb_valid_blks;
++	atomic_t peb_invalid_blks;
++	atomic_t peb_free_blks;
++	atomic_t peb_blks_capacity;
 +
-+	if (atomic64_read(&ssdfs_super_memory_leaks) != 0) {
-+		SSDFS_ERR("SUPER: "
-+			  "memory allocator suffers from %lld leaks\n",
-+			  atomic64_read(&ssdfs_super_memory_leaks));
-+	}
++	atomic_t buffers_state;
++	struct rw_semaphore lock;
++	u64 init_cno;
++	struct ssdfs_block_bmap *src;
++	struct ssdfs_block_bmap *dst;
++	struct ssdfs_block_bmap buffer[SSDFS_PEB_BLK_BMAP_ITEMS_MAX];
++	struct completion init_end;
 +
-+	if (atomic64_read(&ssdfs_super_cache_leaks) != 0) {
-+		SSDFS_ERR("SUPER: "
-+			  "caches suffers from %lld leaks\n",
-+			  atomic64_read(&ssdfs_super_cache_leaks));
-+	}
-+#endif /* CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING */
-+}
-+
-+struct ssdfs_payload_content {
-+	struct folio_batch batch;
-+	u32 bytes_count;
++	struct ssdfs_segment_blk_bmap *parent;
 +};
 +
-+struct ssdfs_sb_log_payload {
-+	struct ssdfs_payload_content maptbl_cache;
++/* PEB container's block bitmap's possible states */
++enum {
++	SSDFS_PEB_BLK_BMAP_STATE_UNKNOWN,
++	SSDFS_PEB_BLK_BMAP_CREATED,
++	SSDFS_PEB_BLK_BMAP_HAS_CLEAN_DST,
++	SSDFS_PEB_BLK_BMAP_INITIALIZED,
++	SSDFS_PEB_BLK_BMAP_STATE_MAX,
 +};
 +
-+static struct kmem_cache *ssdfs_inode_cachep;
++/* PEB's buffer array possible states */
++enum {
++	SSDFS_PEB_BMAP_BUFFERS_EMPTY,
++	SSDFS_PEB_BMAP1_SRC,
++	SSDFS_PEB_BMAP1_SRC_PEB_BMAP2_DST,
++	SSDFS_PEB_BMAP2_SRC,
++	SSDFS_PEB_BMAP2_SRC_PEB_BMAP1_DST,
++	SSDFS_PEB_BMAP_BUFFERS_STATE_MAX
++};
 +
-+static int ssdfs_prepare_sb_log(struct super_block *sb,
-+				struct ssdfs_peb_extent *last_sb_log);
-+static int ssdfs_snapshot_sb_log_payload(struct super_block *sb,
-+					 struct ssdfs_sb_log_payload *payload);
-+static int ssdfs_commit_super(struct super_block *sb, u16 fs_state,
-+				struct ssdfs_peb_extent *last_sb_log,
-+				struct ssdfs_sb_log_payload *payload);
-+static void ssdfs_put_super(struct super_block *sb);
-+static void ssdfs_check_memory_leaks(void);
-+
-+static void init_once(void *foo)
-+{
-+	struct ssdfs_inode_info *ii = (struct ssdfs_inode_info *)foo;
-+
-+	inode_init_once(&ii->vfs_inode);
-+}
++/* PEB's block bitmap operation destination */
++enum {
++	SSDFS_PEB_BLK_BMAP_SOURCE,
++	SSDFS_PEB_BLK_BMAP_DESTINATION,
++	SSDFS_PEB_BLK_BMAP_INDEX_MAX
++};
 +
 +/*
-+ * This method is called by inode_alloc() to allocate memory
-+ * for struct inode and initialize it
++ * PEB block bitmap API
 + */
-+static inline
-+struct inode *ssdfs_alloc_inode(struct super_block *sb)
-+{
-+	struct ssdfs_inode_info *ii;
-+	unsigned int nofs_flags;
++int ssdfs_peb_blk_bmap_create(struct ssdfs_segment_blk_bmap *parent,
++			      u16 peb_index, u32 items_count,
++			      int init_flag, int init_state);
++int ssdfs_peb_blk_bmap_destroy(struct ssdfs_peb_blk_bmap *ptr);
++int ssdfs_peb_blk_bmap_init(struct ssdfs_peb_blk_bmap *bmap,
++			    struct ssdfs_folio_vector *source,
++			    struct ssdfs_block_bitmap_fragment *hdr,
++			    u32 peb_free_pages,
++			    u64 cno);
++int ssdfs_peb_blk_bmap_clean_init(struct ssdfs_peb_blk_bmap *bmap);
++void ssdfs_peb_blk_bmap_init_failed(struct ssdfs_peb_blk_bmap *bmap);
 +
-+	nofs_flags = memalloc_nofs_save();
-+	ii = alloc_inode_sb(sb, ssdfs_inode_cachep, GFP_KERNEL);
-+	memalloc_nofs_restore(nofs_flags);
++bool has_ssdfs_peb_blk_bmap_initialized(struct ssdfs_peb_blk_bmap *bmap);
++int ssdfs_peb_blk_bmap_wait_init_end(struct ssdfs_peb_blk_bmap *bmap);
 +
-+	if (!ii)
-+		return NULL;
++bool ssdfs_peb_blk_bmap_initialized(struct ssdfs_peb_blk_bmap *ptr);
++bool is_ssdfs_peb_blk_bmap_dirty(struct ssdfs_peb_blk_bmap *ptr);
++int ssdfs_peb_blk_bmap_inflate(struct ssdfs_peb_blk_bmap *ptr,
++				u32 free_items);
 +
-+	ssdfs_super_cache_leaks_increment(ii);
++int ssdfs_peb_blk_bmap_get_free_pages(struct ssdfs_peb_blk_bmap *ptr);
++int ssdfs_peb_blk_bmap_get_used_pages(struct ssdfs_peb_blk_bmap *ptr);
++int ssdfs_peb_blk_bmap_get_invalid_pages(struct ssdfs_peb_blk_bmap *ptr);
++int ssdfs_peb_blk_bmap_get_metadata_pages(struct ssdfs_peb_blk_bmap *ptr);
++int ssdfs_peb_blk_bmap_get_pages_capacity(struct ssdfs_peb_blk_bmap *ptr);
 +
-+	init_once((void *)ii);
-+
-+	atomic_set(&ii->private_flags, 0);
-+	init_rwsem(&ii->lock);
-+	ii->parent_ino = U64_MAX;
-+	ii->flags = 0;
-+	ii->name_hash = 0;
-+	ii->name_len = 0;
-+	ii->extents_tree = NULL;
-+	ii->dentries_tree = NULL;
-+	ii->xattrs_tree = NULL;
-+	ii->inline_file = NULL;
-+	memset(&ii->raw_inode, 0, sizeof(struct ssdfs_inode));
-+
-+	return &ii->vfs_inode;
-+}
-+
-+void ssdfs_destroy_btree_of_inode(struct inode *inode)
-+{
-+	struct ssdfs_inode_info *ii = SSDFS_I(inode);
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("ino %lu\n", inode->i_ino);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	if (ii->extents_tree) {
-+		ssdfs_extents_tree_destroy(ii);
-+		ii->extents_tree = NULL;
-+	}
-+
-+	if (ii->dentries_tree) {
-+		ssdfs_dentries_tree_destroy(ii);
-+		ii->dentries_tree = NULL;
-+	}
-+
-+	if (ii->xattrs_tree) {
-+		ssdfs_xattrs_tree_destroy(ii);
-+		ii->xattrs_tree = NULL;
-+	}
-+
-+	if (ii->inline_file) {
-+		ssdfs_destroy_inline_file_buffer(inode);
-+		ii->inline_file = NULL;
-+	}
-+}
-+
-+void ssdfs_destroy_and_decrement_btree_of_inode(struct inode *inode)
-+{
-+	struct ssdfs_inode_info *ii = SSDFS_I(inode);
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("ino %lu\n", inode->i_ino);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	ssdfs_destroy_btree_of_inode(inode);
-+
-+	if (inode->i_ino == SSDFS_SEG_BMAP_INO ||
-+	    inode->i_ino == SSDFS_SEG_TREE_INO ||
-+	    inode->i_ino == SSDFS_TESTING_INO) {
-+		ssdfs_super_cache_leaks_decrement(ii);
-+	} else
-+		BUG();
-+}
-+
-+static void ssdfs_i_callback(struct rcu_head *head)
-+{
-+	struct inode *inode = container_of(head, struct inode, i_rcu);
-+	struct ssdfs_inode_info *ii = SSDFS_I(inode);
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("ino %lu\n", inode->i_ino);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	ssdfs_destroy_btree_of_inode(inode);
-+
-+	if (inode->i_ino == SSDFS_SEG_BMAP_INO ||
-+	    inode->i_ino == SSDFS_SEG_TREE_INO ||
-+	    inode->i_ino == SSDFS_TESTING_INO) {
-+		/*
-+		 * Do nothing.
-+		 * The ssdfs_destroy_and_decrement_btree_of_inode did it already.
-+		 */
-+	} else {
-+		ssdfs_super_cache_leaks_decrement(ii);
-+	}
-+
-+	kmem_cache_free(ssdfs_inode_cachep, ii);
-+}
++int ssdfs_peb_define_reserved_pages_per_log(struct ssdfs_peb_blk_bmap *bmap);
++int ssdfs_peb_blk_bmap_reserve_metapages(struct ssdfs_peb_blk_bmap *bmap,
++					 int bmap_index,
++					 u32 count);
++int ssdfs_peb_blk_bmap_free_metapages(struct ssdfs_peb_blk_bmap *bmap,
++				      int bmap_index,
++				      u32 count);
++int ssdfs_peb_blk_bmap_get_block_state(struct ssdfs_peb_blk_bmap *bmap,
++					int bmap_index,
++					u32 blk);
++int ssdfs_peb_blk_bmap_pre_allocate(struct ssdfs_peb_blk_bmap *bmap,
++				    int bmap_index,
++				    struct ssdfs_block_bmap_range *range);
++int ssdfs_peb_blk_bmap_allocate(struct ssdfs_peb_blk_bmap *bmap,
++				int bmap_index,
++				struct ssdfs_block_bmap_range *range);
++int ssdfs_peb_blk_bmap_invalidate(struct ssdfs_peb_blk_bmap *bmap,
++				  int bmap_index,
++				  struct ssdfs_block_bmap_range *range);
++int ssdfs_peb_blk_bmap_update_range(struct ssdfs_peb_blk_bmap *bmap,
++				    int bmap_index,
++				    int new_range_state,
++				    struct ssdfs_block_bmap_range *range);
++int ssdfs_peb_blk_bmap_collect_garbage(struct ssdfs_peb_blk_bmap *bmap,
++					u32 start, u32 max_len,
++					int blk_state,
++					struct ssdfs_block_bmap_range *range);
++int ssdfs_peb_blk_bmap_start_migration(struct ssdfs_peb_blk_bmap *bmap);
++int ssdfs_peb_blk_bmap_migrate(struct ssdfs_peb_blk_bmap *bmap,
++				int new_range_state,
++				struct ssdfs_block_bmap_range *range);
++int ssdfs_peb_blk_bmap_finish_migration(struct ssdfs_peb_blk_bmap *bmap);
 +
 +/*
-+ * This method is called by destroy_inode() to release
-+ * resources allocated for struct inode
++ * PEB block bitmap internal API
 + */
-+static void ssdfs_destroy_inode(struct inode *inode)
-+{
-+	call_rcu(&inode->i_rcu, ssdfs_i_callback);
-+}
-+
-+static void ssdfs_init_inode_once(void *obj)
-+{
-+	struct ssdfs_inode_info *ii = obj;
-+	inode_init_once(&ii->vfs_inode);
-+}
-+
-+static int ssdfs_remount_fs(struct fs_context *fc, struct super_block *sb)
-+{
-+	struct ssdfs_fs_info *fsi = SSDFS_FS_I(sb);
-+	struct ssdfs_peb_extent last_sb_log = {0};
-+	struct ssdfs_sb_log_payload payload;
-+	unsigned int flags = fc->sb_flags;
-+	unsigned long old_sb_flags;
-+	unsigned long old_mount_opts;
-+	int err;
-+
-+#ifdef CONFIG_SSDFS_TRACK_API_CALL
-+	SSDFS_ERR("sb %p, flags %#x\n", sb, flags);
-+#else
-+	SSDFS_DBG("sb %p, flags %#x\n", sb, flags);
-+#endif /* CONFIG_SSDFS_TRACK_API_CALL */
-+
-+	old_sb_flags = sb->s_flags;
-+	old_mount_opts = fsi->mount_opts;
-+
-+	folio_batch_init(&payload.maptbl_cache.batch);
-+
-+	set_posix_acl_flag(sb);
-+
-+	if ((flags & SB_RDONLY) == (sb->s_flags & SB_RDONLY))
-+		goto out;
-+
-+	if (flags & SB_RDONLY) {
-+		down_write(&fsi->volume_sem);
-+
-+		err = ssdfs_prepare_sb_log(sb, &last_sb_log);
-+		if (unlikely(err)) {
-+			SSDFS_ERR("fail to prepare sb log: err %d\n",
-+				  err);
-+		}
-+
-+		err = ssdfs_snapshot_sb_log_payload(sb, &payload);
-+		if (unlikely(err)) {
-+			SSDFS_ERR("fail to snapshot sb log's payload: err %d\n",
-+				  err);
-+		}
-+
-+		if (!err) {
-+			err = ssdfs_commit_super(sb, SSDFS_VALID_FS,
-+						 &last_sb_log,
-+						 &payload);
-+		} else {
-+			SSDFS_ERR("fail to prepare sb log payload: "
-+				  "err %d\n", err);
-+		}
-+
-+		up_write(&fsi->volume_sem);
-+
-+		if (err)
-+			SSDFS_ERR("fail to commit superblock info\n");
-+
-+		sb->s_flags |= SB_RDONLY;
-+		SSDFS_DBG("remount in RO mode\n");
-+	} else {
-+		down_write(&fsi->volume_sem);
-+
-+		err = ssdfs_prepare_sb_log(sb, &last_sb_log);
-+		if (unlikely(err)) {
-+			SSDFS_ERR("fail to prepare sb log: err %d\n",
-+				  err);
-+		}
-+
-+		err = ssdfs_snapshot_sb_log_payload(sb, &payload);
-+		if (unlikely(err)) {
-+			SSDFS_ERR("fail to snapshot sb log's payload: err %d\n",
-+				  err);
-+		}
-+
-+		if (!err) {
-+			err = ssdfs_commit_super(sb, SSDFS_MOUNTED_FS,
-+						 &last_sb_log,
-+						 &payload);
-+		} else {
-+			SSDFS_ERR("fail to prepare sb log payload: "
-+				  "err %d\n", err);
-+		}
-+
-+		up_write(&fsi->volume_sem);
-+
-+		if (err) {
-+			SSDFS_NOTICE("fail to commit superblock info\n");
-+			goto restore_opts;
-+		}
-+
-+		sb->s_flags &= ~SB_RDONLY;
-+		SSDFS_DBG("remount in RW mode\n");
-+	}
-+out:
-+	ssdfs_super_folio_batch_release(&payload.maptbl_cache.batch);
-+
-+#ifdef CONFIG_SSDFS_TRACK_API_CALL
-+	SSDFS_ERR("finished\n");
-+#else
-+	SSDFS_DBG("finished\n");
-+#endif /* CONFIG_SSDFS_TRACK_API_CALL */
-+
-+	return 0;
-+
-+restore_opts:
-+	sb->s_flags = old_sb_flags;
-+	fsi->mount_opts = old_mount_opts;
-+	ssdfs_super_folio_batch_release(&payload.maptbl_cache.batch);
-+	return err;
-+}
-+
-+static
-+int ssdfs_commit_super(struct super_block *sb, u16 fs_state,
-+			struct ssdfs_peb_extent *last_sb_log,
-+			struct ssdfs_sb_log_payload *payload)
-+{
-+	struct ssdfs_fs_info *fsi = SSDFS_FS_I(sb);
-+	__le64 cur_segs[SSDFS_CUR_SEGS_COUNT];
-+	size_t size = sizeof(__le64) * SSDFS_CUR_SEGS_COUNT;
-+	u64 timestamp = ssdfs_current_timestamp();
-+	u64 cno = ssdfs_current_cno(sb);
-+	int i;
-+	int err = 0;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	BUG_ON(!sb || !last_sb_log || !payload);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+#ifdef CONFIG_SSDFS_TRACK_API_CALL
-+	SSDFS_ERR("sb %p, fs_state %u", sb, fs_state);
-+#else
-+	SSDFS_DBG("sb %p, fs_state %u", sb, fs_state);
-+#endif /* CONFIG_SSDFS_TRACK_API_CALL */
-+
-+	BUG_ON(fs_state > SSDFS_LAST_KNOWN_FS_STATE);
-+
-+	if (le16_to_cpu(fsi->vs->state) == SSDFS_ERROR_FS &&
-+	    !ssdfs_test_opt(fsi->mount_opts, IGNORE_FS_STATE)) {
-+		SSDFS_DBG("refuse commit superblock: fs erroneous state\n");
-+		return 0;
-+	}
-+
-+	mutex_lock(&fsi->tunefs_request.lock);
-+
-+	err = ssdfs_prepare_volume_header_for_commit(fsi, fsi->vh);
-+	if (unlikely(err)) {
-+		SSDFS_CRIT("volume header is inconsistent: err %d\n", err);
-+		goto finish_commit_super;
-+	}
-+
-+	err = ssdfs_prepare_current_segment_ids(fsi, cur_segs, size);
-+	if (unlikely(err)) {
-+		SSDFS_CRIT("fail to prepare current segments IDs: err %d\n",
-+			   err);
-+		goto finish_commit_super;
-+	}
-+
-+	err = ssdfs_prepare_volume_state_info_for_commit(fsi, fs_state,
-+							 cur_segs, size,
-+							 timestamp,
-+							 cno,
-+							 fsi->vs);
-+	if (unlikely(err)) {
-+		SSDFS_CRIT("volume state info is inconsistent: err %d\n", err);
-+		goto finish_commit_super;
-+	}
-+
-+	for (i = 0; i < SSDFS_SB_SEG_COPY_MAX; i++) {
-+		last_sb_log->leb_id = fsi->sb_lebs[SSDFS_CUR_SB_SEG][i];
-+		last_sb_log->peb_id = fsi->sb_pebs[SSDFS_CUR_SB_SEG][i];
-+		err = ssdfs_commit_sb_log(sb, timestamp, cno,
-+					  last_sb_log, payload);
-+		if (err) {
-+			SSDFS_ERR("fail to commit superblock log: "
-+				  "leb_id %llu, peb_id %llu, "
-+				  "page_offset %u, pages_count %u, "
-+				  "err %d\n",
-+				  last_sb_log->leb_id,
-+				  last_sb_log->peb_id,
-+				  last_sb_log->page_offset,
-+				  last_sb_log->pages_count,
-+				  err);
-+			goto finish_commit_super;
-+		}
-+	}
-+
-+	last_sb_log->leb_id = fsi->sb_lebs[SSDFS_CUR_SB_SEG][SSDFS_MAIN_SB_SEG];
-+	last_sb_log->peb_id = fsi->sb_pebs[SSDFS_CUR_SB_SEG][SSDFS_MAIN_SB_SEG];
-+
-+	ssdfs_memcpy(&fsi->sbi.last_log,
-+		     0, sizeof(struct ssdfs_peb_extent),
-+		     last_sb_log,
-+		     0, sizeof(struct ssdfs_peb_extent),
-+		     sizeof(struct ssdfs_peb_extent));
-+
-+finish_commit_super:
-+	mutex_unlock(&fsi->tunefs_request.lock);
-+
-+#ifdef CONFIG_SSDFS_TRACK_API_CALL
-+	SSDFS_ERR("finished: err %d\n", err);
-+#else
-+	SSDFS_DBG("finished: err %d\n", err);
-+#endif /* CONFIG_SSDFS_TRACK_API_CALL */
-+
-+	return err;
-+}
-+
-+static void ssdfs_memory_folio_locks_checker_init(void)
-+{
-+#ifdef CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING
-+	atomic64_set(&ssdfs_locked_folios, 0);
-+#endif /* CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING */
-+}
-+
-+static void ssdfs_check_memory_folio_locks(void)
-+{
-+#ifdef CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING
-+	if (atomic64_read(&ssdfs_locked_folios) != 0) {
-+		SSDFS_WARN("Lock keeps %lld memory folios\n",
-+			   atomic64_read(&ssdfs_locked_folios));
-+	}
-+#endif /* CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING */
-+}
-+
-+static void ssdfs_memory_leaks_checker_init(void)
-+{
-+#ifdef CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING
-+	atomic64_set(&ssdfs_allocated_folios, 0);
-+	atomic64_set(&ssdfs_memory_leaks, 0);
-+#endif /* CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING */
-+
-+#ifdef CONFIG_SSDFS_POSIX_ACL
-+	ssdfs_acl_memory_leaks_init();
-+#endif /* CONFIG_SSDFS_POSIX_ACL */
-+
-+	ssdfs_block_bmap_memory_leaks_init();
-+	ssdfs_btree_memory_leaks_init();
-+	ssdfs_btree_hierarchy_memory_leaks_init();
-+	ssdfs_btree_node_memory_leaks_init();
-+	ssdfs_btree_search_memory_leaks_init();
-+
-+#ifdef CONFIG_SSDFS_ZLIB
-+	ssdfs_zlib_memory_leaks_init();
-+#endif /* CONFIG_SSDFS_ZLIB */
-+
-+#ifdef CONFIG_SSDFS_LZO
-+	ssdfs_lzo_memory_leaks_init();
-+#endif /* CONFIG_SSDFS_LZO */
-+
-+	ssdfs_compr_memory_leaks_init();
-+	ssdfs_cur_seg_memory_leaks_init();
-+	ssdfs_dentries_memory_leaks_init();
-+
-+#ifdef CONFIG_SSDFS_MTD_DEVICE
-+	ssdfs_dev_mtd_memory_leaks_init();
-+#elif defined(CONFIG_SSDFS_BLOCK_DEVICE)
-+	ssdfs_dev_bdev_memory_leaks_init();
-+	ssdfs_dev_zns_memory_leaks_init();
-+#else
-+	BUILD_BUG();
-+#endif
-+
-+	ssdfs_dir_memory_leaks_init();
-+
-+#ifdef CONFIG_SSDFS_DIFF_ON_WRITE_USER_DATA
-+	ssdfs_diff_memory_leaks_init();
-+#endif /* CONFIG_SSDFS_DIFF_ON_WRITE_USER_DATA */
-+
-+	ssdfs_dynamic_array_memory_leaks_init();
-+	ssdfs_ext_queue_memory_leaks_init();
-+	ssdfs_ext_tree_memory_leaks_init();
-+
-+#ifdef CONFIG_SSDFS_PEB_DEDUPLICATION
-+	ssdfs_fingerprint_array_memory_leaks_init();
-+#endif /* CONFIG_SSDFS_PEB_DEDUPLICATION */
-+
-+	ssdfs_file_memory_leaks_init();
-+	ssdfs_fs_error_memory_leaks_init();
-+
-+	ssdfs_global_fsck_memory_leaks_init();
-+
-+#ifdef CONFIG_SSDFS_ONLINE_FSCK
-+	ssdfs_fsck_memory_leaks_init();
-+#endif /* CONFIG_SSDFS_ONLINE_FSCK */
-+
-+	ssdfs_inode_memory_leaks_init();
-+	ssdfs_ino_tree_memory_leaks_init();
-+	ssdfs_invext_tree_memory_leaks_init();
-+	ssdfs_blk2off_memory_leaks_init();
-+	ssdfs_farray_memory_leaks_init();
-+	ssdfs_folio_vector_memory_leaks_init();
-+	ssdfs_flush_memory_leaks_init();
-+	ssdfs_gc_memory_leaks_init();
-+	ssdfs_map_queue_memory_leaks_init();
-+	ssdfs_map_tbl_memory_leaks_init();
-+	ssdfs_map_cache_memory_leaks_init();
-+	ssdfs_map_thread_memory_leaks_init();
-+	ssdfs_migration_memory_leaks_init();
-+	ssdfs_peb_memory_leaks_init();
-+	ssdfs_read_memory_leaks_init();
-+	ssdfs_recovery_memory_leaks_init();
-+	ssdfs_req_queue_memory_leaks_init();
-+	ssdfs_seg_obj_memory_leaks_init();
-+	ssdfs_seg_bmap_memory_leaks_init();
-+	ssdfs_seg_blk_memory_leaks_init();
-+	ssdfs_seg_tree_memory_leaks_init();
-+	ssdfs_seq_arr_memory_leaks_init();
-+	ssdfs_dict_memory_leaks_init();
-+	ssdfs_shextree_memory_leaks_init();
-+	ssdfs_super_memory_leaks_init();
-+	ssdfs_xattr_memory_leaks_init();
-+	ssdfs_snap_reqs_queue_memory_leaks_init();
-+	ssdfs_snap_rules_list_memory_leaks_init();
-+	ssdfs_snap_tree_memory_leaks_init();
-+}
-+
-+static void ssdfs_check_memory_leaks(void)
-+{
-+#ifdef CONFIG_SSDFS_POSIX_ACL
-+	ssdfs_acl_check_memory_leaks();
-+#endif /* CONFIG_SSDFS_POSIX_ACL */
-+
-+	ssdfs_block_bmap_check_memory_leaks();
-+	ssdfs_btree_check_memory_leaks();
-+	ssdfs_btree_hierarchy_check_memory_leaks();
-+	ssdfs_btree_node_check_memory_leaks();
-+	ssdfs_btree_search_check_memory_leaks();
-+
-+#ifdef CONFIG_SSDFS_ZLIB
-+	ssdfs_zlib_check_memory_leaks();
-+#endif /* CONFIG_SSDFS_ZLIB */
-+
-+#ifdef CONFIG_SSDFS_LZO
-+	ssdfs_lzo_check_memory_leaks();
-+#endif /* CONFIG_SSDFS_LZO */
-+
-+	ssdfs_compr_check_memory_leaks();
-+	ssdfs_cur_seg_check_memory_leaks();
-+	ssdfs_dentries_check_memory_leaks();
-+
-+#ifdef CONFIG_SSDFS_MTD_DEVICE
-+	ssdfs_dev_mtd_check_memory_leaks();
-+#elif defined(CONFIG_SSDFS_BLOCK_DEVICE)
-+	ssdfs_dev_bdev_check_memory_leaks();
-+	ssdfs_dev_zns_check_memory_leaks();
-+#else
-+	BUILD_BUG();
-+#endif
-+
-+	ssdfs_dir_check_memory_leaks();
-+
-+#ifdef CONFIG_SSDFS_DIFF_ON_WRITE_USER_DATA
-+	ssdfs_diff_check_memory_leaks();
-+#endif /* CONFIG_SSDFS_DIFF_ON_WRITE_USER_DATA */
-+
-+	ssdfs_dynamic_array_check_memory_leaks();
-+	ssdfs_ext_queue_check_memory_leaks();
-+	ssdfs_ext_tree_check_memory_leaks();
-+
-+#ifdef CONFIG_SSDFS_PEB_DEDUPLICATION
-+	ssdfs_fingerprint_array_check_memory_leaks();
-+#endif /* CONFIG_SSDFS_PEB_DEDUPLICATION */
-+
-+	ssdfs_file_check_memory_leaks();
-+	ssdfs_fs_error_check_memory_leaks();
-+
-+	ssdfs_global_fsck_check_memory_leaks();
-+
-+#ifdef CONFIG_SSDFS_ONLINE_FSCK
-+	ssdfs_fsck_check_memory_leaks();
-+#endif /* CONFIG_SSDFS_ONLINE_FSCK */
-+
-+	ssdfs_inode_check_memory_leaks();
-+	ssdfs_ino_tree_check_memory_leaks();
-+	ssdfs_invext_tree_check_memory_leaks();
-+	ssdfs_blk2off_check_memory_leaks();
-+	ssdfs_farray_check_memory_leaks();
-+	ssdfs_folio_vector_check_memory_leaks();
-+	ssdfs_flush_check_memory_leaks();
-+	ssdfs_gc_check_memory_leaks();
-+	ssdfs_map_queue_check_memory_leaks();
-+	ssdfs_map_tbl_check_memory_leaks();
-+	ssdfs_map_cache_check_memory_leaks();
-+	ssdfs_map_thread_check_memory_leaks();
-+	ssdfs_migration_check_memory_leaks();
-+	ssdfs_peb_check_memory_leaks();
-+	ssdfs_read_check_memory_leaks();
-+	ssdfs_recovery_check_memory_leaks();
-+	ssdfs_req_queue_check_memory_leaks();
-+	ssdfs_seg_obj_check_memory_leaks();
-+	ssdfs_seg_bmap_check_memory_leaks();
-+	ssdfs_seg_blk_check_memory_leaks();
-+	ssdfs_seg_tree_check_memory_leaks();
-+	ssdfs_seq_arr_check_memory_leaks();
-+	ssdfs_dict_check_memory_leaks();
-+	ssdfs_shextree_check_memory_leaks();
-+	ssdfs_super_check_memory_leaks();
-+	ssdfs_xattr_check_memory_leaks();
-+	ssdfs_snap_reqs_queue_check_memory_leaks();
-+	ssdfs_snap_rules_list_check_memory_leaks();
-+	ssdfs_snap_tree_check_memory_leaks();
-+
-+#ifdef CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING
-+#ifdef CONFIG_SSDFS_SHOW_CONSUMED_MEMORY
-+	if (atomic64_read(&ssdfs_allocated_folios) != 0) {
-+		SSDFS_ERR("Memory leaks include %lld folios\n",
-+			  atomic64_read(&ssdfs_allocated_folios));
-+	}
-+
-+	if (atomic64_read(&ssdfs_memory_leaks) != 0) {
-+		SSDFS_ERR("Memory allocator suffers from %lld leaks\n",
-+			  atomic64_read(&ssdfs_memory_leaks));
-+	}
-+#else
-+	if (atomic64_read(&ssdfs_allocated_folios) != 0) {
-+		SSDFS_WARN("Memory leaks include %lld folios\n",
-+			   atomic64_read(&ssdfs_allocated_folios));
-+	}
-+
-+	if (atomic64_read(&ssdfs_memory_leaks) != 0) {
-+		SSDFS_WARN("Memory allocator suffers from %lld leaks\n",
-+			   atomic64_read(&ssdfs_memory_leaks));
-+	}
-+#endif /* CONFIG_SSDFS_SHOW_CONSUMED_MEMORY */
-+#endif /* CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING */
-+}
-+
-+static int ssdfs_fill_super(struct super_block *sb, struct fs_context *fc)
-+{
-+	struct ssdfs_fs_info *fs_info;
-+	struct ssdfs_mount_context *ctx = fc->fs_private;
-+	struct ssdfs_peb_extent last_sb_log = {0};
-+	struct ssdfs_sb_log_payload payload;
-+	struct inode *root_i;
-+	int silent = fc->sb_flags & SB_SILENT;
-+	u64 fs_feature_compat;
-+	int i;
-+	int err = 0;
-+
-+#ifdef CONFIG_SSDFS_TRACK_API_CALL
-+	SSDFS_ERR("sb %p, silent %#x\n", sb, silent);
-+#else
-+	SSDFS_DBG("sb %p, silent %#x\n", sb, silent);
-+#endif /* CONFIG_SSDFS_TRACK_API_CALL */
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("segment header size %zu, "
-+		  "partial log header size %zu, "
-+		  "footer size %zu\n",
-+		  sizeof(struct ssdfs_segment_header),
-+		  sizeof(struct ssdfs_partial_log_header),
-+		  sizeof(struct ssdfs_log_footer));
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	ssdfs_memory_folio_locks_checker_init();
-+	ssdfs_memory_leaks_checker_init();
-+
-+	sb->s_fs_info = NULL;
-+
-+	fs_info = kzalloc(sizeof(*fs_info), GFP_KERNEL);
-+	if (!fs_info)
-+		return -ENOMEM;
-+
-+	fs_info->sb = sb;
-+	sb->s_fs_info = fs_info;
-+
-+#ifdef CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING
-+	atomic64_set(&fs_info->ssdfs_writeback_folios, 0);
-+#endif /* CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING */
-+
-+	fs_info->fs_ctime = U64_MAX;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	spin_lock_init(&fs_info->requests_lock);
-+	INIT_LIST_HEAD(&fs_info->user_data_requests_list);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	/* set initial block size value for valid log search */
-+	fs_info->log_pagesize = ilog2(SSDFS_4KB);
-+	fs_info->pagesize = SSDFS_4KB;
-+
-+#ifdef CONFIG_SSDFS_TESTING
-+	fs_info->do_fork_invalidation = true;
-+#endif /* CONFIG_SSDFS_TESTING */
-+
-+	fs_info->max_open_zones = 0;
-+	fs_info->is_zns_device = false;
-+	fs_info->zone_size = U64_MAX;
-+	fs_info->zone_capacity = U64_MAX;
-+	atomic_set(&fs_info->open_zones, 0);
-+
-+#ifdef CONFIG_SSDFS_ONLINE_FSCK
-+	atomic_set(&fs_info->fsck_priority, 0);
-+#endif /* CONFIG_SSDFS_ONLINE_FSCK */
-+
-+	mutex_init(&fs_info->tunefs_request.lock);
-+	fs_info->tunefs_request.state = SSDFS_IGNORE_OPTION;
-+	memset(&fs_info->tunefs_request.new_config, 0,
-+		sizeof(struct ssdfs_tunefs_config_request));
-+
-+#ifdef CONFIG_SSDFS_MTD_DEVICE
-+	fs_info->mtd = sb->s_mtd;
-+	fs_info->devops = &ssdfs_mtd_devops;
-+#elif defined(CONFIG_SSDFS_BLOCK_DEVICE)
-+	if (bdev_is_zoned(sb->s_bdev)) {
-+		fs_info->devops = &ssdfs_zns_devops;
-+		fs_info->is_zns_device = true;
-+		fs_info->max_open_zones = bdev_max_open_zones(sb->s_bdev);
-+
-+		fs_info->zone_size = ssdfs_zns_zone_size(sb,
-+						SSDFS_RESERVED_VBR_SIZE);
-+		if (fs_info->zone_size >= U64_MAX) {
-+			SSDFS_ERR("fail to get zone size\n");
-+			return -ERANGE;
-+		}
-+
-+		fs_info->zone_capacity = ssdfs_zns_zone_capacity(sb,
-+						SSDFS_RESERVED_VBR_SIZE);
-+		if (fs_info->zone_capacity >= U64_MAX) {
-+			SSDFS_ERR("fail to get zone capacity\n");
-+			return -ERANGE;
-+		} else if (fs_info->zone_capacity > fs_info->zone_size) {
-+			SSDFS_ERR("invalid zone capacity: "
-+				  "capacity %llu, size %llu\n",
-+				  fs_info->zone_capacity,
-+				  fs_info->zone_size);
-+			return -ERANGE;
-+		}
-+	} else
-+		fs_info->devops = &ssdfs_bdev_devops;
-+
-+	atomic_set(&fs_info->pending_bios, 0);
-+	fs_info->erase_folio = ssdfs_super_alloc_folio(GFP_KERNEL,
-+							get_order(PAGE_SIZE));
-+	if (IS_ERR_OR_NULL(fs_info->erase_folio)) {
-+		err = (fs_info->erase_folio == NULL ?
-+				-ENOMEM : PTR_ERR(fs_info->erase_folio));
-+		SSDFS_ERR("unable to allocate memory folio\n");
-+		goto free_erase_folio;
-+	}
-+	memset(folio_address(fs_info->erase_folio), 0xFF, PAGE_SIZE);
-+#else
-+	BUILD_BUG();
-+#endif
-+
-+	atomic64_set(&fs_info->flush_reqs, 0);
-+	init_waitqueue_head(&fs_info->pending_wq);
-+	init_waitqueue_head(&fs_info->finish_user_data_read_wq);
-+	init_waitqueue_head(&fs_info->finish_user_data_flush_wq);
-+	init_waitqueue_head(&fs_info->finish_commit_log_flush_wq);
-+	atomic_set(&fs_info->maptbl_users, 0);
-+	init_waitqueue_head(&fs_info->maptbl_users_wq);
-+	atomic_set(&fs_info->segbmap_users, 0);
-+	init_waitqueue_head(&fs_info->segbmap_users_wq);
-+	ssdfs_btree_nodes_list_init(&fs_info->btree_nodes);
-+	atomic_set(&fs_info->global_fs_state, SSDFS_UNKNOWN_GLOBAL_FS_STATE);
-+	spin_lock_init(&fs_info->volume_state_lock);
-+	init_completion(&fs_info->mount_end);
-+
-+	ssdfs_seg_objects_queue_init(&fs_info->pre_destroyed_segs_rq);
-+
-+	init_waitqueue_head(&fs_info->global_fsck.wait_queue);
-+	ssdfs_requests_queue_init(&fs_info->global_fsck.rq);
-+
-+	for (i = 0; i < SSDFS_GC_THREAD_TYPE_MAX; i++) {
-+		init_waitqueue_head(&fs_info->gc_wait_queue[i]);
-+		atomic_set(&fs_info->gc_should_act[i], 1);
-+	}
-+
-+	fs_info->mount_opts = ctx->s_mount_opts;
-+
-+#ifdef CONFIG_SSDFS_TRACK_API_CALL
-+	SSDFS_ERR("gather superblock info started...\n");
-+#else
-+	SSDFS_DBG("gather superblock info started...\n");
-+#endif /* CONFIG_SSDFS_TRACK_API_CALL */
-+
-+	err = ssdfs_gather_superblock_info(fs_info, silent);
-+	if (err)
-+		goto free_erase_folio;
-+
-+	spin_lock(&fs_info->volume_state_lock);
-+	fs_feature_compat = fs_info->fs_feature_compat;
-+	spin_unlock(&fs_info->volume_state_lock);
-+
-+#ifdef CONFIG_SSDFS_TRACK_API_CALL
-+	SSDFS_ERR("create device group started...\n");
-+#else
-+	SSDFS_DBG("create device group started...\n");
-+#endif /* CONFIG_SSDFS_TRACK_API_CALL */
-+
-+	err = ssdfs_sysfs_create_device_group(sb);
-+	if (err)
-+		goto release_maptbl_cache;
-+
-+	sb->s_maxbytes = MAX_LFS_FILESIZE;
-+	sb->s_magic = SSDFS_SUPER_MAGIC;
-+	sb->s_op = &ssdfs_super_operations;
-+	sb->s_export_op = &ssdfs_export_ops;
-+
-+	sb->s_xattr = ssdfs_xattr_handlers;
-+	set_posix_acl_flag(sb);
-+
-+#ifdef CONFIG_SSDFS_TRACK_API_CALL
-+	SSDFS_ERR("create snapshots subsystem started...\n");
-+#else
-+	SSDFS_DBG("create snapshots subsystem started...\n");
-+#endif /* CONFIG_SSDFS_TRACK_API_CALL */
-+
-+	err = ssdfs_snapshot_subsystem_init(fs_info);
-+	if (err == -EINTR) {
-+		/*
-+		 * Ignore this error.
-+		 */
-+		err = 0;
-+		goto destroy_sysfs_device_group;
-+	} else if (err)
-+		goto destroy_sysfs_device_group;
-+
-+#ifdef CONFIG_SSDFS_TRACK_API_CALL
-+	SSDFS_ERR("create segment tree started...\n");
-+#else
-+	SSDFS_DBG("create segment tree started...\n");
-+#endif /* CONFIG_SSDFS_TRACK_API_CALL */
-+
-+	down_write(&fs_info->volume_sem);
-+	err = ssdfs_segment_tree_create(fs_info);
-+	up_write(&fs_info->volume_sem);
-+	if (err)
-+		goto destroy_snapshot_subsystem;
-+
-+#ifdef CONFIG_SSDFS_TRACK_API_CALL
-+	SSDFS_ERR("create mapping table started...\n");
-+#else
-+	SSDFS_DBG("create mapping table started...\n");
-+#endif /* CONFIG_SSDFS_TRACK_API_CALL */
-+
-+	if (fs_feature_compat & SSDFS_HAS_MAPTBL_COMPAT_FLAG) {
-+		down_write(&fs_info->volume_sem);
-+		err = ssdfs_maptbl_create(fs_info);
-+		up_write(&fs_info->volume_sem);
-+
-+		if (err == -EINTR) {
-+			/*
-+			 * Ignore this error.
-+			 */
-+			err = 0;
-+			goto destroy_segments_tree;
-+		} else if (err)
-+			goto destroy_segments_tree;
-+	} else {
-+		err = -EIO;
-+		SSDFS_WARN("volume hasn't mapping table\n");
-+		goto destroy_segments_tree;
-+	}
-+
-+#ifdef CONFIG_SSDFS_TRACK_API_CALL
-+	SSDFS_ERR("create segment bitmap started...\n");
-+#else
-+	SSDFS_DBG("create segment bitmap started...\n");
-+#endif /* CONFIG_SSDFS_TRACK_API_CALL */
-+
-+	if (fs_feature_compat & SSDFS_HAS_SEGBMAP_COMPAT_FLAG) {
-+		down_write(&fs_info->volume_sem);
-+		err = ssdfs_segbmap_create(fs_info);
-+		up_write(&fs_info->volume_sem);
-+
-+		if (err == -EINTR) {
-+			/*
-+			 * Ignore this error.
-+			 */
-+			err = 0;
-+			goto destroy_maptbl;
-+		} else if (err)
-+			goto destroy_maptbl;
-+	} else {
-+		err = -EIO;
-+		SSDFS_WARN("volume hasn't segment bitmap\n");
-+		goto destroy_maptbl;
-+	}
-+
-+#ifdef CONFIG_SSDFS_TRACK_API_CALL
-+	SSDFS_ERR("create shared extents tree started...\n");
-+#else
-+	SSDFS_DBG("create shared extents tree started...\n");
-+#endif /* CONFIG_SSDFS_TRACK_API_CALL */
-+
-+	if (fs_info->fs_feature_compat & SSDFS_HAS_SHARED_EXTENTS_COMPAT_FLAG) {
-+		down_write(&fs_info->volume_sem);
-+		err = ssdfs_shextree_create(fs_info);
-+		up_write(&fs_info->volume_sem);
-+		if (err)
-+			goto destroy_segbmap;
-+	} else {
-+		err = -EIO;
-+		SSDFS_WARN("volume hasn't shared extents tree\n");
-+		goto destroy_segbmap;
-+	}
-+
-+#ifdef CONFIG_SSDFS_TRACK_API_CALL
-+	SSDFS_ERR("create invalidated extents btree started...\n");
-+#else
-+	SSDFS_DBG("create invalidated extents btree started...\n");
-+#endif /* CONFIG_SSDFS_TRACK_API_CALL */
-+
-+	if (fs_feature_compat & SSDFS_HAS_INVALID_EXTENTS_TREE_COMPAT_FLAG) {
-+		down_write(&fs_info->volume_sem);
-+		err = ssdfs_invextree_create(fs_info);
-+		up_write(&fs_info->volume_sem);
-+		if (err)
-+			goto destroy_shextree;
-+	}
-+
-+#ifdef CONFIG_SSDFS_TRACK_API_CALL
-+	SSDFS_ERR("create current segment array started...\n");
-+#else
-+	SSDFS_DBG("create current segment array started...\n");
-+#endif /* CONFIG_SSDFS_TRACK_API_CALL */
-+
-+	down_write(&fs_info->volume_sem);
-+	err = ssdfs_current_segment_array_create(fs_info);
-+	up_write(&fs_info->volume_sem);
-+	if (err)
-+		goto destroy_invext_btree;
-+
-+#ifdef CONFIG_SSDFS_TRACK_API_CALL
-+	SSDFS_ERR("create shared dictionary started...\n");
-+#else
-+	SSDFS_DBG("create shared dictionary started...\n");
-+#endif /* CONFIG_SSDFS_TRACK_API_CALL */
-+
-+	if (fs_feature_compat & SSDFS_HAS_SHARED_DICT_COMPAT_FLAG) {
-+		down_write(&fs_info->volume_sem);
-+
-+		err = ssdfs_shared_dict_btree_create(fs_info);
-+		if (err) {
-+			up_write(&fs_info->volume_sem);
-+			goto destroy_current_segment_array;
-+		}
-+
-+		err = ssdfs_shared_dict_btree_init(fs_info);
-+		if (err) {
-+			up_write(&fs_info->volume_sem);
-+			goto destroy_shdictree;
-+		}
-+
-+		up_write(&fs_info->volume_sem);
-+	} else {
-+		err = -EIO;
-+		SSDFS_WARN("volume hasn't shared dictionary\n");
-+		goto destroy_current_segment_array;
-+	}
-+
-+#ifdef CONFIG_SSDFS_TRACK_API_CALL
-+	SSDFS_ERR("create inodes btree started...\n");
-+#else
-+	SSDFS_DBG("create inodes btree started...\n");
-+#endif /* CONFIG_SSDFS_TRACK_API_CALL */
-+
-+	if (fs_feature_compat & SSDFS_HAS_INODES_TREE_COMPAT_FLAG) {
-+		down_write(&fs_info->volume_sem);
-+		err = ssdfs_inodes_btree_create(fs_info);
-+		up_write(&fs_info->volume_sem);
-+		if (err == -ENOSPC) {
-+			err = 0;
-+			fs_info->sb->s_flags |= SB_RDONLY;
-+			SSDFS_DBG("unable to create inodes btree\n");
-+		} else if (err)
-+			goto destroy_shdictree;
-+	} else {
-+		err = -EIO;
-+		SSDFS_WARN("volume hasn't inodes btree\n");
-+		goto destroy_shdictree;
-+	}
-+
-+#ifdef CONFIG_SSDFS_TRACK_API_CALL
-+	SSDFS_ERR("getting root inode...\n");
-+#else
-+	SSDFS_DBG("getting root inode...\n");
-+#endif /* CONFIG_SSDFS_TRACK_API_CALL */
-+
-+	root_i = ssdfs_iget(sb, SSDFS_ROOT_INO);
-+	if (IS_ERR(root_i)) {
-+		SSDFS_DBG("getting root inode failed\n");
-+		err = PTR_ERR(root_i);
-+		goto destroy_inodes_btree;
-+	}
-+
-+	if (!S_ISDIR(root_i->i_mode) || !root_i->i_blocks || !root_i->i_size) {
-+		err = -ERANGE;
-+		iput(root_i);
-+		SSDFS_ERR("corrupted root inode\n");
-+		goto destroy_inodes_btree;
-+	}
-+
-+#ifdef CONFIG_SSDFS_TRACK_API_CALL
-+	SSDFS_ERR("d_make_root()\n");
-+#else
-+	SSDFS_DBG("d_make_root()\n");
-+#endif /* CONFIG_SSDFS_TRACK_API_CALL */
-+
-+	sb->s_root = d_make_root(root_i);
-+	if (!sb->s_root) {
-+		err = -ENOMEM;
-+		goto put_root_inode;
-+	}
-+
-+#ifdef CONFIG_SSDFS_TRACK_API_CALL
-+	SSDFS_ERR("starting global FSCK thread...\n");
-+#else
-+	SSDFS_DBG("starting global FSCK thread...\n");
-+#endif /* CONFIG_SSDFS_TRACK_API_CALL */
-+
-+	err = ssdfs_start_global_fsck_thread(fs_info);
-+	if (err == -EINTR) {
-+		/*
-+		 * Ignore this error.
-+		 */
-+		err = 0;
-+		goto put_root_inode;
-+	} else if (unlikely(err)) {
-+		SSDFS_ERR("fail to start global FSCK thread: "
-+			  "err %d\n", err);
-+		goto put_root_inode;
-+	}
-+
-+#ifdef CONFIG_SSDFS_TRACK_API_CALL
-+	SSDFS_ERR("starting GC threads...\n");
-+#else
-+	SSDFS_DBG("starting GC threads...\n");
-+#endif /* CONFIG_SSDFS_TRACK_API_CALL */
-+
-+	for (i = 0; i < SSDFS_GC_THREAD_TYPE_MAX; i++) {
-+		err = ssdfs_start_gc_thread(fs_info, i);
-+		if (err == -EINTR) {
-+			/*
-+			 * Ignore this error.
-+			 */
-+			err = 0;
-+			for (i--; i >= 0; i--)
-+				ssdfs_stop_gc_thread(fs_info, i);
-+			goto stop_global_fsck_thread;
-+		} else if (unlikely(err)) {
-+			SSDFS_ERR("fail to start GC threads: "
-+				  "type %#x, err %d\n",
-+				  i, err);
-+			for (i--; i >= 0; i--)
-+				ssdfs_stop_gc_thread(fs_info, i);
-+			goto stop_global_fsck_thread;
-+		}
-+	}
-+
-+	if (!(sb->s_flags & SB_RDONLY)) {
-+		folio_batch_init(&payload.maptbl_cache.batch);
-+
-+		down_write(&fs_info->volume_sem);
-+
-+		err = ssdfs_prepare_sb_log(sb, &last_sb_log);
-+		if (unlikely(err)) {
-+			SSDFS_ERR("fail to prepare sb log: err %d\n",
-+				  err);
-+		}
-+
-+		err = ssdfs_snapshot_sb_log_payload(sb, &payload);
-+		if (unlikely(err)) {
-+			SSDFS_ERR("fail to snapshot sb log's payload: err %d\n",
-+				  err);
-+		}
-+
-+		if (!err) {
-+			err = ssdfs_commit_super(sb, SSDFS_MOUNTED_FS,
-+						 &last_sb_log,
-+						 &payload);
-+		} else {
-+			SSDFS_ERR("fail to prepare sb log payload: "
-+				  "err %d\n", err);
-+		}
-+
-+		up_write(&fs_info->volume_sem);
-+
-+		ssdfs_super_folio_batch_release(&payload.maptbl_cache.batch);
-+
-+		if (err) {
-+			SSDFS_NOTICE("fail to commit superblock info: "
-+				     "remount filesystem in RO mode\n");
-+			sb->s_flags |= SB_RDONLY;
-+		}
-+	}
-+
-+	atomic_set(&fs_info->global_fs_state, SSDFS_REGULAR_FS_OPERATIONS);
-+	complete_all(&fs_info->mount_end);
-+
-+	if (sb->s_flags & SB_RDONLY) {
-+		SSDFS_INFO("%s (page %s, erase block %s, segment %s) has been mounted READ-ONLY on device %s\n",
-+			   SSDFS_VERSION,
-+			   GRANULARITY2STRING(fs_info->pagesize),
-+			   GRANULARITY2STRING(fs_info->erasesize),
-+			   GRANULARITY2STRING(fs_info->segsize),
-+			   fs_info->devops->device_name(sb));
-+	} else {
-+		SSDFS_INFO("%s (page %s, erase block %s, segment %s) has been mounted on device %s\n",
-+			   SSDFS_VERSION,
-+			   GRANULARITY2STRING(fs_info->pagesize),
-+			   GRANULARITY2STRING(fs_info->erasesize),
-+			   GRANULARITY2STRING(fs_info->segsize),
-+			   fs_info->devops->device_name(sb));
-+	}
-+
-+	return 0;
-+
-+stop_global_fsck_thread:
-+	ssdfs_stop_global_fsck_thread(fs_info);
-+
-+put_root_inode:
-+	iput(root_i);
-+
-+destroy_inodes_btree:
-+	ssdfs_inodes_btree_destroy(fs_info);
-+
-+destroy_shdictree:
-+	ssdfs_shared_dict_btree_destroy(fs_info);
-+
-+destroy_current_segment_array:
-+	ssdfs_destroy_all_curent_segments(fs_info);
-+
-+destroy_invext_btree:
-+	ssdfs_invextree_destroy(fs_info);
-+
-+destroy_shextree:
-+	ssdfs_shextree_destroy(fs_info);
-+
-+destroy_segbmap:
-+	ssdfs_segbmap_destroy(fs_info);
-+
-+destroy_maptbl:
-+	ssdfs_maptbl_stop_thread(fs_info->maptbl);
-+	ssdfs_maptbl_destroy(fs_info);
-+
-+destroy_segments_tree:
-+	ssdfs_segment_tree_destroy(fs_info);
-+	ssdfs_current_segment_array_destroy(fs_info);
-+
-+destroy_snapshot_subsystem:
-+	ssdfs_snapshot_subsystem_destroy(fs_info);
-+
-+destroy_sysfs_device_group:
-+	ssdfs_sysfs_delete_device_group(fs_info);
-+
-+release_maptbl_cache:
-+	ssdfs_maptbl_cache_destroy(&fs_info->maptbl_cache);
-+
-+free_erase_folio:
-+	if (fs_info->erase_folio)
-+		ssdfs_super_free_folio(fs_info->erase_folio);
-+
-+	ssdfs_destruct_sb_info(&fs_info->sbi);
-+	ssdfs_destruct_sb_info(&fs_info->sbi_backup);
-+	ssdfs_destruct_sb_snap_info(&fs_info->sb_snapi);
-+
-+	ssdfs_free_workspaces();
-+
-+	rcu_barrier();
-+
-+	ssdfs_check_memory_folio_locks();
-+	ssdfs_check_memory_leaks();
-+	return err;
-+}
-+
-+static inline
-+bool unfinished_commit_log_requests_exist(struct ssdfs_fs_info *fsi)
-+{
-+	u64 commit_log_requests = 0;
-+
-+	spin_lock(&fsi->volume_state_lock);
-+	commit_log_requests = fsi->commit_log_requests;
-+	spin_unlock(&fsi->volume_state_lock);
-+
-+	return commit_log_requests > 0;
-+}
-+
-+static inline
-+void wait_unfinished_commit_log_requests(struct ssdfs_fs_info *fsi)
-+{
-+	if (unfinished_commit_log_requests_exist(fsi)) {
-+		wait_queue_head_t *wq = &fsi->finish_user_data_flush_wq;
-+		u64 old_commit_requests, new_commit_requests;
-+		int number_of_tries = 0;
-+		int err;
-+
-+		while (number_of_tries < SSDFS_UNMOUNT_NUMBER_OF_TRIES) {
-+			spin_lock(&fsi->volume_state_lock);
-+			old_commit_requests = fsi->commit_log_requests;
-+			spin_unlock(&fsi->volume_state_lock);
-+
-+			DEFINE_WAIT_FUNC(wait, woken_wake_function);
-+			add_wait_queue(wq, &wait);
-+			if (unfinished_commit_log_requests_exist(fsi)) {
-+				wait_woken(&wait, TASK_INTERRUPTIBLE, HZ);
-+			}
-+			remove_wait_queue(wq, &wait);
-+
-+			if (!unfinished_commit_log_requests_exist(fsi))
-+				break;
-+
-+			spin_lock(&fsi->volume_state_lock);
-+			new_commit_requests = fsi->commit_log_requests;
-+			spin_unlock(&fsi->volume_state_lock);
-+
-+			if (old_commit_requests != new_commit_requests) {
-+				if (number_of_tries > 0)
-+					number_of_tries--;
-+			} else
-+				number_of_tries++;
-+		}
-+
-+		if (unfinished_commit_log_requests_exist(fsi)) {
-+			spin_lock(&fsi->volume_state_lock);
-+			new_commit_requests = fsi->commit_log_requests;
-+			spin_unlock(&fsi->volume_state_lock);
-+
-+			SSDFS_WARN("there are unfinished commit log requests: "
-+				   "commit_log_requests %llu, "
-+				   "number_of_tries %d, err %d\n",
-+				   new_commit_requests,
-+				   number_of_tries, err);
-+		}
-+	}
-+}
-+
-+static void ssdfs_put_super(struct super_block *sb)
-+{
-+	struct ssdfs_fs_info *fsi = SSDFS_FS_I(sb);
-+	struct ssdfs_peb_extent last_sb_log = {0};
-+	struct ssdfs_sb_log_payload payload;
-+	u64 fs_feature_compat;
-+	u16 fs_state;
-+	bool can_commit_super = true;
-+	int i;
-+	int res;
-+	int err;
-+
-+#ifdef CONFIG_SSDFS_TRACK_API_CALL
-+	SSDFS_ERR("sb %p\n", sb);
-+#else
-+	SSDFS_DBG("sb %p\n", sb);
-+#endif /* CONFIG_SSDFS_TRACK_API_CALL */
-+
-+	atomic_set(&fsi->global_fs_state, SSDFS_UNMOUNT_METADATA_GOING_FLUSHING);
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("SSDFS_UNMOUNT_METADATA_GOING_FLUSHING\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	wake_up_all(&fsi->pending_wq);
-+
-+#ifdef CONFIG_SSDFS_TRACK_API_CALL
-+	SSDFS_ERR("STOP THREADS...\n");
-+#else
-+	SSDFS_DBG("STOP THREADS...\n");
-+#endif /* CONFIG_SSDFS_TRACK_API_CALL */
-+
-+	for (i = 0; i < SSDFS_GC_THREAD_TYPE_MAX; i++) {
-+		err = ssdfs_stop_gc_thread(fsi, i);
-+		if (err) {
-+			SSDFS_ERR("fail to stop GC thread: "
-+				  "type %#x, err %d\n", i, err);
-+		}
-+	}
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("GC threads have been stoped\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	err = ssdfs_shared_dict_stop_thread(fsi->shdictree);
-+	if (err == -EIO) {
-+		ssdfs_fs_error(fsi->sb,
-+				__FILE__, __func__, __LINE__,
-+				"thread I/O issue\n");
-+	} else if (unlikely(err)) {
-+		SSDFS_WARN("thread stopping issue: err %d\n",
-+			   err);
-+	}
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("shared dictionary thread has been stoped\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	for (i = SSDFS_INVALIDATION_QUEUE_NUMBER - 1; i >= 0; i--) {
-+		err = ssdfs_shextree_stop_thread(fsi->shextree, i);
-+		if (err == -EIO) {
-+			ssdfs_fs_error(fsi->sb,
-+					__FILE__, __func__, __LINE__,
-+					"thread I/O issue\n");
-+		} else if (unlikely(err)) {
-+			SSDFS_WARN("thread stopping issue: ID %d, err %d\n",
-+				   i, err);
-+		}
-+	}
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("shared extents threads have been stoped\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	err = ssdfs_stop_snapshots_btree_thread(fsi);
-+	if (err == -EIO) {
-+		ssdfs_fs_error(fsi->sb,
-+				__FILE__, __func__, __LINE__,
-+				"thread I/O issue\n");
-+	} else if (unlikely(err)) {
-+		SSDFS_WARN("thread stopping issue: err %d\n",
-+			   err);
-+	}
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("snaphots btree thread has been stoped\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	err = ssdfs_maptbl_stop_thread(fsi->maptbl);
-+	if (unlikely(err)) {
-+		SSDFS_WARN("maptbl thread stopping issue: err %d\n",
-+			   err);
-+	}
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("mapping table thread has been stoped\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	spin_lock(&fsi->volume_state_lock);
-+	fs_feature_compat = fsi->fs_feature_compat;
-+	fs_state = fsi->fs_state;
-+	spin_unlock(&fsi->volume_state_lock);
-+
-+	folio_batch_init(&payload.maptbl_cache.batch);
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("Wait unfinished user data requests...\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	wake_up_all(&fsi->pending_wq);
-+	wait_unfinished_read_data_requests(fsi);
-+	wait_unfinished_user_data_requests(fsi);
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("Wait unfinished commit log requests...\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	wake_up_all(&fsi->pending_wq);
-+	wait_unfinished_commit_log_requests(fsi);
-+
-+	if (!(sb->s_flags & SB_RDONLY)) {
-+		atomic_set(&fsi->global_fs_state,
-+				SSDFS_UNMOUNT_METADATA_UNDER_FLUSH);
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("SSDFS_UNMOUNT_METADATA_UNDER_FLUSH\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+		down_write(&fsi->volume_sem);
-+
-+		err = ssdfs_prepare_sb_log(sb, &last_sb_log);
-+		if (unlikely(err)) {
-+			can_commit_super = false;
-+			SSDFS_ERR("fail to prepare sb log: err %d\n",
-+				  err);
-+		}
-+
-+#ifdef CONFIG_SSDFS_TRACK_API_CALL
-+		SSDFS_ERR("Flush invalidated extents b-tree...\n");
-+#else
-+		SSDFS_DBG("Flush invalidated extents b-tree...\n");
-+#endif /* CONFIG_SSDFS_TRACK_API_CALL */
-+
-+		if (fsi->fs_feature_compat &
-+				SSDFS_HAS_INVALID_EXTENTS_TREE_COMPAT_FLAG) {
-+			err = ssdfs_invextree_flush(fsi);
-+			if (err) {
-+				SSDFS_ERR("fail to flush invalidated extents btree: "
-+					  "err %d\n", err);
-+			}
-+		}
-+
-+#ifdef CONFIG_SSDFS_TRACK_API_CALL
-+		SSDFS_ERR("Flush shared extents b-tree...\n");
-+#else
-+		SSDFS_DBG("Flush shared extents b-tree...\n");
-+#endif /* CONFIG_SSDFS_TRACK_API_CALL */
-+
-+		if (fsi->fs_feature_compat &
-+				SSDFS_HAS_SHARED_EXTENTS_COMPAT_FLAG) {
-+			err = ssdfs_shextree_flush(fsi);
-+			if (err) {
-+				SSDFS_ERR("fail to flush shared extents btree: "
-+					  "err %d\n", err);
-+			}
-+		}
-+
-+#ifdef CONFIG_SSDFS_TRACK_API_CALL
-+		SSDFS_ERR("Flush inodes b-tree...\n");
-+#else
-+		SSDFS_DBG("Flush inodes b-tree...\n");
-+#endif /* CONFIG_SSDFS_TRACK_API_CALL */
-+
-+		if (fs_feature_compat & SSDFS_HAS_INODES_TREE_COMPAT_FLAG) {
-+			err = ssdfs_inodes_btree_flush(fsi->inodes_tree);
-+			if (err) {
-+				SSDFS_ERR("fail to flush inodes btree: "
-+					  "err %d\n", err);
-+			}
-+		}
-+
-+#ifdef CONFIG_SSDFS_TRACK_API_CALL
-+		SSDFS_ERR("Flush shared dictionary b-tree...\n");
-+#else
-+		SSDFS_DBG("Flush shared dictionary b-tree...\n");
-+#endif /* CONFIG_SSDFS_TRACK_API_CALL */
-+
-+		if (fs_feature_compat & SSDFS_HAS_SHARED_DICT_COMPAT_FLAG) {
-+			err = ssdfs_shared_dict_btree_flush(fsi->shdictree);
-+			if (err) {
-+				SSDFS_ERR("fail to flush shared dictionary: "
-+					  "err %d\n", err);
-+			}
-+		}
-+
-+#ifdef CONFIG_SSDFS_TRACK_API_CALL
-+		SSDFS_ERR("Execute create snapshots...\n");
-+#else
-+		SSDFS_DBG("Execute create snapshots...\n");
-+#endif /* CONFIG_SSDFS_TRACK_API_CALL */
-+
-+		err = ssdfs_execute_create_snapshots(fsi);
-+		if (err) {
-+			SSDFS_ERR("fail to process the snapshots creation\n");
-+		}
-+
-+#ifdef CONFIG_SSDFS_TRACK_API_CALL
-+		SSDFS_ERR("Flush snapshots b-tree...\n");
-+#else
-+		SSDFS_DBG("Flush snapshots b-tree...\n");
-+#endif /* CONFIG_SSDFS_TRACK_API_CALL */
-+
-+		if (fsi->fs_feature_compat &
-+				SSDFS_HAS_SNAPSHOTS_TREE_COMPAT_FLAG) {
-+			err = ssdfs_snapshots_btree_flush(fsi);
-+			if (err) {
-+				SSDFS_ERR("fail to flush snapshots btree: "
-+					  "err %d\n", err);
-+			}
-+		}
-+
-+		if (atomic_read(&fsi->segbmap_users) > 0) {
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_DBG("Wait absence of segment bitmap's users...\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+			res = wait_event_killable_timeout(fsi->segbmap_users_wq,
-+					atomic_read(&fsi->segbmap_users) <= 0,
-+					SSDFS_DEFAULT_TIMEOUT);
-+			if (res < 0) {
-+				WARN_ON(1);
-+			} else if (res > 1) {
-+				/*
-+				 * Condition changed before timeout
-+				 */
-+			} else {
-+				/* timeout is elapsed */
-+				WARN_ON(1);
-+			}
-+		}
-+
-+#ifdef CONFIG_SSDFS_TRACK_API_CALL
-+		SSDFS_ERR("Flush segment bitmap...\n");
-+#else
-+		SSDFS_DBG("Flush segment bitmap...\n");
-+#endif /* CONFIG_SSDFS_TRACK_API_CALL */
-+
-+		if (fs_feature_compat & SSDFS_HAS_SEGBMAP_COMPAT_FLAG) {
-+			err = ssdfs_segbmap_flush(fsi->segbmap);
-+			if (err) {
-+				SSDFS_ERR("fail to flush segbmap: "
-+					  "err %d\n", err);
-+			}
-+		}
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("Wait unfinished commit log requests...\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+		wake_up_all(&fsi->pending_wq);
-+		wait_unfinished_commit_log_requests(fsi);
-+
-+		if (atomic_read(&fsi->maptbl_users) > 0) {
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_DBG("Wait absence of mapping table users...\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+			res = wait_event_killable_timeout(fsi->maptbl_users_wq,
-+					atomic_read(&fsi->maptbl_users) <= 0,
-+					SSDFS_DEFAULT_TIMEOUT);
-+			if (res < 0) {
-+				WARN_ON(1);
-+			} else if (res > 1) {
-+				/*
-+				 * Condition changed before timeout
-+				 */
-+			} else {
-+				/* timeout is elapsed */
-+				WARN_ON(1);
-+			}
-+		}
-+
-+#ifdef CONFIG_SSDFS_TRACK_API_CALL
-+		SSDFS_ERR("Flush PEB mapping table...\n");
-+#else
-+		SSDFS_DBG("Flush PEB mapping table...\n");
-+#endif /* CONFIG_SSDFS_TRACK_API_CALL */
-+
-+		atomic_set(&fsi->global_fs_state,
-+				SSDFS_UNMOUNT_MAPTBL_UNDER_FLUSH);
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("SSDFS_UNMOUNT_MAPTBL_UNDER_FLUSH\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+		if (fs_feature_compat & SSDFS_HAS_MAPTBL_COMPAT_FLAG) {
-+			err = ssdfs_maptbl_flush(fsi->maptbl);
-+			if (err) {
-+				SSDFS_ERR("fail to flush maptbl: "
-+					  "err %d\n", err);
-+			}
-+
-+			wait_unfinished_commit_log_requests(fsi);
-+			set_maptbl_going_to_be_destroyed(fsi);
-+		}
-+
-+#ifdef CONFIG_SSDFS_TRACK_API_CALL
-+		SSDFS_ERR("Commit superblock...\n");
-+#else
-+		SSDFS_DBG("Commit superblock...\n");
-+#endif /* CONFIG_SSDFS_TRACK_API_CALL */
-+
-+		atomic_set(&fsi->global_fs_state,
-+				SSDFS_UNMOUNT_COMMIT_SUPERBLOCK);
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("SSDFS_UNMOUNT_COMMIT_SUPERBLOCK\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+		if (can_commit_super) {
-+			err = ssdfs_snapshot_sb_log_payload(sb, &payload);
-+			if (unlikely(err)) {
-+				SSDFS_ERR("fail to snapshot log's payload: "
-+					  "err %d\n", err);
-+			} else {
-+				err = ssdfs_commit_super(sb, SSDFS_VALID_FS,
-+							 &last_sb_log,
-+							 &payload);
-+			}
-+		} else {
-+			/* prepare error code */
-+			err = -ERANGE;
-+		}
-+
-+		if (err) {
-+			SSDFS_ERR("fail to commit superblock info: "
-+				  "err %d\n", err);
-+		}
-+
-+		up_write(&fsi->volume_sem);
-+	} else {
-+		if (fs_state == SSDFS_ERROR_FS) {
-+			down_write(&fsi->volume_sem);
-+
-+			err = ssdfs_prepare_sb_log(sb, &last_sb_log);
-+			if (unlikely(err)) {
-+				SSDFS_ERR("fail to prepare sb log: err %d\n",
-+					  err);
-+			}
-+
-+			err = ssdfs_snapshot_sb_log_payload(sb, &payload);
-+			if (unlikely(err)) {
-+				SSDFS_ERR("fail to snapshot log's payload: "
-+					  "err %d\n", err);
-+			}
-+
-+#ifdef CONFIG_SSDFS_TRACK_API_CALL
-+			SSDFS_ERR("Commit superblock...\n");
-+#else
-+			SSDFS_DBG("Commit superblock...\n");
-+#endif /* CONFIG_SSDFS_TRACK_API_CALL */
-+
-+			atomic_set(&fsi->global_fs_state,
-+					SSDFS_UNMOUNT_COMMIT_SUPERBLOCK);
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_DBG("SSDFS_UNMOUNT_COMMIT_SUPERBLOCK\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+			if (!err) {
-+				err = ssdfs_commit_super(sb, SSDFS_ERROR_FS,
-+							 &last_sb_log,
-+							 &payload);
-+			}
-+
-+			up_write(&fsi->volume_sem);
-+
-+			if (err) {
-+				SSDFS_ERR("fail to commit superblock info: "
-+					  "err %d\n", err);
-+			}
-+		}
-+	}
-+
-+	atomic_set(&fsi->global_fs_state, SSDFS_UNMOUNT_DESTROY_METADATA);
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("SSDFS_UNMOUNT_DESTROY_METADATA\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+#ifdef CONFIG_SSDFS_TRACK_API_CALL
-+	SSDFS_ERR("STOP GLOBAL FSCK THREAD...\n");
-+#else
-+	SSDFS_DBG("STOP GLOBAL FSCK THREAD...\n");
-+#endif /* CONFIG_SSDFS_TRACK_API_CALL */
-+
-+	err = ssdfs_stop_global_fsck_thread(fsi);
-+	if (err) {
-+		SSDFS_ERR("fail to stop global FSCK thread: "
-+			  "err %d\n", err);
-+	}
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("Global FSCK thread has been stoped\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	for (i = 0; i < folio_batch_count(&payload.maptbl_cache.batch); i++) {
-+		struct folio *payload_folio =
-+				payload.maptbl_cache.batch.folios[i];
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+		BUG_ON(!payload_folio);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+		ssdfs_folio_lock(payload_folio);
-+		folio_clear_uptodate(payload_folio);
-+		ssdfs_folio_unlock(payload_folio);
-+	}
-+
-+	ssdfs_super_folio_batch_release(&payload.maptbl_cache.batch);
-+	fsi->devops->sync(sb);
-+
-+	/*
-+	 * Make sure all delayed rcu free inodes are flushed.
-+	 */
-+	rcu_barrier();
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("All delayed rcu free inodes has been flushed\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+#ifdef CONFIG_SSDFS_TRACK_API_CALL
-+	SSDFS_ERR("Starting destroy the metadata structures...\n");
-+#else
-+	SSDFS_DBG("Starting destroy the metadata structures...\n");
-+#endif /* CONFIG_SSDFS_TRACK_API_CALL */
-+
-+	SSDFS_INFO("%s has been unmounted from device %s\n",
-+		   SSDFS_VERSION, fsi->devops->device_name(sb));
-+
-+	ssdfs_snapshot_subsystem_destroy(fsi);
-+	ssdfs_invextree_destroy(fsi);
-+	ssdfs_shextree_destroy(fsi);
-+	ssdfs_inodes_btree_destroy(fsi);
-+	ssdfs_shared_dict_btree_destroy(fsi);
-+	ssdfs_segbmap_destroy(fsi);
-+	ssdfs_maptbl_destroy(fsi);
-+	ssdfs_maptbl_cache_destroy(&fsi->maptbl_cache);
-+	ssdfs_destroy_all_curent_segments(fsi);
-+	ssdfs_segment_tree_destroy(fsi);
-+	ssdfs_current_segment_array_destroy(fsi);
-+	ssdfs_sysfs_delete_device_group(fsi);
-+
-+	if (fsi->erase_folio)
-+		ssdfs_super_free_folio(fsi->erase_folio);
-+
-+	ssdfs_destruct_sb_info(&fsi->sbi);
-+	ssdfs_destruct_sb_info(&fsi->sbi_backup);
-+	ssdfs_destruct_sb_snap_info(&fsi->sb_snapi);
-+
-+	ssdfs_free_workspaces();
-+
-+	ssdfs_check_memory_folio_locks();
-+	ssdfs_check_memory_leaks();
-+
-+#ifdef CONFIG_SSDFS_TRACK_API_CALL
-+	SSDFS_ERR("All metadata structures have been destroyed...\n");
-+#else
-+	SSDFS_DBG("All metadata structures have been destroyed...\n");
-+#endif /* CONFIG_SSDFS_TRACK_API_CALL */
-+
-+	SSDFS_INFO("All metadata structures have been destroyed\n");
-+}
-+
-+static int ssdfs_reconfigure(struct fs_context *fc)
-+{
-+	struct ssdfs_mount_context *ctx = fc->fs_private;
-+	struct super_block *sb = fc->root->d_sb;
-+	struct ssdfs_fs_info *fsi = SSDFS_FS_I(sb);
-+
-+	sync_filesystem(sb);
-+	fsi->mount_opts = ctx->s_mount_opts;
-+
-+	return ssdfs_remount_fs(fc, sb);
-+}
-+
-+static int ssdfs_get_tree(struct fs_context *fc)
-+{
-+#ifdef CONFIG_SSDFS_MTD_DEVICE
-+	return get_tree_mtd(fc, ssdfs_fill_super);
-+#elif defined(CONFIG_SSDFS_BLOCK_DEVICE)
-+	return get_tree_bdev(fc, ssdfs_fill_super);
-+#else
-+	BUILD_BUG();
-+	return -EOPNOTSUPP;
-+#endif
-+}
-+
-+static void ssdfs_fc_free(struct fs_context *fc)
-+{
-+	struct ssdfs_mount_context *ctx = fc->fs_private;
-+
-+	if (!ctx)
-+		return;
-+
-+	kfree(ctx);
-+}
-+
-+static const struct fs_context_operations ssdfs_context_ops = {
-+	.parse_param	= ssdfs_parse_param,
-+	.get_tree	= ssdfs_get_tree,
-+	.reconfigure	= ssdfs_reconfigure,
-+	.free		= ssdfs_fc_free,
-+};
-+
-+static int ssdfs_init_fs_context(struct fs_context *fc)
-+{
-+	struct ssdfs_mount_context *ctx;
-+
-+	ctx = kzalloc(sizeof(struct ssdfs_mount_context), GFP_KERNEL);
-+	if (!ctx)
-+		return -ENOMEM;
-+
-+	fc->fs_private = ctx;
-+	fc->ops = &ssdfs_context_ops;
-+
-+	return 0;
-+}
-+
-+static void kill_ssdfs_sb(struct super_block *sb)
-+{
-+#ifdef CONFIG_SSDFS_MTD_DEVICE
-+	kill_mtd_super(sb);
-+#elif defined(CONFIG_SSDFS_BLOCK_DEVICE)
-+	kill_block_super(sb);
-+#else
-+	BUILD_BUG();
-+#endif
-+
-+	if (sb->s_fs_info) {
-+		kfree(sb->s_fs_info);
-+		sb->s_fs_info = NULL;
-+	}
-+}
-+
-+static struct file_system_type ssdfs_fs_type = {
-+	.name		= "ssdfs",
-+	.owner		= THIS_MODULE,
-+	.init_fs_context = ssdfs_init_fs_context,
-+	.kill_sb	= kill_ssdfs_sb,
-+#ifdef CONFIG_SSDFS_BLOCK_DEVICE
-+	.fs_flags	= FS_REQUIRES_DEV,
-+#endif
-+};
-+MODULE_ALIAS_FS(SSDFS_VERSION);
-+
-+static void ssdfs_destroy_caches(void)
-+{
-+	/*
-+	 * Make sure all delayed rcu free inodes are flushed before we
-+	 * destroy cache.
-+	 */
-+	rcu_barrier();
-+
-+	if (ssdfs_inode_cachep)
-+		kmem_cache_destroy(ssdfs_inode_cachep);
-+
-+	ssdfs_destroy_seg_req_obj_cache();
-+	ssdfs_destroy_dirty_folios_obj_cache();
-+	ssdfs_destroy_btree_search_obj_cache();
-+	ssdfs_destroy_free_ino_desc_cache();
-+	ssdfs_destroy_btree_node_obj_cache();
-+	ssdfs_destroy_seg_obj_cache();
-+	ssdfs_destroy_extent_info_cache();
-+	ssdfs_destroy_peb_mapping_info_cache();
-+	ssdfs_destroy_blk2off_frag_obj_cache();
-+	ssdfs_destroy_name_info_cache();
-+	ssdfs_destroy_seg_object_info_cache();
-+}
-+
-+static int ssdfs_init_caches(void)
-+{
-+	int err;
-+
-+	ssdfs_zero_seg_obj_cache_ptr();
-+	ssdfs_zero_seg_req_obj_cache_ptr();
-+	ssdfs_zero_dirty_folios_obj_cache_ptr();
-+	ssdfs_zero_extent_info_cache_ptr();
-+	ssdfs_zero_btree_node_obj_cache_ptr();
-+	ssdfs_zero_btree_search_obj_cache_ptr();
-+	ssdfs_zero_free_ino_desc_cache_ptr();
-+	ssdfs_zero_peb_mapping_info_cache_ptr();
-+	ssdfs_zero_blk2off_frag_obj_cache_ptr();
-+	ssdfs_zero_name_info_cache_ptr();
-+	ssdfs_zero_seg_object_info_cache_ptr();
-+
-+	ssdfs_inode_cachep = kmem_cache_create("ssdfs_inode_cache",
-+					sizeof(struct ssdfs_inode_info), 0,
-+					SLAB_RECLAIM_ACCOUNT | SLAB_ACCOUNT,
-+					ssdfs_init_inode_once);
-+	if (!ssdfs_inode_cachep) {
-+		SSDFS_ERR("unable to create inode cache\n");
-+		return -ENOMEM;
-+	}
-+
-+	err = ssdfs_init_seg_obj_cache();
-+	if (unlikely(err)) {
-+		SSDFS_ERR("unable to create segment object cache: err %d\n",
-+			  err);
-+		goto destroy_caches;
-+	}
-+
-+	err = ssdfs_init_seg_req_obj_cache();
-+	if (unlikely(err)) {
-+		SSDFS_ERR("unable to create segment request object cache: "
-+			  "err %d\n",
-+			  err);
-+		goto destroy_caches;
-+	}
-+
-+	err = ssdfs_init_dirty_folios_obj_cache();
-+	if (unlikely(err)) {
-+		SSDFS_ERR("unable to create dirty folios object cache: "
-+			  "err %d\n",
-+			  err);
-+		goto destroy_caches;
-+	}
-+
-+	err = ssdfs_init_extent_info_cache();
-+	if (unlikely(err)) {
-+		SSDFS_ERR("unable to create extent info object cache: "
-+			  "err %d\n",
-+			  err);
-+		goto destroy_caches;
-+	}
-+
-+	err = ssdfs_init_btree_node_obj_cache();
-+	if (unlikely(err)) {
-+		SSDFS_ERR("unable to create btree node object cache: err %d\n",
-+			  err);
-+		goto destroy_caches;
-+	}
-+
-+	err = ssdfs_init_btree_search_obj_cache();
-+	if (unlikely(err)) {
-+		SSDFS_ERR("unable to create btree search object cache: "
-+			  "err %d\n",
-+			  err);
-+		goto destroy_caches;
-+	}
-+
-+	err = ssdfs_init_free_ino_desc_cache();
-+	if (unlikely(err)) {
-+		SSDFS_ERR("unable to create free inode descriptors cache: "
-+			  "err %d\n",
-+			  err);
-+		goto destroy_caches;
-+	}
-+
-+	err = ssdfs_init_peb_mapping_info_cache();
-+	if (unlikely(err)) {
-+		SSDFS_ERR("unable to create PEB mapping descriptors cache: "
-+			  "err %d\n",
-+			  err);
-+		goto destroy_caches;
-+	}
-+
-+	err = ssdfs_init_blk2off_frag_obj_cache();
-+	if (unlikely(err)) {
-+		SSDFS_ERR("unable to create blk2off fragments cache: "
-+			  "err %d\n",
-+			  err);
-+		goto destroy_caches;
-+	}
-+
-+	err = ssdfs_init_name_info_cache();
-+	if (unlikely(err)) {
-+		SSDFS_ERR("unable to create name info cache: "
-+			  "err %d\n",
-+			  err);
-+		goto destroy_caches;
-+	}
-+
-+	err = ssdfs_init_seg_object_info_cache();
-+	if (unlikely(err)) {
-+		SSDFS_ERR("unable to create segment object info cache: "
-+			  "err %d\n",
-+			  err);
-+		goto destroy_caches;
-+	}
-+
-+	return 0;
-+
-+destroy_caches:
-+	ssdfs_destroy_caches();
-+	return -ENOMEM;
-+}
-+
-+static inline void ssdfs_print_info(void)
-+{
-+	SSDFS_INFO("%s loaded\n", SSDFS_VERSION);
-+}
-+
-+static int __init ssdfs_init(void)
-+{
-+	int err;
-+
-+	err = ssdfs_init_caches();
-+	if (err) {
-+		SSDFS_ERR("failed to initialize caches\n");
-+		goto failed_init;
-+	}
-+
-+	err = ssdfs_compressors_init();
-+	if (err) {
-+		SSDFS_ERR("failed to initialize compressors\n");
-+		goto free_caches;
-+	}
-+
-+	err = ssdfs_sysfs_init();
-+	if (err) {
-+		SSDFS_ERR("failed to initialize sysfs subsystem\n");
-+		goto stop_compressors;
-+	}
-+
-+	err = register_filesystem(&ssdfs_fs_type);
-+	if (err) {
-+		SSDFS_ERR("failed to register filesystem\n");
-+		goto sysfs_exit;
-+	}
-+
-+	ssdfs_print_info();
-+
-+	return 0;
-+
-+sysfs_exit:
-+	ssdfs_sysfs_exit();
-+
-+stop_compressors:
-+	ssdfs_compressors_exit();
-+
-+free_caches:
-+	ssdfs_destroy_caches();
-+
-+failed_init:
-+	return err;
-+}
-+
-+static void __exit ssdfs_exit(void)
-+{
-+	ssdfs_destroy_caches();
-+	unregister_filesystem(&ssdfs_fs_type);
-+	ssdfs_sysfs_exit();
-+	ssdfs_compressors_exit();
-+}
-+
-+module_init(ssdfs_init);
-+module_exit(ssdfs_exit);
-+
-+MODULE_DESCRIPTION("SSDFS -- SSD-oriented File System");
-+MODULE_AUTHOR("HGST, San Jose Research Center, Storage Architecture Group");
-+MODULE_AUTHOR("Viacheslav Dubeyko <slava@dubeyko.com>");
-+MODULE_LICENSE("Dual BSD/GPL");
++int ssdfs_src_blk_bmap_get_free_pages(struct ssdfs_peb_blk_bmap *ptr);
++int ssdfs_src_blk_bmap_get_used_pages(struct ssdfs_peb_blk_bmap *ptr);
++int ssdfs_src_blk_bmap_get_invalid_pages(struct ssdfs_peb_blk_bmap *ptr);
++int ssdfs_src_blk_bmap_get_metadata_pages(struct ssdfs_peb_blk_bmap *ptr);
++int ssdfs_src_blk_bmap_get_pages_capacity(struct ssdfs_peb_blk_bmap *ptr);
++int ssdfs_dst_blk_bmap_get_free_pages(struct ssdfs_peb_blk_bmap *ptr);
++int ssdfs_dst_blk_bmap_get_used_pages(struct ssdfs_peb_blk_bmap *ptr);
++int ssdfs_dst_blk_bmap_get_invalid_pages(struct ssdfs_peb_blk_bmap *ptr);
++int ssdfs_dst_blk_bmap_get_metadata_pages(struct ssdfs_peb_blk_bmap *ptr);
++int ssdfs_dst_blk_bmap_get_pages_capacity(struct ssdfs_peb_blk_bmap *ptr);
++
++#endif /* _SSDFS_PEB_BLOCK_BITMAP_H */
 -- 
 2.34.1
 
