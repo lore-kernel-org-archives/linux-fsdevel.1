@@ -1,71 +1,71 @@
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34C8230EF6F
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 02:19:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED71E30E0D5
+	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 02:19:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773627583; cv=none; b=fc91BLrYSqrTkQlyekvmHZrKfBgvXW+vUjuhVOqw3bNXY3/cn1I2GCX4H9dsWekQ9TNPUxdpp6M3c5B4TMU3l6St+iXc9x/rLDuI9GNnMeNbthzUH7lO4tbP6vmhN/8yNEnYfABhaCNHdnN3IvIhQicVHjcPThCeMjJ2UmluRw8=
+	t=1773627585; cv=none; b=VaqJo70OjddEH7WflAbIG2MkIfoJpMP3ikOv4JXCEcVtOY+p3ObvjdEyxdE8uwgvxBwJTx/uTHur4cq6ihKMCxNig0RxTgg8g0Sh6NHYfv0Gx9Tfz/afOBBIuTpNFr5RvD9Vy1D2CCZn77B4suNks+WAjMRo2pm1tSOMtr76WY0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773627583; c=relaxed/simple;
-	bh=5WuxtIuGkP+JtK9kmJsKyzYNRBp+j+acTR4DfNYg5BM=;
+	s=arc-20240116; t=1773627585; c=relaxed/simple;
+	bh=XcuteyiBQYHNCbFqVgedx3kzpSX474xQYrxV1wrpz1o=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nqw052o+05fDj0xxdD1oS+WkuqAsr1fiKXgeGXxEw+3O9yYY+/e7vhdBE0jMSZn8EwyAbHYD2Y8CgJrD17A037y9fgBHbnshMZ62SHRLT511d0W5MZm2HD2WKbUG+84pees+trhTZDjM1cfzTkKi4AZ0qSsW8o+addBcy8gG+Lc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b=H6ZohBqk; arc=none smtp.client-ip=209.85.128.177
+	 MIME-Version:Content-Type; b=U3/E/j9B37QzRsArGO1W1BlhQ49Q4AFQ1lX+5jgaP0b0zcJwo6OqIJjTrqhvJplM3S/DIv9+Bevc8aPpJ2Ooau8XUc8p2CaTOcs4O/fzCFI4jJzRG711Jd0evf1amZMnHUzPOLaEhmf9q9Djn4qmGnEjour4o1iW3krFvfN9nDo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b=RTU+UhQJ; arc=none smtp.client-ip=209.85.128.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b="H6ZohBqk"
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-79a46ebe2beso4612467b3.2
-        for <linux-fsdevel@vger.kernel.org>; Sun, 15 Mar 2026 19:19:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b="RTU+UhQJ"
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-79901821bb0so40599947b3.2
+        for <linux-fsdevel@vger.kernel.org>; Sun, 15 Mar 2026 19:19:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20230601.gappssmtp.com; s=20230601; t=1773627578; x=1774232378; darn=vger.kernel.org;
+        d=dubeyko-com.20230601.gappssmtp.com; s=20230601; t=1773627580; x=1774232380; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7yYMLNXjhx8ltbUcJk+/C0SxnxcTNsKpzvsK/qzUOiI=;
-        b=H6ZohBqkabzbeLo/I5TVDSa5syqHkqiimj6dGrjnJYB7VTlSw77dB0j0445KM/hRAX
-         y7mXgvQVWwS3H8b3qi8MwnCnGbqpTlY87Of0izQBg4W/u1p4twJzEFxopZto04vIWUT7
-         fuducz5KcAI4WhfmHvT8SMBkaAptCXDVDIJ1KCrlxZsfZcni5/XUSoA2W5HPF8YC9jd0
-         eo+GAGHqGvd1J5YGJoF+OH4hnUy0rJ/J0lhmfM48KwYi2etHtWencU84kFRSR7DZ2o+V
-         8/TAJ+UVu68U85fVfqaPjqEPdOpzdjOgnhUHUBJXmvEtsTDV24iid3dGDLMsAbsk92/C
-         48OA==
+        bh=MiSKWzTbL8tD6msntNhNOk37ZibqeiewRJjUf9p+H3w=;
+        b=RTU+UhQJDLqoZ6EkJi5jOAHXWYIM003IT0Dv5qMcU+pg0rqsNUQ2Ens8YaNyENE+w5
+         heystoZ5SMrrPCXYtBgOFxFvSXPa7zs91G8Sj/UxhXCAKpdXBsYb1ZfF9z6VB8AApUmv
+         2zASFJGqFg+dbonNpMWqqAThZ4nsRcBLrYqKUkPVRW+RFcZ41yrULOWuaPSOpd1HiB6U
+         8aD9en6IBgp1wkqcsg9Uu+QzsL/M1WBC5Cry+S51AMhkrsU+LTf94VU5U7JjKN0YRoQC
+         i7NDzs5XDhTZDhow9CucYn0o/jDs2UmO75CjHLVx9NQSZNy08aAooYux+Uz+40msYO/7
+         49YQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773627578; x=1774232378;
+        d=1e100.net; s=20251104; t=1773627580; x=1774232380;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=7yYMLNXjhx8ltbUcJk+/C0SxnxcTNsKpzvsK/qzUOiI=;
-        b=LZhPg5c2w8B8vjG/oMKDBuXZxndi/0SpdFLrL1QK8satZLz0Xuw2SlbssMj56/B29t
-         jjEAR5/8we0+J3UFjRuYQP+dZlTBX1BAijkuAZByiF8MpdiUCAM+oYuNf8OiSxGuPxL1
-         O7xV7VvCoj60CAMUk2Q5dhP9zUJeZI05BL/+N+f+I4ewoxix3Z3grsgVrjlmYX47noHB
-         2a1nOfbdKYDXL+hK19i95zgd1bHTpVPOdBuzpk4bM/PNMwvMzd3Ao+T/paGe3TUHn6eJ
-         n0w8B5tyct3RBEbgLIXvUY2PjsKGlBMMk7FuPegx8rQuX++g1u5k7wLE/pUIQHXRWTtz
-         iVtg==
-X-Gm-Message-State: AOJu0YwHQsO7DEGLucv+eOy2Vunswh/VyUkoZUyD5uGA9SmwGIka0wG2
-	ji3cGYsShEJV+0HmPgt/6ZQO8qwaNx3pDcQEkuLgM+WfVHN2dXitmxZAffrTC7Mfq0Ju933xQu2
-	e+V37
-X-Gm-Gg: ATEYQzwhRBl5fTP+rYrubeyFHsAoavok7VnYstLklxXi2ERj002uCgO78t/dFR/B8Vl
-	16rEwXPzCgcVGP/NzV2xzjAwWH+KAfxFQ+zphigRidvCgzD6BE3wcrV/AEgJ2Orz+SXlVXdPksq
-	bS69jC6nMhA2EHL3k5nPa/Xb7OO3TygN8gf0TDtgkOgIdx3afRk5Y4Ab434aKZJTV63hTY9pk7E
-	Sf9NzPoM+U7zWGihw6z7I8MhzX90uFnupQXx8sMA+LBABWJrESaRkMkJVQeq+jTUnwPBzCoOUF+
-	6axPlAP6y/BRg0LiBSE7ya59hhPh1eRwOL3pmhfWQjEQY3Rdza1NbEsqZMIOhVj6pn/gkVOmQ/q
-	hU6J8uSEnvug22fX35OqNWIfjSrBh5Bwx0IG27CKc1YFJtxaYYHRTFV9nQEgeXnFqmHv4hf3cJr
-	AElZl+rmxmdkA1yMsTEOd2s4ISpt4+fIiNqvj2P7t9hFQSwBCGW5YCIR2UiqZ+O4M8ztSfqXakB
-	JHMdvfNnCnfvhTiTGmFKO2g
-X-Received: by 2002:a05:690c:e3e9:b0:78e:6176:2c8b with SMTP id 00721157ae682-79a1c1dce1dmr120496637b3.49.1773627577555;
-        Sun, 15 Mar 2026 19:19:37 -0700 (PDT)
+        bh=MiSKWzTbL8tD6msntNhNOk37ZibqeiewRJjUf9p+H3w=;
+        b=NLb3jdqprxmaSGstlM5gyjMd+H4hhCP0lmPOrzpDLeI+SFaqwdCAUSbkUvrf1VZzpA
+         hJto5SuKLdnrkxFaHC5CAEmcYDoY2eArwL7GnKcDbINdqGrxJxtTpWtDne6g8xk4Turz
+         7YeDrU5sp18nmkOJCIMHZjlBDwfs27JIvrVYosY9PywUrV51TY5KYUkw9w2EyvW5q/ru
+         l15r+CMKHEf6GefJUYzj5jlr+MUlyr8Wcx+wW5yfpFPBOgSA9WFTjSSAUC9cny34BgJh
+         fT9xyxM7V+KJDqfJFQkUteJ+hEijqeCqn1EowFCjtQc/epFGBmv+lxU56NDGfxMtNeqk
+         6N/Q==
+X-Gm-Message-State: AOJu0YwHMQX2FQy+4EXewar/22od4LSt/s9IxGoNj27x0OFSuEWSu4W/
+	Kn09QnVgZ9E0VY9cixvEFSbXlaab1rqkuXrtrTJxm1WYNm8BQJs7JpoFlW3xXhHdNIIoI/Mi95d
+	eJ4Re
+X-Gm-Gg: ATEYQzxmRJDiCRx/xDDgYX+Id6N7jMUnOrBZBC8JRAiPp878i7GTKzdEn7RmIlhEis4
+	Gehl6HtcFaKQbxPqyH0ojtnWfDYMnlDsBvE2/qo2ne3YjAYWtJieIFbk+j0T3S58DmQXCrfuKUr
+	/rLUv+I7OsAlxfDIHREWflAzKu5TzN3CmgKlaL8sjYmNEigT9/CH/6bw4Q8MsWXzszBtKbpRk8L
+	jENLdyFisCVPO6urOlt1NbQqKnhn0KVQCy/XpKNLmGF2UvM0jQc7XZ6QCcjd09tHcAjMg5hnZ8t
+	ckX6FpfIrclRI8OA6e8wYQBYkmgUxW56j3yH2UX7FlMYhgg20jyJNFKb7LKGZor2g4loKO0XO/Z
+	4JesPSZtWy6Si569cU+Vq8czdsNbRfpli+L54zUaL4/NrZ7KdDIJYSkLsCatm+P2+W7Ox9LkeqG
+	K/aAWbwrQwldboPEpUIMFUbAotcvhI1RZpvZ6/WNPB1jIaLakywFGP9lwPW9LY39ZmrmEgr5eZh
+	ejzDQsosqTLHV4r6F1Zi9UjoSVer6bIUW0=
+X-Received: by 2002:a05:690c:dc4:b0:79a:2ef2:82a with SMTP id 00721157ae682-79a2ef20e30mr72713177b3.20.1773627580438;
+        Sun, 15 Mar 2026 19:19:40 -0700 (PDT)
 Received: from pop-os.attlocal.net ([2600:1700:6476:1430:6939:3e01:5e8f:6093])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-79917deb69asm79721617b3.10.2026.03.15.19.19.36
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-79917deb69asm79721617b3.10.2026.03.15.19.19.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Mar 2026 19:19:36 -0700 (PDT)
+        Sun, 15 Mar 2026 19:19:39 -0700 (PDT)
 From: Viacheslav Dubeyko <slava@dubeyko.com>
 To: linux-fsdevel@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
 	Viacheslav Dubeyko <slava@dubeyko.com>
-Subject: [PATCH v2 22/79] ssdfs: introduce offset translation table
-Date: Sun, 15 Mar 2026 19:17:38 -0700
-Message-ID: <20260316021800.1694650-12-slava@dubeyko.com>
+Subject: [PATCH v2 27/79] ssdfs: introduce PEB container
+Date: Sun, 15 Mar 2026 19:17:40 -0700
+Message-ID: <20260316021800.1694650-14-slava@dubeyko.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260316021800.1694650-1-slava@dubeyko.com>
 References: <20260316021800.1694650-1-slava@dubeyko.com>
@@ -75,78 +75,61 @@ List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 Complete patchset is available here:
 https://github.com/dubeyko/ssdfs-driver/tree/master/patchset/linux-kernel-6.18.0
 
-One of the key goal of SSDFS is to decrease the write
-amplification factor. Logical extent concept is the
-fundamental technique to achieve the goal. Logical extent
-describes any volume extent on the basis of segment ID,
-logical block ID, and length. Migration scheme guarantee
-that segment ID will be always the same for any logical
-extent. Offset translation table provides the way to convert
-logical block ID into offset inside of a log of particular
-"Physical" Erase Block (PEB). As a result, extents b-tree
-never needs to be updated because logical extent will never
-change until intentional movement from one segment into
-another one.
+SSDFS implements a migration scheme. Migration scheme is
+a fundamental technique of GC overhead management. The key
+responsibility of the migration scheme is to guarantee
+the presence of data in the same segment for any update
+operations. Generally speaking, the migration scheme’s model
+is implemented on the basis of association an exhausted
+"Physical" Erase Block (PEB) with a clean one. The goal such
+association of two PEBs is to implement the gradual migration
+of data by means of the update operations in the initial
+(exhausted) PEB. As a result, the old, exhausted PEB becomes
+invalidated after complete data migration and it will be
+possible to apply the erase operation to convert it in the
+clean state. To implement the migration scheme concept, SSDFS
+introduces PEB container that includes source and destination
+erase blocks. PEB container object keeps the pointers on source
+and destination PEB objects during migration logic execution.
 
-Offset translation table is a metadata structure that
-is stored as metadata in every log. The responsibility of
-offset translation table keeps the knowledge which particular
-logical blocks are stored into log's payload and which offset
-in the payload should be used to access and retrieve the
-content of logical block.
-
-Offset translation table can be imagined like a sequence of
-fragments. Every fragment contains array of physical
-offset descriptors that provides the way to convert logical
-block ID into the physical offset in the log. Flush logic
-identifies dirty fragments and stores these fragments as
-part of log's metadata during log commit operation.
-
-The responsibility of offset translation table is to implement
-the mechanism of converting logical block ID into the physical
-offset in the log. As a result, offset translation table
-implements API:
-(1) create - create empty offset translation table
-(2) destroy - destroy offset translation table
-(3) partial_init - initialize offset translation table by one fragment
-(4) store_offsets_table - flush dirty fragments
-(5) convert - convert logical block ID into offset descriptor
-(6) allocate_block - allocate logical block
-(7) allocate_extent - allocate logical extent
-(8) change_offset - initialize offset of allocated logical block
-(9) free_block - free logical block
-(10) free_extent - free logical extent
+"Physical" Erase Block object can be in one of the possible
+state (clean, using, used, pre-dirty, dirty). It means that
+PEB container creation logic needs to define the state of
+particular erase block and detect that it's under migration
+or not. As a result, creation logic prepare proper sequence
+of initialization requests, add these request into request
+queue, and start threads that executes PEB container
+initialization.
 
 Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
 ---
- fs/ssdfs/offset_translation_table.h | 459 ++++++++++++++++++++++++++++
- 1 file changed, 459 insertions(+)
- create mode 100644 fs/ssdfs/offset_translation_table.h
+ fs/ssdfs/peb_container.h | 631 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 631 insertions(+)
+ create mode 100644 fs/ssdfs/peb_container.h
 
-diff --git a/fs/ssdfs/offset_translation_table.h b/fs/ssdfs/offset_translation_table.h
+diff --git a/fs/ssdfs/peb_container.h b/fs/ssdfs/peb_container.h
 new file mode 100644
-index 000000000000..7bc5a4764679
+index 000000000000..9e7bc76cb043
 --- /dev/null
-+++ b/fs/ssdfs/offset_translation_table.h
-@@ -0,0 +1,459 @@
++++ b/fs/ssdfs/peb_container.h
+@@ -0,0 +1,631 @@
 +/*
 + * SPDX-License-Identifier: BSD-3-Clause-Clear
 + *
 + * SSDFS -- SSD-oriented File System.
 + *
-+ * fs/ssdfs/offset_translation_table.h - offset table declarations.
++ * fs/ssdfs/peb_container.h - PEB container declarations.
 + *
 + * Copyright (c) 2014-2019 HGST, a Western Digital Company.
 + *              http://www.hgst.com/
 + * Copyright (c) 2014-2026 Viacheslav Dubeyko <slava@dubeyko.com>
 + *              http://www.ssdfs.org/
-+ * Copyright (c) 2022-2023 Bytedance Ltd. and/or its affiliates.
-+ *              https://www.bytedance.com/
 + *
 + * (C) Copyright 2014-2019, HGST, Inc., All rights reserved.
 + *
@@ -156,316 +139,460 @@ index 000000000000..7bc5a4764679
 + *
 + * Acknowledgement: Cyril Guyot
 + *                  Zvonimir Bandic
-+ *                  Cong Wang
 + */
 +
-+#ifndef _SSDFS_OFFSET_TRANSLATION_TABLE_H
-+#define _SSDFS_OFFSET_TRANSLATION_TABLE_H
++#ifndef _SSDFS_PEB_CONTAINER_H
++#define _SSDFS_PEB_CONTAINER_H
 +
-+#include <linux/pagevec.h>
++#include "block_bitmap.h"
++#include "peb.h"
 +
-+#include "request_queue.h"
-+#include "sequence_array.h"
-+#include "dynamic_array.h"
-+
-+/*
-+ * struct ssdfs_phys_offset_table_fragment - fragment of phys offsets table
-+ * @lock: table fragment lock
-+ * @start_id: starting physical offset id number in fragment
-+ * @sequence_id: fragment's sequence_id in PEB
-+ * @id_count: count of id numbers in sequence
-+ * @state: fragment state
-+ * @peb_id: PEB ID containing the fragment
-+ * @migrating_blocks: number of logical blocks under migration
-+ * @actual_records: number of actual records in fragment
-+ * @hdr: pointer on fragment's header
-+ * @phys_offs: array of physical offsets in fragment
-+ * @buf: buffer of fragment
-+ * @buf_size: size of buffer in bytes
-+ *
-+ * One fragment can be used for one PEB's log. But one log can contain
-+ * several fragments too. In memory exists the same count of fragments
-+ * as on volume.
-+ */
-+struct ssdfs_phys_offset_table_fragment {
-+	struct rw_semaphore lock;
-+	u16 start_id;
-+	u16 sequence_id;
-+	atomic_t id_count;
-+	atomic_t state;
-+	u64 peb_id;
-+	atomic_t migrating_blocks;
-+	atomic_t actual_records;
-+
-+	struct ssdfs_phys_offset_table_header *hdr;
-+	struct ssdfs_phys_offset_descriptor *phys_offs;
-+	unsigned char *buf;
-+	size_t buf_size;
-+};
-+
++/* PEB container's array indexes */
 +enum {
-+	SSDFS_BLK2OFF_FRAG_UNDEFINED,
-+	SSDFS_BLK2OFF_FRAG_CREATED,
-+	SSDFS_BLK2OFF_FRAG_INITIALIZED,
-+	SSDFS_BLK2OFF_FRAG_DIRTY,
-+	SSDFS_BLK2OFF_FRAG_UNDER_COMMIT,
-+	SSDFS_BLK2OFF_FRAG_COMMITED,
-+	SSDFS_BLK2OFF_PLEASE_DELETE_FRAGMENT,
-+	SSDFS_BLK2OFF_FRAG_STATE_MAX,
++	SSDFS_SEG_PEB1,
++	SSDFS_SEG_PEB2,
++	SSDFS_SEG_PEB_ITEMS_MAX
 +};
 +
-+#define SSDFS_INVALID_FRAG_ID				U16_MAX
-+#define SSDFS_BLK2OFF_TBL_REVERT_THRESHOLD		(U16_MAX - 1)
-+#define SSDFS_BLK2OFF_TBL_REVERT_PIVOT			(U16_MAX / 2)
-+#define SSDFS_BLK2OFF_TBL_LBLK2OFF_CAPACITY_MAX		U16_MAX
-+
-+/*
-+ * struct ssdfs_phys_offset_table_array - array of log's fragments in PEB
-+ * @state: PEB's translation table state
-+ * @fragment_count: fragments count
-+ * @array: array of fragments
-+ */
-+struct ssdfs_phys_offset_table_array {
-+	atomic_t state;
-+	atomic_t fragment_count;
-+	struct ssdfs_sequence_array *sequence;
-+};
-+
++/* PEB container possible states */
 +enum {
-+	SSDFS_BLK2OFF_TABLE_UNDEFINED,
-+	SSDFS_BLK2OFF_TABLE_CREATED,
-+	SSDFS_BLK2OFF_TABLE_PARTIAL_INIT,
-+	SSDFS_BLK2OFF_TABLE_DIRTY_PARTIAL_INIT,
-+	SSDFS_BLK2OFF_TABLE_COMPLETE_INIT,
-+	SSDFS_BLK2OFF_TABLE_DIRTY,
-+	SSDFS_BLK2OFF_TABLE_STATE_MAX,
-+};
-+
-+#define SSDFS_BLK2OFF_TABLE_INVALID_ID		U16_MAX
-+
-+/*
-+ * struct ssdfs_block_descriptor_state - block descriptor state
-+ * @status: state of block descriptor buffer
-+ * @buf: block descriptor buffer
-+ */
-+struct ssdfs_block_descriptor_state {
-+	u32 status;
-+	struct ssdfs_block_descriptor buf;
++	SSDFS_PEB_CONTAINER_EMPTY,
++	SSDFS_PEB1_SRC_CONTAINER,
++	SSDFS_PEB1_DST_CONTAINER,
++	SSDFS_PEB1_SRC_PEB2_DST_CONTAINER,
++	SSDFS_PEB1_SRC_EXT_PTR_DST_CONTAINER,
++	SSDFS_PEB2_SRC_CONTAINER,
++	SSDFS_PEB2_DST_CONTAINER,
++	SSDFS_PEB2_SRC_PEB1_DST_CONTAINER,
++	SSDFS_PEB2_SRC_EXT_PTR_DST_CONTAINER,
++	SSDFS_PEB_CONTAINER_STATE_MAX
 +};
 +
 +/*
-+ * Block descriptor buffer state
++ * PEB migration state
 + */
 +enum {
-+	SSDFS_BLK_DESC_BUF_UNKNOWN_STATE,
-+	SSDFS_BLK_DESC_BUF_INITIALIZED,
-+	SSDFS_BLK_DESC_BUF_STATE_MAX,
-+	SSDFS_BLK_DESC_BUF_ALLOCATED = U32_MAX,
++	SSDFS_PEB_UNKNOWN_MIGRATION_STATE,
++	SSDFS_PEB_NOT_MIGRATING,
++	SSDFS_PEB_MIGRATION_PREPARATION,
++	SSDFS_PEB_RELATION_PREPARATION,
++	SSDFS_PEB_UNDER_MIGRATION,
++	SSDFS_PEB_FINISHING_MIGRATION,
++	SSDFS_PEB_MIGRATION_STATE_MAX
 +};
 +
 +/*
-+ * struct ssdfs_offset_position - defines offset id and position
-+ * @cno: checkpoint of change
-+ * @id: physical offset ID
-+ * @peb_index: PEB's index
-+ * @sequence_id: sequence ID of physical offset table's fragment
-+ * @offset_index: offset index inside of fragment
-+ * @blk_desc: logical block descriptor
++ * PEB migration phase
 + */
-+struct ssdfs_offset_position {
-+	u64 cno;
-+	u16 id;
-+	u16 peb_index;
-+	u16 sequence_id;
-+	u16 offset_index;
-+
-+	struct ssdfs_block_descriptor_state blk_desc;
++enum {
++	SSDFS_PEB_MIGRATION_STATUS_UNKNOWN,
++	SSDFS_SRC_PEB_NOT_EXHAUSTED,
++	SSDFS_DST_PEB_RECEIVES_DATA,
++	SSDFS_SHARED_ZONE_RECEIVES_DATA,
++	SSDFS_PEB_MIGRATION_PHASE_MAX
 +};
 +
 +/*
-+ * struct ssdfs_migrating_block - migrating block state
-+ * @state: logical block's state
-+ * @peb_index: PEB's index
-+ * @sequence_id: fragment's sequence_id in PEB
-+ * @batch: copy of logical block's content (under migration only)
++ * struct ssdfs_thread_execution_point - execution point in thread logic
++ * @file: file name
++ * @function: function name
++ * @code_line: line number
 + */
-+struct ssdfs_migrating_block {
++struct ssdfs_thread_execution_point {
++	const char *file;
++	const char *function;
++	u32 code_line;
++};
++
++/*
++ * struct ssdfs_thread_call_stack - thread's call stack
++ * @points: execution points array
++ * @count: current number of execution points in array
++ */
++struct ssdfs_thread_call_stack {
++#define SSDFS_CALL_STACK_CAPACITY	(16)
++	struct ssdfs_thread_execution_point points[SSDFS_CALL_STACK_CAPACITY];
++	u32 count;
++};
++
++/*
++ * struct ssdfs_thread_state - PEB container's thread state
++ * @state: current state of the thread
++ * @req: pointer on segment request
++ * @postponed_req: pointer on postponed segment request
++ * @skip_finish_flush_request: should commit skip the finish request?
++ * @has_extent_been_invalidated: has been extent invalidated?
++ * @has_migration_check_requested: has migration check been requested?
++ * @err: current error
++ */
++struct ssdfs_thread_state {
++#define SSDFS_THREAD_UNKNOWN_STATE	(-1)
 +	int state;
++	struct ssdfs_segment_request *req;
++	struct ssdfs_segment_request *postponed_req;
++	bool has_extent_been_invalidated;
++	bool has_migration_check_requested;
++	int err;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	struct ssdfs_thread_call_stack call_stack;
++	int unfinished_reqs;
++#endif /* CONFIG_SSDFS_DEBUG */
++};
++
++/*
++ * struct ssdfs_peb_container - PEB container
++ * @peb_type: type of PEB
++ * @peb_index: index of PEB in the array
++ * @log_blocks: count of logical blocks in full log
++ * @peb_state: aggregated PEB container state
++ * @thread_state: threads state
++ * @threads: PEB container's threads array
++ * @read_rq: read requests queue
++ * @update_rq: update requests queue
++ * @crq_ptr_lock: lock of pointer on create requests queue
++ * @create_rq: pointer on shared new page requests queue
++ * @fsck_rq: online FSCK requests queue
++ * @parent_si: pointer on parent segment object
++ * @migration_lock: migration lock
++ * @migration_state: PEB migration state
++ * @migration_phase: PEB migration phase
++ * @items_state: items array state
++ * @shared_free_dst_blks: count of blocks that destination is able to share
++ * @migration_wq: wait queue for migration operations
++ * @cache_protection: PEB cache protection window
++ * @lock: container's internals lock
++ * @src_peb: pointer on source PEB
++ * @dst_peb: pointer on destination PEB
++ * @dst_peb_refs: reference counter of destination PEB (sharing counter)
++ * @items: buffers for PEB objects
++ * @peb_kobj: /sys/fs/ssdfs/<device>/<segN>/<pebN> kernel object
++ * @peb_kobj_unregister: completion state for <pebN> kernel object
++ */
++struct ssdfs_peb_container {
++	/* Static data */
++	u8 peb_type;
 +	u16 peb_index;
-+	u16 sequence_id;
-+	struct folio_batch batch;
++	u32 log_blocks;
++
++	atomic_t peb_state;
++
++	/* PEB container's threads */
++	struct ssdfs_thread_state thread_state[SSDFS_PEB_THREAD_TYPE_MAX];
++	struct ssdfs_thread_info thread[SSDFS_PEB_THREAD_TYPE_MAX];
++
++	/* Read requests queue */
++	struct ssdfs_requests_queue read_rq;
++
++	/* Update requests queue */
++	struct ssdfs_requests_queue update_rq;
++
++	spinlock_t pending_lock;
++	u32 pending_updated_user_data_pages;
++
++	/* Shared new page requests queue */
++	spinlock_t crq_ptr_lock;
++	struct ssdfs_requests_queue *create_rq;
++
++	/* Online FSCK requests queue */
++#ifdef CONFIG_SSDFS_ONLINE_FSCK
++	struct ssdfs_requests_queue fsck_rq;
++#endif /* CONFIG_SSDFS_ONLINE_FSCK */
++
++	/* Parent segment */
++	struct ssdfs_segment_info *parent_si;
++
++	/* Migration info */
++	struct mutex migration_lock;
++	atomic_t migration_state;
++	atomic_t migration_phase;
++	atomic_t items_state;
++	atomic_t shared_free_dst_blks;
++	wait_queue_head_t migration_wq;
++
++	/* PEB cache protection window */
++	struct ssdfs_protection_window cache_protection;
++
++	/* PEB objects */
++	struct rw_semaphore lock;
++	struct ssdfs_peb_info *src_peb;
++	struct ssdfs_peb_info *dst_peb;
++	atomic_t dst_peb_refs;
++	struct ssdfs_peb_info items[SSDFS_SEG_PEB_ITEMS_MAX];
++
++	/* /sys/fs/ssdfs/<device>/<segN>/<pebN> */
++	struct kobject peb_kobj;
++	struct completion peb_kobj_unregister;
++
++#ifdef CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING
++	atomic64_t writeback_folios;
++#endif /* CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING */
 +};
 +
-+/*
-+ * Migrating block's states
-+ */
-+enum {
-+	SSDFS_LBLOCK_UNKNOWN_STATE,
-+	SSDFS_LBLOCK_UNDER_MIGRATION,
-+	SSDFS_LBLOCK_UNDER_COMMIT,
-+	SSDFS_LBLOCK_STATE_MAX
-+};
++#define PEBI_PTR(pebi) \
++	((struct ssdfs_peb_info *)(pebi))
++#define PEBC_PTR(pebc) \
++	((struct ssdfs_peb_container *)(pebc))
++#define READ_RQ_PTR(pebc) \
++	(&PEBC_PTR(pebc)->read_rq)
 +
-+enum {
-+	SSDFS_LBMAP_INIT_INDEX,
-+	SSDFS_LBMAP_STATE_INDEX,
-+	SSDFS_LBMAP_MODIFICATION_INDEX,
-+	SSDFS_LBMAP_ARRAY_MAX,
-+};
-+
-+
-+/*
-+ * struct ssdfs_bitmap_array - bitmap array
-+ * @bits_count: number of available bits in every bitmap
-+ * @bytes_count: number of allocated bytes in every bitmap
-+ * @array: array of bitmaps
-+ */
-+struct ssdfs_bitmap_array {
-+	u32 bits_count;
-+	u32 bytes_count;
-+	unsigned long *array[SSDFS_LBMAP_ARRAY_MAX];
-+};
-+
-+/*
-+ * struct ssdfs_blk2off_table - in-core translation table
-+ * @flags: flags of translation table
-+ * @state: translation table object state
-+ * @pages_per_peb: pages per physical erase block
-+ * @pages_per_seg: pages per segment
-+ * @type: translation table type
-+ * @translation_lock: lock of translation operation
-+ * @init_cno: last actual checkpoint
-+ * @used_logical_blks: count of used logical blocks
-+ * @free_logical_blks: count of free logical blocks
-+ * @last_allocated_blk: last allocated block (hint for allocation)
-+ * @lbmap: array of block bitmaps
-+ * @lblk2off: array of correspondence between logical numbers and phys off ids
-+ * @migrating_blks: array of migrating blocks
-+ * @lblk2off_capacity: capacity of correspondence array
-+ * @peb: sequence of physical offset arrays
-+ * @pebs_count: count of PEBs in segment
-+ * @partial_init_end: wait of partial init ending
-+ * @full_init_end: wait of full init ending
-+ * @wait_queue: wait queue of blk2off table
-+ * @fsi: pointer on shared file system object
-+ */
-+struct ssdfs_blk2off_table {
-+	atomic_t flags;
-+	atomic_t state;
-+
-+	u32 pages_per_peb;
-+	u32 pages_per_seg;
-+	u8 type;
-+
-+	struct rw_semaphore translation_lock;
-+	u64 init_cno;
-+	u16 used_logical_blks;
-+	u16 free_logical_blks;
-+	u16 last_allocated_blk;
-+	struct ssdfs_bitmap_array lbmap;
-+	struct ssdfs_dynamic_array lblk2off;
-+	struct ssdfs_dynamic_array migrating_blks;
-+	u16 lblk2off_capacity;
-+
-+	struct ssdfs_phys_offset_table_array *peb;
-+	u16 pebs_count;
-+
-+	struct completion partial_init_end;
-+	struct completion full_init_end;
-+	wait_queue_head_t wait_queue;
-+
-+	struct ssdfs_fs_info *fsi;
-+};
-+
-+#define SSDFS_OFF_POS(ptr) \
-+	((struct ssdfs_offset_position *)(ptr))
-+#define SSDFS_MIGRATING_BLK(ptr) \
-+	((struct ssdfs_migrating_block *)(ptr))
-+#define SSDFS_TRANS_EXT(ptr) \
-+	((struct ssdfs_translation_extent *)(ptr))
-+
-+enum {
-+	SSDFS_BLK2OFF_OBJECT_UNKNOWN,
-+	SSDFS_BLK2OFF_OBJECT_CREATED,
-+	SSDFS_BLK2OFF_OBJECT_PARTIAL_INIT,
-+	SSDFS_BLK2OFF_OBJECT_COMPLETE_INIT,
-+	SSDFS_BLK2OFF_OBJECT_STATE_MAX,
-+};
-+
-+/*
-+ * struct ssdfs_blk2off_table_snapshot - table state snapshot
-+ * @cno: checkpoint of snapshot
-+ * @bmap_copy: copy of modification bitmap
-+ * @tbl_copy: copy of translation table
-+ * @capacity: capacity of table
-+ * @used_logical_blks: count of used logical blocks
-+ * @free_logical_blks: count of free logical blocks
-+ * @last_allocated_blk: last allocated block (hint for allocation)
-+ * @peb_index: PEB index
-+ * @start_sequence_id: sequence ID of the first dirty fragment
-+ * @new_sequence_id: sequence ID of the first newly added fragment
-+ * @start_offset_id: starting offset ID
-+ * @end_offset_id: ending offset ID
-+ * @dirty_fragments: count of dirty fragments
-+ * @fragments_count: total count of fragments
-+ *
-+ * The @bmap_copy and @tbl_copy are allocated during getting
-+ * snapshot inside of called function. Freeing of allocated
-+ * memory SHOULD BE MADE by caller.
-+ */
-+struct ssdfs_blk2off_table_snapshot {
-+	u64 cno;
-+
-+	unsigned long *bmap_copy;
-+	struct ssdfs_offset_position *tbl_copy;
-+	u16 capacity;
-+
-+	u16 used_logical_blks;
-+	u16 free_logical_blks;
-+	u16 last_allocated_blk;
-+
-+	u16 peb_index;
-+	u16 start_sequence_id;
-+	u16 new_sequence_id;
-+	u16 start_offset_id;
-+	u16 end_offset_id;
-+	u16 dirty_fragments;
-+	u32 fragments_count;
-+};
++#define SSDFS_GC_FINISH_MIGRATION	(4)
 +
 +/*
 + * Inline functions
 + */
-+
-+/*
-+ * ssdfs_blk2off_table_bmap_bytes() - calculate bmap bytes count
-+ * @items_count: bits count in bitmap
-+ */
 +static inline
-+size_t ssdfs_blk2off_table_bmap_bytes(size_t items_count)
++bool is_peb_container_empty(struct ssdfs_peb_container *pebc)
 +{
-+	size_t bytes;
-+
-+	bytes = (items_count + BITS_PER_LONG - 1) / BITS_PER_LONG;
-+	bytes *= sizeof(unsigned long);
-+
 +#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("items_count %zu, bmap_bytes %zu\n",
-+		  items_count, bytes);
++	BUG_ON(!pebc);
 +#endif /* CONFIG_SSDFS_DEBUG */
 +
-+	return bytes;
++	return atomic_read(&pebc->items_state) == SSDFS_PEB_CONTAINER_EMPTY;
++}
++
++/*
++ * is_create_requests_queue_empty() - check that create queue has requests
++ * @pebc: pointer on PEB container
++ */
++static inline
++bool is_create_requests_queue_empty(struct ssdfs_peb_container *pebc)
++{
++	bool is_create_rq_empty = true;
++
++	spin_lock(&pebc->crq_ptr_lock);
++	if (pebc->create_rq) {
++		is_create_rq_empty =
++			is_ssdfs_requests_queue_empty(pebc->create_rq);
++	}
++	spin_unlock(&pebc->crq_ptr_lock);
++
++	return is_create_rq_empty;
++}
++
++/*
++ * have_flush_requests() - check that create or update queue have requests
++ * @pebc: pointer on PEB container
++ */
++static inline
++bool have_flush_requests(struct ssdfs_peb_container *pebc)
++{
++	bool is_create_rq_empty = true;
++	bool is_update_rq_empty = true;
++
++	is_create_rq_empty = is_create_requests_queue_empty(pebc);
++	is_update_rq_empty = is_ssdfs_requests_queue_empty(&pebc->update_rq);
++
++	return !is_create_rq_empty || !is_update_rq_empty;
++}
++
++/*
++ * is_fsck_requests_queue_empty() - check that FSCK queue has requests
++ * @pebc: pointer on PEB container
++ */
++static inline
++bool is_fsck_requests_queue_empty(struct ssdfs_peb_container *pebc)
++{
++#ifdef CONFIG_SSDFS_ONLINE_FSCK
++	return is_ssdfs_requests_queue_empty(&pebc->fsck_rq);
++#else
++	return true;
++#endif /* CONFIG_SSDFS_ONLINE_FSCK */
 +}
 +
 +static inline
-+bool is_ssdfs_logical_block_migrating(int blk_state)
++bool is_ssdfs_peb_containing_user_data(struct ssdfs_peb_container *pebc)
 +{
-+	bool is_migrating = false;
++	return pebc->peb_type == SSDFS_MAPTBL_DATA_PEB_TYPE;
++}
 +
-+	switch (blk_state) {
-+	case SSDFS_LBLOCK_UNDER_MIGRATION:
-+	case SSDFS_LBLOCK_UNDER_COMMIT:
-+		is_migrating = true;
++static inline
++void SSDFS_THREAD_CALL_STACK_INIT(struct ssdfs_thread_call_stack *call_stack)
++{
++#ifdef CONFIG_SSDFS_DEBUG
++	struct ssdfs_thread_execution_point *point;
++	int i;
++
++	for (i = 0; i < SSDFS_CALL_STACK_CAPACITY; i++) {
++		point = &call_stack->points[i];
++		point->file = NULL;
++		point->function = NULL;
++		point->code_line = U32_MAX;
++	}
++
++	call_stack->count = 0;
++#endif /* CONFIG_SSDFS_DEBUG */
++}
++
++static inline
++void SSDFS_THREAD_STATE_INIT(struct ssdfs_thread_state *thread_state)
++{
++	thread_state->state = SSDFS_THREAD_UNKNOWN_STATE;
++	thread_state->req = NULL;
++	thread_state->postponed_req = NULL;
++	thread_state->has_extent_been_invalidated = false;
++	thread_state->has_migration_check_requested = false;
++	thread_state->err = 0;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_THREAD_CALL_STACK_INIT(&thread_state->call_stack);
++	thread_state->unfinished_reqs = 0;
++#endif /* CONFIG_SSDFS_DEBUG */
++}
++
++/*
++ * ssdfs_peb_container_lock() - lock PEB container
++ * @pebc: pointer on PEB container object
++ */
++static inline
++void ssdfs_peb_container_lock(struct ssdfs_peb_container *pebc)
++{
++#ifdef CONFIG_SSDFS_DEBUG
++	BUG_ON(!pebc);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	down_read(&pebc->lock);
++	mutex_lock(&pebc->migration_lock);
++}
++
++/*
++ * ssdfs_peb_container_unlock() - unlock PEB container
++ * @pebc: pointer on PEB container object
++ */
++static inline
++void ssdfs_peb_container_unlock(struct ssdfs_peb_container *pebc)
++{
++#ifdef CONFIG_SSDFS_DEBUG
++	BUG_ON(!pebc);
++	WARN_ON(!mutex_is_locked(&pebc->migration_lock));
++	WARN_ON(!rwsem_is_locked(&pebc->lock));
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	mutex_unlock(&pebc->migration_lock);
++	up_read(&pebc->lock);
++}
++
++/*
++ * is_ssdfs_peb_container_locked() - is PEB container locked?
++ * @pebc: pointer on PEB container object
++ */
++static inline
++bool is_ssdfs_peb_container_locked(struct ssdfs_peb_container *pebc)
++{
++	return rwsem_is_locked(&pebc->lock) &&
++		mutex_is_locked(&pebc->migration_lock);
++}
++
++/*
++ * ssdfs_peb_current_log_lock() - lock current log object
++ * @pebi: pointer on PEB object
++ */
++static inline
++void ssdfs_peb_current_log_lock(struct ssdfs_peb_info *pebi)
++{
++	int err;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	BUG_ON(!pebi);
++	BUG_ON(!rwsem_is_locked(&pebi->pebc->lock));
++	BUG_ON(!mutex_is_locked(&pebi->pebc->migration_lock));
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	err = mutex_lock_killable(&pebi->current_log.lock);
++	WARN_ON(err);
++}
++
++/*
++ * ssdfs_peb_current_log_unlock() - unlock current log object
++ * @pebi: pointer on PEB object
++ */
++static inline
++void ssdfs_peb_current_log_unlock(struct ssdfs_peb_info *pebi)
++{
++#ifdef CONFIG_SSDFS_DEBUG
++	BUG_ON(!pebi);
++	BUG_ON(!pebi->pebc);
++	WARN_ON(!mutex_is_locked(&pebi->current_log.lock));
++	WARN_ON(!mutex_is_locked(&pebi->pebc->migration_lock));
++	WARN_ON(!rwsem_is_locked(&pebi->pebc->lock));
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	mutex_unlock(&pebi->current_log.lock);
++}
++
++static inline
++bool is_ssdfs_peb_current_log_locked(struct ssdfs_peb_info *pebi)
++{
++	bool is_locked;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	BUG_ON(!pebi);
++	WARN_ON(!mutex_is_locked(&pebi->pebc->migration_lock));
++	WARN_ON(!rwsem_is_locked(&pebi->pebc->lock));
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	is_locked = mutex_is_locked(&pebi->current_log.lock);
++
++	return is_locked;
++}
++
++/*
++ * can_peb_receive_new_blocks() - check that PEB can receive new blocks
++ * @fsi: shared file system information
++ * @pebc: PEB container object
++ * @peb_used_pages: number of used pages in PEB
++ */
++static inline
++bool can_peb_receive_new_blocks(struct ssdfs_fs_info *fsi,
++				struct ssdfs_peb_container *pebc,
++				int peb_used_pages)
++{
++	bool is_peb_under_migration = false;
++	bool is_peb_inflated = false;
++
++	switch (atomic_read(&pebc->migration_state)) {
++	case SSDFS_PEB_MIGRATION_PREPARATION:
++	case SSDFS_PEB_RELATION_PREPARATION:
++	case SSDFS_PEB_UNDER_MIGRATION:
++	case SSDFS_PEB_FINISHING_MIGRATION:
++		is_peb_under_migration = true;
++		break;
++
++	default:
++		is_peb_under_migration = false;
++		break;
++	}
++
++	is_peb_inflated = peb_used_pages > fsi->pages_per_peb;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("is_peb_under_migration %#x, "
++		  "is_peb_inflated %#x\n",
++		  is_peb_under_migration,
++		  is_peb_inflated);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	if (is_peb_under_migration && is_peb_inflated) {
++		return false;
++	}
++
++	return true;
++}
++
++/*
++ * is_peb_preparing_migration() - check that PEB preparing migration
++ * @pebc: pointer on PEB container
++ */
++static inline
++bool is_peb_preparing_migration(struct ssdfs_peb_container *pebc)
++{
++	bool is_preparing = false;
++
++	switch (atomic_read(&pebc->migration_state)) {
++	case SSDFS_PEB_MIGRATION_PREPARATION:
++	case SSDFS_PEB_RELATION_PREPARATION:
++	case SSDFS_PEB_FINISHING_MIGRATION:
++		is_preparing = true;
 +		break;
 +
 +	default:
@@ -473,126 +600,156 @@ index 000000000000..7bc5a4764679
 +		break;
 +	}
 +
-+	return is_migrating;
++	return is_preparing;
 +}
 +
-+/* Function prototypes */
-+struct ssdfs_blk2off_table *
-+ssdfs_blk2off_table_create(struct ssdfs_fs_info *fsi,
-+			   u16 items_count, u8 type,
-+			   int state);
-+void ssdfs_blk2off_table_destroy(struct ssdfs_blk2off_table *table);
-+int ssdfs_blk2off_table_partial_clean_init(struct ssdfs_blk2off_table *table,
-+					   u16 peb_index);
-+int ssdfs_blk2off_table_partial_init(struct ssdfs_blk2off_table *table,
-+				     struct ssdfs_read_init_env *env,
-+				     u16 peb_index, u64 peb_id, u64 cno);
-+int ssdfs_blk2off_table_blk_desc_init(struct ssdfs_blk2off_table *table,
-+					u16 logical_blk,
-+					struct ssdfs_offset_position *pos);
-+int ssdfs_blk2off_table_resize(struct ssdfs_blk2off_table *table,
-+				u16 new_items_count);
-+int ssdfs_blk2off_table_snapshot(struct ssdfs_blk2off_table *table,
-+				 u16 peb_index, u64 peb_id,
-+				 struct ssdfs_blk2off_table_snapshot *snapshot);
-+void ssdfs_blk2off_table_free_snapshot(struct ssdfs_blk2off_table_snapshot *sp);
-+int ssdfs_blk2off_table_extract_extents(struct ssdfs_blk2off_table_snapshot *sp,
-+					struct ssdfs_dynamic_array *array,
-+					u16 capacity, u16 *extent_count);
-+
-+int
-+ssdfs_blk2off_table_prepare_for_commit(struct ssdfs_blk2off_table *table,
-+				       u16 peb_index, u16 sequence_id,
-+				       struct ssdfs_blk2off_table_snapshot *sp);
-+int ssdfs_peb_store_offsets_table_header(struct ssdfs_peb_info *pebi,
-+					struct ssdfs_blk2off_table_header *hdr,
-+					struct ssdfs_peb_log_offset *log_offset);
-+int
-+ssdfs_peb_store_offsets_table_extents(struct ssdfs_peb_info *pebi,
-+				      struct ssdfs_dynamic_array *array,
-+				      u16 extent_count,
-+				      struct ssdfs_peb_log_offset *log_offset);
-+int ssdfs_peb_store_offsets_table_fragment(struct ssdfs_peb_info *pebi,
-+					struct ssdfs_blk2off_table *table,
-+					u16 peb_index, u16 sequence_id,
-+					struct ssdfs_peb_log_offset *log_offset);
-+int ssdfs_blk2off_table_pre_delete_fragment(void *item, u64 peb_id);
-+int ssdfs_peb_store_offsets_table(struct ssdfs_peb_info *pebi,
-+				  struct ssdfs_metadata_descriptor *desc,
-+				  struct ssdfs_peb_log_offset *log_offset);
-+int
-+ssdfs_blk2off_table_forget_snapshot(struct ssdfs_blk2off_table *table,
-+				    struct ssdfs_blk2off_table_snapshot *sp,
-+				    struct ssdfs_dynamic_array *array,
-+				    u16 extent_count);
-+
-+bool ssdfs_blk2off_table_dirtied(struct ssdfs_blk2off_table *table,
-+				 u16 peb_index);
-+bool ssdfs_blk2off_table_initialized(struct ssdfs_blk2off_table *table,
-+				     u16 peb_index);
-+
-+int ssdfs_blk2off_table_get_used_logical_blks(struct ssdfs_blk2off_table *tbl,
-+						u16 *used_blks);
-+int ssdfs_blk2off_table_get_offset_position(struct ssdfs_blk2off_table *table,
-+					    u16 logical_blk,
-+					    struct ssdfs_offset_position *pos);
-+struct ssdfs_phys_offset_descriptor *
-+ssdfs_blk2off_table_convert(struct ssdfs_blk2off_table *table,
-+			    u16 logical_blk, u16 *peb_index,
-+			    int *migration_state,
-+			    struct ssdfs_offset_position *pos);
-+int ssdfs_blk2off_table_allocate_block(struct ssdfs_blk2off_table *table,
-+					u32 max_blk,
-+					u16 *logical_blk);
-+int ssdfs_blk2off_table_allocate_extent(struct ssdfs_blk2off_table *table,
-+					u16 len, u32 max_blk,
-+					struct ssdfs_blk2off_range *extent);
-+int ssdfs_blk2off_table_change_offset(struct ssdfs_blk2off_table *table,
-+				      u16 logical_blk,
-+				      u16 peb_index,
-+				      u64 peb_id,
-+				      struct ssdfs_block_descriptor *blk_desc,
-+				      struct ssdfs_phys_offset_descriptor *off);
-+int ssdfs_blk2off_table_free_block(struct ssdfs_blk2off_table *table,
-+				   u16 peb_index, u64 peb_id, u16 logical_blk);
-+int ssdfs_blk2off_table_free_extent(struct ssdfs_blk2off_table *table,
-+				    u16 peb_index, u64 peb_id,
-+				    struct ssdfs_blk2off_range *extent);
-+bool is_ssdfs_blk2off_table_extent_modified(struct ssdfs_blk2off_table *table,
-+					    u16 peb_index,
-+					    struct ssdfs_blk2off_range *extent);
-+
-+int ssdfs_blk2off_table_get_block_migration(struct ssdfs_blk2off_table *table,
-+					    u16 logical_blk,
-+					    u16 peb_index);
-+int ssdfs_blk2off_table_set_block_migration(struct ssdfs_blk2off_table *table,
-+					    u16 logical_blk,
-+					    u16 peb_index,
-+					    struct ssdfs_segment_request *req);
-+int ssdfs_blk2off_table_get_block_state(struct ssdfs_blk2off_table *table,
-+					struct ssdfs_segment_request *req);
-+int ssdfs_blk2off_table_update_block_state(struct ssdfs_blk2off_table *table,
-+					   struct ssdfs_segment_request *req);
-+int ssdfs_blk2off_table_set_block_commit(struct ssdfs_blk2off_table *table,
-+					 u16 logical_blk,
-+					 u16 peb_index);
-+int ssdfs_blk2off_table_revert_migration_state(struct ssdfs_blk2off_table *tbl,
-+						u16 peb_index);
-+
-+#ifdef CONFIG_SSDFS_TESTING
-+int ssdfs_blk2off_table_fragment_set_clean(struct ssdfs_blk2off_table *table,
-+					   u16 peb_index, u16 sequence_id);
-+#else
++/*
++ * ssdfs_thread_call_stack_remember() - remember execution point
++ * @stack: thread's call stack
++ * @file: file name pointer
++ * @function: function name pointer
++ * @code_line: code line in file
++ */
 +static inline
-+int ssdfs_blk2off_table_fragment_set_clean(struct ssdfs_blk2off_table *table,
-+					   u16 peb_index, u16 sequence_id)
++void ssdfs_thread_call_stack_remember(struct ssdfs_thread_call_stack *stack,
++					const char *file,
++					const char *function,
++					u32 code_line)
 +{
-+	SSDFS_ERR("set fragment clean is not supported\n");
-+	return -EOPNOTSUPP;
-+}
-+#endif /* CONFIG_SSDFS_TESTING */
++#ifdef CONFIG_SSDFS_DEBUG
++	struct ssdfs_thread_execution_point *point;
 +
-+#endif /* _SSDFS_OFFSET_TRANSLATION_TABLE_H */
++	if (stack->count < SSDFS_CALL_STACK_CAPACITY) {
++		if (stack->count > 0) {
++			point = &stack->points[stack->count - 1];
++
++			if (point->function && function) {
++				if (strcmp(point->function, function) == 0)
++					point->code_line = code_line;
++				else
++					goto process_new_execution_point;
++			} else
++				goto process_new_execution_point;
++		} else {
++process_new_execution_point:
++			point = &stack->points[stack->count];
++			point->file = file;
++			point->function = function;
++			point->code_line = code_line;
++			stack->count++;
++		}
++	} else
++		stack->count++;
++#endif /* CONFIG_SSDFS_DEBUG */
++}
++
++/*
++ * ssdfs_thread_call_stack_forget() - forget execution point
++ * @stack: thread's call stack
++ */
++static inline
++void ssdfs_thread_call_stack_forget(struct ssdfs_thread_call_stack *stack)
++{
++#ifdef CONFIG_SSDFS_DEBUG
++	struct ssdfs_thread_execution_point *point;
++
++	stack->count--;
++
++	if (stack->count < SSDFS_CALL_STACK_CAPACITY) {
++		point = &stack->points[stack->count];
++
++		point->file = NULL;
++		point->function = NULL;
++		point->code_line = U32_MAX;
++	}
++#endif /* CONFIG_SSDFS_DEBUG */
++}
++
++/*
++ * PEB container's API
++ */
++int ssdfs_peb_container_create(struct ssdfs_fs_info *fsi,
++				u64 seg, u32 peb_index,
++				u8 peb_type,
++				u32 log_pages,
++				struct ssdfs_segment_info *si);
++void ssdfs_peb_container_destroy(struct ssdfs_peb_container *pebc);
++
++int ssdfs_peb_container_invalidate_block(struct ssdfs_peb_container *pebc,
++				    struct ssdfs_phys_offset_descriptor *desc);
++int ssdfs_peb_get_free_pages(struct ssdfs_peb_container *pebc);
++int ssdfs_peb_get_used_data_pages(struct ssdfs_peb_container *pebc);
++int ssdfs_peb_get_invalid_pages(struct ssdfs_peb_container *pebc);
++int ssdfs_peb_get_pages_capacity(struct ssdfs_peb_container *pebc);
++
++int ssdfs_peb_join_create_requests_queue(struct ssdfs_peb_container *pebc,
++					 struct ssdfs_requests_queue *create_rq);
++void ssdfs_peb_forget_create_requests_queue(struct ssdfs_peb_container *pebc);
++bool is_peb_joined_into_create_requests_queue(struct ssdfs_peb_container *pebc);
++
++struct ssdfs_peb_info *
++ssdfs_get_current_peb_locked(struct ssdfs_peb_container *pebc);
++void ssdfs_unlock_current_peb(struct ssdfs_peb_container *pebc);
++struct ssdfs_peb_info *
++ssdfs_get_peb_for_migration_id(struct ssdfs_peb_container *pebc,
++			       u8 migration_id);
++
++int ssdfs_peb_container_create_destination(struct ssdfs_peb_container *ptr);
++int ssdfs_peb_container_forget_source(struct ssdfs_peb_container *pebc);
++int ssdfs_peb_container_forget_relation(struct ssdfs_peb_container *pebc);
++int ssdfs_peb_container_change_state(struct ssdfs_peb_container *pebc);
++
++/*
++ * PEB container's private API
++ */
++int ssdfs_peb_gc_thread_func(void *data);
++int ssdfs_peb_read_thread_func(void *data);
++int ssdfs_peb_flush_thread_func(void *data);
++int ssdfs_peb_fsck_thread_func(void *data);
++
++u16 ssdfs_peb_estimate_reserved_metapages(u32 page_size, u32 pages_per_peb,
++					  u16 log_pages, u32 pebs_per_seg,
++					  bool is_migrating);
++int ssdfs_peb_read_page(struct ssdfs_peb_container *pebc,
++			struct ssdfs_segment_request *req,
++			struct completion **end);
++int ssdfs_peb_readahead_pages(struct ssdfs_peb_container *pebc,
++			      struct ssdfs_segment_request *req,
++			      struct completion **end);
++void ssdfs_peb_mark_request_block_uptodate(struct ssdfs_peb_container *pebc,
++					   struct ssdfs_segment_request *req,
++					   int blk_index);
++int ssdfs_peb_copy_block(struct ssdfs_peb_container *pebc,
++			 u32 logical_blk,
++			 struct ssdfs_segment_request *req);
++int ssdfs_peb_copy_blocks_range(struct ssdfs_peb_container *pebc,
++				struct ssdfs_block_bmap_range *range,
++				struct ssdfs_segment_request *req);
++int ssdfs_peb_copy_pre_alloc_block(struct ssdfs_peb_container *pebc,
++				   u32 logical_blk,
++				   struct ssdfs_segment_request *req);
++int __ssdfs_peb_get_block_state_desc(struct ssdfs_peb_info *pebi,
++				struct ssdfs_segment_request *req,
++				struct ssdfs_metadata_descriptor *area_desc,
++				struct ssdfs_block_state_descriptor *desc,
++				u64 *cno, u64 *parent_snapshot);
++int ssdfs_blk_desc_buffer_init(struct ssdfs_peb_container *pebc,
++				struct ssdfs_segment_request *req,
++				struct ssdfs_phys_offset_descriptor *desc_off,
++				struct ssdfs_offset_position *pos,
++				struct ssdfs_metadata_descriptor *array,
++				size_t array_size);
++int ssdfs_peb_read_block_state(struct ssdfs_peb_container *pebc,
++				struct ssdfs_segment_request *req,
++				struct ssdfs_phys_offset_descriptor *desc_off,
++				struct ssdfs_offset_position *pos,
++				struct ssdfs_metadata_descriptor *array,
++				size_t array_size);
++bool ssdfs_peb_has_dirty_folios(struct ssdfs_peb_info *pebi);
++int ssdfs_collect_dirty_segments_now(struct ssdfs_fs_info *fsi);
++bool can_peb_process_create_requests(struct ssdfs_peb_container *pebc);
++
++#endif /* _SSDFS_PEB_CONTAINER_H */
 -- 
 2.34.1
 
