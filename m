@@ -1,620 +1,682 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFE8A263C9F
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 02:18:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.182
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773627532; cv=pass; b=CiYv4ztsB2EpAfPmQzh/j7IAaRsYo4XcI/B9eSOaoY9X2NbhxWKpCm7IgOM3xGgjPZLWKNMDGN6Cnl0nu4TUtd2kiTxtSIswsBXr2bZC+QjfSt7jdEWm7TEoh3T1WgYukkacHiY/lqbHLqsx+Qaia5cx0hMmautUtdG42HgkgUg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773627532; c=relaxed/simple;
-	bh=/UbTJeagNQInbFWy0pIUN/HhAyZA5x422F9e6lwoLuI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=J4lk7A0+KVXLJLUZdcRGNBtsj/RouhwVs9yRTOYWW5GyOkcu4qHAejmTuzYgbKzQwDfl2ExkPhYLkEH5BEF4HGq9wHcmWUc4528FkYskWtzSIKhOFV/eBXShAz1kKFwOTu9EDHA2gkJbAuna9ZbB0E8tNBqHVzvcYPYU9mXtzao=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=uVtN5Zyq; arc=pass smtp.client-ip=209.85.160.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FD4B13D51E
+	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 02:19:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773627565; cv=none; b=BVfWZF+IyEbDnDhlQoC3cp5K5EHUeY8DQchi8ODu7iHsuOFpnKfbP07pUb4/TiRyjkyNJ0koGCmkNniXcsaaY3Opd9Fml/TInZWXYhs88D9ngRDE9Wi5xUjw2dfp10W6Vo2fO290DYRHCFiceW6jxRT2rfjrP2Z3dPL0JXdetDc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773627565; c=relaxed/simple;
+	bh=12KZ+GblXFipC9K4z2/++EO99gtaMum7FHuP/ObxocQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=bploB2lORNiLYBy28Ipyw6vY/UxHtEhwD/CCmlX9E7cQ/FnWMEjNbTRnCHozndn3R3e7BmQ6lC/X4P91CsAF+OF1l7EfgyllZXwX+5os2nAodxS8IGX8fYXyCvvekgPXndFnmZd55+PDM1NoYBXxeKArDJwdzHDWd2N17VVzSUU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b=VVKLz7RF; arc=none smtp.client-ip=74.125.224.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="uVtN5Zyq"
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-509062d829dso705301cf.1
-        for <linux-fsdevel@vger.kernel.org>; Sun, 15 Mar 2026 19:18:50 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773627530; cv=none;
-        d=google.com; s=arc-20240605;
-        b=k81SppX0b4QDizGB5/J1aBDTqXcDfJKiN2LGfEvPMbb0dfJAifx3JMiFMDtNF8z7dm
-         m3zTRAKOKrdZQoeB7a5c2m6ytQoml8fnmH1ccyate78fkWHXwJrCaNQI3z0KnHCScGmm
-         feMDEjfuT2VhYwXuLGIqbSFB4BZ9MTCCeJenLHIvHl9olOgwQq+Sng3J9hYLK9rfMfgo
-         o4ZBbYewb4fp63igydYidr2ay5pVSjT/R16MwxLFAzw9qeZzEJPjdsKOwQoLSFRIpJy7
-         QPxwchf6ON+DaKclKIzxLhU2MzsgPO8r7LBz/todoOFOsDudwTQzjWkce7Ymr2kx5YtY
-         UJHg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=dnWGu44tSbdw9jKt/jasKkcuK6YSxM7E/Q2BjBYPLWs=;
-        fh=e3+uTAsOJm5IiBD8aggluGNmLeSikmfoCflzMLw5yXU=;
-        b=FFBdCN3M3kDCh1uu8rOQI4AdewPXWomBsryTee03bot4ytez8gjzWuIdIlVbeCu3iK
-         5YbgZG6v5ykHe+89zqbOBdQGZf0EcCMVBjRoiRorawa4Gj412MctTmejhimeupApy0fz
-         AppfnN2/OgCwORdFBJYx2zOtU3PhL0T4gjK+qX6263Rz9PXtVtC9o8fmSq6tymrBRbyz
-         mhWgRHQLte/e8NcAG1aCNXo/YRQk2ATF4eM78TN3I6ODHqR/5hWE6zH+xzwkp3xMiaSL
-         iw0Uya/KzJBwpa1L7TN7PqbBZ2+spN5Sm3tik9bZsRJvp32VaEFlh8NBUdINIdo0m2Ba
-         xj6Q==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b="VVKLz7RF"
+Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-64caaacb9bcso4212188d50.1
+        for <linux-fsdevel@vger.kernel.org>; Sun, 15 Mar 2026 19:19:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1773627530; x=1774232330; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dnWGu44tSbdw9jKt/jasKkcuK6YSxM7E/Q2BjBYPLWs=;
-        b=uVtN5ZyqvAJlVnn+4NnVNg1IaIGcorsAsoTCrA+S3dgcJj7sXqibaJWouAsjEOHCLM
-         3i6XDoKdXhviOR8IK0QDsNFi00rvfkm1OM3A9leIQ5Z3tQA/ArY2RHdIL7extic6K9Qm
-         AqY2iz5oQMNlBuzk0COCrQMJCGKOdFcR/Xeb8EhntxO5jYfiXuV2xB1OSeN0NDw5iFuX
-         cmANuaVE98msZp0e6fBWxjikQMzqHbLElvGxwM6YL+lXvxOnKOrMuQ242VSsr/tcy7Bt
-         dkGh2mLq1RMe6HIL47+QvLnl8xQrA45Xu1rtf+Ij/4pXaaZTFBrpLQWPS/zCS3ZRaF2y
-         dSOA==
+        d=dubeyko-com.20230601.gappssmtp.com; s=20230601; t=1773627562; x=1774232362; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YGQsdUWLfdSgAnx5H40CKo0eJAZTkOEHVLjcVSVHZQU=;
+        b=VVKLz7RFlnB+l+TaRBbRRJFJ6D+N/2FbhmH3OpsPbGSC3wjl2u7WEeCvr077BH7D+6
+         Jo1IXNxTfwNEsVrF2EkyqAYzqvOhP+ZrExCkCQ85WDHIfKr/QyMQmwq4j0ryVCfJiPAm
+         rdPzy0pJZAKbR1ljF0w+u1QrNFD3zlV0rWJ8EkvIhI+vkfehjrercK9n/JMnKyTE/lRd
+         rmtfPXUuWE6rRdiMFSlVmo1n4e44oSAPxEwGET/y8Qg9fqA2znBy+RGSjZuFEZXPlLCF
+         LDOJIalKctJKKKYDl9L136usfXAcIrCX/lit2mImlnClM0bdgp+N90q3BIMoZ7WXhVnA
+         qA0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773627530; x=1774232330;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=dnWGu44tSbdw9jKt/jasKkcuK6YSxM7E/Q2BjBYPLWs=;
-        b=b8tpOD+DzG2VYo0fjn/b1G3vCLuOIf5hn9p7v//xfRJCAvdC7XlegncySFqdFl66YN
-         bjyA80Y2uY/u57qGKIwtWlbHI+WD26tnBhnYlVHTHsAPxBpDWws87v13rJthz/l7j8p0
-         4+T9W2+28lU2r3tKC3PXWnjkNfNSM8nr1OHGy43xlQOQ2O0jfZSNEQvqMXV05NVvy6b1
-         KKV+Of6n5Ac52fqzUTR1aZcPcOjDfOhK2cRw3yiRM9I9MQU1eLYvA1jCMqwRzIK7x3Nd
-         hH5xVqGNhBDPo8VpWLv8kmi68Ey6tExzOGcaZuPBY2GfqRKpPFLW4GrQtLiTgeIRI77H
-         JL0A==
-X-Forwarded-Encrypted: i=1; AJvYcCXHZ3pFejJMiaCnKzyybccZ6g/OMCO9LowTFxvb1Wyu+hA5XPRHn8mzd4voupR8qIpGHvi9jcSngTzz2yer@vger.kernel.org
-X-Gm-Message-State: AOJu0YzZR8q7zrN+omrtZRDZNCM2RvStN9EOWfx0noWYmr4LEv4ELnjm
-	hplgeOne9pR/4UXyssGTNxFkAVKIsriaR1+6XP19de9VJkm4i4qrCoduwArax6psKk58bhVzmdG
-	3SBhP2aQXNwCxHVBlEt5YrfvUX4oyqOvzFmt0wJo5
-X-Gm-Gg: ATEYQzy5F3rUKYi2dLxUQSGoVBa2Mi3aZj3baVwNO8EpC0G8pPKAcYzOE3PraW0G/Hl
-	hj0RTGlb1P2KW6WnJjpyilhgGRfU3pbKdTkyWxa/Xi43UPAEEdnfefdSdFY3KBst2q5+T2NlJGn
-	dTA7A1iKZ8r77n0sqY6eB1OevIRLoiRnsL4kBOIUPqul4o4/pkoysqNXEQC/rvEp37y+6ZzjAEW
-	O27PctjgVeOQls8Pag0Fy647ZRaBDh0pXRq6tk7INHCg2GnogBB0oROGFoGKeyzxEwJun1l4gbY
-	Qy3vBQ==
-X-Received: by 2002:a05:622a:34d:b0:506:9852:75ec with SMTP id
- d75a77b69052e-5096a9f1e28mr18574031cf.9.1773627529027; Sun, 15 Mar 2026
- 19:18:49 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1773627562; x=1774232362;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YGQsdUWLfdSgAnx5H40CKo0eJAZTkOEHVLjcVSVHZQU=;
+        b=aDxTsMbffWUmokB7z+yTPvIYAs3aZvMovYjkA2IAblOvlbC1HF+ygp/FVRLHh9f0C6
+         bIHzMXBAYq17eZ0tAAaHvCMdLhXUIjv/1CxFlOCj5wCOc58oWPknkv0k/xgbGlZBXpnv
+         2k03TnlWRL/4Wwrl3VeCU/348ZFlpmvRvR/h9awIbEvBphj+fyZpXMPl3PvXyQ8NajLb
+         LjD4hMX86y4AKEpuIRc6dH2e0nWwdbemUp3BAsP83h2ryEkeomES/8z2Wum8aP597wAg
+         fVbYtD7pjdnBVPHLRJEYA6N5H4QEN5m8UJ4ImozHD7zTcNqWW+H39wOUuj6u4cVzB1sq
+         fMMA==
+X-Gm-Message-State: AOJu0YwxVF0BgVoIwDCRiDhuNchob4iL1Tlg59JWIhQs/bd/ichwT5Pd
+	0A9gHXlVyYRAdH3zDSG/4cmvkNbacZ3AXvnktnLEmM5f1m+N6vNri4e/ZgO9SfukV8dOFmcfJH3
+	hutGT
+X-Gm-Gg: ATEYQzxnqaRFj1VWsIc1U1aRw404P2XfbUtn1PoeysTonC/Lz8oXBrNh0NgLNoos7Xu
+	2ILj6zi4i7VoVOSdRrLnHtxLgrd5V8cQIp9sRSXrvJjjmAVlk9pVYpkytoZmY4mTqiSyKbCBkqs
+	equZtm4V8rY+2trflCvLYFisUD7q35xr+jSpguDdQUQTE7OFmLasjzm8SmwEVge5REweEYVU2FR
+	qlAxpam/G8hh+XC7FS+SLNpYdXI9Uvr8Yj4+YkJiuMaEEKmB9qlQLGaOZkuhKRI7BQ8Bd2rUQqk
+	3TL+Nyde2niVqaxcUgvm7nyKZkl82/7X0x6fiP2UBxfcMBRXHC2oTVNYlA2l//eYjjXpTCmhEjN
+	APHhsClDQtQQP6yjB3Y0LDryDfefVQbQMafQkrno+imIrqkyqprgj3meXbHoqeodRot1REi8wPM
+	PtTR45TG+b0Z35tVvomM5pe6WwMVc7aTf2DcxZADCwdg97bzxq6uy174Q9ZpwgQpR+4kW8tOuW6
+	jemYqqwzWQjZPwQXx500PU3lKrm8afT89Q=
+X-Received: by 2002:a05:690c:38b:b0:79a:46eb:d1c9 with SMTP id 00721157ae682-79a46ebe0e3mr27737227b3.0.1773627561536;
+        Sun, 15 Mar 2026 19:19:21 -0700 (PDT)
+Received: from pop-os.attlocal.net ([2600:1700:6476:1430:6939:3e01:5e8f:6093])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-79917deb69asm79721617b3.10.2026.03.15.19.19.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Mar 2026 19:19:21 -0700 (PDT)
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: linux-fsdevel@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Viacheslav Dubeyko <slava@dubeyko.com>
+Subject: [PATCH v2 00/79] SSDFS: noGC ZNS/FDP-friendly LFS file system
+Date: Sun, 15 Mar 2026 19:17:27 -0700
+Message-ID: <20260316021800.1694650-1-slava@dubeyko.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <0e0fe47852e6009f662b1fa42f836447b8d1283a.1773346620.git.ljs@kernel.org>
- <20260313110238.2500603-1-usama.arif@linux.dev> <24cbbaf6-19f2-4403-8cb7-415007597345@lucifer.local>
-In-Reply-To: <24cbbaf6-19f2-4403-8cb7-415007597345@lucifer.local>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Sun, 15 Mar 2026 19:18:38 -0700
-X-Gm-Features: AaiRm510xG9rdMA-1YX4TcP6jNn-n0Y2wP6jWBejCDuFUbPHH2dWyPV1sklVvuE
-Message-ID: <CAJuCfpH1gzi50aWni7rh9=2gM8WwCzm=fY14DCFbjweAq82i6Q@mail.gmail.com>
-Subject: Re: [PATCH 04/15] mm: add vm_ops->mapped hook
-To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-Cc: Usama Arif <usama.arif@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
-	Clemens Ladisch <clemens@ladisch.de>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "K . Y . Srinivasan" <kys@microsoft.com>, 
-	Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
-	Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, 
-	Vignesh Raghavendra <vigneshr@ti.com>, Bodo Stroesser <bostroesser@gmail.com>, 
-	"Martin K . Petersen" <martin.petersen@oracle.com>, David Howells <dhowells@redhat.com>, 
-	Marc Dionne <marc.dionne@auristor.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, David Hildenbrand <david@kernel.org>, 
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, 
-	Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-hyperv@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org, 
-	linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org, 
-	target-devel@vger.kernel.org, linux-afs@lists.infradead.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	Ryan Roberts <ryan.roberts@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, Mar 13, 2026 at 4:58=E2=80=AFAM Lorenzo Stoakes (Oracle) <ljs@kerne=
-l.org> wrote:
->
-> On Fri, Mar 13, 2026 at 04:02:36AM -0700, Usama Arif wrote:
-> > On Thu, 12 Mar 2026 20:27:19 +0000 "Lorenzo Stoakes (Oracle)" <ljs@kern=
-el.org> wrote:
-> >
-> > > Previously, when a driver needed to do something like establish a ref=
-erence
-> > > count, it could do so in the mmap hook in the knowledge that the mapp=
-ing
-> > > would succeed.
-> > >
-> > > With the introduction of f_op->mmap_prepare this is no longer the cas=
-e, as
-> > > it is invoked prior to actually establishing the mapping.
-> > >
-> > > To take this into account, introduce a new vm_ops->mapped callback wh=
-ich is
-> > > invoked when the VMA is first mapped (though notably - not when it is
-> > > merged - which is correct and mirrors existing mmap/open/close behavi=
-our).
-> > >
-> > > We do better that vm_ops->open() here, as this callback can return an
-> > > error, at which point the VMA will be unmapped.
-> > >
-> > > Note that vm_ops->mapped() is invoked after any mmap action is
-> > > complete (such as I/O remapping).
-> > >
-> > > We intentionally do not expose the VMA at this point, exposing only t=
-he
-> > > fields that could be used, and an output parameter in case the operat=
-ion
-> > > needs to update the vma->vm_private_data field.
-> > >
-> > > In order to deal with stacked filesystems which invoke inner filesyst=
-em's
-> > > mmap() invocations, add __compat_vma_mapped() and invoke it on
-> > > vfs_mmap() (via compat_vma_mmap()) to ensure that the mapped callback=
- is
-> > > handled when an mmap() caller invokes a nested filesystem's mmap_prep=
-are()
-> > > callback.
-> > >
-> > > We can now also remove call_action_complete() and invoke
-> > > mmap_action_complete() directly, as we separate out the rmap lock log=
-ic to
-> > > be called in __mmap_region() instead via maybe_drop_file_rmap_lock().
-> > >
-> > > We also abstract unmapping of a VMA on mmap action completion into it=
-s own
-> > > helper function, unmap_vma_locked().
-> > >
-> > > Additionally, update VMA userland test headers to reflect the change.
-> > >
-> > > Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
-> > > ---
-> > >  include/linux/fs.h              |  9 +++-
-> > >  include/linux/mm.h              | 17 +++++++
-> > >  mm/internal.h                   | 10 ++++
-> > >  mm/util.c                       | 86 ++++++++++++++++++++++++-------=
---
-> > >  mm/vma.c                        | 41 +++++++++++-----
-> > >  tools/testing/vma/include/dup.h | 34 ++++++++++++-
-> > >  6 files changed, 158 insertions(+), 39 deletions(-)
-> > >
-> > > diff --git a/include/linux/fs.h b/include/linux/fs.h
-> > > index a2628a12bd2b..c390f5c667e3 100644
-> > > --- a/include/linux/fs.h
-> > > +++ b/include/linux/fs.h
-> > > @@ -2059,13 +2059,20 @@ static inline bool can_mmap_file(struct file =
-*file)
-> > >  }
-> > >
-> > >  int compat_vma_mmap(struct file *file, struct vm_area_struct *vma);
-> > > +int __vma_check_mmap_hook(struct vm_area_struct *vma);
-> > >
-> > >  static inline int vfs_mmap(struct file *file, struct vm_area_struct =
-*vma)
-> > >  {
-> > > +   int err;
-> > > +
-> > >     if (file->f_op->mmap_prepare)
-> > >             return compat_vma_mmap(file, vma);
-> > >
-> > > -   return file->f_op->mmap(file, vma);
-> > > +   err =3D file->f_op->mmap(file, vma);
-> > > +   if (err)
-> > > +           return err;
-> > > +
-> > > +   return __vma_check_mmap_hook(vma);
-> > >  }
-> > >
-> > >  static inline int vfs_mmap_prepare(struct file *file, struct vm_area=
-_desc *desc)
-> > > diff --git a/include/linux/mm.h b/include/linux/mm.h
-> > > index 12a0b4c63736..7333d5db1221 100644
-> > > --- a/include/linux/mm.h
-> > > +++ b/include/linux/mm.h
-> > > @@ -759,6 +759,23 @@ struct vm_operations_struct {
-> > >      * Context: User context.  May sleep.  Caller holds mmap_lock.
-> > >      */
-> > >     void (*close)(struct vm_area_struct *vma);
-> > > +   /**
-> > > +    * @mapped: Called when the VMA is first mapped in the MM. Not ca=
-lled if
-> > > +    * the new VMA is merged with an adjacent VMA.
-> > > +    *
-> > > +    * The @vm_private_data field is an output field allowing the use=
-r to
-> > > +    * modify vma->vm_private_data as necessary.
-> > > +    *
-> > > +    * ONLY valid if set from f_op->mmap_prepare. Will result in an e=
-rror if
-> > > +    * set from f_op->mmap.
-> > > +    *
-> > > +    * Returns %0 on success, or an error otherwise. On error, the VM=
-A will
-> > > +    * be unmapped.
-> > > +    *
-> > > +    * Context: User context.  May sleep.  Caller holds mmap_lock.
-> > > +    */
-> > > +   int (*mapped)(unsigned long start, unsigned long end, pgoff_t pgo=
-ff,
-> > > +                 const struct file *file, void **vm_private_data);
-> > >     /* Called any time before splitting to check if it's allowed */
-> > >     int (*may_split)(struct vm_area_struct *vma, unsigned long addr);
-> > >     int (*mremap)(struct vm_area_struct *vma);
-> > > diff --git a/mm/internal.h b/mm/internal.h
-> > > index 7bfa85b5e78b..f0f2cf1caa36 100644
-> > > --- a/mm/internal.h
-> > > +++ b/mm/internal.h
-> > > @@ -158,6 +158,8 @@ static inline void *folio_raw_mapping(const struc=
-t folio *folio)
-> > >   * mmap hook and safely handle error conditions. On error, VMA hooks=
- will be
-> > >   * mutated.
-> > >   *
-> > > + * IMPORTANT: f_op->mmap() is deprecated, prefer f_op->mmap_prepare(=
-).
-> > > + *
+Hello,
 
-What exactly would one do to "prefer f_op->mmap_prepare()"?
-Since you are adding this comment for mmap_file(), I think you need to
-describe more specifically what one should call instead.
+Complete patchset is available here:
+https://github.com/dubeyko/ssdfs-driver/tree/master/patchset/linux-kernel-6.18.0
 
-> > >   * @file: File which backs the mapping.
-> > >   * @vma:  VMA which we are mapping.
-> > >   *
-> > > @@ -201,6 +203,14 @@ static inline void vma_close(struct vm_area_stru=
-ct *vma)
-> > >  /* unmap_vmas is in mm/memory.c */
-> > >  void unmap_vmas(struct mmu_gather *tlb, struct unmap_desc *unmap);
-> > >
-> > > +static inline void unmap_vma_locked(struct vm_area_struct *vma)
-> > > +{
-> > > +   const size_t len =3D vma_pages(vma) << PAGE_SHIFT;
-> > > +
-> > > +   mmap_assert_locked(vma->vm_mm);
+[PROBLEM DECLARATION]
 
-You must hold the mmap write lock when unmapping. Would be better to
-assert mmap_assert_write_locked() or even vma_assert_write_locked(),
-which implies mmap_assert_write_locked().
+SSD is a sophisticated device capable of managing in-place
+updates. However, in-place updates generate significant FTL GC
+responsibilities that increase write amplification factor, require
+substantial NAND flash overprovisioning, decrease SSD lifetime,
+and introduce performance spikes. Log-structured File System (LFS)
+approach can introduce a more flash-friendly Copy-On-Write (COW) model.
+However, F2FS and NILFS2 issue in-place updates anyway, even by using
+the COW policy for main volume area. Also, GC is an inevitable subsystem
+of any LFS file system that introduces write amplification, retention
+issue, excessive copy operations, and performance degradation for
+aged volume. Generally speaking, available file system technologies
+have side effects: (1) write amplification issue, (2) significant FTL GC
+responsibilities, (3) inevitable FS GC overhead, (4) read disturbance,
+(5) retention issue. As a result, SSD lifetime reduction, perfomance
+degradation, early SSD failure, and increased TCO cost are reality of
+data infrastructure.
 
-> > > +   do_munmap(vma->vm_mm, vma->vm_start, len, NULL);
-> > > +}
-> > > +
-> > >  #ifdef CONFIG_MMU
-> > >
-> > >  static inline void get_anon_vma(struct anon_vma *anon_vma)
-> > > diff --git a/mm/util.c b/mm/util.c
-> > > index dba1191725b6..2b0ed54008d6 100644
-> > > --- a/mm/util.c
-> > > +++ b/mm/util.c
-> > > @@ -1163,6 +1163,55 @@ void flush_dcache_folio(struct folio *folio)
-> > >  EXPORT_SYMBOL(flush_dcache_folio);
-> > >  #endif
-> > >
-> > > +static int __compat_vma_mmap(struct file *file, struct vm_area_struc=
-t *vma)
-> > > +{
-> > > +   struct vm_area_desc desc =3D {
-> > > +           .mm =3D vma->vm_mm,
-> > > +           .file =3D file,
-> > > +           .start =3D vma->vm_start,
-> > > +           .end =3D vma->vm_end,
-> > > +
-> > > +           .pgoff =3D vma->vm_pgoff,
-> > > +           .vm_file =3D vma->vm_file,
-> > > +           .vma_flags =3D vma->flags,
-> > > +           .page_prot =3D vma->vm_page_prot,
-> > > +
-> > > +           .action.type =3D MMAP_NOTHING, /* Default */
-> > > +   };
-> > > +   int err;
-> > > +
-> > > +   err =3D vfs_mmap_prepare(file, &desc);
-> > > +   if (err)
-> > > +           return err;
-> > > +
-> > > +   err =3D mmap_action_prepare(&desc, &desc.action);
-> > > +   if (err)
-> > > +           return err;
-> > > +
-> > > +   set_vma_from_desc(vma, &desc);
-> > > +   return mmap_action_complete(vma, &desc.action);
-> > > +}
-> > > +
-> > > +static int __compat_vma_mapped(struct file *file, struct vm_area_str=
-uct *vma)
-> > > +{
-> > > +   const struct vm_operations_struct *vm_ops =3D vma->vm_ops;
-> > > +   void *vm_private_data =3D vma->vm_private_data;
-> > > +   int err;
-> > > +
-> > > +   if (!vm_ops->mapped)
-> > > +           return 0;
-> > > +
-> >
-> > Hello!
-> >
-> > Can vm_ops be NULL here?  __compat_vma_mapped() is called from
-> > compat_vma_mmap(), which is reached when a filesystem provides
-> > mmap_prepare.  If the mmap_prepare hook does not set desc->vm_ops,
-> > vma->vm_ops will be NULL and this dereferences a NULL pointer.
->
-> I _think_ for this to ever be invoked, you would need to be dealing with =
-a
-> file-backed VMA so vm_ops->fault would HAVE to be defined.
->
-> But you're right anyway as a matter of principle we should check it! Will=
- fix.
->
-> >
-> > For e.g. drivers/char/mem.c, mmap_zero_prepare() would trigger
-> > a NULL pointer dereference here.
-> >
-> > Would need to do
-> >       if (!vm_ops || !vm_ops->mapped)
-> >               return 0;
-> >
-> > here
->
-> Yes.
->
-> >
-> >
-> > > +   err =3D vm_ops->mapped(vma->vm_start, vma->vm_end, vma->vm_pgoff,=
- file,
-> > > +                        &vm_private_data);
-> > > +   if (err)
-> > > +           unmap_vma_locked(vma);
-> >
-> > when mapped() returns an error, unmap_vma_locked(vma) is called
-> > but execution continues into the vm_private_data update below.  After
-> > unmap_vma_locked() the VMA may be freed (do_munmap can remove the VMA
-> > entirely), so accessing vma->vm_private_data after that is a
-> > use-after-free.
->
-> Very good point :) will fix thanks!
->
-> Probably:
->
->         if (err)
->                 unmap_vma_locked(vma);
->         else if (vm_private_data !=3D vma->vm_private_data)
->                 vma->vm_private_data =3D vm_private_data;
->
->         return err;
->
-> Would be fine.
->
-> >
-> > Probably need to do:
-> >       if (err) {
-> >               unmap_vma_locked(vma);
-> >               return err;
-> >       }
-> >
-> > > +   /* Update private data if changed. */
-> > > +   if (vm_private_data !=3D vma->vm_private_data)
-> > > +           vma->vm_private_data =3D vm_private_data;
-> > > +
-> > > +   return err;
-> > > +}
-> > > +
-> > >  /**
-> > >   * compat_vma_mmap() - Apply the file's .mmap_prepare() hook to an
-> > >   * existing VMA and execute any requested actions.
-> > > @@ -1191,34 +1240,26 @@ EXPORT_SYMBOL(flush_dcache_folio);
-> > >   */
-> > >  int compat_vma_mmap(struct file *file, struct vm_area_struct *vma)
-> > >  {
-> > > -   struct vm_area_desc desc =3D {
-> > > -           .mm =3D vma->vm_mm,
-> > > -           .file =3D file,
-> > > -           .start =3D vma->vm_start,
-> > > -           .end =3D vma->vm_end,
-> > > -
-> > > -           .pgoff =3D vma->vm_pgoff,
-> > > -           .vm_file =3D vma->vm_file,
-> > > -           .vma_flags =3D vma->flags,
-> > > -           .page_prot =3D vma->vm_page_prot,
-> > > -
-> > > -           .action.type =3D MMAP_NOTHING, /* Default */
-> > > -   };
-> > >     int err;
-> > >
-> > > -   err =3D vfs_mmap_prepare(file, &desc);
-> > > -   if (err)
-> > > -           return err;
-> > > -
-> > > -   err =3D mmap_action_prepare(&desc, &desc.action);
-> > > +   err =3D __compat_vma_mmap(file, vma);
-> > >     if (err)
-> > >             return err;
-> > >
-> > > -   set_vma_from_desc(vma, &desc);
-> > > -   return mmap_action_complete(vma, &desc.action);
-> > > +   return __compat_vma_mapped(file, vma);
-> > >  }
-> > >  EXPORT_SYMBOL(compat_vma_mmap);
-> > >
-> > > +int __vma_check_mmap_hook(struct vm_area_struct *vma)
-> > > +{
-> > > +   /* vm_ops->mapped is not valid if mmap() is specified. */
-> > > +   if (WARN_ON_ONCE(vma->vm_ops->mapped))
-> > > +           return -EINVAL;
-> >
-> > I think vma->vm_ops can be NULL here. Should be:
-> >
-> >       if (vma->vm_ops && WARN_ON_ONCE(vma->vm_ops->mapped))
-> >               return -EINVAL;
->
-> I think again you'd probably only invoke this on file-backed so be ok, bu=
-t again
-> as a matter of principle we should check it so will fix, thanks!
->
-> >
-> > > +
-> > > +   return 0;
-> > > +}
-> > > +EXPORT_SYMBOL(__vma_check_mmap_hook);
+[WHY YET ANOTHER FS?]
 
-nit: Any reason __vma_check_mmap_hook() is not inlined next to its
-user vfs_mmap()?
+QLC NAND flash makes really tough requirements for file systems
+to be really flash friendly. ZNS SSD and FDP SSD technologies try
+to help to manage these strict requirements. But, anyway, file
+systems need to play properly to employ ZNS/FDP SSDs benefits.
+Ideally, file system needs to use only Copy-On-Write (COW) or
+append-only policy, to be a Log-structured (LFS) file system,
+and to be capable to work without GC subsystem. However, F2FS
+and NILFS2 file systems heavily rely on GC subsystem that
+inevitably increase write amplification. These file systems
+use the COW policy not for the whole volume.
 
-> > > +
-> > >  static void set_ps_flags(struct page_snapshot *ps, const struct foli=
-o *folio,
-> > >                      const struct page *page)
-> > >  {
-> > > @@ -1316,10 +1357,7 @@ static int mmap_action_finish(struct vm_area_s=
-truct *vma,
-> > >      * invoked if we do NOT merge, so we only clean up the VMA we cre=
-ated.
-> > >      */
-> > >     if (err) {
-> > > -           const size_t len =3D vma_pages(vma) << PAGE_SHIFT;
-> > > -
-> > > -           do_munmap(current->mm, vma->vm_start, len, NULL);
-> > > -
-> > > +           unmap_vma_locked(vma);
-> > >             if (action->error_hook) {
-> > >                     /* We may want to filter the error. */
-> > >                     err =3D action->error_hook(err);
-> > > diff --git a/mm/vma.c b/mm/vma.c
-> > > index 054cf1d262fb..ef9f5a5365d1 100644
-> > > --- a/mm/vma.c
-> > > +++ b/mm/vma.c
-> > > @@ -2705,21 +2705,35 @@ static bool can_set_ksm_flags_early(struct mm=
-ap_state *map)
-> > >     return false;
-> > >  }
-> > >
-> > > -static int call_action_complete(struct mmap_state *map,
-> > > -                           struct mmap_action *action,
-> > > -                           struct vm_area_struct *vma)
-> > > +static int call_mapped_hook(struct vm_area_struct *vma)
-> > >  {
-> > > -   int ret;
-> > > +   const struct vm_operations_struct *vm_ops =3D vma->vm_ops;
-> > > +   void *vm_private_data =3D vma->vm_private_data;
-> > > +   int err;
-> > >
-> > > -   ret =3D mmap_action_complete(vma, action);
-> > > +   if (!vm_ops || !vm_ops->mapped)
-> > > +           return 0;
-> > > +   err =3D vm_ops->mapped(vma->vm_start, vma->vm_end, vma->vm_pgoff,
-> > > +                        vma->vm_file, &vm_private_data);
-> > > +   if (err) {
-> > > +           unmap_vma_locked(vma);
-> > > +           return err;
-> > > +   }
-> > > +   /* Update private data if changed. */
-> > > +   if (vm_private_data !=3D vma->vm_private_data)
-> > > +           vma->vm_private_data =3D vm_private_data;
-> > > +   return 0;
-> > > +}
-> > >
-> > > -   /* If we held the file rmap we need to release it. */
-> > > -   if (map->hold_file_rmap_lock) {
-> > > -           struct file *file =3D vma->vm_file;
-> > > +static void maybe_drop_file_rmap_lock(struct mmap_state *map,
-> > > +                                 struct vm_area_struct *vma)
-> > > +{
-> > > +   struct file *file;
-> > >
-> > > -           i_mmap_unlock_write(file->f_mapping);
-> > > -   }
-> > > -   return ret;
-> > > +   if (!map->hold_file_rmap_lock)
-> > > +           return;
-> > > +   file =3D vma->vm_file;
-> > > +   i_mmap_unlock_write(file->f_mapping);
-> > >  }
-> > >
-> > >  static unsigned long __mmap_region(struct file *file, unsigned long =
-addr,
-> > > @@ -2773,8 +2787,11 @@ static unsigned long __mmap_region(struct file=
- *file, unsigned long addr,
-> > >     __mmap_complete(&map, vma);
-> > >
-> > >     if (have_mmap_prepare && allocated_new) {
-> > > -           error =3D call_action_complete(&map, &desc.action, vma);
-> > > +           error =3D mmap_action_complete(vma, &desc.action);
-> > > +           if (!error)
-> > > +                   error =3D call_mapped_hook(vma);
-> > >
-> > > +           maybe_drop_file_rmap_lock(&map, vma);
-> > >             if (error)
-> > >                     return error;
-> > >     }
-> > > diff --git a/tools/testing/vma/include/dup.h b/tools/testing/vma/incl=
-ude/dup.h
-> > > index 908beb263307..47d8db809f31 100644
-> > > --- a/tools/testing/vma/include/dup.h
-> > > +++ b/tools/testing/vma/include/dup.h
-> > > @@ -606,12 +606,34 @@ struct vm_area_struct {
-> > >  } __randomize_layout;
-> > >
-> > >  struct vm_operations_struct {
-> > > -   void (*open)(struct vm_area_struct * area);
-> > > +   /**
-> > > +    * @open: Called when a VMA is remapped or split. Not called upon=
- first
-> > > +    * mapping a VMA.
-> > > +    * Context: User context.  May sleep.  Caller holds mmap_lock.
-> > > +    */
+Generally speaking, it will be good to see LFS file system architecture
+that is capable:
+(1) eliminate FS GC overhead,
+(2) decrease/eliminate FTL GC responsibilities,
+(3) decrease write amplification factor,
+(4) introduce native architectural support of ZNS SSD + SMR HDD,
+(5) increase compression ratio by using delta-encoding and deduplication,
+(6) introduce smart management of "cold" data and efficient TRIM policy,
+(7) employ parallelism of multiple NAND dies/channels,
+(8) prolong SSD lifetime and decrease TCO cost,
+(9) guarantee strong reliability and capability to reconstruct heavily
+    corrupted file system volume,
+(10) guarantee stable performance.
 
-This comment should have been introduced in the previous patch.
+SSDFS is an open-source, kernel-space LFS file system designed:
+(1) eliminate GC overhead, (2) prolong SSD lifetime, (3) natively support
+a strict append-only mode (ZNS SSD + SMR HDD compatible), (4) guarantee
+strong reliability, (5) guarantee stable performance.
 
-> > > +   void (*open)(struct vm_area_struct *vma);
-> > >     /**
-> > >      * @close: Called when the VMA is being removed from the MM.
-> > >      * Context: User context.  May sleep.  Caller holds mmap_lock.
-> > >      */
-> > > -   void (*close)(struct vm_area_struct * area);
-> > > +   void (*close)(struct vm_area_struct *vma);
-> > > +   /**
-> > > +    * @mapped: Called when the VMA is first mapped in the MM. Not ca=
-lled if
-> > > +    * the new VMA is merged with an adjacent VMA.
-> > > +    *
-> > > +    * The @vm_private_data field is an output field allowing the use=
-r to
-> > > +    * modify vma->vm_private_data as necessary.
-> > > +    *
-> > > +    * ONLY valid if set from f_op->mmap_prepare. Will result in an e=
-rror if
-> > > +    * set from f_op->mmap.
-> > > +    *
-> > > +    * Returns %0 on success, or an error otherwise. On error, the VM=
-A will
-> > > +    * be unmapped.
-> > > +    *
-> > > +    * Context: User context.  May sleep.  Caller holds mmap_lock.
-> > > +    */
-> > > +   int (*mapped)(unsigned long start, unsigned long end, pgoff_t pgo=
-ff,
-> > > +                 const struct file *file, void **vm_private_data);
-> > >     /* Called any time before splitting to check if it's allowed */
-> > >     int (*may_split)(struct vm_area_struct *area, unsigned long addr)=
-;
-> > >     int (*mremap)(struct vm_area_struct *area);
-> > > @@ -1345,3 +1367,11 @@ static inline void vma_set_file(struct vm_area=
-_struct *vma, struct file *file)
-> > >     swap(vma->vm_file, file);
-> > >     fput(file);
-> > >  }
-> > > +
-> > > +static inline void unmap_vma_locked(struct vm_area_struct *vma)
-> > > +{
-> > > +   const size_t len =3D vma_pages(vma) << PAGE_SHIFT;
-> > > +
-> > > +   mmap_assert_locked(vma->vm_mm);
-> > > +   do_munmap(vma->vm_mm, vma->vm_start, len, NULL);
-> > > +}
-> > > --
-> > > 2.53.0
-> > >
-> > >
->
-> Cheers, Lorenzo
+[SSDFS ARCHITECTURE]
+
+One of the key goals of SSDFS is to decrease the write amplification
+factor. Logical extent concept is the fundamental technique to achieve
+the goal. Logical extent describes any volume extent on the basis of
+{segment ID, logical block ID, and length}. Segment is a portion of
+file system volume that has to be aligned on erase block size and
+always located at the same offset. It is basic unit to allocate and
+to manage free space of file system volume. Every segment can include
+one or several Logical Erase Blocks (LEB). LEB can be mapped into
+"Physical" Erase Block (PEB). Generally speaking, PEB is fixed-sized
+container that includes a number of logical blocks (physical sectors
+or NAND flash pages). SSDFS is pure Log-structured File System (LFS).
+It means that any write operation into erase block is the creation of
+log. Content of every erase block is a sequence of logs. PEB has block
+bitmap with the goal of tracking the state (free, pre-allocated,
+allocated, invalid) of logical blocks and to account the physical space
+is used for storing log's metadata (segment header, partial log header,
+footer). Also, log contains an offset translation table that converts
+logical block ID into particular offset inside of log's payload.
+Log concept implements a support of compression, delta-encoding,
+and compaction scheme. As a result, it provides the way: (1) decrease
+write amplification, (2) decrease FTL GC responsibilities, (3) improve
+compression ration and decrease payload size. Finally, SSD lifetime
+can be longer and write I/O performance can be improved.
+
+SSDFS file system is based on the concept of logical segment that
+is the aggregation of Logical Erase Blocks (LEB). Moreover, initially,
+LEB hasn’t association with a particular "Physical" Erase Block (PEB).
+It means that segment could have the association not for all LEBs or,
+even, to have no association at all with any PEB (for example, in the
+case of clean segment). Generally speaking, SSDFS file system needs
+a special metadata structure (PEB mapping table) that is capable of
+associating any LEB with any PEB. The PEB mapping table is the crucial
+metadata structure that has several goals: (1) mapping LEB to PEB,
+(2) implementation of the logical extent concept, (3) implementation of
+the concept of PEB migration, (4) implementation of the delayed erase
+operation by specialized thread.
+
+SSDFS implements a migration scheme. Migration scheme is a fundamental
+technique of GC overhead management. The key responsibility of the
+migration scheme is to guarantee the presence of data in the same segment
+for any update operations. Generally speaking, the migration scheme’s model
+is implemented on the basis of association an exhausted "Physical" Erase
+Block (PEB) with a clean one. The goal of such association of two PEBs is
+to implement the gradual migration of data by means of the update
+operations in the initial (exhausted) PEB. As a result, the old, exhausted
+PEB becomes invalidated after complete data migration and it will be
+possible to apply the erase operation to convert it to a clean state.
+The migration scheme is capable of decreasing GC activity significantly
+by means of excluding the necessity to update metadata and by means of
+self-migration of data between PEBs is triggered by regular update
+operations. Finally, migration scheme can: (1) eliminate GC overhead,
+(2) implement efficient TRIM policy, (3) prolong SDD lifetime,
+(4) guarantee stable performance.
+
+Generally speaking, SSDFS doesn't need a classical model of garbage
+collection that is used in NILFS2 or F2FS. However, SSDFS has several
+global GC threads (dirty, pre-dirty, used, using segment states) and
+segment bitmap. The main responsibility of global GC threads is:
+(1) find segment in a particular state, (2) check that segment object
+is constructed and initialized by file system driver logic,
+(3) check the necessity to stimulate or finish the migration
+(if segment is under update operations or has update operations
+recently, then migration stimulation is not necessary),
+(4) define valid blocks that require migration, (5) add recommended
+migration request to PEB update queue, (6) destroy in-core segment
+object if no migration is necessary and no create/update requests
+have been received by segment object recently. Global GC threads are
+used to recommend migration stimulation for particular PEBs and
+to destroy in-core segment objects that have no requests for
+processing. Segment bitmap is the critical metadata structure of
+SSDFS file system that implements several goals: (1) searching for
+a candidate for a current segment capable of storing new data,
+(2) searching by GC subsystem for the most optimal segment (dirty
+state, for example) with the goal of preparing the segment in
+background for storing new data (converting in a clean state).
+
+SSDFS file system uses b-tree architecture for metadata representation
+(for example, inodes tree, extents tree, dentries tree, xattr tree)
+because it provides the compact way of reserving the metadata space
+without the necessity to use the excessive overprovisioning of
+metadata reservation (for example, in the case of plain table or array).
+SSDFS file system uses a hybrid b-tree architecture with the goal
+to eliminate the index nodes’ side effect. The hybrid b-tree operates by
+three node types: (1) index node, (2) hybrid node, (3) leaf node.
+Generally speaking, the peculiarity of hybrid node is the mixture
+as index as data records into one node. Hybrid b-tree starts with
+root node that is capable to keep the two index records or two data
+records inline (if size of data record is equal or lesser than size
+of index record). If the b-tree needs to contain more than two items
+then it should be added the first hybrid node into the b-tree.
+The root level of b-tree is able to contain only two nodes because
+the root node is capable to store only two index records. Generally speaking,
+the initial goal of hybrid node is to store the data records in
+the presence of reserved index area. B-tree implements compact and
+flexible metadata structure that can decrease payload size and
+isolate hot, warm, and cold metadata types in different erase blocks.
+
+Migration scheme is completely enough for the case of conventional SSDs
+as for metadata as for user data. But ZNS SSD has huge zone size and
+limited number of active/open zones. As a result, it requires introducing
+a moving scheme for user data in the case of ZNS SSD. Finally, migration
+scheme works for metadata and moving scheme works for user data
+(ZNS SSD case). Initially, user data can be stored into current user
+data segment/zone. And user data can be updated at the same zone until
+exhaustion. Next, moving scheme starts to work. Updated user data is moved
+into current user data zone for updates. As a result, it needs to update
+the extents tree and to store invalidated extents of old zone into
+invalidated extents tree. Invalidated extents tree needs to track
+the moment when the old zone is completely invalidated and is ready
+to be erased.
+
+[BENCHMARKING]
+
+Benchmarking results show that SSDFS is capable:
+(1) generate smaller amount of write I/O requests compared with:
+    1.4x - 116x (ext4),
+    14x - 42x (xfs),
+    6.2x - 9.8x (btrfs),
+    1.5x - 41x (f2fs),
+    0.6x - 22x (nilfs2);
+(2) create smaller payload compared with:
+    0.3x - 300x (ext4),
+    0.3x - 190x (xfs),
+    0.7x - 400x (btrfs),
+    1.2x - 400x (f2fs),
+    0.9x - 190x (nilfs2);
+(3) decrease the write amplification factor compared with:
+    1.3x - 116x (ext4),
+    14x - 42x (xfs),
+    6x - 9x (btrfs),
+    1.5x - 50x (f2fs),
+    1.2x - 20x (nilfs2);
+(4) prolong SSD lifetime compared with:
+    1.4x - 7.8x (ext4),
+    15x - 60x (xfs),
+    6x - 12x (btrfs),
+    1.5x - 7x (f2fs),
+    1x - 4.6x (nilfs2).
+
+v2
+(*) File system code has been completely switched on memory folios.
+(*) PEB-based deduplication model has been introduced.
+(*) 8K, 16K, 32K logical block size support has been stabilized.
+(*) PEB inflation model has been implemented.
+(*) Shared dictionary and b-tree subsystem has been reworked significantly.
+
+[CURRENT ISSUES]
+(*) FSCK tool is not fully implemented.
+(*) Multiple issues during xfstests run.
+(*) ZNS SSD + SMR HDD support is not stable.
+(*) Multiple erase blocks in segment model functionality is not stable.
+(*) Collaboration of PEB inflation model, migration scheme, and
+    moving scheme has issues.
+
+[TODO]
+(*) Multi-drive support.
+
+[REFERENCES]
+[1] SSDFS tools: https://github.com/dubeyko/ssdfs-tools.git
+[2] SSDFS driver: https://github.com/dubeyko/ssdfs-driver.git
+[3] Linux kernel with SSDFS support: https://github.com/dubeyko/linux.git
+[4] SSDFS (paper): https://arxiv.org/abs/1907.11825
+[5] Embedded Linux 2022: https://www.youtube.com/watch?v=x5gklnkvi_Q
+[6] Linux Plumbers 2022: https://www.youtube.com/watch?v=sBGddJBHsIo
+[7] Why do you need SSDFS?: https://www.youtube.com/watch?v=7b_vrtRvsGM
+[8] Linux Plumbers 2024: https://www.youtube.com/watch?v=0_f1kD7fGnE
+
+Viacheslav Dubeyko (79):
+  ssdfs: introduce SSDFS on-disk layout
+  ssdfs: add key file system declarations
+  ssdfs: add key file system's function declarations
+  ssdfs: implement raw device operations
+  ssdfs: implement basic read/write primitives
+  ssdfs: implement super operations
+  ssdfs: implement commit superblock logic
+  ssdfs: segment header + log footer operations
+  ssdfs: add declaration of functions for superblock search
+  ssdfs: basic mount logic implementation
+  ssdfs: implement folio vector
+  ssdfs: implement dynamic array
+  ssdfs: implement sequence array
+  ssdfs: implement folio array
+  ssdfs: introduce PEB's block bitmap
+  ssdfs: implement PEB's block bitmap functionality
+  ssdfs: implement support of migration scheme in PEB bitmap
+  ssdfs: implement functionality of migration scheme in PEB bitmap
+  ssdfs: introduce segment block bitmap
+  ssdfs: implement functionality of segment block bitmap
+  ssdfs: introduce segment request queue
+  ssdfs: introduce offset translation table
+  ssdfs: implement offsets translation table functionality
+  ssdfs: introduce PEB object
+  ssdfs: implement PEB object functionality
+  ssdfs: implement compression logic support
+  ssdfs: introduce PEB container
+  ssdfs: implement PEB container functionality
+  ssdfs: implement migration scheme
+  ssdfs: PEB read thread logic
+  ssdfs: PEB flush thread's finite state machine
+  ssdfs: auxilairy GC threads logic
+  ssdfs: introduce segment object
+  ssdfs: implement segment object's functionality
+  ssdfs: implement current segment functionality
+  ssdfs: implement segment tree functionality
+  ssdfs: introduce PEB mapping queue
+  ssdfs: introduce PEB mapping table
+  ssdfs: implement PEB mapping table functionality
+  ssdfs: introduce PEB mapping table cache
+  ssdfs: implement PEB mapping table cache logic
+  ssdfs: introduce segment bitmap
+  ssdfs: implement segment bitmap's functionality
+  ssdfs: introduce b-tree object
+  ssdfs: implement b-tree object's functionality
+  ssdfs: introduce b-tree node object
+  ssdfs: implement b-tree node's functionality
+  ssdfs: introduce b-tree hierarchy object
+  ssdfs: implement b-tree hierarchy logic
+  ssdfs: introduce inodes b-tree
+  ssdfs: implement inodes b-tree functionality
+  ssdfs: introduce dentries b-tree
+  ssdfs: implement dentries b-tree functionality
+  ssdfs: introduce extents queue object
+  ssdfs: introduce extents b-tree
+  ssdfs: implement extents b-tree functionality
+  ssdfs: introduce invalidated extents b-tree
+  ssdfs: implement invalidated extents b-tree functionality
+  ssdfs: introduce shared extents b-tree
+  ssdfs: implement shared extents b-tree functionality
+  ssdfs: introduce PEB-based deduplication technique
+  ssdfs: introduce shared dictionary b-tree
+  ssdfs: implement shared dictionary b-tree functionality
+  ssdfs: implement snapshot requests queue functionality
+  ssdfs: introduce snapshots b-tree
+  ssdfs: implement snapshots b-tree functionality
+  ssdfs: implement extended attributes support
+  ssdfs: implement extended attributes b-tree functionality
+  ssdfs: introduce Diff-On-Write approach
+  ssdfs: implement sysfs support
+  ssdfs: implement IOCTL operations
+  ssdfs: introduce online FSCK stub logic
+  ssdfs: introduce application-based unit-tests
+  ssdfs: introduce Kunit-based unit-tests
+  ssdfs: implement inode operations support
+  ssdfs: implement directory operations support
+  ssdfs: implement file operations support
+  ssdfs: implement initial support of tunefs operations
+  Introduce SSDFS file system
+
+ fs/Kconfig                            |     1 +
+ fs/Makefile                           |     1 +
+ fs/ssdfs/.kunitconfig                 |     9 +
+ fs/ssdfs/Kconfig                      |   408 +
+ fs/ssdfs/Makefile                     |    63 +
+ fs/ssdfs/acl.c                        |   260 +
+ fs/ssdfs/acl.h                        |    54 +
+ fs/ssdfs/block_bitmap.c               |  6948 +++++++
+ fs/ssdfs/block_bitmap.h               |   393 +
+ fs/ssdfs/block_bitmap_tables.c        |   311 +
+ fs/ssdfs/block_bitmap_test.c          |  2380 +++
+ fs/ssdfs/btree.c                      |  8506 +++++++++
+ fs/ssdfs/btree.h                      |   219 +
+ fs/ssdfs/btree_hierarchy.c            | 11632 ++++++++++++
+ fs/ssdfs/btree_hierarchy.h            |   336 +
+ fs/ssdfs/btree_node.c                 | 18780 ++++++++++++++++++
+ fs/ssdfs/btree_node.h                 |   891 +
+ fs/ssdfs/btree_search.c               |  1114 ++
+ fs/ssdfs/btree_search.h               |   424 +
+ fs/ssdfs/common_bitmap.h              |   230 +
+ fs/ssdfs/compr_lzo.c                  |   268 +
+ fs/ssdfs/compr_lzo_test.c             |   570 +
+ fs/ssdfs/compr_zlib.c                 |   374 +
+ fs/ssdfs/compr_zlib_test.c            |   401 +
+ fs/ssdfs/compression.c                |   569 +
+ fs/ssdfs/compression.h                |   108 +
+ fs/ssdfs/compression_test.c           |   310 +
+ fs/ssdfs/current_segment.c            |   949 +
+ fs/ssdfs/current_segment.h            |   116 +
+ fs/ssdfs/dentries_tree.c              | 10485 ++++++++++
+ fs/ssdfs/dentries_tree.h              |   158 +
+ fs/ssdfs/dev_bdev.c                   |  1065 ++
+ fs/ssdfs/dev_mtd.c                    |   650 +
+ fs/ssdfs/dev_zns.c                    |  1344 ++
+ fs/ssdfs/diff_on_write.c              |   158 +
+ fs/ssdfs/diff_on_write.h              |   106 +
+ fs/ssdfs/diff_on_write_metadata.c     |  2969 +++
+ fs/ssdfs/diff_on_write_user_data.c    |   851 +
+ fs/ssdfs/dir.c                        |  2197 +++
+ fs/ssdfs/dynamic_array.c              |  1594 ++
+ fs/ssdfs/dynamic_array.h              |   103 +
+ fs/ssdfs/dynamic_array_test.c         |   660 +
+ fs/ssdfs/extents_queue.c              |  2013 ++
+ fs/ssdfs/extents_queue.h              |   110 +
+ fs/ssdfs/extents_tree.c               | 15349 +++++++++++++++
+ fs/ssdfs/extents_tree.h               |   188 +
+ fs/ssdfs/file.c                       |  4341 +++++
+ fs/ssdfs/fingerprint.h                |   261 +
+ fs/ssdfs/fingerprint_array.c          |   795 +
+ fs/ssdfs/fingerprint_array.h          |    82 +
+ fs/ssdfs/folio_array.c                |  1781 ++
+ fs/ssdfs/folio_array.h                |   146 +
+ fs/ssdfs/folio_array_test.c           |  1107 ++
+ fs/ssdfs/folio_vector.c               |   523 +
+ fs/ssdfs/folio_vector.h               |    70 +
+ fs/ssdfs/folio_vector_test.c          |   495 +
+ fs/ssdfs/fs_error.c                   |   265 +
+ fs/ssdfs/global_fsck.c                |   598 +
+ fs/ssdfs/inode.c                      |  1262 ++
+ fs/ssdfs/inodes_tree.c                |  6261 ++++++
+ fs/ssdfs/inodes_tree.h                |   181 +
+ fs/ssdfs/invalidated_extents_tree.c   |  7128 +++++++
+ fs/ssdfs/invalidated_extents_tree.h   |    96 +
+ fs/ssdfs/ioctl.c                      |   453 +
+ fs/ssdfs/ioctl.h                      |    58 +
+ fs/ssdfs/log_footer.c                 |   991 +
+ fs/ssdfs/offset_translation_table.c   | 12175 ++++++++++++
+ fs/ssdfs/offset_translation_table.h   |   459 +
+ fs/ssdfs/options.c                    |   170 +
+ fs/ssdfs/peb.c                        |  1120 ++
+ fs/ssdfs/peb.h                        |   600 +
+ fs/ssdfs/peb_block_bitmap.c           |  5740 ++++++
+ fs/ssdfs/peb_block_bitmap.h           |   179 +
+ fs/ssdfs/peb_container.c              |  6605 +++++++
+ fs/ssdfs/peb_container.h              |   631 +
+ fs/ssdfs/peb_deduplication.c          |   483 +
+ fs/ssdfs/peb_flush_thread.c           | 24221 ++++++++++++++++++++++++
+ fs/ssdfs/peb_fsck_thread.c            |   242 +
+ fs/ssdfs/peb_gc_thread.c              |  3734 ++++
+ fs/ssdfs/peb_init.c                   |  1338 ++
+ fs/ssdfs/peb_init.h                   |   364 +
+ fs/ssdfs/peb_mapping_queue.c          |   340 +
+ fs/ssdfs/peb_mapping_queue.h          |    68 +
+ fs/ssdfs/peb_mapping_table.c          | 13868 ++++++++++++++
+ fs/ssdfs/peb_mapping_table.h          |   784 +
+ fs/ssdfs/peb_mapping_table_cache.c    |  4897 +++++
+ fs/ssdfs/peb_mapping_table_cache.h    |   120 +
+ fs/ssdfs/peb_mapping_table_thread.c   |  2959 +++
+ fs/ssdfs/peb_migration_scheme.c       |  1445 ++
+ fs/ssdfs/peb_read_thread.c            | 14978 +++++++++++++++
+ fs/ssdfs/readwrite.c                  |   973 +
+ fs/ssdfs/recovery.c                   |  3706 ++++
+ fs/ssdfs/recovery.h                   |   451 +
+ fs/ssdfs/recovery_fast_search.c       |  1200 ++
+ fs/ssdfs/recovery_slow_search.c       |   587 +
+ fs/ssdfs/recovery_thread.c            |  1215 ++
+ fs/ssdfs/request_queue.c              |  1726 ++
+ fs/ssdfs/request_queue.h              |   818 +
+ fs/ssdfs/segment.c                    |  8525 +++++++++
+ fs/ssdfs/segment.h                    |  1367 ++
+ fs/ssdfs/segment_bitmap.c             |  5157 +++++
+ fs/ssdfs/segment_bitmap.h             |   482 +
+ fs/ssdfs/segment_bitmap_tables.c      |   887 +
+ fs/ssdfs/segment_block_bitmap.c       |  1929 ++
+ fs/ssdfs/segment_block_bitmap.h       |   240 +
+ fs/ssdfs/segment_tree.c               |   996 +
+ fs/ssdfs/segment_tree.h               |   107 +
+ fs/ssdfs/sequence_array.c             |  1160 ++
+ fs/ssdfs/sequence_array.h             |   140 +
+ fs/ssdfs/shared_dictionary.c          | 21342 +++++++++++++++++++++
+ fs/ssdfs/shared_dictionary.h          |   204 +
+ fs/ssdfs/shared_dictionary_thread.c   |   457 +
+ fs/ssdfs/shared_extents_tree.c        |  6866 +++++++
+ fs/ssdfs/shared_extents_tree.h        |   146 +
+ fs/ssdfs/shared_extents_tree_thread.c |   808 +
+ fs/ssdfs/snapshot.c                   |    99 +
+ fs/ssdfs/snapshot.h                   |   283 +
+ fs/ssdfs/snapshot_requests_queue.c    |  1249 ++
+ fs/ssdfs/snapshot_requests_queue.h    |    65 +
+ fs/ssdfs/snapshot_rules.c             |   739 +
+ fs/ssdfs/snapshot_rules.h             |    55 +
+ fs/ssdfs/snapshots_tree.c             |  8917 +++++++++
+ fs/ssdfs/snapshots_tree.h             |   248 +
+ fs/ssdfs/snapshots_tree_thread.c      |   665 +
+ fs/ssdfs/ssdfs.h                      |   502 +
+ fs/ssdfs/ssdfs_constants.h            |   214 +
+ fs/ssdfs/ssdfs_fs_info.h              |   821 +
+ fs/ssdfs/ssdfs_inline.h               |  3037 +++
+ fs/ssdfs/ssdfs_inode_info.h           |   144 +
+ fs/ssdfs/ssdfs_thread_info.h          |    43 +
+ fs/ssdfs/super.c                      |  4873 +++++
+ fs/ssdfs/sysfs.c                      |  6558 +++++++
+ fs/ssdfs/sysfs.h                      |   305 +
+ fs/ssdfs/testing.c                    |  5949 ++++++
+ fs/ssdfs/testing.h                    |   226 +
+ fs/ssdfs/tunefs.c                     |   487 +
+ fs/ssdfs/version.h                    |     9 +
+ fs/ssdfs/volume_header.c              |  1431 ++
+ fs/ssdfs/xattr.c                      |  1700 ++
+ fs/ssdfs/xattr.h                      |    88 +
+ fs/ssdfs/xattr_security.c             |   159 +
+ fs/ssdfs/xattr_tree.c                 | 10132 ++++++++++
+ fs/ssdfs/xattr_tree.h                 |   143 +
+ fs/ssdfs/xattr_trusted.c              |    93 +
+ fs/ssdfs/xattr_user.c                 |    93 +
+ include/linux/ssdfs_fs.h              |  3565 ++++
+ include/trace/events/ssdfs.h          |   256 +
+ include/uapi/linux/magic.h            |     1 +
+ include/uapi/linux/ssdfs_fs.h         |   126 +
+ 149 files changed, 335803 insertions(+)
+ create mode 100644 fs/ssdfs/.kunitconfig
+ create mode 100644 fs/ssdfs/Kconfig
+ create mode 100644 fs/ssdfs/Makefile
+ create mode 100644 fs/ssdfs/acl.c
+ create mode 100644 fs/ssdfs/acl.h
+ create mode 100644 fs/ssdfs/block_bitmap.c
+ create mode 100644 fs/ssdfs/block_bitmap.h
+ create mode 100644 fs/ssdfs/block_bitmap_tables.c
+ create mode 100644 fs/ssdfs/block_bitmap_test.c
+ create mode 100644 fs/ssdfs/btree.c
+ create mode 100644 fs/ssdfs/btree.h
+ create mode 100644 fs/ssdfs/btree_hierarchy.c
+ create mode 100644 fs/ssdfs/btree_hierarchy.h
+ create mode 100644 fs/ssdfs/btree_node.c
+ create mode 100644 fs/ssdfs/btree_node.h
+ create mode 100644 fs/ssdfs/btree_search.c
+ create mode 100644 fs/ssdfs/btree_search.h
+ create mode 100644 fs/ssdfs/common_bitmap.h
+ create mode 100644 fs/ssdfs/compr_lzo.c
+ create mode 100644 fs/ssdfs/compr_lzo_test.c
+ create mode 100644 fs/ssdfs/compr_zlib.c
+ create mode 100644 fs/ssdfs/compr_zlib_test.c
+ create mode 100644 fs/ssdfs/compression.c
+ create mode 100644 fs/ssdfs/compression.h
+ create mode 100644 fs/ssdfs/compression_test.c
+ create mode 100644 fs/ssdfs/current_segment.c
+ create mode 100644 fs/ssdfs/current_segment.h
+ create mode 100644 fs/ssdfs/dentries_tree.c
+ create mode 100644 fs/ssdfs/dentries_tree.h
+ create mode 100644 fs/ssdfs/dev_bdev.c
+ create mode 100644 fs/ssdfs/dev_mtd.c
+ create mode 100644 fs/ssdfs/dev_zns.c
+ create mode 100644 fs/ssdfs/diff_on_write.c
+ create mode 100644 fs/ssdfs/diff_on_write.h
+ create mode 100644 fs/ssdfs/diff_on_write_metadata.c
+ create mode 100644 fs/ssdfs/diff_on_write_user_data.c
+ create mode 100644 fs/ssdfs/dir.c
+ create mode 100644 fs/ssdfs/dynamic_array.c
+ create mode 100644 fs/ssdfs/dynamic_array.h
+ create mode 100644 fs/ssdfs/dynamic_array_test.c
+ create mode 100644 fs/ssdfs/extents_queue.c
+ create mode 100644 fs/ssdfs/extents_queue.h
+ create mode 100644 fs/ssdfs/extents_tree.c
+ create mode 100644 fs/ssdfs/extents_tree.h
+ create mode 100644 fs/ssdfs/file.c
+ create mode 100644 fs/ssdfs/fingerprint.h
+ create mode 100644 fs/ssdfs/fingerprint_array.c
+ create mode 100644 fs/ssdfs/fingerprint_array.h
+ create mode 100644 fs/ssdfs/folio_array.c
+ create mode 100644 fs/ssdfs/folio_array.h
+ create mode 100644 fs/ssdfs/folio_array_test.c
+ create mode 100644 fs/ssdfs/folio_vector.c
+ create mode 100644 fs/ssdfs/folio_vector.h
+ create mode 100644 fs/ssdfs/folio_vector_test.c
+ create mode 100644 fs/ssdfs/fs_error.c
+ create mode 100644 fs/ssdfs/global_fsck.c
+ create mode 100644 fs/ssdfs/inode.c
+ create mode 100644 fs/ssdfs/inodes_tree.c
+ create mode 100644 fs/ssdfs/inodes_tree.h
+ create mode 100644 fs/ssdfs/invalidated_extents_tree.c
+ create mode 100644 fs/ssdfs/invalidated_extents_tree.h
+ create mode 100644 fs/ssdfs/ioctl.c
+ create mode 100644 fs/ssdfs/ioctl.h
+ create mode 100644 fs/ssdfs/log_footer.c
+ create mode 100644 fs/ssdfs/offset_translation_table.c
+ create mode 100644 fs/ssdfs/offset_translation_table.h
+ create mode 100644 fs/ssdfs/options.c
+ create mode 100644 fs/ssdfs/peb.c
+ create mode 100644 fs/ssdfs/peb.h
+ create mode 100644 fs/ssdfs/peb_block_bitmap.c
+ create mode 100644 fs/ssdfs/peb_block_bitmap.h
+ create mode 100644 fs/ssdfs/peb_container.c
+ create mode 100644 fs/ssdfs/peb_container.h
+ create mode 100644 fs/ssdfs/peb_deduplication.c
+ create mode 100644 fs/ssdfs/peb_flush_thread.c
+ create mode 100644 fs/ssdfs/peb_fsck_thread.c
+ create mode 100644 fs/ssdfs/peb_gc_thread.c
+ create mode 100644 fs/ssdfs/peb_init.c
+ create mode 100644 fs/ssdfs/peb_init.h
+ create mode 100644 fs/ssdfs/peb_mapping_queue.c
+ create mode 100644 fs/ssdfs/peb_mapping_queue.h
+ create mode 100644 fs/ssdfs/peb_mapping_table.c
+ create mode 100644 fs/ssdfs/peb_mapping_table.h
+ create mode 100644 fs/ssdfs/peb_mapping_table_cache.c
+ create mode 100644 fs/ssdfs/peb_mapping_table_cache.h
+ create mode 100644 fs/ssdfs/peb_mapping_table_thread.c
+ create mode 100644 fs/ssdfs/peb_migration_scheme.c
+ create mode 100644 fs/ssdfs/peb_read_thread.c
+ create mode 100644 fs/ssdfs/readwrite.c
+ create mode 100644 fs/ssdfs/recovery.c
+ create mode 100644 fs/ssdfs/recovery.h
+ create mode 100644 fs/ssdfs/recovery_fast_search.c
+ create mode 100644 fs/ssdfs/recovery_slow_search.c
+ create mode 100644 fs/ssdfs/recovery_thread.c
+ create mode 100644 fs/ssdfs/request_queue.c
+ create mode 100644 fs/ssdfs/request_queue.h
+ create mode 100644 fs/ssdfs/segment.c
+ create mode 100644 fs/ssdfs/segment.h
+ create mode 100644 fs/ssdfs/segment_bitmap.c
+ create mode 100644 fs/ssdfs/segment_bitmap.h
+ create mode 100644 fs/ssdfs/segment_bitmap_tables.c
+ create mode 100644 fs/ssdfs/segment_block_bitmap.c
+ create mode 100644 fs/ssdfs/segment_block_bitmap.h
+ create mode 100644 fs/ssdfs/segment_tree.c
+ create mode 100644 fs/ssdfs/segment_tree.h
+ create mode 100644 fs/ssdfs/sequence_array.c
+ create mode 100644 fs/ssdfs/sequence_array.h
+ create mode 100644 fs/ssdfs/shared_dictionary.c
+ create mode 100644 fs/ssdfs/shared_dictionary.h
+ create mode 100644 fs/ssdfs/shared_dictionary_thread.c
+ create mode 100644 fs/ssdfs/shared_extents_tree.c
+ create mode 100644 fs/ssdfs/shared_extents_tree.h
+ create mode 100644 fs/ssdfs/shared_extents_tree_thread.c
+ create mode 100644 fs/ssdfs/snapshot.c
+ create mode 100644 fs/ssdfs/snapshot.h
+ create mode 100644 fs/ssdfs/snapshot_requests_queue.c
+ create mode 100644 fs/ssdfs/snapshot_requests_queue.h
+ create mode 100644 fs/ssdfs/snapshot_rules.c
+ create mode 100644 fs/ssdfs/snapshot_rules.h
+ create mode 100644 fs/ssdfs/snapshots_tree.c
+ create mode 100644 fs/ssdfs/snapshots_tree.h
+ create mode 100644 fs/ssdfs/snapshots_tree_thread.c
+ create mode 100644 fs/ssdfs/ssdfs.h
+ create mode 100644 fs/ssdfs/ssdfs_constants.h
+ create mode 100644 fs/ssdfs/ssdfs_fs_info.h
+ create mode 100644 fs/ssdfs/ssdfs_inline.h
+ create mode 100644 fs/ssdfs/ssdfs_inode_info.h
+ create mode 100644 fs/ssdfs/ssdfs_thread_info.h
+ create mode 100644 fs/ssdfs/super.c
+ create mode 100644 fs/ssdfs/sysfs.c
+ create mode 100644 fs/ssdfs/sysfs.h
+ create mode 100644 fs/ssdfs/testing.c
+ create mode 100644 fs/ssdfs/testing.h
+ create mode 100644 fs/ssdfs/tunefs.c
+ create mode 100644 fs/ssdfs/version.h
+ create mode 100644 fs/ssdfs/volume_header.c
+ create mode 100644 fs/ssdfs/xattr.c
+ create mode 100644 fs/ssdfs/xattr.h
+ create mode 100644 fs/ssdfs/xattr_security.c
+ create mode 100644 fs/ssdfs/xattr_tree.c
+ create mode 100644 fs/ssdfs/xattr_tree.h
+ create mode 100644 fs/ssdfs/xattr_trusted.c
+ create mode 100644 fs/ssdfs/xattr_user.c
+ create mode 100644 include/linux/ssdfs_fs.h
+ create mode 100644 include/trace/events/ssdfs.h
+ create mode 100644 include/uapi/linux/ssdfs_fs.h
+
+-- 
+2.34.1
+
