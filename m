@@ -1,71 +1,71 @@
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2162E32F75B
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 02:20:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95C373112BA
+	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 02:20:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773627608; cv=none; b=jcpaOI90txUEEqRyGmZ7nMM86kiU1EJoWoG/DGPzoEq6GUi8FO6XbWLyr//oFN5sNRjsflezqxtZ0S+RCzxzT5j/fvngP2JfOSXeH4lyDzBWjTjXcHj8QhVAC8IeT9EzpBIk3i+Vv8fFrD2G5k58nC6YybnCdSGWf9XMc4Uwzoc=
+	t=1773627610; cv=none; b=EAqdWIMwBsEU17jO5/OvKWAu9TZALE52zNXOtCyYbnj8yJ9w/U7dDWv+YnK33njvv1kWvQbx1tMWikx621WRRTnQymw4HNUKw906xuB3ddjFeUV1SlaP194q50Pvdl+1ZPw+Ita/uCdrhxu9LDlstxjp2uN0EUqs1hk4SlkimQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773627608; c=relaxed/simple;
-	bh=BFn12q/PcX5u1Q/BEibtNFjMfcCylyZOmErLOd263kc=;
+	s=arc-20240116; t=1773627610; c=relaxed/simple;
+	bh=yfOWOLSksPqGoJAJfci2KCmYxJ24EATyvZByhUurvvc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=drnyKdaEDztAggpauUUyRAAPwLZNKdrh2F30diDTcjh2W/vpyeMXO6+L1J8ukB/PgJmBdNh6T5EJvOnZmvuTV321Jbr7CRX4ZGPtq1XXz5klVimrjhE24sqIprZugrAMvWIeAQ3iCYbZiiL5Dwb3Xe4HlfqNLik0mCPDriQjpyI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b=2aANASEp; arc=none smtp.client-ip=209.85.128.181
+	 MIME-Version; b=WJzBU0jEv+fV/UnyPGYhrvZDl4vNaVYbAcfwlV+t/1wGYu9cI3CMf0vFL3S0YINNp2lV8JjabpX+mucRfL1ke8j1LNP0bHTfGMmyMFojcGOZ9kUGGFJLEGLcIpZ05hKvtdyyclGNXtZTS3YO19lyMR5WOGFM8x8yrDYUfkNdhrc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b=Lu+eflu3; arc=none smtp.client-ip=209.85.128.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b="2aANASEp"
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-79a1e732e5eso13773787b3.2
-        for <linux-fsdevel@vger.kernel.org>; Sun, 15 Mar 2026 19:20:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b="Lu+eflu3"
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-793fdbb8d3aso39127617b3.3
+        for <linux-fsdevel@vger.kernel.org>; Sun, 15 Mar 2026 19:20:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20230601.gappssmtp.com; s=20230601; t=1773627603; x=1774232403; darn=vger.kernel.org;
+        d=dubeyko-com.20230601.gappssmtp.com; s=20230601; t=1773627604; x=1774232404; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rlvZCBfynoVe43rwQGevgcjJtoImZGbtB3B9yX9dzgM=;
-        b=2aANASEpXGQgbSKlJLR2ty4KIyNL9sFoIiTesSL+axIribR4GWBvoghgEbEKIIePKL
-         Q1zpLynaXSAy2Sae5FJlkhGhBx8HTD5XJkpPAgMh7bbOqYavBBLhnj3nyvUhsHW9w8p7
-         dR11a5ocV06ovbybO5HoU2vTOPS4sWUxA4iSj9AHheywstz31EOaaXpMpdvxXyfokcKH
-         39v8hOso13DM6gbSXQ0sPksFhiprGev8AkA+mBuHyr8d/Ajlb8pUJC2RwtB5PwaBv1jk
-         Ia7I3ZRXMqCAq5vFDPp1dsQnF+U6LqWrJaIYaPm4JQdIqVuBAsIZPTA8U5tbnBdf4hs1
-         22wg==
+        bh=QJBvqc9WEOvthtT77vz6VJiRddJGTHusrraoDZ4T9uQ=;
+        b=Lu+eflu37PpdXbWOutsLb0bcKiPBFCC1xvOKyJ9/Wsl9K5zZ3KBLIBQKUpgtakJhqf
+         tR4c3dMk9fZuc3HJaAkcm5QlV/OZKXvPOhtKiI9bzWvJifrR7k6sNE1RgIteXyvysgas
+         +r/eE9XjAJFzJQFWgWlhRhkMf4rQ3VjGUtje7O1ULa6sWIi0H7tKKQUGz4vd1lxIQcj6
+         VxvtZvezoEnlL3cXtmLmO+h0+YP5KeYkWhrIO7GINawbR/kdwFrIFYYwcOhRn0hc7gcn
+         uMHn/AD8qJSe2CH97aE5yPf22RifAnSGMa3oh0yaOIxMC1215cz8hsi6DnVckNiB/98r
+         lcCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773627603; x=1774232403;
+        d=1e100.net; s=20251104; t=1773627604; x=1774232404;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=rlvZCBfynoVe43rwQGevgcjJtoImZGbtB3B9yX9dzgM=;
-        b=BUnSInaPm/s6gecqoz/k6J4rQICSS2q47pbgelFwyGIO8+LoN8TcmBPy16t4jS3ens
-         aYIzAK1yn1RqfWGuQsRJH+fQeiDyHzjO3tA+OvEanXz0kgMXHPGMk/UnIoHUenr4C8VF
-         AfE5yUBxme2gpf5iRzyAWLvAiUiLIRTo30S7Kj2a73+CAc74Rs0KofiQ4QQWzG6XNQMB
-         RmI2HpmF0suqr+k4vNtZEtJbRzBd1/5dh5A6VTdn1xmS2fJl4Olt7u7L/PW+5wS21spW
-         /o4eOjr6tHCjdit37SZZiUx8x0sWBMdvrALu9r3YkH5JMx/tpvv2mfciWSIMgPmtCDqy
-         XNvw==
-X-Gm-Message-State: AOJu0YzC7svZuobpCDTJ+2TLHalFo7sdsFBG77X4NuWjv/urOqtMqMi1
-	1tGVW5u+39/k0LWVDGZxHtLCFLbPH/Z0+q8CkSORjMZHRI8QKgX6NX7wNwYNmX7Vj/DVcD+PouU
-	6+Bqt
-X-Gm-Gg: ATEYQzwzDTfUK7juDYS+lmQQvEaj7qq2c6W1s+Qat5dMJuB3yAr5WgtukgbT5FhZvWE
-	2flcRvI9qXRsF0U6c+20Lnd4pXXJOenNu/5F3YdHPXCa3HmawUJ2A6Mz7huh37HR0jKR69FmqOR
-	0z3kR5RqMQvILXlLtLU3uZArIfDX5TXIThhYJLoOAszTTdhF34MsUR7J7KfNVTIXbskkuYapI3r
-	ZFQ8rRr+jLvddLlW6ve6J5jX95wSicwrv/nlEdtw/jNpW7VDjGMYUNj6jKdIsk7qdLcqfRvS2Qq
-	fgah9vPPB3dxN+ayBezjbU2j4pB58az20sJeji1G3K6yoe4Cu5PMSSGvsk2kceX7r5sl3uLyvTB
-	JyFPrN+fFTLbYFuXcto+TmY7Qns+Tm/VGGfk1Dc2gTt563VdKkzqbIFmlAqma7Spph+IdX8JobO
-	5U7woSwj1jAUvGDZ2y0nAh9KF+cIE7CxHgB0LD7eXeVZEC/nApsTqodv7UpS7MeOZdmULe5bmWx
-	XyBbgPAOdUNoYTtvIRwYXba
-X-Received: by 2002:a05:690c:102:b0:796:360f:e1d4 with SMTP id 00721157ae682-79a1c1ddd04mr118221157b3.55.1773627602667;
-        Sun, 15 Mar 2026 19:20:02 -0700 (PDT)
+        bh=QJBvqc9WEOvthtT77vz6VJiRddJGTHusrraoDZ4T9uQ=;
+        b=WrcOZRkvU3jKAZGD0Y+DseQIVUR90XDDx9r+g7nqooDJF/CusLgajHKTcmnwxJwOr1
+         wc/0IDzXcT3P5EBiswjBjq66KxppyVCezxYhthZKyZ7uAm/C4v+bg4iLt2H+vNqRANsX
+         mbpF0VHwsIFNY8OjUcFdumWMqIqLCI9mCLYBnBB4fARX5qXWLjWeoq+M7qpgCxWbR3HQ
+         Zqo6TxcKW3dJCArMfWqlvohnUTvgbPDS9MbtOCPFbqiMfkreebvUWg0H3aNQSjEctlvz
+         9wT9nFl619DOrzusoM9Zwvv+pNuEKX5zqShtyCFfwu9eA+o/gnw5aXk5FVs2xMJYW5b+
+         YAlQ==
+X-Gm-Message-State: AOJu0YzV0+cnxZ1FTmjxl+L8FtbnzpI8qfoPfxK/E0bUeqn/LsV5kgFy
+	yp0W1bcaz3m+OzmfgeQLiHGPB7vO+i0r1iKsP16USpOLCMFwIn2yRVzUgBT+R0GrHDrXp33biV2
+	j7LqH
+X-Gm-Gg: ATEYQzx+aBum1dBjHWKKE8jUCiZlVZBcHSX6vPAFktCQoljUk5jrwx2ySfaE9L7vW4W
+	uNyBRQ3wn0/sHuYLya3RQu07F3mdCMu+6pXHXaeiB6pauZG8VMdTU9CDYrVKx/r40jo113mKu7a
+	Wa34g8CNyRKOzVrzBuzsbBJEjWCtzKRyZN6ckcNAsMAf8riMhmbVGKolSsZPnKVA0GsamipNflA
+	pnNF5sCm5vHhMQZL5RNN0N1TPysndJrg5CyS1EoomZLDy259xep/IutKlZNYfqzBJLnR62zyznD
+	yZS0QMzKYxENXHAOORg9EyugO7gLmw1RBLUEg5ADSktx55skHSy6knL4pemJgUe8f4IDhQnlBbf
+	GYP2Yib6nGwXfiCLIlKxf17oog5ibuQuH6UjdfSHThZwoK2fZ5tVyh8sXlw3BFOhOmc6i0VsY30
+	K0OrnZSkTvXXVzSASVXovxFodovX4PGCtFBOokf0XBAgfQvBtv5tcK7SRVBvFzpuhDTrzSTu8mk
+	lM7F4X9CK6bHUcaGok6PjFo
+X-Received: by 2002:a05:690c:a751:b0:799:198d:8c65 with SMTP id 00721157ae682-79a1c0e251cmr84083617b3.18.1773627603895;
+        Sun, 15 Mar 2026 19:20:03 -0700 (PDT)
 Received: from pop-os.attlocal.net ([2600:1700:6476:1430:6939:3e01:5e8f:6093])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-79917deb69asm79721617b3.10.2026.03.15.19.20.01
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-79917deb69asm79721617b3.10.2026.03.15.19.20.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Mar 2026 19:20:02 -0700 (PDT)
+        Sun, 15 Mar 2026 19:20:03 -0700 (PDT)
 From: Viacheslav Dubeyko <slava@dubeyko.com>
 To: linux-fsdevel@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
 	Viacheslav Dubeyko <slava@dubeyko.com>
-Subject: [PATCH v2 71/79] ssdfs: implement IOCTL operations
-Date: Sun, 15 Mar 2026 19:17:57 -0700
-Message-ID: <20260316021800.1694650-31-slava@dubeyko.com>
+Subject: [PATCH v2 75/79] ssdfs: implement inode operations support
+Date: Sun, 15 Mar 2026 19:17:58 -0700
+Message-ID: <20260316021800.1694650-32-slava@dubeyko.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260316021800.1694650-1-slava@dubeyko.com>
 References: <20260316021800.1694650-1-slava@dubeyko.com>
@@ -80,28 +80,35 @@ Content-Transfer-Encoding: 8bit
 Complete patchset is available here:
 https://github.com/dubeyko/ssdfs-driver/tree/master/patchset/linux-kernel-6.18.0
 
-This patch implements IOCTL operations.
+Patch implements operations:
+(1) ssdfs_read_inode - read raw inode
+(2) ssdfs_iget - get existing inode
+(3) ssdfs_new_inode - create new inode
+(4) ssdfs_getattr - get attributes
+(5) ssdfs_setattr - set attributes
+(6) ssdfs_truncate - truncate file
+(7) ssdfs_setsize - set file size
+(8) ssdfs_evict_inode - evict inode
+(9) ssdfs_write_inode - store dirty inode
 
 Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
 ---
- fs/ssdfs/ioctl.c | 453 +++++++++++++++++++++++++++++++++++++++++++++++
- fs/ssdfs/ioctl.h |  58 ++++++
- 2 files changed, 511 insertions(+)
- create mode 100644 fs/ssdfs/ioctl.c
- create mode 100644 fs/ssdfs/ioctl.h
+ fs/ssdfs/inode.c | 1262 ++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 1262 insertions(+)
+ create mode 100644 fs/ssdfs/inode.c
 
-diff --git a/fs/ssdfs/ioctl.c b/fs/ssdfs/ioctl.c
+diff --git a/fs/ssdfs/inode.c b/fs/ssdfs/inode.c
 new file mode 100644
-index 000000000000..c02f81d16d90
+index 000000000000..959e733b6e18
 --- /dev/null
-+++ b/fs/ssdfs/ioctl.c
-@@ -0,0 +1,453 @@
++++ b/fs/ssdfs/inode.c
+@@ -0,0 +1,1262 @@
 +/*
 + * SPDX-License-Identifier: BSD-3-Clause-Clear
 + *
 + * SSDFS -- SSD-oriented File System.
 + *
-+ * fs/ssdfs/ioctl.c - IOCTL operations.
++ * fs/ssdfs/inode.c - inode handling routines.
 + *
 + * Copyright (c) 2014-2019 HGST, a Western Digital Company.
 + *              http://www.hgst.com/
@@ -118,501 +125,1246 @@ index 000000000000..c02f81d16d90
 + *                  Zvonimir Bandic
 + */
 +
-+#include <linux/kernel.h>
-+#include <linux/rwsem.h>
++#include <linux/mtd/mtd.h>
++#include <linux/mm.h>
++#include <linux/statfs.h>
 +#include <linux/pagevec.h>
-+#include <linux/mount.h>
++#include <linux/dcache.h>
++#include <linux/random.h>
 +
 +#include "peb_mapping_queue.h"
 +#include "peb_mapping_table_cache.h"
 +#include "folio_vector.h"
 +#include "ssdfs.h"
-+#include "testing.h"
-+#include "ioctl.h"
++#include "request_queue.h"
++#include "btree_search.h"
++#include "btree_node.h"
++#include "btree.h"
++#include "extents_tree.h"
++#include "inodes_tree.h"
++#include "dentries_tree.h"
++#include "xattr_tree.h"
++#include "acl.h"
++#include "xattr.h"
 +
-+static int ssdfs_ioctl_getflags(struct file *file, void __user *arg)
++#include <trace/events/ssdfs.h>
++
++#ifdef CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING
++atomic64_t ssdfs_inode_folio_leaks;
++atomic64_t ssdfs_inode_memory_leaks;
++atomic64_t ssdfs_inode_cache_leaks;
++#endif /* CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING */
++
++/*
++ * void ssdfs_inode_cache_leaks_increment(void *kaddr)
++ * void ssdfs_inode_cache_leaks_decrement(void *kaddr)
++ * void *ssdfs_inode_kmalloc(size_t size, gfp_t flags)
++ * void *ssdfs_inode_kzalloc(size_t size, gfp_t flags)
++ * void *ssdfs_inode_kcalloc(size_t n, size_t size, gfp_t flags)
++ * void ssdfs_inode_kfree(void *kaddr)
++ * struct folio *ssdfs_inode_alloc_folio(gfp_t gfp_mask,
++ *                                       unsigned int order)
++ * struct folio *ssdfs_inode_add_batch_folio(struct folio_batch *batch,
++ *                                           unsigned int order)
++ * void ssdfs_inode_free_folio(struct folio *folio)
++ * void ssdfs_inode_folio_batch_release(struct folio_batch *batch)
++ */
++#ifdef CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING
++	SSDFS_MEMORY_LEAKS_CHECKER_FNS(inode)
++#else
++	SSDFS_MEMORY_ALLOCATOR_FNS(inode)
++#endif /* CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING */
++
++void ssdfs_inode_memory_leaks_init(void)
 +{
-+	struct inode *inode = file_inode(file);
-+	struct ssdfs_inode_info *ii = SSDFS_I(inode);
-+	unsigned int flags;
-+
-+	flags = ii->flags & SSDFS_FL_USER_VISIBLE;
-+	return put_user(flags, (int __user *) arg);
++#ifdef CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING
++	atomic64_set(&ssdfs_inode_folio_leaks, 0);
++	atomic64_set(&ssdfs_inode_memory_leaks, 0);
++	atomic64_set(&ssdfs_inode_cache_leaks, 0);
++#endif /* CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING */
 +}
 +
-+static int ssdfs_ioctl_setflags(struct file *file, void __user *arg)
++void ssdfs_inode_check_memory_leaks(void)
 +{
-+	struct mnt_idmap *idmap = file_mnt_idmap(file);
-+	struct inode *inode = file_inode(file);
-+	struct ssdfs_inode_info *ii = SSDFS_I(inode);
-+	unsigned int flags, oldflags;
-+	int err = 0;
-+
-+	err = mnt_want_write_file(file);
-+	if (err)
-+		return err;
-+
-+	if (!inode_owner_or_capable(idmap, inode))
-+		return -EACCES;
-+
-+	if (get_user(flags, (int __user *)arg))
-+		return -EFAULT;
-+
-+	flags = ssdfs_mask_flags(inode->i_mode, flags);
-+
-+	inode_lock(inode);
-+	down_write(&ii->lock);
-+
-+	oldflags = ii->flags;
-+
-+	/*
-+	 * The IMMUTABLE and APPEND_ONLY flags can only be changed by the
-+	 * relevant capability.
-+	 */
-+	if ((flags ^ oldflags) & (SSDFS_APPEND_FL | SSDFS_IMMUTABLE_FL)) {
-+		if (!capable(CAP_LINUX_IMMUTABLE)) {
-+			err = -EPERM;
-+			goto out_unlock_inode;
-+		}
++#ifdef CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING
++	if (atomic64_read(&ssdfs_inode_folio_leaks) != 0) {
++		SSDFS_ERR("INODE: "
++			  "memory leaks include %lld folios\n",
++			  atomic64_read(&ssdfs_inode_folio_leaks));
 +	}
 +
-+	flags = flags & SSDFS_FL_USER_MODIFIABLE;
-+	flags |= oldflags & ~SSDFS_FL_USER_MODIFIABLE;
-+	ii->flags = flags;
++	if (atomic64_read(&ssdfs_inode_memory_leaks) != 0) {
++		SSDFS_ERR("INODE: "
++			  "memory allocator suffers from %lld leaks\n",
++			  atomic64_read(&ssdfs_inode_memory_leaks));
++	}
 +
-+	ssdfs_set_inode_flags(inode);
-+	inode_set_ctime_to_ts(inode, current_time(inode));
-+	mark_inode_dirty(inode);
-+
-+out_unlock_inode:
-+	up_write(&ii->lock);
-+	inode_unlock(inode);
-+	mnt_drop_write_file(file);
-+	return err;
++	if (atomic64_read(&ssdfs_inode_cache_leaks) != 0) {
++		SSDFS_ERR("INODE: "
++			  "caches suffers from %lld leaks\n",
++			  atomic64_read(&ssdfs_inode_cache_leaks));
++	}
++#endif /* CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING */
 +}
 +
-+static int ssdfs_ioctl_do_testing(struct file *file, void __user *arg)
++bool is_raw_inode_checksum_correct(struct ssdfs_fs_info *fsi,
++				   void *buf, size_t size)
 +{
-+	struct inode *inode = file_inode(file);
-+	struct ssdfs_fs_info *fsi = SSDFS_FS_I(inode->i_sb);
-+	struct ssdfs_testing_environment env;
++	struct ssdfs_inode *raw_inode;
++	size_t raw_inode_size;
++	__le32 old_checksum;
++	bool is_valid = false;
 +
-+	if (copy_from_user(&env, arg, sizeof(env)))
-+		return -EFAULT;
++	spin_lock(&fsi->inodes_tree->lock);
++	raw_inode_size = fsi->inodes_tree->raw_inode_size;
++	spin_unlock(&fsi->inodes_tree->lock);
 +
-+	return ssdfs_do_testing(fsi, &env);
++	if (raw_inode_size != size) {
++		SSDFS_WARN("raw_inode_size %zu != size %zu\n",
++			   raw_inode_size, size);
++		return false;
++	}
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("RAW INODE DUMP:\n");
++	print_hex_dump_bytes("", DUMP_PREFIX_OFFSET,
++			     buf, size);
++	SSDFS_DBG("\n");
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	raw_inode = (struct ssdfs_inode *)buf;
++
++	old_checksum = raw_inode->checksum;
++	raw_inode->checksum = 0;
++	raw_inode->checksum = ssdfs_crc32_le(buf, size);
++
++	is_valid = old_checksum == raw_inode->checksum;
++
++	if (!is_valid) {
++		SSDFS_WARN("invalid inode's checksum: "
++			   "stored %#x != calculated %#x\n",
++			   le32_to_cpu(old_checksum),
++			   le32_to_cpu(raw_inode->checksum));
++		raw_inode->checksum = old_checksum;
++	}
++
++	return is_valid;
 +}
 +
-+static int ssdfs_ioctl_create_snapshot(struct file *file, void __user *arg)
++void ssdfs_set_inode_flags(struct inode *inode)
 +{
-+	struct inode *inode = file_inode(file);
-+	struct ssdfs_fs_info *fsi = SSDFS_FS_I(inode->i_sb);
-+	struct ssdfs_snapshot_request *snr = NULL;
-+	size_t info_size = sizeof(struct ssdfs_snapshot_info);
-+	int err = 0;
++	unsigned int flags = SSDFS_I(inode)->flags;
++	unsigned int new_fl = 0;
 +
-+	snr = ssdfs_snapshot_request_alloc();
-+	if (!snr) {
-+		SSDFS_ERR("fail to allocate snaphot request\n");
-+		return -ENOMEM;
-+	}
-+
-+	snr->operation = SSDFS_CREATE_SNAPSHOT;
-+	snr->ino = inode->i_ino;
-+
-+	if (copy_from_user(&snr->info, arg, info_size)) {
-+		err = -EFAULT;
-+		ssdfs_snapshot_request_free(snr);
-+		goto finish_create_snapshot;
-+	}
-+
-+	ssdfs_snapshot_reqs_queue_add_tail(&fsi->snapshots.reqs_queue, snr);
-+
-+finish_create_snapshot:
-+	return err;
++	if (flags & FS_SYNC_FL)
++		new_fl |= S_SYNC;
++	if (flags & FS_APPEND_FL)
++		new_fl |= S_APPEND;
++	if (flags & FS_IMMUTABLE_FL)
++		new_fl |= S_IMMUTABLE;
++	if (flags & FS_NOATIME_FL)
++		new_fl |= S_NOATIME;
++	if (flags & FS_DIRSYNC_FL)
++		new_fl |= S_DIRSYNC;
++	inode_set_flags(inode, new_fl, S_SYNC | S_APPEND | S_IMMUTABLE |
++			S_NOATIME | S_DIRSYNC);
 +}
 +
-+static int ssdfs_ioctl_list_snapshots(struct file *file, void __user *arg)
++static int ssdfs_inode_setops(struct inode *inode)
 +{
-+	struct inode *inode = file_inode(file);
-+	struct ssdfs_fs_info *fsi = SSDFS_FS_I(inode->i_sb);
-+	struct ssdfs_snapshot_request *snr = NULL;
-+	size_t info_size = sizeof(struct ssdfs_snapshot_info);
-+	int err = 0;
-+
-+	snr = ssdfs_snapshot_request_alloc();
-+	if (!snr) {
-+		SSDFS_ERR("fail to allocate snaphot request\n");
-+		return -ENOMEM;
-+	}
-+
-+	snr->operation = SSDFS_LIST_SNAPSHOTS;
-+	snr->ino = inode->i_ino;
-+
-+	if (copy_from_user(&snr->info, arg, info_size)) {
-+		err = -EFAULT;
-+		goto finish_list_snapshots;
-+	}
-+
-+	err = ssdfs_execute_list_snapshots_request(&fsi->snapshots, snr);
-+	if (unlikely(err)) {
-+		SSDFS_ERR("fail to get the snapshots list: "
-+			  "err %d\n", err);
-+		goto finish_list_snapshots;
-+	}
-+
-+	if (copy_to_user((struct ssdfs_snapshot_info __user *)arg,
-+			 &snr->info, info_size)) {
-+		err = -EFAULT;
-+		goto finish_list_snapshots;
-+	}
-+
-+finish_list_snapshots:
-+	if (!snr)
-+		ssdfs_snapshot_request_free(snr);
-+
-+	return err;
-+}
-+
-+static int ssdfs_ioctl_modify_snapshot(struct file *file, void __user *arg)
-+{
-+	struct inode *inode = file_inode(file);
-+	struct ssdfs_fs_info *fsi = SSDFS_FS_I(inode->i_sb);
-+	struct ssdfs_snapshot_request *snr = NULL;
-+	size_t info_size = sizeof(struct ssdfs_snapshot_info);
-+	int err = 0;
-+
-+	snr = ssdfs_snapshot_request_alloc();
-+	if (!snr) {
-+		SSDFS_ERR("fail to allocate snaphot request\n");
-+		return -ENOMEM;
-+	}
-+
-+	snr->operation = SSDFS_MODIFY_SNAPSHOT;
-+	snr->ino = inode->i_ino;
-+
-+	if (copy_from_user(&snr->info, arg, info_size)) {
-+		err = -EFAULT;
-+		goto finish_modify_snapshot;
-+	}
-+
-+	err = ssdfs_execute_modify_snapshot_request(fsi, snr);
-+	if (unlikely(err)) {
-+		SSDFS_ERR("fail to modify snapshot: "
-+			  "err %d\n", err);
-+		goto finish_modify_snapshot;
-+	}
-+
-+finish_modify_snapshot:
-+	if (!snr)
-+		ssdfs_snapshot_request_free(snr);
-+
-+	return err;
-+}
-+
-+static int ssdfs_ioctl_remove_snapshot(struct file *file, void __user *arg)
-+{
-+	struct inode *inode = file_inode(file);
-+	struct ssdfs_fs_info *fsi = SSDFS_FS_I(inode->i_sb);
-+	struct ssdfs_snapshot_request *snr = NULL;
-+	size_t info_size = sizeof(struct ssdfs_snapshot_info);
-+	int err = 0;
-+
-+	snr = ssdfs_snapshot_request_alloc();
-+	if (!snr) {
-+		SSDFS_ERR("fail to allocate snaphot request\n");
-+		return -ENOMEM;
-+	}
-+
-+	snr->operation = SSDFS_REMOVE_SNAPSHOT;
-+	snr->ino = inode->i_ino;
-+
-+	if (copy_from_user(&snr->info, arg, info_size)) {
-+		err = -EFAULT;
-+		goto finish_remove_snapshot;
-+	}
-+
-+	err = ssdfs_execute_remove_snapshot_request(&fsi->snapshots, snr);
-+	if (unlikely(err)) {
-+		SSDFS_ERR("fail to delete snapshot: "
-+			  "err %d\n", err);
-+		goto finish_remove_snapshot;
-+	}
-+
-+finish_remove_snapshot:
-+	if (!snr)
-+		ssdfs_snapshot_request_free(snr);
-+
-+	return err;
-+}
-+
-+static int ssdfs_ioctl_remove_range(struct file *file, void __user *arg)
-+{
-+	struct inode *inode = file_inode(file);
-+	struct ssdfs_fs_info *fsi = SSDFS_FS_I(inode->i_sb);
-+	struct ssdfs_snapshot_request *snr = NULL;
-+	size_t info_size = sizeof(struct ssdfs_snapshot_info);
-+	int err = 0;
-+
-+	snr = ssdfs_snapshot_request_alloc();
-+	if (!snr) {
-+		SSDFS_ERR("fail to allocate snaphot request\n");
-+		return -ENOMEM;
-+	}
-+
-+	snr->operation = SSDFS_REMOVE_RANGE;
-+	snr->ino = inode->i_ino;
-+
-+	if (copy_from_user(&snr->info, arg, info_size)) {
-+		err = -EFAULT;
-+		goto finish_remove_range;
-+	}
-+
-+	err = ssdfs_execute_remove_range_request(&fsi->snapshots, snr);
-+	if (unlikely(err)) {
-+		SSDFS_ERR("fail to remove range of snapshots: "
-+			  "err %d\n", err);
-+		goto finish_remove_range;
-+	}
-+
-+finish_remove_range:
-+	if (!snr)
-+		ssdfs_snapshot_request_free(snr);
-+
-+	return err;
-+}
-+
-+static int ssdfs_ioctl_show_snapshot_details(struct file *file,
-+					     void __user *arg)
-+{
-+	struct inode *inode = file_inode(file);
-+	struct ssdfs_fs_info *fsi = SSDFS_FS_I(inode->i_sb);
-+	struct ssdfs_snapshot_request *snr = NULL;
-+	size_t info_size = sizeof(struct ssdfs_snapshot_info);
-+	int err = 0;
-+
-+	snr = ssdfs_snapshot_request_alloc();
-+	if (!snr) {
-+		SSDFS_ERR("fail to allocate snaphot request\n");
-+		return -ENOMEM;
-+	}
-+
-+	snr->operation = SSDFS_SHOW_SNAPSHOT_DETAILS;
-+	snr->ino = inode->i_ino;
-+
-+	if (copy_from_user(&snr->info, arg, info_size)) {
-+		err = -EFAULT;
-+		goto finish_show_snapshot_details;
-+	}
-+
-+	err = ssdfs_execute_show_details_request(&fsi->snapshots, snr);
-+	if (unlikely(err)) {
-+		SSDFS_ERR("fail to show snapshot's details: "
-+			  "err %d\n", err);
-+		goto finish_show_snapshot_details;
-+	}
-+
-+	if (copy_to_user((struct ssdfs_snapshot_info __user *)arg,
-+			 &snr->info, info_size)) {
-+		err = -EFAULT;
-+		goto finish_show_snapshot_details;
-+	}
-+
-+finish_show_snapshot_details:
-+	if (!snr)
-+		ssdfs_snapshot_request_free(snr);
-+
-+	return err;
-+}
-+
-+static int ssdfs_ioctl_list_snapshot_rules(struct file *file, void __user *arg)
-+{
-+	struct inode *inode = file_inode(file);
-+	struct ssdfs_fs_info *fsi = SSDFS_FS_I(inode->i_sb);
-+	struct ssdfs_snapshot_request *snr = NULL;
-+	size_t info_size = sizeof(struct ssdfs_snapshot_info);
-+	int err = 0;
-+
-+	snr = ssdfs_snapshot_request_alloc();
-+	if (!snr) {
-+		SSDFS_ERR("fail to allocate snaphot request\n");
-+		return -ENOMEM;
-+	}
-+
-+	snr->operation = SSDFS_LIST_SNAPSHOT_RULES;
-+	snr->ino = inode->i_ino;
-+
-+	if (copy_from_user(&snr->info, arg, info_size)) {
-+		err = -EFAULT;
-+		goto finish_list_snapshot_rules;
-+	}
-+
-+	err = ssdfs_execute_list_snapshot_rules_request(fsi, snr);
-+	if (unlikely(err)) {
-+		SSDFS_ERR("fail to get the snapshot rules list: "
-+			  "err %d\n", err);
-+		goto finish_list_snapshot_rules;
-+	}
-+
-+	if (copy_to_user((struct ssdfs_snapshot_info __user *)arg,
-+			 &snr->info, info_size)) {
-+		err = -EFAULT;
-+		goto finish_list_snapshot_rules;
-+	}
-+
-+finish_list_snapshot_rules:
-+	if (!snr)
-+		ssdfs_snapshot_request_free(snr);
-+
-+	return err;
-+}
-+
-+static int ssdfs_ioctl_tunefs_get_fs_config(struct file *file, void __user *arg)
-+{
-+	struct inode *inode = file_inode(file);
-+	struct ssdfs_fs_info *fsi = SSDFS_FS_I(inode->i_sb);
-+	struct ssdfs_tunefs_options config;
-+	size_t options_size = sizeof(struct ssdfs_tunefs_options);
-+
-+	memset(&config, 0, options_size);
-+
-+	ssdfs_tunefs_get_current_volume_config(fsi, &config.old_config);
-+	ssdfs_tunefs_get_new_config_request(fsi, &config.new_config);
-+
-+	if (copy_to_user((struct ssdfs_tunefs_options __user *)arg,
-+			 &config, options_size)) {
-+		return -EFAULT;
++	if (S_ISREG(inode->i_mode)) {
++		inode->i_op = &ssdfs_file_inode_operations;
++		inode->i_fop = &ssdfs_file_operations;
++		inode->i_mapping->a_ops = &ssdfs_aops;
++	} else if (S_ISDIR(inode->i_mode)) {
++		inode->i_op = &ssdfs_dir_inode_operations;
++		inode->i_fop = &ssdfs_dir_operations;
++		inode->i_mapping->a_ops = &ssdfs_aops;
++	} else if (S_ISLNK(inode->i_mode)) {
++		inode->i_op = &ssdfs_symlink_inode_operations;
++		inode->i_mapping->a_ops = &ssdfs_aops;
++		inode_nohighmem(inode);
++	} else if (S_ISCHR(inode->i_mode) || S_ISBLK(inode->i_mode) ||
++		   S_ISFIFO(inode->i_mode) || S_ISSOCK(inode->i_mode)) {
++		inode->i_op = &ssdfs_special_inode_operations;
++		init_special_inode(inode, inode->i_mode, inode->i_rdev);
++	} else {
++		SSDFS_ERR("bogus i_mode %o for ino %lu\n",
++			  inode->i_mode, (unsigned long)inode->i_ino);
++		return -EINVAL;
 +	}
 +
 +	return 0;
 +}
 +
-+static int ssdfs_ioctl_tunefs_set_fs_config(struct file *file, void __user *arg)
++static int ssdfs_read_inode(struct inode *inode)
 +{
-+	struct inode *inode = file_inode(file);
 +	struct ssdfs_fs_info *fsi = SSDFS_FS_I(inode->i_sb);
-+	struct ssdfs_tunefs_options config;
-+	size_t options_size = sizeof(struct ssdfs_tunefs_options);
++	struct ssdfs_btree_search *search;
++	struct ssdfs_inode *raw_inode;
++	size_t raw_inode_size;
++	struct ssdfs_inode_info *ii = SSDFS_I(inode);
++	u16 private_flags;
 +	int err = 0;
 +
-+	if (copy_from_user(&config, arg, options_size)) {
-+		return -EFAULT;
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("ino %lu\n", (unsigned long)inode->i_ino);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	search = ssdfs_btree_search_alloc();
++	if (!search) {
++		SSDFS_ERR("fail to allocate btree search object\n");
++		return -ENOMEM;
 +	}
 +
-+	ssdfs_tunefs_get_current_volume_config(fsi, &config.old_config);
++	ssdfs_btree_search_init(search);
 +
-+	err = ssdfs_tunefs_check_requested_volume_config(fsi, &config);
-+	if (!err)
-+		ssdfs_tunefs_save_new_config_request(fsi, &config);
++	err = ssdfs_inodes_btree_find(fsi->inodes_tree, inode->i_ino, search);
++	if (unlikely(err)) {
++		SSDFS_ERR("fail to find the raw inode: "
++			  "ino %lu, err %d\n",
++			  inode->i_ino, err);
++		goto finish_read_inode;
++	}
 +
-+	if (copy_to_user((struct ssdfs_tunefs_options __user *)arg,
-+			 &config, options_size)) {
-+		return -EFAULT;
++	switch (search->result.state) {
++	case SSDFS_BTREE_SEARCH_VALID_ITEM:
++		/* expected state */
++		break;
++
++	default:
++		err = -ERANGE;
++		SSDFS_ERR("invalid result state %#x\n",
++			  search->result.state);
++		goto finish_read_inode;
++	}
++
++	switch (search->result.raw_buf.state) {
++	case SSDFS_BTREE_SEARCH_INLINE_BUFFER:
++	case SSDFS_BTREE_SEARCH_EXTERNAL_BUFFER:
++		/* expected state */
++		break;
++
++	default:
++		err = -ERANGE;
++		SSDFS_ERR("invalid buffer state %#x\n",
++			  search->result.raw_buf.state);
++		goto finish_read_inode;
++	}
++
++	if (!search->result.raw_buf.place.ptr) {
++		err = -ERANGE;
++		SSDFS_ERR("empty result buffer pointer\n");
++		goto finish_read_inode;
++	}
++
++	if (search->result.raw_buf.items_count == 0) {
++		err = -ERANGE;
++		SSDFS_ERR("items_in_buffer %u\n",
++			  search->result.raw_buf.items_count);
++		goto finish_read_inode;
++	}
++
++	raw_inode = (struct ssdfs_inode *)search->result.raw_buf.place.ptr;
++	raw_inode_size =
++	    search->result.raw_buf.size / search->result.raw_buf.items_count;
++
++	if (!is_raw_inode_checksum_correct(fsi, raw_inode, raw_inode_size)) {
++		err = -EIO;
++		SSDFS_ERR("invalid inode's checksum: ino %lu\n",
++			  inode->i_ino);
++		goto finish_read_inode;
++	}
++
++	if (le16_to_cpu(raw_inode->magic) != SSDFS_INODE_MAGIC) {
++		err = -EIO;
++		SSDFS_ERR("invalid inode magic %#x\n",
++			  le16_to_cpu(raw_inode->magic));
++		goto finish_read_inode;
++	}
++
++	if (le64_to_cpu(raw_inode->ino) != inode->i_ino) {
++		err = -EIO;
++		SSDFS_ERR("raw_inode->ino %llu != i_ino %lu\n",
++			  le64_to_cpu(raw_inode->ino),
++			  inode->i_ino);
++		goto finish_read_inode;
++	}
++
++	inode->i_mode = le16_to_cpu(raw_inode->mode);
++	ii->flags = le32_to_cpu(raw_inode->flags);
++	i_uid_write(inode, le32_to_cpu(raw_inode->uid));
++	i_gid_write(inode, le32_to_cpu(raw_inode->gid));
++	set_nlink(inode, le32_to_cpu(raw_inode->refcount));
++
++	inode_set_atime(inode, le64_to_cpu(raw_inode->atime),
++			le32_to_cpu(raw_inode->atime_nsec));
++	inode_set_ctime(inode, le64_to_cpu(raw_inode->ctime),
++			le32_to_cpu(raw_inode->ctime_nsec));
++	inode_set_mtime(inode, le64_to_cpu(raw_inode->mtime),
++			le32_to_cpu(raw_inode->mtime_nsec));
++
++	ii->birthtime.tv_sec = le64_to_cpu(raw_inode->birthtime);
++	ii->birthtime.tv_nsec = le32_to_cpu(raw_inode->birthtime_nsec);
++	ii->raw_inode_size = fsi->raw_inode_size;
++
++	inode->i_generation = (u32)le64_to_cpu(raw_inode->generation);
++
++	inode->i_size = le64_to_cpu(raw_inode->size);
++	inode->i_blkbits = fsi->log_pagesize;
++	inode->i_blocks = le64_to_cpu(raw_inode->blocks);
++
++	private_flags = le16_to_cpu(raw_inode->private_flags);
++	atomic_set(&ii->private_flags, private_flags);
++	if (private_flags & ~SSDFS_INODE_PRIVATE_FLAGS_MASK) {
++		err = -EIO;
++		SSDFS_ERR("invalid set of private_flags %#x\n",
++			  private_flags);
++		goto finish_read_inode;
++	}
++
++	if (fsi->pagesize > SSDFS_8KB)
++		mapping_set_large_folios(inode->i_mapping);
++
++	err = ssdfs_inode_setops(inode);
++	if (unlikely(err))
++		goto finish_read_inode;
++
++	down_write(&ii->lock);
++
++	ii->parent_ino = le64_to_cpu(raw_inode->parent_ino);
++	ssdfs_set_inode_flags(inode);
++	ii->name_hash = le64_to_cpu(raw_inode->hash_code);
++	ii->name_len = le16_to_cpu(raw_inode->name_len);
++
++	ssdfs_memcpy(&ii->raw_inode,
++		     0, sizeof(struct ssdfs_inode),
++		     raw_inode,
++		     0, sizeof(struct ssdfs_inode),
++		     sizeof(struct ssdfs_inode));
++
++	if (S_ISREG(inode->i_mode)) {
++		if (private_flags & ~SSDFS_IFREG_PRIVATE_FLAG_MASK) {
++			err = -EIO;
++			SSDFS_ERR("regular file: invalid private flags %#x\n",
++				  private_flags);
++			goto unlock_mutable_fields;
++		}
++
++		if (is_ssdfs_file_inline(ii)) {
++			err = ssdfs_allocate_inline_file_buffer(inode);
++			if (unlikely(err)) {
++				SSDFS_ERR("fail to allocate inline buffer\n");
++				goto unlock_mutable_fields;
++			}
++
++			/*
++			 * TODO: pre-fetch file's content in buffer
++			 *       (if inode size > 256 bytes)
++			 */
++		} else if (private_flags & SSDFS_INODE_HAS_INLINE_EXTENTS ||
++			   private_flags & SSDFS_INODE_HAS_EXTENTS_BTREE) {
++			err = ssdfs_extents_tree_create(fsi, ii);
++			if (unlikely(err)) {
++				SSDFS_ERR("fail to create the extents tree: "
++					  "ino %lu, err %d\n",
++					  inode->i_ino, err);
++				goto unlock_mutable_fields;
++			}
++
++			err = ssdfs_extents_tree_init(fsi, ii);
++			if (unlikely(err)) {
++				SSDFS_ERR("fail to init the extents tree: "
++					  "ino %lu, err %d\n",
++					  inode->i_ino, err);
++				goto unlock_mutable_fields;
++			}
++		}
++
++		if (private_flags & SSDFS_INODE_HAS_INLINE_XATTR ||
++		    private_flags & SSDFS_INODE_HAS_XATTR_BTREE) {
++			err = ssdfs_xattrs_tree_create(fsi, ii);
++			if (unlikely(err)) {
++				SSDFS_ERR("fail to create the xattrs tree: "
++					  "ino %lu, err %d\n",
++					  inode->i_ino, err);
++				goto unlock_mutable_fields;
++			}
++
++			err = ssdfs_xattrs_tree_init(fsi, ii);
++			if (unlikely(err)) {
++				SSDFS_ERR("fail to init the xattrs tree: "
++					  "ino %lu, err %d\n",
++					  inode->i_ino, err);
++				goto unlock_mutable_fields;
++			}
++		}
++	} else if (S_ISDIR(inode->i_mode)) {
++		if (private_flags & ~SSDFS_IFDIR_PRIVATE_FLAG_MASK) {
++			err = -EIO;
++			SSDFS_ERR("folder: invalid private flags %#x\n",
++				  private_flags);
++			goto unlock_mutable_fields;
++		}
++
++		if (private_flags & SSDFS_INODE_HAS_INLINE_DENTRIES ||
++		    private_flags & SSDFS_INODE_HAS_DENTRIES_BTREE) {
++			err = ssdfs_dentries_tree_create(fsi, ii);
++			if (unlikely(err)) {
++				SSDFS_ERR("fail to create the dentries tree: "
++					  "ino %lu, err %d\n",
++					  inode->i_ino, err);
++				goto unlock_mutable_fields;
++			}
++
++			err = ssdfs_dentries_tree_init(fsi, ii);
++			if (unlikely(err)) {
++				SSDFS_ERR("fail to init the dentries tree: "
++					  "ino %lu, err %d\n",
++					  inode->i_ino, err);
++				goto unlock_mutable_fields;
++			}
++		}
++
++		if (private_flags & SSDFS_INODE_HAS_INLINE_XATTR ||
++		    private_flags & SSDFS_INODE_HAS_XATTR_BTREE) {
++			err = ssdfs_xattrs_tree_create(fsi, ii);
++			if (unlikely(err)) {
++				SSDFS_ERR("fail to create the xattrs tree: "
++					  "ino %lu, err %d\n",
++					  inode->i_ino, err);
++				goto unlock_mutable_fields;
++			}
++
++			err = ssdfs_xattrs_tree_init(fsi, ii);
++			if (unlikely(err)) {
++				SSDFS_ERR("fail to init the xattrs tree: "
++					  "ino %lu, err %d\n",
++					  inode->i_ino, err);
++				goto unlock_mutable_fields;
++			}
++		}
++	} else if (S_ISLNK(inode->i_mode) ||
++		   S_ISCHR(inode->i_mode) ||
++		   S_ISBLK(inode->i_mode) ||
++		   S_ISFIFO(inode->i_mode) ||
++		   S_ISSOCK(inode->i_mode)) {
++		/* do nothing */
++	} else {
++		err = -EINVAL;
++		SSDFS_ERR("bogus i_mode %o for ino %lu\n",
++			  inode->i_mode, (unsigned long)inode->i_ino);
++		goto unlock_mutable_fields;
++	}
++
++unlock_mutable_fields:
++	up_write(&ii->lock);
++
++finish_read_inode:
++	ssdfs_btree_search_free(search);
++	return err;
++}
++
++struct inode *ssdfs_iget(struct super_block *sb, ino_t ino)
++{
++	struct inode *inode;
++	int err;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("ino %lu\n", (unsigned long)ino);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	inode = iget_locked(sb, ino);
++	if (unlikely(!inode)) {
++		err = -ENOMEM;
++		SSDFS_ERR("unable to obtain or to allocate inode %lu, err %d\n",
++			  (unsigned long)ino, err);
++		return ERR_PTR(err);
++	}
++
++	if (!(inode_state_read_once(inode) & I_NEW)) {
++		trace_ssdfs_iget(inode);
++		return inode;
++	}
++
++	err = ssdfs_read_inode(inode);
++	if (unlikely(err)) {
++		SSDFS_ERR("unable to read inode %lu, err %d\n",
++			  (unsigned long)ino, err);
++		goto bad_inode;
++	}
++
++	unlock_new_inode(inode);
++	trace_ssdfs_iget(inode);
++	return inode;
++
++bad_inode:
++	iget_failed(inode);
++	trace_ssdfs_iget_exit(inode, err);
++	return ERR_PTR(err);
++}
++
++static void ssdfs_init_raw_inode(struct ssdfs_inode_info *ii)
++{
++	struct ssdfs_inode *ri = &ii->raw_inode;
++
++	ri->magic = cpu_to_le16(SSDFS_INODE_MAGIC);
++	ri->mode = cpu_to_le16(ii->vfs_inode.i_mode);
++	ri->flags = cpu_to_le32(ii->flags);
++	ri->uid = cpu_to_le32(i_uid_read(&ii->vfs_inode));
++	ri->gid = cpu_to_le32(i_gid_read(&ii->vfs_inode));
++	ri->atime = cpu_to_le64(inode_get_atime_sec(&ii->vfs_inode));
++	ri->ctime = cpu_to_le64(inode_get_ctime_sec(&ii->vfs_inode));
++	ri->mtime = cpu_to_le64(inode_get_mtime_sec(&ii->vfs_inode));
++	ri->atime_nsec = cpu_to_le32(inode_get_atime_nsec(&ii->vfs_inode));
++	ri->ctime_nsec = cpu_to_le32(inode_get_ctime_nsec(&ii->vfs_inode));
++	ri->mtime_nsec = cpu_to_le32(inode_get_mtime_nsec(&ii->vfs_inode));
++	ri->birthtime = cpu_to_le64(ii->birthtime.tv_sec);
++	ri->birthtime_nsec = cpu_to_le32(ii->birthtime.tv_nsec);
++	ri->generation = cpu_to_le64(ii->vfs_inode.i_generation);
++	ri->size = cpu_to_le64(i_size_read(&ii->vfs_inode));
++	ri->blocks = cpu_to_le64(ii->vfs_inode.i_blocks);
++	ri->parent_ino = cpu_to_le64(ii->parent_ino);
++	ri->refcount = cpu_to_le32(ii->vfs_inode.i_nlink);
++	ri->checksum = 0;
++	ri->ino = cpu_to_le64(ii->vfs_inode.i_ino);
++	ri->hash_code = cpu_to_le64(ii->name_hash);
++	ri->name_len = cpu_to_le16(ii->name_len);
++}
++
++static void ssdfs_init_inode(struct mnt_idmap *idmap,
++			     struct inode *dir,
++			     struct inode *inode,
++			     umode_t mode,
++			     ino_t ino,
++			     const struct qstr *qstr)
++{
++	struct super_block *sb = dir->i_sb;
++	struct ssdfs_fs_info *fsi = SSDFS_FS_I(sb);
++	struct ssdfs_inode_info *ii = SSDFS_I(inode);
++
++	inode->i_ino = ino;
++	ii->parent_ino = dir->i_ino;
++	ii->birthtime = current_time(inode);
++	ii->raw_inode_size = fsi->raw_inode_size;
++	inode_set_atime_to_ts(inode, ii->birthtime);
++	inode_set_mtime_to_ts(inode, ii->birthtime);
++	inode_set_ctime_to_ts(inode, ii->birthtime);
++	inode_init_owner(idmap, inode, dir, mode);
++	ii->flags = ssdfs_mask_flags(mode,
++			 SSDFS_I(dir)->flags & SSDFS_FL_INHERITED);
++	ssdfs_set_inode_flags(inode);
++	inode->i_generation = get_random_u32();
++	inode->i_blkbits = fsi->log_pagesize;
++	i_size_write(inode, 0);
++	inode->i_blocks = 0;
++	set_nlink(inode, 1);
++
++	down_write(&ii->lock);
++	ii->name_hash = ssdfs_generate_name_hash(qstr);
++	ii->name_len = (u16)qstr->len;
++	ssdfs_init_raw_inode(ii);
++	up_write(&ii->lock);
++
++	if (fsi->pagesize > SSDFS_8KB)
++		mapping_set_large_folios(inode->i_mapping);
++}
++
++struct inode *ssdfs_new_inode(struct mnt_idmap *idmap,
++			      struct inode *dir, umode_t mode,
++			      const struct qstr *qstr)
++{
++	struct ssdfs_fs_info *fsi = SSDFS_FS_I(dir->i_sb);
++	struct super_block *sb = dir->i_sb;
++	struct inode *inode;
++	struct ssdfs_btree_search *search;
++	struct ssdfs_inodes_btree_info *itree;
++	ino_t ino;
++	int err = 0;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("dir_ino %lu, mode %o\n",
++		  (unsigned long)dir->i_ino, mode);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	itree = fsi->inodes_tree;
++
++	search = ssdfs_btree_search_alloc();
++	if (!search) {
++		err = -ENOMEM;
++		SSDFS_ERR("fail to allocate btree search object\n");
++		goto failed_new_inode;
++	}
++
++	ssdfs_btree_search_init(search);
++	err = ssdfs_inodes_btree_allocate(itree, &ino, search);
++	ssdfs_btree_search_free(search);
++
++	if (err == -ENOSPC) {
++#ifdef CONFIG_SSDFS_DEBUG
++		SSDFS_DBG("unable to allocate an inode: "
++			  "dir_ino %lu, err %d\n",
++			  (unsigned long)dir->i_ino, err);
++#endif /* CONFIG_SSDFS_DEBUG */
++		goto failed_new_inode;
++	} else if (unlikely(err)) {
++		SSDFS_ERR("fail to allocate an inode: "
++			  "dir_ino %lu, err %d\n",
++			  (unsigned long)dir->i_ino, err);
++		goto failed_new_inode;
++	}
++
++	inode = new_inode(sb);
++	if (unlikely(!inode)) {
++		err = -ENOMEM;
++		SSDFS_ERR("unable to allocate inode: err %d\n", err);
++		goto failed_new_inode;
++	}
++
++	ssdfs_init_inode(idmap, dir, inode, mode, ino, qstr);
++
++	err = ssdfs_inode_setops(inode);
++	if (unlikely(err)) {
++		SSDFS_ERR("fail to set inode's operations: "
++			  "err %d\n", err);
++		goto bad_inode;
++	}
++
++	if (insert_inode_locked(inode) < 0) {
++		err = -EIO;
++		SSDFS_ERR("inode number already in use: "
++			  "ino %lu\n",
++			  (unsigned long) ino);
++		goto bad_inode;
++	}
++
++	err = ssdfs_init_acl(inode, dir);
++	if (err) {
++		SSDFS_ERR("fail to init ACL: "
++			  "err %d\n", err);
++		goto fail_drop;
++	}
++
++	err = ssdfs_init_security(inode, dir, qstr);
++	if (err) {
++		SSDFS_ERR("fail to init security xattr: "
++			  "err %d\n", err);
++		goto fail_drop;
++	}
++
++	mark_inode_dirty(inode);
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("new inode %lu is created\n",
++		  ino);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	trace_ssdfs_inode_new(inode);
++	return inode;
++
++fail_drop:
++	trace_ssdfs_inode_new_exit(inode, err);
++	clear_nlink(inode);
++	unlock_new_inode(inode);
++	iput(inode);
++	return ERR_PTR(err);
++
++bad_inode:
++	trace_ssdfs_inode_new_exit(inode, err);
++	make_bad_inode(inode);
++	iput(inode);
++
++failed_new_inode:
++	return ERR_PTR(err);
++}
++
++int ssdfs_getattr(struct mnt_idmap *idmap,
++		  const struct path *path, struct kstat *stat,
++		  u32 request_mask, unsigned int query_flags)
++{
++	struct inode *inode = d_inode(path->dentry);
++	struct ssdfs_inode_info *ii = SSDFS_I(inode);
++	unsigned int flags;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("ino %lu\n", (unsigned long)inode->i_ino);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	flags = ii->flags & SSDFS_FL_USER_VISIBLE;
++	if (flags & SSDFS_APPEND_FL)
++		stat->attributes |= STATX_ATTR_APPEND;
++	if (flags & SSDFS_COMPR_FL)
++		stat->attributes |= STATX_ATTR_COMPRESSED;
++	if (flags & SSDFS_IMMUTABLE_FL)
++		stat->attributes |= STATX_ATTR_IMMUTABLE;
++	if (flags & SSDFS_NODUMP_FL)
++		stat->attributes |= STATX_ATTR_NODUMP;
++
++	stat->attributes_mask |= (STATX_ATTR_APPEND |
++				  STATX_ATTR_COMPRESSED |
++				  STATX_ATTR_ENCRYPTED |
++				  STATX_ATTR_IMMUTABLE |
++				  STATX_ATTR_NODUMP);
++
++	generic_fillattr(idmap, request_mask, inode, stat);
++	return 0;
++}
++
++static int ssdfs_truncate(struct inode *inode)
++{
++	struct ssdfs_fs_info *fsi = SSDFS_FS_I(inode->i_sb);
++	struct ssdfs_inode_info *ii = SSDFS_I(inode);
++	struct ssdfs_extents_btree_info *tree = NULL;
++	struct timespec64 cur_time;
++	int err;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("ino %lu\n", (unsigned long)inode->i_ino);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	if (!(S_ISREG(inode->i_mode) || S_ISDIR(inode->i_mode) ||
++	      S_ISLNK(inode->i_mode)))
++		return -EINVAL;
++
++	if (IS_APPEND(inode) || IS_IMMUTABLE(inode))
++		return -EPERM;
++
++	if (is_ssdfs_file_inline(ii)) {
++		loff_t newsize = i_size_read(inode);
++		size_t inline_capacity =
++				ssdfs_inode_inline_file_capacity(inode);
++
++		if (newsize > inline_capacity) {
++			SSDFS_ERR("newsize %llu > inline_capacity %zu\n",
++				  (u64)newsize, inline_capacity);
++			return -E2BIG;
++		} else if (newsize == inline_capacity) {
++			/* do nothing */
++#ifdef CONFIG_SSDFS_DEBUG
++			SSDFS_DBG("newsize %llu == inline_capacity %zu\n",
++				  (u64)newsize, inline_capacity);
++#endif /* CONFIG_SSDFS_DEBUG */
++		} else if (newsize > 0) {
++			loff_t size = inline_capacity - newsize;
++
++#ifdef CONFIG_SSDFS_DEBUG
++			BUG_ON(!ii->inline_file);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++			memset((u8 *)ii->inline_file + newsize, 0, size);
++		}
++	} else {
++		tree = SSDFS_EXTREE(ii);
++		if (!tree) {
++#ifdef CONFIG_SSDFS_DEBUG
++			SSDFS_DBG("extents tree is absent: ino %lu\n",
++				  ii->vfs_inode.i_ino);
++#endif /* CONFIG_SSDFS_DEBUG */
++			return -ENOENT;
++		}
++
++		switch (atomic_read(&tree->state)) {
++		case SSDFS_EXTENTS_BTREE_DIRTY:
++			down_write(&ii->lock);
++			err = ssdfs_extents_tree_flush(fsi, ii);
++			up_write(&ii->lock);
++
++			if (unlikely(err)) {
++				SSDFS_ERR("fail to flush extents tree: "
++					  "ino %lu, err %d\n",
++					  inode->i_ino, err);
++				return err;
++			}
++			break;
++
++		default:
++			/* do nothing */
++			break;
++		}
++
++		err = ssdfs_extents_tree_truncate(inode);
++		if (unlikely(err)) {
++			SSDFS_ERR("fail to truncate extents tree: "
++				  "err %d\n",
++				  err);
++			return err;
++		}
++	}
++
++	cur_time = current_time(inode);
++	inode_set_mtime_to_ts(inode, cur_time);
++	inode_set_ctime_to_ts(inode, cur_time);
++
++	mark_inode_dirty(inode);
++
++	return 0;
++}
++
++static int ssdfs_setsize(struct inode *inode, struct iattr *attr)
++{
++	loff_t oldsize = i_size_read(inode);
++	loff_t newsize = attr->ia_size;
++	struct timespec64 cur_time;
++	int err = 0;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("ino %lu\n", (unsigned long)inode->i_ino);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	if (!(S_ISREG(inode->i_mode) || S_ISDIR(inode->i_mode) ||
++	    S_ISLNK(inode->i_mode)))
++		return -EINVAL;
++
++	if (IS_APPEND(inode) || IS_IMMUTABLE(inode))
++		return -EPERM;
++
++	inode_dio_wait(inode);
++
++	if (newsize > oldsize) {
++		i_size_write(inode, newsize);
++		pagecache_isize_extended(inode, oldsize, newsize);
++	} else {
++		truncate_setsize(inode, newsize);
++
++		err = ssdfs_truncate(inode);
++		if (err)
++			return err;
++	}
++
++	cur_time = current_time(inode);
++	inode_set_mtime_to_ts(inode, cur_time);
++	inode_set_ctime_to_ts(inode, cur_time);
++
++	mark_inode_dirty(inode);
++	return 0;
++}
++
++int ssdfs_setattr(struct mnt_idmap *idmap,
++		  struct dentry *dentry, struct iattr *attr)
++{
++	struct inode *inode = dentry->d_inode;
++	int err = 0;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("ino %lu\n", (unsigned long)inode->i_ino);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	err = setattr_prepare(idmap, dentry, attr);
++	if (err)
++		return err;
++
++	if (S_ISREG(inode->i_mode) &&
++	    attr->ia_valid & ATTR_SIZE &&
++	    attr->ia_size != inode->i_size) {
++		err = ssdfs_setsize(inode, attr);
++		if (err)
++			return err;
++	}
++
++	if (attr->ia_valid) {
++		setattr_copy(idmap, inode, attr);
++		mark_inode_dirty(inode);
++
++		if (attr->ia_valid & ATTR_MODE) {
++			err = posix_acl_chmod(idmap,
++					      dentry, inode->i_mode);
++		}
 +	}
 +
 +	return err;
 +}
 +
 +/*
-+ * The ssdfs_ioctl() is called by the ioctl(2) system call.
++ * This method does all fs work to be done when in-core inode
++ * is about to be gone, for whatever reason.
 + */
-+long ssdfs_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
++void ssdfs_evict_inode(struct inode *inode)
 +{
-+	void __user *argp = (void __user *)arg;
++	struct ssdfs_fs_info *fsi = SSDFS_FS_I(inode->i_sb);
++	struct ssdfs_xattrs_btree_info *xattrs_tree;
++	ino_t ino = inode->i_ino;
++	bool want_delete = false;
++	int err;
 +
-+	switch (cmd) {
-+	case FS_IOC_GETFLAGS:
-+		return ssdfs_ioctl_getflags(file, argp);
-+	case FS_IOC_SETFLAGS:
-+		return ssdfs_ioctl_setflags(file, argp);
-+	case SSDFS_IOC_DO_TESTING:
-+		return ssdfs_ioctl_do_testing(file, argp);
-+	case SSDFS_IOC_CREATE_SNAPSHOT:
-+		return ssdfs_ioctl_create_snapshot(file, argp);
-+	case SSDFS_IOC_LIST_SNAPSHOTS:
-+		return ssdfs_ioctl_list_snapshots(file, argp);
-+	case SSDFS_IOC_MODIFY_SNAPSHOT:
-+		return ssdfs_ioctl_modify_snapshot(file, argp);
-+	case SSDFS_IOC_REMOVE_SNAPSHOT:
-+		return ssdfs_ioctl_remove_snapshot(file, argp);
-+	case SSDFS_IOC_REMOVE_RANGE:
-+		return ssdfs_ioctl_remove_range(file, argp);
-+	case SSDFS_IOC_SHOW_DETAILS:
-+		return ssdfs_ioctl_show_snapshot_details(file, argp);
-+	case SSDFS_IOC_LIST_SNAPSHOT_RULES:
-+		return ssdfs_ioctl_list_snapshot_rules(file, argp);
-+	case SSDFS_IOC_TUNEFS_GET_CONFIG:
-+		return ssdfs_ioctl_tunefs_get_fs_config(file, argp);
-+	case SSDFS_IOC_TUNEFS_SET_CONFIG:
-+		return ssdfs_ioctl_tunefs_set_fs_config(file, argp);
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("ino %lu mode %o count %d nlink %u\n",
++		  ino, inode->i_mode,
++		  atomic_read(&inode->i_count),
++		  inode->i_nlink);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	xattrs_tree = SSDFS_XATTREE(SSDFS_I(inode));
++
++	if (!inode->i_nlink) {
++		err = filemap_flush(inode->i_mapping);
++		if (err) {
++			SSDFS_WARN("inode %lu flush error: %d\n",
++				   ino, err);
++		}
 +	}
 +
-+	return -ENOTTY;
++	err = filemap_fdatawait(inode->i_mapping);
++	if (err) {
++		SSDFS_WARN("inode %lu fdatawait error: %d\n",
++			   ino, err);
++		ssdfs_clear_dirty_folios(inode->i_mapping);
++	}
++
++	if (!inode->i_nlink && !is_bad_inode(inode))
++		want_delete = true;
++	else
++		want_delete = false;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("ino %lu mode %o count %d nlink %u, "
++		  "is_bad_inode %#x, want_delete %#x\n",
++		  ino, inode->i_mode,
++		  atomic_read(&inode->i_count),
++		  inode->i_nlink,
++		  is_bad_inode(inode),
++		  want_delete);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	trace_ssdfs_inode_evict(inode);
++
++	truncate_inode_pages_final(&inode->i_data);
++
++	if (want_delete) {
++		sb_start_intwrite(inode->i_sb);
++
++		i_size_write(inode, 0);
++
++		err = ssdfs_truncate(inode);
++		if (err == -ENOENT) {
++			err = 0;
++#ifdef CONFIG_SSDFS_DEBUG
++			SSDFS_DBG("extents tree is absent: ino %lu\n",
++				  ino);
++#endif /* CONFIG_SSDFS_DEBUG */
++		} else if (err) {
++			SSDFS_WARN("fail to truncate inode: "
++				   "ino %lu, err %d\n",
++				   ino, err);
++		}
++
++		if (xattrs_tree) {
++			err = ssdfs_xattrs_tree_delete_all(xattrs_tree);
++			if (err) {
++				SSDFS_WARN("fail to truncate xattrs tree: "
++					   "ino %lu, err %d\n",
++					   ino, err);
++			}
++		}
++	}
++
++	clear_inode(inode);
++
++	if (want_delete) {
++		err = ssdfs_inodes_btree_delete(fsi->inodes_tree, ino);
++		if (err) {
++			SSDFS_WARN("fail to deallocate raw inode: "
++				   "ino %lu, err %d\n",
++				   ino, err);
++		}
++
++		sb_end_intwrite(inode->i_sb);
++	}
 +}
-diff --git a/fs/ssdfs/ioctl.h b/fs/ssdfs/ioctl.h
-new file mode 100644
-index 000000000000..405e85a5f528
---- /dev/null
-+++ b/fs/ssdfs/ioctl.h
-@@ -0,0 +1,58 @@
-+/*
-+ * SPDX-License-Identifier: BSD-3-Clause-Clear
-+ *
-+ * SSDFS -- SSD-oriented File System.
-+ *
-+ * fs/ssdfs/ioctl.h - IOCTL related declaration.
-+ *
-+ * Copyright (c) 2019-2026 Viacheslav Dubeyko <slava@dubeyko.com>
-+ *              http://www.ssdfs.org/
-+ * All rights reserved.
-+ *
-+ * Authors: Viacheslav Dubeyko <slava@dubeyko.com>
-+ */
-+
-+#ifndef _SSDFS_IOCTL_H
-+#define _SSDFS_IOCTL_H
-+
-+#include <linux/ioctl.h>
-+#include <linux/types.h>
-+
-+#include "testing.h"
-+#include "snapshot.h"
-+
-+#define SSDFS_IOCTL_MAGIC 0xdf
 +
 +/*
-+ * SSDFS_IOC_DO_TESTING - run internal testing
++ * This method is called when the VFS needs to write an
++ * inode to disc
 + */
-+#define SSDFS_IOC_DO_TESTING _IOW(SSDFS_IOCTL_MAGIC, 1, \
-+				  struct ssdfs_testing_environment)
++int ssdfs_write_inode(struct inode *inode, struct writeback_control *wbc)
++{
++	struct ssdfs_fs_info *fsi = SSDFS_FS_I(inode->i_sb);
++	struct ssdfs_inode_info *ii = SSDFS_I(inode);
++	struct ssdfs_inode *ri = &ii->raw_inode;
++	struct ssdfs_inodes_btree_info *itree;
++	struct ssdfs_btree_search *search;
++	struct ssdfs_dentries_btree_descriptor dentries_btree;
++	bool has_save_dentries_desc = true;
++	size_t dentries_desc_size =
++		sizeof(struct ssdfs_dentries_btree_descriptor);
++	struct ssdfs_extents_btree_descriptor extents_btree;
++	bool has_save_extents_desc = true;
++	size_t extents_desc_size =
++		sizeof(struct ssdfs_extents_btree_descriptor);
++	struct ssdfs_xattr_btree_descriptor xattr_btree;
++	bool has_save_xattrs_desc = true;
++	size_t xattr_desc_size =
++		sizeof(struct ssdfs_xattr_btree_descriptor);
++	int private_flags;
++	size_t raw_inode_size;
++	ino_t ino;
++	int err = 0;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("ino %lu\n", (unsigned long)inode->i_ino);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	down_read(&fsi->volume_sem);
++	raw_inode_size = le16_to_cpu(fsi->vs->inodes_btree.desc.item_size);
++	ssdfs_memcpy(&dentries_btree, 0, dentries_desc_size,
++		     &fsi->vh->dentries_btree, 0, dentries_desc_size,
++		     dentries_desc_size);
++	ssdfs_memcpy(&extents_btree, 0, extents_desc_size,
++		     &fsi->vh->extents_btree, 0, extents_desc_size,
++		     extents_desc_size);
++	ssdfs_memcpy(&xattr_btree, 0, xattr_desc_size,
++		     &fsi->vh->xattr_btree, 0, xattr_desc_size,
++		     xattr_desc_size);
++	up_read(&fsi->volume_sem);
++
++	if (raw_inode_size != sizeof(struct ssdfs_inode)) {
++		SSDFS_WARN("raw_inode_size %zu != size %zu\n",
++			   raw_inode_size,
++			   sizeof(struct ssdfs_inode));
++		return -ERANGE;
++	}
++
++	itree = fsi->inodes_tree;
++	ino = inode->i_ino;
++
++	search = ssdfs_btree_search_alloc();
++	if (!search) {
++		SSDFS_ERR("fail to allocate btree search object\n");
++		return -ENOMEM;
++	}
++
++	ssdfs_btree_search_init(search);
++
++	err = ssdfs_inodes_btree_find(itree, ino, search);
++	if (unlikely(err)) {
++#ifdef CONFIG_SSDFS_TESTING
++		err = 0;
++		SSDFS_DBG("fail to find inode: "
++			  "ino %lu, err %d\n",
++			  ino, err);
++#else
++		SSDFS_ERR("fail to find inode: "
++			  "ino %lu, err %d\n",
++			  ino, err);
++#endif /* CONFIG_SSDFS_TESTING */
++		goto free_search_object;
++	}
++
++	down_write(&ii->lock);
++
++	ssdfs_init_raw_inode(ii);
++
++	if (S_ISREG(inode->i_mode) && ii->extents_tree) {
++		err = ssdfs_extents_tree_flush(fsi, ii);
++		if (unlikely(err)) {
++			SSDFS_ERR("fail to flush extents tree: "
++				  "ino %lu, err %d\n",
++				  inode->i_ino, err);
++			goto finish_write_inode;
++		}
++
++		if (memcmp(&extents_btree, &ii->extents_tree->desc,
++						extents_desc_size) != 0) {
++			ssdfs_memcpy(&extents_btree,
++				     0, extents_desc_size,
++				     &ii->extents_tree->desc,
++				     0, extents_desc_size,
++				     extents_desc_size);
++			has_save_extents_desc = true;
++		} else
++			has_save_extents_desc = false;
++	} else if (S_ISDIR(inode->i_mode) && ii->dentries_tree) {
++		err = ssdfs_dentries_tree_flush(fsi, ii);
++		if (unlikely(err)) {
++			SSDFS_ERR("fail to flush dentries tree: "
++				  "ino %lu, err %d\n",
++				  inode->i_ino, err);
++			goto finish_write_inode;
++		}
++
++		if (memcmp(&dentries_btree, &ii->dentries_tree->desc,
++						dentries_desc_size) != 0) {
++			ssdfs_memcpy(&dentries_btree,
++				     0, dentries_desc_size,
++				     &ii->dentries_tree->desc,
++				     0, dentries_desc_size,
++				     dentries_desc_size);
++			has_save_dentries_desc = true;
++		} else
++			has_save_dentries_desc = false;
++	}
++
++	if (ii->xattrs_tree) {
++		err = ssdfs_xattrs_tree_flush(fsi, ii);
++		if (unlikely(err)) {
++			SSDFS_ERR("fail to flush xattrs tree: "
++				  "ino %lu, err %d\n",
++				  inode->i_ino, err);
++			goto finish_write_inode;
++		}
++
++		if (memcmp(&xattr_btree, &ii->xattrs_tree->desc,
++						xattr_desc_size) != 0) {
++			ssdfs_memcpy(&xattr_btree,
++				     0, xattr_desc_size,
++				     &ii->xattrs_tree->desc,
++				     0, xattr_desc_size,
++				     xattr_desc_size);
++			has_save_xattrs_desc = true;
++		} else
++			has_save_xattrs_desc = false;
++	}
++
++	private_flags = atomic_read(&ii->private_flags);
++	if (private_flags & ~SSDFS_INODE_PRIVATE_FLAGS_MASK) {
++		err = -ERANGE;
++		SSDFS_WARN("invalid set of private_flags %#x\n",
++			   private_flags);
++		goto finish_write_inode;
++	} else
++		ri->private_flags = cpu_to_le16((u16)private_flags);
++
++	ri->checksum = ssdfs_crc32_le(ri, raw_inode_size);
++
++	switch (search->result.raw_buf.state) {
++	case SSDFS_BTREE_SEARCH_INLINE_BUFFER:
++	case SSDFS_BTREE_SEARCH_EXTERNAL_BUFFER:
++		/* expected state */
++		break;
++
++	default:
++		err = -ERANGE;
++		SSDFS_ERR("invalid result's buffer state: "
++			  "%#x\n",
++			  search->result.raw_buf.state);
++		goto finish_write_inode;
++	}
++
++	if (!search->result.raw_buf.place.ptr) {
++		err = -ERANGE;
++		SSDFS_ERR("invalid buffer\n");
++		goto finish_write_inode;
++	}
++
++	if (search->result.raw_buf.size < raw_inode_size) {
++		err = -ERANGE;
++		SSDFS_ERR("buf_size %zu < raw_inode_size %zu\n",
++			  search->result.raw_buf.size,
++			  raw_inode_size);
++		goto finish_write_inode;
++	}
++
++	if (search->result.raw_buf.items_count != 1) {
++		SSDFS_WARN("unexpected value: "
++			   "items_in_buffer %u\n",
++			   search->result.raw_buf.items_count);
++	}
++
++	ssdfs_memcpy(search->result.raw_buf.place.ptr,
++		     0, search->result.raw_buf.size,
++		     ri,
++		     0, raw_inode_size,
++		     raw_inode_size);
++
++finish_write_inode:
++	up_write(&ii->lock);
++
++	if (unlikely(err))
++		goto free_search_object;
++
++	if (has_save_dentries_desc || has_save_extents_desc ||
++						has_save_xattrs_desc) {
++		down_write(&fsi->volume_sem);
++		ssdfs_memcpy(&fsi->vh->dentries_btree,
++			     0, dentries_desc_size,
++			     &dentries_btree,
++			     0, dentries_desc_size,
++			     dentries_desc_size);
++		ssdfs_memcpy(&fsi->vh->extents_btree,
++			     0, extents_desc_size,
++			     &extents_btree,
++			     0, extents_desc_size,
++			     extents_desc_size);
++		ssdfs_memcpy(&fsi->vh->xattr_btree,
++			     0, xattr_desc_size,
++			     &xattr_btree,
++			     0, xattr_desc_size,
++			     xattr_desc_size);
++		up_write(&fsi->volume_sem);
++	}
++
++	err = ssdfs_inodes_btree_change(itree, ino, search);
++	if (unlikely(err)) {
++		SSDFS_ERR("fail to change inode: "
++			  "ino %lu, err %d\n",
++			  ino, err);
++		goto free_search_object;
++	}
++
++free_search_object:
++	ssdfs_btree_search_free(search);
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("finished: ino %lu, err %d\n",
++		  (unsigned long)inode->i_ino, err);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	return err;
++}
 +
 +/*
-+ * Snapshot related IOCTLs
++ * This method is called when the VFS needs
++ * to get filesystem statistics
 + */
-+#define SSDFS_IOC_CREATE_SNAPSHOT	_IOW(SSDFS_IOCTL_MAGIC, 2, \
-+					     struct ssdfs_snapshot_info)
-+#define SSDFS_IOC_LIST_SNAPSHOTS	_IOWR(SSDFS_IOCTL_MAGIC, 3, \
-+					     struct ssdfs_snapshot_info)
-+#define SSDFS_IOC_MODIFY_SNAPSHOT	_IOW(SSDFS_IOCTL_MAGIC, 4, \
-+					     struct ssdfs_snapshot_info)
-+#define SSDFS_IOC_REMOVE_SNAPSHOT	_IOW(SSDFS_IOCTL_MAGIC, 5, \
-+					     struct ssdfs_snapshot_info)
-+#define SSDFS_IOC_REMOVE_RANGE		_IOW(SSDFS_IOCTL_MAGIC, 6, \
-+					     struct ssdfs_snapshot_info)
-+#define SSDFS_IOC_SHOW_DETAILS		_IOWR(SSDFS_IOCTL_MAGIC, 7, \
-+					     struct ssdfs_snapshot_info)
-+#define SSDFS_IOC_LIST_SNAPSHOT_RULES	_IOWR(SSDFS_IOCTL_MAGIC, 8, \
-+					     struct ssdfs_snapshot_info)
++int ssdfs_statfs(struct dentry *dentry, struct kstatfs *buf)
++{
++	struct super_block *sb = dentry->d_sb;
++	struct ssdfs_fs_info *fsi = SSDFS_FS_I(sb);
++#ifdef CONFIG_SSDFS_BLOCK_DEVICE
++	u64 id = huge_encode_dev(sb->s_bdev->bd_dev);
++#endif
++	u64 nsegs;
++	u32 pages_per_seg;
 +
-+/*
-+ * The tunefs related IOCTLs
-+ */
-+#define SSDFS_IOC_TUNEFS_GET_CONFIG	_IOR(SSDFS_IOCTL_MAGIC, 9, \
-+					     struct ssdfs_tunefs_options)
-+#define SSDFS_IOC_TUNEFS_SET_CONFIG	_IOWR(SSDFS_IOCTL_MAGIC, 10, \
-+					     struct ssdfs_tunefs_options)
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("ino %lu\n", (unsigned long)dentry->d_inode->i_ino);
++#endif /* CONFIG_SSDFS_DEBUG */
 +
-+#endif /* _SSDFS_IOCTL_H */
++	buf->f_type = SSDFS_SUPER_MAGIC;
++	buf->f_bsize = sb->s_blocksize;
++	buf->f_frsize = buf->f_bsize;
++
++	mutex_lock(&fsi->resize_mutex);
++	nsegs = fsi->nsegs;
++	mutex_unlock(&fsi->resize_mutex);
++
++	pages_per_seg = fsi->pages_per_seg;
++	buf->f_blocks = nsegs * pages_per_seg;
++
++	spin_lock(&fsi->volume_state_lock);
++	buf->f_bfree = fsi->free_pages;
++	spin_unlock(&fsi->volume_state_lock);
++
++	buf->f_bavail = buf->f_bfree;
++
++	spin_lock(&fsi->inodes_tree->lock);
++	buf->f_files = fsi->inodes_tree->allocated_inodes;
++	buf->f_ffree = fsi->inodes_tree->free_inodes;
++	spin_unlock(&fsi->inodes_tree->lock);
++
++	buf->f_namelen = SSDFS_MAX_NAME_LEN;
++
++#ifdef CONFIG_SSDFS_MTD_DEVICE
++	buf->f_fsid.val[0] = SSDFS_SUPER_MAGIC;
++	buf->f_fsid.val[1] = fsi->mtd->index;
++#elif defined(CONFIG_SSDFS_BLOCK_DEVICE)
++	buf->f_fsid.val[0] = (u32)id;
++	buf->f_fsid.val[1] = (u32)(id >> 32);
++#else
++	BUILD_BUG();
++#endif
++
++	return 0;
++}
 -- 
 2.34.1
 
