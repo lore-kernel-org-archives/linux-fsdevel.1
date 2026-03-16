@@ -1,170 +1,160 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from flow-a3-smtp.messagingengine.com (flow-a3-smtp.messagingengine.com [103.168.172.138])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52E97330D24
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 22:06:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773698777; cv=pass; b=R4lxAiZvdXCLeHWNs96wqJlP3nKkZGVruiPkk3ioeDJJULHTxaqXtdHF43Q9UG8LipvZSPlRAchJxU0oPZxYM4f/iipEG1GMZOazCyhT7CkZqJkVfeWKGLVDpMrNR6V0tMpQ7HFwUrK6ffY6DnAhRgKrGiYIB5wJgX8dhgaymBs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773698777; c=relaxed/simple;
-	bh=0Z8kujS9Buhi9Mpliex5pzdCgRluoXOSMknTYfL71Ik=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZGI1Voz2lzJEH6e2lnr3uU3qrjUTUhk3v0DLhQQzaJYY37R7W2Z6UVSmSaJDPn6WH1dqRcmykfqkuuuvT11U8b/m9teWLQbDfNOg68g0QaBelQqW1G4xzI5vraKp+9KL8PSwfqJlICqDzOG9kOTKKcnc9POsmzFA0gcxKwJ1sLk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LEk8j0ga; arc=pass smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79B41364E85;
+	Mon, 16 Mar 2026 22:10:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.138
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773699061; cv=none; b=X2HD+TcaXbBKqJwG3FOGvtGJ46b+9I3gceqYyzbiFh6CNe9xr5K5tYkgxy7/FPoH9bW5ibjyU1GRsjl45lwRwaFkYUlkIK460MM/W7tnIzi7BdP62SHY3AFNuzkzLwFRLz8crKfu/KWSHUHvsA941n8ETVzAIJYgBbCgkdzV/Y8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773699061; c=relaxed/simple;
+	bh=bR3l1XBxxG0Br6WPViaTYx4jBj801ByLeboUNggNeu4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=A38yHLwEglJnAk0B2QCy7stC9vMmro0enVPstLHcOoOWf+ISPC3fMoHAiOFXJpgQ+JEGYQrlTu0OIZqL9gIfg9EuELK7OlOHQThyqCuvdDItVMWZTKlH5lCT2EoHtG4zqNZ3haS7IZ2EcyWbx12HIJK/xKpWlKg0tgYFk4eMcz0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org; spf=pass smtp.mailfrom=shazbot.org; dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b=eyO5nsRG; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=guCypQjf; arc=none smtp.client-ip=103.168.172.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shazbot.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LEk8j0ga"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-43a03cb1df9so5001552f8f.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 15:06:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773698775; cv=none;
-        d=google.com; s=arc-20240605;
-        b=MZ2Sk+eBWLn7dMd9pc3bpn11E8VrkT+Bigu+9fc0qMl1I4g3IrM8ORfKzq4nwlAcKB
-         H1M4lnpdfzxFyEQ4DbWleDYhJaD/SLdrFwNI9Os2t3WXQBvqv8kjeN36vmQHEWmidcQN
-         7uG2d/c2H3ylp2vet2dD0zs9I93Y6i8jcKi50RcYe9vRfm8/om/ZODbiE7fAScP4ZueC
-         GkjtZHqvv2i9EZMazlQGL4tJn+QmiXX2N5I13MFje+AKFPbrpCdQOZW3N+oA39Eb9OEM
-         vjR7tOW9uEUZ8Tb+0ZpKhW2+Gvx/4kIA1MPkA6UMhYFX6MVg5B2YkOdzywX5rWAqfgZz
-         rEmQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=qU7C14CeH1fciNwVpxpFcS1pcvbsagT4oNAGuB9LZXk=;
-        fh=o3yXmf7dlC/aEu5CPOtrnoqWvysyNyU4ztxK2gjie8g=;
-        b=D0cwzJHp6nmTY9OzaWNMktMMx2Rze9RRfvUqTxx/BIWTZ0vnDc0/wW6mblPzEL0npR
-         b3iZQpfePO+ibZ1+ZUHO9CBS6mB17tVzVSDahyW7u+dI1sN5nuAb3QHhczPEtphdnnEL
-         MW9FVqsoB9ZswNMgakC19e2kVQTbv9vrFhEVqYBjtBozStMJcwUlUZxtAfdo3Tx8DIeV
-         V0gQHytBf73mXG/K4bsJiRNOMDBu2l4q+oLs1RdI/5V9IbR9gFYKbidDB4OS5gp2tklm
-         FgcL0iy7jJ0aj8xXvN7Rh44rWn2I+QoJlUVW72iEWvARRkGgZ8T+II4BCWIvQOXCCYgn
-         2RlQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773698775; x=1774303575; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qU7C14CeH1fciNwVpxpFcS1pcvbsagT4oNAGuB9LZXk=;
-        b=LEk8j0gauvS/nQBCaaAAvJyn/3NkivTOuUllnuv29lgvW0qxOT6rx+JC+kCePJqzAd
-         8ByTU+eH64QhyPqDaoTMFpQRZ4CK/vpRCD/q9Lq9YBqQDQMwES4+3tQBvcns76z1X9Qu
-         13pj7xTj1Pwx6c7zK1mLPIVCK0+2TBibk1i1k66gDiGipYMbXT+kB32kSYQc2odes/Ar
-         rrvXf6Ps/Y6rUl3Q3P6Evnus74mAYbG7YkoW7f2k4lazdQIH9ZkcFQzh1VrgLEAwwfyV
-         bcdmOxrYifcElPYUqIC9J/5IhjRJFnaWLy9fH1q2wltuGAP5aDedf4aXXfqvvM+YuVZG
-         YvKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773698775; x=1774303575;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=qU7C14CeH1fciNwVpxpFcS1pcvbsagT4oNAGuB9LZXk=;
-        b=VucQiq8R5nZZfYrLW1uIC5VO/uJyNBLYyYgf8yHPg911myl8w09LiMuUkywl2Rzduj
-         LmktefYMHppl9hiXIFHug3McqjogIl9YnE8NqBxfOlik4URNTnc5K/K2mx1FWRYXHdLa
-         ghZ/RTVpUOId2ifXdbT3msRBB3L59mBEMzlD012wDeZVmieL0LUu3FWT+4VsrsaAtmS0
-         3QiO8GybyPcIWMANJVYIfQ/Um7ko7ePmgTmWD91MACroKvDCLa5k4cjJjdVpEWyCdvpo
-         NdHi+wsm0/X/M+bkStuxrU9xjTAY9ad3SXmZ2M5ZzOjStY0LQOH13vb+l5Vr38BwGFM7
-         Avrg==
-X-Forwarded-Encrypted: i=1; AJvYcCX0GOYNQuB69WTVoAEeG9t606YBMQ2rIEFwQPwrivuQdI8oBmcJNmgLNM/6LXmmukY/n3Hhs7fq/hA+PSLk@vger.kernel.org
-X-Gm-Message-State: AOJu0YwAqgEsoUF56a3CNYXhS0i+btjL+o+9ZVbIG6uo0c1TuZLpEG/z
-	XORI84O4Z1gd8aXN+P9KeSLmrVzTWdZ9aPwP+dYDtkitbXV04Sr764WrBlIrz9/aX7WXSwGGP+5
-	iynhmlyq4HUoNE7tivk5ICFDHuddi/E4=
-X-Gm-Gg: ATEYQzzXLyPh6O04/UDvcd4otBCwCj5u/EvY+5CWo5EyejFbhlkcw+9TcNBetpvFDqW
-	vJxMI0D8C+EFApgsqHx3bxHJGQS0NyZfubdKho6tr5duVytWcdwzm70B6g3tRYDYUjUFitO8o+r
-	IknMX3/CpCStb+IbffExsuuiYDnNEiX/fIomngoFhKJXP9QxUPP2g4ekZJZIyoYURw4Cupp6iEw
-	S91e38PRJjz0hcpA8s0KSQkNIjdvi3ozK6i+PHnwiMg1UtwElLB9m+FhSq9rIagnhMxq3ULqXyh
-	/FQ6Nw==
-X-Received: by 2002:a05:6000:2dc6:b0:439:be78:e1e9 with SMTP id
- ffacd0b85a97d-43a04d87bc2mr25354681f8f.14.1773698774395; Mon, 16 Mar 2026
- 15:06:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b="eyO5nsRG";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="guCypQjf"
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailflow.phl.internal (Postfix) with ESMTP id 96E81138028E;
+	Mon, 16 Mar 2026 18:10:56 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-01.internal (MEProxy); Mon, 16 Mar 2026 18:10:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1773699056;
+	 x=1773706256; bh=pZj8f0JboyjKt94J8KB7OLIiCOoml43GOZ4w8rDpLPA=; b=
+	eyO5nsRGgscBaSPTlSrjx8D8qsmxFZTD+YBT90C8JLtkSU+JG9otBsGP68/aDjfq
+	Ip8/CY7pDqj8uLfl6tk9PaoCLmHFx9BmC+OLDsgQIKz5wruWwvglBIFTzX8Bgo1G
+	D7tyDhfcq/yYvbxAZYbPlVlov+W1BUQwVVZx34myYfSzzczy+o0TvO2AJR+dEy1d
+	h9Fy4zA0IHy3AyAu2lJw7cTPeRVsoH7Q9DZJUhPGVmEq8IZ5byXvr46eUf3RwYLV
+	Pd21rN+O2sxo21UD0KoApMpHYwnhY5vI1CKlHqs6nb1Q0ON5mjBcz18/WvPyI4M2
+	g7ed/wORmv3aHNEvlM9NEQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1773699056; x=
+	1773706256; bh=pZj8f0JboyjKt94J8KB7OLIiCOoml43GOZ4w8rDpLPA=; b=g
+	uCypQjfxr+Zi7JxdTC/p3wGQ4VV0q/Wv3rf4QuOSSvRwPZ4hwWoKXSQwRlJppx/A
+	eTD/kX8ytMBkqeeAHXi8QojGoDJPwhemKEl1A5BQyy+VTfQ0kjCklEhRU0D9TNU6
+	QzoouUhJdY7Fi24kVLMS4vkfF5Xif+sxcGuZ+ZH9bmNOAZhg/6jHFnuxjrIUYo4Y
+	sJAjmQ/c58h+MsTVokuL8c2t4xBbVGwnTgXIvKplEwnaY81NNzKXbPGa+zPU58N/
+	vwQ/zZfUYT5zYdyXfBWrfC5sZSkqzhpuD1WACxXIM/TD7Jh2N1ZXy8qS+O1DtSBY
+	h24uS6YuZ9c79L+rKNYRA==
+X-ME-Sender: <xms:73-4aYdtUUIQC679P0YPl8k6UZ10Tz8-qTD319yDZEtXusdBhZuXRA>
+    <xme:73-4aTUav9FvduIIOmc0jldmINr5W_MhUsWQFGzP1fBm1dpf8ggOxSMvCMHniLmCu
+    LbRPk360ujIo39hLA6fsP95YlnCLki5WcrUsiuRyEwh6NcxWlxF>
+X-ME-Received: <xmr:73-4aSY56rJyFtQwMFw-H9dfM29zbbMWxWkWrpi3kYaZ1kbqDyXdf5bHU5U>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvleelheegucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfgjfhfogggtgfesthejre
+    dtredtvdenucfhrhhomheptehlvgigucghihhllhhirghmshhonhcuoegrlhgvgiesshhh
+    rgiisghothdrohhrgheqnecuggftrfgrthhtvghrnhepvdekfeejkedvudfhudfhteekud
+    fgudeiteetvdeukedvheetvdekgfdugeevueeunecuvehluhhsthgvrhfuihiivgeptden
+    ucfrrghrrghmpehmrghilhhfrhhomheprghlvgigsehshhgriigsohhtrdhorhhgpdhnsg
+    gprhgtphhtthhopeehhedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepphhhrghh
+    nhdqohhsshesrghvmhdruggvpdhrtghpthhtoheprghmugdqghhfgieslhhishhtshdrfh
+    hrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopegrphhprghrmhhorheslhhishht
+    shdruhgsuhhnthhurdgtohhmpdhrtghpthhtohepsghpfhesvhhgvghrrdhkvghrnhgvlh
+    drohhrghdprhgtphhtthhopegtvghphhdquggvvhgvlhesvhhgvghrrdhkvghrnhgvlhdr
+    ohhrghdprhgtphhtthhopegtohgttghisehinhhrihgrrdhfrhdprhgtphhtthhopegumh
+    dquggvvhgvlheslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopegurhhiqdgu
+    vghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepgh
+    hfshdvsehlihhsthhsrdhlihhnuhigrdguvghv
+X-ME-Proxy: <xmx:73-4aQltNdDVIdEqvCmz7Mlt0qW50NA4CHgJQUMNlacMN4MGiVKHfA>
+    <xmx:73-4acHdFw15OLpR73_B1AdIXJMG-pYssiD_C0T2dj2N-8ux7fVHFg>
+    <xmx:73-4aU6P6J2BtdvPwSPzfrUNjz9-qYacHOOWBucSAMlha23fXDTcIg>
+    <xmx:73-4aaO5YEqAXlnOLRO88GZx1RbxPW8QtXAeqZQNaqmxlgOL7PgFkQ>
+    <xmx:8H-4abIvs_QYur641c9BpnDuFQ6ssCC-7-o-rPLEHWyRxStBDxJEr6SL>
+Feedback-ID: i03f14258:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 16 Mar 2026 18:10:52 -0400 (EDT)
+Date: Mon, 16 Mar 2026 16:10:50 -0600
+From: Alex Williamson <alex@shazbot.org>
+To: Philipp Hahn <phahn-oss@avm.de>
+Cc: amd-gfx@lists.freedesktop.org, apparmor@lists.ubuntu.com,
+ bpf@vger.kernel.org, ceph-devel@vger.kernel.org, cocci@inria.fr,
+ dm-devel@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ gfs2@lists.linux.dev, intel-gfx@lists.freedesktop.org,
+ intel-wired-lan@lists.osuosl.org, iommu@lists.linux.dev,
+ kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+ linux-btrfs@vger.kernel.org, linux-cifs@vger.kernel.org,
+ linux-clk@vger.kernel.org, linux-erofs@lists.ozlabs.org,
+ linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-hyperv@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-mm@kvack.org,
+ linux-modules@vger.kernel.org, linux-mtd@lists.infradead.org,
+ linux-nfs@vger.kernel.org, linux-omap@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-pm@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-sctp@vger.kernel.org,
+ linux-security-module@vger.kernel.org, linux-sh@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-trace-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+ ntfs3@lists.linux.dev, samba-technical@lists.samba.org,
+ sched-ext@lists.linux.dev, target-devel@vger.kernel.org,
+ tipc-discussion@lists.sourceforge.net, v9fs@lists.linux.dev,
+ alex@shazbot.org
+Subject: Re: [PATCH 46/61] vfio: Prefer IS_ERR_OR_NULL over manual NULL
+ check
+Message-ID: <20260316161050.01c82973@shazbot.org>
+In-Reply-To: <20260310-b4-is_err_or_null-v1-46-bd63b656022d@avm.de>
+References: <20260310-b4-is_err_or_null-v1-0-bd63b656022d@avm.de>
+	<20260310-b4-is_err_or_null-v1-46-bd63b656022d@avm.de>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260316-mark-dirty-per-folio-v1-1-8dc39c94b7ce@ddn.com>
- <CAJnrk1Yyp+3YDYNTzyTUQLUDsiQ9WB181-mu1FOpGyaVTu=_1Q@mail.gmail.com> <abhg4tbxDhYO_iHV@fedora.fritz.box>
-In-Reply-To: <abhg4tbxDhYO_iHV@fedora.fritz.box>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Mon, 16 Mar 2026 15:06:02 -0700
-X-Gm-Features: AaiRm53e17JwMIRGLuJU1yerPcc21P0pFKcCsJEIDrZMXRooGe-xVtaRXOwFyBY
-Message-ID: <CAJnrk1bBu5VJYnoZcV3uaS7+uyxK6TK9SLDtF2WpcRNfhUvO6w@mail.gmail.com>
-Subject: Re: Re: [PATCH] fuse: when copying a folio delay the mark dirty until
- the end
-To: Horst Birthelmer <horst@birthelmer.de>
-Cc: Horst Birthelmer <horst@birthelmer.com>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Bernd Schubert <bernd@bsbernd.com>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Horst Birthelmer <hbirthelmer@ddn.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Mar 16, 2026 at 1:02=E2=80=AFPM Horst Birthelmer <horst@birthelmer.=
-de> wrote:
->
-> On Mon, Mar 16, 2026 at 10:29:52AM -0700, Joanne Koong wrote:
-> > On Mon, Mar 16, 2026 at 8:16=E2=80=AFAM Horst Birthelmer <horst@birthel=
-mer.com> wrote:
-> > >
-> > > From: Horst Birthelmer <hbirthelmer@ddn.com>
-> > >
-> > > Doing set_page_dirty_lock() for every page is inefficient
-> > > for large folios.
-> > > When copying a folio (and with large folios enabled,
-> > > this can be many pages) we can delay the marking dirty
-> > > and flush_dcache_page() until the whole folio is handled
-> > > and do it once per folio instead of once per page.
-> > >
-> > > Signed-off-by: Horst Birthelmer <hbirthelmer@ddn.com>
-> > > ---
-> > > Currently when doing a folio copy
-> > > flush_dcache_page(cs->pg) and set_page_dirty_lock(cs->pg)
-> > > are called for every page.
-> > >
-> > > We can do this at the end for the whole folio.
-> >
-> > Hi Horst,
-> >
-> > I think these are two different entities. cs->pg is the page that
-> > corresponds to the userspace buffer / pipe while the (large) folio
-> > corresponds to the pages in the page cache. flush_dcache_folio(folio)
-> > and flush_dcache_page(cs->pg) are not interchangeable (I don't think
-> > it's likely either that the pages backing the userspace buffer/pipe
-> > are large folios).
-> >
-> > Thanks,
-> > Joanne
->
-> Hi Joanne,
->
-> I feel a bit embarassed ... but you are completely right.
-> I was interested in solving this case:
->
->   fuse_uring_args_to_ring() or fuse_uring_args_to_ring_pages()
->     fuse_copy_init(&cs, true, &iter)  =E2=86=90 cs->write =3D TRUE
->     fuse_copy_args(&cs, num_args, args->in_pages, ...)
->       if (args->in_pages)
->         fuse_copy_folios(cs, arg->size, 0)
->           fuse_copy_folio(cs, &ap->folios[i], ...)
->
-> when we have large folios
+On Tue, 10 Mar 2026 12:49:12 +0100
+Philipp Hahn <phahn-oss@avm.de> wrote:
 
-No worries, the naming doesn't make the distinction obvious at all.
-For copying out large folios right now, the copy is still page by page
-due to extracting 1 userspace buffer page at a time (eg the
-iov_iter_get_pages2(... PAGE_SIZE, 1, ...) call in fuse_copy_fill()).
-If we pass in a pages array, iov_iter_getpages2 is able to extract
-multiple pages at a time and save extra overhead with the GUP setup /
-irq save+restore / pagetable walk and the extra req->waitq
-locking/unlocking calls, but when I benchmarked it last year I didn't
-see any noticeable performance improvements from doing this. The extra
-complexity didn't seem worth it. For optimized copying, I think in the
-future high-performance servers will mostly just use fuse-over-iouring
-zero-copy.
+> Prefer using IS_ERR_OR_NULL() over using IS_ERR() and a manual NULL
+> check.
+> 
+> Change generated with coccinelle.
+> 
+> To: Alex Williamson <alex@shazbot.org>
+> Cc: kvm@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Signed-off-by: Philipp Hahn <phahn-oss@avm.de>
+> ---
+>  drivers/vfio/vfio_main.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/vfio/vfio_main.c b/drivers/vfio/vfio_main.c
+> index 742477546b15d4dbaf9ebcfb2e67627db71521e0..d71922dfde5885967398deddec3e9e04b05adfec 100644
+> --- a/drivers/vfio/vfio_main.c
+> +++ b/drivers/vfio/vfio_main.c
+> @@ -923,7 +923,7 @@ vfio_ioctl_device_feature_mig_device_state(struct vfio_device *device,
+>  
+>  	/* Handle the VFIO_DEVICE_FEATURE_SET */
+>  	filp = device->mig_ops->migration_set_state(device, mig.device_state);
+> -	if (IS_ERR(filp) || !filp)
+> +	if (IS_ERR_OR_NULL(filp))
+>  		goto out_copy;
+>  
+>  	return vfio_ioct_mig_return_fd(filp, arg, &mig);
+> 
 
-Thanks,
-Joanne
+As others have expressed in general, this doesn't seem to be cleaner
+and tends to mask that we consider IS_ERR() and NULL as separate cases
+in the goto.  This code looks like it could use some refactoring, and
+likely that refactoring should handle the IS_ERR() and NULL cases
+separately, but conflating them here is not an improvement.  Thanks,
 
->
-> But those are not the same.
->
-> Thanks,
-> Horst
+Alex
