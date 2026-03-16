@@ -1,71 +1,71 @@
-Received: from mail-yx1-f44.google.com (mail-yx1-f44.google.com [74.125.224.44])
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5E02329C54
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 02:20:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8130326927
+	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 02:19:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773627606; cv=none; b=pmGxu2rAqC+iWr9l3PZlbCkdlCvzt0eymPazlGuovmlE+aqomPsqdHSPMpqld9mx/+2K5pByJDg8PQBaFO1NjCjqfb8/VPZN36LC+zJM/MRZ5wjjgiKT2CtK1ycWCFUfKue90bzc/o2PdJYW/VAlqfvyqfuSeikeKqSyP9qMPv4=
+	t=1773627606; cv=none; b=Ux+aqY5V7Hrs3vz0lavJSPwtQN3veSxnrGIY3DEBSBl6KJg5zz21BI0s2AxHXo7B0pH11qQ+sMBWdy/3aub/sz+p/a6e7NScj/aw10vZQEyykX/nFdxRbTUrH869llfyCqygQ1D7vFT3VtfWgryhqi9J2dqoiz/G+NzfaO8FB6A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1773627606; c=relaxed/simple;
-	bh=l6RVu1J/LgWchNCRIkpVwF/e31usLqHR+4ZS8YJ+du4=;
+	bh=E0RiRY8b2N/LDA9No28YibW0E2V7IzIFPyWbhW0t4P4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dPpw7pDrgZPROrlJ+5Nyl30kRVHb0vX7p6jCOTLOBU227UcXLlFXw2c46eWbEV+Hv+35qH6HO5pWGjNKZGoTznKHWA4A7nXOE655mDwZ0zaOALEmGCPdfFQIaMU3fx2oH2sp96bGrTKVNVrWWjuOIixInwbp8xA8bnUdEs/fSaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b=zetPvlIR; arc=none smtp.client-ip=74.125.224.44
+	 MIME-Version; b=tCfi6u17UDnYeM879P02tr0n+HONzCJliafLZ+IkXdkVsJd+8VpUW5Qz88EVVwEk0gIMpwdW5iGpcM+giJssGfa7JT86TcBI5Fd6y5XTqqZdo1yN0xzLAtLT39rt8eZGaKKWKkCpDz1mb0PuaD5MVMpjH3CKiCeE4FLSDyhNy9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b=qlYrYYIX; arc=none smtp.client-ip=209.85.128.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b="zetPvlIR"
-Received: by mail-yx1-f44.google.com with SMTP id 956f58d0204a3-64ca9ec3ee7so4710117d50.3
-        for <linux-fsdevel@vger.kernel.org>; Sun, 15 Mar 2026 19:20:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b="qlYrYYIX"
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-7986fb839f5so35172687b3.0
+        for <linux-fsdevel@vger.kernel.org>; Sun, 15 Mar 2026 19:19:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20230601.gappssmtp.com; s=20230601; t=1773627600; x=1774232400; darn=vger.kernel.org;
+        d=dubeyko-com.20230601.gappssmtp.com; s=20230601; t=1773627598; x=1774232398; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=oU/vunUD8C1GCAWOIMWDJATzfNBPreooaS+0PlEiXhw=;
-        b=zetPvlIR2HqHTdMhjMG0c+OXA4/AE3tTjeD/OIW8rDQ3aJni2fXKtCMUx/uAqFhcFg
-         RbI58b2y7OJTAe7nmMnFA/zCJc54r9Z+hPDyGi/A4kep43G1gMOb5pmwrn03wUZ6jBt5
-         h+GaD5IYr6NZsXY3rqh4DuLasBas5lmr8wT3G3nx6sT/nVIIx6WjFiG6km3kKTLnVti2
-         TMO+DM5hUprtB4/KpcQVtIp3/6qflnucIMCec2iWhPCmutj1TGI6PB4tNi2btZ2DMs9m
-         n/v9G/Y00Brv+eMvSh92ynedUAIr5ujiR14OkUANkV5Alba46pJuXSNckx0sx+WXfFHE
-         M3Vg==
+        bh=9/1bTfdXnBt2zhxOKI/Bx7iAAWQdDlhK2qk620wMpOU=;
+        b=qlYrYYIXasDkrEaaXHu16VU0Bor03LTAJmUaSCmI3pZsd0rLoTRaFQu+VaZRKb3CI8
+         qWfAOzglqI2advm9qkATmvyVYZMwswef0SE/kPuJpG5ENu/NoyyKnxP2CjIIuIwwbjV6
+         Lo4CaxDB9TmYK3msilrD8Pp/zWcY8Idwl90xprpoEiHoG2IwuRL2zLDps5DVRlSqfHOQ
+         mPaEaaHc7ze7iNVq1wr22yweljhbr1yOJddnnJ3cP4vFk8Et8YxXrDCwBbkfHhsvCa+i
+         w7vLPn+vsGz1EdyRpVOWvYGkLwoB9Rlzma9DlHuC/SbOGh345SMTfsHt1q3YwepOUgHp
+         Ox8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773627600; x=1774232400;
+        d=1e100.net; s=20251104; t=1773627598; x=1774232398;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=oU/vunUD8C1GCAWOIMWDJATzfNBPreooaS+0PlEiXhw=;
-        b=NAjmHYfJiwhuNPr0MZmX2PpnpHsZe8kaVhVULxgPhye+gkTiwD9JJZpiAkl6YszKjh
-         adP7GiGi89fcGFOhYeRa+6NhQ4dbSUDSOMBly+ui3rnwTx1AiiXRNwlSUCvduXATF8c9
-         GGasJe1zNIv5M8uffzw83k1V1KMyD36frmXuyP4Xd96+tN937M4dtS5CISC18pi7joxm
-         cHDHN5ShNa3fAQc/Dh5Mf/2dKTKQyYL0ljGh4cLyCTo9sc4zli9gO9reqhVCaK+iFh20
-         e4B0sQS3+ltnTwfhW0bL/TShYZ5zb+qLLfqLWlr5imDLeODcKt/o9k23vYKVSrq+qqwZ
-         XAYQ==
-X-Gm-Message-State: AOJu0Yw2+pBKPY+fxw4lo8EEWfrCYKfYVG2K5VuEjtSKBH23ubRXSt0x
-	xODAGmJuSKmF60+WtDlaWGk14ZJH2NLVZ9Z60W3mixjthsyEhzhVeDVRl35IWualJ7Qk3ELj3Uu
-	vAByq
-X-Gm-Gg: ATEYQzxw8SU2vEYm9PY8YyVmgBPxv5hX9R0BT1FgIaxslv/3Jq3MjBdY85zH3Qu0/Vu
-	Xb3nh8/RPFb8SduSRjjEwsSJylYoWYMxWxg7fuVDBpJ2wfyggSCXAwTaoRFK0zV9sF2+ouNgn4b
-	kDLekuR8fkjb6bahLxhzULgFSr337NzM4Lo6cGGYgSEoQ7wsPI9ThxHiwaRApN44720QsQnCVlG
-	89EOqHn1tUgM0q0LyTPfNOq4NdA89NR6Ik3qcL5UTO1G7ThanX5s/CJy3aIzXQVsUTeZOkfIOC9
-	XyrQADd3Yo48Kf9EXxFJo0WI9jPkA56y2ssCnFyF2yTpAzjfFh1TEN5ryjV1rjJ4GcOgh8NF7WT
-	yZG2qqN5Ii9Eb5bZRwkvEDP25ixWmnlQ99gJmgQbVF3Dazb4cDxfSdQsbT9xF0lbsdLskymYJXf
-	uzZzRyEBe3D5CKjZGnD2HOGQ1rONW5wdJAdX4SaBF8qCm7JOIMIOwSYM/090vTBwwc9LlD1UqIT
-	Bz3Gnjb3Hg2E6GXXI/HxKlB
-X-Received: by 2002:a05:690c:9691:b0:798:6f20:1c9f with SMTP id 00721157ae682-79a1c089e4emr122783027b3.10.1773627600139;
-        Sun, 15 Mar 2026 19:20:00 -0700 (PDT)
+        bh=9/1bTfdXnBt2zhxOKI/Bx7iAAWQdDlhK2qk620wMpOU=;
+        b=BiAsSifj/oDjr/Ul4bFeHB0vkgnS2BGfQujNwj/PTbGSrsi9gZZ5QVod7TtVOxi+XI
+         NfUZ6zPQxurVkmcd318aiRl5NwKH6oApbUV1kNPiDw22R78AucD8mJ/USGERYOvUWNX+
+         Y2tnel6jNhuE5CyRvadXBCZrk3MF7rNgQO42820BxPhtHDik6R0cS3m6EC2H24tUxbuE
+         bcHSVYqo2DQ1saqp3X/xBG0YFhoriY7O4UpDY7E6XWj4j9Ag/eZCyEI8BI+zStyYOp/5
+         Z4mXtCsnVz/Y4e223KdSbKBfzczwkRCEvJqYv2L+DieLZaJZtGtabRuH7ZxgPRX0yikZ
+         xLlg==
+X-Gm-Message-State: AOJu0YxPFO8kK8cmRl2f9vHxlPKVkWna4phgn8TeEwXX0UuwAr5DF0bJ
+	S+Is7HaIQzjpSmHBhSzwNK4CNt0yVbuMaHgrZHZ2TqpypuwUFiq+YnSLPIcgJB96lHrJl23d4Nn
+	X8TQ9
+X-Gm-Gg: ATEYQzxZT+/DkfyDa0ch8Ou8sTqAKq/Lyt0VLwUoUe9rtWyFE/lB3EA2WINsxuyAtSI
+	6cvihNCp1iqURCjRCrhGwXMadXiZmd7EY9B6mhon5A880SuwE7Or1NyNgP/wfQEv/LNeys7vAiU
+	idWfK2onP1FSayS+SUExI5+HR+hJI0kMWOXmrZo9OIsRtTrVFPcC5KvHZDVY7JAJS+aJA3oOD3S
+	XWW5N8EEyXjZbq8IBCdXiipnP74Fmt1aToMc0sW0wGfikyeG8ECSrRpdjDEZrjVMO7qfpymWVZ6
+	Zcu8pHmsCINh/2D12N07o+20t28NWI90pFzgzyDLNLocLhHr7fSNdmhJp7j4VpGl6RoQUv03Aga
+	JFBl/wtqBoT2A7oiD1ya3SceSD2D3F8z8NfzbmNVc/lWrKBI1z51C0cAIeBCFjIqKO+ero11QhW
+	tJkgCmvJEiR24g9j8+i0Ix0RKseYungnkyVIBAYW6kiA+SU/RqnYEi8uha6WAa7g5p8SrofjTVb
+	TQgIO6IBNpGD7Ke8A9suPa0
+X-Received: by 2002:a05:690c:a185:b0:798:7ab2:eb6f with SMTP id 00721157ae682-79a1c0aef41mr82157607b3.11.1773627597831;
+        Sun, 15 Mar 2026 19:19:57 -0700 (PDT)
 Received: from pop-os.attlocal.net ([2600:1700:6476:1430:6939:3e01:5e8f:6093])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-79917deb69asm79721617b3.10.2026.03.15.19.19.59
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-79917deb69asm79721617b3.10.2026.03.15.19.19.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Mar 2026 19:19:59 -0700 (PDT)
+        Sun, 15 Mar 2026 19:19:57 -0700 (PDT)
 From: Viacheslav Dubeyko <slava@dubeyko.com>
 To: linux-fsdevel@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
 	Viacheslav Dubeyko <slava@dubeyko.com>
-Subject: [PATCH v2 65/79] ssdfs: introduce snapshots b-tree
-Date: Sun, 15 Mar 2026 19:17:55 -0700
-Message-ID: <20260316021800.1694650-29-slava@dubeyko.com>
+Subject: [PATCH v2 61/79] ssdfs: introduce PEB-based deduplication technique
+Date: Sun, 15 Mar 2026 19:17:53 -0700
+Message-ID: <20260316021800.1694650-27-slava@dubeyko.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260316021800.1694650-1-slava@dubeyko.com>
 References: <20260316021800.1694650-1-slava@dubeyko.com>
@@ -80,649 +80,1682 @@ Content-Transfer-Encoding: 8bit
 Complete patchset is available here:
 https://github.com/dubeyko/ssdfs-driver/tree/master/patchset/linux-kernel-6.18.0
 
-SSDFS file system driver stores any payload in the form
-of logs. Every log starts by header, continues by payload,
-and could be ended by footer. The every header and
-footer includes the timestamp of the log's creation.
-It means that every log can be imagined like a checkpoint
-of file system volume's evolution. By default, if no snapshot
-has been created, SSDFS file system logic executes an erase
-operation of an erase block upon its complete invalidation
-(all valid data has been moved into another erase block).
-However, it is possible to create a snapshot(s) with the goal
-of protecting the previous state of user data or metadata
-in invalidated erase blocks. Snapshot is simple timestamp
-that needs to be stored into snapshots b-tree. In the case
-of presence of snapshots in the b-tree, SSDFS logic compares
-the starting and ending timestamps/checkponts of particular
-erase block with snapshot timestamps in the b-tree. If any
-timestamp/checkpoint of particular erase block is protected
-by snapshot, then this invalidated erase block is excluded
-from erase operation with the goal to keep the snapshoted
-state of the user data or metadata.
-
-SSDFS provides the opportunity to create a snapshot rule(s).
-It means that it is possible to define a frequency of
-snapshots creation (for example, every minute, hour, day, etc).
-Also, it is possible to define how soon the snapshot could
-expire (for example, after hour, day, week, month). Finally,
-it means that SSDFS logic is capable to create snapshots and
-delete the expired ones on automated basis.
+SSDFS file system splits the whole volume space on
+sequence of segments. Every segment contains one or
+several erase blocks. Erase block contains a sequence
+of logs. As a result, log contains files' or metadata's
+contents as a log's payload. Flush thread of erase
+block receives the requests to store new logical blocks
+or to update existing ones. PEB-based deduplication
+logic calculates the fingerprints for logical blocks
+in requests. If the calculated fingerprint is identical
+to any existing one, then the deduplication is happened
+for the log under creation. It means that if a logical
+block with identical content was already stored into
+the erase block, then it will be used the reference for
+this logical block instead of storing the logical
+block with the same content again. This deduplication
+logic can be efficient if there are many duplicated
+logical blocks in the same file or different files
+that are flushing together.
 
 Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
 ---
- fs/ssdfs/snapshot.h       | 283 ++++++++++++++++++++++++++++++++++++++
- fs/ssdfs/snapshot_rules.h |  55 ++++++++
- fs/ssdfs/snapshots_tree.h | 248 +++++++++++++++++++++++++++++++++
- 3 files changed, 586 insertions(+)
- create mode 100644 fs/ssdfs/snapshot.h
- create mode 100644 fs/ssdfs/snapshot_rules.h
- create mode 100644 fs/ssdfs/snapshots_tree.h
+ fs/ssdfs/fingerprint.h       | 261 ++++++++++++
+ fs/ssdfs/fingerprint_array.c | 795 +++++++++++++++++++++++++++++++++++
+ fs/ssdfs/fingerprint_array.h |  82 ++++
+ fs/ssdfs/peb_deduplication.c | 483 +++++++++++++++++++++
+ 4 files changed, 1621 insertions(+)
+ create mode 100644 fs/ssdfs/fingerprint.h
+ create mode 100644 fs/ssdfs/fingerprint_array.c
+ create mode 100644 fs/ssdfs/fingerprint_array.h
+ create mode 100644 fs/ssdfs/peb_deduplication.c
 
-diff --git a/fs/ssdfs/snapshot.h b/fs/ssdfs/snapshot.h
+diff --git a/fs/ssdfs/fingerprint.h b/fs/ssdfs/fingerprint.h
 new file mode 100644
-index 000000000000..b10d73b98e6e
+index 000000000000..0e1da7f461bb
 --- /dev/null
-+++ b/fs/ssdfs/snapshot.h
-@@ -0,0 +1,283 @@
++++ b/fs/ssdfs/fingerprint.h
+@@ -0,0 +1,261 @@
 +/*
 + * SPDX-License-Identifier: BSD-3-Clause-Clear
 + *
 + * SSDFS -- SSD-oriented File System.
 + *
-+ * fs/ssdfs/snapshot.h - snapshot's declarations.
++ * fs/ssdfs/fingerprint.h - fingerprint's declarations.
 + *
-+ * Copyright (c) 2021-2026 Viacheslav Dubeyko <slava@dubeyko.com>
++ * Copyright (c) 2023-2026 Viacheslav Dubeyko <slava@dubeyko.com>
 + *              http://www.ssdfs.org/
 + * All rights reserved.
 + *
 + * Authors: Viacheslav Dubeyko <slava@dubeyko.com>
 + */
 +
-+#ifndef _SSDFS_SNAPSHOT_H
-+#define _SSDFS_SNAPSHOT_H
++#ifndef _SSDFS_FINGERPRINT_H
++#define _SSDFS_FINGERPRINT_H
++
++#include <crypto/hash_info.h>
++#include <crypto/ghash.h>
++#include <crypto/polyval.h>
 +
 +/*
-+ * struct ssdfs_time_range - time range definition
-+ * @minute: minute of the time range
-+ * @hour: hour of the time range
-+ * @day: day of the time range
-+ * @month: month of the time range
-+ * @year: year of the time range
++ * struct ssdfs_fingerprint - fingerprint object
++ * @buf: fingerprint buffer
++ * @len: fingerprint length
++ * @type: fingerprint type
 + */
-+struct ssdfs_time_range {
-+	u32 minute;
-+	u32 hour;
-+	u32 day;
-+	u32 month;
-+	u32 year;
++struct ssdfs_fingerprint {
++	u8 buf[SSDFS_FINGERPRINT_LENGTH_MAX];
++	u8 len;
++	u8 type;
 +};
 +
-+#define SSDFS_ANY_MINUTE			U32_MAX
-+#define SSDFS_ANY_HOUR				U32_MAX
-+#define SSDFS_ANY_DAY				U32_MAX
-+#define SSDFS_ANY_MONTH				U32_MAX
-+#define SSDFS_ANY_YEAR				U32_MAX
-+
-+/*
-+ * struct ssdfs_snapshot_details - snapshot details
-+ * @create_time: snapshot's timestamp
-+ * @cno: snapshot's checkpoint
-+ * @mode: snapshot mode (READ-ONLY|READ-WRITE)
-+ * @expiration: snapshot expiration time (WEEK|MONTH|YEAR|NEVER)
-+ * @ino: target/root object's inode ID
-+ * @uuid: snapshot's UUID
-+ */
-+struct ssdfs_snapshot_details {
-+	u64 create_time;
-+	u64 cno;
-+	u32 mode;
-+	u32 expiration;
-+	u64 ino;
-+	u8 uuid[SSDFS_UUID_SIZE];
-+};
-+
-+/*
-+ * struct ssdfs_snapshot_rule_details - snapshot rule details
-+ * @mode: snapshot mode (READ-ONLY|READ-WRITE)
-+ * @type: snapshot type (PERIODIC|ONE-TIME)
-+ * @expiration: snapshot expiration time (WEEK|MONTH|YEAR|NEVER)
-+ * @frequency: taking snapshot frequency (FSYNC|HOUR|DAY|WEEK)
-+ * @snapshots_threshold: max number of simultaneously available snapshots
-+ * @snapshots_number: currently created number of snapshots
-+ * @last_snapshot_cno: checkpoint of last snapshot
-+ * @ino: target/root object's inode ID
-+ * @uuid: snapshot's UUID
-+ */
-+struct ssdfs_snapshot_rule_details {
-+	u32 mode;
-+	u32 type;
-+	u32 expiration;
-+	u32 frequency;
-+	u32 snapshots_threshold;
-+	u32 snapshots_number;
-+	u64 last_snapshot_cno;
-+	u64 ino;
-+	u8 uuid[SSDFS_UUID_SIZE];
-+};
-+
-+/*
-+ * struct ssdfs_snapshot_info - snapshot details
-+ * @name: snapshot name
-+ * @uuid: snapshot UUID
-+ * @mode: snapshot mode (READ-ONLY|READ-WRITE)
-+ * @type: snapshot type (PERIODIC|ONE-TIME)
-+ * @expiration: snapshot expiration time (WEEK|MONTH|YEAR|NEVER)
-+ * @frequency: taking snapshot frequency (FSYNC|HOUR|DAY|WEEK)
-+ * @snapshots_threshold: max number of simultaneously available snapshots
-+ * @time_range: time range to select/modify/delete snapshots
-+ * @buf: buffer to share the snapshot details
-+ * @buf_size: size of buffer in bytes
-+ */
-+struct ssdfs_snapshot_info {
-+	char name[SSDFS_MAX_NAME_LEN];
-+	u8 uuid[SSDFS_UUID_SIZE];
-+
-+	int mode;
-+	int type;
-+	int expiration;
-+	int frequency;
-+	u32 snapshots_threshold;
-+	struct ssdfs_time_range time_range;
-+
-+	char __user *buf;
-+	u64 buf_size;
-+};
-+
-+/* Requested operation */
++/* Fingerprint types */
 +enum {
-+	SSDFS_UNKNOWN_OPERATION,
-+	SSDFS_CREATE_SNAPSHOT,
-+	SSDFS_LIST_SNAPSHOTS,
-+	SSDFS_MODIFY_SNAPSHOT,
-+	SSDFS_REMOVE_SNAPSHOT,
-+	SSDFS_REMOVE_RANGE,
-+	SSDFS_SHOW_SNAPSHOT_DETAILS,
-+	SSDFS_LIST_SNAPSHOT_RULES,
-+	SSDFS_OPERATION_TYPE_MAX
++	SSDFS_UNKNOWN_FINGERPRINT_TYPE = 0,
++	SSDFS_MD5_FINGERPRINT,
++	SSDFS_SHA1_FINGERPRINT,
++	SSDFS_SHA224_FINGERPRINT,
++	SSDFS_SHA256_FINGERPRINT,
++	SSDFS_GHASH_FINGERPRINT,
++	SSDFS_POLYVAL_FINGERPRINT,
++	SSDFS_FINGERPRINT_TYPE_MAX
++};
++
++/* Fingerprint algorithm names */
++#define SSDFS_MD5_HASH_FUNCTION_NAME		("md5")
++#define SSDFS_SHA1_HASH_FUNCTION_NAME		("sha1")
++#define SSDFS_SHA224_HASH_FUNCTION_NAME		("sha224")
++#define SSDFS_SHA256_HASH_FUNCTION_NAME		("sha256")
++#define SSDFS_GHASH_HASH_FUNCTION_NAME		("ghash")
++#define SSDFS_POLYVAL_HASH_FUNCTION_NAME	("polyval")
++
++/*
++ * struct ssdfs_fingerprint_range - range of fingerprints
++ * @start: starting fingerprint
++ * @end: ending fingerprint
++ */
++struct ssdfs_fingerprint_range {
++	struct ssdfs_fingerprint start;
++	struct ssdfs_fingerprint end;
 +};
 +
 +/*
-+ * struct ssdfs_snapshot_request - snapshot request
-+ * @list: snapshot requests queue list
-+ * @operation: requested operation
-+ * @ino: inode ID of object under snapshot
-+ * @info: snapshot request's info
++ * Inline methods
 + */
-+struct ssdfs_snapshot_request {
-+	struct list_head list;
-+	int operation;
-+	u64 ino;
-+	struct ssdfs_snapshot_info info;
-+};
 +
 +/*
-+ * struct ssdfs_snapshot_rule_item - snapshot rule item
-+ * @list: snapshot rules list
-+ * @rule: snapshot rule's info
++ * SSDFS_DEFAULT_FINGERPRINT_TYPE() - default fingerprint type
 + */
-+struct ssdfs_snapshot_rule_item {
-+	struct list_head list;
-+	struct ssdfs_snapshot_rule_info rule;
-+};
-+
-+/*
-+ * struct ssdfs_timestamp_range - range of timestamps
-+ * @start: starting timestamp
-+ * @end: ending timestamp
-+ */
-+struct ssdfs_timestamp_range {
-+	u64 start;
-+	u64 end;
-+};
-+
-+/*
-+ * struct ssdfs_snapshot_id - snapshot ID
-+ * @timestamp: snapshot timestamp
-+ * @uuid: snapshot UUID (could be NULL)
-+ * @name: snapshot name (could be NULL)
-+ */
-+struct ssdfs_snapshot_id {
-+	u64 timestamp;
-+	u8 *uuid;
-+	char *name;
-+};
-+
-+#define SSDFS_UNKNOWN_TIMESTAMP		(0)
-+
-+#define SSDFS_SNAP_DETAILS(ptr) \
-+	((struct ssdfs_snapshot_details *)(ptr))
-+#define SSDFS_SNAP_RULE_DETAILS(ptr) \
-+	((struct ssdfs_snapshot_rule_details *)(ptr))
-+
-+struct ssdfs_snapshot_subsystem;
-+struct ssdfs_fs_info;
-+
-+/*
-+ * Inline functions
-+ */
-+
 +static inline
-+bool is_snapshot_rule_requested(struct ssdfs_snapshot_request *snr)
++int SSDFS_DEFAULT_FINGERPRINT_TYPE(void)
 +{
-+#ifdef CONFIG_SSDFS_DEBUG
-+	BUG_ON(!snr);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	return snr->info.type == SSDFS_PERIODIC_SNAPSHOT;
++#ifdef CONFIG_SSDFS_MD5_FINGEPRINT_TYPE
++	return SSDFS_MD5_FINGERPRINT;
++#elif defined(CONFIG_SSDFS_SHA1_FINGEPRINT_TYPE)
++	return SSDFS_SHA1_FINGERPRINT;
++#elif defined(CONFIG_SSDFS_SHA224_FINGEPRINT_TYPE)
++	return SSDFS_SHA224_FINGERPRINT;
++#elif defined(CONFIG_SSDFS_SHA256_FINGEPRINT_TYPE)
++	return SSDFS_SHA256_FINGERPRINT;
++#elif defined(CONFIG_SSDFS_GHASH_FINGEPRINT_TYPE)
++	return SSDFS_GHASH_FINGERPRINT;
++#elif defined(CONFIG_SSDFS_POLYVAL_FINGEPRINT_TYPE)
++	return SSDFS_POLYVAL_FINGERPRINT;
++#else
++	return SSDFS_UNKNOWN_FINGERPRINT_TYPE;
++#endif
 +}
 +
++/*
++ * SSDFS_FINGERPRINT_TYPE2NAME() - convert fingerprint type into name
++ */
 +static inline
-+bool is_ssdfs_snapshot_mode_correct(int mode)
-+{
-+	switch (mode) {
-+	case SSDFS_READ_ONLY_SNAPSHOT:
-+	case SSDFS_READ_WRITE_SNAPSHOT:
-+		return true;
-+
-+	default:
-+		/* do nothing */
-+		break;
-+	}
-+
-+	return false;
-+}
-+
-+static inline
-+bool is_ssdfs_snapshot_type_correct(int type)
++const char *SSDFS_FINGERPRINT_TYPE2NAME(int type)
 +{
 +	switch (type) {
-+	case SSDFS_ONE_TIME_SNAPSHOT:
-+	case SSDFS_PERIODIC_SNAPSHOT:
-+		return true;
-+
++	case SSDFS_MD5_FINGERPRINT:
++		return SSDFS_MD5_HASH_FUNCTION_NAME;
++	case SSDFS_SHA1_FINGERPRINT:
++		return SSDFS_SHA1_HASH_FUNCTION_NAME;
++	case SSDFS_SHA224_FINGERPRINT:
++		return SSDFS_SHA224_HASH_FUNCTION_NAME;
++	case SSDFS_SHA256_FINGERPRINT:
++		return SSDFS_SHA256_HASH_FUNCTION_NAME;
++	case SSDFS_GHASH_FINGERPRINT:
++		return SSDFS_GHASH_HASH_FUNCTION_NAME;
++	case SSDFS_POLYVAL_FINGERPRINT:
++		return SSDFS_POLYVAL_HASH_FUNCTION_NAME;
 +	default:
-+		/* do nothing */
++		/* SHA1 is used by default */
 +		break;
 +	}
 +
-+	return false;
++	return SSDFS_SHA1_HASH_FUNCTION_NAME;
 +}
 +
++/*
++ * SSDFS_DEFAULT_FINGERPRINT_NAME() - default fingerprint algorithm name
++ */
 +static inline
-+bool is_ssdfs_snapshot_expiration_correct(int expiration)
++const char *SSDFS_DEFAULT_FINGERPRINT_NAME(void)
 +{
-+	switch (expiration) {
-+	case SSDFS_EXPIRATION_IN_WEEK:
-+	case SSDFS_EXPIRATION_IN_MONTH:
-+	case SSDFS_EXPIRATION_IN_YEAR:
-+	case SSDFS_NEVER_EXPIRED:
-+		return true;
-+
-+	default:
-+		/* do nothing */
-+		break;
-+	}
-+
-+	return false;
++#ifdef CONFIG_SSDFS_MD5_FINGEPRINT_TYPE
++	return SSDFS_FINGERPRINT_TYPE2NAME(SSDFS_MD5_FINGERPRINT);
++#elif defined(CONFIG_SSDFS_SHA1_FINGEPRINT_TYPE)
++	return SSDFS_FINGERPRINT_TYPE2NAME(SSDFS_SHA1_FINGERPRINT);
++#elif defined(CONFIG_SSDFS_SHA224_FINGEPRINT_TYPE)
++	return SSDFS_FINGERPRINT_TYPE2NAME(SSDFS_SHA224_FINGERPRINT);
++#elif defined(CONFIG_SSDFS_SHA256_FINGEPRINT_TYPE)
++	return SSDFS_FINGERPRINT_TYPE2NAME(SSDFS_SHA256_FINGERPRINT);
++#elif defined(CONFIG_SSDFS_GHASH_FINGEPRINT_TYPE)
++	return SSDFS_FINGERPRINT_TYPE2NAME(SSDFS_GHASH_FINGERPRINT);
++#elif defined(CONFIG_SSDFS_POLYVAL_FINGEPRINT_TYPE)
++	return SSDFS_FINGERPRINT_TYPE2NAME(SSDFS_POLYVAL_FINGERPRINT);
++#else
++	return SSDFS_FINGERPRINT_TYPE2NAME(SSDFS_UNKNOWN_FINGERPRINT_TYPE);
++#endif
 +}
 +
++/*
++ * SSDFS_FINGEPRINT_TYPE2LENGTH() - convert fingerprint type into digest size
++ */
 +static inline
-+bool is_ssdfs_snapshot_frequency_correct(int frequency)
++u32 SSDFS_FINGEPRINT_TYPE2LENGTH(int type)
 +{
-+	switch (frequency) {
-+	case SSDFS_SYNCFS_FREQUENCY:
-+	case SSDFS_HOUR_FREQUENCY:
-+	case SSDFS_DAY_FREQUENCY:
-+	case SSDFS_WEEK_FREQUENCY:
-+	case SSDFS_MONTH_FREQUENCY:
-+		return true;
-+
++	switch (type) {
++	case SSDFS_MD5_FINGERPRINT:
++		return MD5_DIGEST_SIZE;
++	case SSDFS_SHA1_FINGERPRINT:
++		return SHA1_DIGEST_SIZE;
++	case SSDFS_SHA224_FINGERPRINT:
++		return SHA224_DIGEST_SIZE;
++	case SSDFS_SHA256_FINGERPRINT:
++		return SHA256_DIGEST_SIZE;
++	case SSDFS_GHASH_FINGERPRINT:
++		return GHASH_DIGEST_SIZE;
++	case SSDFS_POLYVAL_FINGERPRINT:
++		return POLYVAL_DIGEST_SIZE;
 +	default:
-+		/* do nothing */
++		SSDFS_WARN("unknown fingerprint type %#x\n",
++			   type);
 +		break;
 +	}
++
++	return U32_MAX;
++}
++
++/*
++ * SSDFS_DEFAULT_FINGERPRINT_LENGTH() - default fingerprint digest size
++ */
++static inline
++u32 SSDFS_DEFAULT_FINGERPRINT_LENGTH(void)
++{
++#ifdef CONFIG_SSDFS_MD5_FINGEPRINT_TYPE
++	return SSDFS_FINGEPRINT_TYPE2LENGTH(SSDFS_MD5_FINGERPRINT);
++#elif defined(CONFIG_SSDFS_SHA1_FINGEPRINT_TYPE)
++	return SSDFS_FINGEPRINT_TYPE2LENGTH(SSDFS_SHA1_FINGERPRINT);
++#elif defined(CONFIG_SSDFS_SHA224_FINGEPRINT_TYPE)
++	return SSDFS_FINGEPRINT_TYPE2LENGTH(SSDFS_SHA224_FINGERPRINT);
++#elif defined(CONFIG_SSDFS_SHA256_FINGEPRINT_TYPE)
++	return SSDFS_FINGEPRINT_TYPE2LENGTH(SSDFS_SHA256_FINGERPRINT);
++#elif defined(CONFIG_SSDFS_GHASH_FINGEPRINT_TYPE)
++	return SSDFS_FINGEPRINT_TYPE2LENGTH(SSDFS_GHASH_FINGERPRINT);
++#elif defined(CONFIG_SSDFS_POLYVAL_FINGEPRINT_TYPE)
++	return SSDFS_FINGEPRINT_TYPE2LENGTH(SSDFS_POLYVAL_FINGERPRINT);
++#else
++	return SSDFS_FINGEPRINT_TYPE2LENGTH(SSDFS_UNKNOWN_FINGERPRINT_TYPE);
++#endif
++}
++
++/*
++ * IS_FINGERPRINT_VALID() - check that fingerprint is valid
++ */
++static inline
++bool IS_FINGERPRINT_VALID(struct ssdfs_fingerprint *hash)
++{
++#ifdef CONFIG_SSDFS_DEBUG
++	BUG_ON(!hash);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	if (hash->type <= SSDFS_UNKNOWN_FINGERPRINT_TYPE ||
++	    hash->type >= SSDFS_FINGERPRINT_TYPE_MAX)
++		return false;
++
++	if (hash->len == 0 || hash->len > SSDFS_FINGERPRINT_LENGTH_MAX)
++		return false;
++
++	return true;
++}
++
++/*
++ * IS_FINGERPRINTS_COMPARABLE() - check that fingerprints can be compared
++ */
++static inline
++bool IS_FINGERPRINTS_COMPARABLE(struct ssdfs_fingerprint *hash1,
++				struct ssdfs_fingerprint *hash2)
++{
++#ifdef CONFIG_SSDFS_DEBUG
++	BUG_ON(!hash1 || !hash2);
++	BUG_ON(!IS_FINGERPRINT_VALID(hash1));
++	BUG_ON(!IS_FINGERPRINT_VALID(hash2));
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	if (hash1->type == hash2->type && hash1->len == hash2->len)
++		return true;
 +
 +	return false;
 +}
 +
 +/*
-+ * is_uuids_identical() - check the UUIDs identity
-+ * @uuid1: first UUID instance
-+ * @uuid2: second UUID instance
++ * ssdfs_compare_fingerprints() - compare fingerprints
++ * @hash1: first fingerprint
++ * @hash2: second fingerprint
++ *
++ * This function tries to compare two fingerprints.
++ *
++ * RETURN:
++ * [-1]   - hash1 is lesser that hash2
++ * [ 0]   - hash1 is equal to hash2
++ * [+1]   - hash1 is bigger that hash2
 + */
 +static inline
-+bool is_uuids_identical(const u8 *uuid1, const u8 *uuid2)
++int ssdfs_compare_fingerprints(struct ssdfs_fingerprint *hash1,
++				struct ssdfs_fingerprint *hash2)
 +{
-+	return memcmp(uuid1, uuid2, SSDFS_UUID_SIZE) == 0;
++	size_t len;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	BUG_ON(!hash1 || !hash2);
++	BUG_ON(!IS_FINGERPRINT_VALID(hash1));
++	BUG_ON(!IS_FINGERPRINT_VALID(hash2));
++	BUG_ON(!IS_FINGERPRINTS_COMPARABLE(hash1, hash2));
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	len = min_t(u8, hash1->len, hash2->len);
++
++	return memcmp(hash1->buf, hash2->buf, len);
 +}
 +
-+/*
-+ * Snapshots subsystem's API
-+ */
-+int ssdfs_snapshot_subsystem_init(struct ssdfs_fs_info *fsi);
-+int ssdfs_snapshot_subsystem_destroy(struct ssdfs_fs_info *fsi);
-+
-+int ssdfs_convert_time2timestamp_range(struct ssdfs_fs_info *fsi,
-+					struct ssdfs_time_range *range1,
-+					struct ssdfs_timestamp_range *range2);
-+
-+#endif /* _SSDFS_SNAPSHOT_H */
-diff --git a/fs/ssdfs/snapshot_rules.h b/fs/ssdfs/snapshot_rules.h
++#endif /* _SSDFS_FINGERPRINT_H */
+diff --git a/fs/ssdfs/fingerprint_array.c b/fs/ssdfs/fingerprint_array.c
 new file mode 100644
-index 000000000000..0ce0c214ec96
+index 000000000000..22036b1dfabf
 --- /dev/null
-+++ b/fs/ssdfs/snapshot_rules.h
-@@ -0,0 +1,55 @@
++++ b/fs/ssdfs/fingerprint_array.c
+@@ -0,0 +1,795 @@
 +/*
 + * SPDX-License-Identifier: BSD-3-Clause-Clear
 + *
 + * SSDFS -- SSD-oriented File System.
 + *
-+ * fs/ssdfs/snapshot_rules.h - snapshot rule declarations.
++ * fs/ssdfs/fingerprint_array.c - fingerprint array implementation.
 + *
-+ * Copyright (c) 2021-2026 Viacheslav Dubeyko <slava@dubeyko.com>
++ * Copyright (c) 2023-2026 Viacheslav Dubeyko <slava@dubeyko.com>
 + *              http://www.ssdfs.org/
 + * All rights reserved.
 + *
 + * Authors: Viacheslav Dubeyko <slava@dubeyko.com>
 + */
 +
-+#ifndef _SSDFS_SNAPSHOT_RULES_H
-+#define _SSDFS_SNAPSHOT_RULES_H
++#include <linux/pagemap.h>
++#include <linux/slab.h>
++#include <linux/pagevec.h>
++
++#include "peb_mapping_queue.h"
++#include "peb_mapping_table_cache.h"
++#include "ssdfs.h"
++#include "fingerprint_array.h"
++
++#ifdef CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING
++atomic64_t ssdfs_fingerprint_array_folio_leaks;
++atomic64_t ssdfs_fingerprint_array_memory_leaks;
++atomic64_t ssdfs_fingerprint_array_cache_leaks;
++#endif /* CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING */
 +
 +/*
-+ * struct ssdfs_snapshot_rules_list - snapshot rules list descriptor
-+ * @lock: snapshot rules list's lock
-+ * @list: snapshot rules list
++ * void ssdfs_fingerprint_array_cache_leaks_increment(void *kaddr)
++ * void ssdfs_fingerprint_array_cache_leaks_decrement(void *kaddr)
++ * void *ssdfs_fingerprint_array_kmalloc(size_t size, gfp_t flags)
++ * void *ssdfs_fingerprint_array_kzalloc(size_t size, gfp_t flags)
++ * void *ssdfs_fingerprint_array_kcalloc(size_t n, size_t size, gfp_t flags)
++ * void ssdfs_fingerprint_array_kfree(void *kaddr)
++ * struct folio *ssdfs_fingerprint_array_alloc_folio(gfp_t gfp_mask,
++ *                          			     unsigned int order)
++ * struct folio *ssdfs_file_add_batch_folio(struct folio_batch *batch,
++ *                                          unsigned int order)
++ * void ssdfs_fingerprint_array_free_folio(struct folio *folio)
++ * void ssdfs_file_folio_batch_release(struct folio_batch *batch)
 + */
-+struct ssdfs_snapshot_rules_list {
-+	spinlock_t lock;
-+	struct list_head list;
-+};
++#ifdef CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING
++	SSDFS_MEMORY_LEAKS_CHECKER_FNS(fingerprint_array)
++#else
++	SSDFS_MEMORY_ALLOCATOR_FNS(fingerprint_array)
++#endif /* CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING */
++
++void ssdfs_fingerprint_array_memory_leaks_init(void)
++{
++#ifdef CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING
++	atomic64_set(&ssdfs_fingerprint_array_folio_leaks, 0);
++	atomic64_set(&ssdfs_fingerprint_array_memory_leaks, 0);
++	atomic64_set(&ssdfs_fingerprint_array_cache_leaks, 0);
++#endif /* CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING */
++}
++
++void ssdfs_fingerprint_array_check_memory_leaks(void)
++{
++#ifdef CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING
++	if (atomic64_read(&ssdfs_fingerprint_array_folio_leaks) != 0) {
++		SSDFS_ERR("FINGERPRINT ARRAY: "
++			  "memory leaks include %lld folios\n",
++			  atomic64_read(&ssdfs_fingerprint_array_folio_leaks));
++	}
++
++	if (atomic64_read(&ssdfs_fingerprint_array_memory_leaks) != 0) {
++		SSDFS_ERR("FINGERPRINT ARRAY: "
++			  "memory allocator suffers from %lld leaks\n",
++			  atomic64_read(&ssdfs_fingerprint_array_memory_leaks));
++	}
++
++	if (atomic64_read(&ssdfs_fingerprint_array_cache_leaks) != 0) {
++		SSDFS_ERR("FINGERPRINT ARRAY: "
++			  "caches suffers from %lld leaks\n",
++			  atomic64_read(&ssdfs_fingerprint_array_cache_leaks));
++	}
++#endif /* CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING */
++}
 +
 +/*
-+ * Snapshot rules list API
++ * ssdfs_fingerprint_array_create() - create fingerprint array
++ * @farray: pointer on fingerprint array object
++ * @capacity: maximum number of items in array
 + */
-+void ssdfs_snapshot_rules_list_init(struct ssdfs_snapshot_rules_list *rl);
-+bool is_ssdfs_snapshot_rules_list_empty(struct ssdfs_snapshot_rules_list *rl);
-+void ssdfs_snapshot_rules_list_add_tail(struct ssdfs_snapshot_rules_list *rl,
-+					struct ssdfs_snapshot_rule_item *ri);
-+void ssdfs_snapshot_rules_list_add_head(struct ssdfs_snapshot_rules_list *rl,
-+					struct ssdfs_snapshot_rule_item *ri);
-+void ssdfs_snapshot_rules_list_remove_all(struct ssdfs_snapshot_rules_list *rl);
++int ssdfs_fingerprint_array_create(struct ssdfs_fingerprint_array *farray,
++				   u32 capacity)
++{
++	size_t item_size = sizeof(struct ssdfs_fingerprint_item);
++	int err;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	BUG_ON(!farray);
++
++	SSDFS_DBG("array %p, capacity %u, item_size %zu\n",
++		  farray, capacity, item_size);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	atomic_set(&farray->state, SSDFS_FINGERPRINT_ARRAY_UNKNOWN_STATE);
++
++	init_rwsem(&farray->lock);
++	farray->items_count = 0;
++
++	err = ssdfs_dynamic_array_create(&farray->array,
++					 capacity, item_size,
++					 0xFF);
++	if (unlikely(err)) {
++		SSDFS_ERR("fail to create dynamic array: "
++			  "capacity %u, item_size %zu, err %d\n",
++			  capacity, item_size, err);
++		return err;
++	}
++
++	atomic_set(&farray->state, SSDFS_FINGERPRINT_ARRAY_CREATED);
++
++	return 0;
++}
 +
 +/*
-+ * Snapshot rule's API
++ * ssdfs_fingerprint_array_destroy() - destroy fingerprint array
++ * @farray: pointer on fingerprint array object
 + */
-+struct ssdfs_snapshot_rule_item *ssdfs_snapshot_rule_alloc(void);
-+void ssdfs_snapshot_rule_free(struct ssdfs_snapshot_rule_item *ri);
++void ssdfs_fingerprint_array_destroy(struct ssdfs_fingerprint_array *farray)
++{
++#ifdef CONFIG_SSDFS_DEBUG
++	BUG_ON(!farray);
 +
-+struct folio *ssdfs_snapshot_rules_add_batch_folio(struct folio_batch *batch,
-+						   unsigned int order);
-+void ssdfs_snapshot_rules_folio_batch_release(struct folio_batch *batch);
++	SSDFS_DBG("array %p\n", farray);
++#endif /* CONFIG_SSDFS_DEBUG */
 +
-+int ssdfs_process_snapshot_rules(struct ssdfs_fs_info *fsi);
-+int ssdfs_modify_snapshot_rule(struct ssdfs_fs_info *fsi,
-+				struct ssdfs_snapshot_request *snr);
-+int ssdfs_remove_snapshot_rule(struct ssdfs_snapshot_subsystem *snapshots,
-+				struct ssdfs_snapshot_request *snr);
++	switch (atomic_read(&farray->state)) {
++	case SSDFS_FINGERPRINT_ARRAY_CREATED:
++		/* continue logic */
++		break;
 +
-+#endif /* _SSDFS_SNAPSHOT_RULES_H */
-diff --git a/fs/ssdfs/snapshots_tree.h b/fs/ssdfs/snapshots_tree.h
++	default:
++		/* do nothing */
++		return;
++	}
++
++	down_write(&farray->lock);
++	ssdfs_dynamic_array_destroy(&farray->array);
++	farray->items_count = 0;
++	up_write(&farray->lock);
++}
++
++/*
++ * ssdfs_check_fingerprint_item() - compare fingerprint item with hash
++ * @hash: fingerprint with hash value
++ * @item: fingerprint item for comparison with hash value
++ *
++ * This method tries to compare the fingerprint hashes.
++ *
++ * RETURN:
++ * [success]
++ *
++ * %-ENOENT     - hash is lesser than item's fingerprint.
++ * %-EEXIST     - hash is equal to item's fingerprint.
++ * %-EAGAIN     - hash is bigger than item's fingerprint.
++ *
++ * [failure]
++ *
++ * %-EINVAL     - invalid input.
++ * %-ERANGE     - internal error.
++ */
++int ssdfs_check_fingerprint_item(struct ssdfs_fingerprint *hash,
++				 struct ssdfs_fingerprint_item *item)
++{
++	int res;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	BUG_ON(!item || !hash);
++
++	SSDFS_DBG("item %p, hash %p\n",
++		  item, hash);
++
++	SSDFS_DBG("HASH: type %#x, len %u\n",
++		  hash->type, hash->len);
++	SSDFS_DBG("HASH DUMP\n");
++	print_hex_dump_bytes("", DUMP_PREFIX_OFFSET,
++			     hash->buf,
++			     SSDFS_FINGERPRINT_LENGTH_MAX);
++	SSDFS_DBG("\n");
++
++	SSDFS_DBG("ITEM HASH: type %#x, len %u\n",
++		  item->hash.type, item->hash.len);
++	SSDFS_DBG("ITEM HASH DUMP\n");
++	print_hex_dump_bytes("", DUMP_PREFIX_OFFSET,
++			     item->hash.buf,
++			     SSDFS_FINGERPRINT_LENGTH_MAX);
++	SSDFS_DBG("\n");
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	if (!IS_FINGERPRINT_VALID(hash)) {
++#ifdef CONFIG_SSDFS_DEBUG
++		SSDFS_DBG("hash is invalid\n");
++#endif /* CONFIG_SSDFS_DEBUG */
++		return -EINVAL;
++	}
++
++	if (!IS_FINGERPRINT_VALID(&item->hash)) {
++#ifdef CONFIG_SSDFS_DEBUG
++		SSDFS_DBG("item is invalid\n");
++#endif /* CONFIG_SSDFS_DEBUG */
++		return -EINVAL;
++	}
++
++	if (!IS_FINGERPRINTS_COMPARABLE(hash, &item->hash)) {
++		SSDFS_ERR("fingerprings are incomparable\n");
++		return -EINVAL;
++	}
++
++	res = ssdfs_compare_fingerprints(hash, &item->hash);
++	if (res < 0) {
++#ifdef CONFIG_SSDFS_DEBUG
++		SSDFS_DBG("search fingerprint is lesser\n");
++#endif /* CONFIG_SSDFS_DEBUG */
++		return -ENOENT;
++	} else if (res == 0) {
++#ifdef CONFIG_SSDFS_DEBUG
++		SSDFS_DBG("identical fingerprint is found\n");
++#endif /* CONFIG_SSDFS_DEBUG */
++		return -EEXIST;
++	} else {
++#ifdef CONFIG_SSDFS_DEBUG
++		SSDFS_DBG("search fingerprint is bigger\n");
++#endif /* CONFIG_SSDFS_DEBUG */
++		return -EAGAIN;
++	}
++
++	return 0;
++}
++
++/*
++ * ssdfs_fingerprint_array_find_nolock() - find fingerprint item without lock
++ * @farray: pointer on fingerprint array object
++ * @hash: fingerprint with hash value
++ * @item_index: pointer on found item index [out]
++ *
++ * This method tries to find the position in array for
++ * requested fingerprint hash without lock.
++ *
++ * RETURN:
++ * [success]
++ * [failure] - error code:
++ *
++ * %-ENOENT     - item is not found.
++ * %-ERANGE     - internal error.
++ */
++static
++int ssdfs_fingerprint_array_find_nolock(struct ssdfs_fingerprint_array *farray,
++					struct ssdfs_fingerprint *hash,
++					u32 *item_index)
++{
++	struct ssdfs_fingerprint_item *items_array;
++	struct ssdfs_fingerprint_item *item;
++	void *kaddr;
++	u32 total_items;
++	u32 items_count;
++	u32 processed_items = 0;
++	u32 lower_bound;
++	u32 upper_bound;
++	u32 cur_index;
++	u32 diff;
++	int res;
++	int err = 0;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	BUG_ON(!farray || !hash || !item_index);
++	BUG_ON(!rwsem_is_locked(&farray->lock));
++
++	SSDFS_DBG("array %p, hash %p\n",
++		  farray, hash);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	total_items = ssdfs_dynamic_array_items_count(&farray->array);
++	if (total_items == 0) {
++		err = -ENOENT;
++		*item_index = 0;
++#ifdef CONFIG_SSDFS_DEBUG
++		SSDFS_DBG("empty array: total_items %u\n",
++			  total_items);
++#endif /* CONFIG_SSDFS_DEBUG */
++		goto finish_search_item;
++	}
++
++	if (farray->items_count > total_items) {
++		err = -ERANGE;
++		SSDFS_ERR("items_count %u > total_items %u\n",
++			  farray->items_count,
++			  total_items);
++		goto finish_search_item;
++	}
++
++	if (farray->items_count == 0) {
++		err = -ENOENT;
++		*item_index = 0;
++#ifdef CONFIG_SSDFS_DEBUG
++		SSDFS_DBG("empty array: items_count %u\n",
++			  farray->items_count);
++#endif /* CONFIG_SSDFS_DEBUG */
++		goto finish_search_item;
++	}
++
++	while (processed_items < farray->items_count) {
++#ifdef CONFIG_SSDFS_DEBUG
++		SSDFS_DBG("processed_items %u, total_items %u\n",
++			  processed_items, farray->items_count);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++		kaddr = ssdfs_dynamic_array_get_content_locked(&farray->array,
++								processed_items,
++								&items_count);
++		if (IS_ERR_OR_NULL(kaddr)) {
++			err = (kaddr == NULL ? -ENOENT : PTR_ERR(kaddr));
++			SSDFS_ERR("fail to get fingerprints range: "
++				  "processed_items %u, err %d\n",
++				  processed_items, err);
++			goto finish_search_item;
++		}
++
++		if (items_count == 0) {
++			err = -ENOENT;
++			*item_index = processed_items;
++#ifdef CONFIG_SSDFS_DEBUG
++			SSDFS_DBG("fingerprint portion is empty\n");
++#endif /* CONFIG_SSDFS_DEBUG */
++			goto unlock_fingerprints_portion;
++		}
++
++		items_array = (struct ssdfs_fingerprint_item *)kaddr;
++
++		item = &items_array[0];
++
++		err = ssdfs_check_fingerprint_item(hash, item);
++		if (err == -ENOENT) {
++			*item_index = processed_items;
++#ifdef CONFIG_SSDFS_DEBUG
++			SSDFS_DBG("stop search: item %u, err %d\n",
++				  *item_index, err);
++#endif /* CONFIG_SSDFS_DEBUG */
++			goto unlock_fingerprints_portion;
++		} else if (err == -EEXIST) {
++			*item_index = processed_items;
++#ifdef CONFIG_SSDFS_DEBUG
++			SSDFS_DBG("stop search: item %u, err %d\n",
++				  *item_index, err);
++#endif /* CONFIG_SSDFS_DEBUG */
++			goto unlock_fingerprints_portion;
++		} else if (unlikely(err)) {
++			SSDFS_ERR("fail to check fingerprint: err %d\n",
++				  err);
++			goto unlock_fingerprints_portion;
++		} else
++			BUG();
++
++		if (items_count == 1) {
++			err = -EAGAIN;
++			*item_index = processed_items;
++#ifdef CONFIG_SSDFS_DEBUG
++			SSDFS_DBG("continue search: "
++				  "item %u\n",
++				  *item_index);
++#endif /* CONFIG_SSDFS_DEBUG */
++			goto unlock_fingerprints_portion;
++		}
++
++		item = &items_array[items_count - 1];
++
++		err = ssdfs_check_fingerprint_item(hash, item);
++		if (err == -ENOENT) {
++			/*
++			 * Continue search in the range
++			 */
++		} else if (err == -EEXIST) {
++			*item_index = items_count - 1;
++#ifdef CONFIG_SSDFS_DEBUG
++			SSDFS_DBG("stop search: item %u, err %d\n",
++				  *item_index, err);
++#endif /* CONFIG_SSDFS_DEBUG */
++			goto unlock_fingerprints_portion;
++		} else if (err == -EAGAIN) {
++			*item_index = items_count - 1;
++#ifdef CONFIG_SSDFS_DEBUG
++			SSDFS_DBG("continue search: "
++				  "item %u\n",
++				  *item_index);
++#endif /* CONFIG_SSDFS_DEBUG */
++			goto unlock_fingerprints_portion;
++		} else if (unlikely(err)) {
++			SSDFS_ERR("fail to check fingerprint: err %d\n",
++				  err);
++			goto unlock_fingerprints_portion;
++		} else
++			BUG();
++
++		lower_bound = 0;
++		*item_index = lower_bound;
++		upper_bound = items_count;
++		cur_index = upper_bound / 2;
++
++		do {
++			item = &items_array[cur_index];
++
++			err = ssdfs_check_fingerprint_item(hash, item);
++			if (err == -ENOENT) {
++				/* correct upper_bound */
++				upper_bound = cur_index;
++			} else if (err == -EEXIST) {
++				*item_index = cur_index;
++#ifdef CONFIG_SSDFS_DEBUG
++				SSDFS_DBG("stop search: item %u, err %d\n",
++					  *item_index, err);
++#endif /* CONFIG_SSDFS_DEBUG */
++				goto unlock_fingerprints_portion;
++			} else if (err == -EAGAIN) {
++				/* correct lower_bound */
++				lower_bound = cur_index;
++				*item_index = lower_bound;
++			} else if (unlikely(err)) {
++				SSDFS_ERR("fail to check fingerprint: err %d\n",
++					  err);
++				goto unlock_fingerprints_portion;
++			} else
++				BUG();
++
++			diff = upper_bound - lower_bound;
++			cur_index = lower_bound + (diff / 2);
++		} while (lower_bound < upper_bound);
++
++unlock_fingerprints_portion:
++		res = ssdfs_dynamic_array_release(&farray->array,
++						  processed_items,
++						  kaddr);
++		if (unlikely(res)) {
++			SSDFS_ERR("fail to release fingerprints portion: "
++				  "processed_items %u, err %d\n",
++				  processed_items, res);
++#ifdef CONFIG_SSDFS_DEBUG
++			BUG();
++#endif /* CONFIG_SSDFS_DEBUG */
++		}
++
++		processed_items += items_count;
++
++		if (err == -EAGAIN) {
++			if (processed_items < farray->items_count) {
++				err = 0;
++
++#ifdef CONFIG_SSDFS_DEBUG
++				SSDFS_DBG("continue search: "
++					  "item %u\n",
++					  *item_index);
++#endif /* CONFIG_SSDFS_DEBUG */
++				continue;
++			} else {
++				err = -ENOENT;
++#ifdef CONFIG_SSDFS_DEBUG
++				SSDFS_DBG("stop search: "
++					  "nothing is found: item %u\n",
++					  *item_index);
++#endif /* CONFIG_SSDFS_DEBUG */
++				break;
++			}
++		} else if (err)
++			break;
++	}
++
++	if (err == -EEXIST) {
++		err = 0;
++#ifdef CONFIG_SSDFS_DEBUG
++		SSDFS_DBG("fingerprint is found: "
++			  "item %u\n",
++			  *item_index);
++#endif /* CONFIG_SSDFS_DEBUG */
++	}
++
++finish_search_item:
++	return err;
++}
++
++/*
++ * ssdfs_fingerprint_array_find() - find fingerprint item
++ * @farray: pointer on fingerprint array object
++ * @hash: fingerprint with hash value
++ * @item_index: pointer on found item index [out]
++ *
++ * This method tries to find the position in array for
++ * requested fingerprint hash.
++ *
++ * RETURN:
++ * [success]
++ * [failure] - error code:
++ *
++ * %-ENOENT     - item is not found.
++ * %-ERANGE     - internal error.
++ */
++int ssdfs_fingerprint_array_find(struct ssdfs_fingerprint_array *farray,
++				 struct ssdfs_fingerprint *hash,
++				 u32 *item_index)
++{
++	int err;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	BUG_ON(!farray || !hash || !item_index);
++
++	SSDFS_DBG("array %p, hash %p\n",
++		  farray, hash);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	*item_index = U32_MAX;
++
++	down_read(&farray->lock);
++	err = ssdfs_fingerprint_array_find_nolock(farray, hash, item_index);
++	up_read(&farray->lock);
++
++	return err;
++}
++
++/*
++ * ssdfs_fingerprint_array_get_nolock() - get fingerprint item without lock
++ * @farray: pointer on fingerprint array object
++ * @item_index: item index
++ * @item: pointer on buffer for requested fingerprint item [out]
++ *
++ * This method tries to extract the item on @item_index position
++ * in array without lock.
++ *
++ * RETURN:
++ * [success]
++ * [failure] - error code:
++ *
++ * %-ERANGE     - internal error.
++ */
++static inline
++int ssdfs_fingerprint_array_get_nolock(struct ssdfs_fingerprint_array *farray,
++					u32 item_index,
++					struct ssdfs_fingerprint_item *item)
++{
++	void *kaddr;
++	size_t item_size = sizeof(struct ssdfs_fingerprint_item);
++	int err = 0;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	BUG_ON(!farray || !item);
++	BUG_ON(!rwsem_is_locked(&farray->lock));
++
++	SSDFS_DBG("array %p, item_index %u\n",
++		  farray, item_index);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	kaddr = ssdfs_dynamic_array_get_locked(&farray->array, item_index);
++	if (IS_ERR_OR_NULL(kaddr)) {
++		err = (kaddr == NULL ? -ENOENT : PTR_ERR(kaddr));
++		SSDFS_ERR("fail to get fingerprint item: "
++			  "item_index %u, err %d\n",
++			  item_index, err);
++		goto finish_get_item;
++	}
++
++	ssdfs_memcpy(item, 0, item_size,
++		     kaddr, 0, item_size,
++		     item_size);
++
++	err = ssdfs_dynamic_array_release(&farray->array, item_index, kaddr);
++	if (unlikely(err)) {
++		SSDFS_ERR("fail to release: "
++			  "item_index %u, err %d\n",
++			  item_index, err);
++		goto finish_get_item;
++	}
++
++finish_get_item:
++	return err;
++}
++
++/*
++ * ssdfs_fingerprint_array_get() - get fingerprint item
++ * @farray: pointer on fingerprint array object
++ * @item_index: item index
++ * @item: pointer on buffer for requested fingerprint item [out]
++ *
++ * This method tries to extract the item on @item_index position
++ * in array.
++ *
++ * RETURN:
++ * [success]
++ * [failure] - error code:
++ *
++ * %-ERANGE     - internal error.
++ */
++int ssdfs_fingerprint_array_get(struct ssdfs_fingerprint_array *farray,
++				u32 item_index,
++				struct ssdfs_fingerprint_item *item)
++{
++	int err;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	BUG_ON(!farray || !item);
++
++	SSDFS_DBG("array %p, item_index %u\n",
++		  farray, item_index);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	down_read(&farray->lock);
++	err = ssdfs_fingerprint_array_get_nolock(farray, item_index, item);
++	up_read(&farray->lock);
++
++	return err;
++}
++
++/*
++ * ssdfs_fingerprint_array_add() - add fingerprint item into array
++ * @farray: pointer on fingerprint array object
++ * @item: fingerprint item
++ * @item_index: item index
++ *
++ * This method tries to add the item in array.
++ *
++ * RETURN:
++ * [success]
++ * [failure] - error code:
++ *
++ * %-EEXIST     - item exists in the array.
++ * %-ERANGE     - internal error.
++ */
++int ssdfs_fingerprint_array_add(struct ssdfs_fingerprint_array *farray,
++				struct ssdfs_fingerprint_item *item,
++				u32 item_index)
++{
++	struct ssdfs_fingerprint_item existing;
++	u32 total_items;
++	u32 cur_index;
++	int err = 0;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	BUG_ON(!farray || !item);
++
++	SSDFS_DBG("array %p, item_index %u\n",
++		  farray, item_index);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	down_write(&farray->lock);
++
++	total_items = farray->items_count;
++
++	if (item_index >= U32_MAX || item_index > total_items) {
++		err = ssdfs_fingerprint_array_find_nolock(farray,
++							  &item->hash,
++							  &item_index);
++		if (err == -ENOENT) {
++			err = 0;
++			/* expected state */
++		} else if (err == -EEXIST) {
++			SSDFS_ERR("item exists for requested fingerprint\n");
++			goto finish_add_fingerprint;
++		} else if (unlikely(err)) {
++			SSDFS_ERR("fail to find position for fingerprint: "
++				  "err %d\n", err);
++			goto finish_add_fingerprint;
++		} else {
++			err = -ERANGE;
++			SSDFS_ERR("unexpected result of position search\n");
++			goto finish_add_fingerprint;
++		}
++	}
++
++	if (item_index > total_items) {
++		err = -ERANGE;
++		SSDFS_ERR("item_index %u > total_items %u\n",
++			  item_index, total_items);
++		goto finish_add_fingerprint;
++	}
++
++	if (total_items == 0) {
++		err = ssdfs_dynamic_array_set(&farray->array, item_index, item);
++		if (unlikely(err)) {
++			SSDFS_ERR("fail to add fingerprint: "
++				  "item_index %u, err %d\n",
++				  item_index, err);
++			goto finish_add_fingerprint;
++		}
++	} else if (item_index == total_items) {
++		cur_index = item_index - 1;
++
++		err = ssdfs_fingerprint_array_get_nolock(farray,
++							 cur_index,
++							 &existing);
++		if (unlikely(err)) {
++			SSDFS_ERR("fail to get previous item: "
++				  "index %u, err %d\n",
++				  cur_index, err);
++			goto finish_add_fingerprint;
++		}
++
++		err = ssdfs_check_fingerprint_item(&existing.hash, item);
++		if (err == -ENOENT) {
++			err = 0;
++			/*
++			 * Continue logic
++			 */
++		} else if (unlikely(err)) {
++			SSDFS_ERR("corrupted fingerprints' sequence: "
++				  "index1 %u, index2 %u, err %d\n",
++				  cur_index, item_index, err);
++			goto finish_add_fingerprint;
++		} else
++			BUG();
++
++		err = ssdfs_dynamic_array_set(&farray->array, item_index, item);
++		if (unlikely(err)) {
++			SSDFS_ERR("fail to add fingerprint: "
++				  "item_index %u, err %d\n",
++				  item_index, err);
++			goto finish_add_fingerprint;
++		}
++	} else {
++		cur_index = item_index;
++
++		err = ssdfs_fingerprint_array_get_nolock(farray,
++							 cur_index,
++							 &existing);
++		if (unlikely(err)) {
++			SSDFS_ERR("fail to get previous item: "
++				  "index %u, err %d\n",
++				  cur_index, err);
++			goto finish_add_fingerprint;
++		}
++
++		err = ssdfs_check_fingerprint_item(&item->hash, &existing);
++		if (err == -ENOENT) {
++			err = 0;
++			/*
++			 * Continue logic
++			 */
++		} else if (unlikely(err)) {
++			SSDFS_ERR("corrupted fingerprints' sequence: "
++				  "index1 %u, index2 %u, err %d\n",
++				  cur_index, item_index, err);
++			goto finish_add_fingerprint;
++		} else
++			BUG();
++
++		cur_index = item_index - 1;
++
++		err = ssdfs_fingerprint_array_get_nolock(farray,
++							 cur_index,
++							 &existing);
++		if (unlikely(err)) {
++			SSDFS_ERR("fail to get previous item: "
++				  "index %u, err %d\n",
++				  cur_index, err);
++			goto finish_add_fingerprint;
++		}
++
++		err = ssdfs_check_fingerprint_item(&existing.hash, item);
++		if (err == -ENOENT) {
++			err = 0;
++			/*
++			 * Continue logic
++			 */
++		} else if (unlikely(err)) {
++			SSDFS_ERR("corrupted fingerprints' sequence: "
++				  "index1 %u, index2 %u, err %d\n",
++				  cur_index, item_index, err);
++			goto finish_add_fingerprint;
++		} else
++			BUG();
++
++		err = ssdfs_dynamic_array_shift_content_right(&farray->array,
++							      item_index, 1);
++		if (unlikely(err)) {
++			SSDFS_ERR("fail to shift range: "
++				  "index %u, err %d\n",
++				  item_index, err);
++			goto finish_add_fingerprint;
++		}
++
++		err = ssdfs_dynamic_array_set(&farray->array, item_index, item);
++		if (unlikely(err)) {
++			SSDFS_ERR("fail to add fingerprint: "
++				  "item_index %u, err %d\n",
++				  item_index, err);
++			goto finish_add_fingerprint;
++		}
++	}
++
++	farray->items_count++;
++
++finish_add_fingerprint:
++	up_write(&farray->lock);
++
++	return err;
++}
+diff --git a/fs/ssdfs/fingerprint_array.h b/fs/ssdfs/fingerprint_array.h
 new file mode 100644
-index 000000000000..f3ce051f0eb9
+index 000000000000..ba70977d5a8e
 --- /dev/null
-+++ b/fs/ssdfs/snapshots_tree.h
-@@ -0,0 +1,248 @@
++++ b/fs/ssdfs/fingerprint_array.h
+@@ -0,0 +1,82 @@
 +/*
 + * SPDX-License-Identifier: BSD-3-Clause-Clear
 + *
 + * SSDFS -- SSD-oriented File System.
 + *
-+ * fs/ssdfs/snapshots_tree.h - snapshots btree declarations.
++ * fs/ssdfs/fingerprint_array.h - fingerprint array's declarations.
 + *
-+ * Copyright (c) 2021-2026 Viacheslav Dubeyko <slava@dubeyko.com>
++ * Copyright (c) 2023-2026 Viacheslav Dubeyko <slava@dubeyko.com>
 + *              http://www.ssdfs.org/
 + * All rights reserved.
 + *
 + * Authors: Viacheslav Dubeyko <slava@dubeyko.com>
 + */
 +
-+#ifndef _SSDFS_SNAPSHOTS_TREE_H
-+#define _SSDFS_SNAPSHOTS_TREE_H
++#ifndef _SSDFS_FINGERPRINT_ARRAY_H
++#define _SSDFS_FINGERPRINT_ARRAY_H
++
++#include "dynamic_array.h"
++#include "fingerprint.h"
 +
 +/*
-+ * struct ssdfs_snapshots_btree_queue - snapshot requests queue
-+ * @queue: snapshot requests queue object
-+ * @thread: descriptor of queue's thread
++ * struct ssdfs_fingerprint_item - fingerprint item
++ * @hash: fingerprint hash
++ * @logical_blk: logical block ID
++ * @blk_desc: logical block descriptor
 + */
-+struct ssdfs_snapshots_btree_queue {
-+	struct ssdfs_snapshot_reqs_queue queue;
-+	struct ssdfs_thread_info thread;
++struct ssdfs_fingerprint_item {
++	struct ssdfs_fingerprint hash;
++	u32 logical_blk;
++	struct ssdfs_block_descriptor blk_desc;
 +};
 +
 +/*
-+ * struct ssdfs_snapshots_btree_info - snapshots btree info
-+ * @state: snapshots btree state
-+ * @lock: snapshots btree lock
-+ * @generic_tree: generic btree description
-+ * @snapshots_count: count of the snapshots in the whole tree
-+ * @deleted_snapshots: current number of snapshot delete operations
-+ * @requests: snapshot requests queue
-+ * @wait_queue: wait queue of snapshots tree's thread
-+ * @fsi: pointer on shared file system object
++ * struct ssdfs_fingerprint_pair - item + index pair
++ * @item: fingerprint item
++ * @item_index: item index in array
 + */
-+struct ssdfs_snapshots_btree_info {
++struct ssdfs_fingerprint_pair {
++	struct ssdfs_fingerprint_item item;
++	u32 item_index;
++};
++
++/*
++ * struct ssdfs_fingerprint_array - fingerprint array
++ * @state: state of fingerprint array
++ * @lock: array lock
++ * @items_count: items count in array
++ * @array: array of fingerprints
++ */
++struct ssdfs_fingerprint_array {
 +	atomic_t state;
 +	struct rw_semaphore lock;
-+	struct ssdfs_btree generic_tree;
-+
-+	atomic64_t snapshots_count;
-+	atomic64_t deleted_snapshots;
-+
-+	struct ssdfs_snapshots_btree_queue requests;
-+	wait_queue_head_t wait_queue;
-+
-+	struct ssdfs_fs_info *fsi;
++	u32 items_count;
++	struct ssdfs_dynamic_array array;
 +};
 +
-+/* Snapshots tree states */
++/* Fingeprint array states */
 +enum {
-+	SSDFS_SNAPSHOTS_BTREE_UNKNOWN_STATE,
-+	SSDFS_SNAPSHOTS_BTREE_CREATED,
-+	SSDFS_SNAPSHOTS_BTREE_INITIALIZED,
-+	SSDFS_SNAPSHOTS_BTREE_DIRTY,
-+	SSDFS_SNAPSHOTS_BTREE_CORRUPTED,
-+	SSDFS_SNAPSHOTS_BTREE_STATE_MAX
++	SSDFS_FINGERPRINT_ARRAY_UNKNOWN_STATE,
++	SSDFS_FINGERPRINT_ARRAY_CREATED,
++	SSDFS_FINGERPRINT_ARRAY_STATE_MAX
 +};
 +
 +/*
-+ * Inline functions
++ * Fingerprint array's API
++ */
++int ssdfs_fingerprint_array_create(struct ssdfs_fingerprint_array *array,
++				   u32 capacity);
++void ssdfs_fingerprint_array_destroy(struct ssdfs_fingerprint_array *array);
++int ssdfs_check_fingerprint_item(struct ssdfs_fingerprint *hash,
++				 struct ssdfs_fingerprint_item *item);
++int ssdfs_fingerprint_array_find(struct ssdfs_fingerprint_array *array,
++				 struct ssdfs_fingerprint *hash,
++				 u32 *item_index);
++int ssdfs_fingerprint_array_get(struct ssdfs_fingerprint_array *array,
++				u32 item_index,
++				struct ssdfs_fingerprint_item *item);
++int ssdfs_fingerprint_array_add(struct ssdfs_fingerprint_array *array,
++				struct ssdfs_fingerprint_item *item,
++				u32 item_index);
++
++#endif /* _SSDFS_FINGERPRINT_ARRAY_H */
+diff --git a/fs/ssdfs/peb_deduplication.c b/fs/ssdfs/peb_deduplication.c
+new file mode 100644
+index 000000000000..1e755e96538d
+--- /dev/null
++++ b/fs/ssdfs/peb_deduplication.c
+@@ -0,0 +1,483 @@
++/*
++ * SPDX-License-Identifier: BSD-3-Clause-Clear
++ *
++ * SSDFS -- SSD-oriented File System.
++ *
++ * fs/ssdfs/peb_deduplication.c - PEB-based deduplication logic.
++ *
++ * Copyright (c) 2023-2026 Viacheslav Dubeyko <slava@dubeyko.com>
++ *              http://www.ssdfs.org/
++ * All rights reserved.
++ *
++ * Authors: Viacheslav Dubeyko <slava@dubeyko.com>
 + */
 +
-+static inline
-+int check_minute(int minute)
++#include <linux/pagemap.h>
++#include <linux/slab.h>
++#include <linux/pagevec.h>
++#include <crypto/hash.h>
++
++#include "peb_mapping_queue.h"
++#include "peb_mapping_table_cache.h"
++#include "folio_vector.h"
++#include "ssdfs.h"
++#include "folio_array.h"
++#include "request_queue.h"
++#include "peb.h"
++#include "offset_translation_table.h"
++#include "peb_container.h"
++#include "segment_bitmap.h"
++#include "segment.h"
++#include "fingerprint.h"
++#include "fingerprint_array.h"
++
++/*
++ * ssdfs_calculate_fingerprint() - calculate block's fingerprint
++ * @pebi: pointer on PEB object
++ * @req: I/O request
++ * @hash: calculated fingerprint hash [out]
++ *
++ * This method tries to calculate block's fingerprint.
++ */
++static
++int ssdfs_calculate_fingerprint(struct ssdfs_peb_info *pebi,
++				struct ssdfs_segment_request *req,
++				struct ssdfs_fingerprint *hash)
 +{
-+	if (minute < 0 || minute > 60) {
-+		SSDFS_ERR("invalid minute value %d\n",
-+			  minute);
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static inline
-+int check_hour(int hour)
-+{
-+	if (hour < 0 || hour > 24) {
-+		SSDFS_ERR("invalid hour value %d\n",
-+			  hour);
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static inline
-+int check_day(int day)
-+{
-+	if (day <= 0 || day > 31) {
-+		SSDFS_ERR("invalid day value %d\n",
-+			  day);
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static inline
-+int check_month(int month)
-+{
-+	if (month <= 0 || month > 12) {
-+		SSDFS_ERR("invalid month value %d\n",
-+			  month);
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static inline
-+int check_year(int year)
-+{
-+	if (year < 1970) {
-+		SSDFS_ERR("invalid year value %d\n",
-+			  year);
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static inline
-+void SHOW_SNAPSHOT_INFO(struct ssdfs_snapshot_request *snr)
-+{
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("SNAPSHOT INFO: ");
-+	SSDFS_DBG("name %s, ", snr->info.name);
-+	SSDFS_DBG("UUID %pUb, ", snr->info.uuid);
-+	SSDFS_DBG("mode %#x, type %#x, expiration %#x, "
-+		  "frequency %#x, snapshots_threshold %u, "
-+		  "TIME_RANGE (day %u, month %u, year %u)\n",
-+		  snr->info.mode, snr->info.type, snr->info.expiration,
-+		  snr->info.frequency, snr->info.snapshots_threshold,
-+		  snr->info.time_range.day,
-+		  snr->info.time_range.month,
-+		  snr->info.time_range.year);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+}
-+
-+static inline
-+bool is_item_snapshot(void *kaddr)
-+{
-+	struct ssdfs_snapshot *snapshot;
++	struct ssdfs_fs_info *fsi;
++	struct ssdfs_request_content_block *block;
++	struct ssdfs_content_block *blk_state;
++	SHASH_DESC_ON_STACK(shash, pebi->dedup.shash_tfm);
++	u32 rest_bytes;
++	u32 start_blk = 0;
++	u32 num_blks = 0;
++	u32 processed_bytes = 0;
++	int i, j, k;
 +
 +#ifdef CONFIG_SSDFS_DEBUG
-+	BUG_ON(!kaddr);
++	BUG_ON(!req || !hash);
++	BUG_ON(req->place.len >= U16_MAX);
++	BUG_ON(req->result.processed_blks > req->place.len);
++	BUG_ON(!is_ssdfs_peb_container_locked(pebi->pebc));
++
++	SSDFS_DBG("ino %llu, seg_id %llu, logical_offset %llu, "
++		  "processed_blks %d, logical_block %u, data_bytes %u, "
++		  "cno %llu, parent_snapshot %llu, cmd %#x, type %#x\n",
++		  req->extent.ino, req->place.start.seg_id,
++		  req->extent.logical_offset, req->result.processed_blks,
++		  req->place.start.blk_index,
++		  req->extent.data_bytes, req->extent.cno,
++		  req->extent.parent_snapshot,
++		  req->private.cmd, req->private.type);
 +#endif /* CONFIG_SSDFS_DEBUG */
 +
-+	snapshot = (struct ssdfs_snapshot *)kaddr;
++	fsi = pebi->pebc->parent_si->fsi;
 +
-+	return le16_to_cpu(snapshot->magic) == SSDFS_SNAPSHOT_RECORD_MAGIC;
-+}
++	shash->tfm = pebi->dedup.shash_tfm;
++	crypto_shash_init(shash);
 +
-+static inline
-+bool is_item_peb2time_record(void *kaddr)
-+{
-+	struct ssdfs_peb2time_set *peb2time;
++	rest_bytes = ssdfs_request_rest_bytes(pebi, req);
++
++	start_blk = req->result.processed_blks;
++	rest_bytes = min_t(u32, rest_bytes, fsi->pagesize);
++	num_blks = rest_bytes + fsi->pagesize - 1;
++	num_blks >>= fsi->log_pagesize;
++
++	for (i = 0; i < num_blks; i++) {
++		struct folio *folio;
++		void *kaddr;
++		int blk_index = i + start_blk;
++		u32 portion_size;
++
++		if (blk_index >= req->result.content.count)
++			break;
++
++		block = &req->result.content.blocks[blk_index];
++		blk_state = &block->new_state;
++
++		for (j = 0; j < folio_batch_count(&blk_state->batch); j++) {
++			u32 mem_pages_per_folio;
++
++			folio = blk_state->batch.folios[j];
 +
 +#ifdef CONFIG_SSDFS_DEBUG
-+	BUG_ON(!kaddr);
++			BUG_ON(!folio);
 +#endif /* CONFIG_SSDFS_DEBUG */
 +
-+	peb2time = (struct ssdfs_peb2time_set *)kaddr;
++			mem_pages_per_folio = folio_size(folio) >> PAGE_SHIFT;
 +
-+	return le16_to_cpu(peb2time->magic) == SSDFS_PEB2TIME_RECORD_MAGIC;
-+}
++			for (k = 0; k < mem_pages_per_folio; k++) {
++				portion_size = min_t(u32, PAGE_SIZE,
++						  rest_bytes - processed_bytes);
 +
-+static inline
-+bool is_peb2time_record_requested(struct ssdfs_btree_search *search)
-+{
++				kaddr = kmap_local_folio(folio, k * PAGE_SIZE);
++				crypto_shash_update(shash, kaddr, portion_size);
++				kunmap_local(kaddr);
++
++				processed_bytes += portion_size;
++			}
++		}
++	}
++
++	crypto_shash_final(shash, hash->buf);
++
++	hash->type = SSDFS_DEFAULT_FINGERPRINT_TYPE();
++	hash->len = SSDFS_DEFAULT_FINGERPRINT_LENGTH();
++
 +#ifdef CONFIG_SSDFS_DEBUG
-+	BUG_ON(!search);
++	SSDFS_DBG("HASH (type %#x, len %u)\n",
++		  hash->type, hash->len);
++
++	SSDFS_DBG("FINGERPRINT DUMP:\n");
++	print_hex_dump_bytes("", DUMP_PREFIX_OFFSET,
++			     hash->buf,
++			     SSDFS_FINGERPRINT_LENGTH_MAX);
++	SSDFS_DBG("\n");
++
++	BUG_ON(!IS_FINGERPRINT_VALID(hash));
 +#endif /* CONFIG_SSDFS_DEBUG */
 +
-+	return search->request.flags & SSDFS_BTREE_SEARCH_HAS_PEB2TIME_PAIR;
++	return 0;
 +}
 +
 +/*
-+ * Snapshots tree API
++ * is_data_size_fingerprint_ready() - is data size bigger than page size
++ * @pebi: pointer on PEB object
++ * @req: I/O request
 + */
-+int ssdfs_snapshots_btree_create(struct ssdfs_fs_info *fsi);
-+void ssdfs_snapshots_btree_destroy(struct ssdfs_fs_info *fsi);
-+int ssdfs_snapshots_btree_flush(struct ssdfs_fs_info *fsi);
++static inline
++bool is_data_size_fingerprint_ready(struct ssdfs_peb_info *pebi,
++				    struct ssdfs_segment_request *req)
++{
++	u32 pagesize;
++	u32 logical_block;
++	u32 processed_blks;
++	u64 rest_bytes;
 +
-+int ssdfs_snapshots_btree_find(struct ssdfs_snapshots_btree_info *tree,
-+				struct ssdfs_snapshot_id *id,
-+				struct ssdfs_btree_search *search);
-+int ssdfs_snapshots_btree_find_range(struct ssdfs_snapshots_btree_info *tree,
-+				     struct ssdfs_timestamp_range *range,
-+				     struct ssdfs_btree_search *search);
-+int ssdfs_snapshots_btree_check_range(struct ssdfs_snapshots_btree_info *tree,
-+				      struct ssdfs_timestamp_range *range,
-+				      struct ssdfs_btree_search *search);
-+int ssdfs_snapshots_btree_add(struct ssdfs_snapshots_btree_info *tree,
-+			     struct ssdfs_snapshot_request *snr,
-+			     struct ssdfs_btree_search *search);
-+int ssdfs_snapshots_btree_add_peb2time(struct ssdfs_snapshots_btree_info *tree,
-+					struct ssdfs_peb_timestamps *peb2time,
-+					struct ssdfs_btree_search *search);
-+int ssdfs_snapshots_btree_change(struct ssdfs_snapshots_btree_info *tree,
-+				 struct ssdfs_snapshot_request *snr,
-+				 struct ssdfs_btree_search *search);
-+int ssdfs_snapshots_btree_delete(struct ssdfs_snapshots_btree_info *tree,
-+				 struct ssdfs_snapshot_request *snr,
-+				 struct ssdfs_btree_search *search);
-+int ssdfs_snapshots_btree_delete_peb2time(struct ssdfs_snapshots_btree_info *,
-+					  struct ssdfs_peb_timestamps *peb2time,
-+					  struct ssdfs_btree_search *search);
-+int ssdfs_snapshots_btree_delete_all(struct ssdfs_snapshots_btree_info *tree);
++#ifdef CONFIG_SSDFS_DEBUG
++	BUG_ON(!pebi || !pebi->pebc || !req);
++	BUG_ON(!pebi->pebc->parent_si || !pebi->pebc->parent_si->fsi);
++	BUG_ON(req->place.len >= U16_MAX);
++	BUG_ON(req->result.processed_blks > req->place.len);
++	BUG_ON(!is_ssdfs_peb_container_locked(pebi->pebc));
++
++	SSDFS_DBG("ino %llu, seg %llu, peb %llu, "
++		  "peb_index %u, logical_offset %llu, "
++		  "processed_blks %d, logical_block %u, data_bytes %u, "
++		  "cno %llu, parent_snapshot %llu, cmd %#x, type %#x\n",
++		  req->extent.ino, req->place.start.seg_id,
++		  pebi->peb_id, pebi->peb_index,
++		  req->extent.logical_offset, req->result.processed_blks,
++		  req->place.start.blk_index,
++		  req->extent.data_bytes, req->extent.cno,
++		  req->extent.parent_snapshot,
++		  req->private.cmd, req->private.type);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	pagesize = pebi->pebc->parent_si->fsi->pagesize;
++
++	processed_blks = req->result.processed_blks;
++	logical_block = req->place.start.blk_index + processed_blks;
++
++	rest_bytes = processed_blks * pagesize;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	BUG_ON(rest_bytes >= req->extent.data_bytes);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	rest_bytes = req->extent.data_bytes - rest_bytes;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("data_size %llu, pagesize %u\n",
++		  rest_bytes, pagesize);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	if (rest_bytes < PAGE_SIZE)
++		return false;
++
++	return true;
++}
 +
 +/*
-+ * Internal snapshots tree API
++ * is_ssdfs_block_duplicated() - check that block is duplicated
++ * @pebi: pointer on PEB object
++ * @req: I/O request
++ * @pair: fingerprint pair [out]
++ *
++ * This method tries to check that block is duplicated.
++ * Pre-allocated blocks will be ignored.
 + */
-+int ssdfs_start_snapshots_btree_thread(struct ssdfs_fs_info *fsi);
-+int ssdfs_stop_snapshots_btree_thread(struct ssdfs_fs_info *fsi);
-+int ssdfs_snapshots_tree_find_leaf_node(struct ssdfs_snapshots_btree_info *tree,
-+					struct ssdfs_timestamp_range *range,
-+					struct ssdfs_btree_search *search);
-+int ssdfs_snapshots_tree_get_start_hash(struct ssdfs_snapshots_btree_info *tree,
-+					u64 *start_hash);
-+int ssdfs_snapshots_tree_node_hash_range(struct ssdfs_snapshots_btree_info *tree,
-+					 struct ssdfs_btree_search *search,
-+					 u64 *start_hash, u64 *end_hash,
-+					 u16 *items_count);
-+int ssdfs_snapshots_tree_extract_range(struct ssdfs_snapshots_btree_info *tree,
-+				       u16 start_index, u16 count,
-+				       struct ssdfs_btree_search *search);
-+int ssdfs_snapshots_tree_check_search_result(struct ssdfs_btree_search *search);
-+int ssdfs_snapshots_tree_get_next_hash(struct ssdfs_snapshots_btree_info *tree,
-+					struct ssdfs_btree_search *search,
-+					u64 *next_hash);
++bool is_ssdfs_block_duplicated(struct ssdfs_peb_info *pebi,
++				struct ssdfs_segment_request *req,
++				struct ssdfs_fingerprint_pair *pair)
++{
++	u32 logical_block;
++	u32 processed_blks;
++	bool is_duplicated = false;
++	int err;
 +
-+void ssdfs_debug_snapshots_btree_object(struct ssdfs_snapshots_btree_info *tree);
++#ifdef CONFIG_SSDFS_DEBUG
++	BUG_ON(!pebi || !pebi->pebc || !req || !pair);
++	BUG_ON(!pebi->pebc->parent_si || !pebi->pebc->parent_si->fsi);
++	BUG_ON(req->place.len >= U16_MAX);
++	BUG_ON(req->result.processed_blks > req->place.len);
++	BUG_ON(!is_ssdfs_peb_container_locked(pebi->pebc));
++
++	SSDFS_DBG("ino %llu, seg %llu, peb %llu, "
++		  "peb_index %u, logical_offset %llu, "
++		  "processed_blks %d, logical_block %u, data_bytes %u, "
++		  "cno %llu, parent_snapshot %llu, cmd %#x, type %#x\n",
++		  req->extent.ino, req->place.start.seg_id,
++		  pebi->peb_id, pebi->peb_index,
++		  req->extent.logical_offset, req->result.processed_blks,
++		  req->place.start.blk_index,
++		  req->extent.data_bytes, req->extent.cno,
++		  req->extent.parent_snapshot,
++		  req->private.cmd, req->private.type);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	if (!is_ssdfs_peb_containing_user_data(pebi->pebc)) {
++#ifdef CONFIG_SSDFS_DEBUG
++		SSDFS_DBG("ignore metadata\n");
++#endif /* CONFIG_SSDFS_DEBUG */
++		return false;
++	}
++
++	if (!is_data_size_fingerprint_ready(pebi, req)) {
++#ifdef CONFIG_SSDFS_DEBUG
++		SSDFS_DBG("data is too small for fingerprint calculation\n");
++#endif /* CONFIG_SSDFS_DEBUG */
++		return false;
++	}
++
++	processed_blks = req->result.processed_blks;
++	logical_block = req->place.start.blk_index + processed_blks;
++
++	memset(&pair->item.hash, 0, sizeof(struct ssdfs_fingerprint));
++	pair->item.logical_blk = logical_block;
++	SSDFS_BLK_DESC_INIT(&pair->item.blk_desc);
++
++	err = ssdfs_calculate_fingerprint(pebi, req, &pair->item.hash);
++	if (unlikely(err)) {
++		SSDFS_ERR("fail to calculate fingerprint: "
++			  "logical_block %u, err %d\n",
++			  logical_block, err);
++		return false;
++	}
++
++	err = ssdfs_fingerprint_array_find(&pebi->dedup.fingerprints,
++					   &pair->item.hash,
++					   &pair->item_index);
++	if (err == -ENOENT) {
++		is_duplicated = false;
++	} else if (unlikely(err)) {
++		SSDFS_ERR("fail to find fingerprint: "
++			  "logical_block %u, err %d\n",
++			  logical_block, err);
++		return false;
++	} else {
++		is_duplicated = true;
++	}
++
++	return is_duplicated;
++}
 +
 +/*
-+ * Snapshots btree specialized operations
++ * should_ssdfs_save_fingerprint() - should fingerprint to be saved
++ * @pebi: pointer on PEB object
++ * @req: I/O request
 + */
-+extern const struct ssdfs_btree_descriptor_operations
-+						ssdfs_snapshots_btree_desc_ops;
-+extern const struct ssdfs_btree_operations ssdfs_snapshots_btree_ops;
-+extern const struct ssdfs_btree_node_operations ssdfs_snapshots_btree_node_ops;
++bool should_ssdfs_save_fingerprint(struct ssdfs_peb_info *pebi,
++				   struct ssdfs_segment_request *req)
++{
++#ifdef CONFIG_SSDFS_DEBUG
++	BUG_ON(!pebi || !pebi->pebc || !req);
++	BUG_ON(!pebi->pebc->parent_si || !pebi->pebc->parent_si->fsi);
++	BUG_ON(req->place.len >= U16_MAX);
++	BUG_ON(req->result.processed_blks > req->place.len);
 +
-+#endif /* _SSDFS_SNAPSHOTS_TREE_H */
++	SSDFS_DBG("ino %llu, seg %llu, peb %llu, "
++		  "peb_index %u, logical_offset %llu, "
++		  "processed_blks %d, logical_block %u, data_bytes %u, "
++		  "cno %llu, parent_snapshot %llu, cmd %#x, type %#x\n",
++		  req->extent.ino, req->place.start.seg_id,
++		  pebi->peb_id, pebi->peb_index,
++		  req->extent.logical_offset, req->result.processed_blks,
++		  req->place.start.blk_index,
++		  req->extent.data_bytes, req->extent.cno,
++		  req->extent.parent_snapshot,
++		  req->private.cmd, req->private.type);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	if (!is_ssdfs_peb_containing_user_data(pebi->pebc)) {
++#ifdef CONFIG_SSDFS_DEBUG
++		SSDFS_DBG("ignore metadata\n");
++#endif /* CONFIG_SSDFS_DEBUG */
++		return false;
++	}
++
++	if (!is_data_size_fingerprint_ready(pebi, req)) {
++#ifdef CONFIG_SSDFS_DEBUG
++		SSDFS_DBG("data is too small for fingerprint calculation\n");
++#endif /* CONFIG_SSDFS_DEBUG */
++		return false;
++	}
++
++	return true;
++}
++
++/*
++ * ssdfs_peb_deduplicate_logical_block() - deduplicate a logical block
++ * @pebi: pointer on PEB object
++ * @req: I/O request
++ * @pair: fingerprint pair
++ * @blk_desc: pointer on buffer for block descriptor [out]
++ *
++ * This method tries to deduplicate the logical block.
++ *
++ * RETURN:
++ * [success]
++ * [failure] - error code:
++ *
++ * %-EINVAL     - invalid input.
++ * %-ERANGE     - internal error.
++ */
++int ssdfs_peb_deduplicate_logical_block(struct ssdfs_peb_info *pebi,
++					struct ssdfs_segment_request *req,
++					struct ssdfs_fingerprint_pair *pair,
++					struct ssdfs_block_descriptor *blk_desc)
++{
++	struct ssdfs_fingerprint_item item;
++	size_t blk_desc_size = sizeof(struct ssdfs_block_descriptor);
++	int res;
++	int err;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	BUG_ON(!pebi || !pebi->pebc || !req);
++	BUG_ON(!pair || !blk_desc);
++	BUG_ON(!pebi->pebc->parent_si || !pebi->pebc->parent_si->fsi);
++	BUG_ON(req->place.len >= U16_MAX);
++	BUG_ON(req->result.processed_blks > req->place.len);
++	BUG_ON(!is_ssdfs_peb_container_locked(pebi->pebc));
++
++	SSDFS_DBG("ino %llu, seg %llu, peb %llu, "
++		  "peb_index %u, logical_offset %llu, "
++		  "processed_blks %d, logical_block %u, data_bytes %u, "
++		  "cno %llu, parent_snapshot %llu, cmd %#x, type %#x\n",
++		  req->extent.ino, req->place.start.seg_id,
++		  pebi->peb_id, pebi->peb_index,
++		  req->extent.logical_offset, req->result.processed_blks,
++		  req->place.start.blk_index,
++		  req->extent.data_bytes, req->extent.cno,
++		  req->extent.parent_snapshot,
++		  req->private.cmd, req->private.type);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	if (pair->item.logical_blk >= U32_MAX) {
++		SSDFS_ERR("invalid logical block\n");
++		return -EINVAL;
++	}
++
++	if (!IS_FINGERPRINT_VALID(&pair->item.hash)) {
++		SSDFS_ERR("invalid hash: logical block %u\n",
++			  pair->item.logical_blk);
++		return -EINVAL;
++	}
++
++	err = ssdfs_fingerprint_array_get(&pebi->dedup.fingerprints,
++					  pair->item_index, &item);
++	if (unlikely(err)) {
++		SSDFS_ERR("fail to get fingerprint item: "
++			  "item_index %u, err %d\n",
++			  pair->item_index, err);
++		return err;
++	}
++
++	res = ssdfs_check_fingerprint_item(&pair->item.hash, &item);
++	if (res == -EEXIST) {
++		/*
++		 * fingerprints are identical
++		 */
++	} else {
++		SSDFS_ERR("fingerprints are different\n");
++		return -ERANGE;
++	}
++
++	ssdfs_memcpy(blk_desc, 0, blk_desc_size,
++		     &item.blk_desc, 0, blk_desc_size,
++		     blk_desc_size);
++
++	return 0;
++}
++
++/*
++ * ssdfs_peb_save_fingerprint() - save new fingerprint into array
++ * @pebi: pointer on PEB object
++ * @req: I/O request
++ * @blk_desc: block descriptor of logical block
++ * @pair: fingerprint pair
++ *
++ * This method tries to store the new fingerprint of logical
++ * block into the fingerprint array.
++ *
++ * RETURN:
++ * [success]
++ * [failure] - error code:
++ *
++ * %-EINVAL     - invalid input.
++ * %-ERANGE     - internal error.
++ */
++int ssdfs_peb_save_fingerprint(struct ssdfs_peb_info *pebi,
++				struct ssdfs_segment_request *req,
++				struct ssdfs_block_descriptor *blk_desc,
++				struct ssdfs_fingerprint_pair *pair)
++{
++	size_t blk_desc_size = sizeof(struct ssdfs_block_descriptor);
++	int err;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	BUG_ON(!pebi || !pebi->pebc || !req || !blk_desc || !pair);
++	BUG_ON(!pebi->pebc->parent_si || !pebi->pebc->parent_si->fsi);
++	BUG_ON(req->place.len >= U16_MAX);
++	BUG_ON(req->result.processed_blks > req->place.len);
++	BUG_ON(!is_ssdfs_peb_container_locked(pebi->pebc));
++
++	SSDFS_DBG("ino %llu, seg %llu, peb %llu, "
++		  "peb_index %u, logical_offset %llu, "
++		  "processed_blks %d, logical_block %u, data_bytes %u, "
++		  "cno %llu, parent_snapshot %llu, cmd %#x, type %#x\n",
++		  req->extent.ino, req->place.start.seg_id,
++		  pebi->peb_id, pebi->peb_index,
++		  req->extent.logical_offset, req->result.processed_blks,
++		  req->place.start.blk_index,
++		  req->extent.data_bytes, req->extent.cno,
++		  req->extent.parent_snapshot,
++		  req->private.cmd, req->private.type);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	if (pair->item.logical_blk >= U32_MAX) {
++		SSDFS_ERR("invalid logical block\n");
++		return -EINVAL;
++	}
++
++	if (!IS_FINGERPRINT_VALID(&pair->item.hash)) {
++		SSDFS_ERR("invalid hash: logical block %u\n",
++			  pair->item.logical_blk);
++		return -EINVAL;
++	}
++
++	ssdfs_memcpy(&pair->item.blk_desc, 0, blk_desc_size,
++		     blk_desc, 0, blk_desc_size,
++		     blk_desc_size);
++
++	err = ssdfs_fingerprint_array_add(&pebi->dedup.fingerprints, &pair->item,
++					  pair->item_index);
++	if (unlikely(err)) {
++		SSDFS_ERR("fail to add fingerprint item: "
++			  "logical_block %u, item_index %u, err %d\n",
++			  pair->item.logical_blk, pair->item_index, err);
++		return err;
++	}
++
++	return 0;
++}
 -- 
 2.34.1
 
