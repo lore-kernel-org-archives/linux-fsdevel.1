@@ -1,71 +1,71 @@
 Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2EC430C617
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 02:19:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 578C330C359
+	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 02:19:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773627576; cv=none; b=XBWjPCEQeGYfbV6jbohSZ2BvvgYf7oPcv4tTK1nWWvl1JoPFTo2kxNQXFeDopXRHPiDgvg2x3gq1VClOEYPeXYoXMdsv6fXCa1XSQ//mMN7MJKyzO90b3BkO7D+atQNxWd4J/N/BGDEWRVi9KlOcjOlVGTkyXKnlBHExdN+0g+Q=
+	t=1773627577; cv=none; b=KvFvmH+jpOJDgeH8GpJKhyJO/aiM1+YcvLZ0rMth0fPwesb9HFffS+d385IeIstt7Ts/TWs2d4D36Gy3NNfNut4EmRICaKhQ1v7uTOWg/p0gBzdiHPKT0zBQH7h2oYWFPCs2/PfA4+j5zellX52BgidW9yYkqhCymiVLCv0higg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773627576; c=relaxed/simple;
-	bh=mfj34kpeaz4AG7l45Nn1sdnZuN4swBJoUn9QOhEldbE=;
+	s=arc-20240116; t=1773627577; c=relaxed/simple;
+	bh=MXKFN2gKsk2pCG1lBHDSq9+QUPj7cAyvNcY9MnnX0p4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZI2Z9n1dGu7NQqBwafYts63FDBwoWHg/tQ5OA0GEz9rX/V5T6on+p1oNXWYc3lYQkCEy9UGHo/KMrj5naKOepF46sdRCMUWLV1sSpGpB8P/kj4FWd/I+LE9BoG6bu3XZrGhHdM9pwlxj4JnV5c3yJVsvYcppr8Kcvwl3zCyXB50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b=EuikxP8z; arc=none smtp.client-ip=209.85.128.174
+	 MIME-Version; b=oNdzbzHBel6fhae+Fm98VXrK75vz5eQKXaCIP2fkQrE+EaNd5CAedVBZcKCaGgFbqBavIel5Dfe0xH4F8H81vrr6JL/VB310aBonIzbtinManjUwVfhErNQqRMgicVkFbVjm3ZO1/SLlXo/sD4N/3zuMIgUtuCVYZBc9UiWc/ps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b=Dw9x0dec; arc=none smtp.client-ip=209.85.128.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b="EuikxP8z"
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-798374d0f44so70789677b3.0
-        for <linux-fsdevel@vger.kernel.org>; Sun, 15 Mar 2026 19:19:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b="Dw9x0dec"
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-799001d73bdso29518217b3.0
+        for <linux-fsdevel@vger.kernel.org>; Sun, 15 Mar 2026 19:19:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=dubeyko-com.20230601.gappssmtp.com; s=20230601; t=1773627569; x=1774232369; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0fn0wIXm93SmK02N5H3DDCLxJ6dXWMQPe6SjelYD1OA=;
-        b=EuikxP8z+h4B1f9skoCJUk4i5bVy+sMGvFDt+AKRVNqatQ7Yo1mrQNulvmkXiQtYZV
-         m7oTz1JRTLEpqMDawSZ8uDbORLXPWaYQmJBenjfFWq4Fjy+eVI/esBPP80v95Atlpmxt
-         uQaSxEzkbfoiBpN8sdsHyBHD+l6By90ZMV5oJCFD3BKZpLm9hGmxt0QOAjZX/TjuhZ9Q
-         JRcuJkG8zNcHD42eN+KHwCeRWRWbfOEaBKucEVj0DdTT/y1pjaLoBfQk5OuWIQ7LkEDf
-         fKhCIzpaXkShjWa7jpEvUW1JBFtrpEzKKph6zs5E9peDTebonLfXUTpCePvBGONzx1Og
-         PHbw==
+        bh=40XQ1l6x6gk/5L/dLJ/1HjuJaWJ8WvGJcgGraAHBHiY=;
+        b=Dw9x0decEFqb/G3Et4s53Jdt5r8O2QbIFYn75UCplyPL9Z6yQxbjAZSRxru4FCLJfA
+         sisvwA2MqakbRumMLODxcicQSmLH2UKDki+arxF+jfgPNI4xt+hj8518rUmgjv+0KkJB
+         d8TwHcg4COytqXjXeqPa+PkYSyX6EVNp7Aq7GGIQKNeHVAC7ijywefjN/VYNv6nc5TcW
+         YEN6wJ7lqBVbr0fgpmK81YckTpZ7RTQJ6l/U/MfU4f/2NK19jA5QYEo3DxblI0EW0qil
+         n+fmnKPzlkE45oKVFBxOO27SOgiJE3Wkz2OWxKAhhAPuRbnXsKVkM2v7WE9vFGH0OGJa
+         /JOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20251104; t=1773627569; x=1774232369;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=0fn0wIXm93SmK02N5H3DDCLxJ6dXWMQPe6SjelYD1OA=;
-        b=moSKadagUr2g2vf/QL/HBI7K+0nUHI/Wfkiq+ipt5DYY3n/byxqNrDLp+sj1tcYbi1
-         HWVTs1Cr4JUzush+Wi38c/8+VHGsU7zVEroTSjnervZfLDK7gZXJH5YzbMsUDjKNq4+M
-         MfL0Vtt2YMP00xp3ncoQg4N5HN8S99Lro17A5ovcZS9FrcsN3jf9ZW1ruMpT8NZLQ5Xh
-         kw9QwJwelbbcCSqfKV0eZRk8Z8AOJUtwIgvnazTCfcpXc2iyFpEhqxqE3LTs+PJmFJBs
-         neeN8ZaBwPTL0psW2VWidXbpec9JDxGy4h/519cNcqUuCVaCGOuTTKprLjsr8Jj+/w/p
-         H8lw==
-X-Gm-Message-State: AOJu0Yziv22lCCDT1LOCjD7Wubjdx0rb1+i1ChPZgm5JA/yGuomVJiW9
-	KPy6oanxEfcjxJPZZmKTUR6bFxUFi+iE0LLpvZGU3zDB1SvyJhLIutkJaMOioUst9XCE7NzR3GT
-	aXE4b
-X-Gm-Gg: ATEYQzzOUw/v40ocjaulbsV+0Kix0uSAmcgqCt0Qy9/PaDTx02CJdYdbhtKxUh0ydXg
-	coke01hWADXBnaqzuZ1PRkm5nLTewdcYD9TWFnM2HAOGBvbUM6N93DPds0f+Z4YaoAnMnoTBWsh
-	oeozOGvLVEbYSawhG7K2bkqUfzUgbcmMMfrKCoTMYeHau8xy/Bjz1YOOS1vK80Q9A22j++qsdhe
-	N9UE0/COL43kigv28+Bs0lNwdi6Ld4cFNNB/+Y2tiTWpYnIBNagEXCiHxdWylqX0thfnTTllktK
-	7Gzm+y7Liw+FRtb21mPbaDHw1tJjMIZCS+G1fb9mp/t+QPjByb4gn+uRDb111CiXwYBsfPbM5Ku
-	c6eCcYbnUjUhsNq2RdUIskgJYOgIvtLPj7sMhlBepwVPBW6hX2poxdVvEiCnnyrTuiOjNZMCjSu
-	ET3I0LzOrBCOuJj0CFNANaKjzX/bgh8CiKqV+75YzCMsieaN6+5Y1rJU5STiVe/8Xv7v1bftFoy
-	OENO9+fUa36iNXyQhlRzaLpyzx7URF6ta4=
-X-Received: by 2002:a05:690c:3390:b0:79a:43b1:1170 with SMTP id 00721157ae682-79a43b11806mr30093987b3.15.1773627567868;
-        Sun, 15 Mar 2026 19:19:27 -0700 (PDT)
+        bh=40XQ1l6x6gk/5L/dLJ/1HjuJaWJ8WvGJcgGraAHBHiY=;
+        b=SRm6hJ7CjC1Gsvqd9DDosWSDzNWLtFOOUJUGYzp74qFBKmvUUPMkiXggOehny5Z9qO
+         H2/q/5G2o6t8OH3IOmb2R8I+nlE+4/ffs5BcsIgGjj8iRTayGGvYXObJor0ssirJiItl
+         NtsmzoJGboOf9XDg9tvsoLkoUCxMYK6RtdVTmpswXk9u4O1o1eSBpNuUX4PDkgkoh2ff
+         CGi8EQ1aKAxNM4qBGKtvmnk8IoZD/TKIeTC4W1D+R1DxDtF1WpIGHExYyfk8qZhV0doe
+         CeIM4fLNmr8BmQ8kl0z2AmXev+9+V8MdXuy9NzO97PkJw6b0DahVMKyNqlGr/3gfi/Ee
+         i0EA==
+X-Gm-Message-State: AOJu0YzH/oNbsTXgxDbtjf53MearLRxeauS9cZdZESacVkP9xiRaFakE
+	8pDYmPkWWbuV3gZtvcBL2aqh4IDFJox7QJw4qv0psvJTOG4P7WnbveUudL53vwH5fIa3iXhHVix
+	1UDhA
+X-Gm-Gg: ATEYQzyn8vVDYHiUcLx+lGBYXEUPlvovI+C0egl23rcn14byli4R0ZLsZ7SIgUmmgJ8
+	XaFKsM/s3VqKyfdNn2edXzOwb9JpiNOMQznZ67d973ltpl/FNWQwt4ndm1V12LrGrKgx2e/AV4z
+	Ki9zwnFMJYpVWpQdROwizxg69s2czsaRLVTfBUY0ED8DADckmemUrZTdM0ngDVoE+tBkXPrGlk9
+	B7NoBuIC/E3K5k6Ar1/FKOdcno3aCT3rtSawuMUQwDIAoboYh0DwGGxwMh4dFEopeJqtr2zr4YR
+	E7yluFlJdphSgwnQ8lTEAU3q/0tBbYGjsH8QRiEhfdKPkXiqVmOtgrMasMh3YQgJDHAAyijh1KV
+	XkwY/VTkWwxEoGClaYnlXSuJ7ojoe9o6NVmKODPMkdJNs8Ko1I2Vkk0sPu+1gVyyIY5A/dtTDA6
+	D0WnJQAWkL9T3RVhmcKGea4PpaC6gFkaHucH35A8Z5sbZm5eJbHFbU3nRb+wzLY4iO2KydD0we3
+	dxwyM4RefQFMgJh9/Sd5VQN
+X-Received: by 2002:a05:690c:6611:b0:79a:42f3:ff95 with SMTP id 00721157ae682-79a42f40593mr31768917b3.45.1773627569121;
+        Sun, 15 Mar 2026 19:19:29 -0700 (PDT)
 Received: from pop-os.attlocal.net ([2600:1700:6476:1430:6939:3e01:5e8f:6093])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-79917deb69asm79721617b3.10.2026.03.15.19.19.26
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-79917deb69asm79721617b3.10.2026.03.15.19.19.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Mar 2026 19:19:27 -0700 (PDT)
+        Sun, 15 Mar 2026 19:19:28 -0700 (PDT)
 From: Viacheslav Dubeyko <slava@dubeyko.com>
 To: linux-fsdevel@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
 	Viacheslav Dubeyko <slava@dubeyko.com>
-Subject: [PATCH v2 04/79] ssdfs: implement raw device operations
-Date: Sun, 15 Mar 2026 19:17:31 -0700
-Message-ID: <20260316021800.1694650-5-slava@dubeyko.com>
+Subject: [PATCH v2 06/79] ssdfs: implement super operations
+Date: Sun, 15 Mar 2026 19:17:32 -0700
+Message-ID: <20260316021800.1694650-6-slava@dubeyko.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260316021800.1694650-1-slava@dubeyko.com>
 References: <20260316021800.1694650-1-slava@dubeyko.com>
@@ -80,44 +80,78 @@ Content-Transfer-Encoding: 8bit
 Complete patchset is available here:
 https://github.com/dubeyko/ssdfs-driver/tree/master/patchset/linux-kernel-6.18.0
 
-Implement raw device operations:
-(1) device_name: get device name
-(2) device_size: get device size in bytes
-(3) open_zone: open zone
-(4) reopen_zone: reopen closed zone
-(5) close_zone: close zone
-(6) read: read from device
-(7) read_block: read logical block
-(8) read_blocks: read sequence of logical blocks
-(9) can_write_block: can we write into logical block?
-(10) write_block: write logical block to device
-(11) write_blocks: write sequence of logical blocks to device
-(12) erase: erase the whole erase block
-(13) trim: support of background erase operation
-(14) sync: synchronize page cache with device
+SSDFS has specialized superblock segment (erase block) that
+has goal to keep the sequence of committed superblocks.
+Superblock instance is stored on successful mount operation
+and during unmount operation. At first, logic tries to detect
+the state of current superblock segment. If segment (erase block)
+is completely full, then a new superblock segment is reserved.
+As a result, new superblock instance is stored into the sequence.
+Actually, SSDFS has main and backup copy of current superblock
+segments. Additionally, SSDFS keeps information about previous,
+current, next, and reserved superblock segments. SSDFS can use
+two policy of segment superblock allocation: (1) reserve a new
+segment for every new allocation, (2) use only set of superblock
+segments that have been reserved by mkfs tool.
+
+Every commit operation stores log into superblock segment.
+This log contains:
+(1) segment header,
+(2) payload (mapping table cache, for example),
+(3) log footer.
+
+Segment header can be considered like static superblock info.
+It contains metadata that not changed at all after volume
+creation (logical block size, for example) or changed rarely
+(number of segments in the volume, for example). Log footer
+can be considered like dynamic part of superblock because
+it contains frequently updated metadata (for example, root
+node of inodes b-tree).
+
+Patch implements register/unregister file system logic.
+The register FS logic includes caches creation/initialization,
+compression support initialization, sysfs subsystem
+initialization. Oppositely, unregister FS logic executes
+destruction of caches, compression subsystem, and sysfs
+entries.
+
+Also, patch implements basic mount/unmount logic.
+The ssdfs_fill_super() implements mount logic that includes:
+(1) parsing mount options,
+(2) extract superblock info,
+(3) create key in-core metadata structures (mapping table,
+    segment bitmap, b-trees),
+(4) create root inode,
+(5) start metadata structures' threads,
+(6) commit superblock on finish of mount operation.
+
+The ssdfs_put_super() implements unmount logic:
+(1) stop metadata threads,
+(2) wait unfinished user data requests,
+(3) flush dirty metadata structures,
+(4) commit superblock,
+(5) destroy in-core metadata structures.
 
 Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
 ---
- fs/ssdfs/dev_bdev.c | 1065 ++++++++++++++++++++++++++++++++++
- fs/ssdfs/dev_mtd.c  |  650 +++++++++++++++++++++
- fs/ssdfs/dev_zns.c  | 1344 +++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 3059 insertions(+)
- create mode 100644 fs/ssdfs/dev_bdev.c
- create mode 100644 fs/ssdfs/dev_mtd.c
- create mode 100644 fs/ssdfs/dev_zns.c
+ fs/ssdfs/options.c |  170 ++++
+ fs/ssdfs/super.c   | 2077 ++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 2247 insertions(+)
+ create mode 100644 fs/ssdfs/options.c
+ create mode 100644 fs/ssdfs/super.c
 
-diff --git a/fs/ssdfs/dev_bdev.c b/fs/ssdfs/dev_bdev.c
+diff --git a/fs/ssdfs/options.c b/fs/ssdfs/options.c
 new file mode 100644
-index 000000000000..13da78eadd12
+index 000000000000..4a1d710d9350
 --- /dev/null
-+++ b/fs/ssdfs/dev_bdev.c
-@@ -0,0 +1,1065 @@
++++ b/fs/ssdfs/options.c
+@@ -0,0 +1,170 @@
 +/*
 + * SPDX-License-Identifier: BSD-3-Clause-Clear
 + *
 + * SSDFS -- SSD-oriented File System.
 + *
-+ * fs/ssdfs/dev_bdev.c - Block device access code.
++ * fs/ssdfs/options.c - mount options parsing.
 + *
 + * Copyright (c) 2014-2019 HGST, a Western Digital Company.
 + *              http://www.hgst.com/
@@ -134,1061 +168,166 @@ index 000000000000..13da78eadd12
 + *                  Zvonimir Bandic
 + */
 +
-+#include <linux/mm.h>
++#include <linux/string.h>
++#include <linux/kernel.h>
++#include <linux/parser.h>
++#include <linux/mount.h>
 +#include <linux/slab.h>
-+#include <linux/highmem.h>
-+#include <linux/pagemap.h>
++#include <linux/seq_file.h>
 +#include <linux/pagevec.h>
-+#include <linux/bio.h>
-+#include <linux/blkdev.h>
-+#include <linux/backing-dev.h>
++#include <linux/fs_parser.h>
++#include <linux/fs_context.h>
 +
 +#include "peb_mapping_queue.h"
 +#include "peb_mapping_table_cache.h"
 +#include "folio_vector.h"
 +#include "ssdfs.h"
-+
-+#include <trace/events/ssdfs.h>
-+
-+#ifdef CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING
-+atomic64_t ssdfs_dev_bdev_folio_leaks;
-+atomic64_t ssdfs_dev_bdev_memory_leaks;
-+atomic64_t ssdfs_dev_bdev_cache_leaks;
-+#endif /* CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING */
++#include "segment_bitmap.h"
 +
 +/*
-+ * void ssdfs_dev_bdev_cache_leaks_increment(void *kaddr)
-+ * void ssdfs_dev_bdev_cache_leaks_decrement(void *kaddr)
-+ * void *ssdfs_dev_bdev_kmalloc(size_t size, gfp_t flags)
-+ * void *ssdfs_dev_bdev_kzalloc(size_t size, gfp_t flags)
-+ * void *ssdfs_dev_bdev_kcalloc(size_t n, size_t size, gfp_t flags)
-+ * void ssdfs_dev_bdev_kfree(void *kaddr)
-+ * struct folio *ssdfs_dev_bdev_alloc_folio(gfp_t gfp_mask,
-+ *                                          unsigned int order)
-+ * struct folio *ssdfs_dev_bdev_add_batch_folio(struct folio_batch *batch,
-+ *                                              unsigned int order)
-+ * void ssdfs_dev_bdev_free_folio(struct folio *folio)
-+ * void ssdfs_dev_bdev_folio_batch_release(struct folio_batch *batch)
++ * SSDFS mount options.
++ *
++ * Opt_err: behavior if fs error is detected
++ * Opt_compr: change default compressor
++ * Opt_ignore_fs_state: ignore on-disk file system state during mount
 + */
-+#ifdef CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING
-+	SSDFS_MEMORY_LEAKS_CHECKER_FNS(dev_bdev)
-+#else
-+	SSDFS_MEMORY_ALLOCATOR_FNS(dev_bdev)
-+#endif /* CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING */
-+
-+void ssdfs_dev_bdev_memory_leaks_init(void)
-+{
-+#ifdef CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING
-+	atomic64_set(&ssdfs_dev_bdev_folio_leaks, 0);
-+	atomic64_set(&ssdfs_dev_bdev_memory_leaks, 0);
-+	atomic64_set(&ssdfs_dev_bdev_cache_leaks, 0);
-+#endif /* CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING */
-+}
-+
-+void ssdfs_dev_bdev_check_memory_leaks(void)
-+{
-+#ifdef CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING
-+	if (atomic64_read(&ssdfs_dev_bdev_folio_leaks) != 0) {
-+		SSDFS_ERR("BLOCK DEV: "
-+			  "memory leaks include %lld folios\n",
-+			  atomic64_read(&ssdfs_dev_bdev_folio_leaks));
-+	}
-+
-+	if (atomic64_read(&ssdfs_dev_bdev_memory_leaks) != 0) {
-+		SSDFS_ERR("BLOCK DEV: "
-+			  "memory allocator suffers from %lld leaks\n",
-+			  atomic64_read(&ssdfs_dev_bdev_memory_leaks));
-+	}
-+
-+	if (atomic64_read(&ssdfs_dev_bdev_cache_leaks) != 0) {
-+		SSDFS_ERR("BLOCK DEV: "
-+			  "caches suffers from %lld leaks\n",
-+			  atomic64_read(&ssdfs_dev_bdev_cache_leaks));
-+	}
-+#endif /* CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING */
-+}
-+
-+static DECLARE_WAIT_QUEUE_HEAD(wq);
-+
-+/*
-+ * ssdfs_bdev_device_name() - get device name
-+ * @sb: superblock object
-+ */
-+static const char *ssdfs_bdev_device_name(struct super_block *sb)
-+{
-+	return sb->s_id;
-+}
-+
-+/*
-+ * ssdfs_bdev_device_size() - get partition size in bytes
-+ * @sb: superblock object
-+ */
-+static __u64 ssdfs_bdev_device_size(struct super_block *sb)
-+{
-+	return i_size_read(sb->s_bdev->bd_mapping->host);
-+}
-+
-+static int ssdfs_bdev_open_zone(struct super_block *sb, loff_t offset)
-+{
-+	return -EOPNOTSUPP;
-+}
-+
-+static int ssdfs_bdev_reopen_zone(struct super_block *sb, loff_t offset)
-+{
-+	return -EOPNOTSUPP;
-+}
-+
-+static int ssdfs_bdev_close_zone(struct super_block *sb, loff_t offset)
-+{
-+	return -EOPNOTSUPP;
-+}
-+
-+/*
-+ * ssdfs_bdev_bio_alloc() - allocate bio object
-+ * @bdev: block device
-+ * @nr_iovecs: number of items in biovec
-+ * @op: direction of I/O
-+ * @gfp_mask: mask of creation flags
-+ */
-+struct bio *ssdfs_bdev_bio_alloc(struct block_device *bdev,
-+				 unsigned int nr_iovecs,
-+				 unsigned int op,
-+				 gfp_t gfp_mask)
-+{
-+	struct bio *bio;
-+
-+	bio = bio_alloc(bdev, nr_iovecs, op, gfp_mask);
-+	if (!bio) {
-+		SSDFS_ERR("fail to allocate bio\n");
-+		return ERR_PTR(-ENOMEM);
-+	}
-+
-+	return bio;
-+}
-+
-+/*
-+ * ssdfs_bdev_bio_put() - free bio object
-+ */
-+void ssdfs_bdev_bio_put(struct bio *bio)
-+{
-+	if (!bio)
-+		return;
-+
-+	bio_put(bio);
-+}
-+
-+/*
-+ * ssdfs_bdev_bio_add_folio() - add folio into bio
-+ * @bio: pointer on bio object
-+ * @folio: memory folio
-+ * @offset: vec entry offset
-+ */
-+int ssdfs_bdev_bio_add_folio(struct bio *bio, struct folio *folio,
-+			     unsigned int offset)
-+{
-+#ifdef CONFIG_SSDFS_DEBUG
-+	BUG_ON(!bio || !folio);
-+
-+	SSDFS_DBG("folio %p, count %d\n",
-+		  folio, folio_ref_count(folio));
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	if (!bio_add_folio(bio, folio, folio_size(folio), offset)) {
-+		SSDFS_ERR("fail to add folio: "
-+			  "offset %u, size %zu\n",
-+			  offset, folio_size(folio));
-+		return -ERANGE;
-+	}
-+
-+	return 0;
-+}
-+
-+/*
-+ * ssdfs_bdev_sync_folio_request() - submit folio request
-+ * @sb: superblock object
-+ * @folio: memory folio
-+ * @offset: offset in bytes from partition's begin
-+ * @op: direction of I/O
-+ * @op_flags: request op flags
-+ */
-+static int ssdfs_bdev_sync_folio_request(struct super_block *sb,
-+					 struct folio *folio,
-+					 loff_t offset,
-+					 unsigned int op, int op_flags)
-+{
-+	struct bio *bio;
-+	loff_t folio_index;
-+	sector_t sector;
-+	int err = 0;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	BUG_ON(!folio);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	folio_index = div_u64(offset, folio_size(folio));
-+	sector = (pgoff_t)(((u64)folio_index * folio_size(folio)) >>
-+								SECTOR_SHIFT);
-+
-+	bio = ssdfs_bdev_bio_alloc(sb->s_bdev, 1, op, GFP_NOIO);
-+	if (IS_ERR_OR_NULL(bio)) {
-+		err = !bio ? -ERANGE : PTR_ERR(bio);
-+		SSDFS_ERR("fail to allocate bio: err %d\n",
-+			  err);
-+		return err;
-+	}
-+
-+	bio->bi_iter.bi_sector = sector;
-+	bio_set_dev(bio, sb->s_bdev);
-+	bio->bi_opf = op | op_flags;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("folio %p, count %d\n",
-+		  folio, folio_ref_count(folio));
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	err = ssdfs_bdev_bio_add_folio(bio, folio, 0);
-+	if (unlikely(err)) {
-+		SSDFS_ERR("fail to add folio into bio: "
-+			  "err %d\n",
-+			  err);
-+		goto finish_sync_folio_request;
-+	}
-+
-+	err = submit_bio_wait(bio);
-+	if (unlikely(err)) {
-+		SSDFS_ERR("fail to process request: "
-+			  "err %d\n",
-+			  err);
-+		goto finish_sync_folio_request;
-+	}
-+
-+finish_sync_folio_request:
-+	ssdfs_bdev_bio_put(bio);
-+
-+	return err;
-+}
-+
-+/*
-+ * ssdfs_bdev_sync_batch_request() - submit folio batch request
-+ * @sb: superblock object
-+ * @batch: folio batch
-+ * @offset: offset in bytes from partition's begin
-+ * @op: direction of I/O
-+ * @op_flags: request op flags
-+ */
-+static int ssdfs_bdev_sync_batch_request(struct super_block *sb,
-+					 struct folio_batch *batch,
-+					 loff_t offset,
-+					 unsigned int op, int op_flags)
-+{
-+	struct bio *bio;
-+	loff_t folio_index;
-+	sector_t sector;
-+	u32 block_size;
-+	int i;
-+	int err = 0;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	BUG_ON(!batch);
-+
-+	SSDFS_DBG("offset %llu, op %#x, op_flags %#x\n",
-+		  offset, op, op_flags);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	if (folio_batch_count(batch) == 0) {
-+		SSDFS_WARN("empty folio batch\n");
-+		return -ERANGE;
-+	}
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	BUG_ON(!batch->folios[0]);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	block_size = folio_size(batch->folios[0]);
-+
-+	folio_index = div_u64(offset, block_size);
-+	sector = (pgoff_t)(((u64)folio_index * block_size) >> SECTOR_SHIFT);
-+
-+	bio = ssdfs_bdev_bio_alloc(sb->s_bdev, folio_batch_count(batch),
-+				   op, GFP_NOIO);
-+	if (IS_ERR_OR_NULL(bio)) {
-+		err = !bio ? -ERANGE : PTR_ERR(bio);
-+		SSDFS_ERR("fail to allocate bio: err %d\n",
-+			  err);
-+		return err;
-+	}
-+
-+	bio->bi_iter.bi_sector = sector;
-+	bio_set_dev(bio, sb->s_bdev);
-+	bio->bi_opf = op | op_flags;
-+
-+	for (i = 0; i < folio_batch_count(batch); i++) {
-+		struct folio *folio = batch->folios[i];
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+		BUG_ON(!folio);
-+
-+		SSDFS_DBG("folio %p, count %d\n",
-+			  folio, folio_ref_count(folio));
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+		err = ssdfs_bdev_bio_add_folio(bio, folio, 0);
-+		if (unlikely(err)) {
-+			SSDFS_ERR("fail to add folio %d into bio: "
-+				  "err %d\n",
-+				  i, err);
-+			goto finish_sync_batch_request;
-+		}
-+	}
-+
-+	err = submit_bio_wait(bio);
-+	if (unlikely(err)) {
-+		SSDFS_ERR("fail to process request: "
-+			  "err %d\n",
-+			  err);
-+		goto finish_sync_batch_request;
-+	}
-+
-+finish_sync_batch_request:
-+	ssdfs_bdev_bio_put(bio);
-+
-+	return err;
-+}
-+
-+/*
-+ * ssdfs_bdev_read_block() - read logical block from the volume
-+ * @sb: superblock object
-+ * @folio: memory folio
-+ * @offset: offset in bytes from partition's begin
-+ *
-+ * This function tries to read data on @offset
-+ * from partition's begin in memory folio.
-+ *
-+ * RETURN:
-+ * [success]
-+ * [failure] - error code:
-+ *
-+ * %-EIO         - I/O error.
-+ */
-+int ssdfs_bdev_read_block(struct super_block *sb, struct folio *folio,
-+			  loff_t offset)
-+{
-+	int err;
-+
-+	err = ssdfs_bdev_sync_folio_request(sb, folio, offset,
-+					    REQ_OP_READ, REQ_SYNC);
-+	if (err) {
-+		folio_clear_uptodate(folio);
-+	} else {
-+		folio_mark_uptodate(folio);
-+		flush_dcache_folio(folio);
-+	}
-+
-+	ssdfs_folio_unlock(folio);
-+
-+	return err;
-+}
-+
-+/*
-+ * ssdfs_bdev_read_blocks() - read logical blocks from the volume
-+ * @sb: superblock object
-+ * @batch: folio batch
-+ * @offset: offset in bytes from partition's begin
-+ *
-+ * This function tries to read data on @offset
-+ * from partition's begin in folio batch.
-+ *
-+ * RETURN:
-+ * [success]
-+ * [failure] - error code:
-+ *
-+ * %-EIO         - I/O error.
-+ */
-+int ssdfs_bdev_read_blocks(struct super_block *sb, struct folio_batch *batch,
-+			   loff_t offset)
-+{
-+	int i;
-+	int err = 0;
-+
-+	err = ssdfs_bdev_sync_batch_request(sb, batch, offset,
-+					    REQ_OP_READ, REQ_RAHEAD);
-+
-+	for (i = 0; i < folio_batch_count(batch); i++) {
-+		struct folio *folio = batch->folios[i];
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+		BUG_ON(!folio);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+		if (err) {
-+			folio_clear_uptodate(folio);
-+		} else {
-+			folio_mark_uptodate(folio);
-+			flush_dcache_folio(folio);
-+		}
-+
-+		ssdfs_folio_unlock(folio);
-+	}
-+
-+	return err;
-+}
-+
-+/*
-+ * ssdfs_bdev_read_batch() - read from volume into buffer
-+ * @sb: superblock object
-+ * @block_size: block size in bytes
-+ * @offset: offset in bytes from partition's begin
-+ * @len: size of buffer in bytes
-+ * @buf: buffer
-+ * @read_bytes: pointer on read bytes [out]
-+ *
-+ * This function tries to read data on @offset
-+ * from partition's begin with @len bytes in size
-+ * from the volume into @buf.
-+ *
-+ * RETURN:
-+ * [success]
-+ * [failure] - error code:
-+ *
-+ * %-EIO         - I/O error.
-+ */
-+static int ssdfs_bdev_read_batch(struct super_block *sb,
-+				 u32 block_size,
-+				 loff_t offset, size_t len,
-+				 void *buf, size_t *read_bytes)
-+{
-+	struct folio_batch batch;
-+	struct folio *folio;
-+	loff_t folio_start, folio_end;
-+	u32 folios_count;
-+	u32 read_len;
-+	loff_t cur_offset = offset;
-+	u32 offset_inside_folio;
-+	int i;
-+	int err = 0;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("sb %p, block_size %u, offset %llu, len %zu, buf %p\n",
-+		  sb, block_size, (unsigned long long)offset, len, buf);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	*read_bytes = 0;
-+
-+	folio_start = div_u64(offset, block_size);
-+	folio_end = div_u64(offset + len + block_size - 1, block_size);
-+	folios_count = (u32)(folio_end - folio_start);
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("offset %llu, len %zu, block_size %u, "
-+		  "folio_start %llu, folio_end %llu, folios_count %u\n",
-+		  (unsigned long long)offset, len, block_size,
-+		  (unsigned long long)folio_start,
-+		  (unsigned long long)folio_end,
-+		  folios_count);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	if (folios_count > SSDFS_EXTENT_LEN_MAX) {
-+		SSDFS_WARN("folios_count %u > batch_capacity %u, "
-+			   "offset %llu, len %zu, block_size %u, "
-+			   "folio_start %llu, folio_end %llu\n",
-+			   folios_count, SSDFS_EXTENT_LEN_MAX,
-+			   (unsigned long long)offset, len,
-+			   block_size, folio_start, folio_end);
-+		return -ERANGE;
-+	}
-+
-+	folio_batch_init(&batch);
-+
-+	for (i = 0; i < folios_count; i++) {
-+		folio = ssdfs_dev_bdev_alloc_folio(GFP_KERNEL | __GFP_ZERO,
-+						   get_order(block_size));
-+		if (IS_ERR_OR_NULL(folio)) {
-+			err = (folio == NULL ? -ENOMEM : PTR_ERR(folio));
-+			SSDFS_ERR("unable to allocate memory folio\n");
-+			goto finish_bdev_read_batch;
-+		}
-+
-+		ssdfs_folio_get(folio);
-+		ssdfs_folio_lock(folio);
-+		folio_batch_add(&batch, folio);
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("folio %p, count %d\n",
-+			  folio, folio_ref_count(folio));
-+#endif /* CONFIG_SSDFS_DEBUG */
-+	}
-+
-+	err = ssdfs_bdev_sync_batch_request(sb, &batch, offset,
-+					    REQ_OP_READ, REQ_SYNC);
-+	if (unlikely(err)) {
-+		SSDFS_ERR("fail to read folio batch: err %d\n",
-+			  err);
-+		goto finish_bdev_read_batch;
-+	}
-+
-+	for (i = 0; i < folio_batch_count(&batch); i++) {
-+		folio = batch.folios[i];
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+		BUG_ON(!folio);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+		if (*read_bytes >= len) {
-+			err = -ERANGE;
-+			SSDFS_ERR("read_bytes %zu >= len %zu\n",
-+				  *read_bytes, len);
-+			goto finish_bdev_read_batch;
-+		}
-+
-+		div_u64_rem(cur_offset, block_size, &offset_inside_folio);
-+		read_len = min_t(size_t, (size_t)(block_size -
-+							offset_inside_folio),
-+					 (size_t)(len - *read_bytes));
-+
-+		err = __ssdfs_memcpy_from_folio(buf, *read_bytes,
-+						len,
-+						folio, offset_inside_folio,
-+						block_size,
-+						read_len);
-+		if (unlikely(err)) {
-+			SSDFS_ERR("fail to copy: err %d\n", err);
-+			goto finish_bdev_read_batch;
-+		}
-+
-+		*read_bytes += read_len;
-+		cur_offset += read_len;
-+	}
-+
-+finish_bdev_read_batch:
-+	for (i = folio_batch_count(&batch) - 1; i >= 0; i--) {
-+		folio = batch.folios[i];
-+
-+		if (folio) {
-+			ssdfs_folio_unlock(folio);
-+			ssdfs_folio_put(folio);
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_DBG("folio %p, count %d\n",
-+				  folio, folio_ref_count(folio));
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+			ssdfs_dev_bdev_free_folio(folio);
-+			batch.folios[i] = NULL;
-+		}
-+	}
-+
-+	folio_batch_reinit(&batch);
-+
-+	if (*read_bytes != len) {
-+		err = -EIO;
-+		SSDFS_ERR("read_bytes (%zu) != len (%zu)\n",
-+			  *read_bytes, len);
-+	}
-+
-+	return err;
-+}
-+
-+/*
-+ * ssdfs_bdev_read() - read from volume into buffer
-+ * @sb: superblock object
-+ * @block_size: block size in bytes
-+ * @offset: offset in bytes from partition's begin
-+ * @len: size of buffer in bytes
-+ * @buf: buffer
-+ *
-+ * This function tries to read data on @offset
-+ * from partition's begin with @len bytes in size
-+ * from the volume into @buf.
-+ *
-+ * RETURN:
-+ * [success]
-+ * [failure] - error code:
-+ *
-+ * %-EIO         - I/O error.
-+ */
-+int ssdfs_bdev_read(struct super_block *sb, u32 block_size,
-+		    loff_t offset, size_t len, void *buf)
-+{
-+	size_t read_bytes = 0;
-+	loff_t cur_offset = offset;
-+	u8 *ptr = (u8 *)buf;
-+	int err;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("sb %p, block_size %u, offset %llu, len %zu, buf %p\n",
-+		  sb, block_size, (unsigned long long)offset, len, buf);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	if (len == 0) {
-+		SSDFS_WARN("len is zero\n");
-+		return 0;
-+	}
-+
-+	while (read_bytes < len) {
-+		size_t iter_read;
-+
-+		err = ssdfs_bdev_read_batch(sb, block_size,
-+					    cur_offset,
-+					    len - read_bytes,
-+					    ptr,
-+					    &iter_read);
-+		if (unlikely(err)) {
-+			SSDFS_ERR("fail to read batch: "
-+				  "block_size %u, cur_offset %llu, "
-+				  "read_bytes %zu, err %d\n",
-+				  block_size, cur_offset,
-+				  read_bytes, err);
-+			return err;
-+		}
-+
-+		cur_offset += iter_read;
-+		ptr += iter_read;
-+		read_bytes += iter_read;
-+	}
-+
-+	return 0;
-+}
-+
-+/*
-+ * ssdfs_bdev_can_write_block() - check that logical block can be written
-+ * @sb: superblock object
-+ * @block_size: size of block in bytes
-+ * @offset: offset in bytes from partition's begin
-+ * @need_check: make check or not?
-+ *
-+ * This function checks that logical block can be written.
-+ *
-+ * RETURN:
-+ * [success]
-+ * [failure] - error code:
-+ *
-+ * %-EROFS       - file system in RO mode.
-+ * %-ENOMEM      - fail to allocate memory.
-+ * %-EIO         - I/O error.
-+ */
-+int ssdfs_bdev_can_write_block(struct super_block *sb, u32 block_size,
-+				loff_t offset, bool need_check)
-+{
-+	struct ssdfs_fs_info *fsi = SSDFS_FS_I(sb);
-+	struct ssdfs_signature *magic;
-+	void *buf;
-+	bool is_ssdfs_log_found;
-+	int err;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("sb %p, offset %llu, block_size %u, need_check %d\n",
-+		  sb, (unsigned long long)offset,
-+		  block_size, (int)need_check);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	if (!need_check)
-+		return 0;
-+
-+	buf = ssdfs_dev_bdev_kzalloc(block_size, GFP_KERNEL);
-+	if (!buf) {
-+		SSDFS_ERR("unable to allocate %d bytes\n", block_size);
-+		return -ENOMEM;
-+	}
-+
-+	err = ssdfs_bdev_read(sb, block_size, offset, block_size, buf);
-+	if (err)
-+		goto free_buf;
-+
-+	if (memchr_inv(buf, 0xff, block_size)) {
-+		if (memchr_inv(buf, 0x00, block_size)) {
-+			magic = (struct ssdfs_signature *)buf;
-+
-+			is_ssdfs_log_found =
-+				__is_ssdfs_segment_header_magic_valid(magic) ||
-+				is_ssdfs_partial_log_header_magic_valid(magic) ||
-+				__is_ssdfs_log_footer_magic_valid(magic);
-+
-+			if (is_ssdfs_log_found &&
-+			    is_ssdfs_uuid_and_fs_ctime_actual(fsi, buf)) {
-+#ifdef CONFIG_SSDFS_DEBUG
-+				SSDFS_DBG("area with offset %llu contains data\n",
-+					  (unsigned long long)offset);
-+
-+				SSDFS_DBG("PAGE DUMP:\n");
-+				print_hex_dump_bytes("", DUMP_PREFIX_OFFSET,
-+						     buf,
-+						     block_size);
-+				SSDFS_DBG("\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+				err = -EIO;
-+			} else {
-+#ifdef CONFIG_SSDFS_DEBUG
-+				SSDFS_DBG("area with offset %llu contains data\n",
-+					  (unsigned long long)offset);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+				err = -EIO;
-+			}
-+		}
-+	}
-+
-+free_buf:
-+	ssdfs_dev_bdev_kfree(buf);
-+	return err;
-+}
-+
-+/*
-+ * ssdfs_bdev_write_block() - write logical block to volume
-+ * @sb: superblock object
-+ * @offset: offset in bytes from partition's begin
-+ * @folio: memory folio
-+ *
-+ * This function tries to write from @folio data
-+ * on @offset from partition's begin.
-+ *
-+ * RETURN:
-+ * [success]
-+ * [failure] - error code:
-+ *
-+ * %-EROFS       - file system in RO mode.
-+ * %-EIO         - I/O error.
-+ */
-+int ssdfs_bdev_write_block(struct super_block *sb, loff_t offset,
-+			   struct folio *folio)
-+{
-+	struct ssdfs_fs_info *fsi = SSDFS_FS_I(sb);
-+#ifdef CONFIG_SSDFS_DEBUG
-+	u32 remainder;
-+#endif /* CONFIG_SSDFS_DEBUG */
-+	int err = 0;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("sb %p, offset %llu, folio %p\n",
-+		  sb, offset, folio);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	if (sb->s_flags & SB_RDONLY) {
-+		SSDFS_WARN("unable to write on RO file system\n");
-+		return -EROFS;
-+	}
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	BUG_ON(!folio);
-+	BUG_ON((offset >= ssdfs_bdev_device_size(sb)) ||
-+		(folio_size(folio) > (ssdfs_bdev_device_size(sb) - offset)));
-+	div_u64_rem((u64)offset, (u64)folio_size(folio), &remainder);
-+	BUG_ON(remainder);
-+	BUG_ON(!folio_test_dirty(folio));
-+	BUG_ON(folio_test_locked(folio));
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	ssdfs_folio_lock(folio);
-+	atomic_inc(&fsi->pending_bios);
-+
-+	err = ssdfs_bdev_sync_folio_request(sb, folio, offset,
-+					    REQ_OP_WRITE, REQ_SYNC);
-+	if (err) {
-+		SSDFS_ERR("failed to write (err %d): offset %llu\n",
-+			  err, (unsigned long long)offset);
-+	} else {
-+		ssdfs_clear_dirty_folio(folio);
-+		folio_mark_uptodate(folio);
-+	}
-+
-+	ssdfs_folio_unlock(folio);
-+	ssdfs_folio_put(folio);
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("folio %p, count %d\n",
-+		  folio, folio_ref_count(folio));
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	if (atomic_dec_and_test(&fsi->pending_bios))
-+		wake_up_all(&wq);
-+
-+	return err;
-+}
-+
-+/*
-+ * ssdfs_bdev_write_blocks() - write batch on volume
-+ * @sb: superblock object
-+ * @offset: offset in bytes from partition's begin
-+ * @batch: memory folios batch
-+ *
-+ * This function tries to write from @batch data
-+ * on @offset from partition's beginning.
-+ *
-+ * RETURN:
-+ * [success]
-+ * [failure] - error code:
-+ *
-+ * %-EROFS       - file system in RO mode.
-+ * %-EIO         - I/O error.
-+ */
-+int ssdfs_bdev_write_blocks(struct super_block *sb, loff_t offset,
-+			    struct folio_batch *batch)
-+{
-+	struct ssdfs_fs_info *fsi = SSDFS_FS_I(sb);
-+	struct folio *folio;
-+	int i;
-+#ifdef CONFIG_SSDFS_DEBUG
-+	u32 remainder;
-+#endif /* CONFIG_SSDFS_DEBUG */
-+	int err = 0;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("sb %p, offset %llu, batch %p\n",
-+		  sb, offset, batch);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	if (sb->s_flags & SB_RDONLY) {
-+		SSDFS_WARN("unable to write on RO file system\n");
-+		return -EROFS;
-+	}
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	BUG_ON(!batch);
-+	BUG_ON(offset >= ssdfs_bdev_device_size(sb));
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	if (folio_batch_count(batch) == 0) {
-+		SSDFS_WARN("empty batch\n");
-+		return 0;
-+	}
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	div_u64_rem((u64)offset, (u64)folio_size(batch->folios[0]), &remainder);
-+	BUG_ON(remainder);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	for (i = 0; i < folio_batch_count(batch); i++) {
-+		folio = batch->folios[i];
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+		BUG_ON(!folio);
-+
-+		SSDFS_DBG("folio_index %lu, folio_size %zu, "
-+			  "folio_dirty %#x\n",
-+			  folio->index, folio_size(folio),
-+			  folio_test_dirty(folio));
-+
-+		BUG_ON(!folio_test_dirty(folio));
-+		BUG_ON(folio_test_locked(folio));
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+		ssdfs_folio_lock(folio);
-+	}
-+
-+	atomic_inc(&fsi->pending_bios);
-+
-+	err = ssdfs_bdev_sync_batch_request(sb, batch, offset,
-+					    REQ_OP_WRITE, REQ_SYNC);
-+
-+	for (i = 0; i < folio_batch_count(batch); i++) {
-+		folio = batch->folios[i];
-+
-+		if (err) {
-+			SSDFS_ERR("failed to write (err %d): "
-+				  "folio_index %llu\n",
-+				  err,
-+				  (unsigned long long)folio->index);
-+		} else {
-+			ssdfs_clear_dirty_folio(folio);
-+			folio_mark_uptodate(folio);
-+		}
-+
-+		ssdfs_folio_unlock(folio);
-+		ssdfs_folio_put(folio);
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("folio %p, count %d\n",
-+			  folio, folio_ref_count(folio));
-+#endif /* CONFIG_SSDFS_DEBUG */
-+	}
-+
-+	if (atomic_dec_and_test(&fsi->pending_bios))
-+		wake_up_all(&wq);
-+
-+	return err;
-+}
-+
-+/*
-+ * ssdfs_bdev_support_discard() - check that block device supports discard
-+ */
-+static inline bool ssdfs_bdev_support_discard(struct block_device *bdev)
-+{
-+	return bdev_max_discard_sectors(bdev) ||
-+		bdev_is_zoned(bdev);
-+}
-+
-+/*
-+ * ssdfs_bdev_trim() - initiate background erase operation
-+ * @sb: superblock object
-+ * @offset: offset in bytes from partition's begin
-+ * @len: size in bytes
-+ *
-+ * This function tries to initiate background erase operation.
-+ *
-+ * RETURN:
-+ * [success]
-+ * [failure] - error code:
-+ *
-+ * %-EROFS       - file system in RO mode.
-+ * %-EFAULT      - erase operation error.
-+ */
-+static int ssdfs_bdev_trim(struct super_block *sb, loff_t offset, size_t len)
-+{
-+	struct ssdfs_fs_info *fsi = SSDFS_FS_I(sb);
-+	u32 erase_size = fsi->erasesize;
-+	loff_t page_start, page_end;
-+	u32 pages_count;
-+	u32 remainder;
-+	sector_t start_sector;
-+	sector_t sectors_count;
-+	int err = 0;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("sb %p, offset %llu, len %zu\n",
-+		  sb, (unsigned long long)offset, len);
-+
-+	div_u64_rem((u64)len, (u64)erase_size, &remainder);
-+	BUG_ON(remainder);
-+	div_u64_rem((u64)offset, (u64)erase_size, &remainder);
-+	BUG_ON(remainder);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	if (sb->s_flags & SB_RDONLY)
-+		return -EROFS;
-+
-+	div_u64_rem((u64)len, (u64)erase_size, &remainder);
-+	if (remainder) {
-+		SSDFS_WARN("len %llu, erase_size %u, remainder %u\n",
-+			   (unsigned long long)len,
-+			   erase_size, remainder);
-+		return -ERANGE;
-+	}
-+
-+	page_start = offset >> PAGE_SHIFT;
-+	page_end = (offset + len + PAGE_SIZE - 1) >> PAGE_SHIFT;
-+	pages_count = (u32)(page_end - page_start);
-+
-+	if (pages_count == 0) {
-+		SSDFS_WARN("pages_count equals to zero\n");
-+		return -ERANGE;
-+	}
-+
-+	start_sector = page_start << (PAGE_SHIFT - SSDFS_SECTOR_SHIFT);
-+	sectors_count = pages_count << (PAGE_SHIFT - SSDFS_SECTOR_SHIFT);
-+
-+	if (ssdfs_bdev_support_discard(sb->s_bdev)) {
-+		err = blkdev_issue_secure_erase(sb->s_bdev,
-+						start_sector, sectors_count,
-+						GFP_NOFS);
-+		if (err)
-+			goto try_zeroout;
-+	} else {
-+try_zeroout:
-+		err = blkdev_issue_zeroout(sb->s_bdev,
-+					   start_sector, sectors_count,
-+					   GFP_NOFS, 0);
-+	}
-+
-+	if (unlikely(err)) {
-+		SSDFS_ERR("fail to discard: "
-+			  "start_sector %llu, sectors_count %llu, "
-+			  "err %d\n",
-+			  start_sector, sectors_count, err);
-+		return err;
-+	}
-+
-+	return 0;
-+}
-+
-+/*
-+ * ssdfs_bdev_erase() - make erase operation
-+ * @sb: superblock object
-+ * @offset: offset in bytes from partition's begin
-+ * @len: size in bytes
-+ *
-+ * This function tries to make erase operation.
-+ *
-+ * RETURN:
-+ * [success]
-+ * [failure] - error code:
-+ *
-+ * %-EROFS       - file system in RO mode.
-+ * %-EFAULT      - erase operation error.
-+ */
-+static int ssdfs_bdev_erase(struct super_block *sb, loff_t offset, size_t len)
-+{
-+	return ssdfs_bdev_trim(sb, offset, len);
-+}
-+
-+/*
-+ * ssdfs_bdev_peb_isbad() - check that PEB is bad
-+ * @sb: superblock object
-+ * @offset: offset in bytes from partition's begin
-+ *
-+ * This function tries to detect that PEB is bad or not.
-+ */
-+static int ssdfs_bdev_peb_isbad(struct super_block *sb, loff_t offset)
-+{
-+	/* do nothing */
-+	return 0;
-+}
-+
-+/*
-+ * ssdfs_bdev_mark_peb_bad() - mark PEB as bad
-+ * @sb: superblock object
-+ * @offset: offset in bytes from partition's begin
-+ *
-+ * This function tries to mark PEB as bad.
-+ */
-+static int ssdfs_bdev_mark_peb_bad(struct super_block *sb, loff_t offset)
-+{
-+	/* do nothing */
-+	return 0;
-+}
-+
-+/*
-+ * ssdfs_bdev_sync() - make sync operation
-+ * @sb: superblock object
-+ */
-+static void ssdfs_bdev_sync(struct super_block *sb)
-+{
-+	struct ssdfs_fs_info *fsi = SSDFS_FS_I(sb);
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("device %s\n", sb->s_id);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	wait_event(wq, atomic_read(&fsi->pending_bios) == 0);
-+}
-+
-+const struct ssdfs_device_ops ssdfs_bdev_devops = {
-+	.device_name		= ssdfs_bdev_device_name,
-+	.device_size		= ssdfs_bdev_device_size,
-+	.open_zone		= ssdfs_bdev_open_zone,
-+	.reopen_zone		= ssdfs_bdev_reopen_zone,
-+	.close_zone		= ssdfs_bdev_close_zone,
-+	.read			= ssdfs_bdev_read,
-+	.read_block		= ssdfs_bdev_read_block,
-+	.read_blocks		= ssdfs_bdev_read_blocks,
-+	.can_write_block	= ssdfs_bdev_can_write_block,
-+	.write_block		= ssdfs_bdev_write_block,
-+	.write_blocks		= ssdfs_bdev_write_blocks,
-+	.erase			= ssdfs_bdev_erase,
-+	.trim			= ssdfs_bdev_trim,
-+	.peb_isbad		= ssdfs_bdev_peb_isbad,
-+	.mark_peb_bad		= ssdfs_bdev_mark_peb_bad,
-+	.sync			= ssdfs_bdev_sync,
++enum {
++	Opt_err,
++	Opt_compr,
++	Opt_ignore_fs_state,
 +};
-diff --git a/fs/ssdfs/dev_mtd.c b/fs/ssdfs/dev_mtd.c
++
++static const struct constant_table ssdfs_param_err[] = {
++	{"panic",	SSDFS_MOUNT_ERRORS_PANIC},
++	{"remount-ro",	SSDFS_MOUNT_ERRORS_RO},
++	{"continue",	SSDFS_MOUNT_ERRORS_CONT},
++	{}
++};
++
++static const struct constant_table ssdfs_param_compr[] = {
++	{"none",	SSDFS_MOUNT_COMPR_MODE_NONE},
++#ifdef CONFIG_SSDFS_ZLIB
++	{"zlib",	SSDFS_MOUNT_COMPR_MODE_ZLIB},
++#endif
++#ifdef CONFIG_SSDFS_LZO
++	{"lzo",		SSDFS_MOUNT_COMPR_MODE_LZO},
++#endif
++	{}
++};
++
++static const struct constant_table ssdfs_param_fs_state[] = {
++	{"ignore",	SSDFS_MOUNT_IGNORE_FS_STATE},
++	{}
++};
++
++static const struct fs_parameter_spec ssdfs_fs_parameters[] = {
++	fsparam_enum	("errors", Opt_err, ssdfs_param_err),
++	fsparam_enum	("compr", Opt_compr, ssdfs_param_compr),
++	fsparam_enum	("fs_state", Opt_ignore_fs_state, ssdfs_param_fs_state),
++	{}
++};
++
++int ssdfs_parse_param(struct fs_context *fc, struct fs_parameter *param)
++{
++	struct ssdfs_mount_context *ctx = fc->fs_private;
++	struct fs_parse_result result;
++	int opt;
++
++	opt = fs_parse(fc, ssdfs_fs_parameters, param, &result);
++	if (opt < 0)
++		return opt;
++
++	switch (opt) {
++	case Opt_err:
++		ssdfs_clear_opt(ctx->s_mount_opts, ERRORS_PANIC);
++		ssdfs_clear_opt(ctx->s_mount_opts, ERRORS_RO);
++		ssdfs_clear_opt(ctx->s_mount_opts, ERRORS_CONT);
++		ctx->s_mount_opts |= result.uint_32;
++		break;
++
++	case Opt_compr:
++		ssdfs_clear_opt(ctx->s_mount_opts, COMPR_MODE_NONE);
++		ssdfs_clear_opt(ctx->s_mount_opts, COMPR_MODE_ZLIB);
++		ssdfs_clear_opt(ctx->s_mount_opts, COMPR_MODE_LZO);
++		ctx->s_mount_opts |= result.uint_32;
++		break;
++
++	case Opt_ignore_fs_state:
++		ctx->s_mount_opts |= result.uint_32;
++		break;
++
++	default:
++		SSDFS_ERR("unrecognized mount option\n");
++		return -EINVAL;
++	}
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("DONE: parse options\n");
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	return 0;
++}
++
++void ssdfs_initialize_fs_errors_option(struct ssdfs_fs_info *fsi)
++{
++	if (fsi->fs_errors == SSDFS_ERRORS_PANIC)
++		ssdfs_set_opt(fsi->mount_opts, ERRORS_PANIC);
++	else if (fsi->fs_errors == SSDFS_ERRORS_RO)
++		ssdfs_set_opt(fsi->mount_opts, ERRORS_RO);
++	else if (fsi->fs_errors == SSDFS_ERRORS_CONTINUE)
++		ssdfs_set_opt(fsi->mount_opts, ERRORS_CONT);
++	else {
++		u16 def_behaviour = SSDFS_ERRORS_DEFAULT;
++
++		switch (def_behaviour) {
++		case SSDFS_ERRORS_PANIC:
++			ssdfs_set_opt(fsi->mount_opts, ERRORS_PANIC);
++			break;
++
++		case SSDFS_ERRORS_RO:
++			ssdfs_set_opt(fsi->mount_opts, ERRORS_RO);
++			break;
++		}
++	}
++}
++
++int ssdfs_show_options(struct seq_file *seq, struct dentry *root)
++{
++	struct ssdfs_fs_info *fsi = SSDFS_FS_I(root->d_sb);
++	char *compress_type;
++
++	if (ssdfs_test_opt(fsi->mount_opts, COMPR_MODE_ZLIB)) {
++		compress_type = "zlib";
++		seq_printf(seq, ",compress=%s", compress_type);
++	} else if (ssdfs_test_opt(fsi->mount_opts, COMPR_MODE_LZO)) {
++		compress_type = "lzo";
++		seq_printf(seq, ",compress=%s", compress_type);
++	}
++
++	if (ssdfs_test_opt(fsi->mount_opts, ERRORS_PANIC))
++		seq_puts(seq, ",errors=panic");
++	else if (ssdfs_test_opt(fsi->mount_opts, ERRORS_RO))
++		seq_puts(seq, ",errors=remount-ro");
++	else if (ssdfs_test_opt(fsi->mount_opts, ERRORS_CONT))
++		seq_puts(seq, ",errors=continue");
++
++	if (ssdfs_test_opt(fsi->mount_opts, IGNORE_FS_STATE))
++		seq_puts(seq, ",fs_state=ignore");
++
++	return 0;
++}
+diff --git a/fs/ssdfs/super.c b/fs/ssdfs/super.c
 new file mode 100644
-index 000000000000..ccb79c7f81bf
+index 000000000000..f430eee9aaf0
 --- /dev/null
-+++ b/fs/ssdfs/dev_mtd.c
-@@ -0,0 +1,650 @@
++++ b/fs/ssdfs/super.c
+@@ -0,0 +1,2077 @@
 +/*
 + * SPDX-License-Identifier: BSD-3-Clause-Clear
 + *
 + * SSDFS -- SSD-oriented File System.
 + *
-+ * fs/ssdfs/dev_mtd.c - MTD device access code.
++ * fs/ssdfs/super.c - module and superblock management.
 + *
 + * Copyright (c) 2014-2019 HGST, a Western Digital Company.
 + *              http://www.hgst.com/
@@ -1205,1984 +344,2061 @@ index 000000000000..ccb79c7f81bf
 + *                  Zvonimir Bandic
 + */
 +
-+#include <linux/mm.h>
++#include <linux/kernel.h>
++#include <linux/module.h>
 +#include <linux/slab.h>
-+#include <linux/highmem.h>
-+#include <linux/pagemap.h>
 +#include <linux/mtd/mtd.h>
 +#include <linux/mtd/super.h>
++#include <linux/exportfs.h>
 +#include <linux/pagevec.h>
++#include <linux/blkdev.h>
++#include <linux/backing-dev.h>
++#include <linux/delay.h>
++#include <linux/fs_parser.h>
++#include <linux/fs_context.h>
++
++#include <kunit/visibility.h>
 +
 +#include "peb_mapping_queue.h"
 +#include "peb_mapping_table_cache.h"
 +#include "folio_vector.h"
 +#include "ssdfs.h"
++#include "version.h"
++#include "folio_array.h"
++#include "segment_bitmap.h"
++#include "peb.h"
++#include "offset_translation_table.h"
++#include "peb_container.h"
++#include "segment.h"
++#include "segment_tree.h"
++#include "current_segment.h"
++#include "peb_mapping_table.h"
++#include "btree_search.h"
++#include "btree_node.h"
++#include "extents_queue.h"
++#include "btree.h"
++#include "inodes_tree.h"
++#include "shared_extents_tree.h"
++#include "shared_dictionary.h"
++#include "extents_tree.h"
++#include "dentries_tree.h"
++#include "xattr_tree.h"
++#include "xattr.h"
++#include "acl.h"
++#include "snapshots_tree.h"
++#include "invalidated_extents_tree.h"
 +
++#define CREATE_TRACE_POINTS
 +#include <trace/events/ssdfs.h>
 +
 +#ifdef CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING
-+atomic64_t ssdfs_dev_mtd_folio_leaks;
-+atomic64_t ssdfs_dev_mtd_memory_leaks;
-+atomic64_t ssdfs_dev_mtd_cache_leaks;
++atomic64_t ssdfs_allocated_folios;
++EXPORT_SYMBOL_IF_KUNIT(ssdfs_allocated_folios);
++
++atomic64_t ssdfs_memory_leaks;
++atomic64_t ssdfs_super_folio_leaks;
++atomic64_t ssdfs_super_memory_leaks;
++atomic64_t ssdfs_super_cache_leaks;
++
++atomic64_t ssdfs_locked_folios;
++EXPORT_SYMBOL_IF_KUNIT(ssdfs_locked_folios);
 +#endif /* CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING */
 +
 +/*
-+ * void ssdfs_dev_mtd_cache_leaks_increment(void *kaddr)
-+ * void ssdfs_dev_mtd_cache_leaks_decrement(void *kaddr)
-+ * void *ssdfs_dev_mtd_kmalloc(size_t size, gfp_t flags)
-+ * void *ssdfs_dev_mtd_kzalloc(size_t size, gfp_t flags)
-+ * void *ssdfs_dev_mtd_kcalloc(size_t n, size_t size, gfp_t flags)
-+ * void ssdfs_dev_mtd_kfree(void *kaddr)
-+ * struct folio *ssdfs_dev_mtd_alloc_folio(gfp_t gfp_mask,
-+ *                                         unsigned int order)
-+ * struct folio *ssdfs_dev_mtd_add_batch_folio(struct folio_batch *batch,
-+ *                                             unsigned int order)
-+ * void ssdfs_dev_mtd_free_folio(struct folio *folio)
-+ * void ssdfs_dev_mtd_folio_batch_release(struct folio_batch *batch)
++ * void ssdfs_super_cache_leaks_increment(void *kaddr)
++ * void ssdfs_super_cache_leaks_decrement(void *kaddr)
++ * void *ssdfs_super_kmalloc(size_t size, gfp_t flags)
++ * void *ssdfs_super_kzalloc(size_t size, gfp_t flags)
++ * void *ssdfs_super_kcalloc(size_t n, size_t size, gfp_t flags)
++ * void ssdfs_super_kfree(void *kaddr)
++ * struct folio *ssdfs_super_alloc_folio(gfp_t gfp_mask,
++ *                                       unsigned int order)
++ * struct folio *ssdfs_super_add_batch_folio(struct folio_batch *batch,
++ *                                           unsigned int order)
++ * void ssdfs_super_free_folio(struct folio *folio)
++ * void ssdfs_super_folio_batch_release(struct folio_batch *batch)
 + */
 +#ifdef CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING
-+	SSDFS_MEMORY_LEAKS_CHECKER_FNS(dev_mtd)
++	SSDFS_MEMORY_LEAKS_CHECKER_FNS(super)
 +#else
-+	SSDFS_MEMORY_ALLOCATOR_FNS(dev_mtd)
++	SSDFS_MEMORY_ALLOCATOR_FNS(super)
 +#endif /* CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING */
 +
-+void ssdfs_dev_mtd_memory_leaks_init(void)
++static inline
++void ssdfs_super_memory_leaks_init(void)
 +{
 +#ifdef CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING
-+	atomic64_set(&ssdfs_dev_mtd_folio_leaks, 0);
-+	atomic64_set(&ssdfs_dev_mtd_memory_leaks, 0);
-+	atomic64_set(&ssdfs_dev_mtd_cache_leaks, 0);
++	atomic64_set(&ssdfs_super_folio_leaks, 0);
++	atomic64_set(&ssdfs_super_memory_leaks, 0);
++	atomic64_set(&ssdfs_super_cache_leaks, 0);
 +#endif /* CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING */
 +}
 +
-+void ssdfs_dev_mtd_check_memory_leaks(void)
++static inline
++void ssdfs_super_check_memory_leaks(void)
 +{
 +#ifdef CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING
-+	if (atomic64_read(&ssdfs_dev_mtd_folio_leaks) != 0) {
-+		SSDFS_ERR("MTD DEV: "
++	if (atomic64_read(&ssdfs_super_folio_leaks) != 0) {
++		SSDFS_ERR("SUPER: "
 +			  "memory leaks include %lld folios\n",
-+			  atomic64_read(&ssdfs_dev_mtd_folio_leaks));
++			  atomic64_read(&ssdfs_super_folio_leaks));
 +	}
 +
-+	if (atomic64_read(&ssdfs_dev_mtd_memory_leaks) != 0) {
-+		SSDFS_ERR("MTD DEV: "
++	if (atomic64_read(&ssdfs_super_memory_leaks) != 0) {
++		SSDFS_ERR("SUPER: "
 +			  "memory allocator suffers from %lld leaks\n",
-+			  atomic64_read(&ssdfs_dev_mtd_memory_leaks));
++			  atomic64_read(&ssdfs_super_memory_leaks));
 +	}
 +
-+	if (atomic64_read(&ssdfs_dev_mtd_cache_leaks) != 0) {
-+		SSDFS_ERR("MTD DEV: "
++	if (atomic64_read(&ssdfs_super_cache_leaks) != 0) {
++		SSDFS_ERR("SUPER: "
 +			  "caches suffers from %lld leaks\n",
-+			  atomic64_read(&ssdfs_dev_mtd_cache_leaks));
++			  atomic64_read(&ssdfs_super_cache_leaks));
 +	}
 +#endif /* CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING */
 +}
 +
-+/*
-+ * ssdfs_mtd_device_name() - get device name
-+ * @sb: superblock object
-+ */
-+static const char *ssdfs_mtd_device_name(struct super_block *sb)
++struct ssdfs_payload_content {
++	struct folio_batch batch;
++	u32 bytes_count;
++};
++
++struct ssdfs_sb_log_payload {
++	struct ssdfs_payload_content maptbl_cache;
++};
++
++static struct kmem_cache *ssdfs_inode_cachep;
++
++static int ssdfs_prepare_sb_log(struct super_block *sb,
++				struct ssdfs_peb_extent *last_sb_log);
++static int ssdfs_snapshot_sb_log_payload(struct super_block *sb,
++					 struct ssdfs_sb_log_payload *payload);
++static int ssdfs_commit_super(struct super_block *sb, u16 fs_state,
++				struct ssdfs_peb_extent *last_sb_log,
++				struct ssdfs_sb_log_payload *payload);
++static void ssdfs_put_super(struct super_block *sb);
++static void ssdfs_check_memory_leaks(void);
++
++static void init_once(void *foo)
 +{
-+	return sb->s_mtd->name;
++	struct ssdfs_inode_info *ii = (struct ssdfs_inode_info *)foo;
++
++	inode_init_once(&ii->vfs_inode);
 +}
 +
 +/*
-+ * ssdfs_mtd_device_size() - get partition size in bytes
-+ * @sb: superblock object
++ * This method is called by inode_alloc() to allocate memory
++ * for struct inode and initialize it
 + */
-+static __u64 ssdfs_mtd_device_size(struct super_block *sb)
++static inline
++struct inode *ssdfs_alloc_inode(struct super_block *sb)
 +{
-+	return SSDFS_FS_I(sb)->mtd->size;
++	struct ssdfs_inode_info *ii;
++	unsigned int nofs_flags;
++
++	nofs_flags = memalloc_nofs_save();
++	ii = alloc_inode_sb(sb, ssdfs_inode_cachep, GFP_KERNEL);
++	memalloc_nofs_restore(nofs_flags);
++
++	if (!ii)
++		return NULL;
++
++	ssdfs_super_cache_leaks_increment(ii);
++
++	init_once((void *)ii);
++
++	atomic_set(&ii->private_flags, 0);
++	init_rwsem(&ii->lock);
++	ii->parent_ino = U64_MAX;
++	ii->flags = 0;
++	ii->name_hash = 0;
++	ii->name_len = 0;
++	ii->extents_tree = NULL;
++	ii->dentries_tree = NULL;
++	ii->xattrs_tree = NULL;
++	ii->inline_file = NULL;
++	memset(&ii->raw_inode, 0, sizeof(struct ssdfs_inode));
++
++	return &ii->vfs_inode;
 +}
 +
-+static int ssdfs_mtd_open_zone(struct super_block *sb, loff_t offset)
++void ssdfs_destroy_btree_of_inode(struct inode *inode)
 +{
-+	return -EOPNOTSUPP;
++	struct ssdfs_inode_info *ii = SSDFS_I(inode);
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("ino %lu\n", inode->i_ino);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	if (ii->extents_tree) {
++		ssdfs_extents_tree_destroy(ii);
++		ii->extents_tree = NULL;
++	}
++
++	if (ii->dentries_tree) {
++		ssdfs_dentries_tree_destroy(ii);
++		ii->dentries_tree = NULL;
++	}
++
++	if (ii->xattrs_tree) {
++		ssdfs_xattrs_tree_destroy(ii);
++		ii->xattrs_tree = NULL;
++	}
++
++	if (ii->inline_file) {
++		ssdfs_destroy_inline_file_buffer(inode);
++		ii->inline_file = NULL;
++	}
 +}
 +
-+static int ssdfs_mtd_reopen_zone(struct super_block *sb, loff_t offset)
++void ssdfs_destroy_and_decrement_btree_of_inode(struct inode *inode)
 +{
-+	return -EOPNOTSUPP;
++	struct ssdfs_inode_info *ii = SSDFS_I(inode);
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("ino %lu\n", inode->i_ino);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	ssdfs_destroy_btree_of_inode(inode);
++
++	if (inode->i_ino == SSDFS_SEG_BMAP_INO ||
++	    inode->i_ino == SSDFS_SEG_TREE_INO ||
++	    inode->i_ino == SSDFS_TESTING_INO) {
++		ssdfs_super_cache_leaks_decrement(ii);
++	} else
++		BUG();
 +}
 +
-+static int ssdfs_mtd_close_zone(struct super_block *sb, loff_t offset)
++static void ssdfs_i_callback(struct rcu_head *head)
 +{
-+	return -EOPNOTSUPP;
++	struct inode *inode = container_of(head, struct inode, i_rcu);
++	struct ssdfs_inode_info *ii = SSDFS_I(inode);
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("ino %lu\n", inode->i_ino);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	ssdfs_destroy_btree_of_inode(inode);
++
++	if (inode->i_ino == SSDFS_SEG_BMAP_INO ||
++	    inode->i_ino == SSDFS_SEG_TREE_INO ||
++	    inode->i_ino == SSDFS_TESTING_INO) {
++		/*
++		 * Do nothing.
++		 * The ssdfs_destroy_and_decrement_btree_of_inode did it already.
++		 */
++	} else {
++		ssdfs_super_cache_leaks_decrement(ii);
++	}
++
++	kmem_cache_free(ssdfs_inode_cachep, ii);
 +}
 +
 +/*
-+ * ssdfs_mtd_read() - read from volume into buffer
-+ * @sb: superblock object
-+ * @block_size: block size in bytes
-+ * @offset: offset in bytes from partition's begin
-+ * @len: size of buffer in bytes
-+ * @buf: buffer
-+ *
-+ * This function tries to read data on @offset
-+ * from partition's begin with @len bytes in size
-+ * from the volume into @buf.
-+ *
-+ * RETURN:
-+ * [success]
-+ * [failure] - error code:
-+ *
-+ * %-EIO         - I/O error.
++ * This method is called by destroy_inode() to release
++ * resources allocated for struct inode
 + */
-+static int ssdfs_mtd_read(struct super_block *sb, u32 block_size,
-+			  loff_t offset, size_t len, void *buf)
++static void ssdfs_destroy_inode(struct inode *inode)
++{
++	call_rcu(&inode->i_rcu, ssdfs_i_callback);
++}
++
++static void ssdfs_init_inode_once(void *obj)
++{
++	struct ssdfs_inode_info *ii = obj;
++	inode_init_once(&ii->vfs_inode);
++}
++
++static int ssdfs_remount_fs(struct fs_context *fc, struct super_block *sb)
 +{
 +	struct ssdfs_fs_info *fsi = SSDFS_FS_I(sb);
-+	struct mtd_info *mtd = fsi->mtd;
-+	loff_t folio_index;
-+	size_t retlen;
-+	int ret;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("sb %p, block_size %u, offset %llu, len %zu, buf %p\n",
-+		  sb, block_size, (unsigned long long)offset, len, buf);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	folio_index = div_u64(offset, block_size);
-+	offset = folio_index * block_size;
-+
-+	ret = mtd_read(mtd, offset, len, &retlen, buf);
-+	if (ret) {
-+		SSDFS_ERR("failed to read (err %d): offset %llu, len %zu\n",
-+			  ret, (unsigned long long)offset, len);
-+		return ret;
-+	}
-+
-+	if (retlen != len) {
-+		SSDFS_ERR("retlen (%zu) != len (%zu)\n", retlen, len);
-+		return -EIO;
-+	}
-+
-+	return 0;
-+}
-+
-+/*
-+ * ssdfs_mtd_read_block() - read block from the volume
-+ * @sb: superblock object
-+ * @folio: memory folio
-+ * @offset: offset in bytes from partition's begin
-+ *
-+ * This function tries to read data on @offset
-+ * from partition's begin in memory folio.
-+ *
-+ * RETURN:
-+ * [success]
-+ * [failure] - error code:
-+ *
-+ * %-EIO         - I/O error.
-+ */
-+static int ssdfs_mtd_read_block(struct super_block *sb, struct folio *folio,
-+				loff_t offset)
-+{
-+	void *kaddr;
-+	u32 processed_bytes = 0;
++	struct ssdfs_peb_extent last_sb_log = {0};
++	struct ssdfs_sb_log_payload payload;
++	unsigned int flags = fc->sb_flags;
++	unsigned long old_sb_flags;
++	unsigned long old_mount_opts;
 +	int err;
 +
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("sb %p, offset %llu, folio %p, folio_index %llu\n",
-+		  sb, (unsigned long long)offset, folio,
-+		  (unsigned long long)folio->index);
-+#endif /* CONFIG_SSDFS_DEBUG */
++#ifdef CONFIG_SSDFS_TRACK_API_CALL
++	SSDFS_ERR("sb %p, flags %#x\n", sb, flags);
++#else
++	SSDFS_DBG("sb %p, flags %#x\n", sb, flags);
++#endif /* CONFIG_SSDFS_TRACK_API_CALL */
 +
-+	while (processed_bytes < folio_size(folio)) {
-+		kaddr = kmap_local_folio(folio, processed_bytes);
-+		err = ssdfs_mtd_read(sb, PAGE_SIZE,
-+				     offset + processed_bytes,
-+				     PAGE_SIZE, kaddr);
-+		kunmap_local(kaddr);
++	old_sb_flags = sb->s_flags;
++	old_mount_opts = fsi->mount_opts;
 +
-+		if (err) {
-+			folio_clear_uptodate(folio);
-+			break;
++	folio_batch_init(&payload.maptbl_cache.batch);
++
++	set_posix_acl_flag(sb);
++
++	if ((flags & SB_RDONLY) == (sb->s_flags & SB_RDONLY))
++		goto out;
++
++	if (flags & SB_RDONLY) {
++		down_write(&fsi->volume_sem);
++
++		err = ssdfs_prepare_sb_log(sb, &last_sb_log);
++		if (unlikely(err)) {
++			SSDFS_ERR("fail to prepare sb log: err %d\n",
++				  err);
 +		}
 +
-+		processed_bytes += PAGE_SIZE;
-+	};
++		err = ssdfs_snapshot_sb_log_payload(sb, &payload);
++		if (unlikely(err)) {
++			SSDFS_ERR("fail to snapshot sb log's payload: err %d\n",
++				  err);
++		}
 +
-+	if (!err) {
-+		folio_mark_uptodate(folio);
-+		flush_dcache_folio(folio);
++		if (!err) {
++			err = ssdfs_commit_super(sb, SSDFS_VALID_FS,
++						 &last_sb_log,
++						 &payload);
++		} else {
++			SSDFS_ERR("fail to prepare sb log payload: "
++				  "err %d\n", err);
++		}
++
++		up_write(&fsi->volume_sem);
++
++		if (err)
++			SSDFS_ERR("fail to commit superblock info\n");
++
++		sb->s_flags |= SB_RDONLY;
++		SSDFS_DBG("remount in RO mode\n");
++	} else {
++		down_write(&fsi->volume_sem);
++
++		err = ssdfs_prepare_sb_log(sb, &last_sb_log);
++		if (unlikely(err)) {
++			SSDFS_ERR("fail to prepare sb log: err %d\n",
++				  err);
++		}
++
++		err = ssdfs_snapshot_sb_log_payload(sb, &payload);
++		if (unlikely(err)) {
++			SSDFS_ERR("fail to snapshot sb log's payload: err %d\n",
++				  err);
++		}
++
++		if (!err) {
++			err = ssdfs_commit_super(sb, SSDFS_MOUNTED_FS,
++						 &last_sb_log,
++						 &payload);
++		} else {
++			SSDFS_ERR("fail to prepare sb log payload: "
++				  "err %d\n", err);
++		}
++
++		up_write(&fsi->volume_sem);
++
++		if (err) {
++			SSDFS_NOTICE("fail to commit superblock info\n");
++			goto restore_opts;
++		}
++
++		sb->s_flags &= ~SB_RDONLY;
++		SSDFS_DBG("remount in RW mode\n");
++	}
++out:
++	ssdfs_super_folio_batch_release(&payload.maptbl_cache.batch);
++
++#ifdef CONFIG_SSDFS_TRACK_API_CALL
++	SSDFS_ERR("finished\n");
++#else
++	SSDFS_DBG("finished\n");
++#endif /* CONFIG_SSDFS_TRACK_API_CALL */
++
++	return 0;
++
++restore_opts:
++	sb->s_flags = old_sb_flags;
++	fsi->mount_opts = old_mount_opts;
++	ssdfs_super_folio_batch_release(&payload.maptbl_cache.batch);
++	return err;
++}
++
++static
++int ssdfs_commit_super(struct super_block *sb, u16 fs_state,
++			struct ssdfs_peb_extent *last_sb_log,
++			struct ssdfs_sb_log_payload *payload)
++{
++	struct ssdfs_fs_info *fsi = SSDFS_FS_I(sb);
++	__le64 cur_segs[SSDFS_CUR_SEGS_COUNT];
++	size_t size = sizeof(__le64) * SSDFS_CUR_SEGS_COUNT;
++	u64 timestamp = ssdfs_current_timestamp();
++	u64 cno = ssdfs_current_cno(sb);
++	int i;
++	int err = 0;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	BUG_ON(!sb || !last_sb_log || !payload);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++#ifdef CONFIG_SSDFS_TRACK_API_CALL
++	SSDFS_ERR("sb %p, fs_state %u", sb, fs_state);
++#else
++	SSDFS_DBG("sb %p, fs_state %u", sb, fs_state);
++#endif /* CONFIG_SSDFS_TRACK_API_CALL */
++
++	BUG_ON(fs_state > SSDFS_LAST_KNOWN_FS_STATE);
++
++	if (le16_to_cpu(fsi->vs->state) == SSDFS_ERROR_FS &&
++	    !ssdfs_test_opt(fsi->mount_opts, IGNORE_FS_STATE)) {
++		SSDFS_DBG("refuse commit superblock: fs erroneous state\n");
++		return 0;
 +	}
 +
-+	ssdfs_folio_unlock(folio);
++	mutex_lock(&fsi->tunefs_request.lock);
++
++	err = ssdfs_prepare_volume_header_for_commit(fsi, fsi->vh);
++	if (unlikely(err)) {
++		SSDFS_CRIT("volume header is inconsistent: err %d\n", err);
++		goto finish_commit_super;
++	}
++
++	err = ssdfs_prepare_current_segment_ids(fsi, cur_segs, size);
++	if (unlikely(err)) {
++		SSDFS_CRIT("fail to prepare current segments IDs: err %d\n",
++			   err);
++		goto finish_commit_super;
++	}
++
++	err = ssdfs_prepare_volume_state_info_for_commit(fsi, fs_state,
++							 cur_segs, size,
++							 timestamp,
++							 cno,
++							 fsi->vs);
++	if (unlikely(err)) {
++		SSDFS_CRIT("volume state info is inconsistent: err %d\n", err);
++		goto finish_commit_super;
++	}
++
++	for (i = 0; i < SSDFS_SB_SEG_COPY_MAX; i++) {
++		last_sb_log->leb_id = fsi->sb_lebs[SSDFS_CUR_SB_SEG][i];
++		last_sb_log->peb_id = fsi->sb_pebs[SSDFS_CUR_SB_SEG][i];
++		err = ssdfs_commit_sb_log(sb, timestamp, cno,
++					  last_sb_log, payload);
++		if (err) {
++			SSDFS_ERR("fail to commit superblock log: "
++				  "leb_id %llu, peb_id %llu, "
++				  "page_offset %u, pages_count %u, "
++				  "err %d\n",
++				  last_sb_log->leb_id,
++				  last_sb_log->peb_id,
++				  last_sb_log->page_offset,
++				  last_sb_log->pages_count,
++				  err);
++			goto finish_commit_super;
++		}
++	}
++
++	last_sb_log->leb_id = fsi->sb_lebs[SSDFS_CUR_SB_SEG][SSDFS_MAIN_SB_SEG];
++	last_sb_log->peb_id = fsi->sb_pebs[SSDFS_CUR_SB_SEG][SSDFS_MAIN_SB_SEG];
++
++	ssdfs_memcpy(&fsi->sbi.last_log,
++		     0, sizeof(struct ssdfs_peb_extent),
++		     last_sb_log,
++		     0, sizeof(struct ssdfs_peb_extent),
++		     sizeof(struct ssdfs_peb_extent));
++
++finish_commit_super:
++	mutex_unlock(&fsi->tunefs_request.lock);
++
++#ifdef CONFIG_SSDFS_TRACK_API_CALL
++	SSDFS_ERR("finished: err %d\n", err);
++#else
++	SSDFS_DBG("finished: err %d\n", err);
++#endif /* CONFIG_SSDFS_TRACK_API_CALL */
 +
 +	return err;
 +}
 +
-+/*
-+ * ssdfs_mtd_read_blocks() - read logical blocks from the volume
-+ * @sb: superblock object
-+ * @batch: memory folios batch
-+ * @offset: offset in bytes from partition's begin
-+ *
-+ * This function tries to read data on @offset
-+ * from partition's begin in memory folios.
-+ *
-+ * RETURN:
-+ * [success]
-+ * [failure] - error code:
-+ *
-+ * %-EIO         - I/O error.
-+ */
-+static int ssdfs_mtd_read_blocks(struct super_block *sb,
-+				 struct folio_batch *batch,
-+				 loff_t offset)
++static void ssdfs_memory_folio_locks_checker_init(void)
 +{
-+	struct folio *folio;
-+	loff_t cur_offset = offset;
-+	int i;
-+	int err;
++#ifdef CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING
++	atomic64_set(&ssdfs_locked_folios, 0);
++#endif /* CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING */
++}
 +
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("sb %p, offset %llu, batch %p\n",
-+		  sb, (unsigned long long)offset, batch);
-+#endif /* CONFIG_SSDFS_DEBUG */
++static void ssdfs_check_memory_folio_locks(void)
++{
++#ifdef CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING
++	if (atomic64_read(&ssdfs_locked_folios) != 0) {
++		SSDFS_WARN("Lock keeps %lld memory folios\n",
++			   atomic64_read(&ssdfs_locked_folios));
++	}
++#endif /* CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING */
++}
 +
-+	if (folio_batch_count(batch) == 0) {
-+		SSDFS_WARN("empty folio batch\n");
-+		return 0;
++static void ssdfs_memory_leaks_checker_init(void)
++{
++#ifdef CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING
++	atomic64_set(&ssdfs_allocated_folios, 0);
++	atomic64_set(&ssdfs_memory_leaks, 0);
++#endif /* CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING */
++
++#ifdef CONFIG_SSDFS_POSIX_ACL
++	ssdfs_acl_memory_leaks_init();
++#endif /* CONFIG_SSDFS_POSIX_ACL */
++
++	ssdfs_block_bmap_memory_leaks_init();
++	ssdfs_btree_memory_leaks_init();
++	ssdfs_btree_hierarchy_memory_leaks_init();
++	ssdfs_btree_node_memory_leaks_init();
++	ssdfs_btree_search_memory_leaks_init();
++
++#ifdef CONFIG_SSDFS_ZLIB
++	ssdfs_zlib_memory_leaks_init();
++#endif /* CONFIG_SSDFS_ZLIB */
++
++#ifdef CONFIG_SSDFS_LZO
++	ssdfs_lzo_memory_leaks_init();
++#endif /* CONFIG_SSDFS_LZO */
++
++	ssdfs_compr_memory_leaks_init();
++	ssdfs_cur_seg_memory_leaks_init();
++	ssdfs_dentries_memory_leaks_init();
++
++#ifdef CONFIG_SSDFS_MTD_DEVICE
++	ssdfs_dev_mtd_memory_leaks_init();
++#elif defined(CONFIG_SSDFS_BLOCK_DEVICE)
++	ssdfs_dev_bdev_memory_leaks_init();
++	ssdfs_dev_zns_memory_leaks_init();
++#else
++	BUILD_BUG();
++#endif
++
++	ssdfs_dir_memory_leaks_init();
++
++#ifdef CONFIG_SSDFS_DIFF_ON_WRITE_USER_DATA
++	ssdfs_diff_memory_leaks_init();
++#endif /* CONFIG_SSDFS_DIFF_ON_WRITE_USER_DATA */
++
++	ssdfs_dynamic_array_memory_leaks_init();
++	ssdfs_ext_queue_memory_leaks_init();
++	ssdfs_ext_tree_memory_leaks_init();
++
++#ifdef CONFIG_SSDFS_PEB_DEDUPLICATION
++	ssdfs_fingerprint_array_memory_leaks_init();
++#endif /* CONFIG_SSDFS_PEB_DEDUPLICATION */
++
++	ssdfs_file_memory_leaks_init();
++	ssdfs_fs_error_memory_leaks_init();
++
++	ssdfs_global_fsck_memory_leaks_init();
++
++#ifdef CONFIG_SSDFS_ONLINE_FSCK
++	ssdfs_fsck_memory_leaks_init();
++#endif /* CONFIG_SSDFS_ONLINE_FSCK */
++
++	ssdfs_inode_memory_leaks_init();
++	ssdfs_ino_tree_memory_leaks_init();
++	ssdfs_invext_tree_memory_leaks_init();
++	ssdfs_blk2off_memory_leaks_init();
++	ssdfs_farray_memory_leaks_init();
++	ssdfs_folio_vector_memory_leaks_init();
++	ssdfs_flush_memory_leaks_init();
++	ssdfs_gc_memory_leaks_init();
++	ssdfs_map_queue_memory_leaks_init();
++	ssdfs_map_tbl_memory_leaks_init();
++	ssdfs_map_cache_memory_leaks_init();
++	ssdfs_map_thread_memory_leaks_init();
++	ssdfs_migration_memory_leaks_init();
++	ssdfs_peb_memory_leaks_init();
++	ssdfs_read_memory_leaks_init();
++	ssdfs_recovery_memory_leaks_init();
++	ssdfs_req_queue_memory_leaks_init();
++	ssdfs_seg_obj_memory_leaks_init();
++	ssdfs_seg_bmap_memory_leaks_init();
++	ssdfs_seg_blk_memory_leaks_init();
++	ssdfs_seg_tree_memory_leaks_init();
++	ssdfs_seq_arr_memory_leaks_init();
++	ssdfs_dict_memory_leaks_init();
++	ssdfs_shextree_memory_leaks_init();
++	ssdfs_super_memory_leaks_init();
++	ssdfs_xattr_memory_leaks_init();
++	ssdfs_snap_reqs_queue_memory_leaks_init();
++	ssdfs_snap_rules_list_memory_leaks_init();
++	ssdfs_snap_tree_memory_leaks_init();
++}
++
++static void ssdfs_check_memory_leaks(void)
++{
++#ifdef CONFIG_SSDFS_POSIX_ACL
++	ssdfs_acl_check_memory_leaks();
++#endif /* CONFIG_SSDFS_POSIX_ACL */
++
++	ssdfs_block_bmap_check_memory_leaks();
++	ssdfs_btree_check_memory_leaks();
++	ssdfs_btree_hierarchy_check_memory_leaks();
++	ssdfs_btree_node_check_memory_leaks();
++	ssdfs_btree_search_check_memory_leaks();
++
++#ifdef CONFIG_SSDFS_ZLIB
++	ssdfs_zlib_check_memory_leaks();
++#endif /* CONFIG_SSDFS_ZLIB */
++
++#ifdef CONFIG_SSDFS_LZO
++	ssdfs_lzo_check_memory_leaks();
++#endif /* CONFIG_SSDFS_LZO */
++
++	ssdfs_compr_check_memory_leaks();
++	ssdfs_cur_seg_check_memory_leaks();
++	ssdfs_dentries_check_memory_leaks();
++
++#ifdef CONFIG_SSDFS_MTD_DEVICE
++	ssdfs_dev_mtd_check_memory_leaks();
++#elif defined(CONFIG_SSDFS_BLOCK_DEVICE)
++	ssdfs_dev_bdev_check_memory_leaks();
++	ssdfs_dev_zns_check_memory_leaks();
++#else
++	BUILD_BUG();
++#endif
++
++	ssdfs_dir_check_memory_leaks();
++
++#ifdef CONFIG_SSDFS_DIFF_ON_WRITE_USER_DATA
++	ssdfs_diff_check_memory_leaks();
++#endif /* CONFIG_SSDFS_DIFF_ON_WRITE_USER_DATA */
++
++	ssdfs_dynamic_array_check_memory_leaks();
++	ssdfs_ext_queue_check_memory_leaks();
++	ssdfs_ext_tree_check_memory_leaks();
++
++#ifdef CONFIG_SSDFS_PEB_DEDUPLICATION
++	ssdfs_fingerprint_array_check_memory_leaks();
++#endif /* CONFIG_SSDFS_PEB_DEDUPLICATION */
++
++	ssdfs_file_check_memory_leaks();
++	ssdfs_fs_error_check_memory_leaks();
++
++	ssdfs_global_fsck_check_memory_leaks();
++
++#ifdef CONFIG_SSDFS_ONLINE_FSCK
++	ssdfs_fsck_check_memory_leaks();
++#endif /* CONFIG_SSDFS_ONLINE_FSCK */
++
++	ssdfs_inode_check_memory_leaks();
++	ssdfs_ino_tree_check_memory_leaks();
++	ssdfs_invext_tree_check_memory_leaks();
++	ssdfs_blk2off_check_memory_leaks();
++	ssdfs_farray_check_memory_leaks();
++	ssdfs_folio_vector_check_memory_leaks();
++	ssdfs_flush_check_memory_leaks();
++	ssdfs_gc_check_memory_leaks();
++	ssdfs_map_queue_check_memory_leaks();
++	ssdfs_map_tbl_check_memory_leaks();
++	ssdfs_map_cache_check_memory_leaks();
++	ssdfs_map_thread_check_memory_leaks();
++	ssdfs_migration_check_memory_leaks();
++	ssdfs_peb_check_memory_leaks();
++	ssdfs_read_check_memory_leaks();
++	ssdfs_recovery_check_memory_leaks();
++	ssdfs_req_queue_check_memory_leaks();
++	ssdfs_seg_obj_check_memory_leaks();
++	ssdfs_seg_bmap_check_memory_leaks();
++	ssdfs_seg_blk_check_memory_leaks();
++	ssdfs_seg_tree_check_memory_leaks();
++	ssdfs_seq_arr_check_memory_leaks();
++	ssdfs_dict_check_memory_leaks();
++	ssdfs_shextree_check_memory_leaks();
++	ssdfs_super_check_memory_leaks();
++	ssdfs_xattr_check_memory_leaks();
++	ssdfs_snap_reqs_queue_check_memory_leaks();
++	ssdfs_snap_rules_list_check_memory_leaks();
++	ssdfs_snap_tree_check_memory_leaks();
++
++#ifdef CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING
++#ifdef CONFIG_SSDFS_SHOW_CONSUMED_MEMORY
++	if (atomic64_read(&ssdfs_allocated_folios) != 0) {
++		SSDFS_ERR("Memory leaks include %lld folios\n",
++			  atomic64_read(&ssdfs_allocated_folios));
 +	}
 +
-+	for (i = 0; i < folio_batch_count(batch); i++) {
-+		folio = batch->folios[i];
++	if (atomic64_read(&ssdfs_memory_leaks) != 0) {
++		SSDFS_ERR("Memory allocator suffers from %lld leaks\n",
++			  atomic64_read(&ssdfs_memory_leaks));
++	}
++#else
++	if (atomic64_read(&ssdfs_allocated_folios) != 0) {
++		SSDFS_WARN("Memory leaks include %lld folios\n",
++			   atomic64_read(&ssdfs_allocated_folios));
++	}
++
++	if (atomic64_read(&ssdfs_memory_leaks) != 0) {
++		SSDFS_WARN("Memory allocator suffers from %lld leaks\n",
++			   atomic64_read(&ssdfs_memory_leaks));
++	}
++#endif /* CONFIG_SSDFS_SHOW_CONSUMED_MEMORY */
++#endif /* CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING */
++}
++
++static int ssdfs_fill_super(struct super_block *sb, struct fs_context *fc)
++{
++	struct ssdfs_fs_info *fs_info;
++	struct ssdfs_mount_context *ctx = fc->fs_private;
++	struct ssdfs_peb_extent last_sb_log = {0};
++	struct ssdfs_sb_log_payload payload;
++	struct inode *root_i;
++	int silent = fc->sb_flags & SB_SILENT;
++	u64 fs_feature_compat;
++	int i;
++	int err = 0;
++
++#ifdef CONFIG_SSDFS_TRACK_API_CALL
++	SSDFS_ERR("sb %p, silent %#x\n", sb, silent);
++#else
++	SSDFS_DBG("sb %p, silent %#x\n", sb, silent);
++#endif /* CONFIG_SSDFS_TRACK_API_CALL */
 +
 +#ifdef CONFIG_SSDFS_DEBUG
-+		BUG_ON(!folio);
++	SSDFS_DBG("segment header size %zu, "
++		  "partial log header size %zu, "
++		  "footer size %zu\n",
++		  sizeof(struct ssdfs_segment_header),
++		  sizeof(struct ssdfs_partial_log_header),
++		  sizeof(struct ssdfs_log_footer));
 +#endif /* CONFIG_SSDFS_DEBUG */
 +
-+		err = ssdfs_mtd_read_block(sb, folio, cur_offset);
-+		if (unlikely(err)) {
-+			SSDFS_ERR("fail to read block: "
-+				  "cur_offset %llu, err %d\n",
-+				  cur_offset, err);
-+			return err;
++	ssdfs_memory_folio_locks_checker_init();
++	ssdfs_memory_leaks_checker_init();
++
++	sb->s_fs_info = NULL;
++
++	fs_info = kzalloc(sizeof(*fs_info), GFP_KERNEL);
++	if (!fs_info)
++		return -ENOMEM;
++
++	fs_info->sb = sb;
++	sb->s_fs_info = fs_info;
++
++#ifdef CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING
++	atomic64_set(&fs_info->ssdfs_writeback_folios, 0);
++#endif /* CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING */
++
++	fs_info->fs_ctime = U64_MAX;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	spin_lock_init(&fs_info->requests_lock);
++	INIT_LIST_HEAD(&fs_info->user_data_requests_list);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	/* set initial block size value for valid log search */
++	fs_info->log_pagesize = ilog2(SSDFS_4KB);
++	fs_info->pagesize = SSDFS_4KB;
++
++#ifdef CONFIG_SSDFS_TESTING
++	fs_info->do_fork_invalidation = true;
++#endif /* CONFIG_SSDFS_TESTING */
++
++	fs_info->max_open_zones = 0;
++	fs_info->is_zns_device = false;
++	fs_info->zone_size = U64_MAX;
++	fs_info->zone_capacity = U64_MAX;
++	atomic_set(&fs_info->open_zones, 0);
++
++#ifdef CONFIG_SSDFS_ONLINE_FSCK
++	atomic_set(&fs_info->fsck_priority, 0);
++#endif /* CONFIG_SSDFS_ONLINE_FSCK */
++
++	mutex_init(&fs_info->tunefs_request.lock);
++	fs_info->tunefs_request.state = SSDFS_IGNORE_OPTION;
++	memset(&fs_info->tunefs_request.new_config, 0,
++		sizeof(struct ssdfs_tunefs_config_request));
++
++#ifdef CONFIG_SSDFS_MTD_DEVICE
++	fs_info->mtd = sb->s_mtd;
++	fs_info->devops = &ssdfs_mtd_devops;
++#elif defined(CONFIG_SSDFS_BLOCK_DEVICE)
++	if (bdev_is_zoned(sb->s_bdev)) {
++		fs_info->devops = &ssdfs_zns_devops;
++		fs_info->is_zns_device = true;
++		fs_info->max_open_zones = bdev_max_open_zones(sb->s_bdev);
++
++		fs_info->zone_size = ssdfs_zns_zone_size(sb,
++						SSDFS_RESERVED_VBR_SIZE);
++		if (fs_info->zone_size >= U64_MAX) {
++			SSDFS_ERR("fail to get zone size\n");
++			return -ERANGE;
 +		}
 +
-+		cur_offset += folio_size(folio);
++		fs_info->zone_capacity = ssdfs_zns_zone_capacity(sb,
++						SSDFS_RESERVED_VBR_SIZE);
++		if (fs_info->zone_capacity >= U64_MAX) {
++			SSDFS_ERR("fail to get zone capacity\n");
++			return -ERANGE;
++		} else if (fs_info->zone_capacity > fs_info->zone_size) {
++			SSDFS_ERR("invalid zone capacity: "
++				  "capacity %llu, size %llu\n",
++				  fs_info->zone_capacity,
++				  fs_info->zone_size);
++			return -ERANGE;
++		}
++	} else
++		fs_info->devops = &ssdfs_bdev_devops;
++
++	atomic_set(&fs_info->pending_bios, 0);
++	fs_info->erase_folio = ssdfs_super_alloc_folio(GFP_KERNEL,
++							get_order(PAGE_SIZE));
++	if (IS_ERR_OR_NULL(fs_info->erase_folio)) {
++		err = (fs_info->erase_folio == NULL ?
++				-ENOMEM : PTR_ERR(fs_info->erase_folio));
++		SSDFS_ERR("unable to allocate memory folio\n");
++		goto free_erase_folio;
++	}
++	memset(folio_address(fs_info->erase_folio), 0xFF, PAGE_SIZE);
++#else
++	BUILD_BUG();
++#endif
++
++	atomic64_set(&fs_info->flush_reqs, 0);
++	init_waitqueue_head(&fs_info->pending_wq);
++	init_waitqueue_head(&fs_info->finish_user_data_read_wq);
++	init_waitqueue_head(&fs_info->finish_user_data_flush_wq);
++	init_waitqueue_head(&fs_info->finish_commit_log_flush_wq);
++	atomic_set(&fs_info->maptbl_users, 0);
++	init_waitqueue_head(&fs_info->maptbl_users_wq);
++	atomic_set(&fs_info->segbmap_users, 0);
++	init_waitqueue_head(&fs_info->segbmap_users_wq);
++	ssdfs_btree_nodes_list_init(&fs_info->btree_nodes);
++	atomic_set(&fs_info->global_fs_state, SSDFS_UNKNOWN_GLOBAL_FS_STATE);
++	spin_lock_init(&fs_info->volume_state_lock);
++	init_completion(&fs_info->mount_end);
++
++	ssdfs_seg_objects_queue_init(&fs_info->pre_destroyed_segs_rq);
++
++	init_waitqueue_head(&fs_info->global_fsck.wait_queue);
++	ssdfs_requests_queue_init(&fs_info->global_fsck.rq);
++
++	for (i = 0; i < SSDFS_GC_THREAD_TYPE_MAX; i++) {
++		init_waitqueue_head(&fs_info->gc_wait_queue[i]);
++		atomic_set(&fs_info->gc_should_act[i], 1);
++	}
++
++	fs_info->mount_opts = ctx->s_mount_opts;
++
++#ifdef CONFIG_SSDFS_TRACK_API_CALL
++	SSDFS_ERR("gather superblock info started...\n");
++#else
++	SSDFS_DBG("gather superblock info started...\n");
++#endif /* CONFIG_SSDFS_TRACK_API_CALL */
++
++	err = ssdfs_gather_superblock_info(fs_info, silent);
++	if (err)
++		goto free_erase_folio;
++
++	spin_lock(&fs_info->volume_state_lock);
++	fs_feature_compat = fs_info->fs_feature_compat;
++	spin_unlock(&fs_info->volume_state_lock);
++
++#ifdef CONFIG_SSDFS_TRACK_API_CALL
++	SSDFS_ERR("create device group started...\n");
++#else
++	SSDFS_DBG("create device group started...\n");
++#endif /* CONFIG_SSDFS_TRACK_API_CALL */
++
++	err = ssdfs_sysfs_create_device_group(sb);
++	if (err)
++		goto release_maptbl_cache;
++
++	sb->s_maxbytes = MAX_LFS_FILESIZE;
++	sb->s_magic = SSDFS_SUPER_MAGIC;
++	sb->s_op = &ssdfs_super_operations;
++	sb->s_export_op = &ssdfs_export_ops;
++
++	sb->s_xattr = ssdfs_xattr_handlers;
++	set_posix_acl_flag(sb);
++
++#ifdef CONFIG_SSDFS_TRACK_API_CALL
++	SSDFS_ERR("create snapshots subsystem started...\n");
++#else
++	SSDFS_DBG("create snapshots subsystem started...\n");
++#endif /* CONFIG_SSDFS_TRACK_API_CALL */
++
++	err = ssdfs_snapshot_subsystem_init(fs_info);
++	if (err == -EINTR) {
++		/*
++		 * Ignore this error.
++		 */
++		err = 0;
++		goto destroy_sysfs_device_group;
++	} else if (err)
++		goto destroy_sysfs_device_group;
++
++#ifdef CONFIG_SSDFS_TRACK_API_CALL
++	SSDFS_ERR("create segment tree started...\n");
++#else
++	SSDFS_DBG("create segment tree started...\n");
++#endif /* CONFIG_SSDFS_TRACK_API_CALL */
++
++	down_write(&fs_info->volume_sem);
++	err = ssdfs_segment_tree_create(fs_info);
++	up_write(&fs_info->volume_sem);
++	if (err)
++		goto destroy_snapshot_subsystem;
++
++#ifdef CONFIG_SSDFS_TRACK_API_CALL
++	SSDFS_ERR("create mapping table started...\n");
++#else
++	SSDFS_DBG("create mapping table started...\n");
++#endif /* CONFIG_SSDFS_TRACK_API_CALL */
++
++	if (fs_feature_compat & SSDFS_HAS_MAPTBL_COMPAT_FLAG) {
++		down_write(&fs_info->volume_sem);
++		err = ssdfs_maptbl_create(fs_info);
++		up_write(&fs_info->volume_sem);
++
++		if (err == -EINTR) {
++			/*
++			 * Ignore this error.
++			 */
++			err = 0;
++			goto destroy_segments_tree;
++		} else if (err)
++			goto destroy_segments_tree;
++	} else {
++		err = -EIO;
++		SSDFS_WARN("volume hasn't mapping table\n");
++		goto destroy_segments_tree;
++	}
++
++#ifdef CONFIG_SSDFS_TRACK_API_CALL
++	SSDFS_ERR("create segment bitmap started...\n");
++#else
++	SSDFS_DBG("create segment bitmap started...\n");
++#endif /* CONFIG_SSDFS_TRACK_API_CALL */
++
++	if (fs_feature_compat & SSDFS_HAS_SEGBMAP_COMPAT_FLAG) {
++		down_write(&fs_info->volume_sem);
++		err = ssdfs_segbmap_create(fs_info);
++		up_write(&fs_info->volume_sem);
++
++		if (err == -EINTR) {
++			/*
++			 * Ignore this error.
++			 */
++			err = 0;
++			goto destroy_maptbl;
++		} else if (err)
++			goto destroy_maptbl;
++	} else {
++		err = -EIO;
++		SSDFS_WARN("volume hasn't segment bitmap\n");
++		goto destroy_maptbl;
++	}
++
++#ifdef CONFIG_SSDFS_TRACK_API_CALL
++	SSDFS_ERR("create shared extents tree started...\n");
++#else
++	SSDFS_DBG("create shared extents tree started...\n");
++#endif /* CONFIG_SSDFS_TRACK_API_CALL */
++
++	if (fs_info->fs_feature_compat & SSDFS_HAS_SHARED_EXTENTS_COMPAT_FLAG) {
++		down_write(&fs_info->volume_sem);
++		err = ssdfs_shextree_create(fs_info);
++		up_write(&fs_info->volume_sem);
++		if (err)
++			goto destroy_segbmap;
++	} else {
++		err = -EIO;
++		SSDFS_WARN("volume hasn't shared extents tree\n");
++		goto destroy_segbmap;
++	}
++
++#ifdef CONFIG_SSDFS_TRACK_API_CALL
++	SSDFS_ERR("create invalidated extents btree started...\n");
++#else
++	SSDFS_DBG("create invalidated extents btree started...\n");
++#endif /* CONFIG_SSDFS_TRACK_API_CALL */
++
++	if (fs_feature_compat & SSDFS_HAS_INVALID_EXTENTS_TREE_COMPAT_FLAG) {
++		down_write(&fs_info->volume_sem);
++		err = ssdfs_invextree_create(fs_info);
++		up_write(&fs_info->volume_sem);
++		if (err)
++			goto destroy_shextree;
++	}
++
++#ifdef CONFIG_SSDFS_TRACK_API_CALL
++	SSDFS_ERR("create current segment array started...\n");
++#else
++	SSDFS_DBG("create current segment array started...\n");
++#endif /* CONFIG_SSDFS_TRACK_API_CALL */
++
++	down_write(&fs_info->volume_sem);
++	err = ssdfs_current_segment_array_create(fs_info);
++	up_write(&fs_info->volume_sem);
++	if (err)
++		goto destroy_invext_btree;
++
++#ifdef CONFIG_SSDFS_TRACK_API_CALL
++	SSDFS_ERR("create shared dictionary started...\n");
++#else
++	SSDFS_DBG("create shared dictionary started...\n");
++#endif /* CONFIG_SSDFS_TRACK_API_CALL */
++
++	if (fs_feature_compat & SSDFS_HAS_SHARED_DICT_COMPAT_FLAG) {
++		down_write(&fs_info->volume_sem);
++
++		err = ssdfs_shared_dict_btree_create(fs_info);
++		if (err) {
++			up_write(&fs_info->volume_sem);
++			goto destroy_current_segment_array;
++		}
++
++		err = ssdfs_shared_dict_btree_init(fs_info);
++		if (err) {
++			up_write(&fs_info->volume_sem);
++			goto destroy_shdictree;
++		}
++
++		up_write(&fs_info->volume_sem);
++	} else {
++		err = -EIO;
++		SSDFS_WARN("volume hasn't shared dictionary\n");
++		goto destroy_current_segment_array;
++	}
++
++#ifdef CONFIG_SSDFS_TRACK_API_CALL
++	SSDFS_ERR("create inodes btree started...\n");
++#else
++	SSDFS_DBG("create inodes btree started...\n");
++#endif /* CONFIG_SSDFS_TRACK_API_CALL */
++
++	if (fs_feature_compat & SSDFS_HAS_INODES_TREE_COMPAT_FLAG) {
++		down_write(&fs_info->volume_sem);
++		err = ssdfs_inodes_btree_create(fs_info);
++		up_write(&fs_info->volume_sem);
++		if (err == -ENOSPC) {
++			err = 0;
++			fs_info->sb->s_flags |= SB_RDONLY;
++			SSDFS_DBG("unable to create inodes btree\n");
++		} else if (err)
++			goto destroy_shdictree;
++	} else {
++		err = -EIO;
++		SSDFS_WARN("volume hasn't inodes btree\n");
++		goto destroy_shdictree;
++	}
++
++#ifdef CONFIG_SSDFS_TRACK_API_CALL
++	SSDFS_ERR("getting root inode...\n");
++#else
++	SSDFS_DBG("getting root inode...\n");
++#endif /* CONFIG_SSDFS_TRACK_API_CALL */
++
++	root_i = ssdfs_iget(sb, SSDFS_ROOT_INO);
++	if (IS_ERR(root_i)) {
++		SSDFS_DBG("getting root inode failed\n");
++		err = PTR_ERR(root_i);
++		goto destroy_inodes_btree;
++	}
++
++	if (!S_ISDIR(root_i->i_mode) || !root_i->i_blocks || !root_i->i_size) {
++		err = -ERANGE;
++		iput(root_i);
++		SSDFS_ERR("corrupted root inode\n");
++		goto destroy_inodes_btree;
++	}
++
++#ifdef CONFIG_SSDFS_TRACK_API_CALL
++	SSDFS_ERR("d_make_root()\n");
++#else
++	SSDFS_DBG("d_make_root()\n");
++#endif /* CONFIG_SSDFS_TRACK_API_CALL */
++
++	sb->s_root = d_make_root(root_i);
++	if (!sb->s_root) {
++		err = -ENOMEM;
++		goto put_root_inode;
++	}
++
++#ifdef CONFIG_SSDFS_TRACK_API_CALL
++	SSDFS_ERR("starting global FSCK thread...\n");
++#else
++	SSDFS_DBG("starting global FSCK thread...\n");
++#endif /* CONFIG_SSDFS_TRACK_API_CALL */
++
++	err = ssdfs_start_global_fsck_thread(fs_info);
++	if (err == -EINTR) {
++		/*
++		 * Ignore this error.
++		 */
++		err = 0;
++		goto put_root_inode;
++	} else if (unlikely(err)) {
++		SSDFS_ERR("fail to start global FSCK thread: "
++			  "err %d\n", err);
++		goto put_root_inode;
++	}
++
++#ifdef CONFIG_SSDFS_TRACK_API_CALL
++	SSDFS_ERR("starting GC threads...\n");
++#else
++	SSDFS_DBG("starting GC threads...\n");
++#endif /* CONFIG_SSDFS_TRACK_API_CALL */
++
++	for (i = 0; i < SSDFS_GC_THREAD_TYPE_MAX; i++) {
++		err = ssdfs_start_gc_thread(fs_info, i);
++		if (err == -EINTR) {
++			/*
++			 * Ignore this error.
++			 */
++			err = 0;
++			for (i--; i >= 0; i--)
++				ssdfs_stop_gc_thread(fs_info, i);
++			goto stop_global_fsck_thread;
++		} else if (unlikely(err)) {
++			SSDFS_ERR("fail to start GC threads: "
++				  "type %#x, err %d\n",
++				  i, err);
++			for (i--; i >= 0; i--)
++				ssdfs_stop_gc_thread(fs_info, i);
++			goto stop_global_fsck_thread;
++		}
++	}
++
++	if (!(sb->s_flags & SB_RDONLY)) {
++		folio_batch_init(&payload.maptbl_cache.batch);
++
++		down_write(&fs_info->volume_sem);
++
++		err = ssdfs_prepare_sb_log(sb, &last_sb_log);
++		if (unlikely(err)) {
++			SSDFS_ERR("fail to prepare sb log: err %d\n",
++				  err);
++		}
++
++		err = ssdfs_snapshot_sb_log_payload(sb, &payload);
++		if (unlikely(err)) {
++			SSDFS_ERR("fail to snapshot sb log's payload: err %d\n",
++				  err);
++		}
++
++		if (!err) {
++			err = ssdfs_commit_super(sb, SSDFS_MOUNTED_FS,
++						 &last_sb_log,
++						 &payload);
++		} else {
++			SSDFS_ERR("fail to prepare sb log payload: "
++				  "err %d\n", err);
++		}
++
++		up_write(&fs_info->volume_sem);
++
++		ssdfs_super_folio_batch_release(&payload.maptbl_cache.batch);
++
++		if (err) {
++			SSDFS_NOTICE("fail to commit superblock info: "
++				     "remount filesystem in RO mode\n");
++			sb->s_flags |= SB_RDONLY;
++		}
++	}
++
++	atomic_set(&fs_info->global_fs_state, SSDFS_REGULAR_FS_OPERATIONS);
++	complete_all(&fs_info->mount_end);
++
++	if (sb->s_flags & SB_RDONLY) {
++		SSDFS_INFO("%s (page %s, erase block %s, segment %s) has been mounted READ-ONLY on device %s\n",
++			   SSDFS_VERSION,
++			   GRANULARITY2STRING(fs_info->pagesize),
++			   GRANULARITY2STRING(fs_info->erasesize),
++			   GRANULARITY2STRING(fs_info->segsize),
++			   fs_info->devops->device_name(sb));
++	} else {
++		SSDFS_INFO("%s (page %s, erase block %s, segment %s) has been mounted on device %s\n",
++			   SSDFS_VERSION,
++			   GRANULARITY2STRING(fs_info->pagesize),
++			   GRANULARITY2STRING(fs_info->erasesize),
++			   GRANULARITY2STRING(fs_info->segsize),
++			   fs_info->devops->device_name(sb));
 +	}
 +
 +	return 0;
++
++stop_global_fsck_thread:
++	ssdfs_stop_global_fsck_thread(fs_info);
++
++put_root_inode:
++	iput(root_i);
++
++destroy_inodes_btree:
++	ssdfs_inodes_btree_destroy(fs_info);
++
++destroy_shdictree:
++	ssdfs_shared_dict_btree_destroy(fs_info);
++
++destroy_current_segment_array:
++	ssdfs_destroy_all_curent_segments(fs_info);
++
++destroy_invext_btree:
++	ssdfs_invextree_destroy(fs_info);
++
++destroy_shextree:
++	ssdfs_shextree_destroy(fs_info);
++
++destroy_segbmap:
++	ssdfs_segbmap_destroy(fs_info);
++
++destroy_maptbl:
++	ssdfs_maptbl_stop_thread(fs_info->maptbl);
++	ssdfs_maptbl_destroy(fs_info);
++
++destroy_segments_tree:
++	ssdfs_segment_tree_destroy(fs_info);
++	ssdfs_current_segment_array_destroy(fs_info);
++
++destroy_snapshot_subsystem:
++	ssdfs_snapshot_subsystem_destroy(fs_info);
++
++destroy_sysfs_device_group:
++	ssdfs_sysfs_delete_device_group(fs_info);
++
++release_maptbl_cache:
++	ssdfs_maptbl_cache_destroy(&fs_info->maptbl_cache);
++
++free_erase_folio:
++	if (fs_info->erase_folio)
++		ssdfs_super_free_folio(fs_info->erase_folio);
++
++	ssdfs_destruct_sb_info(&fs_info->sbi);
++	ssdfs_destruct_sb_info(&fs_info->sbi_backup);
++	ssdfs_destruct_sb_snap_info(&fs_info->sb_snapi);
++
++	ssdfs_free_workspaces();
++
++	rcu_barrier();
++
++	ssdfs_check_memory_folio_locks();
++	ssdfs_check_memory_leaks();
++	return err;
 +}
 +
-+/*
-+ * ssdfs_mtd_can_write_block() - check that logical block can be written
-+ * @sb: superblock object
-+ * @block_size: block size in bytes
-+ * @offset: offset in bytes from partition's begin
-+ * @need_check: make check or not?
-+ *
-+ * This function checks that logical block can be written.
-+ *
-+ * RETURN:
-+ * [success]
-+ * [failure] - error code:
-+ *
-+ * %-EROFS       - file system in RO mode.
-+ * %-ENOMEM      - fail to allocate memory.
-+ * %-EIO         - I/O error.
-+ */
-+static int ssdfs_mtd_can_write_block(struct super_block *sb, u32 block_size,
-+				     loff_t offset, bool need_check)
++static inline
++bool unfinished_commit_log_requests_exist(struct ssdfs_fs_info *fsi)
++{
++	u64 commit_log_requests = 0;
++
++	spin_lock(&fsi->volume_state_lock);
++	commit_log_requests = fsi->commit_log_requests;
++	spin_unlock(&fsi->volume_state_lock);
++
++	return commit_log_requests > 0;
++}
++
++static inline
++void wait_unfinished_commit_log_requests(struct ssdfs_fs_info *fsi)
++{
++	if (unfinished_commit_log_requests_exist(fsi)) {
++		wait_queue_head_t *wq = &fsi->finish_user_data_flush_wq;
++		u64 old_commit_requests, new_commit_requests;
++		int number_of_tries = 0;
++		int err;
++
++		while (number_of_tries < SSDFS_UNMOUNT_NUMBER_OF_TRIES) {
++			spin_lock(&fsi->volume_state_lock);
++			old_commit_requests = fsi->commit_log_requests;
++			spin_unlock(&fsi->volume_state_lock);
++
++			DEFINE_WAIT_FUNC(wait, woken_wake_function);
++			add_wait_queue(wq, &wait);
++			if (unfinished_commit_log_requests_exist(fsi)) {
++				wait_woken(&wait, TASK_INTERRUPTIBLE, HZ);
++			}
++			remove_wait_queue(wq, &wait);
++
++			if (!unfinished_commit_log_requests_exist(fsi))
++				break;
++
++			spin_lock(&fsi->volume_state_lock);
++			new_commit_requests = fsi->commit_log_requests;
++			spin_unlock(&fsi->volume_state_lock);
++
++			if (old_commit_requests != new_commit_requests) {
++				if (number_of_tries > 0)
++					number_of_tries--;
++			} else
++				number_of_tries++;
++		}
++
++		if (unfinished_commit_log_requests_exist(fsi)) {
++			spin_lock(&fsi->volume_state_lock);
++			new_commit_requests = fsi->commit_log_requests;
++			spin_unlock(&fsi->volume_state_lock);
++
++			SSDFS_WARN("there are unfinished commit log requests: "
++				   "commit_log_requests %llu, "
++				   "number_of_tries %d, err %d\n",
++				   new_commit_requests,
++				   number_of_tries, err);
++		}
++	}
++}
++
++static void ssdfs_put_super(struct super_block *sb)
 +{
 +	struct ssdfs_fs_info *fsi = SSDFS_FS_I(sb);
-+	struct ssdfs_signature *magic;
-+	void *buf;
-+	bool is_ssdfs_log_found;
++	struct ssdfs_peb_extent last_sb_log = {0};
++	struct ssdfs_sb_log_payload payload;
++	u64 fs_feature_compat;
++	u16 fs_state;
++	bool can_commit_super = true;
++	int i;
++	int res;
 +	int err;
 +
++#ifdef CONFIG_SSDFS_TRACK_API_CALL
++	SSDFS_ERR("sb %p\n", sb);
++#else
++	SSDFS_DBG("sb %p\n", sb);
++#endif /* CONFIG_SSDFS_TRACK_API_CALL */
++
++	atomic_set(&fsi->global_fs_state, SSDFS_UNMOUNT_METADATA_GOING_FLUSHING);
++
 +#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("sb %p, offset %llu, block_size %u, need_check %d\n",
-+		  sb, (unsigned long long)offset,
-+		  block_size, (int)need_check);
++	SSDFS_DBG("SSDFS_UNMOUNT_METADATA_GOING_FLUSHING\n");
 +#endif /* CONFIG_SSDFS_DEBUG */
 +
-+	if (!need_check)
-+		return 0;
++	wake_up_all(&fsi->pending_wq);
 +
-+	buf = ssdfs_dev_mtd_kzalloc(block_size, GFP_KERNEL);
-+	if (!buf) {
-+		SSDFS_ERR("unable to allocate %d bytes\n", block_size);
-+		return -ENOMEM;
++#ifdef CONFIG_SSDFS_TRACK_API_CALL
++	SSDFS_ERR("STOP THREADS...\n");
++#else
++	SSDFS_DBG("STOP THREADS...\n");
++#endif /* CONFIG_SSDFS_TRACK_API_CALL */
++
++	for (i = 0; i < SSDFS_GC_THREAD_TYPE_MAX; i++) {
++		err = ssdfs_stop_gc_thread(fsi, i);
++		if (err) {
++			SSDFS_ERR("fail to stop GC thread: "
++				  "type %#x, err %d\n", i, err);
++		}
 +	}
 +
-+	err = ssdfs_mtd_read(sb, block_size, offset, block_size, buf);
-+	if (err)
-+		goto free_buf;
-+
-+	if (memchr_inv(buf, 0xff, block_size)) {
-+		if (memchr_inv(buf, 0x00, block_size)) {
-+			magic = (struct ssdfs_signature *)buf;
-+
-+			is_ssdfs_log_found =
-+				__is_ssdfs_segment_header_magic_valid(magic) ||
-+				is_ssdfs_partial_log_header_magic_valid(magic) ||
-+				__is_ssdfs_log_footer_magic_valid(magic);
-+
-+			if (is_ssdfs_log_found &&
-+			    is_ssdfs_uuid_and_fs_ctime_actual(fsi, buf)) {
 +#ifdef CONFIG_SSDFS_DEBUG
-+				SSDFS_DBG("area with offset %llu contains data\n",
-+					  (unsigned long long)offset);
-+
-+				SSDFS_DBG("PAGE DUMP:\n");
-+				print_hex_dump_bytes("", DUMP_PREFIX_OFFSET,
-+						     buf,
-+						     block_size);
-+				SSDFS_DBG("\n");
++	SSDFS_DBG("GC threads have been stoped\n");
 +#endif /* CONFIG_SSDFS_DEBUG */
-+				err = -EIO;
++
++	err = ssdfs_shared_dict_stop_thread(fsi->shdictree);
++	if (err == -EIO) {
++		ssdfs_fs_error(fsi->sb,
++				__FILE__, __func__, __LINE__,
++				"thread I/O issue\n");
++	} else if (unlikely(err)) {
++		SSDFS_WARN("thread stopping issue: err %d\n",
++			   err);
++	}
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("shared dictionary thread has been stoped\n");
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	for (i = SSDFS_INVALIDATION_QUEUE_NUMBER - 1; i >= 0; i--) {
++		err = ssdfs_shextree_stop_thread(fsi->shextree, i);
++		if (err == -EIO) {
++			ssdfs_fs_error(fsi->sb,
++					__FILE__, __func__, __LINE__,
++					"thread I/O issue\n");
++		} else if (unlikely(err)) {
++			SSDFS_WARN("thread stopping issue: ID %d, err %d\n",
++				   i, err);
++		}
++	}
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("shared extents threads have been stoped\n");
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	err = ssdfs_stop_snapshots_btree_thread(fsi);
++	if (err == -EIO) {
++		ssdfs_fs_error(fsi->sb,
++				__FILE__, __func__, __LINE__,
++				"thread I/O issue\n");
++	} else if (unlikely(err)) {
++		SSDFS_WARN("thread stopping issue: err %d\n",
++			   err);
++	}
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("snaphots btree thread has been stoped\n");
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	err = ssdfs_maptbl_stop_thread(fsi->maptbl);
++	if (unlikely(err)) {
++		SSDFS_WARN("maptbl thread stopping issue: err %d\n",
++			   err);
++	}
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("mapping table thread has been stoped\n");
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	spin_lock(&fsi->volume_state_lock);
++	fs_feature_compat = fsi->fs_feature_compat;
++	fs_state = fsi->fs_state;
++	spin_unlock(&fsi->volume_state_lock);
++
++	folio_batch_init(&payload.maptbl_cache.batch);
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("Wait unfinished user data requests...\n");
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	wake_up_all(&fsi->pending_wq);
++	wait_unfinished_read_data_requests(fsi);
++	wait_unfinished_user_data_requests(fsi);
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("Wait unfinished commit log requests...\n");
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	wake_up_all(&fsi->pending_wq);
++	wait_unfinished_commit_log_requests(fsi);
++
++	if (!(sb->s_flags & SB_RDONLY)) {
++		atomic_set(&fsi->global_fs_state,
++				SSDFS_UNMOUNT_METADATA_UNDER_FLUSH);
++
++#ifdef CONFIG_SSDFS_DEBUG
++		SSDFS_DBG("SSDFS_UNMOUNT_METADATA_UNDER_FLUSH\n");
++#endif /* CONFIG_SSDFS_DEBUG */
++
++		down_write(&fsi->volume_sem);
++
++		err = ssdfs_prepare_sb_log(sb, &last_sb_log);
++		if (unlikely(err)) {
++			can_commit_super = false;
++			SSDFS_ERR("fail to prepare sb log: err %d\n",
++				  err);
++		}
++
++#ifdef CONFIG_SSDFS_TRACK_API_CALL
++		SSDFS_ERR("Flush invalidated extents b-tree...\n");
++#else
++		SSDFS_DBG("Flush invalidated extents b-tree...\n");
++#endif /* CONFIG_SSDFS_TRACK_API_CALL */
++
++		if (fsi->fs_feature_compat &
++				SSDFS_HAS_INVALID_EXTENTS_TREE_COMPAT_FLAG) {
++			err = ssdfs_invextree_flush(fsi);
++			if (err) {
++				SSDFS_ERR("fail to flush invalidated extents btree: "
++					  "err %d\n", err);
++			}
++		}
++
++#ifdef CONFIG_SSDFS_TRACK_API_CALL
++		SSDFS_ERR("Flush shared extents b-tree...\n");
++#else
++		SSDFS_DBG("Flush shared extents b-tree...\n");
++#endif /* CONFIG_SSDFS_TRACK_API_CALL */
++
++		if (fsi->fs_feature_compat &
++				SSDFS_HAS_SHARED_EXTENTS_COMPAT_FLAG) {
++			err = ssdfs_shextree_flush(fsi);
++			if (err) {
++				SSDFS_ERR("fail to flush shared extents btree: "
++					  "err %d\n", err);
++			}
++		}
++
++#ifdef CONFIG_SSDFS_TRACK_API_CALL
++		SSDFS_ERR("Flush inodes b-tree...\n");
++#else
++		SSDFS_DBG("Flush inodes b-tree...\n");
++#endif /* CONFIG_SSDFS_TRACK_API_CALL */
++
++		if (fs_feature_compat & SSDFS_HAS_INODES_TREE_COMPAT_FLAG) {
++			err = ssdfs_inodes_btree_flush(fsi->inodes_tree);
++			if (err) {
++				SSDFS_ERR("fail to flush inodes btree: "
++					  "err %d\n", err);
++			}
++		}
++
++#ifdef CONFIG_SSDFS_TRACK_API_CALL
++		SSDFS_ERR("Flush shared dictionary b-tree...\n");
++#else
++		SSDFS_DBG("Flush shared dictionary b-tree...\n");
++#endif /* CONFIG_SSDFS_TRACK_API_CALL */
++
++		if (fs_feature_compat & SSDFS_HAS_SHARED_DICT_COMPAT_FLAG) {
++			err = ssdfs_shared_dict_btree_flush(fsi->shdictree);
++			if (err) {
++				SSDFS_ERR("fail to flush shared dictionary: "
++					  "err %d\n", err);
++			}
++		}
++
++#ifdef CONFIG_SSDFS_TRACK_API_CALL
++		SSDFS_ERR("Execute create snapshots...\n");
++#else
++		SSDFS_DBG("Execute create snapshots...\n");
++#endif /* CONFIG_SSDFS_TRACK_API_CALL */
++
++		err = ssdfs_execute_create_snapshots(fsi);
++		if (err) {
++			SSDFS_ERR("fail to process the snapshots creation\n");
++		}
++
++#ifdef CONFIG_SSDFS_TRACK_API_CALL
++		SSDFS_ERR("Flush snapshots b-tree...\n");
++#else
++		SSDFS_DBG("Flush snapshots b-tree...\n");
++#endif /* CONFIG_SSDFS_TRACK_API_CALL */
++
++		if (fsi->fs_feature_compat &
++				SSDFS_HAS_SNAPSHOTS_TREE_COMPAT_FLAG) {
++			err = ssdfs_snapshots_btree_flush(fsi);
++			if (err) {
++				SSDFS_ERR("fail to flush snapshots btree: "
++					  "err %d\n", err);
++			}
++		}
++
++		if (atomic_read(&fsi->segbmap_users) > 0) {
++#ifdef CONFIG_SSDFS_DEBUG
++			SSDFS_DBG("Wait absence of segment bitmap's users...\n");
++#endif /* CONFIG_SSDFS_DEBUG */
++
++			res = wait_event_killable_timeout(fsi->segbmap_users_wq,
++					atomic_read(&fsi->segbmap_users) <= 0,
++					SSDFS_DEFAULT_TIMEOUT);
++			if (res < 0) {
++				WARN_ON(1);
++			} else if (res > 1) {
++				/*
++				 * Condition changed before timeout
++				 */
 +			} else {
++				/* timeout is elapsed */
++				WARN_ON(1);
++			}
++		}
++
++#ifdef CONFIG_SSDFS_TRACK_API_CALL
++		SSDFS_ERR("Flush segment bitmap...\n");
++#else
++		SSDFS_DBG("Flush segment bitmap...\n");
++#endif /* CONFIG_SSDFS_TRACK_API_CALL */
++
++		if (fs_feature_compat & SSDFS_HAS_SEGBMAP_COMPAT_FLAG) {
++			err = ssdfs_segbmap_flush(fsi->segbmap);
++			if (err) {
++				SSDFS_ERR("fail to flush segbmap: "
++					  "err %d\n", err);
++			}
++		}
++
 +#ifdef CONFIG_SSDFS_DEBUG
-+				SSDFS_DBG("area with offset %llu contains data\n",
-+					  (unsigned long long)offset);
++		SSDFS_DBG("Wait unfinished commit log requests...\n");
 +#endif /* CONFIG_SSDFS_DEBUG */
-+				err = -EIO;
++
++		wake_up_all(&fsi->pending_wq);
++		wait_unfinished_commit_log_requests(fsi);
++
++		if (atomic_read(&fsi->maptbl_users) > 0) {
++#ifdef CONFIG_SSDFS_DEBUG
++			SSDFS_DBG("Wait absence of mapping table users...\n");
++#endif /* CONFIG_SSDFS_DEBUG */
++
++			res = wait_event_killable_timeout(fsi->maptbl_users_wq,
++					atomic_read(&fsi->maptbl_users) <= 0,
++					SSDFS_DEFAULT_TIMEOUT);
++			if (res < 0) {
++				WARN_ON(1);
++			} else if (res > 1) {
++				/*
++				 * Condition changed before timeout
++				 */
++			} else {
++				/* timeout is elapsed */
++				WARN_ON(1);
++			}
++		}
++
++#ifdef CONFIG_SSDFS_TRACK_API_CALL
++		SSDFS_ERR("Flush PEB mapping table...\n");
++#else
++		SSDFS_DBG("Flush PEB mapping table...\n");
++#endif /* CONFIG_SSDFS_TRACK_API_CALL */
++
++		atomic_set(&fsi->global_fs_state,
++				SSDFS_UNMOUNT_MAPTBL_UNDER_FLUSH);
++
++#ifdef CONFIG_SSDFS_DEBUG
++		SSDFS_DBG("SSDFS_UNMOUNT_MAPTBL_UNDER_FLUSH\n");
++#endif /* CONFIG_SSDFS_DEBUG */
++
++		if (fs_feature_compat & SSDFS_HAS_MAPTBL_COMPAT_FLAG) {
++			err = ssdfs_maptbl_flush(fsi->maptbl);
++			if (err) {
++				SSDFS_ERR("fail to flush maptbl: "
++					  "err %d\n", err);
++			}
++
++			wait_unfinished_commit_log_requests(fsi);
++			set_maptbl_going_to_be_destroyed(fsi);
++		}
++
++#ifdef CONFIG_SSDFS_TRACK_API_CALL
++		SSDFS_ERR("Commit superblock...\n");
++#else
++		SSDFS_DBG("Commit superblock...\n");
++#endif /* CONFIG_SSDFS_TRACK_API_CALL */
++
++		atomic_set(&fsi->global_fs_state,
++				SSDFS_UNMOUNT_COMMIT_SUPERBLOCK);
++
++#ifdef CONFIG_SSDFS_DEBUG
++		SSDFS_DBG("SSDFS_UNMOUNT_COMMIT_SUPERBLOCK\n");
++#endif /* CONFIG_SSDFS_DEBUG */
++
++		if (can_commit_super) {
++			err = ssdfs_snapshot_sb_log_payload(sb, &payload);
++			if (unlikely(err)) {
++				SSDFS_ERR("fail to snapshot log's payload: "
++					  "err %d\n", err);
++			} else {
++				err = ssdfs_commit_super(sb, SSDFS_VALID_FS,
++							 &last_sb_log,
++							 &payload);
++			}
++		} else {
++			/* prepare error code */
++			err = -ERANGE;
++		}
++
++		if (err) {
++			SSDFS_ERR("fail to commit superblock info: "
++				  "err %d\n", err);
++		}
++
++		up_write(&fsi->volume_sem);
++	} else {
++		if (fs_state == SSDFS_ERROR_FS) {
++			down_write(&fsi->volume_sem);
++
++			err = ssdfs_prepare_sb_log(sb, &last_sb_log);
++			if (unlikely(err)) {
++				SSDFS_ERR("fail to prepare sb log: err %d\n",
++					  err);
++			}
++
++			err = ssdfs_snapshot_sb_log_payload(sb, &payload);
++			if (unlikely(err)) {
++				SSDFS_ERR("fail to snapshot log's payload: "
++					  "err %d\n", err);
++			}
++
++#ifdef CONFIG_SSDFS_TRACK_API_CALL
++			SSDFS_ERR("Commit superblock...\n");
++#else
++			SSDFS_DBG("Commit superblock...\n");
++#endif /* CONFIG_SSDFS_TRACK_API_CALL */
++
++			atomic_set(&fsi->global_fs_state,
++					SSDFS_UNMOUNT_COMMIT_SUPERBLOCK);
++
++#ifdef CONFIG_SSDFS_DEBUG
++			SSDFS_DBG("SSDFS_UNMOUNT_COMMIT_SUPERBLOCK\n");
++#endif /* CONFIG_SSDFS_DEBUG */
++
++			if (!err) {
++				err = ssdfs_commit_super(sb, SSDFS_ERROR_FS,
++							 &last_sb_log,
++							 &payload);
++			}
++
++			up_write(&fsi->volume_sem);
++
++			if (err) {
++				SSDFS_ERR("fail to commit superblock info: "
++					  "err %d\n", err);
 +			}
 +		}
 +	}
 +
-+free_buf:
-+	ssdfs_dev_mtd_kfree(buf);
-+	return err;
-+}
-+
-+/*
-+ * ssdfs_mtd_write_block() - write logical block to volume
-+ * @sb: superblock object
-+ * @offset: offset in bytes from partition's beginning
-+ * @folio: memory folio
-+ *
-+ * This function tries to write from @folio data
-+ * on @offset from partition's beginning.
-+ *
-+ * RETURN:
-+ * [success]
-+ * [failure] - error code:
-+ *
-+ * %-EROFS       - file system in RO mode.
-+ * %-EIO         - I/O error.
-+ */
-+static int ssdfs_mtd_write_folio(struct super_block *sb, loff_t offset,
-+				 struct folio *folio)
-+{
-+	struct ssdfs_fs_info *fsi = SSDFS_FS_I(sb);
-+	struct mtd_info *mtd = fsi->mtd;
-+	size_t retlen;
-+	unsigned char *kaddr;
-+	int ret;
-+#ifdef CONFIG_SSDFS_DEBUG
-+	u32 remainder;
-+#endif /* CONFIG_SSDFS_DEBUG */
-+	u32 written_bytes = 0;
-+	int err = 0;
++	atomic_set(&fsi->global_fs_state, SSDFS_UNMOUNT_DESTROY_METADATA);
 +
 +#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("sb %p, offset %llu, folio %p\n",
-+		  sb, offset, folio);
++	SSDFS_DBG("SSDFS_UNMOUNT_DESTROY_METADATA\n");
 +#endif /* CONFIG_SSDFS_DEBUG */
 +
-+	if (sb->s_flags & SB_RDONLY) {
-+		SSDFS_WARN("unable to write on RO file system\n");
-+		return -EROFS;
-+	}
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	BUG_ON(!folio);
-+	BUG_ON((offset >= mtd->size) ||
-+		(folio_size(folio) > (mtd->size - offset)));
-+	div_u64_rem((u64)offset, (u64)folio_size(folio), &remainder);
-+	BUG_ON(remainder);
-+	BUG_ON(!folio_test_dirty(folio));
-+	BUG_ON(folio_test_locked(folio));
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	ssdfs_folio_lock(folio);
-+
-+	while (written_bytes < folio_size(folio)) {
-+		kaddr = kmap_local_folio(folio, written_bytes);
-+		ret = mtd_write(mtd, offset + written_bytes, PAGE_SIZE,
-+				&retlen, kaddr);
-+		kunmap_local(kaddr);
-+
-+		if (ret || (retlen != PAGE_SIZE)) {
-+			SSDFS_ERR("failed to write (err %d): offset %llu, "
-+				  "len %zu, retlen %zu\n",
-+				  ret, (unsigned long long)offset,
-+				  PAGE_SIZE, retlen);
-+			err = -EIO;
-+			break;
-+		}
-+
-+		written_bytes += PAGE_SIZE;
-+	}
-+
-+	if (!err) {
-+		ssdfs_clear_dirty_folio(folio);
-+		folio_mark_uptodate(folio);
-+	}
-+
-+	ssdfs_folio_unlock(folio);
-+	ssdfs_folio_put(folio);
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("folio %p, count %d\n",
-+		  folio, folio_ref_count(folio));
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	return err;
-+}
-+
-+/*
-+ * ssdfs_mtd_write_blocks() - write logical blocks to volume
-+ * @sb: superblock object
-+ * @offset: offset in bytes from partition's beginning
-+ * @batch: memory folios batch
-+ *
-+ * This function tries to write from @batch data
-+ * to @offset from partition's beginning.
-+ *
-+ * RETURN:
-+ * [success]
-+ * [failure] - error code:
-+ *
-+ * %-EROFS       - file system in RO mode.
-+ * %-EIO         - I/O error.
-+ */
-+static int ssdfs_mtd_write_blocks(struct super_block *sb, loff_t offset,
-+				  struct folio_batch *batch)
-+{
-+	struct folio *folio;
-+	loff_t cur_offset = offset;
-+	int i;
-+	int err;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("sb %p, offset %llu, batch %p\n",
-+		  sb, offset, batch);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	if (sb->s_flags & SB_RDONLY) {
-+		SSDFS_WARN("unable to write on RO file system\n");
-+		return -EROFS;
-+	}
-+
-+	if (folio_batch_count(batch) == 0) {
-+		SSDFS_WARN("empty folio batch\n");
-+		return 0;
-+	}
-+
-+	for (i = 0; i < folio_batch_count(batch); i++) {
-+		folio = batch->folios[i];
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+		BUG_ON(!folio);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+		err = ssdfs_mtd_write_folio(sb, cur_offset, folio);
-+		if (unlikely(err)) {
-+			SSDFS_ERR("fail to write block: "
-+				  "cur_offset %llu, err %d\n",
-+				  cur_offset, err);
-+			return err;
-+		}
-+
-+		cur_offset += folio_size(folio);
-+	}
-+
-+	return 0;
-+}
-+
-+/*
-+ * ssdfs_mtd_erase() - make erase operation
-+ * @sb: superblock object
-+ * @offset: offset in bytes from partition's begin
-+ * @len: size in bytes
-+ *
-+ * This function tries to make erase operation.
-+ *
-+ * RETURN:
-+ * [success]
-+ * [failure] - error code:
-+ *
-+ * %-EROFS       - file system in RO mode.
-+ * %-EFAULT      - erase operation error.
-+ */
-+static int ssdfs_mtd_erase(struct super_block *sb, loff_t offset, size_t len)
-+{
-+	struct mtd_info *mtd = SSDFS_FS_I(sb)->mtd;
-+	struct erase_info ei;
-+	u32 remainder;
-+	int ret;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("sb %p, offset %llu, len %zu\n",
-+		  sb, (unsigned long long)offset, len);
-+
-+	div_u64_rem((u64)len, (u64)mtd->erasesize, &remainder);
-+	BUG_ON(remainder);
-+	div_u64_rem((u64)offset, (u64)mtd->erasesize, &remainder);
-+	BUG_ON(remainder);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	if (sb->s_flags & SB_RDONLY)
-+		return -EROFS;
-+
-+	div_u64_rem((u64)len, (u64)mtd->erasesize, &remainder);
-+	if (remainder) {
-+		SSDFS_WARN("len %llu, erase_size %u, remainder %u\n",
-+			   (unsigned long long)len,
-+			   mtd->erasesize, remainder);
-+		return -ERANGE;
-+	}
-+
-+	memset(&ei, 0, sizeof(ei));
-+	ei.addr = offset;
-+	ei.len = len;
-+
-+	ret = mtd_erase(mtd, &ei);
-+	if (ret) {
-+		SSDFS_ERR("failed to erase (err %d): offset %llu, len %zu\n",
-+			  ret, (unsigned long long)offset, len);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+/*
-+ * ssdfs_mtd_trim() - initiate background erase operation
-+ * @sb: superblock object
-+ * @offset: offset in bytes from partition's begin
-+ * @len: size in bytes
-+ *
-+ * This function tries to initiate background erase operation.
-+ * Currently, it is the same operation as foreground erase.
-+ *
-+ * RETURN:
-+ * [success]
-+ * [failure] - error code:
-+ *
-+ * %-EROFS       - file system in RO mode.
-+ * %-EFAULT      - erase operation error.
-+ */
-+static int ssdfs_mtd_trim(struct super_block *sb, loff_t offset, size_t len)
-+{
-+	return ssdfs_mtd_erase(sb, offset, len);
-+}
-+
-+/*
-+ * ssdfs_mtd_peb_isbad() - check that PEB is bad
-+ * @sb: superblock object
-+ * @offset: offset in bytes from partition's begin
-+ *
-+ * This function tries to detect that PEB is bad or not.
-+ */
-+static int ssdfs_mtd_peb_isbad(struct super_block *sb, loff_t offset)
-+{
-+	return mtd_block_isbad(SSDFS_FS_I(sb)->mtd, offset);
-+}
-+
-+/*
-+ * ssdfs_mtd_mark_peb_bad() - mark PEB as bad
-+ * @sb: superblock object
-+ * @offset: offset in bytes from partition's begin
-+ *
-+ * This function tries to mark PEB as bad.
-+ */
-+static int ssdfs_mtd_mark_peb_bad(struct super_block *sb, loff_t offset)
-+{
-+	return mtd_block_markbad(SSDFS_FS_I(sb)->mtd, offset);
-+}
-+
-+/*
-+ * ssdfs_mtd_sync() - make sync operation
-+ * @sb: superblock object
-+ */
-+static void ssdfs_mtd_sync(struct super_block *sb)
-+{
-+	struct ssdfs_fs_info *fsi = SSDFS_FS_I(sb);
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("device %d (\"%s\")\n",
-+		  fsi->mtd->index, fsi->mtd->name);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	mtd_sync(fsi->mtd);
-+}
-+
-+const struct ssdfs_device_ops ssdfs_mtd_devops = {
-+	.device_name		= ssdfs_mtd_device_name,
-+	.device_size		= ssdfs_mtd_device_size,
-+	.open_zone		= ssdfs_mtd_open_zone,
-+	.reopen_zone		= ssdfs_mtd_reopen_zone,
-+	.close_zone		= ssdfs_mtd_close_zone,
-+	.read			= ssdfs_mtd_read,
-+	.read_block		= ssdfs_mtd_read_block,
-+	.read_blocks		= ssdfs_mtd_read_blocks,
-+	.can_write_block	= ssdfs_mtd_can_write_block,
-+	.write_block		= ssdfs_mtd_write_folio,
-+	.write_blocks		= ssdfs_mtd_write_blocks,
-+	.erase			= ssdfs_mtd_erase,
-+	.trim			= ssdfs_mtd_trim,
-+	.peb_isbad		= ssdfs_mtd_peb_isbad,
-+	.mark_peb_bad		= ssdfs_mtd_mark_peb_bad,
-+	.sync			= ssdfs_mtd_sync,
-+};
-diff --git a/fs/ssdfs/dev_zns.c b/fs/ssdfs/dev_zns.c
-new file mode 100644
-index 000000000000..f2afe0038f9b
---- /dev/null
-+++ b/fs/ssdfs/dev_zns.c
-@@ -0,0 +1,1344 @@
-+/*
-+ * SPDX-License-Identifier: BSD-3-Clause-Clear
-+ *
-+ * SSDFS -- SSD-oriented File System.
-+ *
-+ * fs/ssdfs/dev_zns.c - ZNS SSD support.
-+ *
-+ * Copyright (c) 2022-2023 Bytedance Ltd. and/or its affiliates.
-+ *              https://www.bytedance.com/
-+ * Copyright (c) 2022-2026 Viacheslav Dubeyko <slava@dubeyko.com>
-+ *              http://www.ssdfs.org/
-+ * All rights reserved.
-+ *
-+ * Authors: Viacheslav Dubeyko <slava@dubeyko.com>
-+ *
-+ * Acknowledgement: Cong Wang
-+ */
-+
-+#include <linux/mm.h>
-+#include <linux/slab.h>
-+#include <linux/highmem.h>
-+#include <linux/pagemap.h>
-+#include <linux/pagevec.h>
-+#include <linux/bio.h>
-+#include <linux/blkdev.h>
-+#include <linux/backing-dev.h>
-+
-+#include "peb_mapping_queue.h"
-+#include "peb_mapping_table_cache.h"
-+#include "folio_vector.h"
-+#include "ssdfs.h"
-+
-+#include <trace/events/ssdfs.h>
-+
-+#ifdef CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING
-+atomic64_t ssdfs_dev_zns_folio_leaks;
-+atomic64_t ssdfs_dev_zns_memory_leaks;
-+atomic64_t ssdfs_dev_zns_cache_leaks;
-+#endif /* CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING */
-+
-+/*
-+ * void ssdfs_dev_zns_cache_leaks_increment(void *kaddr)
-+ * void ssdfs_dev_zns_cache_leaks_decrement(void *kaddr)
-+ * void *ssdfs_dev_zns_kmalloc(size_t size, gfp_t flags)
-+ * void *ssdfs_dev_zns_kzalloc(size_t size, gfp_t flags)
-+ * void *ssdfs_dev_zns_kcalloc(size_t n, size_t size, gfp_t flags)
-+ * void ssdfs_dev_zns_kfree(void *kaddr)
-+ * struct page *ssdfs_dev_zns_alloc_page(gfp_t gfp_mask)
-+ * struct page *ssdfs_dev_zns_add_pagevec_page(struct pagevec *pvec)
-+ * void ssdfs_dev_zns_free_page(struct page *page)
-+ * void ssdfs_dev_zns_pagevec_release(struct pagevec *pvec)
-+ */
-+#ifdef CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING
-+	SSDFS_MEMORY_LEAKS_CHECKER_FNS(dev_zns)
++#ifdef CONFIG_SSDFS_TRACK_API_CALL
++	SSDFS_ERR("STOP GLOBAL FSCK THREAD...\n");
 +#else
-+	SSDFS_MEMORY_ALLOCATOR_FNS(dev_zns)
-+#endif /* CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING */
++	SSDFS_DBG("STOP GLOBAL FSCK THREAD...\n");
++#endif /* CONFIG_SSDFS_TRACK_API_CALL */
 +
-+void ssdfs_dev_zns_memory_leaks_init(void)
-+{
-+#ifdef CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING
-+	atomic64_set(&ssdfs_dev_zns_folio_leaks, 0);
-+	atomic64_set(&ssdfs_dev_zns_memory_leaks, 0);
-+	atomic64_set(&ssdfs_dev_zns_cache_leaks, 0);
-+#endif /* CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING */
-+}
-+
-+void ssdfs_dev_zns_check_memory_leaks(void)
-+{
-+#ifdef CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING
-+	if (atomic64_read(&ssdfs_dev_zns_folio_leaks) != 0) {
-+		SSDFS_ERR("ZNS DEV: "
-+			  "memory leaks include %lld folios\n",
-+			  atomic64_read(&ssdfs_dev_zns_folio_leaks));
-+	}
-+
-+	if (atomic64_read(&ssdfs_dev_zns_memory_leaks) != 0) {
-+		SSDFS_ERR("ZNS DEV: "
-+			  "memory allocator suffers from %lld leaks\n",
-+			  atomic64_read(&ssdfs_dev_zns_memory_leaks));
-+	}
-+
-+	if (atomic64_read(&ssdfs_dev_zns_cache_leaks) != 0) {
-+		SSDFS_ERR("ZNS DEV: "
-+			  "caches suffers from %lld leaks\n",
-+			  atomic64_read(&ssdfs_dev_zns_cache_leaks));
-+	}
-+#endif /* CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING */
-+}
-+
-+static DECLARE_WAIT_QUEUE_HEAD(zns_wq);
-+
-+/*
-+ * ssdfs_zns_device_name() - get device name
-+ * @sb: superblock object
-+ */
-+static const char *ssdfs_zns_device_name(struct super_block *sb)
-+{
-+	return sb->s_id;
-+}
-+
-+/*
-+ * ssdfs_zns_device_size() - get partition size in bytes
-+ * @sb: superblock object
-+ */
-+static __u64 ssdfs_zns_device_size(struct super_block *sb)
-+{
-+	return i_size_read(sb->s_bdev->bd_mapping->host);
-+}
-+
-+static int ssdfs_report_zone(struct blk_zone *zone,
-+			     unsigned int index, void *data)
-+{
-+	ssdfs_memcpy(data, 0, sizeof(struct blk_zone),
-+		     zone, 0, sizeof(struct blk_zone),
-+		     sizeof(struct blk_zone));
-+	return 0;
-+}
-+
-+/*
-+ * ssdfs_zns_open_zone() - open zone
-+ * @sb: superblock object
-+ * @offset: offset in bytes from partition's begin
-+ */
-+static int ssdfs_zns_open_zone(struct super_block *sb, loff_t offset)
-+{
-+	struct ssdfs_fs_info *fsi = SSDFS_FS_I(sb);
-+	sector_t zone_sector = offset >> SECTOR_SHIFT;
-+	sector_t zone_size = fsi->erasesize >> SECTOR_SHIFT;
-+	u32 open_zones;
-+	unsigned int nofs_flags;
-+	int err;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("sb %p, offset %llu\n",
-+		  sb, (unsigned long long)offset);
-+	SSDFS_DBG("BEFORE: open_zones %d\n",
-+		  atomic_read(&fsi->open_zones));
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	nofs_flags = memalloc_nofs_save();
-+	err = blkdev_zone_mgmt(sb->s_bdev, REQ_OP_ZONE_OPEN,
-+				zone_sector, zone_size);
-+	memalloc_nofs_restore(nofs_flags);
-+	if (unlikely(err)) {
-+		SSDFS_ERR("fail to open zone: "
-+			  "zone_sector %llu, zone_size %llu, "
-+			  "open_zones %u, max_open_zones %u, "
-+			  "err %d\n",
-+			  zone_sector, zone_size,
-+			  open_zones, fsi->max_open_zones,
-+			  err);
-+		return err;
-+	}
-+
-+	open_zones = atomic_inc_return(&fsi->open_zones);
-+	if (open_zones > fsi->max_open_zones) {
-+		atomic_dec(&fsi->open_zones);
-+
-+		SSDFS_WARN("open zones limit achieved: "
-+			   "open_zones %u\n", open_zones);
-+		return -EBUSY;
-+	}
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("AFTER: open_zones %d\n",
-+		   atomic_read(&fsi->open_zones));
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	return 0;
-+}
-+
-+/*
-+ * ssdfs_zns_reopen_zone() - reopen closed zone
-+ * @sb: superblock object
-+ * @offset: offset in bytes from partition's begin
-+ */
-+static int ssdfs_zns_reopen_zone(struct super_block *sb, loff_t offset)
-+{
-+	struct ssdfs_fs_info *fsi = SSDFS_FS_I(sb);
-+	struct blk_zone zone;
-+	sector_t zone_sector = offset >> SECTOR_SHIFT;
-+	sector_t zone_size = fsi->erasesize >> SECTOR_SHIFT;
-+	unsigned int nofs_flags;
-+	int err;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("sb %p, offset %llu\n",
-+		  sb, (unsigned long long)offset);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	err = blkdev_report_zones(sb->s_bdev, zone_sector, 1,
-+				  ssdfs_report_zone, &zone);
-+	if (err != 1) {
-+		SSDFS_ERR("fail to take report zone: "
-+			  "zone_sector %llu, err %d\n",
-+			  zone_sector, err);
-+		return err;
-+	}
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("zone before: start %llu, len %llu, wp %llu, "
-+		  "type %#x, cond %#x, non_seq %#x, "
-+		  "reset %#x, capacity %llu\n",
-+		  zone.start, zone.len, zone.wp,
-+		  zone.type, zone.cond, zone.non_seq,
-+		  zone.reset, zone.capacity);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	switch (zone.cond) {
-+	case BLK_ZONE_COND_CLOSED:
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("zone is closed: offset %llu\n",
-+			  offset);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		/* continue logic */
-+		break;
-+
-+	case BLK_ZONE_COND_READONLY:
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("zone is READ-ONLY: offset %llu\n",
-+			  offset);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		return -EIO;
-+
-+	case BLK_ZONE_COND_FULL:
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("zone is full: offset %llu\n",
-+			  offset);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		return -EIO;
-+
-+	case BLK_ZONE_COND_OFFLINE:
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("zone is offline: offset %llu\n",
-+			  offset);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		return -EIO;
-+
-+	default:
-+		/* continue logic */
-+		break;
-+	}
-+
-+	nofs_flags = memalloc_nofs_save();
-+	err = blkdev_zone_mgmt(sb->s_bdev, REQ_OP_ZONE_OPEN,
-+				zone_sector, zone_size);
-+	memalloc_nofs_restore(nofs_flags);
-+	if (unlikely(err)) {
-+		SSDFS_ERR("fail to open zone: "
-+			  "zone_sector %llu, zone_size %llu, "
-+			  "err %d\n",
-+			  zone_sector, zone_size,
-+			  err);
-+		return err;
-+	}
-+
-+	err = blkdev_report_zones(sb->s_bdev, zone_sector, 1,
-+				  ssdfs_report_zone, &zone);
-+	if (err != 1) {
-+		SSDFS_ERR("fail to take report zone: "
-+			  "zone_sector %llu, err %d\n",
-+			  zone_sector, err);
-+		return err;
-+	}
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("zone after: start %llu, len %llu, wp %llu, "
-+		  "type %#x, cond %#x, non_seq %#x, "
-+		  "reset %#x, capacity %llu\n",
-+		  zone.start, zone.len, zone.wp,
-+		  zone.type, zone.cond, zone.non_seq,
-+		  zone.reset, zone.capacity);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	switch (zone.cond) {
-+	case BLK_ZONE_COND_CLOSED:
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("zone is closed: offset %llu\n",
-+			  offset);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		return -EIO;
-+
-+	case BLK_ZONE_COND_READONLY:
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("zone is READ-ONLY: offset %llu\n",
-+			  offset);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		return -EIO;
-+
-+	case BLK_ZONE_COND_FULL:
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("zone is full: offset %llu\n",
-+			  offset);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		return -EIO;
-+
-+	case BLK_ZONE_COND_OFFLINE:
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("zone is offline: offset %llu\n",
-+			  offset);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		return -EIO;
-+
-+	default:
-+		/* continue logic */
-+		break;
-+	}
-+
-+	return 0;
-+}
-+
-+/*
-+ * ssdfs_zns_close_zone() - close zone
-+ * @sb: superblock object
-+ * @offset: offset in bytes from partition's begin
-+ */
-+static int ssdfs_zns_close_zone(struct super_block *sb, loff_t offset)
-+{
-+	struct ssdfs_fs_info *fsi = SSDFS_FS_I(sb);
-+	sector_t zone_sector = offset >> SECTOR_SHIFT;
-+	sector_t zone_size = fsi->erasesize >> SECTOR_SHIFT;
-+	u32 open_zones;
-+	unsigned int nofs_flags;
-+	int err;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("sb %p, offset %llu\n",
-+		  sb, (unsigned long long)offset);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	nofs_flags = memalloc_nofs_save();
-+	err = blkdev_zone_mgmt(sb->s_bdev, REQ_OP_ZONE_FINISH,
-+				zone_sector, zone_size);
-+	memalloc_nofs_restore(nofs_flags);
-+	if (unlikely(err)) {
-+		SSDFS_ERR("fail to open zone: "
-+			  "zone_sector %llu, zone_size %llu, err %d\n",
-+			  zone_sector, zone_size, err);
-+		return err;
-+	}
-+
-+	open_zones = atomic_dec_return(&fsi->open_zones);
-+	if (open_zones > fsi->max_open_zones) {
-+		SSDFS_WARN("open zones limit exhausted: "
-+			   "open_zones %u\n", open_zones);
-+	}
-+
-+	return 0;
-+}
-+
-+/*
-+ * ssdfs_zns_zone_size() - retrieve zone size
-+ * @sb: superblock object
-+ * @offset: offset in bytes from partition's begin
-+ *
-+ * This function tries to retrieve zone size.
-+ */
-+u64 ssdfs_zns_zone_size(struct super_block *sb, loff_t offset)
-+{
-+	struct blk_zone zone;
-+	sector_t zone_sector = offset >> SECTOR_SHIFT;
-+	int res;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("sb %p, offset %llu\n",
-+		  sb, (unsigned long long)offset);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	res = blkdev_report_zones(sb->s_bdev, zone_sector, 1,
-+				  ssdfs_report_zone, &zone);
-+	if (res != 1) {
-+		SSDFS_ERR("fail to take report zone: "
-+			  "zone_sector %llu, err %d\n",
-+			  zone_sector, res);
-+		return U64_MAX;
-+	}
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("zone: start %llu, len %llu, wp %llu, "
-+		  "type %#x, cond %#x, non_seq %#x, "
-+		  "reset %#x, capacity %llu\n",
-+		  zone.start, zone.len, zone.wp,
-+		  zone.type, zone.cond, zone.non_seq,
-+		  zone.reset, zone.capacity);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	return (u64)zone.len << SECTOR_SHIFT;
-+}
-+
-+/*
-+ * ssdfs_zns_zone_capacity() - retrieve zone capacity
-+ * @sb: superblock object
-+ * @offset: offset in bytes from partition's begin
-+ *
-+ * This function tries to retrieve zone capacity.
-+ */
-+u64 ssdfs_zns_zone_capacity(struct super_block *sb, loff_t offset)
-+{
-+	struct blk_zone zone;
-+	sector_t zone_sector = offset >> SECTOR_SHIFT;
-+	int res;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("sb %p, offset %llu\n",
-+		  sb, (unsigned long long)offset);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	res = blkdev_report_zones(sb->s_bdev, zone_sector, 1,
-+				  ssdfs_report_zone, &zone);
-+	if (res != 1) {
-+		SSDFS_ERR("fail to take report zone: "
-+			  "zone_sector %llu, err %d\n",
-+			  zone_sector, res);
-+		return U64_MAX;
-+	}
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("zone: start %llu, len %llu, wp %llu, "
-+		  "type %#x, cond %#x, non_seq %#x, "
-+		  "reset %#x, capacity %llu\n",
-+		  zone.start, zone.len, zone.wp,
-+		  zone.type, zone.cond, zone.non_seq,
-+		  zone.reset, zone.capacity);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	return (u64)zone.capacity << SECTOR_SHIFT;
-+}
-+
-+/*
-+ * ssdfs_zns_zone_write_pointer() - retrieve zone's write pointer
-+ * @sb: superblock object
-+ * @offset: offset in bytes from partition's begin
-+ *
-+ * This function tries to retrieve zone's write pointer.
-+ */
-+u64 ssdfs_zns_zone_write_pointer(struct super_block *sb, loff_t offset)
-+{
-+	struct blk_zone zone;
-+	sector_t zone_sector = offset >> SECTOR_SHIFT;
-+	int res;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("sb %p, offset %llu\n",
-+		  sb, (unsigned long long)offset);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	res = blkdev_report_zones(sb->s_bdev, zone_sector, 1,
-+				  ssdfs_report_zone, &zone);
-+	if (res != 1) {
-+		SSDFS_ERR("fail to take report zone: "
-+			  "zone_sector %llu, err %d\n",
-+			  zone_sector, res);
-+		return U64_MAX;
-+	}
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("zone: start %llu, len %llu, wp %llu, "
-+		  "type %#x, cond %#x, non_seq %#x, "
-+		  "reset %#x, capacity %llu\n",
-+		  zone.start, zone.len, zone.wp,
-+		  zone.type, zone.cond, zone.non_seq,
-+		  zone.reset, zone.capacity);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	if (zone.wp >= (zone.start + zone.capacity)) {
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("zone is closed: "
-+			  "start %llu, len %llu, "
-+			  "wp %llu, type %#x, cond %#x, non_seq %#x, "
-+			  "reset %#x, capacity %llu\n",
-+			  zone.start, zone.len, zone.wp,
-+			  zone.type, zone.cond, zone.non_seq,
-+			  zone.reset, zone.capacity);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		return U64_MAX;
-+	}
-+
-+	return (u64)zone.wp << SECTOR_SHIFT;
-+}
-+
-+/*
-+ * ssdfs_zns_sync_folio_request() - submit folio request
-+ * @sb: superblock object
-+ * @folio: memory folio
-+ * @zone_start: first sector of zone
-+ * @offset: offset in bytes from partition's begin
-+ * @op: direction of I/O
-+ * @op_flags: request op flags
-+ */
-+static int ssdfs_zns_sync_folio_request(struct super_block *sb,
-+					struct folio *folio,
-+					sector_t zone_start,
-+					loff_t offset,
-+					unsigned int op, int op_flags)
-+{
-+	struct bio *bio;
-+#ifdef CONFIG_SSDFS_DEBUG
-+	sector_t zone_sector = offset >> SECTOR_SHIFT;
-+	struct blk_zone zone;
-+	int res;
-+#endif /* CONFIG_SSDFS_DEBUG */
-+	int err = 0;
-+
-+	op |= REQ_OP_ZONE_APPEND | REQ_IDLE;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	BUG_ON(!folio);
-+
-+	SSDFS_DBG("offset %llu, zone_start %llu, "
-+		  "op %#x, op_flags %#x\n",
-+		  offset, zone_start, op, op_flags);
-+
-+	res = blkdev_report_zones(sb->s_bdev, zone_sector, 1,
-+				  ssdfs_report_zone, &zone);
-+	if (res != 1) {
-+		SSDFS_ERR("fail to take report zone: "
-+			  "zone_sector %llu, err %d\n",
-+			  zone_sector, res);
-+	} else {
-+		SSDFS_DBG("zone: start %llu, len %llu, wp %llu, "
-+			  "type %#x, cond %#x, non_seq %#x, "
-+			  "reset %#x, capacity %llu\n",
-+			  zone.start, zone.len, zone.wp,
-+			  zone.type, zone.cond, zone.non_seq,
-+			  zone.reset, zone.capacity);
-+	}
-+
-+	BUG_ON(zone_start != zone.start);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	bio = ssdfs_bdev_bio_alloc(sb->s_bdev, 1, op, GFP_NOFS);
-+	if (IS_ERR_OR_NULL(bio)) {
-+		err = !bio ? -ERANGE : PTR_ERR(bio);
-+		SSDFS_ERR("fail to allocate bio: err %d\n",
-+			  err);
-+		return err;
-+	}
-+
-+	bio->bi_iter.bi_sector = zone_start;
-+	bio_set_dev(bio, sb->s_bdev);
-+	bio->bi_opf = op | op_flags;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("folio %p, count %d\n",
-+		  folio, folio_ref_count(folio));
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	err = ssdfs_bdev_bio_add_folio(bio, folio, 0);
-+	if (unlikely(err)) {
-+		SSDFS_ERR("fail to add folio into bio: "
-+			  "err %d\n",
-+			  err);
-+		goto finish_sync_folio_request;
-+	}
-+
-+	err = submit_bio_wait(bio);
-+	if (unlikely(err)) {
-+		SSDFS_ERR("fail to process request: "
-+			  "err %d\n",
-+			  err);
-+		goto finish_sync_folio_request;
-+	}
-+
-+finish_sync_folio_request:
-+	ssdfs_bdev_bio_put(bio);
-+
-+	return err;
-+}
-+
-+/*
-+ * ssdfs_zns_sync_batch_request() - submit folio batch request
-+ * @sb: superblock object
-+ * @batch: folio batch
-+ * @zone_start: first sector of zone
-+ * @offset: offset in bytes from partition's begin
-+ * @op: direction of I/O
-+ * @op_flags: request op flags
-+ */
-+static int ssdfs_zns_sync_batch_request(struct super_block *sb,
-+					struct folio_batch *batch,
-+					sector_t zone_start,
-+					loff_t offset,
-+					unsigned int op, int op_flags)
-+{
-+	struct bio *bio;
-+	int i;
-+#ifdef CONFIG_SSDFS_DEBUG
-+	sector_t zone_sector = offset >> SECTOR_SHIFT;
-+	struct blk_zone zone;
-+	int res;
-+#endif /* CONFIG_SSDFS_DEBUG */
-+	int err = 0;
-+
-+	op |= REQ_OP_ZONE_APPEND | REQ_IDLE;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	BUG_ON(!batch);
-+
-+	SSDFS_DBG("offset %llu, zone_start %llu, "
-+		  "op %#x, op_flags %#x\n",
-+		  offset, zone_start, op, op_flags);
-+
-+	res = blkdev_report_zones(sb->s_bdev, zone_sector, 1,
-+				  ssdfs_report_zone, &zone);
-+	if (res != 1) {
-+		SSDFS_ERR("fail to take report zone: "
-+			  "zone_sector %llu, err %d\n",
-+			  zone_sector, res);
-+	} else {
-+		SSDFS_DBG("zone: start %llu, len %llu, wp %llu, "
-+			  "type %#x, cond %#x, non_seq %#x, "
-+			  "reset %#x, capacity %llu\n",
-+			  zone.start, zone.len, zone.wp,
-+			  zone.type, zone.cond, zone.non_seq,
-+			  zone.reset, zone.capacity);
-+	}
-+
-+	BUG_ON(zone_start != zone.start);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	if (folio_batch_count(batch) == 0) {
-+		SSDFS_WARN("empty folio batch\n");
-+		return 0;
-+	}
-+
-+	bio = ssdfs_bdev_bio_alloc(sb->s_bdev, folio_batch_count(batch),
-+				   op, GFP_NOFS);
-+	if (IS_ERR_OR_NULL(bio)) {
-+		err = !bio ? -ERANGE : PTR_ERR(bio);
-+		SSDFS_ERR("fail to allocate bio: err %d\n",
-+			  err);
-+		return err;
-+	}
-+
-+	bio->bi_iter.bi_sector = zone_start;
-+	bio_set_dev(bio, sb->s_bdev);
-+	bio->bi_opf = op | op_flags;
-+
-+	for (i = 0; i < folio_batch_count(batch); i++) {
-+		struct folio *folio = batch->folios[i];
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+		BUG_ON(!folio);
-+
-+		SSDFS_DBG("folio %p, count %d\n",
-+			  folio, folio_ref_count(folio));
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+		err = ssdfs_bdev_bio_add_folio(bio, folio, 0);
-+		if (unlikely(err)) {
-+			SSDFS_ERR("fail to add folio %d into bio: "
-+				  "err %d\n",
-+				  i, err);
-+			goto finish_sync_batch_request;
-+		}
-+	}
-+
-+	err = submit_bio_wait(bio);
-+	if (unlikely(err)) {
-+		SSDFS_ERR("fail to process request: "
-+			  "err %d\n",
-+			  err);
-+		goto finish_sync_batch_request;
-+	}
-+
-+finish_sync_batch_request:
-+	ssdfs_bdev_bio_put(bio);
-+
-+	return err;
-+}
-+
-+/*
-+ * ssdfs_zns_read_block() - read logical block from the volume
-+ * @sb: superblock object
-+ * @folio: memory folio
-+ * @offset: offset in bytes from partition's begin
-+ *
-+ * This function tries to read data on @offset
-+ * from partition's beginning in memory folio.
-+ *
-+ * RETURN:
-+ * [success]
-+ * [failure] - error code:
-+ *
-+ * %-EIO         - I/O error.
-+ */
-+static int ssdfs_zns_read_block(struct super_block *sb, struct folio *folio,
-+				loff_t offset)
-+{
-+#ifdef CONFIG_SSDFS_DEBUG
-+	struct blk_zone zone;
-+	sector_t zone_sector = offset >> SECTOR_SHIFT;
-+	int res;
-+#endif /* CONFIG_SSDFS_DEBUG */
-+	int err = 0;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("sb %p, offset %llu\n",
-+		  sb, (unsigned long long)offset);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	err = ssdfs_bdev_read_block(sb, folio, offset);
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	res = blkdev_report_zones(sb->s_bdev, zone_sector, 1,
-+				  ssdfs_report_zone, &zone);
-+	if (res != 1) {
-+		SSDFS_ERR("fail to take report zone: "
-+			  "zone_sector %llu, err %d\n",
-+			  zone_sector, res);
-+	} else {
-+		SSDFS_DBG("zone: start %llu, len %llu, wp %llu, "
-+			  "type %#x, cond %#x, non_seq %#x, "
-+			  "reset %#x, capacity %llu\n",
-+			  zone.start, zone.len, zone.wp,
-+			  zone.type, zone.cond, zone.non_seq,
-+			  zone.reset, zone.capacity);
-+	}
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	return err;
-+}
-+
-+/*
-+ * ssdfs_zns_read_blocks() - read logical blocks from the volume
-+ * @sb: superblock object
-+ * @batch: folio batch
-+ * @offset: offset in bytes from partition's beginning
-+ *
-+ * This function tries to read data on @offset
-+ * from partition's beginning.
-+ *
-+ * RETURN:
-+ * [success]
-+ * [failure] - error code:
-+ *
-+ * %-EIO         - I/O error.
-+ */
-+static
-+int ssdfs_zns_read_blocks(struct super_block *sb, struct folio_batch *batch,
-+			  loff_t offset)
-+{
-+#ifdef CONFIG_SSDFS_DEBUG
-+	struct blk_zone zone;
-+	sector_t zone_sector = offset >> SECTOR_SHIFT;
-+	int res;
-+#endif /* CONFIG_SSDFS_DEBUG */
-+	int err = 0;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("sb %p, offset %llu\n",
-+		  sb, (unsigned long long)offset);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	err = ssdfs_bdev_read_blocks(sb, batch, offset);
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	res = blkdev_report_zones(sb->s_bdev, zone_sector, 1,
-+				  ssdfs_report_zone, &zone);
-+	if (res != 1) {
-+		SSDFS_ERR("fail to take report zone: "
-+			  "zone_sector %llu, err %d\n",
-+			  zone_sector, res);
-+	} else {
-+		SSDFS_DBG("zone: start %llu, len %llu, wp %llu, "
-+			  "type %#x, cond %#x, non_seq %#x, "
-+			  "reset %#x, capacity %llu\n",
-+			  zone.start, zone.len, zone.wp,
-+			  zone.type, zone.cond, zone.non_seq,
-+			  zone.reset, zone.capacity);
-+	}
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	return err;
-+}
-+
-+/*
-+ * ssdfs_zns_read() - read from volume into buffer
-+ * @sb: superblock object
-+ * @block_size: block size in bytes
-+ * @offset: offset in bytes from partition's begin
-+ * @len: size of buffer in bytes
-+ * @buf: buffer
-+ *
-+ * This function tries to read data on @offset
-+ * from partition's begin with @len bytes in size
-+ * from the volume into @buf.
-+ *
-+ * RETURN:
-+ * [success]
-+ * [failure] - error code:
-+ *
-+ * %-EIO         - I/O error.
-+ */
-+static
-+int ssdfs_zns_read(struct super_block *sb, u32 block_size,
-+		   loff_t offset, size_t len, void *buf)
-+{
-+#ifdef CONFIG_SSDFS_DEBUG
-+	struct blk_zone zone;
-+	sector_t zone_sector = offset >> SECTOR_SHIFT;
-+	int res;
-+#endif /* CONFIG_SSDFS_DEBUG */
-+	int err = 0;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("sb %p, block_size %u, offset %llu, len %zu, buf %p\n",
-+		  sb, block_size, (unsigned long long)offset, len, buf);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	err = ssdfs_bdev_read(sb, block_size, offset, len, buf);
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	res = blkdev_report_zones(sb->s_bdev, zone_sector, 1,
-+				  ssdfs_report_zone, &zone);
-+	if (res != 1) {
-+		SSDFS_ERR("fail to take report zone: "
-+			  "zone_sector %llu, err %d\n",
-+			  zone_sector, res);
-+	} else {
-+		SSDFS_DBG("zone: start %llu, len %llu, wp %llu, "
-+			  "type %#x, cond %#x, non_seq %#x, "
-+			  "reset %#x, capacity %llu\n",
-+			  zone.start, zone.len, zone.wp,
-+			  zone.type, zone.cond, zone.non_seq,
-+			  zone.reset, zone.capacity);
-+	}
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	return err;
-+}
-+
-+/*
-+ * ssdfs_zns_can_write_block() - check that logical block can be written
-+ * @sb: superblock object
-+ * @block_size: block size in bytes
-+ * @offset: offset in bytes from partition's beginning
-+ * @need_check: make check or not?
-+ *
-+ * This function checks that logical block can be written.
-+ *
-+ * RETURN:
-+ * [success]
-+ * [failure] - error code:
-+ *
-+ * %-EROFS       - file system in RO mode.
-+ * %-ENOMEM      - fail to allocate memory.
-+ * %-EIO         - I/O error.
-+ */
-+static int ssdfs_zns_can_write_block(struct super_block *sb, u32 block_size,
-+				     loff_t offset, bool need_check)
-+{
-+	struct ssdfs_fs_info *fsi = SSDFS_FS_I(sb);
-+	struct blk_zone zone;
-+	sector_t zone_sector = offset >> SECTOR_SHIFT;
-+	sector_t zone_size = fsi->erasesize >> SECTOR_SHIFT;
-+	u64 peb_id;
-+	loff_t zone_offset;
-+	int res;
-+	int err = 0;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("sb %p, offset %llu, block_size %u, need_check %d\n",
-+		  sb, (unsigned long long)offset,
-+		  block_size, (int)need_check);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	if (!need_check)
-+		return 0;
-+
-+	res = blkdev_report_zones(sb->s_bdev, zone_sector, 1,
-+				  ssdfs_report_zone, &zone);
-+	if (res != 1) {
-+		SSDFS_ERR("fail to take report zone: "
-+			  "zone_sector %llu, err %d\n",
-+			  zone_sector, res);
-+		return res;
-+	}
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("zone before: start %llu, len %llu, wp %llu, "
-+		  "type %#x, cond %#x, non_seq %#x, "
-+		  "reset %#x, capacity %llu\n",
-+		  zone.start, zone.len, zone.wp,
-+		  zone.type, zone.cond, zone.non_seq,
-+		  zone.reset, zone.capacity);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	switch (zone.type) {
-+	case BLK_ZONE_TYPE_CONVENTIONAL:
-+		return ssdfs_bdev_can_write_block(sb, block_size,
-+						  offset, need_check);
-+
-+	default:
-+		/*
-+		 * BLK_ZONE_TYPE_SEQWRITE_REQ
-+		 * BLK_ZONE_TYPE_SEQWRITE_PREF
-+		 *
-+		 * continue logic
-+		 */
-+		break;
-+	}
-+
-+	switch (zone.cond) {
-+	case BLK_ZONE_COND_NOT_WP:
-+		return ssdfs_bdev_can_write_block(sb, block_size,
-+						  offset, need_check);
-+
-+	case BLK_ZONE_COND_EMPTY:
-+		/* can write */
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("zone is empty: offset %llu\n",
-+			  offset);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		return 0;
-+
-+	case BLK_ZONE_COND_CLOSED:
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("zone is closed: offset %llu\n",
-+			  offset);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+		peb_id = offset / fsi->erasesize;
-+		zone_offset = peb_id * fsi->erasesize;
-+
-+		err = ssdfs_zns_reopen_zone(sb, zone_offset);
-+		if (unlikely(err)) {
-+			SSDFS_ERR("fail to reopen zone: "
-+				  "zone_offset %llu, zone_size %llu, "
-+				  "err %d\n",
-+				  zone_offset, zone_size, err);
-+			return err;
-+		}
-+
-+		return 0;
-+
-+	case BLK_ZONE_COND_READONLY:
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("zone is READ-ONLY: offset %llu\n",
-+			  offset);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		return -EIO;
-+
-+	case BLK_ZONE_COND_FULL:
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("zone is full: offset %llu\n",
-+			  offset);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		return -EIO;
-+
-+	case BLK_ZONE_COND_OFFLINE:
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("zone is offline: offset %llu\n",
-+			  offset);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		return -EIO;
-+
-+	default:
-+		/* continue logic */
-+		break;
-+	}
-+
-+	if (zone_sector < zone.wp) {
-+		err = -EIO;
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("cannot be written: "
-+			  "zone_sector %llu, zone.wp %llu\n",
-+			  zone_sector, zone.wp);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+	}
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	res = blkdev_report_zones(sb->s_bdev, zone_sector, 1,
-+				  ssdfs_report_zone, &zone);
-+	if (res != 1) {
-+		SSDFS_ERR("fail to take report zone: "
-+			  "zone_sector %llu, err %d\n",
-+			  zone_sector, res);
-+	} else {
-+		SSDFS_DBG("zone after: start %llu, len %llu, wp %llu, "
-+			  "type %#x, cond %#x, non_seq %#x, "
-+			  "reset %#x, capacity %llu\n",
-+			  zone.start, zone.len, zone.wp,
-+			  zone.type, zone.cond, zone.non_seq,
-+			  zone.reset, zone.capacity);
-+	}
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	return err;
-+}
-+
-+/*
-+ * ssdfs_zns_write_block() - write logical block to volume
-+ * @sb: superblock object
-+ * @offset: offset in bytes from partition's begin
-+ * @folio: memory folio
-+ *
-+ * This function tries to write from @folio data
-+ * on @offset from partition's beginning.
-+ *
-+ * RETURN:
-+ * [success]
-+ * [failure] - error code:
-+ *
-+ * %-EROFS       - file system in RO mode.
-+ * %-EIO         - I/O error.
-+ */
-+static
-+int ssdfs_zns_write_block(struct super_block *sb, loff_t offset,
-+			  struct folio *folio)
-+{
-+	struct ssdfs_fs_info *fsi = SSDFS_FS_I(sb);
-+	loff_t zone_start;
-+#ifdef CONFIG_SSDFS_DEBUG
-+	struct blk_zone zone;
-+	sector_t zone_sector = offset >> SECTOR_SHIFT;
-+	u32 remainder;
-+	int res;
-+#endif /* CONFIG_SSDFS_DEBUG */
-+	int err = 0;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("sb %p, offset %llu, folio %p\n",
-+		  sb, offset, folio);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	if (sb->s_flags & SB_RDONLY) {
-+		SSDFS_WARN("unable to write on RO file system\n");
-+		return -EROFS;
-+	}
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	BUG_ON(!folio);
-+	BUG_ON((offset >= ssdfs_zns_device_size(sb)) ||
-+		(folio_size(folio) > (ssdfs_zns_device_size(sb) - offset)));
-+	div_u64_rem((u64)offset, (u64)folio_size(folio), &remainder);
-+	BUG_ON(remainder);
-+	BUG_ON(!folio_test_dirty(folio));
-+	BUG_ON(folio_test_locked(folio));
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	ssdfs_folio_lock(folio);
-+	atomic_inc(&fsi->pending_bios);
-+
-+	zone_start = (offset / fsi->erasesize) * fsi->erasesize;
-+	zone_start >>= SECTOR_SHIFT;
-+
-+	err = ssdfs_zns_sync_folio_request(sb, folio, zone_start, offset,
-+					   REQ_OP_WRITE, REQ_SYNC);
++	err = ssdfs_stop_global_fsck_thread(fsi);
 +	if (err) {
-+		SSDFS_ERR("failed to write (err %d): offset %llu\n",
-+			  err, (unsigned long long)offset);
-+	} else {
-+		ssdfs_clear_dirty_folio(folio);
-+		folio_mark_uptodate(folio);
++		SSDFS_ERR("fail to stop global FSCK thread: "
++			  "err %d\n", err);
 +	}
 +
-+	ssdfs_folio_unlock(folio);
-+	ssdfs_folio_put(folio);
-+
 +#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("folio %p, count %d\n",
-+		  folio, folio_ref_count(folio));
++	SSDFS_DBG("Global FSCK thread has been stoped\n");
 +#endif /* CONFIG_SSDFS_DEBUG */
 +
-+	if (atomic_dec_and_test(&fsi->pending_bios))
-+		wake_up_all(&zns_wq);
++	for (i = 0; i < folio_batch_count(&payload.maptbl_cache.batch); i++) {
++		struct folio *payload_folio =
++				payload.maptbl_cache.batch.folios[i];
 +
 +#ifdef CONFIG_SSDFS_DEBUG
-+	res = blkdev_report_zones(sb->s_bdev, zone_sector, 1,
-+				  ssdfs_report_zone, &zone);
-+	if (res != 1) {
-+		SSDFS_ERR("fail to take report zone: "
-+			  "zone_sector %llu, err %d\n",
-+			  zone_sector, res);
-+	} else {
-+		SSDFS_DBG("zone: start %llu, len %llu, wp %llu, "
-+			  "type %#x, cond %#x, non_seq %#x, "
-+			  "reset %#x, capacity %llu\n",
-+			  zone.start, zone.len, zone.wp,
-+			  zone.type, zone.cond, zone.non_seq,
-+			  zone.reset, zone.capacity);
++		BUG_ON(!payload_folio);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++		ssdfs_folio_lock(payload_folio);
++		folio_clear_uptodate(payload_folio);
++		ssdfs_folio_unlock(payload_folio);
 +	}
++
++	ssdfs_super_folio_batch_release(&payload.maptbl_cache.batch);
++	fsi->devops->sync(sb);
++
++	/*
++	 * Make sure all delayed rcu free inodes are flushed.
++	 */
++	rcu_barrier();
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("All delayed rcu free inodes has been flushed\n");
 +#endif /* CONFIG_SSDFS_DEBUG */
 +
-+	return err;
++#ifdef CONFIG_SSDFS_TRACK_API_CALL
++	SSDFS_ERR("Starting destroy the metadata structures...\n");
++#else
++	SSDFS_DBG("Starting destroy the metadata structures...\n");
++#endif /* CONFIG_SSDFS_TRACK_API_CALL */
++
++	SSDFS_INFO("%s has been unmounted from device %s\n",
++		   SSDFS_VERSION, fsi->devops->device_name(sb));
++
++	ssdfs_snapshot_subsystem_destroy(fsi);
++	ssdfs_invextree_destroy(fsi);
++	ssdfs_shextree_destroy(fsi);
++	ssdfs_inodes_btree_destroy(fsi);
++	ssdfs_shared_dict_btree_destroy(fsi);
++	ssdfs_segbmap_destroy(fsi);
++	ssdfs_maptbl_destroy(fsi);
++	ssdfs_maptbl_cache_destroy(&fsi->maptbl_cache);
++	ssdfs_destroy_all_curent_segments(fsi);
++	ssdfs_segment_tree_destroy(fsi);
++	ssdfs_current_segment_array_destroy(fsi);
++	ssdfs_sysfs_delete_device_group(fsi);
++
++	if (fsi->erase_folio)
++		ssdfs_super_free_folio(fsi->erase_folio);
++
++	ssdfs_destruct_sb_info(&fsi->sbi);
++	ssdfs_destruct_sb_info(&fsi->sbi_backup);
++	ssdfs_destruct_sb_snap_info(&fsi->sb_snapi);
++
++	ssdfs_free_workspaces();
++
++	ssdfs_check_memory_folio_locks();
++	ssdfs_check_memory_leaks();
++
++#ifdef CONFIG_SSDFS_TRACK_API_CALL
++	SSDFS_ERR("All metadata structures have been destroyed...\n");
++#else
++	SSDFS_DBG("All metadata structures have been destroyed...\n");
++#endif /* CONFIG_SSDFS_TRACK_API_CALL */
++
++	SSDFS_INFO("All metadata structures have been destroyed\n");
 +}
 +
-+/*
-+ * ssdfs_zns_write_blocks() - write folio batch to volume
-+ * @sb: superblock object
-+ * @offset: offset in bytes from partition's beginning
-+ * @batch: folio batch
-+ *
-+ * This function tries to write from @batch data
-+ * on @offset from partition's beginning.
-+ *
-+ * RETURN:
-+ * [success]
-+ * [failure] - error code:
-+ *
-+ * %-EROFS       - file system in RO mode.
-+ * %-EIO         - I/O error.
-+ */
-+static
-+int ssdfs_zns_write_blocks(struct super_block *sb, loff_t offset,
-+			   struct folio_batch *batch)
++static int ssdfs_reconfigure(struct fs_context *fc)
 +{
-+	struct ssdfs_fs_info *fsi = SSDFS_FS_I(sb);
-+	struct folio *folio;
-+	loff_t zone_start;
-+	int i;
-+#ifdef CONFIG_SSDFS_DEBUG
-+	struct blk_zone zone;
-+	sector_t zone_sector = offset >> SECTOR_SHIFT;
-+	u32 remainder;
-+	int res;
-+#endif /* CONFIG_SSDFS_DEBUG */
-+	int err = 0;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("sb %p, offset %llu, batch %p\n",
-+		  sb, offset, batch);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	if (sb->s_flags & SB_RDONLY) {
-+		SSDFS_WARN("unable to write on RO file system\n");
-+		return -EROFS;
-+	}
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	BUG_ON(!batch);
-+	BUG_ON(offset >= ssdfs_zns_device_size(sb));
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	if (folio_batch_count(batch) == 0) {
-+		SSDFS_WARN("empty folio batch\n");
-+		return 0;
-+	}
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	div_u64_rem((u64)offset, (u64)folio_size(batch->folios[0]), &remainder);
-+	BUG_ON(remainder);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	for (i = 0; i < folio_batch_count(batch); i++) {
-+		folio = batch->folios[i];
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+		BUG_ON(!folio);
-+		BUG_ON(!folio_test_dirty(folio));
-+		BUG_ON(folio_test_locked(folio));
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+		ssdfs_folio_lock(folio);
-+	}
-+
-+	atomic_inc(&fsi->pending_bios);
-+
-+	zone_start = (offset / fsi->erasesize) * fsi->erasesize;
-+	zone_start >>= SECTOR_SHIFT;
-+
-+	err = ssdfs_zns_sync_batch_request(sb, batch, zone_start, offset,
-+					   REQ_OP_WRITE, REQ_SYNC);
-+
-+	for (i = 0; i < folio_batch_count(batch); i++) {
-+		folio = batch->folios[i];
-+
-+		if (err) {
-+			SSDFS_ERR("failed to write (err %d): "
-+				  "folio_index %llu\n",
-+				  err,
-+				  (unsigned long long)folio->index);
-+		} else {
-+			ssdfs_clear_dirty_folio(folio);
-+			folio_mark_uptodate(folio);
-+		}
-+
-+		ssdfs_folio_unlock(folio);
-+		ssdfs_folio_put(folio);
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("folio %p, count %d\n",
-+			  folio, folio_ref_count(folio));
-+#endif /* CONFIG_SSDFS_DEBUG */
-+	}
-+
-+	if (atomic_dec_and_test(&fsi->pending_bios))
-+		wake_up_all(&zns_wq);
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	res = blkdev_report_zones(sb->s_bdev, zone_sector, 1,
-+				  ssdfs_report_zone, &zone);
-+	if (res != 1) {
-+		SSDFS_ERR("fail to take report zone: "
-+			  "zone_sector %llu, err %d\n",
-+			  zone_sector, res);
-+	} else {
-+		SSDFS_DBG("zone: start %llu, len %llu, wp %llu, "
-+			  "type %#x, cond %#x, non_seq %#x, "
-+			  "reset %#x, capacity %llu\n",
-+			  zone.start, zone.len, zone.wp,
-+			  zone.type, zone.cond, zone.non_seq,
-+			  zone.reset, zone.capacity);
-+	}
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	return err;
-+}
-+
-+/*
-+ * ssdfs_zns_trim() - initiate background erase operation
-+ * @sb: superblock object
-+ * @offset: offset in bytes from partition's begin
-+ * @len: size in bytes
-+ *
-+ * This function tries to initiate background erase operation.
-+ *
-+ * RETURN:
-+ * [success]
-+ * [failure] - error code:
-+ *
-+ * %-EROFS       - file system in RO mode.
-+ * %-EFAULT      - erase operation error.
-+ */
-+static int ssdfs_zns_trim(struct super_block *sb, loff_t offset, size_t len)
-+{
-+	struct ssdfs_fs_info *fsi = SSDFS_FS_I(sb);
-+	u32 erase_size = fsi->erasesize;
-+	loff_t page_start, page_end;
-+	u32 pages_count;
-+	u32 remainder;
-+	sector_t start_sector;
-+	sector_t sectors_count;
-+	unsigned int nofs_flags;
-+	int err = 0;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("sb %p, offset %llu, len %zu\n",
-+		  sb, (unsigned long long)offset, len);
-+
-+	div_u64_rem((u64)len, (u64)erase_size, &remainder);
-+	BUG_ON(remainder);
-+	div_u64_rem((u64)offset, (u64)erase_size, &remainder);
-+	BUG_ON(remainder);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	if (sb->s_flags & SB_RDONLY)
-+		return -EROFS;
-+
-+	div_u64_rem((u64)len, (u64)erase_size, &remainder);
-+	if (remainder) {
-+		SSDFS_WARN("len %llu, erase_size %u, remainder %u\n",
-+			   (unsigned long long)len,
-+			   erase_size, remainder);
-+		return -ERANGE;
-+	}
-+
-+	page_start = offset >> PAGE_SHIFT;
-+	page_end = (offset + len + PAGE_SIZE - 1) >> PAGE_SHIFT;
-+	pages_count = (u32)(page_end - page_start);
-+
-+	if (pages_count == 0) {
-+		SSDFS_WARN("pages_count equals to zero\n");
-+		return -ERANGE;
-+	}
-+
-+	start_sector = offset >> SECTOR_SHIFT;
-+	sectors_count = fsi->erasesize >> SECTOR_SHIFT;
-+
-+	nofs_flags = memalloc_nofs_save();
-+	err = blkdev_zone_mgmt(sb->s_bdev, REQ_OP_ZONE_RESET,
-+				start_sector, sectors_count);
-+	memalloc_nofs_restore(nofs_flags);
-+	if (unlikely(err)) {
-+		SSDFS_ERR("fail to reset zone: "
-+			  "zone_sector %llu, zone_size %llu, err %d\n",
-+			  start_sector, sectors_count, err);
-+		return err;
-+	}
-+
-+	return 0;
-+}
-+
-+/*
-+ * ssdfs_zns_peb_isbad() - check that PEB is bad
-+ * @sb: superblock object
-+ * @offset: offset in bytes from partition's begin
-+ *
-+ * This function tries to detect that PEB is bad or not.
-+ */
-+static int ssdfs_zns_peb_isbad(struct super_block *sb, loff_t offset)
-+{
-+	/* do nothing */
-+	return 0;
-+}
-+
-+/*
-+ * ssdfs_zns_mark_peb_bad() - mark PEB as bad
-+ * @sb: superblock object
-+ * @offset: offset in bytes from partition's begin
-+ *
-+ * This function tries to mark PEB as bad.
-+ */
-+static int ssdfs_zns_mark_peb_bad(struct super_block *sb, loff_t offset)
-+{
-+	/* do nothing */
-+	return 0;
-+}
-+
-+/*
-+ * ssdfs_zns_sync() - make sync operation
-+ * @sb: superblock object
-+ */
-+static void ssdfs_zns_sync(struct super_block *sb)
-+{
++	struct ssdfs_mount_context *ctx = fc->fs_private;
++	struct super_block *sb = fc->root->d_sb;
 +	struct ssdfs_fs_info *fsi = SSDFS_FS_I(sb);
 +
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("device %s\n", sb->s_id);
-+#endif /* CONFIG_SSDFS_DEBUG */
++	sync_filesystem(sb);
++	fsi->mount_opts = ctx->s_mount_opts;
 +
-+	wait_event(zns_wq, atomic_read(&fsi->pending_bios) == 0);
++	return ssdfs_remount_fs(fc, sb);
 +}
 +
-+const struct ssdfs_device_ops ssdfs_zns_devops = {
-+	.device_name		= ssdfs_zns_device_name,
-+	.device_size		= ssdfs_zns_device_size,
-+	.open_zone		= ssdfs_zns_open_zone,
-+	.reopen_zone		= ssdfs_zns_reopen_zone,
-+	.close_zone		= ssdfs_zns_close_zone,
-+	.read			= ssdfs_zns_read,
-+	.read_block		= ssdfs_zns_read_block,
-+	.read_blocks		= ssdfs_zns_read_blocks,
-+	.can_write_block	= ssdfs_zns_can_write_block,
-+	.write_block		= ssdfs_zns_write_block,
-+	.write_blocks		= ssdfs_zns_write_blocks,
-+	.erase			= ssdfs_zns_trim,
-+	.trim			= ssdfs_zns_trim,
-+	.peb_isbad		= ssdfs_zns_peb_isbad,
-+	.mark_peb_bad		= ssdfs_zns_mark_peb_bad,
-+	.sync			= ssdfs_zns_sync,
++static int ssdfs_get_tree(struct fs_context *fc)
++{
++#ifdef CONFIG_SSDFS_MTD_DEVICE
++	return get_tree_mtd(fc, ssdfs_fill_super);
++#elif defined(CONFIG_SSDFS_BLOCK_DEVICE)
++	return get_tree_bdev(fc, ssdfs_fill_super);
++#else
++	BUILD_BUG();
++	return -EOPNOTSUPP;
++#endif
++}
++
++static void ssdfs_fc_free(struct fs_context *fc)
++{
++	struct ssdfs_mount_context *ctx = fc->fs_private;
++
++	if (!ctx)
++		return;
++
++	kfree(ctx);
++}
++
++static const struct fs_context_operations ssdfs_context_ops = {
++	.parse_param	= ssdfs_parse_param,
++	.get_tree	= ssdfs_get_tree,
++	.reconfigure	= ssdfs_reconfigure,
++	.free		= ssdfs_fc_free,
 +};
++
++static int ssdfs_init_fs_context(struct fs_context *fc)
++{
++	struct ssdfs_mount_context *ctx;
++
++	ctx = kzalloc(sizeof(struct ssdfs_mount_context), GFP_KERNEL);
++	if (!ctx)
++		return -ENOMEM;
++
++	fc->fs_private = ctx;
++	fc->ops = &ssdfs_context_ops;
++
++	return 0;
++}
++
++static void kill_ssdfs_sb(struct super_block *sb)
++{
++#ifdef CONFIG_SSDFS_MTD_DEVICE
++	kill_mtd_super(sb);
++#elif defined(CONFIG_SSDFS_BLOCK_DEVICE)
++	kill_block_super(sb);
++#else
++	BUILD_BUG();
++#endif
++
++	if (sb->s_fs_info) {
++		kfree(sb->s_fs_info);
++		sb->s_fs_info = NULL;
++	}
++}
++
++static struct file_system_type ssdfs_fs_type = {
++	.name		= "ssdfs",
++	.owner		= THIS_MODULE,
++	.init_fs_context = ssdfs_init_fs_context,
++	.kill_sb	= kill_ssdfs_sb,
++#ifdef CONFIG_SSDFS_BLOCK_DEVICE
++	.fs_flags	= FS_REQUIRES_DEV,
++#endif
++};
++MODULE_ALIAS_FS(SSDFS_VERSION);
++
++static void ssdfs_destroy_caches(void)
++{
++	/*
++	 * Make sure all delayed rcu free inodes are flushed before we
++	 * destroy cache.
++	 */
++	rcu_barrier();
++
++	if (ssdfs_inode_cachep)
++		kmem_cache_destroy(ssdfs_inode_cachep);
++
++	ssdfs_destroy_seg_req_obj_cache();
++	ssdfs_destroy_dirty_folios_obj_cache();
++	ssdfs_destroy_btree_search_obj_cache();
++	ssdfs_destroy_free_ino_desc_cache();
++	ssdfs_destroy_btree_node_obj_cache();
++	ssdfs_destroy_seg_obj_cache();
++	ssdfs_destroy_extent_info_cache();
++	ssdfs_destroy_peb_mapping_info_cache();
++	ssdfs_destroy_blk2off_frag_obj_cache();
++	ssdfs_destroy_name_info_cache();
++	ssdfs_destroy_seg_object_info_cache();
++}
++
++static int ssdfs_init_caches(void)
++{
++	int err;
++
++	ssdfs_zero_seg_obj_cache_ptr();
++	ssdfs_zero_seg_req_obj_cache_ptr();
++	ssdfs_zero_dirty_folios_obj_cache_ptr();
++	ssdfs_zero_extent_info_cache_ptr();
++	ssdfs_zero_btree_node_obj_cache_ptr();
++	ssdfs_zero_btree_search_obj_cache_ptr();
++	ssdfs_zero_free_ino_desc_cache_ptr();
++	ssdfs_zero_peb_mapping_info_cache_ptr();
++	ssdfs_zero_blk2off_frag_obj_cache_ptr();
++	ssdfs_zero_name_info_cache_ptr();
++	ssdfs_zero_seg_object_info_cache_ptr();
++
++	ssdfs_inode_cachep = kmem_cache_create("ssdfs_inode_cache",
++					sizeof(struct ssdfs_inode_info), 0,
++					SLAB_RECLAIM_ACCOUNT | SLAB_ACCOUNT,
++					ssdfs_init_inode_once);
++	if (!ssdfs_inode_cachep) {
++		SSDFS_ERR("unable to create inode cache\n");
++		return -ENOMEM;
++	}
++
++	err = ssdfs_init_seg_obj_cache();
++	if (unlikely(err)) {
++		SSDFS_ERR("unable to create segment object cache: err %d\n",
++			  err);
++		goto destroy_caches;
++	}
++
++	err = ssdfs_init_seg_req_obj_cache();
++	if (unlikely(err)) {
++		SSDFS_ERR("unable to create segment request object cache: "
++			  "err %d\n",
++			  err);
++		goto destroy_caches;
++	}
++
++	err = ssdfs_init_dirty_folios_obj_cache();
++	if (unlikely(err)) {
++		SSDFS_ERR("unable to create dirty folios object cache: "
++			  "err %d\n",
++			  err);
++		goto destroy_caches;
++	}
++
++	err = ssdfs_init_extent_info_cache();
++	if (unlikely(err)) {
++		SSDFS_ERR("unable to create extent info object cache: "
++			  "err %d\n",
++			  err);
++		goto destroy_caches;
++	}
++
++	err = ssdfs_init_btree_node_obj_cache();
++	if (unlikely(err)) {
++		SSDFS_ERR("unable to create btree node object cache: err %d\n",
++			  err);
++		goto destroy_caches;
++	}
++
++	err = ssdfs_init_btree_search_obj_cache();
++	if (unlikely(err)) {
++		SSDFS_ERR("unable to create btree search object cache: "
++			  "err %d\n",
++			  err);
++		goto destroy_caches;
++	}
++
++	err = ssdfs_init_free_ino_desc_cache();
++	if (unlikely(err)) {
++		SSDFS_ERR("unable to create free inode descriptors cache: "
++			  "err %d\n",
++			  err);
++		goto destroy_caches;
++	}
++
++	err = ssdfs_init_peb_mapping_info_cache();
++	if (unlikely(err)) {
++		SSDFS_ERR("unable to create PEB mapping descriptors cache: "
++			  "err %d\n",
++			  err);
++		goto destroy_caches;
++	}
++
++	err = ssdfs_init_blk2off_frag_obj_cache();
++	if (unlikely(err)) {
++		SSDFS_ERR("unable to create blk2off fragments cache: "
++			  "err %d\n",
++			  err);
++		goto destroy_caches;
++	}
++
++	err = ssdfs_init_name_info_cache();
++	if (unlikely(err)) {
++		SSDFS_ERR("unable to create name info cache: "
++			  "err %d\n",
++			  err);
++		goto destroy_caches;
++	}
++
++	err = ssdfs_init_seg_object_info_cache();
++	if (unlikely(err)) {
++		SSDFS_ERR("unable to create segment object info cache: "
++			  "err %d\n",
++			  err);
++		goto destroy_caches;
++	}
++
++	return 0;
++
++destroy_caches:
++	ssdfs_destroy_caches();
++	return -ENOMEM;
++}
++
++static inline void ssdfs_print_info(void)
++{
++	SSDFS_INFO("%s loaded\n", SSDFS_VERSION);
++}
++
++static int __init ssdfs_init(void)
++{
++	int err;
++
++	err = ssdfs_init_caches();
++	if (err) {
++		SSDFS_ERR("failed to initialize caches\n");
++		goto failed_init;
++	}
++
++	err = ssdfs_compressors_init();
++	if (err) {
++		SSDFS_ERR("failed to initialize compressors\n");
++		goto free_caches;
++	}
++
++	err = ssdfs_sysfs_init();
++	if (err) {
++		SSDFS_ERR("failed to initialize sysfs subsystem\n");
++		goto stop_compressors;
++	}
++
++	err = register_filesystem(&ssdfs_fs_type);
++	if (err) {
++		SSDFS_ERR("failed to register filesystem\n");
++		goto sysfs_exit;
++	}
++
++	ssdfs_print_info();
++
++	return 0;
++
++sysfs_exit:
++	ssdfs_sysfs_exit();
++
++stop_compressors:
++	ssdfs_compressors_exit();
++
++free_caches:
++	ssdfs_destroy_caches();
++
++failed_init:
++	return err;
++}
++
++static void __exit ssdfs_exit(void)
++{
++	ssdfs_destroy_caches();
++	unregister_filesystem(&ssdfs_fs_type);
++	ssdfs_sysfs_exit();
++	ssdfs_compressors_exit();
++}
++
++module_init(ssdfs_init);
++module_exit(ssdfs_exit);
++
++MODULE_DESCRIPTION("SSDFS -- SSD-oriented File System");
++MODULE_AUTHOR("HGST, San Jose Research Center, Storage Architecture Group");
++MODULE_AUTHOR("Viacheslav Dubeyko <slava@dubeyko.com>");
++MODULE_LICENSE("Dual BSD/GPL");
 -- 
 2.34.1
 
