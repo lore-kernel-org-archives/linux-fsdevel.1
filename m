@@ -1,377 +1,227 @@
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 187B121B1BF
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 22:59:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78A2D374182
+	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 23:09:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.52
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773701981; cv=pass; b=W1bhhZfGuNE5SY9iIImR46zv721IWnnF+FntID2kknD+DnNrxPCfuxFcscfr68dqA22lVREKlMlRUwqYM2q+K1HWlzgWp+crolASF+SFCIIlK5lgmQrYKXDCiVKUHYSCnwBQWed6Q0Il16wYCJCsu5zg09Vt6C6/GtHQJe2rvPc=
+	t=1773702551; cv=pass; b=nApBDExhg4PKn9NHTJ8odQeQ7HhR+LuXAuvrhnRsRWfOr+vLhXCSHf85KbdBYd3FM8RL1BC7KFKZYUZ+DoSQE+/tlDzOxg4ZOX+Hj9/gRqrn88rO/9XAvncftQd1BrblQ0zE+ny3XXoooen/Ph4iJFa7Ttb8MClu8akr32Eke6I=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773701981; c=relaxed/simple;
-	bh=n5yqztpjRLufPkj5VJdYxT7NEGdWEh93DgrTEzhQ/40=;
+	s=arc-20240116; t=1773702551; c=relaxed/simple;
+	bh=+cAJ4iIFIxRHig92sYo84qvhIaHp9W4lFkHVoCvc15Y=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oAEDMGpz0EM8yidV42Nptu8P9L3CgRy8njZMPqydC7jTtYp77j7jxQBxf6tREfX7lGej6zD3jWlZOoUUTuhtWOTifdCvZfXQJfBx23nDIm838lCcPFkvxzxAE5Vqqr3oVB7Eq6b1+5HljYP4mGT66/l1VSq61KixGspdNE0aqQY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=DMh6LtIz; arc=pass smtp.client-ip=209.85.160.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=lvyQNOCOE6goEXFYZFhO2PFLom0lb/8dHdSKHbZR5SOEURF0Az8nVRjsAF23uR672hzchojjulelJMlgxKMkJGBV7f+pzuWuaxwGQK/XshAto5YThKYHcGF2i43h6f9MyNn2cRVf2Oe5jRrlfg2obaeTvnezRtzqXoIB3UCqWOM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D6IntPEf; arc=pass smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DMh6LtIz"
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-50906a98ffeso251421cf.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 15:59:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773701978; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D6IntPEf"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-43b40fb7f95so1693325f8f.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 16:09:08 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773702547; cv=none;
         d=google.com; s=arc-20240605;
-        b=evd/ESGtmyCGZaOK7APJ6wajYwH+9vlyB8IqTs7TLZ13Lis91Qb7slQvbM8zEiY55O
-         u/FdUIGQa/GXB1f7FKOuOZll4HnchSD9IIfodSSJ2k8/ldzgZByJv1fgLVSauS64oqgW
-         yaD/LScSpeSFRQdPP4td31CIeUIwRytWhNu2eTBVfjepLVCOaAf5LA+0za8We0aVAW9H
-         2RwgoHiJC03oKXNGzId7nTpRoZsmLUVYC0uPSgPhlYsFpYOfZlysQX6RJ5PuJrjOSGvD
-         QEKEEVuZZQL9WbaYquVtHfYg+PSzX2cOVGZVw3mezqbbsl2SaR24rUgOFUU2l1nktpz3
-         nEuw==
+        b=aWasZrnUEeth4kWjWROv8VLZcqAItjQbgCQKT3jZxucM4z1gx/uflQjbz2rUTBm5H7
+         jDn6E9i4NtaapM0q5qZ2iKGtX/VvcsXGXOZylvAvP2I4fLBWxxIF6fkOWedAm1MTJF38
+         mEFcaVr226yRH/iPc0j0B7OD6S8kMVJA+GMsoSSnhBABrnmYHXBI9yqsyrF2mtcYX3qo
+         K4PJClo8kT24jWFW4Bzo97nLWu3aGidV+j8G7MlZplya4oG7VVIqzCeLDk8yH+kxQMGI
+         mal0JsXlx8Uv53ynvsr0QbRDlIYDSaxZqmhoa3nt0hvOmGFb1/7oFGecPYJKoFs0575R
+         mPgg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=Q4cJcFtf4hpm0T0e+VviEvUx2ruLtbnKyeEs5ldKrcs=;
-        fh=h3rqpor7oLojXKxAFQtzFfguCg4okN7+2yx4Ni//MHI=;
-        b=QUUYJX/jOhy9RIIYGAuyOItph8aO+CHGjwIF2FtJ1s+uFVbTktxgv+ZhbwOC/sThYK
-         TKiSciN8V7J18U+62SjCtquZTLU4Y0BeUXUEsr6FpU8wrGYF+QEAChlKf8PK5W1UMCVj
-         WLpWb/YKnHwJM+1C3gRMJirwyxJIXyn0gWCaw9GrMvnCL1OvUf+F7XOuFtD9slEwDmzc
-         5jzTHb/XrIs75IW/EbtgibyH2Z8lwLwclyJzUiyaBBVqrpgugNBrghPw6ZkJJX6FHIu1
-         vi0fmB+3w15GNrYJfSIZYRsIRc0DewUsvxgPAyhI3CF0CgyDX3AL4G5oiBV96NwDyfKk
-         tm9g==;
+        bh=YTcEvH+GjDpjQFw+Gwl6J2Beep0t2E3u6sg9IRtiNzE=;
+        fh=kaJvDsEg6Hfwd6AS1oXlMIUNmP1hApMKRTQD0U/l5Xs=;
+        b=WLf87ep3q0UvODCMupjrvHHRidBujKCxJtMpmzedkuiPkBz6TVSXpMsU0Dtdf746I0
+         MVfT/gUDfmMivbU7xTmxQxO+ZtwgxnarnLq80H2yP97SrsLTiSQDPqkPu05aqXwmfewR
+         /ecHfmuYW1JQstUgVRp8xTiJ7DtPWYGxCNInHf6B9+DGE54uBv8qVFbUPg3HAdugpS31
+         3HTIHvWZrHCCGUF99AinPxP1pxNmTR2sA/XHW/inbBITDpORJOQFowkMAZ4xDcc2s/ja
+         ok13Gz/H5BA5OGF7+1Y1yktgFEGzzMGqYoZbcDukkDRLK+8w58rTN1eQLHqQQFdMnQE9
+         /Wpw==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1773701978; x=1774306778; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1773702547; x=1774307347; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Q4cJcFtf4hpm0T0e+VviEvUx2ruLtbnKyeEs5ldKrcs=;
-        b=DMh6LtIzSVg4b4oelvmsNsDfbzbWWsMFFLbjMmv/YlM02GhO16UEdWQZg6lkAWRPiY
-         e1b0KmY3hHsxDAB3vmpZRocTb7NTd5tHB/ikcd4xsxBL5ldcfp1KOJcM0VpyFU2AHvh4
-         4uAdbzOZDE8uME31qR4W+uzm6Lwmwy2dZvyHFo2Rvt0dl5/tGGx2rGVR0o33Shwynwvr
-         usSOa+82hpfddhkC5h1VRXC3VG8AwpLJ6dprpIWAojy9ZSikFkE8q9NMDEUo9lluWdWH
-         bYJ5XaoPqjjoP33My/z3yFOUMrxZ9H5m7N826oNInydhwQo/asZ6I6F/C8NerdVOsS7o
-         L/qA==
+        bh=YTcEvH+GjDpjQFw+Gwl6J2Beep0t2E3u6sg9IRtiNzE=;
+        b=D6IntPEfYTZg7kuSqNZ0xwoTJK/di7+wNmv9xTRAPJh5ttY158d3g3/AzB7k89M0UD
+         skF+XyXEA6cLESYOW1zdWFQ17weizHtb5Gt5qDukO1DwPh3jyGt7eMU+QbqvginTkvFF
+         R6Zp7n1uvzGcSSV385Z0RkxSRU5ReYA9DTbEBnyTkMtqcdveekmreDSIoJ5G0q3XA32v
+         U8+2gVKFYZkxke14ocXHcYnVYSpzxP0N57boHVZ0B7z2jlHOmW7va+hBjXqfzkkuW4BF
+         qWcfzP5fAK5BJR1zdz9KG+8vghwKFvnyHAGE4aNKdkv+lJSmFC84F/1o3ebPYt/0eHoo
+         vGiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773701978; x=1774306778;
+        d=1e100.net; s=20251104; t=1773702547; x=1774307347;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Q4cJcFtf4hpm0T0e+VviEvUx2ruLtbnKyeEs5ldKrcs=;
-        b=qHtnnGqYuAFcweIcgRusCkQI3M/L7ajp2O9c+8Qje3LKDfG6JJ43WNmm/0XTdQR8Kv
-         crh3rmWflujtZuHYFzztjGlAPrVxSgAhf6F0CHz9nSWbNiRixCcjldbpYWe7Vb0QlRvy
-         ZYKpfyMfde9jlbElGU5UsfFbju+z23dNSKYo/Kmny4wQZ675XYeRw68lLEca8aEiPdBv
-         NjOVeSBfEHcFblk7bnvFQbOp4MegsZKKd0grXHqQY3GonZI01i2rLwILNjy8nLMDOYMa
-         P15j1OHFIiB7QnbdrVKaTzur2svjYl/eB/5lJBQErk5TxfjC8SvXoFjQLJ0U/fCkOngv
-         fnow==
-X-Forwarded-Encrypted: i=1; AJvYcCXy3TWylsQyyEsrSvUQ0kZc6xddnNRPnRPc104oj2L1+ctc0m//za7PRT5ShYn5sLnyaKUhYBvUGl8NTVaV@vger.kernel.org
-X-Gm-Message-State: AOJu0YzAYCKPLQVmQo0LJZOIN3k0Z67TxJ5NJJuo44dv4VQRq/jxWMvv
-	ZbCjHQ0Fit0bTJ7yyt0oEKf30OCtH7eWf5cEmguTUNdEqqOFPOmp3vEYbPkYVrqWBiUHobuAP98
-	ROwnC7s1XU5ieW04yTfM0tiOAr81GCQHrImFRiVjC
-X-Gm-Gg: ATEYQzzdtlOAuD64TUdeUtMtJeoB4c5gQyRkHVgWgYzW2WHce32TofwO15yfVE4wvYg
-	PoyUMKeV5jn3TAjgeTRyfa5LxtCjDN1C80nipsIdjGRjhrCKSFrry0y7i3zhziALL1T5qDT6dut
-	qGL2nZWca96KCPmUxzRCA6qpxDO2lf2JxkgfyEgnT4OHFrPPoTw6yV46dBVnKr8+5q00F/0Wnu9
-	5c3bIN40hC9vH66l0xTTyTa5VDXnF7aFb1dVuoRJtyBHcuQkrhE25kYWhiP8gt3mZth+vdLDLJV
-	RfX8fhSWnxhZvwnv
-X-Received: by 2002:ac8:5e12:0:b0:4f3:54eb:f26e with SMTP id
- d75a77b69052e-5099ac78738mr2798501cf.1.1773701977490; Mon, 16 Mar 2026
- 15:59:37 -0700 (PDT)
+        bh=YTcEvH+GjDpjQFw+Gwl6J2Beep0t2E3u6sg9IRtiNzE=;
+        b=XSPAjiHYcjUTqDbiqJOSiRITcmJL6FtizbXRjhVFmby1fMWaR6S+Sede82wDd03YWF
+         X5HMYUuJXEVeubDNb/ja/M3OoVnhYayX330Dlelt81nYTFbtq6WsDUDtd0/7sCfKcdJI
+         ZfGSZPMYq/nGVRX02HZYQz+y6T8hWyfTwqqQ1Nh9fi1fwZ5Wdr9a2SBJK1Dlr4w3oELw
+         ISn6oFjrUU3tJYUp3gFI/hg4v4o7zug/B8bb4C5l3TAOzT08WiBS5acImVG3mexjI24r
+         ZfJ0s3plk39XOOrvxwe5vAMElS0MUoJOgRDhGXMxTKISeHuaoZrV36t+YYbNihVUKL9Q
+         Ez/w==
+X-Gm-Message-State: AOJu0Yz5lCAensGXIMn7ZSkLT9zs0MZaHtrn9P+PJwsXitmQJqzUJFTn
+	JTUY/reSFIhIANnjEZE/YgUea1Xf189oFj9zDX9KeI7M4YmJy7ZTF5buEcz9YupwOvjJ7odK5Eq
+	DG/MwNBM4xp5ZPydkPhzOpHxMStAWs74=
+X-Gm-Gg: ATEYQzzTYmkNy4pyCmf1byvm66QAwgrLZzNaSgjkjexwA9Z+2TM97KwRJsvJmwX/8i2
+	igFynJod3SUq0Tq7xuBBNLB3RHQpHeLdnEiY8ijR+i723eCdszFxPdx3sciDSfbzy1JyQg9T/eB
+	5nM1bMwBKd8fVurebG0gVAv0FV3yxxwDdZ0F+KkV7QcTrVM11K6c71vqZkQ+GQqYZVV+3u+X7Fw
+	fEJQcuRNpunfSpIGWDOYD+IN/wR4xllwZVNZ/tb6g1JOv2cXSlDo3Mg7I8IRU9ZBNS/dvfvQX2Z
+	p9IINw==
+X-Received: by 2002:a5d:5f83:0:b0:439:b8b2:fad0 with SMTP id
+ ffacd0b85a97d-43a04d83ff6mr28400817f8f.5.1773702546587; Mon, 16 Mar 2026
+ 16:09:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1773346620.git.ljs@kernel.org> <c5bb61cf789df1ecb32facc29df9749987c7ddfc.1773346620.git.ljs@kernel.org>
- <CAJuCfpGd702=Xop3X5Aop9rrScdiAOQEEooTu1gcJqR9pmO5GA@mail.gmail.com> <6a0e73a5-519e-49ca-9f76-2f6cc5a1577c@lucifer.local>
-In-Reply-To: <6a0e73a5-519e-49ca-9f76-2f6cc5a1577c@lucifer.local>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Mon, 16 Mar 2026 15:59:26 -0700
-X-Gm-Features: AaiRm5118TD3MF16DHCGoLHkzYMnffHjhVhwrz0uUgfCnERLy0ui_OLbleubf-w
-Message-ID: <CAJuCfpEjTw1nQik_HWXHg2su2DwzPrn5NPGpeAVPrjJK0tOSkg@mail.gmail.com>
-Subject: Re: [PATCH 02/15] mm: add documentation for the mmap_prepare file
- operation callback
-To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Clemens Ladisch <clemens@ladisch.de>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "K . Y . Srinivasan" <kys@microsoft.com>, 
-	Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
-	Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, 
-	Vignesh Raghavendra <vigneshr@ti.com>, Bodo Stroesser <bostroesser@gmail.com>, 
-	"Martin K . Petersen" <martin.petersen@oracle.com>, David Howells <dhowells@redhat.com>, 
-	Marc Dionne <marc.dionne@auristor.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, David Hildenbrand <david@kernel.org>, 
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, 
-	Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-hyperv@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org, 
-	linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org, 
-	target-devel@vger.kernel.org, linux-afs@lists.infradead.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	Ryan Roberts <ryan.roberts@arm.com>
+References: <20260223224617.GA2390314@frogsfrogsfrogs> <CAJnrk1Yd1J60-Ek=O7jzZQg454pbr3O=b71yZHzYbrWfqJr__w@mail.gmail.com>
+ <20260316180408.GN6069@frogsfrogsfrogs>
+In-Reply-To: <20260316180408.GN6069@frogsfrogsfrogs>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Mon, 16 Mar 2026 16:08:55 -0700
+X-Gm-Features: AaiRm53xx1udDBBozm1YmDs3kuURdsgNVNQ8IfBAmck4rGWxaKobRoPlK5vEPvg
+Message-ID: <CAJnrk1bmJYMt27xedN2Xza0KPXfYEbh-9g=3fNWru-HRM9WFEw@mail.gmail.com>
+Subject: Re: [PATCHBLIZZARD v7] fuse/libfuse/e2fsprogs: containerize ext4 for
+ safer operation
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: linux-fsdevel <linux-fsdevel@vger.kernel.org>, bpf@vger.kernel.org, 
+	linux-ext4 <linux-ext4@vger.kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Bernd Schubert <bernd@bsbernd.com>, "Theodore Ts'o" <tytso@mit.edu>, Neal Gompa <neal@gompa.dev>, 
+	Amir Goldstein <amir73il@gmail.com>, Christian Brauner <brauner@kernel.org>, 
+	Jeff Layton <jlayton@kernel.org>, John@groves.net, demiobenour@gmail.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 16, 2026 at 12:17=E2=80=AFPM Lorenzo Stoakes (Oracle)
-<ljs@kernel.org> wrote:
+On Mon, Mar 16, 2026 at 11:04=E2=80=AFAM Darrick J. Wong <djwong@kernel.org=
+> wrote:
 >
-> On Sun, Mar 15, 2026 at 04:23:14PM -0700, Suren Baghdasaryan wrote:
-> > On Thu, Mar 12, 2026 at 1:27=E2=80=AFPM Lorenzo Stoakes (Oracle) <ljs@k=
-ernel.org> wrote:
+> On Mon, Mar 16, 2026 at 10:56:21AM -0700, Joanne Koong wrote:
+> > On Mon, Feb 23, 2026 at 2:46=E2=80=AFPM Darrick J. Wong <djwong@kernel.=
+org> wrote:
 > > >
-> > > This documentation makes it easier for a driver/file system implement=
-er to
-> > > correctly use this callback.
+> > > There are some warts remaining:
 > > >
-> > > It covers the fundamentals, whilst intentionally leaving the less lov=
-ely
-> > > possible actions one might take undocumented (for instance - the
-> > > success_hook, error_hook fields in mmap_action).
-> > >
-> > > The document also covers the new VMA flags implementation which is th=
-e only
-> > > one which will work correctly with mmap_prepare.
-> > >
-> > > Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
-> > > ---
-> > >  Documentation/filesystems/mmap_prepare.rst | 131 +++++++++++++++++++=
-++
-> > >  1 file changed, 131 insertions(+)
-> > >  create mode 100644 Documentation/filesystems/mmap_prepare.rst
-> > >
-> > > diff --git a/Documentation/filesystems/mmap_prepare.rst b/Documentati=
-on/filesystems/mmap_prepare.rst
-> > > new file mode 100644
-> > > index 000000000000..76908200f3a1
-> > > --- /dev/null
-> > > +++ b/Documentation/filesystems/mmap_prepare.rst
-> > > @@ -0,0 +1,131 @@
-> > > +.. SPDX-License-Identifier: GPL-2.0
-> > > +
-> > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-> > > +mmap_prepare callback HOWTO
-> > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-> > > +
-> > > +Introduction
-> > > +############
-> > > +
-> > > +The `struct file->f_op->mmap()` callback has been deprecated as it i=
-s both a
-> > > +stability and security risk, and doesn't always permit the merging o=
-f adjacent
-> > > +mappings resulting in unnecessary memory fragmentation.
-> > > +
-> > > +It has been replaced with the `file->f_op->mmap_prepare()` callback =
-which solves
-> > > +these problems.
-> > > +
-> > > +## How To Use
-> > > +
-> > > +In your driver's `struct file_operations` struct, specify an `mmap_p=
-repare`
-> > > +callback rather than an `mmap` one, e.g. for ext4:
-> > > +
-> > > +
-> > > +.. code-block:: C
-> > > +
-> > > +    const struct file_operations ext4_file_operations =3D {
-> > > +        ...
-> > > +        .mmap_prepare    =3D ext4_file_mmap_prepare,
-> > > +    };
-> > > +
-> > > +This has a signature of `int (*mmap_prepare)(struct vm_area_desc *)`=
-.
-> > > +
-> > > +Examining the `struct vm_area_desc` type:
-> > > +
-> > > +.. code-block:: C
-> > > +
-> > > +    struct vm_area_desc {
-> > > +        /* Immutable state. */
-> > > +        const struct mm_struct *const mm;
-> > > +        struct file *const file; /* May vary from vm_file in stacked=
- callers. */
-> > > +        unsigned long start;
-> > > +        unsigned long end;
-> > > +
-> > > +        /* Mutable fields. Populated with initial state. */
-> > > +        pgoff_t pgoff;
-> > > +        struct file *vm_file;
-> > > +        vma_flags_t vma_flags;
-> > > +        pgprot_t page_prot;
-> > > +
-> > > +        /* Write-only fields. */
-> > > +        const struct vm_operations_struct *vm_ops;
-> > > +        void *private_data;
-> > > +
-> > > +        /* Take further action? */
-> > > +        struct mmap_action action;
+> > > a. I would like to continue the discussion about how the design revie=
+w
+> > >    of this code should be structured, and how might I go about creati=
+ng
+> > >    new userspace filesystem servers -- lightweight new ones based off
+> > >    the existing userspace tools?  Or by merging lklfuse?
 > >
-> > So, action still belongs to /* Write-only fields. */ section? This is
-> > nitpicky, but it might be better to have this as:
-> >
-> >         /* Write-only fields. */
-> >         const struct vm_operations_struct *vm_ops;
-> >         void *private_data;
-> >         struct mmap_action action; /* Take further action? */
+> > What do you mean by "merging lklfuse"?
 >
-> Absolutely not. This field is not to be written to by the user.
->
-> We sadly have to allow hugetlb to do some hacks, but these are things we =
-don't
-> want to point out.
+> Merging the lklfuse project into upstream Linux, which involves running
+> the whole kit and caboodle through our review process, and then fixing
 
-Ack.
+Gotcha, so it would basically be having to port this arch/lkl
+directory [1] into the linux tree
+
+> user-mode-linux to work anywhere other than x86.
+
+Are lklfuse and user-mode-linux (UML) two separate things or is
+lklfuse dependent on user-mode-linux?
 
 >
-> Users should use mmap_action_xxx() functions.
+> > Could you explain what the limitations of lklfuse are compared to the
+> > fuse iomap approach in this patchset?
 >
-> >
-> > > +    };
-> > > +
-> > > +This is straightforward - you have all the fields you need to set up=
- the
-> > > +mapping, and you can update the mutable and writable fields, for ins=
-tance:
-> > > +
-> > > +.. code-block:: Cw
-> > > +
-> > > +    static int ext4_file_mmap_prepare(struct vm_area_desc *desc)
-> > > +    {
-> > > +        int ret;
-> > > +        struct file *file =3D desc->file;
-> > > +        struct inode *inode =3D file->f_mapping->host;
-> > > +
-> > > +        ...
-> > > +
-> > > +        file_accessed(file);
-> > > +        if (IS_DAX(file_inode(file))) {
-> > > +            desc->vm_ops =3D &ext4_dax_vm_ops;
-> > > +            vma_desc_set_flags(desc, VMA_HUGEPAGE_BIT);
-> > > +        } else {
-> > > +            desc->vm_ops =3D &ext4_file_vm_ops;
-> > > +        }
-> > > +        return 0;
-> > > +    }
-> > > +
-> > > +Importantly, you no longer have to dance around with reference count=
-s or locks
-> > > +when updating these fields - __you can simply go ahead and change th=
-em__.
-> > > +
-> > > +Everything is taken care of by the mapping code.
-> > > +
-> > > +VMA Flags
-> > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > > +
-> > > +Along with `mmap_prepare`, VMA flags have undergone an overhaul. Whe=
-re before
-> > > +you would invoke one of `vm_flags_init()`, `vm_flags_reset()`, `vm_f=
-lags_set()`,
-> > > +`vm_flags_clear()`, and `vm_flags_mod()` to modify flags (and to hav=
-e the
-> > > +locking done correctly for you, this is no longer necessary.
-> > > +
-> > > +Also, the legacy approach of specifying VMA flags via `VM_READ`, `VM=
-_WRITE`,
-> > > +etc. - i.e. using a `VM_xxx` macro has changed too.
-> > > +
-> > > +When implementing `mmap_prepare()`, reference flags by their bit num=
-ber, defined
-> > > +as a `VMA_xxx_BIT` macro, e.g. `VMA_READ_BIT`, `VMA_WRITE_BIT` etc.,=
- and use one
-> > > +of (where `desc` is a pointer to `struct vma_area_desc`):
-> > > +
-> > > +* `vma_desc_test_flags(desc, ...)` - Specify a comma-separated list =
-of flags you
-> > > +  wish to test for (whether _any_ are set), e.g. - `vma_desc_test_fl=
-ags(desc,
-> > > +  VMA_WRITE_BIT, VMA_MAYWRITE_BIT)` - returns `true` if either are s=
-et,
-> > > +  otherwise `false`.
-> > > +* `vma_desc_set_flags(desc, ...)` - Update the VMA descriptor flags =
-to set
-> > > +  additional flags specified by a comma-separated list,
-> > > +  e.g. - `vma_desc_set_flags(desc, VMA_PFNMAP_BIT, VMA_IO_BIT)`.
-> > > +* `vma_desc_clear_flags(desc, ...)` - Update the VMA descriptor flag=
-s to clear
-> > > +  flags specified by a comma-separated list, e.g. - `vma_desc_clear_=
-flags(desc,
-> > > +  VMA_WRITE_BIT, VMA_MAYWRITE_BIT)`.
-> > > +
-> > > +Actions
-> > > +=3D=3D=3D=3D=3D=3D=3D
-> > > +
-> > > +You can now very easily have actions be performed upon a mapping onc=
-e set up by
-> > > +utilising simple helper functions invoked upon the `struct vm_area_d=
-esc`
-> > > +pointer. These are:
-> > > +
-> > > +* `mmap_action_remap()` - Remaps a range consisting only of PFNs for=
- a specific
-> > > +  range starting a virtual address and PFN number of a set size.
-> > > +
-> > > +* `mmap_action_remap_full()` - Same as `mmap_action_remap()`, only r=
-emaps the
-> > > +  entire mapping from `start_pfn` onward.
-> > > +
-> > > +* `mmap_action_ioremap()` - Same as `mmap_action_remap()`, only perf=
-orms an I/O
-> > > +  remap.
-> > > +
-> > > +* `mmap_action_ioremap_full()` - Same as `mmap_action_ioremap()`, on=
-ly remaps
-> > > +  the entire mapping from `start_pfn` onward.
-> > > +
-> > > +**NOTE:** The 'action' field should never normally be manipulated di=
-rectly,
-> > > +rather you ought to use one of these helpers.
-> >
-> > I'm guessing the start and size parameters passed to
-> > mmap_action_remap() and such are restricted by vm_area_desc.start
-> > vm_area_desc.end. If so, should we document those restrictions and
-> > enforce them in the code?
+> The ones I know about are:
 >
-> I mean it's the same restrictions as all of the functions already apply i=
-f you
-> were to use them with a VMA descriptor.
+> 1> There's no support for vmapped kernel memory in UML mode, so anyone
+> who requires a large contiguous memory buffer cannot assemble them out
+> of "physical" pages.  This has been a stumbling block for XFS in the
+> past.
 >
-> I think implicitly a remap will fail if you try it out of the VMA range a=
-t the
-> point of applying the change.
->
-> But it might be worth adding range_in_vma_desc() checks at prepare time, =
-will
-> see if I can do that for the respin.
->
-> I think it's pretty obvious that you shouldn't be trying to remap totally
-> unrelated memory, so I'm not sure that's at a level of granularity that's=
- suited
-> to this document though.
+> 2> LKLFUSE still uses the classic fuse IO paths, which means that at
+> best you can directio the IO through the lklfuse kernel.  At worst you
+> have to use the pagecache inside the lklfuse kernel, which is very
+> wasteful.
 
-I just saw you already have WARN_ON_ONCE() inside mmap_action_remap()
-to check for these limits, so codewise I think we are already good.
-
-For documentation I'll rely on your judgement whether to mention this or no=
-t.
+For the security / isolation use cases you've described, is
+near-native performance a hard requirement? As I understand it, the
+main use cases of this will be for mounting untrusted disk images and
+CI/filesystem testing, or are there broader use cases beyond this?
 
 >
+> 3> lklfuse hasn't been updated since 6.6.
+
+Gotcha. So if I'm understanding it correctly, the pros/cons come down to:
+lklfuse pros:
+- (arguably) easier setup cost. once it's setup (assuming it's
+possible to add support for the vmapped kernel memory thing you
+mentioned above), it'll automatically work for every filesystem vs.
+having to implement a fuse-iomap server for every filesystem
+- easier to maintain vs. having to maintain each filesystem's
+userspace server implementation
+
+lklfuse cons:
+- worse (not sure by how much) performance
+- once it's merged into the kernel, we can't choose to not
+maintain/support it in the future
+
+Am I understanding this correctly?
+
+In my opinion, if near-native performance is not a hard requirement,
+it seems like less pain overall to go with lklfuse. lklfuse seems a
+lot easier to maintain and I'm not sure if some complexities like
+btrfs's copy-on-write could be handled properly with fuse-iomap.
+
+What are your thoughts on this?
+
+Thanks,
+Joanne
+
+[1] https://github.com/lkl/linux/tree/master/arch/lkl
+
+>
+> --D
+>
+> > Thanks,
+> > Joanne
 > >
-> > > +    struct vm_area_desc {
-> > > +        /* Immutable state. */
-> > > +        const struct mm_struct *const mm;
-> > > +        struct file *const file; /* May vary from vm_file in stacked=
- callers. */
-> > > +        unsigned long start;
-> > > +        unsigned long end;
-> >
-> >
-> > > --
-> > > 2.53.0
 > > >
+> > > b. ext4 doesn't support out of place writes so I don't know if that
+> > >    actually works correctly.
+> > >
+> > > c. fuse2fs doesn't support the ext4 journal.  Urk.
+> > >
+> > > d. There's a VERY large quantity of fuse2fs improvements that need to=
+ be
+> > >    applied before we get to the fuse-iomap parts.  I'm not sending th=
+ese
+> > >    (or the fstests changes) to keep the size of the patchbomb at
+> > >    "unreasonably large". :P  As a result, the fstests and e2fsprogs
+> > >    postings are very targeted.
+> > >
+> > > e. I've dropped the fstests part of the patchbomb because v6 was just
+> > >    way too long.
+> > >
+> > > I would like to get the main parts of this submission reviewed for 7.=
+1
+> > > now that this has been collecting comments and tweaks in non-rfc stat=
+us
+> > > for 3.5 months.
+> > >
+> > > Kernel:
+> > > https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git/=
+log/?h=3Dfuse-iomap-bpf
+> > >
+> > > libfuse:
+> > > https://git.kernel.org/pub/scm/linux/kernel/git/djwong/libfuse.git/lo=
+g/?h=3Dfuse-iomap-bpf
+> > >
+> > > e2fsprogs:
+> > > https://git.kernel.org/pub/scm/linux/kernel/git/djwong/e2fsprogs.git/=
+log/?h=3Dfuse-iomap-bpf
+> > >
+> > > fstests:
+> > > https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfstests-dev.g=
+it/log/?h=3Dfuse2fs
+> > >
+> > > --Darrick
