@@ -1,71 +1,71 @@
-Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
+Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0482C3161AB
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 02:19:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77CC331815D
+	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 02:19:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773627594; cv=none; b=tWlwhzdhUxslf/QKBTHNt/2jz5OhduXJk/ZuykSbZ5pRs6hGEAqcJJJ0uH36W2n0wSz0bB90Evz3IVvCUi25oc/xa4BmcnjrxPJpl1Wf1UBUxFEX2akU7yv+WvbAoXRemUJSEhyHtlaceuGQfN8Rjw0ASbjtxdi8Md1IuCWDrH4=
+	t=1773627596; cv=none; b=l0i4Fdu6aQvgF4olkX6qcgWEs2QHQ9GMs+ZuK9YbSg8IYt5TzQ5ZGTEo6YjcgIoQTjdah1W3YqsaGF7e9cSGw7FzqMx9nx24kiYiybet7J43YOg1h065MOQC2eybN+1WI9Ich6gJcBxUCRzGNuyHV/o38hh4gohERpMXDiWohQE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773627594; c=relaxed/simple;
-	bh=9aNQGfx19QVGyjp6r3CEd5AiCMKQvfHf3aiPYUjyPAk=;
+	s=arc-20240116; t=1773627596; c=relaxed/simple;
+	bh=fTMzZJByNTdHMjlooN+SeXTSxJWREtjRj2MVuUJlQI0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Z8Di+6OAGuuEbM2xoNeDux4XEaFqT7r02OHDGFiBsq5YRcq2vqDYwzmn0Ni58qWNuSFNd5o3CmV+jA7cICA11jAJ4SCsVFaakLgy4ApGf7cVmX0uFrsKIT/M6KKqLKO/wPEA5JecOpxN5kMSFUx3czvQY/Vo0loX5a0MVy4Sk7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b=u29D4b4r; arc=none smtp.client-ip=74.125.224.50
+	 MIME-Version:Content-Type; b=jllND14L2hxdyecudZbMCy1C6pAiYTboZpRbA+ICLcnYVtvjVn8mXhVOdsyOQDTwDTpptEiqwh373qQ82diOyTaEO8JPTUtOjeTd5/KKau1oxzlvvnpr4PDKcF3HlcYOAMse5ofVJu6YKTKo7W/a+jmavRpRkA2Dq0JNg6LxSTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b=XN8vVF3M; arc=none smtp.client-ip=74.125.224.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b="u29D4b4r"
-Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-64ad019bbd4so4046022d50.0
-        for <linux-fsdevel@vger.kernel.org>; Sun, 15 Mar 2026 19:19:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b="XN8vVF3M"
+Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-64937edbc9eso3505168d50.2
+        for <linux-fsdevel@vger.kernel.org>; Sun, 15 Mar 2026 19:19:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20230601.gappssmtp.com; s=20230601; t=1773627588; x=1774232388; darn=vger.kernel.org;
+        d=dubeyko-com.20230601.gappssmtp.com; s=20230601; t=1773627589; x=1774232389; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8H7jjcUV3wUDrWrheWessuTj110jLlRIArdPbhBUYRo=;
-        b=u29D4b4rB5axCQMOQCKRzRUP4m/nG/xnW5i4TLsQmPs3DY9tjW/JvysvUqwqyX4Zml
-         YG8gB1zQ5MXfHoTYdKzkAgdYtjdzFqW19BYC0USFYMiIUgUPJYMPEK0W9ROQXzRrN7Ew
-         T5KjQPd0xzGun3MILKPm38zzcLOgksyOj8mwdfvVaUImVYpbb4zwghYcXGJDDlU/OdsE
-         cy/yHvUZgaZd1Jta7ZnRsElwqLUGUHaxu3M70jGy796/DKB5Pu+hdsK/OLaed+Kfsa5W
-         iqrBtIA/Ghr8OsK6U/GtlMnW5X/piXzG5tR1BxiYwFBlbrQJNIfIo2QMbFsKRP8J5R/6
-         M+qQ==
+        bh=Tx861OPJ7ecedx4wOh9ptYfoUwNJktRAKzSu6mHDmHA=;
+        b=XN8vVF3Ma/8OKOEi6SmqkfgZQ8hSSxpv+bLHIDC7QiSJtBWWu+vjw3VCnAnC8Ve2Gn
+         4RiN0s8i3RnlkHneBeW9GWRJyAy1uMMa9oR9S9Z7vCMPsrwJ6S6N5SiBLqMHW9wQSRES
+         Y5cd5tjt+b+1ZQfoFqyCqiCohy68dzxZU3ZoNNw+yhYAVBbeoUqr9yWCoY1Qa/xIFO83
+         CUxMM4GdXqzgAK26BaeoBXOnoRfoZcYRcVCZy50jnN2nr1fCmfhUka3w+wNXJTBG7lkS
+         0SY3lLWMtvQ5MYpaQZp4QVIQfi0PrboLVaFkkfzbmoauesN2zy+zT/O3pLvDWFEg4i9p
+         y2RA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773627588; x=1774232388;
+        d=1e100.net; s=20251104; t=1773627589; x=1774232389;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=8H7jjcUV3wUDrWrheWessuTj110jLlRIArdPbhBUYRo=;
-        b=iJkIz61meCxaQMAFTHKRT9639jHBDNgEkzNFWbOVWYc9hG/bKLnXvOKRKY7aWfTHUl
-         sg0lHVPE3AKmYymWefqC6T972WQIeGf6wwB9PPCmkAfQmMXowaInpO3pG/US4NYu/Vtz
-         9jX4eQ1B4y8S6CRTNXN9qxzey1uWyblVB+t/buG5GIcAtnAZAEbRy7axqc+C1jgsXM7q
-         HBEDJhGIYZBG42hgxmn1CKKJjUFxzVEtE1lVnI686uMukyf1T+XXai4m6VQSl2MI1CfT
-         2oTaBz8GVpJj5Q0yKyzUHXSOMM8sMAFMsu2zTh5XqICY3Ygt8dAqL/xdxPcxCSOy73jn
-         cvdw==
-X-Gm-Message-State: AOJu0Yw6lW9MvKp+/RCdK643tM7lNPHLPhFnN0fgOMhGnA0buag2OYHY
-	xZQb+IgQ8AmT+p0QZs8Xrq2ENa3ktJqFvj953YJdgOEDa1+n0zXZzkHVRvhKkIneARAyg1q16Ta
-	CfnQK
-X-Gm-Gg: ATEYQzzIDS6ElCWXeBXz2OO5bofd4f6AGaz6tF2CKuohoJnesYJTVpGNxSpM5v8Udnn
-	aFyaDto/wqld+tyMNYiudTyj2mmm+KldhNm0d7qP9LIh+fQaUouHeb41RZ5ywsi75b+JM8q3GGW
-	xfpgBNF7ctFWXrLCdnlsHWZi4tqQ9MGtsCuuoQmtR//nCojwmM9tQu5strMOzwb4DvNvH5RKbMk
-	5vHJoNNat49kOGA+PPspgCASGijgo39+VukknBO6MnTN/ESjeZBVyzeWCli4An01VRCFC0ZYokJ
-	Mx9tmNkiL83eBW+BFEq4cSqBtpZlj/79CBcCaYV9Ab7qkNFFwINwc94XEY1YSXHilHXtr7XZbbw
-	mEk5C6hDwzCAQS5hSxE4YaUJrs7foiF+xmp+pLTUwfwuRUReXtgNfHr6nOzJJ1kNKp+POU1Qttb
-	/A3pB5x9lPrvJtgKMbIxDUi8ocLUpscslMyxaJpkepydB2A82dBkE6vOudcb30m0jKZsxQavhtT
-	37mNf55IVPkmTrKLX6Gu0bq
-X-Received: by 2002:a05:690c:e68f:10b0:799:198d:8c78 with SMTP id 00721157ae682-79a1c1c3d05mr88101017b3.46.1773627587579;
-        Sun, 15 Mar 2026 19:19:47 -0700 (PDT)
+        bh=Tx861OPJ7ecedx4wOh9ptYfoUwNJktRAKzSu6mHDmHA=;
+        b=jFp5+COwYQAc8piv6j9mWY7GqjZRjXySqbmDs7BiftTiqefZkZ0hMYV9kx6uIYnrXC
+         EEVY65GWQFhnGQl/EiL8I/pBmvFsmFS1A8bzerzAswF3QgJ4HbqlWoEllRM6bw+phllB
+         fLgFu17CtlvKPneL0qoYsdacm1Rn6X6aXawokpxp4D32sKunM7OnmTJuAc/TUpbYQgZv
+         IBCcU3/5g2N3pXqhfpe8t6SnOPIhWRLTRLYwox1Z1Jg+BqDeDVBCch6wGPCmG4Ful4yx
+         vBaQKi76MGO8VA9843XfThakPGEjQ7DAi8KuoP9SuUwCq50C6kGzQsAWMGSnbA0eC3ie
+         gIuQ==
+X-Gm-Message-State: AOJu0YwiloSmAoMn+vI+iGVoU62i42W/TEZnQzc4HJ/IZJu3ZB/2fcst
+	fX8AlT0SChGzIr5MnPxnYIs4CvkFNqRHBSIA5g8dzxkNnqayw862f/8xca9N/p+oYA3at9A2K8O
+	E2Uvo
+X-Gm-Gg: ATEYQzwEX6UjcTHxGHo/VkYHdUzbDQ30G7sWEK/X0eWGotfVKmZ4DpfHFpIwX/HqSSO
+	j9Dxu+IE/AZ3CBfaZaMCaSsFbbzeEXF9C751gURE2WoO/3vYkOwQfKHLdeS4FsS50MGEH61J/Eg
+	43a4ULjfrktvzlCiLqQ+gUsTTBNeEGiM0n3MQ6Zvqg4VdVxG+YzR/yQS2wV3728JTBf2YK2SiKl
+	JavlFV0s8wD14wI0Usi+B7uA3ii4aAx7BP5qzofw7bFvGvOcFeKlYdLrdmyEXpoxCEmh62JrXFX
+	osIjPN/doNs02nxtJwjQxFHypOMSQM/bdOnKRDQFGyStcOxOSGcPfdgmsUI6EHaO2kDZCdLow9b
+	mxpC+9O4Lcb/F3Vq44L22ibrjZR3uzOzn5mTFwA2MmUi+eAr1wV2gVJbiqILjYfpcU1QbVnNYuU
+	x7cBQ6GrLcE/HI571ZuC6I5KJcdlIurC/r6iYAIPBRJfatbkXUCmUt7AXZTGlIi6vVmMx3UIoDK
+	9GZACg7M9enfeZ0E5eh79HO
+X-Received: by 2002:a05:690c:ed3:b0:799:330:79dd with SMTP id 00721157ae682-79a1c1cd90amr120623357b3.46.1773627588883;
+        Sun, 15 Mar 2026 19:19:48 -0700 (PDT)
 Received: from pop-os.attlocal.net ([2600:1700:6476:1430:6939:3e01:5e8f:6093])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-79917deb69asm79721617b3.10.2026.03.15.19.19.46
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-79917deb69asm79721617b3.10.2026.03.15.19.19.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Mar 2026 19:19:47 -0700 (PDT)
+        Sun, 15 Mar 2026 19:19:48 -0700 (PDT)
 From: Viacheslav Dubeyko <slava@dubeyko.com>
 To: linux-fsdevel@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
 	Viacheslav Dubeyko <slava@dubeyko.com>
-Subject: [PATCH v2 44/79] ssdfs: introduce b-tree object
-Date: Sun, 15 Mar 2026 19:17:45 -0700
-Message-ID: <20260316021800.1694650-19-slava@dubeyko.com>
+Subject: [PATCH v2 46/79] ssdfs: introduce b-tree node object
+Date: Sun, 15 Mar 2026 19:17:46 -0700
+Message-ID: <20260316021800.1694650-20-slava@dubeyko.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260316021800.1694650-1-slava@dubeyko.com>
 References: <20260316021800.1694650-1-slava@dubeyko.com>
@@ -81,46 +81,6 @@ Content-Transfer-Encoding: 8bit
 Complete patchset is available here:
 https://github.com/dubeyko/ssdfs-driver/tree/master/patchset/linux-kernel-6.18.0
 
-SSDFS file system is using the logical segment, logical extent
-concepts, and the "Physical" Erase Blocks (PEB) migration scheme.
-Generally speaking, these techniques provide the opportunity
-to exclude completely the wandering tree issue and to decrease
-significantly the write amplification. SSDFS file system introduces
-the technique of storing the data on the basis of logical extent
-that describes this data’s position by means of segment ID and
-logical block ID. Finally, PEBs migration technique guarantee that
-data will be described by the same logical extent until the direct
-change of segment ID or logical block ID. As a result, it means that
-logical extent will be the same if data is sitting in the same logical
-segment. The responsibility of PEBs migration technique is to implement
-the continuous migration of data between PEBs inside of the logical
-segment for the case of data updates. Generally speaking, SSDFS file
-system’s internal techniques guarantee that COW policy will not update
-the content of b-tree. But content of b-tree will be updated only by
-regular operations of end-user with the file system.
-
-SSDFS file system uses b-tree architecture for metadata representation
-(for example, inodes tree, extents tree, dentries tree, xattr tree)
-because it provides the compact way of reserving the metadata space
-without the necessity to use the excessive overprovisioning of metadata
-reservation (for example, in the case of plain table or array).
-
-The b-tree provides the efficient technique of items lookup, especially,
-for the case of aged or sparse b-tree that is capable to contain
-the mixture of used and deleted (or freed) items. Such b-tree’s feature
-could be very useful for the case of extent invalidation, for example.
-Also SSDFS file system aggregates the b-tree’s root node in the superblock
-(for example, inodes tree case) or in the inode (for example, extents tree
-case). As a result, it means that an empty b-tree will contain only
-the root node without the necessity to reserve any b-tree’s node on the
-file system’s volume. Moreover, if a b-tree needs to contain only several
-items (two items, for example) then the root node’s space can be used to
-store these items inline without the necessity to create the full-featured
-b-tree’s node. As a result, SSDFS uses b-trees with the goal to achieve
-the compact representation of metadata, the flexible way to expend or
-to shrink the b-tree’s space capacity, and the efficient mechanism of
-items’ lookup.
-
 SSDFS file system uses a hybrid b-tree architecture with the goal
 to eliminate the index nodes’ side effect. The hybrid b-tree operates
 by three node types: (1) index node, (2) hybrid node, (3) leaf node.
@@ -135,41 +95,109 @@ to store only two index records. Generally speaking, the initial goal of
 hybrid node is to store the data records in the presence of reserved
 index area.
 
-Generalized b-tree functionality implements API:
-(1) create - create empty b-tree object
-(2) destroy - destroy b-tree object
-(3) flush - flush dirty b-tree object
-(4) find_item - find item in b-tree hierarchy
-(5) find_range - find range of items in b-tree hierarchy
-(6) allocate_item - allocate item in existing b-tree's node
-(7) allocate_range - allocate range of items in existing b-tree's node
-(8) add_item - add item into b-tree
-(9) add_range - add range of items into b-tree
-(10) change_item - change existing item in b-tree
-(11) delete_item - delete item from b-tree
-(12) delete_range - delete range of items from b-tree
-(13) delete_all - delete all items from b-tree
+Dirty b-tree implies the presence of one or several dirty
+b-tree node. B-tree flush logic detects the dirty b-tree
+nodes and request the flush operation for every dirty b-tree
+node. B-tree node can include several memory pages (8K, for
+example). It means that one b-tree node can be located in
+one or several logical blocks. Finally, flush operation means
+that b-tree node's flush logic has to issue update request(s)
+for all logical blocks that contain the b-tree node content.
+Every b-tree node is described by index record (or key) that
+includes: (1) node ID, (2) node type, (3) node height,
+(4) starting hash value, (5) raw extent. The raw extent
+describes the segment ID, logical block ID, and length.
+As a result, flush logic needs to add update request into
+an update queue of particular PEB for segment ID. Also,
+flush logic has to request the log commit operation because
+b-tree node has to be stored peristently right now. Flush
+thread(s) of particular PEB(s) executes the update requests.
+Finally, b-tree flush logic requires to wait the finish of
+update operations for all dirty b-tree node(s).
+
+Every b-tree node is described by index record (or key) that
+includes: (1) node ID, (2) node type, (3) node height,
+(4) starting hash value, (5) raw extent. The raw extent
+describes the segment ID, logical block ID, and length.
+Index records are stored into index and hybrid b-tree
+nodes. These records implement mechanism of lookup and
+traverse operations in b-tree.
+
+Index operations include:
+(1) resize_index_area - operation of increasing size of index
+                        area in hybrid b-tree node by means of
+                        redistribution of free space between
+                        index and item area and shift of item
+                        area
+(2) find_index - find index in hybrid or index b-tree node
+(3) add_index - add index in hybrid of index b-tree node
+(4) change_index - change index record in hybrid of index b-tree node
+(5) delete_index - delete index record from hybrid of index b-tree node
+
+B-tree node implements search, allocation, and insert item or
+range of items in the node:
+(1) find_item - find item in b-tree node
+(2) find_range - find range of items in b-tree node
+(3) allocate_item - allocate item in b-tree node
+(4) allocate_range - allocate range of items in b-tree node
+(5) insert_item - insert/add item into b-tree node
+(6) insert_range - insert/add range of items into b-tree node
+
+B-tree node implements change and delete item or
+range of items in the node:
+(1) change_item - change item in the b-tre node
+(2) delete_item - delete item from b-tree node
+(3) delete_range - delete range of items from b-tree node
+
+Hybrid b-tree node plays very special role in b-tree architecture.
+First of all, hybrid node includes index and item areas. The goal is
+to combine in one node index and items records for the case of small
+b-trees. B-tree starts by creation of root node that can contain only
+two index keys. It means that root node keeps knowledge about two
+nodes only. At first, b-tree logic creates leaf nodes until the root
+node will contain two index keys for leaf nodes. Next step implies
+the creation of hybrid node that contains index records for two
+existing leaf nodes. The root node contains index key for hybrid node.
+Now hybrid node becomes to play. New items will be added into items area
+of hybrid node until this area becomes completely full. B-tree logic
+allocates new leaf node, all existing items in hybrid node are moved
+into newly created leaf node, and index key is added into hybrid node's
+index area. Such operation repeat multiple times until index area of
+hybrid node becomes completely full. Now index area is resized by
+increasing twice in size after moving existing items into newly
+created node. Finally, hybrid node will be converted into index node.
+Important point that small b-tree has one hybrid node with index keys
+and items instead of two nodes (index + leaf). Hybrid node combines
+as index as items operations that makes this type of node by "hot"
+type of metadata and it provides the way to isolate/distinguish
+hot, warm, and cold data. As a result, it provides the way to make
+b-tree more compact by decreasing number of nodes, makes GC operations
+not neccessary because update operations of "hot" hybrid node(s)
+makes migration scheme efficient, and decrease write amplification.
+
+Hybrid nodes require range operations that are represented by:
+(1) extract_range - extract range of items (or all items) from node
+(2) insert_range - insert range of items into node
+(3) delete_range - remove range of items from node
 
 Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
 ---
- fs/ssdfs/btree.h        | 219 +++++++++++++++++++++
- fs/ssdfs/btree_search.h | 424 ++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 643 insertions(+)
- create mode 100644 fs/ssdfs/btree.h
- create mode 100644 fs/ssdfs/btree_search.h
+ fs/ssdfs/btree_node.h | 891 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 891 insertions(+)
+ create mode 100644 fs/ssdfs/btree_node.h
 
-diff --git a/fs/ssdfs/btree.h b/fs/ssdfs/btree.h
+diff --git a/fs/ssdfs/btree_node.h b/fs/ssdfs/btree_node.h
 new file mode 100644
-index 000000000000..ee1d7eec581b
+index 000000000000..eab66206429c
 --- /dev/null
-+++ b/fs/ssdfs/btree.h
-@@ -0,0 +1,219 @@
++++ b/fs/ssdfs/btree_node.h
+@@ -0,0 +1,891 @@
 +/*
 + * SPDX-License-Identifier: BSD-3-Clause-Clear
 + *
 + * SSDFS -- SSD-oriented File System.
 + *
-+ * fs/ssdfs/btree.h - btree declarations.
++ * fs/ssdfs/btree_node.h - btree node declarations.
 + *
 + * Copyright (c) 2014-2019 HGST, a Western Digital Company.
 + *              http://www.hgst.com/
@@ -186,633 +214,875 @@ index 000000000000..ee1d7eec581b
 + *                  Zvonimir Bandic
 + */
 +
-+#ifndef _SSDFS_BTREE_H
-+#define _SSDFS_BTREE_H
++#ifndef _SSDFS_BTREE_NODE_H
++#define _SSDFS_BTREE_NODE_H
++
++#include "request_queue.h"
++#include "folio_array.h"
++#include "peb.h"
++
++/*
++ * struct ssdfs_btree_node_operations - node operations specialization
++ * @find_item: specialized item searching algorithm
++ * @find_range: specialized range searching algorithm
++ * @extract_range: specialized extract range operation
++ * @allocate_item: specialized item allocation operation
++ * @allocate_range: specialized range allocation operation
++ * @insert_item: specialized insert item operation
++ * @insert_range: specialized insert range operation
++ * @change_item: specialized change item operation
++ * @delete_item: specialized delete item operation
++ * @delete_range: specialized delete range operation
++ * @move_items_range: specialized move items operation
++ * @resize_items_area: specialized resize items area operation
++ */
++struct ssdfs_btree_node_operations {
++	int (*find_item)(struct ssdfs_btree_node *node,
++			 struct ssdfs_btree_search *search);
++	int (*find_range)(struct ssdfs_btree_node *node,
++			  struct ssdfs_btree_search *search);
++	int (*extract_range)(struct ssdfs_btree_node *node,
++			     u16 start_index, u16 count,
++			     struct ssdfs_btree_search *search);
++	int (*allocate_item)(struct ssdfs_btree_node *node,
++			     struct ssdfs_btree_search *search);
++	int (*allocate_range)(struct ssdfs_btree_node *node,
++			      struct ssdfs_btree_search *search);
++	int (*insert_item)(struct ssdfs_btree_node *node,
++			   struct ssdfs_btree_search *search);
++	int (*insert_range)(struct ssdfs_btree_node *node,
++			    struct ssdfs_btree_search *search);
++	int (*change_item)(struct ssdfs_btree_node *node,
++			   struct ssdfs_btree_search *search);
++	int (*delete_item)(struct ssdfs_btree_node *node,
++			   struct ssdfs_btree_search *search);
++	int (*delete_range)(struct ssdfs_btree_node *node,
++			    struct ssdfs_btree_search *search);
++	int (*move_items_range)(struct ssdfs_btree_node *src,
++				struct ssdfs_btree_node *dst,
++				u16 start_item, u16 count);
++	int (*resize_items_area)(struct ssdfs_btree_node *node,
++				 u32 new_size);
++};
++
++/* Btree node area's states */
++enum {
++	SSDFS_BTREE_NODE_AREA_UNKNOWN_STATE,
++	SSDFS_BTREE_NODE_AREA_ABSENT,
++	SSDFS_BTREE_NODE_INDEX_AREA_EXIST,
++	SSDFS_BTREE_NODE_ITEMS_AREA_EXIST,
++	SSDFS_BTREE_NODE_LOOKUP_TBL_EXIST,
++	SSDFS_BTREE_NODE_HASH_TBL_EXIST,
++	SSDFS_BTREE_NODE_AREA_STATE_MAX
++};
++
++/*
++ * struct ssdfs_btree_node_index_area - btree node's index area
++ * @state: area state
++ * @flags: index area's flags
++ * @offset: area offset from node's beginning
++ * @area_size: area size in bytes
++ * @index_size: index size in bytes
++ * @index_count: count of indexes in area
++ * @index_capacity: index area capacity
++ * @start_hash: starting hash in index area
++ * @end_hash: ending hash in index area
++ */
++struct ssdfs_btree_node_index_area {
++	atomic_t state;
++
++#define SSDFS_PLEASE_ADD_HYBRID_NODE_SELF_INDEX		(1 << 0)
++#define SSDFS_BTREE_NODE_INDEX_AREA_FLAGS_MASK		0x1
++	atomic_t flags;
++
++	u32 offset;
++	u32 area_size;
++
++	u8 index_size;
++	u16 index_count;
++	u16 index_capacity;
++
++	u64 start_hash;
++	u64 end_hash;
++};
++
++/*
++ * struct ssdfs_btree_node_items_area - btree node's data area
++ * @state: area state
++ * @flags: items area's flags
++ * @offset: area offset from node's beginning
++ * @area_size: area size in bytes
++ * @free_space: free space in bytes
++ * @item_size: item size in bytes
++ * @min_item_size: minimal possible item size in bytes
++ * @max_item_size: maximal possible item size in bytes
++ * @items_count: count of allocated items in area
++ * @items_capacity: items area capacity
++ * @start_hash: starting hash in items area
++ * @end_hash: ending hash in items area
++ */
++struct ssdfs_btree_node_items_area {
++	atomic_t state;
++
++#define SSDFS_PLEASE_ADD_FREE_ITEMS_RANGE		(1 << 0)
++#define SSDFS_BTREE_NODE_ITEMS_AREA_FLAGS_MASK		0x1
++	atomic_t flags;
++
++	u32 offset;
++	u32 area_size;
++	u32 free_space;
++
++	u16 item_size;
++	u8 min_item_size;
++	u16 max_item_size;
++
++	u16 items_count;
++	u16 items_capacity;
++
++	u64 start_hash;
++	u64 end_hash;
++};
 +
 +struct ssdfs_btree;
 +
 +/*
-+ * struct ssdfs_btree_descriptor_operations - btree descriptor operations
-+ * @init: initialize btree object by descriptor
-+ * @flush: save btree descriptor into superblock
++ * struct ssdfs_state_bitmap - bitmap of states
++ * @lock: bitmap lock
++ * @flags: bitmap's flags
++ * @ptr: bitmap
 + */
-+struct ssdfs_btree_descriptor_operations {
-+	int (*init)(struct ssdfs_fs_info *fsi,
-+		    struct ssdfs_btree *tree);
-+	int (*flush)(struct ssdfs_btree *tree);
++struct ssdfs_state_bitmap {
++	spinlock_t lock;
++
++#define SSDFS_LOOKUP_TBL2_IS_USING	(1 << 0)
++#define SSDFS_HASH_TBL_IS_USING		(1 << 1)
++#define SSDFS_BMAP_ARRAY_FLAGS_MASK	0x3
++	u32 flags;
++
++	unsigned long *ptr;
 +};
 +
 +/*
-+ * struct ssdfs_btree_operations - btree operations specialization
-+ * @create_root_node: specialization of root node creation
-+ * @create_node: specialization of node's construction operation
-+ * @init_node: specialization of node's init operation
-+ * @destroy_node: specialization of node's destroy operation
-+ * @add_node: specialization of adding into the tree a new empty node
-+ * @delete_node: specialization of deletion a node from the tree
-+ * @pre_flush_root_node: specialized flush preparation of root node
-+ * @flush_root_node: specialized method of root node flushing
-+ * @pre_flush_node: specialized flush preparation of common node
-+ * @flush_node: specialized method of common node flushing
++ * struct ssdfs_state_bitmap_array - array of bitmaps
++ * @lock: bitmap array lock
++ * @bits_count: whole bits count in the bitmap
++ * @bmap_bytes: size in bytes of every bitmap
++ * @index_start_bit: starting bit of index area in the bitmap
++ * @item_start_bit: starting bit of items area in the bitmap
++ * @locks_count: count of sucessful locks
++ * @bmap: partial locks, alloc and dirty bitmaps
 + */
-+struct ssdfs_btree_operations {
-+	int (*create_root_node)(struct ssdfs_fs_info *fsi,
-+				struct ssdfs_btree_node *node);
-+	int (*create_node)(struct ssdfs_btree_node *node);
-+	int (*init_node)(struct ssdfs_btree_node *node);
-+	void (*destroy_node)(struct ssdfs_btree_node *node);
-+	int (*add_node)(struct ssdfs_btree_node *node);
-+	int (*delete_node)(struct ssdfs_btree_node *node);
-+	int (*pre_flush_root_node)(struct ssdfs_btree_node *node);
-+	int (*flush_root_node)(struct ssdfs_btree_node *node);
-+	int (*pre_flush_node)(struct ssdfs_btree_node *node);
-+	int (*flush_node)(struct ssdfs_btree_node *node);
++struct ssdfs_state_bitmap_array {
++	struct rw_semaphore lock;
++	unsigned long bits_count;
++	size_t bmap_bytes;
++	unsigned long index_start_bit;
++	unsigned long item_start_bit;
++	atomic_t locks_count;
++
++#define SSDFS_BTREE_NODE_LOCK_BMAP	(0)
++#define SSDFS_BTREE_NODE_ALLOC_BMAP	(1)
++#define SSDFS_BTREE_NODE_DIRTY_BMAP	(2)
++#define SSDFS_BTREE_NODE_BMAP_COUNT	(3)
++	struct ssdfs_state_bitmap bmap[SSDFS_BTREE_NODE_BMAP_COUNT];
 +};
 +
 +/*
-+ * struct ssdfs_btree - generic btree
-+ * @type: btree type
-+ * @owner_ino: inode identification number of btree owner
-+ * @node_size: size of the node in bytes
-+ * @pages_per_node: physical pages per node
-+ * @node_ptr_size: size in bytes of pointer on btree node
-+ * @index_size: size in bytes of btree's index
-+ * @item_size: default size of item in bytes
-+ * @min_item_size: min size of item in bytes
-+ * @max_item_size: max possible size of item in bytes
-+ * @index_area_min_size: minimal size in bytes of index area in btree node
-+ * @create_cno: btree's create checkpoint
-+ * @state: btree state
-+ * @flags: btree flags
-+ * @height: current height of the tree
-+ * @lock: btree's lock
-+ * @nodes_lock: radix tree lock
-+ * @upper_node_id: last allocated node id
-+ * @nodes: nodes' radix tree
-+ * @fsi: pointer on shared file system object
-+ *
-+ * Btree nodes are organized by radix tree.
-+ * Another good point about radix tree is
-+ * supporting of knowledge about dirty items.
++ * struct ssdfs_btree_node_content - btree node's content
++ * @protection: btree node's content protection window
++ * @blocks: array of logical blocks
++ * @count: number of blocks in extent
 + */
-+struct ssdfs_btree {
++struct ssdfs_btree_node_content {
++	struct ssdfs_protection_window protection;
++#define SSDFS_BTREE_NODE_EXTENT_LEN_MAX		(SSDFS_EXTENT_LEN_MAX)
++	struct ssdfs_content_block blocks[SSDFS_BTREE_NODE_EXTENT_LEN_MAX];
++	int count;
++};
++
++union ssdfs_aggregated_btree_node_header {
++	struct ssdfs_inodes_btree_node_header inodes_header;
++	struct ssdfs_dentries_btree_node_header dentries_header;
++	struct ssdfs_extents_btree_node_header extents_header;
++	struct ssdfs_xattrs_btree_node_header xattrs_header;
++};
++
++/*
++ * struct ssdfs_btree_node - btree node
++ * @list: btree nodes' list
++ * @height: node's height
++ * @node_size: node size in bytes
++ * @pages_per_node: count of logical blocks per node
++ * @create_cno: create checkpoint
++ * @node_id: node identification number
++ * @tree: pointer on node's parent tree
++ * @node_ops: btree's node operation specialization
++ * @refs_count: reference counter
++ * @state: node state
++ * @flags: node's flags
++ * @type: node type
++ * @header_lock: header lock
++ * @raw.root_node: root node copy
++ * @raw.generic_header: generic node's header
++ * @raw.inodes_header: inodes node's header
++ * @raw.dentries_header: dentries node's header
++ * @raw.extents_header: extents node's header
++ * @raw.dict_header: shared dictionary node's header
++ * @raw.xattrs_header: xattrs node's header
++ * @raw.shextree_header: shared extents tree's header
++ * @raw.snapshots_header: snapshots node's header
++ * @raw.invextree_header: invalidated extents tree's header
++ * @index_area: index area descriptor
++ * @items_area: items area descriptor
++ * @lookup_tbl_area: lookup table's area descriptor
++ * @hash_tbl_area: hash table's area descriptor
++ * @descriptor_lock: node's descriptor lock
++ * @update_cno: last update checkpoint
++ * @parent_node: pointer on parent node
++ * @node_index: node's index (for using in search operations)
++ * @extent: node's location
++ * @seg: pointer on segment object
++ * @init_end: wait of init ending
++ * @flush_req: flush request
++ * @bmap_array: partial locks, alloc and dirty bitmaps
++ * @wait_queue: queue of threads are waiting partial lock
++ * @full_lock: the whole node lock
++ * @content: node's content
++ */
++struct ssdfs_btree_node {
++	struct list_head list;
++
 +	/* static data */
-+	u8 type;
-+	u64 owner_ino;
++	atomic_t height;
 +	u32 node_size;
 +	u8 pages_per_node;
-+	u8 node_ptr_size;
-+	u16 index_size;
-+	u16 item_size;
-+	u8 min_item_size;
-+	u16 max_item_size;
-+	u16 index_area_min_size;
 +	u64 create_cno;
++	u32 node_id;
 +
-+	/* operation specializations */
-+	const struct ssdfs_btree_descriptor_operations *desc_ops;
-+	const struct ssdfs_btree_operations *btree_ops;
++	struct ssdfs_btree *tree;
++
++	/* btree's node operation specialization */
++	const struct ssdfs_btree_node_operations *node_ops;
++
++	/*
++	 * Reference counter
++	 * The goal of reference counter is to account how
++	 * many btree search objects are referencing the
++	 * node's object. If some thread deletes all records
++	 * in a node then the node will be left undeleted
++	 * from the tree in the case of @refs_count is greater
++	 * than one.
++	 */
++	atomic_t refs_count;
 +
 +	/* mutable data */
 +	atomic_t state;
 +	atomic_t flags;
-+	atomic_t height;
++	atomic_t type;
 +
-+	struct rw_semaphore lock;
-+
-+	spinlock_t nodes_lock;
-+	u32 upper_node_id;
-+	struct radix_tree_root nodes;
-+
-+	struct ssdfs_fs_info *fsi;
-+};
-+
-+/* Btree object states */
-+enum {
-+	SSDFS_BTREE_UNKNOWN_STATE,
-+	SSDFS_BTREE_CREATED,
-+	SSDFS_BTREE_DIRTY,
-+	SSDFS_BTREE_STATE_MAX
-+};
-+
-+/* Radix tree tags */
-+#define SSDFS_BTREE_NODE_DIRTY_TAG	PAGECACHE_TAG_DIRTY
-+#define SSDFS_BTREE_NODE_TOWRITE_TAG	PAGECACHE_TAG_TOWRITE
-+
-+/*
-+ * Btree API
-+ */
-+int ssdfs_btree_create(struct ssdfs_fs_info *fsi,
-+		    u64 owner_ino,
-+		    const struct ssdfs_btree_descriptor_operations *desc_ops,
-+		    const struct ssdfs_btree_operations *btree_ops,
-+		    struct ssdfs_btree *tree);
-+void ssdfs_btree_destroy(struct ssdfs_btree *tree);
-+int ssdfs_btree_flush(struct ssdfs_btree *tree);
-+
-+int ssdfs_btree_find_item(struct ssdfs_btree *tree,
-+			  struct ssdfs_btree_search *search);
-+int ssdfs_btree_find_range(struct ssdfs_btree *tree,
-+			   struct ssdfs_btree_search *search);
-+bool is_ssdfs_btree_empty(struct ssdfs_btree *tree);
-+int ssdfs_btree_allocate_item(struct ssdfs_btree *tree,
-+			      struct ssdfs_btree_search *search);
-+int ssdfs_btree_allocate_range(struct ssdfs_btree *tree,
-+				struct ssdfs_btree_search *search);
-+int ssdfs_btree_add_item(struct ssdfs_btree *tree,
-+			 struct ssdfs_btree_search *search);
-+int ssdfs_btree_add_range(struct ssdfs_btree *tree,
-+			  struct ssdfs_btree_search *search);
-+int ssdfs_btree_change_item(struct ssdfs_btree *tree,
-+			    struct ssdfs_btree_search *search);
-+int ssdfs_btree_delete_item(struct ssdfs_btree *tree,
-+			    struct ssdfs_btree_search *search);
-+int ssdfs_btree_delete_range(struct ssdfs_btree *tree,
-+			     struct ssdfs_btree_search *search);
-+int ssdfs_btree_delete_all(struct ssdfs_btree *tree);
-+
-+/*
-+ * Internal Btree API
-+ */
-+bool need_migrate_generic2inline_btree(struct ssdfs_btree *tree,
-+					int items_threshold);
-+int ssdfs_btree_desc_init(struct ssdfs_fs_info *fsi,
-+			  struct ssdfs_btree *tree,
-+			  struct ssdfs_btree_descriptor *desc,
-+			  u8 min_item_size,
-+			  u16 max_item_size);
-+int ssdfs_btree_desc_flush(struct ssdfs_btree *tree,
-+			   struct ssdfs_btree_descriptor *desc);
-+struct ssdfs_btree_node *
-+ssdfs_btree_get_child_node_for_hash(struct ssdfs_btree *tree,
-+				    struct ssdfs_btree_node *parent,
-+				    u64 hash);
-+int ssdfs_btree_update_parent_node_pointer(struct ssdfs_btree *tree,
-+					   struct ssdfs_btree_node *parent);
-+int ssdfs_btree_add_node(struct ssdfs_btree *tree,
-+			 struct ssdfs_btree_search *search);
-+int ssdfs_btree_insert_node(struct ssdfs_btree *tree,
-+			    struct ssdfs_btree_search *search);
-+int ssdfs_btree_delete_node(struct ssdfs_btree *tree,
-+			    struct ssdfs_btree_search *search);
-+int ssdfs_btree_get_head_range(struct ssdfs_btree *tree,
-+				u32 expected_len,
-+				struct ssdfs_btree_search *search);
-+int ssdfs_btree_extract_range(struct ssdfs_btree *tree,
-+				u16 start_index, u16 count,
-+				struct ssdfs_btree_search *search);
-+int ssdfs_btree_destroy_node_range(struct ssdfs_btree *tree,
-+				   u64 start_hash);
-+struct ssdfs_btree_node *
-+__ssdfs_btree_read_node(struct ssdfs_btree *tree,
-+			struct ssdfs_btree_node *parent,
-+			struct ssdfs_btree_index_key *node_index,
-+			u8 node_type, u32 node_id);
-+int ssdfs_btree_radix_tree_find(struct ssdfs_btree *tree,
-+				unsigned long node_id,
-+				struct ssdfs_btree_node **node);
-+int ssdfs_btree_synchronize_root_node(struct ssdfs_btree *tree,
-+				struct ssdfs_btree_inline_root_node *root);
-+int ssdfs_btree_get_next_hash(struct ssdfs_btree *tree,
-+			      struct ssdfs_btree_search *search,
-+			      u64 *next_hash);
-+
-+void ssdfs_debug_show_btree_node_indexes(struct ssdfs_btree *tree,
-+					 struct ssdfs_btree_node *parent);
-+void ssdfs_check_btree_consistency(struct ssdfs_btree *tree);
-+void ssdfs_debug_btree_object(struct ssdfs_btree *tree);
-+
-+#endif /* _SSDFS_BTREE_H */
-diff --git a/fs/ssdfs/btree_search.h b/fs/ssdfs/btree_search.h
-new file mode 100644
-index 000000000000..c13fb9c6ce0d
---- /dev/null
-+++ b/fs/ssdfs/btree_search.h
-@@ -0,0 +1,424 @@
-+/*
-+ * SPDX-License-Identifier: BSD-3-Clause-Clear
-+ *
-+ * SSDFS -- SSD-oriented File System.
-+ *
-+ * fs/ssdfs/btree_search.h - btree search object declarations.
-+ *
-+ * Copyright (c) 2014-2019 HGST, a Western Digital Company.
-+ *              http://www.hgst.com/
-+ * Copyright (c) 2014-2026 Viacheslav Dubeyko <slava@dubeyko.com>
-+ *              http://www.ssdfs.org/
-+ *
-+ * (C) Copyright 2014-2019, HGST, Inc., All rights reserved.
-+ *
-+ * Created by HGST, San Jose Research Center, Storage Architecture Group
-+ *
-+ * Authors: Viacheslav Dubeyko <slava@dubeyko.com>
-+ *
-+ * Acknowledgement: Cyril Guyot
-+ *                  Zvonimir Bandic
-+ */
-+
-+#ifndef _SSDFS_BTREE_SEARCH_H
-+#define _SSDFS_BTREE_SEARCH_H
-+
-+/* Search request types */
-+enum {
-+	SSDFS_BTREE_SEARCH_UNKNOWN_TYPE,
-+	SSDFS_BTREE_SEARCH_FIND_ITEM,
-+	SSDFS_BTREE_SEARCH_FIND_RANGE,
-+	SSDFS_BTREE_SEARCH_ALLOCATE_ITEM,
-+	SSDFS_BTREE_SEARCH_ALLOCATE_RANGE,
-+	SSDFS_BTREE_SEARCH_ADD_ITEM,
-+	SSDFS_BTREE_SEARCH_ADD_RANGE,
-+	SSDFS_BTREE_SEARCH_CHANGE_ITEM,
-+	SSDFS_BTREE_SEARCH_MOVE_ITEM,
-+	SSDFS_BTREE_SEARCH_DELETE_ITEM,
-+	SSDFS_BTREE_SEARCH_DELETE_RANGE,
-+	SSDFS_BTREE_SEARCH_DELETE_ALL,
-+	SSDFS_BTREE_SEARCH_INVALIDATE_TAIL,
-+	SSDFS_BTREE_SEARCH_TYPE_MAX
-+};
-+
-+/*
-+ * struct ssdfs_peb_timestamps - PEB timestamps
-+ * @peb_id: PEB ID
-+ * @create_time: PEB's create timestamp
-+ * @last_log_time: PEB's last log create timestamp
-+ */
-+struct ssdfs_peb_timestamps {
-+	u64 peb_id;
-+	u64 create_time;
-+	u64 last_log_time;
-+};
-+
-+/*
-+ * struct ssdfs_btree_search_hash - btree search hash
-+ * @name: name of the searching object
-+ * @name_len: length of the name in bytes
-+ * @uuid: UUID of the searching object
-+ * @hash: hash value
-+ * @ino: inode ID
-+ * @fingerprint: fingerprint value
-+ * @peb2time: PEB timestamps
-+ */
-+struct ssdfs_btree_search_hash {
-+	const char *name;
-+	size_t name_len;
-+	u8 *uuid;
-+	u64 hash;
-+	u64 ino;
-+	struct ssdfs_fingerprint *fingerprint;
-+	struct ssdfs_peb_timestamps *peb2time;
-+};
-+
-+/*
-+ * struct ssdfs_btree_search_request - btree search request
-+ * @type: request type
-+ * @flags: request flags
-+ * @start: starting hash value
-+ * @end: ending hash value
-+ * @count: range of hashes length in the request
-+ */
-+struct ssdfs_btree_search_request {
-+	int type;
-+#define SSDFS_BTREE_SEARCH_HAS_VALID_HASH_RANGE		(1 << 0)
-+#define SSDFS_BTREE_SEARCH_HAS_VALID_COUNT		(1 << 1)
-+#define SSDFS_BTREE_SEARCH_HAS_VALID_NAME		(1 << 2)
-+#define SSDFS_BTREE_SEARCH_HAS_VALID_INO		(1 << 3)
-+#define SSDFS_BTREE_SEARCH_NOT_INVALIDATE		(1 << 4)
-+#define SSDFS_BTREE_SEARCH_HAS_VALID_UUID		(1 << 5)
-+#define SSDFS_BTREE_SEARCH_HAS_VALID_FINGERPRINT	(1 << 6)
-+#define SSDFS_BTREE_SEARCH_INCREMENT_REF_COUNT		(1 << 7)
-+#define SSDFS_BTREE_SEARCH_DECREMENT_REF_COUNT		(1 << 8)
-+#define SSDFS_BTREE_SEARCH_INLINE_BUF_HAS_NEW_ITEM	(1 << 9)
-+#define SSDFS_BTREE_SEARCH_DONT_EXTRACT_RECORD		(1 << 10)
-+#define SSDFS_BTREE_SEARCH_HAS_PEB2TIME_PAIR		(1 << 11)
-+#define SSDFS_BTREE_SEARCH_DONT_DELETE_BTREE_NODE	(1 << 12)
-+#define SSDFS_BTREE_SEARCH_REQUEST_FLAGS_MASK		0x1FFF
-+	u32 flags;
-+
-+	struct ssdfs_btree_search_hash start;
-+	struct ssdfs_btree_search_hash end;
-+	unsigned int count;
-+};
-+
-+/* Node descriptor possible states */
-+enum {
-+	SSDFS_BTREE_SEARCH_NODE_DESC_EMPTY,
-+	SSDFS_BTREE_SEARCH_ROOT_NODE_DESC,
-+	SSDFS_BTREE_SEARCH_FOUND_INDEX_NODE_DESC,
-+	SSDFS_BTREE_SEARCH_FOUND_LEAF_NODE_DESC,
-+	SSDFS_BTREE_SEARCH_NODE_DESC_STATE_MAX
-+};
-+
-+/*
-+ * struct ssdfs_btree_search_node_desc - btree node descriptor
-+ * @state: descriptor state
-+ * @id: node ID number
-+ * @height: node height
-+ * @found_index: index of child node
-+ * @parent: last parent node
-+ * @child: last child node
-+ */
-+struct ssdfs_btree_search_node_desc {
-+	int state;
-+
-+	u32 id;
-+	u8 height;
-+
-+	struct ssdfs_btree_index_key found_index;
-+	struct ssdfs_btree_node *parent;
-+	struct ssdfs_btree_node *child;
-+};
-+
-+/* Search result possible states */
-+enum {
-+	SSDFS_BTREE_SEARCH_UNKNOWN_RESULT,
-+	SSDFS_BTREE_SEARCH_FAILURE,
-+	SSDFS_BTREE_SEARCH_EMPTY_RESULT,
-+	SSDFS_BTREE_SEARCH_VALID_ITEM,
-+	SSDFS_BTREE_SEARCH_POSSIBLE_PLACE_FOUND,
-+	SSDFS_BTREE_SEARCH_OUT_OF_RANGE,
-+	SSDFS_BTREE_SEARCH_OBSOLETE_RESULT,
-+	SSDFS_BTREE_SEARCH_PLEASE_ADD_NODE,
-+	SSDFS_BTREE_SEARCH_PLEASE_DELETE_NODE,
-+	SSDFS_BTREE_SEARCH_PLEASE_MOVE_BUF_CONTENT,
-+	SSDFS_BTREE_SEARCH_RESULT_STATE_MAX
-+};
-+
-+/* Search result buffer possible states */
-+enum {
-+	SSDFS_BTREE_SEARCH_UNKNOWN_BUFFER_STATE,
-+	SSDFS_BTREE_SEARCH_INLINE_BUFFER,
-+	SSDFS_BTREE_SEARCH_EXTERNAL_BUFFER,
-+	SSDFS_BTREE_SEARCH_BUFFER_STATE_MAX
-+};
-+
-+/*
-+ * struct ssdfs_lookup_descriptor - lookup descriptor
-+ * @index: index of item in the lookup1 table
-+ * @desc: descriptor of lookup1 table's item
-+ */
-+struct ssdfs_lookup_descriptor {
-+	u16 index;
-+	struct ssdfs_shdict_ltbl1_item desc;
-+};
-+
-+/*
-+ * struct ssdfs_strings_range_descriptor - strings range descriptor
-+ * @index: index of item in the lookup2 table
-+ * @desc: descriptor of lookup2 table's item
-+ */
-+struct ssdfs_strings_range_descriptor {
-+	u16 index;
-+	struct ssdfs_shdict_ltbl2_item desc;
-+};
-+
-+/*
-+ * struct ssdfs_string_descriptor - string descriptor
-+ * @index: index of item in the hash table
-+ * @desc: descriptor of hash table's item
-+ */
-+struct ssdfs_string_descriptor {
-+	u16 index;
-+	struct ssdfs_shdict_htbl_item desc;
-+};
-+
-+/*
-+ * struct ssdfs_string_table_index - string table indexes
-+ * @lookup1_index: index in lookup1 table
-+ * @lookup2_index: index in lookup2 table
-+ * @hash_index: index in hash table
-+ *
-+ * Search operation defines lookup, strings_range, prefix,
-+ * left_name, and right_name. This information contains
-+ * potential position to store the string. However,
-+ * the final position to insert string and indexes can
-+ * be defined during the insert operation. This field
-+ * keeps the knowledge of finally used indexes to store
-+ * the string and lookup1, lookup2, hash indexes.
-+ */
-+struct ssdfs_string_table_index {
-+	u16 lookup1_index;
-+	u16 lookup2_index;
-+	u16 hash_index;
-+};
-+
-+/*
-+ * struct ssdfs_name_string - name string
-+ * @hash: name hash
-+ * @lookup: lookup item descriptor
-+ * @strings_range: range of strings descriptor
-+ * @prefix: prefix descriptor
-+ * @left_name: left name descriptor
-+ * @right_name: right name descriptor
-+ * @placement: stored indexes descriptor
-+ * @len: name length
-+ * @str: name buffer
-+ */
-+struct ssdfs_name_string {
-+	u64 hash;
-+	struct ssdfs_lookup_descriptor lookup;
-+	struct ssdfs_strings_range_descriptor strings_range;
-+	struct ssdfs_string_descriptor prefix;
-+	struct ssdfs_string_descriptor left_name;
-+	struct ssdfs_string_descriptor right_name;
-+
-+	struct ssdfs_string_table_index placement;
-+
-+	size_t len;
-+	unsigned char str[SSDFS_MAX_NAME_LEN];
-+};
-+
-+/*
-+ * struct ssdfs_btree_search_buffer - buffer descriptor
-+ * @state: state of the buffer
-+ * @size: size of the buffer in bytes
-+ * @item_size: size of one item in bytes
-+ * @items_count: items count in buffer
-+ * @place.ptr: pointer on buffer
-+ * @place.ltbl2_items: pointer on buffer with lookup2 table's items
-+ * @place.htbl_items: pointer on buffer with hash table's items
-+ * @place.name: pointer on buffer with name descriptor(s)
-+ * @place.name_range: pointer on buffer with names range
-+ */
-+struct ssdfs_btree_search_buffer {
-+	int state;
-+	size_t size;
-+
-+	size_t item_size;
-+	u32 items_count;
-+
++	/* node's header */
++	struct rw_semaphore header_lock;
 +	union {
-+		void *ptr;
-+		struct ssdfs_shdict_ltbl2_item *ltbl2_items;
-+		struct ssdfs_shdict_htbl_item *htbl_items;
-+		struct ssdfs_name_string *name;
-+		struct ssdfs_name_string_range *name_range;
-+	} place;
-+};
-+
-+/*
-+ * struct ssdfs_name_string_range - name string range
-+ * @lookup1: lookup1 item descriptor
-+ * @lookup2_table.index: index of first item in the lookup2 table
-+ * @lookup2_table.buf: lookup2 table's buffer
-+ * @hash_table.index: index of first item in the hash table
-+ * @hash_table.buf: hash table's buffer
-+ * @strings.buf: buffer with strings
-+ * @placement: final destination of storing range
-+ */
-+struct ssdfs_name_string_range {
-+	struct ssdfs_lookup_descriptor lookup1;
-+
-+	struct {
-+		u16 index;
-+		struct ssdfs_btree_search_buffer buf;
-+	} lookup2_table;
-+
-+	struct {
-+		u16 index;
-+		struct ssdfs_btree_search_buffer buf;
-+	} hash_table;
-+
-+	struct {
-+		struct ssdfs_btree_search_buffer buf;
-+	} strings;
-+
-+	struct ssdfs_string_table_index placement;
-+};
-+
-+/*
-+ * struct ssdfs_btree_search_result - btree search result
-+ * @state: result state
-+ * @err: result error code
-+ * @flags: result's flags
-+ * @start_index: starting found item index
-+ * @count: count of found items
-+ * @search_cno: checkpoint of search activity
-+ * @name_buf: name(s) buffer
-+ * @range_buf: buffer with names range
-+ * @raw_buf: raw buffer with item(s)
-+ */
-+struct ssdfs_btree_search_result {
-+	int state;
-+	int err;
-+
-+#define SSDFS_BTREE_SEARCH_RESULT_HAS_NAME		(1 << 0)
-+#define SSDFS_BTREE_SEARCH_RESULT_HAS_RANGE		(1 << 1)
-+#define SSDFS_BTREE_SEARCH_RESULT_HAS_RAW_DATA		(1 << 2)
-+#define SSDFS_BTREE_SEARCH_RESULT_FLAGS_MASK		0x7
-+	u32 flags;
-+
-+	u16 start_index;
-+	u16 count;
-+
-+	u64 search_cno;
-+
-+	struct ssdfs_btree_search_buffer name_buf;
-+	struct ssdfs_btree_search_buffer range_buf;
-+	struct ssdfs_btree_search_buffer raw_buf;
-+};
-+
-+/* Position check results */
-+enum {
-+	SSDFS_CORRECT_POSITION,
-+	SSDFS_SEARCH_LEFT_DIRECTION,
-+	SSDFS_SEARCH_RIGHT_DIRECTION,
-+	SSDFS_CHECK_POSITION_FAILURE
-+};
-+
-+/*
-+ * struct ssdfs_btree_search - btree search
-+ * @request: search request
-+ * @node: btree node descriptor
-+ * @result: search result
-+ * @raw.fork: raw fork buffer
-+ * @raw.inode: raw inode buffer
-+ * @raw.dentry.header: raw directory entry header
-+ * @raw.xattr.header: raw xattr entry header
-+ * @raw.shared_extent: shared extent buffer
-+ * @raw.snapshot: raw snapshot info buffer
-+ * @raw.peb2time: raw PEB2time set
-+ * @raw.invalidated_extent: invalidated extent buffer
-+ * @name.string: name string
-+ * @name.range: range of names
-+ */
-+struct ssdfs_btree_search {
-+	struct ssdfs_btree_search_request request;
-+	struct ssdfs_btree_search_node_desc node;
-+	struct ssdfs_btree_search_result result;
-+	union ssdfs_btree_search_raw_data {
-+		struct ssdfs_raw_fork fork;
-+		struct ssdfs_inode inode;
-+		struct ssdfs_raw_dentry {
-+			struct ssdfs_dir_entry header;
-+		} dentry;
-+		struct ssdfs_raw_xattr {
-+			struct ssdfs_xattr_entry header;
-+		} xattr;
-+		struct ssdfs_shared_extent shared_extent;
-+		struct ssdfs_snapshot snapshot;
-+		struct ssdfs_peb2time_set peb2time;
-+		struct ssdfs_raw_extent invalidated_extent;
++		struct ssdfs_btree_inline_root_node root_node;
++		struct ssdfs_btree_node_header generic_header;
++		struct ssdfs_inodes_btree_node_header inodes_header;
++		struct ssdfs_dentries_btree_node_header dentries_header;
++		struct ssdfs_extents_btree_node_header extents_header;
++		struct ssdfs_shared_dictionary_node_header dict_header;
++		struct ssdfs_xattrs_btree_node_header xattrs_header;
++		struct ssdfs_shextree_node_header shextree_header;
++		struct ssdfs_snapshots_btree_node_header snapshots_header;
++		struct ssdfs_invextree_node_header invextree_header;
 +	} raw;
-+	struct {
-+		struct ssdfs_name_string string;
-+		struct ssdfs_name_string_range range;
-+	} name;
++	struct ssdfs_btree_node_index_area index_area;
++	struct ssdfs_btree_node_items_area items_area;
++	struct ssdfs_btree_node_index_area lookup_tbl_area;
++	struct ssdfs_btree_node_index_area hash_tbl_area;
++
++	/* node's descriptor */
++	spinlock_t descriptor_lock;
++	u64 update_cno;
++	struct ssdfs_btree_node *parent_node;
++	struct ssdfs_btree_index_key node_index;
++	struct ssdfs_raw_extent extent;
++	struct ssdfs_segment_info *seg;
++	struct completion init_end;
++	struct ssdfs_segment_request flush_req;
++
++	/* partial locks, alloc and dirty bitmaps */
++	struct ssdfs_state_bitmap_array bmap_array;
++	wait_queue_head_t wait_queue;
++
++	/* node raw content */
++	struct rw_semaphore full_lock;
++	struct ssdfs_btree_node_content content;
 +};
 +
-+/* Btree height's classification */
++/* Btree node states */
 +enum {
-+	SSDFS_BTREE_PARENT2LEAF_HEIGHT		= 1,
-+	SSDFS_BTREE_PARENT2HYBRID_HEIGHT	= 2,
-+	SSDFS_BTREE_PARENT2INDEX_HEIGHT		= 3,
++	SSDFS_BTREE_NODE_UNKNOWN_STATE,
++	SSDFS_BTREE_NODE_CREATED,
++	SSDFS_BTREE_NODE_NONE_CONTENT,
++	SSDFS_BTREE_NODE_CONTENT_PREPARED,
++	SSDFS_BTREE_NODE_CONTENT_UNDER_FREE,
++	SSDFS_BTREE_NODE_INITIALIZED,
++	SSDFS_BTREE_NODE_DIRTY,
++	SSDFS_BTREE_NODE_PRE_DELETED,
++	SSDFS_BTREE_NODE_INVALID,
++	SSDFS_BTREE_NODE_CORRUPTED,
++	SSDFS_BTREE_NODE_STATE_MAX
 +};
++
++/*
++ * It is possible to use knowledge about partial
++ * updates and to send only changed pieces of
++ * data for the case of Diff-On-Write approach.
++ * Metadata is good case for determination of
++ * partial updates and to send changed part(s)
++ * only. For example, bitmap could show dirty
++ * items in the node.
++ */
 +
 +/*
 + * Inline functions
 + */
 +
++/*
++ * ssdfs_btree_node_content_init() - init btree node's content
++ * @content: btree node's content
++ */
 +static inline
-+bool is_btree_search_contains_new_item(struct ssdfs_btree_search *search)
++void ssdfs_btree_node_content_init(struct ssdfs_btree_node_content *content)
 +{
-+	return search->request.flags &
-+			SSDFS_BTREE_SEARCH_INLINE_BUF_HAS_NEW_ITEM;
++	int i;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	BUG_ON(!content);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	content->count = 0;
++
++	for (i = 0; i < SSDFS_BTREE_NODE_EXTENT_LEN_MAX; i++)
++		folio_batch_init(&content->blocks[i].batch);
 +}
 +
 +/*
-+ * Btree search object API
++ * NODE2SEG_TYPE() - convert node type into segment type
++ * @node_type: node type
 + */
-+struct ssdfs_btree_search *ssdfs_btree_search_alloc(void);
-+void ssdfs_btree_search_free(struct ssdfs_btree_search *search);
-+void ssdfs_btree_search_init(struct ssdfs_btree_search *search);
-+bool need_initialize_btree_search(struct ssdfs_btree_search *search);
-+bool is_btree_search_request_valid(struct ssdfs_btree_search *search);
-+bool is_btree_index_search_request_valid(struct ssdfs_btree_search *search,
-+					 u32 prev_node_id,
-+					 u8 prev_node_height);
-+bool is_btree_leaf_node_found(struct ssdfs_btree_search *search);
-+bool is_btree_search_node_desc_consistent(struct ssdfs_btree_search *search);
-+void ssdfs_btree_search_define_parent_node(struct ssdfs_btree_search *search,
-+					   struct ssdfs_btree_node *parent);
-+void ssdfs_btree_search_define_child_node(struct ssdfs_btree_search *search,
-+					  struct ssdfs_btree_node *child);
-+void ssdfs_btree_search_forget_parent_node(struct ssdfs_btree_search *search);
-+void ssdfs_btree_search_forget_child_node(struct ssdfs_btree_search *search);
-+int ssdfs_btree_search_alloc_result_buf(struct ssdfs_btree_search *search,
-+					size_t buf_size);
-+void ssdfs_btree_search_free_result_buf(struct ssdfs_btree_search *search);
-+int ssdfs_btree_search_alloc_result_name(struct ssdfs_btree_search *search,
-+					 size_t string_size);
-+void ssdfs_btree_search_free_result_name(struct ssdfs_btree_search *search);
-+int ssdfs_btree_search_alloc_result_name_range(struct ssdfs_btree_search *search,
-+						size_t ltbl2_size,
-+						size_t htbl_size,
-+						size_t str_buf_size);
-+void ssdfs_btree_search_free_result_name_range(struct ssdfs_btree_search *search);
++static inline
++u8 NODE2SEG_TYPE(u8 node_type)
++{
++	switch (node_type) {
++	case SSDFS_BTREE_INDEX_NODE:
++		return SSDFS_INDEX_NODE_SEG_TYPE;
 +
-+void ssdfs_debug_btree_search_object(struct ssdfs_btree_search *search);
++	case SSDFS_BTREE_HYBRID_NODE:
++		return SSDFS_HYBRID_NODE_SEG_TYPE;
 +
-+#endif /* _SSDFS_BTREE_SEARCH_H */
++	case SSDFS_BTREE_LEAF_NODE:
++		return SSDFS_LEAF_NODE_SEG_TYPE;
++	}
++
++	SSDFS_WARN("invalid node type %#x\n", node_type);
++
++	return SSDFS_UNKNOWN_SEG_TYPE;
++}
++
++/*
++ * RANGE_WITHOUT_INTERSECTION() - check that ranges have intersection
++ * @start1: starting hash of the first range
++ * @end1: ending hash of the first range
++ * @start2: starting hash of the second range
++ * @end2: ending hash of the second range
++ *
++ * This method checks that ranges have intersection.
++ *
++ * RETURN:
++ *  0  - ranges have intersection
++ *  1  - range1 > range2
++ * -1  - range1 < range2
++ */
++static inline
++int RANGE_WITHOUT_INTERSECTION(u64 start1, u64 end1, u64 start2, u64 end2)
++{
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("start1 %llx, end1 %llx, start2 %llx, end2 %llx\n",
++		  start1, end1, start2, end2);
++
++	BUG_ON(start1 >= U64_MAX || end1 >= U64_MAX ||
++		start2 >= U64_MAX || end2 >= U64_MAX);
++	BUG_ON(start1 > end1);
++	BUG_ON(start2 > end2);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	if (start1 > end2)
++		return 1;
++
++	if (end1 < start2)
++		return -1;
++
++	return 0;
++}
++
++/*
++ * RANGE_HAS_PARTIAL_INTERSECTION() - check that ranges intersect partially
++ * @start1: starting hash of the first range
++ * @end1: ending hash of the first range
++ * @start2: starting hash of the second range
++ * @end2: ending hash of the second range
++ */
++static inline
++bool RANGE_HAS_PARTIAL_INTERSECTION(u64 start1, u64 end1,
++				    u64 start2, u64 end2)
++{
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("start1 %llx, end1 %llx, start2 %llx, end2 %llx\n",
++		  start1, end1, start2, end2);
++
++	BUG_ON(start1 >= U64_MAX || end1 >= U64_MAX ||
++		start2 >= U64_MAX || end2 >= U64_MAX);
++	BUG_ON(start1 > end1);
++	BUG_ON(start2 > end2);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	if (start1 > end2)
++		return false;
++
++	if (end1 < start2)
++		return false;
++
++	return true;
++}
++
++/*
++ * __ssdfs_items_per_lookup_index() - calculate items per lookup index
++ * @items_per_node: number of items per node
++ * @lookup_table_capacity: maximal number of items in lookup table
++ */
++static inline
++u16 __ssdfs_items_per_lookup_index(u32 items_per_node,
++				   int lookup_table_capacity)
++{
++	u32 items_per_lookup_index;
++
++	items_per_lookup_index = items_per_node / lookup_table_capacity;
++
++	if (items_per_node % lookup_table_capacity)
++		items_per_lookup_index++;
++
++	SSDFS_DBG("items_per_lookup_index %u\n", items_per_lookup_index);
++
++	return items_per_lookup_index;
++}
++
++/*
++ * __ssdfs_convert_lookup2item_index() - convert lookup into item index
++ * @lookup_index: lookup index
++ * @node_size: size of the node in bytes
++ * @item_size: size of the item in bytes
++ * @lookup_table_capacity: maximal number of items in lookup table
++ */
++static inline
++u16 __ssdfs_convert_lookup2item_index(u16 lookup_index,
++					u32 node_size,
++					size_t item_size,
++					int lookup_table_capacity)
++{
++	u32 items_per_node;
++	u32 items_per_lookup_index;
++	u32 item_index;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("lookup_index %u, node_size %u, "
++		  "item_size %zu, table_capacity %d\n",
++		  lookup_index, node_size,
++		  item_size, lookup_table_capacity);
++
++	BUG_ON(lookup_index >= lookup_table_capacity);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	items_per_node = node_size / item_size;
++	items_per_lookup_index = __ssdfs_items_per_lookup_index(items_per_node,
++							lookup_table_capacity);
++
++	item_index = (u32)lookup_index * items_per_lookup_index;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("lookup_index %u, item_index %u\n",
++		  lookup_index, item_index);
++
++	BUG_ON(item_index >= U16_MAX);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	return (u16)item_index;
++}
++
++/*
++ * __ssdfs_convert_item2lookup_index() - convert item into lookup index
++ * @item_index: item index
++ * @node_size: size of the node in bytes
++ * @item_size: size of the item in bytes
++ * @lookup_table_capacity: maximal number of items in lookup table
++ */
++static inline
++u16 __ssdfs_convert_item2lookup_index(u16 item_index,
++					u32 node_size,
++					size_t item_size,
++					int lookup_table_capacity)
++{
++	u32 items_per_node;
++	u32 items_per_lookup_index;
++	u16 lookup_index;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("item_index %u, node_size %u, "
++		  "item_size %zu, table_capacity %d\n",
++		  item_index, node_size,
++		  item_size, lookup_table_capacity);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	items_per_node = node_size / item_size;
++	items_per_lookup_index = __ssdfs_items_per_lookup_index(items_per_node,
++							lookup_table_capacity);
++	lookup_index = item_index / items_per_lookup_index;
++
++	SSDFS_DBG("item_index %u, lookup_index %u, table_capacity %d\n",
++		  item_index, lookup_index, lookup_table_capacity);
++
++#ifdef CONFIG_SSDFS_DEBUG
++	BUG_ON(lookup_index >= lookup_table_capacity);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	return lookup_index;
++}
++
++/*
++ * ssdfs_find_node_content_folio() - find node content's folio
++ * @content: node's content
++ * @folio: smart folio descriptor
++ */
++static inline
++int ssdfs_find_node_content_folio(struct ssdfs_btree_node_content *content,
++				  struct ssdfs_smart_folio *folio)
++{
++	struct folio_batch *batch;
++	u32 offset = 0;
++	int i;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	BUG_ON(!content || !folio);
++
++	BUG_ON(!IS_SSDFS_OFF2FOLIO_VALID(&folio->desc));
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	folio->ptr = NULL;
++
++	if (folio->desc.folio_index >= content->count) {
++		SSDFS_ERR("folio_index %u > blocks_count %u\n",
++			  folio->desc.folio_index,
++			  content->count);
++		return -ERANGE;
++	}
++
++	batch = &content->blocks[folio->desc.folio_index].batch;
++
++	for (i = 0; i < folio_batch_count(batch); i++) {
++		struct folio *cur_folio = batch->folios[i];
++
++#ifdef CONFIG_SSDFS_DEBUG
++		BUG_ON(!cur_folio);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++		offset += folio_size(cur_folio);
++
++		if (offset >= folio->desc.page_offset) {
++			folio->ptr = cur_folio;
++			break;
++		}
++	}
++
++	if (!folio->ptr) {
++		SSDFS_ERR("fail to find folio\n");
++		return -ERANGE;
++	}
++
++	return 0;
++}
++
++/*
++ * Btree nodes list's API
++ */
++void ssdfs_btree_nodes_list_init(struct ssdfs_btree_nodes_list *bnl);
++bool is_ssdfs_btree_nodes_list_empty(struct ssdfs_btree_nodes_list *bnl);
++void ssdfs_btree_nodes_list_add(struct ssdfs_btree_nodes_list *bnl,
++				struct ssdfs_btree_node *node);
++void ssdfs_btree_nodes_list_delete(struct ssdfs_btree_nodes_list *bnl,
++				   struct ssdfs_btree_node *node);
++
++void ssdfs_btree_node_start_request_cno(struct ssdfs_btree_node *node);
++void ssdfs_btree_node_finish_request_cno(struct ssdfs_btree_node *node);
++bool is_it_time_free_btree_node_content(struct ssdfs_btree_node *node);
++
++/*
++ * Btree node API
++ */
++struct ssdfs_btree_node *
++ssdfs_btree_node_create(struct ssdfs_btree *tree,
++			u32 node_id,
++			struct ssdfs_btree_node *parent,
++			u8 height, int type, u64 start_hash);
++void ssdfs_btree_node_destroy(struct ssdfs_btree_node *node);
++int ssdfs_btree_node_prepare_content(struct ssdfs_btree_node *node,
++				     struct ssdfs_btree_index_key *index);
++int ssdfs_btree_init_node(struct ssdfs_btree_node *node,
++			  struct ssdfs_btree_node_header *hdr,
++			  size_t hdr_size);
++int ssdfs_btree_pre_flush_root_node(struct ssdfs_btree_node *node);
++void ssdfs_btree_flush_root_node(struct ssdfs_btree_node *node,
++				struct ssdfs_btree_inline_root_node *root_node);
++int ssdfs_btree_node_pre_flush(struct ssdfs_btree_node *node);
++int ssdfs_btree_node_flush(struct ssdfs_btree_node *node);
++
++void ssdfs_btree_node_get(struct ssdfs_btree_node *node);
++void ssdfs_btree_node_put(struct ssdfs_btree_node *node);
++bool is_ssdfs_node_shared(struct ssdfs_btree_node *node);
++
++bool is_ssdfs_btree_node_dirty(struct ssdfs_btree_node *node);
++void set_ssdfs_btree_node_dirty(struct ssdfs_btree_node *node);
++void clear_ssdfs_btree_node_dirty(struct ssdfs_btree_node *node);
++bool is_ssdfs_btree_node_pre_deleted(struct ssdfs_btree_node *node);
++void set_ssdfs_btree_node_pre_deleted(struct ssdfs_btree_node *node);
++void clear_ssdfs_btree_node_pre_deleted(struct ssdfs_btree_node *node);
++
++bool is_ssdfs_btree_node_index_area_exist(struct ssdfs_btree_node *node);
++bool is_ssdfs_btree_node_index_area_empty(struct ssdfs_btree_node *node);
++int ssdfs_btree_node_resize_index_area(struct ssdfs_btree_node *node,
++					u32 new_size);
++int ssdfs_btree_node_find_index(struct ssdfs_btree_search *search);
++bool can_add_new_index(struct ssdfs_btree_node *node);
++int ssdfs_btree_node_add_index(struct ssdfs_btree_node *node,
++				struct ssdfs_btree_index_key *key);
++int ssdfs_btree_node_change_index(struct ssdfs_btree_node *node,
++				  struct ssdfs_btree_index_key *old_key,
++				  struct ssdfs_btree_index_key *new_key);
++int ssdfs_btree_node_delete_index(struct ssdfs_btree_node *node,
++				  u64 hash);
++
++bool is_ssdfs_btree_node_items_area_exist(struct ssdfs_btree_node *node);
++bool is_ssdfs_btree_node_items_area_empty(struct ssdfs_btree_node *node);
++int ssdfs_btree_node_find_item(struct ssdfs_btree_search *search);
++int ssdfs_btree_node_find_range(struct ssdfs_btree_search *search);
++int ssdfs_btree_node_allocate_item(struct ssdfs_btree_search *search);
++int ssdfs_btree_node_allocate_range(struct ssdfs_btree_search *search);
++int ssdfs_btree_node_insert_item(struct ssdfs_btree_search *search);
++int ssdfs_btree_node_insert_range(struct ssdfs_btree_search *search);
++int ssdfs_btree_node_change_item(struct ssdfs_btree_search *search);
++int ssdfs_btree_node_delete_item(struct ssdfs_btree_search *search);
++int ssdfs_btree_node_delete_range(struct ssdfs_btree_search *search);
++
++/*
++ * Internal Btree node API
++ */
++void ssdfs_btree_node_free_content_space(struct ssdfs_btree_node *node);
++int ssdfs_lock_items_range(struct ssdfs_btree_node *node,
++			   u16 start_index, u16 count);
++void ssdfs_unlock_items_range(struct ssdfs_btree_node *node,
++				u16 start_index, u16 count);
++int ssdfs_lock_whole_index_area(struct ssdfs_btree_node *node);
++void ssdfs_unlock_whole_index_area(struct ssdfs_btree_node *node);
++int ssdfs_allocate_items_range(struct ssdfs_btree_node *node,
++				struct ssdfs_btree_search *search,
++				u16 items_capacity,
++				u16 start_index, u16 count);
++bool is_ssdfs_node_items_range_allocated(struct ssdfs_btree_node *node,
++					 u16 items_capacity,
++					 u16 start_index, u16 count);
++int ssdfs_free_items_range(struct ssdfs_btree_node *node,
++			   u16 start_index, u16 count);
++int ssdfs_set_node_header_dirty(struct ssdfs_btree_node *node,
++				u16 items_capacity);
++void ssdfs_clear_node_header_dirty_state(struct ssdfs_btree_node *node);
++int ssdfs_set_dirty_items_range(struct ssdfs_btree_node *node,
++				u16 items_capacity,
++				u16 start_index, u16 count);
++void ssdfs_clear_dirty_items_range_state(struct ssdfs_btree_node *node,
++					 u16 start_index, u16 count);
++
++int ssdfs_btree_node_allocate_bmaps(void *addr[SSDFS_BTREE_NODE_BMAP_COUNT],
++				    size_t bmap_bytes);
++void ssdfs_btree_node_init_bmaps(struct ssdfs_btree_node *node,
++				void *addr[SSDFS_BTREE_NODE_BMAP_COUNT]);
++int ssdfs_btree_node_allocate_content_space(struct ssdfs_btree_node *node,
++					    u32 node_size);
++int __ssdfs_btree_node_prepare_content(struct ssdfs_fs_info *fsi,
++					struct ssdfs_btree_index_key *ptr,
++					u32 node_size,
++					u64 owner_id,
++					struct ssdfs_segment_info **si,
++					struct ssdfs_btree_node_content *content);
++int ssdfs_btree_create_root_node(struct ssdfs_btree_node *node,
++				struct ssdfs_btree_inline_root_node *root_node);
++int ssdfs_btree_node_pre_flush_header(struct ssdfs_btree_node *node,
++					struct ssdfs_btree_node_header *hdr);
++int ssdfs_btree_common_node_flush(struct ssdfs_btree_node *node);
++int ssdfs_btree_node_commit_log(struct ssdfs_btree_node *node);
++int ssdfs_btree_deleted_node_commit_log(struct ssdfs_btree_node *node);
++int __ssdfs_btree_root_node_extract_index(struct ssdfs_btree_node *node,
++					  u16 found_index,
++					  struct ssdfs_btree_index_key *ptr);
++int ssdfs_btree_root_node_delete_index(struct ssdfs_btree_node *node,
++					u16 position);
++int ssdfs_btree_common_node_delete_index(struct ssdfs_btree_node *node,
++					 u16 position);
++int ssdfs_find_index_by_hash(struct ssdfs_btree_node *node,
++			     struct ssdfs_btree_node_index_area *area,
++			     u64 hash,
++			     u16 *found_index);
++int ssdfs_btree_node_find_index_position(struct ssdfs_btree_node *node,
++					 u64 hash,
++					 u16 *found_position);
++int ssdfs_btree_node_extract_range(u16 start_index, u16 count,
++				   struct ssdfs_btree_search *search);
++int ssdfs_btree_node_get_index(struct ssdfs_fs_info *fsi,
++				struct ssdfs_btree_node_content *content,
++				u32 area_offset, u32 area_size,
++				u32 node_size, u16 position,
++				struct ssdfs_btree_index_key *ptr);
++int ssdfs_btree_node_move_index_range(struct ssdfs_btree_node *src,
++				      u16 src_start,
++				      struct ssdfs_btree_node *dst,
++				      u16 dst_start, u16 count);
++int ssdfs_btree_node_move_items_range(struct ssdfs_btree_node *src,
++				      struct ssdfs_btree_node *dst,
++				      u16 start_item, u16 count);
++int ssdfs_copy_item_in_buffer(struct ssdfs_btree_node *node,
++			      u16 index,
++			      size_t item_size,
++			      struct ssdfs_btree_search *search);
++bool is_last_leaf_node_found(struct ssdfs_btree_search *search);
++int ssdfs_btree_node_find_lookup_index_nolock(struct ssdfs_btree_search *search,
++						__le64 *lookup_table,
++						int table_capacity,
++						u16 *lookup_index);
++typedef int (*ssdfs_check_found_item)(struct ssdfs_fs_info *fsi,
++					struct ssdfs_btree_search *search,
++					void *kaddr,
++					u16 item_index,
++					u64 *start_hash,
++					u64 *end_hash,
++					u16 *found_index);
++typedef int (*ssdfs_prepare_result_buffer)(struct ssdfs_btree_search *search,
++					   u16 found_index,
++					   u64 start_hash,
++					   u64 end_hash,
++					   u16 items_count,
++					   size_t item_size);
++typedef int (*ssdfs_extract_found_item)(struct ssdfs_fs_info *fsi,
++					struct ssdfs_btree_search *search,
++					size_t item_size,
++					void *kaddr,
++					u64 *start_hash,
++					u64 *end_hash);
++int __ssdfs_extract_range_by_lookup_index(struct ssdfs_btree_node *node,
++				u16 lookup_index,
++				int lookup_table_capacity,
++				size_t item_size,
++				struct ssdfs_btree_search *search,
++				ssdfs_check_found_item check_item,
++				ssdfs_prepare_result_buffer prepare_buffer,
++				ssdfs_extract_found_item extract_item);
++int ssdfs_shift_range_right(struct ssdfs_btree_node *node,
++			    struct ssdfs_btree_node_items_area *area,
++			    size_t item_size,
++			    u16 start_index, u16 range_len,
++			    u16 shift);
++int ssdfs_shift_range_right2(struct ssdfs_btree_node *node,
++			     struct ssdfs_btree_node_index_area *area,
++			     size_t item_size,
++			     u16 start_index, u16 range_len,
++			     u16 shift);
++int ssdfs_shift_range_left(struct ssdfs_btree_node *node,
++			   struct ssdfs_btree_node_items_area *area,
++			   size_t item_size,
++			   u16 start_index, u16 range_len,
++			   u16 shift);
++int ssdfs_shift_range_left2(struct ssdfs_btree_node *node,
++			    struct ssdfs_btree_node_index_area *area,
++			    size_t item_size,
++			    u16 start_index, u16 range_len,
++			    u16 shift);
++int ssdfs_shift_memory_range_right(struct ssdfs_btree_node *node,
++				   struct ssdfs_btree_node_items_area *area,
++				   u16 offset, u16 range_len,
++				   u16 shift);
++int ssdfs_shift_memory_range_right2(struct ssdfs_btree_node *node,
++				    struct ssdfs_btree_node_index_area *area,
++				    u16 offset, u16 range_len,
++				    u16 shift);
++int ssdfs_shift_memory_range_left(struct ssdfs_btree_node *node,
++				   struct ssdfs_btree_node_items_area *area,
++				   u16 offset, u16 range_len,
++				   u16 shift);
++int ssdfs_shift_memory_range_left2(struct ssdfs_btree_node *node,
++				   struct ssdfs_btree_node_index_area *area,
++				   u16 offset, u16 range_len,
++				   u16 shift);
++int ssdfs_generic_insert_range(struct ssdfs_btree_node *node,
++				struct ssdfs_btree_node_items_area *area,
++				size_t item_size,
++				struct ssdfs_btree_search *search);
++int ssdfs_invalidate_root_node_hierarchy(struct ssdfs_btree_node *node);
++int __ssdfs_btree_node_extract_range(struct ssdfs_btree_node *node,
++				     u16 start_index, u16 count,
++				     size_t item_size,
++				     struct ssdfs_btree_search *search);
++int __ssdfs_btree_node_resize_items_area(struct ssdfs_btree_node *node,
++					 size_t item_size,
++					 size_t index_size,
++					 u32 new_size);
++int __ssdfs_define_memory_folio(struct ssdfs_fs_info *fsi,
++				u32 area_offset, u32 area_size,
++				u32 node_size, size_t item_size,
++				u16 position,
++				struct ssdfs_offset2folio *desc);
++int ssdfs_btree_node_get_hash_range(struct ssdfs_btree_search *search,
++				    u64 *start_hash, u64 *end_hash,
++				    u16 *items_count);
++int __ssdfs_btree_common_node_extract_index(struct ssdfs_btree_node *node,
++				    struct ssdfs_btree_node_index_area *area,
++				    u16 found_index,
++				    struct ssdfs_btree_index_key *ptr);
++int ssdfs_btree_node_check_hash_range(struct ssdfs_btree_node *node,
++				      u16 items_count,
++				      u16 items_capacity,
++				      u64 start_hash,
++				      u64 end_hash,
++				      struct ssdfs_btree_search *search);
++int ssdfs_btree_node_clear_range(struct ssdfs_btree_node *node,
++				struct ssdfs_btree_node_items_area *area,
++				size_t item_size,
++				struct ssdfs_btree_search *search);
++int __ssdfs_btree_node_clear_range(struct ssdfs_btree_node *node,
++				   struct ssdfs_btree_node_items_area *area,
++				   size_t item_size,
++				   u16 start_index,
++				   unsigned int range_len);
++int ssdfs_btree_node_copy_header_nolock(struct ssdfs_btree_node *node,
++					struct folio *folio,
++					u32 *write_offset);
++int ssdfs_btree_node_read_content(struct ssdfs_btree_node *node,
++				  u32 offset, u32 size,
++				  void *buf, u32 buf_size);
++int ssdfs_btree_node_write_content(struct ssdfs_btree_node *node,
++				   u32 offset, u32 size,
++				   void *buf, u32 buf_size);
++
++void ssdfs_btree_node_forget_folio_batch(struct folio_batch *batch);
++void ssdfs_show_btree_node_info(struct ssdfs_btree_node *node);
++void ssdfs_debug_btree_node_object(struct ssdfs_btree_node *node);
++
++#endif /* _SSDFS_BTREE_NODE_H */
 -- 
 2.34.1
 
