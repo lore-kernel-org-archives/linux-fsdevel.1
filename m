@@ -1,203 +1,136 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D60CB2B9B7
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 11:39:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773661192; cv=none; b=PL71GafygvGUiOFDhPGXsYAwv2lM13N9Wt5x/A+p5RX3xdkGyTsbIatiQMJ408OvkaEYyRIhnjBjSPJKt7ZChK0UmRY5E5/GwILTUSFCPBiwbsyeMcZ/XqvAQuMJAeJfg0F+GsdqhdP3skee0iSHQatQ6TpXl10PjqDdRrkt3Tg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773661192; c=relaxed/simple;
-	bh=xk8MW+cdL1vGKao181r7gXlVebMDz9A5B1JOCwdl690=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ns6hnzqX2ci7Fa8YkTo4QaZ8oxK2ENBsYtPxxm7Jl2GvD6Vb4exNx5FVSkgydjP1TPoMLRNqTlXzMLH2VQp/3dMXcQSOGZHUYD16RZWKw7u5XR20ZlyiksHVSipNZrVlj29MtlO7Byg6d0513NKBwwlnMAIaSWfa3bnPU3meGZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=1VOTJ/CI; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=WrcwIU8w; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=0FCXMhAH; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ZwBt7GoV; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CE7F1ACEDE
+	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 11:40:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.175
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773661258; cv=pass; b=lBijudjVuIZCJK2mylPQEN7UvuUl5eaRqZdsVNsN8mq10RM6i/GXRy+riS63OA39Ntfg6079YTCBM5i/gEpz0S+1jZpME3bh2CgvaqhEbKK4uSSXMewouahoX806knlCOqxtW+hk4V14kuziNPd5s/gp8r8yB2FbYdlRFzsH+vQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773661258; c=relaxed/simple;
+	bh=/DlBe2ep7AVTc8DeVDl3PVfjAey0HLS0DYBdUsKwoiE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ckkEdQmXTje3UAg8LnggEH/Tb6BR7aF6wg39NSfiM11S6CSuZuyu3e3DCTD6l9rbD2rpELnKEmX2hU/JuU/jArzuizS4i/PW3daMguA6rlfGWVtP2qe9LmPMyrDxlqFH2eZVjFmlu6UhRrJiL7kspIIE/EhOezP5vGzAGc09ZOw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=hltfbhkf; arc=pass smtp.client-ip=209.85.222.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="1VOTJ/CI";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="WrcwIU8w";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="0FCXMhAH";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ZwBt7GoV"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 1EE4C5BD17;
-	Mon, 16 Mar 2026 11:39:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1773661189; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cpogbJAKqrlr2Jx82XPikBWtnw8kteDhEFarzwucIvA=;
-	b=1VOTJ/CIYARFeB4c0GGQe2fUkO3pN5fitVartjTKeOOv6lP4ssiBYqGPXhfjVouCG5x0yS
-	UakA4jQQLeGmEnyvOcHkn1CIfi61jXbIyma9ljq1/Agvf1MYoi/+Vl5azAfgpH0Z/ibVNj
-	VYBIBvsj2nbpzVwTYIK1XyC7uAolx3c=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1773661189;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cpogbJAKqrlr2Jx82XPikBWtnw8kteDhEFarzwucIvA=;
-	b=WrcwIU8wRm965FXpM+VDVlVGpKbJDkt9Uug6sqYwvZYVi+ZWzx/BHQXO1pV9qRBUhuwxCf
-	AUHlxupvyegNqkAA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1773661188; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cpogbJAKqrlr2Jx82XPikBWtnw8kteDhEFarzwucIvA=;
-	b=0FCXMhAH9XELfYxwGSJLOnqecKF/tC6PDzWwnuVLK1ylgJoaI+Td7JHOofVDa74rV/KmXp
-	grxCYxehClvo47PaMja/Zl9/gfp/YrvO1jWbUQUNV7CDIn3ECtIyuvsmZTJVSCHz/L4ble
-	8uo7UKa6YFWmdLJ3hvoxWgAsOGE9UsA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1773661188;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cpogbJAKqrlr2Jx82XPikBWtnw8kteDhEFarzwucIvA=;
-	b=ZwBt7GoVI2St8qTK4fRIa4GWHWz/x8kyNZgD96KCVTBO9gzPgLfJRWCH5Nz8MjOys02hgt
-	tgHGMd9kRcy926AQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1D41C4273B;
-	Mon, 16 Mar 2026 11:39:42 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id aZIgB/7rt2lOKgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 16 Mar 2026 11:39:42 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id F2167A08C9; Mon, 16 Mar 2026 12:39:35 +0100 (CET)
-Date: Mon, 16 Mar 2026 12:39:35 +0100
-From: Jan Kara <jack@suse.cz>
-To: "yebin (H)" <yebin10@huawei.com>
-Cc: Muchun Song <muchun.song@linux.dev>, Ye Bin <yebin@huaweicloud.com>, 
-	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, linux-fsdevel@vger.kernel.org, 
-	akpm@linux-foundation.org, david@fromorbit.com, zhengqi.arch@bytedance.com, 
-	roman.gushchin@linux.dev, linux-mm@kvack.org
-Subject: Re: [PATCH v3 0/3] add support for drop_caches for individual
- filesystem
-Message-ID: <27l3ppyys6j7vto5w2qqxemekk2vvnnn4qxw3iddupdeby3dur@6ijr5wwa5gcb>
-References: <20260227025548.2252380-1-yebin@huaweicloud.com>
- <4FDE845E-BDD6-45FE-98FA-40ABAF62608B@linux.dev>
- <69A13C1A.9020002@huawei.com>
- <959B7A5C-8C1A-417C-A1D3-6500E506DEE6@linux.dev>
- <69A14882.4030609@huawei.com>
- <C63DBC11-B4CD-4D8D-9C09-E6A9F690FB21@linux.dev>
- <69A15314.3080602@huawei.com>
- <57055A1C-0684-4B77-80ED-4A641F262792@linux.dev>
- <69A6482C.6060807@huawei.com>
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="hltfbhkf"
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-8cb5c9ba82bso576871485a.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 04:40:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773661256; cv=none;
+        d=google.com; s=arc-20240605;
+        b=f6egDJnoeZ8U7SaFYDM5Danv7qsUVoSmUxjMIk1MAA7JGTbb1/nq1UdlSvuZxlWpiy
+         TZaYJr+uYmSDBYrIUecUNtw+TLJGccLZ3wDqbgjYmHlYdn3ChBnMLJAO+4onOoOf1uS8
+         nexk5wvOIJw3ZNMftE2+ENw8SsIGXNHB4d4wx02d41rfNOq2j1MGtk5AXkprdT8+OhWr
+         Cw6odo0xNJ26ILuOJt5/vnpR8KHorQCn5szlybBXrx+t24XuCd7suDNZQS0qB5QaU9eZ
+         +YJc1mdPTJXAxmRlkVrkaGmnKUogAWI+zLeogtMmAKVFDTbEwW9n9skmYU8fekEYii2o
+         0DAg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=44Kq0gC0wmjaAbaARyHL3xSvbl/P/jBatvsVTHh2HfU=;
+        fh=zx8vy3yZnK5hyAaTkvrK0H8YH/9dqYH80B4uoR8NiRU=;
+        b=bhx2QXMRcdXehUrGM52cBDpyJwoMlVx+2xvAOVU1jzWt1yH1MwBdJodw9y/qlhEB5m
+         23KvnB3rzBSj6vsvveB4utZ03hNsvDWIp3hnysHbCKDZ8h68ww4TLANiPgyzikN6Iehe
+         iZfyWBh0W9A2KMHC2/OXAcFIWt8VVqAHTRwsiDBBMhMMYUctMkydFJbXXuvUt219rb1h
+         sm/yji8AgxBPMQjb5vUG6kCNEO/yHWRFE8lWPiXUmK1aGXsbD8eGdF/ehv5btJlZ0fr0
+         fLFtuv4pux/JXmT+TpC1+hRBLohMx/3VYkHbl31LTrD1+IODl2MQ+tyjRHxaKbIyfH9Z
+         Z4sg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1773661256; x=1774266056; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=44Kq0gC0wmjaAbaARyHL3xSvbl/P/jBatvsVTHh2HfU=;
+        b=hltfbhkf+2Vl3he46E3+2elOENMxKxqn6WXlfkTxdC4vb8OQd/CV5m4/0ufVSOhUa8
+         J78U5Euui9Dw08cuPha3tSXsXcdcmnaaA9YCRu1ViGBZD/y1xnEb3dF0dLnmNSHXIdtO
+         ejUqgbF8S8uqp2lkMvqgcW1u4503U1cODDdlM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773661256; x=1774266056;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=44Kq0gC0wmjaAbaARyHL3xSvbl/P/jBatvsVTHh2HfU=;
+        b=k0Xutbiz7o70sGnsIic/YCb2FdBhlj2a/OZD4uOpn+Si20vV6wegPRDsJFAkyfuRUu
+         gDhWgCvQpVj7QoUuFTZUxe8S5uStdyuhGtWEF5fowvlq/pW0ILlfKI8Cb4Ekm4h7FWk/
+         /a51Il0hIyKRq2ZrGNoGqX3oHy+aBQ4CtVWndhvWf0UicspRFnbmOnot3HC30UgmrB8A
+         6PlM/IfymSBpi/8LHYeQ7BBU1Yo+723csZhfcsgF88je/Pp/MT6S8gvUliPAkBKxV5qP
+         aPKJTy+LN8mBXXdA0mHtc0ZqpecCqcUdM1NkqjP/VWgsA1vHWXxueWTshxnmKZ/ZffCg
+         /68w==
+X-Forwarded-Encrypted: i=1; AJvYcCVS8DRF2mo2BKDRZbpYFcJ+vQ27Xn7iLLBUZso/jRs9WD47tOct6KpzvsuCs1hmX9n7Zj1Rzro/0sR/q6i1@vger.kernel.org
+X-Gm-Message-State: AOJu0YyOcVrdUE1vCAwcDXwCzDvBuvIbWauSCceLR77nHyx6tJwn0hfr
+	EOplkSXh10Qhnh5p5JLDgmC/NAXV1/gJ7FbITiKoMokGt2+sFw0BGW5DEqT6m+ZUxQWocbCH8AB
+	Ncc7BGnsBvtjuhyHl55+f+OZOxrkIJd+qT6b3bjQA1Q==
+X-Gm-Gg: ATEYQzwHly+0ryOwRLKnUYi0viG3i3UCAsTfz5k+F71ZDenecrB81VJJ3Lju3NsbpR2
+	5A47S3XWcrstckPDWxB54bvNqB4kMmyNMqe4EQems+OXb9PfWYcG1SDKkNbmjF68AiFfr58HRnH
+	q4XEdAKY1N1Rotaj4Xqc3/aUo2GvWJEBT2yPeZnNI2GbXvUvNx5WSJ/IwPBzlsQXfETWLTya64s
+	GYiz87SDBIqwfMBs6zkth2o9+M+C+Dbj1pJ1aqRO8R7hfyQ42F3Y/eq3E0ZCbWIWMnM6Pbt36Q+
+	5MB33Q==
+X-Received: by 2002:a05:620a:1726:b0:8cd:9653:61de with SMTP id
+ af79cd13be357-8cdb5b5957emr1492334085a.50.1773661255909; Mon, 16 Mar 2026
+ 04:40:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <69A6482C.6060807@huawei.com>
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_COUNT_THREE(0.00)[3];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -3.80
-X-Spam-Level: 
+References: <20260312194019.3077902-1-mszeredi@redhat.com> <20260312194019.3077902-5-mszeredi@redhat.com>
+ <20260313235951.GH1742010@frogsfrogsfrogs>
+In-Reply-To: <20260313235951.GH1742010@frogsfrogsfrogs>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Mon, 16 Mar 2026 12:40:45 +0100
+X-Gm-Features: AaiRm53k3yPeAIYNoFYm8D02yyLJ9_CGppGh-eu4Pw_PV3nAV-mIOeNZwbd1los
+Message-ID: <CAJfpeguoneptEOjs+n3=hwQJ7p0dcucmhW6nevAB-6MmLx55VA@mail.gmail.com>
+Subject: Re: [PATCH v2 4/6] fuse: clean up device cloning
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Miklos Szeredi <mszeredi@redhat.com>, linux-fsdevel@vger.kernel.org, 
+	Bernd Schubert <bernd@bsbernd.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue 03-03-26 10:32:12, yebin (H) wrote:
-> On 2026/2/27 16:27, Muchun Song wrote:
-> > > On Feb 27, 2026, at 16:17, yebin (H) <yebin10@huawei.com> wrote:
-> > > On 2026/2/27 15:45, Muchun Song wrote:
-> > > > > On Feb 27, 2026, at 15:32, yebin (H) <yebin10@huawei.com> wrote:
-> > > > > On 2026/2/27 14:55, Muchun Song wrote:
-> > > > > > > On Feb 27, 2026, at 14:39, yebin (H) <yebin10@huawei.com> wrote:
-> > > > > > > On 2026/2/27 11:31, Muchun Song wrote:
-> > > > > > > > > On Feb 27, 2026, at 10:55, Ye Bin <yebin@huaweicloud.com> wrote:
-> > > > > > > > > 
-> > > > > > > > > From: Ye Bin <yebin10@huawei.com>
-> > > > > > > > > 
-> > > > > > > > > In order to better analyze the issue of file system uninstallation caused
-> > > > > > > > > by kernel module opening files, it is necessary to perform dentry recycling
-> > > > > > > > > on a single file system. But now, apart from global dentry recycling, it is
-> > > > > > > > > not supported to do dentry recycling on a single file system separately.
-> > > > > > > > 
-> > > > > > > > Would shrinker-debugfs satisfy your needs (See Documentation/admin-guide/mm/shrinker_debugfs.rst)?
-> > > > > > > > 
-> > > > > > > > Thanks,
-> > > > > > > > Muchun
-> > > > > > > > 
-> > > > > > > Thank you for the reminder. The reclamation of dentries and nodes can meet my needs. However, the reclamation of the page cache alone does not satisfy my requirements. I have reviewed the code of shrinker_debugfs_scan_write() and found that it does not support batch deletion of all dentries/inode for all nodes/memcgs,instead, users need to traverse through them one by one, which is not very convenient. Based on my previous experience, I have always performed dentry/inode reclamation at the file system level.
-> > > > > > 
-> > > > > > I don't really like that you're implementing another mechanism with duplicate
-> > > > > > functionality. If you'd like, you could write a script to iterate through them
-> > > > > > and execute it that way—I don't think that would be particularly inconvenient,
-> > > > > > would it? If the iteration operation of memcg is indeed quite cumbersome, I
-> > > > > > think extending the shrinker debugfs functionality would be more appropriate.
-> > > > > > 
-> > > > > The shrinker_debugfs can be extended to support node/memcg/fs granularity reclamation, similar to the extended function of echo " 0 - X" > count /echo " - 0 X" > count /echo " - - X" > count. This only solves the problem of reclaiming dentries/inode based on a single file system. However, the page cache reclamation based on a single file system cannot be implemented by using shrinker_debugfs. If the extended function is implemented by shrinker_debugfs, drop_fs_caches can reuse the same interface and maintain the same semantics as drop_caches.
-> > > > 
-> > > > If the inode is evicted, the page cache is evicted as well. It cannot evict page
-> > > > cache alone. Why you want to evict cache alone?
-> > > > 
-> > > The condition for dentry/inode to be reclaimed is that there are no
-> > > references to them. Therefore, relying on inode reclamation for page
-> > > cache reclamation has limitations. Additionally, there is currently no
-> > 
-> > What limit?
-> > 
-> Perhaps I didn't explain it clearly earlier. What I want to achieve is
-> the ability to perform memory reclamation (pagecache/dentry/inode)
-> based on a single file system. In the current network environment, when
-> troubleshooting issues, I want to control the impact of operations and
-> only perform memory reclamation on specific file systems. Therefore,
-> some files might be in an occupied state, and relying on dentry/inode
-> to reclaim pagecache will not achieve the desired effect. Additionally,
-> I have encountered some users who periodically run `drop_caches`,
-> mainly to clear the pagecache. If we rely on dentry/inode to release
-> resources, there will be issues where the pagecache cannot be fully
-> cleared. This level of granularity is actually unnecessary because in
-> some scenarios, users know which partitions they use more frequently,
-> so they only need to clear the pagecache for specific partitions.
+On Sat, 14 Mar 2026 at 00:59, Darrick J. Wong <djwong@kernel.org> wrote:
+>
+> On Thu, Mar 12, 2026 at 08:40:02PM +0100, Miklos Szeredi wrote:
+> >  - fuse_mutex is not needed for device cloning, because fuse_dev_install()
+> >    uses cmpxcg() to set fud->fc, which prevents races between clone/mount
+> >    or clone/clone.  This makes the logic simpler
+> >
+> >  - Drop fc->dev_count.  This is only used to check in release if the device
+> >    is the last clone, but checking list_empty(&fc->devices) is equivalent
+> >    after removing the released device from the list.  Removing the fuse_dev
+> >    before calling fuse_abort_conn() is okay, since the processing and io
+> >    lists are now empty for this device.
+> >
+> > Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
+> > ---
+> >  fs/fuse/dev.c    | 44 ++++++++++++++++----------------------------
+> >  fs/fuse/fuse_i.h |  3 ---
+> >  fs/fuse/inode.c  |  1 -
+> >  3 files changed, 16 insertions(+), 32 deletions(-)
+> >
+> > diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+> > index 3adf6bd38c9b..18cc844cf290 100644
+> > --- a/fs/fuse/dev.c
+> > +++ b/fs/fuse/dev.c
+> > @@ -2543,14 +2543,15 @@ int fuse_dev_release(struct inode *inode, struct file *file)
+> >
+> >               fuse_dev_end_requests(&to_end);
+> >
+> > +             spin_lock(&fc->lock);
+> > +             list_del(&fud->entry);
+> > +             spin_unlock(&fc->lock);
+> > +
+> >               /* Are we the last open device? */
+> > -             if (atomic_dec_and_test(&fc->dev_count)) {
+> > +             if (list_empty(&fc->devices)) {
+>
+> If you have two threads closing their cloned fuse dev fds, can they both
+> see an empty list here and abort the connection?  I think they can, but
+> it's benign because the abort takes its own spinlock.
 
-Let me revive this thread :) I agree with Ye Bin - the more interesting
-part of this functionality is actually giving userspace a way to
-effectively trigger drop_pagecache_sb() only for one superblock and inode
-/ dentry shrinkers have no chance to do that. In particular because for
-example drop_pagecache_sb() will also discard page cache of currently open
-files but the inodes / dentries are used (struct file pins them in memory)
-so shrinker doesn't even consider them.
+You're right.  Cleaner to move that check inside the spinlocked region.
 
-I don't have a strong preference whether the API for triggering page cache
-reclaim for one sb will be through /proc/sys/vm/<some_new_file> or through
-debugfs (possibly <debugfs>/shrinkers/page_cache or something like that)
-but this functionality definitely cannot be achieved by just triggering
-some shrinkers.
-
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Thanks,
+Miklos
