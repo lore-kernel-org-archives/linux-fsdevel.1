@@ -1,314 +1,216 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from embla.dev.snart.me (embla.dev.snart.me [54.252.183.203])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB18220E6E2;
-	Mon, 16 Mar 2026 22:36:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.156.1
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773700581; cv=fail; b=pv/RjssY37lSo0NCAzJkrQYX8SeC36w7mJ9tcxlnfuxlKKvx6FUru3hNjqHIrSkAg5KwW3FmD9NkRGLeEnmbMp0c4zWTNxPPF9xrRT/zB8NpbGRNu0rPXRS5yuDSCxy+UXGZh7KejFp5PRU1m15yj8mUG8YGOH1kluFC7mYFpGw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773700581; c=relaxed/simple;
-	bh=oG0xEm1DLqrpc+49sJ9qA3SMfCB7FvHZrOfDXgkb0sQ=;
-	h=From:To:CC:Date:Message-ID:References:In-Reply-To:Content-Type:
-	 MIME-Version:Subject; b=H5SwcKUjX83axjdTKeYuEwHfS5STCcRPnR7SAR58XRC48tNGVjOk8d2U1u23CloKeBmE2wiGjsjfs3bmH+raheTP9FtYiASnU92RHRnPuXhqnxz8tah5SrmcMW8RRLceCNaRpfLfrG9cGJinLfX88kIu8yewyxPj3A+ih884cv0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ibm.com; spf=pass smtp.mailfrom=ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=T/BpA+Li; arc=fail smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ibm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74C05361DA7;
+	Mon, 16 Mar 2026 22:37:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.252.183.203
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773700642; cv=none; b=aVANjOQsFp3FLLM1xytLwG2QXg4mRmPkL/b16EzwRQv/ciROoY8i4p0eg45OrZ0nrXGsdQfYlrPqIO4woCYCrEzP+mzmpi/gGBa0dnOuyNsndteefhpHBP1CpinHC2Qm9sCUHT50qRGm8AzVLwcUoRj4i2L9fCa8BC/MsjzolNY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773700642; c=relaxed/simple;
+	bh=8W1+qvl34fIhLpwx+ypQ8CktR2a2qKFFKJUkbK1AD3g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=naQsUM30bhLO9ZYAKQByPDcwVItYMFBRrb6qHlXQrIqW/RjQcPqJCVmQF393fgJSGbDXnV32KQKpfmEdCSfr+pXAnLRlvo/9T6gW+w4jk9SNt1TxYnlOAgbSRXL3LwjR8oQ12cCEKFkJHHZj+VyRLLVtZ8uj+i/axxWjzETwewQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me; spf=pass smtp.mailfrom=dev.snart.me; dkim=pass (1024-bit key) header.d=dev.snart.me header.i=@dev.snart.me header.b=sWRHXUVo; arc=none smtp.client-ip=54.252.183.203
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dev.snart.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="T/BpA+Li"
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62GIPHxq1466854;
-	Mon, 16 Mar 2026 22:36:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-id:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	pp1; bh=oG0xEm1DLqrpc+49sJ9qA3SMfCB7FvHZrOfDXgkb0sQ=; b=T/BpA+Li
-	djbZKEVinlYjjtsCDEIbNDBxfwXnxcDdbuopVxcC1y1Cu4QDgfI4PldcqaBGWMYU
-	N+lN3KgdKBJB11JqX1THo3fbbdo0thMEImUyxRLEDnKE0psZDeiAzPuUbzWnw2jC
-	7/GME1k4gt9eh4OrJm0blek/royKByn9XhQftksiRXEm75EJewNNlFY9RGmodKin
-	vMQ/bL+AqbBjHGwVeptQY4/AVpMGQnG+AN/YKRoycisCXvuWFueJxuXYJCH2/w76
-	kjLHy1n352PLVXF4P20bVl3TGnGDFvomYQkWtF5qc6CBun7q51zuaKH421+y5a1N
-	VBOrEPYlxmUSow==
-Received: from ch1pr05cu001.outbound.protection.outlook.com (mail-northcentralusazon11010064.outbound.protection.outlook.com [52.101.193.64])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4cx7vfc8sd-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 16 Mar 2026 22:36:06 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FoLwAHU1nq1TqNroeCIEDTHlvAX0fgkM6giDdQBcT7SZz/olYJS0VvVpL7BWBOf/ea630z00R0rSi9eUF8oczHPSDyXUwvpnsYoPK5yLRDvsTWBe5rzR+OuQ9lIkv5WZmNSSP4Tq185McVfityTZX7c4q1DatHJP5ZVvSx5yBoT/d6P/3C+dApMgzEnC/fOOKhYZN+w6f3n4LqrV8bCN3jdHLOaTCWtzSJwbX5g6tVKmsg2xPiaNrU1YzFxwS3gjpfR9yjB/b2fYXEncitv7Jgi9vg7GMREcPejNY/xpuZMxlYumKYY2IGG9q7TyFde2Nz0Szr1/9j4HC3YadPoE8g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oG0xEm1DLqrpc+49sJ9qA3SMfCB7FvHZrOfDXgkb0sQ=;
- b=EorHAAvB/X8e5W9c0oIkL1fGTIA9yMOpqE5wy66R0GabsM3355U6s+yiRFWeRA3+Bs7F3StKQY2VQaVdBzaKmBeNdkcX54Orw80VgebF8MZptJPP0lrExQtCx8zoNsCticf5+Pv25AT7wdaRtSC4gYVqB+NxnwaF+yVpQGpFyZn+UB1x0KJcOhl73iTmUEAa8fkrwbPpRkNDQE2qecybCCvVfkeLtM5wgsDBVVaL0LyqiPSdJeTH4WI4vzSPuA4+GmEKQP5Vbbg3lzSaGKm7+pEgLRSDmxSKAZLy3SPBiCbC79GXuKluPQCfznLCgzLSc6KzjmDl2rV9bTgJ2YJeSQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=ibm.com; dmarc=pass action=none header.from=ibm.com; dkim=pass
- header.d=ibm.com; arc=none
-Received: from SA1PR15MB5819.namprd15.prod.outlook.com (2603:10b6:806:338::8)
- by PH7PR15MB6163.namprd15.prod.outlook.com (2603:10b6:510:236::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.16; Mon, 16 Mar
- 2026 22:36:02 +0000
-Received: from SA1PR15MB5819.namprd15.prod.outlook.com
- ([fe80::920c:d2ba:5432:b539]) by SA1PR15MB5819.namprd15.prod.outlook.com
- ([fe80::920c:d2ba:5432:b539%7]) with mapi id 15.20.9723.013; Mon, 16 Mar 2026
- 22:36:02 +0000
-From: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
-To: "shardul.b@mpiricsoftware.com" <shardul.b@mpiricsoftware.com>,
-        "glaubitz@physik.fu-berlin.de" <glaubitz@physik.fu-berlin.de>,
-        "frank.li@vivo.com" <frank.li@vivo.com>,
-        "slava@dubeyko.com"
-	<slava@dubeyko.com>,
-        "linux-fsdevel@vger.kernel.org"
-	<linux-fsdevel@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-CC: "janak@mpiric.us" <janak@mpiric.us>,
-        "janak@mpiricsoftware.com"
-	<janak@mpiricsoftware.com>,
-        "shardulsb08@gmail.com" <shardulsb08@gmail.com>
-Thread-Topic: [EXTERNAL] [PATCH v6 0/2] hfsplus: prevent b-tree allocator
- corruption
-Thread-Index: AQHctKATftEnQ0CveUSorTPJQivINLWxwUeA
-Date: Mon, 16 Mar 2026 22:36:02 +0000
-Message-ID: <9c2026621c83b7aab23a56162d9537a7f6356ed6.camel@ibm.com>
-References: <20260315172005.2066677-1-shardul.b@mpiricsoftware.com>
-In-Reply-To: <20260315172005.2066677-1-shardul.b@mpiricsoftware.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SA1PR15MB5819:EE_|PH7PR15MB6163:EE_
-x-ms-office365-filtering-correlation-id: dc1af801-819a-404e-58ba-08de83ac6745
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|376014|366016|10070799003|1800799024|38070700021|56012099003|22082099003|18002099003;
-x-microsoft-antispam-message-info:
- PPzZUzPBlDq0tOD5m4pM+t+rPnsm1ZuV4kGM3u8HIkZH+IRidodhWWArWThqj0/6q0vq4Cu4JDuJxSxZHPhrTQjdp/ddHwbG03KieGQ+iGFI/VsFGfMjHDqSFR5bMNvO7edEDr3F8LM6hQ5DvUTJuINP9DCUESwodHqhrjFGeOBQOzxpVXR35wLvJJonclERUWjY3fcncbwmxI6AINe196gCOuxBIuS/ppqTKX+//fjapSTT8/s+7HWyGb8uim5Mv5mIxvOHu6uN7+/vJPRCeusVJKEY3tCjRf9ywwhW7GT+uHnGPZK/FTZUUwThs2TP9Sk4YyuIVP/cV7NWt21Yh9DqL7GSgg6xzreiweKHeR7V3IOQnqqUZaI4VJXprcwTsqaFf1gwW1jWACgH0i9YUHWvgfLaicpWuVxiZJB3lh2zPiRIeUIxTthW0E0AiJmwzMYIBrN8GscgoDi79CptGMYxtf6QBa86kmPm+O6RTk/Fl+mt66F87nvEL52RdloWzZfGZTbgDcRPjs9rYOhg81L8jizbAJHJ5ZFD8mEwe5axC4GngTvbBXyyO0qABIGPsNR86j8vmUWO360LrF7f2GLB7aodoPBVVttZni2jZGkkgFx8rJIVWl+2CRKlia3iQ1TeEfbGjop05ZUXbrWDbpM4AnwsSZ1kpxJYKSbaEnK6MPg3T5QDQ77YJDXgFCmF6/eIvZpnBAH66smln7ioPTUIJR9wvWmQ7fOvrsOk2BLLjCMZ3+3MxRS2ZjtLbb8vEDGlblhwmCHclZiexCvr93xxw3EedNCIlt3pTENIb0s=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR15MB5819.namprd15.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(10070799003)(1800799024)(38070700021)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?NnZUU2pHcjRyQkdHRmxHVDk2T1lzQndvZ1hpTllnbXJmSFpicXdnNC9LTko3?=
- =?utf-8?B?aUdVcXNCL2tnMzJpT1c4K0ptRGVQcW1TMGg5dFp3M3gvdVdSY3JBa056OU5X?=
- =?utf-8?B?SnRieE5PeXBWcEVLOURhbE4yMnlXeXplNU1BNi9MRTlUTW1lVi9NR2FMb3J3?=
- =?utf-8?B?S1EySzd6aGxjV0RRWmJHZHNDeGQvalJVUUFwdFV2bEx4RitCY3I4ckNyTDlV?=
- =?utf-8?B?cm5TYVFwbVRpVHYvUFhRUGoyM2RhODVZREJwQzlUT1pjdlpIWEFsRGZaaDkw?=
- =?utf-8?B?Zlg4dU5wVzJsUlVlTVNLYkFLYmJ5eWlWVlBWZndHVDN0Y0xYMWNEalJObzZq?=
- =?utf-8?B?WklaNUNId3NUUWg5cjUzQ2toVVQxM0NwMUZkeGdsOUx3MWtXY2hqTVNVTENI?=
- =?utf-8?B?cVpEeXN5ZjRTT2JFTEdZejhKdWZRcG9VWnRrT3NyTzNyR0Z1Q2tWM0lUd2U2?=
- =?utf-8?B?N2U1NnY3RVZtZHRvOEgvall0bkxsYTdPbUNUbkNWYS8xUTA2VnBTemxEOVNp?=
- =?utf-8?B?MWlOTnUrNmpVVkZ4SHU2MnpyNVIvclNYNWdmQU9RR3ZROTF4WGlVeFBSQWtU?=
- =?utf-8?B?Q05ZL0Y2MDRPYjRoS0VUZEpnYnBNd1o4T1Jqam1LVFgrNlpYVXorWFZrcnJp?=
- =?utf-8?B?elZTRXdYcGgyZ1BPWFFWeU5tcjBrYVF4YmJDTWJpUlR6ckY1OGhpbWVIaElD?=
- =?utf-8?B?SnplZDZVNHRWRHhqa2F4ZmZnNUc1Z0dxaHhMc1JyelIwZVFuOGtoTmt1ZXV1?=
- =?utf-8?B?RWxZQkhsUHgwNEhKS2VvOEhaR2U2dDVzYU1rSW1jc2s3Z2lHa2kzQ1FJakI5?=
- =?utf-8?B?dzhjOFVsNUdTMklPZmJhRm96cUVmd1Z2VkNUYzB2QUNEU0VjQnl0VDlWODlU?=
- =?utf-8?B?Ykw0N01Va0NqcEJHUlY0VzJEM3VBckIyZi9KMmVsY3V5V0VYaFZGNHZCUWhm?=
- =?utf-8?B?L3lBVHZrMitwRXRXa3lmT3oyanFGRjhuOUdwZ0g4V2sxeGd6bjZkSFF1amdC?=
- =?utf-8?B?NWwrakxRd0hzN0xsVW1MRm04WXZrZVVJaUkyaXk3ZFpUbk9Ubk9QSUJRa1hn?=
- =?utf-8?B?WDlJYUEyZ0FWaUdlK09rbDJGcnJrWmdMQytUcm0zN2U0Y013VUZCQU1TeW9x?=
- =?utf-8?B?TzY5OUNOMjJHK3VwM3BiUzZZSlVvS3JNVU5GSzhMR09jYVVhM3kycTFxTHVm?=
- =?utf-8?B?bWQ5L2dydjNLdE1xaVFTakJwSks2VXhPcmpBaWI0Y01IQStLd0wyN0dJWEtT?=
- =?utf-8?B?TGZsQW1GYzVpditlcnRMUGxSOFBTOEtrdER6M3RtSVlvVW4xZWd1SW9YajJS?=
- =?utf-8?B?THF5NitTV0pQRzJNZ09OWDRoUUNCZXp0MUl4aGZBVVVPeVNTK1JTUVJKbXVz?=
- =?utf-8?B?SFdvY1FMeTl4aEtZS3UwOHpsMVUvSGNHdzlkNHVCeVBjZU8rR2N5a3d3UGVp?=
- =?utf-8?B?QXJxUXRYZmxpSXc5a1F1QWtkN3FnNEdvdUJ1R2lld3NUdXBBR1E4L2pnZisy?=
- =?utf-8?B?ZkEzWlUwWEMvSjRFbHUzVnpFbXU4enpLdDdpNnRCbTErd2JoVkRZcWFMMTNI?=
- =?utf-8?B?YzZhNnp1c2ZwVzNqSHU1MWVXRDcrOG4xUHpoU3pJSmpRV0o2d1hkczVvTHpW?=
- =?utf-8?B?SmJEZCtJZXpNUzlOVWRvTzJYNzdsQkw0WE4yRUZtekhPSlprYklGR2Uwd3JW?=
- =?utf-8?B?TjFsWHMxRzNQRmZQV2txRXBEOTVrS293S1JmcWZvQmVUZkQ2eGhHV3VvMDFl?=
- =?utf-8?B?bmUySG9DbmFjbkd4ZFExUFRndjBvMEk4ekVhd2N1ejhKT1lJRzZ0TWNhRkMx?=
- =?utf-8?B?WmZLd2djbUxWcmxwcitJYTVGWVQySE0rZ0VuYjd0YTJRSVlVQ2lpYW5Oazhm?=
- =?utf-8?B?RHkzb1lZUWhJUVVMZWZDUjllWnpxN0dPUlpCMVl4Zjh3bjAwWWM0Zy8xZWJR?=
- =?utf-8?B?TXRoZHBXakF6RUNpL2FVd015eHFxa29pcWhpckZGS0U3TlJPSTNoNnVaQ2tX?=
- =?utf-8?B?R2tiYTMrMjhnWmoyL2RnTEY0cVhqOW03aW54UkRDZHVBWThXQ21Mdnh5TWVZ?=
- =?utf-8?B?Z0x3NkcvNEN3VUdKSkN1RENTU1lXeEs0cTlWZU5oWUxScHJuY2RJZjAveUpu?=
- =?utf-8?B?K2VaZ1BRZmJzcjg1ZEJYeklNNUhzc3BHU2FSSWJnUEc3ZmtRNk5aOGExcTFs?=
- =?utf-8?B?T1h5VVVWNUZxMjFjU200STVNekkvSkhFaytqbTZnUnZtbGNmMTkrQnJJWDNX?=
- =?utf-8?B?UkNidXFsaGtLdGJPVjMyT3VYaGJiWDlTcnpMOUN3SU82eG9BdDJpVGI5OTVa?=
- =?utf-8?B?RFZMM3VhL2ZDZVBXdUFRV055N21MWEVjVDk4MmNjcWx6cDF4ZjJMNS9UQVpH?=
- =?utf-8?Q?iucwPYsH2qxbYSg1V9uddAWu5c4bjQ1EkeRIt?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <D240E34308EEC14791FC35D60546C7A5@namprd15.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	dkim=pass (1024-bit key) header.d=dev.snart.me header.i=@dev.snart.me header.b="sWRHXUVo"
+Received: from embla.dev.snart.me (localhost [IPv6:::1])
+	by embla.dev.snart.me (Postfix) with ESMTP id E63D91CBC0;
+	Mon, 16 Mar 2026 22:37:18 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 embla.dev.snart.me E63D91CBC0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=dev.snart.me; s=00;
+	t=1773700640; bh=8W1+qvl34fIhLpwx+ypQ8CktR2a2qKFFKJUkbK1AD3g=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=sWRHXUVoXu7ictI2DGeGvjZBbshNDBR6HGMdvEFbJBHEnBPqH9K5/heax8aZaVWMJ
+	 E9XiiOesAdUVk9/7B3JrIFDTnljjWMwq1a3ETWcgay7sQ6hG+gaVjfFHg+SbW01LS5
+	 y6DWPJBp61m6ndjsCfQe4wX01MwRp8pneycematI=
+Received: from [192.168.1.18] ([182.226.25.243])
+	by embla.dev.snart.me with ESMTPSA
+	id reOkJh6GuGmZrAYA8KYfjw
+	(envelope-from <dxdt@dev.snart.me>); Mon, 16 Mar 2026 22:37:18 +0000
+Message-ID: <898f4927-30a4-4ccb-b080-9e4d2fe3af1e@dev.snart.me>
+Date: Tue, 17 Mar 2026 07:37:14 +0900
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked:
-	RY9BGfnfXePO2QN+KP/gJ8gixteJSJvrSslgwdtkglUIFaZ+lOHdVUtp7ArWtQ41l0a73JxO6j8AZZ4rluSJB6d2gAvBw/qOY/LvUwwXEq7R/OJKISl8J/hqic0efsDzCyRdQa+sOboq+edgUiNU37+rb1iSz1AtEDCrJ0H80YS+B4RbmLyQ/YYWRGa01cQRfqbrs49GgxXwt/otKvlDRKsSq1XSuzT4Kamj8jO514lfDLxQAdMlp7xPHt7IKBmsgU2JISpdgwmikxv71OgywQ9wUDPg585CDy4039fabqXBXzQ5zf5rxaH5LOO3fl/EuN9T44CZ/VDYkgI81tUg1Q==
-X-OriginatorOrg: ibm.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR15MB5819.namprd15.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dc1af801-819a-404e-58ba-08de83ac6745
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Mar 2026 22:36:02.2882
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: fcf67057-50c9-4ad4-98f3-ffca64add9e9
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: wt+9jPx+LTldzs0T/0nD9EfMRZ0ZBk45NEc9yqnyqNXhj+XXSUMynB5jfmCKocBYbTudMOgZWwXK1ILCA4BEfw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR15MB6163
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-ORIG-GUID: IylYf6FB1o5C2Y1tqBIaKYGGviAxXzAa
-X-Authority-Analysis: v=2.4 cv=KajfcAYD c=1 sm=1 tr=0 ts=69b885d6 cx=c_pps
- a=z9epfWMNo9LgPPq3nTJR4w==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
- a=U7nrCbtTmkRpXpFmAIza:22 a=VwQbUJbxAAAA:8 a=szKgq9aCAAAA:8 a=QyXUC8HyAAAA:8
- a=ogRaIJTbkPBIcossmjUA:9 a=QEXdDO2ut3YA:10 a=R_ZFHMB_yizOUweVQPrY:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzE2MDE4MyBTYWx0ZWRfXyKJ6I1dS9cmX
- 9oNWixhYahx6TdZ1d53o+3HY963CgSjLwpvRo6jFV5i2GobeSMwOzIvXdF7TCXJ+Cx52f5x08bi
- CEgJ0iXir7kHlE7OT6K+CWsjuZBEZm3Z9yJAb5mYTd3wU0tKcR/AYXaBlUGp7NLPJqxIiicV4ox
- 6Q7L+AMkXcazPz6JbFm8oYx82oVHM4nuuOGhGiOF+6KjEcu0CFgiB5SZ1wdGpp3+srU3tmUP24X
- MaC/0cIPUQmJBlCD19aYVsYWt4s4z658mBKzMTvdC2mIgkfWaOwRBNVlxGQoDFyNZGT95Mgr2Wz
- AW4ybYlce+2jEf98GNlLtyYzldstGGmzF24AnbKgpqrGUZG7HMaUnm8DKhhyXbOTgEPa+BKauvM
- NPfqW2hrGd7zFgVHiU0A6kt4HKyEcqAs9as/79CXfJwjiXumA5ekiNIWbIKzZfj7sfb72hXP6eS
- YZq4GYkZXPwhbAIzTTA==
-X-Proofpoint-GUID: iK-b3DEJmathmuD14VxTS9Eko7cgDSz9
-Subject: Re:  [PATCH v6 0/2] hfsplus: prevent b-tree allocator corruption
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-16_06,2026-03-16_06,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 adultscore=0 spamscore=0 malwarescore=0 clxscore=1015
- impostorscore=0 bulkscore=0 lowpriorityscore=0 priorityscore=1501
- phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2603050001
- definitions=main-2603160183
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/2] exfat: EXFAT_IOC_GET_VALID_DATA ioctl
+To: "Darrick J. Wong" <djwong@kernel.org>, linkinjeon@kernel.org
+Cc: Matthew Wilcox <willy@infradead.org>, linkinjeon@kernel.org,
+ sj1557.seo@samsung.com, yuezhang.mo@sony.com, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260311222613.2010177-1-dxdt@dev.snart.me>
+ <abIxl8XEftpku8yf@casper.infradead.org>
+ <b216af63-f65e-4c26-84bc-2693fad0fdf1@dev.snart.me>
+ <abLUQECuMuxHNXjZ@casper.infradead.org>
+ <20260312150623.GB1742010@frogsfrogsfrogs>
+ <14dc2f67-7916-4990-b1c4-5d442c5d51fc@dev.snart.me>
+ <20260313162408.GE6023@frogsfrogsfrogs>
+From: David Timber <dxdt@dev.snart.me>
+Content-Language: en-US, ko
+Autocrypt: addr=dxdt@dev.snart.me; keydata=
+ xjMEYmJg1hYJKwYBBAHaRw8BAQdAf5E+ri1XLtjqYbZdHOyc8oS+1/XJ5bSlbx5WHXmVBZzN
+ IERhdmlkIFRpbWJlciA8ZHhkdEBkZXYuc25hcnQubWU+wpQEExYKADwWIQQn/Jn96EMUaIoF
+ X+T/ldyyrZpWaAUCYmJg1gIbAwULCQgHAgMiAgEGFQoJCAsCBBYCAwECHgcCF4AACgkQ/5Xc
+ sq2aVmjJZwD8COjPlUwccrlRvbNQ6f87DWchtYO0o8W2DNRM3RLps0EA/jEhIbRV6AsyC8jr
+ 30Ut3aJ3/mO/6G4sLj7OvkEEBH0MzjgEYmJg1hIKKwYBBAGXVQEFAQEHQFpgtIgaByv9lIEY
+ EmpavMO0pYjtu7TMJynwdnGYkN9LAwEIB8J4BBgWCgAgFiEEJ/yZ/ehDFGiKBV/k/5Xcsq2a
+ VmgFAmJiYNYCGwwACgkQ/5Xcsq2aVmhFCwEA0kM9VyYB4bLCM7+SuXUUH+5Ec99Nj4RXxFad
+ Key9GuwA/2BZK6bNyrLSfEk2JDRoskqf7OIL0wa6JOD5SrBnMe8E
+In-Reply-To: <20260313162408.GE6023@frogsfrogsfrogs>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-T24gU3VuLCAyMDI2LTAzLTE1IGF0IDIyOjUwICswNTMwLCBTaGFyZHVsIEJhbmthciB3cm90ZToN
-Cj4gSGkgYWxsLA0KPiANCj4gVGhpcyBzZXJpZXMgYWRkcmVzc2VzIGEgU3l6a2FsbGVyLXJlcG9y
-dGVkIHZ1bG5lcmFiaWxpdHkgd2hlcmUgZnV6emVkDQo+IEhGUysgaW1hZ2VzIG1hcmsgdGhlIEIt
-dHJlZSBIZWFkZXIgTm9kZSAoTm9kZSAwKSBhcyBmcmVlIGluIHRoZQ0KPiBhbGxvY2F0aW9uIGJp
-dG1hcC4gVGhpcyB2aW9sYXRlcyBhIGNvcmUgZmlsZXN5c3RlbSBpbnZhcmlhbnQgYW5kDQo+IGxl
-YWRzIHRvIGFsbG9jYXRvciBjb3JydXB0aW9uIGFuZCBrZXJuZWwgcGFuaWNzLg0KPiANCj4gVG8g
-Zml4IHRoaXMgc2FmZWx5IGFuZCBjbGVhbmx5LCB0aGUgc2VyaWVzIGlzIHNwbGl0IGludG8gdHdv
-IHBhcnRzOg0KPiANCj4gUGF0Y2ggMSBpbnRyb2R1Y2VzIGEgdW5pZmllZCBBUEkgZm9yIEItdHJl
-ZSBtYXAgcmVjb3JkIGFjY2Vzcw0KPiAoc3RydWN0IGhmc19ibWFwX2N0eCwgaGZzX2JtYXBfZ2V0
-X21hcF9wYWdlLCBhbmQgaGZzX2JtYXBfY2xlYXJfYml0KSBhbmQNCj4gcmVmYWN0b3JzIHRoZSBi
-b2lsZXJwbGF0ZSBwYWdlIG1hcHBpbmcgbG9naWMgb3V0IG9mDQo+IGhmc19ibWFwX2FsbG9jKCkg
-YW5kIGhmc19ibWFwX2ZyZWUoKS4NCj4gUGF0Y2ggMiB1dGlsaXplcyB0aGlzIG5ldyBBUEkgdG8g
-cGVyZm9ybSBhIG1vdW50LXRpbWUgdmFsaWRhdGlvbiBvZg0KPiBOb2RlIDAgdmlhIGhmc19ibWFw
-X3Rlc3RfYml0KCksIGZvcmNpbmcgYSBzYWZlIHJlYWQtb25seSBtb3VudCBpZiBzdHJ1Y3R1cmFs
-DQo+IG9yIGJpdC1sZXZlbCBjb3JydXB0aW9uIGlzIGRldGVjdGVkLg0KPiANCj4gTm90ZSBvbiBB
-bGxvY2F0b3IgT3B0aW1pemF0aW9uOiBGb2xsb3dpbmcgZGlzY3Vzc2lvbnMgaW4gdjQsIHRoZXJl
-IGlzDQo+IGEgcmVjb2duaXplZCBvcHBvcnR1bml0eSB0byBvcHRpbWl6ZSBoZnNfYm1hcF9hbGxv
-YygpIGZyb20gYSBmaXJzdC1maXQNCj4gdG8gYSBuZXh0LWZpdCBhbGxvY2F0b3IgYnkgY2FjaGlu
-ZyBhbiBpbi1jb3JlIGFsbG9jYXRpb24gaGludCAocm92aW5nDQo+IHBvaW50ZXIpIGFuZCBib3Vu
-ZGluZyB0aGUgc2NhbiB3aXRoIHRyZWUtPm5vZGVfY291bnQuIFRvIGtlZXAgdGhlDQo+IHNjb3Bl
-IG9mIHRoaXMgc2VyaWVzIHN0cmljdGx5IGFsaWduZWQgd2l0aCB0aGUgU3l6a2FsbGVyIGNvcnJ1
-cHRpb24NCj4gZml4LCB0aGF0IGFyY2hpdGVjdHVyYWwgb3B0aW1pemF0aW9uIGlzIGRlZmVycmVk
-IHRvIGEgc2VwYXJhdGUsDQo+IGZvbGxvdy11cCBwYXRjaHNldC90aHJlYWQuDQo+IA0KPiBMaW5r
-OiBodHRwczovL3VybGRlZmVuc2UucHJvb2Zwb2ludC5jb20vdjIvdXJsP3U9aHR0cHMtM0FfX2xv
-cmUua2VybmVsLm9yZ19hbGxfMjAyNjAyMjgxMjIzMDUuMTQwNjMwOC0yRDEtMkRzaGFyZHVsLmIt
-NDBtcGlyaWNzb2Z0d2FyZS5jb21fJmQ9RHdJREFnJmM9QlNEaWNxQlFCRGpESTlSa1Z5VGNIUSZy
-PXE1YkltNEFYTXpjOE5KdTFfUkdtblEyZk1XS3E0WTRSQWtFbHZVZ1NzMDAmbT0xbDJKUzJEMGs0
-M3IzQnFlZ3RNaU1KWV9WaDhkOGt3TGNfSnFOY2IzbUR5RkFlVGdmQUYyWTlidm9helRTUGRJJnM9
-UVVBdndrZjlnMmZPbjRKWmgwTGF1enNXZ3M0MmJrVmlzeGFldk9kNXdyWSZlPSANCj4gDQo+IHY2
-Og0KPiAgLSBTeW1tZXRyaWMgTWFwcGluZzogVXBkYXRlZCBoZnNfYm1hcF9nZXRfbWFwX3BhZ2Uo
-KSB0byByZXR1cm4gYW4gdW5tYXBwZWQNCj4gICAgc3RydWN0IHBhZ2UgKiBpbnN0ZWFkIG9mIGEg
-bWFwcGVkIHBvaW50ZXIuIFRoaXMgZW5zdXJlcyB0aGUgY2FsbGVyDQo+ICAgIGV4cGxpY2l0bHkg
-aGFuZGxlcyBib3RoIGttYXBfbG9jYWxfcGFnZSgpIGFuZCBrdW5tYXBfbG9jYWwoKSwgcHJldmVu
-dGluZw0KPiAgICBkYW5nZXJvdXMgYXN5bW1ldHJpYyBtYXBwaW5nIGxpZmVjeWNsZXMuDQo+IA0K
-PiAgLSBCaXNlY3RhYmlsaXR5OiBNb3ZlZCB0aGUgaW50cm9kdWN0aW9uIG9mIGhmc19ibWFwX3Rl
-c3RfYml0KCkgZnJvbSBQYXRjaCAxDQo+ICAgIHRvIFBhdGNoIDIgd2hlcmUgaXQgaXMgYWN0dWFs
-bHkgY29uc3VtZWQsIHByZXZlbnRpbmcgYSAtV3VudXNlZC1mdW5jdGlvbg0KPiAgICBjb21waWxl
-ciB3YXJuaW5nIGFuZCBrZWVwaW5nIHRoZSBHaXQgaGlzdG9yeSBwZXJmZWN0bHkgYmlzZWN0YWJs
-ZS4NCj4gDQo+ICAtIEFQSSBDbGFyaXR5OiBSZW5hbWVkIHRoZSBiaXRfaWR4IHBhcmFtZXRlciB0
-byBub2RlX2JpdF9pZHggaW4gdGhlIGJpdC1sZXZlbA0KPiAgICBoZWxwZXJzIHRvIGV4cGxpY2l0
-bHkgY2xhcmlmeSB0aGF0IHRoZSBpbmRleCBpcyBzdHJpY3RseSByZWxhdGl2ZSB0byB0aGUNCj4g
-ICAgdGFyZ2V0IGhmc19ibm9kZSdzIG1hcCByZWNvcmQsIHByZXZlbnRpbmcgZnV0dXJlIGFic29s
-dXRlLWluZGV4IG1pc3VzZS4NCj4gDQo+ICAtIE5hbWluZyAmIFN0eWxlOiBSZXBsYWNlZCBoYXJk
-Y29kZWQgOHMgd2l0aCBCSVRTX1BFUl9CWVRFLCB1cGRhdGVkIGxvY2FsDQo+ICAgIHZhcmlhYmxl
-IG5hbWVzIChtIHRvIG1hc2ssIGRhdGEgdG8gYm1hcCBpbnNpZGUgdGhlIG5ldyBoZWxwZXJzKSwg
-YW5kIGFkZGVkDQo+ICAgIGtlcm5lbC1kb2MgZmllbGQgZGVzY3JpcHRpb25zIHRvIHN0cnVjdCBo
-ZnNfYm1hcF9jdHguDQo+IA0KPiAgLSBNaW5pbWFsIERpZmYgU2NvcGU6IFJlc3RvcmVkIHRoZSBv
-cmlnaW5hbCB2YXJpYWJsZSBuYW1lcyAoZGF0YSwgbSkgaW5zaWRlDQo+ICAgIHRoZSBsZWdhY3kg
-aGZzX2JtYXBfYWxsb2MoKSBsb29wIHRvIGtlZXAgdGhlIGRpZmYgc3VyZ2ljYWxseSBmb2N1c2Vk
-IG9uIHRoZQ0KPiAgICBsb2dpY2FsIGNoYW5nZXMgYW5kIHByZXNlcnZlIGdpdCBibGFtZSBoaXN0
-b3J5Lg0KPiANCj4gIC0gRXJyb3IgQ29kZXM6IENoYW5nZWQgdGhlIGVycm9yIHJldHVybiBpbiBo
-ZnNfYm1hcF9jbGVhcl9iaXQoKSBmcm9tDQo+ICAgIC1FQUxSRUFEWSB0byAtRUlOVkFMLg0KPiAN
-Cj4gIC0gQ05JRCBTdHJpbmcgTG9va3VwOiBSZXBsYWNlZCB0aGUgc3BhcnNlIHN0cmluZyBhcnJh
-eSB3aXRoICNkZWZpbmUgbWFjcm9zIA0KPiAgICBhbmQgYSBzdGFuZGFyZCBzd2l0Y2ggc3RhdGVt
-ZW50IGZvciBjbGVhbmVyIHN1YnN5c3RlbSB2aXNpYmlsaXR5LCBwZXINCj4gICAgU2xhdmEncyBw
-cmVmZXJlbmNlLg0KPiANCj4gDQo+IHY1Og0KPiAgLSBBUEkgRW5jYXBzdWxhdGlvbjogSW50cm9k
-dWNlZCBzdHJ1Y3QgaGZzX2JtYXBfY3R4IHRvIGNsZWFubHkgYnVuZGxlDQo+ICAgIG9mZnNldCwg
-bGVuZ3RoLCBhbmQgcGFnZSBpbmRleCBzdGF0ZSBpbnN0ZWFkIG9mIHBhc3NpbmcgbXVsdGlwbGUN
-Cj4gICAgcG9pbnRlcnMsIGFkZHJlc3NpbmcgcmV2aWV3ZXIgZmVlZGJhY2suDQo+IA0KPiAgLSBC
-aXQtTGV2ZWwgSGVscGVyczogQWRkZWQgaGZzX2JtYXBfdGVzdF9iaXQoKSBhbmQgaGZzX2JtYXBf
-Y2xlYXJfYml0KCkNCj4gICAgdG8gc2FmZWx5IGVuY2Fwc3VsYXRlIG1hcHBpbmcvdW5tYXBwaW5n
-IGZvciBzaW5nbGUtYml0IGFjY2Vzc2VzDQo+ICAgIChsaWtlIHRoZSBtb3VudC10aW1lIGNoZWNr
-IGFuZCBub2RlIGZyZWVpbmcpLg0KPiANCj4gIC0gUGVyZm9ybWFuY2UgUmV0ZW50aW9uOiBSZXRh
-aW5lZCB0aGUgcGFnZS1sZXZlbCBtYXBwaW5nIGFwcHJvYWNoIGZvcg0KPiAgICB0aGUgbGluZWFy
-IHNjYW4gaW5zaWRlIGhmc19ibWFwX2FsbG9jKCkgdG8gcHJldmVudCB0aGUgc2V2ZXJlDQo+ICAg
-IHBlcmZvcm1hbmNlIHJlZ3Jlc3Npb24gb2YgbWFwcGluZy91bm1hcHBpbmcgb24gYSBwZXItYnl0
-ZSBiYXNpcywNCj4gICAgd2hpbGUgcmVmYWN0b3JpbmcgaXQgdG8gdXNlIHRoZSBuZXcgY3R4IHN0
-cnVjdC4NCj4gDQo+ICAtIEhleGFnb24gT3ZlcmZsb3cgRml4OiBGaXhlZCBhIDAtZGF5IEtlcm5l
-bCBUZXN0IFJvYm90IHdhcm5pbmcgb24NCj4gICAgYXJjaGl0ZWN0dXJlcyB3aXRoIDI1NktCIHBh
-Z2Ugc2l6ZXMgYnkgdXBncmFkaW5nIHRoZSBvZmZzZXQgdmFyaWFibGVzDQo+ICAgIGluIHRoZSBu
-ZXcgc3RydWN0IGhmc19ibWFwX2N0eCB0byB1bnNpZ25lZCBpbnQsIHByZXZlbnRpbmcgMTYtYml0
-IHNoaWZ0DQo+ICAgIG92ZXJmbG93cy4NCj4gICAgTGluazogaHR0cHM6Ly91cmxkZWZlbnNlLnBy
-b29mcG9pbnQuY29tL3YyL3VybD91PWh0dHBzLTNBX19sb3JlLmtlcm5lbC5vcmdfYWxsXzIwMjYw
-MjI3MDMxMC5lQm1lRDhWWC0yRGxrcC00MGludGVsLmNvbV8mZD1Ed0lEQWcmYz1CU0RpY3FCUUJE
-akRJOVJrVnlUY0hRJnI9cTViSW00QVhNemM4Tkp1MV9SR21uUTJmTVdLcTRZNFJBa0VsdlVnU3Mw
-MCZtPTFsMkpTMkQwazQzcjNCcWVndE1pTUpZX1ZoOGQ4a3dMY19KcU5jYjNtRHlGQWVUZ2ZBRjJZ
-OWJ2b2F6VFNQZEkmcz1hQ0F4TVVXbkxqTnZWc0EwbFVYTHpaRm4zbVZ2bXhpcklnLVQ0SGxuS2s4
-JmU9IA0KPiANCj4gIC0gTWFwIFJlY29yZCBTcGFubmluZzogQWRkZWQgYSBieXRlX29mZnNldCBw
-YXJhbWV0ZXIgdG8gdGhlIHBhZ2UgbWFwcGVyDQo+ICAgIHRvIGNvcnJlY3RseSBoYW5kbGUgbGFy
-Z2UgbWFwIHJlY29yZHMgdGhhdCBzcGFuIGFjcm9zcyBtdWx0aXBsZSA0S0INCj4gICAgcGFnZXMu
-DQo+IA0KPiAgLSBMb29wIE1hc2sgUmV2ZXJ0OiBSZXZlcnRlZCB0aGUgMHg4MCBiaXRtYXNrIGlu
-IHRoZSBhbGxvYygpIGlubmVyIGxvb3ANCj4gICAgYmFjayB0byBpdHMgb3JpZ2luYWwgc3RhdGUg
-KGFuZCBkcm9wcGVkIHRoZSBIRlNQTFVTX0JUUkVFX05PREUwX0JJVA0KPiAgICBtYWNybyksIGFz
-IGl0IHJlcHJlc2VudHMgYSBnZW5lcmljIHNsaWRpbmcgbWFzaywgbm90IHNwZWNpZmljYWxseQ0K
-PiAgICBOb2RlIDAuDQo+IA0KPiAgLSBTdHJpbmcgQXJyYXkgQ2xlYW51cDogUmVwbGFjZWQgdGhl
-IHZlcmJvc2Ugc3dpdGNoKGlkKSBibG9jayBpbiB0aGUNCj4gICAgbW91bnQgdmFsaWRhdGlvbiB3
-aXRoIGEgY2xlYW4gc3RhdGljIGFycmF5IG9mIGNvbnN0YW50IHN0cmluZ3MgZm9yDQo+ICAgIHRo
-ZSBDTklEIG5hbWVzLCBwZXIgcmV2aWV3ZXIgZmVlZGJhY2suDQo+IA0KPiB2NDoNCj4gIC0gU3Bs
-aXQgdGhlIGNoYW5nZXMgaW50byBhIDItcGF0Y2ggc2VyaWVzIChSZWZhY3RvcmluZyArIEJ1ZyBG
-aXgpLg0KPiAgLSBFeHRyYWN0ZWQgbWFwIG5vZGUgdHJhdmVyc2FsIGludG8gYSBnZW5lcmljIGhl
-bHBlciAoaGZzX2JtYXBfZ2V0X21hcF9wYWdlKQ0KPiAgICBhcyBwZXIgU2xhdmEncyBmZWVkYmFj
-aywgcmVwbGFjaW5nIG1hbnVhbCBvZmZzZXQvcGFnZSBtYW5hZ2VtZW50Lg0KPiAgLSBBZGRlZCBu
-b2RlLXR5cGUgdmFsaWRhdGlvbiAoSEZTX05PREVfSEVBREVSIHZzIEhGU19OT0RFX01BUCkgaW5z
-aWRlIHRoZQ0KPiAgICBoZWxwZXIgdG8gZGVmZW5kIGFnYWluc3Qgc3RydWN0dXJhbGx5IGNvcnJ1
-cHRlZCBsaW5rYWdlcy4NCj4gIC0gUmVwbGFjZWQgaGFyZGNvZGVkIHZhbHVlcyB3aXRoIG5hbWVk
-IG1hY3JvcyAoSEZTUExVU19CVFJFRV9OT0RFMF9CSVQsIGV0YykuDQo+ICAtIEhhbmRsZWQgaW52
-YWxpZCBtYXAgb2Zmc2V0cy9sZW5ndGhzIGFzIGNvcnJ1cHRpb24sIGNvbnRpbnVpbmcgdGhlIG1v
-dW50DQo+ICAgIGFzIFNCX1JET05MWSBpbnN0ZWFkIG9mIGZhaWxpbmcgaXQgY29tcGxldGVseSB0
-byBwcmVzZXJ2ZSBkYXRhIHJlY292ZXJ5Lg0KPiANCj4gdjM6DQo+ICAgLSBNb3ZlZCB2YWxpZGF0
-aW9uIGxvZ2ljIGlubGluZSBpbnRvIGhmc19idHJlZV9vcGVuKCkgdG8gYWxsb3cNCj4gICAgIHJl
-cG9ydGluZyB0aGUgc3BlY2lmaWMgY29ycnVwdGVkIHRyZWUgSUQuDQo+ICAgLSBSZXBsYWNlZCBj
-dXN0b20gb2Zmc2V0IGNhbGN1bGF0aW9ucyB3aXRoIGV4aXN0aW5nIGhmc19ibm9kZV9maW5kKCkN
-Cj4gICAgIGFuZCBoZnNfYnJlY19sZW5vZmYoKSBpbmZyYXN0cnVjdHVyZSB0byBoYW5kbGUgbm9k
-ZSBzaXplcyBhbmQNCj4gICAgIHBhZ2UgYm91bmRhcmllcyBjb3JyZWN0bHkuDQo+ICAgLSBSZW1v
-dmVkIHRlbXBvcmFyeSAnYnRyZWVfYml0bWFwX2NvcnJ1cHRlZCcgc3VwZXJibG9jayBmbGFnOyBz
-ZXR1cA0KPiAgICAgU0JfUkRPTkxZIGRpcmVjdGx5IHVwb24gZGV0ZWN0aW9uLg0KPiAgIC0gTW92
-ZWQgbG9nZ2luZyB0byBoZnNfYnRyZWVfb3BlbigpIHRvIGluY2x1ZGUgdGhlIHNwZWNpZmljIHRy
-ZWUgSUQgaW4NCj4gICAgIHRoZSB3YXJuaW5nIG1lc3NhZ2UNCj4gICAtIFVzZWQgZXhwbGljaXQg
-Yml0d2lzZSBjaGVjayAoJikgaW5zdGVhZCBvZiB0ZXN0X2JpdCgpIHRvIGVuc3VyZQ0KPiAgICAg
-cG9ydGFiaWxpdHkuIHRlc3RfYml0KCkgYml0LW51bWJlcmluZyBpcyBhcmNoaXRlY3R1cmUtZGVw
-ZW5kZW50DQo+ICAgICAoZS5nLiwgYml0IDAgdnMgYml0IDcgY2FuIHN3YXAgbWVhbmluZ3Mgb24g
-QkUgdnMgTEUpLCB3aGVyZWFzDQo+ICAgICBtYXNraW5nIDB4ODAgY29uc2lzdGVudGx5IHRhcmdl
-dHMgdGhlIE1TQiByZXF1aXJlZCBieSB0aGUgSEZTKw0KPiAgICAgb24tZGlzayBmb3JtYXQuDQo+
-IA0KPiB2MjoNCj4gICAtIEZpeCBjb21waWxlciB3YXJuaW5nIGFib3V0IGNvbXBhcmluZyB1MTYg
-Yml0bWFwX29mZiB3aXRoIFBBR0VfU0laRSB3aGljaA0KPiBjYW4gZXhjZWVkIHUxNiBtYXhpbXVt
-IG9uIHNvbWUgYXJjaGl0ZWN0dXJlcw0KPiAgIC0gQ2FzdCBiaXRtYXBfb2ZmIHRvIHVuc2lnbmVk
-IGludCBmb3IgdGhlIFBBR0VfU0laRSBjb21wYXJpc29uIHRvIGF2b2lkDQo+IHRhdXRvbG9naWNh
-bCBjb25zdGFudC1vdXQtb2YtcmFuZ2UgY29tcGFyaXNvbiB3YXJuaW5nLg0KPiAgIC0gTGluazog
-aHR0cHM6Ly91cmxkZWZlbnNlLnByb29mcG9pbnQuY29tL3YyL3VybD91PWh0dHBzLTNBX19sb3Jl
-Lmtlcm5lbC5vcmdfb2UtMkRrYnVpbGQtMkRhbGxfMjAyNjAxMjUxMDExLmtKVWhCRjNQLTJEbGtw
-LTQwaW50ZWwuY29tXyZkPUR3SURBZyZjPUJTRGljcUJRQkRqREk5UmtWeVRjSFEmcj1xNWJJbTRB
-WE16YzhOSnUxX1JHbW5RMmZNV0txNFk0UkFrRWx2VWdTczAwJm09MWwySlMyRDBrNDNyM0JxZWd0
-TWlNSllfVmg4ZDhrd0xjX0pxTmNiM21EeUZBZVRnZkFGMlk5YnZvYXpUU1BkSSZzPWpTREo2MHRy
-anI4MHRWbjFIbUY3RFR0WV8ydWxlZ3VoMmhZSkh4emQ5NjQmZT0gDQo+IA0KPiBTaGFyZHVsIEJh
-bmthciAoMik6DQo+ICAgaGZzcGx1czogcmVmYWN0b3IgYi10cmVlIG1hcCBwYWdlIGFjY2VzcyBh
-bmQgYWRkIG5vZGUtdHlwZSB2YWxpZGF0aW9uDQo+ICAgaGZzcGx1czogdmFsaWRhdGUgYi10cmVl
-IG5vZGUgMCBiaXRtYXAgYXQgbW91bnQgdGltZQ0KPiANCj4gIGZzL2hmc3BsdXMvYnRyZWUuYyAg
-ICAgICAgIHwgMjM2ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrLS0tLS0tLS0NCj4gIGlu
-Y2x1ZGUvbGludXgvaGZzX2NvbW1vbi5oIHwgICAyICsNCj4gIDIgZmlsZXMgY2hhbmdlZCwgMTkx
-IGluc2VydGlvbnMoKyksIDQ3IGRlbGV0aW9ucygtKQ0KDQpUaGUgcGF0Y2hzZXQgbG9va3MgbW9z
-dGx5IGdvb2QuIEJ1dCBJIHN0aWxsIGNhbiBzZWUgc2V2ZXJhbCBtaW5vciBpc3N1ZXMuDQoNClRo
-YW5rcywNClNsYXZhLg0K
+On 3/13/26 22:59, Namjae Jeon wrote:
+> I'm working on adding iomap support to exFAT, and I think SEEK_HOLE
+> will be able to address the requirements we discussed. I will bring
+> this up again once the iomap work is complete.
+Good! exFAT not constructed using iomap leading to an eventual
+catastrophic tech debt has been one of my concerns. Since you're working
+on it, you'd naturally implement FIEMAP as well, right? I was cooking up
+a quick and dirty functions for FIEMAP... Not sure if you're interested
+in them, but would happy to submit in the future. It's only a
+kernel-specific interface almost no userspace uses, but really
+insightful tool in analyzing fragmentation issue I'm trying to solve.
+Might come in handy in the meantime the new iomap implementation is
+settling down.
+
+On 3/14/26 01:24, Darrick J. Wong wrote:
+> Ah, ok.  Does it do that zeroing at write() time, or only when you're
+> initiating writeback from the pagecache?  I'm guessing write() time,
+> since otherwise you're signing the kernel up for initiating a lot of IO
+> at a time when memory could be scarce.
+NO! That'd be insane! I'm pretty sure faults are handled "sparsely".
+> In contrast, lot of people call readable file regions not backed by any
+> space "sparse holes".  Unfortunately the fallocate manpage muddies
+> things up by saying:
+Yes, that to which I myself have fallen victim. Thank you for such a
+great insight from a filesystem guru, btw.
+
+> OTOH I guess they could confirm that by calling the VDL ioctl and
+> getting a non-error response.  But if we've solved finding the VDL by
+> making SEEK_HOLE return values below EOF, then why do we need the ioctl?
+> What if we added a statx flag to advertise sparse hole support on a
+> file?  And then didn't set it for exfat?
+> /me notes that you can implement iomap only for lseek.
+Yes, I'm aware. Was just expressing my concerns regarding the tech debt
+in exFAT mentioned earlier. Just swapped back in differently from my head.
+
+Anyway, admitting my recent defeat, I've been toying with the idea of
+using SEEK_DATA and SEEK_HOLE for detecting the [VDL - isize)
+discrepancy(attached at the end of the email). Not making an official
+submission yet because I've been testing if it breaks any critial
+userland utils. So far, so good. A bunch of xfstests fail, though. The
+ones written with the assumption that filesystems that support SEEK_DATA
+and SEEK_HOLE can always have data or hole in the middle(which I'd like
+to call "hole sandwich/burger" and "data sandwich/burger",
+respectively). This was what I was worried about and it seems it
+actually manifested.
+
+generic/285:
+> 05.15 SEEK_HOLE expected -1 with errno -6, got -6.               
+> succ  ERROR 28: Failed to write 524288 bytes
+generic/490:
+> File system does not support punch hole.
+>   ERROR 28: Failed to write 32768 bytes
+Not sure why all the units "succ" whilst the program returns non-zero
+exit code before saying:
+> seek sanity check failed!
+Might have to fix the test program to catch the misbehaving filesystems
+that returns other erronos.
+
+Davo
+
+diff --git a/fs/exfat/file.c b/fs/exfat/file.c
+index 2daf0dbabb24..99ba1f5f9a57 100644
+--- a/fs/exfat/file.c
++++ b/fs/exfat/file.c
+@@ -799,8 +799,80 @@ static ssize_t exfat_splice_read(struct file *in, loff_t *ppos,
+     return filemap_splice_read(in, ppos, pipe, len, flags);
+ }
+ 
++/*
++ * A special SEEK_DATA and SEEK_HOLE handler that treats the unwritten range
++ * between the VDL(valid data length) and EOF as a hole. Since the VDL in exFAT
++ * is not required to be aligned to any block boundary and holes in extent-based
++ * filesystems are typically aligned to a certain block size, we try our best to
++ * align the VDL to the device block size as not to confuse any userland
++ * programs that may depend on that assumption.
++ *
++ * The function will treat the last block containing data as the last data block
++ * and the block that follows immediately after as the start of the hole leading
++ * up to EOF. The last data block may have some unwritten bytes, but that's only
++ * O(1) write amplification.
++ */
++static loff_t exfat_vdl_llseek(struct file *file, loff_t offset, int whence)
++{
++    struct inode *inode = file->f_mapping->host;
++    struct super_block *sb = inode->i_sb;
++    struct exfat_inode_info *ei = EXFAT_I(inode);
++    loff_t maxbytes = inode->i_sb->s_maxbytes;
++    loff_t datasize;
++    loff_t size;
++
++    inode_lock(inode);
++
++    size = i_size_read(inode);
++
++    datasize = EXFAT_B_TO_BLK_ROUND_UP(ei->valid_size, sb);
++    datasize = EXFAT_BLK_TO_B(datasize, sb);
++    if (datasize > size)
++        datasize = size;
++
++    /* Same check found in iomap_seek_*() */
++    if (offset < 0 || offset >= size) {
++        offset = -ENXIO;
++        goto out;
++    }
++
++    if (whence == SEEK_DATA) {
++        /*
++         * As exFAT does not support sparse files, SEEK_DATA is pretty
++         * much useless. But still, to be compliant, SEEK_DATA shouldn't
++         * work if the offset is in a hole.
++         */
++        if (offset >= datasize)
++            offset = -ENXIO;
++    }
++    else if (whence == SEEK_HOLE) {
++        if (offset < datasize)
++            offset = datasize;
++    }
++    else
++        BUG();
++
++out:
++    inode_unlock(inode);
++
++    if (offset < 0) {
++        return offset;
++    }
++
++    return vfs_setpos(file, offset, maxbytes);
++}
++
++static loff_t exfat_file_llseek(struct file *file, loff_t offset, int whence)
++{
++    if (whence == SEEK_DATA || whence == SEEK_HOLE) {
++        return exfat_vdl_llseek(file, offset, whence);
++    }
++
++    return generic_file_llseek(file, offset, whence);
++}
++
+ const struct file_operations exfat_file_operations = {
+-    .llseek        = generic_file_llseek,
++    .llseek        = exfat_file_llseek,
+     .read_iter    = exfat_file_read_iter,
+     .write_iter    = exfat_file_write_iter,
+     .unlocked_ioctl = exfat_ioctl,
+
+
