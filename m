@@ -1,140 +1,233 @@
-Received: from smtp02-ext3.udag.de (smtp02-ext3.udag.de [62.146.106.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D496B3A0B29;
-	Mon, 16 Mar 2026 15:26:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.146.106.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E9E73290A0;
+	Mon, 16 Mar 2026 16:06:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773674818; cv=none; b=u59L9kTUAJC/JYgYs+CT2p+MA99ZA0crSZft7CuNmHrWXQCSZndrwJ8cioR/80nPMGEmXxJVUmhHRY+cMcYYAH2ThEFWZov4wAfT0HWgFLHEKMYgIbCHcblaqtQGer1ESx0m0OANURDTlpHLCk2nmIu0ZfCI4P3TJhFeonheqsI=
+	t=1773677195; cv=none; b=Jll0dq9s3OGSfB4KWo8MjmPEQ3CpKUVJMtIS4KKuQD4LI2j/SkuM/2s4mYMnQMAdt/q6Sw32csCFtg528zr5dvqG8icAxm8faL5qsKOw7WDn/jYlLBtHcXHTnLGo6Uy7v81V4O7xFQIcvlEBx4/VYxwHI6anJ1p0G891C1xf+Lo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773674818; c=relaxed/simple;
-	bh=au8IHXNsJEU5MGQRwMhO0yJRq2H3aX0mxkcgvCxDvIY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=I0cVzMIVYazqZB9jRYbNyqcwh3EQG9fwlx8t93PbJAVMAAPzMaH940RLxFsXe0w7D3Z4oo+EwCUWJCp6ZY9/XdIVWOdd9Hn6NqQ4t4hyuGjFcI4KI9OiFrGOEy0xlfgVT4X7HRduXC78APbam5ovSqOud+yPbk+BvwTuQI7PCak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.com; spf=pass smtp.mailfrom=birthelmer.com; dkim=pass (2048-bit key) header.d=birthelmer.com header.i=@birthelmer.com header.b=H/eQMPV8; arc=none smtp.client-ip=62.146.106.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birthelmer.com
+	s=arc-20240116; t=1773677195; c=relaxed/simple;
+	bh=cj/5YGwp5+c5NaW2gvBI49y4YZXx3uALNGH84PsRfnQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KZQAqyAPtXP/zOXs9IdvpIV8f8JBZNtZSjCz4HVFAAaLOBWJbA2BkujqKltZ25NBn0YGp56B146yQzb5nztrXzSlS+u3Kp95ySZmIEfek9E1Au5CdF9fp3Hq3kg4Ib/ONUbxn4BTnAuxGGisvblAVaS1SDZAP4BIYW8cQEsRt4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DeWlppA5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=birthelmer.com header.i=@birthelmer.com header.b="H/eQMPV8"
-Received: from fedora.fritz.box (200-143-067-156.ip-addr.inexio.net [156.67.143.200])
-	by smtp02-ext3.udag.de (Postfix) with ESMTPA id 2E7F9E04B0;
-	Mon, 16 Mar 2026 16:16:53 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=birthelmer.com;
-	s=uddkim-202310; t=1773674214;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=rEnskxDtUFff5uk2c8tFVOcWWgB+jzLONqc5TsF8Xng=;
-	b=H/eQMPV8tAHr+ES1zCO+moJsQ2tc+krGugI7YBNqLfq3+435wgzqrwvg8b/CX89VQ9Y+/l
-	aX3NEwOBxlj2Gw73o8Oovyd7ikdrjjFVBxN85uNA2+9rYV+G41/wiGY9ld+YPHMg5DDXV0
-	NUtfQ4s7B/B3fMCwgQs9ulzXjsJc4oRSXm+5BNqqe/RHMU7TTOU/mxAI2Do41eU0Vtdyp5
-	2LfDrkrEdTpsZE5oTeK0C4UDrg/r5CGRKVLasiTbKPIqT1B38DfXHCWIzgts6pnuBdMZeE
-	zojsXf1foTYroz8Ld3mZL4KCE8HyHwK4rIY1Mvi7Ai7ObxDBYJNg/GO1d7YbKA==
-Authentication-Results: smtp02-ext3.udag.de;
-	auth=pass smtp.auth=birthelmercom-0001 smtp.mailfrom=horst@birthelmer.com
-From: Horst Birthelmer <horst@birthelmer.com>
-Date: Mon, 16 Mar 2026 16:16:52 +0100
-Subject: [PATCH] fuse: when copying a folio delay the mark dirty until the
- end
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DeWlppA5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE505C19421;
+	Mon, 16 Mar 2026 16:06:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773677194;
+	bh=cj/5YGwp5+c5NaW2gvBI49y4YZXx3uALNGH84PsRfnQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=DeWlppA5IL2ampk8lC/lAlXdW2xozEGYLFwBl9YZIQKe4hPZ8uN3N+03S+mDPUWX0
+	 NZfR+s/+8ijYrFJBOD93xN6vQFoodaOwoTTJT8NOO/LMuWCum/HGpLZSeQIvbWY8na
+	 tm//MejtWYxEpkak9IZVMJjAImEElE2xU8OkHOepcSDBgGC8mGOY3D3+TS0EKDTVn7
+	 vHQkbomZs7tmq4EQt6Z5n4Hr82QnmcfGcwoBcpfXeNNHKTx3ya8+E8PkhGIL2sJ0kV
+	 X3iTy2r6NkYCRh4UtPUd+1GxoRBm6PCvHG85M7rfxDWXv1ozPyy4hGGQPEWbW5hmhz
+	 EL2ka3FW6YkPQ==
+Message-ID: <be65e710-997c-413c-8455-2d687fc51fc6@kernel.org>
+Date: Mon, 16 Mar 2026 17:06:24 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/4] arm64/mm: contpte-sized exec folios for 16K and 64K
+ pages
+To: Usama Arif <usama.arif@linux.dev>,
+ Andrew Morton <akpm@linux-foundation.org>, ryan.roberts@arm.com
+Cc: ajd@linux.ibm.com, anshuman.khandual@arm.com, apopple@nvidia.com,
+ baohua@kernel.org, baolin.wang@linux.alibaba.com, brauner@kernel.org,
+ catalin.marinas@arm.com, dev.jain@arm.com, jack@suse.cz, kees@kernel.org,
+ kevin.brodsky@arm.com, lance.yang@linux.dev, Liam.Howlett@oracle.com,
+ linux-arm-kernel@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ lorenzo.stoakes@oracle.com, npache@redhat.com, rmclure@linux.ibm.com,
+ Al Viro <viro@zeniv.linux.org.uk>, will@kernel.org, willy@infradead.org,
+ ziy@nvidia.com, hannes@cmpxchg.org, kas@kernel.org, shakeel.butt@linux.dev,
+ kernel-team@meta.com
+References: <20260310145406.3073394-1-usama.arif@linux.dev>
+ <608c87ce-10d9-4012-b6e9-298d5a356801@kernel.org>
+ <9e9edebb-3953-4bcd-80e2-614dcec5b402@linux.dev>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <9e9edebb-3953-4bcd-80e2-614dcec5b402@linux.dev>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260316-mark-dirty-per-folio-v1-1-8dc39c94b7ce@ddn.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MSQqAMAxA0atI1gYcq3gVcdFqqsGhkooo4t0tL
- t/i/wc8CZOHJnpA6GTPbgtI4wj6SW8jIQ/BkCWZSvJU4aplxoHluHEnQesWdmiorowyhbGlgpD
- uQpavf9t27/sBxF8D6GYAAAA=
-X-Change-ID: 20260316-mark-dirty-per-folio-be87b6b4bf56
-To: Miklos Szeredi <miklos@szeredi.hu>, 
- Joanne Koong <joannelkoong@gmail.com>
-Cc: Bernd Schubert <bernd@bsbernd.com>, linux-fsdevel@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Horst Birthelmer <hbirthelmer@ddn.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1773674213; l=2341;
- i=hbirthelmer@ddn.com; s=20251006; h=from:subject:message-id;
- bh=7miT4/BYrqv+Ag7kXV0Kd/FiRiPRp3ZCeMvG7REh7UM=;
- b=he/2gqriox0SoZTVEzBn/e2xtDgG6Yn2qD4GhRtH6H98RPvBLcjn1LYYqly5PWkwkyeBxaY8J
- 5HUkHkAa72WACyZietRm11yrDUzAvxdWytrbPGjCF4kmmBvGR6AW1g9
-X-Developer-Key: i=hbirthelmer@ddn.com; a=ed25519;
- pk=v3BVDFoy16EzgHZ23ObqW+kbpURtjrwxgKu8YNDKjGg=
 
-From: Horst Birthelmer <hbirthelmer@ddn.com>
+On 3/13/26 20:59, Usama Arif wrote:
+> 
+> 
+> On 13/03/2026 16:20, David Hildenbrand (Arm) wrote:
+>> On 3/10/26 15:51, Usama Arif wrote:
+>>> On arm64, the contpte hardware feature coalesces multiple contiguous PTEs
+>>> into a single iTLB entry, reducing iTLB pressure for large executable
+>>> mappings.
+>>>
+>>> exec_folio_order() was introduced [1] to request readahead at an
+>>> arch-preferred folio order for executable memory, enabling contpte
+>>> mapping on the fault path.
+>>>
+>>> However, several things prevent this from working optimally on 16K and
+>>> 64K page configurations:
+>>>
+>>> 1. exec_folio_order() returns ilog2(SZ_64K >> PAGE_SHIFT), which only
+>>>    produces the optimal contpte order for 4K pages. For 16K pages it
+>>>    returns order 2 (64K) instead of order 7 (2M), and for 64K pages it
+>>>    returns order 0 (64K) instead of order 5 (2M). Patch 1 fixes this by
+>>>    using ilog2(CONT_PTES) which evaluates to the optimal order for all
+>>>    page sizes.
+>>>
+>>> 2. Even with the optimal order, the mmap_miss heuristic in
+>>>    do_sync_mmap_readahead() silently disables exec readahead after 100
+>>>    page faults. The mmap_miss counter tracks whether readahead is useful
+>>>    for mmap'd file access:
+>>>
+>>>    - Incremented by 1 in do_sync_mmap_readahead() on every page cache
+>>>      miss (page needed IO).
+>>>
+>>>    - Decremented by N in filemap_map_pages() for N pages successfully
+>>>      mapped via fault-around (pages found in cache without faulting,
+>>>      evidence that readahead was useful). Only non-workingset pages
+>>>      count and recently evicted and re-read pages don't count as hits.
+>>>
+>>>    - Decremented by 1 in do_async_mmap_readahead() when a PG_readahead
+>>>      marker page is found (indicates sequential consumption of readahead
+>>>      pages).
+>>>
+>>>    When mmap_miss exceeds MMAP_LOTSAMISS (100), all readahead is
+>>>    disabled. On 64K pages, both decrement paths are inactive:
+>>>
+>>>    - filemap_map_pages() is never called because fault_around_pages
+>>>      (65536 >> PAGE_SHIFT = 1) disables should_fault_around(), which
+>>>      requires fault_around_pages > 1. With only 1 page in the
+>>>      fault-around window, there is nothing "around" to map.
+>>>
+>>>    - do_async_mmap_readahead() never fires for exec mappings because
+>>>      exec readahead sets async_size = 0, so no PG_readahead markers
+>>>      are placed.
+>>>
+>>>    With no decrements, mmap_miss monotonically increases past
+>>>    MMAP_LOTSAMISS after 100 faults, disabling exec readahead
+>>>    for the remainder of the mapping.
+>>>    Patch 2 fixes this by moving the VM_EXEC readahead block
+>>>    above the mmap_miss check, since exec readahead is targeted (one
+>>>    folio at the fault location, async_size=0) not speculative prefetch.
+>>>
+>>> 3. Even with correct folio order and readahead, contpte mapping requires
+>>>    the virtual address to be aligned to CONT_PTE_SIZE (2M on 64K pages).
+>>>    The readahead path aligns file offsets and the buddy allocator aligns
+>>>    physical memory, but the virtual address depends on the VMA start.
+>>>    For PIE binaries, ASLR randomizes the load address at PAGE_SIZE (64K)
+>>>    granularity, giving only a 1/32 chance of 2M alignment. When
+>>>    misaligned, contpte_set_ptes() never sets the contiguous PTE bit for
+>>>    any folio in the VMA, resulting in zero iTLB coalescing benefit.
+>>>
+>>>    Patch 3 fixes this for the main binary by bumping the ELF loader's
+>>>    alignment to PAGE_SIZE << exec_folio_order() for ET_DYN binaries.
+>>>
+>>>    Patch 4 fixes this for shared libraries by adding a contpte-size
+>>>    alignment fallback in thp_get_unmapped_area_vmflags(). The existing
+>>>    PMD_SIZE alignment (512M on 64K pages) is too large for typical shared
+>>>    libraries, so this smaller fallback (2M) succeeds where PMD fails.
+>>>
+>>> I created a benchmark that mmaps a large executable file and calls
+>>> RET-stub functions at PAGE_SIZE offsets across it. "Cold" measures
+>>> fault + readahead cost. "Random" first faults in all pages with a
+>>> sequential sweep (not measured), then measures time for calling random
+>>> offsets, isolating iTLB miss cost for scattered execution.
+>>>
+>>> The benchmark results on Neoverse V2 (Grace), arm64 with 64K base pages,
+>>> 512MB executable file on ext4, averaged over 3 runs:
+>>>
+>>>   Phase      | Baseline     | Patched      | Improvement
+>>>   -----------|--------------|--------------|------------------
+>>>   Cold fault | 83.4 ms      | 41.3 ms      | 50% faster
+>>>   Random     | 76.0 ms      | 58.3 ms      | 23% faster
+>>
+>> I'm curious: is a single order really what we want?
+>>
+>> I'd instead assume that we might want to make decisions based on the
+>> mapping size.
+>>
+>> Assume you have a 128M mapping, wouldn't we want to use a different
+>> alignment than, say, for a 1M mapping, a 128K mapping or a 8k mapping?
+>>
+> 
+> So I see 2 benefits from this. Page fault and iTLB coverage. IMHO page
+> faults are not that big of a deal? If the text section is hot, it wont
+> get flushed after faulting in. So the real benefit comes from improved
+> iTLB coverage.
+> 
+> For a 128M mapping, 2M alignment gives 64 contpte entries. Aligning
+> to something larger (say 128M) wouldn't give any additional TLB
+> coalescing, each 2M-aligned region independently qualifies for contpte.
+> 
+> Mappings smaller than 2M can't benefit from contpte regardless of
+> alignment, so falling back to PAGE_SIZE would be the optimal behaviour.
+> Adding intermediate sizes (e.g. 512K, 128K) wouldn't map to any
+> hardware boundary and adds complexity without TLB benefit?
 
-Doing set_page_dirty_lock() for every page is inefficient
-for large folios.
-When copying a folio (and with large folios enabled,
-this can be many pages) we can delay the marking dirty
-and flush_dcache_page() until the whole folio is handled
-and do it once per folio instead of once per page.
+I might be wrong, but I think you are mixing two things here:
 
-Signed-off-by: Horst Birthelmer <hbirthelmer@ddn.com>
----
-Currently when doing a folio copy 
-flush_dcache_page(cs->pg) and set_page_dirty_lock(cs->pg)
-are called for every page.
+(1) "Minimum" folio size (exec_folio_order())
 
-We can do this at the end for the whole folio.
----
- fs/fuse/dev.c        | 9 +++++++--
- fs/fuse/fuse_dev_i.h | 1 +
- 2 files changed, 8 insertions(+), 2 deletions(-)
+(2) VMA alignment.
 
-diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-index 0b0241f47170d4640f0b8f3cae8be1f78944a456..ae96a48f898e883b4e96147f3b27398261c5e844 100644
---- a/fs/fuse/dev.c
-+++ b/fs/fuse/dev.c
-@@ -855,7 +855,7 @@ void fuse_copy_finish(struct fuse_copy_state *cs)
- 			buf->len = PAGE_SIZE - cs->len;
- 		cs->currbuf = NULL;
- 	} else if (cs->pg) {
--		if (cs->write) {
-+		if (cs->write && !cs->copy_folio) {
- 			flush_dcache_page(cs->pg);
- 			set_page_dirty_lock(cs->pg);
- 		}
-@@ -1126,6 +1126,7 @@ static int fuse_copy_folio(struct fuse_copy_state *cs, struct folio **foliop,
- 			folio_zero_range(folio, 0, size);
- 	}
- 
-+	cs->copy_folio = true;
- 	while (count) {
- 		if (cs->write && cs->pipebufs && folio) {
- 			/*
-@@ -1167,8 +1168,12 @@ static int fuse_copy_folio(struct fuse_copy_state *cs, struct folio **foliop,
- 		} else
- 			offset += fuse_copy_do(cs, NULL, &count);
- 	}
--	if (folio && !cs->write)
-+	if (folio) {
- 		flush_dcache_folio(folio);
-+		if (cs->write)
-+			folio_mark_dirty_lock(folio);
-+	}
-+	cs->copy_folio = false;
- 	return 0;
- }
- 
-diff --git a/fs/fuse/fuse_dev_i.h b/fs/fuse/fuse_dev_i.h
-index 134bf44aff0d39ae8d5d47cf1518efcf2f1cfc23..4a433d902266d573ad1c19adbdd573440e2a77b2 100644
---- a/fs/fuse/fuse_dev_i.h
-+++ b/fs/fuse/fuse_dev_i.h
-@@ -33,6 +33,7 @@ struct fuse_copy_state {
- 	unsigned int offset;
- 	bool write:1;
- 	bool move_folios:1;
-+	bool copy_folio:1;
- 	bool is_uring:1;
- 	struct {
- 		unsigned int copied_sz; /* copied size into the user buffer */
 
----
-base-commit: f338e77383789c0cae23ca3d48adcc5e9e137e3c
-change-id: 20260316-mark-dirty-per-folio-be87b6b4bf56
+(2) should certainly be as large as (1), but assume we can get a 2M
+folio on arm64 4k, why shouldn't we align it to 2M if the region is
+reasonably sized, and use a PMD?
 
-Best regards,
+
 -- 
-Horst Birthelmer <hbirthelmer@ddn.com>
+Cheers,
 
+David
