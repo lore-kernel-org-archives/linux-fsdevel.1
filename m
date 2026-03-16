@@ -1,237 +1,191 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0840534E768;
-	Mon, 16 Mar 2026 14:06:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3198F280330;
+	Mon, 16 Mar 2026 14:29:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773669993; cv=none; b=pBaauebIQyLiLkZyueuHzZv2NMKF6DelOaEQPL78l/xWgg1Y8XATTNuFK0TAkMwXNiEyNA8XpoX3oHxHmHNJhz/ACk32WabAFg4/+I5YRrwXilftnfRNgXMjURaqHNDVmtMwk75ypyQ7rQsCju4dVfmW5uj9t0KQ+ykFHpq0b7o=
+	t=1773671356; cv=none; b=h+L1X9DpyE3S73JdT6m29d8IUBTLn6QDc28H3oejTAKKf41M9+K8agOkK8Edx2bBYfBJfQiDQK5B/uC9xOt97EB3Jpd1lFDkYkZ0HHkQaS5iF3ppRAa1KXnUkCBDfVylww13VTsW+locBYu/FGuYvnOMj0o07W9hFhinlzTVc7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773669993; c=relaxed/simple;
-	bh=afd4vFerHZuZDwwYgkareto4P7ZyDLUT2vOOmWWvhME=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Sr7ZQ6il82lRbbbl7ZGU93ZuU5jJJC4UdVieFPph5J3tLjrn15/F1I8W73KXQTMrCQ6CincOpwQfkqiK1+lC6qfPD3dH3561MC+MJHbiBmei2FhWjkZsYDjwguGkXMoOUgh3wrFIaliWLeRaAy284/Zlg0fl1EX9kPjbClAdXPA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oDjPz+SZ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773671356; c=relaxed/simple;
+	bh=PFUSnO/9ILgelOXbwjEIMdn/Aab1PlCJ0qMrqAnbvw4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kRmLJJgqG+p0ZOnxyBW+ErBRLvRF4uzu5DHvEXpQ2mhIBcMNWsnyHshHybW4oNiohniuy8USKRjbUPIn+fCktcvYlWYomxXBMuJJrUP4Pq9h8T/IdFxoxNOIkH81IlvhOKlNDt8jViT5Zsf35tc37Mzj9dymmlsWngoG1isz/vE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZNArTqce; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oDjPz+SZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E74DBC19421;
-	Mon, 16 Mar 2026 14:06:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZNArTqce"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 901EFC19421;
+	Mon, 16 Mar 2026 14:29:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773669992;
-	bh=afd4vFerHZuZDwwYgkareto4P7ZyDLUT2vOOmWWvhME=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=oDjPz+SZbJH+CX/UgG+Y8rgCIz/PyCjUzfp6dusJq1X2Hnk5ei6U1Z4Ij3fHTYi4m
-	 CjgiCnA+XPR0hp3sGEa5UWoADfs9n2BBjTwu8g6RgHp5hTQO8BoFPhZdXIjHsw0LNr
-	 xtRsyYPrij1pBCmo9KUbT3C8HqYNKmCijkk23B4MiwrUp/e7DiFEFYTWWzOujMJ5XB
-	 FusXnuDNop4d3wqSVDJiu+YY6zhmPFFRKVUggmW0Dtxqdr2jYrmFpjytJWXfhkck/q
-	 Gluaa0k6qwbpjG2xDygJR54Zob1cHwuAlgL3j1YHSXWybzPSHV3Ezi2VPIW8O9Hz9n
-	 KADxaiZTyooYw==
-Message-ID: <a5625929-736b-4ddc-a8e3-30e3aa54df12@kernel.org>
-Date: Mon, 16 Mar 2026 15:06:26 +0100
+	s=k20201202; t=1773671355;
+	bh=PFUSnO/9ILgelOXbwjEIMdn/Aab1PlCJ0qMrqAnbvw4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZNArTqce345KwAkB2/OySCnh6EME1XoJwR/oAl0lWq7Ylt9gkTfk6stvl4mVK9/3F
+	 KwYOcm79Ed4P16v4AgfrWxgeQ5kXFytmq8JtvKgeAJBHJni4gvkqoXRwSRojWkzMXW
+	 KjdJCy/qJzif6rc5Ha23V7TyHyiPTJueX/dmlebfwa3TllC3B8dzFJIvh09GNdM5hA
+	 U109OB4NNCj4y6zxKWnPMdODpWkf+W9tJkoIot699UjVOMo5rbg+oOW+XblrH75bPT
+	 2K9hfeg+fCNBKA/MiRSMUpOgDleW7qa6JeZtPbHw5YSqiNeQgyfmSpebEkCOjXVHFZ
+	 N7HDaEOyJ+00A==
+Date: Mon, 16 Mar 2026 14:29:04 +0000
+From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: Usama Arif <usama.arif@linux.dev>, 
+	Andrew Morton <akpm@linux-foundation.org>, Clemens Ladisch <clemens@ladisch.de>, 
+	Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"K . Y . Srinivasan" <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>, 
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Miquel Raynal <miquel.raynal@bootlin.com>, 
+	Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
+	Bodo Stroesser <bostroesser@gmail.com>, "Martin K . Petersen" <martin.petersen@oracle.com>, 
+	David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	David Hildenbrand <david@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
+	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
+	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org, 
+	linux-mtd@lists.infradead.org, linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org, 
+	target-devel@vger.kernel.org, linux-afs@lists.infradead.org, linux-fsdevel@vger.kernel.org, 
+	linux-mm@kvack.org, Ryan Roberts <ryan.roberts@arm.com>
+Subject: Re: [PATCH 05/15] fs: afs: correctly drop reference count on mapping
+ failure
+Message-ID: <2536c05e-e228-404f-9916-906c0447b114@lucifer.local>
+References: <4a5fa45119220b9d99ed72a36308aed01a30d2c1.1773346620.git.ljs@kernel.org>
+ <20260313110745.2573005-1-usama.arif@linux.dev>
+ <c62305d7-22c4-4cf7-969b-fbe214c93b64@lucifer.local>
+ <CAJuCfpFio6n-O-1NkPXrymV0o3UqvHYS8ZOyQtt=JXnZ5dTGhQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH] mm: filemap: fix nr_pages calculation overflow in
- filemap_map_pages()
-To: Baolin Wang <baolin.wang@linux.alibaba.com>, akpm@linux-foundation.org,
- willy@infradead.org
-Cc: lorenzo.stoakes@oracle.com, kas@kernel.org, p.raghav@samsung.com,
- mcgrof@kernel.org, dhowells@redhat.com, djwong@kernel.org, hare@suse.de,
- da.gomez@samsung.com, dchinner@redhat.com, brauner@kernel.org,
- xiangzao@linux.alibaba.com, linux-fsdevel@vger.kernel.org,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org
-References: <066dd2e947ccc1c304b54e847fbe628dccea1d7c.1773370126.git.baolin.wang@linux.alibaba.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <066dd2e947ccc1c304b54e847fbe628dccea1d7c.1773370126.git.baolin.wang@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJuCfpFio6n-O-1NkPXrymV0o3UqvHYS8ZOyQtt=JXnZ5dTGhQ@mail.gmail.com>
 
-On 3/13/26 04:45, Baolin Wang wrote:
-> When running stress-ng on my Arm64 machine with v7.0-rc3 kernel, I encountered
-> some very strange crash issues showing up as "Bad page state":
-> 
-> "
-> [  734.496287] BUG: Bad page state in process stress-ng-env  pfn:415735fb
-> [  734.496427] page: refcount:0 mapcount:1 mapping:0000000000000000 index:0x4cf316 pfn:0x415735fb
-> [  734.496434] flags: 0x57fffe000000800(owner_2|node=1|zone=2|lastcpupid=0x3ffff)
-> [  734.496439] raw: 057fffe000000800 0000000000000000 dead000000000122 0000000000000000
-> [  734.496440] raw: 00000000004cf316 0000000000000000 0000000000000000 0000000000000000
-> [  734.496442] page dumped because: nonzero mapcount
-> "
-> 
-> After analyzing this page’s state, it is hard to understand why the mapcount
-> is not 0 while the refcount is 0, since this page is not where the issue first
-> occurred. By enabling the CONFIG_DEBUG_VM config, I can reproduce the crash as
-> well and captured the first warning where the issue appears:
-> 
-> "
-> [  734.469226] page: refcount:33 mapcount:0 mapping:00000000bef2d187 index:0x81a0 pfn:0x415735c0
-> [  734.469304] head: order:5 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
-> [  734.469315] memcg:ffff000807a8ec00
-> [  734.469320] aops:ext4_da_aops ino:100b6f dentry name(?):"stress-ng-mmaptorture-9397-0-2736200540"
-> [  734.469335] flags: 0x57fffe400000069(locked|uptodate|lru|head|node=1|zone=2|lastcpupid=0x3ffff)
-> ......
-> [  734.469364] page dumped because: VM_WARN_ON_FOLIO((_Generic((page + nr_pages - 1),
-> const struct page *: (const struct folio *)_compound_head(page + nr_pages - 1), struct page *:
-> (struct folio *)_compound_head(page + nr_pages - 1))) != folio)
-> [  734.469390] ------------[ cut here ]------------
-> [  734.469393] WARNING: ./include/linux/rmap.h:351 at folio_add_file_rmap_ptes+0x3b8/0x468,
-> CPU#90: stress-ng-mlock/9430
-> [  734.469551]  folio_add_file_rmap_ptes+0x3b8/0x468 (P)
-> [  734.469555]  set_pte_range+0xd8/0x2f8
-> [  734.469566]  filemap_map_folio_range+0x190/0x400
-> [  734.469579]  filemap_map_pages+0x348/0x638
-> [  734.469583]  do_fault_around+0x140/0x198
-> ......
-> [  734.469640]  el0t_64_sync+0x184/0x188
-> "
-> 
-> The code that triggers the warning is: "VM_WARN_ON_FOLIO(page_folio(page + nr_pages - 1) != folio, folio)",
-> which indicates that set_pte_range() tried to map beyond the large folio’s
-> size.
+On Sun, Mar 15, 2026 at 07:32:54PM -0700, Suren Baghdasaryan wrote:
+> On Fri, Mar 13, 2026 at 5:00 AM Lorenzo Stoakes (Oracle) <ljs@kernel.org> wrote:
+> >
+> > On Fri, Mar 13, 2026 at 04:07:43AM -0700, Usama Arif wrote:
+> > > On Thu, 12 Mar 2026 20:27:20 +0000 "Lorenzo Stoakes (Oracle)" <ljs@kernel.org> wrote:
+> > >
+> > > > Commit 9d5403b1036c ("fs: convert most other generic_file_*mmap() users to
+> > > > .mmap_prepare()") updated AFS to use the mmap_prepare callback in favour of
+> > > > the deprecated mmap callback.
+> > > >
+> > > > However, it did not account for the fact that mmap_prepare can fail to map
+> > > > due to an out of memory error, and thus should not be incrementing a
+> > > > reference count on mmap_prepare.
+>
+> This is a bit confusing. I see the current implementation does
+> afs_add_open_mmap() and then if generic_file_mmap_prepare() fails it
+> does afs_drop_open_mmap(), therefore refcounting seems to be balanced.
+> Is there really a problem?
 
-We had a bunch of similar reports throughout the last year from syzbot,
-but always without a reproducer.
+Firstly, mmap_prepare is invoked before we try to merge, so the VMA could in
+theory get merged and then the refcounting will be wrong.
 
-In particular this here:
+Secondly, mmap_prepare occurs at such at time where it is _possible_ that
+allocation failures as described below could happen.
 
-https://syzkaller.appspot.com/bug?extid=c0673e1f1f054fac28c2
+I'll update the commit message to reflect the merge aspect actually.
 
-via
+>
+> > > >
+> > > > With the newly added vm_ops->mapped callback available, we can simply defer
+> > > > this operation to that callback which is only invoked once the mapping is
+> > > > successfully in place (but not yet visible to userspace as the mmap and VMA
+> > > > write locks are held).
+> > > >
+> > > > Therefore add afs_mapped() to implement this callback for AFS.
+> > > >
+> > > > In practice the mapping allocations are 'too small to fail' so this is
+> > > > something that realistically should never happen in practice (or would do
+> > > > so in a case where the process is about to die anyway), but we should still
+> > > > handle this.
+>
+> nit: I would drop the above paragraph. If it's impossible why are you
+> handling it? If it's unlikely, then handling it is even more
+> important.
 
-https://lore.kernel.org/all/6758f0cc.050a0220.17f54a.0001.GAE@google.com/
+Sure I can drop it, but it's an ongoing thing with these small allocations.
 
-Could that be the same root cause?
+I wish we could just move to a scenario where we can simpy assume allocations
+will always succeed :)
 
-> 
-> By adding more debug information, I found that 'nr_pages' had overflowed in
-> filemap_map_pages(), causing set_pte_range() to establish mappings for a range
-> exceeding the folio size, potentially corrupting fields of pages that do not
-> belong to this folio (e.g., page->_mapcount).
+Vlasta - thoughts?
 
-Sounds quite bad.
+Cheers, Lorenzo
 
-> 
-> After above analysis, I think the possible race is as follows:
-> 
-> CPU 0                                                  CPU 1
-> filemap_map_pages()                                   ext4_setattr()
->    //get and lock folio with old inode->i_size
->    next_uptodate_folio()
-> 
->                                                           .......
->                                                           //shrink the inode->i_size
->                                                           i_size_write(inode, attr->ia_size);
-> 
->    //calculate the end_pgoff with the new inode->i_size
->    file_end = DIV_ROUND_UP(i_size_read(mapping->host), PAGE_SIZE) - 1;
->    end_pgoff = min(end_pgoff, file_end);
-> 
->    ......
->    //nr_pages can be overflowed, cause xas.xa_index > end_pgoff
->    end = folio_next_index(folio) - 1;
->    nr_pages = min(end, end_pgoff) - xas.xa_index + 1;
-> 
->    ......
->    //map large folio
->    filemap_map_folio_range()
->                                                           ......
->                                                           //truncate folios
->                                                           truncate_pagecache(inode, inode->i_size);
-> 
-> To fix this issue, move the 'end_pgoff' calculation before next_uptodate_folio(),
-> so the retrieved folio stays consistent with the file end to avoid 'nr_pages'
-> calculation overflow. After this patch, the crash issue is gone.
-> 
-> Fixes: 743a2753a02e ("filemap: cap PTE range to be created to allowed zero fill in folio_map_range()")
-
-This certainly sounds like stable material :)
-
-> Reported-by: Yuanhe Shu <xiangzao@linux.alibaba.com>
-> Tested-by: Yuanhe Shu <xiangzao@linux.alibaba.com>
-> Signed-off-by: Baolin Wang <baolin.wang@linux.alibaba.com>
-> ---
->  mm/filemap.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/mm/filemap.c b/mm/filemap.c
-> index bc6775084744..923d28e59642 100644
-> --- a/mm/filemap.c
-> +++ b/mm/filemap.c
-> @@ -3879,14 +3879,14 @@ vm_fault_t filemap_map_pages(struct vm_fault *vmf,
->  	unsigned int nr_pages = 0, folio_type;
->  	unsigned short mmap_miss = 0, mmap_miss_saved;
->  
-> +	file_end = DIV_ROUND_UP(i_size_read(mapping->host), PAGE_SIZE) - 1;
-> +	end_pgoff = min(end_pgoff, file_end);
-> +
->  	rcu_read_lock();
->  	folio = next_uptodate_folio(&xas, mapping, end_pgoff);
->  	if (!folio)
->  		goto out;
->  
-> -	file_end = DIV_ROUND_UP(i_size_read(mapping->host), PAGE_SIZE) - 1;
-> -	end_pgoff = min(end_pgoff, file_end);
-> -
->  	/*
->  	 * Do not allow to map with PMD across i_size to preserve
->  	 * SIGBUS semantics.
-
-
-LGTM. I do wonder if we want to add a comment above the file_end,
-stating that this really must happen before the next_uptodate_folio()
-to handle concurrent truncation.
-
--- 
-Cheers,
-
-David
+>
+> > > >
+> > > > Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
+> > > > ---
+> > > >  fs/afs/file.c | 20 ++++++++++++++++----
+> > > >  1 file changed, 16 insertions(+), 4 deletions(-)
+> > > >
+> > > > diff --git a/fs/afs/file.c b/fs/afs/file.c
+> > > > index f609366fd2ac..69ef86f5e274 100644
+> > > > --- a/fs/afs/file.c
+> > > > +++ b/fs/afs/file.c
+> > > > @@ -28,6 +28,8 @@ static ssize_t afs_file_splice_read(struct file *in, loff_t *ppos,
+> > > >  static void afs_vm_open(struct vm_area_struct *area);
+> > > >  static void afs_vm_close(struct vm_area_struct *area);
+> > > >  static vm_fault_t afs_vm_map_pages(struct vm_fault *vmf, pgoff_t start_pgoff, pgoff_t end_pgoff);
+> > > > +static int afs_mapped(unsigned long start, unsigned long end, pgoff_t pgoff,
+> > > > +                 const struct file *file, void **vm_private_data);
+> > > >
+> > > >  const struct file_operations afs_file_operations = {
+> > > >     .open           = afs_open,
+> > > > @@ -61,6 +63,7 @@ const struct address_space_operations afs_file_aops = {
+> > > >  };
+> > > >
+> > > >  static const struct vm_operations_struct afs_vm_ops = {
+> > > > +   .mapped         = afs_mapped,
+> > > >     .open           = afs_vm_open,
+> > > >     .close          = afs_vm_close,
+> > > >     .fault          = filemap_fault,
+> > > > @@ -500,13 +503,22 @@ static int afs_file_mmap_prepare(struct vm_area_desc *desc)
+> > > >     afs_add_open_mmap(vnode);
+> > >
+> > > Is the above afs_add_open_mmap an additional one, which could cause a reference
+> > > leak? Does the above one need to be removed and only the one in afs_mapped()
+> > > needs to be kept?
+> >
+> > Ah yeah good spot, will fix thanks!
+> >
+> > >
+> > > >
+> > > >     ret = generic_file_mmap_prepare(desc);
+> > > > -   if (ret == 0)
+> > > > -           desc->vm_ops = &afs_vm_ops;
+> > > > -   else
+> > > > -           afs_drop_open_mmap(vnode);
+> > > > +   if (ret)
+> > > > +           return ret;
+> > > > +
+> > > > +   desc->vm_ops = &afs_vm_ops;
+> > > >     return ret;
+> > > >  }
+> > > >
+> > > > +static int afs_mapped(unsigned long start, unsigned long end, pgoff_t pgoff,
+> > > > +                 const struct file *file, void **vm_private_data)
+> > > > +{
+> > > > +   struct afs_vnode *vnode = AFS_FS_I(file_inode(file));
+> > > > +
+> > > > +   afs_add_open_mmap(vnode);
+> > > > +   return 0;
+> > > > +}
+> > > > +
+> > > >  static void afs_vm_open(struct vm_area_struct *vma)
+> > > >  {
+> > > >     afs_add_open_mmap(AFS_FS_I(file_inode(vma->vm_file)));
+> > > > --
+> > > > 2.53.0
+> > > >
+> > > >
+> >
+> > Cheers, Lorenzo
