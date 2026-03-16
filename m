@@ -1,71 +1,71 @@
 Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A992932E68F
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 02:20:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84C2C32AACB
+	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 02:20:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773627613; cv=none; b=ZJF3CSLaXNmqrh2hU5lAT5jGFvsmguMVyjazn7l5iAZTmRuUcjPbOdgB45kG/ecJIyv3PqWFQpCKeuaoal/7P5HfYmCsX6EP1eXB/rE5r1FeixTGZyQMnbZ33fsLKQUJSb9Mu5G3f1bT4JU+ge7XAf/+y3O9EmCwK6c6+ippiVo=
+	t=1773627616; cv=none; b=M0e1QXdl9fEI5Q1w2+bdkvjPOtMM8fNHrle66xfCw4CQDapJjZItTcs2gjCIWIozIO7RneCgcJMpzyNgeYBYKHr/jmmhBon08FTBUlqce3a9GAePH3s4sl+PrER0HsRVGwZOviA3+L0BCEg9pf5oo5XWuP1TL0/UrZGBEglT3ec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773627613; c=relaxed/simple;
-	bh=1AC5Bo2shdM7re3S6ZVQ0Vs39gXHyoX3I5iaZmrsYec=;
+	s=arc-20240116; t=1773627616; c=relaxed/simple;
+	bh=42MquAxGtlvevN1u/3R4ChkKdJ/yVfcsptKK2I3NZUg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lJokpVMO6do03QF2NukCxjN5zebHXJxvBf7vLr8Wg2WS8xkSK+ZUT1X0/zjdXjqsLettou3SzYN3JhaWZRsrtU6DUlR77y0Ym3MdGrmwGSBWsU75m8oYGJ7sBMaRKdXQ5yjIBuq3uSP1YhG0dTrsyY9efifh3vwJFxNseqi+X3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b=L8SoJ71c; arc=none smtp.client-ip=209.85.128.174
+	 MIME-Version; b=eq4xsPkuHG/ZZGCp5t7F5OfCahOcDHiy6TE5FcrZO6q56X3KRs1sfD7bSaxQx3YtA1f9FoeSBcg4cOGarqA0qfJXgowHd+78r9PRsgPp7qr5QK282acNlLnjx0bAGtP7+Yh+6z3CpEElMAALD31EKozt6SWqkUN5D7VdiuZuB1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b=KPLZlfVq; arc=none smtp.client-ip=209.85.128.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b="L8SoJ71c"
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-7986fb839f5so35173167b3.0
-        for <linux-fsdevel@vger.kernel.org>; Sun, 15 Mar 2026 19:20:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b="KPLZlfVq"
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-7991db3dc98so36953527b3.0
+        for <linux-fsdevel@vger.kernel.org>; Sun, 15 Mar 2026 19:20:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20230601.gappssmtp.com; s=20230601; t=1773627602; x=1774232402; darn=vger.kernel.org;
+        d=dubeyko-com.20230601.gappssmtp.com; s=20230601; t=1773627606; x=1774232406; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bGsMc+4ermqQp50Jj1pTftKv67j6a8JgPlKQ7HTC03w=;
-        b=L8SoJ71cDg/1lWqIGp2IiNrIjnl8X8wKrWpbiL6ahM/lyndXsCzjCOIgjLVtJvqz6W
-         4qKZNLPfStLMrnvWiVYpL5coAP32RZLcRXj83AyNL3DyJNM4T6CW/gwUDUB3gMTllxjE
-         rETY31wFvqxhlEm75e/iH0EVhZUGBQLQxJuDfpF4+RuiUdLii7q2oHeITscRVbi6tThe
-         pq8jBN2bVp1kWyZTISapsfCkuSJJrwja04g8gtzuvwbI41BJVlnNK3bOALO9nAT8qFjM
-         c7RF2beha78pR7LcvHB5d5yCQnjcm+1eijahdGHaAXRlRL5F31DI7H5ticfQpQ60ZZDh
-         Hobg==
+        bh=Gy66Wdjab2k0pSpgemHi1McaislayxDtLmSv/5I8Ok0=;
+        b=KPLZlfVqu34XSRRDJYM7hmLDjmEGA+ksHAsa9RcHgpnB4zojvnBURp6uNwY7UX1za4
+         w1UlUhuw2x93HVZKmGH+LdRVIBEge5QCr79Mw3fJdBmfX45wReWrMM0/I9HNkxU/e4Ba
+         O7wYI2S2Nt3iFxMahB3D11UOKAs5Fs7H+o7BMFP2pelv43YmgKYNP8GE5+gc7LoSSsnL
+         GPjzVBb18oBqyIzTwj5ot92ST95FRRT8ZzCO++qeQPL49ABiaj2cNbe0hjOcURM956TD
+         3He6k3lHcyGH+4Mv/ORAr+8y7I8yR+XyjW8DQDqkj7zCJXT74LdOwrMY1d+pH4A6Hokh
+         g/8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773627602; x=1774232402;
+        d=1e100.net; s=20251104; t=1773627606; x=1774232406;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=bGsMc+4ermqQp50Jj1pTftKv67j6a8JgPlKQ7HTC03w=;
-        b=R8ZvUU20nnenYCb51jqrjM8Oo/1heHcKD7R4LGr6kEBdPCVCTabli6mXrcBwxhcca3
-         sJfhDbITKyJD+5RPxEicD0jp7LUgCt0JoTKZJa9hf2tIj0oRbXvjNTXPfMF4C/ECBvDV
-         BiLyUHPt5dDFIimGkI1BBw7USQCoqNPOCY1UlLmBOW+IDl5oDYaGafpKIiG7wSLVt7xh
-         IRHHxRUz5sQV9yqPxzRedECOlo87eoxLqUe2tpWvfTj8lGqJcD/99/Da+7AT3n30yVnn
-         /ztj0Qhqm8raOpCTe5Y/T0nl8cLk3EGO4EjDvTNhzrMaa2tyZ5maj1DEQ6QRMJGmqhUm
-         ONeQ==
-X-Gm-Message-State: AOJu0Yz3UkNl/gWgfxtWKmM2vNkuvs1aVZi6swx625/rVQAXY8tR2F+A
-	sUY6X4pgImz4OpEb2BvCuj3Kn3PxN9kuhTeSirIvkHz23atc5S5+3EEiuzhYEiC/Q5wcRLPUqdB
-	IBkQ6
-X-Gm-Gg: ATEYQzz7ftwWZK2NfwCQ6K84vqDBhIJV1vrlsdmRlXuBou/H2ln91XwyaKzOJeeho+v
-	rkADhVQ/WiRjLY9EEB2AA7gWT0skUOcet2w+e/aF7DTJxyOJnQa3Mdes4aFt+5x3T3+Tdld81AN
-	7NpxbKn02BLMBfyTPnMnXZe1St3w0zhe4LmxQio61HNVhUA7wPWTYvlHTSBvODFc0fm+ysCb3k3
-	sazD21jmLvZODgDYX0BXpHStvefV4aTmI16vXFI/ozPEzuOWY7b9kQCqPjOJEG0KoMeDSHOYYnv
-	7ZGX7x+xqcfDfppyNCQ4fpEmqYtg9wZ1PNPrRkvmuxQQuQwMUcgVrsy0hjkkQ/Zu/qQcERvI0/i
-	45fVikkETNHxNhZSTlXJadC/FTBCXP3JwRiKt5n0xEzC7bAVPZA19//n4AT5VOI0youiqIEvXd5
-	H4uRGRxjisvtiKXaRBcsL8uWykkyD/Z8LvOF3Mt/nba9iXZ3R+jwAH5QxaAMNZMZxo4TKEIyApH
-	Rc/2tvbkw4lPmb1oT/v7TK+
-X-Received: by 2002:a05:690c:e686:20b0:795:1cfa:5efb with SMTP id 00721157ae682-79a1c2023d2mr88778027b3.51.1773627601577;
-        Sun, 15 Mar 2026 19:20:01 -0700 (PDT)
+        bh=Gy66Wdjab2k0pSpgemHi1McaislayxDtLmSv/5I8Ok0=;
+        b=fUv/Cai/k9dq+amp/cBwfkRsKVdkoDgsti9hsl9Mmux4YVsV4Yh7MtjHw3xdzdTD99
+         NUK3UdYjuqA+wgTT+OuNmkrO/mSpVFvVulyCrtzPvpYBCFyOKjSq70uEptYvkUNP0JmS
+         BaTVBbX50RiSSw2Ze9z18CzxE8GG9gM+arnDG3fjA3LUZ/uqZP3UTMqH8gopp151NPD2
+         321D0ylfq3eNXoABZISNJDFGqfy69GxNPAsshY4ZHBHRWlWfLvTJT2SDpla/7CO9Uz7u
+         wgfI2TWRGE8uwnf7fb8kPuPAkXDp50mMjj8nMZPpAMPm8mdb83Doraxj0PRtCWaikJJk
+         PfmA==
+X-Gm-Message-State: AOJu0YwY9JGrwcWxDfQIQbAOVKBHGJ6ljj251Z0llEjZ2JrFiVDQpdav
+	qynInsCJp7HdWFBCTDLVEurDE6lkJp828iZYrxOF3JA3Br+qb328fdstAt4ZnfNLxIbgbwJBSm7
+	jvCAM
+X-Gm-Gg: ATEYQzzPIdGkXCKz65eEVNwf4reKIdEasf6ZznOuxBKWlILtkpMA2Jb9+kN+Tpfe9rh
+	EyFj7U1xG8Ocjm6VdQtZlYa3gbZH/hTK3+J6QzjXo4mrKwcWK/lh228PS2Hl/CSP17Z9kkxOYE/
+	pddyUZnDDD7BUVzcmjDt/fRcJf0uQZr5FEsJI5UQdXdN/2184dSYh6VLGw6YXgPLaUQtELupwLn
+	BrnGFMO6m4SxUkk4EXUP6cvCthwW/ft2t5l5hXFcLCwxSVxsI45hw6gIZ09Gy4DwzKG+UspXCuA
+	AvTgfXJN4wJMVI73wMTIBl/JOZe4T7gWULK5Pqr0Ln6EObNJW+tOzbvo2Mg5vVpRtwXyQMO22Qs
+	1pU5ezRbnFDEbPbdN/jfJmRdO90FUcnZshjbjrB3zjlcfXhFbwOQGCljqQ+s91oGZ2wM4D8Wm4b
+	KcBEkN5XXWiRqcomlVi8fZVGUk6WvWeaPcPHEd4Ou967XfmfXyXKKP8tRETo5ILXspy+Ym1T9nj
+	NhKoMeTobPg3zlx/tq5f9lA
+X-Received: by 2002:a05:690c:7245:b0:797:a27b:864c with SMTP id 00721157ae682-79a1c184589mr116442047b3.38.1773627605425;
+        Sun, 15 Mar 2026 19:20:05 -0700 (PDT)
 Received: from pop-os.attlocal.net ([2600:1700:6476:1430:6939:3e01:5e8f:6093])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-79917deb69asm79721617b3.10.2026.03.15.19.20.00
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-79917deb69asm79721617b3.10.2026.03.15.19.20.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Mar 2026 19:20:00 -0700 (PDT)
+        Sun, 15 Mar 2026 19:20:04 -0700 (PDT)
 From: Viacheslav Dubeyko <slava@dubeyko.com>
 To: linux-fsdevel@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
 	Viacheslav Dubeyko <slava@dubeyko.com>
-Subject: [PATCH v2 67/79] ssdfs: implement extended attributes support
-Date: Sun, 15 Mar 2026 19:17:56 -0700
-Message-ID: <20260316021800.1694650-30-slava@dubeyko.com>
+Subject: [PATCH v2 76/79] ssdfs: implement directory operations support
+Date: Sun, 15 Mar 2026 19:17:59 -0700
+Message-ID: <20260316021800.1694650-33-slava@dubeyko.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260316021800.1694650-1-slava@dubeyko.com>
 References: <20260316021800.1694650-1-slava@dubeyko.com>
@@ -80,384 +80,37 @@ Content-Transfer-Encoding: 8bit
 Complete patchset is available here:
 https://github.com/dubeyko/ssdfs-driver/tree/master/patchset/linux-kernel-6.18.0
 
-This patch implements the extended attributes support.
+Implement directory operations.
 
 Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
 ---
- fs/ssdfs/acl.c            |  260 ++++++
- fs/ssdfs/acl.h            |   54 ++
- fs/ssdfs/xattr.c          | 1700 +++++++++++++++++++++++++++++++++++++
- fs/ssdfs/xattr.h          |   88 ++
- fs/ssdfs/xattr_security.c |  159 ++++
- fs/ssdfs/xattr_tree.h     |  143 ++++
- fs/ssdfs/xattr_trusted.c  |   93 ++
- fs/ssdfs/xattr_user.c     |   93 ++
- 8 files changed, 2590 insertions(+)
- create mode 100644 fs/ssdfs/acl.c
- create mode 100644 fs/ssdfs/acl.h
- create mode 100644 fs/ssdfs/xattr.c
- create mode 100644 fs/ssdfs/xattr.h
- create mode 100644 fs/ssdfs/xattr_security.c
- create mode 100644 fs/ssdfs/xattr_tree.h
- create mode 100644 fs/ssdfs/xattr_trusted.c
- create mode 100644 fs/ssdfs/xattr_user.c
+ fs/ssdfs/dir.c | 2197 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 2197 insertions(+)
+ create mode 100644 fs/ssdfs/dir.c
 
-diff --git a/fs/ssdfs/acl.c b/fs/ssdfs/acl.c
+diff --git a/fs/ssdfs/dir.c b/fs/ssdfs/dir.c
 new file mode 100644
-index 000000000000..04a075f4424d
+index 000000000000..2565bfbfdf57
 --- /dev/null
-+++ b/fs/ssdfs/acl.c
-@@ -0,0 +1,260 @@
++++ b/fs/ssdfs/dir.c
+@@ -0,0 +1,2197 @@
 +/*
 + * SPDX-License-Identifier: BSD-3-Clause-Clear
 + *
 + * SSDFS -- SSD-oriented File System.
 + *
-+ * fs/ssdfs/acl.c - ACLs support implementation.
++ * fs/ssdfs/dir.c - folder operations.
 + *
-+ * Copyright (c) 2014-2019 HGST, a Western Digital Company.
-+ *              http://www.hgst.com/
-+ * Copyright (c) 2014-2026 Viacheslav Dubeyko <slava@dubeyko.com>
++ * Copyright (c) 2019-2026 Viacheslav Dubeyko <slava@dubeyko.com>
 + *              http://www.ssdfs.org/
-+ *
-+ * (C) Copyright 2014-2019, HGST, Inc., All rights reserved.
-+ *
-+ * Created by HGST, San Jose Research Center, Storage Architecture Group
++ * All rights reserved.
 + *
 + * Authors: Viacheslav Dubeyko <slava@dubeyko.com>
-+ *
-+ * Acknowledgement: Cyril Guyot
-+ *                  Zvonimir Bandic
 + */
 +
 +#include <linux/kernel.h>
 +#include <linux/rwsem.h>
-+#include <linux/pagevec.h>
-+
-+#include "peb_mapping_queue.h"
-+#include "peb_mapping_table_cache.h"
-+#include "folio_vector.h"
-+#include "ssdfs.h"
-+#include "xattr.h"
-+#include "acl.h"
-+
-+#ifdef CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING
-+atomic64_t ssdfs_acl_folio_leaks;
-+atomic64_t ssdfs_acl_memory_leaks;
-+atomic64_t ssdfs_acl_cache_leaks;
-+#endif /* CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING */
-+
-+/*
-+ * void ssdfs_acl_cache_leaks_increment(void *kaddr)
-+ * void ssdfs_acl_cache_leaks_decrement(void *kaddr)
-+ * void *ssdfs_acl_kmalloc(size_t size, gfp_t flags)
-+ * void *ssdfs_acl_kzalloc(size_t size, gfp_t flags)
-+ * void *ssdfs_acl_kcalloc(size_t n, size_t size, gfp_t flags)
-+ * void ssdfs_acl_kfree(void *kaddr)
-+ * struct folio *ssdfs_acl_alloc_folio(gfp_t gfp_mask, unsigned int order)
-+ * struct folio *ssdfs_acl_add_batch_folio(struct folio_batch *batch,
-+ *                                         unsigned int order)
-+ * void ssdfs_acl_free_folio(struct folio *folio)
-+ * void ssdfs_acl_folio_batch_release(struct folio_batch *batch)
-+ */
-+#ifdef CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING
-+	SSDFS_MEMORY_LEAKS_CHECKER_FNS(acl)
-+#else
-+	SSDFS_MEMORY_ALLOCATOR_FNS(acl)
-+#endif /* CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING */
-+
-+void ssdfs_acl_memory_leaks_init(void)
-+{
-+#ifdef CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING
-+	atomic64_set(&ssdfs_acl_folio_leaks, 0);
-+	atomic64_set(&ssdfs_acl_memory_leaks, 0);
-+	atomic64_set(&ssdfs_acl_cache_leaks, 0);
-+#endif /* CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING */
-+}
-+
-+void ssdfs_acl_check_memory_leaks(void)
-+{
-+#ifdef CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING
-+	if (atomic64_read(&ssdfs_acl_folio_leaks) != 0) {
-+		SSDFS_ERR("ACL: "
-+			  "memory leaks include %lld folios\n",
-+			  atomic64_read(&ssdfs_acl_folio_leaks));
-+	}
-+
-+	if (atomic64_read(&ssdfs_acl_memory_leaks) != 0) {
-+		SSDFS_ERR("ACL: "
-+			  "memory allocator suffers from %lld leaks\n",
-+			  atomic64_read(&ssdfs_acl_memory_leaks));
-+	}
-+
-+	if (atomic64_read(&ssdfs_acl_cache_leaks) != 0) {
-+		SSDFS_ERR("ACL: "
-+			  "caches suffers from %lld leaks\n",
-+			  atomic64_read(&ssdfs_acl_cache_leaks));
-+	}
-+#endif /* CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING */
-+}
-+
-+struct posix_acl *ssdfs_get_acl(struct inode *inode, int type, bool rcu)
-+{
-+	struct posix_acl *acl;
-+	char *xattr_name;
-+	int name_index;
-+	char *value = NULL;
-+	ssize_t size;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("ino %lu, type %#x\n",
-+		  (unsigned long)inode->i_ino, type);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	if (rcu)
-+		return ERR_PTR(-ECHILD);
-+
-+	switch (type) {
-+	case ACL_TYPE_ACCESS:
-+		name_index = SSDFS_POSIX_ACL_ACCESS_XATTR_ID;
-+		xattr_name = XATTR_NAME_POSIX_ACL_ACCESS;
-+		break;
-+	case ACL_TYPE_DEFAULT:
-+		name_index = SSDFS_POSIX_ACL_DEFAULT_XATTR_ID;
-+		xattr_name = XATTR_NAME_POSIX_ACL_DEFAULT;
-+		break;
-+	default:
-+		SSDFS_ERR("unknown type %#x\n", type);
-+		return ERR_PTR(-EINVAL);
-+	}
-+
-+	size = __ssdfs_getxattr(inode, name_index, xattr_name, NULL, 0);
-+
-+	if (size > 0) {
-+		value = ssdfs_acl_kzalloc(size, GFP_KERNEL);
-+		if (unlikely(!value)) {
-+			SSDFS_ERR("unable to allocate memory\n");
-+			return ERR_PTR(-ENOMEM);
-+		}
-+		size = __ssdfs_getxattr(inode, name_index, xattr_name,
-+					value, size);
-+	}
-+
-+	if (size > 0)
-+		acl = posix_acl_from_xattr(&init_user_ns, value, size);
-+	else if (size == -ENODATA)
-+		acl = NULL;
-+	else
-+		acl = ERR_PTR(size);
-+
-+	ssdfs_acl_kfree(value);
-+	return acl;
-+}
-+
-+static
-+int __ssdfs_set_acl(struct inode *inode, struct posix_acl *acl, int type)
-+{
-+	int name_index;
-+	char *xattr_name;
-+	size_t size = 0;
-+	char *value = NULL;
-+	int err;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("ino %lu, type %#x, acl %p\n",
-+		  (unsigned long)inode->i_ino, type, acl);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	switch (type) {
-+	case ACL_TYPE_ACCESS:
-+		name_index = SSDFS_POSIX_ACL_ACCESS_XATTR_ID;
-+		xattr_name = XATTR_NAME_POSIX_ACL_ACCESS;
-+		break;
-+
-+	case ACL_TYPE_DEFAULT:
-+		name_index = SSDFS_POSIX_ACL_DEFAULT_XATTR_ID;
-+		xattr_name = XATTR_NAME_POSIX_ACL_DEFAULT;
-+		if (!S_ISDIR(inode->i_mode))
-+			return acl ? -EACCES : 0;
-+		break;
-+
-+	default:
-+		SSDFS_ERR("unknown type %#x\n", type);
-+		return -EINVAL;
-+	}
-+
-+	if (acl) {
-+		size = posix_acl_xattr_size(acl->a_count);
-+		value = ssdfs_acl_kzalloc(size, GFP_KERNEL);
-+		if (!value) {
-+			SSDFS_ERR("unable to allocate memory\n");
-+			return -ENOMEM;
-+		}
-+		err = posix_acl_to_xattr(&init_user_ns, acl, value, size);
-+		if (err < 0) {
-+			SSDFS_ERR("unable to convert acl to xattr\n");
-+			goto end_set_acl;
-+		}
-+	}
-+
-+	err = __ssdfs_setxattr(inode, name_index, xattr_name, value, size, 0);
-+
-+end_set_acl:
-+	ssdfs_acl_kfree(value);
-+
-+	if (!err)
-+		set_cached_acl(inode, type, acl);
-+
-+	return err;
-+}
-+
-+int ssdfs_set_acl(struct mnt_idmap *idmap, struct dentry *dentry,
-+		  struct posix_acl *acl, int type)
-+{
-+	int update_mode = 0;
-+	struct inode *inode = d_inode(dentry);
-+	umode_t mode = inode->i_mode;
-+	int err;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("ino %lu, type %#x, acl %p\n",
-+		  (unsigned long)inode->i_ino, type, acl);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	if (type == ACL_TYPE_ACCESS && acl) {
-+		err = posix_acl_update_mode(idmap, inode, &mode, &acl);
-+		if (err)
-+			goto end_set_acl;
-+
-+		if (mode != inode->i_mode)
-+			update_mode = 1;
-+	}
-+
-+	err = __ssdfs_set_acl(inode, acl, type);
-+	if (!err && update_mode) {
-+		inode->i_mode = mode;
-+
-+		inode_set_ctime_to_ts(inode, current_time(inode));
-+		mark_inode_dirty(inode);
-+	}
-+
-+end_set_acl:
-+	return err;
-+}
-+
-+int ssdfs_init_acl(struct inode *inode, struct inode *dir)
-+{
-+	struct posix_acl *default_acl, *acl;
-+	int err = 0;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("dir_ino %lu, ino %lu\n",
-+		  (unsigned long)dir->i_ino, (unsigned long)inode->i_ino);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	err = posix_acl_create(dir, &inode->i_mode, &default_acl, &acl);
-+	if (err)
-+		return err;
-+
-+	if (default_acl) {
-+		err = __ssdfs_set_acl(inode, default_acl, ACL_TYPE_DEFAULT);
-+		posix_acl_release(default_acl);
-+	}
-+
-+	if (acl) {
-+		if (!err)
-+			err = __ssdfs_set_acl(inode, acl, ACL_TYPE_ACCESS);
-+		posix_acl_release(acl);
-+	}
-+	return err;
-+}
-diff --git a/fs/ssdfs/acl.h b/fs/ssdfs/acl.h
-new file mode 100644
-index 000000000000..8e3f3b5131ae
---- /dev/null
-+++ b/fs/ssdfs/acl.h
-@@ -0,0 +1,54 @@
-+/*
-+ * SPDX-License-Identifier: BSD-3-Clause-Clear
-+ *
-+ * SSDFS -- SSD-oriented File System.
-+ *
-+ * fs/ssdfs/acl.h - ACLs support declarations.
-+ *
-+ * Copyright (c) 2014-2019 HGST, a Western Digital Company.
-+ *              http://www.hgst.com/
-+ * Copyright (c) 2014-2026 Viacheslav Dubeyko <slava@dubeyko.com>
-+ *              http://www.ssdfs.org/
-+ *
-+ * (C) Copyright 2014-2019, HGST, Inc., All rights reserved.
-+ *
-+ * Created by HGST, San Jose Research Center, Storage Architecture Group
-+ *
-+ * Authors: Viacheslav Dubeyko <slava@dubeyko.com>
-+ *
-+ * Acknowledgement: Cyril Guyot
-+ *                  Zvonimir Bandic
-+ */
-+
-+#ifndef _SSDFS_ACL_H
-+#define _SSDFS_ACL_H
-+
-+#include <linux/posix_acl_xattr.h>
-+
-+#ifdef CONFIG_SSDFS_POSIX_ACL
-+
-+#define set_posix_acl_flag(sb) \
-+	((sb)->s_flags |= SB_POSIXACL)
-+
-+/* acl.c */
-+struct posix_acl *ssdfs_get_acl(struct inode *, int, bool);
-+int ssdfs_set_acl(struct mnt_idmap *idmap, struct dentry *,
-+		  struct posix_acl *, int);
-+int ssdfs_init_acl(struct inode *, struct inode *);
-+
-+#else  /* CONFIG_SSDFS_POSIX_ACL */
-+
-+#define set_posix_acl_flag(sb) \
-+	((sb)->s_flags &= ~SB_POSIXACL)
-+
-+#define ssdfs_get_acl NULL
-+#define ssdfs_set_acl NULL
-+
-+static inline int ssdfs_init_acl(struct inode *inode, struct inode *dir)
-+{
-+	return 0;
-+}
-+
-+#endif  /* CONFIG_SSDFS_POSIX_ACL */
-+
-+#endif /* _SSDFS_ACL_H */
-diff --git a/fs/ssdfs/xattr.c b/fs/ssdfs/xattr.c
-new file mode 100644
-index 000000000000..3e2b38bc2985
---- /dev/null
-+++ b/fs/ssdfs/xattr.c
-@@ -0,0 +1,1700 @@
-+/*
-+ * SPDX-License-Identifier: BSD-3-Clause-Clear
-+ *
-+ * SSDFS -- SSD-oriented File System.
-+ *
-+ * fs/ssdfs/xattr.c - extended attributes support implementation.
-+ *
-+ * Copyright (c) 2014-2019 HGST, a Western Digital Company.
-+ *              http://www.hgst.com/
-+ * Copyright (c) 2014-2026 Viacheslav Dubeyko <slava@dubeyko.com>
-+ *              http://www.ssdfs.org/
-+ *
-+ * (C) Copyright 2014-2019, HGST, Inc., All rights reserved.
-+ *
-+ * Created by HGST, San Jose Research Center, Storage Architecture Group
-+ *
-+ * Authors: Viacheslav Dubeyko <slava@dubeyko.com>
-+ *
-+ * Acknowledgement: Cyril Guyot
-+ *                  Zvonimir Bandic
-+ */
-+
-+#include <linux/kernel.h>
-+#include <linux/rwsem.h>
++#include <linux/slab.h>
 +#include <linux/pagevec.h>
 +#include <linux/sched/signal.h>
 +
@@ -465,34 +118,1412 @@ index 000000000000..3e2b38bc2985
 +#include "peb_mapping_table_cache.h"
 +#include "folio_vector.h"
 +#include "ssdfs.h"
-+#include "folio_array.h"
-+#include "peb.h"
-+#include "offset_translation_table.h"
-+#include "peb_container.h"
-+#include "segment_bitmap.h"
-+#include "segment.h"
 +#include "btree_search.h"
 +#include "btree_node.h"
 +#include "btree.h"
-+#include "xattr_tree.h"
-+#include "shared_dictionary.h"
 +#include "dentries_tree.h"
++#include "shared_dictionary.h"
 +#include "xattr.h"
++#include "acl.h"
 +
-+const struct xattr_handler *ssdfs_xattr_handlers[] = {
-+	&ssdfs_xattr_user_handler,
-+	&ssdfs_xattr_trusted_handler,
-+#ifdef CONFIG_SSDFS_SECURITY
-+	&ssdfs_xattr_security_handler,
-+#endif
-+	NULL
++#include <trace/events/ssdfs.h>
++
++#ifdef CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING
++atomic64_t ssdfs_dir_folio_leaks;
++atomic64_t ssdfs_dir_memory_leaks;
++atomic64_t ssdfs_dir_cache_leaks;
++#endif /* CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING */
++
++/*
++ * void ssdfs_dir_cache_leaks_increment(void *kaddr)
++ * void ssdfs_dir_cache_leaks_decrement(void *kaddr)
++ * void *ssdfs_dir_kmalloc(size_t size, gfp_t flags)
++ * void *ssdfs_dir_kzalloc(size_t size, gfp_t flags)
++ * void *ssdfs_dir_kcalloc(size_t n, size_t size, gfp_t flags)
++ * void ssdfs_dir_kfree(void *kaddr)
++ * struct folio *ssdfs_dir_alloc_folio(gfp_t gfp_mask,
++ *                                     unsigned int order)
++ * struct folio *ssdfs_dir_add_batch_folio(struct folio_batch *batch,
++ *                                         unsigned int order)
++ * void ssdfs_dir_free_folio(struct folio *folio)
++ * void ssdfs_dir_folio_batch_release(struct folio_batch *batch)
++ */
++#ifdef CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING
++	SSDFS_MEMORY_LEAKS_CHECKER_FNS(dir)
++#else
++	SSDFS_MEMORY_ALLOCATOR_FNS(dir)
++#endif /* CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING */
++
++void ssdfs_dir_memory_leaks_init(void)
++{
++#ifdef CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING
++	atomic64_set(&ssdfs_dir_folio_leaks, 0);
++	atomic64_set(&ssdfs_dir_memory_leaks, 0);
++	atomic64_set(&ssdfs_dir_cache_leaks, 0);
++#endif /* CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING */
++}
++
++void ssdfs_dir_check_memory_leaks(void)
++{
++#ifdef CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING
++	if (atomic64_read(&ssdfs_dir_folio_leaks) != 0) {
++		SSDFS_ERR("DIR: "
++			  "memory leaks include %lld folios\n",
++			  atomic64_read(&ssdfs_dir_folio_leaks));
++	}
++
++	if (atomic64_read(&ssdfs_dir_memory_leaks) != 0) {
++		SSDFS_ERR("DIR: "
++			  "memory allocator suffers from %lld leaks\n",
++			  atomic64_read(&ssdfs_dir_memory_leaks));
++	}
++
++	if (atomic64_read(&ssdfs_dir_cache_leaks) != 0) {
++		SSDFS_ERR("DIR: "
++			  "caches suffers from %lld leaks\n",
++			  atomic64_read(&ssdfs_dir_cache_leaks));
++	}
++#endif /* CONFIG_SSDFS_MEMORY_LEAKS_ACCOUNTING */
++}
++
++static unsigned char
++ssdfs_filetype_table[SSDFS_FT_MAX] = {
++	[SSDFS_FT_UNKNOWN]	= DT_UNKNOWN,
++	[SSDFS_FT_REG_FILE]	= DT_REG,
++	[SSDFS_FT_DIR]		= DT_DIR,
++	[SSDFS_FT_CHRDEV]	= DT_CHR,
++	[SSDFS_FT_BLKDEV]	= DT_BLK,
++	[SSDFS_FT_FIFO]		= DT_FIFO,
++	[SSDFS_FT_SOCK]		= DT_SOCK,
++	[SSDFS_FT_SYMLINK]	= DT_LNK,
 +};
 +
++int ssdfs_inode_by_name(struct inode *dir,
++			const struct qstr *child,
++			ino_t *ino)
++{
++	struct ssdfs_inode_info *ii = SSDFS_I(dir);
++	struct ssdfs_btree_search *search;
++	struct ssdfs_dir_entry *raw_dentry;
++	size_t dentry_size = sizeof(struct ssdfs_dir_entry);
++	int private_flags;
++	int err = 0;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	BUG_ON(!rwsem_is_locked(&ii->lock));
++
++	SSDFS_DBG("dir_ino %lu, target_name %s\n",
++		  (unsigned long)dir->i_ino,
++		  child->name);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	*ino = 0;
++	private_flags = atomic_read(&ii->private_flags);
++
++	if (private_flags & SSDFS_INODE_HAS_INLINE_DENTRIES ||
++	    private_flags & SSDFS_INODE_HAS_DENTRIES_BTREE) {
++		if (!ii->dentries_tree) {
++			err = -ERANGE;
++			SSDFS_WARN("dentries tree absent!!!\n");
++			goto finish_search_dentry;
++		}
++
++		search = ssdfs_btree_search_alloc();
++		if (!search) {
++			err = -ENOMEM;
++			SSDFS_ERR("fail to allocate btree search object\n");
++			goto finish_search_dentry;
++		}
++
++		ssdfs_btree_search_init(search);
++
++		err = ssdfs_dentries_tree_find(ii->dentries_tree,
++						child->name,
++						child->len,
++						search);
++		if (err == -ENODATA) {
++			err = -ENOENT;
++#ifdef CONFIG_SSDFS_DEBUG
++			SSDFS_DBG("dir %lu hasn't child %s\n",
++				  (unsigned long)dir->i_ino,
++				  child->name);
++#endif /* CONFIG_SSDFS_DEBUG */
++			goto dentry_is_not_available;
++		} else if (unlikely(err)) {
++			SSDFS_ERR("fail to find the dentry: "
++				  "dir %lu, child %s\n",
++				  (unsigned long)dir->i_ino,
++				  child->name);
++			goto dentry_is_not_available;
++		}
++
++		if (search->result.state != SSDFS_BTREE_SEARCH_VALID_ITEM) {
++			err = -ERANGE;
++			SSDFS_ERR("invalid result's state %#x\n",
++				  search->result.state);
++			goto dentry_is_not_available;
++		}
++
++		switch (search->result.raw_buf.state) {
++		case SSDFS_BTREE_SEARCH_INLINE_BUFFER:
++		case SSDFS_BTREE_SEARCH_EXTERNAL_BUFFER:
++			/* expected state */
++			break;
++
++		default:
++			err = -ERANGE;
++			SSDFS_ERR("invalid buffer state %#x\n",
++				  search->result.raw_buf.state);
++			goto dentry_is_not_available;
++		}
++
++		if (!search->result.raw_buf.place.ptr) {
++			err = -ERANGE;
++			SSDFS_ERR("buffer is absent\n");
++			goto dentry_is_not_available;
++		}
++
++		if (search->result.raw_buf.size < dentry_size) {
++			err = -ERANGE;
++			SSDFS_ERR("buf_size %zu < dentry_size %zu\n",
++				  search->result.raw_buf.size,
++				  dentry_size);
++			goto dentry_is_not_available;
++		}
++
++		raw_dentry =
++		    (struct ssdfs_dir_entry *)search->result.raw_buf.place.ptr;
++
++#ifdef CONFIG_SSDFS_DEBUG
++		BUG_ON(le64_to_cpu(raw_dentry->ino) >= U32_MAX);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++		*ino = (ino_t)le64_to_cpu(raw_dentry->ino);
++
++dentry_is_not_available:
++		ssdfs_btree_search_free(search);
++	} else {
++		err = -ENOENT;
++#ifdef CONFIG_SSDFS_DEBUG
++		SSDFS_DBG("dentries tree is absent: "
++			  "ino %lu\n",
++			  (unsigned long)dir->i_ino);
++#endif /* CONFIG_SSDFS_DEBUG */
++	}
++
++finish_search_dentry:
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("finished\n");
++#endif /* CONFIG_SSDFS_DEBUG */
++	return err;
++}
++
++/*
++ * The ssdfs_lookup() is called when the VFS needs
++ * to look up an inode in a parent directory.
++ */
++static struct dentry *ssdfs_lookup(struct inode *dir, struct dentry *target,
++				  unsigned int flags)
++{
++	struct inode *inode = NULL;
++	ino_t ino;
++	int err;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("dir %lu, flags %#x\n", (unsigned long)dir->i_ino, flags);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	if (target->d_name.len > SSDFS_MAX_NAME_LEN)
++		return ERR_PTR(-ENAMETOOLONG);
++
++	down_read(&SSDFS_I(dir)->lock);
++	err = ssdfs_inode_by_name(dir, &target->d_name, &ino);
++	up_read(&SSDFS_I(dir)->lock);
++
++	if (err == -ENOENT) {
++		err = 0;
++		ino = 0;
++	} else if (unlikely(err)) {
++		SSDFS_ERR("fail to find the inode: "
++			  "err %d\n",
++			  err);
++		return ERR_PTR(err);
++	}
++
++	if (ino) {
++		inode = ssdfs_iget(dir->i_sb, ino);
++		if (inode == ERR_PTR(-ESTALE)) {
++			SSDFS_ERR("deleted inode referenced: %lu\n",
++				  (unsigned long)ino);
++			return ERR_PTR(-EIO);
++		}
++	}
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("finished\n");
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	return d_splice_alias(inode, target);
++}
++
++static int ssdfs_add_link(struct inode *dir, struct dentry *dentry,
++			  struct inode *inode)
++{
++	struct ssdfs_fs_info *fsi = SSDFS_FS_I(dir->i_sb);
++	struct ssdfs_inode_info *dir_ii = SSDFS_I(dir);
++	struct ssdfs_inode_info *ii = SSDFS_I(inode);
++	struct ssdfs_btree_search *search;
++	int private_flags;
++	struct timespec64 cur_time;
++	int err = 0;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	BUG_ON(!rwsem_is_locked(&dir_ii->lock));
++
++	SSDFS_DBG("Created ino %lu with mode %o, nlink %d, nrpages %ld\n",
++		  (unsigned long)inode->i_ino, inode->i_mode,
++		  inode->i_nlink, inode->i_mapping->nrpages);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	private_flags = atomic_read(&dir_ii->private_flags);
++
++	if (private_flags & SSDFS_INODE_HAS_INLINE_DENTRIES ||
++	    private_flags & SSDFS_INODE_HAS_DENTRIES_BTREE) {
++		if (!dir_ii->dentries_tree) {
++			err = -ERANGE;
++			SSDFS_WARN("dentries tree absent!!!\n");
++			goto finish_add_link;
++		}
++	} else {
++		if (dir_ii->dentries_tree) {
++			err = -ERANGE;
++			SSDFS_WARN("dentries tree exists unexpectedly!!!\n");
++			goto finish_create_dentries_tree;
++		} else {
++			err = ssdfs_dentries_tree_create(fsi, dir_ii);
++			if (unlikely(err)) {
++				SSDFS_ERR("fail to create the dentries tree: "
++					  "ino %lu, err %d\n",
++					  dir->i_ino, err);
++				goto finish_create_dentries_tree;
++			}
++
++			atomic_or(SSDFS_INODE_HAS_INLINE_DENTRIES,
++				  &dir_ii->private_flags);
++		}
++
++finish_create_dentries_tree:
++		if (unlikely(err))
++			goto finish_add_link;
++	}
++
++	search = ssdfs_btree_search_alloc();
++	if (!search) {
++		err = -ENOMEM;
++		SSDFS_ERR("fail to allocate btree search object\n");
++		goto finish_add_link;
++	}
++
++	ssdfs_btree_search_init(search);
++
++	err = ssdfs_dentries_tree_add(dir_ii->dentries_tree,
++				      &dentry->d_name,
++				      ii, search);
++	if (unlikely(err)) {
++		SSDFS_ERR("fail to add the dentry: "
++			  "ino %lu, err %d\n",
++			  inode->i_ino, err);
++	} else {
++		cur_time = current_time(dir);
++		inode_set_mtime_to_ts(dir, cur_time);
++		inode_set_ctime_to_ts(dir, cur_time);
++		mark_inode_dirty(dir);
++	}
++
++	ssdfs_btree_search_free(search);
++
++finish_add_link:
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("finished\n");
++#endif /* CONFIG_SSDFS_DEBUG */
++	return err;
++}
++
++static int ssdfs_add_nondir(struct inode *dir, struct dentry *dentry,
++			    struct inode *inode)
++{
++	struct ssdfs_inode_info *dir_ii = SSDFS_I(dir);
++	int private_flags;
++	int err;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("Created ino %lu with mode %o, nlink %d, nrpages %ld\n",
++		  (unsigned long)inode->i_ino, inode->i_mode,
++		  inode->i_nlink, inode->i_mapping->nrpages);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	private_flags = atomic_read(&dir_ii->private_flags);
++
++	if (private_flags & SSDFS_INODE_HAS_INLINE_DENTRIES ||
++	    private_flags & SSDFS_INODE_HAS_DENTRIES_BTREE) {
++		down_read(&dir_ii->lock);
++		err = ssdfs_add_link(dir, dentry, inode);
++		up_read(&dir_ii->lock);
++	} else {
++		down_write(&dir_ii->lock);
++		err = ssdfs_add_link(dir, dentry, inode);
++		up_write(&dir_ii->lock);
++	}
++
++	if (err) {
++		inode_dec_link_count(inode);
++		iget_failed(inode);
++
++#ifdef CONFIG_SSDFS_DEBUG
++		SSDFS_DBG("finished\n");
++#endif /* CONFIG_SSDFS_DEBUG */
++
++		return err;
++	}
++
++	unlock_new_inode(inode);
++	d_instantiate(dentry, inode);
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("finished\n");
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	return 0;
++}
++
++/*
++ * The ssdfs_create() is called by the open(2) and
++ * creat(2) system calls.
++ */
++int ssdfs_create(struct mnt_idmap *idmap,
++		 struct inode *dir, struct dentry *dentry,
++		 umode_t mode, bool excl)
++{
++	struct inode *inode;
++	int err = 0;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("dir %lu, mode %o\n", (unsigned long)dir->i_ino, mode);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	inode = ssdfs_new_inode(idmap, dir, mode, &dentry->d_name);
++	if (IS_ERR(inode)) {
++		err = PTR_ERR(inode);
++		goto failed_create;
++	}
++
++	mark_inode_dirty(inode);
++	err = ssdfs_add_nondir(dir, dentry, inode);
++
++failed_create:
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("finished\n");
++#endif /* CONFIG_SSDFS_DEBUG */
++	return err;
++}
++
++/*
++ * The ssdfs_mknod() is called by the mknod(2) system call
++ * to create a device (char, block) inode or a named pipe
++ * (FIFO) or socket.
++ */
++static int ssdfs_mknod(struct mnt_idmap *idmap,
++			struct inode *dir, struct dentry *dentry,
++			umode_t mode, dev_t rdev)
++{
++	struct inode *inode;
++	int err;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("dir %lu, mode %o, rdev %#x\n",
++		  (unsigned long)dir->i_ino, mode, rdev);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	if (dentry->d_name.len > SSDFS_MAX_NAME_LEN)
++		return -ENAMETOOLONG;
++
++	inode = ssdfs_new_inode(idmap, dir, mode, &dentry->d_name);
++	if (IS_ERR(inode))
++		return PTR_ERR(inode);
++
++	init_special_inode(inode, mode, rdev);
++
++	mark_inode_dirty(inode);
++	err = ssdfs_add_nondir(dir, dentry, inode);
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("finished\n");
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	return err;
++}
++
++/*
++ * Create symlink.
++ * The ssdfs_symlink() is called by the symlink(2) system call.
++ */
++static int ssdfs_symlink(struct mnt_idmap *idmap,
++			 struct inode *dir, struct dentry *dentry,
++			 const char *target)
++{
++	struct ssdfs_fs_info *fsi = SSDFS_FS_I(dir->i_sb);
++	struct inode *inode;
++	size_t target_len = strlen(target) + 1;
++	size_t raw_inode_size;
++	size_t inline_len;
++	int err = 0;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("dir %lu, target_len %zu\n",
++		  (unsigned long)dir->i_ino, target_len);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	if (target_len > dir->i_sb->s_blocksize)
++		return -ENAMETOOLONG;
++
++	down_read(&fsi->volume_sem);
++	raw_inode_size = le16_to_cpu(fsi->vs->inodes_btree.desc.item_size);
++	up_read(&fsi->volume_sem);
++
++	inline_len = offsetof(struct ssdfs_inode, internal);
++
++	if (raw_inode_size <= inline_len) {
++		SSDFS_ERR("invalid raw inode size %zu\n",
++			  raw_inode_size);
++		return -EFAULT;
++	}
++
++	inline_len = raw_inode_size - inline_len;
++
++	inode = ssdfs_new_inode(idmap, dir, S_IFLNK | S_IRWXUGO, &dentry->d_name);
++	if (IS_ERR(inode))
++		return PTR_ERR(inode);
++
++	if (target_len > inline_len) {
++		/* slow symlink */
++		inode_nohighmem(inode);
++
++		err = page_symlink(inode, target, target_len);
++		if (err)
++			goto out_fail;
++	} else {
++		/* fast symlink */
++		down_write(&SSDFS_I(inode)->lock);
++		inode->i_link = (char *)SSDFS_I(inode)->raw_inode.internal;
++		memcpy(inode->i_link, target, target_len);
++		inode->i_size = target_len - 1;
++		atomic_or(SSDFS_INODE_HAS_INLINE_FILE,
++			  &SSDFS_I(inode)->private_flags);
++		up_write(&SSDFS_I(inode)->lock);
++	}
++
++	mark_inode_dirty(inode);
++	err = ssdfs_add_nondir(dir, dentry, inode);
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("finished\n");
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	return err;
++
++out_fail:
++	inode_dec_link_count(inode);
++	iget_failed(inode);
++	return err;
++}
++
++/*
++ * Create hardlink.
++ * The ssdfs_link() is called by the link(2) system call.
++ */
++static int ssdfs_link(struct dentry *old_dentry, struct inode *dir,
++			struct dentry *dentry)
++{
++	struct inode *inode = d_inode(old_dentry);
++	struct ssdfs_inode_info *dir_ii = SSDFS_I(dir);
++	int private_flags;
++	int err;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("dir %lu, inode %lu\n",
++		  (unsigned long)dir->i_ino, (unsigned long)inode->i_ino);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	if (inode->i_nlink >= SSDFS_LINK_MAX)
++		return -EMLINK;
++
++	if (!S_ISREG(inode->i_mode))
++		return -EPERM;
++
++	inode_set_ctime_to_ts(inode, current_time(inode));
++	inode_inc_link_count(inode);
++	ihold(inode);
++
++	private_flags = atomic_read(&dir_ii->private_flags);
++
++	if (private_flags & SSDFS_INODE_HAS_INLINE_DENTRIES ||
++	    private_flags & SSDFS_INODE_HAS_DENTRIES_BTREE) {
++		down_read(&dir_ii->lock);
++		err = ssdfs_add_link(dir, dentry, inode);
++		up_read(&dir_ii->lock);
++	} else {
++		down_write(&dir_ii->lock);
++		err = ssdfs_add_link(dir, dentry, inode);
++		up_write(&dir_ii->lock);
++	}
++
++	if (err) {
++		inode_dec_link_count(inode);
++		iput(inode);
++		return err;
++	}
++
++	d_instantiate(dentry, inode);
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("finished\n");
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	return 0;
++}
++
++/*
++ * Set the first fragment of directory.
++ */
++static int ssdfs_make_empty(struct inode *inode, struct inode *parent)
++{
++	struct ssdfs_fs_info *fsi = SSDFS_FS_I(inode->i_sb);
++	struct ssdfs_inode_info *ii = SSDFS_I(inode);
++	struct ssdfs_inode_info *parent_ii = SSDFS_I(parent);
++	struct ssdfs_btree_search *search;
++	int private_flags;
++	struct qstr dot = QSTR_INIT(".", 1);
++	struct qstr dotdot = QSTR_INIT("..", 2);
++	int err = 0;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("Created ino %lu with mode %o, nlink %d, nrpages %ld\n",
++		  (unsigned long)inode->i_ino, inode->i_mode,
++		  inode->i_nlink, inode->i_mapping->nrpages);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	private_flags = atomic_read(&ii->private_flags);
++
++	if (private_flags & SSDFS_INODE_HAS_INLINE_DENTRIES ||
++	    private_flags & SSDFS_INODE_HAS_DENTRIES_BTREE) {
++		down_read(&ii->lock);
++
++		if (!ii->dentries_tree) {
++			err = -ERANGE;
++			SSDFS_WARN("dentries tree absent!!!\n");
++			goto finish_make_empty_dir;
++		}
++	} else {
++		down_write(&ii->lock);
++
++		if (ii->dentries_tree) {
++			err = -ERANGE;
++			SSDFS_WARN("dentries tree exists unexpectedly!!!\n");
++			goto finish_create_dentries_tree;
++		} else {
++			err = ssdfs_dentries_tree_create(fsi, ii);
++			if (unlikely(err)) {
++				SSDFS_ERR("fail to create the dentries tree: "
++					  "ino %lu, err %d\n",
++					  inode->i_ino, err);
++				goto finish_create_dentries_tree;
++			}
++
++			atomic_or(SSDFS_INODE_HAS_INLINE_DENTRIES,
++				  &ii->private_flags);
++		}
++
++finish_create_dentries_tree:
++		downgrade_write(&ii->lock);
++
++		if (unlikely(err))
++			goto finish_make_empty_dir;
++	}
++
++	search = ssdfs_btree_search_alloc();
++	if (!search) {
++		err = -ENOMEM;
++		SSDFS_ERR("fail to allocate btree search object\n");
++		goto finish_make_empty_dir;
++	}
++
++	ssdfs_btree_search_init(search);
++
++	err = ssdfs_dentries_tree_add(ii->dentries_tree,
++				      &dot, ii, search);
++	if (unlikely(err)) {
++		SSDFS_ERR("fail to add dentry: "
++			  "ino %lu, err %d\n",
++			  inode->i_ino, err);
++		goto free_search_object;
++	}
++
++	err = ssdfs_dentries_tree_add(ii->dentries_tree,
++				      &dotdot, parent_ii,
++				      search);
++	if (unlikely(err)) {
++		SSDFS_ERR("fail to add dentry: "
++			  "ino %lu, err %d\n",
++			  parent->i_ino, err);
++		goto free_search_object;
++	}
++
++free_search_object:
++	ssdfs_btree_search_free(search);
++
++finish_make_empty_dir:
++	up_read(&ii->lock);
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("finished\n");
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	return err;
++}
++
++static int __ssdfs_mkdir(struct mnt_idmap *idmap,
++			 struct inode *dir, struct dentry *dentry, umode_t mode)
++{
++	struct inode *inode;
++	struct ssdfs_inode_info *dir_ii = SSDFS_I(dir);
++	int private_flags;
++	int err = 0;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("dir %lu, mode %o\n",
++		  (unsigned long)dir->i_ino, mode);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	if (dentry->d_name.len > SSDFS_MAX_NAME_LEN)
++		return -ENAMETOOLONG;
++
++	inode_inc_link_count(dir);
++
++	inode = ssdfs_new_inode(idmap, dir, S_IFDIR | mode, &dentry->d_name);
++	err = PTR_ERR(inode);
++	if (IS_ERR(inode))
++		goto out_dir;
++
++	inode_inc_link_count(inode);
++
++	err = ssdfs_make_empty(inode, dir);
++	if (err)
++		goto out_fail;
++
++	private_flags = atomic_read(&dir_ii->private_flags);
++
++	if (private_flags & SSDFS_INODE_HAS_INLINE_DENTRIES ||
++	    private_flags & SSDFS_INODE_HAS_DENTRIES_BTREE) {
++		down_read(&dir_ii->lock);
++		err = ssdfs_add_link(dir, dentry, inode);
++		up_read(&dir_ii->lock);
++	} else {
++		down_write(&dir_ii->lock);
++		err = ssdfs_add_link(dir, dentry, inode);
++		up_write(&dir_ii->lock);
++	}
++
++	if (err)
++		goto out_fail;
++
++	d_instantiate(dentry, inode);
++	unlock_new_inode(inode);
++	return 0;
++
++out_fail:
++	inode_dec_link_count(inode);
++	inode_dec_link_count(inode);
++	unlock_new_inode(inode);
++	iput(inode);
++out_dir:
++	inode_dec_link_count(dir);
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("finished\n");
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	return err;
++}
++
++/*
++ * Create subdirectory.
++ * The ssdfs_mkdir() is called by the mkdir(2) system call.
++ */
++static struct dentry *ssdfs_mkdir(struct mnt_idmap *idmap, struct inode *dir,
++				  struct dentry *dentry, umode_t mode)
++{
++	return ERR_PTR(__ssdfs_mkdir(idmap, dir, dentry, mode));
++}
++
++/*
++ * Delete inode.
++ * The ssdfs_unlink() is called by the unlink(2) system call.
++ */
++static int ssdfs_unlink(struct inode *dir, struct dentry *dentry)
++{
++	struct ssdfs_inode_info *ii = SSDFS_I(dir);
++	struct inode *inode = d_inode(dentry);
++	struct ssdfs_btree_search *search;
++	int private_flags;
++	u64 name_hash;
++	struct timespec64 cur_time;
++	int err = 0;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("dir %lu, inode %lu\n",
++		  (unsigned long)dir->i_ino, (unsigned long)inode->i_ino);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	trace_ssdfs_unlink_enter(dir, dentry);
++
++	private_flags = atomic_read(&ii->private_flags);
++
++	if (private_flags & SSDFS_INODE_HAS_INLINE_DENTRIES ||
++	    private_flags & SSDFS_INODE_HAS_DENTRIES_BTREE) {
++		down_read(&ii->lock);
++
++		if (!ii->dentries_tree) {
++			err = -ERANGE;
++			SSDFS_WARN("dentries tree absent!!!\n");
++			goto finish_delete_dentry;
++		}
++
++		search = ssdfs_btree_search_alloc();
++		if (!search) {
++			err = -ENOMEM;
++			SSDFS_ERR("fail to allocate btree search object\n");
++			goto finish_delete_dentry;
++		}
++
++		ssdfs_btree_search_init(search);
++
++		name_hash = ssdfs_generate_name_hash(&dentry->d_name);
++		if (name_hash >= U64_MAX) {
++			err = -ERANGE;
++			SSDFS_ERR("invalid name hash\n");
++			goto dentry_is_not_available;
++		}
++
++		err = ssdfs_dentries_tree_delete(ii->dentries_tree,
++						 name_hash,
++						 inode->i_ino,
++						 search);
++		if (unlikely(err)) {
++			SSDFS_ERR("fail to delete the dentry: "
++				  "name_hash %llx, ino %lu, err %d\n",
++				  name_hash, inode->i_ino, err);
++			goto dentry_is_not_available;
++		}
++
++dentry_is_not_available:
++		ssdfs_btree_search_free(search);
++
++finish_delete_dentry:
++		up_read(&ii->lock);
++
++		if (unlikely(err))
++			goto finish_unlink;
++	} else {
++		err = -ENOENT;
++		SSDFS_ERR("dentries tree is absent\n");
++		goto finish_unlink;
++	}
++
++	mark_inode_dirty(dir);
++	mark_inode_dirty(inode);
++
++	cur_time = current_time(dir);
++	inode_set_ctime_to_ts(inode, cur_time);
++	inode_set_mtime_to_ts(dir, cur_time);
++	inode_set_ctime_to_ts(dir, cur_time);
++
++	inode_dec_link_count(inode);
++
++finish_unlink:
++	trace_ssdfs_unlink_exit(inode, err);
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("finished\n");
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	return err;
++}
++
++static inline bool ssdfs_empty_dir(struct inode *dir)
++{
++	struct ssdfs_inode_info *ii = SSDFS_I(dir);
++	bool is_empty = false;
++	int private_flags;
++	u64 dentries_count;
++	u64 threshold = 2; /* . and .. */
++
++	private_flags = atomic_read(&ii->private_flags);
++
++	if (private_flags & SSDFS_INODE_HAS_INLINE_DENTRIES ||
++	    private_flags & SSDFS_INODE_HAS_DENTRIES_BTREE) {
++		down_read(&ii->lock);
++
++		if (!ii->dentries_tree) {
++			SSDFS_WARN("dentries tree absent!!!\n");
++			is_empty = true;
++		} else {
++			dentries_count =
++			    atomic64_read(&ii->dentries_tree->dentries_count);
++
++			if (dentries_count > threshold) {
++				/* not empty folder */
++				is_empty = false;
++			} else if (dentries_count < threshold) {
++				SSDFS_WARN("unexpected dentries count %llu\n",
++					   dentries_count);
++				is_empty = true;
++			} else
++				is_empty = true;
++		}
++
++		up_read(&ii->lock);
++	} else {
++		/* dentries tree is absent */
++		is_empty = true;
++	}
++
++	return is_empty;
++}
++
++/*
++ * Delete subdirectory.
++ * The ssdfs_rmdir() is called by the rmdir(2) system call.
++ */
++static int ssdfs_rmdir(struct inode *dir, struct dentry *dentry)
++{
++	struct inode *inode = d_inode(dentry);
++	int err = -ENOTEMPTY;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("dir %lu, subdir %lu\n",
++		  (unsigned long)dir->i_ino, (unsigned long)inode->i_ino);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	if (ssdfs_empty_dir(inode)) {
++		err = ssdfs_unlink(dir, dentry);
++		if (!err) {
++			inode->i_size = 0;
++			inode_dec_link_count(inode);
++			inode_dec_link_count(dir);
++		}
++	}
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("finished\n");
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	return err;
++}
++
++enum {
++	SSDFS_FIRST_INODE_LOCK = 0,
++	SSDFS_SECOND_INODE_LOCK,
++	SSDFS_THIRD_INODE_LOCK,
++	SSDFS_FOURTH_INODE_LOCK,
++};
++
++static void lock_4_inodes(struct inode *inode1, struct inode *inode2,
++			  struct inode *inode3, struct inode *inode4)
++{
++	down_write_nested(&SSDFS_I(inode1)->lock, SSDFS_FIRST_INODE_LOCK);
++
++	if (inode2 != inode1) {
++		down_write_nested(&SSDFS_I(inode2)->lock,
++					SSDFS_SECOND_INODE_LOCK);
++	}
++
++	if (inode3) {
++		down_write_nested(&SSDFS_I(inode3)->lock,
++					SSDFS_THIRD_INODE_LOCK);
++	}
++
++	if (inode4) {
++		down_write_nested(&SSDFS_I(inode4)->lock,
++					SSDFS_FOURTH_INODE_LOCK);
++	}
++}
++
++static void unlock_4_inodes(struct inode *inode1, struct inode *inode2,
++			    struct inode *inode3, struct inode *inode4)
++{
++	if (inode4)
++		up_write(&SSDFS_I(inode4)->lock);
++	if (inode3)
++		up_write(&SSDFS_I(inode3)->lock);
++	if (inode1 != inode2)
++		up_write(&SSDFS_I(inode2)->lock);
++	up_write(&SSDFS_I(inode1)->lock);
++}
++
++/*
++ * Regular rename.
++ */
++static int ssdfs_rename_target(struct inode *old_dir,
++				struct dentry *old_dentry,
++				struct inode *new_dir,
++				struct dentry *new_dentry,
++				unsigned int flags)
++{
++	struct ssdfs_fs_info *fsi = SSDFS_FS_I(old_dir->i_sb);
++	struct ssdfs_inode_info *old_dir_ii = SSDFS_I(old_dir);
++	struct ssdfs_inode_info *new_dir_ii = SSDFS_I(new_dir);
++	struct inode *old_inode = d_inode(old_dentry);
++	struct ssdfs_inode_info *old_ii = SSDFS_I(old_inode);
++	struct inode *new_inode = d_inode(new_dentry);
++	struct ssdfs_btree_search *search;
++	struct qstr dotdot = QSTR_INIT("..", 2);
++	bool is_dir = S_ISDIR(old_inode->i_mode);
++	bool move = (new_dir != old_dir);
++	bool unlink = new_inode != NULL;
++	ino_t old_ino, old_parent_ino, new_ino;
++	struct timespec64 time;
++	u64 name_hash;
++	int err = -ENOENT;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("old_dir %lu, old_inode %lu, "
++		  "new_dir %lu, new_inode %p\n",
++		  (unsigned long)old_dir->i_ino,
++		  (unsigned long)old_inode->i_ino,
++		  (unsigned long)new_dir->i_ino,
++		  new_inode);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	search = ssdfs_btree_search_alloc();
++	if (!search) {
++		err = -ENOMEM;
++		SSDFS_ERR("fail to allocate btree search object\n");
++		goto out;
++	}
++
++	ssdfs_btree_search_init(search);
++
++	lock_4_inodes(old_dir, new_dir, old_inode, new_inode);
++
++	err = ssdfs_inode_by_name(old_dir, &old_dentry->d_name, &old_ino);
++	if (unlikely(err)) {
++		SSDFS_ERR("fail to find old dentry: err %d\n", err);
++		goto finish_target_rename;
++	} else if (old_ino != old_inode->i_ino) {
++		err = -ERANGE;
++		SSDFS_ERR("invalid ino: found ino %lu != requested ino %lu\n",
++			  old_ino, old_inode->i_ino);
++		goto finish_target_rename;
++	}
++
++	if (S_ISDIR(old_inode->i_mode)) {
++		err = ssdfs_inode_by_name(old_inode, &dotdot, &old_parent_ino);
++		if (unlikely(err)) {
++			SSDFS_ERR("fail to find parent dentry: err %d\n", err);
++			goto finish_target_rename;
++		} else if (old_parent_ino != old_dir->i_ino) {
++			err = -ERANGE;
++			SSDFS_ERR("invalid ino: "
++				  "found ino %lu != requested ino %lu\n",
++				  old_parent_ino, old_dir->i_ino);
++			goto finish_target_rename;
++		}
++	}
++
++	if (!old_dir_ii->dentries_tree) {
++		err = -ERANGE;
++		SSDFS_ERR("old dir hasn't dentries tree\n");
++		goto finish_target_rename;
++	}
++
++	if (!new_dir_ii->dentries_tree) {
++		err = -ERANGE;
++		SSDFS_ERR("new dir hasn't dentries tree\n");
++		goto finish_target_rename;
++	}
++
++	if (S_ISDIR(old_inode->i_mode) && !old_ii->dentries_tree) {
++		err = -ERANGE;
++		SSDFS_ERR("old inode hasn't dentries tree\n");
++		goto finish_target_rename;
++	}
++
++	if (flags & RENAME_WHITEOUT) {
++		/* TODO: implement support */
++		SSDFS_WARN("TODO: implement support of RENAME_WHITEOUT\n");
++	}
++
++	if (new_inode) {
++		err = -ENOTEMPTY;
++		if (is_dir && !ssdfs_empty_dir(new_inode))
++			goto finish_target_rename;
++
++		err = ssdfs_inode_by_name(new_dir, &new_dentry->d_name,
++					  &new_ino);
++		if (unlikely(err)) {
++			SSDFS_ERR("fail to find new dentry: err %d\n", err);
++			goto finish_target_rename;
++		} else if (new_ino != new_inode->i_ino) {
++			err = -ERANGE;
++			SSDFS_ERR("invalid ino: "
++				  "found ino %lu != requested ino %lu\n",
++				  new_ino, new_inode->i_ino);
++			goto finish_target_rename;
++		}
++
++		name_hash = ssdfs_generate_name_hash(&new_dentry->d_name);
++
++		err = ssdfs_dentries_tree_change(new_dir_ii->dentries_tree,
++						 name_hash,
++						 new_inode->i_ino,
++						 &old_dentry->d_name,
++						 old_ii,
++						 search);
++		if (unlikely(err)) {
++			ssdfs_fs_error(fsi->sb, __FILE__, __func__, __LINE__,
++					"fail to update dentry: err %d\n",
++					err);
++			goto finish_target_rename;
++		}
++	} else {
++		err = ssdfs_add_link(new_dir, new_dentry, old_inode);
++		if (unlikely(err)) {
++			ssdfs_fs_error(fsi->sb, __FILE__, __func__, __LINE__,
++					"fail to add the link: err %d\n",
++					err);
++			goto finish_target_rename;
++		}
++	}
++
++	name_hash = ssdfs_generate_name_hash(&old_dentry->d_name);
++
++	err = ssdfs_dentries_tree_delete(old_dir_ii->dentries_tree,
++					 name_hash,
++					 old_inode->i_ino,
++					 search);
++	if (unlikely(err)) {
++		ssdfs_fs_error(fsi->sb, __FILE__, __func__, __LINE__,
++				"fail to delete the dentry: "
++				"name_hash %llx, ino %lu, err %d\n",
++				name_hash, old_inode->i_ino, err);
++		goto finish_target_rename;
++	}
++
++	if (is_dir && move) {
++		/* update ".." directory entry info of old dentry */
++		name_hash = ssdfs_generate_name_hash(&dotdot);
++		err = ssdfs_dentries_tree_change(old_ii->dentries_tree,
++						 name_hash, old_dir->i_ino,
++						 &dotdot, new_dir_ii,
++						 search);
++		if (unlikely(err)) {
++			ssdfs_fs_error(fsi->sb, __FILE__, __func__, __LINE__,
++					"fail to update dentry: err %d\n",
++					err);
++			goto finish_target_rename;
++		}
++	}
++
++	old_ii->parent_ino = new_dir->i_ino;
++
++	/*
++	 * Like most other Unix systems, set the @i_ctime for inodes on a
++	 * rename.
++	 */
++	time = current_time(old_dir);
++	inode_set_ctime_to_ts(old_inode, time);
++	mark_inode_dirty(old_inode);
++
++	/* We must adjust parent link count when renaming directories */
++	if (is_dir) {
++		if (move) {
++			/*
++			 * @old_dir loses a link because we are moving
++			 * @old_inode to a different directory.
++			 */
++			inode_dec_link_count(old_dir);
++			/*
++			 * @new_dir only gains a link if we are not also
++			 * overwriting an existing directory.
++			 */
++			if (!unlink)
++				inode_inc_link_count(new_dir);
++		} else {
++			/*
++			 * @old_inode is not moving to a different directory,
++			 * but @old_dir still loses a link if we are
++			 * overwriting an existing directory.
++			 */
++			if (unlink)
++				inode_dec_link_count(old_dir);
++		}
++	}
++
++	inode_set_mtime_to_ts(old_dir, time);
++	inode_set_ctime_to_ts(old_dir, time);
++	inode_set_mtime_to_ts(new_dir, time);
++	inode_set_ctime_to_ts(new_dir, time);
++
++	/*
++	 * And finally, if we unlinked a direntry which happened to have the
++	 * same name as the moved direntry, we have to decrement @i_nlink of
++	 * the unlinked inode and change its ctime.
++	 */
++	if (unlink) {
++		/*
++		 * Directories cannot have hard-links, so if this is a
++		 * directory, just clear @i_nlink.
++		 */
++		if (is_dir) {
++			clear_nlink(new_inode);
++			mark_inode_dirty(new_inode);
++		} else
++			inode_dec_link_count(new_inode);
++		inode_set_ctime_to_ts(new_inode, time);
++	}
++
++finish_target_rename:
++	unlock_4_inodes(old_dir, new_dir, old_inode, new_inode);
++	ssdfs_btree_search_free(search);
++
++out:
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("finished\n");
++#endif /* CONFIG_SSDFS_DEBUG */
++	return err;
++}
++
++/*
++ * Cross-directory rename.
++ */
++static int ssdfs_cross_rename(struct inode *old_dir,
++				struct dentry *old_dentry,
++				struct inode *new_dir,
++				struct dentry *new_dentry)
++{
++	struct ssdfs_fs_info *fsi = SSDFS_FS_I(old_dir->i_sb);
++	struct ssdfs_inode_info *old_dir_ii = SSDFS_I(old_dir);
++	struct ssdfs_inode_info *new_dir_ii = SSDFS_I(new_dir);
++	struct inode *old_inode = d_inode(old_dentry);
++	struct ssdfs_inode_info *old_ii = SSDFS_I(old_inode);
++	struct inode *new_inode = d_inode(new_dentry);
++	struct ssdfs_inode_info *new_ii = SSDFS_I(new_inode);
++	struct ssdfs_btree_search *search;
++	struct qstr dotdot = QSTR_INIT("..", 2);
++	ino_t old_ino, new_ino;
++	struct timespec64 time;
++	u64 name_hash;
++	int err = -ENOENT;
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("old_dir %lu, old_inode %lu, new_dir %lu\n",
++		  (unsigned long)old_dir->i_ino,
++		  (unsigned long)old_inode->i_ino,
++		  (unsigned long)new_dir->i_ino);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	search = ssdfs_btree_search_alloc();
++	if (!search) {
++		err = -ENOMEM;
++		SSDFS_ERR("fail to allocate btree search object\n");
++		goto out;
++	}
++
++	ssdfs_btree_search_init(search);
++
++	lock_4_inodes(old_dir, new_dir, old_inode, new_inode);
++
++	err = ssdfs_inode_by_name(old_dir, &old_dentry->d_name, &old_ino);
++	if (unlikely(err)) {
++		SSDFS_ERR("fail to find old dentry: err %d\n", err);
++		goto finish_cross_rename;
++	} else if (old_ino != old_inode->i_ino) {
++		err = -ERANGE;
++		SSDFS_ERR("invalid ino: found ino %lu != requested ino %lu\n",
++			  old_ino, old_inode->i_ino);
++		goto finish_cross_rename;
++	}
++
++	err = ssdfs_inode_by_name(new_dir, &new_dentry->d_name, &new_ino);
++	if (unlikely(err)) {
++		SSDFS_ERR("fail to find new dentry: err %d\n", err);
++		goto finish_cross_rename;
++	} else if (new_ino != new_inode->i_ino) {
++		err = -ERANGE;
++		SSDFS_ERR("invalid ino: found ino %lu != requested ino %lu\n",
++			  new_ino, new_inode->i_ino);
++		goto finish_cross_rename;
++	}
++
++	if (!old_dir_ii->dentries_tree) {
++		err = -ERANGE;
++		SSDFS_ERR("old dir hasn't dentries tree\n");
++		goto finish_cross_rename;
++	}
++
++	if (!new_dir_ii->dentries_tree) {
++		err = -ERANGE;
++		SSDFS_ERR("new dir hasn't dentries tree\n");
++		goto finish_cross_rename;
++	}
++
++	if (S_ISDIR(old_inode->i_mode) && !old_ii->dentries_tree) {
++		err = -ERANGE;
++		SSDFS_ERR("old inode hasn't dentries tree\n");
++		goto finish_cross_rename;
++	}
++
++	if (S_ISDIR(new_inode->i_mode) && !new_ii->dentries_tree) {
++		err = -ERANGE;
++		SSDFS_ERR("new inode hasn't dentries tree\n");
++		goto finish_cross_rename;
++	}
++
++	name_hash = ssdfs_generate_name_hash(&dotdot);
++
++	/* update ".." directory entry info of old dentry */
++	if (S_ISDIR(old_inode->i_mode)) {
++		err = ssdfs_dentries_tree_change(old_ii->dentries_tree,
++						 name_hash, old_dir->i_ino,
++						 &dotdot, new_dir_ii,
++						 search);
++		if (unlikely(err)) {
++			ssdfs_fs_error(fsi->sb, __FILE__, __func__, __LINE__,
++					"fail to update dentry: err %d\n",
++					err);
++			goto finish_cross_rename;
++		}
++	}
++
++	/* update ".." directory entry info of new dentry */
++	if (S_ISDIR(new_inode->i_mode)) {
++		err = ssdfs_dentries_tree_change(new_ii->dentries_tree,
++						 name_hash, new_dir->i_ino,
++						 &dotdot, old_dir_ii,
++						 search);
++		if (unlikely(err)) {
++			ssdfs_fs_error(fsi->sb, __FILE__, __func__, __LINE__,
++					"fail to update dentry: err %d\n",
++					err);
++			goto finish_cross_rename;
++		}
++	}
++
++	/* update directory entry info of old dir inode */
++	name_hash = ssdfs_generate_name_hash(&old_dentry->d_name);
++
++	err = ssdfs_dentries_tree_change(old_dir_ii->dentries_tree,
++					 name_hash, old_inode->i_ino,
++					 &new_dentry->d_name, new_ii,
++					 search);
++	if (unlikely(err)) {
++		ssdfs_fs_error(fsi->sb, __FILE__, __func__, __LINE__,
++				"fail to update dentry: err %d\n",
++				err);
++		goto finish_cross_rename;
++	}
++
++	/* update directory entry info of new dir inode */
++	name_hash = ssdfs_generate_name_hash(&new_dentry->d_name);
++
++	err = ssdfs_dentries_tree_change(new_dir_ii->dentries_tree,
++					 name_hash, new_inode->i_ino,
++					 &old_dentry->d_name, old_ii,
++					 search);
++	if (unlikely(err)) {
++		ssdfs_fs_error(fsi->sb, __FILE__, __func__, __LINE__,
++				"fail to update dentry: err %d\n",
++				err);
++		goto finish_cross_rename;
++	}
++
++	old_ii->parent_ino = new_dir->i_ino;
++	new_ii->parent_ino = old_dir->i_ino;
++
++	time = current_time(old_dir);
++	inode_set_ctime_to_ts(old_inode, time);
++	inode_set_ctime_to_ts(new_inode, time);
++	inode_set_mtime_to_ts(old_dir, time);
++	inode_set_ctime_to_ts(old_dir, time);
++	inode_set_mtime_to_ts(new_dir, time);
++	inode_set_ctime_to_ts(new_dir, time);
++
++	if (old_dir != new_dir) {
++		if (S_ISDIR(old_inode->i_mode) &&
++		    !S_ISDIR(new_inode->i_mode)) {
++			inode_inc_link_count(new_dir);
++			inode_dec_link_count(old_dir);
++		}
++		else if (!S_ISDIR(old_inode->i_mode) &&
++			 S_ISDIR(new_inode->i_mode)) {
++			inode_dec_link_count(new_dir);
++			inode_inc_link_count(old_dir);
++		}
++	}
++
++	mark_inode_dirty(old_inode);
++	mark_inode_dirty(new_inode);
++
++finish_cross_rename:
++	unlock_4_inodes(old_dir, new_dir, old_inode, new_inode);
++	ssdfs_btree_search_free(search);
++
++out:
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("finished\n");
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	return err;
++}
++
++/*
++ * The ssdfs_rename() is called by the rename(2) system call
++ * to rename the object to have the parent and name given by
++ * the second inode and dentry.
++ */
++static int ssdfs_rename(struct mnt_idmap *idmap,
++			struct inode *old_dir, struct dentry *old_dentry,
++			struct inode *new_dir, struct dentry *new_dentry,
++			unsigned int flags)
++{
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("old_dir %lu, old_inode %lu, new_dir %lu\n",
++		  (unsigned long)old_dir->i_ino,
++		  (unsigned long)old_dentry->d_inode->i_ino,
++		  (unsigned long)new_dir->i_ino);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++	if (flags & ~(RENAME_NOREPLACE | RENAME_EXCHANGE | RENAME_WHITEOUT)) {
++		SSDFS_ERR("invalid flags %#x\n", flags);
++		return -EINVAL;
++	}
++
++	if (flags & RENAME_EXCHANGE) {
++		return ssdfs_cross_rename(old_dir, old_dentry,
++					  new_dir, new_dentry);
++	}
++
++	return ssdfs_rename_target(old_dir, old_dentry, new_dir, new_dentry,
++				   flags);
++}
++
 +static
-+int ssdfs_xattrs_tree_get_start_hash(struct ssdfs_xattrs_btree_info *tree,
-+				     u64 *start_hash)
++int ssdfs_dentries_tree_get_start_hash(struct ssdfs_dentries_btree_info *tree,
++					u64 *start_hash)
 +{
 +	struct ssdfs_btree_index *index;
++	struct ssdfs_dir_entry *cur_dentry;
++	u64 dentries_count;
 +	int err = 0;
 +
 +#ifdef CONFIG_SSDFS_DEBUG
@@ -505,43 +1536,89 @@ index 000000000000..3e2b38bc2985
 +	*start_hash = U64_MAX;
 +
 +	switch (atomic_read(&tree->state)) {
-+	case SSDFS_XATTR_BTREE_CREATED:
-+	case SSDFS_XATTR_BTREE_INITIALIZED:
-+	case SSDFS_XATTR_BTREE_DIRTY:
++	case SSDFS_DENTRIES_BTREE_CREATED:
++	case SSDFS_DENTRIES_BTREE_INITIALIZED:
++	case SSDFS_DENTRIES_BTREE_DIRTY:
 +		/* expected state */
 +		break;
 +
 +	default:
-+		SSDFS_ERR("invalid xattrs tree's state %#x\n",
++		SSDFS_ERR("invalid dentries tree's state %#x\n",
 +			  atomic_read(&tree->state));
 +		return -ERANGE;
 +	};
 +
-+	down_read(&tree->lock);
++	dentries_count = atomic64_read(&tree->dentries_count);
 +
-+	if (!tree->root) {
-+		err = -ERANGE;
-+		SSDFS_ERR("root node pointer is NULL\n");
-+		goto finish_get_start_hash;
-+	}
++	if (dentries_count < 2) {
++		SSDFS_WARN("folder is corrupted: "
++			   "dentries_count %llu\n",
++			   dentries_count);
++		return -ERANGE;
++	} else if (dentries_count == 2)
++		return -ENOENT;
 +
-+	index = &tree->root->indexes[SSDFS_ROOT_NODE_LEFT_LEAF_NODE];
-+	*start_hash = le64_to_cpu(index->hash);
++	switch (atomic_read(&tree->type)) {
++	case SSDFS_INLINE_DENTRIES_ARRAY:
++		down_read(&tree->lock);
 +
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("start_hash %llx\n", *start_hash);
-+#endif /* CONFIG_SSDFS_DEBUG */
++		if (!tree->inline_dentries) {
++			err = -ERANGE;
++			SSDFS_ERR("inline tree's pointer is empty\n");
++			goto finish_process_inline_tree;
++		}
++
++		cur_dentry = &tree->inline_dentries[0];
++		*start_hash = le64_to_cpu(cur_dentry->hash_code);
++
++finish_process_inline_tree:
++		up_read(&tree->lock);
++
++		if (*start_hash >= U64_MAX) {
++			/* warn about invalid hash code */
++			SSDFS_WARN("inline array: hash_code is invalid\n");
++		}
++		break;
++
++	case SSDFS_PRIVATE_DENTRIES_BTREE:
++		down_read(&tree->lock);
++
++		if (!tree->root) {
++			err = -ERANGE;
++			SSDFS_ERR("root node pointer is NULL\n");
++			goto finish_get_start_hash;
++		}
++
++		index = &tree->root->indexes[SSDFS_ROOT_NODE_LEFT_LEAF_NODE];
++		*start_hash = le64_to_cpu(index->hash);
 +
 +finish_get_start_hash:
-+	up_read(&tree->lock);
++		up_read(&tree->lock);
++
++		if (*start_hash >= U64_MAX) {
++			/* warn about invalid hash code */
++			SSDFS_WARN("private dentry: hash_code is invalid\n");
++		}
++		break;
++
++	default:
++		err = -ERANGE;
++		SSDFS_ERR("invalid tree type %#x\n",
++			  atomic_read(&tree->type));
++		break;
++	}
++
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("finished\n");
++#endif /* CONFIG_SSDFS_DEBUG */
 +
 +	return err;
 +}
 +
 +static
-+int ssdfs_xattrs_tree_get_next_hash(struct ssdfs_xattrs_btree_info *tree,
-+				    struct ssdfs_btree_search *search,
-+				    u64 *next_hash)
++int ssdfs_dentries_tree_get_next_hash(struct ssdfs_dentries_btree_info *tree,
++					struct ssdfs_btree_search *search,
++					u64 *next_hash)
 +{
 +	u64 old_hash;
 +	int err = 0;
@@ -558,12 +1635,11 @@ index 000000000000..3e2b38bc2985
 +#endif /* CONFIG_SSDFS_DEBUG */
 +
 +	switch (atomic_read(&tree->type)) {
-+	case SSDFS_INLINE_XATTR:
-+	case SSDFS_INLINE_XATTR_ARRAY:
-+		SSDFS_DBG("inline xattrs array is unsupported\n");
++	case SSDFS_INLINE_DENTRIES_ARRAY:
++		SSDFS_DBG("inline dentries array is unsupported\n");
 +		return -ENOENT;
 +
-+	case SSDFS_PRIVATE_XATTR_BTREE:
++	case SSDFS_PRIVATE_DENTRIES_BTREE:
 +		/* expected tree type */
 +		break;
 +
@@ -577,17 +1653,21 @@ index 000000000000..3e2b38bc2985
 +	err = ssdfs_btree_get_next_hash(tree->generic_tree, search, next_hash);
 +	up_read(&tree->lock);
 +
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("finished\n");
++#endif /* CONFIG_SSDFS_DEBUG */
++
 +	return err;
 +}
 +
 +static
-+int ssdfs_xattrs_tree_node_hash_range(struct ssdfs_xattrs_btree_info *tree,
++int ssdfs_dentries_tree_node_hash_range(struct ssdfs_dentries_btree_info *tree,
 +					struct ssdfs_btree_search *search,
 +					u64 *start_hash, u64 *end_hash,
 +					u16 *items_count)
 +{
-+	struct ssdfs_xattr_entry *cur_xattr;
-+	u16 inline_count;
++	struct ssdfs_dir_entry *cur_dentry;
++	u64 dentries_count;
 +	int err = 0;
 +
 +#ifdef CONFIG_SSDFS_DEBUG
@@ -595,69 +1675,67 @@ index 000000000000..3e2b38bc2985
 +
 +	SSDFS_DBG("search %p, start_hash %p, "
 +		  "end_hash %p, items_count %p\n",
-+		  tree, start_hash, end_hash, items_count);
++		  search, start_hash, end_hash, items_count);
 +#endif /* CONFIG_SSDFS_DEBUG */
 +
 +	*start_hash = *end_hash = U64_MAX;
 +	*items_count = 0;
 +
 +	switch (atomic_read(&tree->state)) {
-+	case SSDFS_XATTR_BTREE_CREATED:
-+	case SSDFS_XATTR_BTREE_INITIALIZED:
-+	case SSDFS_XATTR_BTREE_DIRTY:
++	case SSDFS_DENTRIES_BTREE_CREATED:
++	case SSDFS_DENTRIES_BTREE_INITIALIZED:
++	case SSDFS_DENTRIES_BTREE_DIRTY:
 +		/* expected state */
 +		break;
 +
 +	default:
-+		SSDFS_ERR("invalid xattrs tree's state %#x\n",
++		SSDFS_ERR("invalid dentries tree's state %#x\n",
 +			  atomic_read(&tree->state));
 +		return -ERANGE;
 +	};
 +
 +	switch (atomic_read(&tree->type)) {
-+	case SSDFS_INLINE_XATTR:
-+	case SSDFS_INLINE_XATTR_ARRAY:
++	case SSDFS_INLINE_DENTRIES_ARRAY:
++		dentries_count = atomic64_read(&tree->dentries_count);
++		if (dentries_count >= U16_MAX) {
++			err = -ERANGE;
++			SSDFS_ERR("unexpected dentries count %llu\n",
++				  dentries_count);
++			goto finish_extract_hash_range;
++		}
++
++		*items_count = (u16)dentries_count;
++
++		if (*items_count == 0)
++			goto finish_extract_hash_range;
++
 +		down_read(&tree->lock);
 +
-+		if (!tree->inline_xattrs) {
++		if (!tree->inline_dentries) {
 +			err = -ERANGE;
 +			SSDFS_ERR("inline tree's pointer is empty\n");
 +			goto finish_process_inline_tree;
 +		}
 +
-+		inline_count = tree->inline_count;
++		cur_dentry = &tree->inline_dentries[0];
++		*start_hash = le64_to_cpu(cur_dentry->hash_code);
 +
-+		if (inline_count >= U16_MAX) {
++		if (dentries_count > SSDFS_INLINE_DENTRIES_COUNT) {
 +			err = -ERANGE;
-+			SSDFS_ERR("unexpected xattrs count %u\n",
-+				  inline_count);
++			SSDFS_ERR("dentries_count %llu > max_value %u\n",
++				  dentries_count,
++				  SSDFS_INLINE_DENTRIES_COUNT);
 +			goto finish_process_inline_tree;
 +		}
 +
-+		*items_count = inline_count;
-+
-+		if (*items_count == 0)
-+			goto finish_process_inline_tree;
-+
-+		cur_xattr = &tree->inline_xattrs[0];
-+		*start_hash = le64_to_cpu(cur_xattr->name_hash);
-+
-+		if (inline_count > tree->inline_capacity) {
-+			err = -ERANGE;
-+			SSDFS_ERR("xattrs_count %u > max_value %u\n",
-+				  inline_count,
-+				  tree->inline_capacity);
-+			goto finish_process_inline_tree;
-+		}
-+
-+		cur_xattr = &tree->inline_xattrs[inline_count - 1];
-+		*end_hash = le64_to_cpu(cur_xattr->name_hash);
++		cur_dentry = &tree->inline_dentries[dentries_count - 1];
++		*end_hash = le64_to_cpu(cur_dentry->hash_code);
 +
 +finish_process_inline_tree:
 +		up_read(&tree->lock);
 +		break;
 +
-+	case SSDFS_PRIVATE_XATTR_BTREE:
++	case SSDFS_PRIVATE_DENTRIES_BTREE:
 +		err = ssdfs_btree_node_get_hash_range(search,
 +						      start_hash,
 +						      end_hash,
@@ -675,14 +1753,19 @@ index 000000000000..3e2b38bc2985
 +		return -ERANGE;
 +	}
 +
++#ifdef CONFIG_SSDFS_DEBUG
++	SSDFS_DBG("start_hash %llx, end_hash %llx, items_count %u\n",
++		  *start_hash, *end_hash, *items_count);
++#endif /* CONFIG_SSDFS_DEBUG */
++
 +finish_extract_hash_range:
 +	return err;
 +}
 +
 +static
-+int ssdfs_xattrs_tree_check_search_result(struct ssdfs_btree_search *search)
++int ssdfs_dentries_tree_check_search_result(struct ssdfs_btree_search *search)
 +{
-+	size_t xattr_size = sizeof(struct ssdfs_xattr_entry);
++	size_t dentry_size = sizeof(struct ssdfs_dir_entry);
 +	u16 items_count;
 +	size_t buf_size;
 +
@@ -731,7 +1814,7 @@ index 000000000000..3e2b38bc2985
 +		return -ERANGE;
 +	}
 +
-+	buf_size = xattr_size * items_count;
++	buf_size = dentry_size * items_count;
 +
 +	if (buf_size != search->result.raw_buf.size) {
 +		SSDFS_ERR("buf_size %zu != search->result.raw_buf.size %zu\n",
@@ -744,318 +1827,122 @@ index 000000000000..3e2b38bc2985
 +}
 +
 +static
-+bool is_invalid_xattr(struct ssdfs_xattr_entry *xattr)
++bool is_invalid_dentry(struct ssdfs_dir_entry *dentry)
 +{
-+#ifdef CONFIG_SSDFS_DEBUG
-+	BUG_ON(!xattr);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	if (le64_to_cpu(xattr->name_hash) >= U64_MAX) {
-+		SSDFS_ERR("invalid hash_code\n");
-+		return true;
-+	}
-+
-+	if (xattr->name_len > SSDFS_MAX_NAME_LEN) {
-+		SSDFS_ERR("invalid name_len %u\n",
-+			  xattr->name_len);
-+		return true;
-+	}
-+
-+	if (xattr->name_type <= SSDFS_XATTR_NAME_UNKNOWN_TYPE ||
-+	    xattr->name_type >= SSDFS_XATTR_NAME_TYPE_MAX) {
-+		SSDFS_ERR("invalid name_type %#x\n",
-+			  xattr->name_type);
-+		return true;
-+	}
-+
-+	if (xattr->name_flags & ~SSDFS_XATTR_NAME_FLAGS_MASK) {
-+		SSDFS_ERR("invalid set of flags %#x\n",
-+			  xattr->name_flags);
-+		return true;
-+	}
-+
-+	if (xattr->blob_type <= SSDFS_XATTR_BLOB_UNKNOWN_TYPE ||
-+	    xattr->blob_type >= SSDFS_XATTR_BLOB_TYPE_MAX) {
-+		SSDFS_ERR("invalid blob_type %#x\n",
-+			  xattr->blob_type);
-+		return true;
-+	}
-+
-+	if (xattr->blob_flags & ~SSDFS_XATTR_BLOB_FLAGS_MASK) {
-+		SSDFS_ERR("invalid set of flags %#x\n",
-+			  xattr->blob_flags);
-+		return true;
-+	}
-+
-+	return false;
-+}
-+
-+static
-+ssize_t ssdfs_copy_name2buffer(struct ssdfs_shared_dict_btree_info *dict,
-+				struct ssdfs_xattr_entry *xattr,
-+				struct ssdfs_btree_search *search,
-+				ssize_t offset,
-+				char *buffer, size_t size)
-+{
-+	u64 hash;
-+	size_t prefix_len, name_len;
-+	ssize_t copied = 0;
-+	int err = 0;
++	u8 name_len;
++	bool is_invalid = false;
 +
 +#ifdef CONFIG_SSDFS_DEBUG
-+	BUG_ON(!xattr || !buffer);
++	BUG_ON(!dentry);
 +
-+	SSDFS_DBG("xattr %p, offset %zd, "
-+		  "buffer %p, size %zu\n",
-+		  xattr, offset, buffer, size);
++	SSDFS_DBG("dentry_type %#x, file_type %#x, "
++		  "flags %#x, name_len %u, "
++		  "hash_code %llx, ino %llu\n",
++		  dentry->dentry_type, dentry->file_type,
++		  dentry->flags, dentry->name_len,
++		  le64_to_cpu(dentry->hash_code),
++		  le64_to_cpu(dentry->ino));
 +#endif /* CONFIG_SSDFS_DEBUG */
 +
-+	hash = le64_to_cpu(xattr->name_hash);
-+
-+	if ((copied + xattr->name_len) >= size) {
-+		SSDFS_ERR("copied %zd, name_len %u, size %zu\n",
-+			  copied, xattr->name_len, size);
-+		return -ERANGE;
-+	}
-+
-+	if (xattr->name_flags & SSDFS_XATTR_HAS_EXTERNAL_STRING) {
-+		err = ssdfs_shared_dict_get_name(dict, hash,
-+						 &search->name.string);
-+		if (unlikely(err)) {
-+			SSDFS_ERR("fail to extract the name: "
-+				  "hash %llx, err %d\n",
-+				  hash, err);
-+			return err;
-+		}
-+
-+		switch (xattr->name_type) {
-+		case SSDFS_XATTR_REGULAR_NAME:
-+			/* do nothing here */
-+			break;
-+
-+		case SSDFS_XATTR_USER_REGULAR_NAME:
-+			prefix_len =
-+				strlen(SSDFS_NS_PREFIX[SSDFS_USER_NS_INDEX]);
-+			err = ssdfs_memcpy(buffer, offset, size,
-+				     SSDFS_NS_PREFIX[SSDFS_USER_NS_INDEX],
-+				     0, prefix_len,
-+				     prefix_len);
-+			BUG_ON(unlikely(err != 0));
-+			offset += prefix_len;
-+			copied += prefix_len;
-+			break;
-+
-+		case SSDFS_XATTR_TRUSTED_REGULAR_NAME:
-+			prefix_len =
-+				strlen(SSDFS_NS_PREFIX[SSDFS_TRUSTED_NS_INDEX]);
-+			err = ssdfs_memcpy(buffer, offset, size,
-+				     SSDFS_NS_PREFIX[SSDFS_TRUSTED_NS_INDEX],
-+				     0, prefix_len,
-+				     prefix_len);
-+			BUG_ON(unlikely(err != 0));
-+			offset += prefix_len;
-+			copied += prefix_len;
-+			break;
-+
-+		case SSDFS_XATTR_SYSTEM_REGULAR_NAME:
-+			prefix_len =
-+				strlen(SSDFS_NS_PREFIX[SSDFS_SYSTEM_NS_INDEX]);
-+			err = ssdfs_memcpy(buffer, offset, size,
-+				     SSDFS_NS_PREFIX[SSDFS_SYSTEM_NS_INDEX],
-+				     0, prefix_len,
-+				     prefix_len);
-+			BUG_ON(unlikely(err != 0));
-+			offset += prefix_len;
-+			copied += prefix_len;
-+			break;
-+
-+		case SSDFS_XATTR_SECURITY_REGULAR_NAME:
-+			prefix_len =
-+			    strlen(SSDFS_NS_PREFIX[SSDFS_SECURITY_NS_INDEX]);
-+			err = ssdfs_memcpy(buffer, offset, size,
-+				     SSDFS_NS_PREFIX[SSDFS_SECURITY_NS_INDEX],
-+				     0, prefix_len,
-+				     prefix_len);
-+			BUG_ON(unlikely(err != 0));
-+			offset += prefix_len;
-+			copied += prefix_len;
-+			break;
-+
-+		default:
-+			SSDFS_ERR("unexpected name type %#x\n",
-+				  xattr->name_type);
-+			return -EIO;
-+		}
-+
-+		err = ssdfs_memcpy(buffer, offset, size,
-+				   search->name.string.str,
-+				   0, SSDFS_MAX_NAME_LEN,
-+				   search->name.string.len);
-+		BUG_ON(unlikely(err != 0));
-+
-+		offset += search->name.string.len;
-+		copied += search->name.string.len;
-+
-+		if (offset >= size) {
-+			SSDFS_ERR("invalid offset: "
-+				  "offset %zd, size %zu\n",
-+				  offset, size);
-+			return -ERANGE;
-+		}
-+
-+		memset(buffer + offset, 0, size - offset);
-+	} else {
-+		switch (xattr->name_type) {
-+		case SSDFS_XATTR_INLINE_NAME:
-+			/* do nothing here */
-+			break;
-+
-+		case SSDFS_XATTR_USER_INLINE_NAME:
-+			prefix_len =
-+				strlen(SSDFS_NS_PREFIX[SSDFS_USER_NS_INDEX]);
-+			err = ssdfs_memcpy(buffer, offset, size,
-+				     SSDFS_NS_PREFIX[SSDFS_USER_NS_INDEX],
-+				     0, prefix_len,
-+				     prefix_len);
-+			BUG_ON(unlikely(err != 0));
-+			offset += prefix_len;
-+			copied += prefix_len;
-+			break;
-+
-+		case SSDFS_XATTR_TRUSTED_INLINE_NAME:
-+			prefix_len =
-+				strlen(SSDFS_NS_PREFIX[SSDFS_TRUSTED_NS_INDEX]);
-+			err = ssdfs_memcpy(buffer, offset, size,
-+				     SSDFS_NS_PREFIX[SSDFS_TRUSTED_NS_INDEX],
-+				     0, prefix_len,
-+				     prefix_len);
-+			BUG_ON(unlikely(err != 0));
-+			offset += prefix_len;
-+			copied += prefix_len;
-+			break;
-+
-+		case SSDFS_XATTR_SYSTEM_INLINE_NAME:
-+			prefix_len =
-+				strlen(SSDFS_NS_PREFIX[SSDFS_SYSTEM_NS_INDEX]);
-+			err = ssdfs_memcpy(buffer, offset, size,
-+				     SSDFS_NS_PREFIX[SSDFS_SYSTEM_NS_INDEX],
-+				     0, prefix_len,
-+				     prefix_len);
-+			BUG_ON(unlikely(err != 0));
-+			offset += prefix_len;
-+			copied += prefix_len;
-+			break;
-+
-+		case SSDFS_XATTR_SECURITY_INLINE_NAME:
-+			prefix_len =
-+			    strlen(SSDFS_NS_PREFIX[SSDFS_SECURITY_NS_INDEX]);
-+			err = ssdfs_memcpy(buffer, offset, size,
-+				     SSDFS_NS_PREFIX[SSDFS_SECURITY_NS_INDEX],
-+				     0, prefix_len,
-+				     prefix_len);
-+			offset += prefix_len;
-+			copied += prefix_len;
-+			break;
-+
-+		default:
-+			SSDFS_ERR("unexpected name type %#x\n",
-+				  xattr->name_type);
-+			return -EIO;
-+		}
-+
-+		name_len = xattr->name_len;
-+
-+		err = ssdfs_memcpy(buffer, offset, size,
-+				   xattr->inline_string,
-+				   0, SSDFS_XATTR_INLINE_NAME_MAX_LEN,
-+				   name_len);
-+		BUG_ON(unlikely(err != 0));
-+
-+		offset += name_len;
-+		copied += name_len;
-+
-+		if (offset >= size) {
-+			SSDFS_ERR("invalid offset: "
-+				  "offset %zd, size %zu\n",
-+				  offset, size);
-+			return -ERANGE;
-+		}
-+
-+		memset(buffer + offset, 0, size - offset);
-+	}
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("XATTR NAME DUMP\n");
-+	print_hex_dump_bytes("", DUMP_PREFIX_OFFSET,
-+			     buffer, size);
-+	SSDFS_DBG("\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	return copied;
-+}
-+
-+static inline
-+size_t ssdfs_calculate_name_length(struct ssdfs_xattr_entry *xattr)
-+{
-+	size_t prefix_len = 0;
-+	size_t name_len = 0;
-+
-+	switch (xattr->name_type) {
-+	case SSDFS_XATTR_INLINE_NAME:
-+	case SSDFS_XATTR_REGULAR_NAME:
-+		/* do nothing here */
-+		break;
-+
-+	case SSDFS_XATTR_USER_INLINE_NAME:
-+	case SSDFS_XATTR_USER_REGULAR_NAME:
-+		prefix_len = strlen(SSDFS_NS_PREFIX[SSDFS_USER_NS_INDEX]);
-+		break;
-+
-+	case SSDFS_XATTR_TRUSTED_INLINE_NAME:
-+	case SSDFS_XATTR_TRUSTED_REGULAR_NAME:
-+		prefix_len = strlen(SSDFS_NS_PREFIX[SSDFS_TRUSTED_NS_INDEX]);
-+		break;
-+
-+	case SSDFS_XATTR_SYSTEM_INLINE_NAME:
-+	case SSDFS_XATTR_SYSTEM_REGULAR_NAME:
-+		prefix_len = strlen(SSDFS_NS_PREFIX[SSDFS_SYSTEM_NS_INDEX]);
-+		break;
-+
-+	case SSDFS_XATTR_SECURITY_INLINE_NAME:
-+	case SSDFS_XATTR_SECURITY_REGULAR_NAME:
-+		prefix_len = strlen(SSDFS_NS_PREFIX[SSDFS_SECURITY_NS_INDEX]);
++	switch (dentry->dentry_type) {
++	case SSDFS_INLINE_DENTRY:
++	case SSDFS_REGULAR_DENTRY:
++		/* expected dentry type */
 +		break;
 +
 +	default:
-+		/* do nothing */
-+		break;
++		is_invalid = true;
++		SSDFS_ERR("invalid dentry type %#x\n",
++			  dentry->dentry_type);
++		goto finish_check;
 +	}
 +
-+	name_len = prefix_len + xattr->name_len;
++	if (dentry->file_type <= SSDFS_FT_UNKNOWN ||
++	    dentry->file_type >= SSDFS_FT_MAX) {
++		is_invalid = true;
++		SSDFS_ERR("invalid file type %#x\n",
++			  dentry->file_type);
++		goto finish_check;
++	}
 +
-+	return name_len;
++	if (dentry->flags & ~SSDFS_DENTRY_FLAGS_MASK) {
++		is_invalid = true;
++		SSDFS_ERR("invalid set of flags %#x\n",
++			  dentry->flags);
++		goto finish_check;
++	}
++
++	name_len = dentry->name_len;
++
++	if (name_len > SSDFS_MAX_NAME_LEN) {
++		is_invalid = true;
++		SSDFS_ERR("invalid name_len %u\n",
++			  name_len);
++		goto finish_check;
++	}
++
++	if (le64_to_cpu(dentry->hash_code) >= U64_MAX) {
++		is_invalid = true;
++		SSDFS_ERR("invalid hash_code\n");
++		goto finish_check;
++	}
++
++	if (le64_to_cpu(dentry->ino) >= U32_MAX) {
++		is_invalid = true;
++		SSDFS_ERR("ino %llu is too huge\n",
++			  le64_to_cpu(dentry->ino));
++		goto finish_check;
++	}
++
++finish_check:
++	if (is_invalid) {
++		SSDFS_ERR("dentry_type %#x, file_type %#x, "
++			  "flags %#x, name_len %u, "
++			  "hash_code %llx, ino %llu\n",
++			  dentry->dentry_type, dentry->file_type,
++			  dentry->flags, dentry->name_len,
++			  le64_to_cpu(dentry->hash_code),
++			  le64_to_cpu(dentry->ino));
++	}
++
++	return is_invalid;
 +}
 +
-+inline
-+ssize_t ssdfs_listxattr_inline_tree(struct inode *inode,
-+				    struct ssdfs_btree_search *search,
-+				    char *buffer, size_t size)
++/*
++ * The ssdfs_readdir() is called when the VFS needs
++ * to read the directory contents.
++ */
++static int ssdfs_readdir(struct file *file, struct dir_context *ctx)
 +{
-+	struct ssdfs_inode_info *ii = SSDFS_I(inode);
++	struct inode *inode = file_inode(file);
 +	struct ssdfs_fs_info *fsi = SSDFS_FS_I(inode->i_sb);
++	struct ssdfs_inode_info *ii = SSDFS_I(inode);
++	struct qstr dot = QSTR_INIT(".", 1);
++	u64 dot_hash;
++	struct qstr dotdot = QSTR_INIT("..", 2);
++	u64 dotdot_hash;
 +	struct ssdfs_shared_dict_btree_info *dict;
-+	struct ssdfs_xattr_entry *xattr;
-+	u8 *kaddr;
-+	size_t xattr_size = sizeof(struct ssdfs_xattr_entry);
++	struct ssdfs_btree_search *search;
++	struct ssdfs_dir_entry *dentry;
++	size_t dentry_size = sizeof(struct ssdfs_dir_entry);
++	int private_flags;
++	u64 start_hash = U64_MAX;
++	u64 end_hash = U64_MAX;
++	u64 hash = U64_MAX;
++	u64 start_pos;
 +	u16 items_count;
-+	ssize_t res, copied = 0;
++	ino_t ino;
 +	int i;
 +	int err = 0;
 +
 +#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("ino %lu, buffer %p, size %zu\n",
-+		  inode->i_ino, buffer, size);
++	SSDFS_DBG("file %p, ctx %p\n", file, ctx);
 +#endif /* CONFIG_SSDFS_DEBUG */
++
++	if (ctx->pos < 0) {
++		SSDFS_DBG("ctx->pos %lld\n", ctx->pos);
++		return 0;
++	}
 +
 +	dict = fsi->shdictree;
 +	if (!dict) {
@@ -1063,165 +1950,128 @@ index 000000000000..3e2b38bc2985
 +		return -ERANGE;
 +	}
 +
-+	down_read(&ii->lock);
++	dot_hash = ssdfs_generate_name_hash(&dot);
++	dotdot_hash = ssdfs_generate_name_hash(&dotdot);
 +
-+	if (!ii->xattrs_tree) {
-+		err = -ERANGE;
-+		SSDFS_ERR("unexpected xattrs tree absence\n");
-+		goto finish_tree_processing;
-+	}
++	private_flags = atomic_read(&ii->private_flags);
 +
-+	err = ssdfs_xattrs_tree_extract_range(ii->xattrs_tree,
-+					      0,
-+					      SSDFS_DEFAULT_INLINE_XATTR_COUNT,
-+					      search);
-+	if (err == -ENOENT) {
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("unable to extract inline xattr: "
-+			  "ino %lu\n",
-+			  inode->i_ino);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		goto finish_tree_processing;
-+	} else if (unlikely(err)) {
-+		SSDFS_ERR("fail to extract inline xattr: "
-+			  "ino %lu, err %d\n",
-+			  inode->i_ino, err);
-+		goto finish_tree_processing;
-+	}
++	if (private_flags & SSDFS_INODE_HAS_INLINE_DENTRIES ||
++	    private_flags & SSDFS_INODE_HAS_DENTRIES_BTREE) {
++		down_read(&ii->lock);
++		if (!ii->dentries_tree)
++			err = -ERANGE;
++		up_read(&ii->lock);
 +
-+finish_tree_processing:
-+	up_read(&ii->lock);
-+
-+	if (err == -ENOENT) {
-+		err = 0;
-+		goto clean_up;
-+	} else if (unlikely(err))
-+		goto clean_up;
-+
-+	err = ssdfs_xattrs_tree_check_search_result(search);
-+	if (unlikely(err)) {
-+		SSDFS_ERR("corrupted search result: "
-+			  "err %d\n", err);
-+		goto clean_up;
-+	}
-+
-+	items_count = search->result.count;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	BUG_ON(!search->result.raw_buf.place.ptr);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	for (i = 0; i < items_count; i++) {
-+		kaddr = (u8 *)search->result.raw_buf.place.ptr;
-+		xattr = (struct ssdfs_xattr_entry *)(kaddr + (i * xattr_size));
-+
-+		if (is_invalid_xattr(xattr)) {
-+			err = -EIO;
-+			SSDFS_ERR("found corrupted xattr\n");
-+			goto clean_up;
++		if (unlikely(err)) {
++			SSDFS_WARN("dentries tree is absent\n");
++			return -ERANGE;
++		}
++	} else {
++		if (!S_ISDIR(inode->i_mode)) {
++			SSDFS_WARN("this is not folder!!!\n");
++			return -EINVAL;
 +		}
 +
-+		if (buffer) {
-+			res = ssdfs_copy_name2buffer(dict, xattr,
-+						     search, copied,
-+						     buffer, size);
-+			if (res < 0) {
-+				err = res;
-+				SSDFS_ERR("failed to copy name: "
-+					  "err %d\n", err);
-+				goto clean_up;
-+			} else
-+				copied += res + 1;
-+		} else
-+			copied += ssdfs_calculate_name_length(xattr) + 1;
++		down_read(&ii->lock);
++		if (ii->dentries_tree)
++			err = -ERANGE;
++		up_read(&ii->lock);
++
++		if (unlikely(err)) {
++			SSDFS_WARN("dentries tree exists!!!!\n");
++			return err;
++		}
 +	}
 +
-+clean_up:
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("copied %zd\n", copied);
-+#endif /* CONFIG_SSDFS_DEBUG */
++	start_pos = ctx->pos;
 +
-+	return err < 0 ? err : copied;
-+}
++	if (ctx->pos == 0) {
++		down_read(&ii->lock);
++		err = ssdfs_inode_by_name(inode, &dot, &ino);
++		up_read(&ii->lock);
 +
-+inline
-+ssize_t ssdfs_listxattr_generic_tree(struct inode *inode,
-+				     struct ssdfs_btree_search *search,
-+				     char *buffer, size_t size)
-+{
-+	struct ssdfs_inode_info *ii = SSDFS_I(inode);
-+	struct ssdfs_fs_info *fsi = SSDFS_FS_I(inode->i_sb);
-+	struct ssdfs_shared_dict_btree_info *dict;
-+	struct ssdfs_xattr_entry *xattr;
-+	u8 *kaddr;
-+	size_t xattr_size = sizeof(struct ssdfs_xattr_entry);
-+	u64 start_hash, end_hash;
-+	u16 items_count;
-+	ssize_t res, copied = 0;
-+	int i;
-+	int err = 0;
++		if (unlikely(err)) {
++			SSDFS_ERR("fail to find dentry: err %d\n", err);
++			goto out;
++		}
 +
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("ino %lu, buffer %p, size %zu\n",
-+		  inode->i_ino, buffer, size);
-+#endif /* CONFIG_SSDFS_DEBUG */
++		if (!dir_emit_dot(file, ctx)) {
++			err = -ERANGE;
++			SSDFS_ERR("fail to emit dentry\n");
++			goto out;
++		}
 +
-+	dict = fsi->shdictree;
-+	if (!dict) {
-+		SSDFS_ERR("shared dictionary is absent\n");
-+		return -ERANGE;
++		ctx->pos = 1;
 +	}
 +
-+	down_read(&ii->lock);
++	if (ctx->pos == 1) {
++		down_read(&ii->lock);
++		err = ssdfs_inode_by_name(inode, &dotdot, &ino);
++		up_read(&ii->lock);
 +
-+	if (!ii->xattrs_tree) {
-+		err = -ERANGE;
-+		SSDFS_ERR("unexpected xattrs tree absence\n");
-+		goto finish_get_start_hash;
++		if (unlikely(err)) {
++			SSDFS_ERR("fail to find dentry: err %d\n", err);
++			goto out;
++		}
++
++		if (!dir_emit_dotdot(file, ctx)) {
++			err = -ERANGE;
++			SSDFS_ERR("fail to emit dentry\n");
++			goto out;
++		}
++
++		ctx->pos = 2;
 +	}
 +
-+	err = ssdfs_xattrs_tree_get_start_hash(ii->xattrs_tree,
-+						&start_hash);
-+	if (err == -ENOENT)
-+		goto finish_get_start_hash;
-+	else if (unlikely(err)) {
-+		SSDFS_ERR("fail to get start root hash: err %d\n", err);
-+		goto finish_get_start_hash;
-+	} else if (start_hash >= U64_MAX) {
-+		err = -ERANGE;
-+		SSDFS_ERR("invalid hash value\n");
-+		goto finish_get_start_hash;
++	if (ctx->pos >= 2) {
++		down_read(&ii->lock);
++		err = ssdfs_dentries_tree_get_start_hash(ii->dentries_tree,
++							 &start_hash);
++		up_read(&ii->lock);
++
++		if (err == -ENOENT) {
++			err = 0;
++			ctx->pos = 2;
++			goto out;
++		} else if (unlikely(err)) {
++			SSDFS_ERR("fail to get start root hash: err %d\n", err);
++			goto out;
++		} else if (start_hash >= U64_MAX) {
++			err = -ERANGE;
++			SSDFS_ERR("invalid hash value\n");
++			goto out;
++		}
++
++		ctx->pos = 2;
 +	}
 +
-+finish_get_start_hash:
-+	up_read(&ii->lock);
-+
-+	if (err == -ENOENT) {
-+		err = 0;
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("unable to extract start hash: "
-+			  "ino %lu\n",
-+			  inode->i_ino);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		goto clean_up;
-+	} else if (unlikely(err))
-+		goto clean_up;
++	search = ssdfs_btree_search_alloc();
++	if (!search) {
++		err = -ENOMEM;
++		SSDFS_ERR("fail to allocate btree search object\n");
++		goto out;
++	}
 +
 +	do {
 +		ssdfs_btree_search_init(search);
 +
-+		/* allow ssdfs_listxattr_generic_tree() to be interrupted */
++#ifdef CONFIG_SSDFS_DEBUG
++		SSDFS_DBG("ctx->pos %llu, start_hash %llx\n",
++			  (u64)ctx->pos, start_hash);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++		/* allow readdir() to be interrupted */
 +		if (fatal_signal_pending(current)) {
 +			err = -ERESTARTSYS;
-+			goto clean_up;
++			goto out_free;
 +		}
 +		cond_resched();
 +
 +		down_read(&ii->lock);
 +
-+		err = ssdfs_xattrs_tree_find_leaf_node(ii->xattrs_tree,
-+							start_hash,
-+							search);
++		err = ssdfs_dentries_tree_find_leaf_node(ii->dentries_tree,
++							 start_hash,
++							 search);
 +		if (err == -ENODATA) {
 +#ifdef CONFIG_SSDFS_DEBUG
 +			SSDFS_DBG("unable to find a leaf node: "
@@ -1236,11 +2086,11 @@ index 000000000000..3e2b38bc2985
 +			goto finish_tree_processing;
 +		}
 +
-+		err = ssdfs_xattrs_tree_node_hash_range(ii->xattrs_tree,
-+							search,
-+							&start_hash,
-+							&end_hash,
-+							&items_count);
++		err = ssdfs_dentries_tree_node_hash_range(ii->dentries_tree,
++							  search,
++							  &start_hash,
++							  &end_hash,
++							  &items_count);
 +		if (unlikely(err)) {
 +			SSDFS_ERR("fail to get node's hash range: "
 +				  "err %d\n", err);
@@ -1258,7 +2108,7 @@ index 000000000000..3e2b38bc2985
 +			goto finish_tree_processing;
 +		}
 +
-+		err = ssdfs_xattrs_tree_extract_range(ii->xattrs_tree,
++		err = ssdfs_dentries_tree_extract_range(ii->dentries_tree,
 +							0, items_count,
 +							search);
 +		if (unlikely(err)) {
@@ -1271,68 +2121,126 @@ index 000000000000..3e2b38bc2985
 +finish_tree_processing:
 +		up_read(&ii->lock);
 +
-+		if (err == -ENOENT) {
++		if (err == -ENODATA) {
 +			err = 0;
-+			goto clean_up;
++			goto out_free;
 +		} else if (unlikely(err))
-+			goto clean_up;
++			goto out_free;
 +
-+		err = ssdfs_xattrs_tree_check_search_result(search);
++		err = ssdfs_dentries_tree_check_search_result(search);
 +		if (unlikely(err)) {
 +			SSDFS_ERR("corrupted search result: "
 +				  "err %d\n", err);
-+			goto clean_up;
++			goto out_free;
 +		}
 +
 +		items_count = search->result.count;
 +
 +		for (i = 0; i < items_count; i++) {
-+			u64 hash;
++			u8 *start_ptr = (u8 *)search->result.raw_buf.place.ptr;
 +
-+			kaddr = (u8 *)search->result.raw_buf.place.ptr;
-+			xattr =
-+			    (struct ssdfs_xattr_entry *)(kaddr +
-+							    (i * xattr_size));
-+			hash = le64_to_cpu(xattr->name_hash);
++#ifdef CONFIG_SSDFS_DEBUG
++			SSDFS_DBG("start_pos %llu, ctx->pos %llu\n",
++				  start_pos, ctx->pos);
++#endif /* CONFIG_SSDFS_DEBUG */
 +
-+			if (is_invalid_xattr(xattr)) {
++			dentry = (struct ssdfs_dir_entry *)(start_ptr +
++							(i * dentry_size));
++			hash = le64_to_cpu(dentry->hash_code);
++
++			if (ctx->pos < start_pos) {
++				if (dot_hash == hash || dotdot_hash == hash) {
++					/* skip counting */
++					continue;
++				} else {
++					ctx->pos++;
++					continue;
++				}
++			}
++
++			if (is_invalid_dentry(dentry)) {
 +				err = -EIO;
-+				SSDFS_ERR("found corrupted xattr\n");
-+				goto clean_up;
++				SSDFS_ERR("found corrupted dentry\n");
++				goto out_free;
 +			}
 +
-+			if (buffer) {
-+				res = ssdfs_copy_name2buffer(dict, xattr,
-+							     search, copied,
-+							     buffer, size);
-+				if (res < 0) {
-+					err = res;
-+					SSDFS_ERR("failed to copy name: "
-+						  "err %d\n", err);
-+					goto clean_up;
++			if (dot_hash == hash || dotdot_hash == hash) {
++				/*
++				 * These items were created already.
++				 * Simply skip the case.
++				 */
++			} else if (dentry->flags &
++					SSDFS_DENTRY_HAS_EXTERNAL_STRING) {
++				err = ssdfs_shared_dict_get_name(dict, hash,
++							&search->name.string);
++				if (unlikely(err)) {
++					SSDFS_ERR("fail to extract the name: "
++						  "hash %llx, err %d\n",
++						  hash, err);
++					goto out_free;
++				}
++
++#ifdef CONFIG_SSDFS_DEBUG
++				SSDFS_DBG("ctx->pos %llu, name %s, "
++					  "name_len %zu, "
++					  "ino %llu, hash %llx\n",
++					  ctx->pos,
++					  search->name.string.str,
++					  search->name.string.len,
++					  le64_to_cpu(dentry->ino),
++					  hash);
++#endif /* CONFIG_SSDFS_DEBUG */
++
++				if (!dir_emit(ctx,
++				    search->name.string.str,
++				    search->name.string.len,
++				    (ino_t)le64_to_cpu(dentry->ino),
++				    ssdfs_filetype_table[dentry->file_type])) {
++					/* stopped by some reason */
++					err = 1;
++					goto out_free;
 +				} else
-+					copied += res + 1;
++					ctx->pos++;
 +			} else {
-+				copied +=
-+					ssdfs_calculate_name_length(xattr) + 1;
-+			}
++#ifdef CONFIG_SSDFS_DEBUG
++				SSDFS_DBG("ctx->pos %llu, name %s, "
++					  "name_len %u, "
++					  "ino %llu, hash %llx\n",
++					  ctx->pos,
++					  dentry->inline_string,
++					  dentry->name_len,
++					  le64_to_cpu(dentry->ino),
++					  hash);
++				SSDFS_DBG("dentry %p, name %p\n",
++					  dentry, dentry->inline_string);
++#endif /* CONFIG_SSDFS_DEBUG */
 +
-+			start_hash = hash;
++				if (!dir_emit(ctx,
++				    dentry->inline_string,
++				    dentry->name_len,
++				    (ino_t)le64_to_cpu(dentry->ino),
++				    ssdfs_filetype_table[dentry->file_type])) {
++					/* stopped by some reason */
++					err = 1;
++					goto out_free;
++				} else
++					ctx->pos++;
++			}
 +		}
 +
-+		if (start_hash != end_hash) {
++		if (hash != end_hash) {
 +			err = -ERANGE;
-+			SSDFS_ERR("cur_hash %llx != end_hash %llx\n",
-+				  start_hash, end_hash);
-+			goto clean_up;
++			SSDFS_ERR("hash %llx < end_hash %llx\n",
++				  hash, end_hash);
++			goto out_free;
 +		}
 +
 +		start_hash = end_hash + 1;
 +
 +		down_read(&ii->lock);
-+		err = ssdfs_xattrs_tree_get_next_hash(ii->xattrs_tree,
-+						      search,
-+						      &start_hash);
++		err = ssdfs_dentries_tree_get_next_hash(ii->dentries_tree,
++							search,
++							&start_hash);
 +		up_read(&ii->lock);
 +
 +		ssdfs_btree_search_forget_parent_node(search);
@@ -1340,1405 +2248,48 @@ index 000000000000..3e2b38bc2985
 +
 +		if (err == -ENOENT) {
 +			err = 0;
-+			SSDFS_DBG("no more xattrs in the tree\n");
-+			goto clean_up;
++			ctx->pos = U64_MAX;
++			SSDFS_DBG("no more items in the folder\n");
++			goto out_free;
 +		} else if (unlikely(err)) {
 +			SSDFS_ERR("fail to get next hash: err %d\n",
 +				  err);
-+			goto clean_up;
++			goto out_free;
 +		}
 +	} while (start_hash < U64_MAX);
 +
-+clean_up:
-+	return err < 0 ? err : copied;
-+}
-+
-+/*
-+ * Copy a list of attribute names into the buffer
-+ * provided, or compute the buffer size required.
-+ * Buffer is NULL to compute the size of the buffer required.
-+ *
-+ * Returns a negative error number on failure, or the number of bytes
-+ * used / required on success.
-+ */
-+ssize_t ssdfs_listxattr(struct dentry *dentry, char *buffer, size_t size)
-+{
-+	struct inode *inode = d_inode(dentry);
-+	struct ssdfs_inode_info *ii = SSDFS_I(inode);
-+	struct ssdfs_btree_search *search;
-+	int private_flags;
-+	ssize_t copied = 0;
-+	int err = 0;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("ino %lu, buffer %p, size %zu\n",
-+		  inode->i_ino, buffer, size);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	private_flags = atomic_read(&ii->private_flags);
-+
-+	switch (private_flags) {
-+	case SSDFS_INODE_HAS_INLINE_XATTR:
-+	case SSDFS_INODE_HAS_XATTR_BTREE:
-+		/* xattrs tree exists */
-+		break;
-+
-+	default:
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("xattrs tree is absent: "
-+			  "ino %lu\n",
-+			  inode->i_ino);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		return 0;
-+	}
-+
-+	search = ssdfs_btree_search_alloc();
-+	if (!search) {
-+		SSDFS_ERR("fail to allocate btree search object\n");
-+		return -ENOMEM;
-+	}
-+
-+	if (!ii->xattrs_tree) {
-+		err = -ERANGE;
-+		SSDFS_ERR("unexpected xattrs tree absence\n");
-+		goto clean_up;
-+	}
-+
-+	switch (atomic_read(&ii->xattrs_tree->type)) {
-+	case SSDFS_INLINE_XATTR:
-+	case SSDFS_INLINE_XATTR_ARRAY:
-+		ssdfs_btree_search_init(search);
-+		copied = ssdfs_listxattr_inline_tree(inode, search,
-+						     buffer, size);
-+		if (unlikely(copied < 0)) {
-+			err = copied;
-+			SSDFS_ERR("fail to extract the inline range: "
-+				  "err %d\n", err);
-+			goto clean_up;
-+		}
-+		break;
-+
-+	case SSDFS_PRIVATE_XATTR_BTREE:
-+		copied = ssdfs_listxattr_generic_tree(inode, search,
-+						      buffer, size);
-+		if (unlikely(copied < 0)) {
-+			err = copied;
-+			SSDFS_ERR("fail to extract the range: "
-+				  "err %d\n", err);
-+			goto clean_up;
-+		}
-+		break;
-+
-+	default:
-+		err = -ERANGE;
-+		SSDFS_ERR("invalid xattrs tree type %#x\n",
-+			  atomic_read(&ii->xattrs_tree->type));
-+		goto clean_up;
-+	}
-+
-+clean_up:
++out_free:
 +	ssdfs_btree_search_free(search);
 +
-+	return err < 0 ? err : copied;
-+}
-+
-+/*
-+ * Read external blob
-+ */
-+static
-+int ssdfs_xattr_read_external_blob(struct ssdfs_fs_info *fsi,
-+				   struct inode *inode,
-+				   struct ssdfs_xattr_entry *xattr,
-+				   void *value, size_t size)
-+{
-+	struct ssdfs_segment_request *req;
-+	struct ssdfs_peb_container *pebc;
-+	struct ssdfs_blk2off_table *table;
-+	struct ssdfs_offset_position pos;
-+	struct ssdfs_segment_info *si;
-+	struct ssdfs_segment_search_state seg_search;
-+	struct ssdfs_request_content_block *block;
-+	struct ssdfs_content_block *blk_state;
-+	struct folio *folio;
-+	u16 blob_size;
-+	u64 seg_id;
-+	u32 logical_blk;
-+	u32 len;
-+	u32 batch_size;
-+	u64 logical_offset;
-+	u32 data_bytes;
-+	u32 copied_bytes = 0;
-+	struct completion *end;
-+	int i, j;
-+	int err = 0;
-+
++out:
 +#ifdef CONFIG_SSDFS_DEBUG
-+	BUG_ON(!fsi || !inode || !xattr || !value);
++	SSDFS_DBG("finished\n");
 +#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	seg_id = le64_to_cpu(xattr->blob.descriptor.extent.seg_id);
-+	logical_blk = le32_to_cpu(xattr->blob.descriptor.extent.logical_blk);
-+	len = le32_to_cpu(xattr->blob.descriptor.extent.len);
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("seg_id %llu, logical_blk %u, len %u\n",
-+		  seg_id, logical_blk, len);
-+
-+	BUG_ON(seg_id == U64_MAX);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	ssdfs_segment_search_state_init(&seg_search,
-+					SSDFS_USER_DATA_SEG_TYPE,
-+					seg_id, U64_MAX);
-+
-+	si = ssdfs_grab_segment(fsi, &seg_search);
-+	if (unlikely(IS_ERR_OR_NULL(si))) {
-+		err = !si ? -ENOMEM : PTR_ERR(si);
-+		if (err == -EINTR) {
-+			/*
-+			 * Ignore this error.
-+			 */
-+		} else {
-+			SSDFS_ERR("fail to grab segment object: "
-+				  "seg %llu, err %d\n",
-+				  seg_id, err);
-+		}
-+		goto fail_get_segment;
-+	}
-+
-+	if (!is_ssdfs_segment_ready_for_requests(si)) {
-+		err = ssdfs_wait_segment_init_end(si);
-+		if (unlikely(err)) {
-+			SSDFS_ERR("segment initialization failed: "
-+				  "seg %llu, err %d\n",
-+				  si->seg_id, err);
-+			goto finish_prepare_request;
-+		}
-+	}
-+
-+	blob_size = le16_to_cpu(xattr->blob_len);
-+
-+	if (blob_size > size) {
-+		err = -EINVAL;
-+		SSDFS_ERR("invalid request: blob_size %u > size %zu\n",
-+			  blob_size, size);
-+		goto finish_prepare_request;
-+	}
-+
-+	batch_size = blob_size >> fsi->log_pagesize;
-+
-+	if (batch_size == 0)
-+		batch_size = 1;
-+
-+	if (batch_size > SSDFS_EXTENT_LEN_MAX) {
-+		err = -ERANGE;
-+		SSDFS_WARN("invalid memory folios count: "
-+			   "blob_size %u, batch_size %u\n",
-+			   blob_size, batch_size);
-+		goto finish_prepare_request;
-+	}
-+
-+	req = ssdfs_request_alloc();
-+	if (IS_ERR_OR_NULL(req)) {
-+		err = (req == NULL ? -ENOMEM : PTR_ERR(req));
-+		SSDFS_ERR("fail to allocate segment request: err %d\n",
-+			  err);
-+		goto finish_prepare_request;
-+	}
-+
-+	ssdfs_request_init(req, fsi->pagesize);
-+	ssdfs_get_request(req);
-+
-+	logical_offset = 0;
-+	data_bytes = blob_size;
-+	ssdfs_request_prepare_logical_extent(inode->i_ino,
-+					     (u64)logical_offset,
-+					     (u32)data_bytes,
-+					     0, 0, req);
-+
-+	for (i = 0; i < batch_size; i++) {
-+		err = ssdfs_request_add_allocated_folio_locked(i, req);
-+		if (unlikely(err)) {
-+			SSDFS_ERR("fail to add folio into request: "
-+				  "err %d\n",
-+				  err);
-+			goto fail_read_blob;
-+		}
-+	}
-+
-+	ssdfs_request_define_segment(seg_id, req);
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	BUG_ON(logical_blk >= U16_MAX);
-+	BUG_ON(len >= U16_MAX);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+	ssdfs_request_define_volume_extent((u16)logical_blk, (u16)len, req);
-+
-+	ssdfs_request_prepare_internal_data(SSDFS_PEB_READ_REQ,
-+					    SSDFS_READ_PAGES_READAHEAD,
-+					    SSDFS_REQ_SYNC,
-+					    req);
-+
-+	table = si->blk2off_table;
-+
-+	err = ssdfs_blk2off_table_get_offset_position(table, logical_blk, &pos);
-+	if (unlikely(err)) {
-+		SSDFS_ERR("fail to convert: "
-+			  "seg_id %llu, logical_blk %u, len %u, err %d\n",
-+			  seg_id, logical_blk, len, err);
-+		goto fail_read_blob;
-+	}
-+
-+	pebc = &si->peb_array[pos.peb_index];
-+
-+	err = ssdfs_peb_readahead_pages(pebc, req, &end);
-+	if (err == -EAGAIN) {
-+		err = SSDFS_WAIT_COMPLETION(end);
-+		if (unlikely(err)) {
-+			SSDFS_ERR("PEB init failed: "
-+				  "err %d\n", err);
-+			goto fail_read_blob;
-+		}
-+
-+		err = ssdfs_peb_readahead_pages(pebc, req, &end);
-+	}
-+
-+	if (unlikely(err)) {
-+		SSDFS_ERR("fail to read page: err %d\n",
-+			  err);
-+		goto fail_read_blob;
-+	}
-+
-+	for (i = 0; i < req->result.processed_blks; i++)
-+		ssdfs_peb_mark_request_block_uptodate(pebc, req, i);
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	BUG_ON(req->result.content.count == 0);
-+
-+	for (i = 0; i < req->result.content.count; i++) {
-+		block = &req->result.content.blocks[i];
-+		blk_state = &block->new_state;
-+
-+		BUG_ON(folio_batch_count(&blk_state->batch) == 0);
-+
-+		for (j = 0; j < folio_batch_count(&blk_state->batch); j++) {
-+			void *kaddr;
-+			u32 processed_bytes = 0;
-+			u32 page_index = 0;
-+
-+			folio = blk_state->batch.folios[j];
-+
-+			WARN_ON(!folio_test_locked(folio));
-+
-+			do {
-+				kaddr = kmap_local_folio(folio,
-+							 processed_bytes);
-+				SSDFS_DBG("PAGE DUMP: blk_index %d, "
-+					  "folio_index %d, page_index %u\n",
-+					  i, j, page_index);
-+				print_hex_dump_bytes("", DUMP_PREFIX_OFFSET,
-+						     kaddr,
-+						     PAGE_SIZE);
-+				SSDFS_DBG("\n");
-+				kunmap_local(kaddr);
-+
-+				processed_bytes += PAGE_SIZE;
-+				page_index++;
-+			} while (processed_bytes < folio_size(folio));
-+		}
-+	}
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	for (i = 0; i < req->result.content.count; i++) {
-+		block = &req->result.content.blocks[i];
-+		blk_state = &block->new_state;
-+
-+		for (j = 0; j < folio_batch_count(&blk_state->batch); j++) {
-+			u32 cur_len;
-+
-+			folio = blk_state->batch.folios[j];
-+
-+			if (copied_bytes >= blob_size)
-+				goto finish_copy_operation;
-+
-+			cur_len = min_t(u32, (u32)folio_size(folio),
-+					blob_size - copied_bytes);
-+
-+			err = __ssdfs_memcpy_from_folio(value,
-+							copied_bytes, size,
-+							folio,
-+							0, folio_size(folio),
-+							cur_len);
-+			if (unlikely(err)) {
-+				SSDFS_ERR("fail to copy: "
-+					  "copied_bytes %u, cur_len %u\n",
-+					  copied_bytes, cur_len);
-+				goto fail_read_blob;
-+			}
-+
-+			copied_bytes += cur_len;
-+		}
-+	}
-+
-+finish_copy_operation:
-+	ssdfs_request_unlock_and_remove_folios(req);
-+
-+	ssdfs_put_request(req);
-+	ssdfs_request_free(req, si);
-+
-+	ssdfs_segment_put_object(si);
-+
-+	return 0;
-+
-+fail_read_blob:
-+	ssdfs_request_unlock_and_remove_folios(req);
-+	ssdfs_put_request(req);
-+	ssdfs_request_free(req, si);
-+
-+finish_prepare_request:
-+	ssdfs_segment_put_object(si);
-+
-+fail_get_segment:
 +	return err;
 +}
 +
-+/*
-+ * Copy an extended attribute into the buffer
-+ * provided, or compute the buffer size required.
-+ * Buffer is NULL to compute the size of the buffer required.
-+ *
-+ * Returns a negative error number on failure, or the number of bytes
-+ * used / required on success.
-+ */
-+ssize_t __ssdfs_getxattr(struct inode *inode, int name_index, const char *name,
-+			 void *value, size_t size)
-+{
-+	struct ssdfs_fs_info *fsi = SSDFS_FS_I(inode->i_sb);
-+	struct ssdfs_inode_info *ii = SSDFS_I(inode);
-+	struct ssdfs_btree_search *search;
-+	struct ssdfs_xattr_entry *xattr;
-+	u8 *kaddr;
-+	size_t name_len;
-+	u16 blob_len;
-+	u8 blob_type;
-+	u8 blob_flags;
-+	int private_flags;
-+	ssize_t err = 0;
-+
-+	if (name == NULL) {
-+		SSDFS_ERR("name pointer is NULL\n");
-+		return -EINVAL;
-+	}
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("name_index %d, name %s, value %p, size %zu\n",
-+		  name_index, name, value, size);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	name_len = strlen(name);
-+	if (name_len > SSDFS_MAX_NAME_LEN)
-+		return -ERANGE;
-+
-+	private_flags = atomic_read(&ii->private_flags);
-+
-+	switch (private_flags) {
-+	case SSDFS_INODE_HAS_INLINE_XATTR:
-+	case SSDFS_INODE_HAS_XATTR_BTREE:
-+		down_read(&ii->lock);
-+
-+		if (!ii->xattrs_tree) {
-+			err = -ERANGE;
-+			SSDFS_WARN("xattrs tree is absent!!!\n");
-+			goto finish_search_xattr;
-+		}
-+
-+		search = ssdfs_btree_search_alloc();
-+		if (!search) {
-+			err = -ENOMEM;
-+			SSDFS_ERR("fail to allocate btree search object\n");
-+			goto finish_search_xattr;
-+		}
-+
-+		ssdfs_btree_search_init(search);
-+
-+		err = ssdfs_xattrs_tree_find(ii->xattrs_tree,
-+					     name, name_len,
-+					     search);
-+
-+		if (err == -ENODATA) {
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_DBG("inode %lu hasn't xattr %s\n",
-+				  (unsigned long)inode->i_ino,
-+				  name);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+			goto xattr_is_not_available;
-+		} else if (unlikely(err)) {
-+			SSDFS_ERR("fail to find the xattr: "
-+				  "inode %lu, name %s\n",
-+				  (unsigned long)inode->i_ino,
-+				  name);
-+			goto xattr_is_not_available;
-+		}
-+
-+		if (search->result.state != SSDFS_BTREE_SEARCH_VALID_ITEM) {
-+			err = -ERANGE;
-+			SSDFS_ERR("invalid result's state %#x\n",
-+				  search->result.state);
-+			goto xattr_is_not_available;
-+		}
-+
-+		switch (search->result.raw_buf.state) {
-+		case SSDFS_BTREE_SEARCH_INLINE_BUFFER:
-+		case SSDFS_BTREE_SEARCH_EXTERNAL_BUFFER:
-+			/* expected state */
-+			break;
-+
-+		default:
-+			err = -ERANGE;
-+			SSDFS_ERR("invalid buffer state %#x\n",
-+				  search->result.raw_buf.state);
-+			goto xattr_is_not_available;
-+		}
-+
-+		if (!search->result.raw_buf.place.ptr) {
-+			err = -ERANGE;
-+			SSDFS_ERR("buffer is absent\n");
-+			goto xattr_is_not_available;
-+		}
-+
-+		if (search->result.raw_buf.size == 0) {
-+			err = -ERANGE;
-+			SSDFS_ERR("result.buf_size %zu\n",
-+				  search->result.raw_buf.size);
-+			goto xattr_is_not_available;
-+		}
-+
-+		kaddr = (u8 *)search->result.raw_buf.place.ptr;
-+		xattr = (struct ssdfs_xattr_entry *)kaddr;
-+
-+		blob_len = le16_to_cpu(xattr->blob_len);
-+		blob_type = xattr->blob_type;
-+		blob_flags = xattr->blob_flags;
-+
-+		switch (blob_type) {
-+		case SSDFS_XATTR_INLINE_BLOB:
-+			if (blob_len > SSDFS_XATTR_INLINE_BLOB_MAX_LEN) {
-+				err = -ERANGE;
-+				SSDFS_ERR("invalid blob_len %u\n",
-+					  blob_len);
-+				goto xattr_is_not_available;
-+			}
-+			break;
-+
-+		case SSDFS_XATTR_REGULAR_BLOB:
-+			if (!(blob_flags & SSDFS_XATTR_HAS_EXTERNAL_BLOB)) {
-+				err = -ERANGE;
-+				SSDFS_ERR("invalid set of flags %#x\n",
-+					  blob_flags);
-+				goto xattr_is_not_available;
-+			}
-+
-+			if (blob_len > SSDFS_XATTR_EXTERNAL_BLOB_MAX_LEN) {
-+				err = -ERANGE;
-+				SSDFS_ERR("invalid blob_len %u\n",
-+					  blob_len);
-+				goto xattr_is_not_available;
-+			}
-+			break;
-+
-+		default:
-+			err = -ERANGE;
-+			SSDFS_ERR("unexpected blob type %#x\n",
-+				  blob_type);
-+			goto xattr_is_not_available;
-+		}
-+
-+		if (value) {
-+			switch (blob_type) {
-+			case SSDFS_XATTR_INLINE_BLOB:
-+				/* return value of attribute */
-+				err = ssdfs_memcpy(value, 0, size,
-+					     xattr->blob.inline_value.bytes,
-+					     0, SSDFS_XATTR_INLINE_BLOB_MAX_LEN,
-+					     blob_len);
-+				if (unlikely(err)) {
-+					SSDFS_ERR("fail to copy inline blob: "
-+						  "err %zd\n", err);
-+					goto xattr_is_not_available;
-+				}
-+				break;
-+
-+			case SSDFS_XATTR_REGULAR_BLOB:
-+				err = ssdfs_xattr_read_external_blob(fsi,
-+								     inode,
-+								     xattr,
-+								     value,
-+								     size);
-+				if (err == -EINTR) {
-+					/*
-+					 * Ignore this error.
-+					 */
-+					goto xattr_is_not_available;
-+				} else if (unlikely(err)) {
-+					SSDFS_ERR("fail to read external blob: "
-+						  "err %zd\n", err);
-+					goto xattr_is_not_available;
-+				}
-+				break;
-+
-+			default:
-+				BUG();
-+			}
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_DBG("BLOB DUMP:\n");
-+			print_hex_dump_bytes("", DUMP_PREFIX_OFFSET,
-+					     value, size);
-+			SSDFS_DBG("\n");
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		}
-+
-+		err = blob_len;
-+
-+xattr_is_not_available:
-+		ssdfs_btree_search_free(search);
-+
-+finish_search_xattr:
-+		up_read(&ii->lock);
-+		break;
-+
-+	default:
-+		err = -ENODATA;
-+#ifdef CONFIG_SSDFS_DEBUG
-+		SSDFS_DBG("xattrs tree is absent: "
-+			  "ino %lu\n",
-+			  (unsigned long)inode->i_ino);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		break;
-+	}
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("finished: err %zd\n", err);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	return err;
-+}
-+
-+/*
-+ * Create, replace or remove an extended attribute for this inode.  Value
-+ * is NULL to remove an existing extended attribute, and non-NULL to
-+ * either replace an existing extended attribute, or create a new extended
-+ * attribute. The flags XATTR_REPLACE and XATTR_CREATE
-+ * specify that an extended attribute must exist and must not exist
-+ * previous to the call, respectively.
-+ *
-+ * Returns 0, or a negative error number on failure.
-+ */
-+int __ssdfs_setxattr(struct inode *inode, int name_index, const char *name,
-+			const void *value, size_t size, int flags)
-+{
-+	struct ssdfs_fs_info *fsi = SSDFS_FS_I(inode->i_sb);
-+	struct ssdfs_inode_info *ii = SSDFS_I(inode);
-+	struct ssdfs_btree_search *search;
-+	size_t name_len;
-+	int private_flags;
-+	u64 name_hash;
-+	int err = 0;
-+
-+	if (name == NULL) {
-+		SSDFS_ERR("name pointer is NULL\n");
-+		return -EINVAL;
-+	}
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("name_index %d, name %s, value %p, "
-+		  "size %zu, flags %#x\n",
-+		  name_index, name, value, size, flags);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	if (value == NULL)
-+		size = 0;
-+
-+	name_len = strlen(name);
-+	if (name_len > SSDFS_MAX_NAME_LEN)
-+		return -ERANGE;
-+
-+	private_flags = atomic_read(&ii->private_flags);
-+
-+	switch (private_flags) {
-+	case SSDFS_INODE_HAS_INLINE_XATTR:
-+	case SSDFS_INODE_HAS_XATTR_BTREE:
-+		down_read(&ii->lock);
-+
-+		if (!ii->xattrs_tree) {
-+			err = -ERANGE;
-+			SSDFS_WARN("xattrs tree is absent!!!\n");
-+			goto finish_setxattr;
-+		}
-+		break;
-+
-+	default:
-+		down_write(&ii->lock);
-+
-+		if (ii->xattrs_tree) {
-+			err = -ERANGE;
-+			SSDFS_WARN("xattrs tree exists unexpectedly!!!\n");
-+			goto finish_create_xattrs_tree;
-+		} else {
-+			err = ssdfs_xattrs_tree_create(fsi, ii);
-+			if (unlikely(err)) {
-+				SSDFS_ERR("fail to create the xattrs tree: "
-+					  "ino %lu, err %d\n",
-+					  inode->i_ino, err);
-+				goto finish_create_xattrs_tree;
-+			}
-+
-+			atomic_or(SSDFS_INODE_HAS_INLINE_XATTR,
-+				  &ii->private_flags);
-+		}
-+
-+finish_create_xattrs_tree:
-+		downgrade_write(&ii->lock);
-+
-+		if (unlikely(err))
-+			goto finish_setxattr;
-+		break;
-+	}
-+
-+	search = ssdfs_btree_search_alloc();
-+	if (!search) {
-+		err = -ENOMEM;
-+		SSDFS_ERR("fail to allocate btree search object\n");
-+		goto finish_setxattr;
-+	}
-+
-+	ssdfs_btree_search_init(search);
-+
-+	name_hash = __ssdfs_generate_name_hash(name, name_len,
-+					       SSDFS_XATTR_INLINE_NAME_MAX_LEN);
-+	if (name_hash >= U64_MAX) {
-+		err = -ERANGE;
-+		SSDFS_ERR("invalid name hash\n");
-+		goto clean_up;
-+	}
-+
-+	if (value == NULL) {
-+		/* remove value */
-+		err = ssdfs_xattrs_tree_delete(ii->xattrs_tree,
-+						name_hash,
-+						name, name_len,
-+						search);
-+		if (err == -ENODATA) {
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_DBG("unable to remove xattr: "
-+				  "ino %lu, name %s, err %d\n",
-+				  inode->i_ino, name, err);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+			goto clean_up;
-+		} else if (unlikely(err)) {
-+			SSDFS_ERR("fail to remove xattr: "
-+				  "ino %lu, name %s, err %d\n",
-+				  inode->i_ino, name, err);
-+			goto clean_up;
-+		}
-+	} else if (flags & XATTR_CREATE) {
-+		err = ssdfs_xattrs_tree_add(ii->xattrs_tree,
-+					    name_index,
-+					    name, name_len,
-+					    value, size,
-+					    ii,
-+					    search);
-+		if (err == -ENOSPC) {
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_DBG("unable to create xattr: "
-+				  "ino %lu, name %s, err %d\n",
-+				  inode->i_ino, name, err);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+			goto clean_up;
-+		} else if (unlikely(err)) {
-+			SSDFS_ERR("fail to create xattr: "
-+				  "ino %lu, name %s, err %d\n",
-+				  inode->i_ino, name, err);
-+			goto clean_up;
-+		}
-+	} else if (flags & XATTR_REPLACE) {
-+		err = ssdfs_xattrs_tree_change(ii->xattrs_tree,
-+						name_index,
-+						name_hash,
-+						name, name_len,
-+						value, size,
-+						search);
-+		if (err == -ENOSPC) {
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_DBG("unable to replace xattr: "
-+				  "ino %lu, name %s, err %d\n",
-+				  inode->i_ino, name, err);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+			goto clean_up;
-+		} else if (unlikely(err)) {
-+			SSDFS_ERR("fail to replace xattr: "
-+				  "ino %lu, name %s, err %d\n",
-+				  inode->i_ino, name, err);
-+			goto clean_up;
-+		}
-+	} else {
-+		err = ssdfs_xattrs_tree_delete(ii->xattrs_tree,
-+						name_hash,
-+						name, name_len,
-+						search);
-+		if (err == -ENODATA) {
-+			err = 0;
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_DBG("no requested xattr in the tree: "
-+				  "ino %lu, name %s\n",
-+				  inode->i_ino, name);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+		} else if (unlikely(err)) {
-+			SSDFS_ERR("fail to remove xattr: "
-+				  "ino %lu, name %s, err %d\n",
-+				  inode->i_ino, name, err);
-+			goto clean_up;
-+		}
-+
-+		ssdfs_btree_search_init(search);
-+
-+		err = ssdfs_xattrs_tree_add(ii->xattrs_tree,
-+					    name_index,
-+					    name, name_len,
-+					    value, size,
-+					    ii,
-+					    search);
-+		if (err == -ENOSPC) {
-+#ifdef CONFIG_SSDFS_DEBUG
-+			SSDFS_DBG("unable to create xattr: "
-+				  "ino %lu, name %s, err %d\n",
-+				  inode->i_ino, name, err);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+			goto clean_up;
-+		} else if (unlikely(err)) {
-+			SSDFS_ERR("fail to create xattr: "
-+				  "ino %lu, name %s, err %d\n",
-+				  inode->i_ino, name, err);
-+			goto clean_up;
-+		}
-+	}
-+
-+	inode_set_ctime_to_ts(inode, current_time(inode));
-+	mark_inode_dirty(inode);
-+
-+clean_up:
-+	ssdfs_btree_search_free(search);
-+
-+finish_setxattr:
-+	up_read(&ii->lock);
-+
-+	return err;
-+}
-diff --git a/fs/ssdfs/xattr.h b/fs/ssdfs/xattr.h
-new file mode 100644
-index 000000000000..aeebfa42667a
---- /dev/null
-+++ b/fs/ssdfs/xattr.h
-@@ -0,0 +1,88 @@
-+/*
-+ * SPDX-License-Identifier: BSD-3-Clause-Clear
-+ *
-+ * SSDFS -- SSD-oriented File System.
-+ *
-+ * fs/ssdfs/xattr.h - extended attributes support declarations.
-+ *
-+ * Copyright (c) 2014-2019 HGST, a Western Digital Company.
-+ *              http://www.hgst.com/
-+ * Copyright (c) 2014-2026 Viacheslav Dubeyko <slava@dubeyko.com>
-+ *              http://www.ssdfs.org/
-+ *
-+ * (C) Copyright 2014-2019, HGST, Inc., All rights reserved.
-+ *
-+ * Created by HGST, San Jose Research Center, Storage Architecture Group
-+ *
-+ * Authors: Viacheslav Dubeyko <slava@dubeyko.com>
-+ *
-+ * Acknowledgement: Cyril Guyot
-+ *                  Zvonimir Bandic
-+ */
-+
-+#ifndef _SSDFS_XATTR_H
-+#define _SSDFS_XATTR_H
-+
-+#include <linux/xattr.h>
-+
-+/* Name indexes */
-+#define SSDFS_USER_XATTR_ID			1
-+#define SSDFS_POSIX_ACL_ACCESS_XATTR_ID		2
-+#define SSDFS_POSIX_ACL_DEFAULT_XATTR_ID	3
-+#define SSDFS_TRUSTED_XATTR_ID			4
-+#define SSDFS_SECURITY_XATTR_ID			5
-+#define SSDFS_SYSTEM_XATTR_ID			6
-+#define SSDFS_RICHACL_XATTR_ID			7
-+#define SSDFS_XATTR_MAX_ID			255
-+
-+extern const struct xattr_handler ssdfs_xattr_user_handler;
-+extern const struct xattr_handler ssdfs_xattr_trusted_handler;
-+extern const struct xattr_handler ssdfs_xattr_security_handler;
-+
-+extern const struct xattr_handler *ssdfs_xattr_handlers[];
-+
-+ssize_t __ssdfs_getxattr(struct inode *, int, const char *, void *, size_t);
-+
-+static inline
-+ssize_t ssdfs_getxattr(struct inode *inode,
-+			int name_index, const char *name,
-+			void *value, size_t size)
-+{
-+	return __ssdfs_getxattr(inode, name_index, name, value, size);
-+}
-+
-+int __ssdfs_setxattr(struct inode *, int, const char *,
-+			const void *, size_t, int);
-+
-+static inline
-+int ssdfs_setxattr(struct inode *inode,
-+		    int name_index, const char *name,
-+		    const void *value, size_t size, int flags)
-+{
-+	return __ssdfs_setxattr(inode, name_index, name,
-+				value, size, flags);
-+}
-+
-+ssize_t ssdfs_listxattr(struct dentry *, char *, size_t);
-+
-+#ifdef CONFIG_SSDFS_SECURITY
-+int ssdfs_init_security(struct inode *, struct inode *, const struct qstr *);
-+int ssdfs_init_inode_security(struct inode *, struct inode *,
-+				const struct qstr *);
-+#else
-+static inline
-+int ssdfs_init_security(struct inode *inode, struct inode *dir,
-+			const struct qstr *qstr)
-+{
-+	return 0;
-+}
-+
-+static inline
-+int ssdfs_init_inode_security(struct inode *inode, struct inode *dir,
-+				const struct qstr *qstr)
-+{
-+	return 0;
-+}
-+#endif /* CONFIG_SSDFS_SECURITY */
-+
-+#endif /* _SSDFS_XATTR_H */
-diff --git a/fs/ssdfs/xattr_security.c b/fs/ssdfs/xattr_security.c
-new file mode 100644
-index 000000000000..b5caff8ebbec
---- /dev/null
-+++ b/fs/ssdfs/xattr_security.c
-@@ -0,0 +1,159 @@
-+/*
-+ * SPDX-License-Identifier: BSD-3-Clause-Clear
-+ *
-+ * SSDFS -- SSD-oriented File System.
-+ *
-+ * fs/ssdfs/xattr_security.c - handler for storing security labels as xattrs.
-+ *
-+ * Copyright (c) 2014-2019 HGST, a Western Digital Company.
-+ *              http://www.hgst.com/
-+ * Copyright (c) 2014-2026 Viacheslav Dubeyko <slava@dubeyko.com>
-+ *              http://www.ssdfs.org/
-+ *
-+ * (C) Copyright 2014-2019, HGST, Inc., All rights reserved.
-+ *
-+ * Created by HGST, San Jose Research Center, Storage Architecture Group
-+ *
-+ * Authors: Viacheslav Dubeyko <slava@dubeyko.com>
-+ *
-+ * Acknowledgement: Cyril Guyot
-+ *                  Zvonimir Bandic
-+ */
-+
-+#include <linux/kernel.h>
-+#include <linux/rwsem.h>
-+#include <linux/security.h>
-+#include <linux/pagevec.h>
-+
-+#include "peb_mapping_queue.h"
-+#include "peb_mapping_table_cache.h"
-+#include "folio_vector.h"
-+#include "ssdfs.h"
-+#include "xattr.h"
-+#include "acl.h"
-+
-+static
-+int ssdfs_security_getxattr(const struct xattr_handler *handler,
-+			    struct dentry *unused, struct inode *inode,
-+			    const char *name, void *buffer, size_t size)
-+{
-+	size_t len;
-+
-+	if (name == NULL || strcmp(name, "") == 0) {
-+		SSDFS_ERR("invalid name\n");
-+		return -EINVAL;
-+	}
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("ino %lu, name %s, buffer %p, size %zu\n",
-+		  (unsigned long)inode->i_ino,
-+		  name, buffer, size);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	len = strlen(name);
-+
-+	if ((len + XATTR_SECURITY_PREFIX_LEN) > XATTR_NAME_MAX)
-+		return -EOPNOTSUPP;
-+
-+	return ssdfs_getxattr(inode, SSDFS_SECURITY_XATTR_ID, name,
-+				buffer, size);
-+}
-+
-+static
-+int ssdfs_security_setxattr(const struct xattr_handler *handler,
-+			    struct mnt_idmap *idmap,
-+			    struct dentry *unused, struct inode *inode,
-+			    const char *name, const void *value,
-+			    size_t size, int flags)
-+{
-+	size_t len;
-+
-+	if (name == NULL || strcmp(name, "") == 0) {
-+		SSDFS_ERR("invalid name\n");
-+		return -EINVAL;
-+	}
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("ino %lu, name %s, value %p, size %zu, flags %#x\n",
-+		  (unsigned long)inode->i_ino,
-+		  name, value, size, flags);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	len = strlen(name);
-+
-+	if ((len + XATTR_SECURITY_PREFIX_LEN) > XATTR_NAME_MAX)
-+		return -EOPNOTSUPP;
-+
-+	return ssdfs_setxattr(inode, SSDFS_SECURITY_XATTR_ID, name,
-+				value, size, flags);
-+}
-+
-+static
-+int ssdfs_initxattrs(struct inode *inode, const struct xattr *xattr_array,
-+			void *fs_info)
-+{
-+	const struct xattr *xattr;
-+	int err;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("ino %lu, xattr_array %p, fs_info %p\n",
-+		  (unsigned long)inode->i_ino,
-+		  xattr_array, fs_info);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	for (xattr = xattr_array; xattr->name != NULL; xattr++) {
-+		size_t name_len;
-+
-+		name_len = strlen(xattr->name);
-+
-+		if (name_len == 0)
-+			continue;
-+
-+		if (name_len + XATTR_SECURITY_PREFIX_LEN > XATTR_NAME_MAX)
-+			return -EOPNOTSUPP;
-+
-+		err = __ssdfs_setxattr(inode, SSDFS_SECURITY_XATTR_ID,
-+					xattr->name, xattr->value,
-+					xattr->value_len, 0);
-+		if (err)
-+			return err;
-+	}
-+
-+	return 0;
-+}
-+
-+int ssdfs_init_security(struct inode *inode, struct inode *dir,
-+			const struct qstr *qstr)
-+{
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("dir_ino %lu, ino %lu\n",
-+		  (unsigned long)dir->i_ino,
-+		  (unsigned long)inode->i_ino);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	return security_inode_init_security(inode, dir, qstr,
-+					    &ssdfs_initxattrs, NULL);
-+}
-+
-+int ssdfs_init_inode_security(struct inode *inode, struct inode *dir,
-+				const struct qstr *qstr)
-+{
-+	int err;
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("dir_ino %lu, ino %lu\n",
-+		  (unsigned long)dir->i_ino,
-+		  (unsigned long)inode->i_ino);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	err = ssdfs_init_acl(inode, dir);
-+	if (!err)
-+		err = ssdfs_init_security(inode, dir, qstr);
-+	return err;
-+}
-+
-+const struct xattr_handler ssdfs_xattr_security_handler = {
-+	.prefix	= XATTR_SECURITY_PREFIX,
-+	.get	= ssdfs_security_getxattr,
-+	.set	= ssdfs_security_setxattr,
-+};
-diff --git a/fs/ssdfs/xattr_tree.h b/fs/ssdfs/xattr_tree.h
-new file mode 100644
-index 000000000000..c8eaa779f240
---- /dev/null
-+++ b/fs/ssdfs/xattr_tree.h
-@@ -0,0 +1,143 @@
-+/*
-+ * SPDX-License-Identifier: BSD-3-Clause-Clear
-+ *
-+ * SSDFS -- SSD-oriented File System.
-+ *
-+ * fs/ssdfs/xattr_tree.h - extended attributes btree declarations.
-+ *
-+ * Copyright (c) 2014-2019 HGST, a Western Digital Company.
-+ *              http://www.hgst.com/
-+ * Copyright (c) 2014-2026 Viacheslav Dubeyko <slava@dubeyko.com>
-+ *              http://www.ssdfs.org/
-+ *
-+ * (C) Copyright 2014-2019, HGST, Inc., All rights reserved.
-+ *
-+ * Created by HGST, San Jose Research Center, Storage Architecture Group
-+ *
-+ * Authors: Viacheslav Dubeyko <slava@dubeyko.com>
-+ *
-+ * Acknowledgement: Cyril Guyot
-+ *                  Zvonimir Bandic
-+ */
-+
-+#ifndef _SSDFS_XATTR_TREE_H
-+#define _SSDFS_XATTR_TREE_H
-+
-+/*
-+ * struct ssdfs_xattrs_btree_info - xattrs btree info
-+ * @type: xattrs btree type
-+ * @state: xattrs btree state
-+ * @lock: xattrs btree lock
-+ * @generic_tree: pointer on generic btree object
-+ * @inline_xattrs: pointer on inline xattrs array
-+ * @inline_count: number of valid inline xattrs
-+ * @inline_capacity: capacity of xattrs in the inline array
-+ * @buffer.tree: piece of memory for generic btree object
-+ * @buffer.xattr: piece of memory for the inline xattr
-+ * @root: pointer on root node
-+ * @root_buffer: buffer for root node
-+ * @desc: b-tree descriptor
-+ * @owner: pointer on owner inode object
-+ * @fsi: pointer on shared file system object
-+ */
-+struct ssdfs_xattrs_btree_info {
-+	atomic_t type;
-+	atomic_t state;
-+
-+	struct rw_semaphore lock;
-+	struct ssdfs_btree *generic_tree;
-+	struct ssdfs_xattr_entry *inline_xattrs;
-+	u16 inline_count;
-+	u16 inline_capacity;
-+
-+	union {
-+		struct ssdfs_btree tree;
-+		struct ssdfs_xattr_entry xattr;
-+	} buffer;
-+	struct ssdfs_btree_inline_root_node *root;
-+	struct ssdfs_btree_inline_root_node root_buffer;
-+
-+	struct ssdfs_xattr_btree_descriptor desc;
-+	struct ssdfs_inode_info *owner;
-+	struct ssdfs_fs_info *fsi;
++const struct inode_operations ssdfs_dir_inode_operations = {
++	.create		= ssdfs_create,
++	.lookup		= ssdfs_lookup,
++	.link		= ssdfs_link,
++	.unlink		= ssdfs_unlink,
++	.symlink	= ssdfs_symlink,
++	.mkdir		= ssdfs_mkdir,
++	.rmdir		= ssdfs_rmdir,
++	.mknod		= ssdfs_mknod,
++	.rename		= ssdfs_rename,
++	.setattr	= ssdfs_setattr,
++	.listxattr	= ssdfs_listxattr,
++	.get_inode_acl	= ssdfs_get_acl,
++	.set_acl	= ssdfs_set_acl,
 +};
 +
-+/* Xattr tree types */
-+enum {
-+	SSDFS_XATTR_BTREE_UNKNOWN_TYPE,
-+	SSDFS_INLINE_XATTR,
-+	SSDFS_INLINE_XATTR_ARRAY,
-+	SSDFS_PRIVATE_XATTR_BTREE,
-+	SSDFS_XATTR_BTREE_TYPE_MAX
-+};
-+
-+/* Xattr tree states */
-+enum {
-+	SSDFS_XATTR_BTREE_UNKNOWN_STATE,
-+	SSDFS_XATTR_BTREE_CREATED,
-+	SSDFS_XATTR_BTREE_INITIALIZED,
-+	SSDFS_XATTR_BTREE_DIRTY,
-+	SSDFS_XATTR_BTREE_CORRUPTED,
-+	SSDFS_XATTR_BTREE_STATE_MAX
-+};
-+
-+/*
-+ * Xattr tree API
-+ */
-+int ssdfs_xattrs_tree_create(struct ssdfs_fs_info *fsi,
-+			    struct ssdfs_inode_info *ii);
-+int ssdfs_xattrs_tree_init(struct ssdfs_fs_info *fsi,
-+			  struct ssdfs_inode_info *ii);
-+void ssdfs_xattrs_tree_destroy(struct ssdfs_inode_info *ii);
-+int ssdfs_xattrs_tree_flush(struct ssdfs_fs_info *fsi,
-+			   struct ssdfs_inode_info *ii);
-+
-+int ssdfs_xattrs_tree_find(struct ssdfs_xattrs_btree_info *tree,
-+			  const char *name, size_t len,
-+			  struct ssdfs_btree_search *search);
-+int ssdfs_xattrs_tree_add(struct ssdfs_xattrs_btree_info *tree,
-+			 int name_index,
-+			 const char *name, size_t name_len,
-+			 const void *value, size_t size,
-+			 struct ssdfs_inode_info *ii,
-+			 struct ssdfs_btree_search *search);
-+int ssdfs_xattrs_tree_change(struct ssdfs_xattrs_btree_info *tree,
-+			    int name_index,
-+			    u64 name_hash,
-+			    const char *name, size_t name_len,
-+			    const void *value, size_t size,
-+			    struct ssdfs_btree_search *search);
-+int ssdfs_xattrs_tree_delete(struct ssdfs_xattrs_btree_info *tree,
-+			     u64 name_hash,
-+			     const char *name, size_t name_len,
-+			     struct ssdfs_btree_search *search);
-+int ssdfs_xattrs_tree_delete_all(struct ssdfs_xattrs_btree_info *tree);
-+
-+/*
-+ * Xattr tree internal API
-+ */
-+int __ssdfs_xattrs_btree_node_get_xattr(struct ssdfs_fs_info *fsi,
-+					struct ssdfs_btree_node_content *content,
-+					u32 area_offset,
-+					u32 area_size,
-+					u32 node_size,
-+					u16 item_index,
-+					struct ssdfs_xattr_entry *xattr);
-+int ssdfs_xattrs_tree_find_leaf_node(struct ssdfs_xattrs_btree_info *tree,
-+					u64 name_hash,
-+					struct ssdfs_btree_search *search);
-+int ssdfs_xattrs_tree_extract_range(struct ssdfs_xattrs_btree_info *tree,
-+				    u16 start_index, u16 count,
-+				    struct ssdfs_btree_search *search);
-+
-+void ssdfs_debug_xattrs_btree_object(struct ssdfs_xattrs_btree_info *tree);
-+
-+/*
-+ * Xattr btree specialized operations
-+ */
-+extern const struct ssdfs_btree_descriptor_operations
-+						ssdfs_xattrs_btree_desc_ops;
-+extern const struct ssdfs_btree_operations ssdfs_xattrs_btree_ops;
-+extern const struct ssdfs_btree_node_operations ssdfs_xattrs_btree_node_ops;
-+
-+#endif /* _SSDFS_XATTR_TREE_H */
-diff --git a/fs/ssdfs/xattr_trusted.c b/fs/ssdfs/xattr_trusted.c
-new file mode 100644
-index 000000000000..8e1b0cc19bf2
---- /dev/null
-+++ b/fs/ssdfs/xattr_trusted.c
-@@ -0,0 +1,93 @@
-+/*
-+ * SPDX-License-Identifier: BSD-3-Clause-Clear
-+ *
-+ * SSDFS -- SSD-oriented File System.
-+ *
-+ * fs/ssdfs/xattr_trusted.c - handler for trusted extended attributes.
-+ *
-+ * Copyright (c) 2014-2019 HGST, a Western Digital Company.
-+ *              http://www.hgst.com/
-+ * Copyright (c) 2014-2026 Viacheslav Dubeyko <slava@dubeyko.com>
-+ *              http://www.ssdfs.org/
-+ *
-+ * (C) Copyright 2014-2019, HGST, Inc., All rights reserved.
-+ *
-+ * Created by HGST, San Jose Research Center, Storage Architecture Group
-+ *
-+ * Authors: Viacheslav Dubeyko <slava@dubeyko.com>
-+ *
-+ * Acknowledgement: Cyril Guyot
-+ *                  Zvonimir Bandic
-+ */
-+
-+#include <linux/kernel.h>
-+#include <linux/rwsem.h>
-+#include <linux/pagevec.h>
-+
-+#include "peb_mapping_queue.h"
-+#include "peb_mapping_table_cache.h"
-+#include "folio_vector.h"
-+#include "ssdfs.h"
-+#include "xattr.h"
-+
-+static
-+int ssdfs_trusted_getxattr(const struct xattr_handler *handler,
-+			   struct dentry *unused, struct inode *inode,
-+			   const char *name, void *buffer, size_t size)
-+{
-+	size_t len;
-+
-+	if (name == NULL || strcmp(name, "") == 0) {
-+		SSDFS_ERR("invalid name\n");
-+		return -EINVAL;
-+	}
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("ino %lu, name %s, buffer %p, size %zu\n",
-+		  (unsigned long)inode->i_ino,
-+		  name, buffer, size);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	len = strlen(name);
-+
-+	if ((len + XATTR_TRUSTED_PREFIX_LEN) > XATTR_NAME_MAX)
-+		return -EOPNOTSUPP;
-+
-+	return ssdfs_getxattr(inode, SSDFS_TRUSTED_XATTR_ID, name,
-+				buffer, size);
-+}
-+
-+static
-+int ssdfs_trusted_setxattr(const struct xattr_handler *handler,
-+			   struct mnt_idmap *idmap,
-+			   struct dentry *unused, struct inode *inode,
-+			   const char *name, const void *value,
-+			   size_t size, int flags)
-+{
-+	size_t len;
-+
-+	if (name == NULL || strcmp(name, "") == 0) {
-+		SSDFS_ERR("invalid name\n");
-+		return -EINVAL;
-+	}
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("ino %lu, name %s, value %p, size %zu, flags %#x\n",
-+		  (unsigned long)inode->i_ino,
-+		  name, value, size, flags);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	len = strlen(name);
-+
-+	if ((len + XATTR_TRUSTED_PREFIX_LEN) > XATTR_NAME_MAX)
-+		return -EOPNOTSUPP;
-+
-+	return ssdfs_setxattr(inode, SSDFS_TRUSTED_XATTR_ID, name,
-+				value, size, flags);
-+}
-+
-+const struct xattr_handler ssdfs_xattr_trusted_handler = {
-+	.prefix	= XATTR_TRUSTED_PREFIX,
-+	.get	= ssdfs_trusted_getxattr,
-+	.set	= ssdfs_trusted_setxattr,
-+};
-diff --git a/fs/ssdfs/xattr_user.c b/fs/ssdfs/xattr_user.c
-new file mode 100644
-index 000000000000..c643f5816dbb
---- /dev/null
-+++ b/fs/ssdfs/xattr_user.c
-@@ -0,0 +1,93 @@
-+/*
-+ * SPDX-License-Identifier: BSD-3-Clause-Clear
-+ *
-+ * SSDFS -- SSD-oriented File System.
-+ *
-+ * fs/ssdfs/xattr_user.c - handler for extended user attributes.
-+ *
-+ * Copyright (c) 2014-2019 HGST, a Western Digital Company.
-+ *              http://www.hgst.com/
-+ * Copyright (c) 2014-2026 Viacheslav Dubeyko <slava@dubeyko.com>
-+ *              http://www.ssdfs.org/
-+ *
-+ * (C) Copyright 2014-2019, HGST, Inc., All rights reserved.
-+ *
-+ * Created by HGST, San Jose Research Center, Storage Architecture Group
-+ *
-+ * Authors: Viacheslav Dubeyko <slava@dubeyko.com>
-+ *
-+ * Acknowledgement: Cyril Guyot
-+ *                  Zvonimir Bandic
-+ */
-+
-+#include <linux/kernel.h>
-+#include <linux/rwsem.h>
-+#include <linux/pagevec.h>
-+
-+#include "peb_mapping_queue.h"
-+#include "peb_mapping_table_cache.h"
-+#include "folio_vector.h"
-+#include "ssdfs.h"
-+#include "xattr.h"
-+
-+static
-+int ssdfs_user_getxattr(const struct xattr_handler *handler,
-+			struct dentry *unused, struct inode *inode,
-+			const char *name, void *buffer, size_t size)
-+{
-+	size_t len;
-+
-+	if (name == NULL || strcmp(name, "") == 0) {
-+		SSDFS_ERR("invalid name\n");
-+		return -EINVAL;
-+	}
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("ino %lu, name %s, buffer %p, size %zu\n",
-+		  (unsigned long)inode->i_ino,
-+		  name, buffer, size);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	len = strlen(name);
-+
-+	if ((len + XATTR_USER_PREFIX_LEN) > XATTR_NAME_MAX)
-+		return -EOPNOTSUPP;
-+
-+	return ssdfs_getxattr(inode, SSDFS_USER_XATTR_ID, name,
-+				buffer, size);
-+}
-+
-+static
-+int ssdfs_user_setxattr(const struct xattr_handler *handler,
-+			struct mnt_idmap *idmap,
-+			struct dentry *unused, struct inode *inode,
-+			const char *name, const void *value,
-+			size_t size, int flags)
-+{
-+	size_t len;
-+
-+	if (name == NULL || strcmp(name, "") == 0) {
-+		SSDFS_ERR("invalid name\n");
-+		return -EINVAL;
-+	}
-+
-+#ifdef CONFIG_SSDFS_DEBUG
-+	SSDFS_DBG("ino %lu, name %s, value %p, size %zu, flags %#x\n",
-+		  (unsigned long)inode->i_ino,
-+		  name, value, size, flags);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	len = strlen(name);
-+
-+	if ((len + XATTR_USER_PREFIX_LEN) > XATTR_NAME_MAX)
-+		return -EOPNOTSUPP;
-+
-+	return ssdfs_setxattr(inode, SSDFS_USER_XATTR_ID, name,
-+				value, size, flags);
-+}
-+
-+const struct xattr_handler ssdfs_xattr_user_handler = {
-+	.prefix	= XATTR_USER_PREFIX,
-+	.get	= ssdfs_user_getxattr,
-+	.set	= ssdfs_user_setxattr,
++const struct file_operations ssdfs_dir_operations = {
++	.read		= generic_read_dir,
++	.iterate_shared	= ssdfs_readdir,
++	.unlocked_ioctl	= ssdfs_ioctl,
++	.fsync		= ssdfs_fsync,
++	.llseek		= generic_file_llseek,
 +};
 -- 
 2.34.1
