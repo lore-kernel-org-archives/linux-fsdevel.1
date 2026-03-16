@@ -1,71 +1,71 @@
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28F9D31D730
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 02:19:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AF4A318BA6
+	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 02:19:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773627597; cv=none; b=kG/jqH4kVMPpLGeqIe/Hy1MCH8mzigHsMmcy74+k49YjIUiIhWSpcGSG+PxNQnwPg9soLCrgeE9dZyFhr3pg+mWIOTg2FxHnwzcjjDbtzbQ/hOmFBPkZ/cyq4Sm9QptNmfckHpDYtLs1IT7vKYfn0HYfHCCSaYU4AN9lcOHDBvk=
+	t=1773627599; cv=none; b=lkPyURlGaYKOZ1gbD6JarLS34FhOBWxl/fgWuH60tdPeWq7zrK7H45XGcxBbb4YRXKFqHbiwpwOXKP9b0nEFu5jbNsewaQcBPJt610TItDOgKk1/6BO8IuuOTXB7sSBDsB5UOiJS2bPznWTnPToMdfaIoc6zvDgaaKVjL+EQEx0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773627597; c=relaxed/simple;
-	bh=+iBzrQtmyFrdxv92AceAWva4/vE+QsQPOsIikE2tHGg=;
+	s=arc-20240116; t=1773627599; c=relaxed/simple;
+	bh=Qy29wzu+vWbZFQN4M+W+zI7n6KDsxTMZd1VOijMGW5M=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iBQoW6GbFzsEYuqN7MIrciGoouQM1aZ481L/x6G+gIc/L5tnWmYyWHAP0SsuphNmT2wflJ4qSAPRd5XThzcv2LmhfR6NdNF4rQ3f8lV8wdpZbWRRfdpOEpyc+YvAbu7m6V+DY5so1LGJOCfMeG1LfbhNYdQmmtLV5rGEJKEnkNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b=yyn56ReY; arc=none smtp.client-ip=209.85.128.179
+	 MIME-Version:Content-Type; b=ZD29hQb6BAe3AOcxBFy5fsUXMt/qVAUMceS6UE/YFz3aHrFk/uKghqHcfn5AztrFg8X5P5kZ6mom/2/XP59kCPsxQMmXc59JNFrwKkkiMC/bUZF8a+TY3LfPCi1YcYzl6S5QNa2I5I8bMkpxDW10JfNznkGgG8YoULnTVI2A4is=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b=ess3Dgf6; arc=none smtp.client-ip=209.85.128.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b="yyn56ReY"
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-7927261a3acso31978977b3.0
-        for <linux-fsdevel@vger.kernel.org>; Sun, 15 Mar 2026 19:19:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b="ess3Dgf6"
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-79853c0f5b9so30141397b3.0
+        for <linux-fsdevel@vger.kernel.org>; Sun, 15 Mar 2026 19:19:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20230601.gappssmtp.com; s=20230601; t=1773627591; x=1774232391; darn=vger.kernel.org;
+        d=dubeyko-com.20230601.gappssmtp.com; s=20230601; t=1773627593; x=1774232393; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JUmX2LPYUzROZqwqZLGkwTAhsQPLb5sLpvceEQ6Jt10=;
-        b=yyn56ReYylzx/LioGRUF2VfFg54ccHjjSezXxzr3Jk7q7jF+xnjdxwiZo2yNIsSoIf
-         iQmLNwZO47F9GPMWQGYLjvJx5MGgzOrBz3Z6B9JBGsxndsIpC/b5lGzL0joRN4UQRdx7
-         esD9J5aaN5AnP3/AgNV/3+jW3QvbDBMW5PQg+w/3T20rBgkq3u0kShQOkJi9Z/739+ee
-         a2yp+G7eli/yzSgmddR8QhWV/hU7uWGPFKJNoKANh4udKcU+CJ/0kmUBLdSvxx9ZIL0+
-         A7NUziUfuFBpqhxCiuMvLIHOwxMTMgXMcla3oXaiYdHk+qDkalmPjUfs12kY05ILzlvc
-         3cpQ==
+        bh=KmsYEzpebRMfQf5tWbMrLT+5D2InoOwaKFntfSmsXoQ=;
+        b=ess3Dgf6ad5/++I/pe9wQCBolKo8iWZHLMGI5V4jzrIFOyd35MQkySzVdqfs4ckuCJ
+         72ZVrycfbgpQiEgu5bz3NNg+bne8OZnmkdk3d0vmoaDtktPQimBwWwQUYXZ1kED/uOuI
+         rX3Fgnu+GYO3MLdBlRYl+WcfVjy2lTIIZYzYm0/8cca+dxxUQuE8WKtTJ36bgu9h+1lh
+         VNNxvvstLLJjaoPnLIduGtBIw+kY11i8buieQ+HJx8cbFkUMHrE0jm57lr710LlgSEsy
+         ixgF4TaX6dd7o4p+xcun+VCRfwN+Q4088ILmhkfAcYSGhb0mKYhMvEslCUTNQKJO8oez
+         FyrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773627591; x=1774232391;
+        d=1e100.net; s=20251104; t=1773627593; x=1774232393;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=JUmX2LPYUzROZqwqZLGkwTAhsQPLb5sLpvceEQ6Jt10=;
-        b=Z54w8PW1N+VW7vE02M05rPchGVddUXAZqiqzGByZlUxqalT/VrfLfNNO9vRsLXo5Pi
-         XBDWD8JeuAG0n/2aCaK9BIzLWgqKVVCIq1D0tkEcHYvCIyPmNX+3a2Rh9kwyUoqkwdO7
-         9zaeFpN4gOxFY6tDn/n1X9RVE0DcD8Jdn0jKvWzO9dnzVc9d17AZeJIFXpNqTtB/MESh
-         J0WtTvj6VnkagzwrwzxJkWHsqz+KKETwk+F7aB8nnA9AjCAWXQteVgFHfBHxmuut2+W0
-         G05BSnCX2GyJ18PAfKAKe2nooyZ6QhbNIRf8VZtvdnXt5cFlyu/rp2d7VoWvWpQMLMhO
-         tQMw==
-X-Gm-Message-State: AOJu0Yz2cEeK4FT5TYTqvn0b/yzmGeHTqhWzLKMZXYAgzMw8VojsrQK7
-	Maw1JEy+3twKgNhiLzeFEQfQrZDxmo+wrSZO4kxu6jYxX99AZGP9o5h7xXT/pRMvhP16bTUGZf2
-	9RVT3
-X-Gm-Gg: ATEYQzznr25tDOfK+giHvWgXK4cEHhVFJVWMHYEjxGBfL+QmPEAHiran8rSOXNVtl1m
-	M1A1Gb8nBAaTCXb34cZM5AzIUW/BhAgUS8Bw44o56D37z6vp7q/pFRqQ19diP6zYde2tx1MYmBm
-	kOc99Pz91fUZmhf2F0VuydSvtNBoCppU7BQbFWfzX+zw0ND7gnu7X2ObcEfRRGyMuMNeZueVIi7
-	bKwLnoWbrFMPiYlFMRYDc9WpF8EA/J3pDDftNoMZ+nDYmjiaQ2lsksrIal1D1+b/NM3onrV8KWk
-	q5tVnNFf6XrISVkpS9v2v0wZCdpvE54u2bEDu0dRh5sdKdB+ZCDSc/tHoi4v/OIh9jXxuchGo5A
-	zrEKcYsH5P4/M3+kbZ/73AjbThUDRlFNQdvuQem9GxEP3x+WKrbV2A4F3/TQLZQY3//NI1XXZWq
-	YD4PCya4JPSZucFqE9qfhgW1WBAmix3rq7DZQV3WkcPMc2+Lr2o40F0ngRHpK8mFPzL021CcsCW
-	6Ig9YiTu6J/kDX+I60U2+A/
-X-Received: by 2002:a05:690c:90:b0:798:1b2d:4bb7 with SMTP id 00721157ae682-79a1c0ff3fcmr114123507b3.25.1773627591506;
-        Sun, 15 Mar 2026 19:19:51 -0700 (PDT)
+        bh=KmsYEzpebRMfQf5tWbMrLT+5D2InoOwaKFntfSmsXoQ=;
+        b=km081ISuk8QzNTOD9B8rrvzDqJ5cMZlhejYnVUVSPNhSHYBLNDvrg3ICIa5DvG2YJT
+         HDLvGLMNwh4F+EkWAS0DVUkjtVCYdz5F5xoJYCSwowxJ4d+Puw47WkpSAauMtk7YLT8P
+         iMc3HPptJoWaBhLo37uKOtt5+Y9UDc/Xe2kQGHjPz5nrs6twLstl6WJklamaB9yVS3uJ
+         25UhT6h0LbqfpeIywFC605EDKvril1ZE4aJI0BlPU5/G7kE/fKpeQ2VVGBAkrTkxvDr7
+         u1hz/8cU36BCrbQwW28LQqnXmTIVAvpL3Aeav2pICf4Z+uS8l2kW/0tymC2yviZGCKHq
+         rX2g==
+X-Gm-Message-State: AOJu0YxYVCugZIOeemwd/nde49O1dzJBlut02tI+rdL8kXN4ZsvDB8Hr
+	KqKbFt+RWSziyBRIRoref5xWkFY+qqNzVwg8ktd4sEdEk5CcbMWMFojYc/1S4LY0yOfCIUG/xwA
+	s+fmq
+X-Gm-Gg: ATEYQzzG091zPlyw/EI465TIUQelaO+wryDExV2JukVlzF2NB6RSikdY9pa8TR/1l1h
+	rA8ascm5bWUF0k/8rJ2AF5m/0gOEFDAKEKAYC72KZrdx4j/SD5YjVZ1mwJVJ3MvpyRuag0bzO2S
+	W8mCvY4UjLYZx5vDBLzY08jbN73m974fd/4iAkwa7/6tovhNIbsbLwsvhoa11VDqQVfLZMidjmM
+	GVaOJ06FBzxUf+J6Eu81skMkUOAfgMA/dV7VaGNRsEfa8T0GsDLZVh5CaH4joYmGUCPzRtkA02k
+	SNzPy/B1kEXrA67+TupYjbtVZglQVmOQUtMZty6WOGrthnIh6bUsXL1ryPekNVy1MclCVtkYnxX
+	ZrBxCw/dCGvuOL34SVaMc8z6u9QnxR2iaqeHXWPDD8AuxG5ypTVwAXYuhNCWHLkqv6X3iH+XSUx
+	oPCv1x6avcESKCkGxjlTTHmw+2FEG2xTjeNjcZQElzWlRExlojFU7vdkU9VoxezxBl8Qt2MajfF
+	h+A2Za+r+Hjs/qYT/j1Mbkl
+X-Received: by 2002:a05:690c:e3ed:b0:798:1b2d:4b6c with SMTP id 00721157ae682-79a1c0aaf07mr124634557b3.11.1773627592659;
+        Sun, 15 Mar 2026 19:19:52 -0700 (PDT)
 Received: from pop-os.attlocal.net ([2600:1700:6476:1430:6939:3e01:5e8f:6093])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-79917deb69asm79721617b3.10.2026.03.15.19.19.50
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-79917deb69asm79721617b3.10.2026.03.15.19.19.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Mar 2026 19:19:50 -0700 (PDT)
+        Sun, 15 Mar 2026 19:19:52 -0700 (PDT)
 From: Viacheslav Dubeyko <slava@dubeyko.com>
 To: linux-fsdevel@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
 	Viacheslav Dubeyko <slava@dubeyko.com>
-Subject: [PATCH v2 50/79] ssdfs: introduce inodes b-tree
-Date: Sun, 15 Mar 2026 19:17:48 -0700
-Message-ID: <20260316021800.1694650-22-slava@dubeyko.com>
+Subject: [PATCH v2 52/79] ssdfs: introduce dentries b-tree
+Date: Sun, 15 Mar 2026 19:17:49 -0700
+Message-ID: <20260316021800.1694650-23-slava@dubeyko.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260316021800.1694650-1-slava@dubeyko.com>
 References: <20260316021800.1694650-1-slava@dubeyko.com>
@@ -81,77 +81,81 @@ Content-Transfer-Encoding: 8bit
 Complete patchset is available here:
 https://github.com/dubeyko/ssdfs-driver/tree/master/patchset/linux-kernel-6.18.0
 
-SSDFS raw inode is the metadata structure of fixed size that
-can vary from 256 bytes to several KBs. The size of inode is defined
-during the file system’s volume creation. The most special part of
-the SSDFS raw inode is the private area that is used for storing:
-(1) small file inline, (2) root node of extents, dentries, and/or
-xattr b-tree.
+SSDFS dentry is the metadata structure of fixed size (32 bytes).
+It contains inode ID, name hash, name length, and inline string
+for 12 symbols. Generally speaking, the dentry is able to store
+8.3 filename inline. If the name of file/folder has longer name
+(more than 12 symbols) then the dentry will keep only the portion of
+the name but the whole name will be stored into a shared dictionary.
+The goal of such approach is to represent the dentry by compact
+metadata structure of fixed size for the fast and efficient operations
+with the dentries. It is possible to point out that there are a lot of
+use-cases when the length of file or folder is not very long. As a result,
+dentry’s inline string could be only storage for the file/folder name.
+Moreover, the goal of shared dictionary is to store the long names
+efficiently by means of using the deduplication mechanism.
 
-SSDFS inodes b-tree is the hybrid b-tree that includes the hybrid
-nodes with the goal to use the node’s space in more efficient way
-by means of combination the index and data records inside of the node.
-Root node of inodes b-tree is stored into the log footer or partial
-log header of every log. Generally speaking, it means that SSDFS file
-system is using the massive replication of the root node of inodes
-b-tree. Actually, inodes b-tree node’s space includes header,
-index area (in the case of hybrid node), and array of inodes are ordered
-by ID values. If node has 8 KB in size and inode structure is 256 bytes
-in size then the maximum capacity of one inodes b-tree’s node is 32 inodes.
+Dentries b-tree is the hybrid b-tree with the root node is stored into
+the private inode’s area. By default, inode’s private area has 128 bytes
+in size. Also SSDFS dentry has 32 bytes in size. As a result, inode’s
+private area provides enough space for 4 inline dentries. Generally
+speaking, if a folder contains 4 or lesser files then the dentries
+can be stored into the inode’s private area without the necessity
+to create the dentries b-tree. Otherwise, if a folder includes
+more than 4 files or folders then it needs to create the regular
+dentries b-tree with the root node is stored into the private area
+of inode. Actually, every node of dentries b-tree contains the header,
+index area (for the case of hybrid node), and array of dentries are ordered
+by hash value of filename. Moreover, if a b-tree node has 8 KB size then
+it is capable to contain maximum 256 dentries. Generally speaking,
+the hybrid b-tree was opted for the dentries metadata structure
+by virtue of compactness of metadata structure representation and
+efficient lookup mechanism. Dentries is ordered on the basis of
+name’s hash. Every node of dentries b-tree has: (1) dirty bitmap -
+tracking modified dentries, (2) lock bitmap - exclusive locking of
+particular dentries without the necessity to lock the whole b-tree
+node. Actually, it is expected that dentries b-tree could contain
+not many nodes in average because the two nodes (8K in size) of
+dentries b-tree is capable to store about 400 dentries.
 
-Generally speaking, inodes table can be imagined like an imaginary array
-that is extended by means of adding the new inodes into the tail of
-the array. However, inode can be allocated or deleted by virtue of
-create file or delete file operations, for example. As a result, every
-b-tree node has an allocation bitmap that is tracking the state (used
-or free) of every inode in the b-tree node. The allocation bitmap provides
-the mechanism of fast lookup a free inode with the goal to reuse
-the inodes of deleted files.
+Dentries b-tree implements API:
+(1) create - create dentries b-tree
+(2) destroy - destroy dentries b-tree
+(3) flush - flush dirty dentries b-tree
+(4) find - find dentry for a name in b-tree
+(5) add - add dentry object into b-tree
+(6) change - change/update dentry object in b-tree
+(7) delete - delete dentry object from b-tree
+(8) delete_all - delete all dentries from b-tree
 
-Additionally, every b-tree node has a dirty bitmap that has goal to track
-modification of inodes. Generally speaking, the dirty bitmap provides
-the opportunity to flush not the whole node but the modified inodes only.
-As a result, such bitmap could play the cornerstone role in
-the delta-encoding or in the Diff-On-Write approach. Moreover, b-tree
-node has a lock bitmap that has responsibility to implement the mechanism of
-exclusive lock a particular inode without the necessity to lock
-exclusively the whole node. Generally speaking, the lock bitmap was
-introduced with the goal to improve the granularity of lock operation.
-As a result, it provides the way to modify the different inodes in
-the same b-tree node without the using of exclusive lock the whole b-tree
-node. However, the exclusive lock of the whole tree has to be used for
-the case of addition or deletion a b-tree node.
-
-Inodes b-tree supports operations:
-(1) find_item - find item in the b-tree
-(2) find_range - find range of items in the b-tree
-(3) extract_range - extract range of items from the node of b-tree
-(4) allocate_item - allocate item in b-tree
-(5) allocate_range - allocate range of items in b-tree
-(6) insert_item - insert item into node of the b-tree
-(7) insert_range - insert range of items into node of the b-tree
-(8) change_item - change item in the b-tree
-(9) delete_item - delete item from the b-tree
-(10) delete_range - delete range of items from a node of b-tree
+Dentries b-tree node implements a specialized API:
+(1) find_item - find item in the node
+(2) find_range - find range of items in the node
+(3) extract_range - extract range of items (or all items) from node
+(4) insert_item - insert item in the node
+(5) insert_range - insert range of items in the node
+(6) change_item - change item in the node
+(7) delete_item - delete item from the node
+(8) delete_range - delete range of items from the node
 
 Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
 ---
- fs/ssdfs/inodes_tree.h | 181 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 181 insertions(+)
- create mode 100644 fs/ssdfs/inodes_tree.h
+ fs/ssdfs/dentries_tree.h | 158 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 158 insertions(+)
+ create mode 100644 fs/ssdfs/dentries_tree.h
 
-diff --git a/fs/ssdfs/inodes_tree.h b/fs/ssdfs/inodes_tree.h
+diff --git a/fs/ssdfs/dentries_tree.h b/fs/ssdfs/dentries_tree.h
 new file mode 100644
-index 000000000000..95267c631dd5
+index 000000000000..1428e5d70d49
 --- /dev/null
-+++ b/fs/ssdfs/inodes_tree.h
-@@ -0,0 +1,181 @@
++++ b/fs/ssdfs/dentries_tree.h
+@@ -0,0 +1,158 @@
 +/*
 + * SPDX-License-Identifier: BSD-3-Clause-Clear
 + *
 + * SSDFS -- SSD-oriented File System.
 + *
-+ * fs/ssdfs/inodes_tree.h - inodes btree declarations.
++ * fs/ssdfs/dentries_tree.h - dentries btree declarations.
 + *
 + * Copyright (c) 2014-2019 HGST, a Western Digital Company.
 + *              http://www.hgst.com/
@@ -168,165 +172,142 @@ index 000000000000..95267c631dd5
 + *                  Zvonimir Bandic
 + */
 +
-+#ifndef _SSDFS_INODES_TREE_H
-+#define _SSDFS_INODES_TREE_H
++#ifndef _SSDFS_DENTRIES_TREE_H
++#define _SSDFS_DENTRIES_TREE_H
++
++#define SSDFS_INLINE_DENTRIES_COUNT		(2 * SSDFS_INLINE_DENTRIES_PER_AREA)
++#define SSDFS_FOLDER_DEFAULT_SHORTCUTS_COUNT	(2)
 +
 +/*
-+ * struct ssdfs_inodes_range - items range
-+ * @start_hash: starting hash
-+ * @start_index: staring index in the node
-+ * @count: count of items in the range
-+ */
-+struct ssdfs_inodes_range {
-+#define SSDFS_INODES_RANGE_INVALID_START	(U64_MAX)
-+	u64 start_hash;
-+#define SSDFS_INODES_RANGE_INVALID_INDEX	(U16_MAX)
-+	u16 start_index;
-+	u16 count;
-+};
-+
-+/*
-+ * struct ssdfs_inodes_btree_range - node's items range descriptor
-+ * @list: free inode ranges queue
-+ * @node_id: node identification number
-+ * @area: items range
-+ */
-+struct ssdfs_inodes_btree_range {
-+	struct list_head list;
-+	u32 node_id;
-+	struct ssdfs_inodes_range area;
-+};
-+
-+/*
-+ * struct ssdfs_free_inode_range_queue - free inode ranges queue
-+ * @lock: queue's lock
-+ * @list: queue's list
-+ */
-+struct ssdfs_free_inode_range_queue {
-+	spinlock_t lock;
-+	struct list_head list;
-+};
-+
-+/*
-+ * struct ssdfs_inodes_btree_info - inodes btree info
-+ * @generic_tree: generic btree description
-+ * @lock: inodes btree lock
-+ * @root_folder: copy of root folder's inode
-+ * @upper_allocated_ino: maximal allocated inode ID number
-+ * @last_free_ino: latest free inode ID number
-+ * @allocated_inodes: allocated inodes count in the whole tree
-+ * @free_inodes: free inodes count in the whole tree
-+ * @inodes_capacity: inodes capacity in the whole tree
-+ * @leaf_nodes: count of leaf nodes in the whole tree
-+ * @nodes_count: count of all nodes in the whole tree
-+ * @raw_inode_size: size in bytes of raw inode
-+ * @free_inodes_queue: queue of free inode descriptors
++ * struct ssdfs_dentries_btree_info - dentries btree info
++ * @type: dentries btree type
++ * @state: dentries btree state
++ * @dentries_count: count of the dentries in the whole dentries tree
++ * @lock: dentries btree lock
++ * @generic_tree: pointer on generic btree object
++ * @inline_dentries: pointer on inline dentries array
++ * @buffer.tree: piece of memory for generic btree object
++ * @buffer.dentries: piece of memory for the inline dentries
++ * @root: pointer on root node
++ * @root_buffer: buffer for root node
++ * @desc: b-tree descriptor
++ * @owner: pointer on owner inode object
 + * @fsi: pointer on shared file system object
++ *
++ * A newly created inode tries to store dentries into inline
++ * dentries. The raw on-disk inode has internal private area
++ * that is able to contain the four inline dentries or
++ * root node of extents btree and extended attributes btree.
++ * If inode hasn't extended attributes and the amount of dentries
++ * are lesser than four then everithing can be stored inside of
++ * inline dentries. Otherwise, the real dentries btree should
++ * be created.
 + */
-+struct ssdfs_inodes_btree_info {
-+	struct ssdfs_btree generic_tree;
++struct ssdfs_dentries_btree_info {
++	atomic_t type;
++	atomic_t state;
++	atomic64_t dentries_count;
 +
-+	spinlock_t lock;
-+	struct ssdfs_inode root_folder;
-+	u64 upper_allocated_ino;
-+	u64 last_free_ino;
-+	u64 allocated_inodes;
-+	u64 free_inodes;
-+	u64 inodes_capacity;
-+	u32 leaf_nodes;
-+	u32 nodes_count;
-+	u16 raw_inode_size;
++	struct rw_semaphore lock;
++	struct ssdfs_btree *generic_tree;
++	struct ssdfs_dir_entry *inline_dentries;
++	union {
++		struct ssdfs_btree tree;
++		struct ssdfs_dir_entry dentries[SSDFS_INLINE_DENTRIES_COUNT];
++	} buffer;
++	struct ssdfs_btree_inline_root_node *root;
++	struct ssdfs_btree_inline_root_node root_buffer;
 +
-+	/*
-+	 * Inodes btree should have special allocation queue.
-+	 * If a btree nodes has free (not allocated) inodes
-+	 * items then the information about such btree node
-+	 * should be added into queue. Moreover, queue should
-+	 * contain as so many node's descriptors as free items
-+	 * in the node.
-+	 *
-+	 * If some btree node has deleted inodes (free items)
-+	 * then all node's descriptors should be added into
-+	 * the head of allocation queue. Descriptors of the last
-+	 * btree's node should be added into tail of the queue.
-+	 * Information about node's descriptors should be added
-+	 * into the allocation queue during btree node creation
-+	 * or reading from the volume. Otherwise, allocation of
-+	 * new items should be done from last leaf btree's node.
-+	 */
-+	struct ssdfs_free_inode_range_queue free_inodes_queue;
-+
++	struct ssdfs_dentries_btree_descriptor desc;
++	struct ssdfs_inode_info *owner;
 +	struct ssdfs_fs_info *fsi;
++};
++
++/* Dentries tree types */
++enum {
++	SSDFS_DENTRIES_BTREE_UNKNOWN_TYPE,
++	SSDFS_INLINE_DENTRIES_ARRAY,
++	SSDFS_PRIVATE_DENTRIES_BTREE,
++	SSDFS_DENTRIES_BTREE_TYPE_MAX
++};
++
++/* Dentries tree states */
++enum {
++	SSDFS_DENTRIES_BTREE_UNKNOWN_STATE,
++	SSDFS_DENTRIES_BTREE_CREATED,
++	SSDFS_DENTRIES_BTREE_INITIALIZED,
++	SSDFS_DENTRIES_BTREE_DIRTY,
++	SSDFS_DENTRIES_BTREE_CORRUPTED,
++	SSDFS_DENTRIES_BTREE_STATE_MAX
 +};
 +
 +/*
 + * Inline methods
 + */
 +static inline
-+bool is_free_inodes_range_invalid(struct ssdfs_inodes_btree_range *range)
++size_t ssdfs_inline_dentries_size(void)
 +{
-+	bool is_invalid;
++	size_t dentry_size = sizeof(struct ssdfs_dir_entry);
++	return dentry_size * SSDFS_INLINE_DENTRIES_COUNT;
++}
 +
-+#ifdef CONFIG_SSDFS_DEBUG
-+	BUG_ON(!range);
-+#endif /* CONFIG_SSDFS_DEBUG */
-+
-+	is_invalid = range->node_id == SSDFS_BTREE_NODE_INVALID_ID ||
-+		range->area.start_hash == SSDFS_INODES_RANGE_INVALID_START ||
-+		range->area.start_index == SSDFS_INODES_RANGE_INVALID_INDEX ||
-+		range->area.count == 0;
-+
-+	if (is_invalid) {
-+		SSDFS_ERR("node_id %u, start_hash %llx, "
-+			  "start_index %u, count %u\n",
-+			  range->node_id,
-+			  range->area.start_hash,
-+			  range->area.start_index,
-+			  range->area.count);
-+	}
-+
-+	return is_invalid;
++static inline
++size_t ssdfs_area_dentries_size(void)
++{
++	size_t dentry_size = sizeof(struct ssdfs_dir_entry);
++	return dentry_size * SSDFS_INLINE_DENTRIES_PER_AREA;
 +}
 +
 +/*
-+ * Free inodes range API
++ * Dentries tree API
 + */
-+struct ssdfs_inodes_btree_range *ssdfs_free_inodes_range_alloc(void);
-+void ssdfs_free_inodes_range_free(struct ssdfs_inodes_btree_range *range);
-+void ssdfs_free_inodes_range_init(struct ssdfs_inodes_btree_range *range);
++int ssdfs_dentries_tree_create(struct ssdfs_fs_info *fsi,
++				struct ssdfs_inode_info *ii);
++int ssdfs_dentries_tree_init(struct ssdfs_fs_info *fsi,
++			     struct ssdfs_inode_info *ii);
++void ssdfs_dentries_tree_destroy(struct ssdfs_inode_info *ii);
++int ssdfs_dentries_tree_flush(struct ssdfs_fs_info *fsi,
++				struct ssdfs_inode_info *ii);
 +
-+/*
-+ * Inodes btree API
-+ */
-+int ssdfs_inodes_btree_create(struct ssdfs_fs_info *fsi);
-+void ssdfs_inodes_btree_destroy(struct ssdfs_fs_info *fsi);
-+int ssdfs_inodes_btree_flush(struct ssdfs_inodes_btree_info *tree);
-+
-+int ssdfs_inodes_btree_allocate(struct ssdfs_inodes_btree_info *tree,
-+				ino_t *ino,
-+				struct ssdfs_btree_search *search);
-+int ssdfs_inodes_btree_find(struct ssdfs_inodes_btree_info *tree,
-+			    ino_t ino,
++int ssdfs_dentries_tree_find(struct ssdfs_dentries_btree_info *tree,
++			     const char *name, size_t len,
++			     struct ssdfs_btree_search *search);
++int ssdfs_dentries_tree_add(struct ssdfs_dentries_btree_info *tree,
++			    const struct qstr *str,
++			    struct ssdfs_inode_info *ii,
 +			    struct ssdfs_btree_search *search);
-+int ssdfs_inodes_btree_change(struct ssdfs_inodes_btree_info *tree,
-+				ino_t ino,
++int ssdfs_dentries_tree_change(struct ssdfs_dentries_btree_info *tree,
++				u64 name_hash, ino_t old_ino,
++				const struct qstr *str,
++				struct ssdfs_inode_info *new_ii,
 +				struct ssdfs_btree_search *search);
-+int ssdfs_inodes_btree_delete(struct ssdfs_inodes_btree_info *tree,
-+				ino_t ino);
-+int ssdfs_inodes_btree_delete_range(struct ssdfs_inodes_btree_info *tree,
-+				    ino_t ino, u16 count);
-+
-+void ssdfs_debug_inodes_btree_object(struct ssdfs_inodes_btree_info *tree);
++int ssdfs_dentries_tree_delete(struct ssdfs_dentries_btree_info *tree,
++				u64 name_hash, ino_t ino,
++				struct ssdfs_btree_search *search);
++int ssdfs_dentries_tree_delete_all(struct ssdfs_dentries_btree_info *tree);
 +
 +/*
-+ * Inodes btree specialized operations
++ * Internal dentries tree API
++ */
++u64 ssdfs_generate_name_hash(const struct qstr *str);
++int ssdfs_dentries_tree_find_leaf_node(struct ssdfs_dentries_btree_info *tree,
++					u64 name_hash,
++					struct ssdfs_btree_search *search);
++int ssdfs_dentries_tree_extract_range(struct ssdfs_dentries_btree_info *tree,
++				      u16 start_index, u16 count,
++				      struct ssdfs_btree_search *search);
++
++void ssdfs_debug_dentries_btree_object(struct ssdfs_dentries_btree_info *tree);
++
++/*
++ * Dentries btree specialized operations
 + */
 +extern const struct ssdfs_btree_descriptor_operations
-+						ssdfs_inodes_btree_desc_ops;
-+extern const struct ssdfs_btree_operations ssdfs_inodes_btree_ops;
-+extern const struct ssdfs_btree_node_operations ssdfs_inodes_btree_node_ops;
++						ssdfs_dentries_btree_desc_ops;
++extern const struct ssdfs_btree_operations ssdfs_dentries_btree_ops;
++extern const struct ssdfs_btree_node_operations ssdfs_dentries_btree_node_ops;
 +
-+#endif /* _SSDFS_INODES_TREE_H */
++#endif /* _SSDFS_DENTRIES_TREE_H */
 -- 
 2.34.1
 
