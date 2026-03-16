@@ -1,271 +1,158 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B03481DFFB;
-	Mon, 16 Mar 2026 19:17:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773688628; cv=none; b=kLQqYo4LYrk3RqB/VfQWTq9/lY+iS2ojPvYYCIWMvX7qT7/qqDkPet8UG7of30DWbu4ZhsZvensEGC8Rf7JVtp8uWoRZBW+hC3drjsWszpeXRvDTLcOcKhj0geOVC08ltkLo/PrekcekiYC+zk9I8KP4hHr3mdTymSzHQ1HxSdY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773688628; c=relaxed/simple;
-	bh=QyEpZlZG4opNA8anvj6G5Slo7c/FEhsWdlvBbfWACi4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wqn11QDpNy8LRC2hk9YOTlr5NfUK0bGk18hkWtSNC1P7VyTS7r220agyK20+Ft+7OR8s7jEHKAJUvwrjbcsnywNfddrzLz0UHA11ihHBPI6LtAIt4RXRpthHTqJJ6vYhHm8jIkpRhvvQOodhISg32jDQ7aI0lXnfw45xwim0xLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p6V8nYcq; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96A9D3DB64B
+	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 19:56:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773690980; cv=pass; b=RCbAGd1B37miwWDKxvr3W1y4V+/qTCInPDm3uw+JWiOCE7s11C+uFWHHx57W8j37MwyQEZBalmUb+B0Vil3JTVLswjOnJS1cXg+D/h563CPw53uMIC806ZDX4ZjdHoSJusifcSFKYllkZGVkR4sGaDEAkt2tPqeY3+5g4f0fke8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773690980; c=relaxed/simple;
+	bh=Be2mQAK9+wsi0Bste2OJ8qOHy3MriLYDq6+Ew3qALCI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ec6Hei257AtF3Z53qgeXUJ6qadNqa8ll9TSl8fxpoFOoUK6vMqNiqHaI6mPJR7AXvyLYOdP+F5BfnkHmsnagirBErBqScmJ/YVSauEqI1X+6EuCt48DzoMw3tP6td22DS1cdaFf26E6uy1BZmSiS9Hh1J9G86hzBzO4sKxuA1ek=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z9jDa3p0; arc=pass smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p6V8nYcq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC7BCC19421;
-	Mon, 16 Mar 2026 19:16:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773688628;
-	bh=QyEpZlZG4opNA8anvj6G5Slo7c/FEhsWdlvBbfWACi4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=p6V8nYcqmeDZKuY4zGNJ/3JO3CnU0d9efgyFdkVY7WSUNYIDhCTI9Db2OUNnvZkuV
-	 DJKNEIr0LVqkw7Qm+7/LNMZVIy2H6lZSikEMJxAeb3rC/4Ok0+/5T9pPdWx0hxlyfF
-	 YC9hu93u2F0y8eWR++ss1I+ojYbIFXoX/ZuREscW0OSdbh8qpKKHZ34v9W5/hiyDoR
-	 j6phsp0FGdk9ZAHp8Dp/oyzPLmvM0Lji+BhGIxnplEpsoKuFzNUNe28cRSEOmi6Zgz
-	 5pNsd9DGY8/zp1LM+egYfiwZmkjPSb7Ys/IvaCJPlZM7sDDRwMQVyAWIqyg9+q9N6f
-	 35RjXxG9KVfKA==
-Date: Mon, 16 Mar 2026 19:16:56 +0000
-From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Clemens Ladisch <clemens@ladisch.de>, 
-	Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"K . Y . Srinivasan" <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>, 
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Miquel Raynal <miquel.raynal@bootlin.com>, 
-	Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
-	Bodo Stroesser <bostroesser@gmail.com>, "Martin K . Petersen" <martin.petersen@oracle.com>, 
-	David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	David Hildenbrand <david@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
-	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org, 
-	linux-mtd@lists.infradead.org, linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org, 
-	target-devel@vger.kernel.org, linux-afs@lists.infradead.org, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org, Ryan Roberts <ryan.roberts@arm.com>
-Subject: Re: [PATCH 02/15] mm: add documentation for the mmap_prepare file
- operation callback
-Message-ID: <6a0e73a5-519e-49ca-9f76-2f6cc5a1577c@lucifer.local>
-References: <cover.1773346620.git.ljs@kernel.org>
- <c5bb61cf789df1ecb32facc29df9749987c7ddfc.1773346620.git.ljs@kernel.org>
- <CAJuCfpGd702=Xop3X5Aop9rrScdiAOQEEooTu1gcJqR9pmO5GA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z9jDa3p0"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-439c56e822eso5214161f8f.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 12:56:19 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773690978; cv=none;
+        d=google.com; s=arc-20240605;
+        b=FzyllNUSZsCtcUL+BTpRylX531minsigyxVRD5SdL0wlR1ETZypaXqoxbeuccxXWkG
+         bNnyipKhy/SZ2h2iVB8YnQURjNMTMcbxYZLkfJCKBo3/B4OSOwbhHmAcn72kwclTlxOo
+         aUmR3xN/1IFA1PqTn7FtSys6hTfViZz8lu5P7jAO9sSGmaDYiz8QIWCOfX7uDpX5hpAw
+         zoefFmrJssvG1Bf3HEbgC73sRm5ZZUIv+qqzixZALtKgOpfqYqF6W7a2zyPCPlP+XP28
+         s3GBIv5zvtOkSfgYsdKp+hPcqTz6aYmMGQw84OfN30vMMcMrz6Y/1WcDkKiQMv9uhJ7E
+         zFbw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=9KYIlXS7zuGp0pq6ZtWM+y6OQf1EsZuDREsECH9Kvws=;
+        fh=l7eN5hphNMU4H+9gp/Fop18IU3a0YWjcs61VETDGwtg=;
+        b=kC39UeqljAM4gfVUcGMU54Rz1KuHSmYCzeWj5umKvO+q6uszD87O+BAPbH6y3UfQTM
+         Un6E/SmgaDlV0w5udgYBq1TLcGRT/uZdDkH30qrIjBmxumgipHebRCsI1kP3D7SwAhBb
+         Xrfa62Twy6wm3Gd/7ZPIZh7m0ObzPYpilhLZS76ZiHyJmZFu3t51UdB6C3g8XQHEhMhv
+         +vYX/fCOVg4cjY5WcynxTUOm4NF6LE28Z+REOMXQLjdRxaPMEUOQGp2SrhBVBWHVWy1q
+         H0iq1k8YX7QqjiVmmAe4Z4YEK24rj2U7Zss5B0DnB6PclNbzD4DiNSaMafkTaZ0c9a8v
+         jVjg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773690978; x=1774295778; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9KYIlXS7zuGp0pq6ZtWM+y6OQf1EsZuDREsECH9Kvws=;
+        b=Z9jDa3p0qlb3bQXZ3dSkicayYiRDBn9L/IXbRJyF2qw7bvpf3rr37lLw54E/zNAZIa
+         zXcRFfOe0fE3yQSjlw5cdCUiBZU/hhdbOjF0ss8pGfdBL9U9xyIsP7VexMV+hjKltnSE
+         vljADJkKOp2P5m1Jna0TnyuvBMgP+F4mbSyyYLEgIm1d+rHVA0Keonb1r0suMm/YRBtJ
+         N0dttJVXwhVEM45Px+EJI6QQBzEPkujiH/SKPHjbsmezqUD4HSW39IizODd6erGwt0A/
+         AeoJSoplt2h+YkP8snP0Ww34vP6T2+TAra2ggg0220Hic3UoriBcvuZ5v5JS/jT9r9q3
+         T9dQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773690978; x=1774295778;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=9KYIlXS7zuGp0pq6ZtWM+y6OQf1EsZuDREsECH9Kvws=;
+        b=e17KErfRje1oR/aUfklGSYnKue1MEa9dghY54bQC3OSZy1P6DK0+sPex8NsO0mvw4Q
+         sFWgp36Ql3pY9RwkfUJ0gUiwKo79SE5o5jvy6EOjNlBQAZbxwBRwf/M1qhltnOymfH0E
+         h1q8tV4rCnTwYhHbQHmui1te2x1GBePl2Megh+KcJNmt4uSOxFYJgDR2J00zSOwcab6T
+         qiimyNT9ACYj6SV2tmZhP89SdFpyoHM9/1Y0dxL43n/CfKQsyZoN5fuQ911gm76gIQfY
+         KV3d0IiNxm9tO4HLg7wwLrX2spqon/k+JFFD75g4H84jT7NY9sVNntdVgLK1BAJHAeeM
+         SWTg==
+X-Gm-Message-State: AOJu0YzjjnA3+dolujWnHnilC8kqis/Lj/GxK4lPhBz0a/AWJMaOrn3I
+	9x/WAQbKhjBjPUkuqh8gfCEo5hAEh3dX7qhblOCQXCCdPac2pcJGWmWeIPoRl++tRNOAVpb0FY6
+	kSS6GFREdOF9DjlfbjuoINf+Sa+Y+KZw=
+X-Gm-Gg: ATEYQzxaf1OqFG8xVxwS1VeJsKTNPcyQ1mpcHwBO0e/PJhrPiRbaUudjEJ4nc95qkBb
+	rT5ohy0Lpu9RGxJ8VMcoZapWRvnIgFjONMpq/wTWqIfVgxUk7LNqXGe2HSwKR1VNJhjiSFd9Csh
+	REuGJ+sQP71HwlR4EDDQS3z/v5fNQgkU+gNw/QBhrCvTS5Ngj66rBnm6HElZqK+KGkg5OuD4yIb
+	Wv1z/w+EgXFBVS0yNzLjw6BRytnAxouw6L0OsLQNlkgn2ej+ajCv86Rtf9RGuZKOqmLsFECaGa0
+	0eZyDw==
+X-Received: by 2002:a5d:5d08:0:b0:43b:4aba:8f38 with SMTP id
+ ffacd0b85a97d-43b4aba9108mr614750f8f.47.1773690977596; Mon, 16 Mar 2026
+ 12:56:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJuCfpGd702=Xop3X5Aop9rrScdiAOQEEooTu1gcJqR9pmO5GA@mail.gmail.com>
+References: <20260316165320.3245526-1-mszeredi@redhat.com> <20260316165320.3245526-5-mszeredi@redhat.com>
+In-Reply-To: <20260316165320.3245526-5-mszeredi@redhat.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Mon, 16 Mar 2026 12:56:06 -0700
+X-Gm-Features: AaiRm5252IcB9uCCrCiGplIPdyW-xtOy3-6vCSrziqn2bctLS1YoRHlNu3MkBe0
+Message-ID: <CAJnrk1b8A0eK51QfNLdSDac6mQXHqs4FUJv7okqFHyTeehBBeA@mail.gmail.com>
+Subject: Re: [PATCH v3 4/7] fuse: don't require /dev/fuse fd to be kept open
+ during mount
+To: Miklos Szeredi <mszeredi@redhat.com>
+Cc: linux-fsdevel@vger.kernel.org, Bernd Schubert <bernd@bsbernd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Mar 15, 2026 at 04:23:14PM -0700, Suren Baghdasaryan wrote:
-> On Thu, Mar 12, 2026 at 1:27 PM Lorenzo Stoakes (Oracle) <ljs@kernel.org> wrote:
-> >
-> > This documentation makes it easier for a driver/file system implementer to
-> > correctly use this callback.
-> >
-> > It covers the fundamentals, whilst intentionally leaving the less lovely
-> > possible actions one might take undocumented (for instance - the
-> > success_hook, error_hook fields in mmap_action).
-> >
-> > The document also covers the new VMA flags implementation which is the only
-> > one which will work correctly with mmap_prepare.
-> >
-> > Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
-> > ---
-> >  Documentation/filesystems/mmap_prepare.rst | 131 +++++++++++++++++++++
-> >  1 file changed, 131 insertions(+)
-> >  create mode 100644 Documentation/filesystems/mmap_prepare.rst
-> >
-> > diff --git a/Documentation/filesystems/mmap_prepare.rst b/Documentation/filesystems/mmap_prepare.rst
-> > new file mode 100644
-> > index 000000000000..76908200f3a1
-> > --- /dev/null
-> > +++ b/Documentation/filesystems/mmap_prepare.rst
-> > @@ -0,0 +1,131 @@
-> > +.. SPDX-License-Identifier: GPL-2.0
-> > +
-> > +===========================
-> > +mmap_prepare callback HOWTO
-> > +===========================
-> > +
-> > +Introduction
-> > +############
-> > +
-> > +The `struct file->f_op->mmap()` callback has been deprecated as it is both a
-> > +stability and security risk, and doesn't always permit the merging of adjacent
-> > +mappings resulting in unnecessary memory fragmentation.
-> > +
-> > +It has been replaced with the `file->f_op->mmap_prepare()` callback which solves
-> > +these problems.
-> > +
-> > +## How To Use
-> > +
-> > +In your driver's `struct file_operations` struct, specify an `mmap_prepare`
-> > +callback rather than an `mmap` one, e.g. for ext4:
-> > +
-> > +
-> > +.. code-block:: C
-> > +
-> > +    const struct file_operations ext4_file_operations = {
-> > +        ...
-> > +        .mmap_prepare    = ext4_file_mmap_prepare,
-> > +    };
-> > +
-> > +This has a signature of `int (*mmap_prepare)(struct vm_area_desc *)`.
-> > +
-> > +Examining the `struct vm_area_desc` type:
-> > +
-> > +.. code-block:: C
-> > +
-> > +    struct vm_area_desc {
-> > +        /* Immutable state. */
-> > +        const struct mm_struct *const mm;
-> > +        struct file *const file; /* May vary from vm_file in stacked callers. */
-> > +        unsigned long start;
-> > +        unsigned long end;
-> > +
-> > +        /* Mutable fields. Populated with initial state. */
-> > +        pgoff_t pgoff;
-> > +        struct file *vm_file;
-> > +        vma_flags_t vma_flags;
-> > +        pgprot_t page_prot;
-> > +
-> > +        /* Write-only fields. */
-> > +        const struct vm_operations_struct *vm_ops;
-> > +        void *private_data;
-> > +
-> > +        /* Take further action? */
-> > +        struct mmap_action action;
+On Mon, Mar 16, 2026 at 9:53=E2=80=AFAM Miklos Szeredi <mszeredi@redhat.com=
+> wrote:
 >
-> So, action still belongs to /* Write-only fields. */ section? This is
-> nitpicky, but it might be better to have this as:
+> With the new mount API the sequence of syscalls would be:
 >
->         /* Write-only fields. */
->         const struct vm_operations_struct *vm_ops;
->         void *private_data;
->         struct mmap_action action; /* Take further action? */
-
-Absolutely not. This field is not to be written to by the user.
-
-We sadly have to allow hugetlb to do some hacks, but these are things we don't
-want to point out.
-
-Users should use mmap_action_xxx() functions.
-
+>         fs_fd =3D fsopen("fuse", 0);
+>         snprintf(opt, sizeof(opt), "%i", devfd);
+>         fsconfig(fs_fd, FSCONFIG_SET_STRING, "fd", opt, 0);
+>         /* ... */
+>         fsconfig(fs_fd, FSCONFIG_CMD_CREATE, 0, 0, 0);
 >
-> > +    };
-> > +
-> > +This is straightforward - you have all the fields you need to set up the
-> > +mapping, and you can update the mutable and writable fields, for instance:
-> > +
-> > +.. code-block:: Cw
-> > +
-> > +    static int ext4_file_mmap_prepare(struct vm_area_desc *desc)
-> > +    {
-> > +        int ret;
-> > +        struct file *file = desc->file;
-> > +        struct inode *inode = file->f_mapping->host;
-> > +
-> > +        ...
-> > +
-> > +        file_accessed(file);
-> > +        if (IS_DAX(file_inode(file))) {
-> > +            desc->vm_ops = &ext4_dax_vm_ops;
-> > +            vma_desc_set_flags(desc, VMA_HUGEPAGE_BIT);
-> > +        } else {
-> > +            desc->vm_ops = &ext4_file_vm_ops;
-> > +        }
-> > +        return 0;
-> > +    }
-> > +
-> > +Importantly, you no longer have to dance around with reference counts or locks
-> > +when updating these fields - __you can simply go ahead and change them__.
-> > +
-> > +Everything is taken care of by the mapping code.
-> > +
-> > +VMA Flags
-> > +=========
-> > +
-> > +Along with `mmap_prepare`, VMA flags have undergone an overhaul. Where before
-> > +you would invoke one of `vm_flags_init()`, `vm_flags_reset()`, `vm_flags_set()`,
-> > +`vm_flags_clear()`, and `vm_flags_mod()` to modify flags (and to have the
-> > +locking done correctly for you, this is no longer necessary.
-> > +
-> > +Also, the legacy approach of specifying VMA flags via `VM_READ`, `VM_WRITE`,
-> > +etc. - i.e. using a `VM_xxx` macro has changed too.
-> > +
-> > +When implementing `mmap_prepare()`, reference flags by their bit number, defined
-> > +as a `VMA_xxx_BIT` macro, e.g. `VMA_READ_BIT`, `VMA_WRITE_BIT` etc., and use one
-> > +of (where `desc` is a pointer to `struct vma_area_desc`):
-> > +
-> > +* `vma_desc_test_flags(desc, ...)` - Specify a comma-separated list of flags you
-> > +  wish to test for (whether _any_ are set), e.g. - `vma_desc_test_flags(desc,
-> > +  VMA_WRITE_BIT, VMA_MAYWRITE_BIT)` - returns `true` if either are set,
-> > +  otherwise `false`.
-> > +* `vma_desc_set_flags(desc, ...)` - Update the VMA descriptor flags to set
-> > +  additional flags specified by a comma-separated list,
-> > +  e.g. - `vma_desc_set_flags(desc, VMA_PFNMAP_BIT, VMA_IO_BIT)`.
-> > +* `vma_desc_clear_flags(desc, ...)` - Update the VMA descriptor flags to clear
-> > +  flags specified by a comma-separated list, e.g. - `vma_desc_clear_flags(desc,
-> > +  VMA_WRITE_BIT, VMA_MAYWRITE_BIT)`.
-> > +
-> > +Actions
-> > +=======
-> > +
-> > +You can now very easily have actions be performed upon a mapping once set up by
-> > +utilising simple helper functions invoked upon the `struct vm_area_desc`
-> > +pointer. These are:
-> > +
-> > +* `mmap_action_remap()` - Remaps a range consisting only of PFNs for a specific
-> > +  range starting a virtual address and PFN number of a set size.
-> > +
-> > +* `mmap_action_remap_full()` - Same as `mmap_action_remap()`, only remaps the
-> > +  entire mapping from `start_pfn` onward.
-> > +
-> > +* `mmap_action_ioremap()` - Same as `mmap_action_remap()`, only performs an I/O
-> > +  remap.
-> > +
-> > +* `mmap_action_ioremap_full()` - Same as `mmap_action_ioremap()`, only remaps
-> > +  the entire mapping from `start_pfn` onward.
-> > +
-> > +**NOTE:** The 'action' field should never normally be manipulated directly,
-> > +rather you ought to use one of these helpers.
+> Current mount code just stores the value of devfd in the fs_context and
+> uses it in during FSCONFIG_CMD_CREATE, which is inelegant.
 >
-> I'm guessing the start and size parameters passed to
-> mmap_action_remap() and such are restricted by vm_area_desc.start
-> vm_area_desc.end. If so, should we document those restrictions and
-> enforce them in the code?
-
-I mean it's the same restrictions as all of the functions already apply if you
-were to use them with a VMA descriptor.
-
-I think implicitly a remap will fail if you try it out of the VMA range at the
-point of applying the change.
-
-But it might be worth adding range_in_vma_desc() checks at prepare time, will
-see if I can do that for the respin.
-
-I think it's pretty obvious that you shouldn't be trying to remap totally
-unrelated memory, so I'm not sure that's at a level of granularity that's suited
-to this document though.
-
+> Instead grab a reference to the underlying fuse_dev, and use that during
+> the filesystem creation.
 >
-> > +    struct vm_area_desc {
-> > +        /* Immutable state. */
-> > +        const struct mm_struct *const mm;
-> > +        struct file *const file; /* May vary from vm_file in stacked callers. */
-> > +        unsigned long start;
-> > +        unsigned long end;
+> Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
+> ---
+>  fs/fuse/fuse_i.h |  4 +---
+>  fs/fuse/inode.c  | 54 +++++++++++++++++++++++++++---------------------
+>  2 files changed, 31 insertions(+), 27 deletions(-)
 >
+> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+> index 230201dc3f90..4a591a436324 100644
+> --- a/fs/fuse/fuse_i.h
+> +++ b/fs/fuse/fuse_i.h
+> @@ -606,13 +606,11 @@ static inline bool fuse_is_inode_dax_mode(enum fuse=
+_dax_mode mode)
+>  }
 >
-> > --
-> > 2.53.0
-> >
+>  struct fuse_fs_context {
+> -       int fd;
+> -       struct file *file;
+> +       struct fuse_dev *fud;
+>         unsigned int rootmode;
+>         kuid_t user_id;
+>         kgid_t group_id;
+>         bool is_bdev:1;
+> -       bool fd_present:1;
+>         bool rootmode_present:1;
+>         bool user_id_present:1;
+>         bool group_id_present:1;
+> diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+> index 0e848e3a13c2..314fb37f272f 100644
+> --- a/fs/fuse/inode.c
+> +++ b/fs/fuse/inode.c
+> @@ -800,6 +800,26 @@ static const struct fs_parameter_spec fuse_fs_parame=
+ters[] =3D {
+>         {}
+>  };
+>
+> +static int fuse_opt_fd(struct fs_context *fsc, int fd)
+> +{
+> +       struct file *file __free(fput) =3D fget(fd);
+> +       struct fuse_fs_context *ctx =3D fsc->fs_private;
+> +
+
+I think we first need a "if (!file)" check here before dereferencing?
+As I understand it, userspace can pass in any fd value.
+
+Thanks,
+Joanne
