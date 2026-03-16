@@ -1,166 +1,170 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15B1A36A000
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 21:59:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52E97330D24
+	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 22:06:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.53
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773698383; cv=pass; b=aJd9cZNPk6C/TMEpk9manGL1DzbTbbsgQj9UsXu1NJqGawoNOmkaefBkZ0R/uaBn1Wk8fBRntU/0hxKRlNdAT8PUQovCsdP47DnGS6IHe3zK8f/oO777kpHh2VGIeJBGRqG5CJVPbdIIx7Zc0l60vwOnNFRyFdm8rrd+ASjSovU=
+	t=1773698777; cv=pass; b=R4lxAiZvdXCLeHWNs96wqJlP3nKkZGVruiPkk3ioeDJJULHTxaqXtdHF43Q9UG8LipvZSPlRAchJxU0oPZxYM4f/iipEG1GMZOazCyhT7CkZqJkVfeWKGLVDpMrNR6V0tMpQ7HFwUrK6ffY6DnAhRgKrGiYIB5wJgX8dhgaymBs=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773698383; c=relaxed/simple;
-	bh=9QvEw0u3gRMsyoZyk+ByF8/LpMUDYgdZiDWMnaQ2/XI=;
+	s=arc-20240116; t=1773698777; c=relaxed/simple;
+	bh=0Z8kujS9Buhi9Mpliex5pzdCgRluoXOSMknTYfL71Ik=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QsRJ/70fcTmYN3OECGEQ0s5ED463NoEAPzlTZUQnARuAYZby3d08j47D5yJuD1Jm1t0wDHF27XhOwBklc0dMrDWLPW2MZUxdOOy09sXzS0fo9N/5MTKlmUiHZwA1/8p5csrvsFLaf7CY7KtiiHS3n2XidrWQ/JWjM8cfmU+vMP4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=HU2mPT0z; arc=pass smtp.client-ip=209.85.216.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+	 To:Cc:Content-Type; b=ZGI1Voz2lzJEH6e2lnr3uU3qrjUTUhk3v0DLhQQzaJYY37R7W2Z6UVSmSaJDPn6WH1dqRcmykfqkuuuvT11U8b/m9teWLQbDfNOg68g0QaBelQqW1G4xzI5vraKp+9KL8PSwfqJlICqDzOG9kOTKKcnc9POsmzFA0gcxKwJ1sLk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LEk8j0ga; arc=pass smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="HU2mPT0z"
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-35a07c4b17dso2139597a91.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 14:59:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773698380; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LEk8j0ga"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-43a03cb1df9so5001552f8f.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 15:06:16 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773698775; cv=none;
         d=google.com; s=arc-20240605;
-        b=YimrBdke60euCkar1R9jpkzQuy8EEFvuFC7pWKMwkTianfeM0yaVgpDA38A6zkhEE+
-         c3K964qci4UrGw/ITOftz7oCAFBK/lzsHnaICqN/ZZmpRWM4SnJSjDRsOm7A0mHIFBGU
-         PAY7KQPlTKopqrYzIeLL+Cb60nD42nHhruiriVeF+eB8YLfb9yxBjTTVjakg+jxA9fwW
-         9HN8rvs/natIwnXGSq1VvsQStKFv9AeaReoFR96QgnLLJsCrAqnskf6eedmms3TAS2FA
-         Wea/mk/kidqRMNZg0vSMGYQu5iU/tpUNHtLqmlizhDmswXg785nDbWmktQNkVV/3f5nT
-         knPQ==
+        b=MZ2Sk+eBWLn7dMd9pc3bpn11E8VrkT+Bigu+9fc0qMl1I4g3IrM8ORfKzq4nwlAcKB
+         H1M4lnpdfzxFyEQ4DbWleDYhJaD/SLdrFwNI9Os2t3WXQBvqv8kjeN36vmQHEWmidcQN
+         7uG2d/c2H3ylp2vet2dD0zs9I93Y6i8jcKi50RcYe9vRfm8/om/ZODbiE7fAScP4ZueC
+         GkjtZHqvv2i9EZMazlQGL4tJn+QmiXX2N5I13MFje+AKFPbrpCdQOZW3N+oA39Eb9OEM
+         vjR7tOW9uEUZ8Tb+0ZpKhW2+Gvx/4kIA1MPkA6UMhYFX6MVg5B2YkOdzywX5rWAqfgZz
+         rEmQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=baaz05vN46ySUjc5nMXVfWNyK0uut6ez46xl4bwWy/4=;
-        fh=JddxvkNcnYLfEwCxPJ2s4Jg4PGeAAyzZjzOpKTIca/o=;
-        b=YBkrONzEpIK12pYgXfGiJqAkf5c48q3NDO1hYWeEs9tVTXuimoa4wac0CA5LPAYAGG
-         XPrF3ZYOYHg9J0E5H/BxIfe/Di94GHMh5CSsqWG07tyxKnmUuKmmnv5GLvyOKRE6thrp
-         WPqEa8d8t1RSXV0M8Y87DglVjN1nrt3apQ+28j+ZpMq8aSeOhHrHywHnHkZgq4R0lgAL
-         Mmll1JpNbFEa5RHV5vuCa4cO00awFsynPOvehNrWWOay9VeA5rLXAAQzDHl7A7544zuM
-         QUrGbCSON4bjKt+0GJUgqOQPKRze8m5CRlA8ZqTPDXUnG9WTvnIsi47Q6/I7vnOYMteW
-         zTEw==;
+        bh=qU7C14CeH1fciNwVpxpFcS1pcvbsagT4oNAGuB9LZXk=;
+        fh=o3yXmf7dlC/aEu5CPOtrnoqWvysyNyU4ztxK2gjie8g=;
+        b=D0cwzJHp6nmTY9OzaWNMktMMx2Rze9RRfvUqTxx/BIWTZ0vnDc0/wW6mblPzEL0npR
+         b3iZQpfePO+ibZ1+ZUHO9CBS6mB17tVzVSDahyW7u+dI1sN5nuAb3QHhczPEtphdnnEL
+         MW9FVqsoB9ZswNMgakC19e2kVQTbv9vrFhEVqYBjtBozStMJcwUlUZxtAfdo3Tx8DIeV
+         V0gQHytBf73mXG/K4bsJiRNOMDBu2l4q+oLs1RdI/5V9IbR9gFYKbidDB4OS5gp2tklm
+         FgcL0iy7jJ0aj8xXvN7Rh44rWn2I+QoJlUVW72iEWvARRkGgZ8T+II4BCWIvQOXCCYgn
+         2RlQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1773698380; x=1774303180; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1773698775; x=1774303575; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=baaz05vN46ySUjc5nMXVfWNyK0uut6ez46xl4bwWy/4=;
-        b=HU2mPT0zGfye+/qt/BFyxrPvSX5E+ihjGJ8Y4InhP0ZJvO9/oqaVYHe81A8EqMLY9n
-         xU2NJ5CFZsOcC4CCvwcMIJe64nzNIJ3kfF0ugjwfI7/ilGdmaz1O81K2ca83xOXNx4pG
-         u5shmfWd07pd/6yNfyIehLkq30Hge3Wg9NaaQq9/nvH6FqwwR2qeJWI0JQn/EaJCjLXs
-         DGiDBStBpweklzGz0rVRg05tkC3XSxE/ardUCgHyB+UYg/TK7zsISfRzOaa51T/Pcotc
-         FUvPsuHniOQUOd21OTKKY4quYDE2SsUUG/cmse1HPkElVXGLqb6iVgnOyGsjlncONey7
-         qQcA==
+        bh=qU7C14CeH1fciNwVpxpFcS1pcvbsagT4oNAGuB9LZXk=;
+        b=LEk8j0gauvS/nQBCaaAAvJyn/3NkivTOuUllnuv29lgvW0qxOT6rx+JC+kCePJqzAd
+         8ByTU+eH64QhyPqDaoTMFpQRZ4CK/vpRCD/q9Lq9YBqQDQMwES4+3tQBvcns76z1X9Qu
+         13pj7xTj1Pwx6c7zK1mLPIVCK0+2TBibk1i1k66gDiGipYMbXT+kB32kSYQc2odes/Ar
+         rrvXf6Ps/Y6rUl3Q3P6Evnus74mAYbG7YkoW7f2k4lazdQIH9ZkcFQzh1VrgLEAwwfyV
+         bcdmOxrYifcElPYUqIC9J/5IhjRJFnaWLy9fH1q2wltuGAP5aDedf4aXXfqvvM+YuVZG
+         YvKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773698380; x=1774303180;
+        d=1e100.net; s=20251104; t=1773698775; x=1774303575;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=baaz05vN46ySUjc5nMXVfWNyK0uut6ez46xl4bwWy/4=;
-        b=kvnI/tWF7Suypzv7gr7R8aouEAGZHoIVkZDnVG7lvykqkpvsEbMK2Zus2cSV+zgXMe
-         0kovkB5LwJn6bOtfqyROZonA375E1flEBj4LHrdhyBfr1c6FVwpCTVwnKNnYi6NCUZ/+
-         9TxZrUsDus1/6t9KA6OFWLyxnGWhuK7Z0cx/r22LHBDAcfqp387p2U6QlF2vrmsTbA5T
-         Oe/7XmHqypMyxqwPft2TWNEVT2Q09J87Crjmc6tj65G9L/O4IMO5DOLj4KKuFHzbAE6l
-         KLGSt2z5yuB852FkOMR2dzmi/5dA5dM31FVJsMhqGYKp4QkVZjJAQAGKOpIkgohLK6+e
-         v19Q==
-X-Forwarded-Encrypted: i=1; AJvYcCW517rHm77gNdRq+8e6kf3Je2kO61F5WKW4dNXTEhPV5RhRgZH7maCEBtcRtTE2MSmQeHnaBgiCucRFD6hQ@vger.kernel.org
-X-Gm-Message-State: AOJu0YxCp0g0Yii7Xl390odQ/wddx0eJUWNq82zoAyUnaJ7GqeGt7uT7
-	slnIl8DuJErJSOCWqBXoxATXJLeOQrUR2DP4RxjW5B754EQ5CumcxlwaTn3Ol/iYQgnHgwRS6J4
-	mj330G3fcBz5LudA73+qL6EpEtnMeUsboPMRo9Ter
-X-Gm-Gg: ATEYQzxoTcZ96JOpGvDEJnaP0e4AKFFyTpJhbybHPhL1ayx6E7xrKWiITc1UFhXDwo8
-	OqMjJjFMHGy4kAQtI5BGsaFXaR5U1d9sN6EvTMyBVkhkOaSH9GQTOpkXx0eQZJwzk7dWyqWFQeD
-	myvndCuJ7hWzf+mgD5cirneDmNEDUgdC3esIbZiSBIbVFByKy03kKnYORYqAiHHA6ldLqEj7aeI
-	S5e42JiyfaRF2mE/OqEScZeOkY02qI7DsvMcrXmgRPL7849642YIyTPjk80e3f/2Cmj4+toE0tE
-	n3Xj4N0=
-X-Received: by 2002:a17:90a:d60c:b0:34a:9d9a:3f67 with SMTP id
- 98e67ed59e1d1-35a22081eb3mr12428760a91.33.1773698380402; Mon, 16 Mar 2026
- 14:59:40 -0700 (PDT)
+        bh=qU7C14CeH1fciNwVpxpFcS1pcvbsagT4oNAGuB9LZXk=;
+        b=VucQiq8R5nZZfYrLW1uIC5VO/uJyNBLYyYgf8yHPg911myl8w09LiMuUkywl2Rzduj
+         LmktefYMHppl9hiXIFHug3McqjogIl9YnE8NqBxfOlik4URNTnc5K/K2mx1FWRYXHdLa
+         ghZ/RTVpUOId2ifXdbT3msRBB3L59mBEMzlD012wDeZVmieL0LUu3FWT+4VsrsaAtmS0
+         3QiO8GybyPcIWMANJVYIfQ/Um7ko7ePmgTmWD91MACroKvDCLa5k4cjJjdVpEWyCdvpo
+         NdHi+wsm0/X/M+bkStuxrU9xjTAY9ad3SXmZ2M5ZzOjStY0LQOH13vb+l5Vr38BwGFM7
+         Avrg==
+X-Forwarded-Encrypted: i=1; AJvYcCX0GOYNQuB69WTVoAEeG9t606YBMQ2rIEFwQPwrivuQdI8oBmcJNmgLNM/6LXmmukY/n3Hhs7fq/hA+PSLk@vger.kernel.org
+X-Gm-Message-State: AOJu0YwAqgEsoUF56a3CNYXhS0i+btjL+o+9ZVbIG6uo0c1TuZLpEG/z
+	XORI84O4Z1gd8aXN+P9KeSLmrVzTWdZ9aPwP+dYDtkitbXV04Sr764WrBlIrz9/aX7WXSwGGP+5
+	iynhmlyq4HUoNE7tivk5ICFDHuddi/E4=
+X-Gm-Gg: ATEYQzzXLyPh6O04/UDvcd4otBCwCj5u/EvY+5CWo5EyejFbhlkcw+9TcNBetpvFDqW
+	vJxMI0D8C+EFApgsqHx3bxHJGQS0NyZfubdKho6tr5duVytWcdwzm70B6g3tRYDYUjUFitO8o+r
+	IknMX3/CpCStb+IbffExsuuiYDnNEiX/fIomngoFhKJXP9QxUPP2g4ekZJZIyoYURw4Cupp6iEw
+	S91e38PRJjz0hcpA8s0KSQkNIjdvi3ozK6i+PHnwiMg1UtwElLB9m+FhSq9rIagnhMxq3ULqXyh
+	/FQ6Nw==
+X-Received: by 2002:a05:6000:2dc6:b0:439:be78:e1e9 with SMTP id
+ ffacd0b85a97d-43a04d87bc2mr25354681f8f.14.1773698774395; Mon, 16 Mar 2026
+ 15:06:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260316213606.374109-5-paul@paul-moore.com>
-In-Reply-To: <20260316213606.374109-5-paul@paul-moore.com>
-From: Paul Moore <paul@paul-moore.com>
-Date: Mon, 16 Mar 2026 17:59:28 -0400
-X-Gm-Features: AaiRm50Q0DM9xRE6xrYOCEeiOu8cKoO8ieFIUmC4mYeVLGbPolGQ90N17nL41QA
-Message-ID: <CAHC9VhTEX-sRjyVi2p9j_jFjyWbzy54b=iteiTKGq-mnBaHkrg@mail.gmail.com>
-Subject: Re: [PATCH 0/3] Fix incorrect overlayfs mmap() and mprotect() LSM
- access controls
-To: linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-unionfs@vger.kernel.org, 
-	linux-erofs@lists.ozlabs.org
-Cc: Amir Goldstein <amir73il@gmail.com>, Gao Xiang <xiang@kernel.org>
+References: <20260316-mark-dirty-per-folio-v1-1-8dc39c94b7ce@ddn.com>
+ <CAJnrk1Yyp+3YDYNTzyTUQLUDsiQ9WB181-mu1FOpGyaVTu=_1Q@mail.gmail.com> <abhg4tbxDhYO_iHV@fedora.fritz.box>
+In-Reply-To: <abhg4tbxDhYO_iHV@fedora.fritz.box>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Mon, 16 Mar 2026 15:06:02 -0700
+X-Gm-Features: AaiRm53e17JwMIRGLuJU1yerPcc21P0pFKcCsJEIDrZMXRooGe-xVtaRXOwFyBY
+Message-ID: <CAJnrk1bBu5VJYnoZcV3uaS7+uyxK6TK9SLDtF2WpcRNfhUvO6w@mail.gmail.com>
+Subject: Re: Re: [PATCH] fuse: when copying a folio delay the mark dirty until
+ the end
+To: Horst Birthelmer <horst@birthelmer.de>
+Cc: Horst Birthelmer <horst@birthelmer.com>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Bernd Schubert <bernd@bsbernd.com>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Horst Birthelmer <hbirthelmer@ddn.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 16, 2026 at 5:36=E2=80=AFPM Paul Moore <paul@paul-moore.com> wr=
-ote:
+On Mon, Mar 16, 2026 at 1:02=E2=80=AFPM Horst Birthelmer <horst@birthelmer.=
+de> wrote:
 >
-> The existing mmap() and mprotect() LSM access control points for the
-> overlayfs filesystem are incomplete in that they do not cover both the
-> user and backing files.  This patchset corrects this through the addition
-> of a new backing file specific LSM hook, security_mmap_backing_file(),
-> a new user path file associated with a backing file that can be used by
-> LSMs in the security_file_mprotect() code path, and the associated
-> SELinux code changes.
+> On Mon, Mar 16, 2026 at 10:29:52AM -0700, Joanne Koong wrote:
+> > On Mon, Mar 16, 2026 at 8:16=E2=80=AFAM Horst Birthelmer <horst@birthel=
+mer.com> wrote:
+> > >
+> > > From: Horst Birthelmer <hbirthelmer@ddn.com>
+> > >
+> > > Doing set_page_dirty_lock() for every page is inefficient
+> > > for large folios.
+> > > When copying a folio (and with large folios enabled,
+> > > this can be many pages) we can delay the marking dirty
+> > > and flush_dcache_page() until the whole folio is handled
+> > > and do it once per folio instead of once per page.
+> > >
+> > > Signed-off-by: Horst Birthelmer <hbirthelmer@ddn.com>
+> > > ---
+> > > Currently when doing a folio copy
+> > > flush_dcache_page(cs->pg) and set_page_dirty_lock(cs->pg)
+> > > are called for every page.
+> > >
+> > > We can do this at the end for the whole folio.
+> >
+> > Hi Horst,
+> >
+> > I think these are two different entities. cs->pg is the page that
+> > corresponds to the userspace buffer / pipe while the (large) folio
+> > corresponds to the pages in the page cache. flush_dcache_folio(folio)
+> > and flush_dcache_page(cs->pg) are not interchangeable (I don't think
+> > it's likely either that the pages backing the userspace buffer/pipe
+> > are large folios).
+> >
+> > Thanks,
+> > Joanne
 >
-> The security_mmap_backing_file() hook is intended to allow LSMs to apply
-> access controls on mmap() operations accessing a backing file, similar to
-> the security_mmap_file() for user files.  Due to the details around the
-> accesses and the desire to distinguish between the two types of accesses,
-> a new LSM hook was needed.  More information on this new hook can be
-> found in the associated patch.
+> Hi Joanne,
 >
-> The new user path file replaces the existing user path stored in the
-> backing file.  This change was necessary to support LSM based access
-> controls in the mprotect() code path where only one file is accessible
-> via the vma->vm_file field.  Unfortunately, storing a reference to the
-> user file inside the backing file does not work due to the cyclic
-> ref counting so a stand-in was necessary, the new user O_PATH file.
-> This new O_PATH file is intended to be representative of the original
-> user file and can be used by LSMs to make access control decisions based
-> on both the backing and user files.
+> I feel a bit embarassed ... but you are completely right.
+> I was interested in solving this case:
 >
-> The SELinux changes in this patchset involve making use of the new
-> security_mmap_backing_file() hook and updating the existing mprotect()
-> access controls to take into account both the backing and user files.
-> These changes preserve the existing SELinux approach of allowing access
-> on overlayfs files if the current task has the necessary rights to the
-> user file and the mounting process has the necessary rights to the
-> underlying backing file.
+>   fuse_uring_args_to_ring() or fuse_uring_args_to_ring_pages()
+>     fuse_copy_init(&cs, true, &iter)  =E2=86=90 cs->write =3D TRUE
+>     fuse_copy_args(&cs, num_args, args->in_pages, ...)
+>       if (args->in_pages)
+>         fuse_copy_folios(cs, arg->size, 0)
+>           fuse_copy_folio(cs, &ap->folios[i], ...)
 >
-> --
-> Amir Goldstein (1):
->       backing_file: store user_path_file
->
-> Paul Moore (2):
->       lsm: add the security_mmap_backing_file() hook
->       selinux: fix overlayfs mmap() and mprotect() access checks
->
->  fs/backing-file.c             |   28 +++++---
->  fs/erofs/ishare.c             |   12 ++-
->  fs/file_table.c               |   53 +++++++++++++---
->  fs/fuse/passthrough.c         |    3
->  fs/internal.h                 |    5 -
->  fs/overlayfs/dir.c            |    3
->  fs/overlayfs/file.c           |    1
->  include/linux/backing-file.h  |   29 ++++++++-
->  include/linux/file_ref.h      |   10 ---
->  include/linux/lsm_audit.h     |    2
->  include/linux/lsm_hook_defs.h |    2
->  include/linux/security.h      |   10 +++
->  security/security.c           |   25 +++++++
->  security/selinux/hooks.c      |  108 ++++++++++++++++++++++++++++------
->  14 files changed, 231 insertions(+), 60 deletions(-)
+> when we have large folios
 
-Due to the nature of the issue, I'm going to merge this into
-lsm/stable-7.0 in a few moments so the changes can get some testing in
-linux-next with the idea of sending this up to Linus' later in the
-week.  If anyone has any concerns over this patchset, please let me
-know as soon as possible.
+No worries, the naming doesn't make the distinction obvious at all.
+For copying out large folios right now, the copy is still page by page
+due to extracting 1 userspace buffer page at a time (eg the
+iov_iter_get_pages2(... PAGE_SIZE, 1, ...) call in fuse_copy_fill()).
+If we pass in a pages array, iov_iter_getpages2 is able to extract
+multiple pages at a time and save extra overhead with the GUP setup /
+irq save+restore / pagetable walk and the extra req->waitq
+locking/unlocking calls, but when I benchmarked it last year I didn't
+see any noticeable performance improvements from doing this. The extra
+complexity didn't seem worth it. For optimized copying, I think in the
+future high-performance servers will mostly just use fuse-over-iouring
+zero-copy.
 
---=20
-paul-moore.com
+Thanks,
+Joanne
+
+>
+> But those are not the same.
+>
+> Thanks,
+> Horst
