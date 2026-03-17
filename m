@@ -1,184 +1,581 @@
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012064.outbound.protection.outlook.com [40.93.195.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64C388462
-	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 00:17:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.64
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773706662; cv=fail; b=i+xwLWwCucNZPe3qTE1NOdiRwb4pleaKXWhAEGxLcbB8FLbPwZQTTnVnVmHhBS6uDIYnUo41OF/p7TUKNSW1H0iaDFK/bM/bDLZsMUA7a5aa0uk4Rf/FKpFQO2PWufHLHd5UyAwUESMPuPJ0l3dbqfbd6wYkgBdb4cRz9DFla9A=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773706662; c=relaxed/simple;
-	bh=5uYskm5LXnla1TOBHa9UHehSUEXfIojJ0L14uqZYmS8=;
-	h=From:Subject:Content-Type:To:CC:Message-ID:Date:MIME-Version; b=NaR2kSjBeJMwQH/F37CzDFyH/ars1b2dDiiDdjk5py14rgLvGSknqmnNC2WlI0/W439IFFIiPNTqjxKQLjTQ7H7w4Aup0hhxrXVc2ag8z1GeB0ARP2lrEkSLehaYqKWYVbM7ZwWIrZdJ8sn37MeW5M7pctYfhXFfFXinmdN53Bw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=kHNHm8cX; arc=fail smtp.client-ip=40.93.195.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C07891ADC97
+	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 00:20:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.50
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773706838; cv=none; b=ozQfCcbTaTv6tIdScGv33hgEsGgnYbxUjRr+97IDC+R9EMpGpjLlKI9hf7UGSDq358zQGwEKU6tWzYUHvQTBby+GbvvySsJRUrLKlB4tpEmJnAtnd39C1IOEAPGbRHeyvxwiZFpt/L4gcPeoMGDB5mwxRyKMO+mQeO7enufqFnk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773706838; c=relaxed/simple;
+	bh=F7ypkGxHPwtRl4wfeoa7//3l2zqsKSz3HmujzyOgQ4A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IGb8jsAy7LQ8F+8Wz42I/dxUtVSskwQI1B3pev4/BqJERRQZR42rbJZAK0VVeL0RNAnZbZfZZIi6YrDjwKAdP5B3iab29LezgnVSaGQ4wkDVJp+DobxS846LhErZ9rHy3S6svr+21AZuPgyIpm3L8fs6qxzcK/ARGeBk4PpaLEM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YOiuQEeM; arc=none smtp.client-ip=74.125.224.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="kHNHm8cX"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=YvVB2Ttz2TqZOFognPjpOZdu0YTwNulH4QVp3njhi1optc3+h0AE+u9Cz9altHOFJSsFWPZodPrUVxfXQNCLlIl2oV1L7pDX9FVzLRI19vtzq2HErxaEfLNwnFlZU0Dwi8bxgcmrxJ05VWBeYLJ1+vTWCK0xoCkuKf3hHHMKwIowvevnT5XMLfN65ECLHDJCRC7SHq5vynPdZ/R7mS5ntO5Wqu0qVvNgj79aQXqLiNKFry93Jzb45djg7r8+iKk7IWhHLSWLGGv9ayXMy5dNZ8J5WJqluqfvOwP/VgesvuknZsXLTUmI1MWjEmS7J0qT/wpSRHSHi83TuG2S0Z4jJg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uXYwiSZMCkrsw+QY+vx5x0Zdo0nF9pCr8otLO0dwGJw=;
- b=nHytQZZgrZycg6t+h5usU1tVbw8RbM7ILw2BK+/pMPmojTIzGvGf9LadQvMOTIoA4rA66uqVbKwIUcjLm6kqktw98GZOxKNhwVmxk7XnC6EHWP3mmDnP8zYTZp7gJ+oAOFmBMcsxF3eQyybpMFK7HNdlHpNv0TBctAg2YgIwZZqWAX/zQi/Q4Y9xQ2bapnczcvHPoJlrVzUO4RaKUoIydbRRPdBPLqZCoUHzuulgcisBZ0q8Ab3Iz7ijWrWcX38nC4dKk5m33ncVy+wlpI3HRdnMUBDZHDgsohF2Xtwso6C/Dm83qrXmhrvaB7mPjUR0tXO/BAgzem6uOf3pXtvAxQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=redhat.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uXYwiSZMCkrsw+QY+vx5x0Zdo0nF9pCr8otLO0dwGJw=;
- b=kHNHm8cX1Kgd1f0lgLZbYN+UGuEDMMFcoxQbTj8RwEANo4486e1jZbZC6iOqOo+td+O/h5pTvDHguzQqW/URyszMvSKgNZLfiPJ+rV7laNBXoE0vkQAyaHw2UICulP0FJwblextD6XGBcC4v7iG2tzz+ik+dNXwIjXQyV6oCri6F8Uo4hoPtJqb1al9SkG3eNIqtU65+/+gyf4kWAtjvv6I+aGxbPeISdfopZdojat7GqBInWSM3+etYV2HpnMexu4XXewraMPD0XL4Rr/Eau9FAwdcG43Z7kDEgjtC2KdwKlIBe/VmggLpSrBEdZVoiMnwItlEkBHsMCYI9n72tUA==
-Received: from SA0PR11CA0194.namprd11.prod.outlook.com (2603:10b6:806:1bc::19)
- by CY5PR12MB6648.namprd12.prod.outlook.com (2603:10b6:930:3e::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.17; Tue, 17 Mar
- 2026 00:17:37 +0000
-Received: from SA2PEPF00003AE4.namprd02.prod.outlook.com
- (2603:10b6:806:1bc:cafe::d5) by SA0PR11CA0194.outlook.office365.com
- (2603:10b6:806:1bc::19) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9700.25 via Frontend Transport; Tue,
- 17 Mar 2026 00:17:33 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- SA2PEPF00003AE4.mail.protection.outlook.com (10.167.248.4) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9700.17 via Frontend Transport; Tue, 17 Mar 2026 00:17:37 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 16 Mar
- 2026 17:17:21 -0700
-Received: from ubuntu.localdomain (10.126.231.35) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 16 Mar
- 2026 17:17:21 -0700
-Received: by ubuntu.localdomain (Postfix, from userid 1000)
-	id BA2542605C3; Mon, 16 Mar 2026 07:54:35 -0700 (MST)
-From: <jim.harris@nvidia.com>
-Subject: fuse: buffered reads limited to 256KB regardless of negotiated max_pages
-Content-Type: text/plain; charset="UTF-8"
-To: <linux-fsdevel@vger.kernel.org>
-CC: Miklos Szeredi <miklos@szeredi.hu>, Stefan Hajnoczi <stefanha@redhat.com>,
-	Max Gurtovoy <mgurtovoy@nvidia.com>, Idan Zach <izach@nvidia.com>, "Konrad
- Sztyber" <ksztyber@nvidia.com>
-Message-ID: <20260316145435.BA2542605C3@ubuntu.localdomain>
-Date: Mon, 16 Mar 2026 07:54:35 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YOiuQEeM"
+Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-649278a69c5so4553436d50.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 17:20:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773706835; x=1774311635; darn=vger.kernel.org;
+        h=in-reply-to:autocrypt:from:content-language:references:cc:to
+         :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=48JB9E2cqyTgdUjWrBWhV/eLvghOag1WFsWhXGzBYzc=;
+        b=YOiuQEeMsHnFGzTAzRaLameAIueaNygKUtSIxQEsrX/EpbPCitFG87xwR2xkykaQoq
+         Lz24LvKuDD6to9SQlWwA0ueE2efXsEiEeNx16vWTG/IF5Yp47JdSdShfYpqPPCahHZbM
+         0SO6biExWc/rkiKvJutmmQuSn8I1cvyl0Iv5+0LxHu3fZ4RUNz65E8JooAAnQfE95AXa
+         OReE7LnNi/vX1xNhbogHV1DduX54OObijk+86tZ+42FcNSuwGjbPPqR+Iqj7iij1BBg9
+         MojUohSxlToIW3vWsGU4RaU7CASXF9AT9fYjstiE0vZQIXEMspZTczbT65ErbGuYJne7
+         Rm5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773706835; x=1774311635;
+        h=in-reply-to:autocrypt:from:content-language:references:cc:to
+         :subject:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=48JB9E2cqyTgdUjWrBWhV/eLvghOag1WFsWhXGzBYzc=;
+        b=EevzGP3H2WdfZrfbHYzufYG6UpWNSBFskgTjpuCCZ9c7/7AZ2KOhqnEZ5kjd6svZiQ
+         TYRVR7g46Zf7nn+gIgPX/Z4XMsAxm3S+Rb0rHrsAqKroxWk37SQxL8e+oL7O8Q8+7k7O
+         IRD4T9ovmaT1SCLh75zNJZb6aX0vJjVAseYnETQN2rpAOfBXSQK4D8lyh5OYG+vNL3gR
+         hc0GDudx/1/FqZhjuegpQeG3m9QSCOtYDHXcxwZShRnuTi8ze8DDQT9TgAs+dVT6i4Rf
+         GvhxGxpOa74aW8/Z/mn7Sgy+KZldNpnhzazST6WOluENkL7+oBYQM4pHhWep9643YgSs
+         jp1A==
+X-Gm-Message-State: AOJu0YxB2bwNN1/IApF65DoiivKfc2dwKdnuU3fim+tJyQOjSM2Yx6Hp
+	yKT9VW2upXQZMASVVdHkTUueNT3EXAQ4nRqAFoDisXTrikSJ2qI/cm/B
+X-Gm-Gg: ATEYQzzld3lcc6WH5qlV3UT9YK+BIorS3bKJjTp16ybbHp4n83K5Hn1TBmsc7Uk79W4
+	1/1H3cCqZeT9XyxXP/KBIP5hhJSXW/e9L9TJgqe24zbsoaab3Ns4K6yz+OUUaQGTUFAOItec/j9
+	2WkYp9V7JNv2tAm52b2uGxMYvsK9xIvH4tIcPA3jX/P+7n6DyfFQo579OwTkxxF5fQhR6r9uMh1
+	dwdWqDM3JYzrl61EBlao0LzngZ4VUem5fXKt7ZVIAJ9H6db+fJ70J2IjTz7LyH6kiTJlyIfnME1
+	lrIrDaLvuui/XN2nKVzHzUNcbbroa/bZvLNOu2cQGPb0yfUDXFq/VY1IU25A8AOtn8677sw7Gsn
+	I3fIf+pfI3Gkn9nqrN/RLq8OM3ifG4stSr9Uz/zjXMMW0qXiDXeIAxmNGKqpSnm5Fg+tsXPdpWZ
+	mkKY89RymkJdOxRh8ZUpc61j8p0cAEqOezqREjizdJaM+XuETtaGpe8TKb89Wu6b5gidusYGaeE
+	M79HdIpYEfi68QtE+jiwFxpEbqXs697razQ
+X-Received: by 2002:a05:690e:1a83:b0:649:eb42:582 with SMTP id 956f58d0204a3-64e62f03b87mr11416294d50.2.1773706834454;
+        Mon, 16 Mar 2026 17:20:34 -0700 (PDT)
+Received: from [10.138.34.110] (h96-60-250-27.cncrtn.broadband.dynamic.tds.net. [96.60.250.27])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-64e65b39cb8sm6454158d50.11.2026.03.16.17.20.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 16 Mar 2026 17:20:33 -0700 (PDT)
+Message-ID: <208bfbd2-d671-462c-925f-4d51b7df1f18@gmail.com>
+Date: Mon, 16 Mar 2026 20:20:29 -0400
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ClientProxiedBy: rnnvmail201.nvidia.com (10.129.68.8) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF00003AE4:EE_|CY5PR12MB6648:EE_
-X-MS-Office365-Filtering-Correlation-Id: d7c8de91-d05d-47e0-6823-08de83ba987b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|36860700016|376014|1800799024|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	85M88DFNCrarWGBxxE77SoFueivsjmBbKIQ660PIUOd2/erCG/MX9TLAwuJ+Y6BsX3WP4oH+dpBYIykZ/mP9qqDF7LkJNz5mjrdiOVe1yFUqTTStJrhCl/jc5DHSaubIB/eC9kgZuAyM0rLdfSCwdZCreZw52f0EIM7CLPAj9fvmRp/qVt4Y4/sueQDShQEbIdnHq+XNSsEOs4eb7UzSCmUtx/DNdHWC3bdDUXnUFM6Wn01Dc5bJv6wy4mvhTasPNhrnSasu6beHLnDscz6Lnq4vo3ip0gWF6pYB2gg7NLIpVMDLDt/FfUyIUrZP+EcBHGSlzNz2X8HjWS/b/QrpLx98M3uRRkkVtMaQlnsHmChEnpGk05nL05dEaFFLXVJMRViP9fjxfIZnK9kjSyXDa7osUSnDKkmqZmDnap4yFP44hO65pHxwKYMO/qK1DDhH//ayLa3wuGE324iq27tIvwd8XYePu0GSQje5Si5y9vNsg66piK4ZQn3EGMOaDpSFKBSajtK9lgNZFGoF3eGlftGY1B7bXgHJnhLwI/NVnQWU89aHVWBGyYMlpkzaenXoFwLDmY5+YdZYdEpyRwOT1SghMoHXK1DOWm7FQ2+X1GajmgDsc8pAafn2fwEZXjJOl/vFrj4Ob19APm8aEhEF8gF+LYnWiiApDHecdbOyj0uQfN8p3yBeY5yE2BtY0wVMVpIFKxpvzy/AE0RqaEyqIx6Tx12U8AranyleUwOUqqlBH3ibBGc08VYVIVWCB8lwf0+cdda18m4+QalRl7KHPg==
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(36860700016)(376014)(1800799024)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	sIXsFgRggzQqjim1YeIQuu3pGQh7wI+t8ISF5EoZkw6O+r3pbPK9V5k45QgX+jp0pd+ly2yEXJ4WsbhO0t2TZ5i2OHqLdUV4tuej+6Io2FZbCGmFYmdTO56jZOwlMzqYSYQguSC/90dKpe3TiqNWFNyaDd8+b2K7AToQYWT9lAqRBh5FGahvear+35oo4KB109W5WFofCmIFsbMQ+BCWTfo2CGQAJeZcke8p+64ceP4iAuCn79A7/BgeO5GbY+ifqN4oZpNeZqqRY3fLOkQ6Ol8FRIyMoRm6SG0vdK8mFVtO91OzJWJ0Yd41LnXuecOm7k/U5vcXJ+p/V2W5L5DmdGoZWomuR+SWvyiPUWqLIkB4sbW37DIREPZoZsGMUw3lefafFlFTyZFUDhNlq99eHS9lUc34TWNlrg76Zz0/Ib4Oi8zi2/ac9v1wvy+LoYYq
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2026 00:17:37.7049
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d7c8de91-d05d-47e0-6823-08de83ba987b
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SA2PEPF00003AE4.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6648
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHBLIZZARD v7] fuse/libfuse/e2fsprogs: containerize ext4 for
+ safer operation
+To: "Darrick J. Wong" <djwong@kernel.org>,
+ Joanne Koong <joannelkoong@gmail.com>
+Cc: linux-fsdevel <linux-fsdevel@vger.kernel.org>, bpf@vger.kernel.org,
+ linux-ext4 <linux-ext4@vger.kernel.org>, Miklos Szeredi <miklos@szeredi.hu>,
+ Bernd Schubert <bernd@bsbernd.com>, Theodore Ts'o <tytso@mit.edu>,
+ Neal Gompa <neal@gompa.dev>, Amir Goldstein <amir73il@gmail.com>,
+ Christian Brauner <brauner@kernel.org>, Jeff Layton <jlayton@kernel.org>,
+ John@groves.net
+References: <20260223224617.GA2390314@frogsfrogsfrogs>
+ <CAJnrk1Yd1J60-Ek=O7jzZQg454pbr3O=b71yZHzYbrWfqJr__w@mail.gmail.com>
+ <20260316180408.GN6069@frogsfrogsfrogs>
+ <CAJnrk1bmJYMt27xedN2Xza0KPXfYEbh-9g=3fNWru-HRM9WFEw@mail.gmail.com>
+ <20260316234137.GJ1742010@frogsfrogsfrogs>
+Content-Language: en-US
+From: Demi Marie Obenour <demiobenour@gmail.com>
+Autocrypt: addr=demiobenour@gmail.com; keydata=
+ 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
+ +MYSfkEjBz0E8CLOcAw7JIwAaeBT
+In-Reply-To: <20260316234137.GJ1742010@frogsfrogsfrogs>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------nTHHrQGBdX3R0zjBdnzu9bzA"
 
-Hi all,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------nTHHrQGBdX3R0zjBdnzu9bzA
+Content-Type: multipart/mixed; boundary="------------vgwoTj2oUpyBXwt4g5gkbSt4";
+ protected-headers="v1"
+Message-ID: <208bfbd2-d671-462c-925f-4d51b7df1f18@gmail.com>
+Date: Mon, 16 Mar 2026 20:20:29 -0400
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHBLIZZARD v7] fuse/libfuse/e2fsprogs: containerize ext4 for
+ safer operation
+To: "Darrick J. Wong" <djwong@kernel.org>,
+ Joanne Koong <joannelkoong@gmail.com>
+Cc: linux-fsdevel <linux-fsdevel@vger.kernel.org>, bpf@vger.kernel.org,
+ linux-ext4 <linux-ext4@vger.kernel.org>, Miklos Szeredi <miklos@szeredi.hu>,
+ Bernd Schubert <bernd@bsbernd.com>, Theodore Ts'o <tytso@mit.edu>,
+ Neal Gompa <neal@gompa.dev>, Amir Goldstein <amir73il@gmail.com>,
+ Christian Brauner <brauner@kernel.org>, Jeff Layton <jlayton@kernel.org>,
+ John@groves.net
+References: <20260223224617.GA2390314@frogsfrogsfrogs>
+ <CAJnrk1Yd1J60-Ek=O7jzZQg454pbr3O=b71yZHzYbrWfqJr__w@mail.gmail.com>
+ <20260316180408.GN6069@frogsfrogsfrogs>
+ <CAJnrk1bmJYMt27xedN2Xza0KPXfYEbh-9g=3fNWru-HRM9WFEw@mail.gmail.com>
+ <20260316234137.GJ1742010@frogsfrogsfrogs>
+Content-Language: en-US
+From: Demi Marie Obenour <demiobenour@gmail.com>
+Autocrypt: addr=demiobenour@gmail.com; keydata=
+ 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
+ +MYSfkEjBz0E8CLOcAw7JIwAaeBT
+In-Reply-To: <20260316234137.GJ1742010@frogsfrogsfrogs>
 
-We have a FUSE server that advertises max_write=1MB and max_pages=256
-in the FUSE_INIT response. Buffered sequential writes arrive at the
-server at the full 1MB as expected. However, buffered sequential reads
-are capped at 256KB per FUSE READ request.
+--------------vgwoTj2oUpyBXwt4g5gkbSt4
+Content-Type: multipart/mixed; boundary="------------NE9oyIaFXpZs1OIc0LAz45K4"
 
-The cap comes from the BDI readahead window. bdi->ra_pages defaults to
-VM_READAHEAD_PAGES (32 pages / 128KB). For sequential access (e.g. cp),
-posix_fadvise(POSIX_FADV_SEQUENTIAL) doubles the per-file readahead
-window to 2 * bdi->ra_pages (256KB), producing the observed 256KB
-limit. A 1MB application read() results in four sequential 256KB
-round trips to the FUSE server instead of one.
+--------------NE9oyIaFXpZs1OIc0LAz45K4
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-In process_init_reply(), the kernel processes the
-server's max_readahead response like this:
+On 3/16/26 19:41, Darrick J. Wong wrote:
+> On Mon, Mar 16, 2026 at 04:08:55PM -0700, Joanne Koong wrote:
+>> On Mon, Mar 16, 2026 at 11:04=E2=80=AFAM Darrick J. Wong <djwong@kerne=
+l.org> wrote:
+>>>
+>>> On Mon, Mar 16, 2026 at 10:56:21AM -0700, Joanne Koong wrote:
+>>>> On Mon, Feb 23, 2026 at 2:46=E2=80=AFPM Darrick J. Wong <djwong@kern=
+el.org> wrote:
+>>>>>
+>>>>> There are some warts remaining:
+>>>>>
+>>>>> a. I would like to continue the discussion about how the design rev=
+iew
+>>>>>    of this code should be structured, and how might I go about crea=
+ting
+>>>>>    new userspace filesystem servers -- lightweight new ones based o=
+ff
+>>>>>    the existing userspace tools?  Or by merging lklfuse?
+>>>>
+>>>> What do you mean by "merging lklfuse"?
+>>>
+>>> Merging the lklfuse project into upstream Linux, which involves runni=
+ng
+>>> the whole kit and caboodle through our review process, and then fixin=
+g
+>>
+>> Gotcha, so it would basically be having to port this arch/lkl
+>> directory [1] into the linux tree
+>=20
+> Right.
+>=20
+>>> user-mode-linux to work anywhere other than x86.
+>>
+>> Are lklfuse and user-mode-linux (UML) two separate things or is
+>> lklfuse dependent on user-mode-linux?
+>=20
+> I was under the impression that lklfuse uses UML.  Given the weird
+> things in arch/lkl/Kconfig:
+>=20
+> config 64BIT
+> 	bool "64bit kernel"
+> 	default y if OUTPUT_FORMAT =3D "pe-x86-64"
+> 	default $(success,$(srctree)/arch/lkl/scripts/cc-objdump-file-format.s=
+h|grep -q '^elf64-') if OUTPUT_FORMAT !=3D "pe-x86-64"
+>=20
+> I was kinda guessing x86_64 was the primary target of the developers?
+>=20
+> /me notes that he's now looked into libguestfs per Demi Marie's comment=
+s
+> and some curiosity on the part of ngompa and i>
+>=20
+> Whatever it is that libguestfs does to stand up unprivileged fs mounts
+> also could fit this bill.  It's *really* slow to start because it takes=
 
-    ra_pages = arg->max_readahead / PAGE_SIZE;
-    fm->sb->s_bdi->ra_pages = min(fm->sb->s_bdi->ra_pages, ra_pages);
+> the booted kernel, creates a largeish initramfs, boots that combo via
+> libvirt, and then fires up a fuse server to talk to the vm kernel.
+>=20
+> I think all you'd have to do is change libguestfs to start the VM and
+> run the fuse server inside a systemd container instead of directly from=
 
-Since bdi->ra_pages starts at VM_READAHEAD_PAGES (128KB), and the
-kernel sends this value as init_in->max_readahead, the server can only
-decrease readahead -- never increase it. Even if the server responds
-with max_readahead=1MB, the min() clamps it back to 128KB.
+> the CLI.
 
-Other filesystems set ra_pages or io_pages based on server/device
-capabilities:
+The feedback I have gotten from ngompa is that libguestfs is just
+too slow for distros to use it to mount stuff.
 
-  - SMB/CIFS sets ra_pages directly (2 * rsize, or from mount option)
-  - Ceph sets ra_pages directly from mount option
-  - 9P sets both ra_pages and io_pages from maxdata
-  - NFS sets io_pages from rsize
+>>>> Could you explain what the limitations of lklfuse are compared to th=
+e
+>>>> fuse iomap approach in this patchset?
+>>>
+>>> The ones I know about are:
+>>>
+>>> 1> There's no support for vmapped kernel memory in UML mode, so anyon=
+e
+>>> who requires a large contiguous memory buffer cannot assemble them ou=
+t
+>>> of "physical" pages.  This has been a stumbling block for XFS in the
+>>> past.
+>>>
+>>> 2> LKLFUSE still uses the classic fuse IO paths, which means that at
+>>> best you can directio the IO through the lklfuse kernel.  At worst yo=
+u
+>>> have to use the pagecache inside the lklfuse kernel, which is very
+>>> wasteful.
+>>
+>> For the security / isolation use cases you've described, is
+>> near-native performance a hard requirement?
+>=20
+> Not a hard requirement, just a means to convince people that they can
+> choose containment without completely collapsing performance.
+>=20
+>> As I understand it, the main use cases of this will be for mounting
+>> untrusted disk images and CI/filesystem testing, or are there broader
+>> use cases beyond this?
+>=20
+> That covers nearly all of it.
 
-I see two possible approaches and would like feedback:
+It's worth noting that on ChromeOS and Android, the only trusted
+disk images are those that are read-only and protected by dm-verity.
+*Every* writable image is considered untrusted.
 
-Option A: Fix the max_readahead negotiation
+I don't know if doing a full fsck at each boot is considered
+acceptable, but I suspect it would slow boot far too much.
 
-Replace the current:
+Yes, Google ought to be paying for the kernel changes to fix this mess.
 
-    fm->sb->s_bdi->ra_pages = min(fm->sb->s_bdi->ra_pages, ra_pages);
+>>> 3> lklfuse hasn't been updated since 6.6.
+>>
+>> Gotcha. So if I'm understanding it correctly, the pros/cons come down =
+to:
+>> lklfuse pros:
+>> - (arguably) easier setup cost. once it's setup (assuming it's
+>> possible to add support for the vmapped kernel memory thing you
+>> mentioned above), it'll automatically work for every filesystem vs.
+>> having to implement a fuse-iomap server for every filesystem
+>=20
+> Or even a good non-iomap fuse server for every filesystem.  Admittedly
+> the weak part of fuse4fs is that libext2fs is not as robust as the
+> kernel is.
+>=20
+>> - easier to maintain vs. having to maintain each filesystem's
+>> userspace server implementation
+>=20
+> Yeah.
+>=20
+>> lklfuse cons:
+>> - worse (not sure by how much) performance
+>=20
+> Probably a lot, because now you have to run a full IO stack all the way=
 
-with:
+> through lklfuse.
 
-    fm->sb->s_bdi->ra_pages = min(ra_pages, fc->max_pages);
+How much is "a lot"?  Is it "this is only useful for non-interactive
+overnight backups", "you will notice this in benchmarks but it's okay
+for normal use", or somewhere in between?
 
-This uses the server's max_readahead response directly, capped by
-fc->max_pages for safety. I think this is backward compatible:
-existing servers that echo the kernel's 128KB value get the same
-result. Servers that return a lower value still reduce it. Only
-servers that return a higher value see changed behavior.
+Could lklfuse and iomap be combined?
 
-FUSE servers can opt in by advertising a larger max_readahead in the
-FUSE_INIT response.
+>> - once it's merged into the kernel, we can't choose to not
+>> maintain/support it in the future
+>=20
+> Correct.
+>=20
+>> Am I understanding this correctly?
+>>
+>> In my opinion, if near-native performance is not a hard requirement,
+>> it seems like less pain overall to go with lklfuse. lklfuse seems a
+>> lot easier to maintain and I'm not sure if some complexities like
+>> btrfs's copy-on-write could be handled properly with fuse-iomap.
+>=20
+> btrfs cow can be done with iomap, at least on the directio end.  It's
+> the other features like fsverity/fscrypt/data checksumming that aren't
+> currently supported by iomap.
 
-Option B: Set io_pages from max_pages
+Pretty much everyone on btrfs uses data checksumming.
 
-Set bdi->io_pages after FUSE_INIT negotiation:
+>> What are your thoughts on this?
+>=20
+> "Gee, what if I could simplify most of my own work out of existence?"
 
-    fm->sb->s_bdi->io_pages = fc->max_pages;
+What is that work?
 
-This matches what NFS does (setting io_pages from rsize). The
-readahead code uses max(bdi->io_pages, ra->ra_pages) to determine
-the maximum readahead size, so a large io_pages would allow larger
-readahead submissions.
+> --D
+>=20
+>> Thanks,
+>> Joanne
+>>
+>> [1] https://github.com/lkl/linux/tree/master/arch/lkl
+>>
+>>>
+>>> --D
+>>>
+>>>> Thanks,
+>>>> Joanne
+>>>>
+>>>>>
+>>>>> b. ext4 doesn't support out of place writes so I don't know if that=
 
-This is simpler since no server-side change is needed. However, it
-bypasses the max_readahead protocol field, making max_readahead
-effectively meaningless for any device with large max_pages.
+>>>>>    actually works correctly.
+>>>>>
+>>>>> c. fuse2fs doesn't support the ext4 journal.  Urk.
+>>>>>
+>>>>> d. There's a VERY large quantity of fuse2fs improvements that need =
+to be
+>>>>>    applied before we get to the fuse-iomap parts.  I'm not sending =
+these
+>>>>>    (or the fstests changes) to keep the size of the patchbomb at
+>>>>>    "unreasonably large". :P  As a result, the fstests and e2fsprogs=
 
-In both cases, fc->max_pages is already clamped by
-fc->max_pages_limit, which for virtio-fs accounts for the virtqueue
-descriptor count.
+>>>>>    postings are very targeted.
+>>>>>
+>>>>> e. I've dropped the fstests part of the patchbomb because v6 was ju=
+st
+>>>>>    way too long.
+>>>>>
+>>>>> I would like to get the main parts of this submission reviewed for =
+7.1
+>>>>> now that this has been collecting comments and tweaks in non-rfc st=
+atus
+>>>>> for 3.5 months.
+>>>>>
+>>>>> Kernel:
+>>>>> https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.gi=
+t/log/?h=3Dfuse-iomap-bpf
+>>>>>
+>>>>> libfuse:
+>>>>> https://git.kernel.org/pub/scm/linux/kernel/git/djwong/libfuse.git/=
+log/?h=3Dfuse-iomap-bpf
+>>>>>
+>>>>> e2fsprogs:
+>>>>> https://git.kernel.org/pub/scm/linux/kernel/git/djwong/e2fsprogs.gi=
+t/log/?h=3Dfuse-iomap-bpf
+>>>>>
+>>>>> fstests:
+>>>>> https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfstests-dev=
+=2Egit/log/?h=3Dfuse2fs
+>>>>>
+>>>>> --Darrick
+>>
 
-Thoughts?
 
-Thanks,
-Jim
+--=20
+Sincerely,
+Demi Marie Obenour (she/her/hers)
+--------------NE9oyIaFXpZs1OIc0LAz45K4
+Content-Type: application/pgp-keys; name="OpenPGP_0xB288B55FFF9C22C1.asc"
+Content-Disposition: attachment; filename="OpenPGP_0xB288B55FFF9C22C1.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+xsFNBFp+A0oBEADffj6anl9/BHhUSxGTICeVl2tob7hPDdhHNgPR4C8xlYt5q49y
+B+l2nipdaq+4Gk6FZfqC825TKl7eRpUjMriwle4r3R0ydSIGcy4M6eb0IcxmuPYf
+bWpr/si88QKgyGSVZ7GeNW1UnzTdhYHuFlk8dBSmB1fzhEYEk0RcJqg4AKoq6/3/
+UorR+FaSuVwT7rqzGrTlscnTDlPWgRzrQ3jssesI7sZLm82E3pJSgaUoCdCOlL7M
+MPCJwI8JpPlBedRpe9tfVyfu3euTPLPxwcV3L/cfWPGSL4PofBtB8NUU6QwYiQ9H
+zx4xOyn67zW73/G0Q2vPPRst8LBDqlxLjbtx/WLR6h3nBc3eyuZ+q62HS1pJ5EvU
+T1vjyJ1ySrqtUXWQ4XlZyoEFUfpJxJoN0A9HCxmHGVckzTRl5FMWo8TCniHynNXs
+BtDQbabt7aNEOaAJdE7to0AH3T/Bvwzcp0ZJtBk0EM6YeMLtotUut7h2Bkg1b//r
+6bTBswMBXVJ5H44Qf0+eKeUg7whSC9qpYOzzrm7+0r9F5u3qF8ZTx55TJc2g656C
+9a1P1MYVysLvkLvS4H+crmxA/i08Tc1h+x9RRvqba4lSzZ6/Tmt60DPM5Sc4R0nS
+m9BBff0Nm0bSNRS8InXdO1Aq3362QKX2NOwcL5YaStwODNyZUqF7izjK4QARAQAB
+zTxEZW1pIE9iZW5vdXIgKElUTCBFbWFpbCBLZXkpIDxhdGhlbmFAaW52aXNpYmxl
+dGhpbmdzbGFiLmNvbT7CwY4EEwEIADgWIQR2h02fEza6IlkHHHGyiLVf/5wiwQUC
+X6YJvQIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRCyiLVf/5wiwWRhD/0Y
+R+YYC5Kduv/2LBgQJIygMsFiRHbR4+tWXuTFqgrxxFSlMktZ6gQrQCWe38WnOXkB
+oY6n/5lSJdfnuGd2UagZ/9dkaGMUkqt+5WshLFly4BnP7pSsWReKgMP7etRTwn3S
+zk1OwFx2lzY1EnnconPLfPBc6rWG2moA6l0WX+3WNR1B1ndqpl2hPSjT2jUCBWDV
+rGOUSX7r5f1WgtBeNYnEXPBCUUM51pFGESmfHIXQrqFDA7nBNiIVFDJTmQzuEqIy
+Jl67pKNgooij5mKzRhFKHfjLRAH4mmWZlB9UjDStAfFBAoDFHwd1HL5VQCNQdqEc
+/9lZDApqWuCPadZN+pGouqLysesIYsNxUhJ7dtWOWHl0vs7/3qkWmWun/2uOJMQh
+ra2u8nA9g91FbOobWqjrDd6x3ZJoGQf4zLqjmn/P514gb697788e573WN/MpQ5XI
+Fl7aM2d6/GJiq6LC9T2gSUW4rbPBiqOCeiUx7Kd/sVm41p9TOA7fEG4bYddCfDsN
+xaQJH6VRK3NOuBUGeL+iQEVF5Xs6Yp+U+jwvv2M5Lel3EqAYo5xXTx4ls0xaxDCu
+fudcAh8CMMqx3fguSb7Mi31WlnZpk0fDuWQVNKyDP7lYpwc4nCCGNKCj622ZSocH
+AcQmX28L8pJdLYacv9pU3jPy4fHcQYvmTavTqowGnM08RGVtaSBNYXJpZSBPYmVu
+b3VyIChsb3ZlciBvZiBjb2RpbmcpIDxkZW1pb2Jlbm91ckBnbWFpbC5jb20+wsF4
+BBMBAgAiBQJafgNKAhsDBgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRCyiLVf
+/5wiwYa/EACv8a2+MMou9cSCNoZBQaU+fTmyzft9hUE+0d5W2UY1RY3OsjFIzm9R
+/4SVccfsqOYLEo+S0vQMIIIqFEq3FCpXXwPzyimotps05VA8U3Bd7yseojFygOgK
+sAMOAee2RCaDDOnoJue01dfZMzzHPO/TVdp3OvnpWipfv5G1Xg96rwbhMLE3tg6N
+xwAHa31Bv4/Xq8CJOoIWvx6fcmZQpz01/lSvsYn0KrfEbTKkuUf0vM9JrCTCP2oz
+VNN5BYzqaq2M4r+jmSyeXLim922VOWqGkUEQ85BSEemqrRS06IU6NtEMsF8EWt/b
+hWjk/9GDKTcnpdJHTrMxTspExBiNrvpI2t+YPU5B/dJJAUxvmhFrbSIbdB8umBZs
+I3AMYrEmpAbh5x7jEjoskUC7uN3o9vpg1oCLS2ePDLtAtyBtbHnkA4xGD7ar8mem
+xpH9lY/i+sC6CyyIUWcUDnnagKyJP0m9ks0GLsTeOCA0bft2XA6rD6aaCnMUsndT
+ctrab42CV5XypjmC4U1rPJ8JQJUh1/3P48/8sMH+3krxpJ06KNWNFaUbaMTGiltZ
+7x9DngklSYrX0T+2G4kVXNmjaljwkoLahwLla2gUWwBSyofXdqyhQdwZsp01KXNQ
+UCyT/Pg+aDcm/E7OMV3d4lf7g/CSxiX2GSEe6BlhSz+Lmd7ZJ3g32M1ARGVtaSBN
+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
+EtJuZYM5blWncBOJCoWMnBEcTEo/viU3GgcVRw=3D=3D
+=3Dx94R
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------NE9oyIaFXpZs1OIc0LAz45K4--
+
+--------------vgwoTj2oUpyBXwt4g5gkbSt4--
+
+--------------nTHHrQGBdX3R0zjBdnzu9bzA
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEopQtqVJW1aeuo9/sszaHOrMp8lMFAmm4nk4ACgkQszaHOrMp
+8lNmOQ//S5TyJESKNg06H/u6s9ZsXOqW9CXTW80Yg+p4MD3kxTCQwG99Wz+26jw4
+XmRznV93iLYr5KsMBXw/4REF4dZ8aAWUa8vXauT1KK3IFOXq66Cls7ZT6fUN9W7n
+GoRPxcYHUoTiQeMD/MIEvBoXiVVtn03HukWrm3svSSVFh6iIu29FEvjsiLlMsTY0
+OEOrmt8YKoDeveeK85RJHJQDodMkN4fiY5J2M60rWYMnHs6px6KuqF/bLKjcdSJS
+Ug/0iLgWCmUMUq3wmiDN7GwvBYrBWo01q+3seOYCq6qor48OYBUa6AVH2fPZqvNM
+ivj4ozVK40fcYnteiLoWGbuly7ec8FIKLxnqh7OIcY6sS97e4UWi4Xsff2nkn7SZ
+dvxW885g+soVoiec8KEm04Xqw1H1L5i4EmtpWPFxEHOzZuVbUNT5gJOFEXTVrzPf
+fr51aWLpnwuq9uNrewAOSOzDYOlkDJy7LqR9z/wbohjEdmH4zCZfUvtrlCoMAXaC
+XOi0CL8rnORek2Q//Ze4I9uV9lqMeP80hDjRUQRmTGAiwh5D0fbYVdq4ZQtJ6foj
+Y13gLN0nf7pCQam2BrMtbBCooIljcNUAOT9/eMIA100PdHw6DubhXxCIi1cMpzkO
+/ifH46xE0PKWp8adcS9QM+hCFy9Ws788/aDFQjfzm3FoWURV91o=
+=TWv5
+-----END PGP SIGNATURE-----
+
+--------------nTHHrQGBdX3R0zjBdnzu9bzA--
