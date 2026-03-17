@@ -1,32 +1,32 @@
-Received: from out30-119.freemail.mail.aliyun.com (out30-119.freemail.mail.aliyun.com [115.124.30.119])
+Received: from out30-110.freemail.mail.aliyun.com (out30-110.freemail.mail.aliyun.com [115.124.30.110])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1130E1D9A66;
-	Tue, 17 Mar 2026 01:05:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.119
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72E052BFC7B;
+	Tue, 17 Mar 2026 01:16:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.110
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773709505; cv=none; b=IEyelhzSSChsfCDwlb0abHvUF1Gz89afAR7MB+HXJ0SCLHreZZ80C8qET2ThkaEAWqG7rFyg508dJeUI/+zUAH1Km+EZngIBpHIk9JtM3rbv/GVl6nn0zkFLKfVurdNLHsjLAmQdM7YTgG9xePAC6F+dQGUUq99yriVG9We5Uu4=
+	t=1773710188; cv=none; b=sBI3xC/WbXKqIz/7F83rptmRlyckDw1iB5YdViHV1Y3cq/8qlYZp8+TbMO3eeyRrouuLb0K0t9hs/ZUYgbi7HIZwMqAHOoMTOUHMo3bRqlh0XMidfx8pXp7pmFWELmZLEcKJTn16wemJp8OguSsY2nBQI/lCss1vYpG2uuZfWW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773709505; c=relaxed/simple;
-	bh=R56SDBhL7kwyjUzC//zj7+thmOmwth4d1PVEz5bPJV8=;
+	s=arc-20240116; t=1773710188; c=relaxed/simple;
+	bh=iOFU++lxCSWeAaCne3/I2t5mDb87NgTsD2LIqNTbqKY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=q6HOGy1lhuIXcurCYC3t4+FyYRw4RKb9KewUtyzLi/e5eqvXS0GWCydkqiYmE3pCTgrwBuOBDOQa7HybUjyNuoHblJ6WkV2CmuhH8wW/qjvR+HmtL1Knz1CvPeZF3WGdhw+vNPOmJDzZ9QGPzqIOKa31Z3rG6oZPABGZ6GKweFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=S4u0coRT; arc=none smtp.client-ip=115.124.30.119
+	 In-Reply-To:Content-Type; b=jEmU7PIdgWBzvBzu0nO3TPKQzociP/NTY0/chkeNTL8QFzqv0oZYQ3WcHeSrjKPWPyjrFgwMgcd2Fo7ivnbhjGxvt1JHxs3jicdadjUTa47pwbVBaNETrUrACtZZ7hwejlUJ9SCgaQqxkqnqnZP9u46nsP00fJr0QcGVW2mpEBg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=DStCJ4x0; arc=none smtp.client-ip=115.124.30.110
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="S4u0coRT"
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="DStCJ4x0"
 DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1773709495; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=IjQSFS0itEQzM5rr+GWV/Figi9xDYU/T6PhEBKJz3LI=;
-	b=S4u0coRTa7rYbBj+ExX37wMKJe5XpXrcS2A5vi0edayMw1OxU40mP6puk7IOsUU8UHRQxcwridSqoCSD1m9gNqlFNzyqFkxkTgpF6A93kizv2L0fYhc9QLD8VZOQid0bvjNodOKE/z8fwamay2wOjpKq6aApyjgCXy5NxG1xhKw=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R151e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045133197;MF=baolin.wang@linux.alibaba.com;NM=1;PH=DS;RN=18;SR=0;TI=SMTPD_---0X.9.3Ty_1773709492;
-Received: from 30.221.57.233(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0X.9.3Ty_1773709492 cluster:ay36)
+	t=1773710182; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=zEFreDFoNLZcIvqChYf7kDks1gVkZBJntws5vYQjBJk=;
+	b=DStCJ4x0FDn52on32XijWHbZtTJlB7Om1kx0Fq7M8gWoYB7N8PSlo/4ImQPNzJgHC3x6Q8PeDc4LEW9XXRvCvh/biU34EQzSgB+yqnVu4PCxpf/8SA625FaMbx/IccaEkSYoeHsao7KCPTFcof0iWBfMBZY2h+6Vvzw2j0UUIxI=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R251e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045098064;MF=baolin.wang@linux.alibaba.com;NM=1;PH=DS;RN=17;SR=0;TI=SMTPD_---0X.94iKz_1773710180;
+Received: from 30.221.57.233(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0X.94iKz_1773710180 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Tue, 17 Mar 2026 09:04:53 +0800
-Message-ID: <cca9a1e9-eff8-4d37-87d4-46e8e736e893@linux.alibaba.com>
-Date: Tue, 17 Mar 2026 09:04:52 +0800
+          Tue, 17 Mar 2026 09:16:21 +0800
+Message-ID: <23953888-15d6-4cef-af8c-be15ed6d6e20@linux.alibaba.com>
+Date: Tue, 17 Mar 2026 09:16:20 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -36,165 +36,169 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [RFC PATCH] mm: filemap: fix nr_pages calculation overflow in
  filemap_map_pages()
-To: Kiryl Shutsemau <kas@kernel.org>
-Cc: Dev Jain <dev.jain@arm.com>, akpm@linux-foundation.org,
- willy@infradead.org, david@kernel.org, lorenzo.stoakes@oracle.com,
- p.raghav@samsung.com, mcgrof@kernel.org, dhowells@redhat.com,
- djwong@kernel.org, hare@suse.de, da.gomez@samsung.com, dchinner@redhat.com,
- brauner@kernel.org, xiangzao@linux.alibaba.com,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org
+To: "David Hildenbrand (Arm)" <david@kernel.org>, akpm@linux-foundation.org,
+ willy@infradead.org
+Cc: lorenzo.stoakes@oracle.com, kas@kernel.org, p.raghav@samsung.com,
+ mcgrof@kernel.org, dhowells@redhat.com, djwong@kernel.org, hare@suse.de,
+ da.gomez@samsung.com, dchinner@redhat.com, brauner@kernel.org,
+ xiangzao@linux.alibaba.com, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org
 References: <066dd2e947ccc1c304b54e847fbe628dccea1d7c.1773370126.git.baolin.wang@linux.alibaba.com>
- <0890a207-354e-4da1-80c2-67754354a6a6@arm.com>
- <c7e8ac1c-0486-4e41-a62c-0917054b2fa1@arm.com>
- <726ee101-6978-49f6-8f2b-edc7f8d99074@linux.alibaba.com>
- <abfwUro4rJw7u5d5@thinkstation>
+ <a5625929-736b-4ddc-a8e3-30e3aa54df12@kernel.org>
 From: Baolin Wang <baolin.wang@linux.alibaba.com>
-In-Reply-To: <abfwUro4rJw7u5d5@thinkstation>
+In-Reply-To: <a5625929-736b-4ddc-a8e3-30e3aa54df12@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
 
 
-On 3/16/26 8:00 PM, Kiryl Shutsemau wrote:
-> On Fri, Mar 13, 2026 at 01:54:31PM +0800, Baolin Wang wrote:
+On 3/16/26 10:06 PM, David Hildenbrand (Arm) wrote:
+> On 3/13/26 04:45, Baolin Wang wrote:
+>> When running stress-ng on my Arm64 machine with v7.0-rc3 kernel, I encountered
+>> some very strange crash issues showing up as "Bad page state":
 >>
+>> "
+>> [  734.496287] BUG: Bad page state in process stress-ng-env  pfn:415735fb
+>> [  734.496427] page: refcount:0 mapcount:1 mapping:0000000000000000 index:0x4cf316 pfn:0x415735fb
+>> [  734.496434] flags: 0x57fffe000000800(owner_2|node=1|zone=2|lastcpupid=0x3ffff)
+>> [  734.496439] raw: 057fffe000000800 0000000000000000 dead000000000122 0000000000000000
+>> [  734.496440] raw: 00000000004cf316 0000000000000000 0000000000000000 0000000000000000
+>> [  734.496442] page dumped because: nonzero mapcount
+>> "
 >>
->> On 3/13/26 1:14 PM, Dev Jain wrote:
->>>
->>>
->>> On 13/03/26 10:41 am, Dev Jain wrote:
->>>>
->>>>
->>>> On 13/03/26 9:15 am, Baolin Wang wrote:
->>>>> When running stress-ng on my Arm64 machine with v7.0-rc3 kernel, I encountered
->>>>> some very strange crash issues showing up as "Bad page state":
->>>>>
->>>>> "
->>>>> [  734.496287] BUG: Bad page state in process stress-ng-env  pfn:415735fb
->>>>> [  734.496427] page: refcount:0 mapcount:1 mapping:0000000000000000 index:0x4cf316 pfn:0x415735fb
->>>>> [  734.496434] flags: 0x57fffe000000800(owner_2|node=1|zone=2|lastcpupid=0x3ffff)
->>>>> [  734.496439] raw: 057fffe000000800 0000000000000000 dead000000000122 0000000000000000
->>>>> [  734.496440] raw: 00000000004cf316 0000000000000000 0000000000000000 0000000000000000
->>>>> [  734.496442] page dumped because: nonzero mapcount
->>>>> "
->>>>>
->>>>> After analyzing this page’s state, it is hard to understand why the mapcount
->>>>> is not 0 while the refcount is 0, since this page is not where the issue first
->>>>> occurred. By enabling the CONFIG_DEBUG_VM config, I can reproduce the crash as
->>>>> well and captured the first warning where the issue appears:
->>>>>
->>>>> "
->>>>> [  734.469226] page: refcount:33 mapcount:0 mapping:00000000bef2d187 index:0x81a0 pfn:0x415735c0
->>>>> [  734.469304] head: order:5 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
->>>>> [  734.469315] memcg:ffff000807a8ec00
->>>>> [  734.469320] aops:ext4_da_aops ino:100b6f dentry name(?):"stress-ng-mmaptorture-9397-0-2736200540"
->>>>> [  734.469335] flags: 0x57fffe400000069(locked|uptodate|lru|head|node=1|zone=2|lastcpupid=0x3ffff)
->>>>> ......
->>>>> [  734.469364] page dumped because: VM_WARN_ON_FOLIO((_Generic((page + nr_pages - 1),
->>>>> const struct page *: (const struct folio *)_compound_head(page + nr_pages - 1), struct page *:
->>>>> (struct folio *)_compound_head(page + nr_pages - 1))) != folio)
->>>>> [  734.469390] ------------[ cut here ]------------
->>>>> [  734.469393] WARNING: ./include/linux/rmap.h:351 at folio_add_file_rmap_ptes+0x3b8/0x468,
->>>>> CPU#90: stress-ng-mlock/9430
->>>>> [  734.469551]  folio_add_file_rmap_ptes+0x3b8/0x468 (P)
->>>>> [  734.469555]  set_pte_range+0xd8/0x2f8
->>>>> [  734.469566]  filemap_map_folio_range+0x190/0x400
->>>>> [  734.469579]  filemap_map_pages+0x348/0x638
->>>>> [  734.469583]  do_fault_around+0x140/0x198
->>>>> ......
->>>>> [  734.469640]  el0t_64_sync+0x184/0x188
->>>>> "
->>>>>
->>>>> The code that triggers the warning is: "VM_WARN_ON_FOLIO(page_folio(page + nr_pages - 1) != folio, folio)",
->>>>> which indicates that set_pte_range() tried to map beyond the large folio’s
->>>>> size.
->>>>>
->>>>> By adding more debug information, I found that 'nr_pages' had overflowed in
->>>>> filemap_map_pages(), causing set_pte_range() to establish mappings for a range
->>>>> exceeding the folio size, potentially corrupting fields of pages that do not
->>>>> belong to this folio (e.g., page->_mapcount).
->>>>>
->>>>> After above analysis, I think the possible race is as follows:
->>>>>
->>>>> CPU 0                                                  CPU 1
->>>>> filemap_map_pages()                                   ext4_setattr()
->>>>>      //get and lock folio with old inode->i_size
->>>>>      next_uptodate_folio()
->>>>>
->>>>>                                                             .......
->>>>>                                                             //shrink the inode->i_size
->>>>>                                                             i_size_write(inode, attr->ia_size);
->>>>>
->>>>>      //calculate the end_pgoff with the new inode->i_size
->>>>>      file_end = DIV_ROUND_UP(i_size_read(mapping->host), PAGE_SIZE) - 1;
->>>>>      end_pgoff = min(end_pgoff, file_end);
->>>>>
->>>>>      ......
->>>>>      //nr_pages can be overflowed, cause xas.xa_index > end_pgoff
->>>>>      end = folio_next_index(folio) - 1;
->>>>>      nr_pages = min(end, end_pgoff) - xas.xa_index + 1;
->>>>>
->>>>>      ......
->>>>>      //map large folio
->>>>>      filemap_map_folio_range()
->>>>>                                                             ......
->>>>>                                                             //truncate folios
->>>>>                                                             truncate_pagecache(inode, inode->i_size);
->>>>>
->>>>> To fix this issue, move the 'end_pgoff' calculation before next_uptodate_folio(),
->>>>> so the retrieved folio stays consistent with the file end to avoid 'nr_pages'
->>>>> calculation overflow. After this patch, the crash issue is gone.
->>>>>
->>>>> Fixes: 743a2753a02e ("filemap: cap PTE range to be created to allowed zero fill in folio_map_range()")
->>>>> Reported-by: Yuanhe Shu <xiangzao@linux.alibaba.com>
->>>>> Tested-by: Yuanhe Shu <xiangzao@linux.alibaba.com>
->>>>> Signed-off-by: Baolin Wang <baolin.wang@linux.alibaba.com>
->>>>> ---
->>>>>    mm/filemap.c | 6 +++---
->>>>>    1 file changed, 3 insertions(+), 3 deletions(-)
->>>>>
->>>>> diff --git a/mm/filemap.c b/mm/filemap.c
->>>>> index bc6775084744..923d28e59642 100644
->>>>> --- a/mm/filemap.c
->>>>> +++ b/mm/filemap.c
->>>>> @@ -3879,14 +3879,14 @@ vm_fault_t filemap_map_pages(struct vm_fault *vmf,
->>>>>    	unsigned int nr_pages = 0, folio_type;
->>>>>    	unsigned short mmap_miss = 0, mmap_miss_saved;
->>>>> +	file_end = DIV_ROUND_UP(i_size_read(mapping->host), PAGE_SIZE) - 1;
->>>>> +	end_pgoff = min(end_pgoff, file_end);
->>>>> +
->>>>>    	rcu_read_lock();
->>>>>    	folio = next_uptodate_folio(&xas, mapping, end_pgoff);
->>>>>    	if (!folio)
->>>>>    		goto out;
->>>>> -	file_end = DIV_ROUND_UP(i_size_read(mapping->host), PAGE_SIZE) - 1;
->>>>> -	end_pgoff = min(end_pgoff, file_end);
->>>>> -
->>>>>    	/*
->>>>>    	 * Do not allow to map with PMD across i_size to preserve
->>>>>    	 * SIGBUS semantics.
->>>>
->>>> I am wondering whether something similar can happen in the do-while loop
->>>> below this code. We can retrieve a folio from next_uptodate_folio, and
->>>> then a massive truncate happens and we end up mapping a large folio
->>>> into the pagetables beyong i_size, violating SIGBUS semantics. (truncation
->>>> may back-off seeing the locked folio/increased refcount in filemap_map_pages)
->>>
->>> Read the bracket text as - (truncation may fail to unmap this folio seeing
->>> it locked or with elevated refcount, therefore the illegal mapping stays
->>> permanent)
+>> After analyzing this page’s state, it is hard to understand why the mapcount
+>> is not 0 while the refcount is 0, since this page is not where the issue first
+>> occurred. By enabling the CONFIG_DEBUG_VM config, I can reproduce the crash as
+>> well and captured the first warning where the issue appears:
 >>
->> IMHO, the truncate_pagecache() will call unmap_mapping_range() twice, and
->> the folio lock and refcount will not block unmap_mapping_range() to unmap
->> the folio's mapping (only hold ptl lock).
+>> "
+>> [  734.469226] page: refcount:33 mapcount:0 mapping:00000000bef2d187 index:0x81a0 pfn:0x415735c0
+>> [  734.469304] head: order:5 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+>> [  734.469315] memcg:ffff000807a8ec00
+>> [  734.469320] aops:ext4_da_aops ino:100b6f dentry name(?):"stress-ng-mmaptorture-9397-0-2736200540"
+>> [  734.469335] flags: 0x57fffe400000069(locked|uptodate|lru|head|node=1|zone=2|lastcpupid=0x3ffff)
+>> ......
+>> [  734.469364] page dumped because: VM_WARN_ON_FOLIO((_Generic((page + nr_pages - 1),
+>> const struct page *: (const struct folio *)_compound_head(page + nr_pages - 1), struct page *:
+>> (struct folio *)_compound_head(page + nr_pages - 1))) != folio)
+>> [  734.469390] ------------[ cut here ]------------
+>> [  734.469393] WARNING: ./include/linux/rmap.h:351 at folio_add_file_rmap_ptes+0x3b8/0x468,
+>> CPU#90: stress-ng-mlock/9430
+>> [  734.469551]  folio_add_file_rmap_ptes+0x3b8/0x468 (P)
+>> [  734.469555]  set_pte_range+0xd8/0x2f8
+>> [  734.469566]  filemap_map_folio_range+0x190/0x400
+>> [  734.469579]  filemap_map_pages+0x348/0x638
+>> [  734.469583]  do_fault_around+0x140/0x198
+>> ......
+>> [  734.469640]  el0t_64_sync+0x184/0x188
+>> "
 >>
->> So the truncate_pagecache() can still truncate large folios beyond i_size.
+>> The code that triggers the warning is: "VM_WARN_ON_FOLIO(page_folio(page + nr_pages - 1) != folio, folio)",
+>> which indicates that set_pte_range() tried to map beyond the large folio’s
+>> size.
 > 
-> Yeah, we serialize here on the folio lock. It should be safe.
-> 
-> The fix looks sane to me:
-> 
-> Acked-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
+> We had a bunch of similar reports throughout the last year from syzbot,
+> but always without a reproducer.
 
-Thanks for reviewing.
+I can reproduce it by running stress-ng for a few hours on my 128‑core 
+machine, but I can’t reproduce it on smaller machines (e.g., 32‑core 
+systems). It seems we need sufficient concurrency to trigger this race.
+
+> In particular this here:
+> 
+> https://syzkaller.appspot.com/bug?extid=c0673e1f1f054fac28c2
+> 
+> via
+> 
+> https://lore.kernel.org/all/6758f0cc.050a0220.17f54a.0001.GAE@google.com/
+> 
+> Could that be the same root cause?
+
+It appears so. Its warning stack calltrace matches what I reproduced.
+
+>> By adding more debug information, I found that 'nr_pages' had overflowed in
+>> filemap_map_pages(), causing set_pte_range() to establish mappings for a range
+>> exceeding the folio size, potentially corrupting fields of pages that do not
+>> belong to this folio (e.g., page->_mapcount).
+> 
+> Sounds quite bad.
+> 
+>>
+>> After above analysis, I think the possible race is as follows:
+>>
+>> CPU 0                                                  CPU 1
+>> filemap_map_pages()                                   ext4_setattr()
+>>     //get and lock folio with old inode->i_size
+>>     next_uptodate_folio()
+>>
+>>                                                            .......
+>>                                                            //shrink the inode->i_size
+>>                                                            i_size_write(inode, attr->ia_size);
+>>
+>>     //calculate the end_pgoff with the new inode->i_size
+>>     file_end = DIV_ROUND_UP(i_size_read(mapping->host), PAGE_SIZE) - 1;
+>>     end_pgoff = min(end_pgoff, file_end);
+>>
+>>     ......
+>>     //nr_pages can be overflowed, cause xas.xa_index > end_pgoff
+>>     end = folio_next_index(folio) - 1;
+>>     nr_pages = min(end, end_pgoff) - xas.xa_index + 1;
+>>
+>>     ......
+>>     //map large folio
+>>     filemap_map_folio_range()
+>>                                                            ......
+>>                                                            //truncate folios
+>>                                                            truncate_pagecache(inode, inode->i_size);
+>>
+>> To fix this issue, move the 'end_pgoff' calculation before next_uptodate_folio(),
+>> so the retrieved folio stays consistent with the file end to avoid 'nr_pages'
+>> calculation overflow. After this patch, the crash issue is gone.
+>>
+>> Fixes: 743a2753a02e ("filemap: cap PTE range to be created to allowed zero fill in folio_map_range()")
+> 
+> This certainly sounds like stable material :)
+
+Yes, will cc stable.
+
+>> Reported-by: Yuanhe Shu <xiangzao@linux.alibaba.com>
+>> Tested-by: Yuanhe Shu <xiangzao@linux.alibaba.com>
+>> Signed-off-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+>> ---
+>>   mm/filemap.c | 6 +++---
+>>   1 file changed, 3 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/mm/filemap.c b/mm/filemap.c
+>> index bc6775084744..923d28e59642 100644
+>> --- a/mm/filemap.c
+>> +++ b/mm/filemap.c
+>> @@ -3879,14 +3879,14 @@ vm_fault_t filemap_map_pages(struct vm_fault *vmf,
+>>   	unsigned int nr_pages = 0, folio_type;
+>>   	unsigned short mmap_miss = 0, mmap_miss_saved;
+>>   
+>> +	file_end = DIV_ROUND_UP(i_size_read(mapping->host), PAGE_SIZE) - 1;
+>> +	end_pgoff = min(end_pgoff, file_end);
+>> +
+>>   	rcu_read_lock();
+>>   	folio = next_uptodate_folio(&xas, mapping, end_pgoff);
+>>   	if (!folio)
+>>   		goto out;
+>>   
+>> -	file_end = DIV_ROUND_UP(i_size_read(mapping->host), PAGE_SIZE) - 1;
+>> -	end_pgoff = min(end_pgoff, file_end);
+>> -
+>>   	/*
+>>   	 * Do not allow to map with PMD across i_size to preserve
+>>   	 * SIGBUS semantics.
+> 
+> 
+> LGTM. I do wonder if we want to add a comment above the file_end,
+> stating that this really must happen before the next_uptodate_folio()
+> to handle concurrent truncation.
+
+Ack. How about adding the following comments?
+
+"
+Recalculate end_pgoff based on file_end before calling 
+next_uptodate_folio() to avoid races with concurrent truncation.
+"
