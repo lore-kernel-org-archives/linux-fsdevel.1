@@ -1,112 +1,366 @@
-Received: from pdx-out-010.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-010.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.12.53.23])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20F1838F633;
-	Tue, 17 Mar 2026 21:14:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.12.53.23
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773782077; cv=none; b=cqmgXmjjoOz4qZwMw8aUfmtjA1Z9OCecBGIqtlwKc5pTCmNvYNR6vLvcsy03qUKC4ULYylDPYW3xFHR1X+70EUq1kHCzJcoLfq+7j9oVBMHe5LQadU09dUw4dX4Nu6RxXpfHAvLoEnU3nJhLLgaxoSPqWlrV4F9Gp9U6NeCprfY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773782077; c=relaxed/simple;
-	bh=KT1d0AZjgEJbzucV2O/0YkUnXeV2gqoESgotqt8FeXo=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eTeUjl9tBWoyos83G09B9QfwBXz+E2TTz9xUxvcHkrBlW2NzujS49DqfH3RKIn596teoSeuM9dMJFhR7rnmw21TW3M1a0SxUxUn3ykCF70AXAbP0qtHl/dHwyGTn98yjvMXa6TXLIZSM88X6cdvd0vwbxtgA26O9eHAqB4XSy1s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=CAxYt9+Q; arc=none smtp.client-ip=52.12.53.23
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7835B39151B
+	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 21:26:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.179
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773782796; cv=pass; b=PHqdC3XO5Y24X8OESLfQlSlwS3QoYvQCGlUiJlvs6jQ7D3mvy/MtoVbbVDiw1Lf0uIwEoSq9fB/rQGP1FKk3P4/OuVFbKFkUk1vWMfDnWccf0qrstKjPzzSAZzZ0ElnuWfCH/mPEViiaRwAHUC0yyyPcR/H9aqzD/FCIBMdVJHA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773782796; c=relaxed/simple;
+	bh=LDRxpmDHqVACRLxJTnLszzlV2/NLpmV53JWM+2p1hpQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=srt8zG7neGXPXDGqKES4jh6LQW4glr+GCJSZw17oDgfL/qshqZPFb6LQvHB0/H6GZgujrpSbk05xer57VOuwqT65SmS9+kPOM4E4tgsjdLObBOihH9Ok2e9NOd7tdGSC4lW4CTMkRAozj2bbpktMKoOdG9VaXoAhm+wc3WSRfZo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=TKpXCaIz; arc=pass smtp.client-ip=209.85.160.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="CAxYt9+Q"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TKpXCaIz"
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-5091ed02c54so85731cf.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 14:26:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773782793; cv=none;
+        d=google.com; s=arc-20240605;
+        b=JFptC6vQPSCV3bSPxmlfaj9fbvzXWy76w1978eEtFRKdnBCLrtTB2V4FK2Mia5NbYk
+         FRqy/2+baYDI/Pi2hHMj84OuwFIPIwFu9zl0q4+SOElEKhFPWOCQP6wbp81aXu1JlJE4
+         rulbFqcaIjDot6qqnt3X7j4PqF1fY4kqIIRMdoi+HoKv/xJCbQv837kRsBAosSAkyUKH
+         A0lNmyh/eLEGlpciPJ7TimKMs5uNEic1o6kVC3AQIIix1i3k1rINxf8fFrROYKcOdVLJ
+         epKms/zT8V1fzqoE2VP7H2+tpML0an8+znCqqG3n9BVigzrFB7WnHFFJ+zDB+zNmq+7s
+         zKqg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=O9MljJMIpne7nbSW7i1x1Or1SMzjT+hBLrQOgGeQvrk=;
+        fh=1fZp8O+ffsj5KiJp0ay8vfbJECZbA0fAiDZJ2Y1ifUM=;
+        b=AsqRJkfCMhqF59IxsGS+ku7mtirwaz/T5P/JYHcaYA47+QZ10cYjbv7kic7LO+dhaG
+         5oYx3CzaPN/IJLoXD5YRn55ON+3J/75AnTOkjGUGBxXjSE7BojHrixqRJs8xmbOxLDWw
+         hYbvVQtclHyueU7CNnrPL9HVaUwsRq5m/1mC6Qw8f4Z1I4dPSCwcyNYwRa/r69W138X+
+         cJo/tYonteZyHVIjV8aAFxrfS6tjsrOwJZmo4o+ouvJFFV8T/CKTq7KSZ64tC43hF8yO
+         TVXqdgZqK9wTN7F2372C68J0YhHkOvtkOl6eWekVk4/+7sTUhbplSAVg6ky/SXUUTiwt
+         xzeg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1773782076; x=1805318076;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=qFp2oMVJDtMMkCTUqe7bU8d4XmmqNyytww9abTI2MGA=;
-  b=CAxYt9+QEnkXb8KL0zbfm36hIiqfsUBpViiRS3KDbRA9R8/GXc/XwLrx
-   sVbMcOHAz71Vu1XkfoCodxu4myuaq3HID9mXkWuY/fC8m2SgkS+1ORahM
-   GjJBq+yfuDykesrEeffvDOAR9Pyw1OXtHUhBfzoGm++iZeR5wYfutn0j4
-   Hm+lOW+pMLM5LQmBVMT+brt0SHejds73co6BuutshjVhQxjrQRLArqtLO
-   0rz5DTsg9lkhCPePgfs7jnEIt1pp/4PRwqtCfThI26m6g1VCl8IeYi1p3
-   dQhFvxze117BpcNju2rYbxVclZwE+fIpC9nrOUqYd1rU2ch5De9fUODfp
-   w==;
-X-CSE-ConnectionGUID: xsg/Kp/OQ+eeifqOuf0QVA==
-X-CSE-MsgGUID: CQ3RG4M+Qdeh07oWnMNaSA==
-X-IronPort-AV: E=Sophos;i="6.23,126,1770595200"; 
-   d="scan'208";a="15115604"
-Received: from ip-10-5-9-48.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.9.48])
-  by internal-pdx-out-010.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 21:14:32 +0000
-Received: from EX19MTAUWB001.ant.amazon.com [205.251.233.51:15105]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.2.226:2525] with esmtp (Farcaster)
- id eb4eb0b5-f5c8-45e2-8f4b-153efd7dd4e4; Tue, 17 Mar 2026 21:14:32 +0000 (UTC)
-X-Farcaster-Flow-ID: eb4eb0b5-f5c8-45e2-8f4b-153efd7dd4e4
-Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWB001.ant.amazon.com (10.250.64.248) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37;
- Tue, 17 Mar 2026 21:14:31 +0000
-Received: from c889f3b07a0a (10.106.82.15) by EX19D001UWA001.ant.amazon.com
- (10.13.138.214) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37; Tue, 17 Mar 2026
- 21:14:29 +0000
-Date: Tue, 17 Mar 2026 21:14:26 +0000
-From: Yuto Ohnuki <ytohnuki@amazon.com>
-To: Christian Brauner <brauner@kernel.org>
-CC: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	<linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<syzbot+c0fd9ea308d049c4e0b9@syzkaller.appspotmail.com>,
-	<stable@vger.kernel.org>
-Subject: Re: [PATCH] fs: fix use-after-free in peer group traversal during
- mount release
-Message-ID: <abnEMhJgM3LxEuKM@c889f3b07a0a>
-References: <20260314184421.47303-2-ytohnuki@amazon.com>
- <20260317-flugtauglich-zieht-fbf41690387a@brauner>
+        d=google.com; s=20251104; t=1773782793; x=1774387593; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=O9MljJMIpne7nbSW7i1x1Or1SMzjT+hBLrQOgGeQvrk=;
+        b=TKpXCaIzakLTLVXTv9kjgruZSwYkSJdfft392Az1fl49JSLon7kY0NtE/gyhEZtapR
+         TvoHtLjjbPnArV4oO5HSzekiAZMuEuskED9kriSFOQPKp9pAjr/SyVgY2BjSkKCa1cOx
+         hSbIcxShgTvRNhTxvQdd6H4DnOwDs42l2O7t4cEtTn4DCARCYUWcXZc4qvWZBlI786A/
+         6EL/Wnuohoku9m0fwIuPXOJly5tlb/PLi79pcOgJ5ReinYe+gmBFTfJGWOEWE5814jJv
+         SEmQj6soSa/abnsCDLbU8OR/8O3WisuU9x6Jt5c1BdtVZA2s6WPaLWKEiwUY5BbXz2f0
+         M82g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773782793; x=1774387593;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=O9MljJMIpne7nbSW7i1x1Or1SMzjT+hBLrQOgGeQvrk=;
+        b=gQBL6kB5PMMDAzZYw3NFQZ/o5M/ZtUCDyQMkSsZCVXVDf2MFz8mtNt8L18A290JPqK
+         eqv8KOKWqAQX4Ll41baGHAc3GnW07HjC4d9HdWwYFwKJMfhVo5JI0yw22z3WNtSdFhvr
+         oyJBfsvLMEqK7is7HKXBLfMlkxalhXs8mS1vrxDqnCw/x5NIfRVoIojC6T2jFBGjIdeE
+         4T3WCdfpofpD0bxOr3/9tchSBVk/bXhEGtCQcarAxw7N7cbfUA46ofLxL99qy98t2Flw
+         lyrFjORT3zyn0IQh+fNpIRIse1jLzR4J/TfEAK+HOE7PfsD68S9H+75AY3FOTPz6Iseg
+         7/mw==
+X-Forwarded-Encrypted: i=1; AJvYcCUS7nFXFEHINJtyJxFZBwyFlKc9BJBm3tXfYbwhUKPrljLGnNu5Sv4Gb34XlvLQ9lCpc/yn+EwxBimpvZ09@vger.kernel.org
+X-Gm-Message-State: AOJu0YximvfIlA8hU+ydja4M2zlK525zx+V/2lLLT2N92R8cTjdn5x9I
+	kti6DW8GK59h/N7nqnO5PfBnYQR1tggIBYxAV4q5jIkuXWoqn6mbqIBJXsPMm9/JBV+CfN1d6qj
+	nwv8V0lz7uCCVhX34g32dWEoOUxIScNbSGA3EWExY
+X-Gm-Gg: ATEYQzwO7RnEL9BfYeMjPfuwB89ZXssPBPf0/TgGoknWq1slSWLiZtVjPOHxA2yqo0j
+	S+MO+LqdrexE6UZHA1htSLxC2gEzJ506ygkf9h4GmCN+3EiiIFtZK5coPMP5JmK3G7reEIMuNNo
+	VjoPaoBE5lM68u+fitrd2Oab5nzNlncB5LtZkn/FJrWA00zxbY5DJke/eJhOp8mcqp7VCMSwPiR
+	+M59s9uyS9KSXq8rEX6ir4xuCBjPJ8H1YoEtbEWj1mBQMiD3+U+duQJCnmpzvy7DpgtP6IF7NYo
+	A2YSXDxcMHXnr9ezcWUvVXUSNplh8eSplXv9WA==
+X-Received: by 2002:a05:622a:614:b0:509:1eca:6d24 with SMTP id
+ d75a77b69052e-50b1470ee58mr4568251cf.2.1773782792685; Tue, 17 Mar 2026
+ 14:26:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20260317-flugtauglich-zieht-fbf41690387a@brauner>
-X-ClientProxiedBy: EX19D046UWB003.ant.amazon.com (10.13.139.174) To
- EX19D001UWA001.ant.amazon.com (10.13.138.214)
+References: <cover.1773695307.git.ljs@kernel.org> <48c6d25e374b57dba6df4fdddd4830d3fc1105be.1773695307.git.ljs@kernel.org>
+In-Reply-To: <48c6d25e374b57dba6df4fdddd4830d3fc1105be.1773695307.git.ljs@kernel.org>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Tue, 17 Mar 2026 14:26:21 -0700
+X-Gm-Features: AaiRm51SJauRxJyG8YD3YuiOnfN0s_6akSz6AhkIFbo6vEz-Gt-mAXyXfHq04tA
+Message-ID: <CAJuCfpFXuHg4KPY27pqMC-xV5y9ZY2W72_R8_rxO0DvrJ=_yvw@mail.gmail.com>
+Subject: Re: [PATCH v2 11/16] staging: vme_user: replace deprecated mmap hook
+ with mmap_prepare
+To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Clemens Ladisch <clemens@ladisch.de>, Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "K . Y . Srinivasan" <kys@microsoft.com>, 
+	Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
+	Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, 
+	Vignesh Raghavendra <vigneshr@ti.com>, Bodo Stroesser <bostroesser@gmail.com>, 
+	"Martin K . Petersen" <martin.petersen@oracle.com>, David Howells <dhowells@redhat.com>, 
+	Marc Dionne <marc.dionne@auristor.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, David Hildenbrand <david@kernel.org>, 
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, 
+	Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-hyperv@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org, 
+	linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org, 
+	target-devel@vger.kernel.org, linux-afs@lists.infradead.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	Ryan Roberts <ryan.roberts@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 17, 2026 at 04:24:32PM +0100, Christian Brauner wrote:
-> The last time this reproduced upstream was on:
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/log/?id=6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
-> 
-> which is v7.0-rc1. At which point the question should be "why?" :)
-> 
-> Fixed by: a41dbf5e004e ("mount: hold namespace_sem across copy in create_new_namespace()")
-> 
-> In any case, thanks for the proposed fix but it is already fixed
-> upstream and the fix you suggested indicates another bug that is the
-> real cause.
+On Mon, Mar 16, 2026 at 2:14=E2=80=AFPM Lorenzo Stoakes (Oracle) <ljs@kerne=
+l.org> wrote:
+>
+> The f_op->mmap interface is deprecated, so update driver to use its
+> successor, mmap_prepare.
+>
+> The driver previously used vm_iomap_memory(), so this change replaces it
+> with its mmap_prepare equivalent, mmap_action_simple_ioremap().
+>
+> Functions that wrap mmap() are also converted to wrap mmap_prepare()
+> instead.
+>
+> Also update the documentation accordingly.
+>
+> Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
+> ---
+>  Documentation/driver-api/vme.rst    |  2 +-
+>  drivers/staging/vme_user/vme.c      | 20 +++++------
+>  drivers/staging/vme_user/vme.h      |  2 +-
+>  drivers/staging/vme_user/vme_user.c | 51 +++++++++++++++++------------
+>  4 files changed, 42 insertions(+), 33 deletions(-)
+>
+> diff --git a/Documentation/driver-api/vme.rst b/Documentation/driver-api/=
+vme.rst
+> index c0b475369de0..7111999abc14 100644
+> --- a/Documentation/driver-api/vme.rst
+> +++ b/Documentation/driver-api/vme.rst
+> @@ -107,7 +107,7 @@ The function :c:func:`vme_master_read` can be used to=
+ read from and
+>
+>  In addition to simple reads and writes, :c:func:`vme_master_rmw` is prov=
+ided to
+>  do a read-modify-write transaction. Parts of a VME window can also be ma=
+pped
+> -into user space memory using :c:func:`vme_master_mmap`.
+> +into user space memory using :c:func:`vme_master_mmap_prepare`.
+>
+>
+>  Slave windows
+> diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vm=
+e.c
+> index f10a00c05f12..7220aba7b919 100644
+> --- a/drivers/staging/vme_user/vme.c
+> +++ b/drivers/staging/vme_user/vme.c
+> @@ -735,9 +735,9 @@ unsigned int vme_master_rmw(struct vme_resource *reso=
+urce, unsigned int mask,
+>  EXPORT_SYMBOL(vme_master_rmw);
+>
+>  /**
+> - * vme_master_mmap - Mmap region of VME master window.
+> + * vme_master_mmap_prepare - Mmap region of VME master window.
+>   * @resource: Pointer to VME master resource.
+> - * @vma: Pointer to definition of user mapping.
+> + * @desc: Pointer to descriptor of user mapping.
+>   *
+>   * Memory map a region of the VME master window into user space.
+>   *
+> @@ -745,12 +745,13 @@ EXPORT_SYMBOL(vme_master_rmw);
+>   *         resource or -EFAULT if map exceeds window size. Other generic=
+ mmap
+>   *         errors may also be returned.
+>   */
+> -int vme_master_mmap(struct vme_resource *resource, struct vm_area_struct=
+ *vma)
+> +int vme_master_mmap_prepare(struct vme_resource *resource,
+> +                           struct vm_area_desc *desc)
+>  {
+> +       const unsigned long vma_size =3D vma_desc_size(desc);
+>         struct vme_bridge *bridge =3D find_bridge(resource);
+>         struct vme_master_resource *image;
+>         phys_addr_t phys_addr;
+> -       unsigned long vma_size;
+>
+>         if (resource->type !=3D VME_MASTER) {
+>                 dev_err(bridge->parent, "Not a master resource\n");
+> @@ -758,19 +759,18 @@ int vme_master_mmap(struct vme_resource *resource, =
+struct vm_area_struct *vma)
+>         }
+>
+>         image =3D list_entry(resource->entry, struct vme_master_resource,=
+ list);
+> -       phys_addr =3D image->bus_resource.start + (vma->vm_pgoff << PAGE_=
+SHIFT);
+> -       vma_size =3D vma->vm_end - vma->vm_start;
+> +       phys_addr =3D image->bus_resource.start + (desc->pgoff << PAGE_SH=
+IFT);
+>
+>         if (phys_addr + vma_size > image->bus_resource.end + 1) {
+>                 dev_err(bridge->parent, "Map size cannot exceed the windo=
+w size\n");
+>                 return -EFAULT;
+>         }
+>
+> -       vma->vm_page_prot =3D pgprot_noncached(vma->vm_page_prot);
+> -
+> -       return vm_iomap_memory(vma, phys_addr, vma->vm_end - vma->vm_star=
+t);
+> +       desc->page_prot =3D pgprot_noncached(desc->page_prot);
+> +       mmap_action_simple_ioremap(desc, phys_addr, vma_size);
+> +       return 0;
+>  }
+> -EXPORT_SYMBOL(vme_master_mmap);
+> +EXPORT_SYMBOL(vme_master_mmap_prepare);
+>
+>  /**
+>   * vme_master_free - Free VME master window
+> diff --git a/drivers/staging/vme_user/vme.h b/drivers/staging/vme_user/vm=
+e.h
+> index 797e9940fdd1..b6413605ea49 100644
+> --- a/drivers/staging/vme_user/vme.h
+> +++ b/drivers/staging/vme_user/vme.h
+> @@ -151,7 +151,7 @@ ssize_t vme_master_read(struct vme_resource *resource=
+, void *buf, size_t count,
+>  ssize_t vme_master_write(struct vme_resource *resource, void *buf, size_=
+t count, loff_t offset);
+>  unsigned int vme_master_rmw(struct vme_resource *resource, unsigned int =
+mask, unsigned int compare,
+>                             unsigned int swap, loff_t offset);
+> -int vme_master_mmap(struct vme_resource *resource, struct vm_area_struct=
+ *vma);
+> +int vme_master_mmap_prepare(struct vme_resource *resource, struct vm_are=
+a_desc *desc);
+>  void vme_master_free(struct vme_resource *resource);
+>
+>  struct vme_resource *vme_dma_request(struct vme_dev *vdev, u32 route);
+> diff --git a/drivers/staging/vme_user/vme_user.c b/drivers/staging/vme_us=
+er/vme_user.c
+> index d95dd7d9190a..11e25c2f6b0a 100644
+> --- a/drivers/staging/vme_user/vme_user.c
+> +++ b/drivers/staging/vme_user/vme_user.c
+> @@ -446,24 +446,14 @@ static void vme_user_vm_close(struct vm_area_struct=
+ *vma)
+>         kfree(vma_priv);
+>  }
+>
+> -static const struct vm_operations_struct vme_user_vm_ops =3D {
+> -       .open =3D vme_user_vm_open,
+> -       .close =3D vme_user_vm_close,
+> -};
+> -
+> -static int vme_user_master_mmap(unsigned int minor, struct vm_area_struc=
+t *vma)
+> +static int vme_user_vm_mapped(unsigned long start, unsigned long end, pg=
+off_t pgoff,
+> +                             const struct file *file, void **vm_private_=
+data)
+>  {
+> -       int err;
+> +       const unsigned int minor =3D iminor(file_inode(file));
+>         struct vme_user_vma_priv *vma_priv;
+>
+>         mutex_lock(&image[minor].mutex);
+>
+> -       err =3D vme_master_mmap(image[minor].resource, vma);
+> -       if (err) {
+> -               mutex_unlock(&image[minor].mutex);
+> -               return err;
+> -       }
+> -
 
-Thanks for the review and explanation. I should have checked why the
-reproducer stopped firing on current HEAD before sending the patch -
-lesson learned. I was testing with a custom reproducer that called
-clone_mnt() directly from a module, which bypassed the actual
-create_new_namespace() code path and masked the fact that the real
-bug was already fixed.
+Ok, this changes the set of the operations performed under image[minor].mut=
+ex.
+Before we had:
 
-I see now that the real issue was the namespace_sem drop-and-reacquire
-race in create_new_namespace(), not a missing cleanup in
-mntput_no_expire_slowpath(). a41dbf5e004e properly fixes the root
-cause by holding namespace_sem across the copy.
+mutex_lock(&image[minor].mutex);
+vme_master_mmap();
+<some final adjustments>
+mutex_unlock(&image[minor].mutex);
 
-Please disregard this patch.
+Now we have:
 
-Thanks again,
-Yuto
+mutex_lock(&image[minor].mutex);
+vme_master_mmap_prepare()
+mutex_unlock(&image[minor].mutex);
+vm_iomap_memory();
+mutex_lock(&image[minor].mutex);
+vme_user_vm_mapped(); // <some final adjustments>
+mutex_unlock(&image[minor].mutex);
 
+I think as long as image[minor] does not change while we are not
+holding the mutex we should be safe, and looking at the code it seems
+to be the case. But I'm not familiar with this driver and might be
+wrong. Worth double-checking.
 
-
-
-Amazon Web Services EMEA SARL, 38 avenue John F. Kennedy, L-1855 Luxembourg, R.C.S. Luxembourg B186284
-
-Amazon Web Services EMEA SARL, Irish Branch, One Burlington Plaza, Burlington Road, Dublin 4, Ireland, branch registration number 908705
-
-
-
+>         vma_priv =3D kmalloc_obj(*vma_priv);
+>         if (!vma_priv) {
+>                 mutex_unlock(&image[minor].mutex);
+> @@ -472,22 +462,41 @@ static int vme_user_master_mmap(unsigned int minor,=
+ struct vm_area_struct *vma)
+>
+>         vma_priv->minor =3D minor;
+>         refcount_set(&vma_priv->refcnt, 1);
+> -       vma->vm_ops =3D &vme_user_vm_ops;
+> -       vma->vm_private_data =3D vma_priv;
+> -
+> +       *vm_private_data =3D vma_priv;
+>         image[minor].mmap_count++;
+>
+>         mutex_unlock(&image[minor].mutex);
+> -
+>         return 0;
+>  }
+>
+> -static int vme_user_mmap(struct file *file, struct vm_area_struct *vma)
+> +static const struct vm_operations_struct vme_user_vm_ops =3D {
+> +       .mapped =3D vme_user_vm_mapped,
+> +       .open =3D vme_user_vm_open,
+> +       .close =3D vme_user_vm_close,
+> +};
+> +
+> +static int vme_user_master_mmap_prepare(unsigned int minor,
+> +                                       struct vm_area_desc *desc)
+> +{
+> +       int err;
+> +
+> +       mutex_lock(&image[minor].mutex);
+> +
+> +       err =3D vme_master_mmap_prepare(image[minor].resource, desc);
+> +       if (!err)
+> +               desc->vm_ops =3D &vme_user_vm_ops;
+> +
+> +       mutex_unlock(&image[minor].mutex);
+> +       return err;
+> +}
+> +
+> +static int vme_user_mmap_prepare(struct vm_area_desc *desc)
+>  {
+> -       unsigned int minor =3D iminor(file_inode(file));
+> +       const struct file *file =3D desc->file;
+> +       const unsigned int minor =3D iminor(file_inode(file));
+>
+>         if (type[minor] =3D=3D MASTER_MINOR)
+> -               return vme_user_master_mmap(minor, vma);
+> +               return vme_user_master_mmap_prepare(minor, desc);
+>
+>         return -ENODEV;
+>  }
+> @@ -498,7 +507,7 @@ static const struct file_operations vme_user_fops =3D=
+ {
+>         .llseek =3D vme_user_llseek,
+>         .unlocked_ioctl =3D vme_user_unlocked_ioctl,
+>         .compat_ioctl =3D compat_ptr_ioctl,
+> -       .mmap =3D vme_user_mmap,
+> +       .mmap_prepare =3D vme_user_mmap_prepare,
+>  };
+>
+>  static int vme_user_match(struct vme_dev *vdev)
+> --
+> 2.53.0
+>
