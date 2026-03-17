@@ -1,186 +1,383 @@
-Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 809B318872A
-	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 23:08:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.145
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773788922; cv=none; b=R0zkuLKqVEAOWF37GYw6P+iLJSrXIpbdHx8Hu7pQEq0hCDr0gsXLXOXVwCY2NlOnPmC2/AMYbgFlPy6gdD+YlwbPIUWdMT/bg0XKYvr/wkmGZ9SwJfb1eQ7SZ9M/Eb1nFZMl2rPfrlamybJXMVNko8XfgE0Cxyq54MoybyWIyNA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773788922; c=relaxed/simple;
-	bh=YtnB8mHCRKPFlUOS63chLxROv0T6t72KBwwP5NgG878=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XEEvS7IVEwFKkaW8Lr5NiHqJxwSgtNX9gEfwyU8G0UMiY4liQmLePXHY4BpTrNeL/TdKDYp8uVcoI172XpkoLWuUMrPnkr44yUv0KYn0Y+/BgHq0yE48xD86HDCYDKZggr7cJpzKefJHOlKRnZkORRZXgW9DJ92R1tifvaOcrQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=KDuT1aCA; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=dq7HuYvT; arc=none smtp.client-ip=202.12.124.145
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94DA234676D
+	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 23:25:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773789931; cv=pass; b=a66WUu/pS7RA/kZg4/lHOCl0gd1a/Fxeh474HUbBDzeYuuViwvA6XvkRE9dbeCmY3UXYqzeNH2yg24txnFEr59q45A/daoPZKPbqV2HL62dV9vp6tt4hQXA0mNFQdQhAVb2tPrKnaiVFYprK7sZG89+P9J7BOS84JP7QTGJDyKw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773789931; c=relaxed/simple;
+	bh=4bVHW5MFS8uloqxporfdwVf/YWss9W3wG+sPAaXNbHU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aI0amijbZRljaDqRnCrw0IvUep3tQTEXDc1DBzlDFRWnOkO7N6bn+BFmy9SYEZm5cBXlOlZ7G9Jsglw0hBHw3PfrBH5hvdpR9cml21lC3vJiet6TC4St61a0Vas9k0Lo0DMQXkb9zLeFI4qEkjxCfUV3MJyrSvR5rG+G1OSxHr8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JPllmk9U; arc=pass smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="KDuT1aCA";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="dq7HuYvT"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfout.stl.internal (Postfix) with ESMTP id 863E61D00211;
-	Tue, 17 Mar 2026 19:08:39 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Tue, 17 Mar 2026 19:08:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1773788919;
-	 x=1773875319; bh=gBT/l3JVrcxOwshd4Ofs3cf6XtZetBd/EV78l2vIBmM=; b=
-	KDuT1aCALKxQZ3D7MBBxa4G6Ftc/QEQdcgE5uvUsR9A9fj8beI/Fc5IhRB4sfn9s
-	K7+XkNOCs/2mEgUm3EUUYkDcfmoCUrBTnztO8p6fVT8ViQ9zIcXZWksPxf7iC+qU
-	Xm8YzEZBBM9fNSLEOiCVaOVRnddcEKjYvAeo4b5VdCWGkT1Lb1nffKA0RCJ59wUc
-	k8/rN2xMcHUea5ptUYgDjgouHYks51Ia+5C64/MY8xKGZzvBUrGgHHlCVVV7tJZH
-	VlfvvnXzBxkBLUpU9I9n318M+exEQ8dhf8IwGAWTKtblLOnoXcWzu2ksSDxFGUht
-	xk+oGUGgmeazeQkCxFPOvw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1773788919; x=
-	1773875319; bh=gBT/l3JVrcxOwshd4Ofs3cf6XtZetBd/EV78l2vIBmM=; b=d
-	q7HuYvTeeNKawfubHhqAFN5zjJida4fgImmIZsOoNNKy0UXlZ8/4fS/EqYUmdxPF
-	en7WwvXG55CzeLt++lJvzupQ3kGvQeYSeiKA8eqv4X92lXdGN71mGedMAwzjAGpR
-	wgxYknUpkBUDNJLuyylo3pWxinhGKdzT4yc0/vPuC1g30RKZJa4XAp2VwB7dStuJ
-	aqShvi7sX832IgZaKfs421kjsCvqHo+8/yZsDyHAgmQOwS74128xewWuoPC11MRm
-	YUk6rQwS81pN6dukXVpiydwzzzZ1TWuJn1KQhJ3Vhre3yxOyx/lY3sJlt9cWY1D7
-	ep9+BSNV94yBhFPc4kU5g==
-X-ME-Sender: <xms:9t65aTsq9W8vPhgxC4EXPAbTWa-QHaBB8OHB3GI_UNLzz-tHkuQZXw>
-    <xme:9t65aYI-Kf_flbtCHEaRLf-KiV8pg-RdI_YH-q711Ruzow1cpToYRoUw5dYytFCbH
-    Y_POsrO8kkHHasX7T6yPy70qSe9orJ4FSjnwkBnyu7ohtf5Vw>
-X-ME-Received: <xmr:9t65aQnEU1esnLD-qc0RxDBXTjnGacz2rTXUkUwKx-YTbYrqwpcrs0AiKEij6XJ4PnQpJULLWIJGkpRRwCJHqgjQtn0RVZvV9NEJVRKtTa_dEGtCfQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdeftddvheefucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
-    ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
-    htthgvrhhnpeehhfejueejleehtdehteefvdfgtdelffeuudejhfehgedufedvhfehueev
-    udeugeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    gsvghrnhgusegsshgsvghrnhgurdgtohhmpdhnsggprhgtphhtthhopeeipdhmohguvgep
-    shhmthhpohhuthdprhgtphhtthhopegujhifohhngheskhgvrhhnvghlrdhorhhgpdhrtg
-    hpthhtohepsghstghhuhgsvghrthesuggunhdrtghomhdprhgtphhtthhopehjohgrnhhn
-    vghlkhhoohhnghesghhmrghilhdrtghomhdprhgtphhtthhopehlihhnuhigqdhfshguvg
-    hvvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhhikhhlohhssehs
-    iigvrhgvughirdhhuhdprhgtphhtthhopehnvggrlhesghhomhhprgdruggvvh
-X-ME-Proxy: <xmx:9t65aZL9A9sW22qSOSTr4JOOfmvJt0aphAxjT6INOWuOd88NE-1PHQ>
-    <xmx:9t65aV7ykZvj2A-NfVtAYKln_83awRLn-5v15OPa-K8OUqzQRb8h1Q>
-    <xmx:9t65ad3EvN76gMharuPPzIQG3jJ8PsCd4NuDPoTkYy11aHCwaspzow>
-    <xmx:9t65abfWAp9frnbcdsoVl9IagYBkZ4ZdmEaQbE66bY_6iOp8nn7a3Q>
-    <xmx:9965aWGmxLlTq1Tll64tySbZbbOjOV3NIcKDiaI_lGunEKy_j3msfUso>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 17 Mar 2026 19:08:37 -0400 (EDT)
-Message-ID: <70550759-eae2-482d-a598-164d10930220@bsbernd.com>
-Date: Wed, 18 Mar 2026 00:08:37 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JPllmk9U"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-439c6fc2910so4752662f8f.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 16:25:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773789928; cv=none;
+        d=google.com; s=arc-20240605;
+        b=aXf/cLv9z365gl/6pu6rBHt1UrCDC4WUW/BLBg5L0+VM4tpIuEz1tF5aKeCRn2vwdv
+         stUkrd9++E9yhZ3Fnlnxvm+RxG3S5c21lf6Y1rCWQFcub2HI6b1Hzg4j0+4tdXaNprUb
+         gVQvge0kWx7MDdANrb9gbRHWb9Y2gUTu4GfGTJh+sg0+o4mJWoZv7rxeNGxAVtIdEBut
+         OI6RF3prf9SoSKVDN96OAsJCxmvobKJXq1LoyrQ7FxUCfyB5WQAiOdvKnJ4lS39Q8atB
+         7S0xNPHAg64RYD+ulQnR3/LiPW5m9DTHS3/c+u13Ax/3GqAkH1cp0VPl5tS1E0PUNNv9
+         RgZw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=xXtihxDOLPIAbHPNajl6dGCXXujhBdCX4MBOLgZ46Lo=;
+        fh=+jEsyLY7bzU2L6FrSbIPjpk6QKLcX6Jx3dKUJ8QU+rE=;
+        b=czYyCCCgchXF00/rt1rFZIRKmtIbQpm70Zmx1r8icdvzWnMB0qB282FF7xGdQOgmQ5
+         Rgb4l3Z5qsNjV+IutZ0WdCJ4f5UKJ1q8mGdbl2u25aIwAsps5KuIAXiz/ELI/xU1YVKO
+         ++A3LeNqR/ACNRMGDyK5azQnlxYyWSQAk0wdR9cdzSxX3ufW6h5aTgtM8CB5Tb8zQEkk
+         oXzn9eoy8CxJ1EfP14xSTxnyW7Uabg6jnSomb5BJI+WrI5DcnZWu3YCeQ4TvVmE9+FJs
+         q2uVOumjzsgG6MRsc6bVhmMh7p9LSG/R47VQU3E42QIezjZg6JosoA8vInuGioKEwRrq
+         usJw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773789928; x=1774394728; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xXtihxDOLPIAbHPNajl6dGCXXujhBdCX4MBOLgZ46Lo=;
+        b=JPllmk9UWK49MGMYlFzOUzbXJhoFs2CQq5Pc5gzRwtSYcYG3CrLYeStiz5yAPbX6Ou
+         DKB5ofL6Gwge44UjbDIe3e2F7S/MeARj8igZSZXy/ymxdHI/Wm2Lq1OCG2tGh7o3uJoz
+         TWNXQcwqcQ6dF0Noe6rLS3Bwre1pjpOyx155MDxNi7/goYmbGUIPALpC/3TEukI4NggL
+         6NUl8qUZyiW1KL6ccAsuhcof8tiKVlMS9gysxT1qVBgLHtuViljAuSLRFvWeyxJZD+Xl
+         avnNbh5HOHU3LCKra8RiiWn0y+aThujSKnoDr/o8hTVESdNzNC52l06ExYfVODPz2L69
+         gd2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773789928; x=1774394728;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=xXtihxDOLPIAbHPNajl6dGCXXujhBdCX4MBOLgZ46Lo=;
+        b=pwlqUa/rbnOpLnVZFegC9nrl34nr6rLc0vW0X+eFw/w8Nimh1VepP6JS9waXj1M7X9
+         a2gbVp/6xxD+o7eNRkPEzPRkQd8G365ukBnYB1TaPQRRV1cYt4FErdkmx2ptb/R8UlOS
+         3NQR/5bFJS0zKFj9YBF981gl4k6Ahix0CaZ6drmV2U3btYllxWZBIy5aU7g5Q7YgC66s
+         d0uTyjcU4mUUXukAtCfgTayMnSMa1adGDv+U+5KYGy6p5LFvSa7Cm51Tf606fiZP0Hzj
+         LoDIytNBfH2cmd2K20JAU2LGLCbjwFkGAIXIS4r2oE2fLliswo9Mf7ShaaXig2cjRHnd
+         J/OA==
+X-Gm-Message-State: AOJu0YxKmiCvtg83VUR0/3o6/WmFdykrfes0sOLFy/gPtc7hZYqK/piG
+	4sTIJ/V62EL1QweEUP6jvYJKqfBlBMXlY3NFs9CcViWhn0r5Eifx54ZHux3gBJ4jlqPJy6k1J4j
+	lfdbMnO7eu7bYNsCkVKgxTmDQftI/cnSsMSCzpf8=
+X-Gm-Gg: ATEYQzxINnB9vXlFzcSZRgg0P24WomlhbtW5JH0JAMpfSsZBpNOKCpGYRniDOKJiQmp
+	X5GmvXPQHZqyvdOx51jVFGQdlh/Kz9k2QARr0VmnRkd6e+8KIaCX002tj5MBmHkCYwUTFrPXYGV
+	hZKeu5yqU1DDxiH3t5aDGS81LJNWTI5OT3F6MXC5kQIHY59APMXDgh6JSJ3UbrugAsTJ5MEOahG
+	zQasJZBPddiVnWcKSoLiJWMigFcAJbDb6RSrmKp3CLWFfmhspMqRW+7Y0REyWeMiFalsKiCKK6V
+	rd5kEQ==
+X-Received: by 2002:a05:6000:4284:b0:43b:4101:6d09 with SMTP id
+ ffacd0b85a97d-43b527a3effmr1542169f8f.11.1773789927768; Tue, 17 Mar 2026
+ 16:25:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [GIT PULL v2] libfuse: run fuse servers as a contained service
-To: "Darrick J. Wong" <djwong@kernel.org>, bschubert@ddn.com
-Cc: joannelkoong@gmail.com, linux-fsdevel@vger.kernel.org, miklos@szeredi.hu,
- neal@gompa.dev
-References: <20260316235017.GK1742010@frogsfrogsfrogs>
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: en-US, de-DE, fr
-In-Reply-To: <20260316235017.GK1742010@frogsfrogsfrogs>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <Utw_Cjiuq0_XhCoA5EXpzLE9qfRpiA0-fmXEmui7NnBnIeMiCDGOyXWPtE5DkxVNYNSsgiUotB7fsGYnlMQn1xDCx14yx1d0UJqx62vAwp4=@proton.me>
+ <CAJnrk1YAhWnOt-7yr9gDmHdjANiC74-fC5mKsePC6wFTzwPjUw@mail.gmail.com>
+In-Reply-To: <CAJnrk1YAhWnOt-7yr9gDmHdjANiC74-fC5mKsePC6wFTzwPjUw@mail.gmail.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Tue, 17 Mar 2026 16:25:16 -0700
+X-Gm-Features: AaiRm51Dew9jKtzaKUe1sNWlOBUZ8rEy8FDMJMKsifjeOjW5h-Gqn5dbw5Ow6UU
+Message-ID: <CAJnrk1a-asuvfrbKXbEwwDSctvemF+6zfhdnuzO65Pt8HsFSRw@mail.gmail.com>
+Subject: Re: [BUG] fuse: wb_wait_for_completion hang on suspend with
+ fuse-overlayfs on tmpfs persists in 6.19.6 (AS_NO_DATA_INTEGRITY fix incomplete)
+To: John <therealgraysky@proton.me>
+Cc: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
+	"linux-fuse@lists.sourceforge.net" <linux-fuse@lists.sourceforge.net>, 
+	"linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, Jan Kara <jack@suse.cz>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Mon, Mar 16, 2026 at 5:15=E2=80=AFPM Joanne Koong <joannelkoong@gmail.co=
+m> wrote:
+>
+> On Sun, Mar 15, 2026 at 4:24=E2=80=AFAM John <therealgraysky@proton.me> w=
+rote:
+> >
+>
+> Hi John,
+>
+> Thanks for your detailed report.
+>
+> > Kernel: 6.19.6-arch1-1
+> > Component: fs/fuse, fs/fs-writeback
+> >
+> > --- SUMMARY ---
+> >
+> > A suspend-to-RAM hang in wb_wait_for_completion() via sync_inodes_sb() =
+persists on 6.19.6 when fuse-overlayfs is mounted on tmpfs. The fix introdu=
+ced in 6.19~rc6 for Debian bug #1120058 ("fs/writeback: skip AS_NO_DATA_INT=
+EGRITY mappings in wait_sb_inodes()") does not cover this code path.
+> >
+> > --- BACKGROUND ---
+> >
+> > This issue was originally reported in:
+> > https://github.com/containers/fuse-overlayfs/issues/386
+> >
+> > The fuse-overlayfs developer identified it as a kernel issue. It was su=
+bsequently bisected to commit 0c58a97f919c ("fuse: remove tmp folio for wri=
+tebacks and internal rb tree", merged in 6.16) and tracked in Debian as bug=
+ #1120058. The fix applied in 6.19~rc6 targets wait_sb_inodes(), but the ha=
+ng in the reporter's original trace and in this report occurs in sync_inode=
+s_sb() via a separate code path that the fix does not reach.
+> >
+> > The issue is also known to syzbot as "INFO: task hung in sync_inodes_sb=
+" with open instances on linux-5.15, linux-6.1, and linux-6.6:
+> >
+> > https://syzkaller.appspot.com/bug?extid=3De0232bd63c6e293aaf6a
+> > https://syzkaller.appspot.com/bug?extid=3D4983a35cf671e5ed55b3
+> >
+> > --- REPRODUCTION ---
+> >
+> > mkdir -p /dev/shm/test/up
+> > mkdir -p /dev/shm/test/tmp
+> > mkdir -p /dev/shm/test/data
+> >
+> > fuse-overlayfs -o "static_nlink,noacl,\
+> >   upperdir=3D/dev/shm/test/up,\
+> >   lowerdir=3D$HOME/.config/mozilla/firefox,\
+> >   workdir=3D/dev/shm/test/tmp" \
+> >   /dev/shm/test/data
+> >
+> > firefox --profile /dev/shm/test/data/PROFILENAME
+> >
+> > Browse to youtube and start playing a video then trigger suspend while =
+the video is playing in the browser. I used XFCE4 suspend from the menu.
+> >
+> > The display goes blank and does not recover. The system does not enter =
+suspend. Switching to a tty shows the system is alive but X11 is frozen. Re=
+boot is blocked:
+> >
+> > # reboot
+> > Call to Reboot failed: Action suspend already in progress, refusing req=
+uested reboot operation.
+> >
+> > --- CALL TRACE (6.19.6) ---
+> >
+> > Mar 15 06:44:42 kernel: INFO: task kworker/u128:0:106160 blocked for mo=
+re than 122 seconds.
+> > Mar 15 06:44:42 kernel:       Not tainted 6.19.6-arch1-1 #1
+> > Mar 15 06:44:42 kernel: task:kworker/u128:0  state:D stack:0     pid:10=
+6160 tgid:106160 ppid:2
+> > Mar 15 06:44:42 kernel: Workqueue: pm_fs_sync pm_fs_sync_work_fn
+> > Mar 15 06:44:42 kernel: Call Trace:
+> > Mar 15 06:44:42 kernel:  <TASK>
+> > Mar 15 06:44:42 kernel:  __schedule+0x457/0x1720
+> > Mar 15 06:44:42 kernel:  schedule+0x27/0xd0
+> > Mar 15 06:44:42 kernel:  wb_wait_for_completion+0x97/0xe0
+> > Mar 15 06:44:42 kernel:  sync_inodes_sb+0xf8/0x2e0
+> > Mar 15 06:44:42 kernel:  __iterate_supers+0xdc/0x160
+> > Mar 15 06:44:42 kernel:  ksys_sync+0x43/0xb0
+> > Mar 15 06:44:42 kernel:  pm_fs_sync_work_fn+0x17/0xa0
+> > Mar 15 06:44:42 kernel:  process_one_work+0x193/0x350
+> > Mar 15 06:44:42 kernel:  worker_thread+0x1a1/0x310
+> > Mar 15 06:44:42 kernel:  kthread+0xfc/0x240
+> > Mar 15 06:44:42 kernel:  ret_from_fork+0x243/0x280
+> > Mar 15 06:44:42 kernel:  ret_from_fork_asm+0x1a/0x30
+> > Mar 15 06:44:42 kernel:  </TASK>
+> >
+> > --- MORE CONTEXT ---
+> >
+> > Compared to the original report (which ran through systemd-sleep -> pm_=
+suspend -> ksys_sync), the sync call in 6.19 has been moved into a kernel w=
+orkqueue via pm_fs_sync_work_fn. The hang point is identical: wb_wait_for_c=
+ompletion() inside sync_inodes_sb() never returns because the FUSE daemon (=
+fuse-overlayfs) is unable to complete writeback while the suspend freezer i=
+s in progress.
+> >
+> > The AS_NO_DATA_INTEGRITY fix targets wait_sb_inodes(), which is a separ=
+ate function from sync_inodes_sb(). The hung writeback completion wait in s=
+ync_inodes_sb() is not gated by the AS_NO_DATA_INTEGRITY check and remains =
+unaddressed.
+>
+> I'll need to run the repro and verify this is the issue, but I think
+> it's because it's hitting this call chain if there's a dirty folio
+> that is already under writeback that needs to have writeback issued on
+> it again:
+>
+> wb_workfn()
+>   wb_do_writeback()
+>     wb_writeback()
+>       writeback_sb_inodes()
+>         __writeback_single_inode()
+>           do_writepages()
+>             fuse_writepages()
+>               iomap_writepages()
+>                 writeback_iter()
+>                   writeback_get_folio()
+>                     folio_prepare_writeback()
+>
+> where in the folio_prepare_writeback() logic:
+>
+>         if (!folio_test_dirty(folio))
+>                 return false;
+>
+>         if (folio_test_writeback(folio)) {
+>                 if (wbc->sync_mode =3D=3D WB_SYNC_NONE)
+>                         return false;
+>                 folio_wait_writeback(folio);
+>
 
+I couldn't get the firefox+youtube scenario running because my VM
+lacks graphics support and I couldn't figure out how to get that to
+work, but I reproduced the bug using fuse-overlayfs with a synthetic
+I/O workload:
 
-On 3/17/26 00:50, Darrick J. Wong wrote:
-> Hi Bernd,
-> 
-> I hope you're feeling better!
+(while true; do dd if=3D/dev/urandom
+of=3D/dev/shm/test/data/test.default/file1 bs=3D1M count=3D10 2>/dev/null;
+done) &
+sleep 2
+systemctl suspend
 
-Thank you much better!
+which gave pretty much the same stack trace:
 
-> 
-> Please have a look at this branch with changes for libfuse.  This second
-> PR contains a bunch of new things:
-> 
->  * Cleaned up error code handling and logging
->  * Examples of systemd-enabled high and low-level fuse servers
->  * Most of the checkpatch complaints addressed
->  * fuservicemount3 can now be a setuid program to allow unprivileged
->    userspace to fire up a contained filesystem driver.  This could be
->    opening Pandora's box...
-> 
-> As usual, I did a test-merge with the main upstream branch as of a few
-> minutes ago, and didn't see any conflicts.  Please let me know if you
-> encounter any problems.
+[  154.892336] INFO: task kworker/u64:1:119 blocked for more than 100 secon=
+ds.
+[  154.892967]       Not tainted 7.0.0-rc1-g6dcceeb72856-dirty #1792
+[  154.893452] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs"
+disables this message.
+[  154.894048] task:kworker/u64:1   state:D stack:0     pid:119
+tgid:119   ppid:2      task_flags:0x4208160 flags:0x00080000
+[  154.894879] Workqueue: pm_fs_sync pm_fs_sync_work_fn
+[  154.895309] Call Trace:
+[  154.895514]  <TASK>
+[  154.895759]  __schedule+0xeaa/0x3d60
+[  154.896060]  ? __filemap_fdatawait_range+0xb0/0x160
+[  154.896435]  ? __pfx___schedule+0x10/0x10
+[  154.896744]  ? bdi_split_work_to_wbs+0x50b/0x990
+[  154.897093]  schedule+0x7e/0x2e0
+[  154.897344]  wb_wait_for_completion+0x14b/0x1e0
+[  154.897690]  ? __pfx_wb_wait_for_completion+0x10/0x10
+[  154.898112]  ? __pfx_autoremove_wake_function+0x10/0x10
+[  154.898550]  ? __pfx_mutex_unlock+0x10/0x10
+[  154.898915]  ? iput+0x61/0x600
+[  154.899175]  sync_inodes_sb+0x1be/0x740
+[  154.899490]  ? __pfx_down_read+0x10/0x10
+[  154.899814]  ? __pfx_sync_inodes_sb+0x10/0x10
+[  154.900165]  ? __pfx_super_lock+0x10/0x10
+[  154.900495]  ? _raw_spin_lock+0x84/0xe0
+[  154.900826]  ? __pfx__raw_spin_lock+0x10/0x10
+[  154.901154]  __iterate_supers+0x176/0x280
+[  154.901455]  ? __pfx_sync_inodes_one_sb+0x10/0x10
+[  154.901845]  ? _raw_spin_unlock_irq+0xe/0x30
+[  154.902169]  ksys_sync+0x87/0xf0
+[  154.902428]  ? __pfx_ksys_sync+0x10/0x10
+[  154.902772]  ? kvm_clock_get_cycles+0x18/0x30
+[  154.903131]  ? ktime_get+0x65/0x140
+[  154.903417]  pm_fs_sync_work_fn+0x17/0xc0
+[  154.903750]  process_one_work+0x656/0x1150
+[  154.904083]  ? assign_work+0x122/0x3e0
+[  154.904367]  worker_thread+0x5de/0xcb0
+[  154.904670]  ? __pfx_worker_thread+0x10/0x10
+[  154.905052]  kthread+0x34d/0x450
 
-I only found a minute to pull and push to my github repo to update the PR. 
-BSD still fails
+Further debugging showed it's not due to that call chain with the
+folio_wait_writeback() in folio_prepare_writeback() scenario described
+in the previous message, but due to the fuse daemon being stuck and
+thus unable to fully service the ->write_inode() by the wb_workfn:
 
-2026-03-17T23:01:17.9810147Z FAILED: [code=1] example/hello_ll.p/single_file.c.o 
-2026-03-17T23:01:17.9813484Z cc -Iexample/hello_ll.p -Iexample -I../example -Iinclude -I../include -Ilib -I../lib -I. -I.. -fdiagnostics-color=always -Wall -Winvalid-pch -Wextra -std=gnu11 -O2 -g -D_REENTRANT -DHAVE_LIBFUSE_PRIVATE_CONFIG_H -Wno-sign-compare -D_FILE_OFFSET_BITS=64 -Wstrict-prototypes -Wmissing-declarations -Wwrite-strings -fno-strict-aliasing -pthread -MD -MQ example/hello_ll.p/single_file.c.o -MF example/hello_ll.p/single_file.c.o.d -o example/hello_ll.p/single_file.c.o -c ../example/single_file.c
-2026-03-17T23:01:17.9817014Z ../example/single_file.c:46:10: error: use of undeclared identifier 'PTHREAD_MUTEX_INITIALIZER'
-2026-03-17T23:01:17.9817870Z    46 |         .lock = PTHREAD_MUTEX_INITIALIZER,
-2026-03-17T23:01:17.9818369Z       |                 ^
-2026-03-17T23:01:17.9819309Z ../example/single_file.c:198:51: warning: unused parameter 'ino' [-Wunused-parameter]
-2026-03-17T23:01:17.9820276Z   198 | void single_file_statx(fuse_req_t req, fuse_ino_t ino, int flags, int mask,
-2026-03-17T23:01:17.9821012Z       |                                                   ^
-2026-03-17T23:01:17.9821785Z ../example/single_file.c:198:60: warning: unused parameter 'flags' [-Wunused-parameter]
-2026-03-17T23:01:17.9823239Z   198 | void single_file_statx(fuse_req_t req, fuse_ino_t ino, int flags, int mask,
-2026-03-17T23:01:17.9824029Z       |                                                            ^
-2026-03-17T23:01:17.9824978Z ../example/single_file.c:198:71: warning: unused parameter 'mask' [-Wunused-parameter]
-2026-03-17T23:01:17.9829337Z   198 | void single_file_statx(fuse_req_t req, fuse_ino_t ino, int flags, int mask,
-2026-03-17T23:01:17.9830366Z       |                                                                       ^
-2026-03-17T23:01:17.9832001Z ../example/single_file.c:199:33: warning: unused parameter 'fi' [-Wunused-parameter]
-2026-03-17T23:01:17.9833062Z   199 |                        struct fuse_file_info *fi)
-2026-03-17T23:01:17.9833562Z       |                                               ^
-2026-03-17T23:01:17.9834825Z ../example/single_file.c:211:2: warning: call to undeclared function 'pthread_mutex_lock'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-2026-03-17T23:01:17.9836166Z   211 |         pthread_mutex_lock(&single_file.lock);
-2026-03-17T23:01:17.9836592Z       |         ^
-2026-03-17T23:01:17.9837750Z ../example/single_file.c:226:2: warning: call to undeclared function 'pthread_mutex_unlock'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-2026-03-17T23:01:17.9869585Z   226 |         pthread_mutex_unlock(&single_file.lock);
-2026-03-17T23:01:17.9870081Z       |         ^
-2026-03-17T23:01:17.9871240Z ../example/single_file.c:239:2: warning: call to undeclared function 'pthread_mutex_lock'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-2026-03-17T23:01:17.9872595Z   239 |         pthread_mutex_lock(&single_file.lock);
-2026-03-17T23:01:17.9873056Z       |         ^
-2026-03-17T23:01:17.9874265Z ../example/single_file.c:241:2: warning: call to undeclared function 'pthread_mutex_unlock'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-2026-03-17T23:01:17.9876020Z   241 |         pthread_mutex_unlock(&single_file.lock);
-2026-03-17T23:01:17.9876497Z       |         ^
-2026-03-17T23:01:17.9877854Z ../example/single_file.c:252:2: warning: call to undeclared function 'pthread_mutex_lock'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-2026-03-17T23:01:17.9879416Z   252 |         pthread_mutex_lock(&single_file.lock);
-2026-03-17T23:01:17.9879896Z       |         ^
-2026-03-17T23:01:17.9881050Z ../example/single_file.c:259:2: warning: call to undeclared function 'pthread_mutex_unlock'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-2026-03-17T23:01:17.9882409Z   259 |         pthread_mutex_unlock(&single_file.lock);
-2026-03-17T23:01:17.9882862Z       |         ^
-2026-03-17T23:01:17.9884018Z ../example/single_file.c:273:2: warning: call to undeclared function 'pthread_mutex_lock'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-2026-03-17T23:01:17.9885354Z   273 |         pthread_mutex_lock(&single_file.lock);
-2026-03-17T23:01:18.0387503Z       |         ^
-2026-03-17T23:01:18.0402115Z ../example/single_file.c:275:2: warning: call to undeclared function 'pthread_mutex_unlock'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-2026-03-17T23:01:18.0403861Z   275 |         pthread_mutex_unlock(&single_file.lock);
-2026-03-17T23:01:18.0404573Z       |         ^
-2026-03-17T23:01:18.0404979Z 12 warnings and 1 error generated.
+PID 121 (kworker/u64:2+flush-0:51):
+[<0>] request_wait_answer+0x215/0x560 [fuse]
+[<0>] __fuse_simple_request+0x341/0xc80 [fuse]
+[<0>] fuse_flush_times+0x2ff/0x410 [fuse]
+[<0>] fuse_write_inode+0x93/0x100 [fuse]
+[<0>] __writeback_single_inode+0x5e1/0x930
+[<0>] writeback_sb_inodes+0x53e/0xe40
+[<0>] __writeback_inodes_wb+0xb7/0x200
+[<0>] wb_writeback+0x571/0x790
+[<0>] wb_workfn+0x73a/0xb90
+[<0>] process_one_work+0x656/0x1150
+[<0>] worker_thread+0x5de/0xcb0
+[<0>] kthread+0x34d/0x450
+[<0>] ret_from_fork+0x3ca/0x640
+[<0>] ret_from_fork_asm+0x1a/0x30
 
+In the kernel suspend code though, the sync (pm_sleep_fs_sync())
+happens before freezing any userspace processes
+(suspend_freeze_processes()) so it's odd for the fuse daemon to be
+stuck.
 
-And actually, the Ubuntu build also fails
+It turns out the daemon is stuck because systemd freezes the user
+session cgroups first before invoking the kernel suspend:
 
-[12/109] Compiling C object lib/libfuse3.so.3.19.0.p/fuse_service.c.o
-FAILED: [code=1] lib/libfuse3.so.3.19.0.p/fuse_service.c.o 
-clang -Ilib/libfuse3.so.3.19.0.p -Ilib -I../../../home/runner/work/libfuse/libfuse/lib -Iinclude -I../../../home/runner/work/libfuse/libfuse/include -I. -I../../../home/runner/work/libfuse/libfuse -fdiagnostics-color=always -fsanitize=address,undefined -fno-omit-frame-pointer -Wall -Winvalid-pch -Wextra -Werror -std=gnu11 -O2 -g -D_REENTRANT -DHAVE_LIBFUSE_PRIVATE_CONFIG_H -Wno-sign-compare -D_FILE_OFFSET_BITS=64 -Wstrict-prototypes -Wmissing-declarations -Wwrite-strings -fno-strict-aliasing -fPIC -pthread -DFUSE_USE_VERSION=317 '-DFUSERMOUNT_DIR="/tmp/libfuse-install-wwy0ckA/bin"' -MD -MQ lib/libfuse3.so.3.19.0.p/fuse_service.c.o -MF lib/libfuse3.so.3.19.0.p/fuse_service.c.o.d -o lib/libfuse3.so.3.19.0.p/fuse_service.c.o -c ../../../home/runner/work/libfuse/libfuse/lib/fuse_service.c
-../../../home/runner/work/libfuse/libfuse/lib/fuse_service.c:400:19: error: implicit truncation from 'int' to a one-bit wide bit-field changes value from 1 to -1 [-Werror,-Wsingle-bit-bitfield-constant-conversion]
-  400 |                 sf->allow_other = 1;
-      |                                 ^ ~
-../../../home/runner/work/libfuse/libfuse/lib/fuse_service.c:473:21: error: implicit truncation from 'int' to a one-bit wide bit-field changes value from 1 to -1 [-Werror,-Wsingle-bit-bitfield-constant-conversion]
-  473 |         sf->owns_fusedevfd = 1;
-      |                            ^ ~
-2 errors generated.
-[13/109] Compiling C object lib/libfuse3.so.3.19.0.p/modules_subdir.c.o
+> ps aux | grep -i "fuse-overlayfs"
+vmuser       826  0.0  0.0  12316  2616 ?        Ss   15:02   0:00
+fuse-overlayfs -o ...
 
-Checkpatch looks much better, I can push a patch tomorrow to disable the
-strcpy warning. 
+> cgroup=3D$(cat /proc/826/cgroup | head -1 | cut -d: -f3)
+> echo "cgroup: $cgroup"
+> cat /sys/fs/cgroup${cgroup}/cgroup.freeze 2>/dev/null || echo "No cgroup =
+freeze file"
+> cat /sys/fs/cgroup${cgroup}/cgroup.events 2>/dev/null | grep frozen
+cgroup: /user.slice/user-1001.slice/session-3.scope
+1
+frozen 1
 
-Other than that I didn't look at the actual changes yet, will really try
-to review this week.
+Even though the root cause is the cgroup freezer rather than the
+folio_prepare_writeback() scenario, the fix proposed previously is
+still the fix for this.
 
 Thanks,
-Bernd
+Joanne
+
+>
+> Could you verify if this fixes the issue?:
+>
+> diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
+> index 8f8069fb76ba..4cbb22d80acf 100644
+> --- a/fs/fs-writeback.c
+> +++ b/fs/fs-writeback.c
+> @@ -1990,9 +1990,13 @@ static long writeback_sb_inodes(struct super_block=
+ *sb,
+>                  * Don't bother with new inodes or inodes being freed, fi=
+rst
+>                  * kind does not need periodic writeout yet, and for the =
+latter
+>                  * kind writeout is handled by the freer.
+> +                *
+> +                * For sync(2), skip inodes whose mappings have no data
+> +                * integrity guarantees (eg FUSE).
+>                  */
+>                 spin_lock(&inode->i_lock);
+> -               if (inode_state_read(inode) & (I_NEW | I_FREEING |
+> I_WILL_FREE)) {
+> +               if ((inode_state_read(inode) & (I_NEW | I_FREEING |
+> I_WILL_FREE)) ||
+> +                   (wbc.for_sync &&
+> mapping_no_data_integrity(inode->i_mapping))) {
+>                         redirty_tail_locked(inode, wb);
+>                         spin_unlock(&inode->i_lock);
+>                         continue;
+>
+> I think the changes from commit f9a49aa302a0 ("fs/writeback: skip
+> AS_NO_DATA_INTEGRITY mappings in wait_sb_inodes()") are still needed
+> even with the above patch since afaics, the writeback we wait on could
+> have been from a previous background/periodic writeback run before
+> sync was triggered.
+>
+> Thanks,
+> Joanne
+>
+> >
+> > Note: prior to commit 0c58a97f919c, sync() on FUSE filesystems was effe=
+ctively a no-op, which avoided this hang at the cost of correctness. The re=
+gression was introduced when that commit made sync() actually wait on FUSE =
+writeback completion.
+> >
+> > I am using Arch Linux but users of Fedora F43 and Debian testing are hi=
+tting this bug also. See refs below.
+> >
+> > References:
+> > 1. fuse-overlayfs upstream issue: https://github.com/containers/fuse-ov=
+erlayfs/issues/386
+> > 2. profile-sync-daemon issue: https://github.com/graysky2/profile-sync-=
+daemon/issues/411
+> > 3. Debian bug #1120058: https://bugs.debian.org/1120058
