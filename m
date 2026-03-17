@@ -1,117 +1,166 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E0A339A7F6;
-	Tue, 17 Mar 2026 08:28:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52E362F7AAB
+	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 08:31:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773736084; cv=none; b=J7WLuVn+KALB4slj6QignPR+hKVyx8tRfscYdkGx9NvdEWpx9WkIpbQK8t/8wgbZ3jtVILVog4pjlJslVy63Uqwau/GWPnxF95wvbxBrqO4ilJalut5ka5WNuQVf2kyTFndXiU0/dBPl3baa7R6qHk2Q8w0rffqcthQuVwvCOMA=
+	t=1773736283; cv=none; b=MqL4BWD5dvAx3HfwBa/vrfbtQ5OFSU1SM1uB5TQZoaHlmXwFh6sApKpebxF7cv4U6qUEEFHPsO+3HawpYd5fdZ9zMaN8cExzn+xIp7A1Sw8MgUtHFAmnwScyHTL5gQ4iK7rAZBZKlp70ZWfVAPJ1lO3FOO429DAxk99thU/SGJE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773736084; c=relaxed/simple;
-	bh=s0mX9OKppXx1MLSUtDAxDsL4gxQjgUId5GHLf/L4xgY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BFSmZQ3m2e0jG3zqYuawnpFLD2nRr9V4nN2vRPCXN5JLkL1YCF1vUxIq709EdCs1MlwyWFJFuqL3Puh9ljAx0SHqrok1x+u7FkVTiv8J0lyGRN2Pn3Fm7/wMUwOE4FFcDSFSSQj+zn/CQBfJLAvpUTR2l9n/Jm2OUrAyeRhQ0nE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=refhG2sJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773736283; c=relaxed/simple;
+	bh=Tk1+CNW1WvAd8xUt5sogC/zaEnFGixvU0EvVAN2F0Lg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CrAjt6BG108uvclvw+I4kcLPWDecGlUWwDOaZD1A52ZQNViEoYm1sCNUVG54R/Sg9hth6RRvoqXjtxExDtNqxOGNnQn2QVJcXlgQZT+WHaIQeLb5kzI0p2P5iqj4mp1vS2raxTA7LRT/KZ5y6E6ca+qyP/NQtX8kFDocpmaC3Dc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=cIiwWkXN; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=/VDI3U1X; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=cIiwWkXN; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=/VDI3U1X; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="refhG2sJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02901C2BCAF;
-	Tue, 17 Mar 2026 08:27:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773736084;
-	bh=s0mX9OKppXx1MLSUtDAxDsL4gxQjgUId5GHLf/L4xgY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=refhG2sJmhwyQ8hGpRC+QL1PYk1IlsUWSLDzCbKXhBNy3vu9wXDg2OMVRA0idpXAi
-	 VY1102lBfwFuRL0DVDD/JzAR5AtBJh/1g1aPrlcRiZFF+RhjlGt6ea4xVTN02yttqL
-	 ySZwGu/UDFHhj1wp1Bxp0+Vd4JK3JnIKlGvA7KUL3Ooeig/IiKZthfRjqUPgeO9dxG
-	 6uRr5JHC1mtM/v3HG3P2LBkYL//Q0GuSDFU/ao9tO2/BFMM4n2P6PRmP+KDOWbUetL
-	 KVpv12l0GK1Mp8z0t0za/6thV/yw9NLzN9gwI9Ad6NZiVqJt5MG3WzbWvebj8jCz8X
-	 AoKy3tdmbdy4g==
-Message-ID: <ed50e523-8834-4a35-8e54-06f3db89e7ee@kernel.org>
-Date: Tue, 17 Mar 2026 09:27:57 +0100
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="cIiwWkXN";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="/VDI3U1X";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="cIiwWkXN";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="/VDI3U1X"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 90C104D250;
+	Tue, 17 Mar 2026 08:31:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1773736280; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=T/HaoeaocrOEUc2/ZAvTarHcpoSwLFGVmTyYJ5Xh5Is=;
+	b=cIiwWkXNZ8d+9yxBfcEJmuOFkIBRT6CB5koOCHWJ6I75Z2aWlxGMam6gATcWJQLuX7dEav
+	RFljt6lR9xK+SgRDyNHhKWDPtgv2aA4WNMdYPv8S9xOo/Jo/NBz3y+PqV4WsH3NtxH975W
+	Jte4lJxi3cbgUu2Mwn8vn9cUJ4AzVSY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1773736280;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=T/HaoeaocrOEUc2/ZAvTarHcpoSwLFGVmTyYJ5Xh5Is=;
+	b=/VDI3U1XTINsItftReo0PQ+I+uJcDRAkwTMEabIsAGKHyGges7zbT+TkywWr9f6easZVyr
+	3OugwPs9zdTAJHDQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=cIiwWkXN;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b="/VDI3U1X"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1773736280; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=T/HaoeaocrOEUc2/ZAvTarHcpoSwLFGVmTyYJ5Xh5Is=;
+	b=cIiwWkXNZ8d+9yxBfcEJmuOFkIBRT6CB5koOCHWJ6I75Z2aWlxGMam6gATcWJQLuX7dEav
+	RFljt6lR9xK+SgRDyNHhKWDPtgv2aA4WNMdYPv8S9xOo/Jo/NBz3y+PqV4WsH3NtxH975W
+	Jte4lJxi3cbgUu2Mwn8vn9cUJ4AzVSY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1773736280;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=T/HaoeaocrOEUc2/ZAvTarHcpoSwLFGVmTyYJ5Xh5Is=;
+	b=/VDI3U1XTINsItftReo0PQ+I+uJcDRAkwTMEabIsAGKHyGges7zbT+TkywWr9f6easZVyr
+	3OugwPs9zdTAJHDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 874414273B;
+	Tue, 17 Mar 2026 08:31:20 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id D8L9IFgRuWnNagAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 17 Mar 2026 08:31:20 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 4C516A0A5B; Tue, 17 Mar 2026 09:31:20 +0100 (CET)
+Date: Tue, 17 Mar 2026 09:31:20 +0100
+From: Jan Kara <jack@suse.cz>
+To: Jori Koolstra <jkoolstra@xs4all.nl>
+Cc: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Christian Brauner <brauner@kernel.org>, 
+	Al Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>
+Subject: Re: VFS minor improvements policy
+Message-ID: <pjfdjimwb3br5wtut4a5q4xdys2mgf2d3hkajvinyphhoziaum@u55pnnlrfmgz>
+References: <1046306323.1691628.1773494663411@kpc.webmail.kpnmail.nl>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH] mm: filemap: fix nr_pages calculation overflow in
- filemap_map_pages()
-To: Baolin Wang <baolin.wang@linux.alibaba.com>, akpm@linux-foundation.org,
- willy@infradead.org
-Cc: lorenzo.stoakes@oracle.com, kas@kernel.org, p.raghav@samsung.com,
- mcgrof@kernel.org, dhowells@redhat.com, djwong@kernel.org, hare@suse.de,
- da.gomez@samsung.com, dchinner@redhat.com, brauner@kernel.org,
- xiangzao@linux.alibaba.com, linux-fsdevel@vger.kernel.org,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org
-References: <066dd2e947ccc1c304b54e847fbe628dccea1d7c.1773370126.git.baolin.wang@linux.alibaba.com>
- <a5625929-736b-4ddc-a8e3-30e3aa54df12@kernel.org>
- <23953888-15d6-4cef-af8c-be15ed6d6e20@linux.alibaba.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <23953888-15d6-4cef-af8c-be15ed6d6e20@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1046306323.1691628.1773494663411@kpc.webmail.kpnmail.nl>
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_TO(0.00)[xs4all.nl];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FREEMAIL_ENVRCPT(0.00)[xs4all.nl];
+	RCVD_TLS_LAST(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:32098, ipnet:2800::/6, country:US];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Queue-Id: 90C104D250
+X-Spam-Flag: NO
+X-Spam-Score: -4.01
+X-Spam-Level: 
 
+Hi!
 
->> LGTM. I do wonder if we want to add a comment above the file_end,
->> stating that this really must happen before the next_uptodate_folio()
->> to handle concurrent truncation.
+On Sat 14-03-26 14:24:23, Jori Koolstra wrote:
+> I submitted a patch a few days ago about fixing the docstring of
+> hash_name().  This is not a reminder of that patch, but today I came
+> across something else in the VFS code, while trying to implement a
+> mkdirat_fd syscall, that I thought might be slightly improved. We have
+> this anonymous enum:
 > 
-> Ack. How about adding the following comments?
+>    enum {LAST_NORM, LAST_ROOT, LAST_DOT, LAST_DOTDOT};
 > 
-> "
-> Recalculate end_pgoff based on file_end before calling
-> next_uptodate_folio() to avoid races with concurrent truncation.
-> "
+> but it is also used as an out parameter in filename_parentat() through
+> int *type.  Now you have to look up what this int might hold, so I wonder
+> should this struct not have an explicit type that filename_parentat()
+> uses?
 
-Works for me, thanks!
+I guess this is a bit matter of personal preference. I personally would
+prefer explicitely named enum in this case and use it where appropriate but
+Al? apparently preferred brewity and used 'int' everywhere. The borderline
+between "useless typedefs" and "documentation by types" is blurry. I'd say
+trying to "fix" this would do more harm than good.
 
+> However, my question is really this: what is the stance of vfs
+> maintainers/reviewer for submitting these kind of patches? While going
+> through the code in more depth I've noticed wrong/unhelpful docstrings
+> here and there, and other minor "issues". Now, Greg KH has taught me to
+> be really conservative with what counts as an improvement, for instance
+> to not sneak-in white-space fixes in a patch.
+
+If the documentation / comment is pointless or even wrong, that's
+definitely worth a fix. They are just not treated with particularly high
+priority but they are definitely needed.
+
+								Honza
 -- 
-Cheers,
-
-David
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
