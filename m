@@ -1,93 +1,112 @@
-Received: from mail-43166.protonmail.ch (mail-43166.protonmail.ch [185.70.43.166])
+Received: from pdx-out-010.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-010.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.12.53.23])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA58E346AE8
-	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 21:08:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.166
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20F1838F633;
+	Tue, 17 Mar 2026 21:14:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.12.53.23
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773781692; cv=none; b=KyCNHf5AdWqa9EIf8c4QHHQRt17/nsX3Ugy9ybT7gN9bZwFBlu9DXAWyxEmEhba34jLJE9PKNziG9D/CmwugfIVg0EWWOoDXlvEy0nWC32WURi4O8QDI6gWjrggbmorSJXQQVhoSS5YfCvxHGECFSozkhu0uCZrNqWj0g9jGBcU=
+	t=1773782077; cv=none; b=cqmgXmjjoOz4qZwMw8aUfmtjA1Z9OCecBGIqtlwKc5pTCmNvYNR6vLvcsy03qUKC4ULYylDPYW3xFHR1X+70EUq1kHCzJcoLfq+7j9oVBMHe5LQadU09dUw4dX4Nu6RxXpfHAvLoEnU3nJhLLgaxoSPqWlrV4F9Gp9U6NeCprfY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773781692; c=relaxed/simple;
-	bh=C+gelvui8tS6NgId1lN9v0z409E73+KSYs7+924HiSw=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lumef7JyX29qKWR26EN6M5q1Mvn7mm93nWyELy12N6dpai9CISGQB64MTU/ZC4ng33E7eq9uiufz4WeFpmBWdijY9lHbRGWhRg7QRZ5jV28ljk2jpR9KOqpKBztSh7Jr68xb9T9dFlaU+9HBRzCbwMIykIGxW5AHpMtlchE76Q4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=bOiKwns+; arc=none smtp.client-ip=185.70.43.166
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
+	s=arc-20240116; t=1773782077; c=relaxed/simple;
+	bh=KT1d0AZjgEJbzucV2O/0YkUnXeV2gqoESgotqt8FeXo=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eTeUjl9tBWoyos83G09B9QfwBXz+E2TTz9xUxvcHkrBlW2NzujS49DqfH3RKIn596teoSeuM9dMJFhR7rnmw21TW3M1a0SxUxUn3ykCF70AXAbP0qtHl/dHwyGTn98yjvMXa6TXLIZSM88X6cdvd0vwbxtgA26O9eHAqB4XSy1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=CAxYt9+Q; arc=none smtp.client-ip=52.12.53.23
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="bOiKwns+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1773781680; x=1774040880;
-	bh=qL3Ak0cjUbmr5NpdF+OY/TgCOnf5ReTk1JMAKG4ogeo=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=bOiKwns+lP87F3x3Xnkq2yXAdcR43bEGXDfq5zt/aE+Gwy9KlUTxrchPFsZ0N2Zbv
-	 bBwr7RamSMqCATK+xNgE8LI8FpIkmEKhT9s6rdNX4FDyZaPZgdIJBgPFH9wc52t/i2
-	 WKhrvxVN5Z/Pd/UY2MQrOPAvjyXnGED1B8oCMbLRUJemWHFBtncalum8+ZkcxCqQee
-	 yi4Qo6qJkPSd8lsbN1+K7N3455GrHvrGe6LFY5yuXIevfCEcGJ4rfmrX66i1RnfLLj
-	 vXuoVyv/HaAr4+j6r82cRqeoB53moD92MQsoJMURTD/jXPRuvJ1udaE/YPqxUSlRcj
-	 QbnpFAXYeUuMA==
-Date: Tue, 17 Mar 2026 21:07:55 +0000
-To: Joanne Koong <joannelkoong@gmail.com>
-From: John <therealgraysky@proton.me>
-Cc: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "linux-fuse@lists.sourceforge.net" <linux-fuse@lists.sourceforge.net>, "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, Jan Kara <jack@suse.cz>
-Subject: Re: [BUG] fuse: wb_wait_for_completion hang on suspend with fuse-overlayfs on tmpfs persists in 6.19.6 (AS_NO_DATA_INTEGRITY fix incomplete)
-Message-ID: <Oh3QG6NmrGxixfRZmAUnkDb0ukAG1ro7XFSVCJVWYdyTqG4ddxHjQsfhBurktEbG5vJ97FA58bDMAuBsQzVlN8Tq-M4LUck18F0D0nVCsXg=@proton.me>
-In-Reply-To: <CAJnrk1YAhWnOt-7yr9gDmHdjANiC74-fC5mKsePC6wFTzwPjUw@mail.gmail.com>
-References: <Utw_Cjiuq0_XhCoA5EXpzLE9qfRpiA0-fmXEmui7NnBnIeMiCDGOyXWPtE5DkxVNYNSsgiUotB7fsGYnlMQn1xDCx14yx1d0UJqx62vAwp4=@proton.me> <CAJnrk1YAhWnOt-7yr9gDmHdjANiC74-fC5mKsePC6wFTzwPjUw@mail.gmail.com>
-Feedback-ID: 47473199:user:proton
-X-Pm-Message-ID: 0da1302077d0f203d6100d9b6d5a65f1b4bf4cd3
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="CAxYt9+Q"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1773782076; x=1805318076;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qFp2oMVJDtMMkCTUqe7bU8d4XmmqNyytww9abTI2MGA=;
+  b=CAxYt9+QEnkXb8KL0zbfm36hIiqfsUBpViiRS3KDbRA9R8/GXc/XwLrx
+   sVbMcOHAz71Vu1XkfoCodxu4myuaq3HID9mXkWuY/fC8m2SgkS+1ORahM
+   GjJBq+yfuDykesrEeffvDOAR9Pyw1OXtHUhBfzoGm++iZeR5wYfutn0j4
+   Hm+lOW+pMLM5LQmBVMT+brt0SHejds73co6BuutshjVhQxjrQRLArqtLO
+   0rz5DTsg9lkhCPePgfs7jnEIt1pp/4PRwqtCfThI26m6g1VCl8IeYi1p3
+   dQhFvxze117BpcNju2rYbxVclZwE+fIpC9nrOUqYd1rU2ch5De9fUODfp
+   w==;
+X-CSE-ConnectionGUID: xsg/Kp/OQ+eeifqOuf0QVA==
+X-CSE-MsgGUID: CQ3RG4M+Qdeh07oWnMNaSA==
+X-IronPort-AV: E=Sophos;i="6.23,126,1770595200"; 
+   d="scan'208";a="15115604"
+Received: from ip-10-5-9-48.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.9.48])
+  by internal-pdx-out-010.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 21:14:32 +0000
+Received: from EX19MTAUWB001.ant.amazon.com [205.251.233.51:15105]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.2.226:2525] with esmtp (Farcaster)
+ id eb4eb0b5-f5c8-45e2-8f4b-153efd7dd4e4; Tue, 17 Mar 2026 21:14:32 +0000 (UTC)
+X-Farcaster-Flow-ID: eb4eb0b5-f5c8-45e2-8f4b-153efd7dd4e4
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWB001.ant.amazon.com (10.250.64.248) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37;
+ Tue, 17 Mar 2026 21:14:31 +0000
+Received: from c889f3b07a0a (10.106.82.15) by EX19D001UWA001.ant.amazon.com
+ (10.13.138.214) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37; Tue, 17 Mar 2026
+ 21:14:29 +0000
+Date: Tue, 17 Mar 2026 21:14:26 +0000
+From: Yuto Ohnuki <ytohnuki@amazon.com>
+To: Christian Brauner <brauner@kernel.org>
+CC: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	<linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<syzbot+c0fd9ea308d049c4e0b9@syzkaller.appspotmail.com>,
+	<stable@vger.kernel.org>
+Subject: Re: [PATCH] fs: fix use-after-free in peer group traversal during
+ mount release
+Message-ID: <abnEMhJgM3LxEuKM@c889f3b07a0a>
+References: <20260314184421.47303-2-ytohnuki@amazon.com>
+ <20260317-flugtauglich-zieht-fbf41690387a@brauner>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20260317-flugtauglich-zieht-fbf41690387a@brauner>
+X-ClientProxiedBy: EX19D046UWB003.ant.amazon.com (10.13.139.174) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
+
+On Tue, Mar 17, 2026 at 04:24:32PM +0100, Christian Brauner wrote:
+> The last time this reproduced upstream was on:
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/log/?id=6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
+> 
+> which is v7.0-rc1. At which point the question should be "why?" :)
+> 
+> Fixed by: a41dbf5e004e ("mount: hold namespace_sem across copy in create_new_namespace()")
+> 
+> In any case, thanks for the proposed fix but it is already fixed
+> upstream and the fix you suggested indicates another bug that is the
+> real cause.
+
+Thanks for the review and explanation. I should have checked why the
+reproducer stopped firing on current HEAD before sending the patch -
+lesson learned. I was testing with a custom reproducer that called
+clone_mnt() directly from a module, which bypassed the actual
+create_new_namespace() code path and masked the fact that the real
+bug was already fixed.
+
+I see now that the real issue was the namespace_sem drop-and-reacquire
+race in create_new_namespace(), not a missing cleanup in
+mntput_no_expire_slowpath(). a41dbf5e004e properly fixes the root
+cause by holding namespace_sem across the copy.
+
+Please disregard this patch.
+
+Thanks again,
+Yuto
 
 
-On Monday, March 16th, 2026 at 8:16 PM, Joanne Koong wrote:
 
-> Could you verify if this fixes the issue?:
->
-> diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
-> index 8f8069fb76ba..4cbb22d80acf 100644
-> --- a/fs/fs-writeback.c
-> +++ b/fs/fs-writeback.c
-> @@ -1990,9 +1990,13 @@ static long writeback_sb_inodes(struct super_block=
- *sb,
->                  * Don't bother with new inodes or inodes being freed, fi=
-rst
->                  * kind does not need periodic writeout yet, and for the =
-latter
->                  * kind writeout is handled by the freer.
-> +                *
-> +                * For sync(2), skip inodes whose mappings have no data
-> +                * integrity guarantees (eg FUSE).
->                  */
->                 spin_lock(&inode->i_lock);
-> -               if (inode_state_read(inode) & (I_NEW | I_FREEING |
-> I_WILL_FREE)) {
-> +               if ((inode_state_read(inode) & (I_NEW | I_FREEING |
-> I_WILL_FREE)) ||
-> +                   (wbc.for_sync &&
-> mapping_no_data_integrity(inode->i_mapping))) {
->                         redirty_tail_locked(inode, wb);
->                         spin_unlock(&inode->i_lock);
->                         continue;
->
-> I think the changes from commit f9a49aa302a0 ("fs/writeback: skip
-> AS_NO_DATA_INTEGRITY mappings in wait_sb_inodes()") are still needed
-> even with the above patch since afaics, the writeback we wait on could
-> have been from a previous background/periodic writeback run before
-> sync was triggered.
 
-Yes, it does! Amazing!
+Amazon Web Services EMEA SARL, 38 avenue John F. Kennedy, L-1855 Luxembourg, R.C.S. Luxembourg B186284
 
-I applied it to 6.19.8, upon rebooting and following the steps I outlined a=
-bove I was able suspend and wake up three consecutive times.
+Amazon Web Services EMEA SARL, Irish Branch, One Burlington Plaza, Burlington Road, Dublin 4, Ireland, branch registration number 908705
 
-Is this something you plan to submit/backport to the stable kernels series?
+
 
