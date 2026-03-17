@@ -1,280 +1,238 @@
-Received: from fout-a4-smtp.messagingengine.com (fout-a4-smtp.messagingengine.com [103.168.172.147])
+Received: from fhigh-b4-smtp.messagingengine.com (fhigh-b4-smtp.messagingengine.com [202.12.124.155])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B3A8385521;
-	Tue, 17 Mar 2026 22:47:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AEF13A641E
+	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 22:51:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773787633; cv=none; b=h6pXJ71hKNm6qLtfnVbGKGHkRbtofCtaNWXOKZQWSTNoT1NigNSzqEjM++VxkvZjEJ9hR72eoG4saiRfqJkWM1gVi+cPgl7LAA7vqXmVtcZatc6gK+QyyiumSNOZMAfNFB7DMc4ID188q+WWCEswlYwFMrAGO9stHFQTpj8whIQ=
+	t=1773787867; cv=none; b=gka+ir0JrtKa4AIPKbsFyCGb5DkrW+BrKg+lKnp4pr43L7XsqvXXPVeTvnJyTefT6pbYIGl7dRY/++plCFIE4xF3pHB7qffmP6S31LADTHH6Ai/ecU85eN0PvWOYdmitQDXX1eQ3BjmxAc0PnoNRryJYl2UErGBzALarg2xvi4g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773787633; c=relaxed/simple;
-	bh=7uCrkEfVh3jKSyeXWT2eqN5YUBCGRWEAwVdTHM4SBw0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ip+aycmjGYuwciJkm/9d/p5SDRXMXB87ctXNzcSzjmf6WiAO0fN/7i1bmRnXYno5gfcZ62kaEEdvttGlEIvJFOdaxBLjwuRyqywIKMt/s46KhVotjRW5Ind8I9j/hQti4VFm+Q6iVWVTCMObWp7Kk9++OBlf8B6n1KCL2vJ7xi4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=a3OqhTVV; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=NCVLtQor; arc=none smtp.client-ip=103.168.172.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	s=arc-20240116; t=1773787867; c=relaxed/simple;
+	bh=BnUDDmqGGn2hwtUxNqvEt+DKimT6gBrLrSsTTboPfFQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=O6UQbJA3BOp8Ot+dwI2+lCHf6ezLwRmZQ/SvsqqXivOJlSXN3iMMLfiHbyF055wHdFwDtH9HSA9w56fsdEQlZoFPJHEDjIQTfzxOyag0mWxwGYgI0AFuMe2SjsX29afbxBd90jn+4A195AscFnfF4xCyZpzyef179aC4KZnmj/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=XWcTCPAa; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=wlGzk47q; arc=none smtp.client-ip=202.12.124.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="a3OqhTVV";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="NCVLtQor"
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfout.phl.internal (Postfix) with ESMTP id C7FD9EC0110;
-	Tue, 17 Mar 2026 18:47:11 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-01.internal (MEProxy); Tue, 17 Mar 2026 18:47:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:reply-to:subject:subject:to:to; s=fm1; t=1773787631;
-	 x=1773874031; bh=M08o3yrYCfIMK1eXLxlmu6lq3fEzkhTY/ywOT6g4Fa8=; b=
-	a3OqhTVVjWK75EKRKycU2XK+Raij9gLz7KtFstAWJfq/EUHI/2jBHbUnKTLxRVXz
-	eCG28ctb5up/AwJyfk3G35e4CFBLs5bEkxxPPXOk4JtJtAP2se3rbSGYuST5eY0Q
-	xTCZEVcSd3z6po1NRzFFViF+LPfjemuIfIR/eVeBFIjkiJ+xL+TcdSxryk83mqsB
-	uW0YcWO7VnvbkYHH12JEi7c4O4iZE/sYQKN9PErWZLVzHWiHoCp9BPkXVR2uQZSH
-	qnc2SEBmsWQmwMPHyA0aIL7Ze5nOEs/jhv/4xrNF9Q2dB3m1nKEcW10DlNFd5WHu
-	Qg9plmLSCSrt1n4zcywPXQ==
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="XWcTCPAa";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="wlGzk47q"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 648877A0208;
+	Tue, 17 Mar 2026 18:51:04 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-04.internal (MEProxy); Tue, 17 Mar 2026 18:51:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:content-transfer-encoding:content-type:content-type:date:date
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1773787864;
+	 x=1773874264; bh=bKNPcFKUw9x/JByIT0IEWvD4lcRGFjxlYu359ctEDk0=; b=
+	XWcTCPAayWUbrPNh32XsevBAZFGfqrK9v4PvrePkH8VnpKjkKWSx0cZF3aDxvNOI
+	x5eD7LyvhV74JhI+0L+/mxgFWWVdCW2LWY/qfpnF5NyOmmzagPhLpWP0dfvKnxI2
+	/SoiGedY0shncectdvEsxqQoAoJAdMjhz6DKtFCsykYXW4pdhO2Oz6m6qtag/9aA
+	7ASQb1hufZj0YegFNGv80V+uT+vXTrNFkNVlPAW+1IN7yUjlY2tqLTS5M8M7BLs1
+	Zbj+jqbRLkcfMlh4tL5ja9m5AkrDtxl2OPuf16ieYHxLT/KmGCteHEEuZUT6tlYn
+	Ly67Ii+j+RQxaaJHHARy1A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
+	messagingengine.com; h=cc:content-transfer-encoding:content-type
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm1; t=1773787631; x=1773874031; bh=M
-	08o3yrYCfIMK1eXLxlmu6lq3fEzkhTY/ywOT6g4Fa8=; b=NCVLtQor8Jhkjw2qF
-	3iS3eOYS1/3vBJkELIUx9Xn5aE79VCopE14YgZJ6Bwnghu6TRdBvCSg85JurV4Bc
-	VP8Fk4DMlEvTGd9XfhGOLFM+F1J8v7UCpNS/GA+NHUb5WRqVpxitukOuC8eXo/X6
-	lXN4ygC6SrQ+0vdJtxJQAtqFY72ZhQhPZxa3rLeisvv5FyuRv2AFfZFg36kkYY3w
-	mcuIUFw+IhUwqZNV3/NEOc8px/fLNcjMyF+EKGyxb+W9xUq3uxIOenNj5ZT6i456
-	e0liURClHIR0T+e9JV7hVGysSjqzFm0apcK2mr+myOi8kQocX4c0gVCNtno0bdcW
-	T+RGg==
-X-ME-Sender: <xms:79m5aar45IsdIBPa6AwkbCZaZdVKuho0z2niFaqfx9o4CLmgZVrpSg>
-    <xme:79m5aaLGP3YL3oUe_yzohOOoPAQaG1eosQLNMtuFL5h1jIVrGF4uWcj8gPnqS1ZVf
-    h8cBMo9FzZR2yPbuSPpzQRU5Idb6qP3ygoOVMX7KKZIkutiRQ>
-X-ME-Received: <xmr:79m5afTbCnQlo0mvMnEqZNoMqalltaZQATGC1uoR3iTZOAARPINwGzW_bar_tNhStWob8ow9D8YkAJLToOk4vj3qxNHj2yNNqI83l4BjR11b>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdeftddvgeelucetufdoteggodetrf
+	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
+	:x-me-sender:x-sasl-enc; s=fm1; t=1773787864; x=1773874264; bh=b
+	KNPcFKUw9x/JByIT0IEWvD4lcRGFjxlYu359ctEDk0=; b=wlGzk47qj1jReNbQo
+	vvu4tZfbxqVWU+OcyG6AsmUdVov32eYq/WgmKjE/zBNljQPbUXdhItieuHqSeqIO
+	VkNPWmWLz3ebDamdV3LU/eIT7obcomXWLn6MugIo+gdpMhqel5XxCqTbCmZFtnmI
+	wx4Zr9Vz1WbiuexZ4zxxC5DZGL7YqMv75KWK4Pu4NfkGj4mKFj4VXTCI+ICIYOqX
+	sbzODcYYBSmAwqzF+47Lqwmb21QYm01ZDNQ4ng1HobHPfJxa0+wO2ib6xuBhFCY0
+	iWPdElhHA3lYTelOW8kRgAyO4+7fCbY6GU7paJ3zXnISwLeLbcdMlcbqxezrvkqs
+	YMOVw==
+X-ME-Sender: <xms:19q5af_vBrrTtiJ-DHLR5Hx0SwaDz_KVS_Sr6LDay79Hx_BN84ipaw>
+    <xme:19q5aRvpOqqKO9JGtPoPVgJLCpRvum3jCwEAwzE4QZbTofFJeoaCNRH7CCv9j4Coz
+    SMzJmtFH6bhRsM_jPRNtpLFcYwb0FdQ6QtbrOELPhnCCwN5rA>
+X-ME-Received: <xmr:19q5aap4sOupq8aLP6vB1NxuA348cCcwLwiTDW8vW01c12sjtbTuJjLV7unu5-r78LyuyNjmRfKXFdhtCB89Q5abZBbHdpYhthwpMPjCTkIaGVZ2Mw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdeftddvhedtucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffojghfrhgggfestdekre
-    dtredttdenucfhrhhomheppfgvihhluehrohifnhcuoehnvghilhgssehofihnmhgrihhl
-    rdhnvghtqeenucggtffrrghtthgvrhhnpeevveekffduueevhfeigefhgfdukedtleekje
-    eitdejudfgueekvdekffdvfedvudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgr
-    mhepmhgrihhlfhhrohhmpehnvghilhgssehofihnmhgrihhlrdhnvghtpdhnsggprhgtph
-    htthhopeehpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehlihhnuhigqdhfshgu
-    vghvvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqvg
-    igthegsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepjhgrtghksehsuhhs
-    vgdrtgiipdhrtghpthhtohepthihthhsohesmhhithdrvgguuhdprhgtphhtthhopegrug
-    hilhhgvghrrdhkvghrnhgvlhesughilhhgvghrrdgtrg
-X-ME-Proxy: <xmx:79m5aZs4KYvEhYDCRpMSkWsNGONwMSFpQzaKYWwPTynp2iaZ3KYMwQ>
-    <xmx:79m5aQakhThwIWn1m-f4bQ3a6K296oozeUCpt9ff2q2fNQ0PnvXWuA>
-    <xmx:79m5afF7PYMM1O1eWreOOD_xreMUEjeZeDtmO12pQfw_F-09c7E6ag>
-    <xmx:79m5aUymd6ft0biO7RdFmiO2xZMHk7G0RCaUFQZ1eThxtKNtM-XWTQ>
-    <xmx:79m5aYTmZflG01SsSklgQ6DI2m7YkB5vwqei3uHX-us5ajvjL1FjbDvB>
-Feedback-ID: i9d664b8f:Fastmail
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepkfffgggfuffvfhfhjggtgfesthejredttddvjeenucfhrhhomhepuegvrhhnugcu
+    ufgthhhusggvrhhtuceosggvrhhnugessghssggvrhhnugdrtghomheqnecuggftrfgrth
+    htvghrnhepvdellefhuefghedugfefteeuffejgfethfeuleegueethfegffegueffteeh
+    geetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepsg
+    gvrhhnugessghssggvrhhnugdrtghomhdpnhgspghrtghpthhtohepvddpmhhouggvpehs
+    mhhtphhouhhtpdhrtghpthhtohepmhhsiigvrhgvughisehrvgguhhgrthdrtghomhdprh
+    gtphhtthhopehlihhnuhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:19q5aWllHrdzzJg-cfOtjmU-ZvdlQRotT7zjzeU9hfcZj-2ga3ny_w>
+    <xmx:19q5aWwBoLu9Ls3lJyThft-5b37x0VkqhX6J0rAqVhSGb_MSbkfHIA>
+    <xmx:19q5aWmOjzlWW6f84QjKjFNQ-K-dJoXJ9ktlo0D4_QoDJZcpLut4rA>
+    <xmx:19q5aXercq7FZRVwPoH3mv51vakdbZf_XXs0-nf_TT00-02kvoIN3w>
+    <xmx:2Nq5abXpplMDr53RBFeqqye259dljqhLj67X3GBacH3SzhFYMz5RefFe>
+Feedback-ID: i5c2e48a5:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 17 Mar 2026 18:47:09 -0400 (EDT)
-From: NeilBrown <neilb@ownmail.net>
-To: "Theodore Ts'o" <tytso@mit.edu>,
-	Andreas Dilger <adilger.kernel@dilger.ca>,
-	Jan Kara <jack@suse.cz>
-Cc: linux-ext4@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH 3/3] ext4: move dcache manipulation out of __ext4_link()
-Date: Wed, 18 Mar 2026 09:39:51 +1100
-Message-ID: <20260317224638.3809014-4-neilb@ownmail.net>
-X-Mailer: git-send-email 2.50.0.107.gf914562f5916.dirty
-In-Reply-To: <20260317224638.3809014-1-neilb@ownmail.net>
-References: <20260317224638.3809014-1-neilb@ownmail.net>
-Reply-To: NeilBrown <neil@brown.name>
+ 17 Mar 2026 18:51:03 -0400 (EDT)
+Message-ID: <5448457d-4687-4f33-a8f4-fe0da0a2b24a@bsbernd.com>
+Date: Tue, 17 Mar 2026 23:51:02 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 5/7] fuse: clean up device cloning
+To: Miklos Szeredi <mszeredi@redhat.com>, linux-fsdevel@vger.kernel.org
+References: <20260316165320.3245526-1-mszeredi@redhat.com>
+ <20260316165320.3245526-6-mszeredi@redhat.com>
+From: Bernd Schubert <bernd@bsbernd.com>
+Content-Language: en-US, de-DE, fr
+In-Reply-To: <20260316165320.3245526-6-mszeredi@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: NeilBrown <neil@brown.name>
 
-__ext4_link() has two callers.
 
-- ext4_link() calls it during normal handling of the link() system
-  call or similar
-- ext4_fc_replay_link_internal() calls it when replaying the journal
-  at mount time.
+On 3/16/26 17:53, Miklos Szeredi wrote:
+>  - fuse_mutex is not needed for device cloning, because fuse_dev_install()
+>    uses cmpxcg() to set fud->fc, which prevents races between clone/mount
+>    or clone/clone.  This makes the logic simpler
+> 
+>  - Drop fc->dev_count.  This is only used to check in release if the device
+>    is the last clone, but checking list_empty(&fc->devices) is equivalent
+>    after removing the released device from the list.  Removing the fuse_dev
+>    before calling fuse_abort_conn() is okay, since the processing and io
+>    lists are now empty for this device.
+> 
+> Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
+> ---
+>  fs/fuse/dev.c    | 46 ++++++++++++++++++----------------------------
+>  fs/fuse/fuse_i.h |  3 ---
+>  fs/fuse/inode.c  |  1 -
+>  3 files changed, 18 insertions(+), 32 deletions(-)
+> 
+> diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+> index 4c926c9c4f39..3d6578fcb386 100644
+> --- a/fs/fuse/dev.c
+> +++ b/fs/fuse/dev.c
+> @@ -2538,6 +2538,7 @@ int fuse_dev_release(struct inode *inode, struct file *file)
+>  		struct fuse_pqueue *fpq = &fud->pq;
+>  		LIST_HEAD(to_end);
+>  		unsigned int i;
+> +		bool last;
+>  
+>  		spin_lock(&fpq->lock);
+>  		WARN_ON(!list_empty(&fpq->io));
+> @@ -2547,14 +2548,16 @@ int fuse_dev_release(struct inode *inode, struct file *file)
+>  
+>  		fuse_dev_end_requests(&to_end);
+>  
+> +		spin_lock(&fc->lock);
+> +		list_del(&fud->entry);
+>  		/* Are we the last open device? */
+> -		if (atomic_dec_and_test(&fc->dev_count)) {
+> +		last = list_empty(&fc->devices);
+> +		spin_unlock(&fc->lock);
+> +
+> +		if (last) {
+>  			WARN_ON(fc->iq.fasync != NULL);
+>  			fuse_abort_conn(fc);
+>  		}
+> -		spin_lock(&fc->lock);
+> -		list_del(&fud->entry);
+> -		spin_unlock(&fc->lock);
+>  		fuse_conn_put(fc);
+>  	}
+>  	fuse_dev_put(fud);
+> @@ -2573,24 +2576,10 @@ static int fuse_dev_fasync(int fd, struct file *file, int on)
+>  	return fasync_helper(fd, file, on, &fud->fc->iq.fasync);
+>  }
+>  
+> -static int fuse_device_clone(struct fuse_conn *fc, struct file *new)
+> -{
+> -	struct fuse_dev *new_fud = fuse_file_to_fud(new);
+> -
+> -	if (fuse_dev_fc_get(new_fud))
+> -		return -EINVAL;
+> -
+> -	fuse_dev_install(new_fud, fc);
+> -	atomic_inc(&fc->dev_count);
+> -
+> -	return 0;
+> -}
+> -
+>  static long fuse_dev_ioctl_clone(struct file *file, __u32 __user *argp)
+>  {
+> -	int res;
+>  	int oldfd;
+> -	struct fuse_dev *fud = NULL;
+> +	struct fuse_dev *fud, *new_fud;
+>  
+>  	if (get_user(oldfd, argp))
+>  		return -EFAULT;
+> @@ -2603,17 +2592,18 @@ static long fuse_dev_ioctl_clone(struct file *file, __u32 __user *argp)
+>  	 * Check against file->f_op because CUSE
+>  	 * uses the same ioctl handler.
+>  	 */
+> -	if (fd_file(f)->f_op == file->f_op)
+> -		fud = __fuse_get_dev(fd_file(f));
 
-The former needs changes to dcache - instaniating the dentry to the
-inode on success.  The latter doesn't need or want any dcache
-manipluation.
+Let's say there is crazy daemon with
 
-So move the manipulation out of __ext4_link() and do it in ext4_link()
-only.
+thread-A tries to mount
+thread-B closes the fd during the mount
+thread-C does clone in parallel
 
-This requires:
- - passing the qname from the dentry explicitly to __ext4_link.
-   The parent dir is already passed.  The dentry is still passed
-   in the ext4_link() case purely for use by ext4_fc_track_link().
- - passing the inode separately to ext4_fc_track_link() as the
-   dentry will not be instantiated yet.
- - using __ext4_add_entry() in ext4_link, which doesn't need a dentry.
- - moving ext4_inc_count(), ihold)(, d_instantiate(), drop_nlink() and
-   iput() calls out of __ext4_link() into ext4_link().
 
-This substantially simplifies ext4_fc_replay_link_internal(), and
-removes a use of d_alloc() which, it is planned, will be removed.
 
-Signed-off-by: NeilBrown <neil@brown.name>
----
- fs/ext4/ext4.h        |  5 +++--
- fs/ext4/fast_commit.c | 32 ++++----------------------------
- fs/ext4/namei.c       | 25 ++++++++++++++-----------
- 3 files changed, 21 insertions(+), 41 deletions(-)
+> +	if (fd_file(f)->f_op != file->f_op)
+> +		return -EINVAL;
+>  
+> -	res = -EINVAL;
+> -	if (fud) {
+> -		mutex_lock(&fuse_mutex);
+> -		res = fuse_device_clone(fud->fc, file);
 
-diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
-index 293f698b7042..e757e9cf9728 100644
---- a/fs/ext4/ext4.h
-+++ b/fs/ext4/ext4.h
-@@ -2974,7 +2974,8 @@ void __ext4_fc_track_unlink(handle_t *handle, struct inode *inode,
- void __ext4_fc_track_link(handle_t *handle, struct inode *inode,
- 	struct dentry *dentry);
- void ext4_fc_track_unlink(handle_t *handle, struct dentry *dentry);
--void ext4_fc_track_link(handle_t *handle, struct dentry *dentry);
-+void ext4_fc_track_link(handle_t *handle, struct inode *inode,
-+			struct dentry *dentry);
- void __ext4_fc_track_create(handle_t *handle, struct inode *inode,
- 			    struct dentry *dentry);
- void ext4_fc_track_create(handle_t *handle, struct dentry *dentry);
-@@ -3719,7 +3720,7 @@ extern int ext4_handle_dirty_dirblock(handle_t *handle, struct inode *inode,
- extern int __ext4_unlink(struct inode *dir, const struct qstr *d_name,
- 			 struct inode *inode, struct dentry *dentry);
- extern int __ext4_link(struct inode *dir, struct inode *inode,
--		       struct dentry *dentry);
-+		       const struct qstr *d_name, struct dentry *dentry);
- 
- #define S_SHIFT 12
- static const unsigned char ext4_type_by_mode[(S_IFMT >> S_SHIFT) + 1] = {
-diff --git a/fs/ext4/fast_commit.c b/fs/ext4/fast_commit.c
-index 3ee302b73f45..175dda11f377 100644
---- a/fs/ext4/fast_commit.c
-+++ b/fs/ext4/fast_commit.c
-@@ -497,10 +497,9 @@ void __ext4_fc_track_link(handle_t *handle,
- 	trace_ext4_fc_track_link(handle, inode, dentry, ret);
- }
- 
--void ext4_fc_track_link(handle_t *handle, struct dentry *dentry)
-+void ext4_fc_track_link(handle_t *handle, struct inode *inode,
-+			struct dentry *dentry)
- {
--	struct inode *inode = d_inode(dentry);
--
- 	if (ext4_fc_eligible(inode->i_sb))
- 		__ext4_fc_track_link(handle, inode, dentry);
- }
-@@ -1431,7 +1430,6 @@ static int ext4_fc_replay_link_internal(struct super_block *sb,
- 				struct inode *inode)
- {
- 	struct inode *dir = NULL;
--	struct dentry *dentry_dir = NULL, *dentry_inode = NULL;
- 	struct qstr qstr_dname = QSTR_INIT(darg->dname, darg->dname_len);
- 	int ret = 0;
- 
-@@ -1442,21 +1440,7 @@ static int ext4_fc_replay_link_internal(struct super_block *sb,
- 		goto out;
- 	}
- 
--	dentry_dir = d_obtain_alias(dir);
--	if (IS_ERR(dentry_dir)) {
--		ext4_debug("Failed to obtain dentry");
--		dentry_dir = NULL;
--		goto out;
--	}
--
--	dentry_inode = d_alloc(dentry_dir, &qstr_dname);
--	if (!dentry_inode) {
--		ext4_debug("Inode dentry not created.");
--		ret = -ENOMEM;
--		goto out;
--	}
--
--	ret = __ext4_link(dir, inode, dentry_inode);
-+	ret = __ext4_link(dir, inode, &qstr_dname, NULL);
- 	/*
- 	 * It's possible that link already existed since data blocks
- 	 * for the dir in question got persisted before we crashed OR
-@@ -1470,16 +1454,8 @@ static int ext4_fc_replay_link_internal(struct super_block *sb,
- 
- 	ret = 0;
- out:
--	if (dentry_dir) {
--		d_drop(dentry_dir);
--		dput(dentry_dir);
--	} else if (dir) {
-+	if (dir)
- 		iput(dir);
--	}
--	if (dentry_inode) {
--		d_drop(dentry_inode);
--		dput(dentry_inode);
--	}
- 
- 	return ret;
- }
-diff --git a/fs/ext4/namei.c b/fs/ext4/namei.c
-index 768036a109d7..23942320c515 100644
---- a/fs/ext4/namei.c
-+++ b/fs/ext4/namei.c
-@@ -3452,7 +3452,8 @@ static int ext4_symlink(struct mnt_idmap *idmap, struct inode *dir,
- 	return err;
- }
- 
--int __ext4_link(struct inode *dir, struct inode *inode, struct dentry *dentry)
-+int __ext4_link(struct inode *dir, struct inode *inode,
-+		const struct qstr *d_name, struct dentry *dentry)
- {
- 	handle_t *handle;
- 	int err, retries = 0;
-@@ -3467,10 +3468,8 @@ int __ext4_link(struct inode *dir, struct inode *inode, struct dentry *dentry)
- 		ext4_handle_sync(handle);
- 
- 	inode_set_ctime_current(inode);
--	ext4_inc_count(inode);
--	ihold(inode);
- 
--	err = ext4_add_entry(handle, dentry, inode);
-+	err = __ext4_add_entry(handle, dir, d_name, inode);
- 	if (!err) {
- 		err = ext4_mark_inode_dirty(handle, inode);
- 		/* this can happen only for tmpfile being
-@@ -3478,11 +3477,8 @@ int __ext4_link(struct inode *dir, struct inode *inode, struct dentry *dentry)
- 		 */
- 		if (inode->i_nlink == 1)
- 			ext4_orphan_del(handle, inode);
--		d_instantiate(dentry, inode);
--		ext4_fc_track_link(handle, dentry);
--	} else {
--		drop_nlink(inode);
--		iput(inode);
-+		if (dentry)
-+			ext4_fc_track_link(handle, inode, dentry);
- 	}
- 	ext4_journal_stop(handle);
- 	if (err == -ENOSPC && ext4_should_retry_alloc(dir->i_sb, &retries))
-@@ -3511,9 +3507,16 @@ static int ext4_link(struct dentry *old_dentry,
- 	err = dquot_initialize(dir);
- 	if (err)
- 		return err;
--	return __ext4_link(dir, inode, dentry);
-+	ext4_inc_count(inode);
-+	err = __ext4_link(dir, inode, &dentry->d_name, dentry);
-+	if (!err) {
-+		ihold(inode);
-+		d_instantiate(dentry, inode);
-+	} else {
-+		drop_nlink(inode);
-+	}
-+	return err;
- }
--
- /*
-  * Try to find buffer head where contains the parent block.
-  * It should be the inode block if it is inlined or the 1st block
--- 
-2.50.0.107.gf914562f5916.dirty
+Won't this acceess an invalid fc?
 
+> -		mutex_unlock(&fuse_mutex);
+> -	}
+> +	fud = __fuse_get_dev(fd_file(f));
+> +	if (!fud)
+> +		return -EINVAL;
+>  
+> -	return res;
+> +	new_fud = fuse_file_to_fud(file);
+> +	if (!fuse_dev_install(new_fud, fud->fc))
+> +		return -EINVAL;
+> +
+> +	return 0;
+>  }
+>  
+>  static long fuse_dev_ioctl_backing_open(struct file *file,
+> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+> index 4a591a436324..77f1c7cf24d2 100644
+> --- a/fs/fuse/fuse_i.h
+> +++ b/fs/fuse/fuse_i.h
+> @@ -650,9 +650,6 @@ struct fuse_conn {
+>  	/** Refcount */
+>  	refcount_t count;
+>  
+> -	/** Number of fuse_dev's */
+> -	atomic_t dev_count;
+> -
+>  	/** Current epoch for up-to-date dentries */
+>  	atomic_t epoch;
+>  
+> diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+> index 314fb37f272f..7065614d02c9 100644
+> --- a/fs/fuse/inode.c
+> +++ b/fs/fuse/inode.c
+> @@ -995,7 +995,6 @@ void fuse_conn_init(struct fuse_conn *fc, struct fuse_mount *fm,
+>  	spin_lock_init(&fc->bg_lock);
+>  	init_rwsem(&fc->killsb);
+>  	refcount_set(&fc->count, 1);
+> -	atomic_set(&fc->dev_count, 1);
+>  	atomic_set(&fc->epoch, 1);
+>  	INIT_WORK(&fc->epoch_work, fuse_epoch_work);
+>  	init_waitqueue_head(&fc->blocked_waitq);
+
+
+Thanks,
+Bernd
