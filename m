@@ -1,338 +1,167 @@
-Received: from fhigh-b2-smtp.messagingengine.com (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 330AA1917FB
-	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 22:13:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.153
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773785632; cv=none; b=sNeu8gZd2ONDwWetVHWNWYCJJc8X2hDiI5DfhtinrNO0vV/Q2EXNrhJxsyE0p3oSDtVI8W1Gr+QLFFKp9m21N+N1Uk5re8im7fAUASGUUVKxHAUrTmW2EpmYdUVsATLwqkakQovsjCpy+/j6T4TgtY4Z9tfxkayjjaVkTpV5ojc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773785632; c=relaxed/simple;
-	bh=CDsjQ6YolTl4SUyfNXvcRuYPD/f1CzuZvllOmwTy2VI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=uBqlvOvzTFSxm2mO12rrbKgOhhxtWcOQhDFrEEDutDpJgylvSOK31O54Qu5j/IOkluvqr61fRJ4QWKF8gAPn9DsbvxFaRONWgh8/21776awQSR+UCsbmh63pyJTLrHnW84FYB3MKjf3MwWFpZjbo05HmKUFpCi6myTjoAn9nAR8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=UAb5Yniu; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=fi0AYlOs; arc=none smtp.client-ip=202.12.124.153
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEDEA3E5ED6
+	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 22:42:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.179
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773787370; cv=pass; b=TowqXC0gMRqHuJfILcuDgwNJPB/XXRQT7+AvrQdV1sj12TrFi5Zcq4lqw6Fr1q1TvHryu5Ckk4aidBcCyGk482S7Q8zT8B/ZFcbD3V87Y1lRYyLwimxZjvmJtFBZkb+fNbgTF9Wf8fH0ccz/AO34C2Hv7eiaFr22D/Qm4Xdb9wU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773787370; c=relaxed/simple;
+	bh=oScUuIjIjb/tZulbsi2FkIBZwopgeujtHsSn1k3PGiQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tWOmHH9/vv61V0GTtPUjdKeMLqx9SfIxy1cMXtMRCNypMIvkAdEiryhjB7KKK2pxlr233XfacTD5iTNIB8dgS93Z+gT0v/Nom24epdl3U4WeTS5CR5V8Cal2ztcnF2TtAT22Von6DaBcnbruH4gBACWwjGNX8xBMga0F6bLSln8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=Rp4KChT/; arc=pass smtp.client-ip=209.85.210.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="UAb5Yniu";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="fi0AYlOs"
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 804397A01C3;
-	Tue, 17 Mar 2026 18:13:50 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-01.internal (MEProxy); Tue, 17 Mar 2026 18:13:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:content-transfer-encoding:content-type:content-type:date:date
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1773785630;
-	 x=1773872030; bh=mvXLhjQ4p9C7NX23p4tS55fYaYUd/nci7i/quWqQPlc=; b=
-	UAb5YniuA6+Nm4E5bEzy7X0OcGl+h5FB6TvVzGag5vGG0HN5f7ttWaeC6+KR1okF
-	2gBDtz2tmOll4z9w1a8vp/qxjGncl2gwgSpFnXyCTFY5gVk3x2Ar8O2sX+M2C28c
-	PEj99gCdMJHVw9jDb+/ieouDMgAFx5rsngsVkWvD83FsKSLli3C0Rfio20jZ9k/F
-	6OkIpJNSWU9L8bFafgow6rJe3xx9cQI3PLV5rP+Ss9BqWRyrNUvpvzexzx272OXG
-	UZZwf7aiZUfH6gInSuM2dEwHO5TBo9ENyx0nBWQnbkfz/6KSrD9G/LGOAkRFoJrq
-	ImdpjYMBI7/ka/3QZCFMpg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm1; t=1773785630; x=1773872030; bh=m
-	vXLhjQ4p9C7NX23p4tS55fYaYUd/nci7i/quWqQPlc=; b=fi0AYlOsG8DUvELAI
-	6zPXTEIyoxNG55B7lgtTX5cLdQM78HDn7BlChe+mvmC/I66I1BMrxAa9U4+s2Xw/
-	FIZJdSd3ZXjZt0xzIgvRmsGTosH81BOcKe4BrWOLsrn96KIRvWG3lsLAjZvfwp1x
-	sVC/JMtEx3NrUL7swHvyVx7uGRcw0y4JW0oa0wR1HqM99MpBbO4eD8KzTC6voyeu
-	bOCYycBDXjBuns/fTu0O5CSsAvGPYjI6KZeoX3qJOksqpAU0NzlTkhCqQxrarlT2
-	KIMpoR+1dNUYuEWu4ZhVz1iKyWZy7VUTVJGGOj+ItLP3AcYTm9mda9AlfhanJDC6
-	IQ7Aw==
-X-ME-Sender: <xms:HtK5aaFHVaYYYmgP_HGEbbheC_QLXx0whJj5z3wF9OgRayjdfWrX-A>
-    <xme:HtK5aRXFqe9MZBTIzxhpxo_NHtdkwa_WW0OpNY_zhhZyYe3Q6btd_xbDJN9p6xhah
-    TYUEQb8Uj9zDjH0Ow3PlND-DzlNTdbZ1iwvqFprq3Cqq4Qpj30Yeg>
-X-ME-Received: <xmr:HtK5aRy-_qu1KDrcyhXPfXGS8zMvLvVI3qw1VwmygQOEnpHPmNiLX029EHLkVhZ-AVW4sF__6f001UytxpPT-FS_ioULZlLL7_G6mASmZw8DNalG3A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdeftddvgedvucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepkfffgggfuffvfhfhjggtgfesthejredttddvjeenucfhrhhomhepuegvrhhnugcu
-    ufgthhhusggvrhhtuceosggvrhhnugessghssggvrhhnugdrtghomheqnecuggftrfgrth
-    htvghrnhepvdellefhuefghedugfefteeuffejgfethfeuleegueethfegffegueffteeh
-    geetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepsg
-    gvrhhnugessghssggvrhhnugdrtghomhdpnhgspghrtghpthhtohepvddpmhhouggvpehs
-    mhhtphhouhhtpdhrtghpthhtohepmhhsiigvrhgvughisehrvgguhhgrthdrtghomhdprh
-    gtphhtthhopehlihhnuhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:HtK5afNi7svE7KE4JsdA7KIbpYCdy60hyOf3GZDWMIQUTrQMMDbZLA>
-    <xmx:HtK5aS7xMN0OHN3raHoyqH8hFp4ooTnDJ2Twek1UcIwW33Oz5FUwLg>
-    <xmx:HtK5aQPwhf4rlC50RfJnztr-AvpalomndZdUOmOGoaA-Ra1hXnrsqw>
-    <xmx:HtK5aQmWAm25m5cF5y_ana-lbFCw3p1nJV0J68FuZ8G7qn-B0V1m9Q>
-    <xmx:HtK5aVe683pfx1ufJ8OKsoJgJldXeBsnzTr0083sTY8Gq9M2jRvhqE_a>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 17 Mar 2026 18:13:49 -0400 (EDT)
-Message-ID: <671ace3d-bac5-4024-9e14-62262244949c@bsbernd.com>
-Date: Tue, 17 Mar 2026 23:13:48 +0100
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="Rp4KChT/"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-827270d50d4so5783428b3a.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 15:42:49 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773787369; cv=none;
+        d=google.com; s=arc-20240605;
+        b=fDRKEhnscdOGnBgD3+ledgEhQj89ZBRVGxxwy0IV7uIcwKIe/mdkIMFyTfzvTwDrBw
+         Rg1hp2dIXhLJP7Ti/8n2o+xtSwmL4GlqxLTYmpQcY0KWD85yC/TFOLFPjqwVqFQSlF1n
+         eypnByAvmzhazZZszmfW4OWpXWmLAOGPgmGNuAnZEXLjGnrH03VKxCvrfDfAhVHTR9TV
+         IQKtIU0JQLkBd6CQyq3oY0y1eGbGgWDhzOplEMg/zcsU2hHWIcM3n2nVR9yb59Fag+Dh
+         sxspuSmRwzZoG8loLFExXX30yXNNqD059BgprVQBg/Cej/FsU4fWKtkqCWTjKSt/nxBH
+         DQUA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=B8weZ6sz5Sw0SJMaIbsh0p66JDKF/4Vt78zNnjgP+G0=;
+        fh=EPhxLkd5fgAahKmPgSHFMleWb/fm25djFVA2slMqLs0=;
+        b=CMyr6VDOVH0EV0UIMlU1i0DT9CsRWVxkmYtbQNjBoit65MZuHXzj0xThNTTZTulXip
+         5JHDyBWacHa+43PC4LK3JMNquWtEunAsZDipO/C9fHTBpWLzzsXUzkNOuo+ChwHUfLa+
+         uVg6eDkMCyTrfcVlrU8Ae7RrO5BqqXHjv67LuVVKGcfEJvDWpTweuSA+5Ij2K1nz1qbi
+         pw6EOnk1Iz8utW/cOSjamuz90ZC6xxxFimQMbMkVGQt51mgJ7HnLt/Co4znB10nXMpXK
+         orgEGu3rIYSqeNrAhRrfwxfAEWA7rw1EFNK/3NFbGUTUrEZ5uPWLl1KfgCdXuhYEAaU/
+         DXvA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1773787369; x=1774392169; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=B8weZ6sz5Sw0SJMaIbsh0p66JDKF/4Vt78zNnjgP+G0=;
+        b=Rp4KChT/WWpTu8I8ai/ucT9lIndTLNcnHKlKHGJEhA9cz9/jOtKHRfTj8Mt4k99hLz
+         /I89gTL4UvFCXEXQ+emW/vqxpORQl6tRIFW8QI509j2GTSrVZtaum8vUBrpYmpT8jd0A
+         wISeWETh5lykScg+b9x3/WRqzlb+SKvIZCRY3dNv6Dl6SFOWy6A033zHv7EsB5rYeEko
+         x5aPlsVTKpmigGziLqh1SSMCTlzwf+Rl1EejgXkWvWLlaOaqd9ELuzLTq9ZeivFTN19l
+         O/ftWife1HLsD1vxt+eBkShi1+KqmNcKNpSCyVKzgaGVSMOMFeuIaCIQZbGea997OFsZ
+         J51Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773787369; x=1774392169;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=B8weZ6sz5Sw0SJMaIbsh0p66JDKF/4Vt78zNnjgP+G0=;
+        b=QBAZ1020iPRkTPBwG404PIuEtSKBowoRMHuNPpA8SlIfgMZSn3tj7FrQaEytqaCcR0
+         VgmfEP518IkIE4QuE7bsmdzovWuaaj/OtT+BLaihRWa9+jvQl3HDVGiGo/oSYhBMnJmH
+         r0XZpHJP4y6+9muhiTife5HYrFoGWo7fmayT3hB67rYgyDb6X5u0TkCf3IS3e2RDuFoS
+         tZPMtKhN7/uoaDb6GDQFHC4EGeWqou+8gD2O+OY5d5a440qHdNst88Ow6++QMfl5eWvH
+         EIdkJIdhfucdGpVL79yiT2Cm4AlD77S/fQplYZTELO16UvF7ROAq9vLpyEkycCRWi3OX
+         SSOg==
+X-Forwarded-Encrypted: i=1; AJvYcCX+6VilkLKUlp7AFGi7Y0d48jXADdyNAhel/XVXGXnnBiMCZB/bMfUWGbRwO1ykg36eG0uh39oWU7h8hy82@vger.kernel.org
+X-Gm-Message-State: AOJu0YyFIiuqwqMakF0G2Y+6GGH78PDQvCfEk2fXaVUzyab5x+D2pv1p
+	t2PwKpa3k4i4Uj8or7GjgJ6Wr9iNUFwHp6JFDncj901Nftlm7uzxznIztSTXe+7r4MRYwm33aBp
+	8i3pOCsCAOb83hMQuHp2Jz7fcpHRF1EJfPrf9Pl2U
+X-Gm-Gg: ATEYQzxUyrTMa8gKebAjJGMrctb2mERUGhQLe7TvuzaNc+VlflgtcpPdZK4mfP3Fp+4
+	PkKYCZsU37tfbK9EvCIXw1JEX5eK48CJHmvxZD4/CiIdMN+Bk3ficmszVLSnB/D7mlfWDNQQqVZ
+	rG5juk+m0EvGCgD3u4ZGmyoQ0N16zUJRjubhV254qybtw9E6vU0BAaLbgeDUiSjd39f7xxF5KxH
+	H6qBHBehkHL5ABV+xByRXr7T1behKcoRI9rd8oKGnu22ihSKdPMsKYejYjzPwRVaArxS024Lwh5
+	/IGDN6T3LlG2ZDdQdg==
+X-Received: by 2002:a05:6a00:1816:b0:827:2ec9:e1bc with SMTP id
+ d2e1a72fcca58-82a6af3b680mr1004833b3a.61.1773787368885; Tue, 17 Mar 2026
+ 15:42:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/7] fuse: add refcount to fuse_dev
-To: Miklos Szeredi <mszeredi@redhat.com>, linux-fsdevel@vger.kernel.org
-References: <20260316165320.3245526-1-mszeredi@redhat.com>
- <20260316165320.3245526-4-mszeredi@redhat.com>
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: en-US, de-DE, fr
-In-Reply-To: <20260316165320.3245526-4-mszeredi@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260316213606.374109-5-paul@paul-moore.com> <20260316213606.374109-7-paul@paul-moore.com>
+In-Reply-To: <20260316213606.374109-7-paul@paul-moore.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Tue, 17 Mar 2026 18:42:37 -0400
+X-Gm-Features: AaiRm51ktGDW1-usZMxMHsT1xbcaRYx3q6Ml_vERE0ki9AcWlEliFtDWBIy0vmI
+Message-ID: <CAHC9VhTiB73F9fB1o3K4NfJ-Fa50MsVA_=79kn6X34L62J_TwA@mail.gmail.com>
+Subject: Re: [PATCH 2/3] lsm: add the security_mmap_backing_file() hook
+To: linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-unionfs@vger.kernel.org, 
+	linux-erofs@lists.ozlabs.org
+Cc: Amir Goldstein <amir73il@gmail.com>, Gao Xiang <xiang@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-
-
-On 3/16/26 17:53, Miklos Szeredi wrote:
-> This will make it possible to grab the fuse_dev and subsequently release
-> the file that it came from.
-> 
-> In the above case, fud->fc will be set to FUSE_DEV_FC_DISCONNECTED to
-> indicate that this is no longer a functional device.
-> 
-> When trying to assign an fc to such a disconnected fuse_dev, the fc is set
-> to the disconnected state.
-> 
-> Use atomic operations xchg() and cmpxchg() to prevent races.
-
-So the actual motivation is in fuse_fill_super_common() which checks if
-the file descriptor got closed during the mount? I.e. one thread mounts
-and another thread closes the fd for the mount?
-
-> 
-> Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
+On Mon, Mar 16, 2026 at 5:36=E2=80=AFPM Paul Moore <paul@paul-moore.com> wr=
+ote:
+>
+> Add the security_mmap_backing_file() hook to allow LSMs to properly
+> enforce access controls on mmap() operations on stacked filesystems
+> such as overlayfs.
+>
+> The existing security_mmap_file() hook exists as an access control point
+> for mmap() but on stacked filesystems it only provides a way to enforce
+> access controls on the user visible file.  In order to enforce access
+> controls on the underlying backing file, the new
+> security_mmap_backing_file() hook is needed.
+>
+> In addition the LSM hook additions, this patch also constifies the file
+> struct field in the LSM common_audit_data struct to better support LSMs
+> that will likely need to pass a const file struct pointer from the new
+> backing_file_user_path_file() API into the common LSM audit code.
+>
+> Reviewed-by: Amir Goldstein <amir73il@gmail.com>
+> Signed-off-by: Paul Moore <paul@paul-moore.com>
 > ---
->  fs/fuse/cuse.c       |  2 +-
->  fs/fuse/dev.c        |  9 +++++++--
->  fs/fuse/fuse_dev_i.h | 15 ++++++++-------
->  fs/fuse/fuse_i.h     |  7 +++++--
->  fs/fuse/inode.c      | 44 ++++++++++++++++++++++++++++++++++++--------
->  fs/fuse/virtio_fs.c  |  2 +-
->  6 files changed, 58 insertions(+), 21 deletions(-)
-> 
-> diff --git a/fs/fuse/cuse.c b/fs/fuse/cuse.c
-> index dfcb98a654d8..174333633471 100644
-> --- a/fs/fuse/cuse.c
-> +++ b/fs/fuse/cuse.c
-> @@ -527,7 +527,7 @@ static int cuse_channel_open(struct inode *inode, struct file *file)
->  	cc->fc.initialized = 1;
->  	rc = cuse_send_init(cc);
->  	if (rc) {
-> -		fuse_dev_free(fud);
-> +		fuse_dev_put(fud);
->  		return rc;
->  	}
->  	file->private_data = fud;
-> diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-> index fe453634897b..4c926c9c4f39 100644
-> --- a/fs/fuse/dev.c
-> +++ b/fs/fuse/dev.c
-> @@ -2531,7 +2531,8 @@ void fuse_wait_aborted(struct fuse_conn *fc)
->  int fuse_dev_release(struct inode *inode, struct file *file)
+>  fs/backing-file.c             |  8 +++++++-
+>  fs/erofs/ishare.c             |  6 ++++++
+>  include/linux/lsm_audit.h     |  2 +-
+>  include/linux/lsm_hook_defs.h |  2 ++
+>  include/linux/security.h      | 10 ++++++++++
+>  security/security.c           | 25 +++++++++++++++++++++++++
+>  6 files changed, 51 insertions(+), 2 deletions(-)
+
+...
+
+> diff --git a/fs/erofs/ishare.c b/fs/erofs/ishare.c
+> index 17a4941d4518..d66c3a935d83 100644
+> --- a/fs/erofs/ishare.c
+> +++ b/fs/erofs/ishare.c
+> @@ -150,8 +150,14 @@ static ssize_t erofs_ishare_file_read_iter(struct ki=
+ocb *iocb,
+>  static int erofs_ishare_mmap(struct file *file, struct vm_area_struct *v=
+ma)
 >  {
->  	struct fuse_dev *fud = fuse_file_to_fud(file);
-> -	struct fuse_conn *fc = fuse_dev_fc_get(fud);
-> +	/* Pairs with cmpxchg() in fuse_dev_install() */
-> +	struct fuse_conn *fc = xchg(&fud->fc, FUSE_DEV_FC_DISCONNECTED);
->  
->  	if (fc) {
->  		struct fuse_pqueue *fpq = &fud->pq;
-> @@ -2551,8 +2552,12 @@ int fuse_dev_release(struct inode *inode, struct file *file)
->  			WARN_ON(fc->iq.fasync != NULL);
->  			fuse_abort_conn(fc);
->  		}
-> +		spin_lock(&fc->lock);
-> +		list_del(&fud->entry);
-> +		spin_unlock(&fc->lock);
-> +		fuse_conn_put(fc);
->  	}
-> -	fuse_dev_free(fud);
-> +	fuse_dev_put(fud);
->  	return 0;
->  }
->  EXPORT_SYMBOL_GPL(fuse_dev_release);
-> diff --git a/fs/fuse/fuse_dev_i.h b/fs/fuse/fuse_dev_i.h
-> index 522b2012cd1f..910f883cd090 100644
-> --- a/fs/fuse/fuse_dev_i.h
-> +++ b/fs/fuse/fuse_dev_i.h
-> @@ -39,22 +39,23 @@ struct fuse_copy_state {
->  	} ring;
->  };
->  
-> +/* fud->fc gets assigned to this value when /dev/fuse is closed */
-> +#define FUSE_DEV_FC_DISCONNECTED ((struct fuse_conn *) 1)
-
-Hmm, these things always give me a headache, because now all callers
-need to check for FUSE_DEV_FC_DISCONNECTED? Main protection is then vfs,
-which disallows device release when there are competing operations?
-
-
+>         struct file *realfile =3D file->private_data;
+> +       int err;
+>
+>         vma_set_file(vma, realfile);
 > +
->  /*
->   * Lockless access is OK, because fud->fc is set once during mount and is valid
->   * until the file is released.
-> + *
-> + * fud->fc is set to FUSE_DEV_FC_DISCONNECTED only after the containing file is
-> + * released, so result is safe to dereference in most cases.  Exceptions are:
-> + * fuse_dev_put() and fuse_fill_super_common().
->   */
->  static inline struct fuse_conn *fuse_dev_fc_get(struct fuse_dev *fud)
->  {
-> -	/* Pairs with smp_store_release() in fuse_dev_fc_set() */
-> +	/* Pairs with xchg() in fuse_dev_install() */
->  	return smp_load_acquire(&fud->fc);
->  }
-
-Minor nit: Pairs with cmpxchg?
-
->  
-> -static inline void fuse_dev_fc_set(struct fuse_dev *fud, struct fuse_conn *fc)
-> -{
-> -	/* Pairs with smp_load_acquire() in fuse_dev_fc_get() */
-> -	smp_store_release(&fud->fc, fc);
-> -}
-> -
->  static inline struct fuse_dev *fuse_file_to_fud(struct file *file)
->  {
->  	return file->private_data;
-> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-> index 94b49384a2f7..230201dc3f90 100644
-> --- a/fs/fuse/fuse_i.h
-> +++ b/fs/fuse/fuse_i.h
-> @@ -577,6 +577,9 @@ struct fuse_pqueue {
->   * Fuse device instance
->   */
->  struct fuse_dev {
-> +	/** Reference count of this object */
-> +	refcount_t ref;
+> +       err =3D security_mmap_backing_file(vma, realfile, file);
+> +       if (err)
+> +               return err;
 > +
->  	/** Issue FUSE_INIT synchronously */
->  	bool sync_init;
->  
-> @@ -1343,8 +1346,8 @@ void fuse_conn_put(struct fuse_conn *fc);
->  
->  struct fuse_dev *fuse_dev_alloc_install(struct fuse_conn *fc);
->  struct fuse_dev *fuse_dev_alloc(void);
-> -void fuse_dev_install(struct fuse_dev *fud, struct fuse_conn *fc);
-> -void fuse_dev_free(struct fuse_dev *fud);
-> +bool fuse_dev_install(struct fuse_dev *fud, struct fuse_conn *fc);
-> +void fuse_dev_put(struct fuse_dev *fud);
->  int fuse_send_init(struct fuse_mount *fm);
->  
->  /**
-> diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
-> index c2d1184d5ba5..0e848e3a13c2 100644
-> --- a/fs/fuse/inode.c
-> +++ b/fs/fuse/inode.c
-> @@ -1623,6 +1623,7 @@ struct fuse_dev *fuse_dev_alloc(void)
->  	if (!fud)
->  		return NULL;
->  
-> +	refcount_set(&fud->ref, 1);
->  	pq = kzalloc_objs(struct list_head, FUSE_PQ_HASH_SIZE);
->  	if (!pq) {
->  		kfree(fud);
-> @@ -1636,12 +1637,32 @@ struct fuse_dev *fuse_dev_alloc(void)
->  }
->  EXPORT_SYMBOL_GPL(fuse_dev_alloc);
->  
-> -void fuse_dev_install(struct fuse_dev *fud, struct fuse_conn *fc)
-> +bool fuse_dev_install(struct fuse_dev *fud, struct fuse_conn *fc)
->  {
-> -	fuse_dev_fc_set(fud, fuse_conn_get(fc));
-> +	struct fuse_conn *old_fc;
-> +
-> +	fuse_conn_get(fc);
->  	spin_lock(&fc->lock);
-> +	/*
-> +	 * Pairs with:
-> +	 *  - xchg() in fuse_dev_release()
-> +	 *  - smp_load_acquire() in fuse_dev_fc_get()
-> +	 */
-> +	old_fc = cmpxchg(&fud->fc, NULL, fc);
-> +	if (old_fc) {
-> +		/*
-> +		 * failed to set fud->fc because
-> +		 *  - it was already set to a different fc
-> +		 *  - it was set to disconneted
-> +		 */
-> +		spin_unlock(&fc->lock);
-> +		fuse_conn_put(fc);
-> +		return false;
-> +	}
->  	list_add_tail(&fud->entry, &fc->devices);
->  	spin_unlock(&fc->lock);
-> +
-> +	return true;
->  }
->  EXPORT_SYMBOL_GPL(fuse_dev_install);
->  
-> @@ -1658,11 +1679,16 @@ struct fuse_dev *fuse_dev_alloc_install(struct fuse_conn *fc)
-
-Shouldn't all callers, i.e. also  fuse_dev_alloc_install() and
-fuse_device_clone() check for success?
-
-
->  }
->  EXPORT_SYMBOL_GPL(fuse_dev_alloc_install);
->  
-> -void fuse_dev_free(struct fuse_dev *fud)
-> +void fuse_dev_put(struct fuse_dev *fud)
->  {
-> -	struct fuse_conn *fc = fuse_dev_fc_get(fud);
-> +	struct fuse_conn *fc;
->  
-> -	if (fc) {
-> +	if (!refcount_dec_and_test(&fud->ref))
-> +		return;
-> +
-> +	fc = fuse_dev_fc_get(fud);
-> +	if (fc && fc != FUSE_DEV_FC_DISCONNECTED) {
-> +		/* This is the virtiofs case (fuse_dev_release() not called) */
->  		spin_lock(&fc->lock);
->  		list_del(&fud->entry);
->  		spin_unlock(&fc->lock);
-> @@ -1672,7 +1698,7 @@ void fuse_dev_free(struct fuse_dev *fud)
->  	kfree(fud->pq.processing);
->  	kfree(fud);
->  }
-> -EXPORT_SYMBOL_GPL(fuse_dev_free);
-> +EXPORT_SYMBOL_GPL(fuse_dev_put);
->  
->  static void fuse_fill_attr_from_inode(struct fuse_attr *attr,
->  				      const struct fuse_inode *fi)
-> @@ -1901,8 +1927,10 @@ int fuse_fill_super_common(struct super_block *sb, struct fuse_fs_context *ctx)
->  	list_add_tail(&fc->entry, &fuse_conn_list);
->  	sb->s_root = root_dentry;
->  	if (fud) {
-> -		fuse_dev_install(fud, fc);
-> -		wake_up_all(&fuse_dev_waitq);
-> +		if (!fuse_dev_install(fud, fc))
-> +			fc->connected = 0; /* device file got closed */
-> +		else
-> +			wake_up_all(&fuse_dev_waitq);
->  	}
->  	mutex_unlock(&fuse_mutex);
->  	return 0;
-> diff --git a/fs/fuse/virtio_fs.c b/fs/fuse/virtio_fs.c
-> index f685916754ad..12300651a0f1 100644
-> --- a/fs/fuse/virtio_fs.c
-> +++ b/fs/fuse/virtio_fs.c
-> @@ -486,7 +486,7 @@ static void virtio_fs_free_devs(struct virtio_fs *fs)
->  		if (!fsvq->fud)
->  			continue;
->  
-> -		fuse_dev_free(fsvq->fud);
-> +		fuse_dev_put(fsvq->fud);
->  		fsvq->fud = NULL;
->  	}
+>         return generic_file_readonly_mmap(file, vma);
 >  }
 
-Thanks,
-Bernd
+The kernel test robot helpfully pointed out that this patch was
+missing a security.h include for the newly added LSM hook.  The fixup
+below has been applied to the patch in lsm/stable-7.0.
+
+diff --git a/fs/erofs/ishare.c b/fs/erofs/ishare.c
+index d66c3a935d83..f80925b66599 100644
+--- a/fs/erofs/ishare.c
++++ b/fs/erofs/ishare.c
+@@ -4,6 +4,7 @@
+ */
+#include <linux/xxhash.h>
+#include <linux/mount.h>
++#include <linux/security.h>
+#include "internal.h"
+#include "xattr.h"
+
+--=20
+paul-moore.com
