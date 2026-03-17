@@ -1,131 +1,166 @@
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2677E347505
-	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 07:32:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.169
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773732733; cv=pass; b=IO3zY7tZkLrK7IFsgpsMY7svnQvx1y0LMK4KYHNEqhaMDxsA0r/LCQuGxA2TlwV6nlfcpjXx72uRe6s2bA/oq66SRvI4UzJz++j+0jKMCT1B37XkUKJBiLwiDOi9NxCw3Owno2GKJRlRHDnnk+7ZahVCgHW2UWe5WT3j4r2SeVI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773732733; c=relaxed/simple;
-	bh=7IxfP5QbYTT3krIp+mLrnX1UG8btjGEjKPBXfVEkPew=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=R0ckfYz8oKduERn4ts0Pmx2kfXUm3Nt8SKEwzDnOA3VhfkwVPNnzFP2/o5qh4dZ/lTjzGu4/Ajm4Ef61QLdKE7IgWjIXsTK4KjInTltYF9zGs+YIOlZrQU9FvKVGV/+nFTlRqkiSEHAl+E5YZLyAsm7S4CJjGYMoqzlZWzqVNnA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dfinity.org; spf=pass smtp.mailfrom=dfinity.org; dkim=pass (2048-bit key) header.d=dfinity.org header.i=@dfinity.org header.b=Z3O5/jCO; arc=pass smtp.client-ip=209.85.208.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dfinity.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dfinity.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E05E392C3B
+	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 08:10:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773735053; cv=none; b=uBWg5JHeaeavCvXLEfNjv8ombQpQjl4mtluqQtRvKbhqKw36Gy7IjYNc6KxvYfHnfq4+31CQi15rFc0E1eTe56f8dZ9scoER0QP+FC9WVWT2K55alOsSnkDYf8Hc2In1w50hKj2kuZ1Si0guduInw2rP/lmdqd8kfdn0aSRBBKM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773735053; c=relaxed/simple;
+	bh=8rJ1OZYfYslPNIBV5/5qfAjIm731QhvV1HYeRpOIXDI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=c5jLmlf1yo6nOyBkzFT4bCXmi+Q6b7SICZBETcq07cXE1li9YIKE0TSxRn/YtOjL2rbQE7TMpKNrOP207NDLvhimOkQNyDvyoeSYYt7rQqm5umU/5/HcI8pvBGaRjDE1BHqn101kTxo4zoC1Gf2C5Z3K1gGlDPjz6gbo+7O41ag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=PP+7iIEl; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=58w7F49+; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=VI0SO//M; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=fUBhVW/i; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dfinity.org header.i=@dfinity.org header.b="Z3O5/jCO"
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-38a4118c4f7so57242471fa.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 00:32:10 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773732729; cv=none;
-        d=google.com; s=arc-20240605;
-        b=OU6kiBXrdaYI0f5QDGmFqGz2luymd+jrWV5BYsuzzrJ8EXeykMnl+A6OHwBvCWwSzr
-         ES4NWnUr3AjXXQWQ0jY+cqso4DaA4Xdbes4p3t1RdXa4IcOF/AawxUxMZKFCBn4RZrSg
-         Sf8sTV38ZNkP3zubYZjGOZg8HkdnP7R1JsGhs2652ghnsd8gdPkIB8ubWBx3n/9aHV8m
-         XVUAGt4OwooZlRYk25PAjP/xw2IjAygmDB5AYX8HEop/JDxaP9po1okJv7BLrpDWioNm
-         13V6VQA6AQ7sy9ClrzLH0AHtKggWQdl6PNNeXQYAy3vxU7N8rnSGvkd7zWSIYHTrZxR3
-         MV/g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=8rsh6oTvwvWHqaFGsPw06IxhO9DVzxPM89iEh6c4TMU=;
-        fh=/UNiGbh+7r3/PtWkaCRI1+kYlIHUaFntIAiMQqgVSxQ=;
-        b=RW4fwfzu2qzAyeGCo5nuU0BdJaARho7E5lBDXRHqIW0SepjTIKQgce6qsBdNwBFH8C
-         eb4h7ZW3494cMU2D3epwW4JsvMC2BfYJ2xVQzNFrrH0Mer7II2JdJABGZjqz/9MfTNcQ
-         0nK8A1LAY3CejZvA4L3J7rs4OEPH6EgXrJjLjVZMIfOug+hVyIDhIBwrdJIEuaH4yAZm
-         ECtRoazQjX5CqlNvbDSlHuh2jCXa5UmwEu/H/Bz5MILY/wjCxdtw1Uyzal5Pc34wuFbE
-         BhAH8CmkPnC/tgFfERaNc2M3kdm7qkYYSpriu3rGA8CDcud+ogQ0yjYoU05+UI6a34rI
-         qy3g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dfinity.org; s=google; t=1773732729; x=1774337529; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=8rsh6oTvwvWHqaFGsPw06IxhO9DVzxPM89iEh6c4TMU=;
-        b=Z3O5/jCOV5B62SgPgXGAo92J/m8REygR435jkKsxubLVjvlNid3FIlvwtf2fJWvCia
-         8qU9UQyzsWAHChwvz3n8u8Urf07Wu0yWbVu4cV+BD6hJFc01dCXsibJ74wGPX2OckYhr
-         8yA4px78P4sBvv501Y5gXxio19gKqzroK3zX2BMJ1/9UmhXyZo6A1Ag8YSnIwlGYsoO9
-         B74xeAh/Znro89URrxZfDCu62iDnjPmI3pjdvc2ICY/JOCod5MJdG0Nqi5RR3ZBGLo+m
-         tKKGRU7cLmEsHz9K7zWQN1hK25zbo5DgThi9QO9Fz5dCtSLSNl8BQrJE6SXEbSnZObxr
-         V/NQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773732729; x=1774337529;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8rsh6oTvwvWHqaFGsPw06IxhO9DVzxPM89iEh6c4TMU=;
-        b=NsxF41aK8MZS4Z5qov0XPWLWxEV6aNPcqYHBePf9wf8npjyYyrDwIhGpMNKniYgR5c
-         T6sBit5ryoSvxBQ+AULBdAnRG7MS8ko3dcdBvlrgWhICCwBXd/vp0kq+JcvwPJkLfyPB
-         0OHFZSBGxOfC+jh40E+ZLThDOP7zh3nyi1+GtLD05k66KQjUqFgLOf+aH0EkPlcEocIH
-         WyZLBVv6vEPQjzsrCOKUB6QaIhhdbDdyKJd4mq3SxPLHaj/6Xln3YK+AbKo3enA2Xrrw
-         FsYstgvriE92772Umznz+pTgt859nvqiOIEX4OWIUTrvpwgo1uACuHh7UKlyrhVF9ISA
-         mSuA==
-X-Forwarded-Encrypted: i=1; AJvYcCVXlwabo+V4wEapeb9CGTgmTtGpgFDe4uyvPJeEHEHr4qwph4DijZXVzI/+Vt85RPSlguOaTjh6/TtIkRyT@vger.kernel.org
-X-Gm-Message-State: AOJu0YxKk/oIoFhF902sdrHtnNnUbZFwaAhv+qUlu55iU7XlNE82lxA0
-	m0SqBEM6JEI70enD51R+VJGeiEA6wDB/uUQxoyECTmxLiNVJ5u7jRQ9wifbWZDpsRzvN5e5frhZ
-	PQBjjeWmkqq1CoXpaKEOkuxkr9repsNL0e+Zkp/Z8Ag==
-X-Gm-Gg: ATEYQzwnFBJgU3fURcuN1I/U8AdhLcyXUiNco36IkuM/dedQy384EmQLz4RRVaxmn43
-	WGZuOGkg+v8Zv/2fWCGq4qSTvW/BAlcNZiGoSGyCC/W43wOWjbj6vmY4WABrPr0J1FfFCfDOLar
-	1v4xl+5ZLEiDggwEzGUkZqYBIsnilJC/DH0gW10dTrq35tKw/04HBPyFfu1f/7dtzXi391pC7ix
-	nv0BLT9ljG6ejwEr5SUCOtvJFrchgpcqCvg4hmDP5iPEw1lSL5PZpdryXNaRS3yS8sCNuUUwKEU
-	rNP6UWFJ9HxFVMi4tIJsl3I+IVQB4puC82MDwvPG4n1ctW3v5ce83gQjKcxbjLr15o+D8/E57Jf
-	22QowmCyB9RuUR0TIEw==
-X-Received: by 2002:a2e:a44a:0:b0:38a:87bc:1a17 with SMTP id
- 38308e7fff4ca-38a8966f739mr39278351fa.13.1773732729015; Tue, 17 Mar 2026
- 00:32:09 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="PP+7iIEl";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="58w7F49+";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="VI0SO//M";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="fUBhVW/i"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 165E85BCFD;
+	Tue, 17 Mar 2026 08:10:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1773735050; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BxecvMoTlmFeixFZ1ebr5yl1nb1we3LjrSPC3eW1IOA=;
+	b=PP+7iIEldqjo8vbmejfL0p8Wudur7lz0GReEJU0+8iOiAnGRmQ/Gd7wcJqz0DZpiT+06wi
+	XkE5JVjqnGMpg0kuyX8OdMzDUkN3jx9Hfus/6bwtrh5eNhp/OlK9JfYlbnLP9k5MIcSafO
+	LawOH8c04f6/bL9p0ueLTtbxaL6BOxc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1773735050;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BxecvMoTlmFeixFZ1ebr5yl1nb1we3LjrSPC3eW1IOA=;
+	b=58w7F49+mg5cZUxKeBodNb2MxRaLuQVFpGJuEFt6T1Ru+i3jx9K4y3eqlB26KF9khRvoBK
+	ZcmndbMSXc2NVXBQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b="VI0SO//M";
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b="fUBhVW/i"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1773735049; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BxecvMoTlmFeixFZ1ebr5yl1nb1we3LjrSPC3eW1IOA=;
+	b=VI0SO//MNQ4HqUXsUp0WSfKWJ1oBAA6fRadUyLfSKn3svPWHYm/qMYkAxqFD5fRkIbvEhN
+	wkmkS0/z1uuyI6GjImoyaxN4qNEaEjx3xGXVLVSgCfg51j2UQ5IwKNqYbdxBF6f0hp5uDO
+	QKLmc3U2T0PaD3c5/Pqqt64Fj+4w27U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1773735049;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BxecvMoTlmFeixFZ1ebr5yl1nb1we3LjrSPC3eW1IOA=;
+	b=fUBhVW/iUBkNtNyKNtxAVBRtYtc7LjQ5qifpN3Ev8tDso2tQnZub3W5cJtgiscQ6btjxLh
+	TUSRlzMrriq2HuBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0D5484273B;
+	Tue, 17 Mar 2026 08:10:49 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Zbs8A4kMuWlwVQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 17 Mar 2026 08:10:49 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id AE2DAA0A5B; Tue, 17 Mar 2026 09:10:40 +0100 (CET)
+Date: Tue, 17 Mar 2026 09:10:40 +0100
+From: Jan Kara <jack@suse.cz>
+To: Kit Dallege <xaum.io@gmail.com>
+Cc: Jan Kara <jack@suse.cz>, Christian Brauner <brauner@kernel.org>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] writeback: fix kernel-doc function name mismatch for
+ wb_put_many()
+Message-ID: <zfesul4xsiosblheei4ikbmtffoqdb3kr4vs3uztntujyqe5dp@l4q2ml2hnzlp>
+References: <20260315170931.65852-1-xaum.io@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260313114037.3593642-1-ziy@nvidia.com> <EC71CE3C-08D9-48FE-95CB-B6A43B4BDB9C@nvidia.com>
-In-Reply-To: <EC71CE3C-08D9-48FE-95CB-B6A43B4BDB9C@nvidia.com>
-From: Adam Bratschi-Kaye <adam.bratschikaye@dfinity.org>
-Date: Tue, 17 Mar 2026 08:31:57 +0100
-X-Gm-Features: AaiRm504dZViD7hqCg2k-u2YHFFQqbiH0S47_h1Ehq5i5K0MI7wK9iOBPdrjZQw
-Message-ID: <CAON2GcE-1t7pbunFwtymxEiz1f5osT2CSEGw35Lv=7UaWFkZzg@mail.gmail.com>
-Subject: Re: [External Sender] Re: [PATCH] selftests/mm: add folio_split() and
- filemap_get_entry() race test
-To: Zi Yan <ziy@nvidia.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Hugh Dickins <hughd@google.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
-	Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
-	Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
-	Matthew Wilcox <willy@infradead.org>, Bas van Dijk <bas@dfinity.org>, 
-	Eero Kelly <eero.kelly@dfinity.org>, Andrew Battat <andrew.battat@dfinity.org>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260315170931.65852-1-xaum.io@gmail.com>
+X-Spamd-Result: default: False [-2.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_COUNT_THREE(0.00)[3];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FREEMAIL_TO(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	ASN(0.00)[asn:32098, ipnet:2800::/6, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:email,suse.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -2.51
+X-Spam-Level: 
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 165E85BCFD
 
-On 13 Mar 2026, at 7:40, Zi Yan wrote:
-> The added folio_split_race_test is a modified C port of the race condition
-> test from [1]. The test creates shmem huge pages shared by both a parent
-> and a child processes, where the parent process punches holes in the shmem
-> to cause folio_split() in the kernel and the child process reads the shmem
-> in 16 threads to cause filemap_get_entry() in the kernel.
+On Sun 15-03-26 18:09:31, Kit Dallege wrote:
+> The kernel-doc comment says wb_put but the actual function is
+> wb_put_many. Fix the name to match.
+> 
+> Assisted-by: Claude:claude-opus-4-6
+> Signed-off-by: Kit Dallege <xaum.io@gmail.com>
 
-Note that the fork isn't actually necessary to reproduce the issue. I
-had it working as
-well with the reading and punching in the same process, but just with
-two separate
-mappings. Not that it makes much of a difference - just in case you
-wanted to simplify
-the test.
+Looks good. Feel free to add:
 
-On 14 Mar 2026, at 18:27, Andrew Morton wrote:
-> I couldn't immediately find any licensing info there.  Bas and Adam,
-> please advise?
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-GPL-2.0 license is fine by me.
+								Honza
 
-> And sending your Signed-off-by's would be appropriate.
-
-No problem:
-
-Signed-off-by: Adam Bratschi-Kaye <adam.bratschikaye@dfinity.org>
-
-Thanks,
-Adam
+> ---
+>  include/linux/backing-dev-defs.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/include/linux/backing-dev-defs.h b/include/linux/backing-dev-defs.h
+> index c88fd4d37d1f..a06b93446d10 100644
+> --- a/include/linux/backing-dev-defs.h
+> +++ b/include/linux/backing-dev-defs.h
+> @@ -237,7 +237,7 @@ static inline void wb_get(struct bdi_writeback *wb)
+>  }
+>  
+>  /**
+> - * wb_put - decrement a wb's refcount
+> + * wb_put_many - decrement a wb's refcount
+>   * @wb: bdi_writeback to put
+>   * @nr: number of references to put
+>   */
+> -- 
+> 2.53.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
