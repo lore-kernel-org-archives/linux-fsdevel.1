@@ -1,102 +1,157 @@
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E35CD27F00A
-	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 13:34:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 139E929B204
+	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 13:39:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773754460; cv=none; b=mvD1LT+aX9q0LOZNEKA9C+1zi6FpX0w6On61YWLNh4hUGwuA3+xtbmp5r12O0VnPD79fzt69ZXSY+z0am4qp5cPa1yVTe2Vv/XfeD+lP2J7bw+petVI1n460AqV41HEqPomDo2V4+rlzukSCyPP9jNoIypibxlcPCOAfkadKehY=
+	t=1773754782; cv=none; b=rRKxKviDvWK9Wu+MDCcgXr2N6Tqf9Zd6765Gb/FAWhDbtDM4JOVI8+HilJxHc4eb5f2YOPZhTq9Iik8cXCa6DIqxjoFuDdeoXbIDfRssqiZ7LAh5hviHCyP8wbojuOzQnvNJPHXpfvMdi06CvI740iPywMnTaKZ3Wqwo+4BREyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773754460; c=relaxed/simple;
-	bh=QB5YcD7hcG8XvGeV+CvyLe4SUxO66JSeZpgN903D+4E=;
+	s=arc-20240116; t=1773754782; c=relaxed/simple;
+	bh=nk+THvhX2/r0vEDVgmClra0+FdplWLplJdOiKI2tCOM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bjwmYvIpmD8EG2UmQa7+UWi5bGJPOOolgNMFQw1rKah0U5HYy5el0GrFTxTpvHpetGI3v9XDZkmbxTjHysvG5x/K6vTu4hLhjyVFD/xJH0wyOm+lnMTKBgxWxbg+3LlANu0ExNznoYu+5okpnIJiNsr4Ts4xSTTXwuw8M67wY7w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=CW5viBYD; arc=none smtp.client-ip=18.9.28.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+	 Content-Type:Content-Disposition:In-Reply-To; b=N7ojMvMdfu1HpQMdqvOS+EIkVVYTr3LsHUC7gmJ1r5NAS+kaiIuByUw+YZOc4ob3r0D7uuucRF4vT7J9SbMXAmj2TEB5oXO06FXOWVseL0+XPBuHq7Ibw/vZOoejYMsHqieOTdHdScYJ9SigIomtQgGvpVA/0vINJnM4oPjNtg0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=HmQngAVx; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=iGTgBNa8; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=HmQngAVx; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=iGTgBNa8; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="CW5viBYD"
-Received: from macsyma.thunk.org (pool-173-48-82-106.bstnma.fios.verizon.net [173.48.82.106])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 62HDWxTN028157
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 17 Mar 2026 09:33:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1773754384; bh=UfzdMpGoqp/+PngQW/zL/MtxxbxWP60HIINjEtoXNCw=;
-	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
-	b=CW5viBYDFmUgqMSzp0wl/D0sturkgc2uLWOLgVtMPhJ2tiNSSneZCA0wvboVnF3N8
-	 EdtojisiLUCUKBisE6hsEdIwRcQmDSsY1bxssa5BkMHwchoRllk2J5gln+L6Wr/u7B
-	 AudnOSL1BwdWryuL3HQfB5xW4f1bXE37Kj1PnOsZbU5zI5GrfnUSKjln/DdsuhqADI
-	 O7RL093MpXA/7a85vetBXg9ROfZAVIhDRsptHlzbrrT2hceHPeD2U4JaS9862yH2kv
-	 z3y+a0ncwd/3D0an0glE0ViBwdYMwKi9tj5UiRtv9OIiV3170Y1twLKaeKqkBc6PTz
-	 IgnBC9/JxGyTw==
-Received: by macsyma.thunk.org (Postfix, from userid 15806)
-	id 724695DF7013; Tue, 17 Mar 2026 09:31:59 -0400 (EDT)
-Date: Tue, 17 Mar 2026 09:31:59 -0400
-From: "Theodore Tso" <tytso@mit.edu>
-To: Jan Kara <jack@suse.cz>
-Cc: Ravi Singh <ravising@redhat.com>, linux-xfs@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, adilger@dilger.ca, jack@suse.com,
-        cem@kernel.org
-Subject: Re: [PATCH v2] xfs: return default quota limits for IDs without a
- dquot
-Message-ID: <20260317133159.GA53921@macsyma-wired.lan>
-References: <20260312090810.1145908-1-ravising@redhat.com>
- <20260317065947.306954-1-ravising@redhat.com>
- <jknk6pwirqp5kgxdwr7qez2qzuycmj4eupknf3yvqzlnkyiu5k@nowg6cwpxqc3>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="HmQngAVx";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="iGTgBNa8";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="HmQngAVx";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="iGTgBNa8"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 466914D33D;
+	Tue, 17 Mar 2026 13:39:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1773754779; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bs1V36bcBkXnymhlBz4+QuriBhH6J3v1hv2mXDlJhBk=;
+	b=HmQngAVxDUZR/WfC7ZiNQOtUXn5Ev2JU+QCOHORKg6ynVN8m8n+rkfj63ulgALuh+Aq9Kp
+	VfB7Egitf6KnKrDZuHgCXYWFHVnh5n++85VMx4oVsTnpU7SFlgwgSfKK51b9CdSizR6ppZ
+	KxiRYAlGoAJnBDpv+6heFvuFAVpZ82U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1773754779;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bs1V36bcBkXnymhlBz4+QuriBhH6J3v1hv2mXDlJhBk=;
+	b=iGTgBNa8Q5WpXWILdh80ayXO332RbZUBqT6yh8iJmPoBuGBV7weclTcUHU/nDY+baspPP6
+	ispt+59y8PaLaLBg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1773754779; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bs1V36bcBkXnymhlBz4+QuriBhH6J3v1hv2mXDlJhBk=;
+	b=HmQngAVxDUZR/WfC7ZiNQOtUXn5Ev2JU+QCOHORKg6ynVN8m8n+rkfj63ulgALuh+Aq9Kp
+	VfB7Egitf6KnKrDZuHgCXYWFHVnh5n++85VMx4oVsTnpU7SFlgwgSfKK51b9CdSizR6ppZ
+	KxiRYAlGoAJnBDpv+6heFvuFAVpZ82U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1773754779;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bs1V36bcBkXnymhlBz4+QuriBhH6J3v1hv2mXDlJhBk=;
+	b=iGTgBNa8Q5WpXWILdh80ayXO332RbZUBqT6yh8iJmPoBuGBV7weclTcUHU/nDY+baspPP6
+	ispt+59y8PaLaLBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3589A4273B;
+	Tue, 17 Mar 2026 13:39:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id WESUDJtZuWkGTAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 17 Mar 2026 13:39:39 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id E8519A0A5B; Tue, 17 Mar 2026 14:39:34 +0100 (CET)
+Date: Tue, 17 Mar 2026 14:39:34 +0100
+From: Jan Kara <jack@suse.cz>
+To: Mateusz Guzik <mjguzik@gmail.com>
+Cc: Jan Kara <jack@suse.cz>, brauner@kernel.org, viro@zeniv.linux.org.uk, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	"Lai, Yi" <yi1.lai@linux.intel.com>
+Subject: Re: [PATCH] fs: revert insert_inode_locked() eviction wait change
+ and explain why
+Message-ID: <6mknq4cxnf2dhix23gv4wqxy3vnzmhy5opxwpd72ncnpdgnnxr@omhnt5rktvir>
+References: <20260316103306.1258289-1-mjguzik@gmail.com>
+ <yojtdduvndkyez7mzyah2fznxtztf5boonyxwicp6zb6zw52ao@h6g6zcxhvz3w>
+ <CAGudoHEMpe6r+g8OOhFPDAiHtVDraPxA4kSmVLp469g5YZgzYA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <jknk6pwirqp5kgxdwr7qez2qzuycmj4eupknf3yvqzlnkyiu5k@nowg6cwpxqc3>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAGudoHEMpe6r+g8OOhFPDAiHtVDraPxA4kSmVLp469g5YZgzYA@mail.gmail.com>
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.997];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	URIBL_BLOCKED(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,suse.cz:email];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,suse.cz:email]
+X-Spam-Flag: NO
+X-Spam-Score: -3.80
+X-Spam-Level: 
 
-On Tue, Mar 17, 2026 at 01:19:23PM +0100, Jan Kara wrote:
-> On Tue 17-03-26 14:59:47, Ravi Singh wrote:
-> > When an ID has no dquot on disk, Q_XGETQUOTA returns -ENOENT even
-> > though default quota limits are configured and enforced against that
-> > ID.  This means unprivileged users who have never used any resources
-> > cannot see the limits that apply to them.
-> > 
-> > When xfs_qm_dqget() returns -ENOENT for a non-zero ID, return a
-> > zero-usage response with the default limits filled in from
-> > m_quotainfo rather than propagating the error.  This is consistent
-> > with the enforcement behavior in xfs_qm_adjust_dqlimits(), which
-> > pushes the same default limits into a dquot when it is first
-> > allocated.
-> > 
-> > Signed-off-by: Ravi Singh <ravising@redhat.com>
-> 
-> So XFS guys should also review this but from quota POV this looks like a
-> right fix to me. So feel free to add:
-> 
-> Reviewed-by: Jan Kara <jack@suse.cz>
+On Tue 17-03-26 14:12:48, Mateusz Guzik wrote:
+> On Tue, Mar 17, 2026 at 2:01 PM Jan Kara <jack@suse.cz> wrote:
+> >
+> > On Mon 16-03-26 11:33:05, Mateusz Guzik wrote:
+> > > It causes a deadlock, reproducer can be found here:
+> > > https://lore.kernel.org/linux-fsdevel/abNvb2PcrKj1FBeC@ly-workstation/
+> > >
+> > > The real bug is in ext4, but I'm not digging into it and a working order
+> > > needs to be restored.
+> >
+> > I can dig into that. I expect ext4 ends up calling find_inode() from its
+> > ext4_evict_inode() handler or something like that? I was searching for such
+> > occurrence for a while but I didn't find it so can you share where ext4
+> > blocked? Because the stacktraces from the original report just show the
+> > journalling machinery hangs but those are only side-effects of somebody
+> > hanging in ext4 with the transaction handle started... Thanks!
+> all traces attached
 
-This was discussed at last week's ext4 conference call, and we
-wondered whether we might be better off adding a new
-Q_XGETDEFAULTQUOTA or some such which returned the default quota.
-This would that the quota userspace utilities would have to be
-changed, but it would also mean that userspace could distinguish
-between whether the quota limit was due to a default value being used,
-or because the user had an actual quota value set.
+Thanks! OK, for reference the inode has been marked as 'sync' so
 
-It also means that in the future, if we wanted to change where the
-default quota was stored, it would be possible to do that instead of
-overloading the quota value for uid/gid 0.
+ext4_evict_inode() -> ext4_journal_stop()
 
-We also speculated that perhaps there might be cases where if some
-process might be running without CAP_SYS_ADMIN, there might be a
-reason that quota for uid=0 might actually make sense, and so perhaps
-some future file system format change might want to decouple where the
-default quota was stored.
+ends up waiting for transaction commit. However ext4_new_inode() calls
+insert_inode_locked() with started transaction handle and thus waits for
+the freeing inode with the handle started. Classical ABBA deadlock. I'll
+think how we could sensibly fix this in ext4.
 
-This is a API question, and given that I don't really care a whole lot
-about quotas (we use quota only for tracking usage, not for actually
-enforce quota limits, so I really don't care that much), what do folks
-think makes the most amount of sense?
-
-						- Ted
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
