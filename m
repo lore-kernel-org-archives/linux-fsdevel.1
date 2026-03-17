@@ -1,86 +1,88 @@
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50AC42441A6;
-	Tue, 17 Mar 2026 14:23:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7C073A6EF8;
+	Tue, 17 Mar 2026 14:38:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773757420; cv=none; b=Wg2xe5M4vz9nU+nQnII8wqMGeM8S/WT2kWFXugfbDRUYxx/omCQjhKtJDNeCqTccihUkC+9B0U2MZzbCRGgxxLn2VvmnXCjGxviK+zQxVinNGcJwEp+qN/xVzqUHg5Pbg6p3z72G+u6noqQguYpvua+9ePL8MZd6KEkktiKe8OE=
+	t=1773758308; cv=none; b=I4GhL1Bh0pnz1d0YfkZhfpBTJyDawu+DfsHr1x+MfgpViNGnHKA5w+g7rIR8lBIooBHdqKC/d/de7TcVIEfKyMRF+VKV9V6X/BuCQUdTPKutI5VQdIBR6wXDtAQr3wLS/1z7Cv+M74yGE/sIh+p11NCi8wKJsSYUc/a1iv9CEzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773757420; c=relaxed/simple;
-	bh=BZ8GUy2pSWGU6ftZjWFNegZrejoShoYpG7+Q3De8E/k=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=UyK89t35PRL7H6JBWfW/Pee0mNze/avgDAx/cqy48cyTh+LgJzXEp3DuNP2Q9JgOReoC2+ukbebnxQ+t2jHNjliLRC2WZoxwcp3Uk8RGqaBVHne7oNw1rqv3bLuxnuW6IR3GEJwk2qBzKyvGdnsbAjP3ss0a2dr5tF+QJx9x58M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=AkA/Ykis; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	s=arc-20240116; t=1773758308; c=relaxed/simple;
+	bh=6s5chDVwAXndg+Y6XgDhqnlRxrGzuz/Ue+HZVY4Lx4U=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jPhpOm1U0ukOehdU5wJ23QgIqY2kGTDJ/9awn4tWmYURaxpLx9OP8C0Q4/nuWQ8d+jLC6BzCheZhNLv9cBTWjeig/5+AAWFC4baXacSPOfniWTTLZ3Xaw8vdnaXC2XtckK/NP8MM9ShWGwQuqb9nw57VhRNB5fwBcYBGfGuBBvw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MVY3GiPg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="AkA/Ykis"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
-	To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=R9qKTxVmHGGb8OJAUrqM95C/m+9m/6CJuNVE9KujwFs=; b=AkA/YkisOpyqtPxjaG/vC8P71O
-	ZPIIRrIPPz16dkyFClQ7D1nOMLEqkeWhOhdlYeRYu4RcdbE4cuq+WoEd+TrpFXJnI/bsISxcR6tht
-	3extEeeXRxxauDbPv+RsP+fU+hg25gqfYduRzivC6hyRDF9K5rPH17UMlBXQNHod0mjqvjpowveSD
-	rovRC1oX5abUaWdfznMn/HTy+8GSLwxjMQJwFQPfZbInpE8mEEr+UQeZLQJhCEpxy0GIcdhh8tPZ7
-	Mxg9A5F8Y7ucP/bSuboZwAoE0ZHVJRcmzto5wQQWpp0JMGsagYuSB5Hpv7K0QZa+DQGLp6BHeTh9e
-	eYVRMWvg==;
-Received: from [189.115.10.45] (helo=toolbx)
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1w2VKX-002JN2-Ry; Tue, 17 Mar 2026 15:23:34 +0100
-From: Helen Koike <koike@igalia.com>
-To: tytso@mit.edu,
-	adilger.kernel@dilger.ca,
-	linux-ext4@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MVY3GiPg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BE4AC4CEF7;
+	Tue, 17 Mar 2026 14:38:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773758308;
+	bh=6s5chDVwAXndg+Y6XgDhqnlRxrGzuz/Ue+HZVY4Lx4U=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=MVY3GiPgDEXtYTxOmj2lPT0QepCBGq/wp0pVUBlK7CAabtbZMGq+1MOTnLJ3Og3NV
+	 dwZq/UjIfn6Py5o7Y9He/Xmapz17La6mKk5hpy5KEwbiEsWbFSVb3QlNIB0FN1EUTr
+	 gsUuteydp1FOd48hIf39F5BuWXKkn7qcZFx/MuGcQ+4FF+7mbXpxw5COcL2V3zKQso
+	 jRcy46TaBQzg73MadFUJj56UOJzgdHr6EvLlWIxLbVYNtWN9jqcqD9mJor3fAGcaMf
+	 Mp6i4ksy4Qw5+xO8c/qdSGiMEAAEWDmHVvmHnMzjNJ5qhc1q6u2+O+ZJmXKsD9fglZ
+	 hK/foyjV+SKcg==
+From: Christian Brauner <brauner@kernel.org>
+To: Hyungjung Joo <jhj140711@gmail.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+	jack@suse.cz,
+	greg@kroah.com,
 	linux-kernel@vger.kernel.org,
-	kernel-dev@igalia.com,
-	koike@igalia.com,
-	syzbot+b73703b873a33d8eb8f6@syzkaller.appspotmail.com
-Subject: [PATCH] ext4: reject mount if bigalloc with s_first_data_block != 0
-Date: Tue, 17 Mar 2026 11:23:10 -0300
-Message-ID: <20260317142325.135074-1-koike@igalia.com>
-X-Mailer: git-send-email 2.53.0
+	viro@zeniv.linux.org.uk,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] fs/mbcache: cancel shrink work before destroying the cache
+Date: Tue, 17 Mar 2026 15:38:20 +0100
+Message-ID: <20260317-inventar-wirksam-11bc2443fabc@brauner>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260317054556.1821600-1-jhj140711@gmail.com>
+References: <20260317054556.1821600-1-jhj140711@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1395; i=brauner@kernel.org; h=from:subject:message-id; bh=6s5chDVwAXndg+Y6XgDhqnlRxrGzuz/Ue+HZVY4Lx4U=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTuTI81tnLfrmy7MejlaycBF6Fsm23f+5jOWMY33+AKe 5dwYD1TRykLgxgXg6yYIotDu0m43HKeis1GmRowc1iZQIYwcHEKwER2TmNkeP3+oMIBmVP860Ve 6XgJZOcqvSy+dVKpt1HW75R3ls6fq4wMD93Cy166ctxZcfuLpes2qVPs1vxVrTZV1YecrYNNHR1 4AA==
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
 
-bigalloc with s_first_data_block != 0 is not supported, reject mounting
-it.
+On Tue, 17 Mar 2026 14:45:56 +0900, Hyungjung Joo wrote:
+> mb_cache_destroy() calls shrinker_free() and then frees all cache
+> entries and the cache itself, but it does not cancel the pending
+> c_shrink_work work item first.
+> 
+> If mb_cache_entry_create() schedules c_shrink_work via schedule_work()
+> and the work item is still pending or running when mb_cache_destroy()
+> runs, mb_cache_shrink_worker() will access the cache after its memory
+> has been freed, causing a use-after-free.
+> 
+> [...]
 
-Signed-off-by: Helen Koike <koike@igalia.com>
-Suggested-by: Theodore Ts'o <tytso@mit.edu>
-Reported-by: syzbot+b73703b873a33d8eb8f6@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=b73703b873a33d8eb8f6
+
+Pretty sure this is AI generated and it misses a Fixes: tag but otherwise looks
+correct.
+
 ---
- fs/ext4/super.c | 7 +++++++
- 1 file changed, 7 insertions(+)
 
-diff --git a/fs/ext4/super.c b/fs/ext4/super.c
-index 495f99c10085..9f0cc29b718f 100644
---- a/fs/ext4/super.c
-+++ b/fs/ext4/super.c
-@@ -3626,6 +3626,13 @@ int ext4_feature_set_ok(struct super_block *sb, int readonly)
- 			 "extents feature\n");
- 		return 0;
- 	}
-+	if (ext4_has_feature_bigalloc(sb) &&
-+	    le32_to_cpu(EXT4_SB(sb)->s_es->s_first_data_block)) {
-+		ext4_msg(sb, KERN_WARNING,
-+			 "bad geometry: bigalloc file system with non-zero "
-+			 "first_data_block\n");
-+		return 0;
-+	}
- 
- #if !IS_ENABLED(CONFIG_QUOTA) || !IS_ENABLED(CONFIG_QFMT_V2)
- 	if (!readonly && (ext4_has_feature_quota(sb) ||
--- 
-2.53.0
+Applied to the vfs-7.1.misc branch of the vfs/vfs.git tree.
+Patches in the vfs-7.1.misc branch should appear in linux-next soon.
 
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
+
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-7.1.misc
+
+[1/1] fs/mbcache: cancel shrink work before destroying the cache
+      https://git.kernel.org/vfs/vfs/c/d227786ab111
