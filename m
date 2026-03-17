@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65E753988FB;
-	Tue, 17 Mar 2026 08:27:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E0A339A7F6;
+	Tue, 17 Mar 2026 08:28:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773736075; cv=none; b=leFWYEWb3fnzP/9TYmyN1d7aW81HfL1dY1ivC+++G+4QzUp6GglEZQSZLFx//2YAis8znXL4l6GSUUhvZJdTgLiyt3+xCcB6N8uh6FJsewFlCoTC3dd/Nm8xB1FInN60XRwL3f4dW1IYM7O5oCRo75SP3PrCfdDtX3CNC4xBVY8=
+	t=1773736084; cv=none; b=J7WLuVn+KALB4slj6QignPR+hKVyx8tRfscYdkGx9NvdEWpx9WkIpbQK8t/8wgbZ3jtVILVog4pjlJslVy63Uqwau/GWPnxF95wvbxBrqO4ilJalut5ka5WNuQVf2kyTFndXiU0/dBPl3baa7R6qHk2Q8w0rffqcthQuVwvCOMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773736075; c=relaxed/simple;
-	bh=5J7bm5yZK2SOAa9ngMWjA/xHVCb4YicboOTrm+PNtwU=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=rI/6cKYgQN90CA0vKrt53DKnxW2Ke41h3yZXBoS/uqseo5yTk3M6/o7kY44e6U7gtwmLAQ7Vw4xwpL6UsLISX98EA2rx+dEW5RqChBV6MOfolGZNEmJSmBWqDPlYZvnOetFBvc8YJZsNAGILh8xNBi1Phac35vn5bvN+MXE9Jb0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rPHlFxRm; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773736084; c=relaxed/simple;
+	bh=s0mX9OKppXx1MLSUtDAxDsL4gxQjgUId5GHLf/L4xgY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BFSmZQ3m2e0jG3zqYuawnpFLD2nRr9V4nN2vRPCXN5JLkL1YCF1vUxIq709EdCs1MlwyWFJFuqL3Puh9ljAx0SHqrok1x+u7FkVTiv8J0lyGRN2Pn3Fm7/wMUwOE4FFcDSFSSQj+zn/CQBfJLAvpUTR2l9n/Jm2OUrAyeRhQ0nE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=refhG2sJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rPHlFxRm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B08AC4CEF7;
-	Tue, 17 Mar 2026 08:27:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="refhG2sJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02901C2BCAF;
+	Tue, 17 Mar 2026 08:27:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773736074;
-	bh=5J7bm5yZK2SOAa9ngMWjA/xHVCb4YicboOTrm+PNtwU=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=rPHlFxRm+xTAI1x38mz3jSy00ZKkrVmPpnz40uyihNJE5MPDov1WHJdJUitOMXLrJ
-	 un6A8dglaKzNMTlYW8p7vZW0d/oZcVWwNHhf/Jc3EQk9CIAxFAO/TV0PTJBAU+xMX4
-	 4SBdtLTLv0tJnRV+H5bHNxvG3TGygef8kayz+xsC/OhwS6JmnTucI7EVfjQhUW5fnz
-	 k3HNS0/A8/i+4SKgBrqCtG5hCNiS/Mi7XpynSOplR0cxRbCaHa5k0NLGFDr8WykDK6
-	 iDppdA+7VLxcxSyM0fPEPfd6hcmf9cf2OqNpnno0ACsAJBsUbqlJQ5m8sBErpDSyAz
-	 PJg3HBBRH7D1A==
-Message-ID: <abeb4474-8f3a-49c4-bb73-50f2a633d179@kernel.org>
-Date: Tue, 17 Mar 2026 09:27:50 +0100
+	s=k20201202; t=1773736084;
+	bh=s0mX9OKppXx1MLSUtDAxDsL4gxQjgUId5GHLf/L4xgY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=refhG2sJmhwyQ8hGpRC+QL1PYk1IlsUWSLDzCbKXhBNy3vu9wXDg2OMVRA0idpXAi
+	 VY1102lBfwFuRL0DVDD/JzAR5AtBJh/1g1aPrlcRiZFF+RhjlGt6ea4xVTN02yttqL
+	 ySZwGu/UDFHhj1wp1Bxp0+Vd4JK3JnIKlGvA7KUL3Ooeig/IiKZthfRjqUPgeO9dxG
+	 6uRr5JHC1mtM/v3HG3P2LBkYL//Q0GuSDFU/ao9tO2/BFMM4n2P6PRmP+KDOWbUetL
+	 KVpv12l0GK1Mp8z0t0za/6thV/yw9NLzN9gwI9Ad6NZiVqJt5MG3WzbWvebj8jCz8X
+	 AoKy3tdmbdy4g==
+Message-ID: <ed50e523-8834-4a35-8e54-06f3db89e7ee@kernel.org>
+Date: Tue, 17 Mar 2026 09:27:57 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -35,52 +35,83 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Subject: Re: [PATCH v3] iomap: add allocation cache for iomap_dio
-To: changfengnan <changfengnan@bytedance.com>
-Cc: Dave Chinner <david@fromorbit.com>, Harry Yoo <harry.yoo@oracle.com>,
- Hao Li <hao.li@linux.dev>, guzebing <guzebing1612@gmail.com>,
- brauner@kernel.org, djwong@kernel.org, hch@infradead.org,
- linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, guzebing@bytedance.com,
- syzbot@syzkaller.appspotmail.com, linux-mm@kvack.org
-References: <20260115021108.1913695-1-guzebing1612@gmail.com>
- <aWh06YoiJrR3-J-X@dread.disaster.area>
- <d9210bcdf73fbe1ac8b6ec132865609a3ed68688.e7ce3c98.9b89.4c0d.96b4.bddcc787e1ed@bytedance.com>
- <d2598f65-8666-43f4-a9c1-73bee678f8d7@kernel.org>
- <d9210bcdf73fbe1ac8b6ec132865609a3ed68688.e7a4a183.1b5a.4776.80f3.36cd4d9bdb3b@bytedance.com>
+Subject: Re: [RFC PATCH] mm: filemap: fix nr_pages calculation overflow in
+ filemap_map_pages()
+To: Baolin Wang <baolin.wang@linux.alibaba.com>, akpm@linux-foundation.org,
+ willy@infradead.org
+Cc: lorenzo.stoakes@oracle.com, kas@kernel.org, p.raghav@samsung.com,
+ mcgrof@kernel.org, dhowells@redhat.com, djwong@kernel.org, hare@suse.de,
+ da.gomez@samsung.com, dchinner@redhat.com, brauner@kernel.org,
+ xiangzao@linux.alibaba.com, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org
+References: <066dd2e947ccc1c304b54e847fbe628dccea1d7c.1773370126.git.baolin.wang@linux.alibaba.com>
+ <a5625929-736b-4ddc-a8e3-30e3aa54df12@kernel.org>
+ <23953888-15d6-4cef-af8c-be15ed6d6e20@linux.alibaba.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
-In-Reply-To: <d9210bcdf73fbe1ac8b6ec132865609a3ed68688.e7a4a183.1b5a.4776.80f3.36cd4d9bdb3b@bytedance.com>
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <23953888-15d6-4cef-af8c-be15ed6d6e20@linux.alibaba.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 3/17/26 08:28, changfengnan wrote:
+
+>> LGTM. I do wonder if we want to add a comment above the file_end,
+>> stating that this really must happen before the next_uptodate_folio()
+>> to handle concurrent truncation.
 > 
->> That suggests in that test you used larger capacity than the automatically
->> calculated.
-> The 10% improvement is due to the every cache has sheaves.
-> When I tested 256-byte objects, default sheaf_capacity is 26, allocating and
-> freeing 32 objects did not show a noticeable difference, but allocating and
-> freeing 128 objects resulted in a significant improvement, about 3-4x in a 
-> multithreaded environment.  about 12% improvement in single thread.
-
-Great!
-
->>  
->> > I'm thinking that maybe these improvements may not be significant enough to
->> > see the effect in the io flow.
->> > Using a simple list seems to be the most efficient approach.
->> 
->> I think the question is, what improvement do you now see with your added
->> pcpu cache vs kmalloc() when 7.0-rc4 is used as the baseline?
+> Ack. How about adding the following comments?
 > 
-> On 7.0-rc4, pcpu get 1.20M IOPS , kmalloc get 1.19M IOPS, new cache with set sheaf_capacity 256, 1.19M IOPS
-> On 6.19, pcpu get 1.20M IOPS,  kmalloc get 1.17M IOPS, new cache with set sheaf_capacity 256, 1.19M IOPS.
+> "
+> Recalculate end_pgoff based on file_end before calling
+> next_uptodate_folio() to avoid races with concurrent truncation.
+> "
 
-Thanks a lot for that data. My conclusion is that kmalloc before sheaves did
-indeed worse and custom pcpu cache improved it relatively more. Kmalloc with
-sheaves does better, and the improvement of custom pcpu cache is smaller.
-Also the default sheaf capacity seems to be enough for this workload.
+Works for me, thanks!
 
-IO is not my area but getting from 1.19M to 1.20M doesn't look like it's
-worth the custom code? (possibly from 1.17M to 1.20M it also wasn't).
+-- 
+Cheers,
+
+David
