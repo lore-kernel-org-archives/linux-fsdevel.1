@@ -1,166 +1,157 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E05E392C3B
-	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 08:10:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 409B9395259
+	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 08:12:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773735053; cv=none; b=uBWg5JHeaeavCvXLEfNjv8ombQpQjl4mtluqQtRvKbhqKw36Gy7IjYNc6KxvYfHnfq4+31CQi15rFc0E1eTe56f8dZ9scoER0QP+FC9WVWT2K55alOsSnkDYf8Hc2In1w50hKj2kuZ1Si0guduInw2rP/lmdqd8kfdn0aSRBBKM=
+	t=1773735153; cv=none; b=BW5Rig4mm1ov8KLp4Zc83sIT9FRT/OjvHgerEiJKV8sGprOkIyVTNCO7y3RdVQ+ETfwQZvMA2omdPxA6dDesqXsaVk3UrYKRCdG1fHV0aLMwnPRUMkijOop/CNydqqdiVAuwM30wRk6K6HwvvITNwEsvuWipMmi8qsszAw4+bWg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773735053; c=relaxed/simple;
-	bh=8rJ1OZYfYslPNIBV5/5qfAjIm731QhvV1HYeRpOIXDI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c5jLmlf1yo6nOyBkzFT4bCXmi+Q6b7SICZBETcq07cXE1li9YIKE0TSxRn/YtOjL2rbQE7TMpKNrOP207NDLvhimOkQNyDvyoeSYYt7rQqm5umU/5/HcI8pvBGaRjDE1BHqn101kTxo4zoC1Gf2C5Z3K1gGlDPjz6gbo+7O41ag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=PP+7iIEl; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=58w7F49+; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=VI0SO//M; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=fUBhVW/i; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="PP+7iIEl";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="58w7F49+";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="VI0SO//M";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="fUBhVW/i"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 165E85BCFD;
-	Tue, 17 Mar 2026 08:10:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1773735050; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BxecvMoTlmFeixFZ1ebr5yl1nb1we3LjrSPC3eW1IOA=;
-	b=PP+7iIEldqjo8vbmejfL0p8Wudur7lz0GReEJU0+8iOiAnGRmQ/Gd7wcJqz0DZpiT+06wi
-	XkE5JVjqnGMpg0kuyX8OdMzDUkN3jx9Hfus/6bwtrh5eNhp/OlK9JfYlbnLP9k5MIcSafO
-	LawOH8c04f6/bL9p0ueLTtbxaL6BOxc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1773735050;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BxecvMoTlmFeixFZ1ebr5yl1nb1we3LjrSPC3eW1IOA=;
-	b=58w7F49+mg5cZUxKeBodNb2MxRaLuQVFpGJuEFt6T1Ru+i3jx9K4y3eqlB26KF9khRvoBK
-	ZcmndbMSXc2NVXBQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b="VI0SO//M";
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b="fUBhVW/i"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1773735049; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BxecvMoTlmFeixFZ1ebr5yl1nb1we3LjrSPC3eW1IOA=;
-	b=VI0SO//MNQ4HqUXsUp0WSfKWJ1oBAA6fRadUyLfSKn3svPWHYm/qMYkAxqFD5fRkIbvEhN
-	wkmkS0/z1uuyI6GjImoyaxN4qNEaEjx3xGXVLVSgCfg51j2UQ5IwKNqYbdxBF6f0hp5uDO
-	QKLmc3U2T0PaD3c5/Pqqt64Fj+4w27U=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1773735049;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BxecvMoTlmFeixFZ1ebr5yl1nb1we3LjrSPC3eW1IOA=;
-	b=fUBhVW/iUBkNtNyKNtxAVBRtYtc7LjQ5qifpN3Ev8tDso2tQnZub3W5cJtgiscQ6btjxLh
-	TUSRlzMrriq2HuBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0D5484273B;
-	Tue, 17 Mar 2026 08:10:49 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Zbs8A4kMuWlwVQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 17 Mar 2026 08:10:49 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id AE2DAA0A5B; Tue, 17 Mar 2026 09:10:40 +0100 (CET)
-Date: Tue, 17 Mar 2026 09:10:40 +0100
-From: Jan Kara <jack@suse.cz>
-To: Kit Dallege <xaum.io@gmail.com>
-Cc: Jan Kara <jack@suse.cz>, Christian Brauner <brauner@kernel.org>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] writeback: fix kernel-doc function name mismatch for
- wb_put_many()
-Message-ID: <zfesul4xsiosblheei4ikbmtffoqdb3kr4vs3uztntujyqe5dp@l4q2ml2hnzlp>
-References: <20260315170931.65852-1-xaum.io@gmail.com>
+	s=arc-20240116; t=1773735153; c=relaxed/simple;
+	bh=kd60VLBztlICSB2/2oYHC9TW+pxMenwHzAeSqzKgQdg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tt2HZQooCtd9wX/EUCDLMwgIJ7ChR+ietEr9G7bhJpyzdhJPt0VuKs5zn6zM71PbA2uoNSd02eLPqs0l/fL/RTkTPPxkh8sRCf+muYi3IJ80hY0v1HNthJKkzAUWpbkFNsN2tF8M9/BBylBkPQMRL8s1CYi8SfnT72elpisCtes=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 030449f821d911f1a21c59e7364eecb8-20260317
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.11,REQID:9ee9cd9a-a678-47db-97f5-c9009c77d721,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:89c9d04,CLOUDID:d1dba8bde471f1f731c0e331bbb750a9,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|898,TC:nil,Content:0|15|
+	50,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0
+	,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 030449f821d911f1a21c59e7364eecb8-20260317
+X-User: liwang@kylinos.cn
+Received: from [10.42.16.85] [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <liwang@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
+	with ESMTP id 1214560612; Tue, 17 Mar 2026 16:12:16 +0800
+Message-ID: <bdc6c640-517c-457b-ae3c-e3ea3cacfcca@kylinos.cn>
+Date: Tue, 17 Mar 2026 16:12:14 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260315170931.65852-1-xaum.io@gmail.com>
-X-Spamd-Result: default: False [-2.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_COUNT_THREE(0.00)[3];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FREEMAIL_TO(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	ASN(0.00)[asn:32098, ipnet:2800::/6, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:email,suse.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -2.51
-X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 165E85BCFD
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] fuse: rename confusing ring->max_payload_sz
+To: Bernd Schubert <bernd@bsbernd.com>, Miklos Szeredi <miklos@szeredi.hu>
+Cc: linux-fsdevel@vger.kernel.org
+References: <20260305123511.4222-1-liwang@kylinos.cn>
+ <eae6aa8a-9550-4c82-9b77-12642af62cff@bsbernd.com>
+Content-Language: en-GB
+From: Li Wang <liwang@kylinos.cn>
+In-Reply-To: <eae6aa8a-9550-4c82-9b77-12642af62cff@bsbernd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sun 15-03-26 18:09:31, Kit Dallege wrote:
-> The kernel-doc comment says wb_put but the actual function is
-> wb_put_many. Fix the name to match.
+Hi Bernd,
+
+On 11/03/2026 00:31, Bernd Schubert wrote:
 > 
-> Assisted-by: Claude:claude-opus-4-6
-> Signed-off-by: Kit Dallege <xaum.io@gmail.com>
-
-Looks good. Feel free to add:
-
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-								Honza
-
-> ---
->  include/linux/backing-dev-defs.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/include/linux/backing-dev-defs.h b/include/linux/backing-dev-defs.h
-> index c88fd4d37d1f..a06b93446d10 100644
-> --- a/include/linux/backing-dev-defs.h
-> +++ b/include/linux/backing-dev-defs.h
-> @@ -237,7 +237,7 @@ static inline void wb_get(struct bdi_writeback *wb)
->  }
->  
->  /**
-> - * wb_put - decrement a wb's refcount
-> + * wb_put_many - decrement a wb's refcount
->   * @wb: bdi_writeback to put
->   * @nr: number of references to put
->   */
-> -- 
-> 2.53.0
+> On 3/5/26 13:35, Li Wang wrote:
+>> In the fuse_uring_create_ring_ent function of dev_uring.c,
+>> when payload_size < ring->max_payload_sz, it reports an error,
+>> which is confusing because  ring->max_payload_sz feels like
+>> it should represent the allowed upper limit. Therefore, rename it
+>> to indicate the maximum possible payload size of the fuse requests.
+>>
+>> Signed-off-by: Li Wang <liwang@kylinos.cn>
+>> ---
+>>  fs/fuse/dev_uring.c   | 14 +++++++-------
+>>  fs/fuse/dev_uring_i.h |  4 ++--
+>>  2 files changed, 9 insertions(+), 9 deletions(-)
+>>
+>> diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
+>> index 3a38b61aac26..9afa0c7cf92a 100644
+>> --- a/fs/fuse/dev_uring.c
+>> +++ b/fs/fuse/dev_uring.c
+>> @@ -229,7 +229,7 @@ static struct fuse_ring *fuse_uring_create(struct fuse_conn *fc)
+>>  	struct fuse_ring *ring;
+>>  	size_t nr_queues = num_possible_cpus();
+>>  	struct fuse_ring *res = NULL;
+>> -	size_t max_payload_size;
+>> +	size_t max_req_payload_size;
+>>  
+>>  	ring = kzalloc_obj(*fc->ring, GFP_KERNEL_ACCOUNT);
+>>  	if (!ring)
+>> @@ -240,8 +240,8 @@ static struct fuse_ring *fuse_uring_create(struct fuse_conn *fc)
+>>  	if (!ring->queues)
+>>  		goto out_err;
+>>  
+>> -	max_payload_size = max(FUSE_MIN_READ_BUFFER, fc->max_write);
+>> -	max_payload_size = max(max_payload_size, fc->max_pages * PAGE_SIZE);
+>> +	max_req_payload_size = max(FUSE_MIN_READ_BUFFER, fc->max_write);
+>> +	max_req_payload_size = max(max_req_payload_size, fc->max_pages * PAGE_SIZE);
+>>  
+>>  	spin_lock(&fc->lock);
+>>  	if (fc->ring) {
+>> @@ -255,7 +255,7 @@ static struct fuse_ring *fuse_uring_create(struct fuse_conn *fc)
+>>  
+>>  	ring->nr_queues = nr_queues;
+>>  	ring->fc = fc;
+>> -	ring->max_payload_sz = max_payload_size;
+>> +	ring->max_req_payload_sz = max_req_payload_size;
+>>  	smp_store_release(&fc->ring, ring);
+>>  
+>>  	spin_unlock(&fc->lock);
+>> @@ -590,7 +590,7 @@ static int fuse_uring_copy_from_ring(struct fuse_ring *ring,
+>>  	if (err)
+>>  		return -EFAULT;
+>>  
+>> -	err = import_ubuf(ITER_SOURCE, ent->payload, ring->max_payload_sz,
+>> +	err = import_ubuf(ITER_SOURCE, ent->payload, ring->max_req_payload_sz,
+>>  			  &iter);
+>>  	if (err)
+>>  		return err;
+>> @@ -621,7 +621,7 @@ static int fuse_uring_args_to_ring(struct fuse_ring *ring, struct fuse_req *req,
+>>  		.commit_id = req->in.h.unique,
+>>  	};
+>>  
+>> -	err = import_ubuf(ITER_DEST, ent->payload, ring->max_payload_sz, &iter);
+>> +	err = import_ubuf(ITER_DEST, ent->payload, ring->max_req_payload_sz, &iter);
+>>  	if (err) {
+>>  		pr_info_ratelimited("fuse: Import of user buffer failed\n");
+>>  		return err;
+>> @@ -1056,7 +1056,7 @@ fuse_uring_create_ring_ent(struct io_uring_cmd *cmd,
+>>  	}
+>>  
+>>  	payload_size = iov[1].iov_len;
+>> -	if (payload_size < ring->max_payload_sz) {
+>> +	if (payload_size < ring->max_req_payload_sz) {
+>>  		pr_info_ratelimited("Invalid req payload len %zu\n",
+>>  				    payload_size);
+>>  		return ERR_PTR(err);
+>> diff --git a/fs/fuse/dev_uring_i.h b/fs/fuse/dev_uring_i.h
+>> index 51a563922ce1..544f7afb3866 100644
+>> --- a/fs/fuse/dev_uring_i.h
+>> +++ b/fs/fuse/dev_uring_i.h
+>> @@ -112,8 +112,8 @@ struct fuse_ring {
+>>  	/* number of ring queues */
+>>  	size_t nr_queues;
+>>  
+>> -	/* maximum payload/arg size */
+>> -	size_t max_payload_sz;
+>> +	/* maximum request payload/arg size */
+>> +	size_t max_req_payload_sz;
+>>  
+>>  	struct fuse_ring_queue **queues;
+>>  
 > 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+> I don't have a strong opinion here, wouldn't be sufficient to update the
+> comment?
+> 
+Thanks for the review. I'm fine with either approach, so I'd like to defer to Miklos's preference. 
+> 
+> Thanks,
+> Bernd
+
