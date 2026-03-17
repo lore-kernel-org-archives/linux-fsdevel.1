@@ -1,190 +1,475 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 465E612B94
-	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 03:43:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773719013; cv=none; b=SXY5tLfpgevqhllsGjyGApBp3yU7aIejYlVxJah7Sraog3dOr9uJRxajy9xkhuvWm+HXXxcO/XnPOHUQeB2eAllTIYfcjiNgs0Iozj6UXi38AAWFUblVmTZ6eatOnKGjnJ5iSJKieNAAt784RiWO+RmZongcv9KDMVH2XzRYUzc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773719013; c=relaxed/simple;
-	bh=Vx2Q3cE2hrN9rjxcQghOvgAp/x/REgJOhJmxH7onb3M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MMa2JXfwbw+kmbqG0WEvHK4shYm5zNGjyQ38S3PR/DbdGkKcWF21b+oHNvY0eYE8KdWFDAdy5iUANWL1cUvQRdf+8CAD+IkzNT9vpsfV/dNdsQGgWMUR8wZT0SAIoj/jhhnEJRjH//GqPPT40IGkwHgCu8roL92SLtHwRBC1Y5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FQ5MzOqp; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=DQDS4l6D; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8225937754E
+	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 04:14:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773720890; cv=pass; b=dk8gREQ6lfCTiF1PgUlcCvpR6IFViOzI4bKHa/Vk5KaT8tnq0bIymgay9zI3mBpNBXD+K3izGuEbNSM75mW1DIoYTjXJ//sfrTAnW8Z09wO08MNoGbGpWRcGlpnNXJVnuxf1FnQ+sy5ayOq+8t/bK+/YnDpUiRWh1fUYKmyjVdM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773720890; c=relaxed/simple;
+	bh=Fvrr0zaI0ly08THfBmh2v/R4nlDTrC1pk8kMvDyKw+I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aGWu+fb+K9zfk+TMCb2qe4jB2AJ8vLEdDXIGyylv8d8KRg4v5S2pE5OL9uFkLrCiOW13JNbnIgmtjSRCYqKcxxSrKnF6HFD6gwTlhfR5j7axHh8A4qGvf64mL9uoZKrEkAipJcgcwFR1czuW/p+7TKUBh3KGenh++5yGybCET+w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=o87zi913; arc=pass smtp.client-ip=209.85.208.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FQ5MzOqp";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="DQDS4l6D"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1773719011;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4pt5Nu9EhoYKBSrDGYVHAoFMnMCMi4CfpJNnzJddGGA=;
-	b=FQ5MzOqpk0jQUGNvI7fGO9FjCoZF7gvnowqBxkJlS+bDtSmo+qf1mEgkUHCscvqbCd7QNA
-	+QptVzTZKjZ5D2nL7Kj1Jg1/iYYKNNMsPHtvH8s3PcC8Fxn4DqgHMg9Ufbznj4GXavmy2P
-	p+JXlWIVm9CfmIGFiGb9iuHRUgbItVU=
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
- [209.85.210.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-470-GfdTNoDKOFq5gDVYQK67HA-1; Mon, 16 Mar 2026 23:43:29 -0400
-X-MC-Unique: GfdTNoDKOFq5gDVYQK67HA-1
-X-Mimecast-MFC-AGG-ID: GfdTNoDKOFq5gDVYQK67HA_1773719009
-Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-829b7ed8958so18194562b3a.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 20:43:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="o87zi913"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-661169cd6d8so3950a12.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 21:14:46 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773720885; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Jtd+M+aREVsPYZfLmkjjdBb0iJgczvChPIjSIrhw1VzIGH418aOg0SQK7VaEWta9uO
+         SspoY/hmhyOkLsLvOaXGALHxHD+ObX8ZBQpfWNxkdeXyarwccT4BVSQYBqtyM0pWzljF
+         gpKlBTeQ1OqJKRBXZRCbHTw531caJHihmHv+kB5f5ExWE1MKEHKv0X8wEY0GREzvs/Sk
+         ijRCl8r5JcDbCrLZ42wJMd3JdRvr5fNZ1+KnPdsr+tLFpiZ1+jxwdFc3FI6XB+0a6ESQ
+         5migIF/3bls0Uz9srFJPbY/MyS9WyLZTHPCh8mEBz6bs8R07uazwOGDButN6pJhVpqL5
+         plVQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=YcyQ10La7z7dBA+gaHeygI/JcZo0DlNoTa72Nf5x2Ho=;
+        fh=Y5H3JNOlF148FvAtX6atvQmyzBSCueFSgGvzQwgf0/I=;
+        b=SuF7y1TYoNK1G4S81yKlQsNBFoQvlbbnLOLmO3EuBcGBNx0RjQls3ISyvGmsnL9o48
+         530qiQ5/rf6wKnHX+1fl/My2XNcE+mEeaGhuAmCi1kFGbC0zqr4X8AcIqfr2AfdxKjX7
+         B2QQqqwEx1g0xhtb0NPsLp3m7EGVegtg+cIoMfbvtv1V53t7bFDpM8cnHtFxSL3qis6E
+         6bCKc9kK29FyNKtCCODA73dFIkYGe/KUrGWHpzgmoeMWY+aPGSofKXxfAXqv1jKa7Hi1
+         SXexTSNdgyMAPhQcs0RMNcx32Gr1Qgjit6jEquzlLm3K77ANTRXqyPDduLCeDHhCGXEP
+         oQIA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1773719009; x=1774323809; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=4pt5Nu9EhoYKBSrDGYVHAoFMnMCMi4CfpJNnzJddGGA=;
-        b=DQDS4l6D/1Zdrbc/AzR04c3oRX1MNKm/s+ZQuH/QPIM6onqWul/g5Qz6tMQu73yz42
-         y/PV8VHBDp6MJce8zGYF2yJB3bajhr4SolsYnk6qxb7AAqi4znH2b1piqiXgTI/Yi769
-         veMJyvCWewL2U6KEeXvAwiKu96zMei7Ivt9QNE89MZydn/gl7mdH9fGAR2pYmB4O/vzK
-         Ff6NMFSR9yKIqgv0Pexo94QFxWOSkvvlz0myvc3S0He3x8EC9DB+spb9PEm1YQ1lgdKj
-         mHFPd0aa/ktXGHFpiH3ij5JVW2pqw5yxw3iCoRzezgFYMMN+r4qudgPj7Pjl+QBTIhBm
-         QzSw==
+        d=google.com; s=20251104; t=1773720885; x=1774325685; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YcyQ10La7z7dBA+gaHeygI/JcZo0DlNoTa72Nf5x2Ho=;
+        b=o87zi913SkiJlLd35xRCW62iQtKKX4dCKSZ0mMjpPhKn9IuuN0Q1aunP6GJOOv2KUX
+         zYvT6B11l5ZsBIObL+mJhMrb/foqBpuBA+ykfOR0Z3aiqDKjx+dn3dYTGGZ5PC904eXn
+         M/bLpD4Dd+3icRhQc8otyF0qWQ/XWlOyX//52yT0+lfyWKo/PYaZ+haDRsWVWkKAZTd2
+         xogARs/GzL59kDRgFmIlPLFVIGwtm1fCNlGu6q0jmtCVfALph9czgVTvk9xgx+EUV5mD
+         11sksyYeSeVYWRyy9JgbXBKlNf62nj0/nnUh7TNBNvFCYcH6y9TcOpYli2avR5wU4GTD
+         gbiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773719009; x=1774323809;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4pt5Nu9EhoYKBSrDGYVHAoFMnMCMi4CfpJNnzJddGGA=;
-        b=c4KWs/rHbbb7vR4Tg2yyUg9wtq9RC54zoVMWR/Ldj1HnIjt61RCliMe91wiWMF8J5y
-         Kl5PPWMmjaVHSg+RmjuP2AW1EoTcCNBRaAk2sZWDHvrT4WGUqjsdGs1zBTm6VC4Y3l68
-         FwqnM3VqA4dSR8adEZ+Om9NZn7f/GdxfadUqm0E7F5A1VJHDUGQGNLgagaI40Pj7W+FX
-         j2FABYsIv1ZjQzUJfW08cagXz/9wZPT0DSs4Lz3Q0LyoogRgNfIIHsmXecQSmcudZyVs
-         /Zjkc6LZsWEBmgL/Vfrc4bv6/mp2AbMpVKgVlUE7RxEDbvLKYj6k06yX0+eIun6kfyrf
-         /eeQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVJormKF7OQkkimd3Byz02e1IovjxfW3kt3Siu7AjLZWl1SBvG4In/aDIrMb2G7HPQSFn4mlWF/Z9d3U5KO@vger.kernel.org
-X-Gm-Message-State: AOJu0YzU83nsmJ1Jti2YQhI8Y2BWLaHjFrpTMfC6ceTx6wc5JbLLzVYk
-	RQGJVNrbJKbEAqdIGs1M14cxLpWJs2PUjdjFKO50jTgvM5vCDYy2K92o1N7BYzn0romMWsYDUYq
-	A96Qeh+auc0hzQxe+EDJ9MWm2y0SwsZEpZ25DzKzgfrjjowglMhZCH/rX5nftzYNgdeg=
-X-Gm-Gg: ATEYQzwTlSKSQf5oWAUqjC7i9PpFRVPlaCFUafzFwV50u5mcSkLvLMI4/js6ix1qeBa
-	tNT/4BOej2lbizhtt5yCeqAYIezqBjaNlqqHZVWYI1sA6MxHWTuUq8QbRj9ruo19GTd4sEbT/s0
-	x46lY1eFmKggYf9MB9KY09nhldlXVNz+kbwpIW6EnY0uqPgiR/LKnmUFKU3lrZqcuu5j1XhJBB9
-	TXE4vbH+5xKLzle8y31M0FISTAhk4C5+9X63oK/lIKyVVGl2fRHS6TB319OZDStjudeg51r0L0q
-	Iw85VFowQ67fFyr6rKCUbQYSc5VYgmBIs7uXbEZtCNOfQaQZN5tMtMFyeook+jxIyxkhRUqOKfh
-	17qHNEEC78cO+RlocHA==
-X-Received: by 2002:a05:6a00:988:b0:821:7d7e:41cd with SMTP id d2e1a72fcca58-82a196f533cmr14557397b3a.10.1773719008766;
-        Mon, 16 Mar 2026 20:43:28 -0700 (PDT)
-X-Received: by 2002:a05:6a00:988:b0:821:7d7e:41cd with SMTP id d2e1a72fcca58-82a196f533cmr14557365b3a.10.1773719008296;
-        Mon, 16 Mar 2026 20:43:28 -0700 (PDT)
-Received: from doltdoltdolt ([209.132.188.88])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82a072422desm15393628b3a.1.2026.03.16.20.43.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Mar 2026 20:43:27 -0700 (PDT)
-Date: Tue, 17 Mar 2026 11:43:21 +0800
-From: Zorro Lang <zlang@redhat.com>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Christoph Hellwig <hch@infradead.org>, jack@suse.cz,
-	fstests@vger.kernel.org, amir73il@gmail.com, gabriel@krisman.be,
-	linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org,
-	hch@lst.de
-Subject: Re: [PATCH 1/1] generic: test fsnotify filesystem error reporting
-Message-ID: <20260317034321.bk47ojmstastkyne@doltdoltdolt>
-References: <177311403420.1186306.10503664469609309721.stgit@frogsfrogsfrogs>
- <177311403440.1186306.11707487947646813883.stgit@frogsfrogsfrogs>
- <abfIexgmKjS1Q7bN@infradead.org>
- <20260316162147.GW1770774@frogsfrogsfrogs>
- <20260316184041.ji5slfx4yvtfwwzq@doltdoltdolt>
- <20260316221658.GO6069@frogsfrogsfrogs>
+        d=1e100.net; s=20251104; t=1773720885; x=1774325685;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=YcyQ10La7z7dBA+gaHeygI/JcZo0DlNoTa72Nf5x2Ho=;
+        b=CcoPpPjv6xkkqbz1oitf59l9LGENIvt/jijSauqKSVcWQ73lcbp8KpF24NdYvhoXz3
+         4T7vEy1mwRYGZol9GB6eO/2fy0Jfh7ek77VcGbX/6Dxn4z2iYjsNvC617xdxqy9qGUrW
+         vqPuEeOY2ug/5PYAQmTeSBSBWShhY+q83y/pAxPKIwK1sW82g+vh5JN3LDrP4SmH8yUs
+         HKssC9usTQQDSN0b6QLgrj8fkKA9P+S4pGFiQJb2Azk/Yv2U99XviJwy9BFU+hqGgOl2
+         cGqnnDRwAzAlumRWiTiNB2mwnJruoKNVsng1TzFkgOqfwExJ0cGhC2QD9/QdwzL6uFom
+         JSng==
+X-Forwarded-Encrypted: i=1; AJvYcCWToltSpx0rb/9QfHJaAFDMl13jZf6MM0yYatgDOaw6R4ucYtofXk8jE1qyEhPR4SG6ZCgl9XjNjFzTTxSc@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz8fmcTXUflkT3l+x26jMBFhwcZzTQzI320gi+J+GW0wo3zJEC0
+	NYbAwt1S0lmfXD/at8TrgodIufGJbb7zxDHzLptBcwfMmxFUQwKkLXjsgRjfCv4UqcfIhBgWxnH
+	RYz1pdEaGKdDbzJvD33RVwvGCUQHahYLPPDI23yk3
+X-Gm-Gg: ATEYQzwsFIDpelhu3ROQ5jiEPS8Ea6wmMPi/IlpuAskVv4pUZwtDHhwLu2Qrwc1WPHm
+	qibDGwmKTl9PXCMhlpI5wFSoD5HNy76yu0YH4FCaNrVcJKW+WHd7haXdwCqBzDarGPSHcbqPQuH
+	w1gYLPWhi0A7XWlEK2myYXREyBCtdtyuOUgVz50ZP8tN7SBnRVwFAwnDfa0azOKq+z3WBT21FN+
+	kkNV9wG28tQscceg3qiPYBYUeUCzArs5u5kZZgwSWfdBIKrdoYR3/+fJbDnO9sb+0Ct7YXnIeVR
+	yMxbXQ==
+X-Received: by 2002:aa7:db43:0:b0:662:fa40:a4ab with SMTP id
+ 4fb4d7f45d1cf-6672c04079dmr12810a12.5.1773720884078; Mon, 16 Mar 2026
+ 21:14:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260316221658.GO6069@frogsfrogsfrogs>
+References: <cover.1773695307.git.ljs@kernel.org> <1e58aaf3cdb61cc317d890c12c9a558dfc206913.1773695307.git.ljs@kernel.org>
+In-Reply-To: <1e58aaf3cdb61cc317d890c12c9a558dfc206913.1773695307.git.ljs@kernel.org>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Mon, 16 Mar 2026 21:14:28 -0700
+X-Gm-Features: AaiRm51gRTcyoMqq_XPyOc66DyE9InTC_Zt20apDrYUnF7DiAEmv2zggrx-iJUg
+Message-ID: <CAJuCfpGocCSRT0yDxPOLg2NZ+W_ZSTjHGPZRKBd3U90=sQtHCw@mail.gmail.com>
+Subject: Re: [PATCH v2 06/16] mm: add mmap_action_simple_ioremap()
+To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Clemens Ladisch <clemens@ladisch.de>, Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "K . Y . Srinivasan" <kys@microsoft.com>, 
+	Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
+	Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, 
+	Vignesh Raghavendra <vigneshr@ti.com>, Bodo Stroesser <bostroesser@gmail.com>, 
+	"Martin K . Petersen" <martin.petersen@oracle.com>, David Howells <dhowells@redhat.com>, 
+	Marc Dionne <marc.dionne@auristor.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, David Hildenbrand <david@kernel.org>, 
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, 
+	Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-hyperv@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org, 
+	linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org, 
+	target-devel@vger.kernel.org, linux-afs@lists.infradead.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	Ryan Roberts <ryan.roberts@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 16, 2026 at 03:16:58PM -0700, Darrick J. Wong wrote:
-> On Tue, Mar 17, 2026 at 02:40:41AM +0800, Zorro Lang wrote:
-> > On Mon, Mar 16, 2026 at 09:21:47AM -0700, Darrick J. Wong wrote:
-> > > On Mon, Mar 16, 2026 at 02:08:11AM -0700, Christoph Hellwig wrote:
-> > > > On Mon, Mar 09, 2026 at 08:50:08PM -0700, Darrick J. Wong wrote:
-> > > > > From: Darrick J. Wong <djwong@kernel.org>
-> > > > > 
-> > > > > Test the fsnotify filesystem error reporting.
-> > > > 
-> > > > Still would be helpful to explain what is being tested and how and
-> > > > the source of the test tool.
-> > > 
-> > > "Use dmerror to inject a media error for a file's storage, then run some
-> > > IO and make sure that fanotify reports the IO errors."
-> > > 
-> > > (I'm not sure what the process is for updating commit messages once
-> > > something's in patches-in-queue...)
-> > 
-> > patches-in-queue is a scratch branch, I always re-push(-f) to this branch.
-> > So please feel free to tell me what do you want to update in this patch
-> > (I'm going to make the next fstests release soon:).
-> 
-> Just the two changes I've mentioned so far in the threads, please.
+On Mon, Mar 16, 2026 at 2:13=E2=80=AFPM Lorenzo Stoakes (Oracle) <ljs@kerne=
+l.org> wrote:
+>
+> Currently drivers use vm_iomap_memory() as a simple helper function for
+> I/O remapping memory over a range starting at a specified physical addres=
+s
+> over a specified length.
+>
+> In order to utilise this from mmap_prepare, separate out the core logic
+> into __simple_ioremap_prep(), update vm_iomap_memory() to use it, and add
+> simple_ioremap_prepare() to do the same with a VMA descriptor object.
+>
+> We also add MMAP_SIMPLE_IO_REMAP and relevant fields to the struct
+> mmap_action type to permit this operation also.
+>
+> We use mmap_action_ioremap() to set up the actual I/O remap operation onc=
+e
+> we have checked and figured out the parameters, which makes
+> simple_ioremap_prepare() easy to implement.
+>
+> We then add mmap_action_simple_ioremap() to allow drivers to make use of
+> this mode.
+>
+> We update the mmap_prepare documentation to describe this mode.
+>
+> Finally, we update the VMA tests to reflect this change.
+>
+> Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
 
-Sure, I just changed the commit log of this patch to:
+A couple of nits, but otherwise LGTM.
 
-  "Use dmerror to inject a media error for a file's storage, then run some
-  IO and make sure that fanotify reports the IO errors."
+Reviewed-by: Suren Baghdasaryan <surenb@google.com>
 
-but what's the 2nd change? Did I miss something? ...
+> ---
+>  Documentation/filesystems/mmap_prepare.rst |  3 +
+>  include/linux/mm.h                         | 24 +++++-
+>  include/linux/mm_types.h                   |  6 +-
+>  mm/internal.h                              |  2 +
+>  mm/memory.c                                | 87 +++++++++++++++-------
+>  mm/util.c                                  | 12 +++
+>  tools/testing/vma/include/dup.h            |  6 +-
+>  7 files changed, 112 insertions(+), 28 deletions(-)
+>
+> diff --git a/Documentation/filesystems/mmap_prepare.rst b/Documentation/f=
+ilesystems/mmap_prepare.rst
+> index 20db474915da..be76ae475b9c 100644
+> --- a/Documentation/filesystems/mmap_prepare.rst
+> +++ b/Documentation/filesystems/mmap_prepare.rst
+> @@ -153,5 +153,8 @@ pointer. These are:
+>  * mmap_action_ioremap_full() - Same as mmap_action_ioremap(), only remap=
+s
+>    the entire mapping from ``start_pfn`` onward.
+>
+> +* mmap_action_simple_ioremap() - Sets up an I/O remap from a specified
+> +  physical address and over a specified length.
+> +
+>  **NOTE:** The ``action`` field should never normally be manipulated dire=
+ctly,
+>  rather you ought to use one of these helpers.
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index ad1b8c3c0cfd..df8fa6e6402b 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -4337,11 +4337,33 @@ static inline void mmap_action_ioremap(struct vm_=
+area_desc *desc,
+>   * @start_pfn: The first PFN in the range to remap.
+>   */
+>  static inline void mmap_action_ioremap_full(struct vm_area_desc *desc,
+> -                                         unsigned long start_pfn)
+> +                                           unsigned long start_pfn)
+>  {
+>         mmap_action_ioremap(desc, desc->start, start_pfn, vma_desc_size(d=
+esc));
+>  }
+>
+> +/**
+> + * mmap_action_simple_ioremap - helper for mmap_prepare hook to specify =
+that the
+> + * physical range in [start_phys_addr, start_phys_addr + size) should be=
+ I/O
+> + * remapped.
+> + * @desc: The VMA descriptor for the VMA requiring remap.
+> + * @start_phys_addr: Start of the physical memory to be mapped.
+> + * @size: Size of the area to map.
+> + *
+> + * NOTE: Some drivers might want to tweak desc->page_prot for purposes o=
+f
+> + * write-combine or similar.
+> + */
+> +static inline void mmap_action_simple_ioremap(struct vm_area_desc *desc,
+> +                                             phys_addr_t start_phys_addr=
+,
+> +                                             unsigned long size)
+> +{
+> +       struct mmap_action *action =3D &desc->action;
+> +
+> +       action->simple_ioremap.start_phys_addr =3D start_phys_addr;
+> +       action->simple_ioremap.size =3D size;
+> +       action->type =3D MMAP_SIMPLE_IO_REMAP;
+> +}
+> +
+>  int mmap_action_prepare(struct vm_area_desc *desc);
+>  int mmap_action_complete(struct vm_area_struct *vma,
+>                          struct mmap_action *action);
+> diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+> index 4a229cc0a06b..50685cf29792 100644
+> --- a/include/linux/mm_types.h
+> +++ b/include/linux/mm_types.h
+> @@ -814,6 +814,7 @@ enum mmap_action_type {
+>         MMAP_NOTHING,           /* Mapping is complete, no further action=
+. */
+>         MMAP_REMAP_PFN,         /* Remap PFN range. */
+>         MMAP_IO_REMAP_PFN,      /* I/O remap PFN range. */
+> +       MMAP_SIMPLE_IO_REMAP,   /* I/O remap with guardrails. */
+>  };
+>
+>  /*
+> @@ -822,13 +823,16 @@ enum mmap_action_type {
+>   */
+>  struct mmap_action {
+>         union {
+> -               /* Remap range. */
+>                 struct {
+>                         unsigned long start;
+>                         unsigned long start_pfn;
+>                         unsigned long size;
+>                         pgprot_t pgprot;
+>                 } remap;
+> +               struct {
+> +                       phys_addr_t start_phys_addr;
+> +                       unsigned long size;
+> +               } simple_ioremap;
+>         };
+>         enum mmap_action_type type;
+>
+> diff --git a/mm/internal.h b/mm/internal.h
+> index f5774892071e..0eaca2f0eb6a 100644
+> --- a/mm/internal.h
+> +++ b/mm/internal.h
+> @@ -1804,6 +1804,8 @@ int dup_mmap(struct mm_struct *mm, struct mm_struct=
+ *oldmm);
+>  int remap_pfn_range_prepare(struct vm_area_desc *desc);
+>  int remap_pfn_range_complete(struct vm_area_struct *vma,
+>                              struct mmap_action *action);
+> +int simple_ioremap_prepare(struct vm_area_desc *desc);
+> +/* No simple_ioremap_complete, is ultimately handled by remap complete. =
+*/
+>
+>  static inline int io_remap_pfn_range_prepare(struct vm_area_desc *desc)
+>  {
+> diff --git a/mm/memory.c b/mm/memory.c
+> index 9dec67a18116..f3f4046aee97 100644
+> --- a/mm/memory.c
+> +++ b/mm/memory.c
+> @@ -3170,6 +3170,59 @@ int remap_pfn_range_complete(struct vm_area_struct=
+ *vma,
+>         return do_remap_pfn_range(vma, start, pfn, size, prot);
+>  }
+>
+> +static int __simple_ioremap_prep(unsigned long vm_start, unsigned long v=
+m_end,
 
-> 
-> I've more fixes to make to these tests, so I'll send those patches
-> shortly.
-> 
-> --D
-> 
-> > Thanks,
-> > Zorro
-> > 
-> > > 
-> > > > > +#ifndef FILEID_INO32_GEN
-> > > > > +#define FILEID_INO32_GEN	1
-> > > > > +#endif
-> > > > > +
-> > > > > +#ifndef FILEID_INVALID
-> > > > > +#define	FILEID_INVALID		0xff
-> > > > > +#endif
-> > > > > +
-> > > > > +static void print_fh(struct file_handle *fh)
-> > > > > +{
-> > > > > +	int i;
-> > > > > +	uint32_t *h = (uint32_t *) fh->f_handle;
-> > > > > +
-> > > > > +	printf("\tfh: ");
-> > > > > +	for (i = 0; i < fh->handle_bytes; i++)
-> > > > > +		printf("%hhx", fh->f_handle[i]);
-> > > > > +	printf("\n");
-> > > > > +
-> > > > > +	printf("\tdecoded fh: ");
-> > > > > +	if (fh->handle_type == FILEID_INO32_GEN)
-> > > > > +		printf("inode=%u gen=%u\n", h[0], h[1]);
-> > > > > +	else if (fh->handle_type == FILEID_INVALID && !fh->handle_bytes)
-> > > > > +		printf("Type %d (Superblock error)\n", fh->handle_type);
-> > > > > +	else
-> > > > > +		printf("Type %d (Unknown)\n", fh->handle_type);
-> > > > 
-> > > > 
-> > > > Isn't this always going to print unknown for normal xfs mounts without
-> > > > inode32?
-> > > 
-> > > Yes, though generic/791 filters out the file handle and (TBH) I don't
-> > > really want people getting ideas about cracking file handles.  Probably
-> > > we should just eliminate this whole part of the function, but that would
-> > > make future forklift upgrades from the kernel harder.
+nit: vm_start and vm_end are used only to calculate vm_len. You could
+reduce the number of arguments by just passing vm_len.
 
-... This looks like not a certain decision/change. Is this the 2nd change you want
-to do? If so, could you please provide what's the specific changes you want to make :)
+> +                                pgoff_t vm_pgoff, phys_addr_t start_phys=
+,
+> +                                unsigned long size, unsigned long *pfnp)
+> +{
+> +       const unsigned long vm_len =3D vm_end - vm_start;
+> +       unsigned long pfn, pages;
+> +
+> +       /* Check that the physical memory area passed in looks valid */
+> +       if (start_phys + size < start_phys)
+> +               return -EINVAL;
+> +       /*
+> +        * You *really* shouldn't map things that aren't page-aligned,
+> +        * but we've historically allowed it because IO memory might
+> +        * just have smaller alignment.
+> +        */
+> +       size +=3D start_phys & ~PAGE_MASK;
+> +       pfn =3D start_phys >> PAGE_SHIFT;
+> +       pages =3D (size + ~PAGE_MASK) >> PAGE_SHIFT;
+> +       if (pfn + pages < pfn)
+> +               return -EINVAL;
+> +
+> +       /* We start the mapping 'vm_pgoff' pages into the area */
+> +       if (vm_pgoff > pages)
+> +               return -EINVAL;
+> +       pfn +=3D vm_pgoff;
+> +       pages -=3D vm_pgoff;
+> +
+> +       /* Can we fit all of the mapping? */
+> +       if ((vm_len >> PAGE_SHIFT) > pages)
+> +               return -EINVAL;
+> +
+> +       *pfnp =3D pfn;
+> +       return 0;
+> +}
+> +
+> +int simple_ioremap_prepare(struct vm_area_desc *desc)
+> +{
+> +       struct mmap_action *action =3D &desc->action;
+> +       const phys_addr_t start =3D action->simple_ioremap.start_phys_add=
+r;
+> +       const unsigned long size =3D action->simple_ioremap.size;
+> +       unsigned long pfn;
+> +       int err;
+> +
+> +       err =3D __simple_ioremap_prep(desc->start, desc->end, desc->pgoff=
+,
+> +                                   start, size, &pfn);
+> +       if (err)
+> +               return err;
+> +
+> +       /* The I/O remap logic does the heavy lifting. */
+> +       mmap_action_ioremap(desc, desc->start, pfn, vma_desc_size(desc));
 
-Thanks,
-Zorro
+nit: Looks like a perfect opportunity to use mmap_action_ioremap_full() her=
+e.
 
-> > > 
-> > > --D
-> > > 
-> > 
-> 
+> +       return mmap_action_prepare(desc);
 
+Ok, so IIUC this uses recursion:
+mmap_action_prepare(MMAP_SIMPLE_IO_REMAP) -> simple_ioremap_prepare()
+-> mmap_action_prepare(MMAP_IO_REMAP_PFN).
+
+> +}
+> +
+>  /**
+>   * vm_iomap_memory - remap memory to userspace
+>   * @vma: user vma to map to
+> @@ -3187,32 +3240,16 @@ int remap_pfn_range_complete(struct vm_area_struc=
+t *vma,
+>   */
+>  int vm_iomap_memory(struct vm_area_struct *vma, phys_addr_t start, unsig=
+ned long len)
+>  {
+> -       unsigned long vm_len, pfn, pages;
+> -
+> -       /* Check that the physical memory area passed in looks valid */
+> -       if (start + len < start)
+> -               return -EINVAL;
+> -       /*
+> -        * You *really* shouldn't map things that aren't page-aligned,
+> -        * but we've historically allowed it because IO memory might
+> -        * just have smaller alignment.
+> -        */
+> -       len +=3D start & ~PAGE_MASK;
+> -       pfn =3D start >> PAGE_SHIFT;
+> -       pages =3D (len + ~PAGE_MASK) >> PAGE_SHIFT;
+> -       if (pfn + pages < pfn)
+> -               return -EINVAL;
+> -
+> -       /* We start the mapping 'vm_pgoff' pages into the area */
+> -       if (vma->vm_pgoff > pages)
+> -               return -EINVAL;
+> -       pfn +=3D vma->vm_pgoff;
+> -       pages -=3D vma->vm_pgoff;
+> +       const unsigned long vm_start =3D vma->vm_start;
+> +       const unsigned long vm_end =3D vma->vm_end;
+> +       const unsigned long vm_len =3D vm_end - vm_start;
+> +       unsigned long pfn;
+> +       int err;
+>
+> -       /* Can we fit all of the mapping? */
+> -       vm_len =3D vma->vm_end - vma->vm_start;
+> -       if (vm_len >> PAGE_SHIFT > pages)
+> -               return -EINVAL;
+> +       err =3D __simple_ioremap_prep(vm_start, vm_end, vma->vm_pgoff, st=
+art,
+> +                                   len, &pfn);
+> +       if (err)
+> +               return err;
+>
+>         /* Ok, let it rip */
+>         return io_remap_pfn_range(vma, vma->vm_start, pfn, vm_len, vma->v=
+m_page_prot);
+> diff --git a/mm/util.c b/mm/util.c
+> index cdfba09e50d7..aa92e471afe1 100644
+> --- a/mm/util.c
+> +++ b/mm/util.c
+> @@ -1390,6 +1390,8 @@ int mmap_action_prepare(struct vm_area_desc *desc)
+>                 return remap_pfn_range_prepare(desc);
+>         case MMAP_IO_REMAP_PFN:
+>                 return io_remap_pfn_range_prepare(desc);
+> +       case MMAP_SIMPLE_IO_REMAP:
+> +               return simple_ioremap_prepare(desc);
+>         }
+>
+>         WARN_ON_ONCE(1);
+> @@ -1421,6 +1423,14 @@ int mmap_action_complete(struct vm_area_struct *vm=
+a,
+>         case MMAP_IO_REMAP_PFN:
+>                 err =3D io_remap_pfn_range_complete(vma, action);
+>                 break;
+> +       case MMAP_SIMPLE_IO_REMAP:
+> +               /*
+> +                * The simple I/O remap should have been delegated to an =
+I/O
+> +                * remap.
+> +                */
+> +               WARN_ON_ONCE(1);
+> +               err =3D -EINVAL;
+> +               break;
+>         }
+>
+>         return mmap_action_finish(vma, action, err);
+> @@ -1434,6 +1444,7 @@ int mmap_action_prepare(struct vm_area_desc *desc)
+>                 break;
+>         case MMAP_REMAP_PFN:
+>         case MMAP_IO_REMAP_PFN:
+> +       case MMAP_SIMPLE_IO_REMAP:
+>                 WARN_ON_ONCE(1); /* nommu cannot handle these. */
+>                 break;
+>         }
+> @@ -1452,6 +1463,7 @@ int mmap_action_complete(struct vm_area_struct *vma=
+,
+>                 break;
+>         case MMAP_REMAP_PFN:
+>         case MMAP_IO_REMAP_PFN:
+> +       case MMAP_SIMPLE_IO_REMAP:
+>                 WARN_ON_ONCE(1); /* nommu cannot handle this. */
+>
+>                 err =3D -EINVAL;
+> diff --git a/tools/testing/vma/include/dup.h b/tools/testing/vma/include/=
+dup.h
+> index 4570ec77f153..114daaef4f73 100644
+> --- a/tools/testing/vma/include/dup.h
+> +++ b/tools/testing/vma/include/dup.h
+> @@ -453,6 +453,7 @@ enum mmap_action_type {
+>         MMAP_NOTHING,           /* Mapping is complete, no further action=
+. */
+>         MMAP_REMAP_PFN,         /* Remap PFN range. */
+>         MMAP_IO_REMAP_PFN,      /* I/O remap PFN range. */
+> +       MMAP_SIMPLE_IO_REMAP,   /* I/O remap with guardrails. */
+>  };
+>
+>  /*
+> @@ -461,13 +462,16 @@ enum mmap_action_type {
+>   */
+>  struct mmap_action {
+>         union {
+> -               /* Remap range. */
+>                 struct {
+>                         unsigned long start;
+>                         unsigned long start_pfn;
+>                         unsigned long size;
+>                         pgprot_t pgprot;
+>                 } remap;
+> +               struct {
+> +                       phys_addr_t start;
+> +                       unsigned long len;
+> +               } simple_ioremap;
+>         };
+>         enum mmap_action_type type;
+>
+> --
+> 2.53.0
+>
