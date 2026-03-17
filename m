@@ -1,244 +1,146 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D193373C10
-	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 09:37:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773740279; cv=none; b=qGv3/+/LHEI/wZfq8u0jKezVFRVGSC8qi1R+eG3SHNZxx2v6TF7+fglX9F4MWzjC+yjgxGokuK3fjk/RiuYk4ZNJNfMPx1AJC1vWmsaURjxgDGRiUOHLnVMd/FRjIqJinUsXOXcWiO7nAse4BXs9xtLF8nrsjGQ5Yao/jl0h8uM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773740279; c=relaxed/simple;
-	bh=8g1Skk1e3p+9S+ilmCKjmTe08Bc2x3+mKP6hi2rsl9k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kfwpcnB09rDdDnEJOJIVY85POKU+WV+M+RaFDmvpEdWEkoEnGYZzUIo0af1bRC6EdbDzLpeAKLpP0DFQCzO3LGAQWuxTCcwagpdAO69uk5QDMXa/Ivbss7y9EITsYa+Q6vL1lgfq+QU6XuaiHcloJKlHFjN+XOW6qOeKjGGAYHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=A+0DMHAb; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=xmUefSO9; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=HfXH0TzA; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=JOi5WNGR; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3247E375F62
+	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 09:44:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773740645; cv=pass; b=ARfpDamjBQ16QZFR7uLN/OOsRzqcb9R9NlZZQZ6OD0e23u0tgePCCwilWKARNo8mHL9+U3kM78VexdBZP1SENQdgapVUWz1Symyf+I59cVNa3mI9slS85gtAKgqQmAoIUlaYjz+yf6fPOMzTnAZyM/nY0FO0t4vA/PwQlzocSTI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773740645; c=relaxed/simple;
+	bh=XRAyMbVsppAPvkz2awJ+fo8bkRCRjr1mCIULs0FBasI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dCA5RjlmkrQEjqRctP+1+JWPByf5qxCldjX1z8StbdKswvkNSjc5iwF7ir9hXGErUzqjeY6r/4ay+c1GQWZpGjLRj+0Py5v5eEMxMmNF0p4VDrOrW0A4MFrU2P/H7P25KYv2SU4qI8Fc5nibM4KF0ud3YzrkQsy9d+dZhodcTS0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dfinity.org; spf=pass smtp.mailfrom=dfinity.org; dkim=pass (2048-bit key) header.d=dfinity.org header.i=@dfinity.org header.b=gPdpERws; arc=pass smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dfinity.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dfinity.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="A+0DMHAb";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="xmUefSO9";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="HfXH0TzA";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="JOi5WNGR"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 8F3F85BD96;
-	Tue, 17 Mar 2026 09:37:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1773740275; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XMAS/3KJsstwA3paQv6TW+kjF9gkITW3NZUnc7bZnuU=;
-	b=A+0DMHAbfbhM8MnlBUqVL+W87T4tqLjqUGgvxNRqk88xckeEeRm82e+ypnsFgad4/XiqOe
-	eFQnLDIV+dM8cXwaoMX9AvcuSz0XaJOKBqB0bzHsm6RA5PfmHqn2hYLlC9HiNT/X/xWX3q
-	BqIvjViI9CtSct4EF5Es0QJY/LKW1HI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1773740275;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XMAS/3KJsstwA3paQv6TW+kjF9gkITW3NZUnc7bZnuU=;
-	b=xmUefSO9ArclnNvP01TmJwVa9hwB1H9Ezy/G04E5yEHJeukkDoWlTMUncfdfe52pgfQsy2
-	oR1nH2U5mzv18+CA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1773740274; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XMAS/3KJsstwA3paQv6TW+kjF9gkITW3NZUnc7bZnuU=;
-	b=HfXH0TzA0f1d2CSbAyldJl2xl9aWzYbpw10loZV1kNcn1txaCSCXzrSvfKHAIHGI00VNao
-	b//U5Itged1fc1C/uxZj0ysYyWI8ysEt0UM5ZsojSOhxVbgzKeS+lof0B9W59LS9IUq6E2
-	yDhoArHhElh4lGLUjlD4eJXEl3bpa6o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1773740274;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XMAS/3KJsstwA3paQv6TW+kjF9gkITW3NZUnc7bZnuU=;
-	b=JOi5WNGRhJfP08gEJXjzmktG0GqpaBSxSS7XTpG6foqsalkoejj3JitKc4S0PHtQ5wznJC
-	I5D56EajKt5gebCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7D7054273B;
-	Tue, 17 Mar 2026 09:37:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Cg+ZHvIguWnvMwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 17 Mar 2026 09:37:54 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 43970A0AB1; Tue, 17 Mar 2026 10:37:54 +0100 (CET)
-Date: Tue, 17 Mar 2026 10:37:54 +0100
-From: Jan Kara <jack@suse.cz>
-To: NeilBrown <neil@brown.name>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Jeff Layton <jlayton@kernel.org>, Trond Myklebust <trondmy@kernel.org>, 
-	Anna Schumaker <anna@kernel.org>, Carlos Maiolino <cem@kernel.org>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>, 
-	Jan Harkes <jaharkes@cs.cmu.edu>, Hugh Dickins <hughd@google.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, David Howells <dhowells@redhat.com>, 
-	Marc Dionne <marc.dionne@auristor.com>, Steve French <sfrench@samba.org>, 
-	Namjae Jeon <linkinjeon@kernel.org>, Sungjong Seo <sj1557.seo@samsung.com>, 
-	Yuezhang Mo <yuezhang.mo@sony.com>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Breno Leitao <leitao@debian.org>, Theodore Ts'o <tytso@mit.edu>, 
-	Andreas Dilger <adilger.kernel@dilger.ca>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Ilya Dryomov <idryomov@gmail.com>, 
-	Alex Markuze <amarkuze@redhat.com>, Viacheslav Dubeyko <slava@dubeyko.com>, 
-	Tyler Hicks <code@tyhicks.com>, Andreas Gruenbacher <agruenba@redhat.com>, 
-	Richard Weinberger <richard@nod.at>, Anton Ivanov <anton.ivanov@cambridgegreys.com>, 
-	Johannes Berg <johannes@sipsolutions.net>, Jeremy Kerr <jk@ozlabs.org>, Ard Biesheuvel <ardb@kernel.org>, 
-	linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org, linux-xfs@vger.kernel.org, 
-	linux-unionfs@vger.kernel.org, coda@cs.cmu.edu, linux-mm@kvack.org, 
-	linux-afs@lists.infradead.org, linux-cifs@vger.kernel.org, linux-ext4@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, ceph-devel@vger.kernel.org, 
-	ecryptfs@vger.kernel.org, gfs2@lists.linux.dev, linux-um@lists.infradead.org, 
-	linux-efi@vger.kernel.org
-Subject: Re: [PATCH 33/53] ext4: use on-stack dentries in
- ext4_fc_replay_link_internal()
-Message-ID: <pb664u5mzlaqthyhwfsio66wgv2hwuqazzbrtzunnja76khowi@v7l5o4xkzci2>
-References: <20260312214330.3885211-1-neilb@ownmail.net>
- <20260312214330.3885211-34-neilb@ownmail.net>
+	dkim=pass (2048-bit key) header.d=dfinity.org header.i=@dfinity.org header.b="gPdpERws"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b955351e0a6so879909666b.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 02:44:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773740641; cv=none;
+        d=google.com; s=arc-20240605;
+        b=X1rz25oMCylO6cM+Mqnh5SRXWv6xcSGgRomlfcbb9/Q0ODVlZ0EgKKpugtZVdZ5jXJ
+         4MUyAiBaCtamVUZH8XEQ/YrAvM5xdA5eNwnXZBRcjNrNecxgskGlUw2Bw4w11Z65mjwS
+         MpIvF8TySn+X4euIYDmT6ssA6km0NUo1V+Chy1ABQDbj/mYTByZMB8OSRuwTv0IXqmee
+         K7jluUNHvlwZqy+kJ7Deh3ZTkBhs7mCt0QUpHB/GQRURgEloL8W0l6OulV2VKUl0BgE+
+         71GN1PlZKyJFNJzxal49E9UkGZ53ZLdcjjbJ41QTcG3aqINm5NPokdvclmJe+MKKoKyw
+         8q6g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=UQVXw5BqQPlrykOq9wOrfS0RtHVDvKlRL1okYmgxXpc=;
+        fh=Nb2cDWuEotkuZlvBolwYYNKqrNCyhRhsz0oDkz4bZOs=;
+        b=f63Zz/S9gArkfCPID1bGk5BNJDXfxR5RRLRZqCfRSt5mIx0dp49D0GB255USulw+iR
+         wy7Jms7STaX+4t8zFYgc+6P1H2I1deVmoDudcgL0lZ0kV4Zwl2N1RmxnoxJteTQgJ9TP
+         3ndLHCAoi/T35yltwjxgXuevfm1V+F5xDISUSb6zESZPMQXkzUjAkHCn2nfTTFtM52uk
+         5WvB63ixloBXGCujXQ2AIBIvHuIbgCdaMTdpHb3/KfW/Zda4ZWZAZXLMQNoHPDzb9xk2
+         gpzAySTnA/NeSpReIqZVNTZu+0HNpPEbnaWLnWHSjQKs3sJQQBydD7ygrF9qTuxObgMD
+         sbBQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dfinity.org; s=google; t=1773740641; x=1774345441; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UQVXw5BqQPlrykOq9wOrfS0RtHVDvKlRL1okYmgxXpc=;
+        b=gPdpERwsrLJyNyYYZHH8sRiTJmbK5mn7X4oq8muv3NcKxJc5EA9/60895IWpcEb/Bv
+         2ZaLcNeAUE5YZCuxRUt0JWHeTV3JSfMbLRHEazRDhS1tbhTI+DSdRgQJvH0XYD+Uf5tm
+         d8l1ilWvjZ03cnAYd1Jc7XBnN0Ym0j8m1q2liu0mb/o0VYBm+t8YzTA0GFeqmVIoCxtZ
+         dss7GsysfXxc5+ntv6CV9rB2+ih/dHQYrf7AbJsnzAdKdyoMInEj59DntByPZxWy9s3v
+         iz2jdDmu1aQKfZTtRilLZ46i9Wh8DzEjsWqEn0upZpM9B6YBHjPr1sXN73CN+5qXNaWH
+         3khg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773740641; x=1774345441;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=UQVXw5BqQPlrykOq9wOrfS0RtHVDvKlRL1okYmgxXpc=;
+        b=MPr9HGSRiaeWHJmuHRqXR3RcBwYJ/EGQW6ZvJYxbQvW1t4BgiQN8FnkrBkhjN5Yk+S
+         QpDHrDy2rSt9ekzce+pnoqLcd7Jyhh5xevFu1U/sZyRJFkmk9iRC7Yeq7pnTpDvusYnF
+         0P05IOltE1Zx1a+yWacxnqqqxt7WNT8xdkc15pKXQs29X8jNKYE7At90gvUpAv4TP+8n
+         GWFCycQS2Mj5hjorBcSQGpz5kE1wSfwlVai7nq/QSH9UbEtReMe2HNC84owwGxhGvMsH
+         FBi6onhGM3R/pq4VrKw7VoFJExDWbsa1C8bNwSGsz0h5PdaxoARxT0GvDX0ylutsmmTs
+         SyMg==
+X-Forwarded-Encrypted: i=1; AJvYcCXyJ0LOexH1oMLSIM+YpLRbdiiRDwhyoaEGb8FiS/9CvF3oEXwXfN7BIcbYl/GrlJfV+TK3XeRQzuy6lKpD@vger.kernel.org
+X-Gm-Message-State: AOJu0YypETJsgb/XuEsodDtWJJBAoCBEEhSG1CEY/wJFaSB5Dqgtp5nf
+	TbwJtVJlsxHR/LLeMHb8JlKocyBSttMGE61vtyH3Mz443UzuGcnKgKxE/GCLdpbwUCoiiUpEoPp
+	QjOuSslb9zcWKj7L82KjG3TU2wFWDGcueD0kFk2o8ZA==
+X-Gm-Gg: ATEYQzzyHAJ7fhWIgoFISOx+HVtuTMz4Y3xYL24NTTat5VJrYQp7sxAcvfEjg0x8Wmw
+	D5tYTURhp76fbppjvFPboUDGlCwj360bjs53h6rJP/YO3G9Tup3AH+A9tfxNUDc5iyg8+eVnS/s
+	M1YUYFmVno/lL99wh9FESg091OTKrBdOsbcZy14FCCA7l6Zo9kpknvETBdsTHdbcNs4Jq/bSndA
+	OZXfOLzD5h9xoJ+pp9Bt/Z6R5iYw6HatLOiluw7WhwnG8GWS/cD69RnreIx7KUDGA6CyXeDtOJE
+	1AyVM2o=
+X-Received: by 2002:a17:907:60cf:b0:b97:a459:b66a with SMTP id
+ a640c23a62f3a-b97a459d1ccmr570643466b.25.1773740641289; Tue, 17 Mar 2026
+ 02:44:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260312214330.3885211-34-neilb@ownmail.net>
-X-Spam-Score: -2.30
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_COUNT_THREE(0.00)[3];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[linux-foundation.org,zeniv.linux.org.uk,kernel.org,suse.cz,szeredi.hu,gmail.com,cs.cmu.edu,google.com,linux.alibaba.com,redhat.com,auristor.com,samba.org,samsung.com,sony.com,debian.org,mit.edu,dilger.ca,goodmis.org,dubeyko.com,tyhicks.com,nod.at,cambridgegreys.com,sipsolutions.net,ozlabs.org,vger.kernel.org,kvack.org,lists.infradead.org,lists.linux.dev];
-	R_RATELIMIT(0.00)[to_ip_from(RLyaw51ggmke6bkcxeyajg5whq)];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[52];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,suse.com:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
+References: <20260313114037.3593642-1-ziy@nvidia.com> <EC71CE3C-08D9-48FE-95CB-B6A43B4BDB9C@nvidia.com>
+ <CAON2GcE-1t7pbunFwtymxEiz1f5osT2CSEGw35Lv=7UaWFkZzg@mail.gmail.com>
+In-Reply-To: <CAON2GcE-1t7pbunFwtymxEiz1f5osT2CSEGw35Lv=7UaWFkZzg@mail.gmail.com>
+From: Bas van Dijk <bas@dfinity.org>
+Date: Tue, 17 Mar 2026 10:43:50 +0100
+X-Gm-Features: AaiRm50lvHy9nwqfKUin80CixoRq3XUbY1YqSLlRzLkGbYylSr1K5KsUsnHB3zM
+Message-ID: <CAKNNEtwtgbzGX3Ac8U4gZ40eRiMpmU9EAPM-epsnR85v0uprHA@mail.gmail.com>
+Subject: Re: [External Sender] Re: [PATCH] selftests/mm: add folio_split() and
+ filemap_get_entry() race test
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Zi Yan <ziy@nvidia.com>, Adam Bratschi-Kaye <adam.bratschikaye@dfinity.org>, 
+	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	Hugh Dickins <hughd@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Matthew Wilcox <willy@infradead.org>, 
+	Eero Kelly <eero.kelly@dfinity.org>, Andrew Battat <andrew.battat@dfinity.org>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri 13-03-26 08:12:20, NeilBrown wrote:
-> From: NeilBrown <neil@brown.name>
-> 
-> ext4_fc_replay_link_internal() uses two dentries to simply code-reuse
-> when replaying a "link" operation.  It does not need to interact with
-> the dcache and removes the dentries shortly after adding them.
-> 
-> They are passed to __ext4_link() which only performs read accesses on
-> these dentries and only uses the name and parent of dentry_inode (plus
-> checking a flag is unset) and only uses the inode of the parent.
-> 
-> So instead of allocating dentries and adding them to the dcache, allocat
-> two dentries on the stack, set up the required fields, and pass these to
-> __ext4_link().
-> 
-> This substantially simplifies the code and removes on of the few uses of
-> d_alloc() - preparing for its removal.
-> 
-> Signed-off-by: NeilBrown <neil@brown.name>
+No problem for me either.
 
-Looks good to me. Feel free to add:
+Signed-off-by: Bas van Dijk <bas@dfinity.org>
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+I'll add a GPL-2.0 license to the repo.
 
-								Honza
-
-> ---
->  fs/ext4/fast_commit.c | 40 ++++++++--------------------------------
->  1 file changed, 8 insertions(+), 32 deletions(-)
-> 
-> diff --git a/fs/ext4/fast_commit.c b/fs/ext4/fast_commit.c
-> index 2a5daf1d9667..e3593bb90a62 100644
-> --- a/fs/ext4/fast_commit.c
-> +++ b/fs/ext4/fast_commit.c
-> @@ -1446,8 +1446,6 @@ static int ext4_fc_replay_link_internal(struct super_block *sb,
->  				struct inode *inode)
->  {
->  	struct inode *dir = NULL;
-> -	struct dentry *dentry_dir = NULL, *dentry_inode = NULL;
-> -	struct qstr qstr_dname = QSTR_INIT(darg->dname, darg->dname_len);
->  	int ret = 0;
->  
->  	dir = ext4_iget(sb, darg->parent_ino, EXT4_IGET_NORMAL);
-> @@ -1457,28 +1455,14 @@ static int ext4_fc_replay_link_internal(struct super_block *sb,
->  		goto out;
->  	}
->  
-> -	dentry_dir = d_obtain_alias(dir);
-> -	if (IS_ERR(dentry_dir)) {
-> -		ext4_debug("Failed to obtain dentry");
-> -		dentry_dir = NULL;
-> -		goto out;
-> -	}
-> +	{
-> +		struct dentry dentry_dir = { .d_inode = dir };
-> +		const struct dentry dentry_inode = {
-> +			.d_parent = &dentry_dir,
-> +			.d_name = QSTR_LEN(darg->dname, darg->dname_len),
-> +		};
->  
-> -	dentry_inode = d_alloc(dentry_dir, &qstr_dname);
-> -	if (!dentry_inode) {
-> -		ext4_debug("Inode dentry not created.");
-> -		ret = -ENOMEM;
-> -		goto out;
-> -	}
-> -
-> -	ihold(inode);
-> -	inc_nlink(inode);
-> -	ret = __ext4_link(dir, inode, dentry_inode);
-> -	if (ret) {
-> -		drop_nlink(inode);
-> -		iput(inode);
-> -	} else {
-> -		d_instantiate(dentry_inode, inode);
-> +		ret = __ext4_link(dir, inode, &dentry_inode);
->  	}
->  	/*
->  	 * It's possible that link already existed since data blocks
-> @@ -1493,16 +1477,8 @@ static int ext4_fc_replay_link_internal(struct super_block *sb,
->  
->  	ret = 0;
->  out:
-> -	if (dentry_dir) {
-> -		d_drop(dentry_dir);
-> -		dput(dentry_dir);
-> -	} else if (dir) {
-> +	if (dir)
->  		iput(dir);
-> -	}
-> -	if (dentry_inode) {
-> -		d_drop(dentry_inode);
-> -		dput(dentry_inode);
-> -	}
->  
->  	return ret;
->  }
-> -- 
-> 2.50.0.107.gf914562f5916.dirty
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+On Tue, Mar 17, 2026 at 8:32=E2=80=AFAM Adam Bratschi-Kaye
+<adam.bratschikaye@dfinity.org> wrote:
+>
+> On 13 Mar 2026, at 7:40, Zi Yan wrote:
+> > The added folio_split_race_test is a modified C port of the race condit=
+ion
+> > test from [1]. The test creates shmem huge pages shared by both a paren=
+t
+> > and a child processes, where the parent process punches holes in the sh=
+mem
+> > to cause folio_split() in the kernel and the child process reads the sh=
+mem
+> > in 16 threads to cause filemap_get_entry() in the kernel.
+>
+> Note that the fork isn't actually necessary to reproduce the issue. I
+> had it working as
+> well with the reading and punching in the same process, but just with
+> two separate
+> mappings. Not that it makes much of a difference - just in case you
+> wanted to simplify
+> the test.
+>
+> On 14 Mar 2026, at 18:27, Andrew Morton wrote:
+> > I couldn't immediately find any licensing info there.  Bas and Adam,
+> > please advise?
+>
+> GPL-2.0 license is fine by me.
+>
+> > And sending your Signed-off-by's would be appropriate.
+>
+> No problem:
+>
+> Signed-off-by: Adam Bratschi-Kaye <adam.bratschikaye@dfinity.org>
+>
+> Thanks,
+> Adam
