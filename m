@@ -1,174 +1,167 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b1-smtp.messagingengine.com (fout-b1-smtp.messagingengine.com [202.12.124.144])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1BDE3368B0
-	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 19:48:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773776920; cv=pass; b=XqLXl637qT77bNcCmZaVVI7uAseyZsQ6UZVWOswuXgPeBkyjCYNTTd8fQiRQopTFaI3JopzrP2N6YZHDwq6tk1LJg6HaOPKSCTO16TXdwt9MBWD9zci2Gn9IR5+aLjXe5qO0NOSd23MhZHKXc/QobHB2KPcldmqG5W8tnA3aOzo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773776920; c=relaxed/simple;
-	bh=tZU0I8NjPrmQDRDzzPj63zXau8Iqq4tM/lhoKOJa/lg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SEGLcz79YM54a42HqMY+P7c0Sg2xnQbzSGe7KumLbRldEZx5maBVKLEy1P9k9tzoeYZmjeBSrJpX9HuHZgklzYAYh0iPaWuTgy6ibrucA56VcVp2mBuy1AbPRuTYNZIPbVTbGDx+cdPHR8RsiJut6dJUpWAeTmzSC6oTl2KxpxA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bf7OVMUf; arc=pass smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEF49377003;
+	Tue, 17 Mar 2026 20:19:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.144
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773778793; cv=none; b=pSBjeHiaIGZHnDc727NbRLpiwga8tObTAwXJ2pRxEQjPtwvNv8+U6hNi4beLmKa9THWLnHT5jiaNRQowUL0+wIqBV+3PCKeg8Qc5KacI3wGsXLuMuMtF/aFwZ0BJKm7eLbyhyJa4FLdeDipeKH4/hltUdmUl5JMaeHRmanOhOqI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773778793; c=relaxed/simple;
+	bh=YTq/fhrN5zvUM7mthDq79gdL3Cyeu2VTyFy/sbZo82U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TzP00q6/dRVJwVFQeD8JpaQERFgBnMom+AxU2xcyvJvSmfgt2ApStY1xuiLTkWNJLQtacsyAYjcGFpeHEQeiivlL/2hA+fZztuDDHpWCp+I3LYiYtlQR4/AFsq514kL9h9wgR7P9cyDi261/qp10jfQuL8Iy0FEF+OuXXLFPBD0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=N0oQ22Ta; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=w6MjLQ/d; arc=none smtp.client-ip=202.12.124.144
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bf7OVMUf"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-4327790c4e9so4485614f8f.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 12:48:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773776917; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Oo6yhOtQVOXee8c8lD5vZX2vHkXt6k4qnT2yOYblkRCsSOt4fq/rs2fTVSUVGjS4GT
-         pI7U+FYH1G5VZgwy3gShMaPo3SBNVgDIS8fCPN/vsfyfwH6hmGcnOKJIuNitaRleg/Gn
-         PppdWayRzAiWSoycXGdFoF3lX3XxO+it9Wav8CfO3GnFBGKnYwmgfdc1U0HffF8eB5Bu
-         ocLlfiMHiJq6imRXuua1bNSyObD9HMYenr4qv4I8q31fIbbZPSCajCu5ng2GlGvfZLWY
-         pjIE3aMVay3vz6hev8DgywgAp0FoaxEdF0MphOsLIQCfastH2N/wqj0SR8eYKUSUSO28
-         T2ag==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=P2bR4eFSME9IPa0sX9OnzBihzzNKILnmapoRH++2ebw=;
-        fh=h/dfvY/M0fgQSU5sjMaOGS/FGT8IM9WVJs5hcX5Rb08=;
-        b=iQNhC2apmNO7z58+1fESTByfy4aN3L663V/FpM3LsXFy2p9XtMuiOBzQHu0K/t4s0i
-         svmQzos270KIj9oYL0aZQ9CSOg0+FqZnSxOBHmITtB0Cc5I0aD/BBkXnpApi6J2QmVOA
-         FAyl/2WbVcYJHQTEpBlFKzMMSaeOOJcy105DS7eC1V3YkiedM2J0wjSYwuoiVd4bzEvw
-         0IuOe/avG8YNN37tzDp0GIv5BO1qTsgV6oA7l7GiwJaBehBAFkbjt+Ad+aG2Tkv9N2Nw
-         IIEKbe2SKXPhjWjqsc9ccU9qEha0aiz374ObcZ5TtF170Eff1/Fi4ZQvPZuKtzpcbnwG
-         RdWA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773776917; x=1774381717; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=P2bR4eFSME9IPa0sX9OnzBihzzNKILnmapoRH++2ebw=;
-        b=bf7OVMUfOh/u8du65qfPymOgaPfO1+rUjX3q84aVFZbG6NCfGVqwvJ91c/kqEHlwAc
-         UKQjx5j4EMdw8geq2jGz9dfK2TiNt5Laq1MbpJu+BCzbMaDRxAKqoBJ4pzFBlMf789MS
-         n2h2cGWCU0ftDlQTZfDzuEVxpcQEfkkuj+TsriyHWYgc3nOugZ3s1K5K4LV2xsbdBFr/
-         HJFkqRePU7yWkXyZ8a+oqq8an6Qd3tHc7cbiB0owL8R/3gMc7s5h41JfzMYDnf7Fy03x
-         d2WVekm330DT8+2hD/sBgqkLOYnsditT6Fny5pE0V26FD/uKFiVtwn2/OxwG45MYdk/b
-         4gkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773776917; x=1774381717;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=P2bR4eFSME9IPa0sX9OnzBihzzNKILnmapoRH++2ebw=;
-        b=jgzHyqdpnBnLG3IPgoUuDGByOxyNmPEWXRA/E90oRDfBlMPkGR+C9t+cmIJu8oRo6+
-         TeZYzQpIeuNLXsqlKyf2+aw9zWfmZ4lF3CR8Rn/e7gqfGsj+RTr8xloHOHreN14Nu3AG
-         mjQemSRrPBVtZ5UMzq1/SD3bYOEV8yDhZ9IpvF9zENiTPt2ANoYBTIrwLldH/2FEfouP
-         qZVpiZZq8Hricgm1aTbXetiqF7HrWCl4u02rB7n8WsUUia1d3vC43v5jRhPp8apcBnKY
-         sCnNLmfCIAGRGkA0diGxd5/OjruwL8w/JfZLZNKAn9XTgWip2+KpLbcg17K3Vj0Cuqwo
-         qtQA==
-X-Gm-Message-State: AOJu0YyLKZvkfdm5AZyFCdBmbgBBOad7cS8MMjgTynji1fpbeRtEp8Xm
-	9Ed4ZXAhhA7bhreeyhJwHXgZoVzEnd/byFr/Uu4BHrGLV5JbAmIM0kr0bSzMzaMAJW52oiz2tNa
-	PdWNVmorWy2m/5t5zFU8OnxSwD9KgvR2P72Fd
-X-Gm-Gg: ATEYQzzovwWsy/wRSSuJL6nYRDYmv3GI9ASb/kB7T3/SXB7KyVwzaIEGt9kuy8rI2Ck
-	OsM5JLPpMD50++XjEWiizEEKxN7twkiNod6zJTrL+tJayIqi42tcNWJnGNNLNk5wLsOiSkJomcR
-	ILymTey/Id+a4EkH1i+ZE+Gxoy7nptjVBqF1OZhESh6kD6alkqtHU37PsZrv7RIA3uWwIovKfqw
-	yeFGp7WRXYwbq0346atGSHHMqBn1OMudpUCMCI9Ejuw4bkRimyHdaC3tC6Ry2egsvMtV6T/dLzB
-	JMBm3g==
-X-Received: by 2002:a05:6000:26d3:b0:43b:3dcc:8af3 with SMTP id
- ffacd0b85a97d-43b527c5648mr852653f8f.39.1773776917095; Tue, 17 Mar 2026
- 12:48:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="N0oQ22Ta";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="w6MjLQ/d"
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfout.stl.internal (Postfix) with ESMTP id 35CFA1D00124;
+	Tue, 17 Mar 2026 16:19:51 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-06.internal (MEProxy); Tue, 17 Mar 2026 16:19:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1773778790;
+	 x=1773865190; bh=BoBUFs8Ekjl8ivKjmqitPFNqrE1lGYES5mYOtWwJ3SQ=; b=
+	N0oQ22TaxzGiwglhMBOfl9IdP1gFL/d6njELM+OAyf2qG3B/qwaTUWRmLTd31m3B
+	me8Tx9/QsTmsSXo/yxc5rvj3jykuGB5eHRWBEn8WD2m3zoDzSXOtSFKS1i85Zvpj
+	j+zm4Fq+QpjKFxmgOle+VALyZ0o9McTW0AJQ46eoyeOaDslQLJ7QX1vFFGpkOp3t
+	NHGVOYncvSchCLqOyb4+ljcVQi65nPnN5fCtvtILCTmS/1EQDyMBKSUn6eaglDHp
+	M5zgGYyVN2VMl/5pjYYJ7qvU5LuY2UY7GIRoFG0D8cI2iHEX06BtPvOvT/E8XjU3
+	4LypdKoLiYpf6BSushdcLw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1773778790; x=
+	1773865190; bh=BoBUFs8Ekjl8ivKjmqitPFNqrE1lGYES5mYOtWwJ3SQ=; b=w
+	6MjLQ/dBuWhqsSd2j7aP/ZkLptD9KI/2ZvF3xZAlcH19asdcLt6RWWsTZ5mWQaR1
+	MQv9v3z0ViOVsDGPby9WCSIgmt58UxDrVJoqm9YpmxWB5e2JN5Jl7xkBd2y9Mhtz
+	4gUCa8gC47eO7UG2wfrM+LDSZXzNElZOjV6FEBwYMzg+r3Hl4PJf7kDDbqfMpr10
+	6eICfIaigvZiQsgN79n0030qJWVBUyvtipgct3WHSGDJhZIvBW6cZJqFaoF+GcJw
+	lNm0MDg3STkklErDRndOllawIR/8iW7wQr1DA3Un06lF+qbPq8PIhZO+lbMYODZF
+	3IeIUjozajI4tp7rMPlnw==
+X-ME-Sender: <xms:Zre5aYEETIPZbcte9tCAloNHhXRN5hAHZkRbIYciHnjJTNZDPqHBQA>
+    <xme:Zre5aZFUICEdMDOTf7naDlGvVXFlIaKUxRgIiE8hL7sSDCyZism_vytMFb_8vW7qj
+    h4ZmSGwGyVihwwhHak8-sHX9iGSunpBlCiM_vPIhegRMXVzJ7ORTQ>
+X-ME-Received: <xmr:Zre5aVPDy0RlEy0ziJMbSQEMWhtqjQJ3hdHxXO_TCElfHmZNOFMqTZuvUEMPRekQRmFMeH5QcKjY0gwKQso2n8Ot9-vUj0aIB3Ez8iccTlf7sIRU4Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdeftddvudelucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
+    ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
+    htthgvrhhnpeehhfejueejleehtdehteefvdfgtdelffeuudejhfehgedufedvhfehueev
+    udeugeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    gsvghrnhgusegsshgsvghrnhgurdgtohhmpdhnsggprhgtphhtthhopeefpdhmohguvgep
+    shhmthhpohhuthdprhgtphhtthhopehmshiivghrvgguihesrhgvughhrghtrdgtohhmpd
+    hrtghpthhtoheplhhinhhugidqfhhsuggvvhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhr
+    ghdprhgtphhtthhopehsthgrsghlvgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:Zre5aYE9VHG-nI4PXjlLbxn9UHX3snQ5zD5TUcrRN1WCWkl4nZwtSQ>
+    <xmx:Zre5acMf3-4Bi84GmMnM86b-CR7-neB0KrY3f9Fatx8g3uNy47Z3RA>
+    <xmx:Zre5aZ94fPAtf1c2vWJzR0Du3evAmBGtggDUSwWHZzhvVMfkaT7lGA>
+    <xmx:Zre5aYRD3LuN2K8n7dg8j1lSwL3TaVXQBMuvVHpcPxPZ4gT-dO6zwg>
+    <xmx:Zre5aVrrA4eme5JRfE4GNvmfN2JUajloB7mriEjGYPzckNG6XegimPOI>
+Feedback-ID: i5c2e48a5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 17 Mar 2026 16:19:50 -0400 (EDT)
+Message-ID: <0fb13941-6fca-433f-a560-9da51113d88f@bsbernd.com>
+Date: Tue, 17 Mar 2026 21:19:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <b3dfe271-4e3d-4922-b618-e73731242bca@wdc.com> <CAJnrk1a0BLS1+1uf8BqKCZ6+vXdxDHkp3WtjGgz8A4e=sx9C0g@mail.gmail.com>
- <35327273-23ae-4fc7-93b9-03bd4abf631a@wdc.com> <CAJnrk1YSW5m6mHuFX6cMxZHBt2qdc8aEx9B623WGoTyL1cjjBg@mail.gmail.com>
- <CAJnrk1ao_0tp9oe2kisPPgY43YRqrQV=-GHSkgiwx_+WPUPD2Q@mail.gmail.com> <194b3338-ec8c-4894-a03c-ac982170c6a7@wdc.com>
-In-Reply-To: <194b3338-ec8c-4894-a03c-ac982170c6a7@wdc.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Tue, 17 Mar 2026 12:48:25 -0700
-X-Gm-Features: AaiRm510LgPHJTcPR9KI7zoRBCxXT2eFJYs0leqBuCIZqdehaUhxQWfBUEgZ_Mw
-Message-ID: <CAJnrk1Zq87m8xwJy4rueOXx=Nz39wBJA+DaY09Qa0WvVVqskXw@mail.gmail.com>
-Subject: Re: Hang in generic/648 on zoned btrfs after aa35dd5cbc06 ("iomap:
- fix invalid folio access after folio_end_read()")
-To: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>
-Cc: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/7] fuse: abort on fatal signal during sync init
+To: Miklos Szeredi <mszeredi@redhat.com>, linux-fsdevel@vger.kernel.org
+Cc: stable@vger.kernel.org
+References: <20260316165320.3245526-1-mszeredi@redhat.com>
+ <20260316165320.3245526-2-mszeredi@redhat.com>
+From: Bernd Schubert <bernd@bsbernd.com>
+Content-Language: en-US, de-DE, fr
+In-Reply-To: <20260316165320.3245526-2-mszeredi@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Mar 17, 2026 at 2:35=E2=80=AFAM Johannes Thumshirn
-<Johannes.Thumshirn@wdc.com> wrote:
->
-> On 3/10/26 10:55 PM, Joanne Koong wrote:
-> > On Tue, Mar 10, 2026 at 2:08=E2=80=AFPM Joanne Koong <joannelkoong@gmai=
-l.com> wrote:
-> >> On Tue, Mar 10, 2026 at 4:44=E2=80=AFAM Johannes Thumshirn
-> >> <Johannes.Thumshirn@wdc.com> wrote:
-> >>
-> >> diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
-> >> index 867e8ac761c8..03a97361570f 100644
-> >> --- a/fs/iomap/buffered-io.c
-> >> +++ b/fs/iomap/buffered-io.c
-> >> @@ -543,7 +543,7 @@ static int iomap_read_folio_iter(struct iomap_iter=
- *iter,
-> >>                           * helper, then the helper owns the folio and=
- will end
-> >>                           * the read on it.
-> >>                           */
-> >> -                       if (*bytes_submitted =3D=3D folio_len)
-> >> +                       if (*bytes_submitted =3D=3D folio_len || !ifs)
-> >>                                  ctx->cur_folio =3D NULL;
-> >>                  }
-> > it should be this instead:
-> >
-> > diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
-> > index 867e8ac761c8..b803f518adaf 100644
-> > --- a/fs/iomap/buffered-io.c
-> > +++ b/fs/iomap/buffered-io.c
-> > @@ -497,6 +497,7 @@ static int iomap_read_folio_iter(struct iomap_iter =
-*iter,
-> >          loff_t length =3D iomap_length(iter);
-> >          struct folio *folio =3D ctx->cur_folio;
-> >          size_t folio_len =3D folio_size(folio);
-> > +       struct iomap_folio_state *ifs;
-> >          size_t poff, plen;
-> >          loff_t pos_diff;
-> >          int ret;
-> > @@ -508,7 +509,7 @@ static int iomap_read_folio_iter(struct iomap_iter =
-*iter,
-> >                  return iomap_iter_advance(iter, length);
-> >          }
-> >
-> > -       ifs_alloc(iter->inode, folio, iter->flags);
-> > +       ifs =3D ifs_alloc(iter->inode, folio, iter->flags);
-> >
-> >          length =3D min_t(loff_t, length, folio_len - offset_in_folio(f=
-olio, pos));
-> >          while (length) {
-> > @@ -543,7 +544,7 @@ static int iomap_read_folio_iter(struct iomap_iter =
-*iter,
-> >                           * helper, then the helper owns the folio and =
-will end
-> >                           * the read on it.
-> >                           */
-> > -                       if (*bytes_submitted =3D=3D folio_len)
-> > +                       if (*bytes_submitted =3D=3D folio_len || !ifs)
-> >                                  ctx->cur_folio =3D NULL;
-> >                  }
-> >
-> > Thanks,
-> > Joanne
-> >
-> This version is making the test pass again,
->
-> Reported-by: Johannes Thumshirn <johannes.thumshirn@wdc.com>
->
-> Tested-by: Johannes Thumshirn <johannes.thumshirn@wdc.com>
->
-> Thanks a lot for this!
->
 
-Thanks for reporting this and testing / helping to debug the issue.
-I'll submit the fix for this upstream today.
 
-Thanks,
-Joanne
+On 3/16/26 17:53, Miklos Szeredi wrote:
+> When sync init is used and the server exits for some reason (error, crash)
+> while processing FUSE_INIT, the filesystem creation will hang.  The reason
+> is that while all other threads will exit, the mounting thread (or process)
+> will keep the device fd open, which will prevent an abort from happening.
+> 
+> This is a regression from the async mount case, where the mount was done
+> first, and the FUSE_INIT processing afterwards, in which case there's no
+> such recursive syscall keeping the fd open.
+> 
+> Fixes: dfb84c330794 ("fuse: allow synchronous FUSE_INIT")
+> Cc: stable@vger.kernel.org # v6.18
+> Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
+> ---
+>  fs/fuse/dev.c    | 6 +++++-
+>  fs/fuse/fuse_i.h | 1 +
+>  fs/fuse/inode.c  | 1 +
+>  3 files changed, 7 insertions(+), 1 deletion(-)
+> 
+> diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+> index 2c16b94357d5..f0631c48abef 100644
+> --- a/fs/fuse/dev.c
+> +++ b/fs/fuse/dev.c
+> @@ -576,6 +576,9 @@ static void request_wait_answer(struct fuse_req *req)
+>  			removed = fuse_remove_pending_req(req, &fiq->lock);
+>  		if (removed)
+>  			return;
+> +
+> +		if (req->args->abort_on_kill)
+> +			fuse_abort_conn(fc);
+>  	}
+>  
+>  	/*
+> @@ -676,7 +679,8 @@ ssize_t __fuse_simple_request(struct mnt_idmap *idmap,
+>  			fuse_force_creds(req);
+>  
+>  		__set_bit(FR_WAITING, &req->flags);
+> -		__set_bit(FR_FORCE, &req->flags);
+> +		if (!args->abort_on_kill)
+> +			__set_bit(FR_FORCE, &req->flags);
+>  	} else {
+>  		WARN_ON(args->nocreds);
+>  		req = fuse_get_req(idmap, fm, false);
+> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+> index 7f16049387d1..23a241f18623 100644
+> --- a/fs/fuse/fuse_i.h
+> +++ b/fs/fuse/fuse_i.h
+> @@ -345,6 +345,7 @@ struct fuse_args {
+>  	bool is_ext:1;
+>  	bool is_pinned:1;
+>  	bool invalidate_vmap:1;
+> +	bool abort_on_kill:1;
+>  	struct fuse_in_arg in_args[4];
+>  	struct fuse_arg out_args[2];
+>  	void (*end)(struct fuse_mount *fm, struct fuse_args *args, int error);
+> diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+> index e57b8af06be9..84f78fb89d35 100644
+> --- a/fs/fuse/inode.c
+> +++ b/fs/fuse/inode.c
+> @@ -1551,6 +1551,7 @@ int fuse_send_init(struct fuse_mount *fm)
+>  	int err;
+>  
+>  	if (fm->fc->sync_init) {
+> +		ia->args.abort_on_kill = true;
+>  		err = fuse_simple_request(fm, &ia->args);
+>  		/* Ignore size of init reply */
+>  		if (err > 0)
+
+
+I haven't looked at the other patches yet, so basically the mount can be
+aborted with ctrl-c, but no self abort in this patch yet.
+Maybe worth to add to the commit message?
+
+Reviewed-by: Bernd Schubert <bernd@bsbernd.com>
