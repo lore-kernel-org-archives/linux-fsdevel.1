@@ -1,438 +1,276 @@
-Received: from mail-yx1-f42.google.com (mail-yx1-f42.google.com [74.125.224.42])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC23F182B7
-	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 00:10:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.42
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773706226; cv=none; b=rPl5hMMzgAt/w7EPdt0I/X3xW+pTb6Vow7gQPfoi7XsLdrKhp+K5E9fsVfEejHWlKoBihphj5b78XySB+mi73Dw1ZeAlYiMP2rNW2638uNt9Id6/SAgf9wdvtXJUOgevNqDQpFvm2U7YsznOf55e1lTg02cI49JJuf8nyMc2TZM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773706226; c=relaxed/simple;
-	bh=TtAEBFwchFDrgP4Bv3ALb4dErsZ8Y7+5w0Akkm5q2Ug=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fsK0uO+1A15PXhs/uQVWWml/LCQ0h6M3jxg5zh9hmjME9sh0YaruJWG14/earDDOLG7DDsPX3V7qxLLWGhmVzzGQ5/PWJmYyJqV4GquI9LAE9KngSLqbBBNkoERQRYKRp+kzBWmCGZqr316lF9Dd1e2KThIy41sLKAmts5JnW0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RL82WTAN; arc=none smtp.client-ip=74.125.224.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 876CF35893
+	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 00:15:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773706546; cv=pass; b=X11bpbF7Ck0eSVHeGTwpQ2EnTlAlfLTK7ppaPDO/g2SR2/e3cdv2lA1AD6puz/qU3ZZ3C5SdKfEjcBdcDsB+Qs4qmGju2e0OY+7VbZWRSSNXXc0C4OV4XGiaAajaOYbZRFtwtjwDTU+nkI+eYzA/zuESRKMJjFALsUweY9HgaA8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773706546; c=relaxed/simple;
+	bh=P3IdbVsgl1xZPAQ6WLAtiQrmftWjSmGNAKX/ISmlVQo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=skhogss6S8MtuGw/KdtIiLJPydZNOH1ipLg1o+XmMaRh0kUeQ7UHTw8F3aMsKJ3z2kIfhE0I/kH1y7U4TNa03Q+fn2fZWi9bL+42CmjMLxwM61hyj3mNNdoNS0wpiIE2FSgx0/CFkBqg4xKvzWhT5hPaIQAme4m9lmJ0SmG62fA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nToDhbq2; arc=pass smtp.client-ip=209.85.221.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RL82WTAN"
-Received: by mail-yx1-f42.google.com with SMTP id 956f58d0204a3-64ca9ec3ee7so6039907d50.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 17:10:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nToDhbq2"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-439b9cf8cb5so5766103f8f.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 17:15:44 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773706543; cv=none;
+        d=google.com; s=arc-20240605;
+        b=ZUcV/x1VP/kswdDXgeDlAvkTGcpDUUTeGFnR9Lpc1U+UOM9JeyTtcUfYgFEgru7XRH
+         pQuu/iFuGORs+nazMUlduB9A6/bxl/M8eK8CIEFXXI7g6f8DaAQ5RtWTx7eExDJKwLIc
+         esTGuFZbxZmwRln/aPtKMxdNTj78owLS0+uQJ5dzM2vL75RYScZzSR+QF1vSAzvXMPv5
+         eA1deqqGm0qVxSMDiofe4g9uSM+S+kdGX/Y//k0Sec+vkDtW3Kr3QYyQiwOK47hQYPBH
+         wy/E5j1gB2V1XNVlK7Bi4rYugq/Ei9sScs/tDnIHeWS2Q40O3fiKkoopovRWN62pBkdw
+         dv/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=3nMDLIp8iz1O7/jgBFBaCCI8dMIrwzJfKQb3Q/MIKQ4=;
+        fh=+jEsyLY7bzU2L6FrSbIPjpk6QKLcX6Jx3dKUJ8QU+rE=;
+        b=Kj9QO1eSHazzFdUGAt15S4mLYKaJhTiG7Z+rwRgF2elluLGmyhgk2L2fBSDzdKQ7Jb
+         HpMH5Yl1reRCSJkSRvkpdMSA0ZzFIijjnV+YBUvo4U5PkA4/PyQM0lQxw/xvcBxt5k/h
+         1VOmCWvgwUW8SJ0b1RPTq50EURGfvCELQm+dBPnu+lEcIqkoXDSe3lmlE+1IDE5CJT+x
+         svKc4XS7ybTBDrkxzXZiegmgxkjRC+BpeXJy8K+t2kA3bG4fGpphxnikSUG7R6hFiXQM
+         5LFwn/Cbo35F3+YrixjVTMsb/HXRyza+THa9HXAXYbSJR8KhcRCAc2CPEtEqT7iwxQ5/
+         697A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773706224; x=1774311024; darn=vger.kernel.org;
-        h=in-reply-to:autocrypt:from:content-language:references:cc:to
-         :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=pPIkEbyJ+bNMRM6nKNnOx5ahkCJEGcQ0HRt1ZpJSyjo=;
-        b=RL82WTANfN6Fb2D8ARBdhTcIW4K2hseilPVosQn7T1Kc7ZpzjTzpFzqjJI0xoOfLu8
-         PvdZhBwHkY5Lztj4JbtyikDQh/fApHesiBJjG+taTOhaj/oCLs4nIemlGr2OeEDRYtP2
-         2waEfY3UUNIsrzPoFbjUps2xs5rTFqwQxr+w6V5jbPKLTtXfhIYxpZBPu+ZG6Fxy9tWa
-         ZLgx/hzPGs7IhiLjXzUx4P/nnDOU2wE6p1k7tk9LO5lNAp43uCd3I+z1XTICzWRQehri
-         28bZM0hyKfGhd8PfmYndr8tWjrZp2CR4GcF/tc2+xVXyeVyzqC4AxPgEmZao/jPZc4hz
-         R3bA==
+        d=gmail.com; s=20230601; t=1773706543; x=1774311343; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3nMDLIp8iz1O7/jgBFBaCCI8dMIrwzJfKQb3Q/MIKQ4=;
+        b=nToDhbq2KsKK20zu6Byc3cm9TLtaOQJU2n2KkGUJJl1SBjWbnj3cNXqK4FBwwpXytF
+         7lh80hxIKHkcvLvfQ8urWredSdcWhQRUp+SWe2jxOH12036dCiFQvQeI00IqqKCn0F3n
+         39cV4KUhJLJqcYfXdOmHQfUIQwhVQShBYKy7p+2J4gTl3dxB2DbQiOTZ2zPIXhy/T1FX
+         Kjd4zfi61PPD1PjN3ZI/cFG4JJB+SADglp781yfXluCDaFL8ADFPiRVkLtUru6XnCDnt
+         F69JhB9Lu2ev3e26GNn6nQ7FAdvZHp0s1+euTBfII/wZZc7NBPVMojdyrhS7KXbCz9n9
+         gx5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773706224; x=1774311024;
-        h=in-reply-to:autocrypt:from:content-language:references:cc:to
-         :subject:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pPIkEbyJ+bNMRM6nKNnOx5ahkCJEGcQ0HRt1ZpJSyjo=;
-        b=cwA6Tl5VTBMG8kv9Eb8EwTR50tJrOEsHBWd8p0t1MgpwdiqFzhkwFXVdDhbBYCia/s
-         QdBORcjYXpEGQP79rXAOolb7yd+Fl0ShpIFKS5u2rApzkbaVUePsoRZzvKXdd5lrDLpf
-         +l1OQVZnDWvmaoHbmgAyVTBzLwKWaOb1JXTZTS5PCEgdpkTvUw0k14pzmps8qeu0x9j/
-         9XDi0VgB2tNjaHuH1cX5Sryap1pMpxRmz3oxCPCvKRRguH2NQSeClckoHk60XjZ75H65
-         sTGM5imRSXS30+iwn7EWlapS5jG6WXRkB7gSkghGN4pftQ/L6rjnnHDlOLrv49EznKZV
-         EGhQ==
-X-Gm-Message-State: AOJu0YwZ3vG8Y4SQXW2g7EsymmsnkWcE3+TJKzFFU1X0rjI6Mk7RY5jj
-	S8L2ZNlj72JxBNV96e6Iz0botsLDsQGHAcIPStrT1IJUSaRhhp2N5SiN
-X-Gm-Gg: ATEYQzxe/Za8m1IZc1euNOziBsvM0eyZV5Bk5hviXSd23hyBu+AKpN4L/rxTrzVPoWX
-	3mNAAkSVeFuWMiwEoxYfmg5naDdwC0WIs29dtMQFQi72+3AIY526MCk4eFfA6iFrsuJ7JDHszg3
-	kQtzG8wKDw1pHup5kTZgdEOcBkJfLLJhmxCoglkPeHQzUGhVBkoLmXqS1Sz0Ks+BxjVPi9swqxF
-	EAHJkgHIi5mzDdV/b5diTY936JToH0PJ/IEnYar8OFg2LldmxExl1xr9FyUp+UoxweimCU6vXuh
-	2n8piYLUBMMW6V0GO15MnNA2Lh/2idnYxloqAGYP6AkyqRrxxKWBhH+NR25wyC9AsaHcOrqd/lX
-	ICrKbM5xBLq52CIj+V3b2th8Urd5ryA5k3FFHygxXNPhlPmdF/mjtG5H2BPs/TJ3sy1lnD1CDC9
-	4pHZiEJO2QUV4n4VrMznVHWlMO3FV+EfJnYWW07D+caAuyHTmUdAi5ktggJqul7O3++9LHiBzxx
-	R7AvNgMVsJXVQt7yAc9nj1MMlkEGDf67NNO
-X-Received: by 2002:a05:690e:11ca:b0:64e:8748:38a1 with SMTP id 956f58d0204a3-64e87483c48mr2242118d50.66.1773706223597;
-        Mon, 16 Mar 2026 17:10:23 -0700 (PDT)
-Received: from [10.138.34.110] (h96-60-250-27.cncrtn.broadband.dynamic.tds.net. [96.60.250.27])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-64e65a51580sm6409961d50.8.2026.03.16.17.10.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Mar 2026 17:10:22 -0700 (PDT)
-Message-ID: <cab9fefc-2451-487f-8ff7-920af1b6de0d@gmail.com>
-Date: Mon, 16 Mar 2026 20:10:03 -0400
+        d=1e100.net; s=20251104; t=1773706543; x=1774311343;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=3nMDLIp8iz1O7/jgBFBaCCI8dMIrwzJfKQb3Q/MIKQ4=;
+        b=d4r+4EcjyrOwvd4PlelEA+oNr6QrvN1GfMLUEcYoPADueDuO03v6QUkqaN9eUHc7Xv
+         D7x8dX8dQ0z6tN8ut8zizguE/Qyn3Hg0Zmx1XdRhqpAU4eH8RGyc51nNYFGGqr8DRGLo
+         q5bU2H1x6RtioiT0cCXO/vpFc8IdiNmkjKSU/cIoibEOk0CEJW5z6jEWiNgZdc2coohN
+         NQnAoCc5A0DDmPEpPI7MwWZ4rOXEYuPeG9aTGRWY6KNrGNwZwdaRMOWUBEKvVyCnJQ6I
+         JeVHxEd1+aWpQJG25gpj0+kaLCxyqfOYopyF73uYyoj1VWRaoMtnxnOACcwIFr0/ypQo
+         n+ww==
+X-Gm-Message-State: AOJu0YwiG09hwwxfTtCu0TiFgn3YmjkEfiBkPywtECdDye58kTN7syi6
+	plg5Wzfeds14S0KEH3YTTN+oaHrGyJwiYL0jqRKsMVFFntzrJjjzdmpY7C1uAJ8Iq/z76+IFUkD
+	PiATiRn9op7b5auG62fpVPa1Ga40+bfQ=
+X-Gm-Gg: ATEYQzyDCAk1/QHorWHw/au08RNqa1nkHjQTOgUYvO8ZVtL1HN9ZhVcb9/afmeizPuP
+	K/PoL5Xs6xStdwDAMD70/JdQVAexn7PwmMKm5md5aiozujyPutSBp/Olux9m3XZO1+TR9KsNWoK
+	rmj+QaHQ21KF7crMXgtn2joaCVUhxFnds1vaQ2Cv7l7EcJARN/cylvZbLwr+6SrK8J8OvGEYdtW
+	iWcNlDTyh3u4f1QpagpIjvpo3oj4GImsWJPeXJcjr5CekVxG7hjF0x2/8Jb+W/usOhGefz5k7Uz
+	FlPx8w==
+X-Received: by 2002:a5d:5f53:0:b0:439:c2b6:d5d8 with SMTP id
+ ffacd0b85a97d-43a04db61b8mr26405485f8f.36.1773706542605; Mon, 16 Mar 2026
+ 17:15:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHBLIZZARD v7] fuse/libfuse/e2fsprogs: containerize ext4 for
- safer operation
-To: Joanne Koong <joannelkoong@gmail.com>, "Darrick J. Wong"
- <djwong@kernel.org>
-Cc: linux-fsdevel <linux-fsdevel@vger.kernel.org>, bpf@vger.kernel.org,
- linux-ext4 <linux-ext4@vger.kernel.org>, Miklos Szeredi <miklos@szeredi.hu>,
- Bernd Schubert <bernd@bsbernd.com>, Theodore Ts'o <tytso@mit.edu>,
- Neal Gompa <neal@gompa.dev>, Amir Goldstein <amir73il@gmail.com>,
- Christian Brauner <brauner@kernel.org>, Jeff Layton <jlayton@kernel.org>,
- John@groves.net
-References: <20260223224617.GA2390314@frogsfrogsfrogs>
- <CAJnrk1Yd1J60-Ek=O7jzZQg454pbr3O=b71yZHzYbrWfqJr__w@mail.gmail.com>
- <20260316180408.GN6069@frogsfrogsfrogs>
- <CAJnrk1bmJYMt27xedN2Xza0KPXfYEbh-9g=3fNWru-HRM9WFEw@mail.gmail.com>
-Content-Language: en-US
-From: Demi Marie Obenour <demiobenour@gmail.com>
-Autocrypt: addr=demiobenour@gmail.com; keydata=
- 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
- +MYSfkEjBz0E8CLOcAw7JIwAaeBT
-In-Reply-To: <CAJnrk1bmJYMt27xedN2Xza0KPXfYEbh-9g=3fNWru-HRM9WFEw@mail.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------qMcplNwmJuNEzLVArA0V5KzO"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------qMcplNwmJuNEzLVArA0V5KzO
-Content-Type: multipart/mixed; boundary="------------yE4ROllcuLdoBhUng1fQ3pTB";
- protected-headers="v1"
-Message-ID: <cab9fefc-2451-487f-8ff7-920af1b6de0d@gmail.com>
-Date: Mon, 16 Mar 2026 20:10:03 -0400
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHBLIZZARD v7] fuse/libfuse/e2fsprogs: containerize ext4 for
- safer operation
-To: Joanne Koong <joannelkoong@gmail.com>, "Darrick J. Wong"
- <djwong@kernel.org>
-Cc: linux-fsdevel <linux-fsdevel@vger.kernel.org>, bpf@vger.kernel.org,
- linux-ext4 <linux-ext4@vger.kernel.org>, Miklos Szeredi <miklos@szeredi.hu>,
- Bernd Schubert <bernd@bsbernd.com>, Theodore Ts'o <tytso@mit.edu>,
- Neal Gompa <neal@gompa.dev>, Amir Goldstein <amir73il@gmail.com>,
- Christian Brauner <brauner@kernel.org>, Jeff Layton <jlayton@kernel.org>,
- John@groves.net
-References: <20260223224617.GA2390314@frogsfrogsfrogs>
- <CAJnrk1Yd1J60-Ek=O7jzZQg454pbr3O=b71yZHzYbrWfqJr__w@mail.gmail.com>
- <20260316180408.GN6069@frogsfrogsfrogs>
- <CAJnrk1bmJYMt27xedN2Xza0KPXfYEbh-9g=3fNWru-HRM9WFEw@mail.gmail.com>
-Content-Language: en-US
-From: Demi Marie Obenour <demiobenour@gmail.com>
-Autocrypt: addr=demiobenour@gmail.com; keydata=
- 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
- +MYSfkEjBz0E8CLOcAw7JIwAaeBT
-In-Reply-To: <CAJnrk1bmJYMt27xedN2Xza0KPXfYEbh-9g=3fNWru-HRM9WFEw@mail.gmail.com>
-
---------------yE4ROllcuLdoBhUng1fQ3pTB
-Content-Type: multipart/mixed; boundary="------------nMm4z89vd4vM21MTGk55Tix0"
-
---------------nMm4z89vd4vM21MTGk55Tix0
-Content-Type: text/plain; charset=UTF-8
+References: <Utw_Cjiuq0_XhCoA5EXpzLE9qfRpiA0-fmXEmui7NnBnIeMiCDGOyXWPtE5DkxVNYNSsgiUotB7fsGYnlMQn1xDCx14yx1d0UJqx62vAwp4=@proton.me>
+In-Reply-To: <Utw_Cjiuq0_XhCoA5EXpzLE9qfRpiA0-fmXEmui7NnBnIeMiCDGOyXWPtE5DkxVNYNSsgiUotB7fsGYnlMQn1xDCx14yx1d0UJqx62vAwp4=@proton.me>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Mon, 16 Mar 2026 17:15:31 -0700
+X-Gm-Features: AaiRm518jWrlTin3GINGieOMhjnVYOu7wOJglMBudsbg7Ar2KU7MkviWAqR9hNI
+Message-ID: <CAJnrk1YAhWnOt-7yr9gDmHdjANiC74-fC5mKsePC6wFTzwPjUw@mail.gmail.com>
+Subject: Re: [BUG] fuse: wb_wait_for_completion hang on suspend with
+ fuse-overlayfs on tmpfs persists in 6.19.6 (AS_NO_DATA_INTEGRITY fix incomplete)
+To: John <therealgraysky@proton.me>
+Cc: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
+	"linux-fuse@lists.sourceforge.net" <linux-fuse@lists.sourceforge.net>, 
+	"linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, Jan Kara <jack@suse.cz>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On 3/16/26 19:08, Joanne Koong wrote:
-> On Mon, Mar 16, 2026 at 11:04=E2=80=AFAM Darrick J. Wong <djwong@kernel=
-=2Eorg> wrote:
->>
->> On Mon, Mar 16, 2026 at 10:56:21AM -0700, Joanne Koong wrote:
->>> On Mon, Feb 23, 2026 at 2:46=E2=80=AFPM Darrick J. Wong <djwong@kerne=
-l.org> wrote:
->>>>
->>>> There are some warts remaining:
->>>>
->>>> a. I would like to continue the discussion about how the design revi=
-ew
->>>>    of this code should be structured, and how might I go about creat=
-ing
->>>>    new userspace filesystem servers -- lightweight new ones based of=
-f
->>>>    the existing userspace tools?  Or by merging lklfuse?
->>>
->>> What do you mean by "merging lklfuse"?
->>
->> Merging the lklfuse project into upstream Linux, which involves runnin=
-g
->> the whole kit and caboodle through our review process, and then fixing=
+On Sun, Mar 15, 2026 at 4:24=E2=80=AFAM John <therealgraysky@proton.me> wro=
+te:
+>
 
->=20
-> Gotcha, so it would basically be having to port this arch/lkl
-> directory [1] into the linux tree
->=20
->> user-mode-linux to work anywhere other than x86.
->=20
-> Are lklfuse and user-mode-linux (UML) two separate things or is
-> lklfuse dependent on user-mode-linux?
->=20
->>
->>> Could you explain what the limitations of lklfuse are compared to the=
+Hi John,
 
->>> fuse iomap approach in this patchset?
->>
->> The ones I know about are:
->>
->> 1> There's no support for vmapped kernel memory in UML mode, so anyone=
+Thanks for your detailed report.
 
->> who requires a large contiguous memory buffer cannot assemble them out=
+> Kernel: 6.19.6-arch1-1
+> Component: fs/fuse, fs/fs-writeback
+>
+> --- SUMMARY ---
+>
+> A suspend-to-RAM hang in wb_wait_for_completion() via sync_inodes_sb() pe=
+rsists on 6.19.6 when fuse-overlayfs is mounted on tmpfs. The fix introduce=
+d in 6.19~rc6 for Debian bug #1120058 ("fs/writeback: skip AS_NO_DATA_INTEG=
+RITY mappings in wait_sb_inodes()") does not cover this code path.
+>
+> --- BACKGROUND ---
+>
+> This issue was originally reported in:
+> https://github.com/containers/fuse-overlayfs/issues/386
+>
+> The fuse-overlayfs developer identified it as a kernel issue. It was subs=
+equently bisected to commit 0c58a97f919c ("fuse: remove tmp folio for write=
+backs and internal rb tree", merged in 6.16) and tracked in Debian as bug #=
+1120058. The fix applied in 6.19~rc6 targets wait_sb_inodes(), but the hang=
+ in the reporter's original trace and in this report occurs in sync_inodes_=
+sb() via a separate code path that the fix does not reach.
+>
+> The issue is also known to syzbot as "INFO: task hung in sync_inodes_sb" =
+with open instances on linux-5.15, linux-6.1, and linux-6.6:
+>
+> https://syzkaller.appspot.com/bug?extid=3De0232bd63c6e293aaf6a
+> https://syzkaller.appspot.com/bug?extid=3D4983a35cf671e5ed55b3
+>
+> --- REPRODUCTION ---
+>
+> mkdir -p /dev/shm/test/up
+> mkdir -p /dev/shm/test/tmp
+> mkdir -p /dev/shm/test/data
+>
+> fuse-overlayfs -o "static_nlink,noacl,\
+>   upperdir=3D/dev/shm/test/up,\
+>   lowerdir=3D$HOME/.config/mozilla/firefox,\
+>   workdir=3D/dev/shm/test/tmp" \
+>   /dev/shm/test/data
+>
+> firefox --profile /dev/shm/test/data/PROFILENAME
+>
+> Browse to youtube and start playing a video then trigger suspend while th=
+e video is playing in the browser. I used XFCE4 suspend from the menu.
+>
+> The display goes blank and does not recover. The system does not enter su=
+spend. Switching to a tty shows the system is alive but X11 is frozen. Rebo=
+ot is blocked:
+>
+> # reboot
+> Call to Reboot failed: Action suspend already in progress, refusing reque=
+sted reboot operation.
+>
+> --- CALL TRACE (6.19.6) ---
+>
+> Mar 15 06:44:42 kernel: INFO: task kworker/u128:0:106160 blocked for more=
+ than 122 seconds.
+> Mar 15 06:44:42 kernel:       Not tainted 6.19.6-arch1-1 #1
+> Mar 15 06:44:42 kernel: task:kworker/u128:0  state:D stack:0     pid:1061=
+60 tgid:106160 ppid:2
+> Mar 15 06:44:42 kernel: Workqueue: pm_fs_sync pm_fs_sync_work_fn
+> Mar 15 06:44:42 kernel: Call Trace:
+> Mar 15 06:44:42 kernel:  <TASK>
+> Mar 15 06:44:42 kernel:  __schedule+0x457/0x1720
+> Mar 15 06:44:42 kernel:  schedule+0x27/0xd0
+> Mar 15 06:44:42 kernel:  wb_wait_for_completion+0x97/0xe0
+> Mar 15 06:44:42 kernel:  sync_inodes_sb+0xf8/0x2e0
+> Mar 15 06:44:42 kernel:  __iterate_supers+0xdc/0x160
+> Mar 15 06:44:42 kernel:  ksys_sync+0x43/0xb0
+> Mar 15 06:44:42 kernel:  pm_fs_sync_work_fn+0x17/0xa0
+> Mar 15 06:44:42 kernel:  process_one_work+0x193/0x350
+> Mar 15 06:44:42 kernel:  worker_thread+0x1a1/0x310
+> Mar 15 06:44:42 kernel:  kthread+0xfc/0x240
+> Mar 15 06:44:42 kernel:  ret_from_fork+0x243/0x280
+> Mar 15 06:44:42 kernel:  ret_from_fork_asm+0x1a/0x30
+> Mar 15 06:44:42 kernel:  </TASK>
+>
+> --- MORE CONTEXT ---
+>
+> Compared to the original report (which ran through systemd-sleep -> pm_su=
+spend -> ksys_sync), the sync call in 6.19 has been moved into a kernel wor=
+kqueue via pm_fs_sync_work_fn. The hang point is identical: wb_wait_for_com=
+pletion() inside sync_inodes_sb() never returns because the FUSE daemon (fu=
+se-overlayfs) is unable to complete writeback while the suspend freezer is =
+in progress.
+>
+> The AS_NO_DATA_INTEGRITY fix targets wait_sb_inodes(), which is a separat=
+e function from sync_inodes_sb(). The hung writeback completion wait in syn=
+c_inodes_sb() is not gated by the AS_NO_DATA_INTEGRITY check and remains un=
+addressed.
 
->> of "physical" pages.  This has been a stumbling block for XFS in the
->> past.
->>
->> 2> LKLFUSE still uses the classic fuse IO paths, which means that at
->> best you can directio the IO through the lklfuse kernel.  At worst you=
+I'll need to run the repro and verify this is the issue, but I think
+it's because it's hitting this call chain if there's a dirty folio
+that is already under writeback that needs to have writeback issued on
+it again:
 
->> have to use the pagecache inside the lklfuse kernel, which is very
->> wasteful.
->=20
-> For the security / isolation use cases you've described, is
-> near-native performance a hard requirement?
+wb_workfn()
+  wb_do_writeback()
+    wb_writeback()
+      writeback_sb_inodes()
+        __writeback_single_inode()
+          do_writepages()
+            fuse_writepages()
+              iomap_writepages()
+                writeback_iter()
+                  writeback_get_folio()
+                    folio_prepare_writeback()
 
-It should be good enough that distros are willing to use it by default.
-Otherwise, there is no way to break out of the loop where kernel devs
-say to not mount untrusted filesystems, yet the distros keep doing
-that because people have stuff they need to get done.
+where in the folio_prepare_writeback() logic:
 
-I know from talking to Neal Gompa that libguestfs is too slow for this.
+        if (!folio_test_dirty(folio))
+                return false;
 
-> As I understand it, the
-> main use cases of this will be for mounting untrusted disk images and
-> CI/filesystem testing, or are there broader use cases beyond this?
+        if (folio_test_writeback(folio)) {
+                if (wbc->sync_mode =3D=3D WB_SYNC_NONE)
+                        return false;
+                folio_wait_writeback(folio);
 
-Anyone with strong verified boot requirements is going to want this.
-The threat model used by Android and Chromium OS is that all on-disk
-state is *never* trusted.  The root filesystem is on a dm-verity
-protected partition, so mounting it in the kernel is fine.  However,
-the writable partition should be mounted in userspace.
 
-I checked with the ChromeOS security team, and they do consider being
-able to write corrupted metadata to disk that compromises the system
-on the next reboot to be a vulnerability.
+Could you verify if this fixes the issue?:
 
-This is also a case where performance actually matters, including
-for F2FS on zoned UFS which is always copy-on-write for user data.
---=20
-Sincerely,
-Demi Marie Obenour (she/her/hers)
---------------nMm4z89vd4vM21MTGk55Tix0
-Content-Type: application/pgp-keys; name="OpenPGP_0xB288B55FFF9C22C1.asc"
-Content-Disposition: attachment; filename="OpenPGP_0xB288B55FFF9C22C1.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
+diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
+index 8f8069fb76ba..4cbb22d80acf 100644
+--- a/fs/fs-writeback.c
++++ b/fs/fs-writeback.c
+@@ -1990,9 +1990,13 @@ static long writeback_sb_inodes(struct super_block *=
+sb,
+                 * Don't bother with new inodes or inodes being freed, firs=
+t
+                 * kind does not need periodic writeout yet, and for the la=
+tter
+                 * kind writeout is handled by the freer.
++                *
++                * For sync(2), skip inodes whose mappings have no data
++                * integrity guarantees (eg FUSE).
+                 */
+                spin_lock(&inode->i_lock);
+-               if (inode_state_read(inode) & (I_NEW | I_FREEING |
+I_WILL_FREE)) {
++               if ((inode_state_read(inode) & (I_NEW | I_FREEING |
+I_WILL_FREE)) ||
++                   (wbc.for_sync &&
+mapping_no_data_integrity(inode->i_mapping))) {
+                        redirty_tail_locked(inode, wb);
+                        spin_unlock(&inode->i_lock);
+                        continue;
 
------BEGIN PGP PUBLIC KEY BLOCK-----
+I think the changes from commit f9a49aa302a0 ("fs/writeback: skip
+AS_NO_DATA_INTEGRITY mappings in wait_sb_inodes()") are still needed
+even with the above patch since afaics, the writeback we wait on could
+have been from a previous background/periodic writeback run before
+sync was triggered.
 
-xsFNBFp+A0oBEADffj6anl9/BHhUSxGTICeVl2tob7hPDdhHNgPR4C8xlYt5q49y
-B+l2nipdaq+4Gk6FZfqC825TKl7eRpUjMriwle4r3R0ydSIGcy4M6eb0IcxmuPYf
-bWpr/si88QKgyGSVZ7GeNW1UnzTdhYHuFlk8dBSmB1fzhEYEk0RcJqg4AKoq6/3/
-UorR+FaSuVwT7rqzGrTlscnTDlPWgRzrQ3jssesI7sZLm82E3pJSgaUoCdCOlL7M
-MPCJwI8JpPlBedRpe9tfVyfu3euTPLPxwcV3L/cfWPGSL4PofBtB8NUU6QwYiQ9H
-zx4xOyn67zW73/G0Q2vPPRst8LBDqlxLjbtx/WLR6h3nBc3eyuZ+q62HS1pJ5EvU
-T1vjyJ1ySrqtUXWQ4XlZyoEFUfpJxJoN0A9HCxmHGVckzTRl5FMWo8TCniHynNXs
-BtDQbabt7aNEOaAJdE7to0AH3T/Bvwzcp0ZJtBk0EM6YeMLtotUut7h2Bkg1b//r
-6bTBswMBXVJ5H44Qf0+eKeUg7whSC9qpYOzzrm7+0r9F5u3qF8ZTx55TJc2g656C
-9a1P1MYVysLvkLvS4H+crmxA/i08Tc1h+x9RRvqba4lSzZ6/Tmt60DPM5Sc4R0nS
-m9BBff0Nm0bSNRS8InXdO1Aq3362QKX2NOwcL5YaStwODNyZUqF7izjK4QARAQAB
-zTxEZW1pIE9iZW5vdXIgKElUTCBFbWFpbCBLZXkpIDxhdGhlbmFAaW52aXNpYmxl
-dGhpbmdzbGFiLmNvbT7CwY4EEwEIADgWIQR2h02fEza6IlkHHHGyiLVf/5wiwQUC
-X6YJvQIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRCyiLVf/5wiwWRhD/0Y
-R+YYC5Kduv/2LBgQJIygMsFiRHbR4+tWXuTFqgrxxFSlMktZ6gQrQCWe38WnOXkB
-oY6n/5lSJdfnuGd2UagZ/9dkaGMUkqt+5WshLFly4BnP7pSsWReKgMP7etRTwn3S
-zk1OwFx2lzY1EnnconPLfPBc6rWG2moA6l0WX+3WNR1B1ndqpl2hPSjT2jUCBWDV
-rGOUSX7r5f1WgtBeNYnEXPBCUUM51pFGESmfHIXQrqFDA7nBNiIVFDJTmQzuEqIy
-Jl67pKNgooij5mKzRhFKHfjLRAH4mmWZlB9UjDStAfFBAoDFHwd1HL5VQCNQdqEc
-/9lZDApqWuCPadZN+pGouqLysesIYsNxUhJ7dtWOWHl0vs7/3qkWmWun/2uOJMQh
-ra2u8nA9g91FbOobWqjrDd6x3ZJoGQf4zLqjmn/P514gb697788e573WN/MpQ5XI
-Fl7aM2d6/GJiq6LC9T2gSUW4rbPBiqOCeiUx7Kd/sVm41p9TOA7fEG4bYddCfDsN
-xaQJH6VRK3NOuBUGeL+iQEVF5Xs6Yp+U+jwvv2M5Lel3EqAYo5xXTx4ls0xaxDCu
-fudcAh8CMMqx3fguSb7Mi31WlnZpk0fDuWQVNKyDP7lYpwc4nCCGNKCj622ZSocH
-AcQmX28L8pJdLYacv9pU3jPy4fHcQYvmTavTqowGnM08RGVtaSBNYXJpZSBPYmVu
-b3VyIChsb3ZlciBvZiBjb2RpbmcpIDxkZW1pb2Jlbm91ckBnbWFpbC5jb20+wsF4
-BBMBAgAiBQJafgNKAhsDBgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRCyiLVf
-/5wiwYa/EACv8a2+MMou9cSCNoZBQaU+fTmyzft9hUE+0d5W2UY1RY3OsjFIzm9R
-/4SVccfsqOYLEo+S0vQMIIIqFEq3FCpXXwPzyimotps05VA8U3Bd7yseojFygOgK
-sAMOAee2RCaDDOnoJue01dfZMzzHPO/TVdp3OvnpWipfv5G1Xg96rwbhMLE3tg6N
-xwAHa31Bv4/Xq8CJOoIWvx6fcmZQpz01/lSvsYn0KrfEbTKkuUf0vM9JrCTCP2oz
-VNN5BYzqaq2M4r+jmSyeXLim922VOWqGkUEQ85BSEemqrRS06IU6NtEMsF8EWt/b
-hWjk/9GDKTcnpdJHTrMxTspExBiNrvpI2t+YPU5B/dJJAUxvmhFrbSIbdB8umBZs
-I3AMYrEmpAbh5x7jEjoskUC7uN3o9vpg1oCLS2ePDLtAtyBtbHnkA4xGD7ar8mem
-xpH9lY/i+sC6CyyIUWcUDnnagKyJP0m9ks0GLsTeOCA0bft2XA6rD6aaCnMUsndT
-ctrab42CV5XypjmC4U1rPJ8JQJUh1/3P48/8sMH+3krxpJ06KNWNFaUbaMTGiltZ
-7x9DngklSYrX0T+2G4kVXNmjaljwkoLahwLla2gUWwBSyofXdqyhQdwZsp01KXNQ
-UCyT/Pg+aDcm/E7OMV3d4lf7g/CSxiX2GSEe6BlhSz+Lmd7ZJ3g32M1ARGVtaSBN
-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
-EtJuZYM5blWncBOJCoWMnBEcTEo/viU3GgcVRw=3D=3D
-=3Dx94R
------END PGP PUBLIC KEY BLOCK-----
+Thanks,
+Joanne
 
---------------nMm4z89vd4vM21MTGk55Tix0--
-
---------------yE4ROllcuLdoBhUng1fQ3pTB--
-
---------------qMcplNwmJuNEzLVArA0V5KzO
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEopQtqVJW1aeuo9/sszaHOrMp8lMFAmm4m+gACgkQszaHOrMp
-8lPjixAAlBMwWXjUkMf+t9w4TMaAf8+XOILn+Wjhmb1QgY19hEHEgqgReQi6hPp+
-jQIZ9WKiUkNEk0+GZ8DrLgtm1qyNr5qqJKC4DXOc+KXBwiejwRuPV3Z7/d0VH7Bo
-WsSm/9hUE11LGnSPo8Quw1twI62yQhJJd8UyKHOqqdRv+zbSu9PdNI/umOcj9F/J
-NA3AduhriAN0VDf73u2W/vIFUOfwby5HCwSbGESCJ/5crWkCeAIwB3+atW6yfZq4
-iOS9Gfr8iYGD2dOPSKBaIUK3I12CsaGuER1qr4NDUDFwGTOugNXT8xFAjsrHibux
-rhZ+ibsEU0gd7yH0cxwrp7HgMHjzeKdUX1IsmQxib2/qNTM2HG+RxXIZ3nqdF3QE
-ZgYp2d0AiebhXhvffP4PTyzbcxHm9f5wKFLOeMjtFQ7kKQhXSCE2eHf58/6EYGjZ
-0jLVHBs6I6pm0NTuM3JPB4B1/GhBaNGAJbLS0Fz2ZcdZKHmhdHBPjCbrJ6AlxoyC
-Lh3bjJT9kjmnR7jZka6ns1JuvmM9xjkfY7hbohmwl36bu/6lfx6eBNM24ZR49uNS
-OEANvLflLmX7BHoJz68HPP2J1Vd0gvtcvzRVAx1V6KVMZ1gNafnL+eK/oHqCdzzh
-CltI9Y+HwzYGzaG9UCayskVFtvRygOzFL6EI2osUmLlttBJdhyQ=
-=FnDW
------END PGP SIGNATURE-----
-
---------------qMcplNwmJuNEzLVArA0V5KzO--
+>
+> Note: prior to commit 0c58a97f919c, sync() on FUSE filesystems was effect=
+ively a no-op, which avoided this hang at the cost of correctness. The regr=
+ession was introduced when that commit made sync() actually wait on FUSE wr=
+iteback completion.
+>
+> I am using Arch Linux but users of Fedora F43 and Debian testing are hitt=
+ing this bug also. See refs below.
+>
+> References:
+> 1. fuse-overlayfs upstream issue: https://github.com/containers/fuse-over=
+layfs/issues/386
+> 2. profile-sync-daemon issue: https://github.com/graysky2/profile-sync-da=
+emon/issues/411
+> 3. Debian bug #1120058: https://bugs.debian.org/1120058
