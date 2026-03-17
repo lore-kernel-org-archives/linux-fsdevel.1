@@ -1,245 +1,99 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6728F3A4535
-	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 10:00:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80C2534F486;
+	Tue, 17 Mar 2026 11:32:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773741653; cv=none; b=nrmvCuFcGCjY4a22XUeZltgxqmT7ufwQM0YWuUO+d79rHObvzhm0BSDu3IkCSNmw5VN0SrEI5KjLZ9budxOvHjnZgo6o2INnriV9aBuMJuGMLLcB3emOdzxbF7eDV9phhM/1ks0t/9M6HipfcbfiftqqpIs7H3fN2fhZXKAu2cU=
+	t=1773747141; cv=none; b=s3wIi+RQJOQujWKa49xdHvuEzhJJ05vf7GZGu9FesNrm/43998OyvrN2aBMtOQkamX+IsrlKM3PJxA4Z3n3zG7BvDgeX6NPKtkRAGKo0or8ZKNUN+P3iWuV0jRq0V6NI5OWc84Z60e5eN4odmwj25O/87TmFSAhUCOISKLnq244=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773741653; c=relaxed/simple;
-	bh=xQClvtHmcR6w8TrLUiGiLIoF7WZTm3EhitOCJri8BXE=;
+	s=arc-20240116; t=1773747141; c=relaxed/simple;
+	bh=UWTSvxAlGGuyS5z7VDcNiiCEiejhuiDa72AmOtpQApU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UMz3TMorI84JG0Iu581ibGGG/eC7ft8qJa4Mo8jZx0xoEoEPtcK9RAI2hjbAnHoXJ+M7rMfsEZZEm7LcCQmE2OePxQs2Vy0z2JykzESwhJTWIK6hv7pfuaz9hEa/tI6UXyh3Tu3L7F1dLwvPw69lDPXgTMWCBQNXCczgaa1F/pc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=oZJ3/cY6; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=z8+9L0n+; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=CX35RV4c; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=t/jEKk2C; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	 Content-Type:Content-Disposition:In-Reply-To; b=J1oD7D2ovSysKrgcEe3R95MsWyTAyDnYr7D7Ld/1BytkkbBAhol8KMqRoiqo66JeqQI1B3JB0mKs7vmrcfn0j5aDmHlgcJOcopDE/pxlP6N2WCfwMeJT0neHkUR6rMrpkh5ilUqdWLXMMcIZ+xPyXsl+Dicpe+0iLLyaxo34UzQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=p/FpDRti; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="oZJ3/cY6";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="z8+9L0n+";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="CX35RV4c";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="t/jEKk2C"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 9C3725BDB1;
-	Tue, 17 Mar 2026 10:00:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1773741643; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3NxxYZ0Z73C+D6nMp9RM66Emm5gr807GrvA6Zh/dc0A=;
-	b=oZJ3/cY6ydGUBsEkcn4dEP5dVa8+6N5TCpbl/uoiRyk4zmmW7J9KBCWw5LYg5qJ9sSUBYN
-	kDXicji+Mmuu83eTS1GuU5bfaeUnybdFqqkL+Jwnv/gBugxmNyvsnLCjytkBMSabdBzeo2
-	pLuxV3JV9Bq7GlVOwyPPk0QMnb/TzHw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1773741643;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3NxxYZ0Z73C+D6nMp9RM66Emm5gr807GrvA6Zh/dc0A=;
-	b=z8+9L0n+2BvyNILizCEGBPcuF7FXAXX68hzMw03OLmlBtux01ucO78gQQUP6lspoRnVAHU
-	fjJTL+Fs+WzbkkBg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=CX35RV4c;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b="t/jEKk2C"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1773741638; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3NxxYZ0Z73C+D6nMp9RM66Emm5gr807GrvA6Zh/dc0A=;
-	b=CX35RV4cPd92rVX9pIFlpypFdx5RdDbqy0m6JgL3N9BAb1bDqCFP/C0Zs6abuDaJbL268b
-	RKMPUfa+HwHLtaL4MRvpjsvnT/cJx39tZuQLpkJt2PNatB2G8g6k6iWLCggoPL5w+fPupt
-	OQrs5XNahoIFDxhNI9Hmnmsh9lYPs30=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1773741638;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3NxxYZ0Z73C+D6nMp9RM66Emm5gr807GrvA6Zh/dc0A=;
-	b=t/jEKk2CCIPbv8gHZqK1jU4ncUvF5g0vCKqzpoNhRGjc3w+LQQ99i+VJ4D9TTFrf362JNo
-	vbna+wrOzVfO1uAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 833EB4273C;
-	Tue, 17 Mar 2026 10:00:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ZhkGIEYmuWn0SwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 17 Mar 2026 10:00:38 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 40DE4A0AB1; Tue, 17 Mar 2026 11:00:34 +0100 (CET)
-Date: Tue, 17 Mar 2026 11:00:34 +0100
-From: Jan Kara <jack@suse.cz>
-To: NeilBrown <neil@brown.name>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Jeff Layton <jlayton@kernel.org>, Trond Myklebust <trondmy@kernel.org>, 
-	Anna Schumaker <anna@kernel.org>, Carlos Maiolino <cem@kernel.org>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>, 
-	Jan Harkes <jaharkes@cs.cmu.edu>, Hugh Dickins <hughd@google.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, David Howells <dhowells@redhat.com>, 
-	Marc Dionne <marc.dionne@auristor.com>, Steve French <sfrench@samba.org>, 
-	Namjae Jeon <linkinjeon@kernel.org>, Sungjong Seo <sj1557.seo@samsung.com>, 
-	Yuezhang Mo <yuezhang.mo@sony.com>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Breno Leitao <leitao@debian.org>, Theodore Ts'o <tytso@mit.edu>, 
-	Andreas Dilger <adilger.kernel@dilger.ca>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Ilya Dryomov <idryomov@gmail.com>, 
-	Alex Markuze <amarkuze@redhat.com>, Viacheslav Dubeyko <slava@dubeyko.com>, 
-	Tyler Hicks <code@tyhicks.com>, Andreas Gruenbacher <agruenba@redhat.com>, 
-	Richard Weinberger <richard@nod.at>, Anton Ivanov <anton.ivanov@cambridgegreys.com>, 
-	Johannes Berg <johannes@sipsolutions.net>, Jeremy Kerr <jk@ozlabs.org>, Ard Biesheuvel <ardb@kernel.org>, 
-	linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org, linux-xfs@vger.kernel.org, 
-	linux-unionfs@vger.kernel.org, coda@cs.cmu.edu, linux-mm@kvack.org, 
-	linux-afs@lists.infradead.org, linux-cifs@vger.kernel.org, linux-ext4@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, ceph-devel@vger.kernel.org, 
-	ecryptfs@vger.kernel.org, gfs2@lists.linux.dev, linux-um@lists.infradead.org, 
-	linux-efi@vger.kernel.org
-Subject: Re: [PATCH 32/53] ext4: move dcache modifying code out of
- __ext4_link()
-Message-ID: <imo3cvhqtvginngr2ofsotmrsxixutn2jagbkj6322cfgxm3lj@wosdq3xvlym5>
-References: <20260312214330.3885211-1-neilb@ownmail.net>
- <20260312214330.3885211-33-neilb@ownmail.net>
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="p/FpDRti"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Reply-To:Content-ID:Content-Description;
+	bh=G31hXcPOimlJCCwoNzpI+vMSEg4NhwVwk7ZC9FRItGU=; b=p/FpDRti6QDbdeGLC8WP1aLSA9
+	8mGebtDKU6c9PWFsrVDBAKvOhg482Y3wK/hbjGD7wmvHgDctqvMoYjf8n6FChNr+iPcfPbekLcyDK
+	/scCPKuq2jzUUswxUAft7i8JBQB/ZHOMwB99qrmN4G2bdgJrKpSE6AO0wAphXOLkNgo8Hn40BuiD1
+	PNq6EutYi/SYAn2oTSieXqYTb2ramKgaT4sHgYM+zwSp+8kY4WTkCk9/XZ7Pow3NPKJC5ylYvra18
+	HJon4uLXOK53n9d4LBPyk6sjT0FeiqiaqxKmnOW4oojqKQ7Ss74slyD1z5CofinYH922a7OydlVEx
+	SoBY2lQg==;
+Received: from authenticated user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.94.2)
+	(envelope-from <leitao@debian.org>)
+	id 1w2Sem-002qz6-CT; Tue, 17 Mar 2026 11:32:15 +0000
+Date: Tue, 17 Mar 2026 04:32:09 -0700
+From: Breno Leitao <leitao@debian.org>
+To: Tejun Heo <tj@kernel.org>
+Cc: Lai Jiangshan <jiangshanlai@gmail.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org, puranjay@kernel.org, 
+	linux-crypto@vger.kernel.org, linux-btrfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	Michael van der Westhuizen <rmikey@meta.com>, kernel-team@meta.com, Chuck Lever <chuck.lever@oracle.com>
+Subject: Re: [PATCH RFC 0/5] workqueue: add WQ_AFFN_CACHE_SHARD affinity scope
+Message-ID: <abk6PMrSDcb-yXZ9@gmail.com>
+References: <20260312-workqueue_sharded-v1-0-2c43a7b861d0@debian.org>
+ <6b952e7087c5fd8f040b692a92374871@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260312214330.3885211-33-neilb@ownmail.net>
-X-Spamd-Result: default: False [-2.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_COUNT_THREE(0.00)[3];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[linux-foundation.org,zeniv.linux.org.uk,kernel.org,suse.cz,szeredi.hu,gmail.com,cs.cmu.edu,google.com,linux.alibaba.com,redhat.com,auristor.com,samba.org,samsung.com,sony.com,debian.org,mit.edu,dilger.ca,goodmis.org,dubeyko.com,tyhicks.com,nod.at,cambridgegreys.com,sipsolutions.net,ozlabs.org,vger.kernel.org,kvack.org,lists.infradead.org,lists.linux.dev];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[52];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	ASN(0.00)[asn:32098, ipnet:2800::/6, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RL51pwup9t9rrf6fhpcri3z6a5)];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -2.51
-X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 9C3725BDB1
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <6b952e7087c5fd8f040b692a92374871@kernel.org>
+X-Debian-User: leitao
 
-On Fri 13-03-26 08:12:19, NeilBrown wrote:
-...
-> diff --git a/fs/dcache.c b/fs/dcache.c
-> index a1219b446b74..c48337d95f9a 100644
-> --- a/fs/dcache.c
-> +++ b/fs/dcache.c
-> @@ -358,7 +358,7 @@ static inline int dname_external(const struct dentry *dentry)
->  	return dentry->d_name.name != dentry->d_shortname.string;
->  }
->  
-> -void take_dentry_name_snapshot(struct name_snapshot *name, struct dentry *dentry)
-> +void take_dentry_name_snapshot(struct name_snapshot *name, const struct dentry *dentry)
->  {
->  	unsigned seq;
->  	const unsigned char *s;
+Hello Tejun,
 
-The constification of take_dentry_name_snapshot() should probably be a
-separate patch? Also I'd note that this constification (and the
-constification of __ext4_fc_track_link()) isn't really needed here because
-ext4_fc_track_link() will immediately bail through ext4_fc_disabled() when
-fast commit replay is happening so __ext4_fc_track_link() never gets called
-in that case - more about that below.
+On Fri, Mar 13, 2026 at 07:57:20AM -1000, Tejun Heo wrote:
+> Hello,
+>
+> Applied 1/5. Some comments on the rest:
+>
+> - The sharding currently splits on CPU boundary, which can split SMT
+>   siblings across different pods. The worse performance on Intel compared
+>   to SMT scope may be indicating exactly this - HT siblings ending up in
+>   different pods. It'd be better to shard on core boundary so that SMT
+>   siblings always stay together.
 
-> @@ -1471,7 +1471,15 @@ static int ext4_fc_replay_link_internal(struct super_block *sb,
->  		goto out;
->  	}
->  
-> +	ihold(inode);
-> +	inc_nlink(inode);
->  	ret = __ext4_link(dir, inode, dentry_inode);
-> +	if (ret) {
-> +		drop_nlink(inode);
-> +		iput(inode);
-> +	} else {
-> +		d_instantiate(dentry_inode, inode);
-> +	}
->  	/*
->  	 * It's possible that link already existed since data blocks
->  	 * for the dir in question got persisted before we crashed OR
-...
-> @@ -3460,8 +3460,6 @@ int __ext4_link(struct inode *dir, struct inode *inode, struct dentry *dentry)
->  		ext4_handle_sync(handle);
->  
->  	inode_set_ctime_current(inode);
-> -	ext4_inc_count(inode);
-> -	ihold(inode);
->  
->  	err = ext4_add_entry(handle, dentry, inode);
->  	if (!err) {
-> @@ -3471,11 +3469,7 @@ int __ext4_link(struct inode *dir, struct inode *inode, struct dentry *dentry)
->  		 */
->  		if (inode->i_nlink == 1)
->  			ext4_orphan_del(handle, inode);
-> -		d_instantiate(dentry, inode);
-> -		ext4_fc_track_link(handle, dentry);
-> -	} else {
-> -		drop_nlink(inode);
-> -		iput(inode);
-> +		__ext4_fc_track_link(handle, inode, dentry);
+Thank you for the insight. I'll modify the sharding to operate at the
+core boundary rather than at the SMT/thread level to ensure sibling CPUs
+remain in the same pod.
 
-This looks wrong. If fastcommit replay is running, we must skip calling
-__ext4_fc_track_link(). Similarly if the filesystem is currently
-inelligible for fastcommit (due to some complex unsupported operations
-running in parallel). Why did you change ext4_fc_track_link() to
-__ext4_fc_track_link()?
+> - How was the default shard size of 8 picked? There's a tradeoff
+> between the number of kworkers created and locality. Can you also
+> report the number of kworkers for each configuration? And is there
+> data on different shard sizes? It'd be useful to see how the numbers
+> change across e.g. 4, 8, 16, 32.
 
-> @@ -3504,7 +3498,16 @@ static int ext4_link(struct dentry *old_dentry,
->  	err = dquot_initialize(dir);
->  	if (err)
->  		return err;
-> -	return __ext4_link(dir, inode, dentry);
-> +	ihold(inode);
-> +	ext4_inc_count(inode);
+The choice of 8 as the default shard size was somewhat arbitrary – it was
+selected primarily to generate initial data points.
 
-I'd put inc_nlink() here instead. We are guaranteed to have a regular file
-anyway and it matches what we do in ext4_fc_replay_link_internal().
-Alternatively we could consistently use ext4_inc_count() &
-ext4_dec_count() in these functions.
+I'll run tests with different shard sizes and report the results.
 
-> +	err = __ext4_link(dir, inode, dentry);
-> +	if (err) {
-> +		drop_nlink(inode);
-> +		iput(inode);
-> +	} else {
-> +		d_instantiate(dentry, inode);
-> +	}
-> +	return err;
->  }
+I'm currently working on finding a suitable workload with minimal noise.
+Testing on real NVMe devices shows significant jitter that makes analysis
+difficult. I've also been experimenting with nullblk, but haven't had much
+success yet.
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+If you have any suggestions for a reliable workload or benchmark, I'd
+appreciate your input.
+
+> - Can you also test on AMD machines? Their CCD topology (16 or 32
+> threads per LLC) would be a good data point.
+
+Absolutely, I'll test on AMD machines as well.
+
+Thanks,
+--breno
