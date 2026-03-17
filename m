@@ -1,146 +1,245 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3247E375F62
-	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 09:44:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773740645; cv=pass; b=ARfpDamjBQ16QZFR7uLN/OOsRzqcb9R9NlZZQZ6OD0e23u0tgePCCwilWKARNo8mHL9+U3kM78VexdBZP1SENQdgapVUWz1Symyf+I59cVNa3mI9slS85gtAKgqQmAoIUlaYjz+yf6fPOMzTnAZyM/nY0FO0t4vA/PwQlzocSTI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773740645; c=relaxed/simple;
-	bh=XRAyMbVsppAPvkz2awJ+fo8bkRCRjr1mCIULs0FBasI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dCA5RjlmkrQEjqRctP+1+JWPByf5qxCldjX1z8StbdKswvkNSjc5iwF7ir9hXGErUzqjeY6r/4ay+c1GQWZpGjLRj+0Py5v5eEMxMmNF0p4VDrOrW0A4MFrU2P/H7P25KYv2SU4qI8Fc5nibM4KF0ud3YzrkQsy9d+dZhodcTS0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dfinity.org; spf=pass smtp.mailfrom=dfinity.org; dkim=pass (2048-bit key) header.d=dfinity.org header.i=@dfinity.org header.b=gPdpERws; arc=pass smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dfinity.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dfinity.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6728F3A4535
+	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 10:00:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773741653; cv=none; b=nrmvCuFcGCjY4a22XUeZltgxqmT7ufwQM0YWuUO+d79rHObvzhm0BSDu3IkCSNmw5VN0SrEI5KjLZ9budxOvHjnZgo6o2INnriV9aBuMJuGMLLcB3emOdzxbF7eDV9phhM/1ks0t/9M6HipfcbfiftqqpIs7H3fN2fhZXKAu2cU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773741653; c=relaxed/simple;
+	bh=xQClvtHmcR6w8TrLUiGiLIoF7WZTm3EhitOCJri8BXE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UMz3TMorI84JG0Iu581ibGGG/eC7ft8qJa4Mo8jZx0xoEoEPtcK9RAI2hjbAnHoXJ+M7rMfsEZZEm7LcCQmE2OePxQs2Vy0z2JykzESwhJTWIK6hv7pfuaz9hEa/tI6UXyh3Tu3L7F1dLwvPw69lDPXgTMWCBQNXCczgaa1F/pc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=oZJ3/cY6; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=z8+9L0n+; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=CX35RV4c; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=t/jEKk2C; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dfinity.org header.i=@dfinity.org header.b="gPdpERws"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b955351e0a6so879909666b.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 02:44:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773740641; cv=none;
-        d=google.com; s=arc-20240605;
-        b=X1rz25oMCylO6cM+Mqnh5SRXWv6xcSGgRomlfcbb9/Q0ODVlZ0EgKKpugtZVdZ5jXJ
-         4MUyAiBaCtamVUZH8XEQ/YrAvM5xdA5eNwnXZBRcjNrNecxgskGlUw2Bw4w11Z65mjwS
-         MpIvF8TySn+X4euIYDmT6ssA6km0NUo1V+Chy1ABQDbj/mYTByZMB8OSRuwTv0IXqmee
-         K7jluUNHvlwZqy+kJ7Deh3ZTkBhs7mCt0QUpHB/GQRURgEloL8W0l6OulV2VKUl0BgE+
-         71GN1PlZKyJFNJzxal49E9UkGZ53ZLdcjjbJ41QTcG3aqINm5NPokdvclmJe+MKKoKyw
-         8q6g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=UQVXw5BqQPlrykOq9wOrfS0RtHVDvKlRL1okYmgxXpc=;
-        fh=Nb2cDWuEotkuZlvBolwYYNKqrNCyhRhsz0oDkz4bZOs=;
-        b=f63Zz/S9gArkfCPID1bGk5BNJDXfxR5RRLRZqCfRSt5mIx0dp49D0GB255USulw+iR
-         wy7Jms7STaX+4t8zFYgc+6P1H2I1deVmoDudcgL0lZ0kV4Zwl2N1RmxnoxJteTQgJ9TP
-         3ndLHCAoi/T35yltwjxgXuevfm1V+F5xDISUSb6zESZPMQXkzUjAkHCn2nfTTFtM52uk
-         5WvB63ixloBXGCujXQ2AIBIvHuIbgCdaMTdpHb3/KfW/Zda4ZWZAZXLMQNoHPDzb9xk2
-         gpzAySTnA/NeSpReIqZVNTZu+0HNpPEbnaWLnWHSjQKs3sJQQBydD7ygrF9qTuxObgMD
-         sbBQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dfinity.org; s=google; t=1773740641; x=1774345441; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UQVXw5BqQPlrykOq9wOrfS0RtHVDvKlRL1okYmgxXpc=;
-        b=gPdpERwsrLJyNyYYZHH8sRiTJmbK5mn7X4oq8muv3NcKxJc5EA9/60895IWpcEb/Bv
-         2ZaLcNeAUE5YZCuxRUt0JWHeTV3JSfMbLRHEazRDhS1tbhTI+DSdRgQJvH0XYD+Uf5tm
-         d8l1ilWvjZ03cnAYd1Jc7XBnN0Ym0j8m1q2liu0mb/o0VYBm+t8YzTA0GFeqmVIoCxtZ
-         dss7GsysfXxc5+ntv6CV9rB2+ih/dHQYrf7AbJsnzAdKdyoMInEj59DntByPZxWy9s3v
-         iz2jdDmu1aQKfZTtRilLZ46i9Wh8DzEjsWqEn0upZpM9B6YBHjPr1sXN73CN+5qXNaWH
-         3khg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773740641; x=1774345441;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=UQVXw5BqQPlrykOq9wOrfS0RtHVDvKlRL1okYmgxXpc=;
-        b=MPr9HGSRiaeWHJmuHRqXR3RcBwYJ/EGQW6ZvJYxbQvW1t4BgiQN8FnkrBkhjN5Yk+S
-         QpDHrDy2rSt9ekzce+pnoqLcd7Jyhh5xevFu1U/sZyRJFkmk9iRC7Yeq7pnTpDvusYnF
-         0P05IOltE1Zx1a+yWacxnqqqxt7WNT8xdkc15pKXQs29X8jNKYE7At90gvUpAv4TP+8n
-         GWFCycQS2Mj5hjorBcSQGpz5kE1wSfwlVai7nq/QSH9UbEtReMe2HNC84owwGxhGvMsH
-         FBi6onhGM3R/pq4VrKw7VoFJExDWbsa1C8bNwSGsz0h5PdaxoARxT0GvDX0ylutsmmTs
-         SyMg==
-X-Forwarded-Encrypted: i=1; AJvYcCXyJ0LOexH1oMLSIM+YpLRbdiiRDwhyoaEGb8FiS/9CvF3oEXwXfN7BIcbYl/GrlJfV+TK3XeRQzuy6lKpD@vger.kernel.org
-X-Gm-Message-State: AOJu0YypETJsgb/XuEsodDtWJJBAoCBEEhSG1CEY/wJFaSB5Dqgtp5nf
-	TbwJtVJlsxHR/LLeMHb8JlKocyBSttMGE61vtyH3Mz443UzuGcnKgKxE/GCLdpbwUCoiiUpEoPp
-	QjOuSslb9zcWKj7L82KjG3TU2wFWDGcueD0kFk2o8ZA==
-X-Gm-Gg: ATEYQzzyHAJ7fhWIgoFISOx+HVtuTMz4Y3xYL24NTTat5VJrYQp7sxAcvfEjg0x8Wmw
-	D5tYTURhp76fbppjvFPboUDGlCwj360bjs53h6rJP/YO3G9Tup3AH+A9tfxNUDc5iyg8+eVnS/s
-	M1YUYFmVno/lL99wh9FESg091OTKrBdOsbcZy14FCCA7l6Zo9kpknvETBdsTHdbcNs4Jq/bSndA
-	OZXfOLzD5h9xoJ+pp9Bt/Z6R5iYw6HatLOiluw7WhwnG8GWS/cD69RnreIx7KUDGA6CyXeDtOJE
-	1AyVM2o=
-X-Received: by 2002:a17:907:60cf:b0:b97:a459:b66a with SMTP id
- a640c23a62f3a-b97a459d1ccmr570643466b.25.1773740641289; Tue, 17 Mar 2026
- 02:44:01 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="oZJ3/cY6";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="z8+9L0n+";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="CX35RV4c";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="t/jEKk2C"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 9C3725BDB1;
+	Tue, 17 Mar 2026 10:00:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1773741643; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3NxxYZ0Z73C+D6nMp9RM66Emm5gr807GrvA6Zh/dc0A=;
+	b=oZJ3/cY6ydGUBsEkcn4dEP5dVa8+6N5TCpbl/uoiRyk4zmmW7J9KBCWw5LYg5qJ9sSUBYN
+	kDXicji+Mmuu83eTS1GuU5bfaeUnybdFqqkL+Jwnv/gBugxmNyvsnLCjytkBMSabdBzeo2
+	pLuxV3JV9Bq7GlVOwyPPk0QMnb/TzHw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1773741643;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3NxxYZ0Z73C+D6nMp9RM66Emm5gr807GrvA6Zh/dc0A=;
+	b=z8+9L0n+2BvyNILizCEGBPcuF7FXAXX68hzMw03OLmlBtux01ucO78gQQUP6lspoRnVAHU
+	fjJTL+Fs+WzbkkBg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=CX35RV4c;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b="t/jEKk2C"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1773741638; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3NxxYZ0Z73C+D6nMp9RM66Emm5gr807GrvA6Zh/dc0A=;
+	b=CX35RV4cPd92rVX9pIFlpypFdx5RdDbqy0m6JgL3N9BAb1bDqCFP/C0Zs6abuDaJbL268b
+	RKMPUfa+HwHLtaL4MRvpjsvnT/cJx39tZuQLpkJt2PNatB2G8g6k6iWLCggoPL5w+fPupt
+	OQrs5XNahoIFDxhNI9Hmnmsh9lYPs30=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1773741638;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3NxxYZ0Z73C+D6nMp9RM66Emm5gr807GrvA6Zh/dc0A=;
+	b=t/jEKk2CCIPbv8gHZqK1jU4ncUvF5g0vCKqzpoNhRGjc3w+LQQ99i+VJ4D9TTFrf362JNo
+	vbna+wrOzVfO1uAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 833EB4273C;
+	Tue, 17 Mar 2026 10:00:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id ZhkGIEYmuWn0SwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 17 Mar 2026 10:00:38 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 40DE4A0AB1; Tue, 17 Mar 2026 11:00:34 +0100 (CET)
+Date: Tue, 17 Mar 2026 11:00:34 +0100
+From: Jan Kara <jack@suse.cz>
+To: NeilBrown <neil@brown.name>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Jeff Layton <jlayton@kernel.org>, Trond Myklebust <trondmy@kernel.org>, 
+	Anna Schumaker <anna@kernel.org>, Carlos Maiolino <cem@kernel.org>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>, 
+	Jan Harkes <jaharkes@cs.cmu.edu>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, David Howells <dhowells@redhat.com>, 
+	Marc Dionne <marc.dionne@auristor.com>, Steve French <sfrench@samba.org>, 
+	Namjae Jeon <linkinjeon@kernel.org>, Sungjong Seo <sj1557.seo@samsung.com>, 
+	Yuezhang Mo <yuezhang.mo@sony.com>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Breno Leitao <leitao@debian.org>, Theodore Ts'o <tytso@mit.edu>, 
+	Andreas Dilger <adilger.kernel@dilger.ca>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Ilya Dryomov <idryomov@gmail.com>, 
+	Alex Markuze <amarkuze@redhat.com>, Viacheslav Dubeyko <slava@dubeyko.com>, 
+	Tyler Hicks <code@tyhicks.com>, Andreas Gruenbacher <agruenba@redhat.com>, 
+	Richard Weinberger <richard@nod.at>, Anton Ivanov <anton.ivanov@cambridgegreys.com>, 
+	Johannes Berg <johannes@sipsolutions.net>, Jeremy Kerr <jk@ozlabs.org>, Ard Biesheuvel <ardb@kernel.org>, 
+	linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org, linux-xfs@vger.kernel.org, 
+	linux-unionfs@vger.kernel.org, coda@cs.cmu.edu, linux-mm@kvack.org, 
+	linux-afs@lists.infradead.org, linux-cifs@vger.kernel.org, linux-ext4@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, ceph-devel@vger.kernel.org, 
+	ecryptfs@vger.kernel.org, gfs2@lists.linux.dev, linux-um@lists.infradead.org, 
+	linux-efi@vger.kernel.org
+Subject: Re: [PATCH 32/53] ext4: move dcache modifying code out of
+ __ext4_link()
+Message-ID: <imo3cvhqtvginngr2ofsotmrsxixutn2jagbkj6322cfgxm3lj@wosdq3xvlym5>
+References: <20260312214330.3885211-1-neilb@ownmail.net>
+ <20260312214330.3885211-33-neilb@ownmail.net>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260313114037.3593642-1-ziy@nvidia.com> <EC71CE3C-08D9-48FE-95CB-B6A43B4BDB9C@nvidia.com>
- <CAON2GcE-1t7pbunFwtymxEiz1f5osT2CSEGw35Lv=7UaWFkZzg@mail.gmail.com>
-In-Reply-To: <CAON2GcE-1t7pbunFwtymxEiz1f5osT2CSEGw35Lv=7UaWFkZzg@mail.gmail.com>
-From: Bas van Dijk <bas@dfinity.org>
-Date: Tue, 17 Mar 2026 10:43:50 +0100
-X-Gm-Features: AaiRm50lvHy9nwqfKUin80CixoRq3XUbY1YqSLlRzLkGbYylSr1K5KsUsnHB3zM
-Message-ID: <CAKNNEtwtgbzGX3Ac8U4gZ40eRiMpmU9EAPM-epsnR85v0uprHA@mail.gmail.com>
-Subject: Re: [External Sender] Re: [PATCH] selftests/mm: add folio_split() and
- filemap_get_entry() race test
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Zi Yan <ziy@nvidia.com>, Adam Bratschi-Kaye <adam.bratschikaye@dfinity.org>, 
-	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
-	Hugh Dickins <hughd@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Matthew Wilcox <willy@infradead.org>, 
-	Eero Kelly <eero.kelly@dfinity.org>, Andrew Battat <andrew.battat@dfinity.org>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260312214330.3885211-33-neilb@ownmail.net>
+X-Spamd-Result: default: False [-2.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_COUNT_THREE(0.00)[3];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[linux-foundation.org,zeniv.linux.org.uk,kernel.org,suse.cz,szeredi.hu,gmail.com,cs.cmu.edu,google.com,linux.alibaba.com,redhat.com,auristor.com,samba.org,samsung.com,sony.com,debian.org,mit.edu,dilger.ca,goodmis.org,dubeyko.com,tyhicks.com,nod.at,cambridgegreys.com,sipsolutions.net,ozlabs.org,vger.kernel.org,kvack.org,lists.infradead.org,lists.linux.dev];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[52];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	ASN(0.00)[asn:32098, ipnet:2800::/6, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	R_RATELIMIT(0.00)[to_ip_from(RL51pwup9t9rrf6fhpcri3z6a5)];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -2.51
+X-Spam-Level: 
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 9C3725BDB1
 
-No problem for me either.
+On Fri 13-03-26 08:12:19, NeilBrown wrote:
+...
+> diff --git a/fs/dcache.c b/fs/dcache.c
+> index a1219b446b74..c48337d95f9a 100644
+> --- a/fs/dcache.c
+> +++ b/fs/dcache.c
+> @@ -358,7 +358,7 @@ static inline int dname_external(const struct dentry *dentry)
+>  	return dentry->d_name.name != dentry->d_shortname.string;
+>  }
+>  
+> -void take_dentry_name_snapshot(struct name_snapshot *name, struct dentry *dentry)
+> +void take_dentry_name_snapshot(struct name_snapshot *name, const struct dentry *dentry)
+>  {
+>  	unsigned seq;
+>  	const unsigned char *s;
 
-Signed-off-by: Bas van Dijk <bas@dfinity.org>
+The constification of take_dentry_name_snapshot() should probably be a
+separate patch? Also I'd note that this constification (and the
+constification of __ext4_fc_track_link()) isn't really needed here because
+ext4_fc_track_link() will immediately bail through ext4_fc_disabled() when
+fast commit replay is happening so __ext4_fc_track_link() never gets called
+in that case - more about that below.
 
-I'll add a GPL-2.0 license to the repo.
+> @@ -1471,7 +1471,15 @@ static int ext4_fc_replay_link_internal(struct super_block *sb,
+>  		goto out;
+>  	}
+>  
+> +	ihold(inode);
+> +	inc_nlink(inode);
+>  	ret = __ext4_link(dir, inode, dentry_inode);
+> +	if (ret) {
+> +		drop_nlink(inode);
+> +		iput(inode);
+> +	} else {
+> +		d_instantiate(dentry_inode, inode);
+> +	}
+>  	/*
+>  	 * It's possible that link already existed since data blocks
+>  	 * for the dir in question got persisted before we crashed OR
+...
+> @@ -3460,8 +3460,6 @@ int __ext4_link(struct inode *dir, struct inode *inode, struct dentry *dentry)
+>  		ext4_handle_sync(handle);
+>  
+>  	inode_set_ctime_current(inode);
+> -	ext4_inc_count(inode);
+> -	ihold(inode);
+>  
+>  	err = ext4_add_entry(handle, dentry, inode);
+>  	if (!err) {
+> @@ -3471,11 +3469,7 @@ int __ext4_link(struct inode *dir, struct inode *inode, struct dentry *dentry)
+>  		 */
+>  		if (inode->i_nlink == 1)
+>  			ext4_orphan_del(handle, inode);
+> -		d_instantiate(dentry, inode);
+> -		ext4_fc_track_link(handle, dentry);
+> -	} else {
+> -		drop_nlink(inode);
+> -		iput(inode);
+> +		__ext4_fc_track_link(handle, inode, dentry);
 
-On Tue, Mar 17, 2026 at 8:32=E2=80=AFAM Adam Bratschi-Kaye
-<adam.bratschikaye@dfinity.org> wrote:
->
-> On 13 Mar 2026, at 7:40, Zi Yan wrote:
-> > The added folio_split_race_test is a modified C port of the race condit=
-ion
-> > test from [1]. The test creates shmem huge pages shared by both a paren=
-t
-> > and a child processes, where the parent process punches holes in the sh=
-mem
-> > to cause folio_split() in the kernel and the child process reads the sh=
-mem
-> > in 16 threads to cause filemap_get_entry() in the kernel.
->
-> Note that the fork isn't actually necessary to reproduce the issue. I
-> had it working as
-> well with the reading and punching in the same process, but just with
-> two separate
-> mappings. Not that it makes much of a difference - just in case you
-> wanted to simplify
-> the test.
->
-> On 14 Mar 2026, at 18:27, Andrew Morton wrote:
-> > I couldn't immediately find any licensing info there.  Bas and Adam,
-> > please advise?
->
-> GPL-2.0 license is fine by me.
->
-> > And sending your Signed-off-by's would be appropriate.
->
-> No problem:
->
-> Signed-off-by: Adam Bratschi-Kaye <adam.bratschikaye@dfinity.org>
->
-> Thanks,
-> Adam
+This looks wrong. If fastcommit replay is running, we must skip calling
+__ext4_fc_track_link(). Similarly if the filesystem is currently
+inelligible for fastcommit (due to some complex unsupported operations
+running in parallel). Why did you change ext4_fc_track_link() to
+__ext4_fc_track_link()?
+
+> @@ -3504,7 +3498,16 @@ static int ext4_link(struct dentry *old_dentry,
+>  	err = dquot_initialize(dir);
+>  	if (err)
+>  		return err;
+> -	return __ext4_link(dir, inode, dentry);
+> +	ihold(inode);
+> +	ext4_inc_count(inode);
+
+I'd put inc_nlink() here instead. We are guaranteed to have a regular file
+anyway and it matches what we do in ext4_fc_replay_link_internal().
+Alternatively we could consistently use ext4_inc_count() &
+ext4_dec_count() in these functions.
+
+> +	err = __ext4_link(dir, inode, dentry);
+> +	if (err) {
+> +		drop_nlink(inode);
+> +		iput(inode);
+> +	} else {
+> +		d_instantiate(dentry, inode);
+> +	}
+> +	return err;
+>  }
+
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
