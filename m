@@ -1,85 +1,86 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3616A3BF680
-	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 12:37:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A44673C7DE8
+	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 13:01:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773751061; cv=none; b=gW/lKXkE4FcuQk3TNFAp08PbaFVPgakxyddne2imgrQMsAsa7GjrwH3927cfmwpghuq4jUgPw9zdIhgu0wCSrbF3W4opwPRVe+D6zY+syCpDnXdZ3QEGUfoknhALDrJVMWBo1rbNjz2DZQIVOtYh0MXgLAbEgEQffcUK/CTnfUI=
+	t=1773752491; cv=none; b=pFQWhekIssu//nsCcmZwhe/sECRrkdWm+fcDcAVqOMQ43ViYV9kg7XJRt8Ue7C9ImOPuzpJPV3/kMf0kNwNEMVeSWySdqckC0e9Ot0ec5eREvT1sS/nIBlcYe2Na95zH1ZOAusWWANjuWZlJtitNWhMRPDnyjClExl4CMA7izbg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773751061; c=relaxed/simple;
-	bh=bpOtc+MXYNtmeuMKfp934vhahNk2d3jwH1sq5qOtcY8=;
+	s=arc-20240116; t=1773752491; c=relaxed/simple;
+	bh=Inq/O9U2OJiq+ry2+YklTjSg5QryBQ0p6FQMqI5VbUo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LfZwDa8f0ozdpAxs28OtFjvH7KTke+MHwARZ4LZmHhxnqot5wm+dRh4fvQHzfkdefvMGckelWdei1lVQPkzsVm++uYSFWnClPrQ52iF475BeXRUDbqrisgjF04Aq4e6appknm1ci2qE+2T6Gq6HOFEykoFnU06dTmXhblr/NUCc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=mXet3mOm; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=1b2HKlJ2; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=mXet3mOm; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=1b2HKlJ2; arc=none smtp.client-ip=195.135.223.131
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ue2HvZm889JYZN54TGup/fy6pTl2JQ/qdephSwkydHYKy/lckZgW91fKDxSG4MNdcSrFCGei/HIGYJKIuXMg41PKvIFK+zCwjP2lJqIDasuays3hNLEmWfQL/PjEDWmPmEOVe4zb5vlp0n0P1bewPY0T9e7GYBbRbR/nl9UjpQQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=1ZbSyLF8; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=L23DQJZY; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=biy36yIe; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Vr39AY1J; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="mXet3mOm";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="1b2HKlJ2";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="mXet3mOm";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="1b2HKlJ2"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="1ZbSyLF8";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="L23DQJZY";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="biy36yIe";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Vr39AY1J"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 8499D5BDE0;
-	Tue, 17 Mar 2026 12:37:37 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 130B84D333;
+	Tue, 17 Mar 2026 13:01:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1773751057; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1773752482; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=eY1zl1FrTNxKhKcYioUIv1lq9BF2D4MGMADQ2qx8hEs=;
-	b=mXet3mOmrIlFJkdBZOY7AizzcPq0cL5ezBFu426Tu0nw3a02hTNanaRfoHWDSwm+8T2Zod
-	0Im2Rqw5GmLYpurllhNexyWy30Tt/gP6xUo+TcvT9YfkT+9MUqfZmpi2zhUduhqt0w2p40
-	iU3ZovOJJeW9f5nIuWLcjTwTDIdrN/8=
+	bh=hyQ72e+qdVPgxmISXU8q16dGSDLn/VGys/a7wJjNCgQ=;
+	b=1ZbSyLF82WDLWGmDStBO6OMamSvRgPWKEk2gBREELnqW2rnu4Xi1cdA7b2T3qZOK1ANemv
+	2UphAvEaoZBTjs4CWSF5Y6jky8pLU8n928kdPLr0Mnwt6DhxCzEr9ciqz9qykhUPS7kqJU
+	gCvY0jsjRKi9A+Us8eqX6dbE1JtEZzk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1773751057;
+	s=susede2_ed25519; t=1773752482;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=eY1zl1FrTNxKhKcYioUIv1lq9BF2D4MGMADQ2qx8hEs=;
-	b=1b2HKlJ2b6zd8RpakXHEfiLXNlixO3L5Usq050B9GcNsPj85XfN1zNVL/NmaShmQ44E6QI
-	EYS/PASg7gBYUoCQ==
-Authentication-Results: smtp-out2.suse.de;
+	bh=hyQ72e+qdVPgxmISXU8q16dGSDLn/VGys/a7wJjNCgQ=;
+	b=L23DQJZYNxjO5nK/4YoBVlZChcLX5oQaCEkKUNKL43eJVQhOgz/glpJKTVR+m5t1iDXiuy
+	BBy0ddvDH0UXrZBA==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1773751057; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1773752477; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=eY1zl1FrTNxKhKcYioUIv1lq9BF2D4MGMADQ2qx8hEs=;
-	b=mXet3mOmrIlFJkdBZOY7AizzcPq0cL5ezBFu426Tu0nw3a02hTNanaRfoHWDSwm+8T2Zod
-	0Im2Rqw5GmLYpurllhNexyWy30Tt/gP6xUo+TcvT9YfkT+9MUqfZmpi2zhUduhqt0w2p40
-	iU3ZovOJJeW9f5nIuWLcjTwTDIdrN/8=
+	bh=hyQ72e+qdVPgxmISXU8q16dGSDLn/VGys/a7wJjNCgQ=;
+	b=biy36yIeN5uMz3mdWRWSagBw4/5u50AY/CXmN59mIUJbkSkxSZtVptklHJkuyZZAsMg1FF
+	8ISNMAO68DxHXcgzWdZguPqu52hJ0T0h3w4sz8Plc4i0LgGDDxPKqL4VvqaRC1GHHnxoXM
+	6B64sv9meQIgvGK4qu7/SgU5jidqHLU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1773751057;
+	s=susede2_ed25519; t=1773752477;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=eY1zl1FrTNxKhKcYioUIv1lq9BF2D4MGMADQ2qx8hEs=;
-	b=1b2HKlJ2b6zd8RpakXHEfiLXNlixO3L5Usq050B9GcNsPj85XfN1zNVL/NmaShmQ44E6QI
-	EYS/PASg7gBYUoCQ==
+	bh=hyQ72e+qdVPgxmISXU8q16dGSDLn/VGys/a7wJjNCgQ=;
+	b=Vr39AY1JHHE9ZDdo53oddYX0LZ5ODB+PjBDas9AmCWFqShKrEcfzmhKoaORQytkI5mJGKm
+	a43ge/mrnBov6TCg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 73CC64273B;
-	Tue, 17 Mar 2026 12:37:37 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0787B4273B;
+	Tue, 17 Mar 2026 13:01:17 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id dtI7HBFLuWmwCwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 17 Mar 2026 12:37:37 +0000
+	id Ax3PAZ1QuWlvJAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 17 Mar 2026 13:01:17 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 2DEA9A0A5B; Tue, 17 Mar 2026 13:37:37 +0100 (CET)
-Date: Tue, 17 Mar 2026 13:37:37 +0100
+	id C1CE4A0A5B; Tue, 17 Mar 2026 14:01:12 +0100 (CET)
+Date: Tue, 17 Mar 2026 14:01:12 +0100
 From: Jan Kara <jack@suse.cz>
-To: Jianzhou Zhao <luckd0g@163.com>
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	jack@suse.cz, brauner@kernel.org, viro@zeniv.linux.org.uk
-Subject: Re: KCSAN: data-race in __remove_assoc_queue /
- mark_buffer_dirty_inode
-Message-ID: <jbtv7oujv72i7lm2uctvpslevkfpascvxkpzwnicnleuv6lx3i@63bjxz7xlnrd>
-References: <7852a82.6830.19cdbdeea92.Coremail.luckd0g@163.com>
+To: Mateusz Guzik <mjguzik@gmail.com>
+Cc: brauner@kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	"Lai, Yi" <yi1.lai@linux.intel.com>
+Subject: Re: [PATCH] fs: revert insert_inode_locked() eviction wait change
+ and explain why
+Message-ID: <yojtdduvndkyez7mzyah2fznxtztf5boonyxwicp6zb6zw52ao@h6g6zcxhvz3w>
+References: <20260316103306.1258289-1-mjguzik@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -88,7 +89,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7852a82.6830.19cdbdeea92.Coremail.luckd0g@163.com>
+In-Reply-To: <20260316103306.1258289-1-mjguzik@gmail.com>
 X-Spamd-Result: default: False [-3.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
@@ -97,161 +98,203 @@ X-Spamd-Result: default: False [-3.80 / 50.00];
 	MIME_GOOD(-0.10)[text/plain];
 	ARC_NA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[163.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	MISSING_XM_UA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	TO_DN_SOME(0.00)[];
-	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email];
+	FREEMAIL_TO(0.00)[gmail.com];
 	RCVD_COUNT_THREE(0.00)[3];
-	RCPT_COUNT_FIVE(0.00)[6];
+	RSPAMD_EMAILBL_FAIL(0.00)[mjguzik.gmail.com:server fail];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[163.com];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,suse.com:email,imap1.dmz-prg2.suse.org:helo]
 X-Spam-Flag: NO
 X-Spam-Score: -3.80
 X-Spam-Level: 
 
-On Wed 11-03-26 15:49:05, Jianzhou Zhao wrote:
+On Mon 16-03-26 11:33:05, Mateusz Guzik wrote:
+> It causes a deadlock, reproducer can be found here:
+> https://lore.kernel.org/linux-fsdevel/abNvb2PcrKj1FBeC@ly-workstation/
 > 
-> 
-> Subject: [BUG] fs/buffer: KCSAN: data-race in __remove_assoc_queue / mark_buffer_dirty_inode
-> 
-> Dear Maintainers,
-> 
-> We are writing to report a KCSAN-detected data race vulnerability within `fs/buffer.c`. This bug was found by our custom fuzzing tool, RacePilot. The race condition occurs when `__remove_assoc_queue` updates `bh->b_assoc_map` while `mark_buffer_dirty_inode` performs a lockless speculative read on the exact same variable before trying to acquire the associative lock. We observed this bug on the Linux kernel version 6.18.0-08691-g2061f18ad76e-dirty.
-> 
-> Call Trace & Context
-> ==================================================================
-> BUG: KCSAN: data-race in __remove_assoc_queue / mark_buffer_dirty_inode
+> The real bug is in ext4, but I'm not digging into it and a working order
+> needs to be restored.
 
-This one is completely harmless and the code will do the right thing. So I
-don't think any fix is needed here. At best we could annotate the read with
-data_race to silence KCSAN but I have larger refactoring in progress in
-this area so let's bother with such cosmetic things afterwards.
+I can dig into that. I expect ext4 ends up calling find_inode() from its
+ext4_evict_inode() handler or something like that? I was searching for such
+occurrence for a while but I didn't find it so can you share where ext4
+blocked? Because the stacktraces from the original report just show the
+journalling machinery hangs but those are only side-effects of somebody
+hanging in ext4 with the transaction handle started... Thanks!
 
 								Honza
 
 > 
-> write to 0xffff88802a6cc1f8 of 8 bytes by task 25093 on cpu 1:
->  __remove_assoc_queue+0xae/0xd0 fs/buffer.c:524
->  fsync_buffers_list+0x183/0x750 fs/buffer.c:823
->  sync_mapping_buffers+0x59/0x90 fs/buffer.c:585
->  fat_file_fsync+0xbb/0x100 fs/fat/file.c:195
->  vfs_fsync_range+0xe8/0x170 fs/sync.c:197
->  generic_write_sync include/linux/fs.h:2630 [inline]
->  generic_file_write_iter+0x1ee/0x210 mm/filemap.c:4494
->  new_sync_write fs/read_write.c:605 [inline]
->  vfs_write+0x78f/0x910 fs/read_write.c:701
->  ksys_write+0xbe/0x190 fs/read_write.c:753
->  __do_sys_write fs/read_write.c:764 [inline]
->  __se_sys_write fs/read_write.c:761 [inline]
->  __x64_sys_write+0x41/0x50 fs/read_write.c:761
->  x64_sys_call+0x1022/0x2030 arch/x86/include/generated/asm/syscalls_64.h:2
->  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
->  do_syscall_64+0xae/0x2c0 arch/x86/entry/syscall_64.c:94
->  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> Commentary is added as a warning sign for another sucker^Wdeveloper.
 > 
-> read to 0xffff88802a6cc1f8 of 8 bytes by task 25074 on cpu 0:
->  mark_buffer_dirty_inode+0x9c/0x250 fs/buffer.c:711
->  fat_mirror_bhs+0x280/0x3b0 fs/fat/fatent.c:417
->  fat_alloc_clusters+0xaed/0xb90 fs/fat/fatent.c:568
->  fat_add_cluster+0x34/0xc0 fs/fat/inode.c:111
->  __fat_get_block fs/fat/inode.c:159 [inline]
->  fat_get_block+0x3c4/0x550 fs/fat/inode.c:194
->  __block_write_begin_int+0x29e/0xcd0 fs/buffer.c:2186
->  block_write_begin+0x74/0xf0 fs/buffer.c:2297
->  cont_write_begin+0x402/0x5d0 fs/buffer.c:2635
->  fat_write_begin+0x4f/0xe0 fs/fat/inode.c:233
->  generic_perform_write+0x13c/0x4c0 mm/filemap.c:4341
->  __generic_file_write_iter+0x117/0x130 mm/filemap.c:4464
->  generic_file_write_iter+0xa5/0x210 mm/filemap.c:4490
->  new_sync_write fs/read_write.c:605 [inline]
->  vfs_write+0x78f/0x910 fs/read_write.c:701
->  ksys_write+0xbe/0x190 fs/read_write.c:753
->  __do_sys_write fs/read_write.c:764 [inline]
->  __se_sys_write fs/read_write.c:761 [inline]
->  __x64_sys_write+0x41/0x50 fs/read_write.c:761
->  x64_sys_call+0x1022/0x2030 arch/x86/include/generated/asm/syscalls_64.h:2
->  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
->  do_syscall_64+0xae/0x2c0 arch/x86/entry/syscall_64.c:94
->  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> Fixes: 88ec797c468097a8 ("fs: make insert_inode_locked() wait for inode destruction")
+> Reported-by: "Lai, Yi" <yi1.lai@linux.intel.com>
+> Signed-off-by: Mateusz Guzik <mjguzik@gmail.com>
+> ---
 > 
-> value changed: 0xffff88802a5fa008 -> 0x0000000000000000
+> generated against master
 > 
-> Reported by Kernel Concurrency Sanitizer on:
-> CPU: 0 UID: 0 PID: 25074 Comm: syz.2.1198 Not tainted 6.18.0-08691-g2061f18ad76e-dirty #44 PREEMPT(voluntary) 
-> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
-> ==================================================================
+> FYI next has a change which has a trivial conflic (ino type change)
 > 
-> Execution Flow & Code Context
-> During a buffer fsync trigger (e.g. from `fat_file_fsync`), `fsync_buffers_list()` is responsible for looping over the inode's private buffer list. At the start of its loop, it isolates the buffer and calls `__remove_assoc_queue()`, which clears `bh->b_assoc_map` using a plain C store under `buffer_mapping->i_private_lock`:
-> ```c
-> // fs/buffer.c
-> static void __remove_assoc_queue(struct buffer_head *bh)
-> {
-> 	list_del_init(&bh->b_assoc_buffers);
-> 	WARN_ON(!bh->b_assoc_map);
-> 	bh->b_assoc_map = NULL; // <-- Plain concurrent write
-> }
-> ```
+>  fs/inode.c | 53 +++++++++++++++++++++++++++++------------------------
+>  1 file changed, 29 insertions(+), 24 deletions(-)
 > 
-> Meanwhile, another process actively dirtying a buffer triggers `mark_buffer_dirty_inode()`. This function optimistically checks whether the buffer head is already associated with an inode mapping structure using a lockless peek at `bh->b_assoc_map`. If the map is unassigned, it acquires the target `i_private_lock` and updates it:
-> ```c
-> // fs/buffer.c
-> void mark_buffer_dirty_inode(struct buffer_head *bh, struct inode *inode)
-> {
-> 	...
-> 	if (!bh->b_assoc_map) { // <-- Lockless plain concurrent read
-> 		spin_lock(&buffer_mapping->i_private_lock);
-> 		list_move_tail(&bh->b_assoc_buffers, &mapping->i_private_list);
-> 		bh->b_assoc_map = mapping;
-> 		spin_unlock(&buffer_mapping->i_private_lock);
-> 	}
-> }
-> ```
-> 
-> Root Cause Analysis
-> A read-write KCSAN data race arises because `__remove_assoc_queue()` assigns `bh->b_assoc_map` while holding `i_private_lock` without employing any memory model volatile annotations. At the exact same snapshot, `mark_buffer_dirty_inode()` evaluates `if (!bh->b_assoc_map)` out of the lock domain to optimize out taking the spinlock for an already-associated buffer block. 
-> Unfortunately, we were unable to generate a reproducer for this bug.
-> 
-> Potential Impact
-> This data race is largely benign from a runtime control-flow perspective; the lack of association triggers a spinlock wait to assign the buffer, whereas an obsolete read evaluating to actual pointers skips the lock and skips the queue placement. If extreme read tearing or heavy compiler optimization happens, it could possibly lead to duplicate list inclusions or desynchronised buffer dirty associations, which could eventually yield missed buffers during `fsync` requests. However, triggering KCSAN logs adds extensive noise over expected logic.
-> 
-> Proposed Fix
-> To align with the Linux Memory Model and inform KCSAN that this speculative read is intentional and expected (and to prevent compiler tearing optimisations), we should simply wrap the condition check in `mark_buffer_dirty_inode` using the `data_race()` macro. Furthermore, employing `WRITE_ONCE` in `__remove_assoc_queue` reinforces safety. 
-> 
-> ```diff
-> --- a/fs/buffer.c
-> +++ b/fs/buffer.c
-> @@ -522,7 +522,7 @@ static void __remove_assoc_queue(struct buffer_head *bh)
->  {
->  	list_del_init(&bh->b_assoc_buffers);
->  	WARN_ON(!bh->b_assoc_map);
-> -	bh->b_assoc_map = NULL;
-> +	WRITE_ONCE(bh->b_assoc_map, NULL);
+> diff --git a/fs/inode.c b/fs/inode.c
+> index cc12b68e021b..5f7e76c9fb53 100644
+> --- a/fs/inode.c
+> +++ b/fs/inode.c
+> @@ -1037,20 +1037,19 @@ long prune_icache_sb(struct super_block *sb, struct shrink_control *sc)
+>  	return freed;
 >  }
 >  
->  int inode_has_buffers(struct inode *inode)
-> @@ -712,7 +712,7 @@ void mark_buffer_dirty_inode(struct buffer_head *bh, struct inode *inode)
->  	} else {
->  		BUG_ON(mapping->i_private_data != buffer_mapping);
+> -static void __wait_on_freeing_inode(struct inode *inode, bool hash_locked, bool rcu_locked);
+> -
+> +static void __wait_on_freeing_inode(struct inode *inode, bool is_inode_hash_locked);
+>  /*
+>   * Called with the inode lock held.
+>   */
+>  static struct inode *find_inode(struct super_block *sb,
+>  				struct hlist_head *head,
+>  				int (*test)(struct inode *, void *),
+> -				void *data, bool hash_locked,
+> +				void *data, bool is_inode_hash_locked,
+>  				bool *isnew)
+>  {
+>  	struct inode *inode = NULL;
+>  
+> -	if (hash_locked)
+> +	if (is_inode_hash_locked)
+>  		lockdep_assert_held(&inode_hash_lock);
+>  	else
+>  		lockdep_assert_not_held(&inode_hash_lock);
+> @@ -1064,7 +1063,7 @@ static struct inode *find_inode(struct super_block *sb,
+>  			continue;
+>  		spin_lock(&inode->i_lock);
+>  		if (inode_state_read(inode) & (I_FREEING | I_WILL_FREE)) {
+> -			__wait_on_freeing_inode(inode, hash_locked, true);
+> +			__wait_on_freeing_inode(inode, is_inode_hash_locked);
+>  			goto repeat;
+>  		}
+>  		if (unlikely(inode_state_read(inode) & I_CREATING)) {
+> @@ -1088,11 +1087,11 @@ static struct inode *find_inode(struct super_block *sb,
+>   */
+>  static struct inode *find_inode_fast(struct super_block *sb,
+>  				struct hlist_head *head, unsigned long ino,
+> -				bool hash_locked, bool *isnew)
+> +				bool is_inode_hash_locked, bool *isnew)
+>  {
+>  	struct inode *inode = NULL;
+>  
+> -	if (hash_locked)
+> +	if (is_inode_hash_locked)
+>  		lockdep_assert_held(&inode_hash_lock);
+>  	else
+>  		lockdep_assert_not_held(&inode_hash_lock);
+> @@ -1106,7 +1105,7 @@ static struct inode *find_inode_fast(struct super_block *sb,
+>  			continue;
+>  		spin_lock(&inode->i_lock);
+>  		if (inode_state_read(inode) & (I_FREEING | I_WILL_FREE)) {
+> -			__wait_on_freeing_inode(inode, hash_locked, true);
+> +			__wait_on_freeing_inode(inode, is_inode_hash_locked);
+>  			goto repeat;
+>  		}
+>  		if (unlikely(inode_state_read(inode) & I_CREATING)) {
+> @@ -1842,13 +1841,28 @@ int insert_inode_locked(struct inode *inode)
+>  	while (1) {
+>  		struct inode *old = NULL;
+>  		spin_lock(&inode_hash_lock);
+> -repeat:
+>  		hlist_for_each_entry(old, head, i_hash) {
+>  			if (old->i_ino != ino)
+>  				continue;
+>  			if (old->i_sb != sb)
+>  				continue;
+>  			spin_lock(&old->i_lock);
+> +			/*
+> +			 * FIXME: inodes awaiting eviction don't get waited for
+> +			 *
+> +			 * This is a bug because the hash can temporarily end up with duplicate inodes.
+> +			 * It happens to work becuase new inodes are inserted at the beginning of the
+> +			 * chain, meaning they will be found first should anyone do a lookup.
+> +			 *
+> +			 * Fixing the above results in deadlocks in ext4 due to journal handling during
+> +			 * inode creation and eviction -- the eviction side waits for creation side to
+> +			 * finish. Adding __wait_on_freeing_inode results in both sides waiting on each
+> +			 * other.
+> +			 */
+> +			if (inode_state_read(old) & (I_FREEING | I_WILL_FREE)) {
+> +				spin_unlock(&old->i_lock);
+> +				continue;
+> +			}
+>  			break;
+>  		}
+>  		if (likely(!old)) {
+> @@ -1859,11 +1873,6 @@ int insert_inode_locked(struct inode *inode)
+>  			spin_unlock(&inode_hash_lock);
+>  			return 0;
+>  		}
+> -		if (inode_state_read(old) & (I_FREEING | I_WILL_FREE)) {
+> -			__wait_on_freeing_inode(old, true, false);
+> -			old = NULL;
+> -			goto repeat;
+> -		}
+>  		if (unlikely(inode_state_read(old) & I_CREATING)) {
+>  			spin_unlock(&old->i_lock);
+>  			spin_unlock(&inode_hash_lock);
+> @@ -2534,18 +2543,16 @@ EXPORT_SYMBOL(inode_needs_sync);
+>   * wake_up_bit(&inode->i_state, __I_NEW) after removing from the hash list
+>   * will DTRT.
+>   */
+> -static void __wait_on_freeing_inode(struct inode *inode, bool hash_locked, bool rcu_locked)
+> +static void __wait_on_freeing_inode(struct inode *inode, bool is_inode_hash_locked)
+>  {
+>  	struct wait_bit_queue_entry wqe;
+>  	struct wait_queue_head *wq_head;
+>  
+> -	VFS_BUG_ON(!hash_locked && !rcu_locked);
+> -
+>  	/*
+>  	 * Handle racing against evict(), see that routine for more details.
+>  	 */
+>  	if (unlikely(inode_unhashed(inode))) {
+> -		WARN_ON(hash_locked);
+> +		WARN_ON(is_inode_hash_locked);
+>  		spin_unlock(&inode->i_lock);
+>  		return;
 >  	}
-> -	if (!bh->b_assoc_map) {
-> +	if (!data_race(bh->b_assoc_map)) {
->  		spin_lock(&buffer_mapping->i_private_lock);
->  		list_move_tail(&bh->b_assoc_buffers, &mapping->i_private_list);
->  		bh->b_assoc_map = mapping;
-> ```
+> @@ -2553,16 +2560,14 @@ static void __wait_on_freeing_inode(struct inode *inode, bool hash_locked, bool
+>  	wq_head = inode_bit_waitqueue(&wqe, inode, __I_NEW);
+>  	prepare_to_wait_event(wq_head, &wqe.wq_entry, TASK_UNINTERRUPTIBLE);
+>  	spin_unlock(&inode->i_lock);
+> -	if (rcu_locked)
+> -		rcu_read_unlock();
+> -	if (hash_locked)
+> +	rcu_read_unlock();
+> +	if (is_inode_hash_locked)
+>  		spin_unlock(&inode_hash_lock);
+>  	schedule();
+>  	finish_wait(wq_head, &wqe.wq_entry);
+> -	if (hash_locked)
+> +	if (is_inode_hash_locked)
+>  		spin_lock(&inode_hash_lock);
+> -	if (rcu_locked)
+> -		rcu_read_lock();
+> +	rcu_read_lock();
+>  }
+>  
+>  static __initdata unsigned long ihash_entries;
+> -- 
+> 2.48.1
 > 
-> We would be highly honored if this could be of any help.
-> 
-> Best regards,
-> RacePilot Team
 -- 
 Jan Kara <jack@suse.com>
 SUSE Labs, CR
