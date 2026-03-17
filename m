@@ -1,73 +1,95 @@
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E251354AFC
-	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 05:46:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 162B82C3254
+	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 06:59:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773726368; cv=none; b=X+T0iFqduAZZOHSOWG2vqfZ1+uhOHsBzo+Sug5jLLUn87T2l9OiA4tfcpeJksvxZvGig6Ze7dkuigX9v1LHfNvIYR9b9aB60xKZJnppB6rLXFrHzlKYCeQd1zWJ4v5aODvkqenwPZmiSxZj7q22bNLt62BPPP0P8BJdNglTnIrY=
+	t=1773730799; cv=none; b=h6/TA0B4gtxLVg9IC/G9hBOSwxmnJA4TxR9uAn2mxf+mG5ulOeI78MimNct75fGjHowVq1eG2UTtkjKa5jadR+oAcnfALGFIIbupRmizNZX3q46GolCF8Vnma/CWfrGkpzK8+YXvEPj9y0TdqdCjDTYMVxW8Uta2AJ6ntxjVGnA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773726368; c=relaxed/simple;
-	bh=1mx9pC3Db9aZxNWnAVJfapwFqxCAYBBSuiLUGwcoB1M=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=K4NFvo9W3N5El3C2jEuEXsu2ru4nCbV5ucBPAEK75sUnRVv1X8FwDX2L0Vvvif7+9b/uS8KKTcbHPKNtgCuKzJlDp1PMkvdjbG2wzrUw4P/DIOpc/7BVRIG/L/poOVDbtHvWi+85ILQTRRVZohgEo6DmAUAVyRNodMJPXy36rW8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G6xEnpX5; arc=none smtp.client-ip=209.85.128.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773730799; c=relaxed/simple;
+	bh=PE/xwOtz5UEtew4TT2ybzPmFU4GLZmECY3xYTXuJ8wU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=tKUnuaSDDoohDG2dDznOil/818L/7ufI+1an+OP31qUkShOGeDHdADLbw1h3LwGrYVjlwX4hRjTLHEnJ+MuwXuQ0YQssJBY1qWn3KHumrPYqUpRtFqmq4RK/FzTE2xZGQJVfho+RSC/tzja79B9ockq46jlmDizKw0CvVwYnvcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ClQkfA8r; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=MO1lEYt/; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G6xEnpX5"
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-79a2ee65171so26944057b3.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 22:46:07 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ClQkfA8r";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="MO1lEYt/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1773730797;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RZ7ReJiYk1/9BPyCWPykLbLN3hvYPlD1LepuFJypFgU=;
+	b=ClQkfA8rSNBpsBSE78WzC7ohmcPxLvxkscnQrW8a5awP8yC4rmdRqyQCEPvdhat7TZ6aX0
+	T6alfaAk0pjTY815MTSdd8gKdfIgCLKlAE5uioku2uV8UmfoHuzsTvtkK1XoaH95kSZCgo
+	7B3J7IQUPazyvmaxu9hKcOSpuE0+wX0=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-223-BUf3pOgBMP-tByTMwHJLfQ-1; Tue, 17 Mar 2026 02:59:55 -0400
+X-MC-Unique: BUf3pOgBMP-tByTMwHJLfQ-1
+X-Mimecast-MFC-AGG-ID: BUf3pOgBMP-tByTMwHJLfQ_1773730795
+Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-509177a915aso43717421cf.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Mar 2026 23:59:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773726366; x=1774331166; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=JnnP6Bx0kBxMh3k33p04W5Vj+obACePADAInhTRjyag=;
-        b=G6xEnpX53fX+9nzQgkrugCimkj9AWCp48vM8Oqk4J9lm/OnX3EyCI4ae+JyF8f+rh8
-         TDEERvN7J5u/xzu6ZCTC+eHG90ZPMhXmTGSpbi19KbSsBqZYDnkcsTCCvBb8QHs+zGbn
-         vOsRdrRkAQeFZo0qmsNLNmREYpEx7Ss7H1tQS73zBWu1P/S346rjiwxJEwz0MDL2bnGt
-         mOXMNxVQGZi53lYMiahF2Ih/IJ8w/73E/Asysgh4im0t+8cyzv7VZUUlxGA4cmfQ0ZoN
-         f9yoQxDBjk5mIf9iGRDgTYvKQ21EUrurXK4LwQmYT3z4r6f+XzDjQJP3TDIupW1YXa+O
-         7t5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773726366; x=1774331166;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=redhat.com; s=google; t=1773730795; x=1774335595; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JnnP6Bx0kBxMh3k33p04W5Vj+obACePADAInhTRjyag=;
-        b=Rql7dQEo7/HkLYq165S4gBV3ZLIOlZruGHwEEY7pEnaVGd8XyfHGUWs6QJyPMNMF2E
-         nLMEnzYcMCNRil/mCvJ1kN6y2duOaFA6Y3OY262aIjCsPRtOwfGVDksoPxtDvPSQrjPJ
-         2sBBRmXziYs15qoeoOBMjTunpok9gMlST9YLFCkGed/8cQyymOz/wuqsYKh6YnDeFlBU
-         gM73WS4/A3FwAc4d6S28e9LZvfdkctIJnMz/v4YUNeZi+xJeCg8zBb5/1Z1R4O5zfukF
-         +PpH/63rCS8RG9WCIF56+S2UmN2EtSIYi/3/YSCz9ieZyiHCpewpNS287kRKClX5gndT
-         AZvg==
-X-Forwarded-Encrypted: i=1; AJvYcCWwoo14kSydKZ9KZV/RrYG5pvQo3fZr00wo840QIkj7nI4/w0x+6nhqW+gNyPPuVyfj9VYGy099W3gvml4B@vger.kernel.org
-X-Gm-Message-State: AOJu0YxjGJyczDX6TvyNQ1j4o8w2oVjdcsik81bQpU/jbGQ0ThdWUzOF
-	1YtfdpYRCAxRMpH17BKp4SqswGNrngJWky7cpTrtHEltQn/G8QU/4CDz
-X-Gm-Gg: ATEYQzw3NV2SVZn/IevAC8ANQFidnjyX9vIudpvySYJGIBitkKQbhvEXIrP7r8u0zw3
-	jO3EzbcdpXZ0KuOKokkX9kYxZuk0vdSeMuAktKZnUlgN74uVsZbmVTNzsakV/cGOIOR1GEAxDlq
-	lAm2KvFs/Ov6H8+pidrR3o89JlwolvJbHJFahAG6JaQVF0mJZZp5MCbaFOf2rkVSZB3UmjyMsK5
-	ZCC1VObJjr7LVXTlXiD4uinTO4dcI2ceUY2Zf5geZy63mYHUaOmsW7CYrc299n0LYqWLbMwj6xB
-	dN0D8+FR+1nsXqozggRrzo0fRRaGhs5NUifr/yDcf/zDDE2H0MuTtlPMpesvXsFEZwmOTCqELZ+
-	5yTaLzHfMAteGRHSG/b11da97ZnOIjxUe0C1GubN1Y/h9nPAzOX7UNZ0bs1PRCXncmobFcMoePv
-	Kj4E5BSioPP1eJCnHp4xKhKPea1EjIFwU=
-X-Received: by 2002:a05:690c:6b12:b0:79a:4ba5:f32e with SMTP id 00721157ae682-79a4ba5f689mr67351107b3.31.1773726366621;
-        Mon, 16 Mar 2026 22:46:06 -0700 (PDT)
-Received: from JooHJ-PC.localdomain ([163.152.3.130])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-79a664975e5sm4831337b3.1.2026.03.16.22.46.04
+        bh=RZ7ReJiYk1/9BPyCWPykLbLN3hvYPlD1LepuFJypFgU=;
+        b=MO1lEYt/SVmfXG8R0tue/X4q2tpse9hiltAyMKg0vT4wfUFXwcH0Q2rDJZXNB1hm9V
+         89bjHwn9zqVAljIkdj4hcaFrUOyIZDRkEml1sDAwjJ/xmgPAIgOtFExCo0+ZBy0lSC8/
+         ja5bcyeXnvYW/PxMSscEga2BwQhGqu2BUYX+r3XLR3gyCN92KinOv7bfC9StoRm680fx
+         PgpZ4xgFuc8/hpaC73Sum+iryMjxh7FUUYo8IQI/Axt3b8fF5Y+rPq5DkA1HyDdTZ88U
+         Jg9BK+FM5GKuynnxAtcpoOlA6rlU5N+MBP7JjeGWMvGXSBypfypJ/H9r2A8vu+2op3Aa
+         F7fw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773730795; x=1774335595;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=RZ7ReJiYk1/9BPyCWPykLbLN3hvYPlD1LepuFJypFgU=;
+        b=B1C2kfMdZDxAWuBxPn4FJ7au60Bq/YF6KkvNCeCCa1+Bov0RH1HochR0bMb2ObjaJU
+         bISuvRCeRGJ8595bgSohTo2VwVa0B1GPKX4CX5CMJBm280SKNuJqne10wA3MMyOENnAL
+         qz3yvkylk5+Yw84b2jQlMo615iBP5Q0AlcvmnRUy17DgSxdW0qNqcvoVB3VgpQXWIKBE
+         jkaZqwJ1zx7v4iVfV9vvI3auobjDqBK6ktN5xZ1Z66qvw+KVoFhGvas1mdGIFExUu4vm
+         vz5gaQ30Jd+81HIupJvoOdPkCtlo2+JduEd2CTcll7dnymawYTbB0SnI/I3LHRoGFiN6
+         nSgA==
+X-Forwarded-Encrypted: i=1; AJvYcCW2dAhsG6xVsagTh2cBuvnOqfmd+z4kV7nd/eNql5vPjiMbyBaRxr5wxnsNEeYZZ/lu0Uehe6eXJybgEz8E@vger.kernel.org
+X-Gm-Message-State: AOJu0YyxESu5U9QO5Nwuzy+YN91e5qNHxMQ0bJZOo85uQPo8QSxEJWG8
+	uBpVxBklyUoWr20pZKvdO2CU7CWogaBFs2uQhK9pcA0d4RUEhXyuG8e7wZIuAUSYsZ3a1EiSyWh
+	WchMLMHYx1OOl5KhPnMgljv+zGiK2WSEuRA0lnkR9ZGDeBIZWGOATycdiV550g2wBrKg=
+X-Gm-Gg: ATEYQzxyUgFuHRI58+cbJyHMUI9WhLdOd8MuCh+GehVniTgHibbhlcscvpyFQZpAWPw
+	fxeAwhOO+e5nhhbVL8E4SoXwXRMrILttv3y3Hm8r+rFPotfdk2bkIzcPBCdDDz+8lQq0FIjf1FM
+	90Xvm4B/sghtch3fP3TPS8+QsNMgOJJx9PpcdfArp8YOFGJ/kAPbfH+wd1+TvNTxACbnrxgZhaY
+	iJyvrE+KuZwV69PUQJexHfISOLs4ND+BzZ1+dJv75foYiyfOEfYO6C/4jhu0wBOB775FpImMhgL
+	Ec3EcDGAlM+lYUGCXC2ky3nu/wicQmJ9OjD4oNsYagDX/ErWKZHE9lIIGIyfaLOwnfUX0pJKgDq
+	Jwjqi/QMSZOHo+aNv
+X-Received: by 2002:ac8:7fcf:0:b0:4f1:de87:ad90 with SMTP id d75a77b69052e-50997ff8dc4mr28822951cf.4.1773730795025;
+        Mon, 16 Mar 2026 23:59:55 -0700 (PDT)
+X-Received: by 2002:ac8:7fcf:0:b0:4f1:de87:ad90 with SMTP id d75a77b69052e-50997ff8dc4mr28822841cf.4.1773730794634;
+        Mon, 16 Mar 2026 23:59:54 -0700 (PDT)
+Received: from fedora.. ([66.187.232.140])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89c48689e14sm55785786d6.32.2026.03.16.23.59.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Mar 2026 22:46:06 -0700 (PDT)
-From: Hyungjung Joo <jhj140711@gmail.com>
-To: viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
+        Mon, 16 Mar 2026 23:59:54 -0700 (PDT)
+From: Ravi Singh <ravising@redhat.com>
+To: linux-xfs@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org
-Cc: jack@suse.cz,
-	greg@kroah.com,
-	linux-kernel@vger.kernel.org,
-	HyungJung Joo <jhj140711@gmail.com>
-Subject: [PATCH] fs/mbcache: cancel shrink work before destroying the cache
-Date: Tue, 17 Mar 2026 14:45:56 +0900
-Message-Id: <20260317054556.1821600-1-jhj140711@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Cc: adilger@dilger.ca,
+	jack@suse.com,
+	cem@kernel.org,
+	ravising@redhat.com
+Subject: [PATCH v2] xfs: return default quota limits for IDs without a dquot
+Date: Tue, 17 Mar 2026 14:59:47 +0800
+Message-ID: <20260317065947.306954-1-ravising@redhat.com>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20260312090810.1145908-1-ravising@redhat.com>
+References: <20260312090810.1145908-1-ravising@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -76,41 +98,84 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: HyungJung Joo <jhj140711@gmail.com>
+When an ID has no dquot on disk, Q_XGETQUOTA returns -ENOENT even
+though default quota limits are configured and enforced against that
+ID.  This means unprivileged users who have never used any resources
+cannot see the limits that apply to them.
 
-mb_cache_destroy() calls shrinker_free() and then frees all cache
-entries and the cache itself, but it does not cancel the pending
-c_shrink_work work item first.
+When xfs_qm_dqget() returns -ENOENT for a non-zero ID, return a
+zero-usage response with the default limits filled in from
+m_quotainfo rather than propagating the error.  This is consistent
+with the enforcement behavior in xfs_qm_adjust_dqlimits(), which
+pushes the same default limits into a dquot when it is first
+allocated.
 
-If mb_cache_entry_create() schedules c_shrink_work via schedule_work()
-and the work item is still pending or running when mb_cache_destroy()
-runs, mb_cache_shrink_worker() will access the cache after its memory
-has been freed, causing a use-after-free.
-
-This is only reachable by a privileged user (root or CAP_SYS_ADMIN)
-who can trigger the last put of a mounted ext2/ext4/ocfs2 filesystem.
-
-Cancel the work item with cancel_work_sync() before calling
-shrinker_free(), ensuring the worker has finished and will not be
-rescheduled before the cache is torn down.
-
-Signed-off-by: Hyungjung Joo <jhj140711@gmail.com>
+Signed-off-by: Ravi Singh <ravising@redhat.com>
 ---
- fs/mbcache.c | 1 +
- 1 file changed, 1 insertion(+)
+ v2:
+  - Moved fix from VFS (fs/quota/quota.c) to XFS
+    (fs/xfs/xfs_qm_syscalls.c) per review feedback
+  - Return default limits on ENOENT instead of granting
+    unprivileged access to ID 0's dquot
 
-diff --git a/fs/mbcache.c b/fs/mbcache.c
-index 480d02d6ebf0..2a6319b4072c 100644
---- a/fs/mbcache.c
-+++ b/fs/mbcache.c
-@@ -406,6 +406,7 @@ void mb_cache_destroy(struct mb_cache *cache)
- {
- 	struct mb_cache_entry *entry, *next;
+ fs/xfs/xfs_qm_syscalls.c | 36 +++++++++++++++++++++++++++++++++++-
+ 1 file changed, 35 insertions(+), 1 deletion(-)
+
+diff --git a/fs/xfs/xfs_qm_syscalls.c b/fs/xfs/xfs_qm_syscalls.c
+index d50b7318c..2176dc617 100644
+--- a/fs/xfs/xfs_qm_syscalls.c
++++ b/fs/xfs/xfs_qm_syscalls.c
+@@ -391,6 +391,30 @@ xfs_qm_scall_setqlim(
+ 	return error;
+ }
  
-+	cancel_work_sync(&cache->c_shrink_work);
- 	shrinker_free(cache->c_shrink);
++/*
++ * Fill out the default quota limits for an ID that has no dquot on disk.
++ * The default limits are enforced against such IDs by
++ * xfs_qm_adjust_dqlimits() when a dquot is first allocated.
++ */
++static void
++xfs_qm_scall_getquota_fill_defaults(
++	struct xfs_mount	*mp,
++	xfs_dqtype_t		type,
++	struct qc_dqblk		*dst)
++{
++	struct xfs_def_quota	*defq;
++
++	defq = xfs_get_defquota(mp->m_quotainfo, type);
++
++	memset(dst, 0, sizeof(*dst));
++	dst->d_spc_softlimit = XFS_FSB_TO_B(mp, defq->blk.soft);
++	dst->d_spc_hardlimit = XFS_FSB_TO_B(mp, defq->blk.hard);
++	dst->d_ino_softlimit = defq->ino.soft;
++	dst->d_ino_hardlimit = defq->ino.hard;
++	dst->d_rt_spc_softlimit = XFS_FSB_TO_B(mp, defq->rtb.soft);
++	dst->d_rt_spc_hardlimit = XFS_FSB_TO_B(mp, defq->rtb.hard);
++}
++
+ /* Fill out the quota context. */
+ static void
+ xfs_qm_scall_getquota_fill_qc(
+@@ -451,8 +475,18 @@ xfs_qm_scall_getquota(
+ 	 * set doalloc. If it doesn't exist, we'll get ENOENT back.
+ 	 */
+ 	error = xfs_qm_dqget(mp, id, type, false, &dqp);
+-	if (error)
++	if (error) {
++		/*
++		 * If there is no dquot for this ID and it is not ID 0,
++		 * return the default limits with zero usage so that
++		 * unprivileged users can see what limits apply to them.
++		 */
++		if (error == -ENOENT && id != 0) {
++			xfs_qm_scall_getquota_fill_defaults(mp, type, dst);
++			return 0;
++		}
+ 		return error;
++	}
  
  	/*
+ 	 * If everything's NULL, this dquot doesn't quite exist as far as
 -- 
-2.34.1
+2.49.0
 
