@@ -1,383 +1,154 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94DA234676D
-	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 23:25:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773789931; cv=pass; b=a66WUu/pS7RA/kZg4/lHOCl0gd1a/Fxeh474HUbBDzeYuuViwvA6XvkRE9dbeCmY3UXYqzeNH2yg24txnFEr59q45A/daoPZKPbqV2HL62dV9vp6tt4hQXA0mNFQdQhAVb2tPrKnaiVFYprK7sZG89+P9J7BOS84JP7QTGJDyKw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773789931; c=relaxed/simple;
-	bh=4bVHW5MFS8uloqxporfdwVf/YWss9W3wG+sPAaXNbHU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aI0amijbZRljaDqRnCrw0IvUep3tQTEXDc1DBzlDFRWnOkO7N6bn+BFmy9SYEZm5cBXlOlZ7G9Jsglw0hBHw3PfrBH5hvdpR9cml21lC3vJiet6TC4St61a0Vas9k0Lo0DMQXkb9zLeFI4qEkjxCfUV3MJyrSvR5rG+G1OSxHr8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JPllmk9U; arc=pass smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3891139EF1B
+	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 23:39:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773790754; cv=none; b=ZYyjSntIBOE+FLpl8O3XOoh7rYP2wAwEshzC4hu544MQYwB3oh+oWRKgpvqappsTpfqOGjhc4nohwNbLWidOctPSo/G2OpejtIgiE15Nzr8AbjEncPhQlwnTTpHxjlw6Do61xQF+vFZ059au/WlZ/rdbZ2vhSzJql+F3aiGkAaU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773790754; c=relaxed/simple;
+	bh=lkyUTbJoWEj/Nzma1bCxbYz0B2qo+wHC0Q6R/TNONMU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=F3Dz4dziv96gPlHIOFTU5t3Aj9MppAupVNhzNtYl2l8oIqwYwY9aVEGiBBvbf4Mxx8PJxqrpPrrNAMZ1hlxXY4mZ72S+EpsTsX5M1GFp/+UpY/W/ShJnhr7ulmFXZyGREArlEPAqV2YL3wyrsD8VpPxF7J4A30M1/mePhWlHilk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GC+ViieW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JPllmk9U"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-439c6fc2910so4752662f8f.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 16:25:29 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773789928; cv=none;
-        d=google.com; s=arc-20240605;
-        b=aXf/cLv9z365gl/6pu6rBHt1UrCDC4WUW/BLBg5L0+VM4tpIuEz1tF5aKeCRn2vwdv
-         stUkrd9++E9yhZ3Fnlnxvm+RxG3S5c21lf6Y1rCWQFcub2HI6b1Hzg4j0+4tdXaNprUb
-         gVQvge0kWx7MDdANrb9gbRHWb9Y2gUTu4GfGTJh+sg0+o4mJWoZv7rxeNGxAVtIdEBut
-         OI6RF3prf9SoSKVDN96OAsJCxmvobKJXq1LoyrQ7FxUCfyB5WQAiOdvKnJ4lS39Q8atB
-         7S0xNPHAg64RYD+ulQnR3/LiPW5m9DTHS3/c+u13Ax/3GqAkH1cp0VPl5tS1E0PUNNv9
-         RgZw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=xXtihxDOLPIAbHPNajl6dGCXXujhBdCX4MBOLgZ46Lo=;
-        fh=+jEsyLY7bzU2L6FrSbIPjpk6QKLcX6Jx3dKUJ8QU+rE=;
-        b=czYyCCCgchXF00/rt1rFZIRKmtIbQpm70Zmx1r8icdvzWnMB0qB282FF7xGdQOgmQ5
-         Rgb4l3Z5qsNjV+IutZ0WdCJ4f5UKJ1q8mGdbl2u25aIwAsps5KuIAXiz/ELI/xU1YVKO
-         ++A3LeNqR/ACNRMGDyK5azQnlxYyWSQAk0wdR9cdzSxX3ufW6h5aTgtM8CB5Tb8zQEkk
-         oXzn9eoy8CxJ1EfP14xSTxnyW7Uabg6jnSomb5BJI+WrI5DcnZWu3YCeQ4TvVmE9+FJs
-         q2uVOumjzsgG6MRsc6bVhmMh7p9LSG/R47VQU3E42QIezjZg6JosoA8vInuGioKEwRrq
-         usJw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773789928; x=1774394728; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xXtihxDOLPIAbHPNajl6dGCXXujhBdCX4MBOLgZ46Lo=;
-        b=JPllmk9UWK49MGMYlFzOUzbXJhoFs2CQq5Pc5gzRwtSYcYG3CrLYeStiz5yAPbX6Ou
-         DKB5ofL6Gwge44UjbDIe3e2F7S/MeARj8igZSZXy/ymxdHI/Wm2Lq1OCG2tGh7o3uJoz
-         TWNXQcwqcQ6dF0Noe6rLS3Bwre1pjpOyx155MDxNi7/goYmbGUIPALpC/3TEukI4NggL
-         6NUl8qUZyiW1KL6ccAsuhcof8tiKVlMS9gysxT1qVBgLHtuViljAuSLRFvWeyxJZD+Xl
-         avnNbh5HOHU3LCKra8RiiWn0y+aThujSKnoDr/o8hTVESdNzNC52l06ExYfVODPz2L69
-         gd2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773789928; x=1774394728;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=xXtihxDOLPIAbHPNajl6dGCXXujhBdCX4MBOLgZ46Lo=;
-        b=pwlqUa/rbnOpLnVZFegC9nrl34nr6rLc0vW0X+eFw/w8Nimh1VepP6JS9waXj1M7X9
-         a2gbVp/6xxD+o7eNRkPEzPRkQd8G365ukBnYB1TaPQRRV1cYt4FErdkmx2ptb/R8UlOS
-         3NQR/5bFJS0zKFj9YBF981gl4k6Ahix0CaZ6drmV2U3btYllxWZBIy5aU7g5Q7YgC66s
-         d0uTyjcU4mUUXukAtCfgTayMnSMa1adGDv+U+5KYGy6p5LFvSa7Cm51Tf606fiZP0Hzj
-         LoDIytNBfH2cmd2K20JAU2LGLCbjwFkGAIXIS4r2oE2fLliswo9Mf7ShaaXig2cjRHnd
-         J/OA==
-X-Gm-Message-State: AOJu0YxKmiCvtg83VUR0/3o6/WmFdykrfes0sOLFy/gPtc7hZYqK/piG
-	4sTIJ/V62EL1QweEUP6jvYJKqfBlBMXlY3NFs9CcViWhn0r5Eifx54ZHux3gBJ4jlqPJy6k1J4j
-	lfdbMnO7eu7bYNsCkVKgxTmDQftI/cnSsMSCzpf8=
-X-Gm-Gg: ATEYQzxINnB9vXlFzcSZRgg0P24WomlhbtW5JH0JAMpfSsZBpNOKCpGYRniDOKJiQmp
-	X5GmvXPQHZqyvdOx51jVFGQdlh/Kz9k2QARr0VmnRkd6e+8KIaCX002tj5MBmHkCYwUTFrPXYGV
-	hZKeu5yqU1DDxiH3t5aDGS81LJNWTI5OT3F6MXC5kQIHY59APMXDgh6JSJ3UbrugAsTJ5MEOahG
-	zQasJZBPddiVnWcKSoLiJWMigFcAJbDb6RSrmKp3CLWFfmhspMqRW+7Y0REyWeMiFalsKiCKK6V
-	rd5kEQ==
-X-Received: by 2002:a05:6000:4284:b0:43b:4101:6d09 with SMTP id
- ffacd0b85a97d-43b527a3effmr1542169f8f.11.1773789927768; Tue, 17 Mar 2026
- 16:25:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GC+ViieW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11685C4CEF7;
+	Tue, 17 Mar 2026 23:39:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773790754;
+	bh=lkyUTbJoWEj/Nzma1bCxbYz0B2qo+wHC0Q6R/TNONMU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GC+ViieWZxTCAV+48t6kegVDlN2vrhA4L4yo59SN0SxZd1rzWweZMsL4zpWs1zHGU
+	 bNen6WV9djfvuEgnsOqvrBLFDhdRr6udHilDOnWv8q3OjVprHGqh5kMGIirO2Zq8Pv
+	 /ZKz5F/nNhFT7Fpi0CPiAh5dzltEqXQvLHkEju+6Pze9UQ47mg/2yuXPrMPvOBDUy8
+	 7rpE69UnSFBL0Ws6Uo6w28koZUi8d9b7q7GagdtqvxPer52ObtDpWiz1fTzg5G7DVk
+	 17pzaQKiZl7xjQ+NQI6aiXrB0pm6dGiyGgx7fmptEOMF+V41KveoJHq3jDaVs9s8vh
+	 SnlHrXX4PI4zQ==
+Date: Tue, 17 Mar 2026 16:39:13 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Miklos Szeredi <mszeredi@redhat.com>, linux-fsdevel@vger.kernel.org,
+	Bernd Schubert <bernd@bsbernd.com>
+Subject: Re: [PATCH v2 3/6] fuse: don't require /dev/fuse fd to be kept open
+ during mount
+Message-ID: <20260317233913.GS6069@frogsfrogsfrogs>
+References: <20260312194019.3077902-1-mszeredi@redhat.com>
+ <20260312194019.3077902-4-mszeredi@redhat.com>
+ <20260313230934.GG1742010@frogsfrogsfrogs>
+ <CAJfpeguqNU_Q62vDS6nL_w3wBtGU8osE4d9pRFKFMVq-ATRFMw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <Utw_Cjiuq0_XhCoA5EXpzLE9qfRpiA0-fmXEmui7NnBnIeMiCDGOyXWPtE5DkxVNYNSsgiUotB7fsGYnlMQn1xDCx14yx1d0UJqx62vAwp4=@proton.me>
- <CAJnrk1YAhWnOt-7yr9gDmHdjANiC74-fC5mKsePC6wFTzwPjUw@mail.gmail.com>
-In-Reply-To: <CAJnrk1YAhWnOt-7yr9gDmHdjANiC74-fC5mKsePC6wFTzwPjUw@mail.gmail.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Tue, 17 Mar 2026 16:25:16 -0700
-X-Gm-Features: AaiRm51Dew9jKtzaKUe1sNWlOBUZ8rEy8FDMJMKsifjeOjW5h-Gqn5dbw5Ow6UU
-Message-ID: <CAJnrk1a-asuvfrbKXbEwwDSctvemF+6zfhdnuzO65Pt8HsFSRw@mail.gmail.com>
-Subject: Re: [BUG] fuse: wb_wait_for_completion hang on suspend with
- fuse-overlayfs on tmpfs persists in 6.19.6 (AS_NO_DATA_INTEGRITY fix incomplete)
-To: John <therealgraysky@proton.me>
-Cc: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
-	"linux-fuse@lists.sourceforge.net" <linux-fuse@lists.sourceforge.net>, 
-	"linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, Jan Kara <jack@suse.cz>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJfpeguqNU_Q62vDS6nL_w3wBtGU8osE4d9pRFKFMVq-ATRFMw@mail.gmail.com>
 
-On Mon, Mar 16, 2026 at 5:15=E2=80=AFPM Joanne Koong <joannelkoong@gmail.co=
-m> wrote:
->
-> On Sun, Mar 15, 2026 at 4:24=E2=80=AFAM John <therealgraysky@proton.me> w=
-rote:
+On Mon, Mar 16, 2026 at 12:29:53PM +0100, Miklos Szeredi wrote:
+> On Sat, 14 Mar 2026 at 00:09, Darrick J. Wong <djwong@kernel.org> wrote:
+> 
+> > Hrmm, is this https://github.com/libfuse/libfuse/pull/1367 ?
+> 
+> Right.
+> 
+> > Which syscall causes the synchronous FUSE_INIT to be sent?  Is it
+> > FSCONFIG_CMD_CREATE?
+> 
+> Yes.
+> 
+> > > The reason is that while all other threads will exit, the mounting
+> > > thread (or process) will keep the device fd open, which will prevent
+> > > an abort from happening.
 > >
->
-> Hi John,
->
-> Thanks for your detailed report.
->
-> > Kernel: 6.19.6-arch1-1
-> > Component: fs/fuse, fs/fs-writeback
+> > So I guess what's happening here is that the main thread calls
+> > FSCONFIG_CMD_CREATE, which sends the synchronous FUSE_INIT to the worker
+> > pool.  One of the worker threads starts working on the FUSE_INIT reply
+> > and crashes.  All the *workers* terminate and close the fuse dev fd,
+> > leaving just the main thread.
 > >
-> > --- SUMMARY ---
+> > AFAICT, the main thread is stuck in fsconfig() here:
 > >
-> > A suspend-to-RAM hang in wb_wait_for_completion() via sync_inodes_sb() =
-persists on 6.19.6 when fuse-overlayfs is mounted on tmpfs. The fix introdu=
-ced in 6.19~rc6 for Debian bug #1120058 ("fs/writeback: skip AS_NO_DATA_INT=
-EGRITY mappings in wait_sb_inodes()") does not cover this code path.
+> >         /* Any signal may interrupt this */
+> >                 err = wait_event_interruptible(req->waitq,
+> >                                 test_bit(FR_FINISHED, &req->flags))
 > >
-> > --- BACKGROUND ---
-> >
-> > This issue was originally reported in:
-> > https://github.com/containers/fuse-overlayfs/issues/386
-> >
-> > The fuse-overlayfs developer identified it as a kernel issue. It was su=
-bsequently bisected to commit 0c58a97f919c ("fuse: remove tmp folio for wri=
-tebacks and internal rb tree", merged in 6.16) and tracked in Debian as bug=
- #1120058. The fix applied in 6.19~rc6 targets wait_sb_inodes(), but the ha=
-ng in the reporter's original trace and in this report occurs in sync_inode=
-s_sb() via a separate code path that the fix does not reach.
-> >
-> > The issue is also known to syzbot as "INFO: task hung in sync_inodes_sb=
-" with open instances on linux-5.15, linux-6.1, and linux-6.6:
-> >
-> > https://syzkaller.appspot.com/bug?extid=3De0232bd63c6e293aaf6a
-> > https://syzkaller.appspot.com/bug?extid=3D4983a35cf671e5ed55b3
-> >
-> > --- REPRODUCTION ---
-> >
-> > mkdir -p /dev/shm/test/up
-> > mkdir -p /dev/shm/test/tmp
-> > mkdir -p /dev/shm/test/data
-> >
-> > fuse-overlayfs -o "static_nlink,noacl,\
-> >   upperdir=3D/dev/shm/test/up,\
-> >   lowerdir=3D$HOME/.config/mozilla/firefox,\
-> >   workdir=3D/dev/shm/test/tmp" \
-> >   /dev/shm/test/data
-> >
-> > firefox --profile /dev/shm/test/data/PROFILENAME
-> >
-> > Browse to youtube and start playing a video then trigger suspend while =
-the video is playing in the browser. I used XFCE4 suspend from the menu.
-> >
-> > The display goes blank and does not recover. The system does not enter =
-suspend. Switching to a tty shows the system is alive but X11 is frozen. Re=
-boot is blocked:
-> >
-> > # reboot
-> > Call to Reboot failed: Action suspend already in progress, refusing req=
-uested reboot operation.
-> >
-> > --- CALL TRACE (6.19.6) ---
-> >
-> > Mar 15 06:44:42 kernel: INFO: task kworker/u128:0:106160 blocked for mo=
-re than 122 seconds.
-> > Mar 15 06:44:42 kernel:       Not tainted 6.19.6-arch1-1 #1
-> > Mar 15 06:44:42 kernel: task:kworker/u128:0  state:D stack:0     pid:10=
-6160 tgid:106160 ppid:2
-> > Mar 15 06:44:42 kernel: Workqueue: pm_fs_sync pm_fs_sync_work_fn
-> > Mar 15 06:44:42 kernel: Call Trace:
-> > Mar 15 06:44:42 kernel:  <TASK>
-> > Mar 15 06:44:42 kernel:  __schedule+0x457/0x1720
-> > Mar 15 06:44:42 kernel:  schedule+0x27/0xd0
-> > Mar 15 06:44:42 kernel:  wb_wait_for_completion+0x97/0xe0
-> > Mar 15 06:44:42 kernel:  sync_inodes_sb+0xf8/0x2e0
-> > Mar 15 06:44:42 kernel:  __iterate_supers+0xdc/0x160
-> > Mar 15 06:44:42 kernel:  ksys_sync+0x43/0xb0
-> > Mar 15 06:44:42 kernel:  pm_fs_sync_work_fn+0x17/0xa0
-> > Mar 15 06:44:42 kernel:  process_one_work+0x193/0x350
-> > Mar 15 06:44:42 kernel:  worker_thread+0x1a1/0x310
-> > Mar 15 06:44:42 kernel:  kthread+0xfc/0x240
-> > Mar 15 06:44:42 kernel:  ret_from_fork+0x243/0x280
-> > Mar 15 06:44:42 kernel:  ret_from_fork_asm+0x1a/0x30
-> > Mar 15 06:44:42 kernel:  </TASK>
-> >
-> > --- MORE CONTEXT ---
-> >
-> > Compared to the original report (which ran through systemd-sleep -> pm_=
-suspend -> ksys_sync), the sync call in 6.19 has been moved into a kernel w=
-orkqueue via pm_fs_sync_work_fn. The hang point is identical: wb_wait_for_c=
-ompletion() inside sync_inodes_sb() never returns because the FUSE daemon (=
-fuse-overlayfs) is unable to complete writeback while the suspend freezer i=
-s in progress.
-> >
-> > The AS_NO_DATA_INTEGRITY fix targets wait_sb_inodes(), which is a separ=
-ate function from sync_inodes_sb(). The hung writeback completion wait in s=
-ync_inodes_sb() is not gated by the AS_NO_DATA_INTEGRITY check and remains =
-unaddressed.
->
-> I'll need to run the repro and verify this is the issue, but I think
-> it's because it's hitting this call chain if there's a dirty folio
-> that is already under writeback that needs to have writeback issued on
-> it again:
->
-> wb_workfn()
->   wb_do_writeback()
->     wb_writeback()
->       writeback_sb_inodes()
->         __writeback_single_inode()
->           do_writepages()
->             fuse_writepages()
->               iomap_writepages()
->                 writeback_iter()
->                   writeback_get_folio()
->                     folio_prepare_writeback()
->
-> where in the folio_prepare_writeback() logic:
->
->         if (!folio_test_dirty(folio))
->                 return false;
->
->         if (folio_test_writeback(folio)) {
->                 if (wbc->sync_mode =3D=3D WB_SYNC_NONE)
->                         return false;
->                 folio_wait_writeback(folio);
->
+> > so there's still an open ref to the fuse dev fd, which prevents anyone
+> > from aborting the FUSE_INIT request so that FR_FINISH gets set?
+> 
+> Yes.
+> 
+> >  And now
+> > we're just hosed?  Wouldn't the SIGCHLD interrupt the wait?  Or are we
+> > stuck someplace else?
+> 
+> The FUSE_INIT request is in FR_SENT state, and fuse doesn't allow
+> interrupting such requests without the cooperation of the server.
+> 
+> We could special case FUSE_INIT (and probably a number of other
+> request types) that are safe to kill without the server's consent.
+> Will look into this.
 
-I couldn't get the firefox+youtube scenario running because my VM
-lacks graphics support and I couldn't figure out how to get that to
-work, but I reproduced the bug using fuse-overlayfs with a synthetic
-I/O workload:
+I wonder if there's a way to have a wait_event_killable that will wake
+up if the process exits without being killed by a signal?  Or does it
+already do that...
 
-(while true; do dd if=3D/dev/urandom
-of=3D/dev/shm/test/data/test.default/file1 bs=3D1M count=3D10 2>/dev/null;
-done) &
-sleep 2
-systemctl suspend
+> >
+> > > This is a regression from the async mount case, where the mount was done
+> > > first, and the FUSE_INIT processing afterwards, in which case there's no
+> > > such recursive syscall keeping the fd open.
+> >
+> > Is this hang possible if you're using mount(2) with synchronous
+> > FUSE_INIT?
+> 
+> Yes.
 
-which gave pretty much the same stack trace:
+Yikes.  I guess at least there's the echo > .../abort solution below.
 
-[  154.892336] INFO: task kworker/u64:1:119 blocked for more than 100 secon=
-ds.
-[  154.892967]       Not tainted 7.0.0-rc1-g6dcceeb72856-dirty #1792
-[  154.893452] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs"
-disables this message.
-[  154.894048] task:kworker/u64:1   state:D stack:0     pid:119
-tgid:119   ppid:2      task_flags:0x4208160 flags:0x00080000
-[  154.894879] Workqueue: pm_fs_sync pm_fs_sync_work_fn
-[  154.895309] Call Trace:
-[  154.895514]  <TASK>
-[  154.895759]  __schedule+0xeaa/0x3d60
-[  154.896060]  ? __filemap_fdatawait_range+0xb0/0x160
-[  154.896435]  ? __pfx___schedule+0x10/0x10
-[  154.896744]  ? bdi_split_work_to_wbs+0x50b/0x990
-[  154.897093]  schedule+0x7e/0x2e0
-[  154.897344]  wb_wait_for_completion+0x14b/0x1e0
-[  154.897690]  ? __pfx_wb_wait_for_completion+0x10/0x10
-[  154.898112]  ? __pfx_autoremove_wake_function+0x10/0x10
-[  154.898550]  ? __pfx_mutex_unlock+0x10/0x10
-[  154.898915]  ? iput+0x61/0x600
-[  154.899175]  sync_inodes_sb+0x1be/0x740
-[  154.899490]  ? __pfx_down_read+0x10/0x10
-[  154.899814]  ? __pfx_sync_inodes_sb+0x10/0x10
-[  154.900165]  ? __pfx_super_lock+0x10/0x10
-[  154.900495]  ? _raw_spin_lock+0x84/0xe0
-[  154.900826]  ? __pfx__raw_spin_lock+0x10/0x10
-[  154.901154]  __iterate_supers+0x176/0x280
-[  154.901455]  ? __pfx_sync_inodes_one_sb+0x10/0x10
-[  154.901845]  ? _raw_spin_unlock_irq+0xe/0x30
-[  154.902169]  ksys_sync+0x87/0xf0
-[  154.902428]  ? __pfx_ksys_sync+0x10/0x10
-[  154.902772]  ? kvm_clock_get_cycles+0x18/0x30
-[  154.903131]  ? ktime_get+0x65/0x140
-[  154.903417]  pm_fs_sync_work_fn+0x17/0xc0
-[  154.903750]  process_one_work+0x656/0x1150
-[  154.904083]  ? assign_work+0x122/0x3e0
-[  154.904367]  worker_thread+0x5de/0xcb0
-[  154.904670]  ? __pfx_worker_thread+0x10/0x10
-[  154.905052]  kthread+0x34d/0x450
+> > > The solution is twofold:
+> > >
+> > >  a) use unshare(CLONE_FILES) in the mounting thread
+> >
+> > Is this after starting up the worker threads?  I guess that means the
+> > worker threads retain their fuse dev fds even though...
+> >
+> > >     and close the device fd
+> > >     after fsconfig(fs_fd, FSCONFIG_SET_STRING, "fd", ...)
+> >
+> > ...the main thread closes the fuse dev fd before FSCONFIG_CMD_CREATE.
+> > What if that main thread needs to use the fuse dev fd after this point?
+> > Or, what if userspace doesn't cooperate and unshare()/close()?  Can this
+> > hang be broken by kill -9, at least?
+> 
+> No, only
+> 
+>   echo > /sys/fs/fuse/connections/NN/abort
+> 
+> >
+> > >  b) only reference the fuse_dev from fs_context not the device file itself
+> >
+> > Can you set an abort timeout on the FUSE_INIT request?
+> 
+> I don't like timeouts, but yes, we could.
 
-Further debugging showed it's not due to that call chain with the
-folio_wait_writeback() in folio_prepare_writeback() scenario described
-in the previous message, but due to the fuse daemon being stuck and
-thus unable to fully service the ->write_inode() by the wb_workfn:
+<nod> Or *some* means of figuring out that one of the other threads has
+crashed the process, so we might as well cancel the wait_event?
 
-PID 121 (kworker/u64:2+flush-0:51):
-[<0>] request_wait_answer+0x215/0x560 [fuse]
-[<0>] __fuse_simple_request+0x341/0xc80 [fuse]
-[<0>] fuse_flush_times+0x2ff/0x410 [fuse]
-[<0>] fuse_write_inode+0x93/0x100 [fuse]
-[<0>] __writeback_single_inode+0x5e1/0x930
-[<0>] writeback_sb_inodes+0x53e/0xe40
-[<0>] __writeback_inodes_wb+0xb7/0x200
-[<0>] wb_writeback+0x571/0x790
-[<0>] wb_workfn+0x73a/0xb90
-[<0>] process_one_work+0x656/0x1150
-[<0>] worker_thread+0x5de/0xcb0
-[<0>] kthread+0x34d/0x450
-[<0>] ret_from_fork+0x3ca/0x640
-[<0>] ret_from_fork_asm+0x1a/0x30
+> >
+> > Perhaps my broader question is, what /does/ happen if a fuse server
+> > thread starts processing a request and crashes out before replying?  I
+> > guess that means the request is never completed, but in the case of
+> > !(synchronous FUSE_INIT) we'd just see the whole server terminate, which
+> > would then release the fuse dev fd?
+> 
+> Right.
 
-In the kernel suspend code though, the sync (pm_sleep_fs_sync())
-happens before freezing any userspace processes
-(suspend_freeze_processes()) so it's odd for the fuse daemon to be
-stuck.
+(I forget, what was the purpose of synchronous FUSE_INIT?)
 
-It turns out the daemon is stuck because systemd freezes the user
-session cgroups first before invoking the kernel suspend:
+--D
 
-> ps aux | grep -i "fuse-overlayfs"
-vmuser       826  0.0  0.0  12316  2616 ?        Ss   15:02   0:00
-fuse-overlayfs -o ...
-
-> cgroup=3D$(cat /proc/826/cgroup | head -1 | cut -d: -f3)
-> echo "cgroup: $cgroup"
-> cat /sys/fs/cgroup${cgroup}/cgroup.freeze 2>/dev/null || echo "No cgroup =
-freeze file"
-> cat /sys/fs/cgroup${cgroup}/cgroup.events 2>/dev/null | grep frozen
-cgroup: /user.slice/user-1001.slice/session-3.scope
-1
-frozen 1
-
-Even though the root cause is the cgroup freezer rather than the
-folio_prepare_writeback() scenario, the fix proposed previously is
-still the fix for this.
-
-Thanks,
-Joanne
-
->
-> Could you verify if this fixes the issue?:
->
-> diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
-> index 8f8069fb76ba..4cbb22d80acf 100644
-> --- a/fs/fs-writeback.c
-> +++ b/fs/fs-writeback.c
-> @@ -1990,9 +1990,13 @@ static long writeback_sb_inodes(struct super_block=
- *sb,
->                  * Don't bother with new inodes or inodes being freed, fi=
-rst
->                  * kind does not need periodic writeout yet, and for the =
-latter
->                  * kind writeout is handled by the freer.
-> +                *
-> +                * For sync(2), skip inodes whose mappings have no data
-> +                * integrity guarantees (eg FUSE).
->                  */
->                 spin_lock(&inode->i_lock);
-> -               if (inode_state_read(inode) & (I_NEW | I_FREEING |
-> I_WILL_FREE)) {
-> +               if ((inode_state_read(inode) & (I_NEW | I_FREEING |
-> I_WILL_FREE)) ||
-> +                   (wbc.for_sync &&
-> mapping_no_data_integrity(inode->i_mapping))) {
->                         redirty_tail_locked(inode, wb);
->                         spin_unlock(&inode->i_lock);
->                         continue;
->
-> I think the changes from commit f9a49aa302a0 ("fs/writeback: skip
-> AS_NO_DATA_INTEGRITY mappings in wait_sb_inodes()") are still needed
-> even with the above patch since afaics, the writeback we wait on could
-> have been from a previous background/periodic writeback run before
-> sync was triggered.
->
 > Thanks,
-> Joanne
->
-> >
-> > Note: prior to commit 0c58a97f919c, sync() on FUSE filesystems was effe=
-ctively a no-op, which avoided this hang at the cost of correctness. The re=
-gression was introduced when that commit made sync() actually wait on FUSE =
-writeback completion.
-> >
-> > I am using Arch Linux but users of Fedora F43 and Debian testing are hi=
-tting this bug also. See refs below.
-> >
-> > References:
-> > 1. fuse-overlayfs upstream issue: https://github.com/containers/fuse-ov=
-erlayfs/issues/386
-> > 2. profile-sync-daemon issue: https://github.com/graysky2/profile-sync-=
-daemon/issues/411
-> > 3. Debian bug #1120058: https://bugs.debian.org/1120058
+> Miklos
