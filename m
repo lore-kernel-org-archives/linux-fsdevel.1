@@ -1,142 +1,130 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A8AE296BCB
-	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 13:45:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773755109; cv=pass; b=HPxMTjxYHGRy8/8c0GZ7unmIwcqZuw7Nq+G+/a5zOypBhUfIszQo7gwcpylxZHED4hdvCFnkFiToxq+P6ivnRwoBBUMFUI37kwAaZV30jUK2WRR7x4b9RDDlzQumYDLh5n/N58VaTBsg7kuOD8bsSrxE3hzrO9lVBXtNUfsJcXE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773755109; c=relaxed/simple;
-	bh=bNkUxyiNMUHjfYkvM9CVWkyjPH6djBHc0TiewNB75LI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=q/Iw/91oe5INnmDXmF402/0SJKKtnu4AlHWpsEtB5aCNxE49oqe8Y/5sC5pkmL5YQM55KSjcWkQUpVk+VDSFG5SjQJt8LdU28lOSnGlxqbJcu0gb1j8r1/laJobC00j1tvCvREND1O/qKLCoB3/o6Fd+Cuck3R1T7zTNiEU5BE4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QKZClTrk; arc=pass smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D28DC3CD8AC;
+	Tue, 17 Mar 2026 13:53:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773755643; cv=none; b=gZXG5tXIioFMD/jFq+LNb0HhQhCPX2UOqPI2x2kthSWiHtjC+yozhxR/pEUM2nl0dhZ8b9lcbZWRf6KNHRjfNOgqTZsMwnAaDqd1n3rjpumkt7h2Xmj3TtdakPrJeN3eEmFfRfapOYWRmtMG0oIQdFzZ8Np1B8F8OkP5VZJNeL0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773755643; c=relaxed/simple;
+	bh=LJ9TJsHzw3L9Xu55TCPkqfykOgJsXXURBVYZvyFKx7E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=H5n23YkyeQtSrAVZJwwVrlYtOsnp/kQ7rXrx9LLbUn4xqSmxSLABiI+F6rZgtTC5Uzc0CkyoQhr8AZ4+uhtJFXjS/GX0rYhK0C9TrU/RozF28g5yc4RkI0+TWxgAqi8LfBN4XXS5dcOI+pg5C3/DZc2a30o/ETLbTrBTwE5dYFU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=bqVDSwkM; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QKZClTrk"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-b886fc047d5so961336366b.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 06:45:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773755107; cv=none;
-        d=google.com; s=arc-20240605;
-        b=P8ECMLL+iwJioMimhaUtpoFSh9uTRJfPdj6Hvg6QY42cK6bpgPjRTHAQpCTzSXeZk7
-         iMhcrCORu0TM/Iwlp5b9FHsthT4AMzeqZHrteF9j6t/0Eut3JhcEwDG85OX9fMQ09va0
-         M/ZliO17Uvo6tv0uCrnCIDAX+rRj+2d59+uCHp0WPie2Y8RqmsmnRAC1TH3qmUfUWuFc
-         rCIYcL4NgWaXmX85LbF1aUoGRXsli91RdtwRlHgxlAUE0C/VRw+XX+rq3zuDyjFugOBK
-         CiuiTbRjve9XM4KtKg2MRhKkI1uqAr+zzkOqGVb1VdfNpoTOLffC4rGRV3emgev+Va3B
-         m4xw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=h2f6/whviHNj8OK8xn3S6quCgMDZrvi9L+k4voYVFYk=;
-        fh=t7m29kz2JGY3pLbju7bed70M1eJhcjq7Zn+vWTMii/Y=;
-        b=WYVWJoiEeQ5WlX+bAq6cUNqKCp/y0FIErGVsveG9Fb49AReeV+sDC7jAHgQAh4LECN
-         U68VBS9zxki595WGUF+v1sv5ypMtDosVRXrdCDbjMirnCFRoSB8L1zU4P2yFEmq0m9s6
-         H8791erfQous5jTSFMBcXvZPaKDt3pXubjyGuBCJxUnDKUmsxm5A32RS5MBbQxjngucg
-         lB66Y40Elfx+22UXUvnNVJ5kMyJ7oZg+o86+wFi9o6pxKBgRIz4OWMEhM9PQ8/cJDzwv
-         Mkiw2C2UEJqkSKRior6p/S5DME2Ftb1jp5v1nSTZ3Ldh13B/LirVFpYvWtzC2AB+CCoq
-         7NJA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773755107; x=1774359907; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=h2f6/whviHNj8OK8xn3S6quCgMDZrvi9L+k4voYVFYk=;
-        b=QKZClTrkBceqNdtRmmv+RZxHmuhYp62bU9VxvGQU11vmF+zKb3TFitfM8zbDBTs1/y
-         bWfchRADdr2nDDgqb1n01C4Y8U84zFKipYlioecRm8MI2flXnW2ncCBNG/l0iBTEzW92
-         dAZj8nJyAvcZ3PhIbuWr91sYrDWHR3ztJSTHBIzN7IaJyAX+HmlbDWcPG+gGI3kEibqQ
-         KpImD169U77M0KE0Gj3yZXIhVWNMWLhDAlsB2Ex7RHOW7yTfUt+cN/G8cZLOlM5MilG1
-         Q/QbuPjPZbhfctuIl9pvm6l1FkPZ4Mjwkv8U05YvCpSnJQ+K5ZfmkXtqn+U905xfGWEA
-         DkbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773755107; x=1774359907;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=h2f6/whviHNj8OK8xn3S6quCgMDZrvi9L+k4voYVFYk=;
-        b=GakjRurHaZgyeKM5QtRiMlP8ogdRVYsQgjKVQn55l3bSzd5gTwmSHhqbCZZpXBWL6l
-         ZWWGaZ+u9gu3GQKqKlHfYdZsjs8Xqu7u6utGdICEU0A7nVrWqhyShFU68TUrYaPPb+ix
-         RW9L8Ln8K4wPsy73HZ9NkBlCWeoIE02nKWMyx19EOGmH/M5Q7Sin+bfo0d6n6tdpkP+w
-         EdgHXPOrvP1QTQB8lEVdks7PV5ItXugFNotxm9H1hGtRoj/iGxpJw0iIhDbXv7vZZONQ
-         6L4qt/bXixdbqPhTTy8GAs5INYEfaoGKOefpf4zBlBV3Bv8axDVeviIvrxhYm+Et0JQW
-         eYtQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXLpxyftxiUmy/ezUXkkhgelh9dcHG+QxylVNQ+JcRGrZsAUGe0z3qT5ydi/LXPAB5vpXkmc7eWtcgbVeNV@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywi2RtlTL4WPpJwgkGnOFgXA7WXgBqEjQtDYDEwYTSt6oYKqe7b
-	ALgYwWguoR09lCoKNEuG2+jQfszs4RTBBe7g1KaotgV6j/ezgFaG8R6imqUL8U5EmzGIrs7eUI0
-	JmBRcHZmgN9x6vj8XKMyqevEFyO324ac=
-X-Gm-Gg: ATEYQzx2T431Ge/k2AvAdFxSn+lyi9nE2rRkW1Fz3Nt7FAobcUgatVFeTPzX8G+wZEy
-	XTxLEJFfj1fnxEymbF8PqeJbUJG6GSLI8NzmEOs017hyKcLssGF7UpG+QvVp3rXHdmvpH4YBV7W
-	UVqh3HnKkRyAUtWiVgjM444iapgqeFBdHIe8EUcJn05QjapFPcz/ZyFJ2m7/2ydJXu0jKz1Ckmy
-	eH2qO/v0N6NS8TGp0Y6/ED4WqChCcshCcLbGPdoO3Sz31kcUyvdILNtP/pUZWpPdUWsa2KSrOtg
-	QyY6DC6uxqPV2Z1btrQwT3MMCXB3jDmiMQzljg==
-X-Received: by 2002:a17:907:e8c:b0:b96:e3db:9e04 with SMTP id
- a640c23a62f3a-b97653cd9e9mr985932666b.53.1773755106457; Tue, 17 Mar 2026
- 06:45:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="bqVDSwkM"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=8DzbUUpiltHLtFn+rbiARRaD8w+RtKX12xhZlS2MWNo=; b=bqVDSwkMZFbXT4jvVzyEO73eJg
+	YP1ViDNkNts9OBUIpYunzSOoFUkLkfagftPpj7+VGx/vGEdZ6B/Tap4pQ6n2oViBgPTOUuXey8UXn
+	TR5VpyB3vOLafvbcmlPrNBE22legHEUm9KQxmqmKd2S2VD8gaRfzc7H1tEXnuC6ZvHiVGOEdwKeSj
+	8DTVg4Y1Wnmd668h/VhDlSrtGkun8urfgvCFZWN3D3OkjqhveL5tP/9ECpBRLg/USrU2PxmIvqIXj
+	Za5o4wxObHsyKbrlyzr2U99L3/nSljG6OkzjOEwo9dXHXhWQ4/gix01P28b8Zh0a1RGmcpg1MpC/I
+	VqeAlztg==;
+Received: from [189.115.10.45] (helo=[192.168.68.133])
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+	id 1w2Urp-002IgB-Fk; Tue, 17 Mar 2026 14:53:53 +0100
+Message-ID: <1bab1298-7814-41a1-8741-b60999aeae42@igalia.com>
+Date: Tue, 17 Mar 2026 10:53:49 -0300
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260316103306.1258289-1-mjguzik@gmail.com> <yojtdduvndkyez7mzyah2fznxtztf5boonyxwicp6zb6zw52ao@h6g6zcxhvz3w>
- <CAGudoHEMpe6r+g8OOhFPDAiHtVDraPxA4kSmVLp469g5YZgzYA@mail.gmail.com> <6mknq4cxnf2dhix23gv4wqxy3vnzmhy5opxwpd72ncnpdgnnxr@omhnt5rktvir>
-In-Reply-To: <6mknq4cxnf2dhix23gv4wqxy3vnzmhy5opxwpd72ncnpdgnnxr@omhnt5rktvir>
-From: Mateusz Guzik <mjguzik@gmail.com>
-Date: Tue, 17 Mar 2026 14:44:54 +0100
-X-Gm-Features: AaiRm53fUSuG56gzj2VpaPAVX5XnOKoobd_NDrMakaAomSkK_C2J99tek7itazg
-Message-ID: <CAGudoHGQ1Bd0V2wcTRegKAzWqJqWX+CKX_gxF8bCGWQPXTo=ZA@mail.gmail.com>
-Subject: Re: [PATCH] fs: revert insert_inode_locked() eviction wait change and
- explain why
-To: Jan Kara <jack@suse.cz>
-Cc: brauner@kernel.org, viro@zeniv.linux.org.uk, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, "Lai, Yi" <yi1.lai@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ext4: fix bigalloc cluster arithmetic when
+ s_first_data_block != 0
+To: Theodore Tso <tytso@mit.edu>
+Cc: adilger.kernel@dilger.ca, linux-ext4@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ kernel-dev@igalia.com, syzbot+b73703b873a33d8eb8f6@syzkaller.appspotmail.com
+References: <20260313151835.1248953-1-koike@igalia.com>
+ <20260314012930.GB38016@macsyma-wired.lan>
+Content-Language: en-US
+From: Helen Koike <koike@igalia.com>
+In-Reply-To: <20260314012930.GB38016@macsyma-wired.lan>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Mar 17, 2026 at 2:39=E2=80=AFPM Jan Kara <jack@suse.cz> wrote:
->
-> On Tue 17-03-26 14:12:48, Mateusz Guzik wrote:
-> > On Tue, Mar 17, 2026 at 2:01=E2=80=AFPM Jan Kara <jack@suse.cz> wrote:
-> > >
-> > > On Mon 16-03-26 11:33:05, Mateusz Guzik wrote:
-> > > > It causes a deadlock, reproducer can be found here:
-> > > > https://lore.kernel.org/linux-fsdevel/abNvb2PcrKj1FBeC@ly-workstati=
-on/
-> > > >
-> > > > The real bug is in ext4, but I'm not digging into it and a working =
-order
-> > > > needs to be restored.
-> > >
-> > > I can dig into that. I expect ext4 ends up calling find_inode() from =
-its
-> > > ext4_evict_inode() handler or something like that? I was searching fo=
-r such
-> > > occurrence for a while but I didn't find it so can you share where ex=
-t4
-> > > blocked? Because the stacktraces from the original report just show t=
-he
-> > > journalling machinery hangs but those are only side-effects of somebo=
-dy
-> > > hanging in ext4 with the transaction handle started... Thanks!
-> > all traces attached
->
-> Thanks! OK, for reference the inode has been marked as 'sync' so
->
-> ext4_evict_inode() -> ext4_journal_stop()
->
-> ends up waiting for transaction commit. However ext4_new_inode() calls
-> insert_inode_locked() with started transaction handle and thus waits for
-> the freeing inode with the handle started. Classical ABBA deadlock. I'll
-> think how we could sensibly fix this in ext4.
->
+Hi Ted,
 
-Do you think fixing the actual bug is viable for 7.0? The above revert
-seems most prudent for the time being.
 
->                                                                 Honza
-> --
-> Jan Kara <jack@suse.com>
-> SUSE Labs, CR
+On 3/13/26 10:29 PM, Theodore Tso wrote:
+> On Fri, Mar 13, 2026 at 12:18:30PM -0300, Helen Koike wrote:
+>> On filesystems with bigalloc enabled and s_first_data_block != 0,
+> 
+> This is never supposed to happen; fsck already checks for this.  From
+> e2fsck/super.c:
+> 
+> 	should_be = (sb->s_log_block_size == 0 &&
+> 		     EXT2FS_CLUSTER_RATIO(fs) == 1) ? 1 : 0;
+> 	if (sb->s_first_data_block != should_be) {
+> 		pctx.blk = sb->s_first_data_block;
+> 		pctx.blk2 = should_be;
+> 		fix_problem(ctx, PR_0_FIRST_DATA_BLOCK, &pctx);
+> 		ctx->flags |= E2F_FLAG_ABORT;
+> 		return;
+> 	}
+> 
+> You can also see evidence of this code path getting trigger by
+> clicking on "corrupt_fs" in the Syzkaller dashboard.
+
+I see, thanks for the pointers.
+
+> 
+>> Introduce four macros that subtract s_first_data_block before
+>> operating, matching the coordinate system used by mballoc:
+> 
+> This is *way* more complicated than it needs to be.  All you need to
+> do is just reject the mount if the file system is this insanely
+> corrupted.  For example:
+> 
+> 	if (ext4_has_feature_bigalloc(sb) &&
+> 	    es->s_first_data_block) {
+> 		ext4_msg(sb, KERN_WARNING, "bad geometry: bigalloc "
+> 			 "file system with non-zero first_data_block");
+> 		return -EINVAL;
+> 	}
+
+Agreed. I thought it should be supported from [1] but I missed [2].
+
+[1] https://lore.kernel.org/all/20130221134943.GA3818@gmail.com/
+[2] https://lore.kernel.org/all/20130222030327.GB3421@gmail.com/
+
+> 
+>> Regarding the issue reported by syzbot...
+> 
+> Yeah, this is why I generally don't pay that much attention to syzbot
+> reports that mount a corrupted file system.  Users are supposed to run
+> fsck on a file system before they blindly mount it.  If they don't, I
+> don't consider it a security vulnerability; it's just a stupid system
+> administrator trick, and he or she deserves everything that happens to
+> them.  Hence, such issues are not a security issue, but just a quality
+> of implementation issue.  I'll accept patches to addrese sorts of
+> things, but it doesn't rate a CVE or high priority processing.
+
+Make sense.
+
+I think I'll submit this patch as per your suggestion since I'm already 
+looking at this, but I won't bother you further with these sorts of 
+low-priority issues.
+
+> 
+> Furthermore, any fix needs to as simple as possible, and avoids adding
+> extra overhead especially on hot paths.  In this particular case,
+> rejecting the mount is the simplest fix, since the file system
+> corruption is *easy* to detect.
+
+Ack, and thanks for your reply!
+
+Helen,
+Cheers
