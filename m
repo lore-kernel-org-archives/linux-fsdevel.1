@@ -1,123 +1,158 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2374D3128D9;
-	Wed, 18 Mar 2026 21:49:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B03F3128D9
+	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Mar 2026 21:51:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773870589; cv=none; b=oM0RuqNZNatwinndYu9Gh039LPq9skdfifbcEWN/iS7kinnMd9u9JdyL2ZhlQYMzNdWrze1IYwV5GfoqNFMiCudI/1o0ddMa0K5pbtXxBYXz+AQbGaU9H7uZzmHqQWJpMI9kkB764DE4KES3BLj3Q/grLxHsY1dBFnmHkUz0cuo=
+	t=1773870701; cv=none; b=cglr2gEkaEDsxS9oebqMPmkmnfbQ4wok2iNcgj8B23khG8W3VBWduQPU/odUlbs6/tnzHCNPxfzryrnp7Tc3SdaoNOiqVcy73kcb+nul6n3jm5Hd3saoAr2ytLW/rurBKHScUcfI8ydk2AZUksA0rB1t/Ie4Iw3NUPzEiyrvJlc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773870589; c=relaxed/simple;
-	bh=tVzCTvsvnQE/tUv8tGXNNxh8lVM+FFj3fY+dhEmwdIw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=a6djKl88cOLUP0CKBGBbA5woBui9HLky/fCJCk2gteucR32ZPkgtqdOHJcFwNkRIj5VAHgC45xBECS4tFy7djmTBWY5OpkeHx/K2GKBFrPSmSDUIzlwkNJcexaceEnrw9GTtySUYL9o+7RnTa5fmWsd/2C0pQMz69zsHr0KQSpc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=alsBtoFq; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1773870701; c=relaxed/simple;
+	bh=fJ5duSbE1hiwy52535NiiHhKBE1dMW3nnpdQmbr5LYw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EYSx20qQAcm+8vO8fby7bGP26C6FQuj507/Pprkcdj8tctwycrXhPiq+107T+XBzX/Ba29vJvRo93qwqMYjmavKNMKcFH3bXqaL/06witMfwHqAVDHIb72ekZrogr1QxoUrOpMLnPnxEcAm8gbdZJaoVsxh3K322quinH/FU0ps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rezZc77q; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="alsBtoFq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773870588; x=1805406588;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=tVzCTvsvnQE/tUv8tGXNNxh8lVM+FFj3fY+dhEmwdIw=;
-  b=alsBtoFqyReM1hzGP9GnUZeMEq6DI8JNT+ivfLlLYrszSD14pQM8pSzf
-   tUj732X+jLviW+vLWrHmGWnaC37s8XS0HtSg/iB5QGg4ogZs/hSNTzy+R
-   L4U7lVTTtWRbZV2EvUatJH3QdvsMevkNVrrcDPL0nT0aN/BFD9EqlRMZH
-   mqvunlX7nvFHBqvK2J6jkFb1cup1QMudfPo58mY/M8ZR+MJZbmfDb/UMN
-   ox1pmIJyNfkWPgsMqUzt13SvkBme6ceEjp7Q82tfF3C45S0jYI6vIHkTy
-   YBmYQ1G6q0krBjpFj9qXpAIafFgbcvP/sVwFKzARHDdu5lQG+0vSJmaxq
-   w==;
-X-CSE-ConnectionGUID: o2ZYSkp/TNihCAqIM9Bnjw==
-X-CSE-MsgGUID: X1f7WefuSLOWWAqx0ZsO2w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11733"; a="75122309"
-X-IronPort-AV: E=Sophos;i="6.23,128,1770624000"; 
-   d="scan'208";a="75122309"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2026 14:49:47 -0700
-X-CSE-ConnectionGUID: cM/KCzdpSXabc9t5yC9PVA==
-X-CSE-MsgGUID: rxHk5cgRSV6j8fZrZ0h/EQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,128,1770624000"; 
-   d="scan'208";a="222003732"
-Received: from rfrazer-mobl3.amr.corp.intel.com (HELO [10.125.109.21]) ([10.125.109.21])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2026 14:49:45 -0700
-Message-ID: <1db53cf4-7de7-4fd2-a6c7-7b2df963e0e1@intel.com>
-Date: Wed, 18 Mar 2026 14:49:44 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rezZc77q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95E90C19421;
+	Wed, 18 Mar 2026 21:51:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773870700;
+	bh=fJ5duSbE1hiwy52535NiiHhKBE1dMW3nnpdQmbr5LYw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rezZc77qt7s/W/ffqT5OsOLJsbokUc6WNK3NRkHgbGDJP8A+xVVBl8I57matUNeDv
+	 a5RKib1t16v1fglDV4XmMJJ/yAEigOSfUqkKZ0TUQXn8ChSwEUQSTmJuWIuHU9fOmN
+	 zzPtySfENC2HreWVFa2gQNMqvRiE5gRUhSl0uENaFu8JJzfBmWVNeIBpwvHGcWT30C
+	 Nrx5CtfPmy4sZgLtEtSecNE858TQdWrAz2rQleY89t7za7jj+pQMM5JH3Va+8HVzh4
+	 qtdQG8qR4pWIn6pKaxPxQrXP1hMu+m9hDZYlwAN9JgowA1Q44QCgeVqyPSu1nmYp73
+	 IGY+hG3mh0bCA==
+Date: Wed, 18 Mar 2026 14:51:40 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Gao Xiang <hsiangkao@linux.alibaba.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel@vger.kernel.org,
+	Joanne Koong <joannelkoong@gmail.com>,
+	John Groves <John@groves.net>, Bernd Schubert <bernd@bsbernd.com>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Luis Henriques <luis@igalia.com>,
+	Horst Birthelmer <horst@birthelmer.de>,
+	Gao Xiang <xiang@kernel.org>, lsf-pc@lists.linux-foundation.org
+Subject: Re: [LSF/MM/BPF TOPIC] Where is fuse going? API cleanup,
+ restructuring and more
+Message-ID: <20260318215140.GL1742010@frogsfrogsfrogs>
+References: <CAJfpegtzYdy3fGGO5E1MU8n+u1j8WVc2eCoOQD_1qq0UV92wRw@mail.gmail.com>
+ <20260204190649.GB7693@frogsfrogsfrogs>
+ <ce74079f-1e0a-4fee-9259-48f08c6989aa@linux.alibaba.com>
+ <20260206053835.GD7693@frogsfrogsfrogs>
+ <cf44fe77-4616-45c8-975a-08dafaecad47@linux.alibaba.com>
+ <20260221004752.GE11076@frogsfrogsfrogs>
+ <7de8630d-b6f5-406e-809a-bc2a2d945afb@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 3/9] cxl/region: Skip decoder reset on detach for
- autodiscovered regions
-To: Alejandro Lucero Palau <alucerop@amd.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>,
- linux-cxl@vger.kernel.org, linux-kernel@vger.kernel.org,
- nvdimm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
- linux-pm@vger.kernel.org
-Cc: Ard Biesheuvel <ardb@kernel.org>,
- Alison Schofield <alison.schofield@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
- Jonathan Cameron <jonathan.cameron@huawei.com>,
- Yazen Ghannam <yazen.ghannam@amd.com>, Davidlohr Bueso <dave@stgolabs.net>,
- Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- "Rafael J . Wysocki" <rafael@kernel.org>, Len Brown <len.brown@intel.com>,
- Pavel Machek <pavel@kernel.org>, Li Ming <ming.li@zohomail.com>,
- Jeff Johnson <jeff.johnson@oss.qualcomm.com>,
- Ying Huang <huang.ying.caritas@gmail.com>,
- Yao Xingtao <yaoxt.fnst@fujitsu.com>, Peter Zijlstra <peterz@infradead.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Nathan Fontenot <nathan.fontenot@amd.com>,
- Terry Bowman <terry.bowman@amd.com>, Robert Richter <rrichter@amd.com>,
- Benjamin Cheatham <benjamin.cheatham@amd.com>,
- Zhijian Li <lizhijian@fujitsu.com>, Borislav Petkov <bp@alien8.de>,
- Tomasz Wolski <tomasz.wolski@fujitsu.com>
-References: <20260210064501.157591-1-Smita.KoralahalliChannabasappa@amd.com>
- <20260210064501.157591-4-Smita.KoralahalliChannabasappa@amd.com>
- <69b1e0aacb9d0_2132100c5@dwillia2-mobl4.notmuch>
- <69b319d7e6adf_213210086@dwillia2-mobl4.notmuch>
- <df9cfac5-7e01-422f-bd29-d1b8b3c55623@amd.com>
- <69b8b9181bafd_452b100cb@dwillia2-mobl4.notmuch>
- <718c4a39-4526-45ed-86fb-1e5b57f6ca0e@amd.com>
-Content-Language: en-US
-From: Dave Jiang <dave.jiang@intel.com>
-In-Reply-To: <718c4a39-4526-45ed-86fb-1e5b57f6ca0e@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7de8630d-b6f5-406e-809a-bc2a2d945afb@linux.alibaba.com>
 
+On Tue, Mar 17, 2026 at 12:17:48PM +0800, Gao Xiang wrote:
+> Hi Darrick,
+> 
+> On 2026/2/21 08:47, Darrick J. Wong wrote:
+> > On Fri, Feb 06, 2026 at 02:15:12PM +0800, Gao Xiang wrote:
+> 
+> ...
+> 
+> > 
+> > > > 
+> > > > Fuse, otoh, is for all the other weird users -- you found an old
+> > > > cupboard full of wide scsi disks; or management decided that letting
+> > > > container customers bring their own prepopulated data partitions(!) is a
+> > > > good idea; or the default when someone plugs in a device that the system
+> > > > knows nothing about.
+> 
+> I brainstormed some more thoughts:
+> 
+> End users would like to mount a filesystem, but it's unknown that
+> the filesystem is consistent or not, especially for filesystems
+> are intended to be mounted as "rw", it's very hard to know if the
+> filesystem metadata is fully consistent without a full fsck scan
+> in advance.
+> 
+> Considering the following metadata inconsistent case (note that
+> block 0x123 is referenced by the inconsistent metadata, rather
+> than normal filesystem reflink with correct metadata):
+> 
+>  inode A (with high permission)
+>  extent [0~4k)               maps to block 0x123
+> 
+>  random inode B (with low permission)
+>  extent [0~4k)               maps to block 0x123 too
+> 
+> So there will exist at least three attack ways:
+> 
+>  1) Normal users will record the sensitive information to inode
+>     A (since it's not the normal COW, the block 0x123 will be
+>     updated in place), but normal users don't know there exists
+>     the malicious inode B, so the sensitive information can be
+>     fetched via inode B illegally;
+> 
+>  2) Attackers can write inode B with low permission in the proper
+>     timing to change the inode A to compromise the computer
+>     system;
+> 
+>  3) Of course, such two inodes can cause double freeing issues.
+> 
+> I think the normal copy-on-write (including OverlayFS) mechanism
+> doesn't have the issue (because all changes will just have another
+> copy). Of course, hardlinking won't have the same issue either,
+> because there is only one inode for all hardlinks.
 
+Yes, though you can screw with the link counts to cause other mayhem ;)
 
-On 3/18/26 12:33 AM, Alejandro Lucero Palau wrote:
-> 
-> On 3/17/26 02:14, Dan Williams wrote:
->> Alejandro Lucero Palau wrote:
->> [..]
->>> This is not the first time I share my frustration, and as when I did so
->>> in the past, I want to finish with a positive last sentence: I will keep
->>> trying to get type2 support and hopefully further CXL stuff, and happy
->>> to discuss the best way to do so with the CXL kernel community.
->> I did not mean to imply that the type-2 set was stuck behind a new
->> dependency. Apologies.
-> 
-> 
-> No worries.
-> 
-> 
->>
->> It is next in the queue, it needs to go in next cycle with a high
->> priority.
->>
->> In my view this confirmation that Smita's proposed patch addresses PJ's
->> test failure cleared one of the last hurdles for this set for me.
-> 
-> 
-> Did PJ tell you so? From his report that seemed a likely reason, but he did not comment further after I told him about it.
-> 
+> I don't think FUSE-implemented userspace drivers will resolve
+> such issues (I think users can only get the following usage reclaim:
 
-PJ told me when I was talking to him WRT testing on the latest type2 series.
+Filesystem implementations /can/ detect these sorts of problems, but
+most of them have no means to do that quickly.  As you and Demi Marie
+have noted, the only reasonable way to guard against these things is
+pre-mount fsck.
 
+And even then, attackers still have a window to screw with the fs
+metadata after fsck exits but before mount(2) takes the block device.
+I guess you'd have to inject the fsck run after the O_EXCL opening.
+
+Technically speaking fuse4fs could just invoke e2fsck -fn before it
+starts up the rest of the libfuse initialization but who knows if that's
+an acceptable risk.  Also unclear if you actually want -fy for that.
+
+> "that is not the case that we will handle with userspace FUSE
+> drivers, because the metadata is serious broken"), the only way to
+> resolve such attack vectors is to run
+> 
+> the full-scan fsck consistency check and then mount "rw"
+> 
+> or
+> 
+> using the immutable filesystem like EROFS (so that there will not
+> be such inconsisteny issues by design) and isolate the entire write
+> traffic with a full copy-on-write mechanism with OverlayFS for
+> example (IOWs, to make all write copy-on-write into another trusted
+> local filesystem).
+
+(Yeah, that's probably the only way to go for prepopulated images like
+root filesystems and container packages)
+
+> I hope it's a valid case, and that can indeed happen if the arbitary
+> generic filesystem can be mounted in "rw".  And my immutable image
+> filesystem idea can help mitigate this too (just because the immutable
+> image won't be changed in any way, and all writes are always copy-up)
+
+That, we agree on :)
+
+--D
+
+> Thanks,
+> Gao Xiang
+> 
