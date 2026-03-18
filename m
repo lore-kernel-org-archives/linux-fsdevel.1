@@ -1,91 +1,115 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 987933D9024;
-	Wed, 18 Mar 2026 14:32:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1B533DB62A;
+	Wed, 18 Mar 2026 14:40:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773844353; cv=none; b=NF20/xqmCg6UQ/ZDTjeUOnCQX6Sno2FPywL8vBogzAxfPVbcsaWHRx3x65E2cTTnboV6jwCVuN1NbuPpG6g54bSlryqsD5xPoG895Or5HJvmxt8R5AT1CLKeJybL41XLv7dT8WJNpeH/VeMN0X1uiV/U8TqL9eEaf+J+gdZQoGc=
+	t=1773844858; cv=none; b=nZQ/jopyEzpbiq7tWWaVe5u66VSHC51rB+VQUWofsxotJGz+fbcVXN+XkNXz9akVuHWMMKoOzdR9/MI526Y6vc3zYqcrO1GDNhfg4j2YbX71tIqPft24Hclk5bLIARfbWavKKdAsKZMBQm3kweYxLHbr7mQ/OyeiHXLkqtoxON8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773844353; c=relaxed/simple;
-	bh=BkmNwvxpHD2rLSHreIl/KbDAd8IvuTpcKZIoErK/PhU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nDWr0bJo4Ai5aJMv0mvOa1xg8EIjeBDXSfMX44nUhnG11sBPyhfWfWkR9QrD1om0+fDPq7Tn0wM5NO5eDfrfAhDUHa1bWek4qgV7G4T32084hYo0WNtNffOsb4R/pBDK/cKWFldW355Co4IuhOqDBR3/KL4gYyeXsbwFV2yvy+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bMiZeZar; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773844858; c=relaxed/simple;
+	bh=QPe6wXvdAXZ1WsVrzW/I1Ea8rZgbDN6tCubJm34Z2So=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OmUOdMzDTBbdp2/SUG8PDRUWe80WdGY6WTrYrIJ55kGncC3z/sULkLzF4fmv0BxO+5S2oGpE/aB2YPaqBURGD4I2ALVrGCHfJpQdvPxPbLFPuK5q71z9DhunGb9CSCWKp3ZPuGHTDDiD6xZmnPoVwGjwKuntxsSUi+byJ8gcVIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ngbdPPAx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bMiZeZar"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17D4BC19421;
-	Wed, 18 Mar 2026 14:32:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ngbdPPAx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00F29C2BC87;
+	Wed, 18 Mar 2026 14:40:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773844353;
-	bh=BkmNwvxpHD2rLSHreIl/KbDAd8IvuTpcKZIoErK/PhU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bMiZeZarKo0I6In8lAdDvOsPtB+Akkqq5eFK8sm/YRM5xM4gSk3GswcKWLx9V8CPt
-	 +6YYl1xS3tNFIQTKhM40jfz1qPoTtm1elg0NV868yjkd5chJjTqeJgEOV6/CjRxzkT
-	 mQDFtdNKBQ/xnnBOebXJ71uzotCfxEva6Zj23n1drQV+9WtCXRpVecdCosRr9wxlY6
-	 vtHhNHxZOYqX6DbExKyJvA7EW6fnoLWGHN6VIBgcwGz0PUL81aWr7tYmmCfeBlaDZE
-	 JbKmbSr+/Nh08b6WAlxfXt1VYRX2lavS093MPyeFA2L5/Ib4WDc+a58iauuYvq8QNp
-	 QgG84UCJntIbA==
-Date: Wed, 18 Mar 2026 10:32:31 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	workflows@vger.kernel.org, tools@kernel.org, x86@kernel.org,
-	Thomas Gleixner <tglx@kernel.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Cyril Hrubis <chrubis@suse.cz>, Kees Cook <kees@kernel.org>,
-	Jake Edge <jake@lwn.net>,
-	David Laight <david.laight.linux@gmail.com>,
-	Askar Safin <safinaskar@zohomail.com>,
-	Gabriele Paoloni <gpaoloni@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Ingo Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH 1/9] kernel/api: introduce kernel API specification
- framework
-Message-ID: <abq3f5vdcwRXGJGX@laps>
-References: <20260313150928.2637368-1-sashal@kernel.org>
- <20260313150928.2637368-2-sashal@kernel.org>
- <87h5qe9wig.fsf@trenco.lwn.net>
+	s=k20201202; t=1773844858;
+	bh=QPe6wXvdAXZ1WsVrzW/I1Ea8rZgbDN6tCubJm34Z2So=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ngbdPPAxWjFSAiZvMouaeaCI+yNsZe/5Ks8XfwK23bbuJ+JwMl7yKx8wLk1AN3mNT
+	 TMgJMbhcekeQl6cZDmfGyt8APhVYsofGCMvUz7w5d4VSUqCEDHmA0FWwHmr908obc6
+	 Ca6I5aFuRQUI1yi4z3tpGvtErfL8rr5nKPdU3xQY3LcDhPRgWknRM3aO06irdxNWBm
+	 2TlgtJ0ipwGbJWHORKvyo/BwbM/qZgR2EjBk9w3ApuIqc+XrUbVpU21pCoE11NYSNq
+	 L1oljmENCVJ0s9YwPt8FVfCFDTEwjEsGgigo721LFalxDK0WN06IRwXdh82jFvxUSk
+	 UiZTvvvmHDYJQ==
+Message-ID: <4620167c-bcfe-414b-85f6-a5d28563b9af@kernel.org>
+Date: Wed, 18 Mar 2026 15:40:45 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <87h5qe9wig.fsf@trenco.lwn.net>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 01/23] mm/vma: add vma_flags_empty(), vma_flags_and(),
+ vma_flags_diff_pair()
+Content-Language: en-US
+To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: David Hildenbrand <david@kernel.org>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>, Jann Horn <jannh@google.com>,
+ Pedro Falcato <pfalcato@suse.de>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Kees Cook <kees@kernel.org>,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ Vineet Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Brian Cain <bcain@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
+ WANG Xuerui <kernel@xen0n.name>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Dinh Nguyen <dinguyen@kernel.org>, Madhavan Srinivasan
+ <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>,
+ Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <chleroy@kernel.org>,
+ Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>, Richard Weinberger <richard@nod.at>,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ Johannes Berg <johannes@sipsolutions.net>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Xu Xin <xu.xin16@zte.com.cn>, Chengming Zhou <chengming.zhou@linux.dev>,
+ Michal Hocko <mhocko@suse.com>, Paul Moore <paul@paul-moore.com>,
+ Stephen Smalley <stephen.smalley.work@gmail.com>,
+ Ondrej Mosnacek <omosnace@redhat.com>, linux-snps-arc@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-hexagon@vger.kernel.org,
+ loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org, linux-um@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, selinux@vger.kernel.org
+References: <cover.1773665966.git.ljs@kernel.org>
+ <ede9b0f8a2e2dc72e7fbc1a0ddbeb513364c28a2.1773665966.git.ljs@kernel.org>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+In-Reply-To: <ede9b0f8a2e2dc72e7fbc1a0ddbeb513364c28a2.1773665966.git.ljs@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Mar 17, 2026 at 11:49:27AM -0600, Jonathan Corbet wrote:
->So the reason for two completely separate mechanisms is not entirely
->clear to me.  The kerneldoc variant is essentially documentation, while
->the macro stuff is to be built into the executable?  What if you want
->both?
->
->It would be nice to only have one way if at all possible; I'm sure that
->crossed your mind at some point :)  If there have to be two, having both
->examples describe the same function would make the parallels more clear.
+On 3/16/26 14:07, Lorenzo Stoakes (Oracle) wrote:
+> Firstly, add the ability to determine if VMA flags are empty, that is no
+> flags are set in a vma_flags_t value.
+> 
+> Next, add the ability to obtain the equivalent of the bitwise and of two
+> vma_flags_t values, via vma_flags_and().
 
-Woops, I forgot to finish writing my reply to this :)
+Nit: "two values" is vma_flags_and_mask(), while vma_flags_and() takes one
+value and list of flags, no?
 
-Under the hood, kerneldoc specs are translated into those macros so they could
-be part of the build process and embedded into the resulting binary (both for
-documentation as well as the runtime validation).
+> Next, add the ability to obtain the difference between two sets of VMA
+> flags, that is the equivalent to the exclusive bitwise OR of the two sets
+> of flags, via vma_flags_diff_pair().
+> 
+> vma_flags_xxx_mask() typically operates on a pointer to a vma_flags_t
+> value, which is assumed to be an lvalue of some kind (such as a field in a
+> struct or a stack variable) and an rvalue of some kind (typically a
+> constant set of VMA flags obtained e.g. via mk_vma_flags() or equivalent).
+> 
+> However vma_flags_diff_pair() is intended to operate on two lvalues, so use
+> the _pair() suffix to make this clear.
+> 
+> Finally, update VMA userland tests to add these helpers.
+> 
+> We also port bitmap_xor() and __bitmap_xor() to the tools/ headers and
+> source to allow the tests to work with vma_flags_diff_pair().
+> 
+> Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
 
-I don't think anyone would use the macro format directly, but as it's there
-anyway I figured I'd offer it as an option. Would it make sense to just hide it
-behind the scenes?
+Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 
--- 
-Thanks,
-Sasha
