@@ -1,279 +1,153 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 941E731352B;
-	Wed, 18 Mar 2026 21:31:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773869490; cv=none; b=TTEdbU8PJHOgx+lBRAjx7sgHoWuvtTSJnYyZSQgslrxBmd1E/8nL5fHRGApYcfNPYjQRXZECHzDxLsQZOG265Y42UywV6RuYyFV7hE4ihnmCd/X7ZCC16ANu2LlxtTTCKp30Wzco6o/MwtYXVVED0zExfg1jc5Bx4p2GhXEV/+s=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773869490; c=relaxed/simple;
-	bh=Pqv4I5FbBJ/MlcgzLlPq5uvpJ6sthsdJeEJbMt2kdP0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cs9ajY+QcY8I1vBqC1VC2BZify31LxJoWTBQUhHka0u49uPWIALtu5Vww4YXnqT6fpH70F9fce+wdbmkg4XbC2/0AmMT5dEmTc9z69ySX11BzVFSiCCDAvGRkZM1GFN1CpiicWf25IcyC4QHApwuNjJ/VCVOkiHXrCT53ya/+f0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tYHSgBFi; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20A3438A289
+	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Mar 2026 21:31:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773869492; cv=pass; b=a2/BBr7u1RQ6py/Rryh/T9h7rDRyYJdVno7z/LXxbLhLqTMHqdmLboVYM8jruVufCyIT0DwBkFIDrEMJYZs0P2wKG6aFfaNVO8sW99sXzuz9OQi+PQmquSOQAUIsCFsGbWIbGN8sqcu2XU3PGXeWkB7ocjftVstXeFGyzQ3vYJI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773869492; c=relaxed/simple;
+	bh=vROh1KOVXMRBxqYuZnoPeuLETVUs0NmL8sinoayId/M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=paD3Oj+6S1PpKNa2sKUfMrEFqi+hL+zLuhvk9fvoiVCZpF1/dzldUW4Qj1+SMI/p3NapKYX27i2sx2XGFHcfzFcfT7/ctsXpbhlvepGyu9itz/aex4rIvUTurklJs5HPz5azhw8nLpQbi0tMf6YCSr4rMiGRQZKO8gHOS/X2STs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OwCanvAL; arc=pass smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tYHSgBFi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3803CC19421;
-	Wed, 18 Mar 2026 21:31:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773869490;
-	bh=Pqv4I5FbBJ/MlcgzLlPq5uvpJ6sthsdJeEJbMt2kdP0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tYHSgBFiLn1JVge9zL6GKX67yohEjLSVnhckGcYk02rCc3RhbXUmMsUmO5Iy4tocZ
-	 9g5rdh3PqAKaqLwalMARv1ru40gvsJV4J77c5ispRUimwlsrauNvDIMflp2GgD37Cc
-	 XqzPI/V7TmTcNTpqSDgJKUKpjawFR3vAAUiBHVr/MI8uwKmbK/yWuMMaSu7237zDlO
-	 6GEB1th/ntuGyJknAMNnlIfgqbp88VJyHO7jGfzdIUYQ1kmE474+emnxaY7yF4bMyo
-	 riJDd4+8XeJRRHFJvV/NXJWnq0bKt80SYg/8XB/UWmCFPrzcQZPZLGx6BiO4zxWLkg
-	 o6MfBUs6ujqNQ==
-Date: Wed, 18 Mar 2026 14:31:29 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Demi Marie Obenour <demiobenour@gmail.com>
-Cc: Joanne Koong <joannelkoong@gmail.com>,
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>, bpf@vger.kernel.org,
-	linux-ext4 <linux-ext4@vger.kernel.org>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Bernd Schubert <bernd@bsbernd.com>, Theodore Ts'o <tytso@mit.edu>,
-	Neal Gompa <neal@gompa.dev>, Amir Goldstein <amir73il@gmail.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>, John@groves.net
-Subject: Re: [PATCHBLIZZARD v7] fuse/libfuse/e2fsprogs: containerize ext4 for
- safer operation
-Message-ID: <20260318213129.GB6004@frogsfrogsfrogs>
-References: <20260223224617.GA2390314@frogsfrogsfrogs>
- <CAJnrk1Yd1J60-Ek=O7jzZQg454pbr3O=b71yZHzYbrWfqJr__w@mail.gmail.com>
- <20260316180408.GN6069@frogsfrogsfrogs>
- <CAJnrk1bmJYMt27xedN2Xza0KPXfYEbh-9g=3fNWru-HRM9WFEw@mail.gmail.com>
- <20260316234137.GJ1742010@frogsfrogsfrogs>
- <208bfbd2-d671-462c-925f-4d51b7df1f18@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OwCanvAL"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4852e9ca034so2259135e9.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 18 Mar 2026 14:31:30 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773869489; cv=none;
+        d=google.com; s=arc-20240605;
+        b=MYCAAzLOM4xG1l3PAmRvO86haECtCqZrO/ioDhy2TvQDTN3CobVXgX7Z/Bjjbna+28
+         BxpaWSD8dRoGfevTb9SauMYfItNe5OC2TP7lZcdejR+dPIuVKCVs1J/XOO6iW6Ld+2hg
+         EakD/oQxBrkFPuJLFaePHl7E0zSrdLpcHPHme3fmdxf01tTCJqaksOsCkGRKRxuQnaOd
+         1+WBF8l4KhFyDRP3y8yaUDQ7ENoGAjjhlCZLywahzPFqYhDocPVwth48UYfjsFQtczgd
+         pt7OV0NstnR7dAvadwOhgcp1ZdAQPoumOQQ7r1OKdKeYbND9h6YoAndUd1R+Brxcdpay
+         DAFg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=L2cRBpJlsNrhvxK4M8BB6Wl2EZ0E6vesFsEYNG9qqD4=;
+        fh=nBSvL5nSymPkGJVETTj6PhkYUWuE5xyxWLGXWQ9J50o=;
+        b=Wq23OU0Hk2rnDDg/hfWCBGdQ4f9ON1hzOn9I77UWUnWbb90eZHvGXZd/uiC6VTIdL3
+         NfzoltFMcbaqtzgoCSbh58AO+MIJnJODgO16ENmyN2LYJ4+OXEwWZ1mqbEb9IrxKHsEk
+         2PSGLMWLfrn76nTkx/NqXfqbW3eODAVBA7fZ33xsuRZ4IZW4g6eLsA/ALifZ/+Ns8ma1
+         XR1E+Yb+fG97xHzKHjzfJDgx7MggIHAYd2EBYVb8pd1gf8narYZB+Fa173vxWkgeYPoW
+         VLPOI3ydAsOkOpRTJ8xqcOV7KrY3w3ckK4f5CkGkoSFni9cJVkoDSeXUeeCNOXOmUdF3
+         luvQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773869489; x=1774474289; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=L2cRBpJlsNrhvxK4M8BB6Wl2EZ0E6vesFsEYNG9qqD4=;
+        b=OwCanvALp4NMgon12j3g6bySFD9GrAbx5L0weww9/k+uUMcLRPg+bmQ3B2ja8iv6bo
+         Lwf5z9stSv+B8EaTnDGrC8c+dpZXq0nFHE/fyTYY/ieeueHG5J39oIqfyqEqKxXeyUGu
+         njCD+pW4Y+h/h83yRF1EN7lT6aN7BlnpMOjqNKW9XZbnGjy25u/6wUG6AlIa/VtusbUx
+         bHD2qAZflWdgFmodCjvs5c8pq/XT7c0AMM5xoqZQW0ti+92Nhxw2updq6nHETdNDUu1Q
+         ThgBOsMOaC9ofBtiaeBrPZbnHhPZJDo+oSpmd+H1X625YBkoqwHAj8Pm9ZfbU8yRETcI
+         rnJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773869489; x=1774474289;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=L2cRBpJlsNrhvxK4M8BB6Wl2EZ0E6vesFsEYNG9qqD4=;
+        b=IVZcWOQiZS+xzRK0fzzv3Hv/MrrXLc1BApSKhOpFjAzDuhQGFKyjNU7fYIkdvfz0dg
+         1UDZzstV3SCDGBlIH5J//IEyPc6h9zYXJ+1YQTzGieU4i3pcMnl4JGP8Mu7gztLyjMXS
+         ntgI6crBEnE9R87222RHSvRwtKwlGqXIJt7TXcJdsnECwyo+pXkvVdhwxyzpaYr5OUbu
+         Z/4FDrItqYZXnIAke86hKkkH1TllgbV/iiO2elxkOz99nE0kwRgAm77fiAXJGBWa7UFy
+         AOFUvuLlQX7pJgvbP2O5wiPNV/Z+50yK8Dxw7O9bi59USGs2v5MbjdzczF1LHr0nY8v9
+         y0/A==
+X-Forwarded-Encrypted: i=1; AJvYcCXnomBy6lvFsw36L68iL89s9Bl/7y/H56glxHasbDcLHXubMrT9I87O+eFpeuAtFBNaIjIrPRyt5CPr7vdm@vger.kernel.org
+X-Gm-Message-State: AOJu0YzhH76cr5K/5ieozNxQuDnLiMklhZfIKxONxyK2w4aqyOStLner
+	P6dORja72wZnLDGPImIcVRF6M7qfDR6AguJKwAaFEWXZi+0+OV0js+SdlIeOsIbYH/lHXFNaTlF
+	TzG0JPjYUVvtagcumsPWb4rlQZq/pA50=
+X-Gm-Gg: ATEYQzy58lf/Q34ifFSb8mvNmYUrdotf895b5oKdwOvQgXAW/Ggd11yOVkl8XyFmqfy
+	Cdq8bGzQrGD+guI60nKXQP3H2v6xT84ZENAtUAZ+fZfy0TDwAbWq1y7pCCUzA9OqFUtEsH9JK7V
+	VUBOlatdUOzNzciSmTiU/YCdn8tqcPJRQGuTs7ruhmI50FHb2Fi8Zq5Ahr/o+XEdTL1GnDOhvT/
+	hC4P+4gQV/XM6U6DUVJCVs5pTnGPlE4foCk8dxWs7/IIQxRk9ATb7UMx3/r8RX3VL6678dxggfH
+	88SZwA==
+X-Received: by 2002:a05:600c:310e:b0:483:7020:864 with SMTP id
+ 5b1f17b1804b1-486f4451b10mr92298115e9.25.1773869489436; Wed, 18 Mar 2026
+ 14:31:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <208bfbd2-d671-462c-925f-4d51b7df1f18@gmail.com>
+References: <20260318182701.21697-1-devnexen@gmail.com>
+In-Reply-To: <20260318182701.21697-1-devnexen@gmail.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Wed, 18 Mar 2026 14:31:18 -0700
+X-Gm-Features: AaiRm50hB5hUD2Wmf9ltfznokOup3dgNJEMMuDIYCxLoYDDLaRbWMU85qyunmME
+Message-ID: <CAJnrk1ZBV6p6gg2Fu2_6O=FBXYzDgRcYTP+_8i205MrMhC8FKg@mail.gmail.com>
+Subject: Re: [PATCH] fuse: add missing NULL check for fget() in fuse_parse_param()
+To: David Carlier <devnexen@gmail.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 16, 2026 at 08:20:29PM -0400, Demi Marie Obenour wrote:
-> On 3/16/26 19:41, Darrick J. Wong wrote:
-> > On Mon, Mar 16, 2026 at 04:08:55PM -0700, Joanne Koong wrote:
-> >> On Mon, Mar 16, 2026 at 11:04 AM Darrick J. Wong <djwong@kernel.org> wrote:
-> >>>
-> >>> On Mon, Mar 16, 2026 at 10:56:21AM -0700, Joanne Koong wrote:
-> >>>> On Mon, Feb 23, 2026 at 2:46 PM Darrick J. Wong <djwong@kernel.org> wrote:
-> >>>>>
-> >>>>> There are some warts remaining:
-> >>>>>
-> >>>>> a. I would like to continue the discussion about how the design review
-> >>>>>    of this code should be structured, and how might I go about creating
-> >>>>>    new userspace filesystem servers -- lightweight new ones based off
-> >>>>>    the existing userspace tools?  Or by merging lklfuse?
-> >>>>
-> >>>> What do you mean by "merging lklfuse"?
-> >>>
-> >>> Merging the lklfuse project into upstream Linux, which involves running
-> >>> the whole kit and caboodle through our review process, and then fixing
-> >>
-> >> Gotcha, so it would basically be having to port this arch/lkl
-> >> directory [1] into the linux tree
-> > 
-> > Right.
-> > 
-> >>> user-mode-linux to work anywhere other than x86.
-> >>
-> >> Are lklfuse and user-mode-linux (UML) two separate things or is
-> >> lklfuse dependent on user-mode-linux?
-> > 
-> > I was under the impression that lklfuse uses UML.  Given the weird
-> > things in arch/lkl/Kconfig:
-> > 
-> > config 64BIT
-> > 	bool "64bit kernel"
-> > 	default y if OUTPUT_FORMAT = "pe-x86-64"
-> > 	default $(success,$(srctree)/arch/lkl/scripts/cc-objdump-file-format.sh|grep -q '^elf64-') if OUTPUT_FORMAT != "pe-x86-64"
-> > 
-> > I was kinda guessing x86_64 was the primary target of the developers?
-> > 
-> > /me notes that he's now looked into libguestfs per Demi Marie's comments
-> > and some curiosity on the part of ngompa and i>
-> > 
-> > Whatever it is that libguestfs does to stand up unprivileged fs mounts
-> > also could fit this bill.  It's *really* slow to start because it takes
-> > the booted kernel, creates a largeish initramfs, boots that combo via
-> > libvirt, and then fires up a fuse server to talk to the vm kernel.
-> > 
-> > I think all you'd have to do is change libguestfs to start the VM and
-> > run the fuse server inside a systemd container instead of directly from
-> > the CLI.
-> 
-> The feedback I have gotten from ngompa is that libguestfs is just
-> too slow for distros to use it to mount stuff.
+On Wed, Mar 18, 2026 at 11:53=E2=80=AFAM David Carlier <devnexen@gmail.com>=
+ wrote:
+>
+> In the OPT_FD case of fuse_parse_param(), when using the old mount API,
+> fget() is called on the user-supplied file descriptor but its return
+> value is not checked for NULL before being passed to fuse_opt_fd().
+> fuse_opt_fd() unconditionally dereferences file->f_op, causing a kernel
+> NULL pointer dereference.
+>
+> This is user-triggerable via: mount -t fuse -o fd=3D99999 dummy /mnt
+> where fd 99999 is not open.
+>
+> The new mount API path (FSCONFIG_SET_FD) is not affected because
+> fsopen.c validates the fd with fget_raw() + NULL check before setting
+> param->file.
+>
+> Add a NULL check after fget() and return an error via invalfc() when
+> the fd is invalid.
+>
+> Fixes: 3f2496deff35 ("fuse: don't require /dev/fuse fd to be kept open du=
+ring mount")
+> Signed-off-by: David Carlier <devnexen@gmail.com>
+> ---
+>  fs/fuse/inode.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+> index af8ad96829fd..39b635651165 100644
+> --- a/fs/fuse/inode.c
+> +++ b/fs/fuse/inode.c
+> @@ -862,6 +862,8 @@ static int fuse_parse_param(struct fs_context *fsc, s=
+truct fs_parameter *param)
+>                         return fuse_opt_fd(fsc, param->file);
+>                 } else {
+>                         struct file *file __free(fput) =3D fget(result.ui=
+nt_32);
+> +                       if (!file)
+> +                               return invalfc(fsc, "Invalid fuse fd");
+>                         return fuse_opt_fd(fsc, file);
+>                 }
+>
 
-Yes, libguestfs is /verrrry/ slow to start up.
+Hi David,
 
-> >>>> Could you explain what the limitations of lklfuse are compared to the
-> >>>> fuse iomap approach in this patchset?
-> >>>
-> >>> The ones I know about are:
-> >>>
-> >>> 1> There's no support for vmapped kernel memory in UML mode, so anyone
-> >>> who requires a large contiguous memory buffer cannot assemble them out
-> >>> of "physical" pages.  This has been a stumbling block for XFS in the
-> >>> past.
-> >>>
-> >>> 2> LKLFUSE still uses the classic fuse IO paths, which means that at
-> >>> best you can directio the IO through the lklfuse kernel.  At worst you
-> >>> have to use the pagecache inside the lklfuse kernel, which is very
-> >>> wasteful.
-> >>
-> >> For the security / isolation use cases you've described, is
-> >> near-native performance a hard requirement?
-> > 
-> > Not a hard requirement, just a means to convince people that they can
-> > choose containment without completely collapsing performance.
-> > 
-> >> As I understand it, the main use cases of this will be for mounting
-> >> untrusted disk images and CI/filesystem testing, or are there broader
-> >> use cases beyond this?
-> > 
-> > That covers nearly all of it.
-> 
-> It's worth noting that on ChromeOS and Android, the only trusted
-> disk images are those that are read-only and protected by dm-verity.
-> *Every* writable image is considered untrusted.
-> 
-> I don't know if doing a full fsck at each boot is considered
-> acceptable, but I suspect it would slow boot far too much.
+I think this is already going to be fixed up in the fuse tree by
+Miklos when he applies the next version of his cleanup series, as per
+the conversation in [1].
 
-Not to mention that an attacker who gained control of the boot process
-could inject malicious filesystem metadata after fsck completes
-successfully but before the kernel mount occurs.
+Thanks,
+Joanne
 
-> Yes, Google ought to be paying for the kernel changes to fix this mess.
-> 
-> >>> 3> lklfuse hasn't been updated since 6.6.
-> >>
-> >> Gotcha. So if I'm understanding it correctly, the pros/cons come down to:
-> >> lklfuse pros:
-> >> - (arguably) easier setup cost. once it's setup (assuming it's
-> >> possible to add support for the vmapped kernel memory thing you
-> >> mentioned above), it'll automatically work for every filesystem vs.
-> >> having to implement a fuse-iomap server for every filesystem
-> > 
-> > Or even a good non-iomap fuse server for every filesystem.  Admittedly
-> > the weak part of fuse4fs is that libext2fs is not as robust as the
-> > kernel is.
-> > 
-> >> - easier to maintain vs. having to maintain each filesystem's
-> >> userspace server implementation
-> > 
-> > Yeah.
-> > 
-> >> lklfuse cons:
-> >> - worse (not sure by how much) performance
-> > 
-> > Probably a lot, because now you have to run a full IO stack all the way
-> > through lklfuse.
-> 
-> How much is "a lot"?  Is it "this is only useful for non-interactive
-> overnight backups", "you will notice this in benchmarks but it's okay
-> for normal use", or somewhere in between?
+[1] https://lore.kernel.org/linux-fsdevel/20260316165320.3245526-5-mszeredi=
+@redhat.com/t/#u
 
-Startup is painfully slow.  Normal operation isn't noticeably bad, but I
-didn't bother doing any performance comparisons.
-
-> Could lklfuse and iomap be combined?
-
-Probably, though you'd have to find a way to route the FUSE_IOMAP_*
-requests to a filesystem driver.  That's upside-down of the current
-iomap model where filesystems have to opt into using iomap on a
-per-IO-path basis, and then iomap calls the filesystem to find mappings.
-
-> >> - once it's merged into the kernel, we can't choose to not
-> >> maintain/support it in the future
-> > 
-> > Correct.
-> > 
-> >> Am I understanding this correctly?
-> >>
-> >> In my opinion, if near-native performance is not a hard requirement,
-> >> it seems like less pain overall to go with lklfuse. lklfuse seems a
-> >> lot easier to maintain and I'm not sure if some complexities like
-> >> btrfs's copy-on-write could be handled properly with fuse-iomap.
-> > 
-> > btrfs cow can be done with iomap, at least on the directio end.  It's
-> > the other features like fsverity/fscrypt/data checksumming that aren't
-> > currently supported by iomap.
-> 
-> Pretty much everyone on btrfs uses data checksumming.
-> 
-> >> What are your thoughts on this?
-> > 
-> > "Gee, what if I could simplify most of my own work out of existence?"
-> 
-> What is that work?
-
-Everything I've put out since the end of online fsck for xfs.
-
---D
-
-> 
-> > --D
-> > 
-> >> Thanks,
-> >> Joanne
-> >>
-> >> [1] https://github.com/lkl/linux/tree/master/arch/lkl
-> >>
-> >>>
-> >>> --D
-> >>>
-> >>>> Thanks,
-> >>>> Joanne
-> >>>>
-> >>>>>
-> >>>>> b. ext4 doesn't support out of place writes so I don't know if that
-> >>>>>    actually works correctly.
-> >>>>>
-> >>>>> c. fuse2fs doesn't support the ext4 journal.  Urk.
-> >>>>>
-> >>>>> d. There's a VERY large quantity of fuse2fs improvements that need to be
-> >>>>>    applied before we get to the fuse-iomap parts.  I'm not sending these
-> >>>>>    (or the fstests changes) to keep the size of the patchbomb at
-> >>>>>    "unreasonably large". :P  As a result, the fstests and e2fsprogs
-> >>>>>    postings are very targeted.
-> >>>>>
-> >>>>> e. I've dropped the fstests part of the patchbomb because v6 was just
-> >>>>>    way too long.
-> >>>>>
-> >>>>> I would like to get the main parts of this submission reviewed for 7.1
-> >>>>> now that this has been collecting comments and tweaks in non-rfc status
-> >>>>> for 3.5 months.
-> >>>>>
-> >>>>> Kernel:
-> >>>>> https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git/log/?h=fuse-iomap-bpf
-> >>>>>
-> >>>>> libfuse:
-> >>>>> https://git.kernel.org/pub/scm/linux/kernel/git/djwong/libfuse.git/log/?h=fuse-iomap-bpf
-> >>>>>
-> >>>>> e2fsprogs:
-> >>>>> https://git.kernel.org/pub/scm/linux/kernel/git/djwong/e2fsprogs.git/log/?h=fuse-iomap-bpf
-> >>>>>
-> >>>>> fstests:
-> >>>>> https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfstests-dev.git/log/?h=fuse2fs
-> >>>>>
-> >>>>> --Darrick
-> >>
-> 
-> 
-> -- 
-> Sincerely,
-> Demi Marie Obenour (she/her/hers)
-
-
-
-
-
+> --
+> 2.53.0
+>
+>
