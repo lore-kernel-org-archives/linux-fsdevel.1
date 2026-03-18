@@ -1,105 +1,495 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0960F270EC3
-	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Mar 2026 15:54:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773849255; cv=none; b=PLVyMO1bgLmHYxZO0KD5z0hMYcxnCTDFzg98q69HM4KOpLPJcsOYjMxDNdFzdh+KkJxfu9xCaZTgApZGpjx+K5S1/I78BPl8IXYavf+pf4GSf9nR9/EyoFw2ObMOO0GRgWt/ExrLQ/PJG8Rj/AxDstKjsiEPBgQZ85Tgt5crsIQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773849255; c=relaxed/simple;
-	bh=xgvD3lQsmqbWSc6Z+faarCZC8gFURf7pN19cTADdH3k=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17FE5299950
+	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Mar 2026 16:00:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.182
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773849634; cv=pass; b=WTjW7OcSewVw3aqM6cicGi/Myrm55zXY+h1T8Fe2pni50swdgFuX5W+Eptm3pcXffzULtPa6+ATQdnirFdmPxw9uFsBGdKjX+Dm2HGrDmzCa5IAWTUhUwt/5JWay5NvL2ZWxbMj+nGbD9GzM6ykS6ynX4bOwzzS5USsNVoEn3uo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773849634; c=relaxed/simple;
+	bh=dPbKT25C4GPcI3JtqDUYqqKrB12KKuXMc+HZEx8dtyI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dohNUWrRdoVNR0O3oDGkKJ69Mpv+tGfTtK2mhBomDo2m0xZXx416CiYR9N8Ic8j9qZgwYUm6ixSRjgq18TD8XyQal1pDTnirWuvrg0vcBJR+c1kfn+amfBLbGGryCbuPYcqYzMx5VyzJEJ4FI93l5b83oKlBYGhUe/XM5o60ovg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=Quz7K+EK; arc=none smtp.client-ip=209.85.218.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	 To:Cc:Content-Type; b=HfF3RuU8fnA7ssWKK4dfN8jYD07nYIIuGCnOxGYLwD0OF157MRRzGQwkQYsWLd+y6lnQjVmj0I1Q9dzjYaF2quJix0V9asm72RdjXBQiBB1CFjqD4naf9ncCToaSI8ab+JhLwp4HAonsT4JBaZmGULB4IR6L+bGtOMzj5aobQUI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=lnUpsYZw; arc=pass smtp.client-ip=209.85.160.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="Quz7K+EK"
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-b97d5b790cbso296477666b.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 18 Mar 2026 08:54:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lnUpsYZw"
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-5091ed02c54so687881cf.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 18 Mar 2026 09:00:27 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773849627; cv=none;
+        d=google.com; s=arc-20240605;
+        b=CRGF03+Wac6RDbWrCqrbu27rTvQh6n7ssEuLpob6guRJc14TJ1BiJ+yVZjg3e9Qtiq
+         Sk3bf20fWNFJsz3Nnzqa+flLVgqTngETVQdEKmz5RhCqz/nFkbGjofOBswRS8XCveer1
+         KaJLj76lYCCeBQy9EHlCVlUJLGm0suhA4U3R0ClTSJUyFa0fK0kHLh45xMMSIyN4wSoJ
+         fmcbXHvHvMJV5pNS5enZ0Y28tgUFBILn4j1qb3WpY2e8pnwunRxA5SeyJ1pgSSl9kG9+
+         8hy2lRRqfZOGienUAQLYnavE0SY+FLntZXjdlVddXv83h49mXScscIW4H7JCy/8+FDI4
+         neAQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=8q0J7KCNx+A8Y+J2RSy7VQj65zrNoynNXfOuxxJlza4=;
+        fh=NxjXd77EBu2EqOs2biYvfAYyrutmMHOJCbZk1v3Gxdc=;
+        b=f30XWl4yuRA66m4rld8oNXstYKGgRZWvhlKyuooqcNOnwte5ovCSWiWijFBzDGUhKJ
+         vWepIdjhwHPV071mwCmZcZHRnTPfEfNee1/GFBIwlD/J94sEnFz+O08LJt9SAILB6Ypc
+         08A4qlLAgpPUTU+PnF9/TUH+6RrkH9lBZH5+uEhgnn9GngHImubpQgJKUMpOXmIJqNwb
+         Oeuw72qr1Z1eaoH++9X84mOM9CEtXl4vKmym/ZfcOgHSO7EPYByeb1n9RfGyfGqglq40
+         FmvurBwZu+nwPL+NFV0FdpswI9FIto6Q1awsp9PHWAuwpRFypDt75bU7m+K+1bdlVlAu
+         MTUQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1773849250; x=1774454050; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=tUxBVfEiZedfPTdhNB6oXQHVFfNRENYC/6ujYtjVGek=;
-        b=Quz7K+EKFtRwYGxJ6J/TFGwnG6FlsHjCv1rMVU2/xzG/JeC/hRl86FCSerpVLJJNOj
-         3XK+8ZSPU6IfqX+qIj0luSfpVtfeZsTYQmxYdgX69q+lqEceqRk3nZRijnQcZ0FrAaFs
-         Gd6TnK0j5wOK7sbqSwRqy11Dzm4QgovKOK1nA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773849250; x=1774454050;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=google.com; s=20251104; t=1773849627; x=1774454427; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tUxBVfEiZedfPTdhNB6oXQHVFfNRENYC/6ujYtjVGek=;
-        b=dBn8ONgoxBhzg0CNU96NurqJItppr37A52LfAADyZg/LOz5EdM5e8uidrBe4ExjbU1
-         pRpsrcJIrX+e0wCkQbuKNiPR+3tt/uuPIytWgn/Pho6XAhlk2a1jagTpCrXcO3rqYdek
-         FIrQ3IoxCJHhQinDi6As7JSx2OFwmPrCe/rA2G1Hb0a5p12zR++lbSQfakZ2nMDxaCZc
-         N6ffe+adL4Eetn07iLBcMjn6aJ7kOrsoNxlvhfAibNy/mgG8yD5MjJH0TC9kyj7ts5YM
-         zrHUgH/JkhMg18nn6cTNKpgyiArDJkrJUoEgc62x1SLgAtGK4UKelRja8L/ELc9kR3Qe
-         ugkA==
-X-Forwarded-Encrypted: i=1; AJvYcCVVgX1VDD4rLz9TwazTbo0uAwCS8UQZYsiYgp/pEGB+8Y9M1YFm7B/VQh4fWwPZxIFZvmJTlUu1Ei9XBt2I@vger.kernel.org
-X-Gm-Message-State: AOJu0YyfYytxG2jy3Hzw957SqknEEJt77hphzbtFjdc2RvUawIMkgP9Z
-	ItjNnYVsRxxdq20lujMO0Gu9cozTxxwCeJfGcCcVXGjuvZGrK68n3URQFb9QRaTYvUI6CkeVv8p
-	qTI3g/s8=
-X-Gm-Gg: ATEYQzyI3BwpjqLPxlkrg35VB5ZTBvUKJETpUKZXgxJw6MmeGbUyHTZht4Pj/RlhJwD
-	F2PsIZtaW8ipErW+ZMdD8wwKxQwE/TK7/SYJxcWJfoLAZbcKeN7YGCzLBUS1fEbZBLcMI8vHTAX
-	L2Jkz0FUKpcXd2YM22/GbJJCe3eFh7RwbxTYnYJeo4m+pBuwx8Xyi2kskB2LeHPYG0kKRulW3gL
-	zdUuRATRrntwFJyKudq07Cyy9py7DH6uieH6oG6rtQa1BdkkL92ou6J35+5s4pbcYUZHW9yGHl/
-	eKXZK2KtZKMZlsZ5TXxBJ2PEeZ97QJ5lV7R3BVn6ho/72gSAtn34F+TIr0/o/m6XCq518yB0goM
-	9pb7ZKVez/htS48mn1ssP2MR8btLaeJM+sZ6IR3NfcdtTnrLN/CNZICk3NyPTMLBcFBfDXphIg+
-	Rf1b+8yi4jbaMo5dHkZW4SsIGlr7wmGyfbO0Jdti3KYvLr2Q9bgVFiUOmbXqlL7edDY1+x3ghz
-X-Received: by 2002:a17:906:30cf:b0:b96:ecc3:783e with SMTP id a640c23a62f3a-b97f4913dbfmr195623766b.17.1773849249919;
-        Wed, 18 Mar 2026 08:54:09 -0700 (PDT)
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com. [209.85.218.48])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b97f144e53bsm248185766b.25.2026.03.18.08.54.09
-        for <linux-fsdevel@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Mar 2026 08:54:09 -0700 (PDT)
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-b97ba4c2be2so436529966b.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 18 Mar 2026 08:54:09 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUViL8/UsvyVkPaVKoCOayuHfsyd8Sik+RU1HL540ULFGETOunBO0OY2Yxg0ib2WqOlZyJZxlUata7WfYQe@vger.kernel.org
-X-Received: by 2002:a17:906:7145:b0:b93:5405:9260 with SMTP id
- a640c23a62f3a-b97f4a7e80bmr229542066b.30.1773849249180; Wed, 18 Mar 2026
- 08:54:09 -0700 (PDT)
+        bh=8q0J7KCNx+A8Y+J2RSy7VQj65zrNoynNXfOuxxJlza4=;
+        b=lnUpsYZwWf6Ngn/dqPOq7iQ1HVijjDPBZhgwYESz9kfeLT/BZxbGPpEe/4D4KnGWPr
+         kCCPmUNpyoC+BM+S0/AilDKxE8o1CD/tQVzgZ8m85n+tmTvRkDDUKqDbBpQ8uzK/xkwW
+         krD3uuyiCYETL1cqk2fqid6RWjt8z8Yb3OG2zujBT/hOWReYHF+pLdi9roOdVeHzcsuA
+         QJXe02qdxmtUe6YfR1NFuqn15NuHUpLmj9pNFJwoHIswo1qAJhFVz7jWYhedR8di+XVA
+         5cqovfkCv1bJUZki95dI8il97zlBON76NQtpQB/JdBHgAIOrN5FGHw4Hm9tEDrXxvpNu
+         Ytgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773849627; x=1774454427;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=8q0J7KCNx+A8Y+J2RSy7VQj65zrNoynNXfOuxxJlza4=;
+        b=pkVuHdODRg8FHTQ5NPaIEmRNxXtDOqwKr2oV8EoT81W21F/j471Aiic6npuuBDGRLx
+         zXYNftdcL3VwPVRYc0lrOmndgJnoAT4hj1jlFKpx8VGj656mYk9afrYaggRt1yL+D8Ej
+         NzXibvu424duUm9HS5rnjzQhErVdlTLTroYxhHz8ujQHS2BB97xK1An2bQoiN6q7lxxR
+         DfL6k4GIMdLGAZNHWTYW++d/UZhRz7h8Acm5Fn9UBEbVblJ2dpX45/eTVPPwPadb+s5+
+         VwCN1hbs2JUVNh8xGRsNDDodb7WbXUrjclIEpLM1WhyoCEQ+NcCwXEXTE4IjN3sn853n
+         0FXQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUP5pziFe3kHheNiFxL5Uqs1oFwUL8BTmjMjyUEP4ufhUfbxOU8bhZOEqRRnZmItLy6OPoViLXhLKBlZ2zc@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywt7It7M5S+sphXkE1QlWPe3PYXwQKh0kxvIVupYyLOHySS3LUy
+	8utWIbgO4k25i5655FpHK559t3vD5LBW9UMw8mFGNCWsZJ8Ol2qU0+T58XDb8zQZ411kcGra1Gc
+	hFZMCyOLiCkLeIR2srVZyQAjI7+zFdEdiQORFa+iZ
+X-Gm-Gg: ATEYQzxnxVFaqwaBIqw3pXMSv5lwVnDelaYqH67U6hBppjudcKTq4aOrLEDHwb2pk7T
+	1K3MEc4L2KMqsY3MoETldGYi3KUKU40D+QK4KjacZ2yAKm/5LQ9SPykZCGCA2bzgKy+iTwsVFll
+	rFrhJMy11t846HmC5mIfeFWS5veofuGoBZUdWIpb7O1NgkXpwIGnfuVi0tvd9mo+qnu2bWNF23k
+	SszUlYR48P3QgzryBKNAIphWRiWohD9VWbTjaGRWdFbDPdcgcldXNfC1moX2Gky5aZYQCXd1Sg4
+	rtWIhJQbkMYQviFrWqAb+DybwSfj1p/JHKBnIw==
+X-Received: by 2002:ac8:7f4d:0:b0:509:174d:3224 with SMTP id
+ d75a77b69052e-50b15c109d1mr14316251cf.11.1773849625679; Wed, 18 Mar 2026
+ 09:00:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <23f19c88e763beb852a4891b2a908890bdd01b66.1773651096.git.chleroy@kernel.org>
- <CAHk-=whFS7D1M4=cMi9cR06Uoxr1QeM8HUtRB6V3cQth=QNoXg@mail.gmail.com>
- <e19d7d3f-d2f3-4bb0-be4d-af2679673f68@kernel.org> <CAHk-=wiJVSCmiQAQYYjdQqo9Z1k7WQcep2qW+DiqHyP7Y1_SnQ@mail.gmail.com>
-In-Reply-To: <CAHk-=wiJVSCmiQAQYYjdQqo9Z1k7WQcep2qW+DiqHyP7Y1_SnQ@mail.gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Wed, 18 Mar 2026 08:53:52 -0700
-X-Gmail-Original-Message-ID: <CAHk-=widw8GwXNuq5ALr+NgDDUN+=pc77U=EczqUiVZeD2Dz+Q@mail.gmail.com>
-X-Gm-Features: AaiRm539lD1lg7YT_R0JcN1Ew-djJg_3Rfcx7oosKSEdTx6Pe23SVEtBvqYcOks
-Message-ID: <CAHk-=widw8GwXNuq5ALr+NgDDUN+=pc77U=EczqUiVZeD2Dz+Q@mail.gmail.com>
-Subject: Re: [PATCH v3] fs: Replace user_access_{begin/end} by scoped user access
-To: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Thomas Gleixner <tglx@linutronix.de>, David Laight <david.laight.linux@gmail.com>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <cover.1773695307.git.ljs@kernel.org> <8e28e4b63bae67bfa1a59ccbac9dc6db1442d75d.1773695307.git.ljs@kernel.org>
+In-Reply-To: <8e28e4b63bae67bfa1a59ccbac9dc6db1442d75d.1773695307.git.ljs@kernel.org>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Wed, 18 Mar 2026 09:00:13 -0700
+X-Gm-Features: AaiRm51xXcSMS3sQHOtwlzL9JQsE-2S39fLY5xwjkClhFBo1kCA372O2Zp37zjU
+Message-ID: <CAJuCfpF6eS18HLgNvQtkLGd=7N0_L1JPmF0GzM-Z0QimRWT7AQ@mail.gmail.com>
+Subject: Re: [PATCH v2 15/16] mm: add mmap_action_map_kernel_pages[_full]()
+To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Clemens Ladisch <clemens@ladisch.de>, Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "K . Y . Srinivasan" <kys@microsoft.com>, 
+	Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
+	Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, 
+	Vignesh Raghavendra <vigneshr@ti.com>, Bodo Stroesser <bostroesser@gmail.com>, 
+	"Martin K . Petersen" <martin.petersen@oracle.com>, David Howells <dhowells@redhat.com>, 
+	Marc Dionne <marc.dionne@auristor.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, David Hildenbrand <david@kernel.org>, 
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, 
+	Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-hyperv@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org, 
+	linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org, 
+	target-devel@vger.kernel.org, linux-afs@lists.infradead.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	Ryan Roberts <ryan.roberts@arm.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 18 Mar 2026 at 08:49, Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
+On Mon, Mar 16, 2026 at 2:14=E2=80=AFPM Lorenzo Stoakes (Oracle) <ljs@kerne=
+l.org> wrote:
 >
->     #define dirent_size(dirent, len) offsetof(typeof(dirent), d_name[len])
+> A user can invoke mmap_action_map_kernel_pages() to specify that the
+> mapping should map kernel pages starting from desc->start of a specified
+> number of pages specified in an array.
+>
+> In order to implement this, adjust mmap_action_prepare() to be able to
+> return an error code, as it makes sense to assert that the specified
+> parameters are valid as quickly as possible as well as updating the VMA
+> flags to include VMA_MIXEDMAP_BIT as necessary.
+>
+> This provides an mmap_prepare equivalent of vm_insert_pages().
+>
+> We additionally update the existing vm_insert_pages() code to use
+> range_in_vma() and add a new range_in_vma_desc() helper function for the
+> mmap_prepare case, sharing the code between the two in range_is_subset().
+>
+> We add both mmap_action_map_kernel_pages() and
+> mmap_action_map_kernel_pages_full() to allow for both partial and full VM=
+A
+> mappings.
+>
+> We also add mmap_action_map_kernel_pages_discontig() to allow for
+> discontiguous mapping of kernel pages should the need arise.
+>
+> We update the documentation to reflect the new features.
+>
+> Finally, we update the VMA tests accordingly to reflect the changes.
+>
+> Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
 
-That 'typeof(dirent)' needs to be 'typeof(*(dirent))' to be convenient.
+With one nit,
+Reviewed-by: Suren Baghdasaryan <surenb@google.com>
 
-It was correct in the patch I attached, but I'll just point it out anyway.
+> ---
+>  Documentation/filesystems/mmap_prepare.rst |  8 ++
+>  include/linux/mm.h                         | 95 +++++++++++++++++++++-
+>  include/linux/mm_types.h                   |  7 ++
+>  mm/memory.c                                | 42 +++++++++-
+>  mm/util.c                                  |  6 ++
+>  tools/testing/vma/include/dup.h            |  7 ++
+>  6 files changed, 159 insertions(+), 6 deletions(-)
+>
+> diff --git a/Documentation/filesystems/mmap_prepare.rst b/Documentation/f=
+ilesystems/mmap_prepare.rst
+> index be76ae475b9c..e810aa4134eb 100644
+> --- a/Documentation/filesystems/mmap_prepare.rst
+> +++ b/Documentation/filesystems/mmap_prepare.rst
+> @@ -156,5 +156,13 @@ pointer. These are:
+>  * mmap_action_simple_ioremap() - Sets up an I/O remap from a specified
+>    physical address and over a specified length.
+>
+> +* mmap_action_map_kernel_pages() - Maps a specified array of `struct pag=
+e`
+> +  pointers in the VMA from a specific offset.
+> +
+> +* mmap_action_map_kernel_pages_full() - Maps a specified array of `struc=
+t
+> +  page` pointers over the entire VMA. The caller must ensure there are
+> +  sufficient entries in the page array to cover the entire range of the
+> +  described VMA.
+> +
+>  **NOTE:** The ``action`` field should never normally be manipulated dire=
+ctly,
+>  rather you ought to use one of these helpers.
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index df8fa6e6402b..6f0a3edb24e1 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -2912,7 +2912,7 @@ static inline bool folio_maybe_mapped_shared(struct=
+ folio *folio)
+>   * The caller must add any reference (e.g., from folio_try_get()) it mig=
+ht be
+>   * holding itself to the result.
+>   *
+> - * Returns the expected folio refcount.
+> + * Returns: the expected folio refcount.
 
-And we actually have a helper macro for that: struct_offset(). Which
-wasn't what I used in that attached patch, but *should* have been.
+nit: I see both "Returns:" and "Return:" being used in the codebase
+but this header file uses "Return:", so for consistency you should
+probably do the same. This also applies to later instances in this
+patch.
 
-IOW, the macro should look something like
-
-    #define dirent_size(dirent, len) struct_offset(dirent, d_name[len])
-
-instead. That looks fairly clean, no?
-
-                Linus
+>   */
+>  static inline int folio_expected_ref_count(const struct folio *folio)
+>  {
+> @@ -4364,6 +4364,45 @@ static inline void mmap_action_simple_ioremap(stru=
+ct vm_area_desc *desc,
+>         action->type =3D MMAP_SIMPLE_IO_REMAP;
+>  }
+>
+> +/**
+> + * mmap_action_map_kernel_pages - helper for mmap_prepare hook to specif=
+y that
+> + * @num kernel pages contained in the @pages array should be mapped to u=
+serland
+> + * starting at virtual address @start.
+> + * @desc: The VMA descriptor for the VMA requiring kernel pags to be map=
+ped.
+> + * @start: The virtual address from which to map them.
+> + * @pages: An array of struct page pointers describing the memory to map=
+.
+> + * @nr_pages: The number of entries in the @pages aray.
+> + */
+> +static inline void mmap_action_map_kernel_pages(struct vm_area_desc *des=
+c,
+> +               unsigned long start, struct page **pages,
+> +               unsigned long nr_pages)
+> +{
+> +       struct mmap_action *action =3D &desc->action;
+> +
+> +       action->type =3D MMAP_MAP_KERNEL_PAGES;
+> +       action->map_kernel.start =3D start;
+> +       action->map_kernel.pages =3D pages;
+> +       action->map_kernel.nr_pages =3D nr_pages;
+> +       action->map_kernel.pgoff =3D desc->pgoff;
+> +}
+> +
+> +/**
+> + * mmap_action_map_kernel_pages_full - helper for mmap_prepare hook to s=
+pecify that
+> + * kernel pages contained in the @pages array should be mapped to userla=
+nd
+> + * from @desc->start to @desc->end.
+> + * @desc: The VMA descriptor for the VMA requiring kernel pags to be map=
+ped.
+> + * @pages: An array of struct page pointers describing the memory to map=
+.
+> + *
+> + * The caller must ensure that @pages contains sufficient entries to cov=
+er the
+> + * entire range described by @desc.
+> + */
+> +static inline void mmap_action_map_kernel_pages_full(struct vm_area_desc=
+ *desc,
+> +               struct page **pages)
+> +{
+> +       mmap_action_map_kernel_pages(desc, desc->start, pages,
+> +                                    vma_desc_pages(desc));
+> +}
+> +
+>  int mmap_action_prepare(struct vm_area_desc *desc);
+>  int mmap_action_complete(struct vm_area_struct *vma,
+>                          struct mmap_action *action);
+> @@ -4380,10 +4419,59 @@ static inline struct vm_area_struct *find_exact_v=
+ma(struct mm_struct *mm,
+>         return vma;
+>  }
+>
+> +/**
+> + * range_is_subset - Is the specified inner range a subset of the outer =
+range?
+> + * @outer_start: The start of the outer range.
+> + * @outer_end: The exclusive end of the outer range.
+> + * @inner_start: The start of the inner range.
+> + * @inner_end: The exclusive end of the inner range.
+> + *
+> + * Returns: %true if [inner_start, inner_end) is a subset of [outer_star=
+t,
+> + * outer_end), otherwise %false.
+> + */
+> +static inline bool range_is_subset(unsigned long outer_start,
+> +                                  unsigned long outer_end,
+> +                                  unsigned long inner_start,
+> +                                  unsigned long inner_end)
+> +{
+> +       return outer_start <=3D inner_start && inner_end <=3D outer_end;
+> +}
+> +
+> +/**
+> + * range_in_vma - is the specified [@start, @end) range a subset of the =
+VMA?
+> + * @vma: The VMA against which we want to check [@start, @end).
+> + * @start: The start of the range we wish to check.
+> + * @end: The exclusive end of the range we wish to check.
+> + *
+> + * Returns: %true if [@start, @end) is a subset of [@vma->vm_start,
+> + * @vma->vm_end), %false otherwise.
+> + */
+>  static inline bool range_in_vma(const struct vm_area_struct *vma,
+>                                 unsigned long start, unsigned long end)
+>  {
+> -       return (vma && vma->vm_start <=3D start && end <=3D vma->vm_end);
+> +       if (!vma)
+> +               return false;
+> +
+> +       return range_is_subset(vma->vm_start, vma->vm_end, start, end);
+> +}
+> +
+> +/**
+> + * range_in_vma_desc - is the specified [@start, @end) range a subset of=
+ the VMA
+> + * described by @desc, a VMA descriptor?
+> + * @desc: The VMA descriptor against which we want to check [@start, @en=
+d).
+> + * @start: The start of the range we wish to check.
+> + * @end: The exclusive end of the range we wish to check.
+> + *
+> + * Returns: %true if [@start, @end) is a subset of [@desc->start, @desc-=
+>end),
+> + * %false otherwise.
+> + */
+> +static inline bool range_in_vma_desc(const struct vm_area_desc *desc,
+> +                                    unsigned long start, unsigned long e=
+nd)
+> +{
+> +       if (!desc)
+> +               return false;
+> +
+> +       return range_is_subset(desc->start, desc->end, start, end);
+>  }
+>
+>  #ifdef CONFIG_MMU
+> @@ -4427,6 +4515,9 @@ int remap_pfn_range(struct vm_area_struct *vma, uns=
+igned long addr,
+>  int vm_insert_page(struct vm_area_struct *, unsigned long addr, struct p=
+age *);
+>  int vm_insert_pages(struct vm_area_struct *vma, unsigned long addr,
+>                         struct page **pages, unsigned long *num);
+> +int map_kernel_pages_prepare(struct vm_area_desc *desc);
+> +int map_kernel_pages_complete(struct vm_area_struct *vma,
+> +                             struct mmap_action *action);
+>  int vm_map_pages(struct vm_area_struct *vma, struct page **pages,
+>                                 unsigned long num);
+>  int vm_map_pages_zero(struct vm_area_struct *vma, struct page **pages,
+> diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+> index 7538d64f8848..c46224020a46 100644
+> --- a/include/linux/mm_types.h
+> +++ b/include/linux/mm_types.h
+> @@ -815,6 +815,7 @@ enum mmap_action_type {
+>         MMAP_REMAP_PFN,         /* Remap PFN range. */
+>         MMAP_IO_REMAP_PFN,      /* I/O remap PFN range. */
+>         MMAP_SIMPLE_IO_REMAP,   /* I/O remap with guardrails. */
+> +       MMAP_MAP_KERNEL_PAGES,  /* Map kernel page range from array. */
+>  };
+>
+>  /*
+> @@ -833,6 +834,12 @@ struct mmap_action {
+>                         phys_addr_t start_phys_addr;
+>                         unsigned long size;
+>                 } simple_ioremap;
+> +               struct {
+> +                       unsigned long start;
+> +                       struct page **pages;
+> +                       unsigned long nr_pages;
+> +                       pgoff_t pgoff;
+> +               } map_kernel;
+>         };
+>         enum mmap_action_type type;
+>
+> diff --git a/mm/memory.c b/mm/memory.c
+> index f3f4046aee97..849d5d9eeb83 100644
+> --- a/mm/memory.c
+> +++ b/mm/memory.c
+> @@ -2484,13 +2484,14 @@ static int insert_pages(struct vm_area_struct *vm=
+a, unsigned long addr,
+>  int vm_insert_pages(struct vm_area_struct *vma, unsigned long addr,
+>                         struct page **pages, unsigned long *num)
+>  {
+> -       const unsigned long end_addr =3D addr + (*num * PAGE_SIZE) - 1;
+> +       const unsigned long nr_pages =3D *num;
+> +       const unsigned long end =3D addr + PAGE_SIZE * nr_pages;
+>
+> -       if (addr < vma->vm_start || end_addr >=3D vma->vm_end)
+> +       if (!range_in_vma(vma, addr, end))
+>                 return -EFAULT;
+>         if (!(vma->vm_flags & VM_MIXEDMAP)) {
+> -               BUG_ON(mmap_read_trylock(vma->vm_mm));
+> -               BUG_ON(vma->vm_flags & VM_PFNMAP);
+> +               VM_WARN_ON_ONCE(mmap_read_trylock(vma->vm_mm));
+> +               VM_WARN_ON_ONCE(vma->vm_flags & VM_PFNMAP);
+>                 vm_flags_set(vma, VM_MIXEDMAP);
+>         }
+>         /* Defer page refcount checking till we're about to map that page=
+. */
+> @@ -2498,6 +2499,39 @@ int vm_insert_pages(struct vm_area_struct *vma, un=
+signed long addr,
+>  }
+>  EXPORT_SYMBOL(vm_insert_pages);
+>
+> +int map_kernel_pages_prepare(struct vm_area_desc *desc)
+> +{
+> +       const struct mmap_action *action =3D &desc->action;
+> +       const unsigned long addr =3D action->map_kernel.start;
+> +       unsigned long nr_pages, end;
+> +
+> +       if (!vma_desc_test(desc, VMA_MIXEDMAP_BIT)) {
+> +               VM_WARN_ON_ONCE(mmap_read_trylock(desc->mm));
+> +               VM_WARN_ON_ONCE(vma_desc_test(desc, VMA_PFNMAP_BIT));
+> +               vma_desc_set_flags(desc, VMA_MIXEDMAP_BIT);
+> +       }
+> +
+> +       nr_pages =3D action->map_kernel.nr_pages;
+> +       end =3D addr + PAGE_SIZE * nr_pages;
+> +       if (!range_in_vma_desc(desc, addr, end))
+> +               return -EFAULT;
+> +
+> +       return 0;
+> +}
+> +EXPORT_SYMBOL(map_kernel_pages_prepare);
+> +
+> +int map_kernel_pages_complete(struct vm_area_struct *vma,
+> +                             struct mmap_action *action)
+> +{
+> +       unsigned long nr_pages;
+> +
+> +       nr_pages =3D action->map_kernel.nr_pages;
+> +       return insert_pages(vma, action->map_kernel.start,
+> +                           action->map_kernel.pages,
+> +                           &nr_pages, vma->vm_page_prot);
+> +}
+> +EXPORT_SYMBOL(map_kernel_pages_complete);
+> +
+>  /**
+>   * vm_insert_page - insert single page into user vma
+>   * @vma: user vma to map to
+> diff --git a/mm/util.c b/mm/util.c
+> index a166c48fe894..dea590e7a26c 100644
+> --- a/mm/util.c
+> +++ b/mm/util.c
+> @@ -1441,6 +1441,8 @@ int mmap_action_prepare(struct vm_area_desc *desc)
+>                 return io_remap_pfn_range_prepare(desc);
+>         case MMAP_SIMPLE_IO_REMAP:
+>                 return simple_ioremap_prepare(desc);
+> +       case MMAP_MAP_KERNEL_PAGES:
+> +               return map_kernel_pages_prepare(desc);
+>         }
+>
+>         WARN_ON_ONCE(1);
+> @@ -1472,6 +1474,9 @@ int mmap_action_complete(struct vm_area_struct *vma=
+,
+>         case MMAP_IO_REMAP_PFN:
+>                 err =3D io_remap_pfn_range_complete(vma, action);
+>                 break;
+> +       case MMAP_MAP_KERNEL_PAGES:
+> +               err =3D map_kernel_pages_complete(vma, action);
+> +               break;
+>         case MMAP_SIMPLE_IO_REMAP:
+>                 /*
+>                  * The simple I/O remap should have been delegated to an =
+I/O
+> @@ -1494,6 +1499,7 @@ int mmap_action_prepare(struct vm_area_desc *desc)
+>         case MMAP_REMAP_PFN:
+>         case MMAP_IO_REMAP_PFN:
+>         case MMAP_SIMPLE_IO_REMAP:
+> +       case MMAP_MAP_KERNEL_PAGES:
+>                 WARN_ON_ONCE(1); /* nommu cannot handle these. */
+>                 break;
+>         }
+> diff --git a/tools/testing/vma/include/dup.h b/tools/testing/vma/include/=
+dup.h
+> index 6658df26698a..4407caf207ad 100644
+> --- a/tools/testing/vma/include/dup.h
+> +++ b/tools/testing/vma/include/dup.h
+> @@ -454,6 +454,7 @@ enum mmap_action_type {
+>         MMAP_REMAP_PFN,         /* Remap PFN range. */
+>         MMAP_IO_REMAP_PFN,      /* I/O remap PFN range. */
+>         MMAP_SIMPLE_IO_REMAP,   /* I/O remap with guardrails. */
+> +       MMAP_MAP_KERNEL_PAGES,  /* Map kernel page range from an array. *=
+/
+>  };
+>
+>  /*
+> @@ -472,6 +473,12 @@ struct mmap_action {
+>                         phys_addr_t start;
+>                         unsigned long len;
+>                 } simple_ioremap;
+> +               struct {
+> +                       unsigned long start;
+> +                       struct page **pages;
+> +                       unsigned long num;
+> +                       pgoff_t pgoff;
+> +               } map_kernel;
+>         };
+>         enum mmap_action_type type;
+>
+> --
+> 2.53.0
+>
