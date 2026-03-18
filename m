@@ -1,208 +1,132 @@
-Received: from sender4-of-o54.zoho.com (sender4-of-o54.zoho.com [136.143.188.54])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C50B8364026;
-	Wed, 18 Mar 2026 06:10:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773814208; cv=pass; b=RNCGKAYoIuY4VS9HWdWr1pKuH5oYClXWjHJdqrm6Y68ZQ+ujZauHMLzkDn2V5KPzjoV6y5UZcPfLczl3wo9nrDwtQiIjPOkn4GPBjjUIDUSeEsToISQg2AsswgeDgTHngCNyHUztlciH7AVlfVt3LxQYGtR6TYpm9d36qD+cdgk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773814208; c=relaxed/simple;
-	bh=PQ9OK3zNDreS8EAK8cn2MHAlSHSRUDkGA6LTkk/2eE0=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=hND2qlQhG3Id6P+Lf9eDz4f1u9hTa1HNCjYBQoFyrdnUE9apxMxI9mBgy2EzVuCJ3TvBz3ijym46Ly2bXI3tkh1bwU6XzAlzDE2Vk7zV8Yyz9vEvjb8r2BvpRVbRsX/C39Ft/vmmkXVaX8YNtYY+2MncuuosfTFyqfHhpOFSSes=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mpiricsoftware.com; spf=pass smtp.mailfrom=mpiricsoftware.com; dkim=pass (1024-bit key) header.d=mpiricsoftware.com header.i=shardul.b@mpiricsoftware.com header.b=uf3eydJI; arc=pass smtp.client-ip=136.143.188.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mpiricsoftware.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mpiricsoftware.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06B3736493A;
+	Wed, 18 Mar 2026 06:24:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773815060; cv=none; b=EogV22PWhGsGIAEjhgbe/+qEXbt9Q+Yx/4xDYtZDpWhEaTE2fF+OZ8wLDFk/4nrfcLn7MoghOzOKCq12b+coZYEc0uIZuhTDDFIu4UnXmGAb/8G54wIMIJU7Wjq4GARJjf7GhWpxH8F86T9qwBlojrcYIbD8WrQAyzbYGFTosqs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773815060; c=relaxed/simple;
+	bh=pAl3NCDU41bTQKWjQ1fx4v1ez6c5MZxvJDobpWAZWPI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=IcFajiegPqMGYuvfzNeMvJDsTuKk7xG0zKJUGxiFKCCHAOFPMKmHE17TfftxRFB/JUUg6GLOHE+5SyniyP0PNdF0Ew8mpdUjNmyK7UlteEyIOy+G1MezqLmVqQuVGtjSUiQHpZ+FQuAQjIK0vNIcK0lWhBoAasTDjtsE7aXutxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f0T+Bes8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mpiricsoftware.com header.i=shardul.b@mpiricsoftware.com header.b="uf3eydJI"
-ARC-Seal: i=1; a=rsa-sha256; t=1773814188; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=jQdoH5TmIkUylL7lXsbAwXcvY1VLoq3epri1MtFmHt3yiwR+/tdkIKqCmz6vM007lJCfWCYtL98LewohN8Bxz7NSkfiZFzHemtQ9ua0zXUrI8FRttoerhkmZIKVG8nYEQURHvJIo48jnv2WdbR6Cj5UEo19+hPGI0Usj44iaQdk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1773814188; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=PQ9OK3zNDreS8EAK8cn2MHAlSHSRUDkGA6LTkk/2eE0=; 
-	b=T3i5006Yuqyvriz99BEFz4c88ForFYFZv8OKv/CgYn0bXlkucRXLTFBjKrjrAgp6KqjVhkKsgulzGrC/b9jjAHLPjv2/ZevftzR26HxfxQaqd/dHYPDB9Li90RLm8nrdCVIFAi9AtycYX9EkgYHicrq3t/xzQWwECYwadMGEH2Q=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=mpiricsoftware.com;
-	spf=pass  smtp.mailfrom=shardul.b@mpiricsoftware.com;
-	dmarc=pass header.from=<shardul.b@mpiricsoftware.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1773814188;
-	s=mpiric; d=mpiricsoftware.com; i=shardul.b@mpiricsoftware.com;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
-	bh=PQ9OK3zNDreS8EAK8cn2MHAlSHSRUDkGA6LTkk/2eE0=;
-	b=uf3eydJIWjjM3LyX6cYZiaI5GkuixYcmymqWiADumP4sUPMAwCgthMqfVbBf3Ghb
-	74612CJUe7xn0WIyFCcnpDO3ra9HF7VbqvXrWlA/xsb5SoTXr6rB0hb0HBHEqB2y4pr
-	se2ALBWw7gNBM0bB7M5E0IfxP77ptBr2BgDKJrG8=
-Received: by mx.zohomail.com with SMTPS id 177381418653085.38810802689352;
-	Tue, 17 Mar 2026 23:09:46 -0700 (PDT)
-Message-ID: <462cd1c4f31f6cc2d7077d076f4b07eed185e57a.camel@mpiricsoftware.com>
-Subject: Re:  [PATCH v6 2/2] hfsplus: validate b-tree node 0 bitmap at mount
- time
-From: Shardul Bankar <shardul.b@mpiricsoftware.com>
-To: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>, 
-	"glaubitz@physik.fu-berlin.de"
-	 <glaubitz@physik.fu-berlin.de>, "frank.li@vivo.com" <frank.li@vivo.com>, 
-	"slava@dubeyko.com"
-	 <slava@dubeyko.com>, "linux-fsdevel@vger.kernel.org"
-	 <linux-fsdevel@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	 <linux-kernel@vger.kernel.org>
-Cc: "janak@mpiric.us" <janak@mpiric.us>, "janak@mpiricsoftware.com"
-	 <janak@mpiricsoftware.com>, 
-	"syzbot+1c8ff72d0cd8a50dfeaa@syzkaller.appspotmail.com"
-	 <syzbot+1c8ff72d0cd8a50dfeaa@syzkaller.appspotmail.com>, 
-	shardulsb08@gmail.com
-Date: Wed, 18 Mar 2026 11:39:40 +0530
-In-Reply-To: <c4df4e9ea51ac7cf02ece60e258b19cdcd628b7e.camel@ibm.com>
-References: <20260315172005.2066677-1-shardul.b@mpiricsoftware.com>
-	 <20260315172005.2066677-3-shardul.b@mpiricsoftware.com>
-	 <c4df4e9ea51ac7cf02ece60e258b19cdcd628b7e.camel@ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4-0ubuntu2.1 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f0T+Bes8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81047C19421;
+	Wed, 18 Mar 2026 06:24:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773815059;
+	bh=pAl3NCDU41bTQKWjQ1fx4v1ez6c5MZxvJDobpWAZWPI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=f0T+Bes8xiS9A0l45/c+XTCgLFlaLmSNEwXKeV0UhdIKVqg8XHB5fceBVlEv1L3h5
+	 ogM6c3g4wlNPBR+yvkgm8A8pKuNDRxfsS2DyHMjjVq5LlSKC0I/5/HCqbK3bidn1T2
+	 9kN4AAzceTso+wOIn0s85hNexDCCoBN0KlvIen9wZQ1+51wtohABua4OOn6LHwT2Xc
+	 aPKny+zxfBx0fH6wjrs11SE5x5RQFA+ASX+tQdHP/741NgtTU70qGvXGqH0ZFzkmsu
+	 YPRTJksgl+A8mQGhr3aoEl9BA3Om+TOl0Lt4ezhL6yE745IFf2VAzrWGAQEU6iFTqp
+	 TArGYEojn3Fjg==
+Date: Wed, 18 Mar 2026 07:24:10 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Sasha Levin <sashal@kernel.org>
+Cc: Jakub Kicinski <kuba@kernel.org>, linux-api@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, workflows@vger.kernel.org,
+ tools@kernel.org, x86@kernel.org, Thomas Gleixner <tglx@kernel.org>, "Paul
+ E. McKenney" <paulmck@kernel.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>, Dmitry
+ Vyukov <dvyukov@google.com>, Randy Dunlap <rdunlap@infradead.org>, Cyril
+ Hrubis <chrubis@suse.cz>, Kees Cook <kees@kernel.org>, Jake Edge
+ <jake@lwn.net>, David Laight <david.laight.linux@gmail.com>, Askar Safin
+ <safinaskar@zohomail.com>, Gabriele Paoloni <gpaoloni@redhat.com>, Mauro
+ Carvalho Chehab <mchehab@kernel.org>, Christian Brauner
+ <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, Andrew
+ Morton <akpm@linux-foundation.org>, Masahiro Yamada <masahiroy@kernel.org>,
+ Shuah Khan <skhan@linuxfoundation.org>, Ingo Molnar <mingo@redhat.com>,
+ Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [PATCH 0/9] Kernel API Specification Framework
+Message-ID: <20260318072410.72618011@foz.lan>
+In-Reply-To: <abZTg9ZwnE5J4qXa@laps>
+References: <20260313150928.2637368-1-sashal@kernel.org>
+	<20260314111822.63a2ba4a@kernel.org>
+	<abZTg9ZwnE5J4qXa@laps>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, 2026-03-16 at 22:35 +0000, Viacheslav Dubeyko wrote:
-> On Sun, 2026-03-15 at 22:50 +0530, Shardul Bankar wrote:
-> >=20
-> > +/**
-> > + * hfs_bmap_test_bit - test a bit in the b-tree map
-> > + * @node: the b-tree node containing the map record
-> > + * @node_bit_idx: the relative bit index within the node's map
-> > record
-> > + *
-> > + * Returns 1 if set, 0 if clear, or a negative error code on
-> > failure.
-> > + */
-> > +static int hfs_bmap_test_bit(struct hfs_bnode *node, u32
-> > node_bit_idx)
->=20
-> Why not return bool data type?
->=20
-> > +{
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct hfs_bmap_ctx ctx;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct page *page;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0u8 *bmap, byte, mask;
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0page =3D hfs_bmap_get_map_pa=
-ge(node, &ctx, node_bit_idx /
-> > BITS_PER_BYTE);
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (IS_ERR(page))
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0return PTR_ERR(page);
->=20
-> We can return false for the case of error.
->=20
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0bmap =3D kmap_local_page(pag=
-e);
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0byte =3D bmap[ctx.off];
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0kunmap_local(bmap);
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0mask =3D 1 << (7 - (node_bit=
-_idx % BITS_PER_BYTE));
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return (byte & mask) ? 1 : 0=
-;
->=20
-> This is why I would like to see bool data type. :)
->=20
+On Sun, 15 Mar 2026 02:36:51 -0400
+Sasha Levin <sashal@kernel.org> wrote:
 
-I completely agree. Changing the return type to `bool` and returning
-`false` on both an IO error and a cleared bit vastly simplifies the
-caller. I will update `hfs_bmap_test_bit()` to return a `bool`, and I
-will collapse the two `res < 0` and `res =3D=3D 0` validation checks in
-`hfs_btree_open()` into a single `if (!hfs_bmap_test_bit(node, 0))`
-block in v7.
+> On Sat, Mar 14, 2026 at 11:18:22AM -0700, Jakub Kicinski wrote:
+> >On Fri, 13 Mar 2026 11:09:10 -0400 Sasha Levin wrote:  
+> >> This enables static analysis tools to verify userspace API usage at compile
+> >> time, test generation based on formal specifications, consistent error handling
+> >> validation, automated documentation generation, and formal verification of
+> >> kernel interfaces.  
+> >
+> >Could you give some examples? We have machine readable descriptions for
+> >Netlink interfaces, we approached syzbot folks and they did not really
+> >seem to care for those.  
+> 
+> Once the API is in a machine-readable format, we can write formatters to
+> output whatever downstream tools need. 
 
-> > +}
-> > +
-> > +
-> > =C2=A0/**
-> > =C2=A0 * hfs_bmap_clear_bit - clear a bit in the b-tree map
-> > =C2=A0 * @node: the b-tree node containing the map record
-> > @@ -218,15 +244,36 @@ static int hfs_bmap_clear_bit(struct
-> > hfs_bnode *node, u32 node_bit_idx)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return 0;
-> > =C2=A0}
-> > =C2=A0
-> > +#define HFS_EXTENT_TREE_NAME=C2=A0 "Extents"
->=20
-> Maybe we need to have Extents Overflow File (or B-tree), Catalog
-> file,
-> Attributes file?
->=20
+Kernel-doc already does that. The way it works is that it handles 
+kernel-doc markups on two steps:
 
-Good point, those are the proper structural names. For v7, I will
-update the macros to "Extents Overflow File", "Catalog File", and
-"Attributes File", and I will slightly tweak the `pr_warn` format
-string to accommodate the new names gracefully.
+- first step: parse kernel-doc markups, function prototypes and data
+  types for variables, typedefs, structs, unions, enums.
 
-> > +#define HFS_CATALOG_TREE_NAME "Catalog"
-> > +#define HFS_ATTR_TREE_NAME=C2=A0=C2=A0=C2=A0 "Attributes"
-> > +#define HFS_UNKNOWN_TREE_NAME "Unknown"
-> > +
-> > +static const char *hfs_btree_name(u32 cnid)
-> > +{
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0switch (cnid) {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0case HFSPLUS_EXT_CNID:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0return HFS_EXTENT_TREE_NAME;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0case HFSPLUS_CAT_CNID:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0return HFS_CATALOG_TREE_NAME;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0case HFSPLUS_ATTR_CNID:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0return HFS_ATTR_TREE_NAME;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0default:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0return HFS_UNKNOWN_TREE_NAME;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0}
-> > +}
-> > +
-> > =C2=A0/* Get a reference to a B*Tree and do some initial checks */
-> > =C2=A0struct hfs_btree *hfs_btree_open(struct super_block *sb, u32 id)
-> > =C2=A0{
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct hfs_btree *tree;
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct hfs_btree_header=
-_rec *head;
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct address_space *m=
-apping;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct hfs_bnode *node;
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct inode *inode;
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct page *page;
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0unsigned int size;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0int res;
-> > =C2=A0
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0tree =3D kzalloc_obj(*t=
-ree);
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (!tree)
-> > @@ -331,6 +378,26 @@ struct hfs_btree *hfs_btree_open(struct
-> > super_block *sb, u32 id)
-> > =C2=A0
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0kunmap_local(head);
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0put_page(page);
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0node =3D hfs_bnode_find(tree=
-, HFSPLUS_TREE_HEAD);
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (IS_ERR(node))
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0goto free_inode;
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0res =3D hfs_bmap_test_bit(no=
-de, 0);
->=20
-> We definitely can return false for both cases.
->=20
+  This is done inside tools/lib/python/kdoc/kdoc_parser.py.
 
-Ack'ed
+  The documentation is stored in memory as a list of documentation
+  entries. Each element there belongs to class KdocItem.
 
-I will prepare the v7 patchset with these final stylistic polishings.=20
+  It is trivial to output its content in JSON or YAML format. I
+  submitted a path series a while ago doing exactly that, aiming to help
+  writing unittests for first step:
 
-Thanks for the guidance throughout this series!
-Shardul
+	https://lore.kernel.org/linux-doc/7648cb5f5a1b501d9ae9a57b4d8dbeb7273d9097.1770128540.git.mchehab+huawei@kernel.org/
+
+  I'm planing to rebase such patch series on the top of my latest
+  kernel-doc patch series.
+
+- second step: output generation. There is an abstract class named
+  OutputFormat which contains the following output methods:
+
+    def out_doc(self, fname, name, args):
+        """Outputs a DOC block."""
+
+    def out_function(self, fname, name, args):
+        """Outputs a function."""
+
+    def out_enum(self, fname, name, args):
+        """Outputs an enum."""
+
+    def out_var(self, fname, name, args):
+        """Outputs a variable."""
+
+    def out_typedef(self, fname, name, args):
+        """Outputs a typedef."""
+
+    def out_struct(self, fname, name, args):
+        """Outputs a struct."""
+
+  Producing a different output is as easy as doing:
+
+	class MyFormat(OutputFormat):
+	...
+	    def out_var(self, fname, name, args):
+        	self.data =+ f"whatever {name}"
+	...
+
+
+Thanks,
+Mauro
