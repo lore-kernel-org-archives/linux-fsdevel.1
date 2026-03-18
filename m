@@ -1,204 +1,252 @@
-Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com [95.215.58.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ECE79460
-	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Mar 2026 22:49:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DA0E330B2D
+	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Mar 2026 22:56:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773874186; cv=none; b=kamkmCbMhFQ753VAAFhdKIlznvU+oEXBVPPHruB5MAgVuBy/8aiMmRuJ8os846MndtpV0Srea6+YRsvh0zTNiB6LTh2j+N4916vH6gHALOPODAXDUn3L6gj26ebZraFSkVwOMUZpNqpueuNauY70CtEdLfW+GnBK6hLkq7ETyVw=
+	t=1773874621; cv=none; b=Y/9y7j4VnYN5TcstCQAfaq+0iNg8L7zG6o7s7WDEOTofSrGhnHhivRHvzuDinK0ddJbpgpShfon2hvH8ns9rJdzqbtCq4DzvaYxCfug+52+Nig0urqZBi4K+IJBwqE+ppx4xa5uZAWKMQwuJR+5yt+OphAmr7y3DADsDRlxjdZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773874186; c=relaxed/simple;
-	bh=mBpCyKL9seaIpl86KrAuEa1a5HwXuEY1o3oBQ8JzaM8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YNLgbz382fECfDREn1qN5ETm2z1r/GAHI4HMnlQ2EhiVT8+NG6vTdddSs6YyKR0brn1eyVKGVahKWH/kJOBi1Q6C4cRBVogwQxMjTgkD7s15tWAM5W7qUOSi8owfyehFbppr6u8jIBTSKhiuniySgXL0MFqKdISxw5pidcEFFeY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gvernon.com; spf=pass smtp.mailfrom=gvernon.com; dkim=pass (2048-bit key) header.d=gvernon.com header.i=@gvernon.com header.b=Of5UAMj+; arc=none smtp.client-ip=95.215.58.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gvernon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gvernon.com
+	s=arc-20240116; t=1773874621; c=relaxed/simple;
+	bh=SPLJ9nNUjm9HSYNFTzMwmPez99Lb3AJh/1FtHbtn35c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fMx6TbYLYjv7kt4aQqnFiulW0a6N7okIOKLYP+K03KemXjiz6hkvNoBsGCF1oMeInmVrZDzinAvNp5isVYZW5hvtgYjEcB85Y9PK5s+VRyQx2tzXgwJ9e3u9RnJ9/otk5Bo2cXyxqoEtmJl/JnXzf/YCZ0p9rxalxF1K8sIFyog=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZVv3/zpc; arc=none smtp.client-ip=209.85.216.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gvernon.com header.i=@gvernon.com header.b="Of5UAMj+"
-Date: Wed, 18 Mar 2026 22:49:26 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gvernon.com; s=key1;
-	t=1773874171;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rRPYIwAL4GuMcZwEwKD/MXyCtTBsgpxx8hm9/Y5udcQ=;
-	b=Of5UAMj+gYm6r/f+twGLcSJuAMFq+c65JrbqSJTzzThQhhXVoGam/y3DbBshICCgugMuva
-	2T51mUtW13YV5uVDjoIL2fc5UjYGaTj5QSTlEjHvVllbV7CWSYsBoUqBqK5GDz1RlBMMsb
-	cFtzT0DUYPSR+YbR3EL3YLLwD44JKLY52+akMDmtJclKwXFfpT/F7eUV+ABpWgjH29ngFM
-	BCcoNn5l1yePcF9NGBaDXMe5cB50O2ws4Re8Se7fAW5D867JEk5cT7JhzchMO8tK5rwWSV
-	EdXCVi9tP6EOxQUaREv1xC1+62Tbq8HEMUy3fDf80+umtvnjv2/vxWqiDkZ+0Q==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: George Anthony Vernon <contact@gvernon.com>
-To: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
-Cc: "syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com" <syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com>,
-	"glaubitz@physik.fu-berlin.de" <glaubitz@physik.fu-berlin.de>,
-	"frank.li@vivo.com" <frank.li@vivo.com>,
-	"penguin-kernel@i-love.sakura.ne.jp" <penguin-kernel@i-love.sakura.ne.jp>,
-	"slava@dubeyko.com" <slava@dubeyko.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH v4] hfs: Validate CNIDs in hfs_read_inode
-Message-ID: <absr9g7LaMEHfw47@Bertha>
-References: <20260311211309.27856-1-contact@gvernon.com>
- <93f202e6-81bc-4df7-b193-1a812094fa6f@I-love.SAKURA.ne.jp>
- <752d15863effadd7789431137a3feff825594cc3.camel@ibm.com>
- <b7318588-33b2-4dc6-9469-e11da855f8ad@I-love.SAKURA.ne.jp>
- <5a52755364c7ca1438e06caf8e923cea723a0498.camel@ibm.com>
- <b332e546-e93f-4b79-a11c-695058d61fb1@I-love.SAKURA.ne.jp>
- <4f6b37028269c7c4a40a58b57cd546a93dcbd7c2.camel@ibm.com>
- <abnzsVk9JNN3alKq@Bertha>
- <dbacbf1c48ac5aa24f37c58bff995d7b03268db4.camel@ibm.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZVv3/zpc"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-35ba749f441so412474a91.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 18 Mar 2026 15:56:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773874619; x=1774479419; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kGOaEfwR0VKXIUy5Es+FlNcpkueXyVGIUtV2XCMOFns=;
+        b=ZVv3/zpcADm6gWieK83SDsb2pxMI18sTz8E+ucPjSYpc51Zhs62q0J8wfljn0ZE9X6
+         1WfUkzInTnolQqY64J38cVbyoerTELZyuvJFHTjydDWgEuWGwLaGGJmwApENua/Q4R4m
+         lCJgMEgD/3v5HZPnqz1hoiC0y8DdegluPxwHsgxwdVSTiJN0cBIiaEPl0Y2IJ5yH4Eos
+         yPORtn6XH523xHCc6+Xm3fZ3DhtZ03ZAUTeTo1IlV2kj48uviSGDhdUNvxvXYuTAiU7o
+         IC3dPtG1GIEBCd9R5caRw3Bjz4HZLeUYjK2TedHQjEfjYIlihqphi6E1kEvvo/Xhx0JF
+         hjBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773874619; x=1774479419;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kGOaEfwR0VKXIUy5Es+FlNcpkueXyVGIUtV2XCMOFns=;
+        b=L4Vhm8B59hz+O+XQPHipBACGOx0vcdhIURHqKI1/BxK2mN9nrWurMq59nuTHjZIgox
+         iRytIg0W7Gzts43ZygB+L5OwrSbuw9EH2gEsCz9R98/uU0/DUWv9vMPjaw4Ox3dmGh45
+         n18xZFuuaV5Y/BvJKaI1/xI/ch6iBTWlky7lK/I3BCSkIr2hQs3QllesfegcvY8owfo8
+         1x2PMaruMH73Z7kz+eTaElh4W4V2R5AnFA+e4bUUTUKmql7UXmUGD4xhPljHxHGjUc4Z
+         4QDjHy8/gjhQA9FOrfxYnQuEEg69nCkPc43CeXlyd9rO8noVuKMJkYgmsZPJDJgN028T
+         mWaQ==
+X-Gm-Message-State: AOJu0YxDloiAFSex+ensA9Vx9jKEPaOGR45lSZpDoOnuLiM5sSlWz9Lg
+	7Jx4OWVwv+4RfZvahiew8PhCjQXnpsrNeNycsK6c4ZEkI2RR0Dm1qz+5
+X-Gm-Gg: ATEYQzwA7TujW9jzPybeBcMPdbDe6zRhjzfQg7PTry2HrQeE79fimb4OIEIzH20BhUI
+	Z6cKy+QI9u95Qn0wnu5kkM7YEFP8YYPLrmlPGz06CYtxD3QqKDNvvet+DzJKaUIOKkefngobvdb
+	+gckDL0zNT8I0o9FGzuFG8dEkwmnLaWTcHltvuLGI8HIH1fnfIKnIGhZ6zuB4FTbIN/HuLcqU6N
+	BbLlQVY0YR4erRvXpdT7ZnJroVRF//2va7ht5RnziDMw0MhcubVxHwqaZdvwRTolu/JWoDG9eQr
+	acRjcaClPt2tWlgCs7bDTisKvXQ8KWOk0I8ydKYZ+Xj6cpQk9w0TSsXjBjyHV2tyhGeqPdX2cVk
+	Ffd4A3cZrIfDlIxPODgmaVYhj3OBI96Dv7h/wrdET17yuCZLDgp6pF7y/skXLJgcv2jOrLNW1q5
+	DSzMaT8ox2q5sSVC2XixQ/CtbmZk6P
+X-Received: by 2002:a17:90b:288c:b0:359:f3b1:6811 with SMTP id 98e67ed59e1d1-35bb9e3cff6mr3959828a91.1.1773874618907;
+        Wed, 18 Mar 2026 15:56:58 -0700 (PDT)
+Received: from localhost ([2a03:2880:ff:4a::])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c741e0da7a6sm3506854a12.13.2026.03.18.15.56.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Mar 2026 15:56:58 -0700 (PDT)
+From: Joanne Koong <joannelkoong@gmail.com>
+To: brauner@kernel.org
+Cc: linux-fsdevel@vger.kernel.org,
+	jack@suse.cz,
+	miklos@szeredi.hu,
+	david@kernel.org,
+	therealgraysky@proton.me,
+	linux-pm@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH v1] writeback: skip sync(2) inode writeback for filesystems with no data integrity guarantees
+Date: Wed, 18 Mar 2026 15:56:04 -0700
+Message-ID: <20260318225604.71545-1-joannelkoong@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <dbacbf1c48ac5aa24f37c58bff995d7b03268db4.camel@ibm.com>
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
 
-On Wed, Mar 18, 2026 at 02:02:10AM +0000, Viacheslav Dubeyko wrote:
-> On Wed, 2026-03-18 at 00:37 +0000, George Anthony Vernon wrote:
-> > Sorry I struggled to understand you here Slava, there's a little bit lost in
-> > translation I think.
-> > 
-> > On Mon, Mar 16, 2026 at 09:50:14PM +0000, Viacheslav Dubeyko wrote:
-> > > by hfs_cat_find_brec(). But I cannot imagine that this logic can extract the
-> > > record  with incorrect CNID. Because, it is the main goal of hfs_cat_find_brec()
-> > > logic to extract the record that contains requested CNID. And if we requested
-> > 
-> > Do you mean that you do not think hfs_cat_find_brec *can* return a
-> > record with incorrect CNID, or that you do not think it *should*?
-> > 
-> > I think Tetsuo is right that hfs_cat_find_brec() will return a catalog
-> > record with different CNID in case of a malformed thread record.
-> > 
-> > On Mon, Mar 16, 2026 at 09:50:14PM +0000, Viacheslav Dubeyko wrote:
-> > > logic to extract the record that contains requested CNID. And if we requested
-> > > the HFS_ROOT_CNID, then this logic should return the record with exactly
-> > > requested CNID or return the error code if such record has not been found.
-> > 
-> > Do you mean that hfs_cat_find_brec() should validate the CNID of the
-> > catalog record found by hfs_brec_find()? I'm worried that validating
-> > every B-tree lookup is going to be expensive. We could do it, however.
-> > 
-> > 
-> 
-> If you need to initialize the inode, then you need to find a file or a folder
-> record in Catalog File (b-tree). It means that there are two possible ways: (1)
-> find it by name, (2) find it by CNID.
-> 
-> If you know the name only, then you need to find a thread record by name. The
-> thread record contains associated CNID that can be used to find the final
-> file/folder record. It means that the second step is the searching the record by
-> using the CNID. If CNID is OK, then we can find the record. If it is not OK,
-> then we can find nothing or wrong record.
-> 
-> If we know CNID, then we can try to find the record by CNID directly. We will
-> fail to find the record if there is no record with such CNID. But you don't need
-> in thread record in the case of having CNID for the search.
-> 
+Add SB_I_NO_DATA_INTEGRITY superblock flag for filesystems that cannot
+guarantee data persistence on sync (eg fuse) and skip sync(2) inode
+writeback for superblocks with this flag set.
 
-I don't think this is entirely right because we can't find a catalog
-record by CNID directly. We also need its node name which is contained
-in the thread record.
+There was a recent report [1] for a suspend-to-RAM hang on fuse-overlayfs with
+firefox + youtube in wb_wait_for_completion() from the pm_fs_sync_work_fn()
+path:
 
-Knowing the CNID of the catalog entry we want to find allows us to
-construct a key for the thread record, which we find and read. The
-thread record tells us the CNID of the catalog record's parent and the
-catalog record's file name, which we combine to create a key for the
-catalog record. If the thread record is corrupted, the key we
-constructed may find us a different catalog entry with different CNID.
+Workqueue: pm_fs_sync pm_fs_sync_work_fn
+Call Trace:
+ <TASK>
+ __schedule+0x457/0x1720
+ schedule+0x27/0xd0
+ wb_wait_for_completion+0x97/0xe0
+ sync_inodes_sb+0xf8/0x2e0
+ __iterate_supers+0xdc/0x160
+ ksys_sync+0x43/0xb0
+ pm_fs_sync_work_fn+0x17/0xa0
+ process_one_work+0x193/0x350
+ worker_thread+0x1a1/0x310
+ kthread+0xfc/0x240
+ ret_from_fork+0x243/0x280
+ ret_from_fork_asm+0x1a/0x30
+ </TASK>
 
-- hfs_cat_find_brec() builds a key for the root CNID thread record [1]
-- The contents of the thread record are read into an hfs_cat_rec by
-hfs_brec_read(), which calls into hfs_bnode_read [2]
-- hfs_cat_find_brec() then populates the key for the root CNID catalog
-  record, using the fields of the thread record file [3]
-- Finally we can search for the catalog record, and this will populate a
-  new hfs_cat_rec [4]
+This can happen in two ways:
+a) systemd freezes the user session cgroups first (which freezes the fuse daemon)
+before invoking the kernel suspend. The suspend triggers the wb_workfn() ->
+write_inode() path, where fuse issues a synchronous setattr request to the
+frozen daemon, which cannot process the request
+b) if a dirty folio is already under writeback and needs to have writeback
+issued again, in writeback_get_folio() -> folio_prepare_writeback(), we
+unconditionally wait on writeback to finish, but for buggy/faulty fuse
+servers, the request may never be processed
 
-So if the catalog thread record is corrupted, the bug Tetsuo described
-can currently happen. The catalog record read from disk may have a
-different CNID than the one we wanted to find provided to
-hfs_cat_find_brec() hence the need to check the CNID of the catalog file
-record returned by hfs_bnode_read in hfs_fill_super.
+The correct fix is for sync(2) to skip the sync_inodes_sb() path entirely for
+any filesystems that do not have data integrity guarantees.
 
-Therefore Tetsuo's patch to check the returned CNID after calling
-hfs_cat_find_brec() seems correct to me, but I think it would be better
-do that check inside hfs_cat_find_brec() before it returns, then as you
-said the function will return the record with "exactly requested CNID or
-return the error code if such record has not been found."
+A prior commit (commit f9a49aa302a0 ("fs/writeback: skip AS_NO_DATA_INTEGRITY
+mappings in wait_sb_inodes()")) added the AS_NO_DATA_INTEGRITY mapping flag to
+skip sync(2) waits for mappings without data integrity semantics, but it still
+allowed wb_workfn() worker threads to be kicked off for the writeback.
 
-Tetsuo, what do you think about doing your check inside
-hfs_cat_find_brec? Something a bit like this:
+This patch improves upon that by replacing the per-inode AS_NO_DATA_INTEGRITY
+mapping flag with a flag at the superblock level, and using that superblock
+flag to skip the sync_inodes_sb() path entirely if there are no data integrity
+guarantees. The flag belongs at the superblock level because data integrity is
+a filesystem-wide property, not a per-inode one. Having the flag at the
+superblock level allows sync_inodes_one_sb() to skip the entire filesystem
+efficiently, rather than iterating every dirty inode only to skip each one
+individually.
 
-diff --git a/fs/hfs/catalog.c b/fs/hfs/catalog.c
-index b80ba40e3877..5f2b4e223e68 100644
---- a/fs/hfs/catalog.c
-+++ b/fs/hfs/catalog.c
-@@ -185,10 +185,11 @@ int hfs_cat_keycmp(const btree_key *key1, const btree_key *key2)
- /* Try to get a catalog entry for given catalog id */
- // move to read_super???
- int hfs_cat_find_brec(struct super_block *sb, u32 cnid,
--                     struct hfs_find_data *fd)
-+                     struct hfs_find_data *fd, hfs_cat_rec *rec_out)
+This patch restores fuse to its prior behavior before tmp folios were removed,
+where sync was essentially a no-op.
+
+[1] https://lore.kernel.org/linux-fsdevel/CAJnrk1a-asuvfrbKXbEwwDSctvemF+6zfhdnuzO65Pt8HsFSRw@mail.gmail.com/T/#m632c4648e9cafc4239299887109ebd880ac6c5c1
+
+Fixes: 0c58a97f919c ("fuse: remove tmp folio for writebacks and internal rb tree")
+Reported-by: John <therealgraysky@proton.me>
+Tested-by: John <therealgraysky@proton.me>
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+---
+ fs/fs-writeback.c              |  7 +------
+ fs/fuse/file.c                 |  4 +---
+ fs/fuse/inode.c                |  1 +
+ fs/sync.c                      |  2 +-
+ include/linux/fs/super_types.h |  1 +
+ include/linux/pagemap.h        | 11 -----------
+ 6 files changed, 5 insertions(+), 21 deletions(-)
+
+diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
+index 7c75ed7e8979..154249e4e5ce 100644
+--- a/fs/fs-writeback.c
++++ b/fs/fs-writeback.c
+@@ -2775,13 +2775,8 @@ static void wait_sb_inodes(struct super_block *sb)
+ 		 * The mapping can appear untagged while still on-list since we
+ 		 * do not have the mapping lock. Skip it here, wb completion
+ 		 * will remove it.
+-		 *
+-		 * If the mapping does not have data integrity semantics,
+-		 * there's no need to wait for the writeout to complete, as the
+-		 * mapping cannot guarantee that data is persistently stored.
+ 		 */
+-		if (!mapping_tagged(mapping, PAGECACHE_TAG_WRITEBACK) ||
+-		    mapping_no_data_integrity(mapping))
++		if (!mapping_tagged(mapping, PAGECACHE_TAG_WRITEBACK))
+ 			continue;
+ 
+ 		spin_unlock_irq(&sb->s_inode_wblist_lock);
+diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+index a9c836d7f586..f6240f24b814 100644
+--- a/fs/fuse/file.c
++++ b/fs/fuse/file.c
+@@ -3202,10 +3202,8 @@ void fuse_init_file_inode(struct inode *inode, unsigned int flags)
+ 
+ 	inode->i_fop = &fuse_file_operations;
+ 	inode->i_data.a_ops = &fuse_file_aops;
+-	if (fc->writeback_cache) {
++	if (fc->writeback_cache)
+ 		mapping_set_writeback_may_deadlock_on_reclaim(&inode->i_data);
+-		mapping_set_no_data_integrity(&inode->i_data);
+-	}
+ 
+ 	INIT_LIST_HEAD(&fi->write_files);
+ 	INIT_LIST_HEAD(&fi->queued_writes);
+diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+index e57b8af06be9..c795abe47a4f 100644
+--- a/fs/fuse/inode.c
++++ b/fs/fuse/inode.c
+@@ -1709,6 +1709,7 @@ static void fuse_sb_defaults(struct super_block *sb)
+ 	sb->s_export_op = &fuse_export_operations;
+ 	sb->s_iflags |= SB_I_IMA_UNVERIFIABLE_SIGNATURE;
+ 	sb->s_iflags |= SB_I_NOIDMAP;
++	sb->s_iflags |= SB_I_NO_DATA_INTEGRITY;
+ 	if (sb->s_user_ns != &init_user_ns)
+ 		sb->s_iflags |= SB_I_UNTRUSTED_MOUNTER;
+ 	sb->s_flags &= ~(SB_NOSEC | SB_I_VERSION);
+diff --git a/fs/sync.c b/fs/sync.c
+index 942a60cfedfb..88c08e2f76b2 100644
+--- a/fs/sync.c
++++ b/fs/sync.c
+@@ -73,7 +73,7 @@ EXPORT_SYMBOL(sync_filesystem);
+ 
+ static void sync_inodes_one_sb(struct super_block *sb, void *arg)
  {
-        hfs_cat_rec rec;
-        int res, len, type;
-+       u32 cat_cnid;
-
-        hfs_cat_build_key(sb, fd->search_key, cnid, NULL);
-        res = hfs_brec_read(fd, &rec, sizeof(rec));
-@@ -208,7 +209,37 @@ int hfs_cat_find_brec(struct super_block *sb, u32 cnid,
-                return -EIO;
-        }
-        memcpy(fd->search_key->cat.CName.name, rec.thread.CName.name, len);
--       return hfs_brec_find(fd);
-+       res = hfs_brec_find(fd);
-+       if (res)
-+               return res;
-+
-+       if (fd->entrylength > sizeof(rec)) {
-+               pr_err("Bad catalog entry size\n");
-+               return -EIO;
-+       }
-+       hfs_bnode_read(fd->bnode, &rec, fd->entryoffset, fd->entrylength);
-+       type = rec.type;
-+       switch (type) {
-+       case HFS_CDR_FIL:
-+               cat_cnid = be32_to_cpu(rec.file.FlNum);
-+               break;
-+       case HFS_CDR_DIR:
-+               cat_cnid = be32_to_cpu(rec.dir.DirID);
-+               break;
-+       default:
-+               pr_err("Bad catalog record type\n");
-+               pr_err("Filesystem may be corrupted, try performing fsck\n");
-+               return -EIO;
-+       }
-+
-+       if (cat_cnid != cnid) {
-+               pr_err("Bad catalog record CNID %u, expected %u\n", cat_cnid, cnid);
-+               pr_err("Volume is probably corrupted, try performing fsck.\n");
-+               return -EIO;
-+       }
-+
-+       *rec_out = rec;
-+       return 0;
+-	if (!sb_rdonly(sb))
++	if (!sb_rdonly(sb) && !(sb->s_iflags & SB_I_NO_DATA_INTEGRITY))
+ 		sync_inodes_sb(sb);
  }
+ 
+diff --git a/include/linux/fs/super_types.h b/include/linux/fs/super_types.h
+index fa7638b81246..383050e7fdf5 100644
+--- a/include/linux/fs/super_types.h
++++ b/include/linux/fs/super_types.h
+@@ -338,5 +338,6 @@ struct super_block {
+ #define SB_I_NOUMASK	0x00001000	/* VFS does not apply umask */
+ #define SB_I_NOIDMAP	0x00002000	/* No idmapped mounts on this superblock */
+ #define SB_I_ALLOW_HSM	0x00004000	/* Allow HSM events on this superblock */
++#define SB_I_NO_DATA_INTEGRITY	0x00008000 /* fs cannot guarantee data persistence on sync */
+ 
+ #endif /* _LINUX_FS_SUPER_TYPES_H */
+diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
+index ec442af3f886..31a848485ad9 100644
+--- a/include/linux/pagemap.h
++++ b/include/linux/pagemap.h
+@@ -210,7 +210,6 @@ enum mapping_flags {
+ 	AS_WRITEBACK_MAY_DEADLOCK_ON_RECLAIM = 9,
+ 	AS_KERNEL_FILE = 10,	/* mapping for a fake kernel file that shouldn't
+ 				   account usage to user cgroups */
+-	AS_NO_DATA_INTEGRITY = 11, /* no data integrity guarantees */
+ 	/* Bits 16-25 are used for FOLIO_ORDER */
+ 	AS_FOLIO_ORDER_BITS = 5,
+ 	AS_FOLIO_ORDER_MIN = 16,
+@@ -346,16 +345,6 @@ static inline bool mapping_writeback_may_deadlock_on_reclaim(const struct addres
+ 	return test_bit(AS_WRITEBACK_MAY_DEADLOCK_ON_RECLAIM, &mapping->flags);
+ }
+ 
+-static inline void mapping_set_no_data_integrity(struct address_space *mapping)
+-{
+-	set_bit(AS_NO_DATA_INTEGRITY, &mapping->flags);
+-}
+-
+-static inline bool mapping_no_data_integrity(const struct address_space *mapping)
+-{
+-	return test_bit(AS_NO_DATA_INTEGRITY, &mapping->flags);
+-}
+-
+ static inline gfp_t mapping_gfp_mask(const struct address_space *mapping)
+ {
+ 	return mapping->gfp_mask;
+-- 
+2.52.0
 
- static inline
-
-
-Thanks,
-
-George
-
-[1] https://elixir.bootlin.com/linux/v7.0-rc4/source/fs/hfs/catalog.c#L193
-[2] https://elixir.bootlin.com/linux/v7.0-rc4/source/fs/hfs/bfind.c#L179
-[3] https://elixir.bootlin.com/linux/v7.0-rc4/source/fs/hfs/catalog.c#L204
-[4] https://elixir.bootlin.com/linux/v7.0-rc4/source/fs/hfs/catalog.c#L211
