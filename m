@@ -1,125 +1,204 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com [95.215.58.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 009201C84B8
-	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Mar 2026 22:35:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ECE79460
+	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Mar 2026 22:49:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773873338; cv=none; b=KWNqsinU1UE9Zwya2FsyvWmqJrD7ZzvqCEP8BjM5iqtnfiS0iMb0J+JMgGwANwkSPFWQAXGYMaknwu5nLqbNoWbIKHgJcXZ4uPoVyi48gWHNpBNXQTaSkyjZCWdoxjYwlakbAqOJPF3GkIc8FT9WuhCAlIAUAsu3Gf0LMunO488=
+	t=1773874186; cv=none; b=kamkmCbMhFQ753VAAFhdKIlznvU+oEXBVPPHruB5MAgVuBy/8aiMmRuJ8os846MndtpV0Srea6+YRsvh0zTNiB6LTh2j+N4916vH6gHALOPODAXDUn3L6gj26ebZraFSkVwOMUZpNqpueuNauY70CtEdLfW+GnBK6hLkq7ETyVw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773873338; c=relaxed/simple;
-	bh=MU3aqZnseiZ1EpQUZp1uWHxSRDqBZCy+pNLrys/AvBg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VfKWLcJ+LXqW5W9hjpoUB2FPR+3VqTswKIlfi5CZHG34JrL92Mp+FV/XiRsl65Dzflz2WjuHqVS7srs8b4bPhdHe3emkhlsXGqZpRY14LhpHJX2lnWCeNmJZQqQrvOoLZ2+4y50+hUB19bMf9USRYsfyEcchodAbVTaQONt3/U8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IQqOLJtA; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773874186; c=relaxed/simple;
+	bh=mBpCyKL9seaIpl86KrAuEa1a5HwXuEY1o3oBQ8JzaM8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YNLgbz382fECfDREn1qN5ETm2z1r/GAHI4HMnlQ2EhiVT8+NG6vTdddSs6YyKR0brn1eyVKGVahKWH/kJOBi1Q6C4cRBVogwQxMjTgkD7s15tWAM5W7qUOSi8owfyehFbppr6u8jIBTSKhiuniySgXL0MFqKdISxw5pidcEFFeY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gvernon.com; spf=pass smtp.mailfrom=gvernon.com; dkim=pass (2048-bit key) header.d=gvernon.com header.i=@gvernon.com header.b=Of5UAMj+; arc=none smtp.client-ip=95.215.58.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gvernon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gvernon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IQqOLJtA"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-439b9b190easo234841f8f.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 18 Mar 2026 15:35:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773873335; x=1774478135; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bR/WzDyhHN49Oz88JgChFgqBUvp+C0TbE/XQgiBQK5U=;
-        b=IQqOLJtA9ajCuBp0iypn3G0FX/MfsbnLp+T4jdeRaVrHBKPxGTs/jCNXbZnpF8vgUl
-         MbBtbH3GFBnNd/9TqcULA71s6ESjPaJueP56FWN6tcDfBFQqpLMAIuNq9z7nbuTQ4LLC
-         5lVLlw5tB+zaocn3ei6C8cvSo3xg043sT6XOWGRgOd2o/gnngjCCIdbEVT+GdE6FgZTs
-         FpCkfAxx3s5huLkj0YlHVoWn90UhiWia6kExlsbLyMu2rgfej7vmcIPfkM0ckhnbrjIe
-         ao2xjFPhzMSKGCelAr3TU45C7Gj2qOT/fyLiMphbi9DFEQvAP3i41kRWvx7rnGcG+Ls4
-         h3Rg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773873335; x=1774478135;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=bR/WzDyhHN49Oz88JgChFgqBUvp+C0TbE/XQgiBQK5U=;
-        b=FcKfQnIsmQWzXw9wzCgV0lurRL2Ldqwk9SebehSMTeFuMiF7yPQAaW+LcnkdgvNU9H
-         J+8Df2RxtB2/e3wvA3iqq4aw5P8lNhm89SMnYcNC8Fkph5fNLAj1ZU6vfh20m0Sv+8yO
-         015i/LmrA0SBpMFIUldgk9Bx+l4XKstghBh1PkKTaeyK3W1uGWD8BzucyX10tVtNlpWM
-         I0Cjc2dvr9VXHyARqb2LfTURLaWHrpOxFC5z3agdXRe3N4RcalaWttCum8bKRk3NLb0M
-         PvCLaI3Vd8MPRkuXelKJcy6ZIcWZ8rkETc4xtOboJSMCzSjgM/Ocbf3SsnB0QyWnWrdd
-         XEQA==
-X-Forwarded-Encrypted: i=1; AJvYcCUo7h/PNJm2p0cZjHDi0G0LHCa/9sqnFfpL9KHCqiwv75OIuqIo5AtYnxQocd017G/SE20IlK9H3AvPAjAC@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzo9sCqcPje0i0op87dYvXYolHcr0/AnnJGC9rPnYX9lmUshqok
-	ox55BWzERamoEJcxFTntulo+aTR48SBpeszd8iOYpp446EMlfjffcFH4
-X-Gm-Gg: ATEYQzxeEDKQ2NwgXyMPZQW71UEn9+9scpuXuX/cuNfoPa8kO5T/0j2q4EojJEPmwHm
-	DRn26QlYAPUF3BHuUGC3jX0wHIq9wt8/sLiKgoyzXDlRQ9bqFWwOwBo1/Thb3XQHD31CKbr7Cxi
-	hn1UO+BTWOA286Z4XyAXWFSapv5hMOV85vguH6F9y2zUcgRAb3wdiDaJIzb5EYkjzlAOEcY7vB4
-	UgqYOj+5V31NO2kcjYT+o4haUH2W9KUb4gs6IweBg+KQvtAdpMJO/1QEXuPG8ge/xS83WkHfG9u
-	XFewbfhl/DOrOq+cdHwEaoun/KABSgeL5f2YK3kqYU+JVjkVT3WplYlxrXAz/ebm65wDsAzPPN7
-	TiYCmnUy7SV+Hhi+gnJRH3wZkT2diNtxhJgZJfDnRU5mOuuUtudHyEeHxtS7A45NVMjJ5vuki5C
-	jaDHKTuYcSOF9TUYFBKdb7ZtPnduS3hj2CesgKpY2USvl2xoCc2FAwL5UzaNQvRDbL
-X-Received: by 2002:a05:6000:40de:b0:439:b539:787 with SMTP id ffacd0b85a97d-43b527cb618mr8645022f8f.53.1773873335122;
-        Wed, 18 Mar 2026 15:35:35 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b518a3dedsm10534334f8f.36.2026.03.18.15.35.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Mar 2026 15:35:34 -0700 (PDT)
-Date: Wed, 18 Mar 2026 22:35:32 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara
- <jack@suse.cz>, Thomas Gleixner <tglx@linutronix.de>,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] fs: Replace user_access_{begin/end} by scoped user
- access
-Message-ID: <20260318223532.1abcf12b@pumpkin>
-In-Reply-To: <CAHk-=widw8GwXNuq5ALr+NgDDUN+=pc77U=EczqUiVZeD2Dz+Q@mail.gmail.com>
-References: <23f19c88e763beb852a4891b2a908890bdd01b66.1773651096.git.chleroy@kernel.org>
-	<CAHk-=whFS7D1M4=cMi9cR06Uoxr1QeM8HUtRB6V3cQth=QNoXg@mail.gmail.com>
-	<e19d7d3f-d2f3-4bb0-be4d-af2679673f68@kernel.org>
-	<CAHk-=wiJVSCmiQAQYYjdQqo9Z1k7WQcep2qW+DiqHyP7Y1_SnQ@mail.gmail.com>
-	<CAHk-=widw8GwXNuq5ALr+NgDDUN+=pc77U=EczqUiVZeD2Dz+Q@mail.gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key) header.d=gvernon.com header.i=@gvernon.com header.b="Of5UAMj+"
+Date: Wed, 18 Mar 2026 22:49:26 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gvernon.com; s=key1;
+	t=1773874171;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rRPYIwAL4GuMcZwEwKD/MXyCtTBsgpxx8hm9/Y5udcQ=;
+	b=Of5UAMj+gYm6r/f+twGLcSJuAMFq+c65JrbqSJTzzThQhhXVoGam/y3DbBshICCgugMuva
+	2T51mUtW13YV5uVDjoIL2fc5UjYGaTj5QSTlEjHvVllbV7CWSYsBoUqBqK5GDz1RlBMMsb
+	cFtzT0DUYPSR+YbR3EL3YLLwD44JKLY52+akMDmtJclKwXFfpT/F7eUV+ABpWgjH29ngFM
+	BCcoNn5l1yePcF9NGBaDXMe5cB50O2ws4Re8Se7fAW5D867JEk5cT7JhzchMO8tK5rwWSV
+	EdXCVi9tP6EOxQUaREv1xC1+62Tbq8HEMUy3fDf80+umtvnjv2/vxWqiDkZ+0Q==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: George Anthony Vernon <contact@gvernon.com>
+To: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
+Cc: "syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com" <syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com>,
+	"glaubitz@physik.fu-berlin.de" <glaubitz@physik.fu-berlin.de>,
+	"frank.li@vivo.com" <frank.li@vivo.com>,
+	"penguin-kernel@i-love.sakura.ne.jp" <penguin-kernel@i-love.sakura.ne.jp>,
+	"slava@dubeyko.com" <slava@dubeyko.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH v4] hfs: Validate CNIDs in hfs_read_inode
+Message-ID: <absr9g7LaMEHfw47@Bertha>
+References: <20260311211309.27856-1-contact@gvernon.com>
+ <93f202e6-81bc-4df7-b193-1a812094fa6f@I-love.SAKURA.ne.jp>
+ <752d15863effadd7789431137a3feff825594cc3.camel@ibm.com>
+ <b7318588-33b2-4dc6-9469-e11da855f8ad@I-love.SAKURA.ne.jp>
+ <5a52755364c7ca1438e06caf8e923cea723a0498.camel@ibm.com>
+ <b332e546-e93f-4b79-a11c-695058d61fb1@I-love.SAKURA.ne.jp>
+ <4f6b37028269c7c4a40a58b57cd546a93dcbd7c2.camel@ibm.com>
+ <abnzsVk9JNN3alKq@Bertha>
+ <dbacbf1c48ac5aa24f37c58bff995d7b03268db4.camel@ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <dbacbf1c48ac5aa24f37c58bff995d7b03268db4.camel@ibm.com>
+X-Migadu-Flow: FLOW_OUT
 
-On Wed, 18 Mar 2026 08:53:52 -0700
-Linus Torvalds <torvalds@linux-foundation.org> wrote:
+On Wed, Mar 18, 2026 at 02:02:10AM +0000, Viacheslav Dubeyko wrote:
+> On Wed, 2026-03-18 at 00:37 +0000, George Anthony Vernon wrote:
+> > Sorry I struggled to understand you here Slava, there's a little bit lost in
+> > translation I think.
+> > 
+> > On Mon, Mar 16, 2026 at 09:50:14PM +0000, Viacheslav Dubeyko wrote:
+> > > by hfs_cat_find_brec(). But I cannot imagine that this logic can extract the
+> > > record  with incorrect CNID. Because, it is the main goal of hfs_cat_find_brec()
+> > > logic to extract the record that contains requested CNID. And if we requested
+> > 
+> > Do you mean that you do not think hfs_cat_find_brec *can* return a
+> > record with incorrect CNID, or that you do not think it *should*?
+> > 
+> > I think Tetsuo is right that hfs_cat_find_brec() will return a catalog
+> > record with different CNID in case of a malformed thread record.
+> > 
+> > On Mon, Mar 16, 2026 at 09:50:14PM +0000, Viacheslav Dubeyko wrote:
+> > > logic to extract the record that contains requested CNID. And if we requested
+> > > the HFS_ROOT_CNID, then this logic should return the record with exactly
+> > > requested CNID or return the error code if such record has not been found.
+> > 
+> > Do you mean that hfs_cat_find_brec() should validate the CNID of the
+> > catalog record found by hfs_brec_find()? I'm worried that validating
+> > every B-tree lookup is going to be expensive. We could do it, however.
+> > 
+> > 
+> 
+> If you need to initialize the inode, then you need to find a file or a folder
+> record in Catalog File (b-tree). It means that there are two possible ways: (1)
+> find it by name, (2) find it by CNID.
+> 
+> If you know the name only, then you need to find a thread record by name. The
+> thread record contains associated CNID that can be used to find the final
+> file/folder record. It means that the second step is the searching the record by
+> using the CNID. If CNID is OK, then we can find the record. If it is not OK,
+> then we can find nothing or wrong record.
+> 
+> If we know CNID, then we can try to find the record by CNID directly. We will
+> fail to find the record if there is no record with such CNID. But you don't need
+> in thread record in the case of having CNID for the search.
+> 
 
-> On Wed, 18 Mar 2026 at 08:49, Linus Torvalds
-> <torvalds@linux-foundation.org> wrote:
-> >
-> >     #define dirent_size(dirent, len) offsetof(typeof(dirent), d_name[len])  
-> 
-> That 'typeof(dirent)' needs to be 'typeof(*(dirent))' to be convenient.
-> 
-> It was correct in the patch I attached, but I'll just point it out anyway.
-> 
-> And we actually have a helper macro for that: struct_offset(). Which
-> wasn't what I used in that attached patch, but *should* have been.
-> 
-> IOW, the macro should look something like
-> 
->     #define dirent_size(dirent, len) struct_offset(dirent, d_name[len])
-> 
-> instead. That looks fairly clean, no?
+I don't think this is entirely right because we can't find a catalog
+record by CNID directly. We also need its node name which is contained
+in the thread record.
 
-And unnecessary - the struct_offset() isn't that much longer.
-Actually, from a readability point of view even struct_offset() almost
-makes things worse.
-If you are being paranoid it is another definition to find and check.
+Knowing the CNID of the catalog entry we want to find allows us to
+construct a key for the thread record, which we find and read. The
+thread record tells us the CNID of the catalog record's parent and the
+catalog record's file name, which we combine to create a key for the
+catalog record. If the thread record is corrupted, the key we
+constructed may find us a different catalog entry with different CNID.
 
-There isn't that much difference in the lengths:
-	dirent_size(dirent, len)
-	struct_offset(dirent, d_name[len])
-	offsetof(typeof(*dirent), d_name[len])
-and the last one really does tell you what it being calculated.
+- hfs_cat_find_brec() builds a key for the root CNID thread record [1]
+- The contents of the thread record are read into an hfs_cat_rec by
+hfs_brec_read(), which calls into hfs_bnode_read [2]
+- hfs_cat_find_brec() then populates the key for the root CNID catalog
+  record, using the fields of the thread record file [3]
+- Finally we can search for the catalog record, and this will populate a
+  new hfs_cat_rec [4]
 
-I do remember one compiler (and I thought it was gcc, but it might only
-have been msvc) that required that offsetof() always generate a constant.
-ISTR the C language requires that - which makes all the above invalid. 
+So if the catalog thread record is corrupted, the bug Tetsuo described
+can currently happen. The catalog record read from disk may have a
+different CNID than the one we wanted to find provided to
+hfs_cat_find_brec() hence the need to check the CNID of the catalog file
+record returned by hfs_bnode_read in hfs_fill_super.
 
-> 
->                 Linus
+Therefore Tetsuo's patch to check the returned CNID after calling
+hfs_cat_find_brec() seems correct to me, but I think it would be better
+do that check inside hfs_cat_find_brec() before it returns, then as you
+said the function will return the record with "exactly requested CNID or
+return the error code if such record has not been found."
 
+Tetsuo, what do you think about doing your check inside
+hfs_cat_find_brec? Something a bit like this:
+
+diff --git a/fs/hfs/catalog.c b/fs/hfs/catalog.c
+index b80ba40e3877..5f2b4e223e68 100644
+--- a/fs/hfs/catalog.c
++++ b/fs/hfs/catalog.c
+@@ -185,10 +185,11 @@ int hfs_cat_keycmp(const btree_key *key1, const btree_key *key2)
+ /* Try to get a catalog entry for given catalog id */
+ // move to read_super???
+ int hfs_cat_find_brec(struct super_block *sb, u32 cnid,
+-                     struct hfs_find_data *fd)
++                     struct hfs_find_data *fd, hfs_cat_rec *rec_out)
+ {
+        hfs_cat_rec rec;
+        int res, len, type;
++       u32 cat_cnid;
+
+        hfs_cat_build_key(sb, fd->search_key, cnid, NULL);
+        res = hfs_brec_read(fd, &rec, sizeof(rec));
+@@ -208,7 +209,37 @@ int hfs_cat_find_brec(struct super_block *sb, u32 cnid,
+                return -EIO;
+        }
+        memcpy(fd->search_key->cat.CName.name, rec.thread.CName.name, len);
+-       return hfs_brec_find(fd);
++       res = hfs_brec_find(fd);
++       if (res)
++               return res;
++
++       if (fd->entrylength > sizeof(rec)) {
++               pr_err("Bad catalog entry size\n");
++               return -EIO;
++       }
++       hfs_bnode_read(fd->bnode, &rec, fd->entryoffset, fd->entrylength);
++       type = rec.type;
++       switch (type) {
++       case HFS_CDR_FIL:
++               cat_cnid = be32_to_cpu(rec.file.FlNum);
++               break;
++       case HFS_CDR_DIR:
++               cat_cnid = be32_to_cpu(rec.dir.DirID);
++               break;
++       default:
++               pr_err("Bad catalog record type\n");
++               pr_err("Filesystem may be corrupted, try performing fsck\n");
++               return -EIO;
++       }
++
++       if (cat_cnid != cnid) {
++               pr_err("Bad catalog record CNID %u, expected %u\n", cat_cnid, cnid);
++               pr_err("Volume is probably corrupted, try performing fsck.\n");
++               return -EIO;
++       }
++
++       *rec_out = rec;
++       return 0;
+ }
+
+ static inline
+
+
+Thanks,
+
+George
+
+[1] https://elixir.bootlin.com/linux/v7.0-rc4/source/fs/hfs/catalog.c#L193
+[2] https://elixir.bootlin.com/linux/v7.0-rc4/source/fs/hfs/bfind.c#L179
+[3] https://elixir.bootlin.com/linux/v7.0-rc4/source/fs/hfs/catalog.c#L204
+[4] https://elixir.bootlin.com/linux/v7.0-rc4/source/fs/hfs/catalog.c#L211
