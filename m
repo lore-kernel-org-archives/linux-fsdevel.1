@@ -1,305 +1,108 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFD6E35F5E8;
-	Wed, 18 Mar 2026 12:23:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2E803AEF5A;
+	Wed, 18 Mar 2026 12:29:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773836582; cv=none; b=il3rn+9E2NJMFfbOCDSsTslJaQG0OrsiiSWz4e2arDO74gUxuQiHj/K9aGMuxXp+aoH0facCMuKnY7iroKAIaHwILD9Ojr3rxco5rK9AhEsIKkEtfNW4WRWGCaK46TGcH9llUWjODJPNdP5Ej0FwtKwdlpbYevRM5LkW2cVL0W8=
+	t=1773836951; cv=none; b=n2lIPmaVuNFmBM+Cz1jHuYi1dggeScdRMbIsSaUW0LQwT1CrkJ0xwROMA+Z+Ym+DO8/JPYy10HHUCjCTxtJLZEB4MvonvmeCIARmKCUMCqkGb8Tw4wydktpbuBKWMRZJBNj+lKsMRtaLz9de/5+zIP6/zMj0AeU7mcK7ipTH1nk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773836582; c=relaxed/simple;
-	bh=LFBV3FKqCHGIGpa8UF0TaoOEPIzW8XXWMiAR47mpB/A=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fJV7UEY/lPkUUqJjT1+Se4XaOHVFih019mSWky6PJE1ghnFC8FKcdJUIyYHtlVm8xYNQxxb7wKwZ4G4dAU0q7N72VDMuQ4lhADmhDxPBkzJvmW4iI5uQ2BblGpunFQWP90WoxFsxRVTaoXKwircdZ0GVbwTIzmfuKGXe6BNNe/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A3TkXw+1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773836951; c=relaxed/simple;
+	bh=52yhCZj6EIuvXcEe+/gtXO1U8sglreC/gfqc2QduBAc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mAz2bw+AV9/5elG3mdQqHCpHK/g7Sj5IpnI/VnrDU3vQo0c+Mut0ofUYrR4N7GlUhXaz3JkueMtOM/GVZN690lDZeNT34pP67oGtiTnAWAM2L0aNGEJKsrRI5yvRVZQAt+S7fRS/BtNhBYP7+2Uzrvo/rvDNyZnZ8wZo47Mzy8Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FrFE+/OG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A3TkXw+1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A37B6C19421;
-	Wed, 18 Mar 2026 12:23:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FrFE+/OG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4796FC19421;
+	Wed, 18 Mar 2026 12:29:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773836582;
-	bh=LFBV3FKqCHGIGpa8UF0TaoOEPIzW8XXWMiAR47mpB/A=;
-	h=From:To:Cc:Subject:Date:From;
-	b=A3TkXw+1EgSEbhmx6lN+R5iOmhHDs6ohTu6YOlThw5nUnRPwXAZ6oSSOEG7jHp7S7
-	 r1vBedqXc8M/uK/JGTZOSob9dIOmEObKWhVDGPZliXSh+KGLC5gqbCRpnwM7I3C8M0
-	 cnPgrg7yOR08S3TrAPWbzxvKZ0rtka7WPAHSJe/ZZ5izveL742Qv+8keODrnpSEoh+
-	 DUEw4T5F1caTowy9RgY0UVVOonjrlKj8dw8ufVMscrOfvPEKpGEkH7rBk/ZlXCvhVk
-	 3raODPm7FvyMWBSBkGSk3OovGV5fRXO/opGF99v8oXtlHs5guo0Wi9zwN8Kb9obL/u
-	 UqB3gdqS7DEPA==
-From: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
-To: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	David Laight <david.laight.linux@gmail.com>
-Cc: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v4] fs: Replace user_access_{begin/end} by scoped user access
-Date: Wed, 18 Mar 2026 13:22:43 +0100
-Message-ID: <f46941437f681cc72fc5a84fa768f65b952f43c6.1773830446.git.chleroy@kernel.org>
-X-Mailer: git-send-email 2.49.0
+	s=k20201202; t=1773836950;
+	bh=52yhCZj6EIuvXcEe+/gtXO1U8sglreC/gfqc2QduBAc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=FrFE+/OGN2qHOnLro8dsaU5WPjh9QBkfKwtQI002nVbOeaLtX8UkbcYH0cPyn6HKW
+	 2w/IzkmftxY4QY+9gtUUmKnpG3Ci57AdHk9d5nMgZDfsQMJzctPC6gT10+QT6b1DOu
+	 D7RRYkQXDCEVazOU9v1pRBtyhUaydia6UzNckL5KkYH+GrW09N8Z4Fe5gI1SPOL2tY
+	 pBUIa4TieN9hxd5B/nS05ozDFdW8fftL2u1rbjLa9AT+V8QXvCnia7Cwq8AzHkli2L
+	 r20wGszNAbgSPD7U6amQYMZQnqPACGef4rf8JMRO+xJAd+o5eb0p3l6M6vVdATIm1r
+	 vFXlgSjnwcopQ==
+Message-ID: <e19d7d3f-d2f3-4bb0-be4d-af2679673f68@kernel.org>
+Date: Wed, 18 Mar 2026 13:29:07 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=9338; i=chleroy@kernel.org; h=from:subject:message-id; bh=LFBV3FKqCHGIGpa8UF0TaoOEPIzW8XXWMiAR47mpB/A=; b=owGbwMvMwCV2d0KB2p7V54MZT6slMWTumik6b9/SeUJJWf80VvxMiozYc0dZp+F6T4RhSU+Zv ayg+6mkjlIWBjEuBlkxRZbj/7l3zej6kpo/dZc+zBxWJpAhDFycAjCRxSsZGVa7VMnoMfwp+ux6 87fCJ8abdVt95dUKFpsdeXaIKdnK8DLDP9XZert1up/PzzN58mWpUb5grHjth8mX9PRqTbPnXVN 7wQcA
-X-Developer-Key: i=chleroy@kernel.org; a=openpgp; fpr=10FFE6F8B390DE17ACC2632368A92FEB01B8DD78
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] fs: Replace user_access_{begin/end} by scoped user
+ access
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ David Laight <david.laight.linux@gmail.com>, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <23f19c88e763beb852a4891b2a908890bdd01b66.1773651096.git.chleroy@kernel.org>
+ <CAHk-=whFS7D1M4=cMi9cR06Uoxr1QeM8HUtRB6V3cQth=QNoXg@mail.gmail.com>
+Content-Language: fr-FR
+From: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
+In-Reply-To: <CAHk-=whFS7D1M4=cMi9cR06Uoxr1QeM8HUtRB6V3cQth=QNoXg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Scoped user access reduces code complexity and seamlessly bring
-masked user access on architectures that support it.
 
-Replace user_access_begin/user_access_end blocks by
-scoped user access.
 
-Signed-off-by: Christophe Leroy (CS GROUP) <chleroy@kernel.org>
----
-v2:
-- Fix build failure with CONFIG_COMPAT
-- Handled checkpatch.pl output
+Le 16/03/2026 à 18:12, Linus Torvalds a écrit :
+> On Mon, 16 Mar 2026 at 01:53, Christophe Leroy (CS GROUP)
+> <chleroy@kernel.org> wrote:
+>>
+>> -       if (!user_write_access_begin(dirent,
+>> -                       (unsigned long)(dirent->d_name + namlen + 1) -
+>> -                               (unsigned long)dirent))
+>> -               goto efault;
+> 
+> This was already pretty unreadable (my bad), but..
+> 
+>> +       scoped_user_write_access_size(dirent, (unsigned long)(dirent->d_name + namlen + 1) -
+>> +                                             (unsigned long)dirent, efault) {
+> 
+> .. in my opinion, this is even worse. It's a 90+ character long line
+> (or something), *and* it continues on the next line.
+> 
+> Yes, yes, the old code was disgusting too, but when changing it for
+> something that is supposed to be easier to read, please let's make it
+> *really* easier to read.
+> 
+> (And yes, there's another case of this same pattern a bit later).
 
-v3:
-- Fix again build failure with CONFIG_COMPAT. I was obviously too tired when I sent out v2.
+The other pattern looks similar but is not exactly the same.
 
-v4:
-- Introduced local size var based on Linus comment on readability. Not a dirent_size() helper as suggested as both sites are different.
----
- fs/readdir.c | 94 +++++++++++++++++++++-------------------------------
- fs/select.c  | 35 ++++++++-----------
- 2 files changed, 51 insertions(+), 78 deletions(-)
+> 
+> Adding a helper inline function like dirent_size() might do it. And I
+> think it might as well be cleaned up while at it, and make it be
+> something like
+> 
+>      static inline size_t dirent_size(int namelen)
+>      {
+>          return offsetof(struct linux_dirent, d_name) + namelen + 1;
+>      }
+> 
 
-diff --git a/fs/readdir.c b/fs/readdir.c
-index 73707b6816e9..8fa615b7e950 100644
---- a/fs/readdir.c
-+++ b/fs/readdir.c
-@@ -184,6 +184,7 @@ static bool fillonedir(struct dir_context *ctx, const char *name, int namlen,
- 	struct readdir_callback *buf =
- 		container_of(ctx, struct readdir_callback, ctx);
- 	struct old_linux_dirent __user * dirent;
-+	size_t size = offsetof(struct old_linux_dirent, d_name) + namlen + 1;
- 	unsigned long d_ino;
- 
- 	if (buf->result)
-@@ -198,18 +199,13 @@ static bool fillonedir(struct dir_context *ctx, const char *name, int namlen,
- 	}
- 	buf->result++;
- 	dirent = buf->dirent;
--	if (!user_write_access_begin(dirent,
--			(unsigned long)(dirent->d_name + namlen + 1) -
--				(unsigned long)dirent))
--		goto efault;
--	unsafe_put_user(d_ino, &dirent->d_ino, efault_end);
--	unsafe_put_user(offset, &dirent->d_offset, efault_end);
--	unsafe_put_user(namlen, &dirent->d_namlen, efault_end);
--	unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault_end);
--	user_write_access_end();
-+	scoped_user_write_access_size(dirent, size, efault) {
-+		unsafe_put_user(d_ino, &dirent->d_ino, efault);
-+		unsafe_put_user(offset, &dirent->d_offset, efault);
-+		unsafe_put_user(namlen, &dirent->d_namlen, efault);
-+		unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault);
-+	}
- 	return true;
--efault_end:
--	user_write_access_end();
- efault:
- 	buf->result = -EFAULT;
- 	return false;
-@@ -287,23 +283,19 @@ static bool filldir(struct dir_context *ctx, const char *name, int namlen,
- 		return false;
- 	dirent = buf->current_dir;
- 	prev = (void __user *) dirent - prev_reclen;
--	if (!user_write_access_begin(prev, reclen + prev_reclen))
--		goto efault;
--
--	/* This might be 'dirent->d_off', but if so it will get overwritten */
--	unsafe_put_user(offset, &prev->d_off, efault_end);
--	unsafe_put_user(d_ino, &dirent->d_ino, efault_end);
--	unsafe_put_user(reclen, &dirent->d_reclen, efault_end);
--	unsafe_put_user(d_type, (char __user *) dirent + reclen - 1, efault_end);
--	unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault_end);
--	user_write_access_end();
-+	scoped_user_write_access_size(prev, reclen + prev_reclen, efault) {
-+		/* This might be 'dirent->d_off', but if so it will get overwritten */
-+		unsafe_put_user(offset, &prev->d_off, efault);
-+		unsafe_put_user(d_ino, &dirent->d_ino, efault);
-+		unsafe_put_user(reclen, &dirent->d_reclen, efault);
-+		unsafe_put_user(d_type, (char __user *)dirent + reclen - 1, efault);
-+		unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault);
-+	}
- 
- 	buf->current_dir = (void __user *)dirent + reclen;
- 	buf->prev_reclen = reclen;
- 	ctx->count -= reclen;
- 	return true;
--efault_end:
--	user_write_access_end();
- efault:
- 	buf->error = -EFAULT;
- 	return false;
-@@ -371,24 +363,20 @@ static bool filldir64(struct dir_context *ctx, const char *name, int namlen,
- 		return false;
- 	dirent = buf->current_dir;
- 	prev = (void __user *)dirent - prev_reclen;
--	if (!user_write_access_begin(prev, reclen + prev_reclen))
--		goto efault;
--
--	/* This might be 'dirent->d_off', but if so it will get overwritten */
--	unsafe_put_user(offset, &prev->d_off, efault_end);
--	unsafe_put_user(ino, &dirent->d_ino, efault_end);
--	unsafe_put_user(reclen, &dirent->d_reclen, efault_end);
--	unsafe_put_user(d_type, &dirent->d_type, efault_end);
--	unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault_end);
--	user_write_access_end();
-+	scoped_user_write_access_size(prev, reclen + prev_reclen, efault) {
-+		/* This might be 'dirent->d_off', but if so it will get overwritten */
-+		unsafe_put_user(offset, &prev->d_off, efault);
-+		unsafe_put_user(ino, &dirent->d_ino, efault);
-+		unsafe_put_user(reclen, &dirent->d_reclen, efault);
-+		unsafe_put_user(d_type, &dirent->d_type, efault);
-+		unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault);
-+	}
- 
- 	buf->prev_reclen = reclen;
- 	buf->current_dir = (void __user *)dirent + reclen;
- 	ctx->count -= reclen;
- 	return true;
- 
--efault_end:
--	user_write_access_end();
- efault:
- 	buf->error = -EFAULT;
- 	return false;
-@@ -446,6 +434,7 @@ static bool compat_fillonedir(struct dir_context *ctx, const char *name,
- 	struct compat_readdir_callback *buf =
- 		container_of(ctx, struct compat_readdir_callback, ctx);
- 	struct compat_old_linux_dirent __user *dirent;
-+	size_t size = offsetof(struct compat_old_linux_dirent, d_name) + namlen + 1;
- 	compat_ulong_t d_ino;
- 
- 	if (buf->result)
-@@ -460,18 +449,13 @@ static bool compat_fillonedir(struct dir_context *ctx, const char *name,
- 	}
- 	buf->result++;
- 	dirent = buf->dirent;
--	if (!user_write_access_begin(dirent,
--			(unsigned long)(dirent->d_name + namlen + 1) -
--				(unsigned long)dirent))
--		goto efault;
--	unsafe_put_user(d_ino, &dirent->d_ino, efault_end);
--	unsafe_put_user(offset, &dirent->d_offset, efault_end);
--	unsafe_put_user(namlen, &dirent->d_namlen, efault_end);
--	unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault_end);
--	user_write_access_end();
-+	scoped_user_write_access_size(dirent, size, efault) {
-+		unsafe_put_user(d_ino, &dirent->d_ino, efault);
-+		unsafe_put_user(offset, &dirent->d_offset, efault);
-+		unsafe_put_user(namlen, &dirent->d_namlen, efault);
-+		unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault);
-+	}
- 	return true;
--efault_end:
--	user_write_access_end();
- efault:
- 	buf->result = -EFAULT;
- 	return false;
-@@ -543,22 +527,18 @@ static bool compat_filldir(struct dir_context *ctx, const char *name, int namlen
- 		return false;
- 	dirent = buf->current_dir;
- 	prev = (void __user *) dirent - prev_reclen;
--	if (!user_write_access_begin(prev, reclen + prev_reclen))
--		goto efault;
--
--	unsafe_put_user(offset, &prev->d_off, efault_end);
--	unsafe_put_user(d_ino, &dirent->d_ino, efault_end);
--	unsafe_put_user(reclen, &dirent->d_reclen, efault_end);
--	unsafe_put_user(d_type, (char __user *) dirent + reclen - 1, efault_end);
--	unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault_end);
--	user_write_access_end();
-+	scoped_user_write_access_size(prev, reclen + prev_reclen, efault) {
-+		unsafe_put_user(offset, &prev->d_off, efault);
-+		unsafe_put_user(d_ino, &dirent->d_ino, efault);
-+		unsafe_put_user(reclen, &dirent->d_reclen, efault);
-+		unsafe_put_user(d_type, (char __user *)dirent + reclen - 1, efault);
-+		unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault);
-+	}
- 
- 	buf->prev_reclen = reclen;
- 	buf->current_dir = (void __user *)dirent + reclen;
- 	ctx->count -= reclen;
- 	return true;
--efault_end:
--	user_write_access_end();
- efault:
- 	buf->error = -EFAULT;
- 	return false;
-diff --git a/fs/select.c b/fs/select.c
-index e0244dbe4429..75978b18f48f 100644
---- a/fs/select.c
-+++ b/fs/select.c
-@@ -1004,17 +1004,17 @@ static int do_sys_poll(struct pollfd __user *ufds, unsigned int nfds,
- 	fdcount = do_poll(head, &table, end_time);
- 	poll_freewait(&table);
- 
--	if (!user_write_access_begin(ufds, nfds * sizeof(*ufds)))
--		goto out_fds;
-+	scoped_user_write_access_size(ufds, nfds * sizeof(*ufds), out_fds) {
-+		struct pollfd __user *_ufds = ufds;
- 
--	for (walk = head; walk; walk = walk->next) {
--		struct pollfd *fds = walk->entries;
--		unsigned int j;
-+		for (walk = head; walk; walk = walk->next) {
-+			struct pollfd *fds = walk->entries;
-+			unsigned int j;
- 
--		for (j = walk->len; j; fds++, ufds++, j--)
--			unsafe_put_user(fds->revents, &ufds->revents, Efault);
--  	}
--	user_write_access_end();
-+			for (j = walk->len; j; fds++, _ufds++, j--)
-+				unsafe_put_user(fds->revents, &_ufds->revents, out_fds);
-+		}
-+	}
- 
- 	err = fdcount;
- out_fds:
-@@ -1026,11 +1026,6 @@ static int do_sys_poll(struct pollfd __user *ufds, unsigned int nfds,
- 	}
- 
- 	return err;
--
--Efault:
--	user_write_access_end();
--	err = -EFAULT;
--	goto out_fds;
- }
- 
- static long do_restart_poll(struct restart_block *restart_block)
-@@ -1338,15 +1333,13 @@ static inline int get_compat_sigset_argpack(struct compat_sigset_argpack *to,
- 					    struct compat_sigset_argpack __user *from)
- {
- 	if (from) {
--		if (!user_read_access_begin(from, sizeof(*from)))
--			return -EFAULT;
--		unsafe_get_user(to->p, &from->p, Efault);
--		unsafe_get_user(to->size, &from->size, Efault);
--		user_read_access_end();
-+		scoped_user_read_access(from, efault) {
-+			unsafe_get_user(to->p, &from->p, efault);
-+			unsafe_get_user(to->size, &from->size, efault);
-+		}
- 	}
- 	return 0;
--Efault:
--	user_read_access_end();
-+efault:
- 	return -EFAULT;
- }
- 
--- 
-2.49.0
+...
 
+> 
+> Hmm? Can you do at least that dirent_size() kind of cleanup?
+
+Thanks for the suggestion.
+
+I went for a local var alternative, see v4. A helper would be of no help 
+as the two patterns are not exactly the same:
+
+	size_t size = offsetof(struct old_linux_dirent, d_name) + namlen + 1;
+
+	size_t size = offsetof(struct compat_old_linux_dirent, d_name) + namlen 
++ 1;
+
+
+Christophe
