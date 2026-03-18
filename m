@@ -1,207 +1,178 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CD35355050
-	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Mar 2026 18:13:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773857590; cv=pass; b=GYWr0fm6qw8xIcruTMugiGKZ437X7RzGO8r4FbRqszIuuaygoB88WW/oWpjX04o/wxcM6V+QROtgMCCTbkJiyrkSQMdD/TTSuFkjgk1F0RhU1R2ZrqWlvAwopyXf0SnkT6P0/IWPpJwyt5VVZFsOqrDuXFXqxdrtIkkGb6NhbUs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773857590; c=relaxed/simple;
-	bh=aYfQcyPd2JpMxNJXJjjDmoBHEPgvHNulsEHDB83Bgq8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CkyxMAh7fEQ7sN1Pwds5ia3qicOGFhUyaC8e2m1SOxOb80zKXNHuwrgSIOSSPCg9953dVzPyO9fQvo6Hx07Fjc3zv+F8MaVk65pIPc2NDGJQBkdgR7IGYIqtxPptSfH34fjyulnNTE5Qzsvf0p9XjjWaBbXsREFggQLPKunlEv0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kjm6p3jB; arc=pass smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F611321457
+	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Mar 2026 18:23:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773858233; cv=none; b=dlrRwbzK4SiPZA6Gux6RhzAvZR+626Pp3TM8j89X92dU2WAEkdwuGLwU5U4W/+mOKd5S5uLZj4qWlFv4UpCgrjrs9kfq/kL7KffW/RAfhqGmgIlT/jG9Ym3xFGk1W6kCZSm9BbYEKm/69Nknpia/m849L7kKWZhmo0r1LgeY4bk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773858233; c=relaxed/simple;
+	bh=zQhyCk0tmM4NS7qYY14d+IZ5F2iSBHisOmwUXCP4x7k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hiSpNG8m8Pqv/AJdYi3kF0ex2fekHmtXIIeI0BUAzeCGErQCfjwY5c17tCkC/ABE6hELWq1ugr+D0CsGypdvecnlGdHas68s3sbDzM4ljBriZ4PHLJEU3NTKnF9EW+RUeiOySm3fgSzlXndFumJEqjCjpQJ90RA6FUTLIHNGiXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=LqUgwG0d; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=jwZK8yFW; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=LqUgwG0d; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=jwZK8yFW; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kjm6p3jB"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-439cd6b0aedso67416f8f.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 18 Mar 2026 11:13:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773857588; cv=none;
-        d=google.com; s=arc-20240605;
-        b=PvP4+UuZqD4f8XN0U/cOnG6PjJ6sXuuAhZo7w7DIzM8iOX7mbU6ijBVvAJHEyanY3C
-         o3L+r6yu5Qa0GD2fPV8n6KSfXhu8IDpR2nsb43CK1sd8PMlaUF02nH4LHrKlECkgdS4d
-         0q37/PYevk5gF9O38ymuqTqt404+fJHh4cQkoONnQCy9XKPoEwQTSraKpnsiZzyPtzTg
-         ++WmMkjwOVy6sEumKH4yHoAnkS/gI+c6KsRg2U4Ci4gPD5NwjJgbil8Om6txV2GDhw6C
-         itYXL5ej2Vfakg6M+KPSFfgJGuCbKpl5mRY22HBtGlO7o5PGJt+59+VjCc2o3CU+BTVR
-         yefw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Uqj5XMGw7cCcB6Nmv8ELnKOv5Ym70pXtx/KbzE/luvk=;
-        fh=XE5r418vEQdjx5ORRe8/zCipabi53Q1Xkwet6jIL4wo=;
-        b=SQMUHVzT0wqeh/X+KR+1U6SRqqo3LiJfaJ+b+1PC8y2hrrC+m0NMm231aGMUu1y/W+
-         Fzs3UdSave+EfdoIbs7vCLTe3UT6nSGwmX5nZQabx2nFY+aYxOdDepDv3hdaafUPn8PM
-         VIvLMDWh4oMPckLOqDAAJu7LQFlj8OTk4GSRPmMIUGTQbdOsdCV9Y6V1ers+bRlbjk+2
-         hSrT5UCwGTltb1KTnzwVMtT2yeN6NyCebVUY5mzKZMHLE/d8vfvJg/kldOtYFxaRzRSY
-         sjTfNdw5sCr93kNdeUmIl06n17+v8kswRT8AoiZxUYntR/akofDVRAFRw5PACezpdfKG
-         u2qA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773857588; x=1774462388; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Uqj5XMGw7cCcB6Nmv8ELnKOv5Ym70pXtx/KbzE/luvk=;
-        b=kjm6p3jBGILhijUqvEwOnNHuFaQ3RyycIxcrpuyc4R6TiWUUYZWMNL+2VVe5VL5yfo
-         vKqXeaIZjc06aJ7qf5KLa+nrPhCNHXdDeCoq0P3xw6JgqEzdE2xh5qplnfWPXhuQzfOE
-         XwOo2/nAkI4G9fpQt/TTBAKQv+C2D/913GTLzyDkbcxNdy+QMb58pl4W0QhMs+fYT5ZY
-         4AfR8Ikll+9Ghqlhh5pL2TbAGFxm28Zx1wa8nwM7hc8O/bbzRD7+TWLB6xi2gP/lR2HA
-         YenO9tiHkZYaD2rb6N/iWyMAaf6l3QdJ9j3v1x3F9Uat6QK1vZjgJ7Q0Fz9cINgNlTih
-         PN3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773857588; x=1774462388;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Uqj5XMGw7cCcB6Nmv8ELnKOv5Ym70pXtx/KbzE/luvk=;
-        b=JEkEoMa2PKELXe0h4MWdpTisvcDx5QSarHqjZHMsUdyTGEIRCOyIXTwOGxvSWljxG2
-         hYofMzUWfTlO7nhr1yjC/8IJ5/fvH/VS1m4z8OKQkqBsQx7Kon8hGtow+tNgzC3EjTxE
-         RzvUP4HknPGMFIvws2GcEP6A5SSchWFVCHbElrkTxlupFi7yWlNRZsIVCsQksJZY9h6n
-         +GaUZQnebtTC+V24yQvVHf0Wx9McHAg0UmGql42dBe/JEZgHFArUqNT8ILx0aNSi+Tn0
-         jw5/7P52/ViTqRWhh+PFiaUHhocJFsaiyMEP6bnLwXkxH0M5vvTtEx5uXvMD9bIm9NcO
-         6klA==
-X-Forwarded-Encrypted: i=1; AJvYcCWWAWTfIau+QcDnModtGz3z5r3vNtSDfoENGguWUG/kuHtFbNFzsHTdNXAP8oTtAEDHvBqAGor5Ao7B8UI7@vger.kernel.org
-X-Gm-Message-State: AOJu0YzfVF4Y9CK2yGUPX7+2+ADyenj9lggVSDlATR5xKDWECEdF0Zc5
-	rLyjTj76T8t8iY1ZTuPHMEoVG5O8+TzdvOj1LzUUJASolMbKwau466VPnKbJIG4c+fA3U1kop0F
-	6+BeUAsBQ3qxUnCPRnfh4yLQnGPKWoSFFd2T6
-X-Gm-Gg: ATEYQzxOBsYKA43RwFPywTIBKatkaK//TQghjd7jgXADRo7/yaoQAgECr8MzTG0En7m
-	AnqQvoCnvigdGxrepBdiN6FEkoHuCeitKkuFmjWftHm9oMxKhHc976VTXRDXMC5iYKj/CYtENmq
-	J/ulVGSPILteBsTTuGydMqblDnUGCLnryunuagMTDOB2WfV2hLIraFA0xWGp3QqqFRhQejGOROm
-	uWWADjBG+CWr+jAEjtUU+kNmAqzU/Wq28XIo/siwRzxHNpnELq+TK6z91H3Ka4imudiywRVStbF
-	36QDFw==
-X-Received: by 2002:a05:600c:4703:b0:485:ae14:8187 with SMTP id
- 5b1f17b1804b1-486f441fc66mr75580475e9.2.1773857587533; Wed, 18 Mar 2026
- 11:13:07 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="LqUgwG0d";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="jwZK8yFW";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="LqUgwG0d";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="jwZK8yFW"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 8D2B05BED7;
+	Wed, 18 Mar 2026 18:23:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1773858230; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Xajanato9h7sXXE8mz9xc4dhWHvfL/TSeCdbBO+AFic=;
+	b=LqUgwG0dNVsvo4Qntr/1nDLoG+J6TikeegH4+hMxxxuQp6G8Lz9bO8lMIHlF6SWVIQWx8T
+	XSRScRh9Dr+Xp9Wkd2hYTcnIRHR6YLQoSnfvtwZ8DAsD5XgvEd+GPhjMXPJzKkRHNY2BtS
+	tQ404bCgFFR62puxOcSjbolpOkGIucs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1773858230;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Xajanato9h7sXXE8mz9xc4dhWHvfL/TSeCdbBO+AFic=;
+	b=jwZK8yFWDLYLwPRRby1/b5KEv9ut4JFIybtGpExTt0LjfQvM5evvTO6SzJIR43xUiSyDoM
+	bMI2ZJLK9e2asiAg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=LqUgwG0d;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=jwZK8yFW
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1773858230; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Xajanato9h7sXXE8mz9xc4dhWHvfL/TSeCdbBO+AFic=;
+	b=LqUgwG0dNVsvo4Qntr/1nDLoG+J6TikeegH4+hMxxxuQp6G8Lz9bO8lMIHlF6SWVIQWx8T
+	XSRScRh9Dr+Xp9Wkd2hYTcnIRHR6YLQoSnfvtwZ8DAsD5XgvEd+GPhjMXPJzKkRHNY2BtS
+	tQ404bCgFFR62puxOcSjbolpOkGIucs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1773858230;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Xajanato9h7sXXE8mz9xc4dhWHvfL/TSeCdbBO+AFic=;
+	b=jwZK8yFWDLYLwPRRby1/b5KEv9ut4JFIybtGpExTt0LjfQvM5evvTO6SzJIR43xUiSyDoM
+	bMI2ZJLK9e2asiAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 851554273B;
+	Wed, 18 Mar 2026 18:23:50 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id xcF4ILbtumnLWwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 18 Mar 2026 18:23:50 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 3EF92A0AFF; Wed, 18 Mar 2026 19:23:46 +0100 (CET)
+Date: Wed, 18 Mar 2026 19:23:46 +0100
+From: Jan Kara <jack@suse.cz>
+To: Hyungjung Joo <jhj140711@gmail.com>
+Cc: viro@zeniv.linux.org.uk, brauner@kernel.org, 
+	linux-fsdevel@vger.kernel.org, jack@suse.cz, greg@kroah.com, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] fs/mbcache: cancel shrink work before destroying the
+ cache
+Message-ID: <2gfhz2lactpa4y335h555m63sl7notep4fcroycurcvsbhc7f6@bgmqdanllwfl>
+References: <20260317054556.1821600-1-jhj140711@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250617221456.888231-1-paullawrence@google.com>
-In-Reply-To: <20250617221456.888231-1-paullawrence@google.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Wed, 18 Mar 2026 11:12:56 -0700
-X-Gm-Features: AaiRm529ChszMUbWQZJ_nWsgFZIqx5ZMKRWtA3d8zBn5YctL16e3n_Wnw9zHa4g
-Message-ID: <CAJnrk1YWd9HvVLTtZDEM=XyOaPvkuSF8O5uOu9k=m=tUREsw-A@mail.gmail.com>
-Subject: Re: [PATCH v1 0/2] RFC: Extend fuse-passthrough to directories
-To: Paul Lawrence <paullawrence@google.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, kernel-team@meta.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260317054556.1821600-1-jhj140711@gmail.com>
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_COUNT_THREE(0.00)[3];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Queue-Id: 8D2B05BED7
+X-Spam-Flag: NO
+X-Spam-Score: -4.01
+X-Spam-Level: 
 
-On Tue, Jun 17, 2025 at 3:15=E2=80=AFPM Paul Lawrence <paullawrence@google.=
-com> wrote:
->
-> This is the first part of a much larger patch set that would allow a dire=
-ctory
-> to be marked =E2=80=98passthrough=E2=80=99. At a high level, the fuse dae=
-mon can return an
-> optional extra argument to FUSE_LOOKUP that contains an fd. Extra fields =
-are
-> added to the fuse_dentry, fuse_inode and fuse_file structs to have a back=
-ing
-> path, inode and file respectively. When fuse is performing an operation, =
-it will
-> check for the existence of a backing object and if it exists forward the
-> operation to the backing object.
->
-> These two patches add the core infrastructure, handling of the extra argu=
-ment
-> response to lookup, and forwarding open, flush and close to the backing f=
-ile.
-> This is sufficient to validate the concept.
->
-> The questions I have:
->
-> * Is this something that interests the fuse maintainers and community?
-> * Is this approach the correct one?
-> * (if we agree yes to 1 & 2) Detailed analysis of the patches for errors.
->
-> A few observations:
->
-> I have matched backing objects to their fuse objects. Currently fuse pass=
-through
-> puts a backing file into the fuse inode. I=E2=80=99m not quite sure why t=
-his was done -
-> it seems to have been a very late change in the passthrough patch sets wh=
-ich
-> happened without comment. It does not really make sense for full director=
-y
-> passthrough since unopened inodes still need to have backing inodes. The =
-one
-> advantage I can see is that it reduces the number of opens/closes of the =
-backing
-> file. However, this may also be a disadvantage - it moves closes, in part=
-icular,
-> to an arbitrary point when the inode is flushed from cache.
->
-> Backing operations need to happen in the context of the daemon, not the c=
-aller.
-> (I am a firm believer of this principle.) This is not yet implemented, an=
-d is
-> not (currently, and unfortunately) the way Android uses passthough. It is=
- not
-> hard to do, and if these patches are otherwise acceptable, will be added.
->
-> There was a long discussion about the security issues of using an fd retu=
-rned
-> from the fuse daemon in the context of fuse passthrough, and the end solu=
-tion
-> was to use an ioctl to set the backing file. I have used the previously-r=
-ejected
-> approach of passing the fd in a struct in the fuse_daemon response. My de=
-fense
-> of this approach is
->
-> * The fd is simply used to pull out the path and inode
-> * All operations are revalidated
-> * Thus there is no risk even if a privileged process with a protected fd =
-is
-> tricked into passing that fd back in this structure.
->
-> I=E2=80=99m sure we will discuss this at length if this patch set is othe=
-rwise deemed
-> valuable, and I am certainly not wedded to this approach.
->
-> I have written tests to validate this approach using tools/testing/selfte=
-sts. I
-> don=E2=80=99t want this patch set to get derailed by a discussion of the =
-way I wrote the
-> tests, so I have not included them. I am very open to any and every sugge=
-stion
-> as to how (and where) tests should be written for these patches.
->
-> Paul Lawrence (2):
->   fuse: Add backing file option to lookup
->   fuse: open/close backing file
->
->  fs/fuse/Kconfig           |  13 +++++
->  fs/fuse/Makefile          |   1 +
->  fs/fuse/backing.c         |  97 ++++++++++++++++++++++++++++++++
->  fs/fuse/dev.c             |  14 +++++
->  fs/fuse/dir.c             | 108 +++++++++++++++++++++++++-----------
->  fs/fuse/file.c            |  34 ++++++++----
->  fs/fuse/fuse_i.h          |  61 +++++++++++++++++++-
->  fs/fuse/inode.c           | 114 ++++++++++++++++++++++++++++++++++----
->  include/uapi/linux/fuse.h |   4 ++
->  9 files changed, 392 insertions(+), 54 deletions(-)
->  create mode 100644 fs/fuse/backing.c
->
+On Tue 17-03-26 14:45:56, Hyungjung Joo wrote:
+> From: HyungJung Joo <jhj140711@gmail.com>
+> 
+> mb_cache_destroy() calls shrinker_free() and then frees all cache
+> entries and the cache itself, but it does not cancel the pending
+> c_shrink_work work item first.
+> 
+> If mb_cache_entry_create() schedules c_shrink_work via schedule_work()
+> and the work item is still pending or running when mb_cache_destroy()
+> runs, mb_cache_shrink_worker() will access the cache after its memory
+> has been freed, causing a use-after-free.
+> 
+> This is only reachable by a privileged user (root or CAP_SYS_ADMIN)
+> who can trigger the last put of a mounted ext2/ext4/ocfs2 filesystem.
+> 
+> Cancel the work item with cancel_work_sync() before calling
+> shrinker_free(), ensuring the worker has finished and will not be
+> rescheduled before the cache is torn down.
+> 
+> Signed-off-by: Hyungjung Joo <jhj140711@gmail.com>
 
-Hi Paul,
+Thanks! The patch looks good to me. Feel free to add:
 
-Are you still planning to continue work on this series? We have some
-internal users at Meta who need this feature. I'm happy to pick this
-up if you're no longer working on it, or collaborate if you'd prefer.
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-Thanks,
-Joanne
-> --
-> 2.49.0.1112.g889b7c5bd8-goog
->
->
+								Honza
+
+
+> ---
+>  fs/mbcache.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/fs/mbcache.c b/fs/mbcache.c
+> index 480d02d6ebf0..2a6319b4072c 100644
+> --- a/fs/mbcache.c
+> +++ b/fs/mbcache.c
+> @@ -406,6 +406,7 @@ void mb_cache_destroy(struct mb_cache *cache)
+>  {
+>  	struct mb_cache_entry *entry, *next;
+>  
+> +	cancel_work_sync(&cache->c_shrink_work);
+>  	shrinker_free(cache->c_shrink);
+>  
+>  	/*
+> -- 
+> 2.34.1
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
