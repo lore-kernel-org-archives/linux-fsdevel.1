@@ -1,199 +1,312 @@
-Received: from mail-oo1-f71.google.com (mail-oo1-f71.google.com [209.85.161.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 044AA30DD11
-	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Mar 2026 05:02:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A760B27456;
+	Wed, 18 Mar 2026 06:01:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773810126; cv=none; b=P3QwS7vehtgpWR24cvoS++vTxSze24uToOZN5OCV2GguGlq8nUidK2hDmUya5ggaCloP2Pmm3Ww6AsqaMw2S/nEaGGy+JQLmzhlU63At1bNJJ8zvQnjZ7mVa8u/ahnqQ4xiyrvpAvZTed8h1+zOHIMc33EKmxD3usEWNNSDFDFo=
+	t=1773813664; cv=none; b=YtJ7oRzpnfW5REsz1vESjqrgYVWcmb5Sj85lJKgJhQiGQnyylEJa8Urr8Opw9JbLpwczITO95Ad15+nM7RIrNuCn6msP2ptQwgzccVXIyv4SSy/H+HSSPi9otvs13VSDTeO8XZQdhZWWc2mUz/rEwbRUImQ4Yb8TiGvXFVvslJs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773810126; c=relaxed/simple;
-	bh=pTs4MzvoYqHL1k5EQGgwDF9thFZmA+CD5l2JYlCv4Zg=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=ueNCZoEpxV8azoYoXt1FNvAcH5tLz8lK5w7JUGbA/uQGBQlZ+dP+hvXadOcG7TqO3aherm6IpTLqncXVprSrgDX8HowFUbHseCwqfsKGIwyUqezDY9q58LbMtwfLTE7A/cN1DBhICvJI7Nnyui3djjfES/9XdBjnTWzHL30n5SI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo1-f71.google.com with SMTP id 006d021491bc7-67c1228b2a1so2244548eaf.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 22:02:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773810122; x=1774414922;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XP4T4iMaCErg7kQXZBXgUrqdcl4Ozy9ZpxYT+MtYY3I=;
-        b=k5zLe5yzJ4Li3Y5n3bsSmNZqg5rKZ0qvkJn0vdNkmGcYZJT3LUINPVMjvuFNRQ/FVw
-         dyewhQYsfBwk6uySwNFY3B2HhxSL2BvGHwbbgS3GIDZpTdfVr0Kl3bIwapYFCYpNuU++
-         MMMI7fyXf4vmynnwBvyok2HaXltBHuRfATc0mWnsH7RDJjbnQj+KOxF3ljM/Dv8dA4Dl
-         47p2HRA8pb784KHvkKIcPgEoc4rvBivhZIisd2Dt/IlYIbiyHRHYS9husUB6jhV+48lR
-         oz4wyISPi3Qo59J9MyNpM2pyUCbrEjfh9GqtXqUSXEkVSAAl3dyPSjltqS5zrkpFDHqy
-         inMg==
-X-Forwarded-Encrypted: i=1; AJvYcCXaTuegxgfEKzez6t5wFwInA4yGQSaVuWn6GIgE/OIWLBwNsSWan1k/hQNUQkODz8Xaj31o/Z8xB7dSkYO0@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz5PMCtm0tVpYhN01/ST2zVQyyMN4MTL7EtzRwFocu7WzUFtXTr
-	g71kPs40djo78lyvm5QjCVkNU/AWqNuhgdodylbbfSEVvViKA6R/J/matAx78YW7WfVIL3OoIY1
-	2jionqJG9j9vXvEbbf2IFy45yWdPtRfBLAuxz7UXME4UmmEskQA2A0vVSsYg=
+	s=arc-20240116; t=1773813664; c=relaxed/simple;
+	bh=rMROIzV9bRqUzrcYakjh5WuCieIdwd/xKsodgkFDVNI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=eYBiK3ddZ84xLpjbIpHoqVkceWzvxq7hLJoKNlYbroDsR+/bWvmhT8RzCWXZ8pBWYLvvCbe+fk0HfIwfYj1fHad7zl5PuTxOLE/Uu/YfrQ40+t+B+hQd3431ATw8YORuPCYSUz4iheFsLL6sYUUmPIZMMpg7U5bv+zPevP8/Jjk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X8v+oRE3; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X8v+oRE3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A69A3C19421;
+	Wed, 18 Mar 2026 06:00:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773813664;
+	bh=rMROIzV9bRqUzrcYakjh5WuCieIdwd/xKsodgkFDVNI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=X8v+oRE3pAOSEuTZjHr3Oh2Z90dWfnHsJQFNulFAQ7hMIthNoAunZdyZRb5sZKniy
+	 ngr35Qzru8Zw228d/5ms2ZOTo/LOEvhUZeyp+dSJycdHqdCW/Sa77oJPO5geAs81vs
+	 EfRIhPsBzneWimQ5B3/iCgflUbUgW2eLJlTTE+odf0kly6dVlRdUF7wQIdsLiGWSJl
+	 QoqCMBaYVBMENWG/+wnRZZXCx3IkGynxtsV8sCiC28Zjau3gQjWUz4/yRNcEsfy7Lu
+	 4Cm8GfYHzT0DBh9bG3TcCcjDLflUKriHcrKma2+9xwoGNxtMG+Z+NyJltTuZkGtV1U
+	 V5pI5HHyzW1iw==
+Date: Wed, 18 Mar 2026 07:00:55 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Sasha Levin <sashal@kernel.org>, linux-api@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, workflows@vger.kernel.org,
+ tools@kernel.org, x86@kernel.org, Thomas Gleixner <tglx@kernel.org>, "Paul
+ E. McKenney" <paulmck@kernel.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Dmitry Vyukov <dvyukov@google.com>, Randy
+ Dunlap <rdunlap@infradead.org>, Cyril Hrubis <chrubis@suse.cz>, Kees Cook
+ <kees@kernel.org>, Jake Edge <jake@lwn.net>, David Laight
+ <david.laight.linux@gmail.com>, Askar Safin <safinaskar@zohomail.com>,
+ Gabriele Paoloni <gpaoloni@redhat.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Christian Brauner <brauner@kernel.org>, Alexander
+ Viro <viro@zeniv.linux.org.uk>, Andrew Morton <akpm@linux-foundation.org>,
+ Masahiro Yamada <masahiroy@kernel.org>, Shuah Khan
+ <skhan@linuxfoundation.org>, Ingo Molnar <mingo@redhat.com>, Arnd Bergmann
+ <arnd@arndb.de>
+Subject: Re: [PATCH 1/9] kernel/api: introduce kernel API specification
+ framework
+Message-ID: <20260318070055.39f1af80@foz.lan>
+In-Reply-To: <87h5qe9wig.fsf@trenco.lwn.net>
+References: <20260313150928.2637368-1-sashal@kernel.org>
+	<20260313150928.2637368-2-sashal@kernel.org>
+	<87h5qe9wig.fsf@trenco.lwn.net>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:4887:b0:66b:6862:18d5 with SMTP id
- 006d021491bc7-67c0da588ddmr1007794eaf.8.1773810121701; Tue, 17 Mar 2026
- 22:02:01 -0700 (PDT)
-Date: Tue, 17 Mar 2026 22:02:01 -0700
-In-Reply-To: <abolyGbAyynUANDB@hyeyoo>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <69ba31c9.050a0220.3077e3.0002.GAE@google.com>
-Subject: Re: [syzbot] [mm?] [f2fs?] [exfat?] memory leak in __kfree_rcu_sheaf
-From: syzbot <syzbot+cae7809e9dc1459e4e63@syzkaller.appspotmail.com>
-To: akpm@linux-foundation.org, catalin.marinas@arm.com, chao@kernel.org, 
-	hao.li@linux.dev, harry.yoo@oracle.com, jaegeuk@kernel.org, jannh@google.com, 
-	liam.howlett@oracle.com, linkinjeon@kernel.org, 
-	linux-f2fs-devel@lists.sourceforge.net, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, lorenzo.stoakes@oracle.com, 
-	pfalcato@suse.de, sj1557.seo@samsung.com, syzkaller-bugs@googlegroups.com, 
-	vbabka@kernel.org, vbabka@suse.cz, wangqing7171@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hello,
+On Tue, 17 Mar 2026 11:49:27 -0600
+Jonathan Corbet <corbet@lwn.net> wrote:
 
-syzbot has tested the proposed patch but the reproducer is still triggering an issue:
-memory leak in __pcs_replace_empty_main
+> Sasha Levin <sashal@kernel.org> writes:
+> 
+> > Add a framework for formally documenting kernel APIs with inline
+> > specifications. This framework provides:
+> >
+> > - Structured API documentation with parameter specifications, return
+> >   values, error conditions, and execution context requirements
+> > - Runtime validation capabilities for debugging (CONFIG_KAPI_RUNTIME_CHECKS)
+> > - Export of specifications via debugfs for tooling integration
+> > - Support for both internal kernel APIs and system calls  
+> 
+> So I'll confess I have only scanned over the implementation, but I have
+> some thoughts on the earlier stuff.
+> 
+> [...]
+> 
+> > diff --git a/Documentation/dev-tools/kernel-api-spec.rst b/Documentation/dev-tools/kernel-api-spec.rst
+> > new file mode 100644
+> > index 0000000000000..7c0c1694f1f4a
+> > --- /dev/null
+> > +++ b/Documentation/dev-tools/kernel-api-spec.rst
+> > @@ -0,0 +1,482 @@
+> > +.. SPDX-License-Identifier: GPL-2.0
+> > +
+> > +======================================
+> > +Kernel API Specification Framework
+> > +======================================
+> > +
+> > +:Author: Sasha Levin <sashal@kernel.org>
+> > +:Date: June 2025  
+> 
+> Has it not changed since then?
+> 
+> > +.. contents:: Table of Contents
+> > +   :depth: 3
+> > +   :local:
+> > +
+> > +Introduction
+> > +============  
+> 
+> [...]
+> 
+> > +Usage Guide
+> > +===========
+> > +
+> > +Basic API Specification
+> > +-----------------------
+> > +
+> > +API specifications are written as KAPI-annotated kerneldoc comments directly in
+> > +the source file, immediately preceding the function implementation. The ``kapi``
+> > +tool extracts these annotations to produce structured specifications.
+> > +
+> > +.. code-block:: c
+> > +
+> > +    /**
+> > +     * kmalloc - allocate kernel memory
+> > +     * @size: Number of bytes to allocate
+> > +     * @flags: Allocation flags (GFP_*)  
+> 
+> Given that the text thus far has talked about user-space API validation,
+> it's a bit surprising to see an internal function used as an example.
+> 
+> Also, maybe it should be kmalloc_obj()?  <runs away>
+> 
+> > +     * context-flags: KAPI_CTX_PROCESS | KAPI_CTX_SOFTIRQ | KAPI_CTX_HARDIRQ
+> > +     * param-count: 2  
+> 
+> param-count is two, but you only document one of them?
+> 
+> > +     * param: size
+> > +     *   type: KAPI_TYPE_UINT
+> > +     *   flags: KAPI_PARAM_IN
+> > +     *   constraint-type: KAPI_CONSTRAINT_RANGE
+> > +     *   range: 0, KMALLOC_MAX_SIZE
+> > +     *
+> > +     * error: ENOMEM, Out of memory
+> > +     *   desc: Insufficient memory available for the requested allocation.
+> > +     */  
+> 
+> Honest question: can this be made a bit easier for people to create,
+> with less shift-key wear?  My biggest worry with a system like this is
+> that people won't take the time to create and maintain the entries, so
+> anything that would ease the task would help.  Is there an impediment to
+> something like:
+> 
+>   contexts: process, softirq, hardirq
+> 
+>   param: size
+>     type: uint, input
+>     constraint: range(0, KMALLOC_MAX_SIZE)
+> 
+> See what I'm getting at?  ISTM that your DSL could be made a bit less
+> verbose and shouty while being just as well defined, but perhaps I'm
+> missing something?
+> 
+> Even better, of course, would be to add a "description" field for each
+> parameter, and allow that rather than the @param description that
+> kerneldoc currently uses.  That would keep all the information together,
+> at the minor cost of adding another significant complication to the
+> kernel-doc script.  Mauro won't mind :)
 
-BUG: memory leak
-unreferenced object 0xffff888129413800 (size 512):
-  comm "kworker/u8:3", pid 58, jiffies 4294947638
-  hex dump (first 32 bytes):
-    00 ac 98 1c 81 88 ff ff 00 18 6b 0a 81 88 ff ff  ..........k.....
-    00 12 04 00 81 88 ff ff 3c 00 00 00 00 00 00 00  ........<.......
-  backtrace (crc 10da2a4f):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4543 [inline]
-    slab_alloc_node mm/slub.c:4866 [inline]
-    __do_kmalloc_node mm/slub.c:5259 [inline]
-    __kmalloc_noprof+0x3bd/0x560 mm/slub.c:5272
-    kmalloc_noprof include/linux/slab.h:954 [inline]
-    kzalloc_noprof include/linux/slab.h:1188 [inline]
-    __alloc_empty_sheaf+0x35/0x50 mm/slub.c:2764
-    alloc_empty_sheaf mm/slub.c:2779 [inline]
-    alloc_full_sheaf mm/slub.c:2829 [inline]
-    __pcs_replace_empty_main+0x1e0/0x2f0 mm/slub.c:4626
-    alloc_from_pcs mm/slub.c:4717 [inline]
-    slab_alloc_node mm/slub.c:4851 [inline]
-    __do_kmalloc_node mm/slub.c:5259 [inline]
-    __kmalloc_noprof+0x4c5/0x560 mm/slub.c:5272
-    kmalloc_noprof include/linux/slab.h:954 [inline]
-    kzalloc_noprof include/linux/slab.h:1188 [inline]
-    cfg80211_inform_single_bss_data+0x21d/0xa70 net/wireless/scan.c:2344
-    cfg80211_inform_bss_data+0x13f/0x1dc0 net/wireless/scan.c:3226
-    cfg80211_inform_bss_frame_data+0x108/0x340 net/wireless/scan.c:3317
-    ieee80211_bss_info_update+0x13a/0x320 net/mac80211/scan.c:230
-    ieee80211_rx_bss_info net/mac80211/ibss.c:1094 [inline]
-    ieee80211_rx_mgmt_probe_beacon net/mac80211/ibss.c:1575 [inline]
-    ieee80211_ibss_rx_queued_mgmt+0xb75/0x1230 net/mac80211/ibss.c:1602
-    ieee80211_iface_process_skb net/mac80211/iface.c:1748 [inline]
-    ieee80211_iface_work+0x6af/0x9b0 net/mac80211/iface.c:1802
-    cfg80211_wiphy_work+0x1db/0x280 net/wireless/core.c:440
-    process_one_work+0x277/0x5f0 kernel/workqueue.c:3276
-    process_scheduled_works kernel/workqueue.c:3359 [inline]
-    worker_thread+0x255/0x4a0 kernel/workqueue.c:3440
-    kthread+0x14e/0x1a0 kernel/kthread.c:436
-    ret_from_fork+0x23c/0x4b0 arch/x86/kernel/process.c:158
-    ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+No, I won't ;-) 
 
-BUG: memory leak
-unreferenced object 0xffff88812a621a00 (size 512):
-  comm "kworker/u8:3", pid 58, jiffies 4294950606
-  hex dump (first 32 bytes):
-    00 18 62 2a 81 88 ff ff 00 d6 04 00 81 88 ff ff  ..b*............
-    00 12 04 00 81 88 ff ff 3c 00 00 00 00 00 00 00  ........<.......
-  backtrace (crc 231cde90):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4543 [inline]
-    slab_alloc_node mm/slub.c:4866 [inline]
-    __do_kmalloc_node mm/slub.c:5259 [inline]
-    __kmalloc_noprof+0x3bd/0x560 mm/slub.c:5272
-    kmalloc_noprof include/linux/slab.h:954 [inline]
-    kzalloc_noprof include/linux/slab.h:1188 [inline]
-    __alloc_empty_sheaf+0x35/0x50 mm/slub.c:2764
-    alloc_empty_sheaf mm/slub.c:2779 [inline]
-    alloc_full_sheaf mm/slub.c:2829 [inline]
-    __pcs_replace_empty_main+0x1e0/0x2f0 mm/slub.c:4626
-    alloc_from_pcs mm/slub.c:4717 [inline]
-    slab_alloc_node mm/slub.c:4851 [inline]
-    __do_kmalloc_node mm/slub.c:5259 [inline]
-    __kmalloc_noprof+0x4c5/0x560 mm/slub.c:5272
-    kmalloc_noprof include/linux/slab.h:954 [inline]
-    kzalloc_noprof include/linux/slab.h:1188 [inline]
-    cfg80211_inform_single_bss_data+0x21d/0xa70 net/wireless/scan.c:2344
-    cfg80211_inform_bss_data+0x13f/0x1dc0 net/wireless/scan.c:3226
-    cfg80211_inform_bss_frame_data+0x108/0x340 net/wireless/scan.c:3317
-    ieee80211_bss_info_update+0x13a/0x320 net/mac80211/scan.c:230
-    ieee80211_rx_bss_info net/mac80211/ibss.c:1094 [inline]
-    ieee80211_rx_mgmt_probe_beacon net/mac80211/ibss.c:1575 [inline]
-    ieee80211_ibss_rx_queued_mgmt+0xb75/0x1230 net/mac80211/ibss.c:1602
-    ieee80211_iface_process_skb net/mac80211/iface.c:1748 [inline]
-    ieee80211_iface_work+0x6af/0x9b0 net/mac80211/iface.c:1802
-    cfg80211_wiphy_work+0x1db/0x280 net/wireless/core.c:440
-    process_one_work+0x277/0x5f0 kernel/workqueue.c:3276
-    process_scheduled_works kernel/workqueue.c:3359 [inline]
-    worker_thread+0x255/0x4a0 kernel/workqueue.c:3440
-    kthread+0x14e/0x1a0 kernel/kthread.c:436
-    ret_from_fork+0x23c/0x4b0 arch/x86/kernel/process.c:158
-    ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+It sounds a lot better to use kernel-doc also for kAPI than to have an
+independent tool.
 
-BUG: memory leak
-unreferenced object 0xffff88812a621800 (size 512):
-  comm "kworker/u8:6", pid 932, jiffies 4294950638
-  hex dump (first 32 bytes):
-    00 18 6b 0a 81 88 ff ff 00 1a 62 2a 81 88 ff ff  ..k.......b*....
-    00 12 04 00 81 88 ff ff 3c 00 00 00 00 00 00 00  ........<.......
-  backtrace (crc 9a0f4a55):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4543 [inline]
-    slab_alloc_node mm/slub.c:4866 [inline]
-    __do_kmalloc_node mm/slub.c:5259 [inline]
-    __kmalloc_noprof+0x3bd/0x560 mm/slub.c:5272
-    kmalloc_noprof include/linux/slab.h:954 [inline]
-    kzalloc_noprof include/linux/slab.h:1188 [inline]
-    __alloc_empty_sheaf+0x35/0x50 mm/slub.c:2764
-    alloc_empty_sheaf mm/slub.c:2779 [inline]
-    alloc_full_sheaf mm/slub.c:2829 [inline]
-    __pcs_replace_empty_main+0x1e0/0x2f0 mm/slub.c:4626
-    alloc_from_pcs mm/slub.c:4717 [inline]
-    slab_alloc_node mm/slub.c:4851 [inline]
-    __do_kmalloc_node mm/slub.c:5259 [inline]
-    __kmalloc_noprof+0x4c5/0x560 mm/slub.c:5272
-    kmalloc_noprof include/linux/slab.h:954 [inline]
-    kzalloc_noprof include/linux/slab.h:1188 [inline]
-    cfg80211_inform_single_bss_data+0x21d/0xa70 net/wireless/scan.c:2344
-    cfg80211_inform_bss_data+0x13f/0x1dc0 net/wireless/scan.c:3226
-    cfg80211_inform_bss_frame_data+0x108/0x340 net/wireless/scan.c:3317
-    ieee80211_bss_info_update+0x13a/0x320 net/mac80211/scan.c:230
-    ieee80211_rx_bss_info net/mac80211/ibss.c:1094 [inline]
-    ieee80211_rx_mgmt_probe_beacon net/mac80211/ibss.c:1575 [inline]
-    ieee80211_ibss_rx_queued_mgmt+0xb75/0x1230 net/mac80211/ibss.c:1602
-    ieee80211_iface_process_skb net/mac80211/iface.c:1748 [inline]
-    ieee80211_iface_work+0x6af/0x9b0 net/mac80211/iface.c:1802
-    cfg80211_wiphy_work+0x1db/0x280 net/wireless/core.c:440
-    process_one_work+0x277/0x5f0 kernel/workqueue.c:3276
-    process_scheduled_works kernel/workqueue.c:3359 [inline]
-    worker_thread+0x255/0x4a0 kernel/workqueue.c:3440
-    kthread+0x14e/0x1a0 kernel/kthread.c:436
-    ret_from_fork+0x23c/0x4b0 arch/x86/kernel/process.c:158
-    ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+It is also very confusing if we end with a kernel-doc-like format
+that it is not parsed by kernel-doc.
 
-connection error: failed to recv *flatrpc.ExecutorMessageRawT: EOF
+> 
+> > +    void *kmalloc(size_t size, gfp_t flags)
+> > +    {
+> > +        /* Implementation */
+> > +    }
+> > +
+> > +Alternatively, specifications can be defined using the ``DEFINE_KERNEL_API_SPEC``
+> > +macro for compiled-in specs that are stored in the ``.kapi_specs`` ELF section:
+> > +
+> > +.. code-block:: c
+> > +
+> > +    #include <linux/kernel_api_spec.h>
+> > +
+> > +    DEFINE_KERNEL_API_SPEC(sys_open)
+> > +    KAPI_DESCRIPTION("Open or create a file")
+> > +    KAPI_CONTEXT(KAPI_CTX_PROCESS | KAPI_CTX_SLEEPABLE)
+> > +    /* ... parameter, error, constraint definitions ... */
+> > +    KAPI_END_SPEC  
+> 
+> So the reason for two completely separate mechanisms is not entirely
+> clear to me.  The kerneldoc variant is essentially documentation, while
+> the macro stuff is to be built into the executable?  What if you want
+> both?
+
+You can easily add support at kernel-doc to output such macros.
+
+All you need is to create a new class derived from OutputFormat and
+make it produce any different output format, including:
+
+    #include <linux/kernel_api_spec.h>
+
+    DEFINE_KERNEL_API_SPEC(sys_open)
+    KAPI_DESCRIPTION("Open or create a file")
+    KAPI_CONTEXT(KAPI_CTX_PROCESS | KAPI_CTX_SLEEPABLE)
+    /* ... parameter, error, constraint definitions ... */
+    KAPI_END_SPEC  
+
+I'd say that converting from such output to `.kapi_specs`` ELF section
+itself and/or to sysfs/debugfs - e.g. something that would require to
+compile or be linked with Kernel's compiled binaries should be done by a
+separate tool, but we should aim to have a singe tool to process 
+kernel documentation markups.
+
+It is hard enough to maintain just one tool - and to have people actually
+writing documentation. Having a second one to handle it, with a different
+format will likely increase a lot the documentation burden.
+
+> It would be nice to only have one way if at all possible; I'm sure that
+> crossed your mind at some point :)  If there have to be two, having both
+> examples describe the same function would make the parallels more clear.
+> 
+> > +System Call Specification
+> > +-------------------------
+> > +
+> > +System calls are documented inline in the implementation file (e.g., ``fs/open.c``)
+> > +using KAPI-annotated kerneldoc comments. When ``CONFIG_KAPI_RUNTIME_CHECKS`` is
+> > +enabled, the ``SYSCALL_DEFINEx`` macros automatically look up the specification
+> > +and validate parameters before and after the syscall executes.
+> > +
+> > +IOCTL Specification
+> > +-------------------
+> > +
+> > +IOCTLs use the same annotation approach with additional structure field
+> > +specifications  
+> 
+> This might be a really good place for an example
+> 
+> [...]
+> 
+> > +Usage Examples
+> > +--------------
+> > +
+> > +Query specific API::
+> > +
+> > +    $ cat /sys/kernel/debug/kapi/apis/kmalloc/specification
+> > +    API: kmalloc
+> > +    Version: 3.0
+> > +    Description: Allocate kernel memory
+> > +
+> > +    Parameters:
+> > +      [0] size (size_t, in): Number of bytes to allocate
+> > +          Range: 0 - 4194304
+> > +      [1] flags (flags, in): Allocation flags (GFP_*)
+> > +          Mask: 0x1ffffff  
+> 
+> Ah, you do document that second parameter somewhere :)
+> 
+> > +    Returns: pointer - Pointer to allocated memory or NULL
+> > +
+> > +    Errors:
+> > +      ENOMEM: Out of memory
+> > +
+> > +    Context: process, softirq, hardirq
+> > +
+> > +    Side Effects:
+> > +      - Allocates memory from kernel heap  
+> 
+> That part wasn't in your example
+> 
+> > +Export all specifications::
+> > +
+> > +    $ cat /sys/kernel/debug/kapi/export/all.json > kernel-apis.json
+> > +
+> > +Enable validation for specific API::
+> > +
+> > +    $ echo 1 > /sys/kernel/debug/kapi/apis/kmalloc/validate
+> > +
+> > +Performance Considerations
+> > +==========================
+> > +
+> > +Memory Overhead
+> > +---------------
+> > +
+> > +Each API specification consumes approximately 400-450KB of memory due to the
+> > +fixed-size arrays in ``struct kernel_api_spec``. With the current 4 syscall
+> > +specifications, total memory usage is approximately 1.7MB. Consider:  
+> 
+> Ouch.
+> 
+> > +Documentation Generation
+> > +------------------------
+> > +
+> > +The framework exports specifications via debugfs that can be used
+> > +to generate documentation. Tools for automatic documentation generation
+> > +from specifications are planned for future development.  
+> 
+> Documentation always comes last :)
+> 
+> Interesting stuff.
+> 
+> jon
 
 
-Tested on:
 
-commit:         a989fde7 Merge tag 'libnvdimm-fixes-7.0-rc5' of git://..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=15c4974a580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=e2bba615ee79faa5
-dashboard link: https://syzkaller.appspot.com/bug?extid=cae7809e9dc1459e4e63
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-patch:          https://syzkaller.appspot.com/x/patch.diff?x=178fc216580000
-
+Thanks,
+Mauro
