@@ -1,397 +1,305 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87661394471
-	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Mar 2026 12:07:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773835625; cv=pass; b=u/Lul6jG24K95RHqVtd3tiF6DXlMCDCyN4ZCWZRX5e2mYhF+C/g/Zur9ATpJGcuIIqQyM2NV0tSR2btflFrWHMtTEwGVHZ4wYz6G67HDNMKhUD36APWFNkuokVB1XVw4CUV0YMH1ObRb3zGbwGAatlYHrJ3JoczTx3L5XzYu4JM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773835625; c=relaxed/simple;
-	bh=xXOwv5xxQP+z3NMAooG7oWXJ2IstPlgwcLJ969ih5hM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RJeR0iqbF9waGuiDyosCpPVygetIce+ftfhMCTwHcaEVgrNR38sZI/9IQKEfSPXOY8PbORNDbV6cBKffNghCERFf/w23JP9lz00QgdMlu6rvYg6ufJ2ssaOBXuIs76iBGTHHypokWAsBB/3TdPBqnY+oYGhpM73j6B997pj2UO0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bOSUbFR4; arc=pass smtp.client-ip=209.85.218.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFD6E35F5E8;
+	Wed, 18 Mar 2026 12:23:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773836582; cv=none; b=il3rn+9E2NJMFfbOCDSsTslJaQG0OrsiiSWz4e2arDO74gUxuQiHj/K9aGMuxXp+aoH0facCMuKnY7iroKAIaHwILD9Ojr3rxco5rK9AhEsIKkEtfNW4WRWGCaK46TGcH9llUWjODJPNdP5Ej0FwtKwdlpbYevRM5LkW2cVL0W8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773836582; c=relaxed/simple;
+	bh=LFBV3FKqCHGIGpa8UF0TaoOEPIzW8XXWMiAR47mpB/A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fJV7UEY/lPkUUqJjT1+Se4XaOHVFih019mSWky6PJE1ghnFC8FKcdJUIyYHtlVm8xYNQxxb7wKwZ4G4dAU0q7N72VDMuQ4lhADmhDxPBkzJvmW4iI5uQ2BblGpunFQWP90WoxFsxRVTaoXKwircdZ0GVbwTIzmfuKGXe6BNNe/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A3TkXw+1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bOSUbFR4"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-b936331786dso779884166b.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 18 Mar 2026 05:07:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773835621; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Qtp0Q0G5vyQkd69SXPK16zaFBkGOdvSir5yhJEw4y1FkPWAwzmX2E9YQt9o74EKmw8
-         frwYCm1AskUkjibBBnXKCLQwB18syzMzf3AlTbJG+PocUN1tMZIKe/U/HInbs47sOHU8
-         V/rV7n4ApnorWC0XLq+l+zMDReYQ35UAVbQEXEC2XYCnHXZJ/h0+zwLCXQna5Y8Uw5ND
-         bKCJPfimxI14z8J2O7JaTTBmk0faSq1ZfaGSjCuJpq7f92Womfe/u9m3cjExzE9MIXyo
-         lize1hZdTFEDkd7pzicXOFNZt9FXIM6M6Bj/TgfSwRYG0oVNZw5EpUwjaatJp2PoDaXz
-         RFWQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=6ZDbD4STVvyzkKpqwhxvWWUwBKgUQKeGSzEwSkv9W2c=;
-        fh=8NEQeQwtCEujszrXa/r/j4Wac17WZMQBAM97bZehwhc=;
-        b=UQcEayQxaIZdmvB8UgPZqB6EN6pcMriOcx5RN0xDZ1A+78ogg8unbjiA7RQ6K8kr4Y
-         LQFLtwY3H+S+QcniOyNq2eY+TA67dqrka6VFAuNKoMV6jTkXV3Suw7XABxeDmlOc7Ee4
-         NY0s0kwKY3mNx4uE1XpmacAjOAo7z4aur+n1FBuvBYR+82JYrByWgfFlIT/jtQVSjGC3
-         BAz34mlMlg6ppSlQL61PyKy8PH+u4UNIzKH5SSg7xvsEDNjQImZuKFZD/q7DTHFNkBvP
-         DFlCdfAMn2ZL/U9IuLgZkSTn3c29tMkuAFo2Zlp0DLcrNCiUC5ruuZTaLKrskgIqxZXd
-         7/6A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773835621; x=1774440421; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6ZDbD4STVvyzkKpqwhxvWWUwBKgUQKeGSzEwSkv9W2c=;
-        b=bOSUbFR4pUElv87QPJby9DyIzars7OHB/G98km3AKgcAiiP3bnw8rMSGPBbPZXy4b2
-         Qu1f4YM8CukZcnOdc0gnxZ8I3feTJUFtweZ6KtgPtx4wuTu82mKkIqcV9S/bndsrMtXO
-         kMHyhQkTZjkqGK249wMVBYgfMnRspTcKot0ysmbQmYYitJwVRiTx7MzwHzI9lU+qLISh
-         4ask/V+18+GMpF3kszuBBLztX6/mZkmrLqS5oZ8lft0UCbYXxz7qYrLZ7ZjUNzY/hSSy
-         xStOL6AOAiN+qRu4h6nDAu7zyVn2hFoX1X+hY/awO/PcQ02oGqobPQDCYQp0K3qa5ffr
-         2y0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773835621; x=1774440421;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=6ZDbD4STVvyzkKpqwhxvWWUwBKgUQKeGSzEwSkv9W2c=;
-        b=iQX06K1JAkyhuSPx1TUe52CumBmb/F1F+B2/9X7vXUIs6joSMx7xOscStsEVT+EMK2
-         6otWp+DH1RghjkLwy1hezVWpfOPs6yLgyavmZkBjNQ4BIcilAvGAEE6S8PsDwABP+CRs
-         YSPIswn7wcDi2fdxEDkXRCKy3aDFVlDRru46oqV1nDx3C+bWbwJStvQ9bcDCp0U/xPLu
-         wLVEEtkdz1VVC6kZKCzyCECNqlBBgQQD5OKSs8URlYJ+DiREPz23T1MFLdqMgkxS5tOK
-         i5F6z6g0rQx/b5RxBTaoVeDEq2HRUs0jsBWJeTRL0eVDlSULj0z7wxElTZ7YXfH724AE
-         PwqA==
-X-Forwarded-Encrypted: i=1; AJvYcCUfBjI7cziivzqnZfm2Afzg+LYvGT7vvFahzb1YKKr/8oSNcz1g6ymNifvobtsleMETFR+05sI4Ilt0m3Gu@vger.kernel.org
-X-Gm-Message-State: AOJu0YwygAAnYp/Cp86+etkWeJ/L56GBpoMUcsoOyEfR0RBtAsjj+4y0
-	JDdXRCjmtP2amtBLQJQ9iLpUGWOWHG7V5e/yyro/XXZtBhzghqefDacuWndwa4r4RyhkA614wyb
-	kRvXQr+sinjt6he8/l0WlaJsWGqtOpzLSUk12BWU=
-X-Gm-Gg: ATEYQzyI8v2yHwIjFm5kvnEG3b4Jd1XfsUKJ05CTTjZsqvtUSQ14Dj8hY3ePL7GTZdr
-	G5uqcQb1P2kCEsT9WXVwskWsnN/NJpA48eHYhuBEDxxhbMxCptdxqgLsqRxlB1rSRPnFkeYkl6G
-	a/7hgVLSj7mHURPgo+xIFYWqfhCY1qJNT3nHQ5PChoSwxWAThkv9dY2+Cdxe5Ko9fZmiIbA+miu
-	iRkZ7j35f1/IFuDNXQRLKyICC8w1bINOjsMvyNfLEsyv0jdLmMmrBpFDEdmv0dLDFOPUhrNYszf
-	bnltuf7gHEAbzyZFPpR6vI3uWhzZKNODXH/a+I1UIfZulMwbQQM=
-X-Received: by 2002:a17:906:6a01:b0:b97:fe6d:2e4a with SMTP id
- a640c23a62f3a-b97fe6d3a3fmr112673966b.10.1773835620414; Wed, 18 Mar 2026
- 05:07:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A3TkXw+1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A37B6C19421;
+	Wed, 18 Mar 2026 12:23:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773836582;
+	bh=LFBV3FKqCHGIGpa8UF0TaoOEPIzW8XXWMiAR47mpB/A=;
+	h=From:To:Cc:Subject:Date:From;
+	b=A3TkXw+1EgSEbhmx6lN+R5iOmhHDs6ohTu6YOlThw5nUnRPwXAZ6oSSOEG7jHp7S7
+	 r1vBedqXc8M/uK/JGTZOSob9dIOmEObKWhVDGPZliXSh+KGLC5gqbCRpnwM7I3C8M0
+	 cnPgrg7yOR08S3TrAPWbzxvKZ0rtka7WPAHSJe/ZZ5izveL742Qv+8keODrnpSEoh+
+	 DUEw4T5F1caTowy9RgY0UVVOonjrlKj8dw8ufVMscrOfvPEKpGEkH7rBk/ZlXCvhVk
+	 3raODPm7FvyMWBSBkGSk3OovGV5fRXO/opGF99v8oXtlHs5guo0Wi9zwN8Kb9obL/u
+	 UqB3gdqS7DEPA==
+From: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
+To: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	David Laight <david.laight.linux@gmail.com>
+Cc: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v4] fs: Replace user_access_{begin/end} by scoped user access
+Date: Wed, 18 Mar 2026 13:22:43 +0100
+Message-ID: <f46941437f681cc72fc5a84fa768f65b952f43c6.1773830446.git.chleroy@kernel.org>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260316213606.374109-5-paul@paul-moore.com> <20260316213606.374109-6-paul@paul-moore.com>
- <20260318-einsam-sellerie-2d547dd338ee@brauner>
-In-Reply-To: <20260318-einsam-sellerie-2d547dd338ee@brauner>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Wed, 18 Mar 2026 13:06:48 +0100
-X-Gm-Features: AaiRm52zvCWb40EW5edB_L-EubZhlbZT4WB8o_i5sTfBey92Yh1WyoQQt0_imPE
-Message-ID: <CAOQ4uxhfvS1SCkp504uDuBmgqSEBYaQDDVAm+JY=w_2fKLbQsQ@mail.gmail.com>
-Subject: Re: [PATCH 1/3] backing_file: store user_path_file
-To: Christian Brauner <brauner@kernel.org>
-Cc: Paul Moore <paul@paul-moore.com>, linux-security-module@vger.kernel.org, 
-	selinux@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-unionfs@vger.kernel.org, linux-erofs@lists.ozlabs.org, 
-	Gao Xiang <xiang@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Developer-Signature: v=1; a=openpgp-sha256; l=9338; i=chleroy@kernel.org; h=from:subject:message-id; bh=LFBV3FKqCHGIGpa8UF0TaoOEPIzW8XXWMiAR47mpB/A=; b=owGbwMvMwCV2d0KB2p7V54MZT6slMWTumik6b9/SeUJJWf80VvxMiozYc0dZp+F6T4RhSU+Zv ayg+6mkjlIWBjEuBlkxRZbj/7l3zej6kpo/dZc+zBxWJpAhDFycAjCRxSsZGVa7VMnoMfwp+ux6 87fCJ8abdVt95dUKFpsdeXaIKdnK8DLDP9XZert1up/PzzN58mWpUb5grHjth8mX9PRqTbPnXVN 7wQcA
+X-Developer-Key: i=chleroy@kernel.org; a=openpgp; fpr=10FFE6F8B390DE17ACC2632368A92FEB01B8DD78
+Content-Transfer-Encoding: 8bit
 
-On Wed, Mar 18, 2026 at 11:57=E2=80=AFAM Christian Brauner <brauner@kernel.=
-org> wrote:
->
-> On Mon, Mar 16, 2026 at 05:35:56PM -0400, Paul Moore wrote:
-> > From: Amir Goldstein <amir73il@gmail.com>
-> >
-> > Instead of storing the user_path, store an O_PATH file for the
-> > user_path with the original user file creds and a security context.
-> >
-> > The user_path_file is only exported as a const pointer and its refcnt
-> > is initialized to FILE_REF_DEAD, because it is not a refcounted object.
-> >
-> > The only caller of file_ref_init() is now open coded, so the helper
-> > is removed.
-> >
-> > Signed-off-by: Amir Goldstein <amir73il@gmail.com>
-> > Tested-by: Paul Moore <paul@paul-moore.com> (SELinux)
-> > Acked-by: Gao Xiang <hsiangkao@linux.alibaba.com> (EROFS)
-> > Signed-off-by: Paul Moore <paul@paul-moore.com>
-> > ---
-> >  fs/backing-file.c            | 20 ++++++++------
-> >  fs/erofs/ishare.c            |  6 ++--
-> >  fs/file_table.c              | 53 ++++++++++++++++++++++++++++--------
-> >  fs/fuse/passthrough.c        |  3 +-
-> >  fs/internal.h                |  5 ++--
-> >  fs/overlayfs/dir.c           |  3 +-
-> >  fs/overlayfs/file.c          |  1 +
-> >  include/linux/backing-file.h | 29 ++++++++++++++++++--
-> >  include/linux/file_ref.h     | 10 -------
-> >  9 files changed, 90 insertions(+), 40 deletions(-)
-> >
-> > diff --git a/fs/backing-file.c b/fs/backing-file.c
-> > index 45da8600d564..acabeea7efff 100644
-> > --- a/fs/backing-file.c
-> > +++ b/fs/backing-file.c
-> > @@ -11,6 +11,7 @@
-> >  #include <linux/fs.h>
-> >  #include <linux/backing-file.h>
-> >  #include <linux/splice.h>
-> > +#include <linux/uio.h>
-> >  #include <linux/mm.h>
-> >
-> >  #include "internal.h"
-> > @@ -18,9 +19,10 @@
-> >  /**
-> >   * backing_file_open - open a backing file for kernel internal use
-> >   * @user_path:       path that the user reuqested to open
-> > + * @user_cred:       credentials that the user used for open
-> >   * @flags:   open flags
-> >   * @real_path:       path of the backing file
-> > - * @cred:    credentials for open
-> > + * @cred:    credentials for open of the backing file
-> >   *
-> >   * Open a backing file for a stackable filesystem (e.g., overlayfs).
-> >   * @user_path may be on the stackable filesystem and @real_path on the
-> > @@ -29,19 +31,19 @@
-> >   * returned file into a container structure that also stores the stack=
-ed
-> >   * file's path, which can be retrieved using backing_file_user_path().
-> >   */
-> > -struct file *backing_file_open(const struct path *user_path, int flags=
-,
-> > +struct file *backing_file_open(const struct path *user_path,
-> > +                            const struct cred *user_cred, int flags,
-> >                              const struct path *real_path,
-> >                              const struct cred *cred)
-> >  {
-> >       struct file *f;
-> >       int error;
-> >
-> > -     f =3D alloc_empty_backing_file(flags, cred);
-> > +     f =3D alloc_empty_backing_file(flags, cred, user_cred);
-> >       if (IS_ERR(f))
-> >               return f;
-> >
-> > -     path_get(user_path);
-> > -     backing_file_set_user_path(f, user_path);
-> > +     backing_file_open_user_path(f, user_path);
-> >       error =3D vfs_open(real_path, f);
-> >       if (error) {
-> >               fput(f);
-> > @@ -52,7 +54,8 @@ struct file *backing_file_open(const struct path *use=
-r_path, int flags,
-> >  }
-> >  EXPORT_SYMBOL_GPL(backing_file_open);
-> >
-> > -struct file *backing_tmpfile_open(const struct path *user_path, int fl=
-ags,
-> > +struct file *backing_tmpfile_open(const struct path *user_path,
-> > +                               const struct cred *user_cred, int flags=
-,
-> >                                 const struct path *real_parentpath,
-> >                                 umode_t mode, const struct cred *cred)
-> >  {
-> > @@ -60,12 +63,11 @@ struct file *backing_tmpfile_open(const struct path=
- *user_path, int flags,
-> >       struct file *f;
-> >       int error;
-> >
-> > -     f =3D alloc_empty_backing_file(flags, cred);
-> > +     f =3D alloc_empty_backing_file(flags, cred, user_cred);
-> >       if (IS_ERR(f))
-> >               return f;
-> >
-> > -     path_get(user_path);
-> > -     backing_file_set_user_path(f, user_path);
-> > +     backing_file_open_user_path(f, user_path);
-> >       error =3D vfs_tmpfile(real_idmap, real_parentpath, f, mode);
-> >       if (error) {
-> >               fput(f);
-> > diff --git a/fs/erofs/ishare.c b/fs/erofs/ishare.c
-> > index 829d50d5c717..17a4941d4518 100644
-> > --- a/fs/erofs/ishare.c
-> > +++ b/fs/erofs/ishare.c
-> > @@ -106,15 +106,15 @@ static int erofs_ishare_file_open(struct inode *i=
-node, struct file *file)
-> >
-> >       if (file->f_flags & O_DIRECT)
-> >               return -EINVAL;
-> > -     realfile =3D alloc_empty_backing_file(O_RDONLY|O_NOATIME, current=
-_cred());
-> > +     realfile =3D alloc_empty_backing_file(O_RDONLY|O_NOATIME, current=
-_cred(),
-> > +                                         file->f_cred);
-> >       if (IS_ERR(realfile))
-> >               return PTR_ERR(realfile);
-> >       ihold(sharedinode);
-> >       realfile->f_op =3D &erofs_file_fops;
-> >       realfile->f_inode =3D sharedinode;
-> >       realfile->f_mapping =3D sharedinode->i_mapping;
-> > -     path_get(&file->f_path);
-> > -     backing_file_set_user_path(realfile, &file->f_path);
-> > +     backing_file_open_user_path(realfile, &file->f_path);
-> >
-> >       file_ra_state_init(&realfile->f_ra, file->f_mapping);
-> >       realfile->private_data =3D EROFS_I(inode);
-> > diff --git a/fs/file_table.c b/fs/file_table.c
-> > index aaa5faaace1e..b7dc94656c44 100644
-> > --- a/fs/file_table.c
-> > +++ b/fs/file_table.c
-> > @@ -27,6 +27,7 @@
-> >  #include <linux/task_work.h>
-> >  #include <linux/swap.h>
-> >  #include <linux/kmemleak.h>
-> > +#include <linux/backing-file.h>
-> >
-> >  #include <linux/atomic.h>
-> >
-> > @@ -43,11 +44,11 @@ static struct kmem_cache *bfilp_cachep __ro_after_i=
-nit;
-> >
-> >  static struct percpu_counter nr_files __cacheline_aligned_in_smp;
-> >
-> > -/* Container for backing file with optional user path */
-> > +/* Container for backing file with optional user path file */
-> >  struct backing_file {
-> >       struct file file;
-> >       union {
-> > -             struct path user_path;
-> > +             struct file user_path_file;
-> >               freeptr_t bf_freeptr;
-> >       };
-> >  };
-> > @@ -56,24 +57,44 @@ struct backing_file {
-> >
-> >  const struct path *backing_file_user_path(const struct file *f)
-> >  {
-> > -     return &backing_file(f)->user_path;
-> > +     return &backing_file(f)->user_path_file.f_path;
-> >  }
-> >  EXPORT_SYMBOL_GPL(backing_file_user_path);
-> >
-> > -void backing_file_set_user_path(struct file *f, const struct path *pat=
-h)
-> > +const struct file *backing_file_user_path_file(const struct file *f)
-> >  {
-> > -     backing_file(f)->user_path =3D *path;
-> > +     return &backing_file(f)->user_path_file;
-> > +}
-> > +EXPORT_SYMBOL_GPL(backing_file_user_path_file);
-> > +
-> > +void backing_file_open_user_path(struct file *f, const struct path *pa=
-th)
->
-> I think this is a bad idea. This should return an error but still
-> WARN_ON(). Just make callers handle that error just like we do
-> everywhere else.
+Scoped user access reduces code complexity and seamlessly bring
+masked user access on architectures that support it.
 
-OK.
+Replace user_access_begin/user_access_end blocks by
+scoped user access.
 
->
-> > +{
-> > +     /* open an O_PATH file to reference the user path - cannot fail *=
-/
-> > +     WARN_ON(vfs_open(path, &backing_file(f)->user_path_file));
-> > +}
-> > +EXPORT_SYMBOL_GPL(backing_file_open_user_path);
-> > +
-> > +static void destroy_file(struct file *f)
-> > +{
-> > +     security_file_free(f);
-> > +     put_cred(f->f_cred);
->
-> Note that calling destroy_file() in this way bypasses
-> security_file_release(). Presumably this doesn't matter because no LSM
-> does a security_alloc_file() for this but it adds a nother wrinkly into
-> the cleanup path.
->
+Signed-off-by: Christophe Leroy (CS GROUP) <chleroy@kernel.org>
+---
+v2:
+- Fix build failure with CONFIG_COMPAT
+- Handled checkpatch.pl output
 
-This is for Paul to comment on.
-The way I see it, security_file_open() was not called on the user path file=
-,
-so no reason to call security_file_release()?
+v3:
+- Fix again build failure with CONFIG_COMPAT. I was obviously too tired when I sent out v2.
 
-It is very much a possibility that LSM would want to allocate security
-context for the user path file during backing_file_mmap, when both files
-are available in context, so that later mprotect() will have this stored
-information in the user path file security context.
+v4:
+- Introduced local size var based on Linus comment on readability. Not a dirent_size() helper as suggested as both sites are different.
+---
+ fs/readdir.c | 94 +++++++++++++++++++++-------------------------------
+ fs/select.c  | 35 ++++++++-----------
+ 2 files changed, 51 insertions(+), 78 deletions(-)
 
-But in this case, wouldn't security_file_free() be enough?
+diff --git a/fs/readdir.c b/fs/readdir.c
+index 73707b6816e9..8fa615b7e950 100644
+--- a/fs/readdir.c
++++ b/fs/readdir.c
+@@ -184,6 +184,7 @@ static bool fillonedir(struct dir_context *ctx, const char *name, int namlen,
+ 	struct readdir_callback *buf =
+ 		container_of(ctx, struct readdir_callback, ctx);
+ 	struct old_linux_dirent __user * dirent;
++	size_t size = offsetof(struct old_linux_dirent, d_name) + namlen + 1;
+ 	unsigned long d_ino;
+ 
+ 	if (buf->result)
+@@ -198,18 +199,13 @@ static bool fillonedir(struct dir_context *ctx, const char *name, int namlen,
+ 	}
+ 	buf->result++;
+ 	dirent = buf->dirent;
+-	if (!user_write_access_begin(dirent,
+-			(unsigned long)(dirent->d_name + namlen + 1) -
+-				(unsigned long)dirent))
+-		goto efault;
+-	unsafe_put_user(d_ino, &dirent->d_ino, efault_end);
+-	unsafe_put_user(offset, &dirent->d_offset, efault_end);
+-	unsafe_put_user(namlen, &dirent->d_namlen, efault_end);
+-	unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault_end);
+-	user_write_access_end();
++	scoped_user_write_access_size(dirent, size, efault) {
++		unsafe_put_user(d_ino, &dirent->d_ino, efault);
++		unsafe_put_user(offset, &dirent->d_offset, efault);
++		unsafe_put_user(namlen, &dirent->d_namlen, efault);
++		unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault);
++	}
+ 	return true;
+-efault_end:
+-	user_write_access_end();
+ efault:
+ 	buf->result = -EFAULT;
+ 	return false;
+@@ -287,23 +283,19 @@ static bool filldir(struct dir_context *ctx, const char *name, int namlen,
+ 		return false;
+ 	dirent = buf->current_dir;
+ 	prev = (void __user *) dirent - prev_reclen;
+-	if (!user_write_access_begin(prev, reclen + prev_reclen))
+-		goto efault;
+-
+-	/* This might be 'dirent->d_off', but if so it will get overwritten */
+-	unsafe_put_user(offset, &prev->d_off, efault_end);
+-	unsafe_put_user(d_ino, &dirent->d_ino, efault_end);
+-	unsafe_put_user(reclen, &dirent->d_reclen, efault_end);
+-	unsafe_put_user(d_type, (char __user *) dirent + reclen - 1, efault_end);
+-	unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault_end);
+-	user_write_access_end();
++	scoped_user_write_access_size(prev, reclen + prev_reclen, efault) {
++		/* This might be 'dirent->d_off', but if so it will get overwritten */
++		unsafe_put_user(offset, &prev->d_off, efault);
++		unsafe_put_user(d_ino, &dirent->d_ino, efault);
++		unsafe_put_user(reclen, &dirent->d_reclen, efault);
++		unsafe_put_user(d_type, (char __user *)dirent + reclen - 1, efault);
++		unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault);
++	}
+ 
+ 	buf->current_dir = (void __user *)dirent + reclen;
+ 	buf->prev_reclen = reclen;
+ 	ctx->count -= reclen;
+ 	return true;
+-efault_end:
+-	user_write_access_end();
+ efault:
+ 	buf->error = -EFAULT;
+ 	return false;
+@@ -371,24 +363,20 @@ static bool filldir64(struct dir_context *ctx, const char *name, int namlen,
+ 		return false;
+ 	dirent = buf->current_dir;
+ 	prev = (void __user *)dirent - prev_reclen;
+-	if (!user_write_access_begin(prev, reclen + prev_reclen))
+-		goto efault;
+-
+-	/* This might be 'dirent->d_off', but if so it will get overwritten */
+-	unsafe_put_user(offset, &prev->d_off, efault_end);
+-	unsafe_put_user(ino, &dirent->d_ino, efault_end);
+-	unsafe_put_user(reclen, &dirent->d_reclen, efault_end);
+-	unsafe_put_user(d_type, &dirent->d_type, efault_end);
+-	unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault_end);
+-	user_write_access_end();
++	scoped_user_write_access_size(prev, reclen + prev_reclen, efault) {
++		/* This might be 'dirent->d_off', but if so it will get overwritten */
++		unsafe_put_user(offset, &prev->d_off, efault);
++		unsafe_put_user(ino, &dirent->d_ino, efault);
++		unsafe_put_user(reclen, &dirent->d_reclen, efault);
++		unsafe_put_user(d_type, &dirent->d_type, efault);
++		unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault);
++	}
+ 
+ 	buf->prev_reclen = reclen;
+ 	buf->current_dir = (void __user *)dirent + reclen;
+ 	ctx->count -= reclen;
+ 	return true;
+ 
+-efault_end:
+-	user_write_access_end();
+ efault:
+ 	buf->error = -EFAULT;
+ 	return false;
+@@ -446,6 +434,7 @@ static bool compat_fillonedir(struct dir_context *ctx, const char *name,
+ 	struct compat_readdir_callback *buf =
+ 		container_of(ctx, struct compat_readdir_callback, ctx);
+ 	struct compat_old_linux_dirent __user *dirent;
++	size_t size = offsetof(struct compat_old_linux_dirent, d_name) + namlen + 1;
+ 	compat_ulong_t d_ino;
+ 
+ 	if (buf->result)
+@@ -460,18 +449,13 @@ static bool compat_fillonedir(struct dir_context *ctx, const char *name,
+ 	}
+ 	buf->result++;
+ 	dirent = buf->dirent;
+-	if (!user_write_access_begin(dirent,
+-			(unsigned long)(dirent->d_name + namlen + 1) -
+-				(unsigned long)dirent))
+-		goto efault;
+-	unsafe_put_user(d_ino, &dirent->d_ino, efault_end);
+-	unsafe_put_user(offset, &dirent->d_offset, efault_end);
+-	unsafe_put_user(namlen, &dirent->d_namlen, efault_end);
+-	unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault_end);
+-	user_write_access_end();
++	scoped_user_write_access_size(dirent, size, efault) {
++		unsafe_put_user(d_ino, &dirent->d_ino, efault);
++		unsafe_put_user(offset, &dirent->d_offset, efault);
++		unsafe_put_user(namlen, &dirent->d_namlen, efault);
++		unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault);
++	}
+ 	return true;
+-efault_end:
+-	user_write_access_end();
+ efault:
+ 	buf->result = -EFAULT;
+ 	return false;
+@@ -543,22 +527,18 @@ static bool compat_filldir(struct dir_context *ctx, const char *name, int namlen
+ 		return false;
+ 	dirent = buf->current_dir;
+ 	prev = (void __user *) dirent - prev_reclen;
+-	if (!user_write_access_begin(prev, reclen + prev_reclen))
+-		goto efault;
+-
+-	unsafe_put_user(offset, &prev->d_off, efault_end);
+-	unsafe_put_user(d_ino, &dirent->d_ino, efault_end);
+-	unsafe_put_user(reclen, &dirent->d_reclen, efault_end);
+-	unsafe_put_user(d_type, (char __user *) dirent + reclen - 1, efault_end);
+-	unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault_end);
+-	user_write_access_end();
++	scoped_user_write_access_size(prev, reclen + prev_reclen, efault) {
++		unsafe_put_user(offset, &prev->d_off, efault);
++		unsafe_put_user(d_ino, &dirent->d_ino, efault);
++		unsafe_put_user(reclen, &dirent->d_reclen, efault);
++		unsafe_put_user(d_type, (char __user *)dirent + reclen - 1, efault);
++		unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault);
++	}
+ 
+ 	buf->prev_reclen = reclen;
+ 	buf->current_dir = (void __user *)dirent + reclen;
+ 	ctx->count -= reclen;
+ 	return true;
+-efault_end:
+-	user_write_access_end();
+ efault:
+ 	buf->error = -EFAULT;
+ 	return false;
+diff --git a/fs/select.c b/fs/select.c
+index e0244dbe4429..75978b18f48f 100644
+--- a/fs/select.c
++++ b/fs/select.c
+@@ -1004,17 +1004,17 @@ static int do_sys_poll(struct pollfd __user *ufds, unsigned int nfds,
+ 	fdcount = do_poll(head, &table, end_time);
+ 	poll_freewait(&table);
+ 
+-	if (!user_write_access_begin(ufds, nfds * sizeof(*ufds)))
+-		goto out_fds;
++	scoped_user_write_access_size(ufds, nfds * sizeof(*ufds), out_fds) {
++		struct pollfd __user *_ufds = ufds;
+ 
+-	for (walk = head; walk; walk = walk->next) {
+-		struct pollfd *fds = walk->entries;
+-		unsigned int j;
++		for (walk = head; walk; walk = walk->next) {
++			struct pollfd *fds = walk->entries;
++			unsigned int j;
+ 
+-		for (j = walk->len; j; fds++, ufds++, j--)
+-			unsafe_put_user(fds->revents, &ufds->revents, Efault);
+-  	}
+-	user_write_access_end();
++			for (j = walk->len; j; fds++, _ufds++, j--)
++				unsafe_put_user(fds->revents, &_ufds->revents, out_fds);
++		}
++	}
+ 
+ 	err = fdcount;
+ out_fds:
+@@ -1026,11 +1026,6 @@ static int do_sys_poll(struct pollfd __user *ufds, unsigned int nfds,
+ 	}
+ 
+ 	return err;
+-
+-Efault:
+-	user_write_access_end();
+-	err = -EFAULT;
+-	goto out_fds;
+ }
+ 
+ static long do_restart_poll(struct restart_block *restart_block)
+@@ -1338,15 +1333,13 @@ static inline int get_compat_sigset_argpack(struct compat_sigset_argpack *to,
+ 					    struct compat_sigset_argpack __user *from)
+ {
+ 	if (from) {
+-		if (!user_read_access_begin(from, sizeof(*from)))
+-			return -EFAULT;
+-		unsafe_get_user(to->p, &from->p, Efault);
+-		unsafe_get_user(to->size, &from->size, Efault);
+-		user_read_access_end();
++		scoped_user_read_access(from, efault) {
++			unsafe_get_user(to->p, &from->p, efault);
++			unsafe_get_user(to->size, &from->size, efault);
++		}
+ 	}
+ 	return 0;
+-Efault:
+-	user_read_access_end();
++efault:
+ 	return -EFAULT;
+ }
+ 
+-- 
+2.49.0
 
->
-> >  }
-> > -EXPORT_SYMBOL_GPL(backing_file_set_user_path);
-> >
-> >  static inline void file_free(struct file *f)
-> >  {
-> > -     security_file_free(f);
-> > +     destroy_file(f);
-> >       if (likely(!(f->f_mode & FMODE_NOACCOUNT)))
-> >               percpu_counter_dec(&nr_files);
-> > -     put_cred(f->f_cred);
-> >       if (unlikely(f->f_mode & FMODE_BACKING)) {
-> > -             path_put(backing_file_user_path(f));
-> > +             struct file *user_path_file =3D &backing_file(f)->user_pa=
-th_file;
-> > +
-> > +             /*
-> > +              * no refcount on the user_path_file - they die together,
-> > +              * so __fput() is not called for user_path_file. path_put=
-()
-> > +              * is the only relevant cleanup from __fput().
-> > +              */
-> > +             destroy_file(user_path_file);
-> > +             path_put(&user_path_file->__f_path);
-> >               kmem_cache_free(bfilp_cachep, backing_file(f));
-> >       } else {
-> >               kmem_cache_free(filp_cachep, f);
-> > @@ -201,7 +222,7 @@ static int init_file(struct file *f, int flags, con=
-st struct cred *cred)
-> >        * fget-rcu pattern users need to be able to handle spurious
-> >        * refcount bumps we should reinitialize the reused file first.
-> >        */
-> > -     file_ref_init(&f->f_ref, 1);
-> > +     atomic_long_set(&f->f_ref.refcnt, FILE_REF_ONEREF);
->
-> No, please don't open-code this. The point is to stop any open-access to
-> f_ref. And also below you introduce another atomic_long_set() open-coded
-> call as well. Simply adapt file_ref_init() to not do the -1 subtraction
-> and use the constants directly.
->
-
-OK.
-
-> >       return 0;
-> >  }
-> >
-> > @@ -290,7 +311,8 @@ struct file *alloc_empty_file_noaccount(int flags, =
-const struct cred *cred)
-> >   * This is only for kernel internal use, and the allocate file must no=
-t be
-> >   * installed into file tables or such.
-> >   */
-> > -struct file *alloc_empty_backing_file(int flags, const struct cred *cr=
-ed)
-> > +struct file *alloc_empty_backing_file(int flags, const struct cred *cr=
-ed,
-> > +                                   const struct cred *user_cred)
-> >  {
-> >       struct backing_file *ff;
-> >       int error;
-> > @@ -305,6 +327,15 @@ struct file *alloc_empty_backing_file(int flags, c=
-onst struct cred *cred)
-> >               return ERR_PTR(error);
-> >       }
-> >
-> > +     error =3D init_file(&ff->user_path_file, O_PATH, user_cred);
-> > +     /* user_path_file is not refcounterd - it dies with the backing f=
-ile */
-> > +     atomic_long_set(&ff->user_path_file.f_ref.refcnt, FILE_REF_DEAD);
->
-> Please massage this and send that patch. I'll stuff it into a stable vfs
-> branch that both Paul and I can merge. Paul can then send his PR.
-
-Sure. I'll try to send it later today.
-
-Thanks,
-Amir.
