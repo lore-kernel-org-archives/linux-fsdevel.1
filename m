@@ -1,101 +1,200 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A7113D75DD;
-	Wed, 18 Mar 2026 14:16:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 143ED3DCD9B;
+	Wed, 18 Mar 2026 14:17:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773843417; cv=none; b=kPslycq/UTFbkf814kAO8MBJsSjIV2s5e69wzikzYpz4ENX/crCdGXhgWY9Bwyqvtg/80bPaUO2fnEXl3+IqZZTn7/XrbLTHSoXpGWiFRBYGJ48j+Uih2EA+ZQ7w8V7isxXnI5uOVQJKcMZQ0Res75BAWCN5mfIxx8ji0A334kU=
+	t=1773843424; cv=none; b=aHXaoAosOgTWfeHuTeQZPqrsD8FlEC6tpBfiLUGVGcajB0et9c656qbDovkAAFrOM0ljMcqUVcODsTuo3tRT5jgbockj4Woo30czX17l5OjJpmsRv+KVcEhOLrNtSu4zbVC23OEzmx+Zo3MSLClAbgMcvhg8BEjxxcOjp1Pf5S4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773843417; c=relaxed/simple;
-	bh=niTTayRNIX4EEYyDdhdDQo8aWS9N/JBwImjwEF9evEs=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=UKDzzWh+X0deYpDry/WMAbByGJ7FBY3znD+Q3vDqBGn59A9YpIBu3dlYNUDCBOYp4t3h/sqtGLXO7eRcogPyoqCFEevMjP+7QaTY9GA2jM+V3suI5F8CkFcKuyaP120RpQPcI/Fkebf7Yyza3ZqhDBblP/XHkxlGlSsWHruc3Ns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=MmHH36B4; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1773843424; c=relaxed/simple;
+	bh=Nka2tAu2xfrAzh/LVz+kPzjJGV26abtbTSAN+jQ1zCs=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=HazUw2u3FVdjMMxhzhgw+rx2TUXsyEa4z2lFarn7QQUHQHcsKLkb3XOBURWg0pImJzGFC3Wll48aCvthROLT/cia+bW7IBSJJaEc9dmaFAMSMC8NwkCFnV3V9rC3WV0MpIghX6i2IqkG0AMFRl7cqKBxhSkxmUhGE+uCN2SpMVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l2n98eIW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="MmHH36B4"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4104141213
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1773843414; bh=pZLknu9kNmkFJXKOV+mk6Nd6QgIhMbsMx+SciRU/lEY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=MmHH36B45RNVUcw2zeWJbjSLA17c3huYZJvv3IiLmRQSMPfMzN9w59kEH762XP9ap
-	 NA0yipMcCGzpT2FROqqTQWpLCRaoj8s1lP67wUn6DvXnmtYZTLSSKGIG8mwQhYhpXy
-	 Y+WU1fIGCHaAemAFR29akbXlLYslpxGGb7IM7oMyrrsX3fWETZoIOG4JtgluqJSE87
-	 ndrllFLei8HjKkxQRTIR5opx2UePst3Xd+gbi3O/RyZYqXuXjJKcmg/NjF8p81cqLg
-	 UIpSExyazmd4/bn1J6GWBrsafDss8lyvwTtCQa4juny+otE0FNVRXGsl6ClDM515S9
-	 djt568QbhK/Xw==
-Received: from localhost (c-71-229-227-126.hsd1.co.comcast.net [71.229.227.126])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 4104141213;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l2n98eIW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B834CC19421;
 	Wed, 18 Mar 2026 14:16:54 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Sasha Levin <sashal@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org,
- workflows@vger.kernel.org, tools@kernel.org, x86@kernel.org, Thomas
- Gleixner <tglx@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>,
- Dmitry Vyukov <dvyukov@google.com>, Randy Dunlap <rdunlap@infradead.org>,
- Cyril Hrubis <chrubis@suse.cz>, Kees Cook <kees@kernel.org>, Jake Edge
- <jake@lwn.net>, David Laight <david.laight.linux@gmail.com>, Askar Safin
- <safinaskar@zohomail.com>, Gabriele Paoloni <gpaoloni@redhat.com>, Mauro
- Carvalho Chehab <mchehab@kernel.org>, Christian Brauner
- <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, Andrew
- Morton <akpm@linux-foundation.org>, Masahiro Yamada
- <masahiroy@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, Ingo
- Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH 5/9] kernel/api: add API specification for sys_open
-In-Reply-To: <abqyv0DiT0LFUU4v@laps>
-References: <20260313150928.2637368-1-sashal@kernel.org>
- <20260313150928.2637368-6-sashal@kernel.org>
- <2026031343-raft-panhandle-0a21@gregkh> <abQ-iIylzpuqlRv3@laps>
- <878qbq9uau.fsf@trenco.lwn.net> <abqyv0DiT0LFUU4v@laps>
-Date: Wed, 18 Mar 2026 08:16:53 -0600
-Message-ID: <87jyv96x4a.fsf@trenco.lwn.net>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773843423;
+	bh=Nka2tAu2xfrAzh/LVz+kPzjJGV26abtbTSAN+jQ1zCs=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+	b=l2n98eIWgaO3CjkFjgd0Sou85/DdxxIF5f5x0NNXjCnRCCUzjcWJiinkayJ878aww
+	 BMJ0pXZVJUefOLLhpj2fMemzle19sO2O1t5wBOu4oWg54p9ZGJdEhdeS/Czy9hnQXA
+	 eulz6Qr5rpmd86XRFktfVxpPiPuG0bWwvXiusqCzjYmb/h8nhtFZfXIiV7SJql6pbr
+	 L4xv+2VnZl426NR2cd+2lb906X8FppURSFBE0mng0zk5Fvon36cCbedPT6Sf5MOPBk
+	 nKWZjGbed3op7zsa/QhDxrRfMTA0/5KlsKm4GWT7flFR84ReuRSkL4lH9ODOoxK1Dd
+	 vepd5z1nkYYfQ==
+Message-ID: <11428d25-7bea-4be6-a6ee-bfeac1d50807@kernel.org>
+Date: Wed, 18 Mar 2026 15:16:52 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+From: Vlastimil Babka <vbabka@kernel.org>
+Subject: Re: [PATCH 3/8] mm: move free_reserved_area() to mm/memblock.c
+Content-Language: en-US
+To: Mike Rapoport <rppt@kernel.org>, Andrew Morton <akpm@linux-foundation.org>
+Cc: Alexander Potapenko <glider@google.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Andreas Larsson <andreas@gaisler.com>, Ard Biesheuvel <ardb@kernel.org>,
+ Borislav Petkov <bp@alien8.de>, Brendan Jackman <jackmanb@google.com>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Christian Brauner <brauner@kernel.org>, "David S. Miller"
+ <davem@davemloft.net>, Dave Hansen <dave.hansen@linux.intel.com>,
+ David Hildenbrand <david@kernel.org>, Dmitry Vyukov <dvyukov@google.com>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Ingo Molnar <mingo@redhat.com>, Jan Kara <jack@suse.cz>,
+ Johannes Weiner <hannes@cmpxchg.org>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>, Marco Elver <elver@google.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Masami Hiramatsu <mhiramat@kernel.org>, Michael Ellerman
+ <mpe@ellerman.id.au>, Michal Hocko <mhocko@suse.com>,
+ Nicholas Piggin <npiggin@gmail.com>, "H. Peter Anvin" <hpa@zytor.com>,
+ Rob Herring <robh@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Saravana Kannan <saravanak@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Thomas Gleixner <tglx@kernel.org>,
+ Will Deacon <will@kernel.org>, Zi Yan <ziy@nvidia.com>,
+ devicetree@vger.kernel.org, iommu@lists.linux.dev,
+ kasan-dev@googlegroups.com, linux-arm-kernel@lists.infradead.org,
+ linux-efi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-trace-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ sparclinux@vger.kernel.org, x86@kernel.org
+References: <20260318105827.1358927-1-rppt@kernel.org>
+ <20260318105827.1358927-4-rppt@kernel.org>
+In-Reply-To: <20260318105827.1358927-4-rppt@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Sasha Levin <sashal@kernel.org> writes:
+On 3/18/26 11:58, Mike Rapoport wrote:
+> From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+> 
+> free_reserved_area() is related to memblock as it frees reserved memory
+> back to the buddy allocator, similar to what memblock_free_late() does.
+> 
+> Move free_reserved_area() to mm/memblock.c to prepare for further
+> consolidation of the functions that free reserved memory.
+> 
+> No functional changes.
+> 
+> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 
-> On Tue, Mar 17, 2026 at 12:37:13PM -0600, Jonathan Corbet wrote:
->>Sasha Levin <sashal@kernel.org> writes:
->>
->>> On Fri, Mar 13, 2026 at 04:33:57PM +0100, Greg Kroah-Hartman wrote:
->>>>On Fri, Mar 13, 2026 at 11:09:15AM -0400, Sasha Levin wrote:
->>
->>>>> + * since-version: 1.0
->>>>
->>>>I think since older versions :)
->>>
->>> Right. I guess that in my mind 1.0 was the first official "release". I'll
->>> update it to 0.01.
->>
->>That kind of raises the question of just what since-version means.  The
->>version-0.01 (or 1.0) version of open() surely didn't do everything
->>described in this specification.  So it's saying that some version of
->>the system call has existed since then?
->
-> You know, I'm not entierly sure what the definition should be here.
->
-> I stole this from man pages where they indicate at which version the API was
-> introduced in. I'm not sure if it really adds any value.
->
-> Any objections to just dropping it?
+Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 
-Not here.  My general objective with the docs is to describe the kernel
-as it is now, without that sort of history unless there's something
-specific it can tell current users.
 
-Thanks,
+> ---
+>  mm/memblock.c   | 37 ++++++++++++++++++++++++++++++++++++-
+>  mm/page_alloc.c | 36 ------------------------------------
+>  2 files changed, 36 insertions(+), 37 deletions(-)
+> 
+> diff --git a/mm/memblock.c b/mm/memblock.c
+> index b3ddfdec7a80..8f3010dddc58 100644
+> --- a/mm/memblock.c
+> +++ b/mm/memblock.c
+> @@ -893,6 +893,42 @@ int __init_memblock memblock_remove(phys_addr_t base, phys_addr_t size)
+>  	return memblock_remove_range(&memblock.memory, base, size);
+>  }
+>  
+> +unsigned long free_reserved_area(void *start, void *end, int poison, const char *s)
+> +{
+> +	void *pos;
+> +	unsigned long pages = 0;
+> +
+> +	start = (void *)PAGE_ALIGN((unsigned long)start);
+> +	end = (void *)((unsigned long)end & PAGE_MASK);
+> +	for (pos = start; pos < end; pos += PAGE_SIZE, pages++) {
+> +		struct page *page = virt_to_page(pos);
+> +		void *direct_map_addr;
+> +
+> +		/*
+> +		 * 'direct_map_addr' might be different from 'pos'
+> +		 * because some architectures' virt_to_page()
+> +		 * work with aliases.  Getting the direct map
+> +		 * address ensures that we get a _writeable_
+> +		 * alias for the memset().
+> +		 */
+> +		direct_map_addr = page_address(page);
+> +		/*
+> +		 * Perform a kasan-unchecked memset() since this memory
+> +		 * has not been initialized.
+> +		 */
+> +		direct_map_addr = kasan_reset_tag(direct_map_addr);
+> +		if ((unsigned int)poison <= 0xFF)
+> +			memset(direct_map_addr, poison, PAGE_SIZE);
+> +
+> +		free_reserved_page(page);
+> +	}
+> +
+> +	if (pages && s)
+> +		pr_info("Freeing %s memory: %ldK\n", s, K(pages));
+> +
+> +	return pages;
+> +}
+> +
+>  /**
+>   * memblock_free - free boot memory allocation
+>   * @ptr: starting address of the  boot memory allocation
+> @@ -1776,7 +1812,6 @@ void __init memblock_free_late(phys_addr_t base, phys_addr_t size)
+>  		totalram_pages_inc();
+>  	}
+>  }
+> -
+>  /*
+>   * Remaining API functions
+>   */
+> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+> index 2d4b6f1a554e..df3d61253001 100644
+> --- a/mm/page_alloc.c
+> +++ b/mm/page_alloc.c
+> @@ -6234,42 +6234,6 @@ void adjust_managed_page_count(struct page *page, long count)
+>  }
+>  EXPORT_SYMBOL(adjust_managed_page_count);
+>  
+> -unsigned long free_reserved_area(void *start, void *end, int poison, const char *s)
+> -{
+> -	void *pos;
+> -	unsigned long pages = 0;
+> -
+> -	start = (void *)PAGE_ALIGN((unsigned long)start);
+> -	end = (void *)((unsigned long)end & PAGE_MASK);
+> -	for (pos = start; pos < end; pos += PAGE_SIZE, pages++) {
+> -		struct page *page = virt_to_page(pos);
+> -		void *direct_map_addr;
+> -
+> -		/*
+> -		 * 'direct_map_addr' might be different from 'pos'
+> -		 * because some architectures' virt_to_page()
+> -		 * work with aliases.  Getting the direct map
+> -		 * address ensures that we get a _writeable_
+> -		 * alias for the memset().
+> -		 */
+> -		direct_map_addr = page_address(page);
+> -		/*
+> -		 * Perform a kasan-unchecked memset() since this memory
+> -		 * has not been initialized.
+> -		 */
+> -		direct_map_addr = kasan_reset_tag(direct_map_addr);
+> -		if ((unsigned int)poison <= 0xFF)
+> -			memset(direct_map_addr, poison, PAGE_SIZE);
+> -
+> -		free_reserved_page(page);
+> -	}
+> -
+> -	if (pages && s)
+> -		pr_info("Freeing %s memory: %ldK\n", s, K(pages));
+> -
+> -	return pages;
+> -}
+> -
+>  void free_reserved_page(struct page *page)
+>  {
+>  	clear_page_tag_ref(page);
 
-jon
