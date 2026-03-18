@@ -1,23 +1,24 @@
 Received: from mail-m49198.qiye.163.com (mail-m49198.qiye.163.com [45.254.49.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65F303C2773;
-	Wed, 18 Mar 2026 15:01:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F20DB3D7D75;
+	Wed, 18 Mar 2026 15:01:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773846071; cv=none; b=lMdB9s0RK+/8XUZzvJpvyPIDHYDOtJmJIXRiujg+684M3/nDh63/L+f6jCrIsUZC6eAYPj67LXpCb0Qmnw65qJpJaBn3lq4XGOO8kZrm6U5gWpryvJXeCLx7/TxTzcqJYWcHA5bOMPNAzd8yGUAD//guLCnjm5Qkn+rvGS6PG2I=
+	t=1773846071; cv=none; b=bzH7SGYC4uRvWHs3aRJrwhC8N26ASERJyQfmwlxPCTkS1gAG3IQoTTgbux4f4lYo4aH/nDcgysbJXJx8uWjQ8ujgcAs8pVg5NR97XtRAL6++Z4BjV4KZht2krq1wYRhunMopCNx6rxMaa7QDFzNxCUbQ18cjsywedFlUxUe5yEw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1773846071; c=relaxed/simple;
-	bh=P4YEa+K9c9jqQdLeBR1cIjpkqHZGtordx422g2cxTmw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Ekysq3QXo8PTp9lcEbZGS7zer7PLBOGgSAiIcrF6Uxs6anVaSD9q+qn5Y1B7NC9n512/HNS1eiQaZXC9QDN3jZKApjcfS4M4yGteHp2ef0IvOmJh0CS0YOV45q7iV6EiiFVMEwyjowE1s1TOJmJtNh4uka+lxBXNdxU6n8W2yXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=fO3Ze1Su; arc=none smtp.client-ip=45.254.49.198
+	bh=99t2Jul0qIhE3s0je/eG1mqEqiB3PvWKRtpR8W0Zl+Q=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=PmK58lJJpGY598c3tNoy9oPhcfm70rWGxWoOVIua6tIkqWPDbguau8BGnGY0lSwsT9rEnM1DNF91TIk0I6TLBTYOL0wyux2Wcrk2g2lEQGa4UBa3AFEAkMBQ7zJXV/fVtYGJUc3/KqktwLL39dApj9dPkimIGosPQKvidVeGPqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=Q8Wiu5LO; arc=none smtp.client-ip=45.254.49.198
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="fO3Ze1Su"
+	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="Q8Wiu5LO"
 Received: from DESKTOP-SUEFNF9.tailb3ad3b.ts.net (unknown [58.241.16.34])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 376f0427e;
-	Wed, 18 Mar 2026 23:00:56 +0800 (GMT+08:00)
+	by smtp.qiye.163.com (Hmail) with ESMTP id 376f04282;
+	Wed, 18 Mar 2026 23:01:04 +0800 (GMT+08:00)
 From: Zilin Guan <zilin@seu.edu.cn>
 To: slava.dubeyko@ibm.com
 Cc: akpm@linux-foundation.org,
@@ -29,10 +30,12 @@ Cc: akpm@linux-foundation.org,
 	slava@dubeyko.com,
 	stable@vger.kernel.org,
 	zilin@seu.edu.cn
-Subject: [PATCH v2 0/2] hfsplus: fix lock leak and refactor hidden dir search
-Date: Wed, 18 Mar 2026 23:00:44 +0800
-Message-Id: <20260318150046.431428-1-zilin@seu.edu.cn>
+Subject: [PATCH v2 2/2] hfsplus: extract hidden directory search into a helper function
+Date: Wed, 18 Mar 2026 23:00:46 +0800
+Message-Id: <20260318150046.431428-3-zilin@seu.edu.cn>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260318150046.431428-1-zilin@seu.edu.cn>
+References: <20260318150046.431428-1-zilin@seu.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -40,38 +43,110 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9d0176ce5003a1kunm8a6a5dd1194441
+X-HM-Tid: 0a9d0176eb8703a1kunm8a6a5dd119444d
 X-HM-MType: 10
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkZQx9KVkkdGB1OS0NMTkoZGVYeHw5VEwETFhoSFy
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlCHk5LVkJKGR9OQ09PGE9LHVYeHw5VEwETFhoSFy
 	QUDg9ZV1kYEgtZQVlOQ1VJT0pVSk1VSE9ZV1kWGg8SFR0UWUFZT0tIVUpLSUhOQ0NVSktLVUtZBg
 	++
 DKIM-Signature: a=rsa-sha256;
-	b=fO3Ze1Sub2FYjLbcR/ffZX5DYdevgD6DZy31jtrnaIKPkV1NlqdbS2pzOfcx1JpvI64kG/PlN8rWtlKwREMO7VFReNQK4mSPCb9dz0X3VYQX6AsptnAPGEK1qEHCQb8RKG+w8LDQNUZFOG6S4sSnIXDSgOMbSeqS86Z20oJg1SA=; s=default; c=relaxed/relaxed; d=seu.edu.cn; v=1;
-	bh=QPiWnRHRM37cRb6+3pnOEAX/JG3h1V6rAy/JTRFlL9g=;
+	b=Q8Wiu5LOkBGJ++kt3DL+WLu5iPXpHYJGLwGWuRrv3htf22fvxHmPjgYPMHg+q2fdMhGyas6PXpeghOEPi2zuA6nMQxqJ3dfbJlIJ2Nm5Coj1LDaanpu1wHzGVd2ciMMkqORpoaoW3SAGPXjVFUo1Q+mFyU/SKH9kPG4pboeTJ8s=; s=default; c=relaxed/relaxed; d=seu.edu.cn; v=1;
+	bh=T9PwoeELAsxbhE2E7IPq2rA7XxeWVBtg7N7Xwbw8GLc=;
 	h=date:mime-version:subject:message-id:from;
 
-This patch series improves the hidden directory lookup logic in
-hfsplus_fill_super().
+In hfsplus_fill_super(), the process of looking up the hidden directory
+involves initializing a catalog search, building a search key, reading
+the b-tree record, and releasing the search data.
 
-Patch 1 fixes a b-tree lock leak on the error path during the hidden
-directory lookup.
+Currently, this logic is open-coded directly within the main superblock
+initialization routine. This makes hfsplus_fill_super() quite lengthy
+and its error handling paths less straightforward.
 
-Patch 2 subsequently refactors this lookup logic into a dedicated
-helper function to properly encapsulate the data lifecycle, improve
-readability, and simplify error handling.
+Extract the hidden directory search sequence into a new helper function,
+hfsplus_get_hidden_dir_entry(). This improves overall code readability,
+cleanly encapsulates the hfs_find_data lifecycle, and simplifies the
+error exits in hfsplus_fill_super().
 
-Changes in v2:
-- Add patch 2 to extract the hidden directory lookup logic into a helper 
-  function.
+Moreover, the error handling logic for hfs_brec_read is updated to mirror
+hfsplus_lookup(). This gracefully handles the -ENOENT case, keeping the
+directory search behavior consistent with the rest of the filesystem.
 
-Zilin Guan (2):
-  hfsplus: fix held lock freed on hfsplus_fill_super()
-  hfsplus: extract hidden directory search into a helper function
+Signed-off-by: Zilin Guan <zilin@seu.edu.cn>
+---
+ fs/hfsplus/super.c | 41 ++++++++++++++++++++++++++++-------------
+ 1 file changed, 28 insertions(+), 13 deletions(-)
 
- fs/hfsplus/super.c | 39 ++++++++++++++++++++++++++++-----------
- 1 file changed, 28 insertions(+), 11 deletions(-)
-
+diff --git a/fs/hfsplus/super.c b/fs/hfsplus/super.c
+index f396fee19ab8..df3f104298cf 100644
+--- a/fs/hfsplus/super.c
++++ b/fs/hfsplus/super.c
+@@ -424,12 +424,33 @@ void hfsplus_prepare_volume_header_for_commit(struct hfsplus_vh *vhdr)
+ 	vhdr->attributes |= cpu_to_be32(HFSPLUS_VOL_INCNSTNT);
+ }
+ 
++static inline int hfsplus_get_hidden_dir_entry(struct super_block *sb,
++					       const struct qstr *str,
++					       hfsplus_cat_entry *entry)
++{
++	struct hfs_find_data fd;
++	int err;
++
++	err = hfs_find_init(HFSPLUS_SB(sb)->cat_tree, &fd);
++	if (err)
++		return err;
++
++	err = hfsplus_cat_build_key(sb, fd.search_key, HFSPLUS_ROOT_CNID, str);
++	if (unlikely(err < 0))
++		goto free_fd;
++
++	err = hfs_brec_read(&fd, entry, sizeof(*entry));
++
++free_fd:
++	hfs_find_exit(&fd);
++	return err;
++}
++
+ static int hfsplus_fill_super(struct super_block *sb, struct fs_context *fc)
+ {
+ 	struct hfsplus_vh *vhdr;
+ 	struct hfsplus_sb_info *sbi = HFSPLUS_SB(sb);
+ 	hfsplus_cat_entry entry;
+-	struct hfs_find_data fd;
+ 	struct inode *root, *inode;
+ 	struct qstr str;
+ 	struct nls_table *nls;
+@@ -565,16 +586,11 @@ static int hfsplus_fill_super(struct super_block *sb, struct fs_context *fc)
+ 
+ 	str.len = sizeof(HFSP_HIDDENDIR_NAME) - 1;
+ 	str.name = HFSP_HIDDENDIR_NAME;
+-	err = hfs_find_init(sbi->cat_tree, &fd);
+-	if (err)
+-		goto out_put_root;
+-	err = hfsplus_cat_build_key(sb, fd.search_key, HFSPLUS_ROOT_CNID, &str);
+-	if (unlikely(err < 0)) {
+-		hfs_find_exit(&fd);
+-		goto out_put_root;
+-	}
+-	if (!hfs_brec_read(&fd, &entry, sizeof(entry))) {
+-		hfs_find_exit(&fd);
++	err = hfsplus_get_hidden_dir_entry(sb, &str, &entry);
++	if (err) {
++		if (err != -ENOENT)
++			goto out_put_root;
++	} else {
+ 		if (entry.type != cpu_to_be16(HFSPLUS_FOLDER)) {
+ 			err = -EIO;
+ 			goto out_put_root;
+@@ -585,8 +601,7 @@ static int hfsplus_fill_super(struct super_block *sb, struct fs_context *fc)
+ 			goto out_put_root;
+ 		}
+ 		sbi->hidden_dir = inode;
+-	} else
+-		hfs_find_exit(&fd);
++	}
+ 
+ 	if (!sb_rdonly(sb)) {
+ 		/*
 -- 
 2.34.1
 
