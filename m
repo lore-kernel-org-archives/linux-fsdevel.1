@@ -1,85 +1,71 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay.hostedemail.com (smtprelay0017.hostedemail.com [216.40.44.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 509031F1537;
-	Wed, 18 Mar 2026 23:00:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBCB2345753;
+	Wed, 18 Mar 2026 23:12:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773874809; cv=none; b=juwW94cyXAhLCngc1MIx5t7y+1vlHl+ZCJ/A0AEyIFKhNgJvdOr50W2AHUF0oA7LD5BGLB5BP9ND7ueySIhZx/oLECGaUwamMXZU8Jo9ZywnlJQPpOgiKxnUcdcYu+7To3uVkQxlo/jQnfdakw6MzdDtDG0yvSjZXBKhxIwyYnE=
+	t=1773875551; cv=none; b=rIkKLv+mglAiFYArbeOUvZfJ0j2595Ek/r4y8fNJakjJCrYVMHWU3uk17pyuD3XjfpZ7A3tBrjhccGFmdlRBqYqi+qkEhPS6J5p2x+nhNgKGClp9a5Eqepza2d6MrcoA5v7hl8cJO6uBQyA/rGlAEGKm9863AOQTzEFbFijsm3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773874809; c=relaxed/simple;
-	bh=2JTDMuhc/A2g3wL+Ka0kBPLhcjr+9DtDMfgXlPUl79Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SQElYuwvb7SrUkrwE5Q/0B/EMM0tz/YP4/LyErbTr7QOvw2rLSR1vb7w8qj4KRqDXWJ5Ji/kxh5KA1FX0P0gHqxXDjaTQb7fI8CQ0VVBaiBrxHFe+we+udF8lVjFssFLkLJ8U9hvosIFzhDVwYRvoYv8V6O61H5hgkQsI6lyff4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YcjxgPvI; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YcjxgPvI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5FBAC19421;
-	Wed, 18 Mar 2026 23:00:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773874808;
-	bh=2JTDMuhc/A2g3wL+Ka0kBPLhcjr+9DtDMfgXlPUl79Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YcjxgPvImHLLGbG/87IHLU9MaYNxucg34z/SD+qzNawEPsmuPhMSaDpk++6qSVSzH
-	 aY5p7oPUZ6F7GczrxbT79vvIzBtTJEmaReWjBaWkdEH7L6TfDnTVs+ainyef9z6Pyn
-	 pVg5ircX+VB1pPdM3/3plF+bU/eNe/570hviOFtD3QFsIdHlWdPSjV/KitfWfz8ew1
-	 N2B+SgkSnBT9pTL51s1ZHi1UcoQrrlmIUJ8g/jGw4muQUTe7KO61ozQY8/yTWPX98j
-	 H5zgLEfrYSSlg8XNCRUPgBnvzXahB88Ez7dreiWUHr1++U6HouNp84XNdGJWlM6Ymb
-	 G+NPaQYsbNs+Q==
-Date: Wed, 18 Mar 2026 13:00:07 -1000
-From: Tejun Heo <tj@kernel.org>
-To: Breno Leitao <leitao@debian.org>
-Cc: Chuck Lever <chuck.lever@oracle.com>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-kernel@vger.kernel.org, puranjay@kernel.org,
-	linux-crypto@vger.kernel.org, linux-btrfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	Michael van der Westhuizen <rmikey@meta.com>, kernel-team@meta.com
-Subject: Re: [PATCH RFC 0/5] workqueue: add WQ_AFFN_CACHE_SHARD affinity scope
-Message-ID: <absud4FKm-3Trvjj@slm.duckdns.org>
-References: <20260312-workqueue_sharded-v1-0-2c43a7b861d0@debian.org>
- <6b952e7087c5fd8f040b692a92374871@kernel.org>
- <abk6PMrSDcb-yXZ9@gmail.com>
- <30adaf6c-657c-41f1-9234-79d807d74f02@oracle.com>
- <abrkrZc52h0vcTTj@gmail.com>
+	s=arc-20240116; t=1773875551; c=relaxed/simple;
+	bh=JCh4IeE/Cn60D/pNAmjztbTuiNBWjjTZpNihj1Tve9Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=JCOffRpAytYhlGLwfkI40vvEG4iUXtUnpHJgkQoL5pmEPwghKbGvMoknLhkTGI5s6Ta3ZpugBMjZZJAeIbbujlmudptXkkjeQfyNcJN4rYms+bjHeOvV01LnL8trD2+hTutLEILizZQ+gAVE6rz2RF4y98sJs7vlbB3BPcLOzGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf14.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay04.hostedemail.com (Postfix) with ESMTP id 9F2241A01AB;
+	Wed, 18 Mar 2026 23:12:21 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf14.hostedemail.com (Postfix) with ESMTPA id 729DB2D;
+	Wed, 18 Mar 2026 23:12:17 +0000 (UTC)
+Date: Wed, 18 Mar 2026 19:12:46 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: David Laight <david.laight.linux@gmail.com>
+Cc: Christian Brauner <brauner@kernel.org>, Linus Torvalds
+ <torvalds@linux-foundation.org>, linux-kernel@vger.kernel.org,
+ linux-modules@vger.kernel.org, linux-nfs@vger.kernel.org,
+ bpf@vger.kernel.org, kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, netfs@lists.linux.dev,
+ io-uring@vger.kernel.org, audit@vger.kernel.org, rcu@vger.kernel.org,
+ kvm@vger.kernel.org, virtualization@lists.linux.dev,
+ netdev@vger.kernel.org, linux-mm@kvack.org,
+ linux-security-module@vger.kernel.org, Christian Loehle
+ <christian.loehle@arm.com>, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] kthread: remove kthread_exit()
+Message-ID: <20260318191246.21f5cae8@gandalf.local.home>
+In-Reply-To: <20260311104736.51b53405@pumpkin>
+References: <20260310-work-kernel-exit-v2-0-30711759d87b@kernel.org>
+	<20260310-work-kernel-exit-v2-1-30711759d87b@kernel.org>
+	<20260311104736.51b53405@pumpkin>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <abrkrZc52h0vcTTj@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 729DB2D
+X-Rspamd-Server: rspamout06
+X-Stat-Signature: k3okmar3gqwa3bym6uatb3yctgtgf59r
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX18ZAlHD7zRdqyhWTgVQ561leKpKdrlCUw4=
+X-HE-Tag: 1773875537-654795
+X-HE-Meta: U2FsdGVkX1+7MRZYfjkh8tY3o0PNQxfTCp9CNyhqYR5NFfoxVPCM5iPNukWLzQIvK353tkgDvhZEdUedgHQ5QAkLbovGV5fvwkWyav20iib+DYA0dDHoYUnOxRBuEyIUuWk0DzuG1lL8+oddkej4s1MPcpQDwUN5GqInEA4qcRZLkJpWWxd7t1PfzHXZfqpOcF7WAx+PlcQksO8TPjRtlBOpPJasveRV7LExQmrExj38ijzYTXM4IkABls4ZOZgZxz6jQwh3Jnl0QSJRHa6iPYc7cT5zoaTdKKIxa3A6zx0cZRoh9me2qihdhYWm4g9GrHKVoLJDzQiYMqh11BNCWgZQJ5CMSezB
 
-On Wed, Mar 18, 2026 at 10:51:15AM -0700, Breno Leitao wrote:
-> On Tue, Mar 17, 2026 at 09:58:54AM -0400, Chuck Lever wrote:
-> > On 3/17/26 7:32 AM, Breno Leitao wrote:
-> > >> - How was the default shard size of 8 picked? There's a tradeoff
-> > >> between the number of kworkers created and locality. Can you also
-> > >> report the number of kworkers for each configuration? And is there
-> > >> data on different shard sizes? It'd be useful to see how the numbers
-> > >> change across e.g. 4, 8, 16, 32.
-> > >
-> > > The choice of 8 as the default shard size was somewhat arbitrary – it was
-> > > selected primarily to generate initial data points.
-> >
-> > Perhaps instead of basing the sharding on a particular number of CPUs
-> > per shard, why not cap the total number of shards? IIUC that is the main
-> > concern about ballooning the number of kworker threads.
+On Wed, 11 Mar 2026 10:47:36 +0000
+David Laight <david.laight.linux@gmail.com> wrote:
+
+> > -#define module_put_and_kthread_exit(code) kthread_exit(code)
+> > +#define module_put_and_kthread_exit(code) do_exit(code)  
 > 
-> That's a great suggestion. I'll send a v2 that implements this approach,
-> where the parameter specifies the number of shards rather than the number
-> of CPUs per shard.
+> I'm intrigued...
+> How does that actually know to do the module_put()?
+> (I know it does one - otherwise my driver wouldn't unload.)
 
-Woudl it make sense tho? If feels really odd to define the maximum number of
-shards when contention is primarily a function of the number of CPUs banging
-on the same CPU. Why would 32 cpu and 512 cpu systems have the same number
-of shards?
+It's in the !CONFIG_MODULES section. No module_put() necessary. Only the
+kthread_exit (do_exit) is needed.
 
-Thanks.
-
--- 
-tejun
+-- Steve
