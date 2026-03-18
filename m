@@ -1,302 +1,192 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A29A73E3D9D;
-	Wed, 18 Mar 2026 18:44:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A24893596F8
+	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Mar 2026 19:50:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773859488; cv=none; b=ErQpDzDW3w2Gxlb1GK/kUpUKIdTG6+OZAJOAULIoZCtbbIJwwJN7NpZKGBHgwOwv+j+gTqTmDWtDoi4hufyPoA303bTX68VJPu5lFAgYxkK8FcSCt1A+9yiXkfJKZ4XEFnVdv/D7aAgfaZhZTvEirxhlY13MKFHG0Z0CG7oBT9w=
+	t=1773863426; cv=none; b=RS1OLtCXZdW8YIx6IZl5Xw2EbJJsas3d8BEtlNj0fme961IPH0tA7BfDqGW41O3uNZdUyda+2wxLw5mxncLkmO30qrT06ZgphXeLGwyySNRfVVtsPZylO/w/IH9Yjknfwic25KY+/aef2w2jdPpBjpf4ccBKrqdNocXyPcbnCXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773859488; c=relaxed/simple;
-	bh=fo1x6gj4a7uyQi+5GRZOYmC+Y0/B2PERcm8yq3CCYb4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=j3PYMek9qxBry1XxF1dQeYU1lCY8HHKHodi99Mc2lrN+c/mV+HbHpkRf29pPR//sXhlxzfm9EHZfyvaxGSNGDhb/0RiBZwD8RQMFFb+zvvkgJVcya+5ESBLzhtYGWla88jVCYTdeK9PwGL+O47hMc9iwnaYxOn554ciS2P1a5ok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ty+etV8D; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773863426; c=relaxed/simple;
+	bh=4E2+mgnoT/O7gf1R4+xQjIqP6j0a3Jp5OE1RFcWGio0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ooTxCL7MNd5ZfdmijSrj7M+pPagAzoSfSOXF7FkEvu+txI55ORWnjMMe8f7Yox08ErcRN1Uh0/Mke5k1iSrj4TagiaUzdXRDQDh8tHvoLZRc0MrqRZkaWFxlbkxW496ISqgdN4JSkBgsJMA3YVVZ5OIxQ6k7BEBAReu71jTpSik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dz+2XbqE; arc=none smtp.client-ip=209.85.216.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ty+etV8D"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 175DFC2BC9E;
-	Wed, 18 Mar 2026 18:44:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773859488;
-	bh=fo1x6gj4a7uyQi+5GRZOYmC+Y0/B2PERcm8yq3CCYb4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ty+etV8DaRhGL8bPqIfQNMY2hfhMsBCHip8akYdYpnhybiOO9RSIxWTyBStNytYUP
-	 t5UsxRXIsHYadNeHMu7YOHZa76fSjgZtmDUDxz9rL9FqVr75xsmD5mYu1ijRrPN61i
-	 zabjKAFmLDjlDkDWVtwu8WW04Wq5AjfO4yhP1SfsYiGuL91OB3/g6CyzJNzQgYITS7
-	 xG41aW+FpS1BCXkPnInKUA9le9YrWeFmt2jKluUGPPECfb4vQ9FEk1RukH8Sp2oX98
-	 1r4Dahq1kQpqX5vqNnZMLpkOLGX1b1OlzRxTgV+WLy663yIB9drZh2s0K//SxVaFJy
-	 A1xI63U0C9UVA==
-From: Song Liu <song@kernel.org>
-To: linux-security-module@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	selinux@vger.kernel.org,
-	apparmor@lists.ubuntu.com
-Cc: paul@paul-moore.com,
-	jmorris@namei.org,
-	serge@hallyn.com,
-	viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	jack@suse.cz,
-	john.johansen@canonical.com,
-	stephen.smalley.work@gmail.com,
-	omosnace@redhat.com,
-	mic@digikod.net,
-	gnoack@google.com,
-	takedakn@nttdata.co.jp,
-	penguin-kernel@I-love.SAKURA.ne.jp,
-	herton@canonical.com,
-	kernel-team@meta.com,
-	Song Liu <song@kernel.org>
-Subject: [PATCH 7/7] lsm: Remove security_sb_mount and security_move_mount
-Date: Wed, 18 Mar 2026 11:44:00 -0700
-Message-ID: <20260318184400.3502908-8-song@kernel.org>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260318184400.3502908-1-song@kernel.org>
-References: <20260318184400.3502908-1-song@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dz+2XbqE"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-35bb7afdc38so265641a91.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 18 Mar 2026 12:50:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773863425; x=1774468225; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=Resi8n+oQ1vXGyEjFOBn4ZBz6ktHZ1vnUrgtEXoKXe8=;
+        b=Dz+2XbqESJyUtSPtOhEVpUmtjfikkbMatpzTDEcTGQCm0jFZjQspE5oFsi790c7YPe
+         hvocUm01ymkyYUl1xjbaxPLAcsHGNjZL1KzEuUq9V2Q+I3eEVXmbtvSOEood8Hy4lEUH
+         z1JZqCoakAwWLvCwJF5svLSU7TcyZ8XLIzVMnyxyBjefJ0otnBQKtvvzdQrcYDbbrmr5
+         FjOGqXW+tkwDsHwRgRrLZO2Iaphrlh9rn3SdcKqh/iSJRaC96yWuaGiVnILH8ey6x/5v
+         U67cySGOHXJerhYeemq9lBTgnW9rc3f0IbpVu5yJvGPTFpRxTs/HWrzZzoy0n1wmvkuH
+         HjMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773863425; x=1774468225;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Resi8n+oQ1vXGyEjFOBn4ZBz6ktHZ1vnUrgtEXoKXe8=;
+        b=YMD1FZCsOEI0x55dgRv1rDZVEccUhjAb20J5bha+FugP03L2K777hIjH6Q9iWdu4xv
+         Rzxpi2flBq6aIsKeFdGPP/Jmzs0JeqdOmytBpRvNAN7Tc5ih0s9CdTzWLeC0w/IKj+8C
+         iwmplIc5tLFHuB6Aolo0ggh/Q58rFzM08mWQY5MaMSkxot60CqEGEjWwSCwGBG+fIOMq
+         XnCFsVRegnwFS+behhUtDruYZASKiIXZfZQ0LODvACZfOga/DtodCPehE3qCLBEtnQ/o
+         km00KpcKmuOb5ElTcDGFxULkACGNMelnRZXmKK7+km38dG8PjE2s6Z4YGc795GRxI6JU
+         KnVw==
+X-Forwarded-Encrypted: i=1; AJvYcCXIMdyeR1gJb4H6TzX7tfz7/TlgPj/aGuJQz2RgQ5bjTzLQw3Q3UmSc2hTnzyIQUOViiFnnFqwKXT8pY/fe@vger.kernel.org
+X-Gm-Message-State: AOJu0YxUT3+h/VkNvMwv9pp+7EeaLzvIsdGu4/1nnokFikyJ0ew0gikG
+	wb1VXa1fLouUaQ1DmbGREDlOJ1GccKy7qui9zxbHwgikURzyzjBr7q3K
+X-Gm-Gg: ATEYQzyTYF2ch91fIGfI0ZChUlQL9LLcX30x1cEVzUtgWyEiUBS1vIGtXWVx0jMmimu
+	5R+QN9KKRtBjkvxfs9dCVCao+BGSRRlYak6O0rmJnCVziaPuaL6SIlt3X4dynWosBcnTcZEy4VZ
+	Utnny0MayormcWSjKjiCGi9GWjLSQyiqVGuBF1mv3vA7JgkQWUTEcEYoS388CmjSyl8GJKZdWIi
+	73N3tNx3UzIxcwRF56hhGQko07YyqKqpwx0tt68UapXrBsS+c4ewyoO2KR7mWS1EZQme7Y/lFv3
+	ibrL6KxRglwve+dCeE4SNFi7P5EesIQoXIjDJTunMS7NUN2ls9cBddklIPUC2AGtR+cE/oBcnMh
+	DN+mE5h88LLqzuU8U8m+6WGzzdNkQLchD0svsB/Ai6K1iZBRJnWzQNcYUOJF1sQ+Pywfla5c+jO
+	G01ZUiijjFyAVX7/kbyvGRULcQlUY9nI9tM+GuQOC4UgZZpKlJeYsRJ/pcpph81qyAdRGF7IfE1
+	sn7kjyv/b0=
+X-Received: by 2002:a17:90a:d604:b0:359:ff8a:ee5a with SMTP id 98e67ed59e1d1-35bb9e51090mr4450775a91.12.1773863424940;
+        Wed, 18 Mar 2026 12:50:24 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35bc618be0fsm409804a91.0.2026.03.18.12.50.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 Mar 2026 12:50:24 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <cce7a4aa-0786-4c55-afcd-4816f977806a@roeck-us.net>
+Date: Wed, 18 Mar 2026 12:50:23 -0700
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] exec: Add KUnit test for bprm_stack_limits()
+To: Kees Cook <kees@kernel.org>
+Cc: Eric Biederman <ebiederm@xmission.com>,
+ Justin Stitt <justinstitt@google.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+References: <20240520021337.work.198-kees@kernel.org>
+ <20240520021615.741800-1-keescook@chromium.org>
+ <a3e9b1c2-40c1-45df-9fa2-14ee6a7b3fe2@roeck-us.net>
+ <202603181132.507C829A9@keescook>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <202603181132.507C829A9@keescook>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Now that all LSMs have been converted to granular mount hooks,
-remove the old hooks:
+On 3/18/26 11:33, Kees Cook wrote:
+> On Mon, Mar 16, 2026 at 12:16:58PM -0700, Guenter Roeck wrote:
+>> Hi,
+>>
+>> On Sun, May 19, 2024 at 07:16:11PM -0700, Kees Cook wrote:
+>>> Since bprm_stack_limits() operates with very limited side-effects, add
+>>> it as the first exec.c KUnit test. Add to Kconfig and adjust MAINTAINERS
+>>> file to include it.
+>>>
+>>> Tested on 64-bit UML:
+>>> $ tools/testing/kunit/kunit.py run exec
+>>>
+>>> Signed-off-by: Kees Cook <keescook@chromium.org>
+>>> ---
+>>> Cc: Eric Biederman <ebiederm@xmission.com>
+>>> Cc: Justin Stitt <justinstitt@google.com>
+>>> Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+>>> Cc: Christian Brauner <brauner@kernel.org>
+>>> Cc: Jan Kara <jack@suse.cz>
+>>> Cc: linux-fsdevel@vger.kernel.org
+>>> Cc: linux-mm@kvack.org
+>>> ---
+>> ...
+>>> +++ b/fs/exec.c
+>> ...
+>>> +	  .expected_argmin = ULONG_MAX - (_STK_LIM / 4 * 3) + sizeof(void *) },
+>>> +	{ { .p = ULONG_MAX, .rlim_stack.rlim_cur = 4 * (_STK_LIM / 4 *  + sizeof(void *)),
+>>                                                                     ^^^^^^
+>>
+>> Google's experimental AI review agent tagged the above change as syntactically wrong.
+>> How does this even compile ?
+> 
+> Wow. I have no idea how this ever built either. I will get it fixed.
+> 
+I ended up writing a test program.
 
-- security_sb_mount(): removed from lsm_hook_defs.h, security.h,
-  security.c, and its call in path_mount().
-- security_move_mount(): removed and replaced by security_mount_move()
-  in do_move_mount(). All LSMs now use mount_move exclusively.
+#define TESTVAL 10
+...
+long int x = TESTVAL / 4 * + sizeof(void *);
 
-Code generated with the assistance of Claude, reviewed by human.
+does build, as does
 
-Signed-off-by: Song Liu <song@kernel.org>
----
- fs/namespace.c                |  6 +-----
- include/linux/lsm_hook_defs.h |  4 ----
- include/linux/security.h      | 16 ---------------
- kernel/bpf/bpf_lsm.c          |  2 --
- security/apparmor/lsm.c       |  1 -
- security/landlock/fs.c        |  1 -
- security/security.c           | 38 -----------------------------------
- security/selinux/hooks.c      |  2 --
- 8 files changed, 1 insertion(+), 69 deletions(-)
+long int x = TESTVAL / 4 * - sizeof(void *);
 
-diff --git a/fs/namespace.c b/fs/namespace.c
-index de33070e514a..ba5baccdde67 100644
---- a/fs/namespace.c
-+++ b/fs/namespace.c
-@@ -4108,7 +4108,6 @@ int path_mount(const char *dev_name, const struct path *path,
- 		const char *type_page, unsigned long flags, void *data_page)
- {
- 	unsigned int mnt_flags = 0, sb_flags;
--	int ret;
- 
- 	/* Discard magic */
- 	if ((flags & MS_MGC_MSK) == MS_MGC_VAL)
-@@ -4121,9 +4120,6 @@ int path_mount(const char *dev_name, const struct path *path,
- 	if (flags & MS_NOUSER)
- 		return -EINVAL;
- 
--	ret = security_sb_mount(dev_name, path, type_page, flags, data_page);
--	if (ret)
--		return ret;
- 	if (!may_mount())
- 		return -EPERM;
- 	if (flags & SB_MANDLOCK)
-@@ -4538,7 +4534,7 @@ static inline int vfs_move_mount(const struct path *from_path,
- {
- 	int ret;
- 
--	ret = security_move_mount(from_path, to_path);
-+	ret = security_mount_move(from_path, to_path);
- 	if (ret)
- 		return ret;
- 
-diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_defs.h
-index 6bb67059fb43..95537574c40b 100644
---- a/include/linux/lsm_hook_defs.h
-+++ b/include/linux/lsm_hook_defs.h
-@@ -69,8 +69,6 @@ LSM_HOOK(int, 0, sb_remount, struct super_block *sb, void *mnt_opts)
- LSM_HOOK(int, 0, sb_kern_mount, const struct super_block *sb)
- LSM_HOOK(int, 0, sb_show_options, struct seq_file *m, struct super_block *sb)
- LSM_HOOK(int, 0, sb_statfs, struct dentry *dentry)
--LSM_HOOK(int, 0, sb_mount, const char *dev_name, const struct path *path,
--	 const char *type, unsigned long flags, void *data)
- LSM_HOOK(int, 0, sb_umount, struct vfsmount *mnt, int flags)
- LSM_HOOK(int, 0, sb_pivotroot, const struct path *old_path,
- 	 const struct path *new_path)
-@@ -79,8 +77,6 @@ LSM_HOOK(int, 0, sb_set_mnt_opts, struct super_block *sb, void *mnt_opts,
- LSM_HOOK(int, 0, sb_clone_mnt_opts, const struct super_block *oldsb,
- 	 struct super_block *newsb, unsigned long kern_flags,
- 	 unsigned long *set_kern_flags)
--LSM_HOOK(int, 0, move_mount, const struct path *from_path,
--	 const struct path *to_path)
- LSM_HOOK(int, 0, mount_bind, const struct path *from, const struct path *to,
- 	 bool recurse)
- LSM_HOOK(int, 0, mount_new, struct fs_context *fc, const struct path *mp,
-diff --git a/include/linux/security.h b/include/linux/security.h
-index 6e31de9b3d68..3610a49304c6 100644
---- a/include/linux/security.h
-+++ b/include/linux/security.h
-@@ -372,8 +372,6 @@ int security_sb_remount(struct super_block *sb, void *mnt_opts);
- int security_sb_kern_mount(const struct super_block *sb);
- int security_sb_show_options(struct seq_file *m, struct super_block *sb);
- int security_sb_statfs(struct dentry *dentry);
--int security_sb_mount(const char *dev_name, const struct path *path,
--		      const char *type, unsigned long flags, void *data);
- int security_sb_umount(struct vfsmount *mnt, int flags);
- int security_sb_pivotroot(const struct path *old_path, const struct path *new_path);
- int security_sb_set_mnt_opts(struct super_block *sb,
-@@ -384,7 +382,6 @@ int security_sb_clone_mnt_opts(const struct super_block *oldsb,
- 				struct super_block *newsb,
- 				unsigned long kern_flags,
- 				unsigned long *set_kern_flags);
--int security_move_mount(const struct path *from_path, const struct path *to_path);
- int security_mount_bind(const struct path *from, const struct path *to,
- 			bool recurse);
- int security_mount_new(struct fs_context *fc, const struct path *mp,
-@@ -818,13 +815,6 @@ static inline int security_sb_statfs(struct dentry *dentry)
- 	return 0;
- }
- 
--static inline int security_sb_mount(const char *dev_name, const struct path *path,
--				    const char *type, unsigned long flags,
--				    void *data)
--{
--	return 0;
--}
--
- static inline int security_sb_umount(struct vfsmount *mnt, int flags)
- {
- 	return 0;
-@@ -852,12 +842,6 @@ static inline int security_sb_clone_mnt_opts(const struct super_block *oldsb,
- 	return 0;
- }
- 
--static inline int security_move_mount(const struct path *from_path,
--				      const struct path *to_path)
--{
--	return 0;
--}
--
- static inline int security_mount_bind(const struct path *from,
- 				      const struct path *to, bool recurse)
- {
-diff --git a/kernel/bpf/bpf_lsm.c b/kernel/bpf/bpf_lsm.c
-index 65235d70ee23..3e61c54f9b48 100644
---- a/kernel/bpf/bpf_lsm.c
-+++ b/kernel/bpf/bpf_lsm.c
-@@ -350,7 +350,6 @@ BTF_ID(func, bpf_lsm_release_secctx)
- BTF_ID(func, bpf_lsm_sb_alloc_security)
- BTF_ID(func, bpf_lsm_sb_eat_lsm_opts)
- BTF_ID(func, bpf_lsm_sb_kern_mount)
--BTF_ID(func, bpf_lsm_sb_mount)
- BTF_ID(func, bpf_lsm_sb_remount)
- BTF_ID(func, bpf_lsm_sb_set_mnt_opts)
- BTF_ID(func, bpf_lsm_sb_show_options)
-@@ -383,7 +382,6 @@ BTF_ID(func, bpf_lsm_task_prctl)
- BTF_ID(func, bpf_lsm_task_setscheduler)
- BTF_ID(func, bpf_lsm_task_to_inode)
- BTF_ID(func, bpf_lsm_userns_create)
--BTF_ID(func, bpf_lsm_move_mount)
- BTF_ID(func, bpf_lsm_mount_bind)
- BTF_ID(func, bpf_lsm_mount_new)
- BTF_ID(func, bpf_lsm_mount_remount)
-diff --git a/security/apparmor/lsm.c b/security/apparmor/lsm.c
-index 7fe774535992..13a8049b1b59 100644
---- a/security/apparmor/lsm.c
-+++ b/security/apparmor/lsm.c
-@@ -1713,7 +1713,6 @@ static struct security_hook_list apparmor_hooks[] __ro_after_init = {
- 	LSM_HOOK_INIT(capget, apparmor_capget),
- 	LSM_HOOK_INIT(capable, apparmor_capable),
- 
--	LSM_HOOK_INIT(move_mount, apparmor_move_mount),
- 	LSM_HOOK_INIT(mount_bind, apparmor_mount_bind),
- 	LSM_HOOK_INIT(mount_new, apparmor_mount_new),
- 	LSM_HOOK_INIT(mount_remount, apparmor_mount_remount),
-diff --git a/security/landlock/fs.c b/security/landlock/fs.c
-index 6e810550efcb..5f723a70baa4 100644
---- a/security/landlock/fs.c
-+++ b/security/landlock/fs.c
-@@ -1857,7 +1857,6 @@ static struct security_hook_list landlock_hooks[] __ro_after_init = {
- 	LSM_HOOK_INIT(mount_reconfigure, hook_mount_reconfigure),
- 	LSM_HOOK_INIT(mount_change_type, hook_mount_change_type),
- 	LSM_HOOK_INIT(mount_move, hook_move_mount),
--	LSM_HOOK_INIT(move_mount, hook_move_mount),
- 	LSM_HOOK_INIT(sb_umount, hook_sb_umount),
- 	LSM_HOOK_INIT(sb_remount, hook_sb_remount),
- 	LSM_HOOK_INIT(sb_pivotroot, hook_sb_pivotroot),
-diff --git a/security/security.c b/security/security.c
-index 356ef228d5de..af95868af34d 100644
---- a/security/security.c
-+++ b/security/security.c
-@@ -1039,29 +1039,6 @@ int security_sb_statfs(struct dentry *dentry)
- 	return call_int_hook(sb_statfs, dentry);
- }
- 
--/**
-- * security_sb_mount() - Check permission for mounting a filesystem
-- * @dev_name: filesystem backing device
-- * @path: mount point
-- * @type: filesystem type
-- * @flags: mount flags
-- * @data: filesystem specific data
-- *
-- * Check permission before an object specified by @dev_name is mounted on the
-- * mount point named by @nd.  For an ordinary mount, @dev_name identifies a
-- * device if the file system type requires a device.  For a remount
-- * (@flags & MS_REMOUNT), @dev_name is irrelevant.  For a loopback/bind mount
-- * (@flags & MS_BIND), @dev_name identifies the	pathname of the object being
-- * mounted.
-- *
-- * Return: Returns 0 if permission is granted.
-- */
--int security_sb_mount(const char *dev_name, const struct path *path,
--		      const char *type, unsigned long flags, void *data)
--{
--	return call_int_hook(sb_mount, dev_name, path, type, flags, data);
--}
--
- /**
-  * security_sb_umount() - Check permission for unmounting a filesystem
-  * @mnt: mounted filesystem
-@@ -1141,21 +1118,6 @@ int security_sb_clone_mnt_opts(const struct super_block *oldsb,
- }
- EXPORT_SYMBOL(security_sb_clone_mnt_opts);
- 
--/**
-- * security_move_mount() - Check permissions for moving a mount
-- * @from_path: source mount point
-- * @to_path: destination mount point
-- *
-- * Check permission before a mount is moved.
-- *
-- * Return: Returns 0 if permission is granted.
-- */
--int security_move_mount(const struct path *from_path,
--			const struct path *to_path)
--{
--	return call_int_hook(move_mount, from_path, to_path);
--}
--
- /**
-  * security_mount_bind() - Check permissions for a bind mount
-  * @from: source path
-diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
-index 415b5541ab9e..446e9e242134 100644
---- a/security/selinux/hooks.c
-+++ b/security/selinux/hooks.c
-@@ -7477,8 +7477,6 @@ static struct security_hook_list selinux_hooks[] __ro_after_init = {
- 	LSM_HOOK_INIT(sb_set_mnt_opts, selinux_set_mnt_opts),
- 	LSM_HOOK_INIT(sb_clone_mnt_opts, selinux_sb_clone_mnt_opts),
- 
--	LSM_HOOK_INIT(move_mount, selinux_move_mount),
--
- 	LSM_HOOK_INIT(dentry_init_security, selinux_dentry_init_security),
- 	LSM_HOOK_INIT(dentry_create_files_as, selinux_dentry_create_files_as),
- 
--- 
-2.52.0
+or even
+
+long int x = TESTVAL / 4 * 3 - - sizeof(void *);
+
+long int x = TESTVAL / 4 * - - sizeof(void *);
+
+It doesn't even have problems with
+
+long int x = TESTVAL / 4 * - - + - + - sizeof(void *);
+
+Weird. Looks like the compiler takes the "+" or "-" as sign value,
+not as operator, and once can have as many of those as one desires.
+
+Guenter
 
