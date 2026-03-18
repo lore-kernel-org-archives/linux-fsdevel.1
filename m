@@ -1,192 +1,233 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A24893596F8
-	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Mar 2026 19:50:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773863426; cv=none; b=RS1OLtCXZdW8YIx6IZl5Xw2EbJJsas3d8BEtlNj0fme961IPH0tA7BfDqGW41O3uNZdUyda+2wxLw5mxncLkmO30qrT06ZgphXeLGwyySNRfVVtsPZylO/w/IH9Yjknfwic25KY+/aef2w2jdPpBjpf4ccBKrqdNocXyPcbnCXE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773863426; c=relaxed/simple;
-	bh=4E2+mgnoT/O7gf1R4+xQjIqP6j0a3Jp5OE1RFcWGio0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ooTxCL7MNd5ZfdmijSrj7M+pPagAzoSfSOXF7FkEvu+txI55ORWnjMMe8f7Yox08ErcRN1Uh0/Mke5k1iSrj4TagiaUzdXRDQDh8tHvoLZRc0MrqRZkaWFxlbkxW496ISqgdN4JSkBgsJMA3YVVZ5OIxQ6k7BEBAReu71jTpSik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dz+2XbqE; arc=none smtp.client-ip=209.85.216.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD0D33F7E80
+	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Mar 2026 20:00:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.176
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773864055; cv=pass; b=YUEaR9g4AAoglmujuio2alf8PpaaEyCYz3Vg8vTX7X0RnhVKRBV+erg8MVbWRwDXtS792FoN32yE1UtVjQVef+v4qEmAOwYBgtdS347b2IYcVSKsdDpyk0ybdHamMuW6iaD1kv8yELCIrtAWjtvTRVp0koZQaglCXBmglN0XBY8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773864055; c=relaxed/simple;
+	bh=HHWKUxL2f5dmXpuQep9FKj2ZGNOpjWa4Ggq5Y+nPWh0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=K7MWnlT/b9G8QJ3ltIjWK2JN6zlO/PsoyMYw20IXQKVYJ4fN6JUW2VsFyBFCTNqBhNwEc12ai/vA37VAGje8MJ+BQBqAnb1FR+nt7IAwNQRJXy/jLpbPNtiP7RXKUPT2Ebl/oPjGbssj1fPE7puODOa3ub9Ee8PwgWSvoMUQTns=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=NtwOi+jN; arc=pass smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dz+2XbqE"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-35bb7afdc38so265641a91.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 18 Mar 2026 12:50:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="NtwOi+jN"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2b06d33e84cso1230065ad.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 18 Mar 2026 13:00:51 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773864051; cv=none;
+        d=google.com; s=arc-20240605;
+        b=FuUTSvvDWGKhYAFmxbRIWh/WqBcHwgg+ZnaHC4UPM8qlZdDFVsvZyrVDq9KNjpcIF9
+         zb728HBCnCPFEePMw8q/H0iAtmKE6Qq4eX0PwKND5NJn+tEfQr9ah9ZB3mPWkgIvbgXV
+         iZBpw0QIZkSwHXqbUtY/cNZwIJvtOueKtNcdxchenmqETOPw9rKemPnJoQJjLYHlcRGs
+         /1jnFFMBLuV/zSueToqQZ/zag8Xnhp3vgPsZXygPPRS4dVNQSbDZKBhEFtofU2kDkHR/
+         wiWxhepheW0AXdH0XTq6YSRf0UtMUmnVxL4wLxsLmnGW8feK4Z+TD7spya4lch6zNtSG
+         dwIQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=71OKjSWJ7h2Q1GFZJc35pK1JHDHtKN/E4Pws9ixreXc=;
+        fh=88EvxErtBC6g8TKsDn2Qh1vdKL906XvcgQ93W8fGwd0=;
+        b=LeMdsm6lSgwrJ1m8/wQEWu9b9dWxYGyXKTS8TI2gSBCAkOlB0j/W5zhuY7TJTCLwa/
+         M1n5fbisEPa7CeQEGsUMlXoUTBlWCcPlMh6xXnnA6YjF6lQt7H+vxKoybeZ0pQk5Zete
+         nM+rwzsFSUKyVb9ERsP6HL+kdNcQVHEbexfPRliVYt+hpqv9BOJMO4X1Q6SZX4DLcb+D
+         QT2KLSedmVPdhqV0pVMW6qAJQctgr/2cu/6ZCImwBlRL66POlIEz1kefZxzO9XmMXhGA
+         IagksKxUvfQ9nT42xbGZ+NAcw6CKQP/7uIrQ+8x6/jZdfZ2Fa0L8z69IGxL/A8HZqWYZ
+         oDhA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773863425; x=1774468225; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=Resi8n+oQ1vXGyEjFOBn4ZBz6ktHZ1vnUrgtEXoKXe8=;
-        b=Dz+2XbqESJyUtSPtOhEVpUmtjfikkbMatpzTDEcTGQCm0jFZjQspE5oFsi790c7YPe
-         hvocUm01ymkyYUl1xjbaxPLAcsHGNjZL1KzEuUq9V2Q+I3eEVXmbtvSOEood8Hy4lEUH
-         z1JZqCoakAwWLvCwJF5svLSU7TcyZ8XLIzVMnyxyBjefJ0otnBQKtvvzdQrcYDbbrmr5
-         FjOGqXW+tkwDsHwRgRrLZO2Iaphrlh9rn3SdcKqh/iSJRaC96yWuaGiVnILH8ey6x/5v
-         U67cySGOHXJerhYeemq9lBTgnW9rc3f0IbpVu5yJvGPTFpRxTs/HWrzZzoy0n1wmvkuH
-         HjMA==
+        d=paul-moore.com; s=google; t=1773864051; x=1774468851; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=71OKjSWJ7h2Q1GFZJc35pK1JHDHtKN/E4Pws9ixreXc=;
+        b=NtwOi+jNDtF28Lhp8zGgTXUoZzr9e02O6NwxhSgbyWpLMh0MupV0xrLqemnvKhLS3J
+         rtyyDMWJSCQhHtqkRPtdZxjfzYIYUM74b2KcbuePULFo19uyVNn5uynjiB2q9ZITTDTS
+         2iLUShgjm9S1UTUxzM2pHSUAR2UrdAS7ZDs8HiWNL/4wGmYTHhNDL9hPJYt3kr+BlQu+
+         NiP/F9WLBbVaygTC5oayHgRS32WWHywEpUfj4AuICWV78LkO+zHe2bcSG71MtnNEgVBR
+         EGVRRiOp7aKS/N5iNqHgIba5qLwpg35V14/As+qmTFQw/4Y5UXrbV4nccbqL8QVsN99V
+         84gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773863425; x=1774468225;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Resi8n+oQ1vXGyEjFOBn4ZBz6ktHZ1vnUrgtEXoKXe8=;
-        b=YMD1FZCsOEI0x55dgRv1rDZVEccUhjAb20J5bha+FugP03L2K777hIjH6Q9iWdu4xv
-         Rzxpi2flBq6aIsKeFdGPP/Jmzs0JeqdOmytBpRvNAN7Tc5ih0s9CdTzWLeC0w/IKj+8C
-         iwmplIc5tLFHuB6Aolo0ggh/Q58rFzM08mWQY5MaMSkxot60CqEGEjWwSCwGBG+fIOMq
-         XnCFsVRegnwFS+behhUtDruYZASKiIXZfZQ0LODvACZfOga/DtodCPehE3qCLBEtnQ/o
-         km00KpcKmuOb5ElTcDGFxULkACGNMelnRZXmKK7+km38dG8PjE2s6Z4YGc795GRxI6JU
-         KnVw==
-X-Forwarded-Encrypted: i=1; AJvYcCXIMdyeR1gJb4H6TzX7tfz7/TlgPj/aGuJQz2RgQ5bjTzLQw3Q3UmSc2hTnzyIQUOViiFnnFqwKXT8pY/fe@vger.kernel.org
-X-Gm-Message-State: AOJu0YxUT3+h/VkNvMwv9pp+7EeaLzvIsdGu4/1nnokFikyJ0ew0gikG
-	wb1VXa1fLouUaQ1DmbGREDlOJ1GccKy7qui9zxbHwgikURzyzjBr7q3K
-X-Gm-Gg: ATEYQzyTYF2ch91fIGfI0ZChUlQL9LLcX30x1cEVzUtgWyEiUBS1vIGtXWVx0jMmimu
-	5R+QN9KKRtBjkvxfs9dCVCao+BGSRRlYak6O0rmJnCVziaPuaL6SIlt3X4dynWosBcnTcZEy4VZ
-	Utnny0MayormcWSjKjiCGi9GWjLSQyiqVGuBF1mv3vA7JgkQWUTEcEYoS388CmjSyl8GJKZdWIi
-	73N3tNx3UzIxcwRF56hhGQko07YyqKqpwx0tt68UapXrBsS+c4ewyoO2KR7mWS1EZQme7Y/lFv3
-	ibrL6KxRglwve+dCeE4SNFi7P5EesIQoXIjDJTunMS7NUN2ls9cBddklIPUC2AGtR+cE/oBcnMh
-	DN+mE5h88LLqzuU8U8m+6WGzzdNkQLchD0svsB/Ai6K1iZBRJnWzQNcYUOJF1sQ+Pywfla5c+jO
-	G01ZUiijjFyAVX7/kbyvGRULcQlUY9nI9tM+GuQOC4UgZZpKlJeYsRJ/pcpph81qyAdRGF7IfE1
-	sn7kjyv/b0=
-X-Received: by 2002:a17:90a:d604:b0:359:ff8a:ee5a with SMTP id 98e67ed59e1d1-35bb9e51090mr4450775a91.12.1773863424940;
-        Wed, 18 Mar 2026 12:50:24 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35bc618be0fsm409804a91.0.2026.03.18.12.50.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Mar 2026 12:50:24 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <cce7a4aa-0786-4c55-afcd-4816f977806a@roeck-us.net>
-Date: Wed, 18 Mar 2026 12:50:23 -0700
+        d=1e100.net; s=20251104; t=1773864051; x=1774468851;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=71OKjSWJ7h2Q1GFZJc35pK1JHDHtKN/E4Pws9ixreXc=;
+        b=CADuYim7YR97oZp4G33VgGDOm/+SmlH1lM4iTgrx/QYViykds+5pCEyXzQU0KzQl4G
+         6FRNZwhBOF0A0PEu5yta0t8HlPcLbBTT9MxlT0RYoukSXEQIPehfiRFRumTHq1PfbRA0
+         POYbcKhrRC9YF5J9AcjHXHePJOBiSWpT09BTmxEBSs8U6QEuPuWMgE/1RjUeBKdUYfzD
+         nbH0dKybr8+vtwExOR9XWhBBTRHwEUQYfSUOq1GNqKgLIFpMIh8dBWLG9cAZjEgnzDW4
+         9hHHuE/i4BL2JZ9Mlnrhico3ipPdD0OoslwD+t39Q/eVTTK6ek10tBYPv0HIf+DZqTxf
+         E0aA==
+X-Forwarded-Encrypted: i=1; AJvYcCUv7qtbJSWnwSAy+R0rE0MuUaisxTVNMORPNYbY5e/Hhaf0Ow4kAlYfg5iFXrKb73NHm6a+fdH6Sw7t6Gad@vger.kernel.org
+X-Gm-Message-State: AOJu0YynRyt1OwLV0OhVtdmYyMcQBouX9akbdkfWfePKinPeXvlGDTyY
+	20OxFXIqH0kFFfIMrVvyhFr5lo+daxuGFA6E//Q3NP39HA5WgKp5YGLsUyC+uF11bRf8BN7MKu2
+	I9/4nCWwPo2l3gF+LuEQTOLCunRfq6vvj4sIN0n9x4YQV+4IyRP33nQ==
+X-Gm-Gg: ATEYQzxgEUJZjOvCnSv+Ov5qltSAAXOVzEvYnwdCAr8m3NZk9MgnzllNbHjseLf4Y7c
+	hl4DkscOn7RkGi51nlEmllXFtEMCohdrjsUEkWWxjbkoaUx+VubNKlhD1OnGNcoSmFbntUsmcR/
+	bjbMvnPosHMnDR+J/Sx6Fc2g3S2C5y/KBnJRp3Iqmtwe5JDAay0l/+OEPxiTWQbk6YD7ra5he1b
+	PxEEQx1ACFihRiJOZSVUIMhIv0NpZVOAZmmaspa128emGKQaL5rbet6nQOyZgPkfEsttf9oWNjX
+	zH16yM9dLSKmMf+rXA==
+X-Received: by 2002:a17:903:2a90:b0:2b0:4158:c9d1 with SMTP id
+ d9443c01a7336-2b06e3e5bacmr54910065ad.36.1773864050852; Wed, 18 Mar 2026
+ 13:00:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] exec: Add KUnit test for bprm_stack_limits()
-To: Kees Cook <kees@kernel.org>
-Cc: Eric Biederman <ebiederm@xmission.com>,
- Justin Stitt <justinstitt@google.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-References: <20240520021337.work.198-kees@kernel.org>
- <20240520021615.741800-1-keescook@chromium.org>
- <a3e9b1c2-40c1-45df-9fa2-14ee6a7b3fe2@roeck-us.net>
- <202603181132.507C829A9@keescook>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <202603181132.507C829A9@keescook>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20260316213606.374109-5-paul@paul-moore.com> <20260316213606.374109-6-paul@paul-moore.com>
+ <20260318-einsam-sellerie-2d547dd338ee@brauner> <CAOQ4uxhfvS1SCkp504uDuBmgqSEBYaQDDVAm+JY=w_2fKLbQsQ@mail.gmail.com>
+In-Reply-To: <CAOQ4uxhfvS1SCkp504uDuBmgqSEBYaQDDVAm+JY=w_2fKLbQsQ@mail.gmail.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Wed, 18 Mar 2026 16:00:39 -0400
+X-Gm-Features: AaiRm50bTirLC51vuYEkGlExlBIJP04T2IlKkXqzaEFW_Rpzh7aQ_TFopQtvPJk
+Message-ID: <CAHC9VhS+83FZoyVOV_tKHOBtVSwK76TS-gbc=cKzL5QK1P21Mg@mail.gmail.com>
+Subject: Re: [PATCH 1/3] backing_file: store user_path_file
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Christian Brauner <brauner@kernel.org>, linux-security-module@vger.kernel.org, 
+	selinux@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-unionfs@vger.kernel.org, linux-erofs@lists.ozlabs.org, 
+	Gao Xiang <xiang@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 3/18/26 11:33, Kees Cook wrote:
-> On Mon, Mar 16, 2026 at 12:16:58PM -0700, Guenter Roeck wrote:
->> Hi,
->>
->> On Sun, May 19, 2024 at 07:16:11PM -0700, Kees Cook wrote:
->>> Since bprm_stack_limits() operates with very limited side-effects, add
->>> it as the first exec.c KUnit test. Add to Kconfig and adjust MAINTAINERS
->>> file to include it.
->>>
->>> Tested on 64-bit UML:
->>> $ tools/testing/kunit/kunit.py run exec
->>>
->>> Signed-off-by: Kees Cook <keescook@chromium.org>
->>> ---
->>> Cc: Eric Biederman <ebiederm@xmission.com>
->>> Cc: Justin Stitt <justinstitt@google.com>
->>> Cc: Alexander Viro <viro@zeniv.linux.org.uk>
->>> Cc: Christian Brauner <brauner@kernel.org>
->>> Cc: Jan Kara <jack@suse.cz>
->>> Cc: linux-fsdevel@vger.kernel.org
->>> Cc: linux-mm@kvack.org
->>> ---
->> ...
->>> +++ b/fs/exec.c
->> ...
->>> +	  .expected_argmin = ULONG_MAX - (_STK_LIM / 4 * 3) + sizeof(void *) },
->>> +	{ { .p = ULONG_MAX, .rlim_stack.rlim_cur = 4 * (_STK_LIM / 4 *  + sizeof(void *)),
->>                                                                     ^^^^^^
->>
->> Google's experimental AI review agent tagged the above change as syntactically wrong.
->> How does this even compile ?
-> 
-> Wow. I have no idea how this ever built either. I will get it fixed.
-> 
-I ended up writing a test program.
+On Wed, Mar 18, 2026 at 8:07=E2=80=AFAM Amir Goldstein <amir73il@gmail.com>=
+ wrote:
+> On Wed, Mar 18, 2026 at 11:57=E2=80=AFAM Christian Brauner <brauner@kerne=
+l.org> wrote:
+> > On Mon, Mar 16, 2026 at 05:35:56PM -0400, Paul Moore wrote:
+> > > From: Amir Goldstein <amir73il@gmail.com>
+> > >
+> > > Instead of storing the user_path, store an O_PATH file for the
+> > > user_path with the original user file creds and a security context.
+> > >
+> > > The user_path_file is only exported as a const pointer and its refcnt
+> > > is initialized to FILE_REF_DEAD, because it is not a refcounted objec=
+t.
+> > >
+> > > The only caller of file_ref_init() is now open coded, so the helper
+> > > is removed.
+> > >
+> > > Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+> > > Tested-by: Paul Moore <paul@paul-moore.com> (SELinux)
+> > > Acked-by: Gao Xiang <hsiangkao@linux.alibaba.com> (EROFS)
+> > > Signed-off-by: Paul Moore <paul@paul-moore.com>
+> > > ---
+> > >  fs/backing-file.c            | 20 ++++++++------
+> > >  fs/erofs/ishare.c            |  6 ++--
+> > >  fs/file_table.c              | 53 ++++++++++++++++++++++++++++------=
+--
+> > >  fs/fuse/passthrough.c        |  3 +-
+> > >  fs/internal.h                |  5 ++--
+> > >  fs/overlayfs/dir.c           |  3 +-
+> > >  fs/overlayfs/file.c          |  1 +
+> > >  include/linux/backing-file.h | 29 ++++++++++++++++++--
+> > >  include/linux/file_ref.h     | 10 -------
+> > >  9 files changed, 90 insertions(+), 40 deletions(-)
 
-#define TESTVAL 10
 ...
-long int x = TESTVAL / 4 * + sizeof(void *);
 
-does build, as does
+> > > diff --git a/fs/file_table.c b/fs/file_table.c
+> > > index aaa5faaace1e..b7dc94656c44 100644
+> > > --- a/fs/file_table.c
+> > > +++ b/fs/file_table.c
+> > > @@ -56,24 +57,44 @@ struct backing_file {
+> > >
+> > >  const struct path *backing_file_user_path(const struct file *f)
+> > >  {
+> > > -     return &backing_file(f)->user_path;
+> > > +     return &backing_file(f)->user_path_file.f_path;
+> > >  }
+> > >  EXPORT_SYMBOL_GPL(backing_file_user_path);
+> > >
+> > > -void backing_file_set_user_path(struct file *f, const struct path *p=
+ath)
+> > > +const struct file *backing_file_user_path_file(const struct file *f)
+> > >  {
+> > > -     backing_file(f)->user_path =3D *path;
+> > > +     return &backing_file(f)->user_path_file;
+> > > +}
+> > > +EXPORT_SYMBOL_GPL(backing_file_user_path_file);
+> > > +
+> > > +void backing_file_open_user_path(struct file *f, const struct path *=
+path)
+> >
+> > I think this is a bad idea. This should return an error but still
+> > WARN_ON(). Just make callers handle that error just like we do
+> > everywhere else.
+>
+> OK.
 
-long int x = TESTVAL / 4 * - sizeof(void *);
+That's good, I can remove the FMODE_OPENED sanity check in
+selinux_file_mprotect() now.
 
-or even
+> > > +{
+> > > +     /* open an O_PATH file to reference the user path - cannot fail=
+ */
+> > > +     WARN_ON(vfs_open(path, &backing_file(f)->user_path_file));
+> > > +}
+> > > +EXPORT_SYMBOL_GPL(backing_file_open_user_path);
+> > > +
+> > > +static void destroy_file(struct file *f)
+> > > +{
+> > > +     security_file_free(f);
+> > > +     put_cred(f->f_cred);
+> >
+> > Note that calling destroy_file() in this way bypasses
+> > security_file_release(). Presumably this doesn't matter because no LSM
+> > does a security_alloc_file() for this but it adds a nother wrinkly into
+> > the cleanup path.
 
-long int x = TESTVAL / 4 * 3 - - sizeof(void *);
+The alloc_empty_backing_file() function will call init_file() on the
+O_PATH file which in turnwill call security_file_alloc().  We depend
+on that behavior as we need to set the creds properly on the file.
 
-long int x = TESTVAL / 4 * - - sizeof(void *);
+The tricky bit is that security_file_release() is currently only used
+by IMA/EVM; it was created when we folded IMA/EVM into the LSM
+framework, making them proper LSMs and cleaning up a lot of the hook
+calls in the VFS.  The commit description provides some info on the
+hook:
 
-It doesn't even have problems with
+   IMA calculates at file close the new digest of the file content
+   and writes it to security.ima, so that appraisal at next file
+   access succeeds.
 
-long int x = TESTVAL / 4 * - - + - + - sizeof(void *);
+   The new hook cannot return an error and cannot cause the operation
+   to be reverted.
 
-Weird. Looks like the compiler takes the "+" or "-" as sign value,
-not as operator, and once can have as many of those as one desires.
+As O_PATH files never go through the
+security_file_open()/security_file_post_open() path, O_PATH files
+should be ignored by IMA/EVM (which makes sense, as there is no data
+or xattrs to measure, update, etc.).  For that reason, skipping
+security_file_release() should be okay in this particular case.
 
-Guenter
+Other LSMs which allocate file specific state, e.g. AppArmor, in
+security_file_alloc() should free that state in security_file_free()
+which is handled in Amir's patch.
 
+> This is for Paul to comment on.
+> The way I see it, security_file_open() was not called on the user path fi=
+le,
+> so no reason to call security_file_release()?
+>
+> It is very much a possibility that LSM would want to allocate security
+> context for the user path file during backing_file_mmap, when both files
+> are available in context, so that later mprotect() will have this stored
+> information in the user path file security context.
+>
+> But in this case, wouldn't security_file_free() be enough?
+
+See my comments above.  If we wanted to look into removing the
+destroy_file() special case for the user_path file hanging off the
+backing file I'm happy to work with you guys in the future to sort
+that out, but I'd prefer to tackle that at a later date as it could
+potentially have a much larger footprint than this patchset.
+
+--=20
+paul-moore.com
