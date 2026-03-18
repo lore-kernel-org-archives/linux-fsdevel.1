@@ -1,197 +1,313 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF9C41E7C23;
-	Wed, 18 Mar 2026 14:30:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32F143DA5CC;
+	Wed, 18 Mar 2026 14:30:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773844211; cv=none; b=EuZ9VmUjY7dL4Qvf6YyuTv5B4Y4XQJ4N3opdh+xZaesZWpce3ob48JSn0OP3FkWoVBqR/V3n3Klj3cJqFmwVhduPbyBs/8dqnRNyztq4mdZCbbP3DPET/V6NCkFcTQ5pB+EScVnFfbWHUuFQczno7eJn4etsU2x0pytR/lwv/PA=
+	t=1773844214; cv=none; b=tQ66Ha2Gn/wnProt+0IJzV2KjOKFsAvwIIPbgwnzTjYvsgz9bfgsuerfF4NzG6pB3jmDNDceFXtqvbxM8KoUJ+VeP4T1qZAiSQBlF+R7trUvh05WTaqyZA7poRITFLWh5TDiKOiy8QUC/Ffrc0qU0q8HDeNFovxva0WfCqk8PKc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773844211; c=relaxed/simple;
-	bh=lfkyG5XPOXczjwHJXq1/PWVLV2HUZtpTKQjpqFv+kcM=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ukQ9dyzokKHaGLjBc1oPxzTch+tM6LWE5AJqIx4nLMtxVzn4SWN+rh7Y+9CsgJsw9/loDx0vcC1ZzXqRzxbZPzmHEbOLkdpJX09PNJUkzxPyoWaYemNBny2YUEr6p/8HTOvkNtRdauMpJir1TBgRmozyUsvGwa22VCALo+SYa/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AN31EDHe; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773844214; c=relaxed/simple;
+	bh=dI7KeCr81zxDIIpby5KUGoKhn74IYeTV9jPqj5maCUE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UzSzRffzNYdJIW8BQA1YtWqqCHiLYFf4OOrKIQk1wSJNxnYPO5Jv+mwV3n/RfAOOBMg9AoAt2woYXat5UZBLEQKjd+6fl6+8lrRfGnSay2jYr/TppNCygPj25aIEwX/PhB/O/cgZvEhF/UVgtuLTb9Qx9h452vf5PzUjv4QSVSA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HsJE6zz/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AN31EDHe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99E20C19421;
-	Wed, 18 Mar 2026 14:30:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HsJE6zz/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A869C19421;
+	Wed, 18 Mar 2026 14:30:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773844211;
-	bh=lfkyG5XPOXczjwHJXq1/PWVLV2HUZtpTKQjpqFv+kcM=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=AN31EDHesEfv8ym5MByRkt5Ez/9KrBaDZBv0L78WcvVH4G2MTWZi49JH42VqZld8U
-	 SN92nw3ikkiW+eeH3d/yiL4yGHXdkr9yLhiQNVHBZo8n0GwXeQP47CSCUWcGLnPpr1
-	 0vajEC+/bQUtJ2vzdc3tvkptN5mGt6jhUSRwJ/HTNz+JGIa/q6oNbkqUGN1B4QRj/N
-	 Gd+gXEK8tae9gTWv6eIyfoWl9r2w3vSMn29Me3l8YN9N90XD+DWhUBLcgArORsHXic
-	 59soBK1wjXNfVpoIdDUDusaxBqPmXXwmfV4Sc2Rz9O7TKpoyXquITpuxb+tZWfapy3
-	 OjZZW6OG4+OGw==
-Message-ID: <e1c465a1010b702ff41af23caef6177ff88aa4e8.camel@kernel.org>
-Subject: Re: [PATCH v4 4/6] NFSD: Refactor find_one_sb_stid() into
- find_next_sb_stid()
-From: Jeff Layton <jlayton@kernel.org>
-To: Chuck Lever <cel@kernel.org>, NeilBrown <neil@brown.name>, Olga
- Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, Tom
- Talpey <tom@talpey.com>
-Cc: linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, Chuck Lever
-	 <chuck.lever@oracle.com>
-Date: Wed, 18 Mar 2026 10:30:08 -0400
-In-Reply-To: <20260318-umount-kills-nfsv4-state-v4-4-56aad44ab982@oracle.com>
-References: <20260318-umount-kills-nfsv4-state-v4-0-56aad44ab982@oracle.com>
-	 <20260318-umount-kills-nfsv4-state-v4-4-56aad44ab982@oracle.com>
-Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
- keydata=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
- QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
+	s=k20201202; t=1773844213;
+	bh=dI7KeCr81zxDIIpby5KUGoKhn74IYeTV9jPqj5maCUE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HsJE6zz/2lf8DPOcAOq0kqaGQXEanfNpeMschN9d3SeQvg7+8n7pOQiO8Gse+J9bA
+	 4O7ZYfZv4dHQq18VGnCvy7bC+1Ky41pMsxkI488I1o+Q2eiNJJC36XTYBiS7JcqQof
+	 IIGogBAvccHbkV9su6Rc8O9kZEtvGO4VOTeL8YggWWUfmR2koFBX7ZN70Xp2W7KDWT
+	 rlviCSZZwoTR3HiW9wPdNBy5sUL04iGC+Z9sJ7STChBPg+UcANnC0Bke2WthDYT7ro
+	 XAs11fi8zxc+Q1pzixVB5Ht3o/EN260ZVHAz6eAFCa50N8lKvghR7pfKGYDgOjrnoQ
+	 SXAUq1DU3C1Nw==
+Date: Wed, 18 Mar 2026 10:30:12 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	workflows@vger.kernel.org, tools@kernel.org, x86@kernel.org,
+	Thomas Gleixner <tglx@kernel.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Cyril Hrubis <chrubis@suse.cz>, Kees Cook <kees@kernel.org>,
+	Jake Edge <jake@lwn.net>,
+	David Laight <david.laight.linux@gmail.com>,
+	Askar Safin <safinaskar@zohomail.com>,
+	Gabriele Paoloni <gpaoloni@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Ingo Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [PATCH 1/9] kernel/api: introduce kernel API specification
+ framework
+Message-ID: <abq29NMpyXJrqv_7@laps>
+References: <20260313150928.2637368-1-sashal@kernel.org>
+ <20260313150928.2637368-2-sashal@kernel.org>
+ <87h5qe9wig.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <87h5qe9wig.fsf@trenco.lwn.net>
 
-On Wed, 2026-03-18 at 10:15 -0400, Chuck Lever wrote:
-> From: Chuck Lever <chuck.lever@oracle.com>
->=20
-> Export-scoped state revocation, added in a subsequent commit,
-> needs to advance past non-matching stids within the same
-> client without restarting from position zero on each call.
->=20
-> Extract find_next_sb_stid(), which accepts a starting IDR
-> position and can resume iteration across multiple calls.
-> find_one_sb_stid() becomes a thin wrapper that starts from
-> position zero.
->=20
-> No change in behavior.
->=20
-> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
-> ---
->  fs/nfsd/nfs4state.c | 25 ++++++++++++++++++++-----
->  1 file changed, 20 insertions(+), 5 deletions(-)
->=20
-> diff --git a/fs/nfsd/nfs4state.c b/fs/nfsd/nfs4state.c
-> index d476192e4b27..891669b32804 100644
-> --- a/fs/nfsd/nfs4state.c
-> +++ b/fs/nfsd/nfs4state.c
-> @@ -1738,25 +1738,40 @@ static void release_openowner(struct nfs4_openown=
-er *oo)
->  	nfs4_put_stateowner(&oo->oo_owner);
->  }
-> =20
-> -static struct nfs4_stid *find_one_sb_stid(struct nfs4_client *clp,
-> -					  struct super_block *sb,
-> -					  unsigned int sc_types)
-> +/*
-> + * On return of a non-NULL stid, @id holds that entry's IDR key;
-> + * caller must increment @id before the next call to advance past it.
-> + */
-> +static struct nfs4_stid *find_next_sb_stid(struct nfs4_client *clp,
-> +					   struct super_block *sb,
-> +					   unsigned int sc_types,
-> +					   unsigned long *id)
->  {
-> -	unsigned long id, tmp;
->  	struct nfs4_stid *stid;
-> =20
->  	spin_lock(&clp->cl_lock);
-> -	idr_for_each_entry_ul(&clp->cl_stateids, stid, tmp, id)
-> +	while ((stid =3D idr_get_next_ul(&clp->cl_stateids, id)) !=3D NULL) {
->  		if ((stid->sc_type & sc_types) &&
->  		    stid->sc_status =3D=3D 0 &&
->  		    stid->sc_file->fi_inode->i_sb =3D=3D sb) {
->  			refcount_inc(&stid->sc_count);
->  			break;
->  		}
-> +		(*id)++;
-> +	}
->  	spin_unlock(&clp->cl_lock);
->  	return stid;
->  }
-> =20
-> +static struct nfs4_stid *find_one_sb_stid(struct nfs4_client *clp,
-> +					  struct super_block *sb,
-> +					  unsigned int sc_types)
-> +{
-> +	unsigned long id =3D 0;
-> +
-> +	return find_next_sb_stid(clp, sb, sc_types, &id);
-> +}
-> +
->  static void revoke_ol_stid(struct nfs4_client *clp,
->  			   struct nfs4_ol_stateid *stp)
->  {
+On Tue, Mar 17, 2026 at 11:49:27AM -0600, Jonathan Corbet wrote:
+>Sasha Levin <sashal@kernel.org> writes:
+>
+>> Add a framework for formally documenting kernel APIs with inline
+>> specifications. This framework provides:
+>>
+>> - Structured API documentation with parameter specifications, return
+>>   values, error conditions, and execution context requirements
+>> - Runtime validation capabilities for debugging (CONFIG_KAPI_RUNTIME_CHECKS)
+>> - Export of specifications via debugfs for tooling integration
+>> - Support for both internal kernel APIs and system calls
+>
+>So I'll confess I have only scanned over the implementation, but I have
+>some thoughts on the earlier stuff.
+>
+>[...]
+>
+>> diff --git a/Documentation/dev-tools/kernel-api-spec.rst b/Documentation/dev-tools/kernel-api-spec.rst
+>> new file mode 100644
+>> index 0000000000000..7c0c1694f1f4a
+>> --- /dev/null
+>> +++ b/Documentation/dev-tools/kernel-api-spec.rst
+>> @@ -0,0 +1,482 @@
+>> +.. SPDX-License-Identifier: GPL-2.0
+>> +
+>> +======================================
+>> +Kernel API Specification Framework
+>> +======================================
+>> +
+>> +:Author: Sasha Levin <sashal@kernel.org>
+>> +:Date: June 2025
+>
+>Has it not changed since then?
+>
+>> +.. contents:: Table of Contents
+>> +   :depth: 3
+>> +   :local:
+>> +
+>> +Introduction
+>> +============
+>
+>[...]
+>
+>> +Usage Guide
+>> +===========
+>> +
+>> +Basic API Specification
+>> +-----------------------
+>> +
+>> +API specifications are written as KAPI-annotated kerneldoc comments directly in
+>> +the source file, immediately preceding the function implementation. The ``kapi``
+>> +tool extracts these annotations to produce structured specifications.
+>> +
+>> +.. code-block:: c
+>> +
+>> +    /**
+>> +     * kmalloc - allocate kernel memory
+>> +     * @size: Number of bytes to allocate
+>> +     * @flags: Allocation flags (GFP_*)
+>
+>Given that the text thus far has talked about user-space API validation,
+>it's a bit surprising to see an internal function used as an example.
 
-Reviewed-by: Jeff Layton <jlayton@kernel.org>
+Indeed :)
+
+I was playing with adding specs to lower level functions as a way to both
+simplify the higher level spec blocks, but also to help validate the
+correctness of those upper level specs ("you said that this syscall doesn't
+allocate memory, but it's calling kmalloc()!").
+
+>Also, maybe it should be kmalloc_obj()?  <runs away>
+>
+>> +     * context-flags: KAPI_CTX_PROCESS | KAPI_CTX_SOFTIRQ | KAPI_CTX_HARDIRQ
+>> +     * param-count: 2
+>
+>param-count is two, but you only document one of them?
+>
+>> +     * param: size
+>> +     *   type: KAPI_TYPE_UINT
+>> +     *   flags: KAPI_PARAM_IN
+>> +     *   constraint-type: KAPI_CONSTRAINT_RANGE
+>> +     *   range: 0, KMALLOC_MAX_SIZE
+>> +     *
+>> +     * error: ENOMEM, Out of memory
+>> +     *   desc: Insufficient memory available for the requested allocation.
+>> +     */
+>
+>Honest question: can this be made a bit easier for people to create,
+>with less shift-key wear?  My biggest worry with a system like this is
+>that people won't take the time to create and maintain the entries, so
+>anything that would ease the task would help.  Is there an impediment to
+>something like:
+
+Before answering your actual question, I honestly think that most of these will
+be LLM generated, so at least the skeleton of the kernel-doc will be there and
+humans will only end up modifying the proposed spec.
+
+>  contexts: process, softirq, hardirq
+>
+>  param: size
+>    type: uint, input
+>    constraint: range(0, KMALLOC_MAX_SIZE)
+>
+>See what I'm getting at?  ISTM that your DSL could be made a bit less
+>verbose and shouty while being just as well defined, but perhaps I'm
+>missing something?
+
+Yup, let me look into that.
+
+>Even better, of course, would be to add a "description" field for each
+>parameter, and allow that rather than the @param description that
+>kerneldoc currently uses.  That would keep all the information together,
+>at the minor cost of adding another significant complication to the
+>kernel-doc script.  Mauro won't mind :)
+>
+>> +    void *kmalloc(size_t size, gfp_t flags)
+>> +    {
+>> +        /* Implementation */
+>> +    }
+>> +
+>> +Alternatively, specifications can be defined using the ``DEFINE_KERNEL_API_SPEC``
+>> +macro for compiled-in specs that are stored in the ``.kapi_specs`` ELF section:
+>> +
+>> +.. code-block:: c
+>> +
+>> +    #include <linux/kernel_api_spec.h>
+>> +
+>> +    DEFINE_KERNEL_API_SPEC(sys_open)
+>> +    KAPI_DESCRIPTION("Open or create a file")
+>> +    KAPI_CONTEXT(KAPI_CTX_PROCESS | KAPI_CTX_SLEEPABLE)
+>> +    /* ... parameter, error, constraint definitions ... */
+>> +    KAPI_END_SPEC
+>
+>So the reason for two completely separate mechanisms is not entirely
+>clear to me.  The kerneldoc variant is essentially documentation, while
+>the macro stuff is to be built into the executable?  What if you want
+>both?
+>
+>It would be nice to only have one way if at all possible; I'm sure that
+>crossed your mind at some point :)  If there have to be two, having both
+>examples describe the same function would make the parallels more clear.
+
+Under the hood, the 
+
+>> +System Call Specification
+>> +-------------------------
+>> +
+>> +System calls are documented inline in the implementation file (e.g., ``fs/open.c``)
+>> +using KAPI-annotated kerneldoc comments. When ``CONFIG_KAPI_RUNTIME_CHECKS`` is
+>> +enabled, the ``SYSCALL_DEFINEx`` macros automatically look up the specification
+>> +and validate parameters before and after the syscall executes.
+>> +
+>> +IOCTL Specification
+>> +-------------------
+>> +
+>> +IOCTLs use the same annotation approach with additional structure field
+>> +specifications
+>
+>This might be a really good place for an example
+
+I think I'll just drop the IOCTL code for now. I used it in the RFCs to
+demonstrate how a similar mechanism could be used throughout different
+userspace API, but since I'm not using it in this series it probably makes
+sense not to even talk about it.
+
+>[...]
+>
+>> +Usage Examples
+>> +--------------
+>> +
+>> +Query specific API::
+>> +
+>> +    $ cat /sys/kernel/debug/kapi/apis/kmalloc/specification
+>> +    API: kmalloc
+>> +    Version: 3.0
+>> +    Description: Allocate kernel memory
+>> +
+>> +    Parameters:
+>> +      [0] size (size_t, in): Number of bytes to allocate
+>> +          Range: 0 - 4194304
+>> +      [1] flags (flags, in): Allocation flags (GFP_*)
+>> +          Mask: 0x1ffffff
+>
+>Ah, you do document that second parameter somewhere :)
+
+Apparently. I'll update the prior example. Not sure why it's missing :)
+
+>> +    Returns: pointer - Pointer to allocated memory or NULL
+>> +
+>> +    Errors:
+>> +      ENOMEM: Out of memory
+>> +
+>> +    Context: process, softirq, hardirq
+>> +
+>> +    Side Effects:
+>> +      - Allocates memory from kernel heap
+>
+>That part wasn't in your example
+>
+>> +Export all specifications::
+>> +
+>> +    $ cat /sys/kernel/debug/kapi/export/all.json > kernel-apis.json
+>> +
+>> +Enable validation for specific API::
+>> +
+>> +    $ echo 1 > /sys/kernel/debug/kapi/apis/kmalloc/validate
+>> +
+>> +Performance Considerations
+>> +==========================
+>> +
+>> +Memory Overhead
+>> +---------------
+>> +
+>> +Each API specification consumes approximately 400-450KB of memory due to the
+>> +fixed-size arrays in ``struct kernel_api_spec``. With the current 4 syscall
+>> +specifications, total memory usage is approximately 1.7MB. Consider:
+>
+>Ouch.
+
+It's pretty "dumb" at this point: large static arrays and such, mostly to keep
+the code simple to read. If this is a concern for accepting this series, I'm
+happy to shrink it down (by a lot).
+
+>> +Documentation Generation
+>> +------------------------
+>> +
+>> +The framework exports specifications via debugfs that can be used
+>> +to generate documentation. Tools for automatic documentation generation
+>> +from specifications are planned for future development.
+>
+>Documentation always comes last :)
+
+So this is one thing I wanted to run by the doc maintainers: the kapi tool
+already has the capability to export these specs in .rst format. Would it be
+interesting to have a manual for kenrel APIs in Documentation/? It can be
+automatically generated and updated and would always match the kernel code at
+that point.
+
+>Interesting stuff.
+
+Thanks!
+
+-- 
+Thanks,
+Sasha
