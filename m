@@ -1,344 +1,79 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 375792DB7AE;
-	Wed, 18 Mar 2026 17:48:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B366356A37;
+	Wed, 18 Mar 2026 17:51:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773856082; cv=none; b=fcmBgbDOhHLb6smXC9y8NOami16Cg1K7hxQQSvGd0EBc+r10c8F72vZi7FXbLSextLkjrfrP/GD23aRV7gSRFX1gIKc1fHn/yW1GBkdNmEHv4Ro/NlS7r+qDvK3JGj30G2W+GwTz0dv+Cm0vkus02GATQE7S1CofdAGmAOwTnHQ=
+	t=1773856290; cv=none; b=s9Mmv3+KoLLzTnc4/J8kj1OfmEJsehHFwtHV5TwJKWWR87Y6UXBCibpj++OogIx6pflwV2Kg9oVcotLuPasDRC8tV0l02HouyDNPtOa2t1aHRvgxs1oM9JbJb/uIphniiRMZswBpnPp09a3DuRS6BYxIVPUPZvUnEF+I4pjfsIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773856082; c=relaxed/simple;
-	bh=hq72KfDI9YIjm4UqddYP9KoqIbbXOeXeI0l+6wtPMMo=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=X5h0LuMwvML8u1zmaYQO1oUenrhqUxGsvVW4/W6Dbwa4kinB2agVeACG/bsifsyOYa/sPSGWa2j7V30qRv0IN4vTEuZjbKR4Ez2/loEr/E9nvuCe810rCAMkEYI7MkdNYJky29ztjqtgJWkjnqGJ9wkfL6LUyl99XRLR7uzvohM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=jzROPGVp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773856290; c=relaxed/simple;
+	bh=EDBlyoiXkGjVuAtMcXzb2GV3zjSDR/jqOI6A7Tor6XU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ChWiA3rf2QcbkZLCNJ0lN1BNDQq4FAXlAED1nE7mx61umRWFBKcI1B2x5R5RNGYX8sjAKShVSdS9vwK6yifxz4JbFKlSrUNgLSwH5LHtXZzk5i8jAl/KCLBE7rCaEH1EBsZSrCnB8qdcfR+Z5uv5x0ICsxhnFX9B/WjOJl6mGs8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=QcFw9CJV; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="jzROPGVp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99B7CC19421;
-	Wed, 18 Mar 2026 17:47:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1773856081;
-	bh=hq72KfDI9YIjm4UqddYP9KoqIbbXOeXeI0l+6wtPMMo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=jzROPGVpzZ38jRINIUlrs6pYfFojw6d5rE/vbNiFKT2UViwtaZd0lDJtPPR3nnuYS
-	 FF9HJXYzwRihCsjyfkE7AMRmpanGALhCQ9VX7i/W6cYBSjxY2y2GwDDanrboMs/kOZ
-	 kogswLXx++OfebTDVl2acbny9BYIqCrFpBBH+dng=
-Date: Wed, 18 Mar 2026 10:47:59 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-Cc: David Hildenbrand <david@kernel.org>, "Liam R . Howlett"
- <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>, Jann Horn
- <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, Mike Rapoport
- <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Kees Cook
- <kees@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, Vineet
- Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>, Catalin
- Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Brian
- Cain <bcain@kernel.org>, Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui
- <kernel@xen0n.name>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Dinh
- Nguyen <dinguyen@kernel.org>, Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <chleroy@kernel.org>, Paul Walmsley <pjw@kernel.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Alexandre Ghiti <alex@ghiti.fr>, Heiko Carstens <hca@linux.ibm.com>, Vasily
- Gorbik <gor@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>, Sven Schnelle
- <svens@linux.ibm.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar
- <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
- <dave.hansen@linux.intel.com>, x86@kernel.org, "H . Peter Anvin"
- <hpa@zytor.com>, Richard Weinberger <richard@nod.at>, Anton Ivanov
- <anton.ivanov@cambridgegreys.com>, Johannes Berg
- <johannes@sipsolutions.net>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Xu Xin
- <xu.xin16@zte.com.cn>, Chengming Zhou <chengming.zhou@linux.dev>, Michal
- Hocko <mhocko@suse.com>, Paul Moore <paul@paul-moore.com>, Stephen Smalley
- <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>,
- linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-hexagon@vger.kernel.org, loongarch@lists.linux.dev,
- linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-um@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- selinux@vger.kernel.org
-Subject: Re: [PATCH v3 00/23] mm/vma: convert vm_flags_t to vma_flags_t in
- vma code
-Message-Id: <20260318104759.92b339d382e7d8d25daea54b@linux-foundation.org>
-In-Reply-To: <cover.1773846935.git.ljs@kernel.org>
-References: <cover.1773846935.git.ljs@kernel.org>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="QcFw9CJV"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Reply-To:Content-ID:Content-Description;
+	bh=EDBlyoiXkGjVuAtMcXzb2GV3zjSDR/jqOI6A7Tor6XU=; b=QcFw9CJVBL6yssnKmxjONDY8GT
+	TnExAMBio7BoAKwzlOeeFZT5m0ky9C001Nz83bRqK+srspqtao9/Y+i8mMIl8FMjsxkwPru9HL4jz
+	wR+pTmvS8KrhpqvJEBvvhGWtESUQnvxi/EJTg7Rtr+eH989lwNvJRSEOBF+cB/8T76q/YyDwMYL2k
+	+agw7FtPxcy2Air2RTt1LD7ydjwkDxmRU31hfPoZhKLDpl7ovK/oXx0RSTyQq5+L9+SAH2tfOj6b9
+	U6oL4ZFPssGJgPIFA/TlM23AW3+jzslv64z0PgyQB5vWJoGOLx5Bfh1+SPvD4KGcPg/T9eahPig/c
+	uVtdMhuA==;
+Received: from authenticated user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.94.2)
+	(envelope-from <leitao@debian.org>)
+	id 1w2v3B-003pWI-JT; Wed, 18 Mar 2026 17:51:20 +0000
+Date: Wed, 18 Mar 2026 10:51:15 -0700
+From: Breno Leitao <leitao@debian.org>
+To: Chuck Lever <chuck.lever@oracle.com>
+Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org, puranjay@kernel.org, 
+	linux-crypto@vger.kernel.org, linux-btrfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	Michael van der Westhuizen <rmikey@meta.com>, kernel-team@meta.com
+Subject: Re: [PATCH RFC 0/5] workqueue: add WQ_AFFN_CACHE_SHARD affinity scope
+Message-ID: <abrkrZc52h0vcTTj@gmail.com>
+References: <20260312-workqueue_sharded-v1-0-2c43a7b861d0@debian.org>
+ <6b952e7087c5fd8f040b692a92374871@kernel.org>
+ <abk6PMrSDcb-yXZ9@gmail.com>
+ <30adaf6c-657c-41f1-9234-79d807d74f02@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <30adaf6c-657c-41f1-9234-79d807d74f02@oracle.com>
+X-Debian-User: leitao
 
-On Wed, 18 Mar 2026 15:50:11 +0000 "Lorenzo Stoakes (Oracle)" <ljs@kernel.org> wrote:
+On Tue, Mar 17, 2026 at 09:58:54AM -0400, Chuck Lever wrote:
+> On 3/17/26 7:32 AM, Breno Leitao wrote:
+> >> - How was the default shard size of 8 picked? There's a tradeoff
+> >> between the number of kworkers created and locality. Can you also
+> >> report the number of kworkers for each configuration? And is there
+> >> data on different shard sizes? It'd be useful to see how the numbers
+> >> change across e.g. 4, 8, 16, 32.
+> >
+> > The choice of 8 as the default shard size was somewhat arbitrary – it was
+> > selected primarily to generate initial data points.
+>
+> Perhaps instead of basing the sharding on a particular number of CPUs
+> per shard, why not cap the total number of shards? IIUC that is the main
+> concern about ballooning the number of kworker threads.
 
-> This series converts a lot of the existing use of the legacy vm_flags_t
-> data type to the new vma_flags_t type which replaces it.
+That's a great suggestion. I'll send a v2 that implements this approach,
+where the parameter specifies the number of shards rather than the number
+of CPUs per shard.
 
-Updated, thanks.  Below is how v3 altered mm.git:
-
-
- arch/arm64/include/asm/page.h   |    4 +++
- include/linux/mm_types.h        |   32 +++++++++++++++---------------
- mm/mseal.c                      |    1 
- mm/vma.c                        |   27 +++++++++++++------------
- tools/testing/vma/include/dup.h |   22 +++++++++++---------
- tools/testing/vma/tests/vma.c   |    3 --
- 6 files changed, 48 insertions(+), 41 deletions(-)
-
---- a/arch/arm64/include/asm/page.h~b
-+++ a/arch/arm64/include/asm/page.h
-@@ -46,8 +46,12 @@ int pfn_is_map_memory(unsigned long pfn)
- 
- #endif /* !__ASSEMBLER__ */
- 
-+#ifdef CONFIG_ARM64_MTE
- #define VMA_DATA_DEFAULT_FLAGS	append_vma_flags(VMA_DATA_FLAGS_TSK_EXEC, \
- 						 VMA_MTE_ALLOWED_BIT)
-+#else
-+#define VMA_DATA_DEFAULT_FLAGS	VMA_DATA_FLAGS_TSK_EXEC
-+#endif
- 
- #include <asm-generic/getorder.h>
- 
---- a/include/linux/mm_types.h~b
-+++ a/include/linux/mm_types.h
-@@ -871,9 +871,9 @@ typedef struct {
- #define EMPTY_VMA_FLAGS ((vma_flags_t){ })
- 
- /* Are no flags set in the specified VMA flags? */
--static __always_inline bool vma_flags_empty(vma_flags_t *flags)
-+static __always_inline bool vma_flags_empty(const vma_flags_t *flags)
- {
--	unsigned long *bitmap = flags->__vma_flags;
-+	const unsigned long *bitmap = flags->__vma_flags;
- 
- 	return bitmap_empty(bitmap, NUM_VMA_FLAG_BITS);
- }
-@@ -1082,20 +1082,6 @@ static __always_inline vm_flags_t vma_fl
- }
- 
- /*
-- * Helper function which converts a legacy vm_flags_t value to a vma_flags_t
-- * value.
-- *
-- * Will be removed once the conversion to VMA flags is complete.
-- */
--static __always_inline vma_flags_t legacy_to_vma_flags(vm_flags_t flags)
--{
--	vma_flags_t ret;
--
--	ret.__vma_flags[0] = (unsigned long)flags;
--	return ret;
--}
--
--/*
-  * Copy value to the first system word of VMA flags, non-atomically.
-  *
-  * IMPORTANT: This does not overwrite bytes past the first system word. The
-@@ -1110,6 +1096,20 @@ static __always_inline void vma_flags_ov
- }
- 
- /*
-+ * Helper function which converts a legacy vm_flags_t value to a vma_flags_t
-+ * value.
-+ *
-+ * Will be removed once the conversion to VMA flags is complete.
-+ */
-+static __always_inline vma_flags_t legacy_to_vma_flags(vm_flags_t flags)
-+{
-+	vma_flags_t ret = EMPTY_VMA_FLAGS;
-+
-+	vma_flags_overwrite_word(&ret, flags);
-+	return ret;
-+}
-+
-+/*
-  * Copy value to the first system word of VMA flags ONCE, non-atomically.
-  *
-  * IMPORTANT: This does not overwrite bytes past the first system word. The
---- a/mm/mseal.c~b
-+++ a/mm/mseal.c
-@@ -77,6 +77,7 @@ static int mseal_apply(struct mm_struct
- 					       curr_end, &vma_flags);
- 			if (IS_ERR(vma))
- 				return PTR_ERR(vma);
-+			vma_start_write(vma);
- 			vma_set_flags(vma, VMA_SEALED_BIT);
- 		}
- 
---- a/mm/vma.c~b
-+++ a/mm/vma.c
-@@ -905,20 +905,21 @@ static __must_check struct vm_area_struc
- 	vma_start_write(middle);
- 
- 	if (merge_right) {
--		const vma_flags_t next_sticky =
--			vma_flags_and_mask(&next->flags, VMA_STICKY_FLAGS);
-+		vma_flags_t next_sticky;
- 
- 		vma_start_write(next);
- 		vmg->target = next;
-+		next_sticky = vma_flags_and_mask(&next->flags, VMA_STICKY_FLAGS);
- 		vma_flags_set_mask(&sticky_flags, next_sticky);
- 	}
- 
- 	if (merge_left) {
--		const vma_flags_t prev_sticky =
--			vma_flags_and_mask(&prev->flags, VMA_STICKY_FLAGS);
-+		vma_flags_t prev_sticky;
- 
- 		vma_start_write(prev);
- 		vmg->target = prev;
-+
-+		prev_sticky = vma_flags_and_mask(&prev->flags, VMA_STICKY_FLAGS);
- 		vma_flags_set_mask(&sticky_flags, prev_sticky);
- 	}
- 
-@@ -1170,13 +1171,14 @@ int vma_expand(struct vma_merge_struct *
- 	bool remove_next = false;
- 	vma_flags_t sticky_flags =
- 		vma_flags_and_mask(&vmg->vma_flags, VMA_STICKY_FLAGS);
--	const vma_flags_t target_sticky =
--		vma_flags_and_mask(&target->flags, VMA_STICKY_FLAGS);
-+	vma_flags_t target_sticky;
- 	int ret = 0;
- 
- 	mmap_assert_write_locked(vmg->mm);
- 	vma_start_write(target);
- 
-+	target_sticky = vma_flags_and_mask(&target->flags, VMA_STICKY_FLAGS);
-+
- 	if (next && target != next && vmg->end == next->vm_end)
- 		remove_next = true;
- 
-@@ -1192,12 +1194,6 @@ int vma_expand(struct vma_merge_struct *
- 		       target->vm_end > vmg->end, vmg);
- 
- 	vma_flags_set_mask(&sticky_flags, target_sticky);
--	if (remove_next) {
--		const vma_flags_t next_sticky =
--			vma_flags_and_mask(&next->flags, VMA_STICKY_FLAGS);
--
--		vma_flags_set_mask(&sticky_flags, next_sticky);
--	}
- 
- 	/*
- 	 * If we are removing the next VMA or copying from a VMA
-@@ -1214,8 +1210,13 @@ int vma_expand(struct vma_merge_struct *
- 		return ret;
- 
- 	if (remove_next) {
-+		vma_flags_t next_sticky;
-+
- 		vma_start_write(next);
- 		vmg->__remove_next = true;
-+
-+		next_sticky = vma_flags_and_mask(&next->flags, VMA_STICKY_FLAGS);
-+		vma_flags_set_mask(&sticky_flags, next_sticky);
- 	}
- 	if (commit_merge(vmg))
- 		goto nomem;
-@@ -2950,7 +2951,7 @@ out:
- 	if (vma_flags_test(&vma_flags, VMA_LOCKED_BIT))
- 		mm->locked_vm += (len >> PAGE_SHIFT);
- 	if (pgtable_supports_soft_dirty())
--		vma_flags_set(&vma_flags, VMA_SOFTDIRTY_BIT);
-+		vma_set_flags(vma, VMA_SOFTDIRTY_BIT);
- 	return 0;
- 
- mas_store_fail:
---- a/tools/testing/vma/include/dup.h~b
-+++ a/tools/testing/vma/include/dup.h
-@@ -441,9 +441,9 @@ struct vma_iterator {
- #define MAPCOUNT_ELF_CORE_MARGIN	(5)
- #define DEFAULT_MAX_MAP_COUNT	(USHRT_MAX - MAPCOUNT_ELF_CORE_MARGIN)
- 
--static __always_inline bool vma_flags_empty(vma_flags_t *flags)
-+static __always_inline bool vma_flags_empty(const vma_flags_t *flags)
- {
--	unsigned long *bitmap = flags->__vma_flags;
-+	const unsigned long *bitmap = flags->__vma_flags;
- 
- 	return bitmap_empty(bitmap, NUM_VMA_FLAG_BITS);
- }
-@@ -775,7 +775,9 @@ static inline bool mm_flags_test(int fla
- static __always_inline void vma_flags_overwrite_word(vma_flags_t *flags,
- 		unsigned long value)
- {
--	*ACCESS_PRIVATE(flags, __vma_flags) = value;
-+	unsigned long *bitmap = flags->__vma_flags;
-+
-+	bitmap[0] = value;
- }
- 
- /*
-@@ -787,7 +789,7 @@ static __always_inline void vma_flags_ov
- static __always_inline void vma_flags_overwrite_word_once(vma_flags_t *flags,
- 		unsigned long value)
- {
--	unsigned long *bitmap = ACCESS_PRIVATE(flags, __vma_flags);
-+	unsigned long *bitmap = flags->__vma_flags;
- 
- 	WRITE_ONCE(*bitmap, value);
- }
-@@ -796,7 +798,7 @@ static __always_inline void vma_flags_ov
- static __always_inline void vma_flags_set_word(vma_flags_t *flags,
- 		unsigned long value)
- {
--	unsigned long *bitmap = ACCESS_PRIVATE(flags, __vma_flags);
-+	unsigned long *bitmap = flags->__vma_flags;
- 
- 	*bitmap |= value;
- }
-@@ -805,7 +807,7 @@ static __always_inline void vma_flags_se
- static __always_inline void vma_flags_clear_word(vma_flags_t *flags,
- 		unsigned long value)
- {
--	unsigned long *bitmap = ACCESS_PRIVATE(flags, __vma_flags);
-+	unsigned long *bitmap = flags->__vma_flags;
- 
- 	*bitmap &= ~value;
- }
-@@ -835,9 +837,9 @@ static __always_inline vm_flags_t vma_fl
-  */
- static __always_inline vma_flags_t legacy_to_vma_flags(vm_flags_t flags)
- {
--	vma_flags_t ret;
-+	vma_flags_t ret = EMPTY_VMA_FLAGS;
- 
--	ret.__vma_flags[0] = (unsigned long)flags;
-+	vma_flags_overwrite_word(&ret, flags);
- 	return ret;
- }
- 
-@@ -1073,8 +1075,8 @@ static __always_inline void vma_clear_fl
- 	vma_flags_clear_mask(&vma->flags, flags);
- }
- 
--#define vma_clear_flags(vmag, ...) \
--	vma_clear_flags_mask(vmag, mk_vma_flags(__VA_ARGS__))
-+#define vma_clear_flags(vma, ...) \
-+	vma_clear_flags_mask(vma, mk_vma_flags(__VA_ARGS__))
- 
- static __always_inline bool vma_desc_test(const struct vm_area_desc *desc,
- 		vma_flag_t bit)
---- a/tools/testing/vma/tests/vma.c~b
-+++ a/tools/testing/vma/tests/vma.c
-@@ -356,10 +356,9 @@ static bool test_vma_flags_clear(void)
- 
- 	/* Cursory check of _mask() variant, as the helper macros imply. */
- 	vma_flags_clear_mask(&flags, mask);
--	vma_flags_clear_mask(&vma.flags, mask);
-+	vma_clear_flags_mask(&vma, mask);
- 	vma_desc_clear_flags_mask(&desc, mask);
- #if NUM_VMA_FLAG_BITS > 64
--	vma_clear_flags_mask(&vma, mask);
- 	ASSERT_FALSE(vma_flags_test_any(&flags, VMA_EXEC_BIT, 64));
- 	ASSERT_FALSE(vma_test_any(&vma, VMA_EXEC_BIT, 64));
- 	ASSERT_FALSE(vma_desc_test_any(&desc, VMA_EXEC_BIT, 64));
-_
-
+Thanks for the feedback,
+--breno
