@@ -1,159 +1,306 @@
-Received: from mail-oa1-f72.google.com (mail-oa1-f72.google.com [209.85.160.72])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6C0F26B755
-	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Mar 2026 03:08:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.72
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773803286; cv=none; b=tM6Sal/cJrAvlEZC5zH6mkTpwA8N7AWMqCYGut5qZuw27ezi5y7D+NC/N2/X36mBZKUhg7PQupC4Eem95ij3BH7rZQJ/OxGK12yE3K/uX5aaOhnLK014I8hbjXP7XdLLhiL7lJnDT5IibYZErnzKMoUirIXbPcBpXhZ6gawuTiI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773803286; c=relaxed/simple;
-	bh=Pm+rxUj16jii2JZbOZ/rTJ2V1uCOE7Zp0jiPRSW3nxY=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=O5QmANP6VbBOMl/Hxz6Q+UqvMBq5eyHzIf3gosz8poILaDp4ccIZhQuhazEs15a1uPrYB2E0fB8Aivwbv7JYnJCHzzswmfnf+gnDrpu7xeZy9/Bticza6kF872ZjgEz0eU2RyaZ8EAMLMBmsjnG8tp8ECdOTQbiXBtOjyCBZApU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.160.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oa1-f72.google.com with SMTP id 586e51a60fabf-4170466438dso26282509fac.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 20:08:04 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4350D262FF8
+	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Mar 2026 03:51:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773805862; cv=pass; b=Z8FWI1XTiQfui14jmKSc6TsiRHHBTIIVQnoHb1kcdpTKprj8iUDkXLkn7y+JemFghlqAu7O7M5g9DyJMm1elljl7GmIGAb8HTPYZMlvXoOl9Q3WH8RL8KDvT/hZvSL2UeZqxKLN6zooEGdc/sZHS77XzaW5oX2e9vLLztPGBk7U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773805862; c=relaxed/simple;
+	bh=6rfy+YL8TbqCjX2Bi91JJPPsyBwsvbuy0eDI2V5QM0U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tbqJOTH6eTHGGNJkTGEVu7YR0Q5CZYxuEL2m8F1LhRutdvbO2tPzQCvixX4HPkzYeXlDRohaWtrgYrj6bZ56Z2ulYE1i7iaDV0ugUHqwMIKkg8ORDHl3JzCOvgc/ztBfJNGbEXjOQsiXmfJ2d1LndBviSsQ8IVVIXJbIBeSFW/8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GNjsWxu4; arc=pass smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GNjsWxu4"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-43b49819938so1056029f8f.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 20:51:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773805860; cv=none;
+        d=google.com; s=arc-20240605;
+        b=R2Y4LIgMlYjA6Ma30RStwTgp9nkdL+dKFiasn5S+J+Jo3g8Wm5NXTsJ6P8Z1QT1sWw
+         +RipqOTYZHCkhEQfzroXMpQqLQyb6ZchrKMj/uZaJdMoZVLKfUF1bWcuFfNxFPxnl/ed
+         KvOHU6rzXqnCU4i6WGHZa9ytcvGCE6McqDfdERsonHzohLlttArAYb/jTZP422bJgvBN
+         dYtBuWVDM5BGE37MZAfPrcn2Djt+FkZIbOsUhcJ80agWCJxISUJfFLGYxXeZ6lnK+Nob
+         G/QtLzJVmuFzA4Z/u1bjYx3UROm1NxfROTFncLP9J8GgQtaa8wDQABOSPquJpsuRtxVJ
+         tXew==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=uAqgSBgM5GR2plF0BUM1uuvvYOmn5cIX6q0Wx3uim3A=;
+        fh=gQdkKV1tGOGOzKyd3JoTBUe1U1ve+G3SIIwDLG1eHm4=;
+        b=QPg6/Zk114rxCgsggVoH27QIuOf+vd7k5+FTbAaoAM5vzDovFtwZHniP3nKvxisL6p
+         hw4j1ulOhLwl3utphzfvGkYnU39LkkSyQRhsf0d7eq6r9W88PE23TfXTTKIVD37hqYo4
+         3p4Cas9rmakgiXEYyVdrPX0h/LcH2+hVw38480XjR2nvFlQTnJsDhDPes4tIH8WJV45+
+         4Qy4kqtVqILT+Ydmj3SAnuAn/LWC1+x9yiPyYKBWU9ZRyaGabk0lC4xTn0L9ABr8n5Dg
+         d8/zyATeCH0A3XFFhk5XnEiRZpW6zv7Yv/9zIdhXvX9l3Af52lqU78+z/zJFuSBDXvds
+         J1WA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773805860; x=1774410660; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uAqgSBgM5GR2plF0BUM1uuvvYOmn5cIX6q0Wx3uim3A=;
+        b=GNjsWxu4pTngHvg4HiYoNMNeFhFYQjV9d8aA5r6XMD1Ri6SK+tFnAoZRIA17jIYc1o
+         17sohN248vasq/zgSLCuLCFRoALswgiCYXID/GLwnWRcWzskI7P5balXg2J3vke265cb
+         zUuxc/TSas+2EFAMtlt2d+SwJr1X7vzDmMXSXfpJ7D+EVxPY6NL/6Docv2BKdSp294cg
+         2ZgZMFQEvjo2U1CeptMgxJ9qBZdcDEKeS4C9CqGbl8PLy3FyvwOlqshWTncNbhiSP6q1
+         9BQ8tDCxXX+GdI+QwqbjPVDU2S0WG3RvD4rFKLWmNO7Ta4Ryag9oS1XqLmrWWcCZZvJ5
+         l7iA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773803283; x=1774408083;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gxvOJNpri5w4RKCQDfdsWJpDQ+y1OdANJaHF9wxYFME=;
-        b=HOXtXb/xPmcynykgqhwpOqK8rQFx/C+W7BHUF2DZoEdVsb/HrhWQUc424iRkwHdU9+
-         B+6zGJdDb01eusydgPPRH0fMuVvJiBWtaAk6bop7OtPOog3IklKHoY7Er56WhRnov1Lz
-         ev3FemAS2AW6HTt724weOsT/TRvucFVGsJ0APCM7cZBBNFFhNB+t07mNizB1aELyS69w
-         t9+LqqL6Ts0TkeD0Q+xb+jQs9bScM6mel08jPTQ39u6I8x9WFcsK5ykv1hdl/4YB92ef
-         7kxNUm0o/r9V/wxx0dZ2ZSuB8+OXpdmy1Cp9DLCLz3D+VhWrxiinIAsGcLvjV9pSAXlb
-         Tm0w==
-X-Forwarded-Encrypted: i=1; AJvYcCXg1N8+IHTJXoXl2/ujSGRxEKNPfDGJ28H8S5x4V8DEg8RmfBz5raTAfwMI7OH17EG0WeRYtF6VJ7OtGy9+@vger.kernel.org
-X-Gm-Message-State: AOJu0YypTPOXBxLJjxvFhd43KU1GeWjA2CYlYQYEOFmzf/+Kj5ukl93d
-	uY2yqVkdaNNyD4io0PVoyLYaYSAWjNqR4a8RiDg3+sVHwUkfi9OB6DN+d7rJ0FOosP1VMKyyJej
-	rlxxN4x2zK0JcfHwVHyfoWCnid07ORgsMh1U68+3691fcmSGlEMvR4X0MyB4=
+        d=1e100.net; s=20251104; t=1773805860; x=1774410660;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=uAqgSBgM5GR2plF0BUM1uuvvYOmn5cIX6q0Wx3uim3A=;
+        b=ilA+EYHSnYOS3ZzfBvhP9JG8DTqSwhvBjtBgjNrEFbmJZBH709b5LUGdWZzAbI1Awp
+         0vnV8Me7JenMO+exF7tKuz7BiL0FeqcbS65jQ3ewzxI3MciO63iPp/dz2SArmJzsPZ1e
+         8VMCB/tNOq5qGDUfDxsQQ3idbnOn/TJbREgFnh5YDNepDmgd6Pkx0vZjozFMFHa7v0UE
+         6C0YAd1EYyVA9kYnhNY9P/7E6Mb20r8VsEZfPvAIHqldTFTYUfTHn3w94GKvOdhDVSs5
+         5BVcX4b7KQwR8luVfy1hxYdnBKVGt7L4WQapl7KoV4Hn2gI+JL73ueetFqFWyyovgqRm
+         y+gg==
+X-Gm-Message-State: AOJu0Yy2UzoU7WH2Gjbg/ITjW0KzngxyYIlf8CV7lnVbdfX+srzaVRYb
+	fQtKllcGrXQbBQ14wxNvq5Go+V2WPydLmHAdfji0RSDPj50eaZKui366/DnuV7Gw1GPzQcGFztc
+	8+rCVJ3S44Z3VfN89gG9+UXlAxtcW9sE=
+X-Gm-Gg: ATEYQzxx0X0s+jCzpkQPB0F9MykzMQZ02DWoIdP5VbIztMOZw/rgr7IeqrIGBYltbdP
+	sRJdf8pOzetvZC0gx0EJ54cv/kocCvwoNxOc0POSq4bDqZKiOgK8x25w0b1e+Ka15T+KCN5w/QN
+	mxpmY2sknFCx7j/8VmgrLdnAq0jEByyYiShYVtSCkSn/uiWqV6y4U9Bm638AqLmvXZtZa6d9Lc/
+	0wHobbQSksEi1wal50BPQu0MMCpnjDlUX/8o8qz2fl/hYJyhYmgpq7nz8PWUOXahkjEPUQcIRJX
+	XXU1dg==
+X-Received: by 2002:a5d:588a:0:b0:43b:493c:884b with SMTP id
+ ffacd0b85a97d-43b527aa359mr2536473f8f.12.1773805859317; Tue, 17 Mar 2026
+ 20:50:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:1ca9:b0:67b:a489:3b6f with SMTP id
- 006d021491bc7-67c0db5551fmr1348347eaf.66.1773803283716; Tue, 17 Mar 2026
- 20:08:03 -0700 (PDT)
-Date: Tue, 17 Mar 2026 20:08:03 -0700
-In-Reply-To: <aboPKERGvOniN-OK@hyeyoo>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <69ba1713.050a0220.3077e3.0001.GAE@google.com>
-Subject: Re: [syzbot] [mm?] [f2fs?] [exfat?] memory leak in __kfree_rcu_sheaf
-From: syzbot <syzbot+cae7809e9dc1459e4e63@syzkaller.appspotmail.com>
-To: akpm@linux-foundation.org, catalin.marinas@arm.com, chao@kernel.org, 
-	hao.li@linux.dev, harry.yoo@oracle.com, jaegeuk@kernel.org, jannh@google.com, 
-	liam.howlett@oracle.com, linkinjeon@kernel.org, 
-	linux-f2fs-devel@lists.sourceforge.net, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, lorenzo.stoakes@oracle.com, 
-	pfalcato@suse.de, sj1557.seo@samsung.com, syzkaller-bugs@googlegroups.com, 
-	vbabka@kernel.org, vbabka@suse.cz, wangqing7171@gmail.com
+References: <Utw_Cjiuq0_XhCoA5EXpzLE9qfRpiA0-fmXEmui7NnBnIeMiCDGOyXWPtE5DkxVNYNSsgiUotB7fsGYnlMQn1xDCx14yx1d0UJqx62vAwp4=@proton.me>
+ <CAJnrk1YAhWnOt-7yr9gDmHdjANiC74-fC5mKsePC6wFTzwPjUw@mail.gmail.com> <Oh3QG6NmrGxixfRZmAUnkDb0ukAG1ro7XFSVCJVWYdyTqG4ddxHjQsfhBurktEbG5vJ97FA58bDMAuBsQzVlN8Tq-M4LUck18F0D0nVCsXg=@proton.me>
+In-Reply-To: <Oh3QG6NmrGxixfRZmAUnkDb0ukAG1ro7XFSVCJVWYdyTqG4ddxHjQsfhBurktEbG5vJ97FA58bDMAuBsQzVlN8Tq-M4LUck18F0D0nVCsXg=@proton.me>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Tue, 17 Mar 2026 20:50:47 -0700
+X-Gm-Features: AaiRm51PUYamgbFWlUgsOs9BM9tmfk60sNpXBP_AmJ49RXQ4ScD5s_r_Bjh821w
+Message-ID: <CAJnrk1Y25_HKeYou-JQHXOZ5HLhEcwnBmWoUm78smB825+v0UA@mail.gmail.com>
+Subject: Re: [BUG] fuse: wb_wait_for_completion hang on suspend with
+ fuse-overlayfs on tmpfs persists in 6.19.6 (AS_NO_DATA_INTEGRITY fix incomplete)
+To: John <therealgraysky@proton.me>
+Cc: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
+	"linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, Jan Kara <jack@suse.cz>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
+On Tue, Mar 17, 2026 at 2:08=E2=80=AFPM John <therealgraysky@proton.me> wro=
+te:
+>
+>
+> On Monday, March 16th, 2026 at 8:16 PM, Joanne Koong wrote:
+>
+> > Could you verify if this fixes the issue?:
+> >
+> > diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
+> > index 8f8069fb76ba..4cbb22d80acf 100644
+> > --- a/fs/fs-writeback.c
+> > +++ b/fs/fs-writeback.c
+> > @@ -1990,9 +1990,13 @@ static long writeback_sb_inodes(struct super_blo=
+ck *sb,
+> >                  * Don't bother with new inodes or inodes being freed, =
+first
+> >                  * kind does not need periodic writeout yet, and for th=
+e latter
+> >                  * kind writeout is handled by the freer.
+> > +                *
+> > +                * For sync(2), skip inodes whose mappings have no data
+> > +                * integrity guarantees (eg FUSE).
+> >                  */
+> >                 spin_lock(&inode->i_lock);
+> > -               if (inode_state_read(inode) & (I_NEW | I_FREEING |
+> > I_WILL_FREE)) {
+> > +               if ((inode_state_read(inode) & (I_NEW | I_FREEING |
+> > I_WILL_FREE)) ||
+> > +                   (wbc.for_sync &&
+> > mapping_no_data_integrity(inode->i_mapping))) {
+> >                         redirty_tail_locked(inode, wb);
+> >                         spin_unlock(&inode->i_lock);
+> >                         continue;
+> >
+> > I think the changes from commit f9a49aa302a0 ("fs/writeback: skip
+> > AS_NO_DATA_INTEGRITY mappings in wait_sb_inodes()") are still needed
+> > even with the above patch since afaics, the writeback we wait on could
+> > have been from a previous background/periodic writeback run before
+> > sync was triggered.
+>
+> Yes, it does! Amazing!
+>
+> I applied it to 6.19.8, upon rebooting and following the steps I outlined=
+ above I was able suspend and wake up three consecutive times.
+>
 
-syzbot has tested the proposed patch but the reproducer is still triggering an issue:
-memory leak in __pcs_replace_empty_main
+I think this is the cleaner fix:
 
-BUG: memory leak
-unreferenced object 0xffff88810e983c00 (size 512):
-  comm "softirq", pid 0, jiffies 4294948614
-  hex dump (first 32 bytes):
-    c8 2c 04 00 81 88 ff ff 00 a4 98 0e 81 88 ff ff  .,..............
-    00 12 04 00 81 88 ff ff 3c 00 00 00 00 00 00 00  ........<.......
-  backtrace (crc 8f5c2bf9):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4543 [inline]
-    slab_alloc_node mm/slub.c:4866 [inline]
-    __do_kmalloc_node mm/slub.c:5259 [inline]
-    __kmalloc_noprof+0x3bd/0x560 mm/slub.c:5272
-    kmalloc_noprof include/linux/slab.h:954 [inline]
-    kzalloc_noprof include/linux/slab.h:1188 [inline]
-    __alloc_empty_sheaf+0x35/0x50 mm/slub.c:2764
-    alloc_empty_sheaf mm/slub.c:2779 [inline]
-    alloc_full_sheaf mm/slub.c:2829 [inline]
-    __pcs_replace_empty_main+0x1e0/0x2f0 mm/slub.c:4626
-    alloc_from_pcs mm/slub.c:4717 [inline]
-    slab_alloc_node mm/slub.c:4851 [inline]
-    __do_kmalloc_node mm/slub.c:5259 [inline]
-    __kmalloc_noprof+0x4c5/0x560 mm/slub.c:5272
-    kmalloc_noprof include/linux/slab.h:954 [inline]
-    kzalloc_noprof include/linux/slab.h:1188 [inline]
-    cfg80211_inform_single_bss_data+0x21d/0xa70 net/wireless/scan.c:2344
-    cfg80211_inform_bss_data+0x13f/0x1dc0 net/wireless/scan.c:3226
-    cfg80211_inform_bss_frame_data+0x108/0x340 net/wireless/scan.c:3317
-    ieee80211_bss_info_update+0x13a/0x320 net/mac80211/scan.c:230
-    ieee80211_scan_rx+0x269/0x3b0 net/mac80211/scan.c:364
-    __ieee80211_rx_handle_packet net/mac80211/rx.c:5305 [inline]
-    ieee80211_rx_list+0x111b/0x1850 net/mac80211/rx.c:5588
-    ieee80211_rx_napi+0x50/0x110 net/mac80211/rx.c:5611
-    ieee80211_rx include/net/mac80211.h:5267 [inline]
-    ieee80211_handle_queued_frames+0x9c/0xf0 net/mac80211/main.c:452
-    tasklet_action_common+0xb7/0x270 kernel/softirq.c:925
-    handle_softirqs+0xdf/0x2c0 kernel/softirq.c:622
-    __do_softirq kernel/softirq.c:656 [inline]
-    invoke_softirq kernel/softirq.c:496 [inline]
-    __irq_exit_rcu+0x91/0xb0 kernel/softirq.c:723
-    instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1056 [inline]
-    sysvec_apic_timer_interrupt+0x73/0x80 arch/x86/kernel/apic/apic.c:1056
+writeback: skip sync(2) inode writeback for filesystems with no data
+integrity guarantees
 
-BUG: memory leak
-unreferenced object 0xffff88810e98a400 (size 512):
-  comm "kworker/u8:7", pid 1022, jiffies 4294952987
-  hex dump (first 32 bytes):
-    00 3c 98 0e 81 88 ff ff 00 68 cd 2a 81 88 ff ff  .<.......h.*....
-    00 12 04 00 81 88 ff ff 3c 00 00 00 00 00 00 00  ........<.......
-  backtrace (crc b6e2f12f):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4543 [inline]
-    slab_alloc_node mm/slub.c:4866 [inline]
-    __do_kmalloc_node mm/slub.c:5259 [inline]
-    __kmalloc_noprof+0x3bd/0x560 mm/slub.c:5272
-    kmalloc_noprof include/linux/slab.h:954 [inline]
-    kzalloc_noprof include/linux/slab.h:1188 [inline]
-    __alloc_empty_sheaf+0x35/0x50 mm/slub.c:2764
-    alloc_empty_sheaf mm/slub.c:2779 [inline]
-    alloc_full_sheaf mm/slub.c:2829 [inline]
-    __pcs_replace_empty_main+0x1e0/0x2f0 mm/slub.c:4626
-    alloc_from_pcs mm/slub.c:4717 [inline]
-    slab_alloc_node mm/slub.c:4851 [inline]
-    __do_kmalloc_node mm/slub.c:5259 [inline]
-    __kmalloc_noprof+0x4c5/0x560 mm/slub.c:5272
-    kmalloc_noprof include/linux/slab.h:954 [inline]
-    kzalloc_noprof include/linux/slab.h:1188 [inline]
-    cfg80211_inform_single_bss_data+0x21d/0xa70 net/wireless/scan.c:2344
-    cfg80211_inform_bss_data+0x13f/0x1dc0 net/wireless/scan.c:3226
-    cfg80211_inform_bss_frame_data+0x108/0x340 net/wireless/scan.c:3317
-    ieee80211_bss_info_update+0x13a/0x320 net/mac80211/scan.c:230
-    ieee80211_rx_bss_info net/mac80211/ibss.c:1094 [inline]
-    ieee80211_rx_mgmt_probe_beacon net/mac80211/ibss.c:1575 [inline]
-    ieee80211_ibss_rx_queued_mgmt+0xb75/0x1230 net/mac80211/ibss.c:1602
-    ieee80211_iface_process_skb net/mac80211/iface.c:1748 [inline]
-    ieee80211_iface_work+0x6af/0x9b0 net/mac80211/iface.c:1802
-    cfg80211_wiphy_work+0x1db/0x280 net/wireless/core.c:440
-    process_one_work+0x277/0x5f0 kernel/workqueue.c:3276
-    process_scheduled_works kernel/workqueue.c:3359 [inline]
-    worker_thread+0x255/0x4a0 kernel/workqueue.c:3440
-    kthread+0x14e/0x1a0 kernel/kthread.c:436
-    ret_from_fork+0x23c/0x4b0 arch/x86/kernel/process.c:158
-    ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+Add SB_I_NO_DATA_INTEGRITY superblock flag for filesystems that cannot
+guarantee data persistence on sync (eg fuse) and skip sync(2) inode
+writeback for superblocks with this flag set.
 
-connection error: failed to recv *flatrpc.ExecutorMessageRawT: EOF
+This replaces the per-inode AS_NO_DATA_INTEGRITY mapping flag added in
+commit f9a49aa302a0 ("fs/writeback: skip AS_NO_DATA_INTEGRITY mappings
+in wait_sb_inodes()"). The flag belongs at the superblock level because
+data integrity is a filesystem-wide property,  not a per-inode one. This
+also allows sync_inodes_one_sb() to skip the entire filesystem
+efficiently, rather than iterating every dirty inode only to skip each
+one individually.
 
+Without this, sync(2) triggers writeback on FUSE inodes and may block
+waiting for the daemon to complete issued writeback or setattr (from
+->write_inode()) requests.
 
-Tested on:
+This restores fuse to its prior behavior before tmp folios were removed,
+where sync was essentially a no-op.
 
-commit:         a989fde7 Merge tag 'libnvdimm-fixes-7.0-rc5' of git://..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=1005f8da580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=e2bba615ee79faa5
-dashboard link: https://syzkaller.appspot.com/bug?extid=cae7809e9dc1459e4e63
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-patch:          https://syzkaller.appspot.com/x/patch.diff?x=1405b406580000
+Reported-by: John <therealgraysky@proton.me>
+Fixes: 0c58a97f919c ("fuse: remove tmp folio for writebacks and
+internal rb tree")
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+---
+ fs/fs-writeback.c              |  7 +------
+ fs/fuse/file.c                 |  4 +---
+ fs/fuse/inode.c                |  1 +
+ fs/sync.c                      |  2 +-
+ include/linux/fs/super_types.h |  1 +
+ include/linux/pagemap.h        | 11 -----------
+ 6 files changed, 5 insertions(+), 21 deletions(-)
 
+diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
+index 8f8069fb76ba..7a02483e0d8d 100644
+--- a/fs/fs-writeback.c
++++ b/fs/fs-writeback.c
+@@ -2774,13 +2774,8 @@ static void wait_sb_inodes(struct super_block *sb)
+                 * The mapping can appear untagged while still on-list sinc=
+e we
+                 * do not have the mapping lock. Skip it here, wb completio=
+n
+                 * will remove it.
+-                *
+-                * If the mapping does not have data integrity semantics,
+-                * there's no need to wait for the writeout to complete, as=
+ the
+-                * mapping cannot guarantee that data is persistently store=
+d.
+                 */
+-               if (!mapping_tagged(mapping, PAGECACHE_TAG_WRITEBACK) ||
+-                   mapping_no_data_integrity(mapping))
++               if (!mapping_tagged(mapping, PAGECACHE_TAG_WRITEBACK))
+                        continue;
+
+                spin_unlock_irq(&sb->s_inode_wblist_lock);
+diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+index 7294bd347412..111ccc5bdda3 100644
+--- a/fs/fuse/file.c
++++ b/fs/fuse/file.c
+@@ -3205,10 +3205,8 @@ void fuse_init_file_inode(struct inode *inode,
+unsigned int flags)
+
+        inode->i_fop =3D &fuse_file_operations;
+        inode->i_data.a_ops =3D &fuse_file_aops;
+-       if (fc->writeback_cache) {
++       if (fc->writeback_cache)
+                mapping_set_writeback_may_deadlock_on_reclaim(&inode->i_dat=
+a);
+-               mapping_set_no_data_integrity(&inode->i_data);
+-       }
+
+        INIT_LIST_HEAD(&fi->write_files);
+        INIT_LIST_HEAD(&fi->queued_writes);
+diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+index af8ad96829fd..bae7d9ac3a43 100644
+--- a/fs/fuse/inode.c
++++ b/fs/fuse/inode.c
+@@ -1769,6 +1769,7 @@ static void fuse_sb_defaults(struct super_block *sb)
+        sb->s_export_op =3D &fuse_export_operations;
+        sb->s_iflags |=3D SB_I_IMA_UNVERIFIABLE_SIGNATURE;
+        sb->s_iflags |=3D SB_I_NOIDMAP;
++       sb->s_iflags |=3D SB_I_NO_DATA_INTEGRITY;
+        if (sb->s_user_ns !=3D &init_user_ns)
+                sb->s_iflags |=3D SB_I_UNTRUSTED_MOUNTER;
+        sb->s_flags &=3D ~(SB_NOSEC | SB_I_VERSION);
+diff --git a/fs/sync.c b/fs/sync.c
+index 942a60cfedfb..88c08e2f76b2 100644
+--- a/fs/sync.c
++++ b/fs/sync.c
+@@ -73,7 +73,7 @@ EXPORT_SYMBOL(sync_filesystem);
+
+ static void sync_inodes_one_sb(struct super_block *sb, void *arg)
+ {
+-       if (!sb_rdonly(sb))
++       if (!sb_rdonly(sb) && !(sb->s_iflags & SB_I_NO_DATA_INTEGRITY))
+                sync_inodes_sb(sb);
+ }
+
+diff --git a/include/linux/fs/super_types.h b/include/linux/fs/super_types.=
+h
+index fa7638b81246..383050e7fdf5 100644
+--- a/include/linux/fs/super_types.h
++++ b/include/linux/fs/super_types.h
+@@ -338,5 +338,6 @@ struct super_block {
+ #define SB_I_NOUMASK   0x00001000      /* VFS does not apply umask */
+ #define SB_I_NOIDMAP   0x00002000      /* No idmapped mounts on this
+superblock */
+ #define SB_I_ALLOW_HSM 0x00004000      /* Allow HSM events on this
+superblock */
++#define SB_I_NO_DATA_INTEGRITY 0x00008000 /* fs cannot guarantee data
+persistence on sync */
+
+ #endif /* _LINUX_FS_SUPER_TYPES_H */
+diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
+index ec442af3f886..31a848485ad9 100644
+--- a/include/linux/pagemap.h
++++ b/include/linux/pagemap.h
+@@ -210,7 +210,6 @@ enum mapping_flags {
+        AS_WRITEBACK_MAY_DEADLOCK_ON_RECLAIM =3D 9,
+        AS_KERNEL_FILE =3D 10,    /* mapping for a fake kernel file that sh=
+ouldn't
+                                   account usage to user cgroups */
+-       AS_NO_DATA_INTEGRITY =3D 11, /* no data integrity guarantees */
+        /* Bits 16-25 are used for FOLIO_ORDER */
+        AS_FOLIO_ORDER_BITS =3D 5,
+        AS_FOLIO_ORDER_MIN =3D 16,
+@@ -346,16 +345,6 @@ static inline bool
+mapping_writeback_may_deadlock_on_reclaim(const struct addres
+        return test_bit(AS_WRITEBACK_MAY_DEADLOCK_ON_RECLAIM, &mapping->fla=
+gs);
+ }
+
+-static inline void mapping_set_no_data_integrity(struct address_space *map=
+ping)
+-{
+-       set_bit(AS_NO_DATA_INTEGRITY, &mapping->flags);
+-}
+-
+-static inline bool mapping_no_data_integrity(const struct
+address_space *mapping)
+-{
+-       return test_bit(AS_NO_DATA_INTEGRITY, &mapping->flags);
+-}
+-
+ static inline gfp_t mapping_gfp_mask(const struct address_space *mapping)
+ {
+        return mapping->gfp_mask;
+
+I tested it locally on my simulated repro and it fixed the issue for
+me. Could you verify that this patch fixes the issue for you as well?
+
+Thanks,
+Joanne
+
+> Is this something you plan to submit/backport to the stable kernels serie=
+s?
+>
