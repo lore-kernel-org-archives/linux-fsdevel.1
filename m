@@ -1,312 +1,216 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender4-of-o54.zoho.com (sender4-of-o54.zoho.com [136.143.188.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A760B27456;
-	Wed, 18 Mar 2026 06:01:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773813664; cv=none; b=YtJ7oRzpnfW5REsz1vESjqrgYVWcmb5Sj85lJKgJhQiGQnyylEJa8Urr8Opw9JbLpwczITO95Ad15+nM7RIrNuCn6msP2ptQwgzccVXIyv4SSy/H+HSSPi9otvs13VSDTeO8XZQdhZWWc2mUz/rEwbRUImQ4Yb8TiGvXFVvslJs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773813664; c=relaxed/simple;
-	bh=rMROIzV9bRqUzrcYakjh5WuCieIdwd/xKsodgkFDVNI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=eYBiK3ddZ84xLpjbIpHoqVkceWzvxq7hLJoKNlYbroDsR+/bWvmhT8RzCWXZ8pBWYLvvCbe+fk0HfIwfYj1fHad7zl5PuTxOLE/Uu/YfrQ40+t+B+hQd3431ATw8YORuPCYSUz4iheFsLL6sYUUmPIZMMpg7U5bv+zPevP8/Jjk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X8v+oRE3; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41CAE364026;
+	Wed, 18 Mar 2026 06:09:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773814164; cv=pass; b=BNCvxsPy/1baufaXkpoD17u9zybh7D/qf1NfUUEStTt0MLm9GxUjKZzBcD5+CUXj5RiGXu2BqD4EAgilXjP9iErA9hnq0qQtKA4NIbrQjMJRqPnYvHJg7SiIfZufhiZ3Ngmq82pq+RYGUBUg5EApGJsJ55ztlrK1NcmyIytkkwA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773814164; c=relaxed/simple;
+	bh=4Dl1fN7BizUvKpgX/ywHHzGNmyktIxXJkwLH9hQ/W4k=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=uJOPfuNty8hRPmnPyeLycfiCabjVC9Vc+p1UXZM8dzuQdOo2bFhm7QXJiKE7es2CLGfmPtMcIaAH1rhGIgk3g2ghcVk97K5L8rGoSip8y5ScoH4yTJFuXYcvKifCZI6Yei7A3GGpk2M1Tg4TDYpsfk14OGhL6TkkOvF5HCJi7qE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mpiricsoftware.com; spf=pass smtp.mailfrom=mpiricsoftware.com; dkim=pass (1024-bit key) header.d=mpiricsoftware.com header.i=shardul.b@mpiricsoftware.com header.b=fTe3c1O4; arc=pass smtp.client-ip=136.143.188.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mpiricsoftware.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mpiricsoftware.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X8v+oRE3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A69A3C19421;
-	Wed, 18 Mar 2026 06:00:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773813664;
-	bh=rMROIzV9bRqUzrcYakjh5WuCieIdwd/xKsodgkFDVNI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=X8v+oRE3pAOSEuTZjHr3Oh2Z90dWfnHsJQFNulFAQ7hMIthNoAunZdyZRb5sZKniy
-	 ngr35Qzru8Zw228d/5ms2ZOTo/LOEvhUZeyp+dSJycdHqdCW/Sa77oJPO5geAs81vs
-	 EfRIhPsBzneWimQ5B3/iCgflUbUgW2eLJlTTE+odf0kly6dVlRdUF7wQIdsLiGWSJl
-	 QoqCMBaYVBMENWG/+wnRZZXCx3IkGynxtsV8sCiC28Zjau3gQjWUz4/yRNcEsfy7Lu
-	 4Cm8GfYHzT0DBh9bG3TcCcjDLflUKriHcrKma2+9xwoGNxtMG+Z+NyJltTuZkGtV1U
-	 V5pI5HHyzW1iw==
-Date: Wed, 18 Mar 2026 07:00:55 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Sasha Levin <sashal@kernel.org>, linux-api@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
- linux-kselftest@vger.kernel.org, workflows@vger.kernel.org,
- tools@kernel.org, x86@kernel.org, Thomas Gleixner <tglx@kernel.org>, "Paul
- E. McKenney" <paulmck@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Dmitry Vyukov <dvyukov@google.com>, Randy
- Dunlap <rdunlap@infradead.org>, Cyril Hrubis <chrubis@suse.cz>, Kees Cook
- <kees@kernel.org>, Jake Edge <jake@lwn.net>, David Laight
- <david.laight.linux@gmail.com>, Askar Safin <safinaskar@zohomail.com>,
- Gabriele Paoloni <gpaoloni@redhat.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Christian Brauner <brauner@kernel.org>, Alexander
- Viro <viro@zeniv.linux.org.uk>, Andrew Morton <akpm@linux-foundation.org>,
- Masahiro Yamada <masahiroy@kernel.org>, Shuah Khan
- <skhan@linuxfoundation.org>, Ingo Molnar <mingo@redhat.com>, Arnd Bergmann
- <arnd@arndb.de>
-Subject: Re: [PATCH 1/9] kernel/api: introduce kernel API specification
- framework
-Message-ID: <20260318070055.39f1af80@foz.lan>
-In-Reply-To: <87h5qe9wig.fsf@trenco.lwn.net>
-References: <20260313150928.2637368-1-sashal@kernel.org>
-	<20260313150928.2637368-2-sashal@kernel.org>
-	<87h5qe9wig.fsf@trenco.lwn.net>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	dkim=pass (1024-bit key) header.d=mpiricsoftware.com header.i=shardul.b@mpiricsoftware.com header.b="fTe3c1O4"
+ARC-Seal: i=1; a=rsa-sha256; t=1773814138; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=igVUegsErK7FYgHlCcKgHQ6wQk0nIHQgFJ/WQpxvELBJCxhk/bKgHyMD46Tot+yo2vrhYPdfpv7kF4Eh5Ct4fhuf0tGkygTum0uP5DIaQvvIbjbOV7b6qv383kH7yY0LWeyMCd86LDOFKToGzxXJU4Yt2w5nrXdJqOdT7sQK0RI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1773814138; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=4Dl1fN7BizUvKpgX/ywHHzGNmyktIxXJkwLH9hQ/W4k=; 
+	b=E2f9TsFaKhK2D7xssjbdLv5ZGuPgbgU879ekTEKAnThrBXwfw3PGusEa1LqUlYkyjDIsNIcTSmsTTDoCy5uYEOWvEz7cmUKb6oTwcFZ9X/GOIVBIEcDs6rELoawx/MKQO/8mk8/Jzow8xzIMSSrICjQu4Sw5tXHcFBSLBUe1Ngg=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=mpiricsoftware.com;
+	spf=pass  smtp.mailfrom=shardul.b@mpiricsoftware.com;
+	dmarc=pass header.from=<shardul.b@mpiricsoftware.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1773814138;
+	s=mpiric; d=mpiricsoftware.com; i=shardul.b@mpiricsoftware.com;
+	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
+	bh=4Dl1fN7BizUvKpgX/ywHHzGNmyktIxXJkwLH9hQ/W4k=;
+	b=fTe3c1O488Q+vObwKxieByIDL2nAc/yZsU5+okuShPgPTgmxbE90RfDD6/57bjW9
+	hhKqj0bPAKK/CA0URBQjxbLf0zBXWh4TtbETwwrDnatOJfala0IGorXhVDwodEH47DE
+	bUotIWwu3AZVZd8KJ11Elgk1vROfWDP8M1Lg1IwY=
+Received: by mx.zohomail.com with SMTPS id 1773814136768910.7303281025;
+	Tue, 17 Mar 2026 23:08:56 -0700 (PDT)
+Message-ID: <56feeef2affaf7f44c3b8b37d70130da70b431f5.camel@mpiricsoftware.com>
+Subject: Re:  [PATCH v6 1/2] hfsplus: refactor b-tree map page access and
+ add node-type validation
+From: Shardul Bankar <shardul.b@mpiricsoftware.com>
+To: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>, 
+	"glaubitz@physik.fu-berlin.de"
+	 <glaubitz@physik.fu-berlin.de>, "frank.li@vivo.com" <frank.li@vivo.com>, 
+	"slava@dubeyko.com"
+	 <slava@dubeyko.com>, "linux-fsdevel@vger.kernel.org"
+	 <linux-fsdevel@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	 <linux-kernel@vger.kernel.org>
+Cc: "janak@mpiric.us" <janak@mpiric.us>, "janak@mpiricsoftware.com"
+	 <janak@mpiricsoftware.com>, shardulsb08@gmail.com
+Date: Wed, 18 Mar 2026 11:38:50 +0530
+In-Reply-To: <1f0be90d77f28c27c29877df848829ec31d2787a.camel@ibm.com>
+References: <20260315172005.2066677-1-shardul.b@mpiricsoftware.com>
+	 <20260315172005.2066677-2-shardul.b@mpiricsoftware.com>
+	 <1f0be90d77f28c27c29877df848829ec31d2787a.camel@ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4-0ubuntu2.1 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 
-On Tue, 17 Mar 2026 11:49:27 -0600
-Jonathan Corbet <corbet@lwn.net> wrote:
+On Mon, 2026-03-16 at 22:21 +0000, Viacheslav Dubeyko wrote:
+> On Sun, 2026-03-15 at 22:50 +0530, Shardul Bankar wrote:
+> >=20
+> > diff --git a/fs/hfsplus/btree.c b/fs/hfsplus/btree.c
+> > index 1220a2f22737..1c6a27e397fb 100644
+> > --- a/fs/hfsplus/btree.c
+> > +++ b/fs/hfsplus/btree.c
+> > @@ -129,6 +129,95 @@ u32 hfsplus_calc_btree_clump_size(u32
+> > block_size, u32 node_size,
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return clump_size;
+> > =C2=A0}
+> > =C2=A0
+> > +/* Context for iterating b-tree map pages
+> > + * @page_idx: The index of the page within the b-node's page array
+> > + * @off: The byte offset within the mapped page
+> > + * @len: The remaining length of the map record
+> > + */
+> > +struct hfs_bmap_ctx {
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0unsigned int page_idx;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0unsigned int off;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0u16 len;
+> > +};
+> > +
+> > +/*
+> > + * Finds the specific page containing the requested byte offset
+> > within the map
+> > + * record. Automatically handles the difference between header and
+> > map nodes.
+> > + * Returns the struct page pointer, or an ERR_PTR on failure.
+> > + * Note: The caller is responsible for mapping/unmapping the
+> > returned page.
+> > + */
+> > +static struct page *hfs_bmap_get_map_page(struct hfs_bnode *node,
+> > struct hfs_bmap_ctx *ctx,
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0u32 byte_offset)
+>=20
+> I am simply guessing here... Should it be byte_offset? Why do we not
+> use bit
+> index here? Probably, byte_offset looks reasonable. However, all
+> callers
+> operates by bit index. I am not insisting of changing the interface.
+> I am simply
+> sharing some thoughts. :) What do you think?
+>=20
 
-> Sasha Levin <sashal@kernel.org> writes:
-> 
-> > Add a framework for formally documenting kernel APIs with inline
-> > specifications. This framework provides:
-> >
-> > - Structured API documentation with parameter specifications, return
-> >   values, error conditions, and execution context requirements
-> > - Runtime validation capabilities for debugging (CONFIG_KAPI_RUNTIME_CHECKS)
-> > - Export of specifications via debugfs for tooling integration
-> > - Support for both internal kernel APIs and system calls  
-> 
-> So I'll confess I have only scanned over the implementation, but I have
-> some thoughts on the earlier stuff.
-> 
-> [...]
-> 
-> > diff --git a/Documentation/dev-tools/kernel-api-spec.rst b/Documentation/dev-tools/kernel-api-spec.rst
-> > new file mode 100644
-> > index 0000000000000..7c0c1694f1f4a
-> > --- /dev/null
-> > +++ b/Documentation/dev-tools/kernel-api-spec.rst
-> > @@ -0,0 +1,482 @@
-> > +.. SPDX-License-Identifier: GPL-2.0
-> > +
-> > +======================================
-> > +Kernel API Specification Framework
-> > +======================================
-> > +
-> > +:Author: Sasha Levin <sashal@kernel.org>
-> > +:Date: June 2025  
-> 
-> Has it not changed since then?
-> 
-> > +.. contents:: Table of Contents
-> > +   :depth: 3
-> > +   :local:
-> > +
-> > +Introduction
-> > +============  
-> 
-> [...]
-> 
-> > +Usage Guide
-> > +===========
-> > +
-> > +Basic API Specification
-> > +-----------------------
-> > +
-> > +API specifications are written as KAPI-annotated kerneldoc comments directly in
-> > +the source file, immediately preceding the function implementation. The ``kapi``
-> > +tool extracts these annotations to produce structured specifications.
-> > +
-> > +.. code-block:: c
-> > +
-> > +    /**
-> > +     * kmalloc - allocate kernel memory
-> > +     * @size: Number of bytes to allocate
-> > +     * @flags: Allocation flags (GFP_*)  
-> 
-> Given that the text thus far has talked about user-space API validation,
-> it's a bit surprising to see an internal function used as an example.
-> 
-> Also, maybe it should be kmalloc_obj()?  <runs away>
-> 
-> > +     * context-flags: KAPI_CTX_PROCESS | KAPI_CTX_SOFTIRQ | KAPI_CTX_HARDIRQ
-> > +     * param-count: 2  
-> 
-> param-count is two, but you only document one of them?
-> 
-> > +     * param: size
-> > +     *   type: KAPI_TYPE_UINT
-> > +     *   flags: KAPI_PARAM_IN
-> > +     *   constraint-type: KAPI_CONSTRAINT_RANGE
-> > +     *   range: 0, KMALLOC_MAX_SIZE
-> > +     *
-> > +     * error: ENOMEM, Out of memory
-> > +     *   desc: Insufficient memory available for the requested allocation.
-> > +     */  
-> 
-> Honest question: can this be made a bit easier for people to create,
-> with less shift-key wear?  My biggest worry with a system like this is
-> that people won't take the time to create and maintain the entries, so
-> anything that would ease the task would help.  Is there an impediment to
-> something like:
-> 
->   contexts: process, softirq, hardirq
-> 
->   param: size
->     type: uint, input
->     constraint: range(0, KMALLOC_MAX_SIZE)
-> 
-> See what I'm getting at?  ISTM that your DSL could be made a bit less
-> verbose and shouty while being just as well defined, but perhaps I'm
-> missing something?
-> 
-> Even better, of course, would be to add a "description" field for each
-> parameter, and allow that rather than the @param description that
-> kerneldoc currently uses.  That would keep all the information together,
-> at the minor cost of adding another significant complication to the
-> kernel-doc script.  Mauro won't mind :)
+Keeping it as `byte_offset` felt slightly cleaner to me because the
+helper's primary job is calculating page-level and byte-level
+boundaries, leaving the bitwise mask math strictly to the wrapper
+functions (`test_bit` and `clear_bit`). Since `hfs_bmap_alloc()` also
+scans byte-by-byte, keeping the helper focused on bytes seemed like a
+good separation of concerns. I will leave it as `byte_offset` for now
+if that works for you!
 
-No, I won't ;-) 
+> > +{
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0u16 rec_idx, off16;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0unsigned int page_off;
+> > +
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (node->this =3D=3D HFSPLU=
+S_TREE_HEAD) {
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0if (node->type !=3D HFS_NODE_HEADER) {
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0pr_err=
+("hfsplus: invalid btree header
+> > node\n");
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return=
+ ERR_PTR(-EIO);
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0}
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0rec_idx =3D HFSPLUS_BTREE_HDR_MAP_REC_INDEX;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0} else {
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0if (node->type !=3D HFS_NODE_MAP) {
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0pr_err=
+("hfsplus: invalid btree map
+> > node\n");
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return=
+ ERR_PTR(-EIO);
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0}
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0rec_idx =3D HFSPLUS_BTREE_MAP_NODE_REC_INDEX;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0}
+> > +
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ctx->len =3D hfs_brec_lenoff=
+(node, rec_idx, &off16);
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (!ctx->len)
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0return ERR_PTR(-ENOENT);
+> > +
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (!is_bnode_offset_valid(n=
+ode, off16))
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0return ERR_PTR(-EIO);
+> > +
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ctx->len =3D check_and_corre=
+ct_requested_length(node, off16,
+> > ctx->len);
+> > +
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (byte_offset >=3D ctx->le=
+n)
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0return ERR_PTR(-EINVAL);
+> > +
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0page_off =3D off16 + node->p=
+age_offset + byte_offset;
+>=20
+> I worry about potential overflow error here because off16 is u16 and
+> all other
+> variables are unsigned int. What's about (u32)off16 here?
+>=20
 
-It sounds a lot better to use kernel-doc also for kAPI than to have an
-independent tool.
+Ah, great catch. While the C compiler will implicitly promote the u16
+to an unsigned int during the addition, explicitly casting it to '(u32)
+off16' makes the intention clear and silences any potential static
+analysis warnings. I will add the cast in v7.
 
-It is also very confusing if we end with a kernel-doc-like format
-that it is not parsed by kernel-doc.
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ctx->page_idx =3D page_off >=
+> PAGE_SHIFT;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ctx->off =3D page_off & ~PAG=
+E_MASK;
+> > +
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return node->page[ctx->page_=
+idx];
+> > +}
+> > +
+> > +/**
+> > + * hfs_bmap_clear_bit - clear a bit in the b-tree map
+> > + * @node: the b-tree node containing the map record
+> > + * @node_bit_idx: the relative bit index within the node's map
+> > record
+> > + *
+> > + * Returns 0 on success, -EALREADY if already clear, or negative
+> > error code.
+>=20
+> I assume that error code is -EINVAL now.
+>=20
 
-> 
-> > +    void *kmalloc(size_t size, gfp_t flags)
-> > +    {
-> > +        /* Implementation */
-> > +    }
-> > +
-> > +Alternatively, specifications can be defined using the ``DEFINE_KERNEL_API_SPEC``
-> > +macro for compiled-in specs that are stored in the ``.kapi_specs`` ELF section:
-> > +
-> > +.. code-block:: c
-> > +
-> > +    #include <linux/kernel_api_spec.h>
-> > +
-> > +    DEFINE_KERNEL_API_SPEC(sys_open)
-> > +    KAPI_DESCRIPTION("Open or create a file")
-> > +    KAPI_CONTEXT(KAPI_CTX_PROCESS | KAPI_CTX_SLEEPABLE)
-> > +    /* ... parameter, error, constraint definitions ... */
-> > +    KAPI_END_SPEC  
-> 
-> So the reason for two completely separate mechanisms is not entirely
-> clear to me.  The kerneldoc variant is essentially documentation, while
-> the macro stuff is to be built into the executable?  What if you want
-> both?
-
-You can easily add support at kernel-doc to output such macros.
-
-All you need is to create a new class derived from OutputFormat and
-make it produce any different output format, including:
-
-    #include <linux/kernel_api_spec.h>
-
-    DEFINE_KERNEL_API_SPEC(sys_open)
-    KAPI_DESCRIPTION("Open or create a file")
-    KAPI_CONTEXT(KAPI_CTX_PROCESS | KAPI_CTX_SLEEPABLE)
-    /* ... parameter, error, constraint definitions ... */
-    KAPI_END_SPEC  
-
-I'd say that converting from such output to `.kapi_specs`` ELF section
-itself and/or to sysfs/debugfs - e.g. something that would require to
-compile or be linked with Kernel's compiled binaries should be done by a
-separate tool, but we should aim to have a singe tool to process 
-kernel documentation markups.
-
-It is hard enough to maintain just one tool - and to have people actually
-writing documentation. Having a second one to handle it, with a different
-format will likely increase a lot the documentation burden.
-
-> It would be nice to only have one way if at all possible; I'm sure that
-> crossed your mind at some point :)  If there have to be two, having both
-> examples describe the same function would make the parallels more clear.
-> 
-> > +System Call Specification
-> > +-------------------------
-> > +
-> > +System calls are documented inline in the implementation file (e.g., ``fs/open.c``)
-> > +using KAPI-annotated kerneldoc comments. When ``CONFIG_KAPI_RUNTIME_CHECKS`` is
-> > +enabled, the ``SYSCALL_DEFINEx`` macros automatically look up the specification
-> > +and validate parameters before and after the syscall executes.
-> > +
-> > +IOCTL Specification
-> > +-------------------
-> > +
-> > +IOCTLs use the same annotation approach with additional structure field
-> > +specifications  
-> 
-> This might be a really good place for an example
-> 
-> [...]
-> 
-> > +Usage Examples
-> > +--------------
-> > +
-> > +Query specific API::
-> > +
-> > +    $ cat /sys/kernel/debug/kapi/apis/kmalloc/specification
-> > +    API: kmalloc
-> > +    Version: 3.0
-> > +    Description: Allocate kernel memory
-> > +
-> > +    Parameters:
-> > +      [0] size (size_t, in): Number of bytes to allocate
-> > +          Range: 0 - 4194304
-> > +      [1] flags (flags, in): Allocation flags (GFP_*)
-> > +          Mask: 0x1ffffff  
-> 
-> Ah, you do document that second parameter somewhere :)
-> 
-> > +    Returns: pointer - Pointer to allocated memory or NULL
-> > +
-> > +    Errors:
-> > +      ENOMEM: Out of memory
-> > +
-> > +    Context: process, softirq, hardirq
-> > +
-> > +    Side Effects:
-> > +      - Allocates memory from kernel heap  
-> 
-> That part wasn't in your example
-> 
-> > +Export all specifications::
-> > +
-> > +    $ cat /sys/kernel/debug/kapi/export/all.json > kernel-apis.json
-> > +
-> > +Enable validation for specific API::
-> > +
-> > +    $ echo 1 > /sys/kernel/debug/kapi/apis/kmalloc/validate
-> > +
-> > +Performance Considerations
-> > +==========================
-> > +
-> > +Memory Overhead
-> > +---------------
-> > +
-> > +Each API specification consumes approximately 400-450KB of memory due to the
-> > +fixed-size arrays in ``struct kernel_api_spec``. With the current 4 syscall
-> > +specifications, total memory usage is approximately 1.7MB. Consider:  
-> 
-> Ouch.
-> 
-> > +Documentation Generation
-> > +------------------------
-> > +
-> > +The framework exports specifications via debugfs that can be used
-> > +to generate documentation. Tools for automatic documentation generation
-> > +from specifications are planned for future development.  
-> 
-> Documentation always comes last :)
-> 
-> Interesting stuff.
-> 
-> jon
-
-
+You are correct, I updated the code in v6 but missed updating the
+docstring! I will fix this in v7.
 
 Thanks,
-Mauro
+Shardul
