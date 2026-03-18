@@ -1,96 +1,187 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E642291C10;
-	Wed, 18 Mar 2026 16:51:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93FA1309DD2
+	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Mar 2026 17:29:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773852718; cv=none; b=Z1MSE4gUio/AO24MADzrTU25SQhIhVeZuVCD40K/KvzIfjIHl/18MZeDWFoZ6PabEiuw+0LT1IpVhuqkXFZQ6Gx+csSkayDj/7efy7zoJ/xeqNQ1EgVH3Uusi5Dg9FDkdwrwr8w7tCujpT4o2eA13brVhDg5rXhpXk9xC2srZno=
+	t=1773854991; cv=none; b=mqhZjhD4wL4RPMCAxKDxwdNjfETD9BMHjpUyT1KaH+GnDV2nzbL5Y3vTBo9u9qItWjs+bO3xSxAcSCaDo4gswgaHqAB6WLfbW7hhTPrmcLQOV0hU1UJdQNDw0QVp4YZbOvN+/uWS2OwtEerL4NJMaEenXAwzdmn0oPJD60LGKcs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773852718; c=relaxed/simple;
-	bh=o/7yE6t93yQtFz6v7eAty53R//5LEtd721EuvOxoFn4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ry1YugnDZ6UrEDel3xG0RLCAuWYL4pH4mefB8867JWXOuNGYlkGJoBJ7HbQ+9oiw5EbpLGbNyUNDMzfuzQzDuwz6IV6HCHyuOsrK0v+fY6z7T0W8cIidAUbcNCAlProPu/eTfqECS7Q1InbpvJzviPZxuognERlMRR1VEPOh5/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=WulDNP+7; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1773854991; c=relaxed/simple;
+	bh=VQscLPpUpmTUeU4vnS6Ful39fK8HQhXi0pp/Vnu5+lM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JADWQke9A2JOu1BkCNWPijWof0BlpN5ZFRXvdVwpf45uwGkFQRLaa6WdLdPE/ahoqLk7HQE4P2Vz0dTovw0aAU4IQ3NTUGAkpYcGGFZxcp1vHVq5cYP72udL6ZmhidP8HXqb10O8DuZR45n71zSoqNd7HYHn74oNsqHwYw4ogRM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=TKGW6lqj; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=0C5FiSin; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=TKGW6lqj; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=0C5FiSin; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="WulDNP+7"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E0DEB40423
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1773852717; bh=nwEcRE80LRGRnH9IJ42jxIknbbtHfjezvT1c6qQwbv0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=WulDNP+7m6R8KkZAmeQSGPLvxaBvyXQI3v8TmWnQJHpjpLqPlKPJVWSwB4DatvWg3
-	 rt+SLAibuW96kRdSaOHpEuKw/vI3du5FlbI77xppMGnbxiRi5f1PTKH6zQAZNTz3fD
-	 7lYEJmmvcfYwypJHzACPy3BbF+zm7L4mq7PgPbdVIdw+OxSHRrZpGnIKX76mhOz3jP
-	 8KZxYjeaT/mVq+xis0VkYp/IJtfBs8I8+rlsyPViutIJ2bf2grknK6n2LdqEeMKDAk
-	 +MrzzQC6TEeUpSgHQgo7VHnbZHoMbbeb5KepqqlXsE9iRWTiY7dIX/SkuRUNIaEb/A
-	 jo1pLvWiAW/RQ==
-Received: from localhost (c-71-229-227-126.hsd1.co.comcast.net [71.229.227.126])
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="TKGW6lqj";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="0C5FiSin";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="TKGW6lqj";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="0C5FiSin"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id E0DEB40423;
-	Wed, 18 Mar 2026 16:51:56 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Sasha Levin <sashal@kernel.org>
-Cc: linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org,
- workflows@vger.kernel.org, tools@kernel.org, x86@kernel.org, Thomas
- Gleixner <tglx@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Dmitry Vyukov
- <dvyukov@google.com>, Randy Dunlap <rdunlap@infradead.org>, Cyril Hrubis
- <chrubis@suse.cz>, Kees Cook <kees@kernel.org>, Jake Edge <jake@lwn.net>,
- David Laight <david.laight.linux@gmail.com>, Askar Safin
- <safinaskar@zohomail.com>, Gabriele Paoloni <gpaoloni@redhat.com>, Mauro
- Carvalho Chehab <mchehab@kernel.org>, Christian Brauner
- <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, Andrew
- Morton <akpm@linux-foundation.org>, Masahiro Yamada
- <masahiroy@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, Ingo
- Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH 1/9] kernel/api: introduce kernel API specification
- framework
-In-Reply-To: <abq3f5vdcwRXGJGX@laps>
-References: <20260313150928.2637368-1-sashal@kernel.org>
- <20260313150928.2637368-2-sashal@kernel.org>
- <87h5qe9wig.fsf@trenco.lwn.net> <abq3f5vdcwRXGJGX@laps>
-Date: Wed, 18 Mar 2026 10:51:56 -0600
-Message-ID: <87jyv95bdf.fsf@trenco.lwn.net>
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A3C2E4D3C1;
+	Wed, 18 Mar 2026 17:29:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1773854987; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3R16bZz4j+pgC2M7JH9BQuYPwdHz7wgWWMAmolI5aR8=;
+	b=TKGW6lqj+574EIVmYOwC3VRnzRQRXdg5CcN2rol0zkHYPEJ6v1oyt1wxh1U8Gky225QPpb
+	mhcHRrXT71X6rKu6635VTc+eja7x7+vTinhk4m2mcDR43tyseYXvaBBBls8xdqhb9S1g10
+	P7h+HVQuIGX23hI5UkM26Wm3yeyAIz0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1773854987;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3R16bZz4j+pgC2M7JH9BQuYPwdHz7wgWWMAmolI5aR8=;
+	b=0C5FiSinjnwuFoS+SoZ0We+vDdUYTuj/eZTZlcVnPG1yjyzLmzG5JJDJXLbJHjCA1gcgzO
+	Buy5keNbnM2PCeAA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1773854987; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3R16bZz4j+pgC2M7JH9BQuYPwdHz7wgWWMAmolI5aR8=;
+	b=TKGW6lqj+574EIVmYOwC3VRnzRQRXdg5CcN2rol0zkHYPEJ6v1oyt1wxh1U8Gky225QPpb
+	mhcHRrXT71X6rKu6635VTc+eja7x7+vTinhk4m2mcDR43tyseYXvaBBBls8xdqhb9S1g10
+	P7h+HVQuIGX23hI5UkM26Wm3yeyAIz0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1773854987;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3R16bZz4j+pgC2M7JH9BQuYPwdHz7wgWWMAmolI5aR8=;
+	b=0C5FiSinjnwuFoS+SoZ0We+vDdUYTuj/eZTZlcVnPG1yjyzLmzG5JJDJXLbJHjCA1gcgzO
+	Buy5keNbnM2PCeAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 980484273B;
+	Wed, 18 Mar 2026 17:29:47 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id FbcZJQvhumkXJAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 18 Mar 2026 17:29:47 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 56D9EA0AFF; Wed, 18 Mar 2026 18:29:47 +0100 (CET)
+Date: Wed, 18 Mar 2026 18:29:47 +0100
+From: Jan Kara <jack@suse.cz>
+To: Theodore Tso <tytso@mit.edu>
+Cc: Jan Kara <jack@suse.cz>, Ravi Singh <ravising@redhat.com>, 
+	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, adilger@dilger.ca, jack@suse.com, 
+	cem@kernel.org
+Subject: Re: [PATCH v2] xfs: return default quota limits for IDs without a
+ dquot
+Message-ID: <ijwjh525hgf54wclhd4oixvfi3gfrodqrh2pbk7lr3whqw7nqo@k5uotrmekwyt>
+References: <20260312090810.1145908-1-ravising@redhat.com>
+ <20260317065947.306954-1-ravising@redhat.com>
+ <jknk6pwirqp5kgxdwr7qez2qzuycmj4eupknf3yvqzlnkyiu5k@nowg6cwpxqc3>
+ <20260317133159.GA53921@macsyma-wired.lan>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260317133159.GA53921@macsyma-wired.lan>
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -3.80
+X-Spam-Level: 
 
-Sasha Levin <sashal@kernel.org> writes:
+Hello!
 
-> On Tue, Mar 17, 2026 at 11:49:27AM -0600, Jonathan Corbet wrote:
->>So the reason for two completely separate mechanisms is not entirely
->>clear to me.  The kerneldoc variant is essentially documentation, while
->>the macro stuff is to be built into the executable?  What if you want
->>both?
->>
->>It would be nice to only have one way if at all possible; I'm sure that
->>crossed your mind at some point :)  If there have to be two, having both
->>examples describe the same function would make the parallels more clear.
->
-> Woops, I forgot to finish writing my reply to this :)
->
-> Under the hood, kerneldoc specs are translated into those macros so they could
-> be part of the build process and embedded into the resulting binary (both for
-> documentation as well as the runtime validation).
->
-> I don't think anyone would use the macro format directly, but as it's there
-> anyway I figured I'd offer it as an option. Would it make sense to just hide it
-> behind the scenes?
+On Tue 17-03-26 09:31:59, Theodore Tso wrote:
+> On Tue, Mar 17, 2026 at 01:19:23PM +0100, Jan Kara wrote:
+> > On Tue 17-03-26 14:59:47, Ravi Singh wrote:
+> > > When an ID has no dquot on disk, Q_XGETQUOTA returns -ENOENT even
+> > > though default quota limits are configured and enforced against that
+> > > ID.  This means unprivileged users who have never used any resources
+> > > cannot see the limits that apply to them.
+> > > 
+> > > When xfs_qm_dqget() returns -ENOENT for a non-zero ID, return a
+> > > zero-usage response with the default limits filled in from
+> > > m_quotainfo rather than propagating the error.  This is consistent
+> > > with the enforcement behavior in xfs_qm_adjust_dqlimits(), which
+> > > pushes the same default limits into a dquot when it is first
+> > > allocated.
+> > > 
+> > > Signed-off-by: Ravi Singh <ravising@redhat.com>
+> > 
+> > So XFS guys should also review this but from quota POV this looks like a
+> > right fix to me. So feel free to add:
+> > 
+> > Reviewed-by: Jan Kara <jack@suse.cz>
+> 
+> This was discussed at last week's ext4 conference call, and we
+> wondered whether we might be better off adding a new
+> Q_XGETDEFAULTQUOTA or some such which returned the default quota.
+> This would that the quota userspace utilities would have to be
+> changed, but it would also mean that userspace could distinguish
+> between whether the quota limit was due to a default value being used,
+> or because the user had an actual quota value set.
 
-If there are two ways of doing it, people will use both ways.  My
-kneejerk reaction would be to hide the macros as an implementation
-detail, but perhaps that's just me.
+First thing to note is that the notion of "default limit" is specific to
+XFS. Other filesystems using quota don't have any default limits. I guess
+most people here know this but I'm spelling it out so that we are all on
+the same page.
 
-Thanks,
+> It also means that in the future, if we wanted to change where the
+> default quota was stored, it would be possible to do that instead of
+> overloading the quota value for uid/gid 0.
+> 
+> We also speculated that perhaps there might be cases where if some
+> process might be running without CAP_SYS_ADMIN, there might be a
+> reason that quota for uid=0 might actually make sense, and so perhaps
+> some future file system format change might want to decouple where the
+> default quota was stored.
 
-jon
+Right. That's why I didn't like the v1 version of the patch. But v2 version
+hides the XFS specific behavior of default limits inside XFS function for
+fetching quotas so that is fully transparent. If XFS decides to change its
+quota format to support limits for root, it can also change this code
+fetching and filling in default limits for the user. So until XFS decides
+to change the format, current solution looks fine to me, once it decides to
+change it, it is easy to change this code as well. But obviously this is
+fully XFS developers' area of code so they can do whatever they wish :)
+
+The only improvement I can see is if we explicitely wanted to expose the
+XFS default limits in some generic way for userspace tools to show. But
+then I'd think we don't really need new quotactl, we could just put this
+into the result of existing Q_XGETQSTATV quotactl.
+
+Overall I don't have a strong opinion on this and consider these questions
+mostly specific to XFS so XFS guys should decide what they want...
+
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
