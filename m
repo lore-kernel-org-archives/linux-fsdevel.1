@@ -1,86 +1,167 @@
-Received: from out-188.mta1.migadu.com (out-188.mta1.migadu.com [95.215.58.188])
+Received: from out30-111.freemail.mail.aliyun.com (out30-111.freemail.mail.aliyun.com [115.124.30.111])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDA0D1A6826
-	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Mar 2026 00:37:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B446239E80;
+	Wed, 18 Mar 2026 01:17:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.111
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773794231; cv=none; b=rruTqy7nG5dcPQhuRb7zcSJQpjHBuFrunoIBzk4kiQelFfrN+Jg2AImNzJh3T7IFcZNJzdZDUvdD8LcVNCwBIOOvlV3uxHy/vqY5YoyxneANIF+amU0lRnTwlORxgRPAgqXT7RPgIsVaJMAlKKF06xKU0qh+HlAyOiO4xkT+BYI=
+	t=1773796632; cv=none; b=Igj8NJah1y3lWyYs4imkDvyLOqZOAuoIaU1rMzroX4ZfU5CmpAe777Uu5ovV4Ig9UWXETWtkKz/lpCkgUl1dhBaFt9+5Unra3wDb6we7kAy7dJdcX2XSd3dma7j87sSZTbDuqFwR652ikF1SXiCnVQmrbaIvKeDhXHdUM9i+bS4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773794231; c=relaxed/simple;
-	bh=OEK5oW4wLs1u0THt1SQL1haVT0trGEwkdGbNeD9aXgQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hAJr3PgH67MjSXFvMhR7V6s7CCZX1GEDXYLV3jHR4GQBnmCW2bnPjbZl1GHR00ivLA1+Y7EmzdW8INOrX2MRlePb5KoNX4eujx8moaSFzQP+xuVpLheZaXYkb16JnfdVTRpyccwBEpiw9752DjiR7PPDgNyk7gInm5SUzhBq6jQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gvernon.com; spf=pass smtp.mailfrom=gvernon.com; dkim=pass (2048-bit key) header.d=gvernon.com header.i=@gvernon.com header.b=peTitjPK; arc=none smtp.client-ip=95.215.58.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gvernon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gvernon.com
+	s=arc-20240116; t=1773796632; c=relaxed/simple;
+	bh=zfiZ6yg/RDm5ORqBTaz3ULaGWHpbcmVS/yUvMdy0OCI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=O+EhotX43G5zPB/dvryNEuRl4T0IanB+SYAIyqpbKTfngk6WALEN4a0CFR5myOt8fHZZAC4RlulZgaWEax8t+rWk5DcydXfWa93OVG0pHkHfEpTpmxPEOdaXGX8eC8TEmk8TmfrfBb7MkbGdAcU7UP+baJRwzNj5ANudiH28oso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=kQyz6gWc; arc=none smtp.client-ip=115.124.30.111
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gvernon.com header.i=@gvernon.com header.b="peTitjPK"
-Date: Wed, 18 Mar 2026 00:37:05 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gvernon.com; s=key1;
-	t=1773794228;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QHCN6mcqaZSdd5vxvzhBtyvx5QgoZE0QetGGERuLo8g=;
-	b=peTitjPKXGshQnZgcfPGqzsTKszjeUIb++MQYjH9VDzjLWxUSTAJmExCdslxQtfrxGR2I/
-	SkxZUIc5mDzj99BUD8HMTfhx4f9PhHoIBhIMo5IUvY7TH+AkCdyIlIQ0qIhwjMYG/3vJtd
-	n0feoK3KFKWsTyiehB1I0jDXNY7XTVHDL1PhSks+TcFDbdacgE/J3DOXAsTvv43Z/UdMXm
-	n2poak7mXORBgLSdF18HJArG3ekKK4C/1wTcaV3rtfEeIJPT57v5xl5UGxG3gPToHtFV/n
-	D9Mc/hj0Vqfd5pJ0s28D4ca4vkpVaniKh+rO5OGHrzxSUZs/UwefCDQ8OwsLIA==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: George Anthony Vernon <contact@gvernon.com>
-To: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
-Cc: "glaubitz@physik.fu-berlin.de" <glaubitz@physik.fu-berlin.de>,
-	"penguin-kernel@I-love.SAKURA.ne.jp" <penguin-kernel@i-love.sakura.ne.jp>,
-	"slava@dubeyko.com" <slava@dubeyko.com>,
-	"frank.li@vivo.com" <frank.li@vivo.com>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com" <syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com>
-Subject: Re: [PATCH v4] hfs: Validate CNIDs in hfs_read_inode
-Message-ID: <abnzsVk9JNN3alKq@Bertha>
-References: <20260311211309.27856-1-contact@gvernon.com>
- <93f202e6-81bc-4df7-b193-1a812094fa6f@I-love.SAKURA.ne.jp>
- <752d15863effadd7789431137a3feff825594cc3.camel@ibm.com>
- <b7318588-33b2-4dc6-9469-e11da855f8ad@I-love.SAKURA.ne.jp>
- <5a52755364c7ca1438e06caf8e923cea723a0498.camel@ibm.com>
- <b332e546-e93f-4b79-a11c-695058d61fb1@I-love.SAKURA.ne.jp>
- <4f6b37028269c7c4a40a58b57cd546a93dcbd7c2.camel@ibm.com>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="kQyz6gWc"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1773796626; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=n76Vl/YByYovXpfiSJaIiV6BYs7tkM/M9VUvPvWWK24=;
+	b=kQyz6gWc7l7c3ghG63xpjO1EVFSzIw0WaG2cXNpT2nlLpYegR6DD/VxMLs3HdP1JKMEgJpVBcTaVVfmAnfm53vlNoHZuE4jG3SpO09hW7975u3x/rGQ5PzQTuAWIfFTkG15KFZjrVIrJcFtagPIz0GgFHuauI69LfHAkKmShJAM=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R401e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam011083073210;MF=baolin.wang@linux.alibaba.com;NM=1;PH=DS;RN=17;SR=0;TI=SMTPD_---0X.CWN2v_1773796625;
+Received: from 30.74.144.118(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0X.CWN2v_1773796625 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Wed, 18 Mar 2026 09:17:06 +0800
+Message-ID: <dd67c771-8530-40d7-93c3-cd6f405c32dd@linux.alibaba.com>
+Date: Wed, 18 Mar 2026 09:17:04 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4f6b37028269c7c4a40a58b57cd546a93dcbd7c2.camel@ibm.com>
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] mm: filemap: fix nr_pages calculation overflow in
+ filemap_map_pages()
+To: "David Hildenbrand (Arm)" <david@kernel.org>, akpm@linux-foundation.org,
+ willy@infradead.org
+Cc: lorenzo.stoakes@oracle.com, kas@kernel.org, p.raghav@samsung.com,
+ mcgrof@kernel.org, dhowells@redhat.com, djwong@kernel.org, hare@suse.de,
+ da.gomez@samsung.com, dchinner@redhat.com, brauner@kernel.org,
+ xiangzao@linux.alibaba.com, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org
+References: <1cf1ac59018fc647a87b0dad605d4056a71c14e4.1773739704.git.baolin.wang@linux.alibaba.com>
+ <9d968181-95a9-477e-9aa0-763117e4d1a0@kernel.org>
+ <82019011-023c-4bce-a524-6eab119f0a4a@kernel.org>
+From: Baolin Wang <baolin.wang@linux.alibaba.com>
+In-Reply-To: <82019011-023c-4bce-a524-6eab119f0a4a@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Sorry I struggled to understand you here Slava, there's a little bit lost in
-translation I think.
 
-On Mon, Mar 16, 2026 at 09:50:14PM +0000, Viacheslav Dubeyko wrote:
-> by hfs_cat_find_brec(). But I cannot imagine that this logic can extract the
-> record  with incorrect CNID. Because, it is the main goal of hfs_cat_find_brec()
-> logic to extract the record that contains requested CNID. And if we requested
 
-Do you mean that you do not think hfs_cat_find_brec *can* return a
-record with incorrect CNID, or that you do not think it *should*?
+On 3/18/26 4:49 AM, David Hildenbrand (Arm) wrote:
+> On 3/17/26 10:37, David Hildenbrand (Arm) wrote:
+>> On 3/17/26 10:29, Baolin Wang wrote:
+>>> When running stress-ng on my Arm64 machine with v7.0-rc3 kernel, I encountered
+>>> some very strange crash issues showing up as "Bad page state":
+>>>
+>>> "
+>>> [  734.496287] BUG: Bad page state in process stress-ng-env  pfn:415735fb
+>>> [  734.496427] page: refcount:0 mapcount:1 mapping:0000000000000000 index:0x4cf316 pfn:0x415735fb
+>>> [  734.496434] flags: 0x57fffe000000800(owner_2|node=1|zone=2|lastcpupid=0x3ffff)
+>>> [  734.496439] raw: 057fffe000000800 0000000000000000 dead000000000122 0000000000000000
+>>> [  734.496440] raw: 00000000004cf316 0000000000000000 0000000000000000 0000000000000000
+>>> [  734.496442] page dumped because: nonzero mapcount
+>>> "
+>>>
+>>> After analyzing this page’s state, it is hard to understand why the mapcount
+>>> is not 0 while the refcount is 0, since this page is not where the issue first
+>>> occurred. By enabling the CONFIG_DEBUG_VM config, I can reproduce the crash as
+>>> well and captured the first warning where the issue appears:
+>>>
+>>> "
+>>> [  734.469226] page: refcount:33 mapcount:0 mapping:00000000bef2d187 index:0x81a0 pfn:0x415735c0
+>>> [  734.469304] head: order:5 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+>>> [  734.469315] memcg:ffff000807a8ec00
+>>> [  734.469320] aops:ext4_da_aops ino:100b6f dentry name(?):"stress-ng-mmaptorture-9397-0-2736200540"
+>>> [  734.469335] flags: 0x57fffe400000069(locked|uptodate|lru|head|node=1|zone=2|lastcpupid=0x3ffff)
+>>> ......
+>>> [  734.469364] page dumped because: VM_WARN_ON_FOLIO((_Generic((page + nr_pages - 1),
+>>> const struct page *: (const struct folio *)_compound_head(page + nr_pages - 1), struct page *:
+>>> (struct folio *)_compound_head(page + nr_pages - 1))) != folio)
+>>> [  734.469390] ------------[ cut here ]------------
+>>> [  734.469393] WARNING: ./include/linux/rmap.h:351 at folio_add_file_rmap_ptes+0x3b8/0x468,
+>>> CPU#90: stress-ng-mlock/9430
+>>> [  734.469551]  folio_add_file_rmap_ptes+0x3b8/0x468 (P)
+>>> [  734.469555]  set_pte_range+0xd8/0x2f8
+>>> [  734.469566]  filemap_map_folio_range+0x190/0x400
+>>> [  734.469579]  filemap_map_pages+0x348/0x638
+>>> [  734.469583]  do_fault_around+0x140/0x198
+>>> ......
+>>> [  734.469640]  el0t_64_sync+0x184/0x188
+>>> "
+>>>
+>>> The code that triggers the warning is: "VM_WARN_ON_FOLIO(page_folio(page + nr_pages - 1) != folio, folio)",
+>>> which indicates that set_pte_range() tried to map beyond the large folio’s
+>>> size.
+>>>
+>>> By adding more debug information, I found that 'nr_pages' had overflowed in
+>>> filemap_map_pages(), causing set_pte_range() to establish mappings for a range
+>>> exceeding the folio size, potentially corrupting fields of pages that do not
+>>> belong to this folio (e.g., page->_mapcount).
+>>>
+>>> After above analysis, I think the possible race is as follows:
+>>>
+>>> CPU 0                                                  CPU 1
+>>> filemap_map_pages()                                   ext4_setattr()
+>>>     //get and lock folio with old inode->i_size
+>>>     next_uptodate_folio()
+>>>
+>>>                                                            .......
+>>>                                                            //shrink the inode->i_size
+>>>                                                            i_size_write(inode, attr->ia_size);
+>>>
+>>>     //calculate the end_pgoff with the new inode->i_size
+>>>     file_end = DIV_ROUND_UP(i_size_read(mapping->host), PAGE_SIZE) - 1;
+>>>     end_pgoff = min(end_pgoff, file_end);
+>>>
+>>>     ......
+>>>     //nr_pages can be overflowed, cause xas.xa_index > end_pgoff
+>>>     end = folio_next_index(folio) - 1;
+>>>     nr_pages = min(end, end_pgoff) - xas.xa_index + 1;
+>>>
+>>>     ......
+>>>     //map large folio
+>>>     filemap_map_folio_range()
+>>>                                                            ......
+>>>                                                            //truncate folios
+>>>                                                            truncate_pagecache(inode, inode->i_size);
+>>>
+>>> To fix this issue, move the 'end_pgoff' calculation before next_uptodate_folio(),
+>>> so the retrieved folio stays consistent with the file end to avoid 'nr_pages'
+>>> calculation overflow. After this patch, the crash issue is gone.
+>>>
+>>
+>> Thanks!
+>>
+>> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
-I think Tetsuo is right that hfs_cat_find_brec() will return a catalog
-record with different CNID in case of a malformed thread record.
+Thanks for reviewing.
 
-On Mon, Mar 16, 2026 at 09:50:14PM +0000, Viacheslav Dubeyko wrote:
-> logic to extract the record that contains requested CNID. And if we requested
-> the HFS_ROOT_CNID, then this logic should return the record with exactly
-> requested CNID or return the error code if such record has not been found.
+> I just skimmed over the AI review:
+> 
+> https://sashiko.dev/#/patchset/1cf1ac59018fc647a87b0dad605d4056a71c14e4.1773739704.git.baolin.wang%40linux.alibaba.com
 
-Do you mean that hfs_cat_find_brec() should validate the CNID of the
-catalog record found by hfs_brec_find()? I'm worried that validating
-every B-tree lookup is going to be expensive. We could do it, however.
+Thanks. Zi Yan also sent me the AI-generated comments, and I don’t think 
+this is an issue.
 
-Thanks,
+> And I'm not sure if it has a point, in particular whether
+> i_size_read(mapping->host) could return 0 and underflow file_end.
+> 
+> I'd assume, in that case (truncation succeeded), also the
+> next_uptodate_folio() would fail.
 
-George
+Yes. If truncation has succeeded, next_uptodate_folio() cannot find a 
+folio. If called before truncation, next_uptodate_folio() also checks 
+i_size_read(mapping->host) and returns NULL:
+
+max_idx = DIV_ROUND_UP(i_size_read(mapping->host), PAGE_SIZE);
+if (xas->xa_index >= max_idx)
+	goto unlock;
+
+So I don't think this will cause a real issue if 
+i_size_read(mapping->host) returns 0.
