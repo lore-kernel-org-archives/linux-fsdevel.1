@@ -1,261 +1,109 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 960F13DEAC5;
-	Wed, 18 Mar 2026 14:51:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE08A3DA7F9;
+	Wed, 18 Mar 2026 14:53:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773845488; cv=none; b=ukSc0I9VBfdx+TewGIiojbeZ7D0WC8kOd2z2Lbn21eSC5fcy2VWSSk/EnmcTXeGMeiRdM3/cCnXA08CGyhOCK3K3BBzq3cLsLCB9GtdQzYI+bQU2mreyOvKNf76VQOr+ycslyURTvpYhadG7UrREqWTnQhcdkbn+kZjoU/s7Hns=
+	t=1773845596; cv=none; b=T4PezzOunG4LsgIp8xGtPoUKYj0ar/qLddB54FP5SeLPzbDlpQ1BxGFITTcRzfAsqiS36g+qTQaL/VD2VHVwJ0EmcMS622Xacu7bvNOqw5D74vod/slgHBDlK67Wou9V1MplpJbPk/+JgdpFDXJ3lpkxanDqsKC2zIxODLvekPQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773845488; c=relaxed/simple;
-	bh=0Rkff8ECo4CPyV/lJYVV82ToFiHKvxDsyAtmcwryTx0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BJ87vaCOnYEnYh1jC4gxswDOWB8cfbQZXBgyzFfYxN4br0MNDTk3j3vQjjF9GNYHxeJQskO/ID9PR3kJS1vnlIWNT41+owNHko5I/bVhHZ7GRJqsBdNGhM9FANJOeiWgXPaqIuKzvEWnXnBpplgZZKsLOjQHNyMbe66QcU6UdGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pdcQJrGz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773845596; c=relaxed/simple;
+	bh=P3RmEfeVl5rB1RolpuEMWoYT1Rcb+L0pzJIV0hoByz0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JnR3tHnxcWIsvMci8/ZA7sqxZ8MMELKGvexir3hypxvEGl2biWlvDr/X4ztPK+2x2YpAf1zNh2J7hnqs7EEtbW4dYU5QTtOUQImp5h8GoIAzMT56QCo+gc19JaL0Mh8W/E5XsqwvcLjFIks55CR+RmVszHjG9XCE3xzPvQFRT+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nMbtNwkb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pdcQJrGz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75A34C19421;
-	Wed, 18 Mar 2026 14:51:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nMbtNwkb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D76BC2BC87;
+	Wed, 18 Mar 2026 14:53:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773845488;
-	bh=0Rkff8ECo4CPyV/lJYVV82ToFiHKvxDsyAtmcwryTx0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=pdcQJrGzBLb/nKTQhMnWdKMKCGEyv/TWpnIBqIvPsKe5r+KBIanLkdLrewqhU6tbD
-	 ixJf9zPhESVIuPTqOSjF9UYc8Zcv+w3I7KYDesJMyGHx61QSsJhw5vQAGw+Hnay+ji
-	 oTNoiZGtLq90Kso5A/h3cy+e6tBApX6ChtjxShlcklE2RLPHNOq7gkxMpn8n6Ot/2J
-	 I5dEF5qtB6MZ44uq4MoC3rX9oYHTU5BYgcR2c8+gSEgsRlruYch83c2lqVItITbbEo
-	 pvwVcxNMk7/Ht/u4hIJwtv8g9EzNBYDsb/TmgpNKTcmXD9wFMjhOzRaotYHRi8R6AJ
-	 t9kcaN67I4wDg==
-Message-ID: <202c9697-82cd-409a-8c5c-ea56a3830a8a@kernel.org>
-Date: Wed, 18 Mar 2026 10:51:25 -0400
+	s=k20201202; t=1773845596;
+	bh=P3RmEfeVl5rB1RolpuEMWoYT1Rcb+L0pzJIV0hoByz0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nMbtNwkbW+OUuU+yZQ/XPWW5ssKtSEb4Ak7q/TSWFTi1wWOwPNs4+4ISaQx6iagfz
+	 SkjanjkVNtPWbP0meWOJ7lP8DKAX82gAY7qP/HO0qgwANKwBEaLX+UKQbaJw+D6C4l
+	 cR7MNfb7Ps3FMv0WCCEcuE7F6ICzla5fkKL5ZwacsE/BHx5ZsfODCGaESSn5M/1m9Y
+	 Iy0rqm72AtdPHXAKQKIj3JK0t2PTMahvgBoriZKu9XfHjus3xtxWEYsxtM+bB8/69G
+	 TbFSJHr6guXlhZ+mNEfKjW7nIs0+yBRKs+UvYe7qkKW6lSP3VJp0HT+Jq8r1Bu3hme
+	 l/qsqdQKh8ryg==
+Date: Wed, 18 Mar 2026 10:53:15 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, linux-api@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, workflows@vger.kernel.org,
+	tools@kernel.org, x86@kernel.org, Thomas Gleixner <tglx@kernel.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Cyril Hrubis <chrubis@suse.cz>, Kees Cook <kees@kernel.org>,
+	Jake Edge <jake@lwn.net>,
+	David Laight <david.laight.linux@gmail.com>,
+	Askar Safin <safinaskar@zohomail.com>,
+	Gabriele Paoloni <gpaoloni@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Ingo Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [PATCH 1/9] kernel/api: introduce kernel API specification
+ framework
+Message-ID: <abq8W0jDtwgSsUdT@laps>
+References: <20260313150928.2637368-1-sashal@kernel.org>
+ <20260313150928.2637368-2-sashal@kernel.org>
+ <87h5qe9wig.fsf@trenco.lwn.net>
+ <20260318070055.39f1af80@foz.lan>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 5/6] NFSD: Add export-scoped state revocation
-To: Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>,
- Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>,
- Tom Talpey <tom@talpey.com>
-Cc: linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- Chuck Lever <chuck.lever@oracle.com>
-References: <20260318-umount-kills-nfsv4-state-v4-0-56aad44ab982@oracle.com>
- <20260318-umount-kills-nfsv4-state-v4-5-56aad44ab982@oracle.com>
- <f582806fcf3c6d6f7416c24c55462fc502cb0ab0.camel@kernel.org>
-From: Chuck Lever <cel@kernel.org>
-Content-Language: en-US
-Organization: kernel.org
-In-Reply-To: <f582806fcf3c6d6f7416c24c55462fc502cb0ab0.camel@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20260318070055.39f1af80@foz.lan>
 
-On 3/18/26 10:47 AM, Jeff Layton wrote:
-> On Wed, 2026-03-18 at 10:15 -0400, Chuck Lever wrote:
->> From: Chuck Lever <chuck.lever@oracle.com>
->>
->> nfsd4_revoke_states() revokes all NFSv4 state on an entire
->> superblock, which is too coarse when multiple exports share a
->> filesystem. Add nfsd4_revoke_export_states() to revoke only
->> state associated with files under a specific export root, then
->> convert nfsd4_revoke_states() to a thin wrapper that passes
->> sb->s_root.
->>
->> nfsd4_revoke_export_states() uses find_next_sb_stid() to locate
->> candidate stids, then verifies each against the export root via
->> nfsd_file_inode_is_in_subtree(). That helper is placed in the
->> file cache layer (filecache.c) because it operates on VFS types
->> with no NFSv4 state dependency. It walks all of an inode's
->> dentry aliases rather than calling d_find_any_alias(), because
->> for hard-linked files an arbitrary alias may fall outside the
->> export subtree even when another alias is inside it.
->>
->> When the export root is the filesystem root, the subtree check
->> is elided and every stid matching the superblock is revoked
->> directly.
->>
->> The NFSD_UNLOCK_TYPE_FILESYSTEM handler now calls
->> nfsd4_revoke_export_states() with the resolved path dentry,
->> enabling subtree-scoped revocation through the netlink
->> interface.
->>
->> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
->> ---
->>  fs/nfsd/filecache.c | 32 +++++++++++++++++++
->>  fs/nfsd/filecache.h |  1 +
->>  fs/nfsd/nfs4state.c | 92 +++++++++++++++++++++++++++++++++++++----------------
->>  fs/nfsd/nfsctl.c    |  3 +-
->>  fs/nfsd/state.h     |  7 ++++
->>  5 files changed, 107 insertions(+), 28 deletions(-)
->>
->> diff --git a/fs/nfsd/filecache.c b/fs/nfsd/filecache.c
->> index 1e2b38ed1d35..cd09be0c5465 100644
->> --- a/fs/nfsd/filecache.c
->> +++ b/fs/nfsd/filecache.c
->> @@ -894,6 +894,38 @@ __nfsd_file_cache_purge(struct net *net)
->>  	nfsd_file_dispose_list(&dispose);
->>  }
->>  
->> +/**
->> + * nfsd_file_inode_is_in_subtree - check whether an inode is under a subtree
->> + * @inode:        inode to test
->> + * @root_dentry:  dentry of the subtree root
->> + *
->> + * Check whether @inode has any dentry alias that falls within the
->> + * subtree rooted at @root_dentry.  Hard-linked files can have aliases
->> + * in multiple directories, so all aliases must be tested.
->> + *
->> + * Return: %true if any dentry alias of @inode is at or below
->> + * @root_dentry, %false otherwise.
->> + */
->> +bool nfsd_file_inode_is_in_subtree(struct inode *inode,
->> +				   struct dentry *root_dentry)
->> +{
->> +	struct dentry *alias;
->> +	bool found = false;
->> +
->> +	/* i_lock stabilizes the alias list; is_subdir() nests
->> +	 * rename_lock (a seqlock) beneath it but does not sleep.
->> +	 */
->> +	spin_lock(&inode->i_lock);
->> +	hlist_for_each_entry(alias, &inode->i_dentry, d_u.d_alias) {
->> +		if (is_subdir(alias, root_dentry)) {
->> +			found = true;
->> +			break;
->> +		}
->> +	}
->> +	spin_unlock(&inode->i_lock);
->> +	return found;
->> +}
->> +
->>  static struct nfsd_fcache_disposal *
->>  nfsd_alloc_fcache_disposal(void)
->>  {
->> diff --git a/fs/nfsd/filecache.h b/fs/nfsd/filecache.h
->> index b383dbc5b921..36c9a8e388d2 100644
->> --- a/fs/nfsd/filecache.h
->> +++ b/fs/nfsd/filecache.h
->> @@ -70,6 +70,7 @@ struct net *nfsd_file_put_local(struct nfsd_file __rcu **nf);
->>  struct nfsd_file *nfsd_file_get(struct nfsd_file *nf);
->>  struct file *nfsd_file_file(struct nfsd_file *nf);
->>  void nfsd_file_close_inode_sync(struct inode *inode);
->> +bool nfsd_file_inode_is_in_subtree(struct inode *inode, struct dentry *root_dentry);
->>  void nfsd_file_net_dispose(struct nfsd_net *nn);
->>  bool nfsd_file_is_cached(struct inode *inode);
->>  __be32 nfsd_file_acquire_gc(struct svc_rqst *rqstp, struct svc_fh *fhp,
->> diff --git a/fs/nfsd/nfs4state.c b/fs/nfsd/nfs4state.c
->> index 891669b32804..581f38395c42 100644
->> --- a/fs/nfsd/nfs4state.c
->> +++ b/fs/nfsd/nfs4state.c
->> @@ -1763,15 +1763,6 @@ static struct nfs4_stid *find_next_sb_stid(struct nfs4_client *clp,
->>  	return stid;
->>  }
->>  
->> -static struct nfs4_stid *find_one_sb_stid(struct nfs4_client *clp,
->> -					  struct super_block *sb,
->> -					  unsigned int sc_types)
->> -{
->> -	unsigned long id = 0;
->> -
->> -	return find_next_sb_stid(clp, sb, sc_types, &id);
->> -}
->> -
->>  static void revoke_ol_stid(struct nfs4_client *clp,
->>  			   struct nfs4_ol_stateid *stp)
->>  {
->> @@ -1835,20 +1826,19 @@ static void revoke_one_stid(struct nfs4_client *clp, struct nfs4_stid *stid)
->>  }
->>  
->>  /**
->> - * nfsd4_revoke_states - revoke all nfsv4 states associated with given filesystem
->> - * @nn:   used to identify instance of nfsd (there is one per net namespace)
->> - * @sb:   super_block used to identify target filesystem
->> + * nfsd4_revoke_export_states - revoke states associated with a given export
->> + * @nn:           nfsd_net identifying the nfsd instance (one per net namespace)
->> + * @sb:           super_block of the export's filesystem
->> + * @root_dentry:  dentry of the export root directory
->>   *
->>   * All nfs4 states (open, lock, delegation, layout) held by the server instance
->> - * and associated with a file on the given filesystem will be revoked resulting
->> - * in any files being closed and so all references from nfsd to the filesystem
->> - * being released.  Thus nfsd will no longer prevent the filesystem from being
->> - * unmounted.
->> - *
->> - * The clients which own the states will subsequently being notified that the
->> - * states have been "admin-revoked".
->> + * and associated with files under the given export will be revoked.  When
->> + * @root_dentry is the filesystem root, all state on @sb is revoked (equivalent
->> + * to nfsd4_revoke_states).  When @root_dentry is a subdirectory, only state on
->> + * files within that subtree is revoked.
->>   */
->> -void nfsd4_revoke_states(struct nfsd_net *nn, struct super_block *sb)
->> +void nfsd4_revoke_export_states(struct nfsd_net *nn, struct super_block *sb,
->> +				struct dentry *root_dentry)
->>  {
->>  	unsigned int idhashval;
->>  	unsigned int sc_types;
->> @@ -1861,18 +1851,53 @@ void nfsd4_revoke_states(struct nfsd_net *nn, struct super_block *sb)
->>  		struct nfs4_client *clp;
->>  	retry:
->>  		list_for_each_entry(clp, head, cl_idhash) {
->> -			struct nfs4_stid *stid = find_one_sb_stid(clp, sb,
->> -								  sc_types);
->> -			if (stid) {
->> -				spin_unlock(&nn->client_lock);
->> +			struct nfs4_stid *stid;
->> +			/* Resets to zero on each retry; revocation may
->> +			 * alter the IDR, so a stale cursor is unsafe.
->> +			 */
->> +			unsigned long id = 0;
->> +
->> +			while ((stid = find_next_sb_stid(clp, sb,
->> +						sc_types, &id)) != NULL) {
->> +				if (root_dentry != sb->s_root) {
->> +					bool match;
->> +
->> +					/* Bare inc to pin clp; get_client_locked() is
->> +					 * not used because its courtesy-to-active
->> +					 * transition is unwanted during revocation.
->> +					 */
->> +					atomic_inc(&clp->cl_rpc_users);
->> +					spin_unlock(&nn->client_lock);
->> +					match = nfsd_file_inode_is_in_subtree(
->> +							stid->sc_file->fi_inode,
->> +							root_dentry);
-> 
-> Ouch the hardlinked thing makes this hard to reason about.
-> 
-> Ok, so suppose we have two exports on the same superblock.
-> 
-> /export/foo
-> /export/bar
-> 
-> One is exported to one client foo and one to another to client bar.
-> There is a file hardlinked across those directories:
-> 
-> $ touch /export/foo/baz
-> $ ln /export/bar/baz /export/foo/baz
-> 
-> Now, client foo opens /export/foo/baz, and client bar opens
-> /export/bar/baz.
-> 
-> /export/bar is unexported and state under it revoked. Won't client
-> foo's state end up being revoked too in that case?
-> 
-> Note that the different hardlinks should end up with different
-> filehandles since they are exposed to the clients via different
-> exports.
-> 
-> I wonder... do we need keep track of the export under which a stateid
-> was acquired so we can properly revoke the right ones in this
-> situation?
+On Wed, Mar 18, 2026 at 07:00:55AM +0100, Mauro Carvalho Chehab wrote:
+>On Tue, 17 Mar 2026 11:49:27 -0600
+>Jonathan Corbet <corbet@lwn.net> wrote:
+>> So the reason for two completely separate mechanisms is not entirely
+>> clear to me.  The kerneldoc variant is essentially documentation, while
+>> the macro stuff is to be built into the executable?  What if you want
+>> both?
+>
+>You can easily add support at kernel-doc to output such macros.
+>
+>All you need is to create a new class derived from OutputFormat and
+>make it produce any different output format, including:
+>
+>    #include <linux/kernel_api_spec.h>
+>
+>    DEFINE_KERNEL_API_SPEC(sys_open)
+>    KAPI_DESCRIPTION("Open or create a file")
+>    KAPI_CONTEXT(KAPI_CTX_PROCESS | KAPI_CTX_SLEEPABLE)
+>    /* ... parameter, error, constraint definitions ... */
+>    KAPI_END_SPEC
+>
+>I'd say that converting from such output to `.kapi_specs`` ELF section
+>itself and/or to sysfs/debugfs - e.g. something that would require to
+>compile or be linked with Kernel's compiled binaries should be done by a
+>separate tool, but we should aim to have a singe tool to process
+>kernel documentation markups.
+>
+>It is hard enough to maintain just one tool - and to have people actually
+>writing documentation. Having a second one to handle it, with a different
+>format will likely increase a lot the documentation burden.
 
-If I understand your comment correctly, I believe that is what the
-earlier patches in this series do -- tie the state IDs to a particular
-export.
+So this is exactly what happens under the hood :) kerneldoc outputs these
+macros and they get compiled ito the binary.
 
-
+I exposed the macros as an option since they're there anyway, but I'm happy to
+hide them as internal plumbing too.
 
 -- 
-Chuck Lever
+Thanks,
+Sasha
