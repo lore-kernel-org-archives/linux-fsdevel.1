@@ -1,171 +1,296 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4458C31328C
-	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Mar 2026 15:50:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B773B3E2741;
+	Wed, 18 Mar 2026 15:50:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773849015; cv=none; b=GOpR5CISBJ3ns/NG4B+BM76CswYx/esHoHSfHTmejOSWHXHg5pf+UTAv9AaOkULuXaJK1DcggyX4YhiR67pG/t9leKimTxxFH+1qfNzIqXOiIZ6AqeiHNlSK3J+GLnu4BOM+cKafKoBgdPF392/+3CfkftoTumz5LI5Vgx/9NEQ=
+	t=1773849040; cv=none; b=KIdimZDLPM2yskMppGJG+pJGlWYioZTWvxOWPxLsR/9OB4umvUqYXBS3sH4chQW4qp9dT5dIWBxA/jKfds5qMVbo67SEPbD8LTcND/MmEpqFzvSwzWF8MbyCiQGubEKj5pjCHQ9Iu5G8WZYSwjrw12eeZgJSGrgAbNgp9Bq7UC4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773849015; c=relaxed/simple;
-	bh=PlnqEm/DZ/8dV3iriRuwdaU9/9yoCQFqlta0/hmzjuo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aPPoi/oSBgqxzMA5RuCKZCS0JhNtC0n8BJOGrns2ZgG1wprE4yjI/yCG80Phb6NgLwhEMBcxX0ybtnUR+hC6q3qCPYBDocHzq9WCuj/0gTQbh3Rs4HOm8KPgOI7cKx1R7EDjUCJ1dEeHR2bu0i47TRnA4kV65hpxwPsDIXG5p9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=ChmNS/3L; arc=none smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1773849040; c=relaxed/simple;
+	bh=VbL3vAwO1cMuvFosJZiW6nFGpT2xBVdrJqX0D4K97+Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jsebi6c909H3spEHCO6k6opiO3OK419nSjRsNJsdHcDLeMb0DoVvN8J7xgykeH2K6RFL8mQN+8yVoVD+fkiDISIJb3XJ/HVLSG6XnrKM6lMxW8t92CNLE6YKg67phMksv8U76sANuqaP+KIF2egCYolo56BH7ZAomr+oq8waupo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AAFfqGYQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="ChmNS/3L"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b98069e41b0so97487966b.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 18 Mar 2026 08:50:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1773849010; x=1774453810; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=hyH5m1zGpGc64bdJRzjSRtU/WjkDb+Yk4KGtssaZXmE=;
-        b=ChmNS/3LuqClv8QN4ZdlTIZ/1tkcHMNAkrkaYRz6cutEQpLTrEoA68Hse+UTRnl90v
-         EDiTCvPC2w85RQvXN9b8TP9RQ4Ao4BY0+PgEeHaMiH507/9CG6tVmsWBnClDifgODtG+
-         DBZQRronzT/GBC4m4Ou8+BCpCTczXGwbcFRHU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773849010; x=1774453810;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hyH5m1zGpGc64bdJRzjSRtU/WjkDb+Yk4KGtssaZXmE=;
-        b=d6D/8DI+JImLxTQ5RFMD7e8y1jFFxfRSvicHPLdXi8NAKMFMnzfE/wdaV2mtLbS561
-         hKSgeNQfNyFYTwBr2kdyE0GzRs12kmHse3wxqPAaKXHKbjAHgYAbBNOvPMQxAoVtVDOh
-         81WYzkIF8axpb3ET+LSsPd8Ur3Gacv3ora2lEu+MUinIrzP2HW1N2X8GuKX7MiZ6xwF9
-         SK8J27ORuAdXAZNolHE/7ZiaxDOToIJdy6ur2Jq39mYvDBdZAVe52bjM0c619PnuO5xM
-         8PvwP+bCvglPgVyQAsnAcUlxx8v6jirH6TEub9EVxUgVTgHqbXWqpvlXUES42LkrFK2O
-         EBWw==
-X-Forwarded-Encrypted: i=1; AJvYcCWImuNV01U2CjSy8bKl9/AfA9LH+J4s9/h+AO77pWPewY+MxSZ/Bp3+XW+2QgAz4kuXBglgeek5hVdpDGOm@vger.kernel.org
-X-Gm-Message-State: AOJu0YwvHqJtgkwabcXakqYjMJoq8Ig6oizh/NUkx7LJTVeURRVSooop
-	8ObahfOrdujm24ExvW0xXa0+IzIw+yk+oUhftBRyWZY9+9x0T5J3cnb9JjcmOBEbVunUQZ+Tpdf
-	qLdLfyPM=
-X-Gm-Gg: ATEYQzwhN9Cvpjlzoh91Qgr6gMJz4dR4YfBTVEvt9d4rj+Rhq387m1PHoz6NA4Q2B5n
-	z+DzHcrfYIl7OQgD06ibXo2wldjY3AAKLIUMiSU8EFfxDabQBFM9T3DYQ4o8rgl7/XrQ3zwfFML
-	+UR+s8KtVG0/n4W/x9qIbh+IWjh3Mz9Dm74zxfiPCd9GVZQmWPNwOqowJ+OezXnWeoHBxSH3A9F
-	eiBWXGk4hBbeYN7wId0JrtSjXx+L1QePdLnJfv4ScwF4T8BfDWs48D6jvmbJpuubj3QxoXZQAjN
-	sm56bHD9Rsk2aSXpF/YN7f4GHrhHp0wKDopClRLC9isvonqtt343/BAdnmD8mfC/667CL+MB6+r
-	BgpPAGXwH30sWPxYEb2aBIvosx7NrpelR5JSv8YQsblcprS0HKQYknGMbP9APaQUnN14dMcml1q
-	23wJfvmsGBoNwPwnD71qGMJ1cYFqGG+P4opPxfTTyTsVDtz0z9X3/UyCbUyyxbG+Pk4nKqs7cB
-X-Received: by 2002:a17:906:c102:b0:b96:f4f6:2a02 with SMTP id a640c23a62f3a-b980faad336mr5066866b.25.1773849010044;
-        Wed, 18 Mar 2026 08:50:10 -0700 (PDT)
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com. [209.85.208.41])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-667b129c335sm1996691a12.23.2026.03.18.08.50.08
-        for <linux-fsdevel@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Mar 2026 08:50:08 -0700 (PDT)
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-666f73217baso2352491a12.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 18 Mar 2026 08:50:08 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVo8g9f6/I7KS3lrmwZBBp6YI/Eq94W1K97smma2LwU4BDg+AXtAi0UtdsM+XKki/JP1O5cxywFspMb29N7@vger.kernel.org
-X-Received: by 2002:a05:6402:270a:b0:666:f731:ea20 with SMTP id
- 4fb4d7f45d1cf-66850ba75a6mr79140a12.1.1773849008014; Wed, 18 Mar 2026
- 08:50:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AAFfqGYQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EED9C2BC87;
+	Wed, 18 Mar 2026 15:50:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773849040;
+	bh=VbL3vAwO1cMuvFosJZiW6nFGpT2xBVdrJqX0D4K97+Y=;
+	h=From:To:Cc:Subject:Date:From;
+	b=AAFfqGYQjrNAaikG4d58f7LT11O0f7S5Nbf54jlY2cMK5jf5dEZJLAD13NoXMPC1F
+	 vI9adgRokefNTjvg/a7A2EQRndqW1kl15xOJC8eIWSTPTzjKJkYxd7M+KOzeI9qelX
+	 qCxQAgiRAKDyyyPqy2LwyNTX1MN/vbMCQQSSNfaQm4Amsz0CXjbCVbQVLMHpQkP/iU
+	 xI4mrH9MWarFuuw4lqv/5of3VXlBMa5aK/Jpk6IVOUGlZzqx9UNdMcbL/kr2ZFn/+H
+	 LezLJjFgzaMnWnuWNJFP/UqGvxok4yXnBI3n9D1eh1DkFckpRgieaDTJmwyznkcevS
+	 R9Vmwjo1EyS/A==
+From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: David Hildenbrand <david@kernel.org>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Jann Horn <jannh@google.com>,
+	Pedro Falcato <pfalcato@suse.de>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Kees Cook <kees@kernel.org>,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	Vineet Gupta <vgupta@kernel.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Brian Cain <bcain@kernel.org>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <chleroy@kernel.org>,
+	Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	"H . Peter Anvin" <hpa@zytor.com>,
+	Richard Weinberger <richard@nod.at>,
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Xu Xin <xu.xin16@zte.com.cn>,
+	Chengming Zhou <chengming.zhou@linux.dev>,
+	Michal Hocko <mhocko@suse.com>,
+	Paul Moore <paul@paul-moore.com>,
+	Stephen Smalley <stephen.smalley.work@gmail.com>,
+	Ondrej Mosnacek <omosnace@redhat.com>,
+	linux-snps-arc@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-hexagon@vger.kernel.org,
+	loongarch@lists.linux.dev,
+	linux-mips@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-riscv@lists.infradead.org,
+	linux-s390@vger.kernel.org,
+	linux-um@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org,
+	selinux@vger.kernel.org
+Subject: [PATCH v3 00/23] mm/vma: convert vm_flags_t to vma_flags_t in vma code
+Date: Wed, 18 Mar 2026 15:50:11 +0000
+Message-ID: <cover.1773846935.git.ljs@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <23f19c88e763beb852a4891b2a908890bdd01b66.1773651096.git.chleroy@kernel.org>
- <CAHk-=whFS7D1M4=cMi9cR06Uoxr1QeM8HUtRB6V3cQth=QNoXg@mail.gmail.com> <e19d7d3f-d2f3-4bb0-be4d-af2679673f68@kernel.org>
-In-Reply-To: <e19d7d3f-d2f3-4bb0-be4d-af2679673f68@kernel.org>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Wed, 18 Mar 2026 08:49:50 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wiJVSCmiQAQYYjdQqo9Z1k7WQcep2qW+DiqHyP7Y1_SnQ@mail.gmail.com>
-X-Gm-Features: AaiRm53fbnxJ0qVvKDxvqCduKKdKPEASVF57GbRW7C6TLn-oqrl0EWkTjfSZIbo
-Message-ID: <CAHk-=wiJVSCmiQAQYYjdQqo9Z1k7WQcep2qW+DiqHyP7Y1_SnQ@mail.gmail.com>
-Subject: Re: [PATCH v3] fs: Replace user_access_{begin/end} by scoped user access
-To: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Thomas Gleixner <tglx@linutronix.de>, David Laight <david.laight.linux@gmail.com>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: multipart/mixed; boundary="000000000000025589064d4e6831"
+Content-Transfer-Encoding: 8bit
 
---000000000000025589064d4e6831
-Content-Type: text/plain; charset="UTF-8"
+This series converts a lot of the existing use of the legacy vm_flags_t
+data type to the new vma_flags_t type which replaces it.
 
-On Wed, 18 Mar 2026 at 05:29, Christophe Leroy (CS GROUP)
-<chleroy@kernel.org> wrote:
->
-> I went for a local var alternative, see v4. A helper would be of no help
-> as the two patterns are not exactly the same:
->
->         size_t size = offsetof(struct old_linux_dirent, d_name) + namlen + 1;
->
->         size_t size = offsetof(struct compat_old_linux_dirent, d_name) + namlen + 1;
+In order to do so it adds a number of additional helpers:
 
-Your v4 looks fine to me, but admittedly a helper in the form of a
-macro could have worked just fine:
+* vma_flags_empty() - Determines whether a vma_flags_t value has no bits
+  set.
 
-    #define dirent_size(dirent, len) offsetof(typeof(dirent), d_name[len])
+* vma_flags_and() - Performs a bitwise AND between two vma_flags_t values.
 
-where I intentionally did *not* do the "+1", because some of our users
-want to use "+2" because they put the d_type information in the byte
-after the name (because they didn't have a 'd_type' field originally,
-but did have the 'reclen' field).
+* vma_flags_diff_pair() - Determines which flags are not shared between a
+  pair of VMA flags (typically non-constant values)
 
-Because we actually have that pattern more than two times, just in
-different guises.
+* append_vma_flags() - Similar to mk_vma_flags(), but allows a vma_flags_t
+  value to be specified (typically a constant value) which will be copied
+  and appended to to create a new vma_flags_t value, with additional flags
+  specified to append to it.
 
-Something untested like the attached...
+* vma_flags_same() - Determines if a vma_flags_t value is exactly equal to
+  a set of VMA flags.
 
-                     Linus
+* vma_flags_same_mask() - Determines if a vma_flags_t value is eactly equal
+  to another vma_flags_t value (typically constant).
 
---000000000000025589064d4e6831
-Content-Type: text/x-patch; charset="US-ASCII"; name="patch.diff"
-Content-Disposition: attachment; filename="patch.diff"
-Content-Transfer-Encoding: base64
-Content-ID: <f_mmw7vyc70>
-X-Attachment-Id: f_mmw7vyc70
+* vma_flags_same_pair() - Determines if a pair of vma_flags_t values are
+  exactly equal to one another (typically both non-constant).
 
-IGZzL3JlYWRkaXIuYyB8IDE5ICsrKysrKystLS0tLS0tLS0tLS0KIDEgZmlsZSBjaGFuZ2VkLCA3
-IGluc2VydGlvbnMoKyksIDEyIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2ZzL3JlYWRkaXIu
-YyBiL2ZzL3JlYWRkaXIuYwppbmRleCA3MzcwN2I2ODE2ZTkuLmRkZDJmMjhlNTI3OCAxMDA2NDQK
-LS0tIGEvZnMvcmVhZGRpci5jCisrKyBiL2ZzL3JlYWRkaXIuYwpAQCAtMjIsNiArMjIsOCBAQAog
-I2luY2x1ZGUgPGxpbnV4L2NvbXBhdC5oPgogI2luY2x1ZGUgPGxpbnV4L3VhY2Nlc3MuaD4KIAor
-I2RlZmluZSBkaXJlbnRfc2l6ZShkaXJlbnQsIGxlbikgb2Zmc2V0b2YodHlwZW9mKCooZGlyZW50
-KSksIGRfbmFtZVtsZW5dKQorCiAvKgogICogU29tZSBmaWxlc3lzdGVtcyB3ZXJlIG5ldmVyIGNv
-bnZlcnRlZCB0byAnLT5pdGVyYXRlX3NoYXJlZCgpJwogICogYW5kIHRoZWlyIGRpcmVjdG9yeSBp
-dGVyYXRvcnMgd2FudCB0aGUgaW5vZGUgbG9jayBoZWxkIGZvcgpAQCAtMTk4LDkgKzIwMCw3IEBA
-IHN0YXRpYyBib29sIGZpbGxvbmVkaXIoc3RydWN0IGRpcl9jb250ZXh0ICpjdHgsIGNvbnN0IGNo
-YXIgKm5hbWUsIGludCBuYW1sZW4sCiAJfQogCWJ1Zi0+cmVzdWx0Kys7CiAJZGlyZW50ID0gYnVm
-LT5kaXJlbnQ7Ci0JaWYgKCF1c2VyX3dyaXRlX2FjY2Vzc19iZWdpbihkaXJlbnQsCi0JCQkodW5z
-aWduZWQgbG9uZykoZGlyZW50LT5kX25hbWUgKyBuYW1sZW4gKyAxKSAtCi0JCQkJKHVuc2lnbmVk
-IGxvbmcpZGlyZW50KSkKKwlpZiAoIXVzZXJfd3JpdGVfYWNjZXNzX2JlZ2luKGRpcmVudCwgZGly
-ZW50X3NpemUoZGlyZW50LCBuYW1sZW4rMSkpKQogCQlnb3RvIGVmYXVsdDsKIAl1bnNhZmVfcHV0
-X3VzZXIoZF9pbm8sICZkaXJlbnQtPmRfaW5vLCBlZmF1bHRfZW5kKTsKIAl1bnNhZmVfcHV0X3Vz
-ZXIob2Zmc2V0LCAmZGlyZW50LT5kX29mZnNldCwgZWZhdWx0X2VuZCk7CkBAIC0yNjMsOCArMjYz
-LDcgQEAgc3RhdGljIGJvb2wgZmlsbGRpcihzdHJ1Y3QgZGlyX2NvbnRleHQgKmN0eCwgY29uc3Qg
-Y2hhciAqbmFtZSwgaW50IG5hbWxlbiwKIAlzdHJ1Y3QgZ2V0ZGVudHNfY2FsbGJhY2sgKmJ1ZiA9
-CiAJCWNvbnRhaW5lcl9vZihjdHgsIHN0cnVjdCBnZXRkZW50c19jYWxsYmFjaywgY3R4KTsKIAl1
-bnNpZ25lZCBsb25nIGRfaW5vOwotCWludCByZWNsZW4gPSBBTElHTihvZmZzZXRvZihzdHJ1Y3Qg
-bGludXhfZGlyZW50LCBkX25hbWUpICsgbmFtbGVuICsgMiwKLQkJc2l6ZW9mKGxvbmcpKTsKKwlp
-bnQgcmVjbGVuID0gQUxJR04oZGlyZW50X3NpemUoZGlyZW50LCBuYW1sZW4rMiksIHNpemVvZihs
-b25nKSk7CiAJaW50IHByZXZfcmVjbGVuOwogCXVuc2lnbmVkIGludCBmbGFncyA9IGRfdHlwZTsK
-IApAQCAtMzUyLDggKzM1MSw3IEBAIHN0YXRpYyBib29sIGZpbGxkaXI2NChzdHJ1Y3QgZGlyX2Nv
-bnRleHQgKmN0eCwgY29uc3QgY2hhciAqbmFtZSwgaW50IG5hbWxlbiwKIAlzdHJ1Y3QgbGludXhf
-ZGlyZW50NjQgX191c2VyICpkaXJlbnQsICpwcmV2OwogCXN0cnVjdCBnZXRkZW50c19jYWxsYmFj
-azY0ICpidWYgPQogCQljb250YWluZXJfb2YoY3R4LCBzdHJ1Y3QgZ2V0ZGVudHNfY2FsbGJhY2s2
-NCwgY3R4KTsKLQlpbnQgcmVjbGVuID0gQUxJR04ob2Zmc2V0b2Yoc3RydWN0IGxpbnV4X2RpcmVu
-dDY0LCBkX25hbWUpICsgbmFtbGVuICsgMSwKLQkJc2l6ZW9mKHU2NCkpOworCWludCByZWNsZW4g
-PSBBTElHTihkaXJlbnRfc2l6ZShkaXJlbnQsIG5hbWxlbisxKSwgc2l6ZW9mKHU2NCkpOwogCWlu
-dCBwcmV2X3JlY2xlbjsKIAl1bnNpZ25lZCBpbnQgZmxhZ3MgPSBkX3R5cGU7CiAKQEAgLTQ2MCw5
-ICs0NTgsNyBAQCBzdGF0aWMgYm9vbCBjb21wYXRfZmlsbG9uZWRpcihzdHJ1Y3QgZGlyX2NvbnRl
-eHQgKmN0eCwgY29uc3QgY2hhciAqbmFtZSwKIAl9CiAJYnVmLT5yZXN1bHQrKzsKIAlkaXJlbnQg
-PSBidWYtPmRpcmVudDsKLQlpZiAoIXVzZXJfd3JpdGVfYWNjZXNzX2JlZ2luKGRpcmVudCwKLQkJ
-CSh1bnNpZ25lZCBsb25nKShkaXJlbnQtPmRfbmFtZSArIG5hbWxlbiArIDEpIC0KLQkJCQkodW5z
-aWduZWQgbG9uZylkaXJlbnQpKQorCWlmICghdXNlcl93cml0ZV9hY2Nlc3NfYmVnaW4oZGlyZW50
-LCBkaXJlbnRfc2l6ZShkaXJlbnQsIG5hbWxlbisxKSkpCiAJCWdvdG8gZWZhdWx0OwogCXVuc2Fm
-ZV9wdXRfdXNlcihkX2lubywgJmRpcmVudC0+ZF9pbm8sIGVmYXVsdF9lbmQpOwogCXVuc2FmZV9w
-dXRfdXNlcihvZmZzZXQsICZkaXJlbnQtPmRfb2Zmc2V0LCBlZmF1bHRfZW5kKTsKQEAgLTUxOSw4
-ICs1MTUsNyBAQCBzdGF0aWMgYm9vbCBjb21wYXRfZmlsbGRpcihzdHJ1Y3QgZGlyX2NvbnRleHQg
-KmN0eCwgY29uc3QgY2hhciAqbmFtZSwgaW50IG5hbWxlbgogCXN0cnVjdCBjb21wYXRfZ2V0ZGVu
-dHNfY2FsbGJhY2sgKmJ1ZiA9CiAJCWNvbnRhaW5lcl9vZihjdHgsIHN0cnVjdCBjb21wYXRfZ2V0
-ZGVudHNfY2FsbGJhY2ssIGN0eCk7CiAJY29tcGF0X3Vsb25nX3QgZF9pbm87Ci0JaW50IHJlY2xl
-biA9IEFMSUdOKG9mZnNldG9mKHN0cnVjdCBjb21wYXRfbGludXhfZGlyZW50LCBkX25hbWUpICsK
-LQkJbmFtbGVuICsgMiwgc2l6ZW9mKGNvbXBhdF9sb25nX3QpKTsKKwlpbnQgcmVjbGVuID0gQUxJ
-R04oZGlyZW50X3NpemUoZGlyZW50LCBuYW1sZW4rMiksIHNpemVvZihjb21wYXRfbG9uZ190KSk7
-CiAJaW50IHByZXZfcmVjbGVuOwogCXVuc2lnbmVkIGludCBmbGFncyA9IGRfdHlwZTsKIAo=
---000000000000025589064d4e6831--
+* vma_flags_to_legacy() - Converts a vma_flags_t value to a vm_flags_t
+  value, used to enable more iterative introduction of the use of
+  vma_flags_t.
+
+* legacy_to_vma_flags() - Converts a vm_flags_t value to a vma_flags-t
+  value, for the same purpose.
+
+* vma_flags_test_single_mask() - Tests whether a vma_flags_t value contain
+  the single flag specified in an input vma_flags_t flag mask, or if that
+  flag mask is empty, is defined to return false. Useful for
+  config-predicated VMA flag mask defines.
+
+* vma_test() - Tests whether a VMA's flags contain a specific singular VMA
+  flag.
+
+* vma_test_any() - Tests whether a VMA's flags contain any of a set of VMA
+  flags.
+
+* vma_test_any_mask() - Tests whether a VMA's flags contain any of the
+  flags specified in another, typically constant, vma_flags_t value.
+
+* vma_test_single_mask() - Tests whether a VMA's flags contain the single
+  flag specified in an input vma_flags_t flag mask, or if that flag mask is
+  empty, is defined to return false. Useful for config-predicated VMA flag
+  mask defines.
+
+* vma_clear_flags() - Clears a specific set of VMA flags from a vma_flags_t
+  value.
+
+* vma_clear_flags_mask() - Clears those flag set in a vma_flags_t value
+  (typically constant) from a (typically not constant) vma_flags_t value.
+
+The series mostly focuses on the the VMA specific code, especially that
+contained in mm/vma.c and mm/vma.h.
+
+It updates both brk() and mmap() logic to utils vma_flags_t values as much
+as is practiaclly possible at this point, changing surrounding logic to be
+able to do so.
+
+It also updates the vma_modify_xxx() functions where they interact with VMA
+flags directly to use vm_flags_t values where possible.
+
+There is extensive testing added in the VMA userland tests to assert that
+all of these new VMA flag functions work correctly.
+
+
+v3:
+* Folded in tags, thanks Paul, Vlastimil!
+* Respun to apply the correct suggestions/reports from
+  https://sashiko.dev/#/patchset/cover.1773665966.git.ljs%40kernel.org
+  (note there is also quite a lot of noise, that is ignored).
+* Const-ified vma_flags_t * param for vma_flags_empty() as per Sashiko.
+* Obtained sticky flag masks after VMA write lock acquired on merge and
+  update vma_expand() similarly. This is meaningful, as the maybe guard
+  flag is set atomically which might race outside of a VMA write lock, as
+  per Sashiko.
+* Dropped comment about 'VM_NONE convenience' from 5/23 commit message as
+  the VMA_xxx form flags can now provide that.
+* Updated legacy_to_vma_flags() to ensure upper bits are cleared for
+  NUM_VMA_FLAG_BITS > 64 as per Sashiko.
+* Updated legacy_to_vma_flags() to use vma_flags_overwrite_word() for
+  consistency.
+* Refreshed vma_flags_overwrite_word(), vma_flag_overwrite_word_once(),
+  vma_flags_set_word() and vma_flags_clear_word() in the VMA test dup.h
+  header to keep them consistent with the kernel.
+* Updated VMA_DATA_DEFAULT_FLAGS declaration on arm64 to be predicated on
+  CONFIG_ARM64_MTE as to whether VMA_MTE_ALLOWED_BIT is set, as per
+  Sashiko.
+* Fixed bug where the VMA did not have VMA_SOFTDIRTY_BIT set if
+  pgtable_supports_soft_dirty(), but rather the stack variable vma_flags,
+  as per Sashiko.
+* Corrected vmag -> vma typo in VMA test code as per Sashiko.
+* Fixed typo in 20/23 commit message 'correctly' -> 'correct' as per
+  Sashiko.
+* Fixed VMA flag clear tests to consistently do vma_clear_flags_mask(&vma,
+  mask) rather than vma_flags_clear_mask(&vma.flags, mask) as per Sashiko.
+* Added missing vma_start_write() in mseal_apply() as per Sahiko.
+
+v2:
+* Rebased on mm-unstable.
+* Added vma_flags_count() and vma[_flags]_test_single_mask() for testing
+  whether flags have a single flag set depending on an input flag mask,
+  returning false if the flag mask is empty.
+* Added tests for vma_flags_count() and vma[_flags]_test_single_mask().
+* Updated the KSM VMA_DROPPABLE test to use vma_flags_test_single_mask().
+* Updated the newly-introduced-since-rebase vma_supports_mlock() to use
+  vma_flags_t.
+https://lore.kernel.org/linux-mm/cover.1773665966.git.ljs@kernel.org/
+
+v1:
+https://lore.kernel.org/linux-mm/cover.1773342102.git.ljs@kernel.org/
+
+
+Lorenzo Stoakes (Oracle) (23):
+  mm/vma: add vma_flags_empty(), vma_flags_and(), vma_flags_diff_pair()
+  tools/testing/vma: add unit tests flag empty, diff_pair, and[_mask]
+  mm/vma: add further vma_flags_t unions
+  tools/testing/vma: convert bulk of test code to vma_flags_t
+  mm/vma: use new VMA flags for sticky flags logic
+  tools/testing/vma: fix VMA flag tests
+  mm/vma: add append_vma_flags() helper
+  tools/testing/vma: add simple test for append_vma_flags()
+  mm: unexport vm_brk_flags() and eliminate vm_flags parameter
+  mm/vma: introduce vma_flags_same[_mask/_pair]()
+  mm/vma: introduce [vma_flags,legacy]_to_[legacy,vma_flags]() helpers
+  tools/testing/vma: test that legacy flag helpers work correctly
+  mm/vma: introduce vma_test[_any[_mask]](), and make inlining
+    consistent
+  tools/testing/vma: update VMA flag tests to test vma_test[_any_mask]()
+  mm: introduce vma_flags_count() and vma[_flags]_test_single_mask()
+  tools/testing/vma: test vma_flags_count,vma[_flags]_test_single_mask
+  mm: convert do_brk_flags() to use vma_flags_t
+  mm: update vma_supports_mlock() to use new VMA flags
+  mm/vma: introduce vma_clear_flags[_mask]()
+  tools/testing/vma: update VMA tests to test vma_clear_flags[_mask]()
+  mm/vma: convert as much as we can in mm/vma.c to vma_flags_t
+  mm/vma: convert vma_modify_flags[_uffd]() to use vma_flags_t
+  mm/vma: convert __mmap_region() to use vma_flags_t
+
+ arch/arc/include/asm/page.h        |   2 +-
+ arch/arm/include/asm/page.h        |   2 +-
+ arch/arm64/include/asm/page.h      |   7 +-
+ arch/hexagon/include/asm/page.h    |   2 +-
+ arch/loongarch/include/asm/page.h  |   2 +-
+ arch/mips/include/asm/page.h       |   2 +-
+ arch/nios2/include/asm/page.h      |   2 +-
+ arch/powerpc/include/asm/page.h    |   4 +-
+ arch/powerpc/include/asm/page_32.h |   2 +-
+ arch/powerpc/include/asm/page_64.h |  12 +-
+ arch/riscv/include/asm/page.h      |   2 +-
+ arch/s390/include/asm/page.h       |   2 +-
+ arch/x86/include/asm/page_types.h  |   2 +-
+ arch/x86/um/asm/vm-flags.h         |   4 +-
+ fs/binfmt_elf.c                    |   3 +-
+ include/linux/ksm.h                |  10 +-
+ include/linux/mm.h                 | 328 ++++++++++++++++++++------
+ include/linux/mm_types.h           |  52 ++++-
+ include/linux/mman.h               |  49 ----
+ include/linux/userfaultfd_k.h      |   3 +
+ mm/internal.h                      |   7 +-
+ mm/ksm.c                           |  43 ++--
+ mm/madvise.c                       |  10 +-
+ mm/mlock.c                         |  38 +--
+ mm/mmap.c                          |  19 +-
+ mm/mprotect.c                      |  53 +++--
+ mm/mremap.c                        |   6 +-
+ mm/mseal.c                         |  11 +-
+ mm/userfaultfd.c                   |  21 +-
+ mm/vma.c                           | 211 ++++++++++-------
+ mm/vma.h                           |  86 ++++++-
+ mm/vma_exec.c                      |   5 +-
+ security/selinux/hooks.c           |   4 +-
+ tools/include/linux/bitmap.h       |  13 ++
+ tools/lib/bitmap.c                 |  10 +
+ tools/testing/vma/include/custom.h |  25 --
+ tools/testing/vma/include/dup.h    | 287 +++++++++++++++++------
+ tools/testing/vma/include/stubs.h  |  11 +-
+ tools/testing/vma/shared.c         |   8 +-
+ tools/testing/vma/shared.h         |  22 +-
+ tools/testing/vma/tests/merge.c    | 311 +++++++++++++------------
+ tools/testing/vma/tests/mmap.c     |  18 +-
+ tools/testing/vma/tests/vma.c      | 359 +++++++++++++++++++++++++----
+ tools/testing/vma/vma_internal.h   |   6 +
+ 44 files changed, 1435 insertions(+), 641 deletions(-)
+
+--
+2.53.0
