@@ -1,170 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C35336CDEB;
-	Wed, 18 Mar 2026 20:52:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB7D836B07C
+	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Mar 2026 20:52:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773867158; cv=none; b=m/5t9bhECYXyR57iZg9hcGnOM+mHrXwKEmSbzOFcXfHBbRMASxOlkh10nswASmUYveoH1yTHXb1t8S/CRW1qAszBnIVzcUiAs8ba4kJZ5W2z4yPRYWgWvJDulydd7dfcQXK8NWdqotrdUCUAdf+/2IsYz7knJLlz09UlhhiTPyg=
+	t=1773867173; cv=none; b=DWSoJJqf05skMMlWfrRCavdhHKzUQxEps+TkMMSaWp0wu4rNkP9UfmtnGG6lf+VvjZbBvYpqDeuy7qZZj+kZiFhJ0wxxW65h2pUJFlqgzl9ky2XYlfnK5bf3nSmtIPqPSzzZuRqUXBRIBCdVWSIwFhtB/J0+FOOLtamXVSDoYqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773867158; c=relaxed/simple;
-	bh=kbGM3c4xh2xtlPKItuu8b0plWdnAptUOEmkS13CYnz8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=khU+CvzlJ6E3i8P/yZqbQ78bHcQSp04efTuoG5gRRpqgKcpxagUxlPHjwfcJfqLGN9j/Nwo1IjJmDSrFWgchtAzkFvs2XSilLw2+C2+Ac6yn9DtJ6h8vS2fJJVsMaUNgOfAdIa/aUYzNUXOF6y41NAcw1QksAQKmKnaiCHHkjmY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k7zvu5MI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773867173; c=relaxed/simple;
+	bh=mMtydTJJoObTh0rxCcW8ZsBWYgk1fp5oVrq7nG3CiMw=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=XVKnmQAdeFq4BNdg+6vcwrBHK68coiaPFq0C+R+xaIBNWpY7zH8hdyOcxk7NqvYNQMIyJgYfcA61SJyJA/XKmMNYXgdniomPONVJSuLR3WzZizl2dXJpUYJG3ddmdxQEY/A6VwWyCnVOEShp7rLym4/JELCohrmqJCpHUv+s1ok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=sbtUk6MA; arc=none smtp.client-ip=195.121.94.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k7zvu5MI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2EF7BC19421;
-	Wed, 18 Mar 2026 20:52:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773867157;
-	bh=kbGM3c4xh2xtlPKItuu8b0plWdnAptUOEmkS13CYnz8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=k7zvu5MIc5CYIGmjWx+P+mS8/hs2GooJWHfXhDPqFeWyum4sz6NQ2neYQyXlUtlCv
-	 SOoz9lLS4EQYDGViVf0oRa8oUQ4wZWHCy5DjVMkrRZlzhDZfSxX8btIRC6pKKcZtqq
-	 HqFvYKZdPu6NZcu/RPV8yxBpMtnFC8Ki3vcf/rOBJrcG5AcAzdMR2gnTomxyf7IP8H
-	 zHZMPsz/wlq4Amx6dQtpM7EHwIuIilXwCtH35+nfGyIdYuPry8qYRVdyy1g3sS3ITk
-	 esmcmpAq0Qm7xqoPTPtpTIaBIFFTr4xbzEGttviQsDf6G2SgDxhQSQi5C5yhB9KCwG
-	 yOFQuYZFuGWzw==
-From: Mike Rapoport <rppt@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Alexander Potapenko <glider@google.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andreas Larsson <andreas@gaisler.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Borislav Petkov <bp@alien8.de>,
-	Brendan Jackman <jackmanb@google.com>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="sbtUk6MA"
+X-KPN-MessageId: 451f54fa-230c-11f1-afd7-005056994fde
+Received: from mta.kpnmail.nl (unknown [10.31.161.189])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id 451f54fa-230c-11f1-afd7-005056994fde;
+	Wed, 18 Mar 2026 21:51:43 +0100 (CET)
+Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.189])
+	by mta.kpnmail.nl (Halon) with ESMTP
+	id 451e688d-230c-11f1-b5cf-0050569981f5;
+	Wed, 18 Mar 2026 21:51:43 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:mime-version:subject:message-id:to:from:date;
+	bh=tR7qU3zteipoUj5hydal9307UfYU1ji6my1BuQgCWFo=;
+	b=sbtUk6MAitkv2s9gA2XFjIsXhQ4OBiB37vo6EgeEyA/6sW+KhGrt05DuqHNc0qsuT13OXNrY4PHo+
+	 sYhqlRYBzfsnWOede7a6eyjBlSggvhr6YvwzxHFa4/rpU4k9PN8jBD8Ak4eSdxWeAgJFJyTNBdFKJY
+	 2Fk3HrwYHgbysYK20X7av5GzBqrV8aAfGsCqoTo8Gz5Je+czfYVne8DM4pDRGfQ5bRJfd5Vckl8x9A
+	 5wXxQHTrGuMOy0X6llMhTZydFNXbfviasYR4VPE8lI8sXNzsLKNI/qBXsRObCehAAbsihtRwKvNE3v
+	 dUKRnI1wWbmkPentQyaZUz1jSQzvruA==
+X-KPN-MID: 33|QAdcTb6Jcz6IgqABjYOfwOZE+YFuBvdhYiJFixWHlBtKhf5IJRlRjm0f+fw3NUg
+ TXhcgC4F4I2+S14/JsUUtk+U3DO8Tr6qpt3fT02hpzSk=
+X-CMASSUN: 33|kxfIXPBI3bGbZsbwpVeHW4GsKB/jkV3G2q47QXfsIRH0xUc0cD4cs1rExpMBXkm
+ MDEOo2C3wK19R43/HCGtYlg==
+X-KPN-VerifiedSender: Yes
+Received: from cpxoxapps-mh01 (cpxoxapps-mh01.personalcloud.so.kpn.org [10.128.135.207])
+	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
+	id 4518c3db-230c-11f1-94b1-00505699eff2;
+	Wed, 18 Mar 2026 21:51:43 +0100 (CET)
+Date: Wed, 18 Mar 2026 21:51:43 +0100 (CET)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Jan Kara <jack@suse.cz>
+Cc: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
 	Christian Brauner <brauner@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	David Hildenbrand <david@kernel.org>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Jan Kara <jack@suse.cz>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Marco Elver <elver@google.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Michal Hocko <mhocko@suse.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Rob Herring <robh@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Will Deacon <will@kernel.org>,
-	Zi Yan <ziy@nvidia.com>,
-	devicetree@vger.kernel.org,
-	iommu@lists.linux.dev,
-	kasan-dev@googlegroups.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-efi@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-trace-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	sparclinux@vger.kernel.org,
-	x86@kernel.org
-Subject: [PATCH 9/8] memblock tests: add stubs required for free_reserved_area()
-Date: Wed, 18 Mar 2026 22:52:21 +0200
-Message-ID: <20260318205221.1402161-1-rppt@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260318105827.1358927-1-rppt@kernel.org>
-References: <20260318105827.1358927-1-rppt@kernel.org>
+	Al Viro <viro@zeniv.linux.org.uk>
+Message-ID: <2095030362.2263405.1773867103100@kpc.webmail.kpnmail.nl>
+In-Reply-To: <pjfdjimwb3br5wtut4a5q4xdys2mgf2d3hkajvinyphhoziaum@u55pnnlrfmgz>
+References: <1046306323.1691628.1773494663411@kpc.webmail.kpnmail.nl>
+ <pjfdjimwb3br5wtut4a5q4xdys2mgf2d3hkajvinyphhoziaum@u55pnnlrfmgz>
+Subject: Re: VFS minor improvements policy
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
 
-From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
 
-After moving free_reserved_area() function to mm/memblock.c memblock
-tests lack stubs for several functions and macros this function calls.
+> Op 17-03-2026 09:31 CET schreef Jan Kara <jack@suse.cz>:
+> 
+> I guess this is a bit matter of personal preference. I personally would
+> prefer explicitely named enum in this case and use it where appropriate but
+> Al? apparently preferred brewity and used 'int' everywhere. The borderline
+> between "useless typedefs" and "documentation by types" is blurry. I'd say
+> trying to "fix" this would do more harm than good.
+> 
 
-Add them.
+I understand. I've been traveling a bit through namei.c and open.c, and I come
+across quite some things I think may not be quite right. However, I also understand
+that I am an idiot, and so it is hard sometimes to judge what to send in :)
 
-Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
----
- tools/include/linux/mm.h          |  1 +
- tools/testing/memblock/internal.h | 28 +++++++++++++++++++++++++---
- 2 files changed, 26 insertions(+), 3 deletions(-)
+For instance, I am quite positive that there is some dead code in the fd allocation
+slow path. And I've been puzzled the last two days about nd->depth, and if it can
+even ever be > 1. I try sometimes to spar with Claude, but you can just never rely on
+it. Just bear with me, and I apologize in advance if I ever send in something silly.
+I am just trying to learn.
 
-diff --git a/tools/include/linux/mm.h b/tools/include/linux/mm.h
-index 028f3faf46e7..4407d8396108 100644
---- a/tools/include/linux/mm.h
-+++ b/tools/include/linux/mm.h
-@@ -17,6 +17,7 @@
- 
- #define __va(x) ((void *)((unsigned long)(x)))
- #define __pa(x) ((unsigned long)(x))
-+#define __pa_symbol(x) ((unsigned long)(x))
- 
- #define pfn_to_page(pfn) ((void *)((pfn) * PAGE_SIZE))
- 
-diff --git a/tools/testing/memblock/internal.h b/tools/testing/memblock/internal.h
-index 009b97bbdd22..7ff61172ab24 100644
---- a/tools/testing/memblock/internal.h
-+++ b/tools/testing/memblock/internal.h
-@@ -11,9 +11,16 @@ static int memblock_debug = 1;
- 
- #define pr_warn_ratelimited(fmt, ...)    printf(fmt, ##__VA_ARGS__)
- 
-+#define K(x) ((x) << (PAGE_SHIFT-10))
-+
- bool mirrored_kernelcore = false;
- 
- struct page {};
-+static inline void *page_address(struct page *page)
-+{
-+	BUG();
-+	return page;
-+}
- 
- void memblock_free_pages(unsigned long pfn, unsigned int order)
- {
-@@ -23,10 +30,25 @@ static inline void accept_memory(phys_addr_t start, unsigned long size)
- {
- }
- 
--static inline unsigned long free_reserved_area(void *start, void *end,
--					       int poison, const char *s)
-+unsigned long free_reserved_area(void *start, void *end, int poison, const char *s);
-+void free_reserved_page(struct page *page);
-+
-+static inline bool deferred_pages_enabled(void)
-+{
-+	return false;
-+}
-+
-+#define for_each_valid_pfn(pfn, start_pfn, end_pfn)			 \
-+	for ((pfn) = (start_pfn); (pfn) < (end_pfn); (pfn)++)
-+
-+static inline void *kasan_reset_tag(const void *addr)
-+{
-+	return (void *)addr;
-+}
-+
-+static inline bool __is_kernel(unsigned long addr)
- {
--	return 0;
-+	return false;
- }
- 
- #endif
--- 
-2.51.0
+> 
+> If the documentation / comment is pointless or even wrong, that's
+> definitely worth a fix. They are just not treated with particularly high
+> priority but they are definitely needed.
+> 
 
+Noted.
+
+Thanks,
+Jori.
+
+> 								Honza
+> -- 
+> Jan Kara <jack@suse.com>
+> SUSE Labs, CR
