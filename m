@@ -1,170 +1,479 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFE823D6CC6;
-	Wed, 18 Mar 2026 12:41:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 958863D7D74
+	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Mar 2026 13:13:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773837680; cv=none; b=UUeMlWk/Z9darYKLGbaktZPnAcx9H8lcExJisayhTWpxkd95eLlTcvioeTEj/ZQhf4DRsGAKOY7rik3fkkRnoiXyaoE8y18Sepw7FxTl6dW9YyNI4XBFLXrLM/85c0jDgP9DkgMTGostth7B9Nnsr0ayIIvVU+XNcSo298pr8X4=
+	t=1773839584; cv=none; b=gDwZiUq1biq++GHH7BofTOtzOqmuyn3bluYEp3z7/M35JdCoYNH7lMpW3nSzHaHhDXj2EO1Ak+XxWeQJNhiIt4c3RdRYBCBWZWgipuQBx4oICHqgzkqiDocl6L4glYpgkw+E5KXWuJegtpEBnFg42KyAQNbDwz+T6U7fREyhQvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773837680; c=relaxed/simple;
-	bh=3cVeNY+pQvT7y9XfiCK6KuJy6FGGhon85ayumpItLTU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=L4TvFFtVPZA96x2MZsGmS2G7BIy2kGP5z2AQuL1XTeHGlCIwpwjXkpgcvMeki/2fvoDZEvXn4aOiwRsHKcN0hfNAI96Ch6yH2jfYycRnV2z2W3lBmRFavfq1FPOrvUTnX9JXaHUekYj/h3WH8cOeEr1W0k1CgbbWOlMCJenE2Eg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OYbuI4Mi; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773839584; c=relaxed/simple;
+	bh=0IA0+TJ+RKjtQhJBfCkHA3ggeX7HGJOg8E13KTMAdbE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Q0HZRwBJB0g6pg1ekPup9FE0U42+z3bVoDZWWNyx77kcZ9FBMX4ZNRUk1eOvyAQMSVYn1mlVFvp7a0vrdvGUn6NEMV5ofrZ/SarcWUFiMLaQdlGupyr7J835ySjVwrTlDNHFF5WhrMMs/x/nVAJPljsV95G5c2QqXVCxGeyMC7g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TIaesU41; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OYbuI4Mi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16E1CC19421;
-	Wed, 18 Mar 2026 12:41:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773837680;
-	bh=3cVeNY+pQvT7y9XfiCK6KuJy6FGGhon85ayumpItLTU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=OYbuI4Mi7c5qsUy/G/ZYGrvOHFCTW/szfFBZDvDH5aP8kIIRGZbUSLe3/qhHSrc/Y
-	 41rmRqo4gXjwtcd2pIfDtDknzJR/xDeA+GOJXyeDS1IBuazpueGcf+FqLyyKCVAiGH
-	 FA6ikYq18iYHNxP26mEdGY87syEk0AhR9k3CgUR/3F7Njsz+gc+bdyfihYE2u5XssX
-	 vgV7L7EjIhROfN0YidaQoPfiknxjUtXy9WkAZUlfT9zyCwW254gDon8u0nSJV4vCLz
-	 b2Um5Mc5dec1zf/Povf0u+Gh4REpE7RGbho1tXzu40Rz4eU5kxTb8mNQnrx8/CruWb
-	 24sGJW49WJBXQ==
-Message-ID: <b0f969c8-b227-40e9-946f-89748145a220@kernel.org>
-Date: Wed, 18 Mar 2026 13:41:11 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TIaesU41"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-b97e5956208so185164466b.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 18 Mar 2026 06:13:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773839581; x=1774444381; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=b/7hSXXq5I5tQDMuUzkqP7+YK2PRj0uGUtwNTKJSrfA=;
+        b=TIaesU41JaX3ub9QSHgWebj8lmftbMRPfSWUDuZBsd/M2+0NZyscXo+gEjqMiYVzYg
+         NgMKMGFwiQFHClLxQelMzY++93viPw7WDEyg/Jns8/6KKfSd4iYmDtnjRjH56Z4eUTkT
+         l0jOB9u+GOpctuoNHLUd8GJ+Bm1ospS5KnvP1kcQ8bv3zdXdcX2vQfpzftMosV+tJAGb
+         hy0i4bED+N60WZb9yCycgf5CFX8iIlG1G3CQl80VSAA03Q8xnB+OC3KQ8u0bT53cnH/L
+         4BzDYKDdQmI+A2z9U6Lbxg8F1nvSjd7XhxCmL8zF3DG8TTgeQF8pruyMeVnBFYpnqCsy
+         WrVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773839581; x=1774444381;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=b/7hSXXq5I5tQDMuUzkqP7+YK2PRj0uGUtwNTKJSrfA=;
+        b=P3tBGxoshtum9dcLSLkYI14FGNpbyEeuwX6Qc9s+nLoPves6Vvnow3F8taQ2SJCoI1
+         27oBc8NiPiEzm07vWr1ufTmgTenmt6Hqehu5rCvqm9Cq3PBh69phMdDwdc3VHFSLu4c4
+         cNXOTsZvwQl0iVS/joxwMHJ18J69YQN9avyRWVxCrHDsAuDWqCATVjUq/VyqMLb/Z9aX
+         VTp4ARSbVdknThY6r93wGgJk8o5bYaI5jLIE6u7HBLpd61X6I79KNoxXKqbRqQzYUcm2
+         GGPjWUpXlfDylFabGgDF+K1Vj9CS2U2xOosyn7adh8af34LgN9nFu1LmEkwjUGtbuqSd
+         jm7g==
+X-Forwarded-Encrypted: i=1; AJvYcCUop5gtRw1Kei4zkmUhNa1JCntWUw8AffiVvZDe2zIjocISAVMDuwsMifRZPYL96XAjnV9tRO9gnyUSpeZ8@vger.kernel.org
+X-Gm-Message-State: AOJu0YzhXaUkQTQTdrpgExEGm+mGAwFi8UILpnyVJ1RfKChC9/BOLhO8
+	QIj8/8Hu4mSabs4Z4/7Z+J0esXOnSadepHgoi1kzHXpseK4CeGx5w2Fz
+X-Gm-Gg: ATEYQzx8r91LlMQbwNjMR7MlhWWE43KADYuryThoYCqkFyQxC3ySOILBMTkR+0RnIHB
+	sEbw1ZqJ6Z0IT1ZIaJWIePCVxNIrneJ644qJyIyIaH43WfL2yyP915R8xKoD4/VnBKb+55YSsAn
+	WmMRXwL3GGtIfl4kcyQuSz4qHCISPo8QXfnTqs8jFL/cQ02o0WgnrrzSw3WpU/o3D3oyslOw3LW
+	mH0gNndPl6MUybenRHaUyKM8KyWQlQx94UXxud+oxkEsROKJ3SWzeEsx7bjV8Pi6whQSo0YcuUw
+	EciocOZlCPmCZ1tk5+bsDsEk6KXxfO4IzBXzwoGsprHcHHYeWqm3p0/gHL29X78fdGPp8iXHHRx
+	9iugMhj5j4gnc9QPNEPGBswnEtfJdztOZvAXQkPn37KymRKb8X+Z6vBpvek37Jn7V1Vf8WQzezF
+	Cjdj7bOQdDxlpEnkDsz4H/PabSQfOUPOBFaulMSSMivdGK1MbPs5Jtiu0OMywFqikb1dEr4lpyx
+	neex1UV0O6Yjjt6uJB++aggdeE=
+X-Received: by 2002:a17:907:3d52:b0:b97:698d:1e with SMTP id a640c23a62f3a-b97f4971d9dmr181381766b.35.1773839580063;
+        Wed, 18 Mar 2026 06:13:00 -0700 (PDT)
+Received: from localhost (2001-1c00-570d-ee00-0520-bd43-ec36-d135.cable.dynamic.v6.ziggo.nl. [2001:1c00:570d:ee00:520:bd43:ec36:d135])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b97f16d3380sm216163566b.42.2026.03.18.06.12.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Mar 2026 06:12:59 -0700 (PDT)
+From: Amir Goldstein <amir73il@gmail.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Miklos Szeredi <miklos@szeredi.hu>,
+	Paul Moore <paul@paul-moore.com>,
+	Gao Xiang <xiang@kernel.org>,
+	linux-security-module@vger.kernel.org,
+	selinux@vger.kernel.org,
+	linux-erofs@lists.ozlabs.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-unionfs@vger.kernel.org
+Subject: [PATCH v6] backing_file: store user_path_file
+Date: Wed, 18 Mar 2026 14:12:58 +0100
+Message-ID: <20260318131258.1457101-1-amir73il@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/4] arm64/mm: contpte-sized exec folios for 16K and 64K
- pages
-To: Usama Arif <usama.arif@linux.dev>,
- Andrew Morton <akpm@linux-foundation.org>, ryan.roberts@arm.com
-Cc: ajd@linux.ibm.com, anshuman.khandual@arm.com, apopple@nvidia.com,
- baohua@kernel.org, baolin.wang@linux.alibaba.com, brauner@kernel.org,
- catalin.marinas@arm.com, dev.jain@arm.com, jack@suse.cz, kees@kernel.org,
- kevin.brodsky@arm.com, lance.yang@linux.dev, Liam.Howlett@oracle.com,
- linux-arm-kernel@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- lorenzo.stoakes@oracle.com, npache@redhat.com, rmclure@linux.ibm.com,
- Al Viro <viro@zeniv.linux.org.uk>, will@kernel.org, willy@infradead.org,
- ziy@nvidia.com, hannes@cmpxchg.org, kas@kernel.org, shakeel.butt@linux.dev,
- kernel-team@meta.com, WANG Rui <r@hev.cc>
-References: <20260310145406.3073394-1-usama.arif@linux.dev>
- <608c87ce-10d9-4012-b6e9-298d5a356801@kernel.org>
- <9e9edebb-3953-4bcd-80e2-614dcec5b402@linux.dev>
- <be65e710-997c-413c-8455-2d687fc51fc6@kernel.org>
- <562fb349-c2d2-4fbe-83f9-75c26cc4b7ae@linux.dev>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <562fb349-c2d2-4fbe-83f9-75c26cc4b7ae@linux.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 3/18/26 11:41, Usama Arif wrote:
-> 
-> 
-> On 16/03/2026 19:06, David Hildenbrand (Arm) wrote:
->> On 3/13/26 20:59, Usama Arif wrote:
->>>
->>>
->>>
->>> So I see 2 benefits from this. Page fault and iTLB coverage. IMHO page
->>> faults are not that big of a deal? If the text section is hot, it wont
->>> get flushed after faulting in. So the real benefit comes from improved
->>> iTLB coverage.
->>>
->>> For a 128M mapping, 2M alignment gives 64 contpte entries. Aligning
->>> to something larger (say 128M) wouldn't give any additional TLB
->>> coalescing, each 2M-aligned region independently qualifies for contpte.
->>>
->>> Mappings smaller than 2M can't benefit from contpte regardless of
->>> alignment, so falling back to PAGE_SIZE would be the optimal behaviour.
->>> Adding intermediate sizes (e.g. 512K, 128K) wouldn't map to any
->>> hardware boundary and adds complexity without TLB benefit?
->>
->> I might be wrong, but I think you are mixing two things here:
->>
->> (1) "Minimum" folio size (exec_folio_order())
->>
->> (2) VMA alignment.
->>
->>
->> (2) should certainly be as large as (1), but assume we can get a 2M
->> folio on arm64 4k, why shouldn't we align it to 2M if the region is
->> reasonably sized, and use a PMD?
->>
->>
-> 
-> So this series is tackling both (1) and (2). When I started making changes
-> to the code, what I wanted was 2M folios at fault with 64K base page size
-> to reduce iTLB misses. This is what patch 1 (and 2) will achieve.
-> 
-> Yes, completely agree, (2) should be as large as (1). I didn't think about
-> PMD size on 4K which you pointed out. do_sync_mmap_readahead can give
-> that with force_thp_readahead, so this should be supported.
+Instead of storing the user_path, store an O_PATH file for the
+user_path with the original user file creds and a security context.
 
-In particular, imagine if hw starts optimizing transparently on other
-granularity, then the "smallest granularity" (exec_folio_order())
-decision will soon be wrong.
+The user_path_file is only exported as a const pointer and its refcnt
+is initialized to FILE_REF_DEAD, because it is not a refcounted object.
 
-> 
-> But we shouldn't align to PMD size for all base page sizes. As Rui pointed
-> out, increasing alignment size reduces ASLR entropy [1]. Should we max alignement
-> to 2M?
+The file_ref_init() helper was changed to accept the FILE_REF_ constant
+instead of the fake +1 integer count.
 
-That's why I said that likely, as an input, we'd want to use the mapping
-size or other heuristics.
+Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+---
 
-We wouldn't want to align a 4k mapping to either 64k or 2M.
+Christian,
 
-Long story short: the change in thp_get_unmapped_area_vmflags() needs
-some thought IMHO.
+My v5 patch was sent by Paul along with his LSM/selinux pataches [1].
+Here are the changes you requested.
 
+I removed the ACKs and Tested-by because of the changes.
+
+Thanks,
+Amir.
+
+Changes since v5:
+- Restore file_ref_init() helper without refcnt -1 offset
+- Future proofing errors from backing_file_open_user_path()
+
+[1] https://lore.kernel.org/r/20260316213606.374109-6-paul@paul-moore.com/
+
+ fs/backing-file.c            | 26 ++++++++++--------
+ fs/erofs/ishare.c            | 13 +++++++--
+ fs/file_table.c              | 53 ++++++++++++++++++++++++++++--------
+ fs/fuse/passthrough.c        |  3 +-
+ fs/internal.h                |  5 ++--
+ fs/overlayfs/dir.c           |  3 +-
+ fs/overlayfs/file.c          |  1 +
+ include/linux/backing-file.h | 29 ++++++++++++++++++--
+ include/linux/file_ref.h     |  4 +--
+ 9 files changed, 103 insertions(+), 34 deletions(-)
+
+diff --git a/fs/backing-file.c b/fs/backing-file.c
+index 45da8600d5644..271ff27521063 100644
+--- a/fs/backing-file.c
++++ b/fs/backing-file.c
+@@ -11,6 +11,7 @@
+ #include <linux/fs.h>
+ #include <linux/backing-file.h>
+ #include <linux/splice.h>
++#include <linux/uio.h>
+ #include <linux/mm.h>
+ 
+ #include "internal.h"
+@@ -18,9 +19,10 @@
+ /**
+  * backing_file_open - open a backing file for kernel internal use
+  * @user_path:	path that the user reuqested to open
++ * @user_cred:	credentials that the user used for open
+  * @flags:	open flags
+  * @real_path:	path of the backing file
+- * @cred:	credentials for open
++ * @cred:	credentials for open of the backing file
+  *
+  * Open a backing file for a stackable filesystem (e.g., overlayfs).
+  * @user_path may be on the stackable filesystem and @real_path on the
+@@ -29,20 +31,21 @@
+  * returned file into a container structure that also stores the stacked
+  * file's path, which can be retrieved using backing_file_user_path().
+  */
+-struct file *backing_file_open(const struct path *user_path, int flags,
++struct file *backing_file_open(const struct path *user_path,
++			       const struct cred *user_cred, int flags,
+ 			       const struct path *real_path,
+ 			       const struct cred *cred)
+ {
+ 	struct file *f;
+ 	int error;
+ 
+-	f = alloc_empty_backing_file(flags, cred);
++	f = alloc_empty_backing_file(flags, cred, user_cred);
+ 	if (IS_ERR(f))
+ 		return f;
+ 
+-	path_get(user_path);
+-	backing_file_set_user_path(f, user_path);
+-	error = vfs_open(real_path, f);
++	error = backing_file_open_user_path(f, user_path);
++	if (!error)
++		error = vfs_open(real_path, f);
+ 	if (error) {
+ 		fput(f);
+ 		f = ERR_PTR(error);
+@@ -52,7 +55,8 @@ struct file *backing_file_open(const struct path *user_path, int flags,
+ }
+ EXPORT_SYMBOL_GPL(backing_file_open);
+ 
+-struct file *backing_tmpfile_open(const struct path *user_path, int flags,
++struct file *backing_tmpfile_open(const struct path *user_path,
++				  const struct cred *user_cred, int flags,
+ 				  const struct path *real_parentpath,
+ 				  umode_t mode, const struct cred *cred)
+ {
+@@ -60,13 +64,13 @@ struct file *backing_tmpfile_open(const struct path *user_path, int flags,
+ 	struct file *f;
+ 	int error;
+ 
+-	f = alloc_empty_backing_file(flags, cred);
++	f = alloc_empty_backing_file(flags, cred, user_cred);
+ 	if (IS_ERR(f))
+ 		return f;
+ 
+-	path_get(user_path);
+-	backing_file_set_user_path(f, user_path);
+-	error = vfs_tmpfile(real_idmap, real_parentpath, f, mode);
++	error = backing_file_open_user_path(f, user_path);
++	if (!error)
++		error = vfs_tmpfile(real_idmap, real_parentpath, f, mode);
+ 	if (error) {
+ 		fput(f);
+ 		f = ERR_PTR(error);
+diff --git a/fs/erofs/ishare.c b/fs/erofs/ishare.c
+index 829d50d5c717d..f3a5fb0bffaf0 100644
+--- a/fs/erofs/ishare.c
++++ b/fs/erofs/ishare.c
+@@ -103,18 +103,25 @@ static int erofs_ishare_file_open(struct inode *inode, struct file *file)
+ {
+ 	struct inode *sharedinode = EROFS_I(inode)->sharedinode;
+ 	struct file *realfile;
++	int err;
+ 
+ 	if (file->f_flags & O_DIRECT)
+ 		return -EINVAL;
+-	realfile = alloc_empty_backing_file(O_RDONLY|O_NOATIME, current_cred());
++	realfile = alloc_empty_backing_file(O_RDONLY|O_NOATIME, current_cred(),
++					    file->f_cred);
+ 	if (IS_ERR(realfile))
+ 		return PTR_ERR(realfile);
++
++	err = backing_file_open_user_path(realfile, &file->f_path);
++	if (err) {
++		fput(realfile);
++		return err;
++	}
++
+ 	ihold(sharedinode);
+ 	realfile->f_op = &erofs_file_fops;
+ 	realfile->f_inode = sharedinode;
+ 	realfile->f_mapping = sharedinode->i_mapping;
+-	path_get(&file->f_path);
+-	backing_file_set_user_path(realfile, &file->f_path);
+ 
+ 	file_ra_state_init(&realfile->f_ra, file->f_mapping);
+ 	realfile->private_data = EROFS_I(inode);
+diff --git a/fs/file_table.c b/fs/file_table.c
+index aaa5faaace1e9..e8b4eb2bbff85 100644
+--- a/fs/file_table.c
++++ b/fs/file_table.c
+@@ -27,6 +27,7 @@
+ #include <linux/task_work.h>
+ #include <linux/swap.h>
+ #include <linux/kmemleak.h>
++#include <linux/backing-file.h>
+ 
+ #include <linux/atomic.h>
+ 
+@@ -43,11 +44,11 @@ static struct kmem_cache *bfilp_cachep __ro_after_init;
+ 
+ static struct percpu_counter nr_files __cacheline_aligned_in_smp;
+ 
+-/* Container for backing file with optional user path */
++/* Container for backing file with optional user path file */
+ struct backing_file {
+ 	struct file file;
+ 	union {
+-		struct path user_path;
++		struct file user_path_file;
+ 		freeptr_t bf_freeptr;
+ 	};
+ };
+@@ -56,24 +57,44 @@ struct backing_file {
+ 
+ const struct path *backing_file_user_path(const struct file *f)
+ {
+-	return &backing_file(f)->user_path;
++	return &backing_file(f)->user_path_file.f_path;
+ }
+ EXPORT_SYMBOL_GPL(backing_file_user_path);
+ 
+-void backing_file_set_user_path(struct file *f, const struct path *path)
++const struct file *backing_file_user_path_file(const struct file *f)
+ {
+-	backing_file(f)->user_path = *path;
++	return &backing_file(f)->user_path_file;
+ }
+-EXPORT_SYMBOL_GPL(backing_file_set_user_path);
++EXPORT_SYMBOL_GPL(backing_file_user_path_file);
+ 
+-static inline void file_free(struct file *f)
++int backing_file_open_user_path(struct file *f, const struct path *path)
++{
++	/* open an O_PATH file to reference the user path - should not fail */
++	return WARN_ON(vfs_open(path, &backing_file(f)->user_path_file));
++}
++EXPORT_SYMBOL_GPL(backing_file_open_user_path);
++
++static void destroy_file(struct file *f)
+ {
+ 	security_file_free(f);
++	put_cred(f->f_cred);
++}
++
++static inline void file_free(struct file *f)
++{
++	destroy_file(f);
+ 	if (likely(!(f->f_mode & FMODE_NOACCOUNT)))
+ 		percpu_counter_dec(&nr_files);
+-	put_cred(f->f_cred);
+ 	if (unlikely(f->f_mode & FMODE_BACKING)) {
+-		path_put(backing_file_user_path(f));
++		struct file *user_path_file = &backing_file(f)->user_path_file;
++
++		/*
++		 * no refcount on the user_path_file - they die together,
++		 * so __fput() is not called for user_path_file. path_put()
++		 * is the only relevant cleanup from __fput().
++		 */
++		destroy_file(user_path_file);
++		path_put(&user_path_file->__f_path);
+ 		kmem_cache_free(bfilp_cachep, backing_file(f));
+ 	} else {
+ 		kmem_cache_free(filp_cachep, f);
+@@ -201,7 +222,7 @@ static int init_file(struct file *f, int flags, const struct cred *cred)
+ 	 * fget-rcu pattern users need to be able to handle spurious
+ 	 * refcount bumps we should reinitialize the reused file first.
+ 	 */
+-	file_ref_init(&f->f_ref, 1);
++	file_ref_init(&f->f_ref, FILE_REF_ONEREF);
+ 	return 0;
+ }
+ 
+@@ -290,7 +311,8 @@ struct file *alloc_empty_file_noaccount(int flags, const struct cred *cred)
+  * This is only for kernel internal use, and the allocate file must not be
+  * installed into file tables or such.
+  */
+-struct file *alloc_empty_backing_file(int flags, const struct cred *cred)
++struct file *alloc_empty_backing_file(int flags, const struct cred *cred,
++				      const struct cred *user_cred)
+ {
+ 	struct backing_file *ff;
+ 	int error;
+@@ -305,6 +327,15 @@ struct file *alloc_empty_backing_file(int flags, const struct cred *cred)
+ 		return ERR_PTR(error);
+ 	}
+ 
++	error = init_file(&ff->user_path_file, O_PATH, user_cred);
++	/* user_path_file is not refcounterd - it dies with the backing file */
++	file_ref_init(&ff->user_path_file.f_ref, FILE_REF_DEAD);
++	if (unlikely(error)) {
++		destroy_file(&ff->file);
++		kmem_cache_free(bfilp_cachep, ff);
++		return ERR_PTR(error);
++	}
++
+ 	ff->file.f_mode |= FMODE_BACKING | FMODE_NOACCOUNT;
+ 	return &ff->file;
+ }
+diff --git a/fs/fuse/passthrough.c b/fs/fuse/passthrough.c
+index 72de97c03d0ee..60018c6359342 100644
+--- a/fs/fuse/passthrough.c
++++ b/fs/fuse/passthrough.c
+@@ -10,6 +10,7 @@
+ #include <linux/file.h>
+ #include <linux/backing-file.h>
+ #include <linux/splice.h>
++#include <linux/uio.h>
+ 
+ static void fuse_file_accessed(struct file *file)
+ {
+@@ -167,7 +168,7 @@ struct fuse_backing *fuse_passthrough_open(struct file *file, int backing_id)
+ 		goto out;
+ 
+ 	/* Allocate backing file per fuse file to store fuse path */
+-	backing_file = backing_file_open(&file->f_path, file->f_flags,
++	backing_file = backing_file_open(&file->f_path, file->f_cred, file->f_flags,
+ 					 &fb->file->f_path, fb->cred);
+ 	err = PTR_ERR(backing_file);
+ 	if (IS_ERR(backing_file)) {
+diff --git a/fs/internal.h b/fs/internal.h
+index cbc384a1aa096..7c44a58627ba3 100644
+--- a/fs/internal.h
++++ b/fs/internal.h
+@@ -106,8 +106,9 @@ extern void chroot_fs_refs(const struct path *, const struct path *);
+  */
+ struct file *alloc_empty_file(int flags, const struct cred *cred);
+ struct file *alloc_empty_file_noaccount(int flags, const struct cred *cred);
+-struct file *alloc_empty_backing_file(int flags, const struct cred *cred);
+-void backing_file_set_user_path(struct file *f, const struct path *path);
++struct file *alloc_empty_backing_file(int flags, const struct cred *cred,
++				      const struct cred *user_cred);
++int backing_file_open_user_path(struct file *f, const struct path *path);
+ 
+ static inline void file_put_write_access(struct file *file)
+ {
+diff --git a/fs/overlayfs/dir.c b/fs/overlayfs/dir.c
+index 8c0a3d876fef1..5fd32ccc134d2 100644
+--- a/fs/overlayfs/dir.c
++++ b/fs/overlayfs/dir.c
+@@ -1389,7 +1389,8 @@ static int ovl_create_tmpfile(struct file *file, struct dentry *dentry,
+ 				return PTR_ERR(cred);
+ 
+ 			ovl_path_upper(dentry->d_parent, &realparentpath);
+-			realfile = backing_tmpfile_open(&file->f_path, flags, &realparentpath,
++			realfile = backing_tmpfile_open(&file->f_path, file->f_cred,
++							flags, &realparentpath,
+ 							mode, current_cred());
+ 			err = PTR_ERR_OR_ZERO(realfile);
+ 			pr_debug("tmpfile/open(%pd2, 0%o) = %i\n", realparentpath.dentry, mode, err);
+diff --git a/fs/overlayfs/file.c b/fs/overlayfs/file.c
+index 97bed2286030d..767c128407fcc 100644
+--- a/fs/overlayfs/file.c
++++ b/fs/overlayfs/file.c
+@@ -49,6 +49,7 @@ static struct file *ovl_open_realfile(const struct file *file,
+ 				flags &= ~O_NOATIME;
+ 
+ 			realfile = backing_file_open(file_user_path(file),
++						     file_user_cred(file),
+ 						     flags, realpath, current_cred());
+ 		}
+ 	}
+diff --git a/include/linux/backing-file.h b/include/linux/backing-file.h
+index 1476a6ed1bfd7..8afba93f3ce07 100644
+--- a/include/linux/backing-file.h
++++ b/include/linux/backing-file.h
+@@ -9,19 +9,42 @@
+ #define _LINUX_BACKING_FILE_H
+ 
+ #include <linux/file.h>
+-#include <linux/uio.h>
+ #include <linux/fs.h>
+ 
++/*
++ * When mmapping a file on a stackable filesystem (e.g., overlayfs), the file
++ * stored in ->vm_file is a backing file whose f_inode is on the underlying
++ * filesystem.
++ *
++ * LSM can use file_user_path_file() to store context related to the user path
++ * that was opened and mmaped.
++ */
++const struct file *backing_file_user_path_file(const struct file *f);
++
++static inline const struct file *file_user_path_file(const struct file *f)
++{
++	if (f && unlikely(f->f_mode & FMODE_BACKING))
++		return backing_file_user_path_file(f);
++	return f;
++}
++
++static inline const struct cred *file_user_cred(const struct file *f)
++{
++	return file_user_path_file(f)->f_cred;
++}
++
+ struct backing_file_ctx {
+ 	const struct cred *cred;
+ 	void (*accessed)(struct file *file);
+ 	void (*end_write)(struct kiocb *iocb, ssize_t);
+ };
+ 
+-struct file *backing_file_open(const struct path *user_path, int flags,
++struct file *backing_file_open(const struct path *user_path,
++			       const struct cred *user_cred, int flags,
+ 			       const struct path *real_path,
+ 			       const struct cred *cred);
+-struct file *backing_tmpfile_open(const struct path *user_path, int flags,
++struct file *backing_tmpfile_open(const struct path *user_path,
++				  const struct cred *user_cred, int flags,
+ 				  const struct path *real_parentpath,
+ 				  umode_t mode, const struct cred *cred);
+ ssize_t backing_file_read_iter(struct file *file, struct iov_iter *iter,
+diff --git a/include/linux/file_ref.h b/include/linux/file_ref.h
+index 31551e4cb8f34..c7512ce70f9c4 100644
+--- a/include/linux/file_ref.h
++++ b/include/linux/file_ref.h
+@@ -54,11 +54,11 @@ typedef struct {
+ /**
+  * file_ref_init - Initialize a file reference count
+  * @ref: Pointer to the reference count
+- * @cnt: The initial reference count typically '1'
++ * @cnt: The initial reference count typically FILE_REF_ONEREF
+  */
+ static inline void file_ref_init(file_ref_t *ref, unsigned long cnt)
+ {
+-	atomic_long_set(&ref->refcnt, cnt - 1);
++	atomic_long_set(&ref->refcnt, cnt);
+ }
+ 
+ bool __file_ref_put(file_ref_t *ref, unsigned long cnt);
 -- 
-Cheers,
+2.53.0
 
-David
