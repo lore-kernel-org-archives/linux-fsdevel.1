@@ -1,109 +1,91 @@
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32B7B372EF7;
-	Wed, 18 Mar 2026 08:16:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.181.97.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DEE4259CA9;
+	Wed, 18 Mar 2026 09:13:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773821805; cv=none; b=tTNRWdhrqVMWAHEcUhQn0egZku2Uh1NxmMKzDg2M6VFgkMoAhJKidFRPv2MlBSQgIQzcsX7MQf+Ro4Zp4aLHKdbzkxCf12RRH/eNNtS8iG+yi9vQj2iVvqCbzWcKlTZANTpUyyiBX/Xljj5doAtLlnHICXTctlNwAVTHcGO65BM=
+	t=1773825228; cv=none; b=COFnDHAT7bp7dnK2HB/k2CsLp925muAcWCFHS9obxx8bJFQSbxxCpQFjqLpDQngPeXQk/Hcoc4qt1L8UU8ODbjluxCRr/y6kuqxfdjTEDB2WcyMzlQtHC1xZ1Z4KQw1IMIFxXIURWGdKg4Cqw84wOLIpZOMCupk3kC65cXBsIqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773821805; c=relaxed/simple;
-	bh=DSl1FYzD4kRYOTmS/bHj9WQY+yAPB8qthbD8WKk/uJA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iOFKOzW+klrxTAQhPX0+pZLB8qKoRB7tciphcgnPwzMkKWffUfMOaiXQHvV0CPYvTjZPMdeDlaP9hecbQo9uvIBUn+d1UUOlfPFwC0G7TXi3WOtVhondNdB2StvgqT4bdRV7IEpNLC471UuBpan8ayYlgGeTF77Yv2pqxWDOdvA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp; arc=none smtp.client-ip=202.181.97.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp
-Received: from www262.sakura.ne.jp (localhost [127.0.0.1])
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 62I8GBZF007932;
-	Wed, 18 Mar 2026 17:16:11 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from [192.168.1.2] (M106072072000.v4.enabler.ne.jp [106.72.72.0])
-	(authenticated bits=0)
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 62I8GBd4007928
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-	Wed, 18 Mar 2026 17:16:11 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <74c40122-ce49-466b-9c03-be392c2b0f44@I-love.SAKURA.ne.jp>
-Date: Wed, 18 Mar 2026 17:16:11 +0900
+	s=arc-20240116; t=1773825228; c=relaxed/simple;
+	bh=OF2A7xe8ldRCTf9tSG9WUWI+Gx4Rd00mVFvL14yWztY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A7XEE7VElY1SmEzEGTW7X42I4k1TZXqsSBU0fPwVO7vQEhK12Fl12NiEop0W8tO1GlRqLPndBLNF3xnJ8WNnVyDGDP/fSZSNv7XzsKP2VoK+vCvpEx4/NKHidP2mjKKM5HbQl0wHscdgiZ6euuZcbAWBD54MlpQqSP1/z6XwWgI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=krNfvozf; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="krNfvozf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFB8CC19421;
+	Wed, 18 Mar 2026 09:13:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773825227;
+	bh=OF2A7xe8ldRCTf9tSG9WUWI+Gx4Rd00mVFvL14yWztY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=krNfvozfS6lx6VQ4ms57uiafFu8hGCANcoQCqwUeN9LX4MtdeotSLUQJ60FDYmRZ1
+	 /mHU8kDanrHlGEfeiT2gz+73a2rAOKAe1IPSukpfbnr9ASmXzCqgg/F4DHs28XlHSP
+	 Ji2kF2UqhXcwFfME9j52Y/dpdeChBdCbz+SIP1imNSlm4g9OtXL3LIsz+7QBkBKHEY
+	 Nq3CmSO5yiGN3AnlP+/X5wsjN1hCUEVZNR/9TNlYH4WmsiMOLVkQFdW0trtVs8FSD/
+	 w5wY7Gw2O8vl+1aNZgNbCSni4MGW1h5JukSw/EMcmKSSntE//hr2bJOz7MxPYOOCqn
+	 /PHNZKYIRVp6Q==
+Date: Wed, 18 Mar 2026 10:13:43 +0100
+From: Carlos Maiolino <cem@kernel.org>
+To: brauner@kernel.org
+Cc: linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org, 
+	bfoster@redhat.com
+Subject: Re: [PATCH v4 0/8] iomap, xfs: improve zero range flushing and lookup
+Message-ID: <abpsdcySytW3J_2G@nidhogg.toxiclabs.cc>
+References: <20260311162502.192375-1-bfoster@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] hfs: Validate CNIDs in hfs_read_inode
-To: George Anthony Vernon <contact@gvernon.com>
-Cc: slava@dubeyko.com, glaubitz@physik.fu-berlin.de, frank.li@vivo.com,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com
-References: <20260311211309.27856-1-contact@gvernon.com>
- <93f202e6-81bc-4df7-b193-1a812094fa6f@I-love.SAKURA.ne.jp>
- <abntindMnlpodsNj@Bertha>
-Content-Language: en-US
-From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-In-Reply-To: <abntindMnlpodsNj@Bertha>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Anti-Virus-Server: fsav402.rs.sakura.ne.jp
-X-Virus-Status: clean
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260311162502.192375-1-bfoster@redhat.com>
 
-On 2026/03/18 9:10, George Anthony Vernon wrote:
->> Because of this endian bug, syzbot did not test is_valid_catalog_record() == false case.
->>
-> Sorry I don't follow this. How can you tell syzbot did not test the case?
+On Wed, Mar 11, 2026 at 12:24:54PM -0400, Brian Foster wrote:
+> Hi all,
+> 
+> No significant changes in v4. A few whitespace fixes throughout and I've
+> added some R-b tags from v3 review. Thanks.
+> 
+> Brian
 
-Since is_valid_catalog_record() returns "true" for 0 < cnid < 15 range,
-hfs_read_inode() was not validating the cnid which the reproducer would
-have hit BUG() in hfs_write_inode(). And the reproducer did not hit BUG()
-because BUG() in hfs_write_inode() was removed.
+Christian, giving the majority of this series belongs to XFS, are you ok
+if I pull this series through XFS tree, including the iomap patch?
 
----------- (Run this program on a little endian machine like x86_64.)
-#include <stdio.h>
-#include <arpa/inet.h>
+Carlos
 
-static int is_valid_catalog_record(unsigned int cnid, unsigned char type)
-{
-        if (cnid >= 16)
-                return 1;
-        printf("validate %u\n", cnid);
-        return 0;
-}
-
-int main(int argc, char *argv[])
-{
-        unsigned int i;
-
-        printf("wrong order\n");
-        for (i = 0; i < 20; i++)
-                is_valid_catalog_record(htonl(i), 0);
-        printf("correct order\n");
-        for (i = 0; i < 20; i++)
-                is_valid_catalog_record(i, 0);
-        return 0;
-}
-----------
-
-----------
-wrong order
-validate 0
-correct order
-validate 0
-validate 1
-validate 2
-validate 3
-validate 4
-validate 5
-validate 6
-validate 7
-validate 8
-validate 9
-validate 10
-validate 11
-validate 12
-validate 13
-validate 14
-validate 15
-----------
-
+> 
+> v4:
+> - Minor whitespace cleanups.
+> v3: https://lore.kernel.org/linux-fsdevel/20260309134506.167663-1-bfoster@redhat.com/
+> - Inserted new patches 1-2 to fix up zoned mode zeroing.
+> - Appended patch 8 to correctly report COW mappings backed by data fork
+>   holes.
+> - Various minor fixups to logic, whitespace, comments.
+> v2: https://lore.kernel.org/linux-fsdevel/20260129155028.141110-1-bfoster@redhat.com/
+> - Patch 1 from v1 merged separately.
+> - Fixed up iomap_fill_dirty_folios() call in patch 5.
+> v1: https://lore.kernel.org/linux-fsdevel/20251016190303.53881-1-bfoster@redhat.com/
+> 
+> Brian Foster (8):
+>   xfs: fix iomap hole map reporting for zoned zero range
+>   xfs: flush dirty pagecache over hole in zoned mode zero range
+>   iomap, xfs: lift zero range hole mapping flush into xfs
+>   xfs: flush eof folio before insert range size update
+>   xfs: look up cow fork extent earlier for buffered iomap_begin
+>   xfs: only flush when COW fork blocks overlap data fork holes
+>   xfs: replace zero range flush with folio batch
+>   xfs: report cow mappings with dirty pagecache for iomap zero range
+> 
+>  fs/iomap/buffered-io.c |   6 +-
+>  fs/xfs/xfs_file.c      |  17 +++++
+>  fs/xfs/xfs_iomap.c     | 146 +++++++++++++++++++++++++++++++----------
+>  3 files changed, 130 insertions(+), 39 deletions(-)
+> 
+> -- 
+> 2.52.0
+> 
+> 
