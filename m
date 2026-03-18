@@ -1,43 +1,40 @@
-Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AA311A285
-	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Mar 2026 00:10:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D669F1A9F83
+	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Mar 2026 00:15:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773792655; cv=none; b=ixfKZFbEWBieWoB9zvdvm9Y9vXJvtHDftgco6POCudMyiAgnux8sq9MVFyVzlckNKaOidzPHgG3abpRYXzVKU4xfgUrmXbjfFGTgltfj74XbDAEdKSul7JTm1MrakAzDlypY96toNCCzqehoU6dN92s+ldEUcFynAICHbt2W15s=
+	t=1773792912; cv=none; b=vEBH6TiOim3Vx369SIDlZUsACPVprHYmjJ3o8lEIIzKK+8cMVz+dziBRoiXU8ZNZfL2I7LT98cjzPNiLELLD7Z0LBDMRrkjiQoimJlHbMeV7tptuD4UtxLggZ1E/xa01gBAvgIuWge1R4vmm/Sxoo4EHYjNlEmmFa7ahUvqODDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773792655; c=relaxed/simple;
-	bh=QJqeASL58KChRJCou5KXeolVtav6g0zt+6z28PiF9Tk=;
+	s=arc-20240116; t=1773792912; c=relaxed/simple;
+	bh=U/4zbzduSWp9tgSwuOZpc2Rs7vg9+R+6jxqMxwvC/9Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=McL+QOLB7fUgsKDjxDvVXMc4B+j0tw9pZTSLwo6LLidhIR4PborWrZirNcx9IfOu3QHwwwOcolq66iK5SJoLfTERf42CAQaQf5teyr8JSSX/YVUxjenAH6F/Q5/3QUD9REbHGic/pc7rWU/siWu94NjMZPo3bc9YyKOny6vSE50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gvernon.com; spf=pass smtp.mailfrom=gvernon.com; dkim=pass (2048-bit key) header.d=gvernon.com header.i=@gvernon.com header.b=h7fg1FKY; arc=none smtp.client-ip=91.218.175.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gvernon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gvernon.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=mSumzr2S+KPW54pAewSRFFol74vB68pNLIYCzdlKtmEg/FyiNdUitouTAoP8sKOZKIYUug88Kf0PrWcNJQUo5P/gAebADBMA1o03xEa0ZH5wP3EMw0Jej45pEjUNDUauCw/mp+ODvkq5552BrgswkfEIkdUaqarjm8O2CxpIeJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PjaOSh3N; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gvernon.com header.i=@gvernon.com header.b="h7fg1FKY"
-Date: Wed, 18 Mar 2026 00:10:50 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gvernon.com; s=key1;
-	t=1773792651;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cV5wPNfm1jnNG3vq81tW/9ST/EO+N/h95QHcB+VtVdI=;
-	b=h7fg1FKYrdIHLKgabyFY5lCQ3+RaXqksR0mWyEWLXXuCD+LL8jqMAlFqB1fz+DjcynuxBg
-	aqnyPFzWXRToVmyGCtvew5Py6+GqqUk1JXQsOLqOwqTKNBl1AecMkDhrZpd/kJqRnR2yS/
-	cuyaLRWbGVz5/TWyhnmDp8+K1b4a79BNIbq67+dVMsd7Awnll2xkkt1vClz4D3UwoLq1vl
-	CDyqr57v7D10VOqYKUYxsfDjKyeq8k3iKGc2zUEAnR1IZKUtEYItowRhRap4teYEteemFS
-	vqIiHZB8NZhZEGk3pQzBJUjCsKD0m7V8ne1zs5pTkXAqwkxblfMmWQT43b5cpQ==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: George Anthony Vernon <contact@gvernon.com>
-To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Cc: slava@dubeyko.com, glaubitz@physik.fu-berlin.de, frank.li@vivo.com,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com
-Subject: Re: [PATCH v4] hfs: Validate CNIDs in hfs_read_inode
-Message-ID: <abntindMnlpodsNj@Bertha>
-References: <20260311211309.27856-1-contact@gvernon.com>
- <93f202e6-81bc-4df7-b193-1a812094fa6f@I-love.SAKURA.ne.jp>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PjaOSh3N"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87424C4CEF7;
+	Wed, 18 Mar 2026 00:15:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773792912;
+	bh=U/4zbzduSWp9tgSwuOZpc2Rs7vg9+R+6jxqMxwvC/9Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PjaOSh3NwoOinRqJpvApPgENdP89yyIGgdYFJLtFE3rdF8xI+vjw9jLJu4R3Ocv+j
+	 RzB/dbuJV3rLfN71a+t2YSBI+co/IQN5gsQPQNMaEIQvOHvhQdwnNZ+yyLajaxA6g2
+	 dsbG3E25xVvFYhiRj6hCmhStuvd9OP8WQ2MNjdKWPijhP5JLSrwP0nhXcaJurOWRXF
+	 3KWueTVoQGlHEa4UhBfq+9C20PIXe7eLT6xo2Gz04Uo/IFH9cEARN3EF43IOzEE9TS
+	 dd/L8J+lXuy1JqvI35egE5Hygbzj3bwTM7c9+PNTD1iWS5MBug4skOmJ8s1Sos4IGF
+	 HjS+zEab8s5SA==
+Date: Tue, 17 Mar 2026 17:15:12 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Bernd Schubert <bernd@bsbernd.com>
+Cc: bschubert@ddn.com, joannelkoong@gmail.com,
+	linux-fsdevel@vger.kernel.org, miklos@szeredi.hu, neal@gompa.dev
+Subject: Re: [GIT PULL v2] libfuse: run fuse servers as a contained service
+Message-ID: <20260318001512.GT6069@frogsfrogsfrogs>
+References: <20260316235017.GK1742010@frogsfrogsfrogs>
+ <70550759-eae2-482d-a598-164d10930220@bsbernd.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -46,48 +43,116 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <93f202e6-81bc-4df7-b193-1a812094fa6f@I-love.SAKURA.ne.jp>
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <70550759-eae2-482d-a598-164d10930220@bsbernd.com>
 
-On Thu, Mar 12, 2026 at 07:45:17PM +0900, Tetsuo Handa wrote:
-> Since is_valid_catalog_record() is called before inode->i_ino is assigned,
+On Wed, Mar 18, 2026 at 12:08:37AM +0100, Bernd Schubert wrote:
 > 
-> +               pr_warn("Invalid inode with cnid %lu\n", inode->i_ino);
 > 
-> always prints 0.
+> On 3/17/26 00:50, Darrick J. Wong wrote:
+> > Hi Bernd,
+> > 
+> > I hope you're feeling better!
 > 
-Thank you, I will include a fix in the next patch version.
-> kernel test robot <lkp@intel.com> reported that this patch needs below change.
+> Thank you much better!
 > 
-> -               if (!is_valid_catalog_record(rec->file.FlNum, rec->type))
-> +               if (!is_valid_catalog_record(be32_to_cpu(rec->file.FlNum), rec->type))
+> > 
+> > Please have a look at this branch with changes for libfuse.  This second
+> > PR contains a bunch of new things:
+> > 
+> >  * Cleaned up error code handling and logging
+> >  * Examples of systemd-enabled high and low-level fuse servers
+> >  * Most of the checkpatch complaints addressed
+> >  * fuservicemount3 can now be a setuid program to allow unprivileged
+> >    userspace to fire up a contained filesystem driver.  This could be
+> >    opening Pandora's box...
+> > 
+> > As usual, I did a test-merge with the main upstream branch as of a few
+> > minutes ago, and didn't see any conflicts.  Please let me know if you
+> > encounter any problems.
 > 
-> -               if (!is_valid_catalog_record(rec->dir.DirID, rec->type))
-> +               if (!is_valid_catalog_record(be32_to_cpu(rec->dir.DirID), rec->type))
+> I only found a minute to pull and push to my github repo to update the PR. 
+> BSD still fails
 > 
-> Because of this endian bug, syzbot did not test is_valid_catalog_record() == false case.
-> 
-Sorry I don't follow this. How can you tell syzbot did not test the case?
-> This patch also needs below change.
-> 
-> -       if (!root_inode || is_bad_inode(root_inode))
-> +       if (!root_inode)
->                 goto bail_no_root;
-> +       if (is_bad_inode(root_inode)) {
-> +               iput(root_inode);
-> +               goto bail_no_root;
-> +       }
-> 
-> Since this bug is reported when "rmmod hfs" is done, syzbot would not be
-> able to find this bug.
-> 
-> And even after both changes are applied, my patch still makes sense
-> because mount() operation still succeeds for cnid >= 16. :-)
-I agree your patch fixes a real bug. I think Slava is suggesting a fix
-to hfs_cat_find_brec() so that it validates the catalog records it
-returns. Let's continue this discussion in reply to his email if that's
-okay.
+> 2026-03-17T23:01:17.9810147Z FAILED: [code=1] example/hello_ll.p/single_file.c.o 
+> 2026-03-17T23:01:17.9813484Z cc -Iexample/hello_ll.p -Iexample -I../example -Iinclude -I../include -Ilib -I../lib -I. -I.. -fdiagnostics-color=always -Wall -Winvalid-pch -Wextra -std=gnu11 -O2 -g -D_REENTRANT -DHAVE_LIBFUSE_PRIVATE_CONFIG_H -Wno-sign-compare -D_FILE_OFFSET_BITS=64 -Wstrict-prototypes -Wmissing-declarations -Wwrite-strings -fno-strict-aliasing -pthread -MD -MQ example/hello_ll.p/single_file.c.o -MF example/hello_ll.p/single_file.c.o.d -o example/hello_ll.p/single_file.c.o -c ../example/single_file.c
+> 2026-03-17T23:01:17.9817014Z ../example/single_file.c:46:10: error: use of undeclared identifier 'PTHREAD_MUTEX_INITIALIZER'
+> 2026-03-17T23:01:17.9817870Z    46 |         .lock = PTHREAD_MUTEX_INITIALIZER,
+> 2026-03-17T23:01:17.9818369Z       |                 ^
+> 2026-03-17T23:01:17.9819309Z ../example/single_file.c:198:51: warning: unused parameter 'ino' [-Wunused-parameter]
+> 2026-03-17T23:01:17.9820276Z   198 | void single_file_statx(fuse_req_t req, fuse_ino_t ino, int flags, int mask,
+> 2026-03-17T23:01:17.9821012Z       |                                                   ^
+> 2026-03-17T23:01:17.9821785Z ../example/single_file.c:198:60: warning: unused parameter 'flags' [-Wunused-parameter]
+> 2026-03-17T23:01:17.9823239Z   198 | void single_file_statx(fuse_req_t req, fuse_ino_t ino, int flags, int mask,
+> 2026-03-17T23:01:17.9824029Z       |                                                            ^
+> 2026-03-17T23:01:17.9824978Z ../example/single_file.c:198:71: warning: unused parameter 'mask' [-Wunused-parameter]
+> 2026-03-17T23:01:17.9829337Z   198 | void single_file_statx(fuse_req_t req, fuse_ino_t ino, int flags, int mask,
+> 2026-03-17T23:01:17.9830366Z       |                                                                       ^
+> 2026-03-17T23:01:17.9832001Z ../example/single_file.c:199:33: warning: unused parameter 'fi' [-Wunused-parameter]
+> 2026-03-17T23:01:17.9833062Z   199 |                        struct fuse_file_info *fi)
+> 2026-03-17T23:01:17.9833562Z       |                                               ^
+> 2026-03-17T23:01:17.9834825Z ../example/single_file.c:211:2: warning: call to undeclared function 'pthread_mutex_lock'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+> 2026-03-17T23:01:17.9836166Z   211 |         pthread_mutex_lock(&single_file.lock);
+> 2026-03-17T23:01:17.9836592Z       |         ^
+> 2026-03-17T23:01:17.9837750Z ../example/single_file.c:226:2: warning: call to undeclared function 'pthread_mutex_unlock'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+> 2026-03-17T23:01:17.9869585Z   226 |         pthread_mutex_unlock(&single_file.lock);
+> 2026-03-17T23:01:17.9870081Z       |         ^
+> 2026-03-17T23:01:17.9871240Z ../example/single_file.c:239:2: warning: call to undeclared function 'pthread_mutex_lock'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+> 2026-03-17T23:01:17.9872595Z   239 |         pthread_mutex_lock(&single_file.lock);
+> 2026-03-17T23:01:17.9873056Z       |         ^
+> 2026-03-17T23:01:17.9874265Z ../example/single_file.c:241:2: warning: call to undeclared function 'pthread_mutex_unlock'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+> 2026-03-17T23:01:17.9876020Z   241 |         pthread_mutex_unlock(&single_file.lock);
+> 2026-03-17T23:01:17.9876497Z       |         ^
+> 2026-03-17T23:01:17.9877854Z ../example/single_file.c:252:2: warning: call to undeclared function 'pthread_mutex_lock'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+> 2026-03-17T23:01:17.9879416Z   252 |         pthread_mutex_lock(&single_file.lock);
+> 2026-03-17T23:01:17.9879896Z       |         ^
+> 2026-03-17T23:01:17.9881050Z ../example/single_file.c:259:2: warning: call to undeclared function 'pthread_mutex_unlock'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+> 2026-03-17T23:01:17.9882409Z   259 |         pthread_mutex_unlock(&single_file.lock);
+> 2026-03-17T23:01:17.9882862Z       |         ^
+> 2026-03-17T23:01:17.9884018Z ../example/single_file.c:273:2: warning: call to undeclared function 'pthread_mutex_lock'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+> 2026-03-17T23:01:17.9885354Z   273 |         pthread_mutex_lock(&single_file.lock);
+> 2026-03-17T23:01:18.0387503Z       |         ^
+> 2026-03-17T23:01:18.0402115Z ../example/single_file.c:275:2: warning: call to undeclared function 'pthread_mutex_unlock'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+> 2026-03-17T23:01:18.0403861Z   275 |         pthread_mutex_unlock(&single_file.lock);
+> 2026-03-17T23:01:18.0404573Z       |         ^
+> 2026-03-17T23:01:18.0404979Z 12 warnings and 1 error generated.
 
-Thanks,
+Aha, I bet that came as a result of me boneheadedly copying this from
+lib/util.c:
 
-George
+#ifdef HAVE_PTHREAD_SETNAME_NP
+#define _GNU_SOURCE
+#include <pthread.h>
+#endif
+
+Will fix that right up.
+
+> And actually, the Ubuntu build also fails
+> 
+> [12/109] Compiling C object lib/libfuse3.so.3.19.0.p/fuse_service.c.o
+> FAILED: [code=1] lib/libfuse3.so.3.19.0.p/fuse_service.c.o 
+> clang -Ilib/libfuse3.so.3.19.0.p -Ilib -I../../../home/runner/work/libfuse/libfuse/lib -Iinclude -I../../../home/runner/work/libfuse/libfuse/include -I. -I../../../home/runner/work/libfuse/libfuse -fdiagnostics-color=always -fsanitize=address,undefined -fno-omit-frame-pointer -Wall -Winvalid-pch -Wextra -Werror -std=gnu11 -O2 -g -D_REENTRANT -DHAVE_LIBFUSE_PRIVATE_CONFIG_H -Wno-sign-compare -D_FILE_OFFSET_BITS=64 -Wstrict-prototypes -Wmissing-declarations -Wwrite-strings -fno-strict-aliasing -fPIC -pthread -DFUSE_USE_VERSION=317 '-DFUSERMOUNT_DIR="/tmp/libfuse-install-wwy0ckA/bin"' -MD -MQ lib/libfuse3.so.3.19.0.p/fuse_service.c.o -MF lib/libfuse3.so.3.19.0.p/fuse_service.c.o.d -o lib/libfuse3.so.3.19.0.p/fuse_service.c.o -c ../../../home/runner/work/libfuse/libfuse/lib/fuse_service.c
+> ../../../home/runner/work/libfuse/libfuse/lib/fuse_service.c:400:19: error: implicit truncation from 'int' to a one-bit wide bit-field changes value from 1 to -1 [-Werror,-Wsingle-bit-bitfield-constant-conversion]
+>   400 |                 sf->allow_other = 1;
+>       |                                 ^ ~
+> ../../../home/runner/work/libfuse/libfuse/lib/fuse_service.c:473:21: error: implicit truncation from 'int' to a one-bit wide bit-field changes value from 1 to -1 [-Werror,-Wsingle-bit-bitfield-constant-conversion]
+>   473 |         sf->owns_fusedevfd = 1;
+
+Er... ok.  Debian 13 gcc (14.2) doesn't complain about this, but fmeh,
+I'll just turn that into a fullblown int. :)
+
+Thanks for dipping your toes in!
+
+--D
+
+>       |                            ^ ~
+> 2 errors generated.
+> [13/109] Compiling C object lib/libfuse3.so.3.19.0.p/modules_subdir.c.o
+> 
+> Checkpatch looks much better, I can push a patch tomorrow to disable the
+> strcpy warning. 
+> 
+> Other than that I didn't look at the actual changes yet, will really try
+> to review this week.
+> 
+> Thanks,
+> Bernd
