@@ -1,180 +1,208 @@
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012068.outbound.protection.outlook.com [40.93.195.68])
+Received: from sender4-of-o54.zoho.com (sender4-of-o54.zoho.com [136.143.188.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D2E536B05B;
-	Wed, 18 Mar 2026 07:33:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03B51285CA4;
+	Wed, 18 Mar 2026 07:38:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.54
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773819222; cv=fail; b=nMRNRrcdfyjUzHCzwedrqEcgwHBCH/Vi/n2ABuuDEynfYsYmKErtZhZU/+oBHRiry5HhQMXYVmc+ZYhBbvHz2cNgRjSYPELJonzWIg9S1H2YSAUHlo7+18by3YEFjkyOqNBtk7JioNt6jQEGVssan5hmMFGcVUL9BPnafP+YpC4=
+	t=1773819535; cv=pass; b=Up9ynjRxnF8+48D9v9jsInQO414SwAmwEPZK75Xp81QeosiBNkEoaRKb73S/elOpB1wyrMUSVJrIBwrxOg5nx5MXOdI29TY21DGYtTI7ndHaHJn3XZvnxpXbD9+kkMGDKnIsnJJfCJ24ywsESAWhl8aeM1xSXAbY5NYXrhvJS4Q=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773819222; c=relaxed/simple;
-	bh=xCCrNIQa8gaPoYoiOm3kT0XvRKxXbgCLZAcoiUJCOB8=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=ddvn3EQV/NCUiLoO3iCOxgRDHDYARswIOT1c7ttC3lYDJNxaRDGH23+DkrGLSROUJgEXokn/aHKFDdyT/xzdNak89RJJbSi6/kz91J18BO3YpbmfVnhzdfIfYOJiOW4VaidjdRRacIccUvi1KhyQPPAwxFnU/01cSMZkU3UCd8Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=cn0NwIi3; arc=fail smtp.client-ip=40.93.195.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	s=arc-20240116; t=1773819535; c=relaxed/simple;
+	bh=87g3mz9o4Px7Ll/jFiPQEjeOzXr+pF3R7pyXpO8Kky4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=mM8IA/qYJ1BoxyJTmnjmhyf2a98tBThmwVL3I6RcurSbTV2fp8n7+y9FRzwd6Q0rJ5I12TIbpcsu7EXaiQMSC5sa/XW4DH0RbB6vM1qjPwbcbTwJznRgRUjaKL/DwwWVE91oaTkSSiElbZdzHakfGsXBJig4WcZbrmjX/skkVjU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mpiricsoftware.com; spf=pass smtp.mailfrom=mpiricsoftware.com; dkim=pass (1024-bit key) header.d=mpiricsoftware.com header.i=shardul.b@mpiricsoftware.com header.b=MsVBbksk; arc=pass smtp.client-ip=136.143.188.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mpiricsoftware.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mpiricsoftware.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="cn0NwIi3"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LNgkbOkoNX/HdWAnSgnSh9zwXBP9q4zLhlJDNTS1Fs7O/wBpPbG0aSoQPdGA9Nqe3qGXezCNlfQ7E5OzIh4OtpHAAvXWeR6CXu0Ka3aAtSCHxdX/nX3Sxt/w9f/CRQHH6Qaje7ShR1eFr37xaWgcMHStAjtacndKyY8ED70UGIfICDIeSVu1eDDHm/1zc2YkwlGu8PbjzOo1jKJONlkzyysh3b6RdWAG7eUHfpuaZCPHroup2SH9HUVCL9fBs4HxcdmJ/Zrx3e+Q3ghHUDTHypdNo9+dS17Z7jgJ5zAqboizD+ZuNltr/UsLzd41Ewfg4y74vTpOXJEbx9oQUSmaIA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RydDN5BPkzHnP/d5C4kdjGtpmwbWIwng70V0TVWpjPg=;
- b=AVeleKKFnjeNL3gNYzr4vtsYhCL5N1Ap4zlPj91WWHMLI8ULFxvKgZMitoPLlxzyj8mTsHLVcIKdTD5ynX/8kFL2DGb9obqdqUEu1cr2Gx5EFh42fMaqAObvy8IizydR5Do80WuPv9owx7mw7FefGxNdtesclVcP4e74CeNibiVAvY03R9MEfsZuRZHbcC4E4kmHX0cJ+zIHPqC/xlQf0Lnnpbx0ocrl7q4E0yOPbJGkol48z7neqfeBdHBWfhx3RQDbzoaMeZm5tEyjB2mSPhAPUUFDZ48YVdiZ8gmYtzJ4cuoUAB6HnxYcECtayCgqGXpypnjQBJGzZNjWnWWQog==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RydDN5BPkzHnP/d5C4kdjGtpmwbWIwng70V0TVWpjPg=;
- b=cn0NwIi3p7uleLpfInLco773DJ4x8uu8XnaweDXln2CRU0aZ6LNrf+RLv0djr8Fv/evkyY8E9IdC0UTbJkGKw4Ujs33Scuh44E1TWr51F3x6ty07KygFYmusPPLMTDMZlUvkBsBhBRvTQPIAUFgU/aaiS5PI5WXx65XDjUzlE18=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB4202.namprd12.prod.outlook.com (2603:10b6:5:219::22)
- by DM6PR12MB4468.namprd12.prod.outlook.com (2603:10b6:5:2ac::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.19; Wed, 18 Mar
- 2026 07:33:38 +0000
-Received: from DM6PR12MB4202.namprd12.prod.outlook.com
- ([fe80::9e55:f616:6a93:7a3d]) by DM6PR12MB4202.namprd12.prod.outlook.com
- ([fe80::9e55:f616:6a93:7a3d%6]) with mapi id 15.20.9723.018; Wed, 18 Mar 2026
- 07:33:38 +0000
-Message-ID: <718c4a39-4526-45ed-86fb-1e5b57f6ca0e@amd.com>
-Date: Wed, 18 Mar 2026 07:33:29 +0000
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 3/9] cxl/region: Skip decoder reset on detach for
- autodiscovered regions
-Content-Language: en-US
-To: Dan Williams <dan.j.williams@intel.com>,
- Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>,
- linux-cxl@vger.kernel.org, linux-kernel@vger.kernel.org,
- nvdimm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
- linux-pm@vger.kernel.org
-Cc: Ard Biesheuvel <ardb@kernel.org>,
- Alison Schofield <alison.schofield@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
- Jonathan Cameron <jonathan.cameron@huawei.com>,
- Yazen Ghannam <yazen.ghannam@amd.com>, Dave Jiang <dave.jiang@intel.com>,
- Davidlohr Bueso <dave@stgolabs.net>, Matthew Wilcox <willy@infradead.org>,
- Jan Kara <jack@suse.cz>, "Rafael J . Wysocki" <rafael@kernel.org>,
- Len Brown <len.brown@intel.com>, Pavel Machek <pavel@kernel.org>,
- Li Ming <ming.li@zohomail.com>, Jeff Johnson
- <jeff.johnson@oss.qualcomm.com>, Ying Huang <huang.ying.caritas@gmail.com>,
- Yao Xingtao <yaoxt.fnst@fujitsu.com>, Peter Zijlstra <peterz@infradead.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Nathan Fontenot <nathan.fontenot@amd.com>,
- Terry Bowman <terry.bowman@amd.com>, Robert Richter <rrichter@amd.com>,
- Benjamin Cheatham <benjamin.cheatham@amd.com>,
- Zhijian Li <lizhijian@fujitsu.com>, Borislav Petkov <bp@alien8.de>,
- Tomasz Wolski <tomasz.wolski@fujitsu.com>
-References: <20260210064501.157591-1-Smita.KoralahalliChannabasappa@amd.com>
- <20260210064501.157591-4-Smita.KoralahalliChannabasappa@amd.com>
- <69b1e0aacb9d0_2132100c5@dwillia2-mobl4.notmuch>
- <69b319d7e6adf_213210086@dwillia2-mobl4.notmuch>
- <df9cfac5-7e01-422f-bd29-d1b8b3c55623@amd.com>
- <69b8b9181bafd_452b100cb@dwillia2-mobl4.notmuch>
-From: Alejandro Lucero Palau <alucerop@amd.com>
-In-Reply-To: <69b8b9181bafd_452b100cb@dwillia2-mobl4.notmuch>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO2P265CA0417.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:a0::21) To DM6PR12MB4202.namprd12.prod.outlook.com
- (2603:10b6:5:219::22)
+	dkim=pass (1024-bit key) header.d=mpiricsoftware.com header.i=shardul.b@mpiricsoftware.com header.b="MsVBbksk"
+ARC-Seal: i=1; a=rsa-sha256; t=1773819513; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=imOYjRMnQVBeux/l2Xe/8T6ZbohLsGXahg7lOJczwKMidOJJqpw3wSQ/JPnVJclsc4FMdJLjVqps3hJug6xe2yz2LFI9kRikFIsnjl+c0Lj52cwdWPuJERbe8n4gMP6v+ICI/G6wCaim3IqZnZ1cJ1bPimVnEvzKWyjzgvCYJ9A=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1773819513; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=aPLN2LDjIJp4z/iAM8IAXucS//irdReQ3NRovxv8TCw=; 
+	b=k3+8xu+mm11tePy9c+9fm25v1mOH7lEivJbcLTAqZsglkhzOUKiQXmCTrqMCmkiKKpscpBPrPrHGKTt7+6csfeO7xAyfhFPPESzbXRK/6bWGykdhYOcIrl1eGRfFZJSy3aEJ6HF2n4PZJa2YETXOTcVzMXKQPPZkA+hwzKaM5RM=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=mpiricsoftware.com;
+	spf=pass  smtp.mailfrom=shardul.b@mpiricsoftware.com;
+	dmarc=pass header.from=<shardul.b@mpiricsoftware.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1773819513;
+	s=mpiric; d=mpiricsoftware.com; i=shardul.b@mpiricsoftware.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Transfer-Encoding:Reply-To;
+	bh=aPLN2LDjIJp4z/iAM8IAXucS//irdReQ3NRovxv8TCw=;
+	b=MsVBbkskoKuwL1+V2wA3l1PEFjxXpzVQJzNXJqpWuBBzp7mBVwY+J1FBEHsBBSc3
+	mA8WKUkh4vcKXKCcduBuE3SQjG2lCIh8TdOoPHehZd2Im5YDU0cLdZV8ftPngunCMM3
+	A+N0tZynF7sqMywkhz6B5YmKYyexaayj8iFw3ewo=
+Received: by mx.zohomail.com with SMTPS id 1773819511057249.03295167870533;
+	Wed, 18 Mar 2026 00:38:31 -0700 (PDT)
+From: Shardul Bankar <shardul.b@mpiricsoftware.com>
+To: slava@dubeyko.com,
+	glaubitz@physik.fu-berlin.de,
+	frank.li@vivo.com,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: janak@mpiricsoftware.com,
+	janak@mpiric.us,
+	shardulsb08@gmail.com,
+	Shardul Bankar <shardul.b@mpiricsoftware.com>
+Subject: [PATCH v7 0/2] hfsplus: prevent b-tree allocator corruption
+Date: Wed, 18 Mar 2026 13:08:21 +0530
+Message-Id: <20260318073823.3933718-1-shardul.b@mpiricsoftware.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4202:EE_|DM6PR12MB4468:EE_
-X-MS-Office365-Filtering-Correlation-Id: ed09e57d-41fc-44b9-4023-08de84c0ab1b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|366016|1800799024|18002099003|56012099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	OWntvHGjHoWxvC/Jsr6wNgq4cybm5UK+qqfXCG4l9vlxERSpkfRGQU5Nf3arcHw35HJUIg82hQAiT22kUDWIoMWHTVHfH0v53wnWiVC0USxzVsuj9+yaD27nlhNQCStCt8Tt6KyVbVRoZ7pC7opfgTINWWuvd/BI9kRp/jXfuXGz5GdY/jWokWytZPXvjHYvOgFZAID6k6BPAyzH1AyZA22lrQGGJTLKkYSTnFBfo1OFQ9fTgoL75SDlw055VlgQzTjvti6zNMVzPYJJw0KwF2XRNvbWuJWsfXDz5d71v5/5o0Q2VsPSH4HHY/a82kFnPqx2/Ta2zn0qgoA3tkSa31Y0QtGg08cRbGvjAZKQjRPqpxB0pPLM9O/fs7D730WjP1Qu56A1XTGZ/mx6rhVfyXUW+XCl89MzrxiSAF43pcmlD+R+PH987zkP7o9txyVba1HDIN86w76zYJ1A+uTF9Qf2ParW0g5Bz/2odfbJ4HY3Ez0wOHMaI/h9niKnwQwONDbxRPvtAnCk4DO0/7zvBqmYtuY7ry4b1leCBM64jJK7w4MQxNp2fWou471MR5aCqj376QbNv5N8BD1+xty2PKNIDGlVIqgK1ZgxTIHaJNPPxsngJRtsnJXafBsoHKlILsFToPzptjNrNteHSd/9jCwHfm0IwemLOR3o1lWFFwCDb7XGaCDYrut8ZRA6aihLB5nezwsk5ghffBF1EJ4dEMkfkUMix97n26cAPB6AuQk=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB4202.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?eTVpanlEOGZmYVJTWG15OGdJNzNNcTd4N2t0aTlxNngvM1REcjFmSnRVNS82?=
- =?utf-8?B?UzAzVHVJY2IzSW5LZkREN2dJUGVscWNIY3g4c0pFczJOTXdMVVBuNGI1aTNQ?=
- =?utf-8?B?cVVxcmpZYUkwMGVQRFZJZC9jRk1scTVtRjQvZ2NjUEo5azhjMS9Hbi8zclF1?=
- =?utf-8?B?R3k3WUwwWHZBekw0UXJpSlZVTndKZWFMc0NFc0hMQnpUU2NmQ0xKQjN6U1NM?=
- =?utf-8?B?OXhtak14QzN2azBPdmcrYy9SbjF1NWhIUFlGa2dONDdZSHRyYSs0NEVCaWNu?=
- =?utf-8?B?YjAreW5DRHc1dnllU2tMR1A4VGlpRzZtQWlVOWd6LzBvU3Nvb0t3ekdmcmZl?=
- =?utf-8?B?SzdUWnl3cGNJOGw2R3Z1VVhoU1pEayttZzRES1pUbjVUbHRrYVhuRUxlV3Rx?=
- =?utf-8?B?ek1DVDRiVXk4NkxZWlJFV2l4bXhEdGg4ZnhwN21hL3JiU09wMHZnQTVwOEVD?=
- =?utf-8?B?UXhyZjJBdHBOWWFZUDBjbE1qL1NPdUJFeUU2aUU3U3kwSklhalVBZUF3dTh6?=
- =?utf-8?B?Q0JpQmZMS2EyVWxjZnM1VDl5ZlNIU1dybEh1SlJ0aHI1ZWZnRG5UYVpoQWps?=
- =?utf-8?B?dklnczhYMUhNYVF5ZE5idEJoMER1TVBQcjdHcFVUT04vNnVKclZGdXM5WjBW?=
- =?utf-8?B?RDNDdjE0ajM3bmdjRGZZTWRTSHlkOHJBd09PVU5PeHhQNHQrdXVPZHRaK3dx?=
- =?utf-8?B?L2JEVTdtK2hSREpkTFNZOVVLaEZPdyt2RU5xUjhUekE1REU0NTF2Y2R5Q1Ay?=
- =?utf-8?B?OHEwb29Nc1hHOE1DdFNKd0dBaG82ajQxVkNncTU3MThtblg1RWlhUkc0S0Nx?=
- =?utf-8?B?SXZ4SEw5M2xmWENJcUFZZkdONGRZWnIyelJ4VUdBVXhGRGcvckZ5elp5Rllv?=
- =?utf-8?B?MzVWQ01jc2lUa1krN2JUeEprYVl4ZGg2RTFmdUZQTnpLQ2Vrb2h1QzU3LzJU?=
- =?utf-8?B?SGNCcXpaem5tT0F1Qm12R1gxS2U4QlJHWVgrb3VhR1pzWmdmaDk5WjdZbVY1?=
- =?utf-8?B?ZnJld2s3S203TkZmWE5EZWZYZEY3YnBML25PZWZXczQ5cGlhcGhMTXM1RU0x?=
- =?utf-8?B?ekZnMytzV2grYmtDK2F3T0hmZjJUMWcrNkYxcU9FRTlpVEpMTnlLcklHMHBn?=
- =?utf-8?B?RDl4WmVBRGI1QmIxbUdsYkFsTmVOYXROejJiRWRndVYyMkZIQWQxM0d1YWYr?=
- =?utf-8?B?ZzlxVVRWNk1tOVhEMXRaVnRzUlpKeElXUWxRR3cvRW5ZNUlJRG9HTms1SVZE?=
- =?utf-8?B?WjRBNjVERW1kd0JhWUV2bUltMFp5TTdkeWZGTUtCa0JLL0RrSTVDOGMxRVcr?=
- =?utf-8?B?NGZkUU9NQmJ4dktPdzJSaXFadmswVmZjU3JsS2hKL3BpQ2xpbzhBQW1rZHNw?=
- =?utf-8?B?ZmZ5U0VacDM3VThmRld3SWdCZkV2MTR4MkhySm85WjJPbzBIQUhaYURQaUZx?=
- =?utf-8?B?czFNS3ByQVBvaE9lUjNYTk9IRkJvNHZXY3lUT241NmtsWTh6NnZMYS9KS3Iw?=
- =?utf-8?B?NkgwekpPYks2bDFxWjRjZHFZb0pBVmJTeXYrQXAyTGZsRXNUYS9WZnplVks2?=
- =?utf-8?B?L1N2Ny9kS3NGTVdmTDluZFM3MGRQd3ZQdVZNOGNVVGprWWs0d1ZqQWluOXhk?=
- =?utf-8?B?Mitpc1BqVnltWHJwYjNGMXlUbW5vZGsyTGRtM1d4QVhrSjc1MHg0Q1JXbm9y?=
- =?utf-8?B?V3c2dk5yV3VnazZoWnRIYjgwaUNLWElzdDh0VkdHZFJ1bGppWW8yVHRsNFAr?=
- =?utf-8?B?TE94VWRJcmtUcXYydXJyZnhKQ2lSME05T29rSmt0dytwSHhqR296anlCd3Z1?=
- =?utf-8?B?VWhGVE9rdCt4dlc2MUdtZjBkVjdlYzlEdFJTUDVwTXoxR2FnRFZqbVB6S1Zu?=
- =?utf-8?B?Ynowa2hxNWwzK3NYQXlXbE1uVEptR0xNTXdZOEN3MFRFNjZ2c1VPRm9oYk1M?=
- =?utf-8?B?OFRJbWQxamxEbWR6RUFJTFJoOXk3SzUwdlhqS2hIQ29YUUpWZlFaMzdyNnl2?=
- =?utf-8?B?NzBleDNsaml5NXpUN3pwZ09pS3BGeis3dDh2b3A4dFBkTEU5M3NyQzE5dFFo?=
- =?utf-8?B?ckQ5N0JoK0JyRUNQNGtiT2hpdnhrYmpNVStlNkRBKzdWamxxdktTbnJjNWs5?=
- =?utf-8?B?YStaQ0g4d3JkWWlock9na0ZYbTEwS0tDaFhmYjBhdlhCZjVnYzY0bmNSZGZk?=
- =?utf-8?B?K0cvT3VMd0N2UnBwd1NjejJmTjM2d1pVWGRzU1NkSmF0SFZXOGF6WFBhb0ph?=
- =?utf-8?B?VitYb2VmZU05aWtsQlZ6TlBncUZyRFhPa3FHZWZMYldjczhoOG1CbkdSNzEx?=
- =?utf-8?B?UlZiMXdlWml5YUFFY0JmdUVLK3M1MzRBL0l0dWFIVEtIWmVMYWYxdz09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ed09e57d-41fc-44b9-4023-08de84c0ab1b
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4202.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2026 07:33:37.9704
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: broX++ARBtDIAcaUsMzOJ7NH38IXvktz+91S2OdKXld62VJ9HAI6NtdFL5iXxc2jFLwLyqozCAmWHZ8PfcUkPg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4468
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
+
+Hi all,
+
+This series addresses a Syzkaller-reported vulnerability where fuzzed
+HFS+ images mark the B-tree Header Node (Node 0) as free in the
+allocation bitmap. This violates a core filesystem invariant and leads
+to allocator corruption and kernel panics.
+
+To fix this safely and cleanly, the series is split into two parts:
+
+Patch 1 introduces a unified, robust API for B-tree map record access
+(struct hfs_bmap_ctx, hfs_bmap_get_map_page, and hfs_bmap_clear_bit) and
+refactors the boilerplate page mapping logic out of hfs_bmap_alloc() and
+hfs_bmap_free().
+Patch 2 utilizes this new API to perform a mount-time validation of Node
+0 via hfs_bmap_test_bit(), forcing a safe read-only mount if structural
+or bit-level corruption is detected.
+
+Note on Allocator Optimization: Following discussions in v4,
+there is a recognized opportunity to optimize hfs_bmap_alloc()
+from a first-fit to a next-fit allocator by caching an in-core
+allocation hint (roving pointer). To keep the scope of this series
+strictly aligned with the Syzkaller corruption fix, that architectural
+optimization is deferred to a separate, follow-up patchset/thread.
+
+v7:
+ - Type Safety: Changed the return type of hfs_bmap_test_bit() to `bool`,
+   allowing the mount-time validation in hfs_btree_open() to cleanly
+   catch both IO errors and cleared bits in a single evaluation.
+
+ - Overflow Prevention: Added an explicit `(u32)` cast to `off16` during
+   page offset calculation to clearly document and prevent 16-bit integer
+   overflows.
+
+ - String Accuracy: Updated the CNID string macros to use their official
+   structural names ("Extents Overflow File", "Catalog File", "Attributes
+   File") per maintainer feedback.
+
+ - Documentation: Corrected a stale docstring error code (-EALREADY to
+   -EINVAL) above hfs_bmap_clear_bit().
+
+v6:
+ - Symmetric Mapping: Updated hfs_bmap_get_map_page() to return an unmapped
+   struct page * instead of a mapped pointer. This ensures the caller
+   explicitly handles both kmap_local_page() and kunmap_local(), preventing
+   dangerous asymmetric mapping lifecycles.
+
+ - Bisectability: Moved the introduction of hfs_bmap_test_bit() from Patch 1
+   to Patch 2 where it is actually consumed, preventing a -Wunused-function
+   compiler warning and keeping the Git history perfectly bisectable.
+
+ - API Clarity: Renamed the bit_idx parameter to node_bit_idx in the bit-level
+   helpers to explicitly clarify that the index is strictly relative to the
+   target hfs_bnode's map record, preventing future absolute-index misuse.
+
+ - Naming & Style: Replaced hardcoded 8s with BITS_PER_BYTE, updated local
+   variable names (m to mask, data to bmap inside the new helpers), and added
+   kernel-doc field descriptions to struct hfs_bmap_ctx.
+
+ - Minimal Diff Scope: Restored the original variable names (data, m) inside
+   the legacy hfs_bmap_alloc() loop to keep the diff surgically focused on the
+   logical changes and preserve git blame history.
+
+ - Error Codes: Changed the error return in hfs_bmap_clear_bit() from
+   -EALREADY to -EINVAL.
+
+ - CNID String Lookup: Replaced the sparse string array with #define macros
+   and a standard switch statement for cleaner subsystem visibility, per
+   Slava's preference.
 
 
-On 3/17/26 02:14, Dan Williams wrote:
-> Alejandro Lucero Palau wrote:
-> [..]
->> This is not the first time I share my frustration, and as when I did so
->> in the past, I want to finish with a positive last sentence: I will keep
->> trying to get type2 support and hopefully further CXL stuff, and happy
->> to discuss the best way to do so with the CXL kernel community.
-> I did not mean to imply that the type-2 set was stuck behind a new
-> dependency. Apologies.
+v5:
+ - API Encapsulation: Introduced struct hfs_bmap_ctx to cleanly bundle
+   offset, length, and page index state instead of passing multiple
+   pointers, addressing reviewer feedback.
+
+ - Bit-Level Helpers: Added hfs_bmap_test_bit() and hfs_bmap_clear_bit()
+   to safely encapsulate mapping/unmapping for single-bit accesses
+   (like the mount-time check and node freeing).
+
+ - Performance Retention: Retained the page-level mapping approach for
+   the linear scan inside hfs_bmap_alloc() to prevent the severe
+   performance regression of mapping/unmapping on a per-byte basis,
+   while refactoring it to use the new ctx struct.
+
+ - Hexagon Overflow Fix: Fixed a 0-day Kernel Test Robot warning on
+   architectures with 256KB page sizes by upgrading the offset variables
+   in the new struct hfs_bmap_ctx to unsigned int, preventing 16-bit shift
+   overflows.
+   Link: https://lore.kernel.org/all/202602270310.eBmeD8VX-lkp@intel.com/
+
+ - Map Record Spanning: Added a byte_offset parameter to the page mapper
+   to correctly handle large map records that span across multiple 4KB
+   pages.
+
+ - Loop Mask Revert: Reverted the 0x80 bitmask in the alloc() inner loop
+   back to its original state (and dropped the HFSPLUS_BTREE_NODE0_BIT
+   macro), as it represents a generic sliding mask, not specifically
+   Node 0.
+
+ - String Array Cleanup: Replaced the verbose switch(id) block in the
+   mount validation with a clean static array of constant strings for
+   the CNID names, per reviewer feedback.
+
+v4:
+ - Split the changes into a 2-patch series (Refactoring + Bug Fix).
+ - Extracted map node traversal into a generic helper (hfs_bmap_get_map_page)
+   as per Slava's feedback, replacing manual offset/page management.
+ - Added node-type validation (HFS_NODE_HEADER vs HFS_NODE_MAP) inside the
+   helper to defend against structurally corrupted linkages.
+ - Replaced hardcoded values with named macros (HFSPLUS_BTREE_NODE0_BIT, etc).
+ - Handled invalid map offsets/lengths as corruption, continuing the mount
+   as SB_RDONLY instead of failing it completely to preserve data recovery.
+
+v3:
+  - Moved validation logic inline into hfs_btree_open() to allow
+    reporting the specific corrupted tree ID.
+  - Replaced custom offset calculations with existing hfs_bnode_find()
+    and hfs_brec_lenoff() infrastructure to handle node sizes and
+    page boundaries correctly.
+  - Removed temporary 'btree_bitmap_corrupted' superblock flag; setup
+    SB_RDONLY directly upon detection.
+  - Moved logging to hfs_btree_open() to include the specific tree ID in
+    the warning message
+  - Used explicit bitwise check (&) instead of test_bit() to ensure
+    portability. test_bit() bit-numbering is architecture-dependent
+    (e.g., bit 0 vs bit 7 can swap meanings on BE vs LE), whereas
+    masking 0x80 consistently targets the MSB required by the HFS+
+    on-disk format.
+
+v2:
+  - Fix compiler warning about comparing u16 bitmap_off with PAGE_SIZE which
+can exceed u16 maximum on some architectures
+  - Cast bitmap_off to unsigned int for the PAGE_SIZE comparison to avoid
+tautological constant-out-of-range comparison warning.
+  - Link: https://lore.kernel.org/oe-kbuild-all/202601251011.kJUhBF3P-lkp@intel.com/
 
 
-No worries.
+Shardul Bankar (2):
+  hfsplus: refactor b-tree map page access and add node-type validation
+  hfsplus: validate b-tree node 0 bitmap at mount time
 
+ fs/hfsplus/btree.c         | 229 +++++++++++++++++++++++++++++--------
+ include/linux/hfs_common.h |   2 +
+ 2 files changed, 184 insertions(+), 47 deletions(-)
 
->
-> It is next in the queue, it needs to go in next cycle with a high
-> priority.
->
-> In my view this confirmation that Smita's proposed patch addresses PJ's
-> test failure cleared one of the last hurdles for this set for me.
-
-
-Did PJ tell you so? From his report that seemed a likely reason, but he 
-did not comment further after I told him about it.
+-- 
+2.34.1
 
