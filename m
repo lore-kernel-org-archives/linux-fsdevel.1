@@ -1,87 +1,131 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 563A53DFC8F;
-	Wed, 18 Mar 2026 18:33:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21D6D3E4C83;
+	Wed, 18 Mar 2026 18:44:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773858804; cv=none; b=YrxhpoiYm4zmg5RZvkNEMwxomhwE5cyjxgRDoHHY+y5oLW7SRz71HJBOAmKkvyLsVCqf7VYVYeomdnPW/E2QVMTf1Vzw4geb8fZrO3MQd5xDA0owhGF//PQbcj1czmAefsj8f+Xldgg11V4ZInm3X/iJAFeVB7lmI4sNsYx6HQY=
+	t=1773859446; cv=none; b=WUSh/hXYSJ7ETn+JTAyPQtZAUt70ebwjiwMjLCiqiPpvDM2dS9lXQaNm79/haXLN9NHrzj5Xg5qVw6ebl/JMYfuX1MYFm91r/sF9aunGSjFiqRRBfImx1lW5SWGc6eOLzkrRXDJKxpmn3V6J45oqqDmuFfT8wV4h2OoqIWb6y1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773858804; c=relaxed/simple;
-	bh=Q/uh4QAy4IU2itVKlERvGMXidyUsuGdulupJTD5xwYY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tyKxPAfZ9DxVBJOGhvyhFf1Yd7wpQ75FuIz92JCVImPn8Lxh+YR1gs29MmlfcTXyYiGBz6traTpfVGYEb+OM+8rw+ZB1bconXt5rc85MCFkneVJSDPx5Uxk/K0ZRtev1zUPDDl6jTdGcdKZgL2Q8aTJMWBQHRVj87A9APf0GpW0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=chyubJ3X; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773859446; c=relaxed/simple;
+	bh=Gjz4e+rul5Oy8KZpMy9Pp9cpbls2xxDCug5CNQYn8eg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oGenzNyHpwVE2fN4L7ZdkqZhow8ZP2zxJOT941+IXSJ/vnNjHg8cAoOcq/35jSSrfQe9yfcqodXVeSNA/UFDRs+EiLxNb+g0J+ggZ2nK3I6Verp500mdWU+Gm4xqHAz/nxxUFGf2IoboSKoxHkr8e6wjFMicTuFBOX0jzKciPH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PqyCmZNC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="chyubJ3X"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9929C19421;
-	Wed, 18 Mar 2026 18:33:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PqyCmZNC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C25FC19421;
+	Wed, 18 Mar 2026 18:44:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773858804;
-	bh=Q/uh4QAy4IU2itVKlERvGMXidyUsuGdulupJTD5xwYY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=chyubJ3X1/firrp76bLjG/+vNfJqNnB90aYEk6Zcih2c9oabwEvoGLloeOaNTiLY6
-	 hqfkJjRL78NKkqbcVGtfZNCEqcNKCoe/PFcPdNbgXg0uXPCD7vW8Yp5avtdW0kKFp1
-	 D7IbJ82yq6DqzJMjeVXAJ/qH152XodTiC3pihX1Ykbh202ePhb2bcbuHvCsQQOLcNQ
-	 6qRpSFVvr0fwGlnPtaX/Rx1Npsvi8EP6hC8eHaFByCvd62g0GK15dVuaZz98LVdDIb
-	 QGgz1CYNBDLxRBxcb9W7EoReKrwoAHzO4pm2annaPka3Sul+V3ascK5FgWfVDEgrGt
-	 9b7D0aoZqSRiQ==
-Date: Wed, 18 Mar 2026 11:33:23 -0700
-From: Kees Cook <kees@kernel.org>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Eric Biederman <ebiederm@xmission.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH 1/2] exec: Add KUnit test for bprm_stack_limits()
-Message-ID: <202603181132.507C829A9@keescook>
-References: <20240520021337.work.198-kees@kernel.org>
- <20240520021615.741800-1-keescook@chromium.org>
- <a3e9b1c2-40c1-45df-9fa2-14ee6a7b3fe2@roeck-us.net>
+	s=k20201202; t=1773859445;
+	bh=Gjz4e+rul5Oy8KZpMy9Pp9cpbls2xxDCug5CNQYn8eg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=PqyCmZNCbVBdKDk8+yUMS6AbHrBkmAdC3nplALeoYzMh0VIUofFG24OhDvh/tY03w
+	 +Qgqum+Cpn+dagOwmTzLFt+u7TONca5JgRE/oa+D0qeYtzSRMNXKRR9VvK6VmXJ3ew
+	 29xZraxTIDaApjtSvW1zmJdLPVG9o+Lp7+RYS/66gat8H+TZ2SWcc9fI1jEBdmZZBV
+	 zfm6gqPQmvkwV/UzSg+KQazjBe93RWuztvpKHMC/4RwtnHzwcqvmaMQmk2BoiX9V6f
+	 CWK/TRbkjw2jVVlq82gsX9jcIylaTOevITEbO6RLiHSxkIsKb05ZRMHYB3v2FHCl4s
+	 K3GfZ/rQGruhw==
+From: Song Liu <song@kernel.org>
+To: linux-security-module@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	selinux@vger.kernel.org,
+	apparmor@lists.ubuntu.com
+Cc: paul@paul-moore.com,
+	jmorris@namei.org,
+	serge@hallyn.com,
+	viro@zeniv.linux.org.uk,
+	brauner@kernel.org,
+	jack@suse.cz,
+	john.johansen@canonical.com,
+	stephen.smalley.work@gmail.com,
+	omosnace@redhat.com,
+	mic@digikod.net,
+	gnoack@google.com,
+	takedakn@nttdata.co.jp,
+	penguin-kernel@I-love.SAKURA.ne.jp,
+	herton@canonical.com,
+	kernel-team@meta.com,
+	Song Liu <song@kernel.org>
+Subject: [PATCH 0/7] lsm: Replace security_sb_mount with granular mount hooks
+Date: Wed, 18 Mar 2026 11:43:53 -0700
+Message-ID: <20260318184400.3502908-1-song@kernel.org>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a3e9b1c2-40c1-45df-9fa2-14ee6a7b3fe2@roeck-us.net>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Mar 16, 2026 at 12:16:58PM -0700, Guenter Roeck wrote:
-> Hi,
-> 
-> On Sun, May 19, 2024 at 07:16:11PM -0700, Kees Cook wrote:
-> > Since bprm_stack_limits() operates with very limited side-effects, add
-> > it as the first exec.c KUnit test. Add to Kconfig and adjust MAINTAINERS
-> > file to include it.
-> > 
-> > Tested on 64-bit UML:
-> > $ tools/testing/kunit/kunit.py run exec
-> > 
-> > Signed-off-by: Kees Cook <keescook@chromium.org>
-> > ---
-> > Cc: Eric Biederman <ebiederm@xmission.com>
-> > Cc: Justin Stitt <justinstitt@google.com>
-> > Cc: Alexander Viro <viro@zeniv.linux.org.uk>
-> > Cc: Christian Brauner <brauner@kernel.org>
-> > Cc: Jan Kara <jack@suse.cz>
-> > Cc: linux-fsdevel@vger.kernel.org
-> > Cc: linux-mm@kvack.org
-> > ---
-> ...
-> > +++ b/fs/exec.c
-> ...
-> > +	  .expected_argmin = ULONG_MAX - (_STK_LIM / 4 * 3) + sizeof(void *) },
-> > +	{ { .p = ULONG_MAX, .rlim_stack.rlim_cur = 4 * (_STK_LIM / 4 *  + sizeof(void *)),
->                                                                    ^^^^^^
-> 
-> Google's experimental AI review agent tagged the above change as syntactically wrong.
-> How does this even compile ?
+This series replaces the monolithic security_sb_mount() hook with
+per-operation mount hooks, addressing two main issues:
 
-Wow. I have no idea how this ever built either. I will get it fixed.
+1. TOCTOU: security_sb_mount() receives dev_name as a string, which
+   LSMs like AppArmor and Tomoyo re-resolve via kern_path(). The new
+   hooks pass pre-resolved struct path pointers where possible (bind
+   mount, move mount), eliminating the double-resolution.
 
--- 
-Kees Cook
+2. Conflation: security_sb_mount() handles bind, new mount, remount,
+   move, propagation changes, and mount reconfiguration through a
+   single hook, requiring LSMs to dispatch on flags internally. The
+   new hooks are called at the operation level with appropriate
+   context.
+
+The new hooks are:
+  mount_bind        - bind mount (pre-resolved source path)
+  mount_new         - new filesystem mount (with fs_context)
+  mount_remount     - filesystem remount (with fs_context)
+  mount_reconfigure - mount flag reconfiguration (MS_REMOUNT|MS_BIND)
+  mount_move        - move mount (pre-resolved paths)
+  mount_change_type - propagation type changes
+
+mount_new and mount_remount are called after parse_monolithic_mount_data(),
+so LSMs have access to the fs_context with parsed mount options. They also
+receive the original mount(2) flags and data pointer for LSMs (AppArmor,
+Tomoyo) that need them for policy matching.
+
+The series also replaces security_move_mount() with the new mount_move
+hook, unifying the old mount(2) MS_MOVE path with the move_mount(2)
+syscall path.
+
+All existing LSM behaviors are preserved:
+  AppArmor: same policy matching, TOCTOU fixed for bind/move
+  SELinux:  same permission checks (FILE__MOUNTON, FILESYSTEM__REMOUNT)
+  Landlock: same deny-all for sandboxed processes
+  Tomoyo:   same policy matching, TOCTOU fixed for bind/move, unused
+            data_page parameter removed
+
+
+This work is inspired by earlier discussions:
+
+[1] https://lore.kernel.org/bpf/20251127005011.1872209-1-song@kernel.org/
+[2] https://lore.kernel.org/linux-security-module/20250708230504.3994335-1-song@kernel.org/
+
+
+Song Liu (7):
+  lsm: Add granular mount hooks to replace security_sb_mount
+  apparmor: Remove redundant MS_MGC_MSK stripping in apparmor_sb_mount
+  apparmor: Convert from sb_mount to granular mount hooks
+  selinux: Convert from sb_mount to granular mount hooks
+  landlock: Convert from sb_mount to granular mount hooks
+  tomoyo: Convert from sb_mount to granular mount hooks
+  lsm: Remove security_sb_mount and security_move_mount
+
+ fs/namespace.c                    |  41 +++++++---
+ include/linux/lsm_hook_defs.h     |  14 +++-
+ include/linux/security.h          |  56 +++++++++++---
+ kernel/bpf/bpf_lsm.c              |   7 +-
+ security/apparmor/include/mount.h |   5 +-
+ security/apparmor/lsm.c           | 102 ++++++++++++++++++-------
+ security/apparmor/mount.c         |  37 ++--------
+ security/landlock/fs.c            |  41 ++++++++--
+ security/security.c               | 119 +++++++++++++++++++++++-------
+ security/selinux/hooks.c          |  49 ++++++++----
+ security/tomoyo/common.h          |   2 +-
+ security/tomoyo/mount.c           |  31 +++++---
+ security/tomoyo/tomoyo.c          |  63 ++++++++++++----
+ 13 files changed, 406 insertions(+), 161 deletions(-)
+
+--
+2.52.0
