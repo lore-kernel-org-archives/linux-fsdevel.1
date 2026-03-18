@@ -1,348 +1,302 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35D1C33C18B
-	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Mar 2026 14:21:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9B533DA5CE;
+	Wed, 18 Mar 2026 14:21:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773843706; cv=none; b=DHKnLToArksl6iOVSFXKAdf4w5KivmAb0rRtBA8vdd0dBhIBNM7f8jeiaZFXryDcWpNLb+gJ/doKxD/DvwGkXoZ2BvHdjJk1kahu69gdcUAP6np0kBMf7FbiAe+OCDMk3EtgIlTFT8A2300x4mF88xmhNB8F60EuQeQ9JBhgMn4=
+	t=1773843707; cv=none; b=El+wosqqONT5LR1fvqKl0dYt6fPG5JMtzvUrmF4QStDq0ZkijI3A7mbXPLFMHfqWSZVspIm6E9VAIZYYU+YMMnApLhiDIXeu0RuzSsijVkICcITUQcMeWTzedOqG19WmUPS+M2A4/Fv43nPYWn7WTDIt6W0bpbVa+Xtk/kFDpP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773843706; c=relaxed/simple;
-	bh=f9UR7y3ZwgsV+TuelLXCYwXJUhQh+u9OBvw9waB8xX4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=g3IMELKZ68aN7GBJNkyX+2+Nkx3l+Pl80NjbM27eErT4wr01K/SZ1pFqU+v1VEcDsdSRGOwYEvRrffbDfm9nnmr80m9due0AXbIYRXHEjRz68kUTdPjjr3az9JeB9Hxl9U+0k4DUdNJ7WmEJOmdWf3ggW2zH+szbnf5ZiqJljjw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WrdRsWqD; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773843707; c=relaxed/simple;
+	bh=Ryp3Z6JHfeiN0hRQbLyPIpIxWpC2oyV8td8FF9RwkIE=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=QDFVBIsO9KsQ9lDvLqvNjGa8yvFXjvdB4j0LbxTJ2zVmRosjm20sc2iSXOVP4idrjJBdOl8/TK95iPJWfkbnZKfWM1sZzwa8jcCYwrK6mhfJO4Ja1Vp5ESOdX2NylE+XeBYcoGMPJ03td4wz3CAAxsLVwlEgVG0UuotVHFC1yk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hi/1cJ9E; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WrdRsWqD"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4852a9c6309so58302365e9.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 18 Mar 2026 07:21:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773843702; x=1774448502; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0zYhSwAzJ9BUGywvFLIYkG2/r1jfBmm8GGSh/9Q1A0g=;
-        b=WrdRsWqDXbGtBEfOt6YM+/liaf1v1mM1HoTtwER98BxA/k5ivL1tML5ZrPcq0U+Zp6
-         eRRqathyP66VfISV6cu+ta9N0cjGciGsCIi3Fzaccyz2a2Ww9jz5KZ7rfeChiJpj5tl/
-         SP2az680eesGRJxArqFSqvtQ2rT3hE2tgviIoT8Nedj3mtguZ3Gzi3Cjkol+fUUmvTBG
-         o3CVLSpoQU8mIvfK+YM+n5Q5KmEhTTEZwIjYZM8uNjIVf4/J82lbhP19DzPpdTAL3UXU
-         amKWc9Cw4TOz6kF87wWq5oLLVsbfFO+63TXf5AbcGMdvbObx5XFiIbxG3KJV52wTZRah
-         ec+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773843702; x=1774448502;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=0zYhSwAzJ9BUGywvFLIYkG2/r1jfBmm8GGSh/9Q1A0g=;
-        b=Cqx2bJBmQsGGCQvWSkOKH5dg3VpkmttPRHbeQybbX3MZXDMJ8Oi9q2O46KM1XcWc/S
-         EkeR2LgUUHG8/XH9YStFvSD9rMAFO2quy/vC71WvsxujYteFtGN3x5MswkHboniYcjz0
-         A/yRBCrAzdFM4nmwPwEZN3FME4p0uXRH+nS5dtmR5nhBE519Do9MjzjJFOg8XUxWNFTF
-         cOVljVQiYaz5y5lDFasv+6d8QbJhiwXw0TKJWDTT98VNfIhJ0dKYgwLVvjs9Lbkt1tgY
-         IzglPeLNH3rA2C5DOmspeWcpWWUq4cflJ9cxb9XskTj00aOoe2UYqvcA67QDGOfz0d0T
-         d7hg==
-X-Forwarded-Encrypted: i=1; AJvYcCWGczCdYrsFOGDvUQGY7SFFV/7QEuf1DhGfUycevTmqsrrMCApj/BEEO0NISgU4iJUvJ5uGNxDZ8G1c0Lnw@vger.kernel.org
-X-Gm-Message-State: AOJu0YwstjurK6xzR1ptdVsygHrlhSzIDbvvWc0N/q34H3rRRUDN1W8+
-	MdjbOkc+CK7iC9pe9xggpQwtnQxM2u8HJ5oWykwEvhg+BQOzGDRjwQTB
-X-Gm-Gg: ATEYQzxReG7+UBfzEAw0y8XgX5zZ+h4QEP9XGYr/E2qsgt3RaeM5GdEgNeA4rbyfRXC
-	8NYcucIQblBnbt/zApacUobEmntw8XwxY1S6H7pA4p1vM9+O7N1IWaRg3ZiGZIEpXiIadrnJ46V
-	1hy2KRrmYUuwX+9inFH+SF3YaVfC8147DbxDdIHQZnC8tZObL0x9sdo+8PlkBCj81LavJc/7PsM
-	Z5ObRm33FyJjRH2ZkULf4xgbFyV5FUUur8+Mb9Wpeka7oDEj2zSL4YFB08WODIS34G4i4a+hn6e
-	EPvd0VKms4TJ25SukonJzojWL8nxiCM5p2K/vRqBJbyQHDTY1XkhFP8Bj0ysm5IfLIQtWowPtY2
-	Ppss/lT8oFyGRkoKKZumevMmEJnZiLT67CMhBknYxGizEGP+AWmttaN7lJP4jul95Myi3ceNnl/
-	NmBJqDYxdq9VSu/4fwabdMT4QC5lBAewPuzeO0b1vtF8D8KI4Tzo91w5yGoov/49jn0JNcA6Y4Z
-	Ak=
-X-Received: by 2002:a05:600c:470f:b0:485:3baa:af14 with SMTP id 5b1f17b1804b1-486f44410acmr60416925e9.18.1773843702145;
-        Wed, 18 Mar 2026 07:21:42 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486f4b83930sm21092845e9.17.2026.03.18.07.21.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Mar 2026 07:21:41 -0700 (PDT)
-Date: Wed, 18 Mar 2026 14:21:40 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner
- <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Linus Torvalds
- <torvalds@linux-foundation.org>, Thomas Gleixner <tglx@linutronix.de>,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] fs: Replace user_access_{begin/end} by scoped user
- access
-Message-ID: <20260318142140.3f94510c@pumpkin>
-In-Reply-To: <f46941437f681cc72fc5a84fa768f65b952f43c6.1773830446.git.chleroy@kernel.org>
-References: <f46941437f681cc72fc5a84fa768f65b952f43c6.1773830446.git.chleroy@kernel.org>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hi/1cJ9E"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E372CC19424;
+	Wed, 18 Mar 2026 14:21:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773843707;
+	bh=Ryp3Z6JHfeiN0hRQbLyPIpIxWpC2oyV8td8FF9RwkIE=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=Hi/1cJ9E4PwrwlZUEg39SlrR+FbWHHuxsnGiQShuM+OQ4D2tbCzqo3OEbPgOdgfnK
+	 UrD3w7STUplprQqcdhd5e0XloDQy5FxRe83tlrPYvr4eG5+znc9JA7lZPZdwSm7hih
+	 03HODMbaMVAtbHHrsH0mxVRUTErvFZggRBYCWqIzd2Ipq/4mU1RzmqXJHJnW9ZKgje
+	 1FvHbAgZS4VSohJGEfrxRKcSuPXFUdKOZTaKzwJohR6lzSDe8D+EeGX6HEz70GPKB8
+	 mRwb7CFmFou90bhPrwRObzt90ruVTAzdN4CiPxrP9fWL/xE8YQ6OFZkj93VWPH+M5K
+	 mgNZydDZ3B18Q==
+Message-ID: <7288d90cf67a4a8b3473b0118f3ce844e3538a3b.camel@kernel.org>
+Subject: Re: [PATCH v4 1/6] NFSD: Extract revoke_one_stid() utility function
+From: Jeff Layton <jlayton@kernel.org>
+To: Chuck Lever <cel@kernel.org>, NeilBrown <neil@brown.name>, Olga
+ Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, Tom
+ Talpey <tom@talpey.com>
+Cc: linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, Chuck Lever
+	 <chuck.lever@oracle.com>
+Date: Wed, 18 Mar 2026 10:21:45 -0400
+In-Reply-To: <20260318-umount-kills-nfsv4-state-v4-1-56aad44ab982@oracle.com>
+References: <20260318-umount-kills-nfsv4-state-v4-0-56aad44ab982@oracle.com>
+	 <20260318-umount-kills-nfsv4-state-v4-1-56aad44ab982@oracle.com>
+Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
+ keydata=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
+ QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-On Wed, 18 Mar 2026 13:22:43 +0100
-"Christophe Leroy (CS GROUP)" <chleroy@kernel.org> wrote:
-
-> Scoped user access reduces code complexity and seamlessly bring
-> masked user access on architectures that support it.
-> 
-> Replace user_access_begin/user_access_end blocks by
-> scoped user access.
-> 
-> Signed-off-by: Christophe Leroy (CS GROUP) <chleroy@kernel.org>
+On Wed, 2026-03-18 at 10:15 -0400, Chuck Lever wrote:
+> From: Chuck Lever <chuck.lever@oracle.com>
+>=20
+> The per-stateid revocation logic in nfsd4_revoke_states() handles
+> four stateid types in a deeply nested switch. Extract two helpers:
+>=20
+> revoke_ol_stid() performs admin-revocation of an open or lock
+> stateid with st_mutex already held: marks the stateid as
+> SC_STATUS_ADMIN_REVOKED, closes POSIX locks for lock stateids,
+> and releases file access.
+>=20
+> revoke_one_stid() dispatches by sc_type, acquires st_mutex with
+> the appropriate lockdep class for open and lock stateids, and
+> handles delegation unhash and layout close inline.
+>=20
+> No functional change. Preparation for adding export-scoped state
+> revocation which reuses revoke_one_stid().
+>=20
+> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
 > ---
-> v2:
-> - Fix build failure with CONFIG_COMPAT
-> - Handled checkpatch.pl output
-> 
-> v3:
-> - Fix again build failure with CONFIG_COMPAT. I was obviously too tired when I sent out v2.
-> 
-> v4:
-> - Introduced local size var based on Linus comment on readability. Not a dirent_size() helper as suggested as both sites are different.
-> ---
->  fs/readdir.c | 94 +++++++++++++++++++++-------------------------------
->  fs/select.c  | 35 ++++++++-----------
->  2 files changed, 51 insertions(+), 78 deletions(-)
-> 
-> diff --git a/fs/readdir.c b/fs/readdir.c
-> index 73707b6816e9..8fa615b7e950 100644
-> --- a/fs/readdir.c
-> +++ b/fs/readdir.c
-> @@ -184,6 +184,7 @@ static bool fillonedir(struct dir_context *ctx, const char *name, int namlen,
->  	struct readdir_callback *buf =
->  		container_of(ctx, struct readdir_callback, ctx);
->  	struct old_linux_dirent __user * dirent;
-> +	size_t size = offsetof(struct old_linux_dirent, d_name) + namlen + 1;
->  	unsigned long d_ino;
->  
->  	if (buf->result)
-> @@ -198,18 +199,13 @@ static bool fillonedir(struct dir_context *ctx, const char *name, int namlen,
->  	}
->  	buf->result++;
->  	dirent = buf->dirent;
-> -	if (!user_write_access_begin(dirent,
-> -			(unsigned long)(dirent->d_name + namlen + 1) -
-> -				(unsigned long)dirent))
-> -		goto efault;
-> -	unsafe_put_user(d_ino, &dirent->d_ino, efault_end);
-> -	unsafe_put_user(offset, &dirent->d_offset, efault_end);
-> -	unsafe_put_user(namlen, &dirent->d_namlen, efault_end);
-> -	unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault_end);
-> -	user_write_access_end();
-> +	scoped_user_write_access_size(dirent, size, efault) {
-
-The problem now is that it isn't obviously clear that 'size' is correct.
-If nothing else its definition is quite a way up from the use.
-Perhaps putting:
-	size = offsetof(typeof(*dirent), d_name) + namelen + 1;
-immediately before the scoped_user_write_access_size() would be better.
-Perhaps even renaming it dirent_len.
-
-	David
-
-> +		unsafe_put_user(d_ino, &dirent->d_ino, efault);
-> +		unsafe_put_user(offset, &dirent->d_offset, efault);
-> +		unsafe_put_user(namlen, &dirent->d_namlen, efault);
-> +		unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault);
-> +	}
->  	return true;
-> -efault_end:
-> -	user_write_access_end();
->  efault:
->  	buf->result = -EFAULT;
->  	return false;
-> @@ -287,23 +283,19 @@ static bool filldir(struct dir_context *ctx, const char *name, int namlen,
->  		return false;
->  	dirent = buf->current_dir;
->  	prev = (void __user *) dirent - prev_reclen;
-> -	if (!user_write_access_begin(prev, reclen + prev_reclen))
-> -		goto efault;
-> -
-> -	/* This might be 'dirent->d_off', but if so it will get overwritten */
-> -	unsafe_put_user(offset, &prev->d_off, efault_end);
-> -	unsafe_put_user(d_ino, &dirent->d_ino, efault_end);
-> -	unsafe_put_user(reclen, &dirent->d_reclen, efault_end);
-> -	unsafe_put_user(d_type, (char __user *) dirent + reclen - 1, efault_end);
-> -	unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault_end);
-> -	user_write_access_end();
-> +	scoped_user_write_access_size(prev, reclen + prev_reclen, efault) {
-> +		/* This might be 'dirent->d_off', but if so it will get overwritten */
-> +		unsafe_put_user(offset, &prev->d_off, efault);
-> +		unsafe_put_user(d_ino, &dirent->d_ino, efault);
-> +		unsafe_put_user(reclen, &dirent->d_reclen, efault);
-> +		unsafe_put_user(d_type, (char __user *)dirent + reclen - 1, efault);
-> +		unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault);
-> +	}
->  
->  	buf->current_dir = (void __user *)dirent + reclen;
->  	buf->prev_reclen = reclen;
->  	ctx->count -= reclen;
->  	return true;
-> -efault_end:
-> -	user_write_access_end();
->  efault:
->  	buf->error = -EFAULT;
->  	return false;
-> @@ -371,24 +363,20 @@ static bool filldir64(struct dir_context *ctx, const char *name, int namlen,
->  		return false;
->  	dirent = buf->current_dir;
->  	prev = (void __user *)dirent - prev_reclen;
-> -	if (!user_write_access_begin(prev, reclen + prev_reclen))
-> -		goto efault;
-> -
-> -	/* This might be 'dirent->d_off', but if so it will get overwritten */
-> -	unsafe_put_user(offset, &prev->d_off, efault_end);
-> -	unsafe_put_user(ino, &dirent->d_ino, efault_end);
-> -	unsafe_put_user(reclen, &dirent->d_reclen, efault_end);
-> -	unsafe_put_user(d_type, &dirent->d_type, efault_end);
-> -	unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault_end);
-> -	user_write_access_end();
-> +	scoped_user_write_access_size(prev, reclen + prev_reclen, efault) {
-> +		/* This might be 'dirent->d_off', but if so it will get overwritten */
-> +		unsafe_put_user(offset, &prev->d_off, efault);
-> +		unsafe_put_user(ino, &dirent->d_ino, efault);
-> +		unsafe_put_user(reclen, &dirent->d_reclen, efault);
-> +		unsafe_put_user(d_type, &dirent->d_type, efault);
-> +		unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault);
-> +	}
->  
->  	buf->prev_reclen = reclen;
->  	buf->current_dir = (void __user *)dirent + reclen;
->  	ctx->count -= reclen;
->  	return true;
->  
-> -efault_end:
-> -	user_write_access_end();
->  efault:
->  	buf->error = -EFAULT;
->  	return false;
-> @@ -446,6 +434,7 @@ static bool compat_fillonedir(struct dir_context *ctx, const char *name,
->  	struct compat_readdir_callback *buf =
->  		container_of(ctx, struct compat_readdir_callback, ctx);
->  	struct compat_old_linux_dirent __user *dirent;
-> +	size_t size = offsetof(struct compat_old_linux_dirent, d_name) + namlen + 1;
->  	compat_ulong_t d_ino;
->  
->  	if (buf->result)
-> @@ -460,18 +449,13 @@ static bool compat_fillonedir(struct dir_context *ctx, const char *name,
->  	}
->  	buf->result++;
->  	dirent = buf->dirent;
-> -	if (!user_write_access_begin(dirent,
-> -			(unsigned long)(dirent->d_name + namlen + 1) -
-> -				(unsigned long)dirent))
-> -		goto efault;
-> -	unsafe_put_user(d_ino, &dirent->d_ino, efault_end);
-> -	unsafe_put_user(offset, &dirent->d_offset, efault_end);
-> -	unsafe_put_user(namlen, &dirent->d_namlen, efault_end);
-> -	unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault_end);
-> -	user_write_access_end();
-> +	scoped_user_write_access_size(dirent, size, efault) {
-> +		unsafe_put_user(d_ino, &dirent->d_ino, efault);
-> +		unsafe_put_user(offset, &dirent->d_offset, efault);
-> +		unsafe_put_user(namlen, &dirent->d_namlen, efault);
-> +		unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault);
-> +	}
->  	return true;
-> -efault_end:
-> -	user_write_access_end();
->  efault:
->  	buf->result = -EFAULT;
->  	return false;
-> @@ -543,22 +527,18 @@ static bool compat_filldir(struct dir_context *ctx, const char *name, int namlen
->  		return false;
->  	dirent = buf->current_dir;
->  	prev = (void __user *) dirent - prev_reclen;
-> -	if (!user_write_access_begin(prev, reclen + prev_reclen))
-> -		goto efault;
-> -
-> -	unsafe_put_user(offset, &prev->d_off, efault_end);
-> -	unsafe_put_user(d_ino, &dirent->d_ino, efault_end);
-> -	unsafe_put_user(reclen, &dirent->d_reclen, efault_end);
-> -	unsafe_put_user(d_type, (char __user *) dirent + reclen - 1, efault_end);
-> -	unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault_end);
-> -	user_write_access_end();
-> +	scoped_user_write_access_size(prev, reclen + prev_reclen, efault) {
-> +		unsafe_put_user(offset, &prev->d_off, efault);
-> +		unsafe_put_user(d_ino, &dirent->d_ino, efault);
-> +		unsafe_put_user(reclen, &dirent->d_reclen, efault);
-> +		unsafe_put_user(d_type, (char __user *)dirent + reclen - 1, efault);
-> +		unsafe_copy_dirent_name(dirent->d_name, name, namlen, efault);
-> +	}
->  
->  	buf->prev_reclen = reclen;
->  	buf->current_dir = (void __user *)dirent + reclen;
->  	ctx->count -= reclen;
->  	return true;
-> -efault_end:
-> -	user_write_access_end();
->  efault:
->  	buf->error = -EFAULT;
->  	return false;
-> diff --git a/fs/select.c b/fs/select.c
-> index e0244dbe4429..75978b18f48f 100644
-> --- a/fs/select.c
-> +++ b/fs/select.c
-> @@ -1004,17 +1004,17 @@ static int do_sys_poll(struct pollfd __user *ufds, unsigned int nfds,
->  	fdcount = do_poll(head, &table, end_time);
->  	poll_freewait(&table);
->  
-> -	if (!user_write_access_begin(ufds, nfds * sizeof(*ufds)))
-> -		goto out_fds;
-> +	scoped_user_write_access_size(ufds, nfds * sizeof(*ufds), out_fds) {
-> +		struct pollfd __user *_ufds = ufds;
->  
-> -	for (walk = head; walk; walk = walk->next) {
-> -		struct pollfd *fds = walk->entries;
-> -		unsigned int j;
-> +		for (walk = head; walk; walk = walk->next) {
-> +			struct pollfd *fds = walk->entries;
-> +			unsigned int j;
->  
-> -		for (j = walk->len; j; fds++, ufds++, j--)
-> -			unsafe_put_user(fds->revents, &ufds->revents, Efault);
-> -  	}
-> -	user_write_access_end();
-> +			for (j = walk->len; j; fds++, _ufds++, j--)
-> +				unsafe_put_user(fds->revents, &_ufds->revents, out_fds);
-> +		}
-> +	}
->  
->  	err = fdcount;
->  out_fds:
-> @@ -1026,11 +1026,6 @@ static int do_sys_poll(struct pollfd __user *ufds, unsigned int nfds,
->  	}
->  
->  	return err;
-> -
-> -Efault:
-> -	user_write_access_end();
-> -	err = -EFAULT;
-> -	goto out_fds;
+>  fs/nfsd/nfs4state.c | 126 ++++++++++++++++++++++++++--------------------=
+------
+>  1 file changed, 63 insertions(+), 63 deletions(-)
+>=20
+> diff --git a/fs/nfsd/nfs4state.c b/fs/nfsd/nfs4state.c
+> index 6b9c399b89df..d476192e4b27 100644
+> --- a/fs/nfsd/nfs4state.c
+> +++ b/fs/nfsd/nfs4state.c
+> @@ -1757,6 +1757,68 @@ static struct nfs4_stid *find_one_sb_stid(struct n=
+fs4_client *clp,
+>  	return stid;
 >  }
->  
->  static long do_restart_poll(struct restart_block *restart_block)
-> @@ -1338,15 +1333,13 @@ static inline int get_compat_sigset_argpack(struct compat_sigset_argpack *to,
->  					    struct compat_sigset_argpack __user *from)
->  {
->  	if (from) {
-> -		if (!user_read_access_begin(from, sizeof(*from)))
-> -			return -EFAULT;
-> -		unsafe_get_user(to->p, &from->p, Efault);
-> -		unsafe_get_user(to->size, &from->size, Efault);
-> -		user_read_access_end();
-> +		scoped_user_read_access(from, efault) {
-> +			unsafe_get_user(to->p, &from->p, efault);
-> +			unsafe_get_user(to->size, &from->size, efault);
+> =20
+> +static void revoke_ol_stid(struct nfs4_client *clp,
+> +			   struct nfs4_ol_stateid *stp)
+> +{
+> +	struct nfs4_stid *stid =3D &stp->st_stid;
+> +
+> +	lockdep_assert_held(&stp->st_mutex);
+> +	spin_lock(&clp->cl_lock);
+> +	if (stid->sc_status =3D=3D 0) {
+> +		stid->sc_status |=3D SC_STATUS_ADMIN_REVOKED;
+> +		atomic_inc(&clp->cl_admin_revoked);
+> +		spin_unlock(&clp->cl_lock);
+> +		if (stid->sc_type =3D=3D SC_TYPE_LOCK) {
+> +			struct nfs4_lockowner *lo =3D
+> +				lockowner(stp->st_stateowner);
+> +			struct nfsd_file *nf;
+> +
+> +			nf =3D find_any_file(stp->st_stid.sc_file);
+> +			if (nf) {
+> +				get_file(nf->nf_file);
+> +				filp_close(nf->nf_file, (fl_owner_t)lo);
+> +				nfsd_file_put(nf);
+> +			}
 > +		}
->  	}
->  	return 0;
-> -Efault:
-> -	user_read_access_end();
-> +efault:
->  	return -EFAULT;
->  }
->  
+> +		release_all_access(stp);
+> +	} else
+> +		spin_unlock(&clp->cl_lock);
+> +}
+> +
+> +static void revoke_one_stid(struct nfs4_client *clp, struct nfs4_stid *s=
+tid)
+> +{
+> +	struct nfs4_ol_stateid *stp;
+> +	struct nfs4_delegation *dp;
+> +
+> +	switch (stid->sc_type) {
+> +	case SC_TYPE_OPEN:
+> +		stp =3D openlockstateid(stid);
+> +		mutex_lock_nested(&stp->st_mutex, OPEN_STATEID_MUTEX);
+> +		revoke_ol_stid(clp, stp);
+> +		mutex_unlock(&stp->st_mutex);
+> +		break;
+> +	case SC_TYPE_LOCK:
+> +		stp =3D openlockstateid(stid);
+> +		mutex_lock_nested(&stp->st_mutex, LOCK_STATEID_MUTEX);
+> +		revoke_ol_stid(clp, stp);
+> +		mutex_unlock(&stp->st_mutex);
+> +		break;
+> +	case SC_TYPE_DELEG:
+> +		refcount_inc(&stid->sc_count);
+> +		dp =3D delegstateid(stid);
+> +		spin_lock(&state_lock);
+> +		if (!unhash_delegation_locked(dp, SC_STATUS_ADMIN_REVOKED))
+> +			dp =3D NULL;
+> +		spin_unlock(&state_lock);
+> +		if (dp)
+> +			revoke_delegation(dp);
+> +		break;
+> +	case SC_TYPE_LAYOUT:
+> +		nfsd4_close_layout(layoutstateid(stid));
+> +		break;
+> +	}
+> +}
+> +
+>  /**
+>   * nfsd4_revoke_states - revoke all nfsv4 states associated with given f=
+ilesystem
+>   * @nn:   used to identify instance of nfsd (there is one per net namesp=
+ace)
+> @@ -1787,70 +1849,8 @@ void nfsd4_revoke_states(struct nfsd_net *nn, stru=
+ct super_block *sb)
+>  			struct nfs4_stid *stid =3D find_one_sb_stid(clp, sb,
+>  								  sc_types);
+>  			if (stid) {
+> -				struct nfs4_ol_stateid *stp;
+> -				struct nfs4_delegation *dp;
+> -				struct nfs4_layout_stateid *ls;
+> -
+>  				spin_unlock(&nn->client_lock);
+> -				switch (stid->sc_type) {
+> -				case SC_TYPE_OPEN:
+> -					stp =3D openlockstateid(stid);
+> -					mutex_lock_nested(&stp->st_mutex,
+> -							  OPEN_STATEID_MUTEX);
+> -
+> -					spin_lock(&clp->cl_lock);
+> -					if (stid->sc_status =3D=3D 0) {
+> -						stid->sc_status |=3D
+> -							SC_STATUS_ADMIN_REVOKED;
+> -						atomic_inc(&clp->cl_admin_revoked);
+> -						spin_unlock(&clp->cl_lock);
+> -						release_all_access(stp);
+> -					} else
+> -						spin_unlock(&clp->cl_lock);
+> -					mutex_unlock(&stp->st_mutex);
+> -					break;
+> -				case SC_TYPE_LOCK:
+> -					stp =3D openlockstateid(stid);
+> -					mutex_lock_nested(&stp->st_mutex,
+> -							  LOCK_STATEID_MUTEX);
+> -					spin_lock(&clp->cl_lock);
+> -					if (stid->sc_status =3D=3D 0) {
+> -						struct nfs4_lockowner *lo =3D
+> -							lockowner(stp->st_stateowner);
+> -						struct nfsd_file *nf;
+> -
+> -						stid->sc_status |=3D
+> -							SC_STATUS_ADMIN_REVOKED;
+> -						atomic_inc(&clp->cl_admin_revoked);
+> -						spin_unlock(&clp->cl_lock);
+> -						nf =3D find_any_file(stp->st_stid.sc_file);
+> -						if (nf) {
+> -							get_file(nf->nf_file);
+> -							filp_close(nf->nf_file,
+> -								   (fl_owner_t)lo);
+> -							nfsd_file_put(nf);
+> -						}
+> -						release_all_access(stp);
+> -					} else
+> -						spin_unlock(&clp->cl_lock);
+> -					mutex_unlock(&stp->st_mutex);
+> -					break;
+> -				case SC_TYPE_DELEG:
+> -					refcount_inc(&stid->sc_count);
+> -					dp =3D delegstateid(stid);
+> -					spin_lock(&state_lock);
+> -					if (!unhash_delegation_locked(
+> -						    dp, SC_STATUS_ADMIN_REVOKED))
+> -						dp =3D NULL;
+> -					spin_unlock(&state_lock);
+> -					if (dp)
+> -						revoke_delegation(dp);
+> -					break;
+> -				case SC_TYPE_LAYOUT:
+> -					ls =3D layoutstateid(stid);
+> -					nfsd4_close_layout(ls);
+> -					break;
+> -				}
+> +				revoke_one_stid(clp, stid);
+>  				nfs4_put_stid(stid);
+>  				spin_lock(&nn->client_lock);
+>  				if (clp->cl_minorversion =3D=3D 0)
 
+Much nicer anyway.
+
+Reviewed-by: Jeff Layton <jlayton@kernel.org>
