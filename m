@@ -1,306 +1,353 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4350D262FF8
-	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Mar 2026 03:51:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36EBF254B18;
+	Wed, 18 Mar 2026 04:12:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773805862; cv=pass; b=Z8FWI1XTiQfui14jmKSc6TsiRHHBTIIVQnoHb1kcdpTKprj8iUDkXLkn7y+JemFghlqAu7O7M5g9DyJMm1elljl7GmIGAb8HTPYZMlvXoOl9Q3WH8RL8KDvT/hZvSL2UeZqxKLN6zooEGdc/sZHS77XzaW5oX2e9vLLztPGBk7U=
+	t=1773807138; cv=fail; b=coRc065ho866sYWinPCO3rRhI9r9LW7ZA41Nb0tqJXix7su+TA/5ceYdGrW2dt3MUsfHzahjfS/qfpwVrfLDvV5tkGAKoibj9bEn9CCxpulIKnZwK8eIJhoUyMcLW9Jawlakur+bYQlDg+Io1Nsk2rUaIbnt0nUMNKmlgAChwDM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773805862; c=relaxed/simple;
-	bh=6rfy+YL8TbqCjX2Bi91JJPPsyBwsvbuy0eDI2V5QM0U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tbqJOTH6eTHGGNJkTGEVu7YR0Q5CZYxuEL2m8F1LhRutdvbO2tPzQCvixX4HPkzYeXlDRohaWtrgYrj6bZ56Z2ulYE1i7iaDV0ugUHqwMIKkg8ORDHl3JzCOvgc/ztBfJNGbEXjOQsiXmfJ2d1LndBviSsQ8IVVIXJbIBeSFW/8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GNjsWxu4; arc=pass smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773807138; c=relaxed/simple;
+	bh=ttxJFiD5UQjSSPj+odjMeoF841WLmp2WdWLAcqbXbhE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=bCYboLdcgFqOEEDkqhqT0TKBIt46+5JDq7tx0lz1nIMZpPXEHwSSWcyFffE3fI2VoFev7XnbvdY5y5y6UeUd2HMcr5fPY5lyEceWVc1eZuTMYWHZ2/R9+2S8GvBjJqq1oHM+3XxG51mjnc+JECfVr1zbDwfEHSf7XxHBC2O1brg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=qw2cYyht; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=EIgf8fCJ; arc=fail smtp.client-ip=205.220.165.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GNjsWxu4"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-43b49819938so1056029f8f.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Mar 2026 20:51:01 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773805860; cv=none;
-        d=google.com; s=arc-20240605;
-        b=R2Y4LIgMlYjA6Ma30RStwTgp9nkdL+dKFiasn5S+J+Jo3g8Wm5NXTsJ6P8Z1QT1sWw
-         +RipqOTYZHCkhEQfzroXMpQqLQyb6ZchrKMj/uZaJdMoZVLKfUF1bWcuFfNxFPxnl/ed
-         KvOHU6rzXqnCU4i6WGHZa9ytcvGCE6McqDfdERsonHzohLlttArAYb/jTZP422bJgvBN
-         dYtBuWVDM5BGE37MZAfPrcn2Djt+FkZIbOsUhcJ80agWCJxISUJfFLGYxXeZ6lnK+Nob
-         G/QtLzJVmuFzA4Z/u1bjYx3UROm1NxfROTFncLP9J8GgQtaa8wDQABOSPquJpsuRtxVJ
-         tXew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=uAqgSBgM5GR2plF0BUM1uuvvYOmn5cIX6q0Wx3uim3A=;
-        fh=gQdkKV1tGOGOzKyd3JoTBUe1U1ve+G3SIIwDLG1eHm4=;
-        b=QPg6/Zk114rxCgsggVoH27QIuOf+vd7k5+FTbAaoAM5vzDovFtwZHniP3nKvxisL6p
-         hw4j1ulOhLwl3utphzfvGkYnU39LkkSyQRhsf0d7eq6r9W88PE23TfXTTKIVD37hqYo4
-         3p4Cas9rmakgiXEYyVdrPX0h/LcH2+hVw38480XjR2nvFlQTnJsDhDPes4tIH8WJV45+
-         4Qy4kqtVqILT+Ydmj3SAnuAn/LWC1+x9yiPyYKBWU9ZRyaGabk0lC4xTn0L9ABr8n5Dg
-         d8/zyATeCH0A3XFFhk5XnEiRZpW6zv7Yv/9zIdhXvX9l3Af52lqU78+z/zJFuSBDXvds
-         J1WA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="qw2cYyht";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="EIgf8fCJ"
+Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62I2NW9M1776835;
+	Wed, 18 Mar 2026 04:11:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=corp-2025-04-25; bh=l7swa0tYJHOsVNIUTP
+	S6EeYUIRVfH0uqpqjSeNRhWXE=; b=qw2cYyhthcOOnsMI51Xn7O1p9FKKTysr0e
+	yh8Rkxjf9cFM4IvnLR91Qgye9C+UadbTpgpIcJyLB2nU+RAtbmFdDzl29yyAdUXS
+	JIDuCRXqA35duLOWZUuwv1KjXUNCvaQIuEI93rzV4guBQzAWP3bGo25Ih0avbuqO
+	Hg4797aIodMD78B7dGQShmB7NrGHQFkpNruyrmD3oJdV7FkhcTWbWhgCOnpYPKd4
+	mdTzsR2Qbs3HgITTKA0aB6IZqd30ZhCiqt7s0/koPVtIYlu3TC2Rx1KwWJ/6Qbkh
+	7y7erUdYE2XjhFX8vhtRb/qkfC4RNUflnJV5zTBqeaE0VP2DumLQ==
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4cvxk8devs-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 18 Mar 2026 04:11:05 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 62I17KU9003496;
+	Wed, 18 Mar 2026 04:11:05 GMT
+Received: from sj2pr03cu001.outbound.protection.outlook.com (mail-westusazon11012016.outbound.protection.outlook.com [52.101.43.16])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4cvx4b2fs7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 18 Mar 2026 04:11:05 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=okUUhiCaL05/+Tp+mTG1cnv/Y2YlqbMrF3730kp02w6c2dnpXSKgn6/ELm+4+B7WBMWjJU/7rkPnSK6E87BaUL1N98vRszxr68TNhOllr00TiKtEIbv+EQgqrTJhgjf4Xn76b7Xejz2bgYEvvA3pwMVkLxz3X7Irdikr+Tu0ITMtQxViGT3BB8AvVNTP2FvMw+eZb7cyltkx9XUFygHLHDWvfGoPmUMkbIdwDJGQzZAhti6axLoiCwGLu1dcx+QBRJPeEMDHDEO/rd/aFogtT5Q0j6c7cMFuD6IopyBFe34z7bjYWHaZhBDtH8Vd5bLHvSAamCLd1RGeF6a3bPqZ0g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=l7swa0tYJHOsVNIUTPS6EeYUIRVfH0uqpqjSeNRhWXE=;
+ b=P7mp7+sLn8uZtsimAZUlDrI/nOwxQbGvg2hkjeOnDKlxlUe68GLozWMW5PgJOx3upZLMJ3Jw5GrieFWm1eeogM3wkh4Ojnjus3JH6hZsiFk2CBqGJmJKOZ6ICOJzH0itlq6ZQzTTm+vR++SgworcOqiclV9OiqtqMmopF/CrSbtOqRJrXSNmw/xP3eYVAdMCZE+rhWBLsGz+5aijdpIjH+Ma2bqzVyCQhfEa4ZalCoBcbE5+6XiJv7dsuAaxZl1++10DWT3Y30qsx8EFngg26/bEq0XdKSWq0yZPuDzsLwTn72+hsrJdFk1NVBvVFyK93sV3FvyWeEEj3uIIHriPiQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773805860; x=1774410660; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uAqgSBgM5GR2plF0BUM1uuvvYOmn5cIX6q0Wx3uim3A=;
-        b=GNjsWxu4pTngHvg4HiYoNMNeFhFYQjV9d8aA5r6XMD1Ri6SK+tFnAoZRIA17jIYc1o
-         17sohN248vasq/zgSLCuLCFRoALswgiCYXID/GLwnWRcWzskI7P5balXg2J3vke265cb
-         zUuxc/TSas+2EFAMtlt2d+SwJr1X7vzDmMXSXfpJ7D+EVxPY6NL/6Docv2BKdSp294cg
-         2ZgZMFQEvjo2U1CeptMgxJ9qBZdcDEKeS4C9CqGbl8PLy3FyvwOlqshWTncNbhiSP6q1
-         9BQ8tDCxXX+GdI+QwqbjPVDU2S0WG3RvD4rFKLWmNO7Ta4Ryag9oS1XqLmrWWcCZZvJ5
-         l7iA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773805860; x=1774410660;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=uAqgSBgM5GR2plF0BUM1uuvvYOmn5cIX6q0Wx3uim3A=;
-        b=ilA+EYHSnYOS3ZzfBvhP9JG8DTqSwhvBjtBgjNrEFbmJZBH709b5LUGdWZzAbI1Awp
-         0vnV8Me7JenMO+exF7tKuz7BiL0FeqcbS65jQ3ewzxI3MciO63iPp/dz2SArmJzsPZ1e
-         8VMCB/tNOq5qGDUfDxsQQ3idbnOn/TJbREgFnh5YDNepDmgd6Pkx0vZjozFMFHa7v0UE
-         6C0YAd1EYyVA9kYnhNY9P/7E6Mb20r8VsEZfPvAIHqldTFTYUfTHn3w94GKvOdhDVSs5
-         5BVcX4b7KQwR8luVfy1hxYdnBKVGt7L4WQapl7KoV4Hn2gI+JL73ueetFqFWyyovgqRm
-         y+gg==
-X-Gm-Message-State: AOJu0Yy2UzoU7WH2Gjbg/ITjW0KzngxyYIlf8CV7lnVbdfX+srzaVRYb
-	fQtKllcGrXQbBQ14wxNvq5Go+V2WPydLmHAdfji0RSDPj50eaZKui366/DnuV7Gw1GPzQcGFztc
-	8+rCVJ3S44Z3VfN89gG9+UXlAxtcW9sE=
-X-Gm-Gg: ATEYQzxx0X0s+jCzpkQPB0F9MykzMQZ02DWoIdP5VbIztMOZw/rgr7IeqrIGBYltbdP
-	sRJdf8pOzetvZC0gx0EJ54cv/kocCvwoNxOc0POSq4bDqZKiOgK8x25w0b1e+Ka15T+KCN5w/QN
-	mxpmY2sknFCx7j/8VmgrLdnAq0jEByyYiShYVtSCkSn/uiWqV6y4U9Bm638AqLmvXZtZa6d9Lc/
-	0wHobbQSksEi1wal50BPQu0MMCpnjDlUX/8o8qz2fl/hYJyhYmgpq7nz8PWUOXahkjEPUQcIRJX
-	XXU1dg==
-X-Received: by 2002:a5d:588a:0:b0:43b:493c:884b with SMTP id
- ffacd0b85a97d-43b527aa359mr2536473f8f.12.1773805859317; Tue, 17 Mar 2026
- 20:50:59 -0700 (PDT)
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=l7swa0tYJHOsVNIUTPS6EeYUIRVfH0uqpqjSeNRhWXE=;
+ b=EIgf8fCJHNBKoDTbRfQwGkh2HEi0NvL8PRv/663HH3yC1wJfbSrEIDT6ZM3VwCYAbJJH6PxRzJtZNhnsS2zy18eZD6jYHIeL276TZR9fCtDfV1Nd48uBQ/GVgcBX6RM4/uRWGMiJVwzi90JDBNI4UKofTmyhgopxvrCNLY9r4C8=
+Received: from CH3PR10MB7329.namprd10.prod.outlook.com (2603:10b6:610:12c::16)
+ by PH0PR10MB5659.namprd10.prod.outlook.com (2603:10b6:510:fe::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.22; Wed, 18 Mar
+ 2026 04:11:01 +0000
+Received: from CH3PR10MB7329.namprd10.prod.outlook.com
+ ([fe80::c2a4:fdda:f0c2:6f71]) by CH3PR10MB7329.namprd10.prod.outlook.com
+ ([fe80::c2a4:fdda:f0c2:6f71%7]) with mapi id 15.20.9723.018; Wed, 18 Mar 2026
+ 04:11:01 +0000
+Date: Wed, 18 Mar 2026 13:10:48 +0900
+From: Harry Yoo <harry.yoo@oracle.com>
+To: syzbot <syzbot+cae7809e9dc1459e4e63@syzkaller.appspotmail.com>
+Cc: akpm@linux-foundation.org, catalin.marinas@arm.com, chao@kernel.org,
+        hao.li@linux.dev, jaegeuk@kernel.org, jannh@google.com,
+        liam.howlett@oracle.com, linkinjeon@kernel.org,
+        linux-f2fs-devel@lists.sourceforge.net, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        lorenzo.stoakes@oracle.com, pfalcato@suse.de, sj1557.seo@samsung.com,
+        syzkaller-bugs@googlegroups.com, vbabka@kernel.org, vbabka@suse.cz,
+        wangqing7171@gmail.com
+Subject: Re: [syzbot] [mm?] [f2fs?] [exfat?] memory leak in __kfree_rcu_sheaf
+Message-ID: <abolyGbAyynUANDB@hyeyoo>
+References: <aa-1-Y3v3D1hzPvL@hyeyoo>
+ <69afba32.a00a0220.d013.0002.GAE@google.com>
+ <aa_R-6SdHYBBkQX-@hyeyoo>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aa_R-6SdHYBBkQX-@hyeyoo>
+X-ClientProxiedBy: SL2PR03CA0019.apcprd03.prod.outlook.com
+ (2603:1096:100:55::31) To CH3PR10MB7329.namprd10.prod.outlook.com
+ (2603:10b6:610:12c::16)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <Utw_Cjiuq0_XhCoA5EXpzLE9qfRpiA0-fmXEmui7NnBnIeMiCDGOyXWPtE5DkxVNYNSsgiUotB7fsGYnlMQn1xDCx14yx1d0UJqx62vAwp4=@proton.me>
- <CAJnrk1YAhWnOt-7yr9gDmHdjANiC74-fC5mKsePC6wFTzwPjUw@mail.gmail.com> <Oh3QG6NmrGxixfRZmAUnkDb0ukAG1ro7XFSVCJVWYdyTqG4ddxHjQsfhBurktEbG5vJ97FA58bDMAuBsQzVlN8Tq-M4LUck18F0D0nVCsXg=@proton.me>
-In-Reply-To: <Oh3QG6NmrGxixfRZmAUnkDb0ukAG1ro7XFSVCJVWYdyTqG4ddxHjQsfhBurktEbG5vJ97FA58bDMAuBsQzVlN8Tq-M4LUck18F0D0nVCsXg=@proton.me>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Tue, 17 Mar 2026 20:50:47 -0700
-X-Gm-Features: AaiRm51PUYamgbFWlUgsOs9BM9tmfk60sNpXBP_AmJ49RXQ4ScD5s_r_Bjh821w
-Message-ID: <CAJnrk1Y25_HKeYou-JQHXOZ5HLhEcwnBmWoUm78smB825+v0UA@mail.gmail.com>
-Subject: Re: [BUG] fuse: wb_wait_for_completion hang on suspend with
- fuse-overlayfs on tmpfs persists in 6.19.6 (AS_NO_DATA_INTEGRITY fix incomplete)
-To: John <therealgraysky@proton.me>
-Cc: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
-	"linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, Jan Kara <jack@suse.cz>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR10MB7329:EE_|PH0PR10MB5659:EE_
+X-MS-Office365-Filtering-Correlation-Id: e8334ed4-dfe9-4ac4-f5a8-08de84a45d47
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|1800799024|366016|18002099003|22082099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	/fwrQ+jjqDzuG3ao0MxA8icgRQ5x8hPsAnZcZDpNbttquqS/zkE6spqdILlf/W9BI+FSOhpJsBHGO3bL3/2S6vL3vn2OZXiugZJuf5hXcneQDGBkj0AQoAQnODWJrldDsBSAS6uHov4pVtFCSu6AAqqeMtK8HAg+Ty6CO1t6mUOgSBxeGL3HByEtqdmwYK356vDPnSl9BXfwF6lruaD/jTU6CvTZzb3btRN9oTn9ymF0Z0eKPF+k0wc9DDycKhpDi7acrC8X7TqzFoxFy1HZSFwY/KZBM8hV977wFbBhThkJtEWZX4RVErGUZl4A/p6mPXJWd8xqVWB+L4i3kv1qictbwKs/lJRNeNlBZTazSCDKChD+pM9bgW5ZqWt6VzA556oIbe+vWoe4IS6HnN8F67yUiOV9C8yrig3O3RM0DT9G0maXkqIHhzAykP2MH2SoyiIZT//ODjf6s8ik7Q7G651HPjLgpXa/0hfyMi/K6irB1S5GE2DBkxd2CJQQ+YcHCNw3rKm/U/BAt4R9Sd9yv0PwrROiJ8R1zLsikDsgH5Z7BlyhWe7MNxIo6zVdYOkCD4nZTtjJBtldzMVMqvHPfF0Q2AI59vCbI1MEkOMlWL4SUZedi4BI3IlBRbU1oXYfH2DFg/zVkJMZXMKB1qHEgPjtn2KLSzGUOaA6dHdFRzwqRVAT8fhSX+xvT05eKeefejXe/HnOMF7dg0Kj6TSPpolN4D4bORiYQre3sNxs9Kw=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR10MB7329.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?GP+q5PyRB7nbPVS9yzfI/hJ/NXX9PyVryPG4YOI54PH+/TLnEMF1Ei1xRftG?=
+ =?us-ascii?Q?b5fTMzuYDwtLl8ohNXMRBcl5Abqw2F/LwDFKI/R1SZRgKfoVmJgJuEdSSxGS?=
+ =?us-ascii?Q?nlRRJcP+oLHIVQSjXj9R6KFXnUfg0HvFpUljZMIhvXb3p4zN6RZxhifH0WML?=
+ =?us-ascii?Q?YpnkvkXe0l5uKdecy4JLl2X2DqoHy1tBzcQpLY9tE1chaL28L0FuoTGV/txD?=
+ =?us-ascii?Q?6m8OWUm/8UdzZzNRKnDmqRBJkq9+ViIv4bgmREIWiTw4wo6Qy+wIe0ZphXoB?=
+ =?us-ascii?Q?KZtZSQ8Zyl+rTNWqgpoV9g7ZpZbDxACaqleST/yI4nzJkj30mUkhzuivrzj+?=
+ =?us-ascii?Q?3WknlspRyozdWs6izBfmXhhil16IUvfxgWevXFrzn/YEjvT/zm39CTSTDKYp?=
+ =?us-ascii?Q?4I6wY9NmZ0q13RR3OFTSyNCUOPcWZnwqqDvLWWIXHyXY2qY0OfK3BfRWeX7K?=
+ =?us-ascii?Q?0FBPCC5PYPmSGciXvgLjQaTnatAGwHvoTrEWDSX2o8Xv/VkKG5nXdGPOXdyD?=
+ =?us-ascii?Q?/j6rW7FGLpCAn10TeOMqss1POtO4Ju7vL6KTMLAeAHG7imJzFvZFcBDVaFx+?=
+ =?us-ascii?Q?6pYHTGozce7TI2yKScHJF7RsDMFb2RXlAp09pyGy7UOXKfVANG1GS292WFs7?=
+ =?us-ascii?Q?etTDiwL893byZCYlWPrbo4ZCL5xgxtwFSf4V22XJek/lsrgCYTlzAu59bfxH?=
+ =?us-ascii?Q?6xQcz8rrNyXOMTxVItCOK+MO8D8ognJHm6QlBOXgf22kD7KmJ9RMomBa1GPM?=
+ =?us-ascii?Q?he8JBuP+9xnrIUSBY0XevbXzUlsdd3S2TPEHKJd8QV0F+RVco+X1CZIMwyYO?=
+ =?us-ascii?Q?nuiq+/0onzL/+9nJL+a3CoTOmiYY44P//IWCt1b3Sm/JiaFxMOEKk+9sJN9b?=
+ =?us-ascii?Q?mYV2I5pEDMycTpmY3msF+xNQS9b3ObB32wwbtVQudp2+QsJHLNi0DG/xJJmh?=
+ =?us-ascii?Q?giDMFNtHWPWamZyNcMChj8r6vaxEYuESAd65kNJyFzmhTSWdyNpJLWC4B7J6?=
+ =?us-ascii?Q?fl4Xiuw6VpfSeEAhEHaQHpD9k4Mw8JTy4fvJPSQ7x5AU+F1LQAlYOJiG4lj1?=
+ =?us-ascii?Q?bb8SLV9DSxBgi3/0RZ0pgGo/ltk204rAybdmgagEfRYL7fPRJN8rsYPK+SlY?=
+ =?us-ascii?Q?GH0FUwaQI8xpLopCM2N0Kuu9tev5G3U5lDBXbkhv/BEYfWArOJ+of3MqWVas?=
+ =?us-ascii?Q?7G9D7twM6Ihqs02kENj0GnIzdmxCd/mv3B2HuKCI+PKDVaNTM/pyJMX5La4t?=
+ =?us-ascii?Q?A6VvNYJ/0UbMMoONVex6wqm4l1iLeSGPavdKUgF+yrVD96tFmYC4VryDT7Mw?=
+ =?us-ascii?Q?6cRSF2Xq2WdOpXi7TZEy3aIQUGP9PdNI0H5KB1wHlUs1Zev7IyADyjqoES1D?=
+ =?us-ascii?Q?yDM/GlZrs5NHWsxIXuDVIQVYHW0nkZQ0BW+sh08DGRj9ClITCDr5xQgDA1e2?=
+ =?us-ascii?Q?6V5l73pzYienDAXJkQCCwmNhLxuYGld2dooivRPp9HiahIi5FH33VHsvgqux?=
+ =?us-ascii?Q?Emkn4dXkTR5mMVLNWXaOqb1UHyh5oPxksCPympao1RJpJ1Jxf6e6K+PuHIzn?=
+ =?us-ascii?Q?4Dp6LWaFY7FERiwSErx3fW5TibUajghS7EUtYFSNl2k4OwObd41b6EeuL3Tw?=
+ =?us-ascii?Q?iS4Lb4DnnmlSHjdmXQik4BybzLZBCLpAbHY5QMax71+WkTubu2ZacJwpmuTx?=
+ =?us-ascii?Q?kgIR3JfVjOdmBIfiZl91fFBCFw7457u97e8csqIeOzL2iM4K7gxykJO5nOH1?=
+ =?us-ascii?Q?qE/Suc2c7g=3D=3D?=
+X-Exchange-RoutingPolicyChecked:
+	Xc420Qrn7jglw0QYGr4NWUiKyDCVwBacK0Clir3HPXM5Hnh1WhjmQ/JH2x3soaoGG5YKkPcHgvSX3vv8Hwi6jFofTMcQ2OERStfE8k27pmddP4AmUxp5LWPkQJ4iPGyY024gLT88IcgGz4vnzttNynruyUJEBGJWp9XxwyZlovmfuitRK7ij6++M8XZ0vhxLOTV7aQDY4wjbq0rbsiljfdClZtKUZGvwBWtBJ8zg+SFlV7bLgasufxWpP0+8J7ayFduQFS0KN3n0LNA5fiMyIbAVlqtR5T9np3I/VShnqdHcn+pVcE61EDgp1el3HjjgzP7U6mpDXYd31R1ieuRA+w==
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	q+xc9YXR5N1LzALxPg5/HPktZaNGgU0ZTmcr10GQw1oJ4yHec43yI6WOmHzdl/hrZiP0K/oHx/vtqbyaT7yyRw/4/HN961SwC4EAwrUMIRo30gN0upBdxyg6Szk8h8UExKuProVFZB3zsc58nwwDvtWmaM3NOtU8R0IVv4eKSxUh40lBWDjccgLBYi0pfcKjnLMmvttoWnAQRtNjDch9inpMYyvcc8ufhyEptIx3uLNOpwJXxVnVgrX/qEaT/IcrkqBC+6eWz12bZjWUgQyQjzGOoB0ZZCyo46pGyEVZTckd15rNBgRbVby//tzHsVBqtAS9XJEhrOX04mI40PwsMSII+5w7V1eZ0E9T+5GQ7bjBgakoZDa4LPmGlutZgdHRl64DpFqlDUFHDr+CM3E2nB5ozAXBtumtYvCgHF/VolsyH1kijpfcFrblgWMzBhbQtWlN7P11CXB+eZmyVCVI+SmHZ+RWcZaKp2z/4RQgc1l4mUgtws+VIVvQ3IxIzoqkxwc7zktP8telsox8Pt8DZpJxOZJb7baKkbSI9QLLXrrQ1cpawvn4zQYxtyt1ONVRj/ZcslXRK8PHnsb3sQiY7ubV/cIMpLhyiHYBVpxjwnc=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e8334ed4-dfe9-4ac4-f5a8-08de84a45d47
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR10MB7329.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2026 04:11:00.9873
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: yfGbCA48kdiTYKCF4s257YTbkEHsrX9wz+HO3FqxrXhHb5Y8JUHBr36ZFV1dCUKMzf5/cFjp8VCEv7NKC4kGsw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB5659
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-17_05,2026-03-17_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 mlxlogscore=999
+ adultscore=0 phishscore=0 malwarescore=0 suspectscore=0 mlxscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2603050001 definitions=main-2603180032
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzE4MDAzMiBTYWx0ZWRfX/WD8G/dQ+oks
+ QIEuFc1cYeLBdAsJXzGLy7Y9IR1a3+UX7edzsNPzB8C4RYv3t8ZJ29zcZDzDKBDss2XXuwWS3tE
+ JRlHJk/fjKhal2alXy+1AoMLEM2ll8ZQcKpAkGffoAkOhNuDrxh6l8uJhwtJ5U7ew8yT+lTJ9z4
+ snH+t/H9XSfqbxvwTh7k+IPvTkkPwAAcnzEozTFFN1tc6lsjBky0b3bk5Qy2NUaPTpTQ/BtqgbV
+ c9GJALXmqYrcGOYTa77FmqwqoQxk+QalsZZTyxcIfGUJpvx7nxvWUwKPBzVko9GkTmFpGVotpYG
+ 3UvRYKqLV8oi8B2iaY3lDS4HiINUimaqtTUJzDcf+ENUg8blD5TKY5sYRDUrvvuJwOIrH3Cx5SD
+ pKEh1rk7qhyj4R9j9zhOzRVoyeNSqhpMyeO7IuoiF2O5IJ0vHx4TYO7vgVu2tKpgLXeEwM0U2r8
+ jcEPNB810DZnVFYCfgQ==
+X-Authority-Analysis: v=2.4 cv=AI0/m/Lt c=1 sm=1 tr=0 ts=69ba25d9 cx=c_pps
+ a=XiAAW1AwiKB2Y8Wsi+sD2Q==:117 a=XiAAW1AwiKB2Y8Wsi+sD2Q==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=Yq5XynenixoA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=jiCTI4zE5U7BLdzWsZGv:22 a=x0eKOSpe3m1H3M0S9YoZ:22 a=yDcM_PQI082ALmuDeGQA:9
+ a=CjuIK1q_8ugA:10
+X-Proofpoint-GUID: odk0HEAym06OY9B6vyxYVQEip9MXQ1xP
+X-Proofpoint-ORIG-GUID: odk0HEAym06OY9B6vyxYVQEip9MXQ1xP
 
-On Tue, Mar 17, 2026 at 2:08=E2=80=AFPM John <therealgraysky@proton.me> wro=
-te:
->
->
-> On Monday, March 16th, 2026 at 8:16 PM, Joanne Koong wrote:
->
-> > Could you verify if this fixes the issue?:
-> >
-> > diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
-> > index 8f8069fb76ba..4cbb22d80acf 100644
-> > --- a/fs/fs-writeback.c
-> > +++ b/fs/fs-writeback.c
-> > @@ -1990,9 +1990,13 @@ static long writeback_sb_inodes(struct super_blo=
-ck *sb,
-> >                  * Don't bother with new inodes or inodes being freed, =
-first
-> >                  * kind does not need periodic writeout yet, and for th=
-e latter
-> >                  * kind writeout is handled by the freer.
-> > +                *
-> > +                * For sync(2), skip inodes whose mappings have no data
-> > +                * integrity guarantees (eg FUSE).
-> >                  */
-> >                 spin_lock(&inode->i_lock);
-> > -               if (inode_state_read(inode) & (I_NEW | I_FREEING |
-> > I_WILL_FREE)) {
-> > +               if ((inode_state_read(inode) & (I_NEW | I_FREEING |
-> > I_WILL_FREE)) ||
-> > +                   (wbc.for_sync &&
-> > mapping_no_data_integrity(inode->i_mapping))) {
-> >                         redirty_tail_locked(inode, wb);
-> >                         spin_unlock(&inode->i_lock);
-> >                         continue;
-> >
-> > I think the changes from commit f9a49aa302a0 ("fs/writeback: skip
-> > AS_NO_DATA_INTEGRITY mappings in wait_sb_inodes()") are still needed
-> > even with the above patch since afaics, the writeback we wait on could
-> > have been from a previous background/periodic writeback run before
-> > sync was triggered.
->
-> Yes, it does! Amazing!
->
-> I applied it to 6.19.8, upon rebooting and following the steps I outlined=
- above I was able suspend and wake up three consecutive times.
->
+#syz test
 
-I think this is the cleaner fix:
+diff --git a/mm/kmemleak.c b/mm/kmemleak.c
+index d79acf5c5100..b7be2cc1efc3 100644
+--- a/mm/kmemleak.c
++++ b/mm/kmemleak.c
+@@ -50,8 +50,8 @@
+  *
+  * The kmemleak_object structures have a use_count incremented or decremented
+  * using the get_object()/put_object() functions. When the use_count becomes
+- * 0, this count can no longer be incremented and put_object() schedules the
+- * kmemleak_object freeing via an RCU callback. All calls to the get_object()
++ * 0, this count can no longer be incremented and put_object() adds the
++ * kmemleak_object to a deferred free list. All calls to the get_object()
+  * function must be protected by rcu_read_lock() to avoid accessing a freed
+  * structure.
+  */
+@@ -93,6 +93,7 @@
+ #include <linux/mm.h>
+ #include <linux/workqueue.h>
+ #include <linux/crc32.h>
++#include <linux/llist.h>
 
-writeback: skip sync(2) inode writeback for filesystems with no data
-integrity guarantees
+ #include <asm/sections.h>
+ #include <asm/processor.h>
+@@ -138,7 +139,7 @@ struct kmemleak_object {
+ 	struct list_head object_list;
+ 	struct list_head gray_list;
+ 	struct rb_node rb_node;
+-	struct rcu_head rcu;		/* object_list lockless traversal */
++	struct llist_node free_node;	/* deferred freeing */
+ 	/* object usage count; object freed when use_count == 0 */
+ 	atomic_t use_count;
+ 	unsigned int del_state;		/* deletion state */
+@@ -209,6 +210,13 @@ static DEFINE_RAW_SPINLOCK(kmemleak_lock);
+ static struct kmem_cache *object_cache;
+ static struct kmem_cache *scan_area_cache;
 
-Add SB_I_NO_DATA_INTEGRITY superblock flag for filesystems that cannot
-guarantee data persistence on sync (eg fuse) and skip sync(2) inode
-writeback for superblocks with this flag set.
-
-This replaces the per-inode AS_NO_DATA_INTEGRITY mapping flag added in
-commit f9a49aa302a0 ("fs/writeback: skip AS_NO_DATA_INTEGRITY mappings
-in wait_sb_inodes()"). The flag belongs at the superblock level because
-data integrity is a filesystem-wide property,  not a per-inode one. This
-also allows sync_inodes_one_sb() to skip the entire filesystem
-efficiently, rather than iterating every dirty inode only to skip each
-one individually.
-
-Without this, sync(2) triggers writeback on FUSE inodes and may block
-waiting for the daemon to complete issued writeback or setattr (from
-->write_inode()) requests.
-
-This restores fuse to its prior behavior before tmp folios were removed,
-where sync was essentially a no-op.
-
-Reported-by: John <therealgraysky@proton.me>
-Fixes: 0c58a97f919c ("fuse: remove tmp folio for writebacks and
-internal rb tree")
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
----
- fs/fs-writeback.c              |  7 +------
- fs/fuse/file.c                 |  4 +---
- fs/fuse/inode.c                |  1 +
- fs/sync.c                      |  2 +-
- include/linux/fs/super_types.h |  1 +
- include/linux/pagemap.h        | 11 -----------
- 6 files changed, 5 insertions(+), 21 deletions(-)
-
-diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
-index 8f8069fb76ba..7a02483e0d8d 100644
---- a/fs/fs-writeback.c
-+++ b/fs/fs-writeback.c
-@@ -2774,13 +2774,8 @@ static void wait_sb_inodes(struct super_block *sb)
-                 * The mapping can appear untagged while still on-list sinc=
-e we
-                 * do not have the mapping lock. Skip it here, wb completio=
-n
-                 * will remove it.
--                *
--                * If the mapping does not have data integrity semantics,
--                * there's no need to wait for the writeout to complete, as=
- the
--                * mapping cannot guarantee that data is persistently store=
-d.
-                 */
--               if (!mapping_tagged(mapping, PAGECACHE_TAG_WRITEBACK) ||
--                   mapping_no_data_integrity(mapping))
-+               if (!mapping_tagged(mapping, PAGECACHE_TAG_WRITEBACK))
-                        continue;
-
-                spin_unlock_irq(&sb->s_inode_wblist_lock);
-diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-index 7294bd347412..111ccc5bdda3 100644
---- a/fs/fuse/file.c
-+++ b/fs/fuse/file.c
-@@ -3205,10 +3205,8 @@ void fuse_init_file_inode(struct inode *inode,
-unsigned int flags)
-
-        inode->i_fop =3D &fuse_file_operations;
-        inode->i_data.a_ops =3D &fuse_file_aops;
--       if (fc->writeback_cache) {
-+       if (fc->writeback_cache)
-                mapping_set_writeback_may_deadlock_on_reclaim(&inode->i_dat=
-a);
--               mapping_set_no_data_integrity(&inode->i_data);
--       }
-
-        INIT_LIST_HEAD(&fi->write_files);
-        INIT_LIST_HEAD(&fi->queued_writes);
-diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
-index af8ad96829fd..bae7d9ac3a43 100644
---- a/fs/fuse/inode.c
-+++ b/fs/fuse/inode.c
-@@ -1769,6 +1769,7 @@ static void fuse_sb_defaults(struct super_block *sb)
-        sb->s_export_op =3D &fuse_export_operations;
-        sb->s_iflags |=3D SB_I_IMA_UNVERIFIABLE_SIGNATURE;
-        sb->s_iflags |=3D SB_I_NOIDMAP;
-+       sb->s_iflags |=3D SB_I_NO_DATA_INTEGRITY;
-        if (sb->s_user_ns !=3D &init_user_ns)
-                sb->s_iflags |=3D SB_I_UNTRUSTED_MOUNTER;
-        sb->s_flags &=3D ~(SB_NOSEC | SB_I_VERSION);
-diff --git a/fs/sync.c b/fs/sync.c
-index 942a60cfedfb..88c08e2f76b2 100644
---- a/fs/sync.c
-+++ b/fs/sync.c
-@@ -73,7 +73,7 @@ EXPORT_SYMBOL(sync_filesystem);
-
- static void sync_inodes_one_sb(struct super_block *sb, void *arg)
- {
--       if (!sb_rdonly(sb))
-+       if (!sb_rdonly(sb) && !(sb->s_iflags & SB_I_NO_DATA_INTEGRITY))
-                sync_inodes_sb(sb);
++/* objects pending RCU-deferred freeing */
++static LLIST_HEAD(objects_to_free);
++static atomic_long_t objects_to_free_count;
++static void flush_deferred_frees_work(struct work_struct *work);
++static DECLARE_WORK(deferred_free_work, flush_deferred_frees_work);
++#define DEFERRED_FREE_BATCH	256
++
+ /* set if tracing memory operations is enabled */
+ static int kmemleak_enabled __read_mostly = 1;
+ /* same as above but only for the kmemleak_free() callback */
+@@ -522,14 +530,12 @@ static void mem_pool_free(struct kmemleak_object *object)
  }
 
-diff --git a/include/linux/fs/super_types.h b/include/linux/fs/super_types.=
-h
-index fa7638b81246..383050e7fdf5 100644
---- a/include/linux/fs/super_types.h
-+++ b/include/linux/fs/super_types.h
-@@ -338,5 +338,6 @@ struct super_block {
- #define SB_I_NOUMASK   0x00001000      /* VFS does not apply umask */
- #define SB_I_NOIDMAP   0x00002000      /* No idmapped mounts on this
-superblock */
- #define SB_I_ALLOW_HSM 0x00004000      /* Allow HSM events on this
-superblock */
-+#define SB_I_NO_DATA_INTEGRITY 0x00008000 /* fs cannot guarantee data
-persistence on sync */
+ /*
+- * RCU callback to free a kmemleak_object.
++ * Free a kmemleak_object and its associated scan areas.
+  */
+-static void free_object_rcu(struct rcu_head *rcu)
++static void free_object(struct kmemleak_object *object)
+ {
+ 	struct hlist_node *tmp;
+ 	struct kmemleak_scan_area *area;
+-	struct kmemleak_object *object =
+-		container_of(rcu, struct kmemleak_object, rcu);
 
- #endif /* _LINUX_FS_SUPER_TYPES_H */
-diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
-index ec442af3f886..31a848485ad9 100644
---- a/include/linux/pagemap.h
-+++ b/include/linux/pagemap.h
-@@ -210,7 +210,6 @@ enum mapping_flags {
-        AS_WRITEBACK_MAY_DEADLOCK_ON_RECLAIM =3D 9,
-        AS_KERNEL_FILE =3D 10,    /* mapping for a fake kernel file that sh=
-ouldn't
-                                   account usage to user cgroups */
--       AS_NO_DATA_INTEGRITY =3D 11, /* no data integrity guarantees */
-        /* Bits 16-25 are used for FOLIO_ORDER */
-        AS_FOLIO_ORDER_BITS =3D 5,
-        AS_FOLIO_ORDER_MIN =3D 16,
-@@ -346,16 +345,6 @@ static inline bool
-mapping_writeback_may_deadlock_on_reclaim(const struct addres
-        return test_bit(AS_WRITEBACK_MAY_DEADLOCK_ON_RECLAIM, &mapping->fla=
-gs);
+ 	/*
+ 	 * Once use_count is 0 (guaranteed by put_object), there is no other
+@@ -543,11 +549,19 @@ static void free_object_rcu(struct rcu_head *rcu)
  }
 
--static inline void mapping_set_no_data_integrity(struct address_space *map=
-ping)
--{
--       set_bit(AS_NO_DATA_INTEGRITY, &mapping->flags);
--}
--
--static inline bool mapping_no_data_integrity(const struct
-address_space *mapping)
--{
--       return test_bit(AS_NO_DATA_INTEGRITY, &mapping->flags);
--}
--
- static inline gfp_t mapping_gfp_mask(const struct address_space *mapping)
+ /*
+- * Decrement the object use_count. Once the count is 0, free the object using
+- * an RCU callback. Since put_object() may be called via the kmemleak_free() ->
+- * delete_object() path, the delayed RCU freeing ensures that there is no
+- * recursive call to the kernel allocator. Lock-less RCU object_list traversal
+- * is also possible.
++ * Decrement the object use_count. Once the count is 0, add the object to the
++ * deferred free list. Since put_object() may be called via the
++ * kmemleak_free() -> delete_object() path, the deferred freeing ensures that
++ * there is no recursive call to the kernel allocator. Lock-less RCU
++ * object_list traversal is also possible. The actual freeing happens after
++ * an RCU grace period in flush_deferred_frees().
++ *
++ * Unlike the previous call_rcu()-based approach, this avoids embedding
++ * rcu_head in kmemleak_object. Objects from SLAB_NOLEAKTRACE caches (like
++ * kmemleak's own object_cache) are not tracked by kmemleak. When such
++ * objects were linked in the call_rcu callback chain via rcu_head->next,
++ * kmemleak could not scan through them, breaking the chain and causing
++ * false positive leak reports for objects queued after them.
+  */
+ static void put_object(struct kmemleak_object *object)
  {
-        return mapping->gfp_mask;
+@@ -558,14 +572,46 @@ static void put_object(struct kmemleak_object *object)
+ 	WARN_ON(object->flags & OBJECT_ALLOCATED);
 
-I tested it locally on my simulated repro and it fixed the issue for
-me. Could you verify that this patch fixes the issue for you as well?
+ 	/*
+-	 * It may be too early for the RCU callbacks, however, there is no
++	 * It may be too early for deferred freeing, however, there is no
+ 	 * concurrent object_list traversal when !object_cache and all objects
+ 	 * came from the memory pool. Free the object directly.
+ 	 */
+-	if (object_cache)
+-		call_rcu(&object->rcu, free_object_rcu);
+-	else
+-		free_object_rcu(&object->rcu);
++	if (object_cache) {
++		llist_add(&object->free_node, &objects_to_free);
++		if (atomic_long_inc_return(&objects_to_free_count) >=
++		    DEFERRED_FREE_BATCH)
++			schedule_work(&deferred_free_work);
++	} else {
++		free_object(object);
++	}
++}
++
++/*
++ * Flush all deferred object frees after an RCU grace period. This must be
++ * called from a context that can block.
++ */
++static void flush_deferred_frees(void)
++{
++	struct llist_node *list;
++	struct kmemleak_object *object, *tmp;
++	long count = 0;
++
++	list = llist_del_all(&objects_to_free);
++	if (!list)
++		return;
++
++	synchronize_rcu();
++
++	llist_for_each_entry_safe(object, tmp, list, free_node) {
++		free_object(object);
++		count++;
++	}
++	atomic_long_sub(count, &objects_to_free_count);
++}
++
++static void flush_deferred_frees_work(struct work_struct *work)
++{
++	flush_deferred_frees();
+ }
 
-Thanks,
-Joanne
+ /*
+@@ -809,7 +855,7 @@ static void create_object_percpu(unsigned long ptr, size_t size,
+ }
 
-> Is this something you plan to submit/backport to the stable kernels serie=
-s?
->
+ /*
+- * Mark the object as not allocated and schedule RCU freeing via put_object().
++ * Mark the object as not allocated and schedule deferred freeing via put_object().
+  */
+ static void __delete_object(struct kmemleak_object *object)
+ {
+@@ -2209,6 +2255,7 @@ static void __kmemleak_do_cleanup(void)
+ 		if (!(++cnt & 0x3f))
+ 			cond_resched();
+ 	}
++	flush_deferred_frees();
+ }
+
+ /*
+diff --git a/mm/slub.c b/mm/slub.c
+index 20cb4f3b636d..6bdf409d427e 100644
+--- a/mm/slub.c
++++ b/mm/slub.c
+@@ -7537,6 +7537,7 @@ static void early_kmem_cache_node_alloc(int node)
+ 	n = kasan_slab_alloc(kmem_cache_node, n, GFP_KERNEL, false);
+ 	slab->freelist = get_freepointer(kmem_cache_node, n);
+ 	slab->inuse = 1;
++	kmemleak_alloc(n, sizeof(*n), 1, GFP_NOWAIT);
+ 	kmem_cache_node->node[node] = n;
+ 	init_kmem_cache_node(n, NULL);
+ 	inc_slabs_node(kmem_cache_node, node, slab->objects);
+--
+2.43.0
+
+
