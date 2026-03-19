@@ -1,148 +1,82 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CA9E33D50F
-	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Mar 2026 23:47:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.173
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773877624; cv=pass; b=bSKJWMgXQpfumnkbQawdByDJ6TafPPC/dSo9emUm025Np/Elvcpvhbba/y/YVAFQ2lOnw9SuFKh8EAKtB4N7SSsJcUMgm7JzbBBKzvMSOB8IfI0bSVBZAzrA/vxpC488H2zVZI/5HR6xv/vIcITMmb5ZAZk+V4jLrFAuD0biRVE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773877624; c=relaxed/simple;
-	bh=goPdRYRb1QYfjLs/QmPDwV3Kh5LoPgcZM/xi+f3fGd0=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC60540DFB2
+	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Mar 2026 00:51:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773881514; cv=none; b=rrKGb3Bp2h+7NG9u+R4XKJywouemG8NmU8fOhGc3Nqb+kUftvZpgvNXkUs2LBli9gR19993clDVLABdGDhwix+gmkIzsLlAy8ASWKoOPsxhqglOhbNeJFwKgKhoEkSPHbYIRWXyrfilVrwr6mo+hgPLwEhOK3MF4w0kxdMoTgO4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773881514; c=relaxed/simple;
+	bh=UJQ2XbQ3QkI6VFE8h6QNPZZDGxWzSCTFat9r0Li7AEw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pIQW1vd1JpISY0/46IXDHjFOQrnDJGQite0/srlBBR18V+nK8QoBgHMiOyjG4EuKqsTjvjAo8/Tjf/LOqQoNgD1Sh0wADKd4AK6775qrbq8OZorz1tASOCxFkrQiViQkVWeh2dwJnyLBEsYu/SB6+c5gg3i1kpIPezBpFPXMG3I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=AKLsHbzP; arc=pass smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+	 To:Cc:Content-Type; b=g/JpGpKU7xAwsFYleZYU0CwSJ8q06x7aQWpkAF44hH9p+9Kw7vv3bju1mG6NDJzun3PqI/EzE5IzPW29jAqnuMgpe8Y+QNdU+ntMr/LsRssJLNLNfIx5fWnNuiNBRPyw9ATjWIFpS7RUWc5UsIHn4d3Hz7id0+8C5wJDP5IbGF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s5So8QHG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="AKLsHbzP"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2aaf59c4f7cso1641595ad.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 18 Mar 2026 16:47:03 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773877622; cv=none;
-        d=google.com; s=arc-20240605;
-        b=bmyQzvy+H0JiXmtZIj7+82W18yqSMfOFOgO1M2MMPF1fybkxvWnRL3zKtwzp1H32ka
-         q1PEiceL+Ah8S1rjqeyP7CPeVS3/fmCCt7DMUVkbxZMIjgXbDGLY/cAfGPWXUW7lbyzw
-         b87IXIAsbb3iimik7rqFKLmXRnoOXIHBNXo24Zl48EiuHpZjg9nnqRLpDH5ewoCA7fLe
-         O8vtiaULnZW5h5U76GxrZUlr1FXzgGN0OivoejYrfFJxENzmqIV3E2G/iCBenCyVYN9F
-         x7/IJ7bvaGB1eLf3VVVlrIarP4mdeUT17N03/wp8x8Uw8jwmnzh7uh9mATue+sj1Iq68
-         CmYw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=SKdeu+6dCkvAUwBQTZO2KRv3z1lv0eoszoXVMxx1Rl8=;
-        fh=t1zMs4wbl/4cHN0INzgLVZP4jpF9KG9GbVCjd77ltaA=;
-        b=iprU2+FnriWCDBHvbnETeyyIDrLIu0pvBB+kpcZLkN36LhQAwhNSVoNMeONp5Z6dX+
-         SQxsMp3vSwIrHYWkZtVpSTp1sarTBrxqTKh8HbOw6QqG4E9EOR0B/AO2Cr6hSFSmEQmQ
-         3ild3wIJZGVVZVog5b4obM8j+XOuPKIGQRPSWfSNroGbifuHGZ28+88p0TgtDnVkxxLy
-         hx6nikM6y43om5Kf8ZTdKOingj+cJfnyQKd86o2+ToqjJsh8vYZNOjITGq2nN7pFTB4C
-         hfhCn4yY/Bl8KrHuX0E0OewptDNXMpTTdNz9Fn+3KpPilYaYiWJxCCcCAv4OF2cq5/40
-         Sjfg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1773877622; x=1774482422; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SKdeu+6dCkvAUwBQTZO2KRv3z1lv0eoszoXVMxx1Rl8=;
-        b=AKLsHbzPe/UFGdaly4ZmKWfwEwmrHjd1DkZL4IVkQuzIErZyEfHo63QiPdDZocQ1er
-         TDQuBHxvJGfj7ByZiLM4PkfV8rNk5V/3NumordXmOjXxnaeC+X32rN8w4u++FYqMJ922
-         qiHl419cOnkMprBN228Xaq+2531KkoPltl6Xoo3Vp6WW2pPtOlttG1dg8+rgq8J+7Dml
-         4EjE2vHGePmPhTt2w4gTd6ctMcC6LeWCMahkdppjXGiyBMeMN+uX9UjHwZhkMaO5oXpt
-         utlaZH6uQCma0rd7bqSMOrjCIguHzeb4LLkVoaJxpS4oP3XYJDepNYXITJJxfvyktN/S
-         yLig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773877622; x=1774482422;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=SKdeu+6dCkvAUwBQTZO2KRv3z1lv0eoszoXVMxx1Rl8=;
-        b=MUCoE1V4zXsY+kwqE1N3Y4y7ziUs+InSKoP7rbXPf7lmA5SWqG5CbewgL/J7j91QCN
-         Lzs1HAr+/mzU32JuloYtSTOfTyavFH7ebYbJes4KK2h3ZfFzSxlnhBzwzggHR/LAa3eJ
-         JNMd63Dx1MB2UNoU3SaTPKzavgV/h6c5ssru8WdYC+0HSOZ6Qpfgclq7C5cdrN+D8Nvq
-         LaMG8OeBfvK3C38mQ5farb3oEDXGeI7PAY2WTbHwmpyiAI6vRBymKn/pXVI2znmIV/XE
-         J0GHytIDnmZ6xJYhuAD32yNdicWZ/eM771rjomzHiR11x7pgvgI/4qIYSvMcXZrfRrym
-         l9eg==
-X-Forwarded-Encrypted: i=1; AJvYcCUw2lIEDSqmR7bzMpkOLqKyjAuz6hGGOImtyPBNpeaft/QPv+3jTbwPuF5cpM1uEGRQL7RqE4I9sey7ThdX@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw3DJS5qAyU1aXpx7qtOXN0ivJXGj8/yMNLPEDVVzHOyFMsXzY7
-	66qUtU2PsjiYfoNGgDDnpS+KsxX+5r4Sx/HrN+3YNjbnEO4Eus+9Zemhhc82Uh1yvzCjJOIzsF4
-	PUjJxQ53vA2Ji+jw3FlTI9X8wLFIB9Di8hZ/jg/zq
-X-Gm-Gg: ATEYQzzeoHXpD4iX7DKdTZb/6S6WTcCA7q/fzwg7BYrjnQMLuxWE7sCxlJHtYlkKeAm
-	+GW1/e9SAtvXdR6fuoBZuhcZeiawlCLxQ/4b0HOG37YbBsn94pXIKhnHxPPP2J1GdxiuFlY/e/C
-	5H8tpnzs1aSTDgKuJ24Ib4+XxMneQQcaUQMf2n+hROdNOgbRUX+16k0sPUONuSxHVpjwL8ft/o4
-	BjlZLNgBuSjqj9LRRS96/lnZ297OOGoWM6A1a5YLd1fR5l0IFxbqd6YvO3O9wME+wNbLQz3MztL
-	ZOfJyzs=
-X-Received: by 2002:a17:902:f547:b0:2b0:7177:d5e5 with SMTP id
- d9443c01a7336-2b07177dc04mr35425715ad.43.1773877622532; Wed, 18 Mar 2026
- 16:47:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s5So8QHG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79FB3C2BCB0
+	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Mar 2026 00:51:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773881514;
+	bh=UJQ2XbQ3QkI6VFE8h6QNPZZDGxWzSCTFat9r0Li7AEw=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=s5So8QHGB2iQwMkI6TE6AEPeeBuLqoeks2AVqV2PHNQXuk+HgMrom32/9lHfUCQrM
+	 EwvqkSZ83aROjCNhmPQUYgPEa3LtUnT1ueOYwrNyrDJkGrThWlFQ5E10kqY1i6uAwj
+	 wJtk+oET23ZYVvrVe/pys/UXPbC5R3kx70akWo5v72spmt9V/SU7Q5+8dA88K3POjL
+	 LPMNx0FpCxcY0mtokoZ6g7xk5DLCgluOQHWJT+5DzFHsfR4aqcC/92KQc45XUBMYQL
+	 HOG4CTbIN1aN8PBgH7nlLEB1IY/gVXIiunjzznNHURfW0tkNSNcahgHX6bNEXtUWdI
+	 tcej+8b8iO+qg==
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-667952a44dfso803347a12.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 18 Mar 2026 17:51:54 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWa9brcohp0/NyTs6syelVMrwMh6W2N4v4d3VkjQXRdTlTA5nXOdjtB2VS/q7uDhvqhWpv6b5DvU1TeTrh7@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxv1DV1Iw3vQyoBIelLPEbsEhWulILbpC+s6IKQAEW6cs8sgFYF
+	p9nIpZIuTcJsdnEVRyPgmjcpDXFf7LgHcwNXSUcIyTKUDm8Bxqrcr2SQTD1Ei2rgTrOsD+PWX3b
+	4opaJTpiZJiG0K726hLqAXWRJPjsXzZY=
+X-Received: by 2002:a17:907:c11:b0:b97:a5cf:19e1 with SMTP id
+ a640c23a62f3a-b97f4b707a2mr386029766b.56.1773881513007; Wed, 18 Mar 2026
+ 17:51:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260318131258.1457101-1-amir73il@gmail.com>
-In-Reply-To: <20260318131258.1457101-1-amir73il@gmail.com>
-From: Paul Moore <paul@paul-moore.com>
-Date: Wed, 18 Mar 2026 19:46:51 -0400
-X-Gm-Features: AaiRm50UCF1CurPQjVXbzqdFj4rL7YmqoTti-AfxH9o9diMwAaN1iIjAFrpAzkY
-Message-ID: <CAHC9VhTKvOzMS2ZyawE=qBN-EpyucfxvwcHZYjXF5zugRhE2rw@mail.gmail.com>
-Subject: Re: [PATCH v6] backing_file: store user_path_file
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Christian Brauner <brauner@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, Gao Xiang <xiang@kernel.org>, 
-	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
-	linux-erofs@lists.ozlabs.org, linux-fsdevel@vger.kernel.org, 
-	linux-unionfs@vger.kernel.org
+References: <20260311222613.2010177-1-dxdt@dev.snart.me> <abIxl8XEftpku8yf@casper.infradead.org>
+ <b216af63-f65e-4c26-84bc-2693fad0fdf1@dev.snart.me> <abLUQECuMuxHNXjZ@casper.infradead.org>
+ <20260312150623.GB1742010@frogsfrogsfrogs> <14dc2f67-7916-4990-b1c4-5d442c5d51fc@dev.snart.me>
+ <20260313162408.GE6023@frogsfrogsfrogs> <898f4927-30a4-4ccb-b080-9e4d2fe3af1e@dev.snart.me>
+In-Reply-To: <898f4927-30a4-4ccb-b080-9e4d2fe3af1e@dev.snart.me>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Thu, 19 Mar 2026 09:51:39 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd-ptRdWc9Aot=5+GmRRbc989EY0QaHj14Mhs2wwiWBa8w@mail.gmail.com>
+X-Gm-Features: AaiRm50O-UrNtbjaneBKpxf0f_aS-vhVVNSnLzcaUY4Nm0jbHb4lhTcFzx0JxMQ
+Message-ID: <CAKYAXd-ptRdWc9Aot=5+GmRRbc989EY0QaHj14Mhs2wwiWBa8w@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] exfat: EXFAT_IOC_GET_VALID_DATA ioctl
+To: David Timber <dxdt@dev.snart.me>
+Cc: "Darrick J. Wong" <djwong@kernel.org>, Matthew Wilcox <willy@infradead.org>, sj1557.seo@samsung.com, 
+	yuezhang.mo@sony.com, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 18, 2026 at 9:13=E2=80=AFAM Amir Goldstein <amir73il@gmail.com>=
- wrote:
+On Tue, Mar 17, 2026 at 7:37=E2=80=AFAM David Timber <dxdt@dev.snart.me> wr=
+ote:
 >
-> Instead of storing the user_path, store an O_PATH file for the
-> user_path with the original user file creds and a security context.
->
-> The user_path_file is only exported as a const pointer and its refcnt
-> is initialized to FILE_REF_DEAD, because it is not a refcounted object.
->
-> The file_ref_init() helper was changed to accept the FILE_REF_ constant
-> instead of the fake +1 integer count.
->
-> Signed-off-by: Amir Goldstein <amir73il@gmail.com>
-> ---
->
-> Christian,
->
-> My v5 patch was sent by Paul along with his LSM/selinux pataches [1].
-> Here are the changes you requested.
->
-> I removed the ACKs and Tested-by because of the changes.
->
-> Thanks,
-> Amir.
->
-> Changes since v5:
-> - Restore file_ref_init() helper without refcnt -1 offset
-> - Future proofing errors from backing_file_open_user_path()
->
-> [1] https://lore.kernel.org/r/20260316213606.374109-6-paul@paul-moore.com=
-/
->
->  fs/backing-file.c            | 26 ++++++++++--------
->  fs/erofs/ishare.c            | 13 +++++++--
->  fs/file_table.c              | 53 ++++++++++++++++++++++++++++--------
->  fs/fuse/passthrough.c        |  3 +-
->  fs/internal.h                |  5 ++--
->  fs/overlayfs/dir.c           |  3 +-
->  fs/overlayfs/file.c          |  1 +
->  include/linux/backing-file.h | 29 ++++++++++++++++++--
->  include/linux/file_ref.h     |  4 +--
->  9 files changed, 103 insertions(+), 34 deletions(-)
-
-Still works for me.  I'm going to update lsm/stable-7.0 with this
-patch so we can get some more linux-next testing.
-
-Tested-by: Paul Moore <paul@paul-moore.com>
-
---=20
-paul-moore.com
+> On 3/13/26 22:59, Namjae Jeon wrote:
+> > I'm working on adding iomap support to exFAT, and I think SEEK_HOLE
+> > will be able to address the requirements we discussed. I will bring
+> > this up again once the iomap work is complete.
+> Good! exFAT not constructed using iomap leading to an eventual
+> catastrophic tech debt has been one of my concerns. Since you're working
+> on it, you'd naturally implement FIEMAP as well, right? I was cooking up
+> a quick and dirty functions for FIEMAP... Not sure if you're interested
+> in them, but would happy to submit in the future. It's only a
+> kernel-specific interface almost no userspace uses, but really
+> insightful tool in analyzing fragmentation issue I'm trying to solve.
+> Might come in handy in the meantime the new iomap implementation is
+> settling down.
+Since SEEK_HOLE will be supported as part of the upcoming iomap work,
+your patch below can be dropped and I won't apply it. And I would be
+very grateful if you could submit your FIEMAP patch after iomap
+support lands.
+Thanks!
