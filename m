@@ -1,228 +1,269 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFC3735B637;
-	Thu, 19 Mar 2026 11:31:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB8283CFF44
+	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Mar 2026 11:58:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773919869; cv=none; b=OBdoEp+Unvvp+yv9Q2ujJv3pyQ41jISTnetcTMaMMsZ/+1uuQImcUQEHju4ixAmCRaQEccOu+kqinWd1F6lvMTWMS/+Hf5AAh/rS9jN/eMB7P4Ris0gRIZwc+g9t8WjPpWUVViY0yMP1Nv9WPxDkPMmE9ZGIBYxsKNKBdGC8hvs=
+	t=1773921540; cv=none; b=pnfjAJESHz5+oyy/xHXq+awphPQgqoS+hBsUZbaBKOiGC6QReA3yWglQdnMyixuqQ2XbEo9SOR3MpviApkadKqnpwJ8P+xUFbpdotEh3HZjVClEADYooArBESg237EU3OfmPyOlw/G9pdtRN5MLUOINojxbIRfUhw6iZAVfo7q4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773919869; c=relaxed/simple;
-	bh=b+7RcJSueeqt48hizPCHd9UO8vXbtlmIK/V89+m/sVo=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WoNd7XlME0cqRfYz2MWycvogNGSvmKwLIWfx8vz2qBaVBdAo2jMM3WaVx/NQsTSn61WeYxK2pWF8uc4WzWfVc+G7SnJEfzdFxmJv8dBzSSozMKoA9ap4G3UkqM0rZOh186SBMBwu+wxQOhCLzwE/XzgmL0iBOGN9CJyqdW4LPYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.224.83])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4fc3QH1WwkzJ469d;
-	Thu, 19 Mar 2026 19:29:59 +0800 (CST)
-Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
-	by mail.maildlp.com (Postfix) with ESMTPS id 7A64640569;
-	Thu, 19 Mar 2026 19:30:58 +0800 (CST)
-Received: from localhost (10.203.177.15) by dubpeml500005.china.huawei.com
- (7.214.145.207) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 19 Mar
- 2026 11:30:56 +0000
-Date: Thu, 19 Mar 2026 11:30:55 +0000
-From: Jonathan Cameron <jonathan.cameron@huawei.com>
-To: John Groves <john@groves.net>
-CC: Miklos Szeredi <miklos@szeredi.hu>, Dan Williams
-	<dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, "Alison
- Schofield" <alison.schofield@intel.com>, John Groves <jgroves@micron.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, "Alexander
- Viro" <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>,
-	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong"
-	<djwong@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, Jeff Layton
-	<jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, Stefan Hajnoczi
-	<shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, Josef Bacik
-	<josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan
-	<chenlinxuan@uniontech.com>, James Morse <james.morse@arm.com>, Fuad Tabba
-	<tabba@google.com>, Sean Christopherson <seanjc@google.com>, Shivank Garg
-	<shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>, Gregory Price
-	<gourry@gourry.net>, Aravind Ramesh <arramesh@micron.com>, Ajay Joshi
-	<ajayjoshi@micron.com>, <venkataravis@micron.com>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<nvdimm@lists.linux.dev>, <linux-cxl@vger.kernel.org>,
-	<linux-fsdevel@vger.kernel.org>, Ira Weiny <ira.weiny@intel.com>
-Subject: Re: [PATCH V8 2/8] dax: Factor out dax_folio_reset_order() helper
-Message-ID: <20260319113055.00001182@huawei.com>
-In-Reply-To: <20260319012820.4420-1-john@groves.net>
-References: <20260318202737.4344.dax@groves.net>
-	<20260319012820.4420-1-john@groves.net>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1773921540; c=relaxed/simple;
+	bh=LxPlIZV0allZ2w2sTX7gfTM5N5LSdHBemqYEo36rTnM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=B82AQYM53jOHdJKQl9lYLpCXTNR/FDOrISEdMHxmbLs3MYqOtzNim5OUnPPslbfQGRjdhVA+CkG1Qm5EFh+hAizQkP4azHYVV7cKeCzCNVeb4xHoJocyFM6WeRDZ1CtfWbrXOpVyHWB1K/dVYhH+ljUNPISIU38Jsbv+XH399nE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=nSKhg5D9; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=zwzdr+xX; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=nSKhg5D9; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=zwzdr+xX; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="nSKhg5D9";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="zwzdr+xX";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="nSKhg5D9";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="zwzdr+xX"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id B50F15BD45;
+	Thu, 19 Mar 2026 11:58:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1773921535; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oKoAmC5H5WL0MZfIguD4pR+XH+ZQMjAOOTptAPJl/Y8=;
+	b=nSKhg5D9cRCTMSxWiaWiUbsfNSOulM/++tiDrKjaYiWcHL6m+7V9IBkKBm9F/jZz5GjsIE
+	Y2YeBGqTzv7Z5Rp2lx+Tx54T5YqKOmjcMVoL8/tEDj2M1p+Ku/gw8tkQSfYwZIJDr34zIl
+	LDVe8tjTg3LD3BA87H5Ew7BLE3/cj0I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1773921535;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oKoAmC5H5WL0MZfIguD4pR+XH+ZQMjAOOTptAPJl/Y8=;
+	b=zwzdr+xXpSPMkxZs3hlI0VJumMhkiI92xqBgRmeS4UMVCMSFNlKy+bxxRQ2qvYDrfTfywu
+	T0TsNZ3vwOLE1jBA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=nSKhg5D9;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=zwzdr+xX
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1773921535; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oKoAmC5H5WL0MZfIguD4pR+XH+ZQMjAOOTptAPJl/Y8=;
+	b=nSKhg5D9cRCTMSxWiaWiUbsfNSOulM/++tiDrKjaYiWcHL6m+7V9IBkKBm9F/jZz5GjsIE
+	Y2YeBGqTzv7Z5Rp2lx+Tx54T5YqKOmjcMVoL8/tEDj2M1p+Ku/gw8tkQSfYwZIJDr34zIl
+	LDVe8tjTg3LD3BA87H5Ew7BLE3/cj0I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1773921535;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oKoAmC5H5WL0MZfIguD4pR+XH+ZQMjAOOTptAPJl/Y8=;
+	b=zwzdr+xXpSPMkxZs3hlI0VJumMhkiI92xqBgRmeS4UMVCMSFNlKy+bxxRQ2qvYDrfTfywu
+	T0TsNZ3vwOLE1jBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9DFFE4273B;
+	Thu, 19 Mar 2026 11:58:55 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id gyWLJv/ku2nLVgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 19 Mar 2026 11:58:55 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 54B4CA0B32; Thu, 19 Mar 2026 12:58:51 +0100 (CET)
+Date: Thu, 19 Mar 2026 12:58:51 +0100
+From: Jan Kara <jack@suse.cz>
+To: Yunzhao Li <yunzhao@cloudflare.com>
+Cc: linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>, 
+	Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	Jesper Brouer <jesper@cloudflare.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Suren Baghdasaryan <surenb@google.com>
+Subject: Re: balance_dirty_pages() causes 40% IO PSI (full) with no drain
+ benefit on 384 GB machine
+Message-ID: <z3quejtbpkiizgmvu2pjhqv6ioyach2wszen5slkau2hossj7p@rk2ftlwbdfw5>
+References: <CAAnvDSwOoEOkMEDgKUcHkx-SdmZ_ar5AbVy4Gp-XT7i04ON5fg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml500012.china.huawei.com (7.191.174.4) To
- dubpeml500005.china.huawei.com (7.214.145.207)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAAnvDSwOoEOkMEDgKUcHkx-SdmZ_ar5AbVy4Gp-XT7i04ON5fg@mail.gmail.com>
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_COUNT_THREE(0.00)[3];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	FROM_EQ_ENVFROM(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:email]
+X-Rspamd-Queue-Id: B50F15BD45
+X-Spam-Flag: NO
+X-Spam-Score: -4.01
+X-Spam-Level: 
 
-On Wed, 18 Mar 2026 20:28:20 -0500
-John Groves <john@groves.net> wrote:
+Hello,
 
-> From: John Groves <John@Groves.net>
+[looks more like a question about IO PSI behavior so CCing relevant people]
+
+On Tue 17-03-26 15:53:51, Yunzhao Li wrote:
+> On a 384 GB machine with NVMe storage (2x NVMe RAID0, dm-crypt,
+> XFS, kernel 6.12, AMD EPYC 9684X 96-Core), balance_dirty_pages()
+> throttles writers via io_schedule_timeout(), causing 26-40% IO PSI(full).
+> But the throttling doesn't actually drain dirty pages faster.
+> The flusher only submits ~578 MB/s of writeback regardless of
+> whether writers are throttled, and the NVMe device has ample
+> spare capacity (1,044 MB/s benchmarked).
 > 
-> Both fs/dax.c:dax_folio_put() and drivers/dax/fsdev.c:
-> fsdev_clear_folio_state() (the latter coming in the next commit after this
-> one) contain nearly identical code to reset a compound DAX folio back to
-> order-0 pages. Factor this out into a shared helper function.
+> I'd like to understand whether this is expected and what the
+> right approach is.
 > 
-> The new dax_folio_reset_order() function:
-> - Clears the folio's mapping and share count
-> - Resets compound folio state via folio_reset_order()
-> - Clears PageHead and compound_head for each sub-page
-> - Restores the pgmap pointer for each resulting order-0 folio
-> - Returns the original folio order (for callers that need to advance by
->   that many pages)
+> The setup
+> ---------
 > 
-> This simplifies fsdev_clear_folio_state() from ~50 lines to ~15 lines while
-> maintaining the same functionality in both call sites.
+>   dirty_background_ratio=10, dirty_ratio=20 (defaults)
+>   dirtyable memory: ~77 GB
+>   -> bg_thresh:       10% * 77 GB         =  7.7 GB
+>   -> freerun ceiling: (20%+10%)/2 * 77 GB = 11.7 GB
+>   -> limit (hard):    20% * 77 GB         = 15.5 GB
 > 
-> Suggested-by: Jonathan Cameron <jonathan.cameron@huawei.com>
-> Reviewed-by: Ira Weiny <ira.weiny@intel.com>
-> Reviewed-by: Dave Jiang <dave.jiang@intel.com>
-> Signed-off-by: John Groves <john@groves.net>
-
-Comment below. I may well be needing more coffee, or failing wrt
-to background knowledge as I only occasionally dip into dax.
-
-
-> ---
->  fs/dax.c | 60 +++++++++++++++++++++++++++++++++++++++-----------------
->  1 file changed, 42 insertions(+), 18 deletions(-)
+>   Write generation:   ~580 MB/s (HTTP cache miss writes)
+>   Flusher drain rate: ~578 MB/s (device can do 1044 MB/s
+>                        flusher can't feed it fast enough)
 > 
-> diff --git a/fs/dax.c b/fs/dax.c
-> index 289e6254aa30..7d7bbfb32c41 100644
-> --- a/fs/dax.c
-> +++ b/fs/dax.c
-> @@ -378,6 +378,45 @@ static void dax_folio_make_shared(struct folio *folio)
->  	folio->share = 1;
->  }
->  
-> +/**
-> + * dax_folio_reset_order - Reset a compound DAX folio to order-0 pages
-> + * @folio: The folio to reset
-> + *
-> + * Splits a compound folio back into individual order-0 pages,
-> + * clearing compound state and restoring pgmap pointers.
-> + *
-> + * Returns: the original folio order (0 if already order-0)
-> + */
-> +int dax_folio_reset_order(struct folio *folio)
-> +{
-> +	struct dev_pagemap *pgmap = page_pgmap(&folio->page);
-> +	int order = folio_order(folio);
-> +	int i;
-> +
-> +	folio->mapping = NULL;
-> +	folio->share = 0;
+> Below freerun, balance_dirty_pages() returns immediately.
+> Between freerun and limit, pos_ratio ramps from 2.0 down to 0
+> via cubic polynomial that tasks sleep proportionally in
+> io_schedule_timeout(). At limit, pos_ratio=0 and all writers
+> block (max 200ms sleep).
+> 
+> Generation ≈ drain, so dirty settles at 10-14 GB — crossing
+> the freerun ceiling into the proportional throttle zone.
+> 
+> The observation
+> ---------------
+> 
+>                  throughput  IO PSI full
+>   dirty 5-10 GB:  494 MB/s       1.4%
+>   dirty >10 GB:   578 MB/s      26.2%
+>                   (dirty still accumulating at +2 MB/s)
+> 
+>   Peak IO PSI full: 39.5%.
+> 
+> The proportional throttle adds 26% IO PSI (full) but dirty
+> still grows. The flusher is already at its submission ceiling
+> and sleeping writers doesn't help it submit I/O faster.
 
-This is different from the code you are replacing..
+The throttling of the writers works as it should - the point is to not
+allow writers to dirty more memory than is the configured limit and as your
+data shows that is indeed what the code successfully does. The point of
+throttling is *not* to speed up writeback or anything like that what you
+describe above. You are correct that page writeback using single flush
+worker isn't able to saturate relatively fast storage - that is a
+limitation of current writeback subsystem and is something that is being
+worked on (by allowing more parallel writeback workers) but it isn't IMHO
+substantial for this report.
 
-Just above the call to this in dax_folio_put()
+I cannot really comment whether IO PSI of 40% is or is not appropriate for
+this situation - I'm deferring that to PSI guys I've CCed.
 
-if (!dax_folio_is_shared(folio))
-// in here is the interesting bit...
-	ref = 0;
-else
-//this is fine because either it's still > 0 and we return
-//or it is zero and you are writing that again.
-	ref = --folio->share;
-if (ref)
-	return ref;
+> The device is actually starved: writeback-in-flight drops from 6-8 MB
+> (baseline) to 1.8 MB (during throttle), and NVMe QD drops from 45 to 37.
+> The device could drain more if fed more, but the flusher can't feed it
+> faster.
+> 
+> Meanwhile, memory is not scarce:
+> 
+>   Dirty:          16 GB
+>   Clean file LRU: 57 GB  (instantly reclaimable)
+>   Memory PSI:     1-2%
+> 
+> The dirty pages aren't causing memory pressure. 57 GB of clean
+> pages remain available for instant reclaim. The throttle is
+> protecting a resource that isn't scarce, at a cost of 40% IO
+> PSI (full).
 
-So the path that bothers me is if 
-!dax_folio_is_shared() can return false with shared != 0
+The configuration is that no more than 20% of you page cache can be dirty.
+The throttling code just makes sure this is the case. If you configure
+higher limit, that's what throttling code will enforce. However note that
+higher amount of dirty memory is unlikely to increase writeback speed -
+that is likely bottlenecked on CPU overhead of submitting writeback IOs.
+Also note that the limit is set to 20% because dirty memory is not possible
+to reclaim fast (you need to write it back first) and so in case of memory
+pressure the machine can easily trash for quite some time if the dirty
+limits are too high.
 
-/*
- * A DAX folio is considered shared if it has no mapping set and ->share (which
- * shares the ->index field) is non-zero. Note this may return false even if the
- * page is shared between multiple files but has not yet actually been mapped
- * into multiple address spaces.
- */
-static inline bool dax_folio_is_shared(struct folio *folio)
-{
-	return !folio->mapping && folio->share;
-}
+> Our workaround plan: dirty_background_ratio=5, dirty_ratio=40.
+> This raises freerun to ~17.5 GB, keeping dirty in freerun.
+> The flusher drains identically. It runs to bg_thresh either
+> way.
+> 
+> Questions
+> ---------
+> 
+> 1. When should balance_dirty_pages() sleep writers? Currently
+>    the criterion is "dirty > fraction of dirtyable memory."
+>    This doesn't consider whether sleeping actually helps
+>    drain dirty faster, or whether the remaining clean pages
+>    are sufficient. Should the decision factor in flusher/
+>    device saturation or available reclaimable memory?
 
-So it can if !folio->mapping is false (i.e. folio->mapping is set)
+I think I've answered this above.
 
-Now I have zero idea of whether this is a real path and have
-a long review queue so not looking into it for now.
-However if it's not then I'd expect some commentary in the patch description
-to say why it's not a problem.  Maybe even a precursor patch adding
-the folio->share so there is a place to state clearly that it doesn't
-matter and why.
+> 2. Is tuning dirty_ratio to 30-40% the expected approach for
+>    high-memory (>256 GB) systems? Documentation doesn't
+>    cover this.
 
-> +
-> +	if (!order) {
-> +		folio->pgmap = pgmap;
-This is also different...
+No, it is actually recommened to set it lower because more dirty memory
+doesn't usually help IO throughput beyond certain amount. But it all
+depends very much on your workload and it's dirtying pattern (how much of
+the page cache gets frequently redirtied).
 
-> +		return 0;
-> +	}
-> +
-> +	folio_reset_order(folio);
-> +
-> +	for (i = 0; i < (1UL << order); i++) {
+> 3. The freerun ceiling gates entry into the proportional
+>    throttle path. Even moderate sleeping shows up as IO PSI
+>    (io_schedule_timeout is accounted as IO stall). Dirty
+>    never hits the hard limit in our case. It sits in the
+>    proportional zone, but cumulative PSI from many tasks
+>    sleeping short durations is already 26-40% (full). Should
+>    the throttle path be skipped when sleeping cannot help
+>    drain?
 
-I'd take advantage of evolving conventions and do
+Perhaps bumping PSI when dirty throttling kicks in is not ideal measure
+(because it doesn't necessarily mean the storage itself is maxed out,
+besides flush worker not being able to saturate the storage there can be
+also various block layer controllers arbitrarily throttling background
+writeback) but again I'll let PSI guys to chime in here with their
+opinions.
 
-	for (int i = 0; i < ...) 
-
-> +		struct page *page = folio_page(folio, i);
-> +		struct folio *f = (struct folio *)page;
-> +
-> +		ClearPageHead(page);
-> +		clear_compound_head(page);
-> +		f->mapping = NULL;
-> +		f->share = 0;
-> +		f->pgmap = pgmap;
-> +	}
-> +
-> +	return order;
-> +}
-> +
->  static inline unsigned long dax_folio_put(struct folio *folio)
->  {
->  	unsigned long ref;
-> @@ -391,28 +430,13 @@ static inline unsigned long dax_folio_put(struct folio *folio)
->  	if (ref)
->  		return ref;
->  
-> -	folio->mapping = NULL;
-> -	order = folio_order(folio);
-> -	if (!order)
-> -		return 0;
-> -	folio_reset_order(folio);
-> +	order = dax_folio_reset_order(folio);
->  
-> +	/* Debug check: verify refcounts are zero for all sub-folios */
->  	for (i = 0; i < (1UL << order); i++) {
-> -		struct dev_pagemap *pgmap = page_pgmap(&folio->page);
->  		struct page *page = folio_page(folio, i);
-> -		struct folio *new_folio = (struct folio *)page;
->  
-> -		ClearPageHead(page);
-> -		clear_compound_head(page);
-> -
-> -		new_folio->mapping = NULL;
-> -		/*
-> -		 * Reset pgmap which was over-written by
-> -		 * prep_compound_page().
-> -		 */
-> -		new_folio->pgmap = pgmap;
-> -		new_folio->share = 0;
-> -		WARN_ON_ONCE(folio_ref_count(new_folio));
-> +		WARN_ON_ONCE(folio_ref_count((struct folio *)page));
->  	}
->  
->  	return ref;
-
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
