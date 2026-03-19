@@ -1,159 +1,144 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from mail-m49197.qiye.163.com (mail-m49197.qiye.163.com [45.254.49.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B26D13C3BFD;
-	Thu, 19 Mar 2026 14:35:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2975F40DFD2;
+	Thu, 19 Mar 2026 14:50:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773930958; cv=none; b=Q4od4TPQVKyFDjg/tHv8qpAVNpd4Y9eTr3u/2yfOcvU6eH/0JH1EZPn3xgQdzg05aTRAze3wXvO2HZkQ31wDDyXJwUTyhoHkcAFOlLfIIabJq8CTrv2pB2ApSC+79dA1fmwkhw09yiem/gCJaVv0XMjV7IR05QZvWL6VgJgBO80=
+	t=1773931811; cv=none; b=GWRq9je2m26Ki1xx4AOrPv4vkKPvDaTVzecMbkTEY+LvMyftakpiBt/35gy0cPgqxdgLf/o8NOnMXNo+QdUiHnAPR9nQbXPyx+vSXkFp9dPDbWS/pf7sag7X698dd1qjIrgD0u/gq5W6yoh2Ybi4fxE0Hi8F49mTvhweUht88RA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773930958; c=relaxed/simple;
-	bh=kCFcyI/VQpnscCbjgeBI5ADhG7SSHRdxxGKfbAtuAsA=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uEWx3inSOlVULNOGcwHqi42wpX4ZfWhHwukTjFRheL5WdbzP9eLZMQEa6adKVnBaF2pBCQVdp9BwmiKUZ8lN9W7edhYnEg3bmEZ6cl7yZMJJaPFkbWnucTmmv3Nyrfs4GFwmcxp6aZXfLsJ9KMj4qdd/rhM302VvUMLHGm5jS1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.224.83])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4fc7Wd15CCzJ46Zg;
-	Thu, 19 Mar 2026 22:34:53 +0800 (CST)
-Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
-	by mail.maildlp.com (Postfix) with ESMTPS id A01A140569;
-	Thu, 19 Mar 2026 22:35:52 +0800 (CST)
-Received: from localhost (10.203.177.15) by dubpeml500005.china.huawei.com
- (7.214.145.207) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 19 Mar
- 2026 14:35:51 +0000
-Date: Thu, 19 Mar 2026 14:35:49 +0000
-From: Jonathan Cameron <jonathan.cameron@huawei.com>
-To: Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>
-CC: <linux-cxl@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<nvdimm@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
-	<linux-pm@vger.kernel.org>, Ard Biesheuvel <ardb@kernel.org>, "Alison
- Schofield" <alison.schofield@intel.com>, Vishal Verma
-	<vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>, Dan Williams
-	<dan.j.williams@intel.com>, Yazen Ghannam <yazen.ghannam@amd.com>, "Dave
- Jiang" <dave.jiang@intel.com>, Davidlohr Bueso <dave@stgolabs.net>, "Matthew
- Wilcox" <willy@infradead.org>, Jan Kara <jack@suse.cz>, "Rafael J . Wysocki"
-	<rafael@kernel.org>, Len Brown <len.brown@intel.com>, Pavel Machek
-	<pavel@kernel.org>, Li Ming <ming.li@zohomail.com>, Jeff Johnson
-	<jeff.johnson@oss.qualcomm.com>, Ying Huang <huang.ying.caritas@gmail.com>,
-	Yao Xingtao <yaoxt.fnst@fujitsu.com>, "Peter Zijlstra"
-	<peterz@infradead.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Nathan Fontenot <nathan.fontenot@amd.com>, Terry Bowman
-	<terry.bowman@amd.com>, Robert Richter <rrichter@amd.com>, Benjamin Cheatham
-	<benjamin.cheatham@amd.com>, Zhijian Li <lizhijian@fujitsu.com>, Borislav
- Petkov <bp@alien8.de>, Tomasz Wolski <tomasz.wolski@fujitsu.com>
-Subject: Re: [PATCH v7 7/7] dax/hmem: Reintroduce Soft Reserved ranges back
- into the iomem tree
-Message-ID: <20260319143549.00005394@huawei.com>
-In-Reply-To: <20260319011500.241426-8-Smita.KoralahalliChannabasappa@amd.com>
-References: <20260319011500.241426-1-Smita.KoralahalliChannabasappa@amd.com>
-	<20260319011500.241426-8-Smita.KoralahalliChannabasappa@amd.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1773931811; c=relaxed/simple;
+	bh=4hKtpeEC87+WK7hrHDaVDwXDV1P2/Sdtv+NsVi+b2q8=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=OgaAsE3+T77C5N43AhbSUUjKyJq4ZPLSRo0AXojdsR8B/KY36Ljit/u0sKeF4O562QvTd5NTQOfeVOItjPoDvKWeGwTuDqvhYa3JnYRXwS796hF7U3A7JyJPKiPYWEdaQ77WdrFoXDYxDSKaEvWizRpZbErvFeBOsf4N+yJ6wtE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=Jk2dJMey; arc=none smtp.client-ip=45.254.49.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="Jk2dJMey"
+Received: from DESKTOP-SUEFNF9.tailb3ad3b.ts.net (unknown [58.241.16.34])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 3795726d0;
+	Thu, 19 Mar 2026 22:49:55 +0800 (GMT+08:00)
+From: Zilin Guan <zilin@seu.edu.cn>
+To: slava.dubeyko@ibm.com
+Cc: akpm@linux-foundation.org,
+	frank.li@vivo.com,
+	glaubitz@physik.fu-berlin.de,
+	jianhao.xu@seu.edu.cn,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	slava@dubeyko.com,
+	stable@vger.kernel.org,
+	zilin@seu.edu.cn
+Subject: Re:  [PATCH v2 2/2] hfsplus: extract hidden directory search into a helper function
+Date: Thu, 19 Mar 2026 22:49:55 +0800
+Message-Id: <20260319144955.648380-1-zilin@seu.edu.cn>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <e86980b8682bb9ea007d9fdfab8a8530781ebb2b.camel@ibm.com>
+References: <e86980b8682bb9ea007d9fdfab8a8530781ebb2b.camel@ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml100011.china.huawei.com (7.191.174.247) To
- dubpeml500005.china.huawei.com (7.214.145.207)
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9d0693135c03a1kunm02123ad01f368b
+X-HM-MType: 10
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaGkkZVktPGkhNHx1OHUMaQ1YeHw5VEwETFhoSFy
+	QUDg9ZV1kYEgtZQVlOQ1VJT0pVSk1VSE9ZV1kWGg8SFR0UWUFZT0tIVUJCSU5LVUpLS1VKQktCWQ
+	Y+
+DKIM-Signature: a=rsa-sha256;
+	b=Jk2dJMeyLUk585VcuLBW+u8bFQ+WP2fPORyJilndc+njMVIvzGNtapvI7PxUd6ayTC5uXmXeX4PqbXVG4h2xScXcDDB4aUrZ93te8GzfAhp56oAsA97piYgS+3NoWuP115AtsQ04DPT8Y/F85vHbFADez0jKhGA1zkNxsXCCZ6I=; s=default; c=relaxed/relaxed; d=seu.edu.cn; v=1;
+	bh=sqiUf+eXM3Gt3jVgEwpa3BBJiLznBeFQrrlZaOeVpXc=;
+	h=date:mime-version:subject:message-id:from;
 
-On Thu, 19 Mar 2026 01:15:00 +0000
-Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com> wrote:
-
-> Reworked from a patch by Alison Schofield <alison.schofield@intel.com>
+On Wed, Mar 18, 2026 at 10:33:47PM +0000, Viacheslav Dubeyko wrote:
+> On Wed, 2026-03-18 at 23:00 +0800, Zilin Guan wrote:
+> > +static inline int hfsplus_get_hidden_dir_entry(struct super_block *sb,
+> > +					       const struct qstr *str,
+> > +					       hfsplus_cat_entry *entry)
+> > +{
+> > +	struct hfs_find_data fd;
+> > +	int err;
+> > +
+> > +	err = hfs_find_init(HFSPLUS_SB(sb)->cat_tree, &fd);
+> > +	if (err)
 > 
-> Reintroduce Soft Reserved range into the iomem_resource tree for HMEM
-> to consume.
+> Why not unlikely(err) here too?
+
+Right, I'll update this in v3.
+
+> > +		return err;
+> > +
+> > +	err = hfsplus_cat_build_key(sb, fd.search_key, HFSPLUS_ROOT_CNID, str);
+> > +	if (unlikely(err < 0))
 > 
-> This restores visibility in /proc/iomem for ranges actively in use, while
-> avoiding the early-boot conflicts that occurred when Soft Reserved was
-> published into iomem before CXL window and region discovery.
+> The hfsplus_cat_build_key() return error code or 0. So, we can use unlikely(err)
+> here.
+
+Agreed.
+
+> > +		goto free_fd;
+> > +
+> > +	err = hfs_brec_read(&fd, entry, sizeof(*entry));
+> > +
+> > +free_fd:
+> > +	hfs_find_exit(&fd);
+> > +	return err;
+> > +}
+> > +
+> >  static int hfsplus_fill_super(struct super_block *sb, struct fs_context *fc)
+> >  {
+> >  	struct hfsplus_vh *vhdr;
+> >  	struct hfsplus_sb_info *sbi = HFSPLUS_SB(sb);
+> >  	hfsplus_cat_entry entry;
+> > -	struct hfs_find_data fd;
+> >  	struct inode *root, *inode;
+> >  	struct qstr str;
+> >  	struct nls_table *nls;
+> > @@ -565,16 +586,11 @@ static int hfsplus_fill_super(struct super_block *sb, struct fs_context *fc)
+> >  
+> >  	str.len = sizeof(HFSP_HIDDENDIR_NAME) - 1;
+> >  	str.name = HFSP_HIDDENDIR_NAME;
+> > -	err = hfs_find_init(sbi->cat_tree, &fd);
+> > -	if (err)
+> > -		goto out_put_root;
+> > -	err = hfsplus_cat_build_key(sb, fd.search_key, HFSPLUS_ROOT_CNID, &str);
+> > -	if (unlikely(err < 0)) {
+> > -		hfs_find_exit(&fd);
+> > -		goto out_put_root;
+> > -	}
+> > -	if (!hfs_brec_read(&fd, &entry, sizeof(entry))) {
+> > -		hfs_find_exit(&fd);
+> > +	err = hfsplus_get_hidden_dir_entry(sb, &str, &entry);
+> > +	if (err) {
+> > +		if (err != -ENOENT)
+> > +			goto out_put_root;
 > 
-> Link: https://lore.kernel.org/linux-cxl/29312c0765224ae76862d59a17748c8188fb95f1.1692638817.git.alison.schofield@intel.com/
-> Co-developed-by: Alison Schofield <alison.schofield@intel.com>
-> Signed-off-by: Alison Schofield <alison.schofield@intel.com>
-> Co-developed-by: Zhijian Li <lizhijian@fujitsu.com>
-> Signed-off-by: Zhijian Li <lizhijian@fujitsu.com>
-> Signed-off-by: Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>
-> Reviewed-by: Dave Jiang <dave.jiang@intel.com>
-> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
-> Reviewed-by: Dan Williams <dan.j.williams@intel.com>
-One minor update needed as kmalloc_obj() has shown up in meantime.
-
-Thanks
-
-Jonathan
-> ---
->  drivers/dax/hmem/hmem.c | 32 +++++++++++++++++++++++++++++++-
->  1 file changed, 31 insertions(+), 1 deletion(-)
+> The hfs_brec_read() can return multiple errors (for example, -EINVAL). Are you
+> sure that this check is correct?
 > 
-> diff --git a/drivers/dax/hmem/hmem.c b/drivers/dax/hmem/hmem.c
-> index 8c574123bd3b..15e462589b92 100644
-> --- a/drivers/dax/hmem/hmem.c
-> +++ b/drivers/dax/hmem/hmem.c
-> @@ -72,6 +72,34 @@ void dax_hmem_flush_work(void)
->  }
->  EXPORT_SYMBOL_GPL(dax_hmem_flush_work);
->  
-> +static void remove_soft_reserved(void *r)
-> +{
-> +	remove_resource(r);
-> +	kfree(r);
-> +}
-> +
-> +static int add_soft_reserve_into_iomem(struct device *host,
-> +				       const struct resource *res)
-> +{
-> +	int rc;
-> +
-> +	struct resource *soft __free(kfree) =
-> +		kmalloc(sizeof(*res), GFP_KERNEL);
+> Thanks,
+> Slava.
 
-Update to
+I see your point.
 
-	struct resource *soft __free(kfree) = kmalloc_obj(*soft);
+The current logic follows hfsplus_lookup(), where only -ENOENT is treated
+as missing, and other errors are propagated. The original code effectively 
+ignored hfs_brec_read() errors and continued as if the directory was missing. 
+For critical errors like -EIO/-EINVAL/-ENOMEM, failing the mount seems safer.
 
-Got added in 7.0 with lots of call sites updated via scripting.
+If maintaining the legacy behavior is preferred, I can map all read errors 
+to -ENOENT inside the helper instead:
 
-Not sure why this had sizeof(*res) rather than sizeof(*soft).
-Same type but should have been soft!  If nothing else that would
-probably have broken the scripts looking for where we should
-be using kmalloc_obj().
+	err = hfs_brec_read(&fd, entry, sizeof(*entry));
+	if (err)
+		err = -ENOENT;
 
+Would you prefer to keep the legacy behavior, or is propagating the exact 
+error acceptable?
 
-	
-> +	if (!soft)
-> +		return -ENOMEM;
-> +
-> +	*soft = DEFINE_RES_NAMED_DESC(res->start, (res->end - res->start + 1),
-> +				      "Soft Reserved", IORESOURCE_MEM,
-> +				      IORES_DESC_SOFT_RESERVED);
-> +
-> +	rc = insert_resource(&iomem_resource, soft);
-> +	if (rc)
-> +		return rc;
-> +
-> +	return devm_add_action_or_reset(host, remove_soft_reserved,
-> +					no_free_ptr(soft));
-> +}
-> +
->  static int hmem_register_device(struct device *host, int target_nid,
->  				const struct resource *res)
->  {
-> @@ -94,7 +122,9 @@ static int hmem_register_device(struct device *host, int target_nid,
->  	if (rc != REGION_INTERSECTS)
->  		return 0;
->  
-> -	/* TODO: Add Soft-Reserved memory back to iomem */
-> +	rc = add_soft_reserve_into_iomem(host, res);
-> +	if (rc)
-> +		return rc;
->  
->  	id = memregion_alloc(GFP_KERNEL);
->  	if (id < 0) {
-
+Thanks,
+Zilin
