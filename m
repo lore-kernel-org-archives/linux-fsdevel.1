@@ -1,121 +1,76 @@
-Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com [95.215.58.172])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 157973C3443
-	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Mar 2026 12:26:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C8093AF649
+	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Mar 2026 12:38:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773923214; cv=none; b=eU2E8qzB2sagqwOAXGk3VvGxCRweRg1ee4WN/fpNtXdnvAjTdR/ySt/ppm95tagEoc/+sUjJvSebo445XMuueaTpFmwrVov0pgRJpU22UWNDhjLXcMbRL/iNSM5//f3cA3agEAJqM1PWLLyouqYGRHtscmY9lR2VkY+Px/MpMNU=
+	t=1773923936; cv=none; b=sf0HeSaMwbM8Uf2QZ+YWpBvM8Gg+YaltbwGS+GbKijk/9AGcUxjyv296vjwagsWMyHrTyYQI6Bh7TnHo0wk7drqAwvtAZMTD5k4PHOdHS9rA+797fw0GQidz4rgGv6EZTviPSa631RgQyRTD7WDcsceF5TMcl0MpFbhNvmjQUIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773923214; c=relaxed/simple;
-	bh=an//Ta4gqF3edZ2JaxNj6hMOywXPcWFQqDLL7w+Y3MQ=;
-	h=MIME-Version:Date:Content-Type:From:Message-ID:Subject:To:Cc:
-	 In-Reply-To:References; b=M4yd25Aq09WYmngH5wetMFUTmS2Expt0/c+1a8SJE61CzMX47P6WuQjPsqOJhEqpe/oNk85jSlemuppf6Hw+UnQNZvovs/NECBOiENKRCH/o3eDKHcL/IJ+YtAQD4RNrdEbgxaGppefnEh92deExp8QVccv6z8EhQWAE1ccSiIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gvernon.com; spf=pass smtp.mailfrom=gvernon.com; dkim=pass (2048-bit key) header.d=gvernon.com header.i=@gvernon.com header.b=O9dX9y00; arc=none smtp.client-ip=95.215.58.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gvernon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gvernon.com
+	s=arc-20240116; t=1773923936; c=relaxed/simple;
+	bh=Zo+8vWdyGD+nyD8B43AgyKBPgpnM/90ddXHcwLhsZKU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pKMR0zeNeuAKnxOH6JzVPQfzgKkozPON5M0+PZLO0F5b8U4MKREbcrayxAu5fnDDt7uOz6kGksBNGtNEE5wPC1yA/J1vOvBrTgtzz1kVm3VpjLHQ5du6pLPuE4Ylohl7RX/92AUV0IhWS7Uii2AzPZCTza1teMKx6paoiE4BuJg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=St1TxO05; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gvernon.com header.i=@gvernon.com header.b="O9dX9y00"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="St1TxO05"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09300C2BCAF
+	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Mar 2026 12:38:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773923936;
+	bh=Zo+8vWdyGD+nyD8B43AgyKBPgpnM/90ddXHcwLhsZKU=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=St1TxO05CbAIsEgjCP3zUu7g5QHnUsV1/Z64Z1K5FM99LnuN9z/b3Rl3v0VbPjL+y
+	 8xxD8glzUQ+AJ1nYIe/lReqK2SBbupL5MYhOYDLCChQMkMld0+nBDzoiljbxNUi+34
+	 5ofXSK+aAdQR3xqZt24a4dgHQDwBLCocK9WWXXl+sWx+xtPJvySrCyXjzM8Ghsvu0+
+	 OhgvrHtpFiwoMb29qOciGEXszeFKCrCDgJTOrJcW1+Xq4Zons/aMNgBkxR++qStFSD
+	 /e0ZUxqA7todyB8bYZ/6MU8jcTK0mO3okT3k9QYsSlNHz2R5I6T0H3oFoEyTqklYGJ
+	 9J0s5iEF4Ls8A==
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-667952fd262so1516758a12.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 19 Mar 2026 05:38:55 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWupfcdUTzes6DiieEdxfJF39HP+IO72s1Q8XtdPid4Bx9g0aQRy/hKVmeqiokfGjPxIs+QiZRZGqW4H02C@vger.kernel.org
+X-Gm-Message-State: AOJu0YxOd3fsRLDQqC3idWb3PRGQLK6PxO9dnpLf/9uaKaDDiTIsxMEi
+	Gnz9QNiY4VS9ChUfKxhJMAIyLjRwHoyDxePgyS5mWhk/IOtcWLfQqDrUgSDCJyTIpyid1F4fd7U
+	g4wNuHWwgpUgsgdXQZ7CyQ9qzxKG3H2o=
+X-Received: by 2002:a05:6402:42cb:b0:664:bc6:69a9 with SMTP id
+ 4fb4d7f45d1cf-667b2c1ad95mr5355226a12.17.1773923934486; Thu, 19 Mar 2026
+ 05:38:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gvernon.com; s=key1;
-	t=1773923206;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EeXmQLLg0EPjX6UctPTTEIfcncO9erEF/OUBHjyDJTk=;
-	b=O9dX9y001mrtU9mSQlE08R89HgUFjGK14y3biu25gx6RVpiJzsklw0IHO0VvtB7FwNSr5g
-	0Zwfhr8FzDwoGuGqCYEEdm3jD5zcBlPu+Xu9kygAXXMkxhXAVkrD8BQRYQlTeqTpW3RdTy
-	6fAD+0yU+beIHaiOus9X+V/y2wFX56lRJw5JgVU0eyppPZZeJEsq9fmmLaN9TF2DF87IwN
-	DIrUc+p5MaMN2Uei8eshAG8y9XRRIHHxj+Dg6L9xpUM4lFGn384yfqMdqItdttrW69d0eX
-	YjR8x5k1KGF3rmxQEvunxAk0f1zNSSsku/Rfjr+J4LuJUEYEVr+tGfVGL2EUiQ==
-Date: Thu, 19 Mar 2026 12:26:37 +0000
-Content-Type: text/plain; charset="utf-8"
+References: <20260316214137.1490070-1-dxdt@dev.snart.me> <20260316214137.1490070-2-dxdt@dev.snart.me>
+In-Reply-To: <20260316214137.1490070-2-dxdt@dev.snart.me>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Thu, 19 Mar 2026 21:38:42 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd-5-uQ=hYY8yd=rCJZ=Jd4zANH3gr5zOTxS3AVwp5X8uw@mail.gmail.com>
+X-Gm-Features: AaiRm51Hz8kaZYpv4RHYl-Gcl2fNGqr1q6k6j9cE2N-aAX4hajQAdLRF6YeLf_w
+Message-ID: <CAKYAXd-5-uQ=hYY8yd=rCJZ=Jd4zANH3gr5zOTxS3AVwp5X8uw@mail.gmail.com>
+Subject: Re: [PATCH v0 1/1] exfat: fix s_maxbytes
+To: David Timber <dxdt@dev.snart.me>
+Cc: sj1557.seo@samsung.com, linux-fsdevel@vger.kernel.org, 
+	yuezhang.mo@sony.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "George Vernon" <contact@gvernon.com>
-Message-ID: <070d92639460b672a174d6a11b1e7d0b099b18cb@gvernon.com>
-TLS-Required: No
-Subject: Re: [PATCH v4] hfs: Validate CNIDs in hfs_read_inode
-To: "Tetsuo Handa" <penguin-kernel@i-love.sakura.ne.jp>, "Viacheslav Dubeyko"
- <Slava.Dubeyko@ibm.com>
-Cc: syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com,
- glaubitz@physik.fu-berlin.de, frank.li@vivo.com, slava@dubeyko.com,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-In-Reply-To: <f84ae595-a084-4ded-9f99-964752a69f7d@I-love.SAKURA.ne.jp>
-References: <20260311211309.27856-1-contact@gvernon.com>
- <93f202e6-81bc-4df7-b193-1a812094fa6f@I-love.SAKURA.ne.jp>
- <752d15863effadd7789431137a3feff825594cc3.camel@ibm.com>
- <b7318588-33b2-4dc6-9469-e11da855f8ad@I-love.SAKURA.ne.jp>
- <5a52755364c7ca1438e06caf8e923cea723a0498.camel@ibm.com>
- <b332e546-e93f-4b79-a11c-695058d61fb1@I-love.SAKURA.ne.jp>
- <4f6b37028269c7c4a40a58b57cd546a93dcbd7c2.camel@ibm.com>
- <abnzsVk9JNN3alKq@Bertha>
- <dbacbf1c48ac5aa24f37c58bff995d7b03268db4.camel@ibm.com>
- <absr9g7LaMEHfw47@Bertha>
- <f84ae595-a084-4ded-9f99-964752a69f7d@I-love.SAKURA.ne.jp>
-X-Migadu-Flow: FLOW_OUT
 
-March 19, 2026 at 9:57 AM, "Tetsuo Handa" <penguin-kernel@i-love.sakura.n=
-e.jp mailto:penguin-kernel@i-love.sakura.ne.jp?to=3D%22Tetsuo%20Handa%22%=
-20%3Cpenguin-kernel%40i-love.sakura.ne.jp%3E > wrote:
-
-
->=20
->=20On 2026/03/19 7:49, George Anthony Vernon wrote:
->=20
->=20>=20
->=20> Tetsuo, what do you think about doing your check inside
-> >  hfs_cat_find_brec? Something a bit like this:
-> >=20
->=20Currently hfs_cat_find_brec() is called by only hfs_fill_super()
-> with cnid =3D=3D HFS_ROOT_CNID. Are you planning to add more callers?
->=20
->=20If no, my patch
->=20
->=20 - if (rec.type !=3D HFS_CDR_DIR)
->  + if (rec.type !=3D HFS_CDR_DIR || rec.dir.DirID !=3D cpu_to_be32(HFS_=
-ROOT_CNID))
->=20
->=20is sufficient.
-
-I'm trying to write a patch Slava will accept, maybe I didn't fully under=
-stand what he wanted but I think he wanted to fix hfs_cat_find_brec() so =
-it should not return an incorrect cat record.
-
->=20
->=20If yes, your
->=20
->=20>=20
->=20> + if (fd->entrylength > sizeof(rec)) {
-> >  + pr_err("Bad catalog entry size\n");
-> >  + return -EIO;
-> >  + }
-> >=20
->=20part is not compatible with https://elixir.bootlin.com/linux/v7.0-rc4=
-/source/fs/hfs/super.c#L359
-> which requires that fd->entrylength is exactly 70 bytes in order to mak=
-e sure that rec.dir is
-> fully initialized.
->=20
->=20 sizeof(struct hfs_cat_file) =3D 102
->  sizeof(struct hfs_cat_dir) =3D 70
->  sizeof(struct hfs_cat_thread) =3D 46
->=20
-This=20can be changed.
-> Even if you are planning to add more callers, my patch will be easier t=
-o apply to stable.
+On Tue, Mar 17, 2026 at 6:42=E2=80=AFAM David Timber <dxdt@dev.snart.me> wr=
+ote:
 >
-Yes your patch will be easier to backport, but then again HFS has had min=
-imal churn in recent years, so I think this version will still be simple =
-enough, only maybe the interface for debug prints has changed that I can =
-think of.
-
-Thanks,
-
-George
+> With fallocate support, xfstest unit generic/213 fails with
+>
+>    QA output created by 213
+>    We should get: fallocate: No space left on device
+>    Strangely, xfs_io sometimes says "Success" when something went wrong
+>   -fallocate: No space left on device
+>   +fallocate: File too large
+>
+> because sb->s_maxbytes is set to the volume size.
+>
+> To be in line with other non-extent-based filesystems, set to max volume
+> size possible with the cluster size of the volume.
+>
+> Signed-off-by: David Timber <dxdt@dev.snart.me>
+Applied it #dev.
+Thanks!
