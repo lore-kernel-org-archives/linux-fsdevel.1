@@ -1,130 +1,93 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17B2A2356BE
-	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Mar 2026 09:05:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB6D83B9DB7;
+	Thu, 19 Mar 2026 09:57:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.181.97.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773911159; cv=none; b=fWgOmgHXd4Oq+BzSts5YI2PyfBpeQtJdkI7lVPTm1IoCySA1IifM9vnxkiqM4Lb/ZSbZX8Y5iV5Ry1lcUfrgCqbALZFM5oufmzKX1GzyFhzkNbvSqJXbj2UsTEQE4iOxnznkDgDghzjiYwqQq/NeSuTPl8H1SYPtY/b5KFYktFo=
+	t=1773914285; cv=none; b=Hd4jxCQmTnjtgMBAb8lHqWMaBWCSnltizRbetF8Yoir8BS6Mtz3RIpMErecxE9Suy1BSPhvYIq+4kRwQmNlkkKwrLfYYbDqWBmnkwYj2EEx9tcK0pit08GPyy9SnZu+HUO/+Ze/j3/vM4wYlbJZ8gn8vx3KQJ8SSrW3p00zHd+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773911159; c=relaxed/simple;
-	bh=CxH4UtZPd5tl5TiiHdEXq1cunB+buWtpudAQKsZWn94=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MC1iPBQ9aZXLSarpOKHdlZpxhWmVORf4VlJjd8yAaX9CIQqOunImmnQM0Odzq4LToeMrCdBFuVuRA50fn/cPOapAlD4W7WUt9fvuicHNiC7jFoMw8Q9e5/vt9Kn7cd1yqcyiR8ac36QTzQHQsc2n+TTm1FxXPCnzJaGRLb3IWpc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chrisdown.name; spf=pass smtp.mailfrom=chrisdown.name; dkim=pass (1024-bit key) header.d=chrisdown.name header.i=@chrisdown.name header.b=C3Gw6NI2; arc=none smtp.client-ip=209.85.210.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chrisdown.name
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chrisdown.name
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chrisdown.name header.i=@chrisdown.name header.b="C3Gw6NI2"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-82a62714fe6so364479b3a.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 19 Mar 2026 02:05:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chrisdown.name; s=google; t=1773911155; x=1774515955; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vSjDs9gpdiQuavbnhp6WATUDdoIiFqyRgNYkkpsjTwA=;
-        b=C3Gw6NI2YouXwrILu/7BMv/GJWmC2q5PY8Svv0iq4mnNVX8OT2uuBRt+ygd4Vu4tFn
-         L4W5f9warjoUAP8p5VDglzT3fOdrJTRTAydeHoMvziMg3PeiUtfAOQ4qJMX8zT2tzg6A
-         JKA0wFK0xvqNJ+cIgjMgNNQhIHahSsidPkgT0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773911155; x=1774515955;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=vSjDs9gpdiQuavbnhp6WATUDdoIiFqyRgNYkkpsjTwA=;
-        b=YKWtqMdSf9r/KIkYB6+v1xWB2msCjdBHKY0cwdefjMPrm+yBE+1WArx6KMTZbggAW0
-         L2WHIZGWAPWvRmDJs3YjGFBpb9ldobtTspkF5Ac4q0Gx7aYhP5Xnb3NrjrlXVBn1roEr
-         ikMgMjpedfM0nOMPOC+DhmuyHHi1+iCoMld1j544mcJV0UNORO+lzW09iLgZBXJ2ituv
-         siVX8qikhlClxUNzV0Ho3k9DTb8/QwKOY9hAqDs6JBU4MOn6wwv6d096Y1qQ+FTCiCzl
-         sQaK9nlFpB2BQiCfHRPF4DgjK/zf77qwl6i2n1JoPdfNKz4mNY9/MygxwF+cn+1hMuZY
-         jr1A==
-X-Gm-Message-State: AOJu0Yx6TNvWU5dos7bHcp9fEhrFBMau/jACZUl5QzggyJf5Z6W9IVtK
-	JA05hQYCcVbR3tJ+P3p/x83vsaGn3B7MurSSWbBO8SN6Thxa1CWvhw6xscFIIQ5RQsjsrHk2jW2
-	LL9al9Ix3YQ==
-X-Gm-Gg: ATEYQzyN9u1dwexYvwjjoPjkKgL0cOCXYcZ7nEADkgEtFhW7pTenW1b+i5mmTq0wKJf
-	VZEblB969yiUKrmJPXxzh9iqVY6y19hGyD/U/1E7joHxf16uSDDnDSMc6WJN86Ils8o+1jPAH1T
-	gi4HfTuNq8Wh6UEeRaQY+MTTMLZogvhBrwQ58fqx8i+j9vPGfMLB1djsLja6XO0R6yruzlZx/1F
-	0NmlnRLXNQ7HlcwVgGHPqS1itb9HPZCwHd4z8HosxKcALWCTtTrG4ZNrknaQhfURIf7HFsriqvT
-	XeOHOCx4at7kfXf8Ct3nNtIEILKnuB4mbZWi8jS46ZAy6I0VLYg6/FRj2bgXtKzB/32cqfql+du
-	TauVhEMl95XTR9PQQoWA8GBl3ki3vGRGyk2xVqRZvkJ/t/ehGO75j+WMLntjjrnYH6JQ/wJjCZ4
-	l9HANOj+iF85xGuESOJ1iZ
-X-Received: by 2002:a05:6a00:2da9:b0:81c:5bca:8104 with SMTP id d2e1a72fcca58-82a7a93e27amr1897355b3a.24.1773911155066;
-        Thu, 19 Mar 2026 02:05:55 -0700 (PDT)
-Received: from localhost ([116.86.198.140])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82a6bbb390csm5680432b3a.29.2026.03.19.02.05.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Mar 2026 02:05:54 -0700 (PDT)
-Date: Thu, 19 Mar 2026 17:05:52 +0800
-From: Chris Down <chris@chrisdown.name>
-To: linux-fsdevel@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, kernel-team@meta.com
-Subject: Re: [PATCH] timerfd: Support CLOCK_TAI
-Message-ID: <abu8cG7g11DP9nkn@chrisdown.name>
-References: <abuTTv9FC__H_8RC@chrisdown.name>
+	s=arc-20240116; t=1773914285; c=relaxed/simple;
+	bh=t48Fg25qQ/qZqlFZfEQwNnkVUfSYqyQS/wDhTgVLzc4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HdFNRt84GJ2Zm+JTyUckjWShlY/wqtAZTVJ9AcRHqgUPhyW5mEZsQkiLoreCnxvd0e2EylUQXN5yvoQY+nYI2+FwQqvEC+SaP73GddAYnb2VQUzOZilQtOTPvOnVY4j1nk26/N34y/L1vsK9ViN6xXZJ5wa1TtrzMl6nqk5KTNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp; arc=none smtp.client-ip=202.181.97.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp
+Received: from www262.sakura.ne.jp (localhost [127.0.0.1])
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 62J9vJAs046956;
+	Thu, 19 Mar 2026 18:57:19 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from [192.168.1.2] (M106072072000.v4.enabler.ne.jp [106.72.72.0])
+	(authenticated bits=0)
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 62J9vIsG046951
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+	Thu, 19 Mar 2026 18:57:19 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <f84ae595-a084-4ded-9f99-964752a69f7d@I-love.SAKURA.ne.jp>
+Date: Thu, 19 Mar 2026 18:57:17 +0900
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <abuTTv9FC__H_8RC@chrisdown.name>
-User-Agent: Mutt/2.3 (50e3b1f3) (2026-01-25)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4] hfs: Validate CNIDs in hfs_read_inode
+To: George Anthony Vernon <contact@gvernon.com>,
+        Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
+Cc: "syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com"
+ <syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com>,
+        "glaubitz@physik.fu-berlin.de" <glaubitz@physik.fu-berlin.de>,
+        "frank.li@vivo.com" <frank.li@vivo.com>,
+        "slava@dubeyko.com" <slava@dubeyko.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+References: <20260311211309.27856-1-contact@gvernon.com>
+ <93f202e6-81bc-4df7-b193-1a812094fa6f@I-love.SAKURA.ne.jp>
+ <752d15863effadd7789431137a3feff825594cc3.camel@ibm.com>
+ <b7318588-33b2-4dc6-9469-e11da855f8ad@I-love.SAKURA.ne.jp>
+ <5a52755364c7ca1438e06caf8e923cea723a0498.camel@ibm.com>
+ <b332e546-e93f-4b79-a11c-695058d61fb1@I-love.SAKURA.ne.jp>
+ <4f6b37028269c7c4a40a58b57cd546a93dcbd7c2.camel@ibm.com>
+ <abnzsVk9JNN3alKq@Bertha>
+ <dbacbf1c48ac5aa24f37c58bff995d7b03268db4.camel@ibm.com>
+ <absr9g7LaMEHfw47@Bertha>
+Content-Language: en-US
+From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+In-Reply-To: <absr9g7LaMEHfw47@Bertha>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Anti-Virus-Server: fsav305.rs.sakura.ne.jp
+X-Virus-Status: clean
 
-To proactively reply to what Sashiko said in 
-https://sashiko.dev/#/patchset/abuTTv9FC__H_8RC%40chrisdown.name:
+On 2026/03/19 7:49, George Anthony Vernon wrote:
+> Tetsuo, what do you think about doing your check inside
+> hfs_cat_find_brec? Something a bit like this:
 
-> If a user creates a CLOCK_TAI timer and later calls timerfd_settime with
-> the TFD_TIMER_CANCEL_ON_SET flag, does the kernel silently ignore the flag?
->
-> Looking at timerfd_setup_cancel in fs/timerfd.c, the cancellation logic
-> appears to be explicitly restricted to CLOCK_REALTIME and
-> CLOCK_REALTIME_ALARM:
->
-> static void timerfd_setup_cancel(struct timerfd_ctx *ctx, int flags)
-> {
->         ...
->         if ((ctx->clockid == CLOCK_REALTIME ||
->              ctx->clockid == CLOCK_REALTIME_ALARM) &&
->             (flags & TFD_TIMER_ABSTIME) && (flags & TFD_TIMER_CANCEL_ON_SET)) {
->                 ...
->         } else {
->                 __timerfd_remove_cancel(ctx);
->         }
-> }
->
-> Will this cause a silent API failure where the timer is never added to the
-> cancel list for CLOCK_TAI, meaning the timer won't be canceled during
-> administrative clock jumps?
->
-> Additionally, if it were added, timerfd_clock_was_set and timerfd_canceled
-> hardcode the jump-detection check to ktime_mono_to_real(0). Does this miss
-> independent jumps in CLOCK_TAI caused by adjtimex(ADJ_TAI)?
+Currently hfs_cat_find_brec() is called by only hfs_fill_super()
+with cnid == HFS_ROOT_CNID. Are you planning to add more callers?
 
-So, timerfd_setup_cancel() is currently restricted to CLOCK_REALTIME and 
-CLOCK_REALTIME_ALARM, so a CLOCK_TAI timerfd created by this patch will behave 
-like the other non-REALTIME timerfds here. The behaviour is that the flag is 
-accepted by timerfd_settime(), but no cancel on set tracking is armed and the 
-timer will not report ECANCELED on clock changes.
+If no, my patch
 
-So what Sashiko says does not block this patch, because the patch is only 
-lifting the timerfd_create() allowlist restriction. The underlying 
-hrtimer/k_clock paths already support basic CLOCK_TAI timerfds, which is what 
-this patch is enabling.
+  -		if (rec.type != HFS_CDR_DIR)
+  +		if (rec.type != HFS_CDR_DIR || rec.dir.DirID != cpu_to_be32(HFS_ROOT_CNID))
 
-If we wanted TFD_TIMER_CANCEL_ON_SET support for CLOCK_TAI, that would need 
-separate work. As Sashiko also said, the current cancel detection is based on 
-ktime_mono_to_real(0) (that is, REALTIME movement) and would not be sufficient 
-for standalone TAI offset changes such as adjtimex(ADJ_TAI). So supporting 
-cancel on set for CLOCK_TAI is not just a matter of adding CLOCK_TAI to 
-timerfd_setup_cancel() and would require defining the desired semantics and 
-adding distinct change detection for TAI. That's a much bigger change and 
-discussion.
+is sufficient.
 
-So let's leave this patch as is for now.
+If yes, your
+
+> +       if (fd->entrylength > sizeof(rec)) {
+> +               pr_err("Bad catalog entry size\n");
+> +               return -EIO;
+> +       }
+
+part is not compatible with https://elixir.bootlin.com/linux/v7.0-rc4/source/fs/hfs/super.c#L359
+which requires that fd->entrylength is exactly 70 bytes in order to make sure that rec.dir is
+fully initialized.
+
+  sizeof(struct hfs_cat_file) = 102
+  sizeof(struct hfs_cat_dir) = 70
+  sizeof(struct hfs_cat_thread) = 46
+
+Even if you are planning to add more callers, my patch will be easier to apply to stable.
