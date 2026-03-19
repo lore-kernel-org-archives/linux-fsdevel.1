@@ -1,161 +1,327 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C29A6375F83
-	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Mar 2026 12:03:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C3C53C5DD0;
+	Thu, 19 Mar 2026 12:21:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773921786; cv=none; b=HlkHfd5hQxu4lme95T7Yj8L694rm2GL6DulaDfuz0VDg0hT8sjlEuLxhRvD5z0ZR6lelt1eR7f/rNYkjRkNXEn4Qpi/NQXcReqRTot9IOJ1cQ+vKa3d+/1o7zmuyHcWg6kyRLPFtn5lDKFBEtbCT6KfNlKWX4A1qh76FaBjW2DE=
+	t=1773922866; cv=none; b=ihBORiwCd2qRQM9Sp2E53hbUydGfY6jKO7yx6I4PXzHUJ3ZOvwbn9PjBwMcmDSZgR4+V6+6qaZmPHeOV3Aa5ub8Ej9+LlkNAva6Y5WtbRpPXDEKorTGE9lRQVcXFWIgmFD/Fq6V3CisMBsDAV9ojkCPHnG75blwVrdbuZrlr+Wg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773921786; c=relaxed/simple;
-	bh=LFvAzxjRy5yKMROCT6VzLuXZ4zUNbJdggzJRZ3Ldrtw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UL+jAS3VdZgMczC9/0nlr2duOT/rSX+WCCvXqh1SPd5UtuNud0UKrxz5b/LAQrKGXIfWEjTRcvkcQB7PRi9v9buLl/ld6sZIoKb4p5hc8io/yLPAZUS88SFjRS/dH5FZtzjOXHmTsmFFankneW6bbmpgi5bwoJoW9fRbq89kzLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=YaWPnGiV; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=EBbms4Ir; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=miveAcmo; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=k4L7tQpv; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="YaWPnGiV";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="EBbms4Ir";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="miveAcmo";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="k4L7tQpv"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id E39434D1F8;
-	Thu, 19 Mar 2026 12:02:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1773921783; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=V/BEr/zL+iTq9OLG7t22kpTRs5fuNK1bo78GluvZaHc=;
-	b=YaWPnGiVgfFZI8vGKZfr4GRIiiet/kRBdc18qnUznr/XtyqxcNUlZhVYDQcF3ZNxPwpFLb
-	vbGgQ/oGNF421jBS+TV1KfnLxomo4ucmAUJENagE3b+gj4MYcq3keJUV2PM8E9oJPoQTap
-	0LhwEs7nlTe2zuQ/X8L9AvLQI355Huc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1773921783;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=V/BEr/zL+iTq9OLG7t22kpTRs5fuNK1bo78GluvZaHc=;
-	b=EBbms4Irhn5N1IMemBImA7hFnElveA3HlxgVfj3FXWScb87IExptV1ircOm9NceA/mttQj
-	xYWHadbH5V7AO3CA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1773921779; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=V/BEr/zL+iTq9OLG7t22kpTRs5fuNK1bo78GluvZaHc=;
-	b=miveAcmoNVz13pXCT9ajLBfK6W4Gw71nsI7Y2qkCRMeI4LbUANPYv8ad0+a7SRonvmVA3W
-	1IwuFYwuyhxjC49lP218Fd2eNOdyUSMADFc4dNOcrw5z8oZyNyJSw2wYin1yG9YvU6YgjM
-	lyZSqUu6uhoKNjfDIC6GhBA3zN+FTlo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1773921779;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=V/BEr/zL+iTq9OLG7t22kpTRs5fuNK1bo78GluvZaHc=;
-	b=k4L7tQpvtzlAF0UrjD6CQtVSvkn3m3pphArldaqwaCzqrBo5CSChmmepd/777qwy1iVnBi
-	hZUHCO1+VtYoIeBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D5DA34273B;
-	Thu, 19 Mar 2026 12:02:59 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id /6g8M/Plu2kKWwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 19 Mar 2026 12:02:59 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 92978A0B32; Thu, 19 Mar 2026 13:02:59 +0100 (CET)
-Date: Thu, 19 Mar 2026 13:02:59 +0100
-From: Jan Kara <jack@suse.cz>
-To: Jori Koolstra <jkoolstra@xs4all.nl>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	"open list:FILESYSTEMS (VFS and infrastructure)" <linux-fsdevel@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] vfs: fix docstring of hash_name()
-Message-ID: <b6tzgb7nlxmefkc7mqeyhlpo4o3c6532wdxxpdej5mtoftfch5@6hgola232nx6>
-References: <20260318203953.5770-1-jkoolstra@xs4all.nl>
+	s=arc-20240116; t=1773922866; c=relaxed/simple;
+	bh=51qDref+96vLVVzgxex3Lz/aTp6JsO1HJFiooq62O/k=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jSpt4xxsI8kJdxSy5d+PSmXd0YdVO+SxYEuZtA+urfjrL94PC9A6/x+S1hU1ruSaUC0bkSsLn0yJllGL2AmdCGsKrGhG3EqcdhV/v5b8K4VTZz8WHE4HCwDbFf3WcPD8gutJrxuv3BkqrS76KJ/ie0FUV1Ml64UZzlqselIuHBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.224.107])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4fc4X074MjzJ46Cq;
+	Thu, 19 Mar 2026 20:20:00 +0800 (CST)
+Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
+	by mail.maildlp.com (Postfix) with ESMTPS id 51D4740584;
+	Thu, 19 Mar 2026 20:21:00 +0800 (CST)
+Received: from localhost (10.203.177.15) by dubpeml500005.china.huawei.com
+ (7.214.145.207) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 19 Mar
+ 2026 12:20:58 +0000
+Date: Thu, 19 Mar 2026 12:20:57 +0000
+From: Jonathan Cameron <jonathan.cameron@huawei.com>
+To: John Groves <john@groves.net>
+CC: Miklos Szeredi <miklos@szeredi.hu>, Dan Williams
+	<dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, "Alison
+ Schofield" <alison.schofield@intel.com>, John Groves <jgroves@micron.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, "Alexander
+ Viro" <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>,
+	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong"
+	<djwong@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, Jeff Layton
+	<jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, Stefan Hajnoczi
+	<shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, Josef Bacik
+	<josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan
+	<chenlinxuan@uniontech.com>, James Morse <james.morse@arm.com>, Fuad Tabba
+	<tabba@google.com>, Sean Christopherson <seanjc@google.com>, Shivank Garg
+	<shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>, Gregory Price
+	<gourry@gourry.net>, Aravind Ramesh <arramesh@micron.com>, Ajay Joshi
+	<ajayjoshi@micron.com>, <venkataravis@micron.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<nvdimm@lists.linux.dev>, <linux-cxl@vger.kernel.org>,
+	<linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH V8 3/8] dax: add fsdev.c driver for fs-dax on character
+ dax
+Message-ID: <20260319122057.00004503@huawei.com>
+In-Reply-To: <20260319012837.4443-1-john@groves.net>
+References: <20260318202737.4344.dax@groves.net>
+	<20260319012837.4443-1-john@groves.net>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260318203953.5770-1-jkoolstra@xs4all.nl>
-X-Spam-Score: -3.80
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FREEMAIL_ENVRCPT(0.00)[xs4all.nl];
-	FREEMAIL_TO(0.00)[xs4all.nl];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	TO_DN_ALL(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,xs4all.nl:email,suse.cz:email]
-X-Spam-Flag: NO
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml100009.china.huawei.com (7.191.174.83) To
+ dubpeml500005.china.huawei.com (7.214.145.207)
 
-On Wed 18-03-26 21:39:52, Jori Koolstra wrote:
-> The docstring of hash_name() is falsely reporting that it returns the
-> component length, whereas it returns a pointer to the terminating '/'
-> or NUL character in the pathname being resolved.
+On Wed, 18 Mar 2026 20:28:37 -0500
+John Groves <john@groves.net> wrote:
+
+> The new fsdev driver provides pages/folios initialized compatibly with
+> fsdax - normal rather than devdax-style refcounting, and starting out
+> with order-0 folios.
 > 
-> Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
+> When fsdev binds to a daxdev, it is usually (always?) switching from the
+> devdax mode (device.c), which pre-initializes compound folios according
+> to its alignment. Fsdev uses fsdev_clear_folio_state() to switch the
+> folios into a fsdax-compatible state.
+> 
+> A side effect of this is that raw mmap doesn't (can't?) work on an fsdev
+> dax instance. Accordingly, The fsdev driver does not provide raw mmap -
+> devices must be put in 'devdax' mode (drivers/dax/device.c) to get raw
+> mmap capability.
+> 
+> In this commit is just the framework, which remaps pages/folios compatibly
+> with fsdax.
+> 
+> Enabling dax changes:
+> 
+> - bus.h: add DAXDRV_FSDEV_TYPE driver type
+> - bus.c: allow DAXDRV_FSDEV_TYPE drivers to bind to daxdevs
+> - dax.h: prototype inode_dax(), which fsdev needs
+> 
+> Suggested-by: Dan Williams <dan.j.williams@intel.com>
+> Suggested-by: Gregory Price <gourry@gourry.net>
+> Signed-off-by: John Groves <john@groves.net>
 
-Looks good. Feel free to add:
-
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-								Honza
+A few comments inline.  I think some of the code here could be moved
+to a helper library used by both this and device.c
 
 > ---
->  fs/namei.c | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
+>  MAINTAINERS          |   8 ++
+>  drivers/dax/Makefile |   6 +
+>  drivers/dax/bus.c    |   4 +
+>  drivers/dax/bus.h    |   1 +
+>  drivers/dax/fsdev.c  | 253 +++++++++++++++++++++++++++++++++++++++++++
+>  fs/dax.c             |   1 +
+>  include/linux/dax.h  |   3 +
+>  7 files changed, 276 insertions(+)
+>  create mode 100644 drivers/dax/fsdev.c
 > 
-> diff --git a/fs/namei.c b/fs/namei.c
-> index 58f715f7657e..9e5500dad14f 100644
-> --- a/fs/namei.c
-> +++ b/fs/namei.c
-> @@ -2437,8 +2437,14 @@ u64 hashlen_string(const void *salt, const char *name)
->  EXPORT_SYMBOL(hashlen_string);
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 96ea84948d76..e83cfcf7e932 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -7298,6 +7298,14 @@ L:	linux-cxl@vger.kernel.org
+>  S:	Supported
+>  F:	drivers/dax/
 >  
->  /*
-> - * Calculate the length and hash of the path component, and
-> - * return the length as the result.
-> + * hash_name - Calculate the length and hash of the path component
-> + * @nd: the path resolution state
-> + * @name: the pathname to read the component from
-> + * @lastword: if the component fits in a single word, LAST_WORD_IS_DOT,
-> + * LAST_WORD_IS_DOTDOT, or some other value depending on whether the
-> + * component is '.', '..', or something else. Otherwise, @lastword is 0.
-> + *
-> + * Returns: a pointer to the terminating '/' or NUL character in @name.
->   */
->  static inline const char *hash_name(struct nameidata *nd,
->  				    const char *name,
-> -- 
-> 2.53.0
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+> +DEVICE DIRECT ACCESS (DAX) [fsdev_dax]
+> +M:	John Groves <jgroves@micron.com>
+> +M:	John Groves <John@Groves.net>
+> +L:	nvdimm@lists.linux.dev
+> +L:	linux-cxl@vger.kernel.org
+> +S:	Supported
+> +F:	drivers/dax/fsdev.c
+> +
+>  DEVICE FREQUENCY (DEVFREQ)
+>  M:	MyungJoo Ham <myungjoo.ham@samsung.com>
+>  M:	Kyungmin Park <kyungmin.park@samsung.com>
+> diff --git a/drivers/dax/Makefile b/drivers/dax/Makefile
+> index 5ed5c39857c8..3bae252fd1bf 100644
+> --- a/drivers/dax/Makefile
+> +++ b/drivers/dax/Makefile
+> @@ -5,10 +5,16 @@ obj-$(CONFIG_DEV_DAX_KMEM) += kmem.o
+>  obj-$(CONFIG_DEV_DAX_PMEM) += dax_pmem.o
+>  obj-$(CONFIG_DEV_DAX_CXL) += dax_cxl.o
+>  
+> +# fsdev_dax: fs-dax compatible devdax driver (needs DEV_DAX and FS_DAX)
+> +ifeq ($(CONFIG_FS_DAX),y)
+> +obj-$(CONFIG_DEV_DAX) += fsdev_dax.o
+> +endif
+
+Why not throw in a new CONFIG_FSDAX_DEV and handle the dependencies
+in Kconfig?  
+
+> +
+>  dax-y := super.o
+>  dax-y += bus.o
+>  device_dax-y := device.o
+>  dax_pmem-y := pmem.o
+>  dax_cxl-y := cxl.o
+> +fsdev_dax-y := fsdev.o
+>  
+>  obj-y += hmem/
+
+> diff --git a/drivers/dax/fsdev.c b/drivers/dax/fsdev.c
+> new file mode 100644
+> index 000000000000..e5b4396ce401
+> --- /dev/null
+> +++ b/drivers/dax/fsdev.c
+
+> +static int fsdev_dax_probe(struct dev_dax *dev_dax)
+> +{
+> +	struct dax_device *dax_dev = dev_dax->dax_dev;
+> +	struct device *dev = &dev_dax->dev;
+> +	struct dev_pagemap *pgmap;
+> +	u64 data_offset = 0;
+
+See below. I think you can useful reduce scope of this one.
+
+> +	struct inode *inode;
+> +	struct cdev *cdev;
+> +	void *addr;
+> +	int rc, i;
+> +
+
+There is a lot of duplication in here with dax/device.c
+Is any of it suitable for shared helpers?
+
+> +	if (static_dev_dax(dev_dax))  {
+> +		if (dev_dax->nr_range > 1) {
+> +			dev_warn(dev, "static pgmap / multi-range device conflict\n");
+> +			return -EINVAL;
+> +		}
+> +
+> +		pgmap = dev_dax->pgmap;
+> +	} else {
+> +		size_t pgmap_size;
+> +
+> +		if (dev_dax->pgmap) {
+> +			dev_warn(dev, "dynamic-dax with pre-populated page map\n");
+> +			return -EINVAL;
+> +		}
+> +
+> +		pgmap_size = struct_size(pgmap, ranges, dev_dax->nr_range - 1);
+> +		pgmap = devm_kzalloc(dev, pgmap_size,  GFP_KERNEL);
+
+Bonus space before GFP_KERNEL.
+
+
+> +		if (!pgmap)
+> +			return -ENOMEM;
+> +
+> +		pgmap->nr_range = dev_dax->nr_range;
+> +		dev_dax->pgmap = pgmap;
+> +
+> +		for (i = 0; i < dev_dax->nr_range; i++) {
+> +			struct range *range = &dev_dax->ranges[i].range;
+> +
+> +			pgmap->ranges[i] = *range;
+> +		}
+> +	}
+> +
+> +	for (i = 0; i < dev_dax->nr_range; i++) {
+> +		struct range *range = &dev_dax->ranges[i].range;
+> +
+> +		if (!devm_request_mem_region(dev, range->start,
+> +					range_len(range), dev_name(dev))) {
+> +			dev_warn(dev, "mapping%d: %#llx-%#llx could not reserve range\n",
+> +				 i, range->start, range->end);
+> +			return -EBUSY;
+> +		}
+> +	}
+
+Everything above here is shared.  Some sort of _init() or similar library function
+seems in order.
+
+> +
+> +	/*
+> +	 * FS-DAX compatible mode: Use MEMORY_DEVICE_FS_DAX type and
+> +	 * do NOT set vmemmap_shift. This leaves folios at order-0,
+> +	 * allowing fs-dax to dynamically create compound folios as needed
+> +	 * (similar to pmem behavior).
+> +	 */
+> +	pgmap->type = MEMORY_DEVICE_FS_DAX;
+> +	pgmap->ops = &fsdev_pagemap_ops;
+> +	pgmap->owner = dev_dax;
+> +
+> +	/*
+> +	 * CRITICAL DIFFERENCE from device.c:
+> +	 * We do NOT set vmemmap_shift here, even if align > PAGE_SIZE.
+> +	 * This ensures folios remain order-0 and are compatible with
+> +	 * fs-dax's folio management.
+> +	 */
+> +
+> +	addr = devm_memremap_pages(dev, pgmap);
+> +	if (IS_ERR(addr))
+> +		return PTR_ERR(addr);
+> +
+> +	/*
+> +	 * Clear any stale compound folio state left over from a previous
+> +	 * driver (e.g., device_dax with vmemmap_shift). Also register this
+> +	 * as a devm action so folio state is cleared on unbind, ensuring
+> +	 * clean pages for subsequent drivers (e.g., kmem for system-ram).
+> +	 */
+> +	fsdev_clear_folio_state(dev_dax);
+> +	rc = devm_add_action_or_reset(dev, fsdev_clear_folio_state_action,
+> +				      dev_dax);
+> +	if (rc)
+> +		return rc;
+> +
+> +	/* Detect whether the data is at a non-zero offset into the memory */
+> +	if (pgmap->range.start != dev_dax->ranges[0].range.start) {
+> +		u64 phys = dev_dax->ranges[0].range.start;
+> +		u64 pgmap_phys = dev_dax->pgmap[0].range.start;
+> +
+> +		if (!WARN_ON(pgmap_phys > phys))
+> +			data_offset = phys - pgmap_phys;
+> +
+> +		pr_debug("%s: offset detected phys=%llx pgmap_phys=%llx offset=%llx\n",
+> +		       __func__, phys, pgmap_phys, data_offset);
+
+Might change later, but at least at this point you could pull declaration of data_offset
+into this scope.
+
+> +	}
+> +
+> +	inode = dax_inode(dax_dev);
+> +	cdev = inode->i_cdev;
+> +	cdev_init(cdev, &fsdev_fops);
+> +	cdev->owner = dev->driver->owner;
+> +	cdev_set_parent(cdev, &dev->kobj);
+> +	rc = cdev_add(cdev, dev->devt, 1);
+> +	if (rc)
+> +		return rc;
+> +
+> +	rc = devm_add_action_or_reset(dev, fsdev_cdev_del, cdev);
+> +	if (rc)
+> +		return rc;
+> +
+> +	run_dax(dax_dev);
+> +	return devm_add_action_or_reset(dev, fsdev_kill, dev_dax);
+> +}
+
+> diff --git a/include/linux/dax.h b/include/linux/dax.h
+> index bf103f317cac..996493f5c538 100644
+> --- a/include/linux/dax.h
+> +++ b/include/linux/dax.h
+> @@ -51,6 +51,7 @@ struct dax_holder_operations {
+>  
+>  #if IS_ENABLED(CONFIG_DAX)
+>  struct dax_device *alloc_dax(void *private, const struct dax_operations *ops);
+> +
+
+Unrelated change.  Tidy this up for v9.
+
+
+>  void *dax_holder(struct dax_device *dax_dev);
+>  void put_dax(struct dax_device *dax_dev);
+>  void kill_dax(struct dax_device *dax_dev);
+> @@ -151,8 +152,10 @@ static inline void fs_put_dax(struct dax_device *dax_dev, void *holder)
+>  #endif /* CONFIG_BLOCK && CONFIG_FS_DAX */
+>  
+>  #if IS_ENABLED(CONFIG_FS_DAX)
+> +struct dax_device *inode_dax(struct inode *inode);
+
+Already in dax_private.h so why does it want to be here?
+
+
+>  int dax_writeback_mapping_range(struct address_space *mapping,
+>  		struct dax_device *dax_dev, struct writeback_control *wbc);
+> +int dax_folio_reset_order(struct folio *folio);
+>  
+>  struct page *dax_layout_busy_page(struct address_space *mapping);
+>  struct page *dax_layout_busy_page_range(struct address_space *mapping, loff_t start, loff_t end);
+
