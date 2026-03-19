@@ -1,254 +1,376 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8E342356C6
-	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Mar 2026 19:47:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773949650; cv=none; b=aC5U71InHMzTgFzNwXz6Q6ITqF21WemiXmijcVOAhQdqS9jw+M32BI9/HF0Uqnao8rg+4/vlPjRLChuGEoDsPd8ZlzCdIrsKCe4uUl7Jc7pR5Jnm+cZWwfAKEH5+LR+W75cTijERpylYjJT19sY+h08bVCwUAkZs2YtbAfiMPkU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773949650; c=relaxed/simple;
-	bh=9rYMIWh8GjEA1YfHQq4b/h1XvmB5D3QXVHpi7exWYfQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hLsjn08PX/Z3Z5simDipM0K5sEye3zx9bIum4G4qzbXdQP8/PygAQ2blkU86ZTV9x8uE+C/33OsqLMnVfDLDbobDp5tiPaKTeyslaM0RfBL9h/74zfU3SgAz6/o1jRmv3BDCLnyyUrRSzIk48nBm0VQe1WLfv617rDtjQHJX8Pw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hGDokw0O; arc=none smtp.client-ip=209.85.216.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFC62389E13;
+	Thu, 19 Mar 2026 20:03:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773950633; cv=fail; b=GidH5E+BNfwzmNLxVOulPxqjJogaE4bHZCMZxuhF/ZDAPMLCCODsf362GP0E79Kpn5Q+0eAMlbi+ezpPMZndiCyMfObF10jM1y8eKoT71QRqMxIcIeLa7ONNC0nbKN60BhbnOkFiMSlE2TtAtmv1N8lbmkaE2XlZHJD7xXEWOSA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773950633; c=relaxed/simple;
+	bh=ID+xlafgbNg0rthNm63T2T0D8XwnJ1Xy7CRFt3cm2Go=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=brMOzgMQvxTh+eoPWZDzKGrD2uzmAse66dQ6Ci+G88+LqnQQxhJHZ17IVOXIZ/ylKOY6IiUPkK9wLBlm8AN1KyYVNvcbspxhMRi93QEop/9QCdLurXMerVOmZHd8olNbsBD0j0VczC2Cjpu0kZZ3e/BE4BpmzrL8lwABFBB9Lro=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GAclMrIm; arc=fail smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hGDokw0O"
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-35a09e0dd63so1504494a91.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 19 Mar 2026 12:47:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773949648; x=1774554448; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xO6S9BQH7HFJ5MqOMQCImyt8X8APmhg6RtZHuLbfJK8=;
-        b=hGDokw0OcxTRQkuiUmdCvukueU6uDn4f1Z6phsnrLL0K/MsrX/bgouRjSQLI2SGnv0
-         Ss5xNXNkoNulOWkCYnNtoYngVqLkaj1FcwZMC2l0hdz3pIagjfrHphjojONn5djn4qFE
-         dbJEqN/QaDBOoUNQdWcaF5YfSr3iaw/QsWs7NR18h0GG5BUCJJRhyE0NuzItgAZS9FL3
-         QkWoXc5+OQ0+zXh5E9ys8w/h+1rLOQRyCmh8OF7wTuxOv+tgTAns4NFKR/RVI3kONkdA
-         +J5M/FxefyWWa17RnDPInLZ8L0Ab/dpzj3lhm4qdwcgasCKTJkRNLd+19b5lLW73l8zJ
-         bseg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773949648; x=1774554448;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=xO6S9BQH7HFJ5MqOMQCImyt8X8APmhg6RtZHuLbfJK8=;
-        b=SlOMRjUfm5daHsdBWhq+0JRgOBWVl37uf9d9K9o+/kJDg1/7rUkwVoYiuhGLJEx3hp
-         8RK5mh/LlHwg/Iia7Yh4a/FK4pTGMAgxTJxk8QTkYCt7NFnnPB9N9pbMw9zBgUsBPNjG
-         ckznBqzqud9w15jB1KF0SL+vREDWDhVQbOXt8XXJdTEzftMVzBSFmV6z02n+OSbHCvuY
-         i6iPPH1RHFEHtYGJVN0ngTjwpP/O+F6XZ6PJxgSmL/5Cs2gZy9YPjJ94n9gCSVAC003X
-         gtEhyex/tPWQ/U/HWlOwrB6k7sB6NNfF3CWxCbgy11A/rVZB3eUMPw/r1uwTYAPSdebg
-         X+ZA==
-X-Gm-Message-State: AOJu0YyeAb1ktRR3BmkBuV4Q82XQ/d9di3ukDgM2/HBYS1VxkciJRO99
-	KHyplc6Pk8drrgHS96iF2+WCIvx5pJv6BTHAtyPLAZutZA3Gv4dkesAL
-X-Gm-Gg: ATEYQzzkF7HB4+KW5PEP8jw174vTztH0uZO6cD9r4QgJgp+vQU1yYCB7frBQMM8xYG8
-	39QfIPnQNNUp/To/KHlxj/C/byPWHM9JmlY0cVpUOP7UpWDd5eK/RTvGR0Q9YDbKizg7XGruC5z
-	KGnhO9BiO8z721qY6mqVYaZpAbcM0ttFk1U8rlWXZBl1clUgNvI5WoEevU0RzmGfcckcDPPpV7N
-	dd56HJvQ13jE4xkXC+lIRMX35OMXIy0qudi+ZanZpbjjH81y/LspRXdGw5EbRaniA0uKEHzXyJM
-	UbCQEGVj2ZxqlISy813jpXdJyOidkpEQInhhPc0xcLiopDfgbxDi0Heqrv1h1HW27n+1bNz5qXt
-	8a50mYF3NMZzXYiszTHeWbhiReeaL69hC27SkEYsIpFqGc9DlzcW3K/CHSqby4XtEzXWbkbvhId
-	b3Wlg8CVHBp28BQ6PadA==
-X-Received: by 2002:a17:90b:554e:b0:35b:9ab6:1d65 with SMTP id 98e67ed59e1d1-35bd2d52dc5mr257287a91.25.1773949648149;
-        Thu, 19 Mar 2026 12:47:28 -0700 (PDT)
-Received: from localhost ([2a03:2880:ff:13::])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35bd25fb8fbsm82204a91.1.2026.03.19.12.47.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Mar 2026 12:47:27 -0700 (PDT)
-From: Joanne Koong <joannelkoong@gmail.com>
-To: brauner@kernel.org
-Cc: linux-fsdevel@vger.kernel.org,
-	jack@suse.cz,
-	miklos@szeredi.hu,
-	david@kernel.org,
-	therealgraysky@proton.me,
-	linux-pm@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH v2 1/1] writeback: don't block sync(2) for filesystems with no data integrity guarantees
-Date: Thu, 19 Mar 2026 12:45:40 -0700
-Message-ID: <20260319194540.3463371-2-joannelkoong@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260319194540.3463371-1-joannelkoong@gmail.com>
-References: <20260319194540.3463371-1-joannelkoong@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GAclMrIm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773950630; x=1805486630;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=ID+xlafgbNg0rthNm63T2T0D8XwnJ1Xy7CRFt3cm2Go=;
+  b=GAclMrIm8icgMVkxaFag4KCnKWI5Lwo7bcuyLxxBTKRQCuDEMphNXqTF
+   cRC9EkEXzKZ7AH7czNVnQavzPvr6WiVNSc6o9/Sco8/T9ADYdkfzglDlP
+   THCLLUHoKgZhXyTD/+234PtmV/RWOEvOqSo7wWTmpRxRyg91oz0mCgdeY
+   tPJzZc8mfIp2kgqXl/TophAvc0vo/Pyei9NBbQWYY41hvBz73kae98CUS
+   I1J8oaLdD/ISbgIhahJbjb+ZITDlZDBMzBFvy1RTZGlFqkQeFhrUgDSQ5
+   jIrEFIgHecr6agYx9BQhaqIi6QZ7+3bqrBXVIhi2E7k2XbsxZKNRWxSKr
+   Q==;
+X-CSE-ConnectionGUID: 4Vf14W/wQ/ueCNX6Lh1w/Q==
+X-CSE-MsgGUID: ztM1Q7z4Q0m1zayc5mpt+w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11734"; a="86512217"
+X-IronPort-AV: E=Sophos;i="6.23,129,1770624000"; 
+   d="scan'208";a="86512217"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2026 13:03:49 -0700
+X-CSE-ConnectionGUID: MVlrbA53SRClyiRpB2a8ww==
+X-CSE-MsgGUID: RLOzgXwlTaezLU68+onOtA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,129,1770624000"; 
+   d="scan'208";a="228018361"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2026 13:03:49 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Thu, 19 Mar 2026 13:03:48 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Thu, 19 Mar 2026 13:03:48 -0700
+Received: from PH8PR06CU001.outbound.protection.outlook.com (40.107.209.57) by
+ edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Thu, 19 Mar 2026 13:03:47 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=KchyTRMUCdHLnPoe/ZOzmTA1fMk7syXVuCuGbFIg1wQLNk8uY5Cn96Sf/6iTXqHSviRj8OrQ7/uOTTr1VMywrOnAGnNS68sR6A7QY8SkNcMN2HGy8avLa1hs04DLinhsStyPyl6vP7zTbtKENRadAQ3XjKjD0EE5n9nOlhwsejPmf2eAHpIses/rucTvoR4p1XqxKxsrK8zJQ1l64CqAfS6FLvPFog8s1V6vG+OjksvEm9Kzjs5bVnwCxR1JYIq4zvQ3KMQxdWLJnyNrFCycYoqwSG6jDCyX4I8WTpGcqKRk6Dv1wmcfNafNHfQTxS0Qy9kwiXkmMoYmagTFtkwQ2A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qWXyfu+hxLi5XcIF2E8NBUuppYbz3B5BEJ53MKUAWBE=;
+ b=NaFVnRfR6k/7RDvEl3iMHiH9a78laoCVhcAG5swg8BcX6gmA4UDNPH3XCAfxZVs8/SpSRzH3w9DFQCXDS1xyzc3/Bau2RKBZ2RN7PEZQmQQejOgrM74zKXeOTvibnSAgnk2aUS79CRAZUa9wfMieJOf3tvYJYunVCcG2TtUSuSqvETaSiP/ybXWMelJ1vQFGrWwRhEi6puCB7KI2E7uZpgawAxDhaLh0YGGMnmqW3QUGUTXREDCdm/EasFC+Y6uX1o1k4mCzn3JSGmWjvydiCkUHYkgWjRifDN4xiLSOFOVT7JcEOdi1qBrlKeMm1yVG0djQNJonnDPu0yCWWfo/JQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DS4PPF0BAC23327.namprd11.prod.outlook.com (2603:10b6:f:fc02::9)
+ by SA2PR11MB4860.namprd11.prod.outlook.com (2603:10b6:806:11b::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.9; Thu, 19 Mar
+ 2026 20:03:44 +0000
+Received: from DS4PPF0BAC23327.namprd11.prod.outlook.com
+ ([fe80::3979:c00f:fdca:b895]) by DS4PPF0BAC23327.namprd11.prod.outlook.com
+ ([fe80::3979:c00f:fdca:b895%4]) with mapi id 15.20.9723.018; Thu, 19 Mar 2026
+ 20:03:44 +0000
+Date: Thu, 19 Mar 2026 13:03:38 -0700
+From: Alison Schofield <alison.schofield@intel.com>
+To: Jonathan Cameron <jonathan.cameron@huawei.com>
+CC: Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>,
+	<linux-cxl@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<nvdimm@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
+	<linux-pm@vger.kernel.org>, Ard Biesheuvel <ardb@kernel.org>, Vishal Verma
+	<vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>, Dan Williams
+	<dan.j.williams@intel.com>, Yazen Ghannam <yazen.ghannam@amd.com>, Dave Jiang
+	<dave.jiang@intel.com>, Davidlohr Bueso <dave@stgolabs.net>, Matthew Wilcox
+	<willy@infradead.org>, Jan Kara <jack@suse.cz>, "Rafael J . Wysocki"
+	<rafael@kernel.org>, Len Brown <len.brown@intel.com>, Pavel Machek
+	<pavel@kernel.org>, Li Ming <ming.li@zohomail.com>, Jeff Johnson
+	<jeff.johnson@oss.qualcomm.com>, Ying Huang <huang.ying.caritas@gmail.com>,
+	Yao Xingtao <yaoxt.fnst@fujitsu.com>, Peter Zijlstra <peterz@infradead.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Nathan Fontenot
+	<nathan.fontenot@amd.com>, Terry Bowman <terry.bowman@amd.com>, "Robert
+ Richter" <rrichter@amd.com>, Benjamin Cheatham <benjamin.cheatham@amd.com>,
+	Zhijian Li <lizhijian@fujitsu.com>, Borislav Petkov <bp@alien8.de>, "Tomasz
+ Wolski" <tomasz.wolski@fujitsu.com>
+Subject: Re: [PATCH v7 6/7] dax/hmem, cxl: Defer and resolve Soft Reserved
+ ownership
+Message-ID: <abxWmg_iCN7yxQ11@aschofie-mobl2.lan>
+References: <20260319011500.241426-1-Smita.KoralahalliChannabasappa@amd.com>
+ <20260319011500.241426-7-Smita.KoralahalliChannabasappa@amd.com>
+ <20260319142910.0000113d@huawei.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20260319142910.0000113d@huawei.com>
+X-ClientProxiedBy: BY3PR04CA0030.namprd04.prod.outlook.com
+ (2603:10b6:a03:217::35) To DS4PPF0BAC23327.namprd11.prod.outlook.com
+ (2603:10b6:f:fc02::9)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS4PPF0BAC23327:EE_|SA2PR11MB4860:EE_
+X-MS-Office365-Filtering-Correlation-Id: e8a93308-4049-4cef-9a45-08de85f29fbe
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|1800799024|366016|376014|22082099003|56012099003|18002099003;
+X-Microsoft-Antispam-Message-Info: GoniySVHiOkc3e6nXCsK49LqOWCbB2Ua06pnO4JFJuJuEmYTa0e+RVDhxJ/Qbc+vMufXJSxVGYoGhFnGEr5PM2eKGQ41GTMO5SX/lICXfCrb2a+LzcgIM32a9hkS7qVgeZiFokUHEAc6cP4OPtqnHM9PJxut5SZikCQD5SI2FCqmXLn8jXs2VmulS2aPAW77Lv7V+tdlKWCKSRA45ST4nscdlX0zPcoSMRdfx25r1/vArw9cMqxb30L1TKKwmDZ/eZX/W53NbegzSmXyv7DIprKDLSJLkcO8sUyzDNSvfbpM1EBWJfUDzjzN9Oatq4yXxD098AZ5bl1ew2+9rGudfGcSduwG0JCMLU8bnt5hbU8mW+xWjcpgEpEAs+2bJH/Iyc87GYVIQBZ75AWMKKfRpYYaesE9As63eqIbOHTRlXDhRtiYCnJLvQrX9k6k9t/53emEHWFaZnhDJ5zBsy92i3xJomIIpJ3v6BqXCRoB+LhDX63Yz2GrqG507dJJPDnfzNZc70DgLCbM5reAjDU2qEzdDIpebVq/+gCjbxhJTEpuDbITFl96bS28ILVDnWq8U5KZzyKlbujYyLqYvy2hA8eeBnIsP9ef5bcicaaBGyqawirApn3r0HCsEFuCLNPjzs4mmTOFaQqNWsheVHFMZYvSYnYL4EeXZJBjjTWmTZdU6EXqdQIaYPOecpvjdkI/Pfa7o25WjSgoSNlGD2gSo/7EV+kzamS82RLWWPrFldU=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PPF0BAC23327.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(366016)(376014)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?t+mAvBDEzPdDcb/iHSlhzldbteFoztsecP1WIKrMaUiIjArv2rWbw14RXN+v?=
+ =?us-ascii?Q?MwpQY2ll4F+dId25UWJ4pp3K/K4F9zRRNbssc0xQdVS5mguj2jh2WWIXTaO3?=
+ =?us-ascii?Q?jruUxw93H5x9HRxXabh06Zhi5km1vd4HgBr7Ao7AtaRHt/MsdOfTRP2BSSZM?=
+ =?us-ascii?Q?NwWBBTtdlHLlGfGPXz8ThzVKKUcAcDH9qxkuHxUYl6rug2dvyrvCmAbqNZUq?=
+ =?us-ascii?Q?E6pSWR3GN4JQ76wKyR4oTtBq6zY7JYjKQ6KgYVsG8Uhx6t+IseltoKLGZEQj?=
+ =?us-ascii?Q?ED6S8JCVW5rJyc7fVAGptesT1ybtpJt1fBl0TiFPjSIchh1YqklONnGwzcp/?=
+ =?us-ascii?Q?cEurcU1r6S4G0kEiU1kjO6RXEv5dwOaRqpTTbZ1XokNzkk6xQZNxQOvQueNC?=
+ =?us-ascii?Q?RKpfszzUA9VJgxLfiax6fcOBHA3KLiVOAbxt4wOauWAoMxqt+wEvUAUw/Gk3?=
+ =?us-ascii?Q?94wez5Ye6w90k6UK0eQ8yL2ATO2V/qT3wBdJCxpChpp0Bv/C05rdtqiobgO1?=
+ =?us-ascii?Q?ZBkYSYHGos4L8B0o5hcTjpe7SAYQV2nIxhwhTZscLMufhm2TE58idetKnZe9?=
+ =?us-ascii?Q?Q8z4X5lWLrR1ih68k11ooe1Z/WB40s4XdntXtlSKK3vNXRHmYSVXQRD/ateq?=
+ =?us-ascii?Q?TtFe3jCFwxnTXO+1f3k12ararBbRg8mVcRnMTbAPj+iJgUNnl7HaIy4fXZ94?=
+ =?us-ascii?Q?i5sthpDIix1elHg52AalLe34N+2kZpukL/tbZMC/Lmw/qPo39IJ9dzsinl9X?=
+ =?us-ascii?Q?wML8JeXmjj2Hr3ibCTHM7XykRwcyRF/m9Dgkqvre7nM80ZKNSjzoPVhnb/ot?=
+ =?us-ascii?Q?kbvMbIri6Dd25DeQ1O8mt9QvqDNJIhu/133hYIr1/7Fzgteg8lJe0btnnQvM?=
+ =?us-ascii?Q?EZb/1OFdWIa5AWt11ZplzouWjOOQbMVWzXMsn1V+WrqCBvVV62UcW5kwGY65?=
+ =?us-ascii?Q?6HHOrzCXdINpFMFSaEBJg3imyNcMumFsYd0un64Iu/c74v3tGd7YGk0GSU6+?=
+ =?us-ascii?Q?NbYX+syDvHdi88yGCqEbqCHeBF6xurgL1kB42l2ythjAnzGRRIh3iSc2u77F?=
+ =?us-ascii?Q?6qwyb5VohVg2BvBhdyzwaHzlDazDZHPpxoSNRS41/2lIp9aI3uIbdaqnoQ4k?=
+ =?us-ascii?Q?38Bg4e0BinFtShuQd/qCNjejEdR0Xv/CGT6/pvYGiYsnxbDSiZ3gbqt+rMKM?=
+ =?us-ascii?Q?a1l6AFvO7Sp6cEn1It8f3kAHau5U1p7kWwmrJAsIfATX4riS0nkiMrJ27z7c?=
+ =?us-ascii?Q?irevAdUVAiDHp5QLy6UUqJvtU1mDwnwVpuS8x1vrlZXsJTVhRgYldgLSq51+?=
+ =?us-ascii?Q?kKQiOO7QPCgXvP+9k7YTy+I/cY6sEyaxBK8w+5CJk5Q3KZ1CEcTljzVMVVlu?=
+ =?us-ascii?Q?H6STb/sAkvKex1+XhpDGX0RB0zoxSClh27ZsSNdZ4HSX5DE+FyokBkai4pV2?=
+ =?us-ascii?Q?HU0qqTnsGZHcf3HqAwaY6AC4OTjlq92Lk701ooej59O6FcKKiXIslH3Kgkf1?=
+ =?us-ascii?Q?Q0nKC6TN5gBOYUM7t77cyYxLBvSlyt4DGGkWqwvgv8zoRphq2nj+4ZGuXG3B?=
+ =?us-ascii?Q?wVnBrsFtr3C+B5r4NsHLfqXNS9aMtMoAj3KTFc7WMLjrmSvKXg4WLbAkx+lz?=
+ =?us-ascii?Q?apMo0wOJg1Dlr+dGyJkmazOFJuRofR0OdHA06JJj8VV8S5fCyNoI/gYTzb9V?=
+ =?us-ascii?Q?usZFbDvL/3Sx8+wmJh87T+1YRa8t7hDKOedyTCCuQXAgITXpYOhWyHeBFeF2?=
+ =?us-ascii?Q?fvCbYjqytKbnmHOPL4gYq6fn9CmlyLU=3D?=
+X-Exchange-RoutingPolicyChecked: ZEJSt6VuMl/6cLVdsx2LNqdy+Yt5FK/FFafwyvLC0h0CnzWYxdfXi6U8kIHr6LMKtJuHDIzbVsC5ERHlwOrfOoTeVFMF0EGxwA81smy2jZpA+yYzH0j1R1M6dRWLaMsbirDGuPf6JRN8yDhQxxwQRQ0u6X4zt0l/nCVlSwpaAI3boLcpNR/i2XtIDSN6+bg7hdIcg2S2Jpz8DQDiRhQjiunUJtJxZhvHOxNJcTPreCmJsx9vLalv8Usg4i4UO8l2BMHnaJfae/iP43Q56jC0MDzzcjcWYWgRV0UxmauLmzsq8plRLqcdk2OgmRYpvVhcEmzHd/8wk1GkHa30mbFjxw==
+X-MS-Exchange-CrossTenant-Network-Message-Id: e8a93308-4049-4cef-9a45-08de85f29fbe
+X-MS-Exchange-CrossTenant-AuthSource: DS4PPF0BAC23327.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Mar 2026 20:03:44.3880
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: B6k7YfMzMIF1WsnyLNMJTvkdsIY2g7+yFFWdbvneCDUSxVpEKit+e+X9kEDHCjo5xoQkNxfqjg6txjzqxRSbCz/hcsTrkyW4sb+3qjPWpPM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB4860
+X-OriginatorOrg: intel.com
 
-Add a SB_I_NO_DATA_INTEGRITY superblock flag for filesystems that cannot
-guarantee data persistence on sync (eg fuse). For superblocks with this
-flag set, sync(2) kicks off writeback of dirty inodes but does not wait
-for the flusher threads to complete the writeback.
+On Thu, Mar 19, 2026 at 02:29:10PM +0000, Jonathan Cameron wrote:
+> On Thu, 19 Mar 2026 01:14:59 +0000
+> Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com> wrote:
+> 
+> > The current probe time ownership check for Soft Reserved memory based
+> > solely on CXL window intersection is insufficient. dax_hmem probing is not
+> > always guaranteed to run after CXL enumeration and region assembly, which
+> > can lead to incorrect ownership decisions before the CXL stack has
+> > finished publishing windows and assembling committed regions.
+> > 
+> > Introduce deferred ownership handling for Soft Reserved ranges that
+> > intersect CXL windows. When such a range is encountered during the
+> > initial dax_hmem probe, schedule deferred work to wait for the CXL stack
+> > to complete enumeration and region assembly before deciding ownership.
+> > 
+> > Once the deferred work runs, evaluate each Soft Reserved range
+> > individually: if a CXL region fully contains the range, skip it and let
+> > dax_cxl bind. Otherwise, register it with dax_hmem. This per-range
+> > ownership model avoids the need for CXL region teardown and
+> > alloc_dax_region() resource exclusion prevents double claiming.
+> > 
+> > Introduce a boolean flag dax_hmem_initial_probe to live inside device.c
+> > so it survives module reload. Ensure dax_cxl defers driver registration
+> > until dax_hmem has completed ownership resolution. dax_cxl calls
+> > dax_hmem_flush_work() before cxl_driver_register(), which both waits for
+> > the deferred work to complete and creates a module symbol dependency that
+> > forces dax_hmem.ko to load before dax_cxl.
+> > 
+> > Co-developed-by: Dan Williams <dan.j.williams@intel.com>
+> > Signed-off-by: Dan Williams <dan.j.williams@intel.com>
+> > Signed-off-by: Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>
+> Hi Smita,
+> 
+> I think this is very likely to be what is causing the bug Alison
+> saw in cxl_test.
+> 
+> It looks to be possible to flush work before the work structure has
+> been configured.  Even though it's not on a work queue and there is
+> nothing to do, there are early sanity checks that fail giving the warning
+> Alison reported.
+> 
+> A couple of ways to fix that inline.  I'd be tempted to both initialize
+> the function statically and gate against flushing if the whole thing isn't
+> set up yet.
+> 
+> Jonathan
 
-This replaces the per-inode AS_NO_DATA_INTEGRITY mapping flag added in
-commit f9a49aa302a0 ("fs/writeback: skip AS_NO_DATA_INTEGRITY mappings
-in wait_sb_inodes()"). The flag belongs at the superblock level because
-data integrity is a filesystem-wide property, not a per-inode one.
-Having this flag at the superblock level allows us to skip the logic in
-sync_inodes_sb() entirely, rather than iterating every dirty inode in
-wait_sb_inodes() only to skip each inode individually.
+snip
 
-This also addresses a recent report [1] for a suspend-to-RAM hang seen
-on fuse-overlayfs:
+> 
+> > diff --git a/drivers/dax/hmem/hmem.c b/drivers/dax/hmem/hmem.c
+> > index 1e3424358490..8c574123bd3b 100644
+> > --- a/drivers/dax/hmem/hmem.c
+> > +++ b/drivers/dax/hmem/hmem.c
+> > @@ -3,6 +3,7 @@
+> >  #include <linux/memregion.h>
+> >  #include <linux/module.h>
+> >  #include <linux/dax.h>
+> > +#include <cxl/cxl.h>
+> >  #include "../bus.h"
+> >  
+> >  static bool region_idle;
+> > @@ -58,6 +59,19 @@ static void release_hmem(void *pdev)
+> >  	platform_device_unregister(pdev);
+> >  }
+> >  
+> > +struct dax_defer_work {
+> > +	struct platform_device *pdev;
+> > +	struct work_struct work;
+> > +};
+> > +
+> > +static struct dax_defer_work dax_hmem_work;
+> 
+> static struct dax_defer_work dax_hmem_work = {
+> 	.work = __WORK_INITIALIZER(&dax_hmem_work.work,
+> 				   process_defer_work),
+> };
+> or something similar.
+> 
 
-Workqueue: pm_fs_sync pm_fs_sync_work_fn
-Call Trace:
- <TASK>
- __schedule+0x457/0x1720
- schedule+0x27/0xd0
- wb_wait_for_completion+0x97/0xe0
- sync_inodes_sb+0xf8/0x2e0
- __iterate_supers+0xdc/0x160
- ksys_sync+0x43/0xb0
- pm_fs_sync_work_fn+0x17/0xa0
- process_one_work+0x193/0x350
- worker_thread+0x1a1/0x310
- kthread+0xfc/0x240
- ret_from_fork+0x243/0x280
- ret_from_fork_asm+0x1a/0x30
- </TASK>
+Just confirming this stopped the WARN:
 
-Prior to this commit, mappings with no data integrity guarantees skipped
-waiting on writeback completion but it still waited on the flusher
-threads to finish initiating the writeback. On fuse this is problematic
-because even though the writeback requests are non-blocking background
-requests, there are still paths that may cause the flusher thread to
-block (eg if systemd freezes the user session cgroups first, which
-freezes the fuse daemon, before invoking the kernel suspend. The kernel
-suspend triggers ->write_node() which on fuse issues a synchronous
-setattr request, which cannot be processed since daemon is frozen. Or
-another example, if the daemon is buggy and does not properly complete
-writeback, initiating writeback on a dirty folio already under writeback
-leads to writeback_get_folio() -> folio_prepare_writeback() ->
-unconditional wait on writeback to finish which will cause a hang). This
-commit restores fuse to its prior behavior before tmp folios were
-removed, where sync was essentially a no-op.
-
-[1] https://lore.kernel.org/linux-fsdevel/CAJnrk1a-asuvfrbKXbEwwDSctvemF+6zfhdnuzO65Pt8HsFSRw@mail.gmail.com/T/#m632c4648e9cafc4239299887109ebd880ac6c5c1
-
-Fixes: 0c58a97f919c ("fuse: remove tmp folio for writebacks and internal rb tree")
-Reported-by: John <therealgraysky@proton.me>
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
----
- fs/fs-writeback.c              |  7 +------
- fs/fuse/file.c                 |  4 +---
- fs/fuse/inode.c                |  1 +
- fs/sync.c                      |  7 ++++++-
- include/linux/fs/super_types.h |  1 +
- include/linux/pagemap.h        | 11 -----------
- 6 files changed, 10 insertions(+), 21 deletions(-)
-
-diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
-index 7c75ed7e8979..154249e4e5ce 100644
---- a/fs/fs-writeback.c
-+++ b/fs/fs-writeback.c
-@@ -2775,13 +2775,8 @@ static void wait_sb_inodes(struct super_block *sb)
- 		 * The mapping can appear untagged while still on-list since we
- 		 * do not have the mapping lock. Skip it here, wb completion
- 		 * will remove it.
--		 *
--		 * If the mapping does not have data integrity semantics,
--		 * there's no need to wait for the writeout to complete, as the
--		 * mapping cannot guarantee that data is persistently stored.
- 		 */
--		if (!mapping_tagged(mapping, PAGECACHE_TAG_WRITEBACK) ||
--		    mapping_no_data_integrity(mapping))
-+		if (!mapping_tagged(mapping, PAGECACHE_TAG_WRITEBACK))
- 			continue;
- 
- 		spin_unlock_irq(&sb->s_inode_wblist_lock);
-diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-index a9c836d7f586..f6240f24b814 100644
---- a/fs/fuse/file.c
-+++ b/fs/fuse/file.c
-@@ -3202,10 +3202,8 @@ void fuse_init_file_inode(struct inode *inode, unsigned int flags)
- 
- 	inode->i_fop = &fuse_file_operations;
- 	inode->i_data.a_ops = &fuse_file_aops;
--	if (fc->writeback_cache) {
-+	if (fc->writeback_cache)
- 		mapping_set_writeback_may_deadlock_on_reclaim(&inode->i_data);
--		mapping_set_no_data_integrity(&inode->i_data);
--	}
- 
- 	INIT_LIST_HEAD(&fi->write_files);
- 	INIT_LIST_HEAD(&fi->queued_writes);
-diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
-index e57b8af06be9..c795abe47a4f 100644
---- a/fs/fuse/inode.c
-+++ b/fs/fuse/inode.c
-@@ -1709,6 +1709,7 @@ static void fuse_sb_defaults(struct super_block *sb)
- 	sb->s_export_op = &fuse_export_operations;
- 	sb->s_iflags |= SB_I_IMA_UNVERIFIABLE_SIGNATURE;
- 	sb->s_iflags |= SB_I_NOIDMAP;
-+	sb->s_iflags |= SB_I_NO_DATA_INTEGRITY;
- 	if (sb->s_user_ns != &init_user_ns)
- 		sb->s_iflags |= SB_I_UNTRUSTED_MOUNTER;
- 	sb->s_flags &= ~(SB_NOSEC | SB_I_VERSION);
-diff --git a/fs/sync.c b/fs/sync.c
-index 942a60cfedfb..aedbf723830a 100644
---- a/fs/sync.c
-+++ b/fs/sync.c
-@@ -73,7 +73,12 @@ EXPORT_SYMBOL(sync_filesystem);
- 
- static void sync_inodes_one_sb(struct super_block *sb, void *arg)
- {
--	if (!sb_rdonly(sb))
-+	if (sb_rdonly(sb))
-+		return;
+-static struct dax_defer_work dax_hmem_work;
++static void process_defer_work(struct work_struct *work);
 +
-+	if (sb->s_iflags & SB_I_NO_DATA_INTEGRITY)
-+		wakeup_flusher_threads_bdi(sb->s_bdi, WB_REASON_SYNC);
-+	else
- 		sync_inodes_sb(sb);
- }
- 
-diff --git a/include/linux/fs/super_types.h b/include/linux/fs/super_types.h
-index fa7638b81246..383050e7fdf5 100644
---- a/include/linux/fs/super_types.h
-+++ b/include/linux/fs/super_types.h
-@@ -338,5 +338,6 @@ struct super_block {
- #define SB_I_NOUMASK	0x00001000	/* VFS does not apply umask */
- #define SB_I_NOIDMAP	0x00002000	/* No idmapped mounts on this superblock */
- #define SB_I_ALLOW_HSM	0x00004000	/* Allow HSM events on this superblock */
-+#define SB_I_NO_DATA_INTEGRITY	0x00008000 /* fs cannot guarantee data persistence on sync */
- 
- #endif /* _LINUX_FS_SUPER_TYPES_H */
-diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
-index ec442af3f886..31a848485ad9 100644
---- a/include/linux/pagemap.h
-+++ b/include/linux/pagemap.h
-@@ -210,7 +210,6 @@ enum mapping_flags {
- 	AS_WRITEBACK_MAY_DEADLOCK_ON_RECLAIM = 9,
- 	AS_KERNEL_FILE = 10,	/* mapping for a fake kernel file that shouldn't
- 				   account usage to user cgroups */
--	AS_NO_DATA_INTEGRITY = 11, /* no data integrity guarantees */
- 	/* Bits 16-25 are used for FOLIO_ORDER */
- 	AS_FOLIO_ORDER_BITS = 5,
- 	AS_FOLIO_ORDER_MIN = 16,
-@@ -346,16 +345,6 @@ static inline bool mapping_writeback_may_deadlock_on_reclaim(const struct addres
- 	return test_bit(AS_WRITEBACK_MAY_DEADLOCK_ON_RECLAIM, &mapping->flags);
- }
- 
--static inline void mapping_set_no_data_integrity(struct address_space *mapping)
--{
--	set_bit(AS_NO_DATA_INTEGRITY, &mapping->flags);
--}
--
--static inline bool mapping_no_data_integrity(const struct address_space *mapping)
--{
--	return test_bit(AS_NO_DATA_INTEGRITY, &mapping->flags);
--}
--
- static inline gfp_t mapping_gfp_mask(const struct address_space *mapping)
- {
- 	return mapping->gfp_mask;
--- 
-2.52.0
++static struct dax_defer_work dax_hmem_work = {
++        .work = __WORK_INITIALIZER(dax_hmem_work.work, process_defer_work),
++};
 
+
+> 
+> > +
+> > +void dax_hmem_flush_work(void)
+> > +{
+> > +	flush_work(&dax_hmem_work.work);
+> > +}
+> > +EXPORT_SYMBOL_GPL(dax_hmem_flush_work);
+> > +
+> >  static int hmem_register_device(struct device *host, int target_nid,
+> >  				const struct resource *res)
+> >  {
+> > @@ -69,8 +83,11 @@ static int hmem_register_device(struct device *host, int target_nid,
+> >  	if (IS_ENABLED(CONFIG_DEV_DAX_CXL) &&
+> >  	    region_intersects(res->start, resource_size(res), IORESOURCE_MEM,
+> >  			      IORES_DESC_CXL) != REGION_DISJOINT) {
+> > -		dev_dbg(host, "deferring range to CXL: %pr\n", res);
+> > -		return 0;
+> > +		if (!dax_hmem_initial_probe) {
+> > +			dev_dbg(host, "deferring range to CXL: %pr\n", res);
+> > +			queue_work(system_long_wq, &dax_hmem_work.work);
+> > +			return 0;
+> > +		}
+> >  	}
+> >  
+> >  	rc = region_intersects_soft_reserve(res->start, resource_size(res));
+> > @@ -123,8 +140,48 @@ static int hmem_register_device(struct device *host, int target_nid,
+> >  	return rc;
+> >  }
+> >  
+> > +static int hmem_register_cxl_device(struct device *host, int target_nid,
+> > +				    const struct resource *res)
+> > +{
+> > +	if (region_intersects(res->start, resource_size(res), IORESOURCE_MEM,
+> > +			      IORES_DESC_CXL) == REGION_DISJOINT)
+> > +		return 0;
+> > +
+> > +	if (cxl_region_contains_resource((struct resource *)res)) {
+> > +		dev_dbg(host, "CXL claims resource, dropping: %pr\n", res);
+> > +		return 0;
+> > +	}
+> > +
+> > +	dev_dbg(host, "CXL did not claim resource, registering: %pr\n", res);
+> > +	return hmem_register_device(host, target_nid, res);
+> > +}
+> > +
+> > +static void process_defer_work(struct work_struct *w)
+> > +{
+> > +	struct dax_defer_work *work = container_of(w, typeof(*work), work);
+> > +	struct platform_device *pdev = work->pdev;
+> If you do the suggested __INITIALIZE_WORK() then I'd add
+> a paranoid
+> 
+> 	if (!work->pdev)
+> 		return;
+> We don't actually queue the work before pdev is set, but that might
+> be obvious once we spilt up assigning the function and the data
+> it uses.
+> 
+> > +
+> > +	wait_for_device_probe();
+> > +
+> > +	guard(device)(&pdev->dev);
+> > +	if (!pdev->dev.driver)
+> > +		return;
+> > +
+> > +	dax_hmem_initial_probe = true;
+> > +	walk_hmem_resources(&pdev->dev, hmem_register_cxl_device);
+> > +}
+> > +
+> >  static int dax_hmem_platform_probe(struct platform_device *pdev)
+> >  {
+> > +	if (work_pending(&dax_hmem_work.work))
+> > +		return -EBUSY;
+> > +
+> > +	if (!dax_hmem_work.pdev) {
+> > +		get_device(&pdev->dev);
+> > +		dax_hmem_work.pdev = pdev;
+> 
+> Using the pdev rather than dev breaks the pattern of doing a get_device()
+> and assigning in one line. This is a bit ugly.
+> 
+> 		dax_hmem_work.pdev = to_pci_dev(get_device(&pdev->dev));
+> 
+> but perhaps makes the association tighter than current code.
+> 
+> > +		INIT_WORK(&dax_hmem_work.work, process_defer_work);
+> 
+> See above. I think assigning the work function should be static
+> which should resolve the issue Alison was seeing as then it should
+> be fine to call flush_work() on the item that isn't on a work queue
+> yet but is initialized.
+> 
+> > +	}
+> > +
+> >  	return walk_hmem_resources(&pdev->dev, hmem_register_device);
+> >  }
+> >  
+> > @@ -162,6 +219,11 @@ static __init int dax_hmem_init(void)
+> >  
+> >  static __exit void dax_hmem_exit(void)
+> >  {
+> > +	flush_work(&dax_hmem_work.work);
+> 
+> I think this needs to be under the if (dax_hmem_work.pdev) 
+> Not sure there is any guarantee dax_hmem_platform_probe() has run
+> before we get here otherwise.  Alternative is to assign
+> the work function statically.
+> 
+> 
+> 
+> > +
+> > +	if (dax_hmem_work.pdev)
+> > +		put_device(&dax_hmem_work.pdev->dev);
+> > +
+> >  	platform_driver_unregister(&dax_hmem_driver);
+> >  	platform_driver_unregister(&dax_hmem_platform_driver);
+> >  }
+> 
