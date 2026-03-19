@@ -1,110 +1,218 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AE69358377;
-	Thu, 19 Mar 2026 16:50:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7403E314A90;
+	Thu, 19 Mar 2026 17:02:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773939024; cv=none; b=rf+3aZxUABS0lQ9whH7sKY/IToDGrdBZOHCjQzmHIL/+sNb8WsFajNF5RPDZGV0sHwzyj99IoeSaF61J9NTdx8qIvLuoCP9QMHjP2+byzfhok5SYKXXLT2Dh85OuRVJZUJkT0hrRK6+iR0FYaWFGwKf8tGJP3CmnROxJaXxB4Zw=
+	t=1773939760; cv=none; b=OFhMPZt++gup7Zey5rtjR2dvFtOR5aJV48F2i2GlSodNvcEpaNmKlhswNXhHXmCb6U5ifk1brEa4srnAy64uwj0strSH0Qmyv9/Wre9x0dNZdoHb3Yx3+tm7qbcHjSz3S7huh2tnK769t9Sy9u37/BaxMRrSzmJQ+CoBQ/q7kJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773939024; c=relaxed/simple;
-	bh=ySKX/SdqeoTiP9pwQcgZ94qbw5sb0oTPtV3x6ZUzB64=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MPUjHnPPDEpuEw61UzmcX/x4Z6M3OPnacSupKwixg7EE57UEgztIGMrLe6AH2+OtKpeBKkiFhRviHEpEqPE+pjY5DGkyPaTdx/y/2YhZMWby2T5QRi7JPZKKo0n0DpmA1Fi7S4NSxoiRBn76CYmUUL1Mvll4hB8VQ3oRnaQUQ10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YgTWHgcw; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773939760; c=relaxed/simple;
+	bh=1joVFanxDh8PwgMXEWccLkn6Kcw2pxcU3MySKiM4AmA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Nd8lTE+n9+tI1n0UFZVykcZz9165Hv7jB/T7Fd41hva+5B1mc0h77m8M93r/JV0VZDLe6UASjYZVXaUflUft2XTOd1LMYjsl88qNlfg8nqxg8II3AcllURA8hjz3yp4SGLGuG/wsl+yJUI4PyKFuN5YAW3750I4ihCsdpMKNZuo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fRKc/RQd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YgTWHgcw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41945C19424;
-	Thu, 19 Mar 2026 16:50:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fRKc/RQd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2148C19424;
+	Thu, 19 Mar 2026 17:02:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773939024;
-	bh=ySKX/SdqeoTiP9pwQcgZ94qbw5sb0oTPtV3x6ZUzB64=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YgTWHgcwTFKs1gBYxdYW33eFt5gNoD63sWPX8mdYVejWbKUuDdrFkJsiURNl6lSLi
-	 XYkJpx/wRyyEkQGRCONtUVwp8dlhSmjpJmDCO67CtepROdANquLF914vAvs8F03t4f
-	 bTPzUwW9A/1agL8G//3eqOLaaV9TNMSiL0J0t6/c4zk5axQdTYHz2ZOVPKnbSwlk6K
-	 qocxlmnDCy6A8nO8NHNs/bLSd9OhmFGiAmqwSf3sFUuUX0nCndmYw9sGuphDXOX2tS
-	 i4TA+BApsD8Pt+tqXbprswARO/rjXi7FaX5y7BenKplS9DF3okpkWVua6BEbY/FEZi
-	 KOJGjMYMEW9VA==
-Date: Thu, 19 Mar 2026 16:50:08 +0000
-From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
-	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Kees Cook <kees@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	Vineet Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Brian Cain <bcain@kernel.org>, 
-	Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Dinh Nguyen <dinguyen@kernel.org>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <chleroy@kernel.org>, 
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
-	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
-	Alexander Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>, 
-	Sven Schnelle <svens@linux.ibm.com>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>, 
-	Richard Weinberger <richard@nod.at>, Anton Ivanov <anton.ivanov@cambridgegreys.com>, 
-	Johannes Berg <johannes@sipsolutions.net>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Xu Xin <xu.xin16@zte.com.cn>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@suse.com>, Paul Moore <paul@paul-moore.com>, 
-	Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>, 
-	linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-hexagon@vger.kernel.org, loongarch@lists.linux.dev, linux-mips@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, 
-	linux-um@lists.infradead.org, linux-fsdevel@vger.kernel.org, selinux@vger.kernel.org
-Subject: Re: [PATCH v2 01/23] mm/vma: add vma_flags_empty(), vma_flags_and(),
- vma_flags_diff_pair()
-Message-ID: <3cf675e3-d333-45f1-bcf9-466c7b16f916@lucifer.local>
-References: <cover.1773665966.git.ljs@kernel.org>
- <ede9b0f8a2e2dc72e7fbc1a0ddbeb513364c28a2.1773665966.git.ljs@kernel.org>
- <4620167c-bcfe-414b-85f6-a5d28563b9af@kernel.org>
+	s=k20201202; t=1773939760;
+	bh=1joVFanxDh8PwgMXEWccLkn6Kcw2pxcU3MySKiM4AmA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=fRKc/RQdcmF8WuT8iYok51UB0OX4N96zZrvJTOrnqk0grGzC7rNAA1tco0sSQdhrm
+	 aUruzC2WAYo2pMcUeT1Ak91yJCzqnLW0Eq+zQ0SnM/3vEh/xjuUVSr4cGNW8s5gkF8
+	 +sKchm7xrKq4fsS1T4ZdjoyhSGkdCEJe+3uahXPM2rNXCnje1CYVHe/2czSFKJS3SZ
+	 uUdk/oSG1LOvPVGUFSn/KJWfyVcB9YF1FQnnRq7r/TZLV2HYX8nL7RxwkP4VYqfHBW
+	 dFW1SqxWHb/l4PAw/T4AuHkvI4vAtzTzn6MmqgJtg+fx0r1gIkCDgIvJpKm+MhDS5J
+	 Zy+WbVYmn/3aQ==
+From: Andrey Albershteyn <aalbersh@kernel.org>
+To: linux-xfs@vger.kernel.org,
+	fsverity@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	ebiggers@kernel.org
+Cc: Andrey Albershteyn <aalbersh@kernel.org>,
+	hch@lst.de,
+	linux-ext4@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net,
+	linux-btrfs@vger.kernel.org,
+	djwong@kernel.org,
+	david@fromorbit.com
+Subject: [PATCH v5 00/25] fs-verity support for XFS with post EOF merkle tree
+Date: Thu, 19 Mar 2026 18:01:47 +0100
+Message-ID: <20260319170231.1455553-1-aalbersh@kernel.org>
+X-Mailer: git-send-email 2.51.2
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4620167c-bcfe-414b-85f6-a5d28563b9af@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Mar 18, 2026 at 03:40:45PM +0100, Vlastimil Babka (SUSE) wrote:
-> On 3/16/26 14:07, Lorenzo Stoakes (Oracle) wrote:
-> > Firstly, add the ability to determine if VMA flags are empty, that is no
-> > flags are set in a vma_flags_t value.
-> >
-> > Next, add the ability to obtain the equivalent of the bitwise and of two
-> > vma_flags_t values, via vma_flags_and().
->
-> Nit: "two values" is vma_flags_and_mask(), while vma_flags_and() takes one
-> value and list of flags, no?
+Hi all,
 
-Sorry missed this. Yeah should be 'via vma_flags_and_mask()', or a better
-description of vma_flags_and() :)
+This patch series adds fs-verity support for XFS. This version stores
+merkle tree beyond end of the file, the same way as ext4 does it. The
+difference is that verity descriptor is stored at the next aligned 64k
+block after the merkle tree last block. This is done due to sparse
+merkle tree which doesn't store hashes of zero data blocks.
 
->
-> > Next, add the ability to obtain the difference between two sets of VMA
-> > flags, that is the equivalent to the exclusive bitwise OR of the two sets
-> > of flags, via vma_flags_diff_pair().
-> >
-> > vma_flags_xxx_mask() typically operates on a pointer to a vma_flags_t
-> > value, which is assumed to be an lvalue of some kind (such as a field in a
-> > struct or a stack variable) and an rvalue of some kind (typically a
-> > constant set of VMA flags obtained e.g. via mk_vma_flags() or equivalent).
-> >
-> > However vma_flags_diff_pair() is intended to operate on two lvalues, so use
-> > the _pair() suffix to make this clear.
-> >
-> > Finally, update VMA userland tests to add these helpers.
-> >
-> > We also port bitmap_xor() and __bitmap_xor() to the tools/ headers and
-> > source to allow the tests to work with vma_flags_diff_pair().
-> >
-> > Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
->
-> Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
->
+The patchset starts with a few fs-verity preparation patches. Then, a
+few patches to allow iomap to work in post EOF region. The XFS fs-verity
+implementation follows.
+
+The tree is read by iomap into page cache at offset of next largest
+folio past end of file. The same offset is used for on-disk.
+
+This patchsets also synthesizes merkle tree block full of hashes of
+zeroed data blocks. This merkle blocks are not stored on disk, they are
+holes in the tree.
+
+Testing. The -g verity is passing for 1k, 8k and 4k with/without quota
+on 4k and 64k page size systems. Tested -g auto for enabled/disabled
+fsverity.
+
+This series based on latest fsverity/for-next with patchset fs generated
+integrity information [1].
+
+kernel:
+https://git.kernel.org/pub/scm/linux/kernel/git/aalbersh/xfs-linux.git/log/?h=b4/fsverity
+
+xfsprogs:
+https://github.com/alberand/xfsprogs/tree/b4/fsverity
+
+xfstests:
+https://github.com/alberand/xfstests/tree/b4/fsverity
+
+Cc: fsverity@lists.linux.dev
+Cc: linux-fsdevel@vger.kernel.org
+Cc: linux-xfs@vger.kernel.org
+
+Cc: david@fromorbit.com
+Cc: djwong@kernel.org
+Cc: ebiggers@kernel.org
+Cc: hch@lst.de
+
+[1]: https://lore.kernel.org/linux-xfs/20260223132021.292832-1-hch@lst.de/
+
+---
+Changes in v5:
+- Add fserror_report_data_lost() for data blocks in page spanning EOF
+- Issue fsverity metadata readahead in data readahead
+- iomap_fsverity_write() return type fix
+- Use of S_ISREG(mode)
+- Make 65536 #define instead of open-coded
+- Use transaction per unwritten extent removal
+- Fetch fsverity_info for all fsverity metadata
+- Revert fsverity_folio_zero_hash() stub as used in iomap
+- Extend cancel_unwritten to whole file range to remove cow leftovers
+- Drop delayed allocation on the COW fork on fsverity completion
+Changes in v4:
+- Use fserror interface in fsverity instead of fs callback
+- Hoist pagecache_read from f2fs/ext4 to fsverity
+- Refactor iomap code
+- Fetch fsverity_info only for file data and merkle tree holes
+- Do not disable preallocation, remove unwritten extents instead
+- Offload fsverity hash I/O to fsverity workqueue in read path
+- Store merkle tree at round_up(i_size, 64k)
+- Add a spacing between merkle tree and fsverity descriptor as next 64k
+  aligned block
+- Squash helpers into first user commits
+- Squash on-disk format changes into single commit
+- Drop different offset for pagecache/on-disk
+- Don't zero out pages in higher order folios in write path
+- Link to v3: https://lore.kernel.org/fsverity/20260217231937.1183679-1-aalbersh@kernel.org/T/#t
+Changes in v3:
+- Different on-disk and pagecache offset
+- Use read path ioends
+- Switch to hashtable fsverity info
+- Synthesize merkle tree blocks full of zeroes
+- Other minor refactors
+- Link to v2: https://lore.kernel.org/fsverity/20260114164210.GO15583@frogsfrogsfrogs/T/#t
+Changes in v2:
+- Move to VFS interface for merkle tree block reading
+- Drop patchset for per filesystem workqueues
+- Change how offsets of the descriptor and tree metadata is calculated
+- Store fs-verity descriptor in data fork side by side with merkle tree
+- Simplify iomap changes, remove interface for post eof read/write
+- Get rid of extended attribute implementation
+- Link to v1: https://lore.kernel.org/r/20250728-fsverity-v1-0-9e5443af0e34@kernel.org
+
+Andrey Albershteyn (23):
+  fsverity: report validation errors through fserror to fsnotify
+  fsverity: expose ensure_fsverity_info()
+  fsverity: generate and store zero-block hash
+  fsverity: introduce fsverity_folio_zero_hash()
+  fsverity: pass digest size and hash of the empty block to ->write
+  fsverity: hoist pagecache_read from f2fs/ext4 to fsverity
+  iomap: introduce IOMAP_F_FSVERITY and teach writeback to handle
+    fsverity
+  iomap: obtain fsverity info for read path
+  iomap: issue readahead for fsverity merkle tree
+  iomap: teach iomap to handle fsverity holes and verify data holes
+  iomap: introduce iomap_fsverity_write() for writing fsverity metadata
+  xfs: introduce fsverity on-disk changes
+  xfs: initialize fs-verity on file open
+  xfs: don't allow to enable DAX on fs-verity sealed inode
+  xfs: disable direct read path for fs-verity files
+  xfs: handle fsverity I/O in write/read path
+  xfs: use read ioend for fsverity data verification
+  xfs: add fs-verity support
+  xfs: remove unwritten extents after preallocations in fsverity
+    metadata
+  xfs: add fs-verity ioctls
+  xfs: introduce health state for corrupted fsverity metadata
+  xfs: add fsverity traces
+  xfs: enable ro-compat fs-verity flag
+
+Darrick J. Wong (2):
+  xfs: advertise fs-verity being available on filesystem
+  xfs: check and repair the verity inode flag state
+
+ fs/btrfs/verity.c              |   6 +-
+ fs/ext4/verity.c               |  36 +--
+ fs/f2fs/verity.c               |  34 +--
+ fs/iomap/buffered-io.c         |  99 ++++++-
+ fs/iomap/trace.h               |   3 +-
+ fs/verity/enable.c             |   4 +-
+ fs/verity/fsverity_private.h   |   3 +
+ fs/verity/open.c               |   8 +-
+ fs/verity/pagecache.c          |  55 ++++
+ fs/verity/verify.c             |   4 +
+ fs/xfs/Makefile                |   1 +
+ fs/xfs/libxfs/xfs_bmap.c       |   7 +
+ fs/xfs/libxfs/xfs_format.h     |  35 ++-
+ fs/xfs/libxfs/xfs_fs.h         |   2 +
+ fs/xfs/libxfs/xfs_health.h     |   4 +-
+ fs/xfs/libxfs/xfs_inode_buf.c  |   8 +
+ fs/xfs/libxfs/xfs_inode_util.c |   2 +
+ fs/xfs/libxfs/xfs_sb.c         |   4 +
+ fs/xfs/scrub/attr.c            |   7 +
+ fs/xfs/scrub/common.c          |  53 ++++
+ fs/xfs/scrub/common.h          |   2 +
+ fs/xfs/scrub/inode.c           |   7 +
+ fs/xfs/scrub/inode_repair.c    |  36 +++
+ fs/xfs/xfs_aops.c              |  62 ++++-
+ fs/xfs/xfs_bmap_util.c         |   8 +
+ fs/xfs/xfs_file.c              |  19 +-
+ fs/xfs/xfs_fsverity.c          | 457 +++++++++++++++++++++++++++++++++
+ fs/xfs/xfs_fsverity.h          |  28 ++
+ fs/xfs/xfs_health.c            |   1 +
+ fs/xfs/xfs_inode.h             |   6 +
+ fs/xfs/xfs_ioctl.c             |  14 +
+ fs/xfs/xfs_iomap.c             |  15 +-
+ fs/xfs/xfs_iops.c              |   4 +
+ fs/xfs/xfs_message.c           |   4 +
+ fs/xfs/xfs_message.h           |   1 +
+ fs/xfs/xfs_mount.h             |   4 +
+ fs/xfs/xfs_super.c             |   7 +
+ fs/xfs/xfs_trace.h             |  46 ++++
+ include/linux/fsverity.h       |  23 +-
+ include/linux/iomap.h          |  10 +
+ 40 files changed, 1035 insertions(+), 94 deletions(-)
+ create mode 100644 fs/xfs/xfs_fsverity.c
+ create mode 100644 fs/xfs/xfs_fsverity.h
+
+-- 
+2.51.2
+
