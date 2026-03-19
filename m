@@ -1,36 +1,37 @@
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBE2E1F37D3;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBEA227FB1F;
 	Thu, 19 Mar 2026 15:02:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773932560; cv=none; b=bo1773WTIwlwkd8Ia0TdjrCHvZdf0jrcYGQoUMpAsfVSlH6D9F7/SH1bk44XW2J3nV74UzKvsesWm+7BqHLlgynHcYQCMpha9dHKXhw7xL1zEjhbW1gAniiVmBt3k2n0ITmLTnRDFYrb5gSF+W4mTAO7e2bdi7V8d2tTce4XP48=
+	t=1773932561; cv=none; b=EoTcu+38o3z9tocI1+DE7zUQ1oaEgME/aU+G77zz1qE9De/8gLN/55leo+CqVDPNvMPJKRnVmaICBJQdYmVUvf2zuDC308mg4DtYFFf32QTRwFjYBS5ISd7osYeaFAhpMWWfzCu5NNz55bv/YWUGCcRLlCSwmQXah1eOGSdRSYQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773932560; c=relaxed/simple;
-	bh=fD1hh3FlLNb89rb3mybyFS8e+fEU4WiMeRwPeDfjcmY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TdCvU38dqI5vIzm9YwZ/7rrPMjON5WuwzI6ugy40HfMrk0zg8icKqBTsE40DnbH4WqFvaCmennMbD/HUhOumc8FC3O7W10aWApg9MtJbiV6B17xXmr8wZhXz7L4uWvMZvg906p6Cw7nGejht2Np2sD16rwJFmPsqg33S191t6pE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=D2w0lQAi; arc=none smtp.client-ip=213.97.179.56
+	s=arc-20240116; t=1773932561; c=relaxed/simple;
+	bh=BX4lwbvDFpxouCwfPHprtsSOkpHAkNqSonQWO4ifdO0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=GgOWz6UpsLiVLxHGpOOqB2QbxomzsaWidJXu4lIvJ54ZDHdYf3UzvDEgLPPcw6STM3+0Gr3zI0xMAkQicKkL2h3gCcCazlWXsQBiKYQH+SW53SngqoZwYBzm7BPi8Rny0hbkH/B1Wq5YRgFL7Xy/TAJyDtSsC/5dI32xf+IEOoQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=sRndcq6y; arc=none smtp.client-ip=213.97.179.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="D2w0lQAi"
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="sRndcq6y"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
-	Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	s=20170329; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
+	Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
 	List-Post:List-Owner:List-Archive;
-	bh=PxgY7FKa0ht39sNDHWrQOcdL11Zd3B7D1hAJCRXN3nY=; b=D2w0lQAixPQYyx4EgFKJATK9Bm
-	OVrJ/ipoGK/PGyOzPTOSRGSS8jw6j2nHft5OaQndQ5tP58MCDtE3EN3FZKpGsRjlPhkzttTVQ8eNG
-	1k0NzpegtHeWYw+5CXvnuOH3tPhyONeYIdjRqkLCTR8JpCP4e9xTNqjVm/yXo3e3aiIP3ZlCymqR4
-	X8C3JZfViwoxFO5Q9nfoI2BUExjeIwVJc6okJjlV9/cOMOWW0hNrNL9hdEy7P5/KclkpyHoBVfoj4
-	6hUyzNYh4hBGoZwflL3pI3c8ooqc4/JUmJF7x3lESHW5CVxbGPZLK3htAKf2j005agJGAcvxhWaM2
-	gYdEzXXQ==;
+	bh=/IEGgu+8MWr6BCXRCjwWf8y4IPDBSBSfFjxhws5DDXg=; b=sRndcq6ybvJYWWRSpxMYC3VPzj
+	nNsJhKuMAeK0pW1UqihG+GEPJAKLw6fJoYtKR1qsSBfKkcZX+4YEUl9vml7xWv/n0SdiYLS3nH8bW
+	sRPRoMcgt8Gn0GK33CQq667GflXteaMcZ+eC1Wybmym1G0lTonWuPLgSoLhQo/lNMcN5KExqsu+n8
+	wBPUZX5A4GvL8KXPQQzzVQz0G0KdoQs3kcwtrljeFNt4/yadmkWRNBhAgN7zQBeOh2AnAAVG+81R4
+	zcyTyWxn834soxoJtrfJrdccSwV2pqkFwndwRpQrP9fh/jnGgFOBg0y9Q3GlaK1uEx482dCLYQZ+7
+	TDeVyh2w==;
 Received: from bl21-120-186.dsl.telepac.pt ([2.82.120.186] helo=localhost)
 	by fanzine2.igalia.com with utf8esmtpsa 
 	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1w3EtJ-003NxL-DN; Thu, 19 Mar 2026 16:02:29 +0100
+	id 1w3EtJ-003NxN-Ts; Thu, 19 Mar 2026 16:02:29 +0100
 From: Luis Henriques <luis@igalia.com>
 To: Miklos Szeredi <miklos@szeredi.hu>
 Cc: linux-fsdevel@vger.kernel.org,
@@ -38,9 +39,11 @@ Cc: linux-fsdevel@vger.kernel.org,
 	Matt Harvey <mharvey@jumptrading.com>,
 	kernel-dev@igalia.com,
 	Luis Henriques <luis@igalia.com>
-Subject: [RFC PATCH v2 0/1] fuse: restructure requests extensions handling
-Date: Thu, 19 Mar 2026 15:02:27 +0000
-Message-ID: <20260319150228.52789-1-luis@igalia.com>
+Subject: [RFC PATCH v2 1/1] fuse: restructure requests extensions handling
+Date: Thu, 19 Mar 2026 15:02:28 +0000
+Message-ID: <20260319150228.52789-2-luis@igalia.com>
+In-Reply-To: <20260319150228.52789-1-luis@igalia.com>
+References: <20260319150228.52789-1-luis@igalia.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -49,30 +52,291 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi!
+This commit simplifies the implementation of extensions by using an
+extensions vector just like the other (in/out) args.
 
-I'm sending v2 of this patch after finding an issue with function
-fuse_free_ext().  The issue was that this function was freeing the ->value
-for all the ext args, which isn't what I wanted -- now it only frees it for
-FUSE_EXT_GROUPS extentions.  While there, I've also added back the
-immediate return if there are no extensions.
+This simplification includes reverting the handling of security contexts
+back into a regular inarg, as it was done before commit 15d937d7ca8c
+("fuse: add request extension").
 
-And for reference, here's the origin text from v1:
-
-This patch was going to be included in the lookup_handle patchset.  But
-since it is self-contained and it can eventually be picked independently,
-I've decided to send it as a separate RFC.
- 
-It basically re-implements the idea of extensions, making it easier to add
-new ones: a extension can be simply added to the 'ext_args' array in
-fuse_args.
-
-
-Luis Henriques (1):
-  fuse: restructure requests extensions handling
-
+Signed-off-by: Luis Henriques <luis@igalia.com>
+---
  fs/fuse/dev.c    |  35 ++++++++++++++-
  fs/fuse/dir.c    | 108 ++++++++++++++++++++++-------------------------
  fs/fuse/fuse_i.h |  11 ++++-
  3 files changed, 93 insertions(+), 61 deletions(-)
 
+diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+index 0b0241f47170..5bf5f427a5c6 100644
+--- a/fs/fuse/dev.c
++++ b/fs/fuse/dev.c
+@@ -654,8 +654,15 @@ static void fuse_args_to_req(struct fuse_req *req, struct fuse_args *args)
+ 	req->in.h.opcode = args->opcode;
+ 	req->in.h.nodeid = args->nodeid;
+ 	req->args = args;
+-	if (args->is_ext)
+-		req->in.h.total_extlen = args->in_args[args->ext_idx].size / 8;
++	if (args->has_ext) {
++		int i;
++
++		req->in.h.total_extlen =
++			sizeof(struct fuse_ext_header) * args->numext;
++		for (i = 0; i < args->numext; i++)
++			req->in.h.total_extlen += args->ext_args[i].size;
++		req->in.h.total_extlen /= 8;
++	}
+ 	if (args->end)
+ 		__set_bit(FR_ASYNC, &req->flags);
+ }
+@@ -1226,6 +1233,28 @@ int fuse_copy_args(struct fuse_copy_state *cs, unsigned numargs,
+ 	return err;
+ }
+ 
++static int fuse_copy_extensions(struct fuse_copy_state *cs,
++				struct fuse_args *args)
++{
++	struct fuse_ext_header xh;
++	struct fuse_ext_arg *arg;
++	int err = 0;
++	int i;
++
++	for (i = 0; !err && i < args->numext; i++) {
++		arg = &args->ext_args[i];
++		xh.size = arg->size;
++		xh.type = arg->type;
++		/* Copy extension header... */
++		err = fuse_copy_one(cs, &xh, sizeof(xh));
++		if (!err)
++			/* ... and payload */
++			err = fuse_copy_one(cs, arg->value, arg->size);
++	}
++
++	return err;
++}
++
+ static int forget_pending(struct fuse_iqueue *fiq)
+ {
+ 	return fiq->forget_list_head.next != NULL;
+@@ -1497,6 +1526,8 @@ static ssize_t fuse_dev_do_read(struct fuse_dev *fud, struct file *file,
+ 	if (!err)
+ 		err = fuse_copy_args(cs, args->in_numargs, args->in_pages,
+ 				     (struct fuse_arg *) args->in_args, 0);
++	if (!err)
++		err = fuse_copy_extensions(cs, args);
+ 	fuse_copy_finish(cs);
+ 	spin_lock(&fpq->lock);
+ 	clear_bit(FR_LOCKED, &req->flags);
+diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
+index 7ac6b232ef12..e138e3625573 100644
+--- a/fs/fuse/dir.c
++++ b/fs/fuse/dir.c
+@@ -711,26 +711,6 @@ static int get_security_context(struct dentry *entry, umode_t mode,
+ 	return err;
+ }
+ 
+-static void *extend_arg(struct fuse_in_arg *buf, u32 bytes)
+-{
+-	void *p;
+-	u32 newlen = buf->size + bytes;
+-
+-	p = krealloc(buf->value, newlen, GFP_KERNEL);
+-	if (!p) {
+-		kfree(buf->value);
+-		buf->size = 0;
+-		buf->value = NULL;
+-		return NULL;
+-	}
+-
+-	memset(p + buf->size, 0, bytes);
+-	buf->value = p;
+-	buf->size = newlen;
+-
+-	return p + newlen - bytes;
+-}
+-
+ static u32 fuse_ext_size(size_t size)
+ {
+ 	return FUSE_REC_ALIGN(sizeof(struct fuse_ext_header) + size);
+@@ -739,67 +719,81 @@ static u32 fuse_ext_size(size_t size)
+ /*
+  * This adds just a single supplementary group that matches the parent's group.
+  */
+-static int get_create_supp_group(struct mnt_idmap *idmap,
+-				 struct inode *dir,
+-				 struct fuse_in_arg *ext)
++static int fuse_create_supp_group(struct mnt_idmap *idmap, struct inode *dir,
++				  struct fuse_args *args)
+ {
+ 	struct fuse_conn *fc = get_fuse_conn(dir);
+-	struct fuse_ext_header *xh;
++	struct fuse_ext_arg *extarg;
+ 	struct fuse_supp_groups *sg;
+ 	kgid_t kgid = dir->i_gid;
+ 	vfsgid_t vfsgid = make_vfsgid(idmap, fc->user_ns, kgid);
+ 	gid_t parent_gid = from_kgid(fc->user_ns, kgid);
+-
+ 	u32 sg_len = fuse_ext_size(sizeof(*sg) + sizeof(sg->groups[0]));
+ 
+-	if (parent_gid == (gid_t) -1 || vfsgid_eq_kgid(vfsgid, current_fsgid()) ||
++	if (parent_gid == (gid_t) -1 ||
++	    vfsgid_eq_kgid(vfsgid, current_fsgid()) ||
+ 	    !vfsgid_in_group_p(vfsgid))
+ 		return 0;
+ 
+-	xh = extend_arg(ext, sg_len);
+-	if (!xh)
+-		return -ENOMEM;
+-
+-	xh->size = sg_len;
+-	xh->type = FUSE_EXT_GROUPS;
++	BUG_ON(args->numext >= ARRAY_SIZE(args->ext_args));
+ 
+-	sg = (struct fuse_supp_groups *) &xh[1];
++	sg = kzalloc(sg_len, GFP_KERNEL);
++	if (!sg)
++		return -ENOMEM;
+ 	sg->nr_groups = 1;
+ 	sg->groups[0] = parent_gid;
+ 
++	extarg = &args->ext_args[args->numext];
++	extarg->type = FUSE_EXT_GROUPS;
++	extarg->size = sg_len;
++	extarg->value = sg;
++	args->numext++;
++
+ 	return 0;
+ }
+ 
+-static int get_create_ext(struct mnt_idmap *idmap,
+-			  struct fuse_args *args,
+-			  struct inode *dir, struct dentry *dentry,
+-			  umode_t mode)
++static int fuse_create_ext(struct mnt_idmap *idmap, struct fuse_args *args,
++			   struct inode *dir, struct dentry *dentry,
++			   umode_t mode)
+ {
+ 	struct fuse_conn *fc = get_fuse_conn_super(dentry->d_sb);
+-	struct fuse_in_arg ext = { .size = 0, .value = NULL };
+ 	int err = 0;
+ 
+-	if (fc->init_security)
+-		err = get_security_context(dentry, mode, &ext);
+-	if (!err && fc->create_supp_group)
+-		err = get_create_supp_group(idmap, dir, &ext);
+-
+-	if (!err && ext.size) {
+-		WARN_ON(args->in_numargs >= ARRAY_SIZE(args->in_args));
+-		args->is_ext = true;
+-		args->ext_idx = args->in_numargs++;
+-		args->in_args[args->ext_idx] = ext;
+-	} else {
+-		kfree(ext.value);
++	/* security ctx isn't really an extension */
++	if (fc->init_security) {
++		/* XXX maybe the idx shouldn't be hard-coded...? */
++		WARN_ON(args->in_numargs != 2);
++		args->in_numargs = 3;
++		err = get_security_context(dentry, mode, &args->in_args[2]);
++		if (err)
++			return err;
+ 	}
++	if (fc->create_supp_group)
++		err = fuse_create_supp_group(idmap, dir, args);
++
++	if (!err)
++		args->has_ext = true;
++	else if (fc->init_security)
++		kfree(args->in_args[2].value);
+ 
+ 	return err;
+ }
+ 
+-static void free_ext_value(struct fuse_args *args)
++static void fuse_free_ext(struct fuse_conn *fc, struct fuse_args *args)
+ {
+-	if (args->is_ext)
+-		kfree(args->in_args[args->ext_idx].value);
++	int i;
++
++	if (!args->has_ext)
++		return;
++	args->has_ext = false;
++
++	if (fc->init_security)
++		kfree(args->in_args[2].value);
++
++	for (i = 0; i < args->numext; i++) {
++		if (args->ext_args[i].type == FUSE_EXT_GROUPS)
++			kfree(args->ext_args[i].value);
++	}
+ }
+ 
+ /*
+@@ -868,12 +862,12 @@ static int fuse_create_open(struct mnt_idmap *idmap, struct inode *dir,
+ 	args.out_args[1].size = sizeof(*outopenp);
+ 	args.out_args[1].value = outopenp;
+ 
+-	err = get_create_ext(idmap, &args, dir, entry, mode);
++	err = fuse_create_ext(idmap, &args, dir, entry, mode);
+ 	if (err)
+ 		goto out_free_ff;
+ 
+ 	err = fuse_simple_idmap_request(idmap, fm, &args);
+-	free_ext_value(&args);
++	fuse_free_ext(fm->fc, &args);
+ 	if (err)
+ 		goto out_free_ff;
+ 
+@@ -995,13 +989,13 @@ static struct dentry *create_new_entry(struct mnt_idmap *idmap, struct fuse_moun
+ 	args->out_args[0].value = &outarg;
+ 
+ 	if (args->opcode != FUSE_LINK) {
+-		err = get_create_ext(idmap, args, dir, entry, mode);
++		err = fuse_create_ext(idmap, args, dir, entry, mode);
+ 		if (err)
+ 			goto out_put_forget_req;
+ 	}
+ 
+ 	err = fuse_simple_idmap_request(idmap, fm, args);
+-	free_ext_value(args);
++	fuse_free_ext(fm->fc, args);
+ 	if (err)
+ 		goto out_put_forget_req;
+ 
+diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+index 7f16049387d1..c9b846660b7e 100644
+--- a/fs/fuse/fuse_i.h
++++ b/fs/fuse/fuse_i.h
+@@ -326,12 +326,18 @@ struct fuse_folio_desc {
+ 	unsigned int offset;
+ };
+ 
++struct fuse_ext_arg {
++	unsigned int type;
++	unsigned int size;
++	void *value;
++};
++
+ struct fuse_args {
+ 	uint64_t nodeid;
+ 	uint32_t opcode;
+ 	uint8_t in_numargs;
+ 	uint8_t out_numargs;
+-	uint8_t ext_idx;
++	uint8_t numext;
+ 	bool force:1;
+ 	bool noreply:1;
+ 	bool nocreds:1;
+@@ -342,10 +348,11 @@ struct fuse_args {
+ 	bool page_zeroing:1;
+ 	bool page_replace:1;
+ 	bool may_block:1;
+-	bool is_ext:1;
++	bool has_ext:1;
+ 	bool is_pinned:1;
+ 	bool invalidate_vmap:1;
+ 	struct fuse_in_arg in_args[4];
++	struct fuse_ext_arg ext_args[2];
+ 	struct fuse_arg out_args[2];
+ 	void (*end)(struct fuse_mount *fm, struct fuse_args *args, int error);
+ 	/* Used for kvec iter backed by vmalloc address */
