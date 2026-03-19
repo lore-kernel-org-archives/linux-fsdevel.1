@@ -1,327 +1,228 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C3C53C5DD0;
-	Thu, 19 Mar 2026 12:21:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3767376462
+	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Mar 2026 12:22:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773922866; cv=none; b=ihBORiwCd2qRQM9Sp2E53hbUydGfY6jKO7yx6I4PXzHUJ3ZOvwbn9PjBwMcmDSZgR4+V6+6qaZmPHeOV3Aa5ub8Ej9+LlkNAva6Y5WtbRpPXDEKorTGE9lRQVcXFWIgmFD/Fq6V3CisMBsDAV9ojkCPHnG75blwVrdbuZrlr+Wg=
+	t=1773922967; cv=none; b=mNOZ95Rw/o3lzlZhTKvEDiqJug/gMn5oYV/hLUJwrx0WSwj/6sQYKUkV1qBn+GR9lsJqp4BWelKzb+3DGFDH+gJe4LGe6jr/MqMOhP2tL9jlrnVefbo7+FmhfE40OJjIB67PZGG1KBzZGqBn7RqD2xkPnQSwNhQ2uSU8rqSAkmY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773922866; c=relaxed/simple;
-	bh=51qDref+96vLVVzgxex3Lz/aTp6JsO1HJFiooq62O/k=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jSpt4xxsI8kJdxSy5d+PSmXd0YdVO+SxYEuZtA+urfjrL94PC9A6/x+S1hU1ruSaUC0bkSsLn0yJllGL2AmdCGsKrGhG3EqcdhV/v5b8K4VTZz8WHE4HCwDbFf3WcPD8gutJrxuv3BkqrS76KJ/ie0FUV1Ml64UZzlqselIuHBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.224.107])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4fc4X074MjzJ46Cq;
-	Thu, 19 Mar 2026 20:20:00 +0800 (CST)
-Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
-	by mail.maildlp.com (Postfix) with ESMTPS id 51D4740584;
-	Thu, 19 Mar 2026 20:21:00 +0800 (CST)
-Received: from localhost (10.203.177.15) by dubpeml500005.china.huawei.com
- (7.214.145.207) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 19 Mar
- 2026 12:20:58 +0000
-Date: Thu, 19 Mar 2026 12:20:57 +0000
-From: Jonathan Cameron <jonathan.cameron@huawei.com>
-To: John Groves <john@groves.net>
-CC: Miklos Szeredi <miklos@szeredi.hu>, Dan Williams
-	<dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, "Alison
- Schofield" <alison.schofield@intel.com>, John Groves <jgroves@micron.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, "Alexander
- Viro" <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>,
-	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong"
-	<djwong@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, Jeff Layton
-	<jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, Stefan Hajnoczi
-	<shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, Josef Bacik
-	<josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan
-	<chenlinxuan@uniontech.com>, James Morse <james.morse@arm.com>, Fuad Tabba
-	<tabba@google.com>, Sean Christopherson <seanjc@google.com>, Shivank Garg
-	<shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>, Gregory Price
-	<gourry@gourry.net>, Aravind Ramesh <arramesh@micron.com>, Ajay Joshi
-	<ajayjoshi@micron.com>, <venkataravis@micron.com>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<nvdimm@lists.linux.dev>, <linux-cxl@vger.kernel.org>,
-	<linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH V8 3/8] dax: add fsdev.c driver for fs-dax on character
- dax
-Message-ID: <20260319122057.00004503@huawei.com>
-In-Reply-To: <20260319012837.4443-1-john@groves.net>
-References: <20260318202737.4344.dax@groves.net>
-	<20260319012837.4443-1-john@groves.net>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1773922967; c=relaxed/simple;
+	bh=pGftddufHc5ibqhP+dCJ7KStXLdkgL+jgHuEG3J37II=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=olFSIpt3scXDSUmP73L7sj3DtrMjPU5ZzAo0E9unQb6ZD7KOPSca1BbwBBf5Y61YuLAXR8abjwc5n/5fbVpuQAbgNva7a0quHA8EEdOz1U8uGRG+wD3NIwIqEHQg5p7hbAn6ty/ZsXqec/OsD/6ZDOOxanLCMJ1pE1TbocKe+jU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=cIXozAKm; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=PfDyOEIN; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=cIXozAKm; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=PfDyOEIN; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="cIXozAKm";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="PfDyOEIN";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="cIXozAKm";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="PfDyOEIN"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 182494D1F8;
+	Thu, 19 Mar 2026 12:22:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1773922964; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=T6D7SW7yNUk0ClTnqg249sQPYHwiEnPqJJJ/ybUYZl8=;
+	b=cIXozAKmqntrwNIoc9FE/9dE9wJkqIKk3pgu1tyx9auaCEAqNeWT+gIbyp5WbAZabIpzFh
+	0gZ6Kasd7QqU9+T/Fk6WgRZ45/YrionkgtDHv3+yiC94TMS0MztdGNls+QQn1Xh/ltOoTq
+	K9itUm1Yld4y2x/5BZDXjpmI5G/tRNs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1773922964;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=T6D7SW7yNUk0ClTnqg249sQPYHwiEnPqJJJ/ybUYZl8=;
+	b=PfDyOEINTXjB1f0mBCqq4aUTU5V06mVaKLgACL7K8noMoURLbeLkW9fiAzb9ZZr2f8E8KL
+	ipNmkYKb7A2PiaAw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=cIXozAKm;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=PfDyOEIN
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1773922964; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=T6D7SW7yNUk0ClTnqg249sQPYHwiEnPqJJJ/ybUYZl8=;
+	b=cIXozAKmqntrwNIoc9FE/9dE9wJkqIKk3pgu1tyx9auaCEAqNeWT+gIbyp5WbAZabIpzFh
+	0gZ6Kasd7QqU9+T/Fk6WgRZ45/YrionkgtDHv3+yiC94TMS0MztdGNls+QQn1Xh/ltOoTq
+	K9itUm1Yld4y2x/5BZDXjpmI5G/tRNs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1773922964;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=T6D7SW7yNUk0ClTnqg249sQPYHwiEnPqJJJ/ybUYZl8=;
+	b=PfDyOEINTXjB1f0mBCqq4aUTU5V06mVaKLgACL7K8noMoURLbeLkW9fiAzb9ZZr2f8E8KL
+	ipNmkYKb7A2PiaAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 017EC4273B;
+	Thu, 19 Mar 2026 12:22:44 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 4tZVAJTqu2kucAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 19 Mar 2026 12:22:44 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id B3EB1A0B32; Thu, 19 Mar 2026 13:22:35 +0100 (CET)
+Date: Thu, 19 Mar 2026 13:22:35 +0100
+From: Jan Kara <jack@suse.cz>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Jan Kara <jack@suse.cz>, Theodore Tso <tytso@mit.edu>, 
+	Ravi Singh <ravising@redhat.com>, linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	adilger@dilger.ca, jack@suse.com, cem@kernel.org
+Subject: Re: [PATCH v2] xfs: return default quota limits for IDs without a
+ dquot
+Message-ID: <waksu55vh2fm74ltktchuckhezkjq4ggaooqrosixfzsuli5uo@i4q6ixu7r56x>
+References: <20260312090810.1145908-1-ravising@redhat.com>
+ <20260317065947.306954-1-ravising@redhat.com>
+ <jknk6pwirqp5kgxdwr7qez2qzuycmj4eupknf3yvqzlnkyiu5k@nowg6cwpxqc3>
+ <20260317133159.GA53921@macsyma-wired.lan>
+ <ijwjh525hgf54wclhd4oixvfi3gfrodqrh2pbk7lr3whqw7nqo@k5uotrmekwyt>
+ <20260318221810.GM1742010@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml100009.china.huawei.com (7.191.174.83) To
- dubpeml500005.china.huawei.com (7.214.145.207)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260318221810.GM1742010@frogsfrogsfrogs>
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_COUNT_THREE(0.00)[3];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	FROM_EQ_ENVFROM(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.cz:dkim,suse.cz:email,suse.com:email]
+X-Rspamd-Queue-Id: 182494D1F8
+X-Spam-Flag: NO
+X-Spam-Score: -4.01
+X-Spam-Level: 
 
-On Wed, 18 Mar 2026 20:28:37 -0500
-John Groves <john@groves.net> wrote:
-
-> The new fsdev driver provides pages/folios initialized compatibly with
-> fsdax - normal rather than devdax-style refcounting, and starting out
-> with order-0 folios.
+On Wed 18-03-26 15:18:10, Darrick J. Wong wrote:
+> On Wed, Mar 18, 2026 at 06:29:47PM +0100, Jan Kara wrote:
+> > Hello!
+> > 
+> > On Tue 17-03-26 09:31:59, Theodore Tso wrote:
+> > > On Tue, Mar 17, 2026 at 01:19:23PM +0100, Jan Kara wrote:
+> > > > On Tue 17-03-26 14:59:47, Ravi Singh wrote:
+> > > > > When an ID has no dquot on disk, Q_XGETQUOTA returns -ENOENT even
+> > > > > though default quota limits are configured and enforced against that
+> > > > > ID.  This means unprivileged users who have never used any resources
+> > > > > cannot see the limits that apply to them.
+> > > > > 
+> > > > > When xfs_qm_dqget() returns -ENOENT for a non-zero ID, return a
+> > > > > zero-usage response with the default limits filled in from
+> > > > > m_quotainfo rather than propagating the error.  This is consistent
+> > > > > with the enforcement behavior in xfs_qm_adjust_dqlimits(), which
+> > > > > pushes the same default limits into a dquot when it is first
+> > > > > allocated.
+> > > > > 
+> > > > > Signed-off-by: Ravi Singh <ravising@redhat.com>
+> > > > 
+> > > > So XFS guys should also review this but from quota POV this looks like a
+> > > > right fix to me. So feel free to add:
+> > > > 
+> > > > Reviewed-by: Jan Kara <jack@suse.cz>
+> > > 
+> > > This was discussed at last week's ext4 conference call, and we
+> > > wondered whether we might be better off adding a new
+> > > Q_XGETDEFAULTQUOTA or some such which returned the default quota.
+> > > This would that the quota userspace utilities would have to be
+> > > changed, but it would also mean that userspace could distinguish
+> > > between whether the quota limit was due to a default value being used,
+> > > or because the user had an actual quota value set.
+> > 
+> > First thing to note is that the notion of "default limit" is specific to
+> > XFS. Other filesystems using quota don't have any default limits. I guess
+> > most people here know this but I'm spelling it out so that we are all on
+> > the same page.
 > 
-> When fsdev binds to a daxdev, it is usually (always?) switching from the
-> devdax mode (device.c), which pre-initializes compound folios according
-> to its alignment. Fsdev uses fsdev_clear_folio_state() to switch the
-> folios into a fsdax-compatible state.
+> *I* actually didn't know that, so thank you for pointing that out!!
+
+Then I'm happy I've spelled it out :)
+
+> > > It also means that in the future, if we wanted to change where the
+> > > default quota was stored, it would be possible to do that instead of
+> > > overloading the quota value for uid/gid 0.
+> > > 
+> > > We also speculated that perhaps there might be cases where if some
+> > > process might be running without CAP_SYS_ADMIN, there might be a
+> > > reason that quota for uid=0 might actually make sense, and so perhaps
+> > > some future file system format change might want to decouple where the
+> > > default quota was stored.
+> > 
+> > Right. That's why I didn't like the v1 version of the patch. But v2 version
+> > hides the XFS specific behavior of default limits inside XFS function for
+> > fetching quotas so that is fully transparent. If XFS decides to change its
+> > quota format to support limits for root, it can also change this code
 > 
-> A side effect of this is that raw mmap doesn't (can't?) work on an fsdev
-> dax instance. Accordingly, The fsdev driver does not provide raw mmap -
-> devices must be put in 'devdax' mode (drivers/dax/device.c) to get raw
-> mmap capability.
+> Wait, do the other filesystems enforce limits on id 0?
+
+Yes, generic quota subsystem doesn't treat id 0 in any special way.
+Normally CAP_SYS_RESOURCE check makes the limits irrelevant but with user
+namespaces uid 0 can be limited with quota limit e.g. on ext4.
+
+> Also, do those non-xfs filesystems also not have default limits?
+
+Yes, generic quota formats (used by ext2, ext4, ocfs2, f2fs) don't have
+default limits. Userspace is responsible to set quota limits using quota
+tools when creating user account. GFS2 does its own thing but AFAICS it
+doesn't have a notion of default quota limit either.
+
+> > fetching and filling in default limits for the user. So until XFS decides
+> > to change the format, current solution looks fine to me, once it decides to
+> > change it, it is easy to change this code as well. But obviously this is
+> > fully XFS developers' area of code so they can do whatever they wish :)
 > 
-> In this commit is just the framework, which remaps pages/folios compatibly
-> with fsdax.
+> /me bets nobody cares that much in xfsland other than not breaking
+> userspace tools. ;)
 > 
-> Enabling dax changes:
+> > The only improvement I can see is if we explicitely wanted to expose the
+> > XFS default limits in some generic way for userspace tools to show. But
+> > then I'd think we don't really need new quotactl, we could just put this
+> > into the result of existing Q_XGETQSTATV quotactl.
+> > 
+> > Overall I don't have a strong opinion on this and consider these questions
+> > mostly specific to XFS so XFS guys should decide what they want...
 > 
-> - bus.h: add DAXDRV_FSDEV_TYPE driver type
-> - bus.c: allow DAXDRV_FSDEV_TYPE drivers to bind to daxdevs
-> - dax.h: prototype inode_dax(), which fsdev needs
-> 
-> Suggested-by: Dan Williams <dan.j.williams@intel.com>
-> Suggested-by: Gregory Price <gourry@gourry.net>
-> Signed-off-by: John Groves <john@groves.net>
+> We're stuck with the old ABI behavior unless you all want to add a
+> Q_<whatever>V2 quotactl command.
 
-A few comments inline.  I think some of the code here could be moved
-to a helper library used by both this and device.c
+Well, the Q_XGETQSTATV quotactl has quite a few free padding space in the
+struct so the default limits could be put there if somebody cared enough...
 
-> ---
->  MAINTAINERS          |   8 ++
->  drivers/dax/Makefile |   6 +
->  drivers/dax/bus.c    |   4 +
->  drivers/dax/bus.h    |   1 +
->  drivers/dax/fsdev.c  | 253 +++++++++++++++++++++++++++++++++++++++++++
->  fs/dax.c             |   1 +
->  include/linux/dax.h  |   3 +
->  7 files changed, 276 insertions(+)
->  create mode 100644 drivers/dax/fsdev.c
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 96ea84948d76..e83cfcf7e932 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -7298,6 +7298,14 @@ L:	linux-cxl@vger.kernel.org
->  S:	Supported
->  F:	drivers/dax/
->  
-> +DEVICE DIRECT ACCESS (DAX) [fsdev_dax]
-> +M:	John Groves <jgroves@micron.com>
-> +M:	John Groves <John@Groves.net>
-> +L:	nvdimm@lists.linux.dev
-> +L:	linux-cxl@vger.kernel.org
-> +S:	Supported
-> +F:	drivers/dax/fsdev.c
-> +
->  DEVICE FREQUENCY (DEVFREQ)
->  M:	MyungJoo Ham <myungjoo.ham@samsung.com>
->  M:	Kyungmin Park <kyungmin.park@samsung.com>
-> diff --git a/drivers/dax/Makefile b/drivers/dax/Makefile
-> index 5ed5c39857c8..3bae252fd1bf 100644
-> --- a/drivers/dax/Makefile
-> +++ b/drivers/dax/Makefile
-> @@ -5,10 +5,16 @@ obj-$(CONFIG_DEV_DAX_KMEM) += kmem.o
->  obj-$(CONFIG_DEV_DAX_PMEM) += dax_pmem.o
->  obj-$(CONFIG_DEV_DAX_CXL) += dax_cxl.o
->  
-> +# fsdev_dax: fs-dax compatible devdax driver (needs DEV_DAX and FS_DAX)
-> +ifeq ($(CONFIG_FS_DAX),y)
-> +obj-$(CONFIG_DEV_DAX) += fsdev_dax.o
-> +endif
-
-Why not throw in a new CONFIG_FSDAX_DEV and handle the dependencies
-in Kconfig?  
-
-> +
->  dax-y := super.o
->  dax-y += bus.o
->  device_dax-y := device.o
->  dax_pmem-y := pmem.o
->  dax_cxl-y := cxl.o
-> +fsdev_dax-y := fsdev.o
->  
->  obj-y += hmem/
-
-> diff --git a/drivers/dax/fsdev.c b/drivers/dax/fsdev.c
-> new file mode 100644
-> index 000000000000..e5b4396ce401
-> --- /dev/null
-> +++ b/drivers/dax/fsdev.c
-
-> +static int fsdev_dax_probe(struct dev_dax *dev_dax)
-> +{
-> +	struct dax_device *dax_dev = dev_dax->dax_dev;
-> +	struct device *dev = &dev_dax->dev;
-> +	struct dev_pagemap *pgmap;
-> +	u64 data_offset = 0;
-
-See below. I think you can useful reduce scope of this one.
-
-> +	struct inode *inode;
-> +	struct cdev *cdev;
-> +	void *addr;
-> +	int rc, i;
-> +
-
-There is a lot of duplication in here with dax/device.c
-Is any of it suitable for shared helpers?
-
-> +	if (static_dev_dax(dev_dax))  {
-> +		if (dev_dax->nr_range > 1) {
-> +			dev_warn(dev, "static pgmap / multi-range device conflict\n");
-> +			return -EINVAL;
-> +		}
-> +
-> +		pgmap = dev_dax->pgmap;
-> +	} else {
-> +		size_t pgmap_size;
-> +
-> +		if (dev_dax->pgmap) {
-> +			dev_warn(dev, "dynamic-dax with pre-populated page map\n");
-> +			return -EINVAL;
-> +		}
-> +
-> +		pgmap_size = struct_size(pgmap, ranges, dev_dax->nr_range - 1);
-> +		pgmap = devm_kzalloc(dev, pgmap_size,  GFP_KERNEL);
-
-Bonus space before GFP_KERNEL.
-
-
-> +		if (!pgmap)
-> +			return -ENOMEM;
-> +
-> +		pgmap->nr_range = dev_dax->nr_range;
-> +		dev_dax->pgmap = pgmap;
-> +
-> +		for (i = 0; i < dev_dax->nr_range; i++) {
-> +			struct range *range = &dev_dax->ranges[i].range;
-> +
-> +			pgmap->ranges[i] = *range;
-> +		}
-> +	}
-> +
-> +	for (i = 0; i < dev_dax->nr_range; i++) {
-> +		struct range *range = &dev_dax->ranges[i].range;
-> +
-> +		if (!devm_request_mem_region(dev, range->start,
-> +					range_len(range), dev_name(dev))) {
-> +			dev_warn(dev, "mapping%d: %#llx-%#llx could not reserve range\n",
-> +				 i, range->start, range->end);
-> +			return -EBUSY;
-> +		}
-> +	}
-
-Everything above here is shared.  Some sort of _init() or similar library function
-seems in order.
-
-> +
-> +	/*
-> +	 * FS-DAX compatible mode: Use MEMORY_DEVICE_FS_DAX type and
-> +	 * do NOT set vmemmap_shift. This leaves folios at order-0,
-> +	 * allowing fs-dax to dynamically create compound folios as needed
-> +	 * (similar to pmem behavior).
-> +	 */
-> +	pgmap->type = MEMORY_DEVICE_FS_DAX;
-> +	pgmap->ops = &fsdev_pagemap_ops;
-> +	pgmap->owner = dev_dax;
-> +
-> +	/*
-> +	 * CRITICAL DIFFERENCE from device.c:
-> +	 * We do NOT set vmemmap_shift here, even if align > PAGE_SIZE.
-> +	 * This ensures folios remain order-0 and are compatible with
-> +	 * fs-dax's folio management.
-> +	 */
-> +
-> +	addr = devm_memremap_pages(dev, pgmap);
-> +	if (IS_ERR(addr))
-> +		return PTR_ERR(addr);
-> +
-> +	/*
-> +	 * Clear any stale compound folio state left over from a previous
-> +	 * driver (e.g., device_dax with vmemmap_shift). Also register this
-> +	 * as a devm action so folio state is cleared on unbind, ensuring
-> +	 * clean pages for subsequent drivers (e.g., kmem for system-ram).
-> +	 */
-> +	fsdev_clear_folio_state(dev_dax);
-> +	rc = devm_add_action_or_reset(dev, fsdev_clear_folio_state_action,
-> +				      dev_dax);
-> +	if (rc)
-> +		return rc;
-> +
-> +	/* Detect whether the data is at a non-zero offset into the memory */
-> +	if (pgmap->range.start != dev_dax->ranges[0].range.start) {
-> +		u64 phys = dev_dax->ranges[0].range.start;
-> +		u64 pgmap_phys = dev_dax->pgmap[0].range.start;
-> +
-> +		if (!WARN_ON(pgmap_phys > phys))
-> +			data_offset = phys - pgmap_phys;
-> +
-> +		pr_debug("%s: offset detected phys=%llx pgmap_phys=%llx offset=%llx\n",
-> +		       __func__, phys, pgmap_phys, data_offset);
-
-Might change later, but at least at this point you could pull declaration of data_offset
-into this scope.
-
-> +	}
-> +
-> +	inode = dax_inode(dax_dev);
-> +	cdev = inode->i_cdev;
-> +	cdev_init(cdev, &fsdev_fops);
-> +	cdev->owner = dev->driver->owner;
-> +	cdev_set_parent(cdev, &dev->kobj);
-> +	rc = cdev_add(cdev, dev->devt, 1);
-> +	if (rc)
-> +		return rc;
-> +
-> +	rc = devm_add_action_or_reset(dev, fsdev_cdev_del, cdev);
-> +	if (rc)
-> +		return rc;
-> +
-> +	run_dax(dax_dev);
-> +	return devm_add_action_or_reset(dev, fsdev_kill, dev_dax);
-> +}
-
-> diff --git a/include/linux/dax.h b/include/linux/dax.h
-> index bf103f317cac..996493f5c538 100644
-> --- a/include/linux/dax.h
-> +++ b/include/linux/dax.h
-> @@ -51,6 +51,7 @@ struct dax_holder_operations {
->  
->  #if IS_ENABLED(CONFIG_DAX)
->  struct dax_device *alloc_dax(void *private, const struct dax_operations *ops);
-> +
-
-Unrelated change.  Tidy this up for v9.
-
-
->  void *dax_holder(struct dax_device *dax_dev);
->  void put_dax(struct dax_device *dax_dev);
->  void kill_dax(struct dax_device *dax_dev);
-> @@ -151,8 +152,10 @@ static inline void fs_put_dax(struct dax_device *dax_dev, void *holder)
->  #endif /* CONFIG_BLOCK && CONFIG_FS_DAX */
->  
->  #if IS_ENABLED(CONFIG_FS_DAX)
-> +struct dax_device *inode_dax(struct inode *inode);
-
-Already in dax_private.h so why does it want to be here?
-
-
->  int dax_writeback_mapping_range(struct address_space *mapping,
->  		struct dax_device *dax_dev, struct writeback_control *wbc);
-> +int dax_folio_reset_order(struct folio *folio);
->  
->  struct page *dax_layout_busy_page(struct address_space *mapping);
->  struct page *dax_layout_busy_page_range(struct address_space *mapping, loff_t start, loff_t end);
-
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
