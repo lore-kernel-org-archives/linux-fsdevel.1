@@ -1,376 +1,539 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFC62389E13;
-	Thu, 19 Mar 2026 20:03:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773950633; cv=fail; b=GidH5E+BNfwzmNLxVOulPxqjJogaE4bHZCMZxuhF/ZDAPMLCCODsf362GP0E79Kpn5Q+0eAMlbi+ezpPMZndiCyMfObF10jM1y8eKoT71QRqMxIcIeLa7ONNC0nbKN60BhbnOkFiMSlE2TtAtmv1N8lbmkaE2XlZHJD7xXEWOSA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773950633; c=relaxed/simple;
-	bh=ID+xlafgbNg0rthNm63T2T0D8XwnJ1Xy7CRFt3cm2Go=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=brMOzgMQvxTh+eoPWZDzKGrD2uzmAse66dQ6Ci+G88+LqnQQxhJHZ17IVOXIZ/ylKOY6IiUPkK9wLBlm8AN1KyYVNvcbspxhMRi93QEop/9QCdLurXMerVOmZHd8olNbsBD0j0VczC2Cjpu0kZZ3e/BE4BpmzrL8lwABFBB9Lro=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GAclMrIm; arc=fail smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD0093F880D;
+	Thu, 19 Mar 2026 20:31:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773952318; cv=none; b=f+PLjR3+4oFcNwP06FCyXvG64g3/19VuTWLaEwQX6H7mIRE5wNzQZ4B8cR9u+yR9+vNH1FwYwwQVdQHVRBM8XDdHKUWuwjUIjagCzuyGkgDxpXhAKvN7952mh60Dt5EjfJw6uAhCk4PxYGaLPAc82ANfHrekXYwJ17w6XlWlZbA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773952318; c=relaxed/simple;
+	bh=k4Wu0yW+mvI9B7Y5ruIvTPwY3ACHxidfwH+5dDU5ckk=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=L7zer6juw0+WxATn21KJGsRib6xJY6e4/e9G7rMGY63ttPqQHZcft1MLwoiRlh7bBDTrs5PaNjSgsM9jidSRSePTU+qC4aJNMaqtJjRc+BOvqIDBqh3pNDWn3m9b5g3+yHPAfwjJv3CeF++3YKf5qZFIwrMmFqF8veYlkVTAVYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=QVSebynG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GAclMrIm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773950630; x=1805486630;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=ID+xlafgbNg0rthNm63T2T0D8XwnJ1Xy7CRFt3cm2Go=;
-  b=GAclMrIm8icgMVkxaFag4KCnKWI5Lwo7bcuyLxxBTKRQCuDEMphNXqTF
-   cRC9EkEXzKZ7AH7czNVnQavzPvr6WiVNSc6o9/Sco8/T9ADYdkfzglDlP
-   THCLLUHoKgZhXyTD/+234PtmV/RWOEvOqSo7wWTmpRxRyg91oz0mCgdeY
-   tPJzZc8mfIp2kgqXl/TophAvc0vo/Pyei9NBbQWYY41hvBz73kae98CUS
-   I1J8oaLdD/ISbgIhahJbjb+ZITDlZDBMzBFvy1RTZGlFqkQeFhrUgDSQ5
-   jIrEFIgHecr6agYx9BQhaqIi6QZ7+3bqrBXVIhi2E7k2XbsxZKNRWxSKr
-   Q==;
-X-CSE-ConnectionGUID: 4Vf14W/wQ/ueCNX6Lh1w/Q==
-X-CSE-MsgGUID: ztM1Q7z4Q0m1zayc5mpt+w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11734"; a="86512217"
-X-IronPort-AV: E=Sophos;i="6.23,129,1770624000"; 
-   d="scan'208";a="86512217"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2026 13:03:49 -0700
-X-CSE-ConnectionGUID: MVlrbA53SRClyiRpB2a8ww==
-X-CSE-MsgGUID: RLOzgXwlTaezLU68+onOtA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,129,1770624000"; 
-   d="scan'208";a="228018361"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
-  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2026 13:03:49 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Thu, 19 Mar 2026 13:03:48 -0700
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Thu, 19 Mar 2026 13:03:48 -0700
-Received: from PH8PR06CU001.outbound.protection.outlook.com (40.107.209.57) by
- edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Thu, 19 Mar 2026 13:03:47 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KchyTRMUCdHLnPoe/ZOzmTA1fMk7syXVuCuGbFIg1wQLNk8uY5Cn96Sf/6iTXqHSviRj8OrQ7/uOTTr1VMywrOnAGnNS68sR6A7QY8SkNcMN2HGy8avLa1hs04DLinhsStyPyl6vP7zTbtKENRadAQ3XjKjD0EE5n9nOlhwsejPmf2eAHpIses/rucTvoR4p1XqxKxsrK8zJQ1l64CqAfS6FLvPFog8s1V6vG+OjksvEm9Kzjs5bVnwCxR1JYIq4zvQ3KMQxdWLJnyNrFCycYoqwSG6jDCyX4I8WTpGcqKRk6Dv1wmcfNafNHfQTxS0Qy9kwiXkmMoYmagTFtkwQ2A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qWXyfu+hxLi5XcIF2E8NBUuppYbz3B5BEJ53MKUAWBE=;
- b=NaFVnRfR6k/7RDvEl3iMHiH9a78laoCVhcAG5swg8BcX6gmA4UDNPH3XCAfxZVs8/SpSRzH3w9DFQCXDS1xyzc3/Bau2RKBZ2RN7PEZQmQQejOgrM74zKXeOTvibnSAgnk2aUS79CRAZUa9wfMieJOf3tvYJYunVCcG2TtUSuSqvETaSiP/ybXWMelJ1vQFGrWwRhEi6puCB7KI2E7uZpgawAxDhaLh0YGGMnmqW3QUGUTXREDCdm/EasFC+Y6uX1o1k4mCzn3JSGmWjvydiCkUHYkgWjRifDN4xiLSOFOVT7JcEOdi1qBrlKeMm1yVG0djQNJonnDPu0yCWWfo/JQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DS4PPF0BAC23327.namprd11.prod.outlook.com (2603:10b6:f:fc02::9)
- by SA2PR11MB4860.namprd11.prod.outlook.com (2603:10b6:806:11b::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.9; Thu, 19 Mar
- 2026 20:03:44 +0000
-Received: from DS4PPF0BAC23327.namprd11.prod.outlook.com
- ([fe80::3979:c00f:fdca:b895]) by DS4PPF0BAC23327.namprd11.prod.outlook.com
- ([fe80::3979:c00f:fdca:b895%4]) with mapi id 15.20.9723.018; Thu, 19 Mar 2026
- 20:03:44 +0000
-Date: Thu, 19 Mar 2026 13:03:38 -0700
-From: Alison Schofield <alison.schofield@intel.com>
-To: Jonathan Cameron <jonathan.cameron@huawei.com>
-CC: Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>,
-	<linux-cxl@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<nvdimm@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
-	<linux-pm@vger.kernel.org>, Ard Biesheuvel <ardb@kernel.org>, Vishal Verma
-	<vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>, Dan Williams
-	<dan.j.williams@intel.com>, Yazen Ghannam <yazen.ghannam@amd.com>, Dave Jiang
-	<dave.jiang@intel.com>, Davidlohr Bueso <dave@stgolabs.net>, Matthew Wilcox
-	<willy@infradead.org>, Jan Kara <jack@suse.cz>, "Rafael J . Wysocki"
-	<rafael@kernel.org>, Len Brown <len.brown@intel.com>, Pavel Machek
-	<pavel@kernel.org>, Li Ming <ming.li@zohomail.com>, Jeff Johnson
-	<jeff.johnson@oss.qualcomm.com>, Ying Huang <huang.ying.caritas@gmail.com>,
-	Yao Xingtao <yaoxt.fnst@fujitsu.com>, Peter Zijlstra <peterz@infradead.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Nathan Fontenot
-	<nathan.fontenot@amd.com>, Terry Bowman <terry.bowman@amd.com>, "Robert
- Richter" <rrichter@amd.com>, Benjamin Cheatham <benjamin.cheatham@amd.com>,
-	Zhijian Li <lizhijian@fujitsu.com>, Borislav Petkov <bp@alien8.de>, "Tomasz
- Wolski" <tomasz.wolski@fujitsu.com>
-Subject: Re: [PATCH v7 6/7] dax/hmem, cxl: Defer and resolve Soft Reserved
- ownership
-Message-ID: <abxWmg_iCN7yxQ11@aschofie-mobl2.lan>
-References: <20260319011500.241426-1-Smita.KoralahalliChannabasappa@amd.com>
- <20260319011500.241426-7-Smita.KoralahalliChannabasappa@amd.com>
- <20260319142910.0000113d@huawei.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20260319142910.0000113d@huawei.com>
-X-ClientProxiedBy: BY3PR04CA0030.namprd04.prod.outlook.com
- (2603:10b6:a03:217::35) To DS4PPF0BAC23327.namprd11.prod.outlook.com
- (2603:10b6:f:fc02::9)
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="QVSebynG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1892DC19424;
+	Thu, 19 Mar 2026 20:31:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1773952317;
+	bh=k4Wu0yW+mvI9B7Y5ruIvTPwY3ACHxidfwH+5dDU5ckk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=QVSebynGroB6foJO0/OXslM669XvU6nEbsiX403mdEF6B35aKR75rTbZ9Wp1hP+rZ
+	 zg+NNlb82u2RNpiIRVFeZ155ZV9VkPFYeFPRXlLdeVuVQ49zNflcj9iJ8OhifTADHX
+	 6+GFbBRP2EAe1BhmGSZIu7yAbsv6Up1UZ9OGEadY=
+Date: Thu, 19 Mar 2026 13:31:55 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Clemens Ladisch <clemens@ladisch.de>,
+ Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, "K . Y . Srinivasan" <kys@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+ Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, Alexander
+ Shishkin <alexander.shishkin@linux.intel.com>, Maxime Coquelin
+ <mcoquelin.stm32@gmail.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Bodo Stroesser <bostroesser@gmail.com>, "Martin K . Petersen"
+ <martin.petersen@oracle.com>, David Howells <dhowells@redhat.com>, Marc
+ Dionne <marc.dionne@auristor.com>, Alexander Viro
+ <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara
+ <jack@suse.cz>, David Hildenbrand <david@kernel.org>, "Liam R . Howlett"
+ <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>, Mike
+ Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal
+ Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, Pedro Falcato
+ <pfalcato@suse.de>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org,
+ linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org,
+ target-devel@vger.kernel.org, linux-afs@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, Ryan Roberts
+ <ryan.roberts@arm.com>
+Subject: Re: [PATCH v3 00/16] mm: expand mmap_prepare functionality and
+ usage
+Message-Id: <20260319133155.692b298782828bb0fbb7959b@linux-foundation.org>
+In-Reply-To: <cover.1773944114.git.ljs@kernel.org>
+References: <cover.1773944114.git.ljs@kernel.org>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS4PPF0BAC23327:EE_|SA2PR11MB4860:EE_
-X-MS-Office365-Filtering-Correlation-Id: e8a93308-4049-4cef-9a45-08de85f29fbe
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|1800799024|366016|376014|22082099003|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info: GoniySVHiOkc3e6nXCsK49LqOWCbB2Ua06pnO4JFJuJuEmYTa0e+RVDhxJ/Qbc+vMufXJSxVGYoGhFnGEr5PM2eKGQ41GTMO5SX/lICXfCrb2a+LzcgIM32a9hkS7qVgeZiFokUHEAc6cP4OPtqnHM9PJxut5SZikCQD5SI2FCqmXLn8jXs2VmulS2aPAW77Lv7V+tdlKWCKSRA45ST4nscdlX0zPcoSMRdfx25r1/vArw9cMqxb30L1TKKwmDZ/eZX/W53NbegzSmXyv7DIprKDLSJLkcO8sUyzDNSvfbpM1EBWJfUDzjzN9Oatq4yXxD098AZ5bl1ew2+9rGudfGcSduwG0JCMLU8bnt5hbU8mW+xWjcpgEpEAs+2bJH/Iyc87GYVIQBZ75AWMKKfRpYYaesE9As63eqIbOHTRlXDhRtiYCnJLvQrX9k6k9t/53emEHWFaZnhDJ5zBsy92i3xJomIIpJ3v6BqXCRoB+LhDX63Yz2GrqG507dJJPDnfzNZc70DgLCbM5reAjDU2qEzdDIpebVq/+gCjbxhJTEpuDbITFl96bS28ILVDnWq8U5KZzyKlbujYyLqYvy2hA8eeBnIsP9ef5bcicaaBGyqawirApn3r0HCsEFuCLNPjzs4mmTOFaQqNWsheVHFMZYvSYnYL4EeXZJBjjTWmTZdU6EXqdQIaYPOecpvjdkI/Pfa7o25WjSgoSNlGD2gSo/7EV+kzamS82RLWWPrFldU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PPF0BAC23327.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(366016)(376014)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?t+mAvBDEzPdDcb/iHSlhzldbteFoztsecP1WIKrMaUiIjArv2rWbw14RXN+v?=
- =?us-ascii?Q?MwpQY2ll4F+dId25UWJ4pp3K/K4F9zRRNbssc0xQdVS5mguj2jh2WWIXTaO3?=
- =?us-ascii?Q?jruUxw93H5x9HRxXabh06Zhi5km1vd4HgBr7Ao7AtaRHt/MsdOfTRP2BSSZM?=
- =?us-ascii?Q?NwWBBTtdlHLlGfGPXz8ThzVKKUcAcDH9qxkuHxUYl6rug2dvyrvCmAbqNZUq?=
- =?us-ascii?Q?E6pSWR3GN4JQ76wKyR4oTtBq6zY7JYjKQ6KgYVsG8Uhx6t+IseltoKLGZEQj?=
- =?us-ascii?Q?ED6S8JCVW5rJyc7fVAGptesT1ybtpJt1fBl0TiFPjSIchh1YqklONnGwzcp/?=
- =?us-ascii?Q?cEurcU1r6S4G0kEiU1kjO6RXEv5dwOaRqpTTbZ1XokNzkk6xQZNxQOvQueNC?=
- =?us-ascii?Q?RKpfszzUA9VJgxLfiax6fcOBHA3KLiVOAbxt4wOauWAoMxqt+wEvUAUw/Gk3?=
- =?us-ascii?Q?94wez5Ye6w90k6UK0eQ8yL2ATO2V/qT3wBdJCxpChpp0Bv/C05rdtqiobgO1?=
- =?us-ascii?Q?ZBkYSYHGos4L8B0o5hcTjpe7SAYQV2nIxhwhTZscLMufhm2TE58idetKnZe9?=
- =?us-ascii?Q?Q8z4X5lWLrR1ih68k11ooe1Z/WB40s4XdntXtlSKK3vNXRHmYSVXQRD/ateq?=
- =?us-ascii?Q?TtFe3jCFwxnTXO+1f3k12ararBbRg8mVcRnMTbAPj+iJgUNnl7HaIy4fXZ94?=
- =?us-ascii?Q?i5sthpDIix1elHg52AalLe34N+2kZpukL/tbZMC/Lmw/qPo39IJ9dzsinl9X?=
- =?us-ascii?Q?wML8JeXmjj2Hr3ibCTHM7XykRwcyRF/m9Dgkqvre7nM80ZKNSjzoPVhnb/ot?=
- =?us-ascii?Q?kbvMbIri6Dd25DeQ1O8mt9QvqDNJIhu/133hYIr1/7Fzgteg8lJe0btnnQvM?=
- =?us-ascii?Q?EZb/1OFdWIa5AWt11ZplzouWjOOQbMVWzXMsn1V+WrqCBvVV62UcW5kwGY65?=
- =?us-ascii?Q?6HHOrzCXdINpFMFSaEBJg3imyNcMumFsYd0un64Iu/c74v3tGd7YGk0GSU6+?=
- =?us-ascii?Q?NbYX+syDvHdi88yGCqEbqCHeBF6xurgL1kB42l2ythjAnzGRRIh3iSc2u77F?=
- =?us-ascii?Q?6qwyb5VohVg2BvBhdyzwaHzlDazDZHPpxoSNRS41/2lIp9aI3uIbdaqnoQ4k?=
- =?us-ascii?Q?38Bg4e0BinFtShuQd/qCNjejEdR0Xv/CGT6/pvYGiYsnxbDSiZ3gbqt+rMKM?=
- =?us-ascii?Q?a1l6AFvO7Sp6cEn1It8f3kAHau5U1p7kWwmrJAsIfATX4riS0nkiMrJ27z7c?=
- =?us-ascii?Q?irevAdUVAiDHp5QLy6UUqJvtU1mDwnwVpuS8x1vrlZXsJTVhRgYldgLSq51+?=
- =?us-ascii?Q?kKQiOO7QPCgXvP+9k7YTy+I/cY6sEyaxBK8w+5CJk5Q3KZ1CEcTljzVMVVlu?=
- =?us-ascii?Q?H6STb/sAkvKex1+XhpDGX0RB0zoxSClh27ZsSNdZ4HSX5DE+FyokBkai4pV2?=
- =?us-ascii?Q?HU0qqTnsGZHcf3HqAwaY6AC4OTjlq92Lk701ooej59O6FcKKiXIslH3Kgkf1?=
- =?us-ascii?Q?Q0nKC6TN5gBOYUM7t77cyYxLBvSlyt4DGGkWqwvgv8zoRphq2nj+4ZGuXG3B?=
- =?us-ascii?Q?wVnBrsFtr3C+B5r4NsHLfqXNS9aMtMoAj3KTFc7WMLjrmSvKXg4WLbAkx+lz?=
- =?us-ascii?Q?apMo0wOJg1Dlr+dGyJkmazOFJuRofR0OdHA06JJj8VV8S5fCyNoI/gYTzb9V?=
- =?us-ascii?Q?usZFbDvL/3Sx8+wmJh87T+1YRa8t7hDKOedyTCCuQXAgITXpYOhWyHeBFeF2?=
- =?us-ascii?Q?fvCbYjqytKbnmHOPL4gYq6fn9CmlyLU=3D?=
-X-Exchange-RoutingPolicyChecked: ZEJSt6VuMl/6cLVdsx2LNqdy+Yt5FK/FFafwyvLC0h0CnzWYxdfXi6U8kIHr6LMKtJuHDIzbVsC5ERHlwOrfOoTeVFMF0EGxwA81smy2jZpA+yYzH0j1R1M6dRWLaMsbirDGuPf6JRN8yDhQxxwQRQ0u6X4zt0l/nCVlSwpaAI3boLcpNR/i2XtIDSN6+bg7hdIcg2S2Jpz8DQDiRhQjiunUJtJxZhvHOxNJcTPreCmJsx9vLalv8Usg4i4UO8l2BMHnaJfae/iP43Q56jC0MDzzcjcWYWgRV0UxmauLmzsq8plRLqcdk2OgmRYpvVhcEmzHd/8wk1GkHa30mbFjxw==
-X-MS-Exchange-CrossTenant-Network-Message-Id: e8a93308-4049-4cef-9a45-08de85f29fbe
-X-MS-Exchange-CrossTenant-AuthSource: DS4PPF0BAC23327.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Mar 2026 20:03:44.3880
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: B6k7YfMzMIF1WsnyLNMJTvkdsIY2g7+yFFWdbvneCDUSxVpEKit+e+X9kEDHCjo5xoQkNxfqjg6txjzqxRSbCz/hcsTrkyW4sb+3qjPWpPM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB4860
-X-OriginatorOrg: intel.com
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Thu, Mar 19, 2026 at 02:29:10PM +0000, Jonathan Cameron wrote:
-> On Thu, 19 Mar 2026 01:14:59 +0000
-> Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com> wrote:
-> 
-> > The current probe time ownership check for Soft Reserved memory based
-> > solely on CXL window intersection is insufficient. dax_hmem probing is not
-> > always guaranteed to run after CXL enumeration and region assembly, which
-> > can lead to incorrect ownership decisions before the CXL stack has
-> > finished publishing windows and assembling committed regions.
-> > 
-> > Introduce deferred ownership handling for Soft Reserved ranges that
-> > intersect CXL windows. When such a range is encountered during the
-> > initial dax_hmem probe, schedule deferred work to wait for the CXL stack
-> > to complete enumeration and region assembly before deciding ownership.
-> > 
-> > Once the deferred work runs, evaluate each Soft Reserved range
-> > individually: if a CXL region fully contains the range, skip it and let
-> > dax_cxl bind. Otherwise, register it with dax_hmem. This per-range
-> > ownership model avoids the need for CXL region teardown and
-> > alloc_dax_region() resource exclusion prevents double claiming.
-> > 
-> > Introduce a boolean flag dax_hmem_initial_probe to live inside device.c
-> > so it survives module reload. Ensure dax_cxl defers driver registration
-> > until dax_hmem has completed ownership resolution. dax_cxl calls
-> > dax_hmem_flush_work() before cxl_driver_register(), which both waits for
-> > the deferred work to complete and creates a module symbol dependency that
-> > forces dax_hmem.ko to load before dax_cxl.
-> > 
-> > Co-developed-by: Dan Williams <dan.j.williams@intel.com>
-> > Signed-off-by: Dan Williams <dan.j.williams@intel.com>
-> > Signed-off-by: Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>
-> Hi Smita,
-> 
-> I think this is very likely to be what is causing the bug Alison
-> saw in cxl_test.
-> 
-> It looks to be possible to flush work before the work structure has
-> been configured.  Even though it's not on a work queue and there is
-> nothing to do, there are early sanity checks that fail giving the warning
-> Alison reported.
-> 
-> A couple of ways to fix that inline.  I'd be tempted to both initialize
-> the function statically and gate against flushing if the whole thing isn't
-> set up yet.
-> 
-> Jonathan
+On Thu, 19 Mar 2026 18:23:24 +0000 "Lorenzo Stoakes (Oracle)" <ljs@kernel.org> wrote:
 
-snip
-
-> 
-> > diff --git a/drivers/dax/hmem/hmem.c b/drivers/dax/hmem/hmem.c
-> > index 1e3424358490..8c574123bd3b 100644
-> > --- a/drivers/dax/hmem/hmem.c
-> > +++ b/drivers/dax/hmem/hmem.c
-> > @@ -3,6 +3,7 @@
-> >  #include <linux/memregion.h>
-> >  #include <linux/module.h>
-> >  #include <linux/dax.h>
-> > +#include <cxl/cxl.h>
-> >  #include "../bus.h"
-> >  
-> >  static bool region_idle;
-> > @@ -58,6 +59,19 @@ static void release_hmem(void *pdev)
-> >  	platform_device_unregister(pdev);
-> >  }
-> >  
-> > +struct dax_defer_work {
-> > +	struct platform_device *pdev;
-> > +	struct work_struct work;
-> > +};
-> > +
-> > +static struct dax_defer_work dax_hmem_work;
-> 
-> static struct dax_defer_work dax_hmem_work = {
-> 	.work = __WORK_INITIALIZER(&dax_hmem_work.work,
-> 				   process_defer_work),
-> };
-> or something similar.
+> This series expands the mmap_prepare functionality, which is intended to
+> replace the deprecated f_op->mmap hook which has been the source of bugs
+> and security issues for some time.
 > 
 
-Just confirming this stopped the WARN:
+Thanks, I updated mm.git's mm-new branch to this version.
+> 
+> v3:
+> * Propagated tags (thanks Suren, Richard!)
+> * Updated 12/16 to correctly clear the vm_area_desc data structure in
+>   set_desc_from_vma() as per Joshua Hahn (thanks! :)
+> * Fixed type in 12/16 as per Suren (cheers!)
+> * Fixed up 6/16 to use mmap_action_ioremap_full() in simple_ioremap_prepare() as
+>   suggested by Suren.
+> * Also fixed up 6/16 to call io_remap_pfn_range_prepare() direct rather than
+>   mmap_action_prepare() as per Suren.
+> * Also fixed up 6/16 to pass vm_len rather than vm_[start, end] to
+>   __simple_ioremap_prep() as per Suren (thanks for all the above! :)
+> * Fixed issue in rmap lock being held - we were referencing a vma->vm_file after
+>   the VMA was unmapped, so UAF. Avoid that. Also do_munmap() relies on rmap lock
+>   NOT being held or may deadlock, so extend functionality to ensure we drop it
+>   when it is held on error paths.
+> * Updated 'area' -> 'vma' variable in 3/16 in VMA test dup.h.
+> * Fixed up reference to __compat_vma_mmap() in 12/16 commit message.
+> * Updated 1/16 to no longer duplicatively apply io_remap_pfn_range_pfn().
+> * Updated 1/16 to delegate I/O remap complete to remap complete logic.
+> * Fixed various typos in 12/16.
+> * Fixed stale comment typos in 13/16.
+> * Fixed commit msg and comment typos in 14/16.
+> * Removed accidental sneak peak to future functionality in 15/16 commit message
+>   :).
+> * Fixed up field names to be identical in VMA tests + mm_types.h in 6/16,
+>   15/16.
 
--static struct dax_defer_work dax_hmem_work;
-+static void process_defer_work(struct work_struct *work);
+Here's how v3 altered mm.git:
+
+
+ drivers/hv/vmbus_drv.c            |    6 +-
+ drivers/target/target_core_user.c |    2 
+ include/linux/mm.h                |    3 -
+ include/linux/uio_driver.h        |    2 
+ mm/internal.h                     |   22 ++++-----
+ mm/memory.c                       |   16 +++----
+ mm/util.c                         |   62 ++++++++++++++--------------
+ mm/vma.c                          |   24 +++-------
+ tools/testing/vma/include/dup.h   |   19 ++++----
+ tools/testing/vma/include/stubs.h |    3 -
+ 10 files changed, 77 insertions(+), 82 deletions(-)
+
+--- a/drivers/hv/vmbus_drv.c~b
++++ a/drivers/hv/vmbus_drv.c
+@@ -1955,8 +1955,8 @@ static int hv_mmap_ring_buffer_wrapper(s
+ 	int err;
+ 
+ 	/*
+-	 * hv_(create|remove)_ring_sysfs implementation ensures that mmap_ring_buffer
+-	 * is not NULL.
++	 * hv_(create|remove)_ring_sysfs implementation ensures that
++	 * mmap_prepare_ring_buffer is not NULL.
+ 	 */
+ 	compat_set_desc_from_vma(&desc, filp, vma);
+ 	err = channel->mmap_prepare_ring_buffer(channel, &desc);
+@@ -2055,7 +2055,7 @@ static const struct kobj_type vmbus_chan
+ /**
+  * hv_create_ring_sysfs() - create "ring" sysfs entry corresponding to ring buffers for a channel.
+  * @channel: Pointer to vmbus_channel structure
+- * @hv_mmap_ring_buffer: function pointer for initializing the function to be called on mmap
++ * @hv_mmap_prepare_ring_buffer: function pointer for initializing the function to be called on mmap
+  *                       channel's "ring" sysfs node, which is for the ring buffer of that channel.
+  *                       Function pointer is of below type:
+  *                       int (*hv_mmap_prepare_ring_buffer)(struct vmbus_channel *channel,
+--- a/drivers/target/target_core_user.c~b
++++ a/drivers/target/target_core_user.c
+@@ -1865,7 +1865,7 @@ static int tcmu_vma_mapped(unsigned long
+ {
+ 	struct tcmu_dev *udev = *vm_private_data;
+ 
+-	pr_debug("vma_open\n");
++	pr_debug("vma_mapped\n");
+ 
+ 	kref_get(&udev->kref);
+ 	return 0;
+--- a/include/linux/mm.h~b
++++ a/include/linux/mm.h
+@@ -4405,7 +4405,8 @@ static inline void mmap_action_map_kerne
+ 
+ int mmap_action_prepare(struct vm_area_desc *desc);
+ int mmap_action_complete(struct vm_area_struct *vma,
+-			 struct mmap_action *action);
++			 struct mmap_action *action,
++			 bool rmap_lock_held);
+ 
+ /* Look up the first VMA which exactly match the interval vm_start ... vm_end */
+ static inline struct vm_area_struct *find_exact_vma(struct mm_struct *mm,
+--- a/include/linux/uio_driver.h~b
++++ a/include/linux/uio_driver.h
+@@ -97,7 +97,7 @@ struct uio_device {
+  * @irq_flags:		flags for request_irq()
+  * @priv:		optional private data
+  * @handler:		the device's irq handler
+- * @mmap_prepare:	mmap_pepare operation for this uio device
++ * @mmap_prepare:	mmap_prepare operation for this uio device
+  * @open:		open operation for this uio device
+  * @release:		release operation for this uio device
+  * @irqcontrol:		disable/enable irqs when 0/1 is written to /dev/uioX
+--- a/mm/internal.h~b
++++ a/mm/internal.h
+@@ -1805,29 +1805,25 @@ int remap_pfn_range_prepare(struct vm_ar
+ int remap_pfn_range_complete(struct vm_area_struct *vma,
+ 			     struct mmap_action *action);
+ int simple_ioremap_prepare(struct vm_area_desc *desc);
+-/* No simple_ioremap_complete, is ultimately handled by remap complete. */
+ 
+ static inline int io_remap_pfn_range_prepare(struct vm_area_desc *desc)
+ {
+ 	struct mmap_action *action = &desc->action;
+ 	const unsigned long orig_pfn = action->remap.start_pfn;
++	const pgprot_t orig_pgprot = action->remap.pgprot;
+ 	const unsigned long size = action->remap.size;
+ 	const unsigned long pfn = io_remap_pfn_range_pfn(orig_pfn, size);
++	int err;
+ 
+ 	action->remap.start_pfn = pfn;
+-	return remap_pfn_range_prepare(desc);
+-}
+-
+-static inline int io_remap_pfn_range_complete(struct vm_area_struct *vma,
+-					      struct mmap_action *action)
+-{
+-	const unsigned long size = action->remap.size;
+-	const unsigned long orig_pfn = action->remap.start_pfn;
+-	const pgprot_t orig_prot = vma->vm_page_prot;
++	action->remap.pgprot = pgprot_decrypted(orig_pgprot);
++	err = remap_pfn_range_prepare(desc);
++	if (err)
++		return err;
+ 
+-	action->remap.pgprot = pgprot_decrypted(orig_prot);
+-	action->remap.start_pfn  = io_remap_pfn_range_pfn(orig_pfn, size);
+-	return remap_pfn_range_complete(vma, action);
++	/* Remap does the actual work. */
++	action->type = MMAP_REMAP_PFN;
++	return 0;
+ }
+ 
+ #ifdef CONFIG_MMU_NOTIFIER
+--- a/mm/memory.c~b
++++ a/mm/memory.c
+@@ -3207,11 +3207,10 @@ int remap_pfn_range_complete(struct vm_a
+ 	return do_remap_pfn_range(vma, start, pfn, size, prot);
+ }
+ 
+-static int __simple_ioremap_prep(unsigned long vm_start, unsigned long vm_end,
+-				 pgoff_t vm_pgoff, phys_addr_t start_phys,
+-				 unsigned long size, unsigned long *pfnp)
++static int __simple_ioremap_prep(unsigned long vm_len, pgoff_t vm_pgoff,
++				 phys_addr_t start_phys, unsigned long size,
++				 unsigned long *pfnp)
+ {
+-	const unsigned long vm_len = vm_end - vm_start;
+ 	unsigned long pfn, pages;
+ 
+ 	/* Check that the physical memory area passed in looks valid */
+@@ -3250,14 +3249,14 @@ int simple_ioremap_prepare(struct vm_are
+ 	unsigned long pfn;
+ 	int err;
+ 
+-	err = __simple_ioremap_prep(desc->start, desc->end, desc->pgoff,
++	err = __simple_ioremap_prep(vma_desc_size(desc), desc->pgoff,
+ 				    start, size, &pfn);
+ 	if (err)
+ 		return err;
+ 
+ 	/* The I/O remap logic does the heavy lifting. */
+-	mmap_action_ioremap(desc, desc->start, pfn, vma_desc_size(desc));
+-	return mmap_action_prepare(desc);
++	mmap_action_ioremap_full(desc, pfn);
++	return io_remap_pfn_range_prepare(desc);
+ }
+ 
+ /**
+@@ -3283,8 +3282,7 @@ int vm_iomap_memory(struct vm_area_struc
+ 	unsigned long pfn;
+ 	int err;
+ 
+-	err = __simple_ioremap_prep(vm_start, vm_end, vma->vm_pgoff, start,
+-				    len, &pfn);
++	err = __simple_ioremap_prep(vm_len, vma->vm_pgoff, start, len, &pfn);
+ 	if (err)
+ 		return err;
+ 
+--- a/mm/util.c~b
++++ a/mm/util.c
+@@ -1181,6 +1181,8 @@ void compat_set_desc_from_vma(struct vm_
+ 			      const struct file *file,
+ 			      const struct vm_area_struct *vma)
+ {
++	memset(desc, 0, sizeof(*desc));
 +
-+static struct dax_defer_work dax_hmem_work = {
-+        .work = __WORK_INITIALIZER(dax_hmem_work.work, process_defer_work),
-+};
+ 	desc->mm = vma->vm_mm;
+ 	desc->file = (struct file *)file;
+ 	desc->start = vma->vm_start;
+@@ -1224,7 +1226,7 @@ static int __compat_vma_mapped(struct fi
+  * @vma: The VMA to which @desc should be applied.
+  *
+  * The function assumes that you have obtained a VMA descriptor @desc from
+- * compt_set_desc_from_vma(), and already executed the mmap_prepare() hook upon
++ * compat_set_desc_from_vma(), and already executed the mmap_prepare() hook upon
+  * it.
+  *
+  * It then performs any specified mmap actions, and invokes the vm_ops->mapped()
+@@ -1249,7 +1251,8 @@ int __compat_vma_mmap(struct vm_area_des
+ 	/* Update the VMA from the descriptor. */
+ 	compat_set_vma_from_desc(vma, desc);
+ 	/* Complete any specified mmap actions. */
+-	err = mmap_action_complete(vma, &desc->action);
++	err = mmap_action_complete(vma, &desc->action,
++				   /*rmap_lock_held=*/false);
+ 	if (err)
+ 		return err;
+ 
+@@ -1397,29 +1400,31 @@ again:
+ }
+ 
+ static int mmap_action_finish(struct vm_area_struct *vma,
+-			      struct mmap_action *action, int err)
++			      struct mmap_action *action, int err,
++			      bool rmap_lock_held)
+ {
++	if (rmap_lock_held)
++		i_mmap_unlock_write(vma->vm_file->f_mapping);
++
++	if (!err) {
++		if (action->success_hook)
++			return action->success_hook(vma);
++		return 0;
++	}
++
+ 	/*
+ 	 * If an error occurs, unmap the VMA altogether and return an error. We
+ 	 * only clear the newly allocated VMA, since this function is only
+ 	 * invoked if we do NOT merge, so we only clean up the VMA we created.
+ 	 */
+-	if (err) {
+-		unmap_vma_locked(vma);
+-		if (action->error_hook) {
+-			/* We may want to filter the error. */
+-			err = action->error_hook(err);
+-
+-			/* The caller should not clear the error. */
+-			VM_WARN_ON_ONCE(!err);
+-		}
+-		return err;
++	unmap_vma_locked(vma);
++	if (action->error_hook) {
++		/* We may want to filter the error. */
++		err = action->error_hook(err);
++		/* The caller should not clear the error. */
++		VM_WARN_ON_ONCE(!err);
+ 	}
+-
+-	if (action->success_hook)
+-		return action->success_hook(vma);
+-
+-	return 0;
++	return err;
+ }
+ 
+ #ifdef CONFIG_MMU
+@@ -1454,13 +1459,15 @@ EXPORT_SYMBOL(mmap_action_prepare);
+  * mmap_action_complete - Execute VMA descriptor action.
+  * @vma: The VMA to perform the action upon.
+  * @action: The action to perform.
++ * @rmap_lock_held: Is the file rmap lock held?
+  *
+  * Similar to mmap_action_prepare().
+  *
+  * Return: 0 on success, or error, at which point the VMA will be unmapped.
+  */
+ int mmap_action_complete(struct vm_area_struct *vma,
+-			 struct mmap_action *action)
++			 struct mmap_action *action,
++			 bool rmap_lock_held)
+ 
+ {
+ 	int err = 0;
+@@ -1471,23 +1478,19 @@ int mmap_action_complete(struct vm_area_
+ 	case MMAP_REMAP_PFN:
+ 		err = remap_pfn_range_complete(vma, action);
+ 		break;
+-	case MMAP_IO_REMAP_PFN:
+-		err = io_remap_pfn_range_complete(vma, action);
+-		break;
+ 	case MMAP_MAP_KERNEL_PAGES:
+ 		err = map_kernel_pages_complete(vma, action);
+ 		break;
++	case MMAP_IO_REMAP_PFN:
+ 	case MMAP_SIMPLE_IO_REMAP:
+-		/*
+-		 * The simple I/O remap should have been delegated to an I/O
+-		 * remap.
+-		 */
++		/* Should have been delegated. */
+ 		WARN_ON_ONCE(1);
+ 		err = -EINVAL;
+ 		break;
+ 	}
+ 
+-	return mmap_action_finish(vma, action, err);
++	return mmap_action_finish(vma, action, err,
++				  rmap_lock_held);
+ }
+ EXPORT_SYMBOL(mmap_action_complete);
+ #else
+@@ -1509,7 +1512,8 @@ int mmap_action_prepare(struct vm_area_d
+ EXPORT_SYMBOL(mmap_action_prepare);
+ 
+ int mmap_action_complete(struct vm_area_struct *vma,
+-			 struct mmap_action *action)
++			 struct mmap_action *action,
++			 bool rmap_lock_held)
+ {
+ 	int err = 0;
+ 
+@@ -1525,7 +1529,7 @@ int mmap_action_complete(struct vm_area_
+ 		break;
+ 	}
+ 
+-	return mmap_action_finish(vma, action, err);
++	return mmap_action_finish(vma, action, err, rmap_lock_held);
+ }
+ EXPORT_SYMBOL(mmap_action_complete);
+ #endif
+--- a/mm/vma.c~b
++++ a/mm/vma.c
+@@ -2732,7 +2732,8 @@ static bool can_set_ksm_flags_early(stru
+ 	return false;
+ }
+ 
+-static int call_mapped_hook(struct vm_area_struct *vma)
++static int call_mapped_hook(struct mmap_state *map,
++			    struct vm_area_struct *vma)
+ {
+ 	const struct vm_operations_struct *vm_ops = vma->vm_ops;
+ 	void *vm_private_data = vma->vm_private_data;
+@@ -2743,6 +2744,9 @@ static int call_mapped_hook(struct vm_ar
+ 	err = vm_ops->mapped(vma->vm_start, vma->vm_end, vma->vm_pgoff,
+ 			     vma->vm_file, &vm_private_data);
+ 	if (err) {
++		if (map->hold_file_rmap_lock)
++			i_mmap_unlock_write(vma->vm_file->f_mapping);
++
+ 		unmap_vma_locked(vma);
+ 		return err;
+ 	}
+@@ -2752,17 +2756,6 @@ static int call_mapped_hook(struct vm_ar
+ 	return 0;
+ }
+ 
+-static void maybe_drop_file_rmap_lock(struct mmap_state *map,
+-				      struct vm_area_struct *vma)
+-{
+-	struct file *file;
+-
+-	if (!map->hold_file_rmap_lock)
+-		return;
+-	file = vma->vm_file;
+-	i_mmap_unlock_write(file->f_mapping);
+-}
+-
+ static unsigned long __mmap_region(struct file *file, unsigned long addr,
+ 		unsigned long len, vma_flags_t vma_flags,
+ 		unsigned long pgoff, struct list_head *uf)
+@@ -2814,11 +2807,10 @@ static unsigned long __mmap_region(struc
+ 	__mmap_complete(&map, vma);
+ 
+ 	if (have_mmap_prepare && allocated_new) {
+-		error = mmap_action_complete(vma, &desc.action);
++		error = mmap_action_complete(vma, &desc.action,
++					     map.hold_file_rmap_lock);
+ 		if (!error)
+-			error = call_mapped_hook(vma);
+-
+-		maybe_drop_file_rmap_lock(&map, vma);
++			error = call_mapped_hook(&map, vma);
+ 		if (error)
+ 			return error;
+ 	}
+--- a/tools/testing/vma/include/dup.h~b
++++ a/tools/testing/vma/include/dup.h
+@@ -470,13 +470,13 @@ struct mmap_action {
+ 			pgprot_t pgprot;
+ 		} remap;
+ 		struct {
+-			phys_addr_t start;
+-			unsigned long len;
++			phys_addr_t start_phys_addr;
++			unsigned long size;
+ 		} simple_ioremap;
+ 		struct {
+ 			unsigned long start;
+ 			struct page **pages;
+-			unsigned long num;
++			unsigned long nr_pages;
+ 			pgoff_t pgoff;
+ 		} map_kernel;
+ 	};
+@@ -648,7 +648,7 @@ struct vm_operations_struct {
+ 	 * upon first mapping a VMA.
+ 	 * Context: User context.  May sleep.  Caller holds mmap_lock.
+ 	 */
+-	void (*open)(struct vm_area_struct * area);
++	void (*open)(struct vm_area_struct *vma);
+ 	/**
+ 	 * @close: Called when the VMA is being removed from the MM.
+ 	 * Context: User context.  May sleep.  Caller holds mmap_lock.
+@@ -672,8 +672,8 @@ struct vm_operations_struct {
+ 	int (*mapped)(unsigned long start, unsigned long end, pgoff_t pgoff,
+ 		      const struct file *file, void **vm_private_data);
+ 	/* Called any time before splitting to check if it's allowed */
+-	int (*may_split)(struct vm_area_struct *area, unsigned long addr);
+-	int (*mremap)(struct vm_area_struct *area);
++	int (*may_split)(struct vm_area_struct *vma, unsigned long addr);
++	int (*mremap)(struct vm_area_struct *vma);
+ 	/*
+ 	 * Called by mprotect() to make driver-specific permission
+ 	 * checks before mprotect() is finalised.   The VMA must not
+@@ -685,7 +685,7 @@ struct vm_operations_struct {
+ 	vm_fault_t (*huge_fault)(struct vm_fault *vmf, unsigned int order);
+ 	vm_fault_t (*map_pages)(struct vm_fault *vmf,
+ 			pgoff_t start_pgoff, pgoff_t end_pgoff);
+-	unsigned long (*pagesize)(struct vm_area_struct * area);
++	unsigned long (*pagesize)(struct vm_area_struct *vma);
+ 
+ 	/* notification that a previously read-only page is about to become
+ 	 * writable, if an error is returned it will cause a SIGBUS */
+@@ -1288,6 +1288,8 @@ static inline void compat_set_desc_from_
+ 			      const struct file *file,
+ 			      const struct vm_area_struct *vma)
+ {
++	memset(desc, 0, sizeof(*desc));
++
+ 	desc->mm = vma->vm_mm;
+ 	desc->file = (struct file *)file;
+ 	desc->start = vma->vm_start;
+@@ -1342,7 +1344,8 @@ static inline int __compat_vma_mmap(stru
+ 	/* Update the VMA from the descriptor. */
+ 	compat_set_vma_from_desc(vma, desc);
+ 	/* Complete any specified mmap actions. */
+-	err = mmap_action_complete(vma, &desc->action);
++	err = mmap_action_complete(vma, &desc->action,
++				   /*rmap_lock_held=*/false);
+ 	if (err)
+ 		return err;
+ 
+--- a/tools/testing/vma/include/stubs.h~b
++++ a/tools/testing/vma/include/stubs.h
+@@ -87,7 +87,8 @@ static inline int mmap_action_prepare(st
+ }
+ 
+ static inline int mmap_action_complete(struct vm_area_struct *vma,
+-				       struct mmap_action *action)
++				       struct mmap_action *action,
++				       bool rmap_lock_held)
+ {
+ 	return 0;
+ }
+_
 
-
-> 
-> > +
-> > +void dax_hmem_flush_work(void)
-> > +{
-> > +	flush_work(&dax_hmem_work.work);
-> > +}
-> > +EXPORT_SYMBOL_GPL(dax_hmem_flush_work);
-> > +
-> >  static int hmem_register_device(struct device *host, int target_nid,
-> >  				const struct resource *res)
-> >  {
-> > @@ -69,8 +83,11 @@ static int hmem_register_device(struct device *host, int target_nid,
-> >  	if (IS_ENABLED(CONFIG_DEV_DAX_CXL) &&
-> >  	    region_intersects(res->start, resource_size(res), IORESOURCE_MEM,
-> >  			      IORES_DESC_CXL) != REGION_DISJOINT) {
-> > -		dev_dbg(host, "deferring range to CXL: %pr\n", res);
-> > -		return 0;
-> > +		if (!dax_hmem_initial_probe) {
-> > +			dev_dbg(host, "deferring range to CXL: %pr\n", res);
-> > +			queue_work(system_long_wq, &dax_hmem_work.work);
-> > +			return 0;
-> > +		}
-> >  	}
-> >  
-> >  	rc = region_intersects_soft_reserve(res->start, resource_size(res));
-> > @@ -123,8 +140,48 @@ static int hmem_register_device(struct device *host, int target_nid,
-> >  	return rc;
-> >  }
-> >  
-> > +static int hmem_register_cxl_device(struct device *host, int target_nid,
-> > +				    const struct resource *res)
-> > +{
-> > +	if (region_intersects(res->start, resource_size(res), IORESOURCE_MEM,
-> > +			      IORES_DESC_CXL) == REGION_DISJOINT)
-> > +		return 0;
-> > +
-> > +	if (cxl_region_contains_resource((struct resource *)res)) {
-> > +		dev_dbg(host, "CXL claims resource, dropping: %pr\n", res);
-> > +		return 0;
-> > +	}
-> > +
-> > +	dev_dbg(host, "CXL did not claim resource, registering: %pr\n", res);
-> > +	return hmem_register_device(host, target_nid, res);
-> > +}
-> > +
-> > +static void process_defer_work(struct work_struct *w)
-> > +{
-> > +	struct dax_defer_work *work = container_of(w, typeof(*work), work);
-> > +	struct platform_device *pdev = work->pdev;
-> If you do the suggested __INITIALIZE_WORK() then I'd add
-> a paranoid
-> 
-> 	if (!work->pdev)
-> 		return;
-> We don't actually queue the work before pdev is set, but that might
-> be obvious once we spilt up assigning the function and the data
-> it uses.
-> 
-> > +
-> > +	wait_for_device_probe();
-> > +
-> > +	guard(device)(&pdev->dev);
-> > +	if (!pdev->dev.driver)
-> > +		return;
-> > +
-> > +	dax_hmem_initial_probe = true;
-> > +	walk_hmem_resources(&pdev->dev, hmem_register_cxl_device);
-> > +}
-> > +
-> >  static int dax_hmem_platform_probe(struct platform_device *pdev)
-> >  {
-> > +	if (work_pending(&dax_hmem_work.work))
-> > +		return -EBUSY;
-> > +
-> > +	if (!dax_hmem_work.pdev) {
-> > +		get_device(&pdev->dev);
-> > +		dax_hmem_work.pdev = pdev;
-> 
-> Using the pdev rather than dev breaks the pattern of doing a get_device()
-> and assigning in one line. This is a bit ugly.
-> 
-> 		dax_hmem_work.pdev = to_pci_dev(get_device(&pdev->dev));
-> 
-> but perhaps makes the association tighter than current code.
-> 
-> > +		INIT_WORK(&dax_hmem_work.work, process_defer_work);
-> 
-> See above. I think assigning the work function should be static
-> which should resolve the issue Alison was seeing as then it should
-> be fine to call flush_work() on the item that isn't on a work queue
-> yet but is initialized.
-> 
-> > +	}
-> > +
-> >  	return walk_hmem_resources(&pdev->dev, hmem_register_device);
-> >  }
-> >  
-> > @@ -162,6 +219,11 @@ static __init int dax_hmem_init(void)
-> >  
-> >  static __exit void dax_hmem_exit(void)
-> >  {
-> > +	flush_work(&dax_hmem_work.work);
-> 
-> I think this needs to be under the if (dax_hmem_work.pdev) 
-> Not sure there is any guarantee dax_hmem_platform_probe() has run
-> before we get here otherwise.  Alternative is to assign
-> the work function statically.
-> 
-> 
-> 
-> > +
-> > +	if (dax_hmem_work.pdev)
-> > +		put_device(&dax_hmem_work.pdev->dev);
-> > +
-> >  	platform_driver_unregister(&dax_hmem_driver);
-> >  	platform_driver_unregister(&dax_hmem_platform_driver);
-> >  }
-> 
