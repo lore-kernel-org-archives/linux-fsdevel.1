@@ -1,283 +1,333 @@
-Received: from mail-yx1-f45.google.com (mail-yx1-f45.google.com [74.125.224.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B3E5AD5A
-	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Mar 2026 03:01:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 001D423EAB3
+	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Mar 2026 03:22:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773889313; cv=none; b=msxNxKlMz33BaF0nRsdz4RYPPS2LvMrS+Hrmpp7qsq18yy3mufuwgw8FQJEJtRqfvDf4cNN/cOBMJtZIATesTAFOpct7p59pFYyleatW9AXqx1k4RbxM11OfoVd1ML4EkILBCprEXNGsUublTIDK9vrQEjwfpGUW0g2ysTJ6inc=
+	t=1773890580; cv=none; b=Hezu8RG6tmIuuCjHkwxb60vK71omi9iwPQMDdpWKPYgEljv4JqJXL6gSqWMmhZZr4sfSYbZQHiyfyhXNInr6r7uecNrb+7vf6eb27jUifPR+V63JoV+GrtAhaOg5il6nXP0qRnJ/rh3aIdGSKbNDTxfp/DiyAM0u+Ob1NrgEKSk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773889313; c=relaxed/simple;
-	bh=DWABQddafcuyx3yVN6mPVh+rWscmHAOztB+7tZjuLEw=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=mk93ZfmqpX+TUvYf9uMYIvmLfp6fKKpcIOc/4ws6GWwi7y//sXJu+vQYNPGNH3CaVP6OYtJgOynSC+nLZjvUVggc+/dY3o/lFp4VOcwSTTCesMoEwDiPA6+eRySaVxvZv+r2S+0cmv72NpiFFoAchl6uBBbwPgcbyALNQpP3dQI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b=puLhN6N6; arc=none smtp.client-ip=74.125.224.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
+	s=arc-20240116; t=1773890580; c=relaxed/simple;
+	bh=MnSoQ/xYMbSKCnblLDKKunVlzrKK3r4bgm7SZXf6j50=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RftPIrGnaoB4VXXuo2qoeMuZGH45b5vWFin1E/ff2ieKSwxdrJJBKrtdRIduIMisYiFUhc4MNfv4/F3DJ8NkZcFTQ/f6bhytUv+UXcMK1qxOa1eSp5ldlRsxZl6pvwPUP+xxuH8ShYz6SDr5OLmJW+JZTAAXFSq/jo/84ZgjxD4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NNtaA73/; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b="puLhN6N6"
-Received: by mail-yx1-f45.google.com with SMTP id 956f58d0204a3-64ae222d978so686690d50.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 18 Mar 2026 20:01:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20230601.gappssmtp.com; s=20230601; t=1773889310; x=1774494110; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=LWssSlGpjUbtR3nCC90Y4Zeb3yvE4Z3WnrHRDivP/3g=;
-        b=puLhN6N6st/Vdzhv/nbNu8jjbHGvzYn2PcUJ3mLg642QXjRIrqyzD0EyTJLPambVoM
-         BrQcRYoqT5lo1Ox4XoPvSwHRuGA/O+SuJOfG1We9G7KXRl9FOg4xA1ePmwvdEpARp4qr
-         r2OaL+Gd4lmBUVloJb0twalQAmPFim3ffPVJbdFy3c9P51H5+68lujI1TIwOFjEEvS/v
-         hg7rqyI4rGbBh79t5AKWSkHRml5eUhm2wrW2VfXiJ6BT4ieVLD3X28A6lQp2VAHYlAFY
-         uhYwMrArVSjIQBogd4yH4LBZnKGqn+sMFFQl0wuS5VXMASH3Ogw51RNjAT4iu3uVIWgU
-         MAOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773889310; x=1774494110;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LWssSlGpjUbtR3nCC90Y4Zeb3yvE4Z3WnrHRDivP/3g=;
-        b=ZjUDyu+boljgtrjQVl6OPmfKG/pMchurxpddTrKSi+wJW29I5rdkwo/8gqYEAMZrgN
-         dqOFPXi3SbwjGVAheuVq3Yr37mtAJO8CRfLMDERu5BSeLcjSXdercXABZNIDh795llIh
-         b6sspVutRojy/8pSg7h+nTbLZZUXCjX+oaXaUYN0d4TihO8H6AKtFEx6KDh/GgruGKry
-         +r79t7YI8DdJkbqAoMDymKQWc4xaGMKk8soQrLmyhHl4+cRoZVROKV5R2foo/dYarl8m
-         K/t99PIxScj7Bg7R/+jaIPPi2GajgDv/b++8wLq35sslT0Z15P9j+t0sWEaIeE9WKD2g
-         FbFw==
-X-Forwarded-Encrypted: i=1; AJvYcCWa142XCEeGoccMBjgwe8wf5Ax3itk3whYFPyMYhQX1nQo8RsY/BCF3cFWfCFd1cy7g238b3o+pv4zJ8Ea7@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx4mL7FwDiztgvfDU7SIFtQG9VQXmTWRsdDkF0wrKXCnS1j6rlJ
-	kk9SRdoZAcn09QsJus0X2ExJQNBdF/oat6z/y4rCotmPGqPkrQODq/OF4w/KNfLvGmM=
-X-Gm-Gg: ATEYQzwdWgzsmFhiSCCTFgzqk4ep2A3kMvV4KF9yYeriozbXbIATOjFnRy+bvNXIeKo
-	2me1wrPfQ7s+vA8hCtXXV2R46R15T5x3J1ALJg/3asbZS90KoXrCX4jMHbPrxFdo0ag2saSPjdo
-	VclocZkDnxNVmIPh4QKjlew7K+hGK0bO+hw0daWM3g3km2zG+D63alQjQGk3keCxchCs/an1Kx+
-	BbU4NEqsMxSowyRqAppLBkdaLQsaxa2vx7kVKoRSZOIMk1kyZ47uo3D9a9dd3DE8+u7M7XRXqK6
-	kHY8fI68VoIre2Y4TAEYjjREhzhkyb+D0uGl8tEDLu5kUxzgovy6DRcRTJePL46D83p1hctvA/n
-	TbS8tQeC+oac6l+lE4FkJMsClnpiwItHYF+SBHF0hyjCLqO0cDYXtnzOHf0kOInri4nXG8+R313
-	FqHS3y7/bRssl6thf1q/CsV2LGO5UrS/A429G4YTvC6K/58txnt3K/utUHoVeB/tdxaAxQI5y+C
-	Ae2bRIWZA+Vv+60oCr3b3nUbS5uit4MaXVife7parp1DZE2o08LKy35IN3XOb+COoNj+1c=
-X-Received: by 2002:a53:c7cb:0:b0:64c:c616:c351 with SMTP id 956f58d0204a3-64e915ced3dmr5239397d50.40.1773889310519;
-        Wed, 18 Mar 2026 20:01:50 -0700 (PDT)
-Received: from ?IPv6:2600:1700:6476:1430:fbb1:1a9c:e8af:d8ed? ([2600:1700:6476:1430:fbb1:1a9c:e8af:d8ed])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-64e91c29074sm2734401d50.20.2026.03.18.20.01.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Mar 2026 20:01:50 -0700 (PDT)
-Message-ID: <43be87e694ed6fe291990226624559e7f01820d9.camel@dubeyko.com>
-Subject: Re: [PATCH v7 2/2] hfsplus: validate b-tree node 0 bitmap at mount
- time
-From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: Shardul Bankar <shardul.b@mpiricsoftware.com>, 
-	glaubitz@physik.fu-berlin.de, frank.li@vivo.com,
- linux-fsdevel@vger.kernel.org, 	linux-kernel@vger.kernel.org
-Cc: janak@mpiricsoftware.com, janak@mpiric.us, shardulsb08@gmail.com, 
-	syzbot+1c8ff72d0cd8a50dfeaa@syzkaller.appspotmail.com
-Date: Wed, 18 Mar 2026 20:01:48 -0700
-In-Reply-To: <20260318073823.3933718-3-shardul.b@mpiricsoftware.com>
-References: <20260318073823.3933718-1-shardul.b@mpiricsoftware.com>
-	 <20260318073823.3933718-3-shardul.b@mpiricsoftware.com>
-Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
- keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 (by Flathub.org) 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NNtaA73/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773890578; x=1805426578;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MnSoQ/xYMbSKCnblLDKKunVlzrKK3r4bgm7SZXf6j50=;
+  b=NNtaA73/UiBTQfacJOJFOAEv+55Fmstfsgjh9Zu4BxfYYIvdee9EJ0YH
+   y6wPpyhxccpCVH87PSWNGIXcuXPpnNyp7fW/ywHc8Gwjie7N7cQJ+j4PX
+   ZqJsUXCK7PhBgu8ofaUQt2jccRCJEOt+63Ehwk9p4l/Ew7di1e7jCkgXL
+   l9SJqcqC9xSXu9u9IhU+JPlehurwp6WUJxkdyTabUneGktd3+Q/uqG2HN
+   /dcvCX0L8UkhbUBzRtUcWL/hsG9Ag4Q+WBcTzZeFZciJLTGcR/gHcyLts
+   AWwTgM6CitzHrPmb44/NvnOrcE7qUL1ZwBBXNpcmcwEJeni4RjpckH2bv
+   g==;
+X-CSE-ConnectionGUID: cvmOjHkzRMmA5FLwqud9fw==
+X-CSE-MsgGUID: lRd3ESzGQuipny6DTQiVmg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11733"; a="74654433"
+X-IronPort-AV: E=Sophos;i="6.23,128,1770624000"; 
+   d="scan'208";a="74654433"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2026 20:22:58 -0700
+X-CSE-ConnectionGUID: CBVFDWW0R3iVMg+DM5G8Mw==
+X-CSE-MsgGUID: 0EatfemlTXWDxNNc0bOlaQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,128,1770624000"; 
+   d="scan'208";a="222075742"
+Received: from ly-workstation.sh.intel.com (HELO ly-workstation) ([10.239.182.64])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2026 20:22:56 -0700
+Date: Thu, 19 Mar 2026 11:22:52 +0800
+From: "Lai, Yi" <yi1.lai@linux.intel.com>
+To: Miklos Szeredi <mszeredi@redhat.com>
+Cc: linux-fsdevel@vger.kernel.org, Bernd Schubert <bernd@bsbernd.com>,
+	"Darrick J. Wong" <djwong@kernel.org>
+Subject: Re: [PATCH v3 7/7] fuse: support FSCONFIG_SET_FD for "fd" option
+Message-ID: <abtsDGmmABhIYktu@ly-workstation>
+References: <20260316165320.3245526-1-mszeredi@redhat.com>
+ <20260316165320.3245526-8-mszeredi@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260316165320.3245526-8-mszeredi@redhat.com>
 
-On Wed, 2026-03-18 at 13:08 +0530, Shardul Bankar wrote:
-> Syzkaller reported an issue with corrupted HFS+ images where the b-
-> tree
-> allocation bitmap indicates that the header node (Node 0) is free.
-> Node 0
-> must always be allocated as it contains the b-tree header record and
-> the
-> allocation bitmap itself. Violating this invariant leads to allocator
-> corruption, which cascades into kernel panics or undefined behavior
-> when
-> the filesystem attempts to allocate blocks.
->=20
-> Prevent trusting a corrupted allocator state by adding a validation
-> check
-> during hfs_btree_open(). Introduce the hfs_bmap_test_bit() helper
-> (utilizing the newly added map-access API) to safely verify that the
-> MSB
-> of the first bitmap byte (representing Node 0) is marked as
-> allocated.
-> The helper returns a boolean, allowing the caller to safely catch
-> both
-> structural IO errors and illegally cleared bits in a single check.
->=20
-> If corruption is detected, print a warning identifying the specific
-> corrupted tree and force the filesystem to mount read-only
-> (SB_RDONLY).
-> This prevents kernel panics from corrupted images while enabling data
-> recovery.
->=20
-> As a minor cleanup to support the warning logs, replace the verbose
-> CNID
-> logic with cleaner macro definitions (using official structural names
-> like
-> "Extents Overflow File") and a dedicated string lookup helper.
->=20
-> Reported-by: syzbot+1c8ff72d0cd8a50dfeaa@syzkaller.appspotmail.com
-> Link: https://syzkaller.appspot.com/bug?extid=3D1c8ff72d0cd8a50dfeaa
-> Link:
-> https://lore.kernel.org/all/20260315172005.2066677-1-shardul.b@mpiricsoft=
-ware.com/
-> Signed-off-by: Shardul Bankar <shardul.b@mpiricsoftware.com>
+On Mon, Mar 16, 2026 at 05:53:18PM +0100, Miklos Szeredi wrote:
+> This is not only cleaner to use in userspace (no need to sprintf the fd to
+> a string) but also allows userspace to detect that the devfd can be closed
+> after the fsconfig call.
+> 
+> Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
+> Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
 > ---
-> =C2=A0fs/hfsplus/btree.c | 60
-> ++++++++++++++++++++++++++++++++++++++++++++++
-> =C2=A01 file changed, 60 insertions(+)
->=20
-> diff --git a/fs/hfsplus/btree.c b/fs/hfsplus/btree.c
-> index 64d168347b4b..04304f952f6b 100644
-> --- a/fs/hfsplus/btree.c
-> +++ b/fs/hfsplus/btree.c
-> @@ -185,6 +185,32 @@ static struct page *hfs_bmap_get_map_page(struct
-> hfs_bnode *node, struct hfs_bma
-> =C2=A0	return node->page[ctx->page_idx];
-> =C2=A0}
-> =C2=A0
-> +/**
-> + * hfs_bmap_test_bit - test a bit in the b-tree map
-> + * @node: the b-tree node containing the map record
-> + * @node_bit_idx: the relative bit index within the node's map
-> record
-> + *
-> + * Returns true if set, false if clear or on failure.
-> + */
-> +static bool hfs_bmap_test_bit(struct hfs_bnode *node, u32
-> node_bit_idx)
-> +{
-> +	struct hfs_bmap_ctx ctx;
-> +	struct page *page;
-> +	u8 *bmap, byte, mask;
-> +
-> +	page =3D hfs_bmap_get_map_page(node, &ctx, node_bit_idx /
-> BITS_PER_BYTE);
-> +	if (IS_ERR(page))
-> +		return false;
-> +
-> +	bmap =3D kmap_local_page(page);
-> +	byte =3D bmap[ctx.off];
-> +	kunmap_local(bmap);
-> +
-> +	mask =3D 1 << (7 - (node_bit_idx % BITS_PER_BYTE));
-> +	return (byte & mask) !=3D 0;
-> +}
-> +
-> +
-> =C2=A0/**
-> =C2=A0 * hfs_bmap_clear_bit - clear a bit in the b-tree map
-> =C2=A0 * @node: the b-tree node containing the map record
-> @@ -218,12 +244,32 @@ static int hfs_bmap_clear_bit(struct hfs_bnode
-> *node, u32 node_bit_idx)
-> =C2=A0	return 0;
-> =C2=A0}
-> =C2=A0
-> +#define HFS_EXTENT_TREE_NAME=C2=A0 "Extents Overflow File"
-> +#define HFS_CATALOG_TREE_NAME "Catalog File"
-> +#define HFS_ATTR_TREE_NAME=C2=A0=C2=A0=C2=A0 "Attributes File"
-> +#define HFS_UNKNOWN_TREE_NAME "Unknown B-tree"
-> +
-> +static const char *hfs_btree_name(u32 cnid)
-> +{
-> +	switch (cnid) {
-> +	case HFSPLUS_EXT_CNID:
-> +		return HFS_EXTENT_TREE_NAME;
-> +	case HFSPLUS_CAT_CNID:
-> +		return HFS_CATALOG_TREE_NAME;
-> +	case HFSPLUS_ATTR_CNID:
-> +		return HFS_ATTR_TREE_NAME;
-> +	default:
-> +		return HFS_UNKNOWN_TREE_NAME;
-> +	}
-> +}
-> +
-> =C2=A0/* Get a reference to a B*Tree and do some initial checks */
-> =C2=A0struct hfs_btree *hfs_btree_open(struct super_block *sb, u32 id)
-> =C2=A0{
-> =C2=A0	struct hfs_btree *tree;
-> =C2=A0	struct hfs_btree_header_rec *head;
-> =C2=A0	struct address_space *mapping;
-> +	struct hfs_bnode *node;
-> =C2=A0	struct inode *inode;
-> =C2=A0	struct page *page;
-> =C2=A0	unsigned int size;
-> @@ -331,6 +377,20 @@ struct hfs_btree *hfs_btree_open(struct
-> super_block *sb, u32 id)
-> =C2=A0
-> =C2=A0	kunmap_local(head);
-> =C2=A0	put_page(page);
-> +
-> +	node =3D hfs_bnode_find(tree, HFSPLUS_TREE_HEAD);
-> +	if (IS_ERR(node))
-> +		goto free_inode;
-> +
-> +	if (!hfs_bmap_test_bit(node, 0)) {
-> +		pr_warn("(%s): %s (cnid 0x%x) map record invalid or
-> bitmap corruption detected, forcing read-only.\n",
-> +				sb->s_id, hfs_btree_name(id), id);
-> +		pr_warn("Run fsck.hfsplus to repair.\n");
-> +		sb->s_flags |=3D SB_RDONLY;
-> +	}
-> +
-> +	hfs_bnode_put(node);
-> +
-> =C2=A0	return tree;
-> =C2=A0
-> =C2=A0 fail_page:
+>  fs/fuse/inode.c | 12 ++++++++----
+>  1 file changed, 8 insertions(+), 4 deletions(-)
+> 
+> diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+> index f388d57fdd8f..e53153463e10 100644
+> --- a/fs/fuse/inode.c
+> +++ b/fs/fuse/inode.c
+> @@ -788,7 +788,7 @@ enum {
+>  
+>  static const struct fs_parameter_spec fuse_fs_parameters[] = {
+>  	fsparam_string	("source",		OPT_SOURCE),
+> -	fsparam_u32	("fd",			OPT_FD),
+> +	fsparam_fd	("fd",			OPT_FD),
+>  	fsparam_u32oct	("rootmode",		OPT_ROOTMODE),
+>  	fsparam_uid	("user_id",		OPT_USER_ID),
+>  	fsparam_gid	("group_id",		OPT_GROUP_ID),
+> @@ -800,9 +800,8 @@ static const struct fs_parameter_spec fuse_fs_parameters[] = {
+>  	{}
+>  };
+>  
+> -static int fuse_opt_fd(struct fs_context *fsc, int fd)
+> +static int fuse_opt_fd(struct fs_context *fsc, struct file *file)
+>  {
+> -	struct file *file __free(fput) = fget(fd);
+>  	struct fuse_fs_context *ctx = fsc->fs_private;
+>  
+>  	if (file->f_op != &fuse_dev_operations)
+> @@ -859,7 +858,12 @@ static int fuse_parse_param(struct fs_context *fsc, struct fs_parameter *param)
+>  		return 0;
+>  
+>  	case OPT_FD:
+> -		return fuse_opt_fd(fsc, result.uint_32);
+> +		if (param->type == fs_value_is_file) {
+> +			return fuse_opt_fd(fsc, param->file);
+> +		} else {
+> +			struct file *file __free(fput) = fget(result.uint_32);
+> +			return fuse_opt_fd(fsc, file);
+> +		}
+>  
+>  	case OPT_ROOTMODE:
+>  		if (!fuse_valid_type(result.uint_32))
+> -- 
+> 2.53.0
+>
+Hi Miklos Szeredi,
 
-Looks good.
+Greetings!
 
-Reviewed-by: Viacheslav Dubeyko <slava@dubeyko.com>
+I used Syzkaller and found that there is general protection fault in fuse_opt_fd in linux-next next-20260317.
 
-The xfstests run hasn't revealed any new issues.
+After bisection and the first bad commit is:
+"
+6dcceeb72856 fuse: support FSCONFIG_SET_FD for "fd" option
+"
 
-Tested-by: Viacheslav Dubeyko <slava@dubeyko.com>
+All detailed into can be found at:
+https://github.com/laifryiee/syzkaller_logs/tree/main/260319_020043_fuse_opt_fd
+Syzkaller repro code:
+https://github.com/laifryiee/syzkaller_logs/tree/main/260319_020043_fuse_opt_fd/repro.c
+Syzkaller repro syscall steps:
+https://github.com/laifryiee/syzkaller_logs/tree/main/260319_020043_fuse_opt_fd/repro.prog
+Syzkaller report:
+https://github.com/laifryiee/syzkaller_logs/tree/main/260319_020043_fuse_opt_fd/repro.report
+Kconfig(make olddefconfig):
+https://github.com/laifryiee/syzkaller_logs/tree/main/260319_020043_fuse_opt_fd/kconfig_origin
+Bisect info:
+https://github.com/laifryiee/syzkaller_logs/tree/main/260319_020043_fuse_opt_fd/bisect_info.log
+bzImage:
+https://github.com/laifryiee/syzkaller_logs/raw/refs/heads/main/260319_020043_fuse_opt_fd/bzImage_8e5a478b6d6a5bb0a3d52147862b15e4d826af19
+Issue dmesg:
+https://github.com/laifryiee/syzkaller_logs/blob/main/260319_020043_fuse_opt_fd/8e5a478b6d6a5bb0a3d52147862b15e4d826af19_dmesg.log
 
-Thanks,
-Slava.
+"
+[   19.543111] Oops: general protection fault, probably for non-canonical address 0xdffffc0000000009: 0000 [#1] SMP KASAN NOPTI
+[   19.543731] KASAN: null-ptr-deref in range [0x0000000000000048-0x000000000000004f]
+[   19.544132] CPU: 1 UID: 0 PID: 739 Comm: repro Not tainted 7.0.0-rc4-next-20260317-8e5a478b6d6a #1 PREEMPT(lazy) 
+[   19.544657] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.0-0-gd239552ce722-prebuilt.qemu.org 04/01/2014
+[   19.545222] RIP: 0010:fuse_opt_fd+0x5e/0x340
+[   19.545481] Code: c1 ea 03 80 3c 02 00 0f 85 91 02 00 00 49 8d 7c 24 48 49 8b 9e 98 00 00 00 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f 85 60 02 00 00 49 81 7c 24 48 20 cf 2e 86 0f 85 d8
+[   19.546420] RSP: 0018:ffff888012c879f8 EFLAGS: 00010206
+[   19.546703] RAX: dffffc0000000000 RBX: ffff88801fa83380 RCX: ffff888012c8796c
+[   19.547073] RDX: 0000000000000009 RSI: ffffffff82986cbf RDI: 0000000000000048
+[   19.547443] RBP: ffff888012c87a20 R08: 0000000000000000 R09: 0000000000000001
+[   19.547816] R10: 0000000000000001 R11: ffff8880141a8eb8 R12: 0000000000000000
+[   19.548185] R13: 0000000000000000 R14: ffff888010e3cc00 R15: ffff888012c87aa8
+[   19.548557] FS:  00007fbea1acf600(0000) GS:ffff8880e30aa000(0000) knlGS:0000000000000000
+[   19.548976] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   19.549279] CR2: 0000200000001000 CR3: 000000000ef6a006 CR4: 0000000000770ef0
+[   19.549650] PKRU: 55555554
+[   19.549805] Call Trace:
+[   19.549947]  <TASK>
+[   19.550073]  fuse_parse_param+0x810/0xcc0
+[   19.550296]  ? __pfx_fuse_parse_param+0x10/0x10
+[   19.550545]  ? __pfx___sanitizer_cov_trace_const_cmp2+0x10/0x10
+[   19.550876]  ? static_key_count+0x69/0x80
+[   19.551107]  ? __sanitizer_cov_trace_const_cmp8+0x1c/0x30
+[   19.551395]  ? security_fs_context_parse_param+0x121/0x150
+[   19.551698]  ? __pfx_fuse_parse_param+0x10/0x10
+[   19.551942]  vfs_parse_fs_param+0x21e/0x3e0
+[   19.552188]  vfs_parse_fs_qstr+0x15d/0x1e0
+[   19.552418]  ? __pfx_vfs_parse_fs_qstr+0x10/0x10
+[   19.552676]  ? kasan_save_track+0x18/0x40
+[   19.552909]  ? kasan_save_alloc_info+0x3c/0x50
+[   19.553160]  ? __pfx_vfs_parse_comma_sep+0x10/0x10
+[   19.553425]  vfs_parse_monolithic_sep+0x1ab/0x230
+[   19.553687]  ? __pfx_vfs_parse_monolithic_sep+0x10/0x10
+[   19.553975]  ? fuse_init_fs_context+0x179/0x1f0
+[   19.554220]  ? __sanitizer_cov_trace_const_cmp4+0x1a/0x20
+[   19.554512]  ? __pfx_generic_parse_monolithic+0x10/0x10
+[   19.554801]  generic_parse_monolithic+0x2e/0x40
+[   19.555052]  parse_monolithic_mount_data+0x75/0xa0
+[   19.555319]  path_mount+0x707/0x2060
+[   19.555526]  ? lockdep_hardirqs_on+0x85/0x110
+[   19.555790]  ? __pfx_path_mount+0x10/0x10
+[   19.556010]  ? __kasan_slab_free+0x59/0x70
+[   19.556236]  ? kmem_cache_free+0x251/0x5c0
+[   19.556463]  ? putname+0xc6/0x130
+[   19.556655]  ? putname+0xcb/0x130
+[   19.556845]  __x64_sys_mount+0x2c3/0x340
+[   19.557060]  ? __x64_sys_mount+0x2c3/0x340
+[   19.557286]  ? __pfx___x64_sys_mount+0x10/0x10
+[   19.557530]  ? __audit_syscall_entry+0x393/0x4f0
+[   19.557794]  x64_sys_call+0x2b8/0x21c0
+[   19.558009]  do_syscall_64+0xc1/0x1130
+[   19.558219]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+[   19.558490] RIP: 0033:0x7fbea183ee5d
+[   19.558699] Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 93 af 1b 00 f7 d8 64 89 01 48
+[   19.559633] RSP: 002b:00007ffd9393a858 EFLAGS: 00000202 ORIG_RAX: 00000000000000a5
+[   19.560035] RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007fbea183ee5d
+[   19.560405] RDX: 0000200000002100 RSI: 00002000000020c0 RDI: 0000000000000000
+[   19.560777] RBP: 00007ffd9393a870 R08: 0000200000000080 R09: 0000000000000800
+[   19.561155] R10: 0000000000000000 R11: 0000000000000202 R12: 00007ffd9393a988
+[   19.561526] R13: 0000000000401156 R14: 0000000000403e08 R15: 00007fbea1b18000
+[   19.561910]  </TASK>
+[   19.562038] Modules linked in:
+[   19.562271] ---[ end trace 0000000000000000 ]---
+[   19.562525] RIP: 0010:fuse_opt_fd+0x5e/0x340
+[   19.562762] Code: c1 ea 03 80 3c 02 00 0f 85 91 02 00 00 49 8d 7c 24 48 49 8b 9e 98 00 00 00 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f 85 60 02 00 00 49 81 7c 24 48 20 cf 2e 86 0f 85 d8
+[   19.563698] RSP: 0018:ffff888012c879f8 EFLAGS: 00010206
+[   19.563974] RAX: dffffc0000000000 RBX: ffff88801fa83380 RCX: ffff888012c8796c
+[   19.564342] RDX: 0000000000000009 RSI: ffffffff82986cbf RDI: 0000000000000048
+[   19.564712] RBP: ffff888012c87a20 R08: 0000000000000000 R09: 0000000000000001
+[   19.565083] R10: 0000000000000001 R11: ffff8880141a8eb8 R12: 0000000000000000
+[   19.565457] R13: 0000000000000000 R14: ffff888010e3cc00 R15: ffff888012c87aa8
+[   19.565849] FS:  00007fbea1acf600(0000) GS:ffff8880e30aa000(0000) knlGS:0000000000000000
+[   19.566266] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   19.566571] CR2: 0000200000001000 CR3: 000000000ef6a006 CR4: 0000000000770ef0
+[   19.566946] PKRU: 55555554
+[   19.571014] Oops: general protection fault, probably for non-canonical address 0xdffffc0000000009: 0000 [#2] SMP KASAN NOPTI
+[   19.571708] KASAN: null-ptr-deref in range [0x0000000000000048-0x000000000000004f]
+[   19.572103] CPU: 1 UID: 0 PID: 740 Comm: repro Tainted: G      D             7.0.0-rc4-next-20260317-8e5a478b6d6a #1 PREEMPT(lazy) 
+[   19.572706] Tainted: [D]=DIE
+[   19.572871] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.0-0-gd239552ce722-prebuilt.qemu.org 04/01/2014
+[   19.573447] RIP: 0010:fuse_opt_fd+0x5e/0x340
+[   19.573683] Code: c1 ea 03 80 3c 02 00 0f 85 91 02 00 00 49 8d 7c 24 48 49 8b 9e 98 00 00 00 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f 85 60 02 00 00 49 81 7c 24 48 20 cf 2e 86 0f 85 d8
+[   19.574613] RSP: 0018:ffff888019a8f9f8 EFLAGS: 00010206
+[   19.574894] RAX: dffffc0000000000 RBX: ffff88801fa83c00 RCX: 1ffffffff0e3262d
+[   19.575264] RDX: 0000000000000009 RSI: ffffffff82986cbf RDI: 0000000000000048
+[   19.575635] RBP: ffff888019a8fa20 R08: 0000000000000000 R09: 0000000000000000
+[   19.576003] R10: 0000000000000000 R11: 000000000000000f R12: 0000000000000000
+[   19.576373] R13: 0000000000000000 R14: ffff888010e3ca00 R15: ffff888019a8faa8
+[   19.576746] FS:  00007f4b7fb2b600(0000) GS:ffff8880e30aa000(0000) knlGS:0000000000000000
+[   19.577161] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   19.577463] CR2: 0000200000001000 CR3: 0000000011acd003 CR4: 0000000000770ef0
+[   19.577841] PKRU: 55555554
+[   19.577992] Call Trace:
+[   19.578134]  <TASK>
+[   19.578267]  fuse_parse_param+0x810/0xcc0
+[   19.578488]  ? __pfx_fuse_parse_param+0x10/0x10
+[   19.578737]  ? __pfx___sanitizer_cov_trace_const_cmp2+0x10/0x10
+[   19.579055]  ? static_key_count+0x69/0x80
+[   19.579278]  ? __sanitizer_cov_trace_const_cmp8+0x1c/0x30
+[   19.579577]  ? security_fs_context_parse_param+0x121/0x150
+[   19.579881]  ? __pfx_fuse_parse_param+0x10/0x10
+[   19.580132]  vfs_parse_fs_param+0x21e/0x3e0
+[   19.580368]  vfs_parse_fs_qstr+0x15d/0x1e0
+[   19.580597]  ? __pfx_vfs_parse_fs_qstr+0x10/0x10
+[   19.580861]  ? kasan_save_track+0x18/0x40
+[   19.581087]  ? kasan_save_alloc_info+0x3c/0x50
+[   19.581334]  ? __pfx_vfs_parse_comma_sep+0x10/0x10
+[   19.581598]  vfs_parse_monolithic_sep+0x1ab/0x230
+[   19.581862]  ? __pfx_vfs_parse_monolithic_sep+0x10/0x10
+[   19.582151]  ? fuse_init_fs_context+0x179/0x1f0
+[   19.582399]  ? __sanitizer_cov_trace_const_cmp4+0x1a/0x20
+[   19.582693]  ? __pfx_generic_parse_monolithic+0x10/0x10
+[   19.582978]  generic_parse_monolithic+0x2e/0x40
+[   19.583235]  parse_monolithic_mount_data+0x75/0xa0
+[   19.583504]  path_mount+0x707/0x2060
+[   19.583709]  ? __pfx_path_mount+0x10/0x10
+[   19.583931]  ? __kasan_slab_free+0x59/0x70
+[   19.584159]  ? kmem_cache_free+0x251/0x5c0
+[   19.584383]  ? putname+0xc6/0x130
+[   19.584574]  ? putname+0xcb/0x130
+[   19.584765]  __x64_sys_mount+0x2c3/0x340
+[   19.584986]  ? __x64_sys_mount+0x2c3/0x340
+[   19.585210]  ? __pfx___x64_sys_mount+0x10/0x10
+[   19.585456]  ? __audit_syscall_entry+0x393/0x4f0
+[   19.585717]  x64_sys_call+0x2b8/0x21c0
+[   19.585928]  do_syscall_64+0xc1/0x1130
+[   19.586138]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+[   19.586407] RIP: 0033:0x7f4b7f83ee5d
+[   19.586613] Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 93 af 1b 00 f7 d8 64 89 01 48
+[   19.587548] RSP: 002b:00007ffd113e09a8 EFLAGS: 00000202 ORIG_RAX: 00000000000000a5
+[   19.587946] RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f4b7f83ee5d
+[   19.588319] RDX: 0000200000002100 RSI: 00002000000020c0 RDI: 0000000000000000
+[   19.588702] RBP: 00007ffd113e09c0 R08: 0000200000000080 R09: 0000000000000800
+[   19.589069] R10: 0000000000000000 R11: 0000000000000202 R12: 00007ffd113e0ad8
+[   19.589438] R13: 0000000000401156 R14: 0000000000403e08 R15: 00007f4b7fb74000
+[   19.589825]  </TASK>
+[   19.589952] Modules linked in:
+[   19.590475] ---[ end trace 0000000000000000 ]---
+"
+
+Hope this cound be insightful to you.
+
+Regards,
+Yi Lai
+
+---
+
+If you don't need the following environment to reproduce the problem or if you
+already have one reproduced environment, please ignore the following information.
+
+How to reproduce:
+git clone https://gitlab.com/xupengfe/repro_vm_env.git
+cd repro_vm_env
+tar -xvf repro_vm_env.tar.gz
+cd repro_vm_env; ./start3.sh  // it needs qemu-system-x86_64 and I used v7.1.0
+  // start3.sh will load bzImage_2241ab53cbb5cdb08a6b2d4688feb13971058f65 v6.2-rc5 kernel
+  // You could change the bzImage_xxx as you want
+  // Maybe you need to remove line "-drive if=pflash,format=raw,readonly=on,file=./OVMF_CODE.fd \" for different qemu version
+You could use below command to log in, there is no password for root.
+ssh -p 10023 root@localhost
+
+After login vm(virtual machine) successfully, you could transfer reproduced
+binary to the vm by below way, and reproduce the problem in vm:
+gcc -pthread -o repro repro.c
+scp -P 10023 repro root@localhost:/root/
+
+Get the bzImage for target kernel:
+Please use target kconfig and copy it to kernel_src/.config
+make olddefconfig
+make -jx bzImage           //x should equal or less than cpu num your pc has
+
+Fill the bzImage file into above start3.sh to load the target kernel in vm.
+
+
+Tips:
+If you already have qemu-system-x86_64, please ignore below info.
+If you want to install qemu v7.1.0 version:
+git clone https://github.com/qemu/qemu.git
+cd qemu
+git checkout -f v7.1.0
+mkdir build
+cd build
+yum install -y ninja-build.x86_64
+yum -y install libslirp-devel.x86_64
+../configure --target-list=x86_64-softmmu --enable-kvm --enable-vnc --enable-gtk --enable-sdl --enable-usb-redir --enable-slirp
+make
+make install 
+ 
