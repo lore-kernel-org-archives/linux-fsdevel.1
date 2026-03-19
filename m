@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 756601E8342;
-	Thu, 19 Mar 2026 07:37:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EA33399353;
+	Thu, 19 Mar 2026 07:40:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773905839; cv=none; b=ljzHcg23sqPki/spJ7UGbVpMH/hAJ9Byj6xw4wGccZJBPFLB7LTX03Ph7rAX1fHvGT5q4mG7whEuRGU+ZMDABPfIBqmi2GuZKThJ3UE9294JK5NCEszbddacOZPCUrFlTT1Etd85/eFTd0/daTi8A0LBKHDX3PWDKULAu7emtH4=
+	t=1773906033; cv=none; b=ZnNsOWF90HJQu0wij0y2BuLASfbNZ5PpQCfJsRh0LZqTLBGTM4mBq42e5G41ymNQp/tVXr5rcMQ8blBBZIkwTYvMQpJ6UT51scNccgcZzShuwnAf2tgOyqnGQlmOYChfGC964du3y5zg4ySRA3Y7m2GOiM9VMrDDGeW1QcL2zo0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773905839; c=relaxed/simple;
-	bh=qRMfpUzApsAdbW6LZfIeTNJxNnO9wM97sAR9cQMuBA8=;
+	s=arc-20240116; t=1773906033; c=relaxed/simple;
+	bh=kgARICWk/x9CE46a29m+2Qcl6pq7KGjzLcdjK9IrfZ4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TVXx/KMa8D3ew1JR7+iJch7hdnSUJwuvkOzyltkQizQ4uJ/aIuWWey2LOWrSpWTGO3OisTDAEm14zRzJjvxb4KEXCIZH9XMScnb0nRqCcPBgG52/zBPYBaWdpCNgNmt/ASkgvT91PYnMlRaHdSJK9rhBHrfGd3SeZqNlaJ8gUKo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YctH8PgT; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=e10EkXYRdzbRuaHpKGEQToRszgNR2MHguA7mNK+iU9sx26jh9lL1agEb5lc43Q9eHgMSxN0QaFGDJgHSiUhVjemH8lPkcHxaCm6MMRj1uk5GKHr+h/kuKIHyFK5MEQR8zc8hjllTtOfJ0H/Vu/ueV/QvBPNUtX2hXpjd42x+KEo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DBereu8Z; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YctH8PgT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94B68C19424;
-	Thu, 19 Mar 2026 07:37:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DBereu8Z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13048C19424;
+	Thu, 19 Mar 2026 07:40:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773905839;
-	bh=qRMfpUzApsAdbW6LZfIeTNJxNnO9wM97sAR9cQMuBA8=;
+	s=k20201202; t=1773906032;
+	bh=kgARICWk/x9CE46a29m+2Qcl6pq7KGjzLcdjK9IrfZ4=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=YctH8PgTgpS6wXB6v3K+szH6x9HccNE1bv+uHpSJyoU2sXQx0hQ5OgOGBSa3Pf2nm
-	 ong8+NvmImY/tAM2kRCyTGGfP9xIFQ067cR07TTgslPzQwhz7cJN0TJID/rq/C+ddG
-	 pvw3n6bp5QOvVL8V4ekLUrzUn8wkUAA6KhRWEXocepB2YmxqaJ+qYp0zbeJI2DeiF3
-	 PZLcxwNnvYV77PxZfKY6EYlzJkDxqR9R/s5AUGL3uDtdioKcfy+GUhmwc6VGBURkLE
-	 R9Y3RGplEaLwOKHy3HboLnM6CoKDSQPIJxrjC7r/eLTZSrcEmmZuyYPSzYlPpb4GeC
-	 OcTqoGnrs6mYA==
-Message-ID: <6625614e-457d-4e67-821a-8bbc10a22c0d@kernel.org>
-Date: Thu, 19 Mar 2026 08:37:11 +0100
+	b=DBereu8ZX4zRIwgOzq6jnFRd45UKcoO6INJUpK0rgEE4H6vgNpRG/4s1bXsz/TzEv
+	 NhhbGA9liBmxUrMFHISG5m5cW7lJQfeI9iAdx5m/AWfsSfh2WZRkVplbIiRfCYTkdP
+	 ierUOwCw4r5LSLU7duyhDpXvrNn0sjiVaZ411B6CTIrMb1VIDaPT+p/zPkr3yMcaCQ
+	 9bwBZBYT1DPzjMc3fIWcEgg21Ch8SFZA/oqIciKj2BHlMgPTAyjxTkLcNovneEk1sQ
+	 qU3HbmRBio+n/0+dj9KXiU1Fxg303ft+zsFMhMItV1OmA/jIVnW4hOm9v/eYUjF6JF
+	 NZDcyJfEazVjA==
+Message-ID: <d72d5ca3-4b92-470e-9f89-9f39a3975f1e@kernel.org>
+Date: Thu, 19 Mar 2026 08:40:24 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -35,22 +35,21 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/4] mm: bypass mmap_miss heuristic for VM_EXEC readahead
-To: Jan Kara <jack@suse.cz>, Usama Arif <usama.arif@linux.dev>
-Cc: Andrew Morton <akpm@linux-foundation.org>, ryan.roberts@arm.com,
- ajd@linux.ibm.com, anshuman.khandual@arm.com, apopple@nvidia.com,
- baohua@kernel.org, baolin.wang@linux.alibaba.com, brauner@kernel.org,
- catalin.marinas@arm.com, dev.jain@arm.com, kees@kernel.org,
- kevin.brodsky@arm.com, lance.yang@linux.dev, Liam.Howlett@oracle.com,
+Subject: Re: [PATCH 0/4] arm64/mm: contpte-sized exec folios for 16K and 64K
+ pages
+To: Usama Arif <usama.arif@linux.dev>, ryan.roberts@arm.com, r@hev.cc
+Cc: Andrew Morton <akpm@linux-foundation.org>, ajd@linux.ibm.com,
+ anshuman.khandual@arm.com, apopple@nvidia.com, baohua@kernel.org,
+ baolin.wang@linux.alibaba.com, brauner@kernel.org, catalin.marinas@arm.com,
+ dev.jain@arm.com, jack@suse.cz, kees@kernel.org, kevin.brodsky@arm.com,
+ lance.yang@linux.dev, Liam.Howlett@oracle.com,
  linux-arm-kernel@lists.infradead.org, linux-fsdevel@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  lorenzo.stoakes@oracle.com, npache@redhat.com, rmclure@linux.ibm.com,
  Al Viro <viro@zeniv.linux.org.uk>, will@kernel.org, willy@infradead.org,
  ziy@nvidia.com, hannes@cmpxchg.org, kas@kernel.org, shakeel.butt@linux.dev,
  kernel-team@meta.com
-References: <20260310145406.3073394-1-usama.arif@linux.dev>
- <20260310145406.3073394-3-usama.arif@linux.dev>
- <wwaqkpuvvrnp4obj6nyebbgqvugjsmelbdkunoiadqtebh4zr7@ckyn5taaz4jy>
+References: <20260318105203.3288727-1-usama.arif@linux.dev>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -97,66 +96,51 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <wwaqkpuvvrnp4obj6nyebbgqvugjsmelbdkunoiadqtebh4zr7@ckyn5taaz4jy>
+In-Reply-To: <20260318105203.3288727-1-usama.arif@linux.dev>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 3/18/26 17:43, Jan Kara wrote:
-> On Tue 10-03-26 07:51:15, Usama Arif wrote:
->> The mmap_miss counter in do_sync_mmap_readahead() tracks whether
->> readahead is useful for mmap'd file access. It is incremented by 1 on
->> every page cache miss in do_sync_mmap_readahead(), and decremented in
->> two places:
->>
->>   - filemap_map_pages(): decremented by N for each of N pages
->>     successfully mapped via fault-around (pages found already in cache,
->>     evidence readahead was useful). Only pages not in the workingset
->>     count as hits.
->>
->>   - do_async_mmap_readahead(): decremented by 1 when a page with
->>     PG_readahead is found in cache.
->>
->> When the counter exceeds MMAP_LOTSAMISS (100), all readahead is
->> disabled, including the targeted VM_EXEC readahead [1] that requests
->> arch-preferred folio orders for contpte mapping.
->>
->> On arm64 with 64K base pages, both decrement paths are inactive:
->>
->>   1. filemap_map_pages() is never called because fault_around_pages
->>      (65536 >> PAGE_SHIFT = 1) disables should_fault_around(), which
->>      requires fault_around_pages > 1. With only 1 page in the
->>      fault-around window, there is nothing "around" to map.
->>
->>   2. do_async_mmap_readahead() never fires for exec mappings because
->>      exec readahead sets async_size = 0, so no PG_readahead markers
->>      are placed.
->>
->> With no decrements, mmap_miss monotonically increases past
->> MMAP_LOTSAMISS after 100 page faults, disabling all subsequent
->> exec readahead.
->>
->> Fix this by moving the VM_EXEC readahead block above the mmap_miss
->> check. The exec readahead path is targeted. It reads a single folio at
->> the fault location with async_size=0, not speculative prefetch, so the
->> mmap_miss heuristic designed to throttle wasteful speculative readahead
->> should not gate it. The page would need to be faulted in regardless,
->> the only question is at what order.
->>
->> [1] https://lore.kernel.org/all/20250430145920.3748738-6-ryan.roberts@arm.com/
->>
->> Signed-off-by: Usama Arif <usama.arif@linux.dev>
+On 3/18/26 11:52, Usama Arif wrote:
+> On Fri, 13 Mar 2026 13:55:38 -0700 Usama Arif <usama.arif@linux.dev> wrote:
 > 
-> I can see the problem but I'm not sure what you propose is the right fix.
-> If you move the VM_EXEC logic earlier, you'll effectively disable
-> VM_HUGEPAGE handling for VM_EXEC vmas which I don't think we want. So
-> shouldn't we rather disable mmap_miss logic for VM_EXEC vmas like:
+>> On Fri, 13 Mar 2026 16:33:42 +0000 Ryan Roberts <ryan.roberts@arm.com> wrote:
+>>
+>>>
+>>> This was deliberate, although perhaps a bit conservative. I was concerned about
+>>> the possibility of read amplification; pointlessly reading in a load of memory
+>>> that never actually gets used. And that is independent of page size.
+>>>
+>>> 2M seems quite big as a default IMHO, I could imagine Android might complain
+>>> about memory pressure in their 16K config, for example.
+>>>
+>>
+>> The force_thp_readahead path in do_sync_mmap_readahead() reads at
+>> HPAGE_PMD_ORDER (2M on x86) and even doubles it to 4M for
+>> non VM_RAND_READ mappings (ra->size *= 2), with async readahead
+>> enabled. exec_folio_order() is more conservative. a single 2M folio
+>> with async_size=0, no speculative prefetch. So I think the memory
+>> pressure would not be worse than what x86 has?
+>>
+>> For memory pressure on Android 16K: the readahead is clamped to VMA
+>> boundaries, so a small shared library won't read 2M.
+>> page_cache_ra_order() reduces folio order near EOF and on allocation
+>> failure, so the 2M order is a preference, not a guarantee with the
+>> current code?
+>>
 > 
-> 	if (!(vm_flags & (VM_SEQ_READ | VM_EXEC))) {
-> 		...
-> 	}
+> I am not a big fan of introducing Kconfig options, but would
+> CONFIG_EXEC_FOLIO_ORDER with the default value being 64K be a better
+> solution? Or maybe a default of 64K for 4K and 16K base page size,
+> but 2M for 64K page size as 64K base page size is mostly for servers.
 > 
+> Using a default value of 64K would mean no change in behaviour.
 
-That sounds reasonable to me.
+I don't think such a tunable is the right approach. We should try to do
+something smarter in the kernel.
+
+We should have access to the mapping size and whether there is currently
+real memory pressure. We might even know the estimated speed of the
+device we're loading data from :)
 
 -- 
 Cheers,
