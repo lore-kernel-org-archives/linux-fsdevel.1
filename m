@@ -1,96 +1,163 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84B2F18FDBD;
-	Thu, 19 Mar 2026 14:51:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773931864; cv=none; b=HuQ+7T0hgH7ASG8s3jJGFfLspyzs+saqKTCgmEtnaUBRzusygUsxvPXKKiALKpvNyAw2yJsTATsKX9b0SlSsCEpM3h7aBhl0AL3LopEwh5F6cSnyZwshLDZDk4bPk+xTR4D1pUT7cRoHEU7ATXx96y/mULUSRH6hKlRcS1Puh3w=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773931864; c=relaxed/simple;
-	bh=NA2DgZthntn+Bg9p76vM8EhmWgvmuxh9uchtbNyldWI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UnxJjFobENvomFd3IdsSpjc8ZWRLTPEtfTphxVErA6mpgZwByI8up59jNsjmzCS/HYkoyN/PsOWTTFhufheDVWd2i/e8nb3Z8ZygLgBQnhnnbsHKRQ/sEeuiOUPWnNevPmDXrUasJ881umS3RsowI4otzGKXx1jFcoPFF2y1bEs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tlQhb5U8; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C6F43DC4D7
+	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Mar 2026 14:54:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773932054; cv=pass; b=NSn28enk1W7HoZQLnLY+0R0Q9BaoC2PHazCOYSvml35aBcW3iNBL9BuG1CqZLz8HrRp8VunKTN7H0xHx3LogCkZn8YuHYtZuqVTJQa/yDMX1AQDRrrJGxv1RV8ZrREy2mabd9Xewur/cUWK+I7RHGk7rWc6ErXhE+ll2MSJAAlE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773932054; c=relaxed/simple;
+	bh=UmN42XIFxWPA+oc5RV+ztiTu/o/KFtkvvg5unw0jZ4w=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KrkT6mpv1m2PHce5NcNHZ8SR0IQsiryTiWPK34gXjS0fDMQ7n9yJmT5CDOL/OntpSP8mLlqH6JcMxWiL1YoKvFr30I4jLWPDYEMoZOrVQPBO632rv2tATImnbU+6a+sOBz4TdbyCICWu1cfotTA6XMgg5GsypLRLEMWYxNejvTI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hXdDk7A7; arc=pass smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tlQhb5U8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB216C19424;
-	Thu, 19 Mar 2026 14:50:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773931864;
-	bh=NA2DgZthntn+Bg9p76vM8EhmWgvmuxh9uchtbNyldWI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=tlQhb5U8pIGZhJaEn9uhM9ipP5ZvbmouNAA4Ihk1ejHR3ke0/ewxTzj1Uka5Mlbsz
-	 pLFIkb5W+Mw6Rsis43iKa0qN6vLRn0ljIl1K4AqJpZBa80h16MTiD8oqj+iJM4WThc
-	 kusDk2vZvs4JUK3T949S1jzI/YslUIbM6gzh5sJRM/vYH93dJ4dxbk4gkNrT+X16Rx
-	 fUr3JhyrOpq3I7hQhysr+JmVqv9MscUTJ92KmOG7AbffJcsmGWC2CNA1DN6cSCgLY3
-	 7MUiaGRvcclIs1U/sbbK8uxKQlHPcpehRaRJjgR5eByOaTptAwSYsjLR7y5Yus/f0a
-	 wIhLrOmaLh76g==
-Message-ID: <ee4029ba-87e9-4ec8-9391-c2c3a96bdbc7@kernel.org>
-Date: Thu, 19 Mar 2026 15:50:50 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hXdDk7A7"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-b980c65b97aso130208366b.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 19 Mar 2026 07:54:11 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773932050; cv=none;
+        d=google.com; s=arc-20240605;
+        b=FBOgzyoX1247a1IqlXz7ziZP7F+TtyzC2IkTFfX10Fw2G+9wr22LDJMaGcd3k45wuY
+         0i6vA+TyfqRtIijsxfWYwjN+jZ7Tfe+AADObgxdJcpc1fNX15UTjb484vX9rPuRTvi9O
+         y9DiQoQEpkPnE6CMzShc+UhT0YACWpglmuA4MNHk5BIjreJxq/0t0xDgKFkKNAlQrubL
+         hTc9DN0qSGaXzhW6o61d1F4E/cRQgJQCDzSNBCK4BeRyxXRfc2r1nplRzGbB2u4lTp5C
+         KzVJUW91LaIn4bR05aA3M2JEvVy4ZV0XgMrdtOo+Si6gAEjQPox/PdqegsfQ9bcynEcA
+         da4g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Jw0GH/4mNtxvnbd70gE+2uTwAn5ypE+g4jyg0EIdEpQ=;
+        fh=qaXa2LzFPjAIR3cWRo6/NMNpk23mT6H0BOP61A/x6Bw=;
+        b=fcDgUrCDOuRakxwXVzOWlERlzqJ6TUpkCPGwPSN2V/+rxu0SIG1uluoxVfwpkyDyXW
+         36pZz3ouMh0SvSvPttwMAm4U/tMXwcfp1wcLAucRzKHTeXeWt7pp7+XuqoUqGIQSiyJE
+         bBoS0La/hPav/TUK5HB4QN7+kymQKSMubvGjumVOn/W9pluJr0iat5Sn27MPUwUysbZF
+         Uyejbt37avlINMRplL5kNE9l/bThPw5eWsOgqTzQUU2qzxQCD32GzE1IDzVU5T77OdwS
+         0312IidL8U2f6Yn5cVRLJv1q3wFWv2nFBRs1w6kMAl8e+iZP+If29eCpsDDHfdTD5enu
+         k6/Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773932050; x=1774536850; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Jw0GH/4mNtxvnbd70gE+2uTwAn5ypE+g4jyg0EIdEpQ=;
+        b=hXdDk7A7vGYw3Zx6tF71xgZ7WwjEnaSx5y641xv65jo7qeQ8m8GRnNgGYdbd7kyl6R
+         jJrYRxgyKtVCKK4gWldoBp3Tvv5JIfA34Qk+AUM+Tc1yNVtKuQOzEjlcqKADPmBmdM8w
+         Abw0s9L2n45ICgImp7PJzWtFr3S9gAQrMEjvGWASPn8mFsb6ObKzNoAMwTU0IXbMD2wE
+         RqECz/OvszbdyuC1gWzGfiUkUSZgpXR6vJXzxNUgUd6dbCF/7aJ293WWUo3p4R/57EBl
+         UZcoxF6Zh44ecjSgAzXPCdgTQ7czPzt94DSczCXot4iFxD9ZleUU1yD7bhYc660LKoOY
+         FQEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773932050; x=1774536850;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Jw0GH/4mNtxvnbd70gE+2uTwAn5ypE+g4jyg0EIdEpQ=;
+        b=tQ741uuB7GFNUO91CDnpmv4bUYI6GEy+Q9G/bN7w5ETo145fSHBWoem8ksxXLFkcDh
+         bQRYOKR6nNVSAjyfduN9Rp1w5iDnMM0s5PxNmYu5mS0xtlCfjH7yvqSSijbWGYkEv/05
+         A6i7Y9M0SBoE7lp/Bx88MvMMysGdk99YhgzDVvDe9kJ2YTETEQoZErB//g0wgGaJjUMQ
+         synet1LYIUucSl+4F9SP8BBPtBx8H1vs27LZd4So6fvAU/tlJMS9rMtAf7itU3Ea3G0q
+         +av/dhreP58QzkSM6JHSd/1cx2aUe82QITA8D3VzcMysAfSKHnouY+pRjx+BjBJeseE3
+         gVTA==
+X-Forwarded-Encrypted: i=1; AJvYcCXgx4kioZfzl2NpQa2p2KYX+2BvgfW7Dy20IwwRqGRxHZCn8Ry9SilVDF+J32BifOhK5cjawuSmM/WIdueK@vger.kernel.org
+X-Gm-Message-State: AOJu0YyzluoqfoCQE2lcs2a1dXe6SS06Myu3ZqaVddhZkPHfGHrIVutg
+	l4Vmbf8Bu8tBcKT/DUx6QhnFpsU6Nk8GZn5ArVY2byDMueqEtRX69i2/YfZOnCI5EnHssaDthER
+	7hlS/ayypFEDOELy62y+tAwPPhaQoGqQ=
+X-Gm-Gg: ATEYQzxoVw3qFHr4yCFtj3QTxQud6g02+eCoAFh0uLxwNED9JNgwWKpsWZwq7hyLn+O
+	ry1pOLm93E+e/ZRCb2gxeKvmhNJLB0eoJP8rxVi+zfDx6L8xDeXX8cRj8e+kJyg2DMolOdNJOcP
+	+QjU2YSrGfVSmehkdCjGDERoNMOJUx1u1AJoWLF5nVgky9utdUgWE83aBEEmnoGs6ynQugXvYet
+	Y6grJYlewnjbW7sQ4OBHq9nBZTdHD1PQELzayA54FZcEWNfyvivDaYpJR2kq84Yq26KiSQBDS50
+	redm2UYvQvQf9BLVRvvRzE9ufA5ItY0L6kr9xGRXeRdkhmbLlAw+
+X-Received: by 2002:a17:906:945:b0:b97:d76f:3790 with SMTP id
+ a640c23a62f3a-b97f4948e4dmr422735566b.24.1773932049652; Thu, 19 Mar 2026
+ 07:54:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 05/23] mm/vma: use new VMA flags for sticky flags logic
-Content-Language: en-US
-To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: David Hildenbrand <david@kernel.org>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>, Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Kees Cook <kees@kernel.org>,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- Vineet Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Brian Cain <bcain@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
- WANG Xuerui <kernel@xen0n.name>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Dinh Nguyen <dinguyen@kernel.org>, Madhavan Srinivasan
- <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>,
- Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <chleroy@kernel.org>,
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, Richard Weinberger <richard@nod.at>,
- Anton Ivanov <anton.ivanov@cambridgegreys.com>,
- Johannes Berg <johannes@sipsolutions.net>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Xu Xin <xu.xin16@zte.com.cn>, Chengming Zhou <chengming.zhou@linux.dev>,
- Michal Hocko <mhocko@suse.com>, Paul Moore <paul@paul-moore.com>,
- Stephen Smalley <stephen.smalley.work@gmail.com>,
- Ondrej Mosnacek <omosnace@redhat.com>, linux-snps-arc@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-hexagon@vger.kernel.org,
- loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org, linux-um@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, selinux@vger.kernel.org
-References: <cover.1773846935.git.ljs@kernel.org>
- <fd4276d39055290061f87e9fded20b6a6b712975.1773846935.git.ljs@kernel.org>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-In-Reply-To: <fd4276d39055290061f87e9fded20b6a6b712975.1773846935.git.ljs@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260318131258.1457101-1-amir73il@gmail.com> <CAHC9VhTKvOzMS2ZyawE=qBN-EpyucfxvwcHZYjXF5zugRhE2rw@mail.gmail.com>
+In-Reply-To: <CAHC9VhTKvOzMS2ZyawE=qBN-EpyucfxvwcHZYjXF5zugRhE2rw@mail.gmail.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Thu, 19 Mar 2026 15:53:58 +0100
+X-Gm-Features: AaiRm53ob940soSsJtP2tgmiMXVCsKvszmwMYDw08PfOi4CUawSVTSX4zhGKxzI
+Message-ID: <CAOQ4uxj8SZqaFbrVifw0uw7skbUvJP1_nLWj4PYCeZuaLy5t_A@mail.gmail.com>
+Subject: Re: [PATCH v6] backing_file: store user_path_file
+To: Paul Moore <paul@paul-moore.com>
+Cc: Christian Brauner <brauner@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, Gao Xiang <xiang@kernel.org>, 
+	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
+	linux-erofs@lists.ozlabs.org, linux-fsdevel@vger.kernel.org, 
+	linux-unionfs@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 3/18/26 16:50, Lorenzo Stoakes (Oracle) wrote:
-> Use the new vma_flags_t flags implementation to perform the logic around
-> sticky flags and what flags are ignored on VMA merge.
-> 
-> We make use of the new vma_flags_empty(), vma_flags_diff_pair(), and
-> vma_flags_and_mask() functionality.
-> 
-> Also update the VMA tests accordingly.
-> 
-> Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
+On Thu, Mar 19, 2026 at 12:47=E2=80=AFAM Paul Moore <paul@paul-moore.com> w=
+rote:
+>
+> On Wed, Mar 18, 2026 at 9:13=E2=80=AFAM Amir Goldstein <amir73il@gmail.co=
+m> wrote:
+> >
+> > Instead of storing the user_path, store an O_PATH file for the
+> > user_path with the original user file creds and a security context.
+> >
+> > The user_path_file is only exported as a const pointer and its refcnt
+> > is initialized to FILE_REF_DEAD, because it is not a refcounted object.
+> >
+> > The file_ref_init() helper was changed to accept the FILE_REF_ constant
+> > instead of the fake +1 integer count.
+> >
+> > Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+> > ---
+> >
+> > Christian,
+> >
+> > My v5 patch was sent by Paul along with his LSM/selinux pataches [1].
+> > Here are the changes you requested.
+> >
+> > I removed the ACKs and Tested-by because of the changes.
+> >
+> > Thanks,
+> > Amir.
+> >
+> > Changes since v5:
+> > - Restore file_ref_init() helper without refcnt -1 offset
+> > - Future proofing errors from backing_file_open_user_path()
+> >
+> > [1] https://lore.kernel.org/r/20260316213606.374109-6-paul@paul-moore.c=
+om/
+> >
+> >  fs/backing-file.c            | 26 ++++++++++--------
+> >  fs/erofs/ishare.c            | 13 +++++++--
+> >  fs/file_table.c              | 53 ++++++++++++++++++++++++++++--------
+> >  fs/fuse/passthrough.c        |  3 +-
+> >  fs/internal.h                |  5 ++--
+> >  fs/overlayfs/dir.c           |  3 +-
+> >  fs/overlayfs/file.c          |  1 +
+> >  include/linux/backing-file.h | 29 ++++++++++++++++++--
+> >  include/linux/file_ref.h     |  4 +--
+> >  9 files changed, 103 insertions(+), 34 deletions(-)
+>
+> Still works for me.  I'm going to update lsm/stable-7.0 with this
+> patch so we can get some more linux-next testing.
+>
+> Tested-by: Paul Moore <paul@paul-moore.com>
+>
 
-Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+Paul,
 
+As you saw, syzbot found a nasty bug in this patch and it is too hard
+to fix it without introducing more hazards.
+
+Therefore, per Christian's request I am withdrawing this patch.
+
+Please see compile tested alternative solution for selinux without
+intrusive vfs change at:
+https://github.com/amir73il/linux/commits/user_path_file/
+
+Thanks,
+Amir.
