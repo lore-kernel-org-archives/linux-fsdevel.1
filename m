@@ -1,118 +1,218 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB8093FD12B;
-	Thu, 19 Mar 2026 18:24:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773944672; cv=none; b=Zq0wIOhjXxKGwuGqF/WQIHUdjpSQTBet+pu5jMam3ljSwSHSEPODu+KtSqGEc03AObJP7y8f0wjR985dEM5grlZ4UrPHPWre2qCWX4ABHlRQnrLY0X7Cwm+pgil/3AvGXaJ3IFz76VaMWVkyOq/cyZo6/GGlGzXXUEfiCJWPTqA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773944672; c=relaxed/simple;
-	bh=8qR80FHVrw1W7dNRTWXARimuDYTsH7/Z1DNv6yL8KUI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qsL/sXSsD+MyU/bfaPFkm5DndM9HJeo/I4+F+eBq2UVR3MdDP0H5VVnPeUvlUKZ0M/dk5FHf2Tgvo8jGJTLgKk2PvrWZ2rcTw5s+2f4IxqbYc3xyp6cheC6h8VaGH8s+kIYuJuPDx/mQNS9ZUyisrK5IXIwEFad9gFSUCN4TDUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BVYC5dOU; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 132E61F7541
+	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Mar 2026 18:30:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773945061; cv=pass; b=ac+3Bvt0NUUxVBqwuWj2qGI5guTZQY4/bjbmD2KW9VeigURM4NX9DLGCVl6t6iRhVi84R3uYiFPrrhOnbSrkmhHbtdG0slFXrmeDIfwWPWU8oxkeIWPY7I19mUYapwJlYUpGl9LrMIdCQrcZTxlXCj0Nty9FzhyX9JKz14v+bm4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773945061; c=relaxed/simple;
+	bh=XDXiDxThcJliysAkHl5an+e0+DrYLc2/sF3Jz2IJVXo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=o4eiwRnz7oQjiiKiYIBqLGS569VKbooN9iHSDyXxq1ePp6iC1/ozQOyiSGEeWgqjzo+I4nPVZO3EQ9kbOCK6XGo32qTqkmbjtJN1rY5xhLr0YiHQyLy29CxeqpobZHXkjls1ZeK5XMHa8uIfIke3AGBizKKKBaBNtOB/AaM6qRY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LcSz+E/w; arc=pass smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BVYC5dOU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01DB8C19424;
-	Thu, 19 Mar 2026 18:24:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773944671;
-	bh=8qR80FHVrw1W7dNRTWXARimuDYTsH7/Z1DNv6yL8KUI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=BVYC5dOUj/MbE21wKE4nC0COPv75LzNV8x47CMH0fC7fje4DYi7sI71at8mJPTABJ
-	 zLkW2Y9lJtB8KKDRpClfNeZ9+GACa60E3OtWIpyv9oiEfipIUC9W1uC6jrCj1jOhkM
-	 dkK1SfZU9We74Zu0a49ak0Fa+zdY2gjFoh0p7RYVEwI/GdAYtU3+5Bf/MoQPsC0o63
-	 ATj+FKbZAHped9Et6+jZt1cHcO8myFWGd/JpVmmmrjFfDkETPB7rnHZCgCy4VnDe2n
-	 sllqGD7f14dzxHtZDpdJKoPpVCcXghN9qbtYCYU6HRbdvL+EzTSVLY5zt6ARM6vM5g
-	 mi+fTT0jvaHiQ==
-From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Clemens Ladisch <clemens@ladisch.de>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"K . Y . Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>,
-	Long Li <longli@microsoft.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Bodo Stroesser <bostroesser@gmail.com>,
-	"Martin K . Petersen" <martin.petersen@oracle.com>,
-	David Howells <dhowells@redhat.com>,
-	Marc Dionne <marc.dionne@auristor.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	David Hildenbrand <david@kernel.org>,
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Jann Horn <jannh@google.com>,
-	Pedro Falcato <pfalcato@suse.de>,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-hyperv@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mtd@lists.infradead.org,
-	linux-staging@lists.linux.dev,
-	linux-scsi@vger.kernel.org,
-	target-devel@vger.kernel.org,
-	linux-afs@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org,
-	Ryan Roberts <ryan.roberts@arm.com>
-Subject: [PATCH v3 16/16] mm: on remap assert that input range within the proposed VMA
-Date: Thu, 19 Mar 2026 18:23:40 +0000
-Message-ID: <a2b328f5b9bc902368b18c5b1678a0adb8693516.1773944114.git.ljs@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <cover.1773944114.git.ljs@kernel.org>
-References: <cover.1773944114.git.ljs@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LcSz+E/w"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-b97ba4c2be2so176246066b.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 19 Mar 2026 11:30:59 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773945058; cv=none;
+        d=google.com; s=arc-20240605;
+        b=S0X/mA/F/FmsKrQnBagGNE7rILWhxdVIps1J4j3o/lGk/vRp5WnjFiv8lKYnzk1dXz
+         G7NdPuNBz1yx7V0CCdjCrnN/9BUy2EdcQDISdQmJz9dl8MYuRMSeL7UA0KaU+5N0Pjf4
+         lx0fZElGMeGgn8JERAK3tttqKByX1+igQd9ATOOr1AlXLU/6ITEuTJ0ECCvi6NI7idKs
+         gvnYpysQ3spPhqS4gXdssTBUTSEJDxwblOXO+OTLiOsQylYA2vuAVA5DuUdDzMQszhv/
+         +AFVbsOlG+ZvjnWE/jBWC0CKX3huxFOSZs3cwsP4MkLhZpCal3ZdQM6PuiwwQ7szRJga
+         a3/Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=FJV4dFXvSmt1MChF30a7mY59ejZaZEAqv6m7VOg5tb8=;
+        fh=5nd7w7cVO7DX/1tDgpV0Xh1ywsDzujvIuG88znJVFP8=;
+        b=g5MEXOzWjCB6cwCyCIocDbH+6Z7nvYQJ/zSa4fXVyCxnAb+v5aStAudI9CEyEFrMi0
+         CXziR8W42WsrdBARruY25tSUAM01oBfkTuZtb2a7J0QAFvYWNFbpPb8vON67Tiv6QgjA
+         5kACrn3iaShmX5oZHkWGorLqyQfKpxoLJ7Z7JPCoqcujBxieOqyGVjYE0djRNBR/OHQE
+         3ycyOWgeoPX0FEKd5RmYpCG5hsLQ4QVwdCTH3BiF6KN8WTOuThmg7+FFHVqE5vW/+QmV
+         OhMSXqa8+T/Ejc+2slaHsJ5kaXNp0t7WmOqgLSaJazAK6SnFJ+PWE5d6hK1wK6NXwPsv
+         WG+Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773945058; x=1774549858; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FJV4dFXvSmt1MChF30a7mY59ejZaZEAqv6m7VOg5tb8=;
+        b=LcSz+E/waUBYWjrBULqICHmRq3sGno9OwdMcFklTglWFJAnfzjhBHoyzPO8OvBD1g0
+         gmLsSGj/SJV0JyuM4YSYSqhy6IGjJQ7S0IBuyHcMSFJ97TH93VFPWNibfo/7i81T5nNI
+         FRXvIUGI1XconIdavPnjdxn0JeBlvfRKXvsae6DUrTFxZU0B1eO8QbAJjzkzGpypOo4X
+         g14i1xPf7MjCHoQcJRHHNZYZyEF6vLGM4J0ej6/U4vbfvhS/TKp49DhpLsfmRSjNUVFU
+         QAT2JyDDlwtVxmHc/30JYZKye4h5gwJAt3Gtv9hUgDQrFQ3gT2LLqrvwb6TyGKauSrRg
+         wb+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773945058; x=1774549858;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=FJV4dFXvSmt1MChF30a7mY59ejZaZEAqv6m7VOg5tb8=;
+        b=cMgadaMhcXO4cGIRC7RJsUrDXmYCoOToVvODQaO8cCMVUC9UvcHxiiCXadHwtAI7B8
+         VhpZ+aBDUdSBx3U6A/5TsdpaquhibEhSjMCmQJqlMqZqJPPOIEEMmc/QQrDFhWfRgmbR
+         mhiadVgLsPEbdOiBeE+AWG22Gt4r+MBbqL9G6qAzezxBSQIUo5Jk8ZaJnmErGW8tTnBF
+         LRX7qD17IVj8Fc6TCuXIkh9lHRvZoeTjMshf5K6UUCas2GCll5p9kIDYfMj9vMoYCsGR
+         hKNUujxrqV4UJMvuf/jPg0t/kz8TNZ4MiH2fzSXiIQ3hWB3o4NAowihAPm0nzvkmGoYa
+         XZkQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWe1Uf0rYaysdfB0MOTWP272TM4SQQC8/4ptht+MZREG1vOzoXa6vblXs0aBJxaG1Uxvhgu2GQ84D7HVJWt@vger.kernel.org
+X-Gm-Message-State: AOJu0YyjdzqlpCoTF2XHkP4VmADnCBwhaMik05qgS+DeOpyuVziYi0Dn
+	QO8BkZQPaJ/FdMBi743nXedFKs+4Ugngh5Zg7sad/4v2nUjU0GwWuegRdNPGNgVBwjCakmh1HTe
+	JuklaHK7CVYBkJoaYDfdZ+289LNHp+LY=
+X-Gm-Gg: ATEYQzyHXeg69R1kAGALrCLHlz2XOb8POdxz95Wp5DfZYjK1cQste/4+XK+KHbMpdap
+	FGh+wl2WcRPDqMmKnRv1Ny0exwCt3nB9Zea4IFZZNnIWEVMUPP29kmh1xHqxCp4+lz7Nk2qtaaw
+	UJBeL5POahoP+8tTUkwT10RFxX0AQs3JN/eJ0BNfBbShibqXIbokz2EqTjVTrSsZabeciTbI29z
+	6drGH6O+bX0jLfVLpg3w6EoKYH4x4ukqmHJydkLP24yNW2C0aXBSUt5ikOku4tvBY+rpcn1XluB
+	IS7wQRiDuVxxvgXlLzB2nMPRj40LJe0FUAZ671YhOw==
+X-Received: by 2002:a17:906:c802:b0:b93:a3db:a68c with SMTP id
+ a640c23a62f3a-b982f3e0617mr18697866b.40.1773945058029; Thu, 19 Mar 2026
+ 11:30:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260319124616.1544415-1-amir73il@gmail.com> <20260319-unentbehrlich-reitturnier-f78d9fb01230@brauner>
+ <CAOQ4uxiS1uM=mn4q6CQfganba1XcqyXYmXfQceWdfUVRFK_Pvg@mail.gmail.com> <CAHC9VhQDXHh_=X-OKD9oN8fapVXBwLakNp4rEHLUL0cQ1RSteA@mail.gmail.com>
+In-Reply-To: <CAHC9VhQDXHh_=X-OKD9oN8fapVXBwLakNp4rEHLUL0cQ1RSteA@mail.gmail.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Thu, 19 Mar 2026 19:30:46 +0100
+X-Gm-Features: AaiRm52lvBNmAkQT7DVWo0zF8FRRxYDmyiueu4eOodN3UFl0EjhqJc-Pr5qKv7g
+Message-ID: <CAOQ4uxinSLXKWjMgwyA2A_UU5e+6ZjbdsFUY-+f9DMfQcxH0qA@mail.gmail.com>
+Subject: Re: [PATCH] fs: allow vfs code to open an O_PATH file with negative dentry
+To: Paul Moore <paul@paul-moore.com>
+Cc: Christian Brauner <brauner@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Gao Xiang <xiang@kernel.org>, 
+	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
+	linux-erofs@lists.ozlabs.org, linux-fsdevel@vger.kernel.org, 
+	linux-unionfs@vger.kernel.org, 
+	syzbot+f34aab278bf5d664e2be@syzkaller.appspotmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Now we have range_in_vma_desc(), update remap_pfn_range_prepare() to check
-whether the input range in contained within the specified VMA, so we can
-fail at prepare time if an invalid range is specified.
+On Thu, Mar 19, 2026 at 4:55=E2=80=AFPM Paul Moore <paul@paul-moore.com> wr=
+ote:
+>
+> On Thu, Mar 19, 2026 at 10:50=E2=80=AFAM Amir Goldstein <amir73il@gmail.c=
+om> wrote:
+> > On Thu, Mar 19, 2026 at 2:13=E2=80=AFPM Christian Brauner <brauner@kern=
+el.org> wrote:
+> > > On Thu, Mar 19, 2026 at 01:46:16PM +0100, Amir Goldstein wrote:
+> > > > The fields f_mapping, f_wb_err, f_sb_err are irrelevant for O_PATH =
+file.
+> > > > Skip setting them for O_PATH file, so that the O_PATH file could be
+> > > > opened with a negative dentry.
+> > > >
+> > > > This is not something that a user should be able to do, but vfs cod=
+e,
+> > > > such as ovl_tmpfile() can use this to open a backing O_PATH tmpfile
+> > > > before instantiating the dentry.
+> > > >
+> > > > Reported-by: syzbot+f34aab278bf5d664e2be@syzkaller.appspotmail.com
+> > > > Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+> > > > ---
+> > > >
+> > > > Christian,
+> > > >
+> > > > This patch fixes the syzbot report [1] that the
+> > > > backing_file_user_path_file() patch [2] introduces.
+> > > >
+> > > > This is not the only possible fix, but it is the cleanest one IMO.
+> > > > There is a small risk in introducing a state of an O_PATH file with
+> > > > NULL f_inode, but I (and the bots that I asked) did not find any
+> > > > obvious risk in this state.
+> > > >
+> > > > Note that specifically, the user path inode is accessed via d_inode=
+()
+> > > > and not via file_inode(), which makes this safe for file_user_inode=
+()
+> > > > callers.
+> > > >
+> > > > BTW, I missed this regression with the original patch because I
+> > > > only ran the quick overlayfs sanity test.
+> > > >
+> > > > Now I ran a full quick fstest cycle and verified that the O_TMPFILE
+> > > > test case is covered and that the bug is detected.
+> > > >
+> > > > WDYT?
+> > > >
+> > > > Thanks,
+> > > > Amir.
+> > > >
+> > > > [1] https://syzkaller.appspot.com/bug?extid=3Df34aab278bf5d664e2be
+> > > > [2] https://lore.kernel.org/linux-fsdevel/20260318131258.1457101-1-=
+amir73il@gmail.com/
+> > > >
+> > > >  fs/open.c | 7 ++++---
+> > > >  1 file changed, 4 insertions(+), 3 deletions(-)
+> > > >
+> > > > diff --git a/fs/open.c b/fs/open.c
+> > > > index 91f1139591abe..2004a8c0d9c97 100644
+> > > > --- a/fs/open.c
+> > > > +++ b/fs/open.c
+> > > > @@ -893,9 +893,6 @@ static int do_dentry_open(struct file *f,
+> > > >
+> > > >       path_get(&f->f_path);
+> > > >       f->f_inode =3D inode;
+> > > > -     f->f_mapping =3D inode->i_mapping;
+> > > > -     f->f_wb_err =3D filemap_sample_wb_err(f->f_mapping);
+> > > > -     f->f_sb_err =3D file_sample_sb_err(f);
+> > > >
+> > > >       if (unlikely(f->f_flags & O_PATH)) {
+> > > >               f->f_mode =3D FMODE_PATH | FMODE_OPENED;
+> > > > @@ -904,6 +901,10 @@ static int do_dentry_open(struct file *f,
+> > > >               return 0;
+> > > >       }
+> > > >
+> > > > +     f->f_mapping =3D inode->i_mapping;
+> > > > +     f->f_wb_err =3D filemap_sample_wb_err(f->f_mapping);
+> > > > +     f->f_sb_err =3D file_sample_sb_err(f);
+> > > > +
+> > > >       if ((f->f_mode & (FMODE_READ | FMODE_WRITE)) =3D=3D FMODE_REA=
+D) {
+> > > >               i_readcount_inc(inode);
+> > > >       } else if (f->f_mode & FMODE_WRITE && !special_file(inode->i_=
+mode)) {
+> > >
+> > > I think this is really ugly and I'm really unhappy that we should adj=
+ust
+> > > initialization of generic vfs code for this. My preference is to push
+> > > the pain into the backing file stuff. And my ultimate preference is f=
+or
+> > > this backing file stuff to be removed again for a simple struct path.
+> > > We're working around some more fundamental cleanup here imho.
+> >
+> > Fair enough, we can rip the entire thing from vfs if you don't like it.
+> > The user path file can be opened and stored internally by selinux
+> > without adding all the associated risks in vfs.
+> >
+> > Paul,
+> >
+> > Please see compile tested code at:
+> > https://github.com/amir73il/linux/commits/user_path_file/
+>
+> No.  Definitely no.  Ignoring the fact that there is no reason we
+> should pushing this into the LSM, doing it in this way means it is
+> very likely that each LSM wanting to provide mmap/mprotect controls on
+> overlayfs will have to create a new O_PATH file.  No.
+>
+> ... and let me preemptively comment that this doesn't belong in the
+> LSM framework either.
+>
+> As Christian already mentioned, this really needs to be addressed in
+> the backing file code, please do it there.
+>
 
-This covers the I/O remap mmap actions also which ultimately call into
-this function, and other mmap action types either already span the full
-VMA or check this already.
+OK, will give it another try.
 
-Reviewed-by: Suren Baghdasaryan <surenb@google.com>
-Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
----
- mm/memory.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/mm/memory.c b/mm/memory.c
-index 53ef8ef3d04a..68cc592ff0ba 100644
---- a/mm/memory.c
-+++ b/mm/memory.c
-@@ -3142,6 +3142,9 @@ int remap_pfn_range_prepare(struct vm_area_desc *desc)
- 	const bool is_cow = vma_desc_is_cow_mapping(desc);
- 	int err;
- 
-+	if (!range_in_vma_desc(desc, start, end))
-+		return -EFAULT;
-+
- 	err = get_remap_pgoff(is_cow, start, end, desc->start, desc->end, pfn,
- 			      &desc->pgoff);
- 	if (err)
--- 
-2.53.0
-
+Thanks,
+Amir.
