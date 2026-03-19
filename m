@@ -1,200 +1,243 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF097372EF9
-	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Mar 2026 18:07:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773943677; cv=pass; b=dHhrFjgVKf3uGd/tQ+XKoCA7nP3dtHrCfJ08klUlCi5GUSWCmMGgOT4kardWgGKH6Ux2aP9EiqpJLgUjVGgRPbhebQHjPsIYILwLVxgjgFDMQ7xducmXC1zE0n6sIwkLMnZaeFwa7bp760vGHbAYbbXq4nR0qFXjAHn9mg2YeGM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773943677; c=relaxed/simple;
-	bh=qLyBC2v3psQTDHggKp6cAb3+simj2kT/Xqn/adDf4nE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TbQCix1TK36hYEuA3wXlEtG9udPPijLfJsXdRpn4t4EdVejiPBxLni2EZX1B7d9QyilG81NKgiWTYbXgAJosCcTf+QvqHewWgY+rM/rY5HncBn+Few2Q5DoFkBd3V2/nw+IKHa7NWQiR/JKiIUOJEsbZOA7ZfPJFj+N4yBA5lVM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g+7dDoex; arc=pass smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 486A13F54BB;
+	Thu, 19 Mar 2026 18:23:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773944626; cv=none; b=FmJ3ii+JIkHEcvXurph+JohLY3yF1CHdfxvYPRuyo25afSy2fxqwmNrs05ZSAA2yhZ5PN3qsU4t1uEwpUeNC12mi8cEHaHtEhRev3joXHpHXEsKmiO852qOy/wlfASqavjlexEUNybElvkQTakh6cK0E/0lzaJQT5GR83gbKPVA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773944626; c=relaxed/simple;
+	bh=hUq23NX3AUF/Z/nd3f+apZh8oyr5ochA07r37x4M5ug=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=crSc7Aw7r7JIT/ZiNnr668ajpKW72n52AGVSbVou2UcYrv+ZNsxIYTEl+koYQLAVYSr0uV+c7Z/FMyNQ4tqQipKxGWbwSC7DDGmNTfTUtbQQbBE2qDVzyW5zdAUGliEIcUIAP+B0UUU7uPBJA4aDGomoEgdyO4+2XSkeD+97ozQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k72tqnwu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g+7dDoex"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-486fd5360d4so6566845e9.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 19 Mar 2026 11:07:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773943674; cv=none;
-        d=google.com; s=arc-20240605;
-        b=SNv+S36UKSoginuRxb4w8ZnsREKv+QyVblV9/nGl47skJaO+EK0bP/bRtp9WFdIgQS
-         Iu4NjwEwOIHw9RC9R9RBKAkzxahaKlmEiPN+OKIyHPzN+CMPqX/c+l+ME3E/iWMIVoCx
-         gF1NEtl9gOjn2KzbUgNTVUr6gYCa3Zs4r1xaQ/Ebz1Q6HJu2+Wnz97RElyHuwXsOI9Jv
-         26sOdB4YdT7NwEIsjAjgX7IoNDc9e+yCF12/F0Bby6oJPj31LUo6EPJDqdN/mmJa467t
-         8Hf0BoKWPGj1B1S8GzKcs7EeurDbnjZF0u6+6NhQndyg0RMWg8/+LkqG718SAdXDHGeB
-         x/rA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=LPwYDOqDzfGuF9EEcoCkuHGw4QSL61z/ViJbQ5YfE90=;
-        fh=JrYNdKIfA+Th3j7F1YrzCa+tY7iTSbeLD9Tup5hnHPA=;
-        b=huarXB+7gohm7iHxxvj+7u9/M+2Ixeeu51qvxIDtPNi5saXB4Nfkc2reY6SJZeR3QK
-         6epAfA50XhF5tfa04xeX5yiHxViZTp4I/FyevLVyjpqlyBH4YhiULdDaRHWAHFjKUVrD
-         t25Nx4ptQFwUmAAZKSiY7fE4btiDKCpIF2Cv+6LuJ1HRIyD5jGl5YZvMUNCgTbDEN4a+
-         A08ukwtrc3bvOg3ZEi7A/osR3xRFfzNMq1B3lNRb2plRFJheT5eimN4Zw2HJih+wVUz1
-         kYRucoCZ3OgkZgm1nt8ux2oPGjyYYPeFcs0MtHrJqYMBkDWXYns63uNSXZJyH8VeAWWL
-         Gmjw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773943674; x=1774548474; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LPwYDOqDzfGuF9EEcoCkuHGw4QSL61z/ViJbQ5YfE90=;
-        b=g+7dDoexpUo2XZb3gfCtgxL6GYIMbW3NNNU0LNQT+eecn24i0HZpMjD+f4ddNbaxtm
-         eXFoxgFBGaYh3Zbfwb/KTIEQLjBxHgbqIgXfxQdQ183zPE9G0Vu6Cxc2mFOa4dYcg5Jl
-         sIvbHx0P8K3R0ES7NmwsR7I/KC4msGLZW4A6Vykd3/X7QSQLUC8GqZ7fSKhgGtv62bHc
-         OnFpVj6P+PydbBqek+Xw6jfj8DS8rWftuvVYX4w4BhQgvGmEQHa0tMOGa3bb7W3fMjhy
-         arWLTvVJrUHqiFVkPDLr/ACX4NG9qHqjqh+mMjOBKSRiB1EGgyu0Qmnf9MJynsV+qsgH
-         TQAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773943674; x=1774548474;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=LPwYDOqDzfGuF9EEcoCkuHGw4QSL61z/ViJbQ5YfE90=;
-        b=SrZgElNHwDdMfDorLVNjvPdR5EcN3l+kA7RyEx+Uct2J1jKsnMtZ12rFdHyRnEPVIJ
-         cRkr8Ip7RxvfuAz+G8yzHGWQdp4znAzJM20JrDlAJJw7iXzh68mlc9yyaSxIZZCWvR4X
-         myEt5ocpFT+TUE5bBsPePh80MQZWZ4+metbFRDn2XBjxmagCLcy3XDserEqMauBSujiK
-         LBH9OeNy2ZPJqRj4n4QDB4IxD5tH2vODqz97zCV2enEdkVIWOY8fM5PKEE38p5HwEWai
-         UsoSGeX9xtrLxA1alzr4sgIAlysA+/CP4kavBugzittMzVqUdUHOPrPNVAhtuLbfABMm
-         F2NQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXOIcLaXGaAUgPGEF8NtNsF0+mlRwvpivGz9bFNIayEoAzb5IBrW5tKABkkp0rx8TLhOgq1kdO0rrgS8+SV@vger.kernel.org
-X-Gm-Message-State: AOJu0YwavK7fQkQvmhhzITwzjuQgZhOBErQjTmlsZ8IBz9EbTmb4z7sd
-	OXVtgNzTERAqggTsRdMjpKZmYUaX0XhEaLVvV4b0t89CsDS7KRg7F9KFajLZtOJlQnEiRSNOH1o
-	cJ7h1r4hKHkaxCzKhn+lfPRJqZ/U/b4U=
-X-Gm-Gg: ATEYQzxj4rba+pOQoUP7VZQL2sqhsrjR5tmufShpELTtuOUCRpt0AEo+BnAafa04p8s
-	NW/rbg8FWBPo41P3okJ9YW1nrliLU2N/Ja4Fk7t/Sck4ToFJP5xlqyybKwuKghcRPabnDai4rZ5
-	fwQWmP4v9NM2BpKaKgftJitL62G1I6bFDTdZL3XqVIPm17VSh7i1PuPm86x33OYBakIWuC+whoY
-	LWdIkRMEmSIDmV2MAKkqLAz/vCLWx9SzXeaBoOgacraxPbBw8Y+bR0m8FjzkNu3X+k9dUSsHTgA
-	58rFew==
-X-Received: by 2002:a05:600c:4e8e:b0:485:3fd1:992c with SMTP id
- 5b1f17b1804b1-486fedaafc2mr1248265e9.1.1773943674033; Thu, 19 Mar 2026
- 11:07:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k72tqnwu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AF4EC19424;
+	Thu, 19 Mar 2026 18:23:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773944625;
+	bh=hUq23NX3AUF/Z/nd3f+apZh8oyr5ochA07r37x4M5ug=;
+	h=From:To:Cc:Subject:Date:From;
+	b=k72tqnwuSjAIoaoFYpnmAJc5NqF2RHzpf2m0/2v5FHjqFYrvF9hFpFABSV0ibMtjI
+	 v5ABOEragkIvhSQcUDiYsI2HJhw45Kwl3+zk237y/4tjTATs5TdNmP3sOChEeowL0j
+	 aF2jYijp2yjfKoeeFK5r4Blr/10cTIPfZxwMhCmDiuBv8H7oliqmyrAE8CKe2gk/Df
+	 hif2oRVLCDoEd+7O09ruZk1Sqb3i4NACbtkHiyNTqml2Yjk84myr5XNmRq67QmIQvh
+	 5rosWsQJMLdf0p2r46AtulRsJmHTQ5LCq29emURnbAQO3W3H4Een9shDvkQqdUHUth
+	 LEQrKOSjYWzGw==
+From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Clemens Ladisch <clemens@ladisch.de>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"K . Y . Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>,
+	Dexuan Cui <decui@microsoft.com>,
+	Long Li <longli@microsoft.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Bodo Stroesser <bostroesser@gmail.com>,
+	"Martin K . Petersen" <martin.petersen@oracle.com>,
+	David Howells <dhowells@redhat.com>,
+	Marc Dionne <marc.dionne@auristor.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	David Hildenbrand <david@kernel.org>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Jann Horn <jannh@google.com>,
+	Pedro Falcato <pfalcato@suse.de>,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-hyperv@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mtd@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-scsi@vger.kernel.org,
+	target-devel@vger.kernel.org,
+	linux-afs@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org,
+	Ryan Roberts <ryan.roberts@arm.com>
+Subject: [PATCH v3 00/16] mm: expand mmap_prepare functionality and usage
+Date: Thu, 19 Mar 2026 18:23:24 +0000
+Message-ID: <cover.1773944114.git.ljs@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260318225604.71545-1-joannelkoong@gmail.com> <k7ln2mcmll3t4zic3smao6hvvxprmpsax45fh6mwn4en6f6m42@sdpuqd2pqiwy>
-In-Reply-To: <k7ln2mcmll3t4zic3smao6hvvxprmpsax45fh6mwn4en6f6m42@sdpuqd2pqiwy>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Thu, 19 Mar 2026 11:07:42 -0700
-X-Gm-Features: AaiRm51PiGs5infWIQSFJuqnAy1FZOdjdr7orrxLP3LNZfiW4rd16rvmfCo8zAw
-Message-ID: <CAJnrk1Z7OTah=zam8_4LWx8Kc0B6omrVbiiDRNHm34yAKNEBEA@mail.gmail.com>
-Subject: Re: [PATCH v1] writeback: skip sync(2) inode writeback for
- filesystems with no data integrity guarantees
-To: Jan Kara <jack@suse.cz>
-Cc: brauner@kernel.org, linux-fsdevel@vger.kernel.org, miklos@szeredi.hu, 
-	david@kernel.org, therealgraysky@proton.me, linux-pm@vger.kernel.org, 
-	stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Mar 19, 2026 at 5:42=E2=80=AFAM Jan Kara <jack@suse.cz> wrote:
->
-> On Wed 18-03-26 15:56:04, Joanne Koong wrote:
-> > Add SB_I_NO_DATA_INTEGRITY superblock flag for filesystems that cannot
-> > guarantee data persistence on sync (eg fuse) and skip sync(2) inode
-> > writeback for superblocks with this flag set.
-> >
-> > There was a recent report [1] for a suspend-to-RAM hang on fuse-overlay=
-fs with
-> > firefox + youtube in wb_wait_for_completion() from the pm_fs_sync_work_=
-fn()
-> > path:
-> >
-> > Workqueue: pm_fs_sync pm_fs_sync_work_fn
-> > Call Trace:
-> >  <TASK>
-> >  __schedule+0x457/0x1720
-> >  schedule+0x27/0xd0
-> >  wb_wait_for_completion+0x97/0xe0
-> >  sync_inodes_sb+0xf8/0x2e0
-> >  __iterate_supers+0xdc/0x160
-> >  ksys_sync+0x43/0xb0
-> >  pm_fs_sync_work_fn+0x17/0xa0
-> >  process_one_work+0x193/0x350
-> >  worker_thread+0x1a1/0x310
-> >  kthread+0xfc/0x240
-> >  ret_from_fork+0x243/0x280
-> >  ret_from_fork_asm+0x1a/0x30
-> >  </TASK>
-> >
-> > This can happen in two ways:
-> > a) systemd freezes the user session cgroups first (which freezes the fu=
-se daemon)
-> > before invoking the kernel suspend. The suspend triggers the wb_workfn(=
-) ->
-> > write_inode() path, where fuse issues a synchronous setattr request to =
-the
-> > frozen daemon, which cannot process the request
-> > b) if a dirty folio is already under writeback and needs to have writeb=
-ack
-> > issued again, in writeback_get_folio() -> folio_prepare_writeback(), we
-> > unconditionally wait on writeback to finish, but for buggy/faulty fuse
-> > servers, the request may never be processed
-> >
-> > The correct fix is for sync(2) to skip the sync_inodes_sb() path entire=
-ly for
-> > any filesystems that do not have data integrity guarantees.
-> >
-> > A prior commit (commit f9a49aa302a0 ("fs/writeback: skip AS_NO_DATA_INT=
-EGRITY
-> > mappings in wait_sb_inodes()")) added the AS_NO_DATA_INTEGRITY mapping =
-flag to
-> > skip sync(2) waits for mappings without data integrity semantics, but i=
-t still
-> > allowed wb_workfn() worker threads to be kicked off for the writeback.
-> >
-> > This patch improves upon that by replacing the per-inode AS_NO_DATA_INT=
-EGRITY
-> > mapping flag with a flag at the superblock level, and using that superb=
-lock
-> > flag to skip the sync_inodes_sb() path entirely if there are no data in=
-tegrity
-> > guarantees. The flag belongs at the superblock level because data integ=
-rity is
-> > a filesystem-wide property, not a per-inode one. Having the flag at the
-> > superblock level allows sync_inodes_one_sb() to skip the entire filesys=
-tem
-> > efficiently, rather than iterating every dirty inode only to skip each =
-one
-> > individually.
-> >
-> > This patch restores fuse to its prior behavior before tmp folios were r=
-emoved,
-> > where sync was essentially a no-op.
-> >
-> > [1] https://lore.kernel.org/linux-fsdevel/CAJnrk1a-asuvfrbKXbEwwDSctvem=
-F+6zfhdnuzO65Pt8HsFSRw@mail.gmail.com/T/#m632c4648e9cafc4239299887109ebd880=
-ac6c5c1
-> >
-> > Fixes: 0c58a97f919c ("fuse: remove tmp folio for writebacks and interna=
-l rb tree")
-> > Reported-by: John <therealgraysky@proton.me>
-> > Tested-by: John <therealgraysky@proton.me>
-> > Cc: <stable@vger.kernel.org>
-> > Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
->
-> I'd note that previously, if the FUSE server was not broken, although
-> sync(2) would not provide any data integrity guarantee, it would still
-> flush the data so practically, there would be no user observable differen=
-ce
-> unless you really did powerfail testing. So some users might be
-> unpleasantly surprised by sync(2) suddently not doing anything on FUSE
-> filesystems. Maybe for SB_I_NO_DATA_INTEGRITY filesystems we should at
-> least kick flush worker to do writeback in the background?
->
->                                                                 Honza
->
+This series expands the mmap_prepare functionality, which is intended to
+replace the deprecated f_op->mmap hook which has been the source of bugs
+and security issues for some time.
 
-That's a great point. I'll make this change for v2.
+This series starts with some cleanup of existing mmap_prepare logic, then
+adds documentation for the mmap_prepare call to make it easier for
+filesystem and driver writers to understand how it works.
 
-Thanks,
-Joanne
+It then importantly adds a vm_ops->mapped hook, a key feature that was
+missing from mmap_prepare previously - this is invoked when a driver which
+specifies mmap_prepare has successfully been mapped but not merged with
+another VMA.
+
+mmap_prepare is invoked prior to a merge being attempted, so you cannot
+manipulate state such as reference counts as if it were a new mapping.
+
+The vm_ops->mapped hook allows a driver to perform tasks required at this
+stage, and provides symmetry against subsequent vm_ops->open,close calls.
+
+The series uses this to correct the afs implementation which wrongly
+manipulated reference count at mmap_prepare time.
+
+It then adds an mmap_prepare equivalent of vm_iomap_memory() -
+mmap_action_simple_ioremap(), then uses this to update a number of drivers.
+
+It then splits out the mmap_prepare compatibility layer (which allows for
+invocation of mmap_prepare hooks in an mmap() hook) in such a way as to
+allow for more incremental implementation of mmap_prepare hooks.
+
+It then uses this to extend mmap_prepare usage in drivers.
+
+Finally it adds an mmap_prepare equivalent of vm_map_pages(), which lays
+the foundation for future work which will extend mmap_prepare to DMA
+coherent mappings.
+
+
+v3:
+* Propagated tags (thanks Suren, Richard!)
+* Updated 12/16 to correctly clear the vm_area_desc data structure in
+  set_desc_from_vma() as per Joshua Hahn (thanks! :)
+* Fixed type in 12/16 as per Suren (cheers!)
+* Fixed up 6/16 to use mmap_action_ioremap_full() in simple_ioremap_prepare() as
+  suggested by Suren.
+* Also fixed up 6/16 to call io_remap_pfn_range_prepare() direct rather than
+  mmap_action_prepare() as per Suren.
+* Also fixed up 6/16 to pass vm_len rather than vm_[start, end] to
+  __simple_ioremap_prep() as per Suren (thanks for all the above! :)
+* Fixed issue in rmap lock being held - we were referencing a vma->vm_file after
+  the VMA was unmapped, so UAF. Avoid that. Also do_munmap() relies on rmap lock
+  NOT being held or may deadlock, so extend functionality to ensure we drop it
+  when it is held on error paths.
+* Updated 'area' -> 'vma' variable in 3/16 in VMA test dup.h.
+* Fixed up reference to __compat_vma_mmap() in 12/16 commit message.
+* Updated 1/16 to no longer duplicatively apply io_remap_pfn_range_pfn().
+* Updated 1/16 to delegate I/O remap complete to remap complete logic.
+* Fixed various typos in 12/16.
+* Fixed stale comment typos in 13/16.
+* Fixed commit msg and comment typos in 14/16.
+* Removed accidental sneak peak to future functionality in 15/16 commit message
+  :).
+* Fixed up field names to be identical in VMA tests + mm_types.h in 6/16,
+  15/16.
+
+v2:
+* Rebased on
+  https://lore.kernel.org/all/cover.1773665966.git.ljs@kernel.org/ to make
+  Andrew's life easier :)
+* Folded all interim fixes into series (thanks Randy for many doc fixes!))
+* As per Suren, removed a comment about allocations too small to fail.
+* As per Randy, fixed up typo in documentation for vm_area_desc.
+* Fixed mmap_action_prepare() not returning if invalid action->type
+  specified, as updated from Andrew's interim fix (thanks!) and also
+  reported by kernel test bot.
+* Updated mmap_action_prepare() and specific prepare functions to only
+  pass vm_area_desc parameter as per Suren.
+* Fixed up whitespace as per Suren.
+* Updated vm_op->open comment in vm_operations_struct to reference forking
+  as per Suren.
+* Added a commit to check that input range is within VMA on remap as per
+  Suren (this also covers I/O remap and all other cases already asserted).
+* Updated AFS to not incorrectly reference count on mmap prepare as per
+  Usama.
+* Also updated various static AFS functions to be consistent with each
+  other.
+* Updated AFS commit message to reflect mmap_prepare being before any VMA
+  merging as per Suren.
+* Updated __compat_vma_mapped() to check for NULL vm_ops as per Usama.
+* Updated __compat_vma_mapped() to not reference an unmapped VMA's fields
+  as per Usama.
+* Updated __vma_check_mmap_hook() to check for NULL vm_ops as per Usama.
+* Dropped comment about preferring mmap_prepare as seems overly confusing,
+  as per Suren.
+* Updated the mmap lock assert in unmap_vma_locked() to a write lock assert
+  as per Suren.
+* Copied vm_ops->open comment over to VMA tests in appropriate patch as per
+  Suren.
+* Updated mmap_prepare documentation to reflect the fact that no resources
+  should be allocated upon mmap_prepare.
+* Updated mmap_prepare documentation to reference the vm_ops->mapped
+  callback.
+* Fixed stray markdown '## How to use' in documentation.
+* Fixed bug reported by kernel test bot re: overlooked
+  vma_desc_test_flags() -> vma_desc_test() in MTD driver for nommu.
+https://lore.kernel.org/linux-mm/cover.1773695307.git.ljs@kernel.org/
+
+v1:
+https://lore.kernel.org/linux-mm/cover.1773346620.git.ljs@kernel.org/
+
+Lorenzo Stoakes (Oracle) (16):
+  mm: various small mmap_prepare cleanups
+  mm: add documentation for the mmap_prepare file operation callback
+  mm: document vm_operations_struct->open the same as close()
+  mm: add vm_ops->mapped hook
+  fs: afs: correctly drop reference count on mapping failure
+  mm: add mmap_action_simple_ioremap()
+  misc: open-dice: replace deprecated mmap hook with mmap_prepare
+  hpet: replace deprecated mmap hook with mmap_prepare
+  mtdchar: replace deprecated mmap hook with mmap_prepare, clean up
+  stm: replace deprecated mmap hook with mmap_prepare
+  staging: vme_user: replace deprecated mmap hook with mmap_prepare
+  mm: allow handling of stacked mmap_prepare hooks in more drivers
+  drivers: hv: vmbus: replace deprecated mmap hook with mmap_prepare
+  uio: replace deprecated mmap hook with mmap_prepare in uio_info
+  mm: add mmap_action_map_kernel_pages[_full]()
+  mm: on remap assert that input range within the proposed VMA
+
+ Documentation/driver-api/vme.rst           |   2 +-
+ Documentation/filesystems/index.rst        |   1 +
+ Documentation/filesystems/mmap_prepare.rst | 168 ++++++++++++++
+ drivers/char/hpet.c                        |  12 +-
+ drivers/hv/hyperv_vmbus.h                  |   4 +-
+ drivers/hv/vmbus_drv.c                     |  31 ++-
+ drivers/hwtracing/stm/core.c               |  31 ++-
+ drivers/misc/open-dice.c                   |  19 +-
+ drivers/mtd/mtdchar.c                      |  21 +-
+ drivers/staging/vme_user/vme.c             |  20 +-
+ drivers/staging/vme_user/vme.h             |   2 +-
+ drivers/staging/vme_user/vme_user.c        |  51 +++--
+ drivers/target/target_core_user.c          |  26 ++-
+ drivers/uio/uio.c                          |  10 +-
+ drivers/uio/uio_hv_generic.c               |  11 +-
+ fs/afs/file.c                              |  36 ++-
+ include/linux/fs.h                         |  14 +-
+ include/linux/hyperv.h                     |   4 +-
+ include/linux/mm.h                         | 159 ++++++++++++-
+ include/linux/mm_types.h                   |  17 +-
+ include/linux/uio_driver.h                 |   4 +-
+ mm/internal.h                              |  41 ++--
+ mm/memory.c                                | 175 ++++++++++----
+ mm/util.c                                  | 251 ++++++++++++++-------
+ mm/vma.c                                   |  53 +++--
+ mm/vma.h                                   |   2 +-
+ tools/testing/vma/include/dup.h            | 152 ++++++++++---
+ tools/testing/vma/include/stubs.h          |   9 +-
+ 28 files changed, 990 insertions(+), 336 deletions(-)
+ create mode 100644 Documentation/filesystems/mmap_prepare.rst
+
+--
+2.53.0
