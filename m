@@ -1,76 +1,307 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C8093AF649
-	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Mar 2026 12:38:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 180383C13E8
+	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Mar 2026 12:42:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773923936; cv=none; b=sf0HeSaMwbM8Uf2QZ+YWpBvM8Gg+YaltbwGS+GbKijk/9AGcUxjyv296vjwagsWMyHrTyYQI6Bh7TnHo0wk7drqAwvtAZMTD5k4PHOdHS9rA+797fw0GQidz4rgGv6EZTviPSa631RgQyRTD7WDcsceF5TMcl0MpFbhNvmjQUIo=
+	t=1773924144; cv=none; b=pr9PEbMDLyomTPx6b7qR9dXz13dh7qKHeLlfed7sULtWjEYgbDp022dbbjJ4L81TCnMQuk09IcRLxMXh1BFxczMTdtGHolh8hmuksMv8bX2UZiKQ94B+Ltqqi986XZmJsCRY0PgsOtJ1ds/mucmYrZsySAvggdP+EdSCpEKa3aY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773923936; c=relaxed/simple;
-	bh=Zo+8vWdyGD+nyD8B43AgyKBPgpnM/90ddXHcwLhsZKU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pKMR0zeNeuAKnxOH6JzVPQfzgKkozPON5M0+PZLO0F5b8U4MKREbcrayxAu5fnDDt7uOz6kGksBNGtNEE5wPC1yA/J1vOvBrTgtzz1kVm3VpjLHQ5du6pLPuE4Ylohl7RX/92AUV0IhWS7Uii2AzPZCTza1teMKx6paoiE4BuJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=St1TxO05; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773924144; c=relaxed/simple;
+	bh=GhDpWeb0maRZry/oxI6ymaw7q0PAfT5+R2cF0l4DVTM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NUz+N6L+5atG1hYRzSvtGL+qEtImviHeei1UZrFNhrAwHyQo082kGs+EQmNVhVGDEasWFtw926Pn/XBpmxxajbnk4a/+GtVS9OqjHETnDu/FyTa+8e9k5A541SUXfgZ9yF8ykhK1Ttf2iXrAXn/fip5pOknu8BSKR9zx4BRmPSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=ULJsmgJE; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=sRerEnp9; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=ULJsmgJE; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=sRerEnp9; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="St1TxO05"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09300C2BCAF
-	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Mar 2026 12:38:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773923936;
-	bh=Zo+8vWdyGD+nyD8B43AgyKBPgpnM/90ddXHcwLhsZKU=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=St1TxO05CbAIsEgjCP3zUu7g5QHnUsV1/Z64Z1K5FM99LnuN9z/b3Rl3v0VbPjL+y
-	 8xxD8glzUQ+AJ1nYIe/lReqK2SBbupL5MYhOYDLCChQMkMld0+nBDzoiljbxNUi+34
-	 5ofXSK+aAdQR3xqZt24a4dgHQDwBLCocK9WWXXl+sWx+xtPJvySrCyXjzM8Ghsvu0+
-	 OhgvrHtpFiwoMb29qOciGEXszeFKCrCDgJTOrJcW1+Xq4Zons/aMNgBkxR++qStFSD
-	 /e0ZUxqA7todyB8bYZ/6MU8jcTK0mO3okT3k9QYsSlNHz2R5I6T0H3oFoEyTqklYGJ
-	 9J0s5iEF4Ls8A==
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-667952fd262so1516758a12.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 19 Mar 2026 05:38:55 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWupfcdUTzes6DiieEdxfJF39HP+IO72s1Q8XtdPid4Bx9g0aQRy/hKVmeqiokfGjPxIs+QiZRZGqW4H02C@vger.kernel.org
-X-Gm-Message-State: AOJu0YxOd3fsRLDQqC3idWb3PRGQLK6PxO9dnpLf/9uaKaDDiTIsxMEi
-	Gnz9QNiY4VS9ChUfKxhJMAIyLjRwHoyDxePgyS5mWhk/IOtcWLfQqDrUgSDCJyTIpyid1F4fd7U
-	g4wNuHWwgpUgsgdXQZ7CyQ9qzxKG3H2o=
-X-Received: by 2002:a05:6402:42cb:b0:664:bc6:69a9 with SMTP id
- 4fb4d7f45d1cf-667b2c1ad95mr5355226a12.17.1773923934486; Thu, 19 Mar 2026
- 05:38:54 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ULJsmgJE";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="sRerEnp9";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ULJsmgJE";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="sRerEnp9"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 58F414D210;
+	Thu, 19 Mar 2026 12:42:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1773924141; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6AoZNlVdKxsvWwANC3n5EknvxexPRfqPaI5D6JlP+2Y=;
+	b=ULJsmgJEa8cb1NBlM3IEejlguIJRBJfI21FC108MrPNhTP2G7YAj98aRhYINdrPpJAHg1/
+	0cbhYLG0gFomrtytQAMA5SY2t+1Q+wmKXklmYzk2sZLLkzYRagzmi0wwmPZenedEqIi9xP
+	bli7Xs4VPSGYr5pVBwUveJINMkXKCds=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1773924141;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6AoZNlVdKxsvWwANC3n5EknvxexPRfqPaI5D6JlP+2Y=;
+	b=sRerEnp94W5mjGienLeW2I83tku/tZu4Clk9Z2bDEHC5yBcJQdWl5qRzeRAYUtVrD/Lwfw
+	sDda74Rkjrt645DQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1773924141; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6AoZNlVdKxsvWwANC3n5EknvxexPRfqPaI5D6JlP+2Y=;
+	b=ULJsmgJEa8cb1NBlM3IEejlguIJRBJfI21FC108MrPNhTP2G7YAj98aRhYINdrPpJAHg1/
+	0cbhYLG0gFomrtytQAMA5SY2t+1Q+wmKXklmYzk2sZLLkzYRagzmi0wwmPZenedEqIi9xP
+	bli7Xs4VPSGYr5pVBwUveJINMkXKCds=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1773924141;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6AoZNlVdKxsvWwANC3n5EknvxexPRfqPaI5D6JlP+2Y=;
+	b=sRerEnp94W5mjGienLeW2I83tku/tZu4Clk9Z2bDEHC5yBcJQdWl5qRzeRAYUtVrD/Lwfw
+	sDda74Rkjrt645DQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4B56A4273B;
+	Thu, 19 Mar 2026 12:42:21 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id eqtbEi3vu2l/BQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 19 Mar 2026 12:42:21 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 0BB35A0B32; Thu, 19 Mar 2026 13:42:17 +0100 (CET)
+Date: Thu, 19 Mar 2026 13:42:17 +0100
+From: Jan Kara <jack@suse.cz>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: brauner@kernel.org, linux-fsdevel@vger.kernel.org, jack@suse.cz, 
+	miklos@szeredi.hu, david@kernel.org, therealgraysky@proton.me, 
+	linux-pm@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH v1] writeback: skip sync(2) inode writeback for
+ filesystems with no data integrity guarantees
+Message-ID: <k7ln2mcmll3t4zic3smao6hvvxprmpsax45fh6mwn4en6f6m42@sdpuqd2pqiwy>
+References: <20260318225604.71545-1-joannelkoong@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260316214137.1490070-1-dxdt@dev.snart.me> <20260316214137.1490070-2-dxdt@dev.snart.me>
-In-Reply-To: <20260316214137.1490070-2-dxdt@dev.snart.me>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Thu, 19 Mar 2026 21:38:42 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd-5-uQ=hYY8yd=rCJZ=Jd4zANH3gr5zOTxS3AVwp5X8uw@mail.gmail.com>
-X-Gm-Features: AaiRm51Hz8kaZYpv4RHYl-Gcl2fNGqr1q6k6j9cE2N-aAX4hajQAdLRF6YeLf_w
-Message-ID: <CAKYAXd-5-uQ=hYY8yd=rCJZ=Jd4zANH3gr5zOTxS3AVwp5X8uw@mail.gmail.com>
-Subject: Re: [PATCH v0 1/1] exfat: fix s_maxbytes
-To: David Timber <dxdt@dev.snart.me>
-Cc: sj1557.seo@samsung.com, linux-fsdevel@vger.kernel.org, 
-	yuezhang.mo@sony.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260318225604.71545-1-joannelkoong@gmail.com>
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MISSING_XM_UA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email]
+X-Spam-Flag: NO
+X-Spam-Score: -3.80
+X-Spam-Level: 
 
-On Tue, Mar 17, 2026 at 6:42=E2=80=AFAM David Timber <dxdt@dev.snart.me> wr=
-ote:
->
-> With fallocate support, xfstest unit generic/213 fails with
->
->    QA output created by 213
->    We should get: fallocate: No space left on device
->    Strangely, xfs_io sometimes says "Success" when something went wrong
->   -fallocate: No space left on device
->   +fallocate: File too large
->
-> because sb->s_maxbytes is set to the volume size.
->
-> To be in line with other non-extent-based filesystems, set to max volume
-> size possible with the cluster size of the volume.
->
-> Signed-off-by: David Timber <dxdt@dev.snart.me>
-Applied it #dev.
-Thanks!
+On Wed 18-03-26 15:56:04, Joanne Koong wrote:
+> Add SB_I_NO_DATA_INTEGRITY superblock flag for filesystems that cannot
+> guarantee data persistence on sync (eg fuse) and skip sync(2) inode
+> writeback for superblocks with this flag set.
+> 
+> There was a recent report [1] for a suspend-to-RAM hang on fuse-overlayfs with
+> firefox + youtube in wb_wait_for_completion() from the pm_fs_sync_work_fn()
+> path:
+> 
+> Workqueue: pm_fs_sync pm_fs_sync_work_fn
+> Call Trace:
+>  <TASK>
+>  __schedule+0x457/0x1720
+>  schedule+0x27/0xd0
+>  wb_wait_for_completion+0x97/0xe0
+>  sync_inodes_sb+0xf8/0x2e0
+>  __iterate_supers+0xdc/0x160
+>  ksys_sync+0x43/0xb0
+>  pm_fs_sync_work_fn+0x17/0xa0
+>  process_one_work+0x193/0x350
+>  worker_thread+0x1a1/0x310
+>  kthread+0xfc/0x240
+>  ret_from_fork+0x243/0x280
+>  ret_from_fork_asm+0x1a/0x30
+>  </TASK>
+> 
+> This can happen in two ways:
+> a) systemd freezes the user session cgroups first (which freezes the fuse daemon)
+> before invoking the kernel suspend. The suspend triggers the wb_workfn() ->
+> write_inode() path, where fuse issues a synchronous setattr request to the
+> frozen daemon, which cannot process the request
+> b) if a dirty folio is already under writeback and needs to have writeback
+> issued again, in writeback_get_folio() -> folio_prepare_writeback(), we
+> unconditionally wait on writeback to finish, but for buggy/faulty fuse
+> servers, the request may never be processed
+> 
+> The correct fix is for sync(2) to skip the sync_inodes_sb() path entirely for
+> any filesystems that do not have data integrity guarantees.
+> 
+> A prior commit (commit f9a49aa302a0 ("fs/writeback: skip AS_NO_DATA_INTEGRITY
+> mappings in wait_sb_inodes()")) added the AS_NO_DATA_INTEGRITY mapping flag to
+> skip sync(2) waits for mappings without data integrity semantics, but it still
+> allowed wb_workfn() worker threads to be kicked off for the writeback.
+> 
+> This patch improves upon that by replacing the per-inode AS_NO_DATA_INTEGRITY
+> mapping flag with a flag at the superblock level, and using that superblock
+> flag to skip the sync_inodes_sb() path entirely if there are no data integrity
+> guarantees. The flag belongs at the superblock level because data integrity is
+> a filesystem-wide property, not a per-inode one. Having the flag at the
+> superblock level allows sync_inodes_one_sb() to skip the entire filesystem
+> efficiently, rather than iterating every dirty inode only to skip each one
+> individually.
+> 
+> This patch restores fuse to its prior behavior before tmp folios were removed,
+> where sync was essentially a no-op.
+> 
+> [1] https://lore.kernel.org/linux-fsdevel/CAJnrk1a-asuvfrbKXbEwwDSctvemF+6zfhdnuzO65Pt8HsFSRw@mail.gmail.com/T/#m632c4648e9cafc4239299887109ebd880ac6c5c1
+> 
+> Fixes: 0c58a97f919c ("fuse: remove tmp folio for writebacks and internal rb tree")
+> Reported-by: John <therealgraysky@proton.me>
+> Tested-by: John <therealgraysky@proton.me>
+> Cc: <stable@vger.kernel.org>
+> Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+
+I'd note that previously, if the FUSE server was not broken, although
+sync(2) would not provide any data integrity guarantee, it would still
+flush the data so practically, there would be no user observable difference
+unless you really did powerfail testing. So some users might be
+unpleasantly surprised by sync(2) suddently not doing anything on FUSE
+filesystems. Maybe for SB_I_NO_DATA_INTEGRITY filesystems we should at
+least kick flush worker to do writeback in the background?
+
+								Honza
+
+> ---
+>  fs/fs-writeback.c              |  7 +------
+>  fs/fuse/file.c                 |  4 +---
+>  fs/fuse/inode.c                |  1 +
+>  fs/sync.c                      |  2 +-
+>  include/linux/fs/super_types.h |  1 +
+>  include/linux/pagemap.h        | 11 -----------
+>  6 files changed, 5 insertions(+), 21 deletions(-)
+> 
+> diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
+> index 7c75ed7e8979..154249e4e5ce 100644
+> --- a/fs/fs-writeback.c
+> +++ b/fs/fs-writeback.c
+> @@ -2775,13 +2775,8 @@ static void wait_sb_inodes(struct super_block *sb)
+>  		 * The mapping can appear untagged while still on-list since we
+>  		 * do not have the mapping lock. Skip it here, wb completion
+>  		 * will remove it.
+> -		 *
+> -		 * If the mapping does not have data integrity semantics,
+> -		 * there's no need to wait for the writeout to complete, as the
+> -		 * mapping cannot guarantee that data is persistently stored.
+>  		 */
+> -		if (!mapping_tagged(mapping, PAGECACHE_TAG_WRITEBACK) ||
+> -		    mapping_no_data_integrity(mapping))
+> +		if (!mapping_tagged(mapping, PAGECACHE_TAG_WRITEBACK))
+>  			continue;
+>  
+>  		spin_unlock_irq(&sb->s_inode_wblist_lock);
+> diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+> index a9c836d7f586..f6240f24b814 100644
+> --- a/fs/fuse/file.c
+> +++ b/fs/fuse/file.c
+> @@ -3202,10 +3202,8 @@ void fuse_init_file_inode(struct inode *inode, unsigned int flags)
+>  
+>  	inode->i_fop = &fuse_file_operations;
+>  	inode->i_data.a_ops = &fuse_file_aops;
+> -	if (fc->writeback_cache) {
+> +	if (fc->writeback_cache)
+>  		mapping_set_writeback_may_deadlock_on_reclaim(&inode->i_data);
+> -		mapping_set_no_data_integrity(&inode->i_data);
+> -	}
+>  
+>  	INIT_LIST_HEAD(&fi->write_files);
+>  	INIT_LIST_HEAD(&fi->queued_writes);
+> diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+> index e57b8af06be9..c795abe47a4f 100644
+> --- a/fs/fuse/inode.c
+> +++ b/fs/fuse/inode.c
+> @@ -1709,6 +1709,7 @@ static void fuse_sb_defaults(struct super_block *sb)
+>  	sb->s_export_op = &fuse_export_operations;
+>  	sb->s_iflags |= SB_I_IMA_UNVERIFIABLE_SIGNATURE;
+>  	sb->s_iflags |= SB_I_NOIDMAP;
+> +	sb->s_iflags |= SB_I_NO_DATA_INTEGRITY;
+>  	if (sb->s_user_ns != &init_user_ns)
+>  		sb->s_iflags |= SB_I_UNTRUSTED_MOUNTER;
+>  	sb->s_flags &= ~(SB_NOSEC | SB_I_VERSION);
+> diff --git a/fs/sync.c b/fs/sync.c
+> index 942a60cfedfb..88c08e2f76b2 100644
+> --- a/fs/sync.c
+> +++ b/fs/sync.c
+> @@ -73,7 +73,7 @@ EXPORT_SYMBOL(sync_filesystem);
+>  
+>  static void sync_inodes_one_sb(struct super_block *sb, void *arg)
+>  {
+> -	if (!sb_rdonly(sb))
+> +	if (!sb_rdonly(sb) && !(sb->s_iflags & SB_I_NO_DATA_INTEGRITY))
+>  		sync_inodes_sb(sb);
+>  }
+>  
+> diff --git a/include/linux/fs/super_types.h b/include/linux/fs/super_types.h
+> index fa7638b81246..383050e7fdf5 100644
+> --- a/include/linux/fs/super_types.h
+> +++ b/include/linux/fs/super_types.h
+> @@ -338,5 +338,6 @@ struct super_block {
+>  #define SB_I_NOUMASK	0x00001000	/* VFS does not apply umask */
+>  #define SB_I_NOIDMAP	0x00002000	/* No idmapped mounts on this superblock */
+>  #define SB_I_ALLOW_HSM	0x00004000	/* Allow HSM events on this superblock */
+> +#define SB_I_NO_DATA_INTEGRITY	0x00008000 /* fs cannot guarantee data persistence on sync */
+>  
+>  #endif /* _LINUX_FS_SUPER_TYPES_H */
+> diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
+> index ec442af3f886..31a848485ad9 100644
+> --- a/include/linux/pagemap.h
+> +++ b/include/linux/pagemap.h
+> @@ -210,7 +210,6 @@ enum mapping_flags {
+>  	AS_WRITEBACK_MAY_DEADLOCK_ON_RECLAIM = 9,
+>  	AS_KERNEL_FILE = 10,	/* mapping for a fake kernel file that shouldn't
+>  				   account usage to user cgroups */
+> -	AS_NO_DATA_INTEGRITY = 11, /* no data integrity guarantees */
+>  	/* Bits 16-25 are used for FOLIO_ORDER */
+>  	AS_FOLIO_ORDER_BITS = 5,
+>  	AS_FOLIO_ORDER_MIN = 16,
+> @@ -346,16 +345,6 @@ static inline bool mapping_writeback_may_deadlock_on_reclaim(const struct addres
+>  	return test_bit(AS_WRITEBACK_MAY_DEADLOCK_ON_RECLAIM, &mapping->flags);
+>  }
+>  
+> -static inline void mapping_set_no_data_integrity(struct address_space *mapping)
+> -{
+> -	set_bit(AS_NO_DATA_INTEGRITY, &mapping->flags);
+> -}
+> -
+> -static inline bool mapping_no_data_integrity(const struct address_space *mapping)
+> -{
+> -	return test_bit(AS_NO_DATA_INTEGRITY, &mapping->flags);
+> -}
+> -
+>  static inline gfp_t mapping_gfp_mask(const struct address_space *mapping)
+>  {
+>  	return mapping->gfp_mask;
+> -- 
+> 2.52.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
