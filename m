@@ -1,173 +1,239 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ADE23EE1C5
-	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Mar 2026 15:56:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.178
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773935811; cv=pass; b=ouV2riz165tuFXS6Wliw/lWx7tdS1yx6/B/mRzrA8ApcrhfYkp7NbzKNgZk+iPxI+eR4VK39N5dpUE/vBhs96ToHEI1a3Y8xjRkZ3DsmFQqoY0JdJy6FijuAqeXpaS3yvpnN3q1yUqhP04RJS+t978mS95fsJbTl07Cl9auBWKQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773935811; c=relaxed/simple;
-	bh=venfIdcDoNMJAHTl0dBp32zf9R0qjSHwm3If9NHEtBc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rKF4NQUIfQDD1dadnyY3XJcGh9Zvvzc4h6IeGm5mFIUpUsQ5hKx9FRS97MnW0eC5au/+jWi/zFTafV/DhlBbCm9aOmpx0axXU2f8MzsPQJHNGMyb7FZHKeNa5ZUi2pbb0MDj3PE+FUhPTo9psk3erAQE8QECmsyQQN5NVcIsnbM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=DykLok8S; arc=pass smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27CFF37F00D;
+	Thu, 19 Mar 2026 16:08:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773936517; cv=none; b=QpPjCUIOpHzA0MNrOyJI9EuhSyYUM6kI8CgG3KpvFejD4uWiYLEKMO+ddRzl2zCyi29Ic/HWv7aUcCh79kzZmve7oPnVGBka11TozOIwQ+xK83Yn5jMQcmAtc/gZpPt9QmefSS91mJBuLbnH8XHhGasqgYnHrzZzBMYlHVGv/EY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773936517; c=relaxed/simple;
+	bh=o1nEYWZwXDVFpFJjGoVPgZjhYgj+bC+THgG7j4SXdHc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NtbA0y079u+Xhabg+C+apWwB/54mVuOodIZFviI+xJe/r66q/XbiLfCX2n4Z0oB06dF1P4fd95+zg8+k1MfwDcX2zcaVv6cvto8f0i/vNB4nTm9PZlgrPhagr8Q2PK/o7ImIfEfsq85Q4Wm35aV5xuraPxMGxgqMUITD/swAJ04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JFDZ3iii; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="DykLok8S"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2aecefc7503so6324265ad.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 19 Mar 2026 08:56:50 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773935810; cv=none;
-        d=google.com; s=arc-20240605;
-        b=csghGsIVKbTlSx8tDfS/Fc5hN8DygrSs9y3+C06FhjV/nrh/LBo08hhjfnhRmoKqWc
-         Wk8kpAax6FrZ+VLctL0oHNHhE2+VpXGVqP89uZpshKr3EcGmecWACWI/eqCwZwHqF7JC
-         kdUMbpkyd+d8wz1DqnJ/Dfu2eNKGhDFbk9dEqlNXrWto8/bHsKETkzmp35VWX07kPAay
-         4qrY7L46tUJo334c5No/SGirCXHRFkqzqbXia+twwOndJnc0tURptyDJfyOCSXauffji
-         4zwuNouTwtvUYSxGDkXWn39EvVIWzqsOk6YNsbF6/QOUUcvJFPduTwIQ2FY1IydjrEL2
-         22kA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=TpNQ4RrfxDr8OIdp6sqWlPi70JqpMY9icBlXfAIsbA8=;
-        fh=d3I+DvyV+MV2ToKHX7wV0qB/9zmLwryPlq/ZbtdA02w=;
-        b=QbUO8HCUlHmbujKjnexs7d3DThcqNrC0UPJsWnNERQla7sygOZaFZ0GkWyvMuPlMoM
-         KUIabA3jMsPb0+zdexWi0nbz6mGSm3ePjvSbjIDsptJyfG5TtMfWogwWTlhGBpvSctn9
-         60TubUXmBokA00H8fjOBVeTsU230zRaqySnTkyUXzTFLEn35kwCF40LR7lrrVNexlLHN
-         yCHSpe73W3t/aYfPxKw45jWdhUyJf8HOZNc5v1d6BB1uyUX2YliCR2TfnWUeU/6jL+Hm
-         s4GOVYx7ua71zalEUVQ1f/HkX3K1WN0H/O1q+wuF8bBefozMAMDExT+sgEupJw3JTdhY
-         PYRw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1773935810; x=1774540610; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TpNQ4RrfxDr8OIdp6sqWlPi70JqpMY9icBlXfAIsbA8=;
-        b=DykLok8SsbPuq+JrybVVuynmBc8i6t1bhey9okzn1CetJdy9MzCBXvv4ZfsvnlyFwh
-         qWh4iHHNLfOzlH60EadF7cwaVNVZ55yFjuUWkCFtr6mrDRffjdYC/nF7lTMZ1EMNY7/a
-         jNEvFB6mlX4v9Vyrtp++TcJ2fdxVY2okPOmOp+TptqhCJrfJTGY4im+/N5RUHF8l4/2A
-         Fpq9ISSsGQvoPlkHJNMhlabngLG8Xkn0lUfQAtFCxuj7y0fFHRKoq4XgdriTZndnT5d6
-         DZg/WcxcP/TVZedeaT6tufUe1FKDfcXtnkElvzrqpBM2Ynyu7X5Hk6ZH4U6IIGCsJf70
-         tUvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773935810; x=1774540610;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=TpNQ4RrfxDr8OIdp6sqWlPi70JqpMY9icBlXfAIsbA8=;
-        b=KnxeA5TJf2rfD+dPo2rwzqy1zxdTt2SyN/9MhmoUajE9XphT2V2eNHF1r0ehKlRdRk
-         f8FFt27RkKXCzzOZYQIOn7G9YZqgbY94RSoVH03BJecVZW91c06TPMojEN+FMkDn+j1p
-         0sWmghEawHHZ+67dPvq74Lre82wJm5//A7QQPlhCRPIz0Ih29d5IuKbTfs2Gv1R7DfGh
-         Wts9clJLzn3XPOTJ58WKH4rwMAFMa0Gj5JhwhaIxUhaqFMMghWu8O37UY3jTDbgWftOK
-         FwLAi6lN+5yC22yB8RrvOFNQc8KptnoD87YbjKX2Kf651EO9/ALsLdGFqSyU+ou3z3wL
-         +Z3g==
-X-Forwarded-Encrypted: i=1; AJvYcCU7bzUl+E5PQysctejkPtUuaQwRuyHDBBNg75HV3QWOy8k8H6HSoFXT0xkcSOuNsR7y0iUMBOCdEgdeH7Zi@vger.kernel.org
-X-Gm-Message-State: AOJu0YwO9jQTJqD7foqSDZv7dFP2g+IOsrKg4mEPq/nhWfPNceQVROac
-	TTc5Z5J28/dgJsQG0eWPa3MFKlLny41muiZztw8COlwJfaO97F2EI67NXwt8odIJIhlQM8f8Gyi
-	t5AQwwaHThx96a5mlECJWFoiqZpGEqc7JRqaHunAB
-X-Gm-Gg: ATEYQzzBarlZ5W/MRfYldMZgL2v7ohF5cKnoL9IO66RbExZsmoDYdiJsghte4/ijFXq
-	WTvepHS+u7NnfbANiArMZhbr5nFPDaPKHZclUauXdhUh26kFiF4FAqeA8EC7M7tjegQK1NKRMsj
-	o4BvE7z49AbJcVyofBY0WWW+DBu3siWa/zjQF6Xjzy6cc9So9s5eYvrXagROqBtEtcdgkE4oX6h
-	wLkMDOFPFLnH/GcCSn/9I4Wk0kWYQPjRPcyAD/GnFYBCpQqo/Y1h6WFgC6pvLgdjoHZtAIxeLFe
-	2mvjB6U=
-X-Received: by 2002:a17:903:1c3:b0:2ae:478f:2ec with SMTP id
- d9443c01a7336-2b06e3dd59emr76386305ad.29.1773935809817; Thu, 19 Mar 2026
- 08:56:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JFDZ3iii"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9C7DC19425;
+	Thu, 19 Mar 2026 16:08:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773936516;
+	bh=o1nEYWZwXDVFpFJjGoVPgZjhYgj+bC+THgG7j4SXdHc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JFDZ3iiirFhuAYssDeT1wsoCsGsbSWhOs4QuenVfwYm0BMehruZ18OS8D5X8SJZOg
+	 PJURSw4qEeCt+R1DDRwkaduIGmeArMDl4Csq+XnwCwatKjJ0LK06SjHhG04h4X8VYP
+	 ULKdrslnBN8ZbxaTrFJGNGJjdfxh3U0NsM0csnL6jNjShFnZwlXnE8TKAhlWU14mxm
+	 98LWzqEiC+37kL80BnB8NpXezUI4gi36e2xD4tYnmhtM4JWULzxbI7fMtw3LBLBIFL
+	 rxP66FSYEqbjPn89qOH5VEziSCwmUUadJ/azNWyL6NYuqtqEfmc2sQgSb4oIKAmo3e
+	 PAwlxmXoDY1IA==
+Date: Thu, 19 Mar 2026 09:08:36 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Demi Marie Obenour <demiobenour@gmail.com>
+Cc: Joanne Koong <joannelkoong@gmail.com>,
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>, bpf@vger.kernel.org,
+	linux-ext4 <linux-ext4@vger.kernel.org>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Bernd Schubert <bernd@bsbernd.com>, Theodore Ts'o <tytso@mit.edu>,
+	Neal Gompa <neal@gompa.dev>, Amir Goldstein <amir73il@gmail.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Jeff Layton <jlayton@kernel.org>, John@groves.net
+Subject: Re: [PATCHBLIZZARD v7] fuse/libfuse/e2fsprogs: containerize ext4 for
+ safer operation
+Message-ID: <20260319160836.GC6004@frogsfrogsfrogs>
+References: <20260223224617.GA2390314@frogsfrogsfrogs>
+ <CAJnrk1Yd1J60-Ek=O7jzZQg454pbr3O=b71yZHzYbrWfqJr__w@mail.gmail.com>
+ <20260316180408.GN6069@frogsfrogsfrogs>
+ <CAJnrk1bmJYMt27xedN2Xza0KPXfYEbh-9g=3fNWru-HRM9WFEw@mail.gmail.com>
+ <20260316234137.GJ1742010@frogsfrogsfrogs>
+ <208bfbd2-d671-462c-925f-4d51b7df1f18@gmail.com>
+ <20260318213129.GB6004@frogsfrogsfrogs>
+ <c7866006-bd17-4fd8-a603-bd3016fdfeb0@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260318131258.1457101-1-amir73il@gmail.com> <CAHC9VhTKvOzMS2ZyawE=qBN-EpyucfxvwcHZYjXF5zugRhE2rw@mail.gmail.com>
- <CAOQ4uxj8SZqaFbrVifw0uw7skbUvJP1_nLWj4PYCeZuaLy5t_A@mail.gmail.com>
-In-Reply-To: <CAOQ4uxj8SZqaFbrVifw0uw7skbUvJP1_nLWj4PYCeZuaLy5t_A@mail.gmail.com>
-From: Paul Moore <paul@paul-moore.com>
-Date: Thu, 19 Mar 2026 11:56:37 -0400
-X-Gm-Features: AaiRm50nhjVBL81kDULwvCn8PsB2aebm_MIqZayk9nG17bPp4IlB5KlFJeWc6p4
-Message-ID: <CAHC9VhTXfiENo3MVSv+LZFx4VJGTDqErMBKx0wx+jKNOc=NjSQ@mail.gmail.com>
-Subject: Re: [PATCH v6] backing_file: store user_path_file
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Christian Brauner <brauner@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, Gao Xiang <xiang@kernel.org>, 
-	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
-	linux-erofs@lists.ozlabs.org, linux-fsdevel@vger.kernel.org, 
-	linux-unionfs@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <c7866006-bd17-4fd8-a603-bd3016fdfeb0@gmail.com>
 
-On Thu, Mar 19, 2026 at 10:54=E2=80=AFAM Amir Goldstein <amir73il@gmail.com=
-> wrote:
-> On Thu, Mar 19, 2026 at 12:47=E2=80=AFAM Paul Moore <paul@paul-moore.com>=
- wrote:
-> > On Wed, Mar 18, 2026 at 9:13=E2=80=AFAM Amir Goldstein <amir73il@gmail.=
-com> wrote:
-> > >
-> > > Instead of storing the user_path, store an O_PATH file for the
-> > > user_path with the original user file creds and a security context.
-> > >
-> > > The user_path_file is only exported as a const pointer and its refcnt
-> > > is initialized to FILE_REF_DEAD, because it is not a refcounted objec=
-t.
-> > >
-> > > The file_ref_init() helper was changed to accept the FILE_REF_ consta=
-nt
-> > > instead of the fake +1 integer count.
-> > >
-> > > Signed-off-by: Amir Goldstein <amir73il@gmail.com>
-> > > ---
-> > >
-> > > Christian,
-> > >
-> > > My v5 patch was sent by Paul along with his LSM/selinux pataches [1].
-> > > Here are the changes you requested.
-> > >
-> > > I removed the ACKs and Tested-by because of the changes.
-> > >
-> > > Thanks,
-> > > Amir.
-> > >
-> > > Changes since v5:
-> > > - Restore file_ref_init() helper without refcnt -1 offset
-> > > - Future proofing errors from backing_file_open_user_path()
-> > >
-> > > [1] https://lore.kernel.org/r/20260316213606.374109-6-paul@paul-moore=
-.com/
-> > >
-> > >  fs/backing-file.c            | 26 ++++++++++--------
-> > >  fs/erofs/ishare.c            | 13 +++++++--
-> > >  fs/file_table.c              | 53 ++++++++++++++++++++++++++++------=
---
-> > >  fs/fuse/passthrough.c        |  3 +-
-> > >  fs/internal.h                |  5 ++--
-> > >  fs/overlayfs/dir.c           |  3 +-
-> > >  fs/overlayfs/file.c          |  1 +
-> > >  include/linux/backing-file.h | 29 ++++++++++++++++++--
-> > >  include/linux/file_ref.h     |  4 +--
-> > >  9 files changed, 103 insertions(+), 34 deletions(-)
-> >
-> > Still works for me.  I'm going to update lsm/stable-7.0 with this
-> > patch so we can get some more linux-next testing.
-> >
-> > Tested-by: Paul Moore <paul@paul-moore.com>
-> >
->
-> Paul,
->
-> As you saw, syzbot found a nasty bug in this patch and it is too hard
-> to fix it without introducing more hazards.
->
-> Therefore, per Christian's request I am withdrawing this patch.
->
-> Please see compile tested alternative solution for selinux without
-> intrusive vfs change at:
-> https://github.com/amir73il/linux/commits/user_path_file/
+On Thu, Mar 19, 2026 at 03:28:21AM -0400, Demi Marie Obenour wrote:
+> On 3/18/26 17:31, Darrick J. Wong wrote:
+> > On Mon, Mar 16, 2026 at 08:20:29PM -0400, Demi Marie Obenour wrote:
+> >> On 3/16/26 19:41, Darrick J. Wong wrote:
+> >>> On Mon, Mar 16, 2026 at 04:08:55PM -0700, Joanne Koong wrote:
+> >>>> On Mon, Mar 16, 2026 at 11:04 AM Darrick J. Wong <djwong@kernel.org> wrote:
+> >>>>>
+> >>>>> On Mon, Mar 16, 2026 at 10:56:21AM -0700, Joanne Koong wrote:
+> >>>>>> On Mon, Feb 23, 2026 at 2:46 PM Darrick J. Wong <djwong@kernel.org> wrote:
+> >>>>>>>
+> >>>>>>> There are some warts remaining:
+> >>>>>>>
+> >>>>>>> a. I would like to continue the discussion about how the design review
+> >>>>>>>    of this code should be structured, and how might I go about creating
+> >>>>>>>    new userspace filesystem servers -- lightweight new ones based off
+> >>>>>>>    the existing userspace tools?  Or by merging lklfuse?
+> >>>>>>
+> >>>>>> What do you mean by "merging lklfuse"?
+> >>>>>
+> >>>>> Merging the lklfuse project into upstream Linux, which involves running
+> >>>>> the whole kit and caboodle through our review process, and then fixing
+> >>>>
+> >>>> Gotcha, so it would basically be having to port this arch/lkl
+> >>>> directory [1] into the linux tree
+> >>>
+> >>> Right.
+> >>>
+> >>>>> user-mode-linux to work anywhere other than x86.
+> >>>>
+> >>>> Are lklfuse and user-mode-linux (UML) two separate things or is
+> >>>> lklfuse dependent on user-mode-linux?
+> >>>
+> >>> I was under the impression that lklfuse uses UML.  Given the weird
+> >>> things in arch/lkl/Kconfig:
+> >>>
+> >>> config 64BIT
+> >>> 	bool "64bit kernel"
+> >>> 	default y if OUTPUT_FORMAT = "pe-x86-64"
+> >>> 	default $(success,$(srctree)/arch/lkl/scripts/cc-objdump-file-format.sh|grep -q '^elf64-') if OUTPUT_FORMAT != "pe-x86-64"
+> >>>
+> >>> I was kinda guessing x86_64 was the primary target of the developers?
+> >>>
+> >>> /me notes that he's now looked into libguestfs per Demi Marie's comments
+> >>> and some curiosity on the part of ngompa and i>
+> >>>
+> >>> Whatever it is that libguestfs does to stand up unprivileged fs mounts
+> >>> also could fit this bill.  It's *really* slow to start because it takes
+> >>> the booted kernel, creates a largeish initramfs, boots that combo via
+> >>> libvirt, and then fires up a fuse server to talk to the vm kernel.
+> >>>
+> >>> I think all you'd have to do is change libguestfs to start the VM and
+> >>> run the fuse server inside a systemd container instead of directly from
+> >>> the CLI.
+> >>
+> >> The feedback I have gotten from ngompa is that libguestfs is just
+> >> too slow for distros to use it to mount stuff.
+> > 
+> > Yes, libguestfs is /verrrry/ slow to start up.
+> > 
+> >>>>>> Could you explain what the limitations of lklfuse are compared to the
+> >>>>>> fuse iomap approach in this patchset?
+> >>>>>
+> >>>>> The ones I know about are:
+> >>>>>
+> >>>>> 1> There's no support for vmapped kernel memory in UML mode, so anyone
+> >>>>> who requires a large contiguous memory buffer cannot assemble them out
+> >>>>> of "physical" pages.  This has been a stumbling block for XFS in the
+> >>>>> past.
+> >>>>>
+> >>>>> 2> LKLFUSE still uses the classic fuse IO paths, which means that at
+> >>>>> best you can directio the IO through the lklfuse kernel.  At worst you
+> >>>>> have to use the pagecache inside the lklfuse kernel, which is very
+> >>>>> wasteful.
+> >>>>
+> >>>> For the security / isolation use cases you've described, is
+> >>>> near-native performance a hard requirement?
+> >>>
+> >>> Not a hard requirement, just a means to convince people that they can
+> >>> choose containment without completely collapsing performance.
+> >>>
+> >>>> As I understand it, the main use cases of this will be for mounting
+> >>>> untrusted disk images and CI/filesystem testing, or are there broader
+> >>>> use cases beyond this?
+> >>>
+> >>> That covers nearly all of it.
+> >>
+> >> It's worth noting that on ChromeOS and Android, the only trusted
+> >> disk images are those that are read-only and protected by dm-verity.
+> >> *Every* writable image is considered untrusted.
+> >>
+> >> I don't know if doing a full fsck at each boot is considered
+> >> acceptable, but I suspect it would slow boot far too much.
+> > 
+> > Not to mention that an attacker who gained control of the boot process
+> > could inject malicious filesystem metadata after fsck completes
+> > successfully but before the kernel mount occurs.
+> > 
+> >> Yes, Google ought to be paying for the kernel changes to fix this mess.
+> >>
+> >>>>> 3> lklfuse hasn't been updated since 6.6.
+> >>>>
+> >>>> Gotcha. So if I'm understanding it correctly, the pros/cons come down to:
+> >>>> lklfuse pros:
+> >>>> - (arguably) easier setup cost. once it's setup (assuming it's
+> >>>> possible to add support for the vmapped kernel memory thing you
+> >>>> mentioned above), it'll automatically work for every filesystem vs.
+> >>>> having to implement a fuse-iomap server for every filesystem
+> >>>
+> >>> Or even a good non-iomap fuse server for every filesystem.  Admittedly
+> >>> the weak part of fuse4fs is that libext2fs is not as robust as the
+> >>> kernel is.
+> >>>
+> >>>> - easier to maintain vs. having to maintain each filesystem's
+> >>>> userspace server implementation
+> >>>
+> >>> Yeah.
+> >>>
+> >>>> lklfuse cons:
+> >>>> - worse (not sure by how much) performance
+> >>>
+> >>> Probably a lot, because now you have to run a full IO stack all the way
+> >>> through lklfuse.
+> >>
+> >> How much is "a lot"?  Is it "this is only useful for non-interactive
+> >> overnight backups", "you will notice this in benchmarks but it's okay
+> >> for normal use", or somewhere in between?
+> > 
+> > Startup is painfully slow.  Normal operation isn't noticeably bad, but I
+> > didn't bother doing any performance comparisons.
+> > 
+> >> Could lklfuse and iomap be combined?
+> > 
+> > Probably, though you'd have to find a way to route the FUSE_IOMAP_*
+> > requests to a filesystem driver.  That's upside-down of the current
+> > iomap model where filesystems have to opt into using iomap on a
+> > per-IO-path basis, and then iomap calls the filesystem to find mappings.
+> 
+> If it does get done it would be awesome.  I don't think I'll be able to
+> contribute, though.
 
-Let's let this thread die in favor of the other.  I'll already
-commented there, but the quick summary is that pushing the ugliness
-into an individual LSM, or the LSM framework itself, is not a
-solution.
+I wonder if one could export a (pnfs) layout from the lklfuse kernel to
+the real one, that's <cough> where struct iomap came from.  A huge
+downside to that solution is that layouts don't support out of place
+writes because pnfs doesn't support out of place writes.
 
---=20
-paul-moore.com
+> >>>> - once it's merged into the kernel, we can't choose to not
+> >>>> maintain/support it in the future
+> >>>
+> >>> Correct.
+> >>>
+> >>>> Am I understanding this correctly?
+> >>>>
+> >>>> In my opinion, if near-native performance is not a hard requirement,
+> >>>> it seems like less pain overall to go with lklfuse. lklfuse seems a
+> >>>> lot easier to maintain and I'm not sure if some complexities like
+> >>>> btrfs's copy-on-write could be handled properly with fuse-iomap.
+> >>>
+> >>> btrfs cow can be done with iomap, at least on the directio end.  It's
+> >>> the other features like fsverity/fscrypt/data checksumming that aren't
+> >>> currently supported by iomap.
+> >>
+> >> Pretty much everyone on btrfs uses data checksumming.
+> >>
+> >>>> What are your thoughts on this?
+> >>>
+> >>> "Gee, what if I could simplify most of my own work out of existence?"
+> >>
+> >> What is that work?
+> > 
+> > Everything I've put out since the end of online fsck for xfs.
+> 
+> Is pretty much all of that work either on better FUSE performance or
+> fixes for problems found by fuzzers?
+
+Mostly the iomap parts of fuse-iomap.  It's a huge complication to add
+to the already confusing fuse codebase.
+
+--D
