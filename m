@@ -1,632 +1,151 @@
-Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012063.outbound.protection.outlook.com [52.101.48.63])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C5CB340DAB;
-	Thu, 19 Mar 2026 02:22:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.63
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773886922; cv=fail; b=WqK4zUpRDQpTlag4zJGs9hkT0nvXZl5tbZvUZEdxxvuzkU/BAO0IcJUX+R+ovSo5QuiGUvsWBhFIalqOXDDsiH95tojwsOS1QL/oW5yfx6eGHdCDzS3sTo3jqb+UMKE8UWNoYQouQCgwv97ahGvaM4BQoxz2oJRVJEWu/Ph2TgI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773886922; c=relaxed/simple;
-	bh=uGwby4ifxu6nndeGSJOXcKK13RMy977MTlcJaza95jo=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=L1tmhIp1bG9caJW2NnfHOw9gcKqYyxocW1BxmqiBuUdoYVV8iQsnCazA5xLqk+AXzJzUXVSQFpoVpCPKKoUq4E3wZaEOyOd/h6QY5RcGomfYIE6Fhi0B14lj9CUAOvgBlPh8/QHoi1hEUy3SasGHSOZ14bHlkNBubRu8udgINGw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=eXiL7LAq; arc=fail smtp.client-ip=52.101.48.63
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AE103876D1
+	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Mar 2026 02:53:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773888792; cv=none; b=FPXsxP31yxwYtIDMfI51FXTjWKrvvwj99JjhJz4VbcVnyXRsKRKieL9CU5NZKT/vhDiIui1UwpVVHpzb8rPRHlwmALntyyhrgsitHYIzmMSyCLyD5PC7VWUy247G+Blf90XYk7m5X8IiasQBI9GV1PlUZawEPRxKE7laiXf0I1o=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773888792; c=relaxed/simple;
+	bh=mk6MGvPBVKS+rY9qAMoAkMsc/ht937nrXMHt6+HHLzo=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=L5HDx1GSDR4Ekwu3zPiT5Pp7OFMrhmWfYMRbQXPmOEzKJzH12dWf5+r/fUmF7mlGPArg6sn1aL6T9j7jQWsBNngr7g1V96JDY2FaLlcO/GUCW6VopyqPopoC+jpsUVaefDG9XaDS7ySWLJxb5i3+8UQrEsW+6gAGq6nxRteIY2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b=LHviwXCM; arc=none smtp.client-ip=209.85.128.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="eXiL7LAq"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CClgQ6Esu8KEpRVRVowBQUeqTaa0hCOXUHzwCd5OXAbkh5LFfjeY8xLgOlw+VMgWd3LrTf07YkkgM7iT+9cej3YYp0ZhTUCAi9aAfUCKQyUzfMeW1zF5i9UH/6rMCGdijzp0LsNUs1s14RSvhyQKQSSKYF89Hl16gzz00d62whEMbXzFc6WF0qalQD0hw+/uxJkdNVGYwdHMB842vk9SqMeE8Lola+6romY0OcuM2D0iLrPQEO/9Vv3GMbxwsE9k9EER5lSumPrRfTPWASKFTW5mT5evVX46V1X7jLFSHcUuRVy7TfM1Mgx4dCyphDI7o0l9+kYXzo4lVNlTh/PQwg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WgfBHtHpf6YPOyylRv5Tr13pE8yc0FjQMXVd7skA7Yc=;
- b=BxpfITFGYSIesNV57c69LdiPbQQ3n0sJ+kiIDAhEGyXb+znnzGUb12bMMGqW25z0v+EPZD1qvumeR6SIa4JiIhhiCvn2Gea3NobQFDtLnmP1paIbbbgJMspNS6piQM/Ga7omZwpT7y3qdA6B6dbsztcImkTG4jYRzI/+mOGr9FCCFsuy2mQb3yT/PmQWZiL5KPZv3FRZ2OlemNLNoV68trux8DsyyDeTqJOhhvPuKD/XeuUCFlSPkSSwPra2y75ngR4+MCtJqlUQowqyhrIx3adCnxh8VYMwblqB+CLoaVGlP4cLUSMtE/pRuot+ldrYEa2z16rdZUiB1MfRUF0rkA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WgfBHtHpf6YPOyylRv5Tr13pE8yc0FjQMXVd7skA7Yc=;
- b=eXiL7LAqwr7wrAHaJkpTPWw/gZmlO/XgOEFaAid2DwgtKSjecCwkbhabAISdGGDZLAilFjB05ru7yKj1C4va5PSnIQA0I5KY6BxnoYKcA/HduYqoQr7qfXFt/KPeOoUG3S9WRo1b/Bzcj7wSq2fg2imr981kOUIjcdc81YiLajrHPVgCoEOYlP3WOVk7PHR+5cRx3Rf5nD61CJKU8oruGeMU12FJ0DkdpQGChPppNkwW0CTrgZWA9GKekXucDFLI60hhtUT42FIbKYH8LHtLrj5qrM6/P/klWshm4UA06Xe3okXogiWS1ThRfQPANkAELhS5QL9PmJgwp9zMxXeduw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
- PH7PR12MB7889.namprd12.prod.outlook.com (2603:10b6:510:27f::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.19; Thu, 19 Mar
- 2026 02:21:54 +0000
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::f01d:73d2:2dda:c7b2]) by DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::f01d:73d2:2dda:c7b2%4]) with mapi id 15.20.9723.016; Thu, 19 Mar 2026
- 02:21:54 +0000
-From: Zi Yan <ziy@nvidia.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Zi Yan <ziy@nvidia.com>,
-	Hugh Dickins <hughd@google.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Nico Pache <npache@redhat.com>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Dev Jain <dev.jain@arm.com>,
-	Barry Song <baohua@kernel.org>,
-	Lance Yang <lance.yang@linux.dev>,
-	Matthew Wilcox <willy@infradead.org>,
-	Bas van Dijk <bas@dfinity.org>,
-	Eero Kelly <eero.kelly@dfinity.org>,
-	Andrew Battat <andrew.battat@dfinity.org>,
-	Adam Bratschi-Kaye <adam.bratschikaye@dfinity.org>,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH v2] selftests/mm: add folio_split() and filemap_get_entry() race test
-Date: Wed, 18 Mar 2026 22:21:42 -0400
-Message-ID: <20260319022142.277161-1-ziy@nvidia.com>
-X-Mailer: git-send-email 2.51.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BLAPR03CA0173.namprd03.prod.outlook.com
- (2603:10b6:208:32f::35) To DS7PR12MB9473.namprd12.prod.outlook.com
- (2603:10b6:8:252::5)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20230601.gappssmtp.com header.i=@dubeyko-com.20230601.gappssmtp.com header.b="LHviwXCM"
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-7986e0553bdso5644727b3.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 18 Mar 2026 19:53:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dubeyko-com.20230601.gappssmtp.com; s=20230601; t=1773888789; x=1774493589; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=mk6MGvPBVKS+rY9qAMoAkMsc/ht937nrXMHt6+HHLzo=;
+        b=LHviwXCMxB9YEPxFvri6cMGFxmlGA9270temtJkRppJ+3v21eP8L60/tGlz7HQrD1d
+         mDdcJ15irpH4GB3Qb6imY89UdyVwdZhuQggm9+FVXkfQojUOL2osiylOc6BaHi5M7TqC
+         l/spzViZsjQmikA73mAjJkHOXQZwAYu6ppxy+HgLv+10X4E69BUZFbHFxJz0V4HHm5fD
+         eOp9utxwzeUVLpttoGh7xRned44koCDNcyuLyLIcA6wBPoj2ICzYY8XIQ3rvwHJ6uKrQ
+         vOPbKm3wB+qX3CG6++zlY5j2UyRYnY51tIIuGmAZ/UmBArUNWRF8ljDIdHfHctnEBRwp
+         1rRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773888789; x=1774493589;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mk6MGvPBVKS+rY9qAMoAkMsc/ht937nrXMHt6+HHLzo=;
+        b=MB+VRMSPNRten6TzKMKlucPHVol48KcOcdSg5HjGIwi1FQ/JCDDzUWYzZsgJpuPUfT
+         QUWIu5C8OgkMYfze5H+oiVHvI6ibIhmFyU7LVGRm7tMmdVSHPAuVYaUz+tx89Bs7L8mg
+         PNDFdygFNjKCVkEca94XyP8J8CKxStMn3uIgXZvorpFrPkBbow/Fx9zS04o2zzeXCNbK
+         1yo4+tGI3YsTU8MV04yAKDH4e/TaixmIst4pjIZ39UCXxLmUOY2xpmMO8ZuHeyIxsUea
+         VKrHhmbbDbBsMtH2hvN2qed+3t24NywITL2fwQkGqYKeTUoFAdhb3BelaFLgnQ0i2Vz8
+         qJKw==
+X-Forwarded-Encrypted: i=1; AJvYcCUugbVr2B2fYZwpgp1gr35TllHjdQ8Y8QI7vbcbVXZNDolH7ylFRRmM3uKW/K2J9qgXEBFh+eiSdLSL9W2N@vger.kernel.org
+X-Gm-Message-State: AOJu0YzWXVSKM2fcXoB5V43Dyv59I881579j08LHsXWWGGNkvTDQYjzw
+	ENWIWYX6T3KFekmWNREFp4XPVs27lTkGpsZv9DDgr3OADZgiERxABd9fqIMn13fgIJw=
+X-Gm-Gg: ATEYQzxtk0oObh9Pq+V9EE2SKyHBHSPYIvHMsVBIQUq1rn3NYdHUvQpq9Y3nlHn272L
+	RsvhXQu6I+/UmqpAFu/NEp5uOzQaWFZxeFu2h9xM+y7q6epWxwQcvvYpONLvG2wxDrj4LZ+v6Zw
+	ynLGQ7pXZqVaxXG4CU3CUFzwDNCa1ygtdt2OGMhwbUQrR0KJFobNL6cgZVEEc1APfQ8s50ABjCY
+	e21oQI9TMpnYFC7HGok33BAOUAVE1Uz5tJ9jW9j6jXCBpriryLcaZMnx6zduKMT1ZSzNVS6Scx8
+	m6ph4Affk/1lZLf+m0S36OuCpZPzHdBFNFjzvKTWcAgb/dBScP65JbisTxj2742PkVAfM6uZLcW
+	cunRR1Nqr07yXre0WCb5tDhlu4k2pOmVP5fqVOdshjlmYnTaySQKQQZB0fgpu7DPpsJHbl2q4OO
+	N1X4ytem+5s0riVFkMjoWI6hsnOQtcQAKBQwVbpf+lOzhR7gt4zqbbMClT2g+rTFMD8SPMGkZyl
+	mk2l3Et3k9nvJ7kckxevEJwVbDvaZrMaIDF0S27oKzV4XrdZSP1nUot3Sej0TjnNJ6Fs4FH3A==
+X-Received: by 2002:a05:690c:13:b0:79a:53b8:820d with SMTP id 00721157ae682-79a71acb389mr55986507b3.35.1773888789286;
+        Wed, 18 Mar 2026 19:53:09 -0700 (PDT)
+Received: from pop-os.attlocal.net (162-197-212-70.lightspeed.sntcca.sbcglobal.net. [162.197.212.70])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-79a7158aaefsm29015897b3.27.2026.03.18.19.53.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Mar 2026 19:53:08 -0700 (PDT)
+Message-ID: <d7f70081b872136808a6da0263508703aa0d501e.camel@dubeyko.com>
+Subject: Re: [PATCH v6] hfsplus: fix uninit-value by validating catalog
+ record size
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: Deepanshu Kartikey <kartikey406@gmail.com>, Viacheslav Dubeyko
+	 <Slava.Dubeyko@ibm.com>
+Cc: "glaubitz@physik.fu-berlin.de" <glaubitz@physik.fu-berlin.de>, 
+ "frank.li@vivo.com"
+	 <frank.li@vivo.com>, "charmitro@posteo.net" <charmitro@posteo.net>, 
+ "linux-fsdevel@vger.kernel.org"
+	 <linux-fsdevel@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	 <linux-kernel@vger.kernel.org>, 
+ "syzbot+d80abb5b890d39261e72@syzkaller.appspotmail.com"
+	 <syzbot+d80abb5b890d39261e72@syzkaller.appspotmail.com>
+Date: Wed, 18 Mar 2026 19:52:44 -0700
+In-Reply-To: <CADhLXY7Cmtm+=_7Bvz2XkvFsPtL4bVVwvuMjHZVj3G6r5aXoTw@mail.gmail.com>
+References: <20260307010302.41547-1-kartikey406@gmail.com>
+	 <9924e9d1519afbbce87321988e0f4b95005f6381.camel@ibm.com>
+	 <CADhLXY7Cmtm+=_7Bvz2XkvFsPtL4bVVwvuMjHZVj3G6r5aXoTw@mail.gmail.com>
+Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
+ keydata=mQINBGgaTLYBEADaJc/WqWTeunGetXyyGJ5Za7b23M/ozuDCWCp+yWUa2GqQKH40dxRIR
+ zshgOmAue7t9RQJU9lxZ4ZHWbi1Hzz85+0omefEdAKFmxTO6+CYV0g/sapU0wPJws3sC2Pbda9/eJ
+ ZcvScAX2n/PlhpTnzJKf3JkHh3nM1ACO3jzSe2/muSQJvqMLG2D71ccekr1RyUh8V+OZdrPtfkDam
+ V6GOT6IvyE+d+55fzmo20nJKecvbyvdikWwZvjjCENsG9qOf3TcCJ9DDYwjyYe1To8b+mQM9nHcxp
+ jUsUuH074BhISFwt99/htZdSgp4csiGeXr8f9BEotRB6+kjMBHaiJ6B7BIlDmlffyR4f3oR/5hxgy
+ dvIxMocqyc03xVyM6tA4ZrshKkwDgZIFEKkx37ec22ZJczNwGywKQW2TGXUTZVbdooiG4tXbRBLxe
+ ga/NTZ52ZdEkSxAUGw/l0y0InTtdDIWvfUT+WXtQcEPRBE6HHhoeFehLzWL/o7w5Hog+0hXhNjqte
+ fzKpI2fWmYzoIb6ueNmE/8sP9fWXo6Av9m8B5hRvF/hVWfEysr/2LSqN+xjt9NEbg8WNRMLy/Y0MS
+ p5fgf9pmGF78waFiBvgZIQNuQnHrM+0BmYOhR0JKoHjt7r5wLyNiKFc8b7xXndyCDYfniO3ljbr0j
+ tXWRGxx4to6FwARAQABtCZWaWFjaGVzbGF2IER1YmV5a28gPHNsYXZhQGR1YmV5a28uY29tPokCVw
+ QTAQoAQQIbAQUJA8JnAAULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBFXDC2tnzsoLQtrbBDlc2cL
+ fhEB1BQJoGl5PAhkBAAoJEDlc2cLfhEB17DsP/jy/Dx19MtxWOniPqpQf2s65enkDZuMIQ94jSg7B
+ F2qTKIbNR9SmsczjyjC+/J7m7WZRmcqnwFYMOyNfh12aF2WhjT7p5xEAbvfGVYwUpUrg/lcacdT0D
+ Yk61GGc5ZB89OAWHLr0FJjI54bd7kn7E/JRQF4dqNsxU8qcPXQ0wLHxTHUPZu/w5Zu/cO+lQ3H0Pj
+ pSEGaTAh+tBYGSvQ4YPYBcV8+qjTxzeNwkw4ARza8EjTwWKP2jWAfA/ay4VobRfqNQ2zLoo84qDtN
+ Uxe0zPE2wobIXELWkbuW/6hoQFPpMlJWz+mbvVms57NAA1HO8F5c1SLFaJ6dN0AQbxrHi45/cQXla
+ 9hSEOJjxcEnJG/ZmcomYHFneM9K1p1K6HcGajiY2BFWkVet9vuHygkLWXVYZ0lr1paLFR52S7T+cf
+ 6dkxOqu1ZiRegvFoyzBUzlLh/elgp3tWUfG2VmJD3lGpB3m5ZhwQ3rFpK8A7cKzgKjwPp61Me0o9z
+ HX53THoG+QG+o0nnIKK7M8+coToTSyznYoq9C3eKeM/J97x9+h9tbizaeUQvWzQOgG8myUJ5u5Dr4
+ 6tv9KXrOJy0iy/dcyreMYV5lwODaFfOeA4Lbnn5vRn9OjuMg1PFhCi3yMI4lA4umXFw0V2/OI5rgW
+ BQELhfvW6mxkihkl6KLZX8m1zcHitCpWaWFjaGVzbGF2IER1YmV5a28gPFNsYXZhLkR1YmV5a29Aa
+ WJtLmNvbT6JAlQEEwEKAD4WIQRVwwtrZ87KC0La2wQ5XNnC34RAdQUCaBpd7AIbAQUJA8JnAAULCQ
+ gHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRA5XNnC34RAdYjFEACiWBEybMt1xjRbEgaZ3UP5i2bSway
+ DwYDvgWW5EbRP7JcqOcZ2vkJwrK3gsqC3FKpjOPh7ecE0I4vrabH1Qobe2N8B2Y396z24mGnkTBbb
+ 16Uz3PC93nFN1BA0wuOjlr1/oOTy5gBY563vybhnXPfSEUcXRd28jI7z8tRyzXh2tL8ZLdv1u4vQ8
+ E0O7lVJ55p9yGxbwgb5vXU4T2irqRKLxRvU80rZIXoEM7zLf5r7RaRxgwjTKdu6rYMUOfoyEQQZTD
+ 4Xg9YE/X8pZzcbYFs4IlscyK6cXU0pjwr2ssjearOLLDJ7ygvfOiOuCZL+6zHRunLwq2JH/RmwuLV
+ mWWSbgosZD6c5+wu6DxV15y7zZaR3NFPOR5ErpCFUorKzBO1nA4dwOAbNym9OGkhRgLAyxwpea0V0
+ ZlStfp0kfVaSZYo7PXd8Bbtyjali0niBjPpEVZdgtVUpBlPr97jBYZ+L5GF3hd6WJFbEYgj+5Af7C
+ UjbX9DHweGQ/tdXWRnJHRzorxzjOS3003ddRnPtQDDN3Z/XzdAZwQAs0RqqXrTeeJrLppFUbAP+HZ
+ TyOLVJcAAlVQROoq8PbM3ZKIaOygjj6Yw0emJi1D9OsN2UKjoe4W185vamFWX4Ba41jmCPrYJWAWH
+ fAMjjkInIPg7RLGs8FiwxfcpkILP0YbVWHiNAabQoVmlhY2hlc2xhdiBEdWJleWtvIDx2ZHViZXlr
+ b0BrZXJuZWwub3JnPokCVAQTAQoAPhYhBFXDC2tnzsoLQtrbBDlc2cLfhEB1BQJoVemuAhsBBQkDw
+ mcABQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEDlc2cLfhEB1GRwP/1scX5HO9Sk7dRicLD/fxo
+ ipwEs+UbeA0/TM8OQfdRI4C/tFBYbQCR7lD05dfq8VsYLEyrgeLqP/iRhabLky8LTaEdwoAqPDc/O
+ 9HRffx/faJZqkKc1dZryjqS6b8NExhKOVWmDqN357+Cl/H4hT9wnvjCj1YEqXIxSd/2Pc8+yw/KRC
+ AP7jtRzXHcc/49Lpz/NU5irScusxy2GLKa5o/13jFK3F1fWX1wsOJF8NlTx3rLtBy4GWHITwkBmu8
+ zI4qcJGp7eudI0l4xmIKKQWanEhVdzBm5UnfyLIa7gQ2T48UbxJlWnMhLxMPrxgtC4Kos1G3zovEy
+ Ep+fJN7D1pwN9aR36jVKvRsX7V4leIDWGzCdfw1FGWkMUfrRwgIl6i3wgqcCP6r9YSWVQYXdmwdMu
+ 1RFLC44iF9340S0hw9+30yGP8TWwd1mm8V/+zsdDAFAoAwisi5QLLkQnEsJSgLzJ9daAsE8KjMthv
+ hUWHdpiUSjyCpigT+KPl9YunZhyrC1jZXERCDPCQVYgaPt+Xbhdjcem/ykv8UVIDAGVXjuk4OW8la
+ nf8SP+uxkTTDKcPHOa5rYRaeNj7T/NClRSd4z6aV3F6pKEJnEGvv/DFMXtSHlbylhyiGKN2Amd0b4
+ 9jg+DW85oNN7q2UYzYuPwkHsFFq5iyF1QggiwYYTpoVXsw
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (by Flathub.org) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|PH7PR12MB7889:EE_
-X-MS-Office365-Filtering-Correlation-Id: 49bcc263-394a-4933-a9db-08de855e4976
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|366016|376014|1800799024|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	7Es+ZeFQuoNea3n7ZhzgLEqMVuKTgL3Z8hPz4Ctv56HYlQdEkLh+ef+yFo6XWPRWYMGRTzJfhvXxx9zXU/PaYyHW+JQDOqmKG4Qm4zB9qa6Lm7VzXTKfFpSIrUlfhnn4F3XfBLYVSxBqLxRiyWpDMwfH0ElgqZveCRahcx6Wxf1JczHjCXKSPdORe7mGWb6nkIZYEsQ0UejF56N6SgmIn0yBA542H0SXEFK1X5hP8Je7q38AmM35YqxvFb0vsyB3UXud3am2m4gACtfK5PCKzTeGl25iPIRBoOagMwdleVuSSQ6mLK5cbUo26C9PKIdnTtdryEdXWWklt+iPoAUd3+FzmZL08sip9XDs8il2I/EJwHF85nJhxY/GFtfGhk2CLKbCjxl/fhCEqYllOpW3pcYqQXEJSYb7Qgtgr9r2SkdZ99g8dO1H7RjrJgvw2Nzicg71YfgZ9g6pl1Yex6y/88ncsklL3ARCG32zrfsjmHkFWY/D2niv+9Ibzvbm6HaV0LM9ClYXqoMtp4yVeYTApeXI6YVPfKe1X+BPH95JS7tsLFRzjAKKwheuuQtpTx39kadOrSzo1Q/GqCAb3qmU+aIbgGM0AV2mo1EaNdzsThx3Xi9mcoAEpkkosz92WvaNGruhRVSDiXu05RHkIg62U/5Qb8n8eMTX4HhXHIEy1Ahz8DgtpLhR6Bsr2asm5AKBAU0UYSHIPC9ev5ikOvipoPahW+pKahKF5g/2/XRHMGqnw+JG4fb26l6GUORmyvQF
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(376014)(1800799024)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?yp7KyYj4Uf82a+5q8fNhvfee03M51N+KM3xwm4sCr20CkxKZuqrgfKZ7KHZE?=
- =?us-ascii?Q?lp1mrde2nBGsP4UZ9mT2KAtga2s3nIxJsqR93hqs3X3+l1XftMS0dbZwgQse?=
- =?us-ascii?Q?JBUoqalJBGkA4CJbpF6djsEbUE8NhYxoOgoIvDwTY4UOJFMTO3Y6+qc/2FJZ?=
- =?us-ascii?Q?Y4W+BqjD0Cri272vfawNU1el0OGNoMeEfHJ8S2R3mUr/N21du+On5gU4rC2H?=
- =?us-ascii?Q?cTo5NAn07mTmRnJZGiqAMEYM4aO3ET7vzIyuCE7cnArah3a1jCyhmY3YpXja?=
- =?us-ascii?Q?53h1ZKXZOhYaznkycsRAeu1uWU9NfMwFYT36yaTnlLS3MYvU1HGDxBABvj0K?=
- =?us-ascii?Q?jPyoIfOSiSjF1jzwPnZRFSmY2HumFDq+AvaemE+FrimJ67AS9vwUv1emOl9j?=
- =?us-ascii?Q?OpuXA0pf4DQ/XMAWXivfYG3uG6IAsxBqPWt5nVrrI+QyW5VegMH++fBdgwlE?=
- =?us-ascii?Q?MuaDaZf277D+G6VC7WHf8mkA9p2Af7IbqGzqLplEMZG9gIi6h2fQTK9zOz7z?=
- =?us-ascii?Q?uIe+JFTeRMsWrlf8slpp3Rkt1yV+lf66OhzkDX9kIAG7sk6bSV0uLeNWLELb?=
- =?us-ascii?Q?6KDXFjD2tq9COZpG0mmW+UYVOy/uADtl8ksdMAPxWz7Bizej68iG/vXu15w7?=
- =?us-ascii?Q?Ry11hDQ/J9IPlwkTuovTDDol+Phvtud50HOxC02gpQm/jA6Rm4/zzuRJZc3X?=
- =?us-ascii?Q?vjHVJNH76dbmNsAskIr8A8sfryseTouU64F2OniKqxvJmeoLMUDnGLlfea/3?=
- =?us-ascii?Q?h+Gt2n5BwxCpMBaEayAZGYdri3NabSYNabKGc6PFjSos4ZYopxDe99PgJMPk?=
- =?us-ascii?Q?edw9i5XY0zydRTmT4Dla60lY8cAPP/XD2+5PsfACptN21tMis2IhYqCHdc0W?=
- =?us-ascii?Q?MbUIodngR7QvgOMI30mU65LdY0Xn/1erVjDwKmfzeZzvs5G+ULNPnpOXQh/g?=
- =?us-ascii?Q?btHpSNAwVMwoetgf6iGaQqzsRoE+GXl28Qfrkr20wFIEbS0Hz5OjNGomtLd0?=
- =?us-ascii?Q?cwrBMh5wHbSfgqAhML4gR23CmsnOFNivxrtVnTqVV57+z/aZDTPZ3Z0EFWdj?=
- =?us-ascii?Q?Da2ltu8YllTtJVppYKyCHqhIqnJKTif+7963rWv6pnNAgZyfbfbW6COTGkOt?=
- =?us-ascii?Q?4wxqBpiE2HPq9XgNg6DPQ4Lpob/Wleb4W//jU4WSKfjzho57i8hprOArlaLn?=
- =?us-ascii?Q?VDc9ez0WoTtT4i6rIbVhfbgElOif3lFnIOMAtpqekuqCNQzAHqJaRHVTFbPl?=
- =?us-ascii?Q?T3z/0K2809qeKE8bgs9u8/DBCcoL/COB7QKNqBt7O5VVpFpxq+qDcfGPTAYZ?=
- =?us-ascii?Q?cZ1cSzB9Dka/7uBjA2iNGKoBhzyoUdLgUL8Bflm4A0iWeaYjXfuZUeNTl3xF?=
- =?us-ascii?Q?0VsnA9dvuGyVqESED/8DkYQ96J7AoTQlOcQgiNFDCByU6G21Z1BUkYWlh0lu?=
- =?us-ascii?Q?fnBC7SQ0JxfdpLxjXdLjykE9QxYSVC20YUxNrcq7cfqD3VV6f4Few1yK2Riv?=
- =?us-ascii?Q?4U+6/YKTdMuTssIIMuPCxl4WKPdAWIbqy7BVummKaqqX/wT78ow9rztsGqne?=
- =?us-ascii?Q?bpnPHLn5BFV9/EqLVPqBoanaztegfrq/GsoigmCce8J7g/lxO/Ir+UHpa+DP?=
- =?us-ascii?Q?TKBwcmgWvhxjvq1J0O65OwygX5wWCu6+tQgmVbD+h48PmWjiOgj3QNbLHfPq?=
- =?us-ascii?Q?4lLHQFk1/M7j26Upv72cMw6rZJtqfcBHk3H/WRNoaFSU1cps?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 49bcc263-394a-4933-a9db-08de855e4976
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Mar 2026 02:21:54.0515
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tI80hGJxIrtcrJLV9Pup1mwdluuAEXbcTT8utAlhL/D4sH+7Ha6dipAofD+i3lrr
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7889
 
-The added folio_split_race_test is a modified C port of the race condition
-test from [1]. The test creates shmem huge pages shared by both a parent
-and a child processes, where the parent process punches holes in the shmem
-to cause folio_split() in the kernel and the child process reads the shmem
-in 16 threads to cause filemap_get_entry() in the kernel.
-filemap_get_entry() reads the folio and xarray split by folio_split()
-locklessly. The original test[2] is written in rust and uses memfd (shmem
-backed). This C port uses shmem directly.
+On Thu, 2026-03-19 at 06:57 +0530, Deepanshu Kartikey wrote:
+> On Mon, Mar 9, 2026 at 10:49=E2=80=AFPM Viacheslav Dubeyko
+> <Slava.Dubeyko@ibm.com> wrote:
+> >=20
+> >=20
+> > Applied on HFS/HFS+ git tree. Thanks for the nice fix. :)
+> >=20
+>=20
+> Gentle ping on this patch. Just wanted to know if this is pushed to
+> linux-next ?
+>=20
+>=20
 
-Note: the initial rust to C conversion is done by Cursor.
+Patch is in for-next branch of HFS/HFS+ git tree.
 
-Link: https://lore.kernel.org/all/CAKNNEtw5_kZomhkugedKMPOG-sxs5Q5OLumWJdiWXv+C9Yct0w@mail.gmail.com/ [1]
-Link: https://github.com/dfinity/thp-madv-remove-test [2]
-Signed-off-by: Bas van Dijk <bas@dfinity.org>
-Signed-off-by: Adam Bratschi-Kaye <adam.bratschikaye@dfinity.org>
-Signed-off-by: Zi Yan <ziy@nvidia.com>
----
-From V1:
-1. added prctl(PR_SET_PDEATHSIG, SIGTERM) to avoid child looping
-   forever.
-2. removed page_idx % PUNCH_INTERVAL >= 0, since it is a nop. Added a
-   comment.
-3. added a child process status check to prevent parent looping forever
-   and record that as a failure.
-4. used ksft_exit_skip() instead of ksft_finished() when the program is
-   not running as root.
-5. restored THP settings properly when the program exits abnormally.
-
- tools/testing/selftests/mm/Makefile           |   1 +
- .../selftests/mm/folio_split_race_test.c      | 431 ++++++++++++++++++
- tools/testing/selftests/mm/run_vmtests.sh     |   2 +
- 3 files changed, 434 insertions(+)
- create mode 100644 tools/testing/selftests/mm/folio_split_race_test.c
-
-diff --git a/tools/testing/selftests/mm/Makefile b/tools/testing/selftests/mm/Makefile
-index 7a5de4e9bf520..cd24596cdd27e 100644
---- a/tools/testing/selftests/mm/Makefile
-+++ b/tools/testing/selftests/mm/Makefile
-@@ -105,6 +105,7 @@ TEST_GEN_FILES += droppable
- TEST_GEN_FILES += guard-regions
- TEST_GEN_FILES += merge
- TEST_GEN_FILES += rmap
-+TEST_GEN_FILES += folio_split_race_test
- 
- ifneq ($(ARCH),arm64)
- TEST_GEN_FILES += soft-dirty
-diff --git a/tools/testing/selftests/mm/folio_split_race_test.c b/tools/testing/selftests/mm/folio_split_race_test.c
-new file mode 100644
-index 0000000000000..bf2a4159777d0
---- /dev/null
-+++ b/tools/testing/selftests/mm/folio_split_race_test.c
-@@ -0,0 +1,431 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * The parent process creates a shmem and forks. The child creates a THP on the
-+ * mapping, fills all pages with known patterns, and then continuously verifies
-+ * non-punched pages. The parent punches holes via MADV_REMOVE on the shmem
-+ * while the child reads.
-+ *
-+ * It tests the race condition between folio_split() and filemap_get_entry(),
-+ * where the hole punches on shmem lead to folio_split() and reading the shmem
-+ * lead to filemap_get_entry().
-+ */
-+
-+#define _GNU_SOURCE
-+#include <assert.h>
-+#include <errno.h>
-+#include <linux/mman.h>
-+#include <pthread.h>
-+#include <stdatomic.h>
-+#include <stdbool.h>
-+#include <stdint.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <sys/mman.h>
-+#include <sys/stat.h>
-+#include <sys/wait.h>
-+#include <signal.h>
-+#include <unistd.h>
-+#include <sys/prctl.h>
-+#include "vm_util.h"
-+#include "kselftest.h"
-+#include "thp_settings.h"
-+
-+uint64_t page_size;
-+uint64_t pmd_pagesize;
-+#define NR_PMD_PAGE 5
-+#define FILE_SIZE (pmd_pagesize * NR_PMD_PAGE)
-+#define TOTAL_PAGES (FILE_SIZE / page_size)
-+
-+/* Every N-th to N+M-th pages are punched; not aligned with huge page boundaries. */
-+#define PUNCH_INTERVAL 50 /* N */
-+#define PUNCH_SIZE_FACTOR 3 /* M */
-+
-+#define NUM_READER_THREADS 16
-+#define FILL_BYTE 0xAF
-+#define NUM_ITERATIONS 100
-+
-+#define CHILD_READY 1
-+#define CHILD_FAILED 2
-+/* Shared control block: MAP_SHARED anonymous so parent and child see same values. */
-+struct shared_ctl {
-+	atomic_uint_fast32_t ready;
-+	atomic_uint_fast32_t stop;
-+	atomic_size_t child_failures;
-+	atomic_size_t child_verified;
-+};
-+
-+static int get_errno(void)
-+{
-+	return errno;
-+}
-+
-+static void fill_page(unsigned char *base, size_t page_idx)
-+{
-+	unsigned char *page_ptr = base + page_idx * page_size;
-+	uint64_t idx = (uint64_t)page_idx;
-+
-+	memset(page_ptr, FILL_BYTE, page_size);
-+	memcpy(page_ptr, &idx, sizeof(idx));
-+}
-+
-+/* Returns true if valid, false if corrupted. */
-+static bool check_page(unsigned char *base, size_t page_idx)
-+{
-+	unsigned char *page_ptr = base + page_idx * page_size;
-+	uint64_t expected_idx = (uint64_t)page_idx;
-+	uint64_t got_idx;
-+
-+	memcpy(&got_idx, page_ptr, 8);
-+
-+	if (got_idx != expected_idx) {
-+		size_t off;
-+		int all_zero = 1;
-+
-+		for (off = 0; off < page_size; off++) {
-+			if (page_ptr[off] != 0) {
-+				all_zero = 0;
-+				break;
-+			}
-+		}
-+		if (all_zero) {
-+			ksft_print_msg(
-+				"CORRUPTED: page %zu (huge page %zu) is ALL ZEROS\n",
-+				page_idx,
-+				(page_idx * page_size) / pmd_pagesize);
-+		} else {
-+			ksft_print_msg(
-+				"CORRUPTED: page %zu (huge page %zu): expected idx %zu, got %lu\n",
-+				page_idx, (page_idx * page_size) / pmd_pagesize,
-+				page_idx, (unsigned long)got_idx);
-+		}
-+		return false;
-+	}
-+	return true;
-+}
-+
-+struct reader_arg {
-+	unsigned char *base;
-+	struct shared_ctl *ctl;
-+	int tid;
-+	atomic_size_t *failures;
-+	atomic_size_t *verified;
-+};
-+
-+static void *reader_thread(void *arg)
-+{
-+	struct reader_arg *ra = (struct reader_arg *)arg;
-+	unsigned char *base = ra->base;
-+	struct shared_ctl *ctl = ra->ctl;
-+	int tid = ra->tid;
-+	atomic_size_t *failures = ra->failures;
-+	atomic_size_t *verified = ra->verified;
-+	size_t page_idx;
-+
-+	while (atomic_load_explicit(&ctl->stop, memory_order_acquire) == 0) {
-+		for (page_idx = (size_t)tid; page_idx < TOTAL_PAGES;
-+		     page_idx += NUM_READER_THREADS) {
-+			if (page_idx % PUNCH_INTERVAL >= 0 &&
-+			    page_idx % PUNCH_INTERVAL < PUNCH_SIZE_FACTOR)
-+				continue;
-+			if (check_page(base, page_idx))
-+				atomic_fetch_add_explicit(verified, 1,
-+							  memory_order_relaxed);
-+			else
-+				atomic_fetch_add_explicit(failures, 1,
-+							  memory_order_relaxed);
-+		}
-+		if (atomic_load_explicit(failures, memory_order_relaxed) > 0)
-+			break;
-+	}
-+
-+	return NULL;
-+}
-+
-+static void child_reader_loop(unsigned char *base, struct shared_ctl *ctl)
-+{
-+	pthread_t threads[NUM_READER_THREADS];
-+	struct reader_arg args[NUM_READER_THREADS];
-+	atomic_size_t failures = 0;
-+	atomic_size_t verified = 0;
-+	size_t page_idx;
-+	size_t recheck = 0;
-+	int i;
-+
-+	for (i = 0; i < NUM_READER_THREADS; i++) {
-+		args[i].base = base;
-+		args[i].ctl = ctl;
-+		args[i].tid = i;
-+		args[i].failures = &failures;
-+		args[i].verified = &verified;
-+		if (pthread_create(&threads[i], NULL, reader_thread,
-+				   &args[i]) != 0)
-+			ksft_exit_fail_msg("pthread_create failed\n");
-+	}
-+
-+	for (i = 0; i < NUM_READER_THREADS; i++)
-+		pthread_join(threads[i], NULL);
-+
-+	/* Post-sleep recheck */
-+	usleep(1000); /* 1 ms */
-+
-+	for (page_idx = 0; page_idx < TOTAL_PAGES; page_idx++) {
-+		if (page_idx % PUNCH_INTERVAL >= 0 &&
-+		    page_idx % PUNCH_INTERVAL < PUNCH_SIZE_FACTOR)
-+			continue;
-+		if (!check_page(base, page_idx))
-+			recheck++;
-+	}
-+	if (recheck)
-+		ksft_print_msg("post-sleep failures: %zu\n", recheck);
-+
-+	atomic_store_explicit(&ctl->child_failures,
-+			      atomic_load_explicit(&failures,
-+						   memory_order_relaxed),
-+			      memory_order_release);
-+	atomic_store_explicit(&ctl->child_verified,
-+			      atomic_load_explicit(&verified,
-+						   memory_order_relaxed),
-+			      memory_order_release);
-+}
-+
-+/* Returns number of corrupted pages. */
-+static size_t verify_pages(unsigned char *base, const bool *is_punched)
-+{
-+	size_t failures = 0;
-+	size_t page_idx;
-+	size_t non_punched = 0;
-+
-+	for (page_idx = 0; page_idx < TOTAL_PAGES; page_idx++) {
-+		if (is_punched[page_idx])
-+			continue;
-+		if (!check_page(base, page_idx)) {
-+			failures++;
-+			if (failures >= 100)
-+				return failures;
-+		}
-+		non_punched++;
-+	}
-+	if (failures)
-+		ksft_print_msg("  %zu non-punched pages are corrupted!\n",
-+			failures);
-+	return failures;
-+}
-+
-+/* Run a single iteration. Returns total number of corrupted pages. */
-+static size_t run_iteration(void)
-+{
-+	struct shared_ctl *ctl;
-+	pid_t pid;
-+	unsigned char *parent_base;
-+	bool *is_punched;
-+	size_t i;
-+	size_t child_failures, child_verified, parent_failures;
-+	size_t child_status_failures = 0;
-+	int status;
-+	size_t n_punched = 0;
-+
-+	ctl = (struct shared_ctl *)mmap(NULL, sizeof(struct shared_ctl), PROT_READ | PROT_WRITE,
-+				MAP_SHARED | MAP_ANONYMOUS, -1, 0);
-+	if (ctl == MAP_FAILED)
-+		ksft_exit_fail_msg("mmap ctl failed: %d\n", get_errno());
-+
-+	memset(ctl, 0, sizeof(struct shared_ctl));
-+
-+	parent_base = mmap(NULL, FILE_SIZE, PROT_READ | PROT_WRITE,
-+			   MAP_SHARED | MAP_ANONYMOUS, -1, 0);
-+
-+	if (parent_base == MAP_FAILED)
-+		ksft_exit_fail_msg("mmap failed: %d\n", get_errno());
-+
-+	pid = fork();
-+	if (pid < 0)
-+		ksft_exit_fail_msg("fork failed: %d\n", get_errno());
-+
-+	if (pid == 0) {
-+		/* ---- Child process ---- */
-+		unsigned char *child_base = parent_base;
-+
-+		/* in case parent exit abnormally, reader_thread() loop forever */
-+		if (prctl(PR_SET_PDEATHSIG, SIGTERM))
-+			ksft_exit_fail_msg("prctl(PR_SET_PDEATHSIG) failed: %d\n", get_errno());
-+
-+		if (madvise(child_base, FILE_SIZE, MADV_HUGEPAGE) != 0)
-+			ksft_exit_fail_msg("madvise(MADV_HUGEPAGE) failed: %d\n",
-+				get_errno());
-+
-+		for (i = 0; i < TOTAL_PAGES; i++)
-+			fill_page(child_base, i);
-+
-+		if (!check_huge_shmem(child_base, NR_PMD_PAGE, pmd_pagesize)) {
-+			atomic_store_explicit(&ctl->ready, CHILD_FAILED, memory_order_release);
-+			ksft_print_msg("No shmem THP is allocated\n");
-+			_exit(0);
-+		}
-+
-+		atomic_store_explicit(&ctl->ready, CHILD_READY, memory_order_release);
-+		child_reader_loop(child_base, ctl);
-+
-+		munmap(child_base, FILE_SIZE);
-+		_exit(0);
-+	}
-+
-+	/* ---- Parent process ---- */
-+	while (atomic_load_explicit(&ctl->ready, memory_order_acquire) == 0) {
-+		if (waitpid(pid, &status, WNOHANG) == pid) {
-+			ksft_print_msg(
-+				"Child terminated unexpectedly before ready\n");
-+			/* Force the ready flag to break loop and fail. */
-+			atomic_store_explicit(&ctl->ready, CHILD_FAILED,
-+					      memory_order_release);
-+			break;
-+		}
-+		usleep(1000);
-+	}
-+
-+	if (ctl->ready == CHILD_FAILED)
-+		ksft_exit_fail_msg("Child process error\n");
-+
-+	is_punched = calloc(TOTAL_PAGES, sizeof(bool));
-+	if (!is_punched)
-+		ksft_exit_fail_msg("calloc is_punched failed\n");
-+
-+	for (i = 0; i < TOTAL_PAGES; i++) {
-+		int j;
-+
-+		if (i % PUNCH_INTERVAL != 0)
-+			continue;
-+		if (madvise(parent_base + i * page_size,
-+			    PUNCH_SIZE_FACTOR * page_size, MADV_REMOVE) != 0) {
-+			ksft_exit_fail_msg(
-+				"madvise(MADV_REMOVE) failed on page %zu: %d\n",
-+				i, get_errno());
-+		}
-+		for (j = 0; j < PUNCH_SIZE_FACTOR && i + j < TOTAL_PAGES; j++)
-+			is_punched[i + j] = true;
-+
-+		i += PUNCH_SIZE_FACTOR;
-+
-+		n_punched += PUNCH_SIZE_FACTOR;
-+	}
-+
-+	atomic_store_explicit(&ctl->stop, 1, memory_order_release);
-+
-+	if (waitpid(pid, &status, 0) != pid)
-+		ksft_exit_fail_msg("waitpid failed\n");
-+
-+	if (!WIFEXITED(status) || WEXITSTATUS(status) != 0) {
-+		child_status_failures = 1;
-+		if (WIFEXITED(status)) {
-+			ksft_print_msg("Child exited with non-zero status: %d\n",
-+				       WEXITSTATUS(status));
-+		} else if (WIFSIGNALED(status)) {
-+			ksft_print_msg("Child terminated by signal: %s (%d)\n",
-+				       strsignal(WTERMSIG(status)),
-+				       WTERMSIG(status));
-+		} else {
-+			ksft_print_msg("Child exited with unknown status: 0x%x\n",
-+				       status);
-+		}
-+	}
-+
-+	child_failures = atomic_load_explicit(&ctl->child_failures,
-+					      memory_order_acquire);
-+	child_verified = atomic_load_explicit(&ctl->child_verified,
-+					      memory_order_acquire);
-+	if (child_failures)
-+		ksft_print_msg("Child: %zu pages verified, %zu failures\n",
-+			child_verified, child_failures);
-+
-+	parent_failures = verify_pages(parent_base, is_punched);
-+	if (parent_failures)
-+		ksft_print_msg("Parent verification failures: %zu\n",
-+			parent_failures);
-+
-+	munmap(parent_base, FILE_SIZE);
-+	munmap(ctl, sizeof(struct shared_ctl));
-+	free(is_punched);
-+
-+	(void)n_punched;
-+	return child_failures + parent_failures + child_status_failures;
-+}
-+
-+
-+static void thp_cleanup_handler(int signum)
-+{
-+	thp_restore_settings();
-+	/*
-+	 * Restore default handler and re-raise the signal to exit.
-+	 * This is to ensure the test process exits with the correct
-+	 * status code corresponding to the signal.
-+	 */
-+	signal(signum, SIG_DFL);
-+	raise(signum);
-+}
-+
-+static void thp_settings_cleanup(void)
-+{
-+	thp_restore_settings();
-+}
-+
-+int main(void)
-+{
-+	size_t iter;
-+	size_t failures;
-+	struct thp_settings current_settings;
-+	bool failed = false;
-+
-+	ksft_print_header();
-+
-+	if (!thp_is_enabled())
-+		ksft_exit_skip("Transparent Hugepages not available\n");
-+
-+	if (geteuid() != 0)
-+		ksft_exit_skip("Please run the benchmark as root\n");
-+
-+	thp_save_settings();
-+	/* make sure thp settings are restored */
-+	if (atexit(thp_settings_cleanup) != 0)
-+		ksft_exit_fail_msg("atexit failed\n");
-+	signal(SIGINT, thp_cleanup_handler);
-+	signal(SIGTERM, thp_cleanup_handler);
-+
-+	thp_read_settings(&current_settings);
-+	current_settings.shmem_enabled = SHMEM_ADVISE;
-+	thp_write_settings(&current_settings);
-+
-+	ksft_set_plan(1);
-+
-+	page_size = getpagesize();
-+	pmd_pagesize = read_pmd_pagesize();
-+
-+	ksft_print_msg("folio split race test\n");
-+	ksft_print_msg("=======================================================\n");
-+	ksft_print_msg("Shmem size:       %zu MiB\n", FILE_SIZE / 1024 / 1024);
-+	ksft_print_msg("Total pages:     %zu\n", TOTAL_PAGES);
-+	ksft_print_msg("Child readers:   %d\n", NUM_READER_THREADS);
-+	ksft_print_msg("Punching every %dth to %dth page\n", PUNCH_INTERVAL,
-+	       PUNCH_INTERVAL + PUNCH_SIZE_FACTOR);
-+	ksft_print_msg("Iterations:      %d\n", NUM_ITERATIONS);
-+
-+	for (iter = 1; iter <= NUM_ITERATIONS; iter++) {
-+		failures = run_iteration();
-+		if (failures > 0) {
-+			failed = true;
-+			ksft_print_msg(
-+				"FAILED on iteration %zu: %zu pages corrupted by cross-process MADV_REMOVE!\n",
-+				iter, failures);
-+			break;
-+		}
-+	}
-+
-+	if (failed) {
-+		ksft_test_result_fail("Test failed\n");
-+		ksft_exit_fail();
-+	} else {
-+		ksft_test_result_pass("All %d iterations passed\n", NUM_ITERATIONS);
-+		ksft_exit_pass();
-+	}
-+
-+	return 0;
-+}
-diff --git a/tools/testing/selftests/mm/run_vmtests.sh b/tools/testing/selftests/mm/run_vmtests.sh
-index 606558cc3b098..530980fdf3227 100755
---- a/tools/testing/selftests/mm/run_vmtests.sh
-+++ b/tools/testing/selftests/mm/run_vmtests.sh
-@@ -553,6 +553,8 @@ if [ -n "${MOUNTED_XFS}" ]; then
-     rm -f ${XFS_IMG}
- fi
- 
-+CATEGORY="thp" run_test ./folio_split_race_test
-+
- CATEGORY="migration" run_test ./migration
- 
- CATEGORY="mkdirty" run_test ./mkdirty
--- 
-2.51.0
-
+Thanks,
+Slava.
