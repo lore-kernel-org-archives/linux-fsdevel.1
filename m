@@ -1,125 +1,184 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from a11-129.smtp-out.amazonses.com (a11-129.smtp-out.amazonses.com [54.240.11.129])
+	(using TLSv1.2 with cipher AES128-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9DA93CCA11;
-	Thu, 19 Mar 2026 13:13:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCA2A2BB13;
+	Thu, 19 Mar 2026 13:17:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.240.11.129
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773925997; cv=none; b=jiKpZRQ27OrEoIXstWT2EZOiTQXj074F5qVuPchlHLek2qOfOnadz/OB5ZmiL4o3XglxcYyD+a3dvYBrcqLZTn86hy7zpjkUu1iGqCm5CJITpFMq9PsZrM5FpBeME8NwLWJyEPIkhHNCOmqrqKsMsn/g9TVM6sOTakRPSdS/H3M=
+	t=1773926243; cv=none; b=A/XzrVMIxOS5BR5c8eyUvdnwLPQWB015E5kAXAan2AvDbKIgSBovFRE+/hcb8QzjY3BXjPrK6v5zXN+2PP9+0+gNK92Y1EnL5kg4gAnzAM0TCwvsmg0X4mbblWDTaQ0sK9PgghxcPmjCtqosJUie1K67sN0y12ueVJ1/SL9GxYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773925997; c=relaxed/simple;
-	bh=o0GtjwXsZyAZFpgX3LDrd2FmLVg91cOKEz6WcZioyn8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fycPpF6WMEhJcbnR3VMcz6gel1y+ruGDTHzKPfK0yuDxcSG6DbCLAKAepXYa3y1gJII4W5SYMVJzfTFtCi3CTiM8zd0Xsgs4pg7MKGz9e7vs0k8MdFlARqD8Vl1DpncvvXVbgKkO6d80Uq1B1RmLCZL7XoiQIET/OdYYs1nkpII=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yj9N/NGr; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773926243; c=relaxed/simple;
+	bh=aVOWktn7Be6Ghxm+vuGHaN6h+AiXFLMEER9GbIe1bII=;
+	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:In-Reply-To:
+	 References:Message-ID; b=OkYrEEU9MCuuP8GkZ4Y2uAvz/WNhuUJEMXsS6T15DpYTeCkSzZcAT4l2RkHdIFfN1XfU1bEl5DK1k5jZUGjRsWvMGxUbl4o86RkRyO3SCymzpvqcGkgbqpkcbJYQhiAtNmrAnAHDmHls/vr39rB8HG8L6Kw0ttGR8r7cnmW/Fl0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jagalactic.com; spf=pass smtp.mailfrom=amazonses.com; dkim=pass (1024-bit key) header.d=jagalactic.com header.i=@jagalactic.com header.b=S6HXL8x6; dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b=PQweVdUJ; arc=none smtp.client-ip=54.240.11.129
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jagalactic.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazonses.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yj9N/NGr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02A62C2BC9E;
-	Thu, 19 Mar 2026 13:13:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773925995;
-	bh=o0GtjwXsZyAZFpgX3LDrd2FmLVg91cOKEz6WcZioyn8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Yj9N/NGrUHSkSxUHPR5wlrEp09cIUI2NlyADHzuDc7+XVF+gabNTkf6nfPh7iW6GH
-	 jRVPjk48eMELakt84A7o+pxeAFDaMSFZ7RS5/Fur6R1urrlorR/wcc8pkTWEn1XB+P
-	 Wh/o/O/fokKWwpTjEfPivJ2w4BZDTFMpqP3waU4AYpgK4N4reyPaewH/G+rGR4/ULD
-	 FRuUkKaTnq9FpwDXFjs7LjQyVRhFT0+CXTLzmBDW35p3h3LdDjDwdD5vIpTrc6YHNG
-	 1cd4FYEISN48Aixb42btL9l4YuK7PWV/Gp8AJwbtbV1VVmFsKpi7hjy0e+uI31cyTN
-	 gSvEjnjpjIU/w==
-Date: Thu, 19 Mar 2026 14:13:10 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Al Viro <viro@zeniv.linux.org.uk>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Paul Moore <paul@paul-moore.com>, Gao Xiang <xiang@kernel.org>, 
-	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, linux-erofs@lists.ozlabs.org, 
-	linux-fsdevel@vger.kernel.org, linux-unionfs@vger.kernel.org, 
-	syzbot+f34aab278bf5d664e2be@syzkaller.appspotmail.com
-Subject: Re: [PATCH] fs: allow vfs code to open an O_PATH file with negative
- dentry
-Message-ID: <20260319-unentbehrlich-reitturnier-f78d9fb01230@brauner>
-References: <20260319124616.1544415-1-amir73il@gmail.com>
+	dkim=pass (1024-bit key) header.d=jagalactic.com header.i=@jagalactic.com header.b="S6HXL8x6";
+	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="PQweVdUJ"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=o25mqk5iffcfzgc3wo2zjhkohcyjzsoq; d=jagalactic.com; t=1773926239;
+	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:References:Message-Id;
+	bh=aVOWktn7Be6Ghxm+vuGHaN6h+AiXFLMEER9GbIe1bII=;
+	b=S6HXL8x6VwD6fzoVp/ppiAFZ5MAPtEyh+gMTddjIhbWfjFy78ab9WNNeG/NyWs/4
+	cVECfh8Pav+DeTFwTMmp0Y75dv24FD8iBEyUE8lbMco+J2dHzDaA4SgVrIdRN7Y5Vl2
+	Ui6dkP81BPFyQF09nvZWANNqqykS2JkBxZI9paZ4=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1773926239;
+	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:References:Message-Id:Feedback-ID;
+	bh=aVOWktn7Be6Ghxm+vuGHaN6h+AiXFLMEER9GbIe1bII=;
+	b=PQweVdUJm0x0NKZFX1tv/mpnfIyx5Zov+wb6S5Bp8HAUhX7VQvkzXEvpmOpoxXbt
+	uK2hN/UyJ18BsgL8xZ+FHN9FIF6xKdcTL4AaFm0fDQYg7EEc3l4PFSNjuxd8foauwV/
+	2m+AHXJJ2iS8mvH+iFBURs3k0GgtlN/44iJV4myY=
+Subject: [PATCH V8 01/10] famfs_fuse: Update macro
+ s/FUSE_IS_DAX/FUSE_IS_VIRTIO_DAX/
+From: =?UTF-8?Q?John_Groves?= <john@jagalactic.com>
+To: =?UTF-8?Q?John_Groves?= <John@Groves.net>, 
+	=?UTF-8?Q?Miklos_Szeredi?= <miklos@szeredi.hu>, 
+	=?UTF-8?Q?Dan_Williams?= <dan.j.williams@intel.com>, 
+	=?UTF-8?Q?Bernd_Schubert?= <bschubert@ddn.com>, 
+	=?UTF-8?Q?Alison_Schofiel?= =?UTF-8?Q?d?= <alison.schofield@intel.com>
+Cc: =?UTF-8?Q?John_Groves?= <jgroves@micron.com>, 
+	=?UTF-8?Q?Jonathan_Corbe?= =?UTF-8?Q?t?= <corbet@lwn.net>, 
+	=?UTF-8?Q?Shuah_Khan?= <skhan@linuxfoundation.org>, 
+	=?UTF-8?Q?Vishal_Verma?= <vishal.l.verma@intel.com>, 
+	=?UTF-8?Q?Dave_Jiang?= <dave.jiang@intel.com>, 
+	=?UTF-8?Q?Matthew_Wilcox?= <willy@infradead.org>, 
+	=?UTF-8?Q?Jan_Kara?= <jack@suse.cz>, 
+	=?UTF-8?Q?Alexander_Viro?= <viro@zeniv.linux.org.uk>, 
+	=?UTF-8?Q?David_Hildenbrand?= <david@kernel.org>, 
+	=?UTF-8?Q?Christian_Bra?= =?UTF-8?Q?uner?= <brauner@kernel.org>, 
+	=?UTF-8?Q?Darrick_J_=2E_Wong?= <djwong@kernel.org>, 
+	=?UTF-8?Q?Randy_Dunlap?= <rdunlap@infradead.org>, 
+	=?UTF-8?Q?Jeff_Layton?= <jlayton@kernel.org>, 
+	=?UTF-8?Q?Amir_Goldstein?= <amir73il@gmail.com>, 
+	=?UTF-8?Q?Jonathan_Cameron?= <Jonathan.Cameron@huawei.com>, 
+	=?UTF-8?Q?Stefan_Hajnoczi?= <shajnocz@redhat.com>, 
+	=?UTF-8?Q?Joanne_Koong?= <joannelkoong@gmail.com>, 
+	=?UTF-8?Q?Josef_Bacik?= <josef@toxicpanda.com>, 
+	=?UTF-8?Q?Bagas_Sanjaya?= <bagasdotme@gmail.com>, 
+	=?UTF-8?Q?Chen_Linxuan?= <chenlinxuan@uniontech.com>, 
+	=?UTF-8?Q?James_Morse?= <james.morse@arm.com>, 
+	=?UTF-8?Q?Fuad_Tabba?= <tabba@google.com>, 
+	=?UTF-8?Q?Sean_Christopherson?= <seanjc@google.com>, 
+	=?UTF-8?Q?Shivank_Garg?= <shivankg@amd.com>, 
+	=?UTF-8?Q?Ackerley_Tng?= <ackerleytng@google.com>, 
+	=?UTF-8?Q?Gregory_Pric?= =?UTF-8?Q?e?= <gourry@gourry.net>, 
+	=?UTF-8?Q?Aravind_Ramesh?= <arramesh@micron.com>, 
+	=?UTF-8?Q?Ajay_Joshi?= <ajayjoshi@micron.com>, 
+	=?UTF-8?Q?venkataravis=40micron=2Ecom?= <venkataravis@micron.com>, 
+	=?UTF-8?Q?linux-doc=40vger=2Ekernel=2Eorg?= <linux-doc@vger.kernel.org>, 
+	=?UTF-8?Q?linux-kernel=40vger=2Ekernel=2Eorg?= <linux-kernel@vger.kernel.org>, 
+	=?UTF-8?Q?nvdimm=40lists=2Elinux=2Edev?= <nvdimm@lists.linux.dev>, 
+	=?UTF-8?Q?linux-cxl=40vger=2Ekernel=2Eorg?= <linux-cxl@vger.kernel.org>, 
+	=?UTF-8?Q?linux-fsdevel=40vger=2Ekernel=2Eorg?= <linux-fsdevel@vger.kernel.org>, 
+	=?UTF-8?Q?John_Groves?= <john@groves.net>
+Date: Thu, 19 Mar 2026 13:17:19 +0000
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260319124616.1544415-1-amir73il@gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20260318203054.4344.fuse@groves.net>
+References: <20260318203054.4344.fuse@groves.net> 
+ <20260319131704.13280-1-john@jagalactic.com>
+X-Mailer: Amazon WorkMail
+Thread-Index: AQHctz+ZMjBZ3RwkQ1uhcQrmTMqILwAAVQgdABjHKME=
+Thread-Topic: [PATCH V8 01/10] famfs_fuse: Update macro
+ s/FUSE_IS_DAX/FUSE_IS_VIRTIO_DAX/
+X-Wm-Sent-Timestamp: 1773926238
+X-Original-Mailer: git-send-email 2.52.0
+Message-ID: <0100019d063e4cd5-b06bec1a-ff2c-4eb2-95e2-06223cd483b6-000000@email.amazonses.com>
+Feedback-ID: ::1.us-east-1.LF00NED762KFuBsfzrtoqw+Brn/qlF9OYdxWukAhsl8=:AmazonSES
+X-SES-Outgoing: 2026.03.19-54.240.11.129
 
-On Thu, Mar 19, 2026 at 01:46:16PM +0100, Amir Goldstein wrote:
-> The fields f_mapping, f_wb_err, f_sb_err are irrelevant for O_PATH file.
-> Skip setting them for O_PATH file, so that the O_PATH file could be
-> opened with a negative dentry.
-> 
-> This is not something that a user should be able to do, but vfs code,
-> such as ovl_tmpfile() can use this to open a backing O_PATH tmpfile
-> before instantiating the dentry.
-> 
-> Reported-by: syzbot+f34aab278bf5d664e2be@syzkaller.appspotmail.com
-> Signed-off-by: Amir Goldstein <amir73il@gmail.com>
-> ---
-> 
-> Christian,
-> 
-> This patch fixes the syzbot report [1] that the
-> backing_file_user_path_file() patch [2] introduces.
-> 
-> This is not the only possible fix, but it is the cleanest one IMO.
-> There is a small risk in introducing a state of an O_PATH file with
-> NULL f_inode, but I (and the bots that I asked) did not find any
-> obvious risk in this state.
-> 
-> Note that specifically, the user path inode is accessed via d_inode()
-> and not via file_inode(), which makes this safe for file_user_inode()
-> callers.
-> 
-> BTW, I missed this regression with the original patch because I
-> only ran the quick overlayfs sanity test.
-> 
-> Now I ran a full quick fstest cycle and verified that the O_TMPFILE
-> test case is covered and that the bug is detected.
-> 
-> WDYT?
-> 
-> Thanks,
-> Amir.
-> 
-> [1] https://syzkaller.appspot.com/bug?extid=f34aab278bf5d664e2be
-> [2] https://lore.kernel.org/linux-fsdevel/20260318131258.1457101-1-amir73il@gmail.com/
-> 
->  fs/open.c | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
-> 
-> diff --git a/fs/open.c b/fs/open.c
-> index 91f1139591abe..2004a8c0d9c97 100644
-> --- a/fs/open.c
-> +++ b/fs/open.c
-> @@ -893,9 +893,6 @@ static int do_dentry_open(struct file *f,
->  
->  	path_get(&f->f_path);
->  	f->f_inode = inode;
-> -	f->f_mapping = inode->i_mapping;
-> -	f->f_wb_err = filemap_sample_wb_err(f->f_mapping);
-> -	f->f_sb_err = file_sample_sb_err(f);
->  
->  	if (unlikely(f->f_flags & O_PATH)) {
->  		f->f_mode = FMODE_PATH | FMODE_OPENED;
-> @@ -904,6 +901,10 @@ static int do_dentry_open(struct file *f,
->  		return 0;
->  	}
->  
-> +	f->f_mapping = inode->i_mapping;
-> +	f->f_wb_err = filemap_sample_wb_err(f->f_mapping);
-> +	f->f_sb_err = file_sample_sb_err(f);
-> +
->  	if ((f->f_mode & (FMODE_READ | FMODE_WRITE)) == FMODE_READ) {
->  		i_readcount_inc(inode);
->  	} else if (f->f_mode & FMODE_WRITE && !special_file(inode->i_mode)) {
-
-I think this is really ugly and I'm really unhappy that we should adjust
-initialization of generic vfs code for this. My preference is to push
-the pain into the backing file stuff. And my ultimate preference is for
-this backing file stuff to be removed again for a simple struct path.
-We're working around some more fundamental cleanup here imho.
+From: John Groves <john@groves.net>=0D=0A=0D=0AVirtio_fs now needs to det=
+ermine if an inode is DAX && not famfs.=0D=0AThis relaces the FUSE_IS_DAX=
+() macro with FUSE_IS_VIRTIO_DAX(),=0D=0Ain preparation for famfs in late=
+r commits. The dummy=0D=0Afuse_file_famfs() macro will be replaced with a=
+ working=0D=0Afunction.=0D=0A=0D=0AReviewed-by: Joanne Koong <joannelkoon=
+g@gmail.com>=0D=0AReviewed-by: Dave Jiang <dave.jiang@intel.com>=0D=0ASig=
+ned-off-by: John Groves <john@groves.net>=0D=0A---=0D=0A fs/fuse/dir.c   =
+ |  2 +-=0D=0A fs/fuse/file.c   | 13 ++++++++-----=0D=0A fs/fuse/fuse_i.h=
+ |  9 ++++++++-=0D=0A fs/fuse/inode.c  |  4 ++--=0D=0A fs/fuse/iomode.c |=
+  2 +-=0D=0A 5 files changed, 20 insertions(+), 10 deletions(-)=0D=0A=0D=0A=
+diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c=0D=0Aindex 7ac6b232ef12..c63f0=
+97bc697 100644=0D=0A--- a/fs/fuse/dir.c=0D=0A+++ b/fs/fuse/dir.c=0D=0A@@ =
+-2161,7 +2161,7 @@ int fuse_do_setattr(struct mnt_idmap *idmap, struct de=
+ntry *dentry,=0D=0A =09=09is_truncate =3D true;=0D=0A =09}=0D=0A=20=0D=0A=
+-=09if (FUSE_IS_DAX(inode) && is_truncate) {=0D=0A+=09if (FUSE_IS_VIRTIO_=
+DAX(fi) && is_truncate) {=0D=0A =09=09filemap_invalidate_lock(mapping);=0D=
+=0A =09=09fault_blocked =3D true;=0D=0A =09=09err =3D fuse_dax_break_layo=
+uts(inode, 0, -1);=0D=0Adiff --git a/fs/fuse/file.c b/fs/fuse/file.c=0D=0A=
+index b1bb7153cb78..4ee5065737d8 100644=0D=0A--- a/fs/fuse/file.c=0D=0A++=
++ b/fs/fuse/file.c=0D=0A@@ -252,7 +252,7 @@ static int fuse_open(struct i=
+node *inode, struct file *file)=0D=0A =09int err;=0D=0A =09bool is_trunca=
+te =3D (file->f_flags & O_TRUNC) && fc->atomic_o_trunc;=0D=0A =09bool is_=
+wb_truncate =3D is_truncate && fc->writeback_cache;=0D=0A-=09bool dax_tru=
+ncate =3D is_truncate && FUSE_IS_DAX(inode);=0D=0A+=09bool dax_truncate =3D=
+ is_truncate && FUSE_IS_VIRTIO_DAX(fi);=0D=0A=20=0D=0A =09if (fuse_is_bad=
+(inode))=0D=0A =09=09return -EIO;=0D=0A@@ -1812,11 +1812,12 @@ static ssi=
+ze_t fuse_file_read_iter(struct kiocb *iocb, struct iov_iter *to)=0D=0A =09=
+struct file *file =3D iocb->ki_filp;=0D=0A =09struct fuse_file *ff =3D fi=
+le->private_data;=0D=0A =09struct inode *inode =3D file_inode(file);=0D=0A=
++=09struct fuse_inode *fi =3D get_fuse_inode(inode);=0D=0A=20=0D=0A =09if=
+ (fuse_is_bad(inode))=0D=0A =09=09return -EIO;=0D=0A=20=0D=0A-=09if (FUSE=
+_IS_DAX(inode))=0D=0A+=09if (FUSE_IS_VIRTIO_DAX(fi))=0D=0A =09=09return f=
+use_dax_read_iter(iocb, to);=0D=0A=20=0D=0A =09/* FOPEN_DIRECT_IO overrid=
+es FOPEN_PASSTHROUGH */=0D=0A@@ -1833,11 +1834,12 @@ static ssize_t fuse_=
+file_write_iter(struct kiocb *iocb, struct iov_iter *from)=0D=0A =09struc=
+t file *file =3D iocb->ki_filp;=0D=0A =09struct fuse_file *ff =3D file->p=
+rivate_data;=0D=0A =09struct inode *inode =3D file_inode(file);=0D=0A+=09=
+struct fuse_inode *fi =3D get_fuse_inode(inode);=0D=0A=20=0D=0A =09if (fu=
+se_is_bad(inode))=0D=0A =09=09return -EIO;=0D=0A=20=0D=0A-=09if (FUSE_IS_=
+DAX(inode))=0D=0A+=09if (FUSE_IS_VIRTIO_DAX(fi))=0D=0A =09=09return fuse_=
+dax_write_iter(iocb, from);=0D=0A=20=0D=0A =09/* FOPEN_DIRECT_IO override=
+s FOPEN_PASSTHROUGH */=0D=0A@@ -2370,10 +2372,11 @@ static int fuse_file_=
+mmap(struct file *file, struct vm_area_struct *vma)=0D=0A =09struct fuse_=
+file *ff =3D file->private_data;=0D=0A =09struct fuse_conn *fc =3D ff->fm=
+->fc;=0D=0A =09struct inode *inode =3D file_inode(file);=0D=0A+=09struct =
+fuse_inode *fi =3D get_fuse_inode(inode);=0D=0A =09int rc;=0D=0A=20=0D=0A=
+ =09/* DAX mmap is superior to direct_io mmap */=0D=0A-=09if (FUSE_IS_DAX=
+(inode))=0D=0A+=09if (FUSE_IS_VIRTIO_DAX(fi))=0D=0A =09=09return fuse_dax=
+_mmap(file, vma);=0D=0A=20=0D=0A =09/*=0D=0A@@ -2934,7 +2937,7 @@ static =
+long fuse_file_fallocate(struct file *file, int mode, loff_t offset,=0D=0A=
+ =09=09.mode =3D mode=0D=0A =09};=0D=0A =09int err;=0D=0A-=09bool block_f=
+aults =3D FUSE_IS_DAX(inode) &&=0D=0A+=09bool block_faults =3D FUSE_IS_VI=
+RTIO_DAX(fi) &&=0D=0A =09=09(!(mode & FALLOC_FL_KEEP_SIZE) ||=0D=0A =09=09=
+ (mode & (FALLOC_FL_PUNCH_HOLE | FALLOC_FL_ZERO_RANGE)));=0D=0A=20=0D=0Ad=
+iff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h=0D=0Aindex 7f16049387d1..=
+45e108dec771 100644=0D=0A--- a/fs/fuse/fuse_i.h=0D=0A+++ b/fs/fuse/fuse_i=
+=2Eh=0D=0A@@ -1508,7 +1508,14 @@ void fuse_free_conn(struct fuse_conn *fc=
+);=0D=0A=20=0D=0A /* dax.c */=0D=0A=20=0D=0A-#define FUSE_IS_DAX(inode) (=
+IS_ENABLED(CONFIG_FUSE_DAX) && IS_DAX(inode))=0D=0A+static inline bool fu=
+se_file_famfs(struct fuse_inode *fuse_inode) /* Will be superseded */=0D=0A=
++{=0D=0A+=09(void)fuse_inode;=0D=0A+=09return false;=0D=0A+}=0D=0A+#defin=
+e FUSE_IS_VIRTIO_DAX(fuse_inode) (IS_ENABLED(CONFIG_FUSE_DAX)=09\=0D=0A+=09=
+=09=09=09=09&& IS_DAX(&fuse_inode->inode)  \=0D=0A+=09=09=09=09=09&& !fus=
+e_file_famfs(fuse_inode))=0D=0A=20=0D=0A ssize_t fuse_dax_read_iter(struc=
+t kiocb *iocb, struct iov_iter *to);=0D=0A ssize_t fuse_dax_write_iter(st=
+ruct kiocb *iocb, struct iov_iter *from);=0D=0Adiff --git a/fs/fuse/inode=
+=2Ec b/fs/fuse/inode.c=0D=0Aindex e57b8af06be9..1333b3ebb18a 100644=0D=0A=
+--- a/fs/fuse/inode.c=0D=0A+++ b/fs/fuse/inode.c=0D=0A@@ -162,7 +162,7 @@=
+ static void fuse_evict_inode(struct inode *inode)=0D=0A =09/* Will write=
+ inode on close/munmap and in all other dirtiers */=0D=0A =09WARN_ON(inod=
+e_state_read_once(inode) & I_DIRTY_INODE);=0D=0A=20=0D=0A-=09if (FUSE_IS_=
+DAX(inode))=0D=0A+=09if (FUSE_IS_VIRTIO_DAX(fi))=0D=0A =09=09dax_break_la=
+yout_final(inode);=0D=0A=20=0D=0A =09truncate_inode_pages_final(&inode->i=
+_data);=0D=0A@@ -170,7 +170,7 @@ static void fuse_evict_inode(struct inod=
+e *inode)=0D=0A =09if (inode->i_sb->s_flags & SB_ACTIVE) {=0D=0A =09=09st=
+ruct fuse_conn *fc =3D get_fuse_conn(inode);=0D=0A=20=0D=0A-=09=09if (FUS=
+E_IS_DAX(inode))=0D=0A+=09=09if (FUSE_IS_VIRTIO_DAX(fi))=0D=0A =09=09=09f=
+use_dax_inode_cleanup(inode);=0D=0A =09=09if (fi->nlookup) {=0D=0A =09=09=
+=09fuse_queue_forget(fc, fi->forget, fi->nodeid,=0D=0Adiff --git a/fs/fus=
+e/iomode.c b/fs/fuse/iomode.c=0D=0Aindex 3728933188f3..31ee7f3304c6 10064=
+4=0D=0A--- a/fs/fuse/iomode.c=0D=0A+++ b/fs/fuse/iomode.c=0D=0A@@ -203,7 =
++203,7 @@ int fuse_file_io_open(struct file *file, struct inode *inode)=0D=
+=0A =09 * io modes are not relevant with DAX and with server that does no=
+t=0D=0A =09 * implement open.=0D=0A =09 */=0D=0A-=09if (FUSE_IS_DAX(inode=
+) || !ff->args)=0D=0A+=09if (FUSE_IS_VIRTIO_DAX(fi) || !ff->args)=0D=0A =09=
+=09return 0;=0D=0A=20=0D=0A =09/*=0D=0A--=20=0D=0A2.53.0=0D=0A=0D=0A
