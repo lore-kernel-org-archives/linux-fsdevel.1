@@ -1,158 +1,72 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91A591D5CFB
-	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Mar 2026 05:12:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0B79346AF0;
+	Fri, 20 Mar 2026 07:23:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773983561; cv=none; b=D4ZqVLkWvz4XockMGb8zgYar/n/TeFG9fybLU6x2uqYnBA7UAJ43uWYo+1FaQbrQW/tB8eQABa44AADJ8vT0nY5cLTAWolqLHGyRWxJbTXUtwoSSxJ5FcxrhXWM0+9IEh8/ew5gN0j5lxlXsB8mkGmeBzAZ9m3DAqhanaF+ma7c=
+	t=1773991436; cv=none; b=rMVcjjHDwzGkCJWnPh9ulkaJbuuTPXij3ON9DmzNz+3/ZaREe0YbkUgjDDqGOAaF5Ou7DBvkge6/VxfmsYlmi5DIB54WmDbkSV6hThQTulindoKlBtVTZcW/Zjwp3e7jCrAHrONi9K8KVOPE5FNB774Sa++xRtZkloMMO3QExeA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773983561; c=relaxed/simple;
-	bh=EVxsGF2JMx78s6vGfm1dnPsILWqubQVs8xjak0z7u3s=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=IKjLZ1xvFJWdo1PIOhX1HdXPeDoqRhzYQTr2/9V+K+hIkz4e0RBnJyP2fXwp3a1nHjAbgxIRpEwe9kwUXh6HPhDKQV9NAY40ezxgpk01AZiX5emzPEAcX7uYv28kXsEum9P44zVvDUUmhcmL9Dynibt+wyrQtY6ddWjCzjvjEDw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dilger.ca; spf=pass smtp.mailfrom=dilger.ca; dkim=pass (2048-bit key) header.d=dilger-ca.20230601.gappssmtp.com header.i=@dilger-ca.20230601.gappssmtp.com header.b=VBhUMb41; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dilger.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dilger.ca
+	s=arc-20240116; t=1773991436; c=relaxed/simple;
+	bh=TNupPXrhc2Vo6Vghx3RN9vRwertveSKcv0dCN3UqFGs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A35M7i/OZXDUkqSXEt01hN2bjFagZ6XvXfBbKqUnYoEq3+OhpfHLsp4u+lVOCQFU8YMTYz2jct5U+BC1FS0G8olx5UvjzYhJUJnSfa5jHbTEmMvqYxM3Am2Pcj+hCevK+kF0klrJLTl7ltshZKxY86heGE2WgsPVOjViyJzqsRU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=EFo4ueI8; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dilger-ca.20230601.gappssmtp.com header.i=@dilger-ca.20230601.gappssmtp.com header.b="VBhUMb41"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-82a87ef7304so446237b3a.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 19 Mar 2026 22:12:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dilger-ca.20230601.gappssmtp.com; s=20230601; t=1773983559; x=1774588359; darn=vger.kernel.org;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rG7jjdThjpAvZ3OM3fiIAir9QVeVGL5dlO6ES5/Ehv0=;
-        b=VBhUMb41Y2khI3mcpSlI7thNrVoNDltaE6qBpsqMQODBxPyUvbTDJUmkLz6rlvW2yq
-         4mnX1hR/Ox8iW3FiCvs665zq2lV9UJv6aKYPS764dW+yp5JdRJ2LSJlM5UDCuE7aqdqD
-         8YjxJTZaafv+xbOOUsrVdv8aLaY5y8q/Q8u4ZHtMGKntfnxwdchtdyhcKfzmosbt0bN2
-         nZS9Ceql7xRP09AeD6p6j8ekNLTeLnfNcQpc79sHuJnaU9EeNwu1fJl/zo9dhHHCiZI6
-         CDwnIvKJo+tJMrAL3oKCP84RhHkYp6Bp7p9W9Cib2mPwsx/iTmtUiqUTsmOvBNHetx4O
-         Gd6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773983559; x=1774588359;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=rG7jjdThjpAvZ3OM3fiIAir9QVeVGL5dlO6ES5/Ehv0=;
-        b=LhNtKEDBPa9QnS9q/U+jGWowGb37LIRP3QISNA6c+74IjfjFBb3ZwjgKlWvZQtrc/g
-         2ElxTB8UsbarmX8y/hp6CgNz1E3RixFWB+ZuZ6d7gsNrK8iXRgwD7asFRm220KQlJR+G
-         C7o4DdNdHSZztW7APFGwTdiDOcMPGKfGz7agoGrC+HfqPxdAy/gPZ4w/06xkFYbJNOEL
-         gyQnihQ+TEOmty3LrQVrpK215119FDg7f48+5yWHFLrR3pdRE9sZ4A0UPqxn5ncVVstR
-         Zhtqa23IFHRy3H29LGj8jWIm1AZu/T2wXf43w0tS07Fo8p8QmcC30FZpQtMxH7tKi65E
-         fIKQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUaOU+BWIBcMRm5MNLybZUxqVDQWPMtlzRUGwNescqcH4nVfdATWQFiLAX4vVoK3c+kzgmXLeVufGB9ZFhG@vger.kernel.org
-X-Gm-Message-State: AOJu0YysYiBvcLmH+1B7ZMe/6fBj7a3mmWHgdVFNmDNJ7JKSRFWJa2P3
-	7JasgWQNJLtRDzReow1hxAuId4mzXolqvqWzcm73ygqCitPHfDloHf7fII5A8Wf0JB8=
-X-Gm-Gg: ATEYQzxPoZVhUEbhDVlLWF9MukBFgajUFMweBbbpB8XyMRAPaLb09o+ulmzGeFdSfLa
-	+lpDwIsYV9XliYTF08JlRVyDYz5Z1f+32n2o3QEMEaoqDTLU2ngL56VX2WST7/w1f/NVxWbMDSf
-	eD2yHkIjEL1fscp40kq8dh5/LmKDhUvvRgl1+L6tsw56hSc9Fpe+scecfeXdi+sX1fzWIbWT0W4
-	3GhMaWu3xbZMmPFYU/Emyj9kpzlP9ISUL4XDZUtStCvSazCppbla5DysOXQHHzyFnb0d9ut0BMn
-	yRzXoF3UeW3JcHaT+PePea+oNVF6S8kovb5Lmj58qBIyhNQM3roRhFiYbuhWPgJRaKO34javwqn
-	ftalJWHrDN+HD3bL0rj8xzc4NRkNDkh09vj91nli7E+4Nmpwth4NM0ghXiWFzCI2+hYgxOAjTAR
-	JfgDU8bCHfexK0n440058W1ACBuFq0nBFqF3gya56pG6aH2D0HiXezhrpzHmPplxwaqnuK8T1TT
-	c6gRw==
-X-Received: by 2002:a05:6a00:2d12:b0:7fb:f87d:a0aa with SMTP id d2e1a72fcca58-82a8c39ed6bmr1416593b3a.52.1773983558805;
-        Thu, 19 Mar 2026 22:12:38 -0700 (PDT)
-Received: from smtpclient.apple (S01068c763f81ca4b.cg.shawcable.net. [70.77.200.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82b0409f409sm810571b3a.31.2026.03.19.22.12.37
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 19 Mar 2026 22:12:38 -0700 (PDT)
-Content-Type: text/plain;
-	charset=us-ascii
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="EFo4ueI8"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=9YLPTMoX/uHb+tyN+F9cjwTni7oJsEqco6ZCaFAuNKQ=; b=EFo4ueI862G97Ic0GIOL33bIEF
+	c3cD9PmsZbPkpt0YX4wLBDv81g9bpZDulUxYQdHCebeOTRY1gHgkH/vAKTaB4cDOSJQY7FH6jqnpg
+	MV7izBi5PkvO6TSW7/aN/TtPBCcREkmke/6QczzjQGywyoLIr4KH5R4C7Rpdo+lnZCvblThDsESua
+	lH1jXSB/7bI6Ri3ggDkal0xSUC1eT5cdxhaCfc+H0JVfeRuBhZmRN5m2AWnwd8t7RxRHM8N945RMK
+	3Q7zXI8qMa2gle3+Q29G5ySI/w8AVP4yjqtq8BpCil0HMLO4kBZ0ySqQkCQ7m67MwlmoespumLrbB
+	OWzuGr2A==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1w3UD5-0000000CFHr-3ATL;
+	Fri, 20 Mar 2026 07:23:55 +0000
+Date: Fri, 20 Mar 2026 00:23:55 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Zorro Lang <zlang@redhat.com>
+Cc: linux-xfs@vger.kernel.org, brauner@kernel.org, djwong@kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [Bug][xfstests xfs/556] inconsistent {HARDIRQ-ON-W} ->
+ {IN-HARDIRQ-W} usage
+Message-ID: <abz2C1a-KIGMZCGe@infradead.org>
+References: <20260319194303.efw4wcu7c4idhthz@doltdoltdolt>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.100.1.1.5\))
-Subject: Re: [PATCH 2/3] ext4: add ext4_fc_eligible()
-From: Andreas Dilger <adilger@dilger.ca>
-In-Reply-To: <177396306176.3934327.9167241352093307006@noble.neil.brown.name>
-Date: Thu, 19 Mar 2026 23:12:26 -0600
-Cc: Jan Kara <jack@suse.cz>,
- Theodore Ts'o <tytso@mit.edu>,
- linux-ext4@vger.kernel.org,
- linux-fsdevel@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <2B981C6F-1702-49BB-BF0E-44A3955175EF@dilger.ca>
-References: <20260317224638.3809014-1-neilb@ownmail.net>
- <20260317224638.3809014-3-neilb@ownmail.net>
- <gh7e7uykczpyhfxrh6y54c2jlcs4pzcud65aqsjoj4am6cajzp@wq26crdxv2yd>
- <177396306176.3934327.9167241352093307006@noble.neil.brown.name>
-To: NeilBrown <neil@brown.name>
-X-Mailer: Apple Mail (2.3864.100.1.1.5)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260319194303.efw4wcu7c4idhthz@doltdoltdolt>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
+On Fri, Mar 20, 2026 at 03:43:03AM +0800, Zorro Lang wrote:
+> Hi,
+> 
+> While running fstests xfs/556 on kernel 7.0.0-rc4+ (HEAD=04a9f1766954), a
+> lockdep warning was triggered indicating an inconsistent lock state for
+> sb->s_type->i_lock_key.
+> 
+> The deadlock might occur because iomap_read_end_io (called from a hardware
+> interrupt completion path) invokes fserror_report, which then calls igrab.
+> igrab attempts to acquire the i_lock spinlock. However, the i_lock is frequently
+> acquired in process context with interrupts enabled. If an interrupt occurs while
+> a process holds the i_lock, and that interrupt handler calls fserror_report, the
+> system deadlocks.
+> 
+> I hit this warning several times by running xfs/556 (mostly) or generic/648
+> on xfs. More details refer to below console log.
 
-
-> On Mar 19, 2026, at 17:31, NeilBrown <neilb@ownmail.net> wrote:
->=20
-> On Thu, 19 Mar 2026, Jan Kara wrote:
->> On Wed 18-03-26 09:39:50, NeilBrown wrote:
->>> From: NeilBrown <neil@brown.name>
->>>=20
->>> Testing EXT4_MF_FC_INELIGIBLE is almost always combined with testing
->>> ext4_fc_disabled().  The code can be simplified by combining these =
-two
->>> in a new ext4_fc_eligible().
->>>=20
->>> In ext4_fc_track_inode() this moves the ext4_fc_disabled() test =
-after
->>> ext4_fc_mark_ineligible(), but as that is a non-op when
->>> ext4_fc_disabled() is true, this is no no consequence.
->>>=20
->>> Signed-off-by: NeilBrown <neil@brown.name>
->>=20
->> One nit below, otherwise feel free to add:
->>=20
->> Reviewed-by: Jan Kara <jack@suse.cz>
->>=20
->>> @@ -557,16 +548,13 @@ void ext4_fc_track_inode(handle_t *handle, =
-struct inode *inode)
->>> if (S_ISDIR(inode->i_mode))
->>> return;
->>>=20
->>> - if (ext4_fc_disabled(inode->i_sb))
->>> - return;
->>> -
->>> if (ext4_should_journal_data(inode)) {
->>> ext4_fc_mark_ineligible(inode->i_sb,
->>> EXT4_FC_REASON_INODE_JOURNAL_DATA, handle);
->>> return;
->>> }
->>>=20
->>> - if (ext4_test_mount_flag(inode->i_sb, EXT4_MF_FC_INELIGIBLE))
->>> + if (!ext4_fc_eligible(inode->i_sb))
->>> return;
->>=20
->> Here I think the !ext4_fc_eligible() check could be actually above =
-the
->> ext4_should_journal_data() check - if the fs is not eligible for
->> fastcommit, there's no point in marking it ineligible again...
->=20
-> Both you and Andreas have questioned that choice - so I should explain
-> my reasoning.
->=20
-> ext4_fc_mark_ineligible() is NOT a no-op when the sb is already marked
-> ineligible.  The code updates sb->s_fc_ineligible_tid to the largest =
-tid
-> which was ineligible for fc.  Then it only clears the "ineligible" =
-flag
-> after that highest numbered transaction has committed.  If we skip
-> ext4_fc_mark_ineligible() because EXT4_MF_FC_INELIGIBLE is already =
-set,
-> then that flag could be cleared too early.
-
-You are right, I didn't understand the ongoing effect of FC_INELIGIBLE.
-As you write, checking ext4_fc_eligible() afterward is equivalent, since
-ext4_fc_mark_ineligible() is itself checking ext4_fc_disabled() =
-internally,
-so the added overhead is the ext4_should_journal_data() call, which =
-looks
-pretty complex but is just a bunch of bit field checks (though =
-potentially
-adds a lot of branches depending on the frequency of the branches).
-
-Cheers, Andreas
+I've seen the same.  AFAIK this is because the patch Darrick did to
+offload all bio errors to a workque hasn't been merged upstream.
+Unfortunately I don't remember the subject for that anymore.
 
