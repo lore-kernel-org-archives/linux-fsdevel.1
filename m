@@ -1,108 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E12B03CF66D;
-	Fri, 20 Mar 2026 17:10:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B737E1A0BF1
+	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Mar 2026 17:11:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774026625; cv=none; b=FpOYb1rdRbgqcbH5eD6O7a0o/UWmWdgU0RDuxxs61WvT7rJS6VHzcWRKPDa797gca8aAH+ylX5BOWHBO/LzEAAYcU88HRMxgiNnUnGL1Omwg98Y/5bZwwlCn2ZkOucTXV2pcTAOpcl5YxXKceZn6BiapgQ2MQwX/LTnLVKPnlzo=
+	t=1774026713; cv=none; b=oyxImkv/K6fIX1SS/RUdZYHHesgMD9pM4agQ1eNfoX4PNT3rmA+g9Om5akiHO64CaYg/vdHDQZxeN4UDDIpLMxLR/vyDWNFpdBP1I+2qyMCB2eatyHoRtXVr4dI9zRZZyooVaY0Q/FOCbodqwHmt98NgmGCqM/vSj7HnJ6UkDos=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774026625; c=relaxed/simple;
-	bh=r+p0YZoMVI7AcM9fsFhpiDTl7RR8STO6srhIbYMdrEs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FuOVgvRfyrpQDCfRxlJCkGvyPM0XM5v5tOOI6sbEkS0AcEgyH51QHC49D+gVkFiNnJsZW5kKrykgNjfNqCTVDZBdbGFh26yG1clMD1GR3VHjhRPRTnHn38H1i2vDKy8mixVObQbT9m1wsd4r1mSvQXVOtbsylJy/A2+EjfT2eA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bXKnbe/Z; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774026713; c=relaxed/simple;
+	bh=ahNTPAefQMpYMnBF9fjbq40PKYiHzlPr//dFmraZ1KU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HRR7f6l/nXt12kmaCgXKsS7/6cBIu/UWpJJhXYjo96PZ1/6wCTOvYpyfzS78ZxDIyKe+r9KZTdUSyqTfOlb3XZtue44j54+HQRnLJVg4Iqsp9TGHCCudTTaFnktwAQppcZ2gCcmb7uTFeJ8sn+TTTMr3J0P7tZ3mI+mwgCIqYXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hev.cc; spf=pass smtp.mailfrom=hev.cc; dkim=pass (2048-bit key) header.d=hev-cc.20230601.gappssmtp.com header.i=@hev-cc.20230601.gappssmtp.com header.b=w5cANios; arc=none smtp.client-ip=209.85.216.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hev.cc
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hev.cc
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bXKnbe/Z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 920B9C19425;
-	Fri, 20 Mar 2026 17:10:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774026624;
-	bh=r+p0YZoMVI7AcM9fsFhpiDTl7RR8STO6srhIbYMdrEs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=bXKnbe/ZTMZYKmKswyp7UUNW73CC8ocNdqBGJpBjO2IEcg9klGYzKBTbn7wS6145o
-	 bDx6yp6E9EoRlfZ1nChN/6xzDyc02EPnVKbzAT5MkJBM1x9r0U7ISiFB9ZK42TeeEV
-	 NPQS0N+PInTeLONogYKmUybb5i5U5KXxX1g3XFI6v4Zk+gmrInpHhro/V78ZwgDZBl
-	 PDIKv//vs1fkzlQQJXNTgc0NCf5mfA5lg8S5iRTjU72SybGYa8zUxK1T+5C/DsgByO
-	 n+gWOBmyWdE+bwHdB8VdEbJ4rsjPU2AaNHeRHUcpRTiT8ZcyJgwkIBZUDTaCXbxgBy
-	 oLeo5Gj5w1IGw==
-Message-ID: <e3ecf76a-4490-415d-9d52-dae478ad43d7@kernel.org>
-Date: Fri, 20 Mar 2026 18:10:14 +0100
+	dkim=pass (2048-bit key) header.d=hev-cc.20230601.gappssmtp.com header.i=@hev-cc.20230601.gappssmtp.com header.b="w5cANios"
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-35b905a05a8so1168811a91.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 20 Mar 2026 10:11:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=hev-cc.20230601.gappssmtp.com; s=20230601; t=1774026712; x=1774631512; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ahNTPAefQMpYMnBF9fjbq40PKYiHzlPr//dFmraZ1KU=;
+        b=w5cANiosQUaccQHzZnp4Sdc2w6iJqpqXNTEvaxLFZ1K3Je+xK9eAu5DzL/auXU+iHp
+         LlxiyYlZYnBJ/X+PB4vuCfGHiugqspX+3XxoMf/r/Q2XKi6E9ZWYquiEQSEtMbklzN3Z
+         esQkp6tS9pfewcfykMqSnHYg08bdwxHtm5eA4vSu8fOuMMen80YR3I9F3mZUqlIN6cGe
+         OwG667y/yr0PqDtft1P/j5jPb4wrgYsHhYLO4bhb3foExckjfXG04Pt7zNLSrnPnpx4q
+         lvNclg7rnrxbnCenFfdv3jbiIUGK/264rpFwhKiOTD3BV4/7TMLyqbQLcerPVMxqUDf8
+         YGyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774026712; x=1774631512;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ahNTPAefQMpYMnBF9fjbq40PKYiHzlPr//dFmraZ1KU=;
+        b=HoalezCcIGOha/UMx8CChiIxmUJsIvAWI0fGi8P4gnGo53udDZm6MjUFGwqjwpGhhp
+         yi+Gsnnu9s3/WE2zn4YYwViK2KGzFq90iD4/F5NjA0UgIONk09RlliRbswRKH5kst9nR
+         CDgpaB1hUu5DYLV7QehvpNQysrandwjdQARwrUcMymR9OgPL/1UIGQ8J+H3jAjjPMnq5
+         9fvxcdii+1w1P8FcYy9T6Y9zMUDtR46063hCq4NsKkukEo9pMM5WAXS53xpoUqP5d9a+
+         zjc8WuSL0QeSDeZPcMV/B4ErPdhrtqt7gHiHjgyOqupVQfwpzrpwAIGLERV+SNHCqys0
+         3O+A==
+X-Forwarded-Encrypted: i=1; AJvYcCUsA/dAkKtDM+IcHHmd3jmxdMIfDtLf+VLKQ7+09Aqc8Pb62UqFkCs7qitWL4ac+jDOSbSRcFvlVcs18Xjz@vger.kernel.org
+X-Gm-Message-State: AOJu0YxB7btcStSODCho8NbqipHEMbAjtDRv8YvwvROSw48eozO96Ftl
+	fj8YDL/Sb0ChvFgQ7GpEmtkvxUlB7wQon/jZAfrarKgeDMAQ+HOFLozl/btSSjzg3Is=
+X-Gm-Gg: ATEYQzwcfo0CnwM7Fnx182Qrm+KEElSQMljSSWX3HgUf4RBPO/DW2v5OflrsvMZRnYG
+	Q6zwBaBWSxsFhcbhAEeQ6dWL+hWFRySU8pd0cCjcqQqGjkpqdSWanVhzx8uA1oxNbjEeCEh53FK
+	ldYo8vtqNDt3UC7m+2e3dBIWcbZiiyVaC3EfDpaPSxNxvLaBAdrZeimzzONFx3u7LSzwDtNaR+n
+	Fu5xI/V8+m3JLAUwjX1Hrzi5cZ1xGHJDMyfRwRP9kKrYcARQzhMybvcujVPueZ6/Jf4C+mTpEqb
+	0N10jrQDRsWptsKCxgn2EJ/ZFmHmNleM6IN6zKXtElgo6lLoS6rPDaH4819H9V6M4TvodH2/pUF
+	Nd/bDY3O3DEJSYGf/hTyoGx/uy9zJ/r1LtEaUNo0kP9poNvGWGQ/6XJFgQgHEvk40GN/CW8h6l1
+	xq
+X-Received: by 2002:a17:90b:5108:b0:35b:9cd5:232e with SMTP id 98e67ed59e1d1-35bd2ce4493mr3220503a91.29.1774026712038;
+        Fri, 20 Mar 2026 10:11:52 -0700 (PDT)
+Received: from gpc ([2400:8902:e002:ded5:78c1:8178:95c1:6ca3])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35bc5ff7056sm6018617a91.4.2026.03.20.10.11.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Mar 2026 10:11:51 -0700 (PDT)
+From: WANG Rui <r@hev.cc>
+To: david@kernel.org,
+	usama.arif@linux.dev
+Cc: baolin.wang@linux.alibaba.com,
+	brauner@kernel.org,
+	jack@suse.cz,
+	kees@kernel.org,
+	lance.yang@linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	r@hev.cc,
+	ryan.roberts@arm.com,
+	viro@zeniv.linux.org.uk,
+	willy@infradead.org,
+	Liam.Howlett@oracle.com,
+	ajd@linux.ibm.com,
+	akpm@linux-foundation.org,
+	apopple@nvidia.com,
+	baohua@kernel.org,
+	catalin.marinas@arm.com,
+	dev.jain@arm.com,
+	kevin.brodsky@arm.com,
+	linux-arm-kernel@lists.infradead.org,
+	lorenzo.stoakes@oracle.com,
+	mhocko@suse.com,
+	npache@redhat.com,
+	pasha.tatashin@soleen.com,
+	rmclure@linux.ibm.com,
+	rppt@kernel.org,
+	surenb@google.com,
+	vbabka@kernel.org
+Subject: Re: [PATCH v5] binfmt_elf: Align eligible read-only PT_LOAD segments to PMD_SIZE for THP
+Date: Sat, 21 Mar 2026 01:11:14 +0800
+Message-ID: <20260320171115.93235-1-r@hev.cc>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <024d2480-df23-4c2c-9f2a-1c4a130f71b1@kernel.org>
+References: <024d2480-df23-4c2c-9f2a-1c4a130f71b1@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 01/16] mm: various small mmap_prepare cleanups
-Content-Language: en-US
-To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Clemens Ladisch <clemens@ladisch.de>,
- Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "K . Y . Srinivasan" <kys@microsoft.com>,
- Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
- Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Bodo Stroesser <bostroesser@gmail.com>,
- "Martin K . Petersen" <martin.petersen@oracle.com>,
- David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- David Hildenbrand <david@kernel.org>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport
- <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org,
- linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org,
- target-devel@vger.kernel.org, linux-afs@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- Ryan Roberts <ryan.roberts@arm.com>
-References: <cover.1773944114.git.ljs@kernel.org>
- <498a579bfbcbb8b0e4a9c39243b4454347f03a46.1773944114.git.ljs@kernel.org>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-In-Reply-To: <498a579bfbcbb8b0e4a9c39243b4454347f03a46.1773944114.git.ljs@kernel.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 3/19/26 19:23, Lorenzo Stoakes (Oracle) wrote:
-> Rather than passing arbitrary fields, pass a vm_area_desc pointer to mmap
-> prepare functions to mmap prepare, and an action and vma pointer to mmap
-> complete in order to put all the action-specific logic in the function
-> actually doing the work.
-> 
-> Additionally, allow mmap prepare functions to return an error so we can
-> error out as soon as possible if there is something logically incorrect in
-> the input.
-> 
-> Update remap_pfn_range_prepare() to properly check the input range for the
-> CoW case.
-> 
-> Also remove io_remap_pfn_range_complete(), as we can simply set up the
-> fields correctly in io_remap_pfn_range_prepare() and use
-> remap_pfn_range_complete() for this.
-> 
-> While we're here, make remap_pfn_range_prepare_vma() a little neater, and
-> pass mmap_action directly to call_action_complete().
-> 
-> Then, update compat_vma_mmap() to perform its logic directly, as
-> __compat_vma_map() is not used by anything so we don't need to export it.
-> 
-> Also update compat_vma_mmap() to use vfs_mmap_prepare() rather than
-> calling the mmap_prepare op directly.
-> 
-> Finally, update the VMA userland tests to reflect the changes.
-> 
-> Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
+>> Thanks! Also adding Ryan who did the exec_folio_order() work for ARM,
+>> and also raised good concerns in [1]
+>>
+>> The problem is not just alignment for elf, we need to fix more things like
+>> mmap heuristics [2] and how unmapped areas are gotten [3].
+>
+> I agree, ideally, that would all be tackled in one go.
 
-Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+From Usama’s v2 [1], it looks like we may be operating under slightly
+different assumptions. His approach seems to key off page cache
+characteristics when deciding segment alignment, while my patch is more
+about proactively making things THP-friendly so that more code can end
+up backed by large mappings. That helps in cases where a segment size is
+just over a large mapping boundary.
 
+Maybe what we really need here is to make sure the virtual address is
+properly aligned, while avoiding overly aggressive alignment (e.g. capping
+it at something like 32M, which is fairly common across architectures).
+Beyond that, we can just leave it to THP in “always” mode. THP already has
+its own heuristics to decide whether collapsing into large pages makes sense.
+
+It also looks like this approach would work fine with Usama’s cont-pte
+mappings. If so, would it make sense to implement [1] along these lines
+instead?
+
+[1] https://lore.kernel.org/linux-fsdevel/20260320140315.979307-4-usama.arif@linux.dev
+
+Thanks,
+Rui
