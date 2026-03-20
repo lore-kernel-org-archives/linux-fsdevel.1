@@ -1,54 +1,47 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4F6930FF20;
-	Fri, 20 Mar 2026 17:47:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E1662DC76D;
+	Fri, 20 Mar 2026 17:53:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774028858; cv=none; b=mRBSKe3lNhgIWrKPIMY87SXKwBFdWaudnkEP3NDyTJdj8TF+6v//QFuMGDZxb8VfBsLHlAhS7acxTtZp2/OW/V7yThmEwzuA44Hb91oMgQQwHOFkarN28VyTBcaO02fiBGVZnvkV3yZZBD+R7hWBU1PPRBnrJVwX7r3rkn4WVV0=
+	t=1774029225; cv=none; b=T/EVP8zslsuenHlK4ekfebPt8pUzemaCGlN+mte2Tsf68l2G8gxUdqUhid+vhtby/Pq5H3fEOf5xfEEL7lH4/dM4HFTeLGZ+mKAf3z67UkFwcx6VXMELk4yEX0c3Snco3SR3Z6o10T5y6v45eBNwAvE11RBuAeoNxc4ePkJAKQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774028858; c=relaxed/simple;
-	bh=YBrE+ETl3QSBu97biTA3vK5m68jytBBGssPNHhBNDT4=;
+	s=arc-20240116; t=1774029225; c=relaxed/simple;
+	bh=h//oGyLG5CzZJ3ZAYHDx9XZrR0UhXsRRj9FiPsHwWsY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V5U5VkLk7MHu1C557OCpeftgK1xTqOtvBQl1iGJpY73TD2ABY/ImGBxcX6q8cvrPIQ7W6mgEE5mUeXe1MPlAVzGsfWqXAwrSw0+mkOiPCHSp58jteArPVpbPLyE40MtNKt1Q/r9GBuEOuhIAW0QyEEJR5HnctbFV8Z9zIklDscA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=T605LByc; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=qtmJqt1d9dd7TLMI5pjvQAXjo3DxAENqh4P1r6mzijSHDBjAcBsbeW3eFUQhNGf3QgXXGeTn9zXSjzaN0en0XP39jVWIRyMJDzq5RJl73+Ou0FU6meIzAH5ysPExnSQJLGsxWky5JXghyN5bzoxXxjAt3RAKFmt5pkV9r92DVsY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uiEYv2bo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="T605LByc"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=YBrE+ETl3QSBu97biTA3vK5m68jytBBGssPNHhBNDT4=; b=T605LBycL3rI4RFN580+M7TbGh
-	aCtU6vIGOVxGUwytuHLYp/1ZLkr27qP8DQeq4BOYtdqrVVL7wqOyT5X593nCLlATcEz6u0jOP573S
-	Ui6lMu0pcx0mOEggwfgy/xeErgiLPY6i5Atl+6FZuDnHJf/jVwDXtFVk28OQjIvLgQLqnccrJC1il
-	ptJwQFvaNBAZEPXJGG6jm1esBTUZ7TfOux7cY9wHxOz0GGaGeCZLrlw58J4aim0VjVLtWzxZKjMv4
-	ISz7tyHvSHWMmQuU03PUvGHLpCMGBRVES9neSGXWnsFJ6ZI/TZNJY3nCKyBuPApHpwPAmkHEihWgV
-	BjW0+lsg==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w3dwK-000000088lh-00QQ;
-	Fri, 20 Mar 2026 17:47:16 +0000
-Date: Fri, 20 Mar 2026 17:47:15 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: WANG Rui <r@hev.cc>
-Cc: usama.arif@linux.dev, Liam.Howlett@oracle.com, ajd@linux.ibm.com,
-	akpm@linux-foundation.org, apopple@nvidia.com, baohua@kernel.org,
-	baolin.wang@linux.alibaba.com, brauner@kernel.org,
-	catalin.marinas@arm.com, david@kernel.org, dev.jain@arm.com,
-	jack@suse.cz, kees@kernel.org, kevin.brodsky@arm.com,
-	lance.yang@linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-fsdevel@vger.kernel.l, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	lorenzo.stoakes@oracle.com, mhocko@suse.com, npache@redhat.com,
-	pasha.tatashin@soleen.com, rmclure@linux.ibm.com, rppt@kernel.org,
-	ryan.roberts@arm.com, surenb@google.com, vbabka@kernel.org,
-	viro@zeniv.linux.org.uk
-Subject: Re: [PATCH v2 3/4] elf: align ET_DYN base to max folio size for PTE
- coalescing
-Message-ID: <ab2IIwKzmK9qwIlZ@casper.infradead.org>
-References: <20260320140315.979307-4-usama.arif@linux.dev>
- <20260320160519.80962-1-r@hev.cc>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uiEYv2bo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECEBFC4CEF7;
+	Fri, 20 Mar 2026 17:53:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774029225;
+	bh=h//oGyLG5CzZJ3ZAYHDx9XZrR0UhXsRRj9FiPsHwWsY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uiEYv2bopFQyYcQTTmao16YHY0s25gTILH0j4Uo/jjcc1jQYIeERrtFpWhHUC8llk
+	 1Ivpn0/V4XRXI/ebxqkI+w00aHnOyD6OLBbLiioWe8ikCZxOgwcn6jUDJf9+zEMtY5
+	 aerSNmGAA4+YCrYkPDAq+McY+vRNZRaSXuKlRMI1dEfKo14kPd6ELQOZ5s+lSKb6rC
+	 twzYcePHq10w7+pUyb6m431OXO6YA+zEDvZ8pS9kgCmfGHwEyheiOGdNqBwvccPZef
+	 s3+MOy8YdY+YCgiLvIZ36jeoG/NqOAQEMhcO19dFmHftXh6EO8syhFT2J9kmPnP8HT
+	 NHD1pKtb4gA3Q==
+Date: Fri, 20 Mar 2026 17:53:43 +0000
+From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+To: Zi Yan <ziy@nvidia.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@kernel.org>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+	Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
+	Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
+	Matthew Wilcox <willy@infradead.org>, Bas van Dijk <bas@dfinity.org>, 
+	Eero Kelly <eero.kelly@dfinity.org>, Andrew Battat <andrew.battat@dfinity.org>, 
+	Adam Bratschi-Kaye <adam.bratschikaye@dfinity.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v3] selftests/mm: add folio_split() and
+ filemap_get_entry() race test
+Message-ID: <6b087c27-a5d5-4f49-81e6-1204209b0c89@lucifer.local>
+References: <20260319190409.294523-1-ziy@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -57,15 +50,32 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260320160519.80962-1-r@hev.cc>
+In-Reply-To: <20260319190409.294523-1-ziy@nvidia.com>
 
-On Sat, Mar 21, 2026 at 12:05:18AM +0800, WANG Rui wrote:
-> >From experiments (with 16K base pages), mapping_max_folio_size() appears to
-> depend on the filesystem. It returns 8M on ext4, while on btrfs it always
-> falls back to PAGE_SIZE (it seems CONFIG_BTRFS_EXPERIMENTAL=y may change this).
-> This looks overly conservative and ends up missing practical optimization
-> opportunities.
+(-cc old email)
 
-btrfs only supports large folios with CONFIG_BTRFS_EXPERIMENTAL.
-I mean, it's only been five years since it was added to XFS, can't rush
-these things.
+On Thu, Mar 19, 2026 at 03:04:08PM -0400, Zi Yan wrote:
+> The added folio_split_race_test is a modified C port of the race condition
+> test from [1]. The test creates shmem huge pages, where the main thread
+> punches holes in the shmem to cause folio_split() in the kernel and
+> a set of 16 threads reads the shmem to cause filemap_get_entry() in the
+> kernel. filemap_get_entry() reads the folio and xarray split by
+> folio_split() locklessly. The original test[2] is written in rust and uses
+> memfd (shmem backed). This C port uses shmem directly and use a single
+> process.
+>
+> Note: the initial rust to C conversion is done by Cursor.
+>
+> Link: https://lore.kernel.org/all/CAKNNEtw5_kZomhkugedKMPOG-sxs5Q5OLumWJdiWXv+C9Yct0w@mail.gmail.com/ [1]
+> Link: https://github.com/dfinity/thp-madv-remove-test [2]
+> Signed-off-by: Bas van Dijk <bas@dfinity.org>
+> Signed-off-by: Adam Bratschi-Kaye <adam.bratschikaye@dfinity.org>
+> Signed-off-by: Zi Yan <ziy@nvidia.com>
+
+No .gitignore entry? :)
+
+(Just saw it flag up locally in git status)
+
+Linus says don't remove, but he doesn't say don't add :P
+
+Cheers, Lorenzo
