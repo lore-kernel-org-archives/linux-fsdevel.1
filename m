@@ -1,427 +1,196 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013028.outbound.protection.outlook.com [40.93.201.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AA2E3DA5A5;
-	Fri, 20 Mar 2026 17:57:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774029450; cv=none; b=HICLdnJHM0NrGH+6/ZObDfxCVAkWEVqnQRyQsbla3nM5wLVWWNr49aj7kYetf9qQvjQVAYylNKw6uFpOcll3bteWWGGtYEwMZKRHr8/0K1OHTXRMZmjOrXTHoyL6oydzbdt1vEHx+PrvJbXncZCrtV1MK/H5178u0JrowiPedUg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774029450; c=relaxed/simple;
-	bh=fVfV+dg4pefPLaq5wbrR0HxC3vTbP1hv0mlpSnuGkSU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=G9UltzPHsN1A7EhnQP2zgbhzPik3i2+npkwKwNWe0M/eI4Zbb7VMCoEtQhuuO+tc1lleVfVcXysfRhLE+R/+4CzwYyUvrUmaWWQpKN7CVygV/7ib0tVDo4MfimzfSZBSHd8suLKX4D2mHGTWEoZ17fjlHAhLrF3Tza0lvTULTEs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=NUdvJ3j6; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FB1B3D9DB7;
+	Fri, 20 Mar 2026 17:58:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.28
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774029513; cv=fail; b=FzrCN7sUgnxgUiB21sopacaUR6MHCyqF842vcV3JP2wQPaRYtKSkgFlUe4XiDkeYADj82aH9dNOWTtcu7yadIh1jYXiuBR1stcJVQvEr5u9t9YlhnWwXaN5SqdTfGtwOyEfARc81zPHXfokMg0Os6TW0j8znH8wNpatfpo1Fv0s=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774029513; c=relaxed/simple;
+	bh=C6QG9zd7Q/rBDOMchkce76DkwPL4OZVWmXbO7OvcHzQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=fYD7tnxvZwsdmF45KYIBnnXGH31omXD1iDG8pj1kjSvJRDJdtoFKt0vAqu75lpca8lnSmSAiERhpu8LS8Ms4Cy63i0F5uB/1SGpmxEdxHqffFPc0XDWHzh6/vko+xQChIJei9MmWKCcL8juMfWQfZhTGLe3mp76D0EQk1wB8e4c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=eo5eDyhg; arc=fail smtp.client-ip=40.93.201.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="NUdvJ3j6"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:In-Reply-To:References:
-	Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
-	From:Reply-To:Content-ID:Content-Description;
-	bh=uPLEgN0Y4iP2f3Jy+ESOwggpjSmfDh5GaHCB2jXthXA=; b=NUdvJ3j6ryT8NYpywCFAenz9RW
-	mhYJ/eybi/AR+QXBSlCv72eoblbMllR6MAP1XLMi+Camo8vfkTuPowMVo/12ZXSdsceW1dpv8K/ha
-	w2iqVJZ+X8WfFNW8ccuU0NxlY4iahrMXbQNOrDfAPa/Mr0002BwDS2mxLBT/cYZ3u3okHap6dRiHf
-	BGiOCFtIlZEB1mSetKWuhEBlTaQ8jjq6aUM1K0pZMTYKLp4/Xdpe3ot3XL3aBNLObgV6FwD24pGf8
-	40fXaOLxAvagKwVLofWiUdcKyDBHUmguEZw/uqPlHgV5u0NIg8GuTZLdENLrPyWzY8Cx9Bkalv7D3
-	nbOL2iXg==;
-Received: from authenticated user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.94.2)
-	(envelope-from <leitao@debian.org>)
-	id 1w3e6A-005Nfl-TV; Fri, 20 Mar 2026 17:57:25 +0000
-From: Breno Leitao <leitao@debian.org>
-Date: Fri, 20 Mar 2026 10:56:31 -0700
-Subject: [PATCH v2 5/5] workqueue: add test_workqueue benchmark module
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="eo5eDyhg"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jXWta5vqLq0Ymi63V44aj76abW2YAZJEs5r6g2RLhrgu6RYGJtE7MnV2/YTmhULWKlPJK4mchwO+GOw4N8wjMR7cZwBf2dgAJQ3nARIgNFSh8P6rhEdESMIg6p8qENDaHXpR8SdoNGviMPGynY/TkH8kC45zr0OjsEcpByxAEELZSBRJ/MtUdOPHFHEGS4xh8sZXyd0J39CjAg0vv3wGxjFEX21Vs8G8R8xfoCW3C0OjyjspSrY90+mkMS9Da61u7wWtXxhEV5bMCC6KEKCdNJpBHsERYYi6rv/64Wk9eu95JQ6hLhz/7bx6vWkHYN0yGQzg+7OVB+yzBWsgQ3w6GQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=C6QG9zd7Q/rBDOMchkce76DkwPL4OZVWmXbO7OvcHzQ=;
+ b=p9IAtVnzTYS1rjvwUZRj5ioik4u7w+lUq0kA7vESlYPLuVTO7n6LLWwEwBuhxJjKqTDEnSvQV1kHfPY27yPu0wRktHEl5kBeRh7k8SXWZkMvzji374BOjMoAigkaCZQGB0gv29n1mOIr78zixN8FK2p/NhYkLIGb8vVm/DFf4vCJDYWR5ujkc/6Ql0YfnDHXoAAPpn+UCE3g6DQHTRXyRawiM1Dwlc8xAKxGNwK3PFFKhAG1Z/CAM3LqGKLKGKeNVfFJxTo6BK3thbNhcDlGhdcKQHbr5vvNuhqFLO26E72GQhRqJe0Ec1wk+bz2f2lg5dnuF+fXNUD8JP10v0JRlA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=C6QG9zd7Q/rBDOMchkce76DkwPL4OZVWmXbO7OvcHzQ=;
+ b=eo5eDyhgoFSasd/XEvCc70Pa20bxhsXVfUUxPYGTg2C14qWyTnqxFvNojWa0bP/1SA4Q25yDY+Y4W1RAq5+LVAQ8WJRgugcU/+Cxp0qhtGxWfyLN+haNDKzRKj9aG3HbMCRyfQAyJhct75BO/+S5e0xFdB3dlZAJUlKLEXbRp3LsJoFj0mLWiJCA/PE/PRlIruYuhUkiF3eVNp5n8IJmW19C2YuEHjjb33Y4W6lUfkHJ2i3Qeos7DhafAoJMVPQ10B9IfY2sHVGFaV1H5BUNn1FkPq76mwcs35BElc+eFr4Y8AlJ+JTvRdohiUeJqQCCtvv/hNriuQoKH35yAe05aA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
+ SA1PR12MB6993.namprd12.prod.outlook.com (2603:10b6:806:24c::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.9; Fri, 20 Mar
+ 2026 17:58:24 +0000
+Received: from DS7PR12MB9473.namprd12.prod.outlook.com
+ ([fe80::f01d:73d2:2dda:c7b2]) by DS7PR12MB9473.namprd12.prod.outlook.com
+ ([fe80::f01d:73d2:2dda:c7b2%4]) with mapi id 15.20.9723.016; Fri, 20 Mar 2026
+ 17:58:24 +0000
+From: Zi Yan <ziy@nvidia.com>
+To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: David Hildenbrand <david@kernel.org>, Hugh Dickins <hughd@google.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+ Matthew Wilcox <willy@infradead.org>, Bas van Dijk <bas@dfinity.org>,
+ Eero Kelly <eero.kelly@dfinity.org>,
+ Andrew Battat <andrew.battat@dfinity.org>,
+ Adam Bratschi-Kaye <adam.bratschikaye@dfinity.org>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v3] selftests/mm: add folio_split() and
+ filemap_get_entry() race test
+Date: Fri, 20 Mar 2026 13:58:18 -0400
+X-Mailer: MailMate (2.0r6290)
+Message-ID: <D60C0C65-11E3-4060-9295-B67F90E9D774@nvidia.com>
+In-Reply-To: <6b087c27-a5d5-4f49-81e6-1204209b0c89@lucifer.local>
+References: <20260319190409.294523-1-ziy@nvidia.com>
+ <6b087c27-a5d5-4f49-81e6-1204209b0c89@lucifer.local>
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: SJ0PR13CA0126.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c6::11) To DS7PR12MB9473.namprd12.prod.outlook.com
+ (2603:10b6:8:252::5)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260320-workqueue_sharded-v2-5-8372930931af@debian.org>
-References: <20260320-workqueue_sharded-v2-0-8372930931af@debian.org>
-In-Reply-To: <20260320-workqueue_sharded-v2-0-8372930931af@debian.org>
-To: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
- Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-kernel@vger.kernel.org, puranjay@kernel.org, 
- linux-crypto@vger.kernel.org, linux-btrfs@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, Michael van der Westhuizen <rmikey@meta.com>, 
- kernel-team@meta.com, Chuck Lever <chuck.lever@oracle.com>, 
- Breno Leitao <leitao@debian.org>
-X-Mailer: b4 0.15-dev-363b9
-X-Developer-Signature: v=1; a=openpgp-sha256; l=9898; i=leitao@debian.org;
- h=from:subject:message-id; bh=fVfV+dg4pefPLaq5wbrR0HxC3vTbP1hv0mlpSnuGkSU=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBpvYpsQpCFFCS6Stdm13hh3rU2USIxnonVGR38q
- mEMNeSo1z2JAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCab2KbAAKCRA1o5Of/Hh3
- bQOjD/49gPh2gnFcTxUjeB8k+HtVhOz4JJy5FQkHUNh6WYEYpnG/JUGvYoXk618cli/QxM21Y75
- Unw3wSYLW2hfBUvvRG++8DxpcEE07vYGlHD6Xye1o0YlyjLHy1pTD0Pymp/y9oJtH8EG/c0yxgO
- 6AT7Iyv+PB6zzUVs42sfup7OWUtnNdezQqUUsENRn6MWz13UbMgvxjyyaK74AH6jRKTo2YPaHaT
- KA4r4WbY7qS3voEtvBJ/A49A0uPZGUZsAM28mgadY1Dt51WVZtPDAY/hFHLBnNhP0DRXmNy/HkA
- 4J5k2WKIWPY9H4E/xY2a16NUNWqVendA7vznOf6GISRp+pcvbmGH6LsDxtWy1qCOn6Q+8Y/T2Ve
- BWXbN9UbpjCT0mwuoWQdO0L92k9PmxxxqaJjkMLHzeu1pF56Me2N4OZkxxBsfDQ6x2IFkIxcyg9
- zA1qUaK5eMbE5USZTMrOqUI9WRy3MJ6BbDCCv9j2e4SF0HvJY4UgBvVe0ryzVOi01QoQw6H9lqP
- i6ClgY/O9ypCIaOYBLH8LBLL3xRQ9fRBJYMhkYhbXhAenEt5P+OBW6ss5RaZuxj+/N9rvNhyi/C
- vLfovLiJfX7q4motwj3azeH2HJLZH1ic3wiCKV4dplz8mqfcyaiYV3+uIJTu0wPbI1jG6DKCOY9
- NcvmzzV/x2wapfA==
-X-Developer-Key: i=leitao@debian.org; a=openpgp;
- fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
-X-Debian-User: leitao
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|SA1PR12MB6993:EE_
+X-MS-Office365-Filtering-Correlation-Id: 93c0c8b3-04a5-49aa-8716-08de86aa47b3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|376014|7416014|366016|18002099003|22082099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	tkVrHk1sqFBkNISEhIqvibTMHFoy4pNt7NDw2u/EqCZAHtc6q4u8V27MOCiac4EFf/bVbvlD+wVvmihm9xUGCaRztWzX7ChbnzDodzcEcTMD13pIYSwRI9lCgOuuructWogNQ1X7VVCWpBaQEFVAIexmjjjXjkJY8NbODno50KXBnRiXKQQ/HlEYvQq29xy7icBOl8StSzxFMzROqsqSefgWd012yzxEw+qatgTLHcLth/y/Vi69Q9HV/bwH93iprTXxzmQFU+ua9TKTDGZWXOxulYRzARERIS2XGHtgVNzxrMKci9Br2LgtbadPriXpGz/e7hniZfrsla8F5uYwfvEB/72h63LMBYZdaStTy9nKu5/8Vprb3r4gYhU0IjtxJnCSPbn86ZLGra8RkGqq3WiQ98VxelDn++mppOfs+OkRtOQzIMHXDNEf9jJiC4Pb8UfMEEMgmYsP6ud+d5UFF0iFO1CHDKM2dFcfL235e0kOXyWmG8X7rsVrdtLFJmDOEs/JgI4wfN+JlTCTfsBbQBD0406zaDXX607wY9fwQpi4ykSnXORIAUnP1YJ8pMfsXNZG+cAsTSr2KSB1UISmJ3da/EM77KmZf7SQhi35PcSGtbhDyEvL7PdeMdiDflNxnzObG8rbjUkOzipXJXZRWyKi/MsaHyCqr5YoaxKaAKNB6zpq9/h8h8hH6oStbWOyG+ZTQBLKUeSxv6eBZIDNr8lXML8KPY9oRtyUslKrk2Bx+my2DihC2HTZTBUGy4N2
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?wBVjC4BuPZ1KX/E/JsLKRnUz0xOukUHwndAoEflPnKmmLVMujIj1Hssdy/GQ?=
+ =?us-ascii?Q?jOsJJ0JxIQ3nhVG5P1scjkAMfqBD30QnwIclsKi464ds5jhLSkj78wJULTMb?=
+ =?us-ascii?Q?weVdU7O2wFeShPjx8q1rQoUrdsMJgDsYBVTF4wR5uKEKCa2Sc/ONLuaivmSy?=
+ =?us-ascii?Q?YWgZm8aPQzs7gIY0A3M9b6EAOXhmE+CGhIjK1kQCoxA7a1E2h5C5S1wBnHYp?=
+ =?us-ascii?Q?Q93wPxIcSIXkL6s7wXid1YbFdDoQicJVR4iiyGjMOO2S9zxFc2uH8nxxzcU9?=
+ =?us-ascii?Q?GjejdIHc+i+M7rNFWmL2L1awDLcQaTABXd8lKlKchLPiIgS4xBYHDses06vh?=
+ =?us-ascii?Q?5J5ZuROio8WOVszrGVitJ8OCFgAB5AnnzBY7Yq3w1fkvbHjhFQ+Xiqut+I+B?=
+ =?us-ascii?Q?h+Lmeiw7jLLyfMeoUUPMTf6aPSUDaG5aR17Cdr/TwYYHiQlu/vC2tC9+849E?=
+ =?us-ascii?Q?N2uYT+VeY2wSS+bPLRFqlKozhp1wnZUB5mPJIlB4SMn4TqGjqYGeIhYCn30r?=
+ =?us-ascii?Q?yRYCGxFJEWO9Q3icnHF/omdVcQ2IhmcoANQtcLp25z1j//Cfqbq5hY09Xbav?=
+ =?us-ascii?Q?fxgc7ct2xmJSRQ3OQgdkVtq5rR4nsPCcxathr4C3hjMafse1hhy7RgV7TK43?=
+ =?us-ascii?Q?6OkOp4WMEeB3IiL8fVtWHUVUGoR1A1eWPWdaLTL3Aju1m5krDlhYDWUP6BZy?=
+ =?us-ascii?Q?XEDjU5T6dODnJl6Y2gHG7kdvWdJ+cCTboiLXEoXnYE/d61j0uyGlklWbgTCt?=
+ =?us-ascii?Q?EEsoMysoDqWHxogst9pcn3ulYJ+VFW5M1YgiA8UKaCwjxGMTtJk2rMRZhnsL?=
+ =?us-ascii?Q?lziOaPsOLfuUGrf5/33Q6IeBFSlZQVgN2HeAIoPKA+k8OIHI6+Q88s12aWQQ?=
+ =?us-ascii?Q?IBvDC7n/ssbDiA5O32OphqFlH7LuwI2k4pHoolPMawgKXAW/LkHeq1HmT6Jk?=
+ =?us-ascii?Q?3RJ9OfqhfvMDdCOmatnJmCnZXbaZ/rBYewWiBRQLVjb0Ak3Rt6XvLhiJJ+UY?=
+ =?us-ascii?Q?PwoOVDSGOROaZ9rN6whq+0hpN5bF2RuPVA0VEO+DpsJm+Md3u1h8dDqQM9lB?=
+ =?us-ascii?Q?rQb7MYDVoB1rmURg5Lj45e/LcEtJNEjvsuf5pxeMVtEsiVNem1gCmXNGiQHj?=
+ =?us-ascii?Q?yREif48/9mJrbiXSE5Q4sYaTsW2LolJd6iVXM5UeguqhoZDzBxu7fG24EIzp?=
+ =?us-ascii?Q?Ky8ZtGaA8i2f5nVaYDwfIVGFrSXywUI9FmYB90/ghB8p+Si+e3G1WDAOzS81?=
+ =?us-ascii?Q?hLZLmIi9LSE4xEvsR2iifT1zWKvPlWaRM4j472LFr8TxqDUBfK1gL4NTgdzP?=
+ =?us-ascii?Q?UDxW7CwVigD3xahVFv4nxdsM+lTqGI7nETM4vlPyeu+0/haVfPIrEmTaRhd2?=
+ =?us-ascii?Q?1zWtY2WixxJZJzKMzgQQvAw/XPkFEAPgGOwRAnKYuA4oOaviVg4cG2awfSmE?=
+ =?us-ascii?Q?lFLES7YGXMD73ZTqdZ4JapGtrzVgf+H8EkwiUVAwUSH/yCngK4nZqr3rBOmE?=
+ =?us-ascii?Q?jheD+TgmK4d0nJ0SPxAnPEiEYI96wlAL9PvG0AUh0tDD3mLrEm5oObbF/nE8?=
+ =?us-ascii?Q?dcQCTFo3oBFBVa3cWxqeW5u8dg6qOr0wAHHBbZpUgvQQmxHMWekNRaSppuyX?=
+ =?us-ascii?Q?TBut+BtBB2QCTL4bqAGp8Cs0AmrKvLjkct+7G/mXt+2ARYhDPicnY+N35/Pn?=
+ =?us-ascii?Q?f0rkHwVnHqTs7QM73Ph+pLQcYPewMhz7PGw5j8J394+8uElQ121xjjoxqEtU?=
+ =?us-ascii?Q?/GyJyAtQag=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 93c0c8b3-04a5-49aa-8716-08de86aa47b3
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Mar 2026 17:58:24.0525
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ffTkfVYLdCKwnjoC0jg3fjqvZDe32a1n/HrLj535zxRIN9vblftlQePs3BSgIoCk
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6993
 
-Add a kernel module that benchmarks queue_work() throughput on an
-unbound workqueue to measure pool->lock contention under different
-affinity scope configurations (cache vs cache_shard).
+On 20 Mar 2026, at 13:53, Lorenzo Stoakes (Oracle) wrote:
 
-The module spawns N kthreads (default: num_online_cpus()), each bound
-to a different CPU. All threads start simultaneously and queue work
-items, measuring the latency of each queue_work() call. Results are
-reported as p50/p90/p95 latencies for each affinity scope.
+> (-cc old email)
+>
+> On Thu, Mar 19, 2026 at 03:04:08PM -0400, Zi Yan wrote:
+>> The added folio_split_race_test is a modified C port of the race condi=
+tion
+>> test from [1]. The test creates shmem huge pages, where the main threa=
+d
+>> punches holes in the shmem to cause folio_split() in the kernel and
+>> a set of 16 threads reads the shmem to cause filemap_get_entry() in th=
+e
+>> kernel. filemap_get_entry() reads the folio and xarray split by
+>> folio_split() locklessly. The original test[2] is written in rust and =
+uses
+>> memfd (shmem backed). This C port uses shmem directly and use a single=
 
-The affinity scope is switched between runs via the workqueue's sysfs
-affinity_scope attribute (WQ_SYSFS), avoiding the need for any new
-exported symbols.
+>> process.
+>>
+>> Note: the initial rust to C conversion is done by Cursor.
+>>
+>> Link: https://lore.kernel.org/all/CAKNNEtw5_kZomhkugedKMPOG-sxs5Q5OLum=
+WJdiWXv+C9Yct0w@mail.gmail.com/ [1]
+>> Link: https://github.com/dfinity/thp-madv-remove-test [2]
+>> Signed-off-by: Bas van Dijk <bas@dfinity.org>
+>> Signed-off-by: Adam Bratschi-Kaye <adam.bratschikaye@dfinity.org>
+>> Signed-off-by: Zi Yan <ziy@nvidia.com>
+>
+> No .gitignore entry? :)
+>
+> (Just saw it flag up locally in git status)
+>
+> Linus says don't remove, but he doesn't say don't add :P
 
-The module runs as __init-only, returning -EAGAIN to auto-unload,
-and can be re-run via insmod.
+I did not know about that. The fixup is below. Thank you for pointing it =
+out.
 
-Example of the output:
+=46rom bd164a7090c0e8b6e3013502c64c161214e38714 Mon Sep 17 00:00:00 2001
+From: Zi Yan <ziy@nvidia.com>
+Date: Fri, 20 Mar 2026 13:56:04 -0400
+Subject: [PATCH] git: add generated binary into gitignore
 
- running 50 threads, 50000 items/thread
-
-   cpu              6806017 items/sec p50=2574    p90=5068    p95=5818 ns
-   smt              6821040 items/sec p50=2624    p90=5168    p95=5949 ns
-   cache_shard      1633653 items/sec p50=5337    p90=9694    p95=11207 ns
-   cache            286069 items/sec p50=72509    p90=82304   p95=85009 ns
-   numa             319403 items/sec p50=63745    p90=73480   p95=76505 ns
-   system           308461 items/sec p50=66561    p90=75714   p95=78048 ns
-
-Signed-off-by: Breno Leitao <leitao@debian.org>
+Signed-off-by: Zi Yan <ziy@nvidia.com>
 ---
- lib/Kconfig.debug    |  10 ++
- lib/Makefile         |   1 +
- lib/test_workqueue.c | 277 +++++++++++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 288 insertions(+)
+ tools/testing/selftests/mm/.gitignore | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index 93f356d2b3d95..38bee649697f3 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -2628,6 +2628,16 @@ config TEST_VMALLOC
- 
- 	  If unsure, say N.
- 
-+config TEST_WORKQUEUE
-+	tristate "Test module for stress/performance analysis of workqueue"
-+	default n
-+	help
-+	  This builds the "test_workqueue" module for benchmarking
-+	  workqueue throughput under contention. Useful for evaluating
-+	  affinity scope changes (e.g., cache_shard vs cache).
-+
-+	  If unsure, say N.
-+
- config TEST_BPF
- 	tristate "Test BPF filter functionality"
- 	depends on m && NET
-diff --git a/lib/Makefile b/lib/Makefile
-index 1b9ee167517f3..ea660cca04f40 100644
---- a/lib/Makefile
-+++ b/lib/Makefile
-@@ -79,6 +79,7 @@ UBSAN_SANITIZE_test_ubsan.o := y
- obj-$(CONFIG_TEST_KSTRTOX) += test-kstrtox.o
- obj-$(CONFIG_TEST_LKM) += test_module.o
- obj-$(CONFIG_TEST_VMALLOC) += test_vmalloc.o
-+obj-$(CONFIG_TEST_WORKQUEUE) += test_workqueue.o
- obj-$(CONFIG_TEST_RHASHTABLE) += test_rhashtable.o
- obj-$(CONFIG_TEST_STATIC_KEYS) += test_static_keys.o
- obj-$(CONFIG_TEST_STATIC_KEYS) += test_static_key_base.o
-diff --git a/lib/test_workqueue.c b/lib/test_workqueue.c
-new file mode 100644
-index 0000000000000..a949af1d7e978
---- /dev/null
-+++ b/lib/test_workqueue.c
-@@ -0,0 +1,277 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+/*
-+ * Test module for stress and performance analysis of workqueue.
-+ *
-+ * Benchmarks queue_work() throughput on an unbound workqueue to measure
-+ * pool->lock contention under different affinity scope configurations
-+ * (e.g., cache vs cache_shard).
-+ *
-+ * The affinity scope is changed between runs via the workqueue's sysfs
-+ * affinity_scope attribute (WQ_SYSFS).
-+ *
-+ * Copyright (c) 2026 Meta Platforms, Inc. and affiliates
-+ * Copyright (c) 2026 Breno Leitao <leitao@debian.org>
-+ *
-+ */
-+#include <linux/init.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/workqueue.h>
-+#include <linux/kthread.h>
-+#include <linux/moduleparam.h>
-+#include <linux/completion.h>
-+#include <linux/atomic.h>
-+#include <linux/slab.h>
-+#include <linux/ktime.h>
-+#include <linux/cpumask.h>
-+#include <linux/sched.h>
-+#include <linux/sort.h>
-+#include <linux/fs.h>
-+
-+#define WQ_NAME "bench_wq"
-+#define SCOPE_PATH "/sys/bus/workqueue/devices/" WQ_NAME "/affinity_scope"
-+
-+static int nr_threads;
-+module_param(nr_threads, int, 0444);
-+MODULE_PARM_DESC(nr_threads,
-+		 "Number of threads to spawn (default: 0 = num_online_cpus())");
-+
-+static int wq_items = 50000;
-+module_param(wq_items, int, 0444);
-+MODULE_PARM_DESC(wq_items,
-+		 "Number of work items each thread queues (default: 50000)");
-+
-+static struct workqueue_struct *bench_wq;
-+static atomic_t threads_done;
-+static DECLARE_COMPLETION(start_comp);
-+static DECLARE_COMPLETION(all_done_comp);
-+
-+struct thread_ctx {
-+	struct completion work_done;
-+	struct work_struct work;
-+	u64 *latencies;
-+	int cpu;
-+	int items;
-+};
-+
-+static void bench_work_fn(struct work_struct *work)
-+{
-+	struct thread_ctx *ctx = container_of(work, struct thread_ctx, work);
-+
-+	complete(&ctx->work_done);
-+}
-+
-+static int bench_kthread_fn(void *data)
-+{
-+	struct thread_ctx *ctx = data;
-+	ktime_t t_start, t_end;
-+	int i;
-+
-+	/* Wait for all threads to be ready */
-+	wait_for_completion(&start_comp);
-+
-+	for (i = 0; i < ctx->items; i++) {
-+		reinit_completion(&ctx->work_done);
-+		INIT_WORK(&ctx->work, bench_work_fn);
-+
-+		t_start = ktime_get();
-+		queue_work(bench_wq, &ctx->work);
-+		t_end = ktime_get();
-+
-+		ctx->latencies[i] = ktime_to_ns(ktime_sub(t_end, t_start));
-+		wait_for_completion(&ctx->work_done);
-+	}
-+
-+	if (atomic_dec_and_test(&threads_done))
-+		complete(&all_done_comp);
-+
-+	return 0;
-+}
-+
-+static int cmp_u64(const void *a, const void *b)
-+{
-+	u64 va = *(const u64 *)a;
-+	u64 vb = *(const u64 *)b;
-+
-+	if (va < vb)
-+		return -1;
-+	if (va > vb)
-+		return 1;
-+	return 0;
-+}
-+
-+static int __init set_affn_scope(const char *scope)
-+{
-+	struct file *f;
-+	loff_t pos = 0;
-+	ssize_t ret;
-+
-+	f = filp_open(SCOPE_PATH, O_WRONLY, 0);
-+	if (IS_ERR(f)) {
-+		pr_err("test_workqueue: open %s failed: %ld\n",
-+		       SCOPE_PATH, PTR_ERR(f));
-+		return PTR_ERR(f);
-+	}
-+
-+	ret = kernel_write(f, scope, strlen(scope), &pos);
-+	filp_close(f, NULL);
-+
-+	if (ret < 0) {
-+		pr_err("test_workqueue: write '%s' failed: %zd\n", scope, ret);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int __init run_bench(int n_threads, const char *scope, const char *label)
-+{
-+	struct task_struct **tasks;
-+	unsigned long total_items;
-+	struct thread_ctx *ctxs;
-+	u64 *all_latencies;
-+	ktime_t start, end;
-+	int cpu, i, j, ret;
-+	s64 elapsed_us;
-+
-+	ret = set_affn_scope(scope);
-+	if (ret)
-+		return ret;
-+
-+	ctxs = kcalloc(n_threads, sizeof(*ctxs), GFP_KERNEL);
-+	if (!ctxs)
-+		return -ENOMEM;
-+
-+	tasks = kcalloc(n_threads, sizeof(*tasks), GFP_KERNEL);
-+	if (!tasks) {
-+		kfree(ctxs);
-+		return -ENOMEM;
-+	}
-+
-+	total_items = (unsigned long)n_threads * wq_items;
-+	all_latencies = kvmalloc_array(total_items, sizeof(u64), GFP_KERNEL);
-+	if (!all_latencies) {
-+		kfree(tasks);
-+		kfree(ctxs);
-+		return -ENOMEM;
-+	}
-+
-+	/* Allocate per-thread latency arrays */
-+	for (i = 0; i < n_threads; i++) {
-+		ctxs[i].latencies = kvmalloc_array(wq_items, sizeof(u64),
-+						   GFP_KERNEL);
-+		if (!ctxs[i].latencies) {
-+			while (--i >= 0)
-+				kvfree(ctxs[i].latencies);
-+			kvfree(all_latencies);
-+			kfree(tasks);
-+			kfree(ctxs);
-+			return -ENOMEM;
-+		}
-+	}
-+
-+	atomic_set(&threads_done, n_threads);
-+	reinit_completion(&all_done_comp);
-+	reinit_completion(&start_comp);
-+
-+	/* Create kthreads, each bound to a different online CPU */
-+	i = 0;
-+	for_each_online_cpu(cpu) {
-+		if (i >= n_threads)
-+			break;
-+
-+		ctxs[i].cpu = cpu;
-+		ctxs[i].items = wq_items;
-+		init_completion(&ctxs[i].work_done);
-+
-+		tasks[i] = kthread_create(bench_kthread_fn, &ctxs[i],
-+					  "wq_bench/%d", cpu);
-+		if (IS_ERR(tasks[i])) {
-+			ret = PTR_ERR(tasks[i]);
-+			pr_err("test_workqueue: failed to create kthread %d: %d\n",
-+			       i, ret);
-+			while (--i >= 0)
-+				kthread_stop(tasks[i]);
-+			goto out_free;
-+		}
-+
-+		kthread_bind(tasks[i], cpu);
-+		wake_up_process(tasks[i]);
-+		i++;
-+	}
-+
-+	/* Start timing and release all threads */
-+	start = ktime_get();
-+	complete_all(&start_comp);
-+
-+	/* Wait for all threads to finish */
-+	wait_for_completion(&all_done_comp);
-+
-+	/* Drain any remaining work */
-+	flush_workqueue(bench_wq);
-+
-+	end = ktime_get();
-+	elapsed_us = ktime_us_delta(end, start);
-+
-+	/* Merge all per-thread latencies and sort for percentile calculation */
-+	j = 0;
-+	for (i = 0; i < n_threads; i++) {
-+		memcpy(&all_latencies[j], ctxs[i].latencies,
-+		       wq_items * sizeof(u64));
-+		j += wq_items;
-+	}
-+
-+	sort(all_latencies, total_items, sizeof(u64), cmp_u64, NULL);
-+
-+	pr_info("test_workqueue:   %-16s %llu items/sec\tp50=%llu\tp90=%llu\tp95=%llu ns\n",
-+		label,
-+		elapsed_us ? total_items * 1000000ULL / elapsed_us : 0,
-+		all_latencies[total_items * 50 / 100],
-+		all_latencies[total_items * 90 / 100],
-+		all_latencies[total_items * 95 / 100]);
-+
-+	ret = 0;
-+out_free:
-+	for (i = 0; i < n_threads; i++)
-+		kvfree(ctxs[i].latencies);
-+	kvfree(all_latencies);
-+	kfree(tasks);
-+	kfree(ctxs);
-+
-+	return ret;
-+}
-+
-+static const char * const bench_scopes[] = {
-+	"cpu", "smt", "cache", "cache_shard", "numa", "system",
-+};
-+
-+static int __init test_workqueue_init(void)
-+{
-+	int n_threads = nr_threads ?: num_online_cpus();
-+	int i;
-+
-+	if (wq_items <= 0) {
-+		pr_err("test_workqueue: wq_items must be > 0\n");
-+		return -EINVAL;
-+	}
-+
-+	bench_wq = alloc_workqueue(WQ_NAME, WQ_UNBOUND | WQ_SYSFS, 0);
-+	if (!bench_wq)
-+		return -ENOMEM;
-+
-+	pr_info("test_workqueue: running %d threads, %d items/thread\n",
-+		n_threads, wq_items);
-+
-+	for (i = 0; i < ARRAY_SIZE(bench_scopes); i++)
-+		run_bench(n_threads, bench_scopes[i], bench_scopes[i]);
-+
-+	destroy_workqueue(bench_wq);
-+
-+	return -EAGAIN;
-+}
-+
-+module_init(test_workqueue_init);
-+MODULE_AUTHOR("Breno Leitao <leitao@debian.org>");
-+MODULE_DESCRIPTION("Stress/performance benchmark for workqueue subsystem");
-+MODULE_LICENSE("GPL");
+diff --git a/tools/testing/selftests/mm/.gitignore b/tools/testing/selfte=
+sts/mm/.gitignore
+index 83ad9454dd9d1..b0c30c5ee9e30 100644
+--- a/tools/testing/selftests/mm/.gitignore
++++ b/tools/testing/selftests/mm/.gitignore
+@@ -61,3 +61,4 @@ guard-regions
+ merge
+ prctl_thp_disable
+ rmap
++folio_split_race_test
+-- =
 
--- 
-2.52.0
+2.51.0
 
+
+
+Best Regards,
+Yan, Zi
