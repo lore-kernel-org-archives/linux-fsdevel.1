@@ -1,380 +1,311 @@
-Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A27A3E9589
-	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Mar 2026 19:34:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB4AA34D3B1;
+	Fri, 20 Mar 2026 19:38:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774035274; cv=none; b=PoPPpr1tFEiv4/4FHlaNcIkx9RJ1XMkfatkiQGrg68auYkSYueHk0WnuW+g9Vei6jgXYDr000hb6dwYOVFwUyRzBCSoIZaMOHNlEAt4CXN04HWpzZ/HXFuzXnd9efU3s7CAgykRPRIz+Ntjtpycx50K/uBttKTN9++La+ELbcHA=
+	t=1774035526; cv=none; b=qDkcSJjEFvPKI9MEN7HKZrzP6XV1cUWAgyqWYbrvwGzwUK9rNwi6o3m0lQwl+FGDSA5FpqdhHVJJdiZbNbZJATIhKW9VOqx6sIviQIT+pauiCzFr2omVW1UmoawSU3ZCe3fUfHn6wK/qG/qOpeQsFK/P5hm/1NzBASDamIZcQ7g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774035274; c=relaxed/simple;
-	bh=FwBUNOvZQNrsC0bLTeOJsE6bKAUoEdxGbW7JNzOFIR0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nxcV4HT/P/OvXd6RK5DZcSt71STOjH5JjZy770Hk89dYFb2GrAAVj7j5FlGmg6RXcG/N93TJLuzwNkd4uXAml45mVaUFx2iN6tdIjxpriqyksLUzdHPmI8vmh0Zq5QxEkYfenYlXuSogHyPRP7iv8iEcvfSkmc7Un1jeQTbI1U8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=QkwhXXiD; arc=none smtp.client-ip=209.85.161.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
+	s=arc-20240116; t=1774035526; c=relaxed/simple;
+	bh=B5vWr9J4Eb+/vYtuFSntRP4/6BZCLXVQxRrN5ULo4B4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tlAC+DXRFG7zsXebXNAemSrIg0CBj3QvbPQdWhwoAzsnuk1veiG1IFX5GQrjcBeYLWQbPwbzUdKfqII6Q3ufW09laKvhH/LuqnwYc902QdTm1dEignZ5X7eFiHgwsyKI39MGbgUsVyn6wGhqrg50vuZAcmK57hGcz3LMPDPileo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IKRO8hqR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="QkwhXXiD"
-Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-662f30d3f1fso1970148eaf.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 20 Mar 2026 12:34:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1774035271; x=1774640071; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=PBCKl5XV2fZEJHRFI8QwapsaCQ6SSZzaVn8iplu1N8g=;
-        b=QkwhXXiDQEwePu/D2drsahfEzp+uwtNbwCnaeC9I0G1Vbf9ccizqn/3DVtRUjn52J7
-         GoJj6yG4TtEdX4lfgUvfh3jEH6LynXON/4NiuQxv00hMvKBgUfejh+FGta7p0k311Dul
-         3tPgrTuXrx0RMb+naMTXvlQdv1i+8I5rZ2A27b/HQny5otGBJ2SbyDju1UNi7bWlTILZ
-         zAaQR6GFsMhUVklj+4ssxJKUg0+khDfUNFAnQ0kLYMk5Ht/sB8RyYsCw4rVGSaA7cQQs
-         aIlIsRlcj++qUqB13ofe4MmcU/6O8KQYc1H+nqBSqFh/mJ0oyIPsbBiP/13MNjslVHlL
-         Jj0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774035271; x=1774640071;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PBCKl5XV2fZEJHRFI8QwapsaCQ6SSZzaVn8iplu1N8g=;
-        b=aTMdC2oRHx9mHsMl8ggJKwjr5VMaV4SuN3M3vq764D3PXl6YDcVJsOC8/Yx/U9o6iR
-         VZD/B2fcRZ5cpy4d0Joo5cUwbQwpnnMDeJky9xmikJeyExS8msdGmhuzdylJGz7evg6Q
-         e0F0Ma4ZzCSqiFKyRQ5B9oieqD1bX/WYCHC+bWq2uDmKZPek11zHcs6AIGB/5UyHdYlq
-         zyru3ohEwDunX99EYERSOQZZtBxJZpDMOoLGhw9BbLzlaI9Wwo3l7zIbdSXTLcnPCTxn
-         5Ak3RMSZ1JXUp9IHyhZ+wUgQwoElWJ4O7mLbooXwikn5LGBolfFDnKsooMF9dlpdUjQH
-         PreQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVnOXCQvb7+40R8xEgbcWp38Xdu/n+S1vPBYXw3jEEAFJFPsr9usg1O+oouEcdCtN1psZyPkDSsc72oaiSx@vger.kernel.org
-X-Gm-Message-State: AOJu0YxvuAWklgglFFG2umzQX8D3d6RBTUGMPnCOW7ltiiARvx5pDKmI
-	PwoD2majcrZemhP8v09iCRrY3ebdiyFq7fmRJPBdvQ8uLrfjVBcVAn2Uw+ws2JHTzu0=
-X-Gm-Gg: ATEYQzxV5z89v4Wy26tGr/j7mZ4mTIeJNPXjOqqa+SuKYa+W3BuL2X/jMECvAr4qpJi
-	APmMQPxzubHYWZDeVLVJol1u/Q+x860V182A7rqcObl8Hnflqdh9m0Q4upsKy1xVkloG8qcprkP
-	cwSi5bSVvD8hYwlG4/sfys9s8D9osQiGPtPbC5iY06o62aOL3Mmyvp0Vv4FHeHzdmv8LSyblD05
-	k3HoYSaId4GJTFNNyaBYBIEKZ4CpyH/Hm9xynw+UXSydVk/bhoHabce8IhcOE9frbh0/hhXhMDt
-	lmLrTFXdTQ6xpLLsZcCsZz/3YgsHnc2OzDt9UN5hYFHFUDUCA2xJM9hiLrhae+p8dI5Xc+KWiyo
-	kbx4JastVFSTxGsgk//BO/XDpieu3diUiO6T6BAcZwSBlQaumRZ3v8mUtf+g72hVt9qVV08WVre
-	OOOk4dqvwm1v04qUZSw0Q2Unh8eq1Rms3nRAwx+HJwZxAndUGN2CXkrMk4Z1/2FMf6o5z6LiuG9
-	fwfem4n
-X-Received: by 2002:a05:6820:609:b0:67c:1cdf:f046 with SMTP id 006d021491bc7-67c2353c5b9mr2459578eaf.7.1774035271200;
-        Fri, 20 Mar 2026 12:34:31 -0700 (PDT)
-Received: from [192.168.1.102] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-67c253fceddsm1763289eaf.15.2026.03.20.12.34.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Mar 2026 12:34:30 -0700 (PDT)
-Message-ID: <ff60b19b-ecd8-44cd-b7d3-f7755fe49934@kernel.dk>
-Date: Fri, 20 Mar 2026 13:34:29 -0600
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IKRO8hqR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E10B5C4CEF7;
+	Fri, 20 Mar 2026 19:38:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774035526;
+	bh=B5vWr9J4Eb+/vYtuFSntRP4/6BZCLXVQxRrN5ULo4B4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=IKRO8hqRGgDmarX8cUyOaR2T+zTsf7Cybp33CEGm3VVjXoMge30Vth6pty2I0Gay6
+	 h76wgYpecItl5t5LO8kQq/p1iswuoV/dg1q8ljRu+b2kb5HwxzDDiz2JqRRxk0uy2v
+	 N2BEjQgcRvnW17+gIZz3euO48IiZO4Cm2umjVfzJLKQiRNxXmf47GCbJZKhjMd18kB
+	 l4Ry8wj3OWjkngov6CwHR0wAckwXbLMO98fGfB+jkWTz+YyHhIKq67LTVRwldPdO5Y
+	 /Xw/1yzFpF3lsJicAjPv+JOZt8JFT3BKiEXglHu5++uyKc/fr9S/nBYRa1QsLb4QRg
+	 1eGNEXv2EHsfg==
+From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: David Hildenbrand <david@kernel.org>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Jann Horn <jannh@google.com>,
+	Pedro Falcato <pfalcato@suse.de>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Kees Cook <kees@kernel.org>,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	Vineet Gupta <vgupta@kernel.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Brian Cain <bcain@kernel.org>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <chleroy@kernel.org>,
+	Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	"H . Peter Anvin" <hpa@zytor.com>,
+	Richard Weinberger <richard@nod.at>,
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Xu Xin <xu.xin16@zte.com.cn>,
+	Chengming Zhou <chengming.zhou@linux.dev>,
+	Michal Hocko <mhocko@suse.com>,
+	Paul Moore <paul@paul-moore.com>,
+	Stephen Smalley <stephen.smalley.work@gmail.com>,
+	Ondrej Mosnacek <omosnace@redhat.com>,
+	linux-snps-arc@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-hexagon@vger.kernel.org,
+	loongarch@lists.linux.dev,
+	linux-mips@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-riscv@lists.infradead.org,
+	linux-s390@vger.kernel.org,
+	linux-um@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org,
+	selinux@vger.kernel.org
+Subject: [PATCH v4 00/25] mm/vma: convert vm_flags_t to vma_flags_t in vma code
+Date: Fri, 20 Mar 2026 19:38:17 +0000
+Message-ID: <cover.1774034900.git.ljs@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] io_uring: Add IORING_OP_DUP
-To: Daniele Di Proietto <daniele.di.proietto@gmail.com>,
- io-uring@vger.kernel.org
-Cc: Keith Busch <kbusch@kernel.org>, Pavel Begunkov <asml.silence@gmail.com>,
- linux-fsdevel@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-References: <20260320182341.780295-1-daniele.di.proietto@gmail.com>
- <20260320182341.780295-3-daniele.di.proietto@gmail.com>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <20260320182341.780295-3-daniele.di.proietto@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 3/20/26 12:23 PM, Daniele Di Proietto wrote:
-> diff --git a/fs/file.c b/fs/file.c
-> index 384c83ce768d..64d712ef89b5 100644
-> --- a/fs/file.c
-> +++ b/fs/file.c
-> @@ -285,9 +285,8 @@ static int expand_fdtable(struct files_struct *files, unsigned int nr)
->   * Return <0 error code on error; 0 on success.
->   * The files->file_lock should be held on entry, and will be held on exit.
->   */
-> -static int expand_files(struct files_struct *files, unsigned int nr)
-> -	__releases(files->file_lock)
-> -	__acquires(files->file_lock)
-> +int expand_files(struct files_struct *files, unsigned int nr)
-> +	__releases(files->file_lock) __acquires(files->file_lock)
->  {
->  	struct fdtable *fdt;
->  	int error;
-> @@ -1291,13 +1290,33 @@ bool get_close_on_exec(unsigned int fd)
->  	return res;
->  }
->  
-> -static int do_dup2(struct files_struct *files,
-> -	struct file *file, unsigned fd, unsigned flags)
-> -__releases(&files->file_lock)
-> +/**
-> + * do_replace_fd_locked() - Installs a file on a specific fd number.
-> + * @files: struct files_struct to install the file on.
-> + * @file: struct file to be installed.
-> + * @fd: number in the files table to replace
-> + * @flags: the O_* flags to apply to the new fd entry
-> + *
-> + * Installs a @file on the specific @fd number on the @files table.
-> + *
-> + * The caller must makes sure that @fd fits inside the @files table, likely via
-> + * expand_files().
-> + *
-> + * Requires holding @files->file_lock.
-> + *
-> + * This helper handles its own reference counting of the incoming
-> + * struct file.
-> + *
-> + * Returns a preexisting file in @fd, if any, NULL, if none or an error.
-> + */
-> +struct file *do_replace_fd_locked(struct files_struct *files, struct file *file,
-> +				  unsigned int fd, unsigned int flags)
->  {
->  	struct file *tofree;
->  	struct fdtable *fdt;
->  
-> +	lockdep_assert_held(&files->file_lock);
-> +
->  	/*
->  	 * dup2() is expected to close the file installed in the target fd slot
->  	 * (if any). However, userspace hand-picking a fd may be racing against
-> @@ -1328,26 +1347,19 @@ __releases(&files->file_lock)
->  	fd = array_index_nospec(fd, fdt->max_fds);
->  	tofree = rcu_dereference_raw(fdt->fd[fd]);
->  	if (!tofree && fd_is_open(fd, fdt))
-> -		goto Ebusy;
-> +		return ERR_PTR(-EBUSY);
->  	get_file(file);
->  	rcu_assign_pointer(fdt->fd[fd], file);
->  	__set_open_fd(fd, fdt, flags & O_CLOEXEC);
-> -	spin_unlock(&files->file_lock);
-> -
-> -	if (tofree)
-> -		filp_close(tofree, files);
-> -
-> -	return fd;
->  
-> -Ebusy:
-> -	spin_unlock(&files->file_lock);
-> -	return -EBUSY;
-> +	return tofree;
->  }
->  
->  int replace_fd(unsigned fd, struct file *file, unsigned flags)
->  {
-> -	int err;
->  	struct files_struct *files = current->files;
-> +	struct file *tofree;
-> +	int err;
->  
->  	if (!file)
->  		return close_fd(fd);
-> @@ -1359,9 +1371,14 @@ int replace_fd(unsigned fd, struct file *file, unsigned flags)
->  	err = expand_files(files, fd);
->  	if (unlikely(err < 0))
->  		goto out_unlock;
-> -	err = do_dup2(files, file, fd, flags);
-> -	if (err < 0)
-> -		return err;
-> +	tofree = do_replace_fd_locked(files, file, fd, flags);
-> +	spin_unlock(&files->file_lock);
-> +
-> +	if (IS_ERR(tofree))
-> +		return PTR_ERR(tofree);
-> +
-> +	if (tofree)
-> +		filp_close(tofree, files);
->  	return 0;
->  
->  out_unlock:
-> @@ -1422,11 +1439,29 @@ int receive_fd_replace(int new_fd, struct file *file, unsigned int o_flags)
->  	return new_fd;
->  }
->  
-> -static int ksys_dup3(unsigned int oldfd, unsigned int newfd, int flags)
-> +static struct file *do_dup3(struct files_struct *files, unsigned int oldfd,
-> +			    unsigned int newfd, int flags)
-> +	__releases(files->file_lock) __acquires(files->file_lock)
->  {
-> -	int err = -EBADF;
->  	struct file *file;
-> +	int err = 0;
-> +
-> +	err = expand_files(files, newfd);
-> +	file = files_lookup_fd_locked(files, oldfd);
-> +	if (unlikely(!file))
-> +		return ERR_PTR(-EBADF);
-> +	if (err < 0) {
-> +		if (err == -EMFILE)
-> +			err = -EBADF;
-> +		return ERR_PTR(err);
-> +	}
-> +	return do_replace_fd_locked(files, file, newfd, flags);
-> +}
-> +
-> +static int ksys_dup3(unsigned int oldfd, unsigned int newfd, int flags)
-> +{
->  	struct files_struct *files = current->files;
-> +	struct file *to_free;
->  
->  	if ((flags & ~O_CLOEXEC) != 0)
->  		return -EINVAL;
-> @@ -1438,22 +1473,15 @@ static int ksys_dup3(unsigned int oldfd, unsigned int newfd, int flags)
->  		return -EBADF;
->  
->  	spin_lock(&files->file_lock);
-> -	err = expand_files(files, newfd);
-> -	file = files_lookup_fd_locked(files, oldfd);
-> -	if (unlikely(!file))
-> -		goto Ebadf;
-> -	if (unlikely(err < 0)) {
-> -		if (err == -EMFILE)
-> -			goto Ebadf;
-> -		goto out_unlock;
-> -	}
-> -	return do_dup2(files, file, newfd, flags);
-> -
-> -Ebadf:
-> -	err = -EBADF;
-> -out_unlock:
-> +	to_free = do_dup3(files, oldfd, newfd, flags);
->  	spin_unlock(&files->file_lock);
-> -	return err;
-> +
-> +	if (IS_ERR(to_free))
-> +		return PTR_ERR(to_free);
-> +	if (to_free)
-> +		filp_close(to_free, files);
-> +
-> +	return newfd;
->  }
->  
->  SYSCALL_DEFINE3(dup3, unsigned int, oldfd, unsigned int, newfd, int, flags)
-> diff --git a/fs/internal.h b/fs/internal.h
-> index cbc384a1aa09..c3d1eaf65328 100644
-> --- a/fs/internal.h
-> +++ b/fs/internal.h
-> @@ -197,6 +197,11 @@ extern struct file *do_file_open_root(const struct path *,
->  extern struct open_how build_open_how(int flags, umode_t mode);
->  extern int build_open_flags(const struct open_how *how, struct open_flags *op);
->  struct file *file_close_fd_locked(struct files_struct *files, unsigned fd);
-> +struct file *do_replace_fd_locked(struct files_struct *files, struct file *file,
-> +				  unsigned int fd, unsigned int flags)
-> +	__must_hold(files->file_lock);
-> +int expand_files(struct files_struct *files, unsigned int nr)
-> +	__releases(files->file_lock) __acquires(files->file_lock);
->  
->  int do_ftruncate(struct file *file, loff_t length, int small);
->  int do_sys_ftruncate(unsigned int fd, loff_t length, int small);
+This series converts a lot of the existing use of the legacy vm_flags_t
+data type to the new vma_flags_t type which replaces it.
 
-All of the above should be a separate prep patch, not part of the
-io_uring patch adding IORING_OP_DUP.
+In order to do so it adds a number of additional helpers:
 
-> diff --git a/io_uring/openclose.c b/io_uring/openclose.c
-> index c71242915dad..2658adbfd17a 100644
-> --- a/io_uring/openclose.c
-> +++ b/io_uring/openclose.c
-> @@ -446,3 +454,175 @@ int io_pipe(struct io_kiocb *req, unsigned int issue_flags)
->  		fput(files[1]);
->  	return ret;
->  }
-> +
-> +void io_dup_cleanup(struct io_kiocb *req)
-> +{
-> +	struct io_dup *id = io_kiocb_to_cmd(req, struct io_dup);
-> +
-> +	if (id->rsrc_node)
-> +		io_put_rsrc_node(req->ctx, id->rsrc_node);
-> +}
+* vma_flags_empty() - Determines whether a vma_flags_t value has no bits
+  set.
 
-Probably doesn't hurt to be defensive and clear ->rsrc_node when put.
+* vma_flags_and() - Performs a bitwise AND between two vma_flags_t values.
 
-> +int io_dup_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe)
-> +{
-> +	struct io_dup *id;
-> +
-> +	if (sqe->off || sqe->addr || sqe->len || sqe->buf_index || sqe->addr3)
-> +		return -EINVAL;
-> +
-> +	id = io_kiocb_to_cmd(req, struct io_dup);
-> +	id->flags = READ_ONCE(sqe->dup_flags);
-> +	if (id->flags & ~(IORING_DUP_NO_CLOEXEC | IORING_DUP_OLD_FIXED |
-> +			  IORING_DUP_NEW_FIXED))
-> +		return -EINVAL;
+* vma_flags_diff_pair() - Determines which flags are not shared between a
+  pair of VMA flags (typically non-constant values)
 
-Would be cleaner with an IORING_DUP_FLAGS mask above io_dup_prep().
+* append_vma_flags() - Similar to mk_vma_flags(), but allows a vma_flags_t
+  value to be specified (typically a constant value) which will be copied
+  and appended to to create a new vma_flags_t value, with additional flags
+  specified to append to it.
 
-> +static struct file *io_dup_get_old_file_fixed(struct io_kiocb *req,
-> +					      unsigned int issue_flags,
-> +					      unsigned int file_slot)
-> +{
-> +	struct io_dup *id = io_kiocb_to_cmd(req, struct io_dup);
-> +	struct file *file = NULL;
-> +
-> +	if (!id->rsrc_node)
-> +		id->rsrc_node =
-> +			io_file_get_fixed_node(req, file_slot, issue_flags);
+* vma_flags_same() - Determines if a vma_flags_t value is exactly equal to
+  a set of VMA flags.
 
-Just use the full line length, io_uring isn't a stickler on 80 chars and
-it'd read better as:
+* vma_flags_same_mask() - Determines if a vma_flags_t value is eactly equal
+  to another vma_flags_t value (typically constant).
 
-	if (!id->rsrc_node)
-		id->rsrc_node = io_file_get_fixed_node(req, file_slot, issue_flags);
+* vma_flags_same_pair() - Determines if a pair of vma_flags_t values are
+  exactly equal to one another (typically both non-constant).
 
-Need to check further, but I'm assuming the difference here is for retry
-where the node could already be assigned?
+* vma_flags_to_legacy() - Converts a vma_flags_t value to a vm_flags_t
+  value, used to enable more iterative introduction of the use of
+  vma_flags_t.
+
+* legacy_to_vma_flags() - Converts a vm_flags_t value to a vma_flags-t
+  value, for the same purpose.
+
+* vma_flags_test_single_mask() - Tests whether a vma_flags_t value contain
+  the single flag specified in an input vma_flags_t flag mask, or if that
+  flag mask is empty, is defined to return false. Useful for
+  config-predicated VMA flag mask defines.
+
+* vma_test() - Tests whether a VMA's flags contain a specific singular VMA
+  flag.
+
+* vma_test_any() - Tests whether a VMA's flags contain any of a set of VMA
+  flags.
+
+* vma_test_any_mask() - Tests whether a VMA's flags contain any of the
+  flags specified in another, typically constant, vma_flags_t value.
+
+* vma_test_single_mask() - Tests whether a VMA's flags contain the single
+  flag specified in an input vma_flags_t flag mask, or if that flag mask is
+  empty, is defined to return false. Useful for config-predicated VMA flag
+  mask defines.
+
+* vma_clear_flags() - Clears a specific set of VMA flags from a vma_flags_t
+  value.
+
+* vma_clear_flags_mask() - Clears those flag set in a vma_flags_t value
+  (typically constant) from a (typically not constant) vma_flags_t value.
+
+The series mostly focuses on the the VMA specific code, especially that
+contained in mm/vma.c and mm/vma.h.
+
+It updates both brk() and mmap() logic to utils vma_flags_t values as much
+as is practiaclly possible at this point, changing surrounding logic to be
+able to do so.
+
+It also updates the vma_modify_xxx() functions where they interact with VMA
+flags directly to use vm_flags_t values where possible.
+
+There is extensive testing added in the VMA userland tests to assert that
+all of these new VMA flag functions work correctly.
 
 
-> +static int io_dup_to_fd(struct io_kiocb *req, unsigned int issue_flags,
-> +			bool old_fixed, int old_fd, int new_fd, int o_flags)
-> +{
-> +	struct file *old_file, *to_replace, *to_close = NULL;
-> +	bool non_block = issue_flags & IO_URING_F_NONBLOCK;
-> +	struct files_struct *files = current->files;
-> +	int ret;
-> +
-> +	if (new_fd >= rlimit(RLIMIT_NOFILE))
-> +		return -EBADF;
-> +
-> +	if (old_fixed)
-> +		old_file = io_dup_get_old_file_fixed(req, issue_flags, old_fd);
-> +
-> +	spin_lock(&files->file_lock);
+v4:
+* Propagated tags, thanks Vlasta!
+* Removed superfluous parens around vma_test_any_mask() as per Vlasta.
+* Converted masked functions into more understandable equivalent form as
+  per Vlasta in 24/25.
+* Redefined VM_SPECIAL using vma_flags_to_legacy() as per Vlasta.
+* Fixed whitespace as per Vlasta.
+* Added vma_flags_reset_once() as per Vlasta.
+* Expanded 22/23 commit message to describe why I'm replacing things as
+  per Vlasta.
+* Added bitmap_copy() to test headers in order to implement
+  vma_flags_reset_once().
 
-If you use:
+v3:
+* Folded in tags, thanks Paul, Vlastimil!
+* Respun to apply the correct suggestions/reports from
+  https://sashiko.dev/#/patchset/cover.1773665966.git.ljs%40kernel.org
+  (note there is also quite a lot of noise, that is ignored).
+* Const-ified vma_flags_t * param for vma_flags_empty() as per Sashiko.
+* Obtained sticky flag masks after VMA write lock acquired on merge and
+  update vma_expand() similarly. This is meaningful, as the maybe guard
+  flag is set atomically which might race outside of a VMA write lock, as
+  per Sashiko.
+* Dropped comment about 'VM_NONE convenience' from 5/23 commit message as
+  the VMA_xxx form flags can now provide that.
+* Updated legacy_to_vma_flags() to ensure upper bits are cleared for
+  NUM_VMA_FLAG_BITS > 64 as per Sashiko.
+* Updated legacy_to_vma_flags() to use vma_flags_overwrite_word() for
+  consistency.
+* Refreshed vma_flags_overwrite_word(), vma_flag_overwrite_word_once(),
+  vma_flags_set_word() and vma_flags_clear_word() in the VMA test dup.h
+  header to keep them consistent with the kernel.
+* Updated VMA_DATA_DEFAULT_FLAGS declaration on arm64 to be predicated on
+  CONFIG_ARM64_MTE as to whether VMA_MTE_ALLOWED_BIT is set, as per
+  Sashiko.
+* Fixed bug where the VMA did not have VMA_SOFTDIRTY_BIT set if
+  pgtable_supports_soft_dirty(), but rather the stack variable vma_flags,
+  as per Sashiko.
+* Corrected vmag -> vma typo in VMA test code as per Sashiko.
+* Fixed typo in 20/23 commit message 'correctly' -> 'correct' as per
+  Sashiko.
+* Fixed VMA flag clear tests to consistently do vma_clear_flags_mask(&vma,
+  mask) rather than vma_flags_clear_mask(&vma.flags, mask) as per Sashiko.
+* Added missing vma_start_write() in mseal_apply() as per Sahiko.
+https://lore.kernel.org/all/cover.1773846935.git.ljs@kernel.org/
 
-	guard(spinlock)(&files->file_lock);
+v2:
+* Rebased on mm-unstable.
+* Added vma_flags_count() and vma[_flags]_test_single_mask() for testing
+  whether flags have a single flag set depending on an input flag mask,
+  returning false if the flag mask is empty.
+* Added tests for vma_flags_count() and vma[_flags]_test_single_mask().
+* Updated the KSM VMA_DROPPABLE test to use vma_flags_test_single_mask().
+* Updated the newly-introduced-since-rebase vma_supports_mlock() to use
+  vma_flags_t.
+https://lore.kernel.org/linux-mm/cover.1773665966.git.ljs@kernel.org/
 
-and move:
+v1:
+https://lore.kernel.org/linux-mm/cover.1773342102.git.ljs@kernel.org/
 
-> +
-> +	/* Do we need to expand? If so, be safe and punt to async */
-> +	if (new_fd >= files_fdtable(files)->max_fds && non_block)
-> +		goto out_again;
-> +	ret = expand_files(files, new_fd);
-> +	if (ret < 0)
-> +		goto out_unlock;
-> +
-> +	if (!old_fixed)
-> +		old_file = files_lookup_fd_locked(files, old_fd);
-> +
-> +	ret = -EBADF;
-> +	if (!old_file)
-> +		goto out_unlock;
-> +
-> +	to_replace = files_lookup_fd_locked(files, new_fd);
-> +	if (to_replace) {
-> +		if (io_is_uring_fops(to_replace))
-> +			goto out_unlock;
-> +
-> +		/* if the file has a flush method, be safe and punt to async */
-> +		if (to_replace->f_op->flush && non_block)
-> +			goto out_again;
-> +	}
-> +	to_close = do_replace_fd_locked(files, old_file, new_fd, o_flags);
-> +	ret = new_fd;
+Lorenzo Stoakes (Oracle) (25):
+  mm/vma: add vma_flags_empty(), vma_flags_and(), vma_flags_diff_pair()
+  tools/testing/vma: add unit tests flag empty, diff_pair, and[_mask]
+  mm/vma: add further vma_flags_t unions
+  tools/testing/vma: convert bulk of test code to vma_flags_t
+  mm/vma: use new VMA flags for sticky flags logic
+  tools/testing/vma: fix VMA flag tests
+  mm/vma: add append_vma_flags() helper
+  tools/testing/vma: add simple test for append_vma_flags()
+  mm: unexport vm_brk_flags() and eliminate vm_flags parameter
+  mm/vma: introduce vma_flags_same[_mask/_pair]()
+  mm/vma: introduce [vma_flags,legacy]_to_[legacy,vma_flags]() helpers
+  tools/testing/vma: test that legacy flag helpers work correctly
+  mm/vma: introduce vma_test[_any[_mask]](), and make inlining
+    consistent
+  tools/testing/vma: update VMA flag tests to test vma_test[_any_mask]()
+  mm: introduce vma_flags_count() and vma[_flags]_test_single_mask()
+  tools/testing/vma: test vma_flags_count,vma[_flags]_test_single_mask
+  mm: convert do_brk_flags() to use vma_flags_t
+  mm: update vma_supports_mlock() to use new VMA flags
+  mm/vma: introduce vma_clear_flags[_mask]()
+  tools/testing/vma: update VMA tests to test vma_clear_flags[_mask]()
+  mm/vma: convert as much as we can in mm/vma.c to vma_flags_t
+  tools: bitmap: add missing bitmap_copy() implementation
+  mm/vma: convert vma_modify_flags[_uffd]() to use vma_flags_t
+  mm/vma: convert __mmap_region() to use vma_flags_t
+  mm: simplify VMA flag tests of excluded flags
 
-into a helper, all of this somewhat messy goto error_handling stuff can
-go away.
+ arch/arc/include/asm/page.h        |   2 +-
+ arch/arm/include/asm/page.h        |   2 +-
+ arch/arm64/include/asm/page.h      |   7 +-
+ arch/hexagon/include/asm/page.h    |   2 +-
+ arch/loongarch/include/asm/page.h  |   2 +-
+ arch/mips/include/asm/page.h       |   2 +-
+ arch/nios2/include/asm/page.h      |   2 +-
+ arch/powerpc/include/asm/page.h    |   4 +-
+ arch/powerpc/include/asm/page_32.h |   2 +-
+ arch/powerpc/include/asm/page_64.h |  12 +-
+ arch/riscv/include/asm/page.h      |   2 +-
+ arch/s390/include/asm/page.h       |   2 +-
+ arch/x86/include/asm/page_types.h  |   2 +-
+ arch/x86/um/asm/vm-flags.h         |   4 +-
+ fs/binfmt_elf.c                    |   3 +-
+ include/linux/ksm.h                |  10 +-
+ include/linux/mm.h                 | 352 +++++++++++++++++++++-------
+ include/linux/mm_types.h           |  52 ++++-
+ include/linux/mman.h               |  49 ----
+ include/linux/userfaultfd_k.h      |   3 +
+ mm/internal.h                      |   7 +-
+ mm/ksm.c                           |  43 ++--
+ mm/madvise.c                       |  10 +-
+ mm/mlock.c                         |  38 +--
+ mm/mmap.c                          |  19 +-
+ mm/mprotect.c                      |  49 ++--
+ mm/mremap.c                        |   6 +-
+ mm/mseal.c                         |  11 +-
+ mm/userfaultfd.c                   |  21 +-
+ mm/vma.c                           | 210 ++++++++++-------
+ mm/vma.h                           |  84 ++++++-
+ mm/vma_exec.c                      |   5 +-
+ security/selinux/hooks.c           |   4 +-
+ tools/include/linux/bitmap.h       |  24 ++
+ tools/lib/bitmap.c                 |  10 +
+ tools/testing/vma/include/custom.h |  25 --
+ tools/testing/vma/include/dup.h    | 309 ++++++++++++++++++-------
+ tools/testing/vma/include/stubs.h  |  11 +-
+ tools/testing/vma/shared.c         |   8 +-
+ tools/testing/vma/shared.h         |  22 +-
+ tools/testing/vma/tests/merge.c    | 311 +++++++++++++------------
+ tools/testing/vma/tests/mmap.c     |  18 +-
+ tools/testing/vma/tests/vma.c      | 359 +++++++++++++++++++++++++----
+ tools/testing/vma/vma_internal.h   |   6 +
+ 44 files changed, 1463 insertions(+), 663 deletions(-)
 
--- 
-Jens Axboe
+--
+2.53.0
