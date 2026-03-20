@@ -1,364 +1,174 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D20C13BE17A
-	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Mar 2026 13:44:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77CED28003A
+	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Mar 2026 13:47:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774014249; cv=none; b=Sn2dpXRHMi1WImlpfO99YbIiTz5TwxFlnns4hmhcSzsPBEbnYwawnXk9aI3PVpRh4jjGIB+RxENRDzXNmHx1ZYCGNqs3hikWb+IjoKFIeEM2j7E/pTp8A1H8PdiXrviWA5LKd4HgtjmXN0YTDj9MzS7mG0mfoJ9HJL9SDFVzqZ0=
+	t=1774014430; cv=none; b=EbP4oNd8JFxOgJQM3Xu+ScI3499wyF+lt6NOg10Ub8NHtTHqqlipVmrIOh32lyi64OHj4EKN4ZEr2/zexhjI00InS3bZ9cSsERzYu/16Av8szwlThcyyWOjqrLKJV5qGqfit9obcOwjtDoyaUU0xbv39VBB6nCH3ICp9XGu2Qc0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774014249; c=relaxed/simple;
-	bh=u3porfR07OCSVbnK5mwmJNrIjfzwKCHhr+GnDb/R8VQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rUF6Z2HK+xombqbIqTamP4LFXS5AHD5AnxVe/RvitA/JT96mQlkhZ3eXY7mAbrB627GC9OLTWJcTzgufkF7f/cc4onDlAjecDkFbps7uDTIltqfo5uGZOiXbn5YMGiBWWDs7F0vKZaNErQh0z388ZpnI+1lQRgw9fDSIzPuxBfw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; arc=none smtp.client-ip=195.135.223.130
+	s=arc-20240116; t=1774014430; c=relaxed/simple;
+	bh=pVERjWs96rSgwkx7DTx4lvrMNHsxloAoqWeizGr5sg0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IeS/vy3Ry3bvT9txV6oLPvQND5ENMkIhPnH/2z0/ZNDSP5HYoxwIWz+q0gE0vy1kD3R9vj1USi4+D5WOHf9e9UhYJdeTV2pBvL/kk49BHzanwa3yqz6D0vSG5CNwJNnN1Wzz4gStRT7rgBiFRwuoMWfIaCACYCvyTWnZwY1WW9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=XiYPAIme; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Riv3r3U4; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=XiYPAIme; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Riv3r3U4; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="XiYPAIme";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Riv3r3U4";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="XiYPAIme";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Riv3r3U4"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 00D984D430;
-	Fri, 20 Mar 2026 13:41:46 +0000 (UTC)
-Authentication-Results: smtp-out1.suse.de;
-	none
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 2B9435BE0C;
+	Fri, 20 Mar 2026 13:47:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1774014427; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FB2fiQ0cjoEpu/qGNrEctnM3RzKFuHSEIyrtHJjfqQg=;
+	b=XiYPAIme+m5drjp6bc9TampjpCODhLtv189M2HnxC2VSU7MNKwYbr89GgfDiCEirlNADUH
+	HwtvtpplJPx54drs3R9knpyZvFv9ZTjVdrhpBK5JtJjgO6OrCaA5ljtrjG3wdW82YR+t5P
+	idg2N6f6kB6KlRdRl7ci28d7/rjKEjY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1774014427;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FB2fiQ0cjoEpu/qGNrEctnM3RzKFuHSEIyrtHJjfqQg=;
+	b=Riv3r3U49zeI7XfRexHJeOwQ4M9Iw6pd6Q0VUPoaYZewwRHh6CD/59QMwrt2MOPwMxnHTo
+	sY2z2zy1LIgy+aAw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=XiYPAIme;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=Riv3r3U4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1774014427; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FB2fiQ0cjoEpu/qGNrEctnM3RzKFuHSEIyrtHJjfqQg=;
+	b=XiYPAIme+m5drjp6bc9TampjpCODhLtv189M2HnxC2VSU7MNKwYbr89GgfDiCEirlNADUH
+	HwtvtpplJPx54drs3R9knpyZvFv9ZTjVdrhpBK5JtJjgO6OrCaA5ljtrjG3wdW82YR+t5P
+	idg2N6f6kB6KlRdRl7ci28d7/rjKEjY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1774014427;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FB2fiQ0cjoEpu/qGNrEctnM3RzKFuHSEIyrtHJjfqQg=;
+	b=Riv3r3U49zeI7XfRexHJeOwQ4M9Iw6pd6Q0VUPoaYZewwRHh6CD/59QMwrt2MOPwMxnHTo
+	sY2z2zy1LIgy+aAw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E75CC4281A;
-	Fri, 20 Mar 2026 13:41:45 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1D3794281C;
+	Fri, 20 Mar 2026 13:47:07 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id E0N5OJlOvWmgCQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Fri, 20 Mar 2026 13:41:45 +0000
+	id 1UMeB9tPvWksDwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Fri, 20 Mar 2026 13:47:07 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id B40BAA0A81; Fri, 20 Mar 2026 14:41:45 +0100 (CET)
+	id D1B0FA0A81; Fri, 20 Mar 2026 14:47:06 +0100 (CET)
+Date: Fri, 20 Mar 2026 14:47:06 +0100
 From: Jan Kara <jack@suse.cz>
-To: <linux-fsdevel@vger.kernel.org>
-Cc: <linux-block@vger.kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Al Viro <viro@ZenIV.linux.org.uk>,
-	<linux-ext4@vger.kernel.org>,
-	Ted Tso <tytso@mit.edu>,
-	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
-	David Sterba <dsterba@suse.com>,
-	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
-	Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	David Hildenbrand <david@kernel.org>,
-	linux-mm@kvack.org,
-	linux-aio@kvack.org,
-	Benjamin LaHaise <bcrl@kvack.org>,
-	Jan Kara <jack@suse.cz>
-Subject: [PATCH 41/41] fs: Unify generic_file_fsync() with mmb methods
-Date: Fri, 20 Mar 2026 14:41:36 +0100
-Message-ID: <20260320134100.20731-82-jack@suse.cz>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260320131728.6449-1-jack@suse.cz>
-References: <20260320131728.6449-1-jack@suse.cz>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, 
+	rppt@kernel.org, pratyush@kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, akpm@linux-foundation.org, linux-mm@kvack.org
+Subject: Re: [RFC] liveupdate: prevent double preservation
+Message-ID: <gdu6kqpymqgkzbw2yrvvsrububimn2ocuyi533d6llofqu32kd@sqc6d6hsuzic>
+References: <20260317023834.487682-1-pasha.tatashin@soleen.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=10120; i=jack@suse.cz; h=from:subject; bh=u3porfR07OCSVbnK5mwmJNrIjfzwKCHhr+GnDb/R8VQ=; b=owEBbQGS/pANAwAIAZydqgc/ZEDZAcsmYgBpvU6PfWFNF+k1rQzIhgJAYYebiqgveBacW4oG8 qimx8h0nMmJATMEAAEIAB0WIQSrWdEr1p4yirVVKBycnaoHP2RA2QUCab1OjwAKCRCcnaoHP2RA 2cTLCACwh4E0JVe7BO+48vRSYOUK8hnfU856Oyx3btgU/BDTI49z5bh2XML2yiFpSgWzTSsoYH8 WdAo6pdqwRuihDoPDRVbGOw+vzMzm9+4S4i/e51Gf4MnjPi0JfmYxR8imaaiDxb1ad8wPU9Hzcs 9uAG1BUQqCm7nnN62hSA1AxqqA33vyMMlPp32DDis2B/jC268SLTiWcjaqUt5LvrRkBIIKT/ZJV jz6FojU4Jfhes0T7iG7G3lLkAQs+4FYgnla/P19Af/WEGDWfSwqXlQV8d5eJ8C1rnvdAbU4Uf6d 4Xoe8e6DjRa1Js4mT9uxlwtvoeylfEjgDQsFYt3eKJqqC4VP
-X-Developer-Key: i=jack@suse.cz; a=openpgp; fpr=93C6099A142276A28BBE35D815BC833443038D8C
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	REPLY(-4.00)[];
-	TAGGED_RCPT(0.00)[];
-	R_RATELIMIT(0.00)[to(RLpnp1psq57oqao6ocwdpbxen9)]
-X-Rspamd-Queue-Id: 00D984D430
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260317023834.487682-1-pasha.tatashin@soleen.com>
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	MISSING_XM_UA(0.00)[];
+	ARC_NA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:dkim,suse.cz:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_COUNT_THREE(0.00)[3];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DKIM_TRACE(0.00)[suse.cz:+]
 X-Rspamd-Action: no action
 X-Spam-Flag: NO
-X-Spam-Score: -4.00
+X-Spam-Score: -4.01
 X-Spam-Level: 
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 2B9435BE0C
 
-__generic_file_fsync() is practically identical to
-generic_mmb_fsync_noflush() with one subtle difference:
+On Mon 16-03-26 22:38:34, Pasha Tatashin wrote:
+> Currently, LUO does not prevent the same file from being preserved twice
+> across different active sessions.
+> 
+> Add a new i_state flag I_LUO_PRESERVED and update luo_preserve_file()
+> to check and set this flag when a file is preserved, and clear it in
+> luo_file_unpreserve_files() when it is released. This ensures that the
+> same file (inode) cannot be preserved by multiple sessions. If another
+> session attempts to preserve an already preserved file, it will now
+> fail with -EBUSY.
+> 
+> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> ---
+> 
+> Background:
+> Because LUO preserves files of absolutely different types: memfd, and
+> upcoming  vfiofd [1], iommufd [2], guestmefd (and possible kvmfd/cpufd).
+> There is no common private data or guarantee on how to prevent that the
+> same file is not preserved twice beside using inode or some slower and
+> expensive method like hashtables.
 
-1) __generic_file_fsync() takes inode lock when calling writing out the
-inode.
-2) generic_mmb_fsync_noflush() calls mmb_sync_buffers().
+OK, I guess since this is a single bit, we can live with that although it
+seems a bit wrong that LUO needs this in generic struct inode. But all
+other "cleaner" variants I could think of were just an overkill. So feel
+free to add:
 
-Taking inode lock when writing out the inode seems pointless in
-particular because there are lots of places (most notably sync(2) path)
-that don't do that so hardly anything can depend on it. When NULL is
-passed to generic_mmb_fsync_noflush(), mmb_sync_buffers() is not called
-so that difference is not a problem.
+Acked-by: Jan Kara <jack@suse.cz>
 
-So let's remove __generic_file_fsync() and use
-generic_mmb_fsync_noflush() instead to reduce code duplication. Arguably
-this leaks a bit of buffer_head knowledge into fs/libfs.c which is not
-great but avoiding the duplication seems worth it.
+Just one nit below:
 
-Signed-off-by: Jan Kara <jack@suse.cz>
----
- fs/buffer.c                 | 74 -------------------------------------
- fs/exfat/file.c             |  2 +-
- fs/libfs.c                  | 57 ++++++++++++++++------------
- include/linux/buffer_head.h |  5 ---
- include/linux/fs.h          | 12 +++++-
- 5 files changed, 45 insertions(+), 105 deletions(-)
+> [1] https://lore.kernel.org/all/20260129212510.967611-1-dmatlack@google.com
+> [2] https://lore.kernel.org/all/20260203220948.2176157-1-skhawaja@google.com
+> 
+> @@ -744,7 +746,8 @@ enum inode_state_flags_enum {
+>  	I_CREATING		= (1U << 15),
+>  	I_DONTCACHE		= (1U << 16),
+>  	I_SYNC_QUEUED		= (1U << 17),
+> -	I_PINNING_NETFS_WB	= (1U << 18)
+> +	I_PINNING_NETFS_WB	= (1U << 18),
+> +	I_LUO_PRESERVED		= (1U << 19)
 
-diff --git a/fs/buffer.c b/fs/buffer.c
-index 43aca5b7969f..591aed740601 100644
---- a/fs/buffer.c
-+++ b/fs/buffer.c
-@@ -621,80 +621,6 @@ int mmb_sync_buffers(struct mapping_metadata_bhs *mmb)
- }
- EXPORT_SYMBOL(mmb_sync_buffers);
- 
--/**
-- * generic_mmb_fsync_noflush - generic buffer fsync implementation
-- * for simple filesystems with no inode lock
-- *
-- * @file:	file to synchronize
-- * @mmb:	list of metadata bhs to flush
-- * @start:	start offset in bytes
-- * @end:	end offset in bytes (inclusive)
-- * @datasync:	only synchronize essential metadata if true
-- *
-- * This is a generic implementation of the fsync method for simple
-- * filesystems which track all non-inode metadata in the buffers list
-- * hanging off the address_space structure.
-- */
--int generic_mmb_fsync_noflush(struct file *file,
--			      struct mapping_metadata_bhs *mmb,
--			      loff_t start, loff_t end, bool datasync)
--{
--	struct inode *inode = file->f_mapping->host;
--	int err;
--	int ret = 0;
--
--	err = file_write_and_wait_range(file, start, end);
--	if (err)
--		return err;
--
--	if (mmb)
--		ret = mmb_sync_buffers(mmb);
--	if (!(inode_state_read_once(inode) & I_DIRTY_ALL))
--		goto out;
--	if (datasync && !(inode_state_read_once(inode) & I_DIRTY_DATASYNC))
--		goto out;
--
--	err = sync_inode_metadata(inode, 1);
--	if (ret == 0)
--		ret = err;
--
--out:
--	/* check and advance again to catch errors after syncing out buffers */
--	err = file_check_and_advance_wb_err(file);
--	if (ret == 0)
--		ret = err;
--	return ret;
--}
--EXPORT_SYMBOL(generic_mmb_fsync_noflush);
--
--/**
-- * generic_mmb_fsync - generic buffer fsync implementation
-- * for simple filesystems with no inode lock
-- *
-- * @file:	file to synchronize
-- * @mmb:	list of metadata bhs to flush
-- * @start:	start offset in bytes
-- * @end:	end offset in bytes (inclusive)
-- * @datasync:	only synchronize essential metadata if true
-- *
-- * This is a generic implementation of the fsync method for simple
-- * filesystems which track all non-inode metadata in the buffers list
-- * hanging off the address_space structure. This also makes sure that
-- * a device cache flush operation is called at the end.
-- */
--int generic_mmb_fsync(struct file *file, struct mapping_metadata_bhs *mmb,
--		      loff_t start, loff_t end, bool datasync)
--{
--	struct inode *inode = file->f_mapping->host;
--	int ret;
--
--	ret = generic_mmb_fsync_noflush(file, mmb, start, end, datasync);
--	if (!ret)
--		ret = blkdev_issue_flush(inode->i_sb->s_bdev);
--	return ret;
--}
--EXPORT_SYMBOL(generic_mmb_fsync);
--
- /*
-  * Called when we've recently written block `bblock', and it is known that
-  * `bblock' was for a buffer_boundary() buffer.  This means that the block at
-diff --git a/fs/exfat/file.c b/fs/exfat/file.c
-index 90cd540afeaa..fe6eb391eb4e 100644
---- a/fs/exfat/file.c
-+++ b/fs/exfat/file.c
-@@ -577,7 +577,7 @@ int exfat_file_fsync(struct file *filp, loff_t start, loff_t end, int datasync)
- 	if (unlikely(exfat_forced_shutdown(inode->i_sb)))
- 		return -EIO;
- 
--	err = __generic_file_fsync(filp, start, end, datasync);
-+	err = generic_mmb_fsync_noflush(filp, NULL, start, end, datasync);
- 	if (err)
- 		return err;
- 
-diff --git a/fs/libfs.c b/fs/libfs.c
-index 548e119668df..7c1d78862e39 100644
---- a/fs/libfs.c
-+++ b/fs/libfs.c
-@@ -18,7 +18,7 @@
- #include <linux/exportfs.h>
- #include <linux/iversion.h>
- #include <linux/writeback.h>
--#include <linux/buffer_head.h> /* sync_mapping_buffers */
-+#include <linux/buffer_head.h> /* mmb_sync_buffers() */
- #include <linux/fs_context.h>
- #include <linux/pseudo_fs.h>
- #include <linux/fsnotify.h>
-@@ -1539,19 +1539,22 @@ struct dentry *generic_fh_to_parent(struct super_block *sb, struct fid *fid,
- EXPORT_SYMBOL_GPL(generic_fh_to_parent);
- 
- /**
-- * __generic_file_fsync - generic fsync implementation for simple filesystems
-+ * generic_mmb_fsync_noflush - generic buffer fsync implementation
-+ * for simple filesystems with no inode lock
-  *
-- * @file:	file to synchronize
-- * @start:	start offset in bytes
-- * @end:	end offset in bytes (inclusive)
-- * @datasync:	only synchronize essential metadata if true
-+ * @file:       file to synchronize
-+ * @mmb:        list of metadata bhs to flush
-+ * @start:      start offset in bytes
-+ * @end:        end offset in bytes (inclusive)
-+ * @datasync:   only synchronize essential metadata if true
-  *
-  * This is a generic implementation of the fsync method for simple
-  * filesystems which track all non-inode metadata in the buffers list
-  * hanging off the address_space structure.
-  */
--int __generic_file_fsync(struct file *file, loff_t start, loff_t end,
--				 int datasync)
-+int generic_mmb_fsync_noflush(struct file *file,
-+			      struct mapping_metadata_bhs *mmb,
-+			      loff_t start, loff_t end, bool datasync)
- {
- 	struct inode *inode = file->f_mapping->host;
- 	int err;
-@@ -1561,45 +1564,53 @@ int __generic_file_fsync(struct file *file, loff_t start, loff_t end,
- 	if (err)
- 		return err;
- 
--	inode_lock(inode);
-+	if (mmb)
-+		ret = mmb_sync_buffers(mmb);
- 	if (!(inode_state_read_once(inode) & I_DIRTY_ALL))
- 		goto out;
- 	if (datasync && !(inode_state_read_once(inode) & I_DIRTY_DATASYNC))
- 		goto out;
- 
--	ret = sync_inode_metadata(inode, 1);
-+	err = sync_inode_metadata(inode, 1);
-+	if (ret == 0)
-+		ret = err;
-+
- out:
--	inode_unlock(inode);
- 	/* check and advance again to catch errors after syncing out buffers */
- 	err = file_check_and_advance_wb_err(file);
- 	if (ret == 0)
- 		ret = err;
- 	return ret;
- }
--EXPORT_SYMBOL(__generic_file_fsync);
-+EXPORT_SYMBOL(generic_mmb_fsync_noflush);
- 
- /**
-- * generic_file_fsync - generic fsync implementation for simple filesystems
-- *			with flush
-+ * generic_mmb_fsync - generic buffer fsync implementation
-+ * for simple filesystems with no inode lock
-+ *
-  * @file:	file to synchronize
-+ * @mmb:	list of metadata bhs to flush
-  * @start:	start offset in bytes
-  * @end:	end offset in bytes (inclusive)
-  * @datasync:	only synchronize essential metadata if true
-  *
-+ * This is a generic implementation of the fsync method for simple
-+ * filesystems which track all non-inode metadata in the buffers list
-+ * hanging off the address_space structure. This also makes sure that
-+ * a device cache flush operation is called at the end.
-  */
--
--int generic_file_fsync(struct file *file, loff_t start, loff_t end,
--		       int datasync)
-+int generic_mmb_fsync(struct file *file, struct mapping_metadata_bhs *mmb,
-+		      loff_t start, loff_t end, bool datasync)
- {
- 	struct inode *inode = file->f_mapping->host;
--	int err;
-+	int ret;
- 
--	err = __generic_file_fsync(file, start, end, datasync);
--	if (err)
--		return err;
--	return blkdev_issue_flush(inode->i_sb->s_bdev);
-+	ret = generic_mmb_fsync_noflush(file, mmb, start, end, datasync);
-+	if (!ret)
-+		ret = blkdev_issue_flush(inode->i_sb->s_bdev);
-+	return ret;
- }
--EXPORT_SYMBOL(generic_file_fsync);
-+EXPORT_SYMBOL(generic_mmb_fsync);
- 
- /**
-  * generic_check_addressable - Check addressability of file system
-diff --git a/include/linux/buffer_head.h b/include/linux/buffer_head.h
-index 74fcc9a03c32..f003a1937826 100644
---- a/include/linux/buffer_head.h
-+++ b/include/linux/buffer_head.h
-@@ -207,11 +207,6 @@ void end_buffer_write_sync(struct buffer_head *bh, int uptodate);
- 
- /* Things to do with metadata buffers list */
- void mmb_mark_buffer_dirty(struct buffer_head *bh, struct mapping_metadata_bhs *mmb);
--int generic_mmb_fsync_noflush(struct file *file,
--			      struct mapping_metadata_bhs *mmb,
--			      loff_t start, loff_t end, bool datasync);
--int generic_mmb_fsync(struct file *file, struct mapping_metadata_bhs *mmb,
--		      loff_t start, loff_t end, bool datasync);
- void clean_bdev_aliases(struct block_device *bdev, sector_t block,
- 			sector_t len);
- static inline void clean_bdev_bh_alias(struct buffer_head *bh)
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index caa9203ed213..32178e53d448 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -3298,8 +3298,16 @@ void simple_offset_destroy(struct offset_ctx *octx);
- 
- extern const struct file_operations simple_offset_dir_operations;
- 
--extern int __generic_file_fsync(struct file *, loff_t, loff_t, int);
--extern int generic_file_fsync(struct file *, loff_t, loff_t, int);
-+int generic_mmb_fsync_noflush(struct file *file,
-+			      struct mapping_metadata_bhs *mmb,
-+			      loff_t start, loff_t end, bool datasync);
-+int generic_mmb_fsync(struct file *file, struct mapping_metadata_bhs *mmb,
-+		      loff_t start, loff_t end, bool datasync);
-+static inline int generic_file_fsync(struct file *file,
-+				     loff_t start, loff_t end, int datasync)
-+{
-+	return generic_mmb_fsync(file, NULL, start, end, datasync);
-+}
- 
- extern int generic_check_addressable(unsigned, u64);
- 
+Add comma at the end of line here please so that we don't have to modify
+the last line again.
+
+								Honza
+
 -- 
-2.51.0
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
