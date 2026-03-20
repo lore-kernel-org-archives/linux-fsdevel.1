@@ -1,100 +1,102 @@
-Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com [209.85.210.69])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F20337187F
-	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Mar 2026 08:16:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F07E5EED8;
+	Fri, 20 Mar 2026 08:48:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773994608; cv=none; b=L/Tc6NTC0gknUiuWj3Ht+IbNCxcplaVYtYy5L25tozi1/NcRY33LJrSQ0qLfsntDKy/h8OI1AC1tzE67LaeRadXXypCoGjWfV8OmVjTl5LgEIGcMCFTpkYhKMB2ZM4smYDhLyY0Ca2OCMEkDkYMdxV8LFBj4YIIXVL5reRpmFN4=
+	t=1773996534; cv=none; b=qADCKfc2+fPIjmW0GWRi/NFkeAhBMFAD6CfB/2YfFZP3DQ5SXMysU+wjgSyxdtMwhRy3vhY/EoJN/fpH+YaBBIralBjbW2YXpKAchXMkpSlrfoTXjuf744oOOzz8ieF9nek1llBOdXmNj3L8SqLy9rGkq+Mr7K96S8SeDtnC8Bo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773994608; c=relaxed/simple;
-	bh=bjrJ4S/FsINr/81pbIi6jj6PljV4RiGl0H45oSmv7pU=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
-	 Content-Type; b=FWQTwHSOLfFHn+8FfzxvNtjpKrZ6VzG0PzOHQhr8g+z85CiJN9DwYV/gkUsdp98QlXQCYKx/R/NxxUUg3/S0wO4JAWgVLFq/VKyBKO7CQ5BC+0qmkmFBkSvvvwKyKUa15eSNjW5u09R6EOix5XkmNqlnVjb9ylc5OmL9YxI8jiY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-ot1-f69.google.com with SMTP id 46e09a7af769-7d7e9eefb7aso4941101a34.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 20 Mar 2026 01:16:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773994606; x=1774599406;
-        h=cc:to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GaqbpFLjq54QozbnajqIPY0nFpUhUrZICyVqRPZuQEY=;
-        b=krj8osmox+LtLf9d+q4jl6lJvf6q7vhW65zjSDFWJD/CPhAuHpcNsidfH1WFLhE8NG
-         aPLJWIj3nNISNhVlF2nyuCxmvBcdybn0hS/sY5w84A1A1+feHbZntKrCC280PNo7/shT
-         Yc0IUZEZ5gKCMEXd/+GzamiY1RLRw4nCY+lexFKM2cICQhFrK+12OHGp91RLiwCnI2UE
-         jEPL+iFQeEgCg9EKOC20PyAko/Ai1+/C2R2UKZC1rB8vfNEwGzpwM9KzxemqujDFZbmX
-         JcXAuCsnX7xo/I0mipiGn+Jqw94GImblPOY1BUDX/BxKwghFc8m8TsXFoOEn/Fk6Dcoa
-         lcqw==
-X-Forwarded-Encrypted: i=1; AJvYcCV/OvcP37ulflhSNshQEglhGH8BHHeBjoaBvmja9LpDgCNpTFs3LPrZ+9cWb7q21nvniWwheCbcaxh8FFr0@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx1nxbmrai+WpasMxUZXCm+S+li1tq+DpCaAZlFkEbUHLIOfnlB
-	vNIU5j16CQ38QKnfO5lzY5x+qG4/deXxX3htTPJ9p93RWfM+gMrPwspo21uIGa8J1jmcI6+5Ila
-	7Q5dXs0bGfkxLBYryuSkGSquLUIvcQxNlrDDH0Pdfax2BvbrzIK1e1vQLQfI=
+	s=arc-20240116; t=1773996534; c=relaxed/simple;
+	bh=AVThdTFHSI3D63/uFwXEr2OGdo0OiWz7degFLaawtVQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fKQKs9p60A5yWf0Fw24+j1F7HOZD7692Tc7G05hwbKm7BwVz7v9IjFW7IBwbTRyZgWmr7FhKcLqNAjczJh0DoskxAlmxB9C5ZsJARxXqE7SBnP2z3ioSCDmWYwzet6Yw7Jp2jcUBedoBPSiz0zUIMNaFA7a7sxn8Imov91VC9Tk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aVDuHUfd; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aVDuHUfd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69C6FC4CEF7;
+	Fri, 20 Mar 2026 08:48:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773996533;
+	bh=AVThdTFHSI3D63/uFwXEr2OGdo0OiWz7degFLaawtVQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=aVDuHUfdDD8S+qMhhcb+8iyq+IuTk2K0qpRAv1mnSPjQTT7GWau5uX1CNTdDtfR/0
+	 LFp++8Dnz2QwIE1kWsO/Av6uPpJORJ9xnJDFjFTcwzcgktO9VxcKv+wSUvrzz529wf
+	 Jleh6q8+Izcw8eTwQjx9H+19qhhqrrp8JH/iFcDfQPCQTH5ptvLmvsD0tj3RuwnSdm
+	 11tBmRkm8T9VJyB6mHacHEUYXp0QrFVfjmR41FNwWWw2f9UTt8GR5oY9fomV0MX3gt
+	 Xge1GZpeSPAeqwc5HQZYEgN6ad+xpQ+XJTcqZodE/t9TJgLMJDqXmC2Sy8iqPyspGC
+	 oOpqQ4TUqrEMQ==
+Message-ID: <7bd728dc-f370-4e64-a120-bd8fdcd3207a@kernel.org>
+Date: Fri, 20 Mar 2026 09:48:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:228f:b0:67b:c536:c629 with SMTP id
- 006d021491bc7-67c22bcc8e1mr1309137eaf.8.1773994606490; Fri, 20 Mar 2026
- 01:16:46 -0700 (PDT)
-Date: Fri, 20 Mar 2026 01:16:46 -0700
-In-Reply-To: <20260319043553.301185-1-dxdt@dev.snart.me>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <69bd026e.050a0220.3bf4de.0012.GAE@google.com>
-Subject: [syzbot ci] Re: exfat: add limited FALLOC_FL_ZERO_RANGE support
-From: syzbot ci <syzbot+ci684179a8afcfdab1@syzkaller.appspotmail.com>
-To: dxdt@dev.snart.me, linkinjeon@kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, sj1557.seo@samsung.com, yuezhang.mo@sony.com
-Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 13/23] mm/vma: introduce vma_test[_any[_mask]](), and
+ make inlining consistent
+Content-Language: en-US
+To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: David Hildenbrand <david@kernel.org>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>, Jann Horn <jannh@google.com>,
+ Pedro Falcato <pfalcato@suse.de>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Kees Cook <kees@kernel.org>,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ Vineet Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Brian Cain <bcain@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
+ WANG Xuerui <kernel@xen0n.name>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Dinh Nguyen <dinguyen@kernel.org>, Madhavan Srinivasan
+ <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>,
+ Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <chleroy@kernel.org>,
+ Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>, Richard Weinberger <richard@nod.at>,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ Johannes Berg <johannes@sipsolutions.net>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Xu Xin <xu.xin16@zte.com.cn>, Chengming Zhou <chengming.zhou@linux.dev>,
+ Michal Hocko <mhocko@suse.com>, Paul Moore <paul@paul-moore.com>,
+ Stephen Smalley <stephen.smalley.work@gmail.com>,
+ Ondrej Mosnacek <omosnace@redhat.com>, linux-snps-arc@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-hexagon@vger.kernel.org,
+ loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org, linux-um@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, selinux@vger.kernel.org
+References: <cover.1773846935.git.ljs@kernel.org>
+ <7ea63af87bd35f20b204a14ad4912592e02b15a6.1773846935.git.ljs@kernel.org>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+In-Reply-To: <7ea63af87bd35f20b204a14ad4912592e02b15a6.1773846935.git.ljs@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-syzbot ci has tested the following series
+On 3/18/26 16:50, Lorenzo Stoakes (Oracle) wrote:
+> Introduce helper functions and macros to make it convenient to test flags
+> and flag masks for VMAs, specifically:
+> 
+> * vma_test() - determine if a single VMA flag is set in a VMA.
+> * vma_test_any_mask() - determine if any flags in a vma_flags_t value are
+> 			set in a VMA.
+> * vma_test_any() - Helper macro to test if any of specific flags are set.
+> 
+> Also, there are a mix of 'inline's and '__always_inline's in VMA helper
+> function declarations, update to consistently use __always_inline.
+> 
+> Finally, update the VMA tests to reflect the changes.
+> 
+> Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
 
-[v0] exfat: add limited FALLOC_FL_ZERO_RANGE support
-https://lore.kernel.org/all/20260319043553.301185-1-dxdt@dev.snart.me
-* [PATCH v0 1/1] exfat: add limited FALLOC_FL_ZERO_RANGE support
+Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 
-and found the following issue:
-WARNING: lock held when returning to user space in exfat_fallocate
-
-Full report is available here:
-https://ci.syzbot.org/series/a58a79c9-a4e7-40b7-a5d3-8d4da244a00c
-
-***
-
-WARNING: lock held when returning to user space in exfat_fallocate
-
-tree:      linux-next
-URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/next/linux-next
-base:      b5d083a3ed1e2798396d5e491432e887da8d4a06
-arch:      amd64
-compiler:  Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
-config:    https://ci.syzbot.org/builds/6a43cfef-5b9a-4b39-a6b0-7d34bfb0f7b7/config
-C repro:   https://ci.syzbot.org/findings/87d27fd2-e5b7-4174-8faf-3b746f7aa18d/c_repro
-syz repro: https://ci.syzbot.org/findings/87d27fd2-e5b7-4174-8faf-3b746f7aa18d/syz_repro
-
-exFAT-fs (loop0): failed to load upcase table (idx : 0x0000fd4f, chksum : 0x395e47cf, utbl_chksum : 0xe619d30d)
-exFAT-fs (loop0): valid_size(150994954) is greater than size(10)
-================================================
-WARNING: lock held when returning to user space!
-syzkaller #0 Not tainted
-------------------------------------------------
-syz.0.17/5982 is leaving the kernel with locks still held!
-1 lock held by syz.0.17/5982:
- #0: ffff8881bc75c110 (&sb->s_type->i_mutex_key#24){+.+.}-{4:4}, at: inode_lock include/linux/fs.h:1028 [inline]
- #0: ffff8881bc75c110 (&sb->s_type->i_mutex_key#24){+.+.}-{4:4}, at: exfat_fallocate+0x163/0x4e0 fs/exfat/file.c:131
-
-
-***
-
-If these findings have caused you to resend the series or submit a
-separate fix, please add the following tag to your commit message:
-  Tested-by: syzbot@syzkaller.appspotmail.com
-
----
-This report is generated by a bot. It may contain errors.
-syzbot ci engineers can be reached at syzkaller@googlegroups.com.
