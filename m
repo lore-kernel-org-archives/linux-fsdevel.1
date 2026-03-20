@@ -1,229 +1,269 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010053.outbound.protection.outlook.com [52.101.201.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C87CC3D3304
-	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Mar 2026 17:25:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BCDC2AE68;
+	Fri, 20 Mar 2026 17:29:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.53
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774027512; cv=pass; b=RxgedjSMSF1Ndya0VRtyA/fb5GqniYs7uPWgqPwKf4xotdpc639G5nT03JreZzUS5b8iO+dsCLu5iyD69iQ+sGm62De0alLuTo5lkuhxOKDwK7TdIO2E09DdtPbLgeSkUmA60g6jUq1Cjdm2k0l27QjohuGHucWiQv8oGScyP0M=
+	t=1774027796; cv=fail; b=uXed6SE7SY3FM8M0s2b6XgiP9/w4UC9A7EHENgQ0ljiikkQQxoBOgLlU2shMMDgMw0LJmTLHIzNOF6ot3lEjEwOB2T+ZBTnad5Ld6FzB9EFubGoU5mgeOdkulAIh9XHe6CiTp7/OsamX0e4jYIXn++1KZrrhw/crgnG9vpka3yQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774027512; c=relaxed/simple;
-	bh=UgeXQlPGDlPxGq3slSMV12stmd1VxJnpC2gcHGNFrPY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jwosFF1Ayb+akcUel62XFJQ5NxTwN3s1m9wPRbWG94DtW0n9bn8/k4Gq5mHiqGb+EDSDO0tD57h1bBL6qusk48FazYoCiEMSg5UWtkUl0kxaVN1aDPgoxAPwFqDzz4J72Kd+2bXWg0E0rUA45YnOBrf8UKlUO9Gk2naExUjUu8A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NiPiceKL; arc=pass smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774027796; c=relaxed/simple;
+	bh=lo1/k/swY1uzkjoRlr0Nci+LNbXNzC/uzqfYL6CNmA4=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=RM9QR+oK5WhtCiKWXefGa7bHdAGwApAHyvi4VRF46h9JhKgTPB+gcbk1Q7GlWEKdZrfwb9yyZ/Svwwj498i+IfAsi3mZeQ/FaevNcoZqVlb5QmfMQnQCASOLk/VfKtCmrGoL+PwPqUoqDGE2xVUofCMCKSekt47glG4E6pj2SBQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=hGsDm20c; arc=fail smtp.client-ip=52.101.201.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NiPiceKL"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-486fd3a577eso7110995e9.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 20 Mar 2026 10:25:07 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774027506; cv=none;
-        d=google.com; s=arc-20240605;
-        b=E/eK57qIT5OXg8+BJze0SKam6S8Ryqd42k+gEGVJPa2CxOiLcluNiRqlE+FIcM8QE7
-         0K086fQJFBTYEhd/FtaT+flVkDTJTyLG5ZiRNbuehk/87kCS4LfeM5sl1sdrxTd2Bshp
-         ZuXAouTm7HuZzPqY0qJyeKEhxoyiMzvfgaKPaiWu9TYLGly44Mjsip3QujGg9SATgqAW
-         AhUXaQi/JnxQ314jhrVHBffx9jxgZwa7EBtWuN9OCIls11ed2ml9H6R1M+Gh45l0Mp8e
-         Wey+LMdbkUkBDiuRofkY+S/pDK4yAWe+cPnIn//No9tZ5JNvpSRqFDw4VZjNh60r8tAc
-         HQLQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=cU/+nJJZ/L9CHYBm4FEMqeFeK60NO+uIvGUprvjyUlo=;
-        fh=Rb7GnsONw77xGCRa3o7MlfNYKclax9l1rvoT05X3jfs=;
-        b=Fsf8gKMWZAvd+/mUnemgXEpa6EZHOoIoN6H4XWlPmCErqmP8MM045mL5Oh/nHLyVtG
-         GiThkLibX2Y5d20kW0EwsUrk1//Mu17gBWhtZ5pFCU98cObyiGEUg86wCe86W2fzTnOQ
-         Pv56WQ3jpfyalHmFqsWYqcLkzjb9kPyEUKgdllaofPYxUiO1QxgJyXkN/aZviJ4zsLBR
-         HpPivbiD0aifw+qcJi91FqtGg4mWSLhI+YJPGBGvVvAX0yOgcbi0WqDGcjY9c3YdIoYY
-         AKBCOWlyN9Lo8Q0vxVE7FMrI9nKZMQxK2w9VgahOCZCRz0GXxv7wIb5RIelcTculzaTR
-         x16w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774027506; x=1774632306; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cU/+nJJZ/L9CHYBm4FEMqeFeK60NO+uIvGUprvjyUlo=;
-        b=NiPiceKLN1A6Qyr9IxLKS7YuN4qIr30cFWzdsH3qQFCr7gpLlZUT8hdmKsOYHjZcAJ
-         1U8y694y8oJfpjE4mh0z4X3eW9SeX/oddLaG/4sHofx+iscx7bGqpd1sCLZyawhrQwWN
-         TTv26aStgjJtW3ybBd3bu6Jm4YYmwFSogjPxVl2ZrBgUi+KElyBJoRnQqQQ1ZLEmqbD2
-         gVAlKjOm3tVwJBhjb75VUhuPaI6AlnuOOvgd1foZTC9KWn4teBqKTbzSBI18A1Wj93k/
-         sP5Epma6dovyrUctOBPN9LBzd4uGoCJyPkllJZHUm6gAmP3aUsviVU8OR+FGDEGSLoX/
-         tBXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774027506; x=1774632306;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=cU/+nJJZ/L9CHYBm4FEMqeFeK60NO+uIvGUprvjyUlo=;
-        b=BHREwoDt93eFKHC56jgHBsn6kMFmOaagurKt73xjzg/M2TzWp381oNc47gbn0klHAw
-         RatQRJYaUKsRQZV3ANzWuxRtQBM5fxfo+XEfjscRUJG9a2b0OajvZk4X9x5o9Lwp+hVW
-         JtJVJRloacSfIn7mJhdYwOFhmGfOpcDOrLnqBn3LeRKzrXAlgpBbY37N1XiGeLDFkCjy
-         pH6oBZDkIvZBTHvP4tRM1YB2+cdSWRv8YIN5gTFbJNCcWMrOrP1moHiGGuGJ4W7gaYj1
-         oWoIGMNI7ca4SFyh9gGSuFezwhKsFhXb8hjUM1EsZ01kfBWZGhE709ZHfXvOAR8QE78Q
-         5ZwA==
-X-Forwarded-Encrypted: i=1; AJvYcCV71Csbz9ZwYtaU0RohK1jHT4BLZyneLgDD29WaV0ThLXOtf8NciE0WXXqojGruuVYc7I7F3RfcpkvB2L8C@vger.kernel.org
-X-Gm-Message-State: AOJu0YxjOlul/HGjvwr455mg0W5RWLRKWh3k7Ntp1Ra7N9BAExeHwJ29
-	VEIcxUoj8I65IsDY3unnYqWJseqtP6vu/N8mOKJvjaf1Il3b487ArpkDhrfq6OXn2gqbwOUi/Ek
-	iVeAu2fMT5Ln82cHOo135qsA6N96gHI4=
-X-Gm-Gg: ATEYQzw/VtQIE49gq/OPcBSU1PywmTt1uOSHUnD4T5hU4L+f6RZ4TX4slN1S5Wxc2wG
-	hsPCSj/YKXvvtrJq9mKeY6w6HzBrGAbXf797DFJhPY8MGMt0pA5E6Fe2144agZmKyYuKhCdOkoU
-	RGNG/fvmEikYSJcZNuSzhSdcCwaVDm1uHub90CK6yH+gCgBgI73hA2tVJGh0jaDJ5ZnxZarAVpF
-	hWlLeZBRqGQKr//Jp0/yYrbkBiI1V/MrzKR8r5IvA5LFAxBGPRPJd1pPYcxq6DALH4PTcBB6hCC
-	u1cgWA==
-X-Received: by 2002:a05:600c:8583:b0:485:3f1c:d8a1 with SMTP id
- 5b1f17b1804b1-486fedb9631mr50643855e9.9.1774027505549; Fri, 20 Mar 2026
- 10:25:05 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="hGsDm20c"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=mMk9YP99gCKhz4dD67nsMy5zJEXhi2Bl/E47TgSqct1zk1COOsYYhQxidcmjBki4/0oFRgA1cKgmFMtRhjhnB5GGFEVNdzy6cCZqt1dDzh8u/90qeuwFguqfPq44bQjK5L4U8CdeiiJ05IsytKjNhEsc6/QpJHUlXf7bXVzHlo8nPHGbSaIhy4Lrgi3cTWvumng3UOQ3LwAkzPak076Vpq/kT8WULqIRHq7sRBeGNqIVWAbIapwV7ExSPgvR2K+KnX2qe+VsnkhUNhOsoaaL19sEZJ5AjkjJR7J1LZmuo2rYAMqXgOf+WpiqdI0xpWJHZZR3rl3ILqWbxHI4bYusOQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ycsugbnvTs8eSnNKJbzXMtSehp28U+P/Ble446PXv/c=;
+ b=VlTiPlMXew5tF5DgwY4nBwEHHsw5A4j2knAWpXYDkvzSNZ5fTJc+KbVom2/4FpNKv0ujAR0GOKayp6ezyvz8jLgjt9i01pa4l0GV2ix6QYK2YcEQ0/HpU1OCOcvnps+CAdZh4cHD6DLF36B9LmMMsszg0EAynvAJWJWTJ1BGNUIJH4qn0MJvETXW9NAk2k4GLyLKx/GXrdRZL/TOBKa3E8vcCB8LfUSmkf5z1HV/ACYdEMoU3c50IPfPUvoYB6tUtFPeNJeO5qvToO6tLI7lLVXxYzfCT1zbkLUymBpV0axL9TM7+wN6pGFyK1/bGFFMKWy+CaG3OtOS4rLl1rie1A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ycsugbnvTs8eSnNKJbzXMtSehp28U+P/Ble446PXv/c=;
+ b=hGsDm20csJgo718+Xqzvk8MlDIpZ/mKrc8HRXcWC6lL3xmjhUN85Ym2ac/d7MlOZV/4QX5FTm/69xc8g7bgJQmPml9tTuy8rLbh1NitA6zmPLVrdxDPXsGfHKo3YaDS5bfTtxHV247R28xDATl22jMOXvlYWbYVZTvFUvWs39WM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from LV8PR12MB9714.namprd12.prod.outlook.com (2603:10b6:408:2a0::5)
+ by DM4PR12MB6638.namprd12.prod.outlook.com (2603:10b6:8:b5::5) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9745.9; Fri, 20 Mar 2026 17:29:48 +0000
+Received: from LV8PR12MB9714.namprd12.prod.outlook.com
+ ([fe80::8c9f:3a5b:974b:99c6]) by LV8PR12MB9714.namprd12.prod.outlook.com
+ ([fe80::8c9f:3a5b:974b:99c6%6]) with mapi id 15.20.9745.012; Fri, 20 Mar 2026
+ 17:29:48 +0000
+Message-ID: <d1e077eb-46a5-476b-8fc9-16b28e217dba@amd.com>
+Date: Fri, 20 Mar 2026 10:29:43 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 3/7] dax/cxl, hmem: Initialize hmem early and defer
+ dax_cxl binding
+To: Dan Williams <dan.j.williams@intel.com>,
+ Alison Schofield <alison.schofield@intel.com>,
+ Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>
+Cc: linux-cxl@vger.kernel.org, linux-kernel@vger.kernel.org,
+ nvdimm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+ linux-pm@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>,
+ Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+ Yazen Ghannam <yazen.ghannam@amd.com>, Dave Jiang <dave.jiang@intel.com>,
+ Davidlohr Bueso <dave@stgolabs.net>, Matthew Wilcox <willy@infradead.org>,
+ Jan Kara <jack@suse.cz>, "Rafael J . Wysocki" <rafael@kernel.org>,
+ Len Brown <len.brown@intel.com>, Pavel Machek <pavel@kernel.org>,
+ Li Ming <ming.li@zohomail.com>, Jeff Johnson
+ <jeff.johnson@oss.qualcomm.com>, Ying Huang <huang.ying.caritas@gmail.com>,
+ Yao Xingtao <yaoxt.fnst@fujitsu.com>, Peter Zijlstra <peterz@infradead.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Nathan Fontenot <nathan.fontenot@amd.com>,
+ Terry Bowman <terry.bowman@amd.com>, Robert Richter <rrichter@amd.com>,
+ Benjamin Cheatham <benjamin.cheatham@amd.com>,
+ Zhijian Li <lizhijian@fujitsu.com>, Borislav Petkov <bp@alien8.de>,
+ Tomasz Wolski <tomasz.wolski@fujitsu.com>
+References: <20260319011500.241426-1-Smita.KoralahalliChannabasappa@amd.com>
+ <20260319011500.241426-4-Smita.KoralahalliChannabasappa@amd.com>
+ <abuOLq6bMPa0nNAL@aschofie-mobl2.lan>
+ <3590e2d5-e768-4180-82a0-c972101f3440@amd.com>
+ <b56f55b1-4281-4edf-8aa4-27d0500ebd60@amd.com>
+ <69bc81bfa9baa_7ee310093@dwillia2-mobl4.notmuch>
+Content-Language: en-US
+From: "Koralahalli Channabasappa, Smita" <skoralah@amd.com>
+In-Reply-To: <69bc81bfa9baa_7ee310093@dwillia2-mobl4.notmuch>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BYAPR05CA0106.namprd05.prod.outlook.com
+ (2603:10b6:a03:e0::47) To LV8PR12MB9714.namprd12.prod.outlook.com
+ (2603:10b6:408:2a0::5)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260316-mark-dirty-per-folio-v1-1-8dc39c94b7ce@ddn.com>
- <CAJnrk1Yyp+3YDYNTzyTUQLUDsiQ9WB181-mu1FOpGyaVTu=_1Q@mail.gmail.com>
- <abhg4tbxDhYO_iHV@fedora.fritz.box> <CAJnrk1bBu5VJYnoZcV3uaS7+uyxK6TK9SLDtF2WpcRNfhUvO6w@mail.gmail.com>
- <abqvmS4adTXVxFIW@fedora.fritz.box> <CAJnrk1bF0JFAWOF=4hjMhiciSLrvob268fcQgv3P28Po8J=qwQ@mail.gmail.com>
- <60103445-0d45-427c-aa00-2fa79207b129@bsbernd.com> <CAJnrk1aWgWxzh0ETFkZXvJcfHFAC8KESEBLXa2S=ZqDfSSssvA@mail.gmail.com>
- <20260319042727.GA3496922@frogsfrogsfrogs>
-In-Reply-To: <20260319042727.GA3496922@frogsfrogsfrogs>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Fri, 20 Mar 2026 10:24:53 -0700
-X-Gm-Features: AaiRm52X3ArfsEAWqFoRiT8JwjUta7EPXY6wVM_TXwaut0sFg3oo1ARbLqXHNac
-Message-ID: <CAJnrk1aorGz857YkO2VC5C5obieKVRqacOXoOT1=9unWFmzSKg@mail.gmail.com>
-Subject: Re: [PATCH] fuse: when copying a folio delay the mark dirty until the end
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Bernd Schubert <bernd@bsbernd.com>, Horst Birthelmer <horst@birthelmer.com>, 
-	Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Horst Birthelmer <hbirthelmer@ddn.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV8PR12MB9714:EE_|DM4PR12MB6638:EE_
+X-MS-Office365-Filtering-Correlation-Id: 01bef8bf-25ad-4160-6f27-08de86a64928
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|366016|1800799024|18002099003|22082099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	Qyeuev3l9kEvjI4+TG6MkdhcFBiJJDWXnk+d1tItp69DBwD8fJs0R0JX7xG4VQ5Fv2bWsTefVNTgHFfzkwOlJ8U7UVz6tiMhwHtDOzsKb5PIgWZs63C/SIgqF7SpCBe1mUbfMzzTk0sTl9tKGt6QmwXqIsNLaDM6O/AHCem6mC06yCJeXfRkCLMgaNH3aHT1REdlGa1F5/vZJ7bQtP10aUOBM7pISrfQGO0YVrfqW/mJtqwWHu4DIFcu49lZRXADQHrVzYGOxpBF/h4mr5N63Hz4XIuft0PpbZUM7ZG0IsmzSol0S2Z9gYkdUE4/rUjI2vYb0g22Q0l/SwSkwmGdc3YKfo2SVHdUUsfRO02MHHy2ChYKyd6ot6BDbKDZhN3RkwAmC8czITEtlefCe+naWkeZ8jtgcj4iOJZxZM6vaVlAIkibn7sOUkk82qfBrwM+iwJp2icBXDDJ01OAJwLR207JvLRFUSljHMfAkorObxnfn3yEiJ7kQGLPUrpkFcua69Cb7xqFRVLwhP2xiQUey46pQtmX0zZAW0xBJ7+0VR5hj5To5oPHGxoF7nMo7zgM/frUzh7vQvpBkOJ5mvv8JpgFE8O+eD8p81CJlITlIQ0zhOHBOeZl5uXtrDpQ6hn6YJw+ZFep6B/kST/U1z93K5dqcwCmlByhfV9uOng+GA3LUKDnFwD9ZTS+dEputP+S+zIVevGK80CjZdYsqUFHUPUKENZ0FPGWdl06G6I5jjM=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV8PR12MB9714.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?ZGxiQU1oc2I5TFBmbWlKZ2ovTFNiRzRJR3ZiOW9SNXFFZnUzaFdlQjNSREhG?=
+ =?utf-8?B?RURUOGx4S2J0dGx0WTZZQ0VPa2s0UzBla2lMMzNwaFNUQUJzYlFLTmRRUGkw?=
+ =?utf-8?B?VDhYWDlQaEc0clFyK1BjZVBXbFFwNVFYSWpQVnRwejQwK0o5ejhLUlBZamFX?=
+ =?utf-8?B?VmRFSHF6VXUvTmREQjVCWDNKakF4N0lSV1l1cG5Ga29jbnd3Z1pVVW1EMjRr?=
+ =?utf-8?B?VkIyZnlrajM2TC9aSkh0Z1MyV284RlBQRk9oRjF5Yy9xUithUHlQeDlYWkxv?=
+ =?utf-8?B?bnhzeDdJOGxzY3hPZDgwYmtKVDdDUlEvbTdVNEsrZVkvam8yTFFFVmgxdHEr?=
+ =?utf-8?B?MGRiZkpVL3BleW5mdzhFTVVqTHZtdkp6Q3Z0aFlXc2loajU0MVI4RTY5OHlQ?=
+ =?utf-8?B?VnZzR2F2Q2k3MUwxVUJRTWZISDFGaG1lWERwQ2dJRjlpdEpzSWVFYnQvdm4r?=
+ =?utf-8?B?WnFmalR5azBVZW5Gd0lZTW1XeVVaLzE4NkpnQUNaa1ZLUjB6Vm5mTWdUM0JY?=
+ =?utf-8?B?bi9PY1MvRDVNdUM4YVpuRTJ0YnphUnpPV1MrKytIV29JT1VHcmpBNzJKSkpD?=
+ =?utf-8?B?WmFuT2FjZnpTNTduZUQ2QmtUYjBWOFBmejlMQ294cHZkR1NoWlFUTXJ5SWJs?=
+ =?utf-8?B?M290R3hHdU1SMU52ZysyNFBrWmc2SzBuQkY4c0Zhd0dseG9iYUJndUdPUFZF?=
+ =?utf-8?B?UHVxVmh5eGI3WHNYeEtWWGxqVks2UXBxSnIzRUU4MWEreVp5OXpzOW9oVzk4?=
+ =?utf-8?B?WlR3WkVnNFRLZzh6QXpFV3pUY2xVSFdwZWhQR3pYU2twcFRsbTIwNWtwTnU4?=
+ =?utf-8?B?bGJBN29uaGxOSTJmUjFzYWdBNU9ONU91UTdIc0RtNXhxbXVNUzc3WDVKdnBk?=
+ =?utf-8?B?L2c3SGNKN1NId3BrSVE0UHd6R3BhcW8zTFloY056eCtldEN3OXUrS1BlY3Vo?=
+ =?utf-8?B?KzVzRlZ2OGoybklTWDN5V013dEhvY1ZoMVE4TlphWWhWUnhESU5xR1RuVVJp?=
+ =?utf-8?B?U3krRVBrbzlvLzlKRm1SamM0UkhyRUZma3FNUVlYc2ZHUmM3QkhEc2l6cXV3?=
+ =?utf-8?B?SHd2Z0JzVmJrU3U3YTZOR2ZDZU5JeGY0UWJ3amtaRmlUd1B3YUF0WXBmTUhj?=
+ =?utf-8?B?K2dsOEVuNXRUMk1IdmVjc0tqZGJIWFpWdFNzR2tIVFhaeTlSemxrVjMrN2o3?=
+ =?utf-8?B?NWJ1bUNENEhFOWNGaGw3WWM3Tk1pTzZ1R2R1UitUK3d4NHUzY1lWK29vZDRE?=
+ =?utf-8?B?Zis3YzYxNEliVnh3U3MrcHhFcVBVS1lhQkZpcENiUndPRXZtdGhkU3BHdHJy?=
+ =?utf-8?B?VzRPdXZremtnczhha3hVRmJBYXFZeVVyQXNJV2R0QzBYeXp6QThLTTQyY0xJ?=
+ =?utf-8?B?RFpGTEc3Vk9rSW1DdHBiZ1ZzRkQrcFZLOVJtVmp0WlhVUU9neTBmSE1qRDFs?=
+ =?utf-8?B?MW9JQURrbkRNSkVvUlc5anh3SXExRzRKbEJJQUp3bUwyVnc2SmNCbnJWdVFV?=
+ =?utf-8?B?MDhZOUtPNFo5N0h1OHlYTStOQ0JaOGpyMGVhdGMxQXY0bVJ4bUttU3VJeC9P?=
+ =?utf-8?B?THlkTXBLdGVpOE54N2NickhXZVhnTUJmVk5KQTVxSG0yMFI5MDB3UG5BZk1t?=
+ =?utf-8?B?MGFwazBSNktBNHhXSEFQWUZXWm9VNHdycnp3cWZCL2NYUXpjSkFRYzR3byt2?=
+ =?utf-8?B?OXQzcmZQbUdXR09LcWRMZzcxV1hVR3lUV0lMTW1RTjFLQ1NGc1RSVnAvOVE1?=
+ =?utf-8?B?YnpBYVZ2bnppdE9rbi9OcEo0dTVKK2g4Qml4TzkycW5yOHg2WkN4akZybnpG?=
+ =?utf-8?B?NkRqSGtxSDJDQVRqdFdtV1l5ZG9odVdDREl3RVdaVmhxV1BNcm9TWG5YS3FZ?=
+ =?utf-8?B?MEhDZnltZ0xzS3JVVFZWMU1PbWJwaWY0WlZjakY3RDh1SlFkNnJQYU4zaFly?=
+ =?utf-8?B?WUQydjA5eDlQOFExTmsvR1VxeGRzTmR0SU43SFp0L2dHNmtBbmE2cDh0SnpY?=
+ =?utf-8?B?aW91YnFaZW9pM3RvcUUwMElZeGIzL2VZeThPZ0hyTlJzY3lncmhrRnhWL1pN?=
+ =?utf-8?B?aUhPaS9ka3luWXNMR292cHc1WW5ZajRiVXd3Qk9nY084RGNib01MZVl4ZFRr?=
+ =?utf-8?B?L2ZlS1FaSGtqVU9qVkhjMmtLWGE3VFBaMEVMRldISjVXWTFnNDhOYURRREx3?=
+ =?utf-8?B?Z2M3ZU9sMWtyQnBqSlhCL1pORWR4dXFLUUZoVmdwMmJBWVNPZ3lXc3kreE5y?=
+ =?utf-8?B?QlVYakc1cG82VVJRM2NuU3R4aHhQblZPQUtycEpOQnUvQ0t5anFlTzQycVF0?=
+ =?utf-8?B?UkxHZW9FWTg3NnA2YVRqUHM0UU92UGc4dzFCbjlQcUFYeGdUTGtNQT09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 01bef8bf-25ad-4160-6f27-08de86a64928
+X-MS-Exchange-CrossTenant-AuthSource: LV8PR12MB9714.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Mar 2026 17:29:48.4846
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jQCHz1iNRf+udDvHJ3p3wAcaSHwHV5creYdCLxOeFURsNg6GmBGRenhCoRr7hnGnya3Sb1DPq26g9hTpWFOkvA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6638
 
-On Wed, Mar 18, 2026 at 9:27=E2=80=AFPM Darrick J. Wong <djwong@kernel.org>=
- wrote:
->
-> On Wed, Mar 18, 2026 at 06:32:25PM -0700, Joanne Koong wrote:
-> > On Wed, Mar 18, 2026 at 2:52=E2=80=AFPM Bernd Schubert <bernd@bsbernd.c=
-om> wrote:
-> > >
-> > > Hi Joanne,
-> > >
-> > > On 3/18/26 22:19, Joanne Koong wrote:
-> > > > On Wed, Mar 18, 2026 at 7:03=E2=80=AFAM Horst Birthelmer <horst@bir=
-thelmer.de> wrote:
-> > > >>
-> > > >> Hi Joanne,
-> > > >>
-> > > >> I wonder, would something like this help for large folios?
-> > > >
-> > > > Hi Horst,
-> > > >
-> > > > I don't think it's likely that the pages backing the userspace buff=
-er
-> > > > are large folios, so I think this may actually add extra overhead w=
-ith
-> > > > the extra folio_test_dirty() check.
-> > > >
-> > > > From what I've seen, the main cost that dwarfs everything else for
-> > > > writes/reads is the actual IO, the context switches, and the memcpy=
-s.
-> > > > I think compared to these things, the set_page_dirty_lock() cost is
-> > > > negligible and pretty much undetectable.
-> > >
-> > >
-> > > a little bit background here. We see in cpu flame graphs that the spi=
-n
-> > > lock taken in unlock_request() and unlock_request() takes about the s=
-ame
-> > > amount of CPU time as the memcpy. Interestingly, only on Intel, but n=
-ot
-> > > AMD CPUs. Note that we are running with out custom page pinning, whic=
-h
-> > > just takes the pages from an array, so iov_iter_get_pages2() is not u=
-sed.
-> > >
-> > > The reason for that unlock/lock is documented at the end of
-> > > Documentation/filesystems/fuse/fuse.rst as Kamikaze file system. Well=
- we
-> > > don't have that, so for now these checks are modified in our branches=
- to
-> > > avoid the lock. Although that is not upstreamable. Right solution is
-> > > here to extract an array of pages and do that unlock/lock per pagevec=
-.
-> > >
-> > > Next in the flame graph is setting that set_page_dirty_lock which als=
-o
-> > > takes as much CPU time as the memcpy. Again, Intel CPUs only.
-> > > In the combination with the above pagevec method, I think right solut=
-ion
-> > > is to iterate over the pages, stores the last folio and then set to
-> > > dirty once per folio.
-> >
-> > Thanks for the background context. The intel vs amd difference is
-> > interesting. The approaches you mention sound reasonable. Are you able
-> > to share the flame graph or is this easily repro-able using fio on the
-> > passthrough_hp server?
-> >
-> >
-> > > Also, I disagree about that the userspace buffers are not likely larg=
-e
-> > > folios, see commit
-> > > 59ba47b6be9cd0146ef9a55c6e32e337e11e7625 "fuse: Check for large folio=
-)
-> > > with SPLICE_F_MOVE". Especially Horst persistently runs into it when
-> > > doing xfstests with recent kernels. I think the issue came up first t=
-ime
-> >
-> > I think that's because xfstests uses /tmp for scratch space, so the
-> >
-> >     "This is easily reproducible (on 6.19) with
-> >     CONFIG_TRANSPARENT_HUGEPAGE_SHMEM_HUGE_ALWAYS=3Dy
-> >     CONFIG_TRANSPARENT_HUGEPAGE_TMPFS_HUGE_ALWAYS=3Dy"
-> >
-> > triggers it but on production workloads I don't think it's likely that
-> > those source pages are backed by shmem/tmpfs or exist in the page
-> > cache already as a large folio as the server has no control over that.
->
-> /me stumbles in-thread to note that xfs gets large folios for its files'
-> pagecache fairly frequently now, especially as readahead ramps up.
+On 3/19/2026 4:07 PM, Dan Williams wrote:
+> Koralahalli Channabasappa, Smita wrote:
+> [..]
+>>> I agree with Jonathan's comments in Patch 6, using __WORK_INITIALIZER or
+>>> initializing work in dax_hmem_init() and gating flush on pdev will fix
+>>> the WARN — I will add both for v8. But I think the WARN is likely
+>>> indicating an ordering issue here..
+> 
+> Yes, Jonathan is right, static initialization is also my expecation.
+> 
+>>> On initial boot, the Makefile ordering ensures dax_hmem_init() runs
+>>> before cxl_dax_region_init(), so both work items land on system_long_wq
+>>> in the right order and dax_hmem's deferred work is queued before
+>>> dax_cxl's driver registration work.
+> 
+> There is nothing that guarantees that 2 work items in system_long_wq run
+> in submission order. Unlikely that matters given the explicit flushing.
+> 
+>>> On module reload which Alison is trying here I dont think, modules are
+>>> loaded by Makefile order. I think dax_cxl's workqueue is calling
+>>> dax_hmem_flush_work() before dax_hmem probe has had a chance to queue
+>>> its work, so flush_work() flushes nothing and dax_cxl registers its
+>>> driver without waiting.
+> 
+> Module load order does not matter after initial probe completion.
 
-Oh nice, I didn't realize that. Though I wonder if the pages are
-backed by xfs/ext4/etc, it seems like any high-performance server
-would just use passthrough and skip splice altogether?
+Thanks for the clarification on system_long_wq ordering.
 
-Thanks,
-Joanne
->
-> Ok back to the hell that is deploying ClownStrike through a Java program
-> while Firefox repeatedly drives my laptop to OOM.
->
-> --D
->
-> > I also don't think most applications use splice, though maybe I'm
-> > wrong here.
-> >
-> > For non-splice, even if the user sets
-> > "/sys/kernel/mm/transparent_hugepage/enabled" to 'always' or in
-> > libfuse we do madvise on the buffer allocation for huge pages, that
-> > has a 2 MB granularity requirement which depends on the user system
-> > also having explicitly upped the max pages limit through the sysctl
-> > since the kernel fuse max pages limit is 256 (1 MB) by default. I
-> > don't think that is common on most servers.
-> >
-> > Thanks,
-> > Joanne
-> >
-> > > with 3.18ish.
-> > >
-> > > One can further enforce that by setting
-> > > "/sys/kernel/mm/transparent_hugepage/enabled" to 'always', what I did
-> > > when I tested the above commit. And actually that points out that
-> > > libfuse allocations should do the madvise. I'm going to do that durin=
-g
-> > > the next days, maybe tomorrow.
-> > >
-> > >
-> > > Thanks,
-> > > Bernd
-> >
+> 
+> ...and dax_hmem is guaranteed to always load before dax_cxl due to the
+> symbol dependency of dax_hmem_flush_work().
+> 
+>>> __WORK_INITIALIZER fixes the WARN, but doesn't fix the race I guess if
+>>> we are hitting that here..
+>>>
+>>> [   34.673051] initcall dax_hmem_init+0x0/0xff0 [dax_hmem] returned 0
+>>> after 2225 usecs
+>>> [   34.676011] calling  cxl_dax_region_init+0x0/0xff0 [dax_cxl] @ 1059
+>>>
+>>> These two lines indicate cxl_dax started after dax_hmem_init() returns
+>>> but I dont think that guarantees dax_hmem_platform_probe() has actually
+>>> run..
+>>>
+>>> I dont know if wait_for_device_probe() in cxl_dax_region_driver_register
+>>> might help..
+>>>
+>>> Thanks
+>>> Smita
+>>
+>> Actually, thinking about this more..
+>>
+>> dax_hmem_initial_probe lives in device.c (built-in) so it survives
+>> module reload. On reload it's still true from the first boot. This means
+>> hmem_register_device() skips the deferral path entirely..
+> 
+> Yes, that is the expectation.
+> 
+>> The problem is this bypasses the cxl_region_contains_resource() check
+>> that the deferred work normally does. On first boot,
+>> process_defer_work() walks each range and decides per-range: if CXL
+>> covers it, skip. If not, register with HMEM. On reload, that check never
+>> happens — whoever registers first via alloc_dax_region() wins,
+>> regardless of whether CXL actually covers the range.
+> 
+> Yes, I think you have hit on a real issue. There is no point in having
+> dax_hmem auto-attach on driver reload. If userspace unloads the driver
+> it gets to keep the pieces. So that means something like this:
+> 
+> diff --git a/drivers/dax/hmem/hmem.c b/drivers/dax/hmem/hmem.c
+> index 15e462589b92..7478bc78a698 100644
+> --- a/drivers/dax/hmem/hmem.c
+> +++ b/drivers/dax/hmem/hmem.c
+> @@ -112,10 +112,12 @@ static int hmem_register_device(struct device *host, int target_nid,
+>   	    region_intersects(res->start, resource_size(res), IORESOURCE_MEM,
+>   			      IORES_DESC_CXL) != REGION_DISJOINT) {
+>   		if (!dax_hmem_initial_probe) {
+> -			dev_dbg(host, "deferring range to CXL: %pr\n", res);
+> +			dev_dbg(host, "await CXL initial probe: %pr\n", res);
+>   			queue_work(system_long_wq, &dax_hmem_work.work);
+>   			return 0;
+>   		}
+> +		dev_dbg(host, "deferring range to CXL: %pr\n", res);
+> +		return 0;
+>   	}
+>   
+>   	rc = region_intersects_soft_reserve(res->start, resource_size(res));
+> 
+> ---
+> 
+> ...because if userspace wants to reload the dax_hmem driver, then it
+> needs to pick what happens with the CXL intersection. Userspace can
+> always unload cxl_acpi to force everything back to dax_hmem.
+> 
+> Now, you might say, "but this means that if the initial probe results in
+> a partial result of some regions in dax_hmem and others in dax_cxl, that
+> state can not be recovered outside of a reboot". I think that is ok.
+> This mechanism is automatic best-effort workaround for bugs / missing
+> capabilities in the CXL driver. Module reload fidelity is out of scope.
+
+The fixup for the reload case makes sense.
+I will incorporate this into v8 along with Jonathan's __WORK_INITIALIZER 
+and the pdev gating.
+
+Thanks
+Smita
+
+> 
+>> So if dax_cxl registers first on reload, it could claim a range that CXL
+>> doesn't actually cover, and dax_hmem would lose a range it should own..
+> 
+> With the above change, dax_cxl always wins in the "reload" scenario iff
+> cxl_acpi is loaded. Otherwise dax_hmem owns all the Soft Reserved.
+> 
+>> I dont know if Im thinking through this right..
+> 
+> You definitely identified the need for that fixup above.
+
