@@ -1,77 +1,72 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-188.mta1.migadu.com (out-188.mta1.migadu.com [95.215.58.188])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED2663BAD81
-	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Mar 2026 13:53:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD48B175A77
+	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Mar 2026 14:03:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774014807; cv=none; b=bLmwlDCK5ADhFLCYTuFzEsqlXh/FF/jOiPkLyzNLaNhs+jXGpBBthKiVvZUp6V3DNZ3jxPiDRqtZFJ/9+yyPeN/aYzQoCX/C8iwGcJTPcDKQUrt5kgteEgCGe3BIqj0SdfqqECMejoFz1OS8UVhfKgd3LX8rCJfgB9tRpUv1Tow=
+	t=1774015440; cv=none; b=Tsa61+g94yLW5EYxVFrUuY3ycf+fvRkQWlHmW3KHdAOTqzsV6dlwtcSPd6n8HjKAuU9ZoleauLFv6SCvoyEC+Wz94F8SchG1ZRIKDDOfQ8ow6YV8cD1MpJKTJJuGXtZ+HVhWNym2uA16FVulAyMl5fqEOCIcXtU1g8JoSxnCMzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774014807; c=relaxed/simple;
-	bh=yHl+B1AOud++XfXBqYXRiSpYxbw9Mct48dzUUXuIwiM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PoYaxlxamfAttAnmkbzcMafkoK0IKCplBlHhQ3NDT3cEYeLTfsuSSix18Q5qS//YhpHHRcl7u8TSvN6oQrBgTvPgcGxz27agpLHMYpkBzYC4npHKgahfBHT6v+okrGmMVhXcoSwmIkb5CNA3sI4R5UMjmI2Vpmoa/RrpCJB5czc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lQ8+NpdR; arc=none smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774015440; c=relaxed/simple;
+	bh=WIsru2BiyzE7Dk092bjfIfjlXQwISEJbpd6Ivo/EHFE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VymY5S795Qp8wFJWcpmO/Gnx4QdV1arv3XV8aSHeZjhyAUBrLcYoSUBPuEJkwxAEkYdRgr0ky6j8Cu0GlhOKAFucr/bbsdHznTXIzTw+e5w1oUvyobfQrUUcNs9pN/n4w/5dw0A2e5UXM6ubxdqnYzFmPlKZlB4mo5GHoosfkSU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Tc4H5TGa; arc=none smtp.client-ip=95.215.58.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lQ8+NpdR"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-b932fe2e1a7so258622066b.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 20 Mar 2026 06:53:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774014797; x=1774619597; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=+Pm+eEQ60JIMUuvkrTDt/cbZSgeK8toOkUpeH6Q+x4Q=;
-        b=lQ8+NpdRNpBmTNr0z2RMtUshCgJBYMxf4VdYNA89vClT3bhdCL48qsc0/9ckuGWm1Z
-         a+p2YC7MPE4z66QfLXUXcSGmvHOmAP6oGQ+mewg9+aammukc/t9VKuxq2pzt3e/hTtMo
-         ryYvgCQSg52PvVkd3V72pebcmulb9wnrNBcgPiN3Kp8SEkSDm5K9sxDLGBipE/2KSvz5
-         sDE4+LQwz3ejM+WTfKWUQIoC9unR8zGtxinsxAKr2dHP0gCWzcgdZGGsA5rZkwYEPAf5
-         wy8qZ1sHgRBlq2ajL1biCVtDHMPJYUw5LqhmHREedYfLlbeZvfQDIgxd1OPHq3kLEi1f
-         RL7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774014797; x=1774619597;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+Pm+eEQ60JIMUuvkrTDt/cbZSgeK8toOkUpeH6Q+x4Q=;
-        b=b2lT+EhwP5Uqvv/8cvmXGnGxvmNxIntZyDXbubHw/oJOn5+3QMClRY7rNsLyYAOeJr
-         PCXG1ESFmbtO8Oq6JM+npogOMDSMJMyb9VxyyPr6fow8+MUavGgITF/aA4hw69JfNLqy
-         Bs8NUCm07u8kTNRd9MwiRhUtpLw6t/DVAPPvO6wykobMm5X9Tt38vl2JpdaM2nPK+qLe
-         pGePOXhtW5FICMMaQFlCQcZh6YBKTD8HJqM2TWUl7i7W+XrWLSOu+IQ48GdvGI/+Zhat
-         X9v5RCy/wjZFBUGU/0myroB/wIsNJSoFHjY3AXOFh4ayCnVxMzk/nhxRNVvi9mry1UW/
-         OBvA==
-X-Forwarded-Encrypted: i=1; AJvYcCV8msTqTFJU5KYyD2GhnjM/Bq0VWU+ap4Ka6p+m2e6sk22hb3t6uiYYbxl2x3Xwv53cBcK8JaZMxqPP4/2t@vger.kernel.org
-X-Gm-Message-State: AOJu0YxUiSWOaVnGVSgO/HpdGMqp499boQ9i55DoMjA29WjpbFP9lEZC
-	N0x2fcMkGUBxpvXrNqL+TpV3dLPnOWjYViavr4Nt1Us44U8BPLnyx0zk
-X-Gm-Gg: ATEYQzyUUUSP3Ud91RrbEwvOslnmkxPzIXE30DYkqFiem2gfJW6YBxy/YMc0oP7w/D8
-	fJNZRI5tG8Pl/ZmTWmueHj+I4j8vGMXYV97lunbveSzlqLxBArgkUxe3V/brkTkX5m1skFpwCH8
-	V2rQ28Bhot3mEiQfmr9O4lb4z2giPCN0AW2QOfZvw0dyb75sugvFiPKceveoGo/88LPeFOJ76LR
-	JvlaNyThnusLgWJ6qTOKn6UtchhgVNy9vqRfuKW81ltoFfaCuxTjIUz8nH/zSmOiX5tj7wpoipV
-	NI7/g4duJilkGmof1rmz2rfWug9c8bkAuUmExHwN1uxHi8loxw8rlXVg+FnsxjxtL9BzfFazdxt
-	pZ9fPoAPXV4CMD8RLxmeTERDlSWXVdyYy3b/j1DIpHJ/ZcZuRAzwwrUYEIPwws6CktSX5SsxpBR
-	FwdnA3Z1qqIS0JP9t0lfEfUkLqbgnfPj4hcv3gZjqi8UC+kb+By4R6VVudWQFdRqp/J+nuVJGZK
-	OWqaFNo3I/Rb2Z2UzS5TJJ9FToV
-X-Received: by 2002:a17:907:c70c:b0:b96:eb7e:bc55 with SMTP id a640c23a62f3a-b982f1edf01mr232203466b.10.1774014796546;
-        Fri, 20 Mar 2026 06:53:16 -0700 (PDT)
-Received: from localhost (2001-1c00-570d-ee00-e98d-b8f7-8d95-53b2.cable.dynamic.v6.ziggo.nl. [2001:1c00:570d:ee00:e98d:b8f7:8d95:53b2])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b983365a159sm158826466b.44.2026.03.20.06.53.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Mar 2026 06:53:16 -0700 (PDT)
-From: Amir Goldstein <amir73il@gmail.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Al Viro <viro@zeniv.linux.org.uk>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Paul Moore <paul@paul-moore.com>,
-	Gao Xiang <xiang@kernel.org>,
-	linux-security-module@vger.kernel.org,
-	selinux@vger.kernel.org,
-	linux-erofs@lists.ozlabs.org,
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Tc4H5TGa"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1774015435;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=BQlel+6dtoxswtHUU01IUBagcMsTT/u/Ie50MY6ZLbc=;
+	b=Tc4H5TGa1InXyh4vPLhjJgYqKP6CKEGnb/v313Fr+gMkn4PrAhCfqSk/TZIoe+QcU9WTn2
+	nrnO3Z9ZeOl/Dm/qu+yr2Z4iUAddehyYbEyD7oWGABzmY5Vx7nrCBh8oH3aEiIdBlYPp40
+	IDhxBJfN4f4fFBp051wzopRpOn54ocA=
+From: Usama Arif <usama.arif@linux.dev>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	david@kernel.org,
+	willy@infradead.org,
+	ryan.roberts@arm.com,
+	linux-mm@kvack.org
+Cc: r@hev.cc,
+	jack@suse.cz,
+	ajd@linux.ibm.com,
+	apopple@nvidia.com,
+	baohua@kernel.org,
+	baolin.wang@linux.alibaba.com,
+	brauner@kernel.org,
+	catalin.marinas@arm.com,
+	dev.jain@arm.com,
+	kees@kernel.org,
+	kevin.brodsky@arm.com,
+	lance.yang@linux.dev,
+	Liam.Howlett@oracle.com,
+	linux-arm-kernel@lists.infradead.org,
 	linux-fsdevel@vger.kernel.org,
-	linux-unionfs@vger.kernel.org
-Subject: [PATCH v7] backing_file: store an internal O_PATH user_path_file
-Date: Fri, 20 Mar 2026 14:53:15 +0100
-Message-ID: <20260320135315.1731572-1-amir73il@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	linux-kernel@vger.kernel.org,
+	lorenzo.stoakes@oracle.com,
+	mhocko@suse.com,
+	npache@redhat.com,
+	pasha.tatashin@soleen.com,
+	rmclure@linux.ibm.com,
+	rppt@kernel.org,
+	surenb@google.com,
+	vbabka@kernel.org,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	wilts.infradead.org,
+	linux-fsdevel@vger.kernel.l@kernel.org,
+	ziy@nvidia.com,
+	hannes@cmpxchg.org,
+	kas@kernel.org,
+	shakeel.butt@linux.dev,
+	kernel-team@meta.com,
+	Usama Arif <usama.arif@linux.dev>
+Subject: [PATCH v2 0/4] mm: improve large folio readahead and alignment for exec memory
+Date: Fri, 20 Mar 2026 06:58:50 -0700
+Message-ID: <20260320140315.979307-1-usama.arif@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -79,515 +74,126 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-Instead of storing the user_path, store an internal O_PATH file,
-embedded in the backing_file struct for the user_path with a copy of
-the original user file creds and with an independent a security context.
+v2 takes a different approach from v1 trying to move away from
+exec_folio_order() and comeup with a generic arch independent solution
+which is what I think David was suggesting in [1].
+I thought I would send it as code rather than try and discuss it in v1
+as its easier :)
 
-This internal O_PATH file is going to be used by LSM mprotect hooks
-to check the permissions to mprotect against a copy of the original
-mmaped file credentials.
+v1 -> v2: https://lore.kernel.org/all/20260310145406.3073394-1-usama.arif@linux.dev/
+- disable mmap_miss logic for VM_EXEC (Jan Kara)
+- Align in elf only when segment VA and file offset are already aligned (Rui)
+- preferred_exec_order() for VM_EXEC sync mmap_readahead which takes into
+  account zone high watermarks (as an approximation of memory pressure)
+  (David, or atleast my approach to what David suggested in [1] :))
+- Extend max alignment to mapping_max_folio_size() instead of
+  exec_folio_order()
 
-The internal user_path_file is only exported as a const pointer and
-its refcnt is initialized to FILE_REF_DEAD, because it is not an actual
-refcounted object.  The file_ref_init() helper was changed to accept
-the FILE_REF_ constant instead of the fake +1 integer count.
+Motiviation
+===========
+exec_folio_order() was introduced [2] to request readahead at an
+arch-preferred folio order for executable memory, enabling hardware PTE
+coalescing (e.g. arm64 contpte) and PMD mappings on the fault path.
 
-The internal O_PATH file is opened using a new kernel helper
-kernel_path_file_open(), which skips all the generic code in
-do_dentry_open() and does only the essentials, so that the internal
-O_PATH file could be opened with a negative dentry.
+However, several things prevent this from working optimally:
 
-This is needed for backing_tmpfile_open() to open a backing O_PATH
-tmpfile before instantiating the dentry.
-The callers of backing_tmpfile_open() are responsible for calling
-backing_tmpfile_finish() after making the path positive.
+1. The mmap_miss heuristic in do_sync_mmap_readahead() silently disables
+   exec readahead after 100 page faults. The mmap_miss counter tracks
+   whether readahead is useful for mmap'd file access:
 
-Signed-off-by: Amir Goldstein <amir73il@gmail.com>
----
+   - Incremented by 1 in do_sync_mmap_readahead() on every page cache
+     miss (page needed IO).
 
-Christian,
+   - Decremented by N in filemap_map_pages() for N pages successfully
+     mapped via fault-around (pages found in cache without faulting,
+     evidence that readahead was useful). Only non-workingset pages
+     count and recently evicted and re-read pages don't count as hits.
 
-7th time is a charm (?).
+   - Decremented by 1 in do_async_mmap_readahead() when a PG_readahead
+     marker page is found (indicates sequential consumption of readahead
+     pages).
 
-Here is another try to introduce backing_file_user_path_file(),
-after dealing with the the syzbot report [1] v6 [2] introduces.
+   When mmap_miss exceeds MMAP_LOTSAMISS (100), all readahead is
+   disabled. On arm64 with 64K pages, both decrement paths are inactive:
 
-Thanks,
-Amir.
+   - filemap_map_pages() is never called because fault_around_pages
+     (65536 >> PAGE_SHIFT = 1) disables should_fault_around(), which
+     requires fault_around_pages > 1. With only 1 page in the
+     fault-around window, there is nothing "around" to map.
 
-Changes since v6:
-- Create helper for internal O_PATH open with negative path
-- Create backing_tmpfile_finish() API to fixup the negative path
+   - do_async_mmap_readahead() never fires for exec mappings because
+     exec readahead sets async_size = 0, so no PG_readahead markers
+     are placed.
 
-[1] https://syzkaller.appspot.com/bug?extid=f34aab278bf5d664e2be
-[2] https://lore.kernel.org/linux-fsdevel/20260318131258.1457101-1-amir73il@gmail.com/
+   With no decrements, mmap_miss monotonically increases past
+   MMAP_LOTSAMISS after 100 faults, disabling exec readahead
+   for the remainder of the mapping. Patch 1 fixes this by excluding
+   VM_EXEC VMAs from the mmap_miss logic, similar to how VM_SEQ_READ
+   is already excluded.
 
- fs/backing-file.c            | 32 +++++++++++-------
- fs/erofs/ishare.c            | 13 ++++++--
- fs/file_table.c              | 63 +++++++++++++++++++++++++++++-------
- fs/fuse/passthrough.c        |  3 +-
- fs/internal.h                | 12 +++++--
- fs/open.c                    | 34 ++++++++++++++++---
- fs/overlayfs/dir.c           |  5 ++-
- fs/overlayfs/file.c          |  1 +
- include/linux/backing-file.h | 30 +++++++++++++++--
- include/linux/file_ref.h     |  4 +--
- 10 files changed, 159 insertions(+), 38 deletions(-)
+2. exec_folio_order() is an arch-specific hook that returns a static
+   order (ilog2(SZ_64K >> PAGE_SHIFT)), which is suboptimal for non-4K
+   page sizes and doesn't adapt to runtime conditions. Patch 2 replaces
+   it with a generic preferred_exec_order() that targets min(PMD_ORDER,
+   2M), which naturally gives the right answer across architectures and
+   different page sizes: contpte on arm64 (2M for all page sizes), PMD
+   mapping on x86 (2M), and smaller PMDs like s390 (1M). The 2M cap also
+   avoids requesting excessively large folios on configurations where
+   PMD_ORDER is much larger (32M on arm64 16K pages, 512M on arm64 64K
+   pages), which would cause unnecessary memory pressure. The function
+   adapts at runtime based on VMA size and memory pressure (zone
+   watermarks), stepping down the order when memory is tight.
 
-diff --git a/fs/backing-file.c b/fs/backing-file.c
-index 45da8600d5644..77935c93333ab 100644
---- a/fs/backing-file.c
-+++ b/fs/backing-file.c
-@@ -11,6 +11,7 @@
- #include <linux/fs.h>
- #include <linux/backing-file.h>
- #include <linux/splice.h>
-+#include <linux/uio.h>
- #include <linux/mm.h>
+3. Even with correct folio order and readahead, hardware PTE coalescing
+   (e.g. contpte) and PMD mapping require the virtual address to be
+   aligned to the folio size. The readahead path aligns file offsets and
+   the buddy allocator aligns physical memory, but the virtual address
+   depends on the VMA start. For PIE binaries, ASLR randomizes the load
+   address at PAGE_SIZE granularity, so on arm64 with 64K pages only
+   1/32 of load addresses are 2M-aligned. When misaligned, contpte
+   cannot be used for any folio in the VMA.
+
+   Patch 3 fixes this for the main binary by extending maximum_alignment()
+   in the ELF loader to consider mapping_max_folio_size(), aligning
+   load_bias to the largest folio the filesystem will allocate.
+
+   Patch 4 fixes this for shared libraries by adding a folio-size
+   alignment fallback in thp_get_unmapped_area_vmflags(). The existing
+   PMD_SIZE alignment (512M on arm64 64K pages) is too large for typical
+   shared libraries, so this smaller fallback succeeds where PMD fails.
+
+I created a benchmark that mmaps a large executable file and calls
+RET-stub functions at PAGE_SIZE offsets across it. "Cold" measures
+fault + readahead cost. "Random" first faults in all pages with a
+sequential sweep (not measured), then measures time for calling random
+offsets, isolating iTLB miss cost for scattered execution.
+
+The benchmark results on Neoverse V2 (Grace), arm64 with 64K base pages,
+512MB executable file on ext4, averaged over 3 runs:
+
+  Phase      | Baseline     | Patched      | Improvement
+  -----------|--------------|--------------|------------------
+  Cold fault | 83.4 ms      | 41.3 ms      | 50% faster
+  Random     | 76.0 ms      | 58.3 ms      | 23% faster
+
+[1] https://lore.kernel.org/all/d72d5ca3-4b92-470e-9f89-9f39a3975f1e@kernel.org/
+[2] https://lore.kernel.org/all/20250430145920.3748738-6-ryan.roberts@arm.com/
  
- #include "internal.h"
-@@ -18,9 +19,10 @@
- /**
-  * backing_file_open - open a backing file for kernel internal use
-  * @user_path:	path that the user reuqested to open
-+ * @user_cred:	credentials that the user used for open
-  * @flags:	open flags
-  * @real_path:	path of the backing file
-- * @cred:	credentials for open
-+ * @cred:	credentials for open of the backing file
-  *
-  * Open a backing file for a stackable filesystem (e.g., overlayfs).
-  * @user_path may be on the stackable filesystem and @real_path on the
-@@ -29,20 +31,21 @@
-  * returned file into a container structure that also stores the stacked
-  * file's path, which can be retrieved using backing_file_user_path().
-  */
--struct file *backing_file_open(const struct path *user_path, int flags,
-+struct file *backing_file_open(const struct path *user_path,
-+			       const struct cred *user_cred, int flags,
- 			       const struct path *real_path,
- 			       const struct cred *cred)
- {
- 	struct file *f;
- 	int error;
- 
--	f = alloc_empty_backing_file(flags, cred);
-+	f = alloc_empty_backing_file(flags, cred, user_cred);
- 	if (IS_ERR(f))
- 		return f;
- 
--	path_get(user_path);
--	backing_file_set_user_path(f, user_path);
--	error = vfs_open(real_path, f);
-+	error = backing_file_open_user_path(f, user_path);
-+	if (!error)
-+		error = vfs_open(real_path, f);
- 	if (error) {
- 		fput(f);
- 		f = ERR_PTR(error);
-@@ -52,7 +55,8 @@ struct file *backing_file_open(const struct path *user_path, int flags,
- }
- EXPORT_SYMBOL_GPL(backing_file_open);
- 
--struct file *backing_tmpfile_open(const struct path *user_path, int flags,
-+struct file *backing_tmpfile_open(const struct path *user_path,
-+				  const struct cred *user_cred, int flags,
- 				  const struct path *real_parentpath,
- 				  umode_t mode, const struct cred *cred)
- {
-@@ -60,13 +64,13 @@ struct file *backing_tmpfile_open(const struct path *user_path, int flags,
- 	struct file *f;
- 	int error;
- 
--	f = alloc_empty_backing_file(flags, cred);
-+	f = alloc_empty_backing_file(flags, cred, user_cred);
- 	if (IS_ERR(f))
- 		return f;
- 
--	path_get(user_path);
--	backing_file_set_user_path(f, user_path);
--	error = vfs_tmpfile(real_idmap, real_parentpath, f, mode);
-+	error = backing_file_open_user_path(f, user_path);
-+	if (!error)
-+		error = vfs_tmpfile(real_idmap, real_parentpath, f, mode);
- 	if (error) {
- 		fput(f);
- 		f = ERR_PTR(error);
-@@ -75,6 +79,12 @@ struct file *backing_tmpfile_open(const struct path *user_path, int flags,
- }
- EXPORT_SYMBOL(backing_tmpfile_open);
- 
-+void backing_tmpfile_finish(struct file *file)
-+{
-+	backing_file_set_user_path_inode(file);
-+}
-+EXPORT_SYMBOL_GPL(backing_tmpfile_finish);
-+
- struct backing_aio {
- 	struct kiocb iocb;
- 	refcount_t ref;
-diff --git a/fs/erofs/ishare.c b/fs/erofs/ishare.c
-index 829d50d5c717d..f3a5fb0bffaf0 100644
---- a/fs/erofs/ishare.c
-+++ b/fs/erofs/ishare.c
-@@ -103,18 +103,25 @@ static int erofs_ishare_file_open(struct inode *inode, struct file *file)
- {
- 	struct inode *sharedinode = EROFS_I(inode)->sharedinode;
- 	struct file *realfile;
-+	int err;
- 
- 	if (file->f_flags & O_DIRECT)
- 		return -EINVAL;
--	realfile = alloc_empty_backing_file(O_RDONLY|O_NOATIME, current_cred());
-+	realfile = alloc_empty_backing_file(O_RDONLY|O_NOATIME, current_cred(),
-+					    file->f_cred);
- 	if (IS_ERR(realfile))
- 		return PTR_ERR(realfile);
-+
-+	err = backing_file_open_user_path(realfile, &file->f_path);
-+	if (err) {
-+		fput(realfile);
-+		return err;
-+	}
-+
- 	ihold(sharedinode);
- 	realfile->f_op = &erofs_file_fops;
- 	realfile->f_inode = sharedinode;
- 	realfile->f_mapping = sharedinode->i_mapping;
--	path_get(&file->f_path);
--	backing_file_set_user_path(realfile, &file->f_path);
- 
- 	file_ra_state_init(&realfile->f_ra, file->f_mapping);
- 	realfile->private_data = EROFS_I(inode);
-diff --git a/fs/file_table.c b/fs/file_table.c
-index aaa5faaace1e9..a4d1064d50896 100644
---- a/fs/file_table.c
-+++ b/fs/file_table.c
-@@ -27,6 +27,7 @@
- #include <linux/task_work.h>
- #include <linux/swap.h>
- #include <linux/kmemleak.h>
-+#include <linux/backing-file.h>
- 
- #include <linux/atomic.h>
- 
-@@ -43,11 +44,11 @@ static struct kmem_cache *bfilp_cachep __ro_after_init;
- 
- static struct percpu_counter nr_files __cacheline_aligned_in_smp;
- 
--/* Container for backing file with optional user path */
-+/* Container for backing file with optional user path file */
- struct backing_file {
- 	struct file file;
- 	union {
--		struct path user_path;
-+		struct file user_path_file;
- 		freeptr_t bf_freeptr;
- 	};
- };
-@@ -56,24 +57,54 @@ struct backing_file {
- 
- const struct path *backing_file_user_path(const struct file *f)
- {
--	return &backing_file(f)->user_path;
-+	return &backing_file(f)->user_path_file.f_path;
- }
- EXPORT_SYMBOL_GPL(backing_file_user_path);
- 
--void backing_file_set_user_path(struct file *f, const struct path *path)
-+const struct file *backing_file_user_path_file(const struct file *f)
- {
--	backing_file(f)->user_path = *path;
-+	return &backing_file(f)->user_path_file;
- }
--EXPORT_SYMBOL_GPL(backing_file_set_user_path);
-+EXPORT_SYMBOL_GPL(backing_file_user_path_file);
- 
--static inline void file_free(struct file *f)
-+int backing_file_open_user_path(struct file *f, const struct path *path)
-+{
-+	if (WARN_ON(!(f->f_mode & FMODE_BACKING)))
-+		return -EIO;
-+	kernel_path_file_open(&backing_file(f)->user_path_file, path);
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(backing_file_open_user_path);
-+
-+void backing_file_set_user_path_inode(struct file *f)
-+{
-+	if (WARN_ON(!(f->f_mode & FMODE_BACKING)))
-+		return;
-+	file_set_d_inode(&backing_file(f)->user_path_file);
-+}
-+EXPORT_SYMBOL_GPL(backing_file_set_user_path_inode);
-+
-+static void destroy_file(struct file *f)
- {
- 	security_file_free(f);
-+	put_cred(f->f_cred);
-+}
-+
-+static inline void file_free(struct file *f)
-+{
-+	destroy_file(f);
- 	if (likely(!(f->f_mode & FMODE_NOACCOUNT)))
- 		percpu_counter_dec(&nr_files);
--	put_cred(f->f_cred);
- 	if (unlikely(f->f_mode & FMODE_BACKING)) {
--		path_put(backing_file_user_path(f));
-+		struct file *user_path_file = &backing_file(f)->user_path_file;
-+
-+		/*
-+		 * no refcount on the user_path_file - they die together,
-+		 * so __fput() is not called for user_path_file. path_put()
-+		 * is the only relevant cleanup from __fput().
-+		 */
-+		destroy_file(user_path_file);
-+		path_put(&user_path_file->__f_path);
- 		kmem_cache_free(bfilp_cachep, backing_file(f));
- 	} else {
- 		kmem_cache_free(filp_cachep, f);
-@@ -201,7 +232,7 @@ static int init_file(struct file *f, int flags, const struct cred *cred)
- 	 * fget-rcu pattern users need to be able to handle spurious
- 	 * refcount bumps we should reinitialize the reused file first.
- 	 */
--	file_ref_init(&f->f_ref, 1);
-+	file_ref_init(&f->f_ref, FILE_REF_ONEREF);
- 	return 0;
- }
- 
-@@ -290,7 +321,8 @@ struct file *alloc_empty_file_noaccount(int flags, const struct cred *cred)
-  * This is only for kernel internal use, and the allocate file must not be
-  * installed into file tables or such.
-  */
--struct file *alloc_empty_backing_file(int flags, const struct cred *cred)
-+struct file *alloc_empty_backing_file(int flags, const struct cred *cred,
-+				      const struct cred *user_cred)
- {
- 	struct backing_file *ff;
- 	int error;
-@@ -305,6 +337,15 @@ struct file *alloc_empty_backing_file(int flags, const struct cred *cred)
- 		return ERR_PTR(error);
- 	}
- 
-+	error = init_file(&ff->user_path_file, O_PATH, user_cred);
-+	/* user_path_file is not refcounterd - it dies with the backing file */
-+	file_ref_init(&ff->user_path_file.f_ref, FILE_REF_DEAD);
-+	if (unlikely(error)) {
-+		destroy_file(&ff->file);
-+		kmem_cache_free(bfilp_cachep, ff);
-+		return ERR_PTR(error);
-+	}
-+
- 	ff->file.f_mode |= FMODE_BACKING | FMODE_NOACCOUNT;
- 	return &ff->file;
- }
-diff --git a/fs/fuse/passthrough.c b/fs/fuse/passthrough.c
-index 72de97c03d0ee..60018c6359342 100644
---- a/fs/fuse/passthrough.c
-+++ b/fs/fuse/passthrough.c
-@@ -10,6 +10,7 @@
- #include <linux/file.h>
- #include <linux/backing-file.h>
- #include <linux/splice.h>
-+#include <linux/uio.h>
- 
- static void fuse_file_accessed(struct file *file)
- {
-@@ -167,7 +168,7 @@ struct fuse_backing *fuse_passthrough_open(struct file *file, int backing_id)
- 		goto out;
- 
- 	/* Allocate backing file per fuse file to store fuse path */
--	backing_file = backing_file_open(&file->f_path, file->f_flags,
-+	backing_file = backing_file_open(&file->f_path, file->f_cred, file->f_flags,
- 					 &fb->file->f_path, fb->cred);
- 	err = PTR_ERR(backing_file);
- 	if (IS_ERR(backing_file)) {
-diff --git a/fs/internal.h b/fs/internal.h
-index cbc384a1aa096..4a9e5e00678d9 100644
---- a/fs/internal.h
-+++ b/fs/internal.h
-@@ -106,8 +106,16 @@ extern void chroot_fs_refs(const struct path *, const struct path *);
-  */
- struct file *alloc_empty_file(int flags, const struct cred *cred);
- struct file *alloc_empty_file_noaccount(int flags, const struct cred *cred);
--struct file *alloc_empty_backing_file(int flags, const struct cred *cred);
--void backing_file_set_user_path(struct file *f, const struct path *path);
-+struct file *alloc_empty_backing_file(int flags, const struct cred *cred,
-+				      const struct cred *user_cred);
-+int backing_file_open_user_path(struct file *f, const struct path *path);
-+void backing_file_set_user_path_inode(struct file *f);
-+void kernel_path_file_open(struct file *f, const struct path *path);
-+
-+static inline void file_set_d_inode(struct file *f)
-+{
-+	f->f_inode = d_inode(f->f_path.dentry);
-+}
- 
- static inline void file_put_write_access(struct file *file)
- {
-diff --git a/fs/open.c b/fs/open.c
-index 91f1139591abe..a7b3b04cd9ae7 100644
---- a/fs/open.c
-+++ b/fs/open.c
-@@ -884,10 +884,38 @@ static inline int file_get_write_access(struct file *f)
- 	return error;
- }
- 
-+static const struct file_operations empty_fops = {};
-+
-+static void do_path_file_open(struct file *f)
-+{
-+	f->f_mode = FMODE_PATH | FMODE_OPENED;
-+	file_set_fsnotify_mode(f, FMODE_NONOTIFY);
-+	f->f_op = &empty_fops;
-+}
-+
-+/**
-+ * kernel_path_file_open - open an O_PATH file for kernel internal use
-+ * @f:		pre-allocated file with f_flags and f_cred initialized
-+ * @path:	path to reference (may have a negative dentry)
-+ *
-+ * Open a minimal O_PATH file that only references a path.
-+ * Unlike vfs_open(), this does not require a positive dentry and does not
-+ * set up f_mapping and other fields not needed for O_PATH.
-+ * If path is negative at the time of this call, the caller is responsible for
-+ * callingn backing_file_set_user_path_inode() after making the path positive.
-+
-+ */
-+void kernel_path_file_open(struct file *f, const struct path *path)
-+{
-+	f->__f_path = *path;
-+	path_get(&f->f_path);
-+	file_set_d_inode(f);
-+	do_path_file_open(f);
-+}
-+
- static int do_dentry_open(struct file *f,
- 			  int (*open)(struct inode *, struct file *))
- {
--	static const struct file_operations empty_fops = {};
- 	struct inode *inode = f->f_path.dentry->d_inode;
- 	int error;
- 
-@@ -898,9 +926,7 @@ static int do_dentry_open(struct file *f,
- 	f->f_sb_err = file_sample_sb_err(f);
- 
- 	if (unlikely(f->f_flags & O_PATH)) {
--		f->f_mode = FMODE_PATH | FMODE_OPENED;
--		file_set_fsnotify_mode(f, FMODE_NONOTIFY);
--		f->f_op = &empty_fops;
-+		do_path_file_open(f);
- 		return 0;
- 	}
- 
-diff --git a/fs/overlayfs/dir.c b/fs/overlayfs/dir.c
-index ff3dbd1ca61f2..24e961f165a78 100644
---- a/fs/overlayfs/dir.c
-+++ b/fs/overlayfs/dir.c
-@@ -1374,7 +1374,8 @@ static int ovl_create_tmpfile(struct file *file, struct dentry *dentry,
- 				return PTR_ERR(cred);
- 
- 			ovl_path_upper(dentry->d_parent, &realparentpath);
--			realfile = backing_tmpfile_open(&file->f_path, flags, &realparentpath,
-+			realfile = backing_tmpfile_open(&file->f_path, file->f_cred,
-+							flags, &realparentpath,
- 							mode, current_cred());
- 			err = PTR_ERR_OR_ZERO(realfile);
- 			pr_debug("tmpfile/open(%pd2, 0%o) = %i\n", realparentpath.dentry, mode, err);
-@@ -1392,6 +1393,8 @@ static int ovl_create_tmpfile(struct file *file, struct dentry *dentry,
- 			err = ovl_instantiate(dentry, inode, newdentry, false, file);
- 			if (!err) {
- 				file->private_data = of;
-+				/* user_path_file was opened with a negative path */
-+				backing_tmpfile_finish(realfile);
- 			} else {
- 				dput(newdentry);
- 				ovl_file_free(of);
-diff --git a/fs/overlayfs/file.c b/fs/overlayfs/file.c
-index 97bed2286030d..767c128407fcc 100644
---- a/fs/overlayfs/file.c
-+++ b/fs/overlayfs/file.c
-@@ -49,6 +49,7 @@ static struct file *ovl_open_realfile(const struct file *file,
- 				flags &= ~O_NOATIME;
- 
- 			realfile = backing_file_open(file_user_path(file),
-+						     file_user_cred(file),
- 						     flags, realpath, current_cred());
- 		}
- 	}
-diff --git a/include/linux/backing-file.h b/include/linux/backing-file.h
-index 1476a6ed1bfd7..52ac51ada6ff9 100644
---- a/include/linux/backing-file.h
-+++ b/include/linux/backing-file.h
-@@ -9,21 +9,45 @@
- #define _LINUX_BACKING_FILE_H
- 
- #include <linux/file.h>
--#include <linux/uio.h>
- #include <linux/fs.h>
- 
-+/*
-+ * When mmapping a file on a stackable filesystem (e.g., overlayfs), the file
-+ * stored in ->vm_file is a backing file whose f_inode is on the underlying
-+ * filesystem.
-+ *
-+ * LSM can use file_user_path_file() to store context related to the user path
-+ * that was opened and mmaped.
-+ */
-+const struct file *backing_file_user_path_file(const struct file *f);
-+
-+static inline const struct file *file_user_path_file(const struct file *f)
-+{
-+	if (f && unlikely(f->f_mode & FMODE_BACKING))
-+		return backing_file_user_path_file(f);
-+	return f;
-+}
-+
-+static inline const struct cred *file_user_cred(const struct file *f)
-+{
-+	return file_user_path_file(f)->f_cred;
-+}
-+
- struct backing_file_ctx {
- 	const struct cred *cred;
- 	void (*accessed)(struct file *file);
- 	void (*end_write)(struct kiocb *iocb, ssize_t);
- };
- 
--struct file *backing_file_open(const struct path *user_path, int flags,
-+struct file *backing_file_open(const struct path *user_path,
-+			       const struct cred *user_cred, int flags,
- 			       const struct path *real_path,
- 			       const struct cred *cred);
--struct file *backing_tmpfile_open(const struct path *user_path, int flags,
-+struct file *backing_tmpfile_open(const struct path *user_path,
-+				  const struct cred *user_cred, int flags,
- 				  const struct path *real_parentpath,
- 				  umode_t mode, const struct cred *cred);
-+void backing_tmpfile_finish(struct file *file);
- ssize_t backing_file_read_iter(struct file *file, struct iov_iter *iter,
- 			       struct kiocb *iocb, int flags,
- 			       struct backing_file_ctx *ctx);
-diff --git a/include/linux/file_ref.h b/include/linux/file_ref.h
-index 31551e4cb8f34..c7512ce70f9c4 100644
---- a/include/linux/file_ref.h
-+++ b/include/linux/file_ref.h
-@@ -54,11 +54,11 @@ typedef struct {
- /**
-  * file_ref_init - Initialize a file reference count
-  * @ref: Pointer to the reference count
-- * @cnt: The initial reference count typically '1'
-+ * @cnt: The initial reference count typically FILE_REF_ONEREF
-  */
- static inline void file_ref_init(file_ref_t *ref, unsigned long cnt)
- {
--	atomic_long_set(&ref->refcnt, cnt - 1);
-+	atomic_long_set(&ref->refcnt, cnt);
- }
- 
- bool __file_ref_put(file_ref_t *ref, unsigned long cnt);
+Usama Arif (4):
+  mm: bypass mmap_miss heuristic for VM_EXEC readahead
+  mm: replace exec_folio_order() with generic preferred_exec_order()
+  elf: align ET_DYN base to max folio size for PTE coalescing
+  mm: align file-backed mmap to max folio order in thp_get_unmapped_area
+
+ arch/arm64/include/asm/pgtable.h |  8 -----
+ fs/binfmt_elf.c                  | 38 ++++++++++++++++++--
+ include/linux/pgtable.h          | 11 ------
+ mm/filemap.c                     | 59 ++++++++++++++++++++++++++++----
+ mm/huge_memory.c                 | 14 ++++++++
+ 5 files changed, 102 insertions(+), 28 deletions(-)
+
 -- 
-2.53.0
+2.52.0
 
