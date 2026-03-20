@@ -1,161 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com [209.85.210.69])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73B7636E495;
-	Fri, 20 Mar 2026 08:12:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F20337187F
+	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Mar 2026 08:16:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773994365; cv=none; b=S/mbC6bhykpQlN+QexwozhBx4dzfjiAqNnhYZQ/LvB4I74/deNUUS7CMtb8siIZLFq7/qwTTGB30O4tjXUE7V4EQ+hBmS5g1n7c3sE32fQoWOe2NDdL++Cr/jPWcYZPEf0mJ9LC0nkEiLvwOBCYg+N9M25xG2VhZWFH+1p/fPXk=
+	t=1773994608; cv=none; b=L/Tc6NTC0gknUiuWj3Ht+IbNCxcplaVYtYy5L25tozi1/NcRY33LJrSQ0qLfsntDKy/h8OI1AC1tzE67LaeRadXXypCoGjWfV8OmVjTl5LgEIGcMCFTpkYhKMB2ZM4smYDhLyY0Ca2OCMEkDkYMdxV8LFBj4YIIXVL5reRpmFN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773994365; c=relaxed/simple;
-	bh=bKDVCqTM4J91R7IvMYDkjFY61oGEb/tt+7PlrQhX1HY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BVTCgBpvmvRMaphJp5gYlHMDGmvt0Dc9+7EHOula1IajuktLDlDg9cNXsKJSSMIHEkSclNwPogJAg8BxTPs6KK/GJgvQuymgTn91MJViR9DVp4mY5HiSTa0TkukZTQHpjEnmNqsYSTQXoOs+SuX4UBFCZB64IA6+ryFiQFn1y+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=azx31kU0; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="azx31kU0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15121C4CEF7;
-	Fri, 20 Mar 2026 08:12:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773994365;
-	bh=bKDVCqTM4J91R7IvMYDkjFY61oGEb/tt+7PlrQhX1HY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=azx31kU0gP1cqkljdCivld5BsJa95qVMQh0lUqLWpwrSMVzC2J72H2av1f4l4OroJ
-	 hESw43ZLGLNK27gM/HGW5NMGekELE+7CjOhCzhW4/IBAqijq0LSdY1IHr25cHLGwSu
-	 OdBveZ6tjzl+f1RPJGO1Lc1jO7cvjxLgQlc1yr6F/3/hFfN0BR48timtKsoUK+5t2I
-	 MGL2a4XEStrkdCzdfDbbpaDERiYXjoofeBzC+TVzIwWwMwELdPSaQMAZNmzUYMGRg0
-	 MCvP+/YXSeYMFwyh+Q8bh36GXV2N4Unra84tj2POH4z8zr53zG4kZ0jsZO/refPOlV
-	 UUSDh6J4oKC5w==
-Message-ID: <ec90f34e-1f99-4ded-ba65-6d4345552ab3@kernel.org>
-Date: Fri, 20 Mar 2026 09:12:41 +0100
+	s=arc-20240116; t=1773994608; c=relaxed/simple;
+	bh=bjrJ4S/FsINr/81pbIi6jj6PljV4RiGl0H45oSmv7pU=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
+	 Content-Type; b=FWQTwHSOLfFHn+8FfzxvNtjpKrZ6VzG0PzOHQhr8g+z85CiJN9DwYV/gkUsdp98QlXQCYKx/R/NxxUUg3/S0wO4JAWgVLFq/VKyBKO7CQ5BC+0qmkmFBkSvvvwKyKUa15eSNjW5u09R6EOix5XkmNqlnVjb9ylc5OmL9YxI8jiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-ot1-f69.google.com with SMTP id 46e09a7af769-7d7e9eefb7aso4941101a34.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 20 Mar 2026 01:16:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773994606; x=1774599406;
+        h=cc:to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GaqbpFLjq54QozbnajqIPY0nFpUhUrZICyVqRPZuQEY=;
+        b=krj8osmox+LtLf9d+q4jl6lJvf6q7vhW65zjSDFWJD/CPhAuHpcNsidfH1WFLhE8NG
+         aPLJWIj3nNISNhVlF2nyuCxmvBcdybn0hS/sY5w84A1A1+feHbZntKrCC280PNo7/shT
+         Yc0IUZEZ5gKCMEXd/+GzamiY1RLRw4nCY+lexFKM2cICQhFrK+12OHGp91RLiwCnI2UE
+         jEPL+iFQeEgCg9EKOC20PyAko/Ai1+/C2R2UKZC1rB8vfNEwGzpwM9KzxemqujDFZbmX
+         JcXAuCsnX7xo/I0mipiGn+Jqw94GImblPOY1BUDX/BxKwghFc8m8TsXFoOEn/Fk6Dcoa
+         lcqw==
+X-Forwarded-Encrypted: i=1; AJvYcCV/OvcP37ulflhSNshQEglhGH8BHHeBjoaBvmja9LpDgCNpTFs3LPrZ+9cWb7q21nvniWwheCbcaxh8FFr0@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx1nxbmrai+WpasMxUZXCm+S+li1tq+DpCaAZlFkEbUHLIOfnlB
+	vNIU5j16CQ38QKnfO5lzY5x+qG4/deXxX3htTPJ9p93RWfM+gMrPwspo21uIGa8J1jmcI6+5Ila
+	7Q5dXs0bGfkxLBYryuSkGSquLUIvcQxNlrDDH0Pdfax2BvbrzIK1e1vQLQfI=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/1] writeback: don't block sync for filesystems with
- no data integrity guarantees
-To: Joanne Koong <joannelkoong@gmail.com>, brauner@kernel.org
-Cc: linux-fsdevel@vger.kernel.org, jack@suse.cz, miklos@szeredi.hu,
- therealgraysky@proton.me, linux-pm@vger.kernel.org, stable@vger.kernel.org
-References: <20260320005145.2483161-1-joannelkoong@gmail.com>
- <20260320005145.2483161-2-joannelkoong@gmail.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260320005145.2483161-2-joannelkoong@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Received: by 2002:a05:6820:228f:b0:67b:c536:c629 with SMTP id
+ 006d021491bc7-67c22bcc8e1mr1309137eaf.8.1773994606490; Fri, 20 Mar 2026
+ 01:16:46 -0700 (PDT)
+Date: Fri, 20 Mar 2026 01:16:46 -0700
+In-Reply-To: <20260319043553.301185-1-dxdt@dev.snart.me>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <69bd026e.050a0220.3bf4de.0012.GAE@google.com>
+Subject: [syzbot ci] Re: exfat: add limited FALLOC_FL_ZERO_RANGE support
+From: syzbot ci <syzbot+ci684179a8afcfdab1@syzkaller.appspotmail.com>
+To: dxdt@dev.snart.me, linkinjeon@kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, sj1557.seo@samsung.com, yuezhang.mo@sony.com
+Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On 3/20/26 01:51, Joanne Koong wrote:
-> Add a SB_I_NO_DATA_INTEGRITY superblock flag for filesystems that cannot
-> guarantee data persistence on sync (eg fuse). For superblocks with this
-> flag set, sync kicks off writeback of dirty inodes but does not wait
-> for the flusher threads to complete the writeback.
-> 
-> This replaces the per-inode AS_NO_DATA_INTEGRITY mapping flag added in
-> commit f9a49aa302a0 ("fs/writeback: skip AS_NO_DATA_INTEGRITY mappings
-> in wait_sb_inodes()"). The flag belongs at the superblock level because
-> data integrity is a filesystem-wide property, not a per-inode one.
-> Having this flag at the superblock level also allows us to skip having
-> to iterate every dirty inode in wait_sb_inodes() only to skip each inode
-> individually.
-> 
-> Prior to this commit, mappings with no data integrity guarantees skipped
-> waiting on writeback completion but still waited on the flusher threads
-> to finish initiating the writeback. Waiting on the flusher threads is
-> unnecessary. This commit kicks off writeback but does not wait on the
-> flusher threads. This change properly addresses a recent report [1] for
-> a suspend-to-RAM hang seen on fuse-overlayfs that was caused by waiting
-> on the flusher threads to finish:
-> 
-> Workqueue: pm_fs_sync pm_fs_sync_work_fn
-> Call Trace:
->  <TASK>
->  __schedule+0x457/0x1720
->  schedule+0x27/0xd0
->  wb_wait_for_completion+0x97/0xe0
->  sync_inodes_sb+0xf8/0x2e0
->  __iterate_supers+0xdc/0x160
->  ksys_sync+0x43/0xb0
->  pm_fs_sync_work_fn+0x17/0xa0
->  process_one_work+0x193/0x350
->  worker_thread+0x1a1/0x310
->  kthread+0xfc/0x240
->  ret_from_fork+0x243/0x280
->  ret_from_fork_asm+0x1a/0x30
->  </TASK>
-> 
-> On fuse this is problematic because there are paths that may cause the
-> flusher thread to block (eg if systemd freezes the user session cgroups
-> first, which freezes the fuse daemon, before invoking the kernel
-> suspend. The kernel suspend triggers ->write_node() which on fuse issues
-> a synchronous setattr request, which cannot be processed since the
-> daemon is frozen. Or if the daemon is buggy and cannot properly complete
-> writeback, initiating writeback on a dirty folio already under writeback
-> leads to writeback_get_folio() -> folio_prepare_writeback() ->
-> unconditional wait on writeback to finish, which will cause a hang).
-> This commit restores fuse to its prior behavior before tmp folios were
-> removed, where sync was essentially a no-op.
-> 
-> [1] https://lore.kernel.org/linux-fsdevel/CAJnrk1a-asuvfrbKXbEwwDSctvemF+6zfhdnuzO65Pt8HsFSRw@mail.gmail.com/T/#m632c4648e9cafc4239299887109ebd880ac6c5c1
-> 
-> Fixes: 0c58a97f919c ("fuse: remove tmp folio for writebacks and internal rb tree")
-> Reported-by: John <therealgraysky@proton.me>
-> Cc: <stable@vger.kernel.org>
-> Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
-> ---
+syzbot ci has tested the following series
 
-Looks reasonable to me. With my little experience in fs land:
+[v0] exfat: add limited FALLOC_FL_ZERO_RANGE support
+https://lore.kernel.org/all/20260319043553.301185-1-dxdt@dev.snart.me
+* [PATCH v0 1/1] exfat: add limited FALLOC_FL_ZERO_RANGE support
 
-Reviewed-by: David Hildenbrand (Arm) <david@kernel.org>
+and found the following issue:
+WARNING: lock held when returning to user space in exfat_fallocate
 
--- 
-Cheers,
+Full report is available here:
+https://ci.syzbot.org/series/a58a79c9-a4e7-40b7-a5d3-8d4da244a00c
 
-David
+***
+
+WARNING: lock held when returning to user space in exfat_fallocate
+
+tree:      linux-next
+URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/next/linux-next
+base:      b5d083a3ed1e2798396d5e491432e887da8d4a06
+arch:      amd64
+compiler:  Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
+config:    https://ci.syzbot.org/builds/6a43cfef-5b9a-4b39-a6b0-7d34bfb0f7b7/config
+C repro:   https://ci.syzbot.org/findings/87d27fd2-e5b7-4174-8faf-3b746f7aa18d/c_repro
+syz repro: https://ci.syzbot.org/findings/87d27fd2-e5b7-4174-8faf-3b746f7aa18d/syz_repro
+
+exFAT-fs (loop0): failed to load upcase table (idx : 0x0000fd4f, chksum : 0x395e47cf, utbl_chksum : 0xe619d30d)
+exFAT-fs (loop0): valid_size(150994954) is greater than size(10)
+================================================
+WARNING: lock held when returning to user space!
+syzkaller #0 Not tainted
+------------------------------------------------
+syz.0.17/5982 is leaving the kernel with locks still held!
+1 lock held by syz.0.17/5982:
+ #0: ffff8881bc75c110 (&sb->s_type->i_mutex_key#24){+.+.}-{4:4}, at: inode_lock include/linux/fs.h:1028 [inline]
+ #0: ffff8881bc75c110 (&sb->s_type->i_mutex_key#24){+.+.}-{4:4}, at: exfat_fallocate+0x163/0x4e0 fs/exfat/file.c:131
+
+
+***
+
+If these findings have caused you to resend the series or submit a
+separate fix, please add the following tag to your commit message:
+  Tested-by: syzbot@syzkaller.appspotmail.com
+
+---
+This report is generated by a bot. It may contain errors.
+syzbot ci engineers can be reached at syzkaller@googlegroups.com.
