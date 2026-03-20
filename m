@@ -1,308 +1,298 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDCED329378
-	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Mar 2026 13:43:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 501B03A641D;
+	Fri, 20 Mar 2026 13:43:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774014192; cv=none; b=JfmoE8OaD+OZEwXp3Der+zvfqK8t2E1MLKeYbDxEy/7ojKRL2LXl2YnPhFYjSWJRSNWjMynNjQdBKkqEqCUcIosU+DKLhuU8pCnzBLhjQbOb/QwUrx+wa4lHLxVtN+uDBsSm9cmQylSsCXQvSFbG7JUGiZxY7fs40PSezvkUNAw=
+	t=1774014192; cv=none; b=Il58Ys0Z2o3/crpw2ppt47TjgaAr0t0DVLzxUoq+W2YDNn0E9jb3p6+Vc3Oj3e8vBOiRIaEHC5pFiL93edOWl0ThCSQfA1AJqXUL+HwRzQeWQx62eS3nX1GIcgq4db3Y8ul1V0i9xrvZ9KK8ry2zYoWQ6gRk6SzVNxYxAaARz3U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1774014192; c=relaxed/simple;
-	bh=mdP2kASBf0yhnD0I35SUu4LGJDwskVC25FLk12a/mT4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qGRZHqH/IVaenEcKdzpz5t4qFzHTBsTh1/hw6N74c16g+UiVpUggnozl5DdeOjGmZAiOoGB5TiNjTZ0vsqzhaivWnt93RmKCZjph91cSAW3z11pUKKo2EXXU3VlXrSJkR2WEoGSBMtltxT2so4BPqTjeI6v9wBluGjglqkKLNto=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=NnPjWetv; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=V1AUCraM; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=NnPjWetv; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=V1AUCraM; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	bh=DyFuJFml7YVo8+/hTBGS9GQt/nh4Xv5125sbhWsDy3w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FqIvPF2aJygMemwHxnC5J4OnNP/+XK7fGpUhUnseKbsRt/vmb+oUs+zHBaaVZshqJuaCYtX48rIk21gU7jDAhiJZK1wUu97c4GaPPHOL51rhhFZE6My9UJCcTyY7phsyQ5i/h7V2+ma8Dr4UATgTZ6eVfBqZZR1f8Fkvx/kKvWs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gK3cDFvh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="NnPjWetv";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="V1AUCraM";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="NnPjWetv";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="V1AUCraM"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 784D64D29D;
-	Fri, 20 Mar 2026 13:41:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1774014105; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=X/R3AGN6dIap1MXQgjeMm6isvpHyScocBtEis1Qb+TE=;
-	b=NnPjWetvBmZtfTD3MTjGEYO7Q6u6qJgLQCH71ENSuqeMpffO19rjGmfA12TXdx8ewuvLBZ
-	+VrcgZQDM8Aii7zC6EiyPWtSlZP8njw936/cZpnDWR0Pp8sX9SjyNW9jSCqVqURJkSxYdu
-	tcSEnI2xNV86aIC2X6k36ClNBCIgLvE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1774014105;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=X/R3AGN6dIap1MXQgjeMm6isvpHyScocBtEis1Qb+TE=;
-	b=V1AUCraMDhgLYYKySi22zLtem+w2pkUEPBh53U/gku9ZoZ9le/oHUzk9zsDOFJ9bzuBNKf
-	FB4iMiX//hk8t2Bg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1774014105; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=X/R3AGN6dIap1MXQgjeMm6isvpHyScocBtEis1Qb+TE=;
-	b=NnPjWetvBmZtfTD3MTjGEYO7Q6u6qJgLQCH71ENSuqeMpffO19rjGmfA12TXdx8ewuvLBZ
-	+VrcgZQDM8Aii7zC6EiyPWtSlZP8njw936/cZpnDWR0Pp8sX9SjyNW9jSCqVqURJkSxYdu
-	tcSEnI2xNV86aIC2X6k36ClNBCIgLvE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1774014105;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=X/R3AGN6dIap1MXQgjeMm6isvpHyScocBtEis1Qb+TE=;
-	b=V1AUCraMDhgLYYKySi22zLtem+w2pkUEPBh53U/gku9ZoZ9le/oHUzk9zsDOFJ9bzuBNKf
-	FB4iMiX//hk8t2Bg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 610824281D;
-	Fri, 20 Mar 2026 13:41:45 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id /v6uF5lOvWl6CQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Fri, 20 Mar 2026 13:41:45 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 1B5CBA0B4E; Fri, 20 Mar 2026 14:41:45 +0100 (CET)
-From: Jan Kara <jack@suse.cz>
-To: <linux-fsdevel@vger.kernel.org>
-Cc: <linux-block@vger.kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Al Viro <viro@ZenIV.linux.org.uk>,
-	<linux-ext4@vger.kernel.org>,
-	Ted Tso <tytso@mit.edu>,
-	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
-	David Sterba <dsterba@suse.com>,
-	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
-	Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	David Hildenbrand <david@kernel.org>,
-	linux-mm@kvack.org,
-	linux-aio@kvack.org,
-	Benjamin LaHaise <bcrl@kvack.org>,
-	Jan Kara <jack@suse.cz>
-Subject: [PATCH 23/41] aio: Stop using i_private_data and i_private_lock
-Date: Fri, 20 Mar 2026 14:41:18 +0100
-Message-ID: <20260320134100.20731-64-jack@suse.cz>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260320131728.6449-1-jack@suse.cz>
-References: <20260320131728.6449-1-jack@suse.cz>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gK3cDFvh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADD9AC2BCB2;
+	Fri, 20 Mar 2026 13:42:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774014192;
+	bh=DyFuJFml7YVo8+/hTBGS9GQt/nh4Xv5125sbhWsDy3w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gK3cDFvh7dEcs9L3VC7fj0P6IM5YMZ5Mdb7e1aiwqcjRMNtOygIPq2gaIILFuUtTM
+	 vmqMlCjBU/8YqWSrn8GlSD1mbnyZvleBSG4NBi3zJJ69IUJMAI0DEdStZKy+UW0TaS
+	 RKgp2laFc8jVyXbKre2JResrGO8+VbexZHvQVEUDnIaYf1/UBEaFtXzWQkyAGtWvAC
+	 EC8EOzLMExEfD4QvcP/5iHkGjSQVu/uJiaSVg5HYyjsbtJBNdghidoAN6SiQA2nRu6
+	 m51U9AIWacLgoG0wrPS7G6Dn4d7v54+3rpqqUTSWe8f3RYfxZqr7UHrfRbAGSUWvmM
+	 y4Zk3Ov3DoF0w==
+Date: Fri, 20 Mar 2026 13:42:57 +0000
+From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
+	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Kees Cook <kees@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	Vineet Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Brian Cain <bcain@kernel.org>, 
+	Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Dinh Nguyen <dinguyen@kernel.org>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <chleroy@kernel.org>, 
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
+	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
+	Alexander Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>, 
+	Sven Schnelle <svens@linux.ibm.com>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>, 
+	Richard Weinberger <richard@nod.at>, Anton Ivanov <anton.ivanov@cambridgegreys.com>, 
+	Johannes Berg <johannes@sipsolutions.net>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Xu Xin <xu.xin16@zte.com.cn>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@suse.com>, Paul Moore <paul@paul-moore.com>, 
+	Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>, 
+	linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-hexagon@vger.kernel.org, loongarch@lists.linux.dev, linux-mips@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, 
+	linux-um@lists.infradead.org, linux-fsdevel@vger.kernel.org, selinux@vger.kernel.org
+Subject: Re: [PATCH v3 17/23] mm: convert do_brk_flags() to use vma_flags_t
+Message-ID: <f47e24c4-3a11-4a58-96f5-871443660246@lucifer.local>
+References: <cover.1773846935.git.ljs@kernel.org>
+ <981ed1afcd19115432e61778e7d226a36f8f5c2b.1773846935.git.ljs@kernel.org>
+ <1d300b3b-2476-4381-b8df-a680f486b284@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4888; i=jack@suse.cz; h=from:subject; bh=mdP2kASBf0yhnD0I35SUu4LGJDwskVC25FLk12a/mT4=; b=owEBbQGS/pANAwAIAZydqgc/ZEDZAcsmYgBpvU6AGGJT8GdQ+e+wtuFtTkXrw0gaAb7TMpeEt l5v77h9SHyJATMEAAEIAB0WIQSrWdEr1p4yirVVKBycnaoHP2RA2QUCab1OgAAKCRCcnaoHP2RA 2b+PCACTnCG17oEenDQltzLldovJYV5viY+YhbnvX5R6+yyoQQ6SOBjIDorPklUNd2IET23qpLz Xx6dR8A++9iS5FuLNl5bb5uSpPbUNwR2vVlmgrpBI8v9r6Ydycp4WeYrn3qKlbgYIl/16X4uJUc w3kAub00KlyyTK6KcdiMcqO2/yk/8EfiKrK2LzD5m0q1t5PA4ncJU2KUrEXh9c75/+fhPdH+ZAQ AWG9YzLd+Od6tNs5qMw2w3wGIWJIf4+hePdrGJus2I0U3XeiXz8l8+OvOytctWZhd9HtvkpTuA3 g+EGzwn0dniI74zAM6AnGbsmTSpP4h/4ZdYD4/8HI15idmbF
-X-Developer-Key: i=jack@suse.cz; a=openpgp; fpr=93C6099A142276A28BBE35D815BC833443038D8C
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-5.30 / 50.00];
-	REPLY(-4.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.998];
-	MIME_GOOD(-0.10)[text/plain];
-	TAGGED_RCPT(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[3];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,ZenIV.linux.org.uk,mit.edu,gmail.com,suse.com,mail.parknet.co.jp,linux.dev,suse.de,kvack.org,suse.cz];
-	R_RATELIMIT(0.00)[to_ip_from(RLck8brw5hxmszoarioc7838it)];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:mid,suse.cz:email,imap1.dmz-prg2.suse.org:helo];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com]
-X-Spam-Flag: NO
-X-Spam-Score: -5.30
-X-Spam-Level: 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1d300b3b-2476-4381-b8df-a680f486b284@kernel.org>
 
-Instead of using i_private_data and i_private_lock, just create aio
-inodes with appropriate necessary fields.
+On Fri, Mar 20, 2026 at 10:57:32AM +0100, Vlastimil Babka (SUSE) wrote:
+> On 3/18/26 16:50, Lorenzo Stoakes (Oracle) wrote:
+> > In order to be able to do this, we need to change VM_DATA_DEFAULT_FLAGS
+> > and friends and update the architecture-specific definitions also.
+> >
+> > We then have to update some KSM logic to handle VMA flags, and introduce
+> > VMA_STACK_FLAGS to define the vma_flags_t equivalent of VM_STACK_FLAGS.
+> >
+> > We also introduce two helper functions for use during the time we are
+> > converting legacy flags to vma_flags_t values - vma_flags_to_legacy() and
+> > legacy_to_vma_flags().
+>
+> Nit: this was done by an earlier patch.
 
-Signed-off-by: Jan Kara <jack@suse.cz>
----
- fs/aio.c | 78 +++++++++++++++++++++++++++++++++++++++++++++++---------
- 1 file changed, 66 insertions(+), 12 deletions(-)
+Ack will fix up.
 
-diff --git a/fs/aio.c b/fs/aio.c
-index a07bdd1aaaa6..ba9b9fa2446b 100644
---- a/fs/aio.c
-+++ b/fs/aio.c
-@@ -218,6 +218,17 @@ struct aio_kiocb {
- 	struct eventfd_ctx	*ki_eventfd;
- };
- 
-+struct aio_inode_info {
-+	struct inode vfs_inode;
-+	spinlock_t migrate_lock;
-+	struct kioctx *ctx;
-+};
-+
-+static inline struct aio_inode_info *AIO_I(struct inode *inode)
-+{
-+	return container_of(inode, struct aio_inode_info, vfs_inode);
-+}
-+
- /*------ sysctl variables----*/
- static DEFINE_SPINLOCK(aio_nr_lock);
- static unsigned long aio_nr;		/* current system wide number of aio requests */
-@@ -251,6 +262,7 @@ static void __init aio_sysctl_init(void)
- 
- static struct kmem_cache	*kiocb_cachep;
- static struct kmem_cache	*kioctx_cachep;
-+static struct kmem_cache	*aio_inode_cachep;
- 
- static struct vfsmount *aio_mnt;
- 
-@@ -261,11 +273,12 @@ static struct file *aio_private_file(struct kioctx *ctx, loff_t nr_pages)
- {
- 	struct file *file;
- 	struct inode *inode = alloc_anon_inode(aio_mnt->mnt_sb);
-+
- 	if (IS_ERR(inode))
- 		return ERR_CAST(inode);
- 
- 	inode->i_mapping->a_ops = &aio_ctx_aops;
--	inode->i_mapping->i_private_data = ctx;
-+	AIO_I(inode)->ctx = ctx;
- 	inode->i_size = PAGE_SIZE * nr_pages;
- 
- 	file = alloc_file_pseudo(inode, aio_mnt, "[aio]",
-@@ -275,14 +288,49 @@ static struct file *aio_private_file(struct kioctx *ctx, loff_t nr_pages)
- 	return file;
- }
- 
-+static struct inode *aio_alloc_inode(struct super_block *sb)
-+{
-+	struct aio_inode_info *ai;
-+
-+	ai = alloc_inode_sb(sb, aio_inode_cachep, GFP_KERNEL);
-+	if (!ai)
-+		return NULL;
-+	ai->ctx = NULL;
-+
-+	return &ai->vfs_inode;
-+}
-+
-+static void aio_free_inode(struct inode *inode)
-+{
-+	kmem_cache_free(aio_inode_cachep, AIO_I(inode));
-+}
-+
-+static const struct super_operations aio_super_operations = {
-+	.alloc_inode	= aio_alloc_inode,
-+	.free_inode	= aio_free_inode,
-+	.statfs		= simple_statfs,
-+};
-+
- static int aio_init_fs_context(struct fs_context *fc)
- {
--	if (!init_pseudo(fc, AIO_RING_MAGIC))
-+	struct pseudo_fs_context *pfc;
-+
-+	pfc = init_pseudo(fc, AIO_RING_MAGIC);
-+	if (!pfc)
- 		return -ENOMEM;
- 	fc->s_iflags |= SB_I_NOEXEC;
-+	pfc->ops = &aio_super_operations;
- 	return 0;
- }
- 
-+static void init_once(void *obj)
-+{
-+	struct aio_inode_info *ai = obj;
-+
-+	inode_init_once(&ai->vfs_inode);
-+	spin_lock_init(&ai->migrate_lock);
-+}
-+
- /* aio_setup
-  *	Creates the slab caches used by the aio routines, panic on
-  *	failure as this is done early during the boot sequence.
-@@ -294,6 +342,11 @@ static int __init aio_setup(void)
- 		.init_fs_context = aio_init_fs_context,
- 		.kill_sb	= kill_anon_super,
- 	};
-+
-+	aio_inode_cachep = kmem_cache_create("aio_inode_cache",
-+				sizeof(struct aio_inode_info), 0,
-+				(SLAB_RECLAIM_ACCOUNT|SLAB_PANIC|SLAB_ACCOUNT),
-+				init_once);
- 	aio_mnt = kern_mount(&aio_fs);
- 	if (IS_ERR(aio_mnt))
- 		panic("Failed to create aio fs mount.");
-@@ -308,17 +361,17 @@ __initcall(aio_setup);
- static void put_aio_ring_file(struct kioctx *ctx)
- {
- 	struct file *aio_ring_file = ctx->aio_ring_file;
--	struct address_space *i_mapping;
- 
- 	if (aio_ring_file) {
--		truncate_setsize(file_inode(aio_ring_file), 0);
-+		struct inode *inode = file_inode(aio_ring_file);
-+
-+		truncate_setsize(inode, 0);
- 
- 		/* Prevent further access to the kioctx from migratepages */
--		i_mapping = aio_ring_file->f_mapping;
--		spin_lock(&i_mapping->i_private_lock);
--		i_mapping->i_private_data = NULL;
-+		spin_lock(&AIO_I(inode)->migrate_lock);
-+		AIO_I(inode)->ctx = NULL;
- 		ctx->aio_ring_file = NULL;
--		spin_unlock(&i_mapping->i_private_lock);
-+		spin_unlock(&AIO_I(inode)->migrate_lock);
- 
- 		fput(aio_ring_file);
- 	}
-@@ -408,13 +461,14 @@ static int aio_migrate_folio(struct address_space *mapping, struct folio *dst,
- 			struct folio *src, enum migrate_mode mode)
- {
- 	struct kioctx *ctx;
-+	struct aio_inode_info *ai = AIO_I(mapping->host);
- 	unsigned long flags;
- 	pgoff_t idx;
- 	int rc = 0;
- 
--	/* mapping->i_private_lock here protects against the kioctx teardown.  */
--	spin_lock(&mapping->i_private_lock);
--	ctx = mapping->i_private_data;
-+	/* ai->migrate_lock here protects against the kioctx teardown.  */
-+	spin_lock(&ai->migrate_lock);
-+	ctx = ai->ctx;
- 	if (!ctx) {
- 		rc = -EINVAL;
- 		goto out;
-@@ -467,7 +521,7 @@ static int aio_migrate_folio(struct address_space *mapping, struct folio *dst,
- out_unlock:
- 	mutex_unlock(&ctx->ring_lock);
- out:
--	spin_unlock(&mapping->i_private_lock);
-+	spin_unlock(&ai->migrate_lock);
- 	return rc;
- }
- #else
--- 
-2.51.0
+>
+> > This enables us to iteratively make changes to break these changes up into
+> > separate parts.
+> >
+> > We use these explicitly here to keep VM_STACK_FLAGS around for certain
+> > users which need to maintain the legacy vm_flags_t values for the time
+> > being.
+> >
+> > We are no longer able to rely on the simple VM_xxx being set to zero if
+> > the feature is not enabled, so in the case of VM_DROPPABLE we introduce
+> > VMA_DROPPABLE as the vma_flags_t equivalent, which is set to
+> > EMPTY_VMA_FLAGS if the droppable flag is not available.
+> >
+> > While we're here, we make the description of do_brk_flags() into a kdoc
+> > comment, as it almost was already.
+> >
+> > We use vma_flags_to_legacy() to not need to update the vm_get_page_prot()
+> > logic as this time.
+> >
+> > Note that in create_init_stack_vma() we have to replace the BUILD_BUG_ON()
+> > with a VM_WARN_ON_ONCE() as the tested values are no longer build time
+> > available.
+> >
+> > We also update mprotect_fixup() to use VMA flags where possible, though we
+> > have to live with a little duplication between vm_flags_t and vma_flags_t
+> > values for the time being until further conversions are made.
+> >
+> > Finally, we update the VMA tests to reflect these changes.
+> >
+> > Acked-by: Paul Moore <paul@paul-moore.com>	[SELinux]
+> > Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
+>
+> Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 
+Thanks!
+
+>
+> More nits below:
+>
+> > diff --git a/arch/arm64/include/asm/page.h b/arch/arm64/include/asm/page.h
+> > index b39cc1127e1f..e25d0d18f6d7 100644
+> > --- a/arch/arm64/include/asm/page.h
+> > +++ b/arch/arm64/include/asm/page.h
+> > @@ -46,7 +46,12 @@ int pfn_is_map_memory(unsigned long pfn);
+> >
+> >  #endif /* !__ASSEMBLER__ */
+> >
+> > -#define VM_DATA_DEFAULT_FLAGS	(VM_DATA_FLAGS_TSK_EXEC | VM_MTE_ALLOWED)
+> > +#ifdef CONFIG_ARM64_MTE
+> > +#define VMA_DATA_DEFAULT_FLAGS	append_vma_flags(VMA_DATA_FLAGS_TSK_EXEC, \
+> > +						 VMA_MTE_ALLOWED_BIT)
+>
+> I wonder what's the bloat-o-meter impact of these #define's (this
+> arm64-specific one isn't the only one) being no longer compile-time-constants?
+
+I mean there's a precedent for this, but the compiler _should_ figure out this
+as a constant value, I have repeatedly confirmed that it's good at that in
+godbolt, via make foo/bar.S etc.
+
+So it should have no measureable impact at 64-bit VMA flags anyway, but I can
+give it a go and see before/after.
+
+>
+> > +#else
+> > +#define VMA_DATA_DEFAULT_FLAGS	VMA_DATA_FLAGS_TSK_EXEC
+> > +#endif
+> >
+> >  #include <asm-generic/getorder.h>
+> >
+>
+> > --- a/include/linux/mm.h
+> > +++ b/include/linux/mm.h
+>
+> >
+> > +#define VMA_STACK_FLAGS	append_vma_flags(VMA_STACK_DEFAULT_FLAGS,	\
+> > +		VMA_STACK_BIT, VMA_ACCOUNT_BIT)
+> > +
+> > +/* Temporary until VMA flags conversion complete. */
+> > +#define VM_STACK_FLAGS vma_flags_to_legacy(VMA_STACK_FLAGS)
+> > +
+> >  #define VM_STARTGAP_FLAGS (VM_GROWSDOWN | VM_SHADOW_STACK)
+> >
+> >  #ifdef CONFIG_MSEAL_SYSTEM_MAPPINGS
+> > @@ -536,8 +547,6 @@ enum {
+> >  #define VM_SEALED_SYSMAP	VM_NONE
+> >  #endif
+> >
+> > -#define VM_STACK_FLAGS	(VM_STACK | VM_STACK_DEFAULT_FLAGS | VM_ACCOUNT)
+> > -
+> >  /* VMA basic access permission flags */
+> >  #define VM_ACCESS_FLAGS (VM_READ | VM_WRITE | VM_EXEC)
+> >  #define VMA_ACCESS_FLAGS mk_vma_flags(VMA_READ_BIT, VMA_WRITE_BIT, VMA_EXEC_BIT)
+> > @@ -547,6 +556,9 @@ enum {
+> >   */
+> >  #define VM_SPECIAL (VM_IO | VM_DONTEXPAND | VM_PFNMAP | VM_MIXEDMAP)
+> >
+> > +#define VMA_SPECIAL_FLAGS mk_vma_flags(VMA_IO_BIT, VMA_DONTEXPAND_BIT, \
+> > +				       VMA_PFNMAP_BIT, VMA_MIXEDMAP_BIT)
+>
+> Should VM_SPECIAL be also redefined using vma_flags_to_legacy()?
+
+Could do! It should be a pretty clear indicator this is legacy.
+
+>
+> > +
+> >  /*
+> >   * Physically remapped pages are special. Tell the
+> >   * rest of the world about it:
+> > @@ -1412,7 +1424,7 @@ static __always_inline void vma_desc_set_flags_mask(struct vm_area_desc *desc,
+> >   * vm_area_desc object describing a proposed VMA, e.g.:
+> >   *
+> >   * vma_desc_set_flags(desc, VMA_IO_BIT, VMA_PFNMAP_BIT, VMA_DONTEXPAND_BIT,
+> > - *		VMA_DONTDUMP_BIT);
+> > + *              VMA_DONTDUMP_BIT);
+>
+> Looks like spurious tabs-to-space change inconsistent with other instances.
+
+Yeah that's a mistake, will fixup.
+
+>
+> >   */
+> >  #define vma_desc_set_flags(desc, ...) \
+> >  	vma_desc_set_flags_mask(desc, mk_vma_flags(__VA_ARGS__))
+> > @@ -4059,7 +4071,6 @@ extern int replace_mm_exe_file(struct mm_struct *mm, struct file *new_exe_file);
+> >  extern struct file *get_mm_exe_file(struct mm_struct *mm);
+> >  extern struct file *get_task_exe_file(struct task_struct *task);
+> >
+> > -extern bool may_expand_vm(struct mm_struct *, vm_flags_t, unsigned long npages);
+> >  extern void vm_stat_account(struct mm_struct *, vm_flags_t, long npages);
+> >
+> >  extern bool vma_is_special_mapping(const struct vm_area_struct *vma,
+> > diff --git a/mm/internal.h b/mm/internal.h
+> > index f98f4746ac41..80d8651441a7 100644
+>
+> > diff --git a/mm/mprotect.c b/mm/mprotect.c
+> > index 9681f055b9fc..eaa724b99908 100644
+> > --- a/mm/mprotect.c
+> > +++ b/mm/mprotect.c
+>
+> > @@ -773,19 +778,24 @@ mprotect_fixup(struct vma_iterator *vmi, struct mmu_gather *tlb,
+> >
+> >  	change_protection(tlb, vma, start, end, mm_cp_flags);
+> >
+> > -	if ((oldflags & VM_ACCOUNT) && !(newflags & VM_ACCOUNT))
+> > +	if (vma_flags_test(&old_vma_flags, VMA_ACCOUNT_BIT) &&
+> > +	    !vma_flags_test(&new_vma_flags, VMA_ACCOUNT_BIT))
+> >  		vm_unacct_memory(nrpages);
+> >
+> >  	/*
+> >  	 * Private VM_LOCKED VMA becoming writable: trigger COW to avoid major
+> >  	 * fault on access.
+> >  	 */
+> > -	if ((oldflags & (VM_WRITE | VM_SHARED | VM_LOCKED)) == VM_LOCKED &&
+> > -			(newflags & VM_WRITE)) {
+> > -		populate_vma_page_range(vma, start, end, NULL);
+> > +	if (vma_flags_test(&new_vma_flags, VMA_WRITE_BIT)) {
+> > +		const vma_flags_t mask =
+> > +			vma_flags_and(&old_vma_flags, VMA_WRITE_BIT,
+> > +				      VMA_SHARED_BIT, VMA_LOCKED_BIT);
+> > +
+> > +		if (vma_flags_same(&mask, VMA_LOCKED_BIT))
+>
+> That converts the original logic 1:1, but I wonder if it's now feasible to
+> write it more obviously as "VMA_LOCKED_BIT must be set, VM_WRITE_BIT and
+> VM_SHARED_BIT must not" ?
+
+Hmm, I'm not sure if I can express this more clearly, it's a pain either
+way. Could do:
+
+	if (vma_flags_test(&new_vma_flags, VMA_WRITE_BIT) &&
+	    !vma_flags_test_any(&old_vma_flags, VMA_WRITE_BIT, VMA_SHARED_BIT))
+		populate_vma_page_range(vma, start, end, NULL);
+
+>
+> > +			populate_vma_page_range(vma, start, end, NULL);
+> >  	}
+> >
+> > -	vm_stat_account(mm, oldflags, -nrpages);
+> > +	vm_stat_account(mm, vma_flags_to_legacy(old_vma_flags), -nrpages);
+> >  	vm_stat_account(mm, newflags, nrpages);
+> >  	perf_event_mmap(vma);
+> >  	return 0;
+>
+> > diff --git a/mm/vma.h b/mm/vma.h
+> > index cf8926558bf6..1f2de6cb3b97 100644
+> > --- a/mm/vma.h
+> > +++ b/mm/vma.h
+>
+> > +static inline bool is_data_mapping_vma_flags(const vma_flags_t *vma_flags)
+> > +{
+> > +	const vma_flags_t mask = vma_flags_and(vma_flags,
+> > +			VMA_WRITE_BIT, VMA_SHARED_BIT, VMA_STACK_BIT);
+> > +
+> > +	return vma_flags_same(&mask, VMA_WRITE_BIT);
+>
+> Ditto?
+
+I may do both as a follow up patch given the series is a pain to rework at this point
+and I want at least the first version to be like-for-like intentionally.
+
+>
+> > +}
+> >
+> >  static inline void vma_iter_config(struct vma_iterator *vmi,
+> >  		unsigned long index, unsigned long last)
+> > diff --git a/mm/vma_exec.c b/mm/vma_exec.c
+> > index 8134e1afca68..5cee8b7efa0f 100644
+
+Thanks, Lorenzo
