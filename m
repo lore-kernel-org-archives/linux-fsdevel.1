@@ -1,298 +1,434 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 501B03A641D;
-	Fri, 20 Mar 2026 13:43:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EA97359A9B
+	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Mar 2026 13:43:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774014192; cv=none; b=Il58Ys0Z2o3/crpw2ppt47TjgaAr0t0DVLzxUoq+W2YDNn0E9jb3p6+Vc3Oj3e8vBOiRIaEHC5pFiL93edOWl0ThCSQfA1AJqXUL+HwRzQeWQx62eS3nX1GIcgq4db3Y8ul1V0i9xrvZ9KK8ry2zYoWQ6gRk6SzVNxYxAaARz3U=
+	t=1774014197; cv=none; b=R4wCVz0izzLj7c73DMO9HPDxKi4XR7qTLjy/rJ013VZLa2/fxMpeAybdQCH/DDnnXUjdFtRwNVQP/55qnOATrSMO6uCezdvHSyVBTEkCK0PWVUrnrCjWrZGeyx9MKJ4mijjapD8LddDFxZ0sRiQ6TLliF3C+gTSKhgoe5wMXHcA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774014192; c=relaxed/simple;
-	bh=DyFuJFml7YVo8+/hTBGS9GQt/nh4Xv5125sbhWsDy3w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FqIvPF2aJygMemwHxnC5J4OnNP/+XK7fGpUhUnseKbsRt/vmb+oUs+zHBaaVZshqJuaCYtX48rIk21gU7jDAhiJZK1wUu97c4GaPPHOL51rhhFZE6My9UJCcTyY7phsyQ5i/h7V2+ma8Dr4UATgTZ6eVfBqZZR1f8Fkvx/kKvWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gK3cDFvh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774014197; c=relaxed/simple;
+	bh=WZugQ2Fndy6gye1t3Hfakk0HbjUHGh+F3qYszb5YB0Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=LtajC0usSuYHDb2hQK+CbR11RleumawUgmHk44rfvAcKWUK3sCdfcxz7l6qCLCT4OsqUbaPMYI7tFR60/fmtO+9IEdCkyxsamgzanNSog/Qn7HqWkHIFMiHEAw2ywHeRnppYdlCiyreg2es++rIr+OV5E5v076qTpKf+iLAYYi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=eJts8GzO; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=oGJS91mi; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=eJts8GzO; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=oGJS91mi; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gK3cDFvh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADD9AC2BCB2;
-	Fri, 20 Mar 2026 13:42:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774014192;
-	bh=DyFuJFml7YVo8+/hTBGS9GQt/nh4Xv5125sbhWsDy3w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gK3cDFvh7dEcs9L3VC7fj0P6IM5YMZ5Mdb7e1aiwqcjRMNtOygIPq2gaIILFuUtTM
-	 vmqMlCjBU/8YqWSrn8GlSD1mbnyZvleBSG4NBi3zJJ69IUJMAI0DEdStZKy+UW0TaS
-	 RKgp2laFc8jVyXbKre2JResrGO8+VbexZHvQVEUDnIaYf1/UBEaFtXzWQkyAGtWvAC
-	 EC8EOzLMExEfD4QvcP/5iHkGjSQVu/uJiaSVg5HYyjsbtJBNdghidoAN6SiQA2nRu6
-	 m51U9AIWacLgoG0wrPS7G6Dn4d7v54+3rpqqUTSWe8f3RYfxZqr7UHrfRbAGSUWvmM
-	 y4Zk3Ov3DoF0w==
-Date: Fri, 20 Mar 2026 13:42:57 +0000
-From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
-	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Kees Cook <kees@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	Vineet Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Brian Cain <bcain@kernel.org>, 
-	Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Dinh Nguyen <dinguyen@kernel.org>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <chleroy@kernel.org>, 
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
-	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
-	Alexander Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>, 
-	Sven Schnelle <svens@linux.ibm.com>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>, 
-	Richard Weinberger <richard@nod.at>, Anton Ivanov <anton.ivanov@cambridgegreys.com>, 
-	Johannes Berg <johannes@sipsolutions.net>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Xu Xin <xu.xin16@zte.com.cn>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@suse.com>, Paul Moore <paul@paul-moore.com>, 
-	Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>, 
-	linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-hexagon@vger.kernel.org, loongarch@lists.linux.dev, linux-mips@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, 
-	linux-um@lists.infradead.org, linux-fsdevel@vger.kernel.org, selinux@vger.kernel.org
-Subject: Re: [PATCH v3 17/23] mm: convert do_brk_flags() to use vma_flags_t
-Message-ID: <f47e24c4-3a11-4a58-96f5-871443660246@lucifer.local>
-References: <cover.1773846935.git.ljs@kernel.org>
- <981ed1afcd19115432e61778e7d226a36f8f5c2b.1773846935.git.ljs@kernel.org>
- <1d300b3b-2476-4381-b8df-a680f486b284@kernel.org>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="eJts8GzO";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="oGJS91mi";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="eJts8GzO";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="oGJS91mi"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id A73755BEE5;
+	Fri, 20 Mar 2026 13:41:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1774014105; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AERyFtb7R53Rm5I4b3SM6B/UYnagvrWNXUEJtFe56Tg=;
+	b=eJts8GzOlvsf8KrhxeUXrxnPrguwV27Xc49JFb9GdOaDIC7tIU37XOF4nPhP8doxIwLbj3
+	lm8/6IbZaDMJ+E1ve/umpSFQDVFgG+i7o34vsf6HDxi6QdEQHOOp8lUo+y9ITbnmrnqD1D
+	dZS+W+ESrqp+Oej0dkx6mWxQzlTUg/I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1774014105;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AERyFtb7R53Rm5I4b3SM6B/UYnagvrWNXUEJtFe56Tg=;
+	b=oGJS91miOqJkqMjL4P3wLdAmaTws5pgP0lD4JchVU3a58HCSAqWLR14iZJJN+i7YM+SOXJ
+	zaerWS4irElvnNDw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1774014105; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AERyFtb7R53Rm5I4b3SM6B/UYnagvrWNXUEJtFe56Tg=;
+	b=eJts8GzOlvsf8KrhxeUXrxnPrguwV27Xc49JFb9GdOaDIC7tIU37XOF4nPhP8doxIwLbj3
+	lm8/6IbZaDMJ+E1ve/umpSFQDVFgG+i7o34vsf6HDxi6QdEQHOOp8lUo+y9ITbnmrnqD1D
+	dZS+W+ESrqp+Oej0dkx6mWxQzlTUg/I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1774014105;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AERyFtb7R53Rm5I4b3SM6B/UYnagvrWNXUEJtFe56Tg=;
+	b=oGJS91miOqJkqMjL4P3wLdAmaTws5pgP0lD4JchVU3a58HCSAqWLR14iZJJN+i7YM+SOXJ
+	zaerWS4irElvnNDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 956594281C;
+	Fri, 20 Mar 2026 13:41:45 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 1AB6JJlOvWmLCQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Fri, 20 Mar 2026 13:41:45 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 621D1A0B54; Fri, 20 Mar 2026 14:41:45 +0100 (CET)
+From: Jan Kara <jack@suse.cz>
+To: <linux-fsdevel@vger.kernel.org>
+Cc: <linux-block@vger.kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Al Viro <viro@ZenIV.linux.org.uk>,
+	<linux-ext4@vger.kernel.org>,
+	Ted Tso <tytso@mit.edu>,
+	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
+	David Sterba <dsterba@suse.com>,
+	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+	Muchun Song <muchun.song@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	David Hildenbrand <david@kernel.org>,
+	linux-mm@kvack.org,
+	linux-aio@kvack.org,
+	Benjamin LaHaise <bcrl@kvack.org>,
+	Jan Kara <jack@suse.cz>
+Subject: [PATCH 31/41] fs: Provide functions for handling mapping_metadata_bhs directly
+Date: Fri, 20 Mar 2026 14:41:26 +0100
+Message-ID: <20260320134100.20731-72-jack@suse.cz>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260320131728.6449-1-jack@suse.cz>
+References: <20260320131728.6449-1-jack@suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1d300b3b-2476-4381-b8df-a680f486b284@kernel.org>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=12186; i=jack@suse.cz; h=from:subject; bh=WZugQ2Fndy6gye1t3Hfakk0HbjUHGh+F3qYszb5YB0Q=; b=owEBbQGS/pANAwAIAZydqgc/ZEDZAcsmYgBpvU6Gjk72DX/tnYi3hOlBDnETcNsWqIa/jrBCw rI3+sHnNwqJATMEAAEIAB0WIQSrWdEr1p4yirVVKBycnaoHP2RA2QUCab1OhgAKCRCcnaoHP2RA 2Su+CACxb81rcrWhsybOMUE+f/cyFWbelIn0UQa1LHhthA8L7xqCma+1S1T80Wo349YM/4AD/Ie mqHzP8LEU+ZKlFlY3MGBDgRyTyFGiugh4WDJX1G1GWLtP/aCwPvFvRHu4zJEpaiCUjNYqIKmaEd QC2agJD08ssntEkfeGJaWfRboOZOCAzol1LwV0zCP2D7xV3GPuyC3Z08BtZINQKwHE9XBroVH3d Na/o6JXa/97xd04EOOQBD1jgKH83pWjyUiiN93So72mC0r9T8cjhw9ioOhOx8GnR1phrWettN8/ Gq2B+byBgcKCrAPqgq1rFXBtWpv2syn8iaBkEtbtKvWZkg/H
+X-Developer-Key: i=jack@suse.cz; a=openpgp; fpr=93C6099A142276A28BBE35D815BC833443038D8C
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-5.30 / 50.00];
+	REPLY(-4.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.998];
+	MIME_GOOD(-0.10)[text/plain];
+	TAGGED_RCPT(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	RCVD_COUNT_THREE(0.00)[3];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,ZenIV.linux.org.uk,mit.edu,gmail.com,suse.com,mail.parknet.co.jp,linux.dev,suse.de,kvack.org,suse.cz];
+	R_RATELIMIT(0.00)[to_ip_from(RLck8brw5hxmszoarioc7838it)];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:mid,suse.cz:email,imap1.dmz-prg2.suse.org:helo];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com]
+X-Spam-Flag: NO
+X-Spam-Score: -5.30
+X-Spam-Level: 
 
-On Fri, Mar 20, 2026 at 10:57:32AM +0100, Vlastimil Babka (SUSE) wrote:
-> On 3/18/26 16:50, Lorenzo Stoakes (Oracle) wrote:
-> > In order to be able to do this, we need to change VM_DATA_DEFAULT_FLAGS
-> > and friends and update the architecture-specific definitions also.
-> >
-> > We then have to update some KSM logic to handle VMA flags, and introduce
-> > VMA_STACK_FLAGS to define the vma_flags_t equivalent of VM_STACK_FLAGS.
-> >
-> > We also introduce two helper functions for use during the time we are
-> > converting legacy flags to vma_flags_t values - vma_flags_to_legacy() and
-> > legacy_to_vma_flags().
->
-> Nit: this was done by an earlier patch.
+As part of transition toward moving mapping_metadata_bhs to fs-private
+part of the inode, provide functions for operations on this list
+directly instead of going through the inode / mapping.
 
-Ack will fix up.
+Signed-off-by: Jan Kara <jack@suse.cz>
+---
+ fs/buffer.c                 | 93 +++++++++++++++++--------------------
+ include/linux/buffer_head.h | 45 ++++++++++++++----
+ 2 files changed, 80 insertions(+), 58 deletions(-)
 
->
-> > This enables us to iteratively make changes to break these changes up into
-> > separate parts.
-> >
-> > We use these explicitly here to keep VM_STACK_FLAGS around for certain
-> > users which need to maintain the legacy vm_flags_t values for the time
-> > being.
-> >
-> > We are no longer able to rely on the simple VM_xxx being set to zero if
-> > the feature is not enabled, so in the case of VM_DROPPABLE we introduce
-> > VMA_DROPPABLE as the vma_flags_t equivalent, which is set to
-> > EMPTY_VMA_FLAGS if the droppable flag is not available.
-> >
-> > While we're here, we make the description of do_brk_flags() into a kdoc
-> > comment, as it almost was already.
-> >
-> > We use vma_flags_to_legacy() to not need to update the vm_get_page_prot()
-> > logic as this time.
-> >
-> > Note that in create_init_stack_vma() we have to replace the BUILD_BUG_ON()
-> > with a VM_WARN_ON_ONCE() as the tested values are no longer build time
-> > available.
-> >
-> > We also update mprotect_fixup() to use VMA flags where possible, though we
-> > have to live with a little duplication between vm_flags_t and vma_flags_t
-> > values for the time being until further conversions are made.
-> >
-> > Finally, we update the VMA tests to reflect these changes.
-> >
-> > Acked-by: Paul Moore <paul@paul-moore.com>	[SELinux]
-> > Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
->
-> Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+diff --git a/fs/buffer.c b/fs/buffer.c
+index c70f8027bdd1..43aca5b7969f 100644
+--- a/fs/buffer.c
++++ b/fs/buffer.c
+@@ -467,31 +467,25 @@ EXPORT_SYMBOL(mark_buffer_async_write);
+  * a successful fsync().  For example, ext2 indirect blocks need to be
+  * written back and waited upon before fsync() returns.
+  *
+- * The functions mark_buffer_dirty_inode(), fsync_inode_buffers(),
+- * mmb_has_buffers() and invalidate_inode_buffers() are provided for the
+- * management of a list of dependent buffers in mapping_metadata_bhs struct.
++ * The functions mmb_mark_buffer_dirty(), mmb_sync_buffers(), mmb_has_buffers()
++ * and mmb_invalidate_buffers() are provided for the management of a list of
++ * dependent buffers in mapping_metadata_bhs struct.
+  *
+  * The locking is a little subtle: The list of buffer heads is protected by
+  * the lock in mapping_metadata_bhs so functions coming from bdev mapping
+  * (such as try_to_free_buffers()) need to safely get to mapping_metadata_bhs
+  * using RCU, grab the lock, verify we didn't race with somebody detaching the
+  * bh / moving it to different inode and only then proceeding.
+- *
+- * FIXME: mark_buffer_dirty_inode() is a data-plane operation.  It should
+- * take an address_space, not an inode.  And it should be called
+- * mark_buffer_dirty_fsync() to clearly define why those buffers are being
+- * queued up.
+- *
+- * FIXME: mark_buffer_dirty_inode() doesn't need to add the buffer to the
+- * list if it is already on a list.  Because if the buffer is on a list,
+- * it *must* already be on the right one.  If not, the filesystem is being
+- * silly.  This will save a ton of locking.  But first we have to ensure
+- * that buffers are taken *off* the old inode's list when they are freed
+- * (presumably in truncate).  That requires careful auditing of all
+- * filesystems (do it inside bforget()).  It could also be done by bringing
+- * b_inode back.
+  */
+ 
++void mmb_init(struct mapping_metadata_bhs *mmb, struct address_space *mapping)
++{
++	spin_lock_init(&mmb->lock);
++	INIT_LIST_HEAD(&mmb->list);
++	mmb->mapping = mapping;
++}
++EXPORT_SYMBOL(mmb_init);
++
+ static void __remove_assoc_queue(struct mapping_metadata_bhs *mmb,
+ 			         struct buffer_head *bh)
+ {
+@@ -533,12 +527,12 @@ bool mmb_has_buffers(struct mapping_metadata_bhs *mmb)
+ EXPORT_SYMBOL_GPL(mmb_has_buffers);
+ 
+ /**
+- * sync_mapping_buffers - write out & wait upon a mapping's "associated" buffers
+- * @mapping: the mapping which wants those buffers written
++ * mmb_sync_buffers - write out & wait upon all buffers in a list
++ * @mmb: the list of buffers to write
+  *
+- * Starts I/O against the buffers at mapping->i_metadata_bhs and waits upon
+- * that I/O. Basically, this is a convenience function for fsync().  @mapping
+- * is a file or directory which needs those buffers to be written for a
++ * Starts I/O against the buffers in the given list and waits upon
++ * that I/O. Basically, this is a convenience function for fsync().  @mmb is
++ * for a file or directory which needs those buffers to be written for a
+  * successful fsync().
+  *
+  * We have conflicting pressures: we want to make sure that all
+@@ -553,9 +547,8 @@ EXPORT_SYMBOL_GPL(mmb_has_buffers);
+  * buffer stays on our list until IO completes (at which point it can be
+  * reaped).
+  */
+-int sync_mapping_buffers(struct address_space *mapping)
++int mmb_sync_buffers(struct mapping_metadata_bhs *mmb)
+ {
+-	struct mapping_metadata_bhs *mmb = &mapping->i_metadata_bhs;
+ 	struct buffer_head *bh;
+ 	int err = 0;
+ 	struct blk_plug plug;
+@@ -626,13 +619,14 @@ int sync_mapping_buffers(struct address_space *mapping)
+ 	spin_unlock(&mmb->lock);
+ 	return err;
+ }
+-EXPORT_SYMBOL(sync_mapping_buffers);
++EXPORT_SYMBOL(mmb_sync_buffers);
+ 
+ /**
+- * generic_buffers_fsync_noflush - generic buffer fsync implementation
++ * generic_mmb_fsync_noflush - generic buffer fsync implementation
+  * for simple filesystems with no inode lock
+  *
+  * @file:	file to synchronize
++ * @mmb:	list of metadata bhs to flush
+  * @start:	start offset in bytes
+  * @end:	end offset in bytes (inclusive)
+  * @datasync:	only synchronize essential metadata if true
+@@ -641,18 +635,20 @@ EXPORT_SYMBOL(sync_mapping_buffers);
+  * filesystems which track all non-inode metadata in the buffers list
+  * hanging off the address_space structure.
+  */
+-int generic_buffers_fsync_noflush(struct file *file, loff_t start, loff_t end,
+-				  bool datasync)
++int generic_mmb_fsync_noflush(struct file *file,
++			      struct mapping_metadata_bhs *mmb,
++			      loff_t start, loff_t end, bool datasync)
+ {
+ 	struct inode *inode = file->f_mapping->host;
+ 	int err;
+-	int ret;
++	int ret = 0;
+ 
+ 	err = file_write_and_wait_range(file, start, end);
+ 	if (err)
+ 		return err;
+ 
+-	ret = sync_mapping_buffers(inode->i_mapping);
++	if (mmb)
++		ret = mmb_sync_buffers(mmb);
+ 	if (!(inode_state_read_once(inode) & I_DIRTY_ALL))
+ 		goto out;
+ 	if (datasync && !(inode_state_read_once(inode) & I_DIRTY_DATASYNC))
+@@ -669,13 +665,14 @@ int generic_buffers_fsync_noflush(struct file *file, loff_t start, loff_t end,
+ 		ret = err;
+ 	return ret;
+ }
+-EXPORT_SYMBOL(generic_buffers_fsync_noflush);
++EXPORT_SYMBOL(generic_mmb_fsync_noflush);
+ 
+ /**
+- * generic_buffers_fsync - generic buffer fsync implementation
++ * generic_mmb_fsync - generic buffer fsync implementation
+  * for simple filesystems with no inode lock
+  *
+  * @file:	file to synchronize
++ * @mmb:	list of metadata bhs to flush
+  * @start:	start offset in bytes
+  * @end:	end offset in bytes (inclusive)
+  * @datasync:	only synchronize essential metadata if true
+@@ -685,18 +682,18 @@ EXPORT_SYMBOL(generic_buffers_fsync_noflush);
+  * hanging off the address_space structure. This also makes sure that
+  * a device cache flush operation is called at the end.
+  */
+-int generic_buffers_fsync(struct file *file, loff_t start, loff_t end,
+-			  bool datasync)
++int generic_mmb_fsync(struct file *file, struct mapping_metadata_bhs *mmb,
++		      loff_t start, loff_t end, bool datasync)
+ {
+ 	struct inode *inode = file->f_mapping->host;
+ 	int ret;
+ 
+-	ret = generic_buffers_fsync_noflush(file, start, end, datasync);
++	ret = generic_mmb_fsync_noflush(file, mmb, start, end, datasync);
+ 	if (!ret)
+ 		ret = blkdev_issue_flush(inode->i_sb->s_bdev);
+ 	return ret;
+ }
+-EXPORT_SYMBOL(generic_buffers_fsync);
++EXPORT_SYMBOL(generic_mmb_fsync);
+ 
+ /*
+  * Called when we've recently written block `bblock', and it is known that
+@@ -717,20 +714,18 @@ void write_boundary_block(struct block_device *bdev,
+ 	}
+ }
+ 
+-void mark_buffer_dirty_inode(struct buffer_head *bh, struct inode *inode)
++void mmb_mark_buffer_dirty(struct buffer_head *bh,
++			   struct mapping_metadata_bhs *mmb)
+ {
+-	struct address_space *mapping = inode->i_mapping;
+-
+ 	mark_buffer_dirty(bh);
+ 	if (!bh->b_mmb) {
+-		spin_lock(&mapping->i_metadata_bhs.lock);
+-		list_move_tail(&bh->b_assoc_buffers,
+-				&mapping->i_metadata_bhs.list);
+-		bh->b_mmb = &mapping->i_metadata_bhs;
+-		spin_unlock(&mapping->i_metadata_bhs.lock);
++		spin_lock(&mmb->lock);
++		list_move_tail(&bh->b_assoc_buffers, &mmb->list);
++		bh->b_mmb = mmb;
++		spin_unlock(&mmb->lock);
+ 	}
+ }
+-EXPORT_SYMBOL(mark_buffer_dirty_inode);
++EXPORT_SYMBOL(mmb_mark_buffer_dirty);
+ 
+ /**
+  * block_dirty_folio - Mark a folio as dirty.
+@@ -797,14 +792,12 @@ bool block_dirty_folio(struct address_space *mapping, struct folio *folio)
+ EXPORT_SYMBOL(block_dirty_folio);
+ 
+ /*
+- * Invalidate any and all dirty buffers on a given inode.  We are
++ * Invalidate any and all dirty buffers on a given buffers list.  We are
+  * probably unmounting the fs, but that doesn't mean we have already
+  * done a sync().  Just drop the buffers from the inode list.
+  */
+-void invalidate_inode_buffers(struct inode *inode)
++void mmb_invalidate_buffers(struct mapping_metadata_bhs *mmb)
+ {
+-	struct mapping_metadata_bhs *mmb = &inode->i_data.i_metadata_bhs;
+-
+ 	if (mmb_has_buffers(mmb)) {
+ 		spin_lock(&mmb->lock);
+ 		while (!list_empty(&mmb->list))
+@@ -812,7 +805,7 @@ void invalidate_inode_buffers(struct inode *inode)
+ 		spin_unlock(&mmb->lock);
+ 	}
+ }
+-EXPORT_SYMBOL(invalidate_inode_buffers);
++EXPORT_SYMBOL(mmb_invalidate_buffers);
+ 
+ /*
+  * Create the appropriate buffers when given a folio for data area and
+diff --git a/include/linux/buffer_head.h b/include/linux/buffer_head.h
+index 44094fd476f5..399277c679eb 100644
+--- a/include/linux/buffer_head.h
++++ b/include/linux/buffer_head.h
+@@ -205,12 +205,31 @@ struct buffer_head *create_empty_buffers(struct folio *folio,
+ void end_buffer_read_sync(struct buffer_head *bh, int uptodate);
+ void end_buffer_write_sync(struct buffer_head *bh, int uptodate);
+ 
+-/* Things to do with buffers at mapping->private_list */
+-void mark_buffer_dirty_inode(struct buffer_head *bh, struct inode *inode);
+-int generic_buffers_fsync_noflush(struct file *file, loff_t start, loff_t end,
+-				  bool datasync);
+-int generic_buffers_fsync(struct file *file, loff_t start, loff_t end,
+-			  bool datasync);
++/* Things to do with metadata buffers list */
++void mmb_mark_buffer_dirty(struct buffer_head *bh, struct mapping_metadata_bhs *mmb);
++static inline void mark_buffer_dirty_inode(struct buffer_head *bh,
++					   struct inode *inode)
++{
++	mmb_mark_buffer_dirty(bh, &inode->i_data.i_metadata_bhs);
++}
++int generic_mmb_fsync_noflush(struct file *file,
++			      struct mapping_metadata_bhs *mmb,
++			      loff_t start, loff_t end, bool datasync);
++static inline int generic_buffers_fsync_noflush(struct file *file,
++						loff_t start, loff_t end,
++						bool datasync)
++{
++	return generic_mmb_fsync_noflush(file, &file->f_mapping->i_metadata_bhs,
++					 start, end, datasync);
++}
++int generic_mmb_fsync(struct file *file, struct mapping_metadata_bhs *mmb,
++		      loff_t start, loff_t end, bool datasync);
++static inline int generic_buffers_fsync(struct file *file,
++					loff_t start, loff_t end, bool datasync)
++{
++	return generic_mmb_fsync(file, &file->f_mapping->i_metadata_bhs,
++				 start, end, datasync);
++}
+ void clean_bdev_aliases(struct block_device *bdev, sector_t block,
+ 			sector_t len);
+ static inline void clean_bdev_bh_alias(struct buffer_head *bh)
+@@ -515,9 +534,18 @@ bool block_dirty_folio(struct address_space *mapping, struct folio *folio);
+ 
+ void buffer_init(void);
+ bool try_to_free_buffers(struct folio *folio);
++void mmb_init(struct mapping_metadata_bhs *mmb, struct address_space *mapping);
+ bool mmb_has_buffers(struct mapping_metadata_bhs *mmb);
+-void invalidate_inode_buffers(struct inode *inode);
+-int sync_mapping_buffers(struct address_space *mapping);
++void mmb_invalidate_buffers(struct mapping_metadata_bhs *mmb);
++int mmb_sync_buffers(struct mapping_metadata_bhs *mmb);
++static inline void invalidate_inode_buffers(struct inode *inode)
++{
++	mmb_invalidate_buffers(&inode->i_data.i_metadata_bhs);
++}
++static inline int sync_mapping_buffers(struct address_space *mapping)
++{
++	return mmb_sync_buffers(&mapping->i_metadata_bhs);
++}
+ void invalidate_bh_lrus(void);
+ void invalidate_bh_lrus_cpu(void);
+ bool has_bh_in_lru(int cpu, void *dummy);
+@@ -527,6 +555,7 @@ extern int buffer_heads_over_limit;
+ 
+ static inline void buffer_init(void) {}
+ static inline bool try_to_free_buffers(struct folio *folio) { return true; }
++static inline int mmb_sync_buffers(struct mapping_metadata_bhs *mmb) { return 0; }
+ static inline void invalidate_inode_buffers(struct inode *inode) {}
+ static inline int sync_mapping_buffers(struct address_space *mapping) { return 0; }
+ static inline void invalidate_bh_lrus(void) {}
+-- 
+2.51.0
 
-Thanks!
-
->
-> More nits below:
->
-> > diff --git a/arch/arm64/include/asm/page.h b/arch/arm64/include/asm/page.h
-> > index b39cc1127e1f..e25d0d18f6d7 100644
-> > --- a/arch/arm64/include/asm/page.h
-> > +++ b/arch/arm64/include/asm/page.h
-> > @@ -46,7 +46,12 @@ int pfn_is_map_memory(unsigned long pfn);
-> >
-> >  #endif /* !__ASSEMBLER__ */
-> >
-> > -#define VM_DATA_DEFAULT_FLAGS	(VM_DATA_FLAGS_TSK_EXEC | VM_MTE_ALLOWED)
-> > +#ifdef CONFIG_ARM64_MTE
-> > +#define VMA_DATA_DEFAULT_FLAGS	append_vma_flags(VMA_DATA_FLAGS_TSK_EXEC, \
-> > +						 VMA_MTE_ALLOWED_BIT)
->
-> I wonder what's the bloat-o-meter impact of these #define's (this
-> arm64-specific one isn't the only one) being no longer compile-time-constants?
-
-I mean there's a precedent for this, but the compiler _should_ figure out this
-as a constant value, I have repeatedly confirmed that it's good at that in
-godbolt, via make foo/bar.S etc.
-
-So it should have no measureable impact at 64-bit VMA flags anyway, but I can
-give it a go and see before/after.
-
->
-> > +#else
-> > +#define VMA_DATA_DEFAULT_FLAGS	VMA_DATA_FLAGS_TSK_EXEC
-> > +#endif
-> >
-> >  #include <asm-generic/getorder.h>
-> >
->
-> > --- a/include/linux/mm.h
-> > +++ b/include/linux/mm.h
->
-> >
-> > +#define VMA_STACK_FLAGS	append_vma_flags(VMA_STACK_DEFAULT_FLAGS,	\
-> > +		VMA_STACK_BIT, VMA_ACCOUNT_BIT)
-> > +
-> > +/* Temporary until VMA flags conversion complete. */
-> > +#define VM_STACK_FLAGS vma_flags_to_legacy(VMA_STACK_FLAGS)
-> > +
-> >  #define VM_STARTGAP_FLAGS (VM_GROWSDOWN | VM_SHADOW_STACK)
-> >
-> >  #ifdef CONFIG_MSEAL_SYSTEM_MAPPINGS
-> > @@ -536,8 +547,6 @@ enum {
-> >  #define VM_SEALED_SYSMAP	VM_NONE
-> >  #endif
-> >
-> > -#define VM_STACK_FLAGS	(VM_STACK | VM_STACK_DEFAULT_FLAGS | VM_ACCOUNT)
-> > -
-> >  /* VMA basic access permission flags */
-> >  #define VM_ACCESS_FLAGS (VM_READ | VM_WRITE | VM_EXEC)
-> >  #define VMA_ACCESS_FLAGS mk_vma_flags(VMA_READ_BIT, VMA_WRITE_BIT, VMA_EXEC_BIT)
-> > @@ -547,6 +556,9 @@ enum {
-> >   */
-> >  #define VM_SPECIAL (VM_IO | VM_DONTEXPAND | VM_PFNMAP | VM_MIXEDMAP)
-> >
-> > +#define VMA_SPECIAL_FLAGS mk_vma_flags(VMA_IO_BIT, VMA_DONTEXPAND_BIT, \
-> > +				       VMA_PFNMAP_BIT, VMA_MIXEDMAP_BIT)
->
-> Should VM_SPECIAL be also redefined using vma_flags_to_legacy()?
-
-Could do! It should be a pretty clear indicator this is legacy.
-
->
-> > +
-> >  /*
-> >   * Physically remapped pages are special. Tell the
-> >   * rest of the world about it:
-> > @@ -1412,7 +1424,7 @@ static __always_inline void vma_desc_set_flags_mask(struct vm_area_desc *desc,
-> >   * vm_area_desc object describing a proposed VMA, e.g.:
-> >   *
-> >   * vma_desc_set_flags(desc, VMA_IO_BIT, VMA_PFNMAP_BIT, VMA_DONTEXPAND_BIT,
-> > - *		VMA_DONTDUMP_BIT);
-> > + *              VMA_DONTDUMP_BIT);
->
-> Looks like spurious tabs-to-space change inconsistent with other instances.
-
-Yeah that's a mistake, will fixup.
-
->
-> >   */
-> >  #define vma_desc_set_flags(desc, ...) \
-> >  	vma_desc_set_flags_mask(desc, mk_vma_flags(__VA_ARGS__))
-> > @@ -4059,7 +4071,6 @@ extern int replace_mm_exe_file(struct mm_struct *mm, struct file *new_exe_file);
-> >  extern struct file *get_mm_exe_file(struct mm_struct *mm);
-> >  extern struct file *get_task_exe_file(struct task_struct *task);
-> >
-> > -extern bool may_expand_vm(struct mm_struct *, vm_flags_t, unsigned long npages);
-> >  extern void vm_stat_account(struct mm_struct *, vm_flags_t, long npages);
-> >
-> >  extern bool vma_is_special_mapping(const struct vm_area_struct *vma,
-> > diff --git a/mm/internal.h b/mm/internal.h
-> > index f98f4746ac41..80d8651441a7 100644
->
-> > diff --git a/mm/mprotect.c b/mm/mprotect.c
-> > index 9681f055b9fc..eaa724b99908 100644
-> > --- a/mm/mprotect.c
-> > +++ b/mm/mprotect.c
->
-> > @@ -773,19 +778,24 @@ mprotect_fixup(struct vma_iterator *vmi, struct mmu_gather *tlb,
-> >
-> >  	change_protection(tlb, vma, start, end, mm_cp_flags);
-> >
-> > -	if ((oldflags & VM_ACCOUNT) && !(newflags & VM_ACCOUNT))
-> > +	if (vma_flags_test(&old_vma_flags, VMA_ACCOUNT_BIT) &&
-> > +	    !vma_flags_test(&new_vma_flags, VMA_ACCOUNT_BIT))
-> >  		vm_unacct_memory(nrpages);
-> >
-> >  	/*
-> >  	 * Private VM_LOCKED VMA becoming writable: trigger COW to avoid major
-> >  	 * fault on access.
-> >  	 */
-> > -	if ((oldflags & (VM_WRITE | VM_SHARED | VM_LOCKED)) == VM_LOCKED &&
-> > -			(newflags & VM_WRITE)) {
-> > -		populate_vma_page_range(vma, start, end, NULL);
-> > +	if (vma_flags_test(&new_vma_flags, VMA_WRITE_BIT)) {
-> > +		const vma_flags_t mask =
-> > +			vma_flags_and(&old_vma_flags, VMA_WRITE_BIT,
-> > +				      VMA_SHARED_BIT, VMA_LOCKED_BIT);
-> > +
-> > +		if (vma_flags_same(&mask, VMA_LOCKED_BIT))
->
-> That converts the original logic 1:1, but I wonder if it's now feasible to
-> write it more obviously as "VMA_LOCKED_BIT must be set, VM_WRITE_BIT and
-> VM_SHARED_BIT must not" ?
-
-Hmm, I'm not sure if I can express this more clearly, it's a pain either
-way. Could do:
-
-	if (vma_flags_test(&new_vma_flags, VMA_WRITE_BIT) &&
-	    !vma_flags_test_any(&old_vma_flags, VMA_WRITE_BIT, VMA_SHARED_BIT))
-		populate_vma_page_range(vma, start, end, NULL);
-
->
-> > +			populate_vma_page_range(vma, start, end, NULL);
-> >  	}
-> >
-> > -	vm_stat_account(mm, oldflags, -nrpages);
-> > +	vm_stat_account(mm, vma_flags_to_legacy(old_vma_flags), -nrpages);
-> >  	vm_stat_account(mm, newflags, nrpages);
-> >  	perf_event_mmap(vma);
-> >  	return 0;
->
-> > diff --git a/mm/vma.h b/mm/vma.h
-> > index cf8926558bf6..1f2de6cb3b97 100644
-> > --- a/mm/vma.h
-> > +++ b/mm/vma.h
->
-> > +static inline bool is_data_mapping_vma_flags(const vma_flags_t *vma_flags)
-> > +{
-> > +	const vma_flags_t mask = vma_flags_and(vma_flags,
-> > +			VMA_WRITE_BIT, VMA_SHARED_BIT, VMA_STACK_BIT);
-> > +
-> > +	return vma_flags_same(&mask, VMA_WRITE_BIT);
->
-> Ditto?
-
-I may do both as a follow up patch given the series is a pain to rework at this point
-and I want at least the first version to be like-for-like intentionally.
-
->
-> > +}
-> >
-> >  static inline void vma_iter_config(struct vma_iterator *vmi,
-> >  		unsigned long index, unsigned long last)
-> > diff --git a/mm/vma_exec.c b/mm/vma_exec.c
-> > index 8134e1afca68..5cee8b7efa0f 100644
-
-Thanks, Lorenzo
