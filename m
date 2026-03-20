@@ -1,219 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EC8F3148A3;
-	Fri, 20 Mar 2026 16:38:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3D063D4119
+	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Mar 2026 16:45:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774024729; cv=none; b=tQ4u2vb4GyEBsL7FxFkadwtf+OJanR6xf9Prg2sR/oxQBl4DZfyN+fAgkoZ4mejEqJLkDuIPsf5p6XDagcip6mdQVuGZtzdBhi/cAQaQeP5LZh+J0fzRf+TNScZ7N6vJntgAd3IzpM8iuz8r/cj9aanjebTTkmXo0z4W54trIcs=
+	t=1774025158; cv=none; b=VT+6ZvKKx+nr0DQ17qPXlIMxC7VAHIw17BOxU4G4iWg6fnhfXDeHMLq4OPj2wExsurGLmCPXU9AGjgRAWABu/YDg0qLH3ljhSoG26SuoAUNHyYvcBxTT4SLuEx+ue91SOrsYDMYK/lUlYMa0u9IqvgGKMMAJQmbBHJ2E2ddhPgI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774024729; c=relaxed/simple;
-	bh=Ksk0/Cy+7k9g8VSMuw5OALSCZ2GB9qpziu6Wa5P0d+4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ieAeJ30wVBt20n884dL1tEdndnECwoqlIGgUmH9Nl5KRXi/hQ5gS4VReqjZkm7n7TEoUaD6CxuCAgTC31ooaf+w7huRbcR7PbzkXDvxo3Ji0hm8zZNzDMMyuPFnjKr9XgdQn6tY60QaAzpfxH4D1XaEReEPUWUYxoO7lP0IU+Bg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I/OfmVcP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774025158; c=relaxed/simple;
+	bh=cMhLfpRKl6KGKB3rN8CKzcVVi6KnJvjG6BN4ox6Him4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Cyr+kiMsVVV0dmqa4FCsnaukT3ZXHW6xbqZYYKDFSHN348etHBkur0QFIdgR9a/3Lh47nT9RJ5Ui78Oq5a7M4NHw1DgJW9OkL/VSA6mzsI9uKYgsqFDwIPbUkRP6O2kCgbJFTNQ7RGS5C4vgeDtuyHEemsFoCxbLzX4WJnj3eCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=X1wZ9cY7; arc=none smtp.client-ip=209.85.210.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I/OfmVcP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDAC6C19425;
-	Fri, 20 Mar 2026 16:38:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774024729;
-	bh=Ksk0/Cy+7k9g8VSMuw5OALSCZ2GB9qpziu6Wa5P0d+4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=I/OfmVcP71NX/eXv6rVA2H8uavbrfsew5pTj2wiVU5s+aHz5rN91R2Pz36DoL2+Fo
-	 rANmKpvbZV7cOFQK+lP7oYlsRq/4paUxujz4rezTBqKA66bwYPVNNBhzhmCr6J4xbi
-	 vjtP4kZEQ3amGKczLKy0m9YptVW35xq5Lm0Uxk2IG2Ler/6ijJ1G8YxCbmrxkSEC7Y
-	 M29VqGltRdx6Sm1ifElpqV0bL0Tm8oltBzYTbPzaR+3rGw9s9CGPX7CR94ZjYtEyJX
-	 jNLGM6YhVKgZpqntE0j9rerpK2JQejQf6CXMtXpXIuBddKssqb6KupwcU8OClk6p8E
-	 qhsKSOvDUiIBg==
-Date: Fri, 20 Mar 2026 16:38:34 +0000
-From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
-	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Kees Cook <kees@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	Vineet Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Brian Cain <bcain@kernel.org>, 
-	Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Dinh Nguyen <dinguyen@kernel.org>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <chleroy@kernel.org>, 
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
-	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
-	Alexander Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>, 
-	Sven Schnelle <svens@linux.ibm.com>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>, 
-	Richard Weinberger <richard@nod.at>, Anton Ivanov <anton.ivanov@cambridgegreys.com>, 
-	Johannes Berg <johannes@sipsolutions.net>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Xu Xin <xu.xin16@zte.com.cn>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@suse.com>, Paul Moore <paul@paul-moore.com>, 
-	Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>, 
-	linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-hexagon@vger.kernel.org, loongarch@lists.linux.dev, linux-mips@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, 
-	linux-um@lists.infradead.org, linux-fsdevel@vger.kernel.org, selinux@vger.kernel.org
-Subject: Re: [PATCH v3 17/23] mm: convert do_brk_flags() to use vma_flags_t
-Message-ID: <366b74cf-b569-4004-bd12-dfbcefc25e56@lucifer.local>
-References: <cover.1773846935.git.ljs@kernel.org>
- <981ed1afcd19115432e61778e7d226a36f8f5c2b.1773846935.git.ljs@kernel.org>
- <1d300b3b-2476-4381-b8df-a680f486b284@kernel.org>
- <f47e24c4-3a11-4a58-96f5-871443660246@lucifer.local>
- <7e2aea13-e047-4891-bd6f-ff6705c4fc28@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="X1wZ9cY7"
+Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-7d4be94eeacso2289596a34.2
+        for <linux-fsdevel@vger.kernel.org>; Fri, 20 Mar 2026 09:45:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1774025155; x=1774629955; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lN0EHVLsdigfh6ooD//T3G56PBp4ySw3ZWzpugX7Pxs=;
+        b=X1wZ9cY7qY5iOQ2benSP4LqVmSNwm4hbBEZEyBqOrUDy9jYUGY9L77Xaa3bRzLlp03
+         RF+HiffaCirJ/OvmMrCbGsLghGSkJY3VTHTnXcYEFMoeaeSPdqBJGKjiF9kbD6lsXJIJ
+         LI9jc3Zir8Uhlf1rnd2SnK5pXnNXB80aX/Lw96te29ZeRvwKf7f0GP6gCRgCex9UaLQ6
+         Ssnd1VjoOS+vRF4g0BVRkNYW6C6wbTZ5NLOyj2uTY5IoGwz4bqugDmm2FKxKSp9m7zcm
+         zSDLLE/OYXsEx40XuQZ6tCPJnix+6p242lRvrbwg48HweWx1zOK6512Rr2aO2Agd1ePZ
+         3zfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774025155; x=1774629955;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=lN0EHVLsdigfh6ooD//T3G56PBp4ySw3ZWzpugX7Pxs=;
+        b=tTFEnSkcPYBVcjzMG1Kjy8NuqyyQc5vf6mt0dVU1b4RdS9tAVYR1fU7wW0fMdm/LQv
+         XpHbieRKQdhvY0v4i0vY6spSPopZpisVCAqtbJ4cBUMmIsT6U2NxqLGIhaJ/zBX/8Ylf
+         MyoDug9puzvDUeU/3FR0aP7f2MuipxByIfxmDF0QcD3HhBMKC84gibbtt9ouShgFzu4a
+         yfCU80RhWuo/KGenUk2jpQvgiV2gGO+/BcqhM+/C/G/l9liOzEjch2HaioPXVoqU49Sy
+         7KhDj/82JX7WhRiyYgNdj/az0iq6uDbW6bqOzmJzA6KWZf0PAhnNUeZa6CMnaC6wQHwI
+         djZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUWdvaGIpLU88Dl0Eh3BCL8i3NMe5VeTTGgaBOFxUQ3+7yCyFyLrvD8tXn1hObN7oyupr5Hx3YZEBhh1qkL@vger.kernel.org
+X-Gm-Message-State: AOJu0YwdcXx6q8BeJkcxscmrDnUuPYTKs0oAtveh5p13PTzcTDUqk63X
+	P4VhvkP3hDQMvCdCpeMTr5E40mDGSBoczFaOsztUsK6QLn5aSkOebN3gLEhB33VD3iVycBqXB2+
+	LDmV6fi8=
+X-Gm-Gg: ATEYQzzVb1oM1oVcDkanLAwKGrRZ1P1FQwQ42dsuBp14p9Livc6ivG2HRWVQmH/DCl6
+	PtFtzRcjBSW5Z11F3BdvBNiVL/JDHiZa6seEV5MFgjNusHvX0LXMx5atTrmhiApOfp8etfxkR4w
+	Gwi/YkJYmTJVeAl+xd2IfJCJLZlTBravkf5CNKvEvSRiZFEdaZsnC3e5wZ2x5pqc9VTgpox4DC0
+	p+WoB3Pb1eGIqZdW2Cd5fOjSJTLs9zVV0EG4AUCQ/Muk6E6dZ+zfUexQ7q0sdmrs+JpB91IOYNg
+	aBfk32TN+f3h57MXqV4Uo5YWivIxczKFv6OG3RWEDjbr0p0IBpxQZKOp13pCpFOK1/jGL7Iv58Q
+	2Ui8LJxTdOuxT0l4OvEQ3q9dneg3/7BywEgg3frVBEOYKk9qfVmbcW0UDhy3Tf7xCplIvfG5RPB
+	1fUlyeE8nPLlNykX7oQCVNgrX4AtXFCJC859OibKa74zrGG0L5yxV1UP3h5kXQNGHTmwkcdrHf+
+	sllyztg+icrVA==
+X-Received: by 2002:a05:6830:838c:b0:7d7:d2f3:d55f with SMTP id 46e09a7af769-7d7eaf67c80mr2672143a34.21.1774025155547;
+        Fri, 20 Mar 2026 09:45:55 -0700 (PDT)
+Received: from [127.0.0.1] ([96.43.243.2])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7d7eae10537sm2613154a34.22.2026.03.20.09.45.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Mar 2026 09:45:54 -0700 (PDT)
+From: Jens Axboe <axboe@kernel.dk>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: hch@infradead.org, asml.silence@gmail.com, bernd@bsbernd.com, 
+ csander@purestorage.com, krisman@suse.de, linux-fsdevel@vger.kernel.org, 
+ io-uring@vger.kernel.org
+In-Reply-To: <20260306003224.3620942-1-joannelkoong@gmail.com>
+References: <20260306003224.3620942-1-joannelkoong@gmail.com>
+Subject: Re: [PATCH v3 0/8] io_uring: add kernel-managed buffer rings
+Message-Id: <177402515458.59192.3003058602103165983.b4-ty@kernel.dk>
+Date: Fri, 20 Mar 2026 10:45:54 -0600
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7e2aea13-e047-4891-bd6f-ff6705c4fc28@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.3
 
-On Fri, Mar 20, 2026 at 04:06:15PM +0100, Vlastimil Babka (SUSE) wrote:
-> On 3/20/26 14:42, Lorenzo Stoakes (Oracle) wrote:
-> >>
-> >> More nits below:
-> >>
-> >> > diff --git a/arch/arm64/include/asm/page.h b/arch/arm64/include/asm/page.h
-> >> > index b39cc1127e1f..e25d0d18f6d7 100644
-> >> > --- a/arch/arm64/include/asm/page.h
-> >> > +++ b/arch/arm64/include/asm/page.h
-> >> > @@ -46,7 +46,12 @@ int pfn_is_map_memory(unsigned long pfn);
-> >> >
-> >> >  #endif /* !__ASSEMBLER__ */
-> >> >
-> >> > -#define VM_DATA_DEFAULT_FLAGS	(VM_DATA_FLAGS_TSK_EXEC | VM_MTE_ALLOWED)
-> >> > +#ifdef CONFIG_ARM64_MTE
-> >> > +#define VMA_DATA_DEFAULT_FLAGS	append_vma_flags(VMA_DATA_FLAGS_TSK_EXEC, \
-> >> > +						 VMA_MTE_ALLOWED_BIT)
-> >>
-> >> I wonder what's the bloat-o-meter impact of these #define's (this
-> >> arm64-specific one isn't the only one) being no longer compile-time-constants?
-> >
-> > I mean there's a precedent for this, but the compiler _should_ figure out this
-> > as a constant value, I have repeatedly confirmed that it's good at that in
-> > godbolt, via make foo/bar.S etc.
->
-> Great, thanks!
->
-> >
-> >>
-> >> >   */
-> >> >  #define vma_desc_set_flags(desc, ...) \
-> >> >  	vma_desc_set_flags_mask(desc, mk_vma_flags(__VA_ARGS__))
-> >> > @@ -4059,7 +4071,6 @@ extern int replace_mm_exe_file(struct mm_struct *mm, struct file *new_exe_file);
-> >> >  extern struct file *get_mm_exe_file(struct mm_struct *mm);
-> >> >  extern struct file *get_task_exe_file(struct task_struct *task);
-> >> >
-> >> > -extern bool may_expand_vm(struct mm_struct *, vm_flags_t, unsigned long npages);
-> >> >  extern void vm_stat_account(struct mm_struct *, vm_flags_t, long npages);
-> >> >
-> >> >  extern bool vma_is_special_mapping(const struct vm_area_struct *vma,
-> >> > diff --git a/mm/internal.h b/mm/internal.h
-> >> > index f98f4746ac41..80d8651441a7 100644
-> >>
-> >> > diff --git a/mm/mprotect.c b/mm/mprotect.c
-> >> > index 9681f055b9fc..eaa724b99908 100644
-> >> > --- a/mm/mprotect.c
-> >> > +++ b/mm/mprotect.c
-> >>
-> >> > @@ -773,19 +778,24 @@ mprotect_fixup(struct vma_iterator *vmi, struct mmu_gather *tlb,
-> >> >
-> >> >  	change_protection(tlb, vma, start, end, mm_cp_flags);
-> >> >
-> >> > -	if ((oldflags & VM_ACCOUNT) && !(newflags & VM_ACCOUNT))
-> >> > +	if (vma_flags_test(&old_vma_flags, VMA_ACCOUNT_BIT) &&
-> >> > +	    !vma_flags_test(&new_vma_flags, VMA_ACCOUNT_BIT))
-> >> >  		vm_unacct_memory(nrpages);
-> >> >
-> >> >  	/*
-> >> >  	 * Private VM_LOCKED VMA becoming writable: trigger COW to avoid major
-> >> >  	 * fault on access.
-> >> >  	 */
-> >> > -	if ((oldflags & (VM_WRITE | VM_SHARED | VM_LOCKED)) == VM_LOCKED &&
-> >> > -			(newflags & VM_WRITE)) {
-> >> > -		populate_vma_page_range(vma, start, end, NULL);
-> >> > +	if (vma_flags_test(&new_vma_flags, VMA_WRITE_BIT)) {
-> >> > +		const vma_flags_t mask =
-> >> > +			vma_flags_and(&old_vma_flags, VMA_WRITE_BIT,
-> >> > +				      VMA_SHARED_BIT, VMA_LOCKED_BIT);
-> >> > +
-> >> > +		if (vma_flags_same(&mask, VMA_LOCKED_BIT))
-> >>
-> >> That converts the original logic 1:1, but I wonder if it's now feasible to
-> >> write it more obviously as "VMA_LOCKED_BIT must be set, VM_WRITE_BIT and
-> >> VM_SHARED_BIT must not" ?
-> >
-> > Hmm, I'm not sure if I can express this more clearly, it's a pain either
-> > way. Could do:
-> >
-> > 	if (vma_flags_test(&new_vma_flags, VMA_WRITE_BIT) &&
-> > 	    !vma_flags_test_any(&old_vma_flags, VMA_WRITE_BIT, VMA_SHARED_BIT))
-> > 		populate_vma_page_range(vma, start, end, NULL);
->
-> It would be a bit more:
->
-> 	if (vma_flags_test(&new_vma_flags, VMA_WRITE_BIT) &&
-> 	    vma_flags_test(&old_vma_flags, VMA_LOCKED_BIT) &&
->  	    !vma_flags_test_any(&old_vma_flags, VMA_WRITE_BIT, VMA_SHARED_BIT))
->  		populate_vma_page_range(vma, start, end, NULL);
 
-Right yeah sorry :)
+On Thu, 05 Mar 2026 16:32:16 -0800, Joanne Koong wrote:
+> Currently, io_uring buffer rings require the application to allocate and
+> manage the backing buffers. This series introduces buffer rings where the
+> kernel allocates and manages the buffers on behalf of the application. From
+> the uapi side, this goes through the pbuf ring interface, through the
+> IOU_PBUF_RING_KERNEL_MANAGED flag.
+> 
+> There was a long discussion with Pavel on v1 [1] regarding the design. The
+> alternatives were to have the buffers allocated and registered through a
+> memory region or through the registered buffers interface and have fuse
+> implement ring buffer logic internally outside of io-uring. However, because
+> the buffers need to be contiguous for DMA and some high-performance fuse
+> servers may need non-fuse io-uring requests to use the buffer ring directly,
+> v3 keeps the design.
+> 
+> [...]
 
-That is clearer but still pretty verbose. Will think about how to do it but I
-think as a follow up still makes more sense.
+Applied, thanks!
 
->
-> (or reordered in whatever way the short circuting works best here, the original
-> code tested oldflags first).
->
-> But yeah, at least to me it's more clear what that's testing and doesn't need to
-> set up the intermediate mask variable, and VMA_LOCKED_BIT is there only once
-> in the code now. The number of vma_flags_* operations is the same.
->
-> >>
-> >> > +			populate_vma_page_range(vma, start, end, NULL);
-> >> >  	}
-> >> >
-> >> > -	vm_stat_account(mm, oldflags, -nrpages);
-> >> > +	vm_stat_account(mm, vma_flags_to_legacy(old_vma_flags), -nrpages);
-> >> >  	vm_stat_account(mm, newflags, nrpages);
-> >> >  	perf_event_mmap(vma);
-> >> >  	return 0;
-> >>
-> >> > diff --git a/mm/vma.h b/mm/vma.h
-> >> > index cf8926558bf6..1f2de6cb3b97 100644
-> >> > --- a/mm/vma.h
-> >> > +++ b/mm/vma.h
-> >>
-> >> > +static inline bool is_data_mapping_vma_flags(const vma_flags_t *vma_flags)
-> >> > +{
-> >> > +	const vma_flags_t mask = vma_flags_and(vma_flags,
-> >> > +			VMA_WRITE_BIT, VMA_SHARED_BIT, VMA_STACK_BIT);
-> >> > +
-> >> > +	return vma_flags_same(&mask, VMA_WRITE_BIT);
-> >>
-> >> Ditto?
-> >
-> > I may do both as a follow up patch given the series is a pain to rework at this point
-> > and I want at least the first version to be like-for-like intentionally.
->
-> OK sure.
+[1/8] io_uring/kbuf: add support for kernel-managed buffer rings
+      commit: ff168843d80cd1855b646c5e8be2c6aa5bfb8adb
+[2/8] io_uring/kbuf: support kernel-managed buffer rings in buffer selection
+      commit: bf4a6eb27f8135f36a5286bd5ba87bf6468c1283
+[3/8] io_uring/kbuf: add buffer ring pinning/unpinning
+      commit: b6ffe5399bc04abab4da9afb2ba092e6269d7077
+[4/8] io_uring/kbuf: return buffer id in buffer selection
+      commit: 9aa9e55e8bad1b65c9bcc2892101b06ae00c96d9
+[5/8] io_uring/kbuf: add recycling for kernel managed buffer rings
+      commit: de48bc0efc58d1ebf7e35c36dde6eb0e6b246b8c
+[6/8] io_uring/kbuf: add io_uring_is_kmbuf_ring()
+      commit: 08b57b67602a98abf4b454a363263cba9fcfc91f
+[7/8] io_uring/kbuf: export io_ring_buffer_select()
+      commit: 4706d1f235ff94f19b5c818bc0a3abd735903695
+[8/8] io_uring/cmd: set selected buffer index in __io_uring_cmd_done()
+      commit: 3515a2aedcdf459fc851df40a3712fc4a9a060f7
 
-Cheers!
+Best regards,
+-- 
+Jens Axboe
 
->
-> >>
-> >> > +}
-> >> >
-> >> >  static inline void vma_iter_config(struct vma_iterator *vmi,
-> >> >  		unsigned long index, unsigned long last)
-> >> > diff --git a/mm/vma_exec.c b/mm/vma_exec.c
-> >> > index 8134e1afca68..5cee8b7efa0f 100644
-> >
-> > Thanks, Lorenzo
->
+
+
