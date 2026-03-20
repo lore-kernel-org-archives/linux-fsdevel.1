@@ -1,182 +1,183 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A03D3CCFD9
-	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Mar 2026 15:00:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774018827; cv=pass; b=sifxYqmg0TrP+rPIy6oTvWoZNNAVXTugkMF1vtqEReQzggsDw+g4iKILVUEpPAH8romyQsV9r2M1JOXh4lyisRt5edQBB+CkW0BUB+xI9IPZRDdSFm3XLE+vx3OWph1491eWy5OcBRmR0QfqRUTxBRP3spfGXWR1LMsEJrNdB0w=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774018827; c=relaxed/simple;
-	bh=T//X4/fJkR1oeZd4ePkbHp1KaPM7ugaGmDaRiFm/0I4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=luOdNoYT0qYGqjXeZIK+LsObr6jiJLhR2IY2AWv+mkUZSdXsdixya7Afq+Id3+LByVC7UQclNVFL1FdUyHw2Mw8IbxEsvdc//lMzSR5TIyoYFpW0BXtR9cq4Fyu12VLRwM5DIVYc+hhHc4FYM55eZbptWfXr7HCLBmz/bjsyzCk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mmuAoPgU; arc=pass smtp.client-ip=209.85.208.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E70F36829D
+	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Mar 2026 15:01:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774018905; cv=none; b=kDKl7lFqP1qjFvSdaI+N3YokGVTJ7DVqe2rxIoETkKnk8MNjtKPAhYDddcLn67GqVQIg0UqHqwdDt9owidkb/NzWulLzRLVH7keBtJzJ7YOqowCiKYVFcLc1Ykb2molv8G/n/BVJaP6FK/J5olSWS8jm/u0f43Dv6O7nYIfJnEE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774018905; c=relaxed/simple;
+	bh=I609+wzctZPhxtyutSPjihea9zIvF+GlRKN5S9NKdf4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D+S49GCZWqB5dW87ZHbbjBMTQDa+djpqIC3uyll/9BWSK26SniE6qo5deh1hLyNkxH1NPZRhbj7JZATTtxN8Mm8bbmFNO/aFFuXmliZ5qHKb4UoN0vO1ivLu57ToWMZCnVV290/fiDYSVKxbqsvDt6b2R2gNqL5xi7qtf+0GAK4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=KJ8hnGpU; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=3g7K35VI; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=DczczCBy; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=VAOkVbES; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mmuAoPgU"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-668d4751a3bso1142707a12.2
-        for <linux-fsdevel@vger.kernel.org>; Fri, 20 Mar 2026 08:00:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774018819; cv=none;
-        d=google.com; s=arc-20240605;
-        b=RH1JqG0N7zxgYAVPQV5BWn3fAN4vBEkK540hQ7BItX0+jNblebXBW5pn7XLYy0wvOR
-         BoB5AIut07LvS4NjGtXhZQMPbdvDU62N17tCpGvxfG7suD5b/o6zxtKfXQMT4xqlgJrc
-         toc3LS+eTMjL7m8UbU700MsXyWHw/QGyVMobTvHf9/GEGnD74bdeK+r9FkJ8IXCvNnKu
-         uAv/xn2SuLanIczvV2S+8dinSC0tTbzCBmWdPGW8jUefhSTcDfJ3+1zFWgtTQFj04yGn
-         g75HW+WweQWDjYhvq56iVmDzcMWXAVZio+jU9rG122mV2kPLz1cac3nfCvxnntBCdX4u
-         oqsg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=OqajqpvSgf8sKnTU17XNoO03H85xM7YFWH1WJ0jdhSk=;
-        fh=mXQWYnKxyCVlmhi/2pyFIjS+sgZ4ZEoSu8IwofJD6ME=;
-        b=E1mw6eUgcDmCTsnbeBnaZVh5lRAYvDCxYAjb8iku+rCttx+5HB9yEgJ8tfPuGL1jAL
-         ry7aERAaHTDowkqyDBVaqZ2I0Rj0HCB8/ZcrjWc1kf9XYSn0tAMYRV2mDoKDIMcFxnUy
-         6ODaeZ8SXIjpqZe21RYuLAwYoW1X8dNun3CBs1ucUnBN2tG0WaPuWx2qLaNuagVxMvk7
-         9pkbt28Bu790pOgIqzsrbnrVoHIk7Fm+0FClJOCgSfsDLexQTi8SSiVfis9pT4YzpXDj
-         n5reU0zI/QE3IFotJY5RKunzBMioWEeq9zUI6V0pG5Y6yxlTsERA7RSZ98z3J7L4n1nH
-         RKnA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774018819; x=1774623619; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OqajqpvSgf8sKnTU17XNoO03H85xM7YFWH1WJ0jdhSk=;
-        b=mmuAoPgULmWN27L79KQerTt2XI6z6o+1HJ7U7xDNaKJHs9EY5ntm3Mc0taUMW5KMBI
-         fgH16gnST+lXp0M3KHfF4K9+qBQfKbZbL6M5HjI4iOsO1TaLIng4bFXgN2IgkrUoX8Qs
-         66Or8D5E9BCogc3gFzM/O9BdXpAgEMUMAGG/izJGU0QN7y0u/OufCMKpHDLsYQphMum/
-         Bp6IbUkTwfCeqTDrcSgHNtbawuZuBcFT2vzeOKPN0e3lgjQy3Ar38bA7DEXdhF5acyu3
-         0bd8ZUYkkTqNfknUBVCoFq/4FmfAokGJ5i3Az0AmYnUrSiOcVbeqyMvGGGFsh48t99ia
-         ibMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774018819; x=1774623619;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=OqajqpvSgf8sKnTU17XNoO03H85xM7YFWH1WJ0jdhSk=;
-        b=ECQHBEnX6jcPfh1L63nRhj276KQs0F72Io05eUviQiMjbC7ShUiwiJ12Aw/fB1KXTl
-         iWfU2PUj1rcnPcrAhr6HsOzjQ+UKD8aNvi4ni42gFcEpzIl3Ec/3g5lv1DT+Ug2WhT4q
-         kXRqCARBLpTC4/aJYISO4ZCRY6rEeiUP5j6qPA7BPv6dXxwZk/tDvyZCamN66bmTnqQH
-         ss7koUBJLNl4f1d+wl0Ri1qj2BR0NVryPgjtMb18kvYvaTANvyjfe8gdIn9BIsR1dm+o
-         4A2ofKDrjiY+c88Jksak4JeY2e1N9cRvowZkwASg9eqyrEDY2io49+BwTZaWKyOUcnVB
-         lYDg==
-X-Forwarded-Encrypted: i=1; AJvYcCWyscx9RODelDwEaQNtybH2IA3xIySMYgr9n4i2o2WcfEvi+ue2ULPnfHWA0FBUgRXfpk4p0qjCjtETul7s@vger.kernel.org
-X-Gm-Message-State: AOJu0YyMmN4oNhnSDjEXvWxh0MB2JK4zG+pLoSXh9fmR6ykrz2Q8vRhM
-	/1gNljw2iq5I5RE3nr4yDBPNJJLshppzEw7av/EX/269O+nm1Sd6JH7dg9Ec2mulZwjLe21738f
-	cWf6BRRowg/mm+K49bvPLC+93QPl33bs=
-X-Gm-Gg: ATEYQzyt0ckuhkxhYdsfYBgG553Lyqc1IoSE9OB2akTuKAiFpamdP9bztxTs4gh2nVl
-	Ah6H+g93aLdTUWFElUE8e+GZXxvz+pybZnGgvajIKguSg54kCZK6GZRZmjeUGu25KUmyCuaGrd1
-	+NjnrXy5RP2bMwAwEc1iKHaLfNDUq3WbYLIUv4Tjau28UWLgpmux2dhB9YHEByc/EaeZTbObnzI
-	LuBeQpjIYWZRX896nGaPCLldeKrQwa6jD0ALnv0dHORXeb7/CjRuYbvgFeOD5k0y8uYUXwpS2Hb
-	arMYnVgAqckBCFhkclGODqUPMU19MWqb9tJbJw==
-X-Received: by 2002:a05:6402:278f:b0:668:50eb:bcb4 with SMTP id
- 4fb4d7f45d1cf-668ca30bfdamr2648714a12.25.1774018818532; Fri, 20 Mar 2026
- 08:00:18 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="KJ8hnGpU";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="3g7K35VI";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="DczczCBy";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="VAOkVbES"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 715254D27B;
+	Fri, 20 Mar 2026 15:01:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1774018902; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vKwF2DkGEAIHedD72ZImfHS+3XePDQdwe/OjI2d4fsk=;
+	b=KJ8hnGpU3J7Y/BeD3H7P4bozUJUfXzHiAJpaEM6jexCXE6NHFaQQQ2rTMjf0+GS4fv983I
+	vDqO0/LGKdvfVoCj/J+MefCe0U0QLNGRHDGNbArq/egOvHO5OrVKkkAi9gPOLh1/MzIy0H
+	C4ECCTkGfoXXGZ88FgG4+0gdbsqZ/3g=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1774018902;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vKwF2DkGEAIHedD72ZImfHS+3XePDQdwe/OjI2d4fsk=;
+	b=3g7K35VIA1RdrQHczQIAZ69FvPdfsdPUXuB7Ja99wTp3wfv6+O+PvgIHVhm4IyN1YETqLD
+	GhM1BY9YFqACSnBQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1774018901; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vKwF2DkGEAIHedD72ZImfHS+3XePDQdwe/OjI2d4fsk=;
+	b=DczczCBy9V708jcL814HPHM8vyKckVhUx/wASXJA8n2Ql2SQWZyBAmopzq7dr0Xwqh4dma
+	j2iieWwWI2P4IrtF7tj2Y8QByA2mPQJPV1vPgBcYGu96J++8ALuntX9tS22LhFeVJBaE0b
+	oVJ/nfe3fDvafs87wiCn265ta457yn4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1774018901;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vKwF2DkGEAIHedD72ZImfHS+3XePDQdwe/OjI2d4fsk=;
+	b=VAOkVbES2Rb3ZxDjwukk8zaFm/kkoSWCs8hPYIz2ExmtEV/TfQtOW9RDCjrHtSFl1DNibM
+	6HO2LBn6A5vV1nCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 67E7942868;
+	Fri, 20 Mar 2026 15:01:41 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id l3JUGVVhvWlFXAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Fri, 20 Mar 2026 15:01:41 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 2CFACA0A81; Fri, 20 Mar 2026 16:01:37 +0100 (CET)
+Date: Fri, 20 Mar 2026 16:01:37 +0100
+From: Jan Kara <jack@suse.cz>
+To: Jianzhou Zhao <luckd0g@163.com>
+Cc: linux-kernel@vger.kernel.org, jack@suse.cz, brauner@kernel.org, 
+	viro@zeniv.linux.org.uk, linux-fsdevel@vger.kernel.org
+Subject: Re: BUG: unable to handle kernel NULL pointer dereference in
+ __bread_gfp
+Message-ID: <uqmzsl6oedy6papq3nxkr5qpkjerezkjcrdbmxvrmnpr5cro4q@tza7vmpvuypg>
+References: <3f2c9284.71e4.19cdbfaef3d.Coremail.luckd0g@163.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260319025609.10721-1-liwang@kylinos.cn>
-In-Reply-To: <20260319025609.10721-1-liwang@kylinos.cn>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Fri, 20 Mar 2026 11:00:05 -0400
-X-Gm-Features: AaiRm51A69MYmUGOXnhjmFUpFf9waVwNEvtB-ds7Ig0pLeHbNnczwyxWNEa8KKc
-Message-ID: <CAJSP0QXErw8yDeCnOgK6jco1-yDpS5x73vQLMtrj7oy7JxNEFg@mail.gmail.com>
-Subject: Re: [PATCH] virtiofs: Verify that server properly follows FUSE protocol
-To: Li Wang <liwang@kylinos.cn>
-Cc: German Maglione <gmaglione@redhat.com>, Vivek Goyal <vgoyal@redhat.com>, 
-	Stefan Hajnoczi <stefanha@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>, 
-	=?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
-	virtualization@lists.linux.dev, linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3f2c9284.71e4.19cdbfaef3d.Coremail.luckd0g@163.com>
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[163.com];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_COUNT_THREE(0.00)[3];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[163.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email]
+X-Spam-Flag: NO
+X-Spam-Score: -3.80
+X-Spam-Level: 
 
-On Wed, Mar 18, 2026 at 10:58=E2=80=AFPM Li Wang <liwang@kylinos.cn> wrote:
->
-> Verify that server properly follows FUSE protocol, by checking
-> oh.uniq and oh.len.
->
-> Signed-off-by: Li Wang <liwang@kylinos.cn>
-> ---
->  fs/fuse/virtio_fs.c | 27 ++++++++++++++++++++++++++-
->  1 file changed, 26 insertions(+), 1 deletion(-)
+Hello!
 
-Earlier patch series addressing this:
-- https://lore.kernel.org/all/20251028200311.40372-1-brajeshpatil11@gmail.c=
-om/
-- https://lore.kernel.org/all/20260216073158.75151-1-ytohnuki@amazon.com/
+On Wed 11-03-26 16:19:41, Jianzhou Zhao wrote:
+> Subject: [BUG] isofs: kernel NULL pointer dereference in __bread_gfp
+> 
+> Dear Maintainers,
+> 
+> We are writing to report a NULL pointer dereference vulnerability within the JFS/ISOFS mounting architecture. This bug was found by our custom fuzzing tool, RacePilot. The bug occurs because `isofs_fill_super()` initiates disk reads via `sb_bread()` immediately relying on the superblock's `s_bdev` block device map being valid, which triggers an immediate NULL pointer dereference inside the `__bread_gfp()` buffer logic if a corrupted/malformed mount request bypasses or fails basic block device bindings. We observed this bug on the Linux kernel version 6.18.0-08691-g2061f18ad76e-dirty.
+> 
+> Call Trace & Context
+> ==================================================================
+> BUG: kernel NULL pointer dereference, address: 0000000000000000
+> #PF: supervisor write access in kernel mode
+> #PF: error_code(0x0002) - not-present page
+> PGD 33da6067 P4D 33da6067 PUD 0 
+> Oops: Oops: 0002 [#1] SMP NOPTI
+> CPU: 1 UID: 0 PID: 12411 Comm: syz.8.1172 Not tainted 6.18.0-08691-g2061f18ad76e-dirty #50 PREEMPT(voluntary) 
+> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+> 
+> Call Trace:
+>  <TASK>
+>  sb_bread include/linux/buffer_head.h:346 [inline]
+>  isofs_fill_super+0x2ff/0x1900 fs/isofs/inode.c:632
+>  get_tree_bdev_flags+0x256/0x370 fs/super.c:1699
+>  get_tree_bdev+0x1f/0x30 fs/super.c:1722
+>  isofs_get_tree+0x1c/0x30 fs/isofs/inode.c:1538
+>  vfs_get_tree+0x51/0x1a0 fs/super.c:1759
+>  fc_mount+0x1a/0x130 fs/namespace.c:1199
+>  do_new_mount_fc fs/namespace.c:3636 [inline]
+>  do_new_mount fs/namespace.c:3712 [inline]
+>  path_mount+0x105c/0x1830 fs/namespace.c:4022
+>  do_mount fs/namespace.c:4035 [inline]
+>  __do_sys_mount fs/namespace.c:4224 [inline]
+>  __se_sys_mount fs/namespace.c:4201 [inline]
+>  __x64_sys_mount+0x1d7/0x210 fs/namespace.c:4201
+>  ...
+> ==================================================================
 
-The second one was applied and I think your version conflicts with it.
+Hrm, OK.
 
-Please take a look and let us know whether you want to drop your patch
-or send a v2 rebased on Miklos latest tree
-(https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git).
+> Root Cause Analysis
+> A NULL pointer dereference takes place within the deepest buffer
+> traversal locks. When fuzzy mounts present a dummy context, network
+> stream, or loopback context absent of a strict block device assignment,
+> `get_tree_bdev_flags` may pass down a partially mapped `super_block`
+> containing `s->s_bdev == NULL`. The `isofs_fill_super()` code makes no
+> defensive verification of `s->s_bdev` before executing
+> `bdev_logical_block_size(s->s_bdev)` and `sb_bread(s, block)`, which
+> ultimately cascades down to `__bread_gfp` attempting atomic flag
+> acquisitions unconditionally against a zero-target address.
 
-Thanks,
-Stefan
+But this justification just doesn't make sense. When creating new
+superblock setup_bdev_super() does set sb->s_bdev to non-NULL value. If
+isofs_fill_super() called shortly afterwards got superblock with NULL
+sb->s_bdev, it points to memory corruption or something similar going on.
 
->
-> diff --git a/fs/fuse/virtio_fs.c b/fs/fuse/virtio_fs.c
-> index 057e65b51b99..c30f6f58664c 100644
-> --- a/fs/fuse/virtio_fs.c
-> +++ b/fs/fuse/virtio_fs.c
-> @@ -768,10 +768,34 @@ static void virtio_fs_request_complete(struct fuse_=
-req *req,
->         struct folio *folio;
->
->         /*
-> -        * TODO verify that server properly follows FUSE protocol
-> +        * Verify that server properly follows FUSE protocol
->          * (oh.uniq, oh.len)
->          */
->         args =3D req->args;
-> +       if (test_bit(FR_ISREPLY, &req->flags)) {
-> +               struct fuse_out_header *oh =3D &req->out.h;
-> +
-> +               if (unlikely(oh->unique !=3D req->in.h.unique)) {
-> +                       pr_warn_ratelimited("virtio-fs: bad reply unique =
-%llu (expected %llu)\n",
-> +                                           oh->unique, req->in.h.unique)=
-;
-> +                       oh->error =3D -EIO;
-> +                       oh->len =3D sizeof(*oh);
-> +                       goto out;
-> +               }
-> +               unsigned int num_out =3D args->out_numargs - args->out_pa=
-ges;
-> +               unsigned int cap =3D sizeof(req->out.h);
-> +
-> +               cap +=3D fuse_len_args(num_out, args->out_args);
-> +               if (args->out_pages)
-> +                       cap +=3D args->out_args[args->out_numargs - 1].si=
-ze;
-> +               if (unlikely(oh->len < sizeof(*oh) || oh->len > cap)) {
-> +                       pr_warn_ratelimited("virtio-fs: bad reply len %u =
-(cap %u)\n",
-> +                                           oh->len, cap);
-> +                       oh->error =3D -EIO;
-> +                       oh->len =3D sizeof(*oh);
-> +                       goto out;
-> +               }
-> +       }
->         copy_args_from_argbuf(args, req);
->
->         if (args->out_pages && args->page_zeroing) {
-> @@ -790,6 +814,7 @@ static void virtio_fs_request_complete(struct fuse_re=
-q *req,
->                 }
->         }
->
-> +out:
->         clear_bit(FR_SENT, &req->flags);
->
->         fuse_request_end(req);
-> --
-> 2.34.1
->
->
+> Unfortunately, we were unable to generate a reproducer for this bug.
+
+And without a reproducer you never know. I'd say don't even bother with
+reporting if you don't have a reliable reproducer of the crash, nobody is
+going to have a look at it as it's mostly a waste of time.
+
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
