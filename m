@@ -1,143 +1,219 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E33153148A3
-	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Mar 2026 15:06:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3256301704;
+	Fri, 20 Mar 2026 15:06:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774019168; cv=none; b=b83eg6dkH+KMWnwYoGm7HDTiZgFrjkhRa/OlXXG7IAw4k4gj9zFaXjJ6DSBG3PVf2sQoCUZVObshrtkAZdOyBGzg6bjzU5C80OAF5uLWRA7g//2STqSWnl/34zRTbPLpk3ac5duuYMfdfBoRHulFAhGzohnOMMKBVh2pDiJbAv4=
+	t=1774019189; cv=none; b=Lsg6u0i9gcdRLBIRb5iS/LvWuNWiUKmD5qjHkGLGycNvWvvoz0N2r8xWDF2Ih91Hr2wghg2lkexpNQjT5aazfS5Vpop04SXwmB7Pmkgg0jnfyHkfc2doTNo01oQhGRVEMuxJvlXYD6JSLg7CMER29zKLJ0x3AL6Q6/OiZVtfYdU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774019168; c=relaxed/simple;
-	bh=a5V6KVj/p5ln89F2tRrdVmVw8oemreTmSe3BZkx0iwI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QegxqixiMZ2j3ci2+GsXsVcVuF8ZFIdWq8YQqhHYgkueLOGNX0f7946/wQkm5VlY6TmxbcDvy+VoqezOKe8H0vU+a1Orz+xfXfV5a2PEqCw8W/fYc+pgYBy+7E3JZAQJTvKUQKiks4f7lKO95wPDugGIgGJ5R2GO9+ChCAk42jc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mvpIdq/9; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774019189; c=relaxed/simple;
+	bh=4U/RLB5BQTlqqUA+aRxQ/uoxRsEa6t8UeWu6iGAM7vU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Wi2a+jkxt2UOQtnM8ELryjGQrVZ8+4qwmPnmmciJ6k7gPUEY/5EVwXqsmTrNPpgIVnsaZAhicL5jvWREve3JPhBnZ4vA8Bom0ewruPga4oKZpoY5HF5+KsGbu3QzvatxgQUOm1oeAEateAXWl0+3bcUUCTkwklAhTF0apmP2Frw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c11vSApR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mvpIdq/9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE725C4AF09;
-	Fri, 20 Mar 2026 15:06:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c11vSApR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BB13C2BCB0;
+	Fri, 20 Mar 2026 15:06:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774019167;
-	bh=a5V6KVj/p5ln89F2tRrdVmVw8oemreTmSe3BZkx0iwI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mvpIdq/9d72DivkgvVtymQHXH7jVuQuYKi3+LQHQ0f58tkUJ728fEqgRkKtSJZoaN
-	 pbFtnOrAxJ13dAXGYHacB7GiWq/px7693hwN8squYYUeIxksnEMb2cQRWnyaBSSDAs
-	 N3nR1vFYOOw53CMX9KGCjVkVS7tmkdKy/w1SjtNibjIDdexgi4vYDL8QvZT+6WWD7Y
-	 nPIxAOAO/qfHwUNAe16FCr7yOJHR4cgua67djnjnxCltxrKPlawhJIrcceYIc6/NMK
-	 69I+FE4vf7u/FEX4iR3I6J/6gTnnfOkzzEw1+ndDtVN8galvJvxQkL4Z3vdTlfZV3X
-	 g8h9ZDpMBnBAw==
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfauth.phl.internal (Postfix) with ESMTP id AC0A5F4008E;
-	Fri, 20 Mar 2026 11:06:05 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Fri, 20 Mar 2026 11:06:05 -0400
-X-ME-Sender: <xms:XWK9aTGlply8P2WXI5gm8LsWpf-879owa-bTH6wLNhi64OO78QpseQ>
-    <xme:XWK9aRNwzVEYWSPIrFLkSRWV1eYcxOPkaFglgErNL5Hq1VEWEFSkArU0LVf868x5l
-    v5oz_JiyfRBHk1IPGxcrKeOWlHNSYuB1Dwxt0xsL8LWC_0vOhkpqMQ>
-X-ME-Received: <xmr:XWK9aZV1NiWo7gWZ2mD2LbYCd5FQZmE6XFW1_gLdhU1H1QTOkpiSmTitptlNNw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdefuddtvdefucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepmfhirhihlhcu
-    ufhhuhhtshgvmhgruhcuoehkrghssehkvghrnhgvlhdrohhrgheqnecuggftrfgrthhtvg
-    hrnhepueeijeeiffekheeffffftdekleefleehhfefhfduheejhedvffeluedvudefgfek
-    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepkhhirh
-    hilhhlodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduieduudeivdeiheeh
-    qddvkeeggeegjedvkedqkhgrsheppehkvghrnhgvlhdrohhrghesshhhuhhtvghmohhvrd
-    hnrghmvgdpnhgspghrtghpthhtohepjedtpdhmohguvgepshhmthhpohhuthdprhgtphht
-    thhopehushgrmhgrrdgrrhhifheslhhinhhugidruggvvhdprhgtphhtthhopegrkhhpmh
-    eslhhinhhugidqfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtohepuggrvhhiuges
-    khgvrhhnvghlrdhorhhgpdhrtghpthhtohepfihilhhlhiesihhnfhhrrgguvggrugdroh
-    hrghdprhgtphhtthhopehrhigrnhdrrhhosggvrhhtshesrghrmhdrtghomhdprhgtphht
-    thhopehlihhnuhigqdhmmheskhhvrggtkhdrohhrghdprhgtphhtthhopehrsehhvghvrd
-    gttgdprhgtphhtthhopehjrggtkhesshhushgvrdgtiidprhgtphhtthhopegrjhgusehl
-    ihhnuhigrdhisghmrdgtohhm
-X-ME-Proxy: <xmx:XWK9aT5phdrM6ht8yfHkhZBNhAzK9KUFu6FOhax-DnoPBFUcjC6aww>
-    <xmx:XWK9adn8Y_lXfNumOHQpTIL9_rLsQujlxGnsQghmxrGCBuJ9VIGMhw>
-    <xmx:XWK9aXS6uRaLVti6KPA7cuKQ0pbnBlVtwgXLXnkyeRO89ddfZs_IBA>
-    <xmx:XWK9aRAPA0NVurwyZxYFvL52QXGXbxBnomFHt93naPmm37U8CWTLlg>
-    <xmx:XWK9aQxPNsDm5BWvL-57J_trms6Vcwlrv9Y7bSLdb8vohBx3nERv2mlo>
-Feedback-ID: i10464835:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 20 Mar 2026 11:06:04 -0400 (EDT)
-Date: Fri, 20 Mar 2026 15:06:03 +0000
-From: Kiryl Shutsemau <kas@kernel.org>
-To: Usama Arif <usama.arif@linux.dev>
-Cc: Andrew Morton <akpm@linux-foundation.org>, david@kernel.org, 
-	willy@infradead.org, ryan.roberts@arm.com, linux-mm@kvack.org, r@hev.cc, jack@suse.cz, 
-	ajd@linux.ibm.com, apopple@nvidia.com, baohua@kernel.org, 
-	baolin.wang@linux.alibaba.com, brauner@kernel.org, catalin.marinas@arm.com, dev.jain@arm.com, 
-	kees@kernel.org, kevin.brodsky@arm.com, lance.yang@linux.dev, 
-	Liam.Howlett@oracle.com, linux-arm-kernel@lists.infradead.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, lorenzo.stoakes@oracle.com, 
-	mhocko@suse.com, npache@redhat.com, pasha.tatashin@soleen.com, 
-	rmclure@linux.ibm.com, rppt@kernel.org, surenb@google.com, vbabka@kernel.org, 
-	Al Viro <viro@zeniv.linux.org.uk>, ziy@nvidia.com, hannes@cmpxchg.org, shakeel.butt@linux.dev, 
-	kernel-team@meta.com
-Subject: Re: [PATCH v2 4/4] mm: align file-backed mmap to max folio order in
- thp_get_unmapped_area
-Message-ID: <ab1gW5tR6LhX0fQ0@thinkstation>
-References: <20260320140315.979307-1-usama.arif@linux.dev>
- <20260320140315.979307-5-usama.arif@linux.dev>
+	s=k20201202; t=1774019189;
+	bh=4U/RLB5BQTlqqUA+aRxQ/uoxRsEa6t8UeWu6iGAM7vU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=c11vSApRocA25rRA6R1Rg5PoZbJKYkvTzPDMmIS8hDyX2AXYHd8mYvTvGHczpbW0e
+	 ZICqmAxAG7qjbn/OIwttlwgweqfJ3T6xWbF6Jn4Ykx0PlThw+3A3UFYPQkowwyM+MR
+	 xph2xDZ24qQOpQjw0PB/HBpsqSQshv8HCPxdObcRx0m/O9B6JgKfWn2YSzucm3bNUO
+	 LGc+GK60aJmwylKmXisUdB28GjM0TrMGRhwdo3hoTW7hoBzOgalk4j+n72KHrlUXBf
+	 swr5E6qUe0gXbEloU8Cxg7ZJR5ROhpNrWzLfTbBhCZSP8AXpxr+lme2+aRUwijSnnb
+	 jet5knkPIKlag==
+Message-ID: <7e2aea13-e047-4891-bd6f-ff6705c4fc28@kernel.org>
+Date: Fri, 20 Mar 2026 16:06:15 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260320140315.979307-5-usama.arif@linux.dev>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 17/23] mm: convert do_brk_flags() to use vma_flags_t
+Content-Language: en-US
+To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>, Jann Horn <jannh@google.com>,
+ Pedro Falcato <pfalcato@suse.de>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Kees Cook <kees@kernel.org>,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ Vineet Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Brian Cain <bcain@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
+ WANG Xuerui <kernel@xen0n.name>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Dinh Nguyen <dinguyen@kernel.org>, Madhavan Srinivasan
+ <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>,
+ Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <chleroy@kernel.org>,
+ Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>, Richard Weinberger <richard@nod.at>,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ Johannes Berg <johannes@sipsolutions.net>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Xu Xin <xu.xin16@zte.com.cn>, Chengming Zhou <chengming.zhou@linux.dev>,
+ Michal Hocko <mhocko@suse.com>, Paul Moore <paul@paul-moore.com>,
+ Stephen Smalley <stephen.smalley.work@gmail.com>,
+ Ondrej Mosnacek <omosnace@redhat.com>, linux-snps-arc@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-hexagon@vger.kernel.org,
+ loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org, linux-um@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, selinux@vger.kernel.org
+References: <cover.1773846935.git.ljs@kernel.org>
+ <981ed1afcd19115432e61778e7d226a36f8f5c2b.1773846935.git.ljs@kernel.org>
+ <1d300b3b-2476-4381-b8df-a680f486b284@kernel.org>
+ <f47e24c4-3a11-4a58-96f5-871443660246@lucifer.local>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+In-Reply-To: <f47e24c4-3a11-4a58-96f5-871443660246@lucifer.local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Mar 20, 2026 at 06:58:54AM -0700, Usama Arif wrote:
-> thp_get_unmapped_area() is the get_unmapped_area callback for
-> filesystems like ext4, xfs, and btrfs. It attempts to align the virtual
-> address for PMD_SIZE THP mappings, but on arm64 with 64K base pages
-> PMD_SIZE is 512M, which is too large for typical shared library mappings,
-> so the alignment always fails and falls back to PAGE_SIZE.
+On 3/20/26 14:42, Lorenzo Stoakes (Oracle) wrote:
+>>
+>> More nits below:
+>>
+>> > diff --git a/arch/arm64/include/asm/page.h b/arch/arm64/include/asm/page.h
+>> > index b39cc1127e1f..e25d0d18f6d7 100644
+>> > --- a/arch/arm64/include/asm/page.h
+>> > +++ b/arch/arm64/include/asm/page.h
+>> > @@ -46,7 +46,12 @@ int pfn_is_map_memory(unsigned long pfn);
+>> >
+>> >  #endif /* !__ASSEMBLER__ */
+>> >
+>> > -#define VM_DATA_DEFAULT_FLAGS	(VM_DATA_FLAGS_TSK_EXEC | VM_MTE_ALLOWED)
+>> > +#ifdef CONFIG_ARM64_MTE
+>> > +#define VMA_DATA_DEFAULT_FLAGS	append_vma_flags(VMA_DATA_FLAGS_TSK_EXEC, \
+>> > +						 VMA_MTE_ALLOWED_BIT)
+>>
+>> I wonder what's the bloat-o-meter impact of these #define's (this
+>> arm64-specific one isn't the only one) being no longer compile-time-constants?
 > 
-> This means shared libraries loaded by ld.so via mmap() get 64K-aligned
-> virtual addresses, preventing contpte mapping even when 2M folios are
-> allocated with properly aligned file offsets and physical addresses.
-> 
-> Add a fallback in thp_get_unmapped_area_vmflags() that uses the
-> filesystem's mapping_max_folio_size() to determine alignment, capped to
-> the mapping length via rounddown_pow_of_two(len). This aligns mappings
-> to the largest folio the page cache will actually allocate, without
-> over-aligning small mappings.
-> 
-> The fallback is naturally a no-op for filesystems that don't support
-> large folios and skips the retry when the alignment would equal PMD_SIZE
-> (already attempted above).
-> 
-> Signed-off-by: Usama Arif <usama.arif@linux.dev>
-> ---
->  mm/huge_memory.c | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
-> 
-> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-> index 8e2746ea74adf..4005084c9c65b 100644
-> --- a/mm/huge_memory.c
-> +++ b/mm/huge_memory.c
-> @@ -1242,6 +1242,20 @@ unsigned long thp_get_unmapped_area_vmflags(struct file *filp, unsigned long add
->  	if (ret)
->  		return ret;
->  
-> +	if (filp && filp->f_mapping) {
-> +		unsigned long max_folio_size =
-> +			mapping_max_folio_size(filp->f_mapping);
-> +		unsigned long size = rounddown_pow_of_two(len);
-> +
-> +		size = min(size, max_folio_size);
-> +		if (size > PAGE_SIZE && size != PMD_SIZE) {
-> +			ret = __thp_get_unmapped_area(filp, addr, len, off,
-> +						      flags, size, vm_flags);
+> I mean there's a precedent for this, but the compiler _should_ figure out this
+> as a constant value, I have repeatedly confirmed that it's good at that in
+> godbolt, via make foo/bar.S etc.
 
-Have you considered to integrate inside __thp_get_unmapped_area?
+Great, thanks!
 
-Like, start with PMD_SIZE alignment, then lower to
-mapping_max_folio_size if needed and then lower further based on mapping
-size.
+> 
+>>
+>> >   */
+>> >  #define vma_desc_set_flags(desc, ...) \
+>> >  	vma_desc_set_flags_mask(desc, mk_vma_flags(__VA_ARGS__))
+>> > @@ -4059,7 +4071,6 @@ extern int replace_mm_exe_file(struct mm_struct *mm, struct file *new_exe_file);
+>> >  extern struct file *get_mm_exe_file(struct mm_struct *mm);
+>> >  extern struct file *get_task_exe_file(struct task_struct *task);
+>> >
+>> > -extern bool may_expand_vm(struct mm_struct *, vm_flags_t, unsigned long npages);
+>> >  extern void vm_stat_account(struct mm_struct *, vm_flags_t, long npages);
+>> >
+>> >  extern bool vma_is_special_mapping(const struct vm_area_struct *vma,
+>> > diff --git a/mm/internal.h b/mm/internal.h
+>> > index f98f4746ac41..80d8651441a7 100644
+>>
+>> > diff --git a/mm/mprotect.c b/mm/mprotect.c
+>> > index 9681f055b9fc..eaa724b99908 100644
+>> > --- a/mm/mprotect.c
+>> > +++ b/mm/mprotect.c
+>>
+>> > @@ -773,19 +778,24 @@ mprotect_fixup(struct vma_iterator *vmi, struct mmu_gather *tlb,
+>> >
+>> >  	change_protection(tlb, vma, start, end, mm_cp_flags);
+>> >
+>> > -	if ((oldflags & VM_ACCOUNT) && !(newflags & VM_ACCOUNT))
+>> > +	if (vma_flags_test(&old_vma_flags, VMA_ACCOUNT_BIT) &&
+>> > +	    !vma_flags_test(&new_vma_flags, VMA_ACCOUNT_BIT))
+>> >  		vm_unacct_memory(nrpages);
+>> >
+>> >  	/*
+>> >  	 * Private VM_LOCKED VMA becoming writable: trigger COW to avoid major
+>> >  	 * fault on access.
+>> >  	 */
+>> > -	if ((oldflags & (VM_WRITE | VM_SHARED | VM_LOCKED)) == VM_LOCKED &&
+>> > -			(newflags & VM_WRITE)) {
+>> > -		populate_vma_page_range(vma, start, end, NULL);
+>> > +	if (vma_flags_test(&new_vma_flags, VMA_WRITE_BIT)) {
+>> > +		const vma_flags_t mask =
+>> > +			vma_flags_and(&old_vma_flags, VMA_WRITE_BIT,
+>> > +				      VMA_SHARED_BIT, VMA_LOCKED_BIT);
+>> > +
+>> > +		if (vma_flags_same(&mask, VMA_LOCKED_BIT))
+>>
+>> That converts the original logic 1:1, but I wonder if it's now feasible to
+>> write it more obviously as "VMA_LOCKED_BIT must be set, VM_WRITE_BIT and
+>> VM_SHARED_BIT must not" ?
+> 
+> Hmm, I'm not sure if I can express this more clearly, it's a pain either
+> way. Could do:
+> 
+> 	if (vma_flags_test(&new_vma_flags, VMA_WRITE_BIT) &&
+> 	    !vma_flags_test_any(&old_vma_flags, VMA_WRITE_BIT, VMA_SHARED_BIT))
+> 		populate_vma_page_range(vma, start, end, NULL);
 
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+It would be a bit more:
+
+	if (vma_flags_test(&new_vma_flags, VMA_WRITE_BIT) &&
+	    vma_flags_test(&old_vma_flags, VMA_LOCKED_BIT) &&
+ 	    !vma_flags_test_any(&old_vma_flags, VMA_WRITE_BIT, VMA_SHARED_BIT))
+ 		populate_vma_page_range(vma, start, end, NULL);
+
+(or reordered in whatever way the short circuting works best here, the original
+code tested oldflags first).
+
+But yeah, at least to me it's more clear what that's testing and doesn't need to
+set up the intermediate mask variable, and VMA_LOCKED_BIT is there only once
+in the code now. The number of vma_flags_* operations is the same.
+ 
+>>
+>> > +			populate_vma_page_range(vma, start, end, NULL);
+>> >  	}
+>> >
+>> > -	vm_stat_account(mm, oldflags, -nrpages);
+>> > +	vm_stat_account(mm, vma_flags_to_legacy(old_vma_flags), -nrpages);
+>> >  	vm_stat_account(mm, newflags, nrpages);
+>> >  	perf_event_mmap(vma);
+>> >  	return 0;
+>>
+>> > diff --git a/mm/vma.h b/mm/vma.h
+>> > index cf8926558bf6..1f2de6cb3b97 100644
+>> > --- a/mm/vma.h
+>> > +++ b/mm/vma.h
+>>
+>> > +static inline bool is_data_mapping_vma_flags(const vma_flags_t *vma_flags)
+>> > +{
+>> > +	const vma_flags_t mask = vma_flags_and(vma_flags,
+>> > +			VMA_WRITE_BIT, VMA_SHARED_BIT, VMA_STACK_BIT);
+>> > +
+>> > +	return vma_flags_same(&mask, VMA_WRITE_BIT);
+>>
+>> Ditto?
+> 
+> I may do both as a follow up patch given the series is a pain to rework at this point
+> and I want at least the first version to be like-for-like intentionally.
+
+OK sure.
+
+>>
+>> > +}
+>> >
+>> >  static inline void vma_iter_config(struct vma_iterator *vmi,
+>> >  		unsigned long index, unsigned long last)
+>> > diff --git a/mm/vma_exec.c b/mm/vma_exec.c
+>> > index 8134e1afca68..5cee8b7efa0f 100644
+> 
+> Thanks, Lorenzo
+
