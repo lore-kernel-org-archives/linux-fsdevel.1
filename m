@@ -1,76 +1,84 @@
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE6F4364951
-	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Mar 2026 14:38:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84DB3279DC8;
+	Fri, 20 Mar 2026 14:41:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774017490; cv=none; b=Ip83iHoujcQPQzxzQakgmPegPayJLn1ewB6pFDj3HmwcD70qoAGZfhHlHlVEFGTgl+0dsDwQwqKIcZtRvOfTAhw6t9wmmAaclc9kKt5GzBk37RRFfuJ64wBf5sCUqPRlTxsrCVCYN/VGPN4OUNTukcoqxWhwx8qWmKVvty5u7uI=
+	t=1774017699; cv=none; b=Hr0AL9DvParQh9DLP9YSq1BK+cK64fGdEsuyUzB7hRjW1gvJqdLZuDENTZDjtgx9fFWrHFNi9cwovuZSeN7HHuimhRyVM+M2KWF/ybjXtudxkTJddhqibmul1H2k3JRU8sBO+8VslYDcEe1GCvzCmNEUMJ5Ht60n6cJ2JTpIG6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774017490; c=relaxed/simple;
-	bh=bLydxsjElY72N1viQaJTMiveNAFO1Y+mPy295sog+wY=;
+	s=arc-20240116; t=1774017699; c=relaxed/simple;
+	bh=MleXr4rMQyGrNTxmnpL0OE9WPCRqySChIwPXxidm8Ck=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=urhKOau6sPu1yyJ6BdjpioHiY3W/ag+2XncE39xg+G9hMYRxtDvfnvXL2N7PKMzBdsa2kme4yA8s4w1ECDZ8UxFhwMJaX1aMR2R7lT+ttBtiZ8SVzEwvmsnIo3PhIbPMDWsBldkNjivPuAjJ+5/bgJaZ4r4LiRH712skZQW+Qnw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b=HI24HYO+; arc=none smtp.client-ip=209.85.222.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=e1Wx0+SrXvVoDs/W2zPUwjuVtOc8ME7BEQmGwEaBe4bMiEyIHMsTsFoIF+BFjDeA/TUVCMecOsOlOuy6qKdBa9BJC2Bi/eYbVjLYvaKokNczcGK9a3y/CMDNn1a1UcjTNwBJECyRCSHw5rBUw7ilh2GkPVeWb1ebivvvJrneFcw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gq6vlD79; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b="HI24HYO+"
-Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-8cb3bae8d3eso176603085a.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 20 Mar 2026 07:38:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg.org; s=google; t=1774017486; x=1774622286; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=IrYGBaCqeFK6sS78naoBvFlPLrxLzAYh6LesIJsA+lQ=;
-        b=HI24HYO+c1vB3dvA8XpMKsoCuwhrk0AxVVAnOr63xvWVSx4xcSapzAQkIqWmppUPE2
-         4WOmPk0wFSzLPoCWTJke0HST05lcGSvuE+cBIlZGoEaucQQcWODprCQRGJzKimB7Vg9L
-         rTYRFpcECB0nYm1zqu5Kq356mRohW3fVX5ZCC50vXXlOEBQXwVYleTAo1jI2SW1pZnDs
-         tLBzrJBMvJuqX8v3KhYiXDqQk2nc0KMRwX5UfoiahXQgJDkQUj3ms428/iEyxkY+98Ez
-         kaVNpgT3rKs7WBTH4pwxK0e55YpdRuwOC9Nh0v5gbVkcXv+uBDkVszqrTd97bk7Jswdx
-         7FJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774017486; x=1774622286;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IrYGBaCqeFK6sS78naoBvFlPLrxLzAYh6LesIJsA+lQ=;
-        b=rFHxjn0YJXWB5dWngFDbJdfYVVX5lK+9OIjHyxRaOQKpIqiP7o2We26Eo85breOJvP
-         N/4711ZvDXrBRK3GOaeCehwz+C4s0J+ubVfGEZR+izAdNlV6HF9HY6PgLCgVoY7xJE8c
-         bVwONCtveibcsIp5dBz0ZOQ9PUkUX1kTGiOdmlPgxJ0XiO5CXQMgrL9bx+tYBr30OK0r
-         BelVVqWZsuEonXHkXKL3NVsANiJnf16ubFZlDKHpnMOkC/9Cp5bf163wr57c9fwesRPZ
-         +07lf7LC/6LqhG5CdRuZnh0u719JEQotyciFMQzUp67iV1szPVQ4qlnnzJSsYYXZKpDl
-         TjsQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVpNVCFeILa4R80Q53V11oNezxyunBui0DIE2jjrC3mg1exzdlVKakaFKYxEJwxbl0d6W6tZz0X3DwsLxxX@vger.kernel.org
-X-Gm-Message-State: AOJu0YxMC9+0yPX3tXW0TlzGXnJvRZHHK1mnL0Ki48bjcTYyGYNcclwa
-	YRr5/696OoDo7ezVM6vAWrZHgx33KSlq4tck9hEbUpnjYbakl2TNOMCClphTmwlTOc7j4T67vYU
-	5RrPa
-X-Gm-Gg: ATEYQzwMf0pIvGNfIWEntB3cv0k0uZi73s2rNVy6v9GzFhtVlEK78hIHEow4v9igVaQ
-	AphT7EWxNARstm082EnVd4e/R+6kub2MIVRg8t56Pl1L4wANrUxK8tZAkLjWDdGE3aQDugGUkG8
-	uo2PuR0ncNAt8ACW1iqrNdbk+OlWZeyagIX22sHfyRm2GBOlweyRHSt8LnNbDA7EGKRtXe3kTYN
-	UHoCSmPSY+W9bZ7mLDC1SXy4tGPy5Jyp3OBfzycPqeUzUqVNBbjRuGpvzdk5wkzgUfe3YsCJXcn
-	VcBeBIf43M/YNmRN00HXfZZTXHQdZOGKsF/WzBvNr/PQK2u+w0kqOF8hUtOEPnKjWKxsy24+Ant
-	+9/P1CSborjsqJGZ0WllQ7fMv92EUcaLpdSu0J9MYmg0RCnK1z3+mOMB6ARMUlw7alWeitRqnAR
-	bWeMAPz0n3OVmLcctEoGWhog==
-X-Received: by 2002:a05:620a:2547:b0:8cd:c011:dfc1 with SMTP id af79cd13be357-8cfc7b66345mr471071585a.5.1774017486070;
-        Fri, 20 Mar 2026 07:38:06 -0700 (PDT)
-Received: from localhost ([2603:7000:c00:3a00:365a:60ff:fe62:ff29])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cfc9089bdfsm176182585a.31.2026.03.20.07.38.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Mar 2026 07:38:05 -0700 (PDT)
-Date: Fri, 20 Mar 2026 10:38:01 -0400
-From: Johannes Weiner <hannes@cmpxchg.org>
-To: Jan Kara <jack@suse.cz>
-Cc: Yunzhao Li <yunzhao@cloudflare.com>, linux-mm@kvack.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-fsdevel@vger.kernel.org,
-	Jesper Brouer <jesper@cloudflare.com>,
-	Suren Baghdasaryan <surenb@google.com>
-Subject: Re: balance_dirty_pages() causes 40% IO PSI (full) with no drain
- benefit on 384 GB machine
-Message-ID: <ab1bySbmeidrQfoN@cmpxchg.org>
-References: <CAAnvDSwOoEOkMEDgKUcHkx-SdmZ_ar5AbVy4Gp-XT7i04ON5fg@mail.gmail.com>
- <z3quejtbpkiizgmvu2pjhqv6ioyach2wszen5slkau2hossj7p@rk2ftlwbdfw5>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gq6vlD79"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 581A6C19425;
+	Fri, 20 Mar 2026 14:41:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774017699;
+	bh=MleXr4rMQyGrNTxmnpL0OE9WPCRqySChIwPXxidm8Ck=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gq6vlD79vHeXVLRrDSlXpFcIaooTe1gQEOS9G+vxKvB2xy/bu2aGuVdke+R9e8cct
+	 gLy//h1i4t9ddNZMYOlmc1/4aXgQ8Z7FmHVwn2mdODtHHcYUjBUDbvhC5UARRGm6Xn
+	 yMZfTO8i2GcnFL2GQJCnRV8gGdhTSXK9baASFvgiZ8aNpA3QM0TiPaHnDHTdYoyJmq
+	 S6qXxWNTAIn1dhkOlXGJ7q/K581rghQ5yEGMnJA/hr4jFldOVfptbcSIX4US+jjLdN
+	 OBHD9BbCCiwpMZ4QFY49wHolDjfohcQxZA5uC1Ot6bF5RFRc2esOwDAcl5aOANLhFb
+	 yTM9ihfiAVljQ==
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 58B0CF4006A;
+	Fri, 20 Mar 2026 10:41:37 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-01.internal (MEProxy); Fri, 20 Mar 2026 10:41:37 -0400
+X-ME-Sender: <xms:oVy9aVSEswKdaaR8aGXLwLX9Mrnm1MTZr6GqsIHJQZjvsPwvM2DHSQ>
+    <xme:oVy9aRC1LkmFVQAmC4-0l8Aubu1iP6kXsJbODn6SSK7JpWTvPvq51uBxVY95aeKtt
+    lYrDg-DyfGiq5DDzQ8FI1sffcI6lwvAPvFYwgrIKNBh54VbK2PZfw0>
+X-ME-Received: <xmr:oVy9aYfWs9mAA8ehLGvEZl9-PdQX0bTxs20Hn9jARCmhuwrlwqffoRjCwII-dA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdefuddtudejucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepmfhirhihlhcu
+    ufhhuhhtshgvmhgruhcuoehkrghssehkvghrnhgvlhdrohhrgheqnecuggftrfgrthhtvg
+    hrnhepueeijeeiffekheeffffftdekleefleehhfefhfduheejhedvffeluedvudefgfek
+    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepkhhirh
+    hilhhlodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduieduudeivdeiheeh
+    qddvkeeggeegjedvkedqkhgrsheppehkvghrnhgvlhdrohhrghesshhhuhhtvghmohhvrd
+    hnrghmvgdpnhgspghrtghpthhtohepjedvpdhmohguvgepshhmthhpohhuthdprhgtphht
+    thhopehushgrmhgrrdgrrhhifheslhhinhhugidruggvvhdprhgtphhtthhopegrkhhpmh
+    eslhhinhhugidqfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtohepuggrvhhiuges
+    khgvrhhnvghlrdhorhhgpdhrtghpthhtohepfihilhhlhiesihhnfhhrrgguvggrugdroh
+    hrghdprhgtphhtthhopehrhigrnhdrrhhosggvrhhtshesrghrmhdrtghomhdprhgtphht
+    thhopehlihhnuhigqdhmmheskhhvrggtkhdrohhrghdprhgtphhtthhopehrsehhvghvrd
+    gttgdprhgtphhtthhopehjrggtkhesshhushgvrdgtiidprhgtphhtthhopegrjhgusehl
+    ihhnuhigrdhisghmrdgtohhm
+X-ME-Proxy: <xmx:oVy9aZ4PfLz1Ly6pHlacfHEwjHAP5YtItZ7H2jIC6jrP07jYH_qfsA>
+    <xmx:oVy9afdMIA-OHh05bUUKj1s-fmi2GZwD1EfHX8oIHJ9RTxOriHAjjA>
+    <xmx:oVy9aYNrQtOYagLdKvAlD3DnuEvEOtvGa2jmiWvOANLHXkLOix9QzQ>
+    <xmx:oVy9abHde3Ce_3zuX6me7rTAicDjXXRpGwtLXbtdiJUGMqLuD6hcQQ>
+    <xmx:oVy9abbdy3hceuMozJKr_dvhhLy8WJo_jua5CnWxzHG0f4dc8nfLQK4A>
+Feedback-ID: i10464835:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 20 Mar 2026 10:41:34 -0400 (EDT)
+Date: Fri, 20 Mar 2026 14:41:30 +0000
+From: Kiryl Shutsemau <kas@kernel.org>
+To: Usama Arif <usama.arif@linux.dev>
+Cc: Andrew Morton <akpm@linux-foundation.org>, david@kernel.org, 
+	willy@infradead.org, ryan.roberts@arm.com, linux-mm@kvack.org, r@hev.cc, jack@suse.cz, 
+	ajd@linux.ibm.com, apopple@nvidia.com, baohua@kernel.org, 
+	baolin.wang@linux.alibaba.com, brauner@kernel.org, catalin.marinas@arm.com, dev.jain@arm.com, 
+	kees@kernel.org, kevin.brodsky@arm.com, lance.yang@linux.dev, 
+	Liam.Howlett@oracle.com, linux-arm-kernel@lists.infradead.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, lorenzo.stoakes@oracle.com, 
+	mhocko@suse.com, npache@redhat.com, pasha.tatashin@soleen.com, 
+	rmclure@linux.ibm.com, rppt@kernel.org, surenb@google.com, vbabka@kernel.org, 
+	Al Viro <viro@zeniv.linux.org.uk>, wilts@infradead.org, ziy@nvidia.com, hannes@cmpxchg.org, 
+	shakeel.butt@linux.dev, kernel-team@meta.com
+Subject: Re: [PATCH v2 2/4] mm: replace exec_folio_order() with generic
+ preferred_exec_order()
+Message-ID: <ab1ZopAY7JCUOYvr@thinkstation>
+References: <20260320140315.979307-1-usama.arif@linux.dev>
+ <20260320140315.979307-3-usama.arif@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -79,35 +87,43 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <z3quejtbpkiizgmvu2pjhqv6ioyach2wszen5slkau2hossj7p@rk2ftlwbdfw5>
+In-Reply-To: <20260320140315.979307-3-usama.arif@linux.dev>
 
-Hello,
+On Fri, Mar 20, 2026 at 06:58:52AM -0700, Usama Arif wrote:
+> + *   allocations when memory is tight.
+> + */
+> +static unsigned int preferred_exec_order(struct vm_area_struct *vma)
+> +{
+> +	int order;
+> +	unsigned long vma_len = vma_pages(vma);
+> +	struct zone *zone;
+> +	gfp_t gfp;
+> +
+> +	if (!IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE))
+> +		return 0;
+> +
+> +	/* Cap at min(PMD_ORDER, 2M) */
+> +	order = min(HPAGE_PMD_ORDER, ilog2(SZ_2M >> PAGE_SHIFT));
+> +
+> +	/* Don't request folios larger than the VMA */
+> +	order = min(order, ilog2(vma_len));
+> +
+> +	/* Step down under memory pressure */
+> +	gfp = mapping_gfp_mask(vma->vm_file->f_mapping);
+> +	zone = first_zones_zonelist(node_zonelist(numa_node_id(), gfp),
+> +				    gfp_zone(gfp), NULL)->zone;
+> +	if (zone) {
+> +		while (order > 0 &&
+> +		       !zone_watermark_ok(zone, order,
+> +					  high_wmark_pages(zone), 0, 0))
+> +			order--;
+> +	}
 
-On Thu, Mar 19, 2026 at 12:58:51PM +0100, Jan Kara wrote:
-> On Tue 17-03-26 15:53:51, Yunzhao Li wrote:
-> > 3. The freerun ceiling gates entry into the proportional
-> >    throttle path. Even moderate sleeping shows up as IO PSI
-> >    (io_schedule_timeout is accounted as IO stall). Dirty
-> >    never hits the hard limit in our case. It sits in the
-> >    proportional zone, but cumulative PSI from many tasks
-> >    sleeping short durations is already 26-40% (full). Should
-> >    the throttle path be skipped when sleeping cannot help
-> >    drain?
-> 
-> Perhaps bumping PSI when dirty throttling kicks in is not ideal measure
-> (because it doesn't necessarily mean the storage itself is maxed out,
-> besides flush worker not being able to saturate the storage there can be
-> also various block layer controllers arbitrarily throttling background
-> writeback) but again I'll let PSI guys to chime in here with their
-> opinions.
+Eww. That's overkill and layering violation.
 
-What PSI is supposed to capture is lost productive time. IOW, it's not
-about device utilization, it's about whether tasks are being held
-up. That's the information it intends to collect, and it sounds like
-it's doing its job.
+If we need something like this, it has to be do within page allocator:
+an allocation interface that takes a range (or mask) of acceptable
+order.
 
-If you get 40% IO full pressure, that means during 40% of wallclock
-time, the only / all runnable task(s) are waiting on the IO resource.
-
-It *is* influenced by suboptimal device utilization, but that's not an
-accident. That's a real cost experienced by the workload, after all.
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
