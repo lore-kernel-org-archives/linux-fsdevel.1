@@ -1,46 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50DD23B9604;
-	Fri, 20 Mar 2026 13:16:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CFD63242D7;
+	Fri, 20 Mar 2026 13:18:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774012584; cv=none; b=EWZRan5ye1hRHR9a6Icct+kvj26ND3+4W6vBskYpal5JtPzUg99Bh4QQSpp0fDwffNt57RAS6IUJLEyesWFrb27s3TmOOoWtjFg5MkaOyxIUS4YZVdc2M37d5GafkZBfmBAVnCw4J+GWqgCfXZmdD9OT49eEEhbcILJ+adXHduY=
+	t=1774012707; cv=none; b=OFEqSpexlpGXJM71FnPb6MYDyXduBWBaiGNXtOfn49GVhlbBC/XvGMC/k+vE/FmE4lqUbP2/LEtc7uyYmKvbiB5Sc96lR6RhDnGLUSCEG8dWAtvnACbNuQee19QAkKkOwUxcTN6CQt0m/ddHfxELlGfSD8xNvWUHhpC1lFhEY/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774012584; c=relaxed/simple;
-	bh=psBMVgv76byQe1HFfS0z712vDXpgLslntH8P3twRIR8=;
+	s=arc-20240116; t=1774012707; c=relaxed/simple;
+	bh=4sPTUfoxE3kV/qz5USHCE4h36wm3p31ori5Q7svJuiY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IbZVVfGVELX5+6Oc1J8c21KTVwvqYNBkJbpqXba/PIEr+jb2wgacB5LF94l09pYxDbtp5K11j+IIKelvbZufFGDzob7dfyGmQe4iiVtLqvBqGuPPM4N3Y0X6AyYITIP9gApG9X811coW37gW15IjdnZ45pJMfU+pin4yT7j0zF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=omnhhQ9J; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Bj0GLHyUcZkoqJOCxY6elrSVpz3/mUgKvMfZd+H+yZyiGkVHsqeKgbq8Twa9APZgLL2v+tDltsM5vMiZrS9I2vohHKp0fkMnWWXsmD4kZVUgzapSnmadoJ5lQQGYoeA8RI1cQAELLAy5oR4AJI090rhvZoTIRUbff49ipEoOMBk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SK04WNMO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="omnhhQ9J"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4F12C4CEF7;
-	Fri, 20 Mar 2026 13:16:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SK04WNMO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDA85C4CEF7;
+	Fri, 20 Mar 2026 13:18:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774012583;
-	bh=psBMVgv76byQe1HFfS0z712vDXpgLslntH8P3twRIR8=;
+	s=k20201202; t=1774012706;
+	bh=4sPTUfoxE3kV/qz5USHCE4h36wm3p31ori5Q7svJuiY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=omnhhQ9Jj3oQ5rONv68fHVeyY1zc4AX/FXQ3S47ENt57Y5DjuKqtdADGw3lKZMiMk
-	 VzGulnCbzqUyaL9Nz9UR92EK5Ap77rSGoyA6vShmrp2RrKi/qpZj756yLFX2XZv5v+
-	 GejKoaHAUES7dYoLH/UXU3RP7vSJ5RGx+O5coCicvWHhm4JcHKweMcjeM8oB+P9ACn
-	 XnB1HWCx1lSb+x6Uk+IHI1FWtwIvFzzaQ7DvzoHysfBmRuL7FEklgHLy1jdrU4U2+f
-	 29QwJC0ENasx+F5wQ+0tw1lM855CS0RFuZEKlS+eDx56S1EJ8OJVDAcPvq89HQUkZL
-	 ReADJAsuToJSw==
+	b=SK04WNMOxU0BJz6pG1T1XWcuxKAjFQD/Vw33sQX4Bx+seRSDmd1IdFNWR43L6Xivn
+	 ysIVMD2CnrgS6HDectcsGxjDnLJiiJ/RXhnGLJHjPP/Of5HQQ574kqSxeVZsAnHIB3
+	 h+kPaSqDT35WRIUejHR/lp9AUbj0iVVP8iQ6qGHk/2Bhi7BfS6YGAv6WcOL0omRyKy
+	 UsjQRgqCJl4dbMFOPHHrEnzxbrS6YD76PvG6QqxcxUCJxfNC8VHGNPss9ksuLhhzVM
+	 fsmhDdIzkm2N9px5S1XJ3MCbbwNedHxCh4KFwjNJ4LA14t58DETpRW9Fp2OXgAiz+f
+	 MaJ/cA6sHKlkA==
 From: Christian Brauner <brauner@kernel.org>
-To: Askar Safin <safinaskar@gmail.com>
+To: Yuto Ohnuki <ytohnuki@amazon.com>
 Cc: Christian Brauner <brauner@kernel.org>,
-	patches@lists.linux.dev,
-	kernel-janitors@vger.kernel.org,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>,
 	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] init/initramfs.c: trivial fix: FSM -> Finite-state machine
-Date: Fri, 20 Mar 2026 14:16:13 +0100
-Message-ID: <20260320-geeilt-westufer-4ed00f188709@brauner>
+	linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	kernel test robot <lkp@intel.com>,
+	Jens Axboe <axboe@kernel.dk>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>
+Subject: Re: [PATCH v2] fs: remove stale and duplicate forward declarations
+Date: Fri, 20 Mar 2026 14:18:14 +0100
+Message-ID: <20260320-garen-radeln-63a7183a08bd@brauner>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260319232721.452950-1-safinaskar@gmail.com>
-References: <20260319232721.452950-1-safinaskar@gmail.com>
+In-Reply-To: <20260226201857.27310-2-ytohnuki@amazon.com>
+References: <20260226201857.27310-2-ytohnuki@amazon.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -48,13 +49,20 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=923; i=brauner@kernel.org; h=from:subject:message-id; bh=psBMVgv76byQe1HFfS0z712vDXpgLslntH8P3twRIR8=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTu9VhUnctiusHpTeAbq50al2ZlmLUvfNRuOnvDzYrFw fvybBhvdpSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEwkk5vhn2UAb/7ZoJ5Cj8nZ eiIOBk/nLHm1bXPohTnP6i5msl5pTWT4K7n+UZIK1y6Oh2zs/pWhYjx+2qYcfyd2Mz1gXRv6sKa WCwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1217; i=brauner@kernel.org; h=from:subject:message-id; bh=4sPTUfoxE3kV/qz5USHCE4h36wm3p31ori5Q7svJuiY=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTu9ZR1FuMo1fQqLa5atffFVscr4nuWp+6cs4/5rWPr+ 39JpxQMOkpZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACZiKsTIcOdxizS3g9rGT0fF 7UMEpL6nPr54Y/LBFdEv7nnN7Vu0cSfDP721849vfsd84gXbWmOPj0/TspU+mvEoW9ZqJh47qbL uPhcA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
 
-On Thu, 19 Mar 2026 23:27:21 +0000, Askar Safin wrote:
-> FSM means "finite-state machine", but I think this is not obvious to
-> everyone.
+On Thu, 26 Feb 2026 20:18:58 +0000, Yuto Ohnuki wrote:
+> Remove the following unnecessary forward declarations from fs.h, which
+> improves maintainability.
+> 
+> - struct hd_geometry: became unused in fs.h when
+>   block_device_operations was moved to blkdev.h in commit 08f858512151
+>   ("[PATCH] move block_device_operations to blkdev.h"). The forward
+>   declaration is now added to blkdev.h where it is actually used.
+> 
+> [...]
 
 Applied to the vfs-7.1.misc branch of the vfs/vfs.git tree.
 Patches in the vfs-7.1.misc branch should appear in linux-next soon.
@@ -71,5 +79,5 @@ trailer updates or similar. If in doubt, please check the listed branch.
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
 branch: vfs-7.1.misc
 
-[1/1] init/initramfs.c: trivial fix: FSM -> Finite-state machine
-      https://git.kernel.org/vfs/vfs/c/49e64d713636
+[1/1] fs: remove stale and duplicate forward declarations
+      https://git.kernel.org/vfs/vfs/c/3d6bb84f6bb3
