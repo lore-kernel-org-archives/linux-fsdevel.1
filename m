@@ -1,72 +1,32 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D15502E6CA6;
-	Fri, 20 Mar 2026 21:08:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A38A36D9E0;
+	Fri, 20 Mar 2026 21:33:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774040903; cv=none; b=MWqzcwCdDjslScYWKaAlCWYg4FbD9dIIOt9fumyJ6ez9Nyx/qzSZY1TJ6QoELSLc6c5TzW3cRADfKyWblFw4kYPxPulpElks+xlbnFD+tMGp5gSVGgYYJpud5MIZ7ugHhcJ7uUuN15FPcfHaXJqiFVhXMx+HaPdXqGNcoXkcFvI=
+	t=1774042422; cv=none; b=MSBbTCDnq/GfwcFEMYDawKhCPGoSD+5gJTl06bVUHgkStpYNUSPQVcrClO9pjIWBfrQFKi3RaxvFcLsJNgGRNOHdhaX2o3Yz18GlQ0WgPLmQlwOBkTgmvAEtCYFeVOTIMmJ0Uixa9TY4u0+pr3ScPum9SAg//Zde1SwWaFD92Mc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774040903; c=relaxed/simple;
-	bh=u0zdmPIhkicnjjaekGwGuaSnl24uNp/SD6pTY4tTyoI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A6BGGSrG9/BXqjmalSf6WATIL+CQggZXnY21NICBtZQMVgEkjwS0XfV1dwIyqImk88F64N9FVvs6I18BaV7BesdGk9hbkkENtKZAxY8ogWwOvZR5dydhF7Q/lpvpb74U9c4bSEE/KOseskDU3YbDc5AzAQH+aIGwQ8F01OJwpMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qC8HBmDJ; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qC8HBmDJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84E28C4CEF7;
-	Fri, 20 Mar 2026 21:08:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774040903;
-	bh=u0zdmPIhkicnjjaekGwGuaSnl24uNp/SD6pTY4tTyoI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qC8HBmDJbc3QTlANvhaLjcn0O5ay5GqzDEvYHXsOkZQejTAbOkx+bkEo+ki3/IcqS
-	 2zxeTAiPAA/ZnIrs1vWkKIH1qQM6hWWWHXeyTtkY/GTcJVwCwrNv3c5QnInC7yBUEZ
-	 Emq3X5gGUqXLf66MStAVqC5m2WCTfSbnlpAHXDlhTtb1Ap6h4AtLg1EuCVIYnM3U2k
-	 9XYMGV8lFcVQ3Ofo63x/aFk8UD8Gt0FgB8ThIniVMGJGtCnjMclwn9hpHtv2VORGXx
-	 vrpZQBmOIITR6wCUusRaEbZoc8REFtZupMT7Shny3yqCThx6DNBFOpK9/XXBVuE7o9
-	 ZHBuzLHK9WgAw==
-Date: Fri, 20 Mar 2026 14:08:12 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Clemens Ladisch <clemens@ladisch.de>, Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"K . Y . Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-	Long Li <longli@microsoft.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Bodo Stroesser <bostroesser@gmail.com>,
-	"Martin K . Petersen" <martin.petersen@oracle.com>,
-	David Howells <dhowells@redhat.com>,
-	Marc Dionne <marc.dionne@auristor.com>,
+	s=arc-20240116; t=1774042422; c=relaxed/simple;
+	bh=5/0xIO+827pdYZ504Z+UvGJXFN4kr35xmcWKnMjSerI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=DApax7aVCO/yuyF7Kwz55ov7vJib2O4xV6vu/Z0HOYanr407mfIUasc70+dNyr0JoxpLVgCYDceod9P4KFh97c3FTxOU/71agVHkDsdOPcp6qM1f3cnYKu1SXymt459EnBOCrHZvNiezeyUzDRuLEwE3bowFNpDbiFk7YwO3fPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 211D0175A;
+	Fri, 20 Mar 2026 14:33:31 -0700 (PDT)
+Received: from NH27D9T0LF (unknown [10.57.20.69])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AC4C63FA1F;
+	Fri, 20 Mar 2026 14:33:34 -0700 (PDT)
+Date: Fri, 20 Mar 2026 22:33:27 +0100
+From: Emanuele Rocca <emanuele.rocca@arm.com>
+To: linux-kernel@vger.kernel.org
+Cc: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
 	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	David Hildenbrand <david@kernel.org>,
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>,
-	Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org,
-	linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org,
-	target-devel@vger.kernel.org, linux-afs@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	Ryan Roberts <ryan.roberts@arm.com>
-Subject: Re: [PATCH v3 15/16] mm: add mmap_action_map_kernel_pages[_full]()
-Message-ID: <20260320210812.GA3988975@ax162>
-References: <cover.1773944114.git.ljs@kernel.org>
- <54ff3670662e10a66ce0c1a13c0ae93b99a5f201.1773944114.git.ljs@kernel.org>
+	linux-fsdevel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+	Jann Horn <jannh@google.com>, Oleg Nesterov <oleg@redhat.com>
+Subject: [PATCH] pidfds: add coredump_code field to pidfd_info
+Message-ID: <ab29J6KsQm8Xg3LR@NH27D9T0LF>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -75,93 +35,328 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <54ff3670662e10a66ce0c1a13c0ae93b99a5f201.1773944114.git.ljs@kernel.org>
 
-Hi Lorenzo,
+The struct pidfd_info currently exposes in a field called coredump_signal the
+signal number (si_signo) that triggered the dump (for example, 11 for SIGSEGV).
+However, it is also valuable to understand the reason why that signal was sent.
+This additional context is provided by the signal code (si_code), such as 2 for
+SEGV_ACCERR.
 
-On Thu, Mar 19, 2026 at 06:23:39PM +0000, Lorenzo Stoakes (Oracle) wrote:
-> A user can invoke mmap_action_map_kernel_pages() to specify that the
-> mapping should map kernel pages starting from desc->start of a specified
-> number of pages specified in an array.
-> 
-> In order to implement this, adjust mmap_action_prepare() to be able to
-> return an error code, as it makes sense to assert that the specified
-> parameters are valid as quickly as possible as well as updating the VMA
-> flags to include VMA_MIXEDMAP_BIT as necessary.
-> 
-> This provides an mmap_prepare equivalent of vm_insert_pages().  We
-> additionally update the existing vm_insert_pages() code to use
-> range_in_vma() and add a new range_in_vma_desc() helper function for the
-> mmap_prepare case, sharing the code between the two in range_is_subset().
-> 
-> We add both mmap_action_map_kernel_pages() and
-> mmap_action_map_kernel_pages_full() to allow for both partial and full VMA
-> mappings.
-> 
-> We update the documentation to reflect the new features.
-> 
-> Finally, we update the VMA tests accordingly to reflect the changes.
-> 
-> Reviewed-by: Suren Baghdasaryan <surenb@google.com>
-> Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
-...
-> diff --git a/mm/util.c b/mm/util.c
-> index 8cf59267a9ac..682d0d24e1c6 100644
-> --- a/mm/util.c
-> +++ b/mm/util.c
-> @@ -1446,6 +1446,8 @@ int mmap_action_prepare(struct vm_area_desc *desc)
->  		return io_remap_pfn_range_prepare(desc);
->  	case MMAP_SIMPLE_IO_REMAP:
->  		return simple_ioremap_prepare(desc);
-> +	case MMAP_MAP_KERNEL_PAGES:
-> +		return map_kernel_pages_prepare(desc);
->  	}
->  
->  	WARN_ON_ONCE(1);
-> @@ -1476,6 +1478,9 @@ int mmap_action_complete(struct vm_area_struct *vma,
->  	case MMAP_REMAP_PFN:
->  		err = remap_pfn_range_complete(vma, action);
->  		break;
-> +	case MMAP_MAP_KERNEL_PAGES:
-> +		err = map_kernel_pages_complete(vma, action);
-> +		break;
->  	case MMAP_IO_REMAP_PFN:
->  	case MMAP_SIMPLE_IO_REMAP:
->  		/* Should have been delegated. */
-> @@ -1497,6 +1502,7 @@ int mmap_action_prepare(struct vm_area_desc *desc)
->  	case MMAP_REMAP_PFN:
->  	case MMAP_IO_REMAP_PFN:
->  	case MMAP_SIMPLE_IO_REMAP:
-> +	case MMAP_MAP_KERNEL_PAGES:
->  		WARN_ON_ONCE(1); /* nommu cannot handle these. */
->  		break;
->  	}
+Add a new field to struct pidfd_info called coredump_code with the value of
+si_code for the benefit of sysadmins who pipe core dumps to user-space programs
+for later analysis. The following snippet illustrates a simplified C program
+that consumes coredump_signal and coredump_code, and then logs core dump
+signals and codes to a file:
 
-Not sure if it has been reported/addressed yet but it looks like
-mmap_action_complete() was missed here, as pointed out by clang:
+    int pidfd = (int)atoi(argv[1]);
 
-  $ make -skj"$(nproc)" ARCH=arm LLVM=1 mrproper allnoconfig mm/util.o
-  mm/util.c:1520:10: warning: enumeration value 'MMAP_MAP_KERNEL_PAGES' not handled in switch [-Wswitch]
-   1520 |         switch (action->type) {
-        |                 ^~~~~~~~~~~~
+    struct pidfd_info info = {
+        .mask = PIDFD_INFO_EXIT | PIDFD_INFO_COREDUMP,
+    };
 
-I assume
+    if (ioctl(pidfd, PIDFD_GET_INFO, &info) == 0)
+        if (info.mask & PIDFD_INFO_COREDUMP)
+            fprintf(f, "PID=%d, si_signo: %d si_code: %d\n",
+                info.pid, info.coredump_signal, info.coredump_code);
 
-diff --git a/mm/util.c b/mm/util.c
-index 682d0d24e1c6..c41c119a5a74 100644
---- a/mm/util.c
-+++ b/mm/util.c
-@@ -1523,6 +1523,7 @@ int mmap_action_complete(struct vm_area_struct *vma,
- 	case MMAP_REMAP_PFN:
- 	case MMAP_IO_REMAP_PFN:
- 	case MMAP_SIMPLE_IO_REMAP:
-+	case MMAP_MAP_KERNEL_PAGES:
- 		WARN_ON_ONCE(1); /* nommu cannot handle this. */
+Assuming the program is installed under /usr/local/bin/core-logger, core dump
+processing can be enabled by setting /proc/sys/kernel/core_pattern to
+'|/usr/local/bin/dumpstuff %F'.
+
+systemd-coredump(8) already uses pidfds to process core dumps, and it could be
+extended to include the values of coredump_code too.
+
+Signed-off-by: Emanuele Rocca <emanuele.rocca@arm.com>
+Link: https://lore.kernel.org/lkml/ablsdmLsMKm0z5wt@NH27D9T0LF
+---
+ fs/pidfs.c                                    | 12 ++++---
+ include/uapi/linux/pidfd.h                    |  3 ++
+ .../coredump/coredump_socket_protocol_test.c  | 26 +++++++++++++++
+ .../selftests/coredump/coredump_socket_test.c | 32 +++++++++++++++++++
+ .../coredump/coredump_test_helpers.c          |  4 +--
+ tools/testing/selftests/pidfd/pidfd.h         |  5 +++
+ .../testing/selftests/pidfd/pidfd_info_test.c |  1 +
+ 7 files changed, 77 insertions(+), 6 deletions(-)
+
+diff --git a/fs/pidfs.c b/fs/pidfs.c
+index e3825ee246be..49b46be6c413 100644
+--- a/fs/pidfs.c
++++ b/fs/pidfs.c
+@@ -55,6 +55,7 @@ struct pidfs_attr {
+ 	};
+ 	__u32 coredump_mask;
+ 	__u32 coredump_signal;
++	__u32 coredump_code;
+ };
  
- 		err = -EINVAL;
---
+ static struct rhashtable pidfs_ino_ht;
+@@ -331,7 +332,8 @@ static __u32 pidfs_coredump_mask(unsigned long mm_flags)
+ 			      PIDFD_INFO_EXIT | \
+ 			      PIDFD_INFO_COREDUMP | \
+ 			      PIDFD_INFO_SUPPORTED_MASK | \
+-			      PIDFD_INFO_COREDUMP_SIGNAL)
++			      PIDFD_INFO_COREDUMP_SIGNAL | \
++			      PIDFD_INFO_COREDUMP_CODE)
+ 
+ static long pidfd_info(struct file *file, unsigned int cmd, unsigned long arg)
+ {
+@@ -345,7 +347,7 @@ static long pidfd_info(struct file *file, unsigned int cmd, unsigned long arg)
+ 	const struct cred *c;
+ 	__u64 mask;
+ 
+-	BUILD_BUG_ON(sizeof(struct pidfd_info) != PIDFD_INFO_SIZE_VER2);
++	BUILD_BUG_ON(sizeof(struct pidfd_info) != PIDFD_INFO_SIZE_VER3);
+ 
+ 	if (!uinfo)
+ 		return -EINVAL;
+@@ -378,9 +380,10 @@ static long pidfd_info(struct file *file, unsigned int cmd, unsigned long arg)
+ 	if (mask & PIDFD_INFO_COREDUMP) {
+ 		if (test_bit(PIDFS_ATTR_BIT_COREDUMP, &attr->attr_mask)) {
+ 			smp_rmb();
+-			kinfo.mask |= PIDFD_INFO_COREDUMP | PIDFD_INFO_COREDUMP_SIGNAL;
++			kinfo.mask |= PIDFD_INFO_COREDUMP | PIDFD_INFO_COREDUMP_SIGNAL | PIDFD_INFO_COREDUMP_CODE;
+ 			kinfo.coredump_mask = attr->coredump_mask;
+ 			kinfo.coredump_signal = attr->coredump_signal;
++			kinfo.coredump_code = attr->coredump_code;
+ 		}
+ 	}
+ 
+@@ -730,8 +733,9 @@ void pidfs_coredump(const struct coredump_params *cprm)
+ 			      PIDFD_COREDUMPED;
+ 	/* If coredumping is set to skip we should never end up here. */
+ 	VFS_WARN_ON_ONCE(attr->coredump_mask & PIDFD_COREDUMP_SKIP);
+-	/* Expose the signal number that caused the coredump. */
++	/* Expose the signal number and code that caused the coredump. */
+ 	attr->coredump_signal = cprm->siginfo->si_signo;
++	attr->coredump_code = cprm->siginfo->si_code;
+ 	smp_wmb();
+ 	set_bit(PIDFS_ATTR_BIT_COREDUMP, &attr->attr_mask);
+ }
+diff --git a/include/uapi/linux/pidfd.h b/include/uapi/linux/pidfd.h
+index ea9a6811fc76..bd6da878dd74 100644
+--- a/include/uapi/linux/pidfd.h
++++ b/include/uapi/linux/pidfd.h
+@@ -28,10 +28,12 @@
+ #define PIDFD_INFO_COREDUMP		(1UL << 4) /* Only returned if requested. */
+ #define PIDFD_INFO_SUPPORTED_MASK	(1UL << 5) /* Want/got supported mask flags */
+ #define PIDFD_INFO_COREDUMP_SIGNAL	(1UL << 6) /* Always returned if PIDFD_INFO_COREDUMP is requested. */
++#define PIDFD_INFO_COREDUMP_CODE	(1UL << 7) /* Always returned if PIDFD_INFO_COREDUMP is requested. */
+ 
+ #define PIDFD_INFO_SIZE_VER0		64 /* sizeof first published struct */
+ #define PIDFD_INFO_SIZE_VER1		72 /* sizeof second published struct */
+ #define PIDFD_INFO_SIZE_VER2		80 /* sizeof third published struct */
++#define PIDFD_INFO_SIZE_VER3		88 /* sizeof fourth published struct */
+ 
+ /*
+  * Values for @coredump_mask in pidfd_info.
+@@ -98,6 +100,7 @@ struct pidfd_info {
+ 	struct /* coredump info */ {
+ 		__u32 coredump_mask;
+ 		__u32 coredump_signal;
++		__u32 coredump_code;
+ 	};
+ 	__u64 supported_mask;	/* Mask flags that this kernel supports */
+ };
+diff --git a/tools/testing/selftests/coredump/coredump_socket_protocol_test.c b/tools/testing/selftests/coredump/coredump_socket_protocol_test.c
+index d19b6717c53e..d9fa6239b5a9 100644
+--- a/tools/testing/selftests/coredump/coredump_socket_protocol_test.c
++++ b/tools/testing/selftests/coredump/coredump_socket_protocol_test.c
+@@ -1004,6 +1004,8 @@ TEST_F(coredump, socket_request_invalid_size_large)
+  *
+  * Verify that when using socket-based coredump protocol,
+  * the coredump_signal field is correctly exposed as SIGSEGV.
++ * Also check that the coredump_code field is correctly exposed
++ * as SEGV_MAPERR.
+  */
+ TEST_F(coredump, socket_coredump_signal_sigsegv)
+ {
+@@ -1079,6 +1081,18 @@ TEST_F(coredump, socket_coredump_signal_sigsegv)
+ 			goto out;
+ 		}
+ 
++		/* Verify coredump_code is available and correct */
++		if (!(info.mask & PIDFD_INFO_COREDUMP_CODE)) {
++			fprintf(stderr, "socket_coredump_signal_sigsegv: PIDFD_INFO_COREDUMP_CODE not set in mask\n");
++			goto out;
++		}
++
++		if (info.coredump_code != SEGV_MAPERR) {
++			fprintf(stderr, "socket_coredump_signal_sigsegv: coredump_code=%d, expected SEGV_MAPERR=%d\n",
++				info.coredump_code, SEGV_MAPERR);
++			goto out;
++		}
++
+ 		if (!read_coredump_req(fd_coredump, &req)) {
+ 			fprintf(stderr, "socket_coredump_signal_sigsegv: read_coredump_req failed\n");
+ 			goto out;
+@@ -1128,6 +1142,8 @@ TEST_F(coredump, socket_coredump_signal_sigsegv)
+ 	ASSERT_TRUE(!!(info.mask & PIDFD_INFO_COREDUMP));
+ 	ASSERT_TRUE(!!(info.mask & PIDFD_INFO_COREDUMP_SIGNAL));
+ 	ASSERT_EQ(info.coredump_signal, SIGSEGV);
++	ASSERT_TRUE(!!(info.mask & PIDFD_INFO_COREDUMP_CODE));
++	ASSERT_EQ(info.coredump_code, SEGV_MAPERR);
+ 
+ 	wait_and_check_coredump_server(pid_coredump_server, _metadata, self);
+ }
+@@ -1137,6 +1153,8 @@ TEST_F(coredump, socket_coredump_signal_sigsegv)
+  *
+  * Verify that when using socket-based coredump protocol,
+  * the coredump_signal field is correctly exposed as SIGABRT.
++ * Also check that the coredump_code field is correctly exposed
++ * as SI_TKILL.
+  */
+ TEST_F(coredump, socket_coredump_signal_sigabrt)
+ {
+@@ -1212,6 +1230,12 @@ TEST_F(coredump, socket_coredump_signal_sigabrt)
+ 			goto out;
+ 		}
+ 
++		if (info.coredump_code != SI_TKILL) {
++			fprintf(stderr, "socket_coredump_signal_sigabrt: coredump_code=%d, expected SI_TKILL=%d\n",
++				info.coredump_code, SI_TKILL);
++			goto out;
++		}
++
+ 		if (!read_coredump_req(fd_coredump, &req)) {
+ 			fprintf(stderr, "socket_coredump_signal_sigabrt: read_coredump_req failed\n");
+ 			goto out;
+@@ -1261,6 +1285,8 @@ TEST_F(coredump, socket_coredump_signal_sigabrt)
+ 	ASSERT_TRUE(!!(info.mask & PIDFD_INFO_COREDUMP));
+ 	ASSERT_TRUE(!!(info.mask & PIDFD_INFO_COREDUMP_SIGNAL));
+ 	ASSERT_EQ(info.coredump_signal, SIGABRT);
++	ASSERT_TRUE(!!(info.mask & PIDFD_INFO_COREDUMP_CODE));
++	ASSERT_EQ(info.coredump_code, SI_TKILL);
+ 
+ 	wait_and_check_coredump_server(pid_coredump_server, _metadata, self);
+ }
+diff --git a/tools/testing/selftests/coredump/coredump_socket_test.c b/tools/testing/selftests/coredump/coredump_socket_test.c
+index 7e26d4a6a15d..422728f632ca 100644
+--- a/tools/testing/selftests/coredump/coredump_socket_test.c
++++ b/tools/testing/selftests/coredump/coredump_socket_test.c
+@@ -435,6 +435,8 @@ TEST_F(coredump, socket_no_listener)
+  *
+  * Verify that when using simple socket-based coredump (@ pattern),
+  * the coredump_signal field is correctly exposed as SIGSEGV.
++ * Also check that the coredump_code field is correctly exposed
++ * as SEGV_MAPERR.
+  */
+ TEST_F(coredump, socket_coredump_signal_sigsegv)
+ {
+@@ -509,6 +511,18 @@ TEST_F(coredump, socket_coredump_signal_sigsegv)
+ 			goto out;
+ 		}
+ 
++		/* Verify coredump_code is available and correct */
++		if (!(info.mask & PIDFD_INFO_COREDUMP_CODE)) {
++			fprintf(stderr, "socket_coredump_signal_sigsegv: PIDFD_INFO_COREDUMP_CODE not set in mask\n");
++			goto out;
++		}
++
++		if (info.coredump_code != SEGV_MAPERR) {
++			fprintf(stderr, "socket_coredump_signal_sigsegv: coredump_code=%d, expected SEGV_MAPERR=%d\n",
++				info.coredump_code, SEGV_MAPERR);
++			goto out;
++		}
++
+ 		fd_core_file = open_coredump_tmpfile(self->fd_tmpfs_detached);
+ 		if (fd_core_file < 0) {
+ 			fprintf(stderr, "socket_coredump_signal_sigsegv: open_coredump_tmpfile failed: %m\n");
+@@ -572,6 +586,8 @@ TEST_F(coredump, socket_coredump_signal_sigsegv)
+ 	ASSERT_TRUE(!!(info.mask & PIDFD_INFO_COREDUMP));
+ 	ASSERT_TRUE(!!(info.mask & PIDFD_INFO_COREDUMP_SIGNAL));
+ 	ASSERT_EQ(info.coredump_signal, SIGSEGV);
++	ASSERT_TRUE(!!(info.mask & PIDFD_INFO_COREDUMP_CODE));
++	ASSERT_EQ(info.coredump_code, SEGV_MAPERR);
+ 
+ 	wait_and_check_coredump_server(pid_coredump_server, _metadata, self);
+ }
+@@ -581,6 +597,8 @@ TEST_F(coredump, socket_coredump_signal_sigsegv)
+  *
+  * Verify that when using simple socket-based coredump (@ pattern),
+  * the coredump_signal field is correctly exposed as SIGABRT.
++ * Also check that the coredump_code field is correctly exposed
++ * as SI_TKILL.
+  */
+ TEST_F(coredump, socket_coredump_signal_sigabrt)
+ {
+@@ -655,6 +673,18 @@ TEST_F(coredump, socket_coredump_signal_sigabrt)
+ 			goto out;
+ 		}
+ 
++		/* Verify coredump_code is available and correct */
++		if (!(info.mask & PIDFD_INFO_COREDUMP_CODE)) {
++			fprintf(stderr, "socket_coredump_signal_sigabrt: PIDFD_INFO_COREDUMP_CODE not set in mask\n");
++			goto out;
++		}
++
++		if (info.coredump_code != SI_TKILL) {
++			fprintf(stderr, "socket_coredump_signal_sigabrt: coredump_code=%d, expected SI_TKILL=%d\n",
++				info.coredump_code, SI_TKILL);
++			goto out;
++		}
++
+ 		fd_core_file = open_coredump_tmpfile(self->fd_tmpfs_detached);
+ 		if (fd_core_file < 0) {
+ 			fprintf(stderr, "socket_coredump_signal_sigabrt: open_coredump_tmpfile failed: %m\n");
+@@ -718,6 +748,8 @@ TEST_F(coredump, socket_coredump_signal_sigabrt)
+ 	ASSERT_TRUE(!!(info.mask & PIDFD_INFO_COREDUMP));
+ 	ASSERT_TRUE(!!(info.mask & PIDFD_INFO_COREDUMP_SIGNAL));
+ 	ASSERT_EQ(info.coredump_signal, SIGABRT);
++	ASSERT_TRUE(!!(info.mask & PIDFD_INFO_COREDUMP_CODE));
++	ASSERT_EQ(info.coredump_code, SI_TKILL);
+ 
+ 	wait_and_check_coredump_server(pid_coredump_server, _metadata, self);
+ }
+diff --git a/tools/testing/selftests/coredump/coredump_test_helpers.c b/tools/testing/selftests/coredump/coredump_test_helpers.c
+index 2c850e0b1b57..2a20faf9cb0a 100644
+--- a/tools/testing/selftests/coredump/coredump_test_helpers.c
++++ b/tools/testing/selftests/coredump/coredump_test_helpers.c
+@@ -148,8 +148,8 @@ bool get_pidfd_info(int fd_peer_pidfd, struct pidfd_info *info)
+ 		fprintf(stderr, "get_pidfd_info: ioctl(PIDFD_GET_INFO) failed: %m\n");
+ 		return false;
+ 	}
+-	fprintf(stderr, "get_pidfd_info: mask=0x%llx, coredump_mask=0x%x, coredump_signal=%d\n",
+-		(unsigned long long)info->mask, info->coredump_mask, info->coredump_signal);
++	fprintf(stderr, "get_pidfd_info: mask=0x%llx, coredump_mask=0x%x, coredump_signal=%d, coredump_code=%d\n",
++		(unsigned long long)info->mask, info->coredump_mask, info->coredump_signal, info->coredump_code);
+ 	return true;
+ }
+ 
+diff --git a/tools/testing/selftests/pidfd/pidfd.h b/tools/testing/selftests/pidfd/pidfd.h
+index 9085c1a3c005..5a4e78c10f43 100644
+--- a/tools/testing/selftests/pidfd/pidfd.h
++++ b/tools/testing/selftests/pidfd/pidfd.h
+@@ -156,6 +156,10 @@
+ #define PIDFD_INFO_COREDUMP_SIGNAL	(1UL << 6)
+ #endif
+ 
++#ifndef PIDFD_INFO_COREDUMP_CODE
++#define PIDFD_INFO_COREDUMP_CODE	(1UL << 7)
++#endif
++
+ #ifndef PIDFD_COREDUMPED
+ #define PIDFD_COREDUMPED	(1U << 0) /* Did crash and... */
+ #endif
+@@ -194,6 +198,7 @@ struct pidfd_info {
+ 	struct {
+ 		__u32 coredump_mask;
+ 		__u32 coredump_signal;
++		__u32 coredump_code;
+ 	};
+ 	__u64 supported_mask;
+ };
+diff --git a/tools/testing/selftests/pidfd/pidfd_info_test.c b/tools/testing/selftests/pidfd/pidfd_info_test.c
+index 8bed951e06a0..597012ed195f 100644
+--- a/tools/testing/selftests/pidfd/pidfd_info_test.c
++++ b/tools/testing/selftests/pidfd/pidfd_info_test.c
+@@ -724,6 +724,7 @@ TEST(supported_mask_field)
+ 	ASSERT_TRUE(!!(info.supported_mask & PIDFD_INFO_COREDUMP));
+ 	ASSERT_TRUE(!!(info.supported_mask & PIDFD_INFO_SUPPORTED_MASK));
+ 	ASSERT_TRUE(!!(info.supported_mask & PIDFD_INFO_COREDUMP_SIGNAL));
++	ASSERT_TRUE(!!(info.supported_mask & PIDFD_INFO_COREDUMP_CODE));
+ 
+ 	/* Clean up */
+ 	sys_pidfd_send_signal(pidfd, SIGKILL, NULL, 0);
+-- 
+2.43.0
 
-should be the fix?
-
-Cheers,
-Nathan
