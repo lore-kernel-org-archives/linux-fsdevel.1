@@ -1,258 +1,246 @@
-Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com [209.85.210.69])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3602E38F63D
-	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Mar 2026 10:34:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC374396B82;
+	Fri, 20 Mar 2026 10:40:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774002844; cv=none; b=IsSlP4HAtHGWqm07HsnhGOop0kmbKE1zD7X5Yo0J5VuC3ZsEMmtAMksRFcRyIQFahiGfTTvV6TIb1o+0h7Z9KG7pMYM7PDa4m52mXq4ZmRFV4OqLrGdgoff812jl3f/oY7pRjnrGCSmVNi3UtmXcPmLeUxotIXfVBLlEKcSTs+w=
+	t=1774003211; cv=none; b=cCTxD0/Lixln8PREieIeOmy/Ems/VSA+b8+ABnVYLQMdJ8b0Z0UELetGx1VBnjjab//2sDsQ6OaetTX0EBLC3ZNyyrbu3249wk9+HY5dTU/G3UifY/RpbLCo2HZ2aIHqEKcPBNp3Y0h0Nh55KdgYuIAV5GcBBD3M53u59uJ8apw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774002844; c=relaxed/simple;
-	bh=rzZaQLfEDUrBFZYBdtxge1aiSCig8HiSRfi7DP5KHVM=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=Fm6bf/pQUh8ntlbkWd2U1gpNtiKqbP+HNRQPhBsSb3DDnsWCKvRJIqTJphGfqamFIUh75KYSOyI8HujiqJY4Q2q3z4FfXkyn5n1Hwqj6A8x4L+cJqRf+Sz8+z9WBncQz6NPP8vLF83N8j/Ry4DAI4SJEr6EAq6dUcbHVtLnaeP4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-ot1-f69.google.com with SMTP id 46e09a7af769-7d7e0787438so1920418a34.2
-        for <linux-fsdevel@vger.kernel.org>; Fri, 20 Mar 2026 03:34:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774002842; x=1774607642;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PyurhFL0srbaHFfNujAbyanPsO6WBW5rLYYsYSOSV7A=;
-        b=XxC5UjgJshqYn9jjCANCRHAIm9xVb8r7eC2qsjNxqsunruM91sYcUQ9HtGsA6isPhJ
-         lvuMxlk0ywHIXelrHWJ8k9jjrESC3k6Ah9kveQBw3AuLVD7MTqGMixybc1t4NYU7CNWb
-         pRWmG1e7mV6vxe3IT8OoqKsHdJounDV2lE/mbQSjHJOzU21hTlvOC9T6HRHGVMn0kQVo
-         OSFC4LmMTRKlEyil7UDthvyyLW7YFyGvQmSXEDCJ2UCNXwkfyn9hzQ4eA6firSJkXb7n
-         d1OAsFMM2sZbXm3LU/weQ1EzilVz40FvNz844S9Og7eDG7jpf7HrNNhXrkfH6IwLL2Yj
-         om2Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWoHYMOpbxOmxCjxyJFQx03WBnt0A1g7YbfGZ8F5eMbqAEPzzhK5zIcIcmHLQPKXrX6scxEraEPqGtTS4cZ@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxx0F6Lp7bNga2e8nDhg1aJhAOhwoddzDmau0drk8s9PVq8lHNW
-	LBHEllEPYnwG3QnI3OnkwAO8QqloDNWe65l+FjaOOgTFJH2wplisHYdcPCqZNMR1mb15Gc6oyHY
-	veKJeUkpt48eRjqR7htX7jt6EMEhNVb4dNLt6PBGP5yfysONUkJw/ONFGbvY=
+	s=arc-20240116; t=1774003211; c=relaxed/simple;
+	bh=jhOSmCqYQaS2DI24Bg78xyfLr/K/fkiEgn/15MWAEuU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fEbgivAIuRhfHrNNO8gfbuS7DFbxOqwBiQkbpdEDmAG5haP05qt94vOUsDsUg9gnCBTu2h3o/+zlv8y5ZJ7WnsAjp3Ei9Hry971m5+m6E7sKIOL6UlIUAfw6Y4v6hEvj3Vb+obzSlYDWGy0KsMyVfl3wZWor+QpaqzatUV5dx14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XTP04ZGk; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XTP04ZGk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E70CEC2BCB2;
+	Fri, 20 Mar 2026 10:39:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774003211;
+	bh=jhOSmCqYQaS2DI24Bg78xyfLr/K/fkiEgn/15MWAEuU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=XTP04ZGkahcK9b1vYtWAII4egDMA7ViD6CPQuR08AnZlAxqqDuWpTLYDeuf1s9y+k
+	 Bxe58tvv79PZpwFR1av496x4mE1lFIfGlMo1oVPWYxT8onJGrzM3kx9c5WcUASJsmP
+	 5YKkxHuKdg5bXFJVZSHEFiH6Je5WrKdzJWr7a+uZSmO+h0/PWe7ZWifgkhg8kdKA0W
+	 HQiDuDTxMGwA5o653RD4zCyEiOrtcgbj2fpj4wT71RjRawJrksbcfbGlWV16ZoQ/nq
+	 xvXQvJZUOroGzfa4zos8aCgqbt2QQNKiCH2GECGuUPpBb873LL6PXowpwclzgaXqEI
+	 1k6U5dVdH9LyA==
+Message-ID: <0b5765da-67e9-4e2e-99d8-08501730bf76@kernel.org>
+Date: Fri, 20 Mar 2026 11:39:58 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:818b:b0:67b:e3cf:a416 with SMTP id
- 006d021491bc7-67c22ec467emr1960545eaf.25.1774002842204; Fri, 20 Mar 2026
- 03:34:02 -0700 (PDT)
-Date: Fri, 20 Mar 2026 03:34:02 -0700
-In-Reply-To: <abyPiI_4bCRGQLBV@hyeyoo>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <69bd229a.050a0220.3bf4de.001c.GAE@google.com>
-Subject: Re: [syzbot] [mm?] [f2fs?] [exfat?] memory leak in __kfree_rcu_sheaf
-From: syzbot <syzbot+cae7809e9dc1459e4e63@syzkaller.appspotmail.com>
-To: akpm@linux-foundation.org, chao@kernel.org, harry.yoo@oracle.com, 
-	jaegeuk@kernel.org, jannh@google.com, liam.howlett@oracle.com, 
-	linkinjeon@kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, lorenzo.stoakes@oracle.com, pfalcato@suse.de, 
-	sj1557.seo@samsung.com, syzkaller-bugs@googlegroups.com, vbabka@suse.cz
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 22/23] mm/vma: convert vma_modify_flags[_uffd]() to use
+ vma_flags_t
+Content-Language: en-US
+To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: David Hildenbrand <david@kernel.org>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>, Jann Horn <jannh@google.com>,
+ Pedro Falcato <pfalcato@suse.de>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Kees Cook <kees@kernel.org>,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ Vineet Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Brian Cain <bcain@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
+ WANG Xuerui <kernel@xen0n.name>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Dinh Nguyen <dinguyen@kernel.org>, Madhavan Srinivasan
+ <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>,
+ Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <chleroy@kernel.org>,
+ Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>, Richard Weinberger <richard@nod.at>,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ Johannes Berg <johannes@sipsolutions.net>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Xu Xin <xu.xin16@zte.com.cn>, Chengming Zhou <chengming.zhou@linux.dev>,
+ Michal Hocko <mhocko@suse.com>, Paul Moore <paul@paul-moore.com>,
+ Stephen Smalley <stephen.smalley.work@gmail.com>,
+ Ondrej Mosnacek <omosnace@redhat.com>, linux-snps-arc@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-hexagon@vger.kernel.org,
+ loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org, linux-um@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, selinux@vger.kernel.org
+References: <cover.1773846935.git.ljs@kernel.org>
+ <98a004bf89227ea9abaef5fef06ea7e584f77bcf.1773846935.git.ljs@kernel.org>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+In-Reply-To: <98a004bf89227ea9abaef5fef06ea7e584f77bcf.1773846935.git.ljs@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hello,
+On 3/18/26 16:50, Lorenzo Stoakes (Oracle) wrote:
+> Update the vma_modify_flags() and vma_modify_flags_uffd() functions to
+> accept a vma_flags_t parameter rather than a vm_flags_t one, and propagate
+> the changes as needed to implement this change.
+> 
+> Finally, update the VMA tests to reflect this.
+> 
+> Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
 
-syzbot has tested the proposed patch but the reproducer is still triggering an issue:
-memory leak in __pcs_replace_empty_main
+> --- a/mm/mlock.c
+> +++ b/mm/mlock.c
+> @@ -415,13 +415,14 @@ static int mlock_pte_range(pmd_t *pmd, unsigned long addr,
+>   * @vma - vma containing range to be mlock()ed or munlock()ed
+>   * @start - start address in @vma of the range
+>   * @end - end of range in @vma
+> - * @newflags - the new set of flags for @vma.
+> + * @new_vma_flags - the new set of flags for @vma.
+>   *
+>   * Called for mlock(), mlock2() and mlockall(), to set @vma VM_LOCKED;
+>   * called for munlock() and munlockall(), to clear VM_LOCKED from @vma.
+>   */
+>  static void mlock_vma_pages_range(struct vm_area_struct *vma,
+> -	unsigned long start, unsigned long end, vm_flags_t newflags)
+> +	unsigned long start, unsigned long end,
+> +	vma_flags_t *new_vma_flags)
+>  {
+>  	static const struct mm_walk_ops mlock_walk_ops = {
+>  		.pmd_entry = mlock_pte_range,
+> @@ -439,18 +440,18 @@ static void mlock_vma_pages_range(struct vm_area_struct *vma,
+>  	 * combination should not be visible to other mmap_lock users;
+>  	 * but WRITE_ONCE so rmap walkers must see VM_IO if VM_LOCKED.
+>  	 */
+> -	if (newflags & VM_LOCKED)
+> -		newflags |= VM_IO;
+> +	if (vma_flags_test(new_vma_flags, VMA_LOCKED_BIT))
+> +		vma_flags_set(new_vma_flags, VMA_IO_BIT);
+>  	vma_start_write(vma);
+> -	vm_flags_reset_once(vma, newflags);
+> +	WRITE_ONCE(vma->flags, *new_vma_flags);
 
-BUG: memory leak
-unreferenced object 0xffff88810005f800 (size 512):
-  comm "swapper/0", pid 0, jiffies 4294937296
-  hex dump (first 32 bytes):
-    60 bd 2a 2f 81 88 ff ff 30 ba ad 81 ff ff ff ff  `.*/....0.......
-    00 12 04 00 81 88 ff ff 3c 00 00 00 00 00 00 00  ........<.......
-  backtrace (crc 81834c79):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4543 [inline]
-    slab_alloc_node mm/slub.c:4866 [inline]
-    __do_kmalloc_node mm/slub.c:5259 [inline]
-    __kmalloc_noprof+0x3bd/0x560 mm/slub.c:5272
-    kmalloc_noprof include/linux/slab.h:954 [inline]
-    kzalloc_noprof include/linux/slab.h:1188 [inline]
-    __alloc_empty_sheaf+0x35/0x50 mm/slub.c:2764
-    alloc_empty_sheaf mm/slub.c:2779 [inline]
-    alloc_full_sheaf mm/slub.c:2829 [inline]
-    __pcs_replace_empty_main+0x1e0/0x2f0 mm/slub.c:4626
-    alloc_from_pcs mm/slub.c:4717 [inline]
-    slab_alloc_node mm/slub.c:4851 [inline]
-    __kmalloc_cache_noprof+0x3ac/0x480 mm/slub.c:5375
-    kmalloc_noprof include/linux/slab.h:950 [inline]
-    kzalloc_noprof include/linux/slab.h:1188 [inline]
-    __irq_domain_alloc_fwnode+0x37/0x140 kernel/irq/irqdomain.c:95
-    irq_domain_alloc_named_fwnode include/linux/irqdomain.h:271 [inline]
-    arch_early_irq_init+0x1c/0x70 arch/x86/kernel/apic/vector.c:803
-    start_kernel+0x931/0xb80 init/main.c:1114
-    x86_64_start_reservations+0x24/0x30 arch/x86/kernel/head64.c:310
-    x86_64_start_kernel+0xce/0xd0 arch/x86/kernel/head64.c:291
-    common_startup_64+0x13e/0x148
+It's not clear to me, how is switching from vm_flags_t to vma_flags_t
+allowing us to simply do WRITE_ONCE() instead of the full logic of
+vm_flags_reset_once()? Won't it fail to compile once once flags are more
+than single word? Or worse, will compile but silently allow tearing?
 
-BUG: memory leak
-unreferenced object 0xffff8881008f6c00 (size 512):
-  comm "kthreadd", pid 2, jiffies 4294937342
-  hex dump (first 32 bytes):
-    d0 16 c9 29 81 88 ff ff 30 ba ad 81 ff ff ff ff  ...)....0.......
-    00 12 04 00 81 88 ff ff 3c 00 00 00 00 00 00 00  ........<.......
-  backtrace (crc 38b48d73):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4543 [inline]
-    slab_alloc_node mm/slub.c:4866 [inline]
-    __do_kmalloc_node mm/slub.c:5259 [inline]
-    __kmalloc_noprof+0x3bd/0x560 mm/slub.c:5272
-    kmalloc_noprof include/linux/slab.h:954 [inline]
-    kzalloc_noprof include/linux/slab.h:1188 [inline]
-    __alloc_empty_sheaf+0x35/0x50 mm/slub.c:2764
-    alloc_empty_sheaf mm/slub.c:2779 [inline]
-    alloc_full_sheaf mm/slub.c:2829 [inline]
-    __pcs_replace_empty_main+0x1e0/0x2f0 mm/slub.c:4626
-    alloc_from_pcs mm/slub.c:4717 [inline]
-    slab_alloc_node mm/slub.c:4851 [inline]
-    __kmalloc_cache_node_noprof+0x3ef/0x4e0 mm/slub.c:5388
-    kmalloc_node_noprof include/linux/slab.h:1077 [inline]
-    __get_vm_area_node+0xc6/0x1d0 mm/vmalloc.c:3221
-    __vmalloc_node_range_noprof+0x1d3/0xe50 mm/vmalloc.c:4024
-    __vmalloc_node_noprof+0x71/0x90 mm/vmalloc.c:4124
-    alloc_thread_stack_node kernel/fork.c:355 [inline]
-    dup_task_struct kernel/fork.c:924 [inline]
-    copy_process+0x3e5/0x28c0 kernel/fork.c:2050
-    kernel_clone+0xac/0x6e0 kernel/fork.c:2653
-    kernel_thread+0x80/0xb0 kernel/fork.c:2714
-    create_kthread kernel/kthread.c:459 [inline]
-    kthreadd+0x186/0x250 kernel/kthread.c:817
-    ret_from_fork+0x23c/0x4b0 arch/x86/kernel/process.c:158
-    ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+>  
+>  	lru_add_drain();
+>  	walk_page_range(vma->vm_mm, start, end, &mlock_walk_ops, NULL);
+>  	lru_add_drain();
+>  
+> -	if (newflags & VM_IO) {
+> -		newflags &= ~VM_IO;
+> -		vm_flags_reset_once(vma, newflags);
+> +	if (vma_flags_test(new_vma_flags, VMA_IO_BIT)) {
+> +		vma_flags_clear(new_vma_flags, VMA_IO_BIT);
+> +		WRITE_ONCE(vma->flags, *new_vma_flags);
 
-BUG: memory leak
-unreferenced object 0xffff888102011400 (size 512):
-  comm "kworker/u8:1", pid 274, jiffies 4294937433
-  hex dump (first 32 bytes):
-    28 f6 7b 31 81 88 ff ff 30 ba ad 81 ff ff ff ff  (.{1....0.......
-    00 12 04 00 81 88 ff ff 3c 00 00 00 00 00 00 00  ........<.......
-  backtrace (crc c5ce2dfb):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4543 [inline]
-    slab_alloc_node mm/slub.c:4866 [inline]
-    __do_kmalloc_node mm/slub.c:5259 [inline]
-    __kmalloc_noprof+0x3bd/0x560 mm/slub.c:5272
-    kmalloc_noprof include/linux/slab.h:954 [inline]
-    kzalloc_noprof include/linux/slab.h:1188 [inline]
-    __alloc_empty_sheaf+0x35/0x50 mm/slub.c:2764
-    alloc_empty_sheaf mm/slub.c:2779 [inline]
-    __pcs_replace_full_main+0xe8/0x300 mm/slub.c:5722
-    free_to_pcs mm/slub.c:5775 [inline]
-    slab_free mm/slub.c:6170 [inline]
-    kfree+0x352/0x390 mm/slub.c:6483
-    call_usermodehelper_freeinfo kernel/umh.c:43 [inline]
-    umh_complete kernel/umh.c:57 [inline]
-    call_usermodehelper_exec_async+0x1c7/0x1f0 kernel/umh.c:119
-    ret_from_fork+0x23c/0x4b0 arch/x86/kernel/process.c:158
-    ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+Ditto.
 
-BUG: memory leak
-unreferenced object 0xffff888102010600 (size 512):
-  comm "kworker/1:1", pid 41, jiffies 4294937437
-  hex dump (first 32 bytes):
-    88 c3 c4 29 81 88 ff ff 30 ba ad 81 ff ff ff ff  ...)....0.......
-    00 12 04 00 81 88 ff ff 3c 00 00 00 00 00 00 00  ........<.......
-  backtrace (crc 5d48f1c0):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4543 [inline]
-    slab_alloc_node mm/slub.c:4866 [inline]
-    __do_kmalloc_node mm/slub.c:5259 [inline]
-    __kmalloc_noprof+0x3bd/0x560 mm/slub.c:5272
-    kmalloc_noprof include/linux/slab.h:954 [inline]
-    kzalloc_noprof include/linux/slab.h:1188 [inline]
-    __alloc_empty_sheaf+0x35/0x50 mm/slub.c:2764
-    alloc_empty_sheaf mm/slub.c:2779 [inline]
-    __pcs_replace_full_main+0xe8/0x300 mm/slub.c:5722
-    free_to_pcs mm/slub.c:5775 [inline]
-    slab_free mm/slub.c:6170 [inline]
-    kfree+0x352/0x390 mm/slub.c:6483
-    vfree.part.0+0x1d5/0x4d0 mm/vmalloc.c:3485
-    vfree mm/vmalloc.c:3456 [inline]
-    delayed_vfree_work+0x5b/0x90 mm/vmalloc.c:3398
-    process_one_work+0x277/0x5f0 kernel/workqueue.c:3276
-    process_scheduled_works kernel/workqueue.c:3359 [inline]
-    worker_thread+0x255/0x4a0 kernel/workqueue.c:3440
-    kthread+0x14e/0x1a0 kernel/kthread.c:436
-    ret_from_fork+0x23c/0x4b0 arch/x86/kernel/process.c:158
-    ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+>  	}
+>  }
+>  
+> @@ -467,20 +468,22 @@ static int mlock_fixup(struct vma_iterator *vmi, struct vm_area_struct *vma,
+>  	       struct vm_area_struct **prev, unsigned long start,
+>  	       unsigned long end, vm_flags_t newflags)
+>  {
+> +	vma_flags_t new_vma_flags = legacy_to_vma_flags(newflags);
+> +	const vma_flags_t old_vma_flags = vma->flags;
+>  	struct mm_struct *mm = vma->vm_mm;
+>  	int nr_pages;
+>  	int ret = 0;
+> -	vm_flags_t oldflags = vma->vm_flags;
+>  
+> -	if (newflags == oldflags || vma_is_secretmem(vma) ||
+> -	    !vma_supports_mlock(vma))
+> +	if (vma_flags_same_pair(&old_vma_flags, &new_vma_flags) ||
+> +	    vma_is_secretmem(vma) || !vma_supports_mlock(vma)) {
+>  		/*
+>  		 * Don't set VM_LOCKED or VM_LOCKONFAULT and don't count.
+>  		 * For secretmem, don't allow the memory to be unlocked.
+>  		 */
+>  		goto out;
+> +	}
+>  
+> -	vma = vma_modify_flags(vmi, *prev, vma, start, end, &newflags);
+> +	vma = vma_modify_flags(vmi, *prev, vma, start, end, &new_vma_flags);
+>  	if (IS_ERR(vma)) {
+>  		ret = PTR_ERR(vma);
+>  		goto out;
+> @@ -490,9 +493,9 @@ static int mlock_fixup(struct vma_iterator *vmi, struct vm_area_struct *vma,
+>  	 * Keep track of amount of locked VM.
+>  	 */
+>  	nr_pages = (end - start) >> PAGE_SHIFT;
+> -	if (!(newflags & VM_LOCKED))
+> +	if (!vma_flags_test(&new_vma_flags, VMA_LOCKED_BIT))
+>  		nr_pages = -nr_pages;
+> -	else if (oldflags & VM_LOCKED)
+> +	else if (vma_flags_test(&old_vma_flags, VMA_LOCKED_BIT))
+>  		nr_pages = 0;
+>  	mm->locked_vm += nr_pages;
+>  
+> @@ -501,12 +504,13 @@ static int mlock_fixup(struct vma_iterator *vmi, struct vm_area_struct *vma,
+>  	 * It's okay if try_to_unmap_one unmaps a page just after we
+>  	 * set VM_LOCKED, populate_vma_page_range will bring it back.
+>  	 */
+> -	if ((newflags & VM_LOCKED) && (oldflags & VM_LOCKED)) {
+> +	if (vma_flags_test(&new_vma_flags, VMA_LOCKED_BIT) &&
+> +	    vma_flags_test(&old_vma_flags, VMA_LOCKED_BIT)) {
+>  		/* No work to do, and mlocking twice would be wrong */
+>  		vma_start_write(vma);
+> -		vm_flags_reset(vma, newflags);
+> +		vma->flags = new_vma_flags;
 
-BUG: memory leak
-unreferenced object 0xffff888102010400 (size 512):
-  comm "kworker/u8:1", pid 443, jiffies 4294937439
-  hex dump (first 32 bytes):
-    e8 50 dd 31 81 88 ff ff 30 ba ad 81 ff ff ff ff  .P.1....0.......
-    00 12 04 00 81 88 ff ff 3c 00 00 00 00 00 00 00  ........<.......
-  backtrace (crc 11032afc):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4543 [inline]
-    slab_alloc_node mm/slub.c:4866 [inline]
-    __do_kmalloc_node mm/slub.c:5259 [inline]
-    __kmalloc_noprof+0x3bd/0x560 mm/slub.c:5272
-    kmalloc_noprof include/linux/slab.h:954 [inline]
-    kzalloc_noprof include/linux/slab.h:1188 [inline]
-    __alloc_empty_sheaf+0x35/0x50 mm/slub.c:2764
-    alloc_empty_sheaf mm/slub.c:2779 [inline]
-    __pcs_replace_full_main+0xe8/0x300 mm/slub.c:5722
-    free_to_pcs mm/slub.c:5775 [inline]
-    slab_free mm/slub.c:6170 [inline]
-    kfree+0x352/0x390 mm/slub.c:6483
-    call_usermodehelper_freeinfo kernel/umh.c:43 [inline]
-    umh_complete kernel/umh.c:57 [inline]
-    call_usermodehelper_exec_async+0x1c7/0x1f0 kernel/umh.c:119
-    ret_from_fork+0x23c/0x4b0 arch/x86/kernel/process.c:158
-    ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+This also does lot less than vm_flags_reset()?
 
-BUG: memory leak
-unreferenced object 0xffff8881095d5a00 (size 256):
-  comm "swapper/0", pid 1, jiffies 4294937857
-  hex dump (first 32 bytes):
-    00 d4 9c 1d 81 88 ff ff 88 fc 04 00 81 88 ff ff  ................
-    00 1a 04 00 81 88 ff ff 1c 00 00 00 00 00 00 00  ................
-  backtrace (crc deebd371):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4543 [inline]
-    slab_alloc_node mm/slub.c:4866 [inline]
-    __do_kmalloc_node mm/slub.c:5259 [inline]
-    __kmalloc_noprof+0x3bd/0x560 mm/slub.c:5272
-    kmalloc_noprof include/linux/slab.h:954 [inline]
-    kzalloc_noprof include/linux/slab.h:1188 [inline]
-    __alloc_empty_sheaf+0x35/0x50 mm/slub.c:2764
-    alloc_empty_sheaf mm/slub.c:2779 [inline]
-    alloc_full_sheaf mm/slub.c:2829 [inline]
-    __pcs_replace_empty_main+0x1e0/0x2f0 mm/slub.c:4626
-    alloc_from_pcs mm/slub.c:4717 [inline]
-    slab_alloc_node mm/slub.c:4851 [inline]
-    __kmalloc_cache_noprof+0x3ac/0x480 mm/slub.c:5375
-    kmalloc_noprof include/linux/slab.h:950 [inline]
-    kzalloc_noprof include/linux/slab.h:1188 [inline]
-    init_srcu_struct_fields+0x29d/0x320 kernel/rcu/srcutree.c:241
-    rtnl_link_register+0x81/0x1c0 net/core/rtnetlink.c:615
-    ipgre_init+0x10d/0x1a0 net/ipv4/ip_gre.c:1828
-    do_one_initcall+0x79/0x4c0 init/main.c:1382
-    do_initcall_level init/main.c:1444 [inline]
-    do_initcalls init/main.c:1460 [inline]
-    do_basic_setup init/main.c:1479 [inline]
-    kernel_init_freeable+0x2a4/0x340 init/main.c:1692
-    kernel_init+0x1b/0x1d0 init/main.c:1582
-    ret_from_fork+0x23c/0x4b0 arch/x86/kernel/process.c:158
-    ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+>  	} else {
+> -		mlock_vma_pages_range(vma, start, end, newflags);
+> +		mlock_vma_pages_range(vma, start, end, &new_vma_flags);
+>  	}
+>  out:
+>  	*prev = vma;
+> diff --git a/mm/mprotect.c b/mm/mprotect.c
+> index eaa724b99908..2b8a85689ab7 100644
+> --- a/mm/mprotect.c
+> +++ b/mm/mprotect.c
+> @@ -756,13 +756,11 @@ mprotect_fixup(struct vma_iterator *vmi, struct mmu_gather *tlb,
+>  		vma_flags_clear(&new_vma_flags, VMA_ACCOUNT_BIT);
+>  	}
+>  
+> -	newflags = vma_flags_to_legacy(new_vma_flags);
+> -	vma = vma_modify_flags(vmi, *pprev, vma, start, end, &newflags);
+> +	vma = vma_modify_flags(vmi, *pprev, vma, start, end, &new_vma_flags);
+>  	if (IS_ERR(vma)) {
+>  		error = PTR_ERR(vma);
+>  		goto fail;
+>  	}
+> -	new_vma_flags = legacy_to_vma_flags(newflags);
+>  
+>  	*pprev = vma;
+>  
+> @@ -771,7 +769,7 @@ mprotect_fixup(struct vma_iterator *vmi, struct mmu_gather *tlb,
+>  	 * held in write mode.
+>  	 */
+>  	vma_start_write(vma);
+> -	vm_flags_reset_once(vma, newflags);
+> +	WRITE_ONCE(vma->flags, new_vma_flags);
 
-connection error: failed to recv *flatrpc.ExecutorMessageRawT: EOF
+Ditto.
 
-
-Tested on:
-
-commit:         0e4f8f1a Merge tag 'parisc-for-7.0-rc5' of git://git.k..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=13b18cba580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=e2bba615ee79faa5
-dashboard link: https://syzkaller.appspot.com/bug?extid=cae7809e9dc1459e4e63
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-patch:          https://syzkaller.appspot.com/x/patch.diff?x=12608cba580000
-
+>  	if (vma_wants_manual_pte_write_upgrade(vma))
+>  		mm_cp_flags |= MM_CP_TRY_CHANGE_WRITABLE;
+>  	vma_set_page_prot(vma);
+> @@ -796,6 +794,7 @@ mprotect_fixup(struct vma_iterator *vmi, struct mmu_gather *tlb,
+>  	}
+>  
+>  	vm_stat_account(mm, vma_flags_to_legacy(old_vma_flags), -nrpages);
+> +	newflags = vma_flags_to_legacy(new_vma_flags);
+>  	vm_stat_account(mm, newflags, nrpages);
+>  	perf_event_mmap(vma);
+>  	return 0;
+> diff --git a/mm/mseal.c b/mm/mseal.c
+> index 316b5e1dec78..603df53ad267 100644
