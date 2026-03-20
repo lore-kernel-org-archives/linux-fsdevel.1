@@ -1,152 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B6AF35BDA5;
-	Fri, 20 Mar 2026 12:43:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774010590; cv=none; b=LYX1ImFCp2PXzbncCKSrpF+UhrKFrXNanv+UPW0aYvjFBWsYvPefOsl5VVTKEIHrJS1RMvK5cjh2ytEwLeFV9Cblg1Q5vt5bEprPAPtgYJa4MIQ7rM9FU3+YE8OdyL+Pqd1XnzBYPA09hmpwxcOj07Jo8ndbfR3oU5hueUcjrDw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774010590; c=relaxed/simple;
-	bh=9e/Btx0YFRFKC21pnkUbnvkuOGkqidzpB8uwJ5aHo+M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=S311J6NmF6VHvWMLgWWS7jZI8K4YNhe1bbn2HvOodjLzlQQpHGSHGi3i7LhUFygDgm/pbjiT9+1Y83+HMl9SFCLpC6M9+nFp7BNsstaIywGLuNL9nbQk2qDOX0+lf7zij83BDRCdvG411HKykCj9VcW0JhQGjgoXuwtdEdoVk7g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MbsJYEaf; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10D433B636C
+	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Mar 2026 12:53:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774011234; cv=pass; b=SdxsrAnAljCx84qaBXrJQlJnsP8bm3Zf24a0t8j2A1nZncuUM61xGCZWlJj04bsZIuHWmj/9Tjcn9xErCJgorkBsP9MHTEu8aLmxUKlKw0NqDFhCNNiuM+QuHVf6Kw9ESUsrkOgUdl+QX0Rvn7Wtq+hYUxxopHSl/wOLOzFUblU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774011234; c=relaxed/simple;
+	bh=sxb40RyXjBOvkVq2MrBV1Eo8DmTziCzGNtpBWcwYXIc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jKp3ZrXLOvQ0s22L9zpknSCjoDWobDKJ2Y/CYr4C0LuW90NYqcVJ8kVUQZxBClmO2v890qadPgG4XbpkhP/m75Oj3AgK1PU2Rm36lT9RBqZxmTo11FMfZ6HvlrjPDDJZozBSCTtYGEL5WgnmuenP+D0qm8V7bEhO26hLw+NGfb0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=KzF4l/Xt; arc=pass smtp.client-ip=209.85.208.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MbsJYEaf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EC3AC4CEF7;
-	Fri, 20 Mar 2026 12:43:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774010590;
-	bh=9e/Btx0YFRFKC21pnkUbnvkuOGkqidzpB8uwJ5aHo+M=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=MbsJYEafGQcgi0CIm/IhXRs1E/dRqUnHQhLQWI8uSPNo7vXEpMEx7VMeMbSwSfoPr
-	 we+RH7A5Fl5UmaVGz6iFvCuLb4PUlkj2/imsRa6vbCLbYQU6K5WBaHs4S04jHvzFIx
-	 8KtAZe08vXmsD5w58I+HJUYroTiWysNql/QMxXFQ+t4zZ5l2pKnDCcLUOVEZCZ90CU
-	 FiAlZzjmR8YSbQ+VtSsKOIJznigfEaVak4nOY0FPz4lN6+ZWhoLm61NBKcoeaGottG
-	 YRLdcOEkgELJyW+tgap2s+pHmaixBlAkktovvtBf4B9p1LK1V6+cqKWlDkDHkT4Uwc
-	 uoF3OisVCUc5w==
-Message-ID: <cf190f78-3f5f-499a-aa78-35261850b01a@kernel.org>
-Date: Fri, 20 Mar 2026 13:43:02 +0100
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="KzF4l/Xt"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-668e55bd36bso606029a12.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 20 Mar 2026 05:53:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774011231; cv=none;
+        d=google.com; s=arc-20240605;
+        b=cnpspe2WDz4pfR2TR2WiBVB8Fl8ySzOP0l0cJi7czfNL+Gt/I3QeCqGeD5G+5mFPIP
+         9Ozrip3ULE6Tm74XCdv98WXHaffgm/0Uov111BXQKHAV2ETYk1Ca3ZnT4Pnq9liHNWTx
+         DcR04lU9nJJKy8RlwbKhwb8kLA2L0pOmCqO5gSSGxvDLnkwCeI9hBQWBLzjKtErz9FVd
+         OADTb34QkOQQFZjooqkoDkHP6MlL5BS39MxSOmFq7XuRDo8ukWWbwlc89vDRBPN6CViB
+         xsaRCsl1Y0HLHqQ1Flg4bGb7A2zqLidcPGN7HCUtnixW/Tp/5lGR83jyznv+NAnDteSy
+         Gobw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=sxb40RyXjBOvkVq2MrBV1Eo8DmTziCzGNtpBWcwYXIc=;
+        fh=inPaXuNf/n2Vuj9TCnlmR/RtF5bTxc9KZdIjSxRppco=;
+        b=T8t/nr4eG4qEF1EUSpfoE+MtnotyWeo8vKEgO1h+6DPEwz9dkQZ652MgG34dj/RuT3
+         R5gF2V2e3Dbaxv1P8WkxMNAR74aHTi//BYuiK7W6U+Exq9l2VQug3ld95VDGoH0Nmu+3
+         UFqlt6E2YnifosbIjrAKovUPUMYfQe8w1X+JNuH3lEMEpAze2OEUuGyg7xevDjR5zV+v
+         2597C5szjEpkalDrap8zsY7klz9VZ7c3xeaimbbqP3GN1lAaaj/VLAZm238Rd5Nx7jXs
+         eE1IYlUnAdsNlYAwjMEVxRZT2hIQxgWf43IoZj9DL89Y0M6Lg5ooxGttffxsKhR/5gaB
+         h0GA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1774011231; x=1774616031; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sxb40RyXjBOvkVq2MrBV1Eo8DmTziCzGNtpBWcwYXIc=;
+        b=KzF4l/XtYtURcNfK6k6dMJivuS9fEDK6V+KhIXbVeJaKQbuIIpUemY7U6zzB+2diSi
+         MmYXJyhGwJajPJeRihZPFrnvVUe3nzsEocb1cv8atkwixgi02iMTnvt2TJhi5ZcqmGU2
+         bhLxTcWA6JYzuPYxih/bby4MnTq7pJHYfOhqEOyE7UVc0HPx/OJ43T5b933ystcOqIio
+         WDXQdg1lWpg0irLPLcGNUYK5T50vcdqQ7Yrf2y0dPK4MrTmUJ/TanozQwX6OSGtqe8o1
+         QKfOSzMQzdwCceWoDOk5RRsEPMibp2PJmBbOycob0DtlQFKNxC02uJDCg4W78tGSp8dq
+         LILg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774011231; x=1774616031;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=sxb40RyXjBOvkVq2MrBV1Eo8DmTziCzGNtpBWcwYXIc=;
+        b=GpTbEvILka2L++76DnGd2BJZtW7Rn16bM9CmSOfF60WpAPg4WhAcrmGIpBhJAm+FoE
+         1062xvigOp3BX9wScTNXyaBvkxRILuPX4xrY+BKln/sNSn8l5T5Ax3afAOQB5EUepVL6
+         VddY/FRQ7jeT9ANBm7+zIrvHazfbBM9smqy7u4tPIsPTPuG8ctEsjyOVWrlD9mj9f2L/
+         nm258xhdFwh69Ks/Lt9NgOYBolgSZD3GxDmVIDtMFRI5kMyabc+v0MYdYLBIQ/H7KqAv
+         ANQza8iCVCHvW8i4ve/xCAXS6O/msDGWikUOscDL+qhA+UNTA9AP1BCYLRGqddN/ktxZ
+         J4sQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVQeUuYFysgEz1jQbAkMId1zowCO28GcD1BSz7CdXh8Y+QfmCn06SZoOj5t7HeeZKmZC8lxcfqdHtuMpHY9@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzr7UUZaNhoIa2riwOIDN2SBL8W2KtE2JXnQ5GrwLRTakOjCzlW
+	fdC+Uvxt82BYM077QfuJbkkSepoDgihm+lQSL4xXnIA/w9XSmBloCsaODVMvWTo/+JYctKbKQ1I
+	wWbIxv3vd+g01b26kBwYF26FAkjGftJhXgkFturajEw==
+X-Gm-Gg: ATEYQzzo+h1q3bqlXlsYa0gz6PUrrts0EWllQymAJhTOtMmI3EI5Wl2tgPnexwUREY/
+	f196vb65D1YEwbjWAaszlX1gmX0Yxl/cuwWdd6NixT3nzjeRhVf9bOnjV6IWAhUojYj8QfrtGEH
+	UILP7tcDU2GGUO/WF9NN/zfvNNgXmds/LGPP1qMletmfGdt8kPxlekrM5EorZLSm+AAMmpza9Yt
+	KU3DrQLw6SEeTDraEKBKBkSUwe9Re9aYRTK4Vf0+dKWxEkOzc5fqzwu6G2roA+k+H7bWU8nE0rS
+	Q74IWzajTp6+nBk1oNJtMFK4qZfPb9jFlpfayQ==
+X-Received: by 2002:a05:6402:4542:b0:662:b884:d1c with SMTP id
+ 4fb4d7f45d1cf-668c9420fc6mr1899113a12.10.1774011231281; Fri, 20 Mar 2026
+ 05:53:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 02/15] userfaultfd: introduce struct mfill_state
-To: Mike Rapoport <rppt@kernel.org>, Andrew Morton <akpm@linux-foundation.org>
-Cc: Andrea Arcangeli <aarcange@redhat.com>,
- Axel Rasmussen <axelrasmussen@google.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>, Hugh Dickins
- <hughd@google.com>, James Houghton <jthoughton@google.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>,
- Nikita Kalyazin <kalyazin@amazon.com>, Oscar Salvador <osalvador@suse.de>,
- Paolo Bonzini <pbonzini@redhat.com>, Peter Xu <peterx@redhat.com>,
- Sean Christopherson <seanjc@google.com>, Shuah Khan <shuah@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Vlastimil Babka <vbabka@suse.cz>,
- kvm@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-mm@kvack.org
-References: <20260306171815.3160826-1-rppt@kernel.org>
- <20260306171815.3160826-3-rppt@kernel.org>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260306171815.3160826-3-rppt@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260317023834.487682-1-pasha.tatashin@soleen.com> <2vxzqzpeaj1s.fsf@kernel.org>
+In-Reply-To: <2vxzqzpeaj1s.fsf@kernel.org>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Fri, 20 Mar 2026 08:53:14 -0400
+X-Gm-Features: AaiRm52JEkyZm6b_G1RRMaL21J4AyKm75SR_joFkY5PERgm0yr9pb9DptmMSN6c
+Message-ID: <CA+CK2bC+U9BfPAScE4pvtd4BVbEZohy1xH9BT+_gN57_NQ-rZw@mail.gmail.com>
+Subject: Re: [RFC] liveupdate: prevent double preservation
+To: Pratyush Yadav <pratyush@kernel.org>
+Cc: viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, rppt@kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	akpm@linux-foundation.org, linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 3/6/26 18:18, Mike Rapoport wrote:
-> From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-> 
-> mfill_atomic() passes a lot of parameters down to its callees.
-> 
-> Aggregate them all into mfill_state structure and pass this structure to
-> functions that implement various UFFDIO_ commands.
-> 
-> Tracking the state in a structure will allow moving the code that retries
-> copying of data for UFFDIO_COPY into mfill_atomic_pte_copy() and make the
-> loop in mfill_atomic() identical for all UFFDIO operations on PTE-mapped
-> memory.
-> 
-> The mfill_state definition is deliberately local to mm/userfaultfd.c, hence
-> shmem_mfill_atomic_pte() is not updated.
-> 
-> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> ---
+On Fri, Mar 20, 2026 at 6:31=E2=80=AFAM Pratyush Yadav <pratyush@kernel.org=
+> wrote:
+>
+> Hi Pasha,
+>
+> On Mon, Mar 16 2026, Pasha Tatashin wrote:
+>
+> > Currently, LUO does not prevent the same file from being preserved twic=
+e
+> > across different active sessions.
+> >
+> > Add a new i_state flag I_LUO_PRESERVED and update luo_preserve_file()
+> > to check and set this flag when a file is preserved, and clear it in
+> > luo_file_unpreserve_files() when it is released. This ensures that the
+> > same file (inode) cannot be preserved by multiple sessions. If another
+> > session attempts to preserve an already preserved file, it will now
+> > fail with -EBUSY.
+>
+> For consistency, would it be a good idea to also set this flag after
+> retrieve? And then clear it on finish? If we do that then I suppose we
+> should rename the flag to I_LUO_MANAGED or something similar.
 
-[...]
+Hi Pratyush,
 
->  			if (fatal_signal_pending(current))
-> @@ -866,10 +882,10 @@ static __always_inline ssize_t mfill_atomic(struct userfaultfd_ctx *ctx,
->  
->  out_unlock:
->  	up_read(&ctx->map_changing_lock);
-> -	uffd_mfill_unlock(dst_vma);
-> +	uffd_mfill_unlock(state.vma);
->  out:
-> -	if (folio)
-> -		folio_put(folio);
-> +	if (state.folio)
-> +		folio_put(state.folio);
->  	VM_WARN_ON_ONCE(copied < 0);
->  	VM_WARN_ON_ONCE(err > 0);
->  	VM_WARN_ON_ONCE(!copied && !err);
+That is a good idea. Between the retrieve and finish operations, the
+file still has limitations due to LUO ownership, so keeping it flagged
+as managed is useful. For example, in memfd the memory should remain
+pinned, and in iommu the DMA mappings cannot be resized until finish,
+VFIO also has some limitations.
 
-I guess, "copied" could be easily avoided by
-comparing state.src_addr with start_addr.
+I will rename the flag to I_LUO_MANAGED and update the retrieve and
+finish paths in the next version.
 
-Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+Pasha
 
--- 
-Cheers,
-
-David
+>
+> Other than this, LGTM from LUO perspective.
+>
+> Acked-by: Pratyush Yadav (Google) <pratyush@kernel.org>
+>
+> [...]
+>
+> --
+> Regards,
+> Pratyush Yadav
