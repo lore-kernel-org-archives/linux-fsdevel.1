@@ -1,216 +1,178 @@
-Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f79.google.com (mail-ot1-f79.google.com [209.85.210.79])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F40CB364927;
-	Fri, 20 Mar 2026 22:44:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0130435F176
+	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Mar 2026 22:45:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.79
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774046680; cv=none; b=IWa9HnkpYINjcACuhd75lEAx5+4pGL2nE05CUtEgUaL3ECfn0/7FlB2K/GAkSi/5Uyzp3H9ssJP8pPCkjhCcmgmBtZKzFrEJPaHG03Hl8kT8S1Mgt0Mzrjkso7cABqcEqVx42v/nFMZsNd8NkJA7/tcWNJ5AqN6enSn395MbRMg=
+	t=1774046731; cv=none; b=WJUbVikzIO3s4LwjEuRk7agF6D8E0vPkY1xnRKQU4mo9Q3zzUxeTqcEYdQfgHWn7y75PXlAQQcDmnadq6iSa2fIS+Ev+TtJObF0GTS53BptpvPGX2zO6SGVKpVwFl+YDFrSJw7EN21MLS9smDg/DJkpNiH2Zp99DEBltZaiebLI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774046680; c=relaxed/simple;
-	bh=vg8pSQ38Lqb8wRJcqqM5KXzG1WeZYngevfaJKNUMIrE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fIyT7flxKs7/m8+Iu+qiZ/ni+1DN29Wh55ZxHQEWi1Do7kykhOBdaAR+0Cyb7Pb8G11fwPBjmeAeduBwohHmzKQtxqtxrOwNntj3VIjVGXcLgejNExwtcHJFNjnFokY8DD1OdErSj/SJr9dQdhhY9VISFxvIRrmu4EQHDa9wI2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=TAqIuahZ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=TLq23uUv; arc=none smtp.client-ip=103.168.172.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="TAqIuahZ";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="TLq23uUv"
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 1A4071400249;
-	Fri, 20 Mar 2026 18:44:38 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Fri, 20 Mar 2026 18:44:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1774046678;
-	 x=1774133078; bh=W85qkiBpR9YTAJhgxNufbNVd5e5oDYVfNZv4NIu3lP0=; b=
-	TAqIuahZrCZen/ZwwFO2FYekLmgz4/9Zmxkaw0LBa3dUdW67tLsH357ct+mi7ueo
-	4rt1CVdAVHXk/Fn8khpLhEbg8JO+y8lMz/js5A7G7B0G3QjR5pzkzmopvHZWlHfZ
-	TRHlRKfHXy/tkc5jyUq77XFQXPMZ4l6xYvFuaxbDnmzDbqew4WPZOIDVfSp6XzIG
-	C8DDyK+pMnCtclI7zzwo3CCquu5kOPzAX7LGLT3FSpW9F4g9fuclmkKj/jlHJnfV
-	SKMv0NiCS1exj3T3x4bazOidFf7/YFOUQkO3uN83/tyqvus2w6QgK1i5zbU3oGUw
-	dmUYRgyrzJQ5Y7k+0yfTeA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1774046678; x=
-	1774133078; bh=W85qkiBpR9YTAJhgxNufbNVd5e5oDYVfNZv4NIu3lP0=; b=T
-	Lq23uUve4DmDBPbl6wIFU+nsGlR7E/8tXtlpj+W8yqsJBXTnbbhzr7IIJvjLzSvz
-	cxF3xVsYsE7fKhqnfSf+wbLH/WBRafrRbx+Apk2srLs9WqSBxnsJaWClOC+mf3IA
-	s8h2TERmL+w0RDNualoXn6lKsGr11l0A8AwXqF2CrPMUHubeLe1hZOwy8yxbzFH5
-	HdbbAvIF+O23Pfz91m9jJIgJOzLV4yeNI/cJFoUgJH/tc7z4tG4nmIbLl1uXD9j4
-	pgO9mIIoy8I8/wm1nfLFn9faM2178yHH7r6Ihun5haUuZhi8N/cQQQbrunmSCeqC
-	RWEcyfn3MP43rzfwkDHfQ==
-X-ME-Sender: <xms:1c29afxWuFsjdPuwnQohc3p7lbzj9pES69qje8otRqOlhPI-lq8B9w>
-    <xme:1c29acMmgHF58yIh-TnNfe-ZabQuoy5nERZSHRAwWtOZmNO5qdWyL-piEMXKGrrz9
-    LQ3-3DvyK5mHwGhIvCYemdOIZ1hNK5RDGerp2uVSya5bHoNMTBTkw>
-X-ME-Received: <xmr:1c29adnip82OgAcOa8qwaD9UJZh2vyq9C9RMdrHiJqfHJRG6mjtwCBa9XUPD19lkRpsGOUEZ0sw0BPNZnEk2duCIEAVwrHbKSBUl81M-2wlMCd_Bcg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdefudduudehucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepkfffgggfuffvvehfhfgjtgfgsehtkeertddtvdejnecuhfhrohhmpeeuvghrnhgu
-    ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
-    htthgvrhhnpeefgeegfeffkeduudelfeehleelhefgffehudejvdfgteevvddtfeeiheef
-    lefgvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    gsvghrnhgusegsshgsvghrnhgurdgtohhmpdhnsggprhgtphhtthhopeelpdhmohguvgep
-    shhmthhpohhuthdprhgtphhtthhopehjohgrnhhnvghlkhhoohhnghesghhmrghilhdrtg
-    homhdprhgtphhtthhopegrgigsohgvsehkvghrnhgvlhdrughkpdhrtghpthhtohephhgt
-    hhesihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopegrshhmlhdrshhilhgvnhgtvg
-    esghhmrghilhdrtghomhdprhgtphhtthhopegtshgrnhguvghrsehpuhhrvghsthhorhgr
-    ghgvrdgtohhmpdhrtghpthhtohepkhhrihhsmhgrnhesshhushgvrdguvgdprhgtphhtth
-    hopehlihhnuhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghp
-    thhtohepihhoqdhurhhinhhgsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoh
-    ephhgsihhrthhhvghlmhgvrhesuggunhdrtghomh
-X-ME-Proxy: <xmx:1c29aZRC-MX6qFydLfwf7iyDvrNvMTrpKb_7uCWySSBlj_njN32npg>
-    <xmx:1c29aUVN_NcQJ4DVzexupHjVCnUyP4qUUsW9uP0kmjfdum3eK2EPBg>
-    <xmx:1c29aVLLQC3lgZKb_g_692zoT_Nx1gu3lUbhGpEe_OZPtTPG1Im5Ig>
-    <xmx:1c29ac12gHp7pv_JgaVlEMcHtNMQ8knFUs68tdTAvPFTjgnd7c3f7A>
-    <xmx:1s29acAqL6XUWDTTQ1mk_e6SEKDeD5Go_t7oj0K35mKh2NyZApsTy3QB>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 20 Mar 2026 18:44:36 -0400 (EDT)
-Message-ID: <f8a1808b-4068-49a7-a17d-8dcab1ae9cdf@bsbernd.com>
-Date: Fri, 20 Mar 2026 23:44:34 +0100
+	s=arc-20240116; t=1774046731; c=relaxed/simple;
+	bh=a2n4pSBqcR34c6G9cUVfmgqIMwOzvDup0ASey2sbvUQ=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=AOz5ntQ9awmEhbH94liCExqFjyMUPTu10mzGc1RdW5qWKKq79SQLaMdS+In1jP/RYPbYOFx9TIsqlpm7tCOpKAuU/MUQHQ65VMKkjPbdSClqHfF+3rzHRfEgbTBtXBGsn4lYY7wfXwv1YTENQO70P0on3DRpJZyVv0SsMg335CE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-ot1-f79.google.com with SMTP id 46e09a7af769-7d7e660f1e2so18743309a34.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 20 Mar 2026 15:45:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774046729; x=1774651529;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZAtC2lhbG2YZSINlOyiGuI6fYnHaFTjqBNqsFUizz1c=;
+        b=ZiSYbTQMR4fVhVdq5RevynJg/6v4t+to3kdBoxnwmFMP1v4Js+NBZhr7ywVB1Pfudm
+         YHDTACLZoro6rSOAuIYjFfyU9HGZSyvjazWcEn7mGwd4IHKq5NpqdJLpTVL/3Gk/Im8Z
+         fQ3r5yV3aia7lbs+GaPStN241M9X+KG/qVXC+mbJSTIMsme5aRHvEJPUcV40/cGU8aea
+         Q5a0nr51HxHgFn4UGIezvKKwx+64ANPyFeDzjoDDe/HvPeV/fHNhgg/cHAUtj7zFbIva
+         x7x9r/WbEx4bi6gnStXVcG35BlEZ3z0rv6STKZGSkgMBRaEMoH11gc1Rgxxhiz2UfOy+
+         TyKQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWqHj10MZhujoNkrGm6ADfGGFcLsZ9xQ6EGmOTjW1JmsTwHOmMHE+/ICtxcmjVW3wsWjHVUbNT6gS9eFqxS@vger.kernel.org
+X-Gm-Message-State: AOJu0YyZTZ3vhcst7N7NWFutfJhKmwj3MvV8x5o5vlxFsT2qEzqpOqpo
+	2chsB24XOJbUl9AIWDGq8NRyZ1ir6ajDCJytwLflJlTzXOE4RnMPg3GgAmm/xawp4KDpujMyexo
+	rQKG3KPBpYvzPOwZiwSFAq1cS2H2xhcABw4R7DfU6OlPHKre8l5d6KyQreKg=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/8] io_uring: add kernel-managed buffer rings
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: axboe@kernel.dk, hch@infradead.org, asml.silence@gmail.com,
- csander@purestorage.com, krisman@suse.de, linux-fsdevel@vger.kernel.org,
- io-uring@vger.kernel.org, Horst Birthelmer <hbirthelmer@ddn.com>
-References: <20260306003224.3620942-1-joannelkoong@gmail.com>
- <59dcb27f-875c-4a2a-82dc-63b832f8eb1e@bsbernd.com>
- <CAJnrk1YLtQF=SF-GoG4irKYzzePNewNgyTeU7VLvUN6Ub_NFVw@mail.gmail.com>
- <d9aae2bf-b81d-42c8-b919-5e64292323e8@bsbernd.com>
- <CAJnrk1bYLwHpZsW85XiyWfM=gXXXS6pHg4=p9fcbDOwpca8UXQ@mail.gmail.com>
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: en-US, de-DE, fr
-In-Reply-To: <CAJnrk1bYLwHpZsW85XiyWfM=gXXXS6pHg4=p9fcbDOwpca8UXQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6820:1389:b0:67b:f0ed:7fcd with SMTP id
+ 006d021491bc7-67c231260c9mr3504098eaf.70.1774046729007; Fri, 20 Mar 2026
+ 15:45:29 -0700 (PDT)
+Date: Fri, 20 Mar 2026 15:45:28 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <69bdce08.050a0220.3bf4de.0031.GAE@google.com>
+Subject: [syzbot] [fs?] general protection fault in __umount_mnt
+From: syzbot <syzbot+e4470cc28308f2081ec8@syzkaller.appspotmail.com>
+To: brauner@kernel.org, jack@suse.cz, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com, 
+	viro@zeniv.linux.org.uk
+Content-Type: text/plain; charset="UTF-8"
+
+Hello,
+
+syzbot found the following issue on:
+
+HEAD commit:    8e42d2514a7e Add linux-next specific files for 20260318
+git tree:       linux-next
+console output: https://syzkaller.appspot.com/x/log.txt?x=10808cba580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=7f5b21566f9d8af6
+dashboard link: https://syzkaller.appspot.com/bug?extid=e4470cc28308f2081ec8
+compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16eb72da580000
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/cb90c31a24db/disk-8e42d251.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/e0c08a5de437/vmlinux-8e42d251.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/d6b18a5e03f8/bzImage-8e42d251.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+e4470cc28308f2081ec8@syzkaller.appspotmail.com
+
+Oops: general protection fault, probably for non-canonical address 0xfbd59c0000000024: 0000 [#1] SMP KASAN PTI
+KASAN: maybe wild-memory-access in range [0xdead000000000120-0xdead000000000127]
+CPU: 1 UID: 0 PID: 15793 Comm: syz.3.4827 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 02/12/2026
+RIP: 0010:__hlist_del include/linux/list.h:992 [inline]
+RIP: 0010:hlist_del_init include/linux/list.h:1020 [inline]
+RIP: 0010:__umount_mnt+0x24e/0x490 fs/namespace.c:997
+Code: 85 e4 74 61 4d 8d be f8 00 00 00 4c 89 f8 48 c1 e8 03 80 3c 28 00 74 08 4c 89 ff e8 fc 33 e3 ff 4d 8b 2f 4c 89 e0 48 c1 e8 03 <80> 3c 28 00 74 08 4c 89 e7 e8 d4 34 e3 ff 4d 89 2c 24 4d 85 ed 74
+RSP: 0018:ffffc90003297a40 EFLAGS: 00010a06
+RAX: 1bd5a00000000024 RBX: ffff8880338796c8 RCX: ffff888029f08000
+RDX: 0000000000000000 RSI: ffffffff8e8d9060 RDI: ffff888033879738
+RBP: dffffc0000000000 R08: ffffffff90122ff7 R09: 1ffffffff20245fe
+R10: dffffc0000000000 R11: fffffbfff20245ff R12: dead000000000122
+R13: dead000000000100 R14: ffff8880338796c0 R15: ffff8880338797b8
+FS:  0000555561679500(0000) GS:ffff888125536000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f0ebc84eddd CR3: 00000000791b8000 CR4: 00000000003526f0
+Call Trace:
+ <TASK>
+ umount_mnt fs/namespace.c:1008 [inline]
+ umount_tree+0x925/0xd90 fs/namespace.c:1819
+ put_mnt_ns+0x1d6/0x2f0 fs/namespace.c:6264
+ evict+0x61e/0xb10 fs/inode.c:846
+ __dentry_kill+0x1a2/0x5e0 fs/dcache.c:670
+ finish_dput+0xc9/0x480 fs/dcache.c:879
+ __fput+0x697/0x8c0 fs/file_table.c:508
+ task_work_run+0x1d9/0x270 kernel/task_work.c:233
+ resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
+ __exit_to_user_mode_loop kernel/entry/common.c:67 [inline]
+ exit_to_user_mode_loop+0xed/0x480 kernel/entry/common.c:98
+ __exit_to_user_mode_prepare include/linux/irq-entry-common.h:238 [inline]
+ syscall_exit_to_user_mode_prepare include/linux/irq-entry-common.h:269 [inline]
+ syscall_exit_to_user_mode include/linux/entry-common.h:325 [inline]
+ do_syscall_64+0x32d/0xf80 arch/x86/entry/syscall_64.c:100
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f14bbb9c799
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffd2857c408 EFLAGS: 00000246 ORIG_RAX: 00000000000001b4
+RAX: 0000000000000000 RBX: 00007f14bbe17da0 RCX: 00007f14bbb9c799
+RDX: 0000000000000000 RSI: 000000000000001e RDI: 0000000000000003
+RBP: 00007f14bbe17da0 R08: 00007f14bbe16038 R09: 0000000000000000
+R10: 000000000003fdc0 R11: 0000000000000246 R12: 0000000000033731
+R13: 00007f14bbe1609c R14: 000000000003345d R15: 00007f14bbe16090
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:__hlist_del include/linux/list.h:992 [inline]
+RIP: 0010:hlist_del_init include/linux/list.h:1020 [inline]
+RIP: 0010:__umount_mnt+0x24e/0x490 fs/namespace.c:997
+Code: 85 e4 74 61 4d 8d be f8 00 00 00 4c 89 f8 48 c1 e8 03 80 3c 28 00 74 08 4c 89 ff e8 fc 33 e3 ff 4d 8b 2f 4c 89 e0 48 c1 e8 03 <80> 3c 28 00 74 08 4c 89 e7 e8 d4 34 e3 ff 4d 89 2c 24 4d 85 ed 74
+RSP: 0018:ffffc90003297a40 EFLAGS: 00010a06
+RAX: 1bd5a00000000024 RBX: ffff8880338796c8 RCX: ffff888029f08000
+RDX: 0000000000000000 RSI: ffffffff8e8d9060 RDI: ffff888033879738
+RBP: dffffc0000000000 R08: ffffffff90122ff7 R09: 1ffffffff20245fe
+R10: dffffc0000000000 R11: fffffbfff20245ff R12: dead000000000122
+R13: dead000000000100 R14: ffff8880338796c0 R15: ffff8880338797b8
+FS:  0000555561679500(0000) GS:ffff888125536000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f0ebc84eddd CR3: 00000000791b8000 CR4: 00000000003526f0
+----------------
+Code disassembly (best guess):
+   0:	85 e4                	test   %esp,%esp
+   2:	74 61                	je     0x65
+   4:	4d 8d be f8 00 00 00 	lea    0xf8(%r14),%r15
+   b:	4c 89 f8             	mov    %r15,%rax
+   e:	48 c1 e8 03          	shr    $0x3,%rax
+  12:	80 3c 28 00          	cmpb   $0x0,(%rax,%rbp,1)
+  16:	74 08                	je     0x20
+  18:	4c 89 ff             	mov    %r15,%rdi
+  1b:	e8 fc 33 e3 ff       	call   0xffe3341c
+  20:	4d 8b 2f             	mov    (%r15),%r13
+  23:	4c 89 e0             	mov    %r12,%rax
+  26:	48 c1 e8 03          	shr    $0x3,%rax
+* 2a:	80 3c 28 00          	cmpb   $0x0,(%rax,%rbp,1) <-- trapping instruction
+  2e:	74 08                	je     0x38
+  30:	4c 89 e7             	mov    %r12,%rdi
+  33:	e8 d4 34 e3 ff       	call   0xffe3350c
+  38:	4d 89 2c 24          	mov    %r13,(%r12)
+  3c:	4d 85 ed             	test   %r13,%r13
+  3f:	74                   	.byte 0x74
 
 
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-On 3/20/26 22:58, Joanne Koong wrote:
-> On Fri, Mar 20, 2026 at 12:45 PM Bernd Schubert <bernd@bsbernd.com> wrote:
->>
->> On 3/20/26 20:20, Joanne Koong wrote:
->>> On Fri, Mar 20, 2026 at 10:16 AM Bernd Schubert <bernd@bsbernd.com> wrote:
->>>>
->>>> On 3/6/26 01:32, Joanne Koong wrote:
->>> Hi Bernd,
->>>
->>>> Hi Joanne,
->>>>
->>>> I'm a bit late, but could we have a design discussion about fuse here?
->>>> From my point of view it would be good if we could have different
->>>> request sizes for the ring buffers. Without kbuf I thought we would just
->>>
->>> Is your motivation for wanting different request sizes for the ring
->>> buffers so that it can optimize the memory costs of the buffers? I
->>> agree that trying to reduce the memory footprint of the buffers is
->>> very important. The main reason I ended up going with the buffer ring
->>> design was for that purpose. When kbuf incremental buffer consumption
->>> is added in the future (I plan to submit it separately once all the
->>> io-uring pieces of the fuse-zero-copy patchset land), this will allow
->>> non-overlapping regions of the individual buffer to be used across
->>> multiple different-sized requests concurrently.
->>
->> That is also fine.
->>
->>>
->>> From my point of view, this is better than allocating variable-sized
->>> buffers upfront because:
->>> a) entries are fully maximized. With variable-sized buffers, the big
->>> buffers would be reserved specifically for payload requests while the
->>> small buffers would be reserved specifically for metadata requests. We
->>> could allocate '# entries' amount of small buffers, but for big
->>> buffers there would be less than '# entries'. If the server needs to
->>> service a lot of concurrent I/O requests, then the ring gets throttled
->>> on the limited number of big buffers available.
->>
->> I would like to see something like 8K, 16K, 32K, 128K.
-> 
-> My worry is that for I/O heavy workloads with large read/write
-> payloads (eg client access patterns reading/writing MBs at a time),
-> the limited number of big enough buffers becomes the throttling
-> bottleneck.
-> 
->>
->>>
->>> b) it best maximizes buffer memory. A request could need a buffer of
->>> any size so with variable-sized buffers, there's extra space in the
->>> buffer that is still being wasted. For example, for large payload
->>> requests, the big buffers would need to be the size of the max payload
->>> size (eg default 1 MB) but a lot of requests will fall under that.
->>> With incremental buffer consumption, only however many bytes used by
->>> the request are reserved in the buffer.
->>
->> Doesn't that cause fragmentation?
-> 
-> With incremetnal buffer consumption, there's not fragmentation in the
-> classical sense (eg scattered unusable holes). The buffer gets
-> recycled back into the ring as a whole once all the requests in it
-> have completed (tracked by refcounting).
-> 
-> I think the concern is that if the server is very slow to fulfill
-> requests and the workload pattern has it so that slow requests are
-> packed into the same buffer as fast requests across all the buffers in
-> the queue and that queue has all its buffers saturated, then the next
-> buffer is available only once the slow request has completed. We can
-> mitigate this by assigning the request to a queue on the nearest numa
-> node as a fallback if we detect that case. We could also do the same
-> thing to mitigate the variable-sized buffer scenario where there's not
-> enough big buffers for the queue, but I think that logic ends up a bit
-> more complex.
-> 
-> I think overall we're able to support both incremental buffer
-> consumption + variable-sized buffers if there's a need for it in the
-> future where the server would like to choose.
-> 
->>
->>>
->>> c) there's no overhead with having to (as you pointed out) keep the
->>> buffers tracked and sorted into per-sized lists. If we wanted to use
->>> variable-sized buffers with kbufs instead of using incremental buffer
->>> consumption, the best way to do that would be to allocate a separate
->>> kbufring to support payload requests vs metadata requests.
->>
->> Yeah, I had thought of multiple kbuf rings, with different sizes.
->>
->>>
->>>> register entries with different sizes, which would then get sorted into
->>>> per size lists. Now with kbuf that will not work anymore and we need
->>>> different kbuf sizes. But then kbuf is not suitable for non-privileged
->>>> users. So in order to support different request sizes one basically has
->>>
->>> Non-privileged fuse servers use kbufs as well. It's only zero-copying
->>> that is not possible for non-privileged servers.
->>
->> Non-privileged cannot pin, at least by default mlock size is 8MB. I was
->> under the impression that kbuf would be always pinned, but I need to
->> read over it again.
-> 
-> The kbufs get accounted to the user's mlock usage (this happens in
-> __io_account_mem()). If the user running the unprivileged server
-> doesn't belong to a group that has high enough mlock limits, they'll
-> have to use regular fuse over-io-uring buffers instead of kbufs for
-> most of their queues.
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
-That is exactly what I mean - in reality  unprivileged servers will not
-be able to use kbufs. And there it would be good, if that server could
-use unpinned pbufs.
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
 
-Thanks,
-Bernd
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
