@@ -1,32 +1,32 @@
-Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com [95.215.58.173])
+Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com [95.215.58.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6A833C3457
-	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Mar 2026 14:04:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F09143C5526
+	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Mar 2026 14:04:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774015472; cv=none; b=qvHCwk4XxfodrWLA41qN+sKISSWoehbeqln65X9katdNh73aM+Ay9pKgpE84gqUOzxcdzLNJiPl6KbC1fmaWeli4PSnL2XfqTxBiv2817NmAgw6AbZg+4cXLNg2g1XeQFc5/GiBvMbF7CHTs/Ci1z28UEkVFbLjy1O1KWE3FWtU=
+	t=1774015479; cv=none; b=pFXTMnEj/2xE1ItyhEZQgHALvnvi7DdHQ+oLcXmfRahZC1UWkJocuWoPWoCPK2JnAKudO4pLLMy7Is5gzDZi9Pw6FXmV/oiGI0iw8UEfQDzyfAovGjVLlVk6Ger4DhqFMnRhX4MRFOzg4V062GZy4OawQJgxSpB7A8wWnNT/LTw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774015472; c=relaxed/simple;
-	bh=Azeo8ThLUoc2k7CxXfMdXBVB4mZORuec1Wb+C1RnFZc=;
+	s=arc-20240116; t=1774015479; c=relaxed/simple;
+	bh=0mNrZix0gV7plNTuW4VVE4zt2Qq9mKGrk+eq8XuLpV8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OyjCz1EAx9baHAIXowc3CVqTlGIOfhIpD77Q816VdjPY0sAjizG5HuCHWklh//ecAGs6X29dM/M1pkxQXwvuhQEuoJeX1BlZ/InXAcrdBcY5YJJrAYruwdTtqQmrOXbxsYbrWDSfMjMZ7GhD1NcaIwRPp3sRicwRwqCSs8zMZrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ju2NswDZ; arc=none smtp.client-ip=95.215.58.173
+	 MIME-Version; b=l3TKnJGMXrg3gJbsM3sRb4poHsdNOXTcJjRdW35Z/FHR8clS+jT3uns6vSeDRDv96B5MR6ni/NU4LMXrXiftHsn5vFjQEEkRpuYOlQVSisuvKCb3s+FZUJS8u9IpDBE9j7QNB17wTF4oJNuFKxmQTYfvKbnC/Eh8zw2MHIhw8PM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=wS9n9+fY; arc=none smtp.client-ip=95.215.58.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ju2NswDZ"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="wS9n9+fY"
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1774015466;
+	t=1774015472;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9emof/mSVBpZqOkniGYRmgnpg6b0NvSs2UalXz8qvvw=;
-	b=ju2NswDZNmjBWaAbqAUKq99Ame3jEQiyp7S3PHbaCVpSky1q0JH1sNT/whD+G/JXIaBNJb
-	+Hexql1DGIbnnxSaeS0g6QazyGPdqSFYQnbeDbLItd0uV5MvgrYfJOzQOUhe0lg4oOpp1h
-	cNiVUgqf28HsJvc4ZX9wsrGKXv98dok=
+	bh=gmRxXvLU2NeOq/5VK9R2/fqL97zGqJrwy25018suKSw=;
+	b=wS9n9+fYt23GFUct+LfGUjkJm/ZIwaGL6fzpdAvRLF26yPQFBZkuayNfpKCsRPYw7iImAQ
+	abZc2PDiq+w02KVbtGI2L3QKF6Utof/q4A1U+08yA0+RdbXAXuvOhpJhn/znvXZcET7rtY
+	rTe+wuWgnlNaW+s3aXCk+3jQmfCSrwM=
 From: Usama Arif <usama.arif@linux.dev>
 To: Andrew Morton <akpm@linux-foundation.org>,
 	david@kernel.org,
@@ -66,9 +66,9 @@ Cc: r@hev.cc,
 	shakeel.butt@linux.dev,
 	kernel-team@meta.com,
 	Usama Arif <usama.arif@linux.dev>
-Subject: [PATCH v2 3/4] elf: align ET_DYN base to max folio size for PTE coalescing
-Date: Fri, 20 Mar 2026 06:58:53 -0700
-Message-ID: <20260320140315.979307-4-usama.arif@linux.dev>
+Subject: [PATCH v2 4/4] mm: align file-backed mmap to max folio order in thp_get_unmapped_area
+Date: Fri, 20 Mar 2026 06:58:54 -0700
+Message-ID: <20260320140315.979307-5-usama.arif@linux.dev>
 In-Reply-To: <20260320140315.979307-1-usama.arif@linux.dev>
 References: <20260320140315.979307-1-usama.arif@linux.dev>
 Precedence: bulk
@@ -80,113 +80,56 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 
-For PIE binaries (ET_DYN), the load address is randomized at PAGE_SIZE
-granularity via arch_mmap_rnd(). On arm64 with 64K base pages, this
-means the binary is 64K-aligned, but contpte mapping requires 2M
-(CONT_PTE_SIZE) alignment.
+thp_get_unmapped_area() is the get_unmapped_area callback for
+filesystems like ext4, xfs, and btrfs. It attempts to align the virtual
+address for PMD_SIZE THP mappings, but on arm64 with 64K base pages
+PMD_SIZE is 512M, which is too large for typical shared library mappings,
+so the alignment always fails and falls back to PAGE_SIZE.
 
-Without proper virtual address alignment, readahead patches that
-allocate 2M folios with 2M-aligned file offsets and physical addresses
-cannot benefit from contpte mapping, as the contpte fold check in
-contpte_set_ptes() requires the virtual address to be CONT_PTE_SIZE-
-aligned.
+This means shared libraries loaded by ld.so via mmap() get 64K-aligned
+virtual addresses, preventing contpte mapping even when 2M folios are
+allocated with properly aligned file offsets and physical addresses.
 
-Fix this by extending maximum_alignment() to consider the maximum folio
-size supported by the page cache (via mapping_max_folio_size()). For
-each PT_LOAD segment, the alignment is bumped to the largest
-power-of-2 that fits within the segment size, capped by the max folio
-size the filesystem will allocate, if:
+Add a fallback in thp_get_unmapped_area_vmflags() that uses the
+filesystem's mapping_max_folio_size() to determine alignment, capped to
+the mapping length via rounddown_pow_of_two(len). This aligns mappings
+to the largest folio the page cache will actually allocate, without
+over-aligning small mappings.
 
-  - Both p_vaddr and p_offset are aligned to that size
-  - The segment is large enough (p_filesz >= size)
-
-This ensures load_bias is folio-aligned so that file-offset-aligned
-folios map to properly aligned virtual addresses, enabling hardware PTE
-coalescing (e.g. arm64 contpte) and PMD mappings for large folios.
-
-The segment size check avoids reducing ASLR entropy for small binaries
-that cannot benefit from large folio alignment.
+The fallback is naturally a no-op for filesystems that don't support
+large folios and skips the retry when the alignment would equal PMD_SIZE
+(already attempted above).
 
 Signed-off-by: Usama Arif <usama.arif@linux.dev>
 ---
- fs/binfmt_elf.c | 38 ++++++++++++++++++++++++++++++++++++--
- 1 file changed, 36 insertions(+), 2 deletions(-)
+ mm/huge_memory.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/fs/binfmt_elf.c b/fs/binfmt_elf.c
-index 8e89cc5b28200..042af81766fcd 100644
---- a/fs/binfmt_elf.c
-+++ b/fs/binfmt_elf.c
-@@ -49,6 +49,7 @@
- #include <uapi/linux/rseq.h>
- #include <asm/param.h>
- #include <asm/page.h>
-+#include <linux/pagemap.h>
+diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+index 8e2746ea74adf..4005084c9c65b 100644
+--- a/mm/huge_memory.c
++++ b/mm/huge_memory.c
+@@ -1242,6 +1242,20 @@ unsigned long thp_get_unmapped_area_vmflags(struct file *filp, unsigned long add
+ 	if (ret)
+ 		return ret;
  
- #ifndef ELF_COMPAT
- #define ELF_COMPAT 0
-@@ -488,19 +489,51 @@ static int elf_read(struct file *file, void *buf, size_t len, loff_t pos)
- 	return 0;
++	if (filp && filp->f_mapping) {
++		unsigned long max_folio_size =
++			mapping_max_folio_size(filp->f_mapping);
++		unsigned long size = rounddown_pow_of_two(len);
++
++		size = min(size, max_folio_size);
++		if (size > PAGE_SIZE && size != PMD_SIZE) {
++			ret = __thp_get_unmapped_area(filp, addr, len, off,
++						      flags, size, vm_flags);
++			if (ret)
++				return ret;
++		}
++	}
++
+ 	return mm_get_unmapped_area_vmflags(filp, addr, len, pgoff, flags,
+ 					    vm_flags);
  }
- 
--static unsigned long maximum_alignment(struct elf_phdr *cmds, int nr)
-+static unsigned long maximum_alignment(struct elf_phdr *cmds, int nr,
-+				       struct file *filp)
- {
- 	unsigned long alignment = 0;
-+	unsigned long max_folio_size = PAGE_SIZE;
- 	int i;
- 
-+	if (filp && filp->f_mapping)
-+		max_folio_size = mapping_max_folio_size(filp->f_mapping);
-+
- 	for (i = 0; i < nr; i++) {
- 		if (cmds[i].p_type == PT_LOAD) {
- 			unsigned long p_align = cmds[i].p_align;
-+			unsigned long size;
- 
- 			/* skip non-power of two alignments as invalid */
- 			if (!is_power_of_2(p_align))
- 				continue;
- 			alignment = max(alignment, p_align);
-+
-+			/*
-+			 * Try to align the binary to the largest folio
-+			 * size that the page cache supports, so the
-+			 * hardware can coalesce PTEs (e.g. arm64
-+			 * contpte) or use PMD mappings for large folios.
-+			 *
-+			 * Use the largest power-of-2 that fits within
-+			 * the segment size, capped by what the page
-+			 * cache will allocate. Only align when the
-+			 * segment's virtual address and file offset are
-+			 * already aligned to the folio size, as
-+			 * misalignment would prevent coalescing anyway.
-+			 *
-+			 * The segment size check avoids reducing ASLR
-+			 * entropy for small binaries that cannot
-+			 * benefit.
-+			 */
-+			if (!cmds[i].p_filesz)
-+				continue;
-+			size = rounddown_pow_of_two(cmds[i].p_filesz);
-+			size = min(size, max_folio_size);
-+			if (size > PAGE_SIZE &&
-+			    IS_ALIGNED(cmds[i].p_vaddr, size) &&
-+			    IS_ALIGNED(cmds[i].p_offset, size))
-+				alignment = max(alignment, size);
- 		}
- 	}
- 
-@@ -1104,7 +1137,8 @@ static int load_elf_binary(struct linux_binprm *bprm)
- 			}
- 
- 			/* Calculate any requested alignment. */
--			alignment = maximum_alignment(elf_phdata, elf_ex->e_phnum);
-+			alignment = maximum_alignment(elf_phdata, elf_ex->e_phnum,
-+						      bprm->file);
- 
- 			/**
- 			 * DOC: PIE handling
 -- 
 2.52.0
 
