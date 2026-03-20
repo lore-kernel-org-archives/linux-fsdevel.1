@@ -1,90 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A163B2EC0BF
-	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Mar 2026 12:34:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95A7737E312;
+	Fri, 20 Mar 2026 12:39:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774010074; cv=none; b=YjIxzCrG9TmtDS1vKEl2WwNiwkA4TuStd6wF3iPm6TuWgqa7BNxA4Mo/85yQtCuiV0YSm75m01tKbolNOARzvuVd7gADowZtYNwM5CT43CAUNg1XTGqib/Tvt0y241QCPSMFLe7WeYJqCaQDG0B/0DSrEirH4+RfuDe5eur3uMU=
+	t=1774010403; cv=none; b=kLyqmaZr36Q2vi3ejAOPRIPM5UuqCVMasnXRBE0FDZFOvvV/DJGnm25rEiJitzbV7CKlSuV54hATJ8Ilcr9jcgenLrisgpX74abjEB1Vvr7kVZbKB4fmeupM1xlSvMM6Z/XKkWBUjLkPMUl/2f/ZGWdHr75IC5bEjvAEHErJKt8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774010074; c=relaxed/simple;
-	bh=URqDCRSR+b+1iPU726V/Ba0N5sOVMwxoTULga1+H90I=;
+	s=arc-20240116; t=1774010403; c=relaxed/simple;
+	bh=ovUo3pQgtlbbD+fTGPV8EJisFQ5aT4XfKwBH2JzRlXo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fV71//6fsd5TFsvuiKQy46Cu2e7x5q+geFoGj3kVy0AQIX2uezi5MF8TsG9cHqF5rGrKtpNeYMrf+/WOvvTUlikFucbRxukZOYqzt8sRWPCrBV8O1EdYe/QGz6989fC7kxpbx8Hk/ETwgwPW6vvXD94tV1w7OwIWYOqzMPnWIK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fKBgehiC; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=HE4jHKrPezmXUXL+2dx6RCwLfPNPbJY9tuV1Xj3o+2WP3BvHHmCVkNapoVK3hRt1pZ5LirUzhoXqOVw/FBTVD7NuIyJ4m7QtqScAGl+eOIDzmrN89wEuwHDeBhjlTfk5reI0AuUi9yQQDiPqkNlW1j2uUs9Aj2GKXc+foqswrBQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=QntPnDxZ; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fKBgehiC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F244C4CEF7;
-	Fri, 20 Mar 2026 12:34:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774010074;
-	bh=URqDCRSR+b+1iPU726V/Ba0N5sOVMwxoTULga1+H90I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fKBgehiCIXRG6KvQcLwtsAAUm/xPZcPlLoDS2QqVtZO8K8EUSYV6pZ48LC1ZMxy+O
-	 7ds9Keeg9C5MVEsKnN/847ed71QohiM1T2X2bAunsyIlz9FzZ0icmMUQR90bCIBczW
-	 qGhZqLpgkrx/64/JnNXJiyFywKY8wbIS0A27Ax+8YtojjmsurcT/4UuOr9OMihPlIX
-	 8/H7LpJvmSHtLNBFz5lkPYp6qTPAmjjmuT3jubyo8L95W6+XIWQ1v6KDXvCM8Bliqi
-	 dCHmv2KMxTSCIv6trlyWeEhPyiJEIKzKLxR8arKrdAH92172FxCoUX/f4F6oAQvu61
-	 zUKL/zK4xW4dA==
-Date: Fri, 20 Mar 2026 13:34:30 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: Chris Mason <clm@fb.com>, Amir Goldstein <amir73il@gmail.com>
-Subject: Re: vfs continuous integration testing
-Message-ID: <20260320-latent-klang-59c2fb00b3b5@brauner>
-References: <20260317-gezeter-mehreinnahmen-60da36d16b83@brauner>
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="QntPnDxZ"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=ovUo3pQgtlbbD+fTGPV8EJisFQ5aT4XfKwBH2JzRlXo=; b=QntPnDxZH9Jkq8ETTV6L9lOYgW
+	41c77KHiFc1ab/gDsSnU8AE6DDeS3kenBeoh/pMYrfg1OsMQZJqDVVmxU6LnqTwJvbMUXbr53puZk
+	JF7aaKZjC9BS2zf61CWuTj66oSPFER3nKT/108w8vIbNDfLcwZvKNMZ/5rghT7fiHrUQWrvJyV8D4
+	VOEo3K7eP4EBXiiYFoJpEkmlnljJA+gf46Ex0J30dwzYiFsT5sE9dqO5nQ0R3xltR4Old5ZmpdaQD
+	+yVdSVwDoG2dmdQdtwJyN15ET9Jb3CPXI6X3WrsL6djP+pGeTSLkJTMbkgsQjKUBYR/g3QmFDGD1D
+	6bChJiRQ==;
+Received: from authenticated user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.94.2)
+	(envelope-from <leitao@debian.org>)
+	id 1w3Z8i-005DB4-S9; Fri, 20 Mar 2026 12:39:43 +0000
+Date: Fri, 20 Mar 2026 05:39:38 -0700
+From: Breno Leitao <leitao@debian.org>
+To: Andreas Hindborg <a.hindborg@kernel.org>
+Cc: Matthew Wood <thepacketgeek@gmail.com>, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, linux-kernel@vger.kernel.org, hch@infradead.org, 
+	jlbec@evilplan.org, linux-fsdevel@vger.kernel.org, netdev@vger.kernel.org, 
+	gustavold@gmail.com, asantostc@gmail.com, calvin@wbinvd.org, kernel-team@meta.com
+Subject: Re: [PATCH RFC 0/2] configfs: enable kernel-space item registration
+Message-ID: <ab0_Pg-iGhTCKpbl@gmail.com>
+References: <-6hh70JX5nq4ruTMbNQPMoUi6wz8vmM2MQxqB3VNK3Zt97c-oxWOo3y0cQ7_h6BSfcp78fR9GmzxcTQb_WB-XA==@protonmail.internalid>
+ <ineirxyguevlbqe7j4qpkcooqstpl5ogvzhg2bqutkic4lxwu5@vgtygbngs242>
+ <875xakwwvz.fsf@t14s.mail-host-address-is-not-set>
+ <C6V44SxiJH8NxRosmbshR-sfcBisrA5yWQpDmfQXe5vOX3uI6SM-r7wwUr7WxfPMS5ETUQ9GYDlptRs911A_Qg==@protonmail.internalid>
+ <aYTWbElo_U_neJZi@deathstar>
+ <87qzquuqsx.fsf@t14s.mail-host-address-is-not-set>
+ <aYnnHJ2TQEcD_xMS@gmail.com>
+ <877bsjvhqv.fsf@t14s.mail-host-address-is-not-set>
+ <aYxL7d4MxbepGnKb@gmail.com>
+ <87o6kirb61.fsf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260317-gezeter-mehreinnahmen-60da36d16b83@brauner>
+In-Reply-To: <87o6kirb61.fsf@kernel.org>
+X-Debian-User: leitao
 
-On Tue, Mar 17, 2026 at 02:40:17PM +0100, Christian Brauner wrote:
-> Hi everyone,
-> 
-> I've set up automated CI testing for patches submitted to the VFS
-> subsystem via linux-fsdevel. This is modeled after the
-> kernel-patches/bpf CI infrastructure and runs vfs and filesystem
-> relevant kernel selftests against every patch series submitted to the
-> list.
-> 
-> So far I pulled Amir in. If you have interest in helping out here and
-> maintaining and have a longer-term stake in vfs related work jump on
-> board. I'm not a testing expert. My main demands were:
-> 
-> - No need for running yet another daemon just to sync stuff anywhere.
-> 
-> - No meaningful patchwork integration (no back-and-forth) other than
->   pulling series down from it. Ultimately I'd like this to be based
->   solely on lore and not on anything else.
+Hello Andreas,
 
-The integration test-suite has now been switched to rely on mkosi for
-building images and running virtual machines.
+On Fri, Mar 20, 2026 at 12:29:58PM +0100, Andreas Hindborg wrote:
+>
+> Hi Breno,
+>
+> Breno Leitao <leitao@debian.org> writes:
+>
+> > On Wed, Feb 11, 2026 at 08:53:12AM +0100, Andreas Hindborg wrote:
+> >> Breno Leitao <leitao@debian.org> writes:
+> >>
+> >> > On Mon, Feb 09, 2026 at 11:58:22AM +0100, Andreas Hindborg wrote:
+> >> >> Perhaps we should discuss this at a venue where we can get some more
+> >> >> people together? LPC or LSF maybe?
+> >> >
+> >> > Certainly, I agree. I've submitted my subscription to LSFMMBPF with the main
+> >> > goal to discuss this topic. I wasn't planning to present it this, given it was
+> >> > a "overkill"?, but I'm happy to do so if that is the right direction.
+> >>
+> >> I'd appreciate if we can get some people in a room and force them to
+> >> think about this. I think it is a good idea if you submit a topic. If we
+> >> don't get a slot, we can see what we can do in the hallway, and if that
+> >> does not work out we are forced to make a decision between the 4 of us
+> >> participating on list. At least nobody can say we did not try to collect
+> >> input and opinions then.
+> >
+> > That is an excellent follow-up and direction, let me submit a topic in there.
+>
+> I did not see a topic on list, did you submit?
 
-mkosi builds images for:
+Unfortunately, I haven't submitted a topic and won't be able to attend.
+My daughter is due around the same time as the conference, and I didn't
+realize the conflict until recently. :-|
 
-* Fedora
-* Debian
+> At any rate, I did not receive an invitation for LSF this year, so I
+> will not be able to meet up in that venue.
 
-and builds the kernel + modules. The image comes with 4 partitions to be
-used for testing. Right now we run:
-
-* Fedora
-  - VFS selftests
-  - xfs fstests
-  - overlayfs fstests over xfs
-
-* Debian
-  - VFS selftests
-  - xfs fstests
-  - overlayfs fstests over xfs
-
-Further extensions welcome.
-
-The description is in:
-
-https://github.com/linux-fsdevel/vfs-test
+Perhaps it would be best to continue the discussion on the mailing list?
