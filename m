@@ -1,302 +1,220 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 455BB395DB5;
-	Fri, 20 Mar 2026 11:08:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774004904; cv=none; b=OqPX/vcQXWV0+GDDqztJbFnpMRN0ryRBUNZDrXAZw5q49d8XhFlgTCbD2R5XvUEhPillVFsbIvzvD37ks+5ej7i0G4i28ZdZLOMnmjU1Ae6qBHVdlYizjzyb2XyxKPzWLPBGUMfkDdc1XdoRBOO/yMTPj/7Y0h+ClW8xfDxCulI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774004904; c=relaxed/simple;
-	bh=IubUj+jqwRzKoQPj58xDc4nZfpvuDGr1R52SQV2ZLLA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OAk1iZ9LE9bTdB/8HHpgQL0eln9VvHrq2UfNQxWgV59Vu9WJOxz2DudgnJMPtz8Od1A6s+W+oII02nNXJxlXdC1lQE3tCspIyKFsvIMDnDX/mi2Rc1+UIwVygifY4xyUw5yntVFOjNwMC/Y9ZMrmEwnrqCXPqVy7jlIAKCHv2Ic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lM0U/sma; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96C733612F2;
+	Fri, 20 Mar 2026 11:21:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774005679; cv=fail; b=cBEvp3sxnS6msCCDGZUzS1BeZLYbHBocbDwfzG9+ajefycDRxT0GOX7s8mo3NhPCJ4GOJn+SqCFLRCLaR0AmtIYilhpQhKiAD2+u6UC0lWiGCcVlafhGbg/4CSAw4gtl5/M2aMi3PCR/+PlN8N1llt6s9cnw/M48Qi8pEpn1m8w=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774005679; c=relaxed/simple;
+	bh=s82FFjzl71rCphJM9VDMUrEgUnjRu7G5rY5vVVL+of0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=Y712SwZlx6Y0Cmk4DbeiZY1qRoAKNQjJ5G5lljaAngxs6YP1UkwuhXM+dWnEhQo5iZSccXt9D91hF4n6EvQOF7l+lvY9Eu4yp5wGW7gRxPqiU/pdX+8y9XjLYF8SVeS1pmqAw9jmZo/zdvpeXw1o1mpI8rBKcxSRduehfiZryGw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=UMBoSu4H; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=zga4uED5; arc=fail smtp.client-ip=205.220.165.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lM0U/sma"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E98DC4CEF7;
-	Fri, 20 Mar 2026 11:08:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774004903;
-	bh=IubUj+jqwRzKoQPj58xDc4nZfpvuDGr1R52SQV2ZLLA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lM0U/smadkBEflGyTvmy4GTZW1CFk/3otou6bjFy+dQmA00CHj/ypWe+e73C+zMZQ
-	 jhmmO/CjnbFULEMKZS8VBpTbomAMt/cjPAVKyMfPOEREZs8pQlH04qTV/9MvL9x8YN
-	 TrPExLO4WzXOykz6o15XYE3r5fRQKyGZ8l0sR0R7p7noB+1Xlz9xivuUpaESQBfpJp
-	 Uyof/p8lwb2nc+aKhxOi6BQIC0quLodlIc6P0Iz2eYTTYq69lyrHX9jDbzPea2sYop
-	 DmVdpjbcONP/eCN6f1cRlmFQAT+Qh0Z77PP3l/hk1KZKNUaP6VaiRb7tSkfT2VopkI
-	 oaRAH25ZcMSnA==
-Date: Fri, 20 Mar 2026 11:08:08 +0000
-From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
-	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Kees Cook <kees@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	Vineet Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Brian Cain <bcain@kernel.org>, 
-	Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Dinh Nguyen <dinguyen@kernel.org>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <chleroy@kernel.org>, 
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
-	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
-	Alexander Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>, 
-	Sven Schnelle <svens@linux.ibm.com>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>, 
-	Richard Weinberger <richard@nod.at>, Anton Ivanov <anton.ivanov@cambridgegreys.com>, 
-	Johannes Berg <johannes@sipsolutions.net>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Xu Xin <xu.xin16@zte.com.cn>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@suse.com>, Paul Moore <paul@paul-moore.com>, 
-	Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>, 
-	linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-hexagon@vger.kernel.org, loongarch@lists.linux.dev, linux-mips@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, 
-	linux-um@lists.infradead.org, linux-fsdevel@vger.kernel.org, selinux@vger.kernel.org
-Subject: Re: [PATCH v3 22/23] mm/vma: convert vma_modify_flags[_uffd]() to
- use vma_flags_t
-Message-ID: <7e22cc48-aa04-406d-b4d0-8ebb182b34b9@lucifer.local>
-References: <cover.1773846935.git.ljs@kernel.org>
- <98a004bf89227ea9abaef5fef06ea7e584f77bcf.1773846935.git.ljs@kernel.org>
- <0b5765da-67e9-4e2e-99d8-08501730bf76@kernel.org>
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="UMBoSu4H";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="zga4uED5"
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62K8XosR2498394;
+	Fri, 20 Mar 2026 11:20:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=corp-2025-04-25; bh=uYrGOAp6WAoZdu8wML
+	7pk2toj6QWqktnAI2WOUyyBVY=; b=UMBoSu4HZzHt9M/tYyKp+xXOVVfYDbMyw7
+	igOsIRc9E/wKXdrvKtWg+uaBVy4UmtTleEAW/vApK7O3DM0hZaZBAlC1v432xwYH
+	HQyp5jdSMtICpxbF0pzN0Rd95Y+XTLJUcPNdSzfmRF/Fa9rDA3jtK1CIixREXCSH
+	6n4TI2knkZPGywGyvIZyyqsE9fQFpaR9l6nI+gANhxHKdsVxQwWhPQl3isgoL+k4
+	bX//CWbnR3iSn9W5zehdC4yLcH+gEr5EMW0b8FV2ggnLr5hh3oZR2qogf+zrlyw0
+	LCuw8abqzSTaLBnxudFDKJM+DYNxaotjNhKpWDYCPRxX7KS9lAVg==
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4cw07rhhgw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 20 Mar 2026 11:20:35 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 62KAA371038237;
+	Fri, 20 Mar 2026 11:20:35 GMT
+Received: from sj2pr03cu001.outbound.protection.outlook.com (mail-westusazon11012051.outbound.protection.outlook.com [52.101.43.51])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4cvx4e5f4u-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 20 Mar 2026 11:20:35 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=WM+f2NeoPFzLFpsWUZ/pymF16a/v/OubXI7TWVxJm3ZriRzstp64T9qRuXLAW4KUXmfNLUchqordH8NbzLBzKbKUn0HA0xeh7KYz+Lg6Ut1eNkgkgMTLieeUxqsv7PbK+0qoIR0EdOk9h6rob9TbctPNq89W79rcsbT0/K9+iOs6rHypytIQkVQJk8PPKEQwDz6cft7nKSDUAsWwcludlf/r0BXi+AdKQl8Oqr9BMc1MNZ2hpwnPnZYQw2cqEkxE3tAPwljQ0Lol2gc81e2WW0ZiWCvEIawCMJf/yVwuxv5Z/SIicLL8N5xLLiAjFi6uIRjxTJz8joAcgTHUVYO9OA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uYrGOAp6WAoZdu8wML7pk2toj6QWqktnAI2WOUyyBVY=;
+ b=Hiu/+U7D1i1ZPKjSIK6tuyQsf0Tdr7CoB6YpASVXJ66VvD/6jbgMyXejcipdjNOmxKLjx+t/Jtd1GWNyUjMk1hFcE/2got1v8VHEDm4vu9tQz/vIcIvUidShxBaKL1fHGlLi6I4y8OnTYf7AHDNEuH4lxyBX5eb98cvchSCnEvbOaToju1GEo15yJSDNmf4yVjqR/a/inR60Jj9NVj1q+zaZ4WUHomqsN8MGCeHY/w8RZW25gbApdEHldrf+oya+paSS7Q4CL9pQf9HHgMpuBxsuVqYCX02Z9UYB2j9Xlx9mF0cbelMpaX3NiSlqE73eG63iMzHD4Fg7GUQoY0ZoAw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uYrGOAp6WAoZdu8wML7pk2toj6QWqktnAI2WOUyyBVY=;
+ b=zga4uED5smh7tMxpa3q8r/0xeygFmKAFSNCd7Ia6ZNb96Px59AuDQWpmq2VJhJsBmmlsIjuIFsgbsKQxS2b6TI9BY/t0Q47iovGw6sVzhy+IJcxp8XZave1qdLyw+dtK4j5ikoe5ZaC4MKzWZhjdBDZBDqRtWbKpOCmgXIxSX7E=
+Received: from CH3PR10MB7329.namprd10.prod.outlook.com (2603:10b6:610:12c::16)
+ by DS0PR10MB6776.namprd10.prod.outlook.com (2603:10b6:8:13b::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.23; Fri, 20 Mar
+ 2026 11:20:32 +0000
+Received: from CH3PR10MB7329.namprd10.prod.outlook.com
+ ([fe80::c2a4:fdda:f0c2:6f71]) by CH3PR10MB7329.namprd10.prod.outlook.com
+ ([fe80::c2a4:fdda:f0c2:6f71%7]) with mapi id 15.20.9723.022; Fri, 20 Mar 2026
+ 11:20:32 +0000
+Date: Fri, 20 Mar 2026 20:20:22 +0900
+From: Harry Yoo <harry.yoo@oracle.com>
+To: syzbot <syzbot+cae7809e9dc1459e4e63@syzkaller.appspotmail.com>
+Cc: Liam.Howlett@oracle.com, akpm@linux-foundation.org, chao@kernel.org,
+        jaegeuk@kernel.org, jannh@google.com, linkinjeon@kernel.org,
+        linux-f2fs-devel@lists.sourceforge.net, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        lorenzo.stoakes@oracle.com, pfalcato@suse.de, sj1557.seo@samsung.com,
+        syzkaller-bugs@googlegroups.com, vbabka@suse.cz
+Subject: Re: [syzbot] [mm?] [f2fs?] [exfat?] memory leak in __kfree_rcu_sheaf
+Message-ID: <ab0tdhzHjhIlzRtH@hyeyoo>
+References: <698a26d3.050a0220.3b3015.007e.GAE@google.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <698a26d3.050a0220.3b3015.007e.GAE@google.com>
+X-ClientProxiedBy: SEWP216CA0103.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:101:2bb::15) To CH3PR10MB7329.namprd10.prod.outlook.com
+ (2603:10b6:610:12c::16)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0b5765da-67e9-4e2e-99d8-08501730bf76@kernel.org>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR10MB7329:EE_|DS0PR10MB6776:EE_
+X-MS-Office365-Filtering-Correlation-Id: cec6c65e-1051-4b64-d068-08de8672b2f0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|1800799024|366016|18002099003|22082099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	qyy0t7p84atCZsevEiIR/QWYeMtTl0Eb1/bHF4047FQsHv6P16N9o1f31ttvituKrgMWzHNhXoy/MroXJe5kWmp3AxygSXKH1RzovSwulj03o2UBsgIFrLBCSonQ0TZ5KM0j/X0uGRlRkHakffnq9dHNuMojaPe66iY8cJ6fX+Z4qKPcToZGgVpPhySQXKa6PqWpaxpfOig2ERBHlWsGLiMybTE1cADzte4IFjpigTQXzbQGgCZIrE9epmVqTWpdUUEvDBLxlTUjTLdU3HQM5fJzRcF+wpH3MU+zfB+SEAiNx76rqONnuIknJca093dTWWgdQ/2WUBzO5iv1CW+gYZDbRVM8x2HRF3jME+u/8a7OTkavE8+UEHsClj3KjCSega+kJyDtg1k+Wf4sd0Buwk7llvBbfvkQAoMa5GH026i5OaSnNruCRuz+XxneRicZvo7DA9qGDbsSACA9RHf5WehuUnI/YiJCVJi1upf0XZLdA4kzj43sDAHxKVr/2A3g5wSmK4UD0vGmPJSiX21HaphkT2rqX5g63l+3hcpeo+a1h43jDvV/afTn3/0benrrlB824rwgkCLi/H62kB9Yo9z7kDiOjuTPJm61jcP/W6FEDM5K4JKven0/WZXBQKlV6KACxfjVx/wp9xyNjNS/TW4i3qeS/zz4FD4MNc/4uOrKKv/tw7YMYG9oLN0I9HnKHpDLTfx1FUvGHpZqbYHQuKqbaAHfPwU5uDsDKEz54Ro=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR10MB7329.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?WiCYJIg+A70CGF0vwHSJ21T6V2irIh8Uf3UPhB2x/kM8e8imPID+IyrYdWkP?=
+ =?us-ascii?Q?2irmGr9IP2sF38/AAVnKRje2+/fZM80cmR9r8cPPmQPaefVjUC5aTbpVi6oM?=
+ =?us-ascii?Q?hXAF4m0fRvVCVM5veaiZ/ob4ylplH9OkyTYfw40EK9KqxpfAdZy6ClaBLiZ1?=
+ =?us-ascii?Q?1+kGZgUoqKFkz7zkrQDUFDCWDl6UtGZ7VKOB4zOLh7SOvsvvhjK5WKSFk505?=
+ =?us-ascii?Q?r/EcVh48sGFAAArdfjpkYpVHeZFnHPh4Vh06MftjyfEK9RIRoGbusP4ZaS0e?=
+ =?us-ascii?Q?7nTzx5Qwz4NzxW9C9amoTHajbQYQK/iaMVxNUk0eO+aBirL+gA5EYvLDMGJ2?=
+ =?us-ascii?Q?xHA3E3/2BsRao7+DVj8U0BaY1yBU+YX5LGOzd+vJjrtNIIX/00bU9wtKfVsj?=
+ =?us-ascii?Q?BFIO4FYjcmQiC2yJfK+LkvTrOKP9u6yY4avLJR/Qnhk6Tcd7X/68DxaOySjE?=
+ =?us-ascii?Q?MRSQ8ZJ5E7gyGEryJetTpSfYYNf0eIPpqjKJuXN8tZd87+Bj+Yi9gP9WkcVr?=
+ =?us-ascii?Q?8bduvS3D6k6C74Lql6u/1Fj2v4dmjNHGOzWgqUusmlT4dfR9XfD7G/qwYVx/?=
+ =?us-ascii?Q?hjqT8pUavSY9M7J5V34PycOycgzYOrDA4EcFkuK/IdiyGJPmjUi2PQTLKgR1?=
+ =?us-ascii?Q?SBgu1I6qiKMjyJynVBgTDtmRyOXxl+zkRml5mocsO8DkR8xPvAZHqEomjy8K?=
+ =?us-ascii?Q?YHqldKUXpacO6S7+gVsUk40fcgMxZB0VJ1imbznGTnM8v0HHI3WBoSrfbeMO?=
+ =?us-ascii?Q?unEdtqjRKazT7R3skqC9BU1CoMkCrbuPYkNT9LIkWi7L5Xi/CLtHihsuBBKY?=
+ =?us-ascii?Q?TzdHIim03w8C9eLkxDacxyfxAUpUfuXXQw1KFvPS4FwT05yttBbBDYyJArnD?=
+ =?us-ascii?Q?yOs5fFm6zI8yiscy9+jRDSFMDv0DgOhyMeUW/u2eKAanOGkbRkCJ396kxC4g?=
+ =?us-ascii?Q?YjYofasFpXQLj2nZZwR0ZjRVXR2qoU4pAm6xUlQ91/6nIbB3tgNjmqYswJwT?=
+ =?us-ascii?Q?9SxgqnPL8c/Ufcxdv1KRRYzH5xfw85dM2SHeWoCpCdsK7w/eispwvBDbABBY?=
+ =?us-ascii?Q?akyI5zOcV1UXnjIggXFE5y3iBC07UjnNk3kmpBsW64BpHgqiJCyBdpIQByKL?=
+ =?us-ascii?Q?U0j1BG6lPK2FttBYoGo3yuPP3OrLz+1MyGWURTnwR8Dzm41DY5Is1bV6rakO?=
+ =?us-ascii?Q?NYlGASKhRrxS8NMVrU4MvX//NXFiaCViQv02sOYu5MqMaW9y1Gy8aITX8SVa?=
+ =?us-ascii?Q?3u0a9I2O0I/nxVyKu59tyYSLFIQ4OtRYL3Ja9YzNGkRo4HzG0bXz65MVxDOv?=
+ =?us-ascii?Q?xZTbXIRc5yi9uMREhmi2ccwrzdrx47Pyv22W2Llms9mkZknnqi48vpXaHKmd?=
+ =?us-ascii?Q?8FF9GJuwI6is/g5AAoKV8wV8er8vLJC0jfbVzlLucNL0xLJY5OOwtWsUeBId?=
+ =?us-ascii?Q?t5ZU9Wg66cc/AMNNeobTq7murDMz5VfLlHrYIR5hL68Fbuszzdld2DY6ZtSu?=
+ =?us-ascii?Q?Y1fB5MvqzFg8AYLaZRD2sCpXYG/yPna4vFhGlNjRU3qpilL3rYtVAxdqJ67x?=
+ =?us-ascii?Q?oOBaiND/K9yeFIWEH/Cj8sqWca8EsSUlsfeRtQqD9jLM3SrCMnAgIQhY+FTf?=
+ =?us-ascii?Q?zeNZ2sQTwlwUsVyYXmgbPnNa+tHRzyt+AEoxNs7NFgEd+U8p1xOPfklKlWpC?=
+ =?us-ascii?Q?Iy3TcOOLFedy7D/Bc+g+J08UBrMyT3q9ZsyqVna6xVoSprlMfS7c9ahaeoKa?=
+ =?us-ascii?Q?Unjb7/+4dg=3D=3D?=
+X-Exchange-RoutingPolicyChecked:
+	WY7Mo7cBNDUvqVAWzWu07CKrnvJLypK3LUuOVQD2ysAL6l36PdT1LFuvFocv5ZysZN4nS8zJvqQXjIXcp1YAePFIguXam8qQjpvodw7jWpsgk0Fo/7j924bjQ2rv+4gknn/6DtL4ASEDeYRiS7LyqQgwGyXCDkErQSYc56W9YYxBnZBMEnAvFLEXtwdAI4TFT0Su2z0/rvNfXJ7Hb5T0YFIcpskgQCVd1nFL1/ycO71KYPt6TJKUtgYO9EECcF50jofOuokvUAC0nJmbzKJhX+m3xPAYifE79Ft2ZO+2CJXoXUE9jiN5oL/ZimSYuoJrCVTYYUP3wFNppjBAho6Iww==
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	fub0NzsSHRIcBiR9lwORSuEEkYuOthyHQV5Uebd7WS/8ca6AguuLC8d1C55NGtFMkIXMzyEpDu4CvavFlRxbQdy/qJhX6rEYCTJE/LWfqSdyVqg14zNsOZsRKYc/qq09NvzgUW60OtWktdn1GI1CXSEJUeAhKWbF4OPD1f1zCaLCq1z7dVbCykzQv7fgtV/d1HN+TZa+FqaNjq+wEiwRvkGt6IRU4SGoAsEvLMt7TcGjzgcT7R/r4gSNTO4zcDHD/E0xZgfkfKi30MyGDvmzMmXtsH77zTrsNDKXcwE4i0O3lGowRa7h5JTYMVh7TerPLC8CRqwPfrwcGlCELcJ0xL6cWD/zPYWNUktuE8Hhl2qCStEzrmOTG2RB2/8JnLcW99r05fUlcLpN5hntF+gwacJOpqn7CSGAQez8Xer46cKRIbeqqu6O9RXskUk4gr1rAgSzQL3AUe9Nu7tTKHbtSz8fnQuEDd07iwpHUlKeHPrAcqOI0DegMjYCf99fmQlhSiaJqbBdzONGsAAjqzEBs6+zeb+uQ0yp6ZF8TQLdLCcVOpDI4+iq6y8HMECKU6HeEnwiUOIuzwgATF0MMSU1VIyzUqEW67wU7DcrNOMeE8U=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cec6c65e-1051-4b64-d068-08de8672b2f0
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR10MB7329.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Mar 2026 11:20:32.3847
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: AiPQVBG9raLOnfGNewsSYADIVLj4XwI3zFpgN+Jk5bHOmoYLH156PRBSG2m/DbtLuCHPRTJAWu8G/tzEv/ZdfA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR10MB6776
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-20_02,2026-03-19_05,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 mlxlogscore=999 phishscore=0
+ suspectscore=0 spamscore=0 adultscore=0 malwarescore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2603050001
+ definitions=main-2603200088
+X-Authority-Analysis: v=2.4 cv=HcsZjyE8 c=1 sm=1 tr=0 ts=69bd2d83 b=1 cx=c_pps
+ a=WeWmnZmh0fydH62SvGsd2A==:117 a=WeWmnZmh0fydH62SvGsd2A==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=Yq5XynenixoA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=jiCTI4zE5U7BLdzWsZGv:22 a=7Gl3-_t3PgB9XO-mQDs3:22 a=8i7A3EpTTfZRYE7KBIgA:9
+ a=CjuIK1q_8ugA:10
+X-Proofpoint-ORIG-GUID: nkJd7NMDC9flUqRMr6wljdUkBmYvjoOG
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzIwMDA4OCBTYWx0ZWRfX9xjcjiA/Rk2N
+ AyXtA+002U0OhBd2sQZp7lOQlFyTPoM2oPC/9gi3+jTuTOBGu21oKlwzupqEeGjg+8+YQvBmAyI
+ NcpjgHZuix150Zv6wh6KbG8gVFIJ4w9GJArzTW384z534QXiYdO8Han9UsXM7jvix2WgRt4Bobo
+ op6jiZ2L09+aSDC9gHoy9vOCUoubtxxW901/amdHdowD7kSEWxdWLxjW46zDL3L6MLr5HhKSra6
+ uZnQ6zZ7MI7uIQnGuhQ66fy4iCu3xpVIChMHp1rwuk/rMKBA9n3ZEyikjMnRHKktclCqQdKlWVv
+ h1NmKM6K06Bevds/jLin1GXtCRW0expairtY5noDVC8Pr7PiJCzOwKFfbUZrliMAZu+hVe56AFc
+ AZhIm9cbNaX4f1MSsOR7IK7k4S2fcdotreYIE2dITDI0kfrSepsBnSp+2CPo9TE3hhsJokYCk9G
+ N2/YfdASFHhHbFq2c1Q==
+X-Proofpoint-GUID: nkJd7NMDC9flUqRMr6wljdUkBmYvjoOG
 
-On Fri, Mar 20, 2026 at 11:39:58AM +0100, Vlastimil Babka (SUSE) wrote:
-> On 3/18/26 16:50, Lorenzo Stoakes (Oracle) wrote:
-> > Update the vma_modify_flags() and vma_modify_flags_uffd() functions to
-> > accept a vma_flags_t parameter rather than a vm_flags_t one, and propagate
-> > the changes as needed to implement this change.
-> >
-> > Finally, update the VMA tests to reflect this.
-> >
-> > Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
->
-> > --- a/mm/mlock.c
-> > +++ b/mm/mlock.c
-> > @@ -415,13 +415,14 @@ static int mlock_pte_range(pmd_t *pmd, unsigned long addr,
-> >   * @vma - vma containing range to be mlock()ed or munlock()ed
-> >   * @start - start address in @vma of the range
-> >   * @end - end of range in @vma
-> > - * @newflags - the new set of flags for @vma.
-> > + * @new_vma_flags - the new set of flags for @vma.
-> >   *
-> >   * Called for mlock(), mlock2() and mlockall(), to set @vma VM_LOCKED;
-> >   * called for munlock() and munlockall(), to clear VM_LOCKED from @vma.
-> >   */
-> >  static void mlock_vma_pages_range(struct vm_area_struct *vma,
-> > -	unsigned long start, unsigned long end, vm_flags_t newflags)
-> > +	unsigned long start, unsigned long end,
-> > +	vma_flags_t *new_vma_flags)
-> >  {
-> >  	static const struct mm_walk_ops mlock_walk_ops = {
-> >  		.pmd_entry = mlock_pte_range,
-> > @@ -439,18 +440,18 @@ static void mlock_vma_pages_range(struct vm_area_struct *vma,
-> >  	 * combination should not be visible to other mmap_lock users;
-> >  	 * but WRITE_ONCE so rmap walkers must see VM_IO if VM_LOCKED.
-> >  	 */
-> > -	if (newflags & VM_LOCKED)
-> > -		newflags |= VM_IO;
-> > +	if (vma_flags_test(new_vma_flags, VMA_LOCKED_BIT))
-> > +		vma_flags_set(new_vma_flags, VMA_IO_BIT);
-> >  	vma_start_write(vma);
-> > -	vm_flags_reset_once(vma, newflags);
-> > +	WRITE_ONCE(vma->flags, *new_vma_flags);
->
-> It's not clear to me, how is switching from vm_flags_t to vma_flags_t
-> allowing us to simply do WRITE_ONCE() instead of the full logic of
-> vm_flags_reset_once()? Won't it fail to compile once once flags are more
-> than single word? Or worse, will compile but silently allow tearing?
+diff --git a/mm/kmemleak.c b/mm/kmemleak.c
+index d79acf5c5100..b401954f72a4 100644
+--- a/mm/kmemleak.c
++++ b/mm/kmemleak.c
+@@ -107,7 +107,7 @@
+  * Kmemleak configuration and common defines.
+  */
+ #define MAX_TRACE		16	/* stack trace length */
+-#define MSECS_MIN_AGE		5000	/* minimum object age for reporting */
++#define MSECS_MIN_AGE		30000	/* minimum object age for reporting */
+ #define SECS_FIRST_SCAN		60	/* delay before the first scan */
+ #define SECS_SCAN_WAIT		600	/* subsequent auto scanning delay */
+ #define MAX_SCAN_SIZE		4096	/* maximum size of a scanned block */
+diff --git a/mm/slab_common.c b/mm/slab_common.c
+index d5a70a831a2a..73f4668d870d 100644
+--- a/mm/slab_common.c
++++ b/mm/slab_common.c
+@@ -1954,8 +1954,14 @@ void kvfree_call_rcu(struct rcu_head *head, void *ptr)
+ 	if (!head)
+ 		might_sleep();
 
-We only care about tearing in the flags that can be contained within a
-system word, but true we should probably do this more carefully, as I did
-for vm_flags_reset_once().
+-	if (!IS_ENABLED(CONFIG_PREEMPT_RT) && kfree_rcu_sheaf(ptr))
++	if (!IS_ENABLED(CONFIG_PREEMPT_RT) && kfree_rcu_sheaf(ptr)) {
++		/*
++		 * The object is now queued for deferred freeing via an RCU
++		 * sheaf. Tell kmemleak to ignore it.
++		 */
++		kmemleak_ignore(ptr);
+ 		return;
++	}
 
-I will reimplement this as a new, hideous, helper function.
+ 	// Queue the object but don't yet schedule the batch.
+ 	if (debug_rcu_head_queue(ptr)) {
+diff --git a/mm/slub.c b/mm/slub.c
+index 20cb4f3b636d..6bdf409d427e 100644
+--- a/mm/slub.c
++++ b/mm/slub.c
+@@ -7537,6 +7537,7 @@ static void early_kmem_cache_node_alloc(int node)
+ 	n = kasan_slab_alloc(kmem_cache_node, n, GFP_KERNEL, false);
+ 	slab->freelist = get_freepointer(kmem_cache_node, n);
+ 	slab->inuse = 1;
++	kmemleak_alloc(n, sizeof(*n), 1, GFP_NOWAIT);
+ 	kmem_cache_node->node[node] = n;
+ 	init_kmem_cache_node(n, NULL);
+ 	inc_slabs_node(kmem_cache_node, node, slab->objects);
 
-I am not a fan of this being a thing to handle races, it's a hack. But I
-guess that should be addressed separately.
-
->
-> >
-> >  	lru_add_drain();
-> >  	walk_page_range(vma->vm_mm, start, end, &mlock_walk_ops, NULL);
-> >  	lru_add_drain();
-> >
-> > -	if (newflags & VM_IO) {
-> > -		newflags &= ~VM_IO;
-> > -		vm_flags_reset_once(vma, newflags);
-> > +	if (vma_flags_test(new_vma_flags, VMA_IO_BIT)) {
-> > +		vma_flags_clear(new_vma_flags, VMA_IO_BIT);
-> > +		WRITE_ONCE(vma->flags, *new_vma_flags);
->
-> Ditto.
-
-Yup.
-
->
-> >  	}
-> >  }
-> >
-> > @@ -467,20 +468,22 @@ static int mlock_fixup(struct vma_iterator *vmi, struct vm_area_struct *vma,
-> >  	       struct vm_area_struct **prev, unsigned long start,
-> >  	       unsigned long end, vm_flags_t newflags)
-> >  {
-> > +	vma_flags_t new_vma_flags = legacy_to_vma_flags(newflags);
-> > +	const vma_flags_t old_vma_flags = vma->flags;
-> >  	struct mm_struct *mm = vma->vm_mm;
-> >  	int nr_pages;
-> >  	int ret = 0;
-> > -	vm_flags_t oldflags = vma->vm_flags;
-> >
-> > -	if (newflags == oldflags || vma_is_secretmem(vma) ||
-> > -	    !vma_supports_mlock(vma))
-> > +	if (vma_flags_same_pair(&old_vma_flags, &new_vma_flags) ||
-> > +	    vma_is_secretmem(vma) || !vma_supports_mlock(vma)) {
-> >  		/*
-> >  		 * Don't set VM_LOCKED or VM_LOCKONFAULT and don't count.
-> >  		 * For secretmem, don't allow the memory to be unlocked.
-> >  		 */
-> >  		goto out;
-> > +	}
-> >
-> > -	vma = vma_modify_flags(vmi, *prev, vma, start, end, &newflags);
-> > +	vma = vma_modify_flags(vmi, *prev, vma, start, end, &new_vma_flags);
-> >  	if (IS_ERR(vma)) {
-> >  		ret = PTR_ERR(vma);
-> >  		goto out;
-> > @@ -490,9 +493,9 @@ static int mlock_fixup(struct vma_iterator *vmi, struct vm_area_struct *vma,
-> >  	 * Keep track of amount of locked VM.
-> >  	 */
-> >  	nr_pages = (end - start) >> PAGE_SHIFT;
-> > -	if (!(newflags & VM_LOCKED))
-> > +	if (!vma_flags_test(&new_vma_flags, VMA_LOCKED_BIT))
-> >  		nr_pages = -nr_pages;
-> > -	else if (oldflags & VM_LOCKED)
-> > +	else if (vma_flags_test(&old_vma_flags, VMA_LOCKED_BIT))
-> >  		nr_pages = 0;
-> >  	mm->locked_vm += nr_pages;
-> >
-> > @@ -501,12 +504,13 @@ static int mlock_fixup(struct vma_iterator *vmi, struct vm_area_struct *vma,
-> >  	 * It's okay if try_to_unmap_one unmaps a page just after we
-> >  	 * set VM_LOCKED, populate_vma_page_range will bring it back.
-> >  	 */
-> > -	if ((newflags & VM_LOCKED) && (oldflags & VM_LOCKED)) {
-> > +	if (vma_flags_test(&new_vma_flags, VMA_LOCKED_BIT) &&
-> > +	    vma_flags_test(&old_vma_flags, VMA_LOCKED_BIT)) {
-> >  		/* No work to do, and mlocking twice would be wrong */
-> >  		vma_start_write(vma);
-> > -		vm_flags_reset(vma, newflags);
-> > +		vma->flags = new_vma_flags;
->
-> This also does lot less than vm_flags_reset()?
-
-Well let's look:
-
-	VM_WARN_ON_ONCE(!pgtable_supports_soft_dirty() && (flags & VM_SOFTDIRTY));
-
-Are we really at a point where this is problematic? Do we hit this? Why are
-we specifically checking only this case on every single instance of
-resetting VMA flags?
-
-	vma_assert_write_locked(vma);
-
-Note the vma_start_write() line above. I want to separate vma_flags_t
-helpers from asserts like that, because:
-
-1. We might be operating on a VMA that is not yet added to the tree
-2. We might be operating on a VMA that is now detached
-3. Really in all but core code, you should be using vma_desc_xxx().
-4. Other VMA fields are manipulated with no such checks.
-5. It'd be egregious to have to add variants of flag functions just to
-   account for cases such as the above, especially when we don't do so for
-   other VMA fields. Drivers are the problematic cases and why it was
-   especially important (and also for debug as VMA locks were introduced),
-   the mmap_prepare work is solving this generally.
-
-	vm_flags_init(vma, flags);
-
-Analysing what's in this function:
-
-	VM_WARN_ON_ONCE(!pgtable_supports_soft_dirty() && (flags & VM_SOFTDIRTY));
-
-Duplicated.
-
-	vma_flags_clear_all(&vma->flags);
-
-Only necessary while you're only setting the first system word of
-vma->flags.
-
-	vma_flags_overwrite_word(&vma->flags, flags);
-
-Again only necessary when you're only setting the first system word.
-
-So yeah it's doing the equivalent and (intentionally) eliminating some
-noise.
-
-But I'll add the S/D check back I guess.
-
->
-> >  	} else {
-> > -		mlock_vma_pages_range(vma, start, end, newflags);
-> > +		mlock_vma_pages_range(vma, start, end, &new_vma_flags);
-> >  	}
-> >  out:
-> >  	*prev = vma;
-> > diff --git a/mm/mprotect.c b/mm/mprotect.c
-> > index eaa724b99908..2b8a85689ab7 100644
-> > --- a/mm/mprotect.c
-> > +++ b/mm/mprotect.c
-> > @@ -756,13 +756,11 @@ mprotect_fixup(struct vma_iterator *vmi, struct mmu_gather *tlb,
-> >  		vma_flags_clear(&new_vma_flags, VMA_ACCOUNT_BIT);
-> >  	}
-> >
-> > -	newflags = vma_flags_to_legacy(new_vma_flags);
-> > -	vma = vma_modify_flags(vmi, *pprev, vma, start, end, &newflags);
-> > +	vma = vma_modify_flags(vmi, *pprev, vma, start, end, &new_vma_flags);
-> >  	if (IS_ERR(vma)) {
-> >  		error = PTR_ERR(vma);
-> >  		goto fail;
-> >  	}
-> > -	new_vma_flags = legacy_to_vma_flags(newflags);
-> >
-> >  	*pprev = vma;
-> >
-> > @@ -771,7 +769,7 @@ mprotect_fixup(struct vma_iterator *vmi, struct mmu_gather *tlb,
-> >  	 * held in write mode.
-> >  	 */
-> >  	vma_start_write(vma);
-> > -	vm_flags_reset_once(vma, newflags);
-> > +	WRITE_ONCE(vma->flags, new_vma_flags);
->
-> Ditto.
-
-I mean overall these cases are hacks in my opinion to work around code that
-should have solved their problem another way.
-
-But sure, as above I'll add a helper function or such.
-
->
-> >  	if (vma_wants_manual_pte_write_upgrade(vma))
-> >  		mm_cp_flags |= MM_CP_TRY_CHANGE_WRITABLE;
-> >  	vma_set_page_prot(vma);
-> > @@ -796,6 +794,7 @@ mprotect_fixup(struct vma_iterator *vmi, struct mmu_gather *tlb,
-> >  	}
-> >
-> >  	vm_stat_account(mm, vma_flags_to_legacy(old_vma_flags), -nrpages);
-> > +	newflags = vma_flags_to_legacy(new_vma_flags);
-> >  	vm_stat_account(mm, newflags, nrpages);
-> >  	perf_event_mmap(vma);
-> >  	return 0;
-> > diff --git a/mm/mseal.c b/mm/mseal.c
-> > index 316b5e1dec78..603df53ad267 100644
