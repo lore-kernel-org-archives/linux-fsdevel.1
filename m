@@ -1,99 +1,371 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpbgbr2.qq.com (smtpbgbr2.qq.com [54.207.22.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CED91361DA1;
-	Fri, 20 Mar 2026 10:04:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09A4A2F363F;
+	Fri, 20 Mar 2026 10:06:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.22.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774001091; cv=none; b=ep/HJMXbvLfHmIECuHgHH3807+2/9h2yr77zx2Gq0AoIxcpViJIh2J2PMvUHTO+L4tRzItQcGTOXqIUY2mKfLIhPlqj+2hqufEycx3IaPc+V5XP0PmXTihRaHfDbCFXXn4VU5o2nH6Mw3wjZivGsqO18HIYz8dnUsJN8CXAT+MA=
+	t=1774001194; cv=none; b=bEw0w7u7/IhJIPP3qPDc5gOJafn6S5fNgiCNmPgC9JKOaTleUwC/JijuwOA46az8IkWfFKwUtVmIPR1eUb3YQ7B/kBSVtbRPMoMkmDI/2vVqIrSmimypuRGjsQ9kpbEMy9hp8jO8b1ScQ6EXKda8P4mPHR9zL81h0iYRSanZIzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774001091; c=relaxed/simple;
-	bh=SlqXACEW1bvWaBbKKIpFc5l9X0bOJT5QGbTI1CG7U9Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=APZtzN+Y2LuX1We3ramPQ40QCJNRnvJrTbvupUIPfVMKisoauBhQTDamjSE4VnhHLL/OEqIVaf6pfSI9xrnECeQAboM1wKqd1FTQv1n4MzciBeNmLWGG0U0vDhGTBLVUmGXWUR7PRv/voXiVupzBRXLqtdtDLMaK14YtNWIaS7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D+ceYj6Q; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774001194; c=relaxed/simple;
+	bh=LrE3VdXuj4apNadwjMfZBEz2hPA+Xav1W+ZZJiA4YVY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=pQQ1ZJXW/Nr2DO8BgbIpyTTeJqq1DfpHRSJjd1Y1qxR22JcfroYnx5o8qYH7u2AtIG7rOQ2Ek1BDjOUGPDbOioTBAA0d/8AOkVejiqpGpaLCr9XnTi07oxFYcHi1zXgjEZ5H4piMo6FOGR5G8A9XPNYCF0yWtkTfrDWE4ycLMOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=Xm5amJE2; arc=none smtp.client-ip=54.207.22.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D+ceYj6Q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5136FC2BCB1;
-	Fri, 20 Mar 2026 10:04:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774001091;
-	bh=SlqXACEW1bvWaBbKKIpFc5l9X0bOJT5QGbTI1CG7U9Y=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=D+ceYj6QItOJroZYLEyyE2MBeFVEH6IM75Vi5G/PN8ZodL7Zj2nolMyC/N6rcOzkO
-	 gTCj46ngQl60VkkqPpRigcsp0XQiO42A067h6OTJgyefrwGzF90ZZtEs132xst3EGv
-	 ke8Hl2sGVHG/IkTdRc9G/zU6xxL8fF4oFp0Ar2N9JRwlsGuLC+7u/6vxBxw09AWcEj
-	 wZJweQNUPpvxCo1otppn/Rx/k/XQG4Ouo5iXXkmaQrjxicqq3obmIZPMt/6B5YVhLa
-	 1Sl2cxlTleUBCVRG3Iv6gjwGNTfScFbagjQpLmpHaNteEB95xldtKJALrkvf9Y3A4/
-	 y7TCZZbtJpalA==
-Message-ID: <17a34a6d-8fb0-4010-8318-faca575823e1@kernel.org>
-Date: Fri, 20 Mar 2026 11:04:38 +0100
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="Xm5amJE2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1774001065;
+	bh=f4rhwdBMMSENh9iJN8lnvUv3BJyV/LyEU1yg5HX+0Fw=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=Xm5amJE2Y5KIUi8Fsr/ymys2D/xq1dMmD+PvRQOsbYZzdcZ3ekJTCkMliTAHcLOYB
+	 sNk9lUwz831K+JS63KVQkZ8BSiU4wYJsybMsOix8vTr3p96CLEfO/ZePH11EL54J6L
+	 wt5ggzldIJ8uXOJddU9CNgi9TuVJ2L+vYwZ8Ctq4=
+X-QQ-mid: zesmtpip3t1774001039t2faba09a
+X-QQ-Originating-IP: KZ9I7a0hPxUSq5m9yILcdUUrfKiu57vYkW0CuNsUI2g=
+Received: from uos-PC ( [localhost])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Fri, 20 Mar 2026 18:03:57 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 17004956121788972465
+EX-QQ-RecipientCnt: 14
+From: Morduan Zang <zhangdandan@uniontech.com>
+To: dgc@kernel.org
+Cc: brauner@kernel.org,
+	cem@kernel.org,
+	dchinner@redhat.com,
+	hch@lst.de,
+	jack@suse.cz,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-xfs@vger.kernel.org,
+	syzbot+d78ace33ad4ee69329d5@syzkaller.appspotmail.com,
+	tytso@mit.edu,
+	viro@zeniv.linux.org.uk,
+	zhangdandan@uniontech.com,
+	zhanjun@uniontech.com
+Subject: [PATCH] xfs: defer lazytime timestamp updates to inodegc during eviction
+Date: Fri, 20 Mar 2026 18:03:53 +0800
+Message-ID: <6EBD01CF561B83EC+20260320100353.220462-1-zhangdandan@uniontech.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <absSoRi8oxXSuSZ7@dread>
+References: <absSoRi8oxXSuSZ7@dread>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 19/23] mm/vma: introduce vma_clear_flags[_mask]()
-Content-Language: en-US
-To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: David Hildenbrand <david@kernel.org>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>, Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Kees Cook <kees@kernel.org>,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- Vineet Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Brian Cain <bcain@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
- WANG Xuerui <kernel@xen0n.name>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Dinh Nguyen <dinguyen@kernel.org>, Madhavan Srinivasan
- <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>,
- Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <chleroy@kernel.org>,
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, Richard Weinberger <richard@nod.at>,
- Anton Ivanov <anton.ivanov@cambridgegreys.com>,
- Johannes Berg <johannes@sipsolutions.net>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Xu Xin <xu.xin16@zte.com.cn>, Chengming Zhou <chengming.zhou@linux.dev>,
- Michal Hocko <mhocko@suse.com>, Paul Moore <paul@paul-moore.com>,
- Stephen Smalley <stephen.smalley.work@gmail.com>,
- Ondrej Mosnacek <omosnace@redhat.com>, linux-snps-arc@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-hexagon@vger.kernel.org,
- loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org, linux-um@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, selinux@vger.kernel.org
-References: <cover.1773846935.git.ljs@kernel.org>
- <b2edda6f00c10ef63013257f282cf155fb371b06.1773846935.git.ljs@kernel.org>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-In-Reply-To: <b2edda6f00c10ef63013257f282cf155fb371b06.1773846935.git.ljs@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpip:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
+X-QQ-XMAILINFO: MoOhIKXcKMnyMhemIqgXmoP0COD7BG9U3AVqf8vMLXUhL+6HzUy4bpTR
+	DQHObIJl3JwBDOxmB3B/bKHCgd+TSYQsuIfq36GtpaM/nFHAE6yvWBpJ4hl5yWhFv1rSaEo
+	Z3bJ+jVpy41sFpSew+lxdotKGUJaU2k7yuF0PNNvEZfmfIEHYRdUq85F6dVJEwX9U/VRlDx
+	IEp8KQJX05yywJaRhgq1pvZiPWrTZC7xUzkbVxkESKtPqazShSsiliRm06tWubIhkzPMxcL
+	Y3ZXnJ0Bc2z+tiFYKpxGBgIxLJ05/Ol1jed+mg776qTx+cCIczEyUprxKt1dXnEAgaz9Gec
+	AeE+4Fm9lpFQfEqVVh9Rv3X8MeXlDYk+DjHSuzhbbL0PE9lredfP6hTuK5tFpD5UVbH2fEV
+	V8im7oTvOvDqjoRmyTBRU6EXacbSrp9LEgslV/LZcQyNeUrz5lkRzsC11AaaAMoFqI1TX9v
+	mBaHUtA2DPVNhrWyiUrZ8GedQVv8gIVnAoszhVSEfrkD3ZQTa/KBzPahKgGcn2j6yFbY7s1
+	1faZx7KY0J7RQJ4NfShtRfGgsuRCBNv5pJxojhXKqFkCkn4vXkO39lDXvGTzv/H40f14QMQ
+	n9KPl3Im07Z22ZAJacVCyoStUM3/MI9tDcDhxRnijERLnvXsTSShelZz3LFhC8mKxlwP9oW
+	/Byt3qknM0qqPHhFXvvyG9ddnwoSEybLu5N3CJrT/pzVKpD8WgIZRqHjATy7ImmBcbBsfRM
+	NcLTdDwts9gNdvQVeFGrPV4IH0DmktUDIpwow3HhpAWoIyL+pXfoPiYv0r3xc1oE/xHQwOK
+	+qTW3lFJGorRrPh9gMXsSlnpZJX4o2bx2Ili6wh9qp1dO8M3mdKIExvTKjB8VPrI77gL5K7
+	CjYhaJr+bNQ2F26Xg3prXOAc30bWaASVLq7gAXu1R9uBInlNhcsxzSHCn1nW0ffBgLBNtVh
+	R9oSyXjDq44Y92wqcqhNF1FaRN0Dv+Xb7+8KzKZDLkuud9NnQ1hNbq2CVCiDYCLXVwglY2J
+	GZ5iDDTqjZzk1APKOvov5bqBriPMwNBmz1wNXKUqxZiJGcL7fnkXS6usGJCn8=
+X-QQ-XMRINFO: Nq+8W0+stu50tPAe92KXseR0ZZmBTk3gLg==
+X-QQ-RECHKSPAM: 0
 
-On 3/18/26 16:50, Lorenzo Stoakes (Oracle) wrote:
-> Introduce a helper function and helper macro to easily clear a VMA's flags
-> using the new vma_flags_t vma->flags field:
-> 
-> * vma_clear_flags_mask() - Clears all of the flags in a specified mask in
-> 			   the VMA's flags field.
-> * vma_clear_flags() - Clears all of the specified individual VMA flag bits
-> 		      in a VMA's flags field.
-> 
-> Also update the VMA tests to reflect the change.
-> 
-> Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
+syzbot reported a warning from memory reclaim when iput() dropped the
+last reference to a linked XFS inode with I_DIRTY_TIME set. In this
+case VFS can call ->sync_lazytime() from the inode eviction path, and
+XFS handles that by starting a timestamp transaction directly:
 
-Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+current->flags & PF_MEMALLOC
+WARNING: mm/page_alloc.c:4741 at __alloc_pages_slowpath+0xd0a/0xd40 mm/page_alloc.c:4741, CPU#0: kswapd0/70
+Modules linked in:
+CPU: 0 UID: 0 PID: 70 Comm: kswapd0 Not tainted syzkaller #0 PREEMPT(full)
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+RIP: 0010:__alloc_pages_slowpath+0xd0a/0xd40 mm/page_alloc.c:4741
+Code: 48 8b 1d 31 3b f9 10 48 83 c3 2c 48 89 d8 48 c1 e8 03 0f b6 04 08 84 c0 75 23 f6 43 01 08 48 8b 54 24 08 0f 84 41 f3 ff ff 90 <0f> 0b 90 e9 38 f3 ff ff e8 59 7c 8c 09 90 0f 0b 90 eb c2 89 d9 80
+RSP: 0018:ffffc90000b1ec98 EFLAGS: 00010202
+RAX: 0000000000000000 RBX: ffff888000e3c9ac RCX: dffffc0000000000
+RDX: ffffc90000b1edc0 RSI: 0000000000000000 RDI: 00000000000cacc0
+RBP: 00000000000cacc0 R08: ffff88802fffd9b0 R09: 1ffff1100bffae52
+R10: dffffc0000000000 R11: ffffed100bffae53 R12: ffffc90000b1edc0
+R13: 1ffff92000163db4 R14: 00000000000cacc0 R15: 0000000000000000
+FS:  0000000000000000(0000) GS:ffff88808ca56000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fc9045ff000 CR3: 00000000121ca000 CR4: 0000000000352ef0
+Call Trace:
+ <TASK>
+ __alloc_frozen_pages_noprof+0x322/0x380 mm/page_alloc.c:5263
+ alloc_slab_page mm/slub.c:3296 [inline]
+ allocate_slab+0x11f/0x660 mm/slub.c:3493
+ new_slab mm/slub.c:3543 [inline]
+ refill_objects+0x331/0x3c0 mm/slub.c:7178
+ __pcs_replace_empty_main+0x2f9/0x5e0 mm/slub.c:-1
+ alloc_from_pcs mm/slub.c:4720 [inline]
+ slab_alloc_node mm/slub.c:4854 [inline]
+ kmem_cache_alloc_noprof+0x37d/0x650 mm/slub.c:4876
+ __xfs_trans_alloc+0x26/0x410 fs/xfs/xfs_trans.c:220
+ xfs_trans_alloc+0xd7/0x9b0 fs/xfs/xfs_trans.c:254
+ xfs_vn_sync_lazytime+0xaf/0x150 fs/xfs/xfs_iops.c:1238
+ sync_lazytime+0x12d/0x2d0 fs/fs-writeback.c:1721
+ iput+0x230/0xe80 fs/inode.c:1997
+ __dentry_kill+0x1a2/0x5e0 fs/dcache.c:670
+ shrink_kill+0xa9/0x2c0 fs/dcache.c:1147
+ shrink_dentry_list+0x2e0/0x5e0 fs/dcache.c:1174
+ prune_dcache_sb+0x119/0x180 fs/dcache.c:1256
+ super_cache_scan+0x369/0x4b0 fs/super.c:223
+ do_shrink_slab+0x6df/0x1170 mm/shrinker.c:437
+ shrink_slab_memcg mm/shrinker.c:550 [inline]
+ shrink_slab+0x830/0x1150 mm/shrinker.c:628
+ shrink_one+0x2d9/0x710 mm/vmscan.c:4928
+ shrink_many mm/vmscan.c:4989 [inline]
+ lru_gen_shrink_node mm/vmscan.c:5067 [inline]
+ shrink_node+0x3197/0x3a90 mm/vmscan.c:6047
+ kswapd_shrink_node mm/vmscan.c:6894 [inline]
+ balance_pgdat mm/vmscan.c:7070 [inline]
+ kswapd+0x1742/0x2e10 mm/vmscan.c:7343
+ kthread+0x388/0x470 kernel/kthread.c:436
+ ret_from_fork+0x51e/0xb90 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
 
+Avoid running the lazytime timestamp transaction directly from the
+final iput path for unhashed linked inodes. If iput() is dropping the
+last reference to such an inode and dirtytime is still pending, expose
+I_WILL_FREE before ->sync_lazytime() so that xfs_vn_sync_lazytime() can
+detect this case, clear I_DIRTY_TIME, and defer the timestamp update to
+inodegc instead.
+
+Inodegc already provides the asynchronous context used for XFS
+inactivation and reclaim work, which avoids running the transaction
+from direct reclaim. If the deferred timestamp update fails in inodegc,
+requeue the inode so that the update is retried instead of silently
+dropping the dirtytime state. Flush inodegc before forcing the log in
+xfs_fs_sync_fs() so that syncfs still waits for deferred dirtytime
+updates to reach the log.
+
+Reported-by: syzbot+d78ace33ad4ee69329d5@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=d78ace33ad4ee69329d5
+Signed-off-by: Zhan Jun <zhanjun@uniontech.com>
+Signed-off-by: Morduan Zang <zhangdandan@uniontech.com>
+---
+ fs/inode.c          | 19 ++++++++++++++++++-
+ fs/xfs/xfs_icache.c | 12 ++++++++++++
+ fs/xfs/xfs_inode.c  | 29 ++++++++++++++++++++++++++---
+ fs/xfs/xfs_inode.h  |  6 +++++-
+ fs/xfs/xfs_iops.c   | 21 ++++++++++++++-------
+ fs/xfs/xfs_super.c  |  4 ++++
+ 6 files changed, 79 insertions(+), 12 deletions(-)
+
+diff --git a/fs/inode.c b/fs/inode.c
+index cc12b68e021b..dcd091cc1567 100644
+--- a/fs/inode.c
++++ b/fs/inode.c
+@@ -1948,7 +1948,10 @@ static void iput_final(struct inode *inode)
+ 	VFS_BUG_ON_INODE(atomic_read(&inode->i_count) != 0, inode);
+ 
+ 	if (drop) {
+-		inode_state_set(inode, I_FREEING);
++		if (inode_state_read(inode) & I_WILL_FREE)
++			inode_state_replace(inode, I_WILL_FREE, I_FREEING);
++		else
++			inode_state_set(inode, I_FREEING);
+ 	} else {
+ 		inode_state_set(inode, I_WILL_FREE);
+ 		spin_unlock(&inode->i_lock);
+@@ -1994,6 +1997,20 @@ void iput(struct inode *inode)
+ 	if (atomic_add_unless(&inode->i_count, -1, 1))
+ 		return;
+ 
++	/*
++	 * If the final iput is tearing down an unhashed inode with lazytime
++	 * updates pending, expose I_WILL_FREE before ->sync_lazytime() so that
++	 * filesystems can defer expensive work out of the reclaim path.
++	 */
++	if (inode->i_nlink && inode_unhashed(inode) &&
++	    (inode_state_read_once(inode) & I_DIRTY_TIME)) {
++		spin_lock(&inode->i_lock);
++		if (inode_unhashed(inode) &&
++		    (inode_state_read(inode) & I_DIRTY_TIME))
++			inode_state_set(inode, I_WILL_FREE);
++		spin_unlock(&inode->i_lock);
++	}
++
+ 	if (inode->i_nlink && sync_lazytime(inode))
+ 		goto retry;
+ 
+diff --git a/fs/xfs/xfs_icache.c b/fs/xfs/xfs_icache.c
+index a7a09e7eec81..8ddbe16633f2 100644
+--- a/fs/xfs/xfs_icache.c
++++ b/fs/xfs/xfs_icache.c
+@@ -52,6 +52,7 @@ static int xfs_icwalk(struct xfs_mount *mp,
+ 		enum xfs_icwalk_goal goal, struct xfs_icwalk *icw);
+ static int xfs_icwalk_ag(struct xfs_perag *pag,
+ 		enum xfs_icwalk_goal goal, struct xfs_icwalk *icw);
++static void xfs_inodegc_queue(struct xfs_inode *ip);
+ 
+ /*
+  * Private inode cache walk flags for struct xfs_icwalk.  Must not
+@@ -1944,6 +1945,17 @@ xfs_inodegc_inactivate(
+ 	int			error;
+ 
+ 	trace_xfs_inode_inactivating(ip);
++	if (xfs_iflags_test_and_clear(ip, XFS_IDIRTY_TIME) &&
++	    VFS_I(ip)->i_nlink != 0) {
++		error = xfs_inode_sync_dirtytime(ip);
++		if (error) {
++			xfs_iflags_set(ip, XFS_IDIRTY_TIME);
++			xfs_iflags_clear(ip, XFS_INACTIVATING);
++			xfs_inodegc_queue(ip);
++			return error;
++		}
++	}
++
+ 	error = xfs_inactive(ip);
+ 	xfs_inodegc_set_reclaimable(ip);
+ 	return error;
+diff --git a/fs/xfs/xfs_inode.c b/fs/xfs/xfs_inode.c
+index 50c0404f9064..22b4f4e4c09e 100644
+--- a/fs/xfs/xfs_inode.c
++++ b/fs/xfs/xfs_inode.c
+@@ -1288,9 +1288,10 @@ xfs_inactive_ifree(
+ 
+ /*
+  * Returns true if we need to update the on-disk metadata before we can free
+- * the memory used by this inode.  Updates include freeing post-eof
+- * preallocations; freeing COW staging extents; and marking the inode free in
+- * the inobt if it is on the unlinked list.
++ * the memory used by this inode.  Updates include flushing deferred lazytime
++ * timestamp updates; freeing post-eof preallocations; freeing COW staging
++ * extents; and marking the inode free in the inobt if it is on the unlinked
++ * list.
+  */
+ bool
+ xfs_inode_needs_inactive(
+@@ -1321,6 +1322,10 @@ xfs_inode_needs_inactive(
+ 	if (xfs_is_internal_inode(ip))
+ 		return false;
+ 
++	/* Linked inodes can defer lazytime updates to inodegc. */
++	if (xfs_iflags_test(ip, XFS_IDIRTY_TIME))
++		return true;
++
+ 	/* Want to clean out the cow blocks if there are any. */
+ 	if (cow_ifp && cow_ifp->if_bytes > 0)
+ 		return true;
+@@ -1340,6 +1345,24 @@ xfs_inode_needs_inactive(
+ 	return xfs_can_free_eofblocks(ip);
+ }
+ 
++int
++xfs_inode_sync_dirtytime(
++	struct xfs_inode	*ip)
++{
++	struct xfs_mount	*mp = ip->i_mount;
++	struct xfs_trans	*tp;
++	int			error;
++
++	error = xfs_trans_alloc(mp, &M_RES(mp)->tr_fsyncts, 0, 0, 0, &tp);
++	if (error)
++		return error;
++
++	xfs_ilock(ip, XFS_ILOCK_EXCL);
++	xfs_trans_ijoin(tp, ip, XFS_ILOCK_EXCL);
++	xfs_trans_log_inode(tp, ip, XFS_ILOG_TIMESTAMP);
++	return xfs_trans_commit(tp);
++}
++
+ /*
+  * Save health status somewhere, if we're dumping an inode with uncorrected
+  * errors and online repair isn't running.
+diff --git a/fs/xfs/xfs_inode.h b/fs/xfs/xfs_inode.h
+index bd6d33557194..61d7e7559de3 100644
+--- a/fs/xfs/xfs_inode.h
++++ b/fs/xfs/xfs_inode.h
+@@ -415,6 +415,9 @@ static inline bool xfs_inode_can_sw_atomic_write(const struct xfs_inode *ip)
+  */
+ #define XFS_IREMAPPING		(1U << 15)
+ 
++/* Flush dirty timestamps from inodegc before reclaiming the inode. */
++#define XFS_IDIRTY_TIME		(1U << 16)
++
+ /* All inode state flags related to inode reclaim. */
+ #define XFS_ALL_IRECLAIM_FLAGS	(XFS_IRECLAIMABLE | \
+ 				 XFS_IRECLAIM | \
+@@ -429,7 +432,7 @@ static inline bool xfs_inode_can_sw_atomic_write(const struct xfs_inode *ip)
+ #define XFS_IRECLAIM_RESET_FLAGS	\
+ 	(XFS_IRECLAIMABLE | XFS_IRECLAIM | \
+ 	 XFS_EOFBLOCKS_RELEASED | XFS_ITRUNCATED | XFS_NEED_INACTIVE | \
+-	 XFS_INACTIVATING | XFS_IQUOTAUNCHECKED)
++	 XFS_INACTIVATING | XFS_IQUOTAUNCHECKED | XFS_IDIRTY_TIME)
+ 
+ /*
+  * Flags for inode locking.
+@@ -645,6 +648,7 @@ extern struct kmem_cache	*xfs_inode_cache;
+ #define XFS_DEFAULT_COWEXTSZ_HINT 32
+ 
+ bool xfs_inode_needs_inactive(struct xfs_inode *ip);
++int xfs_inode_sync_dirtytime(struct xfs_inode *ip);
+ 
+ struct xfs_inode *xfs_iunlink_lookup(struct xfs_perag *pag, xfs_agino_t agino);
+ int xfs_iunlink_reload_next(struct xfs_trans *tp, struct xfs_buf *agibp,
+diff --git a/fs/xfs/xfs_iops.c b/fs/xfs/xfs_iops.c
+index 208543e57eda..7ed81616625f 100644
+--- a/fs/xfs/xfs_iops.c
++++ b/fs/xfs/xfs_iops.c
+@@ -1232,15 +1232,22 @@ xfs_vn_sync_lazytime(
+ 	struct inode		*inode)
+ {
+ 	struct xfs_inode	*ip = XFS_I(inode);
+-	struct xfs_mount	*mp = ip->i_mount;
+-	struct xfs_trans	*tp;
+ 
+-	if (xfs_trans_alloc(mp, &M_RES(mp)->tr_fsyncts, 0, 0, 0, &tp))
++	/*
++	 * VFS sets I_WILL_FREE before write_inode_now() when eviction is about
++	 * to tear down the inode, so defer the timestamp transaction to inodegc.
++	 */
++	if (inode_state_read_once(inode) & I_WILL_FREE) {
++		spin_lock(&inode->i_lock);
++		inode_state_clear(inode, I_DIRTY_TIME);
++		spin_unlock(&inode->i_lock);
++		if (inode->i_nlink != 0)
++			xfs_iflags_set(ip, XFS_IDIRTY_TIME);
++		return;
++	}
++
++	if (xfs_inode_sync_dirtytime(ip))
+ 		return;
+-	xfs_ilock(ip, XFS_ILOCK_EXCL);
+-	xfs_trans_ijoin(tp, ip, XFS_ILOCK_EXCL);
+-	xfs_trans_log_inode(tp, ip, XFS_ILOG_TIMESTAMP);
+-	xfs_trans_commit(tp);
+ }
+ 
+ STATIC int
+diff --git a/fs/xfs/xfs_super.c b/fs/xfs/xfs_super.c
+index f8de44443e81..f7d2edc07ef8 100644
+--- a/fs/xfs/xfs_super.c
++++ b/fs/xfs/xfs_super.c
+@@ -821,6 +821,10 @@ xfs_fs_sync_fs(
+ 	if (!wait)
+ 		return 0;
+ 
++	error = xfs_inodegc_flush(mp);
++	if (error)
++		return error;
++
+ 	error = xfs_log_force(mp, XFS_LOG_SYNC);
+ 	if (error)
+ 		return error;
+-- 
+2.50.1
 
