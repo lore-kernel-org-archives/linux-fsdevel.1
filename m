@@ -1,52 +1,76 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8596436EA9E;
-	Fri, 20 Mar 2026 14:37:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE6F4364951
+	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Mar 2026 14:38:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774017449; cv=none; b=N61heWPNSNUTNs8EPkyAI7AonhzZul4SnDTOIDAQxOsCP1NrPOs1pVf3MLZ1eG837J1ZmLsmRIIJ97aiXn++WCw1jXdZbbE3e3g3T1W5AzYO6/hHhBwOlbGoV+V1glquWUiX+bEPzoq1ZksgNIqnMtUqT004yUDt8rfDlWnL/1g=
+	t=1774017490; cv=none; b=Ip83iHoujcQPQzxzQakgmPegPayJLn1ewB6pFDj3HmwcD70qoAGZfhHlHlVEFGTgl+0dsDwQwqKIcZtRvOfTAhw6t9wmmAaclc9kKt5GzBk37RRFfuJ64wBf5sCUqPRlTxsrCVCYN/VGPN4OUNTukcoqxWhwx8qWmKVvty5u7uI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774017449; c=relaxed/simple;
-	bh=UpXfUGx0yHpc4xkYU8LSP6v8FBoRnAIHnvY3rPQGylA=;
+	s=arc-20240116; t=1774017490; c=relaxed/simple;
+	bh=bLydxsjElY72N1viQaJTMiveNAFO1Y+mPy295sog+wY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Mlcuwd80+ZWwO3ctqib7GiP9COMf8d6lJjI19tYdUyZ55m2WjpYUm0RjSA12G6XbHNIVry501xNWdRZlsHpYE62VWEQ03AyTIIMl8kGCBrrbp6KujxkmRn909m2AN3EyygVnan7AfhUuQwUgAcfYB9AoEHhl81ZBieXtr/xqPN8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=Ayy5FruN; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+	 Content-Type:Content-Disposition:In-Reply-To; b=urhKOau6sPu1yyJ6BdjpioHiY3W/ag+2XncE39xg+G9hMYRxtDvfnvXL2N7PKMzBdsa2kme4yA8s4w1ECDZ8UxFhwMJaX1aMR2R7lT+ttBtiZ8SVzEwvmsnIo3PhIbPMDWsBldkNjivPuAjJ+5/bgJaZ4r4LiRH712skZQW+Qnw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b=HI24HYO+; arc=none smtp.client-ip=209.85.222.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="Ayy5FruN"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=hO25abO4Mqp+RHuF1ujwrX62yx+qmxVDHmEeiKftMQ8=; b=Ayy5FruNymVPtrkZwzxRps/mG9
-	njLNeA+7RqSWpves7q9tAydloU+gYAW4fWAkHh5tKX+BXZlhptJoEU6iAxZNBFDCV0YQqsI51BVdC
-	0oXApbagTN1d4w/m4fNugZgmi/Zbl7sE8MB85QbMrRXg7xG6yRGLftfr50Ih2X9q5Kr9Y02Ftjcxh
-	GJXbl0dIfwhT1lFW47HfCG/AR6sCxhIUZDiJrmCy9pIXPHLvA3gqQzY0VE4tDfHXof54TUecRihuW
-	85PO1plXty+dA+D1DdS3N+3x2hYIXIQXQwWL8Ulo8BVLJHLcyxXvvYByDNZa+rlLbwvpTNxeX5vAB
-	IEPpqI6g==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:33116)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1w3ayT-0000000069k-2FcV;
-	Fri, 20 Mar 2026 14:37:17 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.98.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1w3ayS-000000000sw-0T1T;
-	Fri, 20 Mar 2026 14:37:16 +0000
-Date: Fri, 20 Mar 2026 14:37:15 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Bae Yeonju <iwasbaeyz@gmail.com>, stable <stable@kernel.org>,
-	Kees Cook <kees@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>
-Subject: Re: [PATCH] adfs: validate nzones in adfs_read_map()
-Message-ID: <ab1bmzFTIGB2o-zO@shell.armlinux.org.uk>
-References: <2026032055-abstain-ending-6acc@gregkh>
+	dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b="HI24HYO+"
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-8cb3bae8d3eso176603085a.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 20 Mar 2026 07:38:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cmpxchg.org; s=google; t=1774017486; x=1774622286; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=IrYGBaCqeFK6sS78naoBvFlPLrxLzAYh6LesIJsA+lQ=;
+        b=HI24HYO+c1vB3dvA8XpMKsoCuwhrk0AxVVAnOr63xvWVSx4xcSapzAQkIqWmppUPE2
+         4WOmPk0wFSzLPoCWTJke0HST05lcGSvuE+cBIlZGoEaucQQcWODprCQRGJzKimB7Vg9L
+         rTYRFpcECB0nYm1zqu5Kq356mRohW3fVX5ZCC50vXXlOEBQXwVYleTAo1jI2SW1pZnDs
+         tLBzrJBMvJuqX8v3KhYiXDqQk2nc0KMRwX5UfoiahXQgJDkQUj3ms428/iEyxkY+98Ez
+         kaVNpgT3rKs7WBTH4pwxK0e55YpdRuwOC9Nh0v5gbVkcXv+uBDkVszqrTd97bk7Jswdx
+         7FJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774017486; x=1774622286;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IrYGBaCqeFK6sS78naoBvFlPLrxLzAYh6LesIJsA+lQ=;
+        b=rFHxjn0YJXWB5dWngFDbJdfYVVX5lK+9OIjHyxRaOQKpIqiP7o2We26Eo85breOJvP
+         N/4711ZvDXrBRK3GOaeCehwz+C4s0J+ubVfGEZR+izAdNlV6HF9HY6PgLCgVoY7xJE8c
+         bVwONCtveibcsIp5dBz0ZOQ9PUkUX1kTGiOdmlPgxJ0XiO5CXQMgrL9bx+tYBr30OK0r
+         BelVVqWZsuEonXHkXKL3NVsANiJnf16ubFZlDKHpnMOkC/9Cp5bf163wr57c9fwesRPZ
+         +07lf7LC/6LqhG5CdRuZnh0u719JEQotyciFMQzUp67iV1szPVQ4qlnnzJSsYYXZKpDl
+         TjsQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVpNVCFeILa4R80Q53V11oNezxyunBui0DIE2jjrC3mg1exzdlVKakaFKYxEJwxbl0d6W6tZz0X3DwsLxxX@vger.kernel.org
+X-Gm-Message-State: AOJu0YxMC9+0yPX3tXW0TlzGXnJvRZHHK1mnL0Ki48bjcTYyGYNcclwa
+	YRr5/696OoDo7ezVM6vAWrZHgx33KSlq4tck9hEbUpnjYbakl2TNOMCClphTmwlTOc7j4T67vYU
+	5RrPa
+X-Gm-Gg: ATEYQzwMf0pIvGNfIWEntB3cv0k0uZi73s2rNVy6v9GzFhtVlEK78hIHEow4v9igVaQ
+	AphT7EWxNARstm082EnVd4e/R+6kub2MIVRg8t56Pl1L4wANrUxK8tZAkLjWDdGE3aQDugGUkG8
+	uo2PuR0ncNAt8ACW1iqrNdbk+OlWZeyagIX22sHfyRm2GBOlweyRHSt8LnNbDA7EGKRtXe3kTYN
+	UHoCSmPSY+W9bZ7mLDC1SXy4tGPy5Jyp3OBfzycPqeUzUqVNBbjRuGpvzdk5wkzgUfe3YsCJXcn
+	VcBeBIf43M/YNmRN00HXfZZTXHQdZOGKsF/WzBvNr/PQK2u+w0kqOF8hUtOEPnKjWKxsy24+Ant
+	+9/P1CSborjsqJGZ0WllQ7fMv92EUcaLpdSu0J9MYmg0RCnK1z3+mOMB6ARMUlw7alWeitRqnAR
+	bWeMAPz0n3OVmLcctEoGWhog==
+X-Received: by 2002:a05:620a:2547:b0:8cd:c011:dfc1 with SMTP id af79cd13be357-8cfc7b66345mr471071585a.5.1774017486070;
+        Fri, 20 Mar 2026 07:38:06 -0700 (PDT)
+Received: from localhost ([2603:7000:c00:3a00:365a:60ff:fe62:ff29])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cfc9089bdfsm176182585a.31.2026.03.20.07.38.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Mar 2026 07:38:05 -0700 (PDT)
+Date: Fri, 20 Mar 2026 10:38:01 -0400
+From: Johannes Weiner <hannes@cmpxchg.org>
+To: Jan Kara <jack@suse.cz>
+Cc: Yunzhao Li <yunzhao@cloudflare.com>, linux-mm@kvack.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-fsdevel@vger.kernel.org,
+	Jesper Brouer <jesper@cloudflare.com>,
+	Suren Baghdasaryan <surenb@google.com>
+Subject: Re: balance_dirty_pages() causes 40% IO PSI (full) with no drain
+ benefit on 384 GB machine
+Message-ID: <ab1bySbmeidrQfoN@cmpxchg.org>
+References: <CAAnvDSwOoEOkMEDgKUcHkx-SdmZ_ar5AbVy4Gp-XT7i04ON5fg@mail.gmail.com>
+ <z3quejtbpkiizgmvu2pjhqv6ioyach2wszen5slkau2hossj7p@rk2ftlwbdfw5>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -55,38 +79,35 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2026032055-abstain-ending-6acc@gregkh>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+In-Reply-To: <z3quejtbpkiizgmvu2pjhqv6ioyach2wszen5slkau2hossj7p@rk2ftlwbdfw5>
 
-On Fri, Mar 20, 2026 at 03:23:56PM +0100, Greg Kroah-Hartman wrote:
-> From: Bae Yeonju <iwasbaeyz@gmail.com>
-> 
-> adfs_read_map() reads the zone count from the on-disk disc record
-> without validation:
-> 
->   nzones = dr->nzones | dr->nzones_high << 8;
-> 
-> When nzones is 0, the subsequent kmalloc_array(0, ...) returns
-> ZERO_SIZE_PTR (0x10), and adfs_map_layout() writes to dm[-1],
-> causing an out-of-bounds write before the allocated buffer.
-> 
-> This can be triggered by mounting a crafted ADFS filesystem image
-> with nzones set to 0 in the disc record. It leads to kernel heap
-> corruption and a NULL pointer dereference during mount.
-> 
-> Add a check to reject disc records with nzones == 0 before the
-> allocation.
-> 
-> Found by syzkaller.
+Hello,
 
-I didn't see this patch.
+On Thu, Mar 19, 2026 at 12:58:51PM +0100, Jan Kara wrote:
+> On Tue 17-03-26 15:53:51, Yunzhao Li wrote:
+> > 3. The freerun ceiling gates entry into the proportional
+> >    throttle path. Even moderate sleeping shows up as IO PSI
+> >    (io_schedule_timeout is accounted as IO stall). Dirty
+> >    never hits the hard limit in our case. It sits in the
+> >    proportional zone, but cumulative PSI from many tasks
+> >    sleeping short durations is already 26-40% (full). Should
+> >    the throttle path be skipped when sleeping cannot help
+> >    drain?
+> 
+> Perhaps bumping PSI when dirty throttling kicks in is not ideal measure
+> (because it doesn't necessarily mean the storage itself is maxed out,
+> besides flush worker not being able to saturate the storage there can be
+> also various block layer controllers arbitrarily throttling background
+> writeback) but again I'll let PSI guys to chime in here with their
+> opinions.
 
-This is a silly place to put the check - it should be done while
-validating the disc record, in adfs_validate_bblk(), not when trying
-to use it.
+What PSI is supposed to capture is lost productive time. IOW, it's not
+about device utilization, it's about whether tasks are being held
+up. That's the information it intends to collect, and it sounds like
+it's doing its job.
 
-Note that adfs_validate_dr0() already validates the number of zones.
+If you get 40% IO full pressure, that means during 40% of wallclock
+time, the only / all runnable task(s) are waiting on the IO resource.
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+It *is* influenced by suboptimal device utilization, but that's not an
+accident. That's a real cost experienced by the workload, after all.
