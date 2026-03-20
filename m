@@ -1,219 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3256301704;
-	Fri, 20 Mar 2026 15:06:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 820ED28CF77
+	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Mar 2026 15:22:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774019189; cv=none; b=Lsg6u0i9gcdRLBIRb5iS/LvWuNWiUKmD5qjHkGLGycNvWvvoz0N2r8xWDF2Ih91Hr2wghg2lkexpNQjT5aazfS5Vpop04SXwmB7Pmkgg0jnfyHkfc2doTNo01oQhGRVEMuxJvlXYD6JSLg7CMER29zKLJ0x3AL6Q6/OiZVtfYdU=
+	t=1774020137; cv=none; b=XvjapDVHHUcRhxinTJf35Q9lMgJFFDzfA65kFti9uy2Xm+MghsOm/el0Q4wA3pSPV8qfdxiaN+LotZAmhPq/sinP9AGHVCdJgmyPqG3EoRTDETDCoeRyJ+uud2skAHx6ZYZO6ZatN/yrl86dYpvzOuqx0mV7/ztmaFkPjmlHHNk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774019189; c=relaxed/simple;
-	bh=4U/RLB5BQTlqqUA+aRxQ/uoxRsEa6t8UeWu6iGAM7vU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Wi2a+jkxt2UOQtnM8ELryjGQrVZ8+4qwmPnmmciJ6k7gPUEY/5EVwXqsmTrNPpgIVnsaZAhicL5jvWREve3JPhBnZ4vA8Bom0ewruPga4oKZpoY5HF5+KsGbu3QzvatxgQUOm1oeAEateAXWl0+3bcUUCTkwklAhTF0apmP2Frw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c11vSApR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774020137; c=relaxed/simple;
+	bh=wzjlx6/m1IF+o6ZzBjmWYJBkrfJsCLPieNSYuu9n8g4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=KchXxFbFphMKwW7I9M9sXhZWUAuQ17BCtBulfZOyaWZYBxpSWYGSI5H7k+YkialONk/Y/HltpXtrG7MLtMcsu4t/04zP45opvjFAf3v/8ak8YJHQd0PlikuXOXbv3UhXdgpdJRgqABgOSXYpeBubHwMwfDUSYY1lge35NVD5h4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C9mTWDVf; arc=none smtp.client-ip=209.85.216.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c11vSApR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BB13C2BCB0;
-	Fri, 20 Mar 2026 15:06:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774019189;
-	bh=4U/RLB5BQTlqqUA+aRxQ/uoxRsEa6t8UeWu6iGAM7vU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=c11vSApRocA25rRA6R1Rg5PoZbJKYkvTzPDMmIS8hDyX2AXYHd8mYvTvGHczpbW0e
-	 ZICqmAxAG7qjbn/OIwttlwgweqfJ3T6xWbF6Jn4Ykx0PlThw+3A3UFYPQkowwyM+MR
-	 xph2xDZ24qQOpQjw0PB/HBpsqSQshv8HCPxdObcRx0m/O9B6JgKfWn2YSzucm3bNUO
-	 LGc+GK60aJmwylKmXisUdB28GjM0TrMGRhwdo3hoTW7hoBzOgalk4j+n72KHrlUXBf
-	 swr5E6qUe0gXbEloU8Cxg7ZJR5ROhpNrWzLfTbBhCZSP8AXpxr+lme2+aRUwijSnnb
-	 jet5knkPIKlag==
-Message-ID: <7e2aea13-e047-4891-bd6f-ff6705c4fc28@kernel.org>
-Date: Fri, 20 Mar 2026 16:06:15 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C9mTWDVf"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-35a1d4a095bso1246687a91.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 20 Mar 2026 08:22:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1774020136; x=1774624936; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Vug4xw51SY7nIDNg+l1R8UK1FZuQ1hUqr+zLZCuFim0=;
+        b=C9mTWDVfYS5kbpZd7zahmMqe/eFjWNV/hxNZfq3DO2h05YNXra3erzp/kOKpygYjbg
+         VYHHL0TdAlLxnPp/A9Cs1jEYvfNg7t2QWvszPE6IRx2Uo43MlLkjUwfP9PztAZSOrRZN
+         brE2i7qeBb11m4OoU2gAOMsGM+E3nXovq5lI2BGd8bumo2Nu8yZb10S545jwGYwKhScB
+         pcGSwdQJOr1tDt++ie3xACwuPKAUSBhzmqjS4p2iCT2giFSJOPfzCTSccBfkPfMGW45w
+         6PlwQ2DqVDVzh8aMeFe7HUqbLmS8mTZwH7i00+6djtjkaThvXxjj4cfrlQZhSD8AVeKo
+         Yn6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774020136; x=1774624936;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Vug4xw51SY7nIDNg+l1R8UK1FZuQ1hUqr+zLZCuFim0=;
+        b=jhLrPfk9g33Gc9alillydCTMTmnpMwxC+nRfZMLaT8ZcPGypAyQD8nybRai3YUYyY4
+         NVsMw4J2H7ZlRs1YVV8aUbs6F3BoB1qdkHFChcPeIgd7V2bpC+U24BkM2PLMOdhKLLIP
+         sBryfcyzUI/DnqxV/tlR56I9uxyJnWMvUjpeQtM5XFWII7IeBA2fSqOavCjDedOmKn2x
+         uBsJIUCvR1RM/6Fh0zeDBD/pkO3ImdC8haqrrRY9w55R1FBuUX2eL1EjujBoo7cCqLUA
+         f/Xjg47p5gto3Piyh77AmOiTkadP+HXxV1TQv+80aQ5RiKhS8Py7LPUyXt+gr61CztSc
+         txtA==
+X-Gm-Message-State: AOJu0Yz6sySRBzur9NOOpnBu1ydRKgApvjZYf4KS6tjTBTpsZNb8Q5pJ
+	lGeRARkpYWu/wcQvB/MttPvNEsaswfdeLg4td2GMhDkl1eIQKxKt/kHD
+X-Gm-Gg: ATEYQzyWbeZiRtlkK1v0AMwF9vW7Oq3HeVhZQYF/93mIevdab+I1wNTJCwkYOPqvvKS
+	bjwFRjTaVTTRCLI1JYI3OC2g8hKJas44VeFrAxkVAw0G24KYyOmiWz6vZnysVvf1MIjIUMJUfml
+	Xty8mwMJzoYgg4dtPqNPN6CRO2VMpKKoIBLuftZ3ezvm1WqOVBbkQ90s4ejT6ueuC1eYywu8Z2A
+	HNZF8zBKMl+7l6qDmFvBA5a3nlUtZKYkMqdUGc/LIe30t6XNVOTxHt2tkOuYLYDcnwdkCoxvjyK
+	ystx3YWPiIzWuQm3fI4/5Cxd1gBD9T+ikmM2//UMgss9rodb6JalhVpOuiJdOVlqnz6eaza5c8S
+	yeXgzNRKceiZGHRqpscc2gvt2p9vjkBORv1WRxGHfiIz5yWsGQb9VujwnTTSIUYTOmXiYbbiEK7
+	wZE8SWWPXlAIc/vL1YsEmLGlnc
+X-Received: by 2002:a17:90b:28c8:b0:34a:be93:72ee with SMTP id 98e67ed59e1d1-35bd27807c5mr2363550a91.8.1774020135892;
+        Fri, 20 Mar 2026 08:22:15 -0700 (PDT)
+Received: from paeyz.Davolink ([49.172.60.165])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35bc60174e7sm5848715a91.6.2026.03.20.08.22.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Mar 2026 08:22:14 -0700 (PDT)
+From: paeyz <iwasbaeyz@gmail.com>
+To: Russell King <linux@armlinux.org.uk>,
+	gregkh@linuxfoundation.org
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@kernel.org,
+	Kees Cook <kees@kernel.org>,
+	Al Viro <viro@zeniv.linux.org.uk>
+Subject: Re: [PATCH] adfs: validate nzones in adfs_read_map()
+Date: Sat, 21 Mar 2026 00:21:31 +0900
+Message-ID: <20260320152131.34551-1-iwasbaeyz@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <2026032021-renewable-control-9c81@gregkh>
+References: <2026032021-renewable-control-9c81@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 17/23] mm: convert do_brk_flags() to use vma_flags_t
-Content-Language: en-US
-To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@kernel.org>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>, Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Kees Cook <kees@kernel.org>,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- Vineet Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Brian Cain <bcain@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
- WANG Xuerui <kernel@xen0n.name>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Dinh Nguyen <dinguyen@kernel.org>, Madhavan Srinivasan
- <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>,
- Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <chleroy@kernel.org>,
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, Richard Weinberger <richard@nod.at>,
- Anton Ivanov <anton.ivanov@cambridgegreys.com>,
- Johannes Berg <johannes@sipsolutions.net>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Xu Xin <xu.xin16@zte.com.cn>, Chengming Zhou <chengming.zhou@linux.dev>,
- Michal Hocko <mhocko@suse.com>, Paul Moore <paul@paul-moore.com>,
- Stephen Smalley <stephen.smalley.work@gmail.com>,
- Ondrej Mosnacek <omosnace@redhat.com>, linux-snps-arc@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-hexagon@vger.kernel.org,
- loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org, linux-um@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, selinux@vger.kernel.org
-References: <cover.1773846935.git.ljs@kernel.org>
- <981ed1afcd19115432e61778e7d226a36f8f5c2b.1773846935.git.ljs@kernel.org>
- <1d300b3b-2476-4381-b8df-a680f486b284@kernel.org>
- <f47e24c4-3a11-4a58-96f5-871443660246@lucifer.local>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-In-Reply-To: <f47e24c4-3a11-4a58-96f5-871443660246@lucifer.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 3/20/26 14:42, Lorenzo Stoakes (Oracle) wrote:
->>
->> More nits below:
->>
->> > diff --git a/arch/arm64/include/asm/page.h b/arch/arm64/include/asm/page.h
->> > index b39cc1127e1f..e25d0d18f6d7 100644
->> > --- a/arch/arm64/include/asm/page.h
->> > +++ b/arch/arm64/include/asm/page.h
->> > @@ -46,7 +46,12 @@ int pfn_is_map_memory(unsigned long pfn);
->> >
->> >  #endif /* !__ASSEMBLER__ */
->> >
->> > -#define VM_DATA_DEFAULT_FLAGS	(VM_DATA_FLAGS_TSK_EXEC | VM_MTE_ALLOWED)
->> > +#ifdef CONFIG_ARM64_MTE
->> > +#define VMA_DATA_DEFAULT_FLAGS	append_vma_flags(VMA_DATA_FLAGS_TSK_EXEC, \
->> > +						 VMA_MTE_ALLOWED_BIT)
->>
->> I wonder what's the bloat-o-meter impact of these #define's (this
->> arm64-specific one isn't the only one) being no longer compile-time-constants?
-> 
-> I mean there's a precedent for this, but the compiler _should_ figure out this
-> as a constant value, I have repeatedly confirmed that it's good at that in
-> godbolt, via make foo/bar.S etc.
+From: Bae Yeonju <iwasbaeyz@gmail.com>
 
-Great, thanks!
+Hi,
 
-> 
->>
->> >   */
->> >  #define vma_desc_set_flags(desc, ...) \
->> >  	vma_desc_set_flags_mask(desc, mk_vma_flags(__VA_ARGS__))
->> > @@ -4059,7 +4071,6 @@ extern int replace_mm_exe_file(struct mm_struct *mm, struct file *new_exe_file);
->> >  extern struct file *get_mm_exe_file(struct mm_struct *mm);
->> >  extern struct file *get_task_exe_file(struct task_struct *task);
->> >
->> > -extern bool may_expand_vm(struct mm_struct *, vm_flags_t, unsigned long npages);
->> >  extern void vm_stat_account(struct mm_struct *, vm_flags_t, long npages);
->> >
->> >  extern bool vma_is_special_mapping(const struct vm_area_struct *vma,
->> > diff --git a/mm/internal.h b/mm/internal.h
->> > index f98f4746ac41..80d8651441a7 100644
->>
->> > diff --git a/mm/mprotect.c b/mm/mprotect.c
->> > index 9681f055b9fc..eaa724b99908 100644
->> > --- a/mm/mprotect.c
->> > +++ b/mm/mprotect.c
->>
->> > @@ -773,19 +778,24 @@ mprotect_fixup(struct vma_iterator *vmi, struct mmu_gather *tlb,
->> >
->> >  	change_protection(tlb, vma, start, end, mm_cp_flags);
->> >
->> > -	if ((oldflags & VM_ACCOUNT) && !(newflags & VM_ACCOUNT))
->> > +	if (vma_flags_test(&old_vma_flags, VMA_ACCOUNT_BIT) &&
->> > +	    !vma_flags_test(&new_vma_flags, VMA_ACCOUNT_BIT))
->> >  		vm_unacct_memory(nrpages);
->> >
->> >  	/*
->> >  	 * Private VM_LOCKED VMA becoming writable: trigger COW to avoid major
->> >  	 * fault on access.
->> >  	 */
->> > -	if ((oldflags & (VM_WRITE | VM_SHARED | VM_LOCKED)) == VM_LOCKED &&
->> > -			(newflags & VM_WRITE)) {
->> > -		populate_vma_page_range(vma, start, end, NULL);
->> > +	if (vma_flags_test(&new_vma_flags, VMA_WRITE_BIT)) {
->> > +		const vma_flags_t mask =
->> > +			vma_flags_and(&old_vma_flags, VMA_WRITE_BIT,
->> > +				      VMA_SHARED_BIT, VMA_LOCKED_BIT);
->> > +
->> > +		if (vma_flags_same(&mask, VMA_LOCKED_BIT))
->>
->> That converts the original logic 1:1, but I wonder if it's now feasible to
->> write it more obviously as "VMA_LOCKED_BIT must be set, VM_WRITE_BIT and
->> VM_SHARED_BIT must not" ?
-> 
-> Hmm, I'm not sure if I can express this more clearly, it's a pain either
-> way. Could do:
-> 
-> 	if (vma_flags_test(&new_vma_flags, VMA_WRITE_BIT) &&
-> 	    !vma_flags_test_any(&old_vma_flags, VMA_WRITE_BIT, VMA_SHARED_BIT))
-> 		populate_vma_page_range(vma, start, end, NULL);
+I tested moving the nzones validation to adfs_validate_bblk() on
+6.12.36 with KASAN enabled.
 
-It would be a bit more:
+With this change, a crafted image with nzones=0 is rejected during
+validation:
 
-	if (vma_flags_test(&new_vma_flags, VMA_WRITE_BIT) &&
-	    vma_flags_test(&old_vma_flags, VMA_LOCKED_BIT) &&
- 	    !vma_flags_test_any(&old_vma_flags, VMA_WRITE_BIT, VMA_SHARED_BIT))
- 		populate_vma_page_range(vma, start, end, NULL);
+  ADFS-fs (loop0): error: can't find an ADFS filesystem on dev loop0.
 
-(or reordered in whatever way the short circuting works best here, the original
-code tested oldflags first).
+mount() returns -EINVAL, and no crash or KASAN report is observed.
 
-But yeah, at least to me it's more clear what that's testing and doesn't need to
-set up the intermediate mask variable, and VMA_LOCKED_BIT is there only once
-in the code now. The number of vma_flags_* operations is the same.
- 
->>
->> > +			populate_vma_page_range(vma, start, end, NULL);
->> >  	}
->> >
->> > -	vm_stat_account(mm, oldflags, -nrpages);
->> > +	vm_stat_account(mm, vma_flags_to_legacy(old_vma_flags), -nrpages);
->> >  	vm_stat_account(mm, newflags, nrpages);
->> >  	perf_event_mmap(vma);
->> >  	return 0;
->>
->> > diff --git a/mm/vma.h b/mm/vma.h
->> > index cf8926558bf6..1f2de6cb3b97 100644
->> > --- a/mm/vma.h
->> > +++ b/mm/vma.h
->>
->> > +static inline bool is_data_mapping_vma_flags(const vma_flags_t *vma_flags)
->> > +{
->> > +	const vma_flags_t mask = vma_flags_and(vma_flags,
->> > +			VMA_WRITE_BIT, VMA_SHARED_BIT, VMA_STACK_BIT);
->> > +
->> > +	return vma_flags_same(&mask, VMA_WRITE_BIT);
->>
->> Ditto?
-> 
-> I may do both as a follow up patch given the series is a pain to rework at this point
-> and I want at least the first version to be like-for-like intentionally.
+So the issue can be prevented by validating nzones earlier in the
+validation path.
 
-OK sure.
-
->>
->> > +}
->> >
->> >  static inline void vma_iter_config(struct vma_iterator *vmi,
->> >  		unsigned long index, unsigned long last)
->> > diff --git a/mm/vma_exec.c b/mm/vma_exec.c
->> > index 8134e1afca68..5cee8b7efa0f 100644
-> 
-> Thanks, Lorenzo
-
+Tested-by: Bae Yeonju <iwasbaeyz@gmail.com>
