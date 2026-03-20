@@ -1,91 +1,72 @@
-Received: from fout-b1-smtp.messagingengine.com (fout-b1-smtp.messagingengine.com [202.12.124.144])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C54C02A1BF;
-	Fri, 20 Mar 2026 00:09:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADE1178F39
+	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Mar 2026 00:52:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773965353; cv=none; b=c03oNQpUb0I9JKJ4apFNQq5lLGrcZqhP1sXmilylaUx7KRoJkxQ/UQ947PxjKaI42PUQoxRlbhqvoDxaqgit3cnjdbmYAyo92TDN7ARYeC5c1IDZLLAu9tR7Ph8nHZqLtc4ezKJiyCpIH6j+REX/yqEwh9y2Xb4BUWTlMM97a5c=
+	t=1773967925; cv=none; b=gzrWJuSoviu9oh4Kah7h6xAvmuyDUEBxzm6UzveeOf9csvd/xax3oXjISeVT/l1eWdQjWpFkl+Xj+I1oP4eZpTgr/lw60ONNN2SdSwFQyIiuYraQykOY4SXyou/F4de20L9GzE3HvMqw48EzHTeqHpaMeUXhelmhDqC3gdPRNkw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773965353; c=relaxed/simple;
-	bh=qEW+hhgoHTCyqPJ4+pi0q19745A6/zYvSEHUbtutXC0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qdKemRgIjvhU4kkuQQLcUw5X23vATAPfVnG753PeqCWJa2aJbHTyY17nFYtbOmAVPaLDqqlinxr2uKFXNqmXEAF9IjR6E4aJhXMsv4RuQfk6ChkDA/xcaOT+BfeZgCrDxtHT8HN2FtDME084Xxw0bPr2og39/RjZ/RZ1vqOdA3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=XL4oGTDa; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=F5YtDC6j; arc=none smtp.client-ip=202.12.124.144
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	s=arc-20240116; t=1773967925; c=relaxed/simple;
+	bh=HC7a/uepR7yvM+Hy3L9YmOmBswicpOMbE7n49YtuKAY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DKjhc1iIWaI28EasmP7hDrrBJopPg25fpKzoRDkr5ep2iI1KKGNHujTF6rj4LWDfrl27aNUdl1pwNSQAil1/ikV9sh5YA5Y9uzHkwhcXr2hBWcJHvTr6lXafHaCo1F0WBn/AsFa2vnswF28kgt9Aq+oaYHs020fNHxrboYZ+Pbs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y8O9KAo4; arc=none smtp.client-ip=209.85.210.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="XL4oGTDa";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="F5YtDC6j"
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfout.stl.internal (Postfix) with ESMTP id 4014C1D001C5;
-	Thu, 19 Mar 2026 20:09:11 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Thu, 19 Mar 2026 20:09:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:reply-to:subject:subject:to:to; s=fm1; t=1773965351;
-	 x=1774051751; bh=Jdxs8DAMfvHPQiSovwBqpWv/pa4pnhOezyO1/ayissY=; b=
-	XL4oGTDamSr9iRduZCOnTLN0wrMmygWutMz02Jp/LBvRn8630mleRqEjyXx5iRPY
-	RSe92yxKd3HYj8OpKaK5Q5/O2LaXh3jpbxKf8T6Kml7cdF+gc3yjuW4kRmXOvTdC
-	h0/OHw7Bwff+BmJ79A+D7j3tLqXPj2a8use674sB+ficd2u5oSW+E65efmjvLhso
-	KSWOprUNB+/iKZ3iuEA/ZoFt8vXNRr4SQcWZwuBg0Bal0XC3lIt7lsPoG2+DTNhu
-	y7OpPddG+8dA/JmA2gx63xA0Q5EXqPAwC3NRIEabDW2R4QQtaDRrVk0JyEXYrLku
-	beiXEy/uswO29KY1CqjLPw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm1; t=1773965351; x=1774051751; bh=J
-	dxs8DAMfvHPQiSovwBqpWv/pa4pnhOezyO1/ayissY=; b=F5YtDC6j4UhbfoJlb
-	3+M5VbO6mEvj9c+M327HQM0NlKtPFl2uxUZEjjjU27P74rW62Y/3ovMbT8mqZqyK
-	SE63LOePdvT1v7+dx4xGk9cytwJuQltDThcnWXpwhMXNsG18ATF6/6YtJf37U38c
-	7kFV/fCXBbBBzYqq+mK4YbjiCzRREysW4HmHARxad7ExCaGk56G7cf1jnB03d/j/
-	9MnJpYFH2plDSdXpHZnuQaXv7uq4EIuGmKC2NG1qC9hbuUC6NuXLdJaX9Tx82wnx
-	iVmODW2ZwxAKopzM+IDx0neFI761kE/Hl//N4mQdi13lTlbP5bHLd025qrrJFJID
-	zLwdg==
-X-ME-Sender: <xms:JpC8aSJfzh4LYBr86S_Wfn8d2DINEhCW0SkOVptkW8L-Em2h8jQn_A>
-    <xme:JpC8aTd9nJoSa31nhAjCOR4e34l0NOAHwhiGd2fLPVOUF-ST5IKJPJ10uc7OJbYfw
-    xJPKcEO2XIw5J2MflQGCbQKiDlut2n9oN-P-bUmmqTPyjRe>
-X-ME-Received: <xmr:JpC8aZ-JSvQNcu1xZOx2VkkXRCsC3GyOI8afrc3w2rt8n3NnqXu1AXy4eafAa-gQlXrL_hnceoGyX3URQVKNHCrXc6UK5qZDiv8N4kGKp8RO>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdeftdekgeduucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhephffvvefufffkofgjfhhrggfgsedtkeertdertddtnecuhfhrohhmpefpvghilheu
-    rhhofihnuceonhgvihhlsgesohifnhhmrghilhdrnhgvtheqnecuggftrfgrthhtvghrnh
-    epveevkeffudeuvefhieeghffgudektdelkeejiedtjedugfeukedvkeffvdefvddunecu
-    vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhgvihhlsg
-    esohifnhhmrghilhdrnhgvthdpnhgspghrtghpthhtohepiedpmhhouggvpehsmhhtphho
-    uhhtpdhrtghpthhtoheplhhinhhugidqfhhsuggvvhgvlhesvhhgvghrrdhkvghrnhgvlh
-    drohhrghdprhgtphhtthhopehlihhnuhigqdgvgihtgeesvhhgvghrrdhkvghrnhgvlhdr
-    ohhrghdprhgtphhtthhopehjrggtkhesshhushgvrdgtiidprhgtphhtthhopehthihtsh
-    hosehmihhtrdgvughupdhrtghpthhtohephhgrrhhshhgrughshhhirhifrggukhgrrhes
-    ghhmrghilhdrtghomhdprhgtphhtthhopegrughilhhgvghrrdhkvghrnhgvlhesughilh
-    hgvghrrdgtrg
-X-ME-Proxy: <xmx:JpC8aYqRJUspExEoUUJ_gGjYgkInyPa6u0jNo-wGNh6bblYihqogEA>
-    <xmx:JpC8aWBqAaVkXwVO7WYjUBK4c_mne51U13Y0g68iaCoXwSeKxPpHJw>
-    <xmx:JpC8aSyPetbeyd80Ku_2HH6rsR09duHMklzN8uDEnJl1t0c4qT8MMw>
-    <xmx:JpC8ab1ZpH7NWPGjCP0-qxwfP77y2V9ktdlooGIy6rq9kawVIPrIhg>
-    <xmx:J5C8aSj3Zr7xVhS0KQgblOISoCFzg2QFCG3pKLREQ8WI1FuEr-_wqrL_>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 19 Mar 2026 20:09:08 -0400 (EDT)
-From: NeilBrown <neilb@ownmail.net>
-To: "Theodore Ts'o" <tytso@mit.edu>,
-	Andreas Dilger <adilger.kernel@dilger.ca>,
-	Jan Kara <jack@suse.cz>,
-	Harshad Shirwadkar <harshadshirwadkar@gmail.com>
-Cc: linux-ext4@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH v2 3/3] ext4: move dcache manipulation out of __ext4_link()
-Date: Fri, 20 Mar 2026 11:03:18 +1100
-Message-ID: <20260320000838.3797494-4-neilb@ownmail.net>
-X-Mailer: git-send-email 2.50.0.107.gf914562f5916.dirty
-In-Reply-To: <20260320000838.3797494-1-neilb@ownmail.net>
-References: <20260320000838.3797494-1-neilb@ownmail.net>
-Reply-To: NeilBrown <neil@brown.name>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y8O9KAo4"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-82a15b44c3cso947096b3a.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 19 Mar 2026 17:52:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773967924; x=1774572724; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=baxsixP3ts7CN2kPTC0RUZ6mfLu0lUxnu4cjazVMzu0=;
+        b=Y8O9KAo4bfybBtRDJWsUPenrYdnfINSIC3XzLKqDTRyMzdbE69JOpU+ymE1K/PxBTt
+         e/fvD7gE0y9JhflmkA2ULlOSzLBvw2CEyvSgaTk53u0Zu3+yoZKts3SbcEJ0hAhMdc7J
+         OCzzZX58IqR1Hz545GGBtQ58mgbvTW3rKQbtHjukRTtQRwziLm1p2RMHyqm/E81Zpc10
+         phor+grdv6mdwlNzCTM1niMZwXy1PppN/YnF8as56L63CFBxHkJOrRWGeFESJy2kS8s+
+         UroaO05Fu0D4lgKJFk+sDXgE/SruUJM6v9E9G0xT9F9amSpCp7fHfYkcunqBBEqMGu74
+         utDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773967924; x=1774572724;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=baxsixP3ts7CN2kPTC0RUZ6mfLu0lUxnu4cjazVMzu0=;
+        b=BK7u3IYXzmNhumqAZSI18YSVMh7L0tbd0M7+qdJ889o9pEC1mUpb4bYEdAfz0otjmg
+         21Pr9/3zaDUGxwdMPOeR6rNU+J0GpibxRvTwIm5d2DWLcBsXjUhu9KEusa6tYTCFhfy1
+         gJ8FevVaQJRFAa8AOILUQopbpH83oMzTfFOjjcUHQCiXEITkQcK87M4sSlaYlvf1lIM/
+         Z2yziYnp6K8I7/K5sEYFy1jP0WrBuWW6r0lzX8jNhbZU9hx1B6WEJSrQiOo6d9PU/jGA
+         ZpilDQWlHgdwflt4djIjHICWMBipRCsAgRvHaEKHpbWQfCSM0mlX0aeceX+15nleZZh5
+         Zd0Q==
+X-Gm-Message-State: AOJu0Yyt2gqHwDTlEelTVtXP9VgPnRRXpeUWuyHpifM4knb+0/70xTPW
+	Y9ePF5G+EgbTutYQJXgkf0gcnjo+DbHuxiNiL8RZVHYDv5aFVytmDUJf
+X-Gm-Gg: ATEYQzxt6LgZwXbeJ4lkVI2Y4rIBo3DJZ+DMZUm5PqMWhyMWlKoRynSCm/CM1FvOjwR
+	hwDwd0eamYyuVxqjhDQI51K+93dOo3b6MCORg4O0PD5ODig78Z1jAbZRJuRjzS8bzZyqIuhVFq2
+	eZVhq2dCa4F+udK3/lbBAiy1jwGMwvy9ivHE/JRuQti8Mz7Q8nGk83pib15M8rMu7jDUoy40Ywc
+	o/7TDUkZ4qOqjW9xBCVpJRqTevcz7F4XEN4cZkX+Y8UqkkrwzygAfeEIcUK8c3CUvkSDuupkiqQ
+	kA7DlvvfXJc47nkFP2/hQLXH+YkYPELcYxAWDj/AKija6Y06hPuEnbtaxyPWqBji4ZK6tXZd+zL
+	50afLAsW8MBDlm6u5INm/JLY12WgBzMBGURjoJP02fKa7lBimToDwedvIUmy13QLVHs7c6YuSN0
+	/TgaU3lDJBIvEXNYp2EPWjpLL6eCin
+X-Received: by 2002:a05:6a00:10c9:b0:82a:60ad:87e with SMTP id d2e1a72fcca58-82a8c289509mr968680b3a.19.1773967923987;
+        Thu, 19 Mar 2026 17:52:03 -0700 (PDT)
+Received: from localhost ([2a03:2880:ff:40::])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82b040da438sm370240b3a.43.2026.03.19.17.52.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Mar 2026 17:52:03 -0700 (PDT)
+From: Joanne Koong <joannelkoong@gmail.com>
+To: brauner@kernel.org
+Cc: linux-fsdevel@vger.kernel.org,
+	jack@suse.cz,
+	miklos@szeredi.hu,
+	david@kernel.org,
+	therealgraysky@proton.me,
+	linux-pm@vger.kernel.org
+Subject: [PATCH v3 0/1] writeback: don't block sync for filesystems with no data integrity guarantees
+Date: Thu, 19 Mar 2026 17:51:44 -0700
+Message-ID: <20260320005145.2483161-1-joannelkoong@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -94,190 +75,31 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: NeilBrown <neil@brown.name>
+Changelog
+---------
+v2: https://lore.kernel.org/linux-fsdevel/20260319194540.3463371-1-joannelkoong@gmail.com/
+v2 -> v3:
+* Move SB_I_NO_DATA_INTEGRITY check to sync_inodes_sb() instead of
+  sync_inodes_one_sb() (David)
+* Move comment block (David)
 
-__ext4_link() has two callers.
+v1: https://lore.kernel.org/linux-fsdevel/20260318225604.71545-1-joannelkoong@gmail.com/
+v1 -> v2:
+* Still kick off flusher threads for writeback for SB_I_NO_DATA_INTEGRITY,
+  instead of skipping that entirely (Jan)
+* Improve commit message (me)
 
-- ext4_link() calls it during normal handling of the link() system
-  call or similar
-- ext4_fc_replay_link_internal() calls it when replaying the journal
-  at mount time.
+Joanne Koong (1):
+  writeback: don't block sync for filesystems with no data integrity
+    guarantees
 
-The former needs changes to dcache - instantiating the dentry to the
-inode on success.  The latter doesn't need or want any dcache
-manipulation.
+ fs/fs-writeback.c              | 18 ++++++++++++------
+ fs/fuse/file.c                 |  4 +---
+ fs/fuse/inode.c                |  1 +
+ include/linux/fs/super_types.h |  1 +
+ include/linux/pagemap.h        | 11 -----------
+ 5 files changed, 15 insertions(+), 20 deletions(-)
 
-So move the manipulation out of __ext4_link() and do it in ext4_link()
-only.
-
-This requires:
- - passing the qname from the dentry explicitly to __ext4_link.
-   The parent dir is already passed.  The dentry is still passed
-   in the ext4_link() case purely for use by ext4_fc_track_link().
- - passing the inode separately to ext4_fc_track_link() as the
-   dentry will not be instantiated yet.
- - using __ext4_add_entry() in ext4_link, which doesn't need a dentry.
- - moving ihold(), d_instantiate(), drop_nlink() and iput() calls out
-   of __ext4_link() into ext4_link().
-
-Note that ext4_inc_count() and drop_nlink() remain in __ext4_link()
-as both callers need them and they are not related to the dentry.
-
-This substantially simplifies ext4_fc_replay_link_internal(), and
-removes a use of d_alloc() which, it is planned, will be removed.
-
-Reviewed-by: Jan Kara <jack@suse.cz>
-Signed-off-by: NeilBrown <neil@brown.name>
----
- fs/ext4/ext4.h        |  5 +++--
- fs/ext4/fast_commit.c | 32 ++++----------------------------
- fs/ext4/namei.c       | 19 +++++++++++--------
- 3 files changed, 18 insertions(+), 38 deletions(-)
-
-diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
-index 293f698b7042..e757e9cf9728 100644
---- a/fs/ext4/ext4.h
-+++ b/fs/ext4/ext4.h
-@@ -2974,7 +2974,8 @@ void __ext4_fc_track_unlink(handle_t *handle, struct inode *inode,
- void __ext4_fc_track_link(handle_t *handle, struct inode *inode,
- 	struct dentry *dentry);
- void ext4_fc_track_unlink(handle_t *handle, struct dentry *dentry);
--void ext4_fc_track_link(handle_t *handle, struct dentry *dentry);
-+void ext4_fc_track_link(handle_t *handle, struct inode *inode,
-+			struct dentry *dentry);
- void __ext4_fc_track_create(handle_t *handle, struct inode *inode,
- 			    struct dentry *dentry);
- void ext4_fc_track_create(handle_t *handle, struct dentry *dentry);
-@@ -3719,7 +3720,7 @@ extern int ext4_handle_dirty_dirblock(handle_t *handle, struct inode *inode,
- extern int __ext4_unlink(struct inode *dir, const struct qstr *d_name,
- 			 struct inode *inode, struct dentry *dentry);
- extern int __ext4_link(struct inode *dir, struct inode *inode,
--		       struct dentry *dentry);
-+		       const struct qstr *d_name, struct dentry *dentry);
- 
- #define S_SHIFT 12
- static const unsigned char ext4_type_by_mode[(S_IFMT >> S_SHIFT) + 1] = {
-diff --git a/fs/ext4/fast_commit.c b/fs/ext4/fast_commit.c
-index 3ee302b73f45..175dda11f377 100644
---- a/fs/ext4/fast_commit.c
-+++ b/fs/ext4/fast_commit.c
-@@ -497,10 +497,9 @@ void __ext4_fc_track_link(handle_t *handle,
- 	trace_ext4_fc_track_link(handle, inode, dentry, ret);
- }
- 
--void ext4_fc_track_link(handle_t *handle, struct dentry *dentry)
-+void ext4_fc_track_link(handle_t *handle, struct inode *inode,
-+			struct dentry *dentry)
- {
--	struct inode *inode = d_inode(dentry);
--
- 	if (ext4_fc_eligible(inode->i_sb))
- 		__ext4_fc_track_link(handle, inode, dentry);
- }
-@@ -1431,7 +1430,6 @@ static int ext4_fc_replay_link_internal(struct super_block *sb,
- 				struct inode *inode)
- {
- 	struct inode *dir = NULL;
--	struct dentry *dentry_dir = NULL, *dentry_inode = NULL;
- 	struct qstr qstr_dname = QSTR_INIT(darg->dname, darg->dname_len);
- 	int ret = 0;
- 
-@@ -1442,21 +1440,7 @@ static int ext4_fc_replay_link_internal(struct super_block *sb,
- 		goto out;
- 	}
- 
--	dentry_dir = d_obtain_alias(dir);
--	if (IS_ERR(dentry_dir)) {
--		ext4_debug("Failed to obtain dentry");
--		dentry_dir = NULL;
--		goto out;
--	}
--
--	dentry_inode = d_alloc(dentry_dir, &qstr_dname);
--	if (!dentry_inode) {
--		ext4_debug("Inode dentry not created.");
--		ret = -ENOMEM;
--		goto out;
--	}
--
--	ret = __ext4_link(dir, inode, dentry_inode);
-+	ret = __ext4_link(dir, inode, &qstr_dname, NULL);
- 	/*
- 	 * It's possible that link already existed since data blocks
- 	 * for the dir in question got persisted before we crashed OR
-@@ -1470,16 +1454,8 @@ static int ext4_fc_replay_link_internal(struct super_block *sb,
- 
- 	ret = 0;
- out:
--	if (dentry_dir) {
--		d_drop(dentry_dir);
--		dput(dentry_dir);
--	} else if (dir) {
-+	if (dir)
- 		iput(dir);
--	}
--	if (dentry_inode) {
--		d_drop(dentry_inode);
--		dput(dentry_inode);
--	}
- 
- 	return ret;
- }
-diff --git a/fs/ext4/namei.c b/fs/ext4/namei.c
-index 768036a109d7..20ec5674e64b 100644
---- a/fs/ext4/namei.c
-+++ b/fs/ext4/namei.c
-@@ -3452,7 +3452,8 @@ static int ext4_symlink(struct mnt_idmap *idmap, struct inode *dir,
- 	return err;
- }
- 
--int __ext4_link(struct inode *dir, struct inode *inode, struct dentry *dentry)
-+int __ext4_link(struct inode *dir, struct inode *inode,
-+		const struct qstr *d_name, struct dentry *dentry)
- {
- 	handle_t *handle;
- 	int err, retries = 0;
-@@ -3468,9 +3469,8 @@ int __ext4_link(struct inode *dir, struct inode *inode, struct dentry *dentry)
- 
- 	inode_set_ctime_current(inode);
- 	ext4_inc_count(inode);
--	ihold(inode);
- 
--	err = ext4_add_entry(handle, dentry, inode);
-+	err = __ext4_add_entry(handle, dir, d_name, inode);
- 	if (!err) {
- 		err = ext4_mark_inode_dirty(handle, inode);
- 		/* this can happen only for tmpfile being
-@@ -3478,11 +3478,10 @@ int __ext4_link(struct inode *dir, struct inode *inode, struct dentry *dentry)
- 		 */
- 		if (inode->i_nlink == 1)
- 			ext4_orphan_del(handle, inode);
--		d_instantiate(dentry, inode);
--		ext4_fc_track_link(handle, dentry);
-+		if (dentry)
-+			ext4_fc_track_link(handle, inode, dentry);
- 	} else {
- 		drop_nlink(inode);
--		iput(inode);
- 	}
- 	ext4_journal_stop(handle);
- 	if (err == -ENOSPC && ext4_should_retry_alloc(dir->i_sb, &retries))
-@@ -3511,9 +3510,13 @@ static int ext4_link(struct dentry *old_dentry,
- 	err = dquot_initialize(dir);
- 	if (err)
- 		return err;
--	return __ext4_link(dir, inode, dentry);
-+	err = __ext4_link(dir, inode, &dentry->d_name, dentry);
-+	if (!err) {
-+		ihold(inode);
-+		d_instantiate(dentry, inode);
-+	}
-+	return err;
- }
--
- /*
-  * Try to find buffer head where contains the parent block.
-  * It should be the inode block if it is inlined or the 1st block
 -- 
-2.50.0.107.gf914562f5916.dirty
+2.52.0
 
