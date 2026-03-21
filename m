@@ -1,264 +1,139 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BEBF221F1C;
-	Sat, 21 Mar 2026 12:05:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 387CC35DA6C;
+	Sat, 21 Mar 2026 12:42:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774094738; cv=none; b=K8uWCHvDLCWP4xIHxIxRPbZQGaUvSM7aZVON2dcCkU01vCsK1ZhNeE8fcN9XcGwzKe1oK14TazPUJK0rnpooT1N0ZGg/EuMTQaGUC2JQkx+Ld1Rxg5GlasbrtaPrPh6k/yL16JGa0YHc5I5NdGpH4c1l/dlWVoEiF/n3eXqGo6Q=
+	t=1774096962; cv=none; b=XOa4iI9YvrhTpZJTk+y3vT+48dugu8TWjNi8VetdJ4ie1CGGQDfFfTZellqyhecta7GarwL6GoNFXuvFqzPXbGqjD9hZQ6iqnmAPSoGPnKODl9KWh4IwJXC69BGOaaQA99GJ/bEmEOJWyhKSg/d+lCMFZ5z0NSRTA0DxeDBDOqA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774094738; c=relaxed/simple;
-	bh=Zglp90n2erVtkbV17f9tvdupj4Gd3QWVnH+m6w13xq0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Fm6HGWdOSu69YV5Bb3lBXo5G8EMb705LqrTCepkaxG7hEQQPJA16a1lmeVUNQzmDNg5/1t+/k7xE0ZD2JEKUuCLbESevijRLfCAPiWejNT27FQCr0lGVHFUmADa0x02cqm0GJ7KjZMFlJs81AadAfKuoNvo3jw+z1wgll3617P0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=ps.report@gmx.net header.b=teK+vHHV; arc=none smtp.client-ip=212.227.17.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
+	s=arc-20240116; t=1774096962; c=relaxed/simple;
+	bh=YSRwE9HFlw3c8F7q79izQqk16rp15SyRcSNcZiQZz9k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=j5FEhU/l2GHOMz1Hy8mb4/tF/whLF27Q7d0e7kB/JWJbbckvu7kpDw5/MdTLKZraC5TrSHAflA1bi5nSNmFzBPDws6PtmZa0fqAbfdJJCFmC2aguBHyVoHnsgM1XJdY4Zdp0sdIaptCMb5zbeb6KCk8dzRD0NoZiI4Gac3/mP1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VtUiDfJr; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=ps.report@gmx.net header.b="teK+vHHV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1774094728; x=1774699528; i=ps.report@gmx.net;
-	bh=AwsiU0kYXN8suQ8+f3bFR6yI1J3l0YMsdZcvDXZJa5s=;
-	h=X-UI-Sender-Class:Date:From:To:Cc:Subject:Message-ID:In-Reply-To:
-	 References:MIME-Version:Content-Type:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=teK+vHHVthf4oW7waTLBSelWaFM/NlYpFAd3mNFcLKCz0PPC61x4tqBdrJfyA1yq
-	 Ci5WLlxGhi/Lq5TqiZahXDm2lgXryCGQy6JSElJLiTrIXeVaa8YDKfaguj5ESbrfU
-	 DHSMk9PFlWSeai7gjb4edvjYRwtD9p6ZiDTUbDu4GEGAseH9CR/PbP07qRvXoVwSr
-	 XxLAsTjUDLvuHnhm4aJs9gqJv09kz2Iap9DzSdqq5ih1Ko7rnkB9wYDWDKsf8mgi2
-	 5Dw09iov5R6YC2jmOoWzIElVh7Cl01VVFPRvJW8DWdGCO6iSZcjGllPCbgaC4w7pg
-	 oN2/4n2uRQnBBH7Ucw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from client.hidden.invalid by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MhD2Y-1vPeaQ1jBy-00ie3O; Sat, 21
- Mar 2026 13:05:28 +0100
-Date: Sat, 21 Mar 2026 13:05:26 +0100
-From: Peter Seiderer <ps.report@gmx.net>
-To: Kees Cook <kees@kernel.org>
-Cc: Marc Buerg <buermarc@googlemail.com>, Joel Granados
- <joel.granados@kernel.org>, "David S. Miller" <davem@davemloft.net>,
- Octavian Purdila <opurdila@ixiacom.com>, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, Elias Oezcan <elias.rw2@gmail.com>
-Subject: Re: [PATCH v3] sysctl: fix check against uninitialized variable in
- proc_do_large_bitmap
-Message-ID: <20260321130526.207666c0@pc-1>
-In-Reply-To: <202603201128.E07B1E0332@keescook>
-References: <20260319-fix-uninitialized-variable-in-proc_do_large_bitmap-v3-1-9cfc3ff60c09@googlemail.com>
-	<202603201128.E07B1E0332@keescook>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-suse-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VtUiDfJr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774096957; x=1805632957;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YSRwE9HFlw3c8F7q79izQqk16rp15SyRcSNcZiQZz9k=;
+  b=VtUiDfJrm4UY+HLvxZbWPhv5TJnpQZDFA7bErs/iZAhxDRAUKSlfq2S5
+   NZxJrPe1XulJbPaim2NiuzurP4UZbJ1DCa3UkQYVcAeCjsY9lUpLWF8dy
+   GDU1wJE6nM9OJbmrBOgggZ5am1HCndqGHOKEhc+fawqoNm10aSX9TbFGl
+   FAjlnVA9AXy4eJq6WbPAYYZnWRhXHxFZQgH2UBT1V3W1o2n/WkkZW0LY7
+   02ZgMsjs2F+pqjewamGXwVP/7aUVMnvDX9c+NH4mEgwxiuT+2LF1/eNQr
+   8TiieZHeNZ8xd2EMkxSz3B+dSj5Q+y474Bl+UZgEoLH9pxisnl9JATkTX
+   Q==;
+X-CSE-ConnectionGUID: VTNxoTMtTe+HqF5/z9AkyQ==
+X-CSE-MsgGUID: rk3TfPVPRReSZ7PJEEPY0Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11735"; a="62726043"
+X-IronPort-AV: E=Sophos;i="6.23,133,1770624000"; 
+   d="scan'208";a="62726043"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2026 05:42:37 -0700
+X-CSE-ConnectionGUID: CxRUZdr8RFiyvIyzU5KaYw==
+X-CSE-MsgGUID: M/BRU8HiSHmwD0zw6PnwZg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,133,1770624000"; 
+   d="scan'208";a="227663711"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa003.jf.intel.com with ESMTP; 21 Mar 2026 05:42:34 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w3vex-0000000067B-1uLr;
+	Sat, 21 Mar 2026 12:42:31 +0000
+Date: Sat, 21 Mar 2026 13:42:00 +0100
+From: kernel test robot <lkp@intel.com>
+To: Emanuele Rocca <emanuele.rocca@arm.com>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>,
+	linux-fsdevel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+	Jann Horn <jannh@google.com>, Oleg Nesterov <oleg@redhat.com>
+Subject: Re: [PATCH] pidfds: add coredump_code field to pidfd_info
+Message-ID: <202603211308.ZcBwzx9H-lkp@intel.com>
+References: <ab29J6KsQm8Xg3LR@NH27D9T0LF>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:4NQBd3K0S0TqNsclJdiMtJ59567mc95dIhWYoDQCB3EKVczdgVh
- MEqHGFqHmpGKEw1H2ZVzk1m6B1mz7m7X0otVG/bFRNhCbwkgTJ5kHz8pYeqdWm8lddk7nih
- EHPo8j4SdbZDNvB4OUOqqqs7Z/GgTSmsGdgqrq8xCktxY1wYU3a5+EoFk6uVdRMFP7Btxwz
- Y4oJBr0YmN/MR+VP6vsdw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:GKofsasVibE=;7tTPUpAnsk+osFkseBHO4O66WDU
- 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
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ab29J6KsQm8Xg3LR@NH27D9T0LF>
 
-Hello Marc, Kees,
+Hi Emanuele,
 
-On Fri, 20 Mar 2026 11:30:29 -0700, Kees Cook <kees@kernel.org> wrote:
+kernel test robot noticed the following build errors:
 
-> On Thu, Mar 19, 2026 at 11:50:50PM +0100, Marc Buerg wrote:
-> > proc_do_large_bitmap() does not initialize variable c, which is expect=
-ed
-> > to be set to a trailing character by proc_get_long().
-> >=20
-> > However, proc_get_long() only sets c when the input buffer contains a
-> > trailing character after the parsed value.
-> >=20
-> > If c is not initialized it may happen to contain a '-'. If this is the
-> > case proc_do_large_bitmap() expects to be able to parse a second part =
-of
-> > the input buffer. If there is no second part an unjustified -EINVAL wi=
-ll
-> > be returned.
-> >=20
-> > Add check that left is non-zero before checking c, as proc_get_long()
-> > ensures that the passed left is non-zero, if a trailing character
-> > exists.
-> >=20
-> > --- =20
->=20
-> Please don't include "---" as a separator here: we want to keep your
-> entire commit log (including the SoB and other tags).
+[auto build test ERROR on shuah-kselftest/next]
+[also build test ERROR on shuah-kselftest/fixes brauner-vfs/vfs.all linus/master v7.0-rc4 next-20260320]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-+1 for this one...
+url:    https://github.com/intel-lab-lkp/linux/commits/Emanuele-Rocca/pidfds-add-coredump_code-field-to-pidfd_info/20260321-125434
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git next
+patch link:    https://lore.kernel.org/r/ab29J6KsQm8Xg3LR%40NH27D9T0LF
+patch subject: [PATCH] pidfds: add coredump_code field to pidfd_info
+config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260321/202603211308.ZcBwzx9H-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260321/202603211308.ZcBwzx9H-lkp@intel.com/reproduce)
 
->=20
-> Also, I think the explicit zero-init of 'c' would be nice to keep just
-> for robustness: the compiler can elide it if it decides it's a duplicate
-> store. There's only upside to including it.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603211308.ZcBwzx9H-lkp@intel.com/
 
-Sorry, disagree on this one, not a fan of this 'add unneeded code just in =
-case...'
-pattern hiding the real fix and/or logic of the code, but just the
-opinion of a sporadic contributor ;-)
+All errors (new ones prefixed by >>):
 
-@Marc: in case you go this way, please remove my Reviewed-by tag on next
-patch iteration...
+   In file included from <command-line>:
+   In function 'pidfd_info',
+       inlined from 'pidfd_ioctl' at fs/pidfs.c:527:10:
+>> ././include/linux/compiler_types.h:706:45: error: call to '__compiletime_assert_515' declared with attribute error: BUILD_BUG_ON failed: sizeof(struct pidfd_info) != PIDFD_INFO_SIZE_VER3
+     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   ././include/linux/compiler_types.h:687:25: note: in definition of macro '__compiletime_assert'
+     687 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   ././include/linux/compiler_types.h:706:9: note: in expansion of macro '_compiletime_assert'
+     706 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   ./include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   ./include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   fs/pidfs.c:350:9: note: in expansion of macro 'BUILD_BUG_ON'
+     350 |         BUILD_BUG_ON(sizeof(struct pidfd_info) != PIDFD_INFO_SIZE_VER3);
+         |         ^~~~~~~~~~~~
 
-Regards,
-Peter
 
->=20
-> -Kees
->=20
-> > When writing to /proc/sys/net/ipv4/ip_local_reserved_ports it is
-> > possible to receive an -EINVAL for a valid value.
-> >=20
-> > This happens due to a check of a potentially uninitialized variable in
-> > the proc_do_large_bitmap() function, namely char c. To trigger this
-> > behavior the variable has to contain the later explicitly checked '-'
-> > char by chance.
-> >=20
-> > In proc_do_large_bitmap() it is expected that the variable might be
-> > filled by the proc_get_long() function with the trailing character of
-> > the given input. But only if a trailing character exists within the
-> > passed size of the buffer.
-> >=20
-> > If no trailing character is present we still do a c =3D=3D '-' check. =
-If the
-> > uninitialized variable contains this char the function continues
-> > parsing. It will now set err to -EINVAL in the next proc_get_long()
-> > call, as there is nothing more to parse.
-> >=20
-> > proc_do_large_bitmap() passes left to the proc_get_long() call. left
-> > will only be non-zero, if a trailing character has been written.
-> > Therefore, checking that left is non-zero before accessing c fixes thi=
-s
-> > problem.
-> >=20
-> > The problem will only arise sporadically, as the variable must contain
-> > '-' by chance. On the affected system CONFIG_INIT_STACK_NONE=3Dy was
-> > enabled. Further, when enabling eBPF tracing to dump contents of the
-> > stack the issue disappeared.
-> >=20
-> > Fixes: 9f977fb7ae9d ("sysctl: add proc_do_large_bitmap")
-> > Signed-off-by: Marc Buerg <buermarc@googlemail.com>
-> > Reviewed-by: Peter Seiderer <ps.report@gmx.net>
-> > ---
-> > Changes in v3:
-> > - Add Reviewed-by: Peter Seiderer <ps.report@gmx.net>
-> > - Re-include bug context into cover letter
-> > - Link to v2: https://lore.kernel.org/r/20260317-fix-uninitialized-var=
-iable-in-proc_do_large_bitmap-v2-1-6dfb1aefa287@googlemail.com
-> >=20
-> > Changes in v2:
-> > - Drop initialization of c to 0
-> > - Include checking that left is non-zero before checking against c
-> > - Link to v1: https://lore.kernel.org/r/20260312-fix-uninitialized-var=
-iable-in-proc_do_large_bitmap-v1-1-35ad2dddaf21@googlemail.com
-> > ---
-> >  kernel/sysctl.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/kernel/sysctl.c b/kernel/sysctl.c
-> > index 9d3a666ffde1..dd337a63da41 100644
-> > --- a/kernel/sysctl.c
-> > +++ b/kernel/sysctl.c
-> > @@ -1171,7 +1171,7 @@ int proc_do_large_bitmap(const struct ctl_table =
-*table, int dir,
-> >  				left--;
-> >  			}
-> > =20
-> > -			if (c =3D=3D '-') {
-> > +			if (left && c =3D=3D '-') {
-> >  				err =3D proc_get_long(&p, &left, &val_b,
-> >  						     &neg, tr_b, sizeof(tr_b),
-> >  						     &c);
-> >=20
-> > ---
-> > base-commit: 80234b5ab240f52fa45d201e899e207b9265ef91
-> > change-id: 20260312-fix-uninitialized-variable-in-proc_do_large_bitmap=
--30c6ef4ac1c5
-> >=20
-> > Best regards,
-> > --=20
-> > buermarc <buermarc@googlemail.com>
-> >  =20
->=20
+vim +/__compiletime_assert_515 +706 ././include/linux/compiler_types.h
 
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  692  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  693  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  694  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  695  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  696  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  697   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  698   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  699   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  700   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  701   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  702   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  703   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  704   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  705  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @706  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  707  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
