@@ -1,24 +1,23 @@
-Received: from mail-m49198.qiye.163.com (mail-m49198.qiye.163.com [45.254.49.198])
+Received: from mail-m49197.qiye.163.com (mail-m49197.qiye.163.com [45.254.49.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E52E72741C9;
-	Sat, 21 Mar 2026 08:01:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C0EF349B1D;
+	Sat, 21 Mar 2026 08:01:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774080099; cv=none; b=U64q5yXFTT7QK4hQ4SJZumqI9b+/FjgDxCpetLAuPnuAEl4nHGM3tlxTJ2Yk11JRabtJTpE9WP75kA7IrLyMOxV9MGNh9n0Kr1kS5YAW6jTICJHlujLglqZYUJ9Hw0inMPBC1bI1kmKenhBpK1iNOGNiGIoDncBR1guBNtERTPU=
+	t=1774080103; cv=none; b=rG7j5bNRFSrsg2auRTQtu7eKc6t+cs9FurGgl7Vct/vlxzDN5TcbTWAxzKUzXesRNiSSDYquogDQFdl3+mHDYGZhcvSufUXrCmr9k0U0HZnCuMyNvRy6l/ZqHc+opUXhvlPnTYrsk6oV/c2REB5XqP+zgB535hVqyJ1Sujod6jI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774080099; c=relaxed/simple;
-	bh=DmiItKPQ9EHlZvu5av+MtnBOpWDzI1clnWp2NdKde3o=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=OyTw3WZEWrC/dXDlyPloK1piUV1JBCiB9Ntas9odpXoS3kR4dX4jXz79ci3j5k3evFaJuEHj9nPmVPJLbvECyHUXr6GUw75GJ5diNWR2rhSojO0mwoofUwb5fHrvvHW5eHyrRfPTDZ0VDDfYJoVf11A4U/561GCc4Nvx4hV9woI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=OsUveB8e; arc=none smtp.client-ip=45.254.49.198
+	s=arc-20240116; t=1774080103; c=relaxed/simple;
+	bh=1qXSdM62P16mSyppaNyUZXTAI558+C3hnVS+s+PRU4I=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=m1GQEKuML+Qx9qegTIslhTCCTQvRyVV7z85RAIOLRrlaD422sQWHGzrzEtjej8ltBjpzpWtanOUrnFn6jbQNhsQYBgrwhNV5crq4rJttD5CtvT7LIdE13vN/TdXSgBFbDa9nkujUZU+GhghxkEPLzKA1Ezf80XN6tRETyyQDIF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=KCTWOm5j; arc=none smtp.client-ip=45.254.49.197
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="OsUveB8e"
+	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="KCTWOm5j"
 Received: from DESKTOP-SUEFNF9.tailb3ad3b.ts.net (unknown [222.191.246.242])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 37c8ce11d;
-	Sat, 21 Mar 2026 16:01:33 +0800 (GMT+08:00)
+	by smtp.qiye.163.com (Hmail) with ESMTP id 37c8ce119;
+	Sat, 21 Mar 2026 16:01:32 +0800 (GMT+08:00)
 From: Zilin Guan <zilin@seu.edu.cn>
 To: slava.dubeyko@ibm.com
 Cc: akpm@linux-foundation.org,
@@ -28,14 +27,11 @@ Cc: akpm@linux-foundation.org,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	slava@dubeyko.com,
-	zilin@seu.edu.cn,
-	stable@vger.kernel.org
-Subject: [PATCH v4 1/2] hfsplus: fix held lock freed on hfsplus_fill_super()
-Date: Sat, 21 Mar 2026 16:01:29 +0800
-Message-Id: <20260321080130.1292216-2-zilin@seu.edu.cn>
+	zilin@seu.edu.cn
+Subject: [PATCH v4 0/2] hfsplus: fix lock leak and refactor hidden dir search
+Date: Sat, 21 Mar 2026 16:01:28 +0800
+Message-Id: <20260321080130.1292216-1-zilin@seu.edu.cn>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260321080130.1292216-1-zilin@seu.edu.cn>
-References: <20260321080130.1292216-1-zilin@seu.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -43,144 +39,42 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9d0f69edfe03a1kunmf3bcb71e291d72
+X-HM-Tid: 0a9d0f69e83003a1kunmf3bcb71e291d68
 X-HM-MType: 10
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlDHk8YVh8fT0tMTUNCGElDTlYeHw5VEwETFhoSFy
-	QUDg9ZV1kYEgtZQVlJSUlVSkJKVUlPTVVJT0lZV1kWGg8SFR0UWUFZT0tIVUpLSUJDQ0xVSktLVU
-	tZBg++
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkZH04ZVh5JTh9OHR0ZHxhDGlYeHw5VEwETFhoSFy
+	QUDg9ZV1kYEgtZQVlJSUlVSkJKVUlPTVVJT0lZV1kWGg8SFR0UWUFZS1VLVUtVS1kG
 DKIM-Signature: a=rsa-sha256;
-	b=OsUveB8eIBa1OWLyHk7rxUPnKQuzEGE3s2l2saDS/StuXFQLCBr4EU7YEOwOkPFZcNMx4JU+YNFThVhdZ2G/49XtYjSjpiDQSsh+2ZvXPi7qnmEUINaThrcLFJHP47yL2ecY71+HZY8hOFFZWIGZlrTjYTMfhGJbQbE5YNfmINU=; s=default; c=relaxed/relaxed; d=seu.edu.cn; v=1;
-	bh=f78VzEoA9VVNkvocFaYeL3bbNDA+AApacm2I3szd6Ok=;
+	b=KCTWOm5jUQgveaeTHHo7yi7zeKZdhPHVm1oxK05e5KFNgX7e5vX1N9vg7mCxpLGxFX3CxKGymiERBYhnCKk2qyTb8uzIpRlV075dl8+qgTbaiKuwPvDELqusa7FD20N6Kpm7f0HFqQ02/Qr1oavUuOOM2hNTbUHFFM4/WEoCPlI=; s=default; c=relaxed/relaxed; d=seu.edu.cn; v=1;
+	bh=nrENhknAF3jMnzttcsF/codmqM6qS/BVJc4QMBUDukI=;
 	h=date:mime-version:subject:message-id:from;
 
-hfsplus_fill_super() calls hfs_find_init() to initialize a search
-structure, which acquires tree->tree_lock. If the subsequent call to
-hfsplus_cat_build_key() fails, the function jumps to the out_put_root
-error label without releasing the lock. The later cleanup path then
-frees the tree data structure with the lock still held, triggering a
-held lock freed warning.
+This series updates hidden-directory lookup handling in
+hfsplus_fill_super().
 
-Fix this by adding the missing hfs_find_exit(&fd) call before jumping
-to the out_put_root error label. This ensures that tree->tree_lock is
-properly released on the error path.
+Patch 1 fixes a B-tree lock leak on an error path in hidden-directory
+lookup.
 
-The bug was originally detected on v6.13-rc1 using an experimental
-static analysis tool we are developing, and we have verified that the
-issue persists in the latest mainline kernel. The tool is specifically
-designed to detect memory management issues. It is currently under active
-development and not yet publicly available.
+Patch 2 refactors the lookup path into a helper to encapsulate resource
+lifetime and simplify error handling.
 
-We confirmed the bug by runtime testing under QEMU with x86_64 defconfig,
-lockdep enabled, and CONFIG_HFSPLUS_FS=y. To trigger the error path, we
-used GDB to dynamically shrink the max_unistr_len parameter to 1 before
-hfsplus_asc2uni() is called. This forces hfsplus_asc2uni() to naturally
-return -ENAMETOOLONG, which propagates to hfsplus_cat_build_key() and
-exercises the faulty error path. The following warning was observed
-during mount:
+Changes in v4:
+- Refactor hidden-dir lookup branch handling in hfsplus_fill_super().
 
-	=========================
-	WARNING: held lock freed!
-	7.0.0-rc3-00016-gb4f0dd314b39 #4 Not tainted
-	-------------------------
-	mount/174 is freeing memory ffff888103f92000-ffff888103f92fff, with a lock still held there!
-	ffff888103f920b0 (&tree->tree_lock){+.+.}-{4:4}, at: hfsplus_find_init+0x154/0x1e0
-	2 locks held by mount/174:
-	#0: ffff888103f960e0 (&type->s_umount_key#42/1){+.+.}-{4:4}, at: alloc_super.constprop.0+0x167/0xa40
-	#1: ffff888103f920b0 (&tree->tree_lock){+.+.}-{4:4}, at: hfsplus_find_init+0x154/0x1e0
+Changes in v3:
+- Use unlikely(err) for hfs_find_init() and hfsplus_cat_build_key() checks.
+- Map hfs_brec_read() errors to -ENOENT to preserve existing behavior.
 
-	stack backtrace:
-	CPU: 2 UID: 0 PID: 174 Comm: mount Not tainted 7.0.0-rc3-00016-gb4f0dd314b39 #4 PREEMPT(lazy)
-	Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.15.0-1 04/01/2014
-	Call Trace:
-	<TASK>
-	dump_stack_lvl+0x82/0xd0
-	debug_check_no_locks_freed+0x13a/0x180
-	kfree+0x16b/0x510
-	? hfsplus_fill_super+0xcb4/0x18a0
-	hfsplus_fill_super+0xcb4/0x18a0
-	? __pfx_hfsplus_fill_super+0x10/0x10
-	? srso_return_thunk+0x5/0x5f
-	? bdev_open+0x65f/0xc30
-	? srso_return_thunk+0x5/0x5f
-	? pointer+0x4ce/0xbf0
-	? trace_contention_end+0x11c/0x150
-	? __pfx_pointer+0x10/0x10
-	? srso_return_thunk+0x5/0x5f
-	? bdev_open+0x79b/0xc30
-	? srso_return_thunk+0x5/0x5f
-	? srso_return_thunk+0x5/0x5f
-	? vsnprintf+0x6da/0x1270
-	? srso_return_thunk+0x5/0x5f
-	? __mutex_unlock_slowpath+0x157/0x740
-	? __pfx_vsnprintf+0x10/0x10
-	? srso_return_thunk+0x5/0x5f
-	? srso_return_thunk+0x5/0x5f
-	? mark_held_locks+0x49/0x80
-	? srso_return_thunk+0x5/0x5f
-	? srso_return_thunk+0x5/0x5f
-	? irqentry_exit+0x17b/0x5e0
-	? trace_irq_disable.constprop.0+0x116/0x150
-	? __pfx_hfsplus_fill_super+0x10/0x10
-	? __pfx_hfsplus_fill_super+0x10/0x10
-	get_tree_bdev_flags+0x302/0x580
-	? __pfx_get_tree_bdev_flags+0x10/0x10
-	? vfs_parse_fs_qstr+0x129/0x1a0
-	? __pfx_vfs_parse_fs_qstr+0x3/0x10
-	vfs_get_tree+0x89/0x320
-	fc_mount+0x10/0x1d0
-	path_mount+0x5c5/0x21c0
-	? __pfx_path_mount+0x10/0x10
-	? trace_irq_enable.constprop.0+0x116/0x150
-	? trace_irq_enable.constprop.0+0x116/0x150
-	? srso_return_thunk+0x5/0x5f
-	? srso_return_thunk+0x5/0x5f
-	? kmem_cache_free+0x307/0x540
-	? user_path_at+0x51/0x60
-	? __x64_sys_mount+0x212/0x280
-	? srso_return_thunk+0x5/0x5f
-	__x64_sys_mount+0x212/0x280
-	? __pfx___x64_sys_mount+0x10/0x10
-	? srso_return_thunk+0x5/0x5f
-	? trace_irq_enable.constprop.0+0x116/0x150
-	? srso_return_thunk+0x5/0x5f
-	do_syscall_64+0x111/0x680
-	entry_SYSCALL_64_after_hwframe+0x77/0x7f
-	RIP: 0033:0x7ffacad55eae
-	Code: 48 8b 0d 85 1f 0f 00 f7 d8 64 89 01 48 83 c8 ff c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa 49 89 ca b8 a5 00 00 8
-	RSP: 002b:00007fff1ab55718 EFLAGS: 00000246 ORIG_RAX: 00000000000000a5
-	RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007ffacad55eae
-	RDX: 000055740c64e5b0 RSI: 000055740c64e630 RDI: 000055740c651ab0
-	RBP: 000055740c64e380 R08: 0000000000000000 R09: 0000000000000001
-	R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-	R13: 000055740c64e5b0 R14: 000055740c651ab0 R15: 000055740c64e380
-	</TASK>
+Changes in v2:
+- Add patch 2 to extract hidden-directory lookup into a helper function.
 
-After applying this patch, the warning no longer appears.
+Zilin Guan (2):
+  hfsplus: fix held lock freed on hfsplus_fill_super()
+  hfsplus: extract hidden directory search into a helper function
 
-Fixes: 89ac9b4d3d1a ("hfsplus: fix longname handling")
-CC: stable@vger.kernel.org
-Signed-off-by: Zilin Guan <zilin@seu.edu.cn>
----
- fs/hfsplus/super.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ fs/hfsplus/super.c | 42 ++++++++++++++++++++++++++++++++----------
+ 1 file changed, 32 insertions(+), 10 deletions(-)
 
-diff --git a/fs/hfsplus/super.c b/fs/hfsplus/super.c
-index 7229a8ae89f9..f396fee19ab8 100644
---- a/fs/hfsplus/super.c
-+++ b/fs/hfsplus/super.c
-@@ -569,8 +569,10 @@ static int hfsplus_fill_super(struct super_block *sb, struct fs_context *fc)
- 	if (err)
- 		goto out_put_root;
- 	err = hfsplus_cat_build_key(sb, fd.search_key, HFSPLUS_ROOT_CNID, &str);
--	if (unlikely(err < 0))
-+	if (unlikely(err < 0)) {
-+		hfs_find_exit(&fd);
- 		goto out_put_root;
-+	}
- 	if (!hfs_brec_read(&fd, &entry, sizeof(entry))) {
- 		hfs_find_exit(&fd);
- 		if (entry.type != cpu_to_be16(HFSPLUS_FOLDER)) {
 -- 
 2.34.1
 
