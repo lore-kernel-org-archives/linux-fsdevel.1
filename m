@@ -1,351 +1,264 @@
-Received: from relay.hostedemail.com (smtprelay0014.hostedemail.com [216.40.44.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABE1619046E;
-	Sat, 21 Mar 2026 00:45:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.14
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774053922; cv=none; b=R0e9D0K7mb7s05m51qrASu/vylIksFsSlJg+b/0mnaGP0PqRgKbDH1NArMt7OxGboUn1NXOxoZvZjuoH/dspKrup60tA6YBJ1sNxuSVyEu0W2KKdRBRr9O41dAv87seczbdRotg3X6MQn1l9v482SbZKmA7TYOZhRgBS2VSOFQk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774053922; c=relaxed/simple;
-	bh=wRg7rsaeRuAQSS/qCm0lX3GbzJ1kz5rh+jVQ/ORSHdc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pMErkR+tRfvPyflAKdABhg4ktF84Gr8BS48XprDbPY6hGojK8hlUoJ7NjuDUxXjXn1oAvSy7WGD/IGHL4NPTthBj0MAgHKs5fusxxlB1UUA6Tig2Z3uzdeNI5son3PHV2Dps/OG3zJVv860/2e4NEfwlrA/BImDnBtBPDUbMf/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
-Received: from omf01.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay03.hostedemail.com (Postfix) with ESMTP id 43630B8D4A;
-	Sat, 21 Mar 2026 00:45:10 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf01.hostedemail.com (Postfix) with ESMTPA id 052D36001F;
-	Sat, 21 Mar 2026 00:44:57 +0000 (UTC)
-Date: Fri, 20 Mar 2026 19:44:56 -0500
-From: John Groves <john@groves.net>
-To: Jonathan Cameron <jonathan.cameron@huawei.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, 
-	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
-	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
-	Amir Goldstein <amir73il@gmail.com>, Stefan Hajnoczi <shajnocz@redhat.com>, 
-	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, venkataravis@micron.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, 
-	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH V8 3/8] dax: add fsdev.c driver for fs-dax on character
- dax
-Message-ID: <ab3nFoKxirEgoS_v@groves.net>
-References: <20260318202737.4344.dax@groves.net>
- <20260319012837.4443-1-john@groves.net>
- <20260319122057.00004503@huawei.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92D7F5D8F0
+	for <linux-fsdevel@vger.kernel.org>; Sat, 21 Mar 2026 01:19:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774055974; cv=pass; b=X2/oX844/nkLSdgqrH454S24gPi9GSvOEOzF9rE4+J5X/M+mN1+SBFVXfQFx+oHJvs45aaFDALi5UPxvlUgsMiEfmHU8K+OY7TrOXCJBVBJrvF3GAPsIJk5OTvb/SHS/Bw/XBpY4VM/GId9nMB6uZuINlITYz8zXfR0lHf/9Ohc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774055974; c=relaxed/simple;
+	bh=Jqo515c/BgZK/5yBJ9BaW0HLWKPr8AYiv9O9CAKZy8g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hTkzOWICQvGYzZu7C40eZyvnbMr3Xn8khfzczV0Lc/Mwee3qO/IiS3B6lTbRd2rb6dSJ951weRMY/js3S/B3bmBTUAnSjMLalgvh61dHUpLwX7DAynBviGkCa9czoickHYsqq7YlmahWQKJGJm7j6gRgHg9DNi02Bn1Z6XZMkhM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=heITtZXt; arc=pass smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="heITtZXt"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-439b9cf8cb5so3256879f8f.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 20 Mar 2026 18:19:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774055971; cv=none;
+        d=google.com; s=arc-20240605;
+        b=ijuqfpy2KTV2w1bwmMwRnT/dL15CX0UhNPrG6OG0NBJK/ajCxp+tniUkdgf4gw6WbT
+         YgonGs3tSynVWtzCq3la+HbaivHbgT/AZXYnoOx464eL3e57p3CTDQo/Hy1SI1Qa7A0B
+         r7iMv1sbqSL2g5OY74TXYdTI46+8pQgw+QzUhpZStrG7ukX4apW5IK4csqrpDQP3YHFY
+         ciQM8OPRF+8ClCeBqHDgB03wCPCH6Xh/oYJCi7El2ci+oTvRXeK2OKS0ubkhmy71HqrR
+         gy8bCRJRT4MBhkj11S9TfQU8IdrYRF9RXEEDsJ6GjqdQ3NpduDI+5GwmgoACl4q2GQDp
+         rsaA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=5LziXhS+PKsI2U4E0Nmh6m6esRTglmNzqvqsZu+LVXA=;
+        fh=1Dp/pFfQtghumT0WpcwAy3NHHn3qmQxeUSZJmo5oLL0=;
+        b=FqCu2l+8dUfbo9qsomUxZ78Ol2mAIg8MMKtqzOddWYnR2UgFtj/UteULUA4Lg2ntye
+         NHp8QcWw8ffBb+NHe+kegud8cT3j+31cd/SCZBV2xs5Nw+gnCFHhLxF2blJZ4ozvc4Lg
+         NgwOEL8P+6UEicdEVPvofvtTz/C51oGIkS49IcCPgopKuMX1kqSJ08Dw+SvPh/qBYrhV
+         rH77LrDSqGaUvcDzm26JRuzYEfVYtBn+kFAUA5J1msy3yvwuMefE4AoNo29bkwLpDAvh
+         s2HiR/WHmCHLMiVX23MF+pFgyU3Qnt5lWWEzmlF93/fD3khRFxW2iovyrPFQw2Y/Be+R
+         9h8A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1774055971; x=1774660771; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5LziXhS+PKsI2U4E0Nmh6m6esRTglmNzqvqsZu+LVXA=;
+        b=heITtZXt6dVI/qC6HVd95zt6PYnfcKRWMUNVYSAgwxthqe6AdsIaFbqOofPvK3Vjuk
+         r1ovnrn39nuqeg6XyrPtzVDy58edEJ2AGL6ILOyWIzdHtsi0ORB1uK45181ZzxP9mN3z
+         D+ETNxHjf0pCnbh0gZ7B+ZDC7DkFu1hGpstKtoUyT6WPpXspDSEyAgf2hYksjiF0a3mc
+         DWv7+uOtePvlHt9fs8TC79on0RKQtdj3lsoSXMoLiTLP+s1HBwOvRu7Vp2VfhlEYKHj8
+         BArScNAmvWqK78rtsijYUJBbJBAKnNaU8eUyQCueyXVeeVPR/tp9MWZvV6QY49Djrd8N
+         zX8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774055971; x=1774660771;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=5LziXhS+PKsI2U4E0Nmh6m6esRTglmNzqvqsZu+LVXA=;
+        b=SfhGWNgJN9zKcvK95j5EaUUBQXSwnjR8tqsitpihUPJDIJHm3YVm9yPvGvEjT3Ts2k
+         s0UclhogClBD07BjeeDxLYy9qgDRI8FENk/iB2u4ZDHc4+7d4nHuZEmsFVVKqN3xcIPE
+         f9RZwlJVYfWW6k4HFwyVPZmQjqB1gpt8vtks6Bxp1NsbZ94vC8TzOkhpx0oeV2R7kq/j
+         Lg6CZmbc7y/HgEYZDjcBRkTTyWtZuhTo0CFLlk2CP+Z43iQjSYF0fO4gZzdD5V33VW2Z
+         ZmDqbm6078MpNHWUMo2YryuZd7dzkYW2Wt3kMapA23eUTmsG4whUs037XHAx5W5J16NE
+         vZ0g==
+X-Forwarded-Encrypted: i=1; AJvYcCVZq1jMIvJd4O79GUsFqhASgYJOHHi//Kc/3o2Eqag3xcehvAxYs9nrb+LeBivxU8Xeo14AM+TkoFg+0wAc@vger.kernel.org
+X-Gm-Message-State: AOJu0YxMa3GXLVvwQEnVvzWj2cpFkeEllqRmKR0iCFs0VoN328bWC1fJ
+	eLonzcxWHPG+crAgaAb7O11t5NOt+/K8AfoW8FFkxLPAAFb2C8KI1gpCNyc+nuEXXPUk5Cj3UiU
+	IaClacWZ/SYsmoyqojz6rWnlYVmjWIk4=
+X-Gm-Gg: ATEYQzwOZQP80bI1IdXxIKAPj4RPDCtz8ZoYUlZLPuCLdf+r/fpOYw2m9t5DSRfo25E
+	FXjEViKjBEiAdBHM9DML5Dc8cLvhvtKzwyuNQ66iHaqX6YtALGetWPrf7zy2bYv0yI6O0tqgmhC
+	s7r80PchI1DhSOzVEb4CuOsPkp2MW/nkJkPXOWNHiZAowqhVv7FMfdgyLqq0mcK9Fp1UhiMZE11
+	POgCdlZCpwhoryK5NenmjhkZR+FFpVGVVqUIePxeHrLayAyQJbnyTmJwFD8h+vA5OxAXIIPhoTw
+	7wnTxw==
+X-Received: by 2002:a05:6000:290b:b0:43b:4468:b112 with SMTP id
+ ffacd0b85a97d-43b6426b65fmr8200715f8f.25.1774055970677; Fri, 20 Mar 2026
+ 18:19:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260319122057.00004503@huawei.com>
-X-Stat-Signature: shg1e48hyfycmiemhtwsrtiegqfhpwma
-X-Rspamd-Server: rspamout08
-X-Rspamd-Queue-Id: 052D36001F
-X-Session-Marker: 6A6F686E4067726F7665732E6E6574
-X-Session-ID: U2FsdGVkX1+FqMoIr7feGjW7aclNJbDLBdE0GR9Ig9k=
-X-HE-Tag: 1774053897-27139
-X-HE-Meta: U2FsdGVkX1887YkisgdyGegKjqhVxo4pESgLdaZIC/5VCKoyMRIrSwmRs8Jbqk6QJT7dVIDxA7uLOsfFAaOcIA0PhtbikBH1DvPAK2GJDIrcAzV5BANyv2c8Zhml0bXlVaeKpgrobXDiIlA+/K/Lm4YmGMz9Asj/N0Zgk3U9QwI/osODb056YwaE2ez5vVuaYKLczXTAHcR2KvQZzjzDFvOk1hRy97XMryUfNQ8R22dKJWZD6bOh4i0LueMvAYfE0/WSe9SlkwfwgQQ7wx+F3cYVc/mH6xrsaNxU1XNUGIn7HnpMo/gOGefbh8B+K7Y0oyC47qHrUVzgijvql7pURRuXWfH7X6Mqz8qUJOzCyM3wJS0Nws9C/yaLmkTXZl0l0C865ZXGtz04FMZ8x9hNDGaDPGkZM5J3mmwg4PnyfENbYsmFhJhWTOUKyQL1KPaKD5Tte8q34Kmm8u0dAMpw8yY6Gfd9wgqf0AuZdRD7PMhX+sfYDAFLUg03q9IFC5heNyBl8wpnKpE8GR4Fwq/LVnzs1nBqjRzWt7ij2O8MFg9Ohr4Jbq0sTvhYGrEqYeWs
+References: <20260306003224.3620942-1-joannelkoong@gmail.com>
+ <59dcb27f-875c-4a2a-82dc-63b832f8eb1e@bsbernd.com> <CAJnrk1YLtQF=SF-GoG4irKYzzePNewNgyTeU7VLvUN6Ub_NFVw@mail.gmail.com>
+ <d9aae2bf-b81d-42c8-b919-5e64292323e8@bsbernd.com> <CAJnrk1bYLwHpZsW85XiyWfM=gXXXS6pHg4=p9fcbDOwpca8UXQ@mail.gmail.com>
+ <f8a1808b-4068-49a7-a17d-8dcab1ae9cdf@bsbernd.com>
+In-Reply-To: <f8a1808b-4068-49a7-a17d-8dcab1ae9cdf@bsbernd.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Fri, 20 Mar 2026 18:19:19 -0700
+X-Gm-Features: AaiRm52angp4XSylGzFu5XLXSrc6TjmoHSygxSLjL3zcUmW3aIneWHY-_S5Q4Mk
+Message-ID: <CAJnrk1armV9VzBqrrdfr15K5ySBx2YJRk_P0okGnkzyMx_eDOw@mail.gmail.com>
+Subject: Re: [PATCH v3 0/8] io_uring: add kernel-managed buffer rings
+To: Bernd Schubert <bernd@bsbernd.com>
+Cc: axboe@kernel.dk, hch@infradead.org, asml.silence@gmail.com, 
+	csander@purestorage.com, krisman@suse.de, linux-fsdevel@vger.kernel.org, 
+	io-uring@vger.kernel.org, Horst Birthelmer <hbirthelmer@ddn.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 26/03/19 12:20PM, Jonathan Cameron wrote:
-> On Wed, 18 Mar 2026 20:28:37 -0500
-> John Groves <john@groves.net> wrote:
-> 
-> > The new fsdev driver provides pages/folios initialized compatibly with
-> > fsdax - normal rather than devdax-style refcounting, and starting out
-> > with order-0 folios.
-> > 
-> > When fsdev binds to a daxdev, it is usually (always?) switching from the
-> > devdax mode (device.c), which pre-initializes compound folios according
-> > to its alignment. Fsdev uses fsdev_clear_folio_state() to switch the
-> > folios into a fsdax-compatible state.
-> > 
-> > A side effect of this is that raw mmap doesn't (can't?) work on an fsdev
-> > dax instance. Accordingly, The fsdev driver does not provide raw mmap -
-> > devices must be put in 'devdax' mode (drivers/dax/device.c) to get raw
-> > mmap capability.
-> > 
-> > In this commit is just the framework, which remaps pages/folios compatibly
-> > with fsdax.
-> > 
-> > Enabling dax changes:
-> > 
-> > - bus.h: add DAXDRV_FSDEV_TYPE driver type
-> > - bus.c: allow DAXDRV_FSDEV_TYPE drivers to bind to daxdevs
-> > - dax.h: prototype inode_dax(), which fsdev needs
-> > 
-> > Suggested-by: Dan Williams <dan.j.williams@intel.com>
-> > Suggested-by: Gregory Price <gourry@gourry.net>
-> > Signed-off-by: John Groves <john@groves.net>
-> 
-> A few comments inline.  I think some of the code here could be moved
-> to a helper library used by both this and device.c
-> 
-> > ---
-> >  MAINTAINERS          |   8 ++
-> >  drivers/dax/Makefile |   6 +
-> >  drivers/dax/bus.c    |   4 +
-> >  drivers/dax/bus.h    |   1 +
-> >  drivers/dax/fsdev.c  | 253 +++++++++++++++++++++++++++++++++++++++++++
-> >  fs/dax.c             |   1 +
-> >  include/linux/dax.h  |   3 +
-> >  7 files changed, 276 insertions(+)
-> >  create mode 100644 drivers/dax/fsdev.c
-> > 
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 96ea84948d76..e83cfcf7e932 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -7298,6 +7298,14 @@ L:	linux-cxl@vger.kernel.org
-> >  S:	Supported
-> >  F:	drivers/dax/
-> >  
-> > +DEVICE DIRECT ACCESS (DAX) [fsdev_dax]
-> > +M:	John Groves <jgroves@micron.com>
-> > +M:	John Groves <John@Groves.net>
-> > +L:	nvdimm@lists.linux.dev
-> > +L:	linux-cxl@vger.kernel.org
-> > +S:	Supported
-> > +F:	drivers/dax/fsdev.c
-> > +
-> >  DEVICE FREQUENCY (DEVFREQ)
-> >  M:	MyungJoo Ham <myungjoo.ham@samsung.com>
-> >  M:	Kyungmin Park <kyungmin.park@samsung.com>
-> > diff --git a/drivers/dax/Makefile b/drivers/dax/Makefile
-> > index 5ed5c39857c8..3bae252fd1bf 100644
-> > --- a/drivers/dax/Makefile
-> > +++ b/drivers/dax/Makefile
-> > @@ -5,10 +5,16 @@ obj-$(CONFIG_DEV_DAX_KMEM) += kmem.o
-> >  obj-$(CONFIG_DEV_DAX_PMEM) += dax_pmem.o
-> >  obj-$(CONFIG_DEV_DAX_CXL) += dax_cxl.o
-> >  
-> > +# fsdev_dax: fs-dax compatible devdax driver (needs DEV_DAX and FS_DAX)
-> > +ifeq ($(CONFIG_FS_DAX),y)
-> > +obj-$(CONFIG_DEV_DAX) += fsdev_dax.o
-> > +endif
-> 
-> Why not throw in a new CONFIG_FSDAX_DEV and handle the dependencies
-> in Kconfig?  
+On Fri, Mar 20, 2026 at 3:44=E2=80=AFPM Bernd Schubert <bernd@bsbernd.com> =
+wrote:
+>
+>
+>
+> On 3/20/26 22:58, Joanne Koong wrote:
+> > On Fri, Mar 20, 2026 at 12:45=E2=80=AFPM Bernd Schubert <bernd@bsbernd.=
+com> wrote:
+> >>
+> >> On 3/20/26 20:20, Joanne Koong wrote:
+> >>> On Fri, Mar 20, 2026 at 10:16=E2=80=AFAM Bernd Schubert <bernd@bsbern=
+d.com> wrote:
+> >>>>
+> >>>> On 3/6/26 01:32, Joanne Koong wrote:
+> >>> Hi Bernd,
+> >>>
+> >>>> Hi Joanne,
+> >>>>
+> >>>> I'm a bit late, but could we have a design discussion about fuse her=
+e?
+> >>>> From my point of view it would be good if we could have different
+> >>>> request sizes for the ring buffers. Without kbuf I thought we would =
+just
+> >>>
+> >>> Is your motivation for wanting different request sizes for the ring
+> >>> buffers so that it can optimize the memory costs of the buffers? I
+> >>> agree that trying to reduce the memory footprint of the buffers is
+> >>> very important. The main reason I ended up going with the buffer ring
+> >>> design was for that purpose. When kbuf incremental buffer consumption
+> >>> is added in the future (I plan to submit it separately once all the
+> >>> io-uring pieces of the fuse-zero-copy patchset land), this will allow
+> >>> non-overlapping regions of the individual buffer to be used across
+> >>> multiple different-sized requests concurrently.
+> >>
+> >> That is also fine.
+> >>
+> >>>
+> >>> From my point of view, this is better than allocating variable-sized
+> >>> buffers upfront because:
+> >>> a) entries are fully maximized. With variable-sized buffers, the big
+> >>> buffers would be reserved specifically for payload requests while the
+> >>> small buffers would be reserved specifically for metadata requests. W=
+e
+> >>> could allocate '# entries' amount of small buffers, but for big
+> >>> buffers there would be less than '# entries'. If the server needs to
+> >>> service a lot of concurrent I/O requests, then the ring gets throttle=
+d
+> >>> on the limited number of big buffers available.
+> >>
+> >> I would like to see something like 8K, 16K, 32K, 128K.
+> >
+> > My worry is that for I/O heavy workloads with large read/write
+> > payloads (eg client access patterns reading/writing MBs at a time),
+> > the limited number of big enough buffers becomes the throttling
+> > bottleneck.
+> >
+> >>
+> >>>
+> >>> b) it best maximizes buffer memory. A request could need a buffer of
+> >>> any size so with variable-sized buffers, there's extra space in the
+> >>> buffer that is still being wasted. For example, for large payload
+> >>> requests, the big buffers would need to be the size of the max payloa=
+d
+> >>> size (eg default 1 MB) but a lot of requests will fall under that.
+> >>> With incremental buffer consumption, only however many bytes used by
+> >>> the request are reserved in the buffer.
+> >>
+> >> Doesn't that cause fragmentation?
+> >
+> > With incremetnal buffer consumption, there's not fragmentation in the
+> > classical sense (eg scattered unusable holes). The buffer gets
+> > recycled back into the ring as a whole once all the requests in it
+> > have completed (tracked by refcounting).
+> >
+> > I think the concern is that if the server is very slow to fulfill
+> > requests and the workload pattern has it so that slow requests are
+> > packed into the same buffer as fast requests across all the buffers in
+> > the queue and that queue has all its buffers saturated, then the next
+> > buffer is available only once the slow request has completed. We can
+> > mitigate this by assigning the request to a queue on the nearest numa
+> > node as a fallback if we detect that case. We could also do the same
+> > thing to mitigate the variable-sized buffer scenario where there's not
+> > enough big buffers for the queue, but I think that logic ends up a bit
+> > more complex.
+> >
+> > I think overall we're able to support both incremental buffer
+> > consumption + variable-sized buffers if there's a need for it in the
+> > future where the server would like to choose.
+> >
+> >>
+> >>>
+> >>> c) there's no overhead with having to (as you pointed out) keep the
+> >>> buffers tracked and sorted into per-sized lists. If we wanted to use
+> >>> variable-sized buffers with kbufs instead of using incremental buffer
+> >>> consumption, the best way to do that would be to allocate a separate
+> >>> kbufring to support payload requests vs metadata requests.
+> >>
+> >> Yeah, I had thought of multiple kbuf rings, with different sizes.
+> >>
+> >>>
+> >>>> register entries with different sizes, which would then get sorted i=
+nto
+> >>>> per size lists. Now with kbuf that will not work anymore and we need
+> >>>> different kbuf sizes. But then kbuf is not suitable for non-privileg=
+ed
+> >>>> users. So in order to support different request sizes one basically =
+has
+> >>>
+> >>> Non-privileged fuse servers use kbufs as well. It's only zero-copying
+> >>> that is not possible for non-privileged servers.
+> >>
+> >> Non-privileged cannot pin, at least by default mlock size is 8MB. I wa=
+s
+> >> under the impression that kbuf would be always pinned, but I need to
+> >> read over it again.
+> >
+> > The kbufs get accounted to the user's mlock usage (this happens in
+> > __io_account_mem()). If the user running the unprivileged server
+> > doesn't belong to a group that has high enough mlock limits, they'll
+> > have to use regular fuse over-io-uring buffers instead of kbufs for
+> > most of their queues.
+>
+> That is exactly what I mean - in reality  unprivileged servers will not
+> be able to use kbufs. And there it would be good, if that server could
+> use unpinned pbufs.
 
-At one point I had another config parameter, but I'm trying not to
-gratuitously add them. The fsdev driver is pretty small, and including it
-whenever FS_DAX is enabled felt reasonable to me. I'm willing to change it
-if there's a consensus that way.
+I think it's fundamentally wrong to use pbufs here. The buffers are
+completely under the sovereignty of userspace. If userspace chooses to
+free the buffers at any point or reuse the buffer for other purposes
+(or a free() and later malloc() ends up mapping to the same adddres),
+the kernel should not still be accessing the data in that buffer. When
+it's userspace that recycles back the buffer, this isn't a problem
+because userspace maintains direct control of the lifecycle and kernel
+usage of the buffer (eg if the buffer shouldn't be used by the kernel
+anymore since it's freed, then userspace simply won't add it back to
+the ring). This gets worse with incremental buffer consumption where
+multiple requests now simultaneously use the buffer - the server can't
+know when the kernel finishes reading each sub-region and on the
+kernel side, refcount tracking the pbuf becomes impractical. The pbuf
+buffers are a shared mapping that userspace can dynamically modify at
+any time, they can add and remove buffers from the ring at will. We
+can't add the refcount to the backing buffer struct directly since
+that is modifiable by userspace; we would have to track it separately
+in its own kernel-private list, but keeping that list in sync is
+difficult when userspace can add or remove buffers through the shared
+mapping at any time invisibly to the kernel.
 
-> 
-> > +
-> >  dax-y := super.o
-> >  dax-y += bus.o
-> >  device_dax-y := device.o
-> >  dax_pmem-y := pmem.o
-> >  dax_cxl-y := cxl.o
-> > +fsdev_dax-y := fsdev.o
-> >  
-> >  obj-y += hmem/
-> 
-> > diff --git a/drivers/dax/fsdev.c b/drivers/dax/fsdev.c
-> > new file mode 100644
-> > index 000000000000..e5b4396ce401
-> > --- /dev/null
-> > +++ b/drivers/dax/fsdev.c
-> 
-> > +static int fsdev_dax_probe(struct dev_dax *dev_dax)
-> > +{
-> > +	struct dax_device *dax_dev = dev_dax->dax_dev;
-> > +	struct device *dev = &dev_dax->dev;
-> > +	struct dev_pagemap *pgmap;
-> > +	u64 data_offset = 0;
-> 
-> See below. I think you can useful reduce scope of this one.
+I agree that for unprivileged servers constrained by low mlock limits,
+it's annoying that they can't use these features, but I don't think
+pbufs are the right direction. I think for those unprivileged servers,
+if the memory consumption is a pressing issue, then we should either
+just add the variable-sized buffers you mentioned or the servers
+should just use fewer queues and entries and accept the tradeoff that
+running unprivileged has a lower performance ceiling.
 
-As of now, I've reduced the scope, but in the very next commit it needs to
-move back here. So meh...not sure that's worth it for one commit
+Thanks,
+Joanne
 
-> 
-> > +	struct inode *inode;
-> > +	struct cdev *cdev;
-> > +	void *addr;
-> > +	int rc, i;
-> > +
-> 
-> There is a lot of duplication in here with dax/device.c
-> Is any of it suitable for shared helpers?
 
-I haven't addressed factoring out more duplicated code yet. Ideally I'd like
-to do that after the initial merge, but I'm paying attention to whether 
-there's pressure to do it.
 
-> 
-> > +	if (static_dev_dax(dev_dax))  {
-> > +		if (dev_dax->nr_range > 1) {
-> > +			dev_warn(dev, "static pgmap / multi-range device conflict\n");
-> > +			return -EINVAL;
-> > +		}
-> > +
-> > +		pgmap = dev_dax->pgmap;
-> > +	} else {
-> > +		size_t pgmap_size;
-> > +
-> > +		if (dev_dax->pgmap) {
-> > +			dev_warn(dev, "dynamic-dax with pre-populated page map\n");
-> > +			return -EINVAL;
-> > +		}
-> > +
-> > +		pgmap_size = struct_size(pgmap, ranges, dev_dax->nr_range - 1);
-> > +		pgmap = devm_kzalloc(dev, pgmap_size,  GFP_KERNEL);
-> 
-> Bonus space before GFP_KERNEL.
-
-Excised, thanks
-
-> 
-> 
-> > +		if (!pgmap)
-> > +			return -ENOMEM;
-> > +
-> > +		pgmap->nr_range = dev_dax->nr_range;
-> > +		dev_dax->pgmap = pgmap;
-> > +
-> > +		for (i = 0; i < dev_dax->nr_range; i++) {
-> > +			struct range *range = &dev_dax->ranges[i].range;
-> > +
-> > +			pgmap->ranges[i] = *range;
-> > +		}
-> > +	}
-> > +
-> > +	for (i = 0; i < dev_dax->nr_range; i++) {
-> > +		struct range *range = &dev_dax->ranges[i].range;
-> > +
-> > +		if (!devm_request_mem_region(dev, range->start,
-> > +					range_len(range), dev_name(dev))) {
-> > +			dev_warn(dev, "mapping%d: %#llx-%#llx could not reserve range\n",
-> > +				 i, range->start, range->end);
-> > +			return -EBUSY;
-> > +		}
-> > +	}
-> 
-> Everything above here is shared.  Some sort of _init() or similar library function
-> seems in order.
-
-Taken under advisement. Will look at this soon.
-
-> 
-> > +
-> > +	/*
-> > +	 * FS-DAX compatible mode: Use MEMORY_DEVICE_FS_DAX type and
-> > +	 * do NOT set vmemmap_shift. This leaves folios at order-0,
-> > +	 * allowing fs-dax to dynamically create compound folios as needed
-> > +	 * (similar to pmem behavior).
-> > +	 */
-> > +	pgmap->type = MEMORY_DEVICE_FS_DAX;
-> > +	pgmap->ops = &fsdev_pagemap_ops;
-> > +	pgmap->owner = dev_dax;
-> > +
-> > +	/*
-> > +	 * CRITICAL DIFFERENCE from device.c:
-> > +	 * We do NOT set vmemmap_shift here, even if align > PAGE_SIZE.
-> > +	 * This ensures folios remain order-0 and are compatible with
-> > +	 * fs-dax's folio management.
-> > +	 */
-> > +
-> > +	addr = devm_memremap_pages(dev, pgmap);
-> > +	if (IS_ERR(addr))
-> > +		return PTR_ERR(addr);
-> > +
-> > +	/*
-> > +	 * Clear any stale compound folio state left over from a previous
-> > +	 * driver (e.g., device_dax with vmemmap_shift). Also register this
-> > +	 * as a devm action so folio state is cleared on unbind, ensuring
-> > +	 * clean pages for subsequent drivers (e.g., kmem for system-ram).
-> > +	 */
-> > +	fsdev_clear_folio_state(dev_dax);
-> > +	rc = devm_add_action_or_reset(dev, fsdev_clear_folio_state_action,
-> > +				      dev_dax);
-> > +	if (rc)
-> > +		return rc;
-> > +
-> > +	/* Detect whether the data is at a non-zero offset into the memory */
-> > +	if (pgmap->range.start != dev_dax->ranges[0].range.start) {
-> > +		u64 phys = dev_dax->ranges[0].range.start;
-> > +		u64 pgmap_phys = dev_dax->pgmap[0].range.start;
-> > +
-> > +		if (!WARN_ON(pgmap_phys > phys))
-> > +			data_offset = phys - pgmap_phys;
-> > +
-> > +		pr_debug("%s: offset detected phys=%llx pgmap_phys=%llx offset=%llx\n",
-> > +		       __func__, phys, pgmap_phys, data_offset);
-> 
-> Might change later, but at least at this point you could pull declaration of data_offset
-> into this scope.
-
-done as of now, but it's used right after the closing brace of this block
-in the very next commit.
-
-> 
-> > +	}
-> > +
-> > +	inode = dax_inode(dax_dev);
-> > +	cdev = inode->i_cdev;
-> > +	cdev_init(cdev, &fsdev_fops);
-> > +	cdev->owner = dev->driver->owner;
-> > +	cdev_set_parent(cdev, &dev->kobj);
-> > +	rc = cdev_add(cdev, dev->devt, 1);
-> > +	if (rc)
-> > +		return rc;
-> > +
-> > +	rc = devm_add_action_or_reset(dev, fsdev_cdev_del, cdev);
-> > +	if (rc)
-> > +		return rc;
-> > +
-> > +	run_dax(dax_dev);
-> > +	return devm_add_action_or_reset(dev, fsdev_kill, dev_dax);
-> > +}
-> 
-> > diff --git a/include/linux/dax.h b/include/linux/dax.h
-> > index bf103f317cac..996493f5c538 100644
-> > --- a/include/linux/dax.h
-> > +++ b/include/linux/dax.h
-> > @@ -51,6 +51,7 @@ struct dax_holder_operations {
-> >  
-> >  #if IS_ENABLED(CONFIG_DAX)
-> >  struct dax_device *alloc_dax(void *private, const struct dax_operations *ops);
-> > +
-> 
-> Unrelated change.  Tidy this up for v9.
-
-Spurious blank line dropped - thanks
-
-> 
-> 
-> >  void *dax_holder(struct dax_device *dax_dev);
-> >  void put_dax(struct dax_device *dax_dev);
-> >  void kill_dax(struct dax_device *dax_dev);
-> > @@ -151,8 +152,10 @@ static inline void fs_put_dax(struct dax_device *dax_dev, void *holder)
-> >  #endif /* CONFIG_BLOCK && CONFIG_FS_DAX */
-> >  
-> >  #if IS_ENABLED(CONFIG_FS_DAX)
-> > +struct dax_device *inode_dax(struct inode *inode);
-> 
-> Already in dax_private.h so why does it want to be here?
-
-Indeed, thanks!
-
-Regards,
-John
-
+>
+>
+> Thanks,
+> Bernd
