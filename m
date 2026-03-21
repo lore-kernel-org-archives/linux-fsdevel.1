@@ -1,264 +1,512 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92D7F5D8F0
-	for <linux-fsdevel@vger.kernel.org>; Sat, 21 Mar 2026 01:19:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774055974; cv=pass; b=X2/oX844/nkLSdgqrH454S24gPi9GSvOEOzF9rE4+J5X/M+mN1+SBFVXfQFx+oHJvs45aaFDALi5UPxvlUgsMiEfmHU8K+OY7TrOXCJBVBJrvF3GAPsIJk5OTvb/SHS/Bw/XBpY4VM/GId9nMB6uZuINlITYz8zXfR0lHf/9Ohc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774055974; c=relaxed/simple;
-	bh=Jqo515c/BgZK/5yBJ9BaW0HLWKPr8AYiv9O9CAKZy8g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hTkzOWICQvGYzZu7C40eZyvnbMr3Xn8khfzczV0Lc/Mwee3qO/IiS3B6lTbRd2rb6dSJ951weRMY/js3S/B3bmBTUAnSjMLalgvh61dHUpLwX7DAynBviGkCa9czoickHYsqq7YlmahWQKJGJm7j6gRgHg9DNi02Bn1Z6XZMkhM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=heITtZXt; arc=pass smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F98B40DFAC;
+	Sat, 21 Mar 2026 02:43:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774060981; cv=none; b=kLisQUB4eJQ0Ob1DTtTTq5G8nkcx0opUjzOH84E4+Q4KgKro6efZf4LjYonw+U4PdukNVaV962MLpC2iOTNsn99KhIY84CaYg9Nc+3cwusAdoyx9eh3f5+3xxhI0x70cRbbHmd5EiM5+OcygzIw4jwHlvIlZN22RGZWchthPG94=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774060981; c=relaxed/simple;
+	bh=BgN7DRMw/b+g+o3kfdBnAM90Udq9D+FeM/bxcwNC3t4=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=jQVuyXsmMMn3uALX6wUpoilLawxvlwKfMFQpGq1RuisooErOW8tGRvZ1JeMh3Wjvp9qRnIzjQ2SX7EDfVhrvsgT3T+n7/+p6ceL92vLkqzyOqUyid4Q5ejv/G3uyXArVby6Rs2VILTso7EB2yGa5/e9MbvomlOkhXGHZdo1vIYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=m7rFYZJy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="heITtZXt"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-439b9cf8cb5so3256879f8f.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 20 Mar 2026 18:19:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774055971; cv=none;
-        d=google.com; s=arc-20240605;
-        b=ijuqfpy2KTV2w1bwmMwRnT/dL15CX0UhNPrG6OG0NBJK/ajCxp+tniUkdgf4gw6WbT
-         YgonGs3tSynVWtzCq3la+HbaivHbgT/AZXYnoOx464eL3e57p3CTDQo/Hy1SI1Qa7A0B
-         r7iMv1sbqSL2g5OY74TXYdTI46+8pQgw+QzUhpZStrG7ukX4apW5IK4csqrpDQP3YHFY
-         ciQM8OPRF+8ClCeBqHDgB03wCPCH6Xh/oYJCi7El2ci+oTvRXeK2OKS0ubkhmy71HqrR
-         gy8bCRJRT4MBhkj11S9TfQU8IdrYRF9RXEEDsJ6GjqdQ3NpduDI+5GwmgoACl4q2GQDp
-         rsaA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=5LziXhS+PKsI2U4E0Nmh6m6esRTglmNzqvqsZu+LVXA=;
-        fh=1Dp/pFfQtghumT0WpcwAy3NHHn3qmQxeUSZJmo5oLL0=;
-        b=FqCu2l+8dUfbo9qsomUxZ78Ol2mAIg8MMKtqzOddWYnR2UgFtj/UteULUA4Lg2ntye
-         NHp8QcWw8ffBb+NHe+kegud8cT3j+31cd/SCZBV2xs5Nw+gnCFHhLxF2blJZ4ozvc4Lg
-         NgwOEL8P+6UEicdEVPvofvtTz/C51oGIkS49IcCPgopKuMX1kqSJ08Dw+SvPh/qBYrhV
-         rH77LrDSqGaUvcDzm26JRuzYEfVYtBn+kFAUA5J1msy3yvwuMefE4AoNo29bkwLpDAvh
-         s2HiR/WHmCHLMiVX23MF+pFgyU3Qnt5lWWEzmlF93/fD3khRFxW2iovyrPFQw2Y/Be+R
-         9h8A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774055971; x=1774660771; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5LziXhS+PKsI2U4E0Nmh6m6esRTglmNzqvqsZu+LVXA=;
-        b=heITtZXt6dVI/qC6HVd95zt6PYnfcKRWMUNVYSAgwxthqe6AdsIaFbqOofPvK3Vjuk
-         r1ovnrn39nuqeg6XyrPtzVDy58edEJ2AGL6ILOyWIzdHtsi0ORB1uK45181ZzxP9mN3z
-         D+ETNxHjf0pCnbh0gZ7B+ZDC7DkFu1hGpstKtoUyT6WPpXspDSEyAgf2hYksjiF0a3mc
-         DWv7+uOtePvlHt9fs8TC79on0RKQtdj3lsoSXMoLiTLP+s1HBwOvRu7Vp2VfhlEYKHj8
-         BArScNAmvWqK78rtsijYUJBbJBAKnNaU8eUyQCueyXVeeVPR/tp9MWZvV6QY49Djrd8N
-         zX8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774055971; x=1774660771;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=5LziXhS+PKsI2U4E0Nmh6m6esRTglmNzqvqsZu+LVXA=;
-        b=SfhGWNgJN9zKcvK95j5EaUUBQXSwnjR8tqsitpihUPJDIJHm3YVm9yPvGvEjT3Ts2k
-         s0UclhogClBD07BjeeDxLYy9qgDRI8FENk/iB2u4ZDHc4+7d4nHuZEmsFVVKqN3xcIPE
-         f9RZwlJVYfWW6k4HFwyVPZmQjqB1gpt8vtks6Bxp1NsbZ94vC8TzOkhpx0oeV2R7kq/j
-         Lg6CZmbc7y/HgEYZDjcBRkTTyWtZuhTo0CFLlk2CP+Z43iQjSYF0fO4gZzdD5V33VW2Z
-         ZmDqbm6078MpNHWUMo2YryuZd7dzkYW2Wt3kMapA23eUTmsG4whUs037XHAx5W5J16NE
-         vZ0g==
-X-Forwarded-Encrypted: i=1; AJvYcCVZq1jMIvJd4O79GUsFqhASgYJOHHi//Kc/3o2Eqag3xcehvAxYs9nrb+LeBivxU8Xeo14AM+TkoFg+0wAc@vger.kernel.org
-X-Gm-Message-State: AOJu0YxMa3GXLVvwQEnVvzWj2cpFkeEllqRmKR0iCFs0VoN328bWC1fJ
-	eLonzcxWHPG+crAgaAb7O11t5NOt+/K8AfoW8FFkxLPAAFb2C8KI1gpCNyc+nuEXXPUk5Cj3UiU
-	IaClacWZ/SYsmoyqojz6rWnlYVmjWIk4=
-X-Gm-Gg: ATEYQzwOZQP80bI1IdXxIKAPj4RPDCtz8ZoYUlZLPuCLdf+r/fpOYw2m9t5DSRfo25E
-	FXjEViKjBEiAdBHM9DML5Dc8cLvhvtKzwyuNQ66iHaqX6YtALGetWPrf7zy2bYv0yI6O0tqgmhC
-	s7r80PchI1DhSOzVEb4CuOsPkp2MW/nkJkPXOWNHiZAowqhVv7FMfdgyLqq0mcK9Fp1UhiMZE11
-	POgCdlZCpwhoryK5NenmjhkZR+FFpVGVVqUIePxeHrLayAyQJbnyTmJwFD8h+vA5OxAXIIPhoTw
-	7wnTxw==
-X-Received: by 2002:a05:6000:290b:b0:43b:4468:b112 with SMTP id
- ffacd0b85a97d-43b6426b65fmr8200715f8f.25.1774055970677; Fri, 20 Mar 2026
- 18:19:30 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="m7rFYZJy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 713BDC4CEF7;
+	Sat, 21 Mar 2026 02:42:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1774060980;
+	bh=BgN7DRMw/b+g+o3kfdBnAM90Udq9D+FeM/bxcwNC3t4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=m7rFYZJyPUJygsgH+qiD39v5OLPAO4qM/j5uGyhL+yQw8aAoTQB9Y1SEP53/9Kin1
+	 3WqGLjL4VUQjZS0N4OUlpTGI2wHXbNDD1qIiuETlW6pZu5Fa+LHFmJAqri/1nO1Grr
+	 uitz00N5SqQNSahN3+dkJfjmUakWldSwDxOFAblo=
+Date: Fri, 20 Mar 2026 19:42:58 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Clemens Ladisch <clemens@ladisch.de>,
+ Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, "K . Y . Srinivasan" <kys@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+ Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, Alexander
+ Shishkin <alexander.shishkin@linux.intel.com>, Maxime Coquelin
+ <mcoquelin.stm32@gmail.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Bodo Stroesser <bostroesser@gmail.com>, "Martin K . Petersen"
+ <martin.petersen@oracle.com>, David Howells <dhowells@redhat.com>, Marc
+ Dionne <marc.dionne@auristor.com>, Alexander Viro
+ <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara
+ <jack@suse.cz>, David Hildenbrand <david@kernel.org>, "Liam R . Howlett"
+ <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>, Mike
+ Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal
+ Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, Pedro Falcato
+ <pfalcato@suse.de>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org,
+ linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org,
+ target-devel@vger.kernel.org, linux-afs@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, Ryan Roberts
+ <ryan.roberts@arm.com>
+Subject: Re: [PATCH v4 00/21] mm: expand mmap_prepare functionality and
+ usage
+Message-Id: <20260320194258.9c00594e67c675a239ea44a6@linux-foundation.org>
+In-Reply-To: <cover.1774045440.git.ljs@kernel.org>
+References: <cover.1774045440.git.ljs@kernel.org>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260306003224.3620942-1-joannelkoong@gmail.com>
- <59dcb27f-875c-4a2a-82dc-63b832f8eb1e@bsbernd.com> <CAJnrk1YLtQF=SF-GoG4irKYzzePNewNgyTeU7VLvUN6Ub_NFVw@mail.gmail.com>
- <d9aae2bf-b81d-42c8-b919-5e64292323e8@bsbernd.com> <CAJnrk1bYLwHpZsW85XiyWfM=gXXXS6pHg4=p9fcbDOwpca8UXQ@mail.gmail.com>
- <f8a1808b-4068-49a7-a17d-8dcab1ae9cdf@bsbernd.com>
-In-Reply-To: <f8a1808b-4068-49a7-a17d-8dcab1ae9cdf@bsbernd.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Fri, 20 Mar 2026 18:19:19 -0700
-X-Gm-Features: AaiRm52angp4XSylGzFu5XLXSrc6TjmoHSygxSLjL3zcUmW3aIneWHY-_S5Q4Mk
-Message-ID: <CAJnrk1armV9VzBqrrdfr15K5ySBx2YJRk_P0okGnkzyMx_eDOw@mail.gmail.com>
-Subject: Re: [PATCH v3 0/8] io_uring: add kernel-managed buffer rings
-To: Bernd Schubert <bernd@bsbernd.com>
-Cc: axboe@kernel.dk, hch@infradead.org, asml.silence@gmail.com, 
-	csander@purestorage.com, krisman@suse.de, linux-fsdevel@vger.kernel.org, 
-	io-uring@vger.kernel.org, Horst Birthelmer <hbirthelmer@ddn.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, Mar 20, 2026 at 3:44=E2=80=AFPM Bernd Schubert <bernd@bsbernd.com> =
-wrote:
->
->
->
-> On 3/20/26 22:58, Joanne Koong wrote:
-> > On Fri, Mar 20, 2026 at 12:45=E2=80=AFPM Bernd Schubert <bernd@bsbernd.=
-com> wrote:
-> >>
-> >> On 3/20/26 20:20, Joanne Koong wrote:
-> >>> On Fri, Mar 20, 2026 at 10:16=E2=80=AFAM Bernd Schubert <bernd@bsbern=
-d.com> wrote:
-> >>>>
-> >>>> On 3/6/26 01:32, Joanne Koong wrote:
-> >>> Hi Bernd,
-> >>>
-> >>>> Hi Joanne,
-> >>>>
-> >>>> I'm a bit late, but could we have a design discussion about fuse her=
-e?
-> >>>> From my point of view it would be good if we could have different
-> >>>> request sizes for the ring buffers. Without kbuf I thought we would =
-just
-> >>>
-> >>> Is your motivation for wanting different request sizes for the ring
-> >>> buffers so that it can optimize the memory costs of the buffers? I
-> >>> agree that trying to reduce the memory footprint of the buffers is
-> >>> very important. The main reason I ended up going with the buffer ring
-> >>> design was for that purpose. When kbuf incremental buffer consumption
-> >>> is added in the future (I plan to submit it separately once all the
-> >>> io-uring pieces of the fuse-zero-copy patchset land), this will allow
-> >>> non-overlapping regions of the individual buffer to be used across
-> >>> multiple different-sized requests concurrently.
-> >>
-> >> That is also fine.
-> >>
-> >>>
-> >>> From my point of view, this is better than allocating variable-sized
-> >>> buffers upfront because:
-> >>> a) entries are fully maximized. With variable-sized buffers, the big
-> >>> buffers would be reserved specifically for payload requests while the
-> >>> small buffers would be reserved specifically for metadata requests. W=
-e
-> >>> could allocate '# entries' amount of small buffers, but for big
-> >>> buffers there would be less than '# entries'. If the server needs to
-> >>> service a lot of concurrent I/O requests, then the ring gets throttle=
-d
-> >>> on the limited number of big buffers available.
-> >>
-> >> I would like to see something like 8K, 16K, 32K, 128K.
-> >
-> > My worry is that for I/O heavy workloads with large read/write
-> > payloads (eg client access patterns reading/writing MBs at a time),
-> > the limited number of big enough buffers becomes the throttling
-> > bottleneck.
-> >
-> >>
-> >>>
-> >>> b) it best maximizes buffer memory. A request could need a buffer of
-> >>> any size so with variable-sized buffers, there's extra space in the
-> >>> buffer that is still being wasted. For example, for large payload
-> >>> requests, the big buffers would need to be the size of the max payloa=
-d
-> >>> size (eg default 1 MB) but a lot of requests will fall under that.
-> >>> With incremental buffer consumption, only however many bytes used by
-> >>> the request are reserved in the buffer.
-> >>
-> >> Doesn't that cause fragmentation?
-> >
-> > With incremetnal buffer consumption, there's not fragmentation in the
-> > classical sense (eg scattered unusable holes). The buffer gets
-> > recycled back into the ring as a whole once all the requests in it
-> > have completed (tracked by refcounting).
-> >
-> > I think the concern is that if the server is very slow to fulfill
-> > requests and the workload pattern has it so that slow requests are
-> > packed into the same buffer as fast requests across all the buffers in
-> > the queue and that queue has all its buffers saturated, then the next
-> > buffer is available only once the slow request has completed. We can
-> > mitigate this by assigning the request to a queue on the nearest numa
-> > node as a fallback if we detect that case. We could also do the same
-> > thing to mitigate the variable-sized buffer scenario where there's not
-> > enough big buffers for the queue, but I think that logic ends up a bit
-> > more complex.
-> >
-> > I think overall we're able to support both incremental buffer
-> > consumption + variable-sized buffers if there's a need for it in the
-> > future where the server would like to choose.
-> >
-> >>
-> >>>
-> >>> c) there's no overhead with having to (as you pointed out) keep the
-> >>> buffers tracked and sorted into per-sized lists. If we wanted to use
-> >>> variable-sized buffers with kbufs instead of using incremental buffer
-> >>> consumption, the best way to do that would be to allocate a separate
-> >>> kbufring to support payload requests vs metadata requests.
-> >>
-> >> Yeah, I had thought of multiple kbuf rings, with different sizes.
-> >>
-> >>>
-> >>>> register entries with different sizes, which would then get sorted i=
-nto
-> >>>> per size lists. Now with kbuf that will not work anymore and we need
-> >>>> different kbuf sizes. But then kbuf is not suitable for non-privileg=
-ed
-> >>>> users. So in order to support different request sizes one basically =
-has
-> >>>
-> >>> Non-privileged fuse servers use kbufs as well. It's only zero-copying
-> >>> that is not possible for non-privileged servers.
-> >>
-> >> Non-privileged cannot pin, at least by default mlock size is 8MB. I wa=
-s
-> >> under the impression that kbuf would be always pinned, but I need to
-> >> read over it again.
-> >
-> > The kbufs get accounted to the user's mlock usage (this happens in
-> > __io_account_mem()). If the user running the unprivileged server
-> > doesn't belong to a group that has high enough mlock limits, they'll
-> > have to use regular fuse over-io-uring buffers instead of kbufs for
-> > most of their queues.
->
-> That is exactly what I mean - in reality  unprivileged servers will not
-> be able to use kbufs. And there it would be good, if that server could
-> use unpinned pbufs.
+On Fri, 20 Mar 2026 22:39:26 +0000 "Lorenzo Stoakes (Oracle)" <ljs@kernel.org> wrote:
 
-I think it's fundamentally wrong to use pbufs here. The buffers are
-completely under the sovereignty of userspace. If userspace chooses to
-free the buffers at any point or reuse the buffer for other purposes
-(or a free() and later malloc() ends up mapping to the same adddres),
-the kernel should not still be accessing the data in that buffer. When
-it's userspace that recycles back the buffer, this isn't a problem
-because userspace maintains direct control of the lifecycle and kernel
-usage of the buffer (eg if the buffer shouldn't be used by the kernel
-anymore since it's freed, then userspace simply won't add it back to
-the ring). This gets worse with incremental buffer consumption where
-multiple requests now simultaneously use the buffer - the server can't
-know when the kernel finishes reading each sub-region and on the
-kernel side, refcount tracking the pbuf becomes impractical. The pbuf
-buffers are a shared mapping that userspace can dynamically modify at
-any time, they can add and remove buffers from the ring at will. We
-can't add the refcount to the backing buffer struct directly since
-that is modifiable by userspace; we would have to track it separately
-in its own kernel-private list, but keeping that list in sync is
-difficult when userspace can add or remove buffers through the shared
-mapping at any time invisibly to the kernel.
+> This series expands the mmap_prepare functionality, which is intended to
+> replace the deprecated f_op->mmap hook which has been the source of bugs
+> and security issues for some time.
 
-I agree that for unprivileged servers constrained by low mlock limits,
-it's annoying that they can't use these features, but I don't think
-pbufs are the right direction. I think for those unprivileged servers,
-if the memory consumption is a pressing issue, then we should either
-just add the variable-sized buffers you mentioned or the servers
-should just use fewer queues and entries and accept the tradeoff that
-running unprivileged has a lower performance ceiling.
-
-Thanks,
-Joanne
+Thanks, I updated mm-unstable to this version.  Here's how that altered
+mm.git:
 
 
+ Documentation/filesystems/mmap_prepare.rst |    4 
+ include/linux/mm.h                         |    3 
+ mm/internal.h                              |   27 ++++-
+ mm/util.c                                  |   87 +++++++++----------
+ mm/vma.c                                   |   41 +-------
+ tools/testing/vma/include/dup.h            |   44 +--------
+ tools/testing/vma/include/stubs.h          |    3 
+ 7 files changed, 80 insertions(+), 129 deletions(-)
 
->
->
-> Thanks,
-> Bernd
+--- a/Documentation/filesystems/mmap_prepare.rst~b
++++ a/Documentation/filesystems/mmap_prepare.rst
+@@ -123,8 +123,8 @@ When implementing mmap_prepare(), refere
+ as a ``VMA_xxx_BIT`` macro, e.g. ``VMA_READ_BIT``, ``VMA_WRITE_BIT`` etc.,
+ and use one of (where ``desc`` is a pointer to struct vm_area_desc):
+ 
+-* ``vma_desc_test_flags(desc, ...)`` - Specify a comma-separated list of flags
+-  you wish to test for (whether _any_ are set), e.g. - ``vma_desc_test_flags(
++* ``vma_desc_test_any(desc, ...)`` - Specify a comma-separated list of flags
++  you wish to test for (whether _any_ are set), e.g. - ``vma_desc_test_any(
+   desc, VMA_WRITE_BIT, VMA_MAYWRITE_BIT)`` - returns ``true`` if either are set,
+   otherwise ``false``.
+ * ``vma_desc_set_flags(desc, ...)`` - Update the VMA descriptor flags to set
+--- a/include/linux/mm.h~b
++++ a/include/linux/mm.h
+@@ -4394,8 +4394,7 @@ static inline void mmap_action_map_kerne
+ 
+ int mmap_action_prepare(struct vm_area_desc *desc);
+ int mmap_action_complete(struct vm_area_struct *vma,
+-			 struct mmap_action *action,
+-			 bool rmap_lock_held);
++			 struct mmap_action *action);
+ 
+ /* Look up the first VMA which exactly match the interval vm_start ... vm_end */
+ static inline struct vm_area_struct *find_exact_vma(struct mm_struct *mm,
+--- a/mm/internal.h~b
++++ a/mm/internal.h
+@@ -202,14 +202,6 @@ static inline void vma_close(struct vm_a
+ /* unmap_vmas is in mm/memory.c */
+ void unmap_vmas(struct mmu_gather *tlb, struct unmap_desc *unmap);
+ 
+-static inline void unmap_vma_locked(struct vm_area_struct *vma)
+-{
+-	const size_t len = vma_pages(vma) << PAGE_SHIFT;
+-
+-	mmap_assert_write_locked(vma->vm_mm);
+-	do_munmap(vma->vm_mm, vma->vm_start, len, NULL);
+-}
+-
+ #ifdef CONFIG_MMU
+ 
+ static inline void get_anon_vma(struct anon_vma *anon_vma)
+@@ -1826,6 +1818,25 @@ static inline int io_remap_pfn_range_pre
+ 	return 0;
+ }
+ 
++/*
++ * When we succeed an mmap action or just before we unmap a VMA on error, we
++ * need to ensure any rmap lock held is released. On unmap it's required to
++ * avoid a deadlock.
++ */
++static inline void maybe_rmap_unlock_action(struct vm_area_struct *vma,
++		struct mmap_action *action)
++{
++	struct file *file;
++
++	if (!action->hide_from_rmap_until_complete)
++		return;
++
++	VM_WARN_ON_ONCE(vma_is_anonymous(vma));
++	file = vma->vm_file;
++	i_mmap_unlock_write(file->f_mapping);
++	action->hide_from_rmap_until_complete = false;
++}
++
+ #ifdef CONFIG_MMU_NOTIFIER
+ static inline int clear_flush_young_ptes_notify(struct vm_area_struct *vma,
+ 		unsigned long addr, pte_t *ptep, unsigned int nr)
+--- a/mm/util.c~b
++++ a/mm/util.c
+@@ -1198,25 +1198,6 @@ void compat_set_desc_from_vma(struct vm_
+ }
+ EXPORT_SYMBOL(compat_set_desc_from_vma);
+ 
+-static int __compat_vma_mapped(struct file *file, struct vm_area_struct *vma)
+-{
+-	const struct vm_operations_struct *vm_ops = vma->vm_ops;
+-	void *vm_private_data = vma->vm_private_data;
+-	int err;
+-
+-	if (!vm_ops || !vm_ops->mapped)
+-		return 0;
+-
+-	err = vm_ops->mapped(vma->vm_start, vma->vm_end, vma->vm_pgoff, file,
+-			     &vm_private_data);
+-	if (err)
+-		unmap_vma_locked(vma);
+-	else if (vm_private_data != vma->vm_private_data)
+-		vma->vm_private_data = vm_private_data;
+-
+-	return err;
+-}
+-
+ /**
+  * __compat_vma_mmap() - Similar to compat_vma_mmap(), only it allows
+  * flexibility as to how the mmap_prepare callback is invoked, which is useful
+@@ -1251,13 +1232,7 @@ int __compat_vma_mmap(struct vm_area_des
+ 	/* Update the VMA from the descriptor. */
+ 	compat_set_vma_from_desc(vma, desc);
+ 	/* Complete any specified mmap actions. */
+-	err = mmap_action_complete(vma, &desc->action,
+-				   /*rmap_lock_held=*/false);
+-	if (err)
+-		return err;
+-
+-	/* Invoke vm_ops->mapped callback. */
+-	return __compat_vma_mapped(desc->file, vma);
++	return mmap_action_complete(vma, &desc->action);
+ }
+ EXPORT_SYMBOL(__compat_vma_mmap);
+ 
+@@ -1290,12 +1265,17 @@ EXPORT_SYMBOL(__compat_vma_mmap);
+ int compat_vma_mmap(struct file *file, struct vm_area_struct *vma)
+ {
+ 	struct vm_area_desc desc;
++	struct mmap_action *action;
+ 	int err;
+ 
+ 	compat_set_desc_from_vma(&desc, file, vma);
+ 	err = vfs_mmap_prepare(file, &desc);
+ 	if (err)
+ 		return err;
++	action = &desc.action;
++
++	/* being invoked from .mmmap means we don't have to enforce this. */
++	action->hide_from_rmap_until_complete = false;
+ 
+ 	return __compat_vma_mmap(&desc, vma);
+ }
+@@ -1399,25 +1379,47 @@ again:
+ 	}
+ }
+ 
++static int call_vma_mapped(struct vm_area_struct *vma)
++{
++	const struct vm_operations_struct *vm_ops = vma->vm_ops;
++	void *vm_private_data = vma->vm_private_data;
++	int err;
++
++	if (!vm_ops || !vm_ops->mapped)
++		return 0;
++
++	err = vm_ops->mapped(vma->vm_start, vma->vm_end, vma->vm_pgoff,
++			     vma->vm_file, &vm_private_data);
++	if (err)
++		return err;
++
++	if (vm_private_data != vma->vm_private_data)
++		vma->vm_private_data = vm_private_data;
++	return 0;
++}
++
+ static int mmap_action_finish(struct vm_area_struct *vma,
+-			      struct mmap_action *action, int err,
+-			      bool rmap_lock_held)
++			      struct mmap_action *action, int err)
+ {
+-	if (rmap_lock_held)
+-		i_mmap_unlock_write(vma->vm_file->f_mapping);
++	size_t len;
+ 
+-	if (!err) {
+-		if (action->success_hook)
+-			return action->success_hook(vma);
++	if (!err)
++		err = call_vma_mapped(vma);
++	if (!err && action->success_hook)
++		err = action->success_hook(vma);
++
++	/* do_munmap() might take rmap lock, so release if held. */
++	maybe_rmap_unlock_action(vma, action);
++	if (!err)
+ 		return 0;
+-	}
+ 
+ 	/*
+ 	 * If an error occurs, unmap the VMA altogether and return an error. We
+ 	 * only clear the newly allocated VMA, since this function is only
+ 	 * invoked if we do NOT merge, so we only clean up the VMA we created.
+ 	 */
+-	unmap_vma_locked(vma);
++	len = vma_pages(vma) << PAGE_SHIFT;
++	do_munmap(current->mm, vma->vm_start, len, NULL);
+ 	if (action->error_hook) {
+ 		/* We may want to filter the error. */
+ 		err = action->error_hook(err);
+@@ -1459,16 +1461,13 @@ EXPORT_SYMBOL(mmap_action_prepare);
+  * mmap_action_complete - Execute VMA descriptor action.
+  * @vma: The VMA to perform the action upon.
+  * @action: The action to perform.
+- * @rmap_lock_held: Is the file rmap lock held?
+  *
+  * Similar to mmap_action_prepare().
+  *
+  * Return: 0 on success, or error, at which point the VMA will be unmapped.
+  */
+ int mmap_action_complete(struct vm_area_struct *vma,
+-			 struct mmap_action *action,
+-			 bool rmap_lock_held)
+-
++			 struct mmap_action *action)
+ {
+ 	int err = 0;
+ 
+@@ -1489,8 +1488,7 @@ int mmap_action_complete(struct vm_area_
+ 		break;
+ 	}
+ 
+-	return mmap_action_finish(vma, action, err,
+-				  rmap_lock_held);
++	return mmap_action_finish(vma, action, err);
+ }
+ EXPORT_SYMBOL(mmap_action_complete);
+ #else
+@@ -1512,8 +1510,7 @@ int mmap_action_prepare(struct vm_area_d
+ EXPORT_SYMBOL(mmap_action_prepare);
+ 
+ int mmap_action_complete(struct vm_area_struct *vma,
+-			 struct mmap_action *action,
+-			 bool rmap_lock_held)
++			 struct mmap_action *action)
+ {
+ 	int err = 0;
+ 
+@@ -1523,14 +1520,14 @@ int mmap_action_complete(struct vm_area_
+ 	case MMAP_REMAP_PFN:
+ 	case MMAP_IO_REMAP_PFN:
+ 	case MMAP_SIMPLE_IO_REMAP:
+-	casr MMAP_MAP_KERNEL_PAGES:
++	case MMAP_MAP_KERNEL_PAGES:
+ 		WARN_ON_ONCE(1); /* nommu cannot handle this. */
+ 
+ 		err = -EINVAL;
+ 		break;
+ 	}
+ 
+-	return mmap_action_finish(vma, action, err, rmap_lock_held);
++	return mmap_action_finish(vma, action, err);
+ }
+ EXPORT_SYMBOL(mmap_action_complete);
+ #endif
+--- a/mm/vma.c~b
++++ a/mm/vma.c
+@@ -38,8 +38,6 @@ struct mmap_state {
+ 
+ 	/* Determine if we can check KSM flags early in mmap() logic. */
+ 	bool check_ksm_early :1;
+-	/* If we map new, hold the file rmap lock on mapping. */
+-	bool hold_file_rmap_lock :1;
+ 	/* If .mmap_prepare changed the file, we don't need to pin. */
+ 	bool file_doesnt_need_get :1;
+ };
+@@ -2530,10 +2528,12 @@ static int __mmap_new_file_vma(struct mm
+  *
+  * @map:  Mapping state.
+  * @vmap: Output pointer for the new VMA.
++ * @action: Any mmap_prepare action that is still to complete.
+  *
+  * Returns: Zero on success, or an error.
+  */
+-static int __mmap_new_vma(struct mmap_state *map, struct vm_area_struct **vmap)
++static int __mmap_new_vma(struct mmap_state *map, struct vm_area_struct **vmap,
++	struct mmap_action *action)
+ {
+ 	struct vma_iterator *vmi = map->vmi;
+ 	int error = 0;
+@@ -2582,7 +2582,7 @@ static int __mmap_new_vma(struct mmap_st
+ 	vma_start_write(vma);
+ 	vma_iter_store_new(vmi, vma);
+ 	map->mm->map_count++;
+-	vma_link_file(vma, map->hold_file_rmap_lock);
++	vma_link_file(vma, action->hide_from_rmap_until_complete);
+ 
+ 	/*
+ 	 * vma_merge_new_range() calls khugepaged_enter_vma() too, the below
+@@ -2649,8 +2649,6 @@ static int call_action_prepare(struct mm
+ 	if (err)
+ 		return err;
+ 
+-	if (desc->action.hide_from_rmap_until_complete)
+-		map->hold_file_rmap_lock = true;
+ 	return 0;
+ }
+ 
+@@ -2731,30 +2729,6 @@ static bool can_set_ksm_flags_early(stru
+ 	return false;
+ }
+ 
+-static int call_mapped_hook(struct mmap_state *map,
+-			    struct vm_area_struct *vma)
+-{
+-	const struct vm_operations_struct *vm_ops = vma->vm_ops;
+-	void *vm_private_data = vma->vm_private_data;
+-	int err;
+-
+-	if (!vm_ops || !vm_ops->mapped)
+-		return 0;
+-	err = vm_ops->mapped(vma->vm_start, vma->vm_end, vma->vm_pgoff,
+-			     vma->vm_file, &vm_private_data);
+-	if (err) {
+-		if (map->hold_file_rmap_lock)
+-			i_mmap_unlock_write(vma->vm_file->f_mapping);
+-
+-		unmap_vma_locked(vma);
+-		return err;
+-	}
+-	/* Update private data if changed. */
+-	if (vm_private_data != vma->vm_private_data)
+-		vma->vm_private_data = vm_private_data;
+-	return 0;
+-}
+-
+ static unsigned long __mmap_region(struct file *file, unsigned long addr,
+ 		unsigned long len, vma_flags_t vma_flags,
+ 		unsigned long pgoff, struct list_head *uf)
+@@ -2794,7 +2768,7 @@ static unsigned long __mmap_region(struc
+ 
+ 	/* ...but if we can't, allocate a new VMA. */
+ 	if (!vma) {
+-		error = __mmap_new_vma(&map, &vma);
++		error = __mmap_new_vma(&map, &vma, &desc.action);
+ 		if (error)
+ 			goto unacct_error;
+ 		allocated_new = true;
+@@ -2806,10 +2780,7 @@ static unsigned long __mmap_region(struc
+ 	__mmap_complete(&map, vma);
+ 
+ 	if (have_mmap_prepare && allocated_new) {
+-		error = mmap_action_complete(vma, &desc.action,
+-					     map.hold_file_rmap_lock);
+-		if (!error)
+-			error = call_mapped_hook(&map, vma);
++		error = mmap_action_complete(vma, &desc.action);
+ 		if (error)
+ 			return error;
+ 	}
+--- a/tools/testing/vma/include/dup.h~b
++++ a/tools/testing/vma/include/dup.h
+@@ -1313,27 +1313,9 @@ static inline unsigned long vma_pages(co
+ 	return (vma->vm_end - vma->vm_start) >> PAGE_SHIFT;
+ }
+ 
+-static inline void unmap_vma_locked(struct vm_area_struct *vma)
+-{
+-	const size_t len = vma_pages(vma) << PAGE_SHIFT;
+-
+-	mmap_assert_write_locked(vma->vm_mm);
+-	do_munmap(vma->vm_mm, vma->vm_start, len, NULL);
+-}
+-
+-static inline int __compat_vma_mapped(struct file *file, struct vm_area_struct *vma)
++static inline int vfs_mmap_prepare(struct file *file, struct vm_area_desc *desc)
+ {
+-	const struct vm_operations_struct *vm_ops = vma->vm_ops;
+-	int err;
+-
+-	if (!vm_ops->mapped)
+-		return 0;
+-
+-	err = vm_ops->mapped(vma->vm_start, vma->vm_end, vma->vm_pgoff, file,
+-			     &vma->vm_private_data);
+-	if (err)
+-		unmap_vma_locked(vma);
+-	return err;
++	return file->f_op->mmap_prepare(desc);
+ }
+ 
+ static inline int __compat_vma_mmap(struct vm_area_desc *desc,
+@@ -1348,35 +1330,27 @@ static inline int __compat_vma_mmap(stru
+ 	/* Update the VMA from the descriptor. */
+ 	compat_set_vma_from_desc(vma, desc);
+ 	/* Complete any specified mmap actions. */
+-	err = mmap_action_complete(vma, &desc->action,
+-				   /*rmap_lock_held=*/false);
+-	if (err)
+-		return err;
+-
+-	/* Invoke vm_ops->mapped callback. */
+-	return __compat_vma_mapped(desc->file, vma);
+-}
+-
+-static inline int vfs_mmap_prepare(struct file *file, struct vm_area_desc *desc)
+-{
+-	return file->f_op->mmap_prepare(desc);
++	return mmap_action_complete(vma, &desc->action);
+ }
+ 
+-static inline int compat_vma_mmap(struct file *file,
+-		struct vm_area_struct *vma)
++static inline int compat_vma_mmap(struct file *file, struct vm_area_struct *vma)
+ {
+ 	struct vm_area_desc desc;
++	struct mmap_action *action;
+ 	int err;
+ 
+ 	compat_set_desc_from_vma(&desc, file, vma);
+ 	err = vfs_mmap_prepare(file, &desc);
+ 	if (err)
+ 		return err;
++	action = &desc.action;
++
++	/* being invoked from .mmmap means we don't have to enforce this. */
++	action->hide_from_rmap_until_complete = false;
+ 
+ 	return __compat_vma_mmap(&desc, vma);
+ }
+ 
+-
+ static inline void vma_iter_init(struct vma_iterator *vmi,
+ 		struct mm_struct *mm, unsigned long addr)
+ {
+--- a/tools/testing/vma/include/stubs.h~b
++++ a/tools/testing/vma/include/stubs.h
+@@ -87,8 +87,7 @@ static inline int mmap_action_prepare(st
+ }
+ 
+ static inline int mmap_action_complete(struct vm_area_struct *vma,
+-				       struct mmap_action *action,
+-				       bool rmap_lock_held)
++				       struct mmap_action *action)
+ {
+ 	return 0;
+ }
+_
+
