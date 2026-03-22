@@ -1,32 +1,32 @@
-Received: from out30-110.freemail.mail.aliyun.com (out30-110.freemail.mail.aliyun.com [115.124.30.110])
+Received: from out30-119.freemail.mail.aliyun.com (out30-119.freemail.mail.aliyun.com [115.124.30.119])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2321133AD9A
-	for <linux-fsdevel@vger.kernel.org>; Sun, 22 Mar 2026 05:15:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.110
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44D8923643F
+	for <linux-fsdevel@vger.kernel.org>; Sun, 22 Mar 2026 05:30:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.119
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774156504; cv=none; b=KnFTdBZ5tKvhWV+TOyHzikQdeQo73lDTnCfNXMGVBuZJnOSW4i5iv7a9ZpRZfhpEsMjC4sxOTWLd1/MWYxWyrO32UIsL9cCg3iIsRvxYMUxlhCzsM0f5m4ZL0MI/9z8cLEUKid01lodnENMktXyY9qvttH25+ZDMeznL0qD6Omk=
+	t=1774157447; cv=none; b=mNg4S3JoxxzDNQl5GOQwZ87iEalnU2gIdoSysxSG9u1pU/zryDb70edC7Uw2NZFsIzvPE0149ctkXbvd1Z7x/Hg9UwtIL4cqSyarLOcFJU47TODIhYu8ez6W4EcXeW290GFVSaY6XeqcJB3owqGX1uXUnyU/mEninSXMsTEkbZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774156504; c=relaxed/simple;
-	bh=LDIAYUs8tob7nVIVdv7QU9yzERHHWIu9l+17oNCJFXY=;
+	s=arc-20240116; t=1774157447; c=relaxed/simple;
+	bh=J2ZdcoQN4AmUj3THW/oeprEgEj+Pe4xs1IsQ+8FQPcQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kkQn29n8XGHq9SWEa52fjLIyW8x+I/xvbstFF/rKAStfKubAyohiI4dqNKZyOlv+3yfT1SdlFXpr614cgDqRFga4frQsOAOfXFnVwrNZ1Wv0nVitHGGMskWICNW47SG4/Cf/cEFdiL1hTeS5ulfneKLvAaa32sceocMcbag319E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=il2x6fF7; arc=none smtp.client-ip=115.124.30.110
+	 In-Reply-To:Content-Type; b=nbNi1nLvzbto3xcWS/c9T//A+r9kebOQjEQmW1XowGUHt7s3B+gRERIhSwg4YyHxfwqSosQhxm5TVsghjKPSOEI40RDLRNIY2UuY+nPHmXj5yAJ8EmtfiwWv1vhDcRSlAnpZcBXFbe954jasVwhfwaghhosU2wBaNdOO8mPZuyI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=UGsyTYYD; arc=none smtp.client-ip=115.124.30.119
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="il2x6fF7"
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="UGsyTYYD"
 DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1774156497; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=5/XpVs3lIDwNxiqfq0aiNU/HpsT4HvHvC0Dzaz8Y48I=;
-	b=il2x6fF7m3H4bwN9cz8ogzihrhNUDyFfX2qcY+ctrykcBUz/xZSI+mjEuC9/I9FjmHt2m/6vTIpd52E2otmPdcOHj2CIAmJSBbhqqNhB0yhN0XN7c+j2WLi/jO1GXaRrnhw7yePXi66NC1HY5qZiaI3fx8NOI0kA1kBLTHwoVhQ=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R171e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045098064;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=12;SR=0;TI=SMTPD_---0X.QGwLI_1774156495;
-Received: from 30.41.54.139(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0X.QGwLI_1774156495 cluster:ay36)
+	t=1774157435; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=fq+9teCDFCAjQprZGgpiCi/1USoJjKdECB5MTr4IBhI=;
+	b=UGsyTYYDp53/Onv6ZgTsRHx/bQG/EYgmnhgvaAtqMD5JDkofKbBVMrkifq9J9wiqB7eU9VynCwm5sakZsHyn7aaAi2Yuan/9d28X6GqIZHxojrN4lZNPneK7ZtLqiMNIKUJuaAiC3sOLVpAOIZNaz+EFq0NElZjZcCsv8M1dbrA=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R231e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033032089153;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=12;SR=0;TI=SMTPD_---0X.QFTgK_1774157434;
+Received: from 30.41.54.139(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0X.QFTgK_1774157434 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Sun, 22 Mar 2026 13:14:56 +0800
-Message-ID: <4a1fd8dd-6c8a-43bd-877d-c37720ac1e21@linux.alibaba.com>
-Date: Sun, 22 Mar 2026 13:14:55 +0800
+          Sun, 22 Mar 2026 13:30:35 +0800
+Message-ID: <24adea39-8b50-4765-8800-8937f2e23dc3@linux.alibaba.com>
+Date: Sun, 22 Mar 2026 13:30:33 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -52,54 +52,73 @@ References: <CAJfpegtzYdy3fGGO5E1MU8n+u1j8WVc2eCoOQD_1qq0UV92wRw@mail.gmail.com>
  <7de8630d-b6f5-406e-809a-bc2a2d945afb@linux.alibaba.com>
  <20260318215140.GL1742010@frogsfrogsfrogs>
  <361d312b-9706-45ca-8943-b655a75c765b@gmail.com>
+ <390cd031-742b-4f1b-99c4-8ee41a259744@linux.alibaba.com>
+ <b30397b4-df0d-4f96-89a6-9c90aad10bd6@gmail.com>
 From: Gao Xiang <hsiangkao@linux.alibaba.com>
-In-Reply-To: <361d312b-9706-45ca-8943-b655a75c765b@gmail.com>
+In-Reply-To: <b30397b4-df0d-4f96-89a6-9c90aad10bd6@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
-On 2026/3/22 11:25, Demi Marie Obenour wrote:
+On 2026/3/22 13:13, Demi Marie Obenour wrote:
+> On 3/22/26 00:51, Gao Xiang wrote:
+>>
+>>
+>> On 2026/3/22 11:25, Demi Marie Obenour wrote:
+>>
+>> ...
+>>
+>>>>
+>>>> Technically speaking fuse4fs could just invoke e2fsck -fn before it
+>>>> starts up the rest of the libfuse initialization but who knows if that's
+>>>> an acceptable risk.  Also unclear if you actually want -fy for that.
+>>>
+>>
+>> Let me try to reply the remaining part:
+>>
+>>> To me, the attacks mentioned above are all either user error,
+>>> or vulnerabilities in software accessing the filesystem.  If one
+>>
+>> There are many consequences if users try to use potential inconsistent
+>> writable filesystems directly (without full fsck), what I can think
+>> out including but not limited to:
+>>
+>>    - data loss (considering data block double free issue);
+>>    - data theft (for example, users keep sensitive information in the
+>>         workload in a high permission inode but it can be read with
+>>         low permission malicious inode later);
+>>    - data tamper (the same principle).
+>>
+>> All vulnerabilities above happen after users try to write the
+>> inconsistent filesystem, which is hard to prevent by on-disk
+>> design.
+>>
+>> But if users write with copy-on-write to another local consistent
+>> filesystem, all the vulnerabilities above won't exist.
+> 
+> That makes sense!  Is this because the reads are at least
+> deterministic?
 
-> The only exceptions are if the filesystem is incredibly simple
-> or formal methods are used, and neither is the case for existing
-> filesystems in the Linux kernel.
+I read the remaining parts, I think only this one that
+needs to be clarified.
 
-Again, first, I don't think "simple" is a helpful and descriptive
-word out of this kind of area:
+As I said in the letest reply, I don't think __simple__ is
+a suitable descriptive word.
 
-"simple" formats are all formats just archive the filesystem
-data and metadata, but without any more use cases. No simpler
-than that, because you need to tell vfs the file (meta)data
-(even the file data is the garbage data), otherwise they won't
-be called as filesystems.
+The fact is
 
-So why we always fall into comparing which archive filesystem
-is simpler than others unless some bad buggy designs in those
-"simple" filesystems.
+A filesystem need to provide users enough information about
+files and filesystem hierarchy, otherwise it shouldn't be
+called as filesystems.
 
-Here, I can definitely say _EROFS uncompressed format_ fits
-this kind of area, and I will write down formally later if each
-on-disk field has unexpected values like garbage numbers, what
-the outcome.  And the final goal is to allow EROFS uncompressed
-format can be mounted as the "root" into totally isolated
-user/mount namespaces since it's really useful and no practical
-risk.
+That is the only thing that immutable filesystem do, providing
+filesystem information to vfs, that is all.
 
-If any other kernel filesystem maintainers say that they can do
-the same , why not also allow them do the same thing? I don't
-think it's a reasonable policy that "due to EXT4, XFS, BtrFS
-communities say that they cannot tolerate the inconsistent
-consequence, any other kernel filesystem should follow the
-same policy even they don't have such issue by design."
-
-In other words, does TCP/IP protocol simple? and is there no
-simplier protocol for network data? I don't think so, but why
-untrusted network data can be parsed in the kernel?  Does
-TCP/IP kernel implementation already bugless?
-
-Quite confusing.
+No simpler than that, it's the minimal feature set of a
+filesystem (and comparing the slight on-disk difference
+means nothing unless the on-disk design is too bad). And
+I think that should answer your question.
 
 Thanks,
 Gao Xiang
-
