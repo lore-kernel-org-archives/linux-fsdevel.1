@@ -1,107 +1,87 @@
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 870C729D26E;
-	Sun, 22 Mar 2026 10:57:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.181.97.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDC0578F4F;
+	Sun, 22 Mar 2026 11:47:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774177052; cv=none; b=DqQPTVfvZLywRDNJy4ATOgwwzK6PH3uYKrBASVyKLXmbFlVpEVJgimW6abgSsDFWsOGITgMPAFXoduO3Ai0lFImeI+HoerBwKxsvkIkTi3ZiYMTiQjyD+6f1i0pFqcVx1jPqA6UJfgqqcqHR+XIM2qdCj7DOOm2sQrXEyQIVNzo=
+	t=1774180064; cv=none; b=UQ1sqMaEUaiZMch317ECwCSGePlwzVZo+pW+3ranhDU+Iro5O3BQBEFyk79e6ZeP4isg92DnMsndDeMLPa1MpVwdttLXUO9ZlVUeHf2XRgP6n9N9eTJi1NbtBIc8OwaOim23z7vN2RmjSRmsfZI5ojmweYQEsV2W8q1N7bXzJV0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774177052; c=relaxed/simple;
-	bh=rlNMNQtDR0S0TCfklrqRSIV+RXWuZMJMEe/8PzwEeMw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GPcFa6Bqad1B3isMtUfiJtr/yWzfjqL10NGQY/J9lIGbu7f66eWQ+iHjF+3iS8vj7YT1NZdH8iSVEBTqYRWZ0SK3f7jXwrFNlAyX/oQX2vE8AvZE3ipo8pjTgVC8aHZ/ThZrlm2e2XRyV0m+P3X7JVEGsq04Pb03YZwfkUmc0GI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp; arc=none smtp.client-ip=202.181.97.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp
-Received: from www262.sakura.ne.jp (localhost [127.0.0.1])
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 62MAkDSm046633;
-	Sun, 22 Mar 2026 19:46:13 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from [192.168.1.2] (M106072072000.v4.enabler.ne.jp [106.72.72.0])
-	(authenticated bits=0)
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 62MAkCYl046630
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-	Sun, 22 Mar 2026 19:46:13 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <33abcf34-13e2-4a37-83f3-78bb27ecbc11@I-love.SAKURA.ne.jp>
-Date: Sun, 22 Mar 2026 19:46:10 +0900
+	s=arc-20240116; t=1774180064; c=relaxed/simple;
+	bh=AU2Fa0P7Cgq6/tXGq76ITNQfsi8b5PvDOJe85GVB7nc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cQc/U/bLhPsS0afd/4D3snk0n/2rPCbgRNM9AE6sncy5aB0zKNF8lZQ1avlYQipIVgF13Fj8lTSGyD4YXsE91xbjZk6SrDku5kToM8oHtbnE/wpFoLzq43KpdSTsbzWcA5xeP5L4S/JhKiDiFbO18noTQdZ39PwWsUPtKhRM91Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=wL/ZDJCd; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="wL/ZDJCd"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=Wdswsvh/qjG6LMb+gNwEFa3/fTzcV89pe0MkygpRQWM=; b=wL/ZDJCdWVe/PRtHROIOBnKe9G
+	+3oGpmEiHydAtA0e1KguCnpLvJHm9GvUEGHRPA2hfBYlsaN+0Z2T2IYaf3CyavQyUHdsx2q+PaLqp
+	FCpfRtet3wKrCv4xgDB5Y1jRnn4JGarAK1hYt7BvG2V6zkkNElriyQ27mFWXRFAE8InAdEPjOCywA
+	jDTR0ahwcdnedaPkQXugFIhCVPeU9ZPEB/DS0SJ4GZWdQhXmUtyCZvuOk1N1FA6OPEKojmiEF6DhC
+	nYDTWvUTosTvy6VMxpjLC/bcZI4OH6IEdrXMhC68wSciB4fd0A59kJ64MaMNbdq5Ucb2IJHRPaX2x
+	9KpKT9zQ==;
+Received: from authenticated user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.94.2)
+	(envelope-from <zeha@debian.org>)
+	id 1w4H7u-006j9b-Ed; Sun, 22 Mar 2026 11:37:49 +0000
+Date: Sun, 22 Mar 2026 12:37:47 +0100
+From: Chris Hofstaedtler <zeha@debian.org>
+To: Karel Zak <kzak@redhat.com>
+Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	util-linux@vger.kernel.org, Christian Goeschel Ndjomouo <cgoesc2@wgu.edu>, 
+	Helmut Grohne <helmut@subdivi.de>
+Subject: unshare regression in 2.42-rc1
+Message-ID: <ab_SfC1JDOhNmg6D@zeha.at>
+References: <wid276gkq7tblvkfwc6kum4nacamstiigqjj5ux6j6zd4blz4l@jzq3sgfh6cj5>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/7] tomoyo: Convert from sb_mount to granular mount hooks
-To: Song Liu <songliubraving@meta.com>,
-        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>
-Cc: Song Liu <song@kernel.org>, "paul@paul-moore.com" <paul@paul-moore.com>,
-        "jmorris@namei.org" <jmorris@namei.org>,
-        "serge@hallyn.com"
- <serge@hallyn.com>,
-        "brauner@kernel.org" <brauner@kernel.org>,
-        "jack@suse.cz" <jack@suse.cz>,
-        "john.johansen@canonical.com" <john.johansen@canonical.com>,
-        "stephen.smalley.work@gmail.com" <stephen.smalley.work@gmail.com>,
-        "omosnace@redhat.com" <omosnace@redhat.com>,
-        "mic@digikod.net" <mic@digikod.net>,
-        "gnoack@google.com"
- <gnoack@google.com>,
-        "takedakn@nttdata.co.jp" <takedakn@nttdata.co.jp>,
-        "herton@canonical.com" <herton@canonical.com>,
-        Kernel Team <kernel-team@meta.com>,
-        "selinux@vger.kernel.org" <selinux@vger.kernel.org>,
-        "apparmor@lists.ubuntu.com" <apparmor@lists.ubuntu.com>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-security-module@vger.kernel.org"
- <linux-security-module@vger.kernel.org>
-References: <20260318184400.3502908-1-song@kernel.org>
- <20260318184400.3502908-7-song@kernel.org>
- <b720f521-e930-4f35-9505-1bfdf9e2818c@I-love.SAKURA.ne.jp>
- <4DF5C4A8-7C92-4F76-9B34-2262089E7289@meta.com>
-Content-Language: en-US
-From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-In-Reply-To: <4DF5C4A8-7C92-4F76-9B34-2262089E7289@meta.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Virus-Status: clean
-X-Anti-Virus-Server: fsav303.rs.sakura.ne.jp
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+In-Reply-To: <wid276gkq7tblvkfwc6kum4nacamstiigqjj5ux6j6zd4blz4l@jzq3sgfh6cj5>
+X-Debian-User: zeha
 
-On 2026/03/22 10:06, Song Liu wrote:
->>> @@ -70,6 +70,7 @@ static bool tomoyo_check_mount_acl(struct tomoyo_request_info *r,
->>>  * @dir:      Pointer to "struct path".
->>>  * @type:     Name of filesystem type.
->>>  * @flags:    Mount options.
->>> + * @dev_path: Pre-resolved device/source path. Maybe NULL.
->>
->> I guess that we can avoid passing maybe-NULL dev_name if Al Viro can accept
->> resolving maybe-NULL dev_path argument before calling LSM hooks.
+Hi Karel, Christian,
+
+Debian CI found a regression in the unshare command when using 
+--map-user with numeric UIDs. This worked in 2.41 and earlier:
+
+% unshare --version && unshare --user --map-auto --map-user=65536 id
+unshare from util-linux 2.41.3
+uid=65536 gid=65534(nogroup) groups=65534(nogroup)
+
+And is broken in 2.42-rc1:
+
+% unshare --version && unshare --user --map-auto --map-user=65536 id
+unshare from util-linux 2.42-rc1
+unshare: failed to parse uid '65536'
+
+Note the following (true in both cases):
+$ grep 65536 /etc/passwd
+%
+
+I suspect (but did not verify yet) this was introduced in
+commit 0a7fb806118bc4418e231081bd13c69bbc31b988
+> unshare: use the new ul_get{grp,userpw}_str() routines
 > 
-> If I understand the code correctly, tomoyo records requested_dev_name for
-> new mount. namespace.c, OTOH, does NOT do kern_path() for new mount. This 
-> is why we keep the maybe-NULL dev_name here. I personally think this is 
-> the best approach without changing tomoyo behavior. 
+> This change refactors get_group() and get_user(), so that it
+> uses the new routines ul_getgrp_str() and ul_getuserpw_str(),
+> to simplify the code and remove the overkill mem allocations.
+https://github.com/util-linux/util-linux/commit/0a7fb806118bc4418e231081bd13c69bbc31b988
 
-Well, namespace.c does kern_path() for new mount, but it happens a bit later after
-security_mount_new() was called.
+Thanks to Helmut Grohne for reducing the failed debvm CI run to the 
+short unshare command.
 
-  do_new_mount_fc() => fc_mount() => vfs_get_tree() => fc->ops->get_tree() == e.g. ext4_get_tree()
-  => get_tree_bdev() => get_tree_bdev_flags() => lookup_bdev() => kern_path()
-
-@@ -3835,6 +3855,9 @@ static int do_new_mount(const struct path *path, const char *fstype,
- 		err = parse_monolithic_mount_data(fc, data);
- 	if (!err && !mount_capable(fc))
- 		err = -EPERM;
-+
-+	if (!err)
-+		err = security_mount_new(fc, path, mnt_flags, flags, data);
- 	if (!err)
- 		err = do_new_mount_fc(fc, path, mnt_flags);
- 
-
-Since not all filesystems need to resolve dev_name argument, conversion from dev_name
-to "struct path" is up to individual filesystem. If we can use a flag like FS_REQUIRES_DEV
-that tells whether that filesystem will resolve dev_name argument, I think we can resolve
-the dev_name argument before security_mount_new() is called (and can avoid TOCTOU).
+Best,
+Chris
 
