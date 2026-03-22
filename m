@@ -1,71 +1,70 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from sonic307-9.consmr.mail.ne1.yahoo.com (sonic307-9.consmr.mail.ne1.yahoo.com [66.163.190.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56AEA3126CD
-	for <linux-fsdevel@vger.kernel.org>; Sun, 22 Mar 2026 15:32:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 456E4377010
+	for <linux-fsdevel@vger.kernel.org>; Sun, 22 Mar 2026 19:43:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.163.190.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774193554; cv=none; b=GvFvrCQ8yiNV6cijtBtAQRcWQ3JbiiCJbNTxN3hOTqKYP1CrmXs0pIKcNczbEbonXNiL/MykD42mXBvBfPAw3vkFVEyvqC+xcTOMeeZrzSipLMnvsHQ5ZmiXQTceBsRflZcDPqB5Y8cS9HDR5l6wn0Ic9+iLli3KDFBVuuQzguc=
+	t=1774208638; cv=none; b=o+e8btyddMyiQznKaSu1GNcGouB2oFyiZBlVsJlgXbjc977ZQfUBf+JuG0zSrbayBwY3KPE+v2hwTlez2y86/ntWut7eLIU6sOisBjCMW9amN2OZwc9cI8cejv6DZ4cdqEYVPGE00r+BoXKEEEx11/JbKrQHZuenIgoeWdFHdMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774193554; c=relaxed/simple;
-	bh=gv9oyNx6pyeqvDwgTzjxiCBkAz5mlYpU8WJBcJcZjeI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=F6DVhWs8F2PmernY6j0GxzIss7VlT8t0XNxPrwZffJJSoCEmhAkyOfh3iBEdbH5Mle0C4XJ5DSkeCQIc2hMpH75AUwhB/6nYFtew/s2q+AjycxlJfRV67o/5oSH631flXYZkTs4Kb83lJERlpzL7sUI3y6UNrA0b5yPjrPIB1P4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WOEhPHU/; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774208638; c=relaxed/simple;
+	bh=IDv6lx1Ta4PMrBvbfMakPoZqSKYkLZPkih8ufQlZiiM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:References; b=u3BxBoFZ/Z0DmIqZjEHCktJmYkJX6EsWlc1rqoWMnk+yxWBEWahc/u+MCxutt1Of+1IRCk9mmbnH1xjhIBhFDOhVGsS1fZ43FFMrCsWV7WoSGsZHAv5Uq6c5xujBDHXF3EOkbgMIbKasq88cm2shbXJNIM62hDqLD011Zf1h7lY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com; spf=pass smtp.mailfrom=yahoo.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=QuvqVe/P; arc=none smtp.client-ip=66.163.190.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WOEhPHU/"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2b07069e2efso19974105ad.3
-        for <linux-fsdevel@vger.kernel.org>; Sun, 22 Mar 2026 08:32:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774193549; x=1774798349; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=tcdM2Y6LD9+gjVSoi6TUi43KlgwqJueFrj2+qWM94jY=;
-        b=WOEhPHU/x16Na0iM6koqpSg2QCmVXwSXyqYKEPoCA9X2H7RqFBuaQuJqZw5qVRowRE
-         VJFFxOo5JusPlrEQCTFQX90cvMbsNGk3Ryq0ydPexpy86Lr9p+0G2piUX2NPSpLNnqbU
-         tp5SpoAQEiFQsGr2jFMgtSLuNbgSX33acDo/+omFe7Y/Tix52PQtzb0vN3pJTw9y8lCy
-         /9ZZA9VOng3aZGYmNu5/7jxlAJLCV0VAzDoJhYZb0B2nBpb6DLG/UFfKPfb/XehH7WEz
-         C9SBzjNbDJKIsJGlV67jmS/z2OVkbXBV8Q+K9BtudyhpULY/B5wV83+41AwmvBk4AB7b
-         WRFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774193549; x=1774798349;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tcdM2Y6LD9+gjVSoi6TUi43KlgwqJueFrj2+qWM94jY=;
-        b=Qk3yf+CgAGSqeGVaz4IaYia2dH+/y1TOhjT1+83VkL66Yr8s4fhGbiHTM6jLOtSqiP
-         UZcfEXsxkRC1avEsygTphMGXTwgx1HDlE/ObHc+O7smF/OGQibfXlYdd5H3mQrFmpgd9
-         CDH4uM4Ni+qTHKpeWBW+OVEK7ew+R98Nj8jt3gxTV7ldShhp7h2wYIKYy/LbwWHNBSfx
-         KSY89T1KZ4ESybKNTJHrXH9cPzvHFB4Tn/8LSlBbAln8/CgwnGHDuUJYh4A3V6lC+fV6
-         R+GBtXNDqV9ZN6kHii9pFjW7cIYXi3Y4L5nSzLEWdrhTc4Qh1tKdaShFFBz8i0kCny/g
-         bWtA==
-X-Forwarded-Encrypted: i=1; AJvYcCUCN8S+zQcPFm8lkiMLZWz7gtxvRi+1xkkwBpfhIVVcwalDg9e5uauEne4YeLNivGwD7duC1VJZha0fBbss@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy+Yl4+GyKwSs1+ANRE3nvs7jH+zgTiQmqD6G5nruwNFO92DSaj
-	/82aDS8ZfNQCUwNXWKOSilMxaXvgyeHbh6p5M0kefDLeoQGy8RHv7dxj
-X-Gm-Gg: ATEYQzwGwXXB9eqMf57sHxG1GpScJ3HqjuNzGzM9lU6cWOCmXrnNQeiApDUFf6tSgmw
-	Aith1/V7byRPvBHXbpbWIXMWG5JKV0jrffytsyhF2pGDdpXs/m/xAo4MfcIm76Ffw3mGmewb0Zu
-	MEjVoaSmT1/7G8i8wuobOY/06U61bR2l24mnm/+B+E/lkaOwlh1BcH/qvRyQb/5LKr8dyPL46qg
-	9OVMHNQvqka5RUEzpG0XaeaMHpSM9HB2VMIU9TPuNpjeuR27GHIj+CwBjVX65LVneAJuFzpTw/Z
-	6Pe20tt6HuxEW5ULfXctGosMMjUIWVXzqHJZTclvRc5l4YovMhQnVOGmbXI4+EXb7IEee4RihtS
-	zb1CLnggI/P2gTa9U+pTPupgFTGz5hFGv1vnicEfC57kSmN0Wle4SAfG1ttc6mEuR9JEhSY5kW3
-	kIogIiyILXtGQe9mg4498racc2Q+XY0e8qfg==
-X-Received: by 2002:a17:902:e885:b0:2ae:5776:45f8 with SMTP id d9443c01a7336-2b0826d73dcmr98538385ad.3.1774193548680;
-        Sun, 22 Mar 2026 08:32:28 -0700 (PDT)
-Received: from yangwen.localdomain ([117.88.209.232])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b0836b6dc8sm85302605ad.82.2026.03.22.08.32.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Mar 2026 08:32:28 -0700 (PDT)
-From: Yang Wen <anmuxixixi@gmail.com>
-To: linkinjeon@kernel.org,
-	sj1557.seo@samsung.com
-Cc: yuezhang.mo@sony.com,
-	linux-fsdevel@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="QuvqVe/P"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1774208636; bh=quVbbkHKpp5ZGnxnru2x/5vYGBdSIgBPbh1s2Lh97YQ=; h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To; b=QuvqVe/PxhAxQxn1vY7ieT+loh57lER/L6RcvDag2fKk5SMj0SsP/GC0cF9YId0qfhFFlI4Ps3ARd43J9M0aksHPWni7P2ynR0cKqF2qgmnmWOuoBcONj4N6oR6ciOHrGb9yG72Nu19RmYZyYZLCuK+Xg3JuF3KrxmtCRIIBkTx97o8MujQu796MuBgce5BbCz672JQsfV3Ny0Qnv6VPXsLPNYOmspYWMaw6N4YDuA+Ah08P6JnouIzr3zoGdMglcfHAe3d9enUyBeizOkyfEHY5usvOt+Hd8xvabY//dl6vbxdNDeNonv01a2Jv9PBPN2Idvu21ZBiDcz1QPvwRJA==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1774208636; bh=+bdpqcvdPMSlQg3izeUIVgxiDBexlUDhkYABKSYW+hE=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=IflfkBEXHvXSVGXQIWyr+G1EChxsk9JLD67VcFZx+8u3Y1L6XfS79GNWy2MA+MTeVtTPtl8Rif8kiRRdKYNPAIAvuOZC+pIMHatjamG8eyDs7KTg54g9VeQ9qZ0GyCAwTuTv8xhifpqalDEHE93g3yis9MK9xQbDADbeREwxU4C0knGj6eaZpVC+B8BekH98LQXDKyq+8jiy7GhTeIUR/dxup5KX6x4oYPlOIhFP80eNWphXTASsWx4alRSGw72thANpLuZy2hPAb/UF8ToVRLE0/eGmZfBPqwV9v0PfQlQ6Gx4mDLwiArJTLrm01/NMsqybuQptrkHVxqurD+8tXg==
+X-YMail-OSG: TYhOdaIVM1mzMs2NfJDujBCerfxoWUPwJ4wyk0iwCcX91zu.5OxqtTiJHb6j5Qb
+ c5jELhdwpxZduOHFAp33EecgydlVyVXHhvk6RhKEu19XNauNwN0KK55MHVPbgzSIczqetnX_0Mi3
+ 2E0Z3VbuKQ8NhHdm0kCmPoVCEnKRemn1zN5ksN5mik3QTJuXroqiIUrXVUGXCw.uzz4lSKSQX6_a
+ Ord5eBjZKKv9fI.QROL8o4hxtIcg7Y7.Q2mUtGV0Qm.it1AlAeAhaJR4wAouexhEUndSq3dGTAUx
+ Nq1tilAb6zkYRKvypX7lCcT18fByB8J5NGrrhzykNgueHfbUTkPKYrBB7K15m.ivQn2s_8PwMkPG
+ X8gzCT9GdnXCV9ckKRefKibNvTpwu5vc4CB58zSseMznJc_ktkyFUdS.7E5z5E2AAnVZN3377GPm
+ eEnmGRYwbwrbdsEhtmH_bo0zCUqKSgsq1iRo5bL7bOS1ZL6RPUtWSk8RHbc7NXui8ViX6wQNEEcZ
+ cLpz9Uh4ser2ru8IUv17HbO8lc4j3ZK7h15jg36sjGnivMStvRoqFhiA9kiDxdDRiRoOM.DtRNQb
+ 9wu0FPliHbbJwQhkoG05S7BRyVUC6oOHtXwH6JziXvH7Sntj0M8TNbGDUPEeUMtCrZT_2yxgMmWk
+ 2RlIgUtxWx.obzUeR_WShr9tfmWbd217HcR4HZz09.8zNUzk0q5xW1CmKKt7odJHqDrjpqyY0DE8
+ EzsXgMElTke8VMcflhR_1yXWgMILm.0pxeMN3zxZSDgcvajfUfKdwQ6tbzZ8ZbJiDfypxf6smtY_
+ 4IqUJsa2eOEM1B4v4Fbyig6RBNaqgas2_KTik0Hmy2tVzjn2ATSqNL.e971IswxOqCOLcrvL0h9W
+ W2PmyPm365JQkPqapHfCu_BKtmvP9Xavx3BcYLUphQ.qbEw0R0vd4XkNWnzXQ8SBRtKxE7tauRfO
+ 54BUzgh3cXDe9ziXzfaHBJ5HH9a6KHlax6RZ6PmpFrkBrb.EWCY7cuDqIqsuhoXBd72IFMS53acC
+ onZJx_bgUJ9c87.cp0ae_Ni7zxAt_6_c5ScmfVbD9f866SJTxdeElxf4m28xRG9_uzoyi9sIWvWU
+ hsmglMmNcetDFQhdjd7jG.jA8fYIIagCDOV9dOMPG5xHF79oFs1ya4w.0sDdsjNf1cVx.WTMPC8U
+ r1s0R_XwrlG7SlwUhovWe.MLLf1AIBWDi_h.ZWsNMICkem.M1rrYSNsKW8nckOPuMskUOvRYVvqI
+ xNmF1geHrkuxB7CO.xAjgprSHnz42hgDFSGxmv0OMxkhyIXPCoV2gp435.eEq9E2SyqHIoVRH7Z7
+ k51xNKVDzR9tOYvP7kA_laYl9QeaXzgU12njR6FOBgZS0yFzNIDfCfCZWxGbygQcIn85rZTeWp41
+ PpJxW_r6KgXgX.aUSd8EvQQAQyL4Y.umlSVv9wbERq5QmYaoGT5WnkUBEacFSN808rQaRHOryR7E
+ V0Dt1p1OBMHjuwz3h7_jAs2ZO7wwwMQCgoVGCMUjfKWizbTlR4XWlZZiHunnk8NR9eVFQ32DEGNy
+ GxKMJFLzOiUh_ceOBeUm0n_NI0f_1OruKCrOkgD_ckkZezjTWazBDEr_z5BDlV5HzvHMgzrrV_Uu
+ X1S_2vlLSTz720oBkcslDIrryE4y8uzZQeMaPn8O0UXHrGfoByg4Js5vYuBnRSalHegtHhvim.kL
+ _dvDX94UWnYhegKcA8dZQauM.oWFf66.LWMgEXn4TLFENSR17z6kz8x0JdV96GgTm4_wmjBEI8zv
+ 1p2df_OgoKfm0mA_eAUtFCHbWrhV3yXJcspnEniQs.NKub3_I.1.RwhVbnuyaa_tpcF2Zxeb9C_6
+ IEhXKqixA5ncXAO28likFPLM712AcltAm1c4.iC.FRpLTkx26VanahxQlHqnzy8jBLwvr1jH0EFP
+ RjeMu.Wcff.LT.U1Bkeb8rWi1t_NZCqytuknSMK5hoLZSsuF0Wg9Q0b1kUvoa8A5luvJyiaTbbMs
+ BYaV5ZTnk2lEEzRaIZJdoAcRoHwdY_g1LIYY4g8NRRovGaoMffVhT2S9ZS_X5.9d1KsKk1rmPaVZ
+ ZZ_38MvUUfzbVyxZI.LOS8X8qGeM.daq4f8t.Drk4bSccNPwk.hXnIucd4NqezLAIB1pvcCoSYgo
+ 8Ec_0s6A9PbGMC1WkWEmOu7.NRtvS66jbZrxNai9XdM1qJqw4AAJIHZNsyhfhF719ljFUVPcfM_y
+ o.xILmJHvNAZT65egRW61Ae6rF2nYjlqcTPHSbMYzsWyAoGDgWpuhkxQXwMgBLt1kGy6eMaNtkvS
+ Z9tuDTNCBNxLbv.efZtkuxzLhNWKF23ARSw--
+X-Sonic-MF: <abhishek_sts8@yahoo.com>
+X-Sonic-ID: 6cf498d8-3ca1-4e87-acd3-718318dc6144
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic307.consmr.mail.ne1.yahoo.com with HTTP; Sun, 22 Mar 2026 19:43:56 +0000
+Received: by hermes--production-sg3-6959968fbd-n4v77 (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 78a103301ef87a298a8f046ee42232f7;
+          Sun, 22 Mar 2026 19:03:25 +0000 (UTC)
+From: Abhishek Kumar <abhishek_sts8@yahoo.com>
+To: Matthew Wilcox <willy@infradead.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org,
-	Yang Wen <anmuxixixi@gmail.com>
-Subject: [PATCH] exfat: fix passing zero to ERR_PTR() in exfat_mkdir()
-Date: Sun, 22 Mar 2026 23:32:06 +0800
-Message-ID: <20260322153206.218-1-anmuxixixi@gmail.com>
+	linux-fsdevel@vger.kernel.org,
+	syzbot+606f94dfeaaa45124c90@syzkaller.appspotmail.com,
+	Abhishek Kumar <abhishek_sts8@yahoo.com>
+Subject: [PATCH] mm: fix data race in __filemap_remove_folio / folio_mapping
+Date: Mon, 23 Mar 2026 00:33:19 +0530
+Message-ID: <20260322190319.85301-1-abhishek_sts8@yahoo.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -74,43 +73,67 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+References: <20260322190319.85301-1-abhishek_sts8.ref@yahoo.com>
 
-Detected by Smatch.
+KCSAN reports a data race between page_cache_delete() and
+folio_mapping():
 
-namei.c:890 exfat_mkdir() warn:
-	passing zero to 'ERR_PTR'
+  page_cache_delete() performs a plain store to folio->mapping:
+    folio->mapping = NULL;
 
-Signed-off-by: Yang Wen <anmuxixixi@gmail.com>
+  folio_mapping() performs a plain load from folio->mapping:
+    mapping = folio->mapping;
+
+page_cache_delete() is called from the truncation path under the i_pages
+xarray lock, while folio_mapping() is called from the reclaim path
+(evict_folios -> folio_evictable -> folio_mapping) under only
+rcu_read_lock() without the xarray lock.
+
+The race is benign since the reclaim path tolerates stale values --
+reading a stale non-NULL mapping simply results in a suboptimal eviction
+decision.  However, the plain accesses risk store/load tearing and allow
+the compiler to perform harmful optimizations (merging, elision, or
+fission of the accesses).
+
+Fix this by using WRITE_ONCE() in page_cache_delete() and READ_ONCE()
+in folio_mapping() to prevent compiler misbehavior and silence the KCSAN
+report.
+
+Fixes: 2f52578f9c64 ("mm/util: Add folio_mapping() and folio_file_mapping()")
+Reported-by: syzbot+606f94dfeaaa45124c90@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=606f94dfeaaa45124c90
+Signed-off-by: Abhishek Kumar <abhishek_sts8@yahoo.com>
 ---
- fs/exfat/namei.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ mm/filemap.c | 2 +-
+ mm/util.c    | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/fs/exfat/namei.c b/fs/exfat/namei.c
-index 670116ae9ec8..2bfdece79b17 100644
---- a/fs/exfat/namei.c
-+++ b/fs/exfat/namei.c
-@@ -873,9 +873,10 @@ static struct dentry *exfat_mkdir(struct mnt_idmap *idmap, struct inode *dir,
+diff --git a/mm/filemap.c b/mm/filemap.c
+index 406cef06b684..bba669bd114f 100644
+--- a/mm/filemap.c
++++ b/mm/filemap.c
+@@ -142,7 +142,7 @@ static void page_cache_delete(struct address_space *mapping,
+ 	xas_store(&xas, shadow);
+ 	xas_init_marks(&xas);
  
- 	i_pos = exfat_make_i_pos(&info);
- 	inode = exfat_build_inode(sb, &info, i_pos);
--	err = PTR_ERR_OR_ZERO(inode);
--	if (err)
-+	if (IS_ERR(inode)) {
-+		err = PTR_ERR(inode);
- 		goto unlock;
-+	}
- 
- 	inode_inc_iversion(inode);
- 	EXFAT_I(inode)->i_crtime = simple_inode_init_ts(inode);
-@@ -886,7 +887,7 @@ static struct dentry *exfat_mkdir(struct mnt_idmap *idmap, struct inode *dir,
- 
- unlock:
- 	mutex_unlock(&EXFAT_SB(sb)->s_lock);
--	return ERR_PTR(err);
-+	return err ? ERR_PTR(err) : NULL;
+-	folio->mapping = NULL;
++	WRITE_ONCE(folio->mapping, NULL);
+ 	/* Leave folio->index set: truncation lookup relies upon it */
+ 	mapping->nrpages -= nr;
  }
+diff --git a/mm/util.c b/mm/util.c
+index b05ab6f97e11..5ecb19ddf026 100644
+--- a/mm/util.c
++++ b/mm/util.c
+@@ -700,7 +700,7 @@ struct address_space *folio_mapping(const struct folio *folio)
+ 	if (unlikely(folio_test_swapcache(folio)))
+ 		return swap_address_space(folio->swap);
  
- static int exfat_check_dir_empty(struct super_block *sb,
+-	mapping = folio->mapping;
++	mapping = READ_ONCE(folio->mapping);
+ 	if ((unsigned long)mapping & FOLIO_MAPPING_FLAGS)
+ 		return NULL;
+ 
 -- 
 2.43.0
 
