@@ -1,139 +1,148 @@
-Received: from sonic307-9.consmr.mail.ne1.yahoo.com (sonic307-9.consmr.mail.ne1.yahoo.com [66.163.190.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011067.outbound.protection.outlook.com [40.93.194.67])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 456E4377010
-	for <linux-fsdevel@vger.kernel.org>; Sun, 22 Mar 2026 19:43:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.163.190.32
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774208638; cv=none; b=o+e8btyddMyiQznKaSu1GNcGouB2oFyiZBlVsJlgXbjc977ZQfUBf+JuG0zSrbayBwY3KPE+v2hwTlez2y86/ntWut7eLIU6sOisBjCMW9amN2OZwc9cI8cejv6DZ4cdqEYVPGE00r+BoXKEEEx11/JbKrQHZuenIgoeWdFHdMc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774208638; c=relaxed/simple;
-	bh=IDv6lx1Ta4PMrBvbfMakPoZqSKYkLZPkih8ufQlZiiM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:References; b=u3BxBoFZ/Z0DmIqZjEHCktJmYkJX6EsWlc1rqoWMnk+yxWBEWahc/u+MCxutt1Of+1IRCk9mmbnH1xjhIBhFDOhVGsS1fZ43FFMrCsWV7WoSGsZHAv5Uq6c5xujBDHXF3EOkbgMIbKasq88cm2shbXJNIM62hDqLD011Zf1h7lY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com; spf=pass smtp.mailfrom=yahoo.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=QuvqVe/P; arc=none smtp.client-ip=66.163.190.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ED0337DE86;
+	Sun, 22 Mar 2026 19:53:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.67
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774209243; cv=fail; b=ZgJevHXA9LkI4kAuwG8SRpv9SRHs1plknrBiEOOnyWzx1oYg5trgkKmpxt0tUKCxy8X5A+mZETRXSA+Q/s5qqVIOHC1gI/iIrL+S0VdxHV9GMQ1/Ri3qQ81O6el/B/3P4siotG1LMAYcBfofNflAKUIinj0slF5weD1t3ihBafw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774209243; c=relaxed/simple;
+	bh=W4BJWAMnd7sBRJyNRz+Dc3D25teAiNo8J+Dk534+RaA=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=gDYJ04NTSxSyXx0S+ToKCvXQe5hXGUORTGd6ZHwWfFyX8o7hU+Fde+k46lNU9eTYVXWowPok1JqsQCfavCMTIYuDVUJBX4KNHH512AdtO/rWiGn955brLs5Wm2QA3LRaND9CjVEGfFLA320UwHDr6//UYPewveL/9nEo+TW5q2A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=f9c1FZ23; arc=fail smtp.client-ip=40.93.194.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="QuvqVe/P"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1774208636; bh=quVbbkHKpp5ZGnxnru2x/5vYGBdSIgBPbh1s2Lh97YQ=; h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To; b=QuvqVe/PxhAxQxn1vY7ieT+loh57lER/L6RcvDag2fKk5SMj0SsP/GC0cF9YId0qfhFFlI4Ps3ARd43J9M0aksHPWni7P2ynR0cKqF2qgmnmWOuoBcONj4N6oR6ciOHrGb9yG72Nu19RmYZyYZLCuK+Xg3JuF3KrxmtCRIIBkTx97o8MujQu796MuBgce5BbCz672JQsfV3Ny0Qnv6VPXsLPNYOmspYWMaw6N4YDuA+Ah08P6JnouIzr3zoGdMglcfHAe3d9enUyBeizOkyfEHY5usvOt+Hd8xvabY//dl6vbxdNDeNonv01a2Jv9PBPN2Idvu21ZBiDcz1QPvwRJA==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1774208636; bh=+bdpqcvdPMSlQg3izeUIVgxiDBexlUDhkYABKSYW+hE=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=IflfkBEXHvXSVGXQIWyr+G1EChxsk9JLD67VcFZx+8u3Y1L6XfS79GNWy2MA+MTeVtTPtl8Rif8kiRRdKYNPAIAvuOZC+pIMHatjamG8eyDs7KTg54g9VeQ9qZ0GyCAwTuTv8xhifpqalDEHE93g3yis9MK9xQbDADbeREwxU4C0knGj6eaZpVC+B8BekH98LQXDKyq+8jiy7GhTeIUR/dxup5KX6x4oYPlOIhFP80eNWphXTASsWx4alRSGw72thANpLuZy2hPAb/UF8ToVRLE0/eGmZfBPqwV9v0PfQlQ6Gx4mDLwiArJTLrm01/NMsqybuQptrkHVxqurD+8tXg==
-X-YMail-OSG: TYhOdaIVM1mzMs2NfJDujBCerfxoWUPwJ4wyk0iwCcX91zu.5OxqtTiJHb6j5Qb
- c5jELhdwpxZduOHFAp33EecgydlVyVXHhvk6RhKEu19XNauNwN0KK55MHVPbgzSIczqetnX_0Mi3
- 2E0Z3VbuKQ8NhHdm0kCmPoVCEnKRemn1zN5ksN5mik3QTJuXroqiIUrXVUGXCw.uzz4lSKSQX6_a
- Ord5eBjZKKv9fI.QROL8o4hxtIcg7Y7.Q2mUtGV0Qm.it1AlAeAhaJR4wAouexhEUndSq3dGTAUx
- Nq1tilAb6zkYRKvypX7lCcT18fByB8J5NGrrhzykNgueHfbUTkPKYrBB7K15m.ivQn2s_8PwMkPG
- X8gzCT9GdnXCV9ckKRefKibNvTpwu5vc4CB58zSseMznJc_ktkyFUdS.7E5z5E2AAnVZN3377GPm
- eEnmGRYwbwrbdsEhtmH_bo0zCUqKSgsq1iRo5bL7bOS1ZL6RPUtWSk8RHbc7NXui8ViX6wQNEEcZ
- cLpz9Uh4ser2ru8IUv17HbO8lc4j3ZK7h15jg36sjGnivMStvRoqFhiA9kiDxdDRiRoOM.DtRNQb
- 9wu0FPliHbbJwQhkoG05S7BRyVUC6oOHtXwH6JziXvH7Sntj0M8TNbGDUPEeUMtCrZT_2yxgMmWk
- 2RlIgUtxWx.obzUeR_WShr9tfmWbd217HcR4HZz09.8zNUzk0q5xW1CmKKt7odJHqDrjpqyY0DE8
- EzsXgMElTke8VMcflhR_1yXWgMILm.0pxeMN3zxZSDgcvajfUfKdwQ6tbzZ8ZbJiDfypxf6smtY_
- 4IqUJsa2eOEM1B4v4Fbyig6RBNaqgas2_KTik0Hmy2tVzjn2ATSqNL.e971IswxOqCOLcrvL0h9W
- W2PmyPm365JQkPqapHfCu_BKtmvP9Xavx3BcYLUphQ.qbEw0R0vd4XkNWnzXQ8SBRtKxE7tauRfO
- 54BUzgh3cXDe9ziXzfaHBJ5HH9a6KHlax6RZ6PmpFrkBrb.EWCY7cuDqIqsuhoXBd72IFMS53acC
- onZJx_bgUJ9c87.cp0ae_Ni7zxAt_6_c5ScmfVbD9f866SJTxdeElxf4m28xRG9_uzoyi9sIWvWU
- hsmglMmNcetDFQhdjd7jG.jA8fYIIagCDOV9dOMPG5xHF79oFs1ya4w.0sDdsjNf1cVx.WTMPC8U
- r1s0R_XwrlG7SlwUhovWe.MLLf1AIBWDi_h.ZWsNMICkem.M1rrYSNsKW8nckOPuMskUOvRYVvqI
- xNmF1geHrkuxB7CO.xAjgprSHnz42hgDFSGxmv0OMxkhyIXPCoV2gp435.eEq9E2SyqHIoVRH7Z7
- k51xNKVDzR9tOYvP7kA_laYl9QeaXzgU12njR6FOBgZS0yFzNIDfCfCZWxGbygQcIn85rZTeWp41
- PpJxW_r6KgXgX.aUSd8EvQQAQyL4Y.umlSVv9wbERq5QmYaoGT5WnkUBEacFSN808rQaRHOryR7E
- V0Dt1p1OBMHjuwz3h7_jAs2ZO7wwwMQCgoVGCMUjfKWizbTlR4XWlZZiHunnk8NR9eVFQ32DEGNy
- GxKMJFLzOiUh_ceOBeUm0n_NI0f_1OruKCrOkgD_ckkZezjTWazBDEr_z5BDlV5HzvHMgzrrV_Uu
- X1S_2vlLSTz720oBkcslDIrryE4y8uzZQeMaPn8O0UXHrGfoByg4Js5vYuBnRSalHegtHhvim.kL
- _dvDX94UWnYhegKcA8dZQauM.oWFf66.LWMgEXn4TLFENSR17z6kz8x0JdV96GgTm4_wmjBEI8zv
- 1p2df_OgoKfm0mA_eAUtFCHbWrhV3yXJcspnEniQs.NKub3_I.1.RwhVbnuyaa_tpcF2Zxeb9C_6
- IEhXKqixA5ncXAO28likFPLM712AcltAm1c4.iC.FRpLTkx26VanahxQlHqnzy8jBLwvr1jH0EFP
- RjeMu.Wcff.LT.U1Bkeb8rWi1t_NZCqytuknSMK5hoLZSsuF0Wg9Q0b1kUvoa8A5luvJyiaTbbMs
- BYaV5ZTnk2lEEzRaIZJdoAcRoHwdY_g1LIYY4g8NRRovGaoMffVhT2S9ZS_X5.9d1KsKk1rmPaVZ
- ZZ_38MvUUfzbVyxZI.LOS8X8qGeM.daq4f8t.Drk4bSccNPwk.hXnIucd4NqezLAIB1pvcCoSYgo
- 8Ec_0s6A9PbGMC1WkWEmOu7.NRtvS66jbZrxNai9XdM1qJqw4AAJIHZNsyhfhF719ljFUVPcfM_y
- o.xILmJHvNAZT65egRW61Ae6rF2nYjlqcTPHSbMYzsWyAoGDgWpuhkxQXwMgBLt1kGy6eMaNtkvS
- Z9tuDTNCBNxLbv.efZtkuxzLhNWKF23ARSw--
-X-Sonic-MF: <abhishek_sts8@yahoo.com>
-X-Sonic-ID: 6cf498d8-3ca1-4e87-acd3-718318dc6144
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic307.consmr.mail.ne1.yahoo.com with HTTP; Sun, 22 Mar 2026 19:43:56 +0000
-Received: by hermes--production-sg3-6959968fbd-n4v77 (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 78a103301ef87a298a8f046ee42232f7;
-          Sun, 22 Mar 2026 19:03:25 +0000 (UTC)
-From: Abhishek Kumar <abhishek_sts8@yahoo.com>
-To: Matthew Wilcox <willy@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	syzbot+606f94dfeaaa45124c90@syzkaller.appspotmail.com,
-	Abhishek Kumar <abhishek_sts8@yahoo.com>
-Subject: [PATCH] mm: fix data race in __filemap_remove_folio / folio_mapping
-Date: Mon, 23 Mar 2026 00:33:19 +0530
-Message-ID: <20260322190319.85301-1-abhishek_sts8@yahoo.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="f9c1FZ23"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=QnasGokszXXzghvMEODGIc1RS0keInh2Gch+rANmv4w4yiC6jVeVNm9jUv0+YBQT/q+VGaK6z0QnkAIu9Gjs4THE63bjJhboqp92qS+FgmQERhv+QANPQsGITP6ej0UBalMDGdxs45jMnr22gOVlyjkl/jczpJViDBFOrnU0QNNgykAxknh0zK8nljTZoVzLbLUM8PZD6Y20uihjVdjlGuUJ5XNAe+1j2s7ZfQUTt76rAq4FC1eYQZ/jj/NzF+zl92R+C3gfaeEKZ8SIubUSGQANaKvkgKe9ZrygHp50FbSTP8D8KuYf4B1Vw3O2x6ZasNJvO5Dm9DzSvpBXQiua8A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Nb3/g2QsOoRbAwB7rRbKE0PIaBY7uehA9pSGGP247W0=;
+ b=c1jKX2d0Nl3Be90YAhMLSxn45cz9sgSE1hro00k7izoJ1R+p1z6G7rrS7Vu1pNBM22TDNtTv3NZVuAI6mbLi+arAR1NsQS1McLTDRmGB4fAHM6X13loBV1AU3vIkxIata3SV0O9lbbvQM/giIIfCS8l8xvbNP8YVp9SDYIU1+IS0wJW9pxhm2sCAZHl6yYzsG6E0ff/AiH0zJ9sZ7onGk4v8N0N7KNcPMV9af+FRHvPNShGwIill4WWyKZGTlRrB27sdF/zpNk7mo/iybzAQ52nKVENCuNFt8o0Eb11HRmWgL2OXTfB+UPG6TllKGmA2ApTHratszR67R/zOOqt/DQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Nb3/g2QsOoRbAwB7rRbKE0PIaBY7uehA9pSGGP247W0=;
+ b=f9c1FZ23lH9BfOIapiW18JA2VVFref3WLTEsHS/t6+KKrzkrTNqrL4cy8GpIGtvJo6FQwOalJv/DYOMfWaecJcrGQK8uY4z+s8pClhNFJiV8DkOoB4GhmkxTREu72GfFaxFBWW0ZpEOONB8O+nytA4nBiATwWAgiUqUG8Aerc2w=
+Received: from DS7PR07CA0014.namprd07.prod.outlook.com (2603:10b6:5:3af::17)
+ by BL4PR12MB9536.namprd12.prod.outlook.com (2603:10b6:208:590::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.19; Sun, 22 Mar
+ 2026 19:53:55 +0000
+Received: from DS3PEPF0000C380.namprd04.prod.outlook.com
+ (2603:10b6:5:3af:cafe::22) by DS7PR07CA0014.outlook.office365.com
+ (2603:10b6:5:3af::17) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9723.25 via Frontend Transport; Sun,
+ 22 Mar 2026 19:53:51 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ DS3PEPF0000C380.mail.protection.outlook.com (10.167.23.10) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9723.19 via Frontend Transport; Sun, 22 Mar 2026 19:53:55 +0000
+Received: from ethanolx50f7host.amd.com (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Sun, 22 Mar
+ 2026 14:53:54 -0500
+From: Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>
+To: <linux-cxl@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<nvdimm@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
+	<linux-pm@vger.kernel.org>
+CC: Ard Biesheuvel <ardb@kernel.org>, Alison Schofield
+	<alison.schofield@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, "Ira
+ Weiny" <ira.weiny@intel.com>, Dan Williams <dan.j.williams@intel.com>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>, Yazen Ghannam
+	<yazen.ghannam@amd.com>, Dave Jiang <dave.jiang@intel.com>, Davidlohr Bueso
+	<dave@stgolabs.net>, Matthew Wilcox <willy@infradead.org>, Jan Kara
+	<jack@suse.cz>, "Rafael J . Wysocki" <rafael@kernel.org>, Len Brown
+	<len.brown@intel.com>, Pavel Machek <pavel@kernel.org>, Li Ming
+	<ming.li@zohomail.com>, Jeff Johnson <jeff.johnson@oss.qualcomm.com>, "Ying
+ Huang" <huang.ying.caritas@gmail.com>, Yao Xingtao <yaoxt.fnst@fujitsu.com>,
+	Peter Zijlstra <peterz@infradead.org>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, Nathan Fontenot <nathan.fontenot@amd.com>,
+	Terry Bowman <terry.bowman@amd.com>, Robert Richter <rrichter@amd.com>,
+	Benjamin Cheatham <benjamin.cheatham@amd.com>, Zhijian Li
+	<lizhijian@fujitsu.com>, Borislav Petkov <bp@alien8.de>, Smita Koralahalli
+	<Smita.KoralahalliChannabasappa@amd.com>, Tomasz Wolski
+	<tomasz.wolski@fujitsu.com>
+Subject: [PATCH v8 1/9] dax/bus: Use dax_region_put() in alloc_dax_region() error path
+Date: Sun, 22 Mar 2026 19:53:34 +0000
+Message-ID: <20260322195343.206900-2-Smita.KoralahalliChannabasappa@amd.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20260322195343.206900-1-Smita.KoralahalliChannabasappa@amd.com>
+References: <20260322195343.206900-1-Smita.KoralahalliChannabasappa@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-References: <20260322190319.85301-1-abhishek_sts8.ref@yahoo.com>
+Content-Type: text/plain
+X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
+ (10.181.42.216)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS3PEPF0000C380:EE_|BL4PR12MB9536:EE_
+X-MS-Office365-Filtering-Correlation-Id: 848863da-18d1-4662-5205-08de884cc000
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|82310400026|1800799024|7416014|36860700016|22082099003|18002099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	ozCAcXtg3viERuc4sQJIFDkOZFuQlN7xc0XI1UgcjO8f7QFUBtcyLacRX+91sZPgFT+lnMEJ01icQH5aeOI4g+awGJAVY1A3Z1ziIhFq3qTK+BGUcs0ZvR9mR58M9DKKjTuukMxtj6StxvO7/H2qiTvrd1qx0QRIwLSvKBxx2caaCEilJiaHM4ThP1k6wjL8dM/D9t36DyyWed9rkWgDsmqwZxgaMQjnKSsXKoLO6PsMPTIuWzVOs/7pArsHC4zh0poju2BcrkYVwJ3P13w2ap0VgORmoQyH2x/yZYy+xAIotzvqrHqLVdd6p4xM5iVlZPL4e8n8F1GURgUFrM5fjMfbPVoIxsajQa3z5IQzSw5c5QVP7YWbtPoFD3EML6AhlrO2jMobTz8j5Hnpi3sP3na2v+B61wE553GnJdGWjgPSek5P47D5w7aZGIzskKygWqLBbYnSy75drXqBpxLjm78QNTvDLnwsw8xeJg+dU3aNfYhUHXdSbkHjigvRfgriB7uhH10EfRZm1Tr9kYynoqUWWpOu5yidySdJ2tu75PIBi9UMNYQuEpfj2VmMZoPJ4Pd6yvAXJMUerJkpmKB0R98C6z6v3iEPK6gh8CtbADhR0cwP33pif/NwH7FxA+TOPAs9WTr0m2y2loGSfd3dYSpghucvlvUcUOA8xGI8XC/ry/Lgn10tZ9rAxqx5rekx5G3A6GC5H9IGMEq7U8ij/yx4ad3wN01dEHJ/GkvWUatsH32bxXEjTMAn3BgJFQ8a8h3ujvUdA9FB2y+3DGePPA==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(82310400026)(1800799024)(7416014)(36860700016)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	veezwFEtX8TofSVfpHo2v9Iki4dpwRYUm/EXNr7cvnU4oydXTz86DBzqSJPOKKiHiNv7N++cItZ+TQGoabHSsHrB12bH82NSEwcc7EwAcamNYCBmzvhaZtjjliY+Bm4mxvw5yPV/6HAHGFoWHu1p3iN6zdoOFfE4xTb8xtg1chjpAyHK/pxAJvbj1Cfe/PRDuvPmra7kMKZArqEl+c5zeYXI+ddqDGcWnyn7x3zrvgZHz0jtJ+lc9Vur1nV/a9mv6MU3QA/JXBjGrnTeroSi1XaKy2lCXnGXmNkc7qDyMBUyduznicGUdRIzlwtj0RG6RZ1leBUwtl+VlZplmQsg8PoULOAlsFe4r1xeq4J5yl49cFgq0mzkwwbo1AvKfVC+c7turzpu5U5DdSiVHIny2FPc8z2tZdYg18qBkNYe1SkpA+jk+ppjeCkN3r6KnYb1
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2026 19:53:55.2572
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 848863da-18d1-4662-5205-08de884cc000
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	DS3PEPF0000C380.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL4PR12MB9536
 
-KCSAN reports a data race between page_cache_delete() and
-folio_mapping():
+alloc_dax_region() calls kref_init() on the dax_region early in the
+function, but the error path for sysfs_create_groups() failure uses
+kfree() directly to free the dax_region. This bypasses the kref lifecycle.
 
-  page_cache_delete() performs a plain store to folio->mapping:
-    folio->mapping = NULL;
+Use dax_region_put() instead to handle kref lifecycle correctly.
 
-  folio_mapping() performs a plain load from folio->mapping:
-    mapping = folio->mapping;
-
-page_cache_delete() is called from the truncation path under the i_pages
-xarray lock, while folio_mapping() is called from the reclaim path
-(evict_folios -> folio_evictable -> folio_mapping) under only
-rcu_read_lock() without the xarray lock.
-
-The race is benign since the reclaim path tolerates stale values --
-reading a stale non-NULL mapping simply results in a suboptimal eviction
-decision.  However, the plain accesses risk store/load tearing and allow
-the compiler to perform harmful optimizations (merging, elision, or
-fission of the accesses).
-
-Fix this by using WRITE_ONCE() in page_cache_delete() and READ_ONCE()
-in folio_mapping() to prevent compiler misbehavior and silence the KCSAN
-report.
-
-Fixes: 2f52578f9c64 ("mm/util: Add folio_mapping() and folio_file_mapping()")
-Reported-by: syzbot+606f94dfeaaa45124c90@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=606f94dfeaaa45124c90
-Signed-off-by: Abhishek Kumar <abhishek_sts8@yahoo.com>
+Suggested-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+Signed-off-by: Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>
 ---
- mm/filemap.c | 2 +-
- mm/util.c    | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/dax/bus.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/mm/filemap.c b/mm/filemap.c
-index 406cef06b684..bba669bd114f 100644
---- a/mm/filemap.c
-+++ b/mm/filemap.c
-@@ -142,7 +142,7 @@ static void page_cache_delete(struct address_space *mapping,
- 	xas_store(&xas, shadow);
- 	xas_init_marks(&xas);
+diff --git a/drivers/dax/bus.c b/drivers/dax/bus.c
+index c94c09622516..299134c9b294 100644
+--- a/drivers/dax/bus.c
++++ b/drivers/dax/bus.c
+@@ -668,7 +668,7 @@ struct dax_region *alloc_dax_region(struct device *parent, int region_id,
+ 	};
  
--	folio->mapping = NULL;
-+	WRITE_ONCE(folio->mapping, NULL);
- 	/* Leave folio->index set: truncation lookup relies upon it */
- 	mapping->nrpages -= nr;
- }
-diff --git a/mm/util.c b/mm/util.c
-index b05ab6f97e11..5ecb19ddf026 100644
---- a/mm/util.c
-+++ b/mm/util.c
-@@ -700,7 +700,7 @@ struct address_space *folio_mapping(const struct folio *folio)
- 	if (unlikely(folio_test_swapcache(folio)))
- 		return swap_address_space(folio->swap);
- 
--	mapping = folio->mapping;
-+	mapping = READ_ONCE(folio->mapping);
- 	if ((unsigned long)mapping & FOLIO_MAPPING_FLAGS)
+ 	if (sysfs_create_groups(&parent->kobj, dax_region_attribute_groups)) {
+-		kfree(dax_region);
++		dax_region_put(dax_region);
  		return NULL;
+ 	}
  
 -- 
-2.43.0
+2.17.1
 
