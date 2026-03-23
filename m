@@ -1,129 +1,206 @@
-Received: from sender-of-o57.zoho.eu (sender-of-o57.zoho.eu [136.143.169.57])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EF8E24CEEA;
-	Mon, 23 Mar 2026 15:16:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.169.57
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774279006; cv=pass; b=cZcEC+rQ/jwJj/qrZQo4rex6wKVSGgFfA4ynkuZpbrQMYrKpQTdt0Rz5YeWiZnLjoCbrhwAMMgPw4qkwXIDkfB740mKOl+HT1p9QH7tsoVUflWr/E6J/FKrRpALBlpoESBYD7BGMm0PEOREQniroj7vvfy3mUOTFXQCPMQD9YZI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774279006; c=relaxed/simple;
-	bh=Efhjtp0APHmK3K9OuiG3mT/JRTCx6Z6YLMqTHztfeXA=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=Z7Pnrybg7/WIPZVHuqodd6p86kZtK6m0UvaACP6R2Df3/mDLiJZ81+H85sb/3kHqORgfdrm6QpMzCrpsYEt9dy0pmpMWGYtmZUY39kRgNMNynwT8thFEZIie9lJ9MngPHnchrsoxhG0wpJT2E3ZscB2ON9y1sX30m37ynyTxEMI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=objecting.org; spf=pass smtp.mailfrom=objecting.org; dkim=pass (1024-bit key) header.d=objecting.org header.i=objecting@objecting.org header.b=Ej0NmHHI; arc=pass smtp.client-ip=136.143.169.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=objecting.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=objecting.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F609265629;
+	Mon, 23 Mar 2026 15:17:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774279072; cv=none; b=e+2thycBpopYRFefYwo0C5CaGGS77/ByI6Eb52VHV5B5dBLUPS2RLAxNWjenfOKm8jF+hIYcuKFTgfEDSgF325IVZq6LQA/0A9V9351QL1iVUfuVb2z/vSpidRrM2jQ7RdrLn0tAtliIYieKCMsm2WmqUKHnyePEBKaMFWJy0QY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774279072; c=relaxed/simple;
+	bh=bYvpYx0PcYENSoTREal7KOCcM0EXA6IHlu66fpnGw1c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GL+RuSam09sRWVOcjh0aAAmhztGJqLpeTqQsejuGYrtSsGl/S4HK4y1NJll1J7m22LNv8/xuXq1/2Pwoiftx25yt+q58NRi8wIpGbz3ajnRjeQP4yqQvWrl9QntvQJk0T9soys5epA8ofqK3v/7tlpkK5jML/cbyYBEXNCUkgA8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ArCRwSjM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=objecting.org header.i=objecting@objecting.org header.b="Ej0NmHHI"
-ARC-Seal: i=1; a=rsa-sha256; t=1774278991; cv=none; 
-	d=zohomail.eu; s=zohoarc; 
-	b=NqsTc3ZJJyigeXu519WqsnbWqhhcjh1It5TAJrn/i/UxA7gQ/kkalZgRLAXjVdrrfUsJTJtWSTIR0Gvf0PTFQynwqvSFkQOqXISFhSMeKA0+Ue+O+TK4vWP/tKuSZI/jYWAQsP2goLMGMNHAAt96uJDiSTof6CkaRRnC/j8Nwg8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.eu; s=zohoarc; 
-	t=1774278991; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=6R6h2nPCW6/5Ti/l+o6nr4dWLFSlaRLqeUUlVkl8Mu4=; 
-	b=jPqXduo46Yf3aqnI+1OOG8+F2DGVqHhWsekwBOYI2gemnqBeF0hKJKjXzFZj3va4/23Iut1fyXyz8IS139ILyiLBxUN3hJiMxZypk5AwYUse3Vk/ZdjkpQvq1QJwCFv8h7W5eO2TmhmEQKSjindTNblOms61SBXi2lULywrgO6E=
-ARC-Authentication-Results: i=1; mx.zohomail.eu;
-	dkim=pass  header.i=objecting.org;
-	spf=pass  smtp.mailfrom=objecting@objecting.org;
-	dmarc=pass header.from=<objecting@objecting.org>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774278991;
-	s=zmail; d=objecting.org; i=objecting@objecting.org;
-	h=Date:Date:From:From:To:To:CC:Subject:Subject:In-Reply-To:References:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To:Cc;
-	bh=6R6h2nPCW6/5Ti/l+o6nr4dWLFSlaRLqeUUlVkl8Mu4=;
-	b=Ej0NmHHIUJPmdBozM2Sl51UPqtfKHw4chSOkQadPYVzUKXVk96un8nqtnkwPJN3U
-	GwfumdM+wjZZ/Pu2l3b6uM7C2WBbmsCpPM+dela7zVt830TpM5Nx+BrdH6Jyg9BvlLd
-	tKFqW+1Dq9zb1kndiS+Py6/wG38gti8Gg33bNH/Q=
-Received: by mx.zoho.eu with SMTPS id 1774278989700420.2170527576808;
-	Mon, 23 Mar 2026 16:16:29 +0100 (CET)
-Date: Mon, 23 Mar 2026 15:16:22 +0000
-From: Josh Law <objecting@objecting.org>
-To: Christian Brauner <brauner@kernel.org>
-CC: Andrew Morton <akpm@linux-foundation.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>, linux-kernel@vger.kernel.org,
- linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_3/7=5D_lib/iov=5Fiter=3A_fix_misplaced_?=
- =?US-ASCII?Q?parenthesis_in_iov=5Fiter=5Frestore=28=29_kvec_check?=
-User-Agent: Thunderbird for Android
-In-Reply-To: <20260323-wirtschaften-mittragen-5217e168da05@brauner>
-References: <20260313181038.30018-1-objecting@objecting.org> <20260313181038.30018-4-objecting@objecting.org> <20260323-wirtschaften-mittragen-5217e168da05@brauner>
-Message-ID: <6876729A-2510-4C02-AD84-63C7B587A48C@objecting.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ArCRwSjM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AA85C4CEF7;
+	Mon, 23 Mar 2026 15:17:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774279072;
+	bh=bYvpYx0PcYENSoTREal7KOCcM0EXA6IHlu66fpnGw1c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ArCRwSjM3ElnbMt8Gcy32WO1+IpOAID+KSYhih/GnrIXaWLDRar00vCh4IFsMbYVZ
+	 cwFLaQjzCfH0cJIBTfpPld2f6ARCrrF4/4U35tu9BG7qw0VCQ+BWShNey0iQjik0Os
+	 2q794haVtZwgInnU5bvcsY5wk9dWxHPAaCglmfpLyvwzaFr2nLqKMWZAayg1HtB6vB
+	 iuLCcbOOdobQR32PTtSACbcj7Lpm6axMYivTbEqlc0f9lL0HM9mx80JDChEWTS03z+
+	 xKpbew0PA22b9yUp4+HFkNIlokisWN+01qwTi2eVXykk7cDL6z+Y0GBdC0NzNRWloY
+	 ijPGHEV2hOstw==
+Date: Mon, 23 Mar 2026 16:17:48 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: syzbot <syzbot+e4470cc28308f2081ec8@syzkaller.appspotmail.com>
+Cc: jack@suse.cz, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com, viro@zeniv.linux.org.uk
+Subject: Re: [syzbot] [fs?] general protection fault in __umount_mnt
+Message-ID: <20260323-nieder-blenden-fdae2cc3cf38@brauner>
+References: <69bdce08.050a0220.3bf4de.0031.GAE@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-ZohoMailClient: External
+Content-Type: multipart/mixed; boundary="fnebkd6yyhhvcsvm"
+Content-Disposition: inline
+In-Reply-To: <69bdce08.050a0220.3bf4de.0031.GAE@google.com>
 
 
+--fnebkd6yyhhvcsvm
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On 23 March 2026 12:39:10 GMT, Christian Brauner <brauner@kernel=2Eorg> wr=
-ote:
->On Fri, Mar 13, 2026 at 06:10:34PM +0000, Josh Law wrote:
->> When restoring a kvec-backed iterator after a short write in a kernel
->> socket sendmsg path (e=2Eg=2E an NFS client resending an RPC call), the
->> WARN_ON_ONCE guard fires a spurious warning on every first call=2E
->>=20
->> The closing parenthesis of WARN_ON_ONCE is after !iter_is_ubuf(i),
->> leaving !iov_iter_is_kvec(i) as a separate && operand outside the
->> macro:
->>=20
->>   WARN_ON_ONCE(!bvec && !iovec && !ubuf) && !kvec
->>=20
->> For kvec iterators this evaluates as WARN_ON_ONCE(true) && false =E2=80=
-=94 the
->> warning fires but the return is skipped, so execution proceeds correctl=
-y=2E
->> The warning is the only visible symptom, but it is confusing and may
->> mask real issues=2E
->>=20
->> Found through code review of the operator precedence in the condition
->> expression and confirmed by tracing the macro expansion=2E
->>=20
->> Move the closing parenthesis to include the kvec check inside
->> WARN_ON_ONCE so the warning only fires for genuinely unsupported
->> iterator types=2E
->>=20
->> Signed-off-by: Josh Law <objecting@objecting=2Eorg>
->> ---
->>  lib/iov_iter=2Ec | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>=20
->> diff --git a/lib/iov_iter=2Ec b/lib/iov_iter=2Ec
->> index 325669b103ed=2E=2E6a7959bfc849 100644
->> --- a/lib/iov_iter=2Ec
->> +++ b/lib/iov_iter=2Ec
->> @@ -1471,7 +1471,7 @@ EXPORT_SYMBOL_GPL(import_ubuf);
->>  void iov_iter_restore(struct iov_iter *i, struct iov_iter_state *state=
-)
->>  {
->>  	if (WARN_ON_ONCE(!iov_iter_is_bvec(i) && !iter_is_iovec(i) &&
->> -			 !iter_is_ubuf(i)) && !iov_iter_is_kvec(i))
->> +			 !iter_is_ubuf(i) && !iov_iter_is_kvec(i)))
->>  		return;
->>  	i->iov_offset =3D state->iov_offset;
->>  	i->count =3D state->count;
->
->Look=2E=2E=2E the placement is intentional as is easily identifiable by
->looking at the history of the commits=2E This clearly is AI generated
->and you don't have the capacity at the moment to meaningfully argue or
->present the technical changes you are proposing - if you are an actual
->person at all=2E As such I see no reason to engage with this=2E
+On Fri, Mar 20, 2026 at 03:45:28PM -0700, syzbot wrote:
+> Hello,
+> 
+> syzbot found the following issue on:
+> 
+> HEAD commit:    8e42d2514a7e Add linux-next specific files for 20260318
+> git tree:       linux-next
+> console output: https://syzkaller.appspot.com/x/log.txt?x=10808cba580000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=7f5b21566f9d8af6
+> dashboard link: https://syzkaller.appspot.com/bug?extid=e4470cc28308f2081ec8
+> compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16eb72da580000
+> 
+> Downloadable assets:
+> disk image: https://storage.googleapis.com/syzbot-assets/cb90c31a24db/disk-8e42d251.raw.xz
+> vmlinux: https://storage.googleapis.com/syzbot-assets/e0c08a5de437/vmlinux-8e42d251.xz
+> kernel image: https://storage.googleapis.com/syzbot-assets/d6b18a5e03f8/bzImage-8e42d251.xz
+> 
+> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> Reported-by: syzbot+e4470cc28308f2081ec8@syzkaller.appspotmail.com
+
+#syz test: https://github.com/brauner/linux/tree/vfs-7.1.mount 14594a141c760dd4c462b38d73406e1b48e44b84
+
+--fnebkd6yyhhvcsvm
+Content-Type: text/x-diff; charset=utf-8
+Content-Disposition: attachment;
+	filename="0001-mount-always-duplicate-mount.patch"
+
+From 14594a141c760dd4c462b38d73406e1b48e44b84 Mon Sep 17 00:00:00 2001
+From: Christian Brauner <brauner@kernel.org>
+Date: Mon, 23 Mar 2026 15:05:07 +0100
+Subject: [PATCH] mount: always duplicate mount
+
+In the OPEN_TREE_NAMESPACE path vfs_open_tree() resolves a path via
+filename_lookup() without holding namespace_lock. Between the lookup
+and create_new_namespace() acquiring namespace_lock via
+LOCK_MOUNT_EXACT_COPY() another thread can unmount the mount, setting
+mnt->mnt_ns to NULL.
+
+When create_new_namespace() then checks !mnt->mnt_ns it incorrectly
+takes the swap-and-mntget path that was designed for fsmount()'s
+detached mounts. This reuses a mount whose mnt_mp_list is in an
+inconsistent state from the concurrent unmount, causing a general
+protection fault in __umount_mnt() -> hlist_del_init(&mnt->mnt_mp_list)
+during namespace teardown.
+
+Remove the !mnt->mnt_ns special case entirely. Instead, always
+duplicate the mount:
+
+ - For OPEN_TREE_NAMESPACE use __do_loopback() which will properly
+   clone the mount or reject it via may_copy_tree() if it was
+   unmounted in the race window.
+ - For fsmount() use clone_mnt() directly (via the new MOUNT_COPY_NEW
+   flag) since the mount is freshly created by vfs_create_mount() and
+   not in any namespace so __do_loopback()'s IS_MNT_UNBINDABLE,
+   may_copy_tree, and __has_locked_children checks don't apply.
+
+Reported-by: syzbot+e4470cc28308f2081ec8@syzkaller.appspotmail.com
+Signed-off-by: Christian Brauner <brauner@kernel.org>
+---
+ fs/namespace.c | 36 +++++++++++++++---------------------
+ 1 file changed, 15 insertions(+), 21 deletions(-)
+
+diff --git a/fs/namespace.c b/fs/namespace.c
+index 2aebc4525cf3..090f9d951cfe 100644
+--- a/fs/namespace.c
++++ b/fs/namespace.c
+@@ -3086,8 +3086,13 @@ static struct file *open_detached_copy(struct path *path, unsigned int flags)
+ 	return file;
+ }
+ 
++enum mount_copy_flags_t {
++	MOUNT_COPY_RECURSIVE    = (1 << 0),
++	MOUNT_COPY_NEW		= (1 << 1),
++};
++
+ static struct mnt_namespace *create_new_namespace(struct path *path,
+-						  bool recurse)
++						  enum mount_copy_flags_t flags)
+ {
+ 	struct mnt_namespace *ns = current->nsproxy->mnt_ns;
+ 	struct user_namespace *user_ns = current_user_ns();
+@@ -3096,7 +3101,7 @@ static struct mnt_namespace *create_new_namespace(struct path *path,
+ 	struct path to_path;
+ 	struct mount *mnt;
+ 	unsigned int copy_flags = 0;
+-	bool locked = false;
++	bool locked = false, recurse = flags & MOUNT_COPY_RECURSIVE;
+ 
+ 	if (user_ns != ns->user_ns)
+ 		copy_flags |= CL_SLAVE;
+@@ -3135,22 +3140,10 @@ static struct mnt_namespace *create_new_namespace(struct path *path,
+ 	 * the restrictions of creating detached bind-mounts. It has a
+ 	 * lot saner and simpler semantics.
+ 	 */
+-	mnt = real_mount(path->mnt);
+-	if (!mnt->mnt_ns) {
+-		/*
+-		 * If we're moving into a new mount namespace via
+-		 * fsmount() swap the mount ids so the nullfs mount id
+-		 * is the lowest in the mount namespace avoiding another
+-		 * useless copy. This is fine we're not attached to any
+-		 * mount namespace so the mount ids are pure decoration
+-		 * at that point.
+-		 */
+-		swap(mnt->mnt_id_unique, new_ns_root->mnt_id_unique);
+-		swap(mnt->mnt_id, new_ns_root->mnt_id);
+-		mntget(&mnt->mnt);
+-	} else {
++	if (flags & MOUNT_COPY_NEW)
++		mnt = clone_mnt(real_mount(path->mnt), path->dentry, copy_flags);
++	else
+ 		mnt = __do_loopback(path, recurse, copy_flags);
+-	}
+ 	scoped_guard(mount_writer) {
+ 		if (IS_ERR(mnt)) {
+ 			emptied_ns = new_ns;
+@@ -3179,11 +3172,12 @@ static struct mnt_namespace *create_new_namespace(struct path *path,
+ 	return new_ns;
+ }
+ 
+-static struct file *open_new_namespace(struct path *path, bool recurse)
++static struct file *open_new_namespace(struct path *path,
++				       enum mount_copy_flags_t flags)
+ {
+ 	struct mnt_namespace *new_ns;
+ 
+-	new_ns = create_new_namespace(path, recurse);
++	new_ns = create_new_namespace(path, flags);
+ 	if (IS_ERR(new_ns))
+ 		return ERR_CAST(new_ns);
+ 	return open_namespace_file(to_ns_common(new_ns));
+@@ -3232,7 +3226,7 @@ static struct file *vfs_open_tree(int dfd, const char __user *filename, unsigned
+ 		return ERR_PTR(ret);
+ 
+ 	if (flags & OPEN_TREE_NAMESPACE)
+-		return open_new_namespace(&path, (flags & AT_RECURSIVE));
++		return open_new_namespace(&path, (flags & AT_RECURSIVE) ? MOUNT_COPY_RECURSIVE : 0);
+ 
+ 	if (flags & OPEN_TREE_CLONE)
+ 		return open_detached_copy(&path, flags);
+@@ -4535,7 +4529,7 @@ SYSCALL_DEFINE3(fsmount, int, fs_fd, unsigned int, flags,
+ 
+ 	if (flags & FSMOUNT_NAMESPACE)
+ 		return FD_ADD((flags & FSMOUNT_CLOEXEC) ? O_CLOEXEC : 0,
+-			      open_new_namespace(&new_path, 0));
++			      open_new_namespace(&new_path, MOUNT_COPY_NEW));
+ 
+ 	ns = alloc_mnt_ns(current->nsproxy->mnt_ns->user_ns, true);
+ 	if (IS_ERR(ns))
+-- 
+2.47.3
 
 
-
-1: i am a real human
-2: For code written by AI, i use Assisted-by: , i wrote the commit descrip=
-tion with ai (thats why its so long)
-
-
-Sorry for wasting your time
-
-V/R
-
-
-Josh Law
+--fnebkd6yyhhvcsvm--
