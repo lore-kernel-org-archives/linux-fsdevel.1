@@ -1,29 +1,29 @@
-Received: from outbound-ip191b.ess.barracuda.com (outbound-ip191b.ess.barracuda.com [209.222.82.124])
+Received: from outbound-ip191a.ess.barracuda.com (outbound-ip191a.ess.barracuda.com [209.222.82.58])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 423C2259CB9
-	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 18:19:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=209.222.82.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE0CC1B86C7
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 18:19:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=209.222.82.58
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774289963; cv=fail; b=ZxWxEUtgoUxm6bBc5owCs+qqgXbt5iT6dqoagmcbcN9gme9nmqW5iSNJ8HIqOjJBas8sEgg7l58M60W/VYPwLYoTb8b0QLSvuHxtCprMQ6fW85BjlMAtgTr79eXtLW5je4ZDjYvF+96OUiKfIkqulaTuaX850L5tvvRLrWJx1ow=
+	t=1774289969; cv=fail; b=AptWhrJ1CQjtkD8FFhB244k6iDh6YEK4mvw9PsVZXIMn8/xZiKSsUuDUNI7I2YM6QJ9JkcoSRhBorWKWUaj/M0O4c2FIgLLeZtQRJVOzzrQ4gzhnYcdwYDVfUYP2rWw2RlaElmEm4ViZduf19w54XGP9c7U5Z+inp5M7HuQfN9U=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774289963; c=relaxed/simple;
-	bh=NTl52ng6JXiuZsLGwhe3GnFFijHwtwbpvxiaOF2oeXs=;
+	s=arc-20240116; t=1774289969; c=relaxed/simple;
+	bh=rikTe3tJPTua9cvqH4R7jit9Nun8gizl52rBgbrpWlk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ucTLnHs+KaWrQZ8Sis3V8U9IUUSeW0ez1KxTay6FHFMjvMjF1fvayUgcFO6jAc88PfzAW4di+i+4eyHhu0kBw5wqEkv0ONhMrMmz1irL4v9fvMm8N7YP2JCyUqSofys6sjntDsDh5uRZoSzUWp9HUEAsh4t/VaqjlFpm7q3l9+Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=ddn.com; dkim=pass (1024-bit key) header.d=datadirectnetworks.onmicrosoft.com header.i=@datadirectnetworks.onmicrosoft.com header.b=mgIf6WYS; arc=fail smtp.client-ip=209.222.82.124
+	 In-Reply-To:To:Cc; b=Ge0HieR/zM1ZuDsrxDoXyOMukAE71lc8eSoq3HVLAfugKlYf3okbbRz6nErmJdayRNGiWfQli/oqqu2td5wfS16vNhiVc2S67TIJpMhXsJgWM442FDN1eU8526tdUzUhnJTQ0x3AgNcrwEXwt4ZFJy7x0hKek2JRd8xamLP9eNg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=ddn.com; dkim=pass (1024-bit key) header.d=datadirectnetworks.onmicrosoft.com header.i=@datadirectnetworks.onmicrosoft.com header.b=eKTBJ3TL; arc=fail smtp.client-ip=209.222.82.58
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ddn.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=datadirectnetworks.onmicrosoft.com header.i=@datadirectnetworks.onmicrosoft.com header.b="mgIf6WYS"
-Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11022111.outbound.protection.outlook.com [52.101.48.111]) by mx-outbound18-254.us-east-2b.ess.aws.cudaops.com (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO); Mon, 23 Mar 2026 18:19:12 +0000
+	dkim=pass (1024-bit key) header.d=datadirectnetworks.onmicrosoft.com header.i=@datadirectnetworks.onmicrosoft.com header.b="eKTBJ3TL"
+Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11021085.outbound.protection.outlook.com [52.101.62.85]) by mx-outbound10-216.us-east-2a.ess.aws.cudaops.com (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO); Mon, 23 Mar 2026 18:19:23 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MaSKV3XhmbjM+EAZCxwTXbnr9uq3mI88ADKNYoGh3kuxR4tGJIDx1GpTd/o1BwPpWIoUDMTBozZ0dHafI64/U4wWrM5J3aGIeG7cL0Q/m0kvE3SjU/tQ9cFULjgZxvBqTpKZqZLX5WDWgmfp13yk1Zz/3fJhLdLpzb/KEIPnPxQArOXJRd5HQYV6J715ErK3z8eQg10Yz2YDlcHmEb/WVMZliClrCUjG7zu0R9XzNpJlLwHtvMWqFlD+/EarFmxTtV8GexK8+PEj6nTemqH97Q4YzB20ubbY7BK511w8wJKP8MeEG2qThx9xkQmqAU9tgzozdjUDiCbQrTIqaHPxiw==
+ b=dzzauNoBduQ38OJiJoNLxIWBAHAvxmHvIfr65fUv1VdO8esKAoLNQyH/l1nV5D59lr6jVxo9vEnCHf4iMrI7t8Nx31dx8NXHUHo/iuCalBkIwv+6vMp0EI5z/TTBYek08ZSI6w1aQ2p0bVlgj4FZ36OG5xk/EzRTRe9p3pvVhDaw03922ub5OgYRFlHXQL2l7ifeDPdzkjmhhzwfYhOlkdtSdfXyqpHwuHXFgXEz8nNEV9O2l5whIEyutnbBOxYfmV6D7y2ojrncideIGrxUAzYcrX7sPSLS1hAnabHkCFWvnHB256hgPVlbOy3nIK7wr5GDJOC5T1Ayh+4ufsXM9w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1zs0N3Am0aOq28bR8H9KdUO6bhWorcubZkqxbyW/1ck=;
- b=c+p4v0draBE/a3cjk92PlRou12bcw+hxzITWx/LzEFoungMbKMCMbkWekZSzgdWcxWCs7RCg4lugRFt9uCXYBJsBvGVkhYAMBQSAwHChwoeiEN9fBu+9SJFsYmEKnbXIunJN/qcaez4x3zKdByK/ufR/bv6Tr+JVK6QgYJxQqZQ2lwvh6NXpKYvC9AqDLbzpGM/YKsTxo9VFqDZ2TcXc1fPb/QFupnaMi96xLMjdyz47GYrqqZbQHpHArWeL5+SW4vZHhtAwRsOrxXoyWcWsXnrwy5Sn0Diw063qNpjiXg//m4SFBiHf9h+svblrsTZhOoKALFYQjxqx66va7htnXg==
+ bh=Y13onmlN+wweRNpNdX0apnaaYxhtkDMX1Gm41XNnFVI=;
+ b=uC1R/i/5DeJDV4bpTF4K91BERTA4RgNCAzta0cxJeY3cbkvZ1xTjXD0aej0a9SCQNrkxb3IXYyIxOvj6CO2oZus502q+0x2p8BqmAHwLqneHR1Niq3mDDc1fYWGnhDbyGgDdfepSQYwsh5QiNmJFmqOxQ7yl/X7vYVilKcyr0xiyvithm7EXxLtvXF/PCfwEURaJKz4XiG5FNPsXLbqfTfTGy3b0HgRLqX0YFNZSnpvx5DSvYcVW0KNJUNFdH6lVxRHcML3U+czAVIT+LNGVvMi2i9O/VrPmHl+2ptNhRZG6oN5ZLgxLKhI/JWdFkGR1+ZNBL/MV6oayX+/RlOzcFA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  50.222.100.11) smtp.rcpttodomain=bsbernd.com smtp.mailfrom=ddn.com;
  dmarc=fail (p=none sp=none pct=100) action=none header.from=bsbernd.com;
@@ -32,18 +32,18 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=datadirectnetworks.onmicrosoft.com;
  s=selector2-datadirectnetworks-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1zs0N3Am0aOq28bR8H9KdUO6bhWorcubZkqxbyW/1ck=;
- b=mgIf6WYSV45kxNyvTE2gaA/1BAg7U2+3KCNkq4ET52ljbYqMwDc8BKeOH5vbdr5IYCFsvvgfoLGd3J+M2jnHCvwaE5U5yKi9bmcNKHXFIFqC9OMdfpVBb3CFcS8CcyGof4QqLbfiHhrmzzKTFVYs59iU5CV9oLARSbr3Wab/nSw=
-Received: from BN9PR03CA0419.namprd03.prod.outlook.com (2603:10b6:408:111::34)
- by LV2PR19MB997329.namprd19.prod.outlook.com (2603:10b6:408:379::8) with
+ bh=Y13onmlN+wweRNpNdX0apnaaYxhtkDMX1Gm41XNnFVI=;
+ b=eKTBJ3TLlx3iCNEhQa+mWWuURaEQtTWKu4G+bB2OBEm+u6/PbcM3MaVHzAkhicAMSE6AJ1QQC8T5+cAGHboo53HgN4m2oBASlj6sdg9NEEbDfZ7/wZ4smTxD86dG0s9Bai6nD/xBCbf1ePLGdD73SgFnwvJoNwckazbf8+pgKMI=
+Received: from SN7PR04CA0070.namprd04.prod.outlook.com (2603:10b6:806:121::15)
+ by IA4PR19MB9068.namprd19.prod.outlook.com (2603:10b6:208:557::18) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.31; Mon, 23 Mar
- 2026 17:45:23 +0000
-Received: from BN2PEPF000055DA.namprd21.prod.outlook.com
- (2603:10b6:408:111:cafe::2c) by BN9PR03CA0419.outlook.office365.com
- (2603:10b6:408:111::34) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9723.31 via Frontend Transport; Mon,
- 23 Mar 2026 17:45:23 +0000
+ 2026 17:45:14 +0000
+Received: from SN1PEPF000397B2.namprd05.prod.outlook.com
+ (2603:10b6:806:121:cafe::69) by SN7PR04CA0070.outlook.office365.com
+ (2603:10b6:806:121::15) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9723.25 via Frontend Transport; Mon,
+ 23 Mar 2026 17:45:14 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 50.222.100.11)
  smtp.mailfrom=ddn.com; dkim=none (message not signed)
  header.d=none;dmarc=fail action=none header.from=bsbernd.com;
@@ -51,15 +51,16 @@ Received-SPF: Pass (protection.outlook.com: domain of ddn.com designates
  50.222.100.11 as permitted sender) receiver=protection.outlook.com;
  client-ip=50.222.100.11; helo=uww-mrp-01.datadirectnet.com; pr=C
 Received: from uww-mrp-01.datadirectnet.com (50.222.100.11) by
- BN2PEPF000055DA.mail.protection.outlook.com (10.167.245.4) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9769.0
- via Frontend Transport; Mon, 23 Mar 2026 17:45:23 +0000
+ SN1PEPF000397B2.mail.protection.outlook.com (10.167.248.56) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9723.19
+ via Frontend Transport; Mon, 23 Mar 2026 17:45:13 +0000
 Received: from localhost (unknown [10.68.0.8])
-	by uww-mrp-01.datadirectnet.com (Postfix) with ESMTP id EB29DB7;
-	Mon, 23 Mar 2026 17:45:19 +0000 (UTC)
+	by uww-mrp-01.datadirectnet.com (Postfix) with ESMTP id 799B315C;
+	Mon, 23 Mar 2026 17:45:10 +0000 (UTC)
 From: Bernd Schubert <bernd@bsbernd.com>
-Date: Mon, 23 Mar 2026 18:45:12 +0100
-Subject: [PATCH 17/19] Make fusermount work bidirectional for sync init
+Date: Mon, 23 Mar 2026 18:45:02 +0100
+Subject: [PATCH 07/19] Add FUSE_MOUNT_FALLBACK_NEEDED define for -2 mount
+ errors
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -68,7 +69,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260323-fuse-init-before-mount-v1-17-a52d3040af69@bsbernd.com>
+Message-Id: <20260323-fuse-init-before-mount-v1-7-a52d3040af69@bsbernd.com>
 References: <20260323-fuse-init-before-mount-v1-0-a52d3040af69@bsbernd.com>
 In-Reply-To: <20260323-fuse-init-before-mount-v1-0-a52d3040af69@bsbernd.com>
 To: linux-fsdevel@vger.kernel.org
@@ -77,825 +78,115 @@ Cc: Miklos Szeredi <miklos@szeredi.hu>,
  "Darrick J. Wong" <djwong@kernel.org>, Bernd Schubert <bernd@bsbernd.com>, 
  Bernd Schubert <bschubert@ddn.com>
 X-Mailer: b4 0.15-dev-2a633
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1774287906; l=25863;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1774287906; l=2063;
  i=bernd@bsbernd.com; s=20240529; h=from:subject:message-id;
- bh=X06scZ4rX7r5KnWDHadCrrWOmvgEFGBHQs8mwva02xc=;
- b=Bn/jxMSzpa54ju2eUAXXQWlyhU8HOoqG2DNiD1BbxHnQairbcKRDxCMUJh7g7sDr26AWZpcvB
- G8BAo3e8ZfDAezQZbKR4LWfTlCew9apHGIxmYuAQiCUJSRiMg9UvQwm
+ bh=pMUV/zOXWSR+38toNz0L9bvHSrrPTLhVtLRxZfpeVqw=;
+ b=jJJk2h548S1lHrVXBiqFO8O+xth7TnBKQax1mKTFLeCxvu8eWJPg//DzTQIfmTge4HSNYfeEZ
+ Dab/5K1IGCmCCkjVcP48+uKEdjpgtZ/RLEOaa6fdp0ipcyIF3YXbdQ1
 X-Developer-Key: i=bernd@bsbernd.com; a=ed25519;
  pk=EZVU4bq64+flgoWFCVQoj0URAs3Urjno+1fIq9ZJx8Y=
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN2PEPF000055DA:EE_|LV2PR19MB997329:EE_
-X-MS-Office365-Filtering-Correlation-Id: e74e235b-fb30-4d53-c898-08de8903f5e1
+X-MS-TrafficTypeDiagnostic: SN1PEPF000397B2:EE_|IA4PR19MB9068:EE_
+X-MS-Office365-Filtering-Correlation-Id: cd1d8d1b-67c4-470e-ff90-08de8903f025
 X-MS-Exchange-SenderADCheck: 0
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|19092799006|36860700016|61400799027|376014|48200799018|18002099003|56012099003|22082099003|16102099003;
+	BCL:0;ARA:13230040|82310400026|61400799027|376014|36860700016|19092799006|48200799018|16102099003|56012099003|22082099003|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	gvtB/dGLAjSwkQbkhLHf0mZV4YTAPG8DllE1KkctqbbJZjwSnLOkKTLGQr5/urqOtnElCORH4v2vThgTOsO7DTwaLqejOnjctPsoG9ZPv18B59t8hadTgYF/c6nWq8GGs8cd63pQEtZrUujyRxa4S1OqFK4eQa/ndyqwFu3Zfw4gwX5Lrprj64rKlCOmh+BkQynL2Wi8ozeweT0oLql8YBL2h6geJEqWGCQn1d/0ONE9gfZQlIv9c435FWHfELZhC1vOEuP1d6L7BAY7RQRNxYiiahDAJedqPFP30WEzPizkGf5Fwts4nXazwM29TwD1ngEHySG2OIQKS7eNoC3Xe7Y4CV+aFC58ik76LaXVmQqbqXBvLyMVRqCKN8Jl/cdgwxGo4NXGcSIrtSuBrDDAWotmcZH0IbGg+vRHjIShOU4IHUa54N0rfPruQz2zIjepurmkhCCaLFVDGjE18t+bwbIafA8bWJu+Ol4ojdeELvSzdtwOtElCnnD/o3kl3Rm0Sn80EuSwJDZ/GLq9yWmoo/uJRgn6vf6us2quMaz3Fz5+3bvcgui08xPowhquG6DvPkwoBxRGh+PLzathi5bXLt1+mKM9oKUm4l4+/nRtWtI/mWyCVHAp8f7opXEOQSBDid7HbEKGn11qe3ThtWxzst7gQW1pRtMdjqwMqu/5zadH8TGkhj7aGaSPxtlc+WrSB4X+CuvtEcCKDAjYTu7+hBBqst5eq0eAXdsc/yg79vlv5FlHZAMmx6ZcuhGwhB5l
+	f3OQT4LuV6kv5hqLgPImytmCVu6Fbtldwu/YNeyxb6rHBafJhTs2dkQ8d4e5PkRNpjf9BCKDOlXBg7arzoZ7ct57fXffTm5UEA558eBDPdl2YsHbvN8/yQAfE6/NI6WuhDekQIS+ulQ4nwfx4zp8DxF410DKa7HreqtZK9WUIRAKeFKMpt8e6N2TxMnw61434omfINsbjn/9wvt2D6IHLBO7Z8G3XerpLNU+65GPlv2b3yVQlEjjCNtpMOIjP9AqwjJjaHjhW0S/rqMm9TOZIB55RvCatc1ytIk5f6ynmsrSIP7hPByZ37xiaH2685hMBTChJCawY+ds5v9SZLlGWUt0HCeDslPrY52Y654o5N5VbcwpuJeSOtm/RioGIANwkcEzlzOkLJPWKFSpjsnOJO+thlWyYgSItPViqSGRTPAxOedNKYgwQ+BzFFfHgSDCztLe4UK+RMr8quRR1HG6QDjDd3EReV/LJVYwBU52sssKHoCt2XzAhhppWM8uYIgP5uuaBWJdFvLKaEJAdg2ojuyNU55h1p2NT4FnQLyS8Z9aaAZcg5rBvxYI9PAYRwE8cE5CEcvfy6jtMuY8Z+hah8+Oa5e5YK0fr8U31AC1N8+BCd59gvEpFZL86buMHt/akKJr1zIAd5YNl1jNQOD2ffhYJ+dA/BghoSx5C6U20Y94hLbyNm+VqaB5uFOGU5jVvf2OBxqvyuPTE4Payuju/20VLThY/iudtr+sEmpd+AlLzsk2kHiorFvqFyEm3cZwOxpT8rzBqagVxbMNE4dLrQ==
 X-Forefront-Antispam-Report:
-	CIP:50.222.100.11;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:uww-mrp-01.datadirectnet.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(19092799006)(36860700016)(61400799027)(376014)(48200799018)(18002099003)(56012099003)(22082099003)(16102099003);DIR:OUT;SFP:1102;
+	CIP:50.222.100.11;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:uww-mrp-01.datadirectnet.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(61400799027)(376014)(36860700016)(19092799006)(48200799018)(16102099003)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	b/AadaVTmTBqw39y1gv2Ha8iBhMDcvo9nhLTl8jMW6lTNMi807ir6gC301NepKJDVxECJyzQnywu5ljEg7VHuJ8RYHNPJXAgiPABkWdpHl5PXCXwTKdpmmssrIYUnS1gPgAtsG7H6emdkS4P83vtw7PTCKWePhgnipGXICAfU1NVE+xTwO6eRskzB2hk9FMk1M+Gapn/AJeqTY72S4xXWNJtj57engV7ZLYhZjuviUOoBFreyLHBjpIe7/hfy4WR7F1CSWWya3eKVzI23vxlSEnxaruOdidIA/tbohsRJW2MTsIANnb2av0xT9qDq0F3WKDQMNb1sRtxPj1RyNCkT4OPeA3++Le1V4xZmDbJw3mJC7HemYs8R/+XYPfzYjScCjCZlMnIrmEc6DSlMZNdVHxcGMEgPXuVyMKqzexND4sJE7oVZtUHUekx8+346GVw
+	447mi9jOO63qGMjvQoPcG4DxlHBj9fig9NwChf8FEXNo0hEtx5YOsyGrG2otCldvdewpObscwo7YUkdAH81IXoBZp5Z0hPuZOPqQfBF52Rnxm2zXe4Qnh6/byK8YcS8NfnHoHfwzDwammpSwR+/dl/4gWFUFiCHzRAZOPdAMkiHIaSJfwPa5WdaylDBeA8mWFpx+Tnx1M6ndP1IU4vAFP1/2mcbjkuM96eDrZ2LgZ+knT5xAVS8yzFh045mipjDcMy4acM+uk3neDqugmMvuyE/IuDWJhjEqSsGgln13EkpAdsmtj+qK+q6qkDCfhAA2MO3LFze4fq+AVT5GqkVJxqal3iyuu2n2SwYLhvKaAaBvvdNksayuO0bPAhE+jCr6/z0eVN5qK6A/dwsvwqKaJlGPNT7HMumdqjht99KykQqRoCKNhdMKMsBbICt0/NHt
 X-Exchange-RoutingPolicyChecked:
-	KJY9RG+qLkXe/VaGCFsgMUUmkVLK4P1KSO0JjbR+LFjQBFV820R4bVc9jAqn/PxiMAtlE7rWAFVgUO33rj3UogHZzN9W33jSP1o+RvW6aWnAFatHeudew01mHRmKyBbT3CYCnNTyTOMIVM3oFRkm6is/whDMe2HHI1GyHvw8lXZfY1QY8dgO/HQTgxhfDHQNtvffgnDqFbslajIxJCSPnqyr1mZxy9ObUrkayB1ifGgHGLjcK/aef1gKKRGWjyi0xgLfE/P1sA7WdDVdh2lqJyxJFpAHVVX2FXDZJTDLJ27Nm0APOwnMT5ZxCNMIEW85Zg+k6TZc544oBPsXtamFUA==
+	GZzwuSfiKfM6jR6oHvZRhocRLXnx3C3/QTUXdxzSQOFFfxYl3RJ/Ww+2WNKTnTPLw7E3ReUS4HT74BJWtAI1UgisUCF4QNbtCUGIYSqwLi9sZpbOJx9VfV0fu9ew5U4pl+x2E1S+S3B+OBysy+OTU+cl9ZDFFpr5a+Q40ewVbKSasE0zCwipSWXrB7RGPiml/biEi5GyFwB5x56YHHliKfYR3pLrPU733o6srlfwANF6pOq7gKC9ex+qSjNhxNlS+dOS1lwnbsRvBWHrZzoO7rCTWYYY6mje64ThiXaX1iVG+UH72eLyimj9Uiyk8wLOQOcYuAraWcfHQLTWaz48Jw==
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	5P8zhF3HVbYdTSwCocvN5CfRAdN4wmPwV+EiZCxLvJSBjBUH8v1H0DPewH4fZv59hHmMp0H1zimDVOQEYV7SKgib87WN1LyohKCiw2I+CfVqrgxI0DwpNo8c7GK9xFF/Frz6kDxEML1+1zMaZaLMmAYHCfUs8L33ak9w9fN1DErKZSoZ90o1RkjlLu8uIN3Ao45oS6jMznzyOouomEdjUNJ2Vq1BlmUgaN7Igw+rXd/cpjoeSKhqwo+N7ZDwuWfpJbKD2vJB+j6a/smK2VE685enJXYszsOyfZ+JTOW7g21GQvA5f13smmi3AmhnOt9H2B2Fh7HTQJAYuew34g1cf12Hu4yaqxvqSKnUmaxqYtj9uPptetssrsgoHD4HY4jcoRcE6YedDF7NiDHPCts1WOoDOldNVfFhnxwd8PhccD+AS0O/ZqXZZUJi3ktlJatwTbnldipabiRq6i6+FSqoincRqL8FQcPf7M56SOwxFCdv+bnVv7F/wPux+jl1G2y0J3SMBMy7PEIbOtY5Cuak5vg1M9ztcaDr2JN7nnu47W56tHA9cf1yQfc4gjQ5AJ5hJOonOI70EIu+myTSpgfE6RZLhLybJqDCYRSd0BWgtFtCIvfUCi5PjLTj3fSQettyDye1S+YAiNOy3lN/qfaFJA==
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2026 17:45:23.4916
+	qgFldpAL5vuvb8W5Z2Sxk/Ebm0iZZReAVHe+DFvcsmpEqLtnQaB0+jDjScBr5CIcL60At6LHs33slMvCwU+JYVB61HqCQvfry5Ku+OsMewc5rwQ9nGQRxX7YhfDkvtVqB01IyQ/MDmsyMG/PwMQVOt2txmtyRN4V+RN7/gW99C/a9d3bojCoczfoo89pzf2Wy/tBaQq3rPBB0za7BXj2OuXpb8YYmq4WXYMvlxZTsva3svlwxrDK+sEcjO/bb85z3g8rAl3DJGT0U85bPMzeywonVM+ZT50IZFGltpLjZM+h0s+5T9aZCjeb184/6CIxwcJKoD8tyaTxXVceMYxg34eL9/IEDYZwyKyKFFCYkKO7u1pSqZmGPpK/5yhLo7hXdElj3Y+/nnSox2G+snRLghenPrpHX7KPJVELkWf10dsJEv2Rcs+nL+kDjhiexonSOCbXDs0R2NlsnzK7PWnbjjzsfAf3jGY6cVooS0NFF/lGIeVQzT3fOSmv8bPTZHjToRYyHmh6q9eNHyiUO4O0AcX93GWtjdu+4kn0O+lYCwLrqrqBdpquRTDwPlxRxoA74Vb9ETYfFogh+50lf6ANZ+NzdTZNxi5IaMYltd47EL+VPiFb0wXZfZN/akyL9BLXv6KseDzWRvfVNapyZs0Cng==
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2026 17:45:13.9280
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e74e235b-fb30-4d53-c898-08de8903f5e1
+X-MS-Exchange-CrossTenant-Network-Message-Id: cd1d8d1b-67c4-470e-ff90-08de8903f025
 X-MS-Exchange-CrossTenant-Id: 753b6e26-6fd3-43e6-8248-3f1735d59bb4
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=753b6e26-6fd3-43e6-8248-3f1735d59bb4;Ip=[50.222.100.11];Helo=[uww-mrp-01.datadirectnet.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	BN2PEPF000055DA.namprd21.prod.outlook.com
+	SN1PEPF000397B2.namprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR19MB997329
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA4PR19MB9068
 X-OriginatorOrg: ddn.com
-X-BESS-ID: 1774289951-104862-11443-1849-1
+X-BESS-ID: 1774289963-102776-8907-5478-1
 X-BESS-VER: 2019.1_20260319.1837
-X-BESS-Apparent-Source-IP: 52.101.48.111
-X-BESS-Parts: H4sIAAAAAAACA4uuVkqtKFGyUioBkjpK+cVKVkamhsaWQGYGUNTczMTYwsQy2c
-	gs2SjV1DI51dTYwMTczMDSyMzUGCioVBsLACyDdRlCAAAA
-X-BESS-Outbound-Spam-Score: 0.00
+X-BESS-Apparent-Source-IP: 52.101.62.85
+X-BESS-Parts: H4sIAAAAAAACA4uuVkqtKFGyUioBkjpK+cVKVkYGpgZAVgZQ0Mg0KcnE1MLY2N
+	DcxDDZMMkwOdUi0dwiNcnM0jLRPC1NqTYWACXxNaVBAAAA
+X-BESS-Outbound-Spam-Score: 0.50
 X-BESS-Outbound-Spam-Report: Code version 3.2, rules version 3.2.2.272017 [from 
-	cloudscan16-208.us-east-2b.ess.aws.cudaops.com]
+	cloudscan11-16.us-east-2a.ess.aws.cudaops.com]
 	Rule breakdown below
 	 pts rule name              description
 	---- ---------------------- --------------------------------
+	0.50 BSF_RULE7568M          META: Custom Rule 7568M 
 	0.00 BSF_BESS_OUTBOUND      META: BESS Outbound 
-X-BESS-Outbound-Spam-Status: SCORE=0.00 using account:ESS124931 scores of KILL_LEVEL=7.0 tests=BSF_BESS_OUTBOUND
+X-BESS-Outbound-Spam-Status: SCORE=0.50 using account:ESS124931 scores of KILL_LEVEL=7.0 tests=BSF_RULE7568M, BSF_BESS_OUTBOUND
 X-BESS-BRTS-Status:1
 
 From: Bernd Schubert <bschubert@ddn.com>
 
+Magic numbers in the code are not good - we better use a define.
+
 Signed-off-by: Bernd Schubert <bschubert@ddn.com>
 ---
- doc/README.fusermount | 359 ++++++++++++++++++++++++++++++++++++++++++++++++++
- util/fusermount.c     | 317 ++++++++++++++++++++++++++++++++++++++++++--
- util/meson.build      |   2 +-
- 3 files changed, 665 insertions(+), 13 deletions(-)
+ lib/fuse_i.h | 3 +++
+ lib/mount.c  | 6 +++---
+ 2 files changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/doc/README.fusermount b/doc/README.fusermount
-new file mode 100644
-index 0000000000000000000000000000000000000000..54a3bac4f58964a4ed312d6f6bc15606fed1e647
---- /dev/null
-+++ b/doc/README.fusermount
-@@ -0,0 +1,359 @@
-+Synchronous FUSE_INIT Protocol
-+================================
-+
-+Overview
-+--------
-+
-+The sync-init feature enables the FUSE library to start worker threads and
-+perform initialization ioctl calls BEFORE the actual mount() syscall happens.
-+This is required for the kernel's synchronous FUSE_INIT feature, where the
-+mount() syscall blocks until the FUSE daemon processes the INIT request.
-+
-+Without this feature, there would be a deadlock:
-+- mount() blocks waiting for INIT response
-+- Worker threads can't start because mount() hasn't returned
-+- INIT request can't be processed because worker threads aren't running
-+
-+
-+Protocol Flow
-+-------------
-+
-+Traditional mount flow:
-+  1. Library calls fusermount3
-+  2. fusermount3 opens /dev/fuse
-+  3. fusermount3 performs mount() syscall
-+  4. fusermount3 sends fd to library
-+  5. Library starts worker threads
-+  6. Worker threads process FUSE requests
-+
-+Sync-init mount flow:
-+  1. Library calls fusermount3 with --sync-init flag
-+  2. fusermount3 opens /dev/fuse
-+  3. fusermount3 sends fd to library
-+  4. Library receives fd
-+  5. Library performs FUSE_DEV_IOC_SYNC_INIT ioctl
-+  6. Library starts worker threads
-+  7. Library sends "proceed" signal to fusermount3
-+  8. fusermount3 performs mount() syscall (blocks until INIT completes)
-+  9. Worker threads process INIT request
-+  10. mount() syscall completes
-+  11. fusermount3 exits
-+
-+
-+Implementation Details
-+----------------------
-+
-+Bidirectional Communication:
-+  - Uses the existing unix socket (_FUSE_COMMFD environment variable)
-+  - Simple 1-byte protocol for signaling
-+  - Library signals fusermount3 when ready to proceed with mount
-+
-+fusermount3 Changes:
-+  - New --sync-init command-line option
-+  - Split mount operation into two phases:
-+    * mount_fuse_prepare(): Opens device, prepares parameters
-+    * mount_fuse_finish_fsmount(): Performs actual mount() syscall
-+  - wait_for_signal(): Waits for library to signal readiness
-+  - struct mount_context: Preserves state between phases
-+
-+Library Changes:
-+  - fuse_session_mount_new_api(): Uses new protocol when available
-+  - Sends "proceed" signal after worker thread is ready
-+  - Handles both old and new mount protocols for compatibility
-+
-+
-+Backward Compatibility
-+----------------------
-+
-+The implementation maintains full backward compatibility:
-+  - Old library + new fusermount3: Works (uses traditional flow)
-+  - New library + old fusermount3: Falls back to traditional flow
-+  - New library + new fusermount3: Uses sync-init flow when appropriate
-+
-+
-+Error Handling
-+--------------
-+
-+If any step fails during the sync-init flow:
-+  - fusermount3 closes the fd and exits with error
-+  - Library detects failure and cleans up
-+  - No mount is left in inconsistent state
-+
-+Connection closure:
-+  - If library closes socket before signaling, fusermount3 detects and exits
-+  - If fusermount3 crashes, library detects closed socket
-+
-+
-+Security Considerations
-+-----------------------
-+
-+The sync-init protocol does not introduce new security concerns:
-+  - Uses the same privilege separation as traditional mount
-+  - Socket communication is already established and trusted
-+  - No new privileged operations are added
-+  - File descriptor passing uses existing SCM_RIGHTS mechanism
-+
-+
-+Performance Impact
-+------------------
-+
-+Minimal performance impact:
-+  - One additional recv() call in fusermount3
-+  - One additional send() call in library
-+  - Total overhead: ~2 context switches
-+  - Only affects mount time, not runtime performance
-+
-+
-+Future Enhancements
-+-------------------
-+
-+Potential improvements:
-+  - Extended protocol for more complex initialization sequences
-+  - Support for multiple worker threads coordination
-+  - Enhanced error reporting through the socket
-+  - Timeout mechanisms for detecting hung initialization
-+
-+
-+ASCII Workflow Diagrams
-+========================
-+
-+1. Traditional Mount Flow (without --sync-init, async INIT)
-+------------------------------------------------------------
-+
-+Library                   fusermount3              Kernel
-+   |                           |                      |
-+   |--- spawn fusermount3 ---->|                      |
-+   |                           |                      |
-+   |                      [open /dev/fuse]            |
-+   |                           |------- open -------->|
-+   |                           |<------ fd ---------- |
-+   |                           |                      |
-+   |                      [mount() syscall]           |
-+   |                           |------ mount -------->|
-+   |                           |<----- success ------ | [mount returns immediately]
-+   |                           |                      | [INIT queued in kernel]
-+   |                      [send_fd(fd)]               |
-+   |<------- fd --------------|                      |
-+   |                           |                      |
-+   |                      [fusermount3 exits]         |
-+   |                                                  |
-+   |  [start worker thread]                          |
-+   |  [worker reads /dev/fuse]                       |
-+   |---------------------------------------- read -->|
-+   |<--------------------------------------- INIT ---| [dequeued from kernel]
-+   |                                                  |
-+   | OK: INIT was queued, worker reads it later      |
-+   |     Works fine for async INIT                   |
-+
-+
-+1b. Problem: Synchronous INIT without --sync-init
-+--------------------------------------------------
-+
-+Library                   fusermount3              Kernel
-+   |                           |                      |
-+   |--- spawn fusermount3 ---->|                      |
-+   |                           |                      |
-+   |                      [open /dev/fuse]            |
-+   |                           |------- open -------->|
-+   |                           |<------ fd ---------- |
-+   |                           |                      |
-+   |                      [mount() syscall]           |
-+   |                           |------ mount -------->|
-+   |                           |                      | [mount BLOCKS waiting for INIT]
-+   |                           | (BLOCKED)            | [needs worker to process INIT]
-+   |                           |                      |
-+   |  [waiting for fd...]      |                      |
-+   |                           |                      |
-+   |                           |                      |
-+   | DEADLOCK: mount() waits for INIT response       |
-+   |           but worker thread not started yet     |
-+   |           because we're waiting for fd          |
-+
-+
-+2. Sync-Init Mount Flow (with --sync-init)
-+-------------------------------------------
-+
-+Library                   fusermount3              Kernel
-+   |                           |                      |
-+   |--- spawn fusermount3 ---->|                      |
-+   |    with --sync-init       |                      |
-+   |                           |                      |
-+   |                      [open /dev/fuse]            |
-+   |                           |------- open -------->|
-+   |                           |<------ fd ---------- |
-+   |                           |                      |
-+   |                      [send_fd(fd)]               |
-+   |<------- fd --------------|                      |
-+   |                           |                      |
-+   |                      [wait_for_signal()]         |
-+   |                           | (BLOCKED)            |
-+   |                           |                      |
-+   |  [ioctl SYNC_INIT]        |                      |
-+   |---------------------------------------- ioctl -->|
-+   |                                                  |
-+   |  [start worker thread]                          |
-+   |  [worker ready]                                 |
-+   |                           |                      |
-+   |--- "proceed" signal ----->|                      |
-+   |                      [signal received]           |
-+   |                           |                      |
-+   |                      [mount() syscall]           |
-+   |                           |------ mount -------->|
-+   |                           |                      | [mount blocks]
-+   |                           |                      | [sends INIT]
-+   |<------------------------------------------------ |
-+   |                           |                      |
-+   | [worker processes INIT]   |                      |
-+   |------------------------------------------------->|
-+   |                           |                      | [mount unblocks]
-+   |                           |<----- success ------ |
-+   |                           |                      |
-+   |                      [fusermount3 exits]         |
-+   |                                                  |
-+   | SUCCESS: Worker ready before mount()            |
-+   |          INIT processed synchronously           |
-+
-+
-+3. Error Scenario: Library Crashes Before Signaling
-+----------------------------------------------------
-+
-+Library                   fusermount3              Kernel
-+   |                           |                      |
-+   |--- spawn fusermount3 ---->|                      |
-+   |    with --sync-init       |                      |
-+   |                           |                      |
-+   |                      [open /dev/fuse]            |
-+   |                           |------- open -------->|
-+   |                           |<------ fd ---------- |
-+   |                           |                      |
-+   |                      [send_fd(fd)]               |
-+   |<------- fd --------------|                      |
-+   |                           |                      |
-+   |                      [wait_for_signal()]         |
-+   |                           | (BLOCKED)            |
-+   |                           |                      |
-+   X  [library crashes]        |                      |
-+   |                           |                      |
-+   |                      [recv() returns 0]          |
-+   |                      [socket closed]             |
-+   |                           |                      |
-+   |                      [cleanup and exit]          |
-+   |                           X                      |
-+   |                                                  |
-+   | RESULT: Clean failure, no mount performed       |
-+
-+
-+4. Detailed Function Call Flow
-+-------------------------------
-+
-+Library (lib/fuse_lowlevel.c):
-+fuse_session_mount_new_api()
-+   |
-+   +-- fuse_kern_mount_prepare()  [lib/mount.c]
-+   |      |
-+   |      +-- fuse_mount_fusermount()  [lib/mount_util.c]
-+   |             |
-+   |             +-- socketpair()  [create comm socket]
-+   |             |
-+   |             +-- fork()
-+   |             |
-+   |             +-- [child] execl("fusermount3", "--sync-init", ...)
-+   |             |
-+   |             +-- [parent] receive_fd()  <--- BLOCKS until fd arrives
-+   |                    |
-+   |                    +-- recvmsg(SCM_RIGHTS)
-+   |                    |
-+   |                    +-- return fd
-+   |
-+   +-- session_start_sync_init()  [lib/fuse_lowlevel.c]
-+   |      |
-+   |      +-- ioctl(fd, FUSE_DEV_IOC_SYNC_INIT)
-+   |      |
-+   |      +-- pthread_create(worker_thread)
-+   |      |
-+   |      +-- return
-+   |
-+   +-- fuse_fusermount_proceed_mnt(socket)  [lib/mount.c] <--- NEW: Bidirectional handshake
-+          |
-+          +-- send(socket, "proceed", 1)  <--- Signal fusermount3 to proceed
-+          |
-+          +-- recv(socket, &status, 1)  <--- BLOCKS until mount result arrives
-+          |      |
-+          |      +-- [fusermount3 performs mount and sends status byte]
-+          |
-+          +-- if (status != 0) return -1  <--- Mount failed
-+          |
-+          +-- return 0  <--- Mount succeeded
-+
-+
-+Utility (util/fusermount.c):
-+fusermount3 main() with --sync-init
-+   |
-+   +-- mount_fuse_sync_init()  [util/fusermount.c]
-+          |
-+          +-- mount_fuse_prepare()  [util/fusermount.c]
-+          |      |
-+          |      +-- open("/dev/fuse")
-+          |      |
-+          |      +-- check_perm()  [util/fusermount.c]
-+          |      |
-+          |      +-- return fd
-+          |
-+          +-- send_fd(socket, fd)  [util/fusermount.c]
-+          |      |
-+          |      +-- sendmsg(SCM_RIGHTS)
-+          |
-+          +-- wait_for_signal(socket)  [util/fusermount.c] <--- BLOCKS until library signals
-+          |      |
-+          |      +-- recv(socket, buf, 1)
-+          |      |
-+          |      +-- return 0
-+          |
-+          +-- mount_fuse_finish_fsmount()  [util/fusermount.c]
-+          |      |
-+          |      +-- fuse_kern_fsmount()  [lib/mount_fsmount.c]
-+          |      |      |
-+          |      |      +-- fsopen("fuse", FSOPEN_CLOEXEC)
-+          |      |      |      |
-+          |      |      |      +-- [kernel creates filesystem context]
-+          |      |      |
-+          |      |      +-- fsconfig(fsfd, SET_STRING, "source", ...)
-+          |      |      +-- fsconfig(fsfd, SET_STRING, "fd", fd_value, ...)
-+          |      |      +-- fsconfig(fsfd, ...) [apply mount options]
-+          |      |      +-- fsconfig(fsfd, CMD_CREATE, ...)
-+          |      |      |
-+          |      |      +-- fsmount(fsfd, FSMOUNT_CLOEXEC, mount_attrs)
-+          |      |      |      |
-+          |      |      |      +-- [kernel sends FUSE_INIT here]
-+          |      |      |      |
-+          |      |      |      +-- [worker thread processes INIT]
-+          |      |      |      |
-+          |      |      |      +-- [fsmount returns mntfd]
-+          |      |      |
-+          |      |      +-- move_mount(mntfd, "", AT_FDCWD, target, ...)
-+          |      |      |      |
-+          |      |      |      +-- [attach mount to target directory]
-+          |      |      |      |
-+          |      |      |      +-- [no blocking - INIT already processed]
-+          |      |      |
-+          |      |      +-- add_mount()  [lib/mount_fsmount.c - update /etc/mtab]
-+          |      |      |
-+          |      |      +-- return 0 on success, -1 on failure
-+          |      |
-+          |      +-- if mount failed: return -1
-+          |      +-- if mount succeeded: continue
-+          |
-+          +-- send_status_byte(socket)  [util/fusermount.c] <--- NEW: Send result to library
-+          |      |
-+          |      +-- status = (mount_result == 0) ? 0 : 1
-+          |      +-- send(socket, &status, 1)
-+          |      |
-+          |      +-- return
-+          |
-+          +-- return 0
-+
-+
-+Note: The new mount API (fsopen/fsconfig/fsmount/move_mount) is REQUIRED
-+      for sync-init because fsmount() triggers FUSE_INIT before the mount
-+      is attached. This allows the worker thread to process INIT before
-+      move_mount() completes, preventing deadlock.
-diff --git a/util/fusermount.c b/util/fusermount.c
-index 80b42a594e89cdc2f43824f5e274892522fd8cce..808b4afd89ceb49273c944d43bffe5033e27549b 100644
---- a/util/fusermount.c
-+++ b/util/fusermount.c
-@@ -957,6 +957,7 @@ static void free_mount_params(struct mount_params *mp)
- 	free(mp->source);
- 	free(mp->type);
- 	free(mp->mnt_opts);
-+	memset(mp, 0, sizeof(*mp));
- }
+diff --git a/lib/fuse_i.h b/lib/fuse_i.h
+index 9e3c5dc5021e210a2778e975a37ab609af324010..b4c1d3eef41010287f6c9555ec0b2442d904d192 100644
+--- a/lib/fuse_i.h
++++ b/lib/fuse_i.h
+@@ -217,6 +217,9 @@ struct fuse_chan *fuse_chan_get(struct fuse_chan *ch);
+  */
+ void fuse_chan_put(struct fuse_chan *ch);
  
- /*
-@@ -1378,6 +1379,179 @@ static int open_fuse_device(const char *dev)
- 	return fd;
- }
- 
-+#ifdef HAVE_NEW_MOUNT_API
-+/* Forward declaration from lib/mount_fsmount.c */
-+int fuse_kern_fsmount(const char *mnt, unsigned long flags, int blkdev,
-+		      const char *fsname, const char *subtype,
-+		      const char *source_dev, const char *kernel_opts,
-+		      const char *mnt_opts);
-+#endif
++/* Special return value for mount functions to indicate fallback to fusermount3 is needed */
++#define FUSE_MOUNT_FALLBACK_NEEDED -2
 +
-+/*
-+ * Context for split mount operation (sync-init mode)
-+ */
-+struct mount_context {
-+	int fd;
-+	const char *dev;
-+	struct stat stbuf;
-+	char *source;
-+	char *mnt_opts;
-+	char *x_opts;
-+	const char *type;
-+};
-+
-+/*
-+ * Phase 1: Open device and prepare for mount (sync-init mode)
-+ * Returns fd on success, -1 on failure
-+ */
-+static int mount_fuse_prepare(const char *mnt, const char *opts,
-+			      struct mount_context *ctx)
-+{
-+	int res;
-+	int mountpoint_fd = -1;
-+	char *do_mount_opts = NULL;
-+	const char *real_mnt = mnt;
-+
-+	memset(ctx, 0, sizeof(*ctx));
-+	ctx->dev = getenv(FUSE_KERN_DEVICE_ENV) ?: FUSE_DEV;
-+
-+	ctx->fd = open_fuse_device(ctx->dev);
-+	if (ctx->fd == -1)
-+		return -1;
-+
-+	drop_privs();
-+	read_conf();
-+
-+	if (getuid() != 0 && mount_max != -1) {
-+		int mount_count = count_fuse_fs();
-+
-+		if (mount_count >= mount_max) {
-+			fprintf(stderr,
-+				"%s: too many FUSE filesystems mounted; mount_max=N can be set in %s\n",
-+				progname, FUSE_CONF);
-+			goto fail_close_fd;
-+		}
-+	}
-+
-+	res = extract_x_options(opts, &do_mount_opts, &ctx->x_opts);
-+	if (res)
-+		goto fail_close_fd;
-+
-+	res = check_perm(&real_mnt, &ctx->stbuf, &mountpoint_fd);
-+	restore_privs();
-+
-+	if (mountpoint_fd != -1)
-+		close(mountpoint_fd);
-+
-+	if (res == -1)
-+		goto fail_close_fd;
-+
-+	free(do_mount_opts);
-+	return ctx->fd;
-+
-+fail_close_fd:
-+	close(ctx->fd);
-+	free(do_mount_opts);
-+	free(ctx->x_opts);
-+	ctx->fd = -1;
-+	return -1;
-+}
-+
-+#ifdef HAVE_NEW_MOUNT_API
-+/*
-+ * Phase 2: Perform the actual mount using new mount API (sync-init mode)
-+ * Returns 0 on success, -1 on failure
-+ */
-+static int mount_fuse_finish_fsmount(const char *mnt, const char *opts,
-+				     struct mount_context *ctx,
-+				     const char **type)
-+{
-+	int res;
-+	char *do_mount_opts = NULL;
-+	char *x_prefixed_opts = NULL;
-+	struct mount_params mp = { .fd = ctx->fd };
-+	char *final_mnt_opts = NULL;
-+
-+	/* Extract x-options */
-+	res = extract_x_options(opts, &do_mount_opts, &x_prefixed_opts);
-+	if (res)
-+		goto fail;
-+
-+	/* Prepare mount parameters */
-+	mp.rootmode = ctx->stbuf.st_mode & S_IFMT;
-+	mp.dev = ctx->dev;
-+
-+	res = prepare_mount(do_mount_opts, &mp);
-+	if (res == -1)
-+		goto fail;
-+
-+	/* Merge x-options if running as root */
-+	final_mnt_opts = mp.mnt_opts;
-+	if (geteuid() == 0 && ctx->x_opts && strlen(ctx->x_opts) > 0) {
-+		size_t mnt_opts_len = strlen(mp.mnt_opts);
-+		size_t x_mnt_opts_len = mnt_opts_len + strlen(ctx->x_opts) + 2;
-+		char *x_mnt_opts = calloc(1, x_mnt_opts_len);
-+
-+		if (!x_mnt_opts)
-+			goto fail_free_params;
-+
-+		if (mnt_opts_len) {
-+			strcpy(x_mnt_opts, mp.mnt_opts);
-+			strncat(x_mnt_opts, ",", 2);
-+		}
-+		strncat(x_mnt_opts, ctx->x_opts,
-+			x_mnt_opts_len - mnt_opts_len - 2);
-+
-+		final_mnt_opts = x_mnt_opts;
-+	}
-+
-+	/* Use new mount API */
-+	res = fuse_kern_fsmount(mnt, mp.flags, mp.blkdev,
-+				mp.fsname, mp.subtype, ctx->dev,
-+				mp.optbuf, final_mnt_opts);
-+	if (res == -1)
-+		goto fail_free_merged;
-+
-+	/* Change to root directory */
-+	res = chdir("/");
-+	if (res == -1) {
-+		fprintf(stderr, "%s: failed to chdir to '/'\n", progname);
-+		goto fail_free_merged;
-+	}
-+
-+	/* Store results in context */
-+	ctx->source = mp.source;
-+	ctx->type = mp.type;
-+	ctx->mnt_opts = final_mnt_opts;
-+	*type = mp.type;
-+
-+	res = 0;
-+
-+	/* Only free what is not assigned to ctx */
-+	free(mp.fsname);
-+	free(mp.subtype);
-+	free(mp.optbuf);
-+	if (final_mnt_opts != mp.mnt_opts)
-+		free(mp.mnt_opts);
-+
-+out:
-+	free(do_mount_opts);
-+	free(x_prefixed_opts);
-+
-+	return res;
-+
-+fail_free_merged:
-+	if (final_mnt_opts != mp.mnt_opts)
-+		free(final_mnt_opts);
-+fail_free_params:
-+	free_mount_params(&mp);
-+fail:
-+	res = -1;
-+	goto out;
-+}
-+#endif /* HAVE_NEW_MOUNT_API */
-+
-+
- static int mount_fuse(const char *mnt, const char *opts, const char **type)
- {
- 	int res;
-@@ -1473,6 +1647,75 @@ fail_close_fd:
- 	goto out_free;
- }
- 
-+/* Forward declarations for helper functions */
-+static int send_fd(int sock_fd, int fd);
-+static int wait_for_signal(int sock_fd);
-+
-+#ifdef HAVE_NEW_MOUNT_API
-+/*
-+ * Perform sync-init mount using new mount API
-+ * Returns 0 on success, -1 on failure
-+ */
-+static int mount_fuse_sync_init(const char *mnt, const char *opts,
-+				int cfd, const char **type)
-+{
-+	struct mount_context ctx;
-+	int fd, res;
-+	int32_t status, send_res;
-+
-+	/* Phase 1: Open device and prepare */
-+	fd = mount_fuse_prepare(mnt, opts, &ctx);
-+	if (fd == -1)
-+		return -1;
-+
-+	/* Send fd to caller so it can start worker thread */
-+	res = send_fd(cfd, fd);
-+	if (res != 0) {
-+		close(fd);
-+		free(ctx.x_opts);
-+		return -1;
-+	}
-+
-+	/* Wait for caller to signal that worker thread is ready */
-+	res = wait_for_signal(cfd);
-+	if (res != 0) {
-+		close(fd);
-+		free(ctx.x_opts);
-+		return -1;
-+	}
-+
-+	/* Phase 2: Perform the actual mount using new API */
-+	res = mount_fuse_finish_fsmount(mnt, opts, &ctx, type);
-+
-+	/* Send mount result back to caller (4-byte error code) */
-+	status = (res == 0) ? 0 : -(int32_t)errno;
-+	do {
-+		send_res = send(cfd, &status, sizeof(status), 0);
-+	} while (send_res == -1 && errno == EINTR);
-+	if (send_res != sizeof(status)) {
-+		fprintf(stderr, "%s: failed to send mount status: %s\n",
-+			progname, strerror(errno));
-+	}
-+
-+	if (res == -1) {
-+		close(fd);
-+		free(ctx.source);
-+		free(ctx.mnt_opts);
-+		free(ctx.x_opts);
-+		return -1;
-+	}
-+
-+	close(fd);
-+
-+	/* Cleanup */
-+	free(ctx.source);
-+	free(ctx.mnt_opts);
-+	free(ctx.x_opts);
-+
-+	return 0;
-+}
-+#endif /* HAVE_NEW_MOUNT_API */
-+
- static int send_fd(int sock_fd, int fd)
- {
- 	int retval;
-@@ -1509,6 +1752,30 @@ static int send_fd(int sock_fd, int fd)
- 	return 0;
- }
- 
-+/*
-+ * Wait for a signal byte from the caller.
-+ * Returns 0 on success, -1 on error.
-+ */
-+static int wait_for_signal(int sock_fd)
-+{
-+	char buf[1];
-+	int res;
-+
-+	do {
-+		res = recv(sock_fd, buf, sizeof(buf), 0);
-+	} while (res == -1 && errno == EINTR);
-+	if (res != 1) {
-+		if (res == 0)
-+			fprintf(stderr, "%s: connection closed while waiting for signal\n",
-+				progname);
-+		else
-+			fprintf(stderr, "%s: error receiving signal: %s\n",
-+				progname, strerror(errno));
-+		return -1;
-+	}
-+	return 0;
-+}
-+
- /* Helper for should_auto_unmount
+ struct mount_opts *parse_mount_opts(struct fuse_args *args);
+ void destroy_mount_opts(struct mount_opts *mo);
+ void fuse_mount_version(void);
+diff --git a/lib/mount.c b/lib/mount.c
+index 6e404451cc9edc8e35434cc31f25612cfc4edca1..dec9d52274c13536648cacef959789f472c5682c 100644
+--- a/lib/mount.c
++++ b/lib/mount.c
+@@ -563,7 +563,7 @@ out_close:
+  * @mo: mount options
+  * @mnt_opts: mount options to pass to the kernel
   *
-  * fusermount typically has the s-bit set - initial open of `mnt` was as root
-@@ -1700,6 +1967,7 @@ int main(int argc, char *argv[])
- 	const char *opts = "";
- 	const char *type = NULL;
- 	int setup_auto_unmount_only = 0;
-+	int sync_init_mode = 0;
- 
- 	static const struct option long_opts[] = {
- 		{"unmount", no_argument, NULL, 'u'},
-@@ -1712,6 +1980,7 @@ int main(int argc, char *argv[])
- 		// They'ne meant for internal use by mount.c
- 		{"auto-unmount", no_argument, NULL, 'U'},
- 		{"comm-fd", required_argument, NULL, 'c'},
-+		{"sync-init", no_argument, NULL, 'S'},
- 		{0, 0, 0, 0}};
- 
- 	progname = strdup(argc > 0 ? argv[0] : "fusermount");
-@@ -1746,6 +2015,9 @@ int main(int argc, char *argv[])
- 		case 'c':
- 			commfd = optarg;
- 			break;
-+		case 'S':
-+			sync_init_mode = 1;
-+			break;
- 		case 'z':
- 			lazy = 1;
- 			break;
-@@ -1823,21 +2095,42 @@ int main(int argc, char *argv[])
- 	if (setup_auto_unmount_only)
- 		goto wait_for_auto_unmount;
- 
--	fd = mount_fuse(mnt, opts, &type);
--	if (fd == -1)
--		goto err_out;
-+	if (sync_init_mode) {
-+#ifdef HAVE_NEW_MOUNT_API
-+		res = mount_fuse_sync_init(mnt, opts, cfd, &type);
-+		if (res == -1)
-+			goto err_out;
- 
--	res = send_fd(cfd, fd);
--	if (res != 0) {
--		umount2(mnt, MNT_DETACH); /* lazy umount */
-+		if (!auto_unmount) {
-+			free(mnt);
-+			free((void *) type);
-+			return 0;
-+		}
-+		/* Continue to auto_unmount handling below */
-+#else
-+		fprintf(stderr, "%s: sync-init mode requires new mount API support\n",
-+			progname);
-+		fprintf(stderr, "%s: kernel or headers too old (need fsopen/fsmount)\n",
-+			progname);
- 		goto err_out;
--	}
--	close(fd);
-+#endif
-+	} else {
-+		fd = mount_fuse(mnt, opts, &type);
-+		if (fd == -1)
-+			goto err_out;
- 
--	if (!auto_unmount) {
--		free(mnt);
--		free((void*) type);
--		return 0;
-+		res = send_fd(cfd, fd);
-+		if (res != 0) {
-+			umount2(mnt, MNT_DETACH); /* lazy umount */
-+			goto err_out;
-+		}
-+		close(fd);
-+
-+		if (!auto_unmount) {
-+			free(mnt);
-+			free((void *) type);
-+			return 0;
-+		}
- 	}
- 
- wait_for_auto_unmount:
-diff --git a/util/meson.build b/util/meson.build
-index 0e4b1cce95377e73af7dc45655a7088315497ddb..731ef95488461ac21c21b1972a96d58b1187dc5a 100644
---- a/util/meson.build
-+++ b/util/meson.build
-@@ -1,6 +1,6 @@
- fuseconf_path = join_paths(get_option('prefix'), get_option('sysconfdir'), 'fuse.conf')
- 
--executable('fusermount3', ['fusermount.c', '../lib/mount_util.c', '../lib/util.c'],
-+executable('fusermount3', ['fusermount.c', '../lib/mount_util.c', '../lib/mount_fsmount.c', '../lib/util.c'],
-            include_directories: include_dirs,
-            install: true,
-            install_dir: get_option('bindir'),
+- * Returns: 0 on success, -1 on failure, -2 if fusermount should be used
++ * Returns: 0 on success, -1 on failure, FUSE_MOUNT_FALLBACK_NEEDED if fusermount should be used
+  */
+ static int fuse_kern_do_mount(const char *mnt, struct mount_opts *mo,
+ 				  const char *mnt_opts)
+@@ -611,7 +611,7 @@ static int fuse_kern_do_mount(const char *mnt, struct mount_opts *mo,
+ 		 * case try falling back to fusermount3
+ 		 */
+ 		if (errno == EPERM) {
+-			res = -2;
++			res = FUSE_MOUNT_FALLBACK_NEEDED;
+ 		} else {
+ 			int errno_save = errno;
+ 			if (mo->blkdev && errno == ENODEV &&
+@@ -749,7 +749,7 @@ int fuse_kern_mount(const char *mountpoint, struct mount_opts *mo)
+ 			umount2(mountpoint, MNT_DETACH); /* lazy umount */
+ 			res = -1;
+ 		}
+-	} else if (res == -2) {
++	} else if (res == FUSE_MOUNT_FALLBACK_NEEDED) {
+ 		if (mo->fusermount_opts &&
+ 		    fuse_opt_add_opt(&mnt_opts, mo->fusermount_opts) == -1)
+ 			goto out;
 
 -- 
 2.43.0
