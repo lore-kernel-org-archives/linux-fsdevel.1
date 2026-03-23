@@ -1,97 +1,79 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com [209.85.161.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C58A3B2FEF;
-	Mon, 23 Mar 2026 15:18:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D87D3BAD9B
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 15:19:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774279129; cv=none; b=rne/jwOse9HAPD/4Q7ZEzh/GIUdAN7Z9DmAfgpUcOEO2WmSyd90K4kW0vV+6rR3Y6yEstCzfySu3/AUQ8LvVnfcyWyKRRdenuh+tb+32Ak1SpoSvTFWQjlqg1TKqRstFRqlyS49cWDFOpPQJD9Mxbxy4oJ0Cs+rxATIov4vPiQc=
+	t=1774279144; cv=none; b=UgYsbWMnRAab7WoCEUOsd49fa0UtppKt4nXaQMwabwUc1/Ho8Ycji+yDlV4yOBuaXhWZLMngbo2LwovNkn8c5SK4pDdzt1hf0Mc747ZHni+/u7X5qJ8nZ2YewY/A5teByIRG5oNrL90g3LuAyHKCSYInY3SuRuJ0fT409k8+mWc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774279129; c=relaxed/simple;
-	bh=pbXYxhzMz1CXELl5GAMQGqn3VS0cXr+c3mpboLxq4hA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VmSXXN8c2WtH3wQQynNMPQ/4OJ1Uiby0h0yibazGqP0nyC08VKPKrqEkc2mYo/CrLemmjYefUxJhEgk+j+9xtLRyyydgJDuY1dBsKpzwQVR5QpZnJ8ozea5zTzisYi+u0qHwyFw4HtTHUCBw2oZbBuStV0Gh2a7JNJHtZkfRpFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=CJ5hRoCK; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="CJ5hRoCK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72CCBC4CEF7;
-	Mon, 23 Mar 2026 15:18:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1774279129;
-	bh=pbXYxhzMz1CXELl5GAMQGqn3VS0cXr+c3mpboLxq4hA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CJ5hRoCKajUHc8KKiBAP2gYu1mVfUOfWRR6xc1nDC/KmFM8FTX4OS4y9Nfd8vhfAi
-	 J23Pc2XVcANhfXnjGTAo+urvXkyrzow5gFm2OspORm1S/DdOvkBQZXlQYlKUBUvn28
-	 tpGOuXncYvNz+HkAvROWP9p1b6eqV6ah8hy5xkd8=
-Date: Mon, 23 Mar 2026 14:52:58 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Sasha Levin <sashal@kernel.org>
-Cc: linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	workflows@vger.kernel.org, tools@kernel.org, x86@kernel.org,
-	Thomas Gleixner <tglx@kernel.org>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Cyril Hrubis <chrubis@suse.cz>, Kees Cook <kees@kernel.org>,
-	Jake Edge <jake@lwn.net>,
-	David Laight <david.laight.linux@gmail.com>,
-	Askar Safin <safinaskar@zohomail.com>,
-	Gabriele Paoloni <gpaoloni@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Ingo Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH v2 3/9] kernel/api: add debugfs interface for kernel API
- specifications
-Message-ID: <2026032309-jargon-stalling-28c2@gregkh>
-References: <20260322121026.869758-1-sashal@kernel.org>
- <20260322121026.869758-4-sashal@kernel.org>
+	s=arc-20240116; t=1774279144; c=relaxed/simple;
+	bh=VVJBS7Ndm7M2UFZxdwt/ix54OGHSZNMfQljOMt0Wh2k=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=k2oCIt7zXIfwEEzEF+8p0X0JTuKz1DYUp+gichxlWY3Nu+GgkEJ339Z+bCgUdmELmOkcBLuhCEVPiHAaACm6dms0H9JEIw/uHQji2hrIEQfMu8ydUOqsJw+80pCNh1OrQl4XeLsAE0Hz4gSZpRizX1Sx/Op0cPhR4y4JemphCL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo1-f72.google.com with SMTP id 006d021491bc7-67bbb4e5f24so26933853eaf.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 08:19:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774279141; x=1774883941;
+        h=content-transfer-encoding:to:from:subject:message-id:in-reply-to
+         :date:mime-version:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wA5m4MGEoYwjydOeY/anSc/nadPkiL/BMeot/RULQVg=;
+        b=TW9to7suF8L2Zp8sodQgmPHojPtmSlmFU2qspwfjWRAydcvUS5EnJJSjqquscYn5nZ
+         XUlaPpZ2UgKXXiATdcIXEiv49St+j27eWtY2RAjUuO3toi+GW8FOM60Oukd+AF+Bkvma
+         DDDfcMpW2lRcX+e4XEUBNkZv9SHiwQmjXhaSPhOjic5I+PF0cluvivSSbPVsgwOqniUR
+         2EFw2W5PqwBFWN7kd1UGRKk+28SOPIp0z3JIwwXWbZsRQR/LmCFNL3d0hOMonTKl/otx
+         FtXlf+NdcV8cp6yD5I5EbdbH8wj75g3VO2M0A5zuL1qxvp28C2LivL0ZtDMWnWAW7CnB
+         KRNg==
+X-Forwarded-Encrypted: i=1; AJvYcCUotoK/SvzUNxOFI05gp8MPg+ans0p5n/GIbRubHAHO6rOGg3+IRuOApUseHahM0VSoCdImAEjer/OpVRvO@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx5lxzMofxoEmmYrbM0aNxSpdEz3xr9P1H/oFx/2EtB9VmLOt9O
+	aduRZpF8AlOs63TtVMHLjM7TlsGJHseJU/z9f8ttrO/W60XZUUFKvwEtXcSj6FW51y0zOhN3SBo
+	UOvu4zC0cAH1AaL+Jdlu9bX5fI7EY1bFgBovBkTx+46iLEETJeJXJXvClUVM=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260322121026.869758-4-sashal@kernel.org>
+X-Received: by 2002:a05:6820:1a04:b0:67c:1d0b:d652 with SMTP id
+ 006d021491bc7-67c22f93b6fmr9120672eaf.52.1774279141552; Mon, 23 Mar 2026
+ 08:19:01 -0700 (PDT)
+Date: Mon, 23 Mar 2026 08:19:01 -0700
+In-Reply-To: <20260323-nieder-blenden-fdae2cc3cf38@brauner>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <69c159e5.050a0220.3bf4de.009f.GAE@google.com>
+Subject: Re: [syzbot] [fs?] general protection fault in __umount_mnt
+From: syzbot <syzbot+e4470cc28308f2081ec8@syzkaller.appspotmail.com>
+To: brauner@kernel.org, jack@suse.cz, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com, 
+	viro@zeniv.linux.org.uk
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Mar 22, 2026 at 08:10:17AM -0400, Sasha Levin wrote:
-> Add a debugfs interface to expose kernel API specifications at runtime.
-> This allows tools and users to query the complete API specifications
-> through the debugfs filesystem.
-> 
-> The interface provides:
-> - /sys/kernel/debug/kapi/list - lists all available API specifications
-> - /sys/kernel/debug/kapi/specs/<name> - detailed info for each API
-> 
-> Each specification file includes:
-> - Function name, version, and descriptions
-> - Execution context requirements and flags
-> - Parameter details with types, flags, and constraints
-> - Return value specifications and success conditions
-> - Error codes with descriptions and conditions
-> - Locking requirements and constraints
-> - Signal handling specifications
-> - Examples, notes, and deprecation status
-> 
-> This enables runtime introspection of kernel APIs for documentation
-> tools, static analyzers, and debugging purposes.
-> 
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
+Hello,
 
-Debugfs logic looks sane, nice.
+syzbot tried to test the proposed patch but the build/boot failed:
 
-But this only works if the kabi stuff is built into the kernel image,
-right?  This doesn't work if any of these abi sections are in a module
-or am I missing that logic here?
+failed to checkout kernel repo https://github.com/brauner/linux/tree/vfs-7.=
+1.mount on commit 14594a141c760dd4c462b38d73406e1b48e44b84: failed to run [=
+"git" "fetch" "--force" "--tags" "f622b72ecc2091e74994c3e0f0d417a3c44b5855"=
+ "14594a141c760dd4c462b38d73406e1b48e44b84"]: exit status 128
 
-thanks,
 
-greg k-h
+Tested on:
+
+commit:         [unknown=20
+git tree:       https://github.com/brauner/linux/tree/vfs-7.1.mount 14594a1=
+41c760dd4c462b38d73406e1b48e44b84
+kernel config:  https://syzkaller.appspot.com/x/.config?x=3Dc584910d0d74158=
+d
+dashboard link: https://syzkaller.appspot.com/bug?extid=3De4470cc28308f2081=
+ec8
+compiler:      =20
+patch:          https://syzkaller.appspot.com/x/patch.diff?x=3D11abacba5800=
+00
+
