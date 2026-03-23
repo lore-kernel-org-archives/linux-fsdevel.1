@@ -1,74 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C87329D267;
-	Mon, 23 Mar 2026 12:09:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2E14399003;
+	Mon, 23 Mar 2026 12:12:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774267768; cv=none; b=TV4fyH1BzbzDS1WZVIfYDHMx6HQVekcDS7xdKe8YcC7iYHrmen9rpJqOcJYGQhnxdQ6sz+85rQY2rU1YKsNzswPEkVinNO3NFiN7QxeXC4CbdhKfdyfPtvUxt2zrAxmjwqZC2JvmtN+n1Pnoa6nTPjP2fI5dk9hGQ3irYM3nggw=
+	t=1774267979; cv=none; b=O8lcD4coagRc2pmq6pk5n3o4QvkcmasHzQnr8f0kI9Tri2sFHLE7597EUIE6SvY0s7WGn2/vPA0s5OKp5wPJ4ucrGXYxdwtwW3IWTt9LpHv3FD3f295/i2FuYqjz+CHgU/iOCbMnt7hJZyl2yYzswWGye3KzecdkGrAaoNGoXro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774267768; c=relaxed/simple;
-	bh=NombPNG79gufUelXYFJwjfH9RYaPYkV0p9rJSU7GHzE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X6NGug9oq+WUMoruA47Apk6xjInW8+O6WmjV2K8vtVujh+1lC7jU0MzF5s4vMQjHMD9A3NiJP1vopJW6bFcFIYVVRxNIC+98G9O28TBjt/CsubAR5D8nEpr9e1PKVK0QqvuRCL8exoeIVzqK7vp5aQkCc+41EqO64povp4b4JGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A/0eRk0Z; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A/0eRk0Z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C362C4CEF7;
-	Mon, 23 Mar 2026 12:09:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774267767;
-	bh=NombPNG79gufUelXYFJwjfH9RYaPYkV0p9rJSU7GHzE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=A/0eRk0Z+UBsVmcPs+Oe59kR91fYMmOQH6mw80m5O+UI6xlt9Ye0ZvLRn7pLiJZnT
-	 Tp3vTzIQfUmCEucCpsGKXKj/mX+LPsKJpp2Gujd19OXHZhJcZYvwPxnpGPRDhpS2hV
-	 pGkVu+y9FKLKY0/ncGSHbe3zxpPRVyZsPSgIWtrWWWSNJ+QBNzSxemXd1IxhAAtRgr
-	 pZcNd5oPQcO0cUTtBNsfYTr3N1960kbzz9maDcGh3RiMEo9sLSQ7dHUde1tExUOzuB
-	 +71gCF2RydXtjA77GN3sjdPKXGzl3zDQ+ALp2TQOV+BrHrYPRKpzuq1i9ca0DLdGKJ
-	 gGjoYzGqk+HWg==
-Date: Mon, 23 Mar 2026 13:09:23 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Askar Safin <safinaskar@gmail.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, patches@lists.linux.dev, kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] init/initramfs.c: trivial fix: FSM -> Finite-state
- machine
-Message-ID: <20260323-tierisch-schnupfen-5ff1d33507fc@brauner>
-References: <20260319232721.452950-1-safinaskar@gmail.com>
- <20260320144635.GA6202@frogsfrogsfrogs>
+	s=arc-20240116; t=1774267979; c=relaxed/simple;
+	bh=ES47tFda23W0wI6tAmTREEyFeD9xE76p1S65kGx/oNQ=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=j41EPanZwbQEDlMUa9WXPTORV8qfkWf4QHlq0DVXZd/xuT2VvttBWrQc4gMfeANBROwDYTbn92ttdHfq80wqJXrJCfwwIIlRHXg0ddh9Fs2TLgi9DztFr89k0tB8MMg+H/aUED5THZXrmhBspXYAW8QoMHz01+UeY3S0mNcOhTs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.224.150])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4ffX9q6X4NzJ468s;
+	Mon, 23 Mar 2026 20:12:47 +0800 (CST)
+Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
+	by mail.maildlp.com (Postfix) with ESMTPS id 1F4944056B;
+	Mon, 23 Mar 2026 20:12:53 +0800 (CST)
+Received: from localhost (10.203.177.15) by dubpeml500005.china.huawei.com
+ (7.214.145.207) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 23 Mar
+ 2026 12:12:51 +0000
+Date: Mon, 23 Mar 2026 12:12:50 +0000
+From: Jonathan Cameron <jonathan.cameron@huawei.com>
+To: John Groves <john@groves.net>
+CC: Miklos Szeredi <miklos@szeredi.hu>, Dan Williams
+	<dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, "Alison
+ Schofield" <alison.schofield@intel.com>, John Groves <jgroves@micron.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, "Alexander
+ Viro" <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>,
+	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong"
+	<djwong@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, Jeff Layton
+	<jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, "Stefan Hajnoczi"
+	<shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, Josef Bacik
+	<josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan
+	<chenlinxuan@uniontech.com>, James Morse <james.morse@arm.com>, Fuad Tabba
+	<tabba@google.com>, Sean Christopherson <seanjc@google.com>, Shivank Garg
+	<shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>, Gregory Price
+	<gourry@gourry.net>, Aravind Ramesh <arramesh@micron.com>, Ajay Joshi
+	<ajayjoshi@micron.com>, <venkataravis@micron.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<nvdimm@lists.linux.dev>, <linux-cxl@vger.kernel.org>,
+	<linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH V8 3/8] dax: add fsdev.c driver for fs-dax on character
+ dax
+Message-ID: <20260323121250.00004402@huawei.com>
+In-Reply-To: <ab3nFoKxirEgoS_v@groves.net>
+References: <20260318202737.4344.dax@groves.net>
+	<20260319012837.4443-1-john@groves.net>
+	<20260319122057.00004503@huawei.com>
+	<ab3nFoKxirEgoS_v@groves.net>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260320144635.GA6202@frogsfrogsfrogs>
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500011.china.huawei.com (7.191.174.215) To
+ dubpeml500005.china.huawei.com (7.214.145.207)
 
-On Fri, Mar 20, 2026 at 07:46:35AM -0700, Darrick J. Wong wrote:
-> On Thu, Mar 19, 2026 at 11:27:21PM +0000, Askar Safin wrote:
-> > FSM means "finite-state machine", but I think this is not obvious to
-> > everyone.
+
+> > > diff --git a/drivers/dax/Makefile b/drivers/dax/Makefile
+> > > index 5ed5c39857c8..3bae252fd1bf 100644
+> > > --- a/drivers/dax/Makefile
+> > > +++ b/drivers/dax/Makefile
+> > > @@ -5,10 +5,16 @@ obj-$(CONFIG_DEV_DAX_KMEM) += kmem.o
+> > >  obj-$(CONFIG_DEV_DAX_PMEM) += dax_pmem.o
+> > >  obj-$(CONFIG_DEV_DAX_CXL) += dax_cxl.o
+> > >  
+> > > +# fsdev_dax: fs-dax compatible devdax driver (needs DEV_DAX and FS_DAX)
+> > > +ifeq ($(CONFIG_FS_DAX),y)
+> > > +obj-$(CONFIG_DEV_DAX) += fsdev_dax.o
+> > > +endif  
 > > 
-> > Signed-off-by: Askar Safin <safinaskar@gmail.com>
-> > ---
-> >  init/initramfs.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/init/initramfs.c b/init/initramfs.c
-> > index 139baed06..d29fe0a5c 100644
-> > --- a/init/initramfs.c
-> > +++ b/init/initramfs.c
-> > @@ -212,7 +212,7 @@ static void __init parse_header(char *s)
-> >  	hdr_csum = parsed[12];
-> >  }
-> >  
-> > -/* FSM */
+> > Why not throw in a new CONFIG_FSDAX_DEV and handle the dependencies
+> > in Kconfig?    
 > 
-> ...and here I thought all along that the initramfs code had been blessed
-> by the flying spaghetti monster! ;)
+> At one point I had another config parameter, but I'm trying not to
+> gratuitously add them. The fsdev driver is pretty small, and including it
+> whenever FS_DAX is enabled felt reasonable to me. I'm willing to change it
+> if there's a consensus that way.
 
-I've touched it a lot recently and the urge to massage it is getting
-stronger but I have too much other stuff to do...
+You can make the build do exactly the same thing with a separate Kconfig
+option. Just moves where the dependency tracking is. I'd prefer Kconfig
+because that's generally where I'd look for something like this.
+
+
+Jonathan
