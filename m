@@ -1,135 +1,127 @@
-Received: from out30-124.freemail.mail.aliyun.com (out30-124.freemail.mail.aliyun.com [115.124.30.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 821E0242D7F
-	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 14:57:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0277F17A305;
+	Mon, 23 Mar 2026 15:01:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774277871; cv=none; b=EJTgjs2j+iyZ9S1lwr66f8jxiMCPife3W4Wy7dXcYB5cPW3gU0d34dTdJcjGKn7FikODDfPt6DCSOfmVizhAKWdR2QiYfmh2wXnFyzYSy+A9s4hueEIZW5ZaZXvjkMtmlPmLcavpH9IBOnwBPlByiyhE0fPRdTFtxpzd9c2tbH0=
+	t=1774278068; cv=none; b=JnA+YjGgfTq5IKVg3q2fRs4tX4uarIDvvMrlx/ibYOEPHfYnduaK+7LI9c9KVFl0OMQzTou7+iz5caZch6hbsXWBoRZnO4lAUWvp0ss3ZoadHVr4/bQh0+W9MCh2vP8x1Zi9vo2Y/mhxp68LGoyc6K7t9wJ/2r1OYRPy9V3ir5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774277871; c=relaxed/simple;
-	bh=lF6lS6eqbBxQ8ogv0QsB0bykVRMJkcM9mibiNuAXfoo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SvyYa7QxwPBa6o96Gdgvu3DOOrG5Zb7bdL+aV4I41enR6DADA6Xe0p7DL063GTxZtmNGrEo+tvef0qnc38d0Pq/leFHLuTBUuupZSx7z/8aH710gOgS4AZI5lpbmxe0/07AhyYHkoHqKm2eGMZP/gASSRDds98zvFkyjt+At8dg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=H0MrbWyn; arc=none smtp.client-ip=115.124.30.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1774278068; c=relaxed/simple;
+	bh=ou+cU83U8/W6PgBVFetgeP0Uw4wTgrkjzttLmTEJosE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=pm24uWqP2VfDGCKvgDr2LnvGCWmeQ4WAAhhkHni99bZe4d2Rtlos/K8ffDi3y2Ovw5jfZcqER0b33CsuvhBVg/cfLDyezE8neDsc/gGtXc5G1RopkESGIejrc1cBAqvLWICrzEDpBksN0DCkpg2ToyQfCebh1vFgK5nYJoVRyFo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GiafMzl9; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="H0MrbWyn"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1774277866; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=HKdSzx1BvxOPv/JTDRYJeYjx4iLJboPvEpu/lv0i1A4=;
-	b=H0MrbWynxMwFJNX1TiajFaLV0/vnLJEC6p/H73sF08Y7bCxk/gMYDuTk8EBYL6t8mO2dOKkPqFggmG/5E/swH+6FpJPMwAbXEJE8YEW94TJTH1YQ8B4Ip9Hae+Tt4IRaw7Du8BQpVblZrbky99QPvzj1BfNpfjFNKjbbzEFuLbs=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R141e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam011083073210;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=13;SR=0;TI=SMTPD_---0X.ZDVFt_1774277863;
-Received: from 30.41.54.139(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0X.ZDVFt_1774277863 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Mon, 23 Mar 2026 22:57:44 +0800
-Message-ID: <a0c0ef30-65ed-4815-b91c-2a5a817aa5fa@linux.alibaba.com>
-Date: Mon, 23 Mar 2026 22:57:43 +0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GiafMzl9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774278066; x=1805814066;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=ou+cU83U8/W6PgBVFetgeP0Uw4wTgrkjzttLmTEJosE=;
+  b=GiafMzl9WzIjMyU5RiTtm6/NAbzzavil3PsWWIGL4v++aRHWEBbfHe9Q
+   kli6kwkO6byP7cpxjaZ9if7QiYf8Kp6/mfrEhYmiQkmMt92Pt2PYBZ7ds
+   tcVTL80ZrJYxrkOTDb3gptbM+JYfaUH1MC+w2Y3zTdTeyD/vosBvXSlA8
+   z7G+o4j/Vnjweveb1p3Mor3KO7qOa/Yp8kRzCa2vVUkf56M6cgO/FL/bb
+   fgkY2qtCk77ODBwxZZ9DVfsUlBGxSqnfjqFDHuywWfnSFnj7HF+7pvm4N
+   h+u3ZYaRnUksDlZv73p3CoRhmznNRrv8sqVFWkdNWTYBUIWJphhkcd1Bg
+   g==;
+X-CSE-ConnectionGUID: bxDTvECUQXGjFcmJKvQWbA==
+X-CSE-MsgGUID: qREGY1zUT4mAzsZf9vbqWQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="74456127"
+X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
+   d="scan'208";a="74456127"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 08:01:04 -0700
+X-CSE-ConnectionGUID: bB0zWNmSSpStjxud4fY0hQ==
+X-CSE-MsgGUID: pzTQQGxdR+OrumkDhfhCRA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
+   d="scan'208";a="223119639"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa006.jf.intel.com with ESMTP; 23 Mar 2026 08:01:01 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1003)
+	id 29BEE9D; Mon, 23 Mar 2026 16:01:00 +0100 (CET)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	David Disseldorp <ddiss@suse.de>,
+	Petr Mladek <pmladek@suse.com>,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Cc: Al Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: [PATCH v3 3/6] initramfs: Sort headers alphabetically
+Date: Mon, 23 Mar 2026 15:54:19 +0100
+Message-ID: <20260323150054.3587083-4-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20260323150054.3587083-1-andriy.shevchenko@linux.intel.com>
+References: <20260323150054.3587083-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Lsf-pc] [LSF/MM/BPF TOPIC] Where is fuse going? API cleanup,
- restructuring and more
-To: Jan Kara <jack@suse.cz>
-Cc: Demi Marie Obenour <demiobenour@gmail.com>,
- "Darrick J. Wong" <djwong@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>,
- linux-fsdevel@vger.kernel.org, Joanne Koong <joannelkoong@gmail.com>,
- John Groves <John@groves.net>, Bernd Schubert <bernd@bsbernd.com>,
- Amir Goldstein <amir73il@gmail.com>, Luis Henriques <luis@igalia.com>,
- Horst Birthelmer <horst@birthelmer.de>, Gao Xiang <xiang@kernel.org>,
- lsf-pc@lists.linux-foundation.org
-References: <20260318215140.GL1742010@frogsfrogsfrogs>
- <361d312b-9706-45ca-8943-b655a75c765b@gmail.com>
- <390cd031-742b-4f1b-99c4-8ee41a259744@linux.alibaba.com>
- <j3gafvpt6r47trvrkttfvilejplluagdz3alcjxmc7xhnzmemv@tahjpv2ak6qj>
- <cfe18ae0-7dc0-4601-a9f0-c0665f301cfe@linux.alibaba.com>
- <s3y7qrkgwedbkltpt7mjjzisazynzms3btablzpxhdoezapddy@xanux4rrspwd>
- <72eaaed1-24a0-4c98-a7c0-ea249d541f2d@linux.alibaba.com>
- <9af9ad0e-8070-4aaa-9f64-7d72074bd948@linux.alibaba.com>
- <wo2nf7bux5rhexbpyeutbb5bkpqlumq3ht7iqxdft7lhc2p6va@3q6wsi2xndpu>
- <68116ee5-b1f7-484b-a520-7dc5aefd7738@linux.alibaba.com>
- <2gyfmxfnnxrglpzb7kz63xbve5vnosl6gi54c3umgrpwbjr4og@lz4e2ptqanfe>
-From: Gao Xiang <hsiangkao@linux.alibaba.com>
-In-Reply-To: <2gyfmxfnnxrglpzb7kz63xbve5vnosl6gi54c3umgrpwbjr4og@lz4e2ptqanfe>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+Sorting headers alphabetically helps locating duplicates, and makes it
+easier to figure out where to insert new headers.
 
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ init/initramfs.c | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
-On 2026/3/23 22:47, Jan Kara wrote:
-> On Mon 23-03-26 22:36:46, Gao Xiang wrote:
->> On 2026/3/23 22:13, Jan Kara wrote:
->>>>> think that is the corner cases if you don't claim the
->>>>> limitation of FUSE approaches.
->>>>>
->>>>> If none expects that, that is absolute be fine, as I said,
->>>>> it provides strong isolation and stability, but I really
->>>>> suspect this approach could be abused to mount totally
->>>>> untrusted remote filesystems (Actually as I said, some
->>>>> business of ours already did: fetching EXT4 filesystems
->>>>> with unknown status and mount without fscking, that is
->>>>> really disappointing.)
->>>
->>> Yes, someone downloading untrusted ext4 image, mounting in read-write and
->>> using it for sensitive application, that falls to "insane" category for me
->>> :) We agree on that. And I agree that depending on the application using
->>> FUSE to access such filesystem needn't be safe enough and immutable fs +
->>> overlayfs writeable layer may provide better guarantees about fs behavior.
->>
->> That is my overall goal, I just want to make it clear
->> the difference out of write isolation, but of course,
->> "secure" or not is relative, and according to the
->> system design.
->>
->> If isolation and system stability are enough for
->> a system and can be called "secure", yes, they are
->> both the same in such aspects.
->>
->>> I would still consider such design highly suspicious but without more
->>> detailed knowledge about the application I cannot say it's outright broken
->>> :).
->>
->> What do you mean "such design"?  "Writable untrusted
->> remote EXT4 images mounting on the host"? Really, we have
->> such applications for containers for many years but I don't
->> want to name it here, but I'm totally exhaused by such
->> usage (since I explained many many times, and they even
->> never bother with LWN.net) and the internal team.
-> 
-> By "such design" I meant generally the concept that you fetch filesystem
-> images (regardless whether ext4 or some other type) from untrusted source.
-> Unless you do cryptographical verification of the data, you never know what
-> kind of garbage your application is processing which is always invitation
-> for nasty exploits and bugs...
-
-That is very common for Docker images for example
-(Although I admit Docker images now use TAR archives,
-which can be seen as an immutable system too).
-
-For example, Docker Hub keeps TAR images with sha256, but
-only sha256 without any cryptographical signature.  Of
-course, you could rely on your image scanner to audit
-malicious contents if you want (e.g. you keep your sensitive
-information) or rely on 3rd-party applications to scan for
-you, or never scan since you don't keep any sensitive
-information in that.  --- so because Docker image will
-write into another trusted local filesystem like the
-model I mentioned before.
-
-IOWs, the image sha256 only ensures that "the tar images
-you downloaded" is what "the publisher once uploaded",
-no more than that.  And that model is also our interest,
-since the core EROFS format should fit such model too.
-
-Thanks,
-Gao XIang
-
-> 
-> 								Honza
+diff --git a/init/initramfs.c b/init/initramfs.c
+index 139baed06589..4ed796566cf3 100644
+--- a/init/initramfs.c
++++ b/init/initramfs.c
+@@ -1,25 +1,25 @@
+ // SPDX-License-Identifier: GPL-2.0
+-#include <linux/init.h>
+ #include <linux/async.h>
+-#include <linux/export.h>
+-#include <linux/fs.h>
+-#include <linux/slab.h>
+-#include <linux/types.h>
+-#include <linux/fcntl.h>
+ #include <linux/delay.h>
+-#include <linux/string.h>
+ #include <linux/dirent.h>
+-#include <linux/syscalls.h>
+-#include <linux/utime.h>
++#include <linux/export.h>
++#include <linux/fcntl.h>
+ #include <linux/file.h>
++#include <linux/fs.h>
++#include <linux/init.h>
++#include <linux/init_syscalls.h>
+ #include <linux/kstrtox.h>
+ #include <linux/memblock.h>
+ #include <linux/mm.h>
+ #include <linux/namei.h>
+-#include <linux/init_syscalls.h>
+-#include <linux/umh.h>
+-#include <linux/security.h>
+ #include <linux/overflow.h>
++#include <linux/security.h>
++#include <linux/slab.h>
++#include <linux/string.h>
++#include <linux/syscalls.h>
++#include <linux/types.h>
++#include <linux/umh.h>
++#include <linux/utime.h>
+ 
+ #include "do_mounts.h"
+ #include "initramfs_internal.h"
+-- 
+2.50.1
 
