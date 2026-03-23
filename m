@@ -1,221 +1,186 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A701836F414
-	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 14:13:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99F2D2C181;
+	Mon, 23 Mar 2026 14:19:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774275200; cv=none; b=CSRX921og/CW8m2JHfWSZeX4bzC8N8CixpEnwjReu3Vul+OZZh7csOh9VtoRWhRPFZL5vvBL4QgFi2SZoX9aUNNvcWwDax96191BzKy0z1fYDxCygEFARi5frrLUmkYSjgyPmQUoqcpkl5mphalvAUceiNanmxODokLNqdVRyDo=
+	t=1774275601; cv=none; b=cDxmbjeI3B1SOfxKWzfsKNtYmveh44GDceRg1i3OCodGLG8ZQPCi38Au4Z3U9RycHzpRk1aph/1q9AvDYFqbLApOJhsVNPVjaxMFsNwOvP36nLjEO1cmdffgnzWhcD/a+grvtx1fRi0CugxOlzND8KgViGY93f8w9P4uF1hMf0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774275200; c=relaxed/simple;
-	bh=KbwUEE/RzPJiziOqZRlrzRscRHescjVkufzJUaJIAro=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GpK7s1qvReMzzXKYu7SDiA3lFJamcBKswSffeudYmFIrY/4DYebonExMUuNjItd8Z68iAfF7gr987AJhbIShVgDOEBtQE8kgLO0i1wATPn/4QWbkDkVmme6GX6QxFUJqGbhJ3jbwGbyXrdHic+/yZywgiHsxU6gnDPtJkHrhBjc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=P48oQEK8; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=OGwIpnEg; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=P48oQEK8; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=OGwIpnEg; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1774275601; c=relaxed/simple;
+	bh=C8hMLdzLpw3anbsB7wiVA4+wrsO3woB/ERHFNv7JDfE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mmJt+Cq5Wr6WiK9kDFly9Uj4EhUIfhIRZADH73lbpf01jDB0Z8mV4mMTRSTr/HQwLkU2DNP7lyZzgUz90CrgXSUuEbLwAI8isKpVxV9rBJTK/zeaIilkDkVQMUtVzi4LHEM9NNNJ8l7DV7u0RrCyhF6NcRBr/VOWSPPxGyhkk0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=PxxLXx0j; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=uhEx8jWe; arc=none smtp.client-ip=202.12.124.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="P48oQEK8";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="OGwIpnEg";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="P48oQEK8";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="OGwIpnEg"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id A28DC5BCDF;
-	Mon, 23 Mar 2026 14:13:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1774275196; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UASMZMHYwneqmJSlTm5C3FYVqRIRdI0Oi7tAT2nIzzQ=;
-	b=P48oQEK8+bbWDwH5XoDwystiGWKWSZDFe116h9uQWYIbty2xtEITpf2HrCauZ23rEjgu2j
-	dsPedOesWwxmJW+sT0VCJffN8woSyDhXoOXz8szNhT5+gVBg5A6+806dgN9UR6NNUwoGu5
-	JypPvDr1lDMm4WMSE9w8p+uxExsgmS0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1774275196;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UASMZMHYwneqmJSlTm5C3FYVqRIRdI0Oi7tAT2nIzzQ=;
-	b=OGwIpnEgo2zaHaXxQ1Vu4ZufH5y0xX5q9OlqCqQvX44ZYl1+9GDmuJnXNrhs/Cyw7UG2jm
-	7Of4nugpsZUc1FDQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=P48oQEK8;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=OGwIpnEg
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1774275196; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UASMZMHYwneqmJSlTm5C3FYVqRIRdI0Oi7tAT2nIzzQ=;
-	b=P48oQEK8+bbWDwH5XoDwystiGWKWSZDFe116h9uQWYIbty2xtEITpf2HrCauZ23rEjgu2j
-	dsPedOesWwxmJW+sT0VCJffN8woSyDhXoOXz8szNhT5+gVBg5A6+806dgN9UR6NNUwoGu5
-	JypPvDr1lDMm4WMSE9w8p+uxExsgmS0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1774275196;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UASMZMHYwneqmJSlTm5C3FYVqRIRdI0Oi7tAT2nIzzQ=;
-	b=OGwIpnEgo2zaHaXxQ1Vu4ZufH5y0xX5q9OlqCqQvX44ZYl1+9GDmuJnXNrhs/Cyw7UG2jm
-	7Of4nugpsZUc1FDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 96453438F9;
-	Mon, 23 Mar 2026 14:13:16 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id lxOoJHxKwWn6DQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 23 Mar 2026 14:13:16 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 4EE57A0B32; Mon, 23 Mar 2026 15:13:16 +0100 (CET)
-Date: Mon, 23 Mar 2026 15:13:16 +0100
-From: Jan Kara <jack@suse.cz>
-To: Gao Xiang <hsiangkao@linux.alibaba.com>
-Cc: Jan Kara <jack@suse.cz>, Demi Marie Obenour <demiobenour@gmail.com>, 
-	"Darrick J. Wong" <djwong@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, 
-	linux-fsdevel@vger.kernel.org, Joanne Koong <joannelkoong@gmail.com>, 
-	John Groves <John@groves.net>, Bernd Schubert <bernd@bsbernd.com>, 
-	Amir Goldstein <amir73il@gmail.com>, Luis Henriques <luis@igalia.com>, 
-	Horst Birthelmer <horst@birthelmer.de>, Gao Xiang <xiang@kernel.org>, lsf-pc@lists.linux-foundation.org
-Subject: Re: [Lsf-pc] [LSF/MM/BPF TOPIC] Where is fuse going? API cleanup,
- restructuring and more
-Message-ID: <wo2nf7bux5rhexbpyeutbb5bkpqlumq3ht7iqxdft7lhc2p6va@3q6wsi2xndpu>
-References: <20260221004752.GE11076@frogsfrogsfrogs>
- <7de8630d-b6f5-406e-809a-bc2a2d945afb@linux.alibaba.com>
- <20260318215140.GL1742010@frogsfrogsfrogs>
- <361d312b-9706-45ca-8943-b655a75c765b@gmail.com>
- <390cd031-742b-4f1b-99c4-8ee41a259744@linux.alibaba.com>
- <j3gafvpt6r47trvrkttfvilejplluagdz3alcjxmc7xhnzmemv@tahjpv2ak6qj>
- <cfe18ae0-7dc0-4601-a9f0-c0665f301cfe@linux.alibaba.com>
- <s3y7qrkgwedbkltpt7mjjzisazynzms3btablzpxhdoezapddy@xanux4rrspwd>
- <72eaaed1-24a0-4c98-a7c0-ea249d541f2d@linux.alibaba.com>
- <9af9ad0e-8070-4aaa-9f64-7d72074bd948@linux.alibaba.com>
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="PxxLXx0j";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="uhEx8jWe"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id CDF9C7A024C;
+	Mon, 23 Mar 2026 10:19:58 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-04.internal (MEProxy); Mon, 23 Mar 2026 10:19:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1774275598;
+	 x=1774361998; bh=q1XY9wBEkdkEyg2DP9g2df7Uy6DHiN7ksnRqJjq6duE=; b=
+	PxxLXx0jqjjp1FjScKMdvZGg8KUoW7zOZOe5zogIbLDsXbZPRujPeBQBPUWLD25d
+	YJ0sIPGK1HcMEyfw+NjEfv6KSLHd547cLQGxbTkDNhT0kwZCNS5zzUhCub7uHBmH
+	/opV3tJWyVnHDhgaHDJdMMq3zzEunDc+TQ1s4Ofw/1Okg5LxeqUvDRjwdKoaxmet
+	Pcx1+9W7Pa6odVZIP6Yf6510ETGqR9TtZ40jaddK01cCgPlxiu80SpK1PoMuiaN3
+	xwVOZoTb6NSZe5Zpg/fhXV79qv8l+33aF6FIO4Ocdr01/+BvMTc4NcNyYNpn6EYv
+	AM/6jWI8eA2gUvr3gRyoxQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1774275598; x=
+	1774361998; bh=q1XY9wBEkdkEyg2DP9g2df7Uy6DHiN7ksnRqJjq6duE=; b=u
+	hEx8jWeiKYvuzZbsh5YXnQpttXfu/kxYVie/NkHC6WiRJvkrMuNoFhQCQHFz5hiG
+	JFOy21b+BxsrrHNSvtqWZILZQ+lWfqwacWBGSj48gYwBtcCKOX0HQr157We9yK1B
+	Ne8DlzhnMX7CPnFEH83vlTZHRmd6CTshwVq2RgfO5m8wqOMsQH6W2hCZDCHufEU8
+	0lfA97Xeuw5gPyx+Z+WFhTz+MIZ5S4eRRsNP27xxN1gA0GQgAzF24Q7ka3NaY/pQ
+	NYav+9SnVmj+4MQphyMvEG7/3NG5ECOeCnviHn+Lb5iuIWwkTLkTdje5LMYuEca8
+	t+Hzc9FXsaOXJyUy+T1yw==
+X-ME-Sender: <xms:DkzBaUP3eJA8pkz0MZvqdh3Uq1gD9OMEBDom5JfE7PM-V_CHNd27CQ>
+    <xme:DkzBaYyHixZ_bBP3RCk9A3LCVWEPFyjCVpV3ZdpqWmeKZPrKsRrPcTGj4jrNelPJ9
+    wJa--0HrKomye9J329icXrVPgan1WH0i1jvqfaXgG_hD_2wa0bbKA>
+X-ME-Received: <xmr:DkzBaVu0gf8Bc_yq-0pWzH4AZiAOmjEpOoRc2Nhf1WjiLxCKl8JB5Tt6QBZcsdcWTo2EHfeJtywvN_Y0k0PmfEA5QuDAKOYcGMKHwuNnDdagP4yWHQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdefudekleefucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
+    ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
+    htthgvrhhnpeehhfejueejleehtdehteefvdfgtdelffeuudejhfehgedufedvhfehueev
+    udeugeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    gsvghrnhgusegsshgsvghrnhgurdgtohhmpdhnsggprhgtphhtthhopeegpdhmohguvgep
+    shhmthhpohhuthdprhgtphhtthhopehmihhklhhoshesshiivghrvgguihdrhhhupdhrtg
+    hpthhtohepmhhsiigvrhgvughisehrvgguhhgrthdrtghomhdprhgtphhtthhopehlihhn
+    uhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepsh
+    htrggslhgvsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:DkzBaZ7avc5_l96VUtVojF7n5V9Tsjo4U3hhLZKcAZDViQo7w9PKYw>
+    <xmx:DkzBacQc067G6w4wjaLAP5KIz28OqfzndlDXc_vmTfpaj35CjB-SlQ>
+    <xmx:DkzBaQo-mLPk7yNhLiu_dqOcEuy3BsNwWYXC5ZKSeSE7eFw7lW8bZQ>
+    <xmx:DkzBaSL52b-BdeGwoazsxME7m_UbwMbmrt7KCix_bH5LXaCAi8g-QA>
+    <xmx:DkzBaSdZoAe7uOq1yOLrnIdmFsGtT-Nl27VrTzeYKiysHLvBjyP8PCXS>
+Feedback-ID: i5c2e48a5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 23 Mar 2026 10:19:57 -0400 (EDT)
+Message-ID: <d603b62f-8ec4-4cc2-8f9f-2f304cbb74ad@bsbernd.com>
+Date: Mon, 23 Mar 2026 15:19:56 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <9af9ad0e-8070-4aaa-9f64-7d72074bd948@linux.alibaba.com>
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_COUNT_THREE(0.00)[3];
-	URIBL_BLOCKED(0.00)[suse.cz:dkim,suse.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	MISSING_XM_UA(0.00)[];
-	FREEMAIL_CC(0.00)[suse.cz,gmail.com,kernel.org,szeredi.hu,vger.kernel.org,groves.net,bsbernd.com,igalia.com,birthelmer.de,lists.linux-foundation.org];
-	SUBJECT_HAS_QUESTION(0.00)[]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -4.01
-X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: A28DC5BCDF
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/7] fuse: abort on fatal signal during sync init
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Miklos Szeredi <mszeredi@redhat.com>, linux-fsdevel@vger.kernel.org,
+ stable@vger.kernel.org
+References: <20260316165320.3245526-1-mszeredi@redhat.com>
+ <20260316165320.3245526-2-mszeredi@redhat.com>
+ <0fb13941-6fca-433f-a560-9da51113d88f@bsbernd.com>
+ <CAJfpeguhwLHh=Fk+EGG_j9ap8yHgn9Mkocy-9X_0O-uuo_q3-A@mail.gmail.com>
+From: Bernd Schubert <bernd@bsbernd.com>
+Content-Language: en-US, de-DE, fr
+In-Reply-To: <CAJfpeguhwLHh=Fk+EGG_j9ap8yHgn9Mkocy-9X_0O-uuo_q3-A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon 23-03-26 20:01:32, Gao Xiang wrote:
-> On 2026/3/23 19:42, Gao Xiang wrote:
-> > > for example, you could audit the file permission with
-> > e2fsprogs/xfsprogs without a full fsck scan.
-> > 
-> > In order to make the userspace programs best-effort, they
-> > should open for write and fstat the permission bits
-> > before writing sensitive informations, it avoids TOCTOU
-> > attacks as much as possible as userspace programs.
-> > 
-> > 
-> > Container users use namespaces of course, namespace can
-> > only provide isolations, that is the only security
-> > guarantees namespace can provide, no question of that.
-> > 
-> > Let's just strictly speaking, as you mentioned, both ways
-> > ensure the isolation (if namespaces are used) and kernel
-> > stability (let's not nitpick about this).  And let's not
-> > talk about malicious block devices or likewise, because
-> > it's not a typical setup (maybe it could be a typical
-> > setup for some cases, but it should be another system-wide
-> > security design) and should be clarified by system admins
-> > for example.
-> > 
-> > What I just want to say is that: FUSE mount approach _might_
-> > give more incorrect security guarantees than the real users
-> > expect: I think other than avoiding system crashes etc, many
-> > users should expect that they could use the generic writable
-> > filesystem directly with FUSE without full-scan fsck
-> > in advance and keep their sensitive data directly, I don't
+
+
+On 3/18/26 10:33, Miklos Szeredi wrote:
+> On Tue, 17 Mar 2026 at 21:24, Bernd Schubert <bernd@bsbernd.com> wrote:
+>>
+>>
+>>
+>> On 3/16/26 17:53, Miklos Szeredi wrote:
+>>> When sync init is used and the server exits for some reason (error, crash)
+>>> while processing FUSE_INIT, the filesystem creation will hang.  The reason
+>>> is that while all other threads will exit, the mounting thread (or process)
+>>> will keep the device fd open, which will prevent an abort from happening.
+>>>
+>>> This is a regression from the async mount case, where the mount was done
+>>> first, and the FUSE_INIT processing afterwards, in which case there's no
+>>> such recursive syscall keeping the fd open.
+>>>
+>>> Fixes: dfb84c330794 ("fuse: allow synchronous FUSE_INIT")
+>>> Cc: stable@vger.kernel.org # v6.18
+>>> Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
+>>> ---
+>>>  fs/fuse/dev.c    | 6 +++++-
+>>>  fs/fuse/fuse_i.h | 1 +
+>>>  fs/fuse/inode.c  | 1 +
+>>>  3 files changed, 7 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+>>> index 2c16b94357d5..f0631c48abef 100644
+>>> --- a/fs/fuse/dev.c
+>>> +++ b/fs/fuse/dev.c
+>>> @@ -576,6 +576,9 @@ static void request_wait_answer(struct fuse_req *req)
+>>>                       removed = fuse_remove_pending_req(req, &fiq->lock);
+>>>               if (removed)
+>>>                       return;
+>>> +
+>>> +             if (req->args->abort_on_kill)
+>>> +                     fuse_abort_conn(fc);
+>>>       }
+>>>
+>>>       /*
+>>> @@ -676,7 +679,8 @@ ssize_t __fuse_simple_request(struct mnt_idmap *idmap,
+>>>                       fuse_force_creds(req);
+>>>
+>>>               __set_bit(FR_WAITING, &req->flags);
+>>> -             __set_bit(FR_FORCE, &req->flags);
+>>> +             if (!args->abort_on_kill)
+>>> +                     __set_bit(FR_FORCE, &req->flags);
+>>>       } else {
+>>>               WARN_ON(args->nocreds);
+>>>               req = fuse_get_req(idmap, fm, false);
+>>> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+>>> index 7f16049387d1..23a241f18623 100644
+>>> --- a/fs/fuse/fuse_i.h
+>>> +++ b/fs/fuse/fuse_i.h
+>>> @@ -345,6 +345,7 @@ struct fuse_args {
+>>>       bool is_ext:1;
+>>>       bool is_pinned:1;
+>>>       bool invalidate_vmap:1;
+>>> +     bool abort_on_kill:1;
+>>>       struct fuse_in_arg in_args[4];
+>>>       struct fuse_arg out_args[2];
+>>>       void (*end)(struct fuse_mount *fm, struct fuse_args *args, int error);
+>>> diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+>>> index e57b8af06be9..84f78fb89d35 100644
+>>> --- a/fs/fuse/inode.c
+>>> +++ b/fs/fuse/inode.c
+>>> @@ -1551,6 +1551,7 @@ int fuse_send_init(struct fuse_mount *fm)
+>>>       int err;
+>>>
+>>>       if (fm->fc->sync_init) {
+>>> +             ia->args.abort_on_kill = true;
+>>>               err = fuse_simple_request(fm, &ia->args);
+>>>               /* Ignore size of init reply */
+>>>               if (err > 0)
+>>
+>>
+>> I haven't looked at the other patches yet, so basically the mount can be
+>> aborted with ctrl-c, but no self abort in this patch yet.
 > 
+> This should work with all kinds of exit, since they ultimately
+> generate signals on all threads.
 > 
-> If you think that is still the corner cases that users expect
-> incorrectly, For example, I think double freeing issues can
-> make any useful write stuffs lost just out of inconsistent
-> filesystem -- that may be totally unrelated to the security.
-> 
-> What I want to say is that, the users' interest of new FUSE
-> approch is "no full fsck"; Otherwise, if full fsck is used,
-> why not they mount in the kernel then (I do think kernel
-> filesystems should fix all bugs out of normal consistent
-> usage)?
-> 
-> However, "no fsck" and FUSE mounts bring many incorrect
-> assumption that users can never expect: it's still unreliable,
-> maybe cannot keep any useful data in that storage.
-> 
-> Hopefully I explain my idea.
+> So the rest of the patchset are not even part of this fix, they are
+> just cleanups/improvements.
 
-I see and I agree that for some cases FUSE access to the untrusted
-filesystem needn't be enough
+Ah right, my confusion was from my wrong thinking it would be the
+"mount" process sending the init, but actually it is the daemon itself.
 
-> > think that is the corner cases if you don't claim the
-> > limitation of FUSE approaches.
-> > 
-> > If none expects that, that is absolute be fine, as I said,
-> > it provides strong isolation and stability, but I really
-> > suspect this approach could be abused to mount totally
-> > untrusted remote filesystems (Actually as I said, some
-> > business of ours already did: fetching EXT4 filesystems
-> > with unknown status and mount without fscking, that is
-> > really disappointing.)
 
-Yes, someone downloading untrusted ext4 image, mounting in read-write and
-using it for sensitive application, that falls to "insane" category for me
-:) We agree on that. And I agree that depending on the application using
-FUSE to access such filesystem needn't be safe enough and immutable fs +
-overlayfs writeable layer may provide better guarantees about fs behavior.
-I would still consider such design highly suspicious but without more
-detailed knowledge about the application I cannot say it's outright broken
-:).
-
-								Honza
-
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Thanks,
+Bernd
