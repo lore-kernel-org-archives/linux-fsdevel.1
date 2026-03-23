@@ -1,53 +1,84 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EE093164B4;
-	Mon, 23 Mar 2026 07:08:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2CB81DE8BB;
+	Mon, 23 Mar 2026 07:48:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774249706; cv=none; b=slce4T9N9h7ckwqzDL204B75sZeoQQcLCUwDq9+UE0VAhcpTwonBWCQ0VwUKwD+mtVz9zLU3FC61UxnSBCJ6cbUjpkaZrmTEVGpGmAZKUGbxT7R4ycAdJxPJJZXSL0M4S8urw8AuEcJbF+6TvO/JjO9C3l0hNRHXcnqfjA9iQ7U=
+	t=1774252130; cv=none; b=DRp8SqRyWt73GNyWyDMSD+AEbV0R/hOdu32Bio4lZNj/l9x39aYCJftlDxWGBS5KjPrb+0wwICLiy971w7WJN9rLy5Y1fCaCF98O4vt9LbqApCgQ6ucv0LEyV9QYFFOw/bNcqr+cgfy1WkyEgqEgwnmbF64DlNZpGEMkYnHZjDw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774249706; c=relaxed/simple;
-	bh=b5H6rGg7KTDY88xyeoYwaPykyXe8L7fhpxqV5pnIvV0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tN8ntnG5Qc7e0pSgG3oS/U23qFQ57tN+9YmYIbXjTW+rfhno5KbEOxBlSZWMbaZSiJVqvBUDbPXrsPJT9tgf2yjZzQi90njt9FM5scjW0oFjXsSyEKIDfPEYCbDBw0OJUXrKTG2JKUhx8Rk+x9PzxUVvtqBam/OhODQF5S+gTmY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=EBhNuuuj; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	s=arc-20240116; t=1774252130; c=relaxed/simple;
+	bh=pCbilTTHI/VwIdYALA976lc/t17gtYFZ5ukjoWq9Zt0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lEJDOIqk5DuBqh4DMgB/NNrxcP5Aq8olD6Wf9aqC5w/05iJDspw0+3o+uPB9QKmLO4gpaPE/BG0t/U1HW5TP7Kf14ThjGk+FzuNOWJY/eFPo8IQDszy1cqxUH7EBptwvrF0AQ5a/6GxZ+DH5UGS//97lPpG16s+TZQ78Kyzs8d4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rlv1S8+0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="EBhNuuuj"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=2p71K9zD5jK+uztJJdRlOmmEO5Wzpgg6K0aep2V2aq8=; b=EBhNuuujCRUxVyw8dqPiD/ONAi
-	paLcwWGDUCuUsdSsfPVLp3I46w1T1ygOstlztevOAQu2d23lEn6EBSu6y+RnY5eNIgVA+IE/wuJ7Z
-	Iu5R1kTNnJFOWpbnsu5ELUm8pc+VJd2JeYNl+o2EcSLV3QOu1Yzfe6DXfnFERCjyMHSQwlXXfMTXT
-	gnoQQZoAx27LW2l2mqR2Udkyh9SsKWejRRpBbkE8WXgy9+D+8fO8tzv2hVsjVBKub4RTXN4iQ2Qy6
-	6BWBZ0RdYokJOjiJN9i0moonQqyRt91LShUnUnBHbyp80a+/kkwKQ867V6FSaIMcWh/2U+r+R4eW5
-	ah4BWnnA==;
-Received: from 2a02-8389-2341-5b80-d601-7564-c2e0-491c.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:d601:7564:c2e0:491c] helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w4ZOh-0000000GAPD-1fQe;
-	Mon, 23 Mar 2026 07:08:23 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Chuck Lever <chuck.lever@oracle.com>,
-	Jeff Layton <jlayton@kernel.org>,
-	Amir Goldstein <amir73il@gmail.com>
-Cc: NeilBrown <neil@brown.name>,
-	Olga Kornievskaia <okorniev@redhat.com>,
-	Dai Ngo <Dai.Ngo@oracle.com>,
-	Tom Talpey <tom@talpey.com>,
-	Carlos Maiolino <cem@kernel.org>,
-	linux-nfs@vger.kernel.org,
-	linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH 7/7] xfs: support layout-based block device access on the RT device
-Date: Mon, 23 Mar 2026 08:07:23 +0100
-Message-ID: <20260323070746.2940140-8-hch@lst.de>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260323070746.2940140-1-hch@lst.de>
-References: <20260323070746.2940140-1-hch@lst.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rlv1S8+0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC71BC4CEF7;
+	Mon, 23 Mar 2026 07:48:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774252130;
+	bh=pCbilTTHI/VwIdYALA976lc/t17gtYFZ5ukjoWq9Zt0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Rlv1S8+0zQURdG9YTxr4y3pNRy8/ylu6kZZ6eCiQf+sFd02KfS8+YNnbcyhsi4jov
+	 S5w11oK7YTX3gkuWTcyu3hCCiTiR3veT8ei69ieEMGgMa2ZYMUeINhQjyhnr9FSaE8
+	 Uj98YvIFa19EU/fOo55YccuDjUkb9MArMrSqYZ/sLc3WXjjEkYT/en9m3MbKASypiu
+	 mxy2taD/9hMXzY7nvOCde6k5j3T9Mi98SQf3en8jrYNH2nRMr3fIiwj2mujYUhGjba
+	 bnwQO6qLYjo9aQPPjQMfazIbKXhjL7hgiC8xGbSCEvOmYFBujPtB+XyBem0ZCuxVV4
+	 bFbyai2HlbXwg==
+From: Mike Rapoport <rppt@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Alexander Potapenko <glider@google.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andreas Larsson <andreas@gaisler.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Borislav Petkov <bp@alien8.de>,
+	Brendan Jackman <jackmanb@google.com>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Christian Brauner <brauner@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	David Hildenbrand <david@kernel.org>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Jan Kara <jack@suse.cz>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Marco Elver <elver@google.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Rob Herring <robh@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Will Deacon <will@kernel.org>,
+	Zi Yan <ziy@nvidia.com>,
+	devicetree@vger.kernel.org,
+	iommu@lists.linux.dev,
+	kasan-dev@googlegroups.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-efi@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-trace-kernel@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	sparclinux@vger.kernel.org,
+	x86@kernel.org
+Subject: [PATCH v2 0/9] memblock: improve late freeing of reserved memory
+Date: Mon, 23 Mar 2026 09:48:27 +0200
+Message-ID: <20260323074836.3653702-1-rppt@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -55,107 +86,58 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Implement the devid_to_bdev method so that device index one can be
-used for the RT device, and allow block-style layouts on the
-conventional RT device.
+From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- fs/xfs/xfs_pnfs.c | 52 ++++++++++++++++++++++++++++++++++++-----------
- 1 file changed, 40 insertions(+), 12 deletions(-)
+Hi,
 
-diff --git a/fs/xfs/xfs_pnfs.c b/fs/xfs/xfs_pnfs.c
-index 7ef5a3f522f6..4302df26bfc2 100644
---- a/fs/xfs/xfs_pnfs.c
-+++ b/fs/xfs/xfs_pnfs.c
-@@ -46,17 +46,50 @@ xfs_break_leased_layouts(
- 	return error;
- }
- 
-+/*
-+ * Check what layouts we support for direct block device access.
-+ */
- static expfs_block_layouts_t
- xfs_fs_layouts_supported(
- 	struct super_block	*sb)
- {
--	expfs_block_layouts_t	supported = EXPFS_BLOCK_IN_BAND_ID;
-+	struct xfs_mount	*mp = XFS_M(sb);
-+	expfs_block_layouts_t	supported = 0;
- 
--	if (exportfs_bdev_supports_out_of_band_id(sb->s_bdev))
-+	/*
-+	 * We don't have a good way to identify a specific RT device.  And
-+	 * there's really no point in trying hard just for the deprecated
-+	 * block layout support.
-+	 */
-+	if (!xfs_has_realtime(mp))
-+		supported |= EXPFS_BLOCK_IN_BAND_ID;
-+
-+	if (exportfs_bdev_supports_out_of_band_id(sb->s_bdev) ||
-+	    (mp->m_rtdev_targp &&
-+	     exportfs_bdev_supports_out_of_band_id(mp->m_rtdev_targp->bt_bdev)))
- 		supported |= EXPFS_BLOCK_OUT_OF_BAND_ID;
- 	return supported;
- }
- 
-+static struct block_device *
-+xfs_fs_devid_to_bdev(
-+	struct super_block	*sb,
-+	u32			dev_idx)
-+{
-+	struct xfs_mount	*mp = XFS_M(sb);
-+
-+	switch (dev_idx) {
-+	case 0:
-+		return sb->s_bdev;
-+	case 1:
-+		if (mp->m_rtdev_targp && mp->m_rtdev_targp->bt_bdev)
-+			return mp->m_rtdev_targp->bt_bdev;
-+		fallthrough;
-+	default:
-+		return ERR_PTR(-EINVAL);
-+	}
-+}
-+
- /*
-  * Get a unique ID including its location so that the client can identify
-  * the exported device.
-@@ -141,20 +174,14 @@ xfs_fs_map_blocks(
- 		return -EIO;
- 
- 	*dev_idx = 0;
--
--	/*
--	 * We can't export inodes residing on the realtime device.  The realtime
--	 * device doesn't have a UUID to identify it, so the client has no way
--	 * to find it.
--	 */
- 	if (XFS_IS_REALTIME_INODE(ip))
--		return -ENXIO;
-+		*dev_idx = 1;
- 
- 	/*
--	 * The pNFS block layout spec actually supports reflink like
--	 * functionality, but the Linux pNFS server doesn't implement it yet.
-+	 * The pNFS block layout spec supports out of place writes, but the
-+	 * Linux pNFS server doesn't implement it yet.
- 	 */
--	if (xfs_is_reflink_inode(ip))
-+	if (xfs_is_cow_inode(ip))
- 		return -ENXIO;
- 
- 	/*
-@@ -351,6 +378,7 @@ xfs_fs_commit_blocks(
- 
- struct exportfs_block_ops xfs_export_block_ops = {
- 	.layouts_supported	= xfs_fs_layouts_supported,
-+	.devid_to_bdev		= xfs_fs_devid_to_bdev,
- 	.get_uuid		= xfs_fs_get_uuid,
- 	.map_blocks		= xfs_fs_map_blocks,
- 	.commit_blocks		= xfs_fs_commit_blocks,
+Following a recent discussion about leaks in x86 EFI [1], I audited usage of
+memblock_free_late() and free_reserved_area() and made some imporovements how
+we handle late freeing of the memory allocated with memblock.
+
+[1] https://lore.kernel.org/all/ec2aaef14783869b3be6e3c253b2dcbf67dbc12a.camel@kernel.crashing.org/
+
+v2 changes:
+* fix UAF issue in memblock_discard() reported by 0day and sashiko
+* address relevant sashiko comments
+* squash memblock test stubs changes into the commit with core updates
+
+v1: https://lore.kernel.org/all/20260318105827.1358927-1-rppt@kernel.org
+
+Mike Rapoport (Microsoft) (9):
+  memblock: reserve_mem: fix end caclulation in reserve_mem_release_by_name()
+  powerpc: fadump: pair alloc_pages_exact() with free_pages_exact()
+  powerpc: opal-core: pair alloc_pages_exact() with free_pages_exact()
+  mm: move free_reserved_area() to mm/memblock.c
+  memblock: make free_reserved_area() more robust
+  memblock: extract page freeing from free_reserved_area() into a helper
+  memblock: make free_reserved_area() update memblock if ARCH_KEEP_MEMBLOCK=y
+  memblock, treewide: make memblock_free() handle late freeing
+  memblock: warn when freeing reserved memory before memory map is initialized
+
+ arch/arm64/mm/init.c                       |   3 -
+ arch/powerpc/kernel/fadump.c               |  16 +--
+ arch/powerpc/platforms/powernv/opal-core.c |  11 +-
+ arch/sparc/kernel/mdesc.c                  |   4 +-
+ arch/x86/kernel/setup.c                    |   2 +-
+ arch/x86/platform/efi/memmap.c             |   5 +-
+ arch/x86/platform/efi/quirks.c             |   2 +-
+ drivers/firmware/efi/apple-properties.c    |   2 +-
+ drivers/of/kexec.c                         |   2 +-
+ include/linux/memblock.h                   |   2 -
+ init/initramfs.c                           |   7 --
+ kernel/dma/swiotlb.c                       |   6 +-
+ lib/bootconfig.c                           |   2 +-
+ mm/internal.h                              |  10 ++
+ mm/kfence/core.c                           |   4 +-
+ mm/memblock.c                              | 124 +++++++++++++++------
+ mm/page_alloc.c                            |  46 --------
+ tools/include/linux/mm.h                   |   1 +
+ tools/testing/memblock/internal.h          |  34 +++++-
+ 19 files changed, 144 insertions(+), 139 deletions(-)
+
+
+base-commit: 1f318b96cc84d7c2ab792fcc0bfd42a7ca890681
 -- 
-2.47.3
+2.53.0
 
