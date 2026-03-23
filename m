@@ -1,231 +1,186 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6B3037105D
-	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 11:14:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774264449; cv=none; b=SeDZV4VXcKn54UaVN4S8/h/oE5hQNByw5FrbPdpGahPM0hfzPSvmFYMZ2v0SmmI4KX3oDMs37ZH4Ur+SrKe3ANq+MyemmTRKgVA3h1HH9nl7c5+ELZmqfXP+3ZL6fif+4SZ9PU34JNZXv3mvSsGzbGRCMewa7V7X2p4kyEY1Fqw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774264449; c=relaxed/simple;
-	bh=c9Wgv7GIdjy2KjtfCpr61ZtJrW4X3nb9Z8uk9tr6b20=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YTpcwFU8KPGetLA20Mtt/p+k7+Rp3pmS4DM6LE+OHS1cOviSCQ7z3DtQkTa6jSubZUWXbfbvwd/zjTgv3YyaSRBRDY1L+GF/i+iTXZ8Uk0VuVBeKKk+hwRdw+hoJuXWX9oDDQ87OVpRI4XWYhbQHj0Eykcd9fxdJoQjuW3IMtaU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=dWfMi6Qm; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Ltinqq0n; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=dWfMi6Qm; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Ltinqq0n; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E6A5396598
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 11:25:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.129.124
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774265148; cv=pass; b=fAH9RDQERQC8zqLmSqY3seJ6BYv9UkCSWiExfexImpmCcCXIfZB2tKDvDzPM/YMsIcwQ5iPL2aXEP90xPBEwX3xLoDJsLHqdkdjYPQBjoV2ycznXsvmYySf3v4E/FFYgFLpCd/MwgbOOrXmmIfYc9r8OH/g9NTIYQst3aWnYq0k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774265148; c=relaxed/simple;
+	bh=SgQG5ejgW1WxUybyAAM8rt7HZkPdDCIfGfpizpvccms=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UpUl2tGL7bAb+A3gafYlHf9MIDrbAB3WZ/eMT9Wn+MtMM2N+891r3uMLF9GV8vxZiiE7af+j9rFZxLJ6yWZMNpLuaTUGKoVB94oZ+gvMKEdA79h7iVkELl3+tTMUeb6Wh7/RRjm6/HV/cMeoHDBolbYHCcHOap53BfKz922scKw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=GXwyL2In; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=LXmo7PnH; arc=pass smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="dWfMi6Qm";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Ltinqq0n";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="dWfMi6Qm";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Ltinqq0n"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 31CAC4D356;
-	Mon, 23 Mar 2026 11:14:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1774264446; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GXwyL2In";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="LXmo7PnH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1774265146;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=KS2x8/t4BMWj1FPc/I6e4wgl+S/FBlQJnYyRX/KJlYY=;
-	b=dWfMi6QmT9AOZIcMWm9BT8fcKxyKCQ8OU1KVs0iGIWKkJg+p6jlII6Hur2JYL6qkYgf0KO
-	QAuDM/vLjpoyjyHddfSTjaYG36x60MqRM+mpaXZEUJFKhdBS1M0wHsm8sk1XZIunRzBQbU
-	fJld8mCrgA9eQ20PihJT7EgjzLJqzII=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1774264446;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KS2x8/t4BMWj1FPc/I6e4wgl+S/FBlQJnYyRX/KJlYY=;
-	b=Ltinqq0nMAsy51jnWbTWpMXr5yA5xIuHsOemIoXXmNrj7E0TEzbWjvMO96B9+CGRsSamoJ
-	/PH2g7h5Nh+G/pBA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1774264446; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KS2x8/t4BMWj1FPc/I6e4wgl+S/FBlQJnYyRX/KJlYY=;
-	b=dWfMi6QmT9AOZIcMWm9BT8fcKxyKCQ8OU1KVs0iGIWKkJg+p6jlII6Hur2JYL6qkYgf0KO
-	QAuDM/vLjpoyjyHddfSTjaYG36x60MqRM+mpaXZEUJFKhdBS1M0wHsm8sk1XZIunRzBQbU
-	fJld8mCrgA9eQ20PihJT7EgjzLJqzII=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1774264446;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KS2x8/t4BMWj1FPc/I6e4wgl+S/FBlQJnYyRX/KJlYY=;
-	b=Ltinqq0nMAsy51jnWbTWpMXr5yA5xIuHsOemIoXXmNrj7E0TEzbWjvMO96B9+CGRsSamoJ
-	/PH2g7h5Nh+G/pBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 16C4443848;
-	Mon, 23 Mar 2026 11:14:06 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id KaiIBX4gwWkKUAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 23 Mar 2026 11:14:06 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id C81D2A0B2E; Mon, 23 Mar 2026 12:14:05 +0100 (CET)
-Date: Mon, 23 Mar 2026 12:14:05 +0100
-From: Jan Kara <jack@suse.cz>
-To: Gao Xiang <hsiangkao@linux.alibaba.com>
-Cc: Jan Kara <jack@suse.cz>, Demi Marie Obenour <demiobenour@gmail.com>, 
-	"Darrick J. Wong" <djwong@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, 
-	linux-fsdevel@vger.kernel.org, Joanne Koong <joannelkoong@gmail.com>, 
-	John Groves <John@groves.net>, Bernd Schubert <bernd@bsbernd.com>, 
-	Amir Goldstein <amir73il@gmail.com>, Luis Henriques <luis@igalia.com>, 
-	Horst Birthelmer <horst@birthelmer.de>, Gao Xiang <xiang@kernel.org>, lsf-pc@lists.linux-foundation.org
-Subject: Re: [Lsf-pc] [LSF/MM/BPF TOPIC] Where is fuse going? API cleanup,
- restructuring and more
-Message-ID: <s3y7qrkgwedbkltpt7mjjzisazynzms3btablzpxhdoezapddy@xanux4rrspwd>
-References: <ce74079f-1e0a-4fee-9259-48f08c6989aa@linux.alibaba.com>
- <20260206053835.GD7693@frogsfrogsfrogs>
- <cf44fe77-4616-45c8-975a-08dafaecad47@linux.alibaba.com>
- <20260221004752.GE11076@frogsfrogsfrogs>
- <7de8630d-b6f5-406e-809a-bc2a2d945afb@linux.alibaba.com>
- <20260318215140.GL1742010@frogsfrogsfrogs>
- <361d312b-9706-45ca-8943-b655a75c765b@gmail.com>
- <390cd031-742b-4f1b-99c4-8ee41a259744@linux.alibaba.com>
- <j3gafvpt6r47trvrkttfvilejplluagdz3alcjxmc7xhnzmemv@tahjpv2ak6qj>
- <cfe18ae0-7dc0-4601-a9f0-c0665f301cfe@linux.alibaba.com>
+	bh=67u/NLiGVOP5D7N4bIRzvnVB/KnTMtvWXarwYg+7w48=;
+	b=GXwyL2InMZnJz//2fb+yGFyUyAZ0cW7xOpEzo4KtI7MwiAMTSKPIk/MSDdoaRw6zM5XahF
+	ikw+fNd11dv6LmePrkTlNSPriv5ITBffOS0fA5kqbEpcXntx2LXsozKdEJIObkjYErRoy0
+	L4GIKnHNk/kcKC+OmTejDE7smU/NqrI=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-693-fGR77UqTO0yeVjXULxab-Q-1; Mon, 23 Mar 2026 07:25:45 -0400
+X-MC-Unique: fGR77UqTO0yeVjXULxab-Q-1
+X-Mimecast-MFC-AGG-ID: fGR77UqTO0yeVjXULxab-Q_1774265144
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-b8fbe7a6f41so4742166b.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 04:25:44 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774265143; cv=none;
+        d=google.com; s=arc-20240605;
+        b=PsXrN+spvamb/x16kB5CcyGAvAWrxjnWY6WtNutBeAHRk/oB0DlWx+NX3RMkpjbbCT
+         acSnpuXJZYSITfotk0Q3PeZnLBI8oPytMmSl70mJJqhPXlEufo6UlACrE18h7PNPelfK
+         ycyBtUgp3T2f1UXVBRq+6kJrmvjM2Xo0Vpu9hwsoucpzl+2sxz0hhJh2gF23dp4UulQn
+         nSMFyNcLEE9tspAFg8jsDA65L1bV0OocAKQNyPYZJXc40HKsW3DV7SicCoIJeY3jarac
+         o8fPwJsHqhd4iYsbIokXlY1ydnNZaIkZnqJQJE8S3+z5tSSYigQ5XGrjkBASqVRJXNYY
+         eTMQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=67u/NLiGVOP5D7N4bIRzvnVB/KnTMtvWXarwYg+7w48=;
+        fh=o9IfDyqSuKGYrG5uLOugW+mQzp316z2vbQbGSP/4oeM=;
+        b=j55q7p6SONTlJx3qefxWTegW/X8VqHMzHVZ8++CFq76C6f2K/6R8wU6HHKNdHafxGt
+         f+W9Jm1guLha7vWk/R+1R2ivJEHko80XHApDjW05xKzuSFQYKOQi1llZPHILpAYwuWKH
+         JtUx/dQYHbckQ64WFpcDBT0s6ExdBV7IMTcGT2oDFCb24AwOWIKP+aRj77wkm2dyJOJ9
+         E1StWrmlYTKhPPuUDqQb0SV5MdKu1Uk/BIqb+4ntJun62A5kUMuOGpT2IY65fi4g9LBu
+         pYMTB3EWDn91WOAgjI2znilVwfHY4uSJOSI77hYbUuzoJrnVZQJP8lUdRR5QUQQgC5jp
+         Z0SA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1774265143; x=1774869943; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=67u/NLiGVOP5D7N4bIRzvnVB/KnTMtvWXarwYg+7w48=;
+        b=LXmo7PnHEMM5Sp3++KA8QJtDwfmnTEOhbu6ueg0Mjp5eXyJhwG9OvT5GAm4iQhb81h
+         jJhKD2gZ5gfPlSfrQTeh9D5gBHYltWaxz8Ht5wtrRypDzGHVAkAfMFJ6R4kBDW25EHVY
+         4Ma0VEQSUipVGTjS80h/OAan+LIu3ReoKsdWrdPmAg5Dwm8bIMSHv2m3sMaIYmTyP+5h
+         JUlbJW9+sIFjKkmx/Oojv4HLC6/qvqt44vqWhPom0kohELZE30bdmFBPLjSFPMCxHtzX
+         UcM5jXdra5Q792YEdMpWaGBk3R85qUkJZ63CpEVxCfWwB6LRBVO+o6+78+fAL9k/WX17
+         0FNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774265143; x=1774869943;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=67u/NLiGVOP5D7N4bIRzvnVB/KnTMtvWXarwYg+7w48=;
+        b=WoAN6WxE2Lqq7Hws+DyL5FAJaeX8tYdqEbXjFPp2txlgY4lJmeQOXZa0AgVbSCqIuu
+         6LBo9h9SxziCkNGd5JXLnGJGFYZzJjVfwviu+NnolRMJljNXH20xjRZkuhuxSMyHLKN8
+         6fckn8QZbLE/L8MKNYRCllex5H5bCOhVbMItDShG07tKc5//uWZvwoXbJ9Ah2lSTgfZB
+         nSnbdhrTyAzMzYxVZCn7yO0lMIBXtIGTKN4tcKIwO8oE/a/oFDVp88V7l3hHcQlA5d5b
+         B3PfkwFcjoBD1gUZwgJ5BmNFt6I/2b6nklvwfnlrmGsKPMvTVMGatvlo1x476o0Nib7C
+         7IRA==
+X-Forwarded-Encrypted: i=1; AJvYcCVpJiQ3YC7b3nnn8PBNnUw7a3GeXIObIC/JRCNUZRKFgwd9uiWFPGm7OsKkPNNOgIX5e0Oa4zbcHo3dhJmi@vger.kernel.org
+X-Gm-Message-State: AOJu0YzLtRkw5vXeRyFE4GPPa1JeBlg8p474gPMMbQe5luFGBCfIHmGF
+	EMg/kiVEZ5AdD+PbF+qgWLKQTT6lPiU9ebPZoxW2UUE8yus8RZFuHcAUUbCZPA7zjm+dvZkrfVO
+	jZPlFmJi7Ubxhx8eFpzjwKqbW7ylK2p3SPJCVwksQgTBg3oUfPK68fzSvM18HMSTLppg4VsT5FN
+	hCIuEEjR0Tpe+tbvgmRAVDAOpO9UqIjNBFNXpM1S5GaA==
+X-Gm-Gg: ATEYQzx70dFB6zrh7lxMO3e/YBNAXqKtsAWXSYyGw2P43JDHnwDkWuPH2jj+ya/dQqo
+	MUKAFnmSN/EfQgl6uWO/D5HoiDZ+pGjCkX6uwNhX7grsstFyWcvIFOFBAL51+5XEJIDRM5wpMOV
+	51SDTPQ4uZ6AEV50ubIqO3menRlvYkG5LhOG58ZEg+ifchz8aETRhoPq0vjr4rUqdzwxVoEmzMf
+	6YbxOnw
+X-Received: by 2002:a17:907:2d14:b0:b98:6c41:a77f with SMTP id a640c23a62f3a-b986c41b6bbmr251633866b.20.1774265143436;
+        Mon, 23 Mar 2026 04:25:43 -0700 (PDT)
+X-Received: by 2002:a17:907:2d14:b0:b98:6c41:a77f with SMTP id
+ a640c23a62f3a-b986c41b6bbmr251630966b.20.1774265142881; Mon, 23 Mar 2026
+ 04:25:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cfe18ae0-7dc0-4601-a9f0-c0665f301cfe@linux.alibaba.com>
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[suse.cz,gmail.com,kernel.org,szeredi.hu,vger.kernel.org,groves.net,bsbernd.com,igalia.com,birthelmer.de,lists.linux-foundation.org];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email];
-	RCVD_TLS_LAST(0.00)[];
-	SUBJECT_HAS_QUESTION(0.00)[]
-X-Spam-Flag: NO
-X-Spam-Score: -3.80
-X-Spam-Level: 
+References: <20260312090810.1145908-1-ravising@redhat.com> <20260317065947.306954-1-ravising@redhat.com>
+ <jknk6pwirqp5kgxdwr7qez2qzuycmj4eupknf3yvqzlnkyiu5k@nowg6cwpxqc3>
+ <20260317133159.GA53921@macsyma-wired.lan> <ijwjh525hgf54wclhd4oixvfi3gfrodqrh2pbk7lr3whqw7nqo@k5uotrmekwyt>
+ <20260318221810.GM1742010@frogsfrogsfrogs> <waksu55vh2fm74ltktchuckhezkjq4ggaooqrosixfzsuli5uo@i4q6ixu7r56x>
+In-Reply-To: <waksu55vh2fm74ltktchuckhezkjq4ggaooqrosixfzsuli5uo@i4q6ixu7r56x>
+From: Ravi Singh <ravising@redhat.com>
+Date: Mon, 23 Mar 2026 16:55:31 +0530
+X-Gm-Features: AQROBzDv_PXbd61Y_t8LXNzL7Rn5JZDsfsrrP-vHw5-ek6F4YVqT9iiVk_OZ2CM
+Message-ID: <CAF-d4OvGmXWRinOB_qQYbCX9pckGLQbu1pghqDm-LhzHOaQY6Q@mail.gmail.com>
+Subject: Re: [PATCH v2] xfs: return default quota limits for IDs without a dquot
+To: Jan Kara <jack@suse.cz>
+Cc: "Darrick J. Wong" <djwong@kernel.org>, Theodore Tso <tytso@mit.edu>, linux-xfs@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, adilger@dilger.ca, jack@suse.com, 
+	cem@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Gao!
+Hi all,
 
-On Mon 23-03-26 18:19:16, Gao Xiang wrote:
-> On 2026/3/23 17:54, Jan Kara wrote:
-> > On Sun 22-03-26 12:51:57, Gao Xiang wrote:
-> > > On 2026/3/22 11:25, Demi Marie Obenour wrote:
-> > > > > Technically speaking fuse4fs could just invoke e2fsck -fn before it
-> > > > > starts up the rest of the libfuse initialization but who knows if that's
-> > > > > an acceptable risk.  Also unclear if you actually want -fy for that.
-> > > > 
-> > > 
-> > > Let me try to reply the remaining part:
-> > > 
-> > > > To me, the attacks mentioned above are all either user error,
-> > > > or vulnerabilities in software accessing the filesystem.  If one
-> > > 
-> > > There are many consequences if users try to use potential inconsistent
-> > > writable filesystems directly (without full fsck), what I can think
-> > > out including but not limited to:
-> > > 
-> > >   - data loss (considering data block double free issue);
-> > >   - data theft (for example, users keep sensitive information in the
-> > >        workload in a high permission inode but it can be read with
-> > >        low permission malicious inode later);
-> > >   - data tamper (the same principle).
-> > > 
-> > > All vulnerabilities above happen after users try to write the
-> > > inconsistent filesystem, which is hard to prevent by on-disk
-> > > design.
-> > > 
-> > > But if users write with copy-on-write to another local consistent
-> > > filesystem, all the vulnerabilities above won't exist.
-> > 
-> > OK, so if I understand correctly you are advocating that untrusted initial data
-> > should be provided on immutable filesystem and any needed modification
-> > would be handled by overlayfs (or some similar layer) and stored on
-> > (initially empty) writeable filesystem.
-> > 
-> > That's a sensible design for usecase like containers but what started this
-> > thread about FUSE drivers for filesystems were usecases like access to
-> > filesystems on drives attached at USB port of your laptop. There it isn't
-> > really practical to use your design. You need a standard writeable
-> > filesystem for that but at the same time you cannot quite trust the content
-> > of everything that gets attached to your USB port...
-> 
-> Yes, that is my proposal and my overall interest now.  I know
-> your interest but I'm here I just would like to say:
-> 
-> Without full scan fsck, even with FUSE, the system is still
-> vulnerable if the FUSE approch is used.
-> 
-> I could give a detailed example, for example:
-> 
-> There are passwd files `/etc/passwd` and `/etc/shadow` with
-> proper permissions (for example, you could audit the file
-> permission with e2fsprogs/xfsprogs without a full fsck scan) in
-> the inconsistent remote filesystems, but there are some other
-> malicious files called "foo" and "bar" somewhere with low
-> permissions but sharing the same blocks which is disallowed
-> by filesystem on-disk formats illegally (because they violate
-> copy-on-write semantics by design), also see my previous
-> reply:
-> https://lore.kernel.org/r/7de8630d-b6f5-406e-809a-bc2a2d945afb@linux.alibaba.com
-> 
-> The initial data of `/etc/passwd` and `/etc/shadow` in the
-> filesystem image doesn't matter, but users could then keep
-> very sensitive information later just out of the
-> inconsistent filesystems, which could cause "data theft"
-> above.
+Thanks for the feedback. Before posting a v3, I wanted to share some
+additional findings. The v2 patch only covers one of three scenarios
+where an unprivileged user cannot see the default limits applying to them.
 
-Yes, I've seen you mentioning this case earlier in this thread. But let me
-say I consider it rather contrived :). For the container usecase if you are
-fetching say a root fs image and don't trust the content of the image, then
-how do you know it doesn't contain a malicious code that sends all the
-sensitive data to some third party? So I believe the owner of the container
-has to trust the content of the image, otherwise you've already lost.
+Scenario 1: No dquot on disk (v2 fixes this):
+xfs_qm_dqget() returns -ENOENT, and v2 catches it.
 
-The container environment *provider* doesn't necessarily trust either the
-container owner or the image so they need to make sure their infrastructure
-isn't compromised by malicious actions from these - and for that either
-your immutable image scheme or FUSE mounting works.
+mkfs.xfs /dev/vde -f
+mount -o quota /dev/vde /mnt/test
+xfs_quota -xc 'limit -u bsoft=10m bhard=20m 0' /mnt/test
+# Do NOT chown anything to testuser8 - no dquot exists
+su - testuser8 -c "xfs_quota -c 'quota -ub' /mnt/test/"
 
-Similarly with the USB drive content. Either some malicious actor plugs USB
-drive into a laptop, it gets automounted, and that must not crash the
-kernel or give attacker more priviledge - but that's all - no data is
-stored on the drive. Or I myself plug some not-so-trusted USB drive to my
-laptop to read some content from it or possibly put there some data for a
-friend - again that must not compromise my machine but I'd be really dumb
-and already lost the security game if I'd put any sensitive data to such
-drive. And for this USB drive case FUSE mounting solves these problems
-nicely.
+Without fix: empty output
+With fix:
+Disk quotas for User testuser8 (1003)
+Filesystem              Blocks      Quota      Limit  Warn/Time      Mounted on
+ /dev/vde                     0      10240      20480   00 [--------] /mnt/test
 
-So in my opinion for practical usecases the FUSE solution addresses the
-real security concerns.
+Scenario 2: dquot exists with non-zero counts but zero limits (v2 does NOT fix):
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+A dquot is created for testuser8 before default limits are configured.
+When the chown runs, xfs_qm_adjust_dqlimits() is called in
+xfs_trans_apply_dquot_deltas(), but the defaults are all zero at that
+point so nothing is pushed into the dquot. When the admin later sets
+limits on ID 0, testuser8's existing dquot is not retroactively updated.
+xfs_qm_dqget() succeeds and XFS_IS_DQUOT_UNINITIALIZED is
+false (q_ino.count != 0), so xfs_qm_scall_getquota_fill_qc() returns
+the dquot's zero limits.
+
+mkfs.xfs /dev/vde -f
+mount -o quota /dev/vde /mnt/test
+mkdir /mnt/test/testuser8
+chown testuser8:testuser8 /mnt/test/testuser8
+xfs_quota -xc 'limit -u bsoft=10m bhard=20m 0' /mnt/test
+su - testuser8 -c "xfs_quota -c 'quota -ub' /mnt/test/"
+# empty output
+
+Scenario 3 : dquot all zeros / XFS_IS_DQUOT_UNINITIALIZED (v2 does NOT fix):
+
+A dquot record persists on disk with all zero fields after ownership
+is transferred away. xfs_qm_dqget() succeeds, but XFS_IS_DQUOT_UNINITIALIZED
+returns true and the query returns -ENOENT. The v2 fallback does not
+trigger because it only handles the xfs_qm_dqget() error path.
+
+mkfs.xfs /dev/vde -f
+mount -o quota /dev/vde /mnt/test
+mkdir /mnt/test/testuser8
+chown testuser8:testuser8 /mnt/test/testuser8
+chown root:root /mnt/test/testuser8
+xfs_quota -xc 'limit -u bsoft=10m bhard=20m 0' /mnt/test
+su - testuser8 -c "xfs_quota -c 'quota -ub' /mnt/test/"
+# empty output
+
+I see two approaches for v3 and would appreciate guidance:
+
+1. Fix all three in xfs_qm_scall_getquota() by merging default limits
+    into the response for any zero-valued limit field, mirroring
+    xfs_qm_adjust_dqlimits().
+2.  Expose default limits through Q_XGETQSTATV using the available
+     padding space in fs_quota_statv, as Jan suggested, and let
+     userspace tools merge them.
+
+Thoughts?
+
+Thanks,
+Ravi
+
