@@ -1,67 +1,32 @@
-Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out30-119.freemail.mail.aliyun.com (out30-119.freemail.mail.aliyun.com [115.124.30.119])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1747D20125F
-	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 14:23:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2C4C3ACEED
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 14:36:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.119
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774275793; cv=none; b=DNE8sHqfWOiuS2rM+tapYjopS/uyMb8tK0NQaFlYwuuSly0vZsH8xXYcfsJX2YwSspN7UQOYaPif7c0tKyr5WBS4qVFs1iR4Z8ntIzFYjt5qLG4gbvXTTVAuGW8VXIktCUohbiRFQyILxKHfbwhWgBOjyUoBNmK+AIDh9blL0QM=
+	t=1774276615; cv=none; b=qFWeWM67CIzFZuj8Bgyayd7Ve6F6FJBXY0rDgOb37MEAl9dODzPTee+uZgHemHvfCLNfSvvKYcDf5iNVGuhM4jZnmIlsu0YmHQUnMPanxtmi5EA28z26TQxQXY0uy+Pg049JsH0kI7fOS2UsQ4freLft5pQ0UyOAJPL9hzmLVGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774275793; c=relaxed/simple;
-	bh=C+9I8qKss0WgLUFVKxwU390YrmBUMAcHGwnzXZi12Vg=;
+	s=arc-20240116; t=1774276615; c=relaxed/simple;
+	bh=PUiUe+5MBqu04rVWdal2Y9UpkGxmj8rNHdbK8PWnG5k=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mqhXIBkEu8Nz3YV+uFZZfKo1eT27ALqGw7PTWH0UOmobRjBXfKxqO8i2FuqMhUXf/BAS1FrS3XVXIBbnIElr27oOQO2R+RKIm+NZhhzoXX8EPgtk/35WzLnBPI/VCwDbFqvFwEJJBKoLXS5ekQP/WCyvi9iWRT0iqZBuLCUZUlA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=jI7GABMN; arc=none smtp.client-ip=209.85.160.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
+	 In-Reply-To:Content-Type; b=Y9Mt6TvFoMbvpOx3wJbqfqUxob4YCycEGpDBTdtBLiKtOjG/scWewf7pRYvJfvnCmSEcn8scP2eq9q5DhatVqKwTBNTPylOrIoRR2BeihN9jRm1PD9XaDE1eH8ww+Npk4+aCgY9RSUGMxpIR8CjxLfc4cTofl4BzwmM3Dcz85Fo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=v1/nAXEQ; arc=none smtp.client-ip=115.124.30.119
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="jI7GABMN"
-Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-40429b1d8baso1370047fac.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 07:23:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1774275791; x=1774880591; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3zm+uLazNQIplB8qIgyuexcD83A6/QI4uC1344ND9QI=;
-        b=jI7GABMNhA8JVmNX75DdYanW8D4zZxB8EvshRZRCRZ3rc8ac4ASQqjSJELsMWrhagj
-         a2iMY2e0b9w6+OlmJ7MeHBWc75m+66sdYQ5mHf0AGefKjANNWpJ7QplVdim3OLfkk72Z
-         aG01jykkr6j3/T2HtFB5zH+goRdVA3MjcGC78M8mN5dLXjGuUSQXeo3kmmd/BqNy7Ykw
-         zmqBBvcNns0KbB7VVZyhovPcCZJxR/K9mSIn4fEs+nlO2irQKVY6nghRT1t4FsNgXhD6
-         uJJWN27G/cexXSjuhJvEfMeami193uBRdMe8fRbk25Z3Zp4yMBHWFd24H4F0kEjvEtpB
-         BtAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774275791; x=1774880591;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3zm+uLazNQIplB8qIgyuexcD83A6/QI4uC1344ND9QI=;
-        b=d9MmvTWM2JiNGcAKv6+dVI9vGwLeZzSFH9Bh+r38O7e/fCC7prxjX1CU56ezIV8A3Y
-         eqHLKDCnOLAzAyi8JEpa1wko+fz1OpvQDeOkki6wTjt1saAh2WPgeEn+/+dfkJAcFqcQ
-         1YPBpYuBtlpQ3U3NXXbCPkNLin6nn1Q+kzPzplrW/F/2gSg1EOGQbTuHnZ6yZq/DcO7+
-         0bQ1v6HHPk2vmf7XBex00M6EHJDWnFa5T+D/WiUoiV0lvBRlUUmKytPRkHr3sKxMA1eq
-         MeIN0P661qDk6X+OdSGfcIOAtEWEY1YlaavrtmjYU9jVaToONVKdJcNjOuO6ywuJWZxM
-         Qkug==
-X-Forwarded-Encrypted: i=1; AJvYcCVs8fHHztgYofIIJZhgjEe2cZXXeKFjtAnxp/uy61kRJ0cMMDjNo21TFtjb4qiA+OaWahixFkjLdIT0N6S0@vger.kernel.org
-X-Gm-Message-State: AOJu0YxVTLsZ6J4apt7b5z2fHMXID+Pot1gPq1EIPsYhOkz/2rov8e6X
-	yD+JP0BpgDmQ1SCC5guMOyhsmONZNRmLy8QQZx9vvXYfCAK6Vos8GfkFUGcanBDaYZE=
-X-Gm-Gg: ATEYQzw9YVfmpoPTuc/7yAL4E3EGcChe9hMWRqR5Ne2W8eBn/1FPn+E9bCEe7yWUC8Y
-	ADph/vnqBc9kMVNqaKkVWNwNf3h9fDCfBZfrllcWFStrlRnv5dZrOzyH3maAzRqYZv0YvZKuWxm
-	6TbKrqyYd2hsvmbRE/RGGnDAr627Yu5lSnXejOTquoA1JFuAvxeURlQypWdCdHrm9LKglUifA/k
-	EXONcQInsim7YFwyyyvSQWZSyJELZPE/nXVKc5L58G3vjLZlCT5QXSxjVA/nmP/jLA4kZKZVujq
-	bL2/QmH0wMZAlKQfWJlgTLYDLP/WfrGQCdEaevgFeTMdhn57no6H4lGsOWldKLOPQMuJdGWETH7
-	LfEcizTZzrJNXeb7vMGK/98b1kv0GkuTQUy80avaXK8WbejW39lLUbL+7GHfXFZwvuSrKF8aMUj
-	M8OHVxRBuVa5JCButna/Ebfv+z7DpXGwFZhm/sgbHeBL2P0w1kpgYnw1pBWx8wnierBQUakwINC
-	DrgmvtJfw==
-X-Received: by 2002:a05:6870:51cd:b0:417:359c:292e with SMTP id 586e51a60fabf-41c10f84c98mr6864368fac.12.1774275790874;
-        Mon, 23 Mar 2026 07:23:10 -0700 (PDT)
-Received: from [192.168.1.150] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-41c14e45213sm9682225fac.18.2026.03.23.07.23.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Mar 2026 07:23:10 -0700 (PDT)
-Message-ID: <4a3cf1f2-274a-4ceb-9980-4b379e81394a@kernel.dk>
-Date: Mon, 23 Mar 2026 08:23:09 -0600
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="v1/nAXEQ"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1774276609; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=A9gXGblNIOvJ9AMatJe12BN85nu9WBLMpJDi+i55ZbQ=;
+	b=v1/nAXEQQaLrDlib6PJDH7xIQXmMywzesn92PedzyPgnYvr0LsBdkY9h93AJJS+itv1lgtGpe9tIQ5mywIrU0NUMV4jLSXApJhbJZXjbvKtVLJDqFey1+hQ1m2/eMXfJZTC8gy2GlWqaSd/Dn4m9BAXtV+GWPWLz19Abd/sFWHc=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R641e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037009110;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=13;SR=0;TI=SMTPD_---0X.YuA0Q_1774276607;
+Received: from 30.41.54.139(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0X.YuA0Q_1774276607 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Mon, 23 Mar 2026 22:36:48 +0800
+Message-ID: <68116ee5-b1f7-484b-a520-7dc5aefd7738@linux.alibaba.com>
+Date: Mon, 23 Mar 2026 22:36:46 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -69,49 +34,138 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/4] io_uring: Add IORING_OP_DUP
-To: Daniele Di Proietto <daniele.di.proietto@gmail.com>,
- io-uring@vger.kernel.org
-Cc: Keith Busch <kbusch@kernel.org>, Pavel Begunkov <asml.silence@gmail.com>,
- linux-fsdevel@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-References: <20260321232142.911280-1-daniele.di.proietto@gmail.com>
- <20260321232142.911280-5-daniele.di.proietto@gmail.com>
-From: Jens Axboe <axboe@kernel.dk>
-Content-Language: en-US
-In-Reply-To: <20260321232142.911280-5-daniele.di.proietto@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: Re: [Lsf-pc] [LSF/MM/BPF TOPIC] Where is fuse going? API cleanup,
+ restructuring and more
+To: Jan Kara <jack@suse.cz>
+Cc: Demi Marie Obenour <demiobenour@gmail.com>,
+ "Darrick J. Wong" <djwong@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>,
+ linux-fsdevel@vger.kernel.org, Joanne Koong <joannelkoong@gmail.com>,
+ John Groves <John@groves.net>, Bernd Schubert <bernd@bsbernd.com>,
+ Amir Goldstein <amir73il@gmail.com>, Luis Henriques <luis@igalia.com>,
+ Horst Birthelmer <horst@birthelmer.de>, Gao Xiang <xiang@kernel.org>,
+ lsf-pc@lists.linux-foundation.org
+References: <20260221004752.GE11076@frogsfrogsfrogs>
+ <7de8630d-b6f5-406e-809a-bc2a2d945afb@linux.alibaba.com>
+ <20260318215140.GL1742010@frogsfrogsfrogs>
+ <361d312b-9706-45ca-8943-b655a75c765b@gmail.com>
+ <390cd031-742b-4f1b-99c4-8ee41a259744@linux.alibaba.com>
+ <j3gafvpt6r47trvrkttfvilejplluagdz3alcjxmc7xhnzmemv@tahjpv2ak6qj>
+ <cfe18ae0-7dc0-4601-a9f0-c0665f301cfe@linux.alibaba.com>
+ <s3y7qrkgwedbkltpt7mjjzisazynzms3btablzpxhdoezapddy@xanux4rrspwd>
+ <72eaaed1-24a0-4c98-a7c0-ea249d541f2d@linux.alibaba.com>
+ <9af9ad0e-8070-4aaa-9f64-7d72074bd948@linux.alibaba.com>
+ <wo2nf7bux5rhexbpyeutbb5bkpqlumq3ht7iqxdft7lhc2p6va@3q6wsi2xndpu>
+From: Gao Xiang <hsiangkao@linux.alibaba.com>
+In-Reply-To: <wo2nf7bux5rhexbpyeutbb5bkpqlumq3ht7iqxdft7lhc2p6va@3q6wsi2xndpu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 3/21/26 5:21 PM, Daniele Di Proietto wrote:
-> +	if (((id->flags & IORING_DUP_NEW_FIXED) == 0) ==
-> +		    ((id->flags & IORING_DUP_OLD_FIXED) == 0) &&
-> +	    id->old_fd == id->new_fd)
-> +		return -EINVAL;
 
-I think !(id->flags BLA) == would be shorter and hence easier to read.
-This is hard to read, at least for me.
 
-> +static int io_dup_to_fd(struct io_kiocb *req, unsigned int issue_flags,
-> +			bool old_fixed, int old_fd, int new_fd, int o_flags)
-> +{
-> +	bool non_block = issue_flags & IO_URING_F_NONBLOCK;
-> +	struct files_struct *files = current->files;
-> +	struct file *old_file, *to_close = NULL;
-> +	int err;
-> +
-> +	if (new_fd >= rlimit(RLIMIT_NOFILE))
-> +		return -EBADF;
-> +
-> +	if (old_fixed)
-> +		old_file = io_dup_get_old_file_fixed(req, issue_flags, old_fd);
-> +
-> +	{
-> +		guard(spinlock)(&files->file_lock);
+On 2026/3/23 22:13, Jan Kara wrote:
+> On Mon 23-03-26 20:01:32, Gao Xiang wrote:
+>> On 2026/3/23 19:42, Gao Xiang wrote:
+>>>> for example, you could audit the file permission with
+>>> e2fsprogs/xfsprogs without a full fsck scan.
+>>>
+>>> In order to make the userspace programs best-effort, they
+>>> should open for write and fstat the permission bits
+>>> before writing sensitive informations, it avoids TOCTOU
+>>> attacks as much as possible as userspace programs.
+>>>
+>>>
+>>> Container users use namespaces of course, namespace can
+>>> only provide isolations, that is the only security
+>>> guarantees namespace can provide, no question of that.
+>>>
+>>> Let's just strictly speaking, as you mentioned, both ways
+>>> ensure the isolation (if namespaces are used) and kernel
+>>> stability (let's not nitpick about this).  And let's not
+>>> talk about malicious block devices or likewise, because
+>>> it's not a typical setup (maybe it could be a typical
+>>> setup for some cases, but it should be another system-wide
+>>> security design) and should be clarified by system admins
+>>> for example.
+>>>
+>>> What I just want to say is that: FUSE mount approach _might_
+>>> give more incorrect security guarantees than the real users
+>>> expect: I think other than avoiding system crashes etc, many
+>>> users should expect that they could use the generic writable
+>>> filesystem directly with FUSE without full-scan fsck
+>>> in advance and keep their sensitive data directly, I don't
+>>
+>>
+>> If you think that is still the corner cases that users expect
+>> incorrectly, For example, I think double freeing issues can
+>> make any useful write stuffs lost just out of inconsistent
+>> filesystem -- that may be totally unrelated to the security.
+>>
+>> What I want to say is that, the users' interest of new FUSE
+>> approch is "no full fsck"; Otherwise, if full fsck is used,
+>> why not they mount in the kernel then (I do think kernel
+>> filesystems should fix all bugs out of normal consistent
+>> usage)?
+>>
+>> However, "no fsck" and FUSE mounts bring many incorrect
+>> assumption that users can never expect: it's still unreliable,
+>> maybe cannot keep any useful data in that storage.
+>>
+>> Hopefully I explain my idea.
+> 
+> I see and I agree that for some cases FUSE access to the untrusted
+> filesystem needn't be enough
 
-I did suggest a function, but if you're not doing that, at least use a
-scoped_guard rather than have some randomly inserted scope here. That
-looks like AI code..
+Yes, my opinion is that FUSE approches are fine, as long as
+we clearly document the limitation and the restriction.
+For writable filesystems, clearly a full scan fsck is needed
+to keep the filesystem consistent in order to avoid potential
+data loss at least.
 
--- 
-Jens Axboe
+Otherwise, I'm pretty sure some aggressive users will abuse
+this feature with "no fsck"...
+
+> 
+>>> think that is the corner cases if you don't claim the
+>>> limitation of FUSE approaches.
+>>>
+>>> If none expects that, that is absolute be fine, as I said,
+>>> it provides strong isolation and stability, but I really
+>>> suspect this approach could be abused to mount totally
+>>> untrusted remote filesystems (Actually as I said, some
+>>> business of ours already did: fetching EXT4 filesystems
+>>> with unknown status and mount without fscking, that is
+>>> really disappointing.)
+> 
+> Yes, someone downloading untrusted ext4 image, mounting in read-write and
+> using it for sensitive application, that falls to "insane" category for me
+> :) We agree on that. And I agree that depending on the application using
+> FUSE to access such filesystem needn't be safe enough and immutable fs +
+> overlayfs writeable layer may provide better guarantees about fs behavior.
+
+That is my overall goal, I just want to make it clear
+the difference out of write isolation, but of course,
+"secure" or not is relative, and according to the
+system design.
+
+If isolation and system stability are enough for
+a system and can be called "secure", yes, they are
+both the same in such aspects.
+
+> I would still consider such design highly suspicious but without more
+> detailed knowledge about the application I cannot say it's outright broken
+> :).
+
+What do you mean "such design"?  "Writable untrusted
+remote EXT4 images mounting on the host"? Really, we have
+such applications for containers for many years but I don't
+want to name it here, but I'm totally exhaused by such
+usage (since I explained many many times, and they even
+never bother with LWN.net) and the internal team.
+
+Thanks,
+Gao Xiang
+
+> 
+> 								Honza
+> 
+
