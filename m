@@ -1,77 +1,67 @@
-Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99F2D2C181;
-	Mon, 23 Mar 2026 14:19:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7675F1A680B
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 14:20:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774275601; cv=none; b=cDxmbjeI3B1SOfxKWzfsKNtYmveh44GDceRg1i3OCodGLG8ZQPCi38Au4Z3U9RycHzpRk1aph/1q9AvDYFqbLApOJhsVNPVjaxMFsNwOvP36nLjEO1cmdffgnzWhcD/a+grvtx1fRi0CugxOlzND8KgViGY93f8w9P4uF1hMf0Q=
+	t=1774275659; cv=none; b=GAXF1q9b/J/vrFWjn/dmHKqkn5bvo4kXLZ1GTcf4ogsKdnuJRdJR6rE1C0TZBYr/gmDDlfnZYaVsuEktJWjfIE9l+hkn+MJeo4yzgy/kncBMBOE56Uk9gmI7JUxsFqYMcU8ahEkiSZuWcnXWPdqarzhTnzlC7BSBySWP701jwkQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774275601; c=relaxed/simple;
-	bh=C8hMLdzLpw3anbsB7wiVA4+wrsO3woB/ERHFNv7JDfE=;
+	s=arc-20240116; t=1774275659; c=relaxed/simple;
+	bh=zASd+EOD13ftIhyXflTViXMTNoBklIHpY3QeXreZJdE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mmJt+Cq5Wr6WiK9kDFly9Uj4EhUIfhIRZADH73lbpf01jDB0Z8mV4mMTRSTr/HQwLkU2DNP7lyZzgUz90CrgXSUuEbLwAI8isKpVxV9rBJTK/zeaIilkDkVQMUtVzi4LHEM9NNNJ8l7DV7u0RrCyhF6NcRBr/VOWSPPxGyhkk0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=PxxLXx0j; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=uhEx8jWe; arc=none smtp.client-ip=202.12.124.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	 In-Reply-To:Content-Type; b=GO/fg2BaBe2Jev2JItfWqjVCJMdNaCZoxCjlI0kpiSzaqnHCFrGWsLAQQodEIiSpUkeFr75pVsH0EwOA7eQ6nrwfmviDGT3CaMESZwes6DXgGl0hPPVjKmDecrfiGMoJbFijRy3478xEOUnzbmUP+o60Cxuw0Yvz+frC5vD3eIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=aZ0nyrmf; arc=none smtp.client-ip=209.85.167.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="PxxLXx0j";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="uhEx8jWe"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id CDF9C7A024C;
-	Mon, 23 Mar 2026 10:19:58 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Mon, 23 Mar 2026 10:19:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1774275598;
-	 x=1774361998; bh=q1XY9wBEkdkEyg2DP9g2df7Uy6DHiN7ksnRqJjq6duE=; b=
-	PxxLXx0jqjjp1FjScKMdvZGg8KUoW7zOZOe5zogIbLDsXbZPRujPeBQBPUWLD25d
-	YJ0sIPGK1HcMEyfw+NjEfv6KSLHd547cLQGxbTkDNhT0kwZCNS5zzUhCub7uHBmH
-	/opV3tJWyVnHDhgaHDJdMMq3zzEunDc+TQ1s4Ofw/1Okg5LxeqUvDRjwdKoaxmet
-	Pcx1+9W7Pa6odVZIP6Yf6510ETGqR9TtZ40jaddK01cCgPlxiu80SpK1PoMuiaN3
-	xwVOZoTb6NSZe5Zpg/fhXV79qv8l+33aF6FIO4Ocdr01/+BvMTc4NcNyYNpn6EYv
-	AM/6jWI8eA2gUvr3gRyoxQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1774275598; x=
-	1774361998; bh=q1XY9wBEkdkEyg2DP9g2df7Uy6DHiN7ksnRqJjq6duE=; b=u
-	hEx8jWeiKYvuzZbsh5YXnQpttXfu/kxYVie/NkHC6WiRJvkrMuNoFhQCQHFz5hiG
-	JFOy21b+BxsrrHNSvtqWZILZQ+lWfqwacWBGSj48gYwBtcCKOX0HQr157We9yK1B
-	Ne8DlzhnMX7CPnFEH83vlTZHRmd6CTshwVq2RgfO5m8wqOMsQH6W2hCZDCHufEU8
-	0lfA97Xeuw5gPyx+Z+WFhTz+MIZ5S4eRRsNP27xxN1gA0GQgAzF24Q7ka3NaY/pQ
-	NYav+9SnVmj+4MQphyMvEG7/3NG5ECOeCnviHn+Lb5iuIWwkTLkTdje5LMYuEca8
-	t+Hzc9FXsaOXJyUy+T1yw==
-X-ME-Sender: <xms:DkzBaUP3eJA8pkz0MZvqdh3Uq1gD9OMEBDom5JfE7PM-V_CHNd27CQ>
-    <xme:DkzBaYyHixZ_bBP3RCk9A3LCVWEPFyjCVpV3ZdpqWmeKZPrKsRrPcTGj4jrNelPJ9
-    wJa--0HrKomye9J329icXrVPgan1WH0i1jvqfaXgG_hD_2wa0bbKA>
-X-ME-Received: <xmr:DkzBaVu0gf8Bc_yq-0pWzH4AZiAOmjEpOoRc2Nhf1WjiLxCKl8JB5Tt6QBZcsdcWTo2EHfeJtywvN_Y0k0PmfEA5QuDAKOYcGMKHwuNnDdagP4yWHQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdefudekleefucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
-    ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
-    htthgvrhhnpeehhfejueejleehtdehteefvdfgtdelffeuudejhfehgedufedvhfehueev
-    udeugeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    gsvghrnhgusegsshgsvghrnhgurdgtohhmpdhnsggprhgtphhtthhopeegpdhmohguvgep
-    shhmthhpohhuthdprhgtphhtthhopehmihhklhhoshesshiivghrvgguihdrhhhupdhrtg
-    hpthhtohepmhhsiigvrhgvughisehrvgguhhgrthdrtghomhdprhgtphhtthhopehlihhn
-    uhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepsh
-    htrggslhgvsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:DkzBaZ7avc5_l96VUtVojF7n5V9Tsjo4U3hhLZKcAZDViQo7w9PKYw>
-    <xmx:DkzBacQc067G6w4wjaLAP5KIz28OqfzndlDXc_vmTfpaj35CjB-SlQ>
-    <xmx:DkzBaQo-mLPk7yNhLiu_dqOcEuy3BsNwWYXC5ZKSeSE7eFw7lW8bZQ>
-    <xmx:DkzBaSL52b-BdeGwoazsxME7m_UbwMbmrt7KCix_bH5LXaCAi8g-QA>
-    <xmx:DkzBaSdZoAe7uOq1yOLrnIdmFsGtT-Nl27VrTzeYKiysHLvBjyP8PCXS>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 23 Mar 2026 10:19:57 -0400 (EDT)
-Message-ID: <d603b62f-8ec4-4cc2-8f9f-2f304cbb74ad@bsbernd.com>
-Date: Mon, 23 Mar 2026 15:19:56 +0100
+	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="aZ0nyrmf"
+Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-4645dde00a7so4100565b6e.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 07:20:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1774275655; x=1774880455; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=dEq1d5NT4C1cBdRHUylNiTgQKOSaQf+PeJbEdc2Od9I=;
+        b=aZ0nyrmf1eOBguV+l7xSHrXEiVYNi1mlCoj1X/HehYuH8cmnnWUa1IlKRvfwuVKLyD
+         aS9gaB86VJTtLyUTYnD1r48iBVaPhpnnyvoLPzFMB1WnvNVZ1oRXisYep4uSOH0dk3K4
+         FFPmSrn8B97wbFk8NsqelzgE4DXt8ygobirx5kuQIx9t24/zY4Klaa7ZV5+lXrDjCsMn
+         Bjowt3DgIh7RpUyQBvTU87opCZQY88pLKf5ICRTTeMwxYpflCFaxDj/7Bh2G9+07v3Yr
+         26zA6BI48wSyMGsUt1Z2HGb8qnCEmbFhcVoyhfZRshYcW+Zzj96nQIRB3B71ssfwSp8X
+         jIIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774275655; x=1774880455;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dEq1d5NT4C1cBdRHUylNiTgQKOSaQf+PeJbEdc2Od9I=;
+        b=IdQvBWv938/i9F1gbe8f2etMzwXs7jotPWnT4PajimejmXQASe3ZqPRIhVKcaVrjMo
+         CPD8+frjDgQs8ZMbR6gANriOtZ47+j+ZqM0cuPecOodfA+s/Nu7BBm9zJH5onw/zVStU
+         WliyOxw3M0V5YTj7JCfJs4q8Ozxt2f69cy0VRSZ99yEAG8tzIWc7+5W3urVpXNidBBdU
+         AyvXmoGcgsvXt969epwNSgwJvJ7MnlOQWCrSl7PGfUQAfymI4LlUKU6ce4fBveVmS83G
+         ISxY+NG4xy2A5uOoR2uuJK73K+K+RiHib6ZUlR6N8l9cEhq+BN/rv7U/5uDKkvrfKyyH
+         YMIg==
+X-Forwarded-Encrypted: i=1; AJvYcCX9nM3+GazWpFtgoPHjqFLFiM9f2UvfcUecP1VxXkZvR1T7NnpoH6+S+0DgyQAWUmcOvUXnYbNC/30vJx7b@vger.kernel.org
+X-Gm-Message-State: AOJu0YyGqH0Ww4Et9fiFM5VnunC+kgYqXbqZFxYUuGhH3Ad8xVAU9K3Z
+	7jYKKx0pq1xDR0glzaQibLY/SKNa1jLTH+3qMLMCPxszVh0ufIsslyUqDWg72EdKif8=
+X-Gm-Gg: ATEYQzwZU5egF/IjWE7KGqTj0y7WGo6AdK8BrgFoJS4h3uCU9uz2SFox5oYL7W7NM3p
+	p/Fk0cBdOmaDQSXSnsmy+4ImDntdfYyv0ytZczmEX6HVK1JrGaYI2UVJEmKP29xpmEShIKoQsfr
+	q4DvneSlTFlpqb2wpJk/fP2DFmOyVH/Fmo2AifJvkgIXm5sWh+Y4st/Kh90HIHaszzz15dJB9Kn
+	/hJrzUyy6ToOl1RdwLpNMwTw9+ujZMpWgKPdnUUMiSn/Puz7Y3hWYB5x0leU+fdbUXf16yWbS43
+	G+s7jKxIN59021BmC+pLX0QGWkW/ROwrKedNiIJzPFytPv2NT758OY2c5S+eeUsMrwUWkLdJzCR
+	JBsZf6uB98gJPEHF0wCXL743mSwFj6Nu0bFwPRugVyU+khTVZZ2n6f5IkCvUed/jvM0sWi8Ka82
+	6srEEjI9DdqwBLFwmtksqYjwHNaEAAvvDTFIprqapRV6ySvfNRLxmp6c5Qny8MKUiW2DSd1lOu3
+	0wGm6/kfQ==
+X-Received: by 2002:a05:6808:17a5:b0:468:1f2:5336 with SMTP id 5614622812f47-46801f2801fmr4546884b6e.28.1774275655162;
+        Mon, 23 Mar 2026 07:20:55 -0700 (PDT)
+Received: from [192.168.1.150] ([198.8.77.157])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-41c148a90f3sm10715182fac.1.2026.03.23.07.20.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Mar 2026 07:20:54 -0700 (PDT)
+Message-ID: <4970a06b-95f5-45d7-86dd-1055c1811ed6@kernel.dk>
+Date: Mon, 23 Mar 2026 08:20:53 -0600
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -79,108 +69,41 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/7] fuse: abort on fatal signal during sync init
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Miklos Szeredi <mszeredi@redhat.com>, linux-fsdevel@vger.kernel.org,
- stable@vger.kernel.org
-References: <20260316165320.3245526-1-mszeredi@redhat.com>
- <20260316165320.3245526-2-mszeredi@redhat.com>
- <0fb13941-6fca-433f-a560-9da51113d88f@bsbernd.com>
- <CAJfpeguhwLHh=Fk+EGG_j9ap8yHgn9Mkocy-9X_0O-uuo_q3-A@mail.gmail.com>
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: en-US, de-DE, fr
-In-Reply-To: <CAJfpeguhwLHh=Fk+EGG_j9ap8yHgn9Mkocy-9X_0O-uuo_q3-A@mail.gmail.com>
+Subject: Re: [PATCH v3 3/4] fs: Export new helper do_replace_fd_locked()
+To: Christian Brauner <brauner@kernel.org>,
+ Daniele Di Proietto <daniele.di.proietto@gmail.com>
+Cc: io-uring@vger.kernel.org, Keith Busch <kbusch@kernel.org>,
+ Pavel Begunkov <asml.silence@gmail.com>, linux-fsdevel@vger.kernel.org,
+ Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>
+References: <20260321232142.911280-1-daniele.di.proietto@gmail.com>
+ <20260321232142.911280-4-daniele.di.proietto@gmail.com>
+ <20260323-kocht-meisennest-ac89063f104f@brauner>
+Content-Language: en-US
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <20260323-kocht-meisennest-ac89063f104f@brauner>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-
-
-On 3/18/26 10:33, Miklos Szeredi wrote:
-> On Tue, 17 Mar 2026 at 21:24, Bernd Schubert <bernd@bsbernd.com> wrote:
+On 3/23/26 6:00 AM, Christian Brauner wrote:
+> On Sat, Mar 21, 2026 at 11:21:41PM +0000, Daniele Di Proietto wrote:
+>> This is a new helper that installs a new file in a specific fd number
+>> and returns the previous file that was there. It requires holding the
+>> files_lock.
 >>
+>> In order to keep ksys_dup3() simple, this commit introduces a new
+>> static do_dup3() helper.
 >>
+>> It's going to be used in a future commit.
 >>
->> On 3/16/26 17:53, Miklos Szeredi wrote:
->>> When sync init is used and the server exits for some reason (error, crash)
->>> while processing FUSE_INIT, the filesystem creation will hang.  The reason
->>> is that while all other threads will exit, the mounting thread (or process)
->>> will keep the device fd open, which will prevent an abort from happening.
->>>
->>> This is a regression from the async mount case, where the mount was done
->>> first, and the FUSE_INIT processing afterwards, in which case there's no
->>> such recursive syscall keeping the fd open.
->>>
->>> Fixes: dfb84c330794 ("fuse: allow synchronous FUSE_INIT")
->>> Cc: stable@vger.kernel.org # v6.18
->>> Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
->>> ---
->>>  fs/fuse/dev.c    | 6 +++++-
->>>  fs/fuse/fuse_i.h | 1 +
->>>  fs/fuse/inode.c  | 1 +
->>>  3 files changed, 7 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
->>> index 2c16b94357d5..f0631c48abef 100644
->>> --- a/fs/fuse/dev.c
->>> +++ b/fs/fuse/dev.c
->>> @@ -576,6 +576,9 @@ static void request_wait_answer(struct fuse_req *req)
->>>                       removed = fuse_remove_pending_req(req, &fiq->lock);
->>>               if (removed)
->>>                       return;
->>> +
->>> +             if (req->args->abort_on_kill)
->>> +                     fuse_abort_conn(fc);
->>>       }
->>>
->>>       /*
->>> @@ -676,7 +679,8 @@ ssize_t __fuse_simple_request(struct mnt_idmap *idmap,
->>>                       fuse_force_creds(req);
->>>
->>>               __set_bit(FR_WAITING, &req->flags);
->>> -             __set_bit(FR_FORCE, &req->flags);
->>> +             if (!args->abort_on_kill)
->>> +                     __set_bit(FR_FORCE, &req->flags);
->>>       } else {
->>>               WARN_ON(args->nocreds);
->>>               req = fuse_get_req(idmap, fm, false);
->>> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
->>> index 7f16049387d1..23a241f18623 100644
->>> --- a/fs/fuse/fuse_i.h
->>> +++ b/fs/fuse/fuse_i.h
->>> @@ -345,6 +345,7 @@ struct fuse_args {
->>>       bool is_ext:1;
->>>       bool is_pinned:1;
->>>       bool invalidate_vmap:1;
->>> +     bool abort_on_kill:1;
->>>       struct fuse_in_arg in_args[4];
->>>       struct fuse_arg out_args[2];
->>>       void (*end)(struct fuse_mount *fm, struct fuse_args *args, int error);
->>> diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
->>> index e57b8af06be9..84f78fb89d35 100644
->>> --- a/fs/fuse/inode.c
->>> +++ b/fs/fuse/inode.c
->>> @@ -1551,6 +1551,7 @@ int fuse_send_init(struct fuse_mount *fm)
->>>       int err;
->>>
->>>       if (fm->fc->sync_init) {
->>> +             ia->args.abort_on_kill = true;
->>>               err = fuse_simple_request(fm, &ia->args);
->>>               /* Ignore size of init reply */
->>>               if (err > 0)
->>
->>
->> I haven't looked at the other patches yet, so basically the mount can be
->> aborted with ctrl-c, but no self abort in this patch yet.
+>> Signed-off-by: Daniele Di Proietto <daniele.di.proietto@gmail.com>
+>> ---
 > 
-> This should work with all kinds of exit, since they ultimately
-> generate signals on all threads.
-> 
-> So the rest of the patchset are not even part of this fix, they are
-> just cleanups/improvements.
+> I think this spaghetti here is really not acceptable and the export of
+> do_replace_fd_locked() is really ugly. Please try and come up with a
+> solution where you modify e.g. replace_fd() that does like 90% of what
+> you want minues that "needs async" shortcut you have.
 
-Ah right, my confusion was from my wrong thinking it would be the
-"mount" process sending the init, but actually it is the daemon itself.
+Fully agree.
 
-
-Thanks,
-Bernd
+-- 
+Jens Axboe
