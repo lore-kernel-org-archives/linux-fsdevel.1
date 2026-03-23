@@ -1,269 +1,222 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com [209.85.217.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BCE53DFC96
-	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 20:31:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774297888; cv=none; b=Ezmdp3b+H18ZmDNYmN8A3u816O3asOeFA+npvr/PPkjNyc6B+EP88vdDcfd8FleuXE/CwJjUsNoLfTSprpi4WRo/OrxYUY+SIS/Y5GYFy6R4NnRUUAP5pKn3/DQdPL7+VXTyx8D8i+/DbqSlT02eJYZi7+uYx/B8pIZn3uxj+OM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774297888; c=relaxed/simple;
-	bh=alZ59a43N3b5vV5wbQF9/dRk1iQ1cWHHMZXN7KIeqdk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hVMYXRvTOFj93AAiVUu08oliTpmbH32r0kS5n/b64i2UIoyru/8tLHvB6eTOo+GY41BabrJwzmWd5zlXOW4TdMGlkPXG9OmjR1QUWAsRRE+DGo/pLInUdqKeNSzV03eGJObEQe3HBywH5lgwBc1/FI6jOxjmDOc01MmgDsfCWUU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=zQ0mKJhf; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=c4tFvY83; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=1Drtu9jC; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=MRiVwWGp; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 171693DE43F
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 20:47:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.217.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774298839; cv=pass; b=Rrf1kuz95MrIgOoW+OKW1L2rFeRFawKXjsh3quLX3IkM8xux41oeHM1FjpDXFsmu2ebxF4xSdGiRGuAti7lFbVHLaavRynCQfwzgtqyc8MuNzW9nL5eAD4udwvVM+rVHzI4KC7EfX1JpvTBL3kGuNBgkvRmrmAasu0VMnqCtF0E=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774298839; c=relaxed/simple;
+	bh=ng8E7qGgSHJkqBGRw/Py1ZjqtkBoNDU8zfEyX/fQOz4=;
+	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=md3yGQJ6lRLYmoCpeez7UY1vbjsXnQnozz8uYVKIB+CYU3QjqE8goMAnifjXIhoM4NAiMJUYJPni5GjvcPh06XUfx2VA98a3FDsyPaSQQtd7CIr2CxaRDr0gDzGw4cVFxJexLE1n6l/LoweLC7vAJx/M6Tkq4CByOl25RHjx99g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=E1Qx3iXY; arc=pass smtp.client-ip=209.85.217.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="zQ0mKJhf";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="c4tFvY83";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="1Drtu9jC";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="MRiVwWGp"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id DD0C15BE4F;
-	Mon, 23 Mar 2026 20:31:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1774297885; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xkwEXN4PiEbBLZlhthFn4IlNr+bDzd7DG89qanfhSaw=;
-	b=zQ0mKJhf2ly037QiC9eFQn34SmJZLvxQy4vHAzjX1N3NPKKXjRwB4o57NLLcbepoLAKIrh
-	aKh7Cu84Y6EIA8eeKnBkiu7OFGyju3S42g2BSKGBP4Tgv8VZ0BZ5OmodHgZaIaeSa6yTxO
-	qts3T9NfXdb43B6w/GvQNjTCRUxJDhE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1774297885;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xkwEXN4PiEbBLZlhthFn4IlNr+bDzd7DG89qanfhSaw=;
-	b=c4tFvY83yTVunDOXAbYQ9GZ5bOhNZVovRG2gYYAYJRMkU+RjzDw5NoFOqjQyF0OqjvTAjy
-	3JayLCw6gMMfJHDA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=1Drtu9jC;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=MRiVwWGp
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1774297884; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xkwEXN4PiEbBLZlhthFn4IlNr+bDzd7DG89qanfhSaw=;
-	b=1Drtu9jCPW3JBfZa/AXdVzla8m50Q2oIsyCbooHqVKz0BYRuxWRdLC2JqBkO5a6Sqpd0gO
-	xNCG0VNlQ3i2l8AZKfA1h76D1mG4TrUuGM+MgKXNaKekRUseizQHVR8W28f1W/4jHf38/1
-	JBnyJ7FPBbMFw8JvJOx9e/hatBojTd4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1774297884;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xkwEXN4PiEbBLZlhthFn4IlNr+bDzd7DG89qanfhSaw=;
-	b=MRiVwWGp4LtJC52UY0814hzawLeTBPfJI4aY+aFG9nyd9YXfcIrfEjnkEHFZffBrhtKNtL
-	1abJFVUzNIYpvMDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D223443A73;
-	Mon, 23 Mar 2026 20:31:24 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id td5HMxyjwWnSGQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 23 Mar 2026 20:31:24 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 93A9EA0B32; Mon, 23 Mar 2026 21:31:24 +0100 (CET)
-Date: Mon, 23 Mar 2026 21:31:24 +0100
-From: Jan Kara <jack@suse.cz>
-To: Zhang Yi <yi.zhang@huaweicloud.com>
-Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca, jack@suse.cz, 
-	ojaswin@linux.ibm.com, ritesh.list@gmail.com, libaokun@linux.alibaba.com, 
-	yi.zhang@huawei.com, yizhang089@gmail.com, yangerkun@huawei.com, yukuai@fnnas.com
-Subject: Re: [PATCH 10/10] ext4: zero post-EOF partial block before appending
- write
-Message-ID: <fcjjsad6v5v6ubtjidrstg3pjeeqn7njjm2qrovufdklnbhhci@ldy4nrlmtoek>
-References: <20260310014101.4140698-1-yi.zhang@huaweicloud.com>
- <20260310014101.4140698-11-yi.zhang@huaweicloud.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="E1Qx3iXY"
+Received: by mail-vs1-f45.google.com with SMTP id ada2fe7eead31-5ffabb1dfbaso375606137.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 13:47:17 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774298837; cv=none;
+        d=google.com; s=arc-20240605;
+        b=W28k3tV0Y5Zy8JCTyKWKsT+yk/cZ8hsPVPELNj0jXFagrNLY3ImQdSfnBzZYq6tx/M
+         /UJuqfPkRCP+NSNCNvmRnbTJaxSJUtkO5K9MIoFTCrlD3LgqwAbRMwCizLWUpknT28ii
+         xUHHondUWJL1KwXRxjWCZINCBvurb23Wk3JnDehTr7PdsHa3rmg058Co2jL47SNyKUPV
+         Upc7X9wDv4hCX6RDusOQHloVz/5sytqa0unCWplIlPHvUSv1jV0aTPL2F1qI0uLyvSmq
+         /+xWUrdHATP58XpSqfztZ6Vk2BPyuTNvjxLeT8VErV1NSkFXNGtkTKWDS5glrJEZJ0Iv
+         /yUA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:dkim-signature;
+        bh=yac1rrBqJSF3O+e4IwcngZ2ptSQxNGOfPE9KG9sOce8=;
+        fh=fbSt14COdHO/qIbfk6ZAlRSLw18OR2OuoT0LgzQsSj4=;
+        b=HGr2vrLEif5iaHwI6g5NCOmEhm9LRExp1YmlktNdcLv3anYCTBsluddieyQ111qt5s
+         AlsP+rkEPkEtp8KXeVoNsom1R2ZIzr366d2aoYXojVxOHIxVa7SAyJ+DyD27vtwtTArk
+         f/dMuVcfECqQrGPV478zDdZBJRfRKyNhvkbeB7dzUSHF8APpe2OkGhyTL8IMh7UkNcku
+         pzcZuXcuKzwc4s7jbM4qCL1RsBm/J//bMPiMw4FEIk6He9tnpTQTEl8ojZnIgDoOTHBL
+         Qu9zvfEkNTJe3rHELyWQyFObaS13dhIwDevRZcouD9RNzxLVPPc8HZ4Eb5WhpnNifm4a
+         w74g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1774298837; x=1774903637; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yac1rrBqJSF3O+e4IwcngZ2ptSQxNGOfPE9KG9sOce8=;
+        b=E1Qx3iXYbuupJnhq0qmrXOl7xt+HGwZNfjstgxkLHfdyrCo56F2W1QOU+bkULeFtnS
+         mZauXctACK+epA2LTP0W/PJM5VIH0WgdMtO5ECotn7uX8U9322NLx89gBnpVxEtqTPkT
+         gNORVJmcQgMN7jMlaRWbTr5b2UutJroR2HV64bR2inaJgq4H4ZOOFRsAsV1zO9tX0N9T
+         ryaOxYjm8R4VaU87SJuclOeIz9mU75ow6GpAn4wrEG81ftM6GfQNsn0JrX7tSYEvvF3l
+         UZWkVEwCPpk26oroiFl1EZbcHqw2YV8uEVKl+PSDW2bHEEJNL7fvUL/LGywspaPKJb6t
+         k5KA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774298837; x=1774903637;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yac1rrBqJSF3O+e4IwcngZ2ptSQxNGOfPE9KG9sOce8=;
+        b=hf8PhnLw92MU37HTsTsO6B3bQAR4SlhpIPJTuJukMvQfT/17tF1aHhxUhNAv8XTPFX
+         +MPUbLcUhIsbWOquSKFs8xZHmzdXaeqRjcgLMkrJOQZfDMDl6QXft+pPo9g8DAZSURWN
+         OJh/LRsmK5pIgRsVpEwaSuwtaXdFfsXkv9uD+NfEzJkJBBtMKpOSe9i5eZBW/WfehRAr
+         tZr/L9j5LnmuK+XpRrfhTBsV78GI16DCB2VD2lyow7MfV2fCM9l/b1GgAVLERXsm4+FQ
+         ZLhLYr3Jt+ckJpadUMYzLeqAqHkYvGEZ0FmTWC9T4DlirUtxuDFIlDNNXPs89/0X5pOc
+         7wGw==
+X-Forwarded-Encrypted: i=1; AJvYcCVJoclJ7unYu/HvHOFttWCGp00Np04g7imBcg+mcZEnlrh/yrJOdtqnE7jZr1Q6x9yaoZY34n0SxLAvCBpr@vger.kernel.org
+X-Gm-Message-State: AOJu0YxPRh6sA+7wtRZEwH+s37FxvqfZvXlpgVRlfJa4j2+i6lTlbP7e
+	i+a4dDE8Qp0H/5BoY6+MP1FsrpKoAfuqHIk7T/nP5wDk6iBnfiehQxjXnZh3k8dIVPlX2r9lYjW
+	G77QCf/xT6WPE3Mmc0E1G4qT4+A7guh1oMSVkavS8
+X-Gm-Gg: ATEYQzyeFb377hTlphZ3E1ghrKgA3xzr73McJSfgygSBL6aVU01he24izBMAjNB7OcV
+	0bXe4GrrEHdSU0UMVYyM6QX/U1umnf9VmKHXSZIyLxQ1B8/CynzrtOZIZ9Sd18dPIjZ9aCXzLSo
+	Zc7/robZZKSWGefyJWsAnr59vUrUOVZwl2Fom7yiamVAV0rVUK4P0/rzKGjk2Plt4JjH6rNQP72
+	rgb4+jViEhnFZRBiUrDDtPyh5qmXmpaKPokg32P77VVVFxmgNIbJKZkxYkikyhZ/FTbn3EEeyNE
+	GyRVvspNR4Xq5rwjscKwQuRZBbMzlNw8E1y2g1TVzpRkKHA9yPABUo03JEKHe9J0/GMV0A==
+X-Received: by 2002:a05:6102:4a86:b0:5ef:ac78:3c77 with SMTP id
+ ada2fe7eead31-602aecd2a05mr6404753137.18.1774298836454; Mon, 23 Mar 2026
+ 13:47:16 -0700 (PDT)
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 23 Mar 2026 13:47:15 -0700
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 23 Mar 2026 13:47:15 -0700
+From: Ackerley Tng <ackerleytng@google.com>
+In-Reply-To: <50bfaeb5-551e-403f-bd00-a7d8b6bbf6e2@kernel.org>
+References: <20260317141031.514-1-kalyazin@amazon.com> <20260317141031.514-11-kalyazin@amazon.com>
+ <50bfaeb5-551e-403f-bd00-a7d8b6bbf6e2@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260310014101.4140698-11-yi.zhang@huaweicloud.com>
-X-Spamd-Result: default: False [-2.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[3];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	MISSING_XM_UA(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,mit.edu,dilger.ca,suse.cz,linux.ibm.com,gmail.com,linux.alibaba.com,huawei.com,fnnas.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:dkim,suse.cz:email]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -2.51
-X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: DD0C15BE4F
+Date: Mon, 23 Mar 2026 13:47:15 -0700
+X-Gm-Features: AQROBzB7NM0e-Hubu0XRJL2ihJNatUocmuhRQlqLx8a7dgTL41taW0scozymRvQ
+Message-ID: <CAEvNRgEXp6busURR20cazeG2DQWdU5=ZaJv21OcSq+mhVKwJ4g@mail.gmail.com>
+Subject: Re: [PATCH v11 10/16] KVM: guest_memfd: Add flag to remove from
+ direct map
+To: "David Hildenbrand (Arm)" <david@kernel.org>, "Kalyazin, Nikita" <kalyazin@amazon.co.uk>, 
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+	"kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, 
+	"bpf@vger.kernel.org" <bpf@vger.kernel.org>, 
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, "kernel@xen0n.name" <kernel@xen0n.name>, 
+	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>, 
+	"linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>, 
+	"loongarch@lists.linux.dev" <loongarch@lists.linux.dev>, 
+	"linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>
+Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>, "corbet@lwn.net" <corbet@lwn.net>, 
+	"maz@kernel.org" <maz@kernel.org>, "oupton@kernel.org" <oupton@kernel.org>, 
+	"joey.gouly@arm.com" <joey.gouly@arm.com>, "suzuki.poulose@arm.com" <suzuki.poulose@arm.com>, 
+	"yuzenghui@huawei.com" <yuzenghui@huawei.com>, "catalin.marinas@arm.com" <catalin.marinas@arm.com>, 
+	"will@kernel.org" <will@kernel.org>, "seanjc@google.com" <seanjc@google.com>, "tglx@kernel.org" <tglx@kernel.org>, 
+	"mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>, 
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>, 
+	"hpa@zytor.com" <hpa@zytor.com>, "luto@kernel.org" <luto@kernel.org>, 
+	"peterz@infradead.org" <peterz@infradead.org>, "willy@infradead.org" <willy@infradead.org>, 
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, 
+	"lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>, "vbabka@kernel.org" <vbabka@kernel.org>, 
+	"rppt@kernel.org" <rppt@kernel.org>, "surenb@google.com" <surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>, 
+	"ast@kernel.org" <ast@kernel.org>, "daniel@iogearbox.net" <daniel@iogearbox.net>, 
+	"andrii@kernel.org" <andrii@kernel.org>, "martin.lau@linux.dev" <martin.lau@linux.dev>, 
+	"eddyz87@gmail.com" <eddyz87@gmail.com>, "song@kernel.org" <song@kernel.org>, 
+	"yonghong.song@linux.dev" <yonghong.song@linux.dev>, 
+	"john.fastabend@gmail.com" <john.fastabend@gmail.com>, "kpsingh@kernel.org" <kpsingh@kernel.org>, 
+	"sdf@fomichev.me" <sdf@fomichev.me>, "haoluo@google.com" <haoluo@google.com>, 
+	"jolsa@kernel.org" <jolsa@kernel.org>, "jgg@ziepe.ca" <jgg@ziepe.ca>, 
+	"jhubbard@nvidia.com" <jhubbard@nvidia.com>, "peterx@redhat.com" <peterx@redhat.com>, 
+	"jannh@google.com" <jannh@google.com>, "pfalcato@suse.de" <pfalcato@suse.de>, 
+	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>, "riel@surriel.com" <riel@surriel.com>, 
+	"ryan.roberts@arm.com" <ryan.roberts@arm.com>, "jgross@suse.com" <jgross@suse.com>, 
+	"yu-cheng.yu@intel.com" <yu-cheng.yu@intel.com>, "kas@kernel.org" <kas@kernel.org>, 
+	"coxu@redhat.com" <coxu@redhat.com>, "kevin.brodsky@arm.com" <kevin.brodsky@arm.com>, 
+	"yosry@kernel.org" <yosry@kernel.org>, "ajones@ventanamicro.com" <ajones@ventanamicro.com>, 
+	"maobibo@loongson.cn" <maobibo@loongson.cn>, "tabba@google.com" <tabba@google.com>, 
+	"prsampat@amd.com" <prsampat@amd.com>, "wu.fei9@sanechips.com.cn" <wu.fei9@sanechips.com.cn>, 
+	"mlevitsk@redhat.com" <mlevitsk@redhat.com>, "jmattson@google.com" <jmattson@google.com>, 
+	"jthoughton@google.com" <jthoughton@google.com>, "agordeev@linux.ibm.com" <agordeev@linux.ibm.com>, 
+	"alex@ghiti.fr" <alex@ghiti.fr>, "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>, 
+	"borntraeger@linux.ibm.com" <borntraeger@linux.ibm.com>, "chenhuacai@kernel.org" <chenhuacai@kernel.org>, 
+	"dev.jain@arm.com" <dev.jain@arm.com>, "gor@linux.ibm.com" <gor@linux.ibm.com>, 
+	"hca@linux.ibm.com" <hca@linux.ibm.com>, "palmer@dabbelt.com" <palmer@dabbelt.com>, 
+	"pjw@kernel.org" <pjw@kernel.org>, 
+	"shijie@os.amperecomputing.com" <shijie@os.amperecomputing.com>, "svens@linux.ibm.com" <svens@linux.ibm.com>, 
+	"thuth@redhat.com" <thuth@redhat.com>, "wyihan@google.com" <wyihan@google.com>, 
+	"yang@os.amperecomputing.com" <yang@os.amperecomputing.com>, 
+	"Jonathan.Cameron@huawei.com" <Jonathan.Cameron@huawei.com>, 
+	"Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>, "urezki@gmail.com" <urezki@gmail.com>, 
+	"zhengqi.arch@bytedance.com" <zhengqi.arch@bytedance.com>, 
+	"gerald.schaefer@linux.ibm.com" <gerald.schaefer@linux.ibm.com>, 
+	"jiayuan.chen@shopee.com" <jiayuan.chen@shopee.com>, "lenb@kernel.org" <lenb@kernel.org>, 
+	"osalvador@suse.de" <osalvador@suse.de>, "pavel@kernel.org" <pavel@kernel.org>, 
+	"rafael@kernel.org" <rafael@kernel.org>, "vannapurve@google.com" <vannapurve@google.com>, 
+	"jackmanb@google.com" <jackmanb@google.com>, "aneesh.kumar@kernel.org" <aneesh.kumar@kernel.org>, 
+	"patrick.roy@linux.dev" <patrick.roy@linux.dev>, "Thomson, Jack" <jackabt@amazon.co.uk>, 
+	"Itazuri, Takahiro" <itazur@amazon.co.uk>, "Manwaring, Derek" <derekmn@amazon.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue 10-03-26 09:41:01, Zhang Yi wrote:
-> From: Zhang Yi <yi.zhang@huawei.com>
-> 
-> In cases of appending write beyond EOF, ext4_zero_partial_blocks() is
-> called within ext4_*_write_end() to zero out the partial block beyond
-> EOF. This prevents exposing stale data that might be written through
-> mmap.
-> 
-> However, supporting only the regular buffered write path is
-> insufficient. It is also necessary to support the DAX path as well as
-> the upcoming iomap buffered write path. Therefore, move this operation
-> to ext4_write_checks().
-> 
-> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+"David Hildenbrand (Arm)" <david@kernel.org> writes:
 
-I'd note that this allows page fault to race in between the zeroing and
-actual write resulting in new possible result - previously for file size 8,
-pwrite('WWWW...', 8, 16) racing with mmap writes of 'MMMMMM...' at offset 8
-into the page you could see either:
+>
+> [...snip...]
+>
+>> +static int kvm_gmem_folio_zap_direct_map(struct folio *folio)
+>> +{
+>> +	u64 gmem_flags = GMEM_I(folio_inode(folio))->flags;
+>> +	int r = 0;
+>> +
+>> +	if (kvm_gmem_folio_no_direct_map(folio) || !(gmem_flags & GUEST_MEMFD_FLAG_NO_DIRECT_MAP))
+>
+> The function is only called when
+>
+> 	kvm_gmem_no_direct_map(folio_inode(folio))
+>
+> Does it really make sense to check for GUEST_MEMFD_FLAG_NO_DIRECT_MAP again?
+>
 
-DDDDDDDD00000000WWWWWWWW
-or
-DDDDDDDDMMMMMMMMMMMMMMMM
+Good point that GUEST_MEMFD_FLAG_NO_DIRECT_MAP was already checked in
+the caller. I think we can drop this second check.
 
+> If, at all, it should be a warning if GUEST_MEMFD_FLAG_NO_DIRECT_MAP is
+> not set?
+>
+> Further, kvm_gmem_folio_zap_direct_map() uses the folio lock to
+> synchronize, right? Might be worth pointing that out somehow (e.g.,
+> lockdep check if possible).
+>
+>> +		goto out;
+>> +
+>> +	r = folio_zap_direct_map(folio);
+>> +	if (!r)
+>> +		folio->private = (void *)((u64)folio->private | KVM_GMEM_FOLIO_NO_DIRECT_MAP);
+>> +
+>> +out:
+>> +	return r;
+>> +}
+>> +
+>> +static void kvm_gmem_folio_restore_direct_map(struct folio *folio)
+>> +{
+>
+> kvm_gmem_folio_zap_direct_map() is allowed to be called on folios that
+> already have the directmap remove, kvm_gmem_folio_restore_direct_map()
+> cannot be called if the directmap was already restored.
+>
 
-now you can see both of the above an also
+This inconsistency was probably introduced by my comments [1] (sorry!)
 
-DDDDDDDMMMMMMMMWWWWWWWWW
+I think the inconsistency here is mostly because
+kvm_gmem_folio_zap_direct_map() is called from two places but restore is
+only called from one place :P
 
-But I don't think that's strictly invalid content and userspace that would
-depend on the outcome of such race would be silly. So feel free to add:
+[1] https://lore.kernel.org/all/CAEvNRgEzVhEzr-3GWTsE7GSBsPdvVLq7WFEeLHzcmMe=R9S51w@mail.gmail.com/
 
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-								Honza
-
-> ---
->  fs/ext4/file.c  | 14 ++++++++++++++
->  fs/ext4/inode.c | 21 +++++++--------------
->  2 files changed, 21 insertions(+), 14 deletions(-)
-> 
-> diff --git a/fs/ext4/file.c b/fs/ext4/file.c
-> index f1dc5ce791a7..b2e44601ab6a 100644
-> --- a/fs/ext4/file.c
-> +++ b/fs/ext4/file.c
-> @@ -271,6 +271,8 @@ static ssize_t ext4_generic_write_checks(struct kiocb *iocb,
->  
->  static ssize_t ext4_write_checks(struct kiocb *iocb, struct iov_iter *from)
->  {
-> +	struct inode *inode = file_inode(iocb->ki_filp);
-> +	loff_t old_size = i_size_read(inode);
->  	ssize_t ret, count;
->  
->  	count = ext4_generic_write_checks(iocb, from);
-> @@ -280,6 +282,18 @@ static ssize_t ext4_write_checks(struct kiocb *iocb, struct iov_iter *from)
->  	ret = file_modified(iocb->ki_filp);
->  	if (ret)
->  		return ret;
-> +
-> +	/*
-> +	 * If the position is beyond the EOF, it is necessary to zero out the
-> +	 * partial block that beyond the existing EOF, as it may contains
-> +	 * stale data written through mmap.
-> +	 */
-> +	if (iocb->ki_pos > old_size && !ext4_verity_in_progress(inode)) {
-> +		ret = ext4_block_zero_eof(inode, old_size, iocb->ki_pos);
-> +		if (ret < 0)
-> +			return ret;
-> +	}
-> +
->  	return count;
->  }
->  
-> diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
-> index 5288d36b0f09..67a4d12fcb4d 100644
-> --- a/fs/ext4/inode.c
-> +++ b/fs/ext4/inode.c
-> @@ -1456,10 +1456,9 @@ static int ext4_write_end(const struct kiocb *iocb,
->  	folio_unlock(folio);
->  	folio_put(folio);
->  
-> -	if (old_size < pos && !verity) {
-> +	if (old_size < pos && !verity)
->  		pagecache_isize_extended(inode, old_size, pos);
-> -		ext4_block_zero_eof(inode, old_size, pos);
-> -	}
-> +
->  	/*
->  	 * Don't mark the inode dirty under folio lock. First, it unnecessarily
->  	 * makes the holding time of folio lock longer. Second, it forces lock
-> @@ -1574,10 +1573,8 @@ static int ext4_journalled_write_end(const struct kiocb *iocb,
->  	folio_unlock(folio);
->  	folio_put(folio);
->  
-> -	if (old_size < pos && !verity) {
-> +	if (old_size < pos && !verity)
->  		pagecache_isize_extended(inode, old_size, pos);
-> -		ext4_block_zero_eof(inode, old_size, pos);
-> -	}
->  
->  	if (size_changed) {
->  		ret2 = ext4_mark_inode_dirty(handle, inode);
-> @@ -3196,7 +3193,7 @@ static int ext4_da_do_write_end(struct address_space *mapping,
->  	struct inode *inode = mapping->host;
->  	loff_t old_size = inode->i_size;
->  	bool disksize_changed = false;
-> -	loff_t new_i_size, zero_len = 0;
-> +	loff_t new_i_size;
->  	handle_t *handle;
->  
->  	if (unlikely(!folio_buffers(folio))) {
-> @@ -3240,19 +3237,15 @@ static int ext4_da_do_write_end(struct address_space *mapping,
->  	folio_unlock(folio);
->  	folio_put(folio);
->  
-> -	if (pos > old_size) {
-> +	if (pos > old_size)
->  		pagecache_isize_extended(inode, old_size, pos);
-> -		zero_len = pos - old_size;
-> -	}
->  
-> -	if (!disksize_changed && !zero_len)
-> +	if (!disksize_changed)
->  		return copied;
->  
-> -	handle = ext4_journal_start(inode, EXT4_HT_INODE, 2);
-> +	handle = ext4_journal_start(inode, EXT4_HT_INODE, 1);
->  	if (IS_ERR(handle))
->  		return PTR_ERR(handle);
-> -	if (zero_len)
-> -		ext4_block_zero_eof(inode, old_size, pos);
->  	ext4_mark_inode_dirty(handle, inode);
->  	ext4_journal_stop(handle);
->  
-> -- 
-> 2.52.0
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+> Should we make that more consistent?
+>
+>
+> Hoping Sean can find some time to review
+>
+> --
+> Cheers,
+>
+> David
