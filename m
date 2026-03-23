@@ -1,29 +1,29 @@
-Received: from outbound-ip168a.ess.barracuda.com (outbound-ip168a.ess.barracuda.com [209.222.82.36])
+Received: from outbound-ip168b.ess.barracuda.com (outbound-ip168b.ess.barracuda.com [209.222.82.102])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C1942C3255
-	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 17:45:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=209.222.82.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 777743C554E
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 17:45:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=209.222.82.102
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774287936; cv=fail; b=Lu5O5thD3LhNIPVaHKofvpbdKTP2MxlgyO6VLD2dBEfh1wFGBe0aN601K3kt5FXi670bCTR8bgNXQ70unx+AqsJIgmYcU7oQpWLJXZJW7e9sxO3v6F6Sj4p8ipCx0M6H5mE64NjyWu9qT2a/DCArCWyCr+fhf1JLRYSaVpLXSCk=
+	t=1774287937; cv=fail; b=Q4hJ78Ilx/lSpNODz39+GMWHmoKdzq7MUBBeVhhokJP+/ymIRUr2E7nherxOePRvm0C1w7sRS1xe6xgRInNTc24T8IwaC9DvFSugBFV/l23XkMnQRrSvprtimZ2QRJHzRUvhp7zaMgKLE3Ppcuo0K3UDxpAv+IXLaGplp1N0Xjw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774287936; c=relaxed/simple;
-	bh=NIsVr8I5F0tP8tKfCorSSQRQJNirE5B7nLyzGDmcrfM=;
+	s=arc-20240116; t=1774287937; c=relaxed/simple;
+	bh=c5rPBJI/JorI/pOQtuTDditvbz4sXujM9QF38ftdaXo=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=kQQV5q9C4dUpxNHwmUF+RagNhCV1NoQnFYjAVfBL/jf4yZTtJC5njlXLuSDuL2uHR66ocDjg7xU+zrIgQTcV0ZyGR90UfUGJ6sHJfkCJ0TF7wKsaSiVnM0lRbVHyFoyXl6YOBN47SI56/DwqXEaDv7YQPqKjkSA/WRbQaSiVT4M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=ddn.com; dkim=pass (1024-bit key) header.d=datadirectnetworks.onmicrosoft.com header.i=@datadirectnetworks.onmicrosoft.com header.b=XaWe+DTP; arc=fail smtp.client-ip=209.222.82.36
+	 In-Reply-To:To:Cc; b=BeSbi/i31sRvFSMbD2uDgYSb19mw+rcp3cmKaRfcuhR7yicGdZcWFxtbMEiAQ8VwA9k4sg2jNVzZNE37LxcqgTTCCC5GHjiYyhRrGJVLCJ+QLRlqGJPJxsaqsFHCCwvqyf41qSWM4WXFU5wBzpZKKapVNbHwKe0SwrJgDT7wUdQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=ddn.com; dkim=pass (1024-bit key) header.d=datadirectnetworks.onmicrosoft.com header.i=@datadirectnetworks.onmicrosoft.com header.b=qAoLQILw; arc=fail smtp.client-ip=209.222.82.102
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ddn.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=datadirectnetworks.onmicrosoft.com header.i=@datadirectnetworks.onmicrosoft.com header.b="XaWe+DTP"
-Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11020115.outbound.protection.outlook.com [52.101.85.115]) by mx-outbound46-190.us-east-2c.ess.aws.cudaops.com (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO); Mon, 23 Mar 2026 17:45:16 +0000
+	dkim=pass (1024-bit key) header.d=datadirectnetworks.onmicrosoft.com header.i=@datadirectnetworks.onmicrosoft.com header.b="qAoLQILw"
+Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazon11023133.outbound.protection.outlook.com [40.107.201.133]) by mx-outbound18-164.us-east-2b.ess.aws.cudaops.com (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO); Mon, 23 Mar 2026 17:45:25 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mNe9JKHZT77pJ1rmbiaX/OLsb+K6SHqhvlq9I5jIs7ZJehekBMRtpOYv64X8iwD9/4eIYcwJ4WU4B8fJhOt7BidoGFRFP4fbroVINSJJ+MYBETgFkt4jNnYTpW26y861PCXNZ2sKVrktvZWBK5TPlePVd7JSjhWo2HNuhOYB97/bx3SJleP70bbJQQT0Y7OWCucdoFVabs03KwyMYHs9UmvV9qu6irYEXm8FkdBMa9cLpWyQiZf3XZSw+vTjhGiap+nabtka5r5UocFiHXWBnMf+WHWgytny5bjHlLLgFxZp+vUpFxc6B3exFD/4ork8aZ9TQ1X6iYYsWmw4MBUEVA==
+ b=KaJyYcKqxn3CJNvZjPclQo4qIOa9VWPn7ZbFcAFdEGcu6eFMaezt9u47RfK4ZFuwa+LLBH2gbkCjYP8zM1C+pC2kOHzMP55ENkgki47irIY1srWgH0ijnmFYk+q3hygXPvWs0oN4Sr8DFjewOfIXvUj+Frk5CjZHPUH/HeyvtXRnReMteohoagIE1AKlmZm4xHwNdT4ArWxFPg6whDM5UqPEQnRqGe+Femn05stulJuccY5UF+UXh7VeZ2eNf4pt4UzCphSSKzHYK63sF28rq1Gr7s+s23XeMVtdBcrQyDCpEJjpRZgVuyPUuHJRtUJY3Z1S+8m56m9bKTaBpPvBKQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dE8GTgd+RXxonp+H2yU1qxeNvtXPvNhKfyQ1cP7h8Yc=;
- b=Hcwsw6fPo6/ooU76U/mkc+jiqyKJB4Nc9AL+lPkOnNvgz4YKmMJYGqWWgCZY3IByDRbDB7ffuCKwnNPLtip8Qb73/KiVNstbV9GY45We3E+KciJcvz28+xV32xAiguF+y5IaLuiFJNM0piwoqHl2s8PI8N74A/qkGtlFIE05Oe27Sj7sde6gTpAJyHDkWexlgoE8kx+KXffsfvimJkhwWOq6I958RO8JY8B6Owea2t8K95fAy09E38DM7dmrx5V2ca7CfNc2KqEfdzEefCfC1MRtaGM6YizStPeSgNhNhAjZR9ki3oK0ChojmXG/eZEElND5lAn3n8uaRmlufpSmkw==
+ bh=xzNA384GbLWe/3HPmqhawCsoNMuhBRhD48D3fywcbwU=;
+ b=nL5FT1S+8om4b+n8hmpsF92mI+qYP1sNuIOgygvGkH9LNamkCI/AWOS/CpA6GCfKjOVP7LRrPCpt/CogJlZY42lAjeTRrzj3pGbIM2UxQgKHgEC2rnNSGioFZPI1SIIme0DI152ApISCZJ+aLWH6n7CwvehH9peSpoO2B1h78aI+bzbWQqYWAdUJKprMScMM++uJrk/+CJaXh56xxvkgt6qTOvLpNNvR+eUFnU8TlF73DUc7G9hjZWGJ8wQzqrxEUvC/i4PpLDv2nGlobdWSuAgkWnIZ4bGDdXOEO7bs9bZ8jyjp4ElRmLct5yc+jlgBgaGWWBP+MTl/ZZDAxz+hLw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  50.222.100.11) smtp.rcpttodomain=bsbernd.com smtp.mailfrom=ddn.com;
  dmarc=fail (p=none sp=none pct=100) action=none header.from=bsbernd.com;
@@ -32,18 +32,17 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=datadirectnetworks.onmicrosoft.com;
  s=selector2-datadirectnetworks-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dE8GTgd+RXxonp+H2yU1qxeNvtXPvNhKfyQ1cP7h8Yc=;
- b=XaWe+DTPPHRJ+NI0dEX9hixDQiT6skWiYX+pWQSojESV1gpl9OsjMEFgUlqiVt83ryrJtKUvchP5ba2lqC2lfF6fgE5JUtPs4Pe41BhaSHY49OuRBNdzWEzSNI3sQVgak9x1Q5xtPf7YfXAfI2V26anCEDIrMcsE6aRIoq9Kw6U=
-Received: from MN0PR02CA0005.namprd02.prod.outlook.com (2603:10b6:208:530::26)
- by SA0PR19MB4572.namprd19.prod.outlook.com (2603:10b6:806:b9::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.20; Mon, 23 Mar
- 2026 17:45:13 +0000
-Received: from MN1PEPF0000ECDA.namprd02.prod.outlook.com
- (2603:10b6:208:530:cafe::89) by MN0PR02CA0005.outlook.office365.com
- (2603:10b6:208:530::26) with Microsoft SMTP Server (version=TLS1_3,
+ bh=xzNA384GbLWe/3HPmqhawCsoNMuhBRhD48D3fywcbwU=;
+ b=qAoLQILwJ3D+QVE3M6IgR/ZZZgbLIPhjK+2quLENlvSWwcGzz9GCc71k09cOtGHksFG3q9BTFEgxzp5r/8wxGvPPnXAPJoepK+KxFrG/lQGK2Q+WC8BkofiEi4WEnep5cph7A7xg4l5d98fvxMqCOAfsJu4r6cAgh7EfK9bR/vI=
+Received: from BN1PR13CA0006.namprd13.prod.outlook.com (2603:10b6:408:e2::11)
+ by DM4PR19MB5788.namprd19.prod.outlook.com (2603:10b6:8:65::5) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9723.25; Mon, 23 Mar 2026 17:45:20 +0000
+Received: from BN1PEPF00005FFE.namprd05.prod.outlook.com
+ (2603:10b6:408:e2:cafe::8a) by BN1PR13CA0006.outlook.office365.com
+ (2603:10b6:408:e2::11) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.9723.31 via Frontend Transport; Mon,
- 23 Mar 2026 17:45:11 +0000
+ 23 Mar 2026 17:45:19 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 50.222.100.11)
  smtp.mailfrom=ddn.com; dkim=none (message not signed)
  header.d=none;dmarc=fail action=none header.from=bsbernd.com;
@@ -51,16 +50,16 @@ Received-SPF: Pass (protection.outlook.com: domain of ddn.com designates
  50.222.100.11 as permitted sender) receiver=protection.outlook.com;
  client-ip=50.222.100.11; helo=uww-mrp-01.datadirectnet.com; pr=C
 Received: from uww-mrp-01.datadirectnet.com (50.222.100.11) by
- MN1PEPF0000ECDA.mail.protection.outlook.com (10.167.242.134) with Microsoft
+ BN1PEPF00005FFE.mail.protection.outlook.com (10.167.243.230) with Microsoft
  SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9723.19
- via Frontend Transport; Mon, 23 Mar 2026 17:45:13 +0000
+ via Frontend Transport; Mon, 23 Mar 2026 17:45:19 +0000
 Received: from localhost (unknown [10.68.0.8])
-	by uww-mrp-01.datadirectnet.com (Postfix) with ESMTP id 849682C7;
-	Mon, 23 Mar 2026 17:45:09 +0000 (UTC)
+	by uww-mrp-01.datadirectnet.com (Postfix) with ESMTP id 2B22EB7;
+	Mon, 23 Mar 2026 17:45:16 +0000 (UTC)
 From: Bernd Schubert <bernd@bsbernd.com>
-Date: Mon, 23 Mar 2026 18:45:01 +0100
-Subject: [PATCH 06/19] mount.c: Split fuse_mount_sys to prepare privileged
- sync FUSE_INIT
+Date: Mon, 23 Mar 2026 18:45:08 +0100
+Subject: [PATCH 13/19] Add fuse_session_set_debug() to enable debug output
+ without foreground
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -69,7 +68,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260323-fuse-init-before-mount-v1-6-a52d3040af69@bsbernd.com>
+Message-Id: <20260323-fuse-init-before-mount-v1-13-a52d3040af69@bsbernd.com>
 References: <20260323-fuse-init-before-mount-v1-0-a52d3040af69@bsbernd.com>
 In-Reply-To: <20260323-fuse-init-before-mount-v1-0-a52d3040af69@bsbernd.com>
 To: linux-fsdevel@vger.kernel.org
@@ -78,241 +77,120 @@ Cc: Miklos Szeredi <miklos@szeredi.hu>,
  "Darrick J. Wong" <djwong@kernel.org>, Bernd Schubert <bernd@bsbernd.com>, 
  Bernd Schubert <bschubert@ddn.com>
 X-Mailer: b4 0.15-dev-2a633
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1774287906; l=5227;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1774287906; l=2084;
  i=bernd@bsbernd.com; s=20240529; h=from:subject:message-id;
- bh=L7SMtBpwyE2CMiDZhXQJDH5dSI8klRpEt1u4h8I11qU=;
- b=dlT4+MLAc4jHuQD0FbC/3CJNk2wF6oxl+dDv+wESdmlSoT+Id2otsxtZsTmv11KnqYLTqvqIR
- eAT31f4F18UC1TZeAa9a1ny0rokRsa4WUbhBClvvGYZrWWG7gS8qSRR
+ bh=XmztdZe2UDE57mfo3tOXF7/S/huaIf7h/64BwtQuosA=;
+ b=y6jhYI54aHQMje7Ia9dO8i41EbLl4Rby6XxCCs2uFzKDXSw7vTxdPiEUVPVFnDqqIKa+n+Xsm
+ ay4iVmSn+MXCloO9XkSeRmvtfROonm0kHq0p4+TMK2yOlHUAJ9WYPfh
 X-Developer-Key: i=bernd@bsbernd.com; a=ed25519;
  pk=EZVU4bq64+flgoWFCVQoj0URAs3Urjno+1fIq9ZJx8Y=
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN1PEPF0000ECDA:EE_|SA0PR19MB4572:EE_
-X-MS-Office365-Filtering-Correlation-Id: cb4b4bf1-fe7e-4bd5-3301-08de8903efa8
+X-MS-TrafficTypeDiagnostic: BN1PEPF00005FFE:EE_|DM4PR19MB5788:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7e49cf3f-704b-4ad6-c68a-08de8903f39e
 X-MS-Exchange-SenderADCheck: 0
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|19092799006|48200799018|61400799027|82310400026|376014|36860700016|56012099003|22082099003|18002099003|16102099003;
+	BCL:0;ARA:13230040|376014|36860700016|48200799018|82310400026|61400799027|19092799006|16102099003|56012099003|18002099003|22082099003;
 X-Microsoft-Antispam-Message-Info:
-	sDzraOr8uE0u27GYUxom0+/iAomqhPwiUBxPM9oquESUYGksuArrZyJ3yawEiM/3XGJ+O9+0b7rnchLK5G/dqo/7edWi9oyx+uhXTtG3NoA0es89OEBDZxVJP7E9BdhLMmT0RgAGJAdEKtCkIUu1+min6RU0T6Y+uGSiODB7SrNskcMi/gLIsQZZJjDzdBphuaW9AzB/NjiNwNFdt+v7lveJb2Cianqm1WcJ5mQmA7rN7PD0jbx5X1Ou5r//E3Malp27wfcxzb/RWFdI5IuOItOxu7c868ch0CPEH9FTRCdYnJAmf7fcwmn9Z1uJ+BHZeTtP2N/GQqbkQoTzZ0o+SImPzKukTDi3K/5iuVGH5CJuIYjrbhQOBTsq6OlCOvHmE5hhZOh8Xn6AxwCHLyp6EwPo6wwB/r1m7CR5esHP1tnThikhILl3A7LSI5MnFs0MPW9XWUXAmE/1WUON0U9wd+4Ke+Pfs+p5mD+7Hbn/8iEKTEFHPIQPEkwQ9zCmcvQo3lRD6cpVtShqnRUDhKLM7onXhefO/q0TUok9epta52IJBvlHqstY1qXT0MHPLnBTcywO6SugbQlWiFtSKHzYLciyWAKWqX4fw+H8NPvpoCC4XjuxvF4x5uarC+yuDfsff2jbnOTkV695544vRXKXzCSD20BGjUlU7QVdWOfzKlq3BAQAIoxLhTrwOBtVLKiqoayfLpsXz2tFC8WPll4j/uwaBMwU/YjwXvALEz5lA9CLW2WLxE4PGnfiISomA7bLBl0CzSdZDaRAoSMv4WDPGA==
+	5dPjPJA2SBDPvM39Fur7yzxe26fcBKjZC+0N8vBSoDdAjiiuHzGABjrOw6xZvNVsjkiwu225LnPLKty03D6bKg9Nr2Z3Qtp98xi3aMVEin4v2jLlweUTp2/NsHMr07XPFD9KjZFuy6v7KMgd8gv8UuF3FuKx+yWSzOJ0sVCyLU3gcTCFM9BR6okmRd/iehYl4xs+ltklqjO0go8rVyrnS520QnmXLYwD/UEFJODw6ikuNlwRoWmKwlNVaT1qERp6/376d41NX5kfUhv+KjRx+Fmcw2vadgy7HRMWmPruxN6TBnrAeAMVHBX70gVDZ2nQxbPHMWCmBKzoK3Udb9PDQowFnjmlel0t4dPwefq03V++79OaGP3C6dCnQU1zKybEF+HHVGBl37z5UeEbn0FkCMHsH8vnayVMHic8i1dPq4uUYOKnKZWYa9IFBI9TNmmjDZZqAXkbmCuIjOGYHYb5l3E/3vlWy/r4KCH3ClJJQ/osIzbHjDrO/I+kPMZBp5wjxBlRzKRffxlhqJ2sVH663t+4lus+Owdzq9bH0uS1Q7uG7CDcVxfjfJQJlc5wQ15BWb1ZnnKCFYozr6tcL5Toi9EYqfCU9ub7cv8CIqrz3KLEqlqB5DuvrMelPsJqFWaGPC9HKF0H6r+JDoHV0bITs6H2Rvuxb0HxVa+CbiZNfvgN61Fa7VrjdJ2w1VQLfD14jFtZUSiXd0Z+A5BxQvF8lZrK7WTgqfri5D1sVKo6I+PCiRTlW8GgXmL63Cw8q2AgkYRScTaRqJ7jSIKeOHRBag==
 X-Forefront-Antispam-Report:
-	CIP:50.222.100.11;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:uww-mrp-01.datadirectnet.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(19092799006)(48200799018)(61400799027)(82310400026)(376014)(36860700016)(56012099003)(22082099003)(18002099003)(16102099003);DIR:OUT;SFP:1102;
+	CIP:50.222.100.11;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:uww-mrp-01.datadirectnet.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(36860700016)(48200799018)(82310400026)(61400799027)(19092799006)(16102099003)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	jWiKym6qkvoFNO7EbETCXgo3YisEdT4XACph1wJe2eL5RhmTLKQBZjbWuGz9BoFHWuOkNMS8tS/hvlw0VxMkZWIYEGWd6WZFh7wLq23ng4FyGhUqxGbj/eW5xLhhuJQoHlriIH5cXfhqy0IpHtEI6QIzCtykcjDEbo/3NLbShm5G04jW7jmuFDMOMQ1a8bBCxcQNtKeUTDtuWx+NyeABLu6PXfBHLC7dREI3Rq4HGO+VdkuTI2CRVxiFvCz3LBRHBkmdUzmHXmkQ2lt8bq/SQ2QT4IP1tivltp2uxjnqywQhz2dlbho94m2CEqHTsQ3fSsKz/DdiXwhi0CoTNsygOp1xUykJEfzCdfOJJ5QdSq98UN8vcOc1cKGkPVOBMOZtCqABSZZP6NEKvdzPsS6DKC3F0EZyLHQLltyvps7NaA3jkkAyqD+4+vx5uXOfaLu3
+	sG67GObj3F4CcJS6k2aSzvRwlgQEle4gL+ids4oUM8oRlytxVaPBcgup+Cm/Xs1E+wjPnTnVLyv7KKCOPRq+6+AX+nSnDdMtGJJHwSzWyzMNfWzxOfMSpYb+9wP6gDU/rRPADFvwxULk0/R8u/AhFXAnl8DVs4kFNBLu3vnwusbgjPr+ebUTgBKMBH55rynF8bmmatJxKUM6QLARp++lbHTPaiaXOjIaH5HI8YO2tpm8C4qgscNSb/tWO4J4I8DGShLc8HlcdksxosJvoX08IfX6GCN9gakFC6Av4jJuLrhEtV6cfS6xRmGu/iBJkJrofIDsMkE/XIqyWMgEPkrBrtgy9kfpm8qmCwhlgLvaabSWC4g0umIWI9T4jChEYYWeSfTAM/ctXHTn72WWyT965TxDS7aBdzJEIaMoO28GuSbLhEtQE1bN8CZit+81RBp0
 X-Exchange-RoutingPolicyChecked:
-	NUiQ8G6Wk7PMmKMY10+gZm5dS+bU9Q+qkAbLMTnr9aaVBRV7U+DMyETFZwdVj7Ff16EMfZ/o0DH1CSl5aelEzPPSL4B9w19yhh3KAYUh44lRJetVRiwBz//9sPtsfdT6+9QmZrr2bWP8DJYC1O2S3zlhW/nmDJuI99pgFD0HDq3jIaZB4GDKh5tkXt9PesdXwu+SMdP+crPFPtdBWx3Gs5PwKJ+fRa97PjxMh4ocevhQDicv7ebHyClFkGhzOcB2TaxLXjeRKNgwV0HIkVI2LBO3yRHMn6zsChaTgT4CAOU0uXENGqdcmpyhMv5IKGwsJQXZ5ulupiuQj9d+zAihcw==
+	OdozJvnCK7hDKkff+Ok+5ymIaPT2uwZdOq5HTVQRU9IdEyquafGaabEBu9aoqjS4YGY8QRx4tG7jSqeEH0p7o72rvKhbCwhBhTcn/Nhl1rGROlhpExrIVeO5EsHviCUBZhrtE6CtAKDvfFJA5TAaOvW/RgQ3yt8LfQbsRSoMIYK7UbpGnsYJLLcJ3Gbu8D6aZjgVH9UrY0cIBnmCHGu9v6aHgMPJko7PXXhKmMcbT5pHha8rWz9b8myJPZwd8tPQnPgMWVeThqumlqA4bqegeUUtmm19xCcI8/xndIFPJhVnAYwfjGA5tzffR7YK4gZrKHlpZS0wIRu4flBWPKmB5Q==
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	TefBUPOFUMX2jRAB8nljxUB0LGN3dB75dAfzyOPqhi73D1POHwXrTXPl6tr2CjwP+th5e3rnYN9nTV5EkyOQ7Z6Gwzz3AsgS/WI0j94Xn8VGGZ/ccCME/yQOZRT3l/ssRCH1LqnUUg0NaXm1kn4cruzYQVl4rm0AlDrqNxHq1pE/Mzh/6ifDOKG0g1dxPJ+QNqx2PBvN9WookEpq2z8QobzrDRBWxU6hJSuiba0I3WmNTiSyh4AqXAhuKec55m5ht+hxDky3UwjWUdJvsvKI3ugSbE9942bo8ALXCyNnkaYM5B6L7An1yLLx96Ksmtr+H2nrB6cJPh1ehFIrj6mKXq8mTQo0JflrTnUnL372lBbJ1ChYUf9TuYJG80oinnUkIIkOKmcb3/HX+qetJM6cuTtiUeM1eX2eij657qwuH2VHFIiK940uez2xxKK3M7VeT61n3WXeTEQmmrdfK7eM+Ui4wfJhXkki/2JzqMbYy9cs7IJJK5qXTLIdxNrb8xi7qWQqXop9jNPektrmk+qPa0d8pRXTWjmqfWV+xsgGrdKuNO9XU2RNMSu+IwZ7scKVO3qyD9VlJA0gsDxPrsd7dm59B07v/Y1Tvqiglc9anw+/04w8fi/Cf2SWq8OM4VjjWdf5Kyb7zLu80TUY7iPiLg==
+	EpG9RFAwA8u4k9N+WwFO1dPJbFbruVuym4saKLuVe1tXQ7cM05LWUG1abKrvablRcOllPm9eoyT/2OPlxAAvTSFjaIxzm91HF4u4UZwt8s0IbeV9/vxIM/tHv9sQHGndz59nSiQEYjndBnwkmlceCop0Vi6vkb8lUNKB7PR8xaoLau1P8XsBcHgaFPMkQsVL8jgBBIAAB9yqQuJAit5uuuxAOxtA6hyOST2S3Q4BBg+iGxuXKYBvr8qIcIYcvs+aTR1+qjzCS9DOuSdESSzMFi+g0xllazyMpRsWzsag5Dw97XbJLw7bS5tNmHU/E2AP08w6ngtEgH8v5BmrkitKtzF5DVEMqa1ZqI0MPmqBVSALjAZYsy74nH04BFozft4B1nS05bLKGkgUzeh4HAzGe5SaOArD/y8Fxb+BkhTfV04HGjAHf0ZNmFXMQxcfwnRLdHQG5+2mXaCGNmFNQcl1Eizn4MWXmaqYYTT2kgn0sdS/hs8K/1+veahDJZwlRpYgT1IX406mDHM6D6Fr8853RVaHZgUQYScJtL905ZEMb8aXNVsT5c2aZ5/eKgduK55OdmZoM9+KjYh1UiYrUT6eNia/6uT6LBVohVwA5TwjFhQ2iu6QTghNe1OEMwZFPN1tJWDg/OhInww8BLUuNFtzsg==
 X-OriginatorOrg: ddn.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2026 17:45:13.0513
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2026 17:45:19.6958
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: cb4b4bf1-fe7e-4bd5-3301-08de8903efa8
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7e49cf3f-704b-4ad6-c68a-08de8903f39e
 X-MS-Exchange-CrossTenant-Id: 753b6e26-6fd3-43e6-8248-3f1735d59bb4
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=753b6e26-6fd3-43e6-8248-3f1735d59bb4;Ip=[50.222.100.11];Helo=[uww-mrp-01.datadirectnet.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	MN1PEPF0000ECDA.namprd02.prod.outlook.com
+	BN1PEPF00005FFE.namprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR19MB4572
-X-BESS-ID: 1774287916-111966-7716-27688-1
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR19MB5788
+X-BESS-ID: 1774287925-104772-7815-5144-1
 X-BESS-VER: 2019.1_20260319.1837
-X-BESS-Apparent-Source-IP: 52.101.85.115
-X-BESS-Parts: H4sIAAAAAAACA4uuVkqtKFGyUioBkjpK+cVKVqYGFhZAVgZQ0MDILMUiMSXR0i
-	TRxNTcwiTFxNDC0jI1JSnJzDLRINFMqTYWANwI+iJBAAAA
-X-BESS-Outbound-Spam-Score: 0.50
+X-BESS-Apparent-Source-IP: 40.107.201.133
+X-BESS-Parts: H4sIAAAAAAACA4uuVkqtKFGyUioBkjpK+cVKVkYGZqZAVgZQ0MIkzcjMIsnCJN
+	XMwszY1MLYyMgyycLUIDUpxTTVPNVEqTYWAFvRo8BBAAAA
+X-BESS-Outbound-Spam-Score: 0.00
 X-BESS-Outbound-Spam-Report: Code version 3.2, rules version 3.2.2.272017 [from 
-	cloudscan15-232.us-east-2a.ess.aws.cudaops.com]
+	cloudscan15-241.us-east-2a.ess.aws.cudaops.com]
 	Rule breakdown below
 	 pts rule name              description
 	---- ---------------------- --------------------------------
-	0.50 BSF_RULE7568M          META: Custom Rule 7568M 
 	0.00 BSF_BESS_OUTBOUND      META: BESS Outbound 
-X-BESS-Outbound-Spam-Status: SCORE=0.50 using account:ESS124931 scores of KILL_LEVEL=7.0 tests=BSF_RULE7568M, BSF_BESS_OUTBOUND
+X-BESS-Outbound-Spam-Status: SCORE=0.00 using account:ESS124931 scores of KILL_LEVEL=7.0 tests=BSF_BESS_OUTBOUND
 X-BESS-BRTS-Status:1
 
 From: Bernd Schubert <bschubert@ddn.com>
 
-Synchronous FUSE_INIT needs to spawn a worker thread to handle
-FUSE_INIT before starting the mount. For that it needs to have
-the device file descriptor - this is preparation work and
-fuse_mount_sys() is split into fuse_kern_mount_prepare()
-and fuse_kern_do_mount().
+One might want to print debug out in background mode, which the command
+line parameter does not easily allow. Or one might want to enable and
+disable at run time.
 
 Signed-off-by: Bernd Schubert <bschubert@ddn.com>
 ---
- lib/mount.c | 88 ++++++++++++++++++++++++++++++++++++++++++++++++-------------
- 1 file changed, 69 insertions(+), 19 deletions(-)
+ include/fuse_lowlevel.h | 12 ++++++++++++
+ lib/fuse_lowlevel.c     |  5 +++++
+ lib/fuse_versionscript  |  1 +
+ 3 files changed, 18 insertions(+)
 
-diff --git a/lib/mount.c b/lib/mount.c
-index 398bf9e7a86743ac3c99f0cc2975e8db92346013..6e404451cc9edc8e35434cc31f25612cfc4edca1 100644
---- a/lib/mount.c
-+++ b/lib/mount.c
-@@ -506,13 +506,11 @@ static int fuse_mount_fusermount(const char *mountpoint, struct mount_opts *mo,
- #define O_CLOEXEC 0
- #endif
+diff --git a/include/fuse_lowlevel.h b/include/fuse_lowlevel.h
+index d8626f85bdaf497534cd2835a589e30f1f4e2466..d85929e291a77de8caad7d6b3d9ac5b092ce0e62 100644
+--- a/include/fuse_lowlevel.h
++++ b/include/fuse_lowlevel.h
+@@ -2441,6 +2441,18 @@ int fuse_session_receive_buf(struct fuse_session *se, struct fuse_buf *buf);
+  */
+ void fuse_session_want_sync_init(struct fuse_session *se);
  
--static int fuse_mount_sys(const char *mnt, struct mount_opts *mo,
--			  const char *mnt_opts)
-+static int fuse_kern_mount_prepare(const char *mnt,
-+				   struct mount_opts *mo)
- {
- 	char tmp[128];
- 	const char *devname = getenv(FUSE_KERN_DEVICE_ENV) ?: "/dev/fuse";
--	char *source = NULL;
--	char *type = NULL;
- 	struct stat stbuf;
- 	int fd;
- 	int res;
-@@ -524,32 +522,58 @@ static int fuse_mount_sys(const char *mnt, struct mount_opts *mo,
- 
- 	res = stat(mnt, &stbuf);
- 	if (res == -1) {
--		fuse_log(FUSE_LOG_ERR, "fuse: failed to access mountpoint %s: %s\n",
--			mnt, strerror(errno));
-+		fuse_log(FUSE_LOG_ERR,
-+			 "fuse: failed to access mountpoint %s: %s\n", mnt,
-+			 strerror(errno));
- 		return -1;
- 	}
- 
- 	fd = open(devname, O_RDWR | O_CLOEXEC);
- 	if (fd == -1) {
- 		if (errno == ENODEV || errno == ENOENT)
--			fuse_log(FUSE_LOG_ERR,
-+			fuse_log(
-+				FUSE_LOG_ERR,
- 				"fuse: device %s not found. Kernel module not loaded?\n",
- 				devname);
- 		else
- 			fuse_log(FUSE_LOG_ERR, "fuse: failed to open %s: %s\n",
--				devname, strerror(errno));
-+				 devname, strerror(errno));
- 		return -1;
- 	}
- 	if (!O_CLOEXEC)
- 		fcntl(fd, F_SETFD, FD_CLOEXEC);
- 
--	snprintf(tmp, sizeof(tmp),  "fd=%i,rootmode=%o,user_id=%u,group_id=%u",
-+	snprintf(tmp, sizeof(tmp), "fd=%i,rootmode=%o,user_id=%u,group_id=%u",
- 		 fd, stbuf.st_mode & S_IFMT, getuid(), getgid());
- 
- 	res = fuse_opt_add_opt(&mo->kernel_opts, tmp);
- 	if (res == -1)
- 		goto out_close;
- 
-+	return fd;
-+
-+out_close:
-+	close(fd);
-+	return -1;
-+}
-+
 +/**
-+ * Complete the mount operation with an already-opened fd
-+ * @mnt: mountpoint
-+ * @mo: mount options
-+ * @mnt_opts: mount options to pass to the kernel
++ * Enable debug output
 + *
-+ * Returns: 0 on success, -1 on failure, -2 if fusermount should be used
++ * This allows to enable debug output without a command line parameter and
++ * without the enforcement of the command line parameter to run in foreground.
++ * The daemon needs to handle either fuse_log output via stderr, or
++ * redirection to its own logs or via syslog.
++ *
++ * @param se the session
 + */
-+static int fuse_kern_do_mount(const char *mnt, struct mount_opts *mo,
-+				  const char *mnt_opts)
-+{
-+	const char *devname = getenv(FUSE_KERN_DEVICE_ENV) ?: "/dev/fuse";
-+	char *source = NULL;
-+	char *type = NULL;
-+	int res;
++void fuse_session_set_debug(struct fuse_session *se);
 +
-+	res = -ENOMEM;
- 	source = malloc((mo->fsname ? strlen(mo->fsname) : 0) +
- 			(mo->subtype ? strlen(mo->subtype) : 0) +
- 			strlen(devname) + 32);
-@@ -593,10 +617,11 @@ static int fuse_mount_sys(const char *mnt, struct mount_opts *mo,
- 			if (mo->blkdev && errno == ENODEV &&
- 			    !fuse_mnt_check_fuseblk())
- 				fuse_log(FUSE_LOG_ERR,
--					"fuse: 'fuseblk' support missing\n");
-+					 "fuse: 'fuseblk' support missing\n");
- 			else
--				fuse_log(FUSE_LOG_ERR, "fuse: mount failed: %s\n",
--					strerror(errno_save));
-+				fuse_log(FUSE_LOG_ERR,
-+					 "fuse: mount failed: %s\n",
-+					 strerror(errno_save));
- 		}
- 
- 		goto out_close;
-@@ -619,17 +644,35 @@ static int fuse_mount_sys(const char *mnt, struct mount_opts *mo,
- 	free(type);
- 	free(source);
- 
--	return fd;
-+	return 0;
- 
- out_umount:
- 	umount2(mnt, 2); /* lazy umount */
- out_close:
- 	free(type);
- 	free(source);
--	close(fd);
- 	return res;
+ /**
+  * Check if the request is submitted through fuse-io-uring
+  */
+diff --git a/lib/fuse_lowlevel.c b/lib/fuse_lowlevel.c
+index b10def03f3666757d312f87f177a560483691d6f..a7293a3898c37c3877eadf965d310ae2aa5cc2d1 100644
+--- a/lib/fuse_lowlevel.c
++++ b/lib/fuse_lowlevel.c
+@@ -5007,3 +5007,8 @@ void fuse_session_want_sync_init(struct fuse_session *se)
+ 		return;
+ 	se->want_sync_init = true;
  }
- 
-+static int fuse_mount_sys(const char *mnt, struct mount_opts *mo,
-+				  const char *mnt_opts)
++
++void fuse_session_set_debug(struct fuse_session *se)
 +{
-+	int fd;
-+	int res;
-+
-+	fd = fuse_kern_mount_prepare(mnt, mo);
-+	if (fd == -1)
-+		return -1;
-+
-+	res = fuse_kern_do_mount(mnt, mo, mnt_opts);
-+	if (res) {
-+		close(fd);
-+		return res;
-+	}
-+
-+	return fd;
++	se->debug = 1;
 +}
-+
- static int get_mnt_flag_opts(char **mnt_optsp, int flags)
- {
- 	int i;
-@@ -678,6 +721,17 @@ void destroy_mount_opts(struct mount_opts *mo)
- 	free(mo);
- }
+diff --git a/lib/fuse_versionscript b/lib/fuse_versionscript
+index f1765d39e13bc9b1f53e625b9a091c5fa53f5afd..64bf75ac2cb252d066ac301be8fc024b59f903ac 100644
+--- a/lib/fuse_versionscript
++++ b/lib/fuse_versionscript
+@@ -230,6 +230,7 @@ FUSE_3.19 {
+ 		fuse_daemonize_start;
+ 		fuse_daemonize_signal;
+ 		fuse_daemonize_active;
++		fuse_session_set_debug;
+ } FUSE_3.18;
  
-+static int fuse_kern_mount_get_base_mnt_opts(struct mount_opts *mo,
-+					     char **mnt_optsp)
-+{
-+	if (get_mnt_flag_opts(mnt_optsp, mo->flags) == -1)
-+		return -1;
-+	if (mo->kernel_opts && fuse_opt_add_opt(mnt_optsp, mo->kernel_opts) == -1)
-+		return -1;
-+	if (mo->mtab_opts &&  fuse_opt_add_opt(mnt_optsp, mo->mtab_opts) == -1)
-+		return -1;
-+	return 0;
-+}
- 
- int fuse_kern_mount(const char *mountpoint, struct mount_opts *mo)
- {
-@@ -685,11 +739,7 @@ int fuse_kern_mount(const char *mountpoint, struct mount_opts *mo)
- 	char *mnt_opts = NULL;
- 
- 	res = -1;
--	if (get_mnt_flag_opts(&mnt_opts, mo->flags) == -1)
--		goto out;
--	if (mo->kernel_opts && fuse_opt_add_opt(&mnt_opts, mo->kernel_opts) == -1)
--		goto out;
--	if (mo->mtab_opts &&  fuse_opt_add_opt(&mnt_opts, mo->mtab_opts) == -1)
-+	if (fuse_kern_mount_get_base_mnt_opts(mo, &mnt_opts) == -1)
- 		goto out;
- 
- 	res = fuse_mount_sys(mountpoint, mo, mnt_opts);
+ # Local Variables:
 
 -- 
 2.43.0
