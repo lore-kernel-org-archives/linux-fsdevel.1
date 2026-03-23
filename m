@@ -1,53 +1,89 @@
-Received: from relay.hostedemail.com (smtprelay0016.hostedemail.com [216.40.44.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C05082765F5;
-	Mon, 23 Mar 2026 17:21:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55AF23C73E1
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 17:27:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774286494; cv=none; b=fE7rluz5bdhG0ZDtnOliARDYIqbVqfsEgsHxBFB9rzueznXWd8On7RLFlI22eNzm9hEqaf0hnBmfhY9Yw9FK2cUFBKdY4tIvjVpwOGw0nTLgZf3sKT1oDjAT8ps4Gs/wHd3NEeD+RDXtvCZRaVxKLYXQj5uKVSU4TT3fGs8xOvo=
+	t=1774286860; cv=none; b=Cej+67VFa0ndCv07ASVuL+O56FaVJdj7Rqppi2OncPwVGaVimEP4Djni/LLEcQnhgXB4EbHorMIchzZGC0UnaHpO5pjs1o8oZ+9ud7bGopsoZmL+LsiXz4paZdiNISHIiyz6teATvNBXxSMRIOE+GCbPqbb8d1J85hXZkcnx9z4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774286494; c=relaxed/simple;
-	bh=cK5crSIbq3v6eBqTicknSYTbc2z0ScWMd5hriD/IKUc=;
+	s=arc-20240116; t=1774286860; c=relaxed/simple;
+	bh=TW45VhUvPia05Ui6mhtQNQg7i9lpsnB2eyp64Xy8Adk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pEt2oem6NImUoC8mrzq5aqhscvKfSyQio/mE5fM8PpOxQglFZFSnFWtje8IgiJlmTPEv0afQdf+9rNIpli8qr4xyGgk8okbSBvsnUP6O2GU/zkC5Blv2RsrZtXYQ9zL+FrZ0QvJL2BM21zluSTiFXuC5m6PnFW7dtV6NHIoSlUs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
-Received: from omf08.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay07.hostedemail.com (Postfix) with ESMTP id 04404160614;
-	Mon, 23 Mar 2026 17:21:22 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf08.hostedemail.com (Postfix) with ESMTPA id 4B16C20028;
-	Mon, 23 Mar 2026 17:21:11 +0000 (UTC)
-Date: Mon, 23 Mar 2026 12:21:09 -0500
-From: John Groves <john@groves.net>
-To: Jonathan Cameron <jonathan.cameron@huawei.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, 
-	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
-	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
-	Amir Goldstein <amir73il@gmail.com>, Stefan Hajnoczi <shajnocz@redhat.com>, 
-	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, venkataravis@micron.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, 
-	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH V8 3/8] dax: add fsdev.c driver for fs-dax on character
- dax
-Message-ID: <acF1vWQGB_EoRWVi@groves.net>
-References: <20260318202737.4344.dax@groves.net>
- <20260319012837.4443-1-john@groves.net>
- <20260319122057.00004503@huawei.com>
- <ab3nFoKxirEgoS_v@groves.net>
- <20260323121250.00004402@huawei.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=CvZ42JjYBA3ld6lROjP1DGY2CplGgv+ad7CEyh1TC4lQHVrYaz9EyKCQUvasnrVqxTqP7dAJRS4K9Hc/LeTPHfMuXJuJbsInOsJrN7cxT6iogo/XsbKhZ9R9jlWesseLetJ4tjQhenZDtvWU0aMKCUh2TogCrc+nBN2GOtdYtsU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=aOsW/PXC; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=6APXTMw9; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=aOsW/PXC; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=6APXTMw9; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="aOsW/PXC";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="6APXTMw9";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="aOsW/PXC";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="6APXTMw9"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 9D7505BD63;
+	Mon, 23 Mar 2026 17:27:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1774286855; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QEeDidZnelw3LrJ0v4TlRpLDnazNWNlIJyXuxwFWvVc=;
+	b=aOsW/PXCFbDW6KyPaLcw24LLLbWnLVR7g0Fm5pT9MiaUW4vAaoN4Bf6NifClcIeH8qGDzP
+	OxUo5TQ0rqX9DIDkxSOVaQzktXAhn52wAGLeWGgScst0iZNBnH1Lj8msCzWkzeKM0ODhM1
+	RdiEOCEAspWCNvu95LrHL3kvoGlZ8DM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1774286855;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QEeDidZnelw3LrJ0v4TlRpLDnazNWNlIJyXuxwFWvVc=;
+	b=6APXTMw9FuHydH4nV3qLPO9sh1gGM1UAHqm4PR+crluO8DBOlXXbpQ5wpPB6eoO7K3C3bt
+	Qb/P3wlD0Th0FnAA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b="aOsW/PXC";
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=6APXTMw9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1774286855; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QEeDidZnelw3LrJ0v4TlRpLDnazNWNlIJyXuxwFWvVc=;
+	b=aOsW/PXCFbDW6KyPaLcw24LLLbWnLVR7g0Fm5pT9MiaUW4vAaoN4Bf6NifClcIeH8qGDzP
+	OxUo5TQ0rqX9DIDkxSOVaQzktXAhn52wAGLeWGgScst0iZNBnH1Lj8msCzWkzeKM0ODhM1
+	RdiEOCEAspWCNvu95LrHL3kvoGlZ8DM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1774286855;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QEeDidZnelw3LrJ0v4TlRpLDnazNWNlIJyXuxwFWvVc=;
+	b=6APXTMw9FuHydH4nV3qLPO9sh1gGM1UAHqm4PR+crluO8DBOlXXbpQ5wpPB6eoO7K3C3bt
+	Qb/P3wlD0Th0FnAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8E387439BB;
+	Mon, 23 Mar 2026 17:27:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id edOwIgd4wWlBXAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 23 Mar 2026 17:27:35 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 54DE3A0B32; Mon, 23 Mar 2026 18:27:35 +0100 (CET)
+Date: Mon, 23 Mar 2026 18:27:35 +0100
+From: Jan Kara <jack@suse.cz>
+To: Zhang Yi <yi.zhang@huaweicloud.com>
+Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca, jack@suse.cz, 
+	ojaswin@linux.ibm.com, ritesh.list@gmail.com, libaokun@linux.alibaba.com, 
+	yi.zhang@huawei.com, yizhang089@gmail.com, yangerkun@huawei.com, yukuai@fnnas.com
+Subject: Re: [PATCH 07/10] ext4: remove handle parameters from zero partial
+ block functions
+Message-ID: <kajhuay7hptzag6sg4476272lbo4yy4l3c5pi6ve5izfygdnuh@gjjshtoowngy>
+References: <20260310014101.4140698-1-yi.zhang@huaweicloud.com>
+ <20260310014101.4140698-8-yi.zhang@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -56,48 +92,304 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260323121250.00004402@huawei.com>
-X-Rspamd-Queue-Id: 4B16C20028
-X-Stat-Signature: bxdg8a6ie1w9ircu3df6dzukx13pabjz
-X-Rspamd-Server: rspamout03
-X-Session-Marker: 6A6F686E4067726F7665732E6E6574
-X-Session-ID: U2FsdGVkX1809opFCnBO7f651BPCBxwJ49nYJRohtOQ=
-X-HE-Tag: 1774286471-505091
-X-HE-Meta: U2FsdGVkX18TNbiNbjQAlQ4GJFRHGyldIttWpgr1j2rn5VyzyRd0i4qZeR9hoDHZQrdYZOJsFUs7jBmX0NYdmy9tTcx06VRGCaHpJJs4XTh8Jn0HmLGTXgasXh9eeCPDB0C1DZToGpaBktv/5DIvVHzJ98Fw6r20OUNvOn0seum3ZxpleT06MJ5yW2bE4tn/un93ch7n4iWUxOKSd928b+Pmpd6PQzeplKif+4UHE1m0W4VgErxI0jFkID+MJlzoj5u9kg1P6xVcqrmYoM1Fc+Gc7T4/4TxKxsyF1jTZPZAIbFiSEjEXJC9n3l/Ittkb
+In-Reply-To: <20260310014101.4140698-8-yi.zhang@huaweicloud.com>
+X-Spamd-Result: default: False [-2.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	URIBL_BLOCKED(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.cz:dkim,suse.cz:email,huawei.com:email];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,mit.edu,dilger.ca,suse.cz,linux.ibm.com,gmail.com,linux.alibaba.com,huawei.com,fnnas.com];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:email,suse.cz:dkim,suse.cz:email]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -2.51
+X-Spam-Level: 
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 9D7505BD63
 
-On 26/03/23 12:12PM, Jonathan Cameron wrote:
+On Tue 10-03-26 09:40:58, Zhang Yi wrote:
+> From: Zhang Yi <yi.zhang@huawei.com>
 > 
-> > > > diff --git a/drivers/dax/Makefile b/drivers/dax/Makefile
-> > > > index 5ed5c39857c8..3bae252fd1bf 100644
-> > > > --- a/drivers/dax/Makefile
-> > > > +++ b/drivers/dax/Makefile
-> > > > @@ -5,10 +5,16 @@ obj-$(CONFIG_DEV_DAX_KMEM) += kmem.o
-> > > >  obj-$(CONFIG_DEV_DAX_PMEM) += dax_pmem.o
-> > > >  obj-$(CONFIG_DEV_DAX_CXL) += dax_cxl.o
-> > > >  
-> > > > +# fsdev_dax: fs-dax compatible devdax driver (needs DEV_DAX and FS_DAX)
-> > > > +ifeq ($(CONFIG_FS_DAX),y)
-> > > > +obj-$(CONFIG_DEV_DAX) += fsdev_dax.o
-> > > > +endif  
-> > > 
-> > > Why not throw in a new CONFIG_FSDAX_DEV and handle the dependencies
-> > > in Kconfig?    
-> > 
-> > At one point I had another config parameter, but I'm trying not to
-> > gratuitously add them. The fsdev driver is pretty small, and including it
-> > whenever FS_DAX is enabled felt reasonable to me. I'm willing to change it
-> > if there's a consensus that way.
+> Only journal data mode requires an active journal handle when zeroing
+> partial blocks. Stop passing handle_t *handle to
+> ext4_zero_partial_blocks() and related functions, and make
+> ext4_block_journalled_zero_range() start a handle independently.
 > 
-> You can make the build do exactly the same thing with a separate Kconfig
-> option. Just moves where the dependency tracking is. I'd prefer Kconfig
-> because that's generally where I'd look for something like this.
+> This change has no practical impact now because all callers invoke these
+> functions within the context of an active handle. It prepares for moving
+> ext4_block_zero_eof() out of an active handle in the next patch, which
+> is a prerequisite for converting block zero range operations to iomap
+> infrastructure.
 > 
+> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+
+Looks good. Feel free to add:
+
+Reviewed-by: Jan Kara <jack@suse.cz>
+
+								Honza
+
+> ---
+>  fs/ext4/ext4.h    |  7 +++---
+>  fs/ext4/extents.c |  5 ++--
+>  fs/ext4/inode.c   | 62 ++++++++++++++++++++++++++++-------------------
+>  3 files changed, 42 insertions(+), 32 deletions(-)
 > 
-> Jonathan
-
-OK, will do. It will be CONFIG_DEV_DAX_FSDEV for naming consistency.
-
-V9 coming within 24 hours...
-
-John
-
+> diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
+> index c62459ef9796..20545a9523e9 100644
+> --- a/fs/ext4/ext4.h
+> +++ b/fs/ext4/ext4.h
+> @@ -3099,10 +3099,9 @@ extern int ext4_chunk_trans_blocks(struct inode *, int nrblocks);
+>  extern int ext4_chunk_trans_extent(struct inode *inode, int nrblocks);
+>  extern int ext4_meta_trans_blocks(struct inode *inode, int lblocks,
+>  				  int pextents);
+> -extern int ext4_block_zero_eof(handle_t *handle, struct inode *inode,
+> -			       loff_t from, loff_t end);
+> -extern int ext4_zero_partial_blocks(handle_t *handle, struct inode *inode,
+> -			     loff_t lstart, loff_t lend);
+> +extern int ext4_block_zero_eof(struct inode *inode, loff_t from, loff_t end);
+> +extern int ext4_zero_partial_blocks(struct inode *inode, loff_t lstart,
+> +				    loff_t lend);
+>  extern vm_fault_t ext4_page_mkwrite(struct vm_fault *vmf);
+>  extern qsize_t *ext4_get_reserved_space(struct inode *inode);
+>  extern int ext4_get_projid(struct inode *inode, kprojid_t *projid);
+> diff --git a/fs/ext4/extents.c b/fs/ext4/extents.c
+> index a265070c1b79..753a0f3418a4 100644
+> --- a/fs/ext4/extents.c
+> +++ b/fs/ext4/extents.c
+> @@ -4625,8 +4625,7 @@ static int ext4_alloc_file_blocks(struct file *file, ext4_lblk_t offset,
+>  						      inode_get_ctime(inode));
+>  			if (epos > old_size) {
+>  				pagecache_isize_extended(inode, old_size, epos);
+> -				ext4_block_zero_eof(handle, inode, old_size,
+> -						    epos);
+> +				ext4_block_zero_eof(inode, old_size, epos);
+>  			}
+>  		}
+>  		ret2 = ext4_mark_inode_dirty(handle, inode);
+> @@ -4744,7 +4743,7 @@ static long ext4_zero_range(struct file *file, loff_t offset,
+>  	}
+>  
+>  	/* Zero out partial block at the edges of the range */
+> -	ret = ext4_zero_partial_blocks(handle, inode, offset, len);
+> +	ret = ext4_zero_partial_blocks(inode, offset, len);
+>  	if (ret)
+>  		goto out_handle;
+>  
+> diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
+> index 8fea044b3bff..d5b783a7c814 100644
+> --- a/fs/ext4/inode.c
+> +++ b/fs/ext4/inode.c
+> @@ -1458,7 +1458,7 @@ static int ext4_write_end(const struct kiocb *iocb,
+>  
+>  	if (old_size < pos && !verity) {
+>  		pagecache_isize_extended(inode, old_size, pos);
+> -		ext4_block_zero_eof(handle, inode, old_size, pos);
+> +		ext4_block_zero_eof(inode, old_size, pos);
+>  	}
+>  	/*
+>  	 * Don't mark the inode dirty under folio lock. First, it unnecessarily
+> @@ -1576,7 +1576,7 @@ static int ext4_journalled_write_end(const struct kiocb *iocb,
+>  
+>  	if (old_size < pos && !verity) {
+>  		pagecache_isize_extended(inode, old_size, pos);
+> -		ext4_block_zero_eof(handle, inode, old_size, pos);
+> +		ext4_block_zero_eof(inode, old_size, pos);
+>  	}
+>  
+>  	if (size_changed) {
+> @@ -3252,7 +3252,7 @@ static int ext4_da_do_write_end(struct address_space *mapping,
+>  	if (IS_ERR(handle))
+>  		return PTR_ERR(handle);
+>  	if (zero_len)
+> -		ext4_block_zero_eof(handle, inode, old_size, pos);
+> +		ext4_block_zero_eof(inode, old_size, pos);
+>  	ext4_mark_inode_dirty(handle, inode);
+>  	ext4_journal_stop(handle);
+>  
+> @@ -4102,16 +4102,23 @@ static int ext4_block_do_zero_range(struct inode *inode, loff_t from,
+>  	return 0;
+>  }
+>  
+> -static int ext4_block_journalled_zero_range(handle_t *handle,
+> -		struct inode *inode, loff_t from, loff_t length, bool *did_zero)
+> +static int ext4_block_journalled_zero_range(struct inode *inode, loff_t from,
+> +					    loff_t length, bool *did_zero)
+>  {
+>  	struct buffer_head *bh;
+>  	struct folio *folio;
+> +	handle_t *handle;
+>  	int err;
+>  
+> +	handle = ext4_journal_start(inode, EXT4_HT_MISC, 1);
+> +	if (IS_ERR(handle))
+> +		return PTR_ERR(handle);
+> +
+>  	bh = ext4_block_get_zero_range(inode, from, length);
+> -	if (IS_ERR_OR_NULL(bh))
+> -		return PTR_ERR_OR_ZERO(bh);
+> +	if (IS_ERR_OR_NULL(bh)) {
+> +		err = PTR_ERR_OR_ZERO(bh);
+> +		goto out_handle;
+> +	}
+>  	folio = bh->b_folio;
+>  
+>  	BUFFER_TRACE(bh, "get write access");
+> @@ -4132,6 +4139,8 @@ static int ext4_block_journalled_zero_range(handle_t *handle,
+>  out:
+>  	folio_unlock(folio);
+>  	folio_put(folio);
+> +out_handle:
+> +	ext4_journal_stop(handle);
+>  	return err;
+>  }
+>  
+> @@ -4142,7 +4151,7 @@ static int ext4_block_journalled_zero_range(handle_t *handle,
+>   * the end of the block it will be shortened to end of the block
+>   * that corresponds to 'from'
+>   */
+> -static int ext4_block_zero_range(handle_t *handle, struct inode *inode,
+> +static int ext4_block_zero_range(struct inode *inode,
+>  				 loff_t from, loff_t length, bool *did_zero,
+>  				 bool *zero_written)
+>  {
+> @@ -4160,8 +4169,8 @@ static int ext4_block_zero_range(handle_t *handle, struct inode *inode,
+>  		return dax_zero_range(inode, from, length, did_zero,
+>  				      &ext4_iomap_ops);
+>  	} else if (ext4_should_journal_data(inode)) {
+> -		return ext4_block_journalled_zero_range(handle, inode, from,
+> -							length, did_zero);
+> +		return ext4_block_journalled_zero_range(inode, from, length,
+> +							did_zero);
+>  	}
+>  	return ext4_block_do_zero_range(inode, from, length, did_zero,
+>  					zero_written);
+> @@ -4174,8 +4183,7 @@ static int ext4_block_zero_range(handle_t *handle, struct inode *inode,
+>   * to physically zero the tail end of that block so it doesn't yield old
+>   * data if the file is grown. Return the zeroed length on success.
+>   */
+> -int ext4_block_zero_eof(handle_t *handle, struct inode *inode,
+> -			loff_t from, loff_t end)
+> +int ext4_block_zero_eof(struct inode *inode, loff_t from, loff_t end)
+>  {
+>  	unsigned int blocksize = i_blocksize(inode);
+>  	unsigned int offset;
+> @@ -4194,7 +4202,7 @@ int ext4_block_zero_eof(handle_t *handle, struct inode *inode,
+>  	if (length > blocksize - offset)
+>  		length = blocksize - offset;
+>  
+> -	err = ext4_block_zero_range(handle, inode, from, length,
+> +	err = ext4_block_zero_range(inode, from, length,
+>  				    &did_zero, &zero_written);
+>  	if (err)
+>  		return err;
+> @@ -4206,7 +4214,14 @@ int ext4_block_zero_eof(handle_t *handle, struct inode *inode,
+>  	 */
+>  	if (ext4_should_order_data(inode) &&
+>  	    did_zero && zero_written && !IS_DAX(inode)) {
+> +		handle_t *handle;
+> +
+> +		handle = ext4_journal_start(inode, EXT4_HT_MISC, 1);
+> +		if (IS_ERR(handle))
+> +			return PTR_ERR(handle);
+> +
+>  		err = ext4_jbd2_inode_add_write(handle, inode, from, length);
+> +		ext4_journal_stop(handle);
+>  		if (err)
+>  			return err;
+>  	}
+> @@ -4214,8 +4229,7 @@ int ext4_block_zero_eof(handle_t *handle, struct inode *inode,
+>  	return did_zero ? length : 0;
+>  }
+>  
+> -int ext4_zero_partial_blocks(handle_t *handle, struct inode *inode,
+> -			     loff_t lstart, loff_t length)
+> +int ext4_zero_partial_blocks(struct inode *inode, loff_t lstart, loff_t length)
+>  {
+>  	struct super_block *sb = inode->i_sb;
+>  	unsigned partial_start, partial_end;
+> @@ -4232,21 +4246,19 @@ int ext4_zero_partial_blocks(handle_t *handle, struct inode *inode,
+>  	/* Handle partial zero within the single block */
+>  	if (start == end &&
+>  	    (partial_start || (partial_end != sb->s_blocksize - 1))) {
+> -		err = ext4_block_zero_range(handle, inode, lstart,
+> -					    length, NULL, NULL);
+> +		err = ext4_block_zero_range(inode, lstart, length, NULL, NULL);
+>  		return err;
+>  	}
+>  	/* Handle partial zero out on the start of the range */
+>  	if (partial_start) {
+> -		err = ext4_block_zero_range(handle, inode, lstart,
+> -					    sb->s_blocksize, NULL, NULL);
+> +		err = ext4_block_zero_range(inode, lstart, sb->s_blocksize,
+> +					    NULL, NULL);
+>  		if (err)
+>  			return err;
+>  	}
+>  	/* Handle partial zero out on the end of the range */
+>  	if (partial_end != sb->s_blocksize - 1)
+> -		err = ext4_block_zero_range(handle, inode,
+> -					    byte_end - partial_end,
+> +		err = ext4_block_zero_range(inode, byte_end - partial_end,
+>  					    partial_end + 1, NULL, NULL);
+>  	return err;
+>  }
+> @@ -4442,7 +4454,7 @@ int ext4_punch_hole(struct file *file, loff_t offset, loff_t length)
+>  		return ret;
+>  	}
+>  
+> -	ret = ext4_zero_partial_blocks(handle, inode, offset, length);
+> +	ret = ext4_zero_partial_blocks(inode, offset, length);
+>  	if (ret)
+>  		goto out_handle;
+>  
+> @@ -4592,7 +4604,7 @@ int ext4_truncate(struct inode *inode)
+>  
+>  	/* Zero to the end of the block containing i_size */
+>  	if (inode->i_size & (inode->i_sb->s_blocksize - 1))
+> -		ext4_block_zero_eof(handle, inode, inode->i_size, LLONG_MAX);
+> +		ext4_block_zero_eof(inode, inode->i_size, LLONG_MAX);
+>  
+>  	/*
+>  	 * We add the inode to the orphan list, so that if this
+> @@ -5951,8 +5963,8 @@ int ext4_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+>  				inode_set_mtime_to_ts(inode,
+>  						      inode_set_ctime_current(inode));
+>  				if (oldsize & (inode->i_sb->s_blocksize - 1))
+> -					ext4_block_zero_eof(handle, inode,
+> -							    oldsize, LLONG_MAX);
+> +					ext4_block_zero_eof(inode, oldsize,
+> +							    LLONG_MAX);
+>  			}
+>  
+>  			if (shrink)
+> -- 
+> 2.52.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
