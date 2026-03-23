@@ -1,111 +1,129 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from sender-of-o57.zoho.eu (sender-of-o57.zoho.eu [136.143.169.57])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 487113B5301;
-	Mon, 23 Mar 2026 15:11:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774278671; cv=none; b=s8yrG5eotwbZW1r1WP3s8sTxXZq1D/axQ9t1vdcSyNaBhyxsfdRsyDI1sK65fG9NFCn0aeTVE8pH65UxoepMNK8WEU5X0COOsFfmgiyrI8moLRR/FpJwzonFAIUzK0yKJ7GxGuuyRpftuQqQd0Xb2qBkzn+aW7496MzxZqKkzd0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774278671; c=relaxed/simple;
-	bh=mD//i5XRZJZ3kG19Mr3ncYKm5fT+bbjvQHIx6flbo9I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WzhK/cq/Mb1QWybxe7ZV7hrUdtl/9CLKYQu6jywUDTfZ+eob5kbvddpNpcBt2e8oD0+xb1rLp4QcAfnge2w06aUHh+taItoqSh3GDLlS+Wbw/cjJHkkzyLKM+E+Pq3+7oQNh8EqryuLYVJMNQGXgIze/VJL/4IiOdADRq8neIbc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=pcxjVpCA; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EF8E24CEEA;
+	Mon, 23 Mar 2026 15:16:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.169.57
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774279006; cv=pass; b=cZcEC+rQ/jwJj/qrZQo4rex6wKVSGgFfA4ynkuZpbrQMYrKpQTdt0Rz5YeWiZnLjoCbrhwAMMgPw4qkwXIDkfB740mKOl+HT1p9QH7tsoVUflWr/E6J/FKrRpALBlpoESBYD7BGMm0PEOREQniroj7vvfy3mUOTFXQCPMQD9YZI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774279006; c=relaxed/simple;
+	bh=Efhjtp0APHmK3K9OuiG3mT/JRTCx6Z6YLMqTHztfeXA=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=Z7Pnrybg7/WIPZVHuqodd6p86kZtK6m0UvaACP6R2Df3/mDLiJZ81+H85sb/3kHqORgfdrm6QpMzCrpsYEt9dy0pmpMWGYtmZUY39kRgNMNynwT8thFEZIie9lJ9MngPHnchrsoxhG0wpJT2E3ZscB2ON9y1sX30m37ynyTxEMI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=objecting.org; spf=pass smtp.mailfrom=objecting.org; dkim=pass (1024-bit key) header.d=objecting.org header.i=objecting@objecting.org header.b=Ej0NmHHI; arc=pass smtp.client-ip=136.143.169.57
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=objecting.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=objecting.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="pcxjVpCA"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Reply-To:Content-ID:Content-Description;
-	bh=BOT1joVeBvRJNf048C/pia2Ig6BTdwxHvSGJf+KwT8A=; b=pcxjVpCAEzQJjMWXqIUUflRuRW
-	IaKQMKXOQaWPREOVL4QftsUUDADpff/r1QoXD1QOo9KACGm3p1LhHnEqlIY6XadW0eS41WtRY+S3k
-	szzHV9FlInE7pEQJRtacLvRG2d120+okrBHZlljgWhJgAMQ19P5GcUq2HfoQ01B4o/RpRvKqnXK/D
-	Z1qchjODVi100Ws206MkC43Y2BzM8bPA5GJ6PHBDCYTaHe+1TPyRJ+zO56rx1mEjQ3fVOcME2lk+4
-	/GC5P5cT31sCeATh/zJT2VwFOrKHwFnuFRqqmPs26KdExhDbBxod6fgdEcQNl6jyuUvM9M5DcpfSl
-	p0IsefkQ==;
-Received: from authenticated user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.94.2)
-	(envelope-from <leitao@debian.org>)
-	id 1w4gvn-007cJ7-M8; Mon, 23 Mar 2026 15:11:02 +0000
-Date: Mon, 23 Mar 2026 08:10:57 -0700
-From: Breno Leitao <leitao@debian.org>
-To: Chuck Lever <cel@kernel.org>
-Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org, puranjay@kernel.org, 
-	linux-crypto@vger.kernel.org, linux-btrfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	Michael van der Westhuizen <rmikey@meta.com>, kernel-team@meta.com, Chuck Lever <chuck.lever@oracle.com>
-Subject: Re: [PATCH v2 0/5] workqueue: Introduce a sharded cache affinity
- scope
-Message-ID: <acFVEr7iVnU_70yh@gmail.com>
-References: <20260320-workqueue_sharded-v2-0-8372930931af@debian.org>
- <04af531d-d8a3-4fbb-993d-e1da2df62a03@app.fastmail.com>
+	dkim=pass (1024-bit key) header.d=objecting.org header.i=objecting@objecting.org header.b="Ej0NmHHI"
+ARC-Seal: i=1; a=rsa-sha256; t=1774278991; cv=none; 
+	d=zohomail.eu; s=zohoarc; 
+	b=NqsTc3ZJJyigeXu519WqsnbWqhhcjh1It5TAJrn/i/UxA7gQ/kkalZgRLAXjVdrrfUsJTJtWSTIR0Gvf0PTFQynwqvSFkQOqXISFhSMeKA0+Ue+O+TK4vWP/tKuSZI/jYWAQsP2goLMGMNHAAt96uJDiSTof6CkaRRnC/j8Nwg8=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.eu; s=zohoarc; 
+	t=1774278991; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=6R6h2nPCW6/5Ti/l+o6nr4dWLFSlaRLqeUUlVkl8Mu4=; 
+	b=jPqXduo46Yf3aqnI+1OOG8+F2DGVqHhWsekwBOYI2gemnqBeF0hKJKjXzFZj3va4/23Iut1fyXyz8IS139ILyiLBxUN3hJiMxZypk5AwYUse3Vk/ZdjkpQvq1QJwCFv8h7W5eO2TmhmEQKSjindTNblOms61SBXi2lULywrgO6E=
+ARC-Authentication-Results: i=1; mx.zohomail.eu;
+	dkim=pass  header.i=objecting.org;
+	spf=pass  smtp.mailfrom=objecting@objecting.org;
+	dmarc=pass header.from=<objecting@objecting.org>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774278991;
+	s=zmail; d=objecting.org; i=objecting@objecting.org;
+	h=Date:Date:From:From:To:To:CC:Subject:Subject:In-Reply-To:References:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To:Cc;
+	bh=6R6h2nPCW6/5Ti/l+o6nr4dWLFSlaRLqeUUlVkl8Mu4=;
+	b=Ej0NmHHIUJPmdBozM2Sl51UPqtfKHw4chSOkQadPYVzUKXVk96un8nqtnkwPJN3U
+	GwfumdM+wjZZ/Pu2l3b6uM7C2WBbmsCpPM+dela7zVt830TpM5Nx+BrdH6Jyg9BvlLd
+	tKFqW+1Dq9zb1kndiS+Py6/wG38gti8Gg33bNH/Q=
+Received: by mx.zoho.eu with SMTPS id 1774278989700420.2170527576808;
+	Mon, 23 Mar 2026 16:16:29 +0100 (CET)
+Date: Mon, 23 Mar 2026 15:16:22 +0000
+From: Josh Law <objecting@objecting.org>
+To: Christian Brauner <brauner@kernel.org>
+CC: Andrew Morton <akpm@linux-foundation.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, linux-kernel@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_3/7=5D_lib/iov=5Fiter=3A_fix_misplaced_?=
+ =?US-ASCII?Q?parenthesis_in_iov=5Fiter=5Frestore=28=29_kvec_check?=
+User-Agent: Thunderbird for Android
+In-Reply-To: <20260323-wirtschaften-mittragen-5217e168da05@brauner>
+References: <20260313181038.30018-1-objecting@objecting.org> <20260313181038.30018-4-objecting@objecting.org> <20260323-wirtschaften-mittragen-5217e168da05@brauner>
+Message-ID: <6876729A-2510-4C02-AD84-63C7B587A48C@objecting.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <04af531d-d8a3-4fbb-993d-e1da2df62a03@app.fastmail.com>
-X-Debian-User: leitao
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-ZohoMailClient: External
 
-Hello Chuck,
 
-On Mon, Mar 23, 2026 at 10:11:07AM -0400, Chuck Lever wrote:
-> On Fri, Mar 20, 2026, at 1:56 PM, Breno Leitao wrote:
-> > TL;DR: Some modern processors have many CPUs per LLC (L3 cache), and
-> > unbound workqueues using the default affinity (WQ_AFFN_CACHE) collapse
-> > to a single worker pool, causing heavy spinlock (pool->lock) contention.
-> > Create a new affinity (WQ_AFFN_CACHE_SHARD) that caps each pool at
-> > wq_cache_shard_size CPUs (default 8).
-> >
-> > Changes from RFC:
-> >
-> > * wq_cache_shard_size is in terms of cores (not vCPU). So,
-> >   wq_cache_shard_size=8 means the pool will have 8 cores and their siblings,
-> >   like 16 threads/CPUs if SMT=1
+
+On 23 March 2026 12:39:10 GMT, Christian Brauner <brauner@kernel=2Eorg> wr=
+ote:
+>On Fri, Mar 13, 2026 at 06:10:34PM +0000, Josh Law wrote:
+>> When restoring a kvec-backed iterator after a short write in a kernel
+>> socket sendmsg path (e=2Eg=2E an NFS client resending an RPC call), the
+>> WARN_ON_ONCE guard fires a spurious warning on every first call=2E
+>>=20
+>> The closing parenthesis of WARN_ON_ONCE is after !iter_is_ubuf(i),
+>> leaving !iov_iter_is_kvec(i) as a separate && operand outside the
+>> macro:
+>>=20
+>>   WARN_ON_ONCE(!bvec && !iovec && !ubuf) && !kvec
+>>=20
+>> For kvec iterators this evaluates as WARN_ON_ONCE(true) && false =E2=80=
+=94 the
+>> warning fires but the return is skipped, so execution proceeds correctl=
+y=2E
+>> The warning is the only visible symptom, but it is confusing and may
+>> mask real issues=2E
+>>=20
+>> Found through code review of the operator precedence in the condition
+>> expression and confirmed by tracing the macro expansion=2E
+>>=20
+>> Move the closing parenthesis to include the kvec check inside
+>> WARN_ON_ONCE so the warning only fires for genuinely unsupported
+>> iterator types=2E
+>>=20
+>> Signed-off-by: Josh Law <objecting@objecting=2Eorg>
+>> ---
+>>  lib/iov_iter=2Ec | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>=20
+>> diff --git a/lib/iov_iter=2Ec b/lib/iov_iter=2Ec
+>> index 325669b103ed=2E=2E6a7959bfc849 100644
+>> --- a/lib/iov_iter=2Ec
+>> +++ b/lib/iov_iter=2Ec
+>> @@ -1471,7 +1471,7 @@ EXPORT_SYMBOL_GPL(import_ubuf);
+>>  void iov_iter_restore(struct iov_iter *i, struct iov_iter_state *state=
+)
+>>  {
+>>  	if (WARN_ON_ONCE(!iov_iter_is_bvec(i) && !iter_is_iovec(i) &&
+>> -			 !iter_is_ubuf(i)) && !iov_iter_is_kvec(i))
+>> +			 !iter_is_ubuf(i) && !iov_iter_is_kvec(i)))
+>>  		return;
+>>  	i->iov_offset =3D state->iov_offset;
+>>  	i->count =3D state->count;
 >
-> My concern about the "cores per shard" approach is that it
-> improves the default situation for moderately-sized machines
-> little or not at all.
->
-> A machine with one L3 and 10 cores will go from 1 UNBOUND
-> pool to only 2. For virtual machines commonly deployed as
-> cloud instances, which are 2, 4, or 8 core systems (up to
-> 16 threads) there will still be significant contention for
-> UNBOUND workers.
+>Look=2E=2E=2E the placement is intentional as is easily identifiable by
+>looking at the history of the commits=2E This clearly is AI generated
+>and you don't have the capacity at the moment to meaningfully argue or
+>present the technical changes you are proposing - if you are an actual
+>person at all=2E As such I see no reason to engage with this=2E
 
-Could you clarify your concern? Are you suggesting the default value of
-wq_cache_shard_size=8 is too high, or that the cores-per-shard approach
-fundamentally doesn't scale well for moderately-sized systems?
 
-Any approach—whether sharding by cores or by LLC—ultimately relies on
-heuristics that may need tuning for specific workloads. The key difference
-is where we draw the line. The current default of 8 cores prevents the
-worst-case scenario: severe lock contention on large systems with 16+ CPUs
-all hammering a single unbound workqueue.
 
-For smaller systems (2-4 CPUs), contention is usually negligible
-regardless of the approach. My perf lock contention measurements
-consistently show minimal contention in that range.
+1: i am a real human
+2: For code written by AI, i use Assisted-by: , i wrote the commit descrip=
+tion with ai (thats why its so long)
 
-> IOW, if you want good scaling, human intervention (via a
-> boot command-line option) is still needed.
 
-I am not convinced. The wq_cache_shard_size approach creates multiple
-pools on large systems while leaving small systems (<8 cores) unchanged.
-This eliminates the pathological lock contention we're observing on
-high-core-count machines without impacting smaller deployments.
+Sorry for wasting your time
 
-In contrast, splitting pools per LLC would force fragmentation even on
-systems that aren't experiencing contention, increasing the need for
-manual tuning across a wider range of configurations.
+V/R
 
-Thanks for the review,
---breno
+
+Josh Law
