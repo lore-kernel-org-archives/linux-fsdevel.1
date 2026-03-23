@@ -1,67 +1,41 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F01D4373BE0;
-	Mon, 23 Mar 2026 21:02:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E91D373BE4
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 21:03:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774299771; cv=none; b=GqlOQ6V8I+RHi4MyeyX2dn+DoG3d7yxN1YG7D8MNFhQ5y5OmLo/O2pTtVHGGwNPdwk/SAuXbxoXooMPcGZ06v1/QXvWSjZTmGcl6/sS82lFYLmUQVpcsbBZMXbCVsFhj3TUqP7kyK2qmyJZ7Rrlnp4Zfn7/mKEjsPKXSyWYt91M=
+	t=1774299792; cv=none; b=rDpuc7mu5a+96bkU+AOzddoTdxJgA/G7rM9Si+/haG6tC1AlAvZi1QWMt9RIly8T+y4RqI2du6t+qhq3XMBwePbJ4BcizZ5wQQwQC421xAlI9hYsSPTw4K5IjehVxLaqvmdviG/YXlKNM2wQ6PBz5+voYsf3b0sHS0c1qJZUwDg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774299771; c=relaxed/simple;
-	bh=gxAcHrsgrKbfz3TCdlmAFAjObaKlzuQOhvmQdjK9DnY=;
+	s=arc-20240116; t=1774299792; c=relaxed/simple;
+	bh=pf/MxoLKRA1uDDWxf8KfdmB5rvOJ6ScGAkr5fmX9Q+A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=owh6qyzfe2KVtvTKwSWF5iqmQJAeDbzAXZ7M9FN4IIGg/XopV6pQhMP6JGea5qg1HtgD9Wp9qsiN2pRTPyoUwJ0s3n0JRWCvzYvj5VCodWoIdywvtvBQMdQkSYJPkiE8Wkl336Zfs57jcy2J/+gHzZolua/NcAYT5Jm71dJgWzU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=hMFNFZka; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=E19x91pCqJcjI63MU03pdf1DCtIGMLwi54J+LH/+PWYTNLjYdckF5qHYyIAYCdVo4ez/bedCp1pUw01lZA3Tjq4T19CF+bNsXeWSW2635TaDy/eV34UN4kUVpLSdKZnRFWJ0p1VZaJYDMGFXKpc3xTXbfU19FK+18v8rv2dBaYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FeuV0UPb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="hMFNFZka"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=3AOsenzNPAeVFjUaTF+EAsvLlXdttCRQbifAIz71hTA=; b=hMFNFZka51FeDea+aaAXkA2sMF
-	Xw1RTmW14PACkldpXstX1oEG7V17NRMgrH1Qhur8aqWusYInZoN03g2Z6340NcVy2mw4TpwjSBezp
-	WaNtfFjPeEzZsvs7EvK7QeT5a9JJUOI92MC9ntRqcpID+pqBqOGJIdR10b0nYjZyqHAQiusU/oenP
-	J2Jp2DwPzXYy1NYC5ZruGx2qP6kHRhpGbcb3oMRJ+g6uzyWnMs79pAWiFeLP1v7l4/1O4wtoq0CZs
-	h6eg3GZYjQsVZBVlAvJfHnW1SitoXoTr3Ri9pJLyzCIhAOKJOBWXY/5xfXaOMqSG3p0ynbuZzSNbF
-	YTSxQfbQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w4mQ1-0000000CsDl-3RRd;
-	Mon, 23 Mar 2026 21:02:37 +0000
-Date: Mon, 23 Mar 2026 21:02:37 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Zi Yan <ziy@nvidia.com>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>,
-	Song Liu <songliubraving@fb.com>, Chris Mason <clm@fb.com>,
-	David Sterba <dsterba@suse.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
-	Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
-	Lance Yang <lance.yang@linux.dev>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>,
-	linux-btrfs@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [RFC PATCH 02/11] mm/khugepaged: remove READ_ONLY_THP_FOR_FS
- code in collapse_file()
-Message-ID: <acGqbeSjktT4biku@casper.infradead.org>
-References: <20260323190644.1714379-1-ziy@nvidia.com>
- <20260323190644.1714379-3-ziy@nvidia.com>
- <7382046f-7c58-4a3e-ab34-b2704355b7d5@kernel.org>
- <E8D52134-B63E-44E9-BBBC-258DF74B8597@nvidia.com>
- <c20b7dbe-473d-4dca-a10b-b9f5267ad6da@kernel.org>
- <AF9011D6-8EA4-4134-B175-BD2DAB748419@nvidia.com>
- <71148f2e-cceb-418e-b762-c8dbd7a7eb1f@kernel.org>
- <FDC4C393-FB38-4422-9217-DAE95131C696@nvidia.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FeuV0UPb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEFB9C4CEF7;
+	Mon, 23 Mar 2026 21:03:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774299792;
+	bh=pf/MxoLKRA1uDDWxf8KfdmB5rvOJ6ScGAkr5fmX9Q+A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FeuV0UPbeUJ79+1btsNoHEf27Vv/KxEQXWl+YO8qEI6bt2KQ4NCSY3ktuzbzvfx3M
+	 5DC9p4Il4mrHDkWuNLw78PtVGCPX4r1jTZDQyCIHX2iuSFSUUUPJOT3/OdVyuonBuq
+	 AO3BS3IOr3hNxoZyRc/VDYfEHLQtQJXXB1pcRSoqVcQX2oQWsYBd2e6IqGPg+fZc7+
+	 vLtctdM75FQ3blit1Nl+ynOy0R+VWN6KvuRpmOsN/1PLdU+csvuZPfO7Xnnj6e/Q5x
+	 LeRmvZLr8Xu2EXnW6X03KFHxxRlQDoVyvAODfpmorvpKvGhMI21si+NdOE+trD5S1o
+	 B6FvsJIzLj2eg==
+Date: Mon, 23 Mar 2026 14:03:11 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Bernd Schubert <bernd@bsbernd.com>
+Cc: linux-fsdevel@vger.kernel.org, Miklos Szeredi <miklos@szeredi.hu>,
+	Joanne Koong <joannelkoong@gmail.com>,
+	Bernd Schubert <bschubert@ddn.com>
+Subject: Re: [PATCH 02/19] Add 'STRCPY' to the checkpatch ignore option
+Message-ID: <20260323210311.GE6202@frogsfrogsfrogs>
+References: <20260323-fuse-init-before-mount-v1-0-a52d3040af69@bsbernd.com>
+ <20260323-fuse-init-before-mount-v1-2-a52d3040af69@bsbernd.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -70,29 +44,41 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <FDC4C393-FB38-4422-9217-DAE95131C696@nvidia.com>
+In-Reply-To: <20260323-fuse-init-before-mount-v1-2-a52d3040af69@bsbernd.com>
 
-On Mon, Mar 23, 2026 at 04:24:26PM -0400, Zi Yan wrote:
-> On 23 Mar 2026, at 16:13, David Hildenbrand (Arm) wrote:
-> > I assume so, because for executables you would have to be lucky to get a
-> > PMD THP? So I don't see the non-khugepaged large folio support on par
-> > with khugepaged support.
-
-Not necessarily that lucky; if you set VM_HUGEPAGE,
-do_sync_mmap_readahead() will allocate PMD-sized folios automatically.
-On busy database servers (and is there any other kind?), khugepaged
-takes too long to run and find opportunities to collapse text pages.
-Like, days.
-
-> It is more like turning on READ_ONLY_THP_FOR_FS by default for
-> FS with large folio support instead of removing it.
+On Mon, Mar 23, 2026 at 06:44:57PM +0100, Bernd Schubert wrote:
+> From: Bernd Schubert <bschubert@ddn.com>
 > 
-> OK, I will give it another try.
+> checkpatch.pl is a kernel copy and the strcpy warning is not valid
+> for libfuse.
+> 
+> Signed-off-by: Bernd Schubert <bschubert@ddn.com>
 
-I think the test needs to be:
+I agree with this, having been bonked on the nose for it before :)
 
-	if (mapping_max_folio_order(mapping) >= PMD_ORDER)
+Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
 
-as there can be cases of filesystems which support up to, say, 64KiB,
-but not all the way up to 2MiB.  I disapprove of this situation, but
-this is where we are right now.
+--D
+
+> ---
+>  .github/workflows/checkpatch.yml | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/.github/workflows/checkpatch.yml b/.github/workflows/checkpatch.yml
+> index 4a98c91cddeab686c782a1d34cd5d15f86f0b42d..8dead95b065bc81449a98fa7ea94fac7463d2334 100644
+> --- a/.github/workflows/checkpatch.yml
+> +++ b/.github/workflows/checkpatch.yml
+> @@ -35,7 +35,7 @@ jobs:
+>            fi
+>            subject=$(git log -1 --format=%s $commit)
+>            echo "Checking commit: $commit - $subject"
+> -          if ! ./checkpatch.pl --max-line-length=100 --no-tree --ignore MAINTAINERS,SPDX_LICENSE_TAG,COMMIT_MESSAGE,FILE_PATH_CHANGES,EMAIL_SUBJECT,AVOID_EXTERNS,GIT_COMMIT_ID,ENOSYS_SYSCALL,ENOSYS,FROM_SIGN_OFF_MISMATCH,QUOTED_COMMIT_ID,PREFER_ATTRIBUTE_ALWAYS_UNUSED,PREFER_DEFINED_ATTRIBUTE_MACRO  -g $commit; then
+> +          if ! ./checkpatch.pl --max-line-length=100 --no-tree --ignore MAINTAINERS,SPDX_LICENSE_TAG,COMMIT_MESSAGE,FILE_PATH_CHANGES,EMAIL_SUBJECT,AVOID_EXTERNS,GIT_COMMIT_ID,ENOSYS_SYSCALL,ENOSYS,FROM_SIGN_OFF_MISMATCH,QUOTED_COMMIT_ID,PREFER_ATTRIBUTE_ALWAYS_UNUSED,PREFER_DEFINED_ATTRIBUTE_MACRO,STRCPY  -g $commit; then
+>              echo "checkpatch.pl found issues in commit $commit - $subject"
+>              exit 1
+>            fi
+> 
+> -- 
+> 2.43.0
+> 
+> 
