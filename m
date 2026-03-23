@@ -1,162 +1,765 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84BB32BE02A
-	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 23:07:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82608382F14
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 23:42:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774307277; cv=none; b=ohcy7P713X9N8RxOKp+9RM8PzKb0cTmGx31FtFDzzzwcqwGXWoL7esx+hsYni9TTc8OSXaCPIQUrKtDG2RAgH8IkF1j62Ob/+7lZhmwDkLfaUj3m4hDivK/JI/kW/z8Hz9a8qPYq/RuMWTFEoHADYP/N/ZzcUNoMjwqlBhsAUh8=
+	t=1774309364; cv=none; b=AhKGkXyw+1vW4UYS5McDnncllMaJyT8SyQKJACClUmzdyqSqeN2gTyaygPKYYifkb1/nTmFOdBj676Y2cdNjwHNpOoLIuw3nkPQFvk7MO4im1JypKNqN0I0pGRXzswuBYhvLCmJAxwFY6tx+OwV58JeWjc8VEA2ZznmHbHmY/sI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774307277; c=relaxed/simple;
-	bh=/ttPpm56KP6VcCer6vrzJslwkooRabo2wvtfwN3QB9w=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HuKRrH69DyiUyrwOsjDam638CXcG6/VUlkMVRxTEKmpHaMcJ6IkYUnN8ofjz7PROUpHOQkgA+GRlZcQGWdnc89lgf3LCWpe3qjRXSy/PikJmNjtKgZplQYX7ctMAD4Zc4FoEWpAM4+jG4NxBScgQBYYl2FBTXZJJzgw2P3gUg8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rMrqmRpE; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=BSbmsqjU; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rMrqmRpE; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=BSbmsqjU; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1774309364; c=relaxed/simple;
+	bh=c4wF+fVQVwvWCjki7Qos8k1Yjb1XDKr6eaxU/Ytdc9w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q03IwfQ07VW0bAtIdAqAiYEoDLI4HIdorpkzveDuzfhJt9GkMCV7sQ518ep9WTGXrugqaWncEvU5eFmiOcv1GdHQ9kwhsjEN0zmtDznA8aTB9Clh0+3+xUd7OLeWsrW3KHQ6AychzlIMNGrmWPdOFBuZhUFCKVNBxdgvzoG2I48=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dBICErFF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rMrqmRpE";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="BSbmsqjU";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rMrqmRpE";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="BSbmsqjU"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 9A1F04D364;
-	Mon, 23 Mar 2026 23:07:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1774307273; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wqDpmHasijrQTR2umFEzKgc+Vg7a/FSm/ClkBhdq2LE=;
-	b=rMrqmRpESqURhcIwtc0IObcg1PEwB4sMzptJ0mUiNt+G8NWjHekBTe4+Z89qa/XtqI6t6G
-	aIHxofvfTSFbvl8VZ+3ZCuElvNt1DT/zTm6y3FD4HNHnC/ty5QTaLPjfG3+jvchypwd0Qz
-	cpAlnth3Dyppv9NWw4y9syf7NNkWlTM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1774307273;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wqDpmHasijrQTR2umFEzKgc+Vg7a/FSm/ClkBhdq2LE=;
-	b=BSbmsqjUTKYzasKddqoWN7RlqZTOTC/Eg60OOeFTFfNZSTb8OA/cD18Wfhld3MgnGQ3/Wm
-	mfphobnFpd17bJBQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=rMrqmRpE;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=BSbmsqjU
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1774307273; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wqDpmHasijrQTR2umFEzKgc+Vg7a/FSm/ClkBhdq2LE=;
-	b=rMrqmRpESqURhcIwtc0IObcg1PEwB4sMzptJ0mUiNt+G8NWjHekBTe4+Z89qa/XtqI6t6G
-	aIHxofvfTSFbvl8VZ+3ZCuElvNt1DT/zTm6y3FD4HNHnC/ty5QTaLPjfG3+jvchypwd0Qz
-	cpAlnth3Dyppv9NWw4y9syf7NNkWlTM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1774307273;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wqDpmHasijrQTR2umFEzKgc+Vg7a/FSm/ClkBhdq2LE=;
-	b=BSbmsqjUTKYzasKddqoWN7RlqZTOTC/Eg60OOeFTFfNZSTb8OA/cD18Wfhld3MgnGQ3/Wm
-	mfphobnFpd17bJBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9A97843B10;
-	Mon, 23 Mar 2026 23:07:49 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 1xPOEsXHwWmCNQAAD6G6ig
-	(envelope-from <ddiss@suse.de>); Mon, 23 Mar 2026 23:07:49 +0000
-Date: Tue, 24 Mar 2026 10:07:40 +1100
-From: David Disseldorp <ddiss@suse.de>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Petr Mladek
- <pmladek@suse.com>, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>, Christian
- Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Steven Rostedt
- <rostedt@goodmis.org>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey
- Senozhatsky <senozhatsky@chromium.org>
-Subject: Re: [PATCH v3 0/6] initramfs: test and improve cpio hex header
- validation
-Message-ID: <20260324100740.72937c07.ddiss@suse.de>
-In-Reply-To: <20260323150753.1937b34b80772602d634d180@linux-foundation.org>
-References: <20260323150054.3587083-1-andriy.shevchenko@linux.intel.com>
-	<20260323150753.1937b34b80772602d634d180@linux-foundation.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dBICErFF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15DD5C4CEF7;
+	Mon, 23 Mar 2026 23:42:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774309364;
+	bh=c4wF+fVQVwvWCjki7Qos8k1Yjb1XDKr6eaxU/Ytdc9w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dBICErFFFqdhdXHK8ozCS5g7zocUC5sS1yCU3t6IdE21ygUVmIngSeB/TIi/T+bGb
+	 5j18HwPMProL1xND6IWjmLGF8XtxWAiwJAGM5CcVe/mCaG+/RwoiJnWraNMP0iTb3Q
+	 KKD8nLjPf756LdEefNWhSyIIDOxIEgJAaresrav/Ffl/TMYmav/JUoQuOWsGxBm/wZ
+	 +XVrIqqZYJeynjAlLPzSMI00SWOSF1tve/WJ9Q/FNKskWAnoeSP/2JrY5L9JWmbxIi
+	 J0aA78K2GYC/2Zin6eSgyfXzQrns3ROnxbv7kr3gRQPCD4eWFcBiPFKxQA3PB/MpBa
+	 n9kCJJBif5zig==
+Date: Mon, 23 Mar 2026 16:42:43 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Bernd Schubert <bernd@bsbernd.com>
+Cc: linux-fsdevel@vger.kernel.org, Miklos Szeredi <miklos@szeredi.hu>,
+	Joanne Koong <joannelkoong@gmail.com>,
+	Bernd Schubert <bschubert@ddn.com>
+Subject: Re: [PATCH 11/19] Add support for the new linux mount API
+Message-ID: <20260323234243.GL6202@frogsfrogsfrogs>
+References: <20260323-fuse-init-before-mount-v1-0-a52d3040af69@bsbernd.com>
+ <20260323-fuse-init-before-mount-v1-11-a52d3040af69@bsbernd.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,intel.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Queue-Id: 9A1F04D364
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260323-fuse-init-before-mount-v1-11-a52d3040af69@bsbernd.com>
 
-On Mon, 23 Mar 2026 15:07:53 -0700, Andrew Morton wrote:
-
-> On Mon, 23 Mar 2026 15:54:16 +0100 Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+On Mon, Mar 23, 2026 at 06:45:06PM +0100, Bernd Schubert wrote:
+> From: Bernd Schubert <bschubert@ddn.com>
 > 
-> > The series that introduced simple_strntoul() had passed into kernel
-> > without proper review and hence reinvented a wheel that's not needed.
-> > Here is the refactoring to show that. It can go via PRINTK or VFS
-> > tree.
-> > 
-> > I have tested this on x86, but I believe the same result will be
-> > on big-endian CPUs (I deduced that from how strtox() works).  
+> So far only supported for fuse_session_mount(), which is called
+> from high and low level API, but not yet supported for
+> fuse_open_channel(), which used for privilege drop through
+> mount.fuse. Main goal for the new API is support for synchronous
+> FUSE_INIT and I don't think that is going to work with
+> fuse_open_channel(). At least not with io-uring support as long
+> as it is started from FUSE_INIT.
 > 
-> AI review asked a few questions:
+> Signed-off-by: Bernd Schubert <bschubert@ddn.com>
+> ---
+>  lib/fuse_lowlevel.c |  75 +++++++++-
+>  lib/meson.build     |   3 +
+>  lib/mount.c         |  27 +++-
+>  lib/mount_fsmount.c | 405 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  lib/mount_i_linux.h |  14 ++
+>  meson.build         |  19 ++-
+>  6 files changed, 535 insertions(+), 8 deletions(-)
 > 
-> 	https://sashiko.dev/#/patchset/20260323150054.3587083-1-andriy.shevchenko@linux.intel.com
+> diff --git a/lib/fuse_lowlevel.c b/lib/fuse_lowlevel.c
+> index 4a1c7c4c02a05706e077a7ea89fab3c81bfe22cd..626233df20f49fa89cd9327f94340169d7061f75 100644
+> --- a/lib/fuse_lowlevel.c
+> +++ b/lib/fuse_lowlevel.c
+> @@ -20,6 +20,9 @@
+>  #include "util.h"
+>  #include "fuse_uring_i.h"
+>  #include "fuse_daemonize.h"
+> +#if defined(__linux__)
+> +#include "mount_i_linux.h"
+> +#endif
+>  
+>  #include <pthread.h>
+>  #include <stdatomic.h>
+> @@ -4398,6 +4401,64 @@ int fuse_session_custom_io_30(struct fuse_session *se,
+>  			offsetof(struct fuse_custom_io, clone_fd), fd);
+>  }
+>  
+> +#if defined(HAVE_NEW_MOUNT_API)
+> +/* Only linux supports sync FUSE_INIT so far */
+
+What does synchronous FUSE_INIT have to do with fsmount()?
+Does it not work with the old mount(2)?
+
+> +static int fuse_session_mount_new_api(struct fuse_session *se,
+> +				      const char *mountpoint)
+> +{
+> +	int fd = -1;
+> +	int res, err;
+> +	char *mnt_opts = NULL;
+> +	char *mnt_opts_with_fd = NULL;
+> +	char fd_opt[32];
+> +
+> +	res = fuse_kern_mount_get_base_mnt_opts(se->mo, &mnt_opts);
+> +	if (res == -1) {
+> +		fuse_log(FUSE_LOG_ERR,
+> +			 "fuse: failed to get base mount options\n");
+> +		err = -EIO;
+> +		goto err;
+> +	}
+> +
+> +	fd = fuse_kern_mount_prepare(mountpoint, se->mo);
+> +	if (fd == -1) {
+> +		fuse_log(FUSE_LOG_ERR, "Mount preparation failed.\n");
+> +		err = -EIO;
+> +		goto err;
+> +	}
+> +
+> +	snprintf(fd_opt, sizeof(fd_opt), "fd=%i", fd);
+> +	if (fuse_opt_add_opt(&mnt_opts_with_fd, mnt_opts) == -1 ||
+> +	    fuse_opt_add_opt(&mnt_opts_with_fd, fd_opt) == -1) {
+> +		err = -ENOMEM;
+> +		goto err;
+> +	}
+> +
+> +	err = fuse_kern_fsmount_mo(mountpoint, se->mo, mnt_opts_with_fd);
+> +err:
+> +	if (err) {
+> +		if (fd >= 0)
+> +			close(fd);
+> +		fd = -1;
+> +		se->fd = -1;
+> +		se->error = -errno;
+> +	}
+> +
+> +	free(mnt_opts);
+> +	free(mnt_opts_with_fd);
+> +	return fd;
+> +}
+> +#else
+> +static int fuse_session_mount_new_api(struct fuse_session *se,
+> +				      const char *mountpoint)
+> +{
+> +	(void)se;
+> +	(void)mountpoint;
+> +
+> +	return -1;
+> +}
+> +#endif
+> +
+>  int fuse_session_mount(struct fuse_session *se, const char *_mountpoint)
+>  {
+>  	int fd;
+> @@ -4425,6 +4486,8 @@ int fuse_session_mount(struct fuse_session *se, const char *_mountpoint)
+>  			close(fd);
+>  	} while (fd >= 0 && fd <= 2);
+>  
+> +	/* Open channel */
+> +
+>  	/*
+>  	 * To allow FUSE daemons to run without privileges, the caller may open
+>  	 * /dev/fuse before launching the file system and pass on the file
+> @@ -4443,10 +4506,18 @@ int fuse_session_mount(struct fuse_session *se, const char *_mountpoint)
+>  		return 0;
+>  	}
+>  
+> -	/* Open channel */
+> +	/* new linux mount api */
+> +	fd = fuse_session_mount_new_api(se, mountpoint);
+> +	if (fd >= 0)
+> +		goto out;
+> +
+> +	/* fall back to old API */
+> +	se->error = 0; /* reset error of new api */
+>  	fd = fuse_kern_mount(mountpoint, se->mo);
+> -	if (fd == -1)
+> +	if (fd < 0)
+>  		goto error_out;
+> +
+> +out:
+>  	se->fd = fd;
+>  
+>  	/* Save mountpoint */
+> diff --git a/lib/meson.build b/lib/meson.build
+> index 5bd449ebffe7c9229df904d647d990c6c47f80b5..5fd738a589c5aba97a738d5eedbf0f9962e4adfc 100644
+> --- a/lib/meson.build
+> +++ b/lib/meson.build
+> @@ -7,6 +7,9 @@ libfuse_sources = ['fuse.c', 'fuse_i.h', 'fuse_loop.c', 'fuse_loop_mt.c',
+>  
+>  if host_machine.system().startswith('linux')
+>     libfuse_sources += [ 'mount.c' ]
+> +   if private_cfg.get('HAVE_NEW_MOUNT_API', false)
+> +      libfuse_sources += [ 'mount_fsmount.c' ]
+> +   endif
+>  else
+>     libfuse_sources += [ 'mount_bsd.c' ]
+>  endif
+> diff --git a/lib/mount.c b/lib/mount.c
+> index b3ee9ba4c0a74c1d0d55f916e7046e064f8468b0..30fd4d2f9bbb84c817b2363b2075456acd1c1255 100644
+> --- a/lib/mount.c
+> +++ b/lib/mount.c
+> @@ -449,8 +449,8 @@ static int fuse_mount_fusermount(const char *mountpoint, struct mount_opts *mo,
+>  #define O_CLOEXEC 0
+>  #endif
+>  
+> -static int fuse_kern_mount_prepare(const char *mnt,
+> -				   struct mount_opts *mo)
+> +int fuse_kern_mount_prepare(const char *mnt,
+> +			    struct mount_opts *mo)
+>  {
+>  	char tmp[128];
+>  	const char *devname = fuse_mnt_get_devname();
+> @@ -500,6 +500,26 @@ out_close:
+>  	return -1;
+>  }
+>  
+> +#if defined(HAVE_NEW_MOUNT_API)
+> +/**
+> + * Wrapper for fuse_kern_fsmount that accepts struct mount_opts
+> + * @mnt: mountpoint
+> + * @mo: mount options
+> + * @mnt_opts: mount options to pass to the kernel
+> + *
+> + * Returns: 0 on success, -1 on failure with errno set
+> + */
+> +int fuse_kern_fsmount_mo(const char *mnt, struct mount_opts *mo,
+> +			 const char *mnt_opts)
+> +{
+> +	const char *devname = fuse_mnt_get_devname();
+> +
+> +	return fuse_kern_fsmount(mnt, mo->flags, mo->blkdev, mo->fsname,
+> +				 mo->subtype, devname, mo->kernel_opts,
+> +				 mnt_opts);
+> +}
+> +#endif
+> +
+>  /**
+>   * Complete the mount operation with an already-opened fd
+>   * @mnt: mountpoint
+> @@ -643,8 +663,7 @@ void destroy_mount_opts(struct mount_opts *mo)
+>  	free(mo);
+>  }
+>  
+> -static int fuse_kern_mount_get_base_mnt_opts(struct mount_opts *mo,
+> -					     char **mnt_optsp)
+> +int fuse_kern_mount_get_base_mnt_opts(struct mount_opts *mo, char **mnt_optsp)
+>  {
+>  	if (get_mnt_flag_opts(mnt_optsp, mo->flags) == -1)
+>  		return -1;
+> diff --git a/lib/mount_fsmount.c b/lib/mount_fsmount.c
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..cba998bc60c783a5edc0c16570f7e5512b7f1253
+> --- /dev/null
+> +++ b/lib/mount_fsmount.c
+> @@ -0,0 +1,405 @@
+> +/*
+> + *  FUSE: Filesystem in Userspace
+> + *  Copyright (C) 2001-2007  Miklos Szeredi <miklos@szeredi.hu>
+> + *                2026 Bernd Schubert <bernd@bsbernd.com>
+> + *
+> + * New Linux mount API (fsopen/fsconfig/fsmount/move_mount) support.
+> + *
+> + *  This program can be distributed under the terms of the GNU LGPLv2.
+> + *  See the file LGPL2.txt.
+> + */
+> +
+> +#define _GNU_SOURCE
+> +
+> +#include "fuse_config.h"
+> +#include "fuse_misc.h"
+> +#include "mount_util.h"
+> +#include "mount_i_linux.h"
+> +
+> +#include <stdio.h>
+> +#include <stdlib.h>
+> +#include <unistd.h>
+> +#include <string.h>
+> +#include <fcntl.h>
+> +#include <errno.h>
+> +#include <sys/mount.h>
+> +#include <sys/syscall.h>
+> +
+> +/* Mount attribute flags for fsmount() - from linux/mount.h */
+> +#ifndef MOUNT_ATTR_RDONLY
+> +#define MOUNT_ATTR_RDONLY       0x00000001
+> +#endif
+> +#ifndef MOUNT_ATTR_NOSUID
+> +#define MOUNT_ATTR_NOSUID       0x00000002
+> +#endif
+> +#ifndef MOUNT_ATTR_NODEV
+> +#define MOUNT_ATTR_NODEV        0x00000004
+> +#endif
+> +#ifndef MOUNT_ATTR_NOEXEC
+> +#define MOUNT_ATTR_NOEXEC       0x00000008
+> +#endif
+> +#ifndef MOUNT_ATTR__ATIME
+> +#define MOUNT_ATTR__ATIME       0x00000070
+> +#endif
+> +#ifndef MOUNT_ATTR_RELATIME
+> +#define MOUNT_ATTR_RELATIME     0x00000000
+> +#endif
+> +#ifndef MOUNT_ATTR_NOATIME
+> +#define MOUNT_ATTR_NOATIME      0x00000010
+> +#endif
+> +#ifndef MOUNT_ATTR_STRICTATIME
+> +#define MOUNT_ATTR_STRICTATIME  0x00000020
+> +#endif
+> +#ifndef MOUNT_ATTR_NODIRATIME
+> +#define MOUNT_ATTR_NODIRATIME   0x00000080
+> +#endif
+> +#ifndef MOUNT_ATTR_NOSYMFOLLOW
+> +#define MOUNT_ATTR_NOSYMFOLLOW  0x00200000
+> +#endif
+
+/me notes that all MOUNT_ATTR_ before NOSYMFOLLOW were introduced in the
+initial commit so if the meson test thinks the new fsmount api is
+present then you can rely on flags being defined.
+
+> +
+> +/*
+> + * Convert MS_* mount flags to MOUNT_ATTR_* mount attributes.
+> + * These flags are passed to fsmount(), not fsconfig().
+> + * Mount attributes control mount-point level behavior.
+> + */
+> +static unsigned long ms_flags_to_mount_attrs(unsigned long flags)
+> +{
+> +	unsigned long attrs = 0;
+> +
+> +	if (flags & MS_NOSUID)
+> +		attrs |= MOUNT_ATTR_NOSUID;
+> +	if (flags & MS_NODEV)
+> +		attrs |= MOUNT_ATTR_NODEV;
+> +	if (flags & MS_NOEXEC)
+> +		attrs |= MOUNT_ATTR_NOEXEC;
+> +	if (flags & MS_NOATIME)
+> +		attrs |= MOUNT_ATTR_NOATIME;
+> +	else if (flags & MS_RELATIME)
+> +		attrs |= MOUNT_ATTR_RELATIME;
+> +	else if (flags & MS_STRICTATIME)
+> +		attrs |= MOUNT_ATTR_STRICTATIME;
+> +	if (flags & MS_NODIRATIME)
+> +		attrs |= MOUNT_ATTR_NODIRATIME;
+> +	if (flags & MS_NOSYMFOLLOW)
+> +		attrs |= MOUNT_ATTR_NOSYMFOLLOW;
+> +
+> +	return attrs;
+> +}
+> +
+> +/*
+> + * Apply VFS superblock flags to the filesystem context.
+> + * Only handles flags that are filesystem parameters (ro, sync, dirsync).
+> + * Mount attributes (nosuid, nodev, etc.) are handled separately via fsmount().
+> + */
+> +static int apply_mount_flags(int fsfd, unsigned long flags)
+> +{
+> +	int res;
+> +
+> +	/* Handle read-only flag */
+> +	if (flags & MS_RDONLY) {
+> +		res = fsconfig(fsfd, FSCONFIG_SET_FLAG, "ro", NULL, 0);
+> +		if (res == -1) {
+> +			fprintf(stderr,
+> +				"fuse: fsconfig SET_FLAG ro failed: %s\n",
+> +				strerror(errno));
+> +			return -errno;
+> +		}
+> +	}
+> +
+> +	/* Handle sync flag */
+> +	if (flags & MS_SYNCHRONOUS) {
+> +		res = fsconfig(fsfd, FSCONFIG_SET_FLAG, "sync", NULL, 0);
+> +		if (res == -1) {
+> +			fprintf(stderr,
+> +				"fuse: fsconfig SET_FLAG sync failed: %s\n",
+> +				strerror(errno));
+> +			return -errno;
+> +		}
+> +	}
+> +
+> +#ifndef __NetBSD__
+> +	/* Handle dirsync flag */
+> +	if (flags & MS_DIRSYNC) {
+> +		res = fsconfig(fsfd, FSCONFIG_SET_FLAG, "dirsync", NULL, 0);
+> +		if (res == -1) {
+> +			fprintf(stderr,
+> +				"fuse: fsconfig SET_FLAG dirsync failed: %s\n",
+> +				strerror(errno));
+> +			return -errno;
+> +		}
+> +	}
+> +#endif
+> +
+> +	return 0;
+> +}
+
+Oh, nice treatment of the MS_ flags that don't have a corresponding
+MOUNT_ATTR_ flag.  I should incorporate that into mount_service.c.
+
+> +
+> +static int apply_opt_fd(int fsfd, const char *value)
+> +{
+> +	int res;
+> +
+> +	/* The fd parameter is a u32 value, not a file descriptor to pass */
+> +	res = fsconfig(fsfd, FSCONFIG_SET_STRING, "fd", value, 0);
+> +	if (res == -1) {
+> +		fprintf(stderr, "fuse: fsconfig SET_STRING fd=%s failed: %s\n",
+> +			value, strerror(errno));
+> +		return -errno;
+
+Did you know that you can read the kernel's error messages from the
+fsopen fd?
+
+https://git.kernel.org/pub/scm/linux/kernel/git/djwong/libfuse.git/tree/util/mount_service.c?h=fuse-service-container&id=d02bbab680ab4689bbd5e274735e91bd38e5f47f#n693
+
+> +	}
+> +	return 0;
+> +}
+> +
+> +static int apply_opt_string(int fsfd, const char *key, const char *value)
+> +{
+> +	int res;
+> +
+> +	res = fsconfig(fsfd, FSCONFIG_SET_STRING, key, value, 0);
+> +	if (res == -1) {
+> +		fprintf(stderr,
+> +			"fuse: fsconfig SET_STRING %s=%s failed: %s\n",
+> +			key, value, strerror(errno));
+> +		return -errno;
+
+I think you have to save errno explicitly here, because fprintf and
+strerror could fail and set errno to something else.  For example, if
+fsconfig returns EINVAL but stderr points to a file on a completely full
+filesystem, the ENOSPC from the fprintf call (or more likely the write()
+underneath it) will obliterate the EINVAL.
+
+> +	}
+> +	return 0;
+> +}
+> +
+> +static int apply_opt_flag(int fsfd, const char *opt)
+> +{
+> +	int res;
+> +
+> +	res = fsconfig(fsfd, FSCONFIG_SET_FLAG, opt, NULL, 0);
+> +	if (res == -1) {
+> +		fprintf(stderr, "fuse: fsconfig SET_FLAG %s failed: %s\n",
+> +			opt, strerror(errno));
+> +		return -errno;
+> +	}
+> +	return 0;
+> +}
+> +
+> +static int apply_opt_key_value(int fsfd, char *opt)
+> +{
+> +	char *eq;
+> +	const char *key;
+> +	const char *value;
+> +
+> +	eq = strchr(opt, '=');
+> +	if (!eq)
+> +		return apply_opt_flag(fsfd, opt);
+> +
+> +	*eq = '\0';
+> +	key = opt;
+> +	value = eq + 1;
+> +
+> +	if (strcmp(key, "fd") == 0)
+> +		return apply_opt_fd(fsfd, value);
+> +
+> +	return apply_opt_string(fsfd, key, value);
+> +}
+> +
+> +/**
+> + * Check if an option is a mount attribute (handled by fsmount, not fsconfig)
+> + */
+> +static int is_mount_attr_opt(const char *opt)
+> +{
+> +	/* These options are mount attributes passed to fsmount(), not fsconfig() */
+> +	return strcmp(opt, "nosuid") == 0 ||
+> +	       strcmp(opt, "suid") == 0 ||
+> +	       strcmp(opt, "nodev") == 0 ||
+> +	       strcmp(opt, "dev") == 0 ||
+> +	       strcmp(opt, "noexec") == 0 ||
+> +	       strcmp(opt, "exec") == 0 ||
+> +	       strcmp(opt, "noatime") == 0 ||
+> +	       strcmp(opt, "atime") == 0 ||
+> +	       strcmp(opt, "nodiratime") == 0 ||
+> +	       strcmp(opt, "diratime") == 0 ||
+> +	       strcmp(opt, "relatime") == 0 ||
+> +	       strcmp(opt, "norelatime") == 0 ||
+> +	       strcmp(opt, "strictatime") == 0 ||
+> +	       strcmp(opt, "nostrictatime") == 0 ||
+> +	       strcmp(opt, "nosymfollow") == 0 ||
+> +	       strcmp(opt, "symfollow") == 0;
+> +}
+> +
+> +/*
+> + * Parse kernel options string and apply via fsconfig
+> + * Options are comma-separated key=value pairs
+> + */
+> +static int apply_mount_opts(int fsfd, const char *opts)
+> +{
+> +	char *opts_copy;
+> +	char *opt;
+> +	char *saveptr;
+> +	int res;
+> +
+> +	if (!opts || !*opts)
+> +		return 0;
+> +
+> +	opts_copy = strdup(opts);
+> +	if (!opts_copy) {
+> +		fprintf(stderr, "fuse: failed to allocate memory\n");
+> +		return -ENOMEM;
+> +	}
+> +
+> +	opt = strtok_r(opts_copy, ",", &saveptr);
+> +	while (opt) {
+> +		/* Skip mount attributes - they're handled by fsmount(), not fsconfig() */
+> +		if (!is_mount_attr_opt(opt)) {
+> +			res = apply_opt_key_value(fsfd, opt);
+
+Does fuse_session_new_versioned convert those magic string flags from
+is_mount_attr_opt into their MS_* equivalents such that apply_mount_opts
+won't see the string versions?
+
+> +			if (res < 0) {
+> +				free(opts_copy);
+> +				return res;
+> +			}
+> +		}
+> +		opt = strtok_r(NULL, ",", &saveptr);
+> +	}
+> +
+> +	free(opts_copy);
+> +	return 0;
+> +}
+> +
+> +
+> +/**
+> + * Mount using the new Linux mount API (fsopen/fsconfig/fsmount/move_mount)
+> + * @mnt: mountpoint
+> + * @flags: mount flags (MS_NOSUID, MS_NODEV, etc.)
+> + * @blkdev: 1 for fuseblk, 0 for fuse
+> + * @fsname: filesystem name (or NULL)
+> + * @subtype: filesystem subtype (or NULL)
+> + * @source_dev: device name for building source string
+> + * @kernel_opts: kernel mount options string
+> + * @mnt_opts: additional mount options to pass to the kernel
+> + *
+> + * Returns: 0 on success, -1 on failure with errno set
+> + */
+> +int fuse_kern_fsmount(const char *mnt, unsigned long flags, int blkdev,
+> +		      const char *fsname, const char *subtype,
+> +		      const char *source_dev, const char *kernel_opts,
+> +		      const char *mnt_opts)
+> +{
+> +	const char *type;
+> +	char *source = NULL;
+> +	int fsfd = -1;
+> +	int mntfd = -1;
+> +	int err, res;
+> +	unsigned long mount_attrs;
+> +
+> +	/* Determine filesystem type */
+> +	type = blkdev ? "fuseblk" : "fuse";
+> +
+> +	/* Try to open filesystem context */
+> +	fsfd = fsopen(type, FSOPEN_CLOEXEC);
+> +	if (fsfd == -1) {
+> +		fprintf(stderr, "fuse: fsopen(%s) failed: %s\n", type,
+> +			strerror(errno));
+> +		return -1;
+> +	}
+> +
+> +	/* Build source string */
+> +	source = malloc((fsname ? strlen(fsname) : 0) +
+> +			(subtype ? strlen(subtype) : 0) +
+> +			strlen(source_dev) + 32);
+> +	err = -ENOMEM;
+> +	if (!source) {
+> +		fprintf(stderr, "fuse: failed to allocate memory\n");
+> +		goto out_close_fsfd;
+> +	}
+> +
+> +	strcpy(source, fsname ? fsname : (subtype ? subtype : source_dev));
+
+This is almost fuse_mnt_build_source()
+
+--D
+
+> +
+> +	/* Configure source */
+> +	res = fsconfig(fsfd, FSCONFIG_SET_STRING, "source", source, 0);
+> +	if (res == -1) {
+> +		err = -errno;
+> +		fprintf(stderr, "fuse: fsconfig source failed: %s\n",
+> +			strerror(errno));
+> +		goto out_free;
+> +	}
+> +
+> +	/* Apply VFS superblock flags (ro, sync, dirsync) */
+> +	err = apply_mount_flags(fsfd, flags);
+> +	if (err < 0) {
+> +		fprintf(stderr, "fuse: failed to apply mount flags\n");
+> +		goto out_free;
+> +	}
+> +
+> +	/* Apply kernel options */
+> +	err = apply_mount_opts(fsfd, kernel_opts);
+> +	if (err < 0) {
+> +		fprintf(stderr,
+> +			"fuse: failed to apply kernel options '%s'\n",
+> +			kernel_opts);
+> +		goto out_free;
+> +	}
+> +
+> +	/* Apply additional mount options */
+> +	err = apply_mount_opts(fsfd, mnt_opts);
+> +	if (err < 0) {
+> +		fprintf(stderr,
+> +			"fuse: failed to apply additional mount options '%s'\n",
+> +			mnt_opts);
+> +		goto out_free;
+> +	}
+> +
+> +	/* Create the filesystem instance */
+> +	res = fsconfig(fsfd, FSCONFIG_CMD_CREATE, NULL, NULL, 0);
+> +	if (res == -1) {
+> +		err = -errno;
+> +		fprintf(stderr, "fuse: fsconfig CREATE failed: %s\n",
+> +			strerror(errno));
+> +		goto out_free;
+> +	}
+> +
+> +	/* Convert MS_* flags to MOUNT_ATTR_* for fsmount() */
+> +	mount_attrs = ms_flags_to_mount_attrs(flags);
+> +
+> +	/* Create mount object with mount attributes */
+> +	mntfd = fsmount(fsfd, FSMOUNT_CLOEXEC, mount_attrs);
+> +	if (mntfd == -1) {
+> +		err = -errno;
+> +		fprintf(stderr, "fuse: fsmount failed: %s\n",
+> +			strerror(errno));
+> +		goto out_free;
+> +	}
+> +
+> +	close(fsfd);
+> +	fsfd = -1;
+> +
+> +	/* Attach to mount point */
+> +	if (move_mount(mntfd, "", AT_FDCWD, mnt, MOVE_MOUNT_F_EMPTY_PATH) ==
+> +	    -1) {
+> +		err = -errno;
+> +		fprintf(stderr, "fuse: move_mount failed: %s\n",
+> +			strerror(errno));
+> +		goto out_close_mntfd;
+> +	}
+> +
+> +	err = fuse_mnt_add_mount_helper(mnt, source, type, mnt_opts);
+> +	if (err == -1)
+> +		goto out_umount;
+> +
+> +	close(mntfd);
+> +	free(source);
+> +	return 0;
+> +
+> +out_umount:
+> +	{
+> +		/* race free umount */
+> +		char fd_path[64];
+> +
+> +		snprintf(fd_path, sizeof(fd_path), "/proc/self/fd/%d", mntfd);
+> +		if (umount2(fd_path, MNT_DETACH) == -1 && errno != EINVAL) {
+> +			fprintf(stderr,
+> +				"fuse: cleanup umount failed: %s\n",
+> +				strerror(errno));
+> +		}
+> +	}
+> +out_close_mntfd:
+> +	if (mntfd != -1)
+> +		close(mntfd);
+> +out_free:
+> +	free(source);
+> +out_close_fsfd:
+> +	if (fsfd != -1)
+> +		close(fsfd);
+> +	errno = -err;
+> +	return -1;
+> +}
+> +
+> diff --git a/lib/mount_i_linux.h b/lib/mount_i_linux.h
+> index c0de6228fce5a4d9070cc246ec76222b66de56fb..52eab9e650c055142feec329264f82c2b08be0d5 100644
+> --- a/lib/mount_i_linux.h
+> +++ b/lib/mount_i_linux.h
+> @@ -60,6 +60,20 @@ static const struct mount_flags fuse_mount_flags[] = {
+>  	{NULL,      0,          0}
+>  };
+>  
+> +int fuse_kern_mount_prepare(const char *mnt, struct mount_opts *mo);
+> +
+> +int fuse_kern_mount_get_base_mnt_opts(struct mount_opts *mo, char **mnt_optsp);
+> +
+> +int fuse_kern_fsmount(const char *mnt, unsigned long flags, int blkdev,
+> +		      const char *fsname, const char *subtype,
+> +		      const char *source_dev, const char *kernel_opts,
+> +		      const char *mnt_opts);
+> +
+> +int fuse_kern_fsmount_mo(const char *mnt, struct mount_opts *mo,
+> +			 const char *mnt_opts);
+> +
+> +int fuse_kern_fsmount_mo(const char *mnt, struct mount_opts *mo,
+> +			 const char *mnt_opts);
+>  
+>  
+>  #endif /* FUSE_MOUNT_I_H_ */
+> diff --git a/meson.build b/meson.build
+> index 80c5f1dc0bd3565c11ad3084dac08e28dab611dc..465a7bbfd14fe9c45897f197ef37db76079d20ee 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -30,7 +30,7 @@ if platform == 'darwin'
+>          'https://www.fuse-t.org/ instead')
+>  elif platform == 'cygwin' or platform == 'windows'
+>    error('libfuse does not support Windows.\n' +
+> -        'Take a look at http://www.secfs.net/winfsp/ instead')       
+> +        'Take a look at http://www.secfs.net/winfsp/ instead')
+>  endif
+>  
+>  cc = meson.get_compiler('c')
+> @@ -118,6 +118,21 @@ special_funcs = {
+>  	    return -1;
+>  	  }
+>  	}
+> +    ''',
+> +    'new_mount_api': '''
+> +	#define _GNU_SOURCE
+> +	#include <sys/mount.h>
+> +	#include <linux/mount.h>
+> +	#include <unistd.h>
+> +	#include <fcntl.h>
+> +
+> +	int main(void) {
+> +	    int fsfd = fsopen("fuse", FSOPEN_CLOEXEC);
+> +	    int res = fsconfig(fsfd, FSCONFIG_SET_STRING, "source", "test", 0);
+> +	    int mntfd = fsmount(fsfd, FSMOUNT_CLOEXEC, 0);
+> +	    res = move_mount(mntfd, "", AT_FDCWD, "/mnt", MOVE_MOUNT_F_EMPTY_PATH);
+> +	    return 0;
+> +	}
+>      '''
+>  }
+>  
+> @@ -308,7 +323,7 @@ configure_file(output: 'libfuse_config.h',
+>  include_dirs = include_directories('include', 'lib', '.')
+>  
+>  # Common dependencies
+> -thread_dep = dependency('threads') 
+> +thread_dep = dependency('threads')
+>  
+>  #
+>  # Read build files from sub-directories
 > 
-> The "Is it possible for kzalloc() to fail and return NULL here?" one
-> should be ignored - I've asked Roman&Chris to teach the reviewbot that
-> unchecked allocations in __init code are OK.
-
-The bot should ideally also consider KUNIT=y / INITRAMFS_TEST here. The
-feedback regarding misuse of the new fill_cpio() fmt parameter is
-valid, but my preference was to keep the initramfs test code simple.
-
-If there's a concern that this test code may be copied into other parts
-of the kernel, then I'd prefer to go with a different approach: drop the
-fill_cpio() change and just call sprintf directly within
-initramfs_test_hdr_hex().
-
-Thanks, David
+> -- 
+> 2.43.0
+> 
+> 
