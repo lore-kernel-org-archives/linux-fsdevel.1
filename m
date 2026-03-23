@@ -1,56 +1,54 @@
-Received: from mail-oo1-f74.google.com (mail-oo1-f74.google.com [209.85.161.74])
+Received: from mail-oo1-f73.google.com (mail-oo1-f73.google.com [209.85.161.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1537B3CBE9B
-	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 17:54:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77D233C9EC1
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 17:54:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774288449; cv=none; b=aHLr5ZpjWjmIQzXn4DTUbusdTxy4CgrhmS4Ht1gEGePdwfp97wOEvmU58BvBh5WSm+FghlSil5VGhI/kuLfjErGVsbbS8Qs7zPM/0WcVZBEsblcguLXK1UXIkqrGEaetLChzDP8WYJE455pzZMscXw/UU9AIhIqAIrV1sEIfwYM=
+	t=1774288450; cv=none; b=mk8GYp0cIchjhW29X4/9nYdjE2ih+ynFAkH19olwNqLijD6mb9wbQVCPWRPObiO2LJnwwtsGvegiztLO5IRWVGgtl5jEQziKxmCkFYPv/pj0nYC5cx2QVQrSmfSLXJLN/62VVVNRdOm0rrGdZyiJe0Rg9LO4cDCrvErfGSSwmAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774288449; c=relaxed/simple;
-	bh=IeY0RLDHZw+aV4EbbM8a2QRICo/GVGaL04vytj3zin0=;
+	s=arc-20240116; t=1774288450; c=relaxed/simple;
+	bh=L2zTtGTNTw3phxOrswp+iUaPq/4BsNNONZQKwH6jDDA=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=CJ/n9sCQAecJKp4NRb7PqIi/6IajnY6tMmIqKBJg4KHXVysrLL4+Y+JCoKp86iw8AaJnke7u/FNu1R6cWeNRGo8WIup3pvUo0xcKo6LW4FyPczRbqb7QX4elnrbkuGIEVRSSOGp05AvW8OP0zsgks5K6+UgKsyU/KK6EZjdcAoA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--avagin.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fcFiFE6F; arc=none smtp.client-ip=209.85.161.74
+	 To:Cc:Content-Type; b=Sdxcv2/M/vaWDbeSzXd4NvxQJFj2ZibC2s6jUuzxOaktbw7uK6PeIRu9kBfkJZk+ONhbZDZ2uYN+ZOLVqXKEFS3BukaeISI+sGAMqeA2ZfxRG33pBlGxQRL5E3r7aWtjVMT/RBMLg1iN7j+I8q0vp6zTpk3Fe6DHIJ/7BlDdO9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--avagin.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=W4cK75Uy; arc=none smtp.client-ip=209.85.161.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--avagin.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fcFiFE6F"
-Received: by mail-oo1-f74.google.com with SMTP id 006d021491bc7-67bf3e1051bso5958461eaf.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 10:54:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="W4cK75Uy"
+Received: by mail-oo1-f73.google.com with SMTP id 006d021491bc7-67dec1314b5so9498597eaf.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 10:54:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1774288446; x=1774893246; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6mLJgPLWSuoj/P2MAtrzoRO0g8BMHCjkX0hvTYs5nb0=;
-        b=fcFiFE6FCl3Zzyw+2twqkp0JK8bAiq6rxFUQ+kqSIP4zUnSjiy7Dy0MC+dU+xpiKNY
-         boVaGOIRQ6+LiEKqddUXjxnRryWnwLqmYg4g1IRI4S5pDMfACjs/FJFthRFarXoeQMsW
-         2dHtrJVzmrpMiW4UHfzyc7B0oMEmRMPYH0Dgo0K1z4lUJCyMit5lzDoPSH+rv5hdyKRM
-         mVYmNsbPk1mcgzFVNMlW6PJXj4YGdSELJSMCyKdwO2b9aWB/ZS3nkkqswkhBmiVHUu7L
-         tLkowAubtLDxiVGso1O3aTn08DfRS1E5whIGWR3aYtadIx62/CTaCxGGnn5mwxeDILYk
-         Niww==
+        d=google.com; s=20251104; t=1774288447; x=1774893247; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Vz01D+Qvtpuy+jqrKUW1E7zaDqaJMt9I2Ue5ziSPeb0=;
+        b=W4cK75UyBcl7snsjvR7ZgphxNiZClz8sYs3aDFPe/nYIy2WEr/FwzB7rtaTkcEaa/5
+         vXkHvrursI4QcGyn3sYyvgSDa/5O0RLZAp5fpLlSPE0eRUmyKcDVi/LgrCEwslAEvc7P
+         D0/AxJ3LPJX/g+wHwSgQe6f7bnDySXI39b5v0GrCM8BiOs9spi2P21OchCi1kjv1iBPv
+         nOer0zVuRg7Ni1x2WeXc3LxcJZIYax8gUhsOv6wWJbp1aXRALQqlqUw4z7F9mXeyAzwi
+         cP7U+RmYh79kPvC/qwyyYHPWlu9p73WEZ+aaMwC/3Uj9Frl1jFHlSvGibqGFJgXf4DSh
+         A67w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774288446; x=1774893246;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=6mLJgPLWSuoj/P2MAtrzoRO0g8BMHCjkX0hvTYs5nb0=;
-        b=rGX6Ujfz2oReY6cC2az017PknQ/tMmbU93d1eOWS5pR/qEfUn5d51b/2/45eaeSRm1
-         3AOUbhRWgfphd3XVJGoXC//2F1VYum6Yz1RHGj5NKE/tm3T+fLk1Ue9lg2Zy6YnCU9vB
-         x0wlWgmjsqcGNAHGUPZwtpKy7jbVY0yC17okbjqL9OOCq9BkxCg0jyaG/lnux77HWYwc
-         ykTap19rAQZCj9obglaEcto1TVS56dIEBOxfMTkTX4hfkcSL3ZbzIhn7Ax1t2B+TsshV
-         hScOFZrHSkV76jlunIuQSvqaFnca0AKfoJwE5gg++m3CKX/043/YKNFBtl8OrKO37LYh
-         3hmQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW9KDenb1tzzATFE4jTrfAWCW8KRaRF6rglOOqOdesFXKoZjecAk27QAg7Jsd3E4cGg6arL3TCUQcazrIRv@vger.kernel.org
-X-Gm-Message-State: AOJu0YwA5D5H1Z7BKgSELwIuUpxjKgoczlz62DSZF3Xq2zoZLr2KKGgY
-	EiK7FMVQITr0TlGcYzoaS0ezt2Y/4QW5Ki5miLskaC48yPK+d0Oeor2ZNyUDfoxXT3D0BN5Dbv3
-	UAC7bgQ==
-X-Received: from ilbeb14.prod.google.com ([2002:a05:6e02:460e:b0:4f8:5be9:9dbe])
- (user=avagin job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6820:612:b0:67d:ec7b:cc9d
- with SMTP id 006d021491bc7-67dec7bd049mr3051580eaf.18.1774288445933; Mon, 23
- Mar 2026 10:54:05 -0700 (PDT)
-Date: Mon, 23 Mar 2026 17:53:39 +0000
+        d=1e100.net; s=20251104; t=1774288447; x=1774893247;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Vz01D+Qvtpuy+jqrKUW1E7zaDqaJMt9I2Ue5ziSPeb0=;
+        b=MZht/+GB0uGCFnOmxuC+0JQHsZtVjjkCW9/sNw7jMSSp7sYRbU9zQwdLW+ZXpJY3xg
+         16h1FW3tzIVXKTxZQiraRsdEPwdzXOqo63TEgLSf2SHgOpJNYlVATPvvEwLbZQ5DG+bH
+         67Qw8mGciYx+ddu/bERNhErkDsTp/hfTSNolYg+i1t5MnffUHSlBVjH3+S640h8LX+x7
+         0InJ2RdLg112dWIEdXAfuEz+pnEkxCePfdgDhwxFxFm5hOYakIgcLNCMmvMTJZztvF4J
+         jXxyQzUg3wiUgi/FHPgsZiL3pI1qu/Y/f7zcYsvS3GxXKj+zuvApFe4rXKVjgKcyDt9s
+         xTHA==
+X-Forwarded-Encrypted: i=1; AJvYcCWEUOqJNeqKr5I33lOomW08fb2PRq/8Ixti4PNbr1+Ue4Xi7xSahvBiYqcPQHPMDx1RNJz4Axuk+UWIvqmu@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy1mccUfpICYOVZfN1azt57VpJU0RCo+Fd2zk0ZGy/XDWyPKfEE
+	3hAs90YkheWbZvZrR8aVQhPtOq9ZnI3hvD+Err4NQVg6vVBSm6w1qM5d5lYgAYMK/K4MvALzJGP
+	pt6Rwmg==
+X-Received: from jalw26.prod.google.com ([2002:a05:6638:379a:b0:5d4:6a6a:67ca])
+ (user=avagin job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6820:200e:b0:67d:eeb7:476f
+ with SMTP id 006d021491bc7-67deeb74d00mr2420094eaf.0.1774288447326; Mon, 23
+ Mar 2026 10:54:07 -0700 (PDT)
+Date: Mon, 23 Mar 2026 17:53:40 +0000
 In-Reply-To: <20260323175340.3361311-1-avagin@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -60,8 +58,8 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20260323175340.3361311-1-avagin@google.com>
 X-Mailer: git-send-email 2.53.0.983.g0bb29b3bc5-goog
-Message-ID: <20260323175340.3361311-4-avagin@google.com>
-Subject: [PATCH 3/4] mm: synchronize saved_auxv access with arg_lock
+Message-ID: <20260323175340.3361311-5-avagin@google.com>
+Subject: [PATCH 4/4] selftests/exec: add test for HWCAP inheritance
 From: Andrei Vagin <avagin@google.com>
 To: Kees Cook <kees@kernel.org>, Andrew Morton <akpm@linux-foundation.org>
 Cc: Marek Szyprowski <m.szyprowski@samsung.com>, Cyrill Gorcunov <gorcunov@gmail.com>, 
@@ -74,182 +72,162 @@ Cc: Marek Szyprowski <m.szyprowski@samsung.com>, Cyrill Gorcunov <gorcunov@gmail
 	Michal Koutny <mkoutny@suse.com>, Andrei Vagin <avagin@google.com>, 
 	Alexander Mikhalitsyn <aleksandr.mikhalitsyn@futurfusion.io>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-The mm->saved_auxv array stores the auxiliary vector, which can be
-modified via prctl(PR_SET_MM_AUXV) or prctl(PR_SET_MM_MAP). Previously,
-accesses to saved_auxv were not synchronized. This was a intentional
-trade-off, as the vector was only used to provide information to
-userspace via /proc/PID/auxv or prctl(PR_GET_AUXV), and consistency
-between the auxv values left to userspace.
+Verify that HWCAPs are correctly inherited/preserved across execve() when
+modified via prctl(PR_SET_MM_AUXV).
 
-With the introduction of hardware capability (HWCAP) inheritance during
-execve, the kernel now relies on the contents of saved_auxv to configure
-the execution environment of new processes.  An unsynchronized read
-during execve could result in a new process inheriting an inconsistent
-set of capabilities if the parent process updates its auxiliary vector
-concurrently.
-
-While it is still not strictly required to guarantee the consistency of
-auxv values on the kernel side, doing so is relatively straightforward.
-This change implements synchronization using arg_lock.
+The test performs the following steps:
+* reads the current AUXV using prctl(PR_GET_AUXV);
+* finds an HWCAP entry and toggles its most significant bit;
+* replaces the AUXV of the current process with the modified one using
+  prctl(PR_SET_MM, PR_SET_MM_AUXV);
+* executes itself to verify that the new program sees the modified HWCAP
+  value.
 
 Reviewed-by: Alexander Mikhalitsyn <aleksandr.mikhalitsyn@futurfusion.io>
 Reviewed-by: Cyrill Gorcunov <gorcunov@gmail.com>
-Reviewed-by: Michal Koutn=C3=BD <mkoutny@suse.com>
+Reviewed-by: Kees Cook <kees@kernel.org>
 Signed-off-by: Andrei Vagin <avagin@google.com>
 ---
- fs/exec.c                |  2 ++
- fs/proc/base.c           | 12 +++++++++---
- include/linux/mm_types.h |  1 -
- kernel/fork.c            |  7 ++++++-
- kernel/sys.c             | 29 ++++++++++++++---------------
- 5 files changed, 31 insertions(+), 20 deletions(-)
+ tools/testing/selftests/exec/.gitignore      |   1 +
+ tools/testing/selftests/exec/Makefile        |   1 +
+ tools/testing/selftests/exec/hwcap_inherit.c | 105 +++++++++++++++++++
+ 3 files changed, 107 insertions(+)
+ create mode 100644 tools/testing/selftests/exec/hwcap_inherit.c
 
-diff --git a/fs/exec.c b/fs/exec.c
-index 1cd7d87a0e79..dea868d058fa 100644
---- a/fs/exec.c
-+++ b/fs/exec.c
-@@ -1791,6 +1791,7 @@ static void inherit_hwcap(struct linux_binprm *bprm)
- 	n =3D 1;
- #endif
-=20
-+	spin_lock(&mm->arg_lock);
- 	for (i =3D 0; n && i < AT_VECTOR_SIZE; i +=3D 2) {
- 		unsigned long type, val;
-=20
-@@ -1831,6 +1832,7 @@ static void inherit_hwcap(struct linux_binprm *bprm)
- 		n--;
- 	}
- done:
-+	spin_unlock(&mm->arg_lock);
- 	mm_flags_set(MMF_USER_HWCAP, bprm->mm);
- }
-=20
-diff --git a/fs/proc/base.c b/fs/proc/base.c
-index 4c863d17dfb4..b5496cec888e 100644
---- a/fs/proc/base.c
-+++ b/fs/proc/base.c
-@@ -1083,14 +1083,20 @@ static ssize_t auxv_read(struct file *file, char __=
-user *buf,
- {
- 	struct mm_struct *mm =3D file->private_data;
- 	unsigned int nwords =3D 0;
-+	unsigned long saved_auxv[AT_VECTOR_SIZE];
-=20
- 	if (!mm)
- 		return 0;
+diff --git a/tools/testing/selftests/exec/.gitignore b/tools/testing/selftests/exec/.gitignore
+index 7f3d1ae762ec..2ff245fd0ba6 100644
+--- a/tools/testing/selftests/exec/.gitignore
++++ b/tools/testing/selftests/exec/.gitignore
+@@ -19,3 +19,4 @@ null-argv
+ xxxxxxxx*
+ pipe
+ S_I*.test
++hwcap_inherit
+\ No newline at end of file
+diff --git a/tools/testing/selftests/exec/Makefile b/tools/testing/selftests/exec/Makefile
+index 45a3cfc435cf..e73005965e05 100644
+--- a/tools/testing/selftests/exec/Makefile
++++ b/tools/testing/selftests/exec/Makefile
+@@ -20,6 +20,7 @@ TEST_FILES := Makefile
+ TEST_GEN_PROGS += recursion-depth
+ TEST_GEN_PROGS += null-argv
+ TEST_GEN_PROGS += check-exec
++TEST_GEN_PROGS += hwcap_inherit
+ 
+ EXTRA_CLEAN := $(OUTPUT)/subdir.moved $(OUTPUT)/execveat.moved $(OUTPUT)/xxxxx*	\
+ 	       $(OUTPUT)/S_I*.test
+diff --git a/tools/testing/selftests/exec/hwcap_inherit.c b/tools/testing/selftests/exec/hwcap_inherit.c
+new file mode 100644
+index 000000000000..1b43b2dbb1d0
+--- /dev/null
++++ b/tools/testing/selftests/exec/hwcap_inherit.c
+@@ -0,0 +1,105 @@
++// SPDX-License-Identifier: GPL-2.0
 +
-+	spin_lock(&mm->arg_lock);
-+	memcpy(saved_auxv, mm->saved_auxv, sizeof(saved_auxv));
-+	spin_unlock(&mm->arg_lock);
++#define _GNU_SOURCE
++#include <sys/auxv.h>
++#include <sys/prctl.h>
++#include <sys/wait.h>
++#include <linux/prctl.h>
++#include <unistd.h>
++#include <stdlib.h>
++#include <stdio.h>
++#include <string.h>
++#include <errno.h>
++#include <elf.h>
++#include <linux/auxvec.h>
 +
- 	do {
- 		nwords +=3D 2;
--	} while (mm->saved_auxv[nwords - 2] !=3D 0); /* AT_NULL */
--	return simple_read_from_buffer(buf, count, ppos, mm->saved_auxv,
--				       nwords * sizeof(mm->saved_auxv[0]));
-+	} while (saved_auxv[nwords - 2] !=3D 0); /* AT_NULL */
-+	return simple_read_from_buffer(buf, count, ppos, saved_auxv,
-+				       nwords * sizeof(saved_auxv[0]));
- }
-=20
- static const struct file_operations proc_auxv_operations =3D {
-diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
-index 62dde645f469..10351af5851b 100644
---- a/include/linux/mm_types.h
-+++ b/include/linux/mm_types.h
-@@ -1255,7 +1255,6 @@ struct mm_struct {
- 		unsigned long start_code, end_code, start_data, end_data;
- 		unsigned long start_brk, brk, start_stack;
- 		unsigned long arg_start, arg_end, env_start, env_end;
--
- 		unsigned long saved_auxv[AT_VECTOR_SIZE]; /* for /proc/PID/auxv */
-=20
- #ifdef CONFIG_ARCH_HAS_ELF_CORE_EFLAGS
-diff --git a/kernel/fork.c b/kernel/fork.c
-index 2ac277aa078c..3880ce0d44f9 100644
---- a/kernel/fork.c
-+++ b/kernel/fork.c
-@@ -1106,8 +1106,13 @@ static struct mm_struct *mm_init(struct mm_struct *m=
-m, struct task_struct *p,
- 		__mm_flags_overwrite_word(mm, mmf_init_legacy_flags(flags));
- 		mm->def_flags =3D current->mm->def_flags & VM_INIT_DEF_MASK;
-=20
--		if (mm_flags_test(MMF_USER_HWCAP, current->mm))
-+		if (mm_flags_test(MMF_USER_HWCAP, current->mm)) {
-+			spin_lock(&current->mm->arg_lock);
- 			mm_flags_set(MMF_USER_HWCAP, mm);
-+			memcpy(mm->saved_auxv, current->mm->saved_auxv,
-+			       sizeof(mm->saved_auxv));
-+			spin_unlock(&current->mm->arg_lock);
++#include "../kselftest.h"
++
++static int find_msb(unsigned long v)
++{
++	return sizeof(v)*8 - __builtin_clzl(v) - 1;
++}
++
++int main(int argc, char *argv[])
++{
++	unsigned long auxv[1024], hwcap, new_hwcap, hwcap_idx;
++	int size, hwcap_type = 0, hwcap_feature, count, status;
++	char hwcap_str[32], hwcap_type_str[32];
++	pid_t pid;
++
++	if (argc > 1 && strcmp(argv[1], "verify") == 0) {
++		unsigned long type = strtoul(argv[2], NULL, 16);
++		unsigned long expected = strtoul(argv[3], NULL, 16);
++		unsigned long hwcap = getauxval(type);
++
++		if (hwcap != expected) {
++			ksft_print_msg("HWCAP mismatch: type %lx, expected %lx, got %lx\n",
++					type, expected, hwcap);
++			return 1;
 +		}
- 	} else {
- 		__mm_flags_overwrite_word(mm, default_dump_filter);
- 		mm->def_flags =3D 0;
-diff --git a/kernel/sys.c b/kernel/sys.c
-index e4b0fa2f6845..c679b5797e73 100644
---- a/kernel/sys.c
-+++ b/kernel/sys.c
-@@ -2147,20 +2147,11 @@ static int prctl_set_mm_map(int opt, const void __u=
-ser *addr, unsigned long data
- 	mm->arg_end	=3D prctl_map.arg_end;
- 	mm->env_start	=3D prctl_map.env_start;
- 	mm->env_end	=3D prctl_map.env_end;
--	spin_unlock(&mm->arg_lock);
--
--	/*
--	 * Note this update of @saved_auxv is lockless thus
--	 * if someone reads this member in procfs while we're
--	 * updating -- it may get partly updated results. It's
--	 * known and acceptable trade off: we leave it as is to
--	 * not introduce additional locks here making the kernel
--	 * more complex.
--	 */
- 	if (prctl_map.auxv_size) {
--		memcpy(mm->saved_auxv, user_auxv, sizeof(user_auxv));
- 		mm_flags_set(MMF_USER_HWCAP, mm);
-+		memcpy(mm->saved_auxv, user_auxv, sizeof(user_auxv));
- 	}
-+	spin_unlock(&mm->arg_lock);
-=20
- 	mmap_read_unlock(mm);
- 	return 0;
-@@ -2190,10 +2181,10 @@ static int prctl_set_auxv(struct mm_struct *mm, uns=
-igned long addr,
-=20
- 	BUILD_BUG_ON(sizeof(user_auxv) !=3D sizeof(mm->saved_auxv));
-=20
--	task_lock(current);
--	memcpy(mm->saved_auxv, user_auxv, len);
-+	spin_lock(&mm->arg_lock);
- 	mm_flags_set(MMF_USER_HWCAP, mm);
--	task_unlock(current);
-+	memcpy(mm->saved_auxv, user_auxv, len);
-+	spin_unlock(&mm->arg_lock);
-=20
- 	return 0;
- }
-@@ -2481,9 +2472,17 @@ static inline int prctl_get_mdwe(unsigned long arg2,=
- unsigned long arg3,
- static int prctl_get_auxv(void __user *addr, unsigned long len)
- {
- 	struct mm_struct *mm =3D current->mm;
-+	unsigned long auxv[AT_VECTOR_SIZE];
- 	unsigned long size =3D min_t(unsigned long, sizeof(mm->saved_auxv), len);
-=20
--	if (size && copy_to_user(addr, mm->saved_auxv, size))
-+	if (!size)
-+		return sizeof(mm->saved_auxv);
++		ksft_print_msg("HWCAP matched: %lx\n", hwcap);
++		return 0;
++	}
 +
-+	spin_lock(&mm->arg_lock);
-+	memcpy(auxv, mm->saved_auxv, size);
-+	spin_unlock(&mm->arg_lock);
++	ksft_print_header();
++	ksft_set_plan(1);
 +
-+	if (copy_to_user(addr, auxv, size))
- 		return -EFAULT;
- 	return sizeof(mm->saved_auxv);
- }
---=20
++	size = prctl(PR_GET_AUXV, auxv, sizeof(auxv), 0, 0);
++	if (size == -1)
++		ksft_exit_fail_perror("prctl(PR_GET_AUXV)");
++
++	count = size / sizeof(unsigned long);
++
++	/* Find the "latest" feature and try to mask it out. */
++	for (int i = 0; i < count - 1; i += 2) {
++		hwcap = auxv[i + 1];
++		if (hwcap == 0)
++			continue;
++		switch (auxv[i]) {
++		case AT_HWCAP4:
++		case AT_HWCAP3:
++		case AT_HWCAP2:
++		case AT_HWCAP:
++			hwcap_type = auxv[i];
++			hwcap_feature = find_msb(hwcap);
++			hwcap_idx = i + 1;
++			break;
++		default:
++			continue;
++		}
++	}
++	if (hwcap_type == 0)
++		ksft_exit_skip("No features found, skipping test\n");
++	hwcap = auxv[hwcap_idx];
++	new_hwcap = hwcap ^ (1UL << hwcap_feature);
++	auxv[hwcap_idx] = new_hwcap;
++
++	if (prctl(PR_SET_MM, PR_SET_MM_AUXV, auxv, size, 0) < 0) {
++		if (errno == EPERM)
++			ksft_exit_skip("prctl(PR_SET_MM_AUXV) requires CAP_SYS_RESOURCE\n");
++		ksft_exit_fail_perror("prctl(PR_SET_MM_AUXV)");
++	}
++
++	pid = fork();
++	if (pid < 0)
++		ksft_exit_fail_perror("fork");
++	if (pid == 0) {
++		char *new_argv[] = { argv[0], "verify", hwcap_type_str, hwcap_str, NULL };
++
++		snprintf(hwcap_str, sizeof(hwcap_str), "%lx", new_hwcap);
++		snprintf(hwcap_type_str, sizeof(hwcap_type_str), "%x", hwcap_type);
++
++		execv(argv[0], new_argv);
++		perror("execv");
++		exit(1);
++	}
++
++	if (waitpid(pid, &status, 0) == -1)
++		ksft_exit_fail_perror("waitpid");
++	if (status != 0)
++		ksft_exit_fail_msg("HWCAP inheritance failed (status %d)\n", status);
++
++	ksft_test_result_pass("HWCAP inheritance succeeded\n");
++	ksft_exit_pass();
++	return 0;
++}
+-- 
 2.53.0.983.g0bb29b3bc5-goog
 
