@@ -1,86 +1,99 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2A8B38552F
-	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 09:14:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7821838645B
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 09:43:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774257272; cv=none; b=k4rVd58vNTndNtHsgoGJMhR2pnzjT3rji2WmLFvrgH+nNRNnG+1IBXVmfEWwqIpTh0d2y+XSWQqYrhLjcpE5cifMD4aAS6NTAYKR6wsqfNkAy+IhC2JiUqCwSpJHChwVsZ3wHZovzPpELZD+N51P601tR1Sz9++nKE65xnKS6+c=
+	t=1774259010; cv=none; b=cHkUrlWppySE0Ud0sDmgUv2chQFuNj4F05dXzFE7tnU48rb67ja6WwTZ71gzMaRxnvu82bnR6K5iu6pb3gtLp7Qsu5zyfrE74iqrndTVEuge/iF4DXzPhgcSwZOeoH+2Qtpmqqq9akkd+FJobS+ypizNd4oIn8ucvqztxsGMv3s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774257272; c=relaxed/simple;
-	bh=MMMCStvRprmmBBD8qum/nv5eVUZMojQsr/QdImTGU1k=;
+	s=arc-20240116; t=1774259010; c=relaxed/simple;
+	bh=JjIUoYNxejm6yxl28+q7dAZqo1g0XWoPjzkjtRw0+VE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K4PQtdNY+PmGS2ptcbeQhY1Le1gEdiCyuS5uTOdlYv8grkqkKmgU3yKEyErfiHR/XBpswr6l8G4M/CCfPKmZb3tj4HavOzJjhMEKXR/nsB2YmkT1O/K/XVLnrk7MpU4zJMDSGCBlhOdrj/fc0jHfFlCimworp1bo/t7/3IJhV1k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=oRWi/eSA; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=uDkgSam+; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=oRWi/eSA; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=uDkgSam+; arc=none smtp.client-ip=195.135.223.131
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZDCTdV3tNNrlChlTvJ01dCTTQCzX6drpoJvBdBEsytnIJccaT3PpusjlQd0CyTWakAgm4Q6KS7T5l/9ZyzfAhHKTpCZRy5h5PuYPDs8CJzMuZVIV/JkRKFIskQgOnBK14kmcwOJWiTOhAqglF9AcUQnQrxs+j6LEHFuy9M3nJ5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=reY+tlMP; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=O5hztevD; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=reY+tlMP; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=O5hztevD; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="oRWi/eSA";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="uDkgSam+";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="oRWi/eSA";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="uDkgSam+"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="reY+tlMP";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="O5hztevD";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="reY+tlMP";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="O5hztevD"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id A3A505BD63;
-	Mon, 23 Mar 2026 09:14:28 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 928095BD63;
+	Mon, 23 Mar 2026 09:43:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1774257268; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1774259006; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=uWjKJk3ow0swx4Ab1nT/kqJ8g1GHRmQ5dbikFu4nsgY=;
-	b=oRWi/eSAk8hHaX7itpodVPfr2hhobNFcYG/pfNeZXTbB9bOs7rcHqltp3lvarnHB46cOk1
-	TJPdW2wXfDZz1Joc7dBRll5JDd+Fx6DGrfLM7VBsihdujTgrepau3wkhBbvhSz8OYAhZHk
-	wJNRvbCYI7WbiajVIy8R7rb1hZlOtF8=
+	bh=juuTQLw8xJfsB4jt+rNNVvUgQFnOCNkbS2FryAfszKE=;
+	b=reY+tlMPHjofdH2ltM2ApgrffaJQjCxPisuMwmAPuDkXm5TIs6aASoqarIS8KvkYewXTh9
+	qwkHSlXllML8niBI6sHB5Fjj3FSVDEgLWnXhNRULtahApvApAX6WiMq6+QgUDHxomLQPgS
+	CBQFYoYL5860Htn26gCbgXSQIWTDHdM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1774257268;
+	s=susede2_ed25519; t=1774259006;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=uWjKJk3ow0swx4Ab1nT/kqJ8g1GHRmQ5dbikFu4nsgY=;
-	b=uDkgSam+YXCgwuc3MAlrX2nlDvFKlDUbucu6igiXrW9JoDm1k3t8gEylg2mmjAIvYKMTXC
-	BvhiH8crwQLKsLAQ==
+	bh=juuTQLw8xJfsB4jt+rNNVvUgQFnOCNkbS2FryAfszKE=;
+	b=O5hztevDoB+9c4wzst1EdqbSumrBDAtsGdUvjlKvcHYjnH20HDN6R8MMHziERkEVB4N1D8
+	5Feao+ej112wtsDg==
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b="oRWi/eSA";
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=uDkgSam+
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=reY+tlMP;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=O5hztevD
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1774257268; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1774259006; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=uWjKJk3ow0swx4Ab1nT/kqJ8g1GHRmQ5dbikFu4nsgY=;
-	b=oRWi/eSAk8hHaX7itpodVPfr2hhobNFcYG/pfNeZXTbB9bOs7rcHqltp3lvarnHB46cOk1
-	TJPdW2wXfDZz1Joc7dBRll5JDd+Fx6DGrfLM7VBsihdujTgrepau3wkhBbvhSz8OYAhZHk
-	wJNRvbCYI7WbiajVIy8R7rb1hZlOtF8=
+	bh=juuTQLw8xJfsB4jt+rNNVvUgQFnOCNkbS2FryAfszKE=;
+	b=reY+tlMPHjofdH2ltM2ApgrffaJQjCxPisuMwmAPuDkXm5TIs6aASoqarIS8KvkYewXTh9
+	qwkHSlXllML8niBI6sHB5Fjj3FSVDEgLWnXhNRULtahApvApAX6WiMq6+QgUDHxomLQPgS
+	CBQFYoYL5860Htn26gCbgXSQIWTDHdM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1774257268;
+	s=susede2_ed25519; t=1774259006;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=uWjKJk3ow0swx4Ab1nT/kqJ8g1GHRmQ5dbikFu4nsgY=;
-	b=uDkgSam+YXCgwuc3MAlrX2nlDvFKlDUbucu6igiXrW9JoDm1k3t8gEylg2mmjAIvYKMTXC
-	BvhiH8crwQLKsLAQ==
+	bh=juuTQLw8xJfsB4jt+rNNVvUgQFnOCNkbS2FryAfszKE=;
+	b=O5hztevDoB+9c4wzst1EdqbSumrBDAtsGdUvjlKvcHYjnH20HDN6R8MMHziERkEVB4N1D8
+	5Feao+ej112wtsDg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9A91B437CE;
-	Mon, 23 Mar 2026 09:14:28 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 854C0437EB;
+	Mon, 23 Mar 2026 09:43:26 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id EJe6JXQEwWkpUAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 23 Mar 2026 09:14:28 +0000
+	id DsiIID4LwWn7bwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 23 Mar 2026 09:43:26 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 5081FA0B2E; Mon, 23 Mar 2026 10:14:24 +0100 (CET)
-Date: Mon, 23 Mar 2026 10:14:24 +0100
+	id 438D8A0B2E; Mon, 23 Mar 2026 10:43:22 +0100 (CET)
+Date: Mon, 23 Mar 2026 10:43:22 +0100
 From: Jan Kara <jack@suse.cz>
-To: Thorsten Blum <thorsten.blum@linux.dev>
-Cc: Jan Kara <jack@suse.cz>, Amir Goldstein <amir73il@gmail.com>, 
-	Matthew Bobrowski <repnop@google.com>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] fanotify: replace deprecated strcpy in
- fanotify_info_copy_{name,name2}
-Message-ID: <jdyy4txjjlmbwofqbsvpk53yx6cvx5lto47guv3nevpiflylhc@vjyncn6aesh3>
-References: <20260321210544.519259-4-thorsten.blum@linux.dev>
+To: Gao Xiang <hsiangkao@linux.alibaba.com>
+Cc: Demi Marie Obenour <demiobenour@gmail.com>, 
+	"Darrick J. Wong" <djwong@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, 
+	linux-fsdevel@vger.kernel.org, Joanne Koong <joannelkoong@gmail.com>, 
+	John Groves <John@groves.net>, Bernd Schubert <bernd@bsbernd.com>, 
+	Amir Goldstein <amir73il@gmail.com>, Luis Henriques <luis@igalia.com>, 
+	Horst Birthelmer <horst@birthelmer.de>, Gao Xiang <xiang@kernel.org>, lsf-pc@lists.linux-foundation.org
+Subject: Re: [Lsf-pc] [LSF/MM/BPF TOPIC] Where is fuse going? API cleanup,
+ restructuring and more
+Message-ID: <dkixubohp7hp4scizz46s3aruu327vf6gcwelpwlnto3iab7fz@4z7lpju4acqd>
+References: <CAJfpegtzYdy3fGGO5E1MU8n+u1j8WVc2eCoOQD_1qq0UV92wRw@mail.gmail.com>
+ <20260204190649.GB7693@frogsfrogsfrogs>
+ <ce74079f-1e0a-4fee-9259-48f08c6989aa@linux.alibaba.com>
+ <20260206053835.GD7693@frogsfrogsfrogs>
+ <cf44fe77-4616-45c8-975a-08dafaecad47@linux.alibaba.com>
+ <20260221004752.GE11076@frogsfrogsfrogs>
+ <7de8630d-b6f5-406e-809a-bc2a2d945afb@linux.alibaba.com>
+ <20260318215140.GL1742010@frogsfrogsfrogs>
+ <361d312b-9706-45ca-8943-b655a75c765b@gmail.com>
+ <4a1fd8dd-6c8a-43bd-877d-c37720ac1e21@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -89,7 +102,9 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260321210544.519259-4-thorsten.blum@linux.dev>
+In-Reply-To: <4a1fd8dd-6c8a-43bd-877d-c37720ac1e21@linux.alibaba.com>
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-Spamd-Result: default: False [-4.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
@@ -98,83 +113,91 @@ X-Spamd-Result: default: False [-4.01 / 50.00];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_COUNT_THREE(0.00)[3];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCPT_COUNT_TWELVE(0.00)[13];
 	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[3];
+	URIBL_BLOCKED(0.00)[suse.cz:dkim,suse.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	TO_DN_SOME(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.cz:dkim];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MISSING_XM_UA(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_CC(0.00)[suse.cz,gmail.com,google.com,vger.kernel.org];
+	FREEMAIL_CC(0.00)[gmail.com,kernel.org,szeredi.hu,vger.kernel.org,groves.net,bsbernd.com,igalia.com,birthelmer.de,lists.linux-foundation.org];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
 	DKIM_TRACE(0.00)[suse.cz:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:email,suse.cz:dkim]
-X-Rspamd-Action: no action
+	MISSING_XM_UA(0.00)[];
+	SUBJECT_HAS_QUESTION(0.00)[]
+X-Rspamd-Queue-Id: 928095BD63
 X-Spam-Flag: NO
 X-Spam-Score: -4.01
 X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: A3A505BD63
 
-On Sat 21-03-26 22:05:47, Thorsten Blum wrote:
-> strcpy() has been deprecated [1] because it performs no bounds checking
-> on the destination buffer, which can lead to buffer overflows. Replace
-> it with the safer strscpy().
+On Sun 22-03-26 13:14:55, Gao Xiang wrote:
 > 
-> Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#strcpy [1]
-> Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+> 
+> On 2026/3/22 11:25, Demi Marie Obenour wrote:
+> 
+> > The only exceptions are if the filesystem is incredibly simple
+> > or formal methods are used, and neither is the case for existing
+> > filesystems in the Linux kernel.
+> 
+> Again, first, I don't think "simple" is a helpful and descriptive
+> word out of this kind of area:
+> 
+> "simple" formats are all formats just archive the filesystem
+> data and metadata, but without any more use cases. No simpler
+> than that, because you need to tell vfs the file (meta)data
+> (even the file data is the garbage data), otherwise they won't
+> be called as filesystems.
+> 
+> So why we always fall into comparing which archive filesystem
+> is simpler than others unless some bad buggy designs in those
+> "simple" filesystems.
+> 
+> Here, I can definitely say _EROFS uncompressed format_ fits
+> this kind of area, and I will write down formally later if each
+> on-disk field has unexpected values like garbage numbers, what
+> the outcome.  And the final goal is to allow EROFS uncompressed
+> format can be mounted as the "root" into totally isolated
+> user/mount namespaces since it's really useful and no practical
+> risk.
+> 
+> If any other kernel filesystem maintainers say that they can do
+> the same , why not also allow them do the same thing? I don't
+> think it's a reasonable policy that "due to EXT4, XFS, BtrFS
+> communities say that they cannot tolerate the inconsistent
+> consequence, any other kernel filesystem should follow the
+> same policy even they don't have such issue by design."
+> 
+> In other words, does TCP/IP protocol simple? and is there no
+> simplier protocol for network data? I don't think so, but why
+> untrusted network data can be parsed in the kernel?  Does
+> TCP/IP kernel implementation already bugless?
 
-I was a bit undecided about this one because I was wondering what
-additional protection does the use of strscpy() bring here. But I guess the
-protection from corrupted qstr (where the length doesn't match the real string
-length) makes some sense. So I've taken the patch into my tree. Thanks!
+So the amount of state TCP/IP needs to keep around is very small (I'd say
+kilobytes) compared to the amount of state a filesystem needs to maintain
+(gigabytes). This leads to very fundamental differences in the complexity
+of data structures, their verification, etc. So yes, it is much easier to
+harden TCP/IP against untrusted input than a filesystem implementation.
+
+And yes, when you have immutable filesystem, things are much simpler
+because the data structures and algorithms can be much simpler and as you
+wrote a lot of these inconsistencies don't matter (at least for the
+kernel). But once you add ability to modify the filesystem - here I don't
+think it matters whether through CoW or other means - things get
+complicated quickly and it gets much more complex to make your code
+resilient to all kinds of inconsistencies...
 
 								Honza
-
-> ---
->  fs/notify/fanotify/fanotify.h | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/fs/notify/fanotify/fanotify.h b/fs/notify/fanotify/fanotify.h
-> index 39e60218df7c..a0619e7694d5 100644
-> --- a/fs/notify/fanotify/fanotify.h
-> +++ b/fs/notify/fanotify/fanotify.h
-> @@ -2,6 +2,7 @@
->  #include <linux/fsnotify_backend.h>
->  #include <linux/path.h>
->  #include <linux/slab.h>
-> +#include <linux/string.h>
->  #include <linux/exportfs.h>
->  #include <linux/hashtable.h>
->  
-> @@ -218,7 +219,7 @@ static inline void fanotify_info_copy_name(struct fanotify_info *info,
->  		return;
->  
->  	info->name_len = name->len;
-> -	strcpy(fanotify_info_name(info), name->name);
-> +	strscpy(fanotify_info_name(info), name->name, name->len + 1);
->  }
->  
->  static inline void fanotify_info_copy_name2(struct fanotify_info *info,
-> @@ -228,7 +229,7 @@ static inline void fanotify_info_copy_name2(struct fanotify_info *info,
->  		return;
->  
->  	info->name2_len = name->len;
-> -	strcpy(fanotify_info_name2(info), name->name);
-> +	strscpy(fanotify_info_name2(info), name->name, name->len + 1);
->  }
->  
->  /*
 -- 
 Jan Kara <jack@suse.com>
 SUSE Labs, CR
