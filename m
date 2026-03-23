@@ -1,228 +1,180 @@
-Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010057.outbound.protection.outlook.com [52.101.46.57])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E2223DE43F
-	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 20:22:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.217.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67FF2369981;
+	Mon, 23 Mar 2026 20:24:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.57
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774297368; cv=pass; b=SfWwwPsOfuBAlglkOYHjMju4kl6Lk/MvKmKJ4U15gfqFa2LRJtqypgWBg8HbPJjCFTpywywoLxlwBOFRLK3uT9e7oFSclw6VDtsYspkE0sUU8igoKqX7j30oN/Hcm9gzfya5Bbaf6tXlQEV631Qe7ArDWMotCvnLE9XKE65VG+Q=
+	t=1774297475; cv=fail; b=STMDF244q83qPlGT1AdGUlpw1vTR8Cr8B8zgDFvXim/6FSO2E/DDxhsPt4UHNIsIJ9WP9NWEzTAc0o0BaLQgqHOUnVtapby38aG4YBHhgzbHiCKBbu+DlT2k7TUWDZ7PZEet+JaXs6N6qPleRFVU65FPHf3CNxYny7wexfPqJmk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774297368; c=relaxed/simple;
-	bh=+Ww3YVEwz3akOCPkGfwPOz5g/SjxY63PNjUlqwWXbGQ=;
-	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iOCnpz3qWXhd/uqmWk3nCmkvZOEWQFWpRLEUMnW6IKEgmbPHSCYl+1SNSv3SaX23jePu/kV2OipJ3U431PyzfYGX/UOJzpa51cls/3OSXjQXmTSjWoEUwNIYKnODX9+dkWVfEmd/E8AMLHKNwdu669GyXmWDxSRKr+WtLCjZIgw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Ibwuzlau; arc=pass smtp.client-ip=209.85.217.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1774297475; c=relaxed/simple;
+	bh=cdbA7OgcfYruSblOw+4O0Kya7AS51d9Lxzenseo1S9g=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=mIAtAy51s2xJCjAIQqgAehDTMj5Odf7OKszscU0sEqHrtZ3X05YHzWzBTwswMLuujhstsht5gDDBiOZbqXIN3nLPma+cu8atkT1oGMNQB03nWPF9rmtCe8PhF4Amv7YJDxbgmAC30opB8zX4E6q0V/3YA2mnQjumn7rhj0JI1n8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=P+Mp3ymv; arc=fail smtp.client-ip=52.101.46.57
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Ibwuzlau"
-Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-5ffe41e8e83so2881440137.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 13:22:45 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774297365; cv=none;
-        d=google.com; s=arc-20240605;
-        b=F7LsSXdoYya+Ms6CnTu5roWUFKr6vvGuWE1mUYpnDeE93XZpe1iMAy1ZtHpjsePPP0
-         eeGfayX+cX8wKDFoKwjzJVB98JeFYPsIvmtkNGaEscYQn+aNC2oynbqxksminh407iEk
-         sOAR5FKP8UhVSfvYJG441xkKaElC3d3xG79FbWpXGPqjj+x/XwNxkTbcaP1kYKDNPBIk
-         TFwYDk2jj4L+W7aNdXcMwGNCvRbNzdk3AmGujZcrUBkAehGaHu9ct6MTotgb6pcjaoJl
-         zeuFj4WLN/j0ZmK/Fi/vhfEQBNvjUAbql2Id80+5TjgLIp/JudbAamnr4rUyiUblIjVc
-         8ZYA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:dkim-signature;
-        bh=DfIEo8yQ3CK3TKTvqaXVb6LUrtHQE6Lxe6QzmQiMk8w=;
-        fh=h/80jrUFclM9UMs3f9t7Sevnc/9NVoTBCUEf62yBBis=;
-        b=WxMNFygU38PcOP7tSTTEKGNBxILJijAOy3Eww2uviTwMFCaXCaVRyFriUC9TroH9ZC
-         RY1Wqcxkonh0OHMcVxG/xhel3CAp3Eq6n6CUhnYPOctA6kzq4kHzeY0+0BDBrSx+HVIK
-         iQPHza534CGkYjZfGMoIRiBv77lI8KYVpm4eAYpLrPIiGJmeoulMV66vQlWa8NSaytcj
-         sJ6zssDu75DhwwGFL0/HDSj/iGBPgTb1X3OU7SOcwWNP3CSIP67Gr4/r4CkaCR7NT2gv
-         z3UlCSYLSGeAbal6LPA4ec2rswqckx9wlflKmypSFzPdxKb5sEPK/YkeyoEckdntBjn6
-         EmtQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1774297365; x=1774902165; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=DfIEo8yQ3CK3TKTvqaXVb6LUrtHQE6Lxe6QzmQiMk8w=;
-        b=Ibwuzlauj5c8iKXxG1nK0hN4JyHV1Mv3KfKVQuiM0E+dlMSGVRwp8PfoYFyP1KyuxP
-         TV8eM6VPHDio+E5Cn8SvvUl81aCB1scyZpRBpQDqfaLDZ/2fcpxRSgfNro+mQ6DrusbP
-         Z/a96ziy/AhJVi5KNvSFNb0PJC3qVLwpHNJIPJ+i2XhBM9b547uqZ6kBX5VfuKRPpGll
-         zvvg4ItxeGu1cu1UCqpMsS5/wsgfWhO4cfLEXuCTkRTZm/O8BRjqXxrk7D84ejUoBBku
-         ZfHITQWeg4EzxLmcIyXpuaZa2R++4mxy+6mdQVDjSpf0LTRgOhE1fJU0yDfXDeikC89Y
-         vkow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774297365; x=1774902165;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DfIEo8yQ3CK3TKTvqaXVb6LUrtHQE6Lxe6QzmQiMk8w=;
-        b=pV4KWzYWWbvQSTNIxhPKMUyMfKTNemq/DhtbGH1MQfZCR5onqskZU2OzhlJMzeJySF
-         l57gH4+SAvP7Uy0PFvXcVSb2/qU6WKq+TiGDIT5eFkGJpUFyb9f+7hf4Vfi7pms8fckt
-         Z3lzSaaUpaRN9w24Qie1Qjd5djhaSMw4QKtNQXxY/G1mlyIBtOZaUnjdGIzNWW9AhG1y
-         fYl4s6DfNSMxmtVDKsp/Pgth4Q2AD11qlI0kSV6YDg2ZmXsH+brSih5tctns1x1W3lf3
-         voADQRDGwAMMbdsnWRb3WpNdAq30j5rjx4n3WWPcdS8QLF4it5htt3bl0jKnxGPaDo70
-         WrcA==
-X-Forwarded-Encrypted: i=1; AJvYcCXr7DSWf/G1x2HAVD06Tavx1XjsCzUyeS5vG6H7g5Myo6JC5M12VSYrIEFbSJRLIu0ncNmq3GqBbmoZMdes@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz47MX2TASxvaOa2PXIceLReefzhrlNRCRBSEYT922Li2ORufbW
-	LNFjVzWoKg1eLfLaqopg4qrsxYzU7/IPmXz3yxUx96RoMtUuuwhTzjjOU5t9Rhxfp2lQmq+CLXz
-	rXcY2lzganpaiAF76BCBR1NlQM2MsnvDFGqa8wE0H
-X-Gm-Gg: ATEYQzwdnSUME08Vs5VS5E0PlQRKMa3bzQvOpIa1kiLk4T21tt1q4Jq/bNsGSieT/9m
-	HDJLg6hQ556zFmbHG0c2VNfRxe7S+e9eOdMyr8qxcjISt46eRI84qSagAhgkMi9QngCbjOC90ds
-	LNeVLgwayLyV8zSjQldQuS9GztANL4GX3kbbtAoqdmGLEADdk4h6g4FPLyXhFwlae+OJRpJ3DmT
-	fu64RK+5ntIUNfakhc+eWc5mRpIybqhm0At8AsKGuvOfm1Hb6KF8kJS8g5yceTymBTI40wSFIzx
-	uXM+/9b4RRd7tAplWNBgh3JWALXvZJT79Ov0aeDJ16CgOrgI2naUKqSJrPCfr5f9vuNIXQ==
-X-Received: by 2002:a05:6102:3a06:b0:602:8742:1fa with SMTP id
- ada2fe7eead31-60316013f44mr514571137.9.1774297364023; Mon, 23 Mar 2026
- 13:22:44 -0700 (PDT)
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 23 Mar 2026 13:22:43 -0700
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 23 Mar 2026 13:22:43 -0700
-From: Ackerley Tng <ackerleytng@google.com>
-In-Reply-To: <0a14c10d-0dab-4b9c-85ec-e0ee25cd0db8@kernel.org>
-References: <20260317141031.514-1-kalyazin@amazon.com> <20260317141031.514-6-kalyazin@amazon.com>
- <0a14c10d-0dab-4b9c-85ec-e0ee25cd0db8@kernel.org>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="P+Mp3ymv"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=D2TYHW/Oc5hmw5kqmLu776Y8KQzJ5M0F9pUG79tZFXsaXvFFEE9sszwZZdN3HVPWRbxOgvWEtCH8ss1Se5XCn+ZYXRp7/fnj+Y/vQWG/KpA5XQu6DBRQO4I+y1dKgfoT2FkSvVlQ1npRIV93h6fw5Mj3Sji2vLdP57xj5tLllDKFxW23Kj9gD5VWJGf2GkC6y7aAL51o4L12uJ8CVimAC0HnjiSc88kB1xEicZnDwemAe/Ck8OFm2sjXmZSBznmfcyXcOQfD1Hh2w+B+FYMn0Quz63kq+NoepOEWqQgCYuXOzVsLxXSCZxhsDIm37Qg9lKQPHsneroqTb5AQ3xTMBQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cdbA7OgcfYruSblOw+4O0Kya7AS51d9Lxzenseo1S9g=;
+ b=sjSj4iYeG5tqxmWAgJNjTAit819wU60NLDPosyyYkF8xtS0v3i6w+n5MHOr88hE7g1k/FtH6Z8IB3mERoDn0fNVs8V0LD/rojAmJ01WDmLdUObqdcQSDkTzjPJb3VEI/154fDoTBw5rlJZZQf5jdcsdnB50u9F9pY9mBrncianm7KYfg60qgtIW5cX32h1GzQmZ8tR1fIfUgd0F44SaWSjrWYviFIbxN9wH+0WbWaYqoTuc16JEsDIwx/yV5+wLFbwFxZr6A58EutpKuzrVjiHUZOMa4e8EoxkBpS9jpuRjXgtQ4PkMQLXBESIeRYHDTSR2ScabeX37sZ6vsFA5T5w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cdbA7OgcfYruSblOw+4O0Kya7AS51d9Lxzenseo1S9g=;
+ b=P+Mp3ymvburOQl8PGOkRvEmagkg/djnG28GGPlTh+1f3KiSO3HcakeuSybyhR2w5GhBedwsZcgLsqAWcfR/YpOd4l9ZFiQ4M1lcC0pJ5+vr2fVAgThc62e4wMszUvYJPDmgUD/40gC3NTYZ/TBsa73zxhgZxvr1Z87LX1AqsutMuW3Rc/vXZLzQUkLrB1ZOTHqCyHSRL00G6BAi9nsgk3oSxDN3RAMT00pxxfxqWnO+vySK61bELgKXL5uqbuMbcHByPrdqPOxTebMoqITB7G/5FNqk2E2fKPYIbBm+djWcxUnB3GijZvDOhy7egoEY+OMZdPZHQXbgRayxfewi0+w==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
+ PH0PR12MB8008.namprd12.prod.outlook.com (2603:10b6:510:26f::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.20; Mon, 23 Mar
+ 2026 20:24:30 +0000
+Received: from DS7PR12MB9473.namprd12.prod.outlook.com
+ ([fe80::f01d:73d2:2dda:c7b2]) by DS7PR12MB9473.namprd12.prod.outlook.com
+ ([fe80::f01d:73d2:2dda:c7b2%4]) with mapi id 15.20.9745.007; Mon, 23 Mar 2026
+ 20:24:30 +0000
+From: Zi Yan <ziy@nvidia.com>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Song Liu <songliubraving@fb.com>, Chris Mason <clm@fb.com>,
+ David Sterba <dsterba@suse.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Shuah Khan <shuah@kernel.org>, linux-btrfs@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, linux-kselftest@vger.kernel.org
+Subject: Re: [RFC PATCH 02/11] mm/khugepaged: remove READ_ONLY_THP_FOR_FS code
+ in collapse_file()
+Date: Mon, 23 Mar 2026 16:24:26 -0400
+X-Mailer: MailMate (2.0r6290)
+Message-ID: <FDC4C393-FB38-4422-9217-DAE95131C696@nvidia.com>
+In-Reply-To: <71148f2e-cceb-418e-b762-c8dbd7a7eb1f@kernel.org>
+References: <20260323190644.1714379-1-ziy@nvidia.com>
+ <20260323190644.1714379-3-ziy@nvidia.com>
+ <7382046f-7c58-4a3e-ab34-b2704355b7d5@kernel.org>
+ <E8D52134-B63E-44E9-BBBC-258DF74B8597@nvidia.com>
+ <c20b7dbe-473d-4dca-a10b-b9f5267ad6da@kernel.org>
+ <AF9011D6-8EA4-4134-B175-BD2DAB748419@nvidia.com>
+ <71148f2e-cceb-418e-b762-c8dbd7a7eb1f@kernel.org>
+Content-Type: text/plain
+X-ClientProxiedBy: BL1P223CA0015.NAMP223.PROD.OUTLOOK.COM
+ (2603:10b6:208:2c4::20) To DS7PR12MB9473.namprd12.prod.outlook.com
+ (2603:10b6:8:252::5)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Mon, 23 Mar 2026 13:22:43 -0700
-X-Gm-Features: AQROBzAJTtmZ8_CHcmYDgt7IaYmvr2Pi4WE03drdmWTq3AGR3rA_vEwuIGtsbTw
-Message-ID: <CAEvNRgHqJGwmAfS8TuGBbUoQehpqY9GdtjUS=+Hc1ViK79RL4w@mail.gmail.com>
-Subject: Re: [PATCH v11 05/16] mm/gup: drop local variable in gup_fast_folio_allowed
-To: "David Hildenbrand (Arm)" <david@kernel.org>, "Kalyazin, Nikita" <kalyazin@amazon.co.uk>, 
-	"kvm@vger.kernel.org" <kvm@vger.kernel.org>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
-	"kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, 
-	"bpf@vger.kernel.org" <bpf@vger.kernel.org>, 
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, "kernel@xen0n.name" <kernel@xen0n.name>, 
-	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>, 
-	"linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>, 
-	"loongarch@lists.linux.dev" <loongarch@lists.linux.dev>, 
-	"linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>
-Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>, "corbet@lwn.net" <corbet@lwn.net>, 
-	"maz@kernel.org" <maz@kernel.org>, "oupton@kernel.org" <oupton@kernel.org>, 
-	"joey.gouly@arm.com" <joey.gouly@arm.com>, "suzuki.poulose@arm.com" <suzuki.poulose@arm.com>, 
-	"yuzenghui@huawei.com" <yuzenghui@huawei.com>, "catalin.marinas@arm.com" <catalin.marinas@arm.com>, 
-	"will@kernel.org" <will@kernel.org>, "seanjc@google.com" <seanjc@google.com>, "tglx@kernel.org" <tglx@kernel.org>, 
-	"mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>, 
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>, 
-	"hpa@zytor.com" <hpa@zytor.com>, "luto@kernel.org" <luto@kernel.org>, 
-	"peterz@infradead.org" <peterz@infradead.org>, "willy@infradead.org" <willy@infradead.org>, 
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, 
-	"lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>, "vbabka@kernel.org" <vbabka@kernel.org>, 
-	"rppt@kernel.org" <rppt@kernel.org>, "surenb@google.com" <surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>, 
-	"ast@kernel.org" <ast@kernel.org>, "daniel@iogearbox.net" <daniel@iogearbox.net>, 
-	"andrii@kernel.org" <andrii@kernel.org>, "martin.lau@linux.dev" <martin.lau@linux.dev>, 
-	"eddyz87@gmail.com" <eddyz87@gmail.com>, "song@kernel.org" <song@kernel.org>, 
-	"yonghong.song@linux.dev" <yonghong.song@linux.dev>, 
-	"john.fastabend@gmail.com" <john.fastabend@gmail.com>, "kpsingh@kernel.org" <kpsingh@kernel.org>, 
-	"sdf@fomichev.me" <sdf@fomichev.me>, "haoluo@google.com" <haoluo@google.com>, 
-	"jolsa@kernel.org" <jolsa@kernel.org>, "jgg@ziepe.ca" <jgg@ziepe.ca>, 
-	"jhubbard@nvidia.com" <jhubbard@nvidia.com>, "peterx@redhat.com" <peterx@redhat.com>, 
-	"jannh@google.com" <jannh@google.com>, "pfalcato@suse.de" <pfalcato@suse.de>, 
-	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>, "riel@surriel.com" <riel@surriel.com>, 
-	"ryan.roberts@arm.com" <ryan.roberts@arm.com>, "jgross@suse.com" <jgross@suse.com>, 
-	"yu-cheng.yu@intel.com" <yu-cheng.yu@intel.com>, "kas@kernel.org" <kas@kernel.org>, 
-	"coxu@redhat.com" <coxu@redhat.com>, "kevin.brodsky@arm.com" <kevin.brodsky@arm.com>, 
-	"yosry@kernel.org" <yosry@kernel.org>, "ajones@ventanamicro.com" <ajones@ventanamicro.com>, 
-	"maobibo@loongson.cn" <maobibo@loongson.cn>, "tabba@google.com" <tabba@google.com>, 
-	"prsampat@amd.com" <prsampat@amd.com>, "wu.fei9@sanechips.com.cn" <wu.fei9@sanechips.com.cn>, 
-	"mlevitsk@redhat.com" <mlevitsk@redhat.com>, "jmattson@google.com" <jmattson@google.com>, 
-	"jthoughton@google.com" <jthoughton@google.com>, "agordeev@linux.ibm.com" <agordeev@linux.ibm.com>, 
-	"alex@ghiti.fr" <alex@ghiti.fr>, "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>, 
-	"borntraeger@linux.ibm.com" <borntraeger@linux.ibm.com>, "chenhuacai@kernel.org" <chenhuacai@kernel.org>, 
-	"dev.jain@arm.com" <dev.jain@arm.com>, "gor@linux.ibm.com" <gor@linux.ibm.com>, 
-	"hca@linux.ibm.com" <hca@linux.ibm.com>, "palmer@dabbelt.com" <palmer@dabbelt.com>, 
-	"pjw@kernel.org" <pjw@kernel.org>, 
-	"shijie@os.amperecomputing.com" <shijie@os.amperecomputing.com>, "svens@linux.ibm.com" <svens@linux.ibm.com>, 
-	"thuth@redhat.com" <thuth@redhat.com>, "wyihan@google.com" <wyihan@google.com>, 
-	"yang@os.amperecomputing.com" <yang@os.amperecomputing.com>, 
-	"Jonathan.Cameron@huawei.com" <Jonathan.Cameron@huawei.com>, 
-	"Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>, "urezki@gmail.com" <urezki@gmail.com>, 
-	"zhengqi.arch@bytedance.com" <zhengqi.arch@bytedance.com>, 
-	"gerald.schaefer@linux.ibm.com" <gerald.schaefer@linux.ibm.com>, 
-	"jiayuan.chen@shopee.com" <jiayuan.chen@shopee.com>, "lenb@kernel.org" <lenb@kernel.org>, 
-	"osalvador@suse.de" <osalvador@suse.de>, "pavel@kernel.org" <pavel@kernel.org>, 
-	"rafael@kernel.org" <rafael@kernel.org>, "vannapurve@google.com" <vannapurve@google.com>, 
-	"jackmanb@google.com" <jackmanb@google.com>, "aneesh.kumar@kernel.org" <aneesh.kumar@kernel.org>, 
-	"patrick.roy@linux.dev" <patrick.roy@linux.dev>, "Thomson, Jack" <jackabt@amazon.co.uk>, 
-	"Itazuri, Takahiro" <itazur@amazon.co.uk>, "Manwaring, Derek" <derekmn@amazon.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|PH0PR12MB8008:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6179d64a-dc98-46d8-591e-08de891a3014
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|7416014|376014|18002099003|22082099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	xUqOMZOI3rN+mqPKdqML2EtnHPNGdhBtMmRAsghfkMh6tLXRDdwi4nZ4rr1s5JinfSzqa2/lmPn8zIMKHx7R8AHswuwc4dZnsD0io+1/pIFAJCJU/qFoYn12dF19ScMIm+1j8pl31A5veI4rd4uH+TwG+MHWY2+sG3HU8MXsAhoWGgnd5MrCILKPRsP/1eL5ScWHS8WhRDkvyW+WVPLww7khS5r5ORDaboGRRcQLUN8sPMBiBkqEwSy+VvM53OdXkRohuqCS36aR5D8EuRbhmLGoEdhBiubui5erNBMGLxGrauG6QgPTgTsU9GZbSvH8/Uiils8nSiDvJqvK9/7iWWI1E8JeHPu8bKGMrsgwxQM/ZKU75jjTceW5gK63t82L+HZzOTU2qnWZptcvkr2SwJ5zu+MvrrlDRbpV68Lp44A72SxFLcv4U4VIhgBafjgGnrKfwBYQm74Ht9cVHr84/yhs4S4c1nfVSnU0+Q2aU99iw3n1lwnwDXLaCal1sSlgevPirPzQ6SXzTZeOX5dqoXH+lxOmr1cOb/hwl2IDlX7BkD5WPp3+QfPh3XhODhLwWlrz/4/yCc1lZpTxUQiNhbt5Ynkal1bi2RGzhNLS8f4sIJBiZTkza0IL+dREi2q+3wdTLZLi0ke9R2lGjGBxfEcbau0Xqv3nnQHSoiihwSlRTENoyYQ/94C4qXbdoeh4CNTNjXWnTEJ3Xk1M4c3XyGz/OHFyl/+8bJO3D+C8ZqU=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?/6ZXgzP9fm0SITOzvLgx/rPvhGy4wY2hPxD3WqTLgtAEdHs3HDH59kZU6cvp?=
+ =?us-ascii?Q?/3QbsWInu8kbVd8uzlONbgvSeQ+D3nAXHuyQF1IVFvGR39Susk9HxwvrmQBj?=
+ =?us-ascii?Q?B8UatDmur4qrPcVGy7gpuwYGg/J63q0yZcDQWRZWjIMW1Q3HRgIVwBmd+6Sm?=
+ =?us-ascii?Q?HaTF42pebMx4gYbxtxg8ruOA5GpMmuXkSp8E1D1oXMOEi3Z0sPFdKv2n7KVz?=
+ =?us-ascii?Q?d4XCXqCuzmYUfmJ2NFDNH7kbKQ1FXX2C7x30GH/UfPrqSIaA8oUeMziIUmRF?=
+ =?us-ascii?Q?sSjsWQki4uzP1Pig0OgutTHQQxF5pzV8JvhxanFTJVJxkR8shZMAfTxaModK?=
+ =?us-ascii?Q?uiNYPPI+mpWYx/U4QHLZnJfAiGlBY/5vv0aS6dN2lfRBUiIpg4R9eY8KxuLt?=
+ =?us-ascii?Q?NsaSOzWqfq3b7qpc4h3I3ohyt7/fdcf8qVkVzBuan7wzf8ry0L+0wmqU/HqJ?=
+ =?us-ascii?Q?CqTSPhYPRvelgsg04mT7PdHAks+sDVC7SVlIfjGS1Y1um7XqsI2vhzIZc63P?=
+ =?us-ascii?Q?LvktqJmGRLhh/iK7BI/7EhA0yuRqB9aTWGNawfr/0XGHUv3XpHkaJ9pE9H/X?=
+ =?us-ascii?Q?4ou852NbOxRo19Bj2BzeUyeUJsD0B1ypW4HzpXsVpYtZnbaFE1+Hqgr/kJZN?=
+ =?us-ascii?Q?qk5lGgM6OKqFPy1XOx/aQ3RWhltLr4v9q7uWVKgIgSqc886WGe0WHaNWmzqD?=
+ =?us-ascii?Q?Lx2Jv7z9Z+fSo3y9Hv2Gh2htHpQEeplL9b2CcbXrxu6DVuExEAQLlvrReCpg?=
+ =?us-ascii?Q?hJJyjvsBZtfkcTwIWJe8vagmzM2HcPr9e6Ep0eInYnuoXNiLWixNCipp7nSH?=
+ =?us-ascii?Q?ThmlvmQ9RLmgvJPqtO1noF4hM1+kZ3iPmX8KskOJv96LhHbQHlS1CKhHI6lp?=
+ =?us-ascii?Q?8NkuHPKk0xUe3Sy7aX23H04Y+iZhB6a6b8Dif5VL+akticQRbWRXEDdEjPSx?=
+ =?us-ascii?Q?PqNzMnVjmNS/HQhMsu0joLoyKnie84zVsGJJvAPxIJt2kWouj5tmV8SXJk9f?=
+ =?us-ascii?Q?fveE5lDx4I5snhmuokrbc0vJ9PWPuh5kJv+FQHUw4K73lsai0irSDHnrzOBs?=
+ =?us-ascii?Q?bOp1hJpAuvBvusMPkfp561CPguiVCufoTvJ7dXJ94dkOmj+qyddaM6GYw/uZ?=
+ =?us-ascii?Q?RbzURD+0GyTwc6wXAvaUofXIrMdnW5i3WVkuee9DCEoDovbmOgTAxLKOqmay?=
+ =?us-ascii?Q?9wTaE5uQJzzaxmHTDJn8Qk3jeGGgaUZy43UU2w/pcsYVJ/D4ZfiHL7LAOK8b?=
+ =?us-ascii?Q?V++WWlNWpx7EnHpGQYegL2KsUcnbyw8xw6+GZuEqxjretASOli8zTgm7dlUq?=
+ =?us-ascii?Q?fnGetBZJSkmr+vmU0doSb49WzLF6yeuNpLxLTXGixlmLnjYp7ZLSpT0PWcCJ?=
+ =?us-ascii?Q?BxNrnjP4Rh1dWO8gKnagntGC9inlx1XpuwM5GYxhl8WFfrnzrwPf8s4SDg/j?=
+ =?us-ascii?Q?GTm5W05X9sgWreKuReqnvEcwPDBArPCG290N0xLWpQV7xa+eKfPtLHF6vKaN?=
+ =?us-ascii?Q?PfA8D83pYneej2f+SwxcdED1/CqgdS77DpTPQ7v67l6mg2QcO9knf4+jpxGf?=
+ =?us-ascii?Q?T6otc8+KSQCemg0sycSlQdq6EuctSWt/TarR7sJJN71VNPL+6pDjuxMIKBOS?=
+ =?us-ascii?Q?mR5fry4Jriiw2j2PaUPG0FJhlx85zhgEwFPOgQ4oiFj1hs8AaTmUNFEAsN7P?=
+ =?us-ascii?Q?mVGsdZNJ4ZJBGKzvk11BnTomp8GvgiUjCLMEb+UDmBybD3Mg0TIFQljphofq?=
+ =?us-ascii?Q?kuuH3xpWBg=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6179d64a-dc98-46d8-591e-08de891a3014
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2026 20:24:30.3582
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: AlQUG5GPaHrz7UyJYtc4vonlBTAQsffznDzRRMd7oyYNpjDrftvlY4IhPtiCqdRV
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB8008
 
-"David Hildenbrand (Arm)" <david@kernel.org> writes:
+On 23 Mar 2026, at 16:13, David Hildenbrand (Arm) wrote:
 
-> On 3/17/26 15:11, Kalyazin, Nikita wrote:
->> From: Nikita Kalyazin <kalyazin@amazon.com>
+> On 3/23/26 20:59, Zi Yan wrote:
+>> On 23 Mar 2026, at 15:53, David Hildenbrand (Arm) wrote:
 >>
->> Move the check for pinning closer to where the result is used.
->> No functional changes.
+>>> On 3/23/26 20:47, Zi Yan wrote:
+>>>>
+>>>>
+>>>> My understanding is that collapse_file() is only used for
+>>>> READ_ONLY_THP_FOR_FS. If FSes with large folio support also use it,
+>>>> I can replace IS_ENABLE with mapping_large_folio_support().
+>>>
+>>> Otherwise we'd be losing support for THP collapse in files? We'd have to
+>>> cross fingers that readahead gives us some.
+>>>
+>>> So we have to be a bit careful here. We want khugepaged to collapse THPs
+>>> in filesystems that support large folios even without READ_ONLY_THP_FOR_FS.
 >>
->> Signed-off-by: Nikita Kalyazin <kalyazin@amazon.com>
->> ---
->>  mm/gup.c | 23 ++++++++++++-----------
->>  1 file changed, 12 insertions(+), 11 deletions(-)
->>
->> diff --git a/mm/gup.c b/mm/gup.c
->> index 5856d35be385..869d79c8daa4 100644
->> --- a/mm/gup.c
->> +++ b/mm/gup.c
->> @@ -2737,18 +2737,9 @@ EXPORT_SYMBOL(get_user_pages_unlocked);
->>   */
->>  static bool gup_fast_folio_allowed(struct folio *folio, unsigned int flags)
->>  {
->> -	bool reject_file_backed = false;
->>  	struct address_space *mapping;
->>  	unsigned long mapping_flags;
->>
->> -	/*
->> -	 * If we aren't pinning then no problematic write can occur. A long term
->> -	 * pin is the most egregious case so this is the one we disallow.
->> -	 */
->> -	if ((flags & (FOLL_PIN | FOLL_LONGTERM | FOLL_WRITE)) ==
->> -	    (FOLL_PIN | FOLL_LONGTERM | FOLL_WRITE))
->> -		reject_file_backed = true;
->> -
->>  	/* We hold a folio reference, so we can safely access folio fields. */
->>  	if (WARN_ON_ONCE(folio_test_slab(folio)))
->>  		return false;
->> @@ -2793,8 +2784,18 @@ static bool gup_fast_folio_allowed(struct folio *folio, unsigned int flags)
->>  	 */
->>  	if (secretmem_mapping(mapping))
->>  		return false;
->> -	/* The only remaining allowed file system is shmem. */
->> -	return !reject_file_backed || shmem_mapping(mapping);
->> +
->> +	/*
->> +	 * If we aren't pinning then no problematic write can occur. A writable
->> +	 * long term pin is the most egregious case, so this is the one we
->> +	 * allow only for ...
->> +	 */
->> +	if ((flags & (FOLL_PIN | FOLL_LONGTERM | FOLL_WRITE)) !=
->> +	    (FOLL_PIN | FOLL_LONGTERM | FOLL_WRITE))
->> +		return true;
->> +
->> +	/* ... hugetlb (which we allowed above already) and shared memory. */
->> +	return shmem_mapping(mapping);
+>> Based on[1], collapse_file() only works on read-only fd. So it is not
+>> as general as all files. If we do what you suggested, the function
+>> will be collapse read-only folios from FSes with large folio support.
 >
-> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+> Right, I think that's the first step to keep the existing use case
+> working. Long term, I suspect we might want to extend that to writable
+> files etc.
 >
-> I'm wondering if it would be a good idea to check for a hugetlb mapping
-> here instead of having the folio_test_hugetlb() check above.
+>>
+>> BTW, has anyone used/relied on collapse_file() on any FS with large folio
+>> support?
 >
+> I assume so, because for executables you would have to be lucky to get a
+> PMD THP? So I don't see the non-khugepaged large folio support on par
+> with khugepaged support.
 
-I think it's nice that hugetlb folios are determined immediately to be
-eligible for GUP-fast regardless of whether the folio is file-backed or
-not.
+It is more like turning on READ_ONLY_THP_FOR_FS by default for
+FS with large folio support instead of removing it.
 
-> Something to ponder about :)
->
-> --
-> Cheers,
->
-> David
+OK, I will give it another try.
+
+
+Best Regards,
+Yan, Zi
