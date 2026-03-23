@@ -1,80 +1,162 @@
-Received: from mx1.manguebit.org (mx1.manguebit.org [143.255.12.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0457F79CD;
-	Mon, 23 Mar 2026 23:03:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=143.255.12.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84BB32BE02A
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 23:07:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774306996; cv=none; b=LGFIkDMk+gq5+yIsIZXDCugMOWWFd81ehw8UdVwPtRRaZAKrQLzO2L81K8g5cklk05TxzR4CKEQxoZ0ZfQOG4tNKAzK2K9CVKwjn2DmS46qLQqxppd7e3dv/6IowSDzVokhDsyvw+Wrf2n8EtdWN4jTY6QjrCfdynaFB+g8vYZM=
+	t=1774307277; cv=none; b=ohcy7P713X9N8RxOKp+9RM8PzKb0cTmGx31FtFDzzzwcqwGXWoL7esx+hsYni9TTc8OSXaCPIQUrKtDG2RAgH8IkF1j62Ob/+7lZhmwDkLfaUj3m4hDivK/JI/kW/z8Hz9a8qPYq/RuMWTFEoHADYP/N/ZzcUNoMjwqlBhsAUh8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774306996; c=relaxed/simple;
-	bh=o20pGIE6e3zMP2YgHnxdXSPeVmtTzxoaRe/pQHvnMPs=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Date:
-	 MIME-Version:Content-Type; b=W9A3PgQGzGFK2xJpC3ke93mQoWpAf8lfXqUwS+wdzlnSmc87PjH0+6bFYE5iRyKU+879BEnGRN6+Oek1F1LzOMPh9u4js6+r2rOBIb9xAztoLeG9pROPkTAD54TaK9HA5tyiZX4G0lVrNSc+Lzsb9Po8m+cXTRTjbPRjGLPAQOU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manguebit.org; spf=pass smtp.mailfrom=manguebit.org; dkim=pass (2048-bit key) header.d=manguebit.org header.i=@manguebit.org header.b=z4y3i2gt; arc=none smtp.client-ip=143.255.12.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manguebit.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manguebit.org
+	s=arc-20240116; t=1774307277; c=relaxed/simple;
+	bh=/ttPpm56KP6VcCer6vrzJslwkooRabo2wvtfwN3QB9w=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HuKRrH69DyiUyrwOsjDam638CXcG6/VUlkMVRxTEKmpHaMcJ6IkYUnN8ofjz7PROUpHOQkgA+GRlZcQGWdnc89lgf3LCWpe3qjRXSy/PikJmNjtKgZplQYX7ctMAD4Zc4FoEWpAM4+jG4NxBScgQBYYl2FBTXZJJzgw2P3gUg8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rMrqmRpE; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=BSbmsqjU; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rMrqmRpE; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=BSbmsqjU; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=manguebit.org header.i=@manguebit.org header.b="z4y3i2gt"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=manguebit.org; s=dkim; h=Content-Type:MIME-Version:Date:References:
-	In-Reply-To:Subject:Cc:To:From:Message-ID:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=SNc5qjc11LF+yDAgvSiAjcDnxKafViW2CPS3X8enE4E=; b=z4y3i2gt++8VjcZHyiUuE0M57y
-	n788P0tl4uKOi3GRE7u1CPqGVgxFJ7e6maKoZ0IcG6+GHUXoTVWwiu3REBDW/9+l/amytRfu6l+LR
-	LEwsCDn73ixnYNXtXyM828t3HYWDAYlA/zl6pPf/h0L9ME7qN7UR/9raR7Kx2flg/3KoJpo6wxroU
-	KEU4fSkH4BiXjNyJ38A6FCKGUHISVn/jWjwJqSL5qX5FAA+MK9RWBSuaZOF4/6r5FeSu7fFLiW1VV
-	Ln7+BpDZx0qkl7rziWByEtCLU5w9pMPQ6mnHpLtWwohrLNLuuL7ZZM28gFubuQTgnApWbqhC1ESEQ
-	Ts/0VmBw==;
-Received: from pc by mx1.manguebit.org with local (Exim 4.99.1)
-	id 1w4o0q-00000001TOp-3alP;
-	Mon, 23 Mar 2026 19:44:44 -0300
-Message-ID: <63655684a778145167a549b4a6251ccf@manguebit.org>
-From: Paulo Alcantara <pc@manguebit.org>
-To: ChenXiaoSong <chenxiaosong@chenxiaosong.com>, David Howells
- <dhowells@redhat.com>, Matthew Wilcox <willy@infradead.org>, Christoph
- Hellwig <hch@infradead.org>, Jens Axboe <axboe@kernel.dk>, Leon Romanovsky
- <leon@kernel.org>, Steve French <smfrench@gmail.com>
-Cc: Christian Brauner <christian@brauner.io>, netfs@lists.linux.dev,
- linux-afs@lists.infradead.org, linux-cifs@vger.kernel.org,
- linux-nfs@vger.kernel.org, ceph-devel@vger.kernel.org,
- v9fs@lists.linux.dev, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 17/17] netfs: Combine prepare and issue ops and grab
- the buffers on request
-In-Reply-To: <2d8ce118-2f7a-4b7f-8786-4581b29cb74e@chenxiaosong.com>
-References: <20260304140328.112636-1-dhowells@redhat.com>
- <20260304140328.112636-18-dhowells@redhat.com>
- <2d8ce118-2f7a-4b7f-8786-4581b29cb74e@chenxiaosong.com>
-Date: Mon, 23 Mar 2026 19:44:44 -0300
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rMrqmRpE";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="BSbmsqjU";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rMrqmRpE";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="BSbmsqjU"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 9A1F04D364;
+	Mon, 23 Mar 2026 23:07:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1774307273; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wqDpmHasijrQTR2umFEzKgc+Vg7a/FSm/ClkBhdq2LE=;
+	b=rMrqmRpESqURhcIwtc0IObcg1PEwB4sMzptJ0mUiNt+G8NWjHekBTe4+Z89qa/XtqI6t6G
+	aIHxofvfTSFbvl8VZ+3ZCuElvNt1DT/zTm6y3FD4HNHnC/ty5QTaLPjfG3+jvchypwd0Qz
+	cpAlnth3Dyppv9NWw4y9syf7NNkWlTM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1774307273;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wqDpmHasijrQTR2umFEzKgc+Vg7a/FSm/ClkBhdq2LE=;
+	b=BSbmsqjUTKYzasKddqoWN7RlqZTOTC/Eg60OOeFTFfNZSTb8OA/cD18Wfhld3MgnGQ3/Wm
+	mfphobnFpd17bJBQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=rMrqmRpE;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=BSbmsqjU
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1774307273; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wqDpmHasijrQTR2umFEzKgc+Vg7a/FSm/ClkBhdq2LE=;
+	b=rMrqmRpESqURhcIwtc0IObcg1PEwB4sMzptJ0mUiNt+G8NWjHekBTe4+Z89qa/XtqI6t6G
+	aIHxofvfTSFbvl8VZ+3ZCuElvNt1DT/zTm6y3FD4HNHnC/ty5QTaLPjfG3+jvchypwd0Qz
+	cpAlnth3Dyppv9NWw4y9syf7NNkWlTM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1774307273;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wqDpmHasijrQTR2umFEzKgc+Vg7a/FSm/ClkBhdq2LE=;
+	b=BSbmsqjUTKYzasKddqoWN7RlqZTOTC/Eg60OOeFTFfNZSTb8OA/cD18Wfhld3MgnGQ3/Wm
+	mfphobnFpd17bJBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9A97843B10;
+	Mon, 23 Mar 2026 23:07:49 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 1xPOEsXHwWmCNQAAD6G6ig
+	(envelope-from <ddiss@suse.de>); Mon, 23 Mar 2026 23:07:49 +0000
+Date: Tue, 24 Mar 2026 10:07:40 +1100
+From: David Disseldorp <ddiss@suse.de>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Petr Mladek
+ <pmladek@suse.com>, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>, Christian
+ Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Steven Rostedt
+ <rostedt@goodmis.org>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey
+ Senozhatsky <senozhatsky@chromium.org>
+Subject: Re: [PATCH v3 0/6] initramfs: test and improve cpio hex header
+ validation
+Message-ID: <20260324100740.72937c07.ddiss@suse.de>
+In-Reply-To: <20260323150753.1937b34b80772602d634d180@linux-foundation.org>
+References: <20260323150054.3587083-1-andriy.shevchenko@linux.intel.com>
+	<20260323150753.1937b34b80772602d634d180@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MISSING_XM_UA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,intel.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Queue-Id: 9A1F04D364
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Spam-Level: 
 
-ChenXiaoSong <chenxiaosong@chenxiaosong.com> writes:
+On Mon, 23 Mar 2026 15:07:53 -0700, Andrew Morton wrote:
 
-> --- a/fs/netfs/direct_write.c
-> +++ b/fs/netfs/direct_write.c
-> @@ -161,8 +161,8 @@ static int netfs_unbuffered_write(struct 
-> netfs_io_request *wreq)
->                                          break;
->                                  }
->                                  netfs_put_subrequest(subreq, 
-> netfs_sreq_trace_put_failed);
-> -                               subreq = NULL;
->                                  ret = subreq->error;
-> +                               subreq = NULL;
->                                  goto failed;
+> On Mon, 23 Mar 2026 15:54:16 +0100 Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+> 
+> > The series that introduced simple_strntoul() had passed into kernel
+> > without proper review and hence reinvented a wheel that's not needed.
+> > Here is the refactoring to show that. It can go via PRINTK or VFS
+> > tree.
+> > 
+> > I have tested this on x86, but I believe the same result will be
+> > on big-endian CPUs (I deduced that from how strtox() works).  
+> 
+> AI review asked a few questions:
+> 
+> 	https://sashiko.dev/#/patchset/20260323150054.3587083-1-andriy.shevchenko@linux.intel.com
+> 
+> The "Is it possible for kzalloc() to fail and return NULL here?" one
+> should be ignored - I've asked Roman&Chris to teach the reviewbot that
+> unchecked allocations in __init code are OK.
 
-Thanks for the review.  The above is still broken as it wolud cause an
-UAF on @subreq as we're putting it with netfs_put_subrequest() and then
-dereferencing it afterwards.
+The bot should ideally also consider KUNIT=y / INITRAMFS_TEST here. The
+feedback regarding misuse of the new fill_cpio() fmt parameter is
+valid, but my preference was to keep the initramfs test code simple.
 
-Besides, we could also get rid of 'subreq = NULL' as it is currently a
-no-op -- including in other places.
+If there's a concern that this test code may be copied into other parts
+of the kernel, then I'd prefer to go with a different approach: drop the
+fill_cpio() change and just call sprintf directly within
+initramfs_test_hdr_hex().
 
-Let's wait for next patchset from Dave, though.
+Thanks, David
