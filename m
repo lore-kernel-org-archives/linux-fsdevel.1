@@ -1,293 +1,145 @@
-Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010068.outbound.protection.outlook.com [52.101.193.68])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 281F53D561;
-	Mon, 23 Mar 2026 01:12:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.193.68
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774228363; cv=fail; b=XoHEao8018cBeIxAWWzhKry2hbeIPCmrPaEK5nUnA0xKtkjzw+QIoZ7ataO856O/sLFsEudUEX0ijAwvJcMBRGGZeJx1+qs3NfXbtuRMqIElM1D7l5LC7ZbU0f3uESehV1wdNPMBpTo0VHcWImieGoHd9c9bhT5LNmnMQXztjng=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774228363; c=relaxed/simple;
-	bh=yCwEY4fx19GQZyrqsCNFu0kR0dNet+CAb4pKlJH7als=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=hFeR5S7A1Ho7DBmNrrdVB+NuFfibOV6tvZ+L+6v3WjdOC1A94220W7ElSl/Hd6R4yOZCNXFmEoC7ijoR8IEmCjoJdHdYpPWaGUN8u/na+sRjsuwHgrr3pwIbmep+1e8G6Iht79e8BNuSiqeBqFuXTIyljXYFLTMKvvZs113Csd8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=YJC6/mca; arc=fail smtp.client-ip=52.101.193.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="YJC6/mca"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yAdlCj4KOzzkge5Dvlnt6Sp2kGBb22LdLFOBbgIYzioWix53OMDzId3w1lHMoVIeG+8zDvrlxzUtKrmMtN5rUrHoae+VoWUw65XDnHk84QYrIXKgcDEVsXHtrdnhVxTDkTW28XxdoNkzu8bUAJO1iWFC1E/zB5R+5K2tYLClMMHZPUKO1NAIcO2Q/Gth/su1iur49z+2s6583wYQks2g4ISzNeIuUHblTBMfKd+HIaUpLdGqxhgzaVJ3C6KmAwRWvu3NxaryVLzJCvS6lHtZ9jRDZDR/exfFYqO/saNbvvNquFVdM4a9y1owpeRmZ9+4VaDHbtFCgpVYkb81sm/q0g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rMIOFYr3Foy57LJ/PeV+s0eg739CgrOUq0+F8GOkBEw=;
- b=RSbnGli0GhfN3xUsNCni29DgeCfTRMhQrWJczHRFD8b4G0+kYCUc+6/nVaewDs7/idCUoHg9HI7sZ/cD1+++czyClkI+3sHEGckNTWZcRnsDbT5kaeKUtocIyf5LEU6/wZnmGBkW866rqEdXYVGe1s6d0r5ip+jAYj2FRM0jB6EX7xg1fAYocbnohWswGSMMrZONrksfYnBeIRa+u3SygWWBArvhe2Hug2cILXMko6IjDk/Bcw2GXep9V4tBNwATjsgNecou1iOEJtUPsHcMynv8bsAVYkY96iKrT359ZKTQrgRUDz/64cZxFabHrZu5eIwvqxMQYNatc5BOWw4Q7w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rMIOFYr3Foy57LJ/PeV+s0eg739CgrOUq0+F8GOkBEw=;
- b=YJC6/mcaxgkwTRotDmgv25cRM7isx4zKgumpcCt+gWkyOowk3jdAWl39dfAome8x8QSmIA0/pwbv8nViAbI10gPsVtdgV/mhT5b7FLgmxpgZhMwslosT0a099wNeAyutKEl4C2ukq0xxxY0UDznaKgYohfhWB5DOwgFSyk58nAp+W4psCYtTZTOPexE8HlrX7ofPJTBbl2wiWOP1xuzZjBoS6MMkYH+PIHs1YCHLooQeAhput91tIZ/yQbgCfWd+sIwuQg3MeRDcCZ9/HjrLhb+qkUK9qV6u3k9TxnE32RxOFpWDq929UywuQPeVfQeqras+FB+6PF+D/QcOPU9TmA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
- SA0PR12MB7075.namprd12.prod.outlook.com (2603:10b6:806:2d5::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.20; Mon, 23 Mar
- 2026 01:12:38 +0000
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::f01d:73d2:2dda:c7b2]) by DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::f01d:73d2:2dda:c7b2%4]) with mapi id 15.20.9745.007; Mon, 23 Mar 2026
- 01:12:38 +0000
-From: Zi Yan <ziy@nvidia.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: David Hildenbrand <david@kernel.org>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Zi Yan <ziy@nvidia.com>,
- Hugh Dickins <hughd@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
- Matthew Wilcox <willy@infradead.org>, Bas van Dijk <bas@dfinity.org>,
- Eero Kelly <eero.kelly@dfinity.org>,
- Andrew Battat <andrew.battat@dfinity.org>,
- Adam Bratschi-Kaye <adam.bratschikaye@dfinity.org>, <linux-mm@kvack.org>,
- <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH v4] selftests/mm: add folio_split() and
- filemap_get_entry() race test
-Date: Sun, 22 Mar 2026 21:12:36 -0400
-X-Mailer: MailMate (2.0r6290)
-Message-ID: <B0985749-939D-4256-B9B9-C54C0734CF72@nvidia.com>
-In-Reply-To: <20260320142219.375118-1-ziy@nvidia.com>
-References: <20260320142219.375118-1-ziy@nvidia.com>
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: MN2PR05CA0018.namprd05.prod.outlook.com
- (2603:10b6:208:c0::31) To DS7PR12MB9473.namprd12.prod.outlook.com
- (2603:10b6:8:252::5)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A057221F26
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 01:58:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774231140; cv=none; b=jgYvXxIPb3rbeqFdOTpQIaBZfgr+KZWGT///2YO/7ovZ13VDNaxjZRqdVq5Xu0kKCW8ThtVcMXHbf9Z6yXxtvUC14MZlSjJN3hUInyrt40sk/4g/HWs1eAPpwmiEpGC9uGQDx9A/Cb1DCRTFZkId2PVpUBwRJbNDwLA0vOLfvL0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774231140; c=relaxed/simple;
+	bh=zMG8kFAtT3OOjB1RuZEtshwFC7c3DR76jhK7imoYyuw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=p42I4obpO4NCHc25xRZ8aUIaNPHBe6uRnuZg1e/uQ+Xcq2N85XZzra3V6ngIZM7G94RXlIaZY9Vdlwrl3sJrq/toIQ59agEdltrnxzkzwTcrhLldMhLhT2GeXgn+K/b2CEoiX0xJ1UYYM52X25mIijrJliShwok9Y2nWjPD+srY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: d6467da0265b11f1a21c59e7364eecb8-20260323
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.11,REQID:ed6d3d56-3705-465d-85f1-ecb091a5360a,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:89c9d04,CLOUDID:84d72b8fc7c3a34f5e3c30aaf6b61340,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|898,TC:nil,Content:0|15|
+	50,EDM:-3,IP:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OS
+	I:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: d6467da0265b11f1a21c59e7364eecb8-20260323
+X-User: liwang@kylinos.cn
+Received: from [10.42.16.85] [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <liwang@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
+	with ESMTP id 1334524809; Mon, 23 Mar 2026 09:58:50 +0800
+Message-ID: <a34e2926-02ca-4379-a362-81b9507726af@kylinos.cn>
+Date: Mon, 23 Mar 2026 09:58:47 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|SA0PR12MB7075:EE_
-X-MS-Office365-Filtering-Correlation-Id: cf59a138-7d7a-4357-1d7a-08de887945fb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|366016|1800799024|56012099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	G4LtzbmQ98EId68EtALcr94ju19e954XWx7PaVKTFiICtQsHjazCP5TX+bU+xGsK1QYQKYMaKBWOURzG/VF5fBEbtgpfFc13fVSL5zeByyU4b9ysRVEUr/tQLlTaR+tH81Rm1PlfRuk/ebb7lHPZzxI4ckPi0+++CjMRdk9VZPEBo5DWH1+kMZb+Kfh/yJKyYEN0iMW4iafj39AGQtokEtTwL/uCRy+u+LujUO+kvKcXWmVNFbIJFQdqjJ2hCa2sNHaKWBfmV/9Aa4O0uPTM6DfIvHiRMKJW3QvgyCER9dxeeTQSFc+Zy1g+j6UehocCOj4tWIQrfXVRFmoq1M7iA9ybtfdyV4Lt+KE6kbSUpcxpFmCB3+47X/9puLoPR8RNywtMB7ooY8Wy3T/KhWb5Pe/xbO0tPmmY2iGSQ89ZZR82HSrZKY7gKoY6ZOJ8wTgACg4hV53LqjiOTf4EMcz46EhhMZzhV5O50gWovShEjA2J3sX9h5ij26DJCPWm81Qf/gFdC87vNRG1fFIk42DAVNUutdzAs2n9HBPHmeaVvs/XOvaKM2E44QMFmELzW7FW4GC2UrN3e9wer7xLi6tZ65fcfPnO1DeAkPL+xIy1O6q/VwRY013r533ac6MScAyPCiRJkiueMsAXhwWzYjifkHDkCNwrH3Rc/Ay1L3UzAEDtrxVCq4dbjHU+nJHgumDukXUKYuDyT5n3DPRa62qi6TjdBQZ6F4Ax2FZzHSOk92I=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?2zh9TCI/2R+zhJBXS7g2P1ZcIZSTC4c3O0XWIr2bYb4cu+R9stH9SJF59qLb?=
- =?us-ascii?Q?A2jGpRWnbJyE/qXM8R/5Edc0Ntv0CoAqtBxkhdl0vPqy7xrBanVjjviyYdOp?=
- =?us-ascii?Q?DQgpwk2d0HBNQKs2IomeXTXvJJ32VnVNdjI26KLfCzE1nZeR5/DwZUa3O9n4?=
- =?us-ascii?Q?5oC6xYsO315RlhH2qb0OUSReoP3dldaZgpdRsxx1W46+oo3l1omwMZtLmijJ?=
- =?us-ascii?Q?tDQyw7aw2a4U1Wk9hTOXJNfzbRAS5y5Fba714YC4DoJFJPT/tRBSxDonjud3?=
- =?us-ascii?Q?37sekYugDTW7aFiDeBsgml9Vvzun/srVPI9TaN7OoUkZCNdlrHnJUQVr0mot?=
- =?us-ascii?Q?TYvQu+fv8ZX9OcOlH3ijBRfEp2a71qZIHgbnVtoRXLzKVZ3PxI9no2NXCc1J?=
- =?us-ascii?Q?1qkTiZmIhCd/ma2e9TFfqp9PWYG3/OK2/0D0497e9NL8TkJ/h3LGlm9gTEKY?=
- =?us-ascii?Q?bYxqWFEE+zdc4qbXXu3TrqD6YPvNxwouwQlrCu7Ob7vNv/G6MATPKdAaCCCL?=
- =?us-ascii?Q?C/TeoFejWDr1ZAzWZevvsTpWUSR5ETKZz3J03gsWhGPNxmM8hDJ0eJxbSI3V?=
- =?us-ascii?Q?svd/9yPJqzu65IWblaLClBi1iyXdhsVfKZXrfmuQ45YVUNXZUcrczPA9P4D3?=
- =?us-ascii?Q?b3zuzsGhA93iS//los2m8egBqiOpYhqvNCJNIpi+PxLXjISAaWPYFCQTplxp?=
- =?us-ascii?Q?gMyOhG68oMWJv8yc2ZM6IAIJc0dN5ampIfFsbrkDWybeMhWmyGu5uxv8nlZ/?=
- =?us-ascii?Q?xocEugW3UbR5OZ0iYvAbsGj+JLkgEMhbq+QtiZEKWdfnj6MGP5CMhBXVzp/j?=
- =?us-ascii?Q?KvTloYBxKeZLuytBeBTniV/HmJ13D4+0xwDqbVpUgzKDBdWYuKL5TAu1fFE4?=
- =?us-ascii?Q?/rsLz6IM2QR4GP8lApdfZlu00kRtlIDJzHvoNE52Ut5ETni2luiuxdKuxLPB?=
- =?us-ascii?Q?EgtjNGJutXEe8iW9B4oKjvG3kvvdG8vJKnHKv3U6jU1/foBQEZZe7MHoUhnE?=
- =?us-ascii?Q?j2AWJGaifSUhV6qAkuJlhr5bQpKbPNE+VlquaOyoVzzo94ND+l2PXro1XrZV?=
- =?us-ascii?Q?saI1/VGckntElmmDjzZBoZbYxKeWrnT/h0GytsPW7EUstBxyCJ8/hqgIzQK7?=
- =?us-ascii?Q?R0Fm07TuJdb9pVN6Td/zonkVbus/4HvfG2DGpRA4+6/zNkYNs3800xauoR5+?=
- =?us-ascii?Q?cK1qqWJW57n/ORIRd/gcRdARA7m//s8tAUYrSxG4aFCitrk8dHGSAeNdCYMk?=
- =?us-ascii?Q?iv8ybNF0YVA/9nMmVh5DMg9DTLm2hnRXAbMJmvhl3au/togq83MtC6bsfia5?=
- =?us-ascii?Q?QWQTzAuJxFfFdp2BkArIpv2AlXGAA3yHOcAyGlEkReXLcgAAeQxolHz7vtk0?=
- =?us-ascii?Q?zs3UMfqF+0QS4loqsMMXHIyffquZEvor2aOYKqmtPeqn0S2lsGceNLPSqSqX?=
- =?us-ascii?Q?kQb5orKMjBtU89OaLdHfZoHVhYGVWJLK3LI8UQIbrIPR7q7rQoSmzMzy7phP?=
- =?us-ascii?Q?MXUKh26uUGnEWvoch0tlySnuAw6WhqhlS1QTBwipRD48Ol6HldtjsQD4LEFc?=
- =?us-ascii?Q?dbX5F3yQPBuSZjC4/Lha2CNlYCPv+kW53yAyM6sMGHH6WTcFODhGCNBSNJUH?=
- =?us-ascii?Q?W+FIVw2e/SBeLwr74PIqaU72fQ1ZH2UU7tkEWv1qgv7hjAeyBixZwoggCb4z?=
- =?us-ascii?Q?7Vv3x7sDq5A37TvG2mLDop3uDdZb4DHkjy3RjCn5f8n/cbjN?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cf59a138-7d7a-4357-1d7a-08de887945fb
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2026 01:12:38.1069
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bdJmmO0l06W35JMp8lqKFy8tZhv2rtFfWwYaJUhCkt9ITTw/SHMA88lkfInkpjLw
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB7075
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] virtiofs: Verify that server properly follows FUSE
+ protocol
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Cc: German Maglione <gmaglione@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>,
+ =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
+ virtualization@lists.linux.dev, linux-fsdevel@vger.kernel.org
+References: <20260319025609.10721-1-liwang@kylinos.cn>
+ <CAJSP0QXErw8yDeCnOgK6jco1-yDpS5x73vQLMtrj7oy7JxNEFg@mail.gmail.com>
+Content-Language: en-GB
+From: Li Wang <liwang@kylinos.cn>
+In-Reply-To: <CAJSP0QXErw8yDeCnOgK6jco1-yDpS5x73vQLMtrj7oy7JxNEFg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 20 Mar 2026, at 10:22, Zi Yan wrote:
+Hi Stefan,
 
-> The added folio_split_race_test is a modified C port of the race condit=
-ion
-> test from [1]. The test creates shmem huge pages, where the main thread=
+On 20/03/2026 23:00, Stefan Hajnoczi wrote:
+> On Wed, Mar 18, 2026 at 10:58 PM Li Wang <liwang@kylinos.cn> wrote:
+>>
+>> Verify that server properly follows FUSE protocol, by checking
+>> oh.uniq and oh.len.
+>>
+>> Signed-off-by: Li Wang <liwang@kylinos.cn>
+>> ---
+>>  fs/fuse/virtio_fs.c | 27 ++++++++++++++++++++++++++-
+>>  1 file changed, 26 insertions(+), 1 deletion(-)
+> 
+> Earlier patch series addressing this:
+> - https://lore.kernel.org/all/20251028200311.40372-1-brajeshpatil11@gmail.com/
+> - https://lore.kernel.org/all/20260216073158.75151-1-ytohnuki@amazon.com/
+> 
+> The second one was applied and I think your version conflicts with it.
+> 
+> Please take a look and let us know whether you want to drop your patch
+> or send a v2 rebased on Miklos latest tree
+> (https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git).
+> 
 
-> punches holes in the shmem to cause folio_split() in the kernel and
-> a set of 16 threads reads the shmem to cause filemap_get_entry() in the=
+Thanks for the review, and I will submit a V2 to address your feedback.
 
-> kernel. filemap_get_entry() reads the folio and xarray split by
-> folio_split() locklessly. The original test[2] is written in rust and u=
-ses
-> memfd (shmem backed). This C port uses shmem directly and use a single
-> process.
->
-> Note: the initial rust to C conversion is done by Cursor.
->
-> Link: https://lore.kernel.org/all/CAKNNEtw5_kZomhkugedKMPOG-sxs5Q5OLumW=
-JdiWXv+C9Yct0w@mail.gmail.com/ [1]
-> Link: https://github.com/dfinity/thp-madv-remove-test [2]
-> Signed-off-by: Bas van Dijk <bas@dfinity.org>
-> Signed-off-by: Adam Bratschi-Kaye <adam.bratschikaye@dfinity.org>
-> Signed-off-by: Zi Yan <ziy@nvidia.com>
-> ---
-> From V3:
-> 1. fixed for loop stepping issue
-> 2. used PRIu64 instead of %zu for uint64_t.
->
-> From V2:
-> 1. simplied the program by removing fork.
->
-> From V1:
-> 1. added prctl(PR_SET_PDEATHSIG, SIGTERM) to avoid child looping
->    forever.
-> 2. removed page_idx % PUNCH_INTERVAL >=3D 0, since it is a nop. Added a=
+Thanks,
+Li
 
->    comment.
-> 3. added a child process status check to prevent parent looping forever=
+> Thanks,
+> Stefan
+> 
+>>
+>> diff --git a/fs/fuse/virtio_fs.c b/fs/fuse/virtio_fs.c
+>> index 057e65b51b99..c30f6f58664c 100644
+>> --- a/fs/fuse/virtio_fs.c
+>> +++ b/fs/fuse/virtio_fs.c
+>> @@ -768,10 +768,34 @@ static void virtio_fs_request_complete(struct fuse_req *req,
+>>         struct folio *folio;
+>>
+>>         /*
+>> -        * TODO verify that server properly follows FUSE protocol
+>> +        * Verify that server properly follows FUSE protocol
+>>          * (oh.uniq, oh.len)
+>>          */
+>>         args = req->args;
+>> +       if (test_bit(FR_ISREPLY, &req->flags)) {
+>> +               struct fuse_out_header *oh = &req->out.h;
+>> +
+>> +               if (unlikely(oh->unique != req->in.h.unique)) {
+>> +                       pr_warn_ratelimited("virtio-fs: bad reply unique %llu (expected %llu)\n",
+>> +                                           oh->unique, req->in.h.unique);
+>> +                       oh->error = -EIO;
+>> +                       oh->len = sizeof(*oh);
+>> +                       goto out;
+>> +               }
+>> +               unsigned int num_out = args->out_numargs - args->out_pages;
+>> +               unsigned int cap = sizeof(req->out.h);
+>> +
+>> +               cap += fuse_len_args(num_out, args->out_args);
+>> +               if (args->out_pages)
+>> +                       cap += args->out_args[args->out_numargs - 1].size;
+>> +               if (unlikely(oh->len < sizeof(*oh) || oh->len > cap)) {
+>> +                       pr_warn_ratelimited("virtio-fs: bad reply len %u (cap %u)\n",
+>> +                                           oh->len, cap);
+>> +                       oh->error = -EIO;
+>> +                       oh->len = sizeof(*oh);
+>> +                       goto out;
+>> +               }
+>> +       }
+>>         copy_args_from_argbuf(args, req);
+>>
+>>         if (args->out_pages && args->page_zeroing) {
+>> @@ -790,6 +814,7 @@ static void virtio_fs_request_complete(struct fuse_req *req,
+>>                 }
+>>         }
+>>
+>> +out:
+>>         clear_bit(FR_SENT, &req->flags);
+>>
+>>         fuse_request_end(req);
+>> --
+>> 2.34.1
+>>
+>>
 
->    and record that as a failure.
-> 4. used ksft_exit_skip() instead of ksft_finished() when the program is=
-
->    not running as root.
-> 5. restored THP settings properly when the program exits abnormally.
->  tools/testing/selftests/mm/Makefile           |   1 +
->  .../selftests/mm/folio_split_race_test.c      | 293 ++++++++++++++++++=
-
->  tools/testing/selftests/mm/run_vmtests.sh     |   2 +
->  3 files changed, 296 insertions(+)
->  create mode 100644 tools/testing/selftests/mm/folio_split_race_test.c
->
-
-Hi Andrew,
-
-The fixup below addressed the new issues (first and third) raised by sash=
-iko[1].
-
-The second issue is that the test only verifies first 8 bytes. Because
-the test is intended to verify the race condition causing a wrong page in=
-dex
-is used.
-
-The fourth issue is addressed in Q3 from V3[2]
-
-
-[1] https://sashiko.dev/#/patchset/20260320142219.375118-1-ziy%40nvidia.c=
-om
-[2] https://lore.kernel.org/all/8B720FB8-DE4D-487A-9AEF-AC204E9F5755@nvid=
-ia.com/
-
-
-=46rom a66945de00f33c163cf814ac7c2d9620a725bfed Mon Sep 17 00:00:00 2001
-From: Zi Yan <ziy@nvidia.com>
-Date: Sun, 22 Mar 2026 19:53:54 -0400
-Subject: [PATCH] selftests/mm: fix sashiko complains on folio_split_race_=
-test
-
-1. used PRIu64 for uint64_t
-2. added pthread_barrier_t to ensure main thread starts to punch holes wh=
-en
-   all reader threads are spawned.
-
-Signed-off-by: Zi Yan <ziy@nvidia.com>
----
- .../selftests/mm/folio_split_race_test.c        | 17 ++++++++++++++---
- 1 file changed, 14 insertions(+), 3 deletions(-)
-
-diff --git a/tools/testing/selftests/mm/folio_split_race_test.c b/tools/t=
-esting/selftests/mm/folio_split_race_test.c
-index c264cc625a7cb..ab6868e7e2efe 100644
---- a/tools/testing/selftests/mm/folio_split_race_test.c
-+++ b/tools/testing/selftests/mm/folio_split_race_test.c
-@@ -46,6 +46,7 @@ struct shared_ctl {
- 	atomic_uint_fast32_t stop;
- 	atomic_size_t reader_failures;
- 	atomic_size_t reader_verified;
-+	pthread_barrier_t barrier;
- };
-
- static void fill_page(unsigned char *base, size_t page_idx)
-@@ -78,14 +79,14 @@ static bool check_page(unsigned char *base, size_t pa=
-ge_idx)
- 		}
- 		if (all_zero) {
- 			ksft_print_msg(
--				"CORRUPTED: page %zu (huge page %zu) is ALL ZEROS\n",
-+				"CORRUPTED: page %zu (huge page %" PRIu64 ") is ALL ZEROS\n",
- 				page_idx,
- 				(page_idx * page_size) / pmd_pagesize);
- 		} else {
- 			ksft_print_msg(
--				"CORRUPTED: page %zu (huge page %zu): expected idx %zu, got %lu\n",
-+				"CORRUPTED: page %zu (huge page %" PRIu64 "): expected idx %zu, got =
-%" PRIu64 "\n",
- 				page_idx, (page_idx * page_size) / pmd_pagesize,
--				page_idx, (unsigned long)got_idx);
-+				page_idx, got_idx);
- 		}
- 		return false;
- 	}
-@@ -110,6 +111,8 @@ static void *reader_thread(void *arg)
- 	atomic_size_t *verified =3D ra->verified;
- 	size_t page_idx;
-
-+	pthread_barrier_wait(&ctl->barrier);
-+
- 	while (atomic_load_explicit(&ctl->stop, memory_order_acquire) =3D=3D 0)=
- {
- 		for (page_idx =3D (size_t)tid; page_idx < TOTAL_PAGES;
- 		     page_idx +=3D NUM_READER_THREADS) {
-@@ -178,8 +181,14 @@ static size_t run_iteration(void)
- 	if (!check_huge_shmem(mmap_base, NR_PMD_PAGE, pmd_pagesize))
- 		ksft_exit_fail_msg("No shmem THP is allocated\n");
-
-+	if (pthread_barrier_init(&ctl.barrier, NULL, NUM_READER_THREADS + 1) !=3D=
- 0)
-+		ksft_exit_fail_msg("pthread_barrier_init failed\n");
-+
- 	create_readers(threads, args, mmap_base, &ctl);
-
-+	/* Wait for all reader threads to be ready before punching holes. */
-+	pthread_barrier_wait(&ctl.barrier);
-+
- 	for (i =3D 0; i < TOTAL_PAGES; i++) {
- 		if (i % PUNCH_INTERVAL !=3D 0)
- 			continue;
-@@ -198,6 +207,8 @@ static size_t run_iteration(void)
- 	for (i =3D 0; i < NUM_READER_THREADS; i++)
- 		pthread_join(threads[i], NULL);
-
-+	pthread_barrier_destroy(&ctl.barrier);
-+
- 	reader_failures =3D atomic_load_explicit(&ctl.reader_failures,
- 					       memory_order_acquire);
- 	reader_verified =3D atomic_load_explicit(&ctl.reader_verified,
--- =
-
-2.53.0
-
-
-
---
-Best Regards,
-Yan, Zi
