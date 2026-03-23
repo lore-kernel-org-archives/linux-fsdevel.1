@@ -1,40 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27EA1397E6E;
-	Mon, 23 Mar 2026 11:57:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7438371CF3;
+	Mon, 23 Mar 2026 12:00:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774267047; cv=none; b=OAi1A9JfMgjHZfnqgFDFraAGiemzAkvsVxeTuIpOwLypoujDzbROPp+P+F2OUA4Vhr/IsjX5pgavawqakPXGIiJlDPXLmYMikcHxwggzfGLBv4kwCRkCFWCiqekdGRrWEMSKEky8a7azjYMf+Rur3nSBOrI8svsWEc7cw5moaQY=
+	t=1774267225; cv=none; b=lmwmitVmlmA0kLcvmecbGxqmaCHkaVmhwtPQDQ72J1g+QaCKyfYmBG7R4ibcEy4Hy1gAhrrlMaNjoTtv6G7btt5hgTgHmcsiVY4gZBq6kndebcZyqnkJ1bhyVZtj65SFoOVCI5+nsiSwSpZ+rb4RsPfv4bHC7lKQ33MHeJGD8ok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774267047; c=relaxed/simple;
-	bh=9xl0jblLcAk+Jw3wku0pgECHPHMBmUSBE8uuT/sRACY=;
+	s=arc-20240116; t=1774267225; c=relaxed/simple;
+	bh=K6deGRTASItYsEGC7BMH3oTBhT9Wr7Ls9PRClFDB5qc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G2TGi/hKYJucpJ5fiiU5TzuAqJ0B7WLpAGISL9j0ezpqxkv40WedoOBR0m3EOxhVhfY76Ta2Dvj9vKGU75IhTjinXMbGagOMt+gcrjvw6pPa3c18i1FKX/7OU1LF6JkQIo8NoYukPsJN5Zn/tGgEDkPMXbbKfRVi/YD0Gv+nepQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P4kTjAd0; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=mTlivfV8CEmA3bKZiZSVUEioykH2wC1NfVKb0/jGceE6ch8h3hGHkLyo2NsVee70eAaABcZ0YvY10KO+4y06ztfD8A6/vCmSiMyG5R7ZiHbgFMlknb6uXymOZTgn9n2JOz7MtxDUOWq2uqbSzJjkZWwxg/FRx7rv6WNneXI1RuQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BO2g4oEM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P4kTjAd0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E814C4CEF7;
-	Mon, 23 Mar 2026 11:57:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BO2g4oEM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 437A0C4CEF7;
+	Mon, 23 Mar 2026 12:00:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774267046;
-	bh=9xl0jblLcAk+Jw3wku0pgECHPHMBmUSBE8uuT/sRACY=;
+	s=k20201202; t=1774267225;
+	bh=K6deGRTASItYsEGC7BMH3oTBhT9Wr7Ls9PRClFDB5qc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=P4kTjAd0ctcslBryKMpW0DhvuzoWmPs1KVSUUFBmNpd1eSjbHnhfWHuA+mUibLAO4
-	 mp15uTlblz4lRwBy+azmJlbpw8OKe4Dzk3kBm7MTx1iq3CbFpmt2kWU4fA3GEmyw6X
-	 AJKJ+ILoVq3t2dzNGlJKhMGM1nY+xFWf2xW8dNgQzvGqn/z5hepLfcETCktpHD03AX
-	 5h1uPFuSSk8Dy9HBXrYQEi3YiK8YNRMxuEXL3MJIKDeujDjXaUJrDFD3phs8cyAWIn
-	 1vNo4JNk0HvewEzPkC5wquY9Lsy50W5zpV0+Y5LrXWyVPXi1/2qdqJqTO7D6guMVPg
-	 f5E7tHT8izwkw==
-Date: Mon, 23 Mar 2026 12:57:22 +0100
+	b=BO2g4oEME6wqg2740eiQgC3oaBz7+C7GNKGKKRVPszj0YJn/mLvjgyUkL8ngMID3+
+	 V6tGkUZWFthNay58lPGtHgX0VdcqRBldyff2a1LuC/aD6WuntWrlIV2OC065Edj6hH
+	 dsZUMmQLdnSH+0ODPgmAfJfhrzJIsh/vbpQJ2n4OAkcQ5nTfpfwB2rokTzHCExZHh0
+	 K8xbHbi2xzWfK1hX0dWG3L+GfKmskxyUShcDhKuGV02cD6pj5+5BULW1KmDEwVBf15
+	 2vXNYBtZSHY/LBQ9+677+LfERK0+j9p8n44iGGRQpp1lGruJHEGVzItIovScv/13hx
+	 H/q4yc3bEm13g==
+Date: Mon, 23 Mar 2026 13:00:20 +0100
 From: Christian Brauner <brauner@kernel.org>
-To: Emanuele Rocca <emanuele.rocca@arm.com>
-Cc: linux-kernel@vger.kernel.org, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org, Mark Brown <broonie@kernel.org>, 
-	Jann Horn <jannh@google.com>, Oleg Nesterov <oleg@redhat.com>
-Subject: Re: [PATCH v3] pidfds: add coredump_code field to pidfd_info
-Message-ID: <20260323-hochsehen-kurort-862912a1d7b5@brauner>
-References: <acBRj-DSCpqlKt6t@NH27D9T0LF>
+To: Daniele Di Proietto <daniele.di.proietto@gmail.com>
+Cc: io-uring@vger.kernel.org, Jens Axboe <axboe@kernel.dk>, 
+	Keith Busch <kbusch@kernel.org>, Pavel Begunkov <asml.silence@gmail.com>, 
+	linux-fsdevel@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Jan Kara <jack@suse.cz>
+Subject: Re: [PATCH v3 3/4] fs: Export new helper do_replace_fd_locked()
+Message-ID: <20260323-kocht-meisennest-ac89063f104f@brauner>
+References: <20260321232142.911280-1-daniele.di.proietto@gmail.com>
+ <20260321232142.911280-4-daniele.di.proietto@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -43,61 +45,25 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <acBRj-DSCpqlKt6t@NH27D9T0LF>
+In-Reply-To: <20260321232142.911280-4-daniele.di.proietto@gmail.com>
 
-On Sun, Mar 22, 2026 at 09:31:11PM +0100, Emanuele Rocca wrote:
-> The struct pidfd_info currently exposes in a field called coredump_signal the
-> signal number (si_signo) that triggered the dump (for example, 11 for SIGSEGV).
-> However, it is also valuable to understand the reason why that signal was sent.
-> This additional context is provided by the signal code (si_code), such as 2 for
-> SEGV_ACCERR.
+On Sat, Mar 21, 2026 at 11:21:41PM +0000, Daniele Di Proietto wrote:
+> This is a new helper that installs a new file in a specific fd number
+> and returns the previous file that was there. It requires holding the
+> files_lock.
 > 
-> Add a new field to struct pidfd_info called coredump_code with the value of
-> si_code for the benefit of sysadmins who pipe core dumps to user-space programs
-> for later analysis. The following snippet illustrates a simplified C program
-> that consumes coredump_signal and coredump_code, and then logs core dump
-> signals and codes to a file:
+> In order to keep ksys_dup3() simple, this commit introduces a new
+> static do_dup3() helper.
 > 
->     int pidfd = (int)atoi(argv[1]);
+> It's going to be used in a future commit.
 > 
->     struct pidfd_info info = {
->         .mask = PIDFD_INFO_EXIT | PIDFD_INFO_COREDUMP,
->     };
-> 
->     if (ioctl(pidfd, PIDFD_GET_INFO, &info) == 0)
->         if (info.mask & PIDFD_INFO_COREDUMP)
->             fprintf(f, "PID=%d, si_signo: %d si_code: %d\n",
->                 info.pid, info.coredump_signal, info.coredump_code);
-> 
-> Assuming the program is installed under /usr/local/bin/core-logger, core dump
-> processing can be enabled by setting /proc/sys/kernel/core_pattern to
-> '|/usr/local/bin/dumpstuff %F'.
-> 
-> systemd-coredump(8) already uses pidfds to process core dumps, and it could be
-> extended to include the values of coredump_code too.
-> 
-> Signed-off-by: Emanuele Rocca <emanuele.rocca@arm.com>
+> Signed-off-by: Daniele Di Proietto <daniele.di.proietto@gmail.com>
 > ---
-> Resending as a new thread, apologies for sending v2 as a follow-up to
-> the kernel test robot instead!
-> 
-> V1 -> V2: Add coredump_pad to struct pidfd_info to ensure the struct has
-> the same size on both 64 bit and 32 bit systems. The issue was spotted
-> by the kernel test robot.
-> v1: https://lore.kernel.org/lkml/ab29J6KsQm8Xg3LR@NH27D9T0LF/
-> Link: https://lore.kernel.org/lkml/202603211842.JCwUVYTI-lkp@intel.com/
-> 
-> V2 -> V3: Sending as a new thread, same as v2 otherwise.
-> v2: https://lore.kernel.org/lkml/ab68fUmCK4An1UH-@NH27D9T0LF/
-> 
->  fs/pidfs.c                                    | 12 ++++---
->  include/uapi/linux/pidfd.h                    |  4 +++
->  .../coredump/coredump_socket_protocol_test.c  | 26 +++++++++++++++
->  .../selftests/coredump/coredump_socket_test.c | 32 +++++++++++++++++++
->  .../coredump/coredump_test_helpers.c          |  4 +--
->  tools/testing/selftests/pidfd/pidfd.h         |  5 +++
->  .../testing/selftests/pidfd/pidfd_info_test.c |  1 +
->  7 files changed, 78 insertions(+), 6 deletions(-)
 
-Please split the kernel code from the selftest code into separate
-commits. Thanks!
+I think this spaghetti here is really not acceptable and the export of
+do_replace_fd_locked() is really ugly. Please try and come up with a
+solution where you modify e.g. replace_fd() that does like 90% of what
+you want minues that "needs async" shortcut you have.
+
+It's fine that io_uring has its own fdtable. I don't want anyone else
+to get ideas about doing the same by exporting ever more tiny helpers.
