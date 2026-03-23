@@ -1,61 +1,41 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 001F92D7D3A;
-	Mon, 23 Mar 2026 21:07:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 771662D7D3A
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 21:09:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774300081; cv=none; b=j2Sf6KmLVzOyJsbXiHWBiKBh065SX7c8xtO7n159HUX4dRx0ZwFl6e3wltohH3U5aEjxjiCL+RTd1MuCriGKC2tVfc7Qlv4dF0k3p2Xv5hnXN0KM6yHzDh45AtwyNg04Dr3CGd1laZWemwrcPHdIwH+a934R/ta8WvP1Gdgf4+k=
+	t=1774300145; cv=none; b=bb80I25TwcP0zX+gxkn5hDLaHNbCKvn4HDJmw8/WrreJTik+nN2gkqki/wM6AYz/8lOARtJv8AgJhsS9fFsLRg3a2jiIP96jsT28zl7Y7lO/SvGuFPRPrJZuLD2Q4j6t9+T91PQ9wTWxAnb4V9g0CnRs6XAQRwSV18OTOsqhE1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774300081; c=relaxed/simple;
-	bh=9jV7hk/q6vvi2T/XuzKcjoXfovlzRslr4qCUrbsJ/A8=;
+	s=arc-20240116; t=1774300145; c=relaxed/simple;
+	bh=yBYWQ3DZIE/IbPPYRNgNwEIi77CeAiUz245cTojxh+k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dtXIUM8J2UBRgADxjW/cFEvzhVQr8DyO/iyxBIFH5dw0+nlpiiq4oxxDCMzgBo7bCHdiYYhcozTgrFHWcK281ITrZLMj8cIoFfNdlVYWthBAaQALqznwFswM9mkP5xlrD7Ih6eZ3hhTXQwyVcOIv9vj5lFDbFQkjB43KVRXxMBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=RFZdu4G+; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=Rzof83MvRpiWtDtnWJ0jaqLWMbbJXD+4bblhZR3t88s4foWKfs8nfPpl3pPI0I6LEgE1mmNUOgIVZ7BbvKHM2bbDetx1yy+kM38AzfmBuqNyH5x9kFDsuddBYTkQxCwV3D14eW8BgOhGZ4gDHcS0CJSoazr/9nWZ2gND4gIvLT0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tHYQMR2E; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="RFZdu4G+"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=KNBJuuzzq0GPbd2BLBr03j+XIuHlYuWDg25dI5hkPwE=; b=RFZdu4G+/00qiBpkU8fCw68Rrm
-	W21rPmkkxyeKei7zPQ6uFrp2Ilx/Ygk8xHRAFFNsfW/OTOcLGh88XbvHxkn1siM2RE7hhwdfNiKwL
-	kW6sIpIjUmF7cVGoDqi0UBijZ+pECnyIfuo5Vel1dAapffmjCAD7Wz7IUqvoVcsVhlCa5gFNw2zc7
-	tOBW0lRvr92PV2NOlCMtO6MRR6cTJtnNTGP6Q9gcvgfA0IsLjFsneRQ63bLvWtKJxnhNO3Ppr1cmR
-	LOdsbhkMZ9gjCjgF/7FerOwR9HbMfmtljw53vvxc2Zsid5VhsSG0Wvq6dX0TskhRYjxo5LeOPkNvL
-	jHKwwSVQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w4mV0-0000000Csy9-2jBe;
-	Mon, 23 Mar 2026 21:07:47 +0000
-Date: Mon, 23 Mar 2026 21:07:46 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Zi Yan <ziy@nvidia.com>
-Cc: Song Liu <songliubraving@fb.com>, Chris Mason <clm@fb.com>,
-	David Sterba <dsterba@suse.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
-	Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
-	Lance Yang <lance.yang@linux.dev>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>,
-	linux-btrfs@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [RFC PATCH 10/11] selftests/mm: remove READ_ONLY_THP_FOR_FS test
- in khugepaged
-Message-ID: <acGrokwjvIHqDmSP@casper.infradead.org>
-References: <20260323190644.1714379-1-ziy@nvidia.com>
- <20260323190644.1714379-11-ziy@nvidia.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tHYQMR2E"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F6EAC4CEF7;
+	Mon, 23 Mar 2026 21:09:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774300145;
+	bh=yBYWQ3DZIE/IbPPYRNgNwEIi77CeAiUz245cTojxh+k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tHYQMR2EpT5J663kXJIFCV/Ebyt5aEWSTcFa833Qbdsy5Cw/jG7JuERdl+sL8TqPP
+	 L+2z9kThVQCTy9jDySgX6mxayeZo+H5S7WJJpUU8NQENeR3Ldqa+z1sozJL+wmv8fG
+	 AonVS8EdfzwqCm23YiJiNLQqmrcmvqgOBsvw6O1TsOK8fiR/6pYTiAbiHddGNpuKKN
+	 6gAQqpPS7bfJVsJu39kckDLlAm+Q8CrGYb6OnlO4xsEVhWPuwleMcLk07ysuY+++pM
+	 BoUqjogzi9E0XaumwVyt0sSx+4pow7I8A+r6mljDiZLitP3EZJh3pmErvvp9entBms
+	 G6TvMs3tDqklQ==
+Date: Mon, 23 Mar 2026 14:09:04 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Bernd Schubert <bernd@bsbernd.com>
+Cc: linux-fsdevel@vger.kernel.org, Miklos Szeredi <miklos@szeredi.hu>,
+	Joanne Koong <joannelkoong@gmail.com>,
+	Bernd Schubert <bschubert@ddn.com>
+Subject: Re: [PATCH 03/19] checkpatch.pl: Add _Atomic to $Attribute patttern
+Message-ID: <20260323210904.GF6202@frogsfrogsfrogs>
+References: <20260323-fuse-init-before-mount-v1-0-a52d3040af69@bsbernd.com>
+ <20260323-fuse-init-before-mount-v1-3-a52d3040af69@bsbernd.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -64,11 +44,46 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260323190644.1714379-11-ziy@nvidia.com>
+In-Reply-To: <20260323-fuse-init-before-mount-v1-3-a52d3040af69@bsbernd.com>
 
-On Mon, Mar 23, 2026 at 03:06:43PM -0400, Zi Yan wrote:
-> READ_ONLY_THP_FOR_FS is no longer present, remove related test.
+On Mon, Mar 23, 2026 at 06:44:58PM +0100, Bernd Schubert wrote:
+> From: Bernd Schubert <bschubert@ddn.com>
+> 
+> WARNING: Missing a blank line after declarations
+> +       int init_error;
+> +       _Atomic bool terminate_mount_worker;
+> 
+> This change should go to linux upstream.
+> 
+> Signed-off-by: Bernd Schubert <bschubert@ddn.com>
 
-Um, surely we want to keep the test?  It's no longer conditional on
-READ_ONLY_THP_FOR_FS being enabled, but we still want to collapse
-mapped files.
+That seems fine to me, dunno if the kernel people will accept it.
+But for here it's certainly ok since libfuse uses _Atomic variables.
+
+Acked-by: "Darrick J. Wong" <djwong@kernel.org>
+
+--D
+
+> ---
+>  checkpatch.pl | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/checkpatch.pl b/checkpatch.pl
+> index 9eed3683ad76caffbbb2418e5dbea7551d374406..2d44e0e6edac303731c7637de00ed35d7b1dfcb7 100755
+> --- a/checkpatch.pl
+> +++ b/checkpatch.pl
+> @@ -520,7 +520,8 @@ our $Attribute	= qr{
+>  			____cacheline_aligned_in_smp|
+>  			____cacheline_internodealigned_in_smp|
+>  			__weak|
+> -			__alloc_size\s*\(\s*\d+\s*(?:,\s*\d+\s*)?\)
+> +			__alloc_size\s*\(\s*\d+\s*(?:,\s*\d+\s*)?\)|
+> +			_Atomic
+>  		  }x;
+>  our $Modifier;
+>  our $Inline	= qr{inline|__always_inline|noinline|__inline|__inline__};
+> 
+> -- 
+> 2.43.0
+> 
+> 
