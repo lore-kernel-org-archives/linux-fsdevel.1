@@ -1,118 +1,160 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f70.google.com (mail-oa1-f70.google.com [209.85.160.70])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C79937D122
-	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 22:36:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0536D381B0B
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 22:37:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.70
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774305368; cv=none; b=mlcbyD8Ncs9wkpSHRqT4pltI5yLHZ5uvOruDn71usqtyKZOZn0rf5Fq1H95nVsPoMugdpVnL0q+ji/rHMe8QzlJws0mQ+qvKWnHsR2LJvdxzBOZlk0GTWgv5fiI0DRA7pS8JaNlUQCSlWG2HyZYG4EpvkX9i/ucjgtTjqkZ99go=
+	t=1774305438; cv=none; b=i2rUQ6L7lSCksty41G/0RiESp2GBkwesKbkhRS/lJwtVkwHSpEhhOSiu2E98CQKcnoJntudmHk1HARXPRmJC3ITeWtxiGUmyjGT2T7RvIvP5Ue6o+MHYON/IsvCqWzKeM8NCuob7dUKDHQhCQzTS2ue529dUgGHbMihcWZ/5X4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774305368; c=relaxed/simple;
-	bh=cqDTK4YiNnz4tACq/2etx4m2QCOenCbYklrUsXgRnow=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NJzkQZZfTiPPH90isMftoaupip0wQmpuRf40vRCrSh9z2zyDgn/dHLgeWepSnOcz1aBVlxQpt4dJpbFsy50yU0Ac9HFutL4YF1zHa81vGlwWKoGi8O94Iso7Uf1cZaoIEG1JY68M1onRkeUZBa/qRVPpn4XRBHzCCJrrRjG6KUw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IB6jKup6; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IB6jKup6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B92DC4CEF7;
-	Mon, 23 Mar 2026 22:36:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774305368;
-	bh=cqDTK4YiNnz4tACq/2etx4m2QCOenCbYklrUsXgRnow=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IB6jKup6Pk4aPdvoEeiXfAz21/U21rJbkDZTDe2XeHOP9+FJsfb/wgpuf0OTUFBDT
-	 qY7lLIsyh3QV52PpsPSUSYbS2NTLSCQCzDrSZzf/ZW8rkLsEpPrLWjEEHyhzp6BKWd
-	 AgW3M1orgQkOquff/4v9FC/zYwJWKP/HL/Vdum6pJp/QBw7QwWl9E39BJJAdjaVDmb
-	 tscfmuxmMmwyezW/Su3fnM0KEGp9KrENaIyQwiCTh5tDonBOwwnghXg4tth/2meTke
-	 +o7f2QGNUKFUvPxCY2CNwOTAnvdpxk9G1Ze1cqiwqi5IdMuFcSbHFAPq9lyr7k04al
-	 DXjjBz5epNT7Q==
-Date: Mon, 23 Mar 2026 15:36:07 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Bernd Schubert <bernd@bsbernd.com>
-Cc: linux-fsdevel@vger.kernel.org, Miklos Szeredi <miklos@szeredi.hu>,
-	Joanne Koong <joannelkoong@gmail.com>,
-	Bernd Schubert <bschubert@ddn.com>
-Subject: Re: [PATCH 07/19] Add FUSE_MOUNT_FALLBACK_NEEDED define for -2 mount
- errors
-Message-ID: <20260323223607.GI6202@frogsfrogsfrogs>
-References: <20260323-fuse-init-before-mount-v1-0-a52d3040af69@bsbernd.com>
- <20260323-fuse-init-before-mount-v1-7-a52d3040af69@bsbernd.com>
+	s=arc-20240116; t=1774305438; c=relaxed/simple;
+	bh=CbRItHa5Ars+g9TEER2N+R+HAIwbt+0F1ELaGiUx//4=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
+	 Content-Type; b=Cz6Rok1KvUA9ZBkPMoWJqkq+s/THhb9BgZk/hNJix6Nlsxc4AIVOXtUbck7/df7WtYC1wj7cEVcME4/67KxnRLag8EONxKi021R5dwZ6tP+rX/7EwgNaGwFC+BUvKaZJO5+WgcVddfJZNS83HQvXbbwuh4yV6bqowzf/Uq6lpmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.160.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oa1-f70.google.com with SMTP id 586e51a60fabf-40f192cf4b6so14691226fac.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 15:37:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774305436; x=1774910236;
+        h=cc:to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Oqjmh2SrD9FfDowoOONetke0bC+WpW+XYQbNawQm8vc=;
+        b=RyMbmmBw92LlqOn19t24RcQ8NGF3twYZ0B7dE/P4hfvJek57Ld/MEfAtPX9W1Bn6aE
+         xIXoH/flxLW+hlt0e3BFTtSol7FA/6FDnwSqy78aUeuEvwrFoDP7bmptc2XKCGfyIF3K
+         JKYsg8/JjI4SxrguPhHH7jB68ZvnVSEWo4EINfJZmhtX5a6M3BbWFmVS49U46/n1S8EV
+         AvLAhsLuKI1ttDQtrAOts8xVHQDki1xGK9J+pCG0QJg+M089JIPw23fJnKeB5Ry/W91h
+         ETgDVB7xqs6SguZGcv0ujj7F75AOj1gchD4/8Sp9U/8g11QUGapIBEmRdl1tVGu+8dnw
+         8P8Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWnqkv7SRP8G8rYVAzAC9Kb1NqxIXwZxQ65qvfazmybl0xpUttGhcxpZYIaeUAKCg2PkaY1YVJ3ZOs9mObv@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy0NkFSN0iclThJtC/x2Bue0xGaXZ4zNXgAwwf+FOPk5P9GbpM6
+	exK6tDQxLDa2XARZL0Y2xjJZnEl6vlrfDjzCJTnM+h6+UzZqGRS3GwxjQ3/UwrKoddgnzx8CrS/
+	C2WmLJKsz57XWB3097+oz+Wx33mkUV6u3wfmuBEBfYA7p/MekzT09BMvDEK4=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260323-fuse-init-before-mount-v1-7-a52d3040af69@bsbernd.com>
+X-Received: by 2002:a05:6820:152a:b0:67b:a8f8:f68c with SMTP id
+ 006d021491bc7-67c22ff3dc5mr9608160eaf.70.1774305435967; Mon, 23 Mar 2026
+ 15:37:15 -0700 (PDT)
+Date: Mon, 23 Mar 2026 15:37:15 -0700
+In-Reply-To: <20260323162617.2421-1-jack@suse.cz>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <69c1c09b.a70a0220.59f55.0001.GAE@google.com>
+Subject: [syzbot ci] Re: udf: Fix race between file type conversion and writeback
+From: syzbot ci <syzbot+cie6df483244df2ff5@syzkaller.appspotmail.com>
+To: jack@suse.cz, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	luckd0g@163.com
+Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Mar 23, 2026 at 06:45:02PM +0100, Bernd Schubert wrote:
-> From: Bernd Schubert <bschubert@ddn.com>
-> 
-> Magic numbers in the code are not good - we better use a define.
-> 
-> Signed-off-by: Bernd Schubert <bschubert@ddn.com>
-> ---
->  lib/fuse_i.h | 3 +++
->  lib/mount.c  | 6 +++---
->  2 files changed, 6 insertions(+), 3 deletions(-)
-> 
-> diff --git a/lib/fuse_i.h b/lib/fuse_i.h
-> index 9e3c5dc5021e210a2778e975a37ab609af324010..b4c1d3eef41010287f6c9555ec0b2442d904d192 100644
-> --- a/lib/fuse_i.h
-> +++ b/lib/fuse_i.h
-> @@ -217,6 +217,9 @@ struct fuse_chan *fuse_chan_get(struct fuse_chan *ch);
->   */
->  void fuse_chan_put(struct fuse_chan *ch);
->  
-> +/* Special return value for mount functions to indicate fallback to fusermount3 is needed */
-> +#define FUSE_MOUNT_FALLBACK_NEEDED -2
+syzbot ci has tested the following series
 
-...and you might want to put that in parentheses to avoid weird
-interactions elsewhere.  Or maybe just make fuse_kern_do_mount return an
-enum so that callers have to handle FUSE_MOUNT_{OK,FAIL,FALLBACK} and
-can do so via switch statements?
+[v1] udf: Fix race between file type conversion and writeback
+https://lore.kernel.org/all/20260323162617.2421-1-jack@suse.cz
+* [PATCH 1/2] writeback: Export folio_prepare_writeback()
+* [PATCH 2/2] udf: Fix race between file type conversion and writeback
 
---D
+and found the following issue:
+general protection fault in folio_prepare_writeback
 
-> +
->  struct mount_opts *parse_mount_opts(struct fuse_args *args);
->  void destroy_mount_opts(struct mount_opts *mo);
->  void fuse_mount_version(void);
-> diff --git a/lib/mount.c b/lib/mount.c
-> index 6e404451cc9edc8e35434cc31f25612cfc4edca1..dec9d52274c13536648cacef959789f472c5682c 100644
-> --- a/lib/mount.c
-> +++ b/lib/mount.c
-> @@ -563,7 +563,7 @@ out_close:
->   * @mo: mount options
->   * @mnt_opts: mount options to pass to the kernel
->   *
-> - * Returns: 0 on success, -1 on failure, -2 if fusermount should be used
-> + * Returns: 0 on success, -1 on failure, FUSE_MOUNT_FALLBACK_NEEDED if fusermount should be used
->   */
->  static int fuse_kern_do_mount(const char *mnt, struct mount_opts *mo,
->  				  const char *mnt_opts)
-> @@ -611,7 +611,7 @@ static int fuse_kern_do_mount(const char *mnt, struct mount_opts *mo,
->  		 * case try falling back to fusermount3
->  		 */
->  		if (errno == EPERM) {
-> -			res = -2;
-> +			res = FUSE_MOUNT_FALLBACK_NEEDED;
->  		} else {
->  			int errno_save = errno;
->  			if (mo->blkdev && errno == ENODEV &&
-> @@ -749,7 +749,7 @@ int fuse_kern_mount(const char *mountpoint, struct mount_opts *mo)
->  			umount2(mountpoint, MNT_DETACH); /* lazy umount */
->  			res = -1;
->  		}
-> -	} else if (res == -2) {
-> +	} else if (res == FUSE_MOUNT_FALLBACK_NEEDED) {
->  		if (mo->fusermount_opts &&
->  		    fuse_opt_add_opt(&mnt_opts, mo->fusermount_opts) == -1)
->  			goto out;
-> 
-> -- 
-> 2.43.0
-> 
-> 
+Full report is available here:
+https://ci.syzbot.org/series/03e405d8-f247-471a-8469-f544c8393300
+
+***
+
+general protection fault in folio_prepare_writeback
+
+tree:      mm-new
+URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/akpm/mm.git
+base:      af5802cff33fe3c557dff87cd3897d14241a7c6d
+arch:      amd64
+compiler:  Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
+config:    https://ci.syzbot.org/builds/d1944db2-4f63-4e26-b642-d71f55382c9d/config
+C repro:   https://ci.syzbot.org/findings/87b82667-f800-480e-b52a-38decce9e6c4/c_repro
+syz repro: https://ci.syzbot.org/findings/87b82667-f800-480e-b52a-38decce9e6c4/syz_repro
+
+Oops: general protection fault, probably for non-canonical address 0xdffffc0000000002: 0000 [#1] SMP KASAN PTI
+KASAN: null-ptr-deref in range [0x0000000000000010-0x0000000000000017]
+CPU: 0 UID: 0 PID: 1860 Comm: kworker/u9:3 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+Workqueue: writeback wb_workfn (flush-7:0)
+RIP: 0010:folio_prepare_writeback+0x32/0x280 mm/page-writeback.c:2371
+Code: 56 41 55 41 54 53 50 48 89 d3 48 89 f5 49 89 fe 49 bd 00 00 00 00 00 fc ff df e8 f9 22 c2 ff 4c 8d 63 18 4c 89 e0 48 c1 e8 03 <42> 80 3c 28 00 74 08 4c 89 e7 e8 ef 6a 2c 00 4d 39 34 24 0f 85 bf
+RSP: 0018:ffffc9000901f1e8 EFLAGS: 00010203
+RAX: 0000000000000002 RBX: fffffffffffffffe RCX: ffff88810981ba80
+RDX: 0000000000000000 RSI: ffffc9000901f4e0 RDI: ffff8881a659bc48
+RBP: ffffc9000901f4e0 R08: ffff88810981ba80 R09: 0000000000000003
+R10: 0000000000000406 R11: 0000000000000000 R12: 0000000000000016
+R13: dffffc0000000000 R14: ffff8881a659bc48 R15: ffffc9000901f4e0
+FS:  0000000000000000(0000) GS:ffff88818de5e000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00001b4fda9cd4b8 CR3: 0000000110906000 CR4: 00000000000006f0
+Call Trace:
+ <TASK>
+ udf_writepages+0xce/0x3b0 fs/udf/inode.c:205
+ do_writepages+0x32e/0x550 mm/page-writeback.c:2554
+ __writeback_single_inode+0x133/0x11a0 fs/fs-writeback.c:1750
+ writeback_sb_inodes+0x992/0x1a20 fs/fs-writeback.c:2042
+ wb_writeback+0x456/0xb70 fs/fs-writeback.c:2227
+ wb_do_writeback fs/fs-writeback.c:2374 [inline]
+ wb_workfn+0x414/0xf50 fs/fs-writeback.c:2414
+ process_one_work kernel/workqueue.c:3276 [inline]
+ process_scheduled_works+0xb6e/0x18c0 kernel/workqueue.c:3359
+ worker_thread+0xa53/0xfc0 kernel/workqueue.c:3440
+ kthread+0x388/0x470 kernel/kthread.c:436
+ ret_from_fork+0x51e/0xb90 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:folio_prepare_writeback+0x32/0x280 mm/page-writeback.c:2371
+Code: 56 41 55 41 54 53 50 48 89 d3 48 89 f5 49 89 fe 49 bd 00 00 00 00 00 fc ff df e8 f9 22 c2 ff 4c 8d 63 18 4c 89 e0 48 c1 e8 03 <42> 80 3c 28 00 74 08 4c 89 e7 e8 ef 6a 2c 00 4d 39 34 24 0f 85 bf
+RSP: 0018:ffffc9000901f1e8 EFLAGS: 00010203
+RAX: 0000000000000002 RBX: fffffffffffffffe RCX: ffff88810981ba80
+RDX: 0000000000000000 RSI: ffffc9000901f4e0 RDI: ffff8881a659bc48
+RBP: ffffc9000901f4e0 R08: ffff88810981ba80 R09: 0000000000000003
+R10: 0000000000000406 R11: 0000000000000000 R12: 0000000000000016
+R13: dffffc0000000000 R14: ffff8881a659bc48 R15: ffffc9000901f4e0
+FS:  0000000000000000(0000) GS:ffff8882a945e000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00001b4fda9c7570 CR3: 0000000173314000 CR4: 00000000000006f0
+----------------
+Code disassembly (best guess):
+   0:	56                   	push   %rsi
+   1:	41 55                	push   %r13
+   3:	41 54                	push   %r12
+   5:	53                   	push   %rbx
+   6:	50                   	push   %rax
+   7:	48 89 d3             	mov    %rdx,%rbx
+   a:	48 89 f5             	mov    %rsi,%rbp
+   d:	49 89 fe             	mov    %rdi,%r14
+  10:	49 bd 00 00 00 00 00 	movabs $0xdffffc0000000000,%r13
+  17:	fc ff df
+  1a:	e8 f9 22 c2 ff       	call   0xffc22318
+  1f:	4c 8d 63 18          	lea    0x18(%rbx),%r12
+  23:	4c 89 e0             	mov    %r12,%rax
+  26:	48 c1 e8 03          	shr    $0x3,%rax
+* 2a:	42 80 3c 28 00       	cmpb   $0x0,(%rax,%r13,1) <-- trapping instruction
+  2f:	74 08                	je     0x39
+  31:	4c 89 e7             	mov    %r12,%rdi
+  34:	e8 ef 6a 2c 00       	call   0x2c6b28
+  39:	4d 39 34 24          	cmp    %r14,(%r12)
+  3d:	0f                   	.byte 0xf
+  3e:	85                   	.byte 0x85
+  3f:	bf                   	.byte 0xbf
+
+
+***
+
+If these findings have caused you to resend the series or submit a
+separate fix, please add the following tag to your commit message:
+  Tested-by: syzbot@syzkaller.appspotmail.com
+
+---
+This report is generated by a bot. It may contain errors.
+syzbot ci engineers can be reached at syzkaller@googlegroups.com.
