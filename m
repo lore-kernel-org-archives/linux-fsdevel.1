@@ -1,50 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79D99245020;
-	Mon, 23 Mar 2026 15:01:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31EFE2550AF;
+	Mon, 23 Mar 2026 15:01:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774278070; cv=none; b=jw93sCzErvgtjVvyfVzpyj92MnpCjAVjSVfz8gBOQGldZSN1E9+lPsN8k2XXNpJOyWzbKAspmW+VhqJFNGcR01pCKKxbhARJlgu53gQyH5ydaz4SkzuBvRBTMHLGU8KV7QYT38KuQgLeHkHEafcyuh40mbqrVjY/KTkH5Pg7pLo=
+	t=1774278070; cv=none; b=BQse7ybqsMBx/kQP1A1XIWmbPSwlYbprsDQv7VoD8IkrKZTbo3TSaNR8tzvkUBOFVpwQmRIQVWDN4L1ixnFlMVfFjX54aHhjFIRTpY4YJOvypriZ9ZA5hhuzrq7LRXmwPJ/DwHcy17G/sDKK3BfAnz2HJ1Dtzt/vzetT6PzzfSk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1774278070; c=relaxed/simple;
-	bh=tEEgkiZs3Txk28j7BqRxxstVKJ421N/CH6XstsQpICk=;
+	bh=FTuuK2lbsKxW1TqNcpwiwlVgmoiY1ioRmAfUVOmsQ34=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YjwAkh638oRXyFJY9FpLcAwg5qAg0SUosNLjItrPPBAwBkxRNovDZZHfLVgihSJgidLp9qFbef4gzwCzV/nxm3UpYMcme7QQLHGSaff2kBlhnj4Si+gEoLuxuFk2J4ZCDG+g5ClWifP4hrkQHAkoTtp9OiG+fZ4xf11F+I8Muac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D2V+5mF2; arc=none smtp.client-ip=192.198.163.18
+	 MIME-Version; b=rM8Z7mGN/V8SVGeF/4lcdX97h+0HndqC4MPoU0KtPlKVYgMXeAm8Vsygg9dSWYVnmKHwxXCQVn7586Sa6uKJ67RGFaxAbm4uLCZFm1flglp5zeZJmIJuDl5l3++GZela3GNyn3iDjKrApPkOtbqgkdc2NdlVoWd2ou3LKh42Ofc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iH/aJfSN; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D2V+5mF2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iH/aJfSN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1774278069; x=1805814069;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=tEEgkiZs3Txk28j7BqRxxstVKJ421N/CH6XstsQpICk=;
-  b=D2V+5mF2Xxivkb/lqemhFGTECdKUxNq5j7LVvbnW5pBwcwxK2ucytGlY
-   stoLD4SLwCAQRt9734Qk//RU3bNNloMLQW7zEuZyxqOwxmgyDQHyabr28
-   VhyBZph/mDOHVS8CpYETzbCn3hXcencEp5artO7AdWv3c9svz5S+P5Jk2
-   qZZ7RcYA1UrxBJWd+LPBVmV88MYhLnx1YtXjx0ysITA+ESYxKRrPZiH0d
-   q4BczUuQLXrIyTFV3IqApzN7GNNAGgqiIEyefU4UCty4CGHQR632y+7c1
-   RQ6xJ5oszxFn8WNlBJh0EiEslFPCuOy6zsISc5xKGw+50lOOydZReIeWf
-   Q==;
-X-CSE-ConnectionGUID: ZIkhZUG2TJGtjmLKp/f1kw==
-X-CSE-MsgGUID: uBAa7mrnTSetmXz6KD8hsQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="74456169"
+  bh=FTuuK2lbsKxW1TqNcpwiwlVgmoiY1ioRmAfUVOmsQ34=;
+  b=iH/aJfSNot0IXy+hwVDlxMP5gEt9K4lpDEjbU3vLXvSo/F3bYd07oLXQ
+   MXe65v9VKya6R9mq5UIWWGP2aPaQq5zeUGQnxVpyc8aM6Obvo9fRr1GxG
+   Xb2in7YYtdD+37Y27s/Ob7Dern4ZWCDFn2ahs+kXD4kLraA6jzMJVaT9R
+   P+XeGjRNmSVem+xICHo3f4mmfawL/ZSxnvqRpU+7yIsPl9cPAczJVe3Fy
+   e+XjMKTIi2D5KSm5YaNa93Rofr/JohvZ5xLedaT5Uda8wep71sG9ml95z
+   a1BpvC8Rr7iL507o16/KgqIRjSIWz2cA5ylL7KncBNLft9X5iFfFIzdzt
+   w==;
+X-CSE-ConnectionGUID: 2/07i5ZCQLGNUtqZgvJZkQ==
+X-CSE-MsgGUID: f1OIRo6qScKgxRxuYogroQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="75249702"
 X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
-   d="scan'208";a="74456169"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 08:01:05 -0700
-X-CSE-ConnectionGUID: 21TjuvBKTzu3CogEE/azjQ==
-X-CSE-MsgGUID: jKCxOJ+oSIuNFajlZpVCnA==
+   d="scan'208";a="75249702"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 08:01:07 -0700
+X-CSE-ConnectionGUID: n3VUCfneTTeMCr3UmBQMLQ==
+X-CSE-MsgGUID: nbS6rQXAQXyOOsEuTifHcQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
-   d="scan'208";a="223119640"
+   d="scan'208";a="221212767"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa006.jf.intel.com with ESMTP; 23 Mar 2026 08:01:01 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 23 Mar 2026 08:01:04 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id 2092499; Mon, 23 Mar 2026 16:01:00 +0100 (CET)
+	id 32967A1; Mon, 23 Mar 2026 16:01:00 +0100 (CET)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	David Disseldorp <ddiss@suse.de>,
@@ -58,9 +58,9 @@ Cc: Al Viro <viro@zeniv.linux.org.uk>,
 	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
 	Sergey Senozhatsky <senozhatsky@chromium.org>,
 	Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH v3 1/6] initramfs_test: add fill_cpio() format parameter
-Date: Mon, 23 Mar 2026 15:54:17 +0100
-Message-ID: <20260323150054.3587083-2-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v3 5/6] vsprintf: Revert "add simple_strntoul"
+Date: Mon, 23 Mar 2026 15:54:21 +0100
+Message-ID: <20260323150054.3587083-6-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260323150054.3587083-1-andriy.shevchenko@linux.intel.com>
 References: <20260323150054.3587083-1-andriy.shevchenko@linux.intel.com>
@@ -72,128 +72,46 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: David Disseldorp <ddiss@suse.de>
+No users anymore and none should be in the first place.
 
-fill_cpio() uses sprintf() to write out the in-memory cpio archive from
-an array of struct initramfs_test_cpio. This change allows callers to
-override the cpio sprintf() format string so that future tests can
-intentionally corrupt the header with non-hex values.
+This reverts commit fcc155008a20fa31b01569e105250490750f0687.
 
-Signed-off-by: David Disseldorp <ddiss@suse.de>
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- init/initramfs_test.c | 27 ++++++++++++++-------------
- 1 file changed, 14 insertions(+), 13 deletions(-)
+ include/linux/kstrtox.h | 1 -
+ lib/vsprintf.c          | 7 -------
+ 2 files changed, 8 deletions(-)
 
-diff --git a/init/initramfs_test.c b/init/initramfs_test.c
-index 2ce38d9a8fd0..7b6ecab794c7 100644
---- a/init/initramfs_test.c
-+++ b/init/initramfs_test.c
-@@ -27,7 +27,10 @@ struct initramfs_test_cpio {
- 	char *data;
- };
+diff --git a/include/linux/kstrtox.h b/include/linux/kstrtox.h
+index 6ea897222af1..7fcf29a4e0de 100644
+--- a/include/linux/kstrtox.h
++++ b/include/linux/kstrtox.h
+@@ -143,7 +143,6 @@ static inline int __must_check kstrtos32_from_user(const char __user *s, size_t
+  */
  
--static size_t fill_cpio(struct initramfs_test_cpio *cs, size_t csz, char *out)
-+#define CPIO_HDR_FMT "%s%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%s"
-+
-+static size_t fill_cpio(struct initramfs_test_cpio *cs, size_t csz, char *fmt,
-+			char *out)
- {
- 	int i;
- 	size_t off = 0;
-@@ -38,9 +41,7 @@ static size_t fill_cpio(struct initramfs_test_cpio *cs, size_t csz, char *out)
- 		size_t thislen;
+ extern unsigned long simple_strtoul(const char *,char **,unsigned int);
+-extern unsigned long simple_strntoul(const char *,char **,unsigned int,size_t);
+ extern long simple_strtol(const char *,char **,unsigned int);
+ extern unsigned long long simple_strtoull(const char *,char **,unsigned int);
+ extern long long simple_strtoll(const char *,char **,unsigned int);
+diff --git a/lib/vsprintf.c b/lib/vsprintf.c
+index 800b8ac49f53..52ea14a08d3a 100644
+--- a/lib/vsprintf.c
++++ b/lib/vsprintf.c
+@@ -129,13 +129,6 @@ unsigned long simple_strtoul(const char *cp, char **endp, unsigned int base)
+ }
+ EXPORT_SYMBOL(simple_strtoul);
  
- 		/* +1 to account for nulterm */
--		thislen = sprintf(pos, "%s"
--			"%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x"
--			"%s",
-+		thislen = sprintf(pos, fmt,
- 			c->magic, c->ino, c->mode, c->uid, c->gid, c->nlink,
- 			c->mtime, c->filesize, c->devmajor, c->devminor,
- 			c->rdevmajor, c->rdevminor, c->namesize, c->csum,
-@@ -102,7 +103,7 @@ static void __init initramfs_test_extract(struct kunit *test)
- 	/* +3 to cater for any 4-byte end-alignment */
- 	cpio_srcbuf = kzalloc(ARRAY_SIZE(c) * (CPIO_HDRLEN + PATH_MAX + 3),
- 			      GFP_KERNEL);
--	len = fill_cpio(c, ARRAY_SIZE(c), cpio_srcbuf);
-+	len = fill_cpio(c, ARRAY_SIZE(c), CPIO_HDR_FMT, cpio_srcbuf);
- 
- 	ktime_get_real_ts64(&ts_before);
- 	err = unpack_to_rootfs(cpio_srcbuf, len);
-@@ -177,7 +178,7 @@ static void __init initramfs_test_fname_overrun(struct kunit *test)
- 	/* limit overrun to avoid crashes / filp_open() ENAMETOOLONG */
- 	cpio_srcbuf[CPIO_HDRLEN + strlen(c[0].fname) + 20] = '\0';
- 
--	len = fill_cpio(c, ARRAY_SIZE(c), cpio_srcbuf);
-+	len = fill_cpio(c, ARRAY_SIZE(c), CPIO_HDR_FMT, cpio_srcbuf);
- 	/* overwrite trailing fname terminator and padding */
- 	suffix_off = len - 1;
- 	while (cpio_srcbuf[suffix_off] == '\0') {
-@@ -219,7 +220,7 @@ static void __init initramfs_test_data(struct kunit *test)
- 	cpio_srcbuf = kmalloc(CPIO_HDRLEN + c[0].namesize + c[0].filesize + 6,
- 			      GFP_KERNEL);
- 
--	len = fill_cpio(c, ARRAY_SIZE(c), cpio_srcbuf);
-+	len = fill_cpio(c, ARRAY_SIZE(c), CPIO_HDR_FMT, cpio_srcbuf);
- 
- 	err = unpack_to_rootfs(cpio_srcbuf, len);
- 	KUNIT_EXPECT_NULL(test, err);
-@@ -274,7 +275,7 @@ static void __init initramfs_test_csum(struct kunit *test)
- 
- 	cpio_srcbuf = kmalloc(8192, GFP_KERNEL);
- 
--	len = fill_cpio(c, ARRAY_SIZE(c), cpio_srcbuf);
-+	len = fill_cpio(c, ARRAY_SIZE(c), CPIO_HDR_FMT, cpio_srcbuf);
- 
- 	err = unpack_to_rootfs(cpio_srcbuf, len);
- 	KUNIT_EXPECT_NULL(test, err);
-@@ -284,7 +285,7 @@ static void __init initramfs_test_csum(struct kunit *test)
- 
- 	/* mess up the csum and confirm that unpack fails */
- 	c[0].csum--;
--	len = fill_cpio(c, ARRAY_SIZE(c), cpio_srcbuf);
-+	len = fill_cpio(c, ARRAY_SIZE(c), CPIO_HDR_FMT, cpio_srcbuf);
- 
- 	err = unpack_to_rootfs(cpio_srcbuf, len);
- 	KUNIT_EXPECT_NOT_NULL(test, err);
-@@ -330,7 +331,7 @@ static void __init initramfs_test_hardlink(struct kunit *test)
- 
- 	cpio_srcbuf = kmalloc(8192, GFP_KERNEL);
- 
--	len = fill_cpio(c, ARRAY_SIZE(c), cpio_srcbuf);
-+	len = fill_cpio(c, ARRAY_SIZE(c), CPIO_HDR_FMT, cpio_srcbuf);
- 
- 	err = unpack_to_rootfs(cpio_srcbuf, len);
- 	KUNIT_EXPECT_NULL(test, err);
-@@ -371,7 +372,7 @@ static void __init initramfs_test_many(struct kunit *test)
- 		};
- 
- 		c.namesize = 1 + sprintf(thispath, "initramfs_test_many-%d", i);
--		p += fill_cpio(&c, 1, p);
-+		p += fill_cpio(&c, 1, CPIO_HDR_FMT, p);
- 	}
- 
- 	len = p - cpio_srcbuf;
-@@ -425,7 +426,7 @@ static void __init initramfs_test_fname_pad(struct kunit *test)
- 	} };
- 
- 	memcpy(tbufs->padded_fname, "padded_fname", sizeof("padded_fname"));
--	len = fill_cpio(c, ARRAY_SIZE(c), tbufs->cpio_srcbuf);
-+	len = fill_cpio(c, ARRAY_SIZE(c), CPIO_HDR_FMT, tbufs->cpio_srcbuf);
- 
- 	err = unpack_to_rootfs(tbufs->cpio_srcbuf, len);
- 	KUNIT_EXPECT_NULL(test, err);
-@@ -481,7 +482,7 @@ static void __init initramfs_test_fname_path_max(struct kunit *test)
- 	memcpy(tbufs->fname_oversize, "fname_oversize",
- 	       sizeof("fname_oversize") - 1);
- 	memcpy(tbufs->fname_ok, "fname_ok", sizeof("fname_ok") - 1);
--	len = fill_cpio(c, ARRAY_SIZE(c), tbufs->cpio_src);
-+	len = fill_cpio(c, ARRAY_SIZE(c), CPIO_HDR_FMT, tbufs->cpio_src);
- 
- 	/* unpack skips over fname_oversize instead of returning an error */
- 	err = unpack_to_rootfs(tbufs->cpio_src, len);
+-unsigned long simple_strntoul(const char *cp, char **endp, unsigned int base,
+-			      size_t max_chars)
+-{
+-	return simple_strntoull(cp, endp, base, max_chars);
+-}
+-EXPORT_SYMBOL(simple_strntoul);
+-
+ /**
+  * simple_strtol - convert a string to a signed long
+  * @cp: The start of the string
 -- 
 2.50.1
 
