@@ -1,50 +1,38 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C25F03947B9;
-	Mon, 23 Mar 2026 11:44:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4047537F8AC;
+	Mon, 23 Mar 2026 11:47:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774266276; cv=none; b=IpOAyOs0W9RzNYX1HcrzPFnON1ch5BD/YxEXk2AVHN8fdfejjSscjpZf5jv8otE6cjhS+BX8orFr1EJIuscl355o5kchVtncRBWFqSOK8CuCPqJlVN3mJSYkmij5IPvCmkna4+cWF37IU7U7N9uV59Zw+nBRQiEUcQaN4KkSDLI=
+	t=1774266432; cv=none; b=Oh/XllPzqLyMbRdwwGLk3jPThAQj+fAX3FxUx77C8qx4nihaO8wPTJYvQt8sm931h5Z9MZRcxLHNxWgm0jiPzDzINgM5rtLeu+sKjomWgzY4UNmMVS7zfQOsDWM4tE+CNB6ywivTLVTh1oVRFKEddWV+gCrmmSdAHSCgZ36UrDo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774266276; c=relaxed/simple;
-	bh=aXd296Lm46/RWsbI4I1OOM2FgVG5HdKEPdtKxCcKiSg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KaItbg3pNpaZhj1Z0GAnQIf0MosoEVsRYYRQX+8WbOtXNyXOVXAjpAbKGYADx0Igs73NAKhXzLBqAU9jSTLH2mArAPyUzO313pCnQYfjvcEoRs1MfDMIn3aJQD8trMHT3eF40Vo6gMaGAIHTKWIDM5Nexwm022YqzYizO+o4SfE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gR/RCY7x; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774266432; c=relaxed/simple;
+	bh=lZCVThDM3BRzRypb31rGuUdpQI1V8CmxbHfPeXSGayY=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=knjxTvbvf9YoZeGBXyIXkyJ5eSz248kg96ZUK5+9sRz7p0ehqn5g1E8ZWLRpwh7YsL7ya9YprjbOKJApRtJ1MugsHBAZcU1I0diso9QwsS4NwtMv+tcHxizU2kr7uFwvwma2hFbcc4poTmBqb6wyOYqOHTL0VPNQMyUz2KH4oec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=oEU9xOum; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gR/RCY7x"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 622CAC4CEF7;
-	Mon, 23 Mar 2026 11:44:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774266276;
-	bh=aXd296Lm46/RWsbI4I1OOM2FgVG5HdKEPdtKxCcKiSg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=gR/RCY7xEISChh9Lrf9qGuhPEZS19LykvA5um6hJZDCEVVMpMFmEesD49v4VS0VeX
-	 7tvtxyMDQ8xUKY4iIhm3sU/C9WMRUdj6Z81Mw6hUi1GQnRCuXsZFys+7kWnJiM8LcH
-	 8qIODBP67hQ9u9z4blHsBR/iyNhx3ikj0My0HbCKCwAfCv1CzXTou3L+pTZAo5icZX
-	 O7F1SyOoy3ailgv1X6DwqsvZtE5mFHC/I3tpfFNVdXE7iSSWu4p62HgxDdHbQH+JxZ
-	 xHniVseYGTA81Swnq7Ya3s5cLs7Yq1ml1dSxfQYULHCaMrleKub1aY5HyQ6V3LTinA
-	 /L+uZAmg1tcww==
-From: Christian Brauner <brauner@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	x86@kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mips@vger.kernel.org,
-	linux-parisc@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	sparclinux@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-api@vger.kernel.org,
-	Alexander Viro <viro@zeniv.linux.org.uk>
-Subject: Re: fix architecture-specific compat_ftruncate64 implementations
-Date: Mon, 23 Mar 2026 12:44:08 +0100
-Message-ID: <20260323-pocht-abberufen-825ffe02281f@brauner>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260323070205.2939118-1-hch@lst.de>
-References: <20260323070205.2939118-1-hch@lst.de>
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="oEU9xOum"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:Message-Id:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:
+	Reply-To:Content-ID:Content-Description:In-Reply-To:References;
+	bh=zq/3dGnYBusKmmjNVvDaRg0ULStVV+ED9EfjGhr4+wo=; b=oEU9xOum35YSOD/0KH+rNTxxop
+	Br3mPQ4ADG04W4RYayaK4LkEBUobGk4HlELj83jzYxI3u3McZ3PLER5kp6wb6CAl3mtdtJv3nOt1u
+	zEkjl7/3kAVuW2o5ttKc1LZWuGXCbMyz8OGRLU19X6rJ3X6xsxNu+n/LplIU2oujgCg9bpHm+tlD/
+	cnft2Uuab52H477awJDc3O2URKANpa0dO8RuGTfFiYCB9B+gOqzr769q1/7fXkrb7UsC9PzQXUaov
+	tuvBV4/6PwGBNmRwbLACli80K9eaPFLjFZbZi/+AzO5TziskBMyo4wxhrpBYZ+ig18quXAeE4DS0U
+	X8gx+4sQ==;
+Received: from authenticated user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.94.2)
+	(envelope-from <leitao@debian.org>)
+	id 1w4dkQ-007VXT-Ut; Mon, 23 Mar 2026 11:47:06 +0000
+From: Breno Leitao <leitao@debian.org>
+Date: Mon, 23 Mar 2026 04:46:27 -0700
+Subject: [PATCH v2] coredump: add tracepoint for coredump events
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -52,59 +40,170 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2179; i=brauner@kernel.org; h=from:subject:message-id; bh=aXd296Lm46/RWsbI4I1OOM2FgVG5HdKEPdtKxCcKiSg=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQeVJ/Ny96b4PNJrzr+9NOiA/8+bLx4YW3lMTVfacWzS 0yOhLLad5SyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEzkwDmGf1plEULnTrzd+kq7 uMavcddW/zt2IduMvmY9VrKaK9Qs58Lw3/Gk5+XnL/zeeZz4yxfF98j+tsyNy3aT8znSj9yckRz wkh0A
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260323-coredump_tracepoint-v2-1-afced083b38d@debian.org>
+X-B4-Tracking: v=1; b=H4sIABMowWkC/32NSwqDMBQArxLe2hTzIa2ueo8ixSSv+gpNJInSI
+ t69aPddDgwzK2RMhBlatkLChTLFAC2TFQM39mFATh5aBrKWplay5i4m9PNrupfUO5wihcK1R62
+ axqGwBioGU8IHvY/qrftxnu0TXdlTuzFSLjF9ju0idu//YRFccKUvRp+1cdaqq0dLfTjFNEC3b
+ dsXe/X/7skAAAA=
+X-Change-ID: 20260320-coredump_tracepoint-4de4399ce1b6
+To: Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Steven Rostedt <rostedt@goodmis.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>, 
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ linux-trace-kernel@vger.kernel.org, bpf@vger.kernel.org, 
+ kernel-team@meta.com, song@kernel.org, Andrii Nakryiko <andrii@kernel.org>, 
+ Breno Leitao <leitao@debian.org>
+X-Mailer: b4 0.16-dev-3673a
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4327; i=leitao@debian.org;
+ h=from:subject:message-id; bh=lZCVThDM3BRzRypb31rGuUdpQI1V8CmxbHfPeXSGayY=;
+ b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBpwSg1HPrGxrfr/seGh+FXDPoCtNQ87qgBh3Wdz
+ AryDGSagySJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCacEoNQAKCRA1o5Of/Hh3
+ bR5FD/sGWRUetzAgEYMIxWLj5oeVglBvntz82YsMf8/9x1Z5pk72rfnoau+oUr2BLN9hqMaH+/3
+ ADiTTa39cwJAckwoEkrE5zxCQ7a5R16P8UxamXJlQRA+/mowJIIDb95YUW97Tgv+6rwepveZiaN
+ uj49ETDZvBGh7hpt2UW4wa4xuojgjptCSnt0o8fBq0/DRPn2wgnP38/jCyLMgpdWikZ/wCsK4fi
+ tFZUVmFulJC97IkmigAW/RyzsvmW0we8GXUtLXKFrfA0XtMYLPVSzYDgS7X29coRpxXBk8SpnSC
+ cUILKIlb1XCjC9kQE//11OOrdSHultoWonHk6Wf+lGQBRogKCGQQWCrX/HAK+sb5rF3KAgA2w+1
+ VGbKeguNrj5hqlMonZJSqZJyancu7l/mXvJavaNNkUu8Le+QmJktt2P65CUYERxpVa7HKglaC5I
+ LA+thD4Q0kqofg3oq5X7WIbLvcGi491BZbUzpDpV4Lck26p1vhIeblYBGIlFjKgqxitdz5aK07U
+ +VWkUMP86FbhjH97uBnZqop4x4tdi16w1G2TKX/KXc+GzG7qtIg2TesHzhbaPVFqcps5/z4tJ3z
+ qlJyy3a5CV3t8+GMPoca+Kpz+KIDhpwOS6NwzYKSJpqI2vAAAUFsxuwUaMBRkKjCXSytLNy1/nz
+ /gbt3ClyPzDDOIg==
+X-Developer-Key: i=leitao@debian.org; a=openpgp;
+ fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
+X-Debian-User: leitao
 
-On Mon, 23 Mar 2026 08:01:43 +0100, Christoph Hellwig wrote:
-> this series fixes a really old bug found by code inspection, where the
-> architecture-specific 32-bit compat ftruncate64 implementations enforce
-> the non-LFS file size limit unless opened with O_LARGEFILE.
-> 
-> Diffstat:
->  arch/arm64/kernel/sys32.c       |    2 +-
->  arch/mips/kernel/linux32.c      |    2 +-
->  arch/parisc/kernel/sys_parisc.c |    4 ++--
->  arch/powerpc/kernel/sys_ppc32.c |    2 +-
->  arch/sparc/kernel/sys_sparc32.c |    2 +-
->  arch/x86/kernel/sys_ia32.c      |    3 ++-
->  fs/internal.h                   |    3 +--
->  fs/open.c                       |   40 +++++++++++++++++++---------------------
->  include/linux/syscalls.h        |   16 +++-------------
->  io_uring/truncate.c             |    2 +-
->  10 files changed, 32 insertions(+), 44 deletions(-)
-> 
-> [...]
+Coredump is a generally useful and interesting event in the lifetime
+of a process. Add a tracepoint so it can be monitored through the
+standard kernel tracing infrastructure.
 
-VFS CI: https://github.com/linux-fsdevel/vfs/actions/runs/23425735066
+BPF-based crash monitoring is an advanced approach that
+allows real-time crash interception: by attaching a BPF program at
+this point, tools can use bpf_get_stack() with BPF_F_USER_STACK to
+capture the user-space stack trace at the exact moment of the crash,
+before the process is fully terminated, without waiting for a
+coredump file to be written and parsed.
 
-  x86_64 (gcc, debian, ovl-fstests)  pass
-  x86_64 (gcc, debian, selftests)    pass
-  x86_64 (gcc, debian, xfstests)     pass
-  x86_64 (gcc, fedora, ovl-fstests)  pass
-  x86_64 (gcc, fedora, selftests)    pass
-  x86_64 (gcc, fedora, xfstests)     pass
+However, there is currently no stable kernel API for this use case.
+Existing tools rely on attaching fentry probes to do_coredump(),
+which is an internal function whose signature changes across kernel
+versions, breaking these tools.
+
+Add a stable tracepoint that fires at the beginning of
+do_coredump(), providing BPF programs a reliable attachment point.
+At tracepoint time, the crashing process context is still live, so
+BPF programs can call bpf_get_stack() with BPF_F_USER_STACK to
+extract the user-space backtrace.
+
+The tracepoint records:
+  - sig: signal number that triggered the coredump
+  - comm: process name
+
+Example output:
+
+  $ echo 1 > /sys/kernel/tracing/events/coredump/coredump/enable
+  $ sleep 999 &
+  $ kill -SEGV $!
+  $ cat /sys/kernel/tracing/trace
+  #           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
+  #              | |         |   |||||     |         |
+             sleep-634     [036] .....   145.222206: coredump: sig=11 comm=sleep
+
+Suggested-by: Andrii Nakryiko <andrii@kernel.org>
+Signed-off-by: Breno Leitao <leitao@debian.org>
+---
+Changes in v2:
+- Remove the pid from the tracpoint message, given pid is saved in all
+  trace events (Christian, Steven)
+- Link to v1:
+  https://patch.msgid.link/20260320-coredump_tracepoint-v1-1-34864746cbb3@debian.org
+---
+ fs/coredump.c                   |  5 +++++
+ include/trace/events/coredump.h | 45 +++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 50 insertions(+)
+
+diff --git a/fs/coredump.c b/fs/coredump.c
+index 29df8aa19e2e7..bb6fdb1f458e9 100644
+--- a/fs/coredump.c
++++ b/fs/coredump.c
+@@ -63,6 +63,9 @@
+ 
+ #include <trace/events/sched.h>
+ 
++#define CREATE_TRACE_POINTS
++#include <trace/events/coredump.h>
++
+ static bool dump_vma_snapshot(struct coredump_params *cprm);
+ static void free_vma_snapshot(struct coredump_params *cprm);
+ 
+@@ -1090,6 +1093,8 @@ static inline bool coredump_skip(const struct coredump_params *cprm,
+ static void do_coredump(struct core_name *cn, struct coredump_params *cprm,
+ 			size_t **argv, int *argc, const struct linux_binfmt *binfmt)
+ {
++	trace_coredump(cprm->siginfo->si_signo);
++
+ 	if (!coredump_parse(cn, cprm, argv, argc)) {
+ 		coredump_report_failure("format_corename failed, aborting core");
+ 		return;
+diff --git a/include/trace/events/coredump.h b/include/trace/events/coredump.h
+new file mode 100644
+index 0000000000000..c7b9c53fc4986
+--- /dev/null
++++ b/include/trace/events/coredump.h
+@@ -0,0 +1,45 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (c) 2026 Meta Platforms, Inc. and affiliates.
++ * Copyright (c) 2026 Breno Leitao <leitao@debian.org>
++ */
++#undef TRACE_SYSTEM
++#define TRACE_SYSTEM coredump
++
++#if !defined(_TRACE_COREDUMP_H) || defined(TRACE_HEADER_MULTI_READ)
++#define _TRACE_COREDUMP_H
++
++#include <linux/sched.h>
++#include <linux/tracepoint.h>
++
++/**
++ * coredump - called when a coredump starts
++ * @sig: signal number that triggered the coredump
++ *
++ * This tracepoint fires at the beginning of a coredump attempt,
++ * providing a stable interface for monitoring coredump events.
++ */
++TRACE_EVENT(coredump,
++
++	TP_PROTO(int sig),
++
++	TP_ARGS(sig),
++
++	TP_STRUCT__entry(
++		__field(int, sig)
++		__array(char, comm, TASK_COMM_LEN)
++	),
++
++	TP_fast_assign(
++		__entry->sig = sig;
++		memcpy(__entry->comm, current->comm, TASK_COMM_LEN);
++	),
++
++	TP_printk("sig=%d comm=%s",
++		  __entry->sig, __entry->comm)
++);
++
++#endif /* _TRACE_COREDUMP_H */
++
++/* This part must be outside protection */
++#include <trace/define_trace.h>
 
 ---
+base-commit: b5d083a3ed1e2798396d5e491432e887da8d4a06
+change-id: 20260320-coredump_tracepoint-4de4399ce1b6
 
-Applied to the vfs-7.1.misc branch of the vfs/vfs.git tree.
-Patches in the vfs-7.1.misc branch should appear in linux-next soon.
+Best regards,
+--  
+Breno Leitao <leitao@debian.org>
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
-
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.1.misc
-
-[1/3] fs: fix archiecture-specific compat_ftruncate64
-      https://git.kernel.org/vfs/vfs/c/e43dce8a0bc0
-[2/3] fs: pass on FTRUNCATE_* flags to do_truncate
-      https://git.kernel.org/vfs/vfs/c/0924f6b80d4a
-[3/3] fs: remove do_sys_truncate
-      https://git.kernel.org/vfs/vfs/c/e8767a3134ca
