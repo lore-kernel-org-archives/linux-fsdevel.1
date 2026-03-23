@@ -1,163 +1,95 @@
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011060.outbound.protection.outlook.com [40.93.194.60])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9AE118FC80;
-	Mon, 23 Mar 2026 13:17:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.60
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774271828; cv=fail; b=DBQKnL2MRkCii4ssrrOYFfBKinaXAc3D4b+SfcfX2TSX67GWJYwmbAs/n29//zMejpUfK1C37qdDlcwbqaHQ2SiUYF4eIDGpOfBY1wVEy48D4Cb6c3B+CPSxuCB7gKf6qndz2p+w/DTMT4O0wJx6W7Md9/KM/gCAF9uiJ5CyuiY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774271828; c=relaxed/simple;
-	bh=T8aA2pEMb624XnIKN8v3I2PhXn9TNiIdR7MtjsN7NvA=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=SG75g/VE9Rwvh+Yv70WPd2HSA5zO/ANPJZ2xzp/ekJjBxZjovUgB82cGLwIqCbxF1eNNYin79cdx3trU7/de+IVy8CT3FVQyXDA5eUpqhg+8y3J/+XRnTfZu7pHz3p95d8LIDO9e5ICgNs79sCFiTno66ykP5E4uyqrRE0XSDIw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=j44moXqL; arc=fail smtp.client-ip=40.93.194.60
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFBAD1E1C02
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 13:17:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774271840; cv=none; b=LTHYlHwCOem1aj6Z6yWWLJQqU5hx4ybcu39iJ2vGcv7OUDfYKgC5EnjgEm0+CdcDujlbJnKZ4LQ0ROcgVNBN3j58fHQGGZ9Ve5jNTKNk5gm2OGi8Ar3U6mJ0cJrxYBs98EDl/m5CUrsk7g9qhBKaLm3TqXfMxkXqbsG7/rpJ4Lg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774271840; c=relaxed/simple;
+	bh=ih2xZT8cSAgrSQ39UjkTZOAwvgZpaNRyQMrac+q6C1Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=U5SW04Cq4Hc9e29v3OpuYXezNAyoJtqxWriFsau1hbgT9ljVsKwkZZizHZ5vVRk1nVfVyv33tjz8zwFy0Vb+esRYfHa2BwoBFXKHV/wvaEiJUp7FX3cKEMbpdmivr+Mrdlo6nWFFii1usJ4wI68EG4dLvC6vc+R4cLPn3T3qbcc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KREw9a6T; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="j44moXqL"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SEvuWqoLkwvywn101AE3KoXSqi2OsZvwQ0E2PGskZZUQRh1HjH8ABLutC7FkDvdP5Tne0kCUWn+bcKA/vraZH8BjqHZiX93uY4N48wRB7WY/BvzYWH4C0eY3LRVq/wf7no2ocdaZmhEA8QbM3y8lTZ94SNIpajvnFCJqPQJ+TxvJiWt82aRhGIlMlXN3kbQ+0AoFmUmfmzNjLfIcy1IKQIlccHLiz41CiWUAwvHvcy6h4+poFIK6zZNNEGe2Bf5xviYM+SBevfpbd6FZchoeFm7zOM+d3duOdFdqtrVkCqGndQt0HAezMwJGKLLDdixIYegTNxXnDiJnLwGfp/5j8A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=buQG+9JckZz2ra/cje+0o+AmaNTqXXe3lJIVKZflpVM=;
- b=S97Ub3P6vv+fx19aRnQgrW2Z3CLImzqiDt17TcTtu1vmOaW82+swgl3//UxTbFVnmJSh/rO4uCgQou5fvXWodkGYj365SGpFhvV3BkozJlnQOrvK5fRM8eJLUR52n8jezai7K5Lrtf5UcFmmh+o/qBm+blnfUlvWp4rSTeCpGk0aQazTbAjb6b2mMxYFd9jfO4P3DxJXvo8gY7j8jWtSELkFQ9MfwCUikV1Ja3qi+xf1wntJ3TY4C+CtbeWu7TGzZvc+xrJVaBone9iBwyRbdsrLB+87n2/gcf/Iy1FceE2Awvfx+w09Dh/+8t+c1hB5kzeQfz11gN32S2Wh11iV3g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=buQG+9JckZz2ra/cje+0o+AmaNTqXXe3lJIVKZflpVM=;
- b=j44moXqLhAM0kxr3oblMG7+W1s9OHCqBhqfIYP8jeoZruRBBPgNhjW0NY4yf2F5IdmXt79i8p8YxHCwqjmMSp1COnHT5bzWxJbQBIEAZemboqzCArDHiCm/kPYN/2tHUy19wr7FCOYMnP+UoujgOpNyeSKqcWA0D4q8NjF2rZ4A=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by MN0PR12MB6200.namprd12.prod.outlook.com (2603:10b6:208:3c3::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.20; Mon, 23 Mar
- 2026 13:17:04 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9745.019; Mon, 23 Mar 2026
- 13:17:04 +0000
-Message-ID: <10ac8ef6-56b4-4a0f-b970-18b3ce012ceb@amd.com>
-Date: Mon, 23 Mar 2026 14:16:59 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH] fdinfo: Option for public fdinfo
-To: Christian Brauner <brauner@kernel.org>,
- David Francis <David.Francis@amd.com>
-Cc: linux-kernel@vger.kernel.org, Alexander.Deucher@amd.com,
- linux-fsdevel@vger.kernel.org
-References: <20260316183828.3354343-1-David.Francis@amd.com>
- <20260323-neugierig-meerschwein-31b6daaa1db9@brauner>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20260323-neugierig-meerschwein-31b6daaa1db9@brauner>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MN2PR13CA0014.namprd13.prod.outlook.com
- (2603:10b6:208:160::27) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KREw9a6T"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774271839; x=1805807839;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ih2xZT8cSAgrSQ39UjkTZOAwvgZpaNRyQMrac+q6C1Q=;
+  b=KREw9a6TbD0LyKr7S3U4EwXBNjS6T1ulXskH8BL/Enf8SV6ulj6kebHP
+   cEw4K9oraTvfiSF40tPl/yigbBB2rEdMAWc9bBLuy5gKrhBusek5am6gm
+   c2iHfdr2ddxOO+Q3dcJbgkbd46dAmG8MNG0YKnR25XZSIyeOrAhE4jjAz
+   kySviBanxBGAjUJDClLhzRXd4S5HAO0VJfjOMR4JZFN9LH0baPwJPsG5M
+   C2PX26TXDqsB8yUbMf4x1hlwyA7lmRaSmmxjw5G6fZS+IyU5lFqNpI4L8
+   De9badcDqGhX57FYf0YSoYchUr0AH/r/AEIqOwElf1OIk1hnLoDqBdM8w
+   g==;
+X-CSE-ConnectionGUID: 9MzL27WqTmq2O8WUljU1Zg==
+X-CSE-MsgGUID: pR3taPYpSIa8a2MtGJIuqQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11737"; a="86742207"
+X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
+   d="scan'208";a="86742207"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 06:17:18 -0700
+X-CSE-ConnectionGUID: nGPwzmKTQZm4QU0wlq2T+g==
+X-CSE-MsgGUID: S6hx8wlrS8SGd+0hpqQPgw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
+   d="scan'208";a="223214242"
+Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost) ([10.245.244.22])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 06:17:17 -0700
+Date: Mon, 23 Mar 2026 15:17:14 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: David Disseldorp <ddiss@suse.de>
+Cc: Christian Brauner <brauner@kernel.org>,
+	Al Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v2 0/8] SQUASH: test and improve cpio hex header
+ validation
+Message-ID: <acE9WhfcBT0XahXu@ashevche-desk.local>
+References: <20260121172749.32322-1-ddiss@suse.de>
+ <20260323225318.062bec14.ddiss@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MN0PR12MB6200:EE_
-X-MS-Office365-Filtering-Correlation-Id: a4f7d8da-8a0b-41db-7f07-08de88de79d9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|376014|22082099003|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	ZJidiyI4HEoUYnWHXIkJdlOX9zuRBbl2eYsjThR26I6od0UY7pdAYfveq1Aw4hwxNqR4d1q8I2bvC0R42VYbtmiIUqJ79xgdEKA42B7cr+mIuYcHCzaabkhW0vz3nYxdOCBr47ZYuVxRCzx09XShf66p4DV/LlGCdun81Ktn7E6z4XPgwr0poVMLkA8vSV9pZKA4Wc0nnLQzppyMQYJbGrdgi0BfI6d7lVehABhmFXNZe6qt8w4GZaENl0Fa9JoptbOXH65++2Ey10jhz8Pnl4EFvrjfTBv2ym1jtmzmZ9WoFq5CPl2s/301R91l6cw8FgXRhqdA9fZU7TkLW1qn+BeFj9c/rhkeTShOL1stvTlBio4S/nhhRItVRvwRRXKsxDF+LdgYkvyYZb3y+Yen2zE6270LXdT6eHbEQxbyyn8eQKHxlaAQDmg+21lVcIf5hZ+8skizquyQEumrDvZfmBNirBiEsYZSKRmNEHuMSexKqbpHAYzT+LORrSBnoOG1tD+wE427ZKfNghANM4Zcqwpm44W2OctQd10SWj7HTppT+rU7x/QHNDXcNhIzOIXUnmI+81zv0TkQ7pc217vfcHvtwENsZ2yN8VJmfvJeOwqqW3kMnakL03LgqUbYqJsZeNDpNsY4k8V52VT146Xnr4NkKRJK06I9C3LLH8p1z8Aj7Hm882aQ0jlMTwrRLKqq4yyqp4hqCfyyNKs1QB4DR7h8NsjSJnIGNsrV1D1hFrE=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?K1Y3S29Kd3ZOYTBuZjdHOVJqK2NvN0JzN0R5eXU5ZWR1Q2xDUW1hUnZIN2tM?=
- =?utf-8?B?WmRxeGZFSHM3a0c4bWFMZlh2QmhLaFRIOERqVjZVdUsvMGxxUFBKNVBsK0tX?=
- =?utf-8?B?ZDJ6UXRVNlpVUll5VElaTGRKeG51SnludFJBVFRnVUZIY3lJYk4wWExUZWt5?=
- =?utf-8?B?NE9lMUV6eUFoYkt0emNvS2dPRDNQWlczRk8yYkpZWmluVnFDQk5PSVJhU25v?=
- =?utf-8?B?bGNRYmNFNFludVhTTWFjWWR5SS9jOTRFbitJeUtFYllNZythUDJlWDAzWDN5?=
- =?utf-8?B?d3UxbGlpZ1ZKa3c5ZjJOVjdYY3hHeTZPYXZ6WEUwVkxTeHN0bGszcmRtcWhM?=
- =?utf-8?B?d2ZCTWxhNnJnTU9HdE1TSGV5ZUo5bVcyaEZwbTVKV0VEaURkb05vOU1ITk1a?=
- =?utf-8?B?WFRyTitYYjAxcCtrbkhvVlRSSzZ6cWNWRTBpb2I1RFVTVnJzOWU4M05FdHVM?=
- =?utf-8?B?cklXS0hJTCtSVFFxMEVJbEJScXJGSTBoNis2WWJSZlpQd1EvekUxZTl6Vy9v?=
- =?utf-8?B?VU9BeGs2ME5uakFFSndmRDFKeE9RaUFFTkp4cmJUL1h0VFFaOXR1Tkx1MlVi?=
- =?utf-8?B?M1lkKzZWSGpGQk5vaXFBYTY4RFZzYTB5YU1CY2x5bzA2ZVRVK1poc2FpYVlQ?=
- =?utf-8?B?MXNaWnZ4NUlSVENzQ2VSSzRzYSswckZqdFFtcHYrMGpLYndQVVJoWWc3WGR2?=
- =?utf-8?B?aVpPTS9kd1dCNmhlYlNXWit2YlhZbGswWE5LQjJMdmFiU0hWZGNLd1BMbHZY?=
- =?utf-8?B?SkRkZkl6NkxHWUY4MnhGbG9tQjRvaUhGV3pkaUl2SjhYWXZYNGZBUk1ySjJP?=
- =?utf-8?B?NVpuTXhMTUh3dXJac1plM1JyVkhyZE9ocTVkWXVhM1dTUEc1UUFFNU9uZFQ5?=
- =?utf-8?B?ZGM5TWpmYjV6L2YydWFLMWZ6R0J1ZjI5UEM0SnRSNVJNZzBESmQ3NGdFT2NB?=
- =?utf-8?B?SDVvLzhQS2VUYkpoR1A0RUtxN0dia3UzRlRXYnZHandNcjZVbU93U3NlR2gv?=
- =?utf-8?B?bU5CRE9hZjlxVDdzTDZkenFvN0c0TWErTVNBSVo4cVZqUk8zdVRzTWp3TzBW?=
- =?utf-8?B?c1JjTzFiMVByMGk3UVp6U1RDY1lkaWZkYnNLTkxMUStwMm5uMWlpTWdIWHBp?=
- =?utf-8?B?VHkveStiOVBrdW01ZlFwSkdzSUszUWxPOG5jRDJLVlg4THQxa3o0MFJJN1c0?=
- =?utf-8?B?RXVDUWtXTEdLYTdvTitVdVoxMndRUFJpZkxVTGV4YmpuZ2NBbEFqOVBzNkpm?=
- =?utf-8?B?QkJaTU9DMjZvU0dNYVd6ZEc2ZGhFdkRVSnBCT3hYVzY5aUFxMzZLOGZVUkxn?=
- =?utf-8?B?Z1hkSFhvK0lNOGx1dUpwSmpFN0tBY3JtcDBEYnk0VnB5ZGxOcmRsdUt2UFY1?=
- =?utf-8?B?bC9mVzQ2VUMyeUFGcjZGTy85Y1pQdERwNFFOeTlOYURod2pPOENvK1NQRmIx?=
- =?utf-8?B?UjZVUFQxS3kxVGNlREtrK2NsWHpNYjZ2NkNxRVZvQmhqc1RCeHBxVzFocys4?=
- =?utf-8?B?NW44ZnJhc2M4a0JQbmYzK0szYVNkSk14VUg3VkxuS3ZUdFpRc0lKWUttKzQr?=
- =?utf-8?B?ZnZNbFZvRjdIQW5HMHZiZmtiRGN2cGdYdSt1MmZIV0ZTNUtNZ2tOVFdKSitl?=
- =?utf-8?B?STQ5L0gyZjFVV1dpdlUyTzNNc1VNYWw0YzhGc3RkOUtYTmsvaW5NYnBLSjZS?=
- =?utf-8?B?MzJVVm9NMnlJV2ZYYnlqZGdzb3pyZkoxZHJsV1JEeVY1VXAzZ1lUQllidERI?=
- =?utf-8?B?UkhwMlozdmYxNmNqSHd2dmdkdE92cXdVRjh0K2o1RW82YTJZSW1JZUpwbGRo?=
- =?utf-8?B?Z3J2MWkyY1E4S3M4aitOMFJVQkFNeGJxRUxuRjBadWtoSFlvWnpVelg0dnQw?=
- =?utf-8?B?cmFSQXZXTHdIelF2UGZaK3ZPckg3MEZGQStsRHB0S3NvYTFkNUl2ZjIxenhw?=
- =?utf-8?B?cWFsOWc2MC83V01EUWxYbmFFMFR2WXhDdHh2SHcxQ0pib3hnZFhUaW1GK0Mv?=
- =?utf-8?B?SUNLbm1ZRmpubEZkd0UvQkIvT0tQNlMrZ0JxUk5pajRCc1hhcWRjQTdGTmdK?=
- =?utf-8?B?eDdrUEhCeTg3UmVsQTg2d3luUGtyQ2RvaFFoRWFHYkYyZU1RMm9tb0QyTnNs?=
- =?utf-8?B?SzVieGtzOGxXM1Fqa1RFQ3BWN3FUUkUxLysvMU0xdG5jaUJVVk9iQ0VCdlhi?=
- =?utf-8?B?dlZZbzBVMCtqanpEVVhqeXRVZW1hbExZVkF0azZ4WWpqUFYvV0ZVQkJQdW9G?=
- =?utf-8?B?VUNab2RQc2JFczFyZVJJdkJQcDFoUXEwSkFoOUhBRlFSMjdPMlhoQlExUFZV?=
- =?utf-8?Q?f5/AqYfu64WHmd4dSv?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a4f7d8da-8a0b-41db-7f07-08de88de79d9
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2026 13:17:04.3739
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: u8+8UqQd8paMCE/kBDvvDOZ8NZLRPIx38aqVQ5FPFPmHceXKU8oUQ8RAK9TPzj7Q
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6200
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260323225318.062bec14.ddiss@suse.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On 3/23/26 13:13, Christian Brauner wrote:
-> On Mon, Mar 16, 2026 at 02:38:28PM -0400, David Francis wrote:
->> We want some GPU information to be publicly available to all
->> processes for basic system-wide profiling (think GPU versions
->> of top).
->>
->> This information is available in fdinfo and not easily exposed
->> by other interfaces.
->>
->> Add fd_op flag FOP_PUBLIC_FDINFO, which, if set, makes the fdinfo
->> for that file available to read for processes without ptrace
->> permissions.
->>
->> Note that this makes public how many files each process has open,
->> and what their fds are.
->>
->> Signed-off-by: David Francis <David.Francis@amd.com>
->> ---
+On Mon, Mar 23, 2026 at 10:53:18PM +1100, David Disseldorp wrote:
+> On Thu, 22 Jan 2026 04:12:48 +1100, David Disseldorp wrote:
 > 
-> Eew, please let's not. Add an ioctl if you need to be able to retrieve
-> that info.
+> > This patchset is a combination of my
+> > https://lore.kernel.org/linux-fsdevel/20260120204715.14529-1-ddiss@suse.de/
+> > and Andy's
+> > https://lore.kernel.org/linux-fsdevel/20260119204151.1447503-1-andriy.shevchenko@linux.intel.com/
+> > patchsets.
+> > 
+> > The reason for combining them is so that a the initramfs_test case can
+> > track the user-facing change in header parsing behaviour for cpio
+> > fields that carry a "0x" hex prefix.
+> > 
+> > @Andy: please feel free to squash the two SQUASH flagged patches into
+> > your 4/8 hex2bin() patch.
+> 
+> It seems this series stalled. Did you have any thoughts on the SQUASH
+> flagged patches? I think it makes sense to go ahead with your hex2bin
+> changes. I can split the initramfs_test changes out into a separate
+> series again if you'd prefer.
 
-Yeah the problem is an IOCTL is even worse from the security pov.
+Okay, let me send a new version.
 
-This is for an tool which doesn't have access to the file descriptor which provides that information.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-So using pidfd_getfd() or similar to get the FD and then call an IOCTL on it would be a security violation.
 
-The real question is how should we make this information public available in the system?
-
-Regards,
-Christian.
