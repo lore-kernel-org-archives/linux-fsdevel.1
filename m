@@ -1,68 +1,135 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out30-124.freemail.mail.aliyun.com (out30-124.freemail.mail.aliyun.com [115.124.30.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E3B83AF65D
-	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 14:52:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 821E0242D7F
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 14:57:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774277539; cv=none; b=ZmFqyhaVEUDkb5cShfBoPNTiLiQdRoACYNI8QfP5FgCSrVr4QdC9Lfnq2xwBPN/zJ9s7GFbzX1xJNc9vz0Vg7av9LBH4Fyvf2JbMU27heOVyXD3BvU3PX8truYFZHSO1elU2XRnYnYmBhPYiD6J/dB0mE9defsByCa5J/LvSXiI=
+	t=1774277871; cv=none; b=EJTgjs2j+iyZ9S1lwr66f8jxiMCPife3W4Wy7dXcYB5cPW3gU0d34dTdJcjGKn7FikODDfPt6DCSOfmVizhAKWdR2QiYfmh2wXnFyzYSy+A9s4hueEIZW5ZaZXvjkMtmlPmLcavpH9IBOnwBPlByiyhE0fPRdTFtxpzd9c2tbH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774277539; c=relaxed/simple;
-	bh=4UUjsSTX00Z3UIhHAHgx7Z/OnRnZL3xaxGeAqI2MLAo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ruCr7FDjV1E60BKIpb2b8T2dNRPxNI8i7aGi1jmwRCrJyg2Id6O71MuXV60Muh328jlV2BQGcN7LTP5Ks5zOyuNUb9J94IdX1+nsS+i/P8avo1N2IbmcNREl39fHe9Xq3QNYtZn4pGtK2g8BVef5IOTVgVdtkwllRn0IpxYcYj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vJ5dGrzO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774277871; c=relaxed/simple;
+	bh=lF6lS6eqbBxQ8ogv0QsB0bykVRMJkcM9mibiNuAXfoo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SvyYa7QxwPBa6o96Gdgvu3DOOrG5Zb7bdL+aV4I41enR6DADA6Xe0p7DL063GTxZtmNGrEo+tvef0qnc38d0Pq/leFHLuTBUuupZSx7z/8aH710gOgS4AZI5lpbmxe0/07AhyYHkoHqKm2eGMZP/gASSRDds98zvFkyjt+At8dg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=H0MrbWyn; arc=none smtp.client-ip=115.124.30.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vJ5dGrzO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F5FBC2BCB3
-	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 14:52:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774277539;
-	bh=4UUjsSTX00Z3UIhHAHgx7Z/OnRnZL3xaxGeAqI2MLAo=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=vJ5dGrzOcXoh3fNeCoJxqhD1C8VLV7EgtD4cg3GBTveNBtCr5I0J0ipubmFOgvB7c
-	 9qIwkNbW+dM9nLAu0rem1jf9rfXKeOGBx847qddxgztULDd6vogiruj0H14dxKP/zm
-	 iLY0Z9MM2VPL36i1qhERDqt6zIMiQv6rzUshH4iAU62Rs53PsT95r4AFg8AZ8m9d7v
-	 9A6tPKgHT8KahijgQPcrdQ6HGAcA7Vn88kaG21dmnZf8SNSze0+1kXcQ737516llOx
-	 SI57BcCzfxjIDYFfRz1DFSlIDBRmPwIMplHg0zZKXKhcMIngFTTcBqLgqt1H/yY5TO
-	 o1MpCbyh8A3Sg==
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-668c60b8f45so5346959a12.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 07:52:19 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWVshGxKxiQeG+5wV9SdOUslRD38HmKa55kz3c/BArVM/pM0zXjUnmuj+YA4oYjPtV2a4j788CUqQOrFJ84@vger.kernel.org
-X-Gm-Message-State: AOJu0YxaK4pl5jR1iCridQtxzfNgG3Mgzzwc5TuttPKFHXM8VVfITkHs
-	7vcdOusrxmVWXlWry6FPszq8/BSftAMmZ3LANQ2p9H3qwFv85U6o1j7Kv3DDTBaPvYQfmv78b+y
-	l1/UjZpkkEP8uvxzNQ1SurQp+YcA/9fk=
-X-Received: by 2002:a05:6402:524c:b0:668:368b:38d3 with SMTP id
- 4fb4d7f45d1cf-668c971df93mr8589561a12.12.1774277537791; Mon, 23 Mar 2026
- 07:52:17 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="H0MrbWyn"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1774277866; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=HKdSzx1BvxOPv/JTDRYJeYjx4iLJboPvEpu/lv0i1A4=;
+	b=H0MrbWynxMwFJNX1TiajFaLV0/vnLJEC6p/H73sF08Y7bCxk/gMYDuTk8EBYL6t8mO2dOKkPqFggmG/5E/swH+6FpJPMwAbXEJE8YEW94TJTH1YQ8B4Ip9Hae+Tt4IRaw7Du8BQpVblZrbky99QPvzj1BfNpfjFNKjbbzEFuLbs=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R141e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam011083073210;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=13;SR=0;TI=SMTPD_---0X.ZDVFt_1774277863;
+Received: from 30.41.54.139(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0X.ZDVFt_1774277863 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Mon, 23 Mar 2026 22:57:44 +0800
+Message-ID: <a0c0ef30-65ed-4815-b91c-2a5a817aa5fa@linux.alibaba.com>
+Date: Mon, 23 Mar 2026 22:57:43 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260322153206.218-1-anmuxixixi@gmail.com>
-In-Reply-To: <20260322153206.218-1-anmuxixixi@gmail.com>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Mon, 23 Mar 2026 23:52:04 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd-LhB6JzrVPxsrv22T39FNy_QSic2U5HnXGD90ofaWRZw@mail.gmail.com>
-X-Gm-Features: AQROBzBljV1W55_kkxfJQBWTp0rc10BTsegoqn_GKELXQN3gi6-JH0C46JQ8bwo
-Message-ID: <CAKYAXd-LhB6JzrVPxsrv22T39FNy_QSic2U5HnXGD90ofaWRZw@mail.gmail.com>
-Subject: Re: [PATCH] exfat: fix passing zero to ERR_PTR() in exfat_mkdir()
-To: Yang Wen <anmuxixixi@gmail.com>
-Cc: sj1557.seo@samsung.com, yuezhang.mo@sony.com, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Lsf-pc] [LSF/MM/BPF TOPIC] Where is fuse going? API cleanup,
+ restructuring and more
+To: Jan Kara <jack@suse.cz>
+Cc: Demi Marie Obenour <demiobenour@gmail.com>,
+ "Darrick J. Wong" <djwong@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>,
+ linux-fsdevel@vger.kernel.org, Joanne Koong <joannelkoong@gmail.com>,
+ John Groves <John@groves.net>, Bernd Schubert <bernd@bsbernd.com>,
+ Amir Goldstein <amir73il@gmail.com>, Luis Henriques <luis@igalia.com>,
+ Horst Birthelmer <horst@birthelmer.de>, Gao Xiang <xiang@kernel.org>,
+ lsf-pc@lists.linux-foundation.org
+References: <20260318215140.GL1742010@frogsfrogsfrogs>
+ <361d312b-9706-45ca-8943-b655a75c765b@gmail.com>
+ <390cd031-742b-4f1b-99c4-8ee41a259744@linux.alibaba.com>
+ <j3gafvpt6r47trvrkttfvilejplluagdz3alcjxmc7xhnzmemv@tahjpv2ak6qj>
+ <cfe18ae0-7dc0-4601-a9f0-c0665f301cfe@linux.alibaba.com>
+ <s3y7qrkgwedbkltpt7mjjzisazynzms3btablzpxhdoezapddy@xanux4rrspwd>
+ <72eaaed1-24a0-4c98-a7c0-ea249d541f2d@linux.alibaba.com>
+ <9af9ad0e-8070-4aaa-9f64-7d72074bd948@linux.alibaba.com>
+ <wo2nf7bux5rhexbpyeutbb5bkpqlumq3ht7iqxdft7lhc2p6va@3q6wsi2xndpu>
+ <68116ee5-b1f7-484b-a520-7dc5aefd7738@linux.alibaba.com>
+ <2gyfmxfnnxrglpzb7kz63xbve5vnosl6gi54c3umgrpwbjr4og@lz4e2ptqanfe>
+From: Gao Xiang <hsiangkao@linux.alibaba.com>
+In-Reply-To: <2gyfmxfnnxrglpzb7kz63xbve5vnosl6gi54c3umgrpwbjr4og@lz4e2ptqanfe>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Mar 23, 2026 at 12:32=E2=80=AFAM Yang Wen <anmuxixixi@gmail.com> wr=
-ote:
->
-> Detected by Smatch.
->
-> namei.c:890 exfat_mkdir() warn:
->         passing zero to 'ERR_PTR'
->
-> Signed-off-by: Yang Wen <anmuxixixi@gmail.com>
-Applied it to #dev.
-Thanks!
+
+
+On 2026/3/23 22:47, Jan Kara wrote:
+> On Mon 23-03-26 22:36:46, Gao Xiang wrote:
+>> On 2026/3/23 22:13, Jan Kara wrote:
+>>>>> think that is the corner cases if you don't claim the
+>>>>> limitation of FUSE approaches.
+>>>>>
+>>>>> If none expects that, that is absolute be fine, as I said,
+>>>>> it provides strong isolation and stability, but I really
+>>>>> suspect this approach could be abused to mount totally
+>>>>> untrusted remote filesystems (Actually as I said, some
+>>>>> business of ours already did: fetching EXT4 filesystems
+>>>>> with unknown status and mount without fscking, that is
+>>>>> really disappointing.)
+>>>
+>>> Yes, someone downloading untrusted ext4 image, mounting in read-write and
+>>> using it for sensitive application, that falls to "insane" category for me
+>>> :) We agree on that. And I agree that depending on the application using
+>>> FUSE to access such filesystem needn't be safe enough and immutable fs +
+>>> overlayfs writeable layer may provide better guarantees about fs behavior.
+>>
+>> That is my overall goal, I just want to make it clear
+>> the difference out of write isolation, but of course,
+>> "secure" or not is relative, and according to the
+>> system design.
+>>
+>> If isolation and system stability are enough for
+>> a system and can be called "secure", yes, they are
+>> both the same in such aspects.
+>>
+>>> I would still consider such design highly suspicious but without more
+>>> detailed knowledge about the application I cannot say it's outright broken
+>>> :).
+>>
+>> What do you mean "such design"?  "Writable untrusted
+>> remote EXT4 images mounting on the host"? Really, we have
+>> such applications for containers for many years but I don't
+>> want to name it here, but I'm totally exhaused by such
+>> usage (since I explained many many times, and they even
+>> never bother with LWN.net) and the internal team.
+> 
+> By "such design" I meant generally the concept that you fetch filesystem
+> images (regardless whether ext4 or some other type) from untrusted source.
+> Unless you do cryptographical verification of the data, you never know what
+> kind of garbage your application is processing which is always invitation
+> for nasty exploits and bugs...
+
+That is very common for Docker images for example
+(Although I admit Docker images now use TAR archives,
+which can be seen as an immutable system too).
+
+For example, Docker Hub keeps TAR images with sha256, but
+only sha256 without any cryptographical signature.  Of
+course, you could rely on your image scanner to audit
+malicious contents if you want (e.g. you keep your sensitive
+information) or rely on 3rd-party applications to scan for
+you, or never scan since you don't keep any sensitive
+information in that.  --- so because Docker image will
+write into another trusted local filesystem like the
+model I mentioned before.
+
+IOWs, the image sha256 only ensures that "the tar images
+you downloaded" is what "the publisher once uploaded",
+no more than that.  And that model is also our interest,
+since the core EROFS format should fit such model too.
+
+Thanks,
+Gao XIang
+
+> 
+> 								Honza
+
