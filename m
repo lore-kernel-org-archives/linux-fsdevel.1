@@ -1,231 +1,140 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE20D390C86
-	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 10:47:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774262872; cv=none; b=q/SGEGRUYPFSt0w8bAtkSNaakoU92YaV7ib/rJ5UI1PTFSDjLIbIbjmcNNGvyc6EyaiQyiK50uPHzOhXuo4gt4QaFY9gVnnIWPNI3cep1UKHt1KbZUjFhb0GGA4qR9Dy5ZClpEUa6S1YrL7zJtR/fNsaN3YUZ5MViVblqDkwwFo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774262872; c=relaxed/simple;
-	bh=0nupO1xQw76RBeRg+97+Z3L+9fhCGCUWWGXHQ5csXH4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u+1BW/B7fzmmKf+eaXL47+wBYCBHjZhS21PwaE3gKir8ynwiE3DZVk7m+b8jdn8LbwtcasecG9vhMLTVu+B0QPQXCySzrcJTkHc6ybAKZbdYhGe0Fq5IkGVxzxDCMwGnCrxVOC6+Ealdq2xWinUJ5yZ9ARqVpsn5AKP4AP91Bo0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uh9FrYGB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=smn6tA+A; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uh9FrYGB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=smn6tA+A; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 742C635DA48
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 11:00:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774263641; cv=pass; b=R1NeB2ldQ6++Iq8cSCOY+mlObFONODhpo7tneod2h6k7sjyCqoHgnf9y063oLDD+xgIRrFKC+zxYDqbTm8PEOk/najbfDksEPoxDQ3l/AJs9mzljV4ZXXPSj73Qo5TzXAjmwq4jOy0A66bzboMgy8KbQQR/h2tIFfrpCcLYL+l4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774263641; c=relaxed/simple;
+	bh=Gn5uwAfWOOMoxVJ6M4pHKOA2XtPBawoLryKzrSF56lk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GufxU2Zz7NrMHnD2ZGcDa2XVGDzNwzbGNGrsxCPt/MaE+8UNjsEDlcKEiZmPsrm/kmKqSJvezBdp0aj5NoUwBg440PHMvi/deprnUC8ODh8pkoEZNVgS6PK5aNPKEiaTM+qlGNRBq8+UIeOqB0lQIEOxjh26OrnEiZ3FiB/6eTY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UIY1WRsX; arc=pass smtp.client-ip=209.85.218.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uh9FrYGB";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="smn6tA+A";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uh9FrYGB";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="smn6tA+A"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D58034D2A4;
-	Mon, 23 Mar 2026 10:47:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1774262868; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RliYgQJC8jQUhkPteaeL8ZeUHX19DiNVUvaChowf08U=;
-	b=uh9FrYGBkxG4m2NSz3fJmo1Oyc+toviFsNlJ5KFZmjTPa6Cw4M7pQ7oDK0q8cZeHwuGFMD
-	iLUIqwoo6RhsD/q1jNSM09aLtv+8r7wRsTpUgEVO0h17y4ykFJCEyNaOrj99wjvNCS9V+N
-	1Gqe4iQUv45obzUx9DVHZbEEr0VoUFk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1774262868;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RliYgQJC8jQUhkPteaeL8ZeUHX19DiNVUvaChowf08U=;
-	b=smn6tA+AL3m340ugt/KV6xLX/8KgpJN8+2karVG1eldOuAF6Gz/4XIJ2A9lOe3+PQQ794j
-	+oxrXxhNxqjT3MBw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=uh9FrYGB;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=smn6tA+A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1774262868; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RliYgQJC8jQUhkPteaeL8ZeUHX19DiNVUvaChowf08U=;
-	b=uh9FrYGBkxG4m2NSz3fJmo1Oyc+toviFsNlJ5KFZmjTPa6Cw4M7pQ7oDK0q8cZeHwuGFMD
-	iLUIqwoo6RhsD/q1jNSM09aLtv+8r7wRsTpUgEVO0h17y4ykFJCEyNaOrj99wjvNCS9V+N
-	1Gqe4iQUv45obzUx9DVHZbEEr0VoUFk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1774262868;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RliYgQJC8jQUhkPteaeL8ZeUHX19DiNVUvaChowf08U=;
-	b=smn6tA+AL3m340ugt/KV6xLX/8KgpJN8+2karVG1eldOuAF6Gz/4XIJ2A9lOe3+PQQ794j
-	+oxrXxhNxqjT3MBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2642A4382D;
-	Mon, 23 Mar 2026 10:47:48 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Q3kPBlQawWk3NQAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Mon, 23 Mar 2026 10:47:48 +0000
-Date: Mon, 23 Mar 2026 10:47:46 +0000
-From: Pedro Falcato <pfalcato@suse.de>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Abhishek Kumar <abhishek_sts8@yahoo.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, syzbot+606f94dfeaaa45124c90@syzkaller.appspotmail.com, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>
-Subject: Re: [PATCH] mm: fix data race in __filemap_remove_folio /
- folio_mapping
-Message-ID: <zomsk45mkrop54w4iijusollwafixqul6zrgzczghenrpyodgg@bgo77hcidmko>
-References: <20260322190319.85301-1-abhishek_sts8.ref@yahoo.com>
- <20260322190319.85301-1-abhishek_sts8@yahoo.com>
- <acC6P6ULWgxKXFiK@casper.infradead.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UIY1WRsX"
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-b9358bc9c50so3595566b.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 04:00:40 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774263639; cv=none;
+        d=google.com; s=arc-20240605;
+        b=B5Db4/xcKqsv9w3nxh3lVpwtCnOA1KiirbTU72NQuxjCUC2N1BCM79J+aSZNvMJp5s
+         FUfUEM2y7ZNZANh4FlCIXa/IMlCMhykMdOOsck1FxGheFrswFZu5OycL6vwj5O8zCfWI
+         Zmyi6XfOggkupQGp8zFbOEmGHvwFnNQY5WNv32d/Y0Zea9eSHEpkdWyn5BehpK6v+pbJ
+         hUxiCHk22DLL8di2ox6fXH53vd9Pt9oM4iM3JpRTEemgKMf5ZKqYIjdudKh1p6nz/NQl
+         zA7t2NB102VKGlP8Q/Rq5KKFhPY4FUVj1nGddY6P5CrbygOncU8HRsE0NHxWTUQwgraH
+         YISw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=cSGpaVyF39hFMSdks4NM78WkSjn0wX5SlwI9WU6IOOo=;
+        fh=i/fFi7XQFbEfuygojJKFiPo6UZylx/spPyLWK4gja6Q=;
+        b=KGQ6tx6sq49TZxbnJ/EvXyHjFsAzj1H0vw7OB1eixlvzIc3fNaevDHpqI79t41keZJ
+         A/7QYg/J6W4jY0pWIjBZ2ulHpioL15aMpSPS/KjpayECZ9HPcAXM0G5UhRHchLTcuQKZ
+         RRGPn82lXDZbnCnWBeMaJ7XNpYjLExYJgDxbCVTK+b17Ndj1Dh2lGx5k9jN1MCTKpBTG
+         wPIhptLSruMKOf+NsiaFTUV/j7VSkQ7Gz/wmUAS7iUO1lcMuBUU6ScF0Ud9ykfZmL9Na
+         87wFOkRwoCRBNF+YGGthqtD3IaP5qXpbv7CoXgNW2M5nmeLmUzE6Eyx3NWQ0AXsm33Gd
+         5ALA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1774263639; x=1774868439; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cSGpaVyF39hFMSdks4NM78WkSjn0wX5SlwI9WU6IOOo=;
+        b=UIY1WRsXz9eJAMhzMUUUrdLtYV6Wz7KxTi2bxZW+ADoCGz9I/2g3IyWG1VkdHZqMFn
+         D7Vgdqg6/qGii99AW9GEAu6O1WpP8KN2Hd0VaTmgS96/z0RcvYCm4kuM7ZGoJ+VODSK5
+         9456g5kgJWoEP33aQRzOi3JowSTY+n1DE9Mi6degq6+Cc4GbvFy3+eS7Atnz5HrvNpL7
+         /ExXKc4Go5Z3XIWUWgRmJEi5ANTEXkk0mm1HKHnb3S07pZEovCB9YYZoagkUkQB/Si8X
+         hagMHOzZigWtlqTjHmItYgMEe/O1LTD4m/Zvr4QMD1Frsz/rmItrc0Lpj3egnkz6piSj
+         JjLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774263639; x=1774868439;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=cSGpaVyF39hFMSdks4NM78WkSjn0wX5SlwI9WU6IOOo=;
+        b=JoBGKUCf8gI47cUfuhV22soiIHnWfp9i9xU0IUXwDHkc+/KYeLUECjXC5XfTnL5pub
+         w06QTPG4K9bw/RbMsI5ceayAHalDIlZwyTq5asqgps4C21pAA0ubI/kvuRUfCevEEF+r
+         u1pI5QrHlW1Oxb/fhieSXkje782b4c+TpB9GLrRUCPfX6m/Uch6NBmX7Hbl5arzntJme
+         LkoyNW/syi7zfwhRVX7PaBMu9ADTLpwQzF2Wu/mcMRNk096GasfceNvybg58bHJ9dW1t
+         z4SOJDmgb/OCrR+IfgibWLDiNLf8rk1+QUgYjJFiTrnhDDsCrmI/2DO7PisMzqSrp0Kt
+         RJrg==
+X-Forwarded-Encrypted: i=1; AJvYcCX5OKCxMtdPkhHi0pvYpNtQkEpYEPxka3tR/SFAEueVpWboqOM/YTyyUCGHgNOywMvmAir5h5KapLxybz0z@vger.kernel.org
+X-Gm-Message-State: AOJu0YwkOYvs65tk+Yg4Oqa3fX7iWIBGD4l1qIyzE++Bs7C9HOyBlqZN
+	yL85TYtc5FvXtqiKpGDcZK/J7HmB2rbxznZyxbB7oxfvUqF3YHmwBCito5Kg0UIhiJ14lZq+EtV
+	+Mm8znYYp/Shd4uqY2U2HatcdErIiX+s=
+X-Gm-Gg: ATEYQzxk+vQrjg6KHvOEbrPAwb23jLTS+B+kSymS2FnZr3htRSpJXd3zYsE2z0zqaFp
+	rtx9B0qDLWsCQtzhDgU+s6Xzi2i/gvt/dtKK6m8Lp/6qcK2UcjjVA2BffCo/Y5LXV8t3JN+w3KH
+	6TJPlhhXkosJhPbLrpRHrqrr+LT7HA4CEXbmI+uBntQYWegxxfs/V8pkzZZPBilEKAneu8p6Sqt
+	w5v2J+56W5otxYSBzNs0LBNQ9APQEvI7WAwtVF1zgexoPVBEW93Zl9xFBKrkkOKVtCAeCiZTvry
+	SmwMSUJV9/Cwt6rJ2zBdyT4DkuMutSct9KUOjYE=
+X-Received: by 2002:a17:906:1444:b0:b94:ec:4b42 with SMTP id
+ a640c23a62f3a-b982f2f0f91mr571386966b.26.1774263638404; Mon, 23 Mar 2026
+ 04:00:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <acC6P6ULWgxKXFiK@casper.infradead.org>
-X-Spamd-Result: default: False [-2.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_ENVRCPT(0.00)[yahoo.com];
-	FREEMAIL_CC(0.00)[yahoo.com,linux-foundation.org,kvack.org,vger.kernel.org,syzkaller.appspotmail.com,google.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	TAGGED_RCPT(0.00)[606f94dfeaaa45124c90];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -2.51
-X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: D58034D2A4
+References: <20260321210544.519259-4-thorsten.blum@linux.dev>
+ <jdyy4txjjlmbwofqbsvpk53yx6cvx5lto47guv3nevpiflylhc@vjyncn6aesh3> <20260323-frohsinn-rudel-2f5a8bbae433@brauner>
+In-Reply-To: <20260323-frohsinn-rudel-2f5a8bbae433@brauner>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Mon, 23 Mar 2026 12:00:27 +0100
+X-Gm-Features: AQROBzDh27iaL8CrSNs-UiijEiHk7EG9MTb9mkwAVBzgjEV8wxTdWFWLgjSGbTo
+Message-ID: <CAOQ4uxgHuZvYfw2nZV+1h5L=_Q37jbMR2YhgN0fhX=+ciif3Rg@mail.gmail.com>
+Subject: Re: [PATCH] fanotify: replace deprecated strcpy in fanotify_info_copy_{name,name2}
+To: Christian Brauner <brauner@kernel.org>
+Cc: Jan Kara <jack@suse.cz>, Thorsten Blum <thorsten.blum@linux.dev>, 
+	Matthew Bobrowski <repnop@google.com>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 23, 2026 at 03:57:51AM +0000, Matthew Wilcox wrote:
-> On Mon, Mar 23, 2026 at 12:33:19AM +0530, Abhishek Kumar wrote:
-> > KCSAN reports a data race between page_cache_delete() and
-> > folio_mapping():
-> > 
-> >   page_cache_delete() performs a plain store to folio->mapping:
-> >     folio->mapping = NULL;
-> > 
-> >   folio_mapping() performs a plain load from folio->mapping:
-> >     mapping = folio->mapping;
-> > 
-> > page_cache_delete() is called from the truncation path under the i_pages
-> > xarray lock,
-> 
-> That's not relevant.  The important lock for maintaining folio->mapping
-> is the folio lock (see the VM_BUG_ON_FOLIO line in page_cache_delete()).
+On Mon, Mar 23, 2026 at 11:12=E2=80=AFAM Christian Brauner <brauner@kernel.=
+org> wrote:
+>
+> On Mon, Mar 23, 2026 at 10:14:24AM +0100, Jan Kara wrote:
+> > On Sat 21-03-26 22:05:47, Thorsten Blum wrote:
+> > > strcpy() has been deprecated [1] because it performs no bounds checki=
+ng
+> > > on the destination buffer, which can lead to buffer overflows. Replac=
+e
+> > > it with the safer strscpy().
+> > >
+> > > Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#=
+strcpy [1]
+> > > Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+> >
+> > I was a bit undecided about this one because I was wondering what
+> > additional protection does the use of strscpy() bring here. But I guess=
+ the
+> > protection from corrupted qstr (where the length doesn't match the real=
+ string
+> > length) makes some sense. So I've taken the patch into my tree. Thanks!
+>
+> Fwiw, patches are now auto-tested on vfs-ci:
+> https://github.com/linux-fsdevel/vfs/pull/860
+> Just for some testing data. We should probably hook up the relevant LTP
+> tests for fanotify there as well.
 
-Not only that, but holding invalidate_lock or i_rwsem can implicitly make
-the folios stable by excluding out truncation.
+That would be cool :)
 
-> At a minimum, this changelog needs to be fixed because there's already
-> too much confusion around the locking rules.
-> 
-> > while folio_mapping() is called from the reclaim path
-> > (evict_folios -> folio_evictable -> folio_mapping) under only
-> > rcu_read_lock() without the xarray lock.
-> 
-> Umm.  First up, this is MGLRU-only code, right?  Adding the so-called
-> maintainers.
-> 
-> Second ... I'm really unsure how we want to handle this generally.
-> This could be quite the game of whack-a-mole; we have many, many places
-> in the kernel which dereference folio->mapping without holding a lock.
-> 
-> Perhaps they are all fine; but 12 of the 455 references to
-> folio->mapping currently have READ_ONCE attached.  That's a lot of code
-> to audit.
+I guess for vfs you would would to run these LTP test groups
+$ ls runtest/fs*
+runtest/fs  runtest/fs_bind  runtest/fs_perms_simple  runtest/fs_readonly
 
-Yes, and a lot of these just aren't trivial to prove 100% correct. e.g:
+fanotify tests are currently only in the syscalls group.
 
-fs/ext2/dir.c:
+I could create an fsnotify test group or
+we could try to create a vfs focused group such as fs_syscalls,
+but actually, at a quick glance, it looks like ~75% are fs related syscalls=
+.
 
-static void ext2_commit_chunk(struct folio *folio, loff_t pos, unsigned len)
-{               
-        struct address_space *mapping = folio->mapping;
-
-Racey?
-
-int ext2_set_link(struct inode *dir, struct ext2_dir_entry_2 *de,
-                struct folio *folio, struct inode *inode, bool update_times)
-{
-        loff_t pos = folio_pos(folio) + offset_in_folio(folio, de);
-        unsigned len = ext2_rec_len_from_disk(de->rec_len);
-        int err;
-
-        folio_lock(folio); 
-
-Maybe not, but we don't revalidate folio->mapping after the lock. Racey?
-
-Then you look at the ext2_set_link() callers and it is rename, which holds
-i_rwsem. This plus the reload in filemap_get_entry() should make it sufficient
-(and excludes against reclaim whacking the folio).
-
-But there are other callers of ext2_commit_chunk(), etc, and ext2 is by far
-one of the simpler filesystems out there :)
-
-> 
-> > The race is benign since the reclaim path tolerates stale values --
-> > reading a stale non-NULL mapping simply results in a suboptimal eviction
-> > decision.  However, the plain accesses risk store/load tearing and allow
-> > the compiler to perform harmful optimizations (merging, elision, or
-> > fission of the accesses).
-> 
-> I think the bigger problem is reloading.  As I understand it, this code:
-> 
-> 	struct address_space *m = folio->mapping;
-> 
-> 	if (m && m->flags)
-> 
-> could end up loading 'm' twice, once before the setting to NULL and once
-> after.  That's more plausible than deciding to load byte-by-byte, or
-> whatever else these "merging, elision, or fission" words mean.
-> 
-> > Fix this by using WRITE_ONCE() in page_cache_delete() and READ_ONCE()
-> > in folio_mapping() to prevent compiler misbehavior and silence the KCSAN
-> > report.
-> 
-> Just to be clear, I don't object to the patch itself, I'm just scared
-> of the consequences.  And the locking comment above needs to be fixed.
-> But please wait a few days for discussion to play out.
-
-IMHO this looks fine, particularly as folio_mapping() is practically
-mm-internal (but there are some other users in fs/, for some reason).
-And shouldn't be problematic as AIUI KCSAN will still report WRITE_ONCE+plain read
-or READ_ONCE+plain write races.
-
--- 
-Pedro
+Thanks,
+Amir.
