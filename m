@@ -1,146 +1,328 @@
-Received: from out30-111.freemail.mail.aliyun.com (out30-111.freemail.mail.aliyun.com [115.124.30.111])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C941D38B7B3
-	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 10:19:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.111
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F01238B7B4
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 10:27:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774261164; cv=none; b=ikVj/Ni6SMcr+Q6458r5HAtQfgo0TYe1MtK9pgoGLWqGRCT4c5ft4QZrHWGhjxsag5TjJ9ptQxh6UFOQW1faTKhQJ46ZtBsZLmzIFFtipmxBbamvc6uHhJ6seGMRLDFufO5D2TfNaF2hvPFNX8aspq2LIBiRgyRn5WG+7ReuBh4=
+	t=1774261629; cv=none; b=F9eUwTGJZ9PbYCX3Nj1fwjNyNnFJzNOyG3AvYP4Way3HXxpoTkElHeWn+TXLzTBeNI+wYERPNGlsJxGZ6dJ7TBQoY0fGImDX7igpYLDhlHcqJTKJbXDC/s0ENqKhNWRt9FA+xoM1FVoJb8yGm02Hx6ccJYZl3QNghP21FYu1VJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774261164; c=relaxed/simple;
-	bh=Z9LPnAWIc8m+8iJ8yMW8YzqtyQ7JoCygIKaTxQuYBy4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LHhXmB0eRfEbrgw81PbLfqAOdbTsYiSqNgSdML4WbFXT76YyJZPBE6C3OSuDundPOEYVnbNMxwFQrd9BiJ5k8DIptinSObLfKpzC6Wj++xELrzia3SjxZdaePJH5Ywesa0YEm7/kTwtXhcXVlcw/ym8NKBeB1LMl3VC66V++8rM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=YYVGtUhN; arc=none smtp.client-ip=115.124.30.111
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1774261629; c=relaxed/simple;
+	bh=Q0tw1nzrsOyLhL8hiu4lHjfUfpx+NeNBnHS3+jry5/A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ELvxx4UXg0ww97avVWBzf9nDvS3MW/44lG3FFsw3nBeKUFgIREa3OQJJyjigEtc+A+9Irn716L7p2fA0ISYv7KA+W7bE+lTf0ztVQ8NPCajPXEtrYJbNYcYHzsoa9omn5RgNoQS1UnJSSje7vOqIolitvly2P9FwVXwhkTVUrrc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=trinx4GO; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=6/90Tqg4; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=trinx4GO; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=6/90Tqg4; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="YYVGtUhN"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1774261159; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=F6I96FIoWcKeB03WUOV8XaSbWA3qzQG8xcYQtZA2Mtk=;
-	b=YYVGtUhNbveOw/7AmWhUC0K7MfRM4OR7qVft7zTZKTbNgswzVoOrjDeudSpgaqnbNYSV4WjZmTFG/nAP3ijzheUZlHdziBZMmciDi+fQSkD8ZaLzEu6GXwzrufsfYmb6LWxIRWev37DX6xBBiT8x9MlnBGc1/zz05Z6kce/GZWE=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R211e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033032089153;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=13;SR=0;TI=SMTPD_---0X.WICFl_1774261157;
-Received: from 30.221.131.200(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0X.WICFl_1774261157 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Mon, 23 Mar 2026 18:19:17 +0800
-Message-ID: <cfe18ae0-7dc0-4601-a9f0-c0665f301cfe@linux.alibaba.com>
-Date: Mon, 23 Mar 2026 18:19:16 +0800
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="trinx4GO";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="6/90Tqg4";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="trinx4GO";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="6/90Tqg4"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 9257D4D2BA;
+	Mon, 23 Mar 2026 10:27:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1774261626; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Qds2uJ32pRLlQJWAzNsHGeIq2mrVMscPUZYgB/FLRhk=;
+	b=trinx4GO6i5sN4372NxLM4qCkPoaMj3kHn/Hhmz4fVIp58zBTue1ljOfnzf6S2A+7CCD68
+	1T+FZ6lbU0b7dsTPRkvLONny46JsvVyg/lVzj5kkijn710li1mJzPVn+DcZoeKfj6nEzKC
+	+6VVDk++EusnvpSCFBb1BRJ+kp24xf8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1774261626;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Qds2uJ32pRLlQJWAzNsHGeIq2mrVMscPUZYgB/FLRhk=;
+	b=6/90Tqg4lLELhwZvxNqHMe1fk8jlJRaVsgM+Rn7IbjqqBHkGNsAps03gV0Pf2NYZDHl+6Q
+	gMPbBd9+VSEtksCA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1774261626; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Qds2uJ32pRLlQJWAzNsHGeIq2mrVMscPUZYgB/FLRhk=;
+	b=trinx4GO6i5sN4372NxLM4qCkPoaMj3kHn/Hhmz4fVIp58zBTue1ljOfnzf6S2A+7CCD68
+	1T+FZ6lbU0b7dsTPRkvLONny46JsvVyg/lVzj5kkijn710li1mJzPVn+DcZoeKfj6nEzKC
+	+6VVDk++EusnvpSCFBb1BRJ+kp24xf8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1774261626;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Qds2uJ32pRLlQJWAzNsHGeIq2mrVMscPUZYgB/FLRhk=;
+	b=6/90Tqg4lLELhwZvxNqHMe1fk8jlJRaVsgM+Rn7IbjqqBHkGNsAps03gV0Pf2NYZDHl+6Q
+	gMPbBd9+VSEtksCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8508F43819;
+	Mon, 23 Mar 2026 10:27:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id pt12IHoVwWlGHwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 23 Mar 2026 10:27:06 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 4A3E5A0B2E; Mon, 23 Mar 2026 11:27:06 +0100 (CET)
+Date: Mon, 23 Mar 2026 11:27:06 +0100
+From: Jan Kara <jack@suse.cz>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, x86@kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, sparclinux@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-api@vger.kernel.org
+Subject: Re: [PATCH 1/3] fs: fix archiecture-specific compat_ftruncate64
+Message-ID: <47ovbvveajcppkfgjc3sqbfzuozmvyivz32fbvwoq444lny6eg@45awkyuwcmrx>
+References: <20260323070205.2939118-1-hch@lst.de>
+ <20260323070205.2939118-2-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Lsf-pc] [LSF/MM/BPF TOPIC] Where is fuse going? API cleanup,
- restructuring and more
-To: Jan Kara <jack@suse.cz>
-Cc: Demi Marie Obenour <demiobenour@gmail.com>,
- "Darrick J. Wong" <djwong@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>,
- linux-fsdevel@vger.kernel.org, Joanne Koong <joannelkoong@gmail.com>,
- John Groves <John@groves.net>, Bernd Schubert <bernd@bsbernd.com>,
- Amir Goldstein <amir73il@gmail.com>, Luis Henriques <luis@igalia.com>,
- Horst Birthelmer <horst@birthelmer.de>, Gao Xiang <xiang@kernel.org>,
- lsf-pc@lists.linux-foundation.org
-References: <CAJfpegtzYdy3fGGO5E1MU8n+u1j8WVc2eCoOQD_1qq0UV92wRw@mail.gmail.com>
- <20260204190649.GB7693@frogsfrogsfrogs>
- <ce74079f-1e0a-4fee-9259-48f08c6989aa@linux.alibaba.com>
- <20260206053835.GD7693@frogsfrogsfrogs>
- <cf44fe77-4616-45c8-975a-08dafaecad47@linux.alibaba.com>
- <20260221004752.GE11076@frogsfrogsfrogs>
- <7de8630d-b6f5-406e-809a-bc2a2d945afb@linux.alibaba.com>
- <20260318215140.GL1742010@frogsfrogsfrogs>
- <361d312b-9706-45ca-8943-b655a75c765b@gmail.com>
- <390cd031-742b-4f1b-99c4-8ee41a259744@linux.alibaba.com>
- <j3gafvpt6r47trvrkttfvilejplluagdz3alcjxmc7xhnzmemv@tahjpv2ak6qj>
-From: Gao Xiang <hsiangkao@linux.alibaba.com>
-In-Reply-To: <j3gafvpt6r47trvrkttfvilejplluagdz3alcjxmc7xhnzmemv@tahjpv2ak6qj>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260323070205.2939118-2-hch@lst.de>
+X-Spamd-Result: default: False [-7.80 / 50.00];
+	REPLY(-4.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MISSING_XM_UA(0.00)[];
+	ARC_NA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	URIBL_BLOCKED(0.00)[suse.com:email,suse.cz:email,imap1.dmz-prg2.suse.org:helo,lst.de:email];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email]
+X-Spam-Flag: NO
+X-Spam-Score: -7.80
+X-Spam-Level: 
 
-Hi Jan,
-
-On 2026/3/23 17:54, Jan Kara wrote:
-> On Sun 22-03-26 12:51:57, Gao Xiang wrote:
->> On 2026/3/22 11:25, Demi Marie Obenour wrote:
->>>> Technically speaking fuse4fs could just invoke e2fsck -fn before it
->>>> starts up the rest of the libfuse initialization but who knows if that's
->>>> an acceptable risk.  Also unclear if you actually want -fy for that.
->>>
->>
->> Let me try to reply the remaining part:
->>
->>> To me, the attacks mentioned above are all either user error,
->>> or vulnerabilities in software accessing the filesystem.  If one
->>
->> There are many consequences if users try to use potential inconsistent
->> writable filesystems directly (without full fsck), what I can think
->> out including but not limited to:
->>
->>   - data loss (considering data block double free issue);
->>   - data theft (for example, users keep sensitive information in the
->>        workload in a high permission inode but it can be read with
->>        low permission malicious inode later);
->>   - data tamper (the same principle).
->>
->> All vulnerabilities above happen after users try to write the
->> inconsistent filesystem, which is hard to prevent by on-disk
->> design.
->>
->> But if users write with copy-on-write to another local consistent
->> filesystem, all the vulnerabilities above won't exist.
+On Mon 23-03-26 08:01:44, Christoph Hellwig wrote:
+> The "small" argument to do_sys_ftruncate indicates if > 32-bit size
+> should be reject, but all the arch-specific compat ftruncate64
+> implementations get this wrong.  Merge do_sys_ftruncate and
+> ksys_ftruncate, replace the integer as boolean small flag with a
+> descriptive one about LFS semantics, and use it correctly in the
+> architecture-specific ftruncate64 implementations.
 > 
-> OK, so if I understand correctly you are advocating that untrusted initial data
-> should be provided on immutable filesystem and any needed modification
-> would be handled by overlayfs (or some similar layer) and stored on
-> (initially empty) writeable filesystem.
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Fixes: 3dd681d944f6 ("arm64: 32-bit (compat) applications support")
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+
+Looks good. Feel free to add:
+
+Reviewed-by: Jan Kara <jack@suse.cz>
+
+								Honza
+
+> ---
+>  arch/arm64/kernel/sys32.c       |  2 +-
+>  arch/mips/kernel/linux32.c      |  2 +-
+>  arch/parisc/kernel/sys_parisc.c |  4 ++--
+>  arch/powerpc/kernel/sys_ppc32.c |  2 +-
+>  arch/sparc/kernel/sys_sparc32.c |  2 +-
+>  arch/x86/kernel/sys_ia32.c      |  3 ++-
+>  fs/internal.h                   |  1 -
+>  fs/open.c                       | 12 ++++++------
+>  include/linux/syscalls.h        |  8 ++------
+>  9 files changed, 16 insertions(+), 20 deletions(-)
 > 
-> That's a sensible design for usecase like containers but what started this
-> thread about FUSE drivers for filesystems were usecases like access to
-> filesystems on drives attached at USB port of your laptop. There it isn't
-> really practical to use your design. You need a standard writeable
-> filesystem for that but at the same time you cannot quite trust the content
-> of everything that gets attached to your USB port...
-
-Yes, that is my proposal and my overall interest now.  I know
-your interest but I'm here I just would like to say:
-
-Without full scan fsck, even with FUSE, the system is still
-vulnerable if the FUSE approch is used.
-
-I could give a detailed example, for example:
-
-There are passwd files `/etc/passwd` and `/etc/shadow` with
-proper permissions (for example, you could audit the file
-permission with e2fsprogs/xfsprogs without a full fsck scan) in
-the inconsistent remote filesystems, but there are some other
-malicious files called "foo" and "bar" somewhere with low
-permissions but sharing the same blocks which is disallowed
-by filesystem on-disk formats illegally (because they violate
-copy-on-write semantics by design), also see my previous
-reply:
-https://lore.kernel.org/r/7de8630d-b6f5-406e-809a-bc2a2d945afb@linux.alibaba.com
-
-The initial data of `/etc/passwd` and `/etc/shadow` in the
-filesystem image doesn't matter, but users could then keep
-very sensitive information later just out of the
-inconsistent filesystems, which could cause "data theft"
-above.
-
-So I think inconsistent filesystem harms to users no matter
-the implementations use FUSE or not.
-
-You could claim it's not the case we care, but I think most
-users should care, and they should full fsck in advance, but
-if it's fscked and consistent, I'm afraid the images can then
-be handled in kernel directly.
-
-Thanks,
-Gao Xiang
-
-
+> diff --git a/arch/arm64/kernel/sys32.c b/arch/arm64/kernel/sys32.c
+> index 96bcfb907443..12a948f3a504 100644
+> --- a/arch/arm64/kernel/sys32.c
+> +++ b/arch/arm64/kernel/sys32.c
+> @@ -89,7 +89,7 @@ COMPAT_SYSCALL_DEFINE4(aarch32_truncate64, const char __user *, pathname,
+>  COMPAT_SYSCALL_DEFINE4(aarch32_ftruncate64, unsigned int, fd, u32, __pad,
+>  		       arg_u32p(length))
+>  {
+> -	return ksys_ftruncate(fd, arg_u64(length));
+> +	return ksys_ftruncate(fd, arg_u64(length), FTRUNCATE_LFS);
+>  }
+>  
+>  COMPAT_SYSCALL_DEFINE5(aarch32_readahead, int, fd, u32, __pad,
+> diff --git a/arch/mips/kernel/linux32.c b/arch/mips/kernel/linux32.c
+> index a0c0a7a654e9..fe9a787db569 100644
+> --- a/arch/mips/kernel/linux32.c
+> +++ b/arch/mips/kernel/linux32.c
+> @@ -60,7 +60,7 @@ SYSCALL_DEFINE4(32_truncate64, const char __user *, path,
+>  SYSCALL_DEFINE4(32_ftruncate64, unsigned long, fd, unsigned long, __dummy,
+>  	unsigned long, a2, unsigned long, a3)
+>  {
+> -	return ksys_ftruncate(fd, merge_64(a2, a3));
+> +	return ksys_ftruncate(fd, merge_64(a2, a3), FTRUNCATE_LFS);
+>  }
+>  
+>  SYSCALL_DEFINE5(32_llseek, unsigned int, fd, unsigned int, offset_high,
+> diff --git a/arch/parisc/kernel/sys_parisc.c b/arch/parisc/kernel/sys_parisc.c
+> index b2cdbb8a12b1..fcb0d8069139 100644
+> --- a/arch/parisc/kernel/sys_parisc.c
+> +++ b/arch/parisc/kernel/sys_parisc.c
+> @@ -216,7 +216,7 @@ asmlinkage long parisc_truncate64(const char __user * path,
+>  asmlinkage long parisc_ftruncate64(unsigned int fd,
+>  					unsigned int high, unsigned int low)
+>  {
+> -	return ksys_ftruncate(fd, (long)high << 32 | low);
+> +	return ksys_ftruncate(fd, (long)high << 32 | low, FTRUNCATE_LFS);
+>  }
+>  
+>  /* stubs for the benefit of the syscall_table since truncate64 and truncate 
+> @@ -227,7 +227,7 @@ asmlinkage long sys_truncate64(const char __user * path, unsigned long length)
+>  }
+>  asmlinkage long sys_ftruncate64(unsigned int fd, unsigned long length)
+>  {
+> -	return ksys_ftruncate(fd, length);
+> +	return ksys_ftruncate(fd, length, FTRUNCATE_LFS);
+>  }
+>  asmlinkage long sys_fcntl64(unsigned int fd, unsigned int cmd, unsigned long arg)
+>  {
+> diff --git a/arch/powerpc/kernel/sys_ppc32.c b/arch/powerpc/kernel/sys_ppc32.c
+> index d451a8229223..03fa487f2614 100644
+> --- a/arch/powerpc/kernel/sys_ppc32.c
+> +++ b/arch/powerpc/kernel/sys_ppc32.c
+> @@ -101,7 +101,7 @@ PPC32_SYSCALL_DEFINE4(ppc_ftruncate64,
+>  		       unsigned int, fd, u32, reg4,
+>  		       unsigned long, len1, unsigned long, len2)
+>  {
+> -	return ksys_ftruncate(fd, merge_64(len1, len2));
+> +	return ksys_ftruncate(fd, merge_64(len1, len2), FTRUNCATE_LFS);
+>  }
+>  
+>  PPC32_SYSCALL_DEFINE6(ppc32_fadvise64,
+> diff --git a/arch/sparc/kernel/sys_sparc32.c b/arch/sparc/kernel/sys_sparc32.c
+> index f84a02ab6bf9..04432b82b9e3 100644
+> --- a/arch/sparc/kernel/sys_sparc32.c
+> +++ b/arch/sparc/kernel/sys_sparc32.c
+> @@ -58,7 +58,7 @@ COMPAT_SYSCALL_DEFINE3(truncate64, const char __user *, path, u32, high, u32, lo
+>  
+>  COMPAT_SYSCALL_DEFINE3(ftruncate64, unsigned int, fd, u32, high, u32, low)
+>  {
+> -	return ksys_ftruncate(fd, ((u64)high << 32) | low);
+> +	return ksys_ftruncate(fd, ((u64)high << 32) | low, FTRUNCATE_LFS);
+>  }
+>  
+>  static int cp_compat_stat64(struct kstat *stat,
+> diff --git a/arch/x86/kernel/sys_ia32.c b/arch/x86/kernel/sys_ia32.c
+> index 6cf65397d225..610a1c2f4519 100644
+> --- a/arch/x86/kernel/sys_ia32.c
+> +++ b/arch/x86/kernel/sys_ia32.c
+> @@ -61,7 +61,8 @@ SYSCALL_DEFINE3(ia32_truncate64, const char __user *, filename,
+>  SYSCALL_DEFINE3(ia32_ftruncate64, unsigned int, fd,
+>  		unsigned long, offset_low, unsigned long, offset_high)
+>  {
+> -	return ksys_ftruncate(fd, ((loff_t) offset_high << 32) | offset_low);
+> +	return ksys_ftruncate(fd, ((loff_t) offset_high << 32) | offset_low,
+> +			FTRUNCATE_LFS);
+>  }
+>  
+>  /* warning: next two assume little endian */
+> diff --git a/fs/internal.h b/fs/internal.h
+> index cbc384a1aa09..2663823e273a 100644
+> --- a/fs/internal.h
+> +++ b/fs/internal.h
+> @@ -199,7 +199,6 @@ extern int build_open_flags(const struct open_how *how, struct open_flags *op);
+>  struct file *file_close_fd_locked(struct files_struct *files, unsigned fd);
+>  
+>  int do_ftruncate(struct file *file, loff_t length, int small);
+> -int do_sys_ftruncate(unsigned int fd, loff_t length, int small);
+>  int chmod_common(const struct path *path, umode_t mode);
+>  int do_fchownat(int dfd, const char __user *filename, uid_t user, gid_t group,
+>  		int flag);
+> diff --git a/fs/open.c b/fs/open.c
+> index 91f1139591ab..412d0d6fbaa7 100644
+> --- a/fs/open.c
+> +++ b/fs/open.c
+> @@ -197,7 +197,7 @@ int do_ftruncate(struct file *file, loff_t length, int small)
+>  				   ATTR_MTIME | ATTR_CTIME, file);
+>  }
+>  
+> -int do_sys_ftruncate(unsigned int fd, loff_t length, int small)
+> +int ksys_ftruncate(unsigned int fd, loff_t length, unsigned int flags)
+>  {
+>  	if (length < 0)
+>  		return -EINVAL;
+> @@ -205,18 +205,18 @@ int do_sys_ftruncate(unsigned int fd, loff_t length, int small)
+>  	if (fd_empty(f))
+>  		return -EBADF;
+>  
+> -	return do_ftruncate(fd_file(f), length, small);
+> +	return do_ftruncate(fd_file(f), length, !(flags & FTRUNCATE_LFS));
+>  }
+>  
+>  SYSCALL_DEFINE2(ftruncate, unsigned int, fd, off_t, length)
+>  {
+> -	return do_sys_ftruncate(fd, length, 1);
+> +	return ksys_ftruncate(fd, length, 0);
+>  }
+>  
+>  #ifdef CONFIG_COMPAT
+>  COMPAT_SYSCALL_DEFINE2(ftruncate, unsigned int, fd, compat_off_t, length)
+>  {
+> -	return do_sys_ftruncate(fd, length, 1);
+> +	return ksys_ftruncate(fd, length, 0);
+>  }
+>  #endif
+>  
+> @@ -229,7 +229,7 @@ SYSCALL_DEFINE2(truncate64, const char __user *, path, loff_t, length)
+>  
+>  SYSCALL_DEFINE2(ftruncate64, unsigned int, fd, loff_t, length)
+>  {
+> -	return do_sys_ftruncate(fd, length, 0);
+> +	return ksys_ftruncate(fd, length, FTRUNCATE_LFS);
+>  }
+>  #endif /* BITS_PER_LONG == 32 */
+>  
+> @@ -245,7 +245,7 @@ COMPAT_SYSCALL_DEFINE3(truncate64, const char __user *, pathname,
+>  COMPAT_SYSCALL_DEFINE3(ftruncate64, unsigned int, fd,
+>  		       compat_arg_u64_dual(length))
+>  {
+> -	return ksys_ftruncate(fd, compat_arg_u64_glue(length));
+> +	return ksys_ftruncate(fd, compat_arg_u64_glue(length), FTRUNCATE_LFS);
+>  }
+>  #endif
+>  
+> diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+> index 02bd6ddb6278..8787b3511c86 100644
+> --- a/include/linux/syscalls.h
+> +++ b/include/linux/syscalls.h
+> @@ -1283,12 +1283,8 @@ static inline long ksys_lchown(const char __user *filename, uid_t user,
+>  			     AT_SYMLINK_NOFOLLOW);
+>  }
+>  
+> -int do_sys_ftruncate(unsigned int fd, loff_t length, int small);
+> -
+> -static inline long ksys_ftruncate(unsigned int fd, loff_t length)
+> -{
+> -	return do_sys_ftruncate(fd, length, 1);
+> -}
+> +#define FTRUNCATE_LFS	(1u << 0)	/* allow truncating > 32-bit */
+> +int ksys_ftruncate(unsigned int fd, loff_t length, unsigned int flags);
+>  
+>  int do_sys_truncate(const char __user *pathname, loff_t length);
+>  
+> -- 
+> 2.47.3
 > 
-> 								Honza
-
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
