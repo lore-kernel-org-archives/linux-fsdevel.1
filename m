@@ -1,158 +1,202 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CA0F3BF678;
-	Mon, 23 Mar 2026 17:53:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 073253C5DA5;
+	Mon, 23 Mar 2026 17:53:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774288402; cv=none; b=ikiiL0FBRJVvjsScelehX+rki+j5HI4fjW8qWk4Y+fP+K9wrcpnnLAAj3Z/F7DQyZX7dpjbuJmD3pVQdqBmZnU4dbrjfEmK2UCN/JIjiBh9iFdVfGc8q8WUKvBvT/FFCld8OJupgT7uKLSM7Od8JyQzDs2mi1x7tF4kTXelt1S4=
+	t=1774288428; cv=none; b=aQq3/HsNnpPwgOBQWnNTdHubW/LPHZThqMQuOtJN1X+NCB7kPAnIyTHtnof/milSDi321g/OlukU47Nc7Qju+00o35ljkx5u2qs6WFWfQfaPrKcuO3q1FTxu3JbkhUIn08l6tcPNMsqDCpzVFa04k4MMOOXY17MhAN2JJ9GZxBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774288402; c=relaxed/simple;
-	bh=+EKU6hnfBkd36dW+9myUioJzQ4owVa3INrYW2QiBUYU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qTkObDPm2XPHgqBPS1TkjCxytFRrqdHrDPsgOQVQIqZA6xY3hWKA2d5wwqWWQMOy9zI8rfF2cnVksOStcha08gIGdOpeNQXDyEU/TMOF/nW0iYMy95rwesfLr1IDSYIQ+8G94/wkYYYc1hGPZqRtaOlMT2AOR5j8buZ22Y1UAzM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eyV16Ud8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774288428; c=relaxed/simple;
+	bh=pvvqGoKPtjeuRDaGRHik7rDxrxHUcSCqlT3NKZ5Bw0c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bXUQ95GqNAE+JZv6fVQqqJfvHmOyA22QiU5Z7uZIBffyt6ME1VhbU4acGVdB0w1M6RbI1WtRTUOnZLbSB2tYlBfL4iGjPpTdhBDTa7/9WlPVY5Y14WmgLYehLXhrn21RtCvv6ga1Wqzg6Pt+o7rxvzWc2USCXMjEf4ICb2SRSj4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dtAleL+C; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eyV16Ud8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBC89C2BC9E;
-	Mon, 23 Mar 2026 17:53:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dtAleL+C"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0868C4CEF7;
+	Mon, 23 Mar 2026 17:53:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774288402;
-	bh=+EKU6hnfBkd36dW+9myUioJzQ4owVa3INrYW2QiBUYU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eyV16Ud88vO3anLZuUdNZwyPYOrAPGl3YmXgEYrZ8mNwVPahOKLRqtwyYiEWgXmCV
-	 WNhIqLPpAB6xyvo7gr/S3v6VhFbzeSPUw/6PsT1+glPB6b0JxeqpyEIMMHRtdI+vWr
-	 o1umeWXFrGQqagzr2POv5b+6CtoKfOnXOCxtRfNKtOvuuWlCsWC3iorOw7ahJ/ahmR
-	 4CRJY2c67+ncZ3pSX1A7hVY0ocdbZgl3GQ8o26xQ/5DHJQH1BFT4I8EG+ybOHox8w/
-	 ErmuUt0d3haKC+9Pm9FY8Qw78Ou1m/KlQ3KWkXcpBcfing+OPQztGVFjH5xtYeI/ym
-	 W63QmQQcjAQug==
-Date: Mon, 23 Mar 2026 10:53:21 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Miklos Szeredi <mszeredi@redhat.com>, linux-fsdevel@vger.kernel.org,
-	Bernd Schubert <bernd@bsbernd.com>, stable@vger.kernel.org
-Subject: Re: [PATCH v3 1/7] fuse: abort on fatal signal during sync init
-Message-ID: <20260323175321.GB6202@frogsfrogsfrogs>
-References: <20260316165320.3245526-1-mszeredi@redhat.com>
- <20260316165320.3245526-2-mszeredi@redhat.com>
- <CAJnrk1ZCLS4BhGJm7y4HC07tvAL-KHeU_B-0ep_1r9kaaf1Lnw@mail.gmail.com>
+	s=k20201202; t=1774288427;
+	bh=pvvqGoKPtjeuRDaGRHik7rDxrxHUcSCqlT3NKZ5Bw0c=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=dtAleL+CGdeMNPe8yd5PVQT9KTYb3tEETMX/HImnFVrroFBEyH2/UTI+eZ++LbWik
+	 zzNWKrk6q/UbAslBj4vJbDhj8byf9W/0I71wcX9EyAOlscPRt//TB8JBY0q/KhwdMO
+	 XEigCcVjhOjvODDhf8zGuno5p6eaNue1isuOAk3sT8Wh1M8x5ZWa/4Naqax9n6EIi1
+	 meH6xqHWafcLF8RC1MsnOTSSgKTa1f19OGJ4Un8NLv8NagVQLmaJ5IQm3+XJl2ygPr
+	 aDFKamP52ArwOR80tXn9DadwZlCTeIFLzjY8NOS2f0O0QN/0bHaWpgrMinwhVu26U6
+	 ByYqqUWVeL57g==
+Message-ID: <187fa189-b6d7-4ba0-98a4-7a525cbaf4f9@kernel.org>
+Date: Mon, 23 Mar 2026 18:53:17 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJnrk1ZCLS4BhGJm7y4HC07tvAL-KHeU_B-0ep_1r9kaaf1Lnw@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v11 03/16] mm/secretmem: make use of
+ folio_{zap,restore}_direct_map
+To: "Kalyazin, Nikita" <kalyazin@amazon.co.uk>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
+ "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+ "kernel@xen0n.name" <kernel@xen0n.name>,
+ "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+ "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
+ "loongarch@lists.linux.dev" <loongarch@lists.linux.dev>,
+ "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>
+Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "corbet@lwn.net" <corbet@lwn.net>, "maz@kernel.org" <maz@kernel.org>,
+ "oupton@kernel.org" <oupton@kernel.org>,
+ "joey.gouly@arm.com" <joey.gouly@arm.com>,
+ "suzuki.poulose@arm.com" <suzuki.poulose@arm.com>,
+ "yuzenghui@huawei.com" <yuzenghui@huawei.com>,
+ "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+ "will@kernel.org" <will@kernel.org>, "seanjc@google.com"
+ <seanjc@google.com>, "tglx@kernel.org" <tglx@kernel.org>,
+ "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
+ "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+ "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+ "luto@kernel.org" <luto@kernel.org>,
+ "peterz@infradead.org" <peterz@infradead.org>,
+ "willy@infradead.org" <willy@infradead.org>,
+ "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+ "lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>,
+ "vbabka@kernel.org" <vbabka@kernel.org>, "rppt@kernel.org"
+ <rppt@kernel.org>, "surenb@google.com" <surenb@google.com>,
+ "mhocko@suse.com" <mhocko@suse.com>, "ast@kernel.org" <ast@kernel.org>,
+ "daniel@iogearbox.net" <daniel@iogearbox.net>,
+ "andrii@kernel.org" <andrii@kernel.org>,
+ "martin.lau@linux.dev" <martin.lau@linux.dev>,
+ "eddyz87@gmail.com" <eddyz87@gmail.com>, "song@kernel.org"
+ <song@kernel.org>, "yonghong.song@linux.dev" <yonghong.song@linux.dev>,
+ "john.fastabend@gmail.com" <john.fastabend@gmail.com>,
+ "kpsingh@kernel.org" <kpsingh@kernel.org>, "sdf@fomichev.me"
+ <sdf@fomichev.me>, "haoluo@google.com" <haoluo@google.com>,
+ "jolsa@kernel.org" <jolsa@kernel.org>, "jgg@ziepe.ca" <jgg@ziepe.ca>,
+ "jhubbard@nvidia.com" <jhubbard@nvidia.com>,
+ "peterx@redhat.com" <peterx@redhat.com>, "jannh@google.com"
+ <jannh@google.com>, "pfalcato@suse.de" <pfalcato@suse.de>,
+ "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
+ "riel@surriel.com" <riel@surriel.com>,
+ "ryan.roberts@arm.com" <ryan.roberts@arm.com>,
+ "jgross@suse.com" <jgross@suse.com>,
+ "yu-cheng.yu@intel.com" <yu-cheng.yu@intel.com>,
+ "kas@kernel.org" <kas@kernel.org>, "coxu@redhat.com" <coxu@redhat.com>,
+ "kevin.brodsky@arm.com" <kevin.brodsky@arm.com>,
+ "ackerleytng@google.com" <ackerleytng@google.com>,
+ "yosry@kernel.org" <yosry@kernel.org>,
+ "ajones@ventanamicro.com" <ajones@ventanamicro.com>,
+ "maobibo@loongson.cn" <maobibo@loongson.cn>,
+ "tabba@google.com" <tabba@google.com>, "prsampat@amd.com"
+ <prsampat@amd.com>, "wu.fei9@sanechips.com.cn" <wu.fei9@sanechips.com.cn>,
+ "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
+ "jmattson@google.com" <jmattson@google.com>,
+ "jthoughton@google.com" <jthoughton@google.com>,
+ "agordeev@linux.ibm.com" <agordeev@linux.ibm.com>,
+ "alex@ghiti.fr" <alex@ghiti.fr>,
+ "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
+ "borntraeger@linux.ibm.com" <borntraeger@linux.ibm.com>,
+ "chenhuacai@kernel.org" <chenhuacai@kernel.org>,
+ "dev.jain@arm.com" <dev.jain@arm.com>, "gor@linux.ibm.com"
+ <gor@linux.ibm.com>, "hca@linux.ibm.com" <hca@linux.ibm.com>,
+ "palmer@dabbelt.com" <palmer@dabbelt.com>, "pjw@kernel.org"
+ <pjw@kernel.org>,
+ "shijie@os.amperecomputing.com" <shijie@os.amperecomputing.com>,
+ "svens@linux.ibm.com" <svens@linux.ibm.com>,
+ "thuth@redhat.com" <thuth@redhat.com>, "wyihan@google.com"
+ <wyihan@google.com>,
+ "yang@os.amperecomputing.com" <yang@os.amperecomputing.com>,
+ "Jonathan.Cameron@huawei.com" <Jonathan.Cameron@huawei.com>,
+ "Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>,
+ "urezki@gmail.com" <urezki@gmail.com>,
+ "zhengqi.arch@bytedance.com" <zhengqi.arch@bytedance.com>,
+ "gerald.schaefer@linux.ibm.com" <gerald.schaefer@linux.ibm.com>,
+ "jiayuan.chen@shopee.com" <jiayuan.chen@shopee.com>,
+ "lenb@kernel.org" <lenb@kernel.org>, "osalvador@suse.de"
+ <osalvador@suse.de>, "pavel@kernel.org" <pavel@kernel.org>,
+ "rafael@kernel.org" <rafael@kernel.org>,
+ "vannapurve@google.com" <vannapurve@google.com>,
+ "jackmanb@google.com" <jackmanb@google.com>,
+ "aneesh.kumar@kernel.org" <aneesh.kumar@kernel.org>,
+ "patrick.roy@linux.dev" <patrick.roy@linux.dev>,
+ "Thomson, Jack" <jackabt@amazon.co.uk>,
+ "Itazuri, Takahiro" <itazur@amazon.co.uk>,
+ "Manwaring, Derek" <derekmn@amazon.com>
+References: <20260317141031.514-1-kalyazin@amazon.com>
+ <20260317141031.514-4-kalyazin@amazon.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260317141031.514-4-kalyazin@amazon.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Mar 16, 2026 at 11:48:09AM -0700, Joanne Koong wrote:
-> On Mon, Mar 16, 2026 at 9:53 AM Miklos Szeredi <mszeredi@redhat.com> wrote:
-> >
-> > When sync init is used and the server exits for some reason (error, crash)
-> > while processing FUSE_INIT, the filesystem creation will hang.  The reason
-> > is that while all other threads will exit, the mounting thread (or process)
-> > will keep the device fd open, which will prevent an abort from happening.
-> >
-> > This is a regression from the async mount case, where the mount was done
-> > first, and the FUSE_INIT processing afterwards, in which case there's no
-> > such recursive syscall keeping the fd open.
-> >
-> > Fixes: dfb84c330794 ("fuse: allow synchronous FUSE_INIT")
-> > Cc: stable@vger.kernel.org # v6.18
-> > Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
+On 3/17/26 15:11, Kalyazin, Nikita wrote:
+> From: Nikita Kalyazin <kalyazin@amazon.com>
 > 
-> LGTM but left a comment below
-> 
-> Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
-> 
-> > ---
-> >  fs/fuse/dev.c    | 6 +++++-
-> >  fs/fuse/fuse_i.h | 1 +
-> >  fs/fuse/inode.c  | 1 +
-> >  3 files changed, 7 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-> > index 2c16b94357d5..f0631c48abef 100644
-> > --- a/fs/fuse/dev.c
-> > +++ b/fs/fuse/dev.c
-> > @@ -576,6 +576,9 @@ static void request_wait_answer(struct fuse_req *req)
-> >                         removed = fuse_remove_pending_req(req, &fiq->lock);
-> >                 if (removed)
-> >                         return;
-> > +
-> > +               if (req->args->abort_on_kill)
-> > +                       fuse_abort_conn(fc);
-> 
-> Maybe more straightforward to move this logic a few lines above? eg
-> 
-> @@ -570,6 +570,11 @@ static void request_wait_answer(struct fuse_req *req)
->                 /* Only fatal signals may interrupt this */
->                 err = wait_event_killable(req->waitq,
->                                         test_bit(FR_FINISHED, &req->flags));
->                 if (!err)
->                         return;
-> 
-> +               if (req->args->abort_on_kill) {
-> +                       fuse_abort_conn(fc);
-> +                       return;
-> +               }
 
-Either's fine with me -- AFAICT it doesn't matter if we just abort the
-connection without fiddling with the request in which case FUSE_INIT
-fails with ECONNABORTED; or we try to remove it and end up cancelling it
-with EINTR.  Either way the connection aborts, the mount stops working,
-and the fuse server is gone.
+Describe your change :)
 
-I like this fix much better :)
-Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
+Ans also worth mentioning that we now flush the TLB even though
+filemap_add_folio() failed -- which shouldn't matter in practice I guess.
 
---D
+With that
 
-> 
-> Thanks,
-> Joanne
-> 
-> >         }
-> >
-> >         /*
-> > @@ -676,7 +679,8 @@ ssize_t __fuse_simple_request(struct mnt_idmap *idmap,
-> >                         fuse_force_creds(req);
-> >
-> >                 __set_bit(FR_WAITING, &req->flags);
-> > -               __set_bit(FR_FORCE, &req->flags);
-> > +               if (!args->abort_on_kill)
-> > +                       __set_bit(FR_FORCE, &req->flags);
-> >         } else {
-> >                 WARN_ON(args->nocreds);
-> >                 req = fuse_get_req(idmap, fm, false);
-> > diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-> > index 7f16049387d1..23a241f18623 100644
-> > --- a/fs/fuse/fuse_i.h
-> > +++ b/fs/fuse/fuse_i.h
-> > @@ -345,6 +345,7 @@ struct fuse_args {
-> >         bool is_ext:1;
-> >         bool is_pinned:1;
-> >         bool invalidate_vmap:1;
-> > +       bool abort_on_kill:1;
-> >         struct fuse_in_arg in_args[4];
-> >         struct fuse_arg out_args[2];
-> >         void (*end)(struct fuse_mount *fm, struct fuse_args *args, int error);
-> > diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
-> > index e57b8af06be9..84f78fb89d35 100644
-> > --- a/fs/fuse/inode.c
-> > +++ b/fs/fuse/inode.c
-> > @@ -1551,6 +1551,7 @@ int fuse_send_init(struct fuse_mount *fm)
-> >         int err;
-> >
-> >         if (fm->fc->sync_init) {
-> > +               ia->args.abort_on_kill = true;
-> >                 err = fuse_simple_request(fm, &ia->args);
-> >                 /* Ignore size of init reply */
-> >                 if (err > 0)
-> > --
-> > 2.53.0
-> >
-> >
-> 
+Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+
+-- 
+Cheers,
+
+David
