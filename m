@@ -1,117 +1,111 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31EFE2550AF;
-	Mon, 23 Mar 2026 15:01:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 487113B5301;
+	Mon, 23 Mar 2026 15:11:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774278070; cv=none; b=BQse7ybqsMBx/kQP1A1XIWmbPSwlYbprsDQv7VoD8IkrKZTbo3TSaNR8tzvkUBOFVpwQmRIQVWDN4L1ixnFlMVfFjX54aHhjFIRTpY4YJOvypriZ9ZA5hhuzrq7LRXmwPJ/DwHcy17G/sDKK3BfAnz2HJ1Dtzt/vzetT6PzzfSk=
+	t=1774278671; cv=none; b=s8yrG5eotwbZW1r1WP3s8sTxXZq1D/axQ9t1vdcSyNaBhyxsfdRsyDI1sK65fG9NFCn0aeTVE8pH65UxoepMNK8WEU5X0COOsFfmgiyrI8moLRR/FpJwzonFAIUzK0yKJ7GxGuuyRpftuQqQd0Xb2qBkzn+aW7496MzxZqKkzd0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774278070; c=relaxed/simple;
-	bh=FTuuK2lbsKxW1TqNcpwiwlVgmoiY1ioRmAfUVOmsQ34=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rM8Z7mGN/V8SVGeF/4lcdX97h+0HndqC4MPoU0KtPlKVYgMXeAm8Vsygg9dSWYVnmKHwxXCQVn7586Sa6uKJ67RGFaxAbm4uLCZFm1flglp5zeZJmIJuDl5l3++GZela3GNyn3iDjKrApPkOtbqgkdc2NdlVoWd2ou3LKh42Ofc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iH/aJfSN; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1774278671; c=relaxed/simple;
+	bh=mD//i5XRZJZ3kG19Mr3ncYKm5fT+bbjvQHIx6flbo9I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WzhK/cq/Mb1QWybxe7ZV7hrUdtl/9CLKYQu6jywUDTfZ+eob5kbvddpNpcBt2e8oD0+xb1rLp4QcAfnge2w06aUHh+taItoqSh3GDLlS+Wbw/cjJHkkzyLKM+E+Pq3+7oQNh8EqryuLYVJMNQGXgIze/VJL/4IiOdADRq8neIbc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=pcxjVpCA; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iH/aJfSN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774278069; x=1805814069;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=FTuuK2lbsKxW1TqNcpwiwlVgmoiY1ioRmAfUVOmsQ34=;
-  b=iH/aJfSNot0IXy+hwVDlxMP5gEt9K4lpDEjbU3vLXvSo/F3bYd07oLXQ
-   MXe65v9VKya6R9mq5UIWWGP2aPaQq5zeUGQnxVpyc8aM6Obvo9fRr1GxG
-   Xb2in7YYtdD+37Y27s/Ob7Dern4ZWCDFn2ahs+kXD4kLraA6jzMJVaT9R
-   P+XeGjRNmSVem+xICHo3f4mmfawL/ZSxnvqRpU+7yIsPl9cPAczJVe3Fy
-   e+XjMKTIi2D5KSm5YaNa93Rofr/JohvZ5xLedaT5Uda8wep71sG9ml95z
-   a1BpvC8Rr7iL507o16/KgqIRjSIWz2cA5ylL7KncBNLft9X5iFfFIzdzt
-   w==;
-X-CSE-ConnectionGUID: 2/07i5ZCQLGNUtqZgvJZkQ==
-X-CSE-MsgGUID: f1OIRo6qScKgxRxuYogroQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="75249702"
-X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
-   d="scan'208";a="75249702"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 08:01:07 -0700
-X-CSE-ConnectionGUID: n3VUCfneTTeMCr3UmBQMLQ==
-X-CSE-MsgGUID: nbS6rQXAQXyOOsEuTifHcQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
-   d="scan'208";a="221212767"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa008.fm.intel.com with ESMTP; 23 Mar 2026 08:01:04 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id 32967A1; Mon, 23 Mar 2026 16:01:00 +0100 (CET)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	David Disseldorp <ddiss@suse.de>,
-	Petr Mladek <pmladek@suse.com>,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Cc: Al Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH v3 5/6] vsprintf: Revert "add simple_strntoul"
-Date: Mon, 23 Mar 2026 15:54:21 +0100
-Message-ID: <20260323150054.3587083-6-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260323150054.3587083-1-andriy.shevchenko@linux.intel.com>
-References: <20260323150054.3587083-1-andriy.shevchenko@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="pcxjVpCA"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Reply-To:Content-ID:Content-Description;
+	bh=BOT1joVeBvRJNf048C/pia2Ig6BTdwxHvSGJf+KwT8A=; b=pcxjVpCAEzQJjMWXqIUUflRuRW
+	IaKQMKXOQaWPREOVL4QftsUUDADpff/r1QoXD1QOo9KACGm3p1LhHnEqlIY6XadW0eS41WtRY+S3k
+	szzHV9FlInE7pEQJRtacLvRG2d120+okrBHZlljgWhJgAMQ19P5GcUq2HfoQ01B4o/RpRvKqnXK/D
+	Z1qchjODVi100Ws206MkC43Y2BzM8bPA5GJ6PHBDCYTaHe+1TPyRJ+zO56rx1mEjQ3fVOcME2lk+4
+	/GC5P5cT31sCeATh/zJT2VwFOrKHwFnuFRqqmPs26KdExhDbBxod6fgdEcQNl6jyuUvM9M5DcpfSl
+	p0IsefkQ==;
+Received: from authenticated user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.94.2)
+	(envelope-from <leitao@debian.org>)
+	id 1w4gvn-007cJ7-M8; Mon, 23 Mar 2026 15:11:02 +0000
+Date: Mon, 23 Mar 2026 08:10:57 -0700
+From: Breno Leitao <leitao@debian.org>
+To: Chuck Lever <cel@kernel.org>
+Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org, puranjay@kernel.org, 
+	linux-crypto@vger.kernel.org, linux-btrfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	Michael van der Westhuizen <rmikey@meta.com>, kernel-team@meta.com, Chuck Lever <chuck.lever@oracle.com>
+Subject: Re: [PATCH v2 0/5] workqueue: Introduce a sharded cache affinity
+ scope
+Message-ID: <acFVEr7iVnU_70yh@gmail.com>
+References: <20260320-workqueue_sharded-v2-0-8372930931af@debian.org>
+ <04af531d-d8a3-4fbb-993d-e1da2df62a03@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <04af531d-d8a3-4fbb-993d-e1da2df62a03@app.fastmail.com>
+X-Debian-User: leitao
 
-No users anymore and none should be in the first place.
+Hello Chuck,
 
-This reverts commit fcc155008a20fa31b01569e105250490750f0687.
+On Mon, Mar 23, 2026 at 10:11:07AM -0400, Chuck Lever wrote:
+> On Fri, Mar 20, 2026, at 1:56 PM, Breno Leitao wrote:
+> > TL;DR: Some modern processors have many CPUs per LLC (L3 cache), and
+> > unbound workqueues using the default affinity (WQ_AFFN_CACHE) collapse
+> > to a single worker pool, causing heavy spinlock (pool->lock) contention.
+> > Create a new affinity (WQ_AFFN_CACHE_SHARD) that caps each pool at
+> > wq_cache_shard_size CPUs (default 8).
+> >
+> > Changes from RFC:
+> >
+> > * wq_cache_shard_size is in terms of cores (not vCPU). So,
+> >   wq_cache_shard_size=8 means the pool will have 8 cores and their siblings,
+> >   like 16 threads/CPUs if SMT=1
+>
+> My concern about the "cores per shard" approach is that it
+> improves the default situation for moderately-sized machines
+> little or not at all.
+>
+> A machine with one L3 and 10 cores will go from 1 UNBOUND
+> pool to only 2. For virtual machines commonly deployed as
+> cloud instances, which are 2, 4, or 8 core systems (up to
+> 16 threads) there will still be significant contention for
+> UNBOUND workers.
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- include/linux/kstrtox.h | 1 -
- lib/vsprintf.c          | 7 -------
- 2 files changed, 8 deletions(-)
+Could you clarify your concern? Are you suggesting the default value of
+wq_cache_shard_size=8 is too high, or that the cores-per-shard approach
+fundamentally doesn't scale well for moderately-sized systems?
 
-diff --git a/include/linux/kstrtox.h b/include/linux/kstrtox.h
-index 6ea897222af1..7fcf29a4e0de 100644
---- a/include/linux/kstrtox.h
-+++ b/include/linux/kstrtox.h
-@@ -143,7 +143,6 @@ static inline int __must_check kstrtos32_from_user(const char __user *s, size_t
-  */
- 
- extern unsigned long simple_strtoul(const char *,char **,unsigned int);
--extern unsigned long simple_strntoul(const char *,char **,unsigned int,size_t);
- extern long simple_strtol(const char *,char **,unsigned int);
- extern unsigned long long simple_strtoull(const char *,char **,unsigned int);
- extern long long simple_strtoll(const char *,char **,unsigned int);
-diff --git a/lib/vsprintf.c b/lib/vsprintf.c
-index 800b8ac49f53..52ea14a08d3a 100644
---- a/lib/vsprintf.c
-+++ b/lib/vsprintf.c
-@@ -129,13 +129,6 @@ unsigned long simple_strtoul(const char *cp, char **endp, unsigned int base)
- }
- EXPORT_SYMBOL(simple_strtoul);
- 
--unsigned long simple_strntoul(const char *cp, char **endp, unsigned int base,
--			      size_t max_chars)
--{
--	return simple_strntoull(cp, endp, base, max_chars);
--}
--EXPORT_SYMBOL(simple_strntoul);
--
- /**
-  * simple_strtol - convert a string to a signed long
-  * @cp: The start of the string
--- 
-2.50.1
+Any approach—whether sharding by cores or by LLC—ultimately relies on
+heuristics that may need tuning for specific workloads. The key difference
+is where we draw the line. The current default of 8 cores prevents the
+worst-case scenario: severe lock contention on large systems with 16+ CPUs
+all hammering a single unbound workqueue.
 
+For smaller systems (2-4 CPUs), contention is usually negligible
+regardless of the approach. My perf lock contention measurements
+consistently show minimal contention in that range.
+
+> IOW, if you want good scaling, human intervention (via a
+> boot command-line option) is still needed.
+
+I am not convinced. The wq_cache_shard_size approach creates multiple
+pools on large systems while leaving small systems (<8 cores) unchanged.
+This eliminates the pathological lock contention we're observing on
+high-core-count machines without impacting smaller deployments.
+
+In contrast, splitting pools per LLC would force fragmentation even on
+systems that aren't experiencing contention, increasing the need for
+manual tuning across a wider range of configurations.
+
+Thanks for the review,
+--breno
