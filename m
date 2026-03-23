@@ -1,270 +1,161 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from outbound-ip168b.ess.barracuda.com (outbound-ip168b.ess.barracuda.com [209.222.82.102])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9A033BED59;
-	Mon, 23 Mar 2026 18:13:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774289620; cv=none; b=dZP1gWoeukZMD20wMIBKZ/h+4fSdGMa/z7ba5Q5yzTM4MlJnZxnSeJi42Mf9mpV5BtfntzsrMli2aNqiUqmMk4nXiNQcyc/FM0ldc1bM+pmzSmVKb8h17vby8FGbp9t/U07uGeTqUJftdv/ZZguCNmueC0qVXeQ3im1g6nYJF9Q=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774289620; c=relaxed/simple;
-	bh=y9moAdqmvz7D6zSoTFWBxABg1MazcK7d6WPTuhljAyQ=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lsBo48zMU7YTOvgGHdU69RogVPU24ND4VYLnuCK7lr+U9Y6/LyeJK/zznG+T1sxOLUKrD9S4H4VboLuliHrxKnaObxdz5uo2ytYPI4adNNoAoVNwXpXoBtGpQ0J4J6WUUCTqJ5PAAkfWgLabtCq7tHeATQf9Zp/j8KrS5DTawEs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.224.107])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4ffhB05JdlzJ467T;
-	Tue, 24 Mar 2026 02:13:28 +0800 (CST)
-Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
-	by mail.maildlp.com (Postfix) with ESMTPS id 59F2440584;
-	Tue, 24 Mar 2026 02:13:34 +0800 (CST)
-Received: from localhost (10.203.177.15) by dubpeml500005.china.huawei.com
- (7.214.145.207) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 23 Mar
- 2026 18:13:32 +0000
-Date: Mon, 23 Mar 2026 18:13:31 +0000
-From: Jonathan Cameron <jonathan.cameron@huawei.com>
-To: Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>
-CC: <linux-cxl@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<nvdimm@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
-	<linux-pm@vger.kernel.org>, Ard Biesheuvel <ardb@kernel.org>, "Alison
- Schofield" <alison.schofield@intel.com>, Vishal Verma
-	<vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>, Dan Williams
-	<dan.j.williams@intel.com>, Yazen Ghannam <yazen.ghannam@amd.com>, "Dave
- Jiang" <dave.jiang@intel.com>, Davidlohr Bueso <dave@stgolabs.net>, "Matthew
- Wilcox" <willy@infradead.org>, Jan Kara <jack@suse.cz>, "Rafael J . Wysocki"
-	<rafael@kernel.org>, Len Brown <len.brown@intel.com>, Pavel Machek
-	<pavel@kernel.org>, Li Ming <ming.li@zohomail.com>, Jeff Johnson
-	<jeff.johnson@oss.qualcomm.com>, Ying Huang <huang.ying.caritas@gmail.com>,
-	Yao Xingtao <yaoxt.fnst@fujitsu.com>, "Peter Zijlstra"
-	<peterz@infradead.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Nathan Fontenot <nathan.fontenot@amd.com>, Terry Bowman
-	<terry.bowman@amd.com>, Robert Richter <rrichter@amd.com>, Benjamin Cheatham
-	<benjamin.cheatham@amd.com>, Zhijian Li <lizhijian@fujitsu.com>, Borislav
- Petkov <bp@alien8.de>, Tomasz Wolski <tomasz.wolski@fujitsu.com>
-Subject: Re: [PATCH v8 8/9] dax/hmem, cxl: Defer and resolve Soft Reserved
- ownership
-Message-ID: <20260323181331.000018f2@huawei.com>
-In-Reply-To: <20260322195343.206900-9-Smita.KoralahalliChannabasappa@amd.com>
-References: <20260322195343.206900-1-Smita.KoralahalliChannabasappa@amd.com>
-	<20260322195343.206900-9-Smita.KoralahalliChannabasappa@amd.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9C7E3B3884
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 18:17:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=209.222.82.102
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774289873; cv=fail; b=JLAVolENanxqxtuz190B3T3BeXlOc27t/sIFGr2gTT9dOMLOVPADYDyPIhHCKPJs91PLWomw456rtTOJOw93bSr4FN5q6wAAppfxRtfb0t2+BYJ3h9s3/gtYmXPL9gz8KZ983zTlfx+m4hoXcaN3gEqVW4dqZ9dYZTb9Tu7FenE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774289873; c=relaxed/simple;
+	bh=PqRqkawwd5CNUVYJ+7CoTrjQzLercIY5jh3d5P6Lpv4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=bgAjz0QxRKb+MtEOIbleKeaVsSXgzauH3mu+YoPp6W8TcbraSewdRK9zgoeACIabRXPlQIonRdqtjVrVgGJyVekBlGlxafPG96GmCCroChIdfzBzLM6WhSLqu5Sawopv/jlkSCKeZCFdYdZV+O72f7ruqOJKUyJto3hlf04A5Uc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=ddn.com; dkim=pass (1024-bit key) header.d=datadirectnetworks.onmicrosoft.com header.i=@datadirectnetworks.onmicrosoft.com header.b=K0WCPn+H; arc=fail smtp.client-ip=209.222.82.102
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ddn.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=datadirectnetworks.onmicrosoft.com header.i=@datadirectnetworks.onmicrosoft.com header.b="K0WCPn+H"
+Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11020124.outbound.protection.outlook.com [52.101.56.124]) by mx-outbound40-145.us-east-2c.ess.aws.cudaops.com (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO); Mon, 23 Mar 2026 18:17:46 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=nq454n9FZhvLb4yd0+51y2MR5G1n+QwQUfVqptU9jDDazmWIsSTeI1Yi4lAiglXv9oc9HwK0ZZin8CM5YhxWs7Z9SbqakNuz/FQq6t+FYnXJ67BNu1NbkVntRkxdrAcCOFG8zoCnQJHas69Jsl9lDdHRNb7EwCu89cNZdQcpl6jZrkd5CONQFJfftzcmkD/LVnqg6XBuN0zTiw2IlUnq4bWYt8j6ZWBhd4IqxH0dIvmsYz+nAyx2NQCHc6OWK0+pk8+Y7IKvJ9EUjo50ADuatGMn7pqfW0wbfrAnVs3VlA1b0KVhV43inZWNyAfN3i+ntnF+yx+efwe/2zd2KBAzKQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CWDabdnw0wPVcsArbxnCjwaXQcnFZAoXjDVRmSpdiis=;
+ b=qGilH2Y+FWxZiPoa6nAr8kAVud2dQbIJUwPrvJFWNRqOzNXRSEiquLEPnH6lWcFYahrVS9/x2aEwGY8KywsEVH4FLPY9LLV6qgDDMlwPgiW7cSlB0kvcpMrNtl4njuZNzhQRzDpW9gA19dORxfWSFrPPAJZqAd6Xa4jExR5u3z2xA7ud34AkO8DnmuGBPRobzRU2BhGEXwRfBXRl/L9h2IvPqC0DNbR4d2drhVeBu8DnEbi84gUhq5lWUktkckBh3kDdKLoxfOPoA+I6OGt7cCW+mTKHoTGasZXCWpFSDMUtu87/by1Md5dpeIkYLryXJJnZ8UCTyiUbLzHFpQKhUw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 50.222.100.11) smtp.rcpttodomain=bsbernd.com smtp.mailfrom=ddn.com;
+ dmarc=fail (p=none sp=none pct=100) action=none header.from=bsbernd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=datadirectnetworks.onmicrosoft.com;
+ s=selector2-datadirectnetworks-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CWDabdnw0wPVcsArbxnCjwaXQcnFZAoXjDVRmSpdiis=;
+ b=K0WCPn+H8T6L9VWghnvZY1qmHITmJmG7qyniIMT/XYCKyOSJna5qlWzfq1SXsv30tvKxY87+5XzmtBg40ionEnjxT2pzGYKNrfES6lZ/VhZDLdTFSvjaBXDs80yRhzm9KpFtlLnWHVb5YswJzR2cvIAJoCw7GTmDcDVGHORiO0c=
+Received: from BL1PR13CA0290.namprd13.prod.outlook.com (2603:10b6:208:2bc::25)
+ by LV3PR19MB8345.namprd19.prod.outlook.com (2603:10b6:408:215::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.31; Mon, 23 Mar
+ 2026 17:45:09 +0000
+Received: from MN1PEPF0000ECDB.namprd02.prod.outlook.com
+ (2603:10b6:208:2bc:cafe::f3) by BL1PR13CA0290.outlook.office365.com
+ (2603:10b6:208:2bc::25) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9723.31 via Frontend Transport; Mon,
+ 23 Mar 2026 17:45:05 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 50.222.100.11)
+ smtp.mailfrom=ddn.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=none header.from=bsbernd.com;
+Received-SPF: Pass (protection.outlook.com: domain of ddn.com designates
+ 50.222.100.11 as permitted sender) receiver=protection.outlook.com;
+ client-ip=50.222.100.11; helo=uww-mrp-01.datadirectnet.com; pr=C
+Received: from uww-mrp-01.datadirectnet.com (50.222.100.11) by
+ MN1PEPF0000ECDB.mail.protection.outlook.com (10.167.242.139) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9723.19
+ via Frontend Transport; Mon, 23 Mar 2026 17:45:09 +0000
+Received: from localhost (unknown [10.68.0.8])
+	by uww-mrp-01.datadirectnet.com (Postfix) with ESMTP id BA41D2C7;
+	Mon, 23 Mar 2026 17:45:05 +0000 (UTC)
+From: Bernd Schubert <bernd@bsbernd.com>
+Date: Mon, 23 Mar 2026 18:44:57 +0100
+Subject: [PATCH 02/19] Add 'STRCPY' to the checkpatch ignore option
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml100010.china.huawei.com (7.191.174.197) To
- dubpeml500005.china.huawei.com (7.214.145.207)
+Message-Id: <20260323-fuse-init-before-mount-v1-2-a52d3040af69@bsbernd.com>
+References: <20260323-fuse-init-before-mount-v1-0-a52d3040af69@bsbernd.com>
+In-Reply-To: <20260323-fuse-init-before-mount-v1-0-a52d3040af69@bsbernd.com>
+To: linux-fsdevel@vger.kernel.org
+Cc: Miklos Szeredi <miklos@szeredi.hu>, 
+ Joanne Koong <joannelkoong@gmail.com>, 
+ "Darrick J. Wong" <djwong@kernel.org>, Bernd Schubert <bernd@bsbernd.com>, 
+ Bernd Schubert <bschubert@ddn.com>
+X-Mailer: b4 0.15-dev-2a633
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1774287906; l=1415;
+ i=bernd@bsbernd.com; s=20240529; h=from:subject:message-id;
+ bh=69mD6uT2WlgAUHIryvr936JXn04sM4wsB8u1P2U9+Yg=;
+ b=HL736sxwL4X3ZiMAwX0iU6XGUlMbqhTPIRheve6AoqhpFhHS99tzrHLmkSd7EdLnnf+/UujRY
+ autuamvc84aBroX/XC/wLo1VkMFwm92DQczpA9Rteo+Cv5baGLNrF6H
+X-Developer-Key: i=bernd@bsbernd.com; a=ed25519;
+ pk=EZVU4bq64+flgoWFCVQoj0URAs3Urjno+1fIq9ZJx8Y=
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN1PEPF0000ECDB:EE_|LV3PR19MB8345:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3f7577f8-92f3-4c4a-74c0-08de8903ed6f
+X-MS-Exchange-SenderADCheck: 0
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|48200799018|61400799027|82310400026|36860700016|19092799006|376014|18002099003|22082099003|56012099003|16102099003;
+X-Microsoft-Antispam-Message-Info:
+	xXYOaGObpyRK9iXYtRFDj2DzqDa7GrBEdOaMtJRF33LQZUKlEo/shJsTU+YosU/YE5qKVmb8oB3Wfd2t5iTWSkeHF21Xyfaqsupm34RNc3JUx3NQWP05EHBrfSysP/agGACyQeCNoghX1OXnucun1/Sqhx4Ei0q59mZHWCc1JBcfO/sXUKZ74hCqdK32K90IQGebK2b0G7JuWCYtLFRzN9TwB9dhKP0HX3+lNTnfnig2V0fcv+stxam8OcdtC6rewCoHRMcvR/4fznudsFQVS1WCHUZaAtE741gXKNK6DVCfUzrWDx/LThiyRhleWryJO7ueCt5xTl8Bpg1ftV3mVekQKEpb3RmggysaH+G8TZRyT/oLBqqZoPzP2wqpebwN7NKPAhRF0fMUV07r1GB8uZFM0lPatqEe6eyzd89MdBLPvVoMKMKpWydrJOwrHskLngs9kMDUM9uU3to38f5jCTulpJA8rc17+UqSMyTLv61Ob9doA73caJGcFFfRNNtwTsxQUDJROfOjH9UZIB5pkdS1XiKHqYqfpZROjilDHeExIExGSftJtdnis0tjdQJaRpmTVwMxV8zj7B5425Q4PhsmOmAUol9cY+qhH8TV7L2OWJqdYCPxkdtIMD+tifFh8jbwch5m/0io7gFCzmE0dvcBo4HJXWFxjAEb8UwC0QXQcF2NLeEFlY47Oquq87mYyQGogDYX+qvJ1ZPr+lRyaUJvLPyar4GDRf5V6vFPbQ78nQiJ4mHb1knNKO6ekD7rV7/2mdNfIkwnBllQgtifEQ==
+X-Forefront-Antispam-Report:
+	CIP:50.222.100.11;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:uww-mrp-01.datadirectnet.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(48200799018)(61400799027)(82310400026)(36860700016)(19092799006)(376014)(18002099003)(22082099003)(56012099003)(16102099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	fZuXeokHYt+GBXLGky/Hw6Qs2YL+H/fPC4USMtS6TCsU37sJFzts67BoHypbONZ/r2slHiU3M9rccFgcV3XBEgqUu+l2tmkEQrByivOiUFhdnNkUMEu407jkdtOXw9LgxCu2XFA5OSfWFgC5UAjOfbXYMX244bcOBpggrMR7ze6iCo755gmYYmTBWzAFvJLNPjfF1vRmubfe3yKJR1qkQFvovWIlFOQQ8d8lzBo8QZ3PIz5sbcOyGUuiBguSs9jkFqP6f3BQxE6ETTWDDmejziXYMQHU6NqThPOqwsnKWLV9tQmFyALqYdOSMFxo+OMGmiY7evl2EnSXESWpRmvI3M0Q5B5GCPIdjUmgwcJNf6ubVMU5tejVNkGqKeo35ZQaZsgi7JxLh7IKDq5Rco+BRBOaeL8iGA9Ow7UkHzsKKtkjNPH803leetJxMU/d4sqV
+X-Exchange-RoutingPolicyChecked:
+	Hg8qbIx6Vm/nYN63IvsOCw63ZOZs3tQGaKR+MKfkLgcL291KuDkjtS6nd684BrbyM0w+yOZ4E6Stk2yGZJQ89UsqeHSXAyzXuB/zUh8nX12tSjwpUkMNDWOpOgch6HJBC74RkRI2sWiSRy/9fq5YvLaIaYHCaXslKzv/VD/nj3ahatkcZBe9HEJvq7/bLurjwsLOnmhJkO8oYRUsMx0X6V3kJxnjgGWASjYh5ibWZqRYT2gVMBUGw4egnGUPZwlTBHni/VrYP6sQArIhbkobVeBfvDEzXgJzTP8YTCRNefNuBKpJj1MZAkqJ/w8mSRUeKAr+i9LVOX38wd0BhZThNA==
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	i1djnoNx2J6ZeppHVi1K1HYs3maNl1BUl5XiasJBsgLonCi6NyWxMZePMxbomInC3+0jF+odxpEztOorQpkHVDZ4qywhUrB2pFw3mYupa3u9idFseJb1z83rY+r/2mLxDQVlI1eheGxoqRQ/b3hm//9DsSInBgt965l08KZLoLxPGlfk+imE84Yorbx/eOo8FRtQyqxoQCACVBp96tcNgeHouYUsJk8I+3ecfAbbUOMRQG03mU8RNEqPSbTrVlbI89OyjaVs0XPTPah3r/rrYccAVuLSEyxoMs6y+pSyU7bSuIs6twCGpd4gsG5hRuaqWyB31SxG399FCAEBPBhpsqPVaqb3jXuCQBt0fPmV+G6VrZvd8hB9q/XrTO31NTJ9Uvs0RVp4GjiNwX88Vq//uu9E8gkCPpdkQIu11aSBLkZymFXv2o4k78v1EShUC5RaHEj+EKJ9sW8eyhFLaVkc/CSnrl60u0f3p+mz39lAcvccwjj1FnhcU2qmiCYDc2K19i7RUwEmYs2SZccQf1SpfBg5y+ZmYI9uU1qiDu+DDw7tEPZGn2rzeO12oO1XZUejoTU/Zp+g/sdEWefiBvAxjLc045AlJwVNTdJC2+4hDfr1e3JyRIRiHM2kaRcA5rakuvCi2IgqYumwI83ZtAF+pw==
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2026 17:45:09.3217
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3f7577f8-92f3-4c4a-74c0-08de8903ed6f
+X-MS-Exchange-CrossTenant-Id: 753b6e26-6fd3-43e6-8248-3f1735d59bb4
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=753b6e26-6fd3-43e6-8248-3f1735d59bb4;Ip=[50.222.100.11];Helo=[uww-mrp-01.datadirectnet.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	MN1PEPF0000ECDB.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR19MB8345
+X-OriginatorOrg: ddn.com
+X-BESS-ID: 1774289866-110385-595-9309-1
+X-BESS-VER: 2019.1_20260319.1837
+X-BESS-Apparent-Source-IP: 52.101.56.124
+X-BESS-Parts: H4sIAAAAAAACA4uuVkqtKFGyUioBkjpK+cVKVoYmxiZAVgZQMNnAONHEJNXYKC
+	3JLNnUyNgyKc0iJdHIyNQsLdU01dhcqTYWAKeQasFBAAAA
+X-BESS-Outbound-Spam-Score: 1.00
+X-BESS-Outbound-Spam-Report: Code version 3.2, rules version 3.2.2.272017 [from 
+	cloudscan21-33.us-east-2b.ess.aws.cudaops.com]
+	Rule breakdown below
+	 pts rule name              description
+	---- ---------------------- --------------------------------
+	0.50 BSF_SC1_TG070          META: Custom Rule TG070 
+	0.50 BSF_RULE7568M          META: Custom Rule 7568M 
+	0.00 BSF_BESS_OUTBOUND      META: BESS Outbound 
+X-BESS-Outbound-Spam-Status: SCORE=1.00 using account:ESS124931 scores of KILL_LEVEL=7.0 tests=BSF_SC1_TG070, BSF_RULE7568M, BSF_BESS_OUTBOUND
+X-BESS-BRTS-Status:1
 
-On Sun, 22 Mar 2026 19:53:41 +0000
-Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com> wrote:
+From: Bernd Schubert <bschubert@ddn.com>
 
-> The current probe time ownership check for Soft Reserved memory based
-> solely on CXL window intersection is insufficient. dax_hmem probing is not
-> always guaranteed to run after CXL enumeration and region assembly, which
-> can lead to incorrect ownership decisions before the CXL stack has
-> finished publishing windows and assembling committed regions.
-> 
-> Introduce deferred ownership handling for Soft Reserved ranges that
-> intersect CXL windows. When such a range is encountered during the
-> initial dax_hmem probe, schedule deferred work to wait for the CXL stack
-> to complete enumeration and region assembly before deciding ownership.
-> 
-> Once the deferred work runs, evaluate each Soft Reserved range
-> individually: if a CXL region fully contains the range, skip it and let
-> dax_cxl bind. Otherwise, register it with dax_hmem. This per-range
-> ownership model avoids the need for CXL region teardown and
-> alloc_dax_region() resource exclusion prevents double claiming.
-> 
-> Introduce a boolean flag dax_hmem_initial_probe to live inside device.c
-> so it survives module reload. Ensure dax_cxl defers driver registration
-> until dax_hmem has completed ownership resolution. dax_cxl calls
-> dax_hmem_flush_work() before cxl_driver_register(), which both waits for
-> the deferred work to complete and creates a module symbol dependency that
-> forces dax_hmem.ko to load before dax_cxl.
-> 
-> Co-developed-by: Dan Williams <dan.j.williams@intel.com>
-> Signed-off-by: Dan Williams <dan.j.williams@intel.com>
-> Signed-off-by: Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>
+checkpatch.pl is a kernel copy and the strcpy warning is not valid
+for libfuse.
 
-https://sashiko.dev/#/patchset/20260322195343.206900-1-Smita.KoralahalliChannabasappa%40amd.com
-Might be worth a look.  I think the last comment is potentially correct
-though unlikely a platform_driver_register() actually fails.
+Signed-off-by: Bernd Schubert <bschubert@ddn.com>
+---
+ .github/workflows/checkpatch.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I've not looked too closely at the others. Given this was doing something
-unusual I thought I'd see what it found. Looks like some interesting
-questions if nothing else.
+diff --git a/.github/workflows/checkpatch.yml b/.github/workflows/checkpatch.yml
+index 4a98c91cddeab686c782a1d34cd5d15f86f0b42d..8dead95b065bc81449a98fa7ea94fac7463d2334 100644
+--- a/.github/workflows/checkpatch.yml
++++ b/.github/workflows/checkpatch.yml
+@@ -35,7 +35,7 @@ jobs:
+           fi
+           subject=$(git log -1 --format=%s $commit)
+           echo "Checking commit: $commit - $subject"
+-          if ! ./checkpatch.pl --max-line-length=100 --no-tree --ignore MAINTAINERS,SPDX_LICENSE_TAG,COMMIT_MESSAGE,FILE_PATH_CHANGES,EMAIL_SUBJECT,AVOID_EXTERNS,GIT_COMMIT_ID,ENOSYS_SYSCALL,ENOSYS,FROM_SIGN_OFF_MISMATCH,QUOTED_COMMIT_ID,PREFER_ATTRIBUTE_ALWAYS_UNUSED,PREFER_DEFINED_ATTRIBUTE_MACRO  -g $commit; then
++          if ! ./checkpatch.pl --max-line-length=100 --no-tree --ignore MAINTAINERS,SPDX_LICENSE_TAG,COMMIT_MESSAGE,FILE_PATH_CHANGES,EMAIL_SUBJECT,AVOID_EXTERNS,GIT_COMMIT_ID,ENOSYS_SYSCALL,ENOSYS,FROM_SIGN_OFF_MISMATCH,QUOTED_COMMIT_ID,PREFER_ATTRIBUTE_ALWAYS_UNUSED,PREFER_DEFINED_ATTRIBUTE_MACRO,STRCPY  -g $commit; then
+             echo "checkpatch.pl found issues in commit $commit - $subject"
+             exit 1
+           fi
 
-> ---
->  drivers/dax/bus.h         |  7 ++++
->  drivers/dax/cxl.c         |  1 +
->  drivers/dax/hmem/device.c |  3 ++
->  drivers/dax/hmem/hmem.c   | 74 +++++++++++++++++++++++++++++++++++++++
->  4 files changed, 85 insertions(+)
-> 
-> diff --git a/drivers/dax/bus.h b/drivers/dax/bus.h
-> index cbbf64443098..ebbfe2d6da14 100644
-> --- a/drivers/dax/bus.h
-> +++ b/drivers/dax/bus.h
-> @@ -49,6 +49,13 @@ void dax_driver_unregister(struct dax_device_driver *dax_drv);
->  void kill_dev_dax(struct dev_dax *dev_dax);
->  bool static_dev_dax(struct dev_dax *dev_dax);
->  
-> +#if IS_ENABLED(CONFIG_DEV_DAX_HMEM)
-> +extern bool dax_hmem_initial_probe;
-> +void dax_hmem_flush_work(void);
-> +#else
-> +static inline void dax_hmem_flush_work(void) { }
-> +#endif
-> +
->  #define MODULE_ALIAS_DAX_DEVICE(type) \
->  	MODULE_ALIAS("dax:t" __stringify(type) "*")
->  #define DAX_DEVICE_MODALIAS_FMT "dax:t%d"
-> diff --git a/drivers/dax/cxl.c b/drivers/dax/cxl.c
-> index a2136adfa186..3ab39b77843d 100644
-> --- a/drivers/dax/cxl.c
-> +++ b/drivers/dax/cxl.c
-> @@ -44,6 +44,7 @@ static struct cxl_driver cxl_dax_region_driver = {
->  
->  static void cxl_dax_region_driver_register(struct work_struct *work)
->  {
-> +	dax_hmem_flush_work();
->  	cxl_driver_register(&cxl_dax_region_driver);
->  }
->  
-> diff --git a/drivers/dax/hmem/device.c b/drivers/dax/hmem/device.c
-> index 56e3cbd181b5..991a4bf7d969 100644
-> --- a/drivers/dax/hmem/device.c
-> +++ b/drivers/dax/hmem/device.c
-> @@ -8,6 +8,9 @@
->  static bool nohmem;
->  module_param_named(disable, nohmem, bool, 0444);
->  
-> +bool dax_hmem_initial_probe;
-> +EXPORT_SYMBOL_GPL(dax_hmem_initial_probe);
-> +
->  static bool platform_initialized;
->  static DEFINE_MUTEX(hmem_resource_lock);
->  static struct resource hmem_active = {
-> diff --git a/drivers/dax/hmem/hmem.c b/drivers/dax/hmem/hmem.c
-> index ca752db03201..9ceda6b5cadf 100644
-> --- a/drivers/dax/hmem/hmem.c
-> +++ b/drivers/dax/hmem/hmem.c
-> @@ -3,6 +3,7 @@
->  #include <linux/memregion.h>
->  #include <linux/module.h>
->  #include <linux/dax.h>
-> +#include <cxl/cxl.h>
->  #include "../bus.h"
->  
->  static bool region_idle;
-> @@ -58,6 +59,23 @@ static void release_hmem(void *pdev)
->  	platform_device_unregister(pdev);
->  }
->  
-> +struct dax_defer_work {
-> +	struct platform_device *pdev;
-> +	struct work_struct work;
-> +};
-> +
-> +static void process_defer_work(struct work_struct *w);
-> +
-> +static struct dax_defer_work dax_hmem_work = {
-> +	.work = __WORK_INITIALIZER(dax_hmem_work.work, process_defer_work),
-> +};
-> +
-> +void dax_hmem_flush_work(void)
-> +{
-> +	flush_work(&dax_hmem_work.work);
-> +}
-> +EXPORT_SYMBOL_GPL(dax_hmem_flush_work);
-> +
->  static int __hmem_register_device(struct device *host, int target_nid,
->  				  const struct resource *res)
->  {
-> @@ -122,6 +140,11 @@ static int hmem_register_device(struct device *host, int target_nid,
->  	if (IS_ENABLED(CONFIG_DEV_DAX_CXL) &&
->  	    region_intersects(res->start, resource_size(res), IORESOURCE_MEM,
->  			      IORES_DESC_CXL) != REGION_DISJOINT) {
-> +		if (!dax_hmem_initial_probe) {
-> +			dev_dbg(host, "await CXL initial probe: %pr\n", res);
-> +			queue_work(system_long_wq, &dax_hmem_work.work);
-> +			return 0;
-> +		}
->  		dev_dbg(host, "deferring range to CXL: %pr\n", res);
->  		return 0;
->  	}
-> @@ -129,8 +152,54 @@ static int hmem_register_device(struct device *host, int target_nid,
->  	return __hmem_register_device(host, target_nid, res);
->  }
->  
-> +static int hmem_register_cxl_device(struct device *host, int target_nid,
-> +				    const struct resource *res)
-> +{
-> +	if (region_intersects(res->start, resource_size(res), IORESOURCE_MEM,
-> +			      IORES_DESC_CXL) == REGION_DISJOINT)
-> +		return 0;
-> +
-> +	if (cxl_region_contains_resource((struct resource *)res)) {
-> +		dev_dbg(host, "CXL claims resource, dropping: %pr\n", res);
-> +		return 0;
-> +	}
-> +
-> +	dev_dbg(host, "CXL did not claim resource, registering: %pr\n", res);
-> +	return __hmem_register_device(host, target_nid, res);
-> +}
-> +
-> +static void process_defer_work(struct work_struct *w)
-> +{
-> +	struct dax_defer_work *work = container_of(w, typeof(*work), work);
-> +	struct platform_device *pdev;
-> +
-> +	if (!work->pdev)
-> +		return;
-> +
-> +	pdev = work->pdev;
-> +
-> +	/* Relies on cxl_acpi and cxl_pci having had a chance to load */
-> +	wait_for_device_probe();
-> +
-> +	guard(device)(&pdev->dev);
-> +	if (!pdev->dev.driver)
-> +		return;
-> +
-> +	if (!dax_hmem_initial_probe) {
-> +		dax_hmem_initial_probe = true;
-> +		walk_hmem_resources(&pdev->dev, hmem_register_cxl_device);
-> +	}
-> +}
-> +
->  static int dax_hmem_platform_probe(struct platform_device *pdev)
->  {
-> +	if (work_pending(&dax_hmem_work.work))
-> +		return -EBUSY;
-> +
-> +	if (!dax_hmem_work.pdev)
-> +		dax_hmem_work.pdev =
-> +			to_platform_device(get_device(&pdev->dev));
-> +
->  	return walk_hmem_resources(&pdev->dev, hmem_register_device);
->  }
->  
-> @@ -168,6 +237,11 @@ static __init int dax_hmem_init(void)
->  
->  static __exit void dax_hmem_exit(void)
->  {
-> +	if (dax_hmem_work.pdev) {
-> +		flush_work(&dax_hmem_work.work);
-> +		put_device(&dax_hmem_work.pdev->dev);
-> +	}
-> +
->  	platform_driver_unregister(&dax_hmem_driver);
->  	platform_driver_unregister(&dax_hmem_platform_driver);
->  }
+-- 
+2.43.0
 
