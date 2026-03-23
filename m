@@ -1,108 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D73F226159E;
-	Mon, 23 Mar 2026 15:51:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D69B3B8959;
+	Mon, 23 Mar 2026 16:26:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774281115; cv=none; b=c0kZmJghE9fLDBxGytJmtgEa0/ib/u0xVnWWVQM/DfKQ6gbzlltedODadFpdiu3MrEb4004D+ljeozhA8QeXU9vxQevYavSDSAkKDicX0B3MNzMKOegfLSb/zhwu8uQh3FZPj8ONOp5ME3ArW/pUaL+4wvN8O5kLzz+4uIpCc78=
+	t=1774283201; cv=none; b=nG9IUb8AdfQSfOOaHShreyk2kyREetKRFonlXWEp5M2uAfh/ouuuG3/24zqEywr4lnqOx5VZgK+fttayYJc1DyG/AaATd5YGsvKHwJd92A+wPZWmBbHmrV1FqAOlT2ZrCHef0NNwyqZpubmRo0QI6/yXIqOKJKeH6ycU9//cJGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774281115; c=relaxed/simple;
-	bh=vZdm4GONA/O1jK4+M6185Q0giqh3AS1i2sFB5Pfd/2Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WC/Su5DSfbmKx/hjjLx/LWUbWOrLtkC+iAtlSS3Ov8uRSbFx+FSuKN5K9Y7423IO//a3uq1zVVBsKflkqLnS2RxcBs+9CJeJYk9SLvxeYLMbT8sPvlYBC/w0ZotbH2yLYJvHqZxWSXc+2/FG2D737L1EOieH3Ivfyp0uqVdkFYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o1THjGW8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774283201; c=relaxed/simple;
+	bh=VR8utIjDTW7aSYJEFiut7g5ORWSt0EO2oE+gyiMEMiQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=i+Fu1BtsufM8s1FzkAdqjV95OH5/x76pHbdAXUZ6D5uQR5jQTfHriyeg5OLYJ3b7neDSADnk3Ng71Fqr91pehjcQa2fowx3lqy6vv8gsomLm+ehrIXqdMVOa2Up3lyMtSqiT2ohSuLIopGO0wiK4vij6Z5+5Q1ayv5JtFjalCNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=uuVGHED5; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o1THjGW8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCA5BC4CEF7;
-	Mon, 23 Mar 2026 15:51:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774281115;
-	bh=vZdm4GONA/O1jK4+M6185Q0giqh3AS1i2sFB5Pfd/2Y=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=o1THjGW87BBZn2ZRvUB/ZbG6Bpk46OGuXu9+rNxgEX1JPplRd0PmhhIVaepJQX2x+
-	 tNfnZZ2oJ/LEW/V1kb+Kd4rSlee9+4uD+RKeGWfnc/xNRMj7aASQw2bbJQ+4aFpnT4
-	 D5oU71wAa1icX022onJ8SXq1egN+wMrKLzs0GkJXDMxvnSocAjVWuUsitbcyyxaQfV
-	 JJXP9c4lBWKh9RLPX/Xy30cKFsVybbnBnhAp26jeybHA0vntxV0OkXb/w0rzQv6/lE
-	 VQ33MGCeDpT2FONGoMZBv7aFNGtJEznzEExGGKYXFQSBLYixZR0A4kZUSTFL4AAduW
-	 zfBJEYhpa4mqQ==
-Message-ID: <47f796ed-ac66-4a75-98c9-64afc8929f35@kernel.org>
-Date: Mon, 23 Mar 2026 16:51:41 +0100
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="uuVGHED5"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=VR8utIjDTW7aSYJEFiut7g5ORWSt0EO2oE+gyiMEMiQ=; b=uuVGHED5JOPP1xXa4K+lXUe3yH
+	Dyy6FK1jDXtQYK2gOP7rkQ1j10SbtKV4xSEc0Yf5oCGBGl72PLm4tp+FTwoGMp5A5/90AJiaF6HQ0
+	f75YrmQ+4If9oIjDOvNgwoCPI6/+J0Pm+MCOfTdzrG9M2xj6Ob5+mGeArrBa8rJkf53FLHU9FEWCS
+	40bDqFrcmsRAgnjlRH7rBaSKsxnZ5/xLxa0Ri50tYgiVL3CbXbMoAT8bG39t6KQasy9cC+inLB76P
+	tpWxfRD7s1OVCmLh4fqgOPBSYSulpDCAukhSEmiu9FJtF4S549qS45vGSJOEWPAWDRcmO0aDAUlB7
+	F196ZpYA==;
+Received: from authenticated user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.94.2)
+	(envelope-from <leitao@debian.org>)
+	id 1w4i6t-007exf-A0; Mon, 23 Mar 2026 16:26:34 +0000
+Date: Mon, 23 Mar 2026 09:26:28 -0700
+From: Breno Leitao <leitao@debian.org>
+To: Chuck Lever <cel@kernel.org>
+Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org, puranjay@kernel.org, 
+	linux-crypto@vger.kernel.org, linux-btrfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	Michael van der Westhuizen <rmikey@meta.com>, kernel-team@meta.com, Chuck Lever <chuck.lever@oracle.com>
+Subject: Re: [PATCH v2 0/5] workqueue: Introduce a sharded cache affinity
+ scope
+Message-ID: <acFmcCcbPfznH_it@gmail.com>
+References: <20260320-workqueue_sharded-v2-0-8372930931af@debian.org>
+ <04af531d-d8a3-4fbb-993d-e1da2df62a03@app.fastmail.com>
+ <acFVEr7iVnU_70yh@gmail.com>
+ <f2f7fff3-2f6a-4ebb-aa5e-33188be4dd9a@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 25/25] mm: simplify VMA flag tests of excluded flags
-To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: David Hildenbrand <david@kernel.org>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>, Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Kees Cook <kees@kernel.org>,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- Vineet Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Brian Cain <bcain@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
- WANG Xuerui <kernel@xen0n.name>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Dinh Nguyen <dinguyen@kernel.org>, Madhavan Srinivasan
- <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>,
- Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <chleroy@kernel.org>,
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, Richard Weinberger <richard@nod.at>,
- Anton Ivanov <anton.ivanov@cambridgegreys.com>,
- Johannes Berg <johannes@sipsolutions.net>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Xu Xin <xu.xin16@zte.com.cn>, Chengming Zhou <chengming.zhou@linux.dev>,
- Michal Hocko <mhocko@suse.com>, Paul Moore <paul@paul-moore.com>,
- Stephen Smalley <stephen.smalley.work@gmail.com>,
- Ondrej Mosnacek <omosnace@redhat.com>, linux-snps-arc@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-hexagon@vger.kernel.org,
- loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org, linux-um@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, selinux@vger.kernel.org
-References: <cover.1774034900.git.ljs@kernel.org>
- <d395c5dd837a9864f5efcec42175910afbe3ce73.1774034900.git.ljs@kernel.org>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Content-Language: en-US
-In-Reply-To: <d395c5dd837a9864f5efcec42175910afbe3ce73.1774034900.git.ljs@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f2f7fff3-2f6a-4ebb-aa5e-33188be4dd9a@kernel.org>
+X-Debian-User: leitao
 
-On 3/20/26 8:38 PM, Lorenzo Stoakes (Oracle) wrote:
-> We have implemented flag mask comparisons of the form:
-> 
-> if ((vm_flags & (VM_FOO|VM_BAR|VM_BAZ) == VM_FOO) { ... }
-> 
-> Like-for-like in the code using a bitwise-and mask via vma_flags_and() and
-> using vma_flags_same() to ensure the final result equals only the required
-> flag value.
-> 
-> This is fine but confusing, make things clearer by instead explicitly
-> excluding undesired flags and including the desired one via tests of the
-> form:
-> 
-> 	if (vma_flags_test(&flags, VMA_FOO_BIT) &&
-> 	    !vma_flags_test_any(&flags, VMA_BAR_BIT, VMA_BAZ_BIT)) { ... }
-> 
-> Which makes it easier to understand what is going on.
-> 
-> No functional change intended.
-> 
-> Suggested-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
-> Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
+Hello Chuck,
 
-Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+On Mon, Mar 23, 2026 at 11:28:49AM -0400, Chuck Lever wrote:
+> On 3/23/26 11:10 AM, Breno Leitao wrote:
+> >
+> > I am not convinced. The wq_cache_shard_size approach creates multiple
+> > pools on large systems while leaving small systems (<8 cores) unchanged.
+>
+> This is exactly my concern. Smaller systems /do/ experience measurable
+> contention in this area. I don't object to your series at all, it's
+> clean and well-motivated; but the cores-per-shard approach doesn't scale
+> down to very commonly deployed machine sizes.
 
+I don't see why the cores-per-shard approach wouldn't scale down
+effectively.
+
+The sharding mechanism itself is independent of whether we use
+cores-per-shard or shards-per-LLC as the allocation strategy, correct?
+
+Regardless of the approach, we retain full control over the granularity
+of the shards.
+
+> We might also argue that the NFS client and other subsystems that make
+> significant use of UNBOUND workqueues in their I/O paths might be well
+> advised to modify their approach. (net/sunrpc/sched.c, hint hint)
+>
+>
+> > This eliminates the pathological lock contention we're observing on
+> > high-core-count machines without impacting smaller deployments.
+>
+> > In contrast, splitting pools per LLC would force fragmentation even on
+> > systems that aren't experiencing contention, increasing the need for
+> > manual tuning across a wider range of configurations.
+>
+> I claim that smaller deployments also need help. Further, I don't see
+> how UNBOUND pool fragmentation is a problem on such systems that needs
+> to be addressed (IMHO).
+
+Are you suggesting we should reduce the default value to something like
+wq_cache_shard_size=2 instead of wq_cache_shard_size=8?
+
+Thanks for the feedback,
+--breno
