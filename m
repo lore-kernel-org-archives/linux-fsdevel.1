@@ -1,50 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C61211A3029;
-	Mon, 23 Mar 2026 15:01:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33CC223E25B;
+	Mon, 23 Mar 2026 15:01:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774278069; cv=none; b=q5RS4i9qkE9Yja3aEGj2SSQR6/Vh5FdqpFIAgX4YD6JQUAl74APy/cWBobcEAqI110aWg6GlgK4Hb7GbcHTLEfY2fP+gN10tmY0+LhhZj6KpOL5LmgUJyAlcIlDKwPqFeixS25dhK51EJQHOPbfnOFiCNxOBqB1n76nS5yP2q9k=
+	t=1774278069; cv=none; b=BBACPkzqD8Mwb8yQvn4TsZQDJzaA7L9ILhgTjhdg7W3MMVWLyFosjYrK/bMRgY2Td685wpoquED3dzLUzIyiRDb2KIYwN3AUQj/pF5HcWHdiwe5nI+sTrXLm9Krq/1wQcu4QKtg19SXuMo2CuybBkq16EZSxMHik4jmJ9LGX7qo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1774278069; c=relaxed/simple;
-	bh=VUhri3d7VyauDsHJzIbJLk+19FEXBT199psKUOzW3cI=;
+	bh=u18iTr5PRqvoh7iTQu1HrKZDXlL61UdRdRTUhmb3GAk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MxI91rOEpKbCF7D6PH5p3Qif5eXGUQhNMdrLotrb1QCvAy85HnZsTGF42LkEjOGsMtUPyp1f2OgbSqX/DUJuPgbhfbo6p429Wkzzona1E/BlnQUv/nMK8dyI5dODvu3+/f6ltOV5i5UTadPBicnt4Ov2xGiAJixRtjsTX8swWn4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cCFInWYL; arc=none smtp.client-ip=198.175.65.17
+	 MIME-Version; b=i0yLUfWT3/4+C3JEXI9BpOhzRCWaOCGBD4QB6uvJdn18TRMeqmyCa8+z9922tIL4R3q5omK7m/1Q/QCvXAf4BQF8psZfMtC+zjdwlh+m9Gq6eJSp2pCrFHwJqdJtYE/kC9lkau/m/1YR4fW6hYpy+NOMHrf/VvCpM5oBzIJrOFc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bCQ73ImG; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cCFInWYL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bCQ73ImG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1774278068; x=1805814068;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=VUhri3d7VyauDsHJzIbJLk+19FEXBT199psKUOzW3cI=;
-  b=cCFInWYLUSdp25HhiwsDRBn93YKtz7AOETXHyJgjEFwje9vsWRoCbwkZ
-   Jc4Esr6QRxGDRxcWgRrHNMS2jg1hzOo73IqHK+4mERlN0U87fEuuaboYj
-   e1jefEgMbwQlhAHfatCX/xWXGkKkyLz4CWapL6DMe/EGSbmlQiVVg3xjr
-   UVHZZ8YBP4rUAR5eWrZzISOU764to3pIT669cxqKSpGlEDXHJkGp/NJXf
-   p2mxp3XUi5eK1WkZxOnbWahyPdgqzsMXKfR6gcveGn7lGdpKjEXETohPU
-   D2pArk267rYdnHJe2+st1qJHx7lutBZEA93YMU4f9QFFcYjLMMEVXyLFQ
-   Q==;
-X-CSE-ConnectionGUID: UJGc2TifRzWfTm6DfPxlJg==
-X-CSE-MsgGUID: +8xdLSbXQ06aqO1mBjM8Vg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="75249714"
+  bh=u18iTr5PRqvoh7iTQu1HrKZDXlL61UdRdRTUhmb3GAk=;
+  b=bCQ73ImGlcyJTVa0/y61mhdenI6Ulxl4wiwWFCGz4xK7a68KlLm9zV8P
+   kOG/T+eNvVucgAa8jSkmY0FUh3nnxFFdjp9j8ASDbKQvC+0fmrqbj67jZ
+   h65Rd/BqXW5gU9gy8si/1ToUtvnIgx42nljk/F2tr8stpySlFyd+Ihw3z
+   Z4vCMsD3iRhITExMctPmyH2kIoeBc1aUN+Bu8UkQsNYHjriugjWpW5Ez6
+   tnJWjtUaUcogVyfnt6gQ5xxR24e1jQMdtpoexyS3FnjlSSxoJTv1tfE4E
+   DEBbkpiOL/yCKt4EOpLx+e4KGypCWWNU5qSNK/CnstCbWbkhyQSi460jR
+   g==;
+X-CSE-ConnectionGUID: BBsV0ENwQYGtnxbV1956HQ==
+X-CSE-MsgGUID: 9dcFxjz3QoGqFkGqm5nPlw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="74456159"
 X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
-   d="scan'208";a="75249714"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 08:01:07 -0700
-X-CSE-ConnectionGUID: W8d+PllLSGeNb+bAkRJxKQ==
-X-CSE-MsgGUID: Cg/WijqnT4K8wZH0XcGW2Q==
+   d="scan'208";a="74456159"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 08:01:05 -0700
+X-CSE-ConnectionGUID: 0c6tXsbPTFWJy3QS4RAtCQ==
+X-CSE-MsgGUID: Cj7h1WmARQqc+04u/NdEDg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
-   d="scan'208";a="221212768"
+   d="scan'208";a="223119641"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa008.fm.intel.com with ESMTP; 23 Mar 2026 08:01:04 -0700
+  by orviesa006.jf.intel.com with ESMTP; 23 Mar 2026 08:01:01 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id 37241A2; Mon, 23 Mar 2026 16:01:00 +0100 (CET)
+	id 251569B; Mon, 23 Mar 2026 16:01:00 +0100 (CET)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	David Disseldorp <ddiss@suse.de>,
@@ -58,9 +58,9 @@ Cc: Al Viro <viro@zeniv.linux.org.uk>,
 	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
 	Sergey Senozhatsky <senozhatsky@chromium.org>,
 	Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH v3 6/6] kstrtox: Drop extern keyword in the simple_strtox() declarations
-Date: Mon, 23 Mar 2026 15:54:22 +0100
-Message-ID: <20260323150054.3587083-7-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v3 2/6] initramfs_test: test header fields with 0x hex prefix
+Date: Mon, 23 Mar 2026 15:54:18 +0100
+Message-ID: <20260323150054.3587083-3-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260323150054.3587083-1-andriy.shevchenko@linux.intel.com>
 References: <20260323150054.3587083-1-andriy.shevchenko@linux.intel.com>
@@ -72,34 +72,112 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-There is legacy 'extern' keyword for the exported simple_strtox()
-function which are the artefact that can be removed. So drop it.
+From: David Disseldorp <ddiss@suse.de>
 
-While at it, tweak the declaration to provide parameter names.
+cpio header fields are 8-byte hex strings, but one "interesting"
+side-effect of our historic simple_str[n]toul() use means that a "0x"
+(or "0X") prefixed header field will be successfully processed when
+coupled alongside a 6-byte hex remainder string.
 
+"0x" prefix support is contrary to the initramfs specification at
+Documentation/driver-api/early-userspace/buffer-format.rst which states:
+
+  The structure of the cpio_header is as follows (all fields contain
+  hexadecimal ASCII numbers fully padded with '0' on the left to the
+  full width of the field, for example, the integer 4780 is represented
+  by the ASCII string "000012ac"):
+
+Test for this corner case by injecting "0x" prefixes into the uid, gid
+and namesize cpio header fields. Confirm that init_stat() returns
+matching uid and gid values.
+
+This test can be modified in future to expect unpack_to_rootfs() failure
+when header validation is changed to properly follow the specification.
+
+Signed-off-by: David Disseldorp <ddiss@suse.de>
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- include/linux/kstrtox.h | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ init/initramfs_test.c | 60 +++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 60 insertions(+)
 
-diff --git a/include/linux/kstrtox.h b/include/linux/kstrtox.h
-index 7fcf29a4e0de..6c9282866770 100644
---- a/include/linux/kstrtox.h
-+++ b/include/linux/kstrtox.h
-@@ -142,9 +142,9 @@ static inline int __must_check kstrtos32_from_user(const char __user *s, size_t
-  * Keep in mind above caveat.
-  */
+diff --git a/init/initramfs_test.c b/init/initramfs_test.c
+index 7b6ecab794c7..4d9a4075476c 100644
+--- a/init/initramfs_test.c
++++ b/init/initramfs_test.c
+@@ -495,6 +495,65 @@ static void __init initramfs_test_fname_path_max(struct kunit *test)
+ 	kfree(tbufs);
+ }
  
--extern unsigned long simple_strtoul(const char *,char **,unsigned int);
--extern long simple_strtol(const char *,char **,unsigned int);
--extern unsigned long long simple_strtoull(const char *,char **,unsigned int);
--extern long long simple_strtoll(const char *,char **,unsigned int);
-+unsigned long simple_strtoul(const char *cp, char **endp, unsigned int base);
-+long simple_strtol(const char *cp, char **endp, unsigned int base);
-+unsigned long long simple_strtoull(const char *cp, char **endp, unsigned int base);
-+long long simple_strtoll(const char *cp, char **endp, unsigned int base);
++static void __init initramfs_test_hdr_hex(struct kunit *test)
++{
++	char *err, *fmt;
++	size_t len;
++	struct kstat st0, st1;
++	char fdata[] = "this file data will be unpacked";
++	struct initramfs_test_bufs {
++		char cpio_src[(CPIO_HDRLEN + PATH_MAX + 3 + sizeof(fdata)) * 2];
++	} *tbufs = kzalloc(sizeof(struct initramfs_test_bufs), GFP_KERNEL);
++	struct initramfs_test_cpio c[] = { {
++		.magic = "070701",
++		.ino = 1,
++		.mode = S_IFREG | 0777,
++		.uid = 0x123456,
++		.gid = 0x123457,
++		.nlink = 1,
++		.namesize = sizeof("initramfs_test_hdr_hex_0"),
++		.fname = "initramfs_test_hdr_hex_0",
++		.filesize = sizeof(fdata),
++		.data = fdata,
++	}, {
++		.magic = "070701",
++		.ino = 2,
++		.mode = S_IFDIR | 0777,
++		.uid = 0x000056,
++		.gid = 0x000057,
++		.nlink = 1,
++		.namesize = sizeof("initramfs_test_hdr_hex_1"),
++		.fname = "initramfs_test_hdr_hex_1",
++	} };
++	/*
++	 * override CPIO_HDR_FMT and instead use a format string which places
++	 * "0x" prefixes on the uid, gid and namesize values.
++	 * parse_header()/simple_str[n]toul() accept this.
++	 */
++	fmt = "%s%08x%08x0x%06x0X%06x%08x%08x%08x%08x%08x%08x%08x0x%06x%08x%s";
++	len = fill_cpio(c, ARRAY_SIZE(c), fmt, tbufs->cpio_src);
++
++	err = unpack_to_rootfs(tbufs->cpio_src, len);
++	KUNIT_EXPECT_NULL(test, err);
++
++	KUNIT_EXPECT_EQ(test, init_stat(c[0].fname, &st0, 0), 0);
++	KUNIT_EXPECT_EQ(test, init_stat(c[1].fname, &st1, 0), 0);
++
++	KUNIT_EXPECT_TRUE(test,
++		uid_eq(st0.uid, make_kuid(current_user_ns(), (uid_t)0x123456)));
++	KUNIT_EXPECT_TRUE(test,
++		gid_eq(st0.gid, make_kgid(current_user_ns(), (gid_t)0x123457)));
++	KUNIT_EXPECT_TRUE(test,
++		uid_eq(st1.uid, make_kuid(current_user_ns(), (uid_t)0x56)));
++	KUNIT_EXPECT_TRUE(test,
++		gid_eq(st1.gid, make_kgid(current_user_ns(), (gid_t)0x57)));
++
++	KUNIT_EXPECT_EQ(test, init_unlink(c[0].fname), 0);
++	KUNIT_EXPECT_EQ(test, init_rmdir(c[1].fname), 0);
++
++	kfree(tbufs);
++}
++
+ /*
+  * The kunit_case/_suite struct cannot be marked as __initdata as this will be
+  * used in debugfs to retrieve results after test has run.
+@@ -508,6 +567,7 @@ static struct kunit_case __refdata initramfs_test_cases[] = {
+ 	KUNIT_CASE(initramfs_test_many),
+ 	KUNIT_CASE(initramfs_test_fname_pad),
+ 	KUNIT_CASE(initramfs_test_fname_path_max),
++	KUNIT_CASE(initramfs_test_hdr_hex),
+ 	{},
+ };
  
- #endif	/* _LINUX_KSTRTOX_H */
 -- 
 2.50.1
 
