@@ -1,187 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out30-119.freemail.mail.aliyun.com (out30-119.freemail.mail.aliyun.com [115.124.30.119])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D04F38C403;
-	Mon, 23 Mar 2026 10:30:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 737EB38C427
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 10:30:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.119
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774261806; cv=none; b=RmGpf73fydz0Nr406Q7pUfBxROeY+WvGUuRXHwXz4jT69X0M51qeFQZG92lg8GhTomrr+h9bMbzGHhJOZJk/K29RvK+RZEqiBPzRkaWXugO8VpKh8FnsbQmCoBCPddyCHgRgZW4WoSrE0UMRuIFqvsCQqjMnDX3VYiSKVVgU3lI=
+	t=1774261843; cv=none; b=VxRzoYRzVDHk9s1+8YA4/dALWL95k9T277gH/2kj7mdt+Pj3RcEkBhvEu5Qi9JUOF2S3ll72T3aOyYk0y390sBFSojR4ZcjCkHyJ97bDTHYIrzrNNmHzo9Je4OSNBLH63O37tENh377y6VrdqBW9gAmIZ1W7lVdr8ejF3m2K7Us=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774261806; c=relaxed/simple;
-	bh=CYVaduY/P84e+sSr1daS5pYdiCCw81Cl8IHz5x0n3/E=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DzW6607l8WOgs0gMP4GOjT5SkHO3m1ZegJ/kHnM6wIV2i6ZhRkr8UhbshxdQNdblw5Go2dr3tT6EnzS/agWesOImtlumEnObLBFr1cGXQBCWLbApEw/PBaFO4kvH8ERALKLRttGEZrisIibs71StGkgNpklIrAWdU8luAdwYSPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lPJK7q/R; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774261843; c=relaxed/simple;
+	bh=BCB8SHaA8dKfuKB8HtK0GiJ+hlcrC9fzhOHYVFVadpE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZQHU/uj1rQbMjluaXfONTd/aULqZJu5jsVWV+r8UdRKKVzbZ+tMUi1FzRmEwPPIwrFc2K2GNzaIQ3RxsI4oXdZKPgvWAXJxI7pP4GWXOHPOAijmgvlDfxC7jz5cnGXVsK6m8K2gxnt2YC8e3hedxHyR+bI8fmLftxMhEeF92/X4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=ktDD00Le; arc=none smtp.client-ip=115.124.30.119
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lPJK7q/R"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBD25C4CEF7;
-	Mon, 23 Mar 2026 10:30:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774261805;
-	bh=CYVaduY/P84e+sSr1daS5pYdiCCw81Cl8IHz5x0n3/E=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=lPJK7q/Rchuq2wnqhTigey0tTOv0A4muIVq83a5xBa9JmKpmJKAll/yCjBDEDF1RT
-	 CYzcr3xqrZvPYVy2qZ7CSi3s2RbkROJMBC1nzsvzYco/8OhMvl3C86Z5Ye70oQ2IMM
-	 /2Qt/Lki1JRW8EM+RB02cf0HnCkvgUlqxr3gWOU8V9XSfrt+YyybRAHrNOeLx60eE2
-	 lxhhyuBv9FqFlM8kfyTfm7khdp6JuWhJm+zFZ4hTKyh/9yT1VT2XeWzL43RZlEcXvl
-	 IMRPa94L9FGpQoCov3RoWm/OPjgiIOhSQjVeBeOJ/F6LDkUKBlVGZm++RROb7HPWwt
-	 GcfDz9/8xI3tQ==
-From: Christian Brauner <brauner@kernel.org>
-To: linux-fsdevel@vger.kernel.org,
-	Jan Kara <jack@suse.cz>
-Cc: Christian Brauner <brauner@kernel.org>,
-	linux-block@vger.kernel.org,
-	Al Viro <viro@ZenIV.linux.org.uk>,
-	linux-ext4@vger.kernel.org,
-	Ted Tso <tytso@mit.edu>,
-	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
-	David Sterba <dsterba@suse.com>,
-	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
-	Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	David Hildenbrand <david@kernel.org>,
-	linux-mm@kvack.org,
-	linux-aio@kvack.org,
-	Benjamin LaHaise <bcrl@kvack.org>
-Subject: Re: [PATCH v2 0/41] fs: Move metadata bh tracking from address_space
-Date: Mon, 23 Mar 2026 11:20:03 +0100
-Message-ID: <20260323-dickicht-turnt-8353124f0f5d@brauner>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260320131728.6449-1-jack@suse.cz>
-References: <20260320131728.6449-1-jack@suse.cz>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="ktDD00Le"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1774261836; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=xhzDg7l7SKQD19e/DATr7zbJZ6gXmarOR4IANqI/354=;
+	b=ktDD00LewfPVb8xgKwK6ZN9pkK+oAsqwchc0Q9jl4hPqbDc20X5q+GszZ7APw12rdFtfZlwoa78uiub9h0FTw8l28JGBVIwar9EXkQ+6TfKVWRwkYqhGFZQ9LbIQZZ4DliNnO5NGT+p69raH6mTEv6kIntxHrbVjYehvTjRZjVA=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R111e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033032089153;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=13;SR=0;TI=SMTPD_---0X.W8oQT_1774261834;
+Received: from 30.221.131.200(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0X.W8oQT_1774261834 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Mon, 23 Mar 2026 18:30:35 +0800
+Message-ID: <4f5b0671-9ff1-458f-9cc1-21df2cdfdd05@linux.alibaba.com>
+Date: Mon, 23 Mar 2026 18:30:34 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6550; i=brauner@kernel.org; h=from:subject:message-id; bh=CYVaduY/P84e+sSr1daS5pYdiCCw81Cl8IHz5x0n3/E=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQeFFNpbFa80yHleljrV5G1AIOk9C3lHXvKwu761UxkO xv/X8Wlo5SFQYyLQVZMkcWh3SRcbjlPxWajTA2YOaxMIEMYuDgFYCJTBBn++9yYU9ES6lJk67FC 60Pwu/o+wU9WjdMjOycfe6B7ZamFMsM/hTXX3N66SqQ6/bHeudtnUtAbk96s7oNpCz7dvFEWWhP HBQA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Lsf-pc] [LSF/MM/BPF TOPIC] Where is fuse going? API cleanup,
+ restructuring and more
+To: Jan Kara <jack@suse.cz>
+Cc: Demi Marie Obenour <demiobenour@gmail.com>,
+ "Darrick J. Wong" <djwong@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>,
+ linux-fsdevel@vger.kernel.org, Joanne Koong <joannelkoong@gmail.com>,
+ John Groves <John@groves.net>, Bernd Schubert <bernd@bsbernd.com>,
+ Amir Goldstein <amir73il@gmail.com>, Luis Henriques <luis@igalia.com>,
+ Horst Birthelmer <horst@birthelmer.de>, Gao Xiang <xiang@kernel.org>,
+ lsf-pc@lists.linux-foundation.org
+References: <ce74079f-1e0a-4fee-9259-48f08c6989aa@linux.alibaba.com>
+ <20260206053835.GD7693@frogsfrogsfrogs>
+ <cf44fe77-4616-45c8-975a-08dafaecad47@linux.alibaba.com>
+ <20260221004752.GE11076@frogsfrogsfrogs>
+ <7de8630d-b6f5-406e-809a-bc2a2d945afb@linux.alibaba.com>
+ <20260318215140.GL1742010@frogsfrogsfrogs>
+ <361d312b-9706-45ca-8943-b655a75c765b@gmail.com>
+ <4a1fd8dd-6c8a-43bd-877d-c37720ac1e21@linux.alibaba.com>
+ <dkixubohp7hp4scizz46s3aruu327vf6gcwelpwlnto3iab7fz@4z7lpju4acqd>
+ <6ab85914-6328-4762-910a-2ad17d45a358@linux.alibaba.com>
+ <4ubnjtpngijh7azvmqjavubnm3sj25uv2mjkpppzs35lwzjgax@nckcj2we3lru>
+From: Gao Xiang <hsiangkao@linux.alibaba.com>
+In-Reply-To: <4ubnjtpngijh7azvmqjavubnm3sj25uv2mjkpppzs35lwzjgax@nckcj2we3lru>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, 20 Mar 2026 14:40:55 +0100, Jan Kara wrote:
-> here is a next revision of the patchset cleaning up buffer head metadata
-> tracking and use of address_space's private_list and private_lock.  The patches
-> have survived some testing with fstests and ltp however I didn't test AFFS and
-> KVM guest_memfd changes so a help with testing those would be very welcome.
-> Thanks.
+
+
+On 2026/3/23 18:14, Jan Kara wrote:
+> Hi Gao!
 > 
-> Changes since v1:
-> * Fixed hugetlbfs handling of root directory
-> * Reworked mapping_metadata_bhs handling functions to get the tracking
->   structure as an argument so we now don't need iops method to fetch the struct
->   from the inode
-> * Reordered patches into more sensible order
-> * Added patch to merge two mostly duplicate generic fsync implementations
-> * Added Reviewed-by tags
-> * Couple more minor changes that were requested during review
+> On Mon 23-03-26 18:05:17, Gao Xiang wrote:
+>> On 2026/3/23 17:43, Jan Kara wrote:
+>>> And yes, when you have immutable filesystem, things are much simpler
+>>> because the data structures and algorithms can be much simpler and as you
+>>> wrote a lot of these inconsistencies don't matter (at least for the
+>>> kernel). But once you add ability to modify the filesystem - here I don't
+>>> think it matters whether through CoW or other means - things get
+>>> complicated quickly and it gets much more complex to make your code
+>>> resilient to all kinds of inconsistencies...
+>>
+>> I only consider the COW approach using OverlayFS for example,
+>> it just copies up (meta)data into another filesystem (the
+>> semantics is just like copy the file in the userspace) and
+>> the immutable filesystem image won't change in any case.
+>>
+>> Overlayfs write goes through normal user write and the
+>> writable filesystem is consistent, so I don't think it does
+>> matter.  Or am I missing something? (e.g could you point
+>> out some case which OverlayFS cannot handle properly?)
 > 
-> [...]
+> No, you are correct. For the usecases where immutable fs + overlayfs +
+> empty initial writeable filesystem works, this is a safe design.
 
-x86_64 (gcc, debian, ovl-fstests)  pass
-x86_64 (gcc, debian, selftests)    pass
-x86_64 (gcc, debian, xfstests)     pass
-x86_64 (gcc, fedora, ovl-fstests)  pass
-x86_64 (gcc, fedora, selftests)    pass
-x86_64 (gcc, fedora, xfstests)     pass
+(Just BTW, not only to empty initial writable filesystems
+  but also to previously mounted, consistent trusted local
+  filesystems used as upper layers, as they are typical
+  cases for containers.)
 
----
+Thanks,
+Gao Xiang
 
-Applied to the vfs-7.1.bh.metadata branch of the vfs/vfs.git tree.
-Patches in the vfs-7.1.bh.metadata branch should appear in linux-next soon.
+> 
+> 								Honza
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
-
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.1.bh.metadata
-
-[01/41] ext4: Use inode_has_buffers()
-        https://git.kernel.org/vfs/vfs/c/2caab145b54f
-[02/41] gfs2: Don't zero i_private_data
-        https://git.kernel.org/vfs/vfs/c/8395055f2455
-[03/41] ntfs3: Drop pointless sync_mapping_buffers() and invalidate_inode_buffers() calls
-        https://git.kernel.org/vfs/vfs/c/bed1ecade645
-[04/41] ocfs2: Drop pointless sync_mapping_buffers() calls
-        https://git.kernel.org/vfs/vfs/c/c40f470d21ae
-[05/41] bdev: Drop pointless invalidate_inode_buffers() call
-        https://git.kernel.org/vfs/vfs/c/4e001046c8a6
-[06/41] ufs: Drop pointless invalidate_mapping_buffers() call
-        https://git.kernel.org/vfs/vfs/c/26d88dcdb54b
-[07/41] exfat: Drop pointless invalidate_inode_buffers() call
-        https://git.kernel.org/vfs/vfs/c/8dbad3a0e39a
-[08/41] udf: Switch to generic_buffers_fsync()
-        https://git.kernel.org/vfs/vfs/c/0892d39092b3
-[09/41] minix: Switch to generic_buffers_fsync()
-        https://git.kernel.org/vfs/vfs/c/387a7a22307e
-[10/41] bfs: Switch to generic_buffers_fsync()
-        https://git.kernel.org/vfs/vfs/c/a59c3be58777
-[11/41] fat: Switch to generic_buffers_fsync_noflush()
-        https://git.kernel.org/vfs/vfs/c/e118e65dba18
-[12/41] fs: Drop sync_mapping_buffers() from __generic_file_fsync()
-        https://git.kernel.org/vfs/vfs/c/0bdc542b3faa
-[13/41] fat: Sync and invalidate metadata buffers from fat_evict_inode()
-        https://git.kernel.org/vfs/vfs/c/f2145333cd91
-[14/41] udf: Sync and invalidate metadata buffers from udf_evict_inode()
-        https://git.kernel.org/vfs/vfs/c/525acf32a4ad
-[15/41] minix: Sync and invalidate metadata buffers from minix_evict_inode()
-        https://git.kernel.org/vfs/vfs/c/60ef3750f238
-[16/41] ext2: Sync and invalidate metadata buffers from ext2_evict_inode()
-        https://git.kernel.org/vfs/vfs/c/52e995b1474d
-[17/41] ext4: Sync and invalidate metadata buffers from ext4_evict_inode()
-        https://git.kernel.org/vfs/vfs/c/36dc7f23446b
-[18/41] bfs: Sync and invalidate metadata buffers from bfs_evict_inode()
-        https://git.kernel.org/vfs/vfs/c/aa2caecd2b38
-[19/41] affs: Sync and invalidate metadata buffers from affs_evict_inode()
-        https://git.kernel.org/vfs/vfs/c/2779c362a490
-[20/41] fs: Ignore inode metadata buffers in inode_lru_isolate()
-        https://git.kernel.org/vfs/vfs/c/95c6bfdb5d3e
-[21/41] fs: Stop using i_private_data for metadata bh tracking
-        https://git.kernel.org/vfs/vfs/c/89f2eea7f6c3
-[22/41] hugetlbfs: Stop using i_private_data
-        https://git.kernel.org/vfs/vfs/c/8f3bf5b0ce4e
-[23/41] aio: Stop using i_private_data and i_private_lock
-        https://git.kernel.org/vfs/vfs/c/8514c0d15c45
-[24/41] fs: Remove i_private_data
-        https://git.kernel.org/vfs/vfs/c/aa7c3819d2db
-[25/41] kvm: Use private inode list instead of i_private_list
-        https://git.kernel.org/vfs/vfs/c/1e0cbe5bac95
-[26/41] fs: Drop osync_buffers_list()
-        https://git.kernel.org/vfs/vfs/c/f07ad1722cda
-[27/41] fs: Fold fsync_buffers_list() into sync_mapping_buffers()
-        https://git.kernel.org/vfs/vfs/c/e7cd907f2326
-[28/41] fs: Move metadata bhs tracking to a separate struct
-        https://git.kernel.org/vfs/vfs/c/a3b0a90f1e93
-[29/41] fs: Make bhs point to mapping_metadata_bhs
-        https://git.kernel.org/vfs/vfs/c/d8b6d9ff9552
-[30/41] fs: Switch inode_has_buffers() to take mapping_metadata_bhs
-        https://git.kernel.org/vfs/vfs/c/9e5f33d8201e
-[31/41] fs: Provide functions for handling mapping_metadata_bhs directly
-        https://git.kernel.org/vfs/vfs/c/a13a480c81b1
-[32/41] ext2: Track metadata bhs in fs-private inode part
-        https://git.kernel.org/vfs/vfs/c/107b7505d866
-[33/41] affs: Track metadata bhs in fs-private inode part
-        https://git.kernel.org/vfs/vfs/c/592eacdd5928
-[34/41] bfs: Track metadata bhs in fs-private inode part
-        https://git.kernel.org/vfs/vfs/c/c6661db8efc0
-[35/41] fat: Track metadata bhs in fs-private inode part
-        https://git.kernel.org/vfs/vfs/c/b5d84862f99d
-[36/41] udf: Track metadata bhs in fs-private inode part
-        https://git.kernel.org/vfs/vfs/c/7d37ac2bba4c
-[37/41] minix: Track metadata bhs in fs-private inode part
-        https://git.kernel.org/vfs/vfs/c/37da66baf00c
-[38/41] ext4: Track metadata bhs in fs-private inode part
-        https://git.kernel.org/vfs/vfs/c/ebcf10f6f905
-[39/41] fs: Drop mapping_metadata_bhs from address space
-        https://git.kernel.org/vfs/vfs/c/ecfcd39c0ab0
-[40/41] fs: Drop i_private_list from address_space
-        https://git.kernel.org/vfs/vfs/c/b39f532b7a2e
-[41/41] fs: Unify generic_file_fsync() with mmb methods
-        https://git.kernel.org/vfs/vfs/c/24b45fa837a4
