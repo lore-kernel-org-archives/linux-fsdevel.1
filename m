@@ -1,53 +1,32 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FCCA223DCE;
-	Mon, 23 Mar 2026 07:02:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8E7835C197;
+	Mon, 23 Mar 2026 07:04:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774249351; cv=none; b=QXbNC42fIUnvk54oiDKcGlueC8iHm8i9ZKQiiqKQ0C+HGHCtkDbWfYVMPZbyw4nzjbL95113bskw17gGG6LkvgSdzsG0o9UScDUX6vWsV2gt10re6ItvADDSdwGqVIiNQrykcu6kZZLtPkGt7b1rwpmzwXzFYvv4iVzRekZewQQ=
+	t=1774249478; cv=none; b=CVjbOIN94nFu0GwmcfacmZ1yDFkrDQokBEWSS1ff+rfddU49AqIp51eiGf280ldDVBzJ8hjw5WQWKvhGJzHPRHDHac/RChIm/SppHrSFt5DqEYpPCr8TYpcef0KeKKrAqSmWWW4RQmFH8NIE7wOJ1HNc6oiZAhqqmtZwALWYBP8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774249351; c=relaxed/simple;
-	bh=EatjSQw4+B5pP/iKZyBLC7kKTvA5t+96nriL2cudrzc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RWbI7/rWol5zyC++nWZfGTDPdXrVJHRGhRrWGLh5M3/rQE0gUdrSMRHurSPjK/DHBTJS/DNgwejhZtzDlvrLl+7LgSXXKw87YPCKPycu3FVSJlPHaXRFu5bztYhKFjU9FHLBmVP72ZGgnIADOfD4+zhyOuDKb5Cy6UHysXddv3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=TRdqtC3V; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="TRdqtC3V"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=Wlkrm0myB9P5DBDaclzihXCLak0GcKolkRDqx8ZruQ0=; b=TRdqtC3V4JFkKzclMhRAwPhHvy
-	haVphzi2M7zk2uFS2hNi2cvsdo3KRHQNhivSBcXRnQY04c/UZFTQUTWRBCRGlYddGLskEQJv3Y+62
-	SDFsbVLO+EL5tXadw1l46vFGdvKD9ppMVDE/hUbqjPRgrSFgAcAWkNETxhTUOlzZz9cuyrHZU9svb
-	+kW/i3TienruQ8EuClSUwk/Y+uSNWjzooEsCpDUbTCywABz1EyUkpWPW3kxAyRx3/MCoQfpRUNwzs
-	vhXUJmOuK5THFvsbqDy0IQ/jjLSkS0FvtgFwEY30dC0kyDFHrH8AkLvYUqfmJUz0Zd3bfW+Njpl7X
-	r2vG4dnA==;
-Received: from 2a02-8389-2341-5b80-d601-7564-c2e0-491c.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:d601:7564:c2e0:491c] helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w4ZIz-0000000G9lB-1wml;
-	Mon, 23 Mar 2026 07:02:30 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>,
-	x86@kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mips@vger.kernel.org,
-	linux-parisc@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	sparclinux@vger.kernel.org,
+	s=arc-20240116; t=1774249478; c=relaxed/simple;
+	bh=+sIeqLPi7G+ipGDdqlJ5a8VCtoEQVET4txp2PcionM0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Q/bXmEuiD5DRUyNENJpucCz8emBe2YpT12UHzSGxTtVMh7EpAAi4emwj0dt4IbiJIy0EgTVP0ye3TmG0hB4A+z4KhnuXPE7avdJYz7Uy6g/+GO/gfHK/TPKpq4ZrFiCkNye7GqCZUMD9NeQItlLjenR7eDLIOnCT6Pq3Mw/scBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost.localdomain (unknown [111.196.245.197])
+	by APP-03 (Coremail) with SMTP id rQCowAD32uGx5cBpcQWGCw--.536S2;
+	Mon, 23 Mar 2026 15:03:13 +0800 (CST)
+From: Pengpeng Hou <pengpeng@iscas.ac.cn>
+To: linkinjeon@kernel.org
+Cc: sj1557.seo@samsung.com,
+	yuezhang.mo@sony.com,
 	linux-fsdevel@vger.kernel.org,
-	linux-api@vger.kernel.org
-Subject: [PATCH 3/3] fs: remove do_sys_truncate
-Date: Mon, 23 Mar 2026 08:01:46 +0100
-Message-ID: <20260323070205.2939118-4-hch@lst.de>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260323070205.2939118-1-hch@lst.de>
-References: <20260323070205.2939118-1-hch@lst.de>
+	linux-kernel@vger.kernel.org,
+	pengpeng@iscas.ac.cn
+Subject: [PATCH 5/7] exfat: leave room for the UTF-8 terminator
+Date: Mon, 23 Mar 2026 15:03:12 +0800
+Message-ID: <20260323070312.42909-1-pengpeng@iscas.ac.cn>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -55,75 +34,55 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+X-CM-TRANSID:rQCowAD32uGx5cBpcQWGCw--.536S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7Xr1UZw1rGr47Ar4UJFW3GFg_yoWDCFX_u3
+	4v9F4DCw4Yya4Fq3W7Cr90yrWS9ay0qFy8W3Wjq3s8X345Gr4avFn5Zrn5twsrKr48KF9x
+	WwnYvFy7A3WkGjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUb48FF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
+	Gr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+	0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+	jxv20xvE14v26r126r1DMcIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
+	1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v26r12
+	6r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
+	0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y
+	0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
+	W8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1l
+	IxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUjiID7UUUU
+	U==
+X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 
-do_sys_truncate ist only used to implement ksys_truncate and the native
-truncate syscalls.  Merge do_sys_truncate into ksys_truncate and return
-int from it as it only returns 0 or negative errnos.
+exfat_utf16_to_utf8() passes the full destination length to
+utf16s_to_utf8s() and then stores a trailing NUL at p_cstring[len]. If
+the UTF-8 conversion fills the destination buffer completely, len equals
+buflen and the terminator write overruns the caller buffer by one byte.
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
+Reserve one byte for the trailing NUL before the conversion and handle
+zero-length buffers explicitly.
+
+Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
 ---
- fs/open.c                | 8 ++++----
- include/linux/syscalls.h | 8 +-------
- 2 files changed, 5 insertions(+), 11 deletions(-)
+ fs/exfat/nls.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/fs/open.c b/fs/open.c
-index 181c1597e73c..681d405bc61e 100644
---- a/fs/open.c
-+++ b/fs/open.c
-@@ -126,7 +126,7 @@ int vfs_truncate(const struct path *path, loff_t length)
+diff --git a/fs/exfat/nls.c b/fs/exfat/nls.c
+index 57db08a5271c..fe3f5f9ccef3 100644
+--- a/fs/exfat/nls.c
++++ b/fs/exfat/nls.c
+@@ -484,8 +484,11 @@ static int exfat_utf16_to_utf8(struct super_block *sb,
+ 	const unsigned short *uniname = p_uniname->name;
+ 
+ 	/* always len >= 0 */
++	if (buflen <= 0)
++		return 0;
++
+ 	len = utf16s_to_utf8s(uniname, MAX_NAME_LENGTH, UTF16_HOST_ENDIAN,
+-		p_cstring, buflen);
++		p_cstring, buflen - 1);
+ 	p_cstring[len] = '\0';
+ 	return len;
  }
- EXPORT_SYMBOL_GPL(vfs_truncate);
- 
--int do_sys_truncate(const char __user *pathname, loff_t length)
-+int ksys_truncate(const char __user *pathname, loff_t length)
- {
- 	unsigned int lookup_flags = LOOKUP_FOLLOW;
- 	struct path path;
-@@ -151,13 +151,13 @@ int do_sys_truncate(const char __user *pathname, loff_t length)
- 
- SYSCALL_DEFINE2(truncate, const char __user *, path, long, length)
- {
--	return do_sys_truncate(path, length);
-+	return ksys_truncate(path, length);
- }
- 
- #ifdef CONFIG_COMPAT
- COMPAT_SYSCALL_DEFINE2(truncate, const char __user *, path, compat_off_t, length)
- {
--	return do_sys_truncate(path, length);
-+	return ksys_truncate(path, length);
- }
- #endif
- 
-@@ -222,7 +222,7 @@ COMPAT_SYSCALL_DEFINE2(ftruncate, unsigned int, fd, compat_off_t, length)
- #if BITS_PER_LONG == 32
- SYSCALL_DEFINE2(truncate64, const char __user *, path, loff_t, length)
- {
--	return do_sys_truncate(path, length);
-+	return ksys_truncate(path, length);
- }
- 
- SYSCALL_DEFINE2(ftruncate64, unsigned int, fd, loff_t, length)
-diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
-index 8787b3511c86..f5639d5ac331 100644
---- a/include/linux/syscalls.h
-+++ b/include/linux/syscalls.h
-@@ -1285,13 +1285,7 @@ static inline long ksys_lchown(const char __user *filename, uid_t user,
- 
- #define FTRUNCATE_LFS	(1u << 0)	/* allow truncating > 32-bit */
- int ksys_ftruncate(unsigned int fd, loff_t length, unsigned int flags);
--
--int do_sys_truncate(const char __user *pathname, loff_t length);
--
--static inline long ksys_truncate(const char __user *pathname, loff_t length)
--{
--	return do_sys_truncate(pathname, length);
--}
-+int ksys_truncate(const char __user *pathname, loff_t length);
- 
- static inline unsigned int ksys_personality(unsigned int personality)
- {
 -- 
-2.47.3
+2.50.1 (Apple Git-155)
 
