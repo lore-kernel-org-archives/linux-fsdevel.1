@@ -1,45 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEF5C2FE582;
-	Mon, 23 Mar 2026 22:43:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F07738237B
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 22:45:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774305813; cv=none; b=Fvazz4MNAtUCsB8RkG5sMlxI34w8eCUIFHWNbI4xLxid/QzbjH3Lcr/i74zGOwSthHJPqMBzrB7ZY1xArj+JYUvZ2G4pNBVi64wwgCglM9DrH8wkv4uD0P7HZQFJBxRYPw4abVtEaVimg9azyRNpjJBfS6dEWMLGZ1nBxz4xmRI=
+	t=1774305931; cv=none; b=lOIvgOlsO4gtWoX1KiTuP6tVg++O+ntBCV9Y6xUVeG5qaoaS1WPdWGxA2DMa2NnmSnf6g5RbBPWVzRmMK6IVUl+2IFCHkLDtQLOqTodXwIwGZXenxrhyi064DSOubqNbrUfH+9Zy3HMNOUXXFcVLSX4/AoU6O2/TNadHrL6QbMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774305813; c=relaxed/simple;
-	bh=p7HO9XDY3c3UHOq/CP+xJ5mzqUGLPR+z711wGORLXB0=;
+	s=arc-20240116; t=1774305931; c=relaxed/simple;
+	bh=ElFV7YL2mYhF81PBir21rPp2tuIoUIGXBqM2ev58jTI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EgGPnJJHGssCx5ifudbFL8Zl6LI20GjjJb3xpMTojaPax2gZ3hK9yWC7H5oqkQE0dPchMRYQh5iIpCi5b1wPVW8EdQn1QT1b0xw6UC5J2OtJ0gMHhs5jKWnlIhvCz07QRb0ckKjgm+WhHnx9nQjUI0VanH3LDUFhX+C86zCatVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DivkZfw7; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=JYxB04WOqzC73n+H2u+aFT15uxrbMBrjdBkPRvUoHN79LLIt7ckLckLxBvVY6pMw4ou6vrUvHTH09ZR5TF86R1GM0fdDR0+LQXKqnUqqRkom8VFB52mx7gd8wXC+TMjPLQhb3api///wFTQTz/QTq8zA76vFgh6FJ4ZHePhvviA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qqEQcxzf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DivkZfw7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79C2EC4CEF7;
-	Mon, 23 Mar 2026 22:43:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qqEQcxzf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81645C4CEF7;
+	Mon, 23 Mar 2026 22:45:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774305812;
-	bh=p7HO9XDY3c3UHOq/CP+xJ5mzqUGLPR+z711wGORLXB0=;
+	s=k20201202; t=1774305930;
+	bh=ElFV7YL2mYhF81PBir21rPp2tuIoUIGXBqM2ev58jTI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DivkZfw7m671l5LTyI2dgFK4rsbkxJDz2sfMji+C04PgU6YNzv/JHDcLwaQyFfLvn
-	 bHn4dofGltCEG5wh0Qnuwd/CPUG1G/0OVuQrUi9p4I+j7CMikjQzOHbFouw/CzLMwc
-	 I+BwDBJo9YZaaSYTmkQQSk0PbiXFTeBqMTLUsirG0oWKIfhK+AFZyQeHh3nC1Zux5h
-	 5R7laKjklGBpYv7nV6yn6FQtPwmb2MUkDSzH3Q57Bvd4xnaBmhJW6E0AWyKYwh2cL6
-	 S7J5csOBw1OufUCKKBQUDeqDInyWtXkS+SF4H1vNgiEfiPDCXFvqBCk3ZIwksj7fQh
-	 i9bztM5CiZyEw==
-Date: Mon, 23 Mar 2026 12:43:31 -1000
-From: Tejun Heo <tj@kernel.org>
-To: Breno Leitao <leitao@debian.org>
-Cc: Lai Jiangshan <jiangshanlai@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-kernel@vger.kernel.org, puranjay@kernel.org,
-	linux-crypto@vger.kernel.org, linux-btrfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	Michael van der Westhuizen <rmikey@meta.com>, kernel-team@meta.com,
-	Chuck Lever <chuck.lever@oracle.com>
-Subject: Re: [PATCH v2 2/5] workqueue: add WQ_AFFN_CACHE_SHARD affinity scope
-Message-ID: <acHCE96gzEUaGZFP@slm.duckdns.org>
-References: <20260320-workqueue_sharded-v2-0-8372930931af@debian.org>
- <20260320-workqueue_sharded-v2-2-8372930931af@debian.org>
+	b=qqEQcxzfSKNE8KunY+ZKVx8n45kAtIk+1siFbGDfg2m2A2/8TIyf9uMeV0FsfdaLV
+	 ESNGnYuvSdTQl+NyxEdATR3LLR1mL3kfnKZQCru32610QnvLRnai65x6MpJ+gbl6z1
+	 iTffrnolzZ9MbcW6Vhh4WDuSdcm6vapYkvevS0OINRfsCxRSBjtJt/L1RzVKIaJ9tv
+	 gLG9S/uusI3fhh0mWl5URd3VdxC5IaMy8mz1N7m/3cbcOg6JpsZrzP/GWYGMLvd/LH
+	 0Lv27Y4X8Re0EMJ624qaj8DPbRqEu/qn8WVsg4XS71Ia9KC1wYl8SYu5QWpZcg/jm0
+	 aS5gAdnIQMYoQ==
+Date: Mon, 23 Mar 2026 15:45:29 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Bernd Schubert <bernd@bsbernd.com>
+Cc: linux-fsdevel@vger.kernel.org, Miklos Szeredi <miklos@szeredi.hu>,
+	Joanne Koong <joannelkoong@gmail.com>,
+	Bernd Schubert <bschubert@ddn.com>
+Subject: Re: [PATCH 09/19] Move mount flags to mount_i.h
+Message-ID: <20260323224529.GK6202@frogsfrogsfrogs>
+References: <20260323-fuse-init-before-mount-v1-0-a52d3040af69@bsbernd.com>
+ <20260323-fuse-init-before-mount-v1-9-a52d3040af69@bsbernd.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -48,89 +44,190 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260320-workqueue_sharded-v2-2-8372930931af@debian.org>
+In-Reply-To: <20260323-fuse-init-before-mount-v1-9-a52d3040af69@bsbernd.com>
 
-Hello,
+On Mon, Mar 23, 2026 at 06:45:04PM +0100, Bernd Schubert wrote:
+> From: Bernd Schubert <bschubert@ddn.com>
+> 
+> This is preparation work for the new mount API, which goes into
+> its own file.
+> 
+> Signed-off-by: Bernd Schubert <bschubert@ddn.com>
+> ---
+>  lib/mount.c         | 59 ++++++++---------------------------------------------
+>  lib/mount_i_linux.h | 35 ++++++++++++++++++++++++++++++-
+>  2 files changed, 42 insertions(+), 52 deletions(-)
+> 
+> diff --git a/lib/mount.c b/lib/mount.c
+> index fe353e2cc4579adb47473cac5db7d1bae2defb2c..b3ee9ba4c0a74c1d0d55f916e7046e064f8468b0 100644
+> --- a/lib/mount.c
+> +++ b/lib/mount.c
+> @@ -34,16 +34,6 @@
+>  #include "fuse_mount_compat.h"
+>  
+>  #ifdef __NetBSD__
 
-On Fri, Mar 20, 2026 at 10:56:28AM -0700, Breno Leitao wrote:
-> +/**
-> + * llc_count_cores - count distinct cores (SMT groups) within a cpumask
-> + * @pod_cpus: the cpumask to scan (typically an LLC pod)
-> + * @smt_pt:   the SMT pod type, used to identify sibling groups
-> + *
-> + * A core is represented by the lowest-numbered CPU in its SMT group. Returns
-> + * the number of distinct cores found in @pod_cpus.
-> + */
-> +static int __init llc_count_cores(const struct cpumask *pod_cpus,
-> +				  struct wq_pod_type *smt_pt)
-> +{
-> +	const struct cpumask *smt_cpus;
-> +	int nr_cores = 0, c;
+Hopefully the rest of the bsd stuff can go in its own files too?
+
+> -#include <perfuse.h>
+> -
+> -#define MS_RDONLY	MNT_RDONLY
+> -#define MS_NOSUID	MNT_NOSUID
+> -#define MS_NODEV	MNT_NODEV
+> -#define MS_NOEXEC	MNT_NOEXEC
+> -#define MS_SYNCHRONOUS	MNT_SYNCHRONOUS
+> -#define MS_NOATIME	MNT_NOATIME
+> -#define MS_NOSYMFOLLOW	MNT_NOSYMFOLLOW
+> -
+>  #define umount2(mnt, flags) unmount(mnt, (flags == 2) ? MNT_FORCE : 0)
+>  #endif
+>  
+> @@ -51,10 +41,6 @@
+>  #define FUSE_COMMFD_ENV		"_FUSE_COMMFD"
+>  #define FUSE_COMMFD2_ENV	"_FUSE_COMMFD2"
+>  
+> -#ifndef MS_DIRSYNC
+> -#define MS_DIRSYNC 128
+> -#endif
+> -
+>  enum {
+>  	KEY_KERN_FLAG,
+>  	KEY_KERN_OPT,
+> @@ -154,35 +140,6 @@ void fuse_mount_version(void)
+>  			 FUSERMOUNT_PROG);
+>  }
+>  
+> -struct mount_flags {
+> -	const char *opt;
+> -	unsigned long flag;
+> -	int on;
+> -};
+> -
+> -static const struct mount_flags mount_flags[] = {
+> -	{"rw",	    MS_RDONLY,	    0},
+> -	{"ro",	    MS_RDONLY,	    1},
+> -	{"suid",    MS_NOSUID,	    0},
+> -	{"nosuid",  MS_NOSUID,	    1},
+> -	{"dev",	    MS_NODEV,	    0},
+> -	{"nodev",   MS_NODEV,	    1},
+> -	{"exec",    MS_NOEXEC,	    0},
+> -	{"noexec",  MS_NOEXEC,	    1},
+> -	{"async",   MS_SYNCHRONOUS, 0},
+> -	{"sync",    MS_SYNCHRONOUS, 1},
+> -	{"noatime", MS_NOATIME,	    1},
+> -	{"nodiratime",	    MS_NODIRATIME,	1},
+> -	{"norelatime",	    MS_RELATIME,	0},
+> -	{"nostrictatime",   MS_STRICTATIME,	0},
+> -	{"symfollow",	    MS_NOSYMFOLLOW,	0},
+> -	{"nosymfollow",	    MS_NOSYMFOLLOW,	1},
+> -#ifndef __NetBSD__
+> -	{"dirsync", MS_DIRSYNC,	    1},
+> -#endif
+> -	{NULL,	    0,		    0}
+> -};
+> -
+>  unsigned int get_max_read(struct mount_opts *o)
+>  {
+>  	return o->max_read;
+> @@ -192,13 +149,13 @@ static void set_mount_flag(const char *s, int *flags)
+>  {
+>  	int i;
+>  
+> -	for (i = 0; mount_flags[i].opt != NULL; i++) {
+> -		const char *opt = mount_flags[i].opt;
+> +	for (i = 0; fuse_mount_flags[i].opt != NULL; i++) {
+> +		const char *opt = fuse_mount_flags[i].opt;
+>  		if (strcmp(opt, s) == 0) {
+> -			if (mount_flags[i].on)
+> -				*flags |= mount_flags[i].flag;
+> +			if (fuse_mount_flags[i].on)
+> +				*flags |= fuse_mount_flags[i].flag;
+>  			else
+> -				*flags &= ~mount_flags[i].flag;
+> +				*flags &= ~fuse_mount_flags[i].flag;
+>  			return;
+>  		}
+>  	}
+> @@ -645,9 +602,9 @@ static int get_mnt_flag_opts(char **mnt_optsp, int flags)
+>  	if (!(flags & MS_RDONLY) && fuse_opt_add_opt(mnt_optsp, "rw") == -1)
+>  		return -1;
+>  
+> -	for (i = 0; mount_flags[i].opt != NULL; i++) {
+> -		if (mount_flags[i].on && (flags & mount_flags[i].flag) &&
+> -		    fuse_opt_add_opt(mnt_optsp, mount_flags[i].opt) == -1)
+> +	for (i = 0; fuse_mount_flags[i].opt != NULL; i++) {
+> +		if (fuse_mount_flags[i].on && (flags & fuse_mount_flags[i].flag) &&
+> +		    fuse_opt_add_opt(mnt_optsp, fuse_mount_flags[i].opt) == -1)
+>  			return -1;
+>  	}
+>  	return 0;
+> diff --git a/lib/mount_i_linux.h b/lib/mount_i_linux.h
+> index abcd1b08012feedef6b4c8961b55ac847a27496a..c0de6228fce5a4d9070cc246ec76222b66de56fb 100644
+> --- a/lib/mount_i_linux.h
+> +++ b/lib/mount_i_linux.h
+> @@ -10,7 +10,8 @@
+>  #ifndef FUSE_MOUNT_I_H_
+>  #define FUSE_MOUNT_I_H_
+>  
+> -/* Forward declaration for fuse_args */
+> +#include <sys/mount.h>
 > +
-> +	for_each_cpu(c, pod_cpus) {
-> +		smt_cpus = smt_pt->pod_cpus[smt_pt->cpu_pod[c]];
-> +		if (cpumask_first(smt_cpus) == c)
-> +			nr_cores++;
-> +	}
+>  struct fuse_args;
+>  
+>  /* Mount options structure */
+> @@ -28,5 +29,37 @@ struct mount_opts {
+>  	unsigned int max_read;
+>  };
+>  
+> +/* Mount flags mapping structure */
+> +struct mount_flags {
+> +	const char *opt;
+> +	unsigned long flag;
+> +	int on;
+> +};
 > +
-> +	return nr_cores;
-> +}
+> +/* Mount flags table */
+> +static const struct mount_flags fuse_mount_flags[] = {
+
+Hmmm, doesn't this create a fuse_mount_flags[] in every single .o file
+that #includes this header?  I'd have thought you'd want an extern
+declaration here and a definition elsewhere?
+
+> +	{"rw",			MS_RDONLY,      0},
+> +	{"ro",			MS_RDONLY,      1},
+> +	{"suid",		MS_NOSUID,      0},
+> +	{"nosuid",		MS_NOSUID,      1},
+> +	{"dev",			MS_NODEV,       0},
+> +	{"nodev",		MS_NODEV,       1},
+> +	{"exec",		MS_NOEXEC,      0},
+> +	{"noexec",		MS_NOEXEC,      1},
+> +	{"async",		MS_SYNCHRONOUS, 0},
+> +	{"sync",		MS_SYNCHRONOUS, 1},
+> +	{"noatime",		MS_NOATIME,     1},
+> +	{"nodiratime",		MS_NODIRATIME,  1},
+> +	{"norelatime",		MS_RELATIME,    0},
+> +	{"nostrictatime",	MS_STRICTATIME, 0},
+> +	{"symfollow",		MS_NOSYMFOLLOW, 0},
+> +	{"nosymfollow",		MS_NOSYMFOLLOW, 1},
+> +#ifndef __NetBSD__
+
+When would we have __NetBSD__ defined on a Linux build?
+
+Though I see no meson.build changes here, so I can't tell if
+mount_i_linux.c only gets built on Linux or everywhere or ...?
+
+--D
+
+> +	{"dirsync", MS_DIRSYNC,     1},
+> +#endif
+> +	{NULL,      0,          0}
+> +};
 > +
-> +/**
-> + * llc_cpu_core_pos - find a CPU's core position within a cpumask
-> + * @cpu:      the CPU to locate
-> + * @pod_cpus: the cpumask to scan (typically an LLC pod)
-> + * @smt_pt:   the SMT pod type, used to identify sibling groups
-> + *
-> + * Returns the zero-based index of @cpu's core among the distinct cores in
-> + * @pod_cpus, ordered by lowest CPU number in each SMT group.
-> + */
-> +static int __init llc_cpu_core_pos(int cpu, const struct cpumask *pod_cpus,
-> +				   struct wq_pod_type *smt_pt)
-> +{
-> +	const struct cpumask *smt_cpus;
-> +	int core_pos = 0, c;
 > +
-> +	for_each_cpu(c, pod_cpus) {
-> +		smt_cpus = smt_pt->pod_cpus[smt_pt->cpu_pod[c]];
-> +		if (cpumask_test_cpu(cpu, smt_cpus))
-> +			break;
-> +		if (cpumask_first(smt_cpus) == c)
-> +			core_pos++;
-> +	}
-> +
-> +	return core_pos;
-> +}
-
-Can you do the above two in a separate pass and record the results and then
-use that to implement cpu_cache_shard_id()? Doing all of it on the fly makes
-it unnecessarily difficult to follow and init_pod_type() is already O(N^2)
-and the above makes it O(N^4). Make the machine large enough and this may
-become noticeable.
-
-> +/**
-> + * cpu_cache_shard_id - compute the shard index for a CPU within its LLC pod
-> + * @cpu: the CPU to look up
-> + *
-> + * Returns a shard index that is unique within the CPU's LLC pod. The LLC is
-> + * divided into shards of at most wq_cache_shard_size cores, always split on
-> + * core (SMT group) boundaries so that SMT siblings are never placed in
-> + * different shards. Cores are distributed across shards as evenly as possible.
-> + *
-> + * Example: 36 cores with wq_cache_shard_size=8 gives 5 shards of
-> + * 8+7+7+7+7 cores.
-> + */
-
-I always feel a bit uneasy about using max number as split point in cases
-like this because the reason why you picked 8 as the default was that
-testing showed shard sizes close to 8 seems to behave the best (or at least
-acceptably in most cases). However, setting max number to 8 doesn't
-necessarily keep you close to that. e.g. If there are 9 cores, you end up
-with 5 and 4 even though 9 is a lot closer to the 8 that we picked as the
-default. Can the sharding logic updated so that "whatever sharding that gets
-the system closest to the config target?".
-
-Thanks.
-
--- 
-tejun
+>  
+>  #endif /* FUSE_MOUNT_I_H_ */
+> 
+> -- 
+> 2.43.0
+> 
+> 
