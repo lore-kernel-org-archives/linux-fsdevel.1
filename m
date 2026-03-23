@@ -1,31 +1,32 @@
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+Received: from out30-97.freemail.mail.aliyun.com (out30-97.freemail.mail.aliyun.com [115.124.30.97])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65EA738CFEE;
-	Mon, 23 Mar 2026 10:33:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.181.97.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E88EB390217;
+	Mon, 23 Mar 2026 10:46:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.97
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774262016; cv=none; b=gjqPHmIpu9TYATPqXSnOylmYgU6tuDQtvPBsLsBzJ0HmOWSrpFZoa5O5UNYw1+vaZET++Wzt9hMyG5HbtwrIHl7ryIVyf0MHhbZpN08pD6YcDxiMUu/Zmer9IRhZ9SMaPLiMFurpv9wLFDFsdeFd6LXIYuOEMeYLBzoSKblGS6A=
+	t=1774262779; cv=none; b=cZrWU1k4/26wufI+X3ffJznsX2I4Wq8ZPNFoveS6ttVN8BzsYyjA+LyGz33ipAu/WMvbtlJz5jLIDSCKEsiUyCaY1fFyQlGHVS3epQYX2NE7thRxAwuLLLWub7kGxc3vgkRtFPpm7HsJ48itERyeNF+2WAJ9sVd85hHUWnRBSQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774262016; c=relaxed/simple;
-	bh=XNNMf8IhMnz0nV6wrVFEjDe2x+zwUYogIH8p4SYA01Y=;
+	s=arc-20240116; t=1774262779; c=relaxed/simple;
+	bh=XtjcoKtxUKZ+Ju2UBvtKQvmMn/QTSZDI+fqZetzComg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FP/njR1oFN1bN3lZ3o/CmkChTqDZ4DOsqZuHAhLrZkqgM9RoUq+rhM+KDPLGZ8GhEQueWPsnQa7l+5tPtCFJ2IgmZ6tQYolZw+hDV+g3YLFRC4VI6E8grHW12QmoblsCrhrksxdBbuKOZ8Pu1i4W/oKa8JyTKNnN9G/Y0piMPL8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp; arc=none smtp.client-ip=202.181.97.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp
-Received: from www262.sakura.ne.jp (localhost [127.0.0.1])
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 62NAW4RB055580;
-	Mon, 23 Mar 2026 19:32:04 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from [192.168.1.2] (M106072072000.v4.enabler.ne.jp [106.72.72.0])
-	(authenticated bits=0)
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 62NAW3IX055577
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-	Mon, 23 Mar 2026 19:32:04 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <714a614b-cfb4-4b20-af8c-df3cc56dfb92@I-love.SAKURA.ne.jp>
-Date: Mon, 23 Mar 2026 19:32:04 +0900
+	 In-Reply-To:Content-Type; b=iTONtjdJpkD8kRyJPjwKpZ7uwJlrzmRH/KWg9dKucP2y33ChFS3pcn1dGFrrjqGiX8lbY759VKU7fV0loxEH2Bz/yAwJzKIBZV5OHW+4gET829fzZ7AO3NJwqh0xqVN/+mHL9RnVKVmyrBhkOGnHrVa05+pKuRGv3k56DCpZL9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=Tv6B3eRk; arc=none smtp.client-ip=115.124.30.97
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="Tv6B3eRk"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1774262775; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=iQ6mAQdlt6rOthd/wT56xFxrcrGf+UGd+c4429Y/xYM=;
+	b=Tv6B3eRkCpXLOJCtaN79deX5c91AnqJ4uF/YIu2hwwcyAF3SFEmOjdoUF3bm1JwJBgRVkp6EBeqixfO/vJXEBkJt3JvEVWkCMOGZI4Ze5CBjQVgsvGvRWkGiKSeqJvk2GwRQO+pVsmJGAIAV81ZucuUImVQX9T2E0L9diap8ajg=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R171e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037026112;MF=joseph.qi@linux.alibaba.com;NM=1;PH=DS;RN=18;SR=0;TI=SMTPD_---0X.WQK-Y_1774262772;
+Received: from 30.221.129.170(mailfrom:joseph.qi@linux.alibaba.com fp:SMTPD_---0X.WQK-Y_1774262772 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Mon, 23 Mar 2026 18:46:13 +0800
+Message-ID: <abaf00ff-3374-44de-81b9-6f806c370227@linux.alibaba.com>
+Date: Mon, 23 Mar 2026 18:46:12 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -33,67 +34,67 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/7] tomoyo: Convert from sb_mount to granular mount hooks
-To: Christian Brauner <brauner@kernel.org>, Song Liu <songliubraving@meta.com>
-Cc: "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-        Song Liu <song@kernel.org>,
-        "paul@paul-moore.com" <paul@paul-moore.com>,
-        "jmorris@namei.org" <jmorris@namei.org>,
-        "serge@hallyn.com"
- <serge@hallyn.com>, "jack@suse.cz" <jack@suse.cz>,
-        "john.johansen@canonical.com" <john.johansen@canonical.com>,
-        "stephen.smalley.work@gmail.com" <stephen.smalley.work@gmail.com>,
-        "omosnace@redhat.com" <omosnace@redhat.com>,
-        "mic@digikod.net" <mic@digikod.net>,
-        "gnoack@google.com"
- <gnoack@google.com>,
-        "takedakn@nttdata.co.jp" <takedakn@nttdata.co.jp>,
-        "herton@canonical.com" <herton@canonical.com>,
-        Kernel Team <kernel-team@meta.com>,
-        "selinux@vger.kernel.org" <selinux@vger.kernel.org>,
-        "apparmor@lists.ubuntu.com" <apparmor@lists.ubuntu.com>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-security-module@vger.kernel.org"
- <linux-security-module@vger.kernel.org>
-References: <20260318184400.3502908-1-song@kernel.org>
- <20260318184400.3502908-7-song@kernel.org>
- <b720f521-e930-4f35-9505-1bfdf9e2818c@I-love.SAKURA.ne.jp>
- <4DF5C4A8-7C92-4F76-9B34-2262089E7289@meta.com>
- <33abcf34-13e2-4a37-83f3-78bb27ecbc11@I-love.SAKURA.ne.jp>
- <F0A0D13E-8208-49A4-9AC6-89AC4BF3F4FB@meta.com>
- <20260323-klappen-atemschutz-7a0af8c6b087@brauner>
-Content-Language: en-US
-From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-In-Reply-To: <20260323-klappen-atemschutz-7a0af8c6b087@brauner>
+Subject: Re: [PATCH 04/41] ocfs2: Drop pointless sync_mapping_buffers() calls
+To: Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org
+Cc: linux-block@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
+ Al Viro <viro@ZenIV.linux.org.uk>, linux-ext4@vger.kernel.org,
+ Ted Tso <tytso@mit.edu>, "Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
+ David Sterba <dsterba@suse.com>, OGAWA Hirofumi
+ <hirofumi@mail.parknet.co.jp>, Muchun Song <muchun.song@linux.dev>,
+ Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@kernel.org>,
+ linux-mm@kvack.org, linux-aio@kvack.org, Benjamin LaHaise <bcrl@kvack.org>,
+ Joel Becker <jlbec@evilplan.org>, ocfs2-devel@lists.linux.dev
+References: <20260320131728.6449-1-jack@suse.cz>
+ <20260320134100.20731-45-jack@suse.cz>
+From: Joseph Qi <joseph.qi@linux.alibaba.com>
+In-Reply-To: <20260320134100.20731-45-jack@suse.cz>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Anti-Virus-Server: fsav203.rs.sakura.ne.jp
-X-Virus-Status: clean
 
-On 2026/03/23 19:16, Christian Brauner wrote:
->>> Since not all filesystems need to resolve dev_name argument, conversion from dev_name
->>> to "struct path" is up to individual filesystem. If we can use a flag like FS_REQUIRES_DEV
->>> that tells whether that filesystem will resolve dev_name argument, I think we can resolve
->>> the dev_name argument before security_mount_new() is called (and can avoid TOCTOU).
->>
 
-I was expecting that "struct file_system_type"->fs_flags containing FS_REQUIRES_DEV
-is a sign that the dev_name argument is a pathname. But it seems that such assumption 
-no longer holds true. For example, cramfs started treating dev_name like "mtd$num"
-as if /dev/mtdblock$num since 4.15. So, current TOMOYO logic causes mount request of
-cramfs with dev_name like "mtd0" to fail.
 
->> I guess we can add dev_path to fs_context?
+On 3/20/26 9:40 PM, Jan Kara wrote:
+> ocfs2 never calls mark_buffer_dirty_inode() and thus its metadata
+> buffers list is always empty. Drop the pointless sync_mapping_buffers()
+> calls.
 > 
-> No, when and how the path is resolved is entirely up to the individual
-> filesystem and we're not hoisting the block-based specific path lookup
-> up into the VFS while leaving the other stuff per-filesystem. And it's
-> not as trivial as you want it to be either.
+> CC: Joel Becker <jlbec@evilplan.org>
+> CC: Joseph Qi <joseph.qi@linux.alibaba.com>
+> CC: ocfs2-devel@lists.linux.dev
+> Signed-off-by: Jan Kara <jack@suse.cz>
 
-Then, how can LSM modules know that how the requested filesystem resolves
-the dev_name argument, without embedding filesystem specific resolution
-logic into individual LSM module?
+Looks fine.
+Reviewed-by: Joseph Qi <joseph.qi@linux.alibaba.com>
 
-I want some flag like FS_REQUIRES_DEV that tells individual LSM module
-whether the dev_name argument should be interpreted as a pathname.
+> ---
+>  fs/ocfs2/dlmglue.c | 1 -
+>  fs/ocfs2/namei.c   | 3 ---
+>  2 files changed, 4 deletions(-)
+> 
+> diff --git a/fs/ocfs2/dlmglue.c b/fs/ocfs2/dlmglue.c
+> index bd2ddb7d841d..7283bb2c5a31 100644
+> --- a/fs/ocfs2/dlmglue.c
+> +++ b/fs/ocfs2/dlmglue.c
+> @@ -3971,7 +3971,6 @@ static int ocfs2_data_convert_worker(struct ocfs2_lock_res *lockres,
+>  		mlog(ML_ERROR, "Could not sync inode %llu for downconvert!",
+>  		     (unsigned long long)OCFS2_I(inode)->ip_blkno);
+>  	}
+> -	sync_mapping_buffers(mapping);
+>  	if (blocking == DLM_LOCK_EX) {
+>  		truncate_inode_pages(mapping, 0);
+>  	} else {
+> diff --git a/fs/ocfs2/namei.c b/fs/ocfs2/namei.c
+> index 268b79339a51..1277666c77cd 100644
+> --- a/fs/ocfs2/namei.c
+> +++ b/fs/ocfs2/namei.c
+> @@ -1683,9 +1683,6 @@ static int ocfs2_rename(struct mnt_idmap *idmap,
+>  	if (rename_lock)
+>  		ocfs2_rename_unlock(osb);
+>  
+> -	if (new_inode)
+> -		sync_mapping_buffers(old_inode->i_mapping);
+> -
+>  	iput(new_inode);
+>  
+>  	ocfs2_free_dir_lookup_result(&target_lookup_res);
 
