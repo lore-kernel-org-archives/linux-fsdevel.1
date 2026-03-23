@@ -1,40 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B948C3B0ACB
-	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 14:05:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5581C3B19AC;
+	Mon, 23 Mar 2026 14:11:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774274736; cv=none; b=g2Ot9R4WaQe+hehzP/Ha+B1BrXhBMNSGFI4Rwk/cIyBdcpSSv9er3QusjJ36aei/zsL9JjzvL47p3J+NE9erFldKhA0bDJttvLoKd/Rn9y2+whOWn74S3bIV3fNaDgWSjtlI3cFAW5i2/8fUb/PpyIuExVu/T9AYPAfm4LmONEA=
+	t=1774275089; cv=none; b=FXAcDkEhBwKLQefmoWZDHHnBn980CpuAqGQ0C70EusTlStd+OYLNTr7i4Da9pCQ0QeEY5lBlIKhnH85pH66ZeW2LnQBvMeL/IV1aM+tHjs3xjbeiV/gGG04LJ2+6RVW1K0UpTZx+thCNp6RF5T0mR5n5mDtXw4hOHv1NCgpx2Aw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774274736; c=relaxed/simple;
-	bh=RUrl1tC9Kr3jqEbVSpZdBYuWMCVBY/50KSqo4yIjkiM=;
+	s=arc-20240116; t=1774275089; c=relaxed/simple;
+	bh=0+CZ6ku7umQV9JD+LWSWo22te4Wf6f5NpXO6DvOaRKM=;
 	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=FXsez2PGcCPR8jDcXaS2qwLouUOtsi54tylFSL9E3hnZ/o08QcYEsh2TljXg4enc4bXzOOOSjJT0Fdq8KDVcysht8n8KY+9s8prX8i8kIeU/qN7/UhfZGIX35QxaYLXTsbtbck+AQZUHGCgEjOv+mEHKdLBMtKZ6JewhpeBbnSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qX0fw951; arc=none smtp.client-ip=10.30.226.201
+	 Subject:Content-Type; b=FhwXikti5kYhXgrr9djujvMgaJVlE4AS2GpfQjgK5laKnXjmcISJrFh57qhlwotd8fbRn3s1rLjrQPYtB1Ryntqy1Po7+bdg3Pv3BZso8C1k1EfuqoXYsDksb4mwC6grkc92ldgi5GhpGewnORWRpZgbQ5adrWsIGCv7f8xmybM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZV8iAnp2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qX0fw951"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10212C4CEF7;
-	Mon, 23 Mar 2026 14:05:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZV8iAnp2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C60E4C2BC9E;
+	Mon, 23 Mar 2026 14:11:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774274736;
-	bh=RUrl1tC9Kr3jqEbVSpZdBYuWMCVBY/50KSqo4yIjkiM=;
+	s=k20201202; t=1774275089;
+	bh=0+CZ6ku7umQV9JD+LWSWo22te4Wf6f5NpXO6DvOaRKM=;
 	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=qX0fw951yTuYgTFVdMlLoZyHSjSGf4EsjKeRPupIboJahLDChBoBz3KGGnBd5XhgH
-	 ++ed/XPmwDw1ONLT0pKrAa7O6ofhSYLqfLbp4NYCVI22BRcRyhjOlCt3NUZUbz9xWF
-	 Qf3IIgNdSHEh3/S+P0NGGkRUCfY/qScou2vcyqCVq03zvOpnGLJzGm5fCTgLq+a6RJ
-	 8KQuwXiLlf0yIMDIhkilmdM6tlWV46iHj5XUmXY0fzBMwyCrZMIK2pa5yO01Hf2abz
-	 rzeVyCAzNciPWydICfg3j77GvpZ2Xl8zpKj3o8FLKRj/fGqKx8W+ms/TEWs6jV3NQr
-	 3LYTZ6SQ2GMkg==
+	b=ZV8iAnp2q8LQP4eoryVZXUsTV5WFVtS3n2YQFYZ2Lfw+1JEhm3VdiZKxaexWiEamA
+	 /DLEv5daEKPFE1OqJkBEySZX/BwZjp1buCFNOhT+7FukMvHBivMgP4GwhC1SXumib+
+	 NDe03Pn4adVnJwnGLBuqeZ+crAC46kWLyLG3QjUA5Ks5X6RTbujozV4wgm7E9ywFxG
+	 Zp7E+L8TcyzFjUjkQoZ4BVE1MiUxrCTb9UWWa+mR8eHS0+Ci5eAPUBbvF6H7gGl33J
+	 SZBO2lBLAm2bsLyyawfJERPnJQp5jQ5LkWdRiyG36nfj2H/uLEHXdR/sJ3FJjTFFGq
+	 pUzYqHzdghCzA==
 Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 22F9CF4008C;
-	Mon, 23 Mar 2026 10:05:35 -0400 (EDT)
+	by mailfauth.phl.internal (Postfix) with ESMTP id DA857F40078;
+	Mon, 23 Mar 2026 10:11:27 -0400 (EDT)
 Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-10.internal (MEProxy); Mon, 23 Mar 2026 10:05:35 -0400
-X-ME-Sender: <xms:r0jBaU4w0_-8Vk_EEC1aBZEk_I6XsWETTJJhN0tEpd-UHa82I06Hng>
-    <xme:r0jBaQt5yLHZoFqpYJPIC1n68mKB9uhMkiQNBVRheo-mNSvhT-1EN68ZiMzarXMAT
-    OPG37w04TreekiyGsR-7Dhxb6HDXz2El2REyIVs3CZtEizfRaZTX8g>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdefudekledtucetufdoteggodetrf
+  by phl-compute-10.internal (MEProxy); Mon, 23 Mar 2026 10:11:27 -0400
+X-ME-Sender: <xms:D0rBadsRqZsE1EeVbeZFSNtFEQZhJfjO9xJH1Vw4Qh4KuY_KYD0AXQ>
+    <xme:D0rBaRQwemiIU8SoTSVhF15XDhjDo8IcMJA68LaCOsAyeDhcq_RHQq7cLcUhQ2RXQ
+    UVhqlDbqwBTXR0yW2mooYWwzph9D9-EScv_yrrbVTNZlsvkpyKMJSze>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdefudekledvucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
     gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedfvehhuhgt
@@ -44,21 +44,22 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdefudekledtucetufdote
     hklhgvvhgvrhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudeifeegleel
     leehledqfedvleekgeegvdefqdgtvghlpeepkhgvrhhnvghlrdhorhhgsehfrghsthhmrg
     hilhdrtghomhdpnhgspghrtghpthhtohepuddvpdhmohguvgepshhmthhpohhuthdprhgt
-    phhtthhopehnvghilhessghrohifnhdrnhgrmhgvpdhrtghpthhtoheprghmihhrjeefih
-    hlsehgmhgrihhlrdgtohhmpdhrtghpthhtoheptggvmheskhgvrhhnvghlrdhorhhgpdhr
-    tghpthhtohepjhhlrgihthhonheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohephhgthh
-    eslhhsthdruggvpdhrtghpthhtohepuggrihdrnhhgohesohhrrggtlhgvrdgtohhmpdhr
-    tghpthhtoheptghhuhgtkhdrlhgvvhgvrhesohhrrggtlhgvrdgtohhmpdhrtghpthhtoh
-    epohhkohhrnhhivghvsehrvgguhhgrthdrtghomhdprhgtphhtthhopehtohhmsehtrghl
-    phgvhidrtghomh
-X-ME-Proxy: <xmx:r0jBaQ1PfxGESZP-ato7Sx-Bzy8Sgp-S0zyaD8gTSafcFp8A5yvuQA>
-    <xmx:r0jBaRfVoEx8NVneSUAh4etjLKIYO5WWE5TcMT4TbcLh-hcj3SLxLA>
-    <xmx:r0jBaVKGEQDF03r2s3SqWJToKyQ1Z-O9AHjm7muP3gEjUZD7y3W7cg>
-    <xmx:r0jBaXp8KRue6e8aEC67OsmAuPhlP94hwK-VQqSo1e7pEk2eUCk9_A>
-    <xmx:r0jBabum4fu3QIbToDPm-g7d8rUnSezoTZQ0eowZDAgMZ7HrQGlA_zlo>
+    phhtthhopehlvghithgrohesuggvsghirghnrdhorhhgpdhrtghpthhtohepjhhirghngh
+    hshhgrnhhlrghisehgmhgrihhlrdgtohhmpdhrtghpthhtohepphhurhgrnhhjrgihsehk
+    vghrnhgvlhdrohhrghdprhgtphhtthhopehtjheskhgvrhhnvghlrdhorhhgpdhrtghpth
+    htoheprghkphhmsehlihhnuhigqdhfohhunhgurghtihhonhdrohhrghdprhgtphhtthho
+    pehkvghrnhgvlhdqthgvrghmsehmvghtrgdrtghomhdprhgtphhtthhopehrmhhikhgvhi
+    esmhgvthgrrdgtohhmpdhrtghpthhtoheptghhuhgtkhdrlhgvvhgvrhesohhrrggtlhgv
+    rdgtohhmpdhrtghpthhtoheplhhinhhugidqsghtrhhfshesvhhgvghrrdhkvghrnhgvlh
+    drohhrgh
+X-ME-Proxy: <xmx:D0rBaWcHLCbnRNgOyVgaJfYZsLpRcBIfC4DXtKZM5-pjUVwh5lcjww>
+    <xmx:D0rBaWtQx1mTtp-aDx2DkvT7srYIq8Hcewa8nkceV7yO8OIrZpwilQ>
+    <xmx:D0rBaVhqq9EdGH4Ss3jvcn9szlcXvJh_NT1yVpfACmeGkCdSy0Q-UQ>
+    <xmx:D0rBaWujUa56ZDElJ1ycxC9E-sxFqcsb9b_qbGTQyRlHIjgZaIFK0g>
+    <xmx:D0rBaY-ZJnxhWBgya2DfdnEgc5T8xOZVEQOdGysyEHTS_t51z8N65xTI>
 Feedback-ID: ifa6e4810:Fastmail
 Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id F2F2C780075; Mon, 23 Mar 2026 10:05:34 -0400 (EDT)
+	id B0971780075; Mon, 23 Mar 2026 10:11:27 -0400 (EDT)
 X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -66,68 +67,49 @@ List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: AfS3vEoGaRRw
-Date: Mon, 23 Mar 2026 10:05:14 -0400
+X-ThreadId: AUmdj42xMw6V
+Date: Mon, 23 Mar 2026 10:11:07 -0400
 From: "Chuck Lever" <cel@kernel.org>
-To: "Christoph Hellwig" <hch@lst.de>, "Chuck Lever" <chuck.lever@oracle.com>,
- "Jeff Layton" <jlayton@kernel.org>, "Amir Goldstein" <amir73il@gmail.com>
-Cc: NeilBrown <neil@brown.name>, "Olga Kornievskaia" <okorniev@redhat.com>,
- "Dai Ngo" <Dai.Ngo@oracle.com>, "Tom Talpey" <tom@talpey.com>,
- "Carlos Maiolino" <cem@kernel.org>, linux-nfs@vger.kernel.org,
- linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Message-Id: <81da6f4c-7523-496d-b8ed-8e78f4f83ea4@app.fastmail.com>
-In-Reply-To: <20260323070746.2940140-3-hch@lst.de>
-References: <20260323070746.2940140-1-hch@lst.de>
- <20260323070746.2940140-3-hch@lst.de>
-Subject: Re: [PATCH 2/7] exportfs: don't pass struct iattr to ->commit_blocks
+To: "Breno Leitao" <leitao@debian.org>, "Tejun Heo" <tj@kernel.org>,
+ "Lai Jiangshan" <jiangshanlai@gmail.com>,
+ "Andrew Morton" <akpm@linux-foundation.org>
+Cc: linux-kernel@vger.kernel.org, puranjay@kernel.org,
+ linux-crypto@vger.kernel.org, linux-btrfs@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org,
+ "Michael van der Westhuizen" <rmikey@meta.com>, kernel-team@meta.com,
+ "Chuck Lever" <chuck.lever@oracle.com>
+Message-Id: <04af531d-d8a3-4fbb-993d-e1da2df62a03@app.fastmail.com>
+In-Reply-To: <20260320-workqueue_sharded-v2-0-8372930931af@debian.org>
+References: <20260320-workqueue_sharded-v2-0-8372930931af@debian.org>
+Subject: Re: [PATCH v2 0/5] workqueue: Introduce a sharded cache affinity scope
 Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
 
+On Fri, Mar 20, 2026, at 1:56 PM, Breno Leitao wrote:
+> TL;DR: Some modern processors have many CPUs per LLC (L3 cache), and
+> unbound workqueues using the default affinity (WQ_AFFN_CACHE) collapse
+> to a single worker pool, causing heavy spinlock (pool->lock) contention.
+> Create a new affinity (WQ_AFFN_CACHE_SHARD) that caps each pool at
+> wq_cache_shard_size CPUs (default 8).
+>
+> Changes from RFC:
+>
+> * wq_cache_shard_size is in terms of cores (not vCPU). So,
+>   wq_cache_shard_size=8 means the pool will have 8 cores and their siblings,
+>   like 16 threads/CPUs if SMT=1
 
-On Mon, Mar 23, 2026, at 3:07 AM, Christoph Hellwig wrote:
-> diff --git a/fs/nfsd/blocklayout.c b/fs/nfsd/blocklayout.c
-> index 7464e9e37af1..0dd36f3d5a51 100644
-> --- a/fs/nfsd/blocklayout.c
-> +++ b/fs/nfsd/blocklayout.c
-> @@ -180,22 +180,15 @@ nfsd4_block_commit_blocks(struct inode *inode, 
-> struct nfsd4_layoutcommit *lcp,
->  		struct iomap *iomaps, int nr_iomaps)
->  {
->  	struct timespec64 mtime = inode_get_mtime(inode);
-> -	struct iattr iattr = { .ia_valid = 0 };
->  	int error;
-> 
->  	if (lcp->lc_mtime.tv_nsec == UTIME_NOW ||
->  	    timespec64_compare(&lcp->lc_mtime, &mtime) < 0)
->  		lcp->lc_mtime = current_time(inode);
-> -	iattr.ia_valid |= ATTR_ATIME | ATTR_CTIME | ATTR_MTIME;
-> -	iattr.ia_atime = iattr.ia_ctime = iattr.ia_mtime = lcp->lc_mtime;
-> -
-> -	if (lcp->lc_size_chg) {
-> -		iattr.ia_valid |= ATTR_SIZE;
-> -		iattr.ia_size = lcp->lc_newsize;
-> -	}
-> 
->  	error = inode->i_sb->s_export_op->block_ops->commit_blocks(inode,
-> -			iomaps, nr_iomaps, &iattr);
-> +			iomaps, nr_iomaps,
-> +			lcp->lc_size_chg ? lcp->lc_newsize : 0);
->  	kfree(iomaps);
->  	return nfserrno(error);
->  }
+My concern about the "cores per shard" approach is that it
+improves the default situation for moderately-sized machines
+little or not at all.
 
-After this change is applied, nfsd4_block_commit_blocks continues
-to compute lcp->lc_mtime (honoring UTIME_NOW etc.) but never
-passes it to the underlying filesystem. The old code set
+A machine with one L3 and 10 cores will go from 1 UNBOUND
+pool to only 2. For virtual machines commonly deployed as
+cloud instances, which are 2, 4, or 8 core systems (up to
+16 threads) there will still be significant contention for
+UNBOUND workers.
 
-  iattr.ia_mtime = lcp->lc_mtime
-
-and propagated it via setattr_copy; but now xfs_fs_commit_blocks
-unconditionally uses inode_set_ctime_current(). The mtime
-computation here is now dead code.
-
-This change introduces a regression against RFC 8881 Section 18.42
-(LAYOUTCOMMIT's loca_time_modify is ignored).
+IOW, if you want good scaling, human intervention (via a
+boot command-line option) is still needed.
 
 
 -- 
