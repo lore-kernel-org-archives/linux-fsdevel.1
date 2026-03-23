@@ -1,216 +1,228 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B6EA3C8710
-	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 20:17:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774297040; cv=none; b=t3gfMESywPQEAoubViIzxVSQ8BUHtcc0aVQE1zUpc6ruVSIsyAtg18Yh9xJulqKFIIPn7ZG2Q4AMdHSuY5fz7frgr+MkgITe5H9LO7UCPtNR1SyMJwm0ZfV+lb5UWkdVCbjCEkO09CiLicRSdb3Ts6VnG9w7/p6IQadI30xgnCM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774297040; c=relaxed/simple;
-	bh=O1WfgoKoWnW5maMpC3bTQRzcL+bjCm7WNU6Tq7gtwWQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aHPZA9r9od/01tCDawCTcLJMp/Du4wTk7E9b05PHmMcKsBBgEHNFGHXAgYxHsyCfd4+JdifmxXGrhqHgtZuSncNN0SOR6gM21FZCtPTqoAO3ThWDEZxLzRsbMbjFvyQWy9XYgkEZdrCr+hfahkVQjo+f8u6Gd1NhmvpM5HjSmNc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=BSumbq3Z; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=iQSaW5lW; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=KgX3jhlv; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=RYPSQ6Qi; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E2223DE43F
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 20:22:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.217.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774297368; cv=pass; b=SfWwwPsOfuBAlglkOYHjMju4kl6Lk/MvKmKJ4U15gfqFa2LRJtqypgWBg8HbPJjCFTpywywoLxlwBOFRLK3uT9e7oFSclw6VDtsYspkE0sUU8igoKqX7j30oN/Hcm9gzfya5Bbaf6tXlQEV631Qe7ArDWMotCvnLE9XKE65VG+Q=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774297368; c=relaxed/simple;
+	bh=+Ww3YVEwz3akOCPkGfwPOz5g/SjxY63PNjUlqwWXbGQ=;
+	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iOCnpz3qWXhd/uqmWk3nCmkvZOEWQFWpRLEUMnW6IKEgmbPHSCYl+1SNSv3SaX23jePu/kV2OipJ3U431PyzfYGX/UOJzpa51cls/3OSXjQXmTSjWoEUwNIYKnODX9+dkWVfEmd/E8AMLHKNwdu669GyXmWDxSRKr+WtLCjZIgw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Ibwuzlau; arc=pass smtp.client-ip=209.85.217.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="BSumbq3Z";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="iQSaW5lW";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="KgX3jhlv";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="RYPSQ6Qi"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 302324D378;
-	Mon, 23 Mar 2026 20:17:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1774297031; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4SVOWVM0TULgyGv/HiffeJaNrMWBRTaXaja5z2eRA6U=;
-	b=BSumbq3Z2rEM9k+hGYhKEVW0uHtI8GK0Jr6y4vkjSCG+luqcXXPlBq/qOA3dfp5etb8X9K
-	VixdI9SxjXVdNoX+3n/jFPXJPugS5z3sQP79Y8lrQulY14apcxOxZu3kLGIwUt8zHA0Z1X
-	rssOdCBDOOVP2NlviE0sFERFjHoS17A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1774297031;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4SVOWVM0TULgyGv/HiffeJaNrMWBRTaXaja5z2eRA6U=;
-	b=iQSaW5lWWD/QbpNzDNiX1OeNLuVDzDZKa6Ad6Tc7oqVYxGHwDd1cQBk8Eb1e1ukMuI8/lD
-	C17WwgTkQcZ1fvBg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1774297030; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4SVOWVM0TULgyGv/HiffeJaNrMWBRTaXaja5z2eRA6U=;
-	b=KgX3jhlvUOYZZTPyKrQ1J/E56tg4fi9dUZSA8YQjaHU0AngK6a3xXVz0ib5M1/ItIg7Rr6
-	fPRAvFEv4jPs8gukzMImd8a1ILmFnRNbBWp3ZvIeWgR/5/8DDioulL5/k/W4UKHM+uYGiI
-	T8OhXinxTdOhmQOMrOye+IxIOrIpqqw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1774297030;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4SVOWVM0TULgyGv/HiffeJaNrMWBRTaXaja5z2eRA6U=;
-	b=RYPSQ6QiEXToI8MZdX37qQwpsKXg9zQw/NBdivnjhkINr5skH+nKHTGz4rNM3J2so7GRxs
-	ZZE1cTdxPumpQKDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1C53F43A65;
-	Mon, 23 Mar 2026 20:17:10 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 2R1tBsafwWllCwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 23 Mar 2026 20:17:10 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id C1BD7A0B32; Mon, 23 Mar 2026 21:17:09 +0100 (CET)
-Date: Mon, 23 Mar 2026 21:17:09 +0100
-From: Jan Kara <jack@suse.cz>
-To: Zhang Yi <yi.zhang@huaweicloud.com>
-Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca, jack@suse.cz, 
-	ojaswin@linux.ibm.com, ritesh.list@gmail.com, libaokun@linux.alibaba.com, 
-	yi.zhang@huawei.com, yizhang089@gmail.com, yangerkun@huawei.com, yukuai@fnnas.com
-Subject: Re: [PATCH 09/10] ext4: move zero partial block range functions out
- of active handle
-Message-ID: <irkaodowvqmpug3moetmd75vssj6czh67qzuxs4v5vxe56qxz7@opkvl3apdpuk>
-References: <20260310014101.4140698-1-yi.zhang@huaweicloud.com>
- <20260310014101.4140698-10-yi.zhang@huaweicloud.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Ibwuzlau"
+Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-5ffe41e8e83so2881440137.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 13:22:45 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774297365; cv=none;
+        d=google.com; s=arc-20240605;
+        b=F7LsSXdoYya+Ms6CnTu5roWUFKr6vvGuWE1mUYpnDeE93XZpe1iMAy1ZtHpjsePPP0
+         eeGfayX+cX8wKDFoKwjzJVB98JeFYPsIvmtkNGaEscYQn+aNC2oynbqxksminh407iEk
+         sOAR5FKP8UhVSfvYJG441xkKaElC3d3xG79FbWpXGPqjj+x/XwNxkTbcaP1kYKDNPBIk
+         TFwYDk2jj4L+W7aNdXcMwGNCvRbNzdk3AmGujZcrUBkAehGaHu9ct6MTotgb6pcjaoJl
+         zeuFj4WLN/j0ZmK/Fi/vhfEQBNvjUAbql2Id80+5TjgLIp/JudbAamnr4rUyiUblIjVc
+         8ZYA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:dkim-signature;
+        bh=DfIEo8yQ3CK3TKTvqaXVb6LUrtHQE6Lxe6QzmQiMk8w=;
+        fh=h/80jrUFclM9UMs3f9t7Sevnc/9NVoTBCUEf62yBBis=;
+        b=WxMNFygU38PcOP7tSTTEKGNBxILJijAOy3Eww2uviTwMFCaXCaVRyFriUC9TroH9ZC
+         RY1Wqcxkonh0OHMcVxG/xhel3CAp3Eq6n6CUhnYPOctA6kzq4kHzeY0+0BDBrSx+HVIK
+         iQPHza534CGkYjZfGMoIRiBv77lI8KYVpm4eAYpLrPIiGJmeoulMV66vQlWa8NSaytcj
+         sJ6zssDu75DhwwGFL0/HDSj/iGBPgTb1X3OU7SOcwWNP3CSIP67Gr4/r4CkaCR7NT2gv
+         z3UlCSYLSGeAbal6LPA4ec2rswqckx9wlflKmypSFzPdxKb5sEPK/YkeyoEckdntBjn6
+         EmtQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1774297365; x=1774902165; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DfIEo8yQ3CK3TKTvqaXVb6LUrtHQE6Lxe6QzmQiMk8w=;
+        b=Ibwuzlauj5c8iKXxG1nK0hN4JyHV1Mv3KfKVQuiM0E+dlMSGVRwp8PfoYFyP1KyuxP
+         TV8eM6VPHDio+E5Cn8SvvUl81aCB1scyZpRBpQDqfaLDZ/2fcpxRSgfNro+mQ6DrusbP
+         Z/a96ziy/AhJVi5KNvSFNb0PJC3qVLwpHNJIPJ+i2XhBM9b547uqZ6kBX5VfuKRPpGll
+         zvvg4ItxeGu1cu1UCqpMsS5/wsgfWhO4cfLEXuCTkRTZm/O8BRjqXxrk7D84ejUoBBku
+         ZfHITQWeg4EzxLmcIyXpuaZa2R++4mxy+6mdQVDjSpf0LTRgOhE1fJU0yDfXDeikC89Y
+         vkow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774297365; x=1774902165;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DfIEo8yQ3CK3TKTvqaXVb6LUrtHQE6Lxe6QzmQiMk8w=;
+        b=pV4KWzYWWbvQSTNIxhPKMUyMfKTNemq/DhtbGH1MQfZCR5onqskZU2OzhlJMzeJySF
+         l57gH4+SAvP7Uy0PFvXcVSb2/qU6WKq+TiGDIT5eFkGJpUFyb9f+7hf4Vfi7pms8fckt
+         Z3lzSaaUpaRN9w24Qie1Qjd5djhaSMw4QKtNQXxY/G1mlyIBtOZaUnjdGIzNWW9AhG1y
+         fYl4s6DfNSMxmtVDKsp/Pgth4Q2AD11qlI0kSV6YDg2ZmXsH+brSih5tctns1x1W3lf3
+         voADQRDGwAMMbdsnWRb3WpNdAq30j5rjx4n3WWPcdS8QLF4it5htt3bl0jKnxGPaDo70
+         WrcA==
+X-Forwarded-Encrypted: i=1; AJvYcCXr7DSWf/G1x2HAVD06Tavx1XjsCzUyeS5vG6H7g5Myo6JC5M12VSYrIEFbSJRLIu0ncNmq3GqBbmoZMdes@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz47MX2TASxvaOa2PXIceLReefzhrlNRCRBSEYT922Li2ORufbW
+	LNFjVzWoKg1eLfLaqopg4qrsxYzU7/IPmXz3yxUx96RoMtUuuwhTzjjOU5t9Rhxfp2lQmq+CLXz
+	rXcY2lzganpaiAF76BCBR1NlQM2MsnvDFGqa8wE0H
+X-Gm-Gg: ATEYQzwdnSUME08Vs5VS5E0PlQRKMa3bzQvOpIa1kiLk4T21tt1q4Jq/bNsGSieT/9m
+	HDJLg6hQ556zFmbHG0c2VNfRxe7S+e9eOdMyr8qxcjISt46eRI84qSagAhgkMi9QngCbjOC90ds
+	LNeVLgwayLyV8zSjQldQuS9GztANL4GX3kbbtAoqdmGLEADdk4h6g4FPLyXhFwlae+OJRpJ3DmT
+	fu64RK+5ntIUNfakhc+eWc5mRpIybqhm0At8AsKGuvOfm1Hb6KF8kJS8g5yceTymBTI40wSFIzx
+	uXM+/9b4RRd7tAplWNBgh3JWALXvZJT79Ov0aeDJ16CgOrgI2naUKqSJrPCfr5f9vuNIXQ==
+X-Received: by 2002:a05:6102:3a06:b0:602:8742:1fa with SMTP id
+ ada2fe7eead31-60316013f44mr514571137.9.1774297364023; Mon, 23 Mar 2026
+ 13:22:44 -0700 (PDT)
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 23 Mar 2026 13:22:43 -0700
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 23 Mar 2026 13:22:43 -0700
+From: Ackerley Tng <ackerleytng@google.com>
+In-Reply-To: <0a14c10d-0dab-4b9c-85ec-e0ee25cd0db8@kernel.org>
+References: <20260317141031.514-1-kalyazin@amazon.com> <20260317141031.514-6-kalyazin@amazon.com>
+ <0a14c10d-0dab-4b9c-85ec-e0ee25cd0db8@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260310014101.4140698-10-yi.zhang@huaweicloud.com>
-X-Spamd-Result: default: False [-2.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email,huawei.com:email];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	TAGGED_RCPT(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,mit.edu,dilger.ca,suse.cz,linux.ibm.com,gmail.com,linux.alibaba.com,huawei.com,fnnas.com];
-	RCVD_COUNT_THREE(0.00)[3];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[huawei.com:email,imap1.dmz-prg2.suse.org:helo,suse.com:email]
-X-Spam-Flag: NO
-X-Spam-Score: -2.30
-X-Spam-Level: 
+Date: Mon, 23 Mar 2026 13:22:43 -0700
+X-Gm-Features: AQROBzAJTtmZ8_CHcmYDgt7IaYmvr2Pi4WE03drdmWTq3AGR3rA_vEwuIGtsbTw
+Message-ID: <CAEvNRgHqJGwmAfS8TuGBbUoQehpqY9GdtjUS=+Hc1ViK79RL4w@mail.gmail.com>
+Subject: Re: [PATCH v11 05/16] mm/gup: drop local variable in gup_fast_folio_allowed
+To: "David Hildenbrand (Arm)" <david@kernel.org>, "Kalyazin, Nikita" <kalyazin@amazon.co.uk>, 
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+	"kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, 
+	"bpf@vger.kernel.org" <bpf@vger.kernel.org>, 
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, "kernel@xen0n.name" <kernel@xen0n.name>, 
+	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>, 
+	"linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>, 
+	"loongarch@lists.linux.dev" <loongarch@lists.linux.dev>, 
+	"linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>
+Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>, "corbet@lwn.net" <corbet@lwn.net>, 
+	"maz@kernel.org" <maz@kernel.org>, "oupton@kernel.org" <oupton@kernel.org>, 
+	"joey.gouly@arm.com" <joey.gouly@arm.com>, "suzuki.poulose@arm.com" <suzuki.poulose@arm.com>, 
+	"yuzenghui@huawei.com" <yuzenghui@huawei.com>, "catalin.marinas@arm.com" <catalin.marinas@arm.com>, 
+	"will@kernel.org" <will@kernel.org>, "seanjc@google.com" <seanjc@google.com>, "tglx@kernel.org" <tglx@kernel.org>, 
+	"mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>, 
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>, 
+	"hpa@zytor.com" <hpa@zytor.com>, "luto@kernel.org" <luto@kernel.org>, 
+	"peterz@infradead.org" <peterz@infradead.org>, "willy@infradead.org" <willy@infradead.org>, 
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, 
+	"lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>, "vbabka@kernel.org" <vbabka@kernel.org>, 
+	"rppt@kernel.org" <rppt@kernel.org>, "surenb@google.com" <surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>, 
+	"ast@kernel.org" <ast@kernel.org>, "daniel@iogearbox.net" <daniel@iogearbox.net>, 
+	"andrii@kernel.org" <andrii@kernel.org>, "martin.lau@linux.dev" <martin.lau@linux.dev>, 
+	"eddyz87@gmail.com" <eddyz87@gmail.com>, "song@kernel.org" <song@kernel.org>, 
+	"yonghong.song@linux.dev" <yonghong.song@linux.dev>, 
+	"john.fastabend@gmail.com" <john.fastabend@gmail.com>, "kpsingh@kernel.org" <kpsingh@kernel.org>, 
+	"sdf@fomichev.me" <sdf@fomichev.me>, "haoluo@google.com" <haoluo@google.com>, 
+	"jolsa@kernel.org" <jolsa@kernel.org>, "jgg@ziepe.ca" <jgg@ziepe.ca>, 
+	"jhubbard@nvidia.com" <jhubbard@nvidia.com>, "peterx@redhat.com" <peterx@redhat.com>, 
+	"jannh@google.com" <jannh@google.com>, "pfalcato@suse.de" <pfalcato@suse.de>, 
+	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>, "riel@surriel.com" <riel@surriel.com>, 
+	"ryan.roberts@arm.com" <ryan.roberts@arm.com>, "jgross@suse.com" <jgross@suse.com>, 
+	"yu-cheng.yu@intel.com" <yu-cheng.yu@intel.com>, "kas@kernel.org" <kas@kernel.org>, 
+	"coxu@redhat.com" <coxu@redhat.com>, "kevin.brodsky@arm.com" <kevin.brodsky@arm.com>, 
+	"yosry@kernel.org" <yosry@kernel.org>, "ajones@ventanamicro.com" <ajones@ventanamicro.com>, 
+	"maobibo@loongson.cn" <maobibo@loongson.cn>, "tabba@google.com" <tabba@google.com>, 
+	"prsampat@amd.com" <prsampat@amd.com>, "wu.fei9@sanechips.com.cn" <wu.fei9@sanechips.com.cn>, 
+	"mlevitsk@redhat.com" <mlevitsk@redhat.com>, "jmattson@google.com" <jmattson@google.com>, 
+	"jthoughton@google.com" <jthoughton@google.com>, "agordeev@linux.ibm.com" <agordeev@linux.ibm.com>, 
+	"alex@ghiti.fr" <alex@ghiti.fr>, "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>, 
+	"borntraeger@linux.ibm.com" <borntraeger@linux.ibm.com>, "chenhuacai@kernel.org" <chenhuacai@kernel.org>, 
+	"dev.jain@arm.com" <dev.jain@arm.com>, "gor@linux.ibm.com" <gor@linux.ibm.com>, 
+	"hca@linux.ibm.com" <hca@linux.ibm.com>, "palmer@dabbelt.com" <palmer@dabbelt.com>, 
+	"pjw@kernel.org" <pjw@kernel.org>, 
+	"shijie@os.amperecomputing.com" <shijie@os.amperecomputing.com>, "svens@linux.ibm.com" <svens@linux.ibm.com>, 
+	"thuth@redhat.com" <thuth@redhat.com>, "wyihan@google.com" <wyihan@google.com>, 
+	"yang@os.amperecomputing.com" <yang@os.amperecomputing.com>, 
+	"Jonathan.Cameron@huawei.com" <Jonathan.Cameron@huawei.com>, 
+	"Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>, "urezki@gmail.com" <urezki@gmail.com>, 
+	"zhengqi.arch@bytedance.com" <zhengqi.arch@bytedance.com>, 
+	"gerald.schaefer@linux.ibm.com" <gerald.schaefer@linux.ibm.com>, 
+	"jiayuan.chen@shopee.com" <jiayuan.chen@shopee.com>, "lenb@kernel.org" <lenb@kernel.org>, 
+	"osalvador@suse.de" <osalvador@suse.de>, "pavel@kernel.org" <pavel@kernel.org>, 
+	"rafael@kernel.org" <rafael@kernel.org>, "vannapurve@google.com" <vannapurve@google.com>, 
+	"jackmanb@google.com" <jackmanb@google.com>, "aneesh.kumar@kernel.org" <aneesh.kumar@kernel.org>, 
+	"patrick.roy@linux.dev" <patrick.roy@linux.dev>, "Thomson, Jack" <jackabt@amazon.co.uk>, 
+	"Itazuri, Takahiro" <itazur@amazon.co.uk>, "Manwaring, Derek" <derekmn@amazon.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue 10-03-26 09:41:00, Zhang Yi wrote:
-> From: Zhang Yi <yi.zhang@huawei.com>
-> 
-> Move ext4_block_zero_eof() and ext4_zero_partial_blocks() calls out of
-> the active handle context, making them independent operations. This is
-> safe because it still ensures data is updated before metadata for
-> data=ordered mode and data=journal mode because we still zero data and
-> ordering data before modifying the metadata.
-> 
-> This change is required for iomap infrastructure conversion because the
-> iomap buffered I/O path does not use the same journal infrastructure for
-> partial block zeroing. The lock ordering of folio lock and starting
-> transactions is "folio lock -> transaction start", which is opposite of
-> the current path. Therefore, zeroing partial blocks cannot be performed
-> under the active handle.
-> 
-> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+"David Hildenbrand (Arm)" <david@kernel.org> writes:
 
-So in this patch you also move ext4_zero_partial_blocks() before the
-transaction start in ext4_zero_range() and ext4_punch_hole(). However
-cannot these operations in theory fail with error such as EDQUOT or ENOSPC
-when they need to grow the extent tree as a result of the operation? In
-that case we'd return such error but partial blocks are already zeroed out
-which is a problem... OTOH in these cases we don't need to order the data
-at all so in principle we shouldn't need to move the zeroing earlier
-here. Am I missing something?
+> On 3/17/26 15:11, Kalyazin, Nikita wrote:
+>> From: Nikita Kalyazin <kalyazin@amazon.com>
+>>
+>> Move the check for pinning closer to where the result is used.
+>> No functional changes.
+>>
+>> Signed-off-by: Nikita Kalyazin <kalyazin@amazon.com>
+>> ---
+>>  mm/gup.c | 23 ++++++++++++-----------
+>>  1 file changed, 12 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/mm/gup.c b/mm/gup.c
+>> index 5856d35be385..869d79c8daa4 100644
+>> --- a/mm/gup.c
+>> +++ b/mm/gup.c
+>> @@ -2737,18 +2737,9 @@ EXPORT_SYMBOL(get_user_pages_unlocked);
+>>   */
+>>  static bool gup_fast_folio_allowed(struct folio *folio, unsigned int flags)
+>>  {
+>> -	bool reject_file_backed = false;
+>>  	struct address_space *mapping;
+>>  	unsigned long mapping_flags;
+>>
+>> -	/*
+>> -	 * If we aren't pinning then no problematic write can occur. A long term
+>> -	 * pin is the most egregious case so this is the one we disallow.
+>> -	 */
+>> -	if ((flags & (FOLL_PIN | FOLL_LONGTERM | FOLL_WRITE)) ==
+>> -	    (FOLL_PIN | FOLL_LONGTERM | FOLL_WRITE))
+>> -		reject_file_backed = true;
+>> -
+>>  	/* We hold a folio reference, so we can safely access folio fields. */
+>>  	if (WARN_ON_ONCE(folio_test_slab(folio)))
+>>  		return false;
+>> @@ -2793,8 +2784,18 @@ static bool gup_fast_folio_allowed(struct folio *folio, unsigned int flags)
+>>  	 */
+>>  	if (secretmem_mapping(mapping))
+>>  		return false;
+>> -	/* The only remaining allowed file system is shmem. */
+>> -	return !reject_file_backed || shmem_mapping(mapping);
+>> +
+>> +	/*
+>> +	 * If we aren't pinning then no problematic write can occur. A writable
+>> +	 * long term pin is the most egregious case, so this is the one we
+>> +	 * allow only for ...
+>> +	 */
+>> +	if ((flags & (FOLL_PIN | FOLL_LONGTERM | FOLL_WRITE)) !=
+>> +	    (FOLL_PIN | FOLL_LONGTERM | FOLL_WRITE))
+>> +		return true;
+>> +
+>> +	/* ... hugetlb (which we allowed above already) and shared memory. */
+>> +	return shmem_mapping(mapping);
+>
+> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+>
+> I'm wondering if it would be a good idea to check for a hugetlb mapping
+> here instead of having the folio_test_hugetlb() check above.
+>
 
-								Honza
+I think it's nice that hugetlb folios are determined immediately to be
+eligible for GUP-fast regardless of whether the folio is file-backed or
+not.
 
-> @@ -4722,25 +4724,18 @@ static long ext4_zero_range(struct file *file, loff_t offset,
->  	if (IS_ALIGNED(offset | end, blocksize))
->  		return ret;
->  
-> -	/*
-> -	 * In worst case we have to writeout two nonadjacent unwritten
-> -	 * blocks and update the inode
-> -	 */
-> -	credits = (2 * ext4_ext_index_trans_blocks(inode, 2)) + 1;
-> -	if (ext4_should_journal_data(inode))
-> -		credits += 2;
-> -	handle = ext4_journal_start(inode, EXT4_HT_MISC, credits);
-> +	/* Zero out partial block at the edges of the range */
-> +	ret = ext4_zero_partial_blocks(inode, offset, len);
-> +	if (ret)
-> +		return ret;
-> +
-> +	handle = ext4_journal_start(inode, EXT4_HT_MISC, 1);
->  	if (IS_ERR(handle)) {
->  		ret = PTR_ERR(handle);
->  		ext4_std_error(inode->i_sb, ret);
->  		return ret;
->  	}
->  
-> -	/* Zero out partial block at the edges of the range */
-> -	ret = ext4_zero_partial_blocks(inode, offset, len);
-> -	if (ret)
-> -		goto out_handle;
-> -
->  	if (new_size)
->  		ext4_update_inode_size(inode, new_size);
->  	ret = ext4_mark_inode_dirty(handle, inode);
-> diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
-> index d5b783a7c814..5288d36b0f09 100644
-> --- a/fs/ext4/inode.c
-> +++ b/fs/ext4/inode.c
-> @@ -4443,8 +4443,12 @@ int ext4_punch_hole(struct file *file, loff_t offset, loff_t length)
->  	if (ret)
->  		return ret;
->  
-> +	ret = ext4_zero_partial_blocks(inode, offset, length);
-> +	if (ret)
-> +		return ret;
-> +
->  	if (ext4_test_inode_flag(inode, EXT4_INODE_EXTENTS))
-> -		credits = ext4_chunk_trans_extent(inode, 2);
-> +		credits = ext4_chunk_trans_extent(inode, 0);
->  	else
->  		credits = ext4_blocks_for_truncate(inode);
->  	handle = ext4_journal_start(inode, EXT4_HT_TRUNCATE, credits);
-> @@ -4454,10 +4458,6 @@ int ext4_punch_hole(struct file *file, loff_t offset, loff_t length)
->  		return ret;
->  	}
->  
-> -	ret = ext4_zero_partial_blocks(inode, offset, length);
-> -	if (ret)
-> -		goto out_handle;
-> -
->  	/* If there are blocks to remove, do it */
->  	start_lblk = EXT4_B_TO_LBLK(inode, offset);
->  	end_lblk = end >> inode->i_blkbits;
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+> Something to ponder about :)
+>
+> --
+> Cheers,
+>
+> David
