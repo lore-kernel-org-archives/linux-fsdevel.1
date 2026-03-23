@@ -1,155 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.186])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E384E37DE8D;
-	Mon, 23 Mar 2026 21:21:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64C6B381AFF
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 22:00:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774300899; cv=none; b=JPzXFWx5W/6E/q0SnNRqPBUk2iA+OOwmMZOToNZ89wXAw6eFYpAF9eWKBlIrfEx8Fg2j5aS6xuUK/r3aD9wRqmqgEjANKWaVB5dTDLL/IP49efztX0p57IMwnEzbD1GkEKXdTYYHLokqLmdwXtqb7KpJDXTTbwNKa+QYMuEcORo=
+	t=1774303243; cv=none; b=kCdwMPW/VuB0b4SiRZYP78q0f55PKGOfJCjIW1Jd9AGgBU9MRHfd4noxYuLCsx89TTed2HdbZUub0Z2SSGCp9ZyKs4pwLjtwqYefmF7TSPcYwaivTvKy9nTAEyrxCweE6mpfkFKI3eWuU5Ou7yl/XSGZFBRgJxg+yb+A4RQ7dtg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774300899; c=relaxed/simple;
-	bh=04FQMew05zNRTl9YF6JQB/WHdSB2fffkG+BUPcscUw4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ERyKMwWstBVfFb9r2O0ZDNcgYquRyYXuibHBZdc87mg6fC9jQlOOZFi+pxn6PZV5d8COASD131zlOqkVmymDfBbBzyhkITlkPTJss9+Gmzxz4kFZ9wgHTvgOKcUnkxTbdLJ94hoFohXX90jzuUyK2N6c5lIKY9iYR6eYK0/SmLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A/FYPNYh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774303243; c=relaxed/simple;
+	bh=McxXbCGfFHQZMM/y6JBW1R1bqzczsOohNoGJ1MHJBEQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=A+XGIBlcNsSUccwitZ1PRqg4ExUubzVE3fcClgg9E7Wo2X3SF8k1l3PKpezEcMQp0FOsZ7wkKnt3GYC9D8XPhvwPjltT+BfDdggnhospD9vy8DwYuDK5xuYWgdff4zD97c++jCdzpPAcNy8oRrtAc6s5Goy5BY3uLmuMr4s1r2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=O3Hwuh/b; arc=none smtp.client-ip=195.121.94.186
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A/FYPNYh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BD2CC4CEF7;
-	Mon, 23 Mar 2026 21:21:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774300898;
-	bh=04FQMew05zNRTl9YF6JQB/WHdSB2fffkG+BUPcscUw4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=A/FYPNYhals6ENz1Ox2wRKyW9TL57KAfLjRpKUc/1hHqneXx0woVnhJQ7WEh19lx6
-	 qxlatf7Ms1tUHtE9lNj3isEMDDKvfQZ8LjCyU47szC0BcPLqeIT5hkITD4ULoD+bo5
-	 71zRtTumPiy1HOGFmwRdgH1rb+yai+RQKG/ef28/E5BFqFGiT4M/bysdG1JQRZcpN3
-	 PxEs5sVkCbpgYNaH5hDVE33A4R7Xr1wMfVNDPDUis3mQUYxZV5Tf/LakCXxm/uwIhL
-	 3J4ZrtKZiychGsj05yrepRmZdamPxG9AnKtI/lvIOPxIjXdnaqFSP0daKzJAYW0U8n
-	 NiBciLy4xmCWQ==
-Message-ID: <16117b49-d83d-4ceb-b85d-d117d6993ce1@kernel.org>
-Date: Mon, 23 Mar 2026 22:21:31 +0100
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="O3Hwuh/b"
+X-KPN-MessageId: b6e180f2-2703-11f1-89dd-00505699b430
+Received: from smtp.kpnmail.nl (unknown [10.31.155.5])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id b6e180f2-2703-11f1-89dd-00505699b430;
+	Mon, 23 Mar 2026 23:00:33 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=mime-version:message-id:date:subject:to:from;
+	bh=jjZUAFOJ6pjbRga9P2j51i+DzDYQiCJFD9k1yBExLH4=;
+	b=O3Hwuh/bG3rHtePmewhj6SVEIe9U0n697qhMZzSLzYGHnmsI/59igN6+B6UJTISCHH6/W4h8Jdye/
+	 VwjQkER9455JHZzwkuWREghsDDqqbH5wdFmb+jQTWDUbSZYMJjsD2NBDD9rAWXP5GiPaU734ItEf7W
+	 5Lp/yN0wKc1INezkwKa8esRTslprc2MV74vuR/Hzi//7CMzBkS3p5EVOCi0g2r2EGsYQt7TKH+PYKa
+	 2spKIR3eyvfRjwYUi1dVKvZ3DdNER03ji5kx2mnVJvrqMYZe/7H3hD1fMusVXrXHLMpgP9MHyf6ZEt
+	 BDwopxByuQm1sJu2QcsN2jvWaqYizkg==
+X-KPN-MID: 33|jJGGxRjuEBLtzypStpcEWD6y0bSKwpwcayxlBLpirBZwJy5kcK+aI016m8PFJOc
+ MswrKT2PNO+B5wpXK93ct4g==
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|aH62AvT/SopPvXdNiR2PuYGVvQSeX3wm4G/myhYLRWia01jZ+foRQ2zGZpLhNJQ
+ ZH5Jz0upRa7c3ATQ1SIv9Qg==
+Received: from daedalus.home (unknown [178.229.142.171])
+	by smtp.xs4all.nl (Halon) with ESMTPSA
+	id b3f0f231-2703-11f1-8d40-00505699b758;
+	Mon, 23 Mar 2026 23:00:33 +0100 (CET)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Jeff Layton <jlayton@kernel.org>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Alexander Aring <alex.aring@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	gregkh@linuxfoundation.org
+Cc: Jori Koolstra <jkoolstra@xs4all.nl>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	David Hildenbrand <david@redhat.com>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	zhang jiao <zhangjiao2@cmss.chinamobile.com>,
+	Kees Cook <kees@kernel.org>,
+	Penglei Jiang <superman.xpt@gmail.com>,
+	Ethan Tidmore <ethantidmore06@gmail.com>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	wangzijie <wangzijie1@honor.com>,
+	NeilBrown <neil@brown.name>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Mateusz Guzik <mjguzik@gmail.com>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org
+Subject: [RFC PATCH 0/1] vfs: transitive upgrade restrictions for fds
+Date: Mon, 23 Mar 2026 23:00:21 +0100
+Message-ID: <20260323220029.765874-1-jkoolstra@xs4all.nl>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 02/11] mm/khugepaged: remove READ_ONLY_THP_FOR_FS code
- in collapse_file()
-To: Zi Yan <ziy@nvidia.com>
-Cc: Matthew Wilcox <willy@infradead.org>, Song Liu <songliubraving@fb.com>,
- Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Shuah Khan <shuah@kernel.org>, linux-btrfs@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-mm@kvack.org, linux-kselftest@vger.kernel.org
-References: <20260323190644.1714379-1-ziy@nvidia.com>
- <20260323190644.1714379-3-ziy@nvidia.com>
- <7382046f-7c58-4a3e-ab34-b2704355b7d5@kernel.org>
- <E8D52134-B63E-44E9-BBBC-258DF74B8597@nvidia.com>
- <c20b7dbe-473d-4dca-a10b-b9f5267ad6da@kernel.org>
- <AF9011D6-8EA4-4134-B175-BD2DAB748419@nvidia.com>
- <71148f2e-cceb-418e-b762-c8dbd7a7eb1f@kernel.org>
- <FDC4C393-FB38-4422-9217-DAE95131C696@nvidia.com>
- <acGqbeSjktT4biku@casper.infradead.org>
- <9648838a-ada7-4983-99e3-d694e803e06b@kernel.org>
- <EA39EF46-4331-43AB-8602-D0A73E9C9C9B@nvidia.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <EA39EF46-4331-43AB-8602-D0A73E9C9C9B@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 3/23/26 22:11, Zi Yan wrote:
-> On 23 Mar 2026, at 17:05, David Hildenbrand (Arm) wrote:
-> 
->> On 3/23/26 22:02, Matthew Wilcox wrote:
->>>
->>> Not necessarily that lucky; if you set VM_HUGEPAGE,
->>> do_sync_mmap_readahead() will allocate PMD-sized folios automatically.
->>> On busy database servers (and is there any other kind?), khugepaged
->>> takes too long to run and find opportunities to collapse text pages.
->>> Like, days.
->>
->> Yes, in particular given that the default khugepaged settings are awful.
->>
->>>
->>>
->>> I think the test needs to be:
->>>
->>> 	if (mapping_max_folio_order(mapping) >= PMD_ORDER)
-> 
-> This is very helpful, since I was thinking about using
-> mapping_large_folio_support().
-> 
->>>
->>> as there can be cases of filesystems which support up to, say, 64KiB,
->>> but not all the way up to 2MiB.  I disapprove of this situation, but
->>> this is where we are right now.
->>
->> Right, that's what I had in mind.
-> 
-> Does Nico’s mTHP support for khugepaged include changes to collapse_file()?
-> That might change the above test.
+Add upgrade restrictions to openat2(). Extend struct open_how to allow
+setting transitive restrictions on using file descriptors to open other
+files. A use case for this feature is to block services or containers
+from re-opening/upgrading an O_PATH file descriptor through e.g.
+/proc/<pid>/fd/<nr> or OPENAT2_EMPTY_PATH (if upstreamed) as O_WRONLY.
 
-At least not regarding adding support for other folio sizes. Baolin
-(IIRC) had a version for shmem support, but that will come after Nico's
-series was merged.
+The implementation idea is this: magic paths like /proc/<pid>/fd/<nr>
+(currently the only one of its sort AFAIK) go through nd_jump_link() to
+hard set current->nameidata. To include information about the fd
+yielding the magic link, we add a new struct jump_how as a parameter.
+This struct may include restictions or other metadata attached to the
+magic link jump other than the struct path to jump to. So far it has
+only one unsigned int field: allowed_upgrades. This is a flag int that
+(for now) may be either READ_UPGRADABLE, WRITE_UPGRADABLE, or
+DENY_UPGRADES.
+
+The idea is that you can restrict what kind of open flags may be used
+to open files in any way using this fd as a starting point
+(transitively). The check is enforced in may_open_upgrade(), which is
+just the old may_open() with an extra test. To keep this state attached
+to the fds, we add a field f_allowed_upgrades to struct file. Then
+in do_open(), after success, we compute:
+
+	file->f_allowed_upgrades =
+		op->allowed_upgrades & nd->allowed_upgrades;
+
+where op is the struct open_flags that is build from open_how in
+build_open_flags(), and nd->allowed_upgrades is set during path
+traversal either in path_init() or nd_jump_link().
+
+The implementation and the idea are a bit rough; it is the first bit of
+less trivial work I have done on the kernel, hence the RFC status. I did
+create some self tests already which this patch passes, and nothing
+seems to break on a fresh vng kernel. But obviously there may be MANY
+things I am overlooking.
+
+The original idea for this features comes form the UAPI group kernel
+feature idea list [1].
+
+[1] https://github.com/uapi-group/kernel-features?tab=readme-ov-file#upgrade-masks-in-openat2
+
+Jori Koolstra (1):
+  vfs: transitive upgrade restrictions for fds
+
+ fs/file_table.c                  |  2 ++
+ fs/internal.h                    |  1 +
+ fs/namei.c                       | 38 ++++++++++++++++++++++++++++----
+ fs/open.c                        |  9 ++++++++
+ fs/proc/base.c                   | 24 ++++++++++++++------
+ fs/proc/fd.c                     |  6 ++++-
+ fs/proc/internal.h               |  4 +++-
+ include/linux/fcntl.h            |  6 ++++-
+ include/linux/fs.h               |  1 +
+ include/linux/namei.h            | 15 ++++++++++++-
+ include/uapi/asm-generic/fcntl.h |  4 ++++
+ include/uapi/linux/openat2.h     |  1 +
+ 12 files changed, 96 insertions(+), 15 deletions(-)
 
 -- 
-Cheers,
+2.53.0
 
-David
