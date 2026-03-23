@@ -1,133 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mslow3.mail.gandi.net (mslow3.mail.gandi.net [217.70.178.249])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 809D53B27F9;
-	Mon, 23 Mar 2026 15:28:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACAF13BD62E;
+	Mon, 23 Mar 2026 15:34:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.178.249
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774279731; cv=none; b=pqzgTDggbkOmnYCZOBtCVd2o/G/RLAUO4EwFVPqWaxV3xMIqbexOb1htVZ9onI4l1R4M07v+jPSaQR6wkQluWdsS5H58SAxdiayDtv8Qj8lpH7SOmjrKDqwKDtA+Z/8ertHEnFy03TmrFguCZlFuQ3T9yN+sUTn2T7Di/E/sZUI=
+	t=1774280067; cv=none; b=XPNQBy24t+bcaNqttlE2EdTcY2oOyM+NZI07c9O3yTAe+kzIFfd3+LII14jRvzuHxDVRrxLZk6JEHEEq1OJ1pXwA6h6K8iLrBYT3XyyJbNVtY8rwX3LRaKozqiBwevutxcDMjfmD92BE5lLiOu2ugyXQGZUHGAs101uMkgFIx10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774279731; c=relaxed/simple;
-	bh=uKxhkwNLQ1A6zwshl17eoxhqYldXen4HDfeimtnqolw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HdRCV+Un98HSC3pQQfkObz+7oUdh+/7qEw5FSfyN/HTKqw98ddWivmTSG8QIC/dTghz3lIMcNg1po5lng3pnnnyYdJMYY0+IXt1w8G/i9xxCnYb7w+uqyWbWpeu/lH9kxFJEhVSSCygnFOj0MXsHTET4ZrNaMBocxBL7jBMhvfE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SrG2XzhG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774280067; c=relaxed/simple;
+	bh=n0OfPa6XKPPW4xxeWqXI4dBpUup5U5cxwTjA1PXZeEw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=JLxCwZUWSAPE+LAGX8iunliij9SZoENdDaZK3hVKCkXmvWkuchbVQ709prIYe/U0woCZ7AFkDOZwkf2n9/Yh+ZqtKza6gmGYgpKi4sK3sJKwjNTnmE0C6/85BL5s6mbWZg99xWYcLFbeRWSdSQVBkNJt4rnsmtMFctAV/QAlj8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=krisman.be; spf=pass smtp.mailfrom=krisman.be; dkim=pass (2048-bit key) header.d=krisman.be header.i=@krisman.be header.b=h5z77d6C; arc=none smtp.client-ip=217.70.178.249
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=krisman.be
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=krisman.be
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SrG2XzhG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30BB3C4CEF7;
-	Mon, 23 Mar 2026 15:28:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774279731;
-	bh=uKxhkwNLQ1A6zwshl17eoxhqYldXen4HDfeimtnqolw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=SrG2XzhGCXO0jUc79sDAIaXw18YG8XtYZClqLqb7u0nvyZ0hZ6kBjDzWNesVxEOBV
-	 8EqwhoysAWLLqQpCM1+v2+RZLpklIt8r1+abuvOQPHVsq8d58ekiVEa0V+2ys3jOqi
-	 xAgAqumpoaYzq12fPMd+yRbLZMrGxdBUDImcCtBefNmfy9vRA43z38DK4Ou4xGFzGL
-	 lOyTv97zBumxHsf5q6yeYjSBZPuyj92g83S3kKQvvBoElh0W+RqfNw+YI9SjkYknB4
-	 +0Z/ee/7ASCbOOZTlysWEhTAZwGG1OWYdLWEMh/W+302eJTUA+5nGtVxkiWi1xHuHV
-	 prSi57Zd99QGg==
-Message-ID: <f2f7fff3-2f6a-4ebb-aa5e-33188be4dd9a@kernel.org>
-Date: Mon, 23 Mar 2026 11:28:49 -0400
+	dkim=pass (2048-bit key) header.d=krisman.be header.i=@krisman.be header.b="h5z77d6C"
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+	by mslow3.mail.gandi.net (Postfix) with ESMTP id 4791B581A42;
+	Mon, 23 Mar 2026 15:32:05 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 8CE4A1F415;
+	Mon, 23 Mar 2026 15:31:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=krisman.be; s=gm1;
+	t=1774279917;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KvEygMjKlE9khPDZV/a6EKUj3mrgVB74aNNJgjEbDQA=;
+	b=h5z77d6CE1hpptJYsgjE9EC8c7R5zAtEUNaRJXv/eS51uFDf0Zvq0exULbCaJY/4XeZjPV
+	lBsGPsHuh9RSx8qvwFyY/rqNGrgdxFUdCZYkBy2+RqXbkXTgzSzswgiMtY3dvqvEqSoWaA
+	JNdpJa/v31iHjICtgKfh+J0vZQjoOWdOB+qYAkG6zUCYVLmr1soFvGks/V1YPXr2ClY9/t
+	TD1zlG9yZbHlZNNqYqRh5bm7FIrdw3lMLkrGt4iPYthYi+Uq7BSmmERLSEnJRVf6FcKcnH
+	VG4qyF0uyyBQy7bf+732D8ykSRdQHYbVFxy5fUPR5GZPaK+uG0MoWKAloA6L2A==
+From: Gabriel Krisman Bertazi <gabriel@krisman.be>
+To: Joseph Salisbury <joseph.salisbury@oracle.com>
+Cc: linux-fsdevel@vger.kernel.org,  linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] unicode: utf8-norm: fix comment typo
+In-Reply-To: <20260316184935.163597-1-joseph.salisbury@oracle.com> (Joseph
+	Salisbury's message of "Mon, 16 Mar 2026 14:49:35 -0400")
+References: <20260316184935.163597-1-joseph.salisbury@oracle.com>
+Date: Mon, 23 Mar 2026 11:31:54 -0400
+Message-ID: <87ldfisgt1.fsf@mailhost.krisman.be>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/5] workqueue: Introduce a sharded cache affinity
- scope
-To: Breno Leitao <leitao@debian.org>
-Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>,
- Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
- puranjay@kernel.org, linux-crypto@vger.kernel.org,
- linux-btrfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- Michael van der Westhuizen <rmikey@meta.com>, kernel-team@meta.com,
- Chuck Lever <chuck.lever@oracle.com>
-References: <20260320-workqueue_sharded-v2-0-8372930931af@debian.org>
- <04af531d-d8a3-4fbb-993d-e1da2df62a03@app.fastmail.com>
- <acFVEr7iVnU_70yh@gmail.com>
-Content-Language: en-US
-From: Chuck Lever <cel@kernel.org>
-Organization: kernel.org
-In-Reply-To: <acFVEr7iVnU_70yh@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-GND-Sasl: gabriel@krisman.be
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdefudeltdekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvfevufgjfhffkfgfgggtsehttdertddtredtnecuhfhrohhmpefirggsrhhivghlucfmrhhishhmrghnuceuvghrthgriihiuceoghgrsghrihgvlheskhhrihhsmhgrnhdrsggvqeenucggtffrrghtthgvrhhnpeffgfevieeuvdfgudeviedvjeevfedvkedvgffhhffhfeethedvveefhfeuudfgteenucfkphepuddtjedrudejuddrudeftddrvdefvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedutdejrddujedurddufedtrddvfedvpdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehgrggsrhhivghlsehkrhhishhmrghnrdgsvgdpqhhiugepkeevgfegteduhfegudehpdhmohguvgepshhmthhpohhuthdpnhgspghrtghpthhtohepfedprhgtphhtthhopehjohhsvghphhdrshgrlhhishgsuhhrhiesohhrrggtlhgvrdgtohhmpdhrtghpthhtoheplhhinhhugidqfhhsuggvvhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
 
-On 3/23/26 11:10 AM, Breno Leitao wrote:
-> Hello Chuck,
-> 
-> On Mon, Mar 23, 2026 at 10:11:07AM -0400, Chuck Lever wrote:
->> On Fri, Mar 20, 2026, at 1:56 PM, Breno Leitao wrote:
->>> TL;DR: Some modern processors have many CPUs per LLC (L3 cache), and
->>> unbound workqueues using the default affinity (WQ_AFFN_CACHE) collapse
->>> to a single worker pool, causing heavy spinlock (pool->lock) contention.
->>> Create a new affinity (WQ_AFFN_CACHE_SHARD) that caps each pool at
->>> wq_cache_shard_size CPUs (default 8).
->>>
->>> Changes from RFC:
->>>
->>> * wq_cache_shard_size is in terms of cores (not vCPU). So,
->>>   wq_cache_shard_size=8 means the pool will have 8 cores and their siblings,
->>>   like 16 threads/CPUs if SMT=1
->>
->> My concern about the "cores per shard" approach is that it
->> improves the default situation for moderately-sized machines
->> little or not at all.
->>
->> A machine with one L3 and 10 cores will go from 1 UNBOUND
->> pool to only 2. For virtual machines commonly deployed as
->> cloud instances, which are 2, 4, or 8 core systems (up to
->> 16 threads) there will still be significant contention for
->> UNBOUND workers.
-> 
-> Could you clarify your concern? Are you suggesting the default value of
-> wq_cache_shard_size=8 is too high, or that the cores-per-shard approach
-> fundamentally doesn't scale well for moderately-sized systems?
-> 
-> Any approach—whether sharding by cores or by LLC—ultimately relies on
-> heuristics that may need tuning for specific workloads. The key difference
-> is where we draw the line. The current default of 8 cores prevents the
-> worst-case scenario: severe lock contention on large systems with 16+ CPUs
-> all hammering a single unbound workqueue.
+Joseph Salisbury <joseph.salisbury@oracle.com> writes:
 
-An 8-core machine with 16 threads can handle quite a bit of I/O, but
-with the proposed scheme it will still have a single UNBOUND pool.
-For NFS workloads I commonly benchmark, splitting the UNBOUND pool
-on such systems is a very clear win.
+> The file contains a spelling error in a source comment (succes).
+>
+> Typos in comments reduce readability and make text searches less reliable
+> for developers and maintainers.
+>
+> Replace 'succes' with 'success' in the affected comment. This is a
+> comment-only cleanup and does not change behavior.
 
+These typo-only fixes are way more of an annoyance when backporting real
+fixes than adding any real value. Somehow I doubt fixing a single typo
+makes the code more readable.
 
-> For smaller systems (2-4 CPUs), contention is usually negligible
-> regardless of the approach. My perf lock contention measurements
-> consistently show minimal contention in that range.
-> 
->> IOW, if you want good scaling, human intervention (via a
->> boot command-line option) is still needed.
-> 
-> I am not convinced. The wq_cache_shard_size approach creates multiple
-> pools on large systems while leaving small systems (<8 cores) unchanged.
+But at least, can you make this a single patch with all the fixes to
+fs/unicode/ instead of one patch per typo?
 
-This is exactly my concern. Smaller systems /do/ experience measurable
-contention in this area. I don't object to your series at all, it's
-clean and well-motivated; but the cores-per-shard approach doesn't scale
-down to very commonly deployed machine sizes.
+> Fixes: 44594c2fbf42 ("unicode: introduce code for UTF-8 normalization")
+> Cc: stable@vger.kernel.org
 
-We might also argue that the NFS client and other subsystems that make
-significant use of UNBOUND workqueues in their I/O paths might be well
-advised to modify their approach. (net/sunrpc/sched.c, hint hint)
+Please remove this.
 
-
-> This eliminates the pathological lock contention we're observing on
-> high-core-count machines without impacting smaller deployments.
-> 
-> In contrast, splitting pools per LLC would force fragmentation even on
-> systems that aren't experiencing contention, increasing the need for
-> manual tuning across a wider range of configurations.
-
-I claim that smaller deployments also need help. Further, I don't see
-how UNBOUND pool fragmentation is a problem on such systems that needs
-to be addressed (IMHO).
-
+> Signed-off-by: Joseph Salisbury <joseph.salisbury@oracle.com>
+> ---
+>  fs/unicode/utf8-norm.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/fs/unicode/utf8-norm.c b/fs/unicode/utf8-norm.c
+> index 7b998c99c88d..41e884569dbe 100644
+> --- a/fs/unicode/utf8-norm.c
+> +++ b/fs/unicode/utf8-norm.c
+> @@ -444,7 +444,7 @@ int utf8ncursor(struct utf8cursor *u8c, const struct unicode_map *um,
+>  /*
+>   * Get one byte from the normalized form of the string described by u8c.
+>   *
+> - * Returns the byte cast to an unsigned char on succes, and -1 on failure.
+> + * Returns the byte cast to an unsigned char on success, and -1 on failure.
+>   *
+>   * The cursor keeps track of the location in the string in u8c->s.
+>   * When a character is decomposed, the current location is stored in
 
 -- 
-Chuck Lever
+Gabriel Krisman Bertazi
