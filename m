@@ -1,141 +1,233 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A52D31DDBB
-	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Mar 2026 11:53:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 141D839A051;
+	Mon, 23 Mar 2026 11:55:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774266813; cv=none; b=JzRK+cIbgDVTKYwnIbJYj09k9aSxHNiUvfsaNyjAH06KPXS4vGrEeb9D4fu3r9T0pIuoAxn8hgEbzC+qiFLBVHO1YeZJ+iBIWtfBSyq+DwAsyJdcK3P1P/pLnm8++5qaiqDkq8U/tpPy5BNd0mDYued2QjW/VxMlZJ7O/J+CT9w=
+	t=1774266925; cv=none; b=H6BTmSytG/TZMSJFMm9d0KV/tqkvcoDZBKf1Ro6U66HjRD3CcIdJbsJ47c9m8ltlkmYYEW0Odxvegfv/5jUmxce2Lg0CCsoYOlaeU7957sfwe6R1FtIhfbshIuuW9bKOZhAuOWXchxIRdSqKJ3CKpqZKHQ06OrPo4PdBimr65oQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774266813; c=relaxed/simple;
-	bh=Sw8hA4e3ZZgQsukex7U4jKomlzJVDXuv6aVtGWUUE6o=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gy8tdHUxlPTbAXFyaDvLNRoV2ieOS6yk4UXSIdhA1ZRPt0KgiBRfeLqBRGV6EpQPoZJ9zlYOUkuHU3NP9XO/h8LqHTGouXO0VCsHOmqd+IAlGtNOqhDUJ1DzyHv9dN8IM+Er5jda7tij0k9SfS3rNvJ6MKcqvqJ50tygN/i7n6Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xI1lhwF3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2e3rBedk; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xI1lhwF3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2e3rBedk; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1774266925; c=relaxed/simple;
+	bh=bahApTubTticio0sVoZJb/hsbDwoUtqdY4Hts04ODXU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fhLyflS/qBq8ZghIVaQ4bDLqyuu7RlDHsY5LH3KybfFbHGuFiBg+2PJGyeAsuxDVPSU6htxRYHm+y/XviVED1CFzJjU3d/BDY3jaEtuFOP/ZveTS88Uqg3jfqJIUw8skpcByy2qUrPR7WnnpRzL30J/dhlla81XfG0G+l+XgYlM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P2CHj8I3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xI1lhwF3";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2e3rBedk";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xI1lhwF3";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2e3rBedk"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 48D204D35D;
-	Mon, 23 Mar 2026 11:53:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1774266810; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gXGaihqXytrJ9WkHpryF5MgJ8abxpA4+Hp3A8/tYqpU=;
-	b=xI1lhwF376lmpkwQKwjmOf+nsQsdBcWoLo8Cy65au3uCIk9GoSyesfUEMvQCct/5aaAVjJ
-	cLO9sSqTIzkxNWWSD2cETsSh8H7zk2JPZ4pMhb1OUJ/R2cYxNOP1U9UtL+9oMWybAGlwBg
-	ty3UuDn3o6EVkQjisxUO+//s6jFZQkU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1774266810;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gXGaihqXytrJ9WkHpryF5MgJ8abxpA4+Hp3A8/tYqpU=;
-	b=2e3rBedkTQligIOKtFhvzXiSEQ7pOC3wKOUAS6UBHvJxfDFHhGKmLTck57wSJLCVVE8SHJ
-	J5MOuHFYoDrcvxCw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1774266810; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gXGaihqXytrJ9WkHpryF5MgJ8abxpA4+Hp3A8/tYqpU=;
-	b=xI1lhwF376lmpkwQKwjmOf+nsQsdBcWoLo8Cy65au3uCIk9GoSyesfUEMvQCct/5aaAVjJ
-	cLO9sSqTIzkxNWWSD2cETsSh8H7zk2JPZ4pMhb1OUJ/R2cYxNOP1U9UtL+9oMWybAGlwBg
-	ty3UuDn3o6EVkQjisxUO+//s6jFZQkU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1774266810;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gXGaihqXytrJ9WkHpryF5MgJ8abxpA4+Hp3A8/tYqpU=;
-	b=2e3rBedkTQligIOKtFhvzXiSEQ7pOC3wKOUAS6UBHvJxfDFHhGKmLTck57wSJLCVVE8SHJ
-	J5MOuHFYoDrcvxCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8D99C4386D;
-	Mon, 23 Mar 2026 11:53:28 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id rerLEbgpwWkneAAAD6G6ig
-	(envelope-from <ddiss@suse.de>); Mon, 23 Mar 2026 11:53:28 +0000
-Date: Mon, 23 Mar 2026 22:53:18 +1100
-From: David Disseldorp <ddiss@suse.de>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Christian Brauner <brauner@kernel.org>, Al Viro
- <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v2 0/8] SQUASH: test and improve cpio hex header
- validation
-Message-ID: <20260323225318.062bec14.ddiss@suse.de>
-In-Reply-To: <20260121172749.32322-1-ddiss@suse.de>
-References: <20260121172749.32322-1-ddiss@suse.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P2CHj8I3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A836EC2BC87;
+	Mon, 23 Mar 2026 11:55:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774266924;
+	bh=bahApTubTticio0sVoZJb/hsbDwoUtqdY4Hts04ODXU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=P2CHj8I3muInS7y71I3yS3gwqHMY0uIqERIm59nw/er97JTRza3uuynKvKtF+r5n5
+	 VeGTzHoWdLBnhGtbi9efO9UV9ybgiBKN/AAk1Vp6lMmaRSEq/ZL2D9MTLH4g2gQ2hh
+	 u+F0glNrLepJJI2DxEHhbSGb7FxJUsxXqrGgpygPv+TrbKGhyX2q1T13l3a6zTWC0i
+	 GTuiU4JXVmwTjYKPz2ZONnAPZ+i2mWvxhiAIaDWKA/02eCcuD5k7MPvXPQw587uTG3
+	 WxMrKveh4d37l48vppTcTSgJseXXSnvOFc+Vn7rQu+sRHekx5M43mQOPnX1fDandM7
+	 sL5WLjVHl6uxg==
+Date: Mon, 23 Mar 2026 12:55:18 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: linux-kselftest@vger.kernel.org, rppt@kernel.org, jack@suse.cz, 
+	shuah@kernel.org, linux-fsdevel@vger.kernel.org, akpm@linux-foundation.org, 
+	linux-mm@kvack.org, viro@zeniv.linux.org.uk, linux-kernel@vger.kernel.org, 
+	dmatlack@google.com, pratyush@kernel.org, skhawaja@google.com
+Subject: Re: [PATCH 1/2] liveupdate: prevent double management of files
+Message-ID: <20260323-leibhaftig-blasinstrument-58ec408b3c40@brauner>
+References: <20260321175808.57942-1-pasha.tatashin@soleen.com>
+ <20260321175808.57942-2-pasha.tatashin@soleen.com>
+ <CA+CK2bD2aNu-NByET4KkBP0n2j8WQE2zjxb4g-1cv2hYfjaRZQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	URIBL_BLOCKED(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spam-Level: 
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+CK2bD2aNu-NByET4KkBP0n2j8WQE2zjxb4g-1cv2hYfjaRZQ@mail.gmail.com>
 
-Hi Andy,
-
-On Thu, 22 Jan 2026 04:12:48 +1100, David Disseldorp wrote:
-
-> This patchset is a combination of my
-> https://lore.kernel.org/linux-fsdevel/20260120204715.14529-1-ddiss@suse.de/
-> and Andy's
-> https://lore.kernel.org/linux-fsdevel/20260119204151.1447503-1-andriy.shevchenko@linux.intel.com/
-> patchsets.
+On Sat, Mar 21, 2026 at 09:04:53PM -0400, Pasha Tatashin wrote:
+> On Sat, Mar 21, 2026 at 1:58 PM Pasha Tatashin
+> <pasha.tatashin@soleen.com> wrote:
+> >
+> > Currently, LUO does not prevent the same file from being managed twice
+> > across different active sessions.
+> >
+> > Add a new i_state flag I_LUO_MANAGED and update luo_preserve_file()
+> > to check and set this flag when a file is preserved, and clear it in
+> > luo_file_unpreserve_files() when it is released.
+> >
+> > Additionally, set this flag in luo_retrieve_file() after a file is
+> > successfully restored in the new kernel, and clear it in
+> > luo_file_finish() when the LUO session is finalized.
+> >
+> > This ensures that the same file (inode) cannot be managed by multiple
+> > sessions. If another session attempts to preserve an already managed
+> > file, it will now fail with -EBUSY.
+> >
+> > Acked-by: Pratyush Yadav (Google) <pratyush@kernel.org>
+> > Acked-by: Jan Kara <jack@suse.cz>
+> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> > ---
+> >  include/linux/fs.h           |  5 ++++-
+> >  kernel/liveupdate/luo_file.c | 27 ++++++++++++++++++++++++---
+> >  2 files changed, 28 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/include/linux/fs.h b/include/linux/fs.h
+> > index 23f36a2613a3..692a8be56f3c 100644
+> > --- a/include/linux/fs.h
+> > +++ b/include/linux/fs.h
+> > @@ -712,6 +712,8 @@ is_uncached_acl(struct posix_acl *acl)
+> >   * I_LRU_ISOLATING     Inode is pinned being isolated from LRU without holding
+> >   *                     i_count.
+> >   *
+> > + * I_LUO_MANAGED       Inode is being managed by a live update session.
+> > + *
+> >   * Q: What is the difference between I_WILL_FREE and I_FREEING?
+> >   *
+> >   * __I_{SYNC,NEW,LRU_ISOLATING} are used to derive unique addresses to wait
+> > @@ -744,7 +746,8 @@ enum inode_state_flags_enum {
+> >         I_CREATING              = (1U << 15),
+> >         I_DONTCACHE             = (1U << 16),
+> >         I_SYNC_QUEUED           = (1U << 17),
+> > -       I_PINNING_NETFS_WB      = (1U << 18)
+> > +       I_PINNING_NETFS_WB      = (1U << 18),
+> > +       I_LUO_MANAGED           = (1U << 19),
+> >  };
+> >
+> >  #define I_DIRTY_INODE (I_DIRTY_SYNC | I_DIRTY_DATASYNC)
+> > diff --git a/kernel/liveupdate/luo_file.c b/kernel/liveupdate/luo_file.c
+> > index 5acee4174bf0..86911beeff71 100644
+> > --- a/kernel/liveupdate/luo_file.c
+> > +++ b/kernel/liveupdate/luo_file.c
+> > @@ -248,6 +248,7 @@ static bool luo_token_is_used(struct luo_file_set *file_set, u64 token)
+> >   * Context: Can be called from an ioctl handler during normal system operation.
+> >   * Return: 0 on success. Returns a negative errno on failure:
+> >   *         -EEXIST if the token is already used.
+> > + *         -EBUSY if the file descriptor is already preserved by another session.
+> >   *         -EBADF if the file descriptor is invalid.
+> >   *         -ENOSPC if the file_set is full.
+> >   *         -ENOENT if no compatible handler is found.
+> > @@ -276,6 +277,14 @@ int luo_preserve_file(struct luo_file_set *file_set, u64 token, int fd)
+> >         if (err)
+> >                 goto  err_fput;
+> >
+> > +       scoped_guard(spinlock, &file_inode(file)->i_lock) {
+> > +               if (inode_state_read(file_inode(file)) & I_LUO_MANAGED) {
+> > +                       err = -EBUSY;
+> > +                       goto err_free_files_mem;
+> > +               }
+> > +               inode_state_set(file_inode(file), I_LUO_MANAGED);
+> > +       }
+> > +
+> >         err = -ENOENT;
+> >         list_private_for_each_entry(fh, &luo_file_handler_list, list) {
+> >                 if (fh->ops->can_preserve(fh, file)) {
+> > @@ -286,11 +295,11 @@ int luo_preserve_file(struct luo_file_set *file_set, u64 token, int fd)
+> >
+> >         /* err is still -ENOENT if no handler was found */
+> >         if (err)
+> > -               goto err_free_files_mem;
+> > +               goto err_unpreserve_inode;
+> >
+> >         err = luo_flb_file_preserve(fh);
+> >         if (err)
+> > -               goto err_free_files_mem;
+> > +               goto err_unpreserve_inode;
+> >
+> >         luo_file = kzalloc_obj(*luo_file);
+> >         if (!luo_file) {
+> > @@ -320,6 +329,9 @@ int luo_preserve_file(struct luo_file_set *file_set, u64 token, int fd)
+> >         kfree(luo_file);
+> >  err_flb_unpreserve:
+> >         luo_flb_file_unpreserve(fh);
+> > +err_unpreserve_inode:
+> > +       scoped_guard(spinlock, &file_inode(file)->i_lock)
+> > +               inode_state_clear(file_inode(file), I_LUO_MANAGED);
+> >  err_free_files_mem:
+> >         luo_free_files_mem(file_set);
+> >  err_fput:
+> > @@ -363,6 +375,9 @@ void luo_file_unpreserve_files(struct luo_file_set *file_set)
+> >                 luo_file->fh->ops->unpreserve(&args);
+> >                 luo_flb_file_unpreserve(luo_file->fh);
+> >
+> > +               scoped_guard(spinlock, &file_inode(luo_file->file)->i_lock)
+> > +                       inode_state_clear(file_inode(luo_file->file), I_LUO_MANAGED);
+> > +
+> >                 list_del(&luo_file->list);
+> >                 file_set->count--;
+> >
+> > @@ -609,6 +624,9 @@ int luo_retrieve_file(struct luo_file_set *file_set, u64 token,
+> >         *filep = luo_file->file;
+> >         luo_file->retrieve_status = 1;
+> >
+> > +       scoped_guard(spinlock, &file_inode(luo_file->file)->i_lock)
+> > +               inode_state_set(file_inode(luo_file->file), I_LUO_MANAGED);
+> > +
+> >         return 0;
+> >  }
+> >
+> > @@ -701,8 +719,11 @@ int luo_file_finish(struct luo_file_set *file_set)
+> >
+> >                 luo_file_finish_one(file_set, luo_file);
+> >
+> > -               if (luo_file->file)
+> > +               if (luo_file->file) {
+> > +                       scoped_guard(spinlock, &file_inode(luo_file->file)->i_lock)
+> > +                               inode_state_clear(file_inode(luo_file->file), I_LUO_MANAGED);
+> >                         fput(luo_file->file);
+> > +               }
+> >                 list_del(&luo_file->list);
+> >                 file_set->count--;
+> >                 mutex_destroy(&luo_file->mutex);
+> > --
+> > 2.43.0
+> >
 > 
-> The reason for combining them is so that a the initramfs_test case can
-> track the user-facing change in header parsing behaviour for cpio
-> fields that carry a "0x" hex prefix.
+> > Sashiko: https://sashiko.dev/#/patchset/20260321175808.57942-1-pasha.tatashin@soleen.com
 > 
-> @Andy: please feel free to squash the two SQUASH flagged patches into
-> your 4/8 hex2bin() patch.
+> Sashiko reported two problems:
+> 
+> 1. Are there any issues with mixing goto-based error handling and scope-based
+> cleanups like scoped_guard() in the same function?
+> 
+> Initially, I thought that there should not be any problems, however,
+> after looking this up  I found in include/linux/cleanup.h the
+> following comment:
+> 
+>  * Lastly, given that the benefit of cleanup helpers is removal of
+>  * "goto", and that the "goto" statement can jump between scopes, the
+>  * expectation is that usage of "goto" and cleanup helpers is never
+>  * mixed in the same function.
 
-It seems this series stalled. Did you have any thoughts on the SQUASH
-flagged patches? I think it makes sense to go ahead with your hex2bin
-changes. I can split the initramfs_test changes out into a separate
-series again if you'd prefer.
+There's a compile-time switch you might want to turn on when
+test-compiling code like this. I forget exactly what it is. Something
+like jump-over-uninit or something.
 
-Thanks, David
+> 
+> Well, good to know, will not use goto inside scoped_guards.
+> 
+> 2. Additionally, does setting I_LUO_MANAGED on the inode break the preservation
+> of anonymous inodes? Many file types (like eventfd, epoll, timerfd,
+> signalfd)
+> 
+> This is actually a very good point. It looks like everyone who uses
+> anon_inode_getfd() has one shared inode. This is not a problem for the
+> existing LUO user memfd, or for the upcoming vfiofd and memfd, but
+> kvm-vmfd and kvm-cpufd also use it, and that might be a problem in the
+> future once we add support for Orphaned VMs.
+> 
+> Therefore, we have two choices: either use a hash table, which adds
+> performance and memory overhead, or delegate this double-check to the
+> LUO file handlers, as they can use a private context to know if the FD
+> is already preserved.
+
+So, I'm not happy about I_LUO_MANAGED. I don't think we need driver
+specific stuff in struct inode and not in i_state. Track this in the
+driver please. I don't want this precedent and I'd rather have you get
+used to implementing such things in the driver right away rather than
+offloading this on general infrastructure. If we let this slide struct
+inode will be 2MB 1 in year.
