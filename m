@@ -1,298 +1,142 @@
-Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59EE23AF672
-	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 18:40:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0774F352921
+	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 19:03:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774377643; cv=none; b=f266ci6/gKHdt6aIAx7HSNu/2tkJP92ja5SLQL3JBpPNxilGpsxtQbnvMNUW6zoWbDk3/UDBIEvjwo8kr7qoIzO1lAMcF4BJY1zQA6tAamqdoDFpGUyvpnt0+FTHG5NufjVh777EzQje1TSULDzI5VgJ5gftEwcgM7LCexint4Q=
+	t=1774378996; cv=none; b=SUYtrE94P3seRXyVjtCI9bOFvIXXyl6IGUCiIoaAvFV7mrTxslE2sADAk75nE3jfff1N/q6A0qR8rIJP24GNWWoKUGOUO/rkVhSjoJK04HwuITefZlW1U5uX5Rcq3t44UNn70uop9aC0IQHhI/72TcTddCzoCTVMhd34U6Soc0A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774377643; c=relaxed/simple;
-	bh=aOS0IiAC3fYu7ZpIOq/knBZeoIL/OzGKhqYozxNMBf4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XusFIfjdpcc5Dl9rbLyn+/VpxD5uZePqj/QWOZK/KUEJ4ofOKqLI/GVX//66fLrapRZZZ5+AOhPwfXcnzwnkr22UmjLNMkCu28VYO/Wsrohwsw1DDPHsDkwHyY+HCn9/zMZuPUOTHN8qbebkfDrh+ryIjuMlM/mD7kOnr7VMXDw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=UfD1TvGn; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=UlAsebuh; arc=none smtp.client-ip=103.168.172.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	s=arc-20240116; t=1774378996; c=relaxed/simple;
+	bh=8ERkArUkKAJMAJlGeP18u5PgNVycSZvsdsG8KYtB5t8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jXOO76C6btUVyT87IJbHOQ0ik8M4vppAB8Mktrr5QKxHKEUjHgT2Pj/qdq2aAxQjSY9CvA4zoskvBjOixeyhQA0SJ6TODL+0/Y9ZBAMmdbogYN24dSp9HP0COyP6qkm/t3AUxzyU4zJjDnXCFJTcjL7zyoE+Fev8k91XF1iyopk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=trXb3kjA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="UfD1TvGn";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="UlAsebuh"
-Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 622211400199;
-	Tue, 24 Mar 2026 14:40:39 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-12.internal (MEProxy); Tue, 24 Mar 2026 14:40:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1774377639;
-	 x=1774464039; bh=uv0+42t2/Xnzecz/cTXsGI9LebhPgA618JghLmlsRKo=; b=
-	UfD1TvGnbH20zPUrnyTx/4n3PnORlINuSeN77YXXGYk1ENnIUQxay/B+r15CMl1P
-	oXVc3lqVVx1GgizvW2gjuTTYI0zTsXu1o/uGAgkfOUQCo11Jh2KMIkWUIJCav8f7
-	zX+R+qxs4GktXYgSluNEq2CD5scG79+6ba7aH7cFdtjJNqjr8UUnX6IoQPza1GRq
-	aTiqMSTSaCuc+feGJyVvgWWzatkQAUbFnLtJXMqPzNqfRC02V9EJ+vLI83Q9iD+/
-	7yi4V8qoHtLR1t6CLduaG3WZWqWUMKVdY0O5uS5BWS5Za8UQIS372frWV78hhE1x
-	mXpTHKjDgPxc/RDh6kYSkw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1774377639; x=
-	1774464039; bh=uv0+42t2/Xnzecz/cTXsGI9LebhPgA618JghLmlsRKo=; b=U
-	lAsebuh2q/WfAYowkIvPkVmVkR0j0lrGyQruHuHlMiZDvHMFd0nuHzfFqYcWSWNw
-	ZkLCkdGqHnKkkXEWl0tCpSJyVgtoX4OCGPLVLAMKqXuLhYDhOKeTo9472TvXsf9L
-	v7sBwSkWcOJIPB2amac5HaWr2o5TdlIoTD4S/NSg2v2uCKwlzMxWcHuI4/6mxcOY
-	JSYqUKrVzgq5Ll5ylmb+tNgRjHCLGYrD6efH4413uIgdx86ZniGb5lpdEOJxwY79
-	iHRG3Z6XLTSMEoXFhnYFloHbuJOSwAWk/VCDZeHyFh6ljQo4Po/1qcrsSB7KQz4e
-	Fqe5rm9qdbUFKyokBMeKw==
-X-ME-Sender: <xms:p9rCacVGKtaCvk2F_G6arPBro969BgUryTGCJ3kgDSa7jf_AZTOCiQ>
-    <xme:p9rCaXcGXloQRltydtOtBLiGRmMDVxQ3FZd3L5gCoiBD2_Jq5gE6u-Vr_xRWikr6e
-    e9pdiWFBx3_bEyt5RqEDpaJDvbsYKQmrPrXDPfoaaHtkPcLog08>
-X-ME-Received: <xmr:p9rCaYs9nr7xbBqK-tfMTZlR5J_3yfdCPWoqZwU-DF_HY2uOyg_6gBQtedenHvKRfA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdefvddvfeefucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
-    ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
-    htthgvrhhnpeehhfejueejleehtdehteefvdfgtdelffeuudejhfehgedufedvhfehueev
-    udeugeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    gsvghrnhgusegsshgsvghrnhgurdgtohhmpdhnsggprhgtphhtthhopeehpdhmohguvgep
-    shhmthhpohhuthdprhgtphhtthhopegujhifohhngheskhgvrhhnvghlrdhorhhgpdhrtg
-    hpthhtoheplhhinhhugidqfhhsuggvvhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdp
-    rhgtphhtthhopehmihhklhhoshesshiivghrvgguihdrhhhupdhrtghpthhtohepjhhorg
-    hnnhgvlhhkohhonhhgsehgmhgrihhlrdgtohhmpdhrtghpthhtohepsghstghhuhgsvghr
-    thesuggunhdrtghomh
-X-ME-Proxy: <xmx:p9rCaW9AcCDOHVU-wjBBUkFCPSDGH5dA-0gUfab1DoPBzeREubtiaA>
-    <xmx:p9rCaT3mGIcRODBqBpbZ5DqkFvEseRwruBKXUjmHYMzNY09MM1R6dg>
-    <xmx:p9rCabAvrQ4ebI165-JQ0XwJ9_aYUyU66krX9aB1xmbiivMdakBizA>
-    <xmx:p9rCafe1DsW-CTs_QkzrgtWCUYG08k1OJjmxRd5q1-V2ILCQYRwQEg>
-    <xmx:p9rCaZMGl7j4FjmQwiGRcSVujdE6C7rSPWkWcWlbeT74QBmomftqYTE1>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 24 Mar 2026 14:40:38 -0400 (EDT)
-Message-ID: <44f05318-7f58-454f-a09d-2ba0a4523daf@bsbernd.com>
-Date: Tue, 24 Mar 2026 19:40:37 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="trXb3kjA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32EA3C2BCB2
+	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 19:03:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774378995;
+	bh=8ERkArUkKAJMAJlGeP18u5PgNVycSZvsdsG8KYtB5t8=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=trXb3kjAHLI67smIXDwwAf48RXbt+0nCdIkpi3H788qXY723neQjh0YgPKFYvJIm1
+	 8m+Qi0x7+ZYZ+j8uHWv4Pwuj41UI1OoGGOlXzac/EtNVqCbwDBg2TenOBSN0CjUzUW
+	 uRfCFut55vMk8wAEa2+r10jCxNCx/Ph/T3GpC26ah0s7U6N8q3g6elCfMTC/GqVFGE
+	 Hx5LEbi55a865esBlPBGVQDuhVy6wBi+4U9S3OkvLpCjRc2CpYLkPEqcnbUFWklkze
+	 CYKsXLgE5pkjR09Y1ziWls4GwsBm0SI6nANr2jkkwCHe8fArJRHbqhEgXzpqA8V7Lk
+	 zQfjKx2T2QbkQ==
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-8cfc1aced74so651844685a.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 12:03:15 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCW+u9IEx4WfMFX4gkap8RF+3Rz5mEpSuZHZP2Jw++spfp7605yrG6BLkFAU+ha/BxULIv5gc0V+0vf3dcM3@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyy6LCegfvIvDZpU5HpPdqLwPJaMiLJ8KAAMMkUW/IvmV5KMeVL
+	O0CV3Kru3EfIbe8YFk6hRv3+8KMquJdE6tCCRp5j9sbsR/QTS1lAaGV48zmR3cBVTw1yFG73oAY
+	NigLA4KcwOCcP10/KcjaQkIqG9gf8mIY=
+X-Received: by 2002:a05:6214:1316:b0:89c:5b90:3d7e with SMTP id
+ 6a1803df08f44-89cc4ad7e94mr14077846d6.36.1774378994278; Tue, 24 Mar 2026
+ 12:03:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 09/19] Move mount flags to mount_i.h
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, Miklos Szeredi <miklos@szeredi.hu>,
- Joanne Koong <joannelkoong@gmail.com>, Bernd Schubert <bschubert@ddn.com>
-References: <20260323-fuse-init-before-mount-v1-0-a52d3040af69@bsbernd.com>
- <20260323-fuse-init-before-mount-v1-9-a52d3040af69@bsbernd.com>
- <20260323224529.GK6202@frogsfrogsfrogs>
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: en-US
-In-Reply-To: <20260323224529.GK6202@frogsfrogsfrogs>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260318184400.3502908-1-song@kernel.org> <20260318184400.3502908-7-song@kernel.org>
+ <b720f521-e930-4f35-9505-1bfdf9e2818c@I-love.SAKURA.ne.jp>
+ <4DF5C4A8-7C92-4F76-9B34-2262089E7289@meta.com> <33abcf34-13e2-4a37-83f3-78bb27ecbc11@I-love.SAKURA.ne.jp>
+ <F0A0D13E-8208-49A4-9AC6-89AC4BF3F4FB@meta.com> <20260323-klappen-atemschutz-7a0af8c6b087@brauner>
+ <714a614b-cfb4-4b20-af8c-df3cc56dfb92@I-love.SAKURA.ne.jp>
+ <CAAeYb7k+TWArOKyOomkLZ8fwqUPjha9iORpJaj4nMyN=o4ZRQg@mail.gmail.com>
+ <6609e11e-90aa-4021-974e-e9937688dd49@I-love.SAKURA.ne.jp>
+ <CAPhsuW4G7vo-JZqenZ-sFHw9z02wZUJa1-+9U81U--vQhnfG_Q@mail.gmail.com> <6c298238-8d87-4c41-84a7-e0373d466a15@I-love.SAKURA.ne.jp>
+In-Reply-To: <6c298238-8d87-4c41-84a7-e0373d466a15@I-love.SAKURA.ne.jp>
+From: Song Liu <song@kernel.org>
+Date: Tue, 24 Mar 2026 12:03:02 -0700
+X-Gmail-Original-Message-ID: <CAPhsuW4E_BrF0ap5yg_6TbRAna=2Ajk2nuoT6WGwkS5cyyYB3w@mail.gmail.com>
+X-Gm-Features: AaiRm53BtyNmgu2U1A-lRqlHK3FKxeh66Hvb786qvSu1X2siuc6pnMMByLeZto4
+Message-ID: <CAPhsuW4E_BrF0ap5yg_6TbRAna=2Ajk2nuoT6WGwkS5cyyYB3w@mail.gmail.com>
+Subject: Re: [PATCH 6/7] tomoyo: Convert from sb_mount to granular mount hooks
+To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Cc: Song Liu <songliubraving@meta.com>, Christian Brauner <brauner@kernel.org>, 
+	"viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>, "paul@paul-moore.com" <paul@paul-moore.com>, 
+	"jmorris@namei.org" <jmorris@namei.org>, "serge@hallyn.com" <serge@hallyn.com>, "jack@suse.cz" <jack@suse.cz>, 
+	"john.johansen@canonical.com" <john.johansen@canonical.com>, 
+	"stephen.smalley.work@gmail.com" <stephen.smalley.work@gmail.com>, 
+	"omosnace@redhat.com" <omosnace@redhat.com>, "mic@digikod.net" <mic@digikod.net>, 
+	"gnoack@google.com" <gnoack@google.com>, "takedakn@nttdata.co.jp" <takedakn@nttdata.co.jp>, 
+	"herton@canonical.com" <herton@canonical.com>, Kernel Team <kernel-team@meta.com>, 
+	"selinux@vger.kernel.org" <selinux@vger.kernel.org>, 
+	"apparmor@lists.ubuntu.com" <apparmor@lists.ubuntu.com>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
+	"linux-security-module@vger.kernel.org" <linux-security-module@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, Mar 24, 2026 at 2:59=E2=80=AFAM Tetsuo Handa
+<penguin-kernel@i-love.sakura.ne.jp> wrote:
+>
+> On 2026/03/24 16:46, Song Liu wrote:
+> > On Mon, Mar 23, 2026 at 11:12=E2=80=AFPM Tetsuo Handa
+> > <penguin-kernel@i-love.sakura.ne.jp> wrote:
+> >>
+> >> On 2026/03/24 4:31, Song Liu wrote:
+> >>>> Then, how can LSM modules know that how the requested filesystem res=
+olves
+> >>>> the dev_name argument, without embedding filesystem specific resolut=
+ion
+> >>>> logic into individual LSM module?
+> >>>
+> >>> IIUC, if an LSM cares about the dev_name of a new mount, it will have=
+ to look
+> >>> into each individual filesystem. We can add a LSM hook for the filesy=
+stems to
+> >>> call. But this will require changes to individual filesystem code. OT=
+OH,
+> >>> dev_name can probably bridge the gap as we change filesystems.
+> >>>
+> >>> Would this work?
+> >>
+> >> I guess something like untested diff shown below would work.
+> >
+> > I think this doesn't work with erofs on file (requires
+> > CONFIG_EROFS_FS_BACKED_BY_FILE). erofs may not be the
+> > only one that has this problem.
+>
+> This is incomplete but I think this is better than now because currently
+> mount() operation likely fails with -ENOENT if the requested filesystem
+> does not interpret fc->source as a pathname despite tomoyo_mount_acl()
+> always interprets fc->source as a pathname when FS_REQUIRES_DEV is set.
 
+If I understand Christian correctly, the main challenge here is that
+FS_REQUIRES_DEV doesn't imply fc->source is the path of a device.
+Changing this assumption is a major change between VFS and many
+filesystems.
 
-On 3/23/26 23:45, Darrick J. Wong wrote:
-> On Mon, Mar 23, 2026 at 06:45:04PM +0100, Bernd Schubert wrote:
->> From: Bernd Schubert <bschubert@ddn.com>
->>
->> This is preparation work for the new mount API, which goes into
->> its own file.
->>
->> Signed-off-by: Bernd Schubert <bschubert@ddn.com>
->> ---
->>  lib/mount.c         | 59 ++++++++---------------------------------------------
->>  lib/mount_i_linux.h | 35 ++++++++++++++++++++++++++++++-
->>  2 files changed, 42 insertions(+), 52 deletions(-)
->>
->> diff --git a/lib/mount.c b/lib/mount.c
->> index fe353e2cc4579adb47473cac5db7d1bae2defb2c..b3ee9ba4c0a74c1d0d55f916e7046e064f8468b0 100644
->> --- a/lib/mount.c
->> +++ b/lib/mount.c
->> @@ -34,16 +34,6 @@
->>  #include "fuse_mount_compat.h"
->>  
->>  #ifdef __NetBSD__
-> 
-> Hopefully the rest of the bsd stuff can go in its own files too?
+I was thinking about something like:
 
-Just created another patch for that.
+diff --git i/fs/super.c w/fs/super.c
+index 378e81efe643..91ce3003bc23 100644
+--- i/fs/super.c
++++ w/fs/super.c
+@@ -1676,6 +1676,9 @@ int get_tree_bdev_flags(struct fs_context *fc,
+                        errorf(fc, "%s: Can't lookup blockdev", fc->source)=
+;
+                return error;
+        }
++       error =3D security_mount_dev(fc, dev);
++       if (error)
++               return error;
+        fc->sb_flags |=3D SB_NOSEC;
+        s =3D sget_dev(fc, dev);
+        if (IS_ERR(s))
 
-> 
->> -#include <perfuse.h>
->> -
->> -#define MS_RDONLY	MNT_RDONLY
->> -#define MS_NOSUID	MNT_NOSUID
->> -#define MS_NODEV	MNT_NODEV
->> -#define MS_NOEXEC	MNT_NOEXEC
->> -#define MS_SYNCHRONOUS	MNT_SYNCHRONOUS
->> -#define MS_NOATIME	MNT_NOATIME
->> -#define MS_NOSYMFOLLOW	MNT_NOSYMFOLLOW
->> -
->>  #define umount2(mnt, flags) unmount(mnt, (flags == 2) ? MNT_FORCE : 0)
->>  #endif
->>  
->> @@ -51,10 +41,6 @@
->>  #define FUSE_COMMFD_ENV		"_FUSE_COMMFD"
->>  #define FUSE_COMMFD2_ENV	"_FUSE_COMMFD2"
->>  
->> -#ifndef MS_DIRSYNC
->> -#define MS_DIRSYNC 128
->> -#endif
->> -
->>  enum {
->>  	KEY_KERN_FLAG,
->>  	KEY_KERN_OPT,
->> @@ -154,35 +140,6 @@ void fuse_mount_version(void)
->>  			 FUSERMOUNT_PROG);
->>  }
->>  
->> -struct mount_flags {
->> -	const char *opt;
->> -	unsigned long flag;
->> -	int on;
->> -};
->> -
->> -static const struct mount_flags mount_flags[] = {
->> -	{"rw",	    MS_RDONLY,	    0},
->> -	{"ro",	    MS_RDONLY,	    1},
->> -	{"suid",    MS_NOSUID,	    0},
->> -	{"nosuid",  MS_NOSUID,	    1},
->> -	{"dev",	    MS_NODEV,	    0},
->> -	{"nodev",   MS_NODEV,	    1},
->> -	{"exec",    MS_NOEXEC,	    0},
->> -	{"noexec",  MS_NOEXEC,	    1},
->> -	{"async",   MS_SYNCHRONOUS, 0},
->> -	{"sync",    MS_SYNCHRONOUS, 1},
->> -	{"noatime", MS_NOATIME,	    1},
->> -	{"nodiratime",	    MS_NODIRATIME,	1},
->> -	{"norelatime",	    MS_RELATIME,	0},
->> -	{"nostrictatime",   MS_STRICTATIME,	0},
->> -	{"symfollow",	    MS_NOSYMFOLLOW,	0},
->> -	{"nosymfollow",	    MS_NOSYMFOLLOW,	1},
->> -#ifndef __NetBSD__
->> -	{"dirsync", MS_DIRSYNC,	    1},
->> -#endif
->> -	{NULL,	    0,		    0}
->> -};
->> -
->>  unsigned int get_max_read(struct mount_opts *o)
->>  {
->>  	return o->max_read;
->> @@ -192,13 +149,13 @@ static void set_mount_flag(const char *s, int *flags)
->>  {
->>  	int i;
->>  
->> -	for (i = 0; mount_flags[i].opt != NULL; i++) {
->> -		const char *opt = mount_flags[i].opt;
->> +	for (i = 0; fuse_mount_flags[i].opt != NULL; i++) {
->> +		const char *opt = fuse_mount_flags[i].opt;
->>  		if (strcmp(opt, s) == 0) {
->> -			if (mount_flags[i].on)
->> -				*flags |= mount_flags[i].flag;
->> +			if (fuse_mount_flags[i].on)
->> +				*flags |= fuse_mount_flags[i].flag;
->>  			else
->> -				*flags &= ~mount_flags[i].flag;
->> +				*flags &= ~fuse_mount_flags[i].flag;
->>  			return;
->>  		}
->>  	}
->> @@ -645,9 +602,9 @@ static int get_mnt_flag_opts(char **mnt_optsp, int flags)
->>  	if (!(flags & MS_RDONLY) && fuse_opt_add_opt(mnt_optsp, "rw") == -1)
->>  		return -1;
->>  
->> -	for (i = 0; mount_flags[i].opt != NULL; i++) {
->> -		if (mount_flags[i].on && (flags & mount_flags[i].flag) &&
->> -		    fuse_opt_add_opt(mnt_optsp, mount_flags[i].opt) == -1)
->> +	for (i = 0; fuse_mount_flags[i].opt != NULL; i++) {
->> +		if (fuse_mount_flags[i].on && (flags & fuse_mount_flags[i].flag) &&
->> +		    fuse_opt_add_opt(mnt_optsp, fuse_mount_flags[i].opt) == -1)
->>  			return -1;
->>  	}
->>  	return 0;
->> diff --git a/lib/mount_i_linux.h b/lib/mount_i_linux.h
->> index abcd1b08012feedef6b4c8961b55ac847a27496a..c0de6228fce5a4d9070cc246ec76222b66de56fb 100644
->> --- a/lib/mount_i_linux.h
->> +++ b/lib/mount_i_linux.h
->> @@ -10,7 +10,8 @@
->>  #ifndef FUSE_MOUNT_I_H_
->>  #define FUSE_MOUNT_I_H_
->>  
->> -/* Forward declaration for fuse_args */
->> +#include <sys/mount.h>
->> +
->>  struct fuse_args;
->>  
->>  /* Mount options structure */
->> @@ -28,5 +29,37 @@ struct mount_opts {
->>  	unsigned int max_read;
->>  };
->>  
->> +/* Mount flags mapping structure */
->> +struct mount_flags {
->> +	const char *opt;
->> +	unsigned long flag;
->> +	int on;
->> +};
->> +
->> +/* Mount flags table */
->> +static const struct mount_flags fuse_mount_flags[] = {
-> 
-> Hmmm, doesn't this create a fuse_mount_flags[] in every single .o file
-> that #includes this header?  I'd have thought you'd want an extern
-> declaration here and a definition elsewhere?
+This allows the LSMs to monitor the dev being mounted in a new mount.
+If a filesystem doesn't use get_tree_bdev*(), we will need something else
+to cover this specific filesystem. I am not sure whether this is acceptable
+for VFS and LSM, specifically tomoyo and apparmor.
 
-Uh oh, thanks for spotting that. Fixed.
-
-> 
->> +	{"rw",			MS_RDONLY,      0},
->> +	{"ro",			MS_RDONLY,      1},
->> +	{"suid",		MS_NOSUID,      0},
->> +	{"nosuid",		MS_NOSUID,      1},
->> +	{"dev",			MS_NODEV,       0},
->> +	{"nodev",		MS_NODEV,       1},
->> +	{"exec",		MS_NOEXEC,      0},
->> +	{"noexec",		MS_NOEXEC,      1},
->> +	{"async",		MS_SYNCHRONOUS, 0},
->> +	{"sync",		MS_SYNCHRONOUS, 1},
->> +	{"noatime",		MS_NOATIME,     1},
->> +	{"nodiratime",		MS_NODIRATIME,  1},
->> +	{"norelatime",		MS_RELATIME,    0},
->> +	{"nostrictatime",	MS_STRICTATIME, 0},
->> +	{"symfollow",		MS_NOSYMFOLLOW, 0},
->> +	{"nosymfollow",		MS_NOSYMFOLLOW, 1},
->> +#ifndef __NetBSD__
-> 
-> When would we have __NetBSD__ defined on a Linux build?
-> 
-> Though I see no meson.build changes here, so I can't tell if
-> mount_i_linux.c only gets built on Linux or everywhere or ...?
-
-mount_i_linux.h should be included in files used by linux only. Same
-as mount.c. Next patch removes this BSD condition.
-
+Also, before we go too deep into the hook for new mounts, can we focus
+on this set, which will fix some existing TOCTOU issues?
 
 Thanks,
-Bernd
-
-> 
-> --D
-> 
->> +	{"dirsync", MS_DIRSYNC,     1},
->> +#endif
->> +	{NULL,      0,          0}
->> +};
->> +
->> +
->>  
->>  #endif /* FUSE_MOUNT_I_H_ */
->>
->> -- 
->> 2.43.0
->>
->>
-
+Song
