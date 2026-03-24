@@ -1,812 +1,224 @@
-Received: from fout-a7-smtp.messagingengine.com (fout-a7-smtp.messagingengine.com [103.168.172.150])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6286130BB94
-	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 21:53:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.150
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774389206; cv=none; b=D53HCUYARjsm49TLY++bFfLYOuuvxerQH1OcV+EjHSGhzaXyU5B5ag8H9O+dUasx0CFcmfT1q19b9aMmICfV7BDDMDOYbUG7t1BsJkjfMlQpm301O1NpWkst8Om9udWuRDcIOOVYcji2HG28tsDcY15h/21Tzrjqtt+fC5lindY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774389206; c=relaxed/simple;
-	bh=ghETktIySLhhK8MFc+brBtVo5lVTA1K0hyL+za53R+c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=afEzvNp12NMXL7+IaBKobQKjVd8bSZ+p4L5AZi4ZGrEvqVXShbl4L3papO1ZClXRQ+rJAKAPRveTtSZdO0nYtVj6wEdB1Z3qOgHPHr27hK0EL6Oz0MIvkaQ4W6jBclpHxetaaAvrzc4Pea/tuEzeVc4C0gys5xgOqqluMeg2S/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=bckpyj+8; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=fFzbQfQo; arc=none smtp.client-ip=103.168.172.150
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60648361641
+	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 22:20:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.173
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774390803; cv=pass; b=LwK/1saQBlzEoJ+y7RsDOlLsrsrEDiXqYqhje/76j9Uh8g5ajoW2tMZEcKcondxJV5dZziXAxScKElX+ClUY448AVlHJEKzuzfTat6cjyDIVxoXxhcOE7neTwY8jA/GpnTGwnS6Lc9jTDtPw7+8szY04MzeFQKNmdNLGCs+9Ny0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774390803; c=relaxed/simple;
+	bh=4JK7FkcdBWpQuygpIDHYRhmKkIpeBpxTxQL3XC3cxXw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DY+MABpprefbwkU8lTFfd587HRqeImYye4JNZueA7V9Ue9VEuCJY42Q4KSZgh4ffvTPX1//DVYuIL7YZ7B/wsPHNXlTdAv7gfM6CKb/ylXG5Bkgvy2tEiQYXpg1FA08cPRCWYpR3cnHwvZAwdMrJZFahRVtMCmng90wxrtD8kdU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=D+1EXBak; arc=pass smtp.client-ip=209.85.160.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="bckpyj+8";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="fFzbQfQo"
-Received: from phl-compute-08.internal (phl-compute-08.internal [10.202.2.48])
-	by mailfout.phl.internal (Postfix) with ESMTP id 98966EC01DF;
-	Tue, 24 Mar 2026 17:53:23 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-08.internal (MEProxy); Tue, 24 Mar 2026 17:53:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1774389203;
-	 x=1774475603; bh=R/a9gVUQNTLfRwQrqk20i0RQlqx5GV7sKgerlAYCyvU=; b=
-	bckpyj+85y2a4QgKy1Nj/cc8Md63liegc+TU+I0apffdTIpCPLVK5wmnQ/pciBDB
-	xrdJESr0jsAlcYnTzLUCPanVYkpbYB6G0EqHgsKlzQwHk0bMiCPhvJCtZYTmaGqr
-	O2EY7Mc1ZNG4JqW0d0bOp51nh2lBUYh9OZtvyX3FoGntjPylsVClFX3EjYxdT+Jn
-	DdVrjf4ZSPnywzuTWDTY1sd3/6xdUtTBxtvHoWbSVjRnlyGtkLELJU/nrMwsbOA/
-	IC/1vk+3qbtgoZZ84y5DeR61+FXf840hp3J7/7H1UIyFTY3qAiMsNlQcU7Mt2BxC
-	88hMailh6qs4ApG4Chr1yw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1774389203; x=
-	1774475603; bh=R/a9gVUQNTLfRwQrqk20i0RQlqx5GV7sKgerlAYCyvU=; b=f
-	FzbQfQoozEz5P2xd8XO6/lcOeqR9YBSDdi9UgDM3LNWWntONiWeaIExjXCidjfN+
-	KN09lSUqjix9AqdjvOgLIcK6dnprL+jIfeCpCDSQWGIxAIBd/BqWjXMrPE1CpK1u
-	VUqwA94e498nuLjiA3EpikOCrlZgg5KUEo8ENkXgdsexKCvFlP+2JAycqcmy0lUK
-	bTbTmf6HHg4IDAD33slQ0Sg9/Ew+k242DDxFo0EIh96wGPqVVZAhso9SQKkr9aXe
-	EbwoA1EFgj7xRHlbEFdLIH7OSAYdHgSUXE3s9/pi5owOWK/mZ4TNWM8b+2SEjnfv
-	2wOKikDt8b346nlnkeZDg==
-X-ME-Sender: <xms:0wfDaTk3CZ7b1zGSNFHoZm5Lh3kIH-ogxL-P-w-tAACigD71mxUc6w>
-    <xme:0wfDadufQgNA0bGaXqTcjGtStlptCXzeWqdP6EmeSvzsQc7DiG1Hxc4leMMrwoaBj
-    ueeUNC7A2itlCrcxhp0rOT8Y7QjAnbRxqF87MC7YO7XMKYaD88w>
-X-ME-Received: <xmr:0wfDaR9l8ynYWkC1BFnwYZWntgiiRnDtimu1m_jLyu48VOpM-S0JwTWvAj5A-hHyqw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdefvddvjeduucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepkfffgggfuffvvehfhfgjtgfgsehtkeertddtvdejnecuhfhrohhmpeeuvghrnhgu
-    ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
-    htthgvrhhnpeefgeegfeffkeduudelfeehleelhefgffehudejvdfgteevvddtfeeiheef
-    lefgvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    gsvghrnhgusegsshgsvghrnhgurdgtohhmpdhnsggprhgtphhtthhopeehpdhmohguvgep
-    shhmthhpohhuthdprhgtphhtthhopegujhifohhngheskhgvrhhnvghlrdhorhhgpdhrtg
-    hpthhtoheplhhinhhugidqfhhsuggvvhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdp
-    rhgtphhtthhopehmihhklhhoshesshiivghrvgguihdrhhhupdhrtghpthhtohepjhhorg
-    hnnhgvlhhkohhonhhgsehgmhgrihhlrdgtohhmpdhrtghpthhtohepsghstghhuhgsvghr
-    thesuggunhdrtghomh
-X-ME-Proxy: <xmx:0wfDaXMSsSl0vpeLFvhZeljGaN2buwWP68ioi5pGwD78mXVt0gEHiA>
-    <xmx:0wfDafHpEcian2ObRw12dNv59Om-HC5oyhnPzf20Qdk1HDgIVzx84Q>
-    <xmx:0wfDaVR79_MKVYRLDkWePvbaIUaWNEpO34lnVuSsyX0j91p7GAwcmg>
-    <xmx:0wfDactC1hiU4tmg7UiIHAPoawGI3BuD96v1Y0aAtb_XqIQJ0wbc-Q>
-    <xmx:0wfDaTk9FbA7rhmbHRO4qS6iVwvucix0Ief27PHHc9Y2U8z30pVEZ4Ar>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 24 Mar 2026 17:53:22 -0400 (EDT)
-Message-ID: <7890fe12-5061-490d-b666-821259461540@bsbernd.com>
-Date: Tue, 24 Mar 2026 22:53:21 +0100
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="D+1EXBak"
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-509069a7a7fso195191cf.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 15:20:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774390801; cv=none;
+        d=google.com; s=arc-20240605;
+        b=TGSoYN7PDmqX9WCsmELGdkm8U02LVX/n/h8iuouHftl0BUui44Q2RRpr/El9Vf0/QC
+         ReyeD97vV4WIHuNkms5fmzjQ6vNpJolWyayeelK8j4eO+1IPErHfBxiYLs8IiTngk4Ei
+         6ToHcBp1HUfUQ0iX7O3Gw7Ak4y/97r/S5/qYpDQHXdZSQywsXsh3KmoHbFDmmHpX7MJw
+         C1pnOKwLZ6SU92/WcXlNqPDF93q/akLXNCxaEPqoa2xaggwUOURdwrQJR2Udn0WI7urR
+         nX01iTiiCIekvYCkfq438mICFrTtN2nagANWrnabc85dezBFOSpJpSmZGs7G8AHxLwDb
+         ypIw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=iA0qEOtZ8sY0A4PQMCyKkXrxyPKJc9xjSndOAsg0m2c=;
+        fh=XXVXqJBZXy1tloUjUIKOAGs9DAnDVjIOq8TiVlxtPiM=;
+        b=b7oYdz2lb3wLdN67JfRzJuUh15kK0uvlBpR+e5X5+fIpyWAp311P9Pndf4oUHoY8vJ
+         e/yCKGrOtlcoI/fZqcmHkPdGoWrqTonNH0g36uTkwPeFC1M8AbiFWJK6GzCms+Utizjn
+         FK6d+nTfHwpbMcNTkh/txldgBtwDu8TorNk6UtZWiBLAwuSzNgX00tvqzYhlPDfJJl9E
+         xHVWpA2Tifh6UJbGeKNTDIo5LZnMsVELDSINcun3BR44srvX7HJXvIlJ7Bf11TmsdQMv
+         UYhjED6vGIVoW0kyB2fvhNCp9vGhSgTvcHRFbXpuX+a3JT1FTECXiYkTv66+TC14aPEh
+         E0Ag==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1774390801; x=1774995601; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iA0qEOtZ8sY0A4PQMCyKkXrxyPKJc9xjSndOAsg0m2c=;
+        b=D+1EXBakG1kBGLA7rUczZI9EiPYPR4Z2LC9ybycSVsTNDZq59nUxXFF5tRA/JqSUI+
+         Qq2AVMuqyv7rUhw0GwlPjTefDersOpyCmm67UQoIt3aVhqhSg+TIfa8XyrcXkpbq4qhl
+         5GUZ4+HcLMnEsGVkUgK11P+6qMNQOMVzwoj3YwZ+L3NWtxrejq2oDVuj+iPUiZmeMZbc
+         gtwRCgOc3H83k23DXj0sunKSlC92EZjz0GhX0wvqMrMmtUVK8R2ymwuBiXEFV1uxyLQm
+         mGXAWHjaHWMekhtgCEV6YF8j+WPtHc/UYoZX8ykYqhwHsEfNYqxKcGytKMCzbLw2Ro4/
+         DXqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774390801; x=1774995601;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=iA0qEOtZ8sY0A4PQMCyKkXrxyPKJc9xjSndOAsg0m2c=;
+        b=ZDImPoRTNKb1aT1cV+V1MrcxZHclNUf6yJ7tI8zut6dDf7PNZV9iuQ26do//zzlGK3
+         VaRqLR9gL1IPWKpAOkhd0pqzgyrEDJcRqR51WKxnykZ1cmd4acQL460y9N4kpzyLlvM9
+         N8aKIJHIq8R2y++VSKgLzZageg7VJ0fUGT9YowzE8Vi9n34HF/bmnHzPhb7M58///5K+
+         Tug1ZZguS+mOcl3BQlR9LoTSsIDho7rs/1NbS+TRYmrI+XJv74zBeQXfzyX193lpVb/2
+         a5J6fKWEcH/KqXN1+AhEqm7O/PBpcnLc5d320TuA/SFUmHI00IvKDnAktRCA+eRuHUlp
+         Afog==
+X-Forwarded-Encrypted: i=1; AJvYcCUgQVAdhLvgP0eKnxVpTicyKLsIS2qBqMH7gUs3KmbPRi7mrvGtb4sOPpSozdEwrlRf4AWkGlkyJe31TuBf@vger.kernel.org
+X-Gm-Message-State: AOJu0YwAtkvYJn2EZGyeFV3uuzcUFqRpNnqgcSfs7XpdbNr/YBo/++0w
+	ndjp0Q0Pz9nUkBiFrq1bPIr5WiqPxLzEdltz15SaP7AVJ73HSghhRcUWIc4ANg19gBUEkiOiSNN
+	A8cgoWrC6CWmK7FBHiwn2f0VXbNVyLDcrnRjK9ym/
+X-Gm-Gg: ATEYQzwrfPciWrpBvpacP0rctipRXgizNyZECnwsyCK2+CzCgCneSnC3KYSzjKY8Bnq
+	QesWYFiPU6aXWdqI6S/lKTSJC/kQRgnPMjdAlHEwxOQGvA96hTb8156FxNFY2HMbnUIIZFdShnt
+	SNd54yaLbMOyx7VKpK05QsjTtQkH3L+2/M4R8MrDgHvFsubs15LEoi5NXowLECby5wAy0ENmjt5
+	uwLdDXUaIVufNKpA7soLxsmtFhS7WJuPyY96D1doLqvIUSZR7jYRnpqaTmuEIwhpvHK9X3tz0pz
+	HmhCX5c=
+X-Received: by 2002:a05:622a:a0b:b0:50b:4e90:44ae with SMTP id
+ d75a77b69052e-50b83d9432fmr2305211cf.17.1774390800883; Tue, 24 Mar 2026
+ 15:20:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 19/19] Add support for sync-init of unprivileged daemons
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, Miklos Szeredi <miklos@szeredi.hu>,
- Joanne Koong <joannelkoong@gmail.com>, Bernd Schubert <bschubert@ddn.com>
-References: <20260323-fuse-init-before-mount-v1-0-a52d3040af69@bsbernd.com>
- <20260323-fuse-init-before-mount-v1-19-a52d3040af69@bsbernd.com>
- <20260324202125.GV6202@frogsfrogsfrogs>
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: en-US
-In-Reply-To: <20260324202125.GV6202@frogsfrogsfrogs>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20260323175340.3361311-1-avagin@google.com> <20260323175340.3361311-2-avagin@google.com>
+ <acGEonF9I6sPA42B@J2N7QTR9R3.cambridge.arm.com> <acJnOB-rlyt-3jU4@willie-the-truck>
+In-Reply-To: <acJnOB-rlyt-3jU4@willie-the-truck>
+From: Andrei Vagin <avagin@google.com>
+Date: Tue, 24 Mar 2026 15:19:49 -0700
+X-Gm-Features: AaiRm52g4xzDr5_5nSdTi4eazdyhs8piBH0WKAbvFvJLqkZfV7WhTKZGEWCKiO0
+Message-ID: <CAEWA0a7iR8YHooqXJfhersV6YhAXGMZDUhib3QQH5XGn=KNowA@mail.gmail.com>
+Subject: Re: [PATCH 1/4] exec: inherit HWCAPs from the parent process
+To: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>
+Cc: Kees Cook <kees@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Marek Szyprowski <m.szyprowski@samsung.com>, Cyrill Gorcunov <gorcunov@gmail.com>, 
+	Mike Rapoport <rppt@kernel.org>, Alexander Mikhalitsyn <alexander@mihalicyn.com>, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, criu@lists.linux.dev, 
+	Catalin Marinas <catalin.marinas@arm.com>, linux-arm-kernel@lists.infradead.org, 
+	Chen Ridong <chenridong@huawei.com>, Christian Brauner <brauner@kernel.org>, 
+	David Hildenbrand <david@kernel.org>, Eric Biederman <ebiederm@xmission.com>, 
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Michal Koutny <mkoutny@suse.com>, 
+	Alexander Mikhalitsyn <aleksandr.mikhalitsyn@futurfusion.io>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi Mark and Will,
 
+Thanks for the feedback. Please read the inline comments.
 
-On 3/24/26 21:21, Darrick J. Wong wrote:
-> On Mon, Mar 23, 2026 at 06:45:14PM +0100, Bernd Schubert wrote:
->> From: Bernd Schubert <bschubert@ddn.com>
->>
->> This makes use of the bidirectional fusermount. Added is
->> doc/README.mount, which explains the new bidirectional
->> communication with fusermount.
->>
->> Signed-off-by: Bernd Schubert <bschubert@ddn.com>
-> 
-> All right, last patch before I go have some lunch and circle back to
-> your recent replies :)
-> 
->> ---
->>  doc/README.mount     |  86 ++++++++++++++++++++++++
->>  doc/README.sync-init | 184 +++++++++++++++++++++++++++++++++++++++++++++++++++
-> 
-> These new readmes feel like they ought to go at the beginning (or at
-> least a separate patch) to argue for why synchronous init is needed
-> in libfuse?  I do appreciate the flow diagrams though.
+On Tue, Mar 24, 2026 at 3:28=E2=80=AFAM Will Deacon <will@kernel.org> wrote=
+:
+>
+> On Mon, Mar 23, 2026 at 06:21:22PM +0000, Mark Rutland wrote:
+> > On Mon, Mar 23, 2026 at 05:53:37PM +0000, Andrei Vagin wrote:
+> > > Introduces a mechanism to inherit hardware capabilities (AT_HWCAP,
+> > > AT_HWCAP2, etc.) from a parent process when they have been modified v=
+ia
+> > > prctl.
+> > >
+> > > To support C/R operations (snapshots, live migration) in heterogeneou=
+s
+> > > clusters, we must ensure that processes utilize CPU features availabl=
+e
+> > > on all potential target nodes. To solve this, we need to advertise a
+> > > common feature set across the cluster.
+> > >
+> > > This patch adds a new mm flag MMF_USER_HWCAP, which is set when the
+> > > auxiliary vector is modified via prctl(PR_SET_MM, PR_SET_MM_AUXV).  W=
+hen
+> > > execve() is called, if the current process has MMF_USER_HWCAP set, th=
+e
+> > > HWCAP values are extracted from the current auxiliary vector and stor=
+ed
+> > > in the linux_binprm structure. These values are then used to populate
+> > > the auxiliary vector of the new process, effectively inheriting the
+> > > hardware capabilities.
+> > >
+> > > The inherited HWCAPs are masked with the hardware capabilities suppor=
+ted
+> > > by the current kernel to ensure that we don't report more features th=
+an
+> > > actually supported. This is important to avoid unexpected behavior,
+> > > especially for processes with additional privileges.
+> >
+> > At a high level, I don't think that's going to be sufficient:
+> >
+> > * On an architecture with other userspace accessible feature
+> >   identification mechanism registers (e.g. ID registers), userspace
+> >   might read those. So you might need to hide stuff there too, and
+> >   that's going to require architecture-specific interfaces to manage.
+> >
+> >   It's possible that some code checks HWCAPs and others check ID
+> >   registers, and mismatch between the two could be problematic.
+> >
+> > * If the HWCAPs can be inherited by a more privileged task, then a
+> >   malicious user could use this to hide security features (e.g. shadow
+> >   stack or pointer authentication on arm64), and make it easier to
+> >   attack that task. While not a direct attack, it would undermine those
+> >   features.
 
-These new READMEs are kind of used by myself to understand and remember
-the flow graph and reasoning. Given the frequency I jump between
-projects, I prefer to have some files that help me to remember.
-I had asked for AI help to create these flow graphs, simple to give the
-right commands when one is in the middle of the code...
-I can move these files into a separate patch if you prefer.
+I agree with Mark that only a privileged process have to be able to mask
+certain hardware features. Currently, PR_SET_MM_AUXV is guarded by
+CAP_SYS_RESOURCE, but PR_SET_MM_MAP allows changing the auxiliary vector
+without specific capabilities. This is definitely the issue. To address
+this, I think we can consider to introduce a new prctl command to enable
+HWCAP inheritance explicitly.
 
-> 
->>  lib/fuse_lowlevel.c  | 115 ++++++++++++++++++++++++++------
->>  lib/mount.c          | 126 ++++++++++++++++++++++++++++++++++-
->>  lib/mount_i_linux.h  |   7 ++
->>  util/fusermount.c    |   2 -
->>  6 files changed, 494 insertions(+), 26 deletions(-)
->>
->> diff --git a/doc/README.mount b/doc/README.mount
->> new file mode 100644
->> index 0000000000000000000000000000000000000000..526382ad8a5f6b405a7cb1927b79bacd6c2c2c5c
->> --- /dev/null
->> +++ b/doc/README.mount
->> @@ -0,0 +1,86 @@
->> +FUSE Mount API Flowcharts
->> +=========================
->> +
->> +Old Mount API
->> +-------------
->> +
->> +fuse_kern_mount()
->> +  |
->> +  +-- fuse_mount_sys()
->> +  |     +-- Try direct mount → mount() syscall
->> +  |     +-- On EPERM: fuse_mount_fusermount()
->> +  |           +-- socketpair()
->> +  |           +-- spawn fusermount3 (no --sync-init)
->> +  |           +-- fusermount3: open /dev/fuse, mount(), send fd
->> +  |           +-- receive_fd() → return fd
->> +  |
->> +  +-- Worker threads started AFTER mount
->> +  └─> FUSE_INIT asynchronous (queued in kernel)
->> +
->> +
->> +New Mount API - Privileged Mount
->> +---------------------------------
->> +
->> +fuse_session_mount_new_api()
->> +  |
->> +  +-- fuse_kern_mount_prepare() → open /dev/fuse → fd
->> +  |
->> +  +-- session_start_sync_init(se, fd)
->> +  |     +-- ioctl(fd, FUSE_DEV_IOC_SYNC_INIT)
->> +  |     +-- pthread_create(worker) → ready to process FUSE_INIT
->> +  |
->> +  +-- fuse_kern_fsmount_mo()
->> +  |     +-- fsopen/fsconfig/fsmount (BLOCKS until FUSE_INIT completes)
->> +  |     +-- Worker processes FUSE_INIT during fsmount()
->> +  |     +-- move_mount()
->> +  |
->> +  +-- session_wait_sync_init_completion(se) → pthread_join
->> +  └─> return fd
->> +
->> +
->> +New Mount API - EPERM Fallback (fusermount3 with sync-init)
->> +------------------------------------------------------------
->> +
->> +fuse_session_mount_new_api()
->> +  |
->> +  +-- fuse_kern_mount_prepare() → open /dev/fuse → fd1
->> +  |
->> +  +-- session_start_sync_init(se, fd1)
->> +  |     +-- ioctl(fd1, FUSE_DEV_IOC_SYNC_INIT)
->> +  |     +-- pthread_create(worker) → ready with fd1
->> +  |
->> +  +-- fuse_kern_fsmount_mo() → EPERM
->> +  |
->> +  +-- *** FALLBACK TO FUSERMOUNT3 WITH SYNC-INIT ***
->> +  |
->> +  +-- session_wait_sync_init_completion(se)
->> +  |     +-- pthread_cancel/join → terminate worker with wrong fd1
->> +  |
->> +  +-- close(fd1)
->> +  |
->> +  +-- fuse_mount_fusermount_sync_init()  [NEW]
->> +  |     +-- socketpair()
->> +  |     +-- spawn fusermount3 --sync-init
->> +  |     +-- fusermount3: open /dev/fuse → fd2, send fd2
->> +  |     +-- receive_fd() → fd2
->> +  |     +-- fusermount3 waits for signal
->> +  |     └─> return fd2, sock
->> +  |
->> +  +-- session_start_sync_init(se, fd2)
->> +  |     +-- ioctl(fd2, FUSE_DEV_IOC_SYNC_INIT)
->> +  |     +-- pthread_create(worker) → ready with fd2
->> +  |
->> +  +-- send_proceed_signal(sock)  [NEW]
->> +  |     +-- send(sock, "\0", 1) → signal fusermount3
->> +  |
->> +  +-- fusermount3: mount() (BLOCKS)
->> +  |     +-- Kernel sends FUSE_INIT to fd2
->> +  |     +-- Worker processes FUSE_INIT
->> +  |     +-- mount() returns
->> +  |
->> +  +-- close(sock)
->> +  |
->> +  +-- session_wait_sync_init_completion(se) → pthread_join
->> +  |
->> +  └─> return fd2
->> +
->> diff --git a/doc/README.sync-init b/doc/README.sync-init
->> new file mode 100644
->> index 0000000000000000000000000000000000000000..44e47a2eef2c45026abaa19562537eef37f256b9
->> --- /dev/null
->> +++ b/doc/README.sync-init
->> @@ -0,0 +1,184 @@
->> +FUSE Synchronous vs Asynchronous FUSE_INIT
->> +============================================
->> +
->> +This document explains the difference between asynchronous and synchronous
->> +FUSE_INIT processing, and when each mode is used.
->> +
->> +
->> +Overview
->> +--------
->> +
->> +FUSE_INIT is the initial handshake between the kernel FUSE module and the
->> +userspace filesystem daemon. During this handshake, the kernel and daemon
->> +negotiate capabilities, protocol version, and various feature flags.
->> +
->> +Asynchronous FUSE_INIT (Traditional Behavior)
->> +----------------------------------------------
->> +
->> +In the traditional asynchronous mode:
->> +
->> +1. mount() syscall completes and returns to caller
->> +2. Filesystem appears mounted to the system
->> +3. FUSE daemon starts worker threads
->> +4. Worker threads process FUSE_INIT request
->> +5. Filesystem becomes fully operational
->> +
->> +Timeline:
->> +    mount() -----> returns
->> +                   |
->> +                   v
->> +            FUSE_INIT sent
->> +                   |
->> +                   v
->> +            daemon processes FUSE_INIT
->> +                   |
->> +                   v
->> +            filesystem ready
->> +
->> +Limitations:
->> +
->> +1. **No early requests**: The kernel cannot send requests (like getxattr)
->> +   during the mount() syscall. This breaks SELinux, which needs to query
->> +   extended attributes on the root inode immediately upon mounting.
->> +
->> +2. **Daemonization timing**: With the old fuse_daemonize() API, the daemon
->> +   must call it AFTER mount, because there's no way to report mount failures
->> +   to the parent process if daemonization happens first.
->> +
->> +3. **No custom root inode**: The root inode ID is hardcoded to FUSE_ROOT_ID (1)
->> +   because FUSE_INIT hasn't been processed yet when the mount completes.
->> +
->> +4. **Thread startup after mount**: io_uring threads and other worker threads
->> +   can only start after mount() returns, not before.
-> 
-> Especially this part which explains why we care about sync init :)
-> 
->> +
->> +Synchronous FUSE_INIT (New Behavior)
->> +-------------------------------------
->> +
->> +Kernel support: Linux kernel commit dfb84c330794 (v6.18+)
->> +libfuse support: libfuse 3.19+
->> +
->> +In synchronous mode:
->> +
->> +1. FUSE daemon opens /dev/fuse
->> +2. Daemon calls ioctl(fd, FUSE_DEV_IOC_SYNC_INIT)
->> +3. Daemon starts worker thread
->> +4. Daemon calls mount() syscall
->> +5. Kernel sends FUSE_INIT during mount() - mount() blocks
->> +6. Worker thread processes FUSE_INIT while mount() is blocked
->> +7. Worker thread may process additional requests (getxattr, etc.)
->> +8. mount() syscall completes and returns
->> +9. Filesystem is fully operational
->> +
->> +Timeline:
->> +    open /dev/fuse
->> +         |
->> +         v
->> +    ioctl(FUSE_DEV_IOC_SYNC_INIT)
->> +         |
->> +         v
->> +    start worker thread
->> +         |
->> +         v
->> +    mount() -----> blocks
->> +         |         |
->> +         |         v
->> +         |    FUSE_INIT sent
->> +         |         |
->> +         |         v
->> +         |    worker processes FUSE_INIT
->> +         |         |
->> +         |         v
->> +         |    (possible getxattr, etc.)
->> +         |         |
->> +         +-------> returns
->> +                   |
->> +                   v
->> +            filesystem ready
->> +
->> +Advantages:
->> +
->> +1. **SELinux support**: The kernel can send getxattr requests during mount()
->> +   to query security labels on the root inode.
->> +
->> +2. **Early daemonization**: The daemon can fork BEFORE mount using the new
->> +   fuse_daemonize_start()/signal() API, and report mount failures to the
->> +   parent process.
->> +
->> +3. **Custom root inode**: The daemon can specify a custom root inode ID
->> +   during FUSE_INIT, before mount() completes.
->> +
->> +4. **Thread startup before mount**: io_uring threads and worker threads
->> +   start before mount(), ensuring they're ready to handle requests.
->> +
->> +5. **Better error reporting**: Mount failures and initialization errors
->> +   can be properly reported to the parent process when using the new
->> +   daemonization API.
->> +
->> +
->> +When Synchronous FUSE_INIT is Used
->> +-----------------------------------
->> +
->> +libfuse automatically enables synchronous FUSE_INIT when:
->> +
->> +1. The application calls fuse_session_want_sync_init(), OR
->> +2. The new daemonization API is used (fuse_daemonize_start() was called)
->> +
->> +Synchronous FUSE_INIT requires:
->> +- Kernel support (commit dfb84c330794 or later)
->> +- Worker thread started before mount()
->> +- ioctl(FUSE_DEV_IOC_SYNC_INIT) succeeds
->> +
->> +If the kernel doesn't support synchronous FUSE_INIT, libfuse automatically
->> +falls back to asynchronous mode.
->> +
->> +
->> +Implementation Details
->> +----------------------
->> +
->> +The synchronous FUSE_INIT implementation uses a worker thread:
->> +
->> +- **session_sync_init_worker()**: Thread function that polls /dev/fuse
->> +  and processes FUSE_INIT and any subsequent requests until mount completes.
->> +
->> +- **session_start_sync_init()**: Creates the worker thread before mount().
->> +  Calls ioctl(FUSE_DEV_IOC_SYNC_INIT) to enable kernel support.
->> +
->> +- **session_wait_sync_init_completion()**: Waits for the worker thread
->> +  to complete after mount() returns. Checks for errors.
->> +
->> +The worker thread processes requests in a loop until se->terminate_mount_worker
->> +is set, which happens after mount() completes successfully.
->> +
->> +
->> +Compatibility
->> +-------------
->> +
->> +Synchronous FUSE_INIT is fully backward compatible:
->> +
->> +- Old kernels: ioctl returns ENOTTY, libfuse falls back to async mode
->> +- Old applications: Continue to work with async FUSE_INIT
->> +- New applications on old kernels: Graceful fallback to async mode
->> +- New applications on new kernels: Automatic sync mode when appropriate
->> +
->> +
->> +Example: Enabling Synchronous FUSE_INIT
->> +----------------------------------------
->> +
->> +Explicit request:
->> +    struct fuse_session *se = fuse_session_new(...);
->> +    fuse_session_want_sync_init(se);
->> +    fuse_session_mount(se, mountpoint);
->> +
->> +Automatic (with new daemonization API):
->> +    fuse_daemonize_start(0);  // Triggers sync init automatically
->> +    fuse_session_mount(se, mountpoint);
->> +
->> +
->> +See Also
->> +--------
->> +
->> +- doc/README.daemonize - New daemonization API documentation
->> +- doc/README.fusermount - Synchronous FUSE_INIT protocol with fusermount3
->> +- doc/README.mount - Mount implementation details
->> +
->> diff --git a/lib/fuse_lowlevel.c b/lib/fuse_lowlevel.c
->> index a7293a3898c37c3877eadf965d310ae2aa5cc2d1..da966217ed841744a20bee60de8ae615d1015b47 100644
->> --- a/lib/fuse_lowlevel.c
->> +++ b/lib/fuse_lowlevel.c
->> @@ -41,6 +41,7 @@
->>  #include <assert.h>
->>  #include <sys/file.h>
->>  #include <sys/ioctl.h>
->> +#include <sys/wait.h>
->>  #include <stdalign.h>
->>  #include <poll.h>
->>  
->> @@ -4551,6 +4552,8 @@ static int session_wait_sync_init_completion(struct fuse_session *se)
->>  		se->init_wakeup_fd = -1;
->>  	}
->>  
->> +	se->init_thread = 0;
->> +
->>  	if (se->init_error != 0) {
->>  		fuse_log(FUSE_LOG_ERR, "fuse: init worker failed: %d\n", se->init_error);
->>  		return -1;
->> @@ -4564,56 +4567,125 @@ static int session_wait_sync_init_completion(struct fuse_session *se)
->>  	return 0;
->>  }
->>  
->> -/* Only linux supports sync FUSE_INIT so far */
->> +/*
->> + * Mount using the new Linux mount API (fsopen/fsconfig/fsmount/move_mount)
->> + * Sync-init is only supported with the new API, as the mount might hang
->> + * in case of daemon crash during FUSE_INIT. That also means once the sync init
->> + * ioctl succeed fallback is not allowed anymore.
->> + * Returns: fd on success, -1 on failure
->> + */
->>  static int fuse_session_mount_new_api(struct fuse_session *se,
->> -				      const char *mountpoint)
->> +				      const char *mountpoint, bool *fall_back)
->>  {
->>  	int fd = -1;
->> +	int sock_fd = -1;
->> +	pid_t fusermount_pid = -1;
->>  	int res, err;
->>  	char *mnt_opts = NULL;
->>  	char *mnt_opts_with_fd = NULL;
->>  	char fd_opt[32];
->>  
->>  	res = fuse_kern_mount_get_base_mnt_opts(se->mo, &mnt_opts);
->> +	err = -EIO;
->>  	if (res == -1) {
->>  		fuse_log(FUSE_LOG_ERR, "fuse: failed to get base mount options\n");
->> -		err = -EIO;
-> 
-> Odd churn in this function...
-> 
->>  		goto err;
->>  	}
->>  
->>  	fd = fuse_kern_mount_prepare(mountpoint, se->mo);
->>  	if (fd == -1) {
->>  		fuse_log(FUSE_LOG_ERR, "Mount preparation failed.\n");
->> -		err = -EIO;
->>  		goto err;
->>  	}
->>  
->> -	/*
->> -	 * Enable synchronous FUSE_INIT and start worker thread, sync init
->> -	 * failure is not an error
->> -	 */
->> +	*fall_back = true;
->>  	se->fd = fd;
->>  	err = session_start_sync_init(se, fd);
->>  	if (err) {
->>  		/* ENOTTY means kernel doesn't support sync init - not an error */
->>  		if (err != -ENOTTY)
->>  			goto err;
->> +	} else {
->> +		*fall_back = false;
->>  	}
->> +
->> +
->>  	snprintf(fd_opt, sizeof(fd_opt), "fd=%i", fd);
->> +	err = -ENOMEM;
->>  	if (fuse_opt_add_opt(&mnt_opts_with_fd, mnt_opts) == -1 ||
->>  	    fuse_opt_add_opt(&mnt_opts_with_fd, fd_opt) == -1) {
->> -		err = -ENOMEM;
->>  		goto err;
->>  	}
->>  
->> +	/* Try to mount directly */
->>  	err = fuse_kern_fsmount_mo(mountpoint, se->mo, mnt_opts_with_fd);
->> +
->> +	/* If mount failed with EPERM, fall back to fusermount3 with sync-init */
-> 
-> 
-> ...since this is the new "actually use bidirectional fusermount3" code
-> mentioned in the commit message.
+>
+> Yeah, this looks like a non-starter to me on arm64. Even if it was
+> extended to apply the same treatment to the idregs, many of the hwcap
+> features can't actually be disabled by the kernel and so you still run
+> the risk of a task that probes for the presence of a feature using
+> something like a SIGILL handler or, perhaps more likely, assumes that
+> the presence of one hwcap implies the presence of another. And then
+> there are the applications that just base everything off the MIDR...
 
-Here I'm lost what you mean., bidirectional fusermount3 only follows below.
+The goal of this mechanism is not to provide strict architectural
+enforcement or to trap the use of hardware features; rather, it is to
+provide a consistent discovery interface for applications. I chose the
+HWCAP vector because it mirrors the existing behavior of running an
+older kernel on newer hardware: while ID registers might report a
+feature as physically present, the HWCAPs will omit it if the kernel
+lacks support. Applications are generally expected to treat HWCAPs as
+the source of truth for which features are safe to use, even if the
+underlying hardware is technically capable of more.
 
-> 
->> +	if (err < 0 && errno == EPERM) {
->> +		if (se->debug)
->> +			fuse_log(FUSE_LOG_DEBUG,
->> +				 "fuse: privileged mount failed with EPERM, falling back to fusermount3\n");
->> +
->> +		/* Terminate worker thread with wrong fd */
->> +		if (session_wait_sync_init_completion(se) < 0)
->> +			fuse_log(FUSE_LOG_ERR, "fuse: sync init completion failed\n");
->> +
->> +		/* Close the privileged fd */
->> +		close(fd);
->> +		fd = -1;
->> +		se->fd = -1;
->> +
->> +		/* Call fusermount3 with --sync-init */
->> +		err = -ENOTSUP;
->> +		fd = mount_fusermount_obtain_fd(mountpoint, se->mo, mnt_opts,
->> +						&sock_fd, &fusermount_pid);
->> +		if (fd < 0) {
->> +			fuse_log(
->> +				FUSE_LOG_ERR,
->> +				"fuse: fusermount3 sync-init failed\n");
->> +			goto err;
->> +		}
->> +
->> +		/* Start worker thread with correct fd from fusermount3 */
->> +		se->fd = fd;
->> +		err = session_start_sync_init(se, fd);
->> +		if (err) {
->> +			if (err != -ENOTTY) {
->> +				fuse_log(
->> +					FUSE_LOG_ERR,
->> +					"fuse: failed to start sync init worker\n");
->> +				goto err_with_sock;
->> +			}
->> +		} else {
->> +			*fall_back = false;
-> 
-> We already set *fall_back to false above, didn't we?  I'm slightly
-> confused -- should we set *fall_back=true any time this function returns
-> nonzero?
+Another significant advantage of using HWCAPs is that many
+applications already rely on them for feature detection. This interface
+allows these applications to work correctly "out-of-the-box" in a
+migrated environment without requiring any userspace modifications.  I
+understand that some apps may use other detection methods; however, there
+it no gurantee that these applications will work correctly after
+migration to another machine.
 
-Already updated, because there was merge conflict since
-session_start_sync_init() doesn't return ENOTTY anymore. fall_back is
-possible as long as the ioctl doesn't succeed.
+>
+> There's also kvm, which provides a roundabout way to query some features
+> of the underlying hardware.
+>
+> You're probably better off using/extending the idreg overrides we have
+> in arch/arm64/kernel/pi/idreg-override.c so that you can make your
+> cluster of heterogeneous machines look alike.
 
-> 
->> +		}
->> +
->> +		/* Send proceed signal and wait for mount result */
->> +		err = fuse_fusermount_proceed_mnt(sock_fd);
->> +		if (err < 0) {
->> +			err = -EIO;
->> +			goto err_with_sock;
->> +		}
->> +	} else if (err < 0) {
->> +		/* Mount failed with non-EPERM error, bail out */
->> +		goto err;
->> +	}
->> +
->> +err_with_sock:
->> +	if (sock_fd >= 0) {
->> +		close(sock_fd);
->> +		/* Reap fusermount3 child process to prevent zombie */
->> +		if (fusermount_pid > 0)
->> +			waitpid(fusermount_pid, NULL, 0);
->> +	}
->>  err:
->>  	if (err < 0) {
->> +		/* Close fd first to unblock worker thread */
->>  		if (fd >= 0)
->>  			close(fd);
->>  		fd = -1;
->>  		se->fd = -1;
->> -		se->error = -errno;
->> +		se->error = err;
->>  	}
->>  	/* Wait for synchronous FUSE_INIT to complete */
->>  	if (session_wait_sync_init_completion(se) < 0)
->> @@ -4625,10 +4697,11 @@ err:
->>  }
->>  #else
->>  static int fuse_session_mount_new_api(struct fuse_session *se,
->> -				      const char *mountpoint)
->> +				      const char *mountpoint, bool *fall_back)
->>  {
->>  	(void) se;
->>  	(void) mountpoint;
->> +	(void) fall_back;
->>  
->>  	return -1;
->>  }
->> @@ -4638,6 +4711,7 @@ int fuse_session_mount(struct fuse_session *se, const char *_mountpoint)
->>  {
->>  	int fd;
->>  	char *mountpoint;
->> +	bool fall_back;
->>  
->>  	if (_mountpoint == NULL) {
->>  		fuse_log(FUSE_LOG_ERR, "Invalid null-ptr mountpoint!\n");
->> @@ -4681,21 +4755,18 @@ int fuse_session_mount(struct fuse_session *se, const char *_mountpoint)
->>  		return 0;
->>  	}
->>  
->> -	/* new linux mount api */
->> -	fd = fuse_session_mount_new_api(se, mountpoint);
->> -	if (fd >= 0)
->> -		goto out;
->> +	/* new linux mount api (and sync init) */
->> +	fd = fuse_session_mount_new_api(se, mountpoint, &fall_back);
->>  
->>  	/* fall back to old API */
->> -	se->error = 0; /* reset error of new api */
->> -	fd = fuse_kern_mount(mountpoint, se->mo);
->> -	if (fd < 0)
->> -		goto error_out;
->> +	if (fall_back && fd < 0) {
->> +		se->error = 0; /* reset error of new api */
->> +		fd = fuse_kern_mount(mountpoint, se->mo);
->> +		if (fd < 0)
->> +			goto error_out;
->> +	}
->>  
->> -out:
->>  	se->fd = fd;
->> -
->> -	/* Save mountpoint */
->>  	se->mountpoint = mountpoint;
->>  
->>  	return 0;
->> diff --git a/lib/mount.c b/lib/mount.c
->> index 263b05051c236458b830c40181bce7f494803800..985938ea0be3e1affad19adad527a31ac2ca6034 100644
->> --- a/lib/mount.c
->> +++ b/lib/mount.c
->> @@ -41,6 +41,7 @@
->>  #define FUSERMOUNT_PROG		"fusermount3"
->>  #define FUSE_COMMFD_ENV		"_FUSE_COMMFD"
->>  #define FUSE_COMMFD2_ENV	"_FUSE_COMMFD2"
->> +#define ARG_FD_ENTRY_SIZE	30
-> 
-> Thirty seems a bit much for an integer, especially one that can't go
-> above 1 million.  Eh, it's just stack space. :)
+IIRC, idreg-override/cpuid-masking usually works for an entire machine.
+We actually need to have a mechanism that will work on a per-container
+basis. Workloads inside one cluster can have different
+migration/snapshot requirements. Some are pinned to a specific node,
+others are never migrated, while others need to be migratable across a
+cluster or even between clusters. We need a mechanism that can be
+tunable on a per-container/per-process basis.
 
-I just made it a define. We can change it later, though userspace stack
-space is not that limited.
+>
+> On the other hand, if munging the hwcaps happens to be sufficient for
+> this particular use-case, can't it be handled entirely in userspace (e.g.
+> by hacking libc?)
 
-> 
->>  enum {
->>  	KEY_KERN_FLAG,
->> @@ -313,7 +314,7 @@ static int setup_auto_unmount(const char *mountpoint, int quiet)
->>  		return -1;
->>  	}
->>  
->> -	char arg_fd_entry[30];
->> +	char arg_fd_entry[ARG_FD_ENTRY_SIZE];
->>  	snprintf(arg_fd_entry, sizeof(arg_fd_entry), "%i", fds[0]);
->>  	setenv(FUSE_COMMFD_ENV, arg_fd_entry, 1);
->>  	/*
->> @@ -386,7 +387,7 @@ static int fuse_mount_fusermount(const char *mountpoint, struct mount_opts *mo,
->>  		return -1;
->>  	}
->>  
->> -	char arg_fd_entry[30];
->> +	char arg_fd_entry[ARG_FD_ENTRY_SIZE];
->>  	snprintf(arg_fd_entry, sizeof(arg_fd_entry), "%i", fds[0]);
->>  	setenv(FUSE_COMMFD_ENV, arg_fd_entry, 1);
->>  	/*
->> @@ -446,6 +447,127 @@ static int fuse_mount_fusermount(const char *mountpoint, struct mount_opts *mo,
->>  	return fd;
->>  }
->>  
->> +/*
->> + * Mount using fusermount3 with --sync-init flag for bidirectional fd exchange
->> + * Used by new mount API when privileged mount fails with EPERM
->> + *
->> + * Returns: fd on success, -1 on failure
->> + * On success, *sock_fd_out contains the socket fd for signaling fusermount3
->> + */
->> +int mount_fusermount_obtain_fd(const char *mountpoint, struct mount_opts *mo,
->> +			       const char *opts, int *sock_fd_out,
->> +			       pid_t *pid_out)
->> +{
->> +	int fds[2];
->> +	pid_t pid;
->> +	int res;
->> +	char arg_fd_entry[ARG_FD_ENTRY_SIZE];
->> +	posix_spawn_file_actions_t action;
->> +	int fd, status;
->> +
->> +	(void)mo;
->> +
->> +	if (!mountpoint) {
->> +		fuse_log(FUSE_LOG_ERR, "fuse: missing mountpoint parameter\n");
->> +		return -1;
->> +	}
->> +
->> +	res = socketpair(PF_UNIX, SOCK_STREAM, 0, fds);
->> +	if (res == -1) {
->> +		fuse_log(FUSE_LOG_ERR, "Running %s: socketpair() failed: %s\n",
->> +			 FUSERMOUNT_PROG, strerror(errno));
->> +		return -1;
->> +	}
->> +
->> +	snprintf(arg_fd_entry, sizeof(arg_fd_entry), "%i", fds[0]);
->> +	setenv(FUSE_COMMFD_ENV, arg_fd_entry, 1);
-> 
-> Oh!  /me realizes that FUSE_COMMFD{,2}_ENV can convey different things!
-> 
-> If you're trying to get fusermount to *mount* a filesystem, then it's
-> the AF_UNIX socket that is used to pass the /dev/fuse fd to the fuse
-> server and then to trigger the mount.
-> 
-> If you pass --auto-unmount/-U then fusermount waits for the socket to
-> close and then unmounts the mount.
-> 
->> +	snprintf(arg_fd_entry, sizeof(arg_fd_entry), "%i", fds[1]);
->> +	setenv(FUSE_COMMFD2_ENV, arg_fd_entry, 1);
-> 
-> ...and I guess you can pass the fds on the cli instead of goofy
-> environment variables?  I wonder if you should be passing them via CLI
-> since you know fusermount supports it.  OTOH I don't really care either
-> way ;)
-
-I had added the parameter to fusermount to avoid the env, issue is that
-an old fusermount might be used with a new libfuse. I did that in the
-past myself. For the new mount API and sync init, yeah, we can switch to
-parameter, requires all the new functionality anyway.
-
-> 
->> +
->> +	char const *const argv[] = {
->> +		FUSERMOUNT_PROG,
->> +		"--sync-init",
->> +		"-o", opts ? opts : "",
->> +		"--",
->> +		mountpoint,
->> +		NULL,
->> +	};
->> +
->> +	posix_spawn_file_actions_init(&action);
->> +	posix_spawn_file_actions_addclose(&action, fds[1]);
->> +	status = fusermount_posix_spawn(&action, argv, &pid);
->> +	posix_spawn_file_actions_destroy(&action);
->> +
->> +	if (status != 0) {
->> +		close(fds[0]);
->> +		close(fds[1]);
->> +		return -1;
->> +	}
->> +
->> +	close(fds[0]);
->> +
->> +	fd = receive_fd(fds[1]);
->> +	if (fd < 0) {
->> +		close(fds[1]);
->> +		waitpid(pid, NULL, 0);
->> +		return -1;
->> +	}
->> +
->> +	fcntl(fd, F_SETFD, FD_CLOEXEC);
->> +
->> +	/* Return socket fd for later signaling */
->> +	*sock_fd_out = fds[1];
->> +	*pid_out = pid;
->> +
->> +	return fd;
->> +}
->> +
->> +/*
->> + * Send proceed signal to fusermount3 and wait for mount result
->> + * Returns: 0 on success, -1 on failure
->> + */
->> +int fuse_fusermount_proceed_mnt(int sock_fd)
->> +{
->> +	char buf = '\0';
->> +	ssize_t res;
->> +
->> +	/* Send proceed signal */
->> +	do {
->> +		res = send(sock_fd, &buf, 1, 0);
->> +	} while (res == -1 && errno == EINTR);
-> 
-> I wonder if all the pipe/socket communications ought to have been turned
-> into a bunch of wrappers like what I did for
-> mount_service.c/fuse_service.c?
-> 
-> That said, it looks like most of the fusermount/sync-init communcations
-> are single ints so maybe it doesn't matter.  The communications for the
-> fuse servers is much more complex and hence needs more structure.
-
-Maybe we can look into that after merging the series and before making a
-3.19 release? I don't want to make this series any longer than
-absolutely neded.
-
+CRIU often handles workloads with a mix of runtimes: some linked against
+glibc, some against musl, and others like Go that bypass libc entirely.
+CRIU is mostly used to handle containers that can run multiple processes
+possible based on different runtimes. It means available cpu features
+should not be only specified for one runtime, they have to be passed
+across different runtimes. I think the pure userspace solution is near
+infeasible in this case.
 
 Thanks,
-Bernd
+Andrei
