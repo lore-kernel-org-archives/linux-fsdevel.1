@@ -1,123 +1,109 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E7B43E3176;
-	Tue, 24 Mar 2026 10:28:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8424368263;
+	Tue, 24 Mar 2026 10:46:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774348096; cv=none; b=RlJaER4/NL2mNy28CPirleyXqa7k5vUHlqScMg3mexI0r6Vba2PQvZw1vA5DHHrN7sdfOYcfwaSp41t6pwCnJzczA71zrDC9aG4DsaokPo5N5zzZMTHWcZydI9HgIbCDSaKf4LPRRtAy3Qp5E5VlMPcueJ9yk/4qSdeYe1vL1GI=
+	t=1774349193; cv=none; b=MOFdGsNsTXXSVK/EXs48VGIes0En8P3BJMYJEd7qxX18ipVglD9LagtZHHAU7ZzRC35JNjqMmFjLpJx/jfqYp80A0AfyXjDFuAm8lr/o+y0mXM09651OodF7mYYr9bzqbN16KSBmJb5t2j7/e4Rlrx+s2Kqig4w4A9kCzA83jjk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774348096; c=relaxed/simple;
-	bh=6sgVnhGfx/Gr8MffbxZCAPHDZSVU/xN0vvzwT8HpMXg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OhbvZsjK/Qw7DZfZ/hzoV9GtAufPTT5lp9qu35lzbIzd+epmZk1nXFnfpwKd8LuR+qdOvmzIbwnSMnZmYM+TmgKE1e7w5az7Taa2qxcDGW4NPH710KNB27sIGzq2Bf6LMGEsvoUv0ReQbc7Y3TpYlOu5MTi3VvGd3PPo5bHUDbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TwUPEMQI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774349193; c=relaxed/simple;
+	bh=WMEerWakA31QDIRRh1QiXx8aw7EYn+862Ive463FIxg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IqeO+6wQgm5kkZK7smQUR3aOZQ8P9y3UKo7GLXYk+9eO2TXUlmQzP0MKua2200z8Q2XZgB8rE1j1GY8/LqRMw2IrjzOrntDIJ9uT1OfKax/TZZOPLEFtApONdh53Fa1pw99R3+Tk4LXvYMXQtvwXCIz4NMK6tyG5o6m5z/JDvSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sRYV/SsW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TwUPEMQI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8343FC19424;
-	Tue, 24 Mar 2026 10:28:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sRYV/SsW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E725AC19424;
+	Tue, 24 Mar 2026 10:46:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774348095;
-	bh=6sgVnhGfx/Gr8MffbxZCAPHDZSVU/xN0vvzwT8HpMXg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TwUPEMQIHDD077VI3busfNuril0YmxjbGwYzsYejnKrfkZDSC31QZyKmCQLu9fJdE
-	 S5DNkNHd03l3ny1WkrAQmiEwJkMI2pwGC/B0vLv7fVXyePrr3Hv8/hzfrjcXVx70nH
-	 2dXBt0+xytHW7OEPwLd3iYvC/yWcp0dnxi/vvifQowEKAxMbcOwjbqMR9xKJPST+I0
-	 OFbGwwBwY34Rx2+NPSefHt/Aszh4h0sx00Ivsq31FzrhDORR9msiKkKuA3Xs32MAW6
-	 Yvz0D7YxPYQSeJ9ltUfuOmYgJs35b8EJ6irK5Npyzij9GsMYDq+WoJsHm0MXADDHnt
-	 ablF4wBqmilcQ==
-Date: Tue, 24 Mar 2026 10:28:08 +0000
-From: Will Deacon <will@kernel.org>
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: Andrei Vagin <avagin@google.com>, Kees Cook <kees@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Cyrill Gorcunov <gorcunov@gmail.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Alexander Mikhalitsyn <alexander@mihalicyn.com>,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org, criu@lists.linux.dev,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	linux-arm-kernel@lists.infradead.org,
-	Chen Ridong <chenridong@huawei.com>,
-	Christian Brauner <brauner@kernel.org>,
-	David Hildenbrand <david@kernel.org>,
-	Eric Biederman <ebiederm@xmission.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Michal Koutny <mkoutny@suse.com>,
-	Alexander Mikhalitsyn <aleksandr.mikhalitsyn@futurfusion.io>
-Subject: Re: [PATCH 1/4] exec: inherit HWCAPs from the parent process
-Message-ID: <acJnOB-rlyt-3jU4@willie-the-truck>
-References: <20260323175340.3361311-1-avagin@google.com>
- <20260323175340.3361311-2-avagin@google.com>
- <acGEonF9I6sPA42B@J2N7QTR9R3.cambridge.arm.com>
+	s=k20201202; t=1774349192;
+	bh=WMEerWakA31QDIRRh1QiXx8aw7EYn+862Ive463FIxg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=sRYV/SsWeoCU4rAac48A/OHspAXPDQk8BSViRS/suRAnoU18SJsr6hr0c+5iuVxG9
+	 eXHcAhdTBXsvusq4VOTea51g9RrRMxvmD/TWcRcqz4BrYpF0gGRYZANGEgFkzTzMEE
+	 eB2MIMTCAoTBk/UKXYpTur9vulG+EP40W619rAh3viXt3Y1UnqorcKkeyeACDr8zZR
+	 IzXjhAKe95RbXpf6iBaCEmpIYeqVFXbcBgKvmEoaxlN+h3r+B4gL0YMNRWgZLYJ3yu
+	 6KTAOXFNdOqESMXeyxke3FeW9AoW1DTJYifGbrjLStiXcREPMM8ZoQvCqx+u5OeJEK
+	 WIgEyQ51/Ee/w==
+Message-ID: <899470f6-8b22-42a3-9dca-1a11e246147d@kernel.org>
+Date: Tue, 24 Mar 2026 11:46:22 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <acGEonF9I6sPA42B@J2N7QTR9R3.cambridge.arm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 01/21] mm: various small mmap_prepare cleanups
+Content-Language: en-US
+To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Clemens Ladisch <clemens@ladisch.de>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "K . Y . Srinivasan" <kys@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+ Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Bodo Stroesser <bostroesser@gmail.com>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ David Hildenbrand <david@kernel.org>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport
+ <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>,
+ Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org,
+ linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org,
+ target-devel@vger.kernel.org, linux-afs@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ Ryan Roberts <ryan.roberts@arm.com>
+References: <cover.1774045440.git.ljs@kernel.org>
+ <99f408e4694f44ab12bdc55fe0bd9685d3bd1117.1774045440.git.ljs@kernel.org>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+In-Reply-To: <99f408e4694f44ab12bdc55fe0bd9685d3bd1117.1774045440.git.ljs@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Mar 23, 2026 at 06:21:22PM +0000, Mark Rutland wrote:
-> On Mon, Mar 23, 2026 at 05:53:37PM +0000, Andrei Vagin wrote:
-> > Introduces a mechanism to inherit hardware capabilities (AT_HWCAP,
-> > AT_HWCAP2, etc.) from a parent process when they have been modified via
-> > prctl.
-> > 
-> > To support C/R operations (snapshots, live migration) in heterogeneous
-> > clusters, we must ensure that processes utilize CPU features available
-> > on all potential target nodes. To solve this, we need to advertise a
-> > common feature set across the cluster.
-> > 
-> > This patch adds a new mm flag MMF_USER_HWCAP, which is set when the
-> > auxiliary vector is modified via prctl(PR_SET_MM, PR_SET_MM_AUXV).  When
-> > execve() is called, if the current process has MMF_USER_HWCAP set, the
-> > HWCAP values are extracted from the current auxiliary vector and stored
-> > in the linux_binprm structure. These values are then used to populate
-> > the auxiliary vector of the new process, effectively inheriting the
-> > hardware capabilities.
-> > 
-> > The inherited HWCAPs are masked with the hardware capabilities supported
-> > by the current kernel to ensure that we don't report more features than
-> > actually supported. This is important to avoid unexpected behavior,
-> > especially for processes with additional privileges.
+On 3/20/26 23:39, Lorenzo Stoakes (Oracle) wrote:
+> Rather than passing arbitrary fields, pass a vm_area_desc pointer to mmap
+> prepare functions to mmap prepare, and an action and vma pointer to mmap
+> complete in order to put all the action-specific logic in the function
+> actually doing the work.
 > 
-> At a high level, I don't think that's going to be sufficient:
+> Additionally, allow mmap prepare functions to return an error so we can
+> error out as soon as possible if there is something logically incorrect in
+> the input.
 > 
-> * On an architecture with other userspace accessible feature
->   identification mechanism registers (e.g. ID registers), userspace
->   might read those. So you might need to hide stuff there too, and
->   that's going to require architecture-specific interfaces to manage.
+> Update remap_pfn_range_prepare() to properly check the input range for the
+> CoW case.
 > 
->   It's possible that some code checks HWCAPs and others check ID
->   registers, and mismatch between the two could be problematic.
+> Also remove io_remap_pfn_range_complete(), as we can simply set up the
+> fields correctly in io_remap_pfn_range_prepare() and use
+> remap_pfn_range_complete() for this.
 > 
-> * If the HWCAPs can be inherited by a more privileged task, then a
->   malicious user could use this to hide security features (e.g. shadow
->   stack or pointer authentication on arm64), and make it easier to
->   attack that task. While not a direct attack, it would undermine those
->   features.
+> While we're here, make remap_pfn_range_prepare_vma() a little neater, and
+> pass mmap_action directly to call_action_complete().
+> 
+> Then, update compat_vma_mmap() to perform its logic directly, as
+> __compat_vma_map() is not used by anything so we don't need to export it.
+> 
+> Also update compat_vma_mmap() to use vfs_mmap_prepare() rather than
+> calling the mmap_prepare op directly.
+> 
+> Finally, update the VMA userland tests to reflect the changes.
+> 
+> Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
 
-Yeah, this looks like a non-starter to me on arm64. Even if it was
-extended to apply the same treatment to the idregs, many of the hwcap
-features can't actually be disabled by the kernel and so you still run
-the risk of a task that probes for the presence of a feature using
-something like a SIGILL handler or, perhaps more likely, assumes that
-the presence of one hwcap implies the presence of another. And then
-there are the applications that just base everything off the MIDR...
+Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 
-There's also kvm, which provides a roundabout way to query some features
-of the underlying hardware.
 
-You're probably better off using/extending the idreg overrides we have
-in arch/arm64/kernel/pi/idreg-override.c so that you can make your
-cluster of heterogeneous machines look alike.
-
-On the other hand, if munging the hwcaps happens to be sufficient for
-this particular use-case, can't it be handled entirely in userspace (e.g.
-by hacking libc?)
-
-Will
