@@ -1,59 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 463C63DDDCD;
-	Tue, 24 Mar 2026 16:35:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 009C91A6827;
+	Tue, 24 Mar 2026 17:06:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774370122; cv=none; b=qYci5dqyf7AmmAxg7/zogFolhE+E2jaGMZ0YAVBkfyoI6qLQI1AiqDh0hdLHfrKwSWKdem99eOW+ab8Qc+SAdoihz3/wVOLpYgHE0lWbFtaM/wHPiE40dxueg0cVA31tvkbOwTsqIWeeUyy8j9roIhJbzZ6eGgMkf7ge06oKA4U=
+	t=1774371989; cv=none; b=DK+NGSSBstO2TlPV6NRoOd2c1zfMxurL+HmnOsIJGGvHCQNQc7GCKDOFK986pdh3L91w5FleCXdqDK/4Ib3HqWJr7yERq9TPyx0QmvXGBRMq5TapFEx4m8lzYk93wKgnL13rZXqNBfTeYoiHW/Fph2jUmC3FsnEo1VfQuG78M70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774370122; c=relaxed/simple;
-	bh=uvgrzaHO3grkwKy9+089vaxpnmbs4+0xFVD7fE+BlCg=;
+	s=arc-20240116; t=1774371989; c=relaxed/simple;
+	bh=3do5ookdd0VXSf3OwjE/LYpsosNLUXlPOPQeT3MWgkg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GfrUkX7GZjvmykWCP1v4WT3N9hTKVip2s8RQMu3ALVQBE49hXyTWs5rCZ5HrLSPsjK4Rxwlc+w9KK5pqtZYB3adM89PIooo69HfG3fiRYsdxN5lOjrPzp3FfofC5Hwa4E/N9y3Eiy9xqohW6PzaGl/gaIiQStUYRkR1HGtul6/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mCj3nnRZ; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=ej3M8JX73kAkca6Zcbu6TxHfh/SypTkxAvZ25IhqWPxltFuyCd0MI5WuAEFOs/ts9H8MQk0MGbunIY56mqHqEiWFo2c/bA0Wz4HPnl59sA4g2W98rwIAfRKi6mpriFzOp2xh0OVgRr9Sx/ONTL+VrKEibhZb3h2bZIgGnlAFUDg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O14t2Tbo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mCj3nnRZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A27FCC19424;
-	Tue, 24 Mar 2026 16:35:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O14t2Tbo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A587C19424;
+	Tue, 24 Mar 2026 17:06:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774370121;
-	bh=uvgrzaHO3grkwKy9+089vaxpnmbs4+0xFVD7fE+BlCg=;
+	s=k20201202; t=1774371988;
+	bh=3do5ookdd0VXSf3OwjE/LYpsosNLUXlPOPQeT3MWgkg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mCj3nnRZEPIdtmViKw3PDpai7OwDquEgzLJEZ26oE90AfteaXy0i9TaB/c7BaxFvb
-	 TbEiCuWEA6Wv27Asd6DPIJsTH4Mx9POnWfqMFokRI+bLy/W2CLoSfDEWfM24Us13Cs
-	 QXtvIAoK0qd8ujZUWv2rJrVyiBeVoH8QP/Ob/fjUArQV4sgDIv/QN7M4pvzKbUoZdK
-	 +j93tcLxP+JAgxjn7Uj5hDnfPw51TI0eFm6GJldqWDg6h4T1BtYK6geAEWodxE/Zw7
-	 nSMQAMGNOD6Cc/Ya9icBBPVn1CDFRReP2qnF9OeRpbQUvvkbOLXBBmRg8bD9QubspZ
-	 mndsFT1HJo3ng==
-Date: Tue, 24 Mar 2026 16:35:10 +0000
-From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Clemens Ladisch <clemens@ladisch.de>, 
-	Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"K . Y . Srinivasan" <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>, 
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Miquel Raynal <miquel.raynal@bootlin.com>, 
-	Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
-	Bodo Stroesser <bostroesser@gmail.com>, "Martin K . Petersen" <martin.petersen@oracle.com>, 
-	David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	David Hildenbrand <david@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org, 
-	linux-mtd@lists.infradead.org, linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org, 
-	target-devel@vger.kernel.org, linux-afs@lists.infradead.org, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org, Ryan Roberts <ryan.roberts@arm.com>
-Subject: Re: [PATCH v4 05/21] mm: switch the rmap lock held option off in
- compat layer
-Message-ID: <ad5e5bed-12b7-4ef7-a93f-753489115cb0@lucifer.local>
-References: <cover.1774045440.git.ljs@kernel.org>
- <dda74230d26a1fcd79a3efab61fa4101dd1cac64.1774045440.git.ljs@kernel.org>
- <d5b66671-697f-4a4d-8039-d9c9ac5ad4d7@kernel.org>
+	b=O14t2TboVb6WHnoQTD5GV+63wQR81LdwqDeGEPG5/3yEUFRpc1w2mzOWvZ4dvmCsS
+	 G2P+CBZhvywHJxxZIYw0i5ix843VOgtMsPeICayr+wOj/UyFxjKOONim7IzNXjzm2V
+	 rVr22NcInyyscEYm17Y+ktWFcuOWsBAOADwlbA6OcjVE7Q6ae8roDEX6LI3D1vJ2uL
+	 FkNkZkrVXGPWtcSDDmKKKLEGt2Xf4f8Xf7Jum5m91WOtE6vXzSHqoDh+UnKeYNZEcJ
+	 9j3jS/d1tPg9okVPAkrRl58f60B5211wR6EcUCI98LK6P4wIYUq8Qomyl3e0zcu94z
+	 192O8lQR9j58w==
+Date: Tue, 24 Mar 2026 10:06:27 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Christoph Hellwig <hch@infradead.org>, Zorro Lang <zlang@redhat.com>,
+	linux-xfs@vger.kernel.org, Tal Zussman <tz2294@columbia.edu>,
+	axboe@kernel.dk, linux-block@vger.kernel.org,
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH] iomap: fix lockdep complaint when reads fail
+Message-ID: <20260324170627.GP6223@frogsfrogsfrogs>
+References: <20260323210017.GL6223@frogsfrogsfrogs>
+ <20260324-zurechnen-sturheit-10ba083e2f06@brauner>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -62,65 +45,48 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d5b66671-697f-4a4d-8039-d9c9ac5ad4d7@kernel.org>
+In-Reply-To: <20260324-zurechnen-sturheit-10ba083e2f06@brauner>
 
-On Tue, Mar 24, 2026 at 03:26:28PM +0100, Vlastimil Babka (SUSE) wrote:
-> On 3/20/26 23:39, Lorenzo Stoakes (Oracle) wrote:
-> > In the mmap_prepare compatibility layer, we don't need to hold the rmap
-> > lock, as we are being called from an .mmap handler.
-> >
-> > The .mmap_prepare hook, when invoked in the VMA logic, is called prior to
-> > the VMA being instantiated, but the completion hook is called after the VMA
-> > is linked into the maple tree, meaning rmap walkers can reach it.
-> >
-> > The mmap hook does not link the VMA into the tree, so this cannot happen.
-> >
-> > Therefore it's safe to simply disable this in the mmap_prepare
-> > compatibility layer.
-> >
-> > Also update VMA tests code to reflect current compatibility layer state.
-> >
-> > Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
->
-> Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
->
-> a typo fix below, Andrew can fix locally?
->
-> > ---
-> >  mm/util.c                       |  6 ++++-
-> >  tools/testing/vma/include/dup.h | 42 +++++++++++++++++----------------
-> >  2 files changed, 27 insertions(+), 21 deletions(-)
-> >
-> > diff --git a/mm/util.c b/mm/util.c
-> > index a2cfa0d77c35..182f0f5cc400 100644
-> > --- a/mm/util.c
-> > +++ b/mm/util.c
-> > @@ -1204,6 +1204,7 @@ int compat_vma_mmap(struct file *file, struct vm_area_struct *vma)
-> >
-> >  		.action.type = MMAP_NOTHING, /* Default */
-> >  	};
-> > +	struct mmap_action *action = &desc.action;
-> >  	int err;
-> >
-> >  	err = vfs_mmap_prepare(file, &desc);
-> > @@ -1214,8 +1215,11 @@ int compat_vma_mmap(struct file *file, struct vm_area_struct *vma)
-> >  	if (err)
-> >  		return err;
-> >
-> > +	/* being invoked from .mmmap means we don't have to enforce this. */
->
-> 				.mmap
+On Tue, Mar 24, 2026 at 09:15:10AM +0100, Christian Brauner wrote:
+> On Mon, 23 Mar 2026 14:00:17 -0700, Darrick J. Wong wrote:
+> > Zorro Lang reported the following lockdep splat:
+> > 
+> > "While running fstests xfs/556 on kernel 7.0.0-rc4+ (HEAD=04a9f1766954),
+> > a lockdep warning was triggered indicating an inconsistent lock state
+> > for sb->s_type->i_lock_key.
+> > 
+> > "The deadlock might occur because iomap_read_end_io (called from a
+> > hardware interrupt completion path) invokes fserror_report, which then
+> > calls igrab.  igrab attempts to acquire the i_lock spinlock. However,
+> > the i_lock is frequently acquired in process context with interrupts
+> > enabled. If an interrupt occurs while a process holds the i_lock, and
+> > that interrupt handler calls fserror_report, the system deadlocks.
+> > 
+> > [...]
+> 
+> Applied to the vfs.fixes branch of the vfs/vfs.git tree.
+> Patches in the vfs.fixes branch should appear in linux-next soon.
+> 
+> Please report any outstanding bugs that were missed during review in a
+> new review to the original patch series allowing us to drop it.
+> 
+> It's encouraged to provide Acked-bys and Reviewed-bys even though the
+> patch has now been applied. If possible patch trailers will be updated.
+> 
+> Note that commit hashes shown below are subject to change due to rebase,
+> trailer updates or similar. If in doubt, please check the listed branch.
+> 
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+> branch: vfs.fixes
+> 
+> [1/1] iomap: fix lockdep complaint when reads fail
 
-mmmmm map! ;)
+Hey Christian,
 
-Andrew - could you fixup in place? Thanks.
+Is it not too late to rename this patch to:
 
->
-> > +	action->hide_from_rmap_until_complete = false;
-> > +
-> >  	set_vma_from_desc(vma, &desc);
-> > -	err = mmap_action_complete(vma, &desc.action);
-> > +	err = mmap_action_complete(vma, action);
-> >  	if (err) {
-> >  		const size_t len = vma_pages(vma) << PAGE_SHIFT;
-> >
+"iomap: fix potential deadlock when buffered reads fail"
+
+--D
+
+>       https://git.kernel.org/vfs/vfs/c/f621324dfb3d
