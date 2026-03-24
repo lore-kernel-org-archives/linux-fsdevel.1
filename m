@@ -1,42 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 009C91A6827;
-	Tue, 24 Mar 2026 17:06:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AFD43D75DE
+	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 17:11:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774371989; cv=none; b=DK+NGSSBstO2TlPV6NRoOd2c1zfMxurL+HmnOsIJGGvHCQNQc7GCKDOFK986pdh3L91w5FleCXdqDK/4Ib3HqWJr7yERq9TPyx0QmvXGBRMq5TapFEx4m8lzYk93wKgnL13rZXqNBfTeYoiHW/Fph2jUmC3FsnEo1VfQuG78M70=
+	t=1774372299; cv=none; b=oS/lRM4wGKM2ZuxMEJoGK8zXQ/2gwaF5RunVTxcmDoJ7GB4EAc6DqiBatmWerquuD0J7VE00r5QHrl/ikPpOPccHg3xeJ9cg67BD6u1+Zu6GdLtGtqKwj0HjQp2e+AjkJszhvkwsU4LJEQNciaHAfAydCxGbHMTTnWpPim/2QAU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774371989; c=relaxed/simple;
-	bh=3do5ookdd0VXSf3OwjE/LYpsosNLUXlPOPQeT3MWgkg=;
+	s=arc-20240116; t=1774372299; c=relaxed/simple;
+	bh=KGyzR6Xr/duTB6cN2dhJAoKg7SYKWn8PB1baEe5S6x4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ej3M8JX73kAkca6Zcbu6TxHfh/SypTkxAvZ25IhqWPxltFuyCd0MI5WuAEFOs/ts9H8MQk0MGbunIY56mqHqEiWFo2c/bA0Wz4HPnl59sA4g2W98rwIAfRKi6mpriFzOp2xh0OVgRr9Sx/ONTL+VrKEibhZb3h2bZIgGnlAFUDg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O14t2Tbo; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=RsOxBNCviNnW6OzNeP2yqF6JLDejVR7NWmLrs9XWluemDEGS4fzzZecgg5hhCnybBbiVGLQ5umCUuLYiXOOW0kHRbaZsstLWVknuvIZ8ppV+eycU2zJzywZT0LaUoHGRH2UFEjN2OdUcW+gV0QcCtAROQ9MT2OiKyPBErDj5TXc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BqjZ1hDn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O14t2Tbo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A587C19424;
-	Tue, 24 Mar 2026 17:06:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BqjZ1hDn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1205EC19424;
+	Tue, 24 Mar 2026 17:11:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774371988;
-	bh=3do5ookdd0VXSf3OwjE/LYpsosNLUXlPOPQeT3MWgkg=;
+	s=k20201202; t=1774372299;
+	bh=KGyzR6Xr/duTB6cN2dhJAoKg7SYKWn8PB1baEe5S6x4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=O14t2TboVb6WHnoQTD5GV+63wQR81LdwqDeGEPG5/3yEUFRpc1w2mzOWvZ4dvmCsS
-	 G2P+CBZhvywHJxxZIYw0i5ix843VOgtMsPeICayr+wOj/UyFxjKOONim7IzNXjzm2V
-	 rVr22NcInyyscEYm17Y+ktWFcuOWsBAOADwlbA6OcjVE7Q6ae8roDEX6LI3D1vJ2uL
-	 FkNkZkrVXGPWtcSDDmKKKLEGt2Xf4f8Xf7Jum5m91WOtE6vXzSHqoDh+UnKeYNZEcJ
-	 9j3jS/d1tPg9okVPAkrRl58f60B5211wR6EcUCI98LK6P4wIYUq8Qomyl3e0zcu94z
-	 192O8lQR9j58w==
-Date: Tue, 24 Mar 2026 10:06:27 -0700
+	b=BqjZ1hDnRY8AgHaMMqbx4BsGy3IhzO5weeuBgWbGSF2d4W+jl7DSgeOWvsjBzFhXG
+	 KzoHI+4nXP5+senJqS52eiZJKNWh+iFKOXUHwuW4kKaYO6nz8WILJcpMq13xTS8E+V
+	 Tl6+5S+5zt0HHOkHyLfZX9ulE5zzp0LbvXnrdvGPXYO7w1z3emwQUD5R76nXcVEbkW
+	 WpRljtFIE26dBsOUVJIvOEWFujgSjG8JYD38kUPKCuGJ/SDIeyks5wXaIM7KHGOojO
+	 j1FBnHzvaS+M7J45TBMBc9mpy0T7kKcQAUHO89ri69mqZtTMQFLm7AzT/gu8/Qa/BP
+	 pbxQO57T17phw==
+Date: Tue, 24 Mar 2026 10:11:38 -0700
 From: "Darrick J. Wong" <djwong@kernel.org>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Christoph Hellwig <hch@infradead.org>, Zorro Lang <zlang@redhat.com>,
-	linux-xfs@vger.kernel.org, Tal Zussman <tz2294@columbia.edu>,
-	axboe@kernel.dk, linux-block@vger.kernel.org,
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH] iomap: fix lockdep complaint when reads fail
-Message-ID: <20260324170627.GP6223@frogsfrogsfrogs>
-References: <20260323210017.GL6223@frogsfrogsfrogs>
- <20260324-zurechnen-sturheit-10ba083e2f06@brauner>
+To: Bernd Schubert <bernd@bsbernd.com>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, jim.harris@nvidia.com,
+	linux-fsdevel@vger.kernel.org, Miklos Szeredi <miklos@szeredi.hu>,
+	Max Gurtovoy <mgurtovoy@nvidia.com>, Idan Zach <izach@nvidia.com>,
+	Konrad Sztyber <ksztyber@nvidia.com>,
+	German Maglione <gmaglione@redhat.com>, hreitz@redhat.com
+Subject: Re: fuse: buffered reads limited to 256KB regardless of negotiated
+ max_pages
+Message-ID: <20260324171138.GS6202@frogsfrogsfrogs>
+References: <20260316145435.BA2542605C3@ubuntu.localdomain>
+ <20260324132149.GB668717@fedora>
+ <30a271bd-eaba-4248-af66-df18a61864ca@bsbernd.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -45,48 +48,157 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260324-zurechnen-sturheit-10ba083e2f06@brauner>
+In-Reply-To: <30a271bd-eaba-4248-af66-df18a61864ca@bsbernd.com>
 
-On Tue, Mar 24, 2026 at 09:15:10AM +0100, Christian Brauner wrote:
-> On Mon, 23 Mar 2026 14:00:17 -0700, Darrick J. Wong wrote:
-> > Zorro Lang reported the following lockdep splat:
+On Tue, Mar 24, 2026 at 05:05:45PM +0100, Bernd Schubert wrote:
+> 
+> 
+> On 3/24/26 14:21, Stefan Hajnoczi wrote:
+> > On Mon, Mar 16, 2026 at 07:54:35AM -0700, jim.harris@nvidia.com wrote:
+> >> Hi all,
+> >>
+> >> We have a FUSE server that advertises max_write=1MB and max_pages=256
+> >> in the FUSE_INIT response. Buffered sequential writes arrive at the
+> >> server at the full 1MB as expected. However, buffered sequential reads
+> >> are capped at 256KB per FUSE READ request.
+> >>
+> >> The cap comes from the BDI readahead window. bdi->ra_pages defaults to
+> >> VM_READAHEAD_PAGES (32 pages / 128KB). For sequential access (e.g. cp),
+> >> posix_fadvise(POSIX_FADV_SEQUENTIAL) doubles the per-file readahead
+> >> window to 2 * bdi->ra_pages (256KB), producing the observed 256KB
+> >> limit. A 1MB application read() results in four sequential 256KB
+> >> round trips to the FUSE server instead of one.
 > > 
-> > "While running fstests xfs/556 on kernel 7.0.0-rc4+ (HEAD=04a9f1766954),
-> > a lockdep warning was triggered indicating an inconsistent lock state
-> > for sb->s_type->i_lock_key.
+> > Hi Jim,
+> > Thanks for sharing this issue. I am CCing Geman Maglione and Hanna
+> > Czenczek who work on virtiofsd and are also becoming more involved in
+> > the virtiofs kernel driver.
 > > 
-> > "The deadlock might occur because iomap_read_end_io (called from a
-> > hardware interrupt completion path) invokes fserror_report, which then
-> > calls igrab.  igrab attempts to acquire the i_lock spinlock. However,
-> > the i_lock is frequently acquired in process context with interrupts
-> > enabled. If an interrupt occurs while a process holds the i_lock, and
-> > that interrupt handler calls fserror_report, the system deadlocks.
+> >> In process_init_reply(), the kernel processes the
+> >> server's max_readahead response like this:
+> >>
+> >>     ra_pages = arg->max_readahead / PAGE_SIZE;
+> >>     fm->sb->s_bdi->ra_pages = min(fm->sb->s_bdi->ra_pages, ra_pages);
+> >>
+> >> Since bdi->ra_pages starts at VM_READAHEAD_PAGES (128KB), and the
+> >> kernel sends this value as init_in->max_readahead, the server can only
+> >> decrease readahead -- never increase it. Even if the server responds
+> >> with max_readahead=1MB, the min() clamps it back to 128KB.
+> >>
+> >> Other filesystems set ra_pages or io_pages based on server/device
+> >> capabilities:
+> >>
+> >>   - SMB/CIFS sets ra_pages directly (2 * rsize, or from mount option)
+> >>   - Ceph sets ra_pages directly from mount option
+> >>   - 9P sets both ra_pages and io_pages from maxdata
+> >>   - NFS sets io_pages from rsize
+> >>
+> >> I see two possible approaches and would like feedback:
+> >>
+> >> Option A: Fix the max_readahead negotiation
+> >>
+> >> Replace the current:
+> >>
+> >>     fm->sb->s_bdi->ra_pages = min(fm->sb->s_bdi->ra_pages, ra_pages);
+> >>
+> >> with:
+> >>
+> >>     fm->sb->s_bdi->ra_pages = min(ra_pages, fc->max_pages);
+> >>
+> >> This uses the server's max_readahead response directly, capped by
+> >> fc->max_pages for safety. I think this is backward compatible:
+> >> existing servers that echo the kernel's 128KB value get the same
+> >> result. Servers that return a lower value still reduce it. Only
+> >> servers that return a higher value see changed behavior.
+> >>
+> >> FUSE servers can opt in by advertising a larger max_readahead in the
+> >> FUSE_INIT response.
+> >>
+> >> Option B: Set io_pages from max_pages
+> >>
+> >> Set bdi->io_pages after FUSE_INIT negotiation:
+> >>
+> >>     fm->sb->s_bdi->io_pages = fc->max_pages;
+> >>
+> >> This matches what NFS does (setting io_pages from rsize). The
+> >> readahead code uses max(bdi->io_pages, ra->ra_pages) to determine
+> >> the maximum readahead size, so a large io_pages would allow larger
+> >> readahead submissions.
+> >>
+> >> This is simpler since no server-side change is needed. However, it
+> >> bypasses the max_readahead protocol field, making max_readahead
+> >> effectively meaningless for any device with large max_pages.
+> >>
+> >> In both cases, fc->max_pages is already clamped by
+> >> fc->max_pages_limit, which for virtio-fs accounts for the virtqueue
+> >> descriptor count.
+> >>
+> >> Thoughts?
 > > 
-> > [...]
+> > I think this is a question for Miklos. You could also send a patch with
+> > your preferred solution to expediate this.
+> > 
+> > Thank you for looking into this - it will be nice to remove this
+> > performance limitation.
 > 
-> Applied to the vfs.fixes branch of the vfs/vfs.git tree.
-> Patches in the vfs.fixes branch should appear in linux-next soon.
 > 
-> Please report any outstanding bugs that were missed during review in a
-> new review to the original patch series allowing us to drop it.
+> We have this patch in our branch:
 > 
-> It's encouraged to provide Acked-bys and Reviewed-bys even though the
-> patch has now been applied. If possible patch trailers will be updated.
+> commit 763c96da4bd6d1bb95d8e6bb7fd352389f3a17b9
+> Author: Bernd Schubert <bschubert@ddn.com>
+> Date:   Wed May 7 23:39:00 2025 +0200
 > 
-> Note that commit hashes shown below are subject to change due to rebase,
-> trailer updates or similar. If in doubt, please check the listed branch.
+>     fuse: Use fuse-server provided read-ahead for CAP_SYS_ADMIN
+>     
+>     read-ahead is currently limited to bdi->ra_pages. One can change
+>     that after the mount with something like
+>     
+>     minor=$(stat -c "%d" /path/to/fuse)
+>     echo 1024 > /sys/class/bdi/0:$(minor)/read_ahead_kb
+>     
+>     Issue is that fuse-server cannot do that from its ->init method,
+>     as it has to know about device minor, which blocks before
+>     init is complete.
+>     
+>     Fuse already sets the bdi value, but upper limit is the current
+>     bdi value. For CAP_SYS_ADMIN we can allow higher values.
+>     
+>     Signed-off-by: Bernd Schubert <bschubert@ddn.com>
 > 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-> branch: vfs.fixes
-> 
-> [1/1] iomap: fix lockdep complaint when reads fail
+> diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+> index af8404f539a3..417598bb3575 100644
+> --- a/fs/fuse/inode.c
+> +++ b/fs/fuse/inode.c
+> @@ -1369,7 +1369,10 @@ static void process_init_reply(struct fuse_mount *fm, struct fuse_args *args,
+>  			fc->no_flock = 1;
+>  		}
+>  
+> -		fm->sb->s_bdi->ra_pages =
+> +		if (CAP_SYS_ADMIN)
 
-Hey Christian,
+I really hope your branch has:
 
-Is it not too late to rename this patch to:
+		if (has_capability_noaudit(current, CAP_SYS_ADMIN))
 
-"iomap: fix potential deadlock when buffered reads fail"
+and not what's written there. ;)
 
 --D
 
->       https://git.kernel.org/vfs/vfs/c/f621324dfb3d
+> +			fm->sb->s_bdi->ra_pages = ra_pages;
+> +		else
+> +			fm->sb->s_bdi->ra_pages =
+>  				min(fm->sb->s_bdi->ra_pages, ra_pages);
+>  		fc->minor = arg->minor;
+>  		fc->max_write = arg->minor < 5 ? 4096 : arg->max_write;
+> 
+> 
+> 
+> 
+> Maybe we can increase the limit for non privileged servers, but
+> not to fc->max_pages, because an admin might tune fuse_max_pages_limit 
+> to a rather large  value. I was able to kind of crash the system
+> with >16MB read-ahead in early 6.x kernels (I think 6.1).
+> 
+> 
+> 
+> 
