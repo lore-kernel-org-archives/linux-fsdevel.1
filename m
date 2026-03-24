@@ -1,194 +1,131 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A75F93D3D1E;
-	Tue, 24 Mar 2026 14:23:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49C0F3FE34B;
+	Tue, 24 Mar 2026 14:26:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774362234; cv=none; b=jzR2UIVmadb+rp6CouJwBgNM+8MInnrIsC5IMxnNZOZQ/2Fa8ymarDqPMjVmcUUgM89dPppczd4+jTcNcEbViwJZg0R/CPz33FP/mQNvnN9D4aqKYSfaH3wB/fDpDXFRXpopfHfeiZN2UKOXUd1pQxBuuJoPZiI4b5VKkc850qc=
+	t=1774362398; cv=none; b=Uc3mdKLN4zCahXUVz7QBNxcvYVgup2clcAOyc/A8LMHE4KpZEzxNElwlLC6TesN6AkHpLtUulkSbAuQh6jBJ9KdlRy6U5kHcD9LNtf+h7TOTJ06nKDUreoZLXIf9qNX9xhSY7KGijJ9wdKg+gwvxGL9mKJt//N5Uf25kVDN+R7w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774362234; c=relaxed/simple;
-	bh=WJr6YvjXtOKVuf68g9gSWSiMHSUdZSG1+XV+/wctW9Y=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SYB8C9qiJNoCGsiboCDt12kuPHY1wLQ7O7U5wY//6vGr6iuBhSjCdZPBVj9qCwTfJrDzQW9q0eaRocYlxOSaK/s/PkbFZ3D7/1Cguqfh78Q0xNtVlRy6Wtc7ykzKVgm8l0Ojp7EPizoaUbkb1jqz97aN6Ndz4h0cKNPRiv24EKQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.224.150])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4fgC2Q4lDFzJ467N;
-	Tue, 24 Mar 2026 22:23:42 +0800 (CST)
-Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
-	by mail.maildlp.com (Postfix) with ESMTPS id A38A34056E;
-	Tue, 24 Mar 2026 22:23:49 +0800 (CST)
-Received: from localhost (10.203.177.15) by dubpeml500005.china.huawei.com
- (7.214.145.207) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Tue, 24 Mar
- 2026 14:23:48 +0000
-Date: Tue, 24 Mar 2026 14:23:46 +0000
-From: Jonathan Cameron <jonathan.cameron@huawei.com>
-To: John Groves <john@jagalactic.com>
-CC: John Groves <John@Groves.net>, Miklos Szeredi <miklos@szeredi.hu>, "Dan
- Williams" <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>,
-	Alison Schofield <alison.schofield@intel.com>, John Groves
-	<jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
-	<skhan@linuxfoundation.org>, Vishal Verma <vishal.l.verma@intel.com>, "Dave
- Jiang" <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, "Jan
- Kara" <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, "David
- Hildenbrand" <david@kernel.org>, Christian Brauner <brauner@kernel.org>,
-	"Darrick J . Wong" <djwong@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
-	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, Stefan
- Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, Josef
- Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Chen
- Linxuan <chenlinxuan@uniontech.com>, "James Morse" <james.morse@arm.com>,
-	Fuad Tabba <tabba@google.com>, "Sean Christopherson" <seanjc@google.com>,
-	Shivank Garg <shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>,
-	Gregory Price <gourry@gourry.net>, Aravind Ramesh <arramesh@micron.com>, Ajay
- Joshi <ajayjoshi@micron.com>, "venkataravis@micron.com"
-	<venkataravis@micron.com>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev"
-	<nvdimm@lists.linux.dev>, "linux-cxl@vger.kernel.org"
-	<linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org"
-	<linux-fsdevel@vger.kernel.org>, Ira Weiny <ira.weiny@intel.com>
-Subject: Re: [PATCH V9 2/8] dax: Factor out dax_folio_reset_order() helper
-Message-ID: <20260324142346.00002edc@huawei.com>
-In-Reply-To: <0100019d1d47285f-eedfbde4-0f74-4356-b694-4b44fab92f2c-000000@email.amazonses.com>
-References: <0100019d1d463523-617e8165-a084-4d91-aa5e-13778264d5d4-000000@email.amazonses.com>
-	<20260324003756.4990-1-john@jagalactic.com>
-	<0100019d1d47285f-eedfbde4-0f74-4356-b694-4b44fab92f2c-000000@email.amazonses.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1774362398; c=relaxed/simple;
+	bh=jbmeTUiHgD1/BUVa6y6/L4uBWdzAaIyEnuCWg6Aqqwk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FuWFEN7dJWXxy9cMoQNY3TpB9ZzxbguBat3WlCvj80xu4F2ksESfe5mRSnQbqTmACC40r/6+iM2tsLLLURY+OtrD/k+VUq9UTtTM1z5bJfv3xcsxFP1jn74iKCFnmHWUEwwJCyYWf6TMkjwWaqW/UVnSsK9q5BxJJOFRvhJ/gnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jHLE0f+j; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jHLE0f+j"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF10FC19424;
+	Tue, 24 Mar 2026 14:26:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774362397;
+	bh=jbmeTUiHgD1/BUVa6y6/L4uBWdzAaIyEnuCWg6Aqqwk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=jHLE0f+jKQrZNp687YBoBRWvKqV1yWHDJoeSVdPwmNvSWECrmPXDTbAi2oKjk+1NJ
+	 qnx4cHZLM+LIL/EoJtJgr2egOHXEYl3PmIEgTgWfctCXapgNTUzCU72gmELiYyBz2u
+	 Bmagz4Dqlv/xXZnYGIqOcn/VE+9HcIDQca+kSTZwU2EdFdYDcSCQi3OsySsDqMWMEj
+	 xJBl1+rl8ONOJYI/rFp2Q6/AgAT6Ooo3EbuSldP/+bCHPCgnXfLdZYk7zRnOoBztke
+	 5D4hhUKhkSo5DjVR7YkZzeoY/AhHGi4yeVpH65JJi5N0Pl6nFAlDHXYhnAvm2OMXP/
+	 QLKTQd8HLcvhQ==
+Message-ID: <d5b66671-697f-4a4d-8039-d9c9ac5ad4d7@kernel.org>
+Date: Tue, 24 Mar 2026 15:26:28 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 05/21] mm: switch the rmap lock held option off in
+ compat layer
+Content-Language: en-US
+To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Clemens Ladisch <clemens@ladisch.de>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "K . Y . Srinivasan" <kys@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+ Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Bodo Stroesser <bostroesser@gmail.com>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ David Hildenbrand <david@kernel.org>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport
+ <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>,
+ Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org,
+ linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org,
+ target-devel@vger.kernel.org, linux-afs@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ Ryan Roberts <ryan.roberts@arm.com>
+References: <cover.1774045440.git.ljs@kernel.org>
+ <dda74230d26a1fcd79a3efab61fa4101dd1cac64.1774045440.git.ljs@kernel.org>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+In-Reply-To: <dda74230d26a1fcd79a3efab61fa4101dd1cac64.1774045440.git.ljs@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml100012.china.huawei.com (7.191.174.184) To
- dubpeml500005.china.huawei.com (7.214.145.207)
 
-On Tue, 24 Mar 2026 00:38:15 +0000
-John Groves <john@jagalactic.com> wrote:
+On 3/20/26 23:39, Lorenzo Stoakes (Oracle) wrote:
+> In the mmap_prepare compatibility layer, we don't need to hold the rmap
+> lock, as we are being called from an .mmap handler.
+> 
+> The .mmap_prepare hook, when invoked in the VMA logic, is called prior to
+> the VMA being instantiated, but the completion hook is called after the VMA
+> is linked into the maple tree, meaning rmap walkers can reach it.
+> 
+> The mmap hook does not link the VMA into the tree, so this cannot happen.
+> 
+> Therefore it's safe to simply disable this in the mmap_prepare
+> compatibility layer.
+> 
+> Also update VMA tests code to reflect current compatibility layer state.
+> 
+> Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
 
-> From: John Groves <John@Groves.net>
-> 
-> Both fs/dax.c:dax_folio_put() and drivers/dax/fsdev.c:
-> fsdev_clear_folio_state() (the latter coming in the next commit after this
-> one) contain nearly identical code to reset a compound DAX folio back to
-> order-0 pages. Factor this out into a shared helper function.
-> 
-> The new dax_folio_reset_order() function:
-> - Clears the folio's mapping and share count
-> - Resets compound folio state via folio_reset_order()
-> - Clears PageHead and compound_head for each sub-page
-> - Restores the pgmap pointer for each resulting order-0 folio
-> - Returns the original folio order (for callers that need to advance by
->   that many pages)
-> 
-> Two intentional differences from the original dax_folio_put() logic:
-> 
-> 1. folio->share is cleared unconditionally. This is correct because the DAX
->    subsystem maintains the invariant that share != 0 only when mapping == NULL
->    (enforced by dax_folio_make_shared()). dax_folio_put() ensures share has
->    reached zero before calling this helper, so the unconditional clear is safe.
-> 
-> 2. folio->pgmap is now explicitly restored for order-0 folios. For the
->    dax_folio_put() caller this is a no-op (reads and writes back the same
->    field). It is intentional for the upcoming fsdev_clear_folio_state()
->    caller, which converts previously-compound folios and needs pgmap
->    re-established for all pages regardless of order.
-> 
-> This simplifies fsdev_clear_folio_state() from ~50 lines to ~15 lines.
-> 
-> Suggested-by: Jonathan Cameron <jonathan.cameron@huawei.com>
-A couple of trivial "if you are respinning" line length of comments
-comments inline.
-Subject to DAX folk sanity checking the new comments match their
-expectations.
+Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 
-Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+a typo fix below, Andrew can fix locally?
 
-
-> Reviewed-by: Ira Weiny <ira.weiny@intel.com>
-> Reviewed-by: Dave Jiang <dave.jiang@intel.com>
-> Signed-off-by: John Groves <john@groves.net>
 > ---
->  fs/dax.c            | 74 ++++++++++++++++++++++++++++++++++-----------
->  include/linux/dax.h |  1 +
->  2 files changed, 57 insertions(+), 18 deletions(-)
+>  mm/util.c                       |  6 ++++-
+>  tools/testing/vma/include/dup.h | 42 +++++++++++++++++----------------
+>  2 files changed, 27 insertions(+), 21 deletions(-)
 > 
-> diff --git a/fs/dax.c b/fs/dax.c
-> index 289e6254aa30..eba86802a7a7 100644
-> --- a/fs/dax.c
-> +++ b/fs/dax.c
-> @@ -378,6 +378,59 @@ static void dax_folio_make_shared(struct folio *folio)
->  	folio->share = 1;
->  }
->  
-> +/**
-> + * dax_folio_reset_order - Reset a compound DAX folio to order-0 pages
-> + * @folio: The folio to reset
-> + *
-> + * Splits a compound folio back into individual order-0 pages,
-> + * clearing compound state and restoring pgmap pointers.
-> + *
-> + * Returns: the original folio order (0 if already order-0)
-> + */
-> +int dax_folio_reset_order(struct folio *folio)
-> +{
-> +	struct dev_pagemap *pgmap = page_pgmap(&folio->page);
-> +	int order = folio_order(folio);
-> +
-> +	/*
-> +	 * DAX maintains the invariant that folio->share != 0 only when
-> +	 * folio->mapping == NULL (enforced by dax_folio_make_shared()).
-> +	 * Equivalently: folio->mapping != NULL implies folio->share == 0.
-> +	 * Callers ensure share has been decremented to zero before
-> +	 * calling here, so unconditionally clearing both fields is
-> +	 * correct.
+> diff --git a/mm/util.c b/mm/util.c
+> index a2cfa0d77c35..182f0f5cc400 100644
+> --- a/mm/util.c
+> +++ b/mm/util.c
+> @@ -1204,6 +1204,7 @@ int compat_vma_mmap(struct file *file, struct vm_area_struct *vma)
+> 
+>  		.action.type = MMAP_NOTHING, /* Default */
+>  	};
+> +	struct mmap_action *action = &desc.action;
+>  	int err;
+> 
+>  	err = vfs_mmap_prepare(file, &desc);
+> @@ -1214,8 +1215,11 @@ int compat_vma_mmap(struct file *file, struct vm_area_struct *vma)
+>  	if (err)
+>  		return err;
+> 
+> +	/* being invoked from .mmmap means we don't have to enforce this. */
 
-If you happen to spin again, wrap is a bit short of standard 80 chars.
-	 * DAX maintains the invariant that folio->share != 0 only when
-	 * folio->mapping == NULL (enforced by dax_folio_make_shared()).
-	 * Equivalently: folio->mapping != NULL implies folio->share == 0.
-	 * Callers ensure share has been decremented to zero before calling here,
-	 * so unconditionally clearing both fields is correct.
-> +	 */
-> +	folio->mapping = NULL;
-> +	folio->share = 0;
-> +
-> +	if (!order) {
-> +		/*
-> +		 * Restore pgmap explicitly even for order-0 folios. For
-> +		 * the dax_folio_put() caller this is a no-op (same value),
-> +		 * but fsdev_clear_folio_state() may call this on folios
-> +		 * that were previously compound and need pgmap
-> +		 * re-established.
-> +		 */
-		 * Restore pgmap explicitly even for order-0 folios. For the
-		 * dax_folio_put() caller this is a no-op (same value), but
-		 * fsdev_clear_folio_state() may call this on folios that were
-		 * previously compound and need pgmap re-established.
-		 */
+				.mmap
 
-> +		folio->pgmap = pgmap;
-> +		return 0;
-> +	}
+> +	action->hide_from_rmap_until_complete = false;
 > +
-> +	folio_reset_order(folio);
-> +
-> +	for (int i = 0; i < (1UL << order); i++) {
-> +		struct page *page = folio_page(folio, i);
-> +		struct folio *f = (struct folio *)page;
-> +
-> +		ClearPageHead(page);
-> +		clear_compound_head(page);
-> +		f->mapping = NULL;
-> +		f->share = 0;
-> +		f->pgmap = pgmap;
-> +	}
-> +
-> +	return order;
-> +}
-
+>  	set_vma_from_desc(vma, &desc);
+> -	err = mmap_action_complete(vma, &desc.action);
+> +	err = mmap_action_complete(vma, action);
+>  	if (err) {
+>  		const size_t len = vma_pages(vma) << PAGE_SHIFT;
+> 
