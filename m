@@ -1,142 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0774F352921
-	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 19:03:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774378996; cv=none; b=SUYtrE94P3seRXyVjtCI9bOFvIXXyl6IGUCiIoaAvFV7mrTxslE2sADAk75nE3jfff1N/q6A0qR8rIJP24GNWWoKUGOUO/rkVhSjoJK04HwuITefZlW1U5uX5Rcq3t44UNn70uop9aC0IQHhI/72TcTddCzoCTVMhd34U6Soc0A=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774378996; c=relaxed/simple;
-	bh=8ERkArUkKAJMAJlGeP18u5PgNVycSZvsdsG8KYtB5t8=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E76EC3BED7F
+	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 19:09:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774379391; cv=pass; b=ZiS/A3BTOfb4FkWnmBm72Utz1GVk46C3/8/PwVJ2rvz1owcvFUrzNKQXnY54mVVlH8gbFqaoSbykoSuwSlZJO+XJJP7MC096qyk5SC4TmBu+yyIX2PJUtHtq/lC028AHS8vdYwDxsMZEwdvORsNDkj187xffZ1TDZB2f8SmVHec=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774379391; c=relaxed/simple;
+	bh=ga4JV9/szVDdjkZ43SYWlrewDuBoIpvwjFPyFW+tFfI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jXOO76C6btUVyT87IJbHOQ0ik8M4vppAB8Mktrr5QKxHKEUjHgT2Pj/qdq2aAxQjSY9CvA4zoskvBjOixeyhQA0SJ6TODL+0/Y9ZBAMmdbogYN24dSp9HP0COyP6qkm/t3AUxzyU4zJjDnXCFJTcjL7zyoE+Fev8k91XF1iyopk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=trXb3kjA; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=EEySl9/kQwNYMZfbM4z2cLtXvowT2MqXbwIj6vKKMMR6rAXyrZ5pEViT5t2JjtTw6ogc3088/rsAMxoh32QQyELPzVl0dnCBNJQ6lXopr1MnlD5w3LpuxVcmrTz4VyPHHZcMLdV4GI46AKArQscg3hOMvbEJ6/+3eG6R0SmmLe4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ml2A5gc2; arc=pass smtp.client-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="trXb3kjA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32EA3C2BCB2
-	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 19:03:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774378995;
-	bh=8ERkArUkKAJMAJlGeP18u5PgNVycSZvsdsG8KYtB5t8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=trXb3kjAHLI67smIXDwwAf48RXbt+0nCdIkpi3H788qXY723neQjh0YgPKFYvJIm1
-	 8m+Qi0x7+ZYZ+j8uHWv4Pwuj41UI1OoGGOlXzac/EtNVqCbwDBg2TenOBSN0CjUzUW
-	 uRfCFut55vMk8wAEa2+r10jCxNCx/Ph/T3GpC26ah0s7U6N8q3g6elCfMTC/GqVFGE
-	 Hx5LEbi55a865esBlPBGVQDuhVy6wBi+4U9S3OkvLpCjRc2CpYLkPEqcnbUFWklkze
-	 CYKsXLgE5pkjR09Y1ziWls4GwsBm0SI6nANr2jkkwCHe8fArJRHbqhEgXzpqA8V7Lk
-	 zQfjKx2T2QbkQ==
-Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-8cfc1aced74so651844685a.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 12:03:15 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCW+u9IEx4WfMFX4gkap8RF+3Rz5mEpSuZHZP2Jw++spfp7605yrG6BLkFAU+ha/BxULIv5gc0V+0vf3dcM3@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyy6LCegfvIvDZpU5HpPdqLwPJaMiLJ8KAAMMkUW/IvmV5KMeVL
-	O0CV3Kru3EfIbe8YFk6hRv3+8KMquJdE6tCCRp5j9sbsR/QTS1lAaGV48zmR3cBVTw1yFG73oAY
-	NigLA4KcwOCcP10/KcjaQkIqG9gf8mIY=
-X-Received: by 2002:a05:6214:1316:b0:89c:5b90:3d7e with SMTP id
- 6a1803df08f44-89cc4ad7e94mr14077846d6.36.1774378994278; Tue, 24 Mar 2026
- 12:03:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ml2A5gc2"
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-6674cba2c50so339135a12.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 12:09:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774379386; cv=none;
+        d=google.com; s=arc-20240605;
+        b=YhWezEg2owbnvRrkx4yAQFzeDyatYFZRgsZb1D677mR6XmY7kZVMX2pMC/GrBNs/7X
+         UAwX8qLSrMXLntfn96BkiFhUR58diAdJrPZjpB4hqFX7RYJwq+k/t7jTPvna2FzIkfgT
+         PSmwVD0GfADbc0BHltxCwz/f0ttoHTjehxUr2gKGSf7JRFlx5MI+Z0eZwD8V3tBcxq2C
+         p5FtRvpw7q2QaO8qBJMxod/f3MSxCFQgL6KBADJ9rRnn/ottcLE3iWWrPnOn1VJUzZN1
+         ihq4/Ykz6eCL9KQ3dgEbmZGLk6RVZFgvsdpqcwGKHA3wSIBPc8ycnfpQuwvRNRJPMzml
+         NauA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ga4JV9/szVDdjkZ43SYWlrewDuBoIpvwjFPyFW+tFfI=;
+        fh=e3Q9M71Wbb8E838LPF8GMlBC0W5v3NDyM9njFiv86ts=;
+        b=IN85NV94XCoPK+dYFjR33J3jNUx1YqUM5OZWDuxaEAJBVHdupDX8PaawBoUSu2/t3k
+         CQ6lbHSOElNLTeVZ2LM13PYFENKUqbJfdKD/M6pErBNN9hpa0xfKPoCiyAbhHB+z1d4w
+         Hh77MaZe25A1LT4+GerLnD0Ulfexh3pP5ePTwmZ26Sg/U2/MIEXNAChP/aIzdHsnnQyb
+         0hItOcjp25vPgvkcLFYIzJXGxe+XUY2W6wt/JBODk0eqE6adomKWBSEsYvQRuLXTw2YP
+         ffPzjW/j/refVMLIYRGgrc3xCFFaREj6yWP6SP3D9CVxa+XmqPlExYhrPud5WTUR4OWQ
+         VJtw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774379386; x=1774984186; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ga4JV9/szVDdjkZ43SYWlrewDuBoIpvwjFPyFW+tFfI=;
+        b=ml2A5gc23gixB6w2ls+wZD2LzDVFGcFqVAWFp5zsZv/MTpUePrCo+GHu/6tHQFzwTI
+         7IhsnArMGNH2e3jlv+eNSqD04QiwQ1L1uXA71LjyFfMYuE75zlikwCu2B/dDphs3EcJV
+         0L8HDliyyqdMqL6NwF49ZCn6bRqZ0DwQ570biJ9lBBBfVvi7KV5KyNbzfpEp3teRKabs
+         4a16yx5QOxVLZtA+vYg/8bj5uImShoPztCO7zkIWFvlXJt+sdE3uLP9QkE2VOkKRqcEL
+         +cX+jaLZBSQ5affNchdCwL0VyScyaFNOf1RTe6dukca41DUC6z2uzIYEX4KfeUq6jK8x
+         HeWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774379386; x=1774984186;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ga4JV9/szVDdjkZ43SYWlrewDuBoIpvwjFPyFW+tFfI=;
+        b=qVNQQm0GUQ5u8CTkGTD/IPSkB7jy9RJIeHgHsb19J9rY20mRP6b3uCvxLdtPZPbtwF
+         pppjwylbj6VzxNZ645Ftcw9AVfSL5aNEEtNrAkpEsPnWr+mu8MSeo/+PeXRo0c4ndPAv
+         1it8A/tzkJ7gxLhoe3CIdQnJTdPChPE+3OOIx9pRAQ9lTD6zZaWZWdk3jpY8gmMexvSp
+         cLgO1Pq8iXgaZ+uGf64sahdoXMUQ17ozYom9/CNC8Ig1hMv3EqTG9/zRJObRCTw2wM5c
+         XcIWjQamSejC99RfxCeLTN3j5Wmq6c0yg+fA/H/mSJb94WIDKU9osCAa3/bgBAcmRNel
+         ZWdg==
+X-Forwarded-Encrypted: i=1; AJvYcCW2Spkq4pqXhUYKGvosJk4m/o2Vy7RLuJiXMxMjX7kf1tMQiR1uGp2XrCIESNxmrGthS0fXVrmS/KS7PnY2@vger.kernel.org
+X-Gm-Message-State: AOJu0YxU9lGd8vAdQE38gLbavhVYKJiNGQukfx/Y21KcZt9nhVrNbL0k
+	PKS9iHNfUYeYrsm0v8tGwsbx7DSQhbqnS8yI5Te2sJ4wvYqjgrkgbvg4Ik9JXT+36lxtu8CmfTy
+	QENA6nTMhzhTomHN6QPDPoCbOwGTNY9A=
+X-Gm-Gg: ATEYQzzEnYcNQGN4M4PLd/+1dOUFBUOIaH3kZcHqXiUp5HUAjY1zPhMzBOeb5NiXq+b
+	sfeBdsUagJluYWHecGJzpT3EQ2iQYyAEtmrUWAB9TqXJLw9SY4V7e130g01N0ALxhCpqB8YjmJ8
+	mPmPQ5WOn/kzJJKTRitKqLQ2zorLSKhwdAuT675Bg25V7Dw2b0/KDSGgvmKGoZRO2ykeo2fGybT
+	B9DKwgtkLZ6OF90lnhfbBBBD9F+p6rQff+rHXEcTyloZiCm8xjQxAnYdfR5IuaqBCZcAzfo2rgD
+	XZbBol0O31gtXwzevOq13TzooEV/brjOA3WGtK3bjw==
+X-Received: by 2002:a17:907:d506:b0:b98:65e:8fb with SMTP id
+ a640c23a62f3a-b99ae1f8cecmr68146766b.5.1774379385581; Tue, 24 Mar 2026
+ 12:09:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260318184400.3502908-1-song@kernel.org> <20260318184400.3502908-7-song@kernel.org>
- <b720f521-e930-4f35-9505-1bfdf9e2818c@I-love.SAKURA.ne.jp>
- <4DF5C4A8-7C92-4F76-9B34-2262089E7289@meta.com> <33abcf34-13e2-4a37-83f3-78bb27ecbc11@I-love.SAKURA.ne.jp>
- <F0A0D13E-8208-49A4-9AC6-89AC4BF3F4FB@meta.com> <20260323-klappen-atemschutz-7a0af8c6b087@brauner>
- <714a614b-cfb4-4b20-af8c-df3cc56dfb92@I-love.SAKURA.ne.jp>
- <CAAeYb7k+TWArOKyOomkLZ8fwqUPjha9iORpJaj4nMyN=o4ZRQg@mail.gmail.com>
- <6609e11e-90aa-4021-974e-e9937688dd49@I-love.SAKURA.ne.jp>
- <CAPhsuW4G7vo-JZqenZ-sFHw9z02wZUJa1-+9U81U--vQhnfG_Q@mail.gmail.com> <6c298238-8d87-4c41-84a7-e0373d466a15@I-love.SAKURA.ne.jp>
-In-Reply-To: <6c298238-8d87-4c41-84a7-e0373d466a15@I-love.SAKURA.ne.jp>
-From: Song Liu <song@kernel.org>
-Date: Tue, 24 Mar 2026 12:03:02 -0700
-X-Gmail-Original-Message-ID: <CAPhsuW4E_BrF0ap5yg_6TbRAna=2Ajk2nuoT6WGwkS5cyyYB3w@mail.gmail.com>
-X-Gm-Features: AaiRm53BtyNmgu2U1A-lRqlHK3FKxeh66Hvb786qvSu1X2siuc6pnMMByLeZto4
-Message-ID: <CAPhsuW4E_BrF0ap5yg_6TbRAna=2Ajk2nuoT6WGwkS5cyyYB3w@mail.gmail.com>
-Subject: Re: [PATCH 6/7] tomoyo: Convert from sb_mount to granular mount hooks
-To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Cc: Song Liu <songliubraving@meta.com>, Christian Brauner <brauner@kernel.org>, 
-	"viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>, "paul@paul-moore.com" <paul@paul-moore.com>, 
-	"jmorris@namei.org" <jmorris@namei.org>, "serge@hallyn.com" <serge@hallyn.com>, "jack@suse.cz" <jack@suse.cz>, 
-	"john.johansen@canonical.com" <john.johansen@canonical.com>, 
-	"stephen.smalley.work@gmail.com" <stephen.smalley.work@gmail.com>, 
-	"omosnace@redhat.com" <omosnace@redhat.com>, "mic@digikod.net" <mic@digikod.net>, 
-	"gnoack@google.com" <gnoack@google.com>, "takedakn@nttdata.co.jp" <takedakn@nttdata.co.jp>, 
-	"herton@canonical.com" <herton@canonical.com>, Kernel Team <kernel-team@meta.com>, 
-	"selinux@vger.kernel.org" <selinux@vger.kernel.org>, 
-	"apparmor@lists.ubuntu.com" <apparmor@lists.ubuntu.com>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
-	"linux-security-module@vger.kernel.org" <linux-security-module@vger.kernel.org>
+References: <20260324145750.90719-1-amir73il@gmail.com> <CAOdxtTY0jsqrJVXH=eQzYcowEpkDxwrk1DMgg8QD4ojygWJQ_Q@mail.gmail.com>
+In-Reply-To: <CAOdxtTY0jsqrJVXH=eQzYcowEpkDxwrk1DMgg8QD4ojygWJQ_Q@mail.gmail.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Tue, 24 Mar 2026 20:09:33 +0100
+X-Gm-Features: AQROBzAWKQvwMoV1EBx8nxLnWhG3imj_5RCL11KUWt-xZJuWrBziHsnhxgQh7j0
+Message-ID: <CAOQ4uxhdpJ5+awnceRzRxmP-ot25_w0LogLYpncLJZXxQOj33Q@mail.gmail.com>
+Subject: Re: [PATCH] ovl: make fsync after metadata copy-up opt-in mount option
+To: Chenglong Tang <chenglongtang@google.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org, 
+	linux-unionfs@vger.kernel.org, Fei Lv <feilv@asrmicro.com>, stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 24, 2026 at 2:59=E2=80=AFAM Tetsuo Handa
-<penguin-kernel@i-love.sakura.ne.jp> wrote:
+On Tue, Mar 24, 2026 at 7:04=E2=80=AFPM Chenglong Tang <chenglongtang@googl=
+e.com> wrote:
 >
-> On 2026/03/24 16:46, Song Liu wrote:
-> > On Mon, Mar 23, 2026 at 11:12=E2=80=AFPM Tetsuo Handa
-> > <penguin-kernel@i-love.sakura.ne.jp> wrote:
-> >>
-> >> On 2026/03/24 4:31, Song Liu wrote:
-> >>>> Then, how can LSM modules know that how the requested filesystem res=
-olves
-> >>>> the dev_name argument, without embedding filesystem specific resolut=
-ion
-> >>>> logic into individual LSM module?
-> >>>
-> >>> IIUC, if an LSM cares about the dev_name of a new mount, it will have=
- to look
-> >>> into each individual filesystem. We can add a LSM hook for the filesy=
-stems to
-> >>> call. But this will require changes to individual filesystem code. OT=
-OH,
-> >>> dev_name can probably bridge the gap as we change filesystems.
-> >>>
-> >>> Would this work?
-> >>
-> >> I guess something like untested diff shown below would work.
-> >
-> > I think this doesn't work with erofs on file (requires
-> > CONFIG_EROFS_FS_BACKED_BY_FILE). erofs may not be the
-> > only one that has this problem.
+> Hi,
 >
-> This is incomplete but I think this is better than now because currently
-> mount() operation likely fails with -ENOENT if the requested filesystem
-> does not interpret fc->source as a pathname despite tomoyo_mount_acl()
-> always interprets fc->source as a pathname when FS_REQUIRES_DEV is set.
+> Regarding the patch: because we are currently locked to the 6.12 LTS
+> kernel, this patch doesn't apply cleanly to our tree (due to missing
+> mainline dependencies like the str_on_off helper).
 
-If I understand Christian correctly, the main challenge here is that
-FS_REQUIRES_DEV doesn't imply fc->source is the path of a device.
-Changing this assumption is a major change between VFS and many
-filesystems.
+Hence:
+Depends: 50e638beb67e0 ("ovl: Use str_on_off() helper in ovl_show_options()=
+")
+I added it for bots and humans that do backporting to 6.12.
 
-I was thinking about something like:
+It is not a "real" dependency. It is a weak dependency for clean apply
+which works well for 6.12.y.
 
-diff --git i/fs/super.c w/fs/super.c
-index 378e81efe643..91ce3003bc23 100644
---- i/fs/super.c
-+++ w/fs/super.c
-@@ -1676,6 +1676,9 @@ int get_tree_bdev_flags(struct fs_context *fc,
-                        errorf(fc, "%s: Can't lookup blockdev", fc->source)=
-;
-                return error;
-        }
-+       error =3D security_mount_dev(fc, dev);
-+       if (error)
-+               return error;
-        fc->sb_flags |=3D SB_NOSEC;
-        s =3D sget_dev(fc, dev);
-        if (IS_ERR(s))
+>
+> Since we are actively tracking this for a Google COS customer
+> escalation, do you have a rough timeline for when you expect this to
+> be merged into mainline and subsequently picked up by the 6.12 stable
+> queue?
+>
 
-This allows the LSMs to monitor the dev being mounted in a new mount.
-If a filesystem doesn't use get_tree_bdev*(), we will need something else
-to cover this specific filesystem. I am not sure whether this is acceptable
-for VFS and LSM, specifically tomoyo and apparmor.
+It's queued on the ovl-fixes branch to be merged into linux-next
+tonight.
 
-Also, before we go too deep into the hook for new mounts, can we focus
-on this set, which will fix some existing TOCTOU issues?
+If there are no rejects from bots or humans, I plan to send it to Linus
+before the weekend.
+
+> We will officially pull it into the COS tree as soon as it lands in
+> linux-stable.
+>
+> Thanks again for the excellent support,
+
+Your report was very informative and well prepared.
+This helps :)
 
 Thanks,
-Song
+Amir.
