@@ -1,96 +1,146 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BADF3E5590;
-	Tue, 24 Mar 2026 14:38:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF5433FD121;
+	Tue, 24 Mar 2026 14:39:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774363091; cv=none; b=c8h/VhXgTV+LVHie/dhwQmlPFZMfna8micPEuGUayZrDjpFo7LLnCO7AbBI+/Wgr8kLS9jwGXvgxdKe0iOYyBrVt1rsHCdB0ML+QMZu119xmBT9cjpISSkajMSmtMlCJlTXKCUwM7F/UBy/QRlEOP2y7iBi0qI7UAqHrHTS39b4=
+	t=1774363176; cv=none; b=Z2B3NNGE+0WhozuSj/giB9QWrJyBByCYN4Mr/rCvJS01opBxsrBpGNOtoal94IMa1her3xfGMkcET3Ts/yQ/friWWkfOgQm0obPSAIBqalmF2avIn/YWHiWb0h2Sk26aqjnvbDeP/f/tIJQ7FcwjpGSOqxpZ4n842y+gk0aR2nY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774363091; c=relaxed/simple;
-	bh=e5f6jgo0dBEyQUURQKSWrpDzBd0JxDsZ01SMVL8k3SU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kdbr3XE67ebaWhFIQfJh0BrRzY6t758FoB4ttwB0P1w8Lh8ltSVKt41dG8fwNUecX1/h9xeY2NZIG3PaQIPV3oNwRErebtIdtvKy56t7+0F4SB30cqhc0k622Nos2cjpHkxY+XqC7bpC2XQNdQYLceTUHqbtnRl+U3wj47DKjxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qIMNEe8j; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qIMNEe8j"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE6B0C19424;
-	Tue, 24 Mar 2026 14:38:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774363091;
-	bh=e5f6jgo0dBEyQUURQKSWrpDzBd0JxDsZ01SMVL8k3SU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=qIMNEe8jc/gh4IeEeHB78CDBRX8uly5TJ7AQbfM/aTBCdNlUClXSmZ3DGj32XYiJq
-	 w3bJ+ggFkIa6py50tYHZOmCtQhawWtrsj76/eDZGqNTS2E6DEDw7zok6+dGEPnugh1
-	 rN0pTjYTfRuusdcmWnyo9rBjiDrJMXTlzi6iUnqi2UkrzVyRfQZmP9Akgci7mz3F+g
-	 QuGR7o1Khy+ZyGWNS8jwo3oNlwx2iL889bycIRnXzH46HhBhKml65awhc9OfKZRYcU
-	 c9A/SwhXZceArl/7YVlb4KEf7T2vzd4jdb/0Re/Fh6+vKY2naQlBbaFBfS5NTPAKfw
-	 5GaQjW2N9rzXA==
-Message-ID: <89b0e46e-693f-454e-ac74-6e396183c5c6@kernel.org>
-Date: Tue, 24 Mar 2026 15:38:01 +0100
+	s=arc-20240116; t=1774363176; c=relaxed/simple;
+	bh=RqDUqW3L3rKetW8HoMI6lvA7Iwm4e4zETz+ERZw6qSg=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XVeVC9FRGdNfyE79RxUAJzxn9oNDcdZVmi6pQo4EwWW+9TdLd1FZBvjteVMCDb/Q3Bqleb6RrY+7CwzkU7DGTNS+L/tETN9FnIb6ROpj7Tp+g1Hmj/PTUj9cjt6k93/tiQyq+aRW/nLZ7igtafyT7u6GvF6cO8TiTXFc51TDKfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.224.107])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4fgCN03zDbzHnGdd;
+	Tue, 24 Mar 2026 22:38:56 +0800 (CST)
+Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
+	by mail.maildlp.com (Postfix) with ESMTPS id 11B6E4058C;
+	Tue, 24 Mar 2026 22:39:30 +0800 (CST)
+Received: from localhost (10.203.177.15) by dubpeml500005.china.huawei.com
+ (7.214.145.207) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Tue, 24 Mar
+ 2026 14:39:28 +0000
+Date: Tue, 24 Mar 2026 14:39:27 +0000
+From: Jonathan Cameron <jonathan.cameron@huawei.com>
+To: John Groves <john@jagalactic.com>
+CC: John Groves <John@Groves.net>, Miklos Szeredi <miklos@szeredi.hu>, "Dan
+ Williams" <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>,
+	Alison Schofield <alison.schofield@intel.com>, John Groves
+	<jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+	<skhan@linuxfoundation.org>, Vishal Verma <vishal.l.verma@intel.com>, "Dave
+ Jiang" <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, "Jan
+ Kara" <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, "David
+ Hildenbrand" <david@kernel.org>, Christian Brauner <brauner@kernel.org>,
+	"Darrick J . Wong" <djwong@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, Stefan
+ Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, Josef
+ Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Chen
+ Linxuan <chenlinxuan@uniontech.com>, "James Morse" <james.morse@arm.com>,
+	Fuad Tabba <tabba@google.com>, "Sean Christopherson" <seanjc@google.com>,
+	Shivank Garg <shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>,
+	Gregory Price <gourry@gourry.net>, Aravind Ramesh <arramesh@micron.com>, Ajay
+ Joshi <ajayjoshi@micron.com>, "venkataravis@micron.com"
+	<venkataravis@micron.com>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev"
+	<nvdimm@lists.linux.dev>, "linux-cxl@vger.kernel.org"
+	<linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org"
+	<linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH V9 3/8] dax: add fsdev.c driver for fs-dax on character
+ dax
+Message-ID: <20260324143927.000024c3@huawei.com>
+In-Reply-To: <0100019d1d476420-6b0bf60e-3b3a-4868-8f5f-484cd55d4709-000000@email.amazonses.com>
+References: <0100019d1d463523-617e8165-a084-4d91-aa5e-13778264d5d4-000000@email.amazonses.com>
+	<20260324003818.5009-1-john@jagalactic.com>
+	<0100019d1d476420-6b0bf60e-3b3a-4868-8f5f-484cd55d4709-000000@email.amazonses.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 07/21] mm: have mmap_action_complete() handle the rmap
- lock and unmap
-Content-Language: en-US
-To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Clemens Ladisch <clemens@ladisch.de>,
- Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "K . Y . Srinivasan" <kys@microsoft.com>,
- Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
- Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Bodo Stroesser <bostroesser@gmail.com>,
- "Martin K . Petersen" <martin.petersen@oracle.com>,
- David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- David Hildenbrand <david@kernel.org>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport
- <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org,
- linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org,
- target-devel@vger.kernel.org, linux-afs@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- Ryan Roberts <ryan.roberts@arm.com>
-References: <cover.1774045440.git.ljs@kernel.org>
- <8d1ee8ebd3542d006a47e8382fb80cf5b57ecf10.1774045440.git.ljs@kernel.org>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-In-Reply-To: <8d1ee8ebd3542d006a47e8382fb80cf5b57ecf10.1774045440.git.ljs@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml100012.china.huawei.com (7.191.174.184) To
+ dubpeml500005.china.huawei.com (7.214.145.207)
 
-On 3/20/26 23:39, Lorenzo Stoakes (Oracle) wrote:
-> Rather than have the callers handle this both the rmap lock release and
-> unmapping the VMA on error, handle it within the mmap_action_complete()
-> logic where it makes sense to, being careful not to unlock twice.
-> 
-> This simplifies the logic and makes it harder to make mistake with this,
-> while retaining correct behaviour with regard to avoiding deadlocks.
-> 
-> Also replace the call_action_complete() function with a direct invocation
-> of mmap_action_complete() as the abstraction is no longer required.
-> 
-> Also update the VMA tests to reflect this change.
-> 
-> Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
+On Tue, 24 Mar 2026 00:38:31 +0000
+John Groves <john@jagalactic.com> wrote:
 
-Nice simplification.
+> From: John Groves <john@groves.net>
+> 
+> The new fsdev driver provides pages/folios initialized compatibly with
+> fsdax - normal rather than devdax-style refcounting, and starting out
+> with order-0 folios.
+> 
+> When fsdev binds to a daxdev, it is usually (always?) switching from the
+> devdax mode (device.c), which pre-initializes compound folios according
+> to its alignment. Fsdev uses fsdev_clear_folio_state() to switch the
+> folios into a fsdax-compatible state.
+> 
+> A side effect of this is that raw mmap doesn't (can't?) work on an fsdev
+> dax instance. Accordingly, The fsdev driver does not provide raw mmap -
+> devices must be put in 'devdax' mode (drivers/dax/device.c) to get raw
+> mmap capability.
+> 
+> In this commit is just the framework, which remaps pages/folios compatibly
+> with fsdax.
+> 
+> Enabling dax changes:
+> 
+> - bus.h: add DAXDRV_FSDEV_TYPE driver type
+> - bus.c: allow DAXDRV_FSDEV_TYPE drivers to bind to daxdevs
+> - dax.h: prototype inode_dax(), which fsdev needs
+> 
+> Suggested-by: Dan Williams <dan.j.williams@intel.com>
+> Suggested-by: Gregory Price <gourry@gourry.net>
+> Signed-off-by: John Groves <john@groves.net>
 
-Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+I was kind of thinking you'd go with a hidden KCONFIG option with default
+magic to do the same build condition to you had in the Makefil, but one the
+user can opt in or out for is also fine.
+
+Comments on that below. Meh, I think this is better anyway :)
+
+Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+
+
+
+> diff --git a/drivers/dax/Kconfig b/drivers/dax/Kconfig
+> index d656e4c0eb84..7051b70980d5 100644
+> --- a/drivers/dax/Kconfig
+> +++ b/drivers/dax/Kconfig
+> @@ -61,6 +61,17 @@ config DEV_DAX_HMEM_DEVICES
+>  	depends on DEV_DAX_HMEM && DAX
+>  	def_bool y
+>  
+> +config DEV_DAX_FSDEV
+> +	tristate "FSDEV DAX: fs-dax compatible devdax driver"
+> +	depends on DEV_DAX && FS_DAX
+> +	help
+> +	  Support fs-dax access to DAX devices via a character device
+> +	  interface. Unlike device_dax (which pre-initializes compound folios
+> +	  based on device alignment), this driver leaves folios at order-0 so
+> +	  that fs-dax filesystems can manage folio order dynamically.
+> +
+> +	  Say M if unsure.
+Fine like this, but if you wanted to hide it in interests of not
+confusing users...
+
+config DEV_DAX_FSDEV
+	tristate
+	depends on DEV_DAX && FS_DAX
+	default DEV_DAX
+
+> +
+>  config DEV_DAX_KMEM
+>  	tristate "KMEM DAX: map dax-devices as System-RAM"
+>  	default DEV_DAX
+
+> +}
 
