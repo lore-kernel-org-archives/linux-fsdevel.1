@@ -1,102 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EFB532F749
-	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 19:51:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10F952DF15C
+	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 20:01:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774381914; cv=none; b=IQbZ5+h436Tazsry1+q1YcTr6SHs4KIK2r61/CfuFzltdjDdHhU9C/ghtw8Ozo7W26gb3X87NfpXUr6rFdJh3i3I6NF5oiT5p12Y7fyzBx0dMblPuF6bBC2UIrJwjnsYcYExBkn4bakEVSHBTJdTRb5Lo9BI7MtHHmhM1TE62dQ=
+	t=1774382484; cv=none; b=Ne3q9MvMvkogUXiyMB4fVqXlohTWUqo+vZdPZVKqaEoTEFlJAPjs6o7ebyjwv/WHaYdihKDQLZ6qLpgOB2ntJxTygteq3OmPnHRmfvk2HemaU04zIxmFxm1oQ4ktQv120BdXDZyhQosxy2DDtrxBhTeWWryZXt60NR7daG1qzRQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774381914; c=relaxed/simple;
-	bh=Gr0EURGRLvnv28/HS5q7loeINuX1bjwxPP2NheRmMuU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Bd98qws93s2aK6nIe5qXEIUkmohh83v+vBuugtkCtnm/CCjvDDnhlENYv17Julyyq8XKlUB7ntkMHh6j53D9OaK26d7YyTSqOuBnRPJZsaifZ7qQOpzAy7S+ZETi42r4LpwFrZQrLBaWUwmohnTwmRrYSEZ6BcndSKNbwDa0MOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MiVbcLuK; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774382484; c=relaxed/simple;
+	bh=Hy+K7UAa7iwhLK4eBQ4F3BupEQoiTt+JgVZj033h1Vs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IOD+KoBSycTtz7ceMG01K0HsKvKYqVCuv6G0PXKXKwJnSxy2bsrMWOQxfVQw0axdJmezJH9dPzI6t0Kv9fumCvC1fLCwqAkMJ9G7RtPVMwRHGc7BjuqMCNQAxoEmW44bA1YQBwa+1XZw0z133xX6hfUdqGXtOjoPUN3bMbwyIpQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=lgRobzcX; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=lMD/p0tD; arc=none smtp.client-ip=103.168.172.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MiVbcLuK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F166C2BC9E;
-	Tue, 24 Mar 2026 19:51:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774381914;
-	bh=Gr0EURGRLvnv28/HS5q7loeINuX1bjwxPP2NheRmMuU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MiVbcLuKkvU9JjQ+SbROgEDMfvGPlSx1VU3bp1UAhsnLt5thzcaWuz8B6UMCQFkmE
-	 OSy/Yf00r84+48sacPCUzhsf87LppUcRe7IAkrSIlTd2FMnb+K6+Po3HZRs3JWpO0/
-	 OdIey9opa8wmixIqoDApSOFvfuiAeXUwK+jHyb14PIzzUHCuzOPtfjIg7lxZT/0Nvx
-	 BKvZR1qjPTY7u1mjVp5YlmYteUas2hnLzXFLe2gIav6Ej/Nswj44SAq9IVzM3W7bK2
-	 Yhl/iVllsTrsvRZ63+42FzWTfvqJvQOeiezl/w7MHRr0Jt7iOcOd65aZgYrUvK+xBw
-	 Oq4wDm7KCCXzQ==
-Date: Tue, 24 Mar 2026 12:51:53 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Bernd Schubert <bernd@bsbernd.com>
-Cc: linux-fsdevel@vger.kernel.org, Miklos Szeredi <miklos@szeredi.hu>,
-	Joanne Koong <joannelkoong@gmail.com>,
-	Bernd Schubert <bschubert@ddn.com>
-Subject: Re: [PATCH 18/19] New mount API: Filter out "user="
-Message-ID: <20260324195153.GU6202@frogsfrogsfrogs>
-References: <20260323-fuse-init-before-mount-v1-0-a52d3040af69@bsbernd.com>
- <20260323-fuse-init-before-mount-v1-18-a52d3040af69@bsbernd.com>
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="lgRobzcX";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="lMD/p0tD"
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 3ECEB140006E;
+	Tue, 24 Mar 2026 16:01:18 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-03.internal (MEProxy); Tue, 24 Mar 2026 16:01:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1774382478;
+	 x=1774468878; bh=BSqcOwFlABxaBoTBwmIeI/TPsMqKW/hKK1T943JDH3Y=; b=
+	lgRobzcXTI3zlf/tNjYHmSPxIHe6HipO+IWbL0nZzhafhWvr2BpLUIyfq3s8ywUL
+	bpeExy0JC3joY+98cdnSVR5kLVS7FtAzj4mkdCgFuX74o5fnaeaem1jLVUfbL8JS
+	8b9w1evyvaN8ditE5B17s8QztK2jH3xVtB9l3e9CkwPh8IoaJQZbOVCPcD+12mtT
+	i9JbC/RnJlqg4HAp1WESeSvDfkMWqjW/Y3ZxAgYRVSeZR1HIRt8D79doD6+JaLrf
+	lz02ct9s0IcWTeEFCR6s85AGLaz8IcCAs68Wht4mvny3eXtLPi57G/Q2e8pmNAwM
+	fJ2M/6bz5MfsBvVtQ7OLbw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1774382478; x=
+	1774468878; bh=BSqcOwFlABxaBoTBwmIeI/TPsMqKW/hKK1T943JDH3Y=; b=l
+	MD/p0tDF/2HyNG3OpTSX58rRqaY4Tt0fTadiajoXhk8dd8s/7V0xWa0b+KHMp1rV
+	kjEIybShioGzsIuaiLiKdmXZfrsWJ7rggO1iRMD4twtX2Y5BEexM0ouHDzAIvNs+
+	zKFhkwBMbuQwNGNOenFUOYLDGwHF4IcZ/2jlAEdlzHBSoBPfZIZkAnQLGcvQpGaY
+	z+PHNi4ju6zRiY37BNIL9XCvxLV3Y6CnKiwxXje1XDKURvBy4iWb7sZmBEA5ES2y
+	KGHMzL0oTXIqG0LZ9oIhIejf5hLkf7Lm8OBOzQJ5jIwIJsaJVKcQgL+GSDV2ZvPc
+	Yfeb3Tcfx4fSU+f08gXJw==
+X-ME-Sender: <xms:je3CaQKbV2buEZmQKCR4SOOhYTTfbNdnuluwY-5LNflfeSuwIq2M4g>
+    <xme:je3CaXCylQViq1EkCojQwN3QnhE_fyQycoR7GW69mIACtNXbq63cD95NQ8ZbsKdxC
+    ULo55XLvUwo15qNMEbf9IhbyanvsJl98pGLI_ZGUXupL8KuDS57>
+X-ME-Received: <xmr:je3CaZAsYCG6lUIkGqk1FedVxno8mrCwLjh_Jcr2_FUnnzTSVrJOAVU5xvQ_L4TT2Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdefvddvgeelucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
+    ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
+    htthgvrhhnpeehhfejueejleehtdehteefvdfgtdelffeuudejhfehgedufedvhfehueev
+    udeugeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    gsvghrnhgusegsshgsvghrnhgurdgtohhmpdhnsggprhgtphhtthhopeehpdhmohguvgep
+    shhmthhpohhuthdprhgtphhtthhopegujhifohhngheskhgvrhhnvghlrdhorhhgpdhrtg
+    hpthhtoheplhhinhhugidqfhhsuggvvhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdp
+    rhgtphhtthhopehmihhklhhoshesshiivghrvgguihdrhhhupdhrtghpthhtohepjhhorg
+    hnnhgvlhhkohhonhhgsehgmhgrihhlrdgtohhmpdhrtghpthhtohepsghstghhuhgsvghr
+    thesuggunhdrtghomh
+X-ME-Proxy: <xmx:je3CaZCDXRiyH4084_bj1iw9AQxznrdnNcEDKbKqr2g456qZw5anvQ>
+    <xmx:je3CaUoh2sGLe7Udvx4S-i_o3QMPLUtKGH8uM7sPvE-wbcvHD22_Sg>
+    <xmx:je3CaTkC_WPYOgz8nOqasKk5YpYbtCWaYp4drfTPrmGEqRLeU3Jzbw>
+    <xmx:je3CaUxwfrNqXxn2HLodiZbS5c0fyF3NJ0DhcMUwNg5fYYsW_PQPZA>
+    <xmx:ju3CaXxf6YpkiI9devc83YZ1QppFtrgcZ8RWXKDV9VMSMBoXWNO0QZ1m>
+Feedback-ID: i5c2e48a5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 24 Mar 2026 16:01:17 -0400 (EDT)
+Message-ID: <0eb22615-7b1b-4472-aa55-6445e05d9cc7@bsbernd.com>
+Date: Tue, 24 Mar 2026 21:01:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260323-fuse-init-before-mount-v1-18-a52d3040af69@bsbernd.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 18/19] New mount API: Filter out "user="
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, Miklos Szeredi <miklos@szeredi.hu>,
+ Joanne Koong <joannelkoong@gmail.com>, Bernd Schubert <bschubert@ddn.com>
+References: <20260323-fuse-init-before-mount-v1-0-a52d3040af69@bsbernd.com>
+ <20260323-fuse-init-before-mount-v1-18-a52d3040af69@bsbernd.com>
+ <20260324195153.GU6202@frogsfrogsfrogs>
+From: Bernd Schubert <bernd@bsbernd.com>
+Content-Language: en-US
+In-Reply-To: <20260324195153.GU6202@frogsfrogsfrogs>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Mar 23, 2026 at 06:45:13PM +0100, Bernd Schubert wrote:
-> From: Bernd Schubert <bschubert@ddn.com>
-> 
-> This gets added in the fusermount process and kernel then fails
-> the mount.
-> 
-> Signed-off-by: Bernd Schubert <bschubert@ddn.com>
-> ---
->  lib/mount_fsmount.c | 13 ++++++++++++-
->  1 file changed, 12 insertions(+), 1 deletion(-)
-> 
-> diff --git a/lib/mount_fsmount.c b/lib/mount_fsmount.c
-> index f1fec790bb80f8815d485a068dc7efdff1746309..76c14cf9a22465160fc6b206ca9b6c9e7300adba 100644
-> --- a/lib/mount_fsmount.c
-> +++ b/lib/mount_fsmount.c
-> @@ -218,6 +218,16 @@ static int is_mount_attr_opt(const char *opt)
->  	       strcmp(opt, "symfollow") == 0;
->  }
->  
-> +/**
-> + * Check if an option is a mount table option (not passed to fsconfig)
-> + */
-> +static int is_mtab_only_opt(const char *opt)
-> +{
-> +	/* These options are for /run/mount/utab only, not for the kernel */
-> +	return strncmp(opt, "user=", 5) == 0 ||
-> +	       strcmp(opt, "rw") == 0;
 
-Oh, so these are added to the mount options string by get_mnt_opts
-and now they need to be pulled out so they aren't passed to fsconfig?
-How'd they get into the argument list in the first place?
 
---D
+On 3/24/26 20:51, Darrick J. Wong wrote:
+> On Mon, Mar 23, 2026 at 06:45:13PM +0100, Bernd Schubert wrote:
+>> From: Bernd Schubert <bschubert@ddn.com>
+>>
+>> This gets added in the fusermount process and kernel then fails
+>> the mount.
+>>
+>> Signed-off-by: Bernd Schubert <bschubert@ddn.com>
+>> ---
+>>  lib/mount_fsmount.c | 13 ++++++++++++-
+>>  1 file changed, 12 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/lib/mount_fsmount.c b/lib/mount_fsmount.c
+>> index f1fec790bb80f8815d485a068dc7efdff1746309..76c14cf9a22465160fc6b206ca9b6c9e7300adba 100644
+>> --- a/lib/mount_fsmount.c
+>> +++ b/lib/mount_fsmount.c
+>> @@ -218,6 +218,16 @@ static int is_mount_attr_opt(const char *opt)
+>>  	       strcmp(opt, "symfollow") == 0;
+>>  }
+>>  
+>> +/**
+>> + * Check if an option is a mount table option (not passed to fsconfig)
+>> + */
+>> +static int is_mtab_only_opt(const char *opt)
+>> +{
+>> +	/* These options are for /run/mount/utab only, not for the kernel */
+>> +	return strncmp(opt, "user=", 5) == 0 ||
+>> +	       strcmp(opt, "rw") == 0;
+> 
+> Oh, so these are added to the mount options string by get_mnt_opts
+> and now they need to be pulled out so they aren't passed to fsconfig?
+> How'd they get into the argument list in the first place?
 
-> +}
-> +
->  /*
->   * Parse kernel options string and apply via fsconfig
->   * Options are comma-separated key=value pairs
-> @@ -241,7 +251,8 @@ static int apply_mount_opts(int fsfd, const char *opts)
->  	opt = strtok_r(opts_copy, ",", &saveptr);
->  	while (opt) {
->  		/* Skip mount attributes - they're handled by fsmount(), not fsconfig() */
-> -		if (!is_mount_attr_opt(opt)) {
-> +		/* Skip mtab-only options - they're for /run/mount/utab, not kernel */
-> +		if (!is_mount_attr_opt(opt) && !is_mtab_only_opt(opt)) {
->  			res = apply_opt_key_value(fsfd, opt);
->  			if (res < 0) {
->  				free(opts_copy);
-> 
-> -- 
-> 2.43.0
-> 
-> 
+
+See the commit message ;) And then check fusermount.c in get_mnt_opts()
+
+
+Cheers,
+Bernd
