@@ -1,102 +1,159 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C01CD3E2755;
-	Tue, 24 Mar 2026 11:33:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDA003EBF05;
+	Tue, 24 Mar 2026 11:38:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774352004; cv=none; b=tmJDR9e4+T1lIOnX6qwdyAOrXvI0hMCUKjAkEPx6wMBGLXGoWoMfUfMRYWck69m+VZ9Iw2eWPcjoLD7RpxjWMYze+Kfty1svvzDAtsQeJcwSYDwLg2i6bm8IZP+pdZQ3K9xjWPeovIxQ+zEc7H45S5jjRWZ6q3XhjW8iSDGZ4gs=
+	t=1774352311; cv=none; b=ttFJ9VtmmJpXaNwoMnG+GBkhWeLpjIgzm2aheXnWYuwaAwPdRcTBcBFpuyPTBG/1bcxHvPTpPG0KmVgF9yFe5aoaHfHK9OWpVHGUf0t09QgbO4w+Y/X/OjAgd4hUIFSngDxQMorUeJJwQ1xOUPsci32RbK60mFYNFdLJBTtOr2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774352004; c=relaxed/simple;
-	bh=ePPalIgg9PA9MCfjCpp8oHYfR8UicQpTOa+6XnR0aI8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bxn2U50pLxJN8c8ckp+3pilKmutCTCFALS4j1u21a5jlxA285LlkI42J7nHBFhNeT8BuuFa51XuLJE84iApOfLLZEyMU7n9r8B1h0i52r/1NUPwzqJT6pfrbbFYIUl8IUki6qx8/TOHF0e4idx2vyFJ0tjHrRnHCMUBgb+Zhagc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P2qWxv6K; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P2qWxv6K"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13859C19424;
-	Tue, 24 Mar 2026 11:33:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774352004;
-	bh=ePPalIgg9PA9MCfjCpp8oHYfR8UicQpTOa+6XnR0aI8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=P2qWxv6K0w5Xbm53d2TWqvQIthrkpHsbYVZ6Z9sWjeq4Bbn79xA3u1A1gQJkAoXsW
-	 z80rpTUWyJzQAf4CAtWj8YIqd6AlcGMTlZUVep7sW2iQTTVzJF49cz4NxnFqlc/JPr
-	 YWC/NhMBBXhPgY0MfSIMjC346ciyg26qn+oM1mrX4yPtfdxpX6IqKvE0KcXuNulk7C
-	 +0staUq/7YmkMUd7t3MNJ3adKH/68nBDba9sTOIUHCA/PV/i0oG1FcJ9o8WX0x4iii
-	 /317o9eYcsgYa2k1z4Oh9Lpu9ehuZEXIx3bPTRNi/UOYmiCfFRy5TnCTTmoWCi0OB/
-	 Jp4A7svm/HrHQ==
-Date: Tue, 24 Mar 2026 07:33:22 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	workflows@vger.kernel.org, tools@kernel.org, x86@kernel.org,
-	Thomas Gleixner <tglx@kernel.org>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Cyril Hrubis <chrubis@suse.cz>, Kees Cook <kees@kernel.org>,
-	Jake Edge <jake@lwn.net>,
-	David Laight <david.laight.linux@gmail.com>,
-	Askar Safin <safinaskar@zohomail.com>,
-	Gabriele Paoloni <gpaoloni@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Ingo Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH v2 3/9] kernel/api: add debugfs interface for kernel API
- specifications
-Message-ID: <acJ2gnnA9MP1wO_Z@laps>
-References: <20260322121026.869758-1-sashal@kernel.org>
- <20260322121026.869758-4-sashal@kernel.org>
- <2026032309-jargon-stalling-28c2@gregkh>
- <acHTupVGxJR3gmFT@laps>
- <2026032411-paramount-lapdog-41e6@gregkh>
+	s=arc-20240116; t=1774352311; c=relaxed/simple;
+	bh=rCpWQbyQWQXl2Qh/RBMXFXWLIW1YHFJBFGuuebulfL0=;
+	h=From:To:Subject:CC:Date:Message-ID:MIME-Version:Content-Type; b=ZzuXR8WUYACwoomuEtq7XgsUV57CvhKzjA1K7JzirjUdbxgxhT0Emloik+KllDdaHhC/ulMmx+qh63hN3TWDFHsiJFLZqCCmsNmlBuKsLFevItMTBdniSBvt0qW5wPU6h4q6mB6plp+EVaIAHKu2Swen9/xDZ5Z4h3ezb6JgwXI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3FDE11476;
+	Tue, 24 Mar 2026 04:38:22 -0700 (PDT)
+Received: from GX9GF4H4XN (unknown [10.1.27.171])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 92B223FE14;
+	Tue, 24 Mar 2026 04:38:26 -0700 (PDT)
+From: Seunguk Shin <seunguk.shin@arm.com>
+To: <linux-kernel@vger.kernel.org>, <dan.j.williams@intel.com>
+Subject: [PATCH v2 RESEND] fs/dax: check zero or empty entry before
+ converting xarray entry
+CC: <linux-fsdevel@vger.kernel.org>, <nvdimm@lists.linux.dev>,
+ <jack@suse.cz>, <willy@infradead.org>, <Nick.Connolly@arm.com>,
+ <ffidencio@nvidia.com>, <seunguk.shin@arm.com>
+Date: Tue, 24 Mar 2026 11:38:17 +0000
+Message-ID: <m2jyv11mqe.fsf@arm.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <2026032411-paramount-lapdog-41e6@gregkh>
+Content-Type: text/plain
 
-On Tue, Mar 24, 2026 at 09:20:01AM +0100, Greg Kroah-Hartman wrote:
->On Mon, Mar 23, 2026 at 07:58:50PM -0400, Sasha Levin wrote:
->> > But this only works if the kabi stuff is built into the kernel image,
->> > right?  This doesn't work if any of these abi sections are in a module
->> > or am I missing that logic here?
->>
->> That is correct, for now.
->>
->> I'm only trying to tackle syscalls to begin with, and since no syscalls live in
->> modules, we have no need for module support.
->
->We used to support syscalls in modules, but thankfully that is now gone.
->But, how will this work for stuff like usbfs ioctls?  That is a module,
->and our uapi is, by far, in drivers through ioctl "hell" and that would
->be great to be able to document through all of this.  Will that just not
->be in the debugfs api?
+Trying to convert zero or empty xarray entry causes kernel panic.
 
-It will. I see it working just like how BTF or trace events do it now.
+[    0.737679] EXT4-fs (pmem0p1): mounted filesystem 79676804-7c8b-491a-b2a6-9bae3c72af70 ro with ordered data mode. Quota mode: disabled.
+[    0.737891] VFS: Mounted root (ext4 filesystem) readonly on device 259:1.
+[    0.739119] devtmpfs: mounted
+[    0.739476] Freeing unused kernel memory: 1920K
+[    0.740156] Run /sbin/init as init process
+[    0.740229]   with arguments:
+[    0.740286]     /sbin/init
+[    0.740321]   with environment:
+[    0.740369]     HOME=/
+[    0.740400]     TERM=linux
+[    0.743162] Unable to handle kernel paging request at virtual address fffffdffbf000008
+[    0.743285] Mem abort info:
+[    0.743316]   ESR = 0x0000000096000006
+[    0.743371]   EC = 0x25: DABT (current EL), IL = 32 bits
+[    0.743444]   SET = 0, FnV = 0
+[    0.743489]   EA = 0, S1PTW = 0
+[    0.743545]   FSC = 0x06: level 2 translation fault
+[    0.743610] Data abort info:
+[    0.743656]   ISV = 0, ISS = 0x00000006, ISS2 = 0x00000000
+[    0.743720]   CM = 0, WnR = 0, TnD = 0, TagAccess = 0
+[    0.743785]   GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
+[    0.743848] swapper pgtable: 4k pages, 48-bit VAs, pgdp=00000000b9d17000
+[    0.743931] [fffffdffbf000008] pgd=10000000bfa3d403, p4d=10000000bfa3d403, pud=1000000040bfe403, pmd=0000000000000000
+[    0.744070] Internal error: Oops: 0000000096000006 [#1]  SMP
+[    0.748888] CPU: 0 UID: 0 PID: 1 Comm: init Not tainted 6.18.4 #1 NONE
+[    0.749421] pstate: 004000c5 (nzcv daIF +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[    0.749969] pc : dax_disassociate_entry.constprop.0+0x20/0x50
+[    0.750444] lr : dax_insert_entry+0xcc/0x408
+[    0.750802] sp : ffff80008000b9e0
+[    0.751083] x29: ffff80008000b9e0 x28: 0000000000000000 x27: 0000000000000000
+[    0.751682] x26: 0000000001963d01 x25: ffff0000004f7d90 x24: 0000000000000000
+[    0.752264] x23: 0000000000000000 x22: ffff80008000bcc8 x21: 0000000000000011
+[    0.752836] x20: ffff80008000ba90 x19: 0000000001963d01 x18: 0000000000000000
+[    0.753407] x17: 0000000000000000 x16: 0000000000000000 x15: 0000000000000000
+[    0.753970] x14: ffffbf3154b9ae70 x13: 0000000000000000 x12: ffffbf3154b9ae70
+[    0.754548] x11: ffffffffffffffff x10: 0000000000000000 x9 : 0000000000000000
+[    0.755122] x8 : 000000000000000d x7 : 000000000000001f x6 : 0000000000000000
+[    0.755707] x5 : 0000000000000000 x4 : 0000000000000000 x3 : fffffdffc0000000
+[    0.756287] x2 : 0000000000000008 x1 : 0000000040000000 x0 : fffffdffbf000000
+[    0.756871] Call trace:
+[    0.757107]  dax_disassociate_entry.constprop.0+0x20/0x50 (P)
+[    0.757592]  dax_iomap_pte_fault+0x4fc/0x808
+[    0.757951]  dax_iomap_fault+0x28/0x30
+[    0.758258]  ext4_dax_huge_fault+0x80/0x2dc
+[    0.758594]  ext4_dax_fault+0x10/0x3c
+[    0.758892]  __do_fault+0x38/0x12c
+[    0.759175]  __handle_mm_fault+0x530/0xcf0
+[    0.759518]  handle_mm_fault+0xe4/0x230
+[    0.759833]  do_page_fault+0x17c/0x4dc
+[    0.760144]  do_translation_fault+0x30/0x38
+[    0.760483]  do_mem_abort+0x40/0x8c
+[    0.760771]  el0_ia+0x4c/0x170
+[    0.761032]  el0t_64_sync_handler+0xd8/0xdc
+[    0.761371]  el0t_64_sync+0x168/0x16c
+[    0.761677] Code: f9453021 f2dfbfe3 cb813080 8b001860 (f9400401)
+[    0.762168] ---[ end trace 0000000000000000 ]---
+[    0.762550] note: init[1] exited with irqs disabled
+[    0.762631] Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b
 
-When a module loads, find_module_sections() extracts the .kapi_specs section
-pointer and element count into new struct module fields. The COMING notifier
-then iterates those specs, registers each via the existing kapi_register_spec()
-dynamic registration path, and creates per-spec debugfs files under the
-existing /sys/kernel/debug/kapi/specs/ directory. The kapi_list_show() function
-is extended to also walk the dynamic_api_specs list (currently it only iterates
-the static __start_kapi_specs..__stop_kapi_specs range). On GOING, all specs
-owned by that module are removed from the list and their debugfs entries
-cleaned up via debugfs_remove().
+This patch just reorders checking and converting.
 
+Fixes: 38607c62b34b ("fs/dax: properly refcount fs dax pages")
+Signed-off-by: Seunguk Shin <seunguk.shin@arm.com>
+Reviewed-by: Jan Kara <jack@suse.cz>
+Reviewed-by: Alistair Popple <apopple@nvidia.com>
+---
+Changes in v2:
+- Add Fixes and Reviewed-by tags.
+- Rebase on the latest.
+- Link to v1: https://lore.kernel.org/all/18af3213-6c46-4611-ba75-da5be5a1c9b0@arm.com/
+---
+ fs/dax.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/fs/dax.c b/fs/dax.c
+index 289e6254aa30..de316be2cc4e 100644
+--- a/fs/dax.c
++++ b/fs/dax.c
+@@ -443,11 +443,12 @@ static void dax_associate_entry(void *entry, struct address_space *mapping,
+ 				unsigned long address, bool shared)
+ {
+ 	unsigned long size = dax_entry_size(entry), index;
+-	struct folio *folio = dax_to_folio(entry);
++	struct folio *folio;
+ 
+ 	if (dax_is_zero_entry(entry) || dax_is_empty_entry(entry))
+ 		return;
+ 
++	folio = dax_to_folio(entry);
+ 	index = linear_page_index(vma, address & ~(size - 1));
+ 	if (shared && (folio->mapping || dax_folio_is_shared(folio))) {
+ 		if (folio->mapping)
+@@ -468,21 +469,23 @@ static void dax_associate_entry(void *entry, struct address_space *mapping,
+ static void dax_disassociate_entry(void *entry, struct address_space *mapping,
+ 				bool trunc)
+ {
+-	struct folio *folio = dax_to_folio(entry);
++	struct folio *folio;
+ 
+ 	if (dax_is_zero_entry(entry) || dax_is_empty_entry(entry))
+ 		return;
+ 
++	folio = dax_to_folio(entry);
+ 	dax_folio_put(folio);
+ }
+ 
+ static struct page *dax_busy_page(void *entry)
+ {
+-	struct folio *folio = dax_to_folio(entry);
++	struct folio *folio;
+ 
+ 	if (dax_is_zero_entry(entry) || dax_is_empty_entry(entry))
+ 		return NULL;
+ 
++	folio = dax_to_folio(entry);
+ 	if (folio_ref_count(folio) - folio_mapcount(folio))
+ 		return &folio->page;
+ 	else
 -- 
-Thanks,
-Sasha
+2.34.1
