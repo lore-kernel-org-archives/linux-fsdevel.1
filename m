@@ -1,32 +1,31 @@
-Received: from out30-100.freemail.mail.aliyun.com (out30-100.freemail.mail.aliyun.com [115.124.30.100])
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 782592D5950
-	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 09:53:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 316CD3DE443;
+	Tue, 24 Mar 2026 09:59:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.181.97.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774345999; cv=none; b=t13Z7x0wnZHfdniPj8hnCBLMMBh6Wpx2C2TmLcnMjMTUlwzTp1dLgRhK8GGhZ2NaK6VM+rllUHV4QiOXtizCNWAmRdYR18yK48Lkh04tsdHDmP+S7UMMBuaI16hMAMY66SovNDT5JSU5Od62jyNSx7yA7SqK0tsaZLZvV/6lO+I=
+	t=1774346373; cv=none; b=u6+SCW/knyhqTyYnLqC3G8FmilDTKN+SDuc3RDQ0z4wOuS5YbRBbfdzIp12OxJ6l2ookI66bopW/IpV/X65v/5PazjD5jlvoqprQWWdGSvKbzU9ltYXF1MWMKKTmO9xLzGH1lNavnTtTMTkiLx91hQfpLbG5UEr5kYSrHTQJLrI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774345999; c=relaxed/simple;
-	bh=/oc55iWshDJ+dBTqXPIfOuUkFfgloZbR+vPu3C08b64=;
+	s=arc-20240116; t=1774346373; c=relaxed/simple;
+	bh=1xU6iCDvCSqHvUmbAzo7xKeogjKnF8lOTAkNLBo8/PI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MurpW0eLTilmJ5yhG3tYAIGAlUkISDuWBUQIWUNftNe+KozQS+b9RolkveQJy6fCdvqV+U3OtxGW57yycKArenTcGbhEGBik0UJjJQ9A6s/q69hZ8akA1mofA6g+F5IqLuFwxCxKLzIuQkRrvSzPmaCFBv+nq6M8O9dGA0uB8T0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=JSTf9XTT; arc=none smtp.client-ip=115.124.30.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="JSTf9XTT"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1774345987; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=VPd3pe0H3kcYuCIwWxb0RO9co0AHJBjV5Lc59g/D1mw=;
-	b=JSTf9XTT95e5Jf7bcnpomPktXmFdMK5i6iea70WJ9RQsudetCDcWcNcj9u1PGgVMwpHJv+EqTeD9WyL3JdLcoK/P+WEYAcpINQ5qNTIV1EuO/YpzIAH/6B7D1HA/b7AXX68e/7cE49C1k+Jj6KsVVTQs8rHuWAOxP9ChNwSeje8=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R151e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037009110;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=14;SR=0;TI=SMTPD_---0X.eECp6_1774345985;
-Received: from 30.221.131.232(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0X.eECp6_1774345985 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Tue, 24 Mar 2026 17:53:05 +0800
-Message-ID: <99ffdfa1-b18a-4f05-91e2-81c320e8edb5@linux.alibaba.com>
-Date: Tue, 24 Mar 2026 17:53:04 +0800
+	 In-Reply-To:Content-Type; b=ANgnoej+Z+ndFyoQrsmluCxx0IY9d4v3m4dPyzwAQUadfKkaetRr5Qtu60JHlcH7/2BG8DkJ5WUXfCmZ4X1ydIZxucZLdEXt/CUeInPDkX20Ij+b5PMZ4rNGR8WYvJirq4FIfAzqegWl0EkXorV8iIuZWFM5zFqxP44+UKAWxs4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp; arc=none smtp.client-ip=202.181.97.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp
+Received: from www262.sakura.ne.jp (localhost [127.0.0.1])
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 62O9wJsG072034;
+	Tue, 24 Mar 2026 18:58:19 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from [192.168.1.2] (M106072072000.v4.enabler.ne.jp [106.72.72.0])
+	(authenticated bits=0)
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 62O9wJMb072031
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+	Tue, 24 Mar 2026 18:58:19 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <6c298238-8d87-4c41-84a7-e0373d466a15@I-love.SAKURA.ne.jp>
+Date: Tue, 24 Mar 2026 18:58:15 +0900
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -34,152 +33,87 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [Lsf-pc] [LSF/MM/BPF TOPIC] Where is fuse going? API cleanup,
- restructuring and more
-To: Demi Marie Obenour <demiobenour@gmail.com>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-Cc: "Darrick J. Wong" <djwong@kernel.org>, Miklos Szeredi
- <miklos@szeredi.hu>, linux-fsdevel@vger.kernel.org,
- Joanne Koong <joannelkoong@gmail.com>, John Groves <John@groves.net>,
- Bernd Schubert <bernd@bsbernd.com>, Amir Goldstein <amir73il@gmail.com>,
- Luis Henriques <luis@igalia.com>, Horst Birthelmer <horst@birthelmer.de>,
- Gao Xiang <xiang@kernel.org>, lsf-pc@lists.linux-foundation.org
-References: <361d312b-9706-45ca-8943-b655a75c765b@gmail.com>
- <390cd031-742b-4f1b-99c4-8ee41a259744@linux.alibaba.com>
- <j3gafvpt6r47trvrkttfvilejplluagdz3alcjxmc7xhnzmemv@tahjpv2ak6qj>
- <cfe18ae0-7dc0-4601-a9f0-c0665f301cfe@linux.alibaba.com>
- <s3y7qrkgwedbkltpt7mjjzisazynzms3btablzpxhdoezapddy@xanux4rrspwd>
- <72eaaed1-24a0-4c98-a7c0-ea249d541f2d@linux.alibaba.com>
- <9af9ad0e-8070-4aaa-9f64-7d72074bd948@linux.alibaba.com>
- <wo2nf7bux5rhexbpyeutbb5bkpqlumq3ht7iqxdft7lhc2p6va@3q6wsi2xndpu>
- <68116ee5-b1f7-484b-a520-7dc5aefd7738@linux.alibaba.com>
- <2gyfmxfnnxrglpzb7kz63xbve5vnosl6gi54c3umgrpwbjr4og@lz4e2ptqanfe>
- <20260324-hilfen-reibung-9783005d5d0f@brauner>
- <ee146a41-2628-4cde-9f82-e718480edd4d@linux.alibaba.com>
- <052d27ff-9239-44fa-8604-336de0dc4711@gmail.com>
-From: Gao Xiang <hsiangkao@linux.alibaba.com>
-In-Reply-To: <052d27ff-9239-44fa-8604-336de0dc4711@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 6/7] tomoyo: Convert from sb_mount to granular mount hooks
+To: Song Liu <song@kernel.org>
+Cc: Song Liu <songliubraving@meta.com>,
+        Christian Brauner
+ <brauner@kernel.org>,
+        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+        "paul@paul-moore.com" <paul@paul-moore.com>,
+        "jmorris@namei.org" <jmorris@namei.org>,
+        "serge@hallyn.com"
+ <serge@hallyn.com>, "jack@suse.cz" <jack@suse.cz>,
+        "john.johansen@canonical.com" <john.johansen@canonical.com>,
+        "stephen.smalley.work@gmail.com" <stephen.smalley.work@gmail.com>,
+        "omosnace@redhat.com" <omosnace@redhat.com>,
+        "mic@digikod.net" <mic@digikod.net>,
+        "gnoack@google.com"
+ <gnoack@google.com>,
+        "takedakn@nttdata.co.jp" <takedakn@nttdata.co.jp>,
+        "herton@canonical.com" <herton@canonical.com>,
+        Kernel Team <kernel-team@meta.com>,
+        "selinux@vger.kernel.org" <selinux@vger.kernel.org>,
+        "apparmor@lists.ubuntu.com" <apparmor@lists.ubuntu.com>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org"
+ <linux-security-module@vger.kernel.org>
+References: <20260318184400.3502908-1-song@kernel.org>
+ <20260318184400.3502908-7-song@kernel.org>
+ <b720f521-e930-4f35-9505-1bfdf9e2818c@I-love.SAKURA.ne.jp>
+ <4DF5C4A8-7C92-4F76-9B34-2262089E7289@meta.com>
+ <33abcf34-13e2-4a37-83f3-78bb27ecbc11@I-love.SAKURA.ne.jp>
+ <F0A0D13E-8208-49A4-9AC6-89AC4BF3F4FB@meta.com>
+ <20260323-klappen-atemschutz-7a0af8c6b087@brauner>
+ <714a614b-cfb4-4b20-af8c-df3cc56dfb92@I-love.SAKURA.ne.jp>
+ <CAAeYb7k+TWArOKyOomkLZ8fwqUPjha9iORpJaj4nMyN=o4ZRQg@mail.gmail.com>
+ <6609e11e-90aa-4021-974e-e9937688dd49@I-love.SAKURA.ne.jp>
+ <CAPhsuW4G7vo-JZqenZ-sFHw9z02wZUJa1-+9U81U--vQhnfG_Q@mail.gmail.com>
+Content-Language: en-US
+From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+In-Reply-To: <CAPhsuW4G7vo-JZqenZ-sFHw9z02wZUJa1-+9U81U--vQhnfG_Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Virus-Status: clean
+X-Anti-Virus-Server: fsav104.rs.sakura.ne.jp
 
-
-
-On 2026/3/24 17:49, Demi Marie Obenour wrote:
-> On 3/24/26 05:30, Gao Xiang wrote:
->> Hi Christian,
+On 2026/03/24 16:46, Song Liu wrote:
+> On Mon, Mar 23, 2026 at 11:12 PM Tetsuo Handa
+> <penguin-kernel@i-love.sakura.ne.jp> wrote:
 >>
->> On 2026/3/24 16:48, Christian Brauner wrote:
->>> On Mon, Mar 23, 2026 at 03:47:24PM +0100, Jan Kara wrote:
->>>> On Mon 23-03-26 22:36:46, Gao Xiang wrote:
->>>>> On 2026/3/23 22:13, Jan Kara wrote:
->>>>>>>> think that is the corner cases if you don't claim the
->>>>>>>> limitation of FUSE approaches.
->>>>>>>>
->>>>>>>> If none expects that, that is absolute be fine, as I said,
->>>>>>>> it provides strong isolation and stability, but I really
->>>>>>>> suspect this approach could be abused to mount totally
->>>>>>>> untrusted remote filesystems (Actually as I said, some
->>>>>>>> business of ours already did: fetching EXT4 filesystems
->>>>>>>> with unknown status and mount without fscking, that is
->>>>>>>> really disappointing.)
->>>>>>
->>>>>> Yes, someone downloading untrusted ext4 image, mounting in read-write and
->>>>>> using it for sensitive application, that falls to "insane" category for me
->>>>>> :) We agree on that. And I agree that depending on the application using
->>>>>> FUSE to access such filesystem needn't be safe enough and immutable fs +
->>>>>> overlayfs writeable layer may provide better guarantees about fs behavior.
->>>>>
->>>>> That is my overall goal, I just want to make it clear
->>>>> the difference out of write isolation, but of course,
->>>>> "secure" or not is relative, and according to the
->>>>> system design.
->>>>>
->>>>> If isolation and system stability are enough for
->>>>> a system and can be called "secure", yes, they are
->>>>> both the same in such aspects.
->>>>>
->>>>>> I would still consider such design highly suspicious but without more
->>>>>> detailed knowledge about the application I cannot say it's outright broken
->>>>>> :).
->>>>>
->>>>> What do you mean "such design"?  "Writable untrusted
->>>>> remote EXT4 images mounting on the host"? Really, we have
->>>>> such applications for containers for many years but I don't
->>>>> want to name it here, but I'm totally exhaused by such
->>>>> usage (since I explained many many times, and they even
->>>>> never bother with LWN.net) and the internal team.
->>>>
->>>> By "such design" I meant generally the concept that you fetch filesystem
->>>> images (regardless whether ext4 or some other type) from untrusted source.
->>>> Unless you do cryptographical verification of the data, you never know what
->>>> kind of garbage your application is processing which is always invitation
->>>> for nasty exploits and bugs...
+>> On 2026/03/24 4:31, Song Liu wrote:
+>>>> Then, how can LSM modules know that how the requested filesystem resolves
+>>>> the dev_name argument, without embedding filesystem specific resolution
+>>>> logic into individual LSM module?
 >>>
->>> If this is another 500 mail discussion about FS_USERNS_MOUNT on
->>> block-backed filesystems then my verdict still stands that the only
->>> condition under which I will let the VFS allow this if the underlying
->>> device is signed and dm-verity protected. The kernel will continue to
->>> refuse unprivileged policy in general and specifically based on quality
->>> or implementation of the underlying filesystem driver.
+>>> IIUC, if an LSM cares about the dev_name of a new mount, it will have to look
+>>> into each individual filesystem. We can add a LSM hook for the filesystems to
+>>> call. But this will require changes to individual filesystem code. OTOH,
+>>> dev_name can probably bridge the gap as we change filesystems.
+>>>
+>>> Would this work?
 >>
->>
->> First, if block devices are your concern, fine, how about
->> allowing it if EROFS file-backed mounts and S_IMMUTABLE
->> for underlay files is set, and refuse any block device
->> mounts.
->>
->> If the issue is "you don't know how to define the quality
->> or implementation of the underlying filesystem drivers",
->> you could list your detailed concerns (I think at least
->> people have trust to the individual filesystem
->> maintainers' judgements), otherwise there will be endless
->> new sets of new immutable filesystems for this requirement
->> (previously, composefs , puzzlefs, and tarfs are all for
->> this; I admit I didn't get the point of FS_USERNS_MOUNT
->> at that time of 2023; but know I also think FS_USERNS_MOUNT
->> is a strong requirement for DinD for example), because that
->> idea should be sensible according to Darrick and Jan's
->> reply, and I think more people will agree with that.
->>
->> And another idea is that you still could return arbitary
->> metadata with immutable FUSE fses and let users get
->> garbage (meta)data, and FUSE already allows FS_USERNS_MOUNT,
->> and if user and mount namespaces are isolated, why bothering
->> it?
->>
->> I just hope know why? And as you may notice,
->> "Demi Marie Obenour wrote:"
->>
->>> The only exceptions are if the filesystem is incredibly simple
->>> or formal methods are used, and neither is the case for existing
->>> filesystems in the Linux kernel.
->>
->> I still strong disagree with that judgement, a minimal EROFS
->> can build an image with superblock, dirs, and files with
->> xattrs in a 4k-size image; and 4k image should be enough for
->> fuzzing; also the in-core EROFS format even never allocates
->> any extra buffers, which is much simplar than FUSE.
->>
->> In brief, so how to meet your requirement?
->>
->> Thanks,
->> Gao Xiang
+>> I guess something like untested diff shown below would work.
 > 
-> Rewriting the code in Rust would dramatically reduce the attack
-> surface when it comes to memory corruption.  That's a lot to ask,
-> though, and a lot of work.
+> I think this doesn't work with erofs on file (requires
+> CONFIG_EROFS_FS_BACKED_BY_FILE). erofs may not be the
+> only one that has this problem.
 
-I don't think so, FUSE can do FS_USERNS_MOUNT and written in C
-, and the attack surface is already huge.
+This is incomplete but I think this is better than now because currently
+mount() operation likely fails with -ENOENT if the requested filesystem
+does not interpret fc->source as a pathname despite tomoyo_mount_acl()
+always interprets fc->source as a pathname when FS_REQUIRES_DEV is set.
 
-EROFS will switch to Rust some time, but your judgement will
-make people to make another complete new toys of Rust kernel
-filesystems --- just because EROFS is currently not written
-in Rust.
+Also, mount() operation might by error succeed because tomoyo_mount_acl()
+checks permission against unintended file when e.g. "mtd0" by chance exists
+in the current directory.
 
-I'm completely exhaused with such game: If I will address
-every single fuzzing bug and CVE, why not?
+We could add filesystem-specific logic to e.g. CONFIG_EROFS_FS_BACKED_BY_FILE
+case that copies the resolved "struct path" to fc->source_path. But even without
+adding filesystem-specific logic, mount() operation will succeed because
+tomoyo_mount_acl() can handle fc->source as a string rather than a canonicalized
+pathname.
 
-Thanks,
-Gao Xiang
+Being able to know whether tomoyo_mount_acl() should interpret dev_name as a
+pathname (which is subjected to canonicalization, and also subjected to more
+complicated permission checks based on e.g. inode's uid/gid) is appreciated.
 
