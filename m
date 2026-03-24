@@ -1,889 +1,382 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DBF93081D6
-	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 19:35:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774380937; cv=none; b=Da+SWbZyHIzPGXD374ImywcpZZiPsmuxwhc/w9kJBb8qYy1HoHCGYNe8UZKIoG4b6upkdBsMJqLZenn9iEa8nV3ZO2anpMoW76uoQ5pG3ez7ynXDWi4cuCFpXHyoPFLzi+jSPz5zJ15uBlLHHRIkziG/f+ezqPA8TaKki/Xs/mM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774380937; c=relaxed/simple;
-	bh=gS6E0/1Qf+Nv5lUpmGsqbO9Lk9fZ0kM7uqX7KnNDOTo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U0biB32j16hIgheSKOML3cTLXTnGB3y4irWCbcl6v2pPBoFOY+K0E0SA4tDVnngVkNfzHL0UyyhEWt9u1TFkxQTZOqdbl/UWxreJsSDUCbIu2jXdU5bzZL/k1KTAtwNXF2tMbN4/zQYVtte1XRHHA3xLYr/14PY30/9nfbv5fzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=msv/sWia; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F585318BA8;
+	Tue, 24 Mar 2026 19:46:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.13
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774381612; cv=fail; b=nRME7pd+/tmu9Uk8iA/yYmNVtns9eL/Yv8V2Jgb2C8ghXHQHj9p0FcWowenhZbEdlglbEW/5VwO1Jyz1EDPY6p0uLU/1ndbk/KoE7DsA5nH0TRYwoAVal89iJp3k6IX1814JwNyrmI9OEBpATGx43yji6Ud/DQOLcTuQIPKSRVc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774381612; c=relaxed/simple;
+	bh=SII/7xeCvPsgw0P3zddZaNvNW5XhzEkaazQ88aZc5rw=;
+	h=From:Date:To:CC:Message-ID:In-Reply-To:References:Subject:
+	 Content-Type:MIME-Version; b=JCDmPGGKCVsf8iyRHn0mtZA2Hu+46ZhX4/UvVCIDpKVe/SdIA/dAxwtsCauuSzGkn0XgDTHMP45GujXf0MMQKhugEN0WUCVI/eGM7DT0h2lgtRoh0xSLu6WYQnWhSd46Wl7tN1O47JLiObazrq7QOKutOrWySsb1DHB6nEOkZ0I=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bGm/3If1; arc=fail smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="msv/sWia"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBA9DC19424;
-	Tue, 24 Mar 2026 19:35:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774380937;
-	bh=gS6E0/1Qf+Nv5lUpmGsqbO9Lk9fZ0kM7uqX7KnNDOTo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=msv/sWiaXJ4XftPA9L6V43ueBEl/RWenApea61EWxXBZu7q3AJpUqWJi6wnY5PlI+
-	 vwtwlsvW3PvFbzD6gA2DEpFaJf9JS079eSdcEt+4qhZ37GzsZSF/CJ3otGjYSJm6tR
-	 ijgv2caoC7jzRn6AW6/qpQtPTlaAfiwCMXxpbllVwL/zLd7J4ZSgVfq+hQ9VnNOUCo
-	 NHGl15P0D7sia/A736R+94akJVfM9ZhzNVAKW9T1dTnloZGabGjtebUiOAjYpCuVJl
-	 abZrH9gyIdX+Wc+mS1DzX1lAIoCTz4iT7yq8i89VwqqOEAN2/HNjYsb8KURtwWdoZe
-	 g2eE8qJtrUFlw==
-Date: Tue, 24 Mar 2026 12:35:36 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Bernd Schubert <bernd@bsbernd.com>
-Cc: linux-fsdevel@vger.kernel.org, Miklos Szeredi <miklos@szeredi.hu>,
-	Joanne Koong <joannelkoong@gmail.com>,
-	Bernd Schubert <bschubert@ddn.com>
-Subject: Re: [PATCH 17/19] Make fusermount work bidirectional for sync init
-Message-ID: <20260324193536.GT6202@frogsfrogsfrogs>
-References: <20260323-fuse-init-before-mount-v1-0-a52d3040af69@bsbernd.com>
- <20260323-fuse-init-before-mount-v1-17-a52d3040af69@bsbernd.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bGm/3If1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774381608; x=1805917608;
+  h=from:date:to:cc:message-id:in-reply-to:references:
+   subject:content-transfer-encoding:mime-version;
+  bh=SII/7xeCvPsgw0P3zddZaNvNW5XhzEkaazQ88aZc5rw=;
+  b=bGm/3If1WTbN3WoHrJ9vITLwO+aps0zWFEshGSqBXayLKT6uKyhWSRGO
+   NNH0qaUbQiIqAkXFp0Wc8MtUpuvDULKUK21SRI1Ox69DKKeh8FqxpSPNs
+   PQ5ZhpG9bwgwYZJhb/2NCrp2/nmaT/XYCx3a6iUiKxGHDb+sJ6ayDI2yv
+   HkBfRPX4ISS+XeX7Zb+nP25M3cLxdmbF+8j0L9w1OTN5HfR+IaGNGWffS
+   IJ+wm3mCB8kiBdkTdAKcc02tdTyY8B15tb9X0CmY26RqWCYF3ox1LX2QA
+   N0lxbqDCZneycAzumKbJjxJpwAGOpnUoTNlXEBlYbW/R7AQWhuuH4bSvm
+   Q==;
+X-CSE-ConnectionGUID: MsmRRtBKRsOBtqh6G1pBsA==
+X-CSE-MsgGUID: 1mZGuu8RRsS4rn019LEheQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="86487045"
+X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
+   d="scan'208";a="86487045"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 12:46:47 -0700
+X-CSE-ConnectionGUID: til5AyqQS06puNXN4le8YQ==
+X-CSE-MsgGUID: hYKhXhZoRHq5td2/0BFANg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
+   d="scan'208";a="254964375"
+Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
+  by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 12:46:46 -0700
+Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Tue, 24 Mar 2026 12:46:46 -0700
+Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
+ FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Tue, 24 Mar 2026 12:46:46 -0700
+Received: from CH4PR04CU002.outbound.protection.outlook.com (40.107.201.28) by
+ edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Tue, 24 Mar 2026 12:46:45 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Vy1nIXUOlY0ApMKc19QBVBkaOD8ogpLqUnDsr560vHPPutPLG3SBjgD5rqEAf8YTtuB6NtoJEW8mg1wx9IyGx3EEdIE8xWpsVGj3fEoZTSRO5bIM59vuXNYGo46vg5Zvwfn+GNHXwqyGIMJtKItk006Heu7rSSom4ngSByHUJY6+/rfJhqs1jdunq9yNZNHlA5SfAic5ritKktbrRUd3W7NDo/16hlZJ3H6GGpVB6fFnK+97ufYQoj0FuU5dODXD1abfxyRovPWDUrJrFeWY2w7Huychzi34+bnKUAg0XWBhm0yyqEvcx7qlq7s6lhh3muGTb4M05f4tkhVbWMT4ug==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PDfxH0FFYAkxjj/4ASFi493PM/ItnitpnK4rTPNiFzw=;
+ b=gxtq5h9sZ2Wuwr/qYR8KNt4ZCDsJQuCxm8CJLC/mSfW2iW6iKsoAIQ5H+ImXMsPRCyr1ewJWe6obofNRO+sLt3Y5HNk+zmQn8+yJHiN3JUyIhX71FcpgOucdcYAb2UP4tsUNqqjdWmexJVipJa2np2c+RRRtnHoepSQ0A8x7sjsNprJpGf086Gka28EKTEE3hQ6CDKmCL+CjJQpll+9V33Us1tFUoXLrCY3tjwsvnMKN9axBNiseOz9TrxnO0EP2iiWCOw6O3HvZ5UnquEnk/vwiLlwgYLfyAobl7gSCwBFLaELqAqD36BeIY6nBWIXONNpVHs8sAkyUSQqFqGrjow==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH8PR11MB8107.namprd11.prod.outlook.com (2603:10b6:510:256::6)
+ by DS0PR11MB7767.namprd11.prod.outlook.com (2603:10b6:8:138::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.9; Tue, 24 Mar
+ 2026 19:46:41 +0000
+Received: from PH8PR11MB8107.namprd11.prod.outlook.com
+ ([fe80::1ff:1e09:994b:21ff]) by PH8PR11MB8107.namprd11.prod.outlook.com
+ ([fe80::1ff:1e09:994b:21ff%3]) with mapi id 15.20.9745.019; Tue, 24 Mar 2026
+ 19:46:41 +0000
+From: Dan Williams <dan.j.williams@intel.com>
+Date: Tue, 24 Mar 2026 12:46:38 -0700
+To: Alison Schofield <alison.schofield@intel.com>, Dan Williams
+	<dan.j.williams@intel.com>
+CC: Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>,
+	<linux-cxl@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<nvdimm@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
+	<linux-pm@vger.kernel.org>, Ard Biesheuvel <ardb@kernel.org>, Vishal Verma
+	<vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>, Jonathan Cameron
+	<jonathan.cameron@huawei.com>, Yazen Ghannam <yazen.ghannam@amd.com>, "Dave
+ Jiang" <dave.jiang@intel.com>, Davidlohr Bueso <dave@stgolabs.net>, "Matthew
+ Wilcox" <willy@infradead.org>, Jan Kara <jack@suse.cz>, "Rafael J . Wysocki"
+	<rafael@kernel.org>, Len Brown <len.brown@intel.com>, Pavel Machek
+	<pavel@kernel.org>, Li Ming <ming.li@zohomail.com>, Jeff Johnson
+	<jeff.johnson@oss.qualcomm.com>, Ying Huang <huang.ying.caritas@gmail.com>,
+	Yao Xingtao <yaoxt.fnst@fujitsu.com>, Peter Zijlstra <peterz@infradead.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Nathan Fontenot
+	<nathan.fontenot@amd.com>, Terry Bowman <terry.bowman@amd.com>, "Robert
+ Richter" <rrichter@amd.com>, Benjamin Cheatham <benjamin.cheatham@amd.com>,
+	Zhijian Li <lizhijian@fujitsu.com>, Borislav Petkov <bp@alien8.de>, "Tomasz
+ Wolski" <tomasz.wolski@fujitsu.com>
+Message-ID: <69c2ea1ea24e1_51621100a1@dwillia2-mobl4.notmuch>
+In-Reply-To: <absY10LzUqb3vK7A@aschofie-mobl2.lan>
+References: <20260210064501.157591-1-Smita.KoralahalliChannabasappa@amd.com>
+ <20260210064501.157591-4-Smita.KoralahalliChannabasappa@amd.com>
+ <69b1e0aacb9d0_2132100c5@dwillia2-mobl4.notmuch>
+ <absY10LzUqb3vK7A@aschofie-mobl2.lan>
+Subject: Re: [PATCH v6 3/9] cxl/region: Skip decoder reset on detach for
+ autodiscovered regions
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4P222CA0009.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:303:114::14) To PH8PR11MB8107.namprd11.prod.outlook.com
+ (2603:10b6:510:256::6)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260323-fuse-init-before-mount-v1-17-a52d3040af69@bsbernd.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH8PR11MB8107:EE_|DS0PR11MB7767:EE_
+X-MS-Office365-Filtering-Correlation-Id: 09d09c28-f3a8-4274-c446-08de89de11f9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016|22082099003|56012099003|18002099003|7053199007;
+X-Microsoft-Antispam-Message-Info: 4zglxPPl7G+/RPbqt7FWJSDsLhmtCENUHB+yUjLEZeb+nlXIwMRIEPHRGVepAj4I7W1dYRbzI5AId/geX48kYm81Df5bGKFT4l937DlpFtIXX8SsUw9P0XWldfKffmJ2cccUcLZT29G5elGY2yhN3kONx+nJq56c+r1jxYdbPYBADhmZ2eEKuhWzCxxxeYyAaqnhSJc8TjUMg0c5F9cB3eFERZfFB+IQH3l5/sQu7G3FIi16KdLSh/emlOfrDJOOc1at1Bm2PzjRZqiBZ0sWTJvBrGjU0KK6Ep7dXFz/TmTL030U4tH0QZc9oHfNtrbu+hOs3fajbUp5BZFRyH1P7El5sIDUPOLVZmSOm5VEIIG2HT1yP6uzoAXafElZd0u0YQCg1ayJqX2mL/maNvuF5MLAquZLjIbD2AmeTWrzWs8FvGKwsqIse6LH12rBDecNJOEcqAPQFtPKxoXU3EIOWY/7EL+g1jYC8yks0/N7s/ZaW1U2svV09qHz7vB9Um+GgA35trNAx+c7UwalPkTt+skWjGPFAH6WWgJBKImT7yEYh0sQS8etzV99yAbd6XpNIYELn4hS6vbFjeE8LNYCPNQLVgYSTzodCC5u+fTdKogdYSYw0xWlSSwI7r8pRl/eoDEtUvfU+N52SQcQbY2fAvwurmSOPV8/y3oUVyJYmMPMrrOc03Q3RAnHYSXug3h/TFPlM1RgnFStIGCvEMklRzZwVyb81izB3yKs5Fm6tfc=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR11MB8107.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(22082099003)(56012099003)(18002099003)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?czU2RUFWc09uQzM1V2tiV1VscTk4UnpwNkhvQmpjNE85aWJvdGN2SmVxYm8v?=
+ =?utf-8?B?WkNMZG1PNzlzTFc1MldKTGhYRG93TVJmNm40ODF4Q29uMi9rQlp6MzFlVW9P?=
+ =?utf-8?B?dU93VzF3ZC9tM1VEc0VZc2VqNmJsT0pETTRwdkdRbytCTHpNd2Uvb1VXT0xp?=
+ =?utf-8?B?ZGkrZUNQS1BNMitKdVdtbXI4R0pqT1hVSk1sS014dldtNXZSRFZOS2JjQVNR?=
+ =?utf-8?B?L3hVSXVNTnVvQm54bFRDRzdEQ1gwK3hqQjFiOGVjSERMZHVjcDQ2VzNzcUdK?=
+ =?utf-8?B?WHBhZzJrU051bHcyUmRoSUtQSnpsMGx4OTFPMW5iT3p0ZVh0Q2Q0ZFB5ZHNG?=
+ =?utf-8?B?NVhlZFlCdVVJbGRxVmFEeExyUWdiaHpERExVaVUrRS9lREo4NjdmRWFDVUhw?=
+ =?utf-8?B?c1BhU1ZOQ2o5SllFcXJydHNxSHJWY29LcFNEaFBTUjNGU3JRSWRxK24xWlNV?=
+ =?utf-8?B?MnVWa2hFbmUrMU9XczRCTFp6cDcybXVHVDJBb2RnYUtLYmhNTUM4VXZVK1FI?=
+ =?utf-8?B?emVDQWlhYzFSLy9QZkkxa2hJcGdsSGEvcTFvODhuSXkrUWVERk9YdmxiTHZP?=
+ =?utf-8?B?NDU3ODFQREZoQm81ZmxxNkZuYlJFQUtLWnBtbXZ6ZjRQbHozUXJqakx5cldy?=
+ =?utf-8?B?NVcwS0Vnb2FtY1JNT0RhTHZ3VEREaXRLMFFwRjh0WVJHbU5WdDdSQzJUVzdX?=
+ =?utf-8?B?SlZGQjFycEFOWWszNVprTmQ3RXYySEJTelhQNWRUVGVsRzZ6UEJGNnpPREFk?=
+ =?utf-8?B?RmswSnBhVHZmdlk1dDdYZWpHeC96djNSb1NIN3pBa0FwVko3Z3VpQldCOHBm?=
+ =?utf-8?B?Q09pcDBVUmpWM2lFQjFHMEVsOS8yUkdBY25qZmpYdnNMTHZENVR1ZkVraGpD?=
+ =?utf-8?B?RUJlZEd3ZDh0czIwTFhTcE5TRGxwQWsyYlZMcEdWU1kwbjJJbnBLV1RTQWEx?=
+ =?utf-8?B?RmQ0akFxWnZlZU1majhBWGZNSEtwcVJaMWZmTVRXOVcvZ21WbVFhZmdzNHJv?=
+ =?utf-8?B?alREZ2s4SUZtNks4d21NZ0s0V3RVcjBsTkU5Sm94eVI4MW1zQnFDSklJZWgr?=
+ =?utf-8?B?Zm5pZzEzM2R6b2l0blVDYk43amw5ODYzTTBSSHU1L01SQXZlVDM4RExCRVhp?=
+ =?utf-8?B?ZVd3d2hCN3NkWGx6Z1IvZkJ6ZmRvUFBzWWR4aHNWREtmemdrakpkdWJPR2pE?=
+ =?utf-8?B?TVRIZXFkL09WekFYYk9Rd0RYbmRDVkllNHpIODN5NkxiS21nK2FNMGtLaG1C?=
+ =?utf-8?B?cUI0QVFnL0FnRzFTQ294cVR4U3RuYWhtdlNLeHUrWFhud2V6bzF2bDNKQVJ3?=
+ =?utf-8?B?ZDVQRjBBR3c1M0hGWGxXVWpGQXV0Q1ZaWi8yZUdxVzZJaGt2bWFkUUdEd2dY?=
+ =?utf-8?B?UE9BSkk1bHJEdjBZS1ZWSWc2eEZKLzJxQ3k3K2tjTTZOUlV5K1NIMmpjeEND?=
+ =?utf-8?B?Z3Ewc0c1U1BSMEoxY3BhY0VZajdjQ1RYZnM3WWVuTzdjL0RZRGY2dkc0S1NS?=
+ =?utf-8?B?UE5GRGllZ2R6YlJYWVdsNkN1WFFVMXFZTk8rMW1KN2haaFlRc0lOTk4zZWFL?=
+ =?utf-8?B?RkhZaU9kYTAyVm95MytFdCtWQVFGaS9UQlVxZlNudlZUUnZIeHM5Wmg5aVZL?=
+ =?utf-8?B?SXZjZUVSdUxjZVlIaGlyVGxWUmdyeWdQdW52MGwzbHVnRTM5bnRTM254M2pi?=
+ =?utf-8?B?S3RYbW1tMHNJN3AzdVVSa1pxdFhneXQvL2Jma1JKbzZhcWdWVTRVbnc4ck9r?=
+ =?utf-8?B?WHg3RWx1L2xkTWVCWXRzbzEybHZZQnU5bU9QUU9zWkVKZEJNWXpBdlNnemJM?=
+ =?utf-8?B?ZEJLdkRLYlFIa204Y0hFL1JPS0hBOWE4RllkM3hVWEEwNy9JSkZ3cVFsOFJ0?=
+ =?utf-8?B?bzhiWWJIaWR3VUFPbGpRTWkyNzAzdlQrNnRVNUxFZ3ltTTE3bFVrRWEwN0h6?=
+ =?utf-8?B?dTBFcWRmMzBPbHh2bnRkWmljR3Y0YklEd3VYNm9HK2g5YTgrV2FTZkFnSUU1?=
+ =?utf-8?B?WW9VOXA3eC9IRVZ0RHUrY3M1T2lZbDJqcFVMTkxzWW44NE40TUhmZFcrMGZT?=
+ =?utf-8?B?Z29kcU5hYWhFUkJocUM5bW1NN0EvSllXVWt6SnZ0OHk3azBuSVMvR2Q4dFFQ?=
+ =?utf-8?B?Szk5MWpaTzAvUys3WDdFUnYxNlpvT2paUmJ2M2h1dzBnS2x3VUxRREhLQWRZ?=
+ =?utf-8?B?UnMxeVZHSU9sWmZnMXNYVkovdG1XQlErejVXcUNvREI5eHVFblJZUk1kQThm?=
+ =?utf-8?B?QUVQN3JDSTdDSE4yM2V3d3JkSDBvYUNkMzNFejVRVVA0K2UvNVZ2QVg2QzVG?=
+ =?utf-8?B?NDhSN011d3hqa2hNM1p1dmQvQzVWaFh2bEhROVVkR21YeHhBeEJjUHlkMit2?=
+ =?utf-8?Q?ngDmCvBIVWIrQrqk=3D?=
+X-Exchange-RoutingPolicyChecked: aCMRm7XZGoSIHhC7OgBzJ0ztj1OrN8ie+DGGEUm/YJigZcpfWOA/1tFNbcwIDbba0NPHg2Xek227yLHlyYGmni1MITKmmmq3Z4UNE+Z5c3oao5RID5TySbfyLOimlc99AKk+LT2RYw3aDZhM6iU8ei6qT6/coAX5CUod4P85KjVgPkx77GsZZe98UspgizNxkLSQPacHc61liq272SqqtNUpt8Ohtsdo4O04LXWHqCXEW4/mpMqHp8vdas59z5RR4Cf3ghILEpi7ue5SsIeEM7/J8J6CqFxiQz0VcgyIxGMsO/pKjcQPgALdhcnw2jiIqaG+x66MVrIQBleBHL3lRw==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 09d09c28-f3a8-4274-c446-08de89de11f9
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB8107.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Mar 2026 19:46:41.5092
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vgmBirwy32w0XgL9p8PZzDdRrhS466PLRz8eVGaku+luav/J8HK19hH5MekG5Vv5DOmBj7D6+3ZXjI1l46uxkEcbj9i0IVZfMUVyjS8HKXo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7767
+X-OriginatorOrg: intel.com
 
-On Mon, Mar 23, 2026 at 06:45:12PM +0100, Bernd Schubert wrote:
-> From: Bernd Schubert <bschubert@ddn.com>
+Alison Schofield wrote:
+> On Wed, Mar 11, 2026 at 02:37:46PM -0700, Dan Williams wrote:
+> > Smita Koralahalli wrote:
+> > > __cxl_decoder_detach() currently resets decoder programming whenever a
+> > > region is detached if cxl_config_state is beyond CXL_CONFIG_ACTIVE. For
+> > > autodiscovered regions, this can incorrectly tear down decoder state
+> > > that may be relied upon by other consumers or by subsequent ownership
+> > > decisions.
+> > > 
+> > > Skip cxl_region_decode_reset() during detach when CXL_REGION_F_AUTO is
+> > > set.
+> > > 
+> > > Signed-off-by: Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>
+> > > Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+> > > Reviewed-by: Dave Jiang <dave.jiang@intel.com>
+> > > Reviewed-by: Alejandro Lucero <alucerop@amd.com>
+> > > ---
+> > >  drivers/cxl/core/region.c | 4 +++-
+> > >  1 file changed, 3 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/cxl/core/region.c b/drivers/cxl/core/region.c
+> > > index ae899f68551f..45ee598daf95 100644
+> > > --- a/drivers/cxl/core/region.c
+> > > +++ b/drivers/cxl/core/region.c
+> > > @@ -2178,7 +2178,9 @@ __cxl_decoder_detach(struct cxl_region *cxlr,
+> > >  		cxled->part = -1;
+> > >  
+> > >  	if (p->state > CXL_CONFIG_ACTIVE) {
+> > > -		cxl_region_decode_reset(cxlr, p->interleave_ways);
+> > > +		if (!test_bit(CXL_REGION_F_AUTO, &cxlr->flags))
+> > > +			cxl_region_decode_reset(cxlr, p->interleave_ways);
+> > > +
+> > >  		p->state = CXL_CONFIG_ACTIVE;
+> > 
 > 
-> Signed-off-by: Bernd Schubert <bschubert@ddn.com>
-> ---
->  doc/README.fusermount | 359 ++++++++++++++++++++++++++++++++++++++++++++++++++
->  util/fusermount.c     | 317 ++++++++++++++++++++++++++++++++++++++++++--
->  util/meson.build      |   2 +-
->  3 files changed, 665 insertions(+), 13 deletions(-)
+> Hi Dan,
 > 
-> diff --git a/doc/README.fusermount b/doc/README.fusermount
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..54a3bac4f58964a4ed312d6f6bc15606fed1e647
-> --- /dev/null
-> +++ b/doc/README.fusermount
-> @@ -0,0 +1,359 @@
-> +Synchronous FUSE_INIT Protocol
-> +================================
-> +
-> +Overview
-> +--------
-> +
-> +The sync-init feature enables the FUSE library to start worker threads and
-> +perform initialization ioctl calls BEFORE the actual mount() syscall happens.
-> +This is required for the kernel's synchronous FUSE_INIT feature, where the
-> +mount() syscall blocks until the FUSE daemon processes the INIT request.
-> +
-> +Without this feature, there would be a deadlock:
-> +- mount() blocks waiting for INIT response
-> +- Worker threads can't start because mount() hasn't returned
-> +- INIT request can't be processed because worker threads aren't running
-> +
-> +
-> +Protocol Flow
-> +-------------
-> +
-> +Traditional mount flow:
-> +  1. Library calls fusermount3
-
-Heh.  I haven't looked much at fusermount until recently.  I gather that
-fuservicemount has somewhat similar goals to fusermount3?  fusermount3
-seems to be a helper subprocess that libfuse can invoke on behalf of an
-unprivileged fuse server.  The helper is responsible for:
-
-1) opening /dev/fuse
-2) sending it to the fuse server via the FUSE_COMMFD_ENV fd which is
-   supposed to be an AF_UNIX socket
-3) calling mount()
-4) waiting for the parent to die
-5) maybe calling unmount()
-
-and it's really 1, 3, and 5 that need to be privileged, so that's why
-it's a setuid program.
-
-> +  2. fusermount3 opens /dev/fuse
-> +  3. fusermount3 performs mount() syscall
-> +  4. fusermount3 sends fd to library
-> +  5. Library starts worker threads
-> +  6. Worker threads process FUSE requests
-
-Ah, yes.  Thanks for adding this description!  fuservicemount is I think
-an upside-down version of fusermount -- fuservicemount runs in the
-user's mount namespace, so it
-
-1) connects to a named AF_UNIX socket to start an instance of the fuse
-   server
-2) opens /dev/fuse and a memfd to pass cli arguments
-3) passes those to the fuse server
-4) the fuse server asks fuservicemount to open resources and pass them
-   over the socket
-5) the fuse server passes source/type/mount options to fuservicemount
-6) fuservicemount mounts the fs and exits
-7) at some point the user unmounts, so the fuse server exits
-
-> +Sync-init mount flow:
-> +  1. Library calls fusermount3 with --sync-init flag
-> +  2. fusermount3 opens /dev/fuse
-> +  3. fusermount3 sends fd to library
-> +  4. Library receives fd
-> +  5. Library performs FUSE_DEV_IOC_SYNC_INIT ioctl
-> +  6. Library starts worker threads
-> +  7. Library sends "proceed" signal to fusermount3
-> +  8. fusermount3 performs mount() syscall (blocks until INIT completes)
-> +  9. Worker threads process INIT request
-> +  10. mount() syscall completes
-> +  11. fusermount3 exits
-> +
-> +
-> +Implementation Details
-> +----------------------
-> +
-> +Bidirectional Communication:
-> +  - Uses the existing unix socket (_FUSE_COMMFD environment variable)
-> +  - Simple 1-byte protocol for signaling
-> +  - Library signals fusermount3 when ready to proceed with mount
-> +
-> +fusermount3 Changes:
-> +  - New --sync-init command-line option
-> +  - Split mount operation into two phases:
-> +    * mount_fuse_prepare(): Opens device, prepares parameters
-> +    * mount_fuse_finish_fsmount(): Performs actual mount() syscall
-> +  - wait_for_signal(): Waits for library to signal readiness
-> +  - struct mount_context: Preserves state between phases
-> +
-> +Library Changes:
-> +  - fuse_session_mount_new_api(): Uses new protocol when available
-> +  - Sends "proceed" signal after worker thread is ready
-> +  - Handles both old and new mount protocols for compatibility
-> +
-> +
-> +Backward Compatibility
-> +----------------------
-> +
-> +The implementation maintains full backward compatibility:
-> +  - Old library + new fusermount3: Works (uses traditional flow)
-> +  - New library + old fusermount3: Falls back to traditional flow
-> +  - New library + new fusermount3: Uses sync-init flow when appropriate
-> +
-> +
-> +Error Handling
-> +--------------
-> +
-> +If any step fails during the sync-init flow:
-> +  - fusermount3 closes the fd and exits with error
-> +  - Library detects failure and cleans up
-> +  - No mount is left in inconsistent state
-> +
-> +Connection closure:
-> +  - If library closes socket before signaling, fusermount3 detects and exits
-> +  - If fusermount3 crashes, library detects closed socket
-> +
-> +
-> +Security Considerations
-> +-----------------------
-> +
-> +The sync-init protocol does not introduce new security concerns:
-> +  - Uses the same privilege separation as traditional mount
-> +  - Socket communication is already established and trusted
-> +  - No new privileged operations are added
-> +  - File descriptor passing uses existing SCM_RIGHTS mechanism
-> +
-> +
-> +Performance Impact
-> +------------------
-> +
-> +Minimal performance impact:
-> +  - One additional recv() call in fusermount3
-> +  - One additional send() call in library
-> +  - Total overhead: ~2 context switches
-> +  - Only affects mount time, not runtime performance
-> +
-> +
-> +Future Enhancements
-> +-------------------
-> +
-> +Potential improvements:
-> +  - Extended protocol for more complex initialization sequences
-> +  - Support for multiple worker threads coordination
-> +  - Enhanced error reporting through the socket
-> +  - Timeout mechanisms for detecting hung initialization
-> +
-> +
-> +ASCII Workflow Diagrams
-> +========================
-> +
-> +1. Traditional Mount Flow (without --sync-init, async INIT)
-> +------------------------------------------------------------
-> +
-> +Library                   fusermount3              Kernel
-> +   |                           |                      |
-> +   |--- spawn fusermount3 ---->|                      |
-> +   |                           |                      |
-> +   |                      [open /dev/fuse]            |
-> +   |                           |------- open -------->|
-> +   |                           |<------ fd ---------- |
-> +   |                           |                      |
-> +   |                      [mount() syscall]           |
-> +   |                           |------ mount -------->|
-> +   |                           |<----- success ------ | [mount returns immediately]
-> +   |                           |                      | [INIT queued in kernel]
-> +   |                      [send_fd(fd)]               |
-> +   |<------- fd --------------|                      |
-> +   |                           |                      |
-> +   |                      [fusermount3 exits]         |
-> +   |                                                  |
-> +   |  [start worker thread]                          |
-> +   |  [worker reads /dev/fuse]                       |
-> +   |---------------------------------------- read -->|
-> +   |<--------------------------------------- INIT ---| [dequeued from kernel]
-> +   |                                                  |
-> +   | OK: INIT was queued, worker reads it later      |
-> +   |     Works fine for async INIT                   |
-
-Hmm, looking at this, perhaps it /is/ possible for fuservicemount to
-employ synchronous init.  The fuse server would start that background
-init-only request handler thread before telling fuservicemount to call
-mount().  That blocks while the kernel sends FUSE_INIT to the fuse
-server, it processes everything up to the init request, and returns.
-
-> +
-> +
-> +1b. Problem: Synchronous INIT without --sync-init
-> +--------------------------------------------------
-> +
-> +Library                   fusermount3              Kernel
-> +   |                           |                      |
-> +   |--- spawn fusermount3 ---->|                      |
-> +   |                           |                      |
-> +   |                      [open /dev/fuse]            |
-> +   |                           |------- open -------->|
-> +   |                           |<------ fd ---------- |
-> +   |                           |                      |
-> +   |                      [mount() syscall]           |
-> +   |                           |------ mount -------->|
-> +   |                           |                      | [mount BLOCKS waiting for INIT]
-> +   |                           | (BLOCKED)            | [needs worker to process INIT]
-> +   |                           |                      |
-> +   |  [waiting for fd...]      |                      |
-> +   |                           |                      |
-> +   |                           |                      |
-> +   | DEADLOCK: mount() waits for INIT response       |
-> +   |           but worker thread not started yet     |
-> +   |           because we're waiting for fd          |
-> +
-> +
-> +2. Sync-Init Mount Flow (with --sync-init)
-> +-------------------------------------------
-> +
-> +Library                   fusermount3              Kernel
-> +   |                           |                      |
-> +   |--- spawn fusermount3 ---->|                      |
-> +   |    with --sync-init       |                      |
-> +   |                           |                      |
-> +   |                      [open /dev/fuse]            |
-> +   |                           |------- open -------->|
-> +   |                           |<------ fd ---------- |
-> +   |                           |                      |
-> +   |                      [send_fd(fd)]               |
-> +   |<------- fd --------------|                      |
-> +   |                           |                      |
-> +   |                      [wait_for_signal()]         |
-> +   |                           | (BLOCKED)            |
-> +   |                           |                      |
-> +   |  [ioctl SYNC_INIT]        |                      |
-> +   |---------------------------------------- ioctl -->|
-> +   |                                                  |
-> +   |  [start worker thread]                          |
-> +   |  [worker ready]                                 |
-> +   |                           |                      |
-> +   |--- "proceed" signal ----->|                      |
-> +   |                      [signal received]           |
-> +   |                           |                      |
-> +   |                      [mount() syscall]           |
-> +   |                           |------ mount -------->|
-> +   |                           |                      | [mount blocks]
-> +   |                           |                      | [sends INIT]
-> +   |<------------------------------------------------ |
-> +   |                           |                      |
-> +   | [worker processes INIT]   |                      |
-> +   |------------------------------------------------->|
-> +   |                           |                      | [mount unblocks]
-> +   |                           |<----- success ------ |
-> +   |                           |                      |
-> +   |                      [fusermount3 exits]         |
-> +   |                                                  |
-> +   | SUCCESS: Worker ready before mount()            |
-> +   |          INIT processed synchronously           |
-> +
-> +
-> +3. Error Scenario: Library Crashes Before Signaling
-> +----------------------------------------------------
-> +
-> +Library                   fusermount3              Kernel
-> +   |                           |                      |
-> +   |--- spawn fusermount3 ---->|                      |
-> +   |    with --sync-init       |                      |
-> +   |                           |                      |
-> +   |                      [open /dev/fuse]            |
-> +   |                           |------- open -------->|
-> +   |                           |<------ fd ---------- |
-> +   |                           |                      |
-> +   |                      [send_fd(fd)]               |
-> +   |<------- fd --------------|                      |
-> +   |                           |                      |
-> +   |                      [wait_for_signal()]         |
-> +   |                           | (BLOCKED)            |
-> +   |                           |                      |
-> +   X  [library crashes]        |                      |
-> +   |                           |                      |
-> +   |                      [recv() returns 0]          |
-> +   |                      [socket closed]             |
-> +   |                           |                      |
-> +   |                      [cleanup and exit]          |
-> +   |                           X                      |
-> +   |                                                  |
-> +   | RESULT: Clean failure, no mount performed       |
-> +
-> +
-> +4. Detailed Function Call Flow
-> +-------------------------------
-> +
-> +Library (lib/fuse_lowlevel.c):
-> +fuse_session_mount_new_api()
-> +   |
-> +   +-- fuse_kern_mount_prepare()  [lib/mount.c]
-> +   |      |
-> +   |      +-- fuse_mount_fusermount()  [lib/mount_util.c]
-> +   |             |
-> +   |             +-- socketpair()  [create comm socket]
-> +   |             |
-> +   |             +-- fork()
-> +   |             |
-> +   |             +-- [child] execl("fusermount3", "--sync-init", ...)
-> +   |             |
-> +   |             +-- [parent] receive_fd()  <--- BLOCKS until fd arrives
-> +   |                    |
-> +   |                    +-- recvmsg(SCM_RIGHTS)
-> +   |                    |
-> +   |                    +-- return fd
-> +   |
-> +   +-- session_start_sync_init()  [lib/fuse_lowlevel.c]
-> +   |      |
-> +   |      +-- ioctl(fd, FUSE_DEV_IOC_SYNC_INIT)
-> +   |      |
-> +   |      +-- pthread_create(worker_thread)
-> +   |      |
-> +   |      +-- return
-> +   |
-> +   +-- fuse_fusermount_proceed_mnt(socket)  [lib/mount.c] <--- NEW: Bidirectional handshake
-> +          |
-> +          +-- send(socket, "proceed", 1)  <--- Signal fusermount3 to proceed
-> +          |
-> +          +-- recv(socket, &status, 1)  <--- BLOCKS until mount result arrives
-> +          |      |
-> +          |      +-- [fusermount3 performs mount and sends status byte]
-> +          |
-> +          +-- if (status != 0) return -1  <--- Mount failed
-> +          |
-> +          +-- return 0  <--- Mount succeeded
-> +
-> +
-> +Utility (util/fusermount.c):
-> +fusermount3 main() with --sync-init
-> +   |
-> +   +-- mount_fuse_sync_init()  [util/fusermount.c]
-> +          |
-> +          +-- mount_fuse_prepare()  [util/fusermount.c]
-> +          |      |
-> +          |      +-- open("/dev/fuse")
-> +          |      |
-> +          |      +-- check_perm()  [util/fusermount.c]
-> +          |      |
-> +          |      +-- return fd
-> +          |
-> +          +-- send_fd(socket, fd)  [util/fusermount.c]
-> +          |      |
-> +          |      +-- sendmsg(SCM_RIGHTS)
-> +          |
-> +          +-- wait_for_signal(socket)  [util/fusermount.c] <--- BLOCKS until library signals
-> +          |      |
-> +          |      +-- recv(socket, buf, 1)
-> +          |      |
-> +          |      +-- return 0
-> +          |
-> +          +-- mount_fuse_finish_fsmount()  [util/fusermount.c]
-> +          |      |
-> +          |      +-- fuse_kern_fsmount()  [lib/mount_fsmount.c]
-> +          |      |      |
-> +          |      |      +-- fsopen("fuse", FSOPEN_CLOEXEC)
-> +          |      |      |      |
-> +          |      |      |      +-- [kernel creates filesystem context]
-> +          |      |      |
-> +          |      |      +-- fsconfig(fsfd, SET_STRING, "source", ...)
-> +          |      |      +-- fsconfig(fsfd, SET_STRING, "fd", fd_value, ...)
-> +          |      |      +-- fsconfig(fsfd, ...) [apply mount options]
-> +          |      |      +-- fsconfig(fsfd, CMD_CREATE, ...)
-> +          |      |      |
-> +          |      |      +-- fsmount(fsfd, FSMOUNT_CLOEXEC, mount_attrs)
-> +          |      |      |      |
-> +          |      |      |      +-- [kernel sends FUSE_INIT here]
-> +          |      |      |      |
-> +          |      |      |      +-- [worker thread processes INIT]
-> +          |      |      |      |
-> +          |      |      |      +-- [fsmount returns mntfd]
-> +          |      |      |
-> +          |      |      +-- move_mount(mntfd, "", AT_FDCWD, target, ...)
-> +          |      |      |      |
-> +          |      |      |      +-- [attach mount to target directory]
-> +          |      |      |      |
-> +          |      |      |      +-- [no blocking - INIT already processed]
-> +          |      |      |
-> +          |      |      +-- add_mount()  [lib/mount_fsmount.c - update /etc/mtab]
-> +          |      |      |
-> +          |      |      +-- return 0 on success, -1 on failure
-> +          |      |
-> +          |      +-- if mount failed: return -1
-> +          |      +-- if mount succeeded: continue
-> +          |
-> +          +-- send_status_byte(socket)  [util/fusermount.c] <--- NEW: Send result to library
-> +          |      |
-> +          |      +-- status = (mount_result == 0) ? 0 : 1
-> +          |      +-- send(socket, &status, 1)
-> +          |      |
-> +          |      +-- return
-> +          |
-> +          +-- return 0
-> +
-> +
-> +Note: The new mount API (fsopen/fsconfig/fsmount/move_mount) is REQUIRED
-> +      for sync-init because fsmount() triggers FUSE_INIT before the mount
-> +      is attached. This allows the worker thread to process INIT before
-> +      move_mount() completes, preventing deadlock.
-
-...and so we don't expose the directory tree to the mountns until we
-know that FUSE_INIT didn't crash the server.
-
-> diff --git a/util/fusermount.c b/util/fusermount.c
-> index 80b42a594e89cdc2f43824f5e274892522fd8cce..808b4afd89ceb49273c944d43bffe5033e27549b 100644
-> --- a/util/fusermount.c
-> +++ b/util/fusermount.c
-> @@ -957,6 +957,7 @@ static void free_mount_params(struct mount_params *mp)
->  	free(mp->source);
->  	free(mp->type);
->  	free(mp->mnt_opts);
-> +	memset(mp, 0, sizeof(*mp));
->  }
->  
->  /*
-> @@ -1378,6 +1379,179 @@ static int open_fuse_device(const char *dev)
->  	return fd;
->  }
->  
-> +#ifdef HAVE_NEW_MOUNT_API
-> +/* Forward declaration from lib/mount_fsmount.c */
-> +int fuse_kern_fsmount(const char *mnt, unsigned long flags, int blkdev,
-> +		      const char *fsname, const char *subtype,
-> +		      const char *source_dev, const char *kernel_opts,
-> +		      const char *mnt_opts);
-> +#endif
-
-Shouldn't this be included from a header file somewhere?
-
-> +
-> +/*
-> + * Context for split mount operation (sync-init mode)
-> + */
-> +struct mount_context {
-> +	int fd;
-> +	const char *dev;
-> +	struct stat stbuf;
-> +	char *source;
-> +	char *mnt_opts;
-> +	char *x_opts;
-> +	const char *type;
-> +};
-> +
-> +/*
-> + * Phase 1: Open device and prepare for mount (sync-init mode)
-> + * Returns fd on success, -1 on failure
-> + */
-> +static int mount_fuse_prepare(const char *mnt, const char *opts,
-> +			      struct mount_context *ctx)
-> +{
-> +	int res;
-> +	int mountpoint_fd = -1;
-> +	char *do_mount_opts = NULL;
-> +	const char *real_mnt = mnt;
-> +
-> +	memset(ctx, 0, sizeof(*ctx));
-> +	ctx->dev = getenv(FUSE_KERN_DEVICE_ENV) ?: FUSE_DEV;
-> +
-> +	ctx->fd = open_fuse_device(ctx->dev);
-> +	if (ctx->fd == -1)
-> +		return -1;
-> +
-> +	drop_privs();
-> +	read_conf();
-> +
-> +	if (getuid() != 0 && mount_max != -1) {
-> +		int mount_count = count_fuse_fs();
-> +
-> +		if (mount_count >= mount_max) {
-> +			fprintf(stderr,
-> +				"%s: too many FUSE filesystems mounted; mount_max=N can be set in %s\n",
-> +				progname, FUSE_CONF);
-> +			goto fail_close_fd;
-> +		}
-> +	}
-
-/me notes that he's refactored this configuration file related function
-into fuser_conf.c though that's in the fuse-services v4 that I'll send
-you soon.
-
-> +
-> +	res = extract_x_options(opts, &do_mount_opts, &ctx->x_opts);
-> +	if (res)
-> +		goto fail_close_fd;
-> +
-> +	res = check_perm(&real_mnt, &ctx->stbuf, &mountpoint_fd);
-> +	restore_privs();
-> +
-> +	if (mountpoint_fd != -1)
-> +		close(mountpoint_fd);
-> +
-> +	if (res == -1)
-> +		goto fail_close_fd;
-> +
-> +	free(do_mount_opts);
-> +	return ctx->fd;
-> +
-> +fail_close_fd:
-> +	close(ctx->fd);
-> +	free(do_mount_opts);
-> +	free(ctx->x_opts);
-> +	ctx->fd = -1;
-> +	return -1;
-> +}
-> +
-> +#ifdef HAVE_NEW_MOUNT_API
-> +/*
-> + * Phase 2: Perform the actual mount using new mount API (sync-init mode)
-> + * Returns 0 on success, -1 on failure
-> + */
-> +static int mount_fuse_finish_fsmount(const char *mnt, const char *opts,
-> +				     struct mount_context *ctx,
-> +				     const char **type)
-> +{
-> +	int res;
-> +	char *do_mount_opts = NULL;
-> +	char *x_prefixed_opts = NULL;
-> +	struct mount_params mp = { .fd = ctx->fd };
-> +	char *final_mnt_opts = NULL;
-> +
-> +	/* Extract x-options */
-> +	res = extract_x_options(opts, &do_mount_opts, &x_prefixed_opts);
-> +	if (res)
-> +		goto fail;
-> +
-> +	/* Prepare mount parameters */
-> +	mp.rootmode = ctx->stbuf.st_mode & S_IFMT;
-> +	mp.dev = ctx->dev;
-
-I think those could be set in the mp variable definition?
-
-> +
-> +	res = prepare_mount(do_mount_opts, &mp);
-> +	if (res == -1)
-> +		goto fail;
-> +
-> +	/* Merge x-options if running as root */
-> +	final_mnt_opts = mp.mnt_opts;
-> +	if (geteuid() == 0 && ctx->x_opts && strlen(ctx->x_opts) > 0) {
-> +		size_t mnt_opts_len = strlen(mp.mnt_opts);
-> +		size_t x_mnt_opts_len = mnt_opts_len + strlen(ctx->x_opts) + 2;
-> +		char *x_mnt_opts = calloc(1, x_mnt_opts_len);
-> +
-> +		if (!x_mnt_opts)
-> +			goto fail_free_params;
-> +
-> +		if (mnt_opts_len) {
-> +			strcpy(x_mnt_opts, mp.mnt_opts);
-> +			strncat(x_mnt_opts, ",", 2);
-> +		}
-> +		strncat(x_mnt_opts, ctx->x_opts,
-> +			x_mnt_opts_len - mnt_opts_len - 2);
-> +
-> +		final_mnt_opts = x_mnt_opts;
-> +	}
-
-Curious, I thought the x- options were edited out by /sbin/mount so fuse
-would never see them?  Does the x- option handling in fusermount.c exist
-to handle the case where someone passes them directly to the fuse
-server, aka
-
-$ sshfs <whatever> /mnt -o x-systemd-hahaha=1
-
-and now you need to ensure that x-systemd-hahaha doesn't get sent to the
-kernel but does get seen by the fuse server?
-
-> +
-> +	/* Use new mount API */
-> +	res = fuse_kern_fsmount(mnt, mp.flags, mp.blkdev,
-> +				mp.fsname, mp.subtype, ctx->dev,
-> +				mp.optbuf, final_mnt_opts);
-> +	if (res == -1)
-> +		goto fail_free_merged;
-> +
-> +	/* Change to root directory */
-> +	res = chdir("/");
-> +	if (res == -1) {
-> +		fprintf(stderr, "%s: failed to chdir to '/'\n", progname);
-> +		goto fail_free_merged;
-> +	}
-> +
-> +	/* Store results in context */
-> +	ctx->source = mp.source;
-> +	ctx->type = mp.type;
-> +	ctx->mnt_opts = final_mnt_opts;
-> +	*type = mp.type;
-> +
-> +	res = 0;
-> +
-> +	/* Only free what is not assigned to ctx */
-> +	free(mp.fsname);
-> +	free(mp.subtype);
-> +	free(mp.optbuf);
-> +	if (final_mnt_opts != mp.mnt_opts)
-> +		free(mp.mnt_opts);
-> +
-> +out:
-> +	free(do_mount_opts);
-> +	free(x_prefixed_opts);
-> +
-> +	return res;
-> +
-> +fail_free_merged:
-> +	if (final_mnt_opts != mp.mnt_opts)
-> +		free(final_mnt_opts);
-> +fail_free_params:
-> +	free_mount_params(&mp);
-> +fail:
-> +	res = -1;
-> +	goto out;
-> +}
-> +#endif /* HAVE_NEW_MOUNT_API */
-> +
-> +
->  static int mount_fuse(const char *mnt, const char *opts, const char **type)
->  {
->  	int res;
-> @@ -1473,6 +1647,75 @@ fail_close_fd:
->  	goto out_free;
->  }
->  
-> +/* Forward declarations for helper functions */
-> +static int send_fd(int sock_fd, int fd);
-> +static int wait_for_signal(int sock_fd);
-> +
-> +#ifdef HAVE_NEW_MOUNT_API
-> +/*
-> + * Perform sync-init mount using new mount API
-> + * Returns 0 on success, -1 on failure
-> + */
-> +static int mount_fuse_sync_init(const char *mnt, const char *opts,
-> +				int cfd, const char **type)
-> +{
-> +	struct mount_context ctx;
-> +	int fd, res;
-> +	int32_t status, send_res;
-> +
-> +	/* Phase 1: Open device and prepare */
-> +	fd = mount_fuse_prepare(mnt, opts, &ctx);
-> +	if (fd == -1)
-> +		return -1;
-> +
-> +	/* Send fd to caller so it can start worker thread */
-> +	res = send_fd(cfd, fd);
-> +	if (res != 0) {
-> +		close(fd);
-> +		free(ctx.x_opts);
-> +		return -1;
-> +	}
-> +
-> +	/* Wait for caller to signal that worker thread is ready */
-> +	res = wait_for_signal(cfd);
-> +	if (res != 0) {
-> +		close(fd);
-> +		free(ctx.x_opts);
-> +		return -1;
-> +	}
-> +
-> +	/* Phase 2: Perform the actual mount using new API */
-> +	res = mount_fuse_finish_fsmount(mnt, opts, &ctx, type);
-> +
-> +	/* Send mount result back to caller (4-byte error code) */
-> +	status = (res == 0) ? 0 : -(int32_t)errno;
-> +	do {
-> +		send_res = send(cfd, &status, sizeof(status), 0);
-> +	} while (send_res == -1 && errno == EINTR);
-> +	if (send_res != sizeof(status)) {
-> +		fprintf(stderr, "%s: failed to send mount status: %s\n",
-> +			progname, strerror(errno));
-> +	}
-> +
-> +	if (res == -1) {
-> +		close(fd);
-> +		free(ctx.source);
-> +		free(ctx.mnt_opts);
-> +		free(ctx.x_opts);
-> +		return -1;
-> +	}
-> +
-> +	close(fd);
-> +
-> +	/* Cleanup */
-> +	free(ctx.source);
-> +	free(ctx.mnt_opts);
-> +	free(ctx.x_opts);
-> +
-> +	return 0;
-
-Err... these cleanups are identical, so I think you can get rid of the
-"if (res == -1)" chunk and just return res at the end.
-
---D
-
-> +}
-> +#endif /* HAVE_NEW_MOUNT_API */
-> +
->  static int send_fd(int sock_fd, int fd)
->  {
->  	int retval;
-> @@ -1509,6 +1752,30 @@ static int send_fd(int sock_fd, int fd)
->  	return 0;
->  }
->  
-> +/*
-> + * Wait for a signal byte from the caller.
-> + * Returns 0 on success, -1 on error.
-> + */
-> +static int wait_for_signal(int sock_fd)
-> +{
-> +	char buf[1];
-> +	int res;
-> +
-> +	do {
-> +		res = recv(sock_fd, buf, sizeof(buf), 0);
-> +	} while (res == -1 && errno == EINTR);
-> +	if (res != 1) {
-> +		if (res == 0)
-> +			fprintf(stderr, "%s: connection closed while waiting for signal\n",
-> +				progname);
-> +		else
-> +			fprintf(stderr, "%s: error receiving signal: %s\n",
-> +				progname, strerror(errno));
-> +		return -1;
-> +	}
-> +	return 0;
-> +}
-> +
->  /* Helper for should_auto_unmount
->   *
->   * fusermount typically has the s-bit set - initial open of `mnt` was as root
-> @@ -1700,6 +1967,7 @@ int main(int argc, char *argv[])
->  	const char *opts = "";
->  	const char *type = NULL;
->  	int setup_auto_unmount_only = 0;
-> +	int sync_init_mode = 0;
->  
->  	static const struct option long_opts[] = {
->  		{"unmount", no_argument, NULL, 'u'},
-> @@ -1712,6 +1980,7 @@ int main(int argc, char *argv[])
->  		// They'ne meant for internal use by mount.c
->  		{"auto-unmount", no_argument, NULL, 'U'},
->  		{"comm-fd", required_argument, NULL, 'c'},
-> +		{"sync-init", no_argument, NULL, 'S'},
->  		{0, 0, 0, 0}};
->  
->  	progname = strdup(argc > 0 ? argv[0] : "fusermount");
-> @@ -1746,6 +2015,9 @@ int main(int argc, char *argv[])
->  		case 'c':
->  			commfd = optarg;
->  			break;
-> +		case 'S':
-> +			sync_init_mode = 1;
-> +			break;
->  		case 'z':
->  			lazy = 1;
->  			break;
-> @@ -1823,21 +2095,42 @@ int main(int argc, char *argv[])
->  	if (setup_auto_unmount_only)
->  		goto wait_for_auto_unmount;
->  
-> -	fd = mount_fuse(mnt, opts, &type);
-> -	if (fd == -1)
-> -		goto err_out;
-> +	if (sync_init_mode) {
-> +#ifdef HAVE_NEW_MOUNT_API
-> +		res = mount_fuse_sync_init(mnt, opts, cfd, &type);
-> +		if (res == -1)
-> +			goto err_out;
->  
-> -	res = send_fd(cfd, fd);
-> -	if (res != 0) {
-> -		umount2(mnt, MNT_DETACH); /* lazy umount */
-> +		if (!auto_unmount) {
-> +			free(mnt);
-> +			free((void *) type);
-> +			return 0;
-> +		}
-> +		/* Continue to auto_unmount handling below */
-> +#else
-> +		fprintf(stderr, "%s: sync-init mode requires new mount API support\n",
-> +			progname);
-> +		fprintf(stderr, "%s: kernel or headers too old (need fsopen/fsmount)\n",
-> +			progname);
->  		goto err_out;
-> -	}
-> -	close(fd);
-> +#endif
-> +	} else {
-> +		fd = mount_fuse(mnt, opts, &type);
-> +		if (fd == -1)
-> +			goto err_out;
->  
-> -	if (!auto_unmount) {
-> -		free(mnt);
-> -		free((void*) type);
-> -		return 0;
-> +		res = send_fd(cfd, fd);
-> +		if (res != 0) {
-> +			umount2(mnt, MNT_DETACH); /* lazy umount */
-> +			goto err_out;
-> +		}
-> +		close(fd);
-> +
-> +		if (!auto_unmount) {
-> +			free(mnt);
-> +			free((void *) type);
-> +			return 0;
-> +		}
->  	}
->  
->  wait_for_auto_unmount:
-> diff --git a/util/meson.build b/util/meson.build
-> index 0e4b1cce95377e73af7dc45655a7088315497ddb..731ef95488461ac21c21b1972a96d58b1187dc5a 100644
-> --- a/util/meson.build
-> +++ b/util/meson.build
-> @@ -1,6 +1,6 @@
->  fuseconf_path = join_paths(get_option('prefix'), get_option('sysconfdir'), 'fuse.conf')
->  
-> -executable('fusermount3', ['fusermount.c', '../lib/mount_util.c', '../lib/util.c'],
-> +executable('fusermount3', ['fusermount.c', '../lib/mount_util.c', '../lib/mount_fsmount.c', '../lib/util.c'],
->             include_directories: include_dirs,
->             install: true,
->             install_dir: get_option('bindir'),
+> > tl;dr: I do not think we need this, I do think we need to clarify to
+> > users what enable/disable and/or hot remove violence is handled and not
+> > handled by the CXL core.
 > 
-> -- 
-> 2.43.0
+> I'm chiming in here because although this patch is no longer needed for
+> this series, it has become a dependency for the Type 2 series.
+
+Like I replied to Alejandro it is not a dependency for the type-2 series
+[1]. It *is* a fix for the issue reported by PJ, but it can go in
+independent of the base type-2 work as a standalone capability.
+
+[1]: http://lore.kernel.org/69b8b9181bafd_452b100cb@dwillia2-mobl4.notmuch
+
+> So this
+> follow-up focuses on the hot-remove, endpoint-detach case where
+> preserving decoders across detach is still needed for later recovery.
 > 
+> Some inline responses to you, and then a diff is appended for a
+> direction check.
 > 
+> > So this looks deceptively simple, but I think it is incomplete or at
+> > least adds to the current confusion. A couple points to consider:
+> > 
+> > 1/ There is no corresponding clear_bit(CXL_REGION_F_AUTO, ...) anywhere in
+> > the driver. Yes, admin can still force cxl_region_decode_reset() via
+> > commit_store() path, but admin can not force
+> > cxl_region_teardown_targets() in the __cxl_decoder_detach() path. I do
+> > not like that this causes us to end up with 2 separate considerations
+> > for when __cxl_decoder_detach() skips cleanup actions
+> > (cxl_region_teardown_targets() and cxl_region_decode_reset()). See
+> > below, I think the cxl_region_teardown_targets() check is probably
+> > bogus.
+> 
+> Rather than repurposing CXL_REGION_F_AUTO, this splits decode-reset policy
+> from AUTO. A new region-scoped CXL_REGION_F_PRESERVE_DECODE flag is introduced
+> and cleared on explicit decommit in commit_store(). AUTO remains origin/assembly
+> state.
+
+Just like the decoder LOCK bit the preservation setting is a decoder
+property, not a region property. Region auto-assembly is then just an
+automatic way to set that decoder policy.
+
+So, no, I would not expect a new region flag for this policy.
+
+> This does still leave two cleanup decisions:
+> 1) decode reset (now keyed off PRESERVE_DECODE)
+> 2) target teardown (still using existing AUTO behavior)
+> 
+> No change to cxl_region_teardown_targets() in this step.
+
+Turns out that cxl_region_teardown_targets() never needed to consider
+the CXL_F_REGION_AUTO flag.
+
+> > At a minimum I think commit_store() should clear CXL_REGION_F_AUTO on
+> > decommit such that cleaning up decoders and targets later proceeds as
+> > expected.
+> 
+> This point is addressed by clearing CXL_REGION_F_PRESERVE_DECODE instead.
+> Explicit decommit is treated as destructive and disables decode preservation
+> before unbind/reset.
+> 
+> > 
+> > 2/ The hard part about CXL region cleanup is that it needs to be prepared
+> > for:
+> > 
+> >  a/ user manually removes the region via sysfs
+> > 
+> >  b/ user manually disables cxl_port, cxl_mem, or cxl_acpi causing the
+> >     endpoint port to be removed
+> > 
+> >  c/ user physically removes the memdev causing the endpoint port to be
+> >     removed (CXL core can not tell the difference with 2b/ it just sees
+> >     cxl_mem_driver::remove() operation invocation)
+> > 
+> >  d/ setup action fails and region setup is unwound
+> 
+> Agreed. This change targets 2b, 2c.
+> 
+> >  
+> > The cxl_region_decode_reset() is in __cxl_decoder_detach() because of
+> > 2b/ and 2c/. No other chance to cleanup the decode topology once the
+> > endpoint decoders are on their way out of the system.
+> 
+> Agreed. The reset remains. Proposed change only makes it conditional on
+> explicit region policy rather than AUTO.
+> 
+> > 
+> > In this case though the patch was generated back when we were committed
+> > to cleaning up failed to assemble regions, a new 2d/ case, right?
+> > However, in that case the decoder is not leaving the system. The
+> > questions that arrive from that analysis are:
+> > 
+> > * Is this patch still needed now that there is no auto-cleanup?
+> 
+> Not for this Soft Reserved series, but yes for Type2 hotplug.
+
+Type-2 hotplug is not the issue, it is boot-time configuration
+preservation over device reset which is a different challenge.
+
+> > * If this patch is still needed is it better to skip
+> >   cxl_region_decode_reset() based on the 'enum cxl_detach_mode' rather
+> >   than the CXL_REGION_F_AUTO flag? I.e. skip reset in the 2d/ case, or
+> >   some other new general flag that says "please preserve hardware
+> >   configuration".
+> 
+> I looked at using and expanding the cxl_detach_mode enum and rejected as
+> not the right scope. The current detach mode is attached to an individual
+> detach operation, whereas preserve vs reset decision applies to the region
+> decode topology as a whole. If we expand detach mode for this region
+> wide policy, then may risk inconsistent handling across endpoint of the
+> same region. Just seemed wrong place. I could be missing another reason
+> why you looked at it.
+
+Regions are an emergent property from decoder settings. Decoder settings
+come from firmware, user actions, and with the type-2 series driver
+actions. Firmware, user and driver actions are per-decoder especially
+because the behavior needed here is similar to the decoder LOCK bit.
+
+Region assembly can set a default decoder policy, but the management of
+that decoder policy need not go through the region.
+
+Either way, settling this question can be post type-2 base series event,
+not a lead-in dependency.
+
+[..]
+> > It is helpful that violence has been the default so far. So it allows to
+> > introduce a decoder shutdown policy toggle where CXL_REGION_F_AUTO flags
+> > decoders as "preserve" by default. Region decommit clears that flag,
+> > and/or userspace can toggle that per endpoint decoder flag to determine
+> > what happens when decoders leave the system. That probably also wants
+> > some lockdown interaction such that root can not force unplug memory by
+> > unbinding a driver.
+> 
+> As a step in the direction you suggest, AND  aiming to address Type2
+> need, here is what I'd like a direction check on:
+> 
+> Start separating decode-reset policy rom CXL_REGION_F_AUTO:
+> - keep CXL_REGION_F_AUTO as origin / assembly semantics
+> - introduce CXL_REGION_F_PRESERVE_DECODE as a region-scoped policy
+
+Not yet convinced about this.
+
+> - initialize that policy from auto-assembly
+> - clear it on explicit decommit in commit_store()
+
+My expectation is still clear it on decoder configuration change, add an
+attribute to toggle it independent of changing the decoder
+configuration.
+
+> - use it to gate cxl_region_decode_reset() in __cxl_decoder_detach()
+
+cxl_region_decode_reset() just automates asking each decoder to carry
+out reset if the decoder policy allows.
+
+> The decode-reset decision is factored through a small helper,
+> cxl_region_preserve_decode(), so the policy can be extended independent
+> of the detach mechanics. Maybe overkill in this simple case, but I
+> wanted to acknowledge the 'policy' direction.
+
+Appreciate you pulling this together. I want to land type-2 with the
+existing expectation that unload is always destructive then circle back
+to address this additional detail because it is more than just decoder
+policy that needs to be managed. The type-2 driver may need help finding
+its platform firmware configured address range if a device reset
+destroyed the decoder settings.
