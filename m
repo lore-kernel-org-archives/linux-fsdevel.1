@@ -1,274 +1,123 @@
-Received: from out30-100.freemail.mail.aliyun.com (out30-100.freemail.mail.aliyun.com [115.124.30.100])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 594D5215F6B
-	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 10:25:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E7B43E3176;
+	Tue, 24 Mar 2026 10:28:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774347910; cv=none; b=dLSMrJDRg8zPsGHUVb/Pucz2QXf0U06vWi7EMrdxzACAvlcSbZx2jqZOHl8ptDXsZ2SJzgFAZ/LrKouecyHA+YFqCOzHhwshC2BfBfqHidbeU66bAfbkozeQBUyv06D11OrIa5qWWlm+uDKH4niq+l+rme+PVumHE7kFonCo0Ao=
+	t=1774348096; cv=none; b=RlJaER4/NL2mNy28CPirleyXqa7k5vUHlqScMg3mexI0r6Vba2PQvZw1vA5DHHrN7sdfOYcfwaSp41t6pwCnJzczA71zrDC9aG4DsaokPo5N5zzZMTHWcZydI9HgIbCDSaKf4LPRRtAy3Qp5E5VlMPcueJ9yk/4qSdeYe1vL1GI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774347910; c=relaxed/simple;
-	bh=ymgBLSYfXjNRARN05CbVd3sxR/hUYUaIw9S1GT2jK3Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RrhyWbFoTCqYPATArsEgE8hkCEtM8NIPMQJla2nqHgQD43yebWagfNaEdeQTRk14Z8MLqGPBIxz+iOgwfuaM37eHEVSIBnSSBTFrsERfIpPoccptur66iaknWPg9t3+mXIOf6+3bTjcU6qDTFif95O5hmrNadWGyPN+x+Vak4Jw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=TyMYeXk6; arc=none smtp.client-ip=115.124.30.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1774348096; c=relaxed/simple;
+	bh=6sgVnhGfx/Gr8MffbxZCAPHDZSVU/xN0vvzwT8HpMXg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OhbvZsjK/Qw7DZfZ/hzoV9GtAufPTT5lp9qu35lzbIzd+epmZk1nXFnfpwKd8LuR+qdOvmzIbwnSMnZmYM+TmgKE1e7w5az7Taa2qxcDGW4NPH710KNB27sIGzq2Bf6LMGEsvoUv0ReQbc7Y3TpYlOu5MTi3VvGd3PPo5bHUDbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TwUPEMQI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="TyMYeXk6"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1774347905; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=oAfx0bC0BwdTXDVIYFarWQ+OnA6f2BqFXFtWBZEmF58=;
-	b=TyMYeXk6uk2/j18caIJ0AveS3pIWryOuED/HL71v8Jt/gdEHDSYedOrSEGnlW+0epLyQGEFHJj8FGXU/mD6t+YIQoz4I31WaSXL0HgXJEc55oEUZweyqF8ihHC+WMDzSIBGc5Ej/6OT+Rd3HMAG7owhxCAacCqWGbPyxUPMqV54=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R181e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037026112;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=14;SR=0;TI=SMTPD_---0X.eLow1_1774347902;
-Received: from 30.221.131.232(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0X.eLow1_1774347902 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Tue, 24 Mar 2026 18:25:03 +0800
-Message-ID: <51e2b651-f602-4667-b6e7-11a87d260837@linux.alibaba.com>
-Date: Tue, 24 Mar 2026 18:25:02 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TwUPEMQI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8343FC19424;
+	Tue, 24 Mar 2026 10:28:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774348095;
+	bh=6sgVnhGfx/Gr8MffbxZCAPHDZSVU/xN0vvzwT8HpMXg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TwUPEMQIHDD077VI3busfNuril0YmxjbGwYzsYejnKrfkZDSC31QZyKmCQLu9fJdE
+	 S5DNkNHd03l3ny1WkrAQmiEwJkMI2pwGC/B0vLv7fVXyePrr3Hv8/hzfrjcXVx70nH
+	 2dXBt0+xytHW7OEPwLd3iYvC/yWcp0dnxi/vvifQowEKAxMbcOwjbqMR9xKJPST+I0
+	 OFbGwwBwY34Rx2+NPSefHt/Aszh4h0sx00Ivsq31FzrhDORR9msiKkKuA3Xs32MAW6
+	 Yvz0D7YxPYQSeJ9ltUfuOmYgJs35b8EJ6irK5Npyzij9GsMYDq+WoJsHm0MXADDHnt
+	 ablF4wBqmilcQ==
+Date: Tue, 24 Mar 2026 10:28:08 +0000
+From: Will Deacon <will@kernel.org>
+To: Mark Rutland <mark.rutland@arm.com>
+Cc: Andrei Vagin <avagin@google.com>, Kees Cook <kees@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Cyrill Gorcunov <gorcunov@gmail.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Alexander Mikhalitsyn <alexander@mihalicyn.com>,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org, criu@lists.linux.dev,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Chen Ridong <chenridong@huawei.com>,
+	Christian Brauner <brauner@kernel.org>,
+	David Hildenbrand <david@kernel.org>,
+	Eric Biederman <ebiederm@xmission.com>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Michal Koutny <mkoutny@suse.com>,
+	Alexander Mikhalitsyn <aleksandr.mikhalitsyn@futurfusion.io>
+Subject: Re: [PATCH 1/4] exec: inherit HWCAPs from the parent process
+Message-ID: <acJnOB-rlyt-3jU4@willie-the-truck>
+References: <20260323175340.3361311-1-avagin@google.com>
+ <20260323175340.3361311-2-avagin@google.com>
+ <acGEonF9I6sPA42B@J2N7QTR9R3.cambridge.arm.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Lsf-pc] [LSF/MM/BPF TOPIC] Where is fuse going? API cleanup,
- restructuring and more
-To: Demi Marie Obenour <demiobenour@gmail.com>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-Cc: "Darrick J. Wong" <djwong@kernel.org>, Miklos Szeredi
- <miklos@szeredi.hu>, linux-fsdevel@vger.kernel.org,
- Joanne Koong <joannelkoong@gmail.com>, John Groves <John@groves.net>,
- Bernd Schubert <bernd@bsbernd.com>, Amir Goldstein <amir73il@gmail.com>,
- Luis Henriques <luis@igalia.com>, Horst Birthelmer <horst@birthelmer.de>,
- Gao Xiang <xiang@kernel.org>, lsf-pc@lists.linux-foundation.org
-References: <361d312b-9706-45ca-8943-b655a75c765b@gmail.com>
- <390cd031-742b-4f1b-99c4-8ee41a259744@linux.alibaba.com>
- <j3gafvpt6r47trvrkttfvilejplluagdz3alcjxmc7xhnzmemv@tahjpv2ak6qj>
- <cfe18ae0-7dc0-4601-a9f0-c0665f301cfe@linux.alibaba.com>
- <s3y7qrkgwedbkltpt7mjjzisazynzms3btablzpxhdoezapddy@xanux4rrspwd>
- <72eaaed1-24a0-4c98-a7c0-ea249d541f2d@linux.alibaba.com>
- <9af9ad0e-8070-4aaa-9f64-7d72074bd948@linux.alibaba.com>
- <wo2nf7bux5rhexbpyeutbb5bkpqlumq3ht7iqxdft7lhc2p6va@3q6wsi2xndpu>
- <68116ee5-b1f7-484b-a520-7dc5aefd7738@linux.alibaba.com>
- <2gyfmxfnnxrglpzb7kz63xbve5vnosl6gi54c3umgrpwbjr4og@lz4e2ptqanfe>
- <20260324-hilfen-reibung-9783005d5d0f@brauner>
- <ee146a41-2628-4cde-9f82-e718480edd4d@linux.alibaba.com>
- <052d27ff-9239-44fa-8604-336de0dc4711@gmail.com>
- <99ffdfa1-b18a-4f05-91e2-81c320e8edb5@linux.alibaba.com>
- <bf4764a9-ba89-4268-bcfc-125c9dabf0d7@gmail.com>
- <558f4e2b-7f9d-4e70-9516-5c1b300166bc@linux.alibaba.com>
- <d09dcad2-506a-4739-bf5d-3e7d21207836@gmail.com>
-From: Gao Xiang <hsiangkao@linux.alibaba.com>
-In-Reply-To: <d09dcad2-506a-4739-bf5d-3e7d21207836@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <acGEonF9I6sPA42B@J2N7QTR9R3.cambridge.arm.com>
 
-
-
-On 2026/3/24 18:17, Demi Marie Obenour wrote:
-> On 3/24/26 06:14, Gao Xiang wrote:
->>
->>
->> On 2026/3/24 18:02, Demi Marie Obenour wrote:
->>> On 3/24/26 05:53, Gao Xiang wrote:
->>>>
->>>>
->>>> On 2026/3/24 17:49, Demi Marie Obenour wrote:
->>>>> On 3/24/26 05:30, Gao Xiang wrote:
->>>>>> Hi Christian,
->>>>>>
->>>>>> On 2026/3/24 16:48, Christian Brauner wrote:
->>>>>>> On Mon, Mar 23, 2026 at 03:47:24PM +0100, Jan Kara wrote:
->>>>>>>> On Mon 23-03-26 22:36:46, Gao Xiang wrote:
->>>>>>>>> On 2026/3/23 22:13, Jan Kara wrote:
->>>>>>>>>>>> think that is the corner cases if you don't claim the
->>>>>>>>>>>> limitation of FUSE approaches.
->>>>>>>>>>>>
->>>>>>>>>>>> If none expects that, that is absolute be fine, as I said,
->>>>>>>>>>>> it provides strong isolation and stability, but I really
->>>>>>>>>>>> suspect this approach could be abused to mount totally
->>>>>>>>>>>> untrusted remote filesystems (Actually as I said, some
->>>>>>>>>>>> business of ours already did: fetching EXT4 filesystems
->>>>>>>>>>>> with unknown status and mount without fscking, that is
->>>>>>>>>>>> really disappointing.)
->>>>>>>>>>
->>>>>>>>>> Yes, someone downloading untrusted ext4 image, mounting in read-write and
->>>>>>>>>> using it for sensitive application, that falls to "insane" category for me
->>>>>>>>>> :) We agree on that. And I agree that depending on the application using
->>>>>>>>>> FUSE to access such filesystem needn't be safe enough and immutable fs +
->>>>>>>>>> overlayfs writeable layer may provide better guarantees about fs behavior.
->>>>>>>>>
->>>>>>>>> That is my overall goal, I just want to make it clear
->>>>>>>>> the difference out of write isolation, but of course,
->>>>>>>>> "secure" or not is relative, and according to the
->>>>>>>>> system design.
->>>>>>>>>
->>>>>>>>> If isolation and system stability are enough for
->>>>>>>>> a system and can be called "secure", yes, they are
->>>>>>>>> both the same in such aspects.
->>>>>>>>>
->>>>>>>>>> I would still consider such design highly suspicious but without more
->>>>>>>>>> detailed knowledge about the application I cannot say it's outright broken
->>>>>>>>>> :).
->>>>>>>>>
->>>>>>>>> What do you mean "such design"?  "Writable untrusted
->>>>>>>>> remote EXT4 images mounting on the host"? Really, we have
->>>>>>>>> such applications for containers for many years but I don't
->>>>>>>>> want to name it here, but I'm totally exhaused by such
->>>>>>>>> usage (since I explained many many times, and they even
->>>>>>>>> never bother with LWN.net) and the internal team.
->>>>>>>>
->>>>>>>> By "such design" I meant generally the concept that you fetch filesystem
->>>>>>>> images (regardless whether ext4 or some other type) from untrusted source.
->>>>>>>> Unless you do cryptographical verification of the data, you never know what
->>>>>>>> kind of garbage your application is processing which is always invitation
->>>>>>>> for nasty exploits and bugs...
->>>>>>>
->>>>>>> If this is another 500 mail discussion about FS_USERNS_MOUNT on
->>>>>>> block-backed filesystems then my verdict still stands that the only
->>>>>>> condition under which I will let the VFS allow this if the underlying
->>>>>>> device is signed and dm-verity protected. The kernel will continue to
->>>>>>> refuse unprivileged policy in general and specifically based on quality
->>>>>>> or implementation of the underlying filesystem driver.
->>>>>>
->>>>>>
->>>>>> First, if block devices are your concern, fine, how about
->>>>>> allowing it if EROFS file-backed mounts and S_IMMUTABLE
->>>>>> for underlay files is set, and refuse any block device
->>>>>> mounts.
->>>>>>
->>>>>> If the issue is "you don't know how to define the quality
->>>>>> or implementation of the underlying filesystem drivers",
->>>>>> you could list your detailed concerns (I think at least
->>>>>> people have trust to the individual filesystem
->>>>>> maintainers' judgements), otherwise there will be endless
->>>>>> new sets of new immutable filesystems for this requirement
->>>>>> (previously, composefs , puzzlefs, and tarfs are all for
->>>>>> this; I admit I didn't get the point of FS_USERNS_MOUNT
->>>>>> at that time of 2023; but know I also think FS_USERNS_MOUNT
->>>>>> is a strong requirement for DinD for example), because that
->>>>>> idea should be sensible according to Darrick and Jan's
->>>>>> reply, and I think more people will agree with that.
->>>>>>
->>>>>> And another idea is that you still could return arbitary
->>>>>> metadata with immutable FUSE fses and let users get
->>>>>> garbage (meta)data, and FUSE already allows FS_USERNS_MOUNT,
->>>>>> and if user and mount namespaces are isolated, why bothering
->>>>>> it?
->>>>>>
->>>>>> I just hope know why? And as you may notice,
->>>>>> "Demi Marie Obenour wrote:"
->>>>>>
->>>>>>> The only exceptions are if the filesystem is incredibly simple
->>>>>>> or formal methods are used, and neither is the case for existing
->>>>>>> filesystems in the Linux kernel.
->>>>>>
->>>>>> I still strong disagree with that judgement, a minimal EROFS
->>>>>> can build an image with superblock, dirs, and files with
->>>>>> xattrs in a 4k-size image; and 4k image should be enough for
->>>>>> fuzzing; also the in-core EROFS format even never allocates
->>>>>> any extra buffers, which is much simplar than FUSE.
->>>>>>
->>>>>> In brief, so how to meet your requirement?
->>>>>>
->>>>>> Thanks,
->>>>>> Gao Xiang
->>>>>
->>>>> Rewriting the code in Rust would dramatically reduce the attack
->>>>> surface when it comes to memory corruption.  That's a lot to ask,
->>>>> though, and a lot of work.
->>>>
->>>> I don't think so, FUSE can do FS_USERNS_MOUNT and written in C
->>>> , and the attack surface is already huge.
->>>>
->>>> EROFS will switch to Rust some time, but your judgement will
->>>> make people to make another complete new toys of Rust kernel
->>>> filesystems --- just because EROFS is currently not written
->>>> in Rust.
->>>>
->>>> I'm completely exhaused with such game: If I will address
->>>> every single fuzzing bug and CVE, why not?
->>>>
->>>> Thanks,
->>>> Gao Xiang
->>>
->>> I should have written that rewriting in Rust could help convince
->>> people that it is in fact safe.  One *can* make safe C code, as shown
->>> by OpenSSH.  It's just *harder* to write safe C code, and harder to
->>> demonstrate to others that C code is in fact safe.
->>
->> How do you define a formal `safe C`? "C without pointers"?
+On Mon, Mar 23, 2026 at 06:21:22PM +0000, Mark Rutland wrote:
+> On Mon, Mar 23, 2026 at 05:53:37PM +0000, Andrei Vagin wrote:
+> > Introduces a mechanism to inherit hardware capabilities (AT_HWCAP,
+> > AT_HWCAP2, etc.) from a parent process when they have been modified via
+> > prctl.
+> > 
+> > To support C/R operations (snapshots, live migration) in heterogeneous
+> > clusters, we must ensure that processes utilize CPU features available
+> > on all potential target nodes. To solve this, we need to advertise a
+> > common feature set across the cluster.
+> > 
+> > This patch adds a new mm flag MMF_USER_HWCAP, which is set when the
+> > auxiliary vector is modified via prctl(PR_SET_MM, PR_SET_MM_AUXV).  When
+> > execve() is called, if the current process has MMF_USER_HWCAP set, the
+> > HWCAP values are extracted from the current auxiliary vector and stored
+> > in the linux_binprm structure. These values are then used to populate
+> > the auxiliary vector of the new process, effectively inheriting the
+> > hardware capabilities.
+> > 
+> > The inherited HWCAPs are masked with the hardware capabilities supported
+> > by the current kernel to ensure that we don't report more features than
+> > actually supported. This is important to avoid unexpected behavior,
+> > especially for processes with additional privileges.
 > 
-> Safe = "history of not having many vulnerabilities"
-
-So there will be no pointer, but that is almost
-impossible for filesystems, since filesystem APIs
-work with pointers.
-
+> At a high level, I don't think that's going to be sufficient:
 > 
->> Actually, we tried to switch to Rust but Rust developpers
->> resist with incremental change, they just want a pure Rust
->> and switch to it all the time, that is impossible for all
->> mature kernel filesystems.
+> * On an architecture with other userspace accessible feature
+>   identification mechanism registers (e.g. ID registers), userspace
+>   might read those. So you might need to hide stuff there too, and
+>   that's going to require architecture-specific interfaces to manage.
 > 
-> Incremental change is definitely good.
-
-Those developpers resisted this two years ago.
-
+>   It's possible that some code checks HWCAPs and others check ID
+>   registers, and mismatch between the two could be problematic.
 > 
->>> Whether the burden of proof being placed on you is excessive is a
->>> separate question that I do not have the experience to comment on.
->>
->> That is funny TBH, just because the whole policy here
->> is broken, if you call out the LOC of codebase, I
->> believe FUSE, OverlayFS and even TCP/IP are all complex
->> than EROFS.
->>
->> If you still think LOC is the issue, I'm pretty fine to
->> isolate a `fs/simple_erofs` and drop all advanced runtime
->> features and even compression.
-> 
-> I don't think LOC is the main problem.
+> * If the HWCAPs can be inherited by a more privileged task, then a
+>   malicious user could use this to hide security features (e.g. shadow
+>   stack or pointer authentication on arm64), and make it easier to
+>   attack that task. While not a direct attack, it would undermine those
+>   features.
 
-But folks come to me, telling me that you're unsafe
-because your LOC is larger than my new stuff.
+Yeah, this looks like a non-starter to me on arm64. Even if it was
+extended to apply the same treatment to the idregs, many of the hwcap
+features can't actually be disabled by the kernel and so you still run
+the risk of a task that probes for the presence of a feature using
+something like a SIGILL handler or, perhaps more likely, assumes that
+the presence of one hwcap implies the presence of another. And then
+there are the applications that just base everything off the MIDR...
 
-How do I react?
+There's also kvm, which provides a roundabout way to query some features
+of the underlying hardware.
 
-> 
->>> That said:
->>>
->>>> I will address every single fuzzing bug and CVE
->>>
->>> is very different than the view of most filesystem developers.
->>> If the fuzzers have good code coverage in EROFS, this is a very strong
->>> argument for making an exception.
->>
->> I don't know if it's just your judgement or Christian's
->> judgement.
->>
->> Currently EROFS is well-fuzzed by syzkaller and I keep
->> maintaining it as 0 active issue (as I said, 4k images
->> are enough for fuzzing all EROFS metadata format, almost
->> all previous syzkaller issues are out of compressed
->> inodes but we can just disable compression formats for
->> FS_USERNS_MOUNT, just because compression algorithms
->> are already complex for fuzzing) and we will definitely
->> improve this part even further if that is the real
->> concern of this.
->>
->> And we will accept any fuzzing bug as CVE, and fix them
->> as 0day bugs like other subsystems written in C which
->> accept untrusted (meta)data.  Is that end of story of
->> this game?
-> 
-> It should be!
+You're probably better off using/extending the idreg overrides we have
+in arch/arm64/kernel/pi/idreg-override.c so that you can make your
+cluster of heterogeneous machines look alike.
 
-So why? Who could tell me why?
+On the other hand, if munging the hwcaps happens to be sufficient for
+this particular use-case, can't it be handled entirely in userspace (e.g.
+by hacking libc?)
 
-Thanks,
-Gao Xiang
-
+Will
