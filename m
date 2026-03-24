@@ -1,264 +1,89 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 323B83502B8
-	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 07:53:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774338825; cv=pass; b=AREnlAI1i/k1i3XHTX/fYxM5klrjU2n3zXGIv7zJLAS/kPvR/bI4iNeJPp/lHg6z5cOY0eMhotg989R+hv+4PDgWSAu6Q5jeKSw5Mlrl0OKSaqUU4lryHk/2QTWDmkBi4VN62PSHfTtNXy29yRGILFWBoOL91aDM8rUWIH0tqkA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774338825; c=relaxed/simple;
-	bh=EkHahqFiKzq0hXwxECnVuQUIAlqeYMLsbgChKFxta08=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kenBBaZQxtbPbtQgYojj9IFtx9xYGE5KWB1klQmVSgnSQq+qDCEfNZVIXpKD9te+nl443XTbURSer/uR8ox12XgKZ2rjwcnN1ufgyd7vf21PwwsAAB17lztrc9EmTeMegB5iY565lNAiMrDH9tPNRMz87UTsiJVoLE1zeA9TAqc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UXWj93Ix; arc=pass smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05B56358389
+	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 07:54:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774338853; cv=none; b=t3mUp6/MLv38heH6GPMirA0k13gnJRC7Ha+xnv2POccJgCK4ghVRhOXfKbayDoZgt785VTeMx2hQO3QznA+1Ja/VQO1dWz7SMSEjyMzIbDEHM58Hokw1YpX9LHD66efTxhCmjVpqMO7Alm+FEdVMoqPCxSC2LhnVqTn9PDrjPd8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774338853; c=relaxed/simple;
+	bh=6blkyTe4IKh1y5rjLHOK//uXmgRh62lCozVVfSykuQM=;
+	h=From:In-Reply-To:References:To:Cc:Subject:MIME-Version:
+	 Content-Type:Date:Message-ID; b=qFdnjnB5plw3OijlMLwCkoY8lKLNosDIlBZtcq5bHWnFEV8vAUO7U2Pg+iGJaKFYUWAtCXdcK9/zRGPDjytCjJkHJOh8PswgrMkp/6Fc0F3a6+wai6PeQ3gA+NETWcPLMiA0DKtfOdOqSypHSBKsF5IIMR5Wz0UiAoSJjuhfPxM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Deed9SkT; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UXWj93Ix"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-b976536806cso770971166b.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 00:53:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774338811; cv=none;
-        d=google.com; s=arc-20240605;
-        b=JyQObPf0Xl+kivQJfE0+nEVGbD+620E82aETnVhFpNc+eZ75N2WP+mi2FEthkTooOi
-         5kvIjV0FU9MFq3ZkfJTigajyXP9coDgv48p898PJk2OhNXe8g52pj2LmbMmIBwRx2buQ
-         0soq6vH65SRXYLYyvVgHkjaxAI9GCUR0vNGbgRVsXvyywsxd7/PQrj5b+o1N5Zy28cHU
-         SecTvbmRepR0uRYjxAZqvcXXPrguSyvLcb9coOltwpwzEcB5XDXEkA/kJpxsoAZtBDF3
-         Q/rajHWUgbwhf0lxEDyl9VQ3sigI9tgbX1eZxrqATVXdH0AUhM/Ai+sKTL9EK0G6+0IT
-         VzDA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=BvlIol/fyMPbQwPX/OXsXdgiKOBBe/R83FLdoCNg1RY=;
-        fh=JFXuQQGckLC3RKld53eBwLyQ4JrSmOWj4wPNSdfbo84=;
-        b=ASDcnyo2fkgzPl+EiWHA130wcwCM/k8LdSOYv3U1Zw1Z9xiBodnBy1DS3XIT4hI4vA
-         +IHZt60y52BFlhxyQbACFosndS0gVvwDooyt2Q7d9flkMWfb89K3PX9INy0jtFK3C4FS
-         gYQis/szGYGv/OQ2+cN8HL5zh3gh59OWZiGBS482uyJb/AmcG6tjSGBC+oGpviKx5ZjK
-         stSFZFTJDGkhSwjch11+IpXIS5zCP49N7eTtesrsCniVD4HB4dQK7WGjGhrA7QW5xPyK
-         wrJPq7o2ijIGGfGXQ9n/y8BiVZdKqWUwV0PBfwkibDwCIcdlE1HcegAoFkBwpyNN+a3o
-         zr2g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774338811; x=1774943611; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BvlIol/fyMPbQwPX/OXsXdgiKOBBe/R83FLdoCNg1RY=;
-        b=UXWj93IxztkZMV/i0SthmZJjuhzAm0hyPkRv5spOGA8Y0hl0mczMZ8R0cTvwa2lUFQ
-         CYmjnGeVwEsUGCj0KPqZ4afL9p0pXHhnZCfH7pLEUPRPel7GhC/VgqLUYljELw270h5f
-         3AeeBKx69DxrLqtXg6epER4oXyqPvzo7GnBkIyJSioJFjBIVXLzjzrP9KdRrhT3XuSdp
-         pg4rLnGZ4uU42LgGFA7CtKcD3hTlwueLBNGNe7Tt4E1v3LnkzCp8EUx7Kl7pge6XKMFq
-         8tVGILHXiEbIh8KPfscQZKACd+uP+lNWYfgyOkm+52UnQdpL0XkpJpb7AiNjpvfVqi97
-         50IQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774338811; x=1774943611;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=BvlIol/fyMPbQwPX/OXsXdgiKOBBe/R83FLdoCNg1RY=;
-        b=m3DoyfP2iNtdwFxOshd+3Ra0HtSeJ8AhggYlgJrMovQbOYNOVVKVm2rVGu+swJ7+Px
-         T11dVmyIwzH9Bdz9h6jHQPl2j3C0h9BTVnlrFOsvMCwsWv3azr22BEHcbUHhk82rWeyg
-         re16YPzqqLAlXfvfG4E7A5m2rnZ91Mt3y6FVs9H3Gjt49bX1vAYJwM1Vf2Rg6J3zlf1Q
-         wC00YOY4xObMh7F0O2dJd8y1xH2Bimazplf7YqXX1GZL+aKqAiF2zGilgClzbRYqo7X7
-         Pgwz61KO8eouT+TRvQcGvhGrfXvlg47gCrgWs7hYEwUsjg/44i0umucPA/np9gFA7x1t
-         Bhhw==
-X-Forwarded-Encrypted: i=1; AJvYcCUk0PeNcfCUCNUVU1V7ecZFjTqqDE+5Wng+TDntaQ5tMGlDcCxzPgm0RlffQ/SlCdpEKgEb8AxmKgKSUrPa@vger.kernel.org
-X-Gm-Message-State: AOJu0YyQKnVbjHtErrLIQIkPJazzS9Zf/Z42m0G0nfpNgoJmaJk4aRP7
-	dybrIesW/fjSg4KQKnN5oAcIqi52e0Rdwj5nBKtFr6+8rvDyeDXUih+AFLV/t4aab4zBZ8gfLGD
-	0boQF+ZXPiOZej7gxyj6c+o8zM2eWOIw=
-X-Gm-Gg: ATEYQzyiUzN+tSGVXlRqI9ul9IMh5+GQO69zGiOlkLYY/W9S63t+297p/jc5E7GTIPt
-	zDsnff4CyyEJpy9rs362/pnT9TtSdOHy4r7oGI6VZv+TV6Pif/kTSDz7qFttQ49QMIjqsrMyBVC
-	FRkXqt7Fk5ImqyxV3LsRlpJnUVtqaF5HVKFlc73p+8dSC84dKsmhcKUBPc0APcDrcf5j6/7/BsX
-	8tJkpGSGW+PaeuoJYu8YpU2mZTnPNiimZ+VRML6yGmsPAOKudIHSoICTG1dJBIqVXZzPteIQkG8
-	Kv2MsEYe2OifKrYwW64AdQ3CEecJu5yPWuoP/sM0sw==
-X-Received: by 2002:a17:906:5994:b0:b94:1771:5296 with SMTP id
- a640c23a62f3a-b982f27d258mr722760466b.23.1774338810639; Tue, 24 Mar 2026
- 00:53:30 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Deed9SkT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1774338841;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Fw5eFbCUWOTNNMeHHB5r5m5Z9lKiPRYiRNr3rzILlRM=;
+	b=Deed9SkT/9Xic8qChNdabITf7K05dBy4bZhw9yqLlHGj7QM5OJ8tg4uttaVvrUPqZQHgpf
+	qQcsQkAaC15M2f+qdpmd60EEItV6SjfeK9wtyKFI/oystmz9iaFYON1SjscAZ10/KMpvu5
+	KNKHu5iuVqCpGf+ZJtuZoINqLt8aM+U=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-654-D6gR2O3ZOmqMBO_yW9bgqQ-1; Tue,
+ 24 Mar 2026 03:53:58 -0400
+X-MC-Unique: D6gR2O3ZOmqMBO_yW9bgqQ-1
+X-Mimecast-MFC-AGG-ID: D6gR2O3ZOmqMBO_yW9bgqQ_1774338836
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 635C8195608A;
+	Tue, 24 Mar 2026 07:53:54 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.44.33.121])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 4C96219560B1;
+	Tue, 24 Mar 2026 07:53:49 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+	Kingdom.
+	Registered in England and Wales under Company Registration No. 3798903
+From: David Howells <dhowells@redhat.com>
+In-Reply-To: <c456a6ce-c883-4631-a5c7-5d2255205546@chenxiaosong.com>
+References: <c456a6ce-c883-4631-a5c7-5d2255205546@chenxiaosong.com> <a1949f85-2e92-429e-83eb-91a7691b9a9b@chenxiaosong.com> <20260304140328.112636-1-dhowells@redhat.com> <20260304140328.112636-18-dhowells@redhat.com> <2d8ce118-2f7a-4b7f-8786-4581b29cb74e@chenxiaosong.com> <63655684a778145167a549b4a6251ccf@manguebit.org> <3597849.1774336571@warthog.procyon.org.uk>
+To: ChenXiaoSong <chenxiaosong@chenxiaosong.com>
+Cc: dhowells@redhat.com, Paulo Alcantara <pc@manguebit.org>,
+    Matthew Wilcox <willy@infradead.org>,
+    Christoph Hellwig <hch@infradead.org>, Jens Axboe <axboe@kernel.dk>,
+    Leon Romanovsky <leon@kernel.org>, Steve French <smfrench@gmail.com>,
+    Christian Brauner <christian@brauner.io>, netfs@lists.linux.dev,
+    linux-afs@lists.infradead.org, linux-cifs@vger.kernel.org,
+    linux-nfs@vger.kernel.org, ceph-devel@vger.kernel.org,
+    v9fs@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+    linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 17/17] netfs: Combine prepare and issue ops and grab the buffers on request
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAOdxtTadAFH01Vui1FvWfcmQ8jH1O45owTzUcpYbNvBxnLeM7Q@mail.gmail.com>
-In-Reply-To: <CAOdxtTadAFH01Vui1FvWfcmQ8jH1O45owTzUcpYbNvBxnLeM7Q@mail.gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Tue, 24 Mar 2026 08:53:19 +0100
-X-Gm-Features: AQROBzDDpxDWrnI_0ErHKf9B-NvnkFzklWGTuiS7-g7t4QluNxFJT4EpViODXMc
-Message-ID: <CAOQ4uxjuAfCJXGRchDf-7d+uCS+8=Du_Y8OzgX15w4-fOR_oHQ@mail.gmail.com>
-Subject: Re: [REGRESSION] fs/overlayfs/ext4: Severe jbd2 lock contention and
- journal starvation on concurrent copy-up (v6.6 -> v6.12)
-To: Chenglong Tang <chenglongtang@google.com>
-Cc: linux-unionfs@vger.kernel.org, linux-ext4@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	regressions@lists.linux.dev, jack@suse.com, Jan Kara <jack@suse.cz>, 
-	miklos@szeredi.hu, tytso@mit.edu, adilger.kernel@dilger.ca, 
-	viro@zeniv.linux.org.uk, brauner@kernel.org, Kevin Berry <kpberry@google.com>, 
-	Robert Kolchmeyer <rkolchmeyer@google.com>, Deepa Dinamani <deepadinamani@google.com>, 
-	He Gao <hegao@google.com>, Fei Lv <feilv@asrmicro.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <3677110.1774338827.1@warthog.procyon.org.uk>
+Date: Tue, 24 Mar 2026 07:53:47 +0000
+Message-ID: <3677111.1774338827@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-On Mon, Mar 23, 2026 at 11:03=E2=80=AFPM Chenglong Tang
-<chenglongtang@google.com> wrote:
->
-> Hi all,
+ChenXiaoSong <chenxiaosong@chenxiaosong.com> wrote:
 
-Hi Chenglong,
+> `netfs_put_request()` only decrements the reference count by one, while
+> `netfs_put_failed_request()` (refcout == 2) immediately frees the request by
+> calling `netfs_free_request()`.
+> 
+> Since the `refcount == 2` after `netfs_create_write_req() ->
+> netfs_alloc_request()`, on the failure path, calling `netfs_put_request()`
+> will not free the request.
+> 
+> Please let me know if my understanding is incorrect.
 
->
-> We are tracking a severe performance regression in Google's
-> Container-Optimized OS (COS) that appeared when moving from the 6.6
-> LTS kernel to the 6.12 LTS kernel.
->
-> Under concurrent CI workloads (specifically, many containers doing
-> Python package compilation / .pyc generation simultaneously), the 6.12
-> kernel suffers from massive jbd2 journal contention. Processes hang
-> for 20-30 seconds waiting for VFS locks and journal space. On 6.6, the
-> exact same workload completes in ~4 seconds.
->
-> # Environment:
-> * Host FS: ext4 (backed by standard cloud block storage)
-> * Container FS: OverlayFS (Docker)
-> * Machine: n2d-highmem-96 (96 vCPU, high memory)
-> * Good Kernel: 6.6.87
-> * Bad Kernels: 6.12.55, 6.12.68
->
-> # The Bottleneck
-> During the 20+ second hang, `cat /proc/<pid>/stack` reveals three
-> distinct groups of blocked processes thrashing on the jbd2 journal.
-> The OverlayFS copy-up mechanism seems to be generating so many
-> synchronous ext4 transactions that it exhausts the jbd2 transaction
-> buffers.
->
-> 1. Journal Space Exhaustion (Waiting to start transaction):
-> [<0>] __jbd2_log_wait_for_space+0xa3/0x240
-> [<0>] start_this_handle+0x42d/0x8a0
-> [<0>] jbd2__journal_start+0x103/0x1e0
-> [<0>] __ext4_journal_start_sb+0x129/0x1c0
-> [<0>] __ext4_new_inode+0x7cd/0x1290
-> [<0>] ext4_create+0xbc/0x1b0
-> [<0>] vfs_create+0x192/0x250
-> [<0>] ovl_create_real+0xd5/0x170
-> [<0>] ovl_create_or_link+0x1d7/0x7f0
->
-> 2. VFS Rename / Copy-up Contention (Blocked by the slow sync):
-> [<0>] lock_rename+0x29/0x50
-> [<0>] ovl_copy_up_flags+0x84c/0x12e0
-> [<0>] ovl_create_object+0x4a/0x120
-> [<0>] vfs_mkdir+0x1aa/0x260
-> [<0>] do_mkdirat+0xb9/0x240
->
-> 3. Synchronous Flush Blocking:
-> [<0>] jbd2_log_wait_commit+0x107/0x150
-> [<0>] jbd2_journal_force_commit+0x9c/0xc0
-> [<0>] ext4_sync_file+0x278/0x310
-> [<0>] ovl_sync_file+0x2f/0x50
-> [<0>] ovl_copy_up_metadata+0x455/0x4b0
->
-> # Minimal Reproducer
-> The issue is easily reproducible by triggering 20 concurrent cold
-> Python imports in Docker, which forces OverlayFS to copy-up the
-> `__pycache__` directories and write the `.pyc` files.
->
-> ```bash
-> # 1. Build a clean image with no pre-compiled bytecode
-> cat << 'EOF' > Dockerfile
-> FROM python:3.10-slim
-> RUN pip install --quiet google-cloud-compute
-> RUN find /usr/local -type d -name "__pycache__" -exec rm -rf {} +
-> EOF
-> docker build -t clean-import-test .
->
-> # 2. Fire 20 concurrent imports
-> for i in {1..20}; do
->   docker run --rm clean-import-test bash -c 'time python -c "import
-> google.cloud.compute_v1"' > clean_test_cold_$i.log 2>&1 &
-> done
-> wait
-> grep "real" clean_test_cold_*.log
-> ```
+Actually, yes.  You're correct.  Anyway, I've made the change and pushed it.
 
-I don't understand.
+David
 
-You write that Python imports in Docker forces OverlayFS to copy-up the
-`__pycache__` directories, but the prep stage removes all the
-`__pycache__` directories.
-
-My guess would be that rm -rf __pycache__ would generate a lot of
-metadata copy ups, but you write that the issue occurs during the
-2nd stage. Maybe I misunderstood.
-
-Please try to figure out which and how many copy up objects this translates=
- to
-for directories, for files?
-
->
-> On 6.6.87, all 20 containers finish in ~4.3s.
-> On 6.12.x, they hang and finish between 17s and 27s. Bypassing disk
-> writes completely mitigates the regression on 6.12 (using
-> PYTHONDONTWRITEBYTECODE=3D1), confirming it is an ext4/overlayfs I/O
-> contention issue rather than a CPU scheduling one.
->
-> Because the regression spans from 6.6 to 6.12, bisection is quite
-> heavy. Before we initiate a full kernel bisect, does this symptom ring
-> a bell for any ext4 fast_commit, jbd2 locking, or OverlayFS
-> metacopy/sync changes introduced during this window?
->
-> Any pointers or patches you'd like us to test would be greatly appreciate=
-d.
->
-
-Very high suspect:
-
-7d6899fb69d25 ovl: fsync after metadata copy-up
-
-As you can see from this discussion [1] this performance regression
-was somewhat anticipated:
-
-"Now we just need to hope that users won't come shouting about
-performance regressions."
-
-[1] https://lore.kernel.org/linux-unionfs/CAOQ4uxgKC1SgjMWre=3DfUb00v8rxtd6=
-sQi-S+dxR8oDzAuiGu8g@mail.gmail.com/
-
-With metacopy disabled this change introduced fsyncs on metadata-only
-changes made my overlayfs which could generate a lot of journal stress
-and explain the regression.
-
-But we had not anticipated that workloads could be affected with
-metacopy disabled, because it was anticipated that data fsync
-would be the more significant bottleneck.
-
-Do your containers have metacopy enabled?
-If not, why not? Is it because metacopy is conflicting with some
-other overlayfs feature that you need like userxattr?
-
-Thinking out loud, I wonder if metadata copy up code would benefit from
-calling export_ops->commit_metadata() when supported by upper fs
-instead of open+vfs_fsync(), but I doubt if that would relieve journal stre=
-ss
-in this case.
-
-Anyway, please see if forcing metadata_fsync off solves the regression
-and I will stage the original patch from Fei to make metadata_fsync
-opt-in.
-
-Thanks,
-Amir.
-
---- a/fs/overlayfs/copy_up.c
-+++ b/fs/overlayfs/copy_up.c
-@@ -1154,7 +1154,7 @@ static int ovl_copy_up_one(struct dentry
-*parent, struct dentry *dentry,
-         * that will hurt performance of workloads such as chown -R, so we
-         * only fsync on data copyup as legacy behavior.
-         */
--       ctx.metadata_fsync =3D !OVL_FS(dentry->d_sb)->config.metacopy &&
-+       ctx.metadata_fsync =3D 0 && !OVL_FS(dentry->d_sb)->config.metacopy =
-&&
-                             (S_ISREG(ctx.stat.mode) || S_ISDIR(ctx.stat.mo=
-de));
-        ctx.metacopy =3D ovl_need_meta_copy_up(dentry, ctx.stat.mode, flags=
-);
