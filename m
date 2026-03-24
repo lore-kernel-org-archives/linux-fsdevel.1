@@ -1,434 +1,1364 @@
-Received: from outbound-ip191b.ess.barracuda.com (outbound-ip191b.ess.barracuda.com [209.222.82.124])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A49B355F4C
-	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 20:42:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=209.222.82.124
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774384982; cv=fail; b=QMpFHL9zl7kRgshZGqV/Pjzei+wTsMY5xjW9Smv8shtupDsPXpkGCUOoXo/JEmmft+Rptya4Xv+o1IfG+PJOlv3nVIidxYtJLTLbkKbzL7QdINt4fskWOTNlUmt3Uog97toxtDS0fvLxYBoW2OFbSZGQ6f1qe4UUyehDLrw/B4s=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774384982; c=relaxed/simple;
-	bh=ja3BhWFaFhntALwS/q+jdTPfiuLbTKnXm6NGUSZO4GM=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=iici4JPH9lri3FTo/9wD1SFErYCLOACFafyqgwD6fS3ulV1J7KTHnT2/z6ch4TClk7oZ8cztrSiHzpg3tKYAKK3z42rF9kyy43HjiGujaHiL5s+/kQGkSrkycaVLyeXy/tV/YvzCGjp3euocEg680xAM6jlPp79BFhNoVP1WyU8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ddn.com; spf=pass smtp.mailfrom=ddn.com; dkim=pass (1024-bit key) header.d=ddn.com header.i=@ddn.com header.b=BEMfA2gr; arc=fail smtp.client-ip=209.222.82.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ddn.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ddn.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC06E34A77D
+	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 20:48:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774385312; cv=none; b=lPwALYHoXxTTZGENt2J2jzMcbPjfBhM0WSViBPTm7XRNZHmiHqUsVGUTRlhf03Jvw+yCvU/qrcSxd/aekqu0EOLRlZd9BkEjJcNqHxdYeVUSI9QbtNoKaTloMNyPnWUcj6IlXq9GZ3SXBkOkbw9M3Es7rE2P4afSZf7BuhwBRqA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774385312; c=relaxed/simple;
+	bh=UbxEvTGE0I+DudxCu6Gdl17KvIYvY33HX+YrPWk0TGs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PYStfr2KU+0FKX1HP+bbtCB7sJGoB7SVCxgKQhy/MSNy3Qg/NGN8A0us6Vgj3N6SkImu0XcIgT/kTiJuTS5qmKQjAA5vkNRlRaNNTDl7f8MLhbqCQvvdKIw3vD9ove0z9rYCQuJkGf6R0ZjXYnejv/IVdovjAqy2qBv79aXgK44=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ZyMJxYDK; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ddn.com header.i=@ddn.com header.b="BEMfA2gr"
-Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11020119.outbound.protection.outlook.com [40.93.198.119]) by mx-outbound23-182.us-east-2b.ess.aws.cudaops.com (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO); Tue, 24 Mar 2026 20:42:40 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Cq0JC/iB6eV3cHOWrEOm+tE4o1zV2cOnhDSfjhCUJP6alfn58hzgfPtujwo+I2wmxFyzwOHniWMKz8pQ4vO+qwweB0kEXlDY/68kVw+WtpigraRS30i4lHauxVUVTMWa8h1R90i+E6EIhn9N7zV18/xdgwlqv7Usnnm+uJ4enzQeAhB8hrbeOe1+wCcQ4agW1FoDHkxZLv5oG4upAt/SChEELAqyncqSuRV5jb8qVehgcgacw0o9JmMg3lCRPP9sMNy4ItVEj3aJlk2Gn1o+jPcan0L3ac0wKzLgpSKVkvopJwuTAy7ytADNDN9KMgTNHc46iN6oWceVJS1o4tyVlg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ja3BhWFaFhntALwS/q+jdTPfiuLbTKnXm6NGUSZO4GM=;
- b=Pr6JMpaGL/sWOHgDVFhIKmgLEFpPGonEEMtKpEc1B8Wp2ey0hyVbjCIGw9431/ZjF41Toy8GAymeG3jZxuJpLVJ7blpbMLq3P5DyRN0IU8e2soMcdOFdkwxakjgqyHLFpzi3DzLSOm3XawFUVnSek27uOIpA28tG4LlziTwkMUkpV2/iSVeYbuGfAP9zKbPTK5QV2Z5p3M48CUNnYR34Ui11/8EPKKLZ1iY14210OjVQmwBzd66JluER4ecZZRWKZ48i/HlW297GX8rTR2czqPNUJ5ff8ABaLka5Ur00lSOBMVeg3E8wI4rpwc5PZqIzeaGox6hb22skH1/Sc6IKnA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=ddn.com; dmarc=pass action=none header.from=ddn.com; dkim=pass
- header.d=ddn.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ddn.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ja3BhWFaFhntALwS/q+jdTPfiuLbTKnXm6NGUSZO4GM=;
- b=BEMfA2grp4lpA8scQmDpGvt5oR+ek49VrFtMDOrpTw9s37iwsyMQLueICFm/Xgwj+3aq9EQsQ4yTAJqxloWL9yyI32mMtWouIbAwSKnosLYHb2NU0qQDl18rWRSK6HC67Iet9VcE2pgXGjfBf87Sj2fFBatM9JHVj1UIyN/tXm4=
-Received: from MN2PR19MB3872.namprd19.prod.outlook.com (2603:10b6:208:1e8::8)
- by CH2PR19MB4053.namprd19.prod.outlook.com (2603:10b6:610:90::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.20; Tue, 24 Mar
- 2026 20:42:37 +0000
-Received: from MN2PR19MB3872.namprd19.prod.outlook.com
- ([fe80::5787:9b5e:45ce:396b]) by MN2PR19MB3872.namprd19.prod.outlook.com
- ([fe80::5787:9b5e:45ce:396b%6]) with mapi id 15.20.9723.018; Tue, 24 Mar 2026
- 20:42:37 +0000
-From: Bernd Schubert <bschubert@ddn.com>
-To: "Darrick J. Wong" <djwong@kernel.org>, Bernd Schubert <bernd@bsbernd.com>
-CC: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, Miklos
- Szeredi <miklos@szeredi.hu>, Joanne Koong <joannelkoong@gmail.com>, Kevin
- Chen <kchen@ddn.com>
-Subject: Re: [PATCH 12/19] fuse mount: Support synchronous FUSE_INIT
- (privileged daemon)
-Thread-Topic: [PATCH 12/19] fuse mount: Support synchronous FUSE_INIT
- (privileged daemon)
-Thread-Index: AQHcuuzUdGXKJ6BbGUiWZ4Qzqpw7E7W8zYkAgAFaGwA=
-Date: Tue, 24 Mar 2026 20:42:36 +0000
-Message-ID: <e0d7b5ee-ffef-45a4-8c39-84cd79342bae@ddn.com>
-References: <20260323-fuse-init-before-mount-v1-0-a52d3040af69@bsbernd.com>
- <20260323-fuse-init-before-mount-v1-12-a52d3040af69@bsbernd.com>
- <20260324000350.GM6202@frogsfrogsfrogs>
-In-Reply-To: <20260324000350.GM6202@frogsfrogsfrogs>
-Accept-Language: en-GB, en-US
-Content-Language: en-GB
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-user-agent: Mozilla Thunderbird
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=ddn.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MN2PR19MB3872:EE_|CH2PR19MB4053:EE_
-x-ms-office365-filtering-correlation-id: 664c1a23-7bab-4f93-2b1d-08de89e5e242
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|19092799006|1800799024|376014|366016|18002099003|56012099003|22082099003|38070700021;
-x-microsoft-antispam-message-info:
- B6eL+CfnC4wZg+B53LEx+2gWfxphllo+alWAL7J/aFtRhfYxpiu6MOl0ws8n8VeDo//nFo0j+hM5v8rAV24p3BgRX7SSIU9i47aSqQMklxCXS6JPzwVpkanVFPUuA1CV5fOom5EwHyP/HDxh4I5WHB4Z24GBwH1QIY9XboZV987eA4BmiG6on7a7zTbPd+Gfqmrpp6uGQp8ENSUM5U5cvC+06LN3e5G8gfBcJiQ6LvaKFrpxEerXtn666NqqsrqaXoMBPeKpBD8vi1LLynIU8siHK6Brr71IILUw1wyWTYZxPnYU8TwSXtdXdxPJiyDjecT8jsq3zFwPaPFVVYJ4EtuoYB4egM6wjAZln1YiTXod+Mz0ncbMH+UXQRf0f2vSH636GKPPdb4aRoV+gtjJyBn2MLz+5FOxYW3N4rQWmZtPra1vLzBi8RVR8z8yu745YvvE0xAMQiQwO8IBOwxT9wbwGdlpyWL8t/iznlHiCIFzeUpewmMLRI8ZomDbE0DwHsOconMk+uAo7zek77d+63wuzEQOf85XGaeCApS5EP/S0FAaFYNYTL44Frz2/QV6Yid79yrE0JxPTR3myn2kx3kX43lIRuw0i4lRA0DG0xiS6AYoCl26CV15Q/idyvRbZhk8WUsgEQdIYf1Xtzv3mulMc7WDxUbXssj8O+ycUbf1PiShkBR8jJDtmIGx+LjgRQt/OE5G9+LLj4CKYHeBcZxIzQoILBNHcIRurRTBbLoEC0w734Hk230GL9q8meCeqylV8bIed5MyJZF6jgSjrPG2fWrlAIaLmLuvvlCuXnI=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR19MB3872.namprd19.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(1800799024)(376014)(366016)(18002099003)(56012099003)(22082099003)(38070700021);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?cFBSWjN3WXBKSXhMNm5USTZXQU1DQjVnbHdSak9leWFDRlpxRkxHMDZoTGoy?=
- =?utf-8?B?RFAzL0gzczFWUWRGSklncm5NNUpyd0xTQmxnekJxWGFJOXljcFVENm1ubUZq?=
- =?utf-8?B?Q3ZBbHBhNktKdGI4RFhqTGpQaGM2TGxHVXlBb0J4K29DMmxwZU5OU21JMitZ?=
- =?utf-8?B?TEExZ0NVN3JQbGxoZy93cHRjcGE3elFHa3dOMk5kbDd5NXJjUmoyUHQ3eFZI?=
- =?utf-8?B?SlhrbWt3Rm1adEZsQWR6YlU4YXZYREwxblQ0MDZwWW9JM2cyL2kwWmtRblhZ?=
- =?utf-8?B?QmJ2b09GeTNrRGpCMUdQT1I3ZHg1cDYrRlViOFhwd0dFQlk2OEwwZnZ1YjdD?=
- =?utf-8?B?N1BGY1lqdGNFVm93anQ5ZnEvVnJ5bzdCTk1LNmpEV29HYVhtaHFHQUtaYlFx?=
- =?utf-8?B?bzhCUkNnbi96WmR4TVVmeGEyd1lMM2FzWEdicWJOMTMwZDV6SUxST21kYXc4?=
- =?utf-8?B?NDNJMXh6OC9IeVViNHpWVmpnNmxpc212RXZVdGxydEs1OVd4M2hueTlCYmFT?=
- =?utf-8?B?SFVQMGFuQUFCbURhdXhaRXo0cUptMGRoenY1SXcvVk4ybG1BQXdTdng2YzlS?=
- =?utf-8?B?QXpGSkxFdk0zQTFaZS9IZjFkZWtSR2s3elFNdWxFbnVmY2ZQSmNGbjhzUnNj?=
- =?utf-8?B?V2Z3ZmxEWEN3aXBPcCtGSmw1aEJKMVZhVFZqNmZ1eldEeDlHQ1RYSENjam9a?=
- =?utf-8?B?aUV0RUFta2NQOHlxMGJiaEFPdFRkZmFZTVE0QjhGcElqajJyNnZiN080cU1B?=
- =?utf-8?B?cjJrMGQ0MWpyYnZlVXN3ZXZMME1xRHgrUTNoTTA1ZForYTVMLzY2a1RJY1hS?=
- =?utf-8?B?SDBiQVZPRXRFTXNZVE53amMweDEyMXk4WEFOamhVc3RKZU5iOVhoUWwva1pM?=
- =?utf-8?B?YXliMHBxWFkyTmFrOVZTdlJWaUFxOXJUbm9LWWdvYVFyRUZIMW5YeS9sMlE1?=
- =?utf-8?B?SXBQRmk4RktpaW4xWU92WDAwOGp1MVFFSXhMOExzMFlEc2xzZVc3Y3dDamFu?=
- =?utf-8?B?Q3o5KzdIclJrVWFOZVdub21tSVRFRyt5dWlZTktkUGhIelRkdFB5a3JUWUc2?=
- =?utf-8?B?ZVJYdEdEeG1ubVRkd0pXTi9Tdjg3c0JFcmRPSk9Dc0dvd3VoaUJFaDU0enJY?=
- =?utf-8?B?cXFYM09YSVhoVi9MWHRDUzFjamhYK2EzTThMWTRUSkpUbDBpMzBja3lNME9y?=
- =?utf-8?B?d0QxVmN3OElUanZNRkM5bkJ3dVZkeTFyV0dqMzlKL2p1SU5sWXFnZVMwMWg3?=
- =?utf-8?B?aERjT0tZa0prcUt4dDBJUzFna1RKVUZjWFRpRCtEaEdSazR5YTcrYnBzK09V?=
- =?utf-8?B?czJRMEY3blUrdmM3SkFmQjg0aFR4NHB1dkRJZ2NTK1ZHKzNsbWJFbFdhRzk2?=
- =?utf-8?B?QWYvbHE1V0Jud09lQVlJMVRxUm5YUmpKcSs3K0szaC8vVGpGb3h1SUQrVmdk?=
- =?utf-8?B?V0pkR1pOd3F4cENFdEhrTXowUHlPNUxVM29uNDJDd0VNU3B3TjVKMEdRREN4?=
- =?utf-8?B?QnhzcGVNNnNuS0hmcWVTMWpCWEVBbmFxck1ZM0RRaVM0Vkd4WjVxb2N0QmlK?=
- =?utf-8?B?NkppekdUQjRNSWF1MmRCWVF6S1J2NDBBNFQ0YkEwRjdZR1RHYnMzRlBXWWVx?=
- =?utf-8?B?SFFZN2VPdVVBM0hvbHBIRmJSeVdaSk1zeGVSWkFRUzVlWEhKNms5bUNIT3FP?=
- =?utf-8?B?UW1QcFNOa1czdzlUSUNqMWhJek1sOTQ1YU9vb0kxUTdpeDJ6dHo5NGNMTUh5?=
- =?utf-8?B?RVMrSEJNd3djSmFqdmp3cUN1ZkcyOWk1VVM4bVVlSjdXN0NyVHIvYmVOcCtv?=
- =?utf-8?B?VjR2TzM1c1VKRkswS0puaEd6VWxUUHV1OWl0dzBBNFdhSHp4T2NKSklvNFVO?=
- =?utf-8?B?bUFHczduQVl3R3diRVJnRHFPdnNZRHplWnRPYnRoM2pJSlVybWc3RzJLTG43?=
- =?utf-8?B?UlJ0eWZySENoV005VkFueG00QlRYV1g4TzVnNzQvYjBIQmMycS82S1JSZzNi?=
- =?utf-8?B?QmdxOGt1ZkNhc0FkR3AzUyt1U0RNbVBOWDdnUDlGWFFzeGt3MncreTVmRFov?=
- =?utf-8?B?UWpPWksvWXZVT1U0SmhDVEF4TDIwTlhNV3dHbFkxdlpXTnNIbWNGdmJCalJD?=
- =?utf-8?B?YzVkY2lNS1FZM2pmZURpZmQxNE93eHRmZVpLbDFJY3V6VGtMQmsySy9sS29u?=
- =?utf-8?B?eEpobUZMcG5mL1BDQlU1S3FLN2kwUXhxaW9XT0Q2RGFabEZZQTdJeEYrMlNE?=
- =?utf-8?B?UkhhUGREbmFqYm9odEhHWElKL0JETCtyOTF5M1djNzcwWXZHSkl6Y2cwUDVR?=
- =?utf-8?Q?PLynTKVb02dke8sG+X?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <0DAB088922326249AD9058E5BD154EF3@namprd19.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ZyMJxYDK"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=BBO5BWUT5xrwN0znzaUjRwfbciQyeISj6ZMag65lI5U=; b=ZyMJxYDK1sP0ard2ge4UftMI/t
+	vkk3dGSp5mKPbLvFEYb1VS/mAQpS+ZPJRzhaf8jUziJgy3/TzydMn75R4U8/yhZ7M9xo+/Uo7M3lf
+	Rthh3SCLj64Vat8L/alYnUoQDx6koCdo63xWDrkRD9ZthDtCuSfJewepLGHD88HMirFZ52nv1bI/X
+	X15D9yxY9FkIjXccGKfNX4fkacbmLY07K2QTUDNT5zpIFD0Jz/fEjcEllGBqH4fCMIqa+L5LAEIAb
+	6l3aU+Nhc04Tl0N+J/Cse1Lq9lLij9BuL77E5k2I2+tj9Ai/MwpHaapN47dX2H93Wn4hQIvtdydgW
+	LbVEe8/A==;
+Received: from [50.53.43.113] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1w58fp-00000002E1z-1tWr;
+	Tue, 24 Mar 2026 20:48:25 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-fsdevel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Miklos Szeredi <miklos@szeredi.hu>
+Subject: [PATCH] fuse: fuse_i.h: clean up kernel-doc comments
+Date: Tue, 24 Mar 2026 13:48:24 -0700
+Message-ID: <20260324204824.1546808-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked:
-	ApGpVV4EfdHYRCEZl+GuTQH+6JKojCOT4CVNBh1iecl7t8wxIaqLihATvHx2yqm57HX7n1TIKESy1nVvUU9DVQmZK3L8ukSqSWzs27n8zPedzFGo9gKLZhKofJL56leTGT0WTuCBUIEPbaq/z9O3tX5H5xml1xSIIUgX/4Rcb4dHgKkurvbMOZnOCI3AQ3FeRJUS1VEZi05RbF513C2+CYbs8f6pT3ou/U2hhAZDl4Vkq3QBCggmhoh1CbemFoGefU+uvskoU0/eAWboi/xR/tN4XynyK/XgGq+d7hugX7mrxxZCGmZfW9H5Du4OZIUzvYFHxSzewCi0ntihWPe+Yw==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	iaXi94Fj5P3J6uU+mRn28df6HgIXUp6A2gdkkY/6RJUsFIqPVui5/cpv0EhGA7xNPia7pBd1BhPVkbEHJUMqW6V+CSRWSodB82nNwp9yLqM68DjNq0EJKNvSdQd7jK5KnIZ43EX+10Z0rqnkfTyER/zFVlsrxAXC4yRs9YrbwJn01ynn7ov+6MFA0Yhh1r9tBDTH7jlr8sSiaD8b/wFgL4KD01L6RrzHGfiLeZ9MSqjPc21DPxZzDPG/kz1h/CE9E7kCcesWAU3RIe/JVtM6Wh7DOyTEaWIuvZN8j5OzObAJcGBY3oE5GFv1lQWqRVtCKb8VgMZWb2imkXg1F3pxjme6KDyCvP+XDGHGRyDbMr9zLzGYZ7/TUpt5Ov/+ClLLeqmeooekR7ZspvpEX3RcxlDu6tczWZn9Ad3O8uBZk7UGdEJY23F+MIWqkzX/U8il9Z1N5SHZNAZweKvv24uGgAct8y8kS+jEWAXlcSvcFlwmnZufPBUXiekp/dgUZX/gh9lTut+WMh01dgVw78RndOqCq/mCDsMRwjfxGMTYVsmlpf5PbY+20BNKH0vSk8IDELy/Ua+3UCQguZpJNBKZCMXvAFx3DykNzcMxSSaHCSGGIYCoeNzIvsna1cvK/vA+IJWpiTJaD9aPY6ND+Himpg==
-X-OriginatorOrg: ddn.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR19MB3872.namprd19.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 664c1a23-7bab-4f93-2b1d-08de89e5e242
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Mar 2026 20:42:36.9469
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 753b6e26-6fd3-43e6-8248-3f1735d59bb4
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: YCj3hhRyFreX8cmeugnTCDyX3TydcmV0z+PtdNyAR5moMcWvTCnfPoZ4s5q64yff3u8AMBZk4Bzin0WtKuK6ag==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR19MB4053
-X-BESS-ID: 1774384960-106070-7674-18143-1
-X-BESS-VER: 2019.1_20260319.1837
-X-BESS-Apparent-Source-IP: 40.93.198.119
-X-BESS-Parts: H4sIAAAAAAACA4uuVkqtKFGyUioBkjpK+cVKVoamRmbGQGYGUNQiNckwycDcwN
-	zSJNHcyNzE2NAoxcjE0NQwJdk02cjIRKk2FgBkW1X/QgAAAA==
-X-BESS-Outbound-Spam-Score: 0.00
-X-BESS-Outbound-Spam-Report: Code version 3.2, rules version 3.2.2.272046 [from 
-	cloudscan10-188.us-east-2a.ess.aws.cudaops.com]
-	Rule breakdown below
-	 pts rule name              description
-	---- ---------------------- --------------------------------
-	0.00 BSF_BESS_OUTBOUND      META: BESS Outbound 
-X-BESS-Outbound-Spam-Status: SCORE=0.00 using account:ESS124931 scores of KILL_LEVEL=7.0 tests=BSF_BESS_OUTBOUND
-X-BESS-BRTS-Status:1
+Content-Transfer-Encoding: 8bit
 
-T24gMy8yNC8yNiAwMTowMywgRGFycmljayBKLiBXb25nIHdyb3RlOg0KPiBPbiBNb24sIE1hciAy
-MywgMjAyNiBhdCAwNjo0NTowN1BNICswMTAwLCBCZXJuZCBTY2h1YmVydCB3cm90ZToNCj4+IEZy
-b206IEJlcm5kIFNjaHViZXJ0IDxic2NodWJlcnRAZGRuLmNvbT4NCj4+DQo+PiBBZGQgc3luY2hy
-b25vdXMgRlVTRV9JTklUIHByb2Nlc3NpbmcgZHVyaW5nIG1vdW50KCkgdG8NCj4+IGVuYWJsZSBl
-YXJseSBkYWVtb25pemF0aW9uIHdpdGggcHJvcGVyIGVycm9yIHJlcG9ydGluZw0KPj4gdG8gdGhl
-IHBhcmVudCBwcm9jZXNzLg0KPj4NCj4+IEEgbmV3IG1vdW50IHRocmVhZCBpcyBuZWVkZWQgdGhh
-dCBoYW5kbGVzIEZVU0VfSU5JVCBhbmQNCj4+IHBvc3NpYmxlIG90aGVyIHJlcXVlc3RzIGF0IG1v
-dW50IHRpbWUgKGxpa2UgZ2V0eGF0dHIgZm9yIHNlbGludXgpLg0KPj4gVGhlIGtlcm5lbCBzZW5k
-cyBGVVNFX0lOSVQgZHVyaW5nIHRoZSBtb3VudCgpIHN5c2NhbGwuIFdpdGhvdXQgYSB0aHJlYWQN
-Cj4+IHRvIHByb2Nlc3MgaXQsIG1vdW50KCkgYmxvY2tzIGZvcmV2ZXIuDQo+Pg0KPj4gTW91bnQg
-dGhyZWFkIGxpZmV0aW1lOg0KPj4gQ3JlYXRlZCBiZWZvcmUgbW91bnQoKSBzeXNjYWxsIGluIGZ1
-c2Vfc3RhcnRfc3luY19pbml0X3dvcmtlcigpDQo+PiBQcm9jZXNzZXMgcmVxdWVzdHMgdW50aWwg
-c2UtPm1vdW50X2ZpbmlzaGVkIGlzIHNldCAoYWZ0ZXIgbW91bnQoKSByZXR1cm5zKQ0KPj4gSm9p
-bmVkIGFmdGVyIHN1Y2Nlc3NmdWwgbW91bnQgaW4gZnVzZV93YWl0X3N5bmNfaW5pdF9jb21wbGV0
-aW9uKCkNCj4+IENhbmNlbGxlZCBpZiBtb3VudCBmYWlscyAoZGlyZWN0IOKGkiBmdXNlcm1vdW50
-MyBmYWxsYmFjaykNCj4gDQo+IEhybW0sIHNvIHRoZSBtYWluIHRocmVhZCAob2YgdGhlIGNoaWxk
-IHByb2Nlc3MgYWZ0ZXIgZGFlbW9uaXphdGlvbikNCj4gY2FsbHMgbW91bnQoKSwgaGF2aW5nIHN0
-YXJ0ZWQgYSBjaGlsZCB0aHJlYWQgdG8gcmVhZCBhbmQgcHJvY2Vzcw0KPiBGVVNFX0lOSVQgKyBh
-bnkgb3RoZXIgbW91bnQtcmVsYXRlZCBmdXNlIHJlcXVlc3RzPw0KPiANCj4gTGF0ZXIgSSBzZWUg
-YW4gZXZlbnRmZCBiZWluZyB1c2VkIHRvIHNpZ25hbCB0aGlzIGJhY2tncm91bmQgdGhyZWFkIHRo
-YXQNCj4gaXQgc2hvdWxkIGV4aXQgYW5kIChwcmVzdW1hYmx5KSBsZXQgdGhlIHJlYWwgcmVxdWVz
-dCBwcm9jZXNzaW5nIHF1ZXVlcw0KPiB0YWtlIG92ZXIuICBJJ20gY3VyaW91cyB3aHkgYW4gZXZl
-bnRmZCBoZXJlIHdoZW4gcGlwZXMgd2VyZSB1c2VkDQo+IGVhcmxpZXI/DQoNCldlIGNhbm5vdCB1
-c2UgZXZlbnRmZHMgZm9yIGFueXRoaW5nIHBvc3NpYmx5IHVzZWQgYnkgQlNEIC0gd2hpY2ggaXMN
-CmZ1c2VfZGFlbW9uaXplXyBhbmQgZnVzZXJtb3VudC4gU28gZmFyIHN5bmMtaW5pdCBpcyBvbmx5
-IGluIHRoZSBuZXcNCm1vdW50IEFQSSAtIGxpbnV4IG9ubHkuIFdlIG5lZWQgdG8gc3dpdGNoIHRv
-IGEgcGlwZSBpZiBCU0QgZXZlciBnZXRzIHRoYXQuDQoNCj4gDQo+PiBLZXkgY2hhbmdlczoNCj4+
-DQo+PiBBZGQgaW5pdF90aHJlYWQsIGluaXRfZXJyb3IsIG1vdW50X2ZpbmlzaGVkIHRvIHN0cnVj
-dCBmdXNlX3Nlc3Npb24NCj4+IFVzZSBGVVNFX0RFVl9JT0NfU1lOQ19JTklUIGlvY3RsIGZvciBr
-ZXJuZWwgc3VwcG9ydA0KPj4gRmFsbCBiYWNrIHRvIGFzeW5jIEZVU0VfSU5JVCBpZiB1bnN1cHBv
-cnRlZA0KPj4gQXV0by1lbmFibGVkIHdoZW4gZnVzZV9kYWVtb25pemVfYWN0aXZlKCkgb3Igdmlh
-DQo+PiBmdXNlX3Nlc3Npb25fd2FudF9zeW5jX2luaXQoKQ0KPj4gQWxsb3dzIHBhcmVudCB0byBy
-ZXBvcnQgbW91bnQvaW5pdCBmYWlsdXJlcyBpbnN0ZWFkIG9mDQo+PiBleGl0aW5nIGltbWVkaWF0
-ZWx5IGFmdGVyIGZvcmsuDQo+Pg0KPj4gTm90ZTogRm9yIG5vdyBzeW5jaHJvbm91cyBGVVNFX0lO
-SVQgaXMgb25seSBzdXBwb3J0ZWQgZm9yIHByaXZpbGVnZWQNCj4+IG1vdW50cy4NCj4+DQo+PiBT
-aWduZWQtb2ZmLWJ5OiBCZXJuZCBTY2h1YmVydCA8YnNjaHViZXJ0QGRkbi5jb20+DQo+PiAtLS0N
-Cj4+ICBpbmNsdWRlL2Z1c2VfbG93bGV2ZWwuaCB8ICAxMiArKysNCj4+ICBsaWIvZnVzZV9kYWVt
-b25pemUuYyAgICB8ICAgOCArKw0KPj4gIGxpYi9mdXNlX2kuaCAgICAgICAgICAgIHwgIDE2ICsr
-KysNCj4+ICBsaWIvZnVzZV9sb3dsZXZlbC5jICAgICB8IDE5MiArKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKysrKysrKysrKysrKysrKysrLS0NCj4+ICBsaWIvbW91bnQuYyAgICAgICAgICAg
-ICB8ICAgNSArLQ0KPj4gIGxpYi9tb3VudF9mc21vdW50LmMgICAgIHwgICA1ICstDQo+PiAgNiBm
-aWxlcyBjaGFuZ2VkLCAyMjkgaW5zZXJ0aW9ucygrKSwgOSBkZWxldGlvbnMoLSkNCj4+DQo+PiBk
-aWZmIC0tZ2l0IGEvaW5jbHVkZS9mdXNlX2xvd2xldmVsLmggYi9pbmNsdWRlL2Z1c2VfbG93bGV2
-ZWwuaA0KPj4gaW5kZXggZWUwYmQ4ZDcxZDk1ZTRkNTdlYmI0ODczZGNhMGYyYjM2ZTIyYTY0OS4u
-ZDg2MjZmODViZGFmNDk3NTM0Y2QyODM1YTU4OWUzMGYxZjRlMjQ2NiAxMDA2NDQNCj4+IC0tLSBh
-L2luY2x1ZGUvZnVzZV9sb3dsZXZlbC5oDQo+PiArKysgYi9pbmNsdWRlL2Z1c2VfbG93bGV2ZWwu
-aA0KPj4gQEAgLTI0MjksNiArMjQyOSwxOCBAQCB2b2lkIGZ1c2Vfc2Vzc2lvbl9wcm9jZXNzX2J1
-ZihzdHJ1Y3QgZnVzZV9zZXNzaW9uICpzZSwNCj4+ICAgKi8NCj4+ICBpbnQgZnVzZV9zZXNzaW9u
-X3JlY2VpdmVfYnVmKHN0cnVjdCBmdXNlX3Nlc3Npb24gKnNlLCBzdHJ1Y3QgZnVzZV9idWYgKmJ1
-Zik7DQo+PiAgDQo+PiArLyoqDQo+PiArICogUmVxdWVzdCBzeW5jaHJvbm91cyBGVVNFX0lOSVQs
-IGkuZS4gRlVTRV9JTklUIGlzIGhhbmRsZWQgYnkgdGhlDQo+PiArICoga2VybmVsIGJlZm9yZSBt
-b3VudCBpcyByZXR1cm5lZC4NCj4+ICsgKg0KPj4gKyAqIEFzIEZVU0VfSU5JVCBhbHNvIHN0YXJ0
-cyBpby11cmluZyByaW5nIHRocmVhZHMsIGZvcmsoKSBtdXN0IG5vdCBiZQ0KPj4gKyAqIGNhbGxl
-ZCBhZnRlciB0aGlzIGlmIGlvLXVyaW5nIGlzIGVuYWJsZWQuIEFsc28gc2VlDQo+PiArICogZnVz
-ZV9zZXNzaW9uX2RhZW1vbml6ZV9zdGFydCgpLg0KPj4gKyAqDQo+PiArICogVGhpcyBtdXN0IGJl
-IGNhbGxlZCBiZWZvcmUgZnVzZV9zZXNzaW9uX21vdW50KCkgdG8gaGF2ZSBhbnkgZWZmZWN0Lg0K
-Pj4gKyAqLw0KPj4gK3ZvaWQgZnVzZV9zZXNzaW9uX3dhbnRfc3luY19pbml0KHN0cnVjdCBmdXNl
-X3Nlc3Npb24gKnNlKTsNCj4+ICsNCj4+ICAvKioNCj4+ICAgKiBDaGVjayBpZiB0aGUgcmVxdWVz
-dCBpcyBzdWJtaXR0ZWQgdGhyb3VnaCBmdXNlLWlvLXVyaW5nDQo+PiAgICovDQo+PiBkaWZmIC0t
-Z2l0IGEvbGliL2Z1c2VfZGFlbW9uaXplLmMgYi9saWIvZnVzZV9kYWVtb25pemUuYw0KPj4gaW5k
-ZXggNWQxOTFlN2Q3MzdkMDQ4NzZkMDJlZjZiZDUyNjA2MWMwMDNkMmFiNy4uMWEzMmVmNzQwOTNm
-MjMxMDkxYjRmNTQxZTViOTEzNmJmZjcyMDI0ZiAxMDA2NDQNCj4+IC0tLSBhL2xpYi9mdXNlX2Rh
-ZW1vbml6ZS5jDQo+PiArKysgYi9saWIvZnVzZV9kYWVtb25pemUuYw0KPj4gQEAgLTksNiArOSw3
-IEBADQo+PiAgI2RlZmluZSBfR05VX1NPVVJDRQ0KPj4gIA0KPj4gICNpbmNsdWRlICJmdXNlX2Rh
-ZW1vbml6ZS5oIg0KPj4gKyNpbmNsdWRlICJmdXNlX2kuaCINCj4+ICANCj4+ICAjaW5jbHVkZSA8
-ZmNudGwuaD4NCj4+ICAjaW5jbHVkZSA8cG9sbC5oPg0KPj4gQEAgLTI4MiwzICsyODMsMTAgQEAg
-Ym9vbCBmdXNlX2RhZW1vbml6ZV9hY3RpdmUodm9pZCkNCj4+ICANCj4+ICAJcmV0dXJuIGRtICE9
-IE5VTEwgJiYgKGRtLT5kYWVtb25pemVkIHx8IGRtLT5hY3RpdmUpOw0KPj4gIH0NCj4+ICsNCj4+
-ICtib29sIGZ1c2VfZGFlbW9uaXplX3NldCh2b2lkKQ0KPj4gK3sNCj4+ICsJc3RydWN0IGZ1c2Vf
-ZGFlbW9uaXplICpkbSA9IGF0b21pY19sb2FkKCZkYWVtb25pemUpOw0KPj4gKw0KPj4gKwlyZXR1
-cm4gZG0gIT0gTlVMTDsNCj4+ICt9DQo+PiBkaWZmIC0tZ2l0IGEvbGliL2Z1c2VfaS5oIGIvbGli
-L2Z1c2VfaS5oDQo+PiBpbmRleCA2ZDYzYzlmZDIxNDllYjRhZTNiMGUwMTcwNjQwYTRjZTJlZWQ0
-NzA1Li45M2FiN2FjMmZhZGY5Mzk1YWY3MDQ4N2M3NjI2Y2M1N2MyOTQ4ZDU2IDEwMDY0NA0KPj4g
-LS0tIGEvbGliL2Z1c2VfaS5oDQo+PiArKysgYi9saWIvZnVzZV9pLmgNCj4+IEBAIC0xMTIsNiAr
-MTEyLDEwIEBAIHN0cnVjdCBmdXNlX3Nlc3Npb24gew0KPj4gIA0KPj4gIAkvKiBzeW5jaHJvbm91
-cyBGVVNFX0lOSVQgc3VwcG9ydCAqLw0KPj4gIAlib29sIHdhbnRfc3luY19pbml0Ow0KPj4gKwlw
-dGhyZWFkX3QgaW5pdF90aHJlYWQ7DQo+PiArCWludCBpbml0X2Vycm9yOw0KPj4gKwlfQXRvbWlj
-IGJvb2wgdGVybWluYXRlX21vdW50X3dvcmtlcjsNCj4+ICsJaW50IGluaXRfd2FrZXVwX2ZkOw0K
-Pj4gIA0KPj4gIAkvKiBpb191cmluZyAqLw0KPj4gIAlzdHJ1Y3QgZnVzZV9zZXNzaW9uX3VyaW5n
-IHVyaW5nOw0KPj4gQEAgLTIyMSw3ICsyMjUsMTEgQEAgdm9pZCBmdXNlX2NoYW5fcHV0KHN0cnVj
-dCBmdXNlX2NoYW4gKmNoKTsNCj4+ICAvKiBNb3VudC1yZWxhdGVkIGZ1bmN0aW9ucyAqLw0KPj4g
-IHZvaWQgZnVzZV9tb3VudF92ZXJzaW9uKHZvaWQpOw0KPj4gIHZvaWQgZnVzZV9rZXJuX3VubW91
-bnQoY29uc3QgY2hhciAqbW91bnRwb2ludCwgaW50IGZkKTsNCj4+ICtpbnQgZnVzZV9rZXJuX21v
-dW50X2dldF9iYXNlX21udF9vcHRzKHN0cnVjdCBtb3VudF9vcHRzICptbywgY2hhciAqKm1udF9v
-cHRzcCk7DQo+PiAgaW50IGZ1c2Vfa2Vybl9tb3VudChjb25zdCBjaGFyICptb3VudHBvaW50LCBz
-dHJ1Y3QgbW91bnRfb3B0cyAqbW8pOw0KPj4gK2ludCBmdXNlX2tlcm5fbW91bnRfcHJlcGFyZShj
-b25zdCBjaGFyICptb3VudHBvaW50LCBzdHJ1Y3QgbW91bnRfb3B0cyAqbW8pOw0KPj4gK2ludCBm
-dXNlX2tlcm5fZG9fbW91bnQoY29uc3QgY2hhciAqbW91bnRwb2ludCwgc3RydWN0IG1vdW50X29w
-dHMgKm1vLA0KPj4gKwkJICAgICAgIGNvbnN0IGNoYXIgKm1udF9vcHRzKTsNCj4+ICANCj4+ICBp
-bnQgZnVzZV9zZW5kX3JlcGx5X2lvdl9ub2ZyZWUoZnVzZV9yZXFfdCByZXEsIGludCBlcnJvciwg
-c3RydWN0IGlvdmVjICppb3YsDQo+PiAgCQkJICAgICAgIGludCBjb3VudCk7DQo+PiBAQCAtMjU1
-LDYgKzI2MywxNCBAQCBpbnQgZnVzZV9zZXNzaW9uX2xvb3BfbXRfMzEyKHN0cnVjdCBmdXNlX3Nl
-c3Npb24gKnNlLCBzdHJ1Y3QgZnVzZV9sb29wX2NvbmZpZyAqYw0KPj4gICAqLw0KPj4gIGludCBm
-dXNlX2xvb3BfY2ZnX3ZlcmlmeShzdHJ1Y3QgZnVzZV9sb29wX2NvbmZpZyAqY29uZmlnKTsNCj4+
-ICANCj4+ICsvKioNCj4+ICsgKiBDaGVjayBpZiBkYWVtb25pemF0aW9uIGlzIHNldC4NCj4+ICsg
-Kg0KPj4gKyAqIEByZXR1cm4gdHJ1ZSBpZiBzZXQsIGZhbHNlIG90aGVyd2lzZQ0KPj4gKyAqLw0K
-Pj4gK2Jvb2wgZnVzZV9kYWVtb25pemVfc2V0KHZvaWQpOw0KPj4gKw0KPj4gKw0KPj4gIA0KPj4g
-IC8qDQo+PiAgICogVGhpcyBjYW4gYmUgY2hhbmdlZCBkeW5hbWljYWxseSBvbiByZWNlbnQga2Vy
-bmVscyB0aHJvdWdoIHRoZQ0KPj4gZGlmZiAtLWdpdCBhL2xpYi9mdXNlX2xvd2xldmVsLmMgYi9s
-aWIvZnVzZV9sb3dsZXZlbC5jDQo+PiBpbmRleCA2MjYyMzNkZjIwZjQ5ZmE4OWNkOTMyN2Y5NDM0
-MDE2OWQ3MDYxZjc1Li5iMTBkZWYwM2YzNjY2NzU3ZDMxMmY4N2YxNzdhNTYwNDgzNjkxZDZmIDEw
-MDY0NA0KPj4gLS0tIGEvbGliL2Z1c2VfbG93bGV2ZWwuYw0KPj4gKysrIGIvbGliL2Z1c2VfbG93
-bGV2ZWwuYw0KPj4gQEAgLTQyMzAsNiArNDIzMCw3IEBAIGZ1c2Vfc2Vzc2lvbl9uZXdfdmVyc2lv
-bmVkKHN0cnVjdCBmdXNlX2FyZ3MgKmFyZ3MsDQo+PiAgCQlnb3RvIG91dDE7DQo+PiAgCX0NCj4+
-ICAJc2UtPmZkID0gLTE7DQo+PiArCXNlLT5pbml0X3dha2V1cF9mZCA9IC0xOw0KPj4gIAlzZS0+
-Y29ubi5tYXhfd3JpdGUgPSBGVVNFX0RFRkFVTFRfTUFYX1BBR0VTX0xJTUlUICogZ2V0cGFnZXNp
-emUoKTsNCj4+ICAJc2UtPmJ1ZnNpemUgPSBzZS0+Y29ubi5tYXhfd3JpdGUgKyBGVVNFX0JVRkZF
-Ul9IRUFERVJfU0laRTsNCj4+ICAJc2UtPmNvbm4ubWF4X3JlYWRhaGVhZCA9IFVJTlRfTUFYOw0K
-Pj4gQEAgLTQ0MDIsNiArNDQwMywxNjcgQEAgaW50IGZ1c2Vfc2Vzc2lvbl9jdXN0b21faW9fMzAo
-c3RydWN0IGZ1c2Vfc2Vzc2lvbiAqc2UsDQo+PiAgfQ0KPj4gIA0KPj4gICNpZiBkZWZpbmVkKEhB
-VkVfTkVXX01PVU5UX0FQSSkNCj4+ICsNCj4+ICsvKiBXb3JrZXIgdGhyZWFkIGZvciBzeW5jaHJv
-bm91cyBGVVNFX0lOSVQgKi8NCj4+ICtzdGF0aWMgdm9pZCAqc2Vzc2lvbl9zeW5jX2luaXRfd29y
-a2VyKHZvaWQgKmRhdGEpDQo+PiArew0KPj4gKwlzdHJ1Y3QgZnVzZV9zZXNzaW9uICpzZSA9IChz
-dHJ1Y3QgZnVzZV9zZXNzaW9uICopZGF0YTsNCj4+ICsJc3RydWN0IGZ1c2VfYnVmIGZidWYgPSB7
-DQo+PiArCQkubWVtID0gTlVMTCwNCj4+ICsJfTsNCj4+ICsJc3RydWN0IHBvbGxmZCBwZmRzWzJd
-Ow0KPj4gKwlpbnQgcmVzOw0KPj4gKw0KPj4gKwlwZmRzWzBdLmZkID0gc2UtPmZkOw0KPj4gKwlw
-ZmRzWzBdLmV2ZW50cyA9IFBPTExJTjsNCj4+ICsJcGZkc1swXS5yZXZlbnRzID0gMDsNCj4+ICsJ
-cGZkc1sxXS5mZCA9IHNlLT5pbml0X3dha2V1cF9mZDsNCj4+ICsJcGZkc1sxXS5ldmVudHMgPSBQ
-T0xMSU47DQo+PiArCXBmZHNbMV0ucmV2ZW50cyA9IDA7DQo+PiArDQo+PiArCS8qDQo+PiArCSAq
-IFByb2Nlc3MgcmVxdWVzdHMgdW50aWwgbW91bnQgY29tcGxldGVzLiBXaXRoIFNFTGludXggdGhl
-cmUgbWF5IGJlDQo+PiArCSAqIGFkZGl0aW9uYWwgcmVxdWVzdHMgKGxpa2UgZ2V0YXR0cikgYWZ0
-ZXIgRlVTRV9JTklUIGJlZm9yZSBtb3VudA0KPj4gKwkgKiByZXR1cm5zLg0KPj4gKwkgKi8NCj4+
-ICsJd2hpbGUgKCFhdG9taWNfbG9hZCgmc2UtPnRlcm1pbmF0ZV9tb3VudF93b3JrZXIpKSB7DQo+
-IA0KPiBXZSBkb24ndCBldmVyICpyZWFkKiB0aGUgaW5pdF93YWtldXBfZmQgZXZlbnQsIHNvIEkg
-d29uZGVyIGlmIHRoZQ0KPiBfQXRvbWljIGZsYWcgaGVyZSBpcyByZWFsbHkgbmVlZGVkPyAgSSBn
-YXRoZXIgd2UgbmVlZCBhY3F1aXJlIHNlbWFudGljcw0KPiBvciBzb21ldGhpbmc/DQoNCk15IGxh
-enluZXNzLiBJIGhhZCBxdWlja2x5IHVwZGF0ZWQgdGhlIGNvZGUgeWVzdGVyZGF5IG1vcm5pbmcg
-dG8gdXNlDQpwb2xsIGFuZCBldmVudGZkLCBiZWNhdXNlIEtldmluIG5vdGljZWQgaXNzdWVzIHdp
-dGggeGZzdGVzdHMuIEJlZm9yZSBpdA0Kd2FzIGEgcmVndWxhciB0aHJlYWQgc3RvcHBlZCB3aXRo
-IHB0aHJlYWRfY2FuY2VsIGFuZCB0aGVuIGFjdHVhbGx5DQp0ZXJtaW5hdGVkIHRoZSB0aHJlYWQg
-d2hlbiBpdCBhbHJlYWR5IG1pZ2h0IGhhdmUgZmV0Y2hlZCBhIHBvc3QtbW91bnQNCnJlcXVlc3Qg
-LSB0aGUgcmVxdWVzdCB0aGVuIGdvdCBuZXZlciBoYW5kbGVkLg0KDQpOZXh0IG9uIG15IGxpc3Qg
-aXMgdG8gbG9vayBpbnRvIHRoZSBmdXNlLWlvLXVyaW5nIGlzc3VlcyB0aGF0IEtldmluIGFsc28N
-CnJlcG9ydHMgd2l0aCB0aGlzIHBhdGNoIHNlcmllcy4NCg0KPiANCj4+ICsJCXJlcyA9IHBvbGwo
-cGZkcywgMiwgLTEpOw0KPj4gKwkJaWYgKHJlcyA9PSAtMSkgew0KPj4gKwkJCWlmIChlcnJubyA9
-PSBFSU5UUikNCj4+ICsJCQkJY29udGludWU7DQo+PiArCQkJc2UtPmluaXRfZXJyb3IgPSAtZXJy
-bm87DQo+PiArCQkJYnJlYWs7DQo+PiArCQl9DQo+PiArDQo+PiArCQlpZiAocGZkc1sxXS5yZXZl
-bnRzICYgUE9MTElOKQ0KPj4gKwkJCWJyZWFrOw0KPj4gKw0KPj4gKwkJaWYgKHBmZHNbMF0ucmV2
-ZW50cyAmIFBPTExJTikgew0KPj4gKwkJCXJlcyA9IGZ1c2Vfc2Vzc2lvbl9yZWNlaXZlX2J1Zl9p
-bnRlcm5hbChzZSwgJmZidWYsIE5VTEwpOw0KPj4gKwkJCWlmIChyZXMgPT0gLUVJTlRSKQ0KPj4g
-KwkJCQljb250aW51ZTsNCj4+ICsJCQlpZiAocmVzIDw9IDApIHsNCj4+ICsJCQkJc2UtPmluaXRf
-ZXJyb3IgPSByZXMgPCAwID8gcmVzIDogLUVJTlZBTDsNCj4+ICsJCQkJYnJlYWs7DQo+PiArCQkJ
-fQ0KPj4gKw0KPj4gKwkJCWZ1c2Vfc2Vzc2lvbl9wcm9jZXNzX2J1Zl9pbnRlcm5hbChzZSwgJmZi
-dWYsIE5VTEwpOw0KPj4gKwkJfQ0KPj4gKwl9DQo+PiArDQo+PiArCWZ1c2VfYnVmX2ZyZWUoJmZi
-dWYpOw0KPj4gKwlyZXR1cm4gTlVMTDsNCj4+ICt9DQo+PiArDQo+PiArLyogRW5hYmxlIHN5bmNo
-cm9ub3VzIEZVU0VfSU5JVCBhbmQgc3RhcnQgd29ya2VyIHRocmVhZCAqLw0KPj4gK3N0YXRpYyBp
-bnQgc2Vzc2lvbl9zdGFydF9zeW5jX2luaXQoc3RydWN0IGZ1c2Vfc2Vzc2lvbiAqc2UsIGludCBm
-ZCkNCj4+ICt7DQo+PiArCWludCBlcnI7DQo+PiArCWludCByZXM7DQo+PiArDQo+PiArCWlmICgh
-c2UtPndhbnRfc3luY19pbml0ICYmDQo+PiArCQkoc2UtPnVyaW5nLmVuYWJsZSAmJiAhZnVzZV9k
-YWVtb25pemVfc2V0KCkpKSB7DQo+PiArCQlpZiAoc2UtPmRlYnVnKQ0KPj4gKwkJCWZ1c2VfbG9n
-KEZVU0VfTE9HX0RFQlVHLA0KPj4gKwkJCQkJImZ1c2U6IHN5bmMgaW5pdCBub3QgZW5hYmxlZFxu
-Iik7DQo+PiArCQlyZXR1cm4gMDsNCj4+ICsJfQ0KPj4gKw0KPj4gKwkvKiBUcnkgdG8gZW5hYmxl
-IHN5bmNocm9ub3VzIEZVU0VfSU5JVCAqLw0KPj4gKwlyZXMgPSBpb2N0bChmZCwgRlVTRV9ERVZf
-SU9DX1NZTkNfSU5JVCk7DQo+PiArCWlmIChyZXMpIHsNCj4+ICsJCS8qIEVOT1RUWSBtZWFucyBr
-ZXJuZWwgZG9lc24ndCBzdXBwb3J0IHN5bmMgaW5pdCAtIG5vdCBhbiBlcnJvciAqLw0KPj4gKwkJ
-aWYgKGVycm5vICE9IEVOT1RUWSkgew0KPj4gKwkJCWZ1c2VfbG9nKA0KPj4gKwkJCQlGVVNFX0xP
-R19FUlIsDQo+PiArCQkJCSJmdXNlOiBmYWlsZWQgdG8gZW5hYmxlIHN5bmMgaW5pdDogJXNcbiIs
-DQo+PiArCQkJCXN0cmVycm9yKGVycm5vKSk7DQo+PiArCQl9IGVsc2UgaWYgKHNlLT5kZWJ1Zykg
-ew0KPj4gKwkJCWZ1c2VfbG9nKA0KPj4gKwkJCQlGVVNFX0xPR19ERUJVRywNCj4+ICsJCQkJImZ1
-c2U6IGtlcm5lbCBkb2Vzbid0IHN1cHBvcnQgc3luYyBpbml0XG4iKTsNCj4+ICsJCX0NCj4+ICsJ
-CXJldHVybiAtRU5PVFRZOw0KPj4gKwl9DQo+PiArDQo+PiArCWlmIChzZS0+ZGVidWcpDQo+PiAr
-CQlmdXNlX2xvZyhGVVNFX0xPR19ERUJVRywNCj4+ICsJCQkJImZ1c2U6IHN5bmNocm9ub3VzIEZV
-U0VfSU5JVCBlbmFibGVkXG4iKTsNCj4+ICsNCj4+ICsJc2UtPmluaXRfZXJyb3IgPSAwOw0KPj4g
-KwlzZS0+dGVybWluYXRlX21vdW50X3dvcmtlciA9IGZhbHNlOw0KPj4gKw0KPj4gKwlzZS0+aW5p
-dF93YWtldXBfZmQgPSBldmVudGZkKDAsIEVGRF9DTE9FWEVDKTsNCj4+ICsJaWYgKHNlLT5pbml0
-X3dha2V1cF9mZCA9PSAtMSkgew0KPj4gKwkJZnVzZV9sb2coDQo+PiArCQkJRlVTRV9MT0dfRVJS
-LA0KPj4gKwkJCSJmdXNlOiBmYWlsZWQgdG8gY3JlYXRlIGV2ZW50ZmQgZm9yIGluaXQgd29ya2Vy
-OiAlc1xuIiwNCj4+ICsJCQlzdHJlcnJvcihlcnJubykpOw0KPj4gKwkJcmV0dXJuIC1FSU87DQo+
-PiArCX0NCj4+ICsNCj4+ICsJZXJyID0gcHRocmVhZF9jcmVhdGUoJnNlLT5pbml0X3RocmVhZCwg
-TlVMTCwNCj4+ICsJCQkJc2Vzc2lvbl9zeW5jX2luaXRfd29ya2VyLCBzZSk7DQo+PiArCWlmIChl
-cnIgIT0gMCkgew0KPj4gKwkJZnVzZV9sb2coDQo+PiArCQkJRlVTRV9MT0dfRVJSLA0KPj4gKwkJ
-CSJmdXNlOiBmYWlsZWQgdG8gY3JlYXRlIGluaXQgd29ya2VyIHRocmVhZDogJXNcbiIsDQo+PiAr
-CQkJc3RyZXJyb3IoZXJyKSk7DQo+PiArCQljbG9zZShzZS0+aW5pdF93YWtldXBfZmQpOw0KPj4g
-KwkJc2UtPmluaXRfd2FrZXVwX2ZkID0gLTE7DQo+PiArCQlyZXR1cm4gLUVJTzsNCj4+ICsJfQ0K
-Pj4gKw0KPj4gKwlyZXR1cm4gMDsNCj4+ICt9DQo+PiArDQo+PiArLyogV2FpdCBmb3Igc3luY2hy
-b25vdXMgRlVTRV9JTklUIHRvIGNvbXBsZXRlICovDQo+PiArc3RhdGljIGludCBzZXNzaW9uX3dh
-aXRfc3luY19pbml0X2NvbXBsZXRpb24oc3RydWN0IGZ1c2Vfc2Vzc2lvbiAqc2UpDQo+PiArew0K
-Pj4gKwl2b2lkICpyZXR2YWw7DQo+PiArCWludCBlcnI7DQo+PiArCXVpbnQ2NF90IHZhbCA9IDE7
-DQo+PiArDQo+PiArCWlmIChzZS0+aW5pdF90aHJlYWQgPT0gMCkNCj4gDQo+IHB0aHJlYWRfdCBp
-cyBzdXBwb3NlZCB0byBiZSBhbiBvcGFxdWUgZGF0YXR5cGUsIHNvICIwIiBjb3VsZCBiZSBhIHZh
-bGlkDQo+IHZhbHVlIGZvciBhIHJ1bm5pbmcgdGhyZWFkLiAgRm9yIHRoYXQgbWF0dGVyLCBpdCBj
-b3VsZCBiZSBhIHN0cnVjdC4gIEkNCj4gdGhpbmsgeW91IGhhdmUgdG8gaGF2ZSBhIHNlcGFyYXRl
-IGZsYWcgKG9yIGp1c3QgdXNlIGluaXRfd2FrZXVwX2ZkID49IDApDQo+IHRvIGRldGVybWluZSBp
-ZiB3ZSdyZSBkb2luZyBhIHN5bmNocm9ub3VzIGluaXQuDQoNCkFoIHJpZ2h0LiBJJ20gdXNpbmcg
-c2UtPmluaXRfd2FrZXVwX2ZkIGFzIHlvdSBzdWdnZXN0ZWQuDQoNCj4gDQo+PiArCQlyZXR1cm4g
-MDsNCj4+ICsNCj4+ICsJc2UtPnRlcm1pbmF0ZV9tb3VudF93b3JrZXIgPSB0cnVlOw0KPj4gKw0K
-Pj4gKwlpZiAoc2UtPmluaXRfd2FrZXVwX2ZkICE9IC0xKSB7DQo+PiArCQlzc2l6ZV90IHJlcyA9
-IHdyaXRlKHNlLT5pbml0X3dha2V1cF9mZCwgJnZhbCwgc2l6ZW9mKHZhbCkpOw0KPj4gKw0KPj4g
-KwkJaWYgKHJlcyAhPSBzaXplb2YodmFsKSkgew0KPj4gKwkJCWZ1c2VfbG9nKEZVU0VfTE9HX0VS
-UiwNCj4+ICsJCQkJICJmdXNlOiBmYWlsZWQgdG8gc2lnbmFsIGluaXQgd29ya2VyOiAlc1xuIiwN
-Cj4+ICsJCQkJIHN0cmVycm9yKGVycm5vKSk7DQo+PiArCQl9DQo+PiArCX0NCj4+ICsNCj4+ICsJ
-ZXJyID0gcHRocmVhZF9qb2luKHNlLT5pbml0X3RocmVhZCwgJnJldHZhbCk7DQo+PiArCWlmIChl
-cnIgIT0gMCkgew0KPj4gKwkJZnVzZV9sb2coRlVTRV9MT0dfRVJSLCAiZnVzZTogZmFpbGVkIHRv
-IGpvaW4gaW5pdCB3b3JrZXIgdGhyZWFkOiAlc1xuIiwNCj4+ICsJCQkgc3RyZXJyb3IoZXJyKSk7
-DQo+PiArCQlyZXR1cm4gLTE7DQo+PiArCX0NCj4+ICsNCj4+ICsJaWYgKHNlLT5pbml0X3dha2V1
-cF9mZCAhPSAtMSkgew0KPj4gKwkJY2xvc2Uoc2UtPmluaXRfd2FrZXVwX2ZkKTsNCj4+ICsJCXNl
-LT5pbml0X3dha2V1cF9mZCA9IC0xOw0KPj4gKwl9DQo+PiArDQo+PiArCWlmIChzZS0+aW5pdF9l
-cnJvciAhPSAwKSB7DQo+PiArCQlmdXNlX2xvZyhGVVNFX0xPR19FUlIsICJmdXNlOiBpbml0IHdv
-cmtlciBmYWlsZWQ6ICVkXG4iLCBzZS0+aW5pdF9lcnJvcik7DQo+IA0KPiBDb3VsZCB5b3Ugc3Ry
-ZXJyb3IoLXNlLT5pbml0X2Vycm9yKSB0byBnaXZlIHRoZSB1c2VyIGEgcmVhbCBlcnJvcg0KPiBt
-ZXNzYWdlPw0KPiANCj4+ICsJCXJldHVybiAtMTsNCj4+ICsJfQ0KPj4gKw0KPj4gKwlpZiAoZnVz
-ZV9zZXNzaW9uX2V4aXRlZChzZSkpIHsNCj4+ICsJCWZ1c2VfbG9nKEZVU0VfTE9HX0VSUiwgIkZV
-U0VfSU5JVCBmYWlsZWQ6IHNlc3Npb24gZXhpdGVkXG4iKTsNCj4+ICsJCXJldHVybiAtMTsNCj4+
-ICsJfQ0KPj4gKw0KPj4gKwlyZXR1cm4gMDsNCj4+ICt9DQo+PiArDQo+PiAgLyogT25seSBsaW51
-eCBzdXBwb3J0cyBzeW5jIEZVU0VfSU5JVCBzbyBmYXIgKi8NCj4+ICBzdGF0aWMgaW50IGZ1c2Vf
-c2Vzc2lvbl9tb3VudF9uZXdfYXBpKHN0cnVjdCBmdXNlX3Nlc3Npb24gKnNlLA0KPj4gIAkJCQkg
-ICAgICBjb25zdCBjaGFyICptb3VudHBvaW50KQ0KPj4gQEAgLTQ0MTQsOCArNDU3Niw3IEBAIHN0
-YXRpYyBpbnQgZnVzZV9zZXNzaW9uX21vdW50X25ld19hcGkoc3RydWN0IGZ1c2Vfc2Vzc2lvbiAq
-c2UsDQo+PiAgDQo+PiAgCXJlcyA9IGZ1c2Vfa2Vybl9tb3VudF9nZXRfYmFzZV9tbnRfb3B0cyhz
-ZS0+bW8sICZtbnRfb3B0cyk7DQo+PiAgCWlmIChyZXMgPT0gLTEpIHsNCj4+IC0JCWZ1c2VfbG9n
-KEZVU0VfTE9HX0VSUiwNCj4+IC0JCQkgImZ1c2U6IGZhaWxlZCB0byBnZXQgYmFzZSBtb3VudCBv
-cHRpb25zXG4iKTsNCj4+ICsJCWZ1c2VfbG9nKEZVU0VfTE9HX0VSUiwgImZ1c2U6IGZhaWxlZCB0
-byBnZXQgYmFzZSBtb3VudCBvcHRpb25zXG4iKTsNCj4gDQo+IFVucmVsYXRlZCBjaGFuZ2U/DQoN
-ClJlbW92ZWQgaGVyZS4NCg0KPiANCj4+ICAJCWVyciA9IC1FSU87DQo+PiAgCQlnb3RvIGVycjsN
-Cj4+ICAJfQ0KPj4gQEAgLTQ0MjcsNiArNDU4OCwxNyBAQCBzdGF0aWMgaW50IGZ1c2Vfc2Vzc2lv
-bl9tb3VudF9uZXdfYXBpKHN0cnVjdCBmdXNlX3Nlc3Npb24gKnNlLA0KPj4gIAkJZ290byBlcnI7
-DQo+PiAgCX0NCj4+ICANCj4+ICsJLyoNCj4+ICsJICogRW5hYmxlIHN5bmNocm9ub3VzIEZVU0Vf
-SU5JVCBhbmQgc3RhcnQgd29ya2VyIHRocmVhZCwgc3luYyBpbml0DQo+PiArCSAqIGZhaWx1cmUg
-aXMgbm90IGFuIGVycm9yDQo+PiArCSAqLw0KPj4gKwlzZS0+ZmQgPSBmZDsNCj4+ICsJZXJyID0g
-c2Vzc2lvbl9zdGFydF9zeW5jX2luaXQoc2UsIGZkKTsNCj4+ICsJaWYgKGVycikgew0KPj4gKwkJ
-LyogRU5PVFRZIG1lYW5zIGtlcm5lbCBkb2Vzbid0IHN1cHBvcnQgc3luYyBpbml0IC0gbm90IGFu
-IGVycm9yICovDQo+PiArCQlpZiAoZXJyICE9IC1FTk9UVFkpDQo+PiArCQkJZ290byBlcnI7DQo+
-PiArCX0NCj4gDQo+IFBlcmhhcHMgc2Vzc2lvbl9zdGFydF9zeW5jX2luaXQgc2hvdWxkIG5vdCBy
-ZXR1cm4gRU5PVFRZLCBzaW5jZSB5b3UNCj4gYWxyZWFkeSBjaGVjayBpbiBzZXNzaW9uX3dhaXRf
-c3luY19pbml0X2NvbXBsZXRpb24gaWYgdGhlIHN5bmNocm9ub3VzDQo+IGluaXQgd29ya2VyIGhh
-cyBiZWVuIHN0YXJ0ZWQ/DQoNCkdvb2QgaWRlYSwgZG9uZS4NCg0KPiANCj4+ICAJc25wcmludGYo
-ZmRfb3B0LCBzaXplb2YoZmRfb3B0KSwgImZkPSVpIiwgZmQpOw0KPj4gIAlpZiAoZnVzZV9vcHRf
-YWRkX29wdCgmbW50X29wdHNfd2l0aF9mZCwgbW50X29wdHMpID09IC0xIHx8DQo+PiAgCSAgICBm
-dXNlX29wdF9hZGRfb3B0KCZtbnRfb3B0c193aXRoX2ZkLCBmZF9vcHQpID09IC0xKSB7DQo+PiBA
-QCAtNDQzNiwxMyArNDYwOCwxNiBAQCBzdGF0aWMgaW50IGZ1c2Vfc2Vzc2lvbl9tb3VudF9uZXdf
-YXBpKHN0cnVjdCBmdXNlX3Nlc3Npb24gKnNlLA0KPj4gIA0KPj4gIAllcnIgPSBmdXNlX2tlcm5f
-ZnNtb3VudF9tbyhtb3VudHBvaW50LCBzZS0+bW8sIG1udF9vcHRzX3dpdGhfZmQpOw0KPj4gIGVy
-cjoNCj4+IC0JaWYgKGVycikgew0KPj4gKwlpZiAoZXJyIDwgMCkgew0KPj4gIAkJaWYgKGZkID49
-IDApDQo+PiAgCQkJY2xvc2UoZmQpOw0KPj4gIAkJZmQgPSAtMTsNCj4+ICAJCXNlLT5mZCA9IC0x
-Ow0KPj4gIAkJc2UtPmVycm9yID0gLWVycm5vOw0KPj4gIAl9DQo+PiArCS8qIFdhaXQgZm9yIHN5
-bmNocm9ub3VzIEZVU0VfSU5JVCB0byBjb21wbGV0ZSAqLw0KPj4gKwlpZiAoc2Vzc2lvbl93YWl0
-X3N5bmNfaW5pdF9jb21wbGV0aW9uKHNlKSA8IDApDQo+PiArCQlmdXNlX2xvZyhGVVNFX0xPR19F
-UlIsICJmdXNlOiBzeW5jIGluaXQgY29tcGxldGlvbiBmYWlsZWRcbiIpOw0KPj4gIA0KPj4gIAlm
-cmVlKG1udF9vcHRzKTsNCj4+ICAJZnJlZShtbnRfb3B0c193aXRoX2ZkKTsNCj4+IEBAIC00NDUy
-LDggKzQ2MjcsOCBAQCBlcnI6DQo+PiAgc3RhdGljIGludCBmdXNlX3Nlc3Npb25fbW91bnRfbmV3
-X2FwaShzdHJ1Y3QgZnVzZV9zZXNzaW9uICpzZSwNCj4+ICAJCQkJICAgICAgY29uc3QgY2hhciAq
-bW91bnRwb2ludCkNCj4+ICB7DQo+PiAtCSh2b2lkKXNlOw0KPj4gLQkodm9pZCltb3VudHBvaW50
-Ow0KPj4gKwkodm9pZCkgc2U7DQo+PiArCSh2b2lkKSBtb3VudHBvaW50Ow0KPj4gIA0KPj4gIAly
-ZXR1cm4gLTE7DQo+PiAgfQ0KPj4gQEAgLTQ4MjUsMyArNTAwMCwxMCBAQCB2b2lkIGZ1c2Vfc2Vz
-c2lvbl9zdG9wX3RlYXJkb3duX3dhdGNoZG9nKHZvaWQgKmRhdGEpDQo+PiAgCXB0aHJlYWRfam9p
-bih0dC0+dGhyZWFkX2lkLCBOVUxMKTsNCj4+ICAJZnVzZV90dF9kZXN0cnVjdCh0dCk7DQo+PiAg
-fQ0KPj4gKw0KPj4gK3ZvaWQgZnVzZV9zZXNzaW9uX3dhbnRfc3luY19pbml0KHN0cnVjdCBmdXNl
-X3Nlc3Npb24gKnNlKQ0KPj4gK3sNCj4+ICsJaWYgKHNlID09IE5VTEwpDQo+PiArCQlyZXR1cm47
-DQo+PiArCXNlLT53YW50X3N5bmNfaW5pdCA9IHRydWU7DQo+PiArfQ0KPj4gZGlmZiAtLWdpdCBh
-L2xpYi9tb3VudC5jIGIvbGliL21vdW50LmMNCj4+IGluZGV4IDMwZmQ0ZDJmOWJiYjg0YzgxN2Iy
-MzYzYjIwNzU0NTZhY2QxYzEyNTUuLjEyZGY0OWQ5MTA5Y2Y5MThjYzQxYWE3NWM1ZmRmODQyMzFk
-NGQ1ZmYgMTAwNjQ0DQo+PiAtLS0gYS9saWIvbW91bnQuYw0KPj4gKysrIGIvbGliL21vdW50LmMN
-Cj4+IEBAIC0zMCw2ICszMCw3IEBADQo+PiAgI2luY2x1ZGUgPHN5cy9zb2NrZXQuaD4NCj4+ICAj
-aW5jbHVkZSA8c3lzL3VuLmg+DQo+PiAgI2luY2x1ZGUgPHN5cy93YWl0Lmg+DQo+PiArI2luY2x1
-ZGUgPHN5cy9pb2N0bC5oPg0KPj4gIA0KPj4gICNpbmNsdWRlICJmdXNlX21vdW50X2NvbXBhdC5o
-Ig0KPj4gIA0KPj4gQEAgLTUyOSw4ICs1MzAsOCBAQCBpbnQgZnVzZV9rZXJuX2ZzbW91bnRfbW8o
-Y29uc3QgY2hhciAqbW50LCBzdHJ1Y3QgbW91bnRfb3B0cyAqbW8sDQo+PiAgICogUmV0dXJuczog
-MCBvbiBzdWNjZXNzLCAtMSBvbiBmYWlsdXJlLA0KPj4gICAqICAgICAgICAgIEZVU0VfTU9VTlRf
-RkFMTEJBQ0tfTkVFREVEIGlmIGZ1c2VybW91bnQgc2hvdWxkIGJlIHVzZWQNCj4+ICAgKi8NCj4+
-IC1zdGF0aWMgaW50IGZ1c2Vfa2Vybl9kb19tb3VudChjb25zdCBjaGFyICptbnQsIHN0cnVjdCBt
-b3VudF9vcHRzICptbywNCj4+IC0JCQkJICBjb25zdCBjaGFyICptbnRfb3B0cykNCj4+ICtpbnQg
-ZnVzZV9rZXJuX2RvX21vdW50KGNvbnN0IGNoYXIgKm1udCwgc3RydWN0IG1vdW50X29wdHMgKm1v
-LA0KPj4gKwkJICAgICAgIGNvbnN0IGNoYXIgKm1udF9vcHRzKQ0KPj4gIHsNCj4+ICAJY2hhciAq
-c291cmNlID0gTlVMTDsNCj4+ICAJY2hhciAqdHlwZSA9IE5VTEw7DQo+PiBkaWZmIC0tZ2l0IGEv
-bGliL21vdW50X2ZzbW91bnQuYyBiL2xpYi9tb3VudF9mc21vdW50LmMNCj4+IGluZGV4IGNiYTk5
-OGJjNjBjNzgzYTVlZGMwYzE2NTcwZjdlNTUxMmI3ZjEyNTMuLmYxZmVjNzkwYmI4MGY4ODE1ZDQ4
-NWEwNjhkYzdlZmRmZjE3NDYzMDkgMTAwNjQ0DQo+PiAtLS0gYS9saWIvbW91bnRfZnNtb3VudC5j
-DQo+PiArKysgYi9saWIvbW91bnRfZnNtb3VudC5jDQo+PiBAQCAtMjg3LDggKzI4Nyw5IEBAIGlu
-dCBmdXNlX2tlcm5fZnNtb3VudChjb25zdCBjaGFyICptbnQsIHVuc2lnbmVkIGxvbmcgZmxhZ3Ms
-IGludCBibGtkZXYsDQo+PiAgCS8qIFRyeSB0byBvcGVuIGZpbGVzeXN0ZW0gY29udGV4dCAqLw0K
-Pj4gIAlmc2ZkID0gZnNvcGVuKHR5cGUsIEZTT1BFTl9DTE9FWEVDKTsNCj4+ICAJaWYgKGZzZmQg
-PT0gLTEpIHsNCj4+IC0JCWZwcmludGYoc3RkZXJyLCAiZnVzZTogZnNvcGVuKCVzKSBmYWlsZWQ6
-ICVzXG4iLCB0eXBlLA0KPj4gLQkJCXN0cmVycm9yKGVycm5vKSk7DQo+PiArCQlpZiAoZXJybm8g
-IT0gRVBFUk0pDQo+PiArCQkJZnByaW50ZihzdGRlcnIsICJmdXNlOiBmc29wZW4oJXMpIGZhaWxl
-ZDogJXNcbiIsIHR5cGUsDQo+PiArCQkJCXN0cmVycm9yKGVycm5vKSk7DQo+IA0KPiBNb3JlIHVu
-cmVsYXRlZCBjaGFuZ2VzPw0KDQpSaWdodCwgbW92ZWQgb25lIHBhdGNoIHVwLg0KDQpUaGFua3Ms
-QmVybmQNCg==
+Convert many comments to kernel-doc format to eliminate more that 30
+kernel-doc warnings like these:
+
+Warning: fs/fuse/fuse_i.h:401 This comment starts with '/**', but isn't a kernel-doc comment.
+ * Request flags
+Warning: fs/fuse/fuse_i.h:434 This comment starts with '/**', but isn't a kernel-doc comment.
+ * A request to the client
+Warning: fs/fuse/fuse_i.h:489 This comment starts with '/**', but isn't a kernel-doc comment.
+ * Input queue callbacks
+
+Also add struct member and function parameter descriptions to avoid
+these warnings:
+
+Warning: fs/fuse/fuse_i.h:1071 struct member 'epoch_work' not described in 'fuse_conn'
+Warning: fs/fuse/fuse_i.h:1071 struct member 'rcu' not described in 'fuse_conn'
+Warning: fs/fuse/fuse_i.h:1423 function parameter 'fc' not described in 'fuse_reverse_inval_inode'
+Warning: fs/fuse/fuse_i.h:1423 function parameter 'nodeid' not described in 'fuse_reverse_inval_inode'
+Warning: fs/fuse/fuse_i.h:1423 function parameter 'offset' not described in 'fuse_reverse_inval_inode'
+Warning: fs/fuse/fuse_i.h:1423 function parameter 'len' not described in 'fuse_reverse_inval_inode'
+Warning: fs/fuse/fuse_i.h:1436 function parameter 'fc' not described in 'fuse_reverse_inval_entry'
+Warning: fs/fuse/fuse_i.h:1436 function parameter 'parent_nodeid' not described in 'fuse_reverse_inval_entry'
+Warning: fs/fuse/fuse_i.h:1436 function parameter 'child_nodeid' not described in 'fuse_reverse_inval_entry'
+Warning: fs/fuse/fuse_i.h:1436 function parameter 'name' not described in 'fuse_reverse_inval_entry'
+Warning: fs/fuse/fuse_i.h:1436 function parameter 'flags' not described in 'fuse_reverse_inval_entry'
+
+Convert struct fuse_file to kernel-doc.
+
+Convert these to plain comments:
+Warning: fs/fuse/fuse_i.h:1423 expecting prototype for File(). Prototype was for fuse_reverse_inval_inode() instead
+Warning: fs/fuse/fuse_i.h:1436 expecting prototype for File(). Prototype was for fuse_reverse_inval_entry() instead
+
+The changes above fix most kernel-doc warnings in this file but
+these warnings are not fixed and still remain:
+Warning: fs/fuse/fuse_i.h:493 struct member 'ring_entry' not described in 'fuse_req'
+Warning: fs/fuse/fuse_i.h:493 struct member 'ring_queue' not described in 'fuse_req'
+Warning: fs/fuse/fuse_i.h:1428 No description found for return value of 'fuse_fill_super_common'
+Warning: fs/fuse/fuse_i.h:1455 No description found for return value of 'fuse_ctl_add_conn'
+
+Binary build output is the same before and after these changes.
+
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+---
+Cc: Miklos Szeredi <miklos@szeredi.hu>
+
+ fs/fuse/fuse_i.h |  631 ++++++++++++++++++++++++++-------------------
+ 1 file changed, 371 insertions(+), 260 deletions(-)
+
+--- linux-next-20260324.orig/fs/fuse/fuse_i.h
++++ linux-next-20260324/fs/fuse/fuse_i.h
+@@ -90,16 +90,20 @@ struct fuse_forget_link {
+ 	struct fuse_forget_link *next;
+ };
+ 
+-/* Submount lookup tracking */
++/**
++ * struct fuse_submount_lookup - Submount lookup tracking
++ */
+ struct fuse_submount_lookup {
+-	/** Refcount */
++	/** @count: Refcount */
+ 	refcount_t count;
+ 
+-	/** Unique ID, which identifies the inode between userspace
+-	 * and kernel */
++	/**
++	 * @nodeid: Unique ID, which identifies the inode between userspace
++	 * and kernel
++	 */
+ 	u64 nodeid;
+ 
+-	/** The request used for sending the FORGET message */
++	/** @forget: The request used for sending the FORGET message */
+ 	struct fuse_forget_link *forget;
+ };
+ 
+@@ -113,114 +117,139 @@ struct fuse_backing {
+ 	struct rcu_head rcu;
+ };
+ 
+-/** FUSE inode */
++/**
++ * struct fuse_inode - FUSE inode
++ */
+ struct fuse_inode {
+-	/** Inode data */
++	/** @inode: Inode data */
+ 	struct inode inode;
+ 
+-	/** Unique ID, which identifies the inode between userspace
+-	 * and kernel */
++	/**
++	 * @nodeid: Unique ID, which identifies the inode between userspace
++	 * and kernel
++	 */
+ 	u64 nodeid;
+ 
+-	/** Number of lookups on this inode */
++	/** @nlookup: Number of lookups on this inode */
+ 	u64 nlookup;
+ 
+-	/** The request used for sending the FORGET message */
++	/** @forget: The request used for sending the FORGET message */
+ 	struct fuse_forget_link *forget;
+ 
+-	/** Time in jiffies until the file attributes are valid */
++	/** @i_time: Time in jiffies until the file attributes are valid */
+ 	u64 i_time;
+ 
+-	/* Which attributes are invalid */
++	/** @inval_mask: Which attributes are invalid */
+ 	u32 inval_mask;
+ 
+-	/** The sticky bit in inode->i_mode may have been removed, so
+-	    preserve the original mode */
++	/**
++	 * @orig_i_mode: The sticky bit in inode->i_mode may have been removed,
++	 * so preserve the original mode
++	 */
+ 	umode_t orig_i_mode;
+ 
+-	/* Cache birthtime */
++	/** @i_btime: Cache birthtime */
+ 	struct timespec64 i_btime;
+ 
+-	/** 64 bit inode number */
++	/** @orig_ino: 64-bit inode number */
+ 	u64 orig_ino;
+ 
+-	/** Version of last attribute change */
++	/** @attr_version: Version of last attribute change */
+ 	u64 attr_version;
+ 
+ 	union {
+ 		/* read/write io cache (regular file only) */
+ 		struct {
+-			/* Files usable in writepage.  Protected by fi->lock */
++			/**
++			 * @write_files: Files usable in writepage.
++			 * Protected by fi->lock
++			 */
+ 			struct list_head write_files;
+ 
+-			/* Writepages pending on truncate or fsync */
++			/**
++			 * @queued_writes: Writepages pending on truncate or
++			 * fsync
++			 */
+ 			struct list_head queued_writes;
+ 
+-			/* Number of sent writes, a negative bias
+-			 * (FUSE_NOWRITE) means more writes are blocked */
++			/**
++			 * @writectr: Number of sent writes, a negative bias
++			 * (FUSE_NOWRITE) means more writes are blocked
++			 */
+ 			int writectr;
+ 
+-			/** Number of files/maps using page cache */
++			/** @iocachectr: Number of files/maps using page cache */
+ 			int iocachectr;
+ 
+-			/* Waitq for writepage completion */
++			/** @page_waitq: Waitq for writepage completion */
+ 			wait_queue_head_t page_waitq;
+ 
+-			/* waitq for direct-io completion */
++			/** @direct_io_waitq: waitq for direct-io completion */
+ 			wait_queue_head_t direct_io_waitq;
+ 		};
+ 
+-		/* readdir cache (directory only) */
++		/** @rdc: readdir cache (directory only) */
+ 		struct {
+-			/* true if fully cached */
++			/** @cached: true if fully cached */
+ 			bool cached;
+ 
+-			/* size of cache */
++			/** @size: size of cache */
+ 			loff_t size;
+ 
+-			/* position at end of cache (position of next entry) */
++			/**
++			 * @pos: position at end of cache (position of next
++			 * entry)
++			 */
+ 			loff_t pos;
+ 
+-			/* version of the cache */
++			/** @version: version of the cache */
+ 			u64 version;
+ 
+-			/* modification time of directory when cache was
+-			 * started */
++			/**
++			 * @mtime: modification time of directory when cache was
++			 * started
++			 */
+ 			struct timespec64 mtime;
+ 
+-			/* iversion of directory when cache was started */
++			/**
++			 * @iversion: iversion of directory when cache was
++			 * started
++			 */
+ 			u64 iversion;
+ 
+-			/* protects above fields */
++			/** @lock: protects above fields */
+ 			spinlock_t lock;
+ 		} rdc;
+ 	};
+ 
+-	/** Miscellaneous bits describing inode state */
++	/** @state: Miscellaneous bits describing inode state */
+ 	unsigned long state;
+ 
+-	/** Lock for serializing lookup and readdir for back compatibility*/
++	/**
++	 * @mutex: Lock for serializing lookup and readdir for back
++	 * compatibility
++	 */
+ 	struct mutex mutex;
+ 
+-	/** Lock to protect write related fields */
++	/** @lock: Lock to protect write-related fields */
+ 	spinlock_t lock;
+ 
+ #ifdef CONFIG_FUSE_DAX
+-	/*
+-	 * Dax specific inode data
++	/**
++	 * @dax: Dax specific inode data
+ 	 */
+ 	struct fuse_inode_dax *dax;
+ #endif
+-	/** Submount specific lookup tracking */
++	/** @submount_lookup: Submount specific lookup tracking */
+ 	struct fuse_submount_lookup *submount_lookup;
+ #ifdef CONFIG_FUSE_PASSTHROUGH
+-	/** Reference to backing file in passthrough mode */
++	/** @fb: Reference to backing file in passthrough mode */
+ 	struct fuse_backing *fb;
+ #endif
+ 
+-	/*
+-	 * The underlying inode->i_blkbits value will not be modified,
+-	 * so preserve the blocksize specified by the server.
++	/**
++	 * @cached_i_blkbits: The underlying inode->i_blkbits value will not
++	 * be modified, so preserve the blocksize specified by the server.
+ 	 */
+ 	u8 cached_i_blkbits;
+ };
+@@ -250,61 +279,64 @@ struct fuse_conn;
+ struct fuse_mount;
+ union fuse_file_args;
+ 
+-/** FUSE specific file data */
++/**
++ * struct fuse_file - FUSE-specific file data
++ */
+ struct fuse_file {
+-	/** Fuse connection for this file */
++	/** @fm: Fuse connection for this file */
+ 	struct fuse_mount *fm;
+ 
+-	/* Argument space reserved for open/release */
++	/** @args: Argument space reserved for open/release */
+ 	union fuse_file_args *args;
+ 
+-	/** Kernel file handle guaranteed to be unique */
++	/** @kh: Kernel file handle guaranteed to be unique */
+ 	u64 kh;
+ 
+-	/** File handle used by userspace */
++	/** @fh: File handle used by userspace */
+ 	u64 fh;
+ 
+-	/** Node id of this file */
++	/** @nodeid: Node id of this file */
+ 	u64 nodeid;
+ 
+-	/** Refcount */
++	/** @count: Refcount */
+ 	refcount_t count;
+ 
+-	/** FOPEN_* flags returned by open */
++	/** @open_flags: FOPEN_* flags returned by open */
+ 	u32 open_flags;
+ 
+-	/** Entry on inode's write_files list */
++	/** @write_entry: Entry on inode's write_files list */
+ 	struct list_head write_entry;
+ 
+-	/* Readdir related */
++	/** @readdir: Readdir-related */
+ 	struct {
+-		/* Dir stream position */
++		/** @pos: Dir stream position */
+ 		loff_t pos;
+ 
+-		/* Offset in cache */
++		/** @cache_off: Offset in cache */
+ 		loff_t cache_off;
+ 
+-		/* Version of cache we are reading */
++		/** @version: Version of cache we are reading */
+ 		u64 version;
+ 
+ 	} readdir;
+ 
+-	/** RB node to be linked on fuse_conn->polled_files */
++	/** @polled_node: RB node to be linked on fuse_conn->polled_files */
+ 	struct rb_node polled_node;
+ 
+-	/** Wait queue head for poll */
++	/** @poll_wait: Wait queue head for poll */
+ 	wait_queue_head_t poll_wait;
+ 
+-	/** Does file hold a fi->iocachectr refcount? */
++	/** @iomode: Does file hold a fi->iocachectr refcount? */
+ 	enum { IOM_NONE, IOM_CACHED, IOM_UNCACHED } iomode;
+ 
+ #ifdef CONFIG_FUSE_PASSTHROUGH
+-	/** Reference to backing file in passthrough mode */
++	/** @passthrough: Reference to backing file in passthrough mode */
+ 	struct file *passthrough;
++	/** @cred: passthrough file credentials */
+ 	const struct cred *cred;
+ #endif
+ 
+-	/** Has flock been performed on this file? */
++	/** @flock: Has flock been performed on this file? */
+ 	bool flock:1;
+ };
+ 
+@@ -400,21 +432,21 @@ struct fuse_io_priv {
+ }
+ 
+ /**
+- * Request flags
++ * enum fuse_req_flag - Request flags
+  *
+- * FR_ISREPLY:		set if the request has reply
+- * FR_FORCE:		force sending of the request even if interrupted
+- * FR_BACKGROUND:	request is sent in the background
+- * FR_WAITING:		request is counted as "waiting"
+- * FR_ABORTED:		the request was aborted
+- * FR_INTERRUPTED:	the request has been interrupted
+- * FR_LOCKED:		data is being copied to/from the request
+- * FR_PENDING:		request is not yet in userspace
+- * FR_SENT:		request is in userspace, waiting for an answer
+- * FR_FINISHED:		request is finished
+- * FR_PRIVATE:		request is on private list
+- * FR_ASYNC:		request is asynchronous
+- * FR_URING:		request is handled through fuse-io-uring
++ * @FR_ISREPLY:		set if the request has reply
++ * @FR_FORCE:		force sending of the request even if interrupted
++ * @FR_BACKGROUND:	request is sent in the background
++ * @FR_WAITING:		request is counted as "waiting"
++ * @FR_ABORTED:		the request was aborted
++ * @FR_INTERRUPTED:	the request has been interrupted
++ * @FR_LOCKED:		data is being copied to/from the request
++ * @FR_PENDING:		request is not yet in userspace
++ * @FR_SENT:		request is in userspace, waiting for an answer
++ * @FR_FINISHED:	request is finished
++ * @FR_PRIVATE:		request is on private list
++ * @FR_ASYNC:		request is asynchronous
++ * @FR_URING:		request is handled through fuse-io-uring
+  */
+ enum fuse_req_flag {
+ 	FR_ISREPLY,
+@@ -433,62 +465,69 @@ enum fuse_req_flag {
+ };
+ 
+ /**
+- * A request to the client
++ * struct fuse_req - A request to the client
+  *
+  * .waitq.lock protects the following fields:
+  *   - FR_ABORTED
+  *   - FR_LOCKED (may also be modified under fc->lock, tested under both)
+  */
+ struct fuse_req {
+-	/** This can be on either pending processing or io lists in
+-	    fuse_conn */
++	/**
++	 * @list: This can be on either pending processing or io lists in
++	 * fuse_conn
++	 */
+ 	struct list_head list;
+ 
+-	/** Entry on the interrupts list  */
++	/** @intr_entry: Entry on the interrupts list  */
+ 	struct list_head intr_entry;
+ 
+-	/* Input/output arguments */
++	/** @args: Input/output arguments */
+ 	struct fuse_args *args;
+ 
+-	/** refcount */
++	/** @count: refcount */
+ 	refcount_t count;
+ 
+-	/* Request flags, updated with test/set/clear_bit() */
++	/** @flags: Request flags, updated with test/set/clear_bit() */
+ 	unsigned long flags;
+ 
+-	/* The request input header */
++	/** @in: The request input header */
+ 	struct {
++		/** @in.h: The request input header */
+ 		struct fuse_in_header h;
+ 	} in;
+ 
+-	/* The request output header */
++	/** @out: The request output header */
+ 	struct {
++		/** @out.h: The request output header */
+ 		struct fuse_out_header h;
+ 	} out;
+ 
+-	/** Used to wake up the task waiting for completion of request*/
++	/** @waitq: Used to wake up the task waiting for completion of request */
+ 	wait_queue_head_t waitq;
+ 
+ #if IS_ENABLED(CONFIG_VIRTIO_FS)
+-	/** virtio-fs's physically contiguous buffer for in and out args */
++	/**
++	 * @argbuf: virtio-fs's physically contiguous buffer for in and out
++	 * args
++	 */
+ 	void *argbuf;
+ #endif
+ 
+-	/** fuse_mount this request belongs to */
++	/** @fm: fuse_mount this request belongs to */
+ 	struct fuse_mount *fm;
+ 
+ #ifdef CONFIG_FUSE_IO_URING
+ 	void *ring_entry;
+ 	void *ring_queue;
+ #endif
+-	/** When (in jiffies) the request was created */
++	/** @create_time: When (in jiffies) the request was created */
+ 	unsigned long create_time;
+ };
+ 
+ struct fuse_iqueue;
+ 
+ /**
+- * Input queue callbacks
++ * struct fuse_iqueue_ops - Input queue callbacks
+  *
+  * Input queue signalling is device-specific.  For example, the /dev/fuse file
+  * uses fiq->waitq and fasync to wake processes that are waiting on queue
+@@ -496,24 +535,16 @@ struct fuse_iqueue;
+  * queue activity.
+  */
+ struct fuse_iqueue_ops {
+-	/**
+-	 * Send one forget
+-	 */
++	/** @send_forget: Send one forget */
+ 	void (*send_forget)(struct fuse_iqueue *fiq, struct fuse_forget_link *link);
+ 
+-	/**
+-	 * Send interrupt for request
+-	 */
++	/** @send_interrupt: Send interrupt for request */
+ 	void (*send_interrupt)(struct fuse_iqueue *fiq, struct fuse_req *req);
+ 
+-	/**
+-	 * Send one request
+-	 */
++	/** @send_req: Send one request */
+ 	void (*send_req)(struct fuse_iqueue *fiq, struct fuse_req *req);
+ 
+-	/**
+-	 * Clean up when fuse_iqueue is destroyed
+-	 */
++	/** @release: Clean up when fuse_iqueue is destroyed */
+ 	void (*release)(struct fuse_iqueue *fiq);
+ };
+ 
+@@ -574,16 +605,16 @@ struct fuse_pqueue {
+ };
+ 
+ /**
+- * Fuse device instance
++ * struct fuse_dev - Fuse device instance
+  */
+ struct fuse_dev {
+-	/** Fuse connection for this device */
++	/** @fc: Fuse connection for this device */
+ 	struct fuse_conn *fc;
+ 
+-	/** Processing queue */
++	/** @pq: Processing queue */
+ 	struct fuse_pqueue pq;
+ 
+-	/** list entry on fc->devices */
++	/** @entry: list entry on fc->devices */
+ 	struct list_head entry;
+ };
+ 
+@@ -636,140 +667,187 @@ struct fuse_sync_bucket {
+ };
+ 
+ /**
+- * A Fuse connection.
++ * struct fuse_conn - A Fuse connection.
+  *
+  * This structure is created, when the root filesystem is mounted, and
+  * is destroyed, when the client device is closed and the last
+  * fuse_mount is destroyed.
+  */
+ struct fuse_conn {
+-	/** Lock protecting accessess to  members of this structure */
++	/** @lock: Lock protecting accessess to members of this structure */
+ 	spinlock_t lock;
+ 
+-	/** Refcount */
++	/** @count: Refcount */
+ 	refcount_t count;
+ 
+-	/** Number of fuse_dev's */
++	/** @dev_count: Number of fuse_dev's */
+ 	atomic_t dev_count;
+ 
+-	/** Current epoch for up-to-date dentries */
++	/** @epoch: Current epoch for up-to-date dentries */
+ 	atomic_t epoch;
+ 
++	/** @epoch_work: Used to invalidate dentries from old epochs */
+ 	struct work_struct epoch_work;
+ 
++	/** @rcu: Used to delay freeing fuse_conn, making it safe */
+ 	struct rcu_head rcu;
+ 
+-	/** The user id for this mount */
++	/** @user_id: The user id for this mount */
+ 	kuid_t user_id;
+ 
+-	/** The group id for this mount */
++	/** @group_id: The group id for this mount */
+ 	kgid_t group_id;
+ 
+-	/** The pid namespace for this mount */
++	/** @pid_ns: The pid namespace for this mount */
+ 	struct pid_namespace *pid_ns;
+ 
+-	/** The user namespace for this mount */
++	/** @user_ns: The user namespace for this mount */
+ 	struct user_namespace *user_ns;
+ 
+-	/** Maximum read size */
++	/** @max_read: Maximum read size */
+ 	unsigned max_read;
+ 
+-	/** Maximum write size */
++	/** @max_write: Maximum write size */
+ 	unsigned max_write;
+ 
+-	/** Maximum number of pages that can be used in a single request */
++	/**
++	 * @max_pages: Maximum number of pages that can be used in a
++	 * single request
++	 */
+ 	unsigned int max_pages;
+ 
+-	/** Constrain ->max_pages to this value during feature negotiation */
++	/**
++	 * @max_pages_limit: Constrain ->max_pages to this value during
++	 * feature negotiation
++	 */
+ 	unsigned int max_pages_limit;
+ 
+-	/** Input queue */
++	/** @iq: Input queue */
+ 	struct fuse_iqueue iq;
+ 
+-	/** The next unique kernel file handle */
++	/** @khctr: The next unique kernel file handle */
+ 	atomic64_t khctr;
+ 
+-	/** rbtree of fuse_files waiting for poll events indexed by ph */
++	/**
++	 * @polled_files: rbtree of fuse_files waiting for poll events
++	 * indexed by ph
++	 */
+ 	struct rb_root polled_files;
+ 
+-	/** Maximum number of outstanding background requests */
++	/** @max_background: Maximum number of outstanding background requests */
+ 	unsigned max_background;
+ 
+-	/** Number of background requests at which congestion starts */
++	/**
++	 * @congestion_threshold: Number of background requests at which
++	 * congestion starts
++	 */
+ 	unsigned congestion_threshold;
+ 
+-	/** Number of requests currently in the background */
++	/** @num_background: Number of requests currently in the background */
+ 	unsigned num_background;
+ 
+-	/** Number of background requests currently queued for userspace */
++	/**
++	 * @active_background: Number of background requests currently
++	 * queued for userspace
++	 */
+ 	unsigned active_background;
+ 
+-	/** The list of background requests set aside for later queuing */
++	/**
++	 * @bg_queue: The list of background requests set aside for later
++	 * queuing
++	 */
+ 	struct list_head bg_queue;
+ 
+-	/** Protects: max_background, congestion_threshold, num_background,
+-	 * active_background, bg_queue, blocked */
++	/**
++	 * @bg_lock: Protects: max_background, congestion_threshold,
++	 * num_background, active_background, bg_queue, blocked
++	 */
+ 	spinlock_t bg_lock;
+ 
+-	/** Flag indicating that INIT reply has been received. Allocating
+-	 * any fuse request will be suspended until the flag is set */
++	/**
++	 * @initialized: Flag indicating that INIT reply has been received.
++	 * Allocating any fuse request will be suspended until the flag is set
++	 */
+ 	int initialized;
+ 
+-	/** Flag indicating if connection is blocked.  This will be
+-	    the case before the INIT reply is received, and if there
+-	    are too many outstading backgrounds requests */
++	/**
++	 * @blocked: Flag indicating if connection is blocked.  This will be
++	 * the case before the INIT reply is received, and if there
++	 * are too many outstanding backgrounds requests
++	 */
+ 	int blocked;
+ 
+-	/** waitq for blocked connection */
++	/** @blocked_waitq: waitq for blocked connection */
+ 	wait_queue_head_t blocked_waitq;
+ 
+-	/** Connection established, cleared on umount, connection
+-	    abort and device release */
++	/**
++	 * @connected: Connection established, cleared on umount, connection
++	 *  abort and device release
++	 */
+ 	unsigned connected;
+ 
+-	/** Connection aborted via sysfs */
++	/** @aborted: Connection aborted via sysfs */
+ 	bool aborted;
+ 
+-	/** Connection failed (version mismatch).  Cannot race with
+-	    setting other bitfields since it is only set once in INIT
+-	    reply, before any other request, and never cleared */
++	/**
++	 * @conn_error: Connection failed (version mismatch).  Cannot race with
++	 *  setting other bitfields since it is only set once in INIT
++	 *  reply, before any other request, and never cleared
++	 */
+ 	unsigned conn_error:1;
+ 
+-	/** Connection successful.  Only set in INIT */
++	/** @conn_init: Connection successful.  Only set in INIT */
+ 	unsigned conn_init:1;
+ 
+-	/** Do readahead asynchronously?  Only set in INIT */
++	/** @async_read: Do readahead asynchronously?  Only set in INIT */
+ 	unsigned async_read:1;
+ 
+-	/** Return an unique read error after abort.  Only set in INIT */
++	/**
++	 * @abort_err: Return an unique read error after abort.  Only set
++	 * in INIT
++	 */
+ 	unsigned abort_err:1;
+ 
+-	/** Do not send separate SETATTR request before open(O_TRUNC)  */
++	/**
++	 * @atomic_o_trunc: Do not send separate SETATTR request before
++	 * open(O_TRUNC)
++	 */
+ 	unsigned atomic_o_trunc:1;
+ 
+-	/** Filesystem supports NFS exporting.  Only set in INIT */
++	/**
++	 * @export_support: Filesystem supports NFS exporting.  Only set
++	 * in INIT
++	 */
+ 	unsigned export_support:1;
+ 
+-	/** write-back cache policy (default is write-through) */
++	/**
++	 * @writeback_cache: write-back cache policy (default is write-through)
++	 */
+ 	unsigned writeback_cache:1;
+ 
+-	/** allow parallel lookups and readdir (default is serialized) */
++	/**
++	 * @parallel_dirops: allow parallel lookups and readdir (default
++	 * is serialized)
++	 */
+ 	unsigned parallel_dirops:1;
+ 
+-	/** handle fs handles killing suid/sgid/cap on write/chown/trunc */
++	/**
++	 * @handle_killpriv: handle fs handles killing suid/sgid/cap on
++	 * write/chown/trunc
++	 */
+ 	unsigned handle_killpriv:1;
+ 
+-	/** cache READLINK responses in page cache */
++	/** @cache_symlinks: cache READLINK responses in page cache */
+ 	unsigned cache_symlinks:1;
+ 
+-	/* show legacy mount options */
++	/** @legacy_opts_show: show legacy mount options */
+ 	unsigned int legacy_opts_show:1;
+ 
+-	/*
+-	 * fs kills suid/sgid/cap on write/chown/trunc. suid is killed on
+-	 * write/trunc only if caller did not have CAP_FSETID.  sgid is killed
+-	 * on write/truncate only if caller did not have CAP_FSETID as well as
+-	 * file has group execute permission.
++	/**
++	 * @handle_killpriv_v2: fs kills suid/sgid/cap on write/chown/trunc.
++	 * suid is killed on write/trunc only if caller did not have
++	 * CAP_FSETID.  sgid is killed on write/truncate only if caller did
++	 * not have CAP_FSETID as well as file has group execute permission.
+ 	 */
+ 	unsigned handle_killpriv_v2:1;
+ 
+@@ -778,222 +856,252 @@ struct fuse_conn {
+ 	 * and hence races in setting them will not cause malfunction
+ 	 */
+ 
+-	/** Is open/release not implemented by fs? */
++	/** @no_open: Is open/release not implemented by fs? */
+ 	unsigned no_open:1;
+ 
+-	/** Is opendir/releasedir not implemented by fs? */
++	/** @no_opendir: Is opendir/releasedir not implemented by fs? */
+ 	unsigned no_opendir:1;
+ 
+-	/** Is fsync not implemented by fs? */
++	/** @no_fsync: Is fsync not implemented by fs? */
+ 	unsigned no_fsync:1;
+ 
+-	/** Is fsyncdir not implemented by fs? */
++	/** @no_fsyncdir: Is fsyncdir not implemented by fs? */
+ 	unsigned no_fsyncdir:1;
+ 
+-	/** Is flush not implemented by fs? */
++	/** @no_flush: Is flush not implemented by fs? */
+ 	unsigned no_flush:1;
+ 
+-	/** Is setxattr not implemented by fs? */
++	/** @no_setxattr: Is setxattr not implemented by fs? */
+ 	unsigned no_setxattr:1;
+ 
+-	/** Does file server support extended setxattr */
++	/** @setxattr_ext: Does file server support extended setxattr */
+ 	unsigned setxattr_ext:1;
+ 
+-	/** Is getxattr not implemented by fs? */
++	/** @no_getxattr: Is getxattr not implemented by fs? */
+ 	unsigned no_getxattr:1;
+ 
+-	/** Is listxattr not implemented by fs? */
++	/** @no_listxattr: Is listxattr not implemented by fs? */
+ 	unsigned no_listxattr:1;
+ 
+-	/** Is removexattr not implemented by fs? */
++	/** @no_removexattr: Is removexattr not implemented by fs? */
+ 	unsigned no_removexattr:1;
+ 
+-	/** Are posix file locking primitives not implemented by fs? */
++	/** @no_lock: Are posix file locking primitives not implemented by fs? */
+ 	unsigned no_lock:1;
+ 
+-	/** Is access not implemented by fs? */
++	/** @no_access: Is access not implemented by fs? */
+ 	unsigned no_access:1;
+ 
+-	/** Is create not implemented by fs? */
++	/** @no_create: Is create not implemented by fs? */
+ 	unsigned no_create:1;
+ 
+-	/** Is interrupt not implemented by fs? */
++	/** @no_interrupt: Is interrupt not implemented by fs? */
+ 	unsigned no_interrupt:1;
+ 
+-	/** Is bmap not implemented by fs? */
++	/** @no_bmap: Is bmap not implemented by fs? */
+ 	unsigned no_bmap:1;
+ 
+-	/** Is poll not implemented by fs? */
++	/** @no_poll: Is poll not implemented by fs? */
+ 	unsigned no_poll:1;
+ 
+-	/** Do multi-page cached writes */
++	/** @big_writes: Do multi-page cached writes */
+ 	unsigned big_writes:1;
+ 
+-	/** Don't apply umask to creation modes */
++	/** @dont_mask: Don't apply umask to creation modes */
+ 	unsigned dont_mask:1;
+ 
+-	/** Are BSD file locking primitives not implemented by fs? */
++	/** @no_flock: Are BSD file locking primitives not implemented by fs? */
+ 	unsigned no_flock:1;
+ 
+-	/** Is fallocate not implemented by fs? */
++	/** @no_fallocate: Is fallocate not implemented by fs? */
+ 	unsigned no_fallocate:1;
+ 
+-	/** Is rename with flags implemented by fs? */
++	/** @no_rename2: Is rename with flags implemented by fs? */
+ 	unsigned no_rename2:1;
+ 
+-	/** Use enhanced/automatic page cache invalidation. */
++	/** @auto_inval_data: Use enhanced/automatic page cache invalidation. */
+ 	unsigned auto_inval_data:1;
+ 
+-	/** Filesystem is fully responsible for page cache invalidation. */
++	/**
++	 * @explicit_inval_data: Filesystem is fully responsible for page
++	 * cache invalidation.
++	 */
+ 	unsigned explicit_inval_data:1;
+ 
+-	/** Does the filesystem support readdirplus? */
++	/** @do_readdirplus: Does the filesystem support readdirplus? */
+ 	unsigned do_readdirplus:1;
+ 
+-	/** Does the filesystem want adaptive readdirplus? */
++	/** @readdirplus_auto: Does the filesystem want adaptive readdirplus? */
+ 	unsigned readdirplus_auto:1;
+ 
+-	/** Does the filesystem support asynchronous direct-IO submission? */
++	/**
++	 * @async_dio: Does the filesystem support asynchronous direct-IO
++	 * submission?
++	 */
+ 	unsigned async_dio:1;
+ 
+-	/** Is lseek not implemented by fs? */
++	/** @no_lseek: Is lseek not implemented by fs? */
+ 	unsigned no_lseek:1;
+ 
+-	/** Does the filesystem support posix acls? */
++	/** @posix_acl: Does the filesystem support posix acls? */
+ 	unsigned posix_acl:1;
+ 
+-	/** Check permissions based on the file mode or not? */
++	/**
++	 * @default_permissions: Check permissions based on the file mode or
++	 * not?
++	 */
+ 	unsigned default_permissions:1;
+ 
+-	/** Allow other than the mounter user to access the filesystem ? */
++	/**
++	 * @allow_other: Allow other than the mounter user to access the
++	 * filesystem ?
++	 */
+ 	unsigned allow_other:1;
+ 
+-	/** Does the filesystem support copy_file_range? */
++	/** @no_copy_file_range: Does the filesystem support copy_file_range? */
+ 	unsigned no_copy_file_range:1;
+ 
+-	/** Does the filesystem support copy_file_range_64? */
++	/**
++	 * @no_copy_file_range_64: Does the filesystem support
++	 * copy_file_range_64?
++	 */
+ 	unsigned no_copy_file_range_64:1;
+ 
+-	/* Send DESTROY request */
++	/** @destroy: Send DESTROY request */
+ 	unsigned int destroy:1;
+ 
+-	/* Delete dentries that have gone stale */
++	/** @delete_stale: Delete dentries that have gone stale */
+ 	unsigned int delete_stale:1;
+ 
+-	/** Do not create entry in fusectl fs */
++	/** @no_control: Do not create entry in fusectl fs */
+ 	unsigned int no_control:1;
+ 
+-	/** Do not allow MNT_FORCE umount */
++	/** @no_force_umount: Do not allow MNT_FORCE umount */
+ 	unsigned int no_force_umount:1;
+ 
+-	/* Auto-mount submounts announced by the server */
++	/** @auto_submounts: Auto-mount submounts announced by the server */
+ 	unsigned int auto_submounts:1;
+ 
+-	/* Propagate syncfs() to server */
++	/** @sync_fs: Propagate syncfs() to server */
+ 	unsigned int sync_fs:1;
+ 
+-	/* Initialize security xattrs when creating a new inode */
++	/**
++	 * @init_security: Initialize security xattrs when creating a new
++	 * inode
++	 */
+ 	unsigned int init_security:1;
+ 
+-	/* Add supplementary group info when creating a new inode */
++	/**
++	 * @create_supp_group: Add supplementary group info when creating a
++	 * new inode
++	 */
+ 	unsigned int create_supp_group:1;
+ 
+-	/* Does the filesystem support per inode DAX? */
++	/** @inode_dax: Does the filesystem support per inode DAX? */
+ 	unsigned int inode_dax:1;
+ 
+-	/* Is tmpfile not implemented by fs? */
++	/** @no_tmpfile: Is tmpfile not implemented by fs? */
+ 	unsigned int no_tmpfile:1;
+ 
+-	/* Relax restrictions to allow shared mmap in FOPEN_DIRECT_IO mode */
++	/**
++	 * @direct_io_allow_mmap: Relax restrictions to allow shared mmap
++	 * in FOPEN_DIRECT_IO mode
++	 */
+ 	unsigned int direct_io_allow_mmap:1;
+ 
+-	/* Is statx not implemented by fs? */
++	/** @no_statx: Is statx not implemented by fs? */
+ 	unsigned int no_statx:1;
+ 
+-	/** Passthrough support for read/write IO */
++	/** @passthrough: Passthrough support for read/write IO */
+ 	unsigned int passthrough:1;
+ 
+-	/* Use pages instead of pointer for kernel I/O */
++	/**
++	 * @use_pages_for_kvec_io: Use pages instead of pointer for
++	 * kernel I/O
++	 */
+ 	unsigned int use_pages_for_kvec_io:1;
+ 
+-	/* Is link not implemented by fs? */
++	/** @no_link: Is link not implemented by fs? */
+ 	unsigned int no_link:1;
+ 
+-	/* Is synchronous FUSE_INIT allowed? */
++	/** @sync_init: Is synchronous FUSE_INIT allowed? */
+ 	unsigned int sync_init:1;
+ 
+-	/* Use io_uring for communication */
++	/** @io_uring: Use io_uring for communication */
+ 	unsigned int io_uring;
+ 
+-	/** Maximum stack depth for passthrough backing files */
++	/**
++	 * @max_stack_depth: Maximum stack depth for passthrough backing
++	 * files
++	 */
+ 	int max_stack_depth;
+ 
+-	/** The number of requests waiting for completion */
++	/** @num_waiting: The number of requests waiting for completion */
+ 	atomic_t num_waiting;
+ 
+-	/** Negotiated minor version */
++	/** @minor: Negotiated minor version */
+ 	unsigned minor;
+ 
+-	/** Entry on the fuse_conn_list */
++	/** @entry: Entry on the fuse_conn_list */
+ 	struct list_head entry;
+ 
+-	/** Device ID from the root super block */
++	/** @dev: Device ID from the root super block */
+ 	dev_t dev;
+ 
+-	/** Key for lock owner ID scrambling */
++	/** @scramble_key: Key for lock owner ID scrambling */
+ 	u32 scramble_key[4];
+ 
+-	/** Version counter for attribute changes */
++	/** @attr_version: Version counter for attribute changes */
+ 	atomic64_t attr_version;
+ 
+-	/** Version counter for evict inode */
++	/** @evict_ctr: Version counter for evict inode */
+ 	atomic64_t evict_ctr;
+ 
+-	/* maximum file name length */
++	/** @name_max: maximum file name length */
+ 	u32 name_max;
+ 
+-	/** Called on final put */
++	/** @release: Called on final put */
+ 	void (*release)(struct fuse_conn *);
+ 
+ 	/**
+-	 * Read/write semaphore to hold when accessing the sb of any
++	 * @killsb: Read/write semaphore to hold when accessing the sb of any
+ 	 * fuse_mount belonging to this connection
+ 	 */
+ 	struct rw_semaphore killsb;
+ 
+-	/** List of device instances belonging to this connection */
++	/** @devices: List of device instances belonging to this connection */
+ 	struct list_head devices;
+ 
+ #ifdef CONFIG_FUSE_DAX
+-	/* Dax mode */
++	/** @dax_mode: which Dax mode */
+ 	enum fuse_dax_mode dax_mode;
+ 
+-	/* Dax specific conn data, non-NULL if DAX is enabled */
++	/** @dax: Dax specific conn data, non-NULL if DAX is enabled */
+ 	struct fuse_conn_dax *dax;
+ #endif
+ 
+-	/** List of filesystems using this connection */
++	/** @mounts: List of filesystems using this connection */
+ 	struct list_head mounts;
+ 
+-	/* New writepages go into this bucket */
++	/** @curr_bucket: New writepages go into this bucket */
+ 	struct fuse_sync_bucket __rcu *curr_bucket;
+ 
+ #ifdef CONFIG_FUSE_PASSTHROUGH
+-	/** IDR for backing files ids */
++	/** @backing_files_map: IDR for backing files ids */
+ 	struct idr backing_files_map;
+ #endif
+ 
+ #ifdef CONFIG_FUSE_IO_URING
+-	/**  uring connection information*/
++	/** @ring: uring connection information*/
+ 	struct fuse_ring *ring;
+ #endif
+ 
+-	/** Only used if the connection opts into request timeouts */
++	/** @timeout: Only used if the connection opts into request timeouts */
+ 	struct {
+-		/* Worker for checking if any requests have timed out */
++		/** @work: Worker for checking if any requests have timed out */
+ 		struct delayed_work work;
+ 
+-		/* Request timeout (in jiffies). 0 = no timeout */
++		/** @req_timeout: Request timeout (in jiffies). 0 = no timeout */
+ 		unsigned int req_timeout;
+ 	} timeout;
+ };
+@@ -1138,7 +1246,7 @@ extern const struct file_operations fuse
+ 
+ extern const struct dentry_operations fuse_dentry_operations;
+ 
+-/**
++/*
+  * Get a filled in inode
+  */
+ struct inode *fuse_iget(struct super_block *sb, u64 nodeid,
+@@ -1149,7 +1257,7 @@ struct inode *fuse_iget(struct super_blo
+ int fuse_lookup_name(struct super_block *sb, u64 nodeid, const struct qstr *name,
+ 		     struct fuse_entry_out *outarg, struct inode **inode);
+ 
+-/**
++/*
+  * Send FORGET command
+  */
+ void fuse_queue_forget(struct fuse_conn *fc, struct fuse_forget_link *forget,
+@@ -1188,44 +1296,44 @@ int fuse_finish_open(struct inode *inode
+ void fuse_sync_release(struct fuse_inode *fi, struct fuse_file *ff,
+ 		       unsigned int flags);
+ 
+-/**
++/*
+  * Send RELEASE or RELEASEDIR request
+  */
+ void fuse_release_common(struct file *file, bool isdir);
+ 
+-/**
++/*
+  * Send FSYNC or FSYNCDIR request
+  */
+ int fuse_fsync_common(struct file *file, loff_t start, loff_t end,
+ 		      int datasync, int opcode);
+ 
+-/**
++/*
+  * Notify poll wakeup
+  */
+ int fuse_notify_poll_wakeup(struct fuse_conn *fc,
+ 			    struct fuse_notify_poll_wakeup_out *outarg);
+ 
+-/**
++/*
+  * Initialize file operations on a regular file
+  */
+ void fuse_init_file_inode(struct inode *inode, unsigned int flags);
+ 
+-/**
++/*
+  * Initialize inode operations on regular files and special files
+  */
+ void fuse_init_common(struct inode *inode);
+ 
+-/**
++/*
+  * Initialize inode and file operations on a directory
+  */
+ void fuse_init_dir(struct inode *inode);
+ 
+-/**
++/*
+  * Initialize inode operations on a symlink
+  */
+ void fuse_init_symlink(struct inode *inode);
+ 
+-/**
++/*
+  * Change attributes of an inode
+  */
+ void fuse_change_attributes(struct inode *inode, struct fuse_attr *attr,
+@@ -1239,12 +1347,12 @@ void fuse_change_attributes_common(struc
+ 
+ u32 fuse_get_cache_mask(struct inode *inode);
+ 
+-/**
++/*
+  * Initialize the client device
+  */
+ int fuse_dev_init(void);
+ 
+-/**
++/*
+  * Cleanup the client device
+  */
+ void fuse_dev_cleanup(void);
+@@ -1252,7 +1360,7 @@ void fuse_dev_cleanup(void);
+ int fuse_ctl_init(void);
+ void __exit fuse_ctl_cleanup(void);
+ 
+-/**
++/*
+  * Simple request sending that does request allocation and freeing
+  */
+ ssize_t __fuse_simple_request(struct mnt_idmap *idmap,
+@@ -1274,12 +1382,12 @@ static inline ssize_t fuse_simple_idmap_
+ int fuse_simple_background(struct fuse_mount *fm, struct fuse_args *args,
+ 			   gfp_t gfp_flags);
+ 
+-/**
++/*
+  * Assign a unique id to a fuse request
+  */
+ void fuse_request_assign_unique(struct fuse_iqueue *fiq, struct fuse_req *req);
+ 
+-/**
++/*
+  * End a finished request
+  */
+ void fuse_request_end(struct fuse_req *req);
+@@ -1296,7 +1404,7 @@ void fuse_dentry_tree_cleanup(void);
+ 
+ void fuse_epoch_work(struct work_struct *work);
+ 
+-/**
++/*
+  * Invalidate inode attributes
+  */
+ 
+@@ -1319,24 +1427,24 @@ u64 fuse_time_to_jiffies(u64 sec, u32 ns
+ 
+ void fuse_change_entry_timeout(struct dentry *entry, struct fuse_entry_out *o);
+ 
+-/**
++/*
+  * Acquire reference to fuse_conn
+  */
+ struct fuse_conn *fuse_conn_get(struct fuse_conn *fc);
+ 
+-/**
++/*
+  * Initialize the fuse processing queue
+  */
+ void fuse_pqueue_init(struct fuse_pqueue *fpq);
+ 
+-/**
++/*
+  * Initialize fuse_conn
+  */
+ void fuse_conn_init(struct fuse_conn *fc, struct fuse_mount *fm,
+ 		    struct user_namespace *user_ns,
+ 		    const struct fuse_iqueue_ops *fiq_ops, void *fiq_priv);
+ 
+-/**
++/*
+  * Release reference to fuse_conn
+  */
+ void fuse_conn_put(struct fuse_conn *fc);
+@@ -1348,16 +1456,17 @@ void fuse_dev_free(struct fuse_dev *fud)
+ int fuse_send_init(struct fuse_mount *fm);
+ 
+ /**
+- * Fill in superblock and initialize fuse connection
++ * fuse_fill_super_common - Fill in superblock and initialize fuse connection
+  * @sb: partially-initialized superblock to fill in
+  * @ctx: mount context
+  */
+ int fuse_fill_super_common(struct super_block *sb, struct fuse_fs_context *ctx);
+ 
+-/*
+- * Remove the mount from the connection
++/**
++ * fuse_mount_remove - Remove the mount from the connection
++ * @fm: fuse_mount to remove
+  *
+- * Returns whether this was the last mount
++ * Returns: whether this was the last mount
+  */
+ bool fuse_mount_remove(struct fuse_mount *fm);
+ 
+@@ -1375,23 +1484,25 @@ void fuse_conn_destroy(struct fuse_mount
+ void fuse_mount_destroy(struct fuse_mount *fm);
+ 
+ /**
+- * Add connection to control filesystem
++ * fuse_ctl_add_conn - Add connection to control filesystem
++ * @fc: Fuse connection to add
+  */
+ int fuse_ctl_add_conn(struct fuse_conn *fc);
+ 
+ /**
+- * Remove connection from control filesystem
++ * fuse_ctl_remove_conn - Remove connection from control filesystem
++ * @fc: Fuse connection to remove
+  */
+ void fuse_ctl_remove_conn(struct fuse_conn *fc);
+ 
+-/**
++/*
+  * Is file type valid?
+  */
+ int fuse_valid_type(int m);
+ 
+ bool fuse_invalid_attr(struct fuse_attr *attr);
+ 
+-/**
++/*
+  * Is current process allowed to perform filesystem operation?
+  */
+ bool fuse_allow_current_process(struct fuse_conn *fc);
+@@ -1408,7 +1519,7 @@ void fuse_flush_writepages(struct inode
+ void fuse_set_nowrite(struct inode *inode);
+ void fuse_release_nowrite(struct inode *inode);
+ 
+-/**
++/*
+  * Scan all fuse_mounts belonging to fc to find the first where
+  * ilookup5() returns a result.  Return that result and the
+  * respective fuse_mount in *fm (unless fm is NULL).
+@@ -1418,13 +1529,13 @@ void fuse_release_nowrite(struct inode *
+ struct inode *fuse_ilookup(struct fuse_conn *fc, u64 nodeid,
+ 			   struct fuse_mount **fm);
+ 
+-/**
++/*
+  * File-system tells the kernel to invalidate cache for the given node id.
+  */
+ int fuse_reverse_inval_inode(struct fuse_conn *fc, u64 nodeid,
+ 			     loff_t offset, loff_t len);
+ 
+-/**
++/*
+  * File-system tells the kernel to invalidate parent attributes and
+  * the dentry matching parent/name.
+  *
+@@ -1446,7 +1557,7 @@ void fuse_try_prune_one_inode(struct fus
+ int fuse_do_open(struct fuse_mount *fm, u64 nodeid, struct file *file,
+ 		 bool isdir);
+ 
+-/**
++/*
+  * fuse_direct_io() flags
+  */
+ 
+@@ -1496,12 +1607,12 @@ int fuse_set_acl(struct mnt_idmap *, str
+ /* readdir.c */
+ int fuse_readdir(struct file *file, struct dir_context *ctx);
+ 
+-/**
++/*
+  * Return the number of bytes in an arguments list
+  */
+ unsigned int fuse_len_args(unsigned int numargs, struct fuse_arg *args);
+ 
+-/**
++/*
+  * Get the next unique ID for a request
+  */
+ u64 fuse_get_unique(struct fuse_iqueue *fiq);
