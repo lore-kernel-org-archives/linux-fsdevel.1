@@ -1,111 +1,160 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3CB1314D35
-	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 22:35:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4EE1314D35
+	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 22:36:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774391747; cv=none; b=sZJprCCUan9cBthgq8GilgbQACG+tbQnnOq7pAAvbfJi444P1xwTJnPpwsxKb2h+EP/VtgBsbsphTyuz6JQnsi8vCZ21PO75U799lWLePhx4GRHuIswl7SJoNQGg9v191Y4U3aoAU0Q3S763c7Yv7zu3EeqV+4PHy09HwPcmvq0=
+	t=1774391807; cv=none; b=hoPGKkJPUdNCOOuKOTXNRSPDR9g2vuMRERofA2CarWRzqzluHr75b33fXioFTFLFlwaXQUG33EMaaN+6WIsd/zICiUxve90seg+7UW2N70EX/4FpapJMkG8RYvREhoT4p7W/PLD5BSZ/Buc4QY2SNU2EHE4QbBHpyjmbUc9QbnI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774391747; c=relaxed/simple;
-	bh=JjMdmUS091k30GcCvh/dJr0R0Xpa+sAqIVPOMLEwWiY=;
-	h=From:To:cc:Subject:MIME-Version:Content-Type:Date:Message-ID; b=NdU4R2oF1A4QYauFAQnaB6H7onTptVdGsPJJs8BGbDPil4tjbgoHZiLxPok/zdqGbfI37jRKu/1eRAVSA6G2Xe2a0+vc7vpa5yOwFpKa5OHfHHQyKIX88Q8+NdQiqNnEZbO4+NTTQNeWbIXexedUCZN0/nRehRt9F9bb54+Ltq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CQhrj9O7; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1774391807; c=relaxed/simple;
+	bh=D6a4sODgurWumOMmlJU2HZVlxIk8M7hyJqU671PcXTk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=NZnHwe/P2wgKHd+n5lcS8NIn+nvYPETmfTjT/TrBBSQPrwIc1sYzffVexKlWC+fLaPL0jwg5a/sv+1c2OXjlE8JNL8+jkPCaddqHnOdGFYK49skmSDr+5J5waBSzfCd7fOAymyBxAtGm1M5G9KkhJXjOkLkZm8zbn27+YwOYpWs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com; spf=pass smtp.mailfrom=googlemail.com; dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b=JhpEWuqK; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=googlemail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CQhrj9O7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1774391744;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=IZxsEK5okqRInCWT1RBifNs1wN/gy/ohKX4q7FRogpY=;
-	b=CQhrj9O76ZAPLDjMtq2Y9ZGh+XMPVl2abv0PJPd0Q/rcWjBqNb0LDgjpT8sn24U58eK9nI
-	oXQe8CKOG57+lEzjHrzZHcBySyB24ZAAWKji++U6Jxvst8lC15r9N7ayqPuvVzt4bo0tNk
-	ei1o/PoFSqVVU3XUr6SPLcGBn1QH0xg=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-530-ag2Lx6GnPvqaE9ND_lyU9A-1; Tue,
- 24 Mar 2026 18:35:41 -0400
-X-MC-Unique: ag2Lx6GnPvqaE9ND_lyU9A-1
-X-Mimecast-MFC-AGG-ID: ag2Lx6GnPvqaE9ND_lyU9A_1774391740
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8E8C619560AF;
-	Tue, 24 Mar 2026 22:35:34 +0000 (UTC)
-Received: from warthog.procyon.org.uk (unknown [10.44.33.121])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id B3DF51955D71;
-	Tue, 24 Mar 2026 22:35:30 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-	Kingdom.
-	Registered in England and Wales under Company Registration No. 3798903
-From: David Howells <dhowells@redhat.com>
-To: NeilBrown <neil@brown.name>
-cc: dhowells@redhat.com, Marc Dionne <marc.dionne@auristor.com>,
-    Paulo Alcantara <pc@manguebit.org>,
-    Christian Brauner <brauner@kernel.org>, netfs@lists.linux.dev,
-    linux-afs@lists.infradead.org, linux-fsdevel@vger.kernel.org,
-    linux-kernel@vger.kernel.org
-Subject: [PATCH] cachefiles: Fix excess dput() after end_removing()
+	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="JhpEWuqK"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4852a9c6309so39414215e9.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 15:36:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=20251104; t=1774391804; x=1774996604; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=peEWCpydE3W39BrPkX54rd6U/gBnylU2ryccRF0Lwo4=;
+        b=JhpEWuqKcEbry+35H3KA33vTKakB9dHe4PJRw4p+vk6nGQUlSx0vr6/JupqXf8bFx6
+         HQ7Mok1X3vjtoEKZSbPYwV49WngOrGBkhW76n21QqMW/kwrPNej2+mPZgMQdvwxCjgwh
+         /a6OmJX8u35loz9SWpfsY8x4Pj6efv1AHHLwbhLjJNshHn26QYkiZF2l8aPo59eIe5uB
+         EpzdddJRKzy2OGUAnXfZZN1Mocq0Z7FrJM7Zxrw9mIcIl6gnsYgZB1W8c9uTzokyiFUe
+         YWDNq9YGG3U/qAfx3U+rFvll9Zva287R3TwNVFghrAtNzfT+6LPuoxdfUMTWV3lYtnFW
+         lJuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774391804; x=1774996604;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=peEWCpydE3W39BrPkX54rd6U/gBnylU2ryccRF0Lwo4=;
+        b=PRRDSLsADSrjfnt2RKuUdfANx3f2DPe2zDM0AUFK68ifear+e11FdcAz2fpOhVVlRP
+         XoHPxrgZ0t4ebP0+NK5WgH2FRPcGKX5G8gMuTF7VwcnU01qLSs16I6qNCqoTOS3RAqso
+         wq9Dsj3Vy3n84hryfxrmdGhWkpwdZ0wzmk9+uxeo7N9w/iBRY5byhIJk+vMrx7rhvVEy
+         LyGzuAKcZpPiNX1WaR43MRT3ON2mvuCybtGmKklMRwO3K6HGsRxWZsFTYYwEr9hOIV3q
+         mCowjhYFQJfEPmgooTr9v6ObzI0GX0ukV8gcm6qARuUjPt1WyulkazlfR1ZjQ3m8rZe3
+         9FGg==
+X-Forwarded-Encrypted: i=1; AJvYcCXdkSAXpd7DlJSuiYG8jISYCnjKdgLSTYKAiVLuxQ7d2QVNzy0TBbG8l20sRdkg/nJtuFOn/M+ux3HaLJ/P@vger.kernel.org
+X-Gm-Message-State: AOJu0YyWE23a/c11N4cXqkoVMKkxjme7i+1+FnnlQKEuca43yDyM8UHq
+	4Xp3a+YOq6OSXLNkTvytpu42GnUlDaYbhroTPzpgvCtjQ78E2geC68Mh
+X-Gm-Gg: ATEYQzzq7xg1w6QqLgXGyqoH5w0YK740bGApsFAEPU1zHOsZOa9Jc/RqYenJFsni/nt
+	cY6HuGfct7nNDF8WugzHAh+YINw44qT6xCh3pJ7Yvq8+bPhhlhysoQNHeBn4stM1twYTKMfDTog
+	9KjrSe1x/kDdA+ictXiKxTb3bPMM2mEIvbNQ66wywhDuqmPrpDbJbLN8OMFbSaOFtu0POHUsgul
+	uwlA9PRzW1oGJ8+sPA9Txw2rWNJewEaeSe9+cfYllIkP0yzfV+2xAdAmiY/jYdWsJHIEttWbGrb
+	ANT2O/OaxRd6/dG6Qy61KZ0znlyrZZ7ZncjqRl6ZDWP49vH5IR3Ua4w3yDBRnIcBGoO2XRHklDa
+	yX2NRdt4bX1qteEfR2eIIhvRf0VFcVuYnfozRI/vFQBlDrOpRVFP5egv6CShLE9LD9K3A2gO4DV
+	XUfTFhMAxB8uzKWn8iwec=
+X-Received: by 2002:a05:600c:a112:b0:485:5c6e:8a38 with SMTP id 5b1f17b1804b1-487160429dbmr16208605e9.17.1774391804149;
+        Tue, 24 Mar 2026 15:36:44 -0700 (PDT)
+Received: from DESKTOP-I0B9J3E ([2a02:8071:5392:3220::bcad])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-487113c4eb3sm91713535e9.0.2026.03.24.15.36.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Mar 2026 15:36:43 -0700 (PDT)
+From: buermarc <buermarc@googlemail.com>
+To: joel.granados@kernel.org
+Cc: buermarc@googlemail.com,
+	davem@davemloft.net,
+	elias.rw2@gmail.com,
+	kees@kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	opurdila@ixiacom.com,
+	ps.report@gmx.net
+Subject: Re: [PATCH v3] sysctl: fix check against uninitialized variable in  proc_do_large_bitmap
+Date: Tue, 24 Mar 2026 23:36:40 +0100
+Message-ID: <20260324223640.807029-1-buermarc@googlemail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <msjawemtxqykmbis625wctfjry7ycn77nxjjbibbck3m3atvsm@rfwow2ytmgtg>
+References: <msjawemtxqykmbis625wctfjry7ycn77nxjjbibbck3m3atvsm@rfwow2ytmgtg>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <4001607.1774391727.1@warthog.procyon.org.uk>
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 24 Mar 2026 22:35:29 +0000
-Message-ID: <4001609.1774391729@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+Content-Transfer-Encoding: 8bit
 
-When cachefiles_cull() calls cachefiles_bury_object(), the latter eats the
-former's ref on the victim dentry that it obtained from
-cachefiles_lookup_for_cull().  However, commit 7bb1eb45e43c left the dput
-of the victim in place, resulting in occasional:
+From: Marc Buerg <buermarc@googlemail.com>
 
-  WARNING: fs/dcache.c:829 at dput.part.0+0xf5/0x110, CPU#7: cachefilesd/1=
-1831
-  cachefiles_cull+0x8c/0xe0 [cachefiles]
-  cachefiles_daemon_cull+0xcd/0x120 [cachefiles]
-  cachefiles_daemon_write+0x14e/0x1d0 [cachefiles]
-  vfs_write+0xc3/0x480
-  ...
+Hi,
 
-reports.
+On Tue, 24 Mar 2026 08:44:13 +0100 Joel Granados, wrote:
 
-Fix this by removing the dput().
+> 1. len is calculated by doing len = p - tmp
+> 2. tmp is the beginning of the buffer
+> 3. p is the first character that is not a digit.
+>
+> There will always be at least one ('\0') character that is not a digit.
 
-Fixes: 7bb1eb45e43c ("VFS: introduce start_removing_dentry()")
-Reported-by: Marc Dionne <marc.dionne@auristor.com>
-Signed-off-by: David Howells <dhowells@redhat.com>
-cc: NeilBrown <neil@brown.name>
-cc: Paulo Alcantara <pc@manguebit.org>
-cc: netfs@lists.linux.dev
-cc: linux-afs@lists.infradead.org
-cc: linux-fsdevel@vger.kernel.org
----
- fs/cachefiles/namei.c |    1 -
- 1 file changed, 1 deletion(-)
+Yes.
 
-diff --git a/fs/cachefiles/namei.c b/fs/cachefiles/namei.c
-index bdac2f33edf3..e2023e78e4df 100644
---- a/fs/cachefiles/namei.c
-+++ b/fs/cachefiles/namei.c
-@@ -795,7 +795,6 @@ int cachefiles_cull(struct cachefiles_cache *cache, st=
-ruct dentry *dir,
- =
+> So len will be less than size at least by one (could be more if the
+> string contains non digit chars). When it is parsed to the end,
+> len will be less than size by one.
 
- 	ret =3D cachefiles_bury_object(cache, NULL, dir, victim,
- 				     FSCACHE_OBJECT_WAS_CULLED);
--	dput(victim);
- 	if (ret < 0)
- 		goto error;
- =
+I don't think this is the case. See below.
 
+> TL;DR
+
+I'll try to make it shorter. size is the length of the user buffer, even
+after the copy to the kernel buffer. The added '\0' does not increment
+size in proc_sys_call_handler(). Following the example for
+write(fd,"123",3). In the beginning of proc_get_long():
+
+size = 3
+
+@:012 3
+-------
+ "123\0"
+  |
+ tmp=@0
+  |
+  p=@0
+
+After strtoul_lenient():
+
+@:012 3
+-------
+ "123\0"
+  |   |
+ tmp=@0
+      |
+      p=@3
+
+@3 - @0 = 3
+len = 3
+
+(len < size) => (3 < 3) => false
+
+And size must be 3, proc_sys_call_handler() does not increment it. If we
+provide something like write(fd,"123\0",4) size will be 4, but now we will
+return -EINVAL.
+
+If len < size is true, we call memchk(). memchk will not find a trailing
+character as p points to '\0'. This means in this case we would return
+-EINVAL for the first proc_get_long() call in the while loop. Reason is
+'\0' is not in tr_a and therefore not a valid delimiter for the first
+proc_get_long() call.
+
+I hope this get's my point across.
+
+> All this holds unless the trailing '\0' is modified in some way in that
+> BPF call.
+
+To my knowledge there was no bpf tracing enabled on the affected host at
+the time that the behavior was observed.
+
+Finally: the fix which adds a check for left introduces a regression.
+"123-" is wrongly accepted. Not sure if you saw my other message. It
+should not be used.
+
+Best Regards,
+Marc
