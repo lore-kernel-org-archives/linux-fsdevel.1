@@ -1,246 +1,414 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFD224035B0;
-	Tue, 24 Mar 2026 15:12:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50E424035D4
+	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 15:14:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774365179; cv=none; b=oUFRPLO4EYJuWXRkEV1/jj026BrUZltTKIjKt3TPcu/L0fcV9pKkgQLN7jrlx/DBVtIwSaMuFm7nGrPbwZnLxu7l60DH0PdlGb9rNj08eNk1H49EhmMghHG2XsT+57mJi7DOx0khCcvfEqLKii6D2zq9nZZ+ZT8VaZ2FtBkX0NI=
+	t=1774365270; cv=none; b=k5ey3f4ae40Z7V5U+93SYfmBr0Uv76EFmGPa1QoIhJSi4MLI8wb0cmtSv1q9unTH4e9OtrfRiGdb35JoDO5jqxZUIFvCzIouVL5Sc2tQXPb9cxAIACxBwLYApRRoSExcXlYyBOUqx3VNUjmKkSSAB9HBFvf9ijxHl11z6zXMLug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774365179; c=relaxed/simple;
-	bh=o1VBIWE+N6GLi7LTM8CwipxHM7Ni32sdzn0HUs5T0yU=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=vGBcM3SOF8nGzUKLr9CFbUps6ACox9KYhbgITjgTQYS66IPGiThycZAe5e8d+nw1GZVN//9U2iHJNG+X84JCOdoS0tyg6gKfiR3oCBb7P59BgHPeABsTkSsCvM861G8ZonbN3k4IqIFfsmvG8rBu5kH7lxak8Frod1RdeRA7OVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.224.83])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4fgD6Z2x7qzHnGjS;
-	Tue, 24 Mar 2026 23:12:22 +0800 (CST)
-Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
-	by mail.maildlp.com (Postfix) with ESMTPS id EE6FA40569;
-	Tue, 24 Mar 2026 23:12:55 +0800 (CST)
-Received: from localhost (10.203.177.15) by dubpeml500005.china.huawei.com
- (7.214.145.207) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Tue, 24 Mar
- 2026 15:12:54 +0000
-Date: Tue, 24 Mar 2026 15:12:53 +0000
-From: Jonathan Cameron <jonathan.cameron@huawei.com>
-To: John Groves <john@jagalactic.com>
-CC: John Groves <John@Groves.net>, Miklos Szeredi <miklos@szeredi.hu>, "Dan
- Williams" <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>,
-	Alison Schofield <alison.schofield@intel.com>, John Groves
-	<jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
-	<skhan@linuxfoundation.org>, Vishal Verma <vishal.l.verma@intel.com>, "Dave
- Jiang" <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, "Jan
- Kara" <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, "David
- Hildenbrand" <david@kernel.org>, Christian Brauner <brauner@kernel.org>,
-	"Darrick J . Wong" <djwong@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
-	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, Stefan
- Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, Josef
- Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Chen
- Linxuan <chenlinxuan@uniontech.com>, "James Morse" <james.morse@arm.com>,
-	Fuad Tabba <tabba@google.com>, "Sean Christopherson" <seanjc@google.com>,
-	Shivank Garg <shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>,
-	Gregory Price <gourry@gourry.net>, Aravind Ramesh <arramesh@micron.com>, Ajay
- Joshi <ajayjoshi@micron.com>, "venkataravis@micron.com"
-	<venkataravis@micron.com>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev"
-	<nvdimm@lists.linux.dev>, "linux-cxl@vger.kernel.org"
-	<linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org"
-	<linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH V9 01/10] famfs_fuse: Update macro
- s/FUSE_IS_DAX/FUSE_IS_VIRTIO_DAX/
-Message-ID: <20260324151253.00006b86@huawei.com>
-In-Reply-To: <0100019d1d494e7b-2f01e83a-ebaa-4d1b-ae35-33b882a7bda4-000000@email.amazonses.com>
-References: <0100019d1d48b7e8-4468329f-b446-43f1-87db-3c7e1ff6f28b-000000@email.amazonses.com>
-	<20260324004026.5170-1-john@jagalactic.com>
-	<0100019d1d494e7b-2f01e83a-ebaa-4d1b-ae35-33b882a7bda4-000000@email.amazonses.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1774365270; c=relaxed/simple;
+	bh=1I13N+5OIihOLJ8Y5sNXuiQi55MSxDmyHukGy57FOmo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TFIDh/o6DYKYKKM6W1CwSeTXx3k1Tb5MvkLhs/Qq2SoSas9NHRXJZ+liHO/bZ5vxGS+bo9VzXaVTSheHnYbo9K+nc7IDNQIywhn27ziFk73Kd3s04oMMRjzmYtJSy/pOWSMTVjSKwjOaUhR1QZ01Tmx7/3l5uV+1XuJQa/ggWIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=QsqjZfYD; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=8TDWKDN0; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=r5xGQvS1; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=lOKgzmd1; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="QsqjZfYD";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="8TDWKDN0";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="r5xGQvS1";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="lOKgzmd1"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 4F3A55BD26;
+	Tue, 24 Mar 2026 15:14:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1774365265; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=I6FK5Y0a+kybfXvfH+bk4EO5vCiZSulNifOpaVWhtL4=;
+	b=QsqjZfYD9n/8V+GDL5X/V16FoT4eoHLVc5d8LQbeFidrV3frCCVLxpXwiVkWTPYL+iIgzU
+	XFia39/jNcpw2Odt85K02P4KL7x0hKuFagaLX9THOqXiFnIV6FtheYLZs7g90neT0EOxcG
+	OnBd14CNL+2aNwhaBf8cODq/T13+TYw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1774365265;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=I6FK5Y0a+kybfXvfH+bk4EO5vCiZSulNifOpaVWhtL4=;
+	b=8TDWKDN0YYj/8gOSnsymK5dFYT2WOtaw2R12Bj1PTgTT3sM1TawSBGIV1GZjXh1wjcFXzq
+	fcGL5dN1v8UzejDw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1774365264; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=I6FK5Y0a+kybfXvfH+bk4EO5vCiZSulNifOpaVWhtL4=;
+	b=r5xGQvS1fSn/K+9RN8UCLU8dkhCO4iJ5GgeEGZ3wt588RtRzhNHiStl36i1x3/1jk3XtsG
+	12gZjUEedrbUKYXKAM9v03bUlFdxsf/BOL371swD9MF2elPknPGnqORLY050vg2CMwG38n
+	UXeKuMFxqKM/4JKXdAWvVVLsUzze/4U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1774365264;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=I6FK5Y0a+kybfXvfH+bk4EO5vCiZSulNifOpaVWhtL4=;
+	b=lOKgzmd1okGN/w34V4LdJXmnyiVZ/z9/mYTK1vISlW+FgLkwjbVEE9Gx3Ze0MRcIQi6WrB
+	Jdk9aWadJYTLLdBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3B8F943ED8;
+	Tue, 24 Mar 2026 15:14:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id crQaDlCqwmk9GAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 24 Mar 2026 15:14:24 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id EBDF6A0B32; Tue, 24 Mar 2026 16:14:23 +0100 (CET)
+Date: Tue, 24 Mar 2026 16:14:23 +0100
+From: Jan Kara <jack@suse.cz>
+To: Morduan Zang <zhangdandan@uniontech.com>
+Cc: dgc@kernel.org, brauner@kernel.org, cem@kernel.org, 
+	dchinner@redhat.com, hch@lst.de, jack@suse.cz, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org, 
+	syzbot+d78ace33ad4ee69329d5@syzkaller.appspotmail.com, tytso@mit.edu, viro@zeniv.linux.org.uk, zhanjun@uniontech.com
+Subject: Re: [PATCH] xfs: defer lazytime timestamp updates to inodegc during
+ eviction
+Message-ID: <tet44nv2qc7i7uhrip4gcd7cur2cpn4mmgyh4v6hquaju2xtih@i5s2uco5wemr>
+References: <absSoRi8oxXSuSZ7@dread>
+ <6EBD01CF561B83EC+20260320100353.220462-1-zhangdandan@uniontech.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml100012.china.huawei.com (7.191.174.184) To
- dubpeml500005.china.huawei.com (7.214.145.207)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6EBD01CF561B83EC+20260320100353.220462-1-zhangdandan@uniontech.com>
+X-Spamd-Result: default: False [-2.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_COUNT_THREE(0.00)[3];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,syzkaller.appspot.com:url,suse.com:email,appspotmail.com:email];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_RCPT(0.00)[d78ace33ad4ee69329d5];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[]
+X-Spam-Flag: NO
+X-Spam-Score: -2.30
+X-Spam-Level: 
 
-On Tue, 24 Mar 2026 00:40:36 +0000
-John Groves <john@jagalactic.com> wrote:
-
-> From: John Groves <john@groves.net>
+On Fri 20-03-26 18:03:53, Morduan Zang wrote:
+> syzbot reported a warning from memory reclaim when iput() dropped the
+> last reference to a linked XFS inode with I_DIRTY_TIME set. In this
+> case VFS can call ->sync_lazytime() from the inode eviction path, and
+> XFS handles that by starting a timestamp transaction directly:
 > 
-> Virtio_fs now needs to determine if an inode is DAX && not famfs.
-FWIW patch bundles broke sashiko
-
-https://sashiko.dev/#/message/0100019d1d46d094-cc0a4b79-3bd2-43e8-a08d-ab8cd21266a6-000000%40email.amazonses.com
-It only reviewed the fuse part.  (I was looking to see what it had found I missed
-in the DAX ones).
-> This relaces the FUSE_IS_DAX() macro with FUSE_IS_VIRTIO_DAX(),
-
-replaces (Sashiko spell checks ;)
-
-> in preparation for famfs in later commits. The dummy
-> fuse_file_famfs() macro will be replaced with a working
-> function.
+> current->flags & PF_MEMALLOC
+> WARNING: mm/page_alloc.c:4741 at __alloc_pages_slowpath+0xd0a/0xd40 mm/page_alloc.c:4741, CPU#0: kswapd0/70
+> Modules linked in:
+> CPU: 0 UID: 0 PID: 70 Comm: kswapd0 Not tainted syzkaller #0 PREEMPT(full)
+> Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+> RIP: 0010:__alloc_pages_slowpath+0xd0a/0xd40 mm/page_alloc.c:4741
+> Code: 48 8b 1d 31 3b f9 10 48 83 c3 2c 48 89 d8 48 c1 e8 03 0f b6 04 08 84 c0 75 23 f6 43 01 08 48 8b 54 24 08 0f 84 41 f3 ff ff 90 <0f> 0b 90 e9 38 f3 ff ff e8 59 7c 8c 09 90 0f 0b 90 eb c2 89 d9 80
+> RSP: 0018:ffffc90000b1ec98 EFLAGS: 00010202
+> RAX: 0000000000000000 RBX: ffff888000e3c9ac RCX: dffffc0000000000
+> RDX: ffffc90000b1edc0 RSI: 0000000000000000 RDI: 00000000000cacc0
+> RBP: 00000000000cacc0 R08: ffff88802fffd9b0 R09: 1ffff1100bffae52
+> R10: dffffc0000000000 R11: ffffed100bffae53 R12: ffffc90000b1edc0
+> R13: 1ffff92000163db4 R14: 00000000000cacc0 R15: 0000000000000000
+> FS:  0000000000000000(0000) GS:ffff88808ca56000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 00007fc9045ff000 CR3: 00000000121ca000 CR4: 0000000000352ef0
+> Call Trace:
+>  <TASK>
+>  __alloc_frozen_pages_noprof+0x322/0x380 mm/page_alloc.c:5263
+>  alloc_slab_page mm/slub.c:3296 [inline]
+>  allocate_slab+0x11f/0x660 mm/slub.c:3493
+>  new_slab mm/slub.c:3543 [inline]
+>  refill_objects+0x331/0x3c0 mm/slub.c:7178
+>  __pcs_replace_empty_main+0x2f9/0x5e0 mm/slub.c:-1
+>  alloc_from_pcs mm/slub.c:4720 [inline]
+>  slab_alloc_node mm/slub.c:4854 [inline]
+>  kmem_cache_alloc_noprof+0x37d/0x650 mm/slub.c:4876
+>  __xfs_trans_alloc+0x26/0x410 fs/xfs/xfs_trans.c:220
+>  xfs_trans_alloc+0xd7/0x9b0 fs/xfs/xfs_trans.c:254
+>  xfs_vn_sync_lazytime+0xaf/0x150 fs/xfs/xfs_iops.c:1238
+>  sync_lazytime+0x12d/0x2d0 fs/fs-writeback.c:1721
+>  iput+0x230/0xe80 fs/inode.c:1997
+>  __dentry_kill+0x1a2/0x5e0 fs/dcache.c:670
+>  shrink_kill+0xa9/0x2c0 fs/dcache.c:1147
+>  shrink_dentry_list+0x2e0/0x5e0 fs/dcache.c:1174
+>  prune_dcache_sb+0x119/0x180 fs/dcache.c:1256
+>  super_cache_scan+0x369/0x4b0 fs/super.c:223
+>  do_shrink_slab+0x6df/0x1170 mm/shrinker.c:437
+>  shrink_slab_memcg mm/shrinker.c:550 [inline]
+>  shrink_slab+0x830/0x1150 mm/shrinker.c:628
+>  shrink_one+0x2d9/0x710 mm/vmscan.c:4928
+>  shrink_many mm/vmscan.c:4989 [inline]
+>  lru_gen_shrink_node mm/vmscan.c:5067 [inline]
+>  shrink_node+0x3197/0x3a90 mm/vmscan.c:6047
+>  kswapd_shrink_node mm/vmscan.c:6894 [inline]
+>  balance_pgdat mm/vmscan.c:7070 [inline]
+>  kswapd+0x1742/0x2e10 mm/vmscan.c:7343
+>  kthread+0x388/0x470 kernel/kthread.c:436
+>  ret_from_fork+0x51e/0xb90 arch/x86/kernel/process.c:158
+>  ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
 > 
-> Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
-> Reviewed-by: Dave Jiang <dave.jiang@intel.com>
-> Signed-off-by: John Groves <john@groves.net>
-
-
-
-> ---
->  fs/fuse/dir.c    |  2 +-
->  fs/fuse/file.c   | 13 ++++++++-----
->  fs/fuse/fuse_i.h |  9 ++++++++-
->  fs/fuse/inode.c  |  4 ++--
->  fs/fuse/iomode.c |  2 +-
->  5 files changed, 20 insertions(+), 10 deletions(-)
+> Avoid running the lazytime timestamp transaction directly from the
+> final iput path for unhashed linked inodes. If iput() is dropping the
+> last reference to such an inode and dirtytime is still pending, expose
+> I_WILL_FREE before ->sync_lazytime() so that xfs_vn_sync_lazytime() can
+> detect this case, clear I_DIRTY_TIME, and defer the timestamp update to
+> inodegc instead.
 > 
-> diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
-> index 7ac6b232ef12..c63f097bc697 100644
-> --- a/fs/fuse/dir.c
-> +++ b/fs/fuse/dir.c
-> @@ -2161,7 +2161,7 @@ int fuse_do_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
->  		is_truncate = true;
->  	}
+> Inodegc already provides the asynchronous context used for XFS
+> inactivation and reclaim work, which avoids running the transaction
+> from direct reclaim. If the deferred timestamp update fails in inodegc,
+> requeue the inode so that the update is retried instead of silently
+> dropping the dirtytime state. Flush inodegc before forcing the log in
+> xfs_fs_sync_fs() so that syncfs still waits for deferred dirtytime
+> updates to reach the log.
+> 
+> Reported-by: syzbot+d78ace33ad4ee69329d5@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=d78ace33ad4ee69329d5
+> Signed-off-by: Zhan Jun <zhanjun@uniontech.com>
+> Signed-off-by: Morduan Zang <zhangdandan@uniontech.com>
+
+Isn't this problem already fixed by Christoph's patch
+https://lore.kernel.org/all/20260317134409.1691317-1-hch@lst.de ?
+
+> diff --git a/fs/inode.c b/fs/inode.c
+> index cc12b68e021b..dcd091cc1567 100644
+> --- a/fs/inode.c
+> +++ b/fs/inode.c
+> @@ -1948,7 +1948,10 @@ static void iput_final(struct inode *inode)
+>  	VFS_BUG_ON_INODE(atomic_read(&inode->i_count) != 0, inode);
 >  
-> -	if (FUSE_IS_DAX(inode) && is_truncate) {
-> +	if (FUSE_IS_VIRTIO_DAX(fi) && is_truncate) {
->  		filemap_invalidate_lock(mapping);
->  		fault_blocked = true;
->  		err = fuse_dax_break_layouts(inode, 0, -1);
-> diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-> index b1bb7153cb78..4ee5065737d8 100644
-> --- a/fs/fuse/file.c
-> +++ b/fs/fuse/file.c
-> @@ -252,7 +252,7 @@ static int fuse_open(struct inode *inode, struct file *file)
->  	int err;
->  	bool is_truncate = (file->f_flags & O_TRUNC) && fc->atomic_o_trunc;
->  	bool is_wb_truncate = is_truncate && fc->writeback_cache;
-> -	bool dax_truncate = is_truncate && FUSE_IS_DAX(inode);
-> +	bool dax_truncate = is_truncate && FUSE_IS_VIRTIO_DAX(fi);
+>  	if (drop) {
+> -		inode_state_set(inode, I_FREEING);
+> +		if (inode_state_read(inode) & I_WILL_FREE)
+> +			inode_state_replace(inode, I_WILL_FREE, I_FREEING);
+> +		else
+> +			inode_state_set(inode, I_FREEING);
+>  	} else {
+>  		inode_state_set(inode, I_WILL_FREE);
+>  		spin_unlock(&inode->i_lock);
+> @@ -1994,6 +1997,20 @@ void iput(struct inode *inode)
+>  	if (atomic_add_unless(&inode->i_count, -1, 1))
+>  		return;
 >  
->  	if (fuse_is_bad(inode))
->  		return -EIO;
-> @@ -1812,11 +1812,12 @@ static ssize_t fuse_file_read_iter(struct kiocb *iocb, struct iov_iter *to)
->  	struct file *file = iocb->ki_filp;
->  	struct fuse_file *ff = file->private_data;
->  	struct inode *inode = file_inode(file);
-> +	struct fuse_inode *fi = get_fuse_inode(inode);
+> +	/*
+> +	 * If the final iput is tearing down an unhashed inode with lazytime
+> +	 * updates pending, expose I_WILL_FREE before ->sync_lazytime() so that
+> +	 * filesystems can defer expensive work out of the reclaim path.
+> +	 */
+> +	if (inode->i_nlink && inode_unhashed(inode) &&
+> +	    (inode_state_read_once(inode) & I_DIRTY_TIME)) {
+> +		spin_lock(&inode->i_lock);
+> +		if (inode_unhashed(inode) &&
+> +		    (inode_state_read(inode) & I_DIRTY_TIME))
+> +			inode_state_set(inode, I_WILL_FREE);
+> +		spin_unlock(&inode->i_lock);
+> +	}
+> +
+>  	if (inode->i_nlink && sync_lazytime(inode))
+>  		goto retry;
+
+If Christoph's patch doesn't fix the problem and we indeed need some
+solution of XFS to postpone dirty time flushing to its inode eviction work,
+we can discuss proper solution but this is just too ugly to live.
+
+								Honza
+
 >  
->  	if (fuse_is_bad(inode))
->  		return -EIO;
+> diff --git a/fs/xfs/xfs_icache.c b/fs/xfs/xfs_icache.c
+> index a7a09e7eec81..8ddbe16633f2 100644
+> --- a/fs/xfs/xfs_icache.c
+> +++ b/fs/xfs/xfs_icache.c
+> @@ -52,6 +52,7 @@ static int xfs_icwalk(struct xfs_mount *mp,
+>  		enum xfs_icwalk_goal goal, struct xfs_icwalk *icw);
+>  static int xfs_icwalk_ag(struct xfs_perag *pag,
+>  		enum xfs_icwalk_goal goal, struct xfs_icwalk *icw);
+> +static void xfs_inodegc_queue(struct xfs_inode *ip);
 >  
-> -	if (FUSE_IS_DAX(inode))
-> +	if (FUSE_IS_VIRTIO_DAX(fi))
->  		return fuse_dax_read_iter(iocb, to);
+>  /*
+>   * Private inode cache walk flags for struct xfs_icwalk.  Must not
+> @@ -1944,6 +1945,17 @@ xfs_inodegc_inactivate(
+>  	int			error;
 >  
->  	/* FOPEN_DIRECT_IO overrides FOPEN_PASSTHROUGH */
-> @@ -1833,11 +1834,12 @@ static ssize_t fuse_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
->  	struct file *file = iocb->ki_filp;
->  	struct fuse_file *ff = file->private_data;
->  	struct inode *inode = file_inode(file);
-> +	struct fuse_inode *fi = get_fuse_inode(inode);
+>  	trace_xfs_inode_inactivating(ip);
+> +	if (xfs_iflags_test_and_clear(ip, XFS_IDIRTY_TIME) &&
+> +	    VFS_I(ip)->i_nlink != 0) {
+> +		error = xfs_inode_sync_dirtytime(ip);
+> +		if (error) {
+> +			xfs_iflags_set(ip, XFS_IDIRTY_TIME);
+> +			xfs_iflags_clear(ip, XFS_INACTIVATING);
+> +			xfs_inodegc_queue(ip);
+> +			return error;
+> +		}
+> +	}
+> +
+>  	error = xfs_inactive(ip);
+>  	xfs_inodegc_set_reclaimable(ip);
+>  	return error;
+> diff --git a/fs/xfs/xfs_inode.c b/fs/xfs/xfs_inode.c
+> index 50c0404f9064..22b4f4e4c09e 100644
+> --- a/fs/xfs/xfs_inode.c
+> +++ b/fs/xfs/xfs_inode.c
+> @@ -1288,9 +1288,10 @@ xfs_inactive_ifree(
 >  
->  	if (fuse_is_bad(inode))
->  		return -EIO;
+>  /*
+>   * Returns true if we need to update the on-disk metadata before we can free
+> - * the memory used by this inode.  Updates include freeing post-eof
+> - * preallocations; freeing COW staging extents; and marking the inode free in
+> - * the inobt if it is on the unlinked list.
+> + * the memory used by this inode.  Updates include flushing deferred lazytime
+> + * timestamp updates; freeing post-eof preallocations; freeing COW staging
+> + * extents; and marking the inode free in the inobt if it is on the unlinked
+> + * list.
+>   */
+>  bool
+>  xfs_inode_needs_inactive(
+> @@ -1321,6 +1322,10 @@ xfs_inode_needs_inactive(
+>  	if (xfs_is_internal_inode(ip))
+>  		return false;
 >  
-> -	if (FUSE_IS_DAX(inode))
-> +	if (FUSE_IS_VIRTIO_DAX(fi))
->  		return fuse_dax_write_iter(iocb, from);
+> +	/* Linked inodes can defer lazytime updates to inodegc. */
+> +	if (xfs_iflags_test(ip, XFS_IDIRTY_TIME))
+> +		return true;
+> +
+>  	/* Want to clean out the cow blocks if there are any. */
+>  	if (cow_ifp && cow_ifp->if_bytes > 0)
+>  		return true;
+> @@ -1340,6 +1345,24 @@ xfs_inode_needs_inactive(
+>  	return xfs_can_free_eofblocks(ip);
+>  }
 >  
->  	/* FOPEN_DIRECT_IO overrides FOPEN_PASSTHROUGH */
-> @@ -2370,10 +2372,11 @@ static int fuse_file_mmap(struct file *file, struct vm_area_struct *vma)
->  	struct fuse_file *ff = file->private_data;
->  	struct fuse_conn *fc = ff->fm->fc;
->  	struct inode *inode = file_inode(file);
-> +	struct fuse_inode *fi = get_fuse_inode(inode);
->  	int rc;
->  
->  	/* DAX mmap is superior to direct_io mmap */
-> -	if (FUSE_IS_DAX(inode))
-> +	if (FUSE_IS_VIRTIO_DAX(fi))
->  		return fuse_dax_mmap(file, vma);
->  
->  	/*
-> @@ -2934,7 +2937,7 @@ static long fuse_file_fallocate(struct file *file, int mode, loff_t offset,
->  		.mode = mode
->  	};
->  	int err;
-> -	bool block_faults = FUSE_IS_DAX(inode) &&
-> +	bool block_faults = FUSE_IS_VIRTIO_DAX(fi) &&
->  		(!(mode & FALLOC_FL_KEEP_SIZE) ||
->  		 (mode & (FALLOC_FL_PUNCH_HOLE | FALLOC_FL_ZERO_RANGE)));
->  
-> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-> index 7f16049387d1..45e108dec771 100644
-> --- a/fs/fuse/fuse_i.h
-> +++ b/fs/fuse/fuse_i.h
-> @@ -1508,7 +1508,14 @@ void fuse_free_conn(struct fuse_conn *fc);
->  
->  /* dax.c */
->  
-> -#define FUSE_IS_DAX(inode) (IS_ENABLED(CONFIG_FUSE_DAX) && IS_DAX(inode))
-> +static inline bool fuse_file_famfs(struct fuse_inode *fuse_inode) /* Will be superseded */
+> +int
+> +xfs_inode_sync_dirtytime(
+> +	struct xfs_inode	*ip)
 > +{
-> +	(void)fuse_inode;
-> +	return false;
+> +	struct xfs_mount	*mp = ip->i_mount;
+> +	struct xfs_trans	*tp;
+> +	int			error;
+> +
+> +	error = xfs_trans_alloc(mp, &M_RES(mp)->tr_fsyncts, 0, 0, 0, &tp);
+> +	if (error)
+> +		return error;
+> +
+> +	xfs_ilock(ip, XFS_ILOCK_EXCL);
+> +	xfs_trans_ijoin(tp, ip, XFS_ILOCK_EXCL);
+> +	xfs_trans_log_inode(tp, ip, XFS_ILOG_TIMESTAMP);
+> +	return xfs_trans_commit(tp);
 > +}
-> +#define FUSE_IS_VIRTIO_DAX(fuse_inode) (IS_ENABLED(CONFIG_FUSE_DAX)	\
-> +					&& IS_DAX(&fuse_inode->inode)  \
-> +					&& !fuse_file_famfs(fuse_inode))
-
-The AI overlord pointed out you should probably have a few more brackets
-just in case someone passes something odd in as fuse_inode. Lets assume
-they don't pass things with side effects in.
-
-#define FUSE_IS_VIRTIO_DAX(fuse_inode) (IS_ENABLED(CONFIG_FUSE_DAX)	\
-					&& IS_DAX(&(fuse_inode)->inode)  \
-					&& !fuse_file_famfs(fuse_inode))
-
-
+> +
+>  /*
+>   * Save health status somewhere, if we're dumping an inode with uncorrected
+>   * errors and online repair isn't running.
+> diff --git a/fs/xfs/xfs_inode.h b/fs/xfs/xfs_inode.h
+> index bd6d33557194..61d7e7559de3 100644
+> --- a/fs/xfs/xfs_inode.h
+> +++ b/fs/xfs/xfs_inode.h
+> @@ -415,6 +415,9 @@ static inline bool xfs_inode_can_sw_atomic_write(const struct xfs_inode *ip)
+>   */
+>  #define XFS_IREMAPPING		(1U << 15)
 >  
->  ssize_t fuse_dax_read_iter(struct kiocb *iocb, struct iov_iter *to);
->  ssize_t fuse_dax_write_iter(struct kiocb *iocb, struct iov_iter *from);
-> diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
-> index e57b8af06be9..1333b3ebb18a 100644
-> --- a/fs/fuse/inode.c
-> +++ b/fs/fuse/inode.c
-> @@ -162,7 +162,7 @@ static void fuse_evict_inode(struct inode *inode)
->  	/* Will write inode on close/munmap and in all other dirtiers */
->  	WARN_ON(inode_state_read_once(inode) & I_DIRTY_INODE);
+> +/* Flush dirty timestamps from inodegc before reclaiming the inode. */
+> +#define XFS_IDIRTY_TIME		(1U << 16)
+> +
+>  /* All inode state flags related to inode reclaim. */
+>  #define XFS_ALL_IRECLAIM_FLAGS	(XFS_IRECLAIMABLE | \
+>  				 XFS_IRECLAIM | \
+> @@ -429,7 +432,7 @@ static inline bool xfs_inode_can_sw_atomic_write(const struct xfs_inode *ip)
+>  #define XFS_IRECLAIM_RESET_FLAGS	\
+>  	(XFS_IRECLAIMABLE | XFS_IRECLAIM | \
+>  	 XFS_EOFBLOCKS_RELEASED | XFS_ITRUNCATED | XFS_NEED_INACTIVE | \
+> -	 XFS_INACTIVATING | XFS_IQUOTAUNCHECKED)
+> +	 XFS_INACTIVATING | XFS_IQUOTAUNCHECKED | XFS_IDIRTY_TIME)
 >  
-> -	if (FUSE_IS_DAX(inode))
-> +	if (FUSE_IS_VIRTIO_DAX(fi))
->  		dax_break_layout_final(inode);
+>  /*
+>   * Flags for inode locking.
+> @@ -645,6 +648,7 @@ extern struct kmem_cache	*xfs_inode_cache;
+>  #define XFS_DEFAULT_COWEXTSZ_HINT 32
 >  
->  	truncate_inode_pages_final(&inode->i_data);
-> @@ -170,7 +170,7 @@ static void fuse_evict_inode(struct inode *inode)
->  	if (inode->i_sb->s_flags & SB_ACTIVE) {
->  		struct fuse_conn *fc = get_fuse_conn(inode);
+>  bool xfs_inode_needs_inactive(struct xfs_inode *ip);
+> +int xfs_inode_sync_dirtytime(struct xfs_inode *ip);
 >  
-> -		if (FUSE_IS_DAX(inode))
-> +		if (FUSE_IS_VIRTIO_DAX(fi))
->  			fuse_dax_inode_cleanup(inode);
->  		if (fi->nlookup) {
->  			fuse_queue_forget(fc, fi->forget, fi->nodeid,
-> diff --git a/fs/fuse/iomode.c b/fs/fuse/iomode.c
-> index 3728933188f3..31ee7f3304c6 100644
-> --- a/fs/fuse/iomode.c
-> +++ b/fs/fuse/iomode.c
-> @@ -203,7 +203,7 @@ int fuse_file_io_open(struct file *file, struct inode *inode)
->  	 * io modes are not relevant with DAX and with server that does not
->  	 * implement open.
->  	 */
-> -	if (FUSE_IS_DAX(inode) || !ff->args)
-> +	if (FUSE_IS_VIRTIO_DAX(fi) || !ff->args)
+>  struct xfs_inode *xfs_iunlink_lookup(struct xfs_perag *pag, xfs_agino_t agino);
+>  int xfs_iunlink_reload_next(struct xfs_trans *tp, struct xfs_buf *agibp,
+> diff --git a/fs/xfs/xfs_iops.c b/fs/xfs/xfs_iops.c
+> index 208543e57eda..7ed81616625f 100644
+> --- a/fs/xfs/xfs_iops.c
+> +++ b/fs/xfs/xfs_iops.c
+> @@ -1232,15 +1232,22 @@ xfs_vn_sync_lazytime(
+>  	struct inode		*inode)
+>  {
+>  	struct xfs_inode	*ip = XFS_I(inode);
+> -	struct xfs_mount	*mp = ip->i_mount;
+> -	struct xfs_trans	*tp;
+>  
+> -	if (xfs_trans_alloc(mp, &M_RES(mp)->tr_fsyncts, 0, 0, 0, &tp))
+> +	/*
+> +	 * VFS sets I_WILL_FREE before write_inode_now() when eviction is about
+> +	 * to tear down the inode, so defer the timestamp transaction to inodegc.
+> +	 */
+> +	if (inode_state_read_once(inode) & I_WILL_FREE) {
+> +		spin_lock(&inode->i_lock);
+> +		inode_state_clear(inode, I_DIRTY_TIME);
+> +		spin_unlock(&inode->i_lock);
+> +		if (inode->i_nlink != 0)
+> +			xfs_iflags_set(ip, XFS_IDIRTY_TIME);
+> +		return;
+> +	}
+> +
+> +	if (xfs_inode_sync_dirtytime(ip))
+>  		return;
+> -	xfs_ilock(ip, XFS_ILOCK_EXCL);
+> -	xfs_trans_ijoin(tp, ip, XFS_ILOCK_EXCL);
+> -	xfs_trans_log_inode(tp, ip, XFS_ILOG_TIMESTAMP);
+> -	xfs_trans_commit(tp);
+>  }
+>  
+>  STATIC int
+> diff --git a/fs/xfs/xfs_super.c b/fs/xfs/xfs_super.c
+> index f8de44443e81..f7d2edc07ef8 100644
+> --- a/fs/xfs/xfs_super.c
+> +++ b/fs/xfs/xfs_super.c
+> @@ -821,6 +821,10 @@ xfs_fs_sync_fs(
+>  	if (!wait)
 >  		return 0;
 >  
->  	/*
-
+> +	error = xfs_inodegc_flush(mp);
+> +	if (error)
+> +		return error;
+> +
+>  	error = xfs_log_force(mp, XFS_LOG_SYNC);
+>  	if (error)
+>  		return error;
+> -- 
+> 2.50.1
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
