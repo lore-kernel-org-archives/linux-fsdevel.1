@@ -1,173 +1,148 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out30-133.freemail.mail.aliyun.com (out30-133.freemail.mail.aliyun.com [115.124.30.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 064EC3F0A9F
-	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 12:08:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D06273F23B9
+	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 12:21:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774354107; cv=none; b=Y2iYt1ZDruGtuqNGFdtUDRHbBpYdYGoO0VqDaADUECw8Pjukt5vrdiRMDlH+5rOurcsWc1IlHuwCgmvMG0i63WuySSqBhrJK/iOZTefrEPFzShG3H1Z5uQJUwPJ0tjw0BjVjUJLgsMiUrYacM2DlDXmi4Di0uC73CKBQQcte1sg=
+	t=1774354877; cv=none; b=tW1gDZn/s+TAwrnHL+fDw2aGNhJ9DRtDMGu1X0Pn+W2Nkeps2Gph8SbZ19FoOX3B0rBkK9ZwnG5+EXCQLs4qQfn86DhfKDSOE11+M2XKtNLxgwBv5MSARZmZUPBIHHnVkfOHqxHz4yGPKRv47I19nVBT7pTOVirM+e5MyTGhRqc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774354107; c=relaxed/simple;
-	bh=7OEqnwGFNSajUTg8u4QbVGqWY/OSwjAG7i6SJ1JM1Rg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lNGFCZfboK0i9UNF0hHWoeFL4jnFXkkNi2hY81+w0xos6b7mfZNHZeL5VRTxUhwPyXCnGn+iqp2fn1xD/33ODfT9sH2ON0pMJI8q6BNt47rCz8W5PjLYtLrlLMZf9DLIbz3BIA22PgPACRFFQLjl7X4/VYTaUqRLXZN/4VVwb1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XWP8d0Fk; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774354877; c=relaxed/simple;
+	bh=WYZqZ+6RJ/fVzN1+QuC5YH0+w9S4AaueQ/4141lCI/8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QpBoCdTC3oMyIObFkaB8hsb1DaKK/bVDMNBnicd6RvzGt4WTodDb9IDEBnlOA8yLJDg9DqQN+P0rttyvYWYtC//b7w0M/nfNjJxDQ++mg32Wl4qxmi6ka7QyKit6fvsCazEc3lCcgSnuoYCbq5cIqIQdFPFGogGQdMbU5r1DEtM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=e7/g+jhS; arc=none smtp.client-ip=115.124.30.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XWP8d0Fk"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-439b2965d4bso2743277f8f.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 05:08:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774354100; x=1774958900; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FW/uf6tO+ED65arVB0aoGz5GoGXatXSP8a3bFlkE0kE=;
-        b=XWP8d0Fkiq+N6uGfr+AfaQpc1iYfyhz4a8PH4MKiRYDGNuP9nfIzrzQc3pzTM0JanR
-         FMKl7a6bdPP5cxmN+sp+mevLwtXPjlb54aXHyEWn5e4Yhl5aL8VGOFJSMPHEXz8sRu9n
-         TzBmsaHHQn87zYqZdzRHBggYLhf9WAUpKYYQ0W3jdQEB04YU6ftmvCwem6dnfL6SgRiW
-         wDGl7T9pkX/wYlX6RvRNXVOUx6n9hxia7LsPuo/w/zZu8sQsukce0QYyD7BLwFrsl7PB
-         6iDjF15D283UaO7LJw9bchs6ZH0trEW52hEJ1nKi4UDUlNmuyZV9sa4z8jLiO8GOOjtF
-         EWTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774354100; x=1774958900;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=FW/uf6tO+ED65arVB0aoGz5GoGXatXSP8a3bFlkE0kE=;
-        b=h2ao4ArELC4J+Gp4gQJpA3wOkplgokfbiXmDNXOrQ9GWlfbTuNSz+MF0nngDzU1+ip
-         i/MhIw6ltnpq53F34pzoXuwImUEpq9i9yEZkQGVjq0Qj/cZQaNY02RAdJ/JkzYH623Mz
-         sRKUko/nhnwiGPn3mTM0RHUqbT+liMLzY9HjUqIpUx/tPjqlxZWjGFklsm4FBZadZ+iI
-         UQKKomlf01DId9DBlJ078WMMVeZsgQxXSRyHX88m2IwNBar+ZUqIphbjJfK6IVStMpyC
-         ROU95WRkr3VdXufUffeOIVayhdqWQ2apVsHcmDrtxwi6M2387ZaZHlZKjaOSqdRGkEWI
-         dSdA==
-X-Forwarded-Encrypted: i=1; AJvYcCUvfOhg2CwwDXa/ExuBkFmNfUVs8vmOubVyBy9jCk3CW4stBnszwFLLdYWkIzbgGMANRvi+B7H8JPoYUNcO@vger.kernel.org
-X-Gm-Message-State: AOJu0YzdMqt/4H6nlnpf68wQ8xqDBvexDiY8+WphLtQhrChgHfi3WN+4
-	FtnpZ9P20Xds+19uKJYoRrg9bOLWSGcXY9zTqSPQItrtEdXZiTTMXQC+
-X-Gm-Gg: ATEYQzx5CjJoPHW9du+v39QRy/fe1GvtVgf5jJclJbOso+DhclghgOYmV8YpHauOldS
-	i3feBhVDFOOHiYtzr4JMbzImr66nDjdHWVkTX1sVoQv2XqX7XFx0dOpYnBP8XNQVOBm8YapMvCD
-	Ux5z0hWbGjbVUBbFjzMW7Wxz8EHr5LOnyR4xTgJi61yjzRcqTFOYgwj8qvHjptrq2WFf5xsJUYx
-	raOhCc+XQOH9Jrt3FbCQfhiQ7bl/aW0RTRAxUgZL6nEQEzFK6ADZtqKU6o67uB5Q4XaQf9wzos1
-	NGlKATCe0JViUsySa3Y+NUp1CmZjbfxmcIOMVHeAug/AlGuoc4d/twOxZ/xmy3KknZtoAILIj/r
-	6ZB/yHRwPfYIXTyNwV7kXEdpaiS1Gceeyx5/OFYTT1o7Y1jVsOBuNaUtSboBWgbE094CqtkqZIZ
-	SB0BSYUKW9H9lTuj1ET5BeDWlmwzgx9bAGhjfPMFBJkinwc1cMhIcPEwT+gXnzUBTgzJ0+zR0RV
-	8U=
-X-Received: by 2002:a05:6000:4382:b0:43b:3f2d:7d43 with SMTP id ffacd0b85a97d-43b64242a62mr24623752f8f.8.1774354099901;
-        Tue, 24 Mar 2026 05:08:19 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b8567b2e2sm2306326f8f.33.2026.03.24.05.08.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2026 05:08:19 -0700 (PDT)
-Date: Tue, 24 Mar 2026 12:08:17 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner
- <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Linus Torvalds
- <torvalds@linux-foundation.org>, Thomas Gleixner <tglx@linutronix.de>,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 1/2] readdir: Introduce dirent_size()
-Message-ID: <20260324120817.6300b352@pumpkin>
-In-Reply-To: <c20d2f8f6817a39401155cfc80f0dff88df116e0.1774350128.git.chleroy@kernel.org>
-References: <c20d2f8f6817a39401155cfc80f0dff88df116e0.1774350128.git.chleroy@kernel.org>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="e7/g+jhS"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1774354865; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=aOV9naY/SMihiWNIDhTe+GdiXcA75JHl5EbbebYyOzs=;
+	b=e7/g+jhSBV5isYYScMdIjYtVXRkjTynQ/buDSinStAQYLz+vgDCSlgkydJNo7jQEGMc5G6qvusba7+if6gUsIqJlktMWpHl9PNt042RIjpWNgh0IxorzyqiZBIEpfhHSdu0Rpi9B6eR7D3OO3W9d4QfWFDi35Fhp5vn7j7CyHn0=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R101e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045133197;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=14;SR=0;TI=SMTPD_---0X.eVul2_1774354862;
+Received: from 30.41.54.139(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0X.eVul2_1774354862 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Tue, 24 Mar 2026 20:21:03 +0800
+Message-ID: <d2d5c218-7063-4ea0-ab03-1433449f4d83@linux.alibaba.com>
+Date: Tue, 24 Mar 2026 20:21:00 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Lsf-pc] [LSF/MM/BPF TOPIC] Where is fuse going? API cleanup,
+ restructuring and more
+To: Demi Marie Obenour <demiobenour@gmail.com>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
+Cc: "Darrick J. Wong" <djwong@kernel.org>, Miklos Szeredi
+ <miklos@szeredi.hu>, linux-fsdevel@vger.kernel.org,
+ Joanne Koong <joannelkoong@gmail.com>, John Groves <John@groves.net>,
+ Bernd Schubert <bernd@bsbernd.com>, Amir Goldstein <amir73il@gmail.com>,
+ Luis Henriques <luis@igalia.com>, Horst Birthelmer <horst@birthelmer.de>,
+ Gao Xiang <xiang@kernel.org>, lsf-pc@lists.linux-foundation.org
+References: <361d312b-9706-45ca-8943-b655a75c765b@gmail.com>
+ <390cd031-742b-4f1b-99c4-8ee41a259744@linux.alibaba.com>
+ <j3gafvpt6r47trvrkttfvilejplluagdz3alcjxmc7xhnzmemv@tahjpv2ak6qj>
+ <cfe18ae0-7dc0-4601-a9f0-c0665f301cfe@linux.alibaba.com>
+ <s3y7qrkgwedbkltpt7mjjzisazynzms3btablzpxhdoezapddy@xanux4rrspwd>
+ <72eaaed1-24a0-4c98-a7c0-ea249d541f2d@linux.alibaba.com>
+ <9af9ad0e-8070-4aaa-9f64-7d72074bd948@linux.alibaba.com>
+ <wo2nf7bux5rhexbpyeutbb5bkpqlumq3ht7iqxdft7lhc2p6va@3q6wsi2xndpu>
+ <68116ee5-b1f7-484b-a520-7dc5aefd7738@linux.alibaba.com>
+ <2gyfmxfnnxrglpzb7kz63xbve5vnosl6gi54c3umgrpwbjr4og@lz4e2ptqanfe>
+ <20260324-hilfen-reibung-9783005d5d0f@brauner>
+ <b8f5bff1-27bf-4934-9297-0aad551a550c@gmail.com>
+From: Gao Xiang <hsiangkao@linux.alibaba.com>
+In-Reply-To: <b8f5bff1-27bf-4934-9297-0aad551a550c@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Tue, 24 Mar 2026 12:41:15 +0100
-"Christophe Leroy (CS GROUP)" <chleroy@kernel.org> wrote:
 
-> In several places in readdir.c there are calculations of the total size
-> of a dirent, which contains a few fixed fields plus a name field with
-> variable size. To add fun every dirent is of a slightly different type:
-> - struct old_linux_dirent
-> - struct linux_dirent
-> - struct linux_dirent64
-> - struct compat_old_linux_dirent
-> - struct compat_linux_dirent
-> 
-> Replace ugly size calculation by a macro called dirent_size() which
-> calculates the size of the structure based on the pointed type and
-> the name field len.
-> 
-> Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
-> Signed-off-by: Christophe Leroy (CS GROUP) <chleroy@kernel.org>
 
-Reviewed-by: David Laight <david.laight.linux@gmail.com>
+On 2026/3/24 19:58, Demi Marie Obenour wrote:
+> On 3/24/26 04:48, Christian Brauner wrote:
 
-> ---
->  fs/readdir.c | 19 +++++++------------
->  1 file changed, 7 insertions(+), 12 deletions(-)
+...
+
+>>>>
+>>>>> I would still consider such design highly suspicious but without more
+>>>>> detailed knowledge about the application I cannot say it's outright broken
+>>>>> :).
+>>>>
+>>>> What do you mean "such design"?  "Writable untrusted
+>>>> remote EXT4 images mounting on the host"? Really, we have
+>>>> such applications for containers for many years but I don't
+>>>> want to name it here, but I'm totally exhaused by such
+>>>> usage (since I explained many many times, and they even
+>>>> never bother with LWN.net) and the internal team.
+>>>
+>>> By "such design" I meant generally the concept that you fetch filesystem
+>>> images (regardless whether ext4 or some other type) from untrusted source.
+>>> Unless you do cryptographical verification of the data, you never know what
+>>> kind of garbage your application is processing which is always invitation
+>>> for nasty exploits and bugs...
+>>
+>> If this is another 500 mail discussion about FS_USERNS_MOUNT on
+>> block-backed filesystems then my verdict still stands that the only
+>> condition under which I will let the VFS allow this if the underlying
+>> device is signed and dm-verity protected. The kernel will continue to
+>> refuse unprivileged policy in general and specifically based on quality
+>> or implementation of the underlying filesystem driver.
 > 
-> diff --git a/fs/readdir.c b/fs/readdir.c
-> index 73707b6816e9..fb910dc2f52b 100644
-> --- a/fs/readdir.c
-> +++ b/fs/readdir.c
-> @@ -22,6 +22,8 @@
->  #include <linux/compat.h>
->  #include <linux/uaccess.h>
->  
-> +#define dirent_size(dirent, len) offsetof(typeof(*(dirent)), d_name[len])
-> +
->  /*
->   * Some filesystems were never converted to '->iterate_shared()'
->   * and their directory iterators want the inode lock held for
-> @@ -198,9 +200,7 @@ static bool fillonedir(struct dir_context *ctx, const char *name, int namlen,
->  	}
->  	buf->result++;
->  	dirent = buf->dirent;
-> -	if (!user_write_access_begin(dirent,
-> -			(unsigned long)(dirent->d_name + namlen + 1) -
-> -				(unsigned long)dirent))
-> +	if (!user_write_access_begin(dirent, dirent_size(dirent, namlen + 1)))
->  		goto efault;
->  	unsafe_put_user(d_ino, &dirent->d_ino, efault_end);
->  	unsafe_put_user(offset, &dirent->d_offset, efault_end);
-> @@ -263,8 +263,7 @@ static bool filldir(struct dir_context *ctx, const char *name, int namlen,
->  	struct getdents_callback *buf =
->  		container_of(ctx, struct getdents_callback, ctx);
->  	unsigned long d_ino;
-> -	int reclen = ALIGN(offsetof(struct linux_dirent, d_name) + namlen + 2,
-> -		sizeof(long));
-> +	int reclen = ALIGN(dirent_size(dirent, namlen + 2), sizeof(long));
->  	int prev_reclen;
->  	unsigned int flags = d_type;
->  
-> @@ -352,8 +351,7 @@ static bool filldir64(struct dir_context *ctx, const char *name, int namlen,
->  	struct linux_dirent64 __user *dirent, *prev;
->  	struct getdents_callback64 *buf =
->  		container_of(ctx, struct getdents_callback64, ctx);
-> -	int reclen = ALIGN(offsetof(struct linux_dirent64, d_name) + namlen + 1,
-> -		sizeof(u64));
-> +	int reclen = ALIGN(dirent_size(dirent, namlen + 1), sizeof(u64));
->  	int prev_reclen;
->  	unsigned int flags = d_type;
->  
-> @@ -460,9 +458,7 @@ static bool compat_fillonedir(struct dir_context *ctx, const char *name,
->  	}
->  	buf->result++;
->  	dirent = buf->dirent;
-> -	if (!user_write_access_begin(dirent,
-> -			(unsigned long)(dirent->d_name + namlen + 1) -
-> -				(unsigned long)dirent))
-> +	if (!user_write_access_begin(dirent, dirent_size(dirent, namlen + 1)))
->  		goto efault;
->  	unsafe_put_user(d_ino, &dirent->d_ino, efault_end);
->  	unsafe_put_user(offset, &dirent->d_offset, efault_end);
-> @@ -519,8 +515,7 @@ static bool compat_filldir(struct dir_context *ctx, const char *name, int namlen
->  	struct compat_getdents_callback *buf =
->  		container_of(ctx, struct compat_getdents_callback, ctx);
->  	compat_ulong_t d_ino;
-> -	int reclen = ALIGN(offsetof(struct compat_linux_dirent, d_name) +
-> -		namlen + 2, sizeof(compat_long_t));
-> +	int reclen = ALIGN(dirent_size(dirent, namlen + 2), sizeof(compat_long_t));
->  	int prev_reclen;
->  	unsigned int flags = d_type;
->  
+> As far as I can tell, the main problems are:
+> 
+> 1. Most filesystems can only be run in kernel mode, so one needs a
+>     VM and an expensive RPC protocol if one wants to run them in a
+>     sandboxed environment.
+> 
+> 2. Context switch overhead is so high that running filesystems entirely
+>     in userspace, without some form of in-kernel I/O acceleration,
+>     is a performance problem.
+> 
+> 3. Filesystems are written in C and not designed to be secure against
+>     malicious on-disk images.
+> 
+> Gao Xiang is working on problem for EROFS.
+> FUSE iomap support solves 2.  lklfuse solves problem 1.
+
+Sigh, I just would like to say, as Darrick and Jan's previous
+replies, immutable on-disk fses are a special kind of filesystems
+and the overall on-disk format is to provide vfs/MM basic
+informattion (like LOOKUP, GETATTR, and READDIR, READ), and the
+reason is that even some values of metadata could be considered
+as inconsistent, it's just like FUSE unprivileged daemon returns
+garbage (meta)data and/or TAR extracts garbage (meta)data --
+shouldn't matter at all.
+
+Why I'm here is I'm totally exhaused by arbitary claim like
+"all kernel filesystem are insecure". Again, that is absolutely
+untrue: the feature set, the working model and the implementation
+complexity of immutable filesystems make it more secure by
+design.
+
+Also the reason of "another 500 mail discussion about
+FS_USERNS_MOUNT" is just because "FS_USERNS_MOUNT is very very
+useful to containers", and the special kind of immutable on-disk
+filesystems can fit this goal technically which is much much
+unlike to generic writable ondisk fses or NFS and why I working
+on EROFS is also because I believe immutable ondisk filesystems
+are absolutely useful, more secure than other generic writable
+fses by design especially on containers and handling untrusted
+remote data.
+
+I here claim again that all implementation vulnerability of
+EROFS will claim as 0-day bug, and I've already did in this way
+for many years.  Let's step back, even not me, if there are
+some other sane immutable filesystems aiming for containers,
+they will definitely claim the same, why not?
+
+Thanks,
+Gao Xiang
+
+
+
 
