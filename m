@@ -1,31 +1,66 @@
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f54.google.com (mail-yx1-f54.google.com [74.125.224.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 316CD3DE443;
-	Tue, 24 Mar 2026 09:59:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.181.97.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 188D53DC4DD
+	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 10:02:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774346373; cv=none; b=u6+SCW/knyhqTyYnLqC3G8FmilDTKN+SDuc3RDQ0z4wOuS5YbRBbfdzIp12OxJ6l2ookI66bopW/IpV/X65v/5PazjD5jlvoqprQWWdGSvKbzU9ltYXF1MWMKKTmO9xLzGH1lNavnTtTMTkiLx91hQfpLbG5UEr5kYSrHTQJLrI=
+	t=1774346553; cv=none; b=ndNol67+7v3KSeJAJ3CMu8OuUjepzC1YREoLPtgFYDkI7jcGeferyr3SxCDJYA73r0nclw6O8rBM/MyJm2d1+NdjgyPNH6ooPPx2HmwgUy30lrrARJOAQ4d9SNENBGD39BL2ilJt+hsTX9eeUFk5of9rEC45m1jTmwTVq4GD0HQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774346373; c=relaxed/simple;
-	bh=1xU6iCDvCSqHvUmbAzo7xKeogjKnF8lOTAkNLBo8/PI=;
+	s=arc-20240116; t=1774346553; c=relaxed/simple;
+	bh=3dpsZOgLykLa1K9rJa02gCXWOjHwUbawIGluugPkjrE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ANgnoej+Z+ndFyoQrsmluCxx0IY9d4v3m4dPyzwAQUadfKkaetRr5Qtu60JHlcH7/2BG8DkJ5WUXfCmZ4X1ydIZxucZLdEXt/CUeInPDkX20Ij+b5PMZ4rNGR8WYvJirq4FIfAzqegWl0EkXorV8iIuZWFM5zFqxP44+UKAWxs4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp; arc=none smtp.client-ip=202.181.97.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp
-Received: from www262.sakura.ne.jp (localhost [127.0.0.1])
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 62O9wJsG072034;
-	Tue, 24 Mar 2026 18:58:19 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from [192.168.1.2] (M106072072000.v4.enabler.ne.jp [106.72.72.0])
-	(authenticated bits=0)
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 62O9wJMb072031
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-	Tue, 24 Mar 2026 18:58:19 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <6c298238-8d87-4c41-84a7-e0373d466a15@I-love.SAKURA.ne.jp>
-Date: Tue, 24 Mar 2026 18:58:15 +0900
+	 In-Reply-To:Content-Type; b=dWeCc/acsJpWnTJxZfYQTzPgfAtleCgD6j0XKhjOqJhrWiqIqZGLZUWJRl8tt0L+r4B/l4GZGTqWNugxdwg5pfz9zodA1SjxmxqLKzIQWA2PwXP7NvgrealDSmlmD793+PhD4UD5/edDwKsxGiPphVtMyOih5Oq5xu1yY5y/67g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ip3ehHFV; arc=none smtp.client-ip=74.125.224.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ip3ehHFV"
+Received: by mail-yx1-f54.google.com with SMTP id 956f58d0204a3-64ea73e7b60so4452122d50.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 03:02:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774346548; x=1774951348; darn=vger.kernel.org;
+        h=in-reply-to:autocrypt:from:content-language:references:cc:to
+         :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=8n7hWiSPqGbWnMz7SG/nw+UY/tRfsjxDM/oyhSoUUVk=;
+        b=ip3ehHFViKN7e+k9AMGiOTKzARqyoqvMUhzwAZtx89iW3bMOWjAJGHy77rAhp/oyVs
+         CzQgpGPJBywwifEnyRRO47wD9YPdkD61sZfR1TkmzlIcml8gg4gtqgSI/ROHZDCbm4+a
+         /bIUmpiWFSK7j9VDaTGtL5NEVsw9h4rGVCox/oLuHxzxK/4zs3p35C8TD4dAubC1T9w2
+         0Hdectw4ogq6nboVg7PEPRJ6PNN0OTM/+VNPTRL+rWdLBw4dP88WTJZwwDJbLOuEVlKy
+         wQ2cbJzxUcJlnGppksfLPaDpKQETUsCIMkCCOvY1I/l97U7bTi+1YzENWwINx/TM3LoM
+         qBog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774346548; x=1774951348;
+        h=in-reply-to:autocrypt:from:content-language:references:cc:to
+         :subject:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8n7hWiSPqGbWnMz7SG/nw+UY/tRfsjxDM/oyhSoUUVk=;
+        b=on8R59QEnMazCffBReOvwhKdppWu9FJocJs4iMOaWWL4fBsQpsZuXyvcFBl5nOjWNa
+         qfaPZt2/HjLXU6gjtD3k73MIs+/iQGMFs43SWg6s3DobLbCAhgGYkL0FVPzIyK+1e+vz
+         UPhIRRzO7ULLNs2PeJxHlpKs8S4Ov07O8qjafm91eSz6vdLIpEgaiSz65Sjrwi8IwXOB
+         NTEPF1V5jI1bYUk0QSN0zst7halKNKXAXIG5Vf3inglqK+VrK13SNrbrC8ovn4va8abu
+         Hp/Gd7S8QVLCe9QB6reL2uWxAuK/GWNhEwhxuWhIBA5TcvJI/2RqaB1hJNEy2333gFya
+         B4Ng==
+X-Forwarded-Encrypted: i=1; AJvYcCUQ5/6sG0QLilg4VjozcY5T4vvKUmZtSIQ1Fug026qeEZeUQPSKA/5ZVsWoBS9BrJxLmSmjBFrUp5NVEQDz@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyw34cBFFvIu8eLNvGGFJcDlndJul002ZOtKmDw/0G29XmOP3VH
+	x7f/feODZeWF+4KYICfIr5V+P8PUAijdKn3zHuuUei75oOLJLuSqyYd9
+X-Gm-Gg: ATEYQzxFdm2rgP2yp3C8ftC5AOfFGHTovg5AViW9jFz4RFNAc7VPmZiL1gpZIsdcyQV
+	hwY7O1Qj5+8m4ibC6tc80Iuryb6WLdYTw5i7lX3mwrA1gKfUVXWZpCuC+FwOUjZoNBN5XU2G1M9
+	s+vOh2QJgWzM//YwSDVcFSoST0nR3QV0nyfJeKgh9EvCTpkKHZD+EvU/u2oHuez6lk0g71mcIv0
+	90qlxIhWMt4xIiq5YFPjaMts6t5pLbwDB5aHo00XOfHKzefi/g/YIBehRLQJ4YyTySQ+6TJYhfU
+	IaxludiXtsFJgiRsUN3J/lNrbnSzq+Yl3VmoJLGcgoiRtLpckjq4nmVYOlnhZ+cgz04WiudBi/O
+	xwd5EmS3JhhMGGVEU6ZsyWwbrQmapMWa9umAlsk8e3cdXlYHIV1y542VBsEZjcjKRAY7EgVnrll
+	iXTrhEz0RbP/dmou05j5OKdwmbqeEE4AbsokYiwrHjgvgrapWctKUcV4RksLPwo7d2LjNHrDmMi
+	wlsrmqqmYA90arpVVICpWOjor2AB1CNVLHjiGQ=
+X-Received: by 2002:a05:690e:144f:b0:64a:db29:5e5a with SMTP id 956f58d0204a3-64eaa6a724cmr17285261d50.1.1774346548199;
+        Tue, 24 Mar 2026 03:02:28 -0700 (PDT)
+Received: from [10.138.34.110] (h69-131-148-49.cncrtn.broadband.dynamic.tds.net. [69.131.148.49])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-64eabe7dcc9sm7542380d50.12.2026.03.24.03.02.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 Mar 2026 03:02:27 -0700 (PDT)
+Message-ID: <bf4764a9-ba89-4268-bcfc-125c9dabf0d7@gmail.com>
+Date: Tue, 24 Mar 2026 06:02:20 -0400
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -33,87 +68,464 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/7] tomoyo: Convert from sb_mount to granular mount hooks
-To: Song Liu <song@kernel.org>
-Cc: Song Liu <songliubraving@meta.com>,
-        Christian Brauner
- <brauner@kernel.org>,
-        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-        "paul@paul-moore.com" <paul@paul-moore.com>,
-        "jmorris@namei.org" <jmorris@namei.org>,
-        "serge@hallyn.com"
- <serge@hallyn.com>, "jack@suse.cz" <jack@suse.cz>,
-        "john.johansen@canonical.com" <john.johansen@canonical.com>,
-        "stephen.smalley.work@gmail.com" <stephen.smalley.work@gmail.com>,
-        "omosnace@redhat.com" <omosnace@redhat.com>,
-        "mic@digikod.net" <mic@digikod.net>,
-        "gnoack@google.com"
- <gnoack@google.com>,
-        "takedakn@nttdata.co.jp" <takedakn@nttdata.co.jp>,
-        "herton@canonical.com" <herton@canonical.com>,
-        Kernel Team <kernel-team@meta.com>,
-        "selinux@vger.kernel.org" <selinux@vger.kernel.org>,
-        "apparmor@lists.ubuntu.com" <apparmor@lists.ubuntu.com>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-security-module@vger.kernel.org"
- <linux-security-module@vger.kernel.org>
-References: <20260318184400.3502908-1-song@kernel.org>
- <20260318184400.3502908-7-song@kernel.org>
- <b720f521-e930-4f35-9505-1bfdf9e2818c@I-love.SAKURA.ne.jp>
- <4DF5C4A8-7C92-4F76-9B34-2262089E7289@meta.com>
- <33abcf34-13e2-4a37-83f3-78bb27ecbc11@I-love.SAKURA.ne.jp>
- <F0A0D13E-8208-49A4-9AC6-89AC4BF3F4FB@meta.com>
- <20260323-klappen-atemschutz-7a0af8c6b087@brauner>
- <714a614b-cfb4-4b20-af8c-df3cc56dfb92@I-love.SAKURA.ne.jp>
- <CAAeYb7k+TWArOKyOomkLZ8fwqUPjha9iORpJaj4nMyN=o4ZRQg@mail.gmail.com>
- <6609e11e-90aa-4021-974e-e9937688dd49@I-love.SAKURA.ne.jp>
- <CAPhsuW4G7vo-JZqenZ-sFHw9z02wZUJa1-+9U81U--vQhnfG_Q@mail.gmail.com>
+Subject: Re: [Lsf-pc] [LSF/MM/BPF TOPIC] Where is fuse going? API cleanup,
+ restructuring and more
+To: Gao Xiang <hsiangkao@linux.alibaba.com>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
+Cc: "Darrick J. Wong" <djwong@kernel.org>, Miklos Szeredi
+ <miklos@szeredi.hu>, linux-fsdevel@vger.kernel.org,
+ Joanne Koong <joannelkoong@gmail.com>, John Groves <John@groves.net>,
+ Bernd Schubert <bernd@bsbernd.com>, Amir Goldstein <amir73il@gmail.com>,
+ Luis Henriques <luis@igalia.com>, Horst Birthelmer <horst@birthelmer.de>,
+ Gao Xiang <xiang@kernel.org>, lsf-pc@lists.linux-foundation.org
+References: <361d312b-9706-45ca-8943-b655a75c765b@gmail.com>
+ <390cd031-742b-4f1b-99c4-8ee41a259744@linux.alibaba.com>
+ <j3gafvpt6r47trvrkttfvilejplluagdz3alcjxmc7xhnzmemv@tahjpv2ak6qj>
+ <cfe18ae0-7dc0-4601-a9f0-c0665f301cfe@linux.alibaba.com>
+ <s3y7qrkgwedbkltpt7mjjzisazynzms3btablzpxhdoezapddy@xanux4rrspwd>
+ <72eaaed1-24a0-4c98-a7c0-ea249d541f2d@linux.alibaba.com>
+ <9af9ad0e-8070-4aaa-9f64-7d72074bd948@linux.alibaba.com>
+ <wo2nf7bux5rhexbpyeutbb5bkpqlumq3ht7iqxdft7lhc2p6va@3q6wsi2xndpu>
+ <68116ee5-b1f7-484b-a520-7dc5aefd7738@linux.alibaba.com>
+ <2gyfmxfnnxrglpzb7kz63xbve5vnosl6gi54c3umgrpwbjr4og@lz4e2ptqanfe>
+ <20260324-hilfen-reibung-9783005d5d0f@brauner>
+ <ee146a41-2628-4cde-9f82-e718480edd4d@linux.alibaba.com>
+ <052d27ff-9239-44fa-8604-336de0dc4711@gmail.com>
+ <99ffdfa1-b18a-4f05-91e2-81c320e8edb5@linux.alibaba.com>
 Content-Language: en-US
-From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-In-Reply-To: <CAPhsuW4G7vo-JZqenZ-sFHw9z02wZUJa1-+9U81U--vQhnfG_Q@mail.gmail.com>
+From: Demi Marie Obenour <demiobenour@gmail.com>
+Autocrypt: addr=demiobenour@gmail.com; keydata=
+ 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
+ +MYSfkEjBz0E8CLOcAw7JIwAaeBT
+In-Reply-To: <99ffdfa1-b18a-4f05-91e2-81c320e8edb5@linux.alibaba.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------gNq20rVIHqEeSu1kyax2cVjt"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------gNq20rVIHqEeSu1kyax2cVjt
+Content-Type: multipart/mixed; boundary="------------iodFnkJS4i0f28t9yXBmtLkk";
+ protected-headers="v1"
+Message-ID: <bf4764a9-ba89-4268-bcfc-125c9dabf0d7@gmail.com>
+Date: Tue, 24 Mar 2026 06:02:20 -0400
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Lsf-pc] [LSF/MM/BPF TOPIC] Where is fuse going? API cleanup,
+ restructuring and more
+To: Gao Xiang <hsiangkao@linux.alibaba.com>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
+Cc: "Darrick J. Wong" <djwong@kernel.org>, Miklos Szeredi
+ <miklos@szeredi.hu>, linux-fsdevel@vger.kernel.org,
+ Joanne Koong <joannelkoong@gmail.com>, John Groves <John@groves.net>,
+ Bernd Schubert <bernd@bsbernd.com>, Amir Goldstein <amir73il@gmail.com>,
+ Luis Henriques <luis@igalia.com>, Horst Birthelmer <horst@birthelmer.de>,
+ Gao Xiang <xiang@kernel.org>, lsf-pc@lists.linux-foundation.org
+References: <361d312b-9706-45ca-8943-b655a75c765b@gmail.com>
+ <390cd031-742b-4f1b-99c4-8ee41a259744@linux.alibaba.com>
+ <j3gafvpt6r47trvrkttfvilejplluagdz3alcjxmc7xhnzmemv@tahjpv2ak6qj>
+ <cfe18ae0-7dc0-4601-a9f0-c0665f301cfe@linux.alibaba.com>
+ <s3y7qrkgwedbkltpt7mjjzisazynzms3btablzpxhdoezapddy@xanux4rrspwd>
+ <72eaaed1-24a0-4c98-a7c0-ea249d541f2d@linux.alibaba.com>
+ <9af9ad0e-8070-4aaa-9f64-7d72074bd948@linux.alibaba.com>
+ <wo2nf7bux5rhexbpyeutbb5bkpqlumq3ht7iqxdft7lhc2p6va@3q6wsi2xndpu>
+ <68116ee5-b1f7-484b-a520-7dc5aefd7738@linux.alibaba.com>
+ <2gyfmxfnnxrglpzb7kz63xbve5vnosl6gi54c3umgrpwbjr4og@lz4e2ptqanfe>
+ <20260324-hilfen-reibung-9783005d5d0f@brauner>
+ <ee146a41-2628-4cde-9f82-e718480edd4d@linux.alibaba.com>
+ <052d27ff-9239-44fa-8604-336de0dc4711@gmail.com>
+ <99ffdfa1-b18a-4f05-91e2-81c320e8edb5@linux.alibaba.com>
+Content-Language: en-US
+From: Demi Marie Obenour <demiobenour@gmail.com>
+Autocrypt: addr=demiobenour@gmail.com; keydata=
+ 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
+ +MYSfkEjBz0E8CLOcAw7JIwAaeBT
+In-Reply-To: <99ffdfa1-b18a-4f05-91e2-81c320e8edb5@linux.alibaba.com>
+
+--------------iodFnkJS4i0f28t9yXBmtLkk
+Content-Type: multipart/mixed; boundary="------------lJFbOD56qmRulslEi2SfL0AW"
+
+--------------lJFbOD56qmRulslEi2SfL0AW
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Virus-Status: clean
-X-Anti-Virus-Server: fsav104.rs.sakura.ne.jp
+Content-Transfer-Encoding: quoted-printable
 
-On 2026/03/24 16:46, Song Liu wrote:
-> On Mon, Mar 23, 2026 at 11:12 PM Tetsuo Handa
-> <penguin-kernel@i-love.sakura.ne.jp> wrote:
->>
->> On 2026/03/24 4:31, Song Liu wrote:
->>>> Then, how can LSM modules know that how the requested filesystem resolves
->>>> the dev_name argument, without embedding filesystem specific resolution
->>>> logic into individual LSM module?
+On 3/24/26 05:53, Gao Xiang wrote:
+>=20
+>=20
+> On 2026/3/24 17:49, Demi Marie Obenour wrote:
+>> On 3/24/26 05:30, Gao Xiang wrote:
+>>> Hi Christian,
 >>>
->>> IIUC, if an LSM cares about the dev_name of a new mount, it will have to look
->>> into each individual filesystem. We can add a LSM hook for the filesystems to
->>> call. But this will require changes to individual filesystem code. OTOH,
->>> dev_name can probably bridge the gap as we change filesystems.
+>>> On 2026/3/24 16:48, Christian Brauner wrote:
+>>>> On Mon, Mar 23, 2026 at 03:47:24PM +0100, Jan Kara wrote:
+>>>>> On Mon 23-03-26 22:36:46, Gao Xiang wrote:
+>>>>>> On 2026/3/23 22:13, Jan Kara wrote:
+>>>>>>>>> think that is the corner cases if you don't claim the
+>>>>>>>>> limitation of FUSE approaches.
+>>>>>>>>>
+>>>>>>>>> If none expects that, that is absolute be fine, as I said,
+>>>>>>>>> it provides strong isolation and stability, but I really
+>>>>>>>>> suspect this approach could be abused to mount totally
+>>>>>>>>> untrusted remote filesystems (Actually as I said, some
+>>>>>>>>> business of ours already did: fetching EXT4 filesystems
+>>>>>>>>> with unknown status and mount without fscking, that is
+>>>>>>>>> really disappointing.)
+>>>>>>>
+>>>>>>> Yes, someone downloading untrusted ext4 image, mounting in read-w=
+rite and
+>>>>>>> using it for sensitive application, that falls to "insane" catego=
+ry for me
+>>>>>>> :) We agree on that. And I agree that depending on the applicatio=
+n using
+>>>>>>> FUSE to access such filesystem needn't be safe enough and immutab=
+le fs +
+>>>>>>> overlayfs writeable layer may provide better guarantees about fs =
+behavior.
+>>>>>>
+>>>>>> That is my overall goal, I just want to make it clear
+>>>>>> the difference out of write isolation, but of course,
+>>>>>> "secure" or not is relative, and according to the
+>>>>>> system design.
+>>>>>>
+>>>>>> If isolation and system stability are enough for
+>>>>>> a system and can be called "secure", yes, they are
+>>>>>> both the same in such aspects.
+>>>>>>
+>>>>>>> I would still consider such design highly suspicious but without =
+more
+>>>>>>> detailed knowledge about the application I cannot say it's outrig=
+ht broken
+>>>>>>> :).
+>>>>>>
+>>>>>> What do you mean "such design"?  "Writable untrusted
+>>>>>> remote EXT4 images mounting on the host"? Really, we have
+>>>>>> such applications for containers for many years but I don't
+>>>>>> want to name it here, but I'm totally exhaused by such
+>>>>>> usage (since I explained many many times, and they even
+>>>>>> never bother with LWN.net) and the internal team.
+>>>>>
+>>>>> By "such design" I meant generally the concept that you fetch files=
+ystem
+>>>>> images (regardless whether ext4 or some other type) from untrusted =
+source.
+>>>>> Unless you do cryptographical verification of the data, you never k=
+now what
+>>>>> kind of garbage your application is processing which is always invi=
+tation
+>>>>> for nasty exploits and bugs...
+>>>>
+>>>> If this is another 500 mail discussion about FS_USERNS_MOUNT on
+>>>> block-backed filesystems then my verdict still stands that the only
+>>>> condition under which I will let the VFS allow this if the underlyin=
+g
+>>>> device is signed and dm-verity protected. The kernel will continue t=
+o
+>>>> refuse unprivileged policy in general and specifically based on qual=
+ity
+>>>> or implementation of the underlying filesystem driver.
 >>>
->>> Would this work?
+>>>
+>>> First, if block devices are your concern, fine, how about
+>>> allowing it if EROFS file-backed mounts and S_IMMUTABLE
+>>> for underlay files is set, and refuse any block device
+>>> mounts.
+>>>
+>>> If the issue is "you don't know how to define the quality
+>>> or implementation of the underlying filesystem drivers",
+>>> you could list your detailed concerns (I think at least
+>>> people have trust to the individual filesystem
+>>> maintainers' judgements), otherwise there will be endless
+>>> new sets of new immutable filesystems for this requirement
+>>> (previously, composefs , puzzlefs, and tarfs are all for
+>>> this; I admit I didn't get the point of FS_USERNS_MOUNT
+>>> at that time of 2023; but know I also think FS_USERNS_MOUNT
+>>> is a strong requirement for DinD for example), because that
+>>> idea should be sensible according to Darrick and Jan's
+>>> reply, and I think more people will agree with that.
+>>>
+>>> And another idea is that you still could return arbitary
+>>> metadata with immutable FUSE fses and let users get
+>>> garbage (meta)data, and FUSE already allows FS_USERNS_MOUNT,
+>>> and if user and mount namespaces are isolated, why bothering
+>>> it?
+>>>
+>>> I just hope know why? And as you may notice,
+>>> "Demi Marie Obenour wrote:"
+>>>
+>>>> The only exceptions are if the filesystem is incredibly simple
+>>>> or formal methods are used, and neither is the case for existing
+>>>> filesystems in the Linux kernel.
+>>>
+>>> I still strong disagree with that judgement, a minimal EROFS
+>>> can build an image with superblock, dirs, and files with
+>>> xattrs in a 4k-size image; and 4k image should be enough for
+>>> fuzzing; also the in-core EROFS format even never allocates
+>>> any extra buffers, which is much simplar than FUSE.
+>>>
+>>> In brief, so how to meet your requirement?
+>>>
+>>> Thanks,
+>>> Gao Xiang
 >>
->> I guess something like untested diff shown below would work.
-> 
-> I think this doesn't work with erofs on file (requires
-> CONFIG_EROFS_FS_BACKED_BY_FILE). erofs may not be the
-> only one that has this problem.
+>> Rewriting the code in Rust would dramatically reduce the attack
+>> surface when it comes to memory corruption.  That's a lot to ask,
+>> though, and a lot of work.
+>=20
+> I don't think so, FUSE can do FS_USERNS_MOUNT and written in C
+> , and the attack surface is already huge.
+>=20
+> EROFS will switch to Rust some time, but your judgement will
+> make people to make another complete new toys of Rust kernel
+> filesystems --- just because EROFS is currently not written
+> in Rust.
+>=20
+> I'm completely exhaused with such game: If I will address
+> every single fuzzing bug and CVE, why not?
+>=20
+> Thanks,
+> Gao Xiang
 
-This is incomplete but I think this is better than now because currently
-mount() operation likely fails with -ENOENT if the requested filesystem
-does not interpret fc->source as a pathname despite tomoyo_mount_acl()
-always interprets fc->source as a pathname when FS_REQUIRES_DEV is set.
+I should have written that rewriting in Rust could help convince
+people that it is in fact safe.  One *can* make safe C code, as shown
+by OpenSSH.  It's just *harder* to write safe C code, and harder to
+demonstrate to others that C code is in fact safe.
 
-Also, mount() operation might by error succeed because tomoyo_mount_acl()
-checks permission against unintended file when e.g. "mtd0" by chance exists
-in the current directory.
+Whether the burden of proof being placed on you is excessive is a
+separate question that I do not have the experience to comment on.
 
-We could add filesystem-specific logic to e.g. CONFIG_EROFS_FS_BACKED_BY_FILE
-case that copies the resolved "struct path" to fc->source_path. But even without
-adding filesystem-specific logic, mount() operation will succeed because
-tomoyo_mount_acl() can handle fc->source as a string rather than a canonicalized
-pathname.
+That said:
 
-Being able to know whether tomoyo_mount_acl() should interpret dev_name as a
-pathname (which is subjected to canonicalization, and also subjected to more
-complicated permission checks based on e.g. inode's uid/gid) is appreciated.
+> I will address every single fuzzing bug and CVE
 
+is very different than the view of most filesystem developers.
+If the fuzzers have good code coverage in EROFS, this is a very strong
+argument for making an exception.
+--=20
+Sincerely,
+Demi Marie Obenour (she/her/hers)
+--------------lJFbOD56qmRulslEi2SfL0AW
+Content-Type: application/pgp-keys; name="OpenPGP_0xB288B55FFF9C22C1.asc"
+Content-Disposition: attachment; filename="OpenPGP_0xB288B55FFF9C22C1.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+xsFNBFp+A0oBEADffj6anl9/BHhUSxGTICeVl2tob7hPDdhHNgPR4C8xlYt5q49y
+B+l2nipdaq+4Gk6FZfqC825TKl7eRpUjMriwle4r3R0ydSIGcy4M6eb0IcxmuPYf
+bWpr/si88QKgyGSVZ7GeNW1UnzTdhYHuFlk8dBSmB1fzhEYEk0RcJqg4AKoq6/3/
+UorR+FaSuVwT7rqzGrTlscnTDlPWgRzrQ3jssesI7sZLm82E3pJSgaUoCdCOlL7M
+MPCJwI8JpPlBedRpe9tfVyfu3euTPLPxwcV3L/cfWPGSL4PofBtB8NUU6QwYiQ9H
+zx4xOyn67zW73/G0Q2vPPRst8LBDqlxLjbtx/WLR6h3nBc3eyuZ+q62HS1pJ5EvU
+T1vjyJ1ySrqtUXWQ4XlZyoEFUfpJxJoN0A9HCxmHGVckzTRl5FMWo8TCniHynNXs
+BtDQbabt7aNEOaAJdE7to0AH3T/Bvwzcp0ZJtBk0EM6YeMLtotUut7h2Bkg1b//r
+6bTBswMBXVJ5H44Qf0+eKeUg7whSC9qpYOzzrm7+0r9F5u3qF8ZTx55TJc2g656C
+9a1P1MYVysLvkLvS4H+crmxA/i08Tc1h+x9RRvqba4lSzZ6/Tmt60DPM5Sc4R0nS
+m9BBff0Nm0bSNRS8InXdO1Aq3362QKX2NOwcL5YaStwODNyZUqF7izjK4QARAQAB
+zTxEZW1pIE9iZW5vdXIgKElUTCBFbWFpbCBLZXkpIDxhdGhlbmFAaW52aXNpYmxl
+dGhpbmdzbGFiLmNvbT7CwY4EEwEIADgWIQR2h02fEza6IlkHHHGyiLVf/5wiwQUC
+X6YJvQIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRCyiLVf/5wiwWRhD/0Y
+R+YYC5Kduv/2LBgQJIygMsFiRHbR4+tWXuTFqgrxxFSlMktZ6gQrQCWe38WnOXkB
+oY6n/5lSJdfnuGd2UagZ/9dkaGMUkqt+5WshLFly4BnP7pSsWReKgMP7etRTwn3S
+zk1OwFx2lzY1EnnconPLfPBc6rWG2moA6l0WX+3WNR1B1ndqpl2hPSjT2jUCBWDV
+rGOUSX7r5f1WgtBeNYnEXPBCUUM51pFGESmfHIXQrqFDA7nBNiIVFDJTmQzuEqIy
+Jl67pKNgooij5mKzRhFKHfjLRAH4mmWZlB9UjDStAfFBAoDFHwd1HL5VQCNQdqEc
+/9lZDApqWuCPadZN+pGouqLysesIYsNxUhJ7dtWOWHl0vs7/3qkWmWun/2uOJMQh
+ra2u8nA9g91FbOobWqjrDd6x3ZJoGQf4zLqjmn/P514gb697788e573WN/MpQ5XI
+Fl7aM2d6/GJiq6LC9T2gSUW4rbPBiqOCeiUx7Kd/sVm41p9TOA7fEG4bYddCfDsN
+xaQJH6VRK3NOuBUGeL+iQEVF5Xs6Yp+U+jwvv2M5Lel3EqAYo5xXTx4ls0xaxDCu
+fudcAh8CMMqx3fguSb7Mi31WlnZpk0fDuWQVNKyDP7lYpwc4nCCGNKCj622ZSocH
+AcQmX28L8pJdLYacv9pU3jPy4fHcQYvmTavTqowGnM08RGVtaSBNYXJpZSBPYmVu
+b3VyIChsb3ZlciBvZiBjb2RpbmcpIDxkZW1pb2Jlbm91ckBnbWFpbC5jb20+wsF4
+BBMBAgAiBQJafgNKAhsDBgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRCyiLVf
+/5wiwYa/EACv8a2+MMou9cSCNoZBQaU+fTmyzft9hUE+0d5W2UY1RY3OsjFIzm9R
+/4SVccfsqOYLEo+S0vQMIIIqFEq3FCpXXwPzyimotps05VA8U3Bd7yseojFygOgK
+sAMOAee2RCaDDOnoJue01dfZMzzHPO/TVdp3OvnpWipfv5G1Xg96rwbhMLE3tg6N
+xwAHa31Bv4/Xq8CJOoIWvx6fcmZQpz01/lSvsYn0KrfEbTKkuUf0vM9JrCTCP2oz
+VNN5BYzqaq2M4r+jmSyeXLim922VOWqGkUEQ85BSEemqrRS06IU6NtEMsF8EWt/b
+hWjk/9GDKTcnpdJHTrMxTspExBiNrvpI2t+YPU5B/dJJAUxvmhFrbSIbdB8umBZs
+I3AMYrEmpAbh5x7jEjoskUC7uN3o9vpg1oCLS2ePDLtAtyBtbHnkA4xGD7ar8mem
+xpH9lY/i+sC6CyyIUWcUDnnagKyJP0m9ks0GLsTeOCA0bft2XA6rD6aaCnMUsndT
+ctrab42CV5XypjmC4U1rPJ8JQJUh1/3P48/8sMH+3krxpJ06KNWNFaUbaMTGiltZ
+7x9DngklSYrX0T+2G4kVXNmjaljwkoLahwLla2gUWwBSyofXdqyhQdwZsp01KXNQ
+UCyT/Pg+aDcm/E7OMV3d4lf7g/CSxiX2GSEe6BlhSz+Lmd7ZJ3g32M1ARGVtaSBN
+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
+EtJuZYM5blWncBOJCoWMnBEcTEo/viU3GgcVRw=3D=3D
+=3Dx94R
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------lJFbOD56qmRulslEi2SfL0AW--
+
+--------------iodFnkJS4i0f28t9yXBmtLkk--
+
+--------------gNq20rVIHqEeSu1kyax2cVjt
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEopQtqVJW1aeuo9/sszaHOrMp8lMFAmnCYS0ACgkQszaHOrMp
+8lMIHA//e4cXBHALugDMkxy9Pj4TElTUCUEHPcVRkPflPKBAxnXyjZv5a3EdUskC
+oJYUfC5w261DDmb/Jy/9L28rLPZ32JsoYqxPgBH2dFDJlr//F9/rDcIBBOYJYYfE
+YgGVHamvl1P7qFIPtTsoV7szCMXEqO6KgVU6iGDYmWs2EFlxKAdSGnOrfcSmznyi
+i0QBj/4cGfIKSMoaS1ws8E1nbfsBUC26FLtPzPwSKbrfUXQXquH2WKKtVSP2N0Bi
+N9UbKIgDcTVjpinjEHdnMIAAT5by4RWqMqBYCEcmpL08uuuDatUFC2pNvGDMa5Pn
+FgyU624JcOZGN5vZeIpQhfY/wT5mkjIyk8gZWPgK2uYY5Wm9W2yjHuBrjyUQ8WBR
+2Qnl41PRLIG8j4ATIP3esIi/RCav6Lh9Y6cUHTZoRUPwW7nIDKMYH4jQqJrlYDKi
+YxmOO9meZz2XqG74XleH+lNcf+bQ2ATVm13uIchDbaNJsqQZ8hji8bV6FeyZ/LjW
+HXE7ZDKD3duOnOVKjhaPBueApkMxWIhjlOPGsjAyS8g9rHaGxidJtdQfOrOsykEy
+cxd5H7l+MNn8dndpTBNNxtn5GZo16WCol3sfV4xg8mek1FxJcoUDtxnKfTBc8nxm
+7YLcb3xp0h4ZniL5oJrwVDfWyeZXI+3IceBXtuIkyrfQZSZW+k8=
+=ehCs
+-----END PGP SIGNATURE-----
+
+--------------gNq20rVIHqEeSu1kyax2cVjt--
