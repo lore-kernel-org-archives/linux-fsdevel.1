@@ -1,72 +1,83 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 556CB38239F;
-	Tue, 24 Mar 2026 06:14:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0F833CD8C3
+	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 07:16:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774332854; cv=none; b=jWgbCd76MRzrtA7bjQlerFHp18bQO4WK6KwD1jChHAcq94CIUCNuBZFRBHLM4gHPcK2NlpZvtTS5vVcvJMw0wA/nEa1hGgjV7U0BA4hFlQ5ox9EoSj6iB/PbRxl+0IRO6IFVH/MfocPAD2r1A/VlPNqU3I7SdobBhQegxwbu+hc=
+	t=1774336606; cv=none; b=X8zR2SvtgpX4F0K3rf4NwPa3mCP05I/+3Dr3lCwN5jcpyU2vclASbAwbaC6C5cz8D8usTqakVVTs8NhY7jt+ZPFoT/Po/8JkRXwEzjbbk+YhKqdQp96nWxQ0BJ/nHVKEnbmgi4DbnCyjTcDkeJI4yo5QO1GYmguBATDK76On8XU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774332854; c=relaxed/simple;
-	bh=fKeFWp32Umkk6X74Q7wF1usE9xg1tJTJL4OuOegHo/o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ookwoZG7d18B2ub7AaG3fDVneFWp9/d+N8KJYHAM8NhAbI0kKjnC6AL0m/hkmxiTznBE9Mdli8wQmeLSS3Uo7jZqdlAAQlEQWvQVwNAHvhDnkIhCrQiayVK5gVMCA7cADehFOuqoR9GqIvV2neGNWB6kuCkOmM7wi5zJM/j7Wzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=NhSC/ruv; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	s=arc-20240116; t=1774336606; c=relaxed/simple;
+	bh=PBVX1N2R3/W/l111+TonSytoIMzWFKGCCwwoAJdItIY=;
+	h=From:In-Reply-To:References:To:Cc:Subject:MIME-Version:
+	 Content-Type:Date:Message-ID; b=LrUETkDQGtMDLXbzdEs8mZvaD18jZpj07FlxscpVtIUXo7qQr9Z5cwfiO8h/xKtEss9JovAioVOdzPG3jNtJy2C3kqLrlCJ8k5omqeuAI7o9+SCLUnCjaP2HoHYFVpP7NkAIdZBfY0ekomSfSLW7BOGwj4cgte+gvyXYDwNCoQY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=P+WQCovI; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="NhSC/ruv"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=Crr+X6KwjNL0HCNmaM8qbxRjBmp1XbbViBei2eWk5v0=; b=NhSC/ruvxC0kYketPGWJoUfPmv
-	wVyvaHr9vZuAXbdeRDeCmBgbEZL9pQZLJ9P/A15468W6K56ER69m5ACsPQtKB1mvgyxqy06BnANTU
-	dWmu0YuK8GAdi9RAmJ1uRY5B2MIP7P1HtdqAocqKgXWpnB7iO8Gaq+j4g/y5HSo+D+B3UVG7EKRsV
-	pf1VAPLhNnSX165Nh5pa/iaAKPKdGnKReX1uFKdYShMTnlweYPGcVLhFkHDTIcfS3N0f74E7RIgar
-	JlSwf7CVxAiHskkEYZ1kHSi3E4tKo7FFHTSHdN0+rqtKyp1EsNJlQO4abterIBYd97zWri8SWbn0y
-	vMJROn3w==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w4v1o-00000000fLT-2GCF;
-	Tue, 24 Mar 2026 06:14:12 +0000
-Date: Mon, 23 Mar 2026 23:14:12 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Christoph Hellwig <hch@infradead.org>,
-	Zorro Lang <zlang@redhat.com>, linux-xfs@vger.kernel.org,
-	Tal Zussman <tz2294@columbia.edu>, axboe@kernel.dk,
-	linux-block@vger.kernel.org,
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH] iomap: fix lockdep complaint when reads fail
-Message-ID: <acIrtFpASaBmFZPU@infradead.org>
-References: <20260319194303.efw4wcu7c4idhthz@doltdoltdolt>
- <20260320163444.GE6223@frogsfrogsfrogs>
- <acDbFtQw0mom798e@infradead.org>
- <20260323152231.GG6223@frogsfrogsfrogs>
- <20260323210017.GL6223@frogsfrogsfrogs>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="P+WQCovI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1774336597;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PBVX1N2R3/W/l111+TonSytoIMzWFKGCCwwoAJdItIY=;
+	b=P+WQCovIFcJgcJPGHYvwl+7hQx3FjYVse843ttlaXRyVvv4Dn4F1pZUZWe/EyfRX0Ahz1O
+	YZ2HhASJwmFrv3P7IXuwWl+dAt6Ik4weYBQuqstJh5encuxIERuIBxfk0+yAqBuCp8EwjZ
+	HxuEXZvbdOpaiEBH96xP2Cp09dOjqgQ=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-600-zO6vSdySMAq3GDoE2zgKUg-1; Tue,
+ 24 Mar 2026 03:16:31 -0400
+X-MC-Unique: zO6vSdySMAq3GDoE2zgKUg-1
+X-Mimecast-MFC-AGG-ID: zO6vSdySMAq3GDoE2zgKUg_1774336587
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6BBCE195605E;
+	Tue, 24 Mar 2026 07:16:19 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.44.33.121])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 50E0F1955D71;
+	Tue, 24 Mar 2026 07:16:13 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+	Kingdom.
+	Registered in England and Wales under Company Registration No. 3798903
+From: David Howells <dhowells@redhat.com>
+In-Reply-To: <a1949f85-2e92-429e-83eb-91a7691b9a9b@chenxiaosong.com>
+References: <a1949f85-2e92-429e-83eb-91a7691b9a9b@chenxiaosong.com> <20260304140328.112636-1-dhowells@redhat.com> <20260304140328.112636-18-dhowells@redhat.com> <2d8ce118-2f7a-4b7f-8786-4581b29cb74e@chenxiaosong.com> <63655684a778145167a549b4a6251ccf@manguebit.org>
+To: ChenXiaoSong <chenxiaosong@chenxiaosong.com>
+Cc: dhowells@redhat.com, Paulo Alcantara <pc@manguebit.org>,
+    Matthew Wilcox <willy@infradead.org>,
+    Christoph Hellwig <hch@infradead.org>, Jens Axboe <axboe@kernel.dk>,
+    Leon Romanovsky <leon@kernel.org>, Steve French <smfrench@gmail.com>,
+    Christian Brauner <christian@brauner.io>, netfs@lists.linux.dev,
+    linux-afs@lists.infradead.org, linux-cifs@vger.kernel.org,
+    linux-nfs@vger.kernel.org, ceph-devel@vger.kernel.org,
+    v9fs@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+    linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 17/17] netfs: Combine prepare and issue ops and grab the buffers on request
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260323210017.GL6223@frogsfrogsfrogs>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <3597848.1774336571.1@warthog.procyon.org.uk>
+Date: Tue, 24 Mar 2026 07:16:11 +0000
+Message-ID: <3597849.1774336571@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-Please reword the subject - your are not fixing a lockdep complain,
-but the underlying issue of calling code from the wrong context.
-Lockdeps as usual is just the messenger.
+ChenXiaoSong <chenxiaosong@chenxiaosong.com> wrote:
 
-> Zorro's diagnosis makes sense, so the solution is to kick the failed
-> read handling to a workqueue much like we added for writeback ioends in
-> commit 294f54f849d846 ("fserror: fix lockdep complaint when igrabbing
-> inode").
+> In netfs_writeback_single(), on the failure path, should we call
+> netfs_put_failed_request() instead of netfs_put_request()?
 
-The code looks ok, although I'd much prefer generalizing it.  I guess
-we're too late in the 7.0-cycle for that, so:
+It doesn't matter exactly, as the only difference really is whether it gets
+bumped over to a workqueue, but it's probably better to avoid that if we can.
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+David
 
