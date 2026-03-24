@@ -1,221 +1,177 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C82A3FA5CE
-	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 13:27:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA7DF3FA5FA
+	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 13:28:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774358878; cv=none; b=qG8OUQI1M0pcFJW5KclJULO7/iWiZH219S+sMkt66xv8fknIEQO2MEi89ROuVDLtXen7ozRqXHUEQ/+kwDa3KJiRcEWPjF6PhnN1FJmzH7uPqfDB7CNMqKYEsdR/HNBRRGtuJNzN9qPwx8/0MwYh3Z9EtenwSs6hNtZO6usXTw4=
+	t=1774358924; cv=none; b=Jym5aoclAlWk0cQjHOPtiFwBl7YVc6sUd5gnJugXvkqlZHxH2qIX5c0wWCX5/a7ShllD1ILJADPtGanNTt3DE7WqUNXo8exQfwe8Xdz1PxFiu0aBSyuqndkYOk8IR/xt9li3Hxa6DoUH5BrBJ3AZmcEDGYl4T+ILncSL9mMoKas=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774358878; c=relaxed/simple;
-	bh=mlfPJShk09pyjnqMwVqI1uVQ+DrA07X5uIhollU1068=;
+	s=arc-20240116; t=1774358924; c=relaxed/simple;
+	bh=B2h/TfC0Ylohel8ZsnXPPff62Ryq0BfS/E9ti0u6gIs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i5e8BgPt468NixlscQyakXVFv5jLanWBUgmojq2Lo8yDZkvcrQSlrda1LXIf9q3BoAn5PeNidm91QyAdICaP4wB9ALWSVCpnEPHpcNAKXtQcqyMq8XmEs18dnnTCgYI2YSCtP9EN88dSHyNjE2Ogl5kT9Jw21qkWLAxv66wbL+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NceDan15; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=DubNzVxVKAt8lOCyAckefDVxfSlDCmRbZrvxXrBokhArm/dlZdpDe2Qn5XTXbcUhmUcZxSjB7NwT4mWnIxOBvMr/wEb5EGQ4vXTTy2s9B5TQ/HRTBeyhHlC9cnUmkXoMJAPNRcRRZd0gDMXpB4jXLmh9okIw4N7D38imCnclZ54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=VLRhQVNO; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=focKEBP0; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=aajPyr8d; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=rX7EZ+XB; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NceDan15"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-48558d6ef83so38058505e9.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 06:27:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1774358870; x=1774963670; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=mJ6hFcMk7IiyKpKE0pSjnbzulJlv1YO0rPk2oh4pfE0=;
-        b=NceDan15UDS07Zc6XCsP6SxtzB2Rj70Mdd0298Ay9atcjTcjgYhUrY4PflM/oTdWL4
-         VCFs5tZ6asNLO/BJt9HWYSIR4zZxFx1UMRkbqzIAlTMOcGtT0NKdhKDpSMHbQdLFd3iU
-         J2xSbhy9hewzjCpOvkfpQcbaH9D3v37sklzyyo6ziCHZuDzR0jsasYLsZi5PBscsydlH
-         bYjPRmw+l121tufs7bhgzNIcnta/tgainw8ZRZKgQt/+pXy63A1jVqfQH/I6H/YJSYj+
-         iO1tKLq5R+lMBCyZguDZvUO+wuY6WWhir8HKNr1d8oJ1L6ZU3yv4j4yvh4oPI1yLkcoK
-         r3KA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774358870; x=1774963670;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mJ6hFcMk7IiyKpKE0pSjnbzulJlv1YO0rPk2oh4pfE0=;
-        b=VP1BTPWgsBSZ2iDv0fX4JwxiR795riAdGQP1QyAt/xld9OgGCbXCkVSGrvbm60ahvU
-         tAWjLDadJduKqKsQyL90Dhz91CiB2Pxk2ym7TsHcP6zmot/ci9qWEOdEwAHJuRgnE+NS
-         RuOwsj+ONZK1HJWhLD4K6+6Th94rV8ZPNYiDooQy+26lY+i5zzUC2iLa7f9v/EwzmJwr
-         k2B2AcdufO5Zyb0EuBwbMnnc7qRlk8GnbPxp5Whk76AhM4zEfeX766OYUwUglSPnnsZJ
-         ZQVjW5tW6GK4CP1F5yxgAufgsZKG0ZbOeLjXbdY2rDIfsyGaGXwtg41y0YodwE6Ig2R2
-         W+YQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXf70U3WxsFkYIro3jIBi6kwtnsRjwtH+qAKXaflW4k90+jQ+boLcjx6mE6oqbiTSKOmx5ByLb345Wfd5AJ@vger.kernel.org
-X-Gm-Message-State: AOJu0YxI5jWmSJ/n4fy3WwQkt9FJ4WRresiya3mVhz7ABHkJchorah2p
-	xItvYDoAIjSf/M/cdPX7eWHtuLjQQOXdZ0qxHbu83NVpzcwkT6TfJpdHKAvtiyom6w==
-X-Gm-Gg: ATEYQzwukvjHASod5PJ9yOj/fhajNNtCSZqysP2fI0LDAc4NDXHGta8zlBE4uUqvyDl
-	XuFxNQ3ZBG0J+G0ZRooUpBF31X8KSvDMVTVEBFDQSfJd6wAvbJ34jH3X43vq354KqyxNxEsD5F7
-	A1SkzZPT1Qny/PRPwIkHnRhDkxRgCxl/sYFUSFPm4E8TZtMJXGmDVAVaNcjxmLgQnfWVnXUuEpw
-	yTw9vVO8xDWgYAW8HBszyHd5tQk7xrt9+pNR7t18/220ArgOelEW1dpuUVAAoLAJp3b9xe/qoGZ
-	OZn5ulsXy0px3KHNS/2IbrwG3J2A6BtlFsoM9TVaDm1Mcx+9fkVl6F2SP3OWwXRqsu0XdszBphD
-	h26G3ttHQk30FIyENgvcVR/Y0jZGFPg1yFkc1V2TYg9TH+5RvdXSk/oExrsDCof3LiaaQWFJB1J
-	uqSpapM09q6eCk1jz8a7vbK7hLGPpXiDLXnIV5CkvFYrgQc3YVriWN65s5li/nVRlP
-X-Received: by 2002:a05:600c:a43:b0:486:fbd1:9dc0 with SMTP id 5b1f17b1804b1-486fee0d52fmr213826905e9.22.1774358869131;
-        Tue, 24 Mar 2026 06:27:49 -0700 (PDT)
-Received: from google.com ([2a00:79e0:288a:8:820c:ac9a:1d85:a65e])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-487116ee562sm59082225e9.15.2026.03.24.06.27.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2026 06:27:48 -0700 (PDT)
-Date: Tue, 24 Mar 2026 14:27:43 +0100
-From: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>
-To: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Paul Moore <paul@paul-moore.com>,
-	"Serge E . Hallyn" <serge@hallyn.com>,
-	Justin Suess <utilityemal77@gmail.com>,
-	Lennart Poettering <lennart@poettering.net>,
-	Mikhail Ivanov <ivanov.mikhail1@huawei-partners.com>,
-	Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>,
-	Shervin Oloumi <enlightened@google.com>,
-	Tingmao Wang <m@maowtm.org>, kernel-team@cloudflare.com,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-security-module@vger.kernel.org
-Subject: Re: [RFC PATCH v1 07/11] selftests/landlock: Drain stale audit
- records on init
-Message-ID: <acKRT6_wJkISyrLb@google.com>
-References: <20260312100444.2609563-1-mic@digikod.net>
- <20260312100444.2609563-8-mic@digikod.net>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="VLRhQVNO";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="focKEBP0";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="aajPyr8d";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="rX7EZ+XB"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id D8A874D201;
+	Tue, 24 Mar 2026 13:28:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1774358919; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ppEkS3HSTzVrSRJgJOCc3F5Y6HfE24KCj/2LLh4oC7w=;
+	b=VLRhQVNOMcakGuxjD8XRZHoDsUzpel+Uj1r1dyAM9I7mjwv7UUc0n0BtxtcQj45GzEoSa3
+	w8IVlKC0+QGFIzcZuWkDc4gPz+GVN7igKmsARilZohmARyqIbsG8PzFgP2Q5ZskHHb4rfN
+	Fhy+EgK4nv8TEu/ajnfijmqjEB5rut0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1774358919;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ppEkS3HSTzVrSRJgJOCc3F5Y6HfE24KCj/2LLh4oC7w=;
+	b=focKEBP0E3pHdlM7sQULbEwzuzvsQPBrqJvzjKKxJjgmQRMQxA1cmNw7bSloelqOY2i2Yu
+	CBY9LLry/9DKcHBg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=aajPyr8d;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=rX7EZ+XB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1774358918; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ppEkS3HSTzVrSRJgJOCc3F5Y6HfE24KCj/2LLh4oC7w=;
+	b=aajPyr8dL2qXEsc5Nma+UUjmL2g2Yg0vA3FN+G85F9wgq4nh1awYXZRDhWxWI31rOCmnIc
+	RJq/NmYC6euUAJlHHI4ZOzn3ZrAX/WbuMLkXcKWCNYgZwt8GeG7PNImf9dgShKN3MXp+sh
+	4HpgyX1kPaqVsdGto9mQ6PgJEAm56gc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1774358918;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ppEkS3HSTzVrSRJgJOCc3F5Y6HfE24KCj/2LLh4oC7w=;
+	b=rX7EZ+XBlJoOpiXR19mqVLEUK/Q6yZAGakQOxocTCViQTVOBeydbsz4kWJaPCS4a8eu6Ik
+	37B2Y9+w5aqtDNAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CBDBB43E6D;
+	Tue, 24 Mar 2026 13:28:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id f+C+MYaRwmniKQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 24 Mar 2026 13:28:38 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 8D106A0B32; Tue, 24 Mar 2026 14:28:34 +0100 (CET)
+Date: Tue, 24 Mar 2026 14:28:34 +0100
+From: Jan Kara <jack@suse.cz>
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	linux-block@vger.kernel.org, Christian Brauner <brauner@kernel.org>, 
+	Al Viro <viro@zeniv.linux.org.uk>, linux-ext4@vger.kernel.org, Ted Tso <tytso@mit.edu>, 
+	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>, David Sterba <dsterba@suse.com>, 
+	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, Muchun Song <muchun.song@linux.dev>, 
+	Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@kernel.org>, linux-mm@kvack.org, 
+	linux-aio@kvack.org, Benjamin LaHaise <bcrl@kvack.org>
+Subject: Re: [PATCH 41/41] fs: Unify generic_file_fsync() with mmb methods
+Message-ID: <k5422gxvhqqmabpf6csub7opo3vbacvibaqwwigzx7t3b65vna@jzh35hxc4jz7>
+References: <20260320131728.6449-1-jack@suse.cz>
+ <20260320134100.20731-82-jack@suse.cz>
+ <acInjoDTJAz62eUp@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260312100444.2609563-8-mic@digikod.net>
+In-Reply-To: <acInjoDTJAz62eUp@infradead.org>
+X-Spamd-Result: default: False [-2.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	URIBL_BLOCKED(0.00)[suse.cz:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:email];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_CC(0.00)[suse.cz,vger.kernel.org,kernel.org,zeniv.linux.org.uk,mit.edu,gmail.com,suse.com,mail.parknet.co.jp,linux.dev,suse.de,kvack.org];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -2.51
+X-Spam-Level: 
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: D8A874D201
 
-On Thu, Mar 12, 2026 at 11:04:40AM +0100, Mickaël Salaün wrote:
-> Non-audit Landlock tests generate audit records as side effects when
-> audit_enabled is non-zero (e.g. from boot configuration).  These records
-> accumulate in the kernel audit backlog while no audit daemon socket is
-> open.  When the next test opens a new netlink socket and registers as
-> the audit daemon, the stale backlog is delivered, causing baseline
-> record count checks to fail spuriously.
+On Mon 23-03-26 22:56:30, Christoph Hellwig wrote:
+> On Fri, Mar 20, 2026 at 02:41:36PM +0100, Jan Kara wrote:
+> > Taking inode lock when writing out the inode seems pointless in
+> > particular because there are lots of places (most notably sync(2) path)
+> > that don't do that so hardly anything can depend on it.
 > 
-> Fix this by draining all pending records in audit_init() right after
-> setting the receive timeout.  The 1-usec SO_RCVTIMEO causes audit_recv()
-> to return -EAGAIN once the backlog is empty, naturally terminating the
-> drain loop.
+> This is really something that needs to stand out clearly for bisecting
+> and documentation.  I.e. make this a patch on its own and preferably
+> before all the other refactoring that already is affected by moving
+> between the implementations at the beginning of the series.
+>
+> > So let's remove __generic_file_fsync() and use
+> > generic_mmb_fsync_noflush() instead to reduce code duplication. Arguably
+> > this leaks a bit of buffer_head knowledge into fs/libfs.c which is not
+> > great but avoiding the duplication seems worth it.
 > 
-> Domain deallocation records are emitted asynchronously from a work
-> queue, so they may still arrive after the drain.  Remove records.domain
-> == 0 checks from tests where a stale deallocation record from a previous
-> test could cause spurious failures.
-> 
-> Also fix a socket file descriptor leak on error paths in audit_init():
-> if audit_set_status() or setsockopt() fails (e.g.  when another audit
-> daemon is already registered), close the socket before returning.
-> 
-> Fix off-by-one checks in matches_log_domain_allocated() and
-> matches_log_domain_deallocated() where snprintf() truncation was
-> detected with ">" instead of ">=" (snprintf() returns the length
-> excluding the NUL terminator, so equality means truncation).
-> 
-> Cc: Günther Noack <gnoack@google.com>
-> Fixes: 6a500b22971c ("selftests/landlock: Add tests for audit flags and domain IDs")
-> Signed-off-by: Mickaël Salaün <mic@digikod.net>
-> ---
->  tools/testing/selftests/landlock/audit.h      | 29 +++++++++++++++----
->  tools/testing/selftests/landlock/audit_test.c |  2 --
->  2 files changed, 23 insertions(+), 8 deletions(-)
-> 
-> diff --git a/tools/testing/selftests/landlock/audit.h b/tools/testing/selftests/landlock/audit.h
-> index 44eb433e9666..550acaafcc1e 100644
-> --- a/tools/testing/selftests/landlock/audit.h
-> +++ b/tools/testing/selftests/landlock/audit.h
-> @@ -309,7 +309,7 @@ static int __maybe_unused matches_log_domain_allocated(int audit_fd, pid_t pid,
->  
->  	log_match_len =
->  		snprintf(log_match, sizeof(log_match), log_template, pid);
-> -	if (log_match_len > sizeof(log_match))
-> +	if (log_match_len >= sizeof(log_match))
->  		return -E2BIG;
->  
->  	return audit_match_record(audit_fd, AUDIT_LANDLOCK_DOMAIN, log_match,
-> @@ -326,7 +326,7 @@ static int __maybe_unused matches_log_domain_deallocated(
->  
->  	log_match_len = snprintf(log_match, sizeof(log_match), log_template,
->  				 num_denials);
-> -	if (log_match_len > sizeof(log_match))
-> +	if (log_match_len >= sizeof(log_match))
->  		return -E2BIG;
->  
->  	return audit_match_record(audit_fd, AUDIT_LANDLOCK_DOMAIN, log_match,
-> @@ -379,19 +379,36 @@ static int audit_init(void)
->  
->  	err = audit_set_status(fd, AUDIT_STATUS_ENABLED, 1);
->  	if (err)
-> -		return err;
-> +		goto err_close;
->  
->  	err = audit_set_status(fd, AUDIT_STATUS_PID, getpid());
->  	if (err)
-> -		return err;
-> +		goto err_close;
->  
->  	/* Sets a timeout for negative tests. */
->  	err = setsockopt(fd, SOL_SOCKET, SO_RCVTIMEO, &audit_tv_default,
->  			 sizeof(audit_tv_default));
-> -	if (err)
-> -		return -errno;
-> +	if (err) {
-> +		err = -errno;
-> +		goto err_close;
-> +	}
-> +
-> +	/*
-> +	 * Drains stale audit records that accumulated in the kernel backlog
-> +	 * while no audit daemon socket was open.  This happens when
-> +	 * non-audit Landlock tests create domains or trigger denials while
-> +	 * audit_enabled is non-zero (e.g. from boot configuration), or when
-> +	 * domain deallocation records arrive asynchronously after a
-> +	 * previous test's socket was closed.
-> +	 */
-> +	while (audit_recv(fd, NULL) == 0)
-> +		;
->  
->  	return fd;
-> +
-> +err_close:
-> +	close(fd);
-> +	return err;
->  }
->  
->  static int audit_init_filter_exe(struct audit_filter *filter, const char *path)
-> diff --git a/tools/testing/selftests/landlock/audit_test.c b/tools/testing/selftests/landlock/audit_test.c
-> index 46d02d49835a..f92ba6774faa 100644
-> --- a/tools/testing/selftests/landlock/audit_test.c
-> +++ b/tools/testing/selftests/landlock/audit_test.c
-> @@ -412,7 +412,6 @@ TEST_F(audit_flags, signal)
->  		} else {
->  			EXPECT_EQ(1, records.access);
->  		}
-> -		EXPECT_EQ(0, records.domain);
->  
->  		/* Updates filter rules to match the drop record. */
->  		set_cap(_metadata, CAP_AUDIT_CONTROL);
-> @@ -601,7 +600,6 @@ TEST_F(audit_exec, signal_and_open)
->  	/* Tests that there was no denial until now. */
->  	EXPECT_EQ(0, audit_count_records(self->audit_fd, &records));
->  	EXPECT_EQ(0, records.access);
-> -	EXPECT_EQ(0, records.domain);
->  
->  	/*
->  	 * Wait for the child to do a first denied action by layer1 and
-> -- 
-> 2.53.0
-> 
+> You could just pass a callback to the generic version.  The cost of an
+> indirect call should not matter compared to the rest of the fsync code.
+> That would also be a nice thing before all the renaming, as that means
+> we could add the version with the callback first to unify the
+> implementations and then the file systems are switched away from
+> the buffers fsync variant to explicitly pass a callback, or to not
+> pass a callback when they currently get the default one.
 
-Ooh, nice catch!  I have definitely stumbled across this bug in the
-past (especially when the kernel is compiled with more debugging
-options), and I know from Justin that he ran into it as well.
-Draining the audit logs before sending a new stimulus for audit
-logging looks like a good approach.
+OK, makes sense. I can put the patch removing inode_lock from
+__generic_file_fsync() at the place in the series where we start
+dealing with fsync handlers. Then I'd introduce fsync variant with the
+callback and then convert filesystems. As I was thinking about it, it would
+be natural for the callback to be called sync_metadata and handle
+writeout of the metadata including the inode. That would actually simplify
+life in the following series I wanted to write which will make sure that
+fsync properly writes out & waits for the buffer head containing the inode
+(currently if background flush work happens to write inode first, buffer
+head is not written to the backing device during fsync). And if the
+callback isn't provided, we'd just write out the inode. That sounds
+reasonable to me.
 
-Reviewed-by: Günther Noack <gnoack@google.com>
-
-—Günther
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
