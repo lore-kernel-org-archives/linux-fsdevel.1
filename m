@@ -1,134 +1,172 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AF3737BE93
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94696359A66
 	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 10:53:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774349612; cv=none; b=jWBPFoWj8uYZ3c08PwQzhjzP74FW5ViinbORuaNZx7HA9t7BJ6uO2VPf68lKTp9XO/iKOoZmOHQP2RgmcgI9NHua/gzVRcUSkD7vTyVnFgJVrNSYVrBtWkVVsIGyFp8AH0c/xTqqLvjr4X0E4gnjs4BXfM23npAr2wgkMcyFweA=
+	t=1774349612; cv=none; b=Jn05AG82iCMCgBEn18QnNv3l7WYevb4DTNJZp1mFM2DRsDNAHkUyKKnFnlY8dOD2Dgud2tzzYBlG3XP4iA9ce62EY/87nhKk9dzcOjikf2db1O6+braUc/wcSNCIgFMrRwVPPoqQ2Aq01PdgwKnEQWwlI0nZ+YJMXQ5g02lTwlQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1774349612; c=relaxed/simple;
-	bh=CwJlZ2F2j9UsEK5kSvG6l7TjTKlTSfs3n/eqtsjvywo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fdkf2f+MXH6zqjW+e8kz7RVAC4sSskyDNaLsX7n5YQAn8Lst7CmaXt43/IzKzbPpol2Y52BWEKRqjQBhe1gg/WRCItyRbQEyar7CojyxtxboJNb1U/yKL6yaNLqxbM4g/0gNApGnY0cP6Bcdt/osjhARx6/T/vDtB+UcEha6SU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=VWCQHOFs; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=06TEXqDA; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=X8CO5d1D; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Z+11IdvD; arc=none smtp.client-ip=195.135.223.130
+	bh=drBU03f7QI88s4x6d0Lpqfmv3CW37W7rs74N1PvScuE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=WG1YfJ/GUEA6n9RCo+jRLkhR1jMvbDXlSqOyMv3ElnYXd/5rpcQcBa4F0SiQ5QdL6caimOaeEjTUzArCpmxV3MslkwtpG2/vQRcDU0e0Dwx2HnC/Cu8dSJBDzXZypNppXh3w8J5NIXNiuSRnYQ0R3j4JzwOR4lSX0RFgitdB994=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=GI0tPE6a; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=nCWI1Jz7; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=VTF4HZmQ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Hk2xsjOM; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="VWCQHOFs";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="06TEXqDA";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="X8CO5d1D";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Z+11IdvD"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="GI0tPE6a";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="nCWI1Jz7";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="VTF4HZmQ";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Hk2xsjOM"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B3CEE4D1D4;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C30E85BCDB;
 	Tue, 24 Mar 2026 10:53:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
 	t=1774349610; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=/4S5XjHKz0DZYQMim8XLyACc+SBQ9v7y1dKFSSo7LOA=;
-	b=VWCQHOFsw+C3++nfrnccFjgcIse/w7jQNnbsrHUAA4xU+x2G86bgRGQDDMbfL5H8ryOy70
-	7H2vtRvNyJFoE8FW0JgsOmeKK+pqUF57b+Q7Bwr2NXsBpvQe8vsFF8RW5ytbeqIm/lT6w5
-	BTPZDqyARKjc5CH+3jQQ0XfqzWheg3I=
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kNdEBZhmsc6hucLIl4T7bCxD9jPms0lHLZLnsrtP3RY=;
+	b=GI0tPE6aAzu21syTaeEseHgg4an+bKTpuYRXrRSHJ0/wnm7ivMYQlrtA77fhYH1YAfytxg
+	peloACZM3ka9Gc+V+2G4qwS9pLMwvtYkwJL01fjWO+I/9dL8m2+pDR33p/iqKpEk62zrTW
+	VbaLw45JEWIBCioVbrFOonA7MxuN2K4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
 	s=susede2_ed25519; t=1774349610;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=/4S5XjHKz0DZYQMim8XLyACc+SBQ9v7y1dKFSSo7LOA=;
-	b=06TEXqDAAYcnNLT5SVI7823gppHVrxWZpGicSL4cu8cGDQYCmECGW7zmQrAV9KlOTDTq1K
-	ie/ID0wPh0P/lwAw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=X8CO5d1D;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=Z+11IdvD
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kNdEBZhmsc6hucLIl4T7bCxD9jPms0lHLZLnsrtP3RY=;
+	b=nCWI1Jz7W283eQ20SeTGujrhd3mjASrJwAZZb3IGM4ZToJBlatuDfdhaHhwqmQr/JVRooW
+	vSUufyF04/dzd+DA==
+Authentication-Results: smtp-out2.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
 	t=1774349608; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=/4S5XjHKz0DZYQMim8XLyACc+SBQ9v7y1dKFSSo7LOA=;
-	b=X8CO5d1DUmHp2VO4QyI0H5v+ba+GcIH7FXU6W867cFUtwBKXab+U543IyJJg3wO2N+jd/P
-	SMoMKTe8k460Rd3x8qeH9dy57himSdROQA+6xJlCBJjVd8arMeao3pv0qtSyg2jzasxPDY
-	5xsiLVV4lzg3mUSgT2XB/ROKcoWmtMk=
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kNdEBZhmsc6hucLIl4T7bCxD9jPms0lHLZLnsrtP3RY=;
+	b=VTF4HZmQjFt+qYEd+hYgn8+2id2lBlgeew6r8Q7hIRVCTk2fBXWRhbjwuo8vmsVJ4NZ/sQ
+	avtjz3G2OZbBCXdHlWMEvmIPUlIQjxqnmIvPp5gQ5BNRQLq/41kPEyQKEjQZqnS0WkKCrz
+	iqMv7jdD+VEx2Tke8YokHSIjRgCZ/6I=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
 	s=susede2_ed25519; t=1774349608;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=/4S5XjHKz0DZYQMim8XLyACc+SBQ9v7y1dKFSSo7LOA=;
-	b=Z+11IdvDXlya3KDoXCFUESeCdvU7wkcRKE0CUx7NvJDpwOT0/9AfAZQyYyYAiuRwwOa3NK
-	4nUR6oWd/KUd8SDg==
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kNdEBZhmsc6hucLIl4T7bCxD9jPms0lHLZLnsrtP3RY=;
+	b=Hk2xsjOMmsxhI9xaZnuSPXz5FP0WURS3yJpm3EHKfwY4mCJMypYyXrPvujOWwnrviPZzv4
+	tWBADs7AngTxtGDw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AA88243DD2;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B4C7943DD4;
 	Tue, 24 Mar 2026 10:53:28 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id G9CeKShtwmnQBgAAD6G6ig
+	id FsAfLChtwmnVBgAAD6G6ig
 	(envelope-from <jack@suse.cz>); Tue, 24 Mar 2026 10:53:28 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 61743A0B32; Tue, 24 Mar 2026 11:53:20 +0100 (CET)
+	id 662A1A0870; Tue, 24 Mar 2026 11:53:20 +0100 (CET)
 From: Jan Kara <jack@suse.cz>
 To: <linux-fsdevel@vger.kernel.org>
 Cc: <linux-mm@kvack.org>,
 	Jan Kara <jack@suse.cz>
-Subject: [PATCH v2 0/2] udf: Fix race between file type conversion and writeback
-Date: Tue, 24 Mar 2026 11:53:11 +0100
-Message-ID: <20260324105132.30490-1-jack@suse.cz>
+Subject: [PATCH v2 1/2] writeback: Export folio_prepare_writeback()
+Date: Tue, 24 Mar 2026 11:53:12 +0100
+Message-ID: <20260324105316.28684-3-jack@suse.cz>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260324105132.30490-1-jack@suse.cz>
+References: <20260324105132.30490-1-jack@suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=547; i=jack@suse.cz; h=from:subject:message-id; bh=CwJlZ2F2j9UsEK5kSvG6l7TjTKlTSfs3n/eqtsjvywo=; b=owEBbQGS/pANAwAIAZydqgc/ZEDZAcsmYgBpwm0WsUFOhPgucO5Dgi0d1wsakUOnBDCw7v+/w UxeyuMVBf+JATMEAAEIAB0WIQSrWdEr1p4yirVVKBycnaoHP2RA2QUCacJtFgAKCRCcnaoHP2RA 2cXeB/9qge8TluLLC2ZDJUdJDmU9+x6/Vc3RSdp6QzsvevXoWz/m1wnJgCwlLZzpTEuQKyHbLUm 8zVaGHWawVhqK9do5cFLlDK7YC2Jh0ymblMFLuD9VpSAoT2Hbmigel1IHOFyt6HkpFiXrM/XV5b +QE9pBm/+CteZ8bPZuP65fWz0m19mqFCy3GphJj5EVkxJgwxMSj3IhiHP1d4gopJF0KoW3I/KVe SkOP7sefaFojzxFWu9jIYdt9i1qOXATgFyQYYIfKtxzOfJ03njfhi0gWFab4MlyTh1bh2HcrLrn +p4kdO2Iec2sEeeC0Qm4QM9SuChhNOgj3ybC0ZCyi7z7wUVG
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1899; i=jack@suse.cz; h=from:subject; bh=drBU03f7QI88s4x6d0Lpqfmv3CW37W7rs74N1PvScuE=; b=owEBbQGS/pANAwAIAZydqgc/ZEDZAcsmYgBpwm0c2uE6LQXataL8c4wj77Q2GsrSlP23o/0g4 StFXPgh75WJATMEAAEIAB0WIQSrWdEr1p4yirVVKBycnaoHP2RA2QUCacJtHAAKCRCcnaoHP2RA 2bZuCADYGLcwRXkm6oAkt9+TJ3ANZ31+xMTrwVbfu6z0H5eKMiodtjgBEF++dzsLY8kh2ta87y4 SnvxquJ2SWW9ffqQ4lpsR6/wj+l+1dQbEE36JCLG0pmkFWarEJVEtTTyhcak9dHTyliTkQmStHq pwfTHxsxoqAI6lQheGA7WmE4wHoQpQseSLNe1JteJifegPK0+GBnMpc6BWNSsdKP6pn1i2g7dh1 bVQimLLg/bfxGujYxWk+rwPPVGq7vu8XZ1B/onnuXjALw9mZw5VRBeyxqM59ZORJldG+Dr0IgO9 PSFRwEl0snCqDmdb6/xXT93binZ9vaxGCqFg/gzTJjfmQdR4
 X-Developer-Key: i=jack@suse.cz; a=openpgp; fpr=93C6099A142276A28BBE35D815BC833443038D8C
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
+X-Spam-Score: -2.80
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.990];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	RCVD_COUNT_THREE(0.00)[3];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:mid,suse.cz:email];
+	FROM_HAS_DN(0.00)[];
 	RCPT_COUNT_THREE(0.00)[3];
 	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
 	RCVD_TLS_LAST(0.00)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Rspamd-Queue-Id: B3CEE4D1D4
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:mid,suse.cz:email]
 X-Spam-Flag: NO
-X-Spam-Score: -3.01
-X-Spam-Level: 
 
-Hello,
+The sequence of operations done in folio_prepare_writeback() is needed
+practically by every writeback method. UDF is unable to easily use
+writeback_iter() for inodes with inline format (due to complexities with
+racing conversion and fallback) so export folio_prepare_writeback() for
+it instead of opencoding it in UDF. Later we can use this helper from
+other filesystems as well.
 
-here is a second version of patches to fix a race between conversion of UDF
-file from inline format to the standard format and writeback resulting in
-possible memory corruption. Review/Acks are welcome in particular for the
-export of folio_prepare_writeback(). I'd like to push the fix to Linus soon as
-it's kind of nasty issue.
+Signed-off-by: Jan Kara <jack@suse.cz>
+---
+ include/linux/writeback.h | 2 ++
+ mm/page-writeback.c       | 4 ++--
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
-Changes since v1:
-* Fix crash in udf_writepages() when file had no folio in the mapping
+diff --git a/include/linux/writeback.h b/include/linux/writeback.h
+index e530112c4b3a..3e5d215c8d27 100644
+--- a/include/linux/writeback.h
++++ b/include/linux/writeback.h
+@@ -357,6 +357,8 @@ bool wb_over_bg_thresh(struct bdi_writeback *wb);
+ 
+ struct folio *writeback_iter(struct address_space *mapping,
+ 		struct writeback_control *wbc, struct folio *folio, int *error);
++bool folio_prepare_writeback(struct address_space *mapping,
++		struct writeback_control *wbc, struct folio *folio);
+ 
+ int do_writepages(struct address_space *mapping, struct writeback_control *wbc);
+ void writeback_set_ratelimit(void);
+diff --git a/mm/page-writeback.c b/mm/page-writeback.c
+index 601a5e048d12..ceb78798fc00 100644
+--- a/mm/page-writeback.c
++++ b/mm/page-writeback.c
+@@ -2358,7 +2358,7 @@ void tag_pages_for_writeback(struct address_space *mapping,
+ }
+ EXPORT_SYMBOL(tag_pages_for_writeback);
+ 
+-static bool folio_prepare_writeback(struct address_space *mapping,
++bool folio_prepare_writeback(struct address_space *mapping,
+ 		struct writeback_control *wbc, struct folio *folio)
+ {
+ 	/*
+@@ -2389,7 +2389,7 @@ static bool folio_prepare_writeback(struct address_space *mapping,
+ 
+ 	return true;
+ }
+-
++EXPORT_SYMBOL_GPL(folio_prepare_writeback);
+ 
+ static pgoff_t wbc_end(struct writeback_control *wbc)
+ {
+-- 
+2.51.0
 
-
-								Honza
-Previous versions:
-Link: http://lore.kernel.org/r/20260323162617.2421-1-jack@suse.cz # v1
