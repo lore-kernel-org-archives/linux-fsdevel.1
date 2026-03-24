@@ -1,128 +1,219 @@
-Received: from out162-62-57-210.mail.qq.com (out162-62-57-210.mail.qq.com [162.62.57.210])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2DB334D3B9;
-	Tue, 24 Mar 2026 13:46:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.210
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D822261B71
+	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 13:47:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774359970; cv=none; b=eYGQ7CCvLZ8Sz9pdyhhltH9DwIZ78S6nak0dDAp7Fd/iBA39L56u26RgzvOjhUdKHpRvVHTlLR9DjFg+e7n8OprufllDJBvvbTh6hEBgnltoqHRqVd74xF9i3pRAsnCA/td6nZhdP7pe/ua3IcudbHIcyXRJBT0u3Sepd0t7K7Y=
+	t=1774360027; cv=none; b=ErKBuKZvD9EBI2eNo2xL9pldyKHPKknt3eroXXS0KVRFPUYTwgjht/xNDzcJLmYQ7YFtaIDiajWkHiNWpRS5i13wJFY+N6zaOdQes7CXEr2lIZwAraVxqnhs7o52dng9dfQ9oCJv0lEAOCkXZw7YAZGofokTeNlfpTsj8NCwroE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774359970; c=relaxed/simple;
-	bh=oHNkM4VKgurTg9rlwMIDBQKfPAYa+/1tHkDCCUjS+YU=;
-	h=Message-ID:From:To:CC:Subject:Date:Content-Type:MIME-Version; b=k6IClINOVqy4ni0KEruRU+TH8JpJa+JFRnQDK8hrEKrnmzRinEZI/1vwuf5sQ2Lx67l9A+kEY7f8j7SVqUnW9KpdY9HUvQRW3b6clXrYakZtPwHSIjTU2kUAFOu2AgRp8GCG/hLsPh0YQcB9f10TtpbZVcnzG+dSrJQ/gE865Dw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=zROQpkM1; arc=none smtp.client-ip=162.62.57.210
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	s=arc-20240116; t=1774360027; c=relaxed/simple;
+	bh=GZDPSJK4BGrgclngqLsOiPnRtJDY+Y63O745+iApqjQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=W25YBBKpEgv4YSM12Gmv7yw5J/m2Ppz6GgXMLoZgP8wI5wIKDbIPMaMk/yQyhD7lpNH64Ag5tU87xT0m4fcdC6BN+kGisXl8JmDnZ77+Tq9dcO2XHTQEXefCmDU1gBbvr7Qm2Uw1iwRV+tZeRF1cM+N7VRzJw+9MC+CGVuu5nD8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=grG0rRGQ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Q2r/7MtT; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=SVntJyeR; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=mtNPsWaY; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="zROQpkM1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1774359955; bh=4sTHTYkqT98YCnruH/w1X0fKZGEKl98lw5uVnIxLQ4s=;
-	h=From:To:CC:Subject:Date;
-	b=zROQpkM1gCdaOWjzVA57jOOgW0hEmaDfZ3hCCOdEWyAuYj7wCElmSrew02tP88+Bz
-	 2vpJzpIijSakkcA1coYfUvoIj5JoS12PGfaWOL/QYpVs6soeDedz5SYw81kTngKyut
-	 Z+FSxClUA5TEFuqGVvAKXFHsRguTco0Q7+rXsmjo=
-Received: from SG2PR02MB5841.apcprd02.prod.outlook.com ([2603:1046:c01:910::5])
-	by newxmesmtplogicsvrsza53-0.qq.com (NewEsmtp) with SMTP
-	id B75014D9; Tue, 24 Mar 2026 21:45:53 +0800
-X-QQ-mid: xmsmtpt1774359953ti46826kn
-Message-ID: <tencent_EDC62D47C76FD4486F3B13D526674124CE07@qq.com>
-X-QQ-XMAILINFO: N7Z3XQrOpILurQRAEf9OYZbwiWrjkFRXJMfciy2eL07748X0D50v5PuxmWLewp
-	 8X/F+AhxT8mI1QffO9BOHpOxQ8KaFA+h24jGgEIgDwJqC72SSwVHPcrbo7ul4bknx+Oc40WJqr/O
-	 UNGRmmLfUpVY6UQOH5+Y7PcE0s5OmYpZmvlqBbc/Mgdu/R/vpE2gGQC7Yu2TkCqXyiPXcMjnAJQJ
-	 DDDDHxyxVhMMv3N+yzHCARJK4ItHKcasQYklOM0dW54XPIPrPW7EFKj1oY16Xg1tmoWGLrN104AF
-	 8yzch9/k+h7tgKNlI8oP3AMJhe8INYOukvsKJ/9aCwhje9imu6kPmbISr+uz0kqraMmrSCygKSvh
-	 QqSeSycr93mni+01wEwUdJr8JlonSx1qJATupRV2Mvy18wB5Xvq5lHXk7UKgVKgSZ99FKMogpFKs
-	 Z5Z6kHtp95hsSTMw3i9NI835WFlsZZrExP/epQfKleJPJSzarP4wsrZhLKCe5RsRhFVk1vEQS2GL
-	 dEnw+/BGuqKVAz+LI0EiwGMNIInqk4nsufz7S7lQUgTkdkYE/U8rkcpJsINjsWh/vDv0IW/uz6GB
-	 uQF6q1P6PJr/Y72GhFtbcT3LDsbGg3tBIS5kxFmbESg2IRBLvWiZmnVtNsTnaDc0TR4KtnKj1oB0
-	 IRB+HuxEb+uk9oeGWFW4wfTIGwYAs5dti4VQig5hCRszO59orjj53y6Kkayst7SD7W2xR1re/LyK
-	 NXggl4nqAdbdDRJhUuHRoyZ7ME1cjkXV9r00rirCo6qScyTnGlJcSY1j4/fRo+arFmNMDmL8rJmL
-	 8zVQS9pgqDqEwtAYr/fDWtSdeTxGiinyKZzUeGlzkIvS/ygg6BMn8SR9tZrfRtd8BtzF7UanX60O
-	 IWZC4NAOLUJjVV6KyNSXUXJGIEiEEP1MXb3fLTx5px3EUeB79Q8bY8sNrHrspuFestd32/zMh5au
-	 /Bd6aBBrAMt/TGwrVpUuiE20JEc6uMknjxvDHhepDU2w44boDyHM/EMANonQEv064TGIW0BV4EPM
-	 QiznA8yDIBlX2GAKmUlJKlW461WXc=
-X-QQ-XMRINFO: NyFYKkN4Ny6FuXrnB5Ye7Aabb3ujjtK+gg==
-From: "driz2t@qq.com" <driz2t@qq.com>
-To: "stable@vger.kernel.org" <stable@vger.kernel.org>
-CC: "hch@infradead.org" <hch@infradead.org>, "djwong@kernel.org"
-	<djwong@kernel.org>, "linux-xfs@vger.kernel.org" <linux-xfs@vger.kernel.org>,
-	"leah.rumancik@gmail.com" <leah.rumancik@gmail.com>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"syzbot+c6104ecfe56e0fd6b616@syzkaller.appspotmail.com"
-	<syzbot+c6104ecfe56e0fd6b616@syzkaller.appspotmail.com>
-Subject: [PATCH] iomap: don't invalidate folios after writeback errors
-Thread-Topic: [PATCH] iomap: don't invalidate folios after writeback errors
-Thread-Index: AQHcu5MDWVXtmvYYjUG63JPfg9TWNw==
-X-MS-Exchange-MessageSentRepresentingType: 1
-Date: Tue, 24 Mar 2026 13:45:51 +0000
-X-OQ-MSGID:
-	<SG2PR02MB58419261748074ED3C8C79EBF248A@SG2PR02MB5841.apcprd02.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-Exchange-Organization-SCL: -1
-X-MS-TNEF-Correlator:
-X-MS-Exchange-Organization-RecordReviewCfmType: 0
-msip_labels:
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="grG0rRGQ";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Q2r/7MtT";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="SVntJyeR";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="mtNPsWaY"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 037415BCEB;
+	Tue, 24 Mar 2026 13:47:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1774360024; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uZ8XaIcbcS3gsBVApx8xsMBe+Uhtsty5+TnjaVhqvRM=;
+	b=grG0rRGQOPhkmll8THfXDq5XriNaRRkCU3217/EggysM4T1hQzKBNfHS/jfbrFanMpfvKt
+	/jb5Pb3bQ91vsyK8OsKxiGn87J5hHcBrpl0KI+s/Zmlu9Lqbx9RJlE8maQYWdD+yYG2NYI
+	nU/fTVweRd6fGOxaEHbrdjRCvFvdzh4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1774360024;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uZ8XaIcbcS3gsBVApx8xsMBe+Uhtsty5+TnjaVhqvRM=;
+	b=Q2r/7MtTi8sndxTOA9MAG9Zxlh7InDkz9V31DKfO9yt3OsKAO27zG4ywHrXASVMxy9+Gj9
+	2dLgqQTCOmxwxMAA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1774360023; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uZ8XaIcbcS3gsBVApx8xsMBe+Uhtsty5+TnjaVhqvRM=;
+	b=SVntJyeRYmEoxCMNL/xRKPtuUtD36srCFUEAhqceARJ/c1/VDiJ094KwXLu+kl7yEqrMiP
+	7neXehNGgdq0rk7GsxrCaI5Hp5/5GOQRpO28feROGP6D+oLOdd95oto33vvgb4GssIeFtK
+	vjQLiO4bihlul+9t2umAiEEKx4EhPE4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1774360023;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uZ8XaIcbcS3gsBVApx8xsMBe+Uhtsty5+TnjaVhqvRM=;
+	b=mtNPsWaYXtTsrmoVNvHZ99HtxgHzh4aWNYJTMFlXVqMTxss+7WHWv1hiPEEDkDyKKab9zG
+	eKCjF3SwDSJwS2Ag==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id ED50A43E80;
+	Tue, 24 Mar 2026 13:47:02 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id jKjfOdaVwmnSPAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 24 Mar 2026 13:47:02 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id ACA43A0B32; Tue, 24 Mar 2026 14:46:58 +0100 (CET)
+Date: Tue, 24 Mar 2026 14:46:58 +0100
+From: Jan Kara <jack@suse.cz>
+To: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Thomas Gleixner <tglx@linutronix.de>, 
+	David Laight <david.laight.linux@gmail.com>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 1/2] readdir: Introduce dirent_size()
+Message-ID: <6iwtsxdgu7qd3lwtsbiu2itldr7ofkysx2lbfzxivn266eocnn@lggfct55zvpj>
+References: <c20d2f8f6817a39401155cfc80f0dff88df116e0.1774350128.git.chleroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c20d2f8f6817a39401155cfc80f0dff88df116e0.1774350128.git.chleroy@kernel.org>
+X-Spamd-Result: default: False [-2.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MISSING_XM_UA(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	URIBL_BLOCKED(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,suse.cz:email,linux-foundation.org:email];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,linux-foundation.org,linutronix.de,gmail.com,vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[3];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -2.30
+X-Spam-Level: 
 
-This patch is a backport to stable 5.15.y of upstream commit e9c3a8e820ed0e=
-eb2be05072f29f80d1b79f053b=0A=
-("iomap: don't invalidate folios after writeback errors").=0A=
-=0A=
-Fixes: 3330a8d33e08 ("iomap, xfs: fix page discard handling on shutdown")=
-=0A=
-Reported-by: syzbot+c0ffed3897231d71f047@syzkaller.appspotmail.com=0A=
-Tested-by: syzbot+c0ffed3897231d71f047@syzkaller.appspotmail.com=0A=
-Signed-off-by: Changjian Liu <driz2t@qq.com>=0A=
----=0A=
- fs/iomap/buffered-io.c | 1 -=0A=
- fs/xfs/xfs_aops.c      | 4 +---=0A=
- 2 files changed, 1 insertion(+), 4 deletions(-)=0A=
-=0A=
-diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c=0A=
-index 87a4f5a2ded0..1f0bfe0b8bae 100644=0A=
---- a/fs/iomap/buffered-io.c=0A=
-+++ b/fs/iomap/buffered-io.c=0A=
-@@ -1350,7 +1350,6 @@ iomap_writepage_map(struct iomap_writepage_ctx *wpc,=
-=0A=
- 		if (wpc->ops->discard_page)=0A=
- 			wpc->ops->discard_page(page, file_offset);=0A=
- 		if (!count) {=0A=
--			ClearPageUptodate(page);=0A=
- 			unlock_page(page);=0A=
- 			goto done;=0A=
- 		}=0A=
-diff --git a/fs/xfs/xfs_aops.c b/fs/xfs/xfs_aops.c=0A=
-index c8c15c3c3147..56a5bd7ad8c4 100644=0A=
---- a/fs/xfs/xfs_aops.c=0A=
-+++ b/fs/xfs/xfs_aops.c=0A=
-@@ -450,7 +450,7 @@ xfs_discard_page(=0A=
- 	int			error;=0A=
- =0A=
- 	if (xfs_is_shutdown(mp))=0A=
--		goto out_invalidate;=0A=
-+		return;=0A=
- =0A=
- 	xfs_alert_ratelimited(mp,=0A=
- 		"page discard on page "PTR_FMT", inode 0x%llx, offset %llu.",=0A=
-@@ -460,8 +460,6 @@ xfs_discard_page(=0A=
- 			i_blocks_per_page(inode, page) - pageoff_fsb);=0A=
- 	if (error && !xfs_is_shutdown(mp))=0A=
- 		xfs_alert(mp, "page discard unable to remove delalloc mapping.");=0A=
--out_invalidate:=0A=
--	iomap_invalidatepage(page, pageoff, PAGE_SIZE - pageoff);=0A=
- }=0A=
- =0A=
- static const struct iomap_writeback_ops xfs_writeback_ops =3D {=0A=
--- =0A=
-2.43.0=
+On Tue 24-03-26 12:41:15, Christophe Leroy (CS GROUP) wrote:
+> In several places in readdir.c there are calculations of the total size
+> of a dirent, which contains a few fixed fields plus a name field with
+> variable size. To add fun every dirent is of a slightly different type:
+> - struct old_linux_dirent
+> - struct linux_dirent
+> - struct linux_dirent64
+> - struct compat_old_linux_dirent
+> - struct compat_linux_dirent
+> 
+> Replace ugly size calculation by a macro called dirent_size() which
+> calculates the size of the structure based on the pointed type and
+> the name field len.
+> 
+> Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
+> Signed-off-by: Christophe Leroy (CS GROUP) <chleroy@kernel.org>
 
+Looks good. Feel free to add:
+
+Reviewed-by: Jan Kara <jack@suse.cz>
+
+								Honza
+
+> ---
+>  fs/readdir.c | 19 +++++++------------
+>  1 file changed, 7 insertions(+), 12 deletions(-)
+> 
+> diff --git a/fs/readdir.c b/fs/readdir.c
+> index 73707b6816e9..fb910dc2f52b 100644
+> --- a/fs/readdir.c
+> +++ b/fs/readdir.c
+> @@ -22,6 +22,8 @@
+>  #include <linux/compat.h>
+>  #include <linux/uaccess.h>
+>  
+> +#define dirent_size(dirent, len) offsetof(typeof(*(dirent)), d_name[len])
+> +
+>  /*
+>   * Some filesystems were never converted to '->iterate_shared()'
+>   * and their directory iterators want the inode lock held for
+> @@ -198,9 +200,7 @@ static bool fillonedir(struct dir_context *ctx, const char *name, int namlen,
+>  	}
+>  	buf->result++;
+>  	dirent = buf->dirent;
+> -	if (!user_write_access_begin(dirent,
+> -			(unsigned long)(dirent->d_name + namlen + 1) -
+> -				(unsigned long)dirent))
+> +	if (!user_write_access_begin(dirent, dirent_size(dirent, namlen + 1)))
+>  		goto efault;
+>  	unsafe_put_user(d_ino, &dirent->d_ino, efault_end);
+>  	unsafe_put_user(offset, &dirent->d_offset, efault_end);
+> @@ -263,8 +263,7 @@ static bool filldir(struct dir_context *ctx, const char *name, int namlen,
+>  	struct getdents_callback *buf =
+>  		container_of(ctx, struct getdents_callback, ctx);
+>  	unsigned long d_ino;
+> -	int reclen = ALIGN(offsetof(struct linux_dirent, d_name) + namlen + 2,
+> -		sizeof(long));
+> +	int reclen = ALIGN(dirent_size(dirent, namlen + 2), sizeof(long));
+>  	int prev_reclen;
+>  	unsigned int flags = d_type;
+>  
+> @@ -352,8 +351,7 @@ static bool filldir64(struct dir_context *ctx, const char *name, int namlen,
+>  	struct linux_dirent64 __user *dirent, *prev;
+>  	struct getdents_callback64 *buf =
+>  		container_of(ctx, struct getdents_callback64, ctx);
+> -	int reclen = ALIGN(offsetof(struct linux_dirent64, d_name) + namlen + 1,
+> -		sizeof(u64));
+> +	int reclen = ALIGN(dirent_size(dirent, namlen + 1), sizeof(u64));
+>  	int prev_reclen;
+>  	unsigned int flags = d_type;
+>  
+> @@ -460,9 +458,7 @@ static bool compat_fillonedir(struct dir_context *ctx, const char *name,
+>  	}
+>  	buf->result++;
+>  	dirent = buf->dirent;
+> -	if (!user_write_access_begin(dirent,
+> -			(unsigned long)(dirent->d_name + namlen + 1) -
+> -				(unsigned long)dirent))
+> +	if (!user_write_access_begin(dirent, dirent_size(dirent, namlen + 1)))
+>  		goto efault;
+>  	unsafe_put_user(d_ino, &dirent->d_ino, efault_end);
+>  	unsafe_put_user(offset, &dirent->d_offset, efault_end);
+> @@ -519,8 +515,7 @@ static bool compat_filldir(struct dir_context *ctx, const char *name, int namlen
+>  	struct compat_getdents_callback *buf =
+>  		container_of(ctx, struct compat_getdents_callback, ctx);
+>  	compat_ulong_t d_ino;
+> -	int reclen = ALIGN(offsetof(struct compat_linux_dirent, d_name) +
+> -		namlen + 2, sizeof(compat_long_t));
+> +	int reclen = ALIGN(dirent_size(dirent, namlen + 2), sizeof(compat_long_t));
+>  	int prev_reclen;
+>  	unsigned int flags = d_type;
+>  
+> -- 
+> 2.49.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
