@@ -1,787 +1,767 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C8152E093E
-	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 22:59:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774393193; cv=none; b=Tvn83R7bdthbt1GXCxqPPd9wH6FnW0/wIBuet9cS6XlKBJwZU3EZm3S9bkeqPWRpdDLJ26J5jgrvYXwH5rIr98QEn4ueq9iOGhmtrxMBavN+bK/UfEiR0N2oWZHFNT2T69hquGk/aSCT3tvQoUX2ux19/WB6WuXFChCXnf5vd/4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774393193; c=relaxed/simple;
-	bh=H9c5O3s6orvOVcir1Jcc0D0pSZEOFXMBiwOv5/wfvbc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VzaA1R7CIXYI9J3i4FiUyb1lmax6wwIgnXLn+a90WQjhP+FrE7ujjOW9Q5RuZW0IKmpf+oiEaBpfy1iBDm1Y7eTmp2Y9fzq//+yA55t/xwVY1udcmFFnj0pXavG7gTVqKfFIE87Vs5+XjaZVj4HP4vsb/bjODDH+TVTw3YTvVWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a+C4AVTD; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AA063C6A4C
+	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 23:01:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.125.188.123
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774393291; cv=pass; b=FvyXkFdZaYwMBalUK1udrP3P1mwpRIzlbWYgcCMLroOVzAF3MuTfrOURGpCX5ez4M0b1g7JmjZARJSdMx4KBtF5rkGzk2xTNeK4UnPPWkKCmVdBqn8bwOYxiRXGHnjtZe6wlUz3grdK+bKbO6wsXg+MRXIA8zcEsKrWDBsSymfY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774393291; c=relaxed/simple;
+	bh=zPXShbPgosZoHe5pAE5fGOBodDfMV+ixzFvPWXVs4BA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UQmB8kxDtMbHKVxTiyrXwHi2FBTg6PO5+zIlw1dqrBmshxp1hUpNBC6mcN53u/gQU7fRGBms3bxku7K38RMvAa9cSnewPIBze5CKY8C9QwxNfDZ+iL33JXG1is51arC4ycsiwBBrQtoXc4ZX5y7RXS/9E/jLTVeNGXPqonhaJdw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b=TSWdIfQ7; arc=pass smtp.client-ip=185.125.188.123
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a+C4AVTD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A65EC19424;
-	Tue, 24 Mar 2026 22:59:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774393193;
-	bh=H9c5O3s6orvOVcir1Jcc0D0pSZEOFXMBiwOv5/wfvbc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=a+C4AVTDwzu2DP8Xdm6J6aaWh5i+4NkpzTo+SUtG7MnClyr+4SDy6+UQWSoPn//+b
-	 QVcQVPlqMBEOwvtTPQAgSCoQ1s2IKhDeXKCUd7EeZNjxqUUMngGlFXpRBJTUQJEK3G
-	 yBjYBMliNqXfLJ7hUYvrXCFklbos76tlzaK9GeReDXxhgArFMNprvgOtBBqe1Dp52E
-	 oQLQ6Q0EpqZP7FWc0MPSBhqZNruyhIYyOESxAXYgv8OAnayySLH7DoJ1vx4rnFpoaB
-	 8CLuBIgcQdtuCoU7Rli6eqVloDlBCB3HKsOvlaKl0CBUOqgz6wQAYOZ00NGJ5I77BU
-	 WN9/ZAeGSKSSw==
-Date: Tue, 24 Mar 2026 15:59:52 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Bernd Schubert <bernd@bsbernd.com>
-Cc: linux-fsdevel@vger.kernel.org, Miklos Szeredi <miklos@szeredi.hu>,
-	Joanne Koong <joannelkoong@gmail.com>,
-	Bernd Schubert <bschubert@ddn.com>
-Subject: Re: [PATCH 17/19] Make fusermount work bidirectional for sync init
-Message-ID: <20260324225952.GA6202@frogsfrogsfrogs>
-References: <20260323-fuse-init-before-mount-v1-0-a52d3040af69@bsbernd.com>
- <20260323-fuse-init-before-mount-v1-17-a52d3040af69@bsbernd.com>
- <20260324193536.GT6202@frogsfrogsfrogs>
- <6ae9be78-9607-42db-92d1-1650aa5b7aa4@bsbernd.com>
+	dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b="TSWdIfQ7"
+Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com [209.85.128.200])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 7EEE73F285
+	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 23:01:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+	s=20251003; t=1774393285;
+	bh=AwdoEY1F/l28w/Q5u9i/rviM7wNalH6iYcS5/c3UjfM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type;
+	b=TSWdIfQ7eQumc7UX3R/9fGYU9bMR5cHQt0OieppHzmqh8TqssnwDH0fm+PQHR8TQ3
+	 r80OOnpKI61o+yirMycJPJsHc65W7uKtuuVlMDp8rShlWmErgkYsSe2RLCQdppOu+F
+	 5jgW8uwA7nSrKk3SNEw/dDgSY7BtAWzzzbRoHvizfJXF5snOcV3Ze7Jqz8qqfXz2yW
+	 K2wjUyHABvfrZyZItPnyw6qQYQQzFupaZKwf3+OWKUaYCS8YC9c9nLVr6UB8gsfsp5
+	 S3jUQrN6zY9YcwO7JAQadvg3Gm0jwr2lEExgQvE+qRSdh4qytu30l8Ddh7SHFKU5SH
+	 7WWl+k6ibCOGVDr9lcyqMSf3W8vL2yDx5njSsb9Q5P4nS1xGJx3LGyKGtW43gE/ycT
+	 td2KzgfRdb30SLLojGzKHQVrR0TtdVXmIAZ3BM55tY0oaC+ra51QJutIX5bhsSQVzK
+	 BhbP0QQHhapfuLs/7RMASkw8Pc/yf5qoddJMUoBkPeYq1KK8Ky5EhHIFZkPwac0iSp
+	 M6uS8c0z+U7goG/slyRTC82M9LLvZXuw9AKH6m4NNN40howiUkKnmoMee36uU7U0uZ
+	 aG75qAKAF/Fn+/DoR/O+QPB0t+IqG4GP/pCCgZjxL+GPG8UOWowd7M57JXNBt8F4f7
+	 5wS2tQBpM+maoTJOODeyhZj0=
+Received: by mail-yw1-f200.google.com with SMTP id 00721157ae682-79a670a5fe9so110425117b3.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 16:01:25 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774393284; cv=none;
+        d=google.com; s=arc-20240605;
+        b=bl2nFNUKpwOGu7BDgsWpeZJ/SeVCkE099G5SEpgNHeem76YVdYIJaUoZtp+K8/JY2D
+         9X3Mq5/t94GV45ieV27mrcbjpD/qTkSdKfQOPGFoP/qiWcJc3gl8oeIOEyaWcJ1gxype
+         2YuiY+p7BrNWVpLPujHh2ovnKeIHuzUK1vxhIA01l4qdZjYI+VZcTqZsVql8ur3IH4HA
+         4LRCorr2VSTbujFcrBbQ4L0lV7pt5EdgbOx0zlNsOXD2nWt13MRfAo4Aj3Yf7UyPzmN8
+         d/qPjdGDNbIgt2Vd5Ul/6p3XCQiOP0SGi4mjbao3HaCDWEj8WigNRVevM66sUKtt0Zuy
+         uR+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version;
+        bh=AwdoEY1F/l28w/Q5u9i/rviM7wNalH6iYcS5/c3UjfM=;
+        fh=thgAn7vy/frbc1+mrlqEBf3mtSjxtj1TcSpjZ+9MmDc=;
+        b=hzWhgXkGJZiMDH4VBseBViRrv7+ZfCI7vxSTJBzomt+arO+2TMv756E1HJcYcRowi9
+         G8lqhcb2Cwn+65QEjXL3fk2h5iN9VczuH3OLVbDGVGuxBCr7c19s8be7RILOztUVAoor
+         MYQNe52jWCtJs2Vp5HBN9UFC1jxLHoJasu1VY02zKFrVRZEsceKtWz6xHUWfFq/ejRtd
+         JSo2VVeC5VWbsEs2VJijB0ji99TQBm2uJZtxXcc9G32DSarxLB1kN5DxU2ZqwHz7C3nF
+         /z8aHAa8/qaXn+8Sml2t9zNtROefnR4eEiELGGwp5dCzhgU8WRjM+4O6WVL5d5MXoDGI
+         i5sA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774393284; x=1774998084;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=AwdoEY1F/l28w/Q5u9i/rviM7wNalH6iYcS5/c3UjfM=;
+        b=gkS2sm3gbNjqUTfMoXFcjBlZUkIKNSproYsdqOXSnARlC4IgDOadkLy1O+iudHyzZM
+         IDS5qgPdvCJDIPckasGu9iYcE1/R382P2B/nEXrRwyAsY4vk3U2gFyMV53zyrvNarGf9
+         I8pNtQDwN/8i3Xv/VaQhNYORJuLyhUP3GT/yS06WOA6xJwSCM3ST+DxrHZq+94qCpwqh
+         EEYGPoZ9fdo5JzqQPpdp2QRdO6sstTIZkJzFz/0Zp19Obl+WqZd7NDtFkp7EHkypwwY6
+         96iaJpKRqZGsD0a+tTvDY8cEDoxDHbqGqHnDoFBfwy/Brm+9rOZkmqOX2fm8+xcC++N7
+         Fh7Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXWKPBczW5BQpjdQh/oGPgNQEmzdfoWXTaLRIYFXo+m+ecl+WD54fRKRudQVffpVwNQ0r9WU8WTOvd/RUIM@vger.kernel.org
+X-Gm-Message-State: AOJu0YzwmHmukHZldzgNHkjEvh8IPBHMXwArjUAWVZszx8htFFbSyMNG
+	6UPxi54yIWgG/6QMpde8p50pB8UiUTUPLtE8VglqPxzLAGeNhy1/lbqvoVdvC/0JZ4KiuoW6NuV
+	7zh2ZOXgHxIMJOhC+4Ls97kPqvUrXkL20Y6Lc8XoX4BzQWpopxcjcsqOEr1HbM+EtWcNA1snzjt
+	IkEputT3vAbsf82nrJXAzlECL4UzeEWv2CnnjBIMTg48Xpqax8dxNdECsdNjp0AJkD/A==
+X-Gm-Gg: ATEYQzx1O3WeZrA6jFXVSF4OYan3ijHt3BP9IFKVq5VaRbKfs4JPqVyhwKpcB2Woivd
+	3WkKdWAiEOxAQsKdnHSl8UZyShKozVEaIXoKekNepWvyhKXR2jZV1m3SywCzK9Q84b+eUfbeFmA
+	racji6c8v/gWLc5NthIFhgDrlH6SuM0WYEJSBcCoG/BxBiIoIQos+hnMcDWtL6Q2jh8S99gf/HS
+	v3ZOSSeNAqlkWAMaOZ3SE3QB/ZMvy+jRrkO8FlrWE9EC8DTjYRVAWux8OjnhojDxw==
+X-Received: by 2002:a05:690c:22c3:b0:79a:1b3a:e91f with SMTP id 00721157ae682-79acf66f88bmr16057747b3.52.1774393283981;
+        Tue, 24 Mar 2026 16:01:23 -0700 (PDT)
+X-Received: by 2002:a05:690c:22c3:b0:79a:1b3a:e91f with SMTP id
+ 00721157ae682-79acf66f88bmr16056907b3.52.1774393283202; Tue, 24 Mar 2026
+ 16:01:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6ae9be78-9607-42db-92d1-1650aa5b7aa4@bsbernd.com>
+References: <20260323042510.3331778-4-paul@paul-moore.com> <20260323042510.3331778-5-paul@paul-moore.com>
+In-Reply-To: <20260323042510.3331778-5-paul@paul-moore.com>
+From: Ryan Lee <ryan.lee@canonical.com>
+Date: Tue, 24 Mar 2026 16:01:11 -0700
+X-Gm-Features: AaiRm53IvpHFr_cpg8NQ6QasTA8epM0si3tWGsWSd60gLeKLuXcXbMDYslFLFYY
+Message-ID: <CAKCV-6t=m-8eu1xoTORnLwhG4kQB5u1v5diJDQDFcat=tH8WgA@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 1/2] lsm: add backing_file LSM hooks
+To: Paul Moore <paul@paul-moore.com>
+Cc: linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-unionfs@vger.kernel.org, 
+	linux-erofs@lists.ozlabs.org, Amir Goldstein <amir73il@gmail.com>, 
+	Gao Xiang <xiang@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 24, 2026 at 10:24:04PM +0100, Bernd Schubert wrote:
-> 
-> 
-> On 3/24/26 20:35, Darrick J. Wong wrote:
-> > On Mon, Mar 23, 2026 at 06:45:12PM +0100, Bernd Schubert wrote:
-> >> From: Bernd Schubert <bschubert@ddn.com>
-> >>
-> >> Signed-off-by: Bernd Schubert <bschubert@ddn.com>
-> >> ---
-> >>  doc/README.fusermount | 359 ++++++++++++++++++++++++++++++++++++++++++++++++++
-> >>  util/fusermount.c     | 317 ++++++++++++++++++++++++++++++++++++++++++--
-> >>  util/meson.build      |   2 +-
-> >>  3 files changed, 665 insertions(+), 13 deletions(-)
-> >>
-> >> diff --git a/doc/README.fusermount b/doc/README.fusermount
-> >> new file mode 100644
-> >> index 0000000000000000000000000000000000000000..54a3bac4f58964a4ed312d6f6bc15606fed1e647
-> >> --- /dev/null
-> >> +++ b/doc/README.fusermount
-> >> @@ -0,0 +1,359 @@
-> >> +Synchronous FUSE_INIT Protocol
-> >> +================================
-> >> +
-> >> +Overview
-> >> +--------
-> >> +
-> >> +The sync-init feature enables the FUSE library to start worker threads and
-> >> +perform initialization ioctl calls BEFORE the actual mount() syscall happens.
-> >> +This is required for the kernel's synchronous FUSE_INIT feature, where the
-> >> +mount() syscall blocks until the FUSE daemon processes the INIT request.
-> >> +
-> >> +Without this feature, there would be a deadlock:
-> >> +- mount() blocks waiting for INIT response
-> >> +- Worker threads can't start because mount() hasn't returned
-> >> +- INIT request can't be processed because worker threads aren't running
-> >> +
-> >> +
-> >> +Protocol Flow
-> >> +-------------
-> >> +
-> >> +Traditional mount flow:
-> >> +  1. Library calls fusermount3
-> > 
-> > Heh.  I haven't looked much at fusermount until recently.  I gather that
-> > fuservicemount has somewhat similar goals to fusermount3?  fusermount3
-> > seems to be a helper subprocess that libfuse can invoke on behalf of an
-> > unprivileged fuse server.  The helper is responsible for:
-> > 
-> > 1) opening /dev/fuse
-> > 2) sending it to the fuse server via the FUSE_COMMFD_ENV fd which is
-> >    supposed to be an AF_UNIX socket
-> > 3) calling mount()
-> > 4) waiting for the parent to die
-> > 5) maybe calling unmount()
-> > 
-> > and it's really 1, 3, and 5 that need to be privileged, so that's why
-> > it's a setuid program.
-> > 
-> >> +  2. fusermount3 opens /dev/fuse
-> >> +  3. fusermount3 performs mount() syscall
-> >> +  4. fusermount3 sends fd to library
-> >> +  5. Library starts worker threads
-> >> +  6. Worker threads process FUSE requests
-> > 
-> > Ah, yes.  Thanks for adding this description!  fuservicemount is I think
-> > an upside-down version of fusermount -- fuservicemount runs in the
-> > user's mount namespace, so it
-> > 
-> > 1) connects to a named AF_UNIX socket to start an instance of the fuse
-> >    server
-> > 2) opens /dev/fuse and a memfd to pass cli arguments
-> > 3) passes those to the fuse server
-> > 4) the fuse server asks fuservicemount to open resources and pass them
-> >    over the socket
-> > 5) the fuse server passes source/type/mount options to fuservicemount
-> > 6) fuservicemount mounts the fs and exits
-> > 7) at some point the user unmounts, so the fuse server exits
-> > 
-> >> +Sync-init mount flow:
-> >> +  1. Library calls fusermount3 with --sync-init flag
-> >> +  2. fusermount3 opens /dev/fuse
-> >> +  3. fusermount3 sends fd to library
-> >> +  4. Library receives fd
-> >> +  5. Library performs FUSE_DEV_IOC_SYNC_INIT ioctl
-> >> +  6. Library starts worker threads
-> >> +  7. Library sends "proceed" signal to fusermount3
-> >> +  8. fusermount3 performs mount() syscall (blocks until INIT completes)
-> >> +  9. Worker threads process INIT request
-> >> +  10. mount() syscall completes
-> >> +  11. fusermount3 exits
-> >> +
-> >> +
-> >> +Implementation Details
-> >> +----------------------
-> >> +
-> >> +Bidirectional Communication:
-> >> +  - Uses the existing unix socket (_FUSE_COMMFD environment variable)
-> >> +  - Simple 1-byte protocol for signaling
-> >> +  - Library signals fusermount3 when ready to proceed with mount
-> >> +
-> >> +fusermount3 Changes:
-> >> +  - New --sync-init command-line option
-> >> +  - Split mount operation into two phases:
-> >> +    * mount_fuse_prepare(): Opens device, prepares parameters
-> >> +    * mount_fuse_finish_fsmount(): Performs actual mount() syscall
-> >> +  - wait_for_signal(): Waits for library to signal readiness
-> >> +  - struct mount_context: Preserves state between phases
-> >> +
-> >> +Library Changes:
-> >> +  - fuse_session_mount_new_api(): Uses new protocol when available
-> >> +  - Sends "proceed" signal after worker thread is ready
-> >> +  - Handles both old and new mount protocols for compatibility
-> >> +
-> >> +
-> >> +Backward Compatibility
-> >> +----------------------
-> >> +
-> >> +The implementation maintains full backward compatibility:
-> >> +  - Old library + new fusermount3: Works (uses traditional flow)
-> >> +  - New library + old fusermount3: Falls back to traditional flow
-> >> +  - New library + new fusermount3: Uses sync-init flow when appropriate
-> >> +
-> >> +
-> >> +Error Handling
-> >> +--------------
-> >> +
-> >> +If any step fails during the sync-init flow:
-> >> +  - fusermount3 closes the fd and exits with error
-> >> +  - Library detects failure and cleans up
-> >> +  - No mount is left in inconsistent state
-> >> +
-> >> +Connection closure:
-> >> +  - If library closes socket before signaling, fusermount3 detects and exits
-> >> +  - If fusermount3 crashes, library detects closed socket
-> >> +
-> >> +
-> >> +Security Considerations
-> >> +-----------------------
-> >> +
-> >> +The sync-init protocol does not introduce new security concerns:
-> >> +  - Uses the same privilege separation as traditional mount
-> >> +  - Socket communication is already established and trusted
-> >> +  - No new privileged operations are added
-> >> +  - File descriptor passing uses existing SCM_RIGHTS mechanism
-> >> +
-> >> +
-> >> +Performance Impact
-> >> +------------------
-> >> +
-> >> +Minimal performance impact:
-> >> +  - One additional recv() call in fusermount3
-> >> +  - One additional send() call in library
-> >> +  - Total overhead: ~2 context switches
-> >> +  - Only affects mount time, not runtime performance
-> >> +
-> >> +
-> >> +Future Enhancements
-> >> +-------------------
-> >> +
-> >> +Potential improvements:
-> >> +  - Extended protocol for more complex initialization sequences
-> >> +  - Support for multiple worker threads coordination
-> >> +  - Enhanced error reporting through the socket
-> >> +  - Timeout mechanisms for detecting hung initialization
-> >> +
-> >> +
-> >> +ASCII Workflow Diagrams
-> >> +========================
-> >> +
-> >> +1. Traditional Mount Flow (without --sync-init, async INIT)
-> >> +------------------------------------------------------------
-> >> +
-> >> +Library                   fusermount3              Kernel
-> >> +   |                           |                      |
-> >> +   |--- spawn fusermount3 ---->|                      |
-> >> +   |                           |                      |
-> >> +   |                      [open /dev/fuse]            |
-> >> +   |                           |------- open -------->|
-> >> +   |                           |<------ fd ---------- |
-> >> +   |                           |                      |
-> >> +   |                      [mount() syscall]           |
-> >> +   |                           |------ mount -------->|
-> >> +   |                           |<----- success ------ | [mount returns immediately]
-> >> +   |                           |                      | [INIT queued in kernel]
-> >> +   |                      [send_fd(fd)]               |
-> >> +   |<------- fd --------------|                      |
-> >> +   |                           |                      |
-> >> +   |                      [fusermount3 exits]         |
-> >> +   |                                                  |
-> >> +   |  [start worker thread]                          |
-> >> +   |  [worker reads /dev/fuse]                       |
-> >> +   |---------------------------------------- read -->|
-> >> +   |<--------------------------------------- INIT ---| [dequeued from kernel]
-> >> +   |                                                  |
-> >> +   | OK: INIT was queued, worker reads it later      |
-> >> +   |     Works fine for async INIT                   |
-> > 
-> > Hmm, looking at this, perhaps it /is/ possible for fuservicemount to
-> > employ synchronous init.  The fuse server would start that background
-> > init-only request handler thread before telling fuservicemount to call
-> > mount().  That blocks while the kernel sends FUSE_INIT to the fuse
-> > server, it processes everything up to the init request, and returns.
-> > 
-> >> +
-> >> +
-> >> +1b. Problem: Synchronous INIT without --sync-init
-> >> +--------------------------------------------------
-> >> +
-> >> +Library                   fusermount3              Kernel
-> >> +   |                           |                      |
-> >> +   |--- spawn fusermount3 ---->|                      |
-> >> +   |                           |                      |
-> >> +   |                      [open /dev/fuse]            |
-> >> +   |                           |------- open -------->|
-> >> +   |                           |<------ fd ---------- |
-> >> +   |                           |                      |
-> >> +   |                      [mount() syscall]           |
-> >> +   |                           |------ mount -------->|
-> >> +   |                           |                      | [mount BLOCKS waiting for INIT]
-> >> +   |                           | (BLOCKED)            | [needs worker to process INIT]
-> >> +   |                           |                      |
-> >> +   |  [waiting for fd...]      |                      |
-> >> +   |                           |                      |
-> >> +   |                           |                      |
-> >> +   | DEADLOCK: mount() waits for INIT response       |
-> >> +   |           but worker thread not started yet     |
-> >> +   |           because we're waiting for fd          |
-> >> +
-> >> +
-> >> +2. Sync-Init Mount Flow (with --sync-init)
-> >> +-------------------------------------------
-> >> +
-> >> +Library                   fusermount3              Kernel
-> >> +   |                           |                      |
-> >> +   |--- spawn fusermount3 ---->|                      |
-> >> +   |    with --sync-init       |                      |
-> >> +   |                           |                      |
-> >> +   |                      [open /dev/fuse]            |
-> >> +   |                           |------- open -------->|
-> >> +   |                           |<------ fd ---------- |
-> >> +   |                           |                      |
-> >> +   |                      [send_fd(fd)]               |
-> >> +   |<------- fd --------------|                      |
-> >> +   |                           |                      |
-> >> +   |                      [wait_for_signal()]         |
-> >> +   |                           | (BLOCKED)            |
-> >> +   |                           |                      |
-> >> +   |  [ioctl SYNC_INIT]        |                      |
-> >> +   |---------------------------------------- ioctl -->|
-> >> +   |                                                  |
-> >> +   |  [start worker thread]                          |
-> >> +   |  [worker ready]                                 |
-> >> +   |                           |                      |
-> >> +   |--- "proceed" signal ----->|                      |
-> >> +   |                      [signal received]           |
-> >> +   |                           |                      |
-> >> +   |                      [mount() syscall]           |
-> >> +   |                           |------ mount -------->|
-> >> +   |                           |                      | [mount blocks]
-> >> +   |                           |                      | [sends INIT]
-> >> +   |<------------------------------------------------ |
-> >> +   |                           |                      |
-> >> +   | [worker processes INIT]   |                      |
-> >> +   |------------------------------------------------->|
-> >> +   |                           |                      | [mount unblocks]
-> >> +   |                           |<----- success ------ |
-> >> +   |                           |                      |
-> >> +   |                      [fusermount3 exits]         |
-> >> +   |                                                  |
-> >> +   | SUCCESS: Worker ready before mount()            |
-> >> +   |          INIT processed synchronously           |
-> >> +
-> >> +
-> >> +3. Error Scenario: Library Crashes Before Signaling
-> >> +----------------------------------------------------
-> >> +
-> >> +Library                   fusermount3              Kernel
-> >> +   |                           |                      |
-> >> +   |--- spawn fusermount3 ---->|                      |
-> >> +   |    with --sync-init       |                      |
-> >> +   |                           |                      |
-> >> +   |                      [open /dev/fuse]            |
-> >> +   |                           |------- open -------->|
-> >> +   |                           |<------ fd ---------- |
-> >> +   |                           |                      |
-> >> +   |                      [send_fd(fd)]               |
-> >> +   |<------- fd --------------|                      |
-> >> +   |                           |                      |
-> >> +   |                      [wait_for_signal()]         |
-> >> +   |                           | (BLOCKED)            |
-> >> +   |                           |                      |
-> >> +   X  [library crashes]        |                      |
-> >> +   |                           |                      |
-> >> +   |                      [recv() returns 0]          |
-> >> +   |                      [socket closed]             |
-> >> +   |                           |                      |
-> >> +   |                      [cleanup and exit]          |
-> >> +   |                           X                      |
-> >> +   |                                                  |
-> >> +   | RESULT: Clean failure, no mount performed       |
-> >> +
-> >> +
-> >> +4. Detailed Function Call Flow
-> >> +-------------------------------
-> >> +
-> >> +Library (lib/fuse_lowlevel.c):
-> >> +fuse_session_mount_new_api()
-> >> +   |
-> >> +   +-- fuse_kern_mount_prepare()  [lib/mount.c]
-> >> +   |      |
-> >> +   |      +-- fuse_mount_fusermount()  [lib/mount_util.c]
-> >> +   |             |
-> >> +   |             +-- socketpair()  [create comm socket]
-> >> +   |             |
-> >> +   |             +-- fork()
-> >> +   |             |
-> >> +   |             +-- [child] execl("fusermount3", "--sync-init", ...)
-> >> +   |             |
-> >> +   |             +-- [parent] receive_fd()  <--- BLOCKS until fd arrives
-> >> +   |                    |
-> >> +   |                    +-- recvmsg(SCM_RIGHTS)
-> >> +   |                    |
-> >> +   |                    +-- return fd
-> >> +   |
-> >> +   +-- session_start_sync_init()  [lib/fuse_lowlevel.c]
-> >> +   |      |
-> >> +   |      +-- ioctl(fd, FUSE_DEV_IOC_SYNC_INIT)
-> >> +   |      |
-> >> +   |      +-- pthread_create(worker_thread)
-> >> +   |      |
-> >> +   |      +-- return
-> >> +   |
-> >> +   +-- fuse_fusermount_proceed_mnt(socket)  [lib/mount.c] <--- NEW: Bidirectional handshake
-> >> +          |
-> >> +          +-- send(socket, "proceed", 1)  <--- Signal fusermount3 to proceed
-> >> +          |
-> >> +          +-- recv(socket, &status, 1)  <--- BLOCKS until mount result arrives
-> >> +          |      |
-> >> +          |      +-- [fusermount3 performs mount and sends status byte]
-> >> +          |
-> >> +          +-- if (status != 0) return -1  <--- Mount failed
-> >> +          |
-> >> +          +-- return 0  <--- Mount succeeded
-> >> +
-> >> +
-> >> +Utility (util/fusermount.c):
-> >> +fusermount3 main() with --sync-init
-> >> +   |
-> >> +   +-- mount_fuse_sync_init()  [util/fusermount.c]
-> >> +          |
-> >> +          +-- mount_fuse_prepare()  [util/fusermount.c]
-> >> +          |      |
-> >> +          |      +-- open("/dev/fuse")
-> >> +          |      |
-> >> +          |      +-- check_perm()  [util/fusermount.c]
-> >> +          |      |
-> >> +          |      +-- return fd
-> >> +          |
-> >> +          +-- send_fd(socket, fd)  [util/fusermount.c]
-> >> +          |      |
-> >> +          |      +-- sendmsg(SCM_RIGHTS)
-> >> +          |
-> >> +          +-- wait_for_signal(socket)  [util/fusermount.c] <--- BLOCKS until library signals
-> >> +          |      |
-> >> +          |      +-- recv(socket, buf, 1)
-> >> +          |      |
-> >> +          |      +-- return 0
-> >> +          |
-> >> +          +-- mount_fuse_finish_fsmount()  [util/fusermount.c]
-> >> +          |      |
-> >> +          |      +-- fuse_kern_fsmount()  [lib/mount_fsmount.c]
-> >> +          |      |      |
-> >> +          |      |      +-- fsopen("fuse", FSOPEN_CLOEXEC)
-> >> +          |      |      |      |
-> >> +          |      |      |      +-- [kernel creates filesystem context]
-> >> +          |      |      |
-> >> +          |      |      +-- fsconfig(fsfd, SET_STRING, "source", ...)
-> >> +          |      |      +-- fsconfig(fsfd, SET_STRING, "fd", fd_value, ...)
-> >> +          |      |      +-- fsconfig(fsfd, ...) [apply mount options]
-> >> +          |      |      +-- fsconfig(fsfd, CMD_CREATE, ...)
-> >> +          |      |      |
-> >> +          |      |      +-- fsmount(fsfd, FSMOUNT_CLOEXEC, mount_attrs)
-> >> +          |      |      |      |
-> >> +          |      |      |      +-- [kernel sends FUSE_INIT here]
-> >> +          |      |      |      |
-> >> +          |      |      |      +-- [worker thread processes INIT]
-> >> +          |      |      |      |
-> >> +          |      |      |      +-- [fsmount returns mntfd]
-> >> +          |      |      |
-> >> +          |      |      +-- move_mount(mntfd, "", AT_FDCWD, target, ...)
-> >> +          |      |      |      |
-> >> +          |      |      |      +-- [attach mount to target directory]
-> >> +          |      |      |      |
-> >> +          |      |      |      +-- [no blocking - INIT already processed]
-> >> +          |      |      |
-> >> +          |      |      +-- add_mount()  [lib/mount_fsmount.c - update /etc/mtab]
-> >> +          |      |      |
-> >> +          |      |      +-- return 0 on success, -1 on failure
-> >> +          |      |
-> >> +          |      +-- if mount failed: return -1
-> >> +          |      +-- if mount succeeded: continue
-> >> +          |
-> >> +          +-- send_status_byte(socket)  [util/fusermount.c] <--- NEW: Send result to library
-> >> +          |      |
-> >> +          |      +-- status = (mount_result == 0) ? 0 : 1
-> >> +          |      +-- send(socket, &status, 1)
-> >> +          |      |
-> >> +          |      +-- return
-> >> +          |
-> >> +          +-- return 0
-> >> +
-> >> +
-> >> +Note: The new mount API (fsopen/fsconfig/fsmount/move_mount) is REQUIRED
-> >> +      for sync-init because fsmount() triggers FUSE_INIT before the mount
-> >> +      is attached. This allows the worker thread to process INIT before
-> >> +      move_mount() completes, preventing deadlock.
-> > 
-> > ...and so we don't expose the directory tree to the mountns until we
-> > know that FUSE_INIT didn't crash the server.
-> 
-> Added that as well.
-> 
-> > 
-> >> diff --git a/util/fusermount.c b/util/fusermount.c
-> >> index 80b42a594e89cdc2f43824f5e274892522fd8cce..808b4afd89ceb49273c944d43bffe5033e27549b 100644
-> >> --- a/util/fusermount.c
-> >> +++ b/util/fusermount.c
-> >> @@ -957,6 +957,7 @@ static void free_mount_params(struct mount_params *mp)
-> >>  	free(mp->source);
-> >>  	free(mp->type);
-> >>  	free(mp->mnt_opts);
-> >> +	memset(mp, 0, sizeof(*mp));
-> >>  }
-> >>  
-> >>  /*
-> >> @@ -1378,6 +1379,179 @@ static int open_fuse_device(const char *dev)
-> >>  	return fd;
-> >>  }
-> >>  
-> >> +#ifdef HAVE_NEW_MOUNT_API
-> >> +/* Forward declaration from lib/mount_fsmount.c */
-> >> +int fuse_kern_fsmount(const char *mnt, unsigned long flags, int blkdev,
-> >> +		      const char *fsname, const char *subtype,
-> >> +		      const char *source_dev, const char *kernel_opts,
-> >> +		      const char *mnt_opts);
-> >> +#endif
-> > 
-> > Shouldn't this be included from a header file somewhere?
-> 
-> Fixed, included from mount_i_linux.h
-> 
-> > 
-> >> +
-> >> +/*
-> >> + * Context for split mount operation (sync-init mode)
-> >> + */
-> >> +struct mount_context {
-> >> +	int fd;
-> >> +	const char *dev;
-> >> +	struct stat stbuf;
-> >> +	char *source;
-> >> +	char *mnt_opts;
-> >> +	char *x_opts;
-> >> +	const char *type;
-> >> +};
-> >> +
-> >> +/*
-> >> + * Phase 1: Open device and prepare for mount (sync-init mode)
-> >> + * Returns fd on success, -1 on failure
-> >> + */
-> >> +static int mount_fuse_prepare(const char *mnt, const char *opts,
-> >> +			      struct mount_context *ctx)
-> >> +{
-> >> +	int res;
-> >> +	int mountpoint_fd = -1;
-> >> +	char *do_mount_opts = NULL;
-> >> +	const char *real_mnt = mnt;
-> >> +
-> >> +	memset(ctx, 0, sizeof(*ctx));
-> >> +	ctx->dev = getenv(FUSE_KERN_DEVICE_ENV) ?: FUSE_DEV;
-> >> +
-> >> +	ctx->fd = open_fuse_device(ctx->dev);
-> >> +	if (ctx->fd == -1)
-> >> +		return -1;
-> >> +
-> >> +	drop_privs();
-> >> +	read_conf();
-> >> +
-> >> +	if (getuid() != 0 && mount_max != -1) {
-> >> +		int mount_count = count_fuse_fs();
-> >> +
-> >> +		if (mount_count >= mount_max) {
-> >> +			fprintf(stderr,
-> >> +				"%s: too many FUSE filesystems mounted; mount_max=N can be set in %s\n",
-> >> +				progname, FUSE_CONF);
-> >> +			goto fail_close_fd;
-> >> +		}
-> >> +	}
-> > 
-> > /me notes that he's refactored this configuration file related function
-> > into fuser_conf.c though that's in the fuse-services v4 that I'll send
-> > you soon.
-> > 
-> >> +
-> >> +	res = extract_x_options(opts, &do_mount_opts, &ctx->x_opts);
-> >> +	if (res)
-> >> +		goto fail_close_fd;
-> >> +
-> >> +	res = check_perm(&real_mnt, &ctx->stbuf, &mountpoint_fd);
-> >> +	restore_privs();
-> >> +
-> >> +	if (mountpoint_fd != -1)
-> >> +		close(mountpoint_fd);
-> >> +
-> >> +	if (res == -1)
-> >> +		goto fail_close_fd;
-> >> +
-> >> +	free(do_mount_opts);
-> >> +	return ctx->fd;
-> >> +
-> >> +fail_close_fd:
-> >> +	close(ctx->fd);
-> >> +	free(do_mount_opts);
-> >> +	free(ctx->x_opts);
-> >> +	ctx->fd = -1;
-> >> +	return -1;
-> >> +}
-> >> +
-> >> +#ifdef HAVE_NEW_MOUNT_API
-> >> +/*
-> >> + * Phase 2: Perform the actual mount using new mount API (sync-init mode)
-> >> + * Returns 0 on success, -1 on failure
-> >> + */
-> >> +static int mount_fuse_finish_fsmount(const char *mnt, const char *opts,
-> >> +				     struct mount_context *ctx,
-> >> +				     const char **type)
-> >> +{
-> >> +	int res;
-> >> +	char *do_mount_opts = NULL;
-> >> +	char *x_prefixed_opts = NULL;
-> >> +	struct mount_params mp = { .fd = ctx->fd };
-> >> +	char *final_mnt_opts = NULL;
-> >> +
-> >> +	/* Extract x-options */
-> >> +	res = extract_x_options(opts, &do_mount_opts, &x_prefixed_opts);
-> >> +	if (res)
-> >> +		goto fail;
-> >> +
-> >> +	/* Prepare mount parameters */
-> >> +	mp.rootmode = ctx->stbuf.st_mode & S_IFMT;
-> >> +	mp.dev = ctx->dev;
-> > 
-> > I think those could be set in the mp variable definition?
-> 
-> Absolutely.
-> 
-> > 
-> >> +
-> >> +	res = prepare_mount(do_mount_opts, &mp);
-> >> +	if (res == -1)
-> >> +		goto fail;
-> >> +
-> >> +	/* Merge x-options if running as root */
-> >> +	final_mnt_opts = mp.mnt_opts;
-> >> +	if (geteuid() == 0 && ctx->x_opts && strlen(ctx->x_opts) > 0) {
-> >> +		size_t mnt_opts_len = strlen(mp.mnt_opts);
-> >> +		size_t x_mnt_opts_len = mnt_opts_len + strlen(ctx->x_opts) + 2;
-> >> +		char *x_mnt_opts = calloc(1, x_mnt_opts_len);
-> >> +
-> >> +		if (!x_mnt_opts)
-> >> +			goto fail_free_params;
-> >> +
-> >> +		if (mnt_opts_len) {
-> >> +			strcpy(x_mnt_opts, mp.mnt_opts);
-> >> +			strncat(x_mnt_opts, ",", 2);
-> >> +		}
-> >> +		strncat(x_mnt_opts, ctx->x_opts,
-> >> +			x_mnt_opts_len - mnt_opts_len - 2);
-> >> +
-> >> +		final_mnt_opts = x_mnt_opts;
-> >> +	}
-> > 
-> > Curious, I thought the x- options were edited out by /sbin/mount so fuse
-> > would never see them?  Does the x- option handling in fusermount.c exist
-> > to handle the case where someone passes them directly to the fuse
-> > server, aka
-> > 
-> > $ sshfs <whatever> /mnt -o x-systemd-hahaha=1
-> > 
-> > and now you need to ensure that x-systemd-hahaha doesn't get sent to the
-> > kernel but does get seen by the fuse server?
-> 
-> https://github.com/libfuse/libfuse/issues/651
-> 
-> So specially added as mount option to to go into mtab/utab and to
-> suppress some 3rd party (gnome) actions.
+Hi Paul,
 
-Huh, I wouldn't have thought that would work since /etc/mtab has been
-a symlink to /proc/self/mounts for a while now.  Of course GNOME
-abstracts mount options behind some g_unix_mount_entry_get_options
-function call which ... doesn't document where it gets its mount options
-from.
+I'm currently looking at the patch more closely to implement the hooks
+for AppArmor, but
+here are some typofixes and the like below:
 
---D
+On Sun, Mar 22, 2026 at 9:26=E2=80=AFPM Paul Moore <paul@paul-moore.com> wr=
+ote:
+>
+> Stacked filesystems such as overlayfs do not currently provide the
+> necessary mechanisms for LSMs to properly enforce access controls on the
+> mmap() and mprotect() operations.  In order to resolve this gap, a LSM
+> security blob is being added to the backing_file struct and the following
+> new LSM hooks are being created:
+>
+>  security_backing_file_alloc()
+>  security_backing_file_free()
+>  security_mmap_backing_file()
+>
+> The first two hooks are to manage the lifecycle of the LSM security blob
+> in the backing_file struct, while the third provides a new mmap() access
+> control point for the underlying backing file.  It is also expected that
+> LSMs will likely want to update their security_file_mprotect() callback
+> to address issues with their mprotect() controls, but that does not
+> require a change to the security_file_mprotect() LSM hook.
+>
+> There are a two other small changes to support these new LSM hooks.  We
+> pass the user file associated with a backing file down to
+> alloc_empty_backing_file() so it can be included in the
+> security_backing_file_alloc() hook, and we constify the file struct field
+> in the LSM common_audit_data struct to better support LSMs that need to
+> pass a const file struct pointer into the common LSM audit code.
+>
+> Thanks to Arnd Bergmann for identifying the missing EXPORT_SYMBOL_GPL()
+> and supplying a fixup.
+>
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Paul Moore <paul@paul-moore.com>
+> ---
+>  fs/backing-file.c             |  18 ++++--
+>  fs/erofs/ishare.c             |  10 +++-
+>  fs/file_table.c               |  21 ++++++-
+>  fs/fuse/passthrough.c         |   2 +-
+>  fs/internal.h                 |   3 +-
+>  fs/overlayfs/dir.c            |   2 +-
+>  fs/overlayfs/file.c           |   2 +-
+>  include/linux/backing-file.h  |   4 +-
+>  include/linux/fs.h            |   1 +
+>  include/linux/lsm_audit.h     |   2 +-
+>  include/linux/lsm_hook_defs.h |   5 ++
+>  include/linux/lsm_hooks.h     |   1 +
+>  include/linux/security.h      |  22 ++++++++
+>  security/lsm.h                |   1 +
+>  security/lsm_init.c           |   9 +++
+>  security/security.c           | 100 ++++++++++++++++++++++++++++++++++
+>  16 files changed, 187 insertions(+), 16 deletions(-)
+>
+> diff --git a/fs/backing-file.c b/fs/backing-file.c
+> index 45da8600d564..1f3bbfc75882 100644
+> --- a/fs/backing-file.c
+> +++ b/fs/backing-file.c
+> @@ -12,6 +12,7 @@
+>  #include <linux/backing-file.h>
+>  #include <linux/splice.h>
+>  #include <linux/mm.h>
+> +#include <linux/security.h>
+>
+>  #include "internal.h"
+>
+> @@ -29,14 +30,15 @@
+>   * returned file into a container structure that also stores the stacked
+>   * file's path, which can be retrieved using backing_file_user_path().
+>   */
+> -struct file *backing_file_open(const struct path *user_path, int flags,
+> +struct file *backing_file_open(const struct file *user_file, int flags,
+>                                const struct path *real_path,
+>                                const struct cred *cred)
+>  {
+> +       const struct path *user_path =3D &user_file->f_path;
+>         struct file *f;
+>         int error;
+>
+> -       f =3D alloc_empty_backing_file(flags, cred);
+> +       f =3D alloc_empty_backing_file(flags, cred, user_file);
+>         if (IS_ERR(f))
+>                 return f;
+>
+> @@ -52,15 +54,16 @@ struct file *backing_file_open(const struct path *use=
+r_path, int flags,
+>  }
+>  EXPORT_SYMBOL_GPL(backing_file_open);
+>
+> -struct file *backing_tmpfile_open(const struct path *user_path, int flag=
+s,
+> +struct file *backing_tmpfile_open(const struct file *user_file, int flag=
+s,
+>                                   const struct path *real_parentpath,
+>                                   umode_t mode, const struct cred *cred)
+>  {
+>         struct mnt_idmap *real_idmap =3D mnt_idmap(real_parentpath->mnt);
+> +       const struct path *user_path =3D &user_file->f_path;
+>         struct file *f;
+>         int error;
+>
+> -       f =3D alloc_empty_backing_file(flags, cred);
+> +       f =3D alloc_empty_backing_file(flags, cred, user_file);
+>         if (IS_ERR(f))
+>                 return f;
+>
+> @@ -336,8 +339,13 @@ int backing_file_mmap(struct file *file, struct vm_a=
+rea_struct *vma,
+>
+>         vma_set_file(vma, file);
+>
+> -       scoped_with_creds(ctx->cred)
+> +       scoped_with_creds(ctx->cred) {
+> +               ret =3D security_mmap_backing_file(vma, file, user_file);
+> +               if (ret)
+> +                       return ret;
+> +
+>                 ret =3D vfs_mmap(vma->vm_file, vma);
+> +       }
+>
+>         if (ctx->accessed)
+>                 ctx->accessed(user_file);
+> diff --git a/fs/erofs/ishare.c b/fs/erofs/ishare.c
+> index 829d50d5c717..ec3fc5ac1a55 100644
+> --- a/fs/erofs/ishare.c
+> +++ b/fs/erofs/ishare.c
+> @@ -4,6 +4,7 @@
+>   */
+>  #include <linux/xxhash.h>
+>  #include <linux/mount.h>
+> +#include <linux/security.h>
+>  #include "internal.h"
+>  #include "xattr.h"
+>
+> @@ -106,7 +107,8 @@ static int erofs_ishare_file_open(struct inode *inode=
+, struct file *file)
+>
+>         if (file->f_flags & O_DIRECT)
+>                 return -EINVAL;
+> -       realfile =3D alloc_empty_backing_file(O_RDONLY|O_NOATIME, current=
+_cred());
+> +       realfile =3D alloc_empty_backing_file(O_RDONLY|O_NOATIME, current=
+_cred(),
+> +                                           file);
+>         if (IS_ERR(realfile))
+>                 return PTR_ERR(realfile);
+>         ihold(sharedinode);
+> @@ -150,8 +152,14 @@ static ssize_t erofs_ishare_file_read_iter(struct ki=
+ocb *iocb,
+>  static int erofs_ishare_mmap(struct file *file, struct vm_area_struct *v=
+ma)
+>  {
+>         struct file *realfile =3D file->private_data;
+> +       int err;
+>
+>         vma_set_file(vma, realfile);
+> +
+> +       err =3D security_mmap_backing_file(vma, realfile, file);
+> +       if (err)
+> +               return err;
+> +
+>         return generic_file_readonly_mmap(file, vma);
+>  }
+>
+> diff --git a/fs/file_table.c b/fs/file_table.c
+> index aaa5faaace1e..0bdc26cae138 100644
+> --- a/fs/file_table.c
+> +++ b/fs/file_table.c
+> @@ -50,6 +50,7 @@ struct backing_file {
+>                 struct path user_path;
+>                 freeptr_t bf_freeptr;
+>         };
+> +       void *security;
+>  };
+>
+>  #define backing_file(f) container_of(f, struct backing_file, file)
+> @@ -66,6 +67,11 @@ void backing_file_set_user_path(struct file *f, const =
+struct path *path)
+>  }
+>  EXPORT_SYMBOL_GPL(backing_file_set_user_path);
+>
+> +void *backing_file_security(const struct file *f)
+> +{
+> +       return backing_file(f)->security;
+> +}
+> +
+>  static inline void file_free(struct file *f)
+>  {
+>         security_file_free(f);
+> @@ -73,8 +79,11 @@ static inline void file_free(struct file *f)
+>                 percpu_counter_dec(&nr_files);
+>         put_cred(f->f_cred);
+>         if (unlikely(f->f_mode & FMODE_BACKING)) {
+> -               path_put(backing_file_user_path(f));
+> -               kmem_cache_free(bfilp_cachep, backing_file(f));
+> +               struct backing_file *ff =3D backing_file(f);
+> +
+> +               security_backing_file_free(&ff->security);
+> +               path_put(&ff->user_path);
+> +               kmem_cache_free(bfilp_cachep, ff);
+>         } else {
+>                 kmem_cache_free(filp_cachep, f);
+>         }
+> @@ -290,7 +299,8 @@ struct file *alloc_empty_file_noaccount(int flags, co=
+nst struct cred *cred)
+>   * This is only for kernel internal use, and the allocate file must not =
+be
+>   * installed into file tables or such.
+>   */
+> -struct file *alloc_empty_backing_file(int flags, const struct cred *cred=
+)
+> +struct file *alloc_empty_backing_file(int flags, const struct cred *cred=
+,
+> +                                     const struct file *user_file)
+>  {
+>         struct backing_file *ff;
+>         int error;
+> @@ -306,6 +316,11 @@ struct file *alloc_empty_backing_file(int flags, con=
+st struct cred *cred)
+>         }
+>
+>         ff->file.f_mode |=3D FMODE_BACKING | FMODE_NOACCOUNT;
+> +       error =3D security_backing_file_alloc(&ff->security, user_file);
+> +       if (unlikely(error)) {
+> +               fput(&ff->file);
+> +               return ERR_PTR(error);
+> +       }
+>         return &ff->file;
+>  }
+>  EXPORT_SYMBOL_GPL(alloc_empty_backing_file);
+> diff --git a/fs/fuse/passthrough.c b/fs/fuse/passthrough.c
+> index 72de97c03d0e..f2d08ac2459b 100644
+> --- a/fs/fuse/passthrough.c
+> +++ b/fs/fuse/passthrough.c
+> @@ -167,7 +167,7 @@ struct fuse_backing *fuse_passthrough_open(struct fil=
+e *file, int backing_id)
+>                 goto out;
+>
+>         /* Allocate backing file per fuse file to store fuse path */
+> -       backing_file =3D backing_file_open(&file->f_path, file->f_flags,
+> +       backing_file =3D backing_file_open(file, file->f_flags,
+>                                          &fb->file->f_path, fb->cred);
+>         err =3D PTR_ERR(backing_file);
+>         if (IS_ERR(backing_file)) {
+> diff --git a/fs/internal.h b/fs/internal.h
+> index cbc384a1aa09..77e90e4124e0 100644
+> --- a/fs/internal.h
+> +++ b/fs/internal.h
+> @@ -106,7 +106,8 @@ extern void chroot_fs_refs(const struct path *, const=
+ struct path *);
+>   */
+>  struct file *alloc_empty_file(int flags, const struct cred *cred);
+>  struct file *alloc_empty_file_noaccount(int flags, const struct cred *cr=
+ed);
+> -struct file *alloc_empty_backing_file(int flags, const struct cred *cred=
+);
+> +struct file *alloc_empty_backing_file(int flags, const struct cred *cred=
+,
+> +                                     const struct file *user_file);
+>  void backing_file_set_user_path(struct file *f, const struct path *path)=
+;
+>
+>  static inline void file_put_write_access(struct file *file)
+> diff --git a/fs/overlayfs/dir.c b/fs/overlayfs/dir.c
+> index ff3dbd1ca61f..f2f20a611af3 100644
+> --- a/fs/overlayfs/dir.c
+> +++ b/fs/overlayfs/dir.c
+> @@ -1374,7 +1374,7 @@ static int ovl_create_tmpfile(struct file *file, st=
+ruct dentry *dentry,
+>                                 return PTR_ERR(cred);
+>
+>                         ovl_path_upper(dentry->d_parent, &realparentpath)=
+;
+> -                       realfile =3D backing_tmpfile_open(&file->f_path, =
+flags, &realparentpath,
+> +                       realfile =3D backing_tmpfile_open(file, flags, &r=
+ealparentpath,
+>                                                         mode, current_cre=
+d());
+>                         err =3D PTR_ERR_OR_ZERO(realfile);
+>                         pr_debug("tmpfile/open(%pd2, 0%o) =3D %i\n", real=
+parentpath.dentry, mode, err);
+> diff --git a/fs/overlayfs/file.c b/fs/overlayfs/file.c
+> index 97bed2286030..27cc07738f33 100644
+> --- a/fs/overlayfs/file.c
+> +++ b/fs/overlayfs/file.c
+> @@ -48,7 +48,7 @@ static struct file *ovl_open_realfile(const struct file=
+ *file,
+>                         if (!inode_owner_or_capable(real_idmap, realinode=
+))
+>                                 flags &=3D ~O_NOATIME;
+>
+> -                       realfile =3D backing_file_open(file_user_path(fil=
+e),
+> +                       realfile =3D backing_file_open(file,
+>                                                      flags, realpath, cur=
+rent_cred());
+>                 }
+>         }
+> diff --git a/include/linux/backing-file.h b/include/linux/backing-file.h
+> index 1476a6ed1bfd..c939cd222730 100644
+> --- a/include/linux/backing-file.h
+> +++ b/include/linux/backing-file.h
+> @@ -18,10 +18,10 @@ struct backing_file_ctx {
+>         void (*end_write)(struct kiocb *iocb, ssize_t);
+>  };
+>
+> -struct file *backing_file_open(const struct path *user_path, int flags,
+> +struct file *backing_file_open(const struct file *user_file, int flags,
+>                                const struct path *real_path,
+>                                const struct cred *cred);
+> -struct file *backing_tmpfile_open(const struct path *user_path, int flag=
+s,
+> +struct file *backing_tmpfile_open(const struct file *user_file, int flag=
+s,
+>                                   const struct path *real_parentpath,
+>                                   umode_t mode, const struct cred *cred);
+>  ssize_t backing_file_read_iter(struct file *file, struct iov_iter *iter,
+> diff --git a/include/linux/fs.h b/include/linux/fs.h
+> index 8b3dd145b25e..8f5702cfb5e0 100644
+> --- a/include/linux/fs.h
+> +++ b/include/linux/fs.h
+> @@ -2474,6 +2474,7 @@ struct file *dentry_open_nonotify(const struct path=
+ *path, int flags,
+>  struct file *dentry_create(struct path *path, int flags, umode_t mode,
+>                            const struct cred *cred);
+>  const struct path *backing_file_user_path(const struct file *f);
+> +void *backing_file_security(const struct file *f);
+>
+>  /*
+>   * When mmapping a file on a stackable filesystem (e.g., overlayfs), the=
+ file
+> diff --git a/include/linux/lsm_audit.h b/include/linux/lsm_audit.h
+> index 382c56a97bba..584db296e43b 100644
+> --- a/include/linux/lsm_audit.h
+> +++ b/include/linux/lsm_audit.h
+> @@ -94,7 +94,7 @@ struct common_audit_data {
+>  #endif
+>                 char *kmod_name;
+>                 struct lsm_ioctlop_audit *op;
+> -               struct file *file;
+> +               const struct file *file;
+>                 struct lsm_ibpkey_audit *ibpkey;
+>                 struct lsm_ibendport_audit *ibendport;
+>                 int reason;
+> diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_defs.=
+h
+> index 8c42b4bde09c..2c4da40757ad 100644
+> --- a/include/linux/lsm_hook_defs.h
+> +++ b/include/linux/lsm_hook_defs.h
+> @@ -191,6 +191,9 @@ LSM_HOOK(int, 0, file_permission, struct file *file, =
+int mask)
+>  LSM_HOOK(int, 0, file_alloc_security, struct file *file)
+>  LSM_HOOK(void, LSM_RET_VOID, file_release, struct file *file)
+>  LSM_HOOK(void, LSM_RET_VOID, file_free_security, struct file *file)
+> +LSM_HOOK(int, 0, backing_file_alloc, void *backing_file_blobp,
+> +        const struct file *user_file)
+> +LSM_HOOK(void, LSM_RET_VOID, backing_file_free, void *backing_file_blobp=
+)
+>  LSM_HOOK(int, 0, file_ioctl, struct file *file, unsigned int cmd,
+>          unsigned long arg)
+>  LSM_HOOK(int, 0, file_ioctl_compat, struct file *file, unsigned int cmd,
+> @@ -198,6 +201,8 @@ LSM_HOOK(int, 0, file_ioctl_compat, struct file *file=
+, unsigned int cmd,
+>  LSM_HOOK(int, 0, mmap_addr, unsigned long addr)
+>  LSM_HOOK(int, 0, mmap_file, struct file *file, unsigned long reqprot,
+>          unsigned long prot, unsigned long flags)
+> +LSM_HOOK(int, 0, mmap_backing_file, struct vm_area_struct *vma,
+> +        struct file *backing_file, struct file *user_file)
+>  LSM_HOOK(int, 0, file_mprotect, struct vm_area_struct *vma,
+>          unsigned long reqprot, unsigned long prot)
+>  LSM_HOOK(int, 0, file_lock, struct file *file, unsigned int cmd)
+> diff --git a/include/linux/lsm_hooks.h b/include/linux/lsm_hooks.h
+> index d48bf0ad26f4..b4f8cad53ddb 100644
+> --- a/include/linux/lsm_hooks.h
+> +++ b/include/linux/lsm_hooks.h
+> @@ -104,6 +104,7 @@ struct security_hook_list {
+>  struct lsm_blob_sizes {
+>         unsigned int lbs_cred;
+>         unsigned int lbs_file;
+> +       unsigned int lbs_backing_file;
+>         unsigned int lbs_ib;
+>         unsigned int lbs_inode;
+>         unsigned int lbs_sock;
+> diff --git a/include/linux/security.h b/include/linux/security.h
+> index 83a646d72f6f..1e4c68d5877f 100644
+> --- a/include/linux/security.h
+> +++ b/include/linux/security.h
+> @@ -471,11 +471,17 @@ int security_file_permission(struct file *file, int=
+ mask);
+>  int security_file_alloc(struct file *file);
+>  void security_file_release(struct file *file);
+>  void security_file_free(struct file *file);
+> +int security_backing_file_alloc(void **backing_file_blobp,
+> +                               const struct file *user_file);
+> +void security_backing_file_free(void **backing_file_blobp);
+>  int security_file_ioctl(struct file *file, unsigned int cmd, unsigned lo=
+ng arg);
+>  int security_file_ioctl_compat(struct file *file, unsigned int cmd,
+>                                unsigned long arg);
+>  int security_mmap_file(struct file *file, unsigned long prot,
+>                         unsigned long flags);
+> +int security_mmap_backing_file(struct vm_area_struct *vma,
+> +                              struct file *backing_file,
+> +                              struct file *user_file);
+>  int security_mmap_addr(unsigned long addr);
+>  int security_file_mprotect(struct vm_area_struct *vma, unsigned long req=
+prot,
+>                            unsigned long prot);
+> @@ -1140,6 +1146,15 @@ static inline void security_file_release(struct fi=
+le *file)
+>  static inline void security_file_free(struct file *file)
+>  { }
+>
+> +int security_backing_file_alloc(void **backing_file_blobp,
+> +                               const struct file *user_file)
+> +{
+> +       return 0;
+> +}
+> +
+> +void security_backing_file_free(void **backing_file_blobp)
+> +{ }
+> +
 
-> > 
-> >> +
-> >> +	/* Use new mount API */
-> >> +	res = fuse_kern_fsmount(mnt, mp.flags, mp.blkdev,
-> >> +				mp.fsname, mp.subtype, ctx->dev,
-> >> +				mp.optbuf, final_mnt_opts);
-> >> +	if (res == -1)
-> >> +		goto fail_free_merged;
-> >> +
-> >> +	/* Change to root directory */
-> >> +	res = chdir("/");
-> >> +	if (res == -1) {
-> >> +		fprintf(stderr, "%s: failed to chdir to '/'\n", progname);
-> >> +		goto fail_free_merged;
-> >> +	}
-> >> +
-> >> +	/* Store results in context */
-> >> +	ctx->source = mp.source;
-> >> +	ctx->type = mp.type;
-> >> +	ctx->mnt_opts = final_mnt_opts;
-> >> +	*type = mp.type;
-> >> +
-> >> +	res = 0;
-> >> +
-> >> +	/* Only free what is not assigned to ctx */
-> >> +	free(mp.fsname);
-> >> +	free(mp.subtype);
-> >> +	free(mp.optbuf);
-> >> +	if (final_mnt_opts != mp.mnt_opts)
-> >> +		free(mp.mnt_opts);
-> >> +
-> >> +out:
-> >> +	free(do_mount_opts);
-> >> +	free(x_prefixed_opts);
-> >> +
-> >> +	return res;
-> >> +
-> >> +fail_free_merged:
-> >> +	if (final_mnt_opts != mp.mnt_opts)
-> >> +		free(final_mnt_opts);
-> >> +fail_free_params:
-> >> +	free_mount_params(&mp);
-> >> +fail:
-> >> +	res = -1;
-> >> +	goto out;
-> >> +}
-> >> +#endif /* HAVE_NEW_MOUNT_API */
-> >> +
-> >> +
-> >>  static int mount_fuse(const char *mnt, const char *opts, const char **type)
-> >>  {
-> >>  	int res;
-> >> @@ -1473,6 +1647,75 @@ fail_close_fd:
-> >>  	goto out_free;
-> >>  }
-> >>  
-> >> +/* Forward declarations for helper functions */
-> >> +static int send_fd(int sock_fd, int fd);
-> >> +static int wait_for_signal(int sock_fd);
-> >> +
-> >> +#ifdef HAVE_NEW_MOUNT_API
-> >> +/*
-> >> + * Perform sync-init mount using new mount API
-> >> + * Returns 0 on success, -1 on failure
-> >> + */
-> >> +static int mount_fuse_sync_init(const char *mnt, const char *opts,
-> >> +				int cfd, const char **type)
-> >> +{
-> >> +	struct mount_context ctx;
-> >> +	int fd, res;
-> >> +	int32_t status, send_res;
-> >> +
-> >> +	/* Phase 1: Open device and prepare */
-> >> +	fd = mount_fuse_prepare(mnt, opts, &ctx);
-> >> +	if (fd == -1)
-> >> +		return -1;
-> >> +
-> >> +	/* Send fd to caller so it can start worker thread */
-> >> +	res = send_fd(cfd, fd);
-> >> +	if (res != 0) {
-> >> +		close(fd);
-> >> +		free(ctx.x_opts);
-> >> +		return -1;
-> >> +	}
-> >> +
-> >> +	/* Wait for caller to signal that worker thread is ready */
-> >> +	res = wait_for_signal(cfd);
-> >> +	if (res != 0) {
-> >> +		close(fd);
-> >> +		free(ctx.x_opts);
-> >> +		return -1;
-> >> +	}
-> >> +
-> >> +	/* Phase 2: Perform the actual mount using new API */
-> >> +	res = mount_fuse_finish_fsmount(mnt, opts, &ctx, type);
-> >> +
-> >> +	/* Send mount result back to caller (4-byte error code) */
-> >> +	status = (res == 0) ? 0 : -(int32_t)errno;
-> >> +	do {
-> >> +		send_res = send(cfd, &status, sizeof(status), 0);
-> >> +	} while (send_res == -1 && errno == EINTR);
-> >> +	if (send_res != sizeof(status)) {
-> >> +		fprintf(stderr, "%s: failed to send mount status: %s\n",
-> >> +			progname, strerror(errno));
-> >> +	}
-> >> +
-> >> +	if (res == -1) {
-> >> +		close(fd);
-> >> +		free(ctx.source);
-> >> +		free(ctx.mnt_opts);
-> >> +		free(ctx.x_opts);
-> >> +		return -1;
-> >> +	}
-> >> +
-> >> +	close(fd);
-> >> +
-> >> +	/* Cleanup */
-> >> +	free(ctx.source);
-> >> +	free(ctx.mnt_opts);
-> >> +	free(ctx.x_opts);
-> >> +
-> >> +	return 0;
-> > 
-> > Err... these cleanups are identical, so I think you can get rid of the
-> > "if (res == -1)" chunk and just return res at the end.
-> 
-> Oh yeah, fixed.
-> 
-> 
-> Thanks,
-> Bernd
-> 
+Should these two placeholders be static inline functions, like the
+other ones around them?
+
+>  static inline int security_file_ioctl(struct file *file, unsigned int cm=
+d,
+>                                       unsigned long arg)
+>  {
+> @@ -1159,6 +1174,13 @@ static inline int security_mmap_file(struct file *=
+file, unsigned long prot,
+>         return 0;
+>  }
+>
+> +static inline int security_mmap_backing_file(struct vm_area_struct *vma,
+> +                                            struct file *backing_file,
+> +                                            struct file *user_file)
+> +{
+> +       return 0;
+> +}
+> +
+>  static inline int security_mmap_addr(unsigned long addr)
+>  {
+>         return cap_mmap_addr(addr);
+> diff --git a/security/lsm.h b/security/lsm.h
+> index db77cc83e158..32f808ad4335 100644
+> --- a/security/lsm.h
+> +++ b/security/lsm.h
+> @@ -29,6 +29,7 @@ extern struct lsm_blob_sizes blob_sizes;
+>
+>  /* LSM blob caches */
+>  extern struct kmem_cache *lsm_file_cache;
+> +extern struct kmem_cache *lsm_backing_file_cache;
+>  extern struct kmem_cache *lsm_inode_cache;
+>
+>  /* LSM blob allocators */
+> diff --git a/security/lsm_init.c b/security/lsm_init.c
+> index 573e2a7250c4..020eace65973 100644
+> --- a/security/lsm_init.c
+> +++ b/security/lsm_init.c
+> @@ -293,6 +293,8 @@ static void __init lsm_prepare(struct lsm_info *lsm)
+>         blobs =3D lsm->blobs;
+>         lsm_blob_size_update(&blobs->lbs_cred, &blob_sizes.lbs_cred);
+>         lsm_blob_size_update(&blobs->lbs_file, &blob_sizes.lbs_file);
+> +       lsm_blob_size_update(&blobs->lbs_backing_file,
+> +                            &blob_sizes.lbs_backing_file);
+>         lsm_blob_size_update(&blobs->lbs_ib, &blob_sizes.lbs_ib);
+>         /* inode blob gets an rcu_head in addition to LSM blobs. */
+>         if (blobs->lbs_inode && blob_sizes.lbs_inode =3D=3D 0)
+> @@ -441,6 +443,8 @@ int __init security_init(void)
+>         if (lsm_debug) {
+>                 lsm_pr("blob(cred) size %d\n", blob_sizes.lbs_cred);
+>                 lsm_pr("blob(file) size %d\n", blob_sizes.lbs_file);
+> +               lsm_pr("blob(backing_file) size %d\n",
+> +                      blob_sizes.lbs_backing_file);
+>                 lsm_pr("blob(ib) size %d\n", blob_sizes.lbs_ib);
+>                 lsm_pr("blob(inode) size %d\n", blob_sizes.lbs_inode);
+>                 lsm_pr("blob(ipc) size %d\n", blob_sizes.lbs_ipc);
+> @@ -462,6 +466,11 @@ int __init security_init(void)
+>                 lsm_file_cache =3D kmem_cache_create("lsm_file_cache",
+>                                                    blob_sizes.lbs_file, 0=
+,
+>                                                    SLAB_PANIC, NULL);
+> +       if (blob_sizes.lbs_backing_file)
+> +               lsm_backing_file_cache =3D kmem_cache_create(
+> +                                                  "lsm_backing_file_cach=
+e",
+> +                                                  blob_sizes.lbs_file, 0=
+,
+> +                                                  SLAB_PANIC, NULL);
+
+Shouldn't blob_sizes.lbs_file here be blob_sizes.lbs_backing_file instead?
+
+>         if (blob_sizes.lbs_inode)
+>                 lsm_inode_cache =3D kmem_cache_create("lsm_inode_cache",
+>                                                     blob_sizes.lbs_inode,=
+ 0,
+> diff --git a/security/security.c b/security/security.c
+> index 67af9228c4e9..651a0d643c9f 100644
+> --- a/security/security.c
+> +++ b/security/security.c
+> @@ -81,6 +81,7 @@ const struct lsm_id *lsm_idlist[MAX_LSM_COUNT];
+>  struct lsm_blob_sizes blob_sizes;
+>
+>  struct kmem_cache *lsm_file_cache;
+> +struct kmem_cache *lsm_backing_file_cache;
+>  struct kmem_cache *lsm_inode_cache;
+>
+>  #define SECURITY_HOOK_ACTIVE_KEY(HOOK, IDX) security_hook_active_##HOOK#=
+#_##IDX
+> @@ -172,6 +173,28 @@ static int lsm_file_alloc(struct file *file)
+>         return 0;
+>  }
+>
+> +/**
+> + * lsm_backing_file_alloc - allocate a composite backing file blob
+> + * @backing_file_blobp: pointer to the backing file LSM blob pointer
+> + *
+> + * Allocate the backing file blob for all the modules.
+> + *
+> + * Returns 0, or -ENOMEM if memory can't be allocated.
+> + */
+> +static int lsm_backing_file_alloc(void **backing_file_blobp)
+> +{
+> +       if (!lsm_backing_file_cache) {
+> +               *backing_file_blobp =3D NULL;
+> +               return 0;
+> +       }
+> +
+> +       *backing_file_blobp =3D kmem_cache_zalloc(lsm_backing_file_cache,
+> +                                               GFP_KERNEL);
+> +       if (*backing_file_blobp =3D=3D NULL)
+> +               return -ENOMEM;
+> +       return 0;
+> +}
+> +
+>  /**
+>   * lsm_blob_alloc - allocate a composite blob
+>   * @dest: the destination for the blob
+> @@ -2417,6 +2440,57 @@ void security_file_free(struct file *file)
+>         }
+>  }
+>
+> +/**
+> + * security_backing_file_alloc() - Allocate and setup a backing file blo=
+b
+> + * @backing_file_blobp: pointer to the backing file LSM blob pointer
+> + * @user_file: the associated user visible file
+> + *
+> + * Allocate a backing file LSM blob and perform any necessary initializa=
+tion of
+> + * the LSM blob.  There will be some operations where the LSM will not h=
+ave
+> + * access to @user_file after this point, so any important state associa=
+ted
+> + * with @user_file that is important to the LSM should be captured in th=
+e
+> + * backing file's LSM blob.
+> + *
+> + * LSM's should avoid taking a reference to @user_file in this hook as i=
+t will
+> + * result in problems later when the system attempts to drop/put the fil=
+e
+> + * references due to a circular dependency.
+> + *
+> + * Return: Return 0 if the hook is successful, negative values otherwise=
+.
+> + */
+> +int security_backing_file_alloc(void **backing_file_blobp,
+> +                               const struct file *user_file)
+> +{
+> +       int rc;
+> +
+> +       rc =3D lsm_backing_file_alloc(backing_file_blobp);
+> +       if (rc)
+> +               return rc;
+> +       rc =3D call_int_hook(backing_file_alloc, *backing_file_blobp, use=
+r_file);
+> +       if (unlikely(rc))
+> +               security_backing_file_free(backing_file_blobp);
+> +
+> +       return rc;
+> +}
+> +
+> +/**
+> + * security_backing_file_free() - Free a backing file blob
+> + * @backing_file_blobp: pointer to the backing file LSM blob pointer
+> + *
+> + * Free any LSM state associate with a backing file's LSM blob, includin=
+g the
+> + * blob itself.
+> + */
+> +void security_backing_file_free(void **backing_file_blobp)
+> +{
+> +       void *backing_file_blob =3D *backing_file_blobp;
+> +
+> +       call_void_hook(backing_file_free, backing_file_blob);
+> +
+> +       if (backing_file_blob) {
+> +               *backing_file_blobp =3D NULL;
+> +               kmem_cache_free(lsm_backing_file_cache, backing_file_blob=
+);
+> +       }
+> +}
+> +
+>  /**
+>   * security_file_ioctl() - Check if an ioctl is allowed
+>   * @file: associated file
+> @@ -2505,6 +2579,32 @@ int security_mmap_file(struct file *file, unsigned=
+ long prot,
+>                              flags);
+>  }
+>
+> +/**
+> + * security_mmap_backing_file - Check if mmap'ing a backing file is allo=
+wed
+> + * @vma: the vm_area_struct for the mmap'd region
+> + * @backing_file: the backing file being mmap'd
+> + * @user_file: the user file being mmap'd
+> + *
+> + * Check permissions for a mmap operation on a stacked filesystem.  This=
+ hook
+> + * is called after the security_mmap_file() and is responsible for autho=
+rizing
+> + * the mmap on @backing_file.  It is important to note that the mmap ope=
+ration
+> + * on @user_file has already been authorized and the @vma->vm_file has b=
+een
+> + * set to @backing_file.
+> + *
+> + * Return: Returns 0 if permission is granted.
+> + */
+> +int security_mmap_backing_file(struct vm_area_struct *vma,
+> +                              struct file *backing_file,
+> +                              struct file *user_file)
+> +{
+> +       /* recommended by the stackable filesystem devs */
+> +       if (WARN_ON_ONCE(!(backing_file->f_mode & FMODE_BACKING)))
+> +               return -EIO;
+> +
+> +       return call_int_hook(mmap_backing_file, vma, backing_file, user_f=
+ile);
+> +}
+> +EXPORT_SYMBOL_GPL(security_mmap_backing_file);
+> +
+>  /**
+>   * security_mmap_addr() - Check if mmap'ing an address is allowed
+>   * @addr: address
+> --
+> 2.53.0
+>
+>
