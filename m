@@ -1,101 +1,246 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C59521DFF7;
-	Tue, 24 Mar 2026 15:09:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFD224035B0;
+	Tue, 24 Mar 2026 15:12:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774364944; cv=none; b=loSL6UjplzOo5gLa8JwGBHykW+w2g19zhRxmd1ri8Gmf6GAZZe49pnYO+wZYJ4HQ6cqbShl5Z7MkSGJneErQcm7YnFe/UqGGPt/fY1tG4d+9p2yo+43pbbc+QzYHgi0+mp5cXgH71GQ4HJRpn6rc5gu8An8Pxeg5yaRICurSpck=
+	t=1774365179; cv=none; b=oUFRPLO4EYJuWXRkEV1/jj026BrUZltTKIjKt3TPcu/L0fcV9pKkgQLN7jrlx/DBVtIwSaMuFm7nGrPbwZnLxu7l60DH0PdlGb9rNj08eNk1H49EhmMghHG2XsT+57mJi7DOx0khCcvfEqLKii6D2zq9nZZ+ZT8VaZ2FtBkX0NI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774364944; c=relaxed/simple;
-	bh=RQ70HQsVYWmPm/K/HyN+iwWbjAfIhPqjVv41JZUYmts=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uIRMCDPssLi6l8fGsdIvHLRtP/9jmugkJnck7U9iyJz0dgZ7SGwJOKCcDssDOEzo+ZD1v4Z87R7HKY/svZ6EYZe8kSNyF0NTNgZgmAko8UvDqpUzaxsodJQJunerTV2oyOZylGBZ12Saei4Y1huxkXWA63yLIS2JjgYYbsvXCIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ama7c9Oo; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ama7c9Oo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D1B7C2BCB2;
-	Tue, 24 Mar 2026 15:09:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774364944;
-	bh=RQ70HQsVYWmPm/K/HyN+iwWbjAfIhPqjVv41JZUYmts=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Ama7c9OoYQ0W9/2yIkRLOxF7NdEaqt7KiSBbIFfyFPgsJxb52FdI81A+ZKpMVZyB6
-	 Rnq37MkUhpuUWLsOr/ZlrXSTiarF158G3mhwvu1IaZ847JHteA7hSxs1oazdOBwp/x
-	 PvyA6k+CZCAcS6kHFk0jLt8Otdj1A7CyUYmuF4jTcn1Tuwq/vuYvXCwu9++ivDByvZ
-	 eTAjla3hB42rmclFzSbua1tUnaffm+z5qZuIbIa1eaSOhXCnxMb6Rnc16kewCO/Cuo
-	 IJ5nH/DVGQvlTohOVXbZpDR+/QT1FyJqiFlCju/rH5UhRw+Fka/oJtMx3AnyDsFobA
-	 emkyJuetJLL4Q==
-From: Christian Brauner <brauner@kernel.org>
-To: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
-Cc: Christian Brauner <brauner@kernel.org>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	David Laight <david.laight.linux@gmail.com>,
-	Thomas Gleixner <tglx@kernel.org>
-Subject: Re: [PATCH v5 1/2] readdir: Introduce dirent_size()
-Date: Tue, 24 Mar 2026 16:07:00 +0100
-Message-ID: <20260324-jargon-infamieren-1e00d08c01ec@brauner>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <c20d2f8f6817a39401155cfc80f0dff88df116e0.1774350128.git.chleroy@kernel.org>
-References: <c20d2f8f6817a39401155cfc80f0dff88df116e0.1774350128.git.chleroy@kernel.org>
+	s=arc-20240116; t=1774365179; c=relaxed/simple;
+	bh=o1VBIWE+N6GLi7LTM8CwipxHM7Ni32sdzn0HUs5T0yU=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=vGBcM3SOF8nGzUKLr9CFbUps6ACox9KYhbgITjgTQYS66IPGiThycZAe5e8d+nw1GZVN//9U2iHJNG+X84JCOdoS0tyg6gKfiR3oCBb7P59BgHPeABsTkSsCvM861G8ZonbN3k4IqIFfsmvG8rBu5kH7lxak8Frod1RdeRA7OVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.224.83])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4fgD6Z2x7qzHnGjS;
+	Tue, 24 Mar 2026 23:12:22 +0800 (CST)
+Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
+	by mail.maildlp.com (Postfix) with ESMTPS id EE6FA40569;
+	Tue, 24 Mar 2026 23:12:55 +0800 (CST)
+Received: from localhost (10.203.177.15) by dubpeml500005.china.huawei.com
+ (7.214.145.207) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Tue, 24 Mar
+ 2026 15:12:54 +0000
+Date: Tue, 24 Mar 2026 15:12:53 +0000
+From: Jonathan Cameron <jonathan.cameron@huawei.com>
+To: John Groves <john@jagalactic.com>
+CC: John Groves <John@Groves.net>, Miklos Szeredi <miklos@szeredi.hu>, "Dan
+ Williams" <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>,
+	Alison Schofield <alison.schofield@intel.com>, John Groves
+	<jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+	<skhan@linuxfoundation.org>, Vishal Verma <vishal.l.verma@intel.com>, "Dave
+ Jiang" <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, "Jan
+ Kara" <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, "David
+ Hildenbrand" <david@kernel.org>, Christian Brauner <brauner@kernel.org>,
+	"Darrick J . Wong" <djwong@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, Stefan
+ Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, Josef
+ Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Chen
+ Linxuan <chenlinxuan@uniontech.com>, "James Morse" <james.morse@arm.com>,
+	Fuad Tabba <tabba@google.com>, "Sean Christopherson" <seanjc@google.com>,
+	Shivank Garg <shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>,
+	Gregory Price <gourry@gourry.net>, Aravind Ramesh <arramesh@micron.com>, Ajay
+ Joshi <ajayjoshi@micron.com>, "venkataravis@micron.com"
+	<venkataravis@micron.com>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev"
+	<nvdimm@lists.linux.dev>, "linux-cxl@vger.kernel.org"
+	<linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org"
+	<linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH V9 01/10] famfs_fuse: Update macro
+ s/FUSE_IS_DAX/FUSE_IS_VIRTIO_DAX/
+Message-ID: <20260324151253.00006b86@huawei.com>
+In-Reply-To: <0100019d1d494e7b-2f01e83a-ebaa-4d1b-ae35-33b882a7bda4-000000@email.amazonses.com>
+References: <0100019d1d48b7e8-4468329f-b446-43f1-87db-3c7e1ff6f28b-000000@email.amazonses.com>
+	<20260324004026.5170-1-john@jagalactic.com>
+	<0100019d1d494e7b-2f01e83a-ebaa-4d1b-ae35-33b882a7bda4-000000@email.amazonses.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1754; i=brauner@kernel.org; h=from:subject:message-id; bh=RQ70HQsVYWmPm/K/HyN+iwWbjAfIhPqjVv41JZUYmts=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQeWvGucPmCXk5pNYZYjoenWjckKLbP3L1kWuk0Nu5dE v4eC/j+dJSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEzkYS/DH07riKkc6z7unOO7 WXTl5Ne6PmZJSw+0TBXTOLuCcXfNWkVGhjXi6+QDnjesjlv3S17gpfgCh6qcxS/Se6d8exioePR 5AisA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml100012.china.huawei.com (7.191.174.184) To
+ dubpeml500005.china.huawei.com (7.214.145.207)
 
-On Tue, 24 Mar 2026 12:41:15 +0100, Christophe Leroy (CS GROUP) wrote:
-> In several places in readdir.c there are calculations of the total size
-> of a dirent, which contains a few fixed fields plus a name field with
-> variable size. To add fun every dirent is of a slightly different type:
-> - struct old_linux_dirent
-> - struct linux_dirent
-> - struct linux_dirent64
-> - struct compat_old_linux_dirent
-> - struct compat_linux_dirent
+On Tue, 24 Mar 2026 00:40:36 +0000
+John Groves <john@jagalactic.com> wrote:
+
+> From: John Groves <john@groves.net>
 > 
-> [...]
+> Virtio_fs now needs to determine if an inode is DAX && not famfs.
+FWIW patch bundles broke sashiko
 
-VFS CI: https://github.com/linux-fsdevel/vfs/actions/runs/23491121925
+https://sashiko.dev/#/message/0100019d1d46d094-cc0a4b79-3bd2-43e8-a08d-ab8cd21266a6-000000%40email.amazonses.com
+It only reviewed the fuse part.  (I was looking to see what it had found I missed
+in the DAX ones).
+> This relaces the FUSE_IS_DAX() macro with FUSE_IS_VIRTIO_DAX(),
 
-  x86_64 (gcc, debian, ovl-fstests)  pass
-  x86_64 (gcc, debian, selftests)    pass
-  x86_64 (gcc, debian, xfstests)     pass
-  x86_64 (gcc, fedora, ovl-fstests)  pass
-  x86_64 (gcc, fedora, selftests)    pass
-  x86_64 (gcc, fedora, xfstests)     pass
+replaces (Sashiko spell checks ;)
 
-No meaningful VFS AI review comments.
+> in preparation for famfs in later commits. The dummy
+> fuse_file_famfs() macro will be replaced with a working
+> function.
+> 
+> Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
+> Reviewed-by: Dave Jiang <dave.jiang@intel.com>
+> Signed-off-by: John Groves <john@groves.net>
 
-This looks pretty clean to me overall.
 
----
 
-Applied to the vfs-7.1.misc branch of the vfs/vfs.git tree.
-Patches in the vfs-7.1.misc branch should appear in linux-next soon.
+> ---
+>  fs/fuse/dir.c    |  2 +-
+>  fs/fuse/file.c   | 13 ++++++++-----
+>  fs/fuse/fuse_i.h |  9 ++++++++-
+>  fs/fuse/inode.c  |  4 ++--
+>  fs/fuse/iomode.c |  2 +-
+>  5 files changed, 20 insertions(+), 10 deletions(-)
+> 
+> diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
+> index 7ac6b232ef12..c63f097bc697 100644
+> --- a/fs/fuse/dir.c
+> +++ b/fs/fuse/dir.c
+> @@ -2161,7 +2161,7 @@ int fuse_do_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+>  		is_truncate = true;
+>  	}
+>  
+> -	if (FUSE_IS_DAX(inode) && is_truncate) {
+> +	if (FUSE_IS_VIRTIO_DAX(fi) && is_truncate) {
+>  		filemap_invalidate_lock(mapping);
+>  		fault_blocked = true;
+>  		err = fuse_dax_break_layouts(inode, 0, -1);
+> diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+> index b1bb7153cb78..4ee5065737d8 100644
+> --- a/fs/fuse/file.c
+> +++ b/fs/fuse/file.c
+> @@ -252,7 +252,7 @@ static int fuse_open(struct inode *inode, struct file *file)
+>  	int err;
+>  	bool is_truncate = (file->f_flags & O_TRUNC) && fc->atomic_o_trunc;
+>  	bool is_wb_truncate = is_truncate && fc->writeback_cache;
+> -	bool dax_truncate = is_truncate && FUSE_IS_DAX(inode);
+> +	bool dax_truncate = is_truncate && FUSE_IS_VIRTIO_DAX(fi);
+>  
+>  	if (fuse_is_bad(inode))
+>  		return -EIO;
+> @@ -1812,11 +1812,12 @@ static ssize_t fuse_file_read_iter(struct kiocb *iocb, struct iov_iter *to)
+>  	struct file *file = iocb->ki_filp;
+>  	struct fuse_file *ff = file->private_data;
+>  	struct inode *inode = file_inode(file);
+> +	struct fuse_inode *fi = get_fuse_inode(inode);
+>  
+>  	if (fuse_is_bad(inode))
+>  		return -EIO;
+>  
+> -	if (FUSE_IS_DAX(inode))
+> +	if (FUSE_IS_VIRTIO_DAX(fi))
+>  		return fuse_dax_read_iter(iocb, to);
+>  
+>  	/* FOPEN_DIRECT_IO overrides FOPEN_PASSTHROUGH */
+> @@ -1833,11 +1834,12 @@ static ssize_t fuse_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
+>  	struct file *file = iocb->ki_filp;
+>  	struct fuse_file *ff = file->private_data;
+>  	struct inode *inode = file_inode(file);
+> +	struct fuse_inode *fi = get_fuse_inode(inode);
+>  
+>  	if (fuse_is_bad(inode))
+>  		return -EIO;
+>  
+> -	if (FUSE_IS_DAX(inode))
+> +	if (FUSE_IS_VIRTIO_DAX(fi))
+>  		return fuse_dax_write_iter(iocb, from);
+>  
+>  	/* FOPEN_DIRECT_IO overrides FOPEN_PASSTHROUGH */
+> @@ -2370,10 +2372,11 @@ static int fuse_file_mmap(struct file *file, struct vm_area_struct *vma)
+>  	struct fuse_file *ff = file->private_data;
+>  	struct fuse_conn *fc = ff->fm->fc;
+>  	struct inode *inode = file_inode(file);
+> +	struct fuse_inode *fi = get_fuse_inode(inode);
+>  	int rc;
+>  
+>  	/* DAX mmap is superior to direct_io mmap */
+> -	if (FUSE_IS_DAX(inode))
+> +	if (FUSE_IS_VIRTIO_DAX(fi))
+>  		return fuse_dax_mmap(file, vma);
+>  
+>  	/*
+> @@ -2934,7 +2937,7 @@ static long fuse_file_fallocate(struct file *file, int mode, loff_t offset,
+>  		.mode = mode
+>  	};
+>  	int err;
+> -	bool block_faults = FUSE_IS_DAX(inode) &&
+> +	bool block_faults = FUSE_IS_VIRTIO_DAX(fi) &&
+>  		(!(mode & FALLOC_FL_KEEP_SIZE) ||
+>  		 (mode & (FALLOC_FL_PUNCH_HOLE | FALLOC_FL_ZERO_RANGE)));
+>  
+> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+> index 7f16049387d1..45e108dec771 100644
+> --- a/fs/fuse/fuse_i.h
+> +++ b/fs/fuse/fuse_i.h
+> @@ -1508,7 +1508,14 @@ void fuse_free_conn(struct fuse_conn *fc);
+>  
+>  /* dax.c */
+>  
+> -#define FUSE_IS_DAX(inode) (IS_ENABLED(CONFIG_FUSE_DAX) && IS_DAX(inode))
+> +static inline bool fuse_file_famfs(struct fuse_inode *fuse_inode) /* Will be superseded */
+> +{
+> +	(void)fuse_inode;
+> +	return false;
+> +}
+> +#define FUSE_IS_VIRTIO_DAX(fuse_inode) (IS_ENABLED(CONFIG_FUSE_DAX)	\
+> +					&& IS_DAX(&fuse_inode->inode)  \
+> +					&& !fuse_file_famfs(fuse_inode))
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+The AI overlord pointed out you should probably have a few more brackets
+just in case someone passes something odd in as fuse_inode. Lets assume
+they don't pass things with side effects in.
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
+#define FUSE_IS_VIRTIO_DAX(fuse_inode) (IS_ENABLED(CONFIG_FUSE_DAX)	\
+					&& IS_DAX(&(fuse_inode)->inode)  \
+					&& !fuse_file_famfs(fuse_inode))
 
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.1.misc
+>  
+>  ssize_t fuse_dax_read_iter(struct kiocb *iocb, struct iov_iter *to);
+>  ssize_t fuse_dax_write_iter(struct kiocb *iocb, struct iov_iter *from);
+> diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+> index e57b8af06be9..1333b3ebb18a 100644
+> --- a/fs/fuse/inode.c
+> +++ b/fs/fuse/inode.c
+> @@ -162,7 +162,7 @@ static void fuse_evict_inode(struct inode *inode)
+>  	/* Will write inode on close/munmap and in all other dirtiers */
+>  	WARN_ON(inode_state_read_once(inode) & I_DIRTY_INODE);
+>  
+> -	if (FUSE_IS_DAX(inode))
+> +	if (FUSE_IS_VIRTIO_DAX(fi))
+>  		dax_break_layout_final(inode);
+>  
+>  	truncate_inode_pages_final(&inode->i_data);
+> @@ -170,7 +170,7 @@ static void fuse_evict_inode(struct inode *inode)
+>  	if (inode->i_sb->s_flags & SB_ACTIVE) {
+>  		struct fuse_conn *fc = get_fuse_conn(inode);
+>  
+> -		if (FUSE_IS_DAX(inode))
+> +		if (FUSE_IS_VIRTIO_DAX(fi))
+>  			fuse_dax_inode_cleanup(inode);
+>  		if (fi->nlookup) {
+>  			fuse_queue_forget(fc, fi->forget, fi->nodeid,
+> diff --git a/fs/fuse/iomode.c b/fs/fuse/iomode.c
+> index 3728933188f3..31ee7f3304c6 100644
+> --- a/fs/fuse/iomode.c
+> +++ b/fs/fuse/iomode.c
+> @@ -203,7 +203,7 @@ int fuse_file_io_open(struct file *file, struct inode *inode)
+>  	 * io modes are not relevant with DAX and with server that does not
+>  	 * implement open.
+>  	 */
+> -	if (FUSE_IS_DAX(inode) || !ff->args)
+> +	if (FUSE_IS_VIRTIO_DAX(fi) || !ff->args)
+>  		return 0;
+>  
+>  	/*
 
-[1/2] readdir: Introduce dirent_size()
-      https://git.kernel.org/vfs/vfs/c/4bf798e027d3
-[2/2] fs: Replace user_access_{begin/end} by scoped user access
-      https://git.kernel.org/vfs/vfs/c/b98f7363f72f
