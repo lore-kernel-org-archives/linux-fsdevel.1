@@ -1,241 +1,223 @@
-Received: from fout-b4-smtp.messagingengine.com (fout-b4-smtp.messagingengine.com [202.12.124.147])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08B18382379
-	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 16:05:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.147
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774368351; cv=none; b=EoDFY47JaBhIWvh/svP4t6ss6+dBmEo5YIvWbdBhl0etlbPLLWKl4VsaE1R17U+UY9w72sBZQC77MhvrOT92ai+GTDsbqGkux4O4GlBXWKV/p+oHVxZU6gJbM1cRe+0jDTfhDj6g6u/Um7ww70ApzXoUDam8mU385N9EISopvlc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774368351; c=relaxed/simple;
-	bh=DjVCYOPtNVDTjkP5Brysi8bZnWTMngWe90G6zxDmOY8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ft8eRh0XFPb4Kftht7DMSBVfnIrjN+tIuic8x5fbleZvdjLCYaLRcfZcmlknY3OJlhc6Gpf55+tXXHtulnu3Qb4DzBZXOLYixpoMExlkZPQYb0pCtzunj3P2T7Jf42H/ZuOHfE1bMwuH0pv2PlR+b7/f+eVZ/6cKfKaXC3FlpMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=Iu0oPlr3; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=fls0z5nI; arc=none smtp.client-ip=202.12.124.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E014F38BF83;
+	Tue, 24 Mar 2026 16:26:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.16
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774369566; cv=fail; b=oq7gV5bzh0E6j32w+SMQnUJb0PfUVaa6dqzWQvmDTdLlOhaUdrFlYqnot9IxoIhF09ilIcX8O0nP89TFjDOUzTq0Z7OTUn8igINV+IulM4LWxatoEHCRcdgtHd/XBJsfYcxJYh0Rr6htfLvk+aECeX95BwVa5K8yqXYMnrztU+M=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774369566; c=relaxed/simple;
+	bh=+mCrbAmVCCq9ngJ0SL3WO4C8f5At3YXtjGkluInZ6qw=;
+	h=From:Date:To:CC:Message-ID:In-Reply-To:References:Subject:
+	 Content-Type:MIME-Version; b=qcAqzNXpO4mlj9h3/CZLHqIyNKG+5Ib5/Cc5NrUqTiqjtrIJ4UXht5btE3QZEhelKf33xgiIWF3TaqitVunLOKnkqbzWZowDEO1wxbrrIb0rbwvrdbCATO00TUluduod/cezx5L1wwDnFpKKAvW46nIN9XRLQ749D7tHIye5CE8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Oj1gJYbM; arc=fail smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="Iu0oPlr3";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="fls0z5nI"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfout.stl.internal (Postfix) with ESMTP id E7E2D1D00103;
-	Tue, 24 Mar 2026 12:05:47 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Tue, 24 Mar 2026 12:05:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1774368347;
-	 x=1774454747; bh=lL19ey7EMgqiegK3vHIZE0J4jGrU5JHDT5lI1y7Ludw=; b=
-	Iu0oPlr3vaVpgzIx00X5xpJaYUmYsjbv5STRVPJ/7kEQg9BF5CrDPjOE5VshXWcN
-	U+AnDbwwHyfstxLN7AgpNBayAeJoHlOboDnt1OzJ9tGsc9YU+v70Yq3njb5FqGkF
-	RFTE2R8KWgP4w1k+P0ZvpVV+ut1v2MX0468BTjIFPOf/ph/MRKn9d0vTIuw4Awjh
-	TJRk0qus5Vn/cGd/IZNu8WPl/nFl52EipHqwgfZ3vqZ+LWBftd+0phW4pjZnd3pY
-	9LnrQIT1npFjeCgs4TBoIS74SM4q0Ffv9VpeQ9JEH7I7zjTA33wBOxEO9pAEQ/yL
-	fYFrfHExtqLj8PxxbcBvig==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1774368347; x=
-	1774454747; bh=lL19ey7EMgqiegK3vHIZE0J4jGrU5JHDT5lI1y7Ludw=; b=f
-	ls0z5nI31BylNBpknr6hgb6FcXEs54fwyTxwMSw7g0Vmu1BIbpUPGqeeDBguGOfl
-	J9h+4ZXsByGjvQBiRd/guwrffn0H9Pch4surtozy+mgwrYsoheA3pWfD6k2MVroB
-	tj+fw+CjQPh03GT5QAjBr/OgvcPbpq9phAcbjRm6dPeLx+2zjoxGlmCXElbh78oo
-	sA7MXZokVuGEEyKTp5VLhSD4NmCbs1UqOsAA9LqqrJun6SdWPXwrG/5G90Sqjz9Q
-	FxUkkjk5XL4RZk6HxekFbcMDpswEyFOapDcMkX+oZtFYc18VH2xW0awYa9CtFgza
-	1R4yT2cR6ZnXBzidelUSQ==
-X-ME-Sender: <xms:W7bCabELM_SobSnBQtAh6G3HiQzLbVPvGgTLg-J6SGDzm_KBT2aZXA>
-    <xme:W7bCaa7gHE7bsMqpDdwAfNbfPy4yx21tFAKAg8NOv0hUzETWtMY8v6v-h1t_YVo8c
-    juekpx-nsiqPkYrzvPwp4IGggVqtfaKShGeUbGI-jPzTtfaaCJC>
-X-ME-Received: <xmr:W7bCaQzTrb-6SqnOZbtW_xRm8eKYV6j7a-2piLMC_IwwXYESP7f1Bptl_8sJKuDApA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdefvddvtdduucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
-    ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
-    htthgvrhhnpeehhfejueejleehtdehteefvdfgtdelffeuudejhfehgedufedvhfehueev
-    udeugeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    gsvghrnhgusegsshgsvghrnhgurdgtohhmpdhnsggprhgtphhtthhopeelpdhmohguvgep
-    shhmthhpohhuthdprhgtphhtthhopehsthgvfhgrnhhhrgesrhgvughhrghtrdgtohhmpd
-    hrtghpthhtohepjhhimhdrhhgrrhhrihhssehnvhhiughirgdrtghomhdprhgtphhtthho
-    pehlihhnuhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpth
-    htohepmhhikhhlohhssehsiigvrhgvughirdhhuhdprhgtphhtthhopehmghhurhhtohhv
-    ohihsehnvhhiughirgdrtghomhdprhgtphhtthhopehiiigrtghhsehnvhhiughirgdrtg
-    homhdprhgtphhtthhopehkshiithihsggvrhesnhhvihguihgrrdgtohhmpdhrtghpthht
-    ohepghhmrghglhhiohhnvgesrhgvughhrghtrdgtohhmpdhrtghpthhtohephhhrvghith
-    iisehrvgguhhgrthdrtghomh
-X-ME-Proxy: <xmx:W7bCaZNZPM11co1iTRw5sugMcd6iFgD9pn-7Ey9d41Jmao1qOu4uCA>
-    <xmx:W7bCaWllMCp1JHKHlN7jrcxeEI09aF9YaraUPwH4cejfWPcYvamoQg>
-    <xmx:W7bCaeQ5JQ7zJZFQQArumXkTnRiJOdTLR-JqBy0jUvrp_6CBhiIVGQ>
-    <xmx:W7bCaVV6E1eb6CZEwUoMlkqyQEZvANsCwUj1pLEufV-x2V94plxljQ>
-    <xmx:W7bCaXpq_FaSgC01TZUCGEwMunRiQmQAktA_PYmPsbkh3e-6CYnNOexI>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 24 Mar 2026 12:05:46 -0400 (EDT)
-Message-ID: <30a271bd-eaba-4248-af66-df18a61864ca@bsbernd.com>
-Date: Tue, 24 Mar 2026 17:05:45 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Oj1gJYbM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774369564; x=1805905564;
+  h=from:date:to:cc:message-id:in-reply-to:references:
+   subject:content-transfer-encoding:mime-version;
+  bh=+mCrbAmVCCq9ngJ0SL3WO4C8f5At3YXtjGkluInZ6qw=;
+  b=Oj1gJYbM/WT5psdQKRXZIdlKUN5OTp5zumzcqsF74HyoAaz33sYH7H7p
+   do0LbInaS68XL2o/USZ7ynVi1ooM2SdscVcRaG4A/fuc5AOgJ9OusK9zJ
+   f9Qbz/uClJ5C6Tyb09CXFVB4x93R1FXhW9SwzC2kILWZn1pn2fGCeDnuf
+   ToVeCreHzioUc2JLhWR4cmZDOImkD6vPQ2oLbOQ7xYhzUwkTsqJCvP1nZ
+   0tTlNFS8PVMDEvrgJ8mpTRlkOkSN3H5oc+DdEXAucXuR6BOoK9qAzEmZy
+   19pzXR5oiqylJaK3gAZdqOhCnSaY3ApSDgkN8QxFoFXKn3SAkAVXyNTC7
+   Q==;
+X-CSE-ConnectionGUID: EIoNiB5qQISg0EJnlXxNdg==
+X-CSE-MsgGUID: Lsk8CN6gQPav/FN7XjB+AA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="62944624"
+X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
+   d="scan'208";a="62944624"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 09:26:03 -0700
+X-CSE-ConnectionGUID: qi6VhFCYS5G7ovKpBhIs9g==
+X-CSE-MsgGUID: VHDXiLCsTqCM3dQPZ+V5ow==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
+   d="scan'208";a="247993943"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by fmviesa001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 09:26:02 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Tue, 24 Mar 2026 09:26:01 -0700
+Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Tue, 24 Mar 2026 09:26:01 -0700
+Received: from DM1PR04CU001.outbound.protection.outlook.com (52.101.61.24) by
+ edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Tue, 24 Mar 2026 09:25:58 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=W3L8W9J18+CnCM1Id6rvKRFmVg6FQoTlv7nlNNsXHqqxNzRNTMJ5jz8vd7Vqzvnar7Bgv+6ze3M+PmvQmX74sLQrkBcnT00C7S5lA2h7Lfk7MSTI4d3CrN5LS1vFHUKa3OC4W55N2podg/b2gKjATDS6nun9rmrpZ/QtPiquRVc2juk7cbUk3chtzOIMWhqzHk3ljSpFMgK+wNmha+VsxdB7Y1nFfyPuvgm59bCJWe+OGcyqA7wpbHaK3Ew1eCbYAvmGCtAMD3yPs2HQot4DkBx5cwl1oVSTG1FwsW2tTjWasg2RT8MmjJvJVQr0s8aBd/2b0+FcYlpvFrURRMB17g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Iw/DRGXLkFNLSvfjAOgjC33esmAf0yI4Btxwu2qNH9k=;
+ b=KrypgJhPk6jpgKI05FGQ8bQmeu/dy0tIxsOTkDbFvNFa2X/q5AG9ZSQ+osnUuBZcbaP5Tla3oX9qLgDdGPFkFx3yDXrmrV2AjawSoNzR6gAgkI1St19t3+Vz+ct316Yv2XM9KXnFHE72SJbWpwyeVeemV7osVNfpjw7rouS+/2/H0Lw3Ku4YBT5VBvyGTFIenAYJMj000q9e4zoawoNqHNj/d7d28N25XdwuMjrV222qpffsutvZC1ma8iJwaJi0CqCJ7aOreQuIgBGBVvOUSjRCfQlJrC9nvp0dpe44Z51ysZZW2tSlOgFsCumdQ1lJqjxro8rR5PV7+JbvlErBlw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH8PR11MB8107.namprd11.prod.outlook.com (2603:10b6:510:256::6)
+ by LV3PR11MB8553.namprd11.prod.outlook.com (2603:10b6:408:1b8::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.19; Tue, 24 Mar
+ 2026 16:25:56 +0000
+Received: from PH8PR11MB8107.namprd11.prod.outlook.com
+ ([fe80::1ff:1e09:994b:21ff]) by PH8PR11MB8107.namprd11.prod.outlook.com
+ ([fe80::1ff:1e09:994b:21ff%3]) with mapi id 15.20.9745.019; Tue, 24 Mar 2026
+ 16:25:56 +0000
+From: Dan Williams <dan.j.williams@intel.com>
+Date: Tue, 24 Mar 2026 09:25:53 -0700
+To: "Koralahalli Channabasappa, Smita" <skoralah@amd.com>, Dan Williams
+	<dan.j.williams@intel.com>, Smita Koralahalli
+	<Smita.KoralahalliChannabasappa@amd.com>, <linux-cxl@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <nvdimm@lists.linux.dev>,
+	<linux-fsdevel@vger.kernel.org>, <linux-pm@vger.kernel.org>
+CC: Ard Biesheuvel <ardb@kernel.org>, Alison Schofield
+	<alison.schofield@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, "Ira
+ Weiny" <ira.weiny@intel.com>, Jonathan Cameron <jonathan.cameron@huawei.com>,
+	Yazen Ghannam <yazen.ghannam@amd.com>, Dave Jiang <dave.jiang@intel.com>,
+	Davidlohr Bueso <dave@stgolabs.net>, Matthew Wilcox <willy@infradead.org>,
+	Jan Kara <jack@suse.cz>, "Rafael J . Wysocki" <rafael@kernel.org>, Len Brown
+	<len.brown@intel.com>, Pavel Machek <pavel@kernel.org>, Li Ming
+	<ming.li@zohomail.com>, Jeff Johnson <jeff.johnson@oss.qualcomm.com>, "Ying
+ Huang" <huang.ying.caritas@gmail.com>, Yao Xingtao <yaoxt.fnst@fujitsu.com>,
+	Peter Zijlstra <peterz@infradead.org>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, Nathan Fontenot <nathan.fontenot@amd.com>,
+	Terry Bowman <terry.bowman@amd.com>, Robert Richter <rrichter@amd.com>,
+	Benjamin Cheatham <benjamin.cheatham@amd.com>, Zhijian Li
+	<lizhijian@fujitsu.com>, Borislav Petkov <bp@alien8.de>, Tomasz Wolski
+	<tomasz.wolski@fujitsu.com>
+Message-ID: <69c2bb11a3525_5162110027@dwillia2-mobl4.notmuch>
+In-Reply-To: <2960e485-fe26-43b8-a950-9cdb5a090678@amd.com>
+References: <20260322195343.206900-1-Smita.KoralahalliChannabasappa@amd.com>
+ <20260322195343.206900-4-Smita.KoralahalliChannabasappa@amd.com>
+ <69c19a8c66fd3_7ee3100e3@dwillia2-mobl4.notmuch>
+ <2960e485-fe26-43b8-a950-9cdb5a090678@amd.com>
+Subject: Re: [PATCH v8 3/9] dax/hmem: Request cxl_acpi and cxl_pci before
+ walking Soft Reserved ranges
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR04CA0158.namprd04.prod.outlook.com
+ (2603:10b6:303:85::13) To PH8PR11MB8107.namprd11.prod.outlook.com
+ (2603:10b6:510:256::6)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: fuse: buffered reads limited to 256KB regardless of negotiated
- max_pages
-To: Stefan Hajnoczi <stefanha@redhat.com>, jim.harris@nvidia.com
-Cc: linux-fsdevel@vger.kernel.org, Miklos Szeredi <miklos@szeredi.hu>,
- Max Gurtovoy <mgurtovoy@nvidia.com>, Idan Zach <izach@nvidia.com>,
- Konrad Sztyber <ksztyber@nvidia.com>, German Maglione
- <gmaglione@redhat.com>, hreitz@redhat.com
-References: <20260316145435.BA2542605C3@ubuntu.localdomain>
- <20260324132149.GB668717@fedora>
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: en-US
-In-Reply-To: <20260324132149.GB668717@fedora>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH8PR11MB8107:EE_|LV3PR11MB8553:EE_
+X-MS-Office365-Filtering-Correlation-Id: 66e37854-d0da-433d-1abb-08de89c20698
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|1800799024|376014|56012099003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info: GzGLH4jnUeCPCAIU0su+bj+15XDBRQnR8FwI0WRyzPHPIeH9LyAIg7fhFSR3avUAh/YcGdUHa2Scw95fk2sM0chB0Nb2U4H8XECATJBXba8Aj4D0DVecCQRIdi0NfEyYsSCLtOgk/PpWGaG3Iu9HTnROTQK+iHMSDaqvnlXMtaD19EAz38l0USQp46a6rZgXGPnke+b16fxja7C3JXZ4OgtXzZtK+aC4khSSUGpzQgknX6WtqfRnYP4hIuoYbvPqQxeDf5m/JVsbm9WjvzBuIYr8YzMRToTb+j33FdvUMQ1wItXOoOEjngF8bKlk/uXYWgCBHBqguVHVBV8DqCy16PgfDXrCvwkJhx3CCsJhwexu4oABnPYPJkDP/8isWjdk1WWLRFgRM/XlphcMrOjsyE7HagFqKhLDjf9DCZGXm501xMVsyVivjxGd/aBtrsuQnDEI9MwqdlSNU9gDeZU/3g2fObZ5n8HEOm9S3RbUBro2b6+VbJdP7Pm+Za9lOYgm0mHvGCxnFqGFGJkVEGtZmeTIVCgQ9fr7g22h0GCFTKRQKGWmmSrkVF+2TZzac1gCKKOZpY+mDJ4fGx5G3QzEPCuRQjd8QkYIrwM78EPGPXs8bNA/A4+gbzIixOQf33qEXopUb9lsIuZiiWmU/w+mLkVcG6KDKmtKrgqx8bqHlBYrbyGxCAeM4xdNJjnc7/5emb0S5EQHbsQNRkqyH8Fcc3C4CNKPgECJJbN16pYer70=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR11MB8107.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(1800799024)(376014)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?V2ZaN08zVTk0KzJXcno2bGNPb3lCQkFMY3BsNTVMMzZ0NCtiMFpMSmc0a1ky?=
+ =?utf-8?B?ZVg4UHpidzFKYnVad0xYeGZYL21ZSVpNa1BERVRPY3RwSWxjc3ZUZjRFR1Jx?=
+ =?utf-8?B?RGh1VHBDY3A2MXE4TDVVZXdOUnRXZCsvREx4ZDQ0WmpyM0h1Qnh4MktKTkRT?=
+ =?utf-8?B?TWV4ZFFXaHE1VGhRN2xmSDZ1ckhpSEZ4dFRiWGFwRHROcnhZZ2ZZbWdKSGJ1?=
+ =?utf-8?B?RDJRWVc3YUEvWjkzWkNSSkd6UEdmaHBURnNDc1ZlT3d3ZmhkV2c3bzJNOGRq?=
+ =?utf-8?B?bTdxb0RrMlZ5cm9nUjVYSzZKWkE1MGhLeURqMUJIM01DWVpZQmk2S1E1Tzcz?=
+ =?utf-8?B?b3hiTXQybHRKMEQvdUcvRExXdHN3STNUMVcyQ0ZQOGZETm1wbGdyTFdzYWhu?=
+ =?utf-8?B?d1d6a2crSm1TQjRxa3I1TWxnNTcreHhGb2dOQW1DQ0puRnovdmJ4UkFxT25P?=
+ =?utf-8?B?SG8wTzFpRWVkYzNyM2loeFBqS2dERkFUQUgwTm43TklOTjhVbjRNSmFLYlJa?=
+ =?utf-8?B?V0d0eWJnNWFwK3VaTDhtVkxyS2wwQk9HSHl6TXlSVDYzNkRwejgxZ3BsWExl?=
+ =?utf-8?B?b1VNL01TZmJTRUJKZUpPQ3hrMkpFbG1ZdHR5eFZGV3J5aHBOVy9qUzE2S3VN?=
+ =?utf-8?B?UVN5OCs4Y015OTY2RUR5Vis0ejAxMUd1RGNOTkZnTllwYTNBRzJUdXlqN2Q0?=
+ =?utf-8?B?TUZlc1VsNkt0Q0ZXTnBHSGd4bGZoY25wRm51SHhGV3N2eFluRms1dE1EdWZ3?=
+ =?utf-8?B?dlZCOWI5UHBaSHdzREJlbk9pSmF1MnVxd29jWERtZ2hiRnN4M0Nud05LaDlz?=
+ =?utf-8?B?eUp1WnZwQllQMFFrMkVDMTJyb1lkOE5VdHJPM2F2WldWQUwxM1JrNnErVStj?=
+ =?utf-8?B?N0s0T3dva3dqaVduMWtST2xFM3Vja01BdVJHMGFMUGhubHF4TTQ5bU4wN3pI?=
+ =?utf-8?B?SHQxNzVDbzB4c1o0VHV2RFN6QVhNajdWU051MTdRVkltODRiN093YytuUzJS?=
+ =?utf-8?B?U3c4ZHIwbXE5YmJNS3UyRnBkZ3hVWmFIVm1IUXJOQ3FaMERndW9FWVNDOUwx?=
+ =?utf-8?B?b0JwREg0RjFqMVNYWTg0K0hPZDF0cys4NlBuZnRPVG93T0JOeGFGd3JmdnBh?=
+ =?utf-8?B?bXB5VVB5M09IWDhYVm5zWmJITzhIM1lLcmtVaVFnYVlLTzNkUHVJdDE2eWhB?=
+ =?utf-8?B?dDNLREZxTFo5b3RYMndhekkrUXYvL3ZnK2JsVUhFVzVsa1FTVElYWkRDUUcw?=
+ =?utf-8?B?Q096ZUNYRGR0QXBQUHlpam1xSTR2dEhmOG5jRHI3TkJjYlVTOGYzQi9qOWZ1?=
+ =?utf-8?B?UzhhZ1o4aTJDZEU3Q09mTSs1NDlEK1NhaWtFL3JlMTFtb2tkWWNCMFBaTkFD?=
+ =?utf-8?B?WXRSQlp1YWRVMVl6WnlBcUJaTjJWNndYbHZuTkl4dVpHL3F2aDFQcFNVVzRT?=
+ =?utf-8?B?cXAyZFU3dytZRG42QmhrcEZtRUZZMXhwajZLRm9LeEthR1FZU0VaLzAyTlFt?=
+ =?utf-8?B?dExTRnZLVm5nSUQ3dk00RnJ0NVBzRzdpUURoT05lVVhIa3VOaUpOallLM3pV?=
+ =?utf-8?B?ZXhrdGlKMnFTSCtyWXJCcHpzSWpJcHBxbllGQndydHBHM1hoeS8yQzY5YjVF?=
+ =?utf-8?B?R1VJbWFGZ0doZUxxYlgyc21HUUlydWVER1pmZUd5RVd0amJEYlI1UVFWSVpN?=
+ =?utf-8?B?dmxTV3VPMWRrTW9vQTUxOXNJMXhwS0tyK3RWWG13WGFlclBrb3JDbFN5dEdC?=
+ =?utf-8?B?RGdqbThYTjJPYWZxaGVGRnNORDdvUmZhdjcvSzBoRTcyTjNsWFY4M3dLZjc4?=
+ =?utf-8?B?M0lUa2dLbVVMWGpSTC9FajhVZG9ZTDEwTGhhTWVMNGgzTExnOWpROWNQUkJk?=
+ =?utf-8?B?RzFWWStjaGZoYUJjZ3VWZTJvMnNYbmt1N0hXMlhoVkJwV0JIdXoxbVByem1U?=
+ =?utf-8?B?ZVROOXgrTUlzMUNjTnBFZnBhRXEwcktDdkIxL29sNUY3NEF2ZG93aENTcTc0?=
+ =?utf-8?B?a2h1M1NRVnkzQXNXeUl4cXFHV0R5dFlkdThkSlFieDBwdFdMOE8zZXhSTm1h?=
+ =?utf-8?B?M1dWcUc0ZkJRMHpyTWlPVVRFOXJnOVFQR3hzN0FRMU84SmwvV2R4QUlRWkJi?=
+ =?utf-8?B?akgyUllmZnFiaDRGWlNhS0xZQlRNZWdHMzhsQ2t3aHhRZ0tHY2txak5tSFE2?=
+ =?utf-8?B?cW9BYWxBK3Z3MThEb0MxOG4yNTlIcElHSjI1NlpYcG1DckFkVS9wY3lLdFZo?=
+ =?utf-8?B?UDE1U0hubEF4MTd2djR3V2xwUE9VQVdndUJtNDlDbEZGbUd6ZVpJMHVqZlpY?=
+ =?utf-8?B?SUdXUXdaaUpPeTR4a1NXaE14YVZHQmJYZEFNYzJKSDFnOU5uUjhnUW1zWFIy?=
+ =?utf-8?Q?h2Kr+RVr/gK1ECtg=3D?=
+X-Exchange-RoutingPolicyChecked: HyGPa0KW7zFO4h5zRJKsKe1Uscyau/RGAuL/wUGrTR86EWL0adN4LaXqZL5RT9Kf2HRisp7gzZ9mcbSF7+SQAvl2N6pTnSZEBChUkIFgzI4Cv+/kU+nt4xDlagCIDEtkzKrUu2qeK0hAv/dSZjUCSbftgDT+WfQce8YpAQ/YTL4ul6dmbv1OjTeOU+4wAacXaGbFH2p2OYN4A1r0AYkbwmdOlvatEuwkJ9leWfUVRCzs4eRmuqrK4R4haZtMAFoFm9xFrgmbQ2sn2261p45WXlEQi1T5DKLfY2bRvsTcuamshVxRIses4F1mZBwOt+PupwBzD+C525Uu/IfpAQarow==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 66e37854-d0da-433d-1abb-08de89c20698
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB8107.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Mar 2026 16:25:56.2338
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Hjb3pMUTzcH1VWdA2rJkK3v3SGUdd4NdMMkUwwg8L6Ax9FzjJqrS9mgi0MTgOP4pNSS19QTvIhlFR4vie9RIW+Ym4Ind9Oli63vByembQl8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR11MB8553
+X-OriginatorOrg: intel.com
 
-
-
-On 3/24/26 14:21, Stefan Hajnoczi wrote:
-> On Mon, Mar 16, 2026 at 07:54:35AM -0700, jim.harris@nvidia.com wrote:
->> Hi all,
->>
->> We have a FUSE server that advertises max_write=1MB and max_pages=256
->> in the FUSE_INIT response. Buffered sequential writes arrive at the
->> server at the full 1MB as expected. However, buffered sequential reads
->> are capped at 256KB per FUSE READ request.
->>
->> The cap comes from the BDI readahead window. bdi->ra_pages defaults to
->> VM_READAHEAD_PAGES (32 pages / 128KB). For sequential access (e.g. cp),
->> posix_fadvise(POSIX_FADV_SEQUENTIAL) doubles the per-file readahead
->> window to 2 * bdi->ra_pages (256KB), producing the observed 256KB
->> limit. A 1MB application read() results in four sequential 256KB
->> round trips to the FUSE server instead of one.
+Koralahalli Channabasappa, Smita wrote:
+[..]
+> > As I learned from Keith's recent CXL_PMEM dependency fix for CXL_ACPI
+> > [1], this wants to be:
+> > 
+> > depends on DEV_DAX_HMEM || !DEV_DAX_HMEM
+> > depends on CXL_ACPI || !CXL_ACPI
+> > depends on CXL_PCI || !CXL_PCI
+> > 
+> > ...to make sure that DEV_DAX_CXL can never be built-in unless all of its
+> > dependencies are built-in.
+> > 
+> > [1]: http://lore.kernel.org/69aa341fcf526_6423c1002c@dwillia2-mobl4.notmuch
+> > 
+> > At this point I am wondering if all of the feedback I have for this
+> > series should just be incremental fixes. I also want to have a canned
+> > unit test that verifies the base expectations. That can also be
+> > something I reply incrementally.
 > 
-> Hi Jim,
-> Thanks for sharing this issue. I am CCing Geman Maglione and Hanna
-> Czenczek who work on virtiofsd and are also becoming more involved in
-> the virtiofs kernel driver.
+> Two things on the Kconfig change:
 > 
->> In process_init_reply(), the kernel processes the
->> server's max_readahead response like this:
->>
->>     ra_pages = arg->max_readahead / PAGE_SIZE;
->>     fm->sb->s_bdi->ra_pages = min(fm->sb->s_bdi->ra_pages, ra_pages);
->>
->> Since bdi->ra_pages starts at VM_READAHEAD_PAGES (128KB), and the
->> kernel sends this value as init_in->max_readahead, the server can only
->> decrease readahead -- never increase it. Even if the server responds
->> with max_readahead=1MB, the min() clamps it back to 128KB.
->>
->> Other filesystems set ra_pages or io_pages based on server/device
->> capabilities:
->>
->>   - SMB/CIFS sets ra_pages directly (2 * rsize, or from mount option)
->>   - Ceph sets ra_pages directly from mount option
->>   - 9P sets both ra_pages and io_pages from maxdata
->>   - NFS sets io_pages from rsize
->>
->> I see two possible approaches and would like feedback:
->>
->> Option A: Fix the max_readahead negotiation
->>
->> Replace the current:
->>
->>     fm->sb->s_bdi->ra_pages = min(fm->sb->s_bdi->ra_pages, ra_pages);
->>
->> with:
->>
->>     fm->sb->s_bdi->ra_pages = min(ra_pages, fc->max_pages);
->>
->> This uses the server's max_readahead response directly, capped by
->> fc->max_pages for safety. I think this is backward compatible:
->> existing servers that echo the kernel's 128KB value get the same
->> result. Servers that return a lower value still reduce it. Only
->> servers that return a higher value see changed behavior.
->>
->> FUSE servers can opt in by advertising a larger max_readahead in the
->> FUSE_INIT response.
->>
->> Option B: Set io_pages from max_pages
->>
->> Set bdi->io_pages after FUSE_INIT negotiation:
->>
->>     fm->sb->s_bdi->io_pages = fc->max_pages;
->>
->> This matches what NFS does (setting io_pages from rsize). The
->> readahead code uses max(bdi->io_pages, ra->ra_pages) to determine
->> the maximum readahead size, so a large io_pages would allow larger
->> readahead submissions.
->>
->> This is simpler since no server-side change is needed. However, it
->> bypasses the max_readahead protocol field, making max_readahead
->> effectively meaningless for any device with large max_pages.
->>
->> In both cases, fc->max_pages is already clamped by
->> fc->max_pages_limit, which for virtio-fs accounts for the virtqueue
->> descriptor count.
->>
->> Thoughts?
+> When DEV_DAX_HMEM = y and CXL_ACPI = m and CXL_PCI = m
+
+Right, this should not be possible. The patch I am testing moves the
+optional CXL dependencies to DEV_DAX_HMEM where they belong. I
+mistakenly showed them against DEV_DAX_CXL in my comment.
+
+> 1. Regarding switching from >= to || ! pattern:
 > 
-> I think this is a question for Miklos. You could also send a patch with
-> your preferred solution to expediate this.
-> 
-> Thank you for looking into this - it will be nice to remove this
-> performance limitation.
+> The >= pattern disabled DEV_DAX_CXL entirely when DEV_DAX_HMEM = y and 
+> CXL_ACPI/CXL_PCI = m. So, HMEM unconditionally owned all ranges - the 
+> CXL deferral path is never entered.
 
+That is one of the broken configurations to fix. It should never be
+possible to set DEV_DAX_HMEM=y unless CXL_ACPI and CXL_PCI are both
+disabled or both built-in.
 
-We have this patch in our branch:
+> When DEV_DAX_HMEM = y and CXL core is built as a module hmem.c calls 
+> cxl_region_contains_resource() which lives in cxl_core.ko causing an 
+> undefined reference at link time.
 
-commit 763c96da4bd6d1bb95d8e6bb7fd352389f3a17b9
-Author: Bernd Schubert <bschubert@ddn.com>
-Date:   Wed May 7 23:39:00 2025 +0200
-
-    fuse: Use fuse-server provided read-ahead for CAP_SYS_ADMIN
-    
-    read-ahead is currently limited to bdi->ra_pages. One can change
-    that after the mount with something like
-    
-    minor=$(stat -c "%d" /path/to/fuse)
-    echo 1024 > /sys/class/bdi/0:$(minor)/read_ahead_kb
-    
-    Issue is that fuse-server cannot do that from its ->init method,
-    as it has to know about device minor, which blocks before
-    init is complete.
-    
-    Fuse already sets the bdi value, but upper limit is the current
-    bdi value. For CAP_SYS_ADMIN we can allow higher values.
-    
-    Signed-off-by: Bernd Schubert <bschubert@ddn.com>
-
-diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
-index af8404f539a3..417598bb3575 100644
---- a/fs/fuse/inode.c
-+++ b/fs/fuse/inode.c
-@@ -1369,7 +1369,10 @@ static void process_init_reply(struct fuse_mount *fm, struct fuse_args *args,
- 			fc->no_flock = 1;
- 		}
- 
--		fm->sb->s_bdi->ra_pages =
-+		if (CAP_SYS_ADMIN)
-+			fm->sb->s_bdi->ra_pages = ra_pages;
-+		else
-+			fm->sb->s_bdi->ra_pages =
- 				min(fm->sb->s_bdi->ra_pages, ra_pages);
- 		fc->minor = arg->minor;
- 		fc->max_write = arg->minor < 5 ? 4096 : arg->max_write;
-
-
-
-
-Maybe we can increase the limit for non privileged servers, but
-not to fc->max_pages, because an admin might tune fuse_max_pages_limit 
-to a rather large  value. I was able to kind of crash the system
-with >16MB read-ahead in early 6.x kernels (I think 6.1).
-
-
-
+Yes, I hit this as well and requires another CXL_BUS dependency.
