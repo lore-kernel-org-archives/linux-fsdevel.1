@@ -1,162 +1,178 @@
-Received: from out30-110.freemail.mail.aliyun.com (out30-110.freemail.mail.aliyun.com [115.124.30.110])
+Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011008.outbound.protection.outlook.com [52.101.57.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E6BB24634F
-	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 09:30:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.110
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774344621; cv=none; b=qGWzA27z6Raq2P9Jl4YwUoM/YsYdjHOlCV3ovOnjgNXBrB/xSYe1ulzCYlLtjWWuCyEPxi+9mHHtNqH1bYuar3s6pgA5aV4MnfDoP8hv+fQiHaGeCIDaKVWFLII1QRW+3mUdMkHqDYtBQF+yzpIbvUZ6HANpbkFA2Ckwsn5cRDI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774344621; c=relaxed/simple;
-	bh=uqt124VmvAi83fLOdB9W+sgx6tlQaj/j/JxFrSi2rsU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GKKEn3KU9gFg04H/k0yEUe89pzTHIr14Dgc74spAvg12HKHZ6WDrwy1KevmbEFa1Y74pIyJBVp05ssQTcAhFSr2zfBti2c2MqrKReEMg6bstRE0Cg/UyGox1QlmKIztlSF/y/U8euEckJst4Zr+/D6W87CfX4dRKZ73AyMib0DU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=HydFdvm7; arc=none smtp.client-ip=115.124.30.110
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF6F33DD508;
+	Tue, 24 Mar 2026 09:30:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.57.8
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774344646; cv=fail; b=jLmiSajO+O8ANnlaSskHssBr3+jvKOFzEJSXgrnB5aSei3qxlk3yq6giXMTo1usVBV9oUEsqEM9eH16JHfj3aWdkYz6UMZvP/v5RY//guEbI+K1WrtTS5yFA2dA20jRC3cXDcEAndzQGOxmpppTm0cYyzFTtq8RVFk+c5IQDEdI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774344646; c=relaxed/simple;
+	bh=t6oD0hbRwMXqY/SVhvwXPUwBQxS7U7Hj4ZLOSAShZP4=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=iHOgxeH5utHm0wZ5VpphtnaYd8SRWoQNEwcRDX6ljt0cNOdC110vfsZyk1QSYk6nAusc+Z9d7cH20oFUH3FC3ot2pAwb3xHP6KQvyQc+JMCRFDDR9MuIM+/O2t2RUtZMQ1SUj00oPjqEBiLspve4oeqd5dTsydHI7+MeCFyQIwY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=NqS4uQy4; arc=fail smtp.client-ip=52.101.57.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="HydFdvm7"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1774344609; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=LYNggIwBb8CdNlX+4hQAVjKsJpI2oJYyymBAGExJA80=;
-	b=HydFdvm7gGcfJS5lF9jkoYv7Lj/O6YzFRKGEU8NsLmwy2GlnZK2Pe+atQnYcGQnZ/XYUjlo+cCuUpm7kKpbXBGTvxH0Lkfj1JZlJr78slcmiVTsPotgbGpauW8dzbwHvfm/m1fi2IacIShbQ5MAv+G8dQMwpzacT0BmlAu5URtM=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R181e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037033178;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=14;SR=0;TI=SMTPD_---0X.e6N5K_1774344606;
-Received: from 30.221.131.232(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0X.e6N5K_1774344606 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Tue, 24 Mar 2026 17:30:07 +0800
-Message-ID: <ee146a41-2628-4cde-9f82-e718480edd4d@linux.alibaba.com>
-Date: Tue, 24 Mar 2026 17:30:06 +0800
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="NqS4uQy4"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=wh0xoVzFLHBSlx1P/Xn9KHn8SLAGJHXy5DMcg8VPWNvN4CrtsjfRsgt4CUbxhqxX+DPF2aEFK+0TgGITMZiu0v2SEn7dKU7QT1Yg8APgVhna2GwSjuSV/S9PFWT3syTi/lxVlAXGBmUbK3wqx7sx27C5PJW1Vv1Yhx/DzLIc4IQCk3Sb/+N6rQIxtbo0CSAqTr4qUAaJsKHMFLMRfQmcsz1oeFhvw5MRRqkqokNSoYyJmN49i1iY54dkpkJxEVNUaxI4XN1s6rON9EL6fhHjFrovRnxamo4DIft/kgU38lpMW7PxzPY+5tzHfzDTcHHrMizcKY9EThXhvkqjmepTBg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6zd9ewu7KKDBFLSpypzJjfc4Z4h6U/+oz8Ls6aHbXN8=;
+ b=jG00E8kpQE9QttOARGg3DYdOOSEX8pcckTnsHDx01YjpYuzzriSDr4oRBmrjmsXKVlXYukXE0SzFG3sfw/ytHKCTcWRiRBdee9Gyj7xFThv8UsqpsinDWrcZr+7xJ3So+i6GG3x93JIHckRM2p13gneBNrVQinF//gEishuNUav6mk5q2KtNIAn92geVjdhpVIZT3BeEscdbDzoM/MBSlsywF+Lw+0Y8qLMxiyfA7Yr4V0Lcvr0yOxiWCKYhJXjMB5K4ZJI9MAQuWcrtb4XV3stgCVlocEiESsGl9zgUbTGaCALRA5XUSs3qGHQMBnXYSHt9LwzCH9IkZ8OXeNkaOA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6zd9ewu7KKDBFLSpypzJjfc4Z4h6U/+oz8Ls6aHbXN8=;
+ b=NqS4uQy4RGKAxoHy+1oe1TxxQgsHgDlzn4hLu7rbFUC7mwYvs3v9J1oUL3r0RRbi9nM9hPC12qF3Mj7HpuDiHsX/Wt1zRrtdiHSOkWo18pRNlvUPvyFaWG4JzQOUjVU7d1ivprQ+rmEu7BKd+KluqE6blQ06c1hCMyGN2bpGo6Y=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by PH7PR12MB7236.namprd12.prod.outlook.com (2603:10b6:510:207::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.20; Tue, 24 Mar
+ 2026 09:30:39 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9745.019; Tue, 24 Mar 2026
+ 09:30:39 +0000
+Message-ID: <b8e8ea43-4c1c-41da-99a8-267010e1b9de@amd.com>
+Date: Tue, 24 Mar 2026 10:30:26 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH] fdinfo: Option for public fdinfo
+To: Christian Brauner <brauner@kernel.org>
+Cc: David Francis <David.Francis@amd.com>, linux-kernel@vger.kernel.org,
+ Alexander.Deucher@amd.com, linux-fsdevel@vger.kernel.org
+References: <20260316183828.3354343-1-David.Francis@amd.com>
+ <20260323-neugierig-meerschwein-31b6daaa1db9@brauner>
+ <10ac8ef6-56b4-4a0f-b970-18b3ce012ceb@amd.com>
+ <20260324-mitmachen-wirst-65daea421642@brauner>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20260324-mitmachen-wirst-65daea421642@brauner>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR2P281CA0140.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9e::8) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Lsf-pc] [LSF/MM/BPF TOPIC] Where is fuse going? API cleanup,
- restructuring and more
-To: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-Cc: Demi Marie Obenour <demiobenour@gmail.com>,
- "Darrick J. Wong" <djwong@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>,
- linux-fsdevel@vger.kernel.org, Joanne Koong <joannelkoong@gmail.com>,
- John Groves <John@groves.net>, Bernd Schubert <bernd@bsbernd.com>,
- Amir Goldstein <amir73il@gmail.com>, Luis Henriques <luis@igalia.com>,
- Horst Birthelmer <horst@birthelmer.de>, Gao Xiang <xiang@kernel.org>,
- lsf-pc@lists.linux-foundation.org
-References: <361d312b-9706-45ca-8943-b655a75c765b@gmail.com>
- <390cd031-742b-4f1b-99c4-8ee41a259744@linux.alibaba.com>
- <j3gafvpt6r47trvrkttfvilejplluagdz3alcjxmc7xhnzmemv@tahjpv2ak6qj>
- <cfe18ae0-7dc0-4601-a9f0-c0665f301cfe@linux.alibaba.com>
- <s3y7qrkgwedbkltpt7mjjzisazynzms3btablzpxhdoezapddy@xanux4rrspwd>
- <72eaaed1-24a0-4c98-a7c0-ea249d541f2d@linux.alibaba.com>
- <9af9ad0e-8070-4aaa-9f64-7d72074bd948@linux.alibaba.com>
- <wo2nf7bux5rhexbpyeutbb5bkpqlumq3ht7iqxdft7lhc2p6va@3q6wsi2xndpu>
- <68116ee5-b1f7-484b-a520-7dc5aefd7738@linux.alibaba.com>
- <2gyfmxfnnxrglpzb7kz63xbve5vnosl6gi54c3umgrpwbjr4og@lz4e2ptqanfe>
- <20260324-hilfen-reibung-9783005d5d0f@brauner>
-From: Gao Xiang <hsiangkao@linux.alibaba.com>
-In-Reply-To: <20260324-hilfen-reibung-9783005d5d0f@brauner>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH7PR12MB7236:EE_
+X-MS-Office365-Filtering-Correlation-Id: 40768696-1ce1-48b4-985c-08de89880324
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|376014|366016|22082099003|56012099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	uaAy+axTAAP2ACO2gvHobBdo9DKfLIpkkHr5NNvL1cZiv6wsopJWLq9apoz2b9ZaEKQXHLWg47DrBI0Qgl7JlYuao49i5KqxKYPRnJ1p/abEUOKYJcgl2lvqJtoiSuF5P/oO+BpQTVDTmkGEm6dfotFSCv6U5R+82m95zTn39aN1fWaUGUl9rwB+VB7MGJmKkE2SRTGPmUhTYioswnHdOjDqykn6XEgUCXVlTL7kEpQOpodv2LDWSv8yEut0w3NdUYyq2UORdNbkXtdtRNcktYkHw0uoh1uAFzBfXf5ipTIt4JImdv61qWVHN/LbIaMckrWxtK68+EpvbqpCaqsIZKPw4cG39hKGBw9yqnjpr9EN66yTqR6aQUvBQryCH8vEuuB0bqrhnLVeLD1B3eDKwPhPgkppDsmiDwNPoQrUsn46akDmCitot9P8n1eLcKrCGJstjsnE2qQxJIKP/3q9VbydTdHrF/X3ksud6x2ixBClIJBLwQa1LjEplyWCsSfZ4ScdhNtrqVjcKCuiuh7tnqRs/3Nxb0eD5NrV47p3LR5ltbmWb1NaMWawY3GaLSwakICJ6rR33ei/g85ioqxrWpScU89zA1FA/jfIVSxTFrKIiqINNqhDfpMDGK/Lg5yGOXlFcYGMnCw/eeT091su/MGyA9Wx71RibFQ0RdoLWRq8dp59ZuBaYO68ncqArBtJlGIL6ddVRy1q7cXMObPrCNNEJS374vjMikas6pbhn58=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?NXZqNnh2b28wZ0pub0UyMFZjOW1GeUFSYklzM1RENVFnOWwzV1BLVWkxL2dq?=
+ =?utf-8?B?QXozRlVVbE9TREFla0dwZ0ZIa2RqcS9DRWxtTDlrZHhQMTl6L0VLa0hhREhG?=
+ =?utf-8?B?Y29Zck1JcnlvUXlaR2UySGJPVEVDaXVQdTdlbTdVa2RwWjZNZUQrNDB3UHlk?=
+ =?utf-8?B?NytiWkxmSWlrNlYvODhPNU9LZDJkS0FDWVF2V1FYNmVaYmtBejcyNXZXeHNw?=
+ =?utf-8?B?blhMZGNtNmhpbUZIY0M4cytna09VZXljRXk0eEFod1UvRGRKY2llNG8rUSsx?=
+ =?utf-8?B?aE1yMk5Ya3paQ1RhVVNWcWFybXFTMzUyNVA4QWhGa0hBeGwwOXpXa0g0L2VT?=
+ =?utf-8?B?TUxoR29RZ3pKMUYwbUxPdnJCa01FYTN2cWc5VkVYb3RWREtEWkdlWlc3Zm5O?=
+ =?utf-8?B?RTBrQTVmYUV4dTZ1bVE2aG1KeWVFRjdtYkhpRVp1a25WYVhDTWVZVjJ3VnU2?=
+ =?utf-8?B?RVo2Wmd6MkNSMlgvK0VhZGYwYkpwYXByUFF2djJEaGM3dUR4MkY1Sk5MWEVm?=
+ =?utf-8?B?Q2VJNDZTTE9JcWJaT2NOb2pDODVJNVB4c25DQnJTd09PRTJpZHl2alN0ZDhN?=
+ =?utf-8?B?eHVjRDZWTVBTOGNIOE9qb1pkT0d3TmtPaVVBUkd1a2RxZzRsTzUzaXNNaWR0?=
+ =?utf-8?B?K0lzVmtJUTRyVVNvM0RhcDYwLzZHTW9UMlF0a3ExMW1WVG1CUXVqQm9Jem5y?=
+ =?utf-8?B?ZDZBZWhKNTM0eUtQNEx5WWVKbWlSUEVmSHNqMEZjek9WNkJFdnBsUW5UUlIw?=
+ =?utf-8?B?NEU4WVZGZmtwaFVub3JSNlR5M2EwaFYwL21pbmtleG4zMHVIWk5nbzJKWTE4?=
+ =?utf-8?B?YlgvTFY0S09xdUVvUEkxRmhCSFRYMHRZdFU2RWFRbVBxdm1lRGY2bXo2Yld1?=
+ =?utf-8?B?eUV5NG1tdDJCYlBHa1VnSWU1aGo0MVpRbi9KYXo5QWdUc1hEL01uYW4xaXM2?=
+ =?utf-8?B?R0J2S21KMEhsRmFUUHpTT2V1RmpLNG5laTVrNjU5Sm5wbFlPclpSb2lKdWw0?=
+ =?utf-8?B?UmFvU2hzd3dsb2FFcGlSamljclc2d1p1WS9EL3pVR09YZjFpUUw4QXA0dzVX?=
+ =?utf-8?B?bVBzYUJzeE5uS3pPdVFUQW1Na0I2aEZoVkJ5dm9iWWVHM2pXSXR4WnN6a2Jy?=
+ =?utf-8?B?R3ZDNTFhY0pFYnVFcmlMQmZPcVpQcEkrc016d1pEYmx6K2hQcitWTk1kbVNH?=
+ =?utf-8?B?Q3ZUR3BIQUM2dDF0NXp6R0xRbG81dDRScURjTGFaRW1yVDFpTEgyRmdLd2kx?=
+ =?utf-8?B?ZDlScEtROWQyMlpQTS83NjBWM3hGd0JSNDU3VXh3N3l1SU1YYUp4cXoycUtM?=
+ =?utf-8?B?ODJPR0l5eDJieUtLL2hrcGVsWUNVejFXTUdiYnVNRXg1a29VVlNGYjVtOG1E?=
+ =?utf-8?B?UzZmM3ozOTFIK0ltZHBaOURwSVpkVlNJZk5iVWpHdW1oZkNvTWNrK29oWmEr?=
+ =?utf-8?B?Mk1DWURhbVl2UjJhZEU1U2VvSnlJeGxkTk5aOU9XNHhqd01Ld09pOS9LWXF3?=
+ =?utf-8?B?eUl3UmM3UnpINlFjRmptVTFmS2E5U05sOUx1WnAydExURFNOTXlnSU1kaFB6?=
+ =?utf-8?B?d2x0Smx6ZmtidmJ5RldqTDNEY3ZSemVKRGJZZHJ2b3pRRnMrL0R5bTFGYXJL?=
+ =?utf-8?B?RlcwQUcwbFN3NTVaYytGajVsNGZGY3lZK1I5aUtNRCtlWXJCS0FSS21oU0lu?=
+ =?utf-8?B?eEE4YmtUelkrQ2Q1WUxWbGh6YkM3TTRHMEdyM0d3WGxZYllST252VHg4M1dU?=
+ =?utf-8?B?UVU0M0Q0cnBLejlwVFhndnZXUlQ1dVQ1cXJxbUN0eUszZ2NNMmZDYmJBc1My?=
+ =?utf-8?B?SGNDODhhTWp1aVBkUXJwRHhCdDhRWGdGdG16eGR6NjA2NzJocngwYkJQcG0z?=
+ =?utf-8?B?TWJYS0JVWE1oRG40QjBBdEFpaUNpMjBQQnlhYUNYcTZURGRReXNFa2RIdlZV?=
+ =?utf-8?B?WGJRa3ZOU0NNODBONHR0ZW1vUXlxZ3c3LzZ2YTI3L29BdEZCMDRabVFrZm1W?=
+ =?utf-8?B?SW9OTWZKb3NRTEx5SUJvYTBmVEU5SzRDMUlQYlZNODAzVUJoOEEzOGZJUHpv?=
+ =?utf-8?B?RDRRblpVMm56dEFtRjRMTklSb0dqNUxpYysyOElOVndEQjErM0ZWbVlDaHBD?=
+ =?utf-8?B?LzJ5YVlwc0RQSEpndGRDT2dheko5QUQ1Tmc3eDdZU2l0WUs3UmR0V0gvTEVW?=
+ =?utf-8?B?OXYvRGtveTZaa1R4Q0RyVkZDY2dYcndxckovczM2dW5vbm1pTlBtdUQ1MEZQ?=
+ =?utf-8?B?VmVYcmxqazJrMUJ1aWtLY0VKRlRlM2dJb1owdE9xRXlWZmpST01HeEFTQ3Zx?=
+ =?utf-8?Q?2WoLGprbKXXFH8m/bo?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 40768696-1ce1-48b4-985c-08de89880324
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Mar 2026 09:30:39.6249
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: eype2P1U8m9YZPY6GsYTXvh7kBYtmp9XiXtbJzKpvvzoRBBRNnXzX7KVPtmy5bo2
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7236
 
-Hi Christian,
-
-On 2026/3/24 16:48, Christian Brauner wrote:
-> On Mon, Mar 23, 2026 at 03:47:24PM +0100, Jan Kara wrote:
->> On Mon 23-03-26 22:36:46, Gao Xiang wrote:
->>> On 2026/3/23 22:13, Jan Kara wrote:
->>>>>> think that is the corner cases if you don't claim the
->>>>>> limitation of FUSE approaches.
->>>>>>
->>>>>> If none expects that, that is absolute be fine, as I said,
->>>>>> it provides strong isolation and stability, but I really
->>>>>> suspect this approach could be abused to mount totally
->>>>>> untrusted remote filesystems (Actually as I said, some
->>>>>> business of ours already did: fetching EXT4 filesystems
->>>>>> with unknown status and mount without fscking, that is
->>>>>> really disappointing.)
+On 3/24/26 09:53, Christian Brauner wrote:
+> On Mon, Mar 23, 2026 at 02:16:59PM +0100, Christian König wrote:
+>> On 3/23/26 13:13, Christian Brauner wrote:
+>>> On Mon, Mar 16, 2026 at 02:38:28PM -0400, David Francis wrote:
+>>>> We want some GPU information to be publicly available to all
+>>>> processes for basic system-wide profiling (think GPU versions
+>>>> of top).
 >>>>
->>>> Yes, someone downloading untrusted ext4 image, mounting in read-write and
->>>> using it for sensitive application, that falls to "insane" category for me
->>>> :) We agree on that. And I agree that depending on the application using
->>>> FUSE to access such filesystem needn't be safe enough and immutable fs +
->>>> overlayfs writeable layer may provide better guarantees about fs behavior.
+>>>> This information is available in fdinfo and not easily exposed
+>>>> by other interfaces.
+>>>>
+>>>> Add fd_op flag FOP_PUBLIC_FDINFO, which, if set, makes the fdinfo
+>>>> for that file available to read for processes without ptrace
+>>>> permissions.
+>>>>
+>>>> Note that this makes public how many files each process has open,
+>>>> and what their fds are.
+>>>>
+>>>> Signed-off-by: David Francis <David.Francis@amd.com>
+>>>> ---
 >>>
->>> That is my overall goal, I just want to make it clear
->>> the difference out of write isolation, but of course,
->>> "secure" or not is relative, and according to the
->>> system design.
->>>
->>> If isolation and system stability are enough for
->>> a system and can be called "secure", yes, they are
->>> both the same in such aspects.
->>>
->>>> I would still consider such design highly suspicious but without more
->>>> detailed knowledge about the application I cannot say it's outright broken
->>>> :).
->>>
->>> What do you mean "such design"?  "Writable untrusted
->>> remote EXT4 images mounting on the host"? Really, we have
->>> such applications for containers for many years but I don't
->>> want to name it here, but I'm totally exhaused by such
->>> usage (since I explained many many times, and they even
->>> never bother with LWN.net) and the internal team.
+>>> Eew, please let's not. Add an ioctl if you need to be able to retrieve
+>>> that info.
 >>
->> By "such design" I meant generally the concept that you fetch filesystem
->> images (regardless whether ext4 or some other type) from untrusted source.
->> Unless you do cryptographical verification of the data, you never know what
->> kind of garbage your application is processing which is always invitation
->> for nasty exploits and bugs...
+>> Yeah the problem is an IOCTL is even worse from the security pov.
+>>
+>> This is for an tool which doesn't have access to the file descriptor which provides that information.
+>>
+>> So using pidfd_getfd() or similar to get the FD and then call an IOCTL on it would be a security violation.
+>>
+>> The real question is how should we make this information public available in the system?
 > 
-> If this is another 500 mail discussion about FS_USERNS_MOUNT on
-> block-backed filesystems then my verdict still stands that the only
-> condition under which I will let the VFS allow this if the underlying
-> device is signed and dm-verity protected. The kernel will continue to
-> refuse unprivileged policy in general and specifically based on quality
-> or implementation of the underlying filesystem driver.
+> Don't you have a way to make this info available in sysfs? Just like
+> networking exposes info about network devices in there that may come and
+> go?
 
+Yeah that was already tried as well and Greg summarized it as "sometimes you don't know how horrible something is until you tried it".
 
-First, if block devices are your concern, fine, how about
-allowing it if EROFS file-backed mounts and S_IMMUTABLE
-for underlay files is set, and refuse any block device
-mounts.
+So the memory accounting parts for DMA-buf files in sysfs were deprecated and removed again just a few weeks ago. And that was basically just a subset of what David tries to do here.
 
-If the issue is "you don't know how to define the quality
-or implementation of the underlying filesystem drivers",
-you could list your detailed concerns (I think at least
-people have trust to the individual filesystem
-maintainers' judgements), otherwise there will be endless
-new sets of new immutable filesystems for this requirement
-(previously, composefs , puzzlefs, and tarfs are all for
-this; I admit I didn't get the point of FS_USERNS_MOUNT
-at that time of 2023; but know I also think FS_USERNS_MOUNT
-is a strong requirement for DinD for example), because that
-idea should be sensible according to Darrick and Jan's
-reply, and I think more people will agree with that.
+The requirement is that you want to be able to access the stats for accelerators/GPUs drivers similar to how tools like "top" or "htop" work. E.g. everybody can access /proc/*/stat as well, it's just that some security related information are left out.
 
-And another idea is that you still could return arbitary
-metadata with immutable FUSE fses and let users get
-garbage (meta)data, and FUSE already allows FS_USERNS_MOUNT,
-and if user and mount namespaces are isolated, why bothering
-it?
+As far as I can see we have only a couple of different options to fulfill that requirement and lowering the security for fdinfo like David's patch here suggests still looks like the most defensive one to me.
 
-I just hope know why? And as you may notice,
-"Demi Marie Obenour wrote:"
-
-> The only exceptions are if the filesystem is incredibly simple
-> or formal methods are used, and neither is the case for existing
-> filesystems in the Linux kernel. 
-
-I still strong disagree with that judgement, a minimal EROFS
-can build an image with superblock, dirs, and files with
-xattrs in a 4k-size image; and 4k image should be enough for
-fuzzing; also the in-core EROFS format even never allocates
-any extra buffers, which is much simplar than FUSE.
-
-In brief, so how to meet your requirement?
-
-Thanks,
-Gao Xiang
-
-
+Regards,
+Christian.
