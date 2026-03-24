@@ -1,79 +1,241 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from fout-b4-smtp.messagingengine.com (fout-b4-smtp.messagingengine.com [202.12.124.147])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36BD9386C38;
-	Tue, 24 Mar 2026 15:54:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08B18382379
+	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 16:05:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774367669; cv=none; b=DRnHbGQ7vA7Y2i+2imT79xlVj0T1nD1P0FEfSJH7oX4DNdMP5ZNFXV2Shrg7BtajubWCmI67ioxrm7qgfc/M+gO70I7dqtYNVtBhM9HbcxlOHKn8HgqdBrn6TY94Axz3NX8VZW8d+DoI2EaFnn0wXdgSmgdwoKZkUS+mpyfdHUg=
+	t=1774368351; cv=none; b=EoDFY47JaBhIWvh/svP4t6ss6+dBmEo5YIvWbdBhl0etlbPLLWKl4VsaE1R17U+UY9w72sBZQC77MhvrOT92ai+GTDsbqGkux4O4GlBXWKV/p+oHVxZU6gJbM1cRe+0jDTfhDj6g6u/Um7ww70ApzXoUDam8mU385N9EISopvlc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774367669; c=relaxed/simple;
-	bh=KbYmkEWDX5xCI96hmXaNT9f7KUtmIZhSGdAp9nzN7/s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a+u5V8On+V1d1zkRbMh9isSIlwxBfnSGClGOzkzswzBHgFF00qjHdKt4Xoi8JOj9zOBa+Kqx4Pd77IPMspjvnvwAOBdgyMmkZpDs6SP4TFvXPaVFIPJWZA19lBo3e6K3xcusia2Ke439Bl13DC9lXYXvBVWf7fOO5vmQdCItYi8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=SFRR2AU2; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	s=arc-20240116; t=1774368351; c=relaxed/simple;
+	bh=DjVCYOPtNVDTjkP5Brysi8bZnWTMngWe90G6zxDmOY8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ft8eRh0XFPb4Kftht7DMSBVfnIrjN+tIuic8x5fbleZvdjLCYaLRcfZcmlknY3OJlhc6Gpf55+tXXHtulnu3Qb4DzBZXOLYixpoMExlkZPQYb0pCtzunj3P2T7Jf42H/ZuOHfE1bMwuH0pv2PlR+b7/f+eVZ/6cKfKaXC3FlpMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=Iu0oPlr3; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=fls0z5nI; arc=none smtp.client-ip=202.12.124.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="SFRR2AU2"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=0OJwGIwkcTDehRPnixVOyfTvqxydByh7rJFCM6sQA7s=; b=SFRR2AU25aXwGVjJvwFLF3gDgO
-	CbdZeKb/9jBMzKy//cI8sVP8V51izbKH4hpRVvaHwZbOh82i7nQikRYyuBXjMYeYC967m3zMLJHy8
-	6fVM0TP4GYzJpa7ESSVcTUm9ozOeEK03eAAsAy5Fzb13DOlWRhyOPfJK2gPJInrQKVW0Zs0SGpQ5m
-	gGQrFqYn0+XosNl5gdgE/zUCzR3PuGtomDL14UimKDey4wIeHnhBuYZxW2hKBf0HwS2XZam2L1NpT
-	d9+5W8CgiiDjPzRCvAGIiKiyJIp81T9jngiiv21p8l/Uld1yt1cl/xmOYjyoqD1TE5xWtWSAZTI3y
-	bZNRjwVQ==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w545G-00000001nIU-1AG0;
-	Tue, 24 Mar 2026 15:54:22 +0000
-Date: Tue, 24 Mar 2026 08:54:22 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Jan Kara <jack@suse.cz>
-Cc: Christoph Hellwig <hch@infradead.org>, linux-fsdevel@vger.kernel.org,
-	linux-block@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
-	Al Viro <viro@zeniv.linux.org.uk>, linux-ext4@vger.kernel.org,
-	Ted Tso <tytso@mit.edu>,
-	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
-	David Sterba <dsterba@suse.com>,
-	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
-	Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	David Hildenbrand <david@kernel.org>, linux-mm@kvack.org,
-	linux-aio@kvack.org, Benjamin LaHaise <bcrl@kvack.org>
-Subject: Re: [PATCH 12/41] fs: Drop sync_mapping_buffers() from
- __generic_file_fsync()
-Message-ID: <acKzrqjnKFNK0xmh@infradead.org>
-References: <20260320131728.6449-1-jack@suse.cz>
- <20260320134100.20731-53-jack@suse.cz>
- <acIjxUzWFstarlwv@infradead.org>
- <ezdm6d34jqdrcohk7o6wycxvvlgtf6aqenwx5ffr3plfagdbzi@gibz7xwr6yhr>
- <acKO3NRw852FdGUO@infradead.org>
- <rsftk7gdlamfryksv63vhmewdi6etvvfyi6as5m2zs75ctvzkq@fnoiwumyfdsv>
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="Iu0oPlr3";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="fls0z5nI"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfout.stl.internal (Postfix) with ESMTP id E7E2D1D00103;
+	Tue, 24 Mar 2026 12:05:47 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-04.internal (MEProxy); Tue, 24 Mar 2026 12:05:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1774368347;
+	 x=1774454747; bh=lL19ey7EMgqiegK3vHIZE0J4jGrU5JHDT5lI1y7Ludw=; b=
+	Iu0oPlr3vaVpgzIx00X5xpJaYUmYsjbv5STRVPJ/7kEQg9BF5CrDPjOE5VshXWcN
+	U+AnDbwwHyfstxLN7AgpNBayAeJoHlOboDnt1OzJ9tGsc9YU+v70Yq3njb5FqGkF
+	RFTE2R8KWgP4w1k+P0ZvpVV+ut1v2MX0468BTjIFPOf/ph/MRKn9d0vTIuw4Awjh
+	TJRk0qus5Vn/cGd/IZNu8WPl/nFl52EipHqwgfZ3vqZ+LWBftd+0phW4pjZnd3pY
+	9LnrQIT1npFjeCgs4TBoIS74SM4q0Ffv9VpeQ9JEH7I7zjTA33wBOxEO9pAEQ/yL
+	fYFrfHExtqLj8PxxbcBvig==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1774368347; x=
+	1774454747; bh=lL19ey7EMgqiegK3vHIZE0J4jGrU5JHDT5lI1y7Ludw=; b=f
+	ls0z5nI31BylNBpknr6hgb6FcXEs54fwyTxwMSw7g0Vmu1BIbpUPGqeeDBguGOfl
+	J9h+4ZXsByGjvQBiRd/guwrffn0H9Pch4surtozy+mgwrYsoheA3pWfD6k2MVroB
+	tj+fw+CjQPh03GT5QAjBr/OgvcPbpq9phAcbjRm6dPeLx+2zjoxGlmCXElbh78oo
+	sA7MXZokVuGEEyKTp5VLhSD4NmCbs1UqOsAA9LqqrJun6SdWPXwrG/5G90Sqjz9Q
+	FxUkkjk5XL4RZk6HxekFbcMDpswEyFOapDcMkX+oZtFYc18VH2xW0awYa9CtFgza
+	1R4yT2cR6ZnXBzidelUSQ==
+X-ME-Sender: <xms:W7bCabELM_SobSnBQtAh6G3HiQzLbVPvGgTLg-J6SGDzm_KBT2aZXA>
+    <xme:W7bCaa7gHE7bsMqpDdwAfNbfPy4yx21tFAKAg8NOv0hUzETWtMY8v6v-h1t_YVo8c
+    juekpx-nsiqPkYrzvPwp4IGggVqtfaKShGeUbGI-jPzTtfaaCJC>
+X-ME-Received: <xmr:W7bCaQzTrb-6SqnOZbtW_xRm8eKYV6j7a-2piLMC_IwwXYESP7f1Bptl_8sJKuDApA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdefvddvtdduucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
+    ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
+    htthgvrhhnpeehhfejueejleehtdehteefvdfgtdelffeuudejhfehgedufedvhfehueev
+    udeugeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    gsvghrnhgusegsshgsvghrnhgurdgtohhmpdhnsggprhgtphhtthhopeelpdhmohguvgep
+    shhmthhpohhuthdprhgtphhtthhopehsthgvfhgrnhhhrgesrhgvughhrghtrdgtohhmpd
+    hrtghpthhtohepjhhimhdrhhgrrhhrihhssehnvhhiughirgdrtghomhdprhgtphhtthho
+    pehlihhnuhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpth
+    htohepmhhikhhlohhssehsiigvrhgvughirdhhuhdprhgtphhtthhopehmghhurhhtohhv
+    ohihsehnvhhiughirgdrtghomhdprhgtphhtthhopehiiigrtghhsehnvhhiughirgdrtg
+    homhdprhgtphhtthhopehkshiithihsggvrhesnhhvihguihgrrdgtohhmpdhrtghpthht
+    ohepghhmrghglhhiohhnvgesrhgvughhrghtrdgtohhmpdhrtghpthhtohephhhrvghith
+    iisehrvgguhhgrthdrtghomh
+X-ME-Proxy: <xmx:W7bCaZNZPM11co1iTRw5sugMcd6iFgD9pn-7Ey9d41Jmao1qOu4uCA>
+    <xmx:W7bCaWllMCp1JHKHlN7jrcxeEI09aF9YaraUPwH4cejfWPcYvamoQg>
+    <xmx:W7bCaeQ5JQ7zJZFQQArumXkTnRiJOdTLR-JqBy0jUvrp_6CBhiIVGQ>
+    <xmx:W7bCaVV6E1eb6CZEwUoMlkqyQEZvANsCwUj1pLEufV-x2V94plxljQ>
+    <xmx:W7bCaXpq_FaSgC01TZUCGEwMunRiQmQAktA_PYmPsbkh3e-6CYnNOexI>
+Feedback-ID: i5c2e48a5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 24 Mar 2026 12:05:46 -0400 (EDT)
+Message-ID: <30a271bd-eaba-4248-af66-df18a61864ca@bsbernd.com>
+Date: Tue, 24 Mar 2026 17:05:45 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <rsftk7gdlamfryksv63vhmewdi6etvvfyi6as5m2zs75ctvzkq@fnoiwumyfdsv>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+User-Agent: Mozilla Thunderbird
+Subject: Re: fuse: buffered reads limited to 256KB regardless of negotiated
+ max_pages
+To: Stefan Hajnoczi <stefanha@redhat.com>, jim.harris@nvidia.com
+Cc: linux-fsdevel@vger.kernel.org, Miklos Szeredi <miklos@szeredi.hu>,
+ Max Gurtovoy <mgurtovoy@nvidia.com>, Idan Zach <izach@nvidia.com>,
+ Konrad Sztyber <ksztyber@nvidia.com>, German Maglione
+ <gmaglione@redhat.com>, hreitz@redhat.com
+References: <20260316145435.BA2542605C3@ubuntu.localdomain>
+ <20260324132149.GB668717@fedora>
+From: Bernd Schubert <bernd@bsbernd.com>
+Content-Language: en-US
+In-Reply-To: <20260324132149.GB668717@fedora>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Mar 24, 2026 at 02:36:53PM +0100, Jan Kara wrote:
-> Leaving the two implementations separate certainly works for me as well
-> (that's why I've put that patch to the end because I've expected some
-> discussions around it :)). Just the amount of common trivial calls you need
-> to do (fdatawrite(), sync_inode_metadata(),
-> file_check_and_advance_wb_err(), blkdev_issue_flush()) looked high enough
-> to me to be worth merging the implementations. But I don't feel strongly
-> either way.
 
-I don't really feel either way, and I really should not micro-manage
-the series either.  So go for what you think works best.  The important
-part is to have the fsync changes early and to avoid hardcoding
-buffer_head knowledge into libfs.c.
+
+On 3/24/26 14:21, Stefan Hajnoczi wrote:
+> On Mon, Mar 16, 2026 at 07:54:35AM -0700, jim.harris@nvidia.com wrote:
+>> Hi all,
+>>
+>> We have a FUSE server that advertises max_write=1MB and max_pages=256
+>> in the FUSE_INIT response. Buffered sequential writes arrive at the
+>> server at the full 1MB as expected. However, buffered sequential reads
+>> are capped at 256KB per FUSE READ request.
+>>
+>> The cap comes from the BDI readahead window. bdi->ra_pages defaults to
+>> VM_READAHEAD_PAGES (32 pages / 128KB). For sequential access (e.g. cp),
+>> posix_fadvise(POSIX_FADV_SEQUENTIAL) doubles the per-file readahead
+>> window to 2 * bdi->ra_pages (256KB), producing the observed 256KB
+>> limit. A 1MB application read() results in four sequential 256KB
+>> round trips to the FUSE server instead of one.
+> 
+> Hi Jim,
+> Thanks for sharing this issue. I am CCing Geman Maglione and Hanna
+> Czenczek who work on virtiofsd and are also becoming more involved in
+> the virtiofs kernel driver.
+> 
+>> In process_init_reply(), the kernel processes the
+>> server's max_readahead response like this:
+>>
+>>     ra_pages = arg->max_readahead / PAGE_SIZE;
+>>     fm->sb->s_bdi->ra_pages = min(fm->sb->s_bdi->ra_pages, ra_pages);
+>>
+>> Since bdi->ra_pages starts at VM_READAHEAD_PAGES (128KB), and the
+>> kernel sends this value as init_in->max_readahead, the server can only
+>> decrease readahead -- never increase it. Even if the server responds
+>> with max_readahead=1MB, the min() clamps it back to 128KB.
+>>
+>> Other filesystems set ra_pages or io_pages based on server/device
+>> capabilities:
+>>
+>>   - SMB/CIFS sets ra_pages directly (2 * rsize, or from mount option)
+>>   - Ceph sets ra_pages directly from mount option
+>>   - 9P sets both ra_pages and io_pages from maxdata
+>>   - NFS sets io_pages from rsize
+>>
+>> I see two possible approaches and would like feedback:
+>>
+>> Option A: Fix the max_readahead negotiation
+>>
+>> Replace the current:
+>>
+>>     fm->sb->s_bdi->ra_pages = min(fm->sb->s_bdi->ra_pages, ra_pages);
+>>
+>> with:
+>>
+>>     fm->sb->s_bdi->ra_pages = min(ra_pages, fc->max_pages);
+>>
+>> This uses the server's max_readahead response directly, capped by
+>> fc->max_pages for safety. I think this is backward compatible:
+>> existing servers that echo the kernel's 128KB value get the same
+>> result. Servers that return a lower value still reduce it. Only
+>> servers that return a higher value see changed behavior.
+>>
+>> FUSE servers can opt in by advertising a larger max_readahead in the
+>> FUSE_INIT response.
+>>
+>> Option B: Set io_pages from max_pages
+>>
+>> Set bdi->io_pages after FUSE_INIT negotiation:
+>>
+>>     fm->sb->s_bdi->io_pages = fc->max_pages;
+>>
+>> This matches what NFS does (setting io_pages from rsize). The
+>> readahead code uses max(bdi->io_pages, ra->ra_pages) to determine
+>> the maximum readahead size, so a large io_pages would allow larger
+>> readahead submissions.
+>>
+>> This is simpler since no server-side change is needed. However, it
+>> bypasses the max_readahead protocol field, making max_readahead
+>> effectively meaningless for any device with large max_pages.
+>>
+>> In both cases, fc->max_pages is already clamped by
+>> fc->max_pages_limit, which for virtio-fs accounts for the virtqueue
+>> descriptor count.
+>>
+>> Thoughts?
+> 
+> I think this is a question for Miklos. You could also send a patch with
+> your preferred solution to expediate this.
+> 
+> Thank you for looking into this - it will be nice to remove this
+> performance limitation.
+
+
+We have this patch in our branch:
+
+commit 763c96da4bd6d1bb95d8e6bb7fd352389f3a17b9
+Author: Bernd Schubert <bschubert@ddn.com>
+Date:   Wed May 7 23:39:00 2025 +0200
+
+    fuse: Use fuse-server provided read-ahead for CAP_SYS_ADMIN
+    
+    read-ahead is currently limited to bdi->ra_pages. One can change
+    that after the mount with something like
+    
+    minor=$(stat -c "%d" /path/to/fuse)
+    echo 1024 > /sys/class/bdi/0:$(minor)/read_ahead_kb
+    
+    Issue is that fuse-server cannot do that from its ->init method,
+    as it has to know about device minor, which blocks before
+    init is complete.
+    
+    Fuse already sets the bdi value, but upper limit is the current
+    bdi value. For CAP_SYS_ADMIN we can allow higher values.
+    
+    Signed-off-by: Bernd Schubert <bschubert@ddn.com>
+
+diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+index af8404f539a3..417598bb3575 100644
+--- a/fs/fuse/inode.c
++++ b/fs/fuse/inode.c
+@@ -1369,7 +1369,10 @@ static void process_init_reply(struct fuse_mount *fm, struct fuse_args *args,
+ 			fc->no_flock = 1;
+ 		}
+ 
+-		fm->sb->s_bdi->ra_pages =
++		if (CAP_SYS_ADMIN)
++			fm->sb->s_bdi->ra_pages = ra_pages;
++		else
++			fm->sb->s_bdi->ra_pages =
+ 				min(fm->sb->s_bdi->ra_pages, ra_pages);
+ 		fc->minor = arg->minor;
+ 		fc->max_write = arg->minor < 5 ? 4096 : arg->max_write;
+
+
+
+
+Maybe we can increase the limit for non privileged servers, but
+not to fc->max_pages, because an admin might tune fuse_max_pages_limit 
+to a rather large  value. I was able to kind of crash the system
+with >16MB read-ahead in early 6.x kernels (I think 6.1).
+
+
 
