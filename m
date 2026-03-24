@@ -1,82 +1,101 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79B8B4035AB;
-	Tue, 24 Mar 2026 15:06:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C59521DFF7;
+	Tue, 24 Mar 2026 15:09:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774364807; cv=none; b=EleFWc6hMqkIwHT7HkaDm3d8KOaN5VQgcLsQpmMz2Dtx3LlaGQCUc/e2WKnwllKWvCRP+Adqvh8+Gq3Tz3OKY9fyuj99CuUTZbtbQI9iZ/BQYVpxVkGu9H27TX9h+hnSlB9CwYOcTkxdjA2QR5rUozyflO6GZzsdofQ1ExvZXGQ=
+	t=1774364944; cv=none; b=loSL6UjplzOo5gLa8JwGBHykW+w2g19zhRxmd1ri8Gmf6GAZZe49pnYO+wZYJ4HQ6cqbShl5Z7MkSGJneErQcm7YnFe/UqGGPt/fY1tG4d+9p2yo+43pbbc+QzYHgi0+mp5cXgH71GQ4HJRpn6rc5gu8An8Pxeg5yaRICurSpck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774364807; c=relaxed/simple;
-	bh=HtJR7uQkfP6OvXlx/AcmrtRYfCxjxHqJFZy35F9qBgI=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IboKdJ3iGVv/QXs+n9AJq02TydvlUb9o5SmnOGChLXroD06UbZL2J/Y23ouelUytiEYLYT16ib0EwbCEE9cE5Yb2ChSyHEloKzqGxVjz+g5wrs5LVWIrkWb5ouqxQtihaH3nvqI3hDwzK5Aha0DW2VuFKqUlM+Wgd0dhIwWEVrY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.224.107])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4fgCzv3y6tzJ46BK;
-	Tue, 24 Mar 2026 23:06:35 +0800 (CST)
-Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
-	by mail.maildlp.com (Postfix) with ESMTPS id 94AED40587;
-	Tue, 24 Mar 2026 23:06:42 +0800 (CST)
-Received: from localhost (10.203.177.15) by dubpeml500005.china.huawei.com
- (7.214.145.207) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Tue, 24 Mar
- 2026 15:06:41 +0000
-Date: Tue, 24 Mar 2026 15:06:39 +0000
-From: Jonathan Cameron <jonathan.cameron@huawei.com>
-To: John Groves <john@jagalactic.com>
-CC: John Groves <John@Groves.net>, Miklos Szeredi <miklos@szeredi.hu>, "Dan
- Williams" <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>,
-	Alison Schofield <alison.schofield@intel.com>, John Groves
-	<jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
-	<skhan@linuxfoundation.org>, Vishal Verma <vishal.l.verma@intel.com>, "Dave
- Jiang" <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, "Jan
- Kara" <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, "David
- Hildenbrand" <david@kernel.org>, Christian Brauner <brauner@kernel.org>,
-	"Darrick J . Wong" <djwong@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
-	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, Stefan
- Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, Josef
- Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Chen
- Linxuan <chenlinxuan@uniontech.com>, "James Morse" <james.morse@arm.com>,
-	Fuad Tabba <tabba@google.com>, "Sean Christopherson" <seanjc@google.com>,
-	Shivank Garg <shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>,
-	Gregory Price <gourry@gourry.net>, Aravind Ramesh <arramesh@micron.com>, Ajay
- Joshi <ajayjoshi@micron.com>, "venkataravis@micron.com"
-	<venkataravis@micron.com>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev"
-	<nvdimm@lists.linux.dev>, "linux-cxl@vger.kernel.org"
-	<linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org"
-	<linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH V9 8/8] dax: export dax_dev_get()
-Message-ID: <20260324150639.0000157c@huawei.com>
-In-Reply-To: <0100019d1d487fb8-c84bb720-35d3-4d50-8eb4-c92254121bcb-000000@email.amazonses.com>
-References: <0100019d1d463523-617e8165-a084-4d91-aa5e-13778264d5d4-000000@email.amazonses.com>
-	<20260324003933.5127-1-john@jagalactic.com>
-	<0100019d1d487fb8-c84bb720-35d3-4d50-8eb4-c92254121bcb-000000@email.amazonses.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1774364944; c=relaxed/simple;
+	bh=RQ70HQsVYWmPm/K/HyN+iwWbjAfIhPqjVv41JZUYmts=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=uIRMCDPssLi6l8fGsdIvHLRtP/9jmugkJnck7U9iyJz0dgZ7SGwJOKCcDssDOEzo+ZD1v4Z87R7HKY/svZ6EYZe8kSNyF0NTNgZgmAko8UvDqpUzaxsodJQJunerTV2oyOZylGBZ12Saei4Y1huxkXWA63yLIS2JjgYYbsvXCIg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ama7c9Oo; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ama7c9Oo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D1B7C2BCB2;
+	Tue, 24 Mar 2026 15:09:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774364944;
+	bh=RQ70HQsVYWmPm/K/HyN+iwWbjAfIhPqjVv41JZUYmts=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Ama7c9OoYQ0W9/2yIkRLOxF7NdEaqt7KiSBbIFfyFPgsJxb52FdI81A+ZKpMVZyB6
+	 Rnq37MkUhpuUWLsOr/ZlrXSTiarF158G3mhwvu1IaZ847JHteA7hSxs1oazdOBwp/x
+	 PvyA6k+CZCAcS6kHFk0jLt8Otdj1A7CyUYmuF4jTcn1Tuwq/vuYvXCwu9++ivDByvZ
+	 eTAjla3hB42rmclFzSbua1tUnaffm+z5qZuIbIa1eaSOhXCnxMb6Rnc16kewCO/Cuo
+	 IJ5nH/DVGQvlTohOVXbZpDR+/QT1FyJqiFlCju/rH5UhRw+Fka/oJtMx3AnyDsFobA
+	 emkyJuetJLL4Q==
+From: Christian Brauner <brauner@kernel.org>
+To: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	David Laight <david.laight.linux@gmail.com>,
+	Thomas Gleixner <tglx@kernel.org>
+Subject: Re: [PATCH v5 1/2] readdir: Introduce dirent_size()
+Date: Tue, 24 Mar 2026 16:07:00 +0100
+Message-ID: <20260324-jargon-infamieren-1e00d08c01ec@brauner>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <c20d2f8f6817a39401155cfc80f0dff88df116e0.1774350128.git.chleroy@kernel.org>
+References: <c20d2f8f6817a39401155cfc80f0dff88df116e0.1774350128.git.chleroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml100012.china.huawei.com (7.191.174.184) To
- dubpeml500005.china.huawei.com (7.214.145.207)
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1754; i=brauner@kernel.org; h=from:subject:message-id; bh=RQ70HQsVYWmPm/K/HyN+iwWbjAfIhPqjVv41JZUYmts=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQeWvGucPmCXk5pNYZYjoenWjckKLbP3L1kWuk0Nu5dE v4eC/j+dJSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEzkYS/DH07riKkc6z7unOO7 WXTl5Ne6PmZJSw+0TBXTOLuCcXfNWkVGhjXi6+QDnjesjlv3S17gpfgCh6qcxS/Se6d8exioePR 5AisA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-On Tue, 24 Mar 2026 00:39:43 +0000
-John Groves <john@jagalactic.com> wrote:
-
-> From: John Groves <john@groves.net>
+On Tue, 24 Mar 2026 12:41:15 +0100, Christophe Leroy (CS GROUP) wrote:
+> In several places in readdir.c there are calculations of the total size
+> of a dirent, which contains a few fixed fields plus a name field with
+> variable size. To add fun every dirent is of a slightly different type:
+> - struct old_linux_dirent
+> - struct linux_dirent
+> - struct linux_dirent64
+> - struct compat_old_linux_dirent
+> - struct compat_linux_dirent
 > 
-> famfs needs to look up a dax_device by dev_t when resolving fmap
-> entries that reference character dax devices.
-> 
-> Reviewed-by: Dave Jiang <dave.jiang@intel.com>
-> Signed-off-by: John Groves <john@groves.net>
+> [...]
 
-Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+VFS CI: https://github.com/linux-fsdevel/vfs/actions/runs/23491121925
+
+  x86_64 (gcc, debian, ovl-fstests)  pass
+  x86_64 (gcc, debian, selftests)    pass
+  x86_64 (gcc, debian, xfstests)     pass
+  x86_64 (gcc, fedora, ovl-fstests)  pass
+  x86_64 (gcc, fedora, selftests)    pass
+  x86_64 (gcc, fedora, xfstests)     pass
+
+No meaningful VFS AI review comments.
+
+This looks pretty clean to me overall.
+
+---
+
+Applied to the vfs-7.1.misc branch of the vfs/vfs.git tree.
+Patches in the vfs-7.1.misc branch should appear in linux-next soon.
+
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
+
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-7.1.misc
+
+[1/2] readdir: Introduce dirent_size()
+      https://git.kernel.org/vfs/vfs/c/4bf798e027d3
+[2/2] fs: Replace user_access_{begin/end} by scoped user access
+      https://git.kernel.org/vfs/vfs/c/b98f7363f72f
