@@ -1,120 +1,79 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8F0438AC90;
-	Tue, 24 Mar 2026 15:32:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36BD9386C38;
+	Tue, 24 Mar 2026 15:54:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774366348; cv=none; b=grV/dUaA/CixhdCqAuJglIzwf/GU3jNISvGlSrhW7HO3OVO09U8d8uyMsZ4svkpqE3mQi/lp6lOSEQn0wrXiArq0tnDJ1Vd+loHUpNmb286l2cr9r4eO3I53JQhPrdUiYnXNUZCT9YrsJTiNBUaQwktRCFjgPg6x3VmgfqDiU7Q=
+	t=1774367669; cv=none; b=DRnHbGQ7vA7Y2i+2imT79xlVj0T1nD1P0FEfSJH7oX4DNdMP5ZNFXV2Shrg7BtajubWCmI67ioxrm7qgfc/M+gO70I7dqtYNVtBhM9HbcxlOHKn8HgqdBrn6TY94Axz3NX8VZW8d+DoI2EaFnn0wXdgSmgdwoKZkUS+mpyfdHUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774366348; c=relaxed/simple;
-	bh=Pj+OtiBpuBF7IoC42Kw/vtLSB42CPkuKUZUpsmZAtF8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JQ8HAgoisIhTyxZX6WPGP1AfGRfPar7Z4QzJWHkKg5/oJjsJvPJ8iDhrhUZRRiS+kbvOzE1JMq882IbpUisPdyySInvH+eT/kTqhCY7kS8Mw0auVYHLNYZqv/+2OnJK1dg5gLlPGH7pBpN7T/HJLXDpAG7RU7A63SJZfXU1HWfk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A8CdR1TD; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774367669; c=relaxed/simple;
+	bh=KbYmkEWDX5xCI96hmXaNT9f7KUtmIZhSGdAp9nzN7/s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=a+u5V8On+V1d1zkRbMh9isSIlwxBfnSGClGOzkzswzBHgFF00qjHdKt4Xoi8JOj9zOBa+Kqx4Pd77IPMspjvnvwAOBdgyMmkZpDs6SP4TFvXPaVFIPJWZA19lBo3e6K3xcusia2Ke439Bl13DC9lXYXvBVWf7fOO5vmQdCItYi8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=SFRR2AU2; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A8CdR1TD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5E0FC19424;
-	Tue, 24 Mar 2026 15:32:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774366348;
-	bh=Pj+OtiBpuBF7IoC42Kw/vtLSB42CPkuKUZUpsmZAtF8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=A8CdR1TDIvUqf/UIBWs17Nn4y+ea/fY6CzTak5aX12J4D+twwLfy+SwnX5lrhff4D
-	 CUzBvNr9gv4/0D50Bsuh5GstOCFIQ7l1/YDJTViyrQcTcXkjPsV2NcEd1kTpkceCXt
-	 qvmlEfeNjP0yn00Q1AmSFrv9QGGtJ2oKpyqS2VkQuMlb7xlEpzGPo2Z8H/X24jQkzS
-	 /dRZDV1lzwWddAwn65weghGa9oo7qiThUc/kW/BhhH1pEumyxJoYG7WP3BMi6+9/xr
-	 Y4kgvnO6kl4rFLyL5hI2Nvbd4V/5vHv9ZNMEpKAQRKpcauDbgPeLzXT7iYy5Aj7+iX
-	 gcx1tICooGAPQ==
-Message-ID: <ee66e204-4439-482f-a8cc-93de1d332a8d@kernel.org>
-Date: Tue, 24 Mar 2026 16:32:17 +0100
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="SFRR2AU2"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=0OJwGIwkcTDehRPnixVOyfTvqxydByh7rJFCM6sQA7s=; b=SFRR2AU25aXwGVjJvwFLF3gDgO
+	CbdZeKb/9jBMzKy//cI8sVP8V51izbKH4hpRVvaHwZbOh82i7nQikRYyuBXjMYeYC967m3zMLJHy8
+	6fVM0TP4GYzJpa7ESSVcTUm9ozOeEK03eAAsAy5Fzb13DOlWRhyOPfJK2gPJInrQKVW0Zs0SGpQ5m
+	gGQrFqYn0+XosNl5gdgE/zUCzR3PuGtomDL14UimKDey4wIeHnhBuYZxW2hKBf0HwS2XZam2L1NpT
+	d9+5W8CgiiDjPzRCvAGIiKiyJIp81T9jngiiv21p8l/Uld1yt1cl/xmOYjyoqD1TE5xWtWSAZTI3y
+	bZNRjwVQ==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1w545G-00000001nIU-1AG0;
+	Tue, 24 Mar 2026 15:54:22 +0000
+Date: Tue, 24 Mar 2026 08:54:22 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Jan Kara <jack@suse.cz>
+Cc: Christoph Hellwig <hch@infradead.org>, linux-fsdevel@vger.kernel.org,
+	linux-block@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
+	Al Viro <viro@zeniv.linux.org.uk>, linux-ext4@vger.kernel.org,
+	Ted Tso <tytso@mit.edu>,
+	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
+	David Sterba <dsterba@suse.com>,
+	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+	Muchun Song <muchun.song@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	David Hildenbrand <david@kernel.org>, linux-mm@kvack.org,
+	linux-aio@kvack.org, Benjamin LaHaise <bcrl@kvack.org>
+Subject: Re: [PATCH 12/41] fs: Drop sync_mapping_buffers() from
+ __generic_file_fsync()
+Message-ID: <acKzrqjnKFNK0xmh@infradead.org>
+References: <20260320131728.6449-1-jack@suse.cz>
+ <20260320134100.20731-53-jack@suse.cz>
+ <acIjxUzWFstarlwv@infradead.org>
+ <ezdm6d34jqdrcohk7o6wycxvvlgtf6aqenwx5ffr3plfagdbzi@gibz7xwr6yhr>
+ <acKO3NRw852FdGUO@infradead.org>
+ <rsftk7gdlamfryksv63vhmewdi6etvvfyi6as5m2zs75ctvzkq@fnoiwumyfdsv>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 08/21] mm: add vm_ops->mapped hook
-Content-Language: en-US
-To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Clemens Ladisch <clemens@ladisch.de>,
- Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "K . Y . Srinivasan" <kys@microsoft.com>,
- Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
- Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Bodo Stroesser <bostroesser@gmail.com>,
- "Martin K . Petersen" <martin.petersen@oracle.com>,
- David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- David Hildenbrand <david@kernel.org>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport
- <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org,
- linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org,
- target-devel@vger.kernel.org, linux-afs@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- Ryan Roberts <ryan.roberts@arm.com>
-References: <cover.1774045440.git.ljs@kernel.org>
- <4c5e98297eb0aae9565c564e1c296a112702f144.1774045440.git.ljs@kernel.org>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-In-Reply-To: <4c5e98297eb0aae9565c564e1c296a112702f144.1774045440.git.ljs@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <rsftk7gdlamfryksv63vhmewdi6etvvfyi6as5m2zs75ctvzkq@fnoiwumyfdsv>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On 3/20/26 23:39, Lorenzo Stoakes (Oracle) wrote:
-> Previously, when a driver needed to do something like establish a
-> reference count, it could do so in the mmap hook in the knowledge that the
-> mapping would succeed.
-> 
-> With the introduction of f_op->mmap_prepare this is no longer the case, as
-> it is invoked prior to actually establishing the mapping.
-> 
-> mmap_prepare is not appropriate for this kind of thing as it is called
-> before any merge might take place, and after which an error might occur
-> meaning resources could be leaked.
-> 
-> To take this into account, introduce a new vm_ops->mapped callback which
-> is invoked when the VMA is first mapped (though notably - not when it is
-> merged - which is correct and mirrors existing mmap/open/close behaviour).
-> 
-> We do better that vm_ops->open() here, as this callback can return an
-> error, at which point the VMA will be unmapped.
-> 
-> Note that vm_ops->mapped() is invoked after any mmap action is complete
-> (such as I/O remapping).
-> 
-> We intentionally do not expose the VMA at this point, exposing only the
-> fields that could be used, and an output parameter in case the operation
-> needs to update the vma->vm_private_data field.
-> 
-> In order to deal with stacked filesystems which invoke inner filesystem's
-> mmap() invocations, add __compat_vma_mapped() and invoke it on vfs_mmap()
-> (via compat_vma_mmap()) to ensure that the mapped callback is handled when
-> an mmap() caller invokes a nested filesystem's mmap_prepare() callback.
-> 
-> Update the mmap_prepare documentation to describe the mapped hook and make
-> it clear what its intended use is.
-> 
-> The vm_ops->mapped() call is handled by the mmap complete logic to ensure
-> the same code paths are handled by both the compatibility and VMA layers.
-> 
-> Additionally, update VMA userland test headers to reflect the change.
-> 
-> Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
+On Tue, Mar 24, 2026 at 02:36:53PM +0100, Jan Kara wrote:
+> Leaving the two implementations separate certainly works for me as well
+> (that's why I've put that patch to the end because I've expected some
+> discussions around it :)). Just the amount of common trivial calls you need
+> to do (fdatawrite(), sync_inode_metadata(),
+> file_check_and_advance_wb_err(), blkdev_issue_flush()) looked high enough
+> to me to be worth merging the implementations. But I don't feel strongly
+> either way.
 
-Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
-
+I don't really feel either way, and I really should not micro-manage
+the series either.  So go for what you think works best.  The important
+part is to have the fsync changes early and to avoid hardcoding
+buffer_head knowledge into libfs.c.
 
