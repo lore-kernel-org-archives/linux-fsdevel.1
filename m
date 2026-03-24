@@ -1,810 +1,434 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from outbound-ip191b.ess.barracuda.com (outbound-ip191b.ess.barracuda.com [209.222.82.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07CAC3264CF
-	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 20:21:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774383688; cv=none; b=cnIVuMfVvg5wzFmgqiOhZQcqvtkhB0K8jaS1el7WBdmwyKLgnbNIwAUnZ5ususOasHW66vWbrrgI9nrHDQwpHkDm2xeSMZS2jOechW326NMzWoz72PYe90Kh+s9IZbslhlKogsWtkmZkCudx36bpUMI6GhdKlAANc7QissLpRbA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774383688; c=relaxed/simple;
-	bh=2k31tZr+5bftch8ayn9ri9KEbb3iYRxq80LjAFhk3kA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XvdaZzQbMj9dmm9Mw9z/7AUgIaIUazB4VzuvHQC5xWMLLsDE8GBFV+YIXreq0c+tkx+IhCokn7ZOeGLtqsQ+njDeIoVLkhV8vHG7JMY5Rg2lrxdK0PC/8TRtV4cnKj5QwjbaHQLtf/3JkIy54jzl1C8bDnNVhe4J3kmfnGnnBmk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J4J13fsg; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A49B355F4C
+	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 20:42:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=209.222.82.124
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774384982; cv=fail; b=QMpFHL9zl7kRgshZGqV/Pjzei+wTsMY5xjW9Smv8shtupDsPXpkGCUOoXo/JEmmft+Rptya4Xv+o1IfG+PJOlv3nVIidxYtJLTLbkKbzL7QdINt4fskWOTNlUmt3Uog97toxtDS0fvLxYBoW2OFbSZGQ6f1qe4UUyehDLrw/B4s=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774384982; c=relaxed/simple;
+	bh=ja3BhWFaFhntALwS/q+jdTPfiuLbTKnXm6NGUSZO4GM=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=iici4JPH9lri3FTo/9wD1SFErYCLOACFafyqgwD6fS3ulV1J7KTHnT2/z6ch4TClk7oZ8cztrSiHzpg3tKYAKK3z42rF9kyy43HjiGujaHiL5s+/kQGkSrkycaVLyeXy/tV/YvzCGjp3euocEg680xAM6jlPp79BFhNoVP1WyU8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ddn.com; spf=pass smtp.mailfrom=ddn.com; dkim=pass (1024-bit key) header.d=ddn.com header.i=@ddn.com header.b=BEMfA2gr; arc=fail smtp.client-ip=209.222.82.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ddn.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ddn.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J4J13fsg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E8BEC2BC9E;
-	Tue, 24 Mar 2026 20:21:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774383687;
-	bh=2k31tZr+5bftch8ayn9ri9KEbb3iYRxq80LjAFhk3kA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=J4J13fsgFHHyeIqU9OLOpi/n60ClCRDIIY2Z2d1SgjHVUhJesXr1St/wjXAcyaIyQ
-	 Hf2id+3gJDGPUTVALDTBV9cv4Y+N2t+ARtsfXDV5gkqHEj2EKtHKNh8IOzFw8UVwhF
-	 +V773Xee4VDIseCVsVM79NEA3fA5iv/iWKp17Zd9MXX5QLz8NZ84J0xTZcEtMDdnav
-	 Fn7untHcQVepN+IMNxUyDiE39MzMi5pfCmRGZ7h7qssX8SyyhW5ZKBkKvauI9fXGHB
-	 gUq9RMpjANOAUPPC3G/aImZlhRpRH8sSrKQ4uGSt43cIfpsF1QB4u1fBmVriYywQkT
-	 NgoJyi6WmsV1Q==
-Date: Tue, 24 Mar 2026 13:21:25 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Bernd Schubert <bernd@bsbernd.com>
-Cc: linux-fsdevel@vger.kernel.org, Miklos Szeredi <miklos@szeredi.hu>,
-	Joanne Koong <joannelkoong@gmail.com>,
-	Bernd Schubert <bschubert@ddn.com>
-Subject: Re: [PATCH 19/19] Add support for sync-init of unprivileged daemons
-Message-ID: <20260324202125.GV6202@frogsfrogsfrogs>
+	dkim=pass (1024-bit key) header.d=ddn.com header.i=@ddn.com header.b="BEMfA2gr"
+Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11020119.outbound.protection.outlook.com [40.93.198.119]) by mx-outbound23-182.us-east-2b.ess.aws.cudaops.com (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO); Tue, 24 Mar 2026 20:42:40 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Cq0JC/iB6eV3cHOWrEOm+tE4o1zV2cOnhDSfjhCUJP6alfn58hzgfPtujwo+I2wmxFyzwOHniWMKz8pQ4vO+qwweB0kEXlDY/68kVw+WtpigraRS30i4lHauxVUVTMWa8h1R90i+E6EIhn9N7zV18/xdgwlqv7Usnnm+uJ4enzQeAhB8hrbeOe1+wCcQ4agW1FoDHkxZLv5oG4upAt/SChEELAqyncqSuRV5jb8qVehgcgacw0o9JmMg3lCRPP9sMNy4ItVEj3aJlk2Gn1o+jPcan0L3ac0wKzLgpSKVkvopJwuTAy7ytADNDN9KMgTNHc46iN6oWceVJS1o4tyVlg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ja3BhWFaFhntALwS/q+jdTPfiuLbTKnXm6NGUSZO4GM=;
+ b=Pr6JMpaGL/sWOHgDVFhIKmgLEFpPGonEEMtKpEc1B8Wp2ey0hyVbjCIGw9431/ZjF41Toy8GAymeG3jZxuJpLVJ7blpbMLq3P5DyRN0IU8e2soMcdOFdkwxakjgqyHLFpzi3DzLSOm3XawFUVnSek27uOIpA28tG4LlziTwkMUkpV2/iSVeYbuGfAP9zKbPTK5QV2Z5p3M48CUNnYR34Ui11/8EPKKLZ1iY14210OjVQmwBzd66JluER4ecZZRWKZ48i/HlW297GX8rTR2czqPNUJ5ff8ABaLka5Ur00lSOBMVeg3E8wI4rpwc5PZqIzeaGox6hb22skH1/Sc6IKnA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=ddn.com; dmarc=pass action=none header.from=ddn.com; dkim=pass
+ header.d=ddn.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ddn.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ja3BhWFaFhntALwS/q+jdTPfiuLbTKnXm6NGUSZO4GM=;
+ b=BEMfA2grp4lpA8scQmDpGvt5oR+ek49VrFtMDOrpTw9s37iwsyMQLueICFm/Xgwj+3aq9EQsQ4yTAJqxloWL9yyI32mMtWouIbAwSKnosLYHb2NU0qQDl18rWRSK6HC67Iet9VcE2pgXGjfBf87Sj2fFBatM9JHVj1UIyN/tXm4=
+Received: from MN2PR19MB3872.namprd19.prod.outlook.com (2603:10b6:208:1e8::8)
+ by CH2PR19MB4053.namprd19.prod.outlook.com (2603:10b6:610:90::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.20; Tue, 24 Mar
+ 2026 20:42:37 +0000
+Received: from MN2PR19MB3872.namprd19.prod.outlook.com
+ ([fe80::5787:9b5e:45ce:396b]) by MN2PR19MB3872.namprd19.prod.outlook.com
+ ([fe80::5787:9b5e:45ce:396b%6]) with mapi id 15.20.9723.018; Tue, 24 Mar 2026
+ 20:42:37 +0000
+From: Bernd Schubert <bschubert@ddn.com>
+To: "Darrick J. Wong" <djwong@kernel.org>, Bernd Schubert <bernd@bsbernd.com>
+CC: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, Miklos
+ Szeredi <miklos@szeredi.hu>, Joanne Koong <joannelkoong@gmail.com>, Kevin
+ Chen <kchen@ddn.com>
+Subject: Re: [PATCH 12/19] fuse mount: Support synchronous FUSE_INIT
+ (privileged daemon)
+Thread-Topic: [PATCH 12/19] fuse mount: Support synchronous FUSE_INIT
+ (privileged daemon)
+Thread-Index: AQHcuuzUdGXKJ6BbGUiWZ4Qzqpw7E7W8zYkAgAFaGwA=
+Date: Tue, 24 Mar 2026 20:42:36 +0000
+Message-ID: <e0d7b5ee-ffef-45a4-8c39-84cd79342bae@ddn.com>
 References: <20260323-fuse-init-before-mount-v1-0-a52d3040af69@bsbernd.com>
- <20260323-fuse-init-before-mount-v1-19-a52d3040af69@bsbernd.com>
+ <20260323-fuse-init-before-mount-v1-12-a52d3040af69@bsbernd.com>
+ <20260324000350.GM6202@frogsfrogsfrogs>
+In-Reply-To: <20260324000350.GM6202@frogsfrogsfrogs>
+Accept-Language: en-GB, en-US
+Content-Language: en-GB
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+user-agent: Mozilla Thunderbird
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=ddn.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MN2PR19MB3872:EE_|CH2PR19MB4053:EE_
+x-ms-office365-filtering-correlation-id: 664c1a23-7bab-4f93-2b1d-08de89e5e242
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|19092799006|1800799024|376014|366016|18002099003|56012099003|22082099003|38070700021;
+x-microsoft-antispam-message-info:
+ B6eL+CfnC4wZg+B53LEx+2gWfxphllo+alWAL7J/aFtRhfYxpiu6MOl0ws8n8VeDo//nFo0j+hM5v8rAV24p3BgRX7SSIU9i47aSqQMklxCXS6JPzwVpkanVFPUuA1CV5fOom5EwHyP/HDxh4I5WHB4Z24GBwH1QIY9XboZV987eA4BmiG6on7a7zTbPd+Gfqmrpp6uGQp8ENSUM5U5cvC+06LN3e5G8gfBcJiQ6LvaKFrpxEerXtn666NqqsrqaXoMBPeKpBD8vi1LLynIU8siHK6Brr71IILUw1wyWTYZxPnYU8TwSXtdXdxPJiyDjecT8jsq3zFwPaPFVVYJ4EtuoYB4egM6wjAZln1YiTXod+Mz0ncbMH+UXQRf0f2vSH636GKPPdb4aRoV+gtjJyBn2MLz+5FOxYW3N4rQWmZtPra1vLzBi8RVR8z8yu745YvvE0xAMQiQwO8IBOwxT9wbwGdlpyWL8t/iznlHiCIFzeUpewmMLRI8ZomDbE0DwHsOconMk+uAo7zek77d+63wuzEQOf85XGaeCApS5EP/S0FAaFYNYTL44Frz2/QV6Yid79yrE0JxPTR3myn2kx3kX43lIRuw0i4lRA0DG0xiS6AYoCl26CV15Q/idyvRbZhk8WUsgEQdIYf1Xtzv3mulMc7WDxUbXssj8O+ycUbf1PiShkBR8jJDtmIGx+LjgRQt/OE5G9+LLj4CKYHeBcZxIzQoILBNHcIRurRTBbLoEC0w734Hk230GL9q8meCeqylV8bIed5MyJZF6jgSjrPG2fWrlAIaLmLuvvlCuXnI=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR19MB3872.namprd19.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(1800799024)(376014)(366016)(18002099003)(56012099003)(22082099003)(38070700021);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?cFBSWjN3WXBKSXhMNm5USTZXQU1DQjVnbHdSak9leWFDRlpxRkxHMDZoTGoy?=
+ =?utf-8?B?RFAzL0gzczFWUWRGSklncm5NNUpyd0xTQmxnekJxWGFJOXljcFVENm1ubUZq?=
+ =?utf-8?B?Q3ZBbHBhNktKdGI4RFhqTGpQaGM2TGxHVXlBb0J4K29DMmxwZU5OU21JMitZ?=
+ =?utf-8?B?TEExZ0NVN3JQbGxoZy93cHRjcGE3elFHa3dOMk5kbDd5NXJjUmoyUHQ3eFZI?=
+ =?utf-8?B?SlhrbWt3Rm1adEZsQWR6YlU4YXZYREwxblQ0MDZwWW9JM2cyL2kwWmtRblhZ?=
+ =?utf-8?B?QmJ2b09GeTNrRGpCMUdQT1I3ZHg1cDYrRlViOFhwd0dFQlk2OEwwZnZ1YjdD?=
+ =?utf-8?B?N1BGY1lqdGNFVm93anQ5ZnEvVnJ5bzdCTk1LNmpEV29HYVhtaHFHQUtaYlFx?=
+ =?utf-8?B?bzhCUkNnbi96WmR4TVVmeGEyd1lMM2FzWEdicWJOMTMwZDV6SUxST21kYXc4?=
+ =?utf-8?B?NDNJMXh6OC9IeVViNHpWVmpnNmxpc212RXZVdGxydEs1OVd4M2hueTlCYmFT?=
+ =?utf-8?B?SFVQMGFuQUFCbURhdXhaRXo0cUptMGRoenY1SXcvVk4ybG1BQXdTdng2YzlS?=
+ =?utf-8?B?QXpGSkxFdk0zQTFaZS9IZjFkZWtSR2s3elFNdWxFbnVmY2ZQSmNGbjhzUnNj?=
+ =?utf-8?B?V2Z3ZmxEWEN3aXBPcCtGSmw1aEJKMVZhVFZqNmZ1eldEeDlHQ1RYSENjam9a?=
+ =?utf-8?B?aUV0RUFta2NQOHlxMGJiaEFPdFRkZmFZTVE0QjhGcElqajJyNnZiN080cU1B?=
+ =?utf-8?B?cjJrMGQ0MWpyYnZlVXN3ZXZMME1xRHgrUTNoTTA1ZForYTVMLzY2a1RJY1hS?=
+ =?utf-8?B?SDBiQVZPRXRFTXNZVE53amMweDEyMXk4WEFOamhVc3RKZU5iOVhoUWwva1pM?=
+ =?utf-8?B?YXliMHBxWFkyTmFrOVZTdlJWaUFxOXJUbm9LWWdvYVFyRUZIMW5YeS9sMlE1?=
+ =?utf-8?B?SXBQRmk4RktpaW4xWU92WDAwOGp1MVFFSXhMOExzMFlEc2xzZVc3Y3dDamFu?=
+ =?utf-8?B?Q3o5KzdIclJrVWFOZVdub21tSVRFRyt5dWlZTktkUGhIelRkdFB5a3JUWUc2?=
+ =?utf-8?B?ZVJYdEdEeG1ubVRkd0pXTi9Tdjg3c0JFcmRPSk9Dc0dvd3VoaUJFaDU0enJY?=
+ =?utf-8?B?cXFYM09YSVhoVi9MWHRDUzFjamhYK2EzTThMWTRUSkpUbDBpMzBja3lNME9y?=
+ =?utf-8?B?d0QxVmN3OElUanZNRkM5bkJ3dVZkeTFyV0dqMzlKL2p1SU5sWXFnZVMwMWg3?=
+ =?utf-8?B?aERjT0tZa0prcUt4dDBJUzFna1RKVUZjWFRpRCtEaEdSazR5YTcrYnBzK09V?=
+ =?utf-8?B?czJRMEY3blUrdmM3SkFmQjg0aFR4NHB1dkRJZ2NTK1ZHKzNsbWJFbFdhRzk2?=
+ =?utf-8?B?QWYvbHE1V0Jud09lQVlJMVRxUm5YUmpKcSs3K0szaC8vVGpGb3h1SUQrVmdk?=
+ =?utf-8?B?V0pkR1pOd3F4cENFdEhrTXowUHlPNUxVM29uNDJDd0VNU3B3TjVKMEdRREN4?=
+ =?utf-8?B?QnhzcGVNNnNuS0hmcWVTMWpCWEVBbmFxck1ZM0RRaVM0Vkd4WjVxb2N0QmlK?=
+ =?utf-8?B?NkppekdUQjRNSWF1MmRCWVF6S1J2NDBBNFQ0YkEwRjdZR1RHYnMzRlBXWWVx?=
+ =?utf-8?B?SFFZN2VPdVVBM0hvbHBIRmJSeVdaSk1zeGVSWkFRUzVlWEhKNms5bUNIT3FP?=
+ =?utf-8?B?UW1QcFNOa1czdzlUSUNqMWhJek1sOTQ1YU9vb0kxUTdpeDJ6dHo5NGNMTUh5?=
+ =?utf-8?B?RVMrSEJNd3djSmFqdmp3cUN1ZkcyOWk1VVM4bVVlSjdXN0NyVHIvYmVOcCtv?=
+ =?utf-8?B?VjR2TzM1c1VKRkswS0puaEd6VWxUUHV1OWl0dzBBNFdhSHp4T2NKSklvNFVO?=
+ =?utf-8?B?bUFHczduQVl3R3diRVJnRHFPdnNZRHplWnRPYnRoM2pJSlVybWc3RzJLTG43?=
+ =?utf-8?B?UlJ0eWZySENoV005VkFueG00QlRYV1g4TzVnNzQvYjBIQmMycS82S1JSZzNi?=
+ =?utf-8?B?QmdxOGt1ZkNhc0FkR3AzUyt1U0RNbVBOWDdnUDlGWFFzeGt3MncreTVmRFov?=
+ =?utf-8?B?UWpPWksvWXZVT1U0SmhDVEF4TDIwTlhNV3dHbFkxdlpXTnNIbWNGdmJCalJD?=
+ =?utf-8?B?YzVkY2lNS1FZM2pmZURpZmQxNE93eHRmZVpLbDFJY3V6VGtMQmsySy9sS29u?=
+ =?utf-8?B?eEpobUZMcG5mL1BDQlU1S3FLN2kwUXhxaW9XT0Q2RGFabEZZQTdJeEYrMlNE?=
+ =?utf-8?B?UkhhUGREbmFqYm9odEhHWElKL0JETCtyOTF5M1djNzcwWXZHSkl6Y2cwUDVR?=
+ =?utf-8?Q?PLynTKVb02dke8sG+X?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <0DAB088922326249AD9058E5BD154EF3@namprd19.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260323-fuse-init-before-mount-v1-19-a52d3040af69@bsbernd.com>
+X-Exchange-RoutingPolicyChecked:
+	ApGpVV4EfdHYRCEZl+GuTQH+6JKojCOT4CVNBh1iecl7t8wxIaqLihATvHx2yqm57HX7n1TIKESy1nVvUU9DVQmZK3L8ukSqSWzs27n8zPedzFGo9gKLZhKofJL56leTGT0WTuCBUIEPbaq/z9O3tX5H5xml1xSIIUgX/4Rcb4dHgKkurvbMOZnOCI3AQ3FeRJUS1VEZi05RbF513C2+CYbs8f6pT3ou/U2hhAZDl4Vkq3QBCggmhoh1CbemFoGefU+uvskoU0/eAWboi/xR/tN4XynyK/XgGq+d7hugX7mrxxZCGmZfW9H5Du4OZIUzvYFHxSzewCi0ntihWPe+Yw==
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	iaXi94Fj5P3J6uU+mRn28df6HgIXUp6A2gdkkY/6RJUsFIqPVui5/cpv0EhGA7xNPia7pBd1BhPVkbEHJUMqW6V+CSRWSodB82nNwp9yLqM68DjNq0EJKNvSdQd7jK5KnIZ43EX+10Z0rqnkfTyER/zFVlsrxAXC4yRs9YrbwJn01ynn7ov+6MFA0Yhh1r9tBDTH7jlr8sSiaD8b/wFgL4KD01L6RrzHGfiLeZ9MSqjPc21DPxZzDPG/kz1h/CE9E7kCcesWAU3RIe/JVtM6Wh7DOyTEaWIuvZN8j5OzObAJcGBY3oE5GFv1lQWqRVtCKb8VgMZWb2imkXg1F3pxjme6KDyCvP+XDGHGRyDbMr9zLzGYZ7/TUpt5Ov/+ClLLeqmeooekR7ZspvpEX3RcxlDu6tczWZn9Ad3O8uBZk7UGdEJY23F+MIWqkzX/U8il9Z1N5SHZNAZweKvv24uGgAct8y8kS+jEWAXlcSvcFlwmnZufPBUXiekp/dgUZX/gh9lTut+WMh01dgVw78RndOqCq/mCDsMRwjfxGMTYVsmlpf5PbY+20BNKH0vSk8IDELy/Ua+3UCQguZpJNBKZCMXvAFx3DykNzcMxSSaHCSGGIYCoeNzIvsna1cvK/vA+IJWpiTJaD9aPY6ND+Himpg==
+X-OriginatorOrg: ddn.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR19MB3872.namprd19.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 664c1a23-7bab-4f93-2b1d-08de89e5e242
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Mar 2026 20:42:36.9469
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 753b6e26-6fd3-43e6-8248-3f1735d59bb4
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: YCj3hhRyFreX8cmeugnTCDyX3TydcmV0z+PtdNyAR5moMcWvTCnfPoZ4s5q64yff3u8AMBZk4Bzin0WtKuK6ag==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR19MB4053
+X-BESS-ID: 1774384960-106070-7674-18143-1
+X-BESS-VER: 2019.1_20260319.1837
+X-BESS-Apparent-Source-IP: 40.93.198.119
+X-BESS-Parts: H4sIAAAAAAACA4uuVkqtKFGyUioBkjpK+cVKVoamRmbGQGYGUNQiNckwycDcwN
+	zSJNHcyNzE2NAoxcjE0NQwJdk02cjIRKk2FgBkW1X/QgAAAA==
+X-BESS-Outbound-Spam-Score: 0.00
+X-BESS-Outbound-Spam-Report: Code version 3.2, rules version 3.2.2.272046 [from 
+	cloudscan10-188.us-east-2a.ess.aws.cudaops.com]
+	Rule breakdown below
+	 pts rule name              description
+	---- ---------------------- --------------------------------
+	0.00 BSF_BESS_OUTBOUND      META: BESS Outbound 
+X-BESS-Outbound-Spam-Status: SCORE=0.00 using account:ESS124931 scores of KILL_LEVEL=7.0 tests=BSF_BESS_OUTBOUND
+X-BESS-BRTS-Status:1
 
-On Mon, Mar 23, 2026 at 06:45:14PM +0100, Bernd Schubert wrote:
-> From: Bernd Schubert <bschubert@ddn.com>
-> 
-> This makes use of the bidirectional fusermount. Added is
-> doc/README.mount, which explains the new bidirectional
-> communication with fusermount.
-> 
-> Signed-off-by: Bernd Schubert <bschubert@ddn.com>
-
-All right, last patch before I go have some lunch and circle back to
-your recent replies :)
-
-> ---
->  doc/README.mount     |  86 ++++++++++++++++++++++++
->  doc/README.sync-init | 184 +++++++++++++++++++++++++++++++++++++++++++++++++++
-
-These new readmes feel like they ought to go at the beginning (or at
-least a separate patch) to argue for why synchronous init is needed
-in libfuse?  I do appreciate the flow diagrams though.
-
->  lib/fuse_lowlevel.c  | 115 ++++++++++++++++++++++++++------
->  lib/mount.c          | 126 ++++++++++++++++++++++++++++++++++-
->  lib/mount_i_linux.h  |   7 ++
->  util/fusermount.c    |   2 -
->  6 files changed, 494 insertions(+), 26 deletions(-)
-> 
-> diff --git a/doc/README.mount b/doc/README.mount
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..526382ad8a5f6b405a7cb1927b79bacd6c2c2c5c
-> --- /dev/null
-> +++ b/doc/README.mount
-> @@ -0,0 +1,86 @@
-> +FUSE Mount API Flowcharts
-> +=========================
-> +
-> +Old Mount API
-> +-------------
-> +
-> +fuse_kern_mount()
-> +  |
-> +  +-- fuse_mount_sys()
-> +  |     +-- Try direct mount → mount() syscall
-> +  |     +-- On EPERM: fuse_mount_fusermount()
-> +  |           +-- socketpair()
-> +  |           +-- spawn fusermount3 (no --sync-init)
-> +  |           +-- fusermount3: open /dev/fuse, mount(), send fd
-> +  |           +-- receive_fd() → return fd
-> +  |
-> +  +-- Worker threads started AFTER mount
-> +  └─> FUSE_INIT asynchronous (queued in kernel)
-> +
-> +
-> +New Mount API - Privileged Mount
-> +---------------------------------
-> +
-> +fuse_session_mount_new_api()
-> +  |
-> +  +-- fuse_kern_mount_prepare() → open /dev/fuse → fd
-> +  |
-> +  +-- session_start_sync_init(se, fd)
-> +  |     +-- ioctl(fd, FUSE_DEV_IOC_SYNC_INIT)
-> +  |     +-- pthread_create(worker) → ready to process FUSE_INIT
-> +  |
-> +  +-- fuse_kern_fsmount_mo()
-> +  |     +-- fsopen/fsconfig/fsmount (BLOCKS until FUSE_INIT completes)
-> +  |     +-- Worker processes FUSE_INIT during fsmount()
-> +  |     +-- move_mount()
-> +  |
-> +  +-- session_wait_sync_init_completion(se) → pthread_join
-> +  └─> return fd
-> +
-> +
-> +New Mount API - EPERM Fallback (fusermount3 with sync-init)
-> +------------------------------------------------------------
-> +
-> +fuse_session_mount_new_api()
-> +  |
-> +  +-- fuse_kern_mount_prepare() → open /dev/fuse → fd1
-> +  |
-> +  +-- session_start_sync_init(se, fd1)
-> +  |     +-- ioctl(fd1, FUSE_DEV_IOC_SYNC_INIT)
-> +  |     +-- pthread_create(worker) → ready with fd1
-> +  |
-> +  +-- fuse_kern_fsmount_mo() → EPERM
-> +  |
-> +  +-- *** FALLBACK TO FUSERMOUNT3 WITH SYNC-INIT ***
-> +  |
-> +  +-- session_wait_sync_init_completion(se)
-> +  |     +-- pthread_cancel/join → terminate worker with wrong fd1
-> +  |
-> +  +-- close(fd1)
-> +  |
-> +  +-- fuse_mount_fusermount_sync_init()  [NEW]
-> +  |     +-- socketpair()
-> +  |     +-- spawn fusermount3 --sync-init
-> +  |     +-- fusermount3: open /dev/fuse → fd2, send fd2
-> +  |     +-- receive_fd() → fd2
-> +  |     +-- fusermount3 waits for signal
-> +  |     └─> return fd2, sock
-> +  |
-> +  +-- session_start_sync_init(se, fd2)
-> +  |     +-- ioctl(fd2, FUSE_DEV_IOC_SYNC_INIT)
-> +  |     +-- pthread_create(worker) → ready with fd2
-> +  |
-> +  +-- send_proceed_signal(sock)  [NEW]
-> +  |     +-- send(sock, "\0", 1) → signal fusermount3
-> +  |
-> +  +-- fusermount3: mount() (BLOCKS)
-> +  |     +-- Kernel sends FUSE_INIT to fd2
-> +  |     +-- Worker processes FUSE_INIT
-> +  |     +-- mount() returns
-> +  |
-> +  +-- close(sock)
-> +  |
-> +  +-- session_wait_sync_init_completion(se) → pthread_join
-> +  |
-> +  └─> return fd2
-> +
-> diff --git a/doc/README.sync-init b/doc/README.sync-init
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..44e47a2eef2c45026abaa19562537eef37f256b9
-> --- /dev/null
-> +++ b/doc/README.sync-init
-> @@ -0,0 +1,184 @@
-> +FUSE Synchronous vs Asynchronous FUSE_INIT
-> +============================================
-> +
-> +This document explains the difference between asynchronous and synchronous
-> +FUSE_INIT processing, and when each mode is used.
-> +
-> +
-> +Overview
-> +--------
-> +
-> +FUSE_INIT is the initial handshake between the kernel FUSE module and the
-> +userspace filesystem daemon. During this handshake, the kernel and daemon
-> +negotiate capabilities, protocol version, and various feature flags.
-> +
-> +Asynchronous FUSE_INIT (Traditional Behavior)
-> +----------------------------------------------
-> +
-> +In the traditional asynchronous mode:
-> +
-> +1. mount() syscall completes and returns to caller
-> +2. Filesystem appears mounted to the system
-> +3. FUSE daemon starts worker threads
-> +4. Worker threads process FUSE_INIT request
-> +5. Filesystem becomes fully operational
-> +
-> +Timeline:
-> +    mount() -----> returns
-> +                   |
-> +                   v
-> +            FUSE_INIT sent
-> +                   |
-> +                   v
-> +            daemon processes FUSE_INIT
-> +                   |
-> +                   v
-> +            filesystem ready
-> +
-> +Limitations:
-> +
-> +1. **No early requests**: The kernel cannot send requests (like getxattr)
-> +   during the mount() syscall. This breaks SELinux, which needs to query
-> +   extended attributes on the root inode immediately upon mounting.
-> +
-> +2. **Daemonization timing**: With the old fuse_daemonize() API, the daemon
-> +   must call it AFTER mount, because there's no way to report mount failures
-> +   to the parent process if daemonization happens first.
-> +
-> +3. **No custom root inode**: The root inode ID is hardcoded to FUSE_ROOT_ID (1)
-> +   because FUSE_INIT hasn't been processed yet when the mount completes.
-> +
-> +4. **Thread startup after mount**: io_uring threads and other worker threads
-> +   can only start after mount() returns, not before.
-
-Especially this part which explains why we care about sync init :)
-
-> +
-> +Synchronous FUSE_INIT (New Behavior)
-> +-------------------------------------
-> +
-> +Kernel support: Linux kernel commit dfb84c330794 (v6.18+)
-> +libfuse support: libfuse 3.19+
-> +
-> +In synchronous mode:
-> +
-> +1. FUSE daemon opens /dev/fuse
-> +2. Daemon calls ioctl(fd, FUSE_DEV_IOC_SYNC_INIT)
-> +3. Daemon starts worker thread
-> +4. Daemon calls mount() syscall
-> +5. Kernel sends FUSE_INIT during mount() - mount() blocks
-> +6. Worker thread processes FUSE_INIT while mount() is blocked
-> +7. Worker thread may process additional requests (getxattr, etc.)
-> +8. mount() syscall completes and returns
-> +9. Filesystem is fully operational
-> +
-> +Timeline:
-> +    open /dev/fuse
-> +         |
-> +         v
-> +    ioctl(FUSE_DEV_IOC_SYNC_INIT)
-> +         |
-> +         v
-> +    start worker thread
-> +         |
-> +         v
-> +    mount() -----> blocks
-> +         |         |
-> +         |         v
-> +         |    FUSE_INIT sent
-> +         |         |
-> +         |         v
-> +         |    worker processes FUSE_INIT
-> +         |         |
-> +         |         v
-> +         |    (possible getxattr, etc.)
-> +         |         |
-> +         +-------> returns
-> +                   |
-> +                   v
-> +            filesystem ready
-> +
-> +Advantages:
-> +
-> +1. **SELinux support**: The kernel can send getxattr requests during mount()
-> +   to query security labels on the root inode.
-> +
-> +2. **Early daemonization**: The daemon can fork BEFORE mount using the new
-> +   fuse_daemonize_start()/signal() API, and report mount failures to the
-> +   parent process.
-> +
-> +3. **Custom root inode**: The daemon can specify a custom root inode ID
-> +   during FUSE_INIT, before mount() completes.
-> +
-> +4. **Thread startup before mount**: io_uring threads and worker threads
-> +   start before mount(), ensuring they're ready to handle requests.
-> +
-> +5. **Better error reporting**: Mount failures and initialization errors
-> +   can be properly reported to the parent process when using the new
-> +   daemonization API.
-> +
-> +
-> +When Synchronous FUSE_INIT is Used
-> +-----------------------------------
-> +
-> +libfuse automatically enables synchronous FUSE_INIT when:
-> +
-> +1. The application calls fuse_session_want_sync_init(), OR
-> +2. The new daemonization API is used (fuse_daemonize_start() was called)
-> +
-> +Synchronous FUSE_INIT requires:
-> +- Kernel support (commit dfb84c330794 or later)
-> +- Worker thread started before mount()
-> +- ioctl(FUSE_DEV_IOC_SYNC_INIT) succeeds
-> +
-> +If the kernel doesn't support synchronous FUSE_INIT, libfuse automatically
-> +falls back to asynchronous mode.
-> +
-> +
-> +Implementation Details
-> +----------------------
-> +
-> +The synchronous FUSE_INIT implementation uses a worker thread:
-> +
-> +- **session_sync_init_worker()**: Thread function that polls /dev/fuse
-> +  and processes FUSE_INIT and any subsequent requests until mount completes.
-> +
-> +- **session_start_sync_init()**: Creates the worker thread before mount().
-> +  Calls ioctl(FUSE_DEV_IOC_SYNC_INIT) to enable kernel support.
-> +
-> +- **session_wait_sync_init_completion()**: Waits for the worker thread
-> +  to complete after mount() returns. Checks for errors.
-> +
-> +The worker thread processes requests in a loop until se->terminate_mount_worker
-> +is set, which happens after mount() completes successfully.
-> +
-> +
-> +Compatibility
-> +-------------
-> +
-> +Synchronous FUSE_INIT is fully backward compatible:
-> +
-> +- Old kernels: ioctl returns ENOTTY, libfuse falls back to async mode
-> +- Old applications: Continue to work with async FUSE_INIT
-> +- New applications on old kernels: Graceful fallback to async mode
-> +- New applications on new kernels: Automatic sync mode when appropriate
-> +
-> +
-> +Example: Enabling Synchronous FUSE_INIT
-> +----------------------------------------
-> +
-> +Explicit request:
-> +    struct fuse_session *se = fuse_session_new(...);
-> +    fuse_session_want_sync_init(se);
-> +    fuse_session_mount(se, mountpoint);
-> +
-> +Automatic (with new daemonization API):
-> +    fuse_daemonize_start(0);  // Triggers sync init automatically
-> +    fuse_session_mount(se, mountpoint);
-> +
-> +
-> +See Also
-> +--------
-> +
-> +- doc/README.daemonize - New daemonization API documentation
-> +- doc/README.fusermount - Synchronous FUSE_INIT protocol with fusermount3
-> +- doc/README.mount - Mount implementation details
-> +
-> diff --git a/lib/fuse_lowlevel.c b/lib/fuse_lowlevel.c
-> index a7293a3898c37c3877eadf965d310ae2aa5cc2d1..da966217ed841744a20bee60de8ae615d1015b47 100644
-> --- a/lib/fuse_lowlevel.c
-> +++ b/lib/fuse_lowlevel.c
-> @@ -41,6 +41,7 @@
->  #include <assert.h>
->  #include <sys/file.h>
->  #include <sys/ioctl.h>
-> +#include <sys/wait.h>
->  #include <stdalign.h>
->  #include <poll.h>
->  
-> @@ -4551,6 +4552,8 @@ static int session_wait_sync_init_completion(struct fuse_session *se)
->  		se->init_wakeup_fd = -1;
->  	}
->  
-> +	se->init_thread = 0;
-> +
->  	if (se->init_error != 0) {
->  		fuse_log(FUSE_LOG_ERR, "fuse: init worker failed: %d\n", se->init_error);
->  		return -1;
-> @@ -4564,56 +4567,125 @@ static int session_wait_sync_init_completion(struct fuse_session *se)
->  	return 0;
->  }
->  
-> -/* Only linux supports sync FUSE_INIT so far */
-> +/*
-> + * Mount using the new Linux mount API (fsopen/fsconfig/fsmount/move_mount)
-> + * Sync-init is only supported with the new API, as the mount might hang
-> + * in case of daemon crash during FUSE_INIT. That also means once the sync init
-> + * ioctl succeed fallback is not allowed anymore.
-> + * Returns: fd on success, -1 on failure
-> + */
->  static int fuse_session_mount_new_api(struct fuse_session *se,
-> -				      const char *mountpoint)
-> +				      const char *mountpoint, bool *fall_back)
->  {
->  	int fd = -1;
-> +	int sock_fd = -1;
-> +	pid_t fusermount_pid = -1;
->  	int res, err;
->  	char *mnt_opts = NULL;
->  	char *mnt_opts_with_fd = NULL;
->  	char fd_opt[32];
->  
->  	res = fuse_kern_mount_get_base_mnt_opts(se->mo, &mnt_opts);
-> +	err = -EIO;
->  	if (res == -1) {
->  		fuse_log(FUSE_LOG_ERR, "fuse: failed to get base mount options\n");
-> -		err = -EIO;
-
-Odd churn in this function...
-
->  		goto err;
->  	}
->  
->  	fd = fuse_kern_mount_prepare(mountpoint, se->mo);
->  	if (fd == -1) {
->  		fuse_log(FUSE_LOG_ERR, "Mount preparation failed.\n");
-> -		err = -EIO;
->  		goto err;
->  	}
->  
-> -	/*
-> -	 * Enable synchronous FUSE_INIT and start worker thread, sync init
-> -	 * failure is not an error
-> -	 */
-> +	*fall_back = true;
->  	se->fd = fd;
->  	err = session_start_sync_init(se, fd);
->  	if (err) {
->  		/* ENOTTY means kernel doesn't support sync init - not an error */
->  		if (err != -ENOTTY)
->  			goto err;
-> +	} else {
-> +		*fall_back = false;
->  	}
-> +
-> +
->  	snprintf(fd_opt, sizeof(fd_opt), "fd=%i", fd);
-> +	err = -ENOMEM;
->  	if (fuse_opt_add_opt(&mnt_opts_with_fd, mnt_opts) == -1 ||
->  	    fuse_opt_add_opt(&mnt_opts_with_fd, fd_opt) == -1) {
-> -		err = -ENOMEM;
->  		goto err;
->  	}
->  
-> +	/* Try to mount directly */
->  	err = fuse_kern_fsmount_mo(mountpoint, se->mo, mnt_opts_with_fd);
-> +
-> +	/* If mount failed with EPERM, fall back to fusermount3 with sync-init */
-
-
-...since this is the new "actually use bidirectional fusermount3" code
-mentioned in the commit message.
-
-> +	if (err < 0 && errno == EPERM) {
-> +		if (se->debug)
-> +			fuse_log(FUSE_LOG_DEBUG,
-> +				 "fuse: privileged mount failed with EPERM, falling back to fusermount3\n");
-> +
-> +		/* Terminate worker thread with wrong fd */
-> +		if (session_wait_sync_init_completion(se) < 0)
-> +			fuse_log(FUSE_LOG_ERR, "fuse: sync init completion failed\n");
-> +
-> +		/* Close the privileged fd */
-> +		close(fd);
-> +		fd = -1;
-> +		se->fd = -1;
-> +
-> +		/* Call fusermount3 with --sync-init */
-> +		err = -ENOTSUP;
-> +		fd = mount_fusermount_obtain_fd(mountpoint, se->mo, mnt_opts,
-> +						&sock_fd, &fusermount_pid);
-> +		if (fd < 0) {
-> +			fuse_log(
-> +				FUSE_LOG_ERR,
-> +				"fuse: fusermount3 sync-init failed\n");
-> +			goto err;
-> +		}
-> +
-> +		/* Start worker thread with correct fd from fusermount3 */
-> +		se->fd = fd;
-> +		err = session_start_sync_init(se, fd);
-> +		if (err) {
-> +			if (err != -ENOTTY) {
-> +				fuse_log(
-> +					FUSE_LOG_ERR,
-> +					"fuse: failed to start sync init worker\n");
-> +				goto err_with_sock;
-> +			}
-> +		} else {
-> +			*fall_back = false;
-
-We already set *fall_back to false above, didn't we?  I'm slightly
-confused -- should we set *fall_back=true any time this function returns
-nonzero?
-
-> +		}
-> +
-> +		/* Send proceed signal and wait for mount result */
-> +		err = fuse_fusermount_proceed_mnt(sock_fd);
-> +		if (err < 0) {
-> +			err = -EIO;
-> +			goto err_with_sock;
-> +		}
-> +	} else if (err < 0) {
-> +		/* Mount failed with non-EPERM error, bail out */
-> +		goto err;
-> +	}
-> +
-> +err_with_sock:
-> +	if (sock_fd >= 0) {
-> +		close(sock_fd);
-> +		/* Reap fusermount3 child process to prevent zombie */
-> +		if (fusermount_pid > 0)
-> +			waitpid(fusermount_pid, NULL, 0);
-> +	}
->  err:
->  	if (err < 0) {
-> +		/* Close fd first to unblock worker thread */
->  		if (fd >= 0)
->  			close(fd);
->  		fd = -1;
->  		se->fd = -1;
-> -		se->error = -errno;
-> +		se->error = err;
->  	}
->  	/* Wait for synchronous FUSE_INIT to complete */
->  	if (session_wait_sync_init_completion(se) < 0)
-> @@ -4625,10 +4697,11 @@ err:
->  }
->  #else
->  static int fuse_session_mount_new_api(struct fuse_session *se,
-> -				      const char *mountpoint)
-> +				      const char *mountpoint, bool *fall_back)
->  {
->  	(void) se;
->  	(void) mountpoint;
-> +	(void) fall_back;
->  
->  	return -1;
->  }
-> @@ -4638,6 +4711,7 @@ int fuse_session_mount(struct fuse_session *se, const char *_mountpoint)
->  {
->  	int fd;
->  	char *mountpoint;
-> +	bool fall_back;
->  
->  	if (_mountpoint == NULL) {
->  		fuse_log(FUSE_LOG_ERR, "Invalid null-ptr mountpoint!\n");
-> @@ -4681,21 +4755,18 @@ int fuse_session_mount(struct fuse_session *se, const char *_mountpoint)
->  		return 0;
->  	}
->  
-> -	/* new linux mount api */
-> -	fd = fuse_session_mount_new_api(se, mountpoint);
-> -	if (fd >= 0)
-> -		goto out;
-> +	/* new linux mount api (and sync init) */
-> +	fd = fuse_session_mount_new_api(se, mountpoint, &fall_back);
->  
->  	/* fall back to old API */
-> -	se->error = 0; /* reset error of new api */
-> -	fd = fuse_kern_mount(mountpoint, se->mo);
-> -	if (fd < 0)
-> -		goto error_out;
-> +	if (fall_back && fd < 0) {
-> +		se->error = 0; /* reset error of new api */
-> +		fd = fuse_kern_mount(mountpoint, se->mo);
-> +		if (fd < 0)
-> +			goto error_out;
-> +	}
->  
-> -out:
->  	se->fd = fd;
-> -
-> -	/* Save mountpoint */
->  	se->mountpoint = mountpoint;
->  
->  	return 0;
-> diff --git a/lib/mount.c b/lib/mount.c
-> index 263b05051c236458b830c40181bce7f494803800..985938ea0be3e1affad19adad527a31ac2ca6034 100644
-> --- a/lib/mount.c
-> +++ b/lib/mount.c
-> @@ -41,6 +41,7 @@
->  #define FUSERMOUNT_PROG		"fusermount3"
->  #define FUSE_COMMFD_ENV		"_FUSE_COMMFD"
->  #define FUSE_COMMFD2_ENV	"_FUSE_COMMFD2"
-> +#define ARG_FD_ENTRY_SIZE	30
-
-Thirty seems a bit much for an integer, especially one that can't go
-above 1 million.  Eh, it's just stack space. :)
-
->  enum {
->  	KEY_KERN_FLAG,
-> @@ -313,7 +314,7 @@ static int setup_auto_unmount(const char *mountpoint, int quiet)
->  		return -1;
->  	}
->  
-> -	char arg_fd_entry[30];
-> +	char arg_fd_entry[ARG_FD_ENTRY_SIZE];
->  	snprintf(arg_fd_entry, sizeof(arg_fd_entry), "%i", fds[0]);
->  	setenv(FUSE_COMMFD_ENV, arg_fd_entry, 1);
->  	/*
-> @@ -386,7 +387,7 @@ static int fuse_mount_fusermount(const char *mountpoint, struct mount_opts *mo,
->  		return -1;
->  	}
->  
-> -	char arg_fd_entry[30];
-> +	char arg_fd_entry[ARG_FD_ENTRY_SIZE];
->  	snprintf(arg_fd_entry, sizeof(arg_fd_entry), "%i", fds[0]);
->  	setenv(FUSE_COMMFD_ENV, arg_fd_entry, 1);
->  	/*
-> @@ -446,6 +447,127 @@ static int fuse_mount_fusermount(const char *mountpoint, struct mount_opts *mo,
->  	return fd;
->  }
->  
-> +/*
-> + * Mount using fusermount3 with --sync-init flag for bidirectional fd exchange
-> + * Used by new mount API when privileged mount fails with EPERM
-> + *
-> + * Returns: fd on success, -1 on failure
-> + * On success, *sock_fd_out contains the socket fd for signaling fusermount3
-> + */
-> +int mount_fusermount_obtain_fd(const char *mountpoint, struct mount_opts *mo,
-> +			       const char *opts, int *sock_fd_out,
-> +			       pid_t *pid_out)
-> +{
-> +	int fds[2];
-> +	pid_t pid;
-> +	int res;
-> +	char arg_fd_entry[ARG_FD_ENTRY_SIZE];
-> +	posix_spawn_file_actions_t action;
-> +	int fd, status;
-> +
-> +	(void)mo;
-> +
-> +	if (!mountpoint) {
-> +		fuse_log(FUSE_LOG_ERR, "fuse: missing mountpoint parameter\n");
-> +		return -1;
-> +	}
-> +
-> +	res = socketpair(PF_UNIX, SOCK_STREAM, 0, fds);
-> +	if (res == -1) {
-> +		fuse_log(FUSE_LOG_ERR, "Running %s: socketpair() failed: %s\n",
-> +			 FUSERMOUNT_PROG, strerror(errno));
-> +		return -1;
-> +	}
-> +
-> +	snprintf(arg_fd_entry, sizeof(arg_fd_entry), "%i", fds[0]);
-> +	setenv(FUSE_COMMFD_ENV, arg_fd_entry, 1);
-
-Oh!  /me realizes that FUSE_COMMFD{,2}_ENV can convey different things!
-
-If you're trying to get fusermount to *mount* a filesystem, then it's
-the AF_UNIX socket that is used to pass the /dev/fuse fd to the fuse
-server and then to trigger the mount.
-
-If you pass --auto-unmount/-U then fusermount waits for the socket to
-close and then unmounts the mount.
-
-> +	snprintf(arg_fd_entry, sizeof(arg_fd_entry), "%i", fds[1]);
-> +	setenv(FUSE_COMMFD2_ENV, arg_fd_entry, 1);
-
-...and I guess you can pass the fds on the cli instead of goofy
-environment variables?  I wonder if you should be passing them via CLI
-since you know fusermount supports it.  OTOH I don't really care either
-way ;)
-
-> +
-> +	char const *const argv[] = {
-> +		FUSERMOUNT_PROG,
-> +		"--sync-init",
-> +		"-o", opts ? opts : "",
-> +		"--",
-> +		mountpoint,
-> +		NULL,
-> +	};
-> +
-> +	posix_spawn_file_actions_init(&action);
-> +	posix_spawn_file_actions_addclose(&action, fds[1]);
-> +	status = fusermount_posix_spawn(&action, argv, &pid);
-> +	posix_spawn_file_actions_destroy(&action);
-> +
-> +	if (status != 0) {
-> +		close(fds[0]);
-> +		close(fds[1]);
-> +		return -1;
-> +	}
-> +
-> +	close(fds[0]);
-> +
-> +	fd = receive_fd(fds[1]);
-> +	if (fd < 0) {
-> +		close(fds[1]);
-> +		waitpid(pid, NULL, 0);
-> +		return -1;
-> +	}
-> +
-> +	fcntl(fd, F_SETFD, FD_CLOEXEC);
-> +
-> +	/* Return socket fd for later signaling */
-> +	*sock_fd_out = fds[1];
-> +	*pid_out = pid;
-> +
-> +	return fd;
-> +}
-> +
-> +/*
-> + * Send proceed signal to fusermount3 and wait for mount result
-> + * Returns: 0 on success, -1 on failure
-> + */
-> +int fuse_fusermount_proceed_mnt(int sock_fd)
-> +{
-> +	char buf = '\0';
-> +	ssize_t res;
-> +
-> +	/* Send proceed signal */
-> +	do {
-> +		res = send(sock_fd, &buf, 1, 0);
-> +	} while (res == -1 && errno == EINTR);
-
-I wonder if all the pipe/socket communications ought to have been turned
-into a bunch of wrappers like what I did for
-mount_service.c/fuse_service.c?
-
-That said, it looks like most of the fusermount/sync-init communcations
-are single ints so maybe it doesn't matter.  The communications for the
-fuse servers is much more complex and hence needs more structure.
-
---D
-
-> +
-> +	if (res != 1) {
-> +		fuse_log(FUSE_LOG_ERR, "fuse: failed to send proceed signal: %s\n",
-> +			 strerror(errno));
-> +		return -1;
-> +	}
-> +
-> +	/* Wait for mount result from fusermount3 (4-byte error code) */
-> +	int32_t status;
-> +
-> +	do {
-> +		res = recv(sock_fd, &status, sizeof(status), 0);
-> +	} while (res == -1 && errno == EINTR);
-> +
-> +	if (res != sizeof(status)) {
-> +		if (res == 0)
-> +			fuse_log(FUSE_LOG_ERR, "fuse: fusermount3 closed connection\n");
-> +		else
-> +			fuse_log(FUSE_LOG_ERR, "fuse: failed to receive mount status: %s\n",
-> +				 strerror(errno));
-> +		return -1;
-> +	}
-> +
-> +	if (status != 0) {
-> +		if (status != -EPERM)
-> +			fuse_log(FUSE_LOG_ERR, "fuse: fusermount3 mount failed: %s\n",
-> +				 strerror(-status));
-> +		return -1;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  #ifndef O_CLOEXEC
->  #define O_CLOEXEC 0
->  #endif
-> diff --git a/lib/mount_i_linux.h b/lib/mount_i_linux.h
-> index 867105019fa57576682091d1a650302f31e450b3..2a3386443afa73a508454124332527c35a184398 100644
-> --- a/lib/mount_i_linux.h
-> +++ b/lib/mount_i_linux.h
-> @@ -76,5 +76,12 @@ int fuse_kern_fsmount_mo(const char *mnt, struct mount_opts *mo,
->  			 const char *mnt_opts);
->  char *fuse_mnt_build_source(const struct mount_opts *mo);
->  char *fuse_mnt_build_type(const struct mount_opts *mo);
-> +int mount_fusermount_obtain_fd(const char *mountpoint,
-> +					   struct mount_opts *mo,
-> +					   const char *opts, int *sock_fd_out,
-> +					   pid_t *pid_out);
-> +
-> +int fuse_fusermount_proceed_mnt(int sock_fd);
-> +
->  
->  #endif /* FUSE_MOUNT_I_H_ */
-> diff --git a/util/fusermount.c b/util/fusermount.c
-> index 808b4afd89ceb49273c944d43bffe5033e27549b..e6d973687bb4eef0d7e6626a1028cc32dd177e89 100644
-> --- a/util/fusermount.c
-> +++ b/util/fusermount.c
-> @@ -1397,7 +1397,6 @@ struct mount_context {
->  	char *source;
->  	char *mnt_opts;
->  	char *x_opts;
-> -	const char *type;
->  };
->  
->  /*
-> @@ -1521,7 +1520,6 @@ static int mount_fuse_finish_fsmount(const char *mnt, const char *opts,
->  
->  	/* Store results in context */
->  	ctx->source = mp.source;
-> -	ctx->type = mp.type;
->  	ctx->mnt_opts = final_mnt_opts;
->  	*type = mp.type;
->  
-> 
-> -- 
-> 2.43.0
-> 
-> 
+T24gMy8yNC8yNiAwMTowMywgRGFycmljayBKLiBXb25nIHdyb3RlOg0KPiBPbiBNb24sIE1hciAy
+MywgMjAyNiBhdCAwNjo0NTowN1BNICswMTAwLCBCZXJuZCBTY2h1YmVydCB3cm90ZToNCj4+IEZy
+b206IEJlcm5kIFNjaHViZXJ0IDxic2NodWJlcnRAZGRuLmNvbT4NCj4+DQo+PiBBZGQgc3luY2hy
+b25vdXMgRlVTRV9JTklUIHByb2Nlc3NpbmcgZHVyaW5nIG1vdW50KCkgdG8NCj4+IGVuYWJsZSBl
+YXJseSBkYWVtb25pemF0aW9uIHdpdGggcHJvcGVyIGVycm9yIHJlcG9ydGluZw0KPj4gdG8gdGhl
+IHBhcmVudCBwcm9jZXNzLg0KPj4NCj4+IEEgbmV3IG1vdW50IHRocmVhZCBpcyBuZWVkZWQgdGhh
+dCBoYW5kbGVzIEZVU0VfSU5JVCBhbmQNCj4+IHBvc3NpYmxlIG90aGVyIHJlcXVlc3RzIGF0IG1v
+dW50IHRpbWUgKGxpa2UgZ2V0eGF0dHIgZm9yIHNlbGludXgpLg0KPj4gVGhlIGtlcm5lbCBzZW5k
+cyBGVVNFX0lOSVQgZHVyaW5nIHRoZSBtb3VudCgpIHN5c2NhbGwuIFdpdGhvdXQgYSB0aHJlYWQN
+Cj4+IHRvIHByb2Nlc3MgaXQsIG1vdW50KCkgYmxvY2tzIGZvcmV2ZXIuDQo+Pg0KPj4gTW91bnQg
+dGhyZWFkIGxpZmV0aW1lOg0KPj4gQ3JlYXRlZCBiZWZvcmUgbW91bnQoKSBzeXNjYWxsIGluIGZ1
+c2Vfc3RhcnRfc3luY19pbml0X3dvcmtlcigpDQo+PiBQcm9jZXNzZXMgcmVxdWVzdHMgdW50aWwg
+c2UtPm1vdW50X2ZpbmlzaGVkIGlzIHNldCAoYWZ0ZXIgbW91bnQoKSByZXR1cm5zKQ0KPj4gSm9p
+bmVkIGFmdGVyIHN1Y2Nlc3NmdWwgbW91bnQgaW4gZnVzZV93YWl0X3N5bmNfaW5pdF9jb21wbGV0
+aW9uKCkNCj4+IENhbmNlbGxlZCBpZiBtb3VudCBmYWlscyAoZGlyZWN0IOKGkiBmdXNlcm1vdW50
+MyBmYWxsYmFjaykNCj4gDQo+IEhybW0sIHNvIHRoZSBtYWluIHRocmVhZCAob2YgdGhlIGNoaWxk
+IHByb2Nlc3MgYWZ0ZXIgZGFlbW9uaXphdGlvbikNCj4gY2FsbHMgbW91bnQoKSwgaGF2aW5nIHN0
+YXJ0ZWQgYSBjaGlsZCB0aHJlYWQgdG8gcmVhZCBhbmQgcHJvY2Vzcw0KPiBGVVNFX0lOSVQgKyBh
+bnkgb3RoZXIgbW91bnQtcmVsYXRlZCBmdXNlIHJlcXVlc3RzPw0KPiANCj4gTGF0ZXIgSSBzZWUg
+YW4gZXZlbnRmZCBiZWluZyB1c2VkIHRvIHNpZ25hbCB0aGlzIGJhY2tncm91bmQgdGhyZWFkIHRo
+YXQNCj4gaXQgc2hvdWxkIGV4aXQgYW5kIChwcmVzdW1hYmx5KSBsZXQgdGhlIHJlYWwgcmVxdWVz
+dCBwcm9jZXNzaW5nIHF1ZXVlcw0KPiB0YWtlIG92ZXIuICBJJ20gY3VyaW91cyB3aHkgYW4gZXZl
+bnRmZCBoZXJlIHdoZW4gcGlwZXMgd2VyZSB1c2VkDQo+IGVhcmxpZXI/DQoNCldlIGNhbm5vdCB1
+c2UgZXZlbnRmZHMgZm9yIGFueXRoaW5nIHBvc3NpYmx5IHVzZWQgYnkgQlNEIC0gd2hpY2ggaXMN
+CmZ1c2VfZGFlbW9uaXplXyBhbmQgZnVzZXJtb3VudC4gU28gZmFyIHN5bmMtaW5pdCBpcyBvbmx5
+IGluIHRoZSBuZXcNCm1vdW50IEFQSSAtIGxpbnV4IG9ubHkuIFdlIG5lZWQgdG8gc3dpdGNoIHRv
+IGEgcGlwZSBpZiBCU0QgZXZlciBnZXRzIHRoYXQuDQoNCj4gDQo+PiBLZXkgY2hhbmdlczoNCj4+
+DQo+PiBBZGQgaW5pdF90aHJlYWQsIGluaXRfZXJyb3IsIG1vdW50X2ZpbmlzaGVkIHRvIHN0cnVj
+dCBmdXNlX3Nlc3Npb24NCj4+IFVzZSBGVVNFX0RFVl9JT0NfU1lOQ19JTklUIGlvY3RsIGZvciBr
+ZXJuZWwgc3VwcG9ydA0KPj4gRmFsbCBiYWNrIHRvIGFzeW5jIEZVU0VfSU5JVCBpZiB1bnN1cHBv
+cnRlZA0KPj4gQXV0by1lbmFibGVkIHdoZW4gZnVzZV9kYWVtb25pemVfYWN0aXZlKCkgb3Igdmlh
+DQo+PiBmdXNlX3Nlc3Npb25fd2FudF9zeW5jX2luaXQoKQ0KPj4gQWxsb3dzIHBhcmVudCB0byBy
+ZXBvcnQgbW91bnQvaW5pdCBmYWlsdXJlcyBpbnN0ZWFkIG9mDQo+PiBleGl0aW5nIGltbWVkaWF0
+ZWx5IGFmdGVyIGZvcmsuDQo+Pg0KPj4gTm90ZTogRm9yIG5vdyBzeW5jaHJvbm91cyBGVVNFX0lO
+SVQgaXMgb25seSBzdXBwb3J0ZWQgZm9yIHByaXZpbGVnZWQNCj4+IG1vdW50cy4NCj4+DQo+PiBT
+aWduZWQtb2ZmLWJ5OiBCZXJuZCBTY2h1YmVydCA8YnNjaHViZXJ0QGRkbi5jb20+DQo+PiAtLS0N
+Cj4+ICBpbmNsdWRlL2Z1c2VfbG93bGV2ZWwuaCB8ICAxMiArKysNCj4+ICBsaWIvZnVzZV9kYWVt
+b25pemUuYyAgICB8ICAgOCArKw0KPj4gIGxpYi9mdXNlX2kuaCAgICAgICAgICAgIHwgIDE2ICsr
+KysNCj4+ICBsaWIvZnVzZV9sb3dsZXZlbC5jICAgICB8IDE5MiArKysrKysrKysrKysrKysrKysr
+KysrKysrKysrKysrKysrKysrKysrKysrKysrLS0NCj4+ICBsaWIvbW91bnQuYyAgICAgICAgICAg
+ICB8ICAgNSArLQ0KPj4gIGxpYi9tb3VudF9mc21vdW50LmMgICAgIHwgICA1ICstDQo+PiAgNiBm
+aWxlcyBjaGFuZ2VkLCAyMjkgaW5zZXJ0aW9ucygrKSwgOSBkZWxldGlvbnMoLSkNCj4+DQo+PiBk
+aWZmIC0tZ2l0IGEvaW5jbHVkZS9mdXNlX2xvd2xldmVsLmggYi9pbmNsdWRlL2Z1c2VfbG93bGV2
+ZWwuaA0KPj4gaW5kZXggZWUwYmQ4ZDcxZDk1ZTRkNTdlYmI0ODczZGNhMGYyYjM2ZTIyYTY0OS4u
+ZDg2MjZmODViZGFmNDk3NTM0Y2QyODM1YTU4OWUzMGYxZjRlMjQ2NiAxMDA2NDQNCj4+IC0tLSBh
+L2luY2x1ZGUvZnVzZV9sb3dsZXZlbC5oDQo+PiArKysgYi9pbmNsdWRlL2Z1c2VfbG93bGV2ZWwu
+aA0KPj4gQEAgLTI0MjksNiArMjQyOSwxOCBAQCB2b2lkIGZ1c2Vfc2Vzc2lvbl9wcm9jZXNzX2J1
+ZihzdHJ1Y3QgZnVzZV9zZXNzaW9uICpzZSwNCj4+ICAgKi8NCj4+ICBpbnQgZnVzZV9zZXNzaW9u
+X3JlY2VpdmVfYnVmKHN0cnVjdCBmdXNlX3Nlc3Npb24gKnNlLCBzdHJ1Y3QgZnVzZV9idWYgKmJ1
+Zik7DQo+PiAgDQo+PiArLyoqDQo+PiArICogUmVxdWVzdCBzeW5jaHJvbm91cyBGVVNFX0lOSVQs
+IGkuZS4gRlVTRV9JTklUIGlzIGhhbmRsZWQgYnkgdGhlDQo+PiArICoga2VybmVsIGJlZm9yZSBt
+b3VudCBpcyByZXR1cm5lZC4NCj4+ICsgKg0KPj4gKyAqIEFzIEZVU0VfSU5JVCBhbHNvIHN0YXJ0
+cyBpby11cmluZyByaW5nIHRocmVhZHMsIGZvcmsoKSBtdXN0IG5vdCBiZQ0KPj4gKyAqIGNhbGxl
+ZCBhZnRlciB0aGlzIGlmIGlvLXVyaW5nIGlzIGVuYWJsZWQuIEFsc28gc2VlDQo+PiArICogZnVz
+ZV9zZXNzaW9uX2RhZW1vbml6ZV9zdGFydCgpLg0KPj4gKyAqDQo+PiArICogVGhpcyBtdXN0IGJl
+IGNhbGxlZCBiZWZvcmUgZnVzZV9zZXNzaW9uX21vdW50KCkgdG8gaGF2ZSBhbnkgZWZmZWN0Lg0K
+Pj4gKyAqLw0KPj4gK3ZvaWQgZnVzZV9zZXNzaW9uX3dhbnRfc3luY19pbml0KHN0cnVjdCBmdXNl
+X3Nlc3Npb24gKnNlKTsNCj4+ICsNCj4+ICAvKioNCj4+ICAgKiBDaGVjayBpZiB0aGUgcmVxdWVz
+dCBpcyBzdWJtaXR0ZWQgdGhyb3VnaCBmdXNlLWlvLXVyaW5nDQo+PiAgICovDQo+PiBkaWZmIC0t
+Z2l0IGEvbGliL2Z1c2VfZGFlbW9uaXplLmMgYi9saWIvZnVzZV9kYWVtb25pemUuYw0KPj4gaW5k
+ZXggNWQxOTFlN2Q3MzdkMDQ4NzZkMDJlZjZiZDUyNjA2MWMwMDNkMmFiNy4uMWEzMmVmNzQwOTNm
+MjMxMDkxYjRmNTQxZTViOTEzNmJmZjcyMDI0ZiAxMDA2NDQNCj4+IC0tLSBhL2xpYi9mdXNlX2Rh
+ZW1vbml6ZS5jDQo+PiArKysgYi9saWIvZnVzZV9kYWVtb25pemUuYw0KPj4gQEAgLTksNiArOSw3
+IEBADQo+PiAgI2RlZmluZSBfR05VX1NPVVJDRQ0KPj4gIA0KPj4gICNpbmNsdWRlICJmdXNlX2Rh
+ZW1vbml6ZS5oIg0KPj4gKyNpbmNsdWRlICJmdXNlX2kuaCINCj4+ICANCj4+ICAjaW5jbHVkZSA8
+ZmNudGwuaD4NCj4+ICAjaW5jbHVkZSA8cG9sbC5oPg0KPj4gQEAgLTI4MiwzICsyODMsMTAgQEAg
+Ym9vbCBmdXNlX2RhZW1vbml6ZV9hY3RpdmUodm9pZCkNCj4+ICANCj4+ICAJcmV0dXJuIGRtICE9
+IE5VTEwgJiYgKGRtLT5kYWVtb25pemVkIHx8IGRtLT5hY3RpdmUpOw0KPj4gIH0NCj4+ICsNCj4+
+ICtib29sIGZ1c2VfZGFlbW9uaXplX3NldCh2b2lkKQ0KPj4gK3sNCj4+ICsJc3RydWN0IGZ1c2Vf
+ZGFlbW9uaXplICpkbSA9IGF0b21pY19sb2FkKCZkYWVtb25pemUpOw0KPj4gKw0KPj4gKwlyZXR1
+cm4gZG0gIT0gTlVMTDsNCj4+ICt9DQo+PiBkaWZmIC0tZ2l0IGEvbGliL2Z1c2VfaS5oIGIvbGli
+L2Z1c2VfaS5oDQo+PiBpbmRleCA2ZDYzYzlmZDIxNDllYjRhZTNiMGUwMTcwNjQwYTRjZTJlZWQ0
+NzA1Li45M2FiN2FjMmZhZGY5Mzk1YWY3MDQ4N2M3NjI2Y2M1N2MyOTQ4ZDU2IDEwMDY0NA0KPj4g
+LS0tIGEvbGliL2Z1c2VfaS5oDQo+PiArKysgYi9saWIvZnVzZV9pLmgNCj4+IEBAIC0xMTIsNiAr
+MTEyLDEwIEBAIHN0cnVjdCBmdXNlX3Nlc3Npb24gew0KPj4gIA0KPj4gIAkvKiBzeW5jaHJvbm91
+cyBGVVNFX0lOSVQgc3VwcG9ydCAqLw0KPj4gIAlib29sIHdhbnRfc3luY19pbml0Ow0KPj4gKwlw
+dGhyZWFkX3QgaW5pdF90aHJlYWQ7DQo+PiArCWludCBpbml0X2Vycm9yOw0KPj4gKwlfQXRvbWlj
+IGJvb2wgdGVybWluYXRlX21vdW50X3dvcmtlcjsNCj4+ICsJaW50IGluaXRfd2FrZXVwX2ZkOw0K
+Pj4gIA0KPj4gIAkvKiBpb191cmluZyAqLw0KPj4gIAlzdHJ1Y3QgZnVzZV9zZXNzaW9uX3VyaW5n
+IHVyaW5nOw0KPj4gQEAgLTIyMSw3ICsyMjUsMTEgQEAgdm9pZCBmdXNlX2NoYW5fcHV0KHN0cnVj
+dCBmdXNlX2NoYW4gKmNoKTsNCj4+ICAvKiBNb3VudC1yZWxhdGVkIGZ1bmN0aW9ucyAqLw0KPj4g
+IHZvaWQgZnVzZV9tb3VudF92ZXJzaW9uKHZvaWQpOw0KPj4gIHZvaWQgZnVzZV9rZXJuX3VubW91
+bnQoY29uc3QgY2hhciAqbW91bnRwb2ludCwgaW50IGZkKTsNCj4+ICtpbnQgZnVzZV9rZXJuX21v
+dW50X2dldF9iYXNlX21udF9vcHRzKHN0cnVjdCBtb3VudF9vcHRzICptbywgY2hhciAqKm1udF9v
+cHRzcCk7DQo+PiAgaW50IGZ1c2Vfa2Vybl9tb3VudChjb25zdCBjaGFyICptb3VudHBvaW50LCBz
+dHJ1Y3QgbW91bnRfb3B0cyAqbW8pOw0KPj4gK2ludCBmdXNlX2tlcm5fbW91bnRfcHJlcGFyZShj
+b25zdCBjaGFyICptb3VudHBvaW50LCBzdHJ1Y3QgbW91bnRfb3B0cyAqbW8pOw0KPj4gK2ludCBm
+dXNlX2tlcm5fZG9fbW91bnQoY29uc3QgY2hhciAqbW91bnRwb2ludCwgc3RydWN0IG1vdW50X29w
+dHMgKm1vLA0KPj4gKwkJICAgICAgIGNvbnN0IGNoYXIgKm1udF9vcHRzKTsNCj4+ICANCj4+ICBp
+bnQgZnVzZV9zZW5kX3JlcGx5X2lvdl9ub2ZyZWUoZnVzZV9yZXFfdCByZXEsIGludCBlcnJvciwg
+c3RydWN0IGlvdmVjICppb3YsDQo+PiAgCQkJICAgICAgIGludCBjb3VudCk7DQo+PiBAQCAtMjU1
+LDYgKzI2MywxNCBAQCBpbnQgZnVzZV9zZXNzaW9uX2xvb3BfbXRfMzEyKHN0cnVjdCBmdXNlX3Nl
+c3Npb24gKnNlLCBzdHJ1Y3QgZnVzZV9sb29wX2NvbmZpZyAqYw0KPj4gICAqLw0KPj4gIGludCBm
+dXNlX2xvb3BfY2ZnX3ZlcmlmeShzdHJ1Y3QgZnVzZV9sb29wX2NvbmZpZyAqY29uZmlnKTsNCj4+
+ICANCj4+ICsvKioNCj4+ICsgKiBDaGVjayBpZiBkYWVtb25pemF0aW9uIGlzIHNldC4NCj4+ICsg
+Kg0KPj4gKyAqIEByZXR1cm4gdHJ1ZSBpZiBzZXQsIGZhbHNlIG90aGVyd2lzZQ0KPj4gKyAqLw0K
+Pj4gK2Jvb2wgZnVzZV9kYWVtb25pemVfc2V0KHZvaWQpOw0KPj4gKw0KPj4gKw0KPj4gIA0KPj4g
+IC8qDQo+PiAgICogVGhpcyBjYW4gYmUgY2hhbmdlZCBkeW5hbWljYWxseSBvbiByZWNlbnQga2Vy
+bmVscyB0aHJvdWdoIHRoZQ0KPj4gZGlmZiAtLWdpdCBhL2xpYi9mdXNlX2xvd2xldmVsLmMgYi9s
+aWIvZnVzZV9sb3dsZXZlbC5jDQo+PiBpbmRleCA2MjYyMzNkZjIwZjQ5ZmE4OWNkOTMyN2Y5NDM0
+MDE2OWQ3MDYxZjc1Li5iMTBkZWYwM2YzNjY2NzU3ZDMxMmY4N2YxNzdhNTYwNDgzNjkxZDZmIDEw
+MDY0NA0KPj4gLS0tIGEvbGliL2Z1c2VfbG93bGV2ZWwuYw0KPj4gKysrIGIvbGliL2Z1c2VfbG93
+bGV2ZWwuYw0KPj4gQEAgLTQyMzAsNiArNDIzMCw3IEBAIGZ1c2Vfc2Vzc2lvbl9uZXdfdmVyc2lv
+bmVkKHN0cnVjdCBmdXNlX2FyZ3MgKmFyZ3MsDQo+PiAgCQlnb3RvIG91dDE7DQo+PiAgCX0NCj4+
+ICAJc2UtPmZkID0gLTE7DQo+PiArCXNlLT5pbml0X3dha2V1cF9mZCA9IC0xOw0KPj4gIAlzZS0+
+Y29ubi5tYXhfd3JpdGUgPSBGVVNFX0RFRkFVTFRfTUFYX1BBR0VTX0xJTUlUICogZ2V0cGFnZXNp
+emUoKTsNCj4+ICAJc2UtPmJ1ZnNpemUgPSBzZS0+Y29ubi5tYXhfd3JpdGUgKyBGVVNFX0JVRkZF
+Ul9IRUFERVJfU0laRTsNCj4+ICAJc2UtPmNvbm4ubWF4X3JlYWRhaGVhZCA9IFVJTlRfTUFYOw0K
+Pj4gQEAgLTQ0MDIsNiArNDQwMywxNjcgQEAgaW50IGZ1c2Vfc2Vzc2lvbl9jdXN0b21faW9fMzAo
+c3RydWN0IGZ1c2Vfc2Vzc2lvbiAqc2UsDQo+PiAgfQ0KPj4gIA0KPj4gICNpZiBkZWZpbmVkKEhB
+VkVfTkVXX01PVU5UX0FQSSkNCj4+ICsNCj4+ICsvKiBXb3JrZXIgdGhyZWFkIGZvciBzeW5jaHJv
+bm91cyBGVVNFX0lOSVQgKi8NCj4+ICtzdGF0aWMgdm9pZCAqc2Vzc2lvbl9zeW5jX2luaXRfd29y
+a2VyKHZvaWQgKmRhdGEpDQo+PiArew0KPj4gKwlzdHJ1Y3QgZnVzZV9zZXNzaW9uICpzZSA9IChz
+dHJ1Y3QgZnVzZV9zZXNzaW9uICopZGF0YTsNCj4+ICsJc3RydWN0IGZ1c2VfYnVmIGZidWYgPSB7
+DQo+PiArCQkubWVtID0gTlVMTCwNCj4+ICsJfTsNCj4+ICsJc3RydWN0IHBvbGxmZCBwZmRzWzJd
+Ow0KPj4gKwlpbnQgcmVzOw0KPj4gKw0KPj4gKwlwZmRzWzBdLmZkID0gc2UtPmZkOw0KPj4gKwlw
+ZmRzWzBdLmV2ZW50cyA9IFBPTExJTjsNCj4+ICsJcGZkc1swXS5yZXZlbnRzID0gMDsNCj4+ICsJ
+cGZkc1sxXS5mZCA9IHNlLT5pbml0X3dha2V1cF9mZDsNCj4+ICsJcGZkc1sxXS5ldmVudHMgPSBQ
+T0xMSU47DQo+PiArCXBmZHNbMV0ucmV2ZW50cyA9IDA7DQo+PiArDQo+PiArCS8qDQo+PiArCSAq
+IFByb2Nlc3MgcmVxdWVzdHMgdW50aWwgbW91bnQgY29tcGxldGVzLiBXaXRoIFNFTGludXggdGhl
+cmUgbWF5IGJlDQo+PiArCSAqIGFkZGl0aW9uYWwgcmVxdWVzdHMgKGxpa2UgZ2V0YXR0cikgYWZ0
+ZXIgRlVTRV9JTklUIGJlZm9yZSBtb3VudA0KPj4gKwkgKiByZXR1cm5zLg0KPj4gKwkgKi8NCj4+
+ICsJd2hpbGUgKCFhdG9taWNfbG9hZCgmc2UtPnRlcm1pbmF0ZV9tb3VudF93b3JrZXIpKSB7DQo+
+IA0KPiBXZSBkb24ndCBldmVyICpyZWFkKiB0aGUgaW5pdF93YWtldXBfZmQgZXZlbnQsIHNvIEkg
+d29uZGVyIGlmIHRoZQ0KPiBfQXRvbWljIGZsYWcgaGVyZSBpcyByZWFsbHkgbmVlZGVkPyAgSSBn
+YXRoZXIgd2UgbmVlZCBhY3F1aXJlIHNlbWFudGljcw0KPiBvciBzb21ldGhpbmc/DQoNCk15IGxh
+enluZXNzLiBJIGhhZCBxdWlja2x5IHVwZGF0ZWQgdGhlIGNvZGUgeWVzdGVyZGF5IG1vcm5pbmcg
+dG8gdXNlDQpwb2xsIGFuZCBldmVudGZkLCBiZWNhdXNlIEtldmluIG5vdGljZWQgaXNzdWVzIHdp
+dGggeGZzdGVzdHMuIEJlZm9yZSBpdA0Kd2FzIGEgcmVndWxhciB0aHJlYWQgc3RvcHBlZCB3aXRo
+IHB0aHJlYWRfY2FuY2VsIGFuZCB0aGVuIGFjdHVhbGx5DQp0ZXJtaW5hdGVkIHRoZSB0aHJlYWQg
+d2hlbiBpdCBhbHJlYWR5IG1pZ2h0IGhhdmUgZmV0Y2hlZCBhIHBvc3QtbW91bnQNCnJlcXVlc3Qg
+LSB0aGUgcmVxdWVzdCB0aGVuIGdvdCBuZXZlciBoYW5kbGVkLg0KDQpOZXh0IG9uIG15IGxpc3Qg
+aXMgdG8gbG9vayBpbnRvIHRoZSBmdXNlLWlvLXVyaW5nIGlzc3VlcyB0aGF0IEtldmluIGFsc28N
+CnJlcG9ydHMgd2l0aCB0aGlzIHBhdGNoIHNlcmllcy4NCg0KPiANCj4+ICsJCXJlcyA9IHBvbGwo
+cGZkcywgMiwgLTEpOw0KPj4gKwkJaWYgKHJlcyA9PSAtMSkgew0KPj4gKwkJCWlmIChlcnJubyA9
+PSBFSU5UUikNCj4+ICsJCQkJY29udGludWU7DQo+PiArCQkJc2UtPmluaXRfZXJyb3IgPSAtZXJy
+bm87DQo+PiArCQkJYnJlYWs7DQo+PiArCQl9DQo+PiArDQo+PiArCQlpZiAocGZkc1sxXS5yZXZl
+bnRzICYgUE9MTElOKQ0KPj4gKwkJCWJyZWFrOw0KPj4gKw0KPj4gKwkJaWYgKHBmZHNbMF0ucmV2
+ZW50cyAmIFBPTExJTikgew0KPj4gKwkJCXJlcyA9IGZ1c2Vfc2Vzc2lvbl9yZWNlaXZlX2J1Zl9p
+bnRlcm5hbChzZSwgJmZidWYsIE5VTEwpOw0KPj4gKwkJCWlmIChyZXMgPT0gLUVJTlRSKQ0KPj4g
+KwkJCQljb250aW51ZTsNCj4+ICsJCQlpZiAocmVzIDw9IDApIHsNCj4+ICsJCQkJc2UtPmluaXRf
+ZXJyb3IgPSByZXMgPCAwID8gcmVzIDogLUVJTlZBTDsNCj4+ICsJCQkJYnJlYWs7DQo+PiArCQkJ
+fQ0KPj4gKw0KPj4gKwkJCWZ1c2Vfc2Vzc2lvbl9wcm9jZXNzX2J1Zl9pbnRlcm5hbChzZSwgJmZi
+dWYsIE5VTEwpOw0KPj4gKwkJfQ0KPj4gKwl9DQo+PiArDQo+PiArCWZ1c2VfYnVmX2ZyZWUoJmZi
+dWYpOw0KPj4gKwlyZXR1cm4gTlVMTDsNCj4+ICt9DQo+PiArDQo+PiArLyogRW5hYmxlIHN5bmNo
+cm9ub3VzIEZVU0VfSU5JVCBhbmQgc3RhcnQgd29ya2VyIHRocmVhZCAqLw0KPj4gK3N0YXRpYyBp
+bnQgc2Vzc2lvbl9zdGFydF9zeW5jX2luaXQoc3RydWN0IGZ1c2Vfc2Vzc2lvbiAqc2UsIGludCBm
+ZCkNCj4+ICt7DQo+PiArCWludCBlcnI7DQo+PiArCWludCByZXM7DQo+PiArDQo+PiArCWlmICgh
+c2UtPndhbnRfc3luY19pbml0ICYmDQo+PiArCQkoc2UtPnVyaW5nLmVuYWJsZSAmJiAhZnVzZV9k
+YWVtb25pemVfc2V0KCkpKSB7DQo+PiArCQlpZiAoc2UtPmRlYnVnKQ0KPj4gKwkJCWZ1c2VfbG9n
+KEZVU0VfTE9HX0RFQlVHLA0KPj4gKwkJCQkJImZ1c2U6IHN5bmMgaW5pdCBub3QgZW5hYmxlZFxu
+Iik7DQo+PiArCQlyZXR1cm4gMDsNCj4+ICsJfQ0KPj4gKw0KPj4gKwkvKiBUcnkgdG8gZW5hYmxl
+IHN5bmNocm9ub3VzIEZVU0VfSU5JVCAqLw0KPj4gKwlyZXMgPSBpb2N0bChmZCwgRlVTRV9ERVZf
+SU9DX1NZTkNfSU5JVCk7DQo+PiArCWlmIChyZXMpIHsNCj4+ICsJCS8qIEVOT1RUWSBtZWFucyBr
+ZXJuZWwgZG9lc24ndCBzdXBwb3J0IHN5bmMgaW5pdCAtIG5vdCBhbiBlcnJvciAqLw0KPj4gKwkJ
+aWYgKGVycm5vICE9IEVOT1RUWSkgew0KPj4gKwkJCWZ1c2VfbG9nKA0KPj4gKwkJCQlGVVNFX0xP
+R19FUlIsDQo+PiArCQkJCSJmdXNlOiBmYWlsZWQgdG8gZW5hYmxlIHN5bmMgaW5pdDogJXNcbiIs
+DQo+PiArCQkJCXN0cmVycm9yKGVycm5vKSk7DQo+PiArCQl9IGVsc2UgaWYgKHNlLT5kZWJ1Zykg
+ew0KPj4gKwkJCWZ1c2VfbG9nKA0KPj4gKwkJCQlGVVNFX0xPR19ERUJVRywNCj4+ICsJCQkJImZ1
+c2U6IGtlcm5lbCBkb2Vzbid0IHN1cHBvcnQgc3luYyBpbml0XG4iKTsNCj4+ICsJCX0NCj4+ICsJ
+CXJldHVybiAtRU5PVFRZOw0KPj4gKwl9DQo+PiArDQo+PiArCWlmIChzZS0+ZGVidWcpDQo+PiAr
+CQlmdXNlX2xvZyhGVVNFX0xPR19ERUJVRywNCj4+ICsJCQkJImZ1c2U6IHN5bmNocm9ub3VzIEZV
+U0VfSU5JVCBlbmFibGVkXG4iKTsNCj4+ICsNCj4+ICsJc2UtPmluaXRfZXJyb3IgPSAwOw0KPj4g
+KwlzZS0+dGVybWluYXRlX21vdW50X3dvcmtlciA9IGZhbHNlOw0KPj4gKw0KPj4gKwlzZS0+aW5p
+dF93YWtldXBfZmQgPSBldmVudGZkKDAsIEVGRF9DTE9FWEVDKTsNCj4+ICsJaWYgKHNlLT5pbml0
+X3dha2V1cF9mZCA9PSAtMSkgew0KPj4gKwkJZnVzZV9sb2coDQo+PiArCQkJRlVTRV9MT0dfRVJS
+LA0KPj4gKwkJCSJmdXNlOiBmYWlsZWQgdG8gY3JlYXRlIGV2ZW50ZmQgZm9yIGluaXQgd29ya2Vy
+OiAlc1xuIiwNCj4+ICsJCQlzdHJlcnJvcihlcnJubykpOw0KPj4gKwkJcmV0dXJuIC1FSU87DQo+
+PiArCX0NCj4+ICsNCj4+ICsJZXJyID0gcHRocmVhZF9jcmVhdGUoJnNlLT5pbml0X3RocmVhZCwg
+TlVMTCwNCj4+ICsJCQkJc2Vzc2lvbl9zeW5jX2luaXRfd29ya2VyLCBzZSk7DQo+PiArCWlmIChl
+cnIgIT0gMCkgew0KPj4gKwkJZnVzZV9sb2coDQo+PiArCQkJRlVTRV9MT0dfRVJSLA0KPj4gKwkJ
+CSJmdXNlOiBmYWlsZWQgdG8gY3JlYXRlIGluaXQgd29ya2VyIHRocmVhZDogJXNcbiIsDQo+PiAr
+CQkJc3RyZXJyb3IoZXJyKSk7DQo+PiArCQljbG9zZShzZS0+aW5pdF93YWtldXBfZmQpOw0KPj4g
+KwkJc2UtPmluaXRfd2FrZXVwX2ZkID0gLTE7DQo+PiArCQlyZXR1cm4gLUVJTzsNCj4+ICsJfQ0K
+Pj4gKw0KPj4gKwlyZXR1cm4gMDsNCj4+ICt9DQo+PiArDQo+PiArLyogV2FpdCBmb3Igc3luY2hy
+b25vdXMgRlVTRV9JTklUIHRvIGNvbXBsZXRlICovDQo+PiArc3RhdGljIGludCBzZXNzaW9uX3dh
+aXRfc3luY19pbml0X2NvbXBsZXRpb24oc3RydWN0IGZ1c2Vfc2Vzc2lvbiAqc2UpDQo+PiArew0K
+Pj4gKwl2b2lkICpyZXR2YWw7DQo+PiArCWludCBlcnI7DQo+PiArCXVpbnQ2NF90IHZhbCA9IDE7
+DQo+PiArDQo+PiArCWlmIChzZS0+aW5pdF90aHJlYWQgPT0gMCkNCj4gDQo+IHB0aHJlYWRfdCBp
+cyBzdXBwb3NlZCB0byBiZSBhbiBvcGFxdWUgZGF0YXR5cGUsIHNvICIwIiBjb3VsZCBiZSBhIHZh
+bGlkDQo+IHZhbHVlIGZvciBhIHJ1bm5pbmcgdGhyZWFkLiAgRm9yIHRoYXQgbWF0dGVyLCBpdCBj
+b3VsZCBiZSBhIHN0cnVjdC4gIEkNCj4gdGhpbmsgeW91IGhhdmUgdG8gaGF2ZSBhIHNlcGFyYXRl
+IGZsYWcgKG9yIGp1c3QgdXNlIGluaXRfd2FrZXVwX2ZkID49IDApDQo+IHRvIGRldGVybWluZSBp
+ZiB3ZSdyZSBkb2luZyBhIHN5bmNocm9ub3VzIGluaXQuDQoNCkFoIHJpZ2h0LiBJJ20gdXNpbmcg
+c2UtPmluaXRfd2FrZXVwX2ZkIGFzIHlvdSBzdWdnZXN0ZWQuDQoNCj4gDQo+PiArCQlyZXR1cm4g
+MDsNCj4+ICsNCj4+ICsJc2UtPnRlcm1pbmF0ZV9tb3VudF93b3JrZXIgPSB0cnVlOw0KPj4gKw0K
+Pj4gKwlpZiAoc2UtPmluaXRfd2FrZXVwX2ZkICE9IC0xKSB7DQo+PiArCQlzc2l6ZV90IHJlcyA9
+IHdyaXRlKHNlLT5pbml0X3dha2V1cF9mZCwgJnZhbCwgc2l6ZW9mKHZhbCkpOw0KPj4gKw0KPj4g
+KwkJaWYgKHJlcyAhPSBzaXplb2YodmFsKSkgew0KPj4gKwkJCWZ1c2VfbG9nKEZVU0VfTE9HX0VS
+UiwNCj4+ICsJCQkJICJmdXNlOiBmYWlsZWQgdG8gc2lnbmFsIGluaXQgd29ya2VyOiAlc1xuIiwN
+Cj4+ICsJCQkJIHN0cmVycm9yKGVycm5vKSk7DQo+PiArCQl9DQo+PiArCX0NCj4+ICsNCj4+ICsJ
+ZXJyID0gcHRocmVhZF9qb2luKHNlLT5pbml0X3RocmVhZCwgJnJldHZhbCk7DQo+PiArCWlmIChl
+cnIgIT0gMCkgew0KPj4gKwkJZnVzZV9sb2coRlVTRV9MT0dfRVJSLCAiZnVzZTogZmFpbGVkIHRv
+IGpvaW4gaW5pdCB3b3JrZXIgdGhyZWFkOiAlc1xuIiwNCj4+ICsJCQkgc3RyZXJyb3IoZXJyKSk7
+DQo+PiArCQlyZXR1cm4gLTE7DQo+PiArCX0NCj4+ICsNCj4+ICsJaWYgKHNlLT5pbml0X3dha2V1
+cF9mZCAhPSAtMSkgew0KPj4gKwkJY2xvc2Uoc2UtPmluaXRfd2FrZXVwX2ZkKTsNCj4+ICsJCXNl
+LT5pbml0X3dha2V1cF9mZCA9IC0xOw0KPj4gKwl9DQo+PiArDQo+PiArCWlmIChzZS0+aW5pdF9l
+cnJvciAhPSAwKSB7DQo+PiArCQlmdXNlX2xvZyhGVVNFX0xPR19FUlIsICJmdXNlOiBpbml0IHdv
+cmtlciBmYWlsZWQ6ICVkXG4iLCBzZS0+aW5pdF9lcnJvcik7DQo+IA0KPiBDb3VsZCB5b3Ugc3Ry
+ZXJyb3IoLXNlLT5pbml0X2Vycm9yKSB0byBnaXZlIHRoZSB1c2VyIGEgcmVhbCBlcnJvcg0KPiBt
+ZXNzYWdlPw0KPiANCj4+ICsJCXJldHVybiAtMTsNCj4+ICsJfQ0KPj4gKw0KPj4gKwlpZiAoZnVz
+ZV9zZXNzaW9uX2V4aXRlZChzZSkpIHsNCj4+ICsJCWZ1c2VfbG9nKEZVU0VfTE9HX0VSUiwgIkZV
+U0VfSU5JVCBmYWlsZWQ6IHNlc3Npb24gZXhpdGVkXG4iKTsNCj4+ICsJCXJldHVybiAtMTsNCj4+
+ICsJfQ0KPj4gKw0KPj4gKwlyZXR1cm4gMDsNCj4+ICt9DQo+PiArDQo+PiAgLyogT25seSBsaW51
+eCBzdXBwb3J0cyBzeW5jIEZVU0VfSU5JVCBzbyBmYXIgKi8NCj4+ICBzdGF0aWMgaW50IGZ1c2Vf
+c2Vzc2lvbl9tb3VudF9uZXdfYXBpKHN0cnVjdCBmdXNlX3Nlc3Npb24gKnNlLA0KPj4gIAkJCQkg
+ICAgICBjb25zdCBjaGFyICptb3VudHBvaW50KQ0KPj4gQEAgLTQ0MTQsOCArNDU3Niw3IEBAIHN0
+YXRpYyBpbnQgZnVzZV9zZXNzaW9uX21vdW50X25ld19hcGkoc3RydWN0IGZ1c2Vfc2Vzc2lvbiAq
+c2UsDQo+PiAgDQo+PiAgCXJlcyA9IGZ1c2Vfa2Vybl9tb3VudF9nZXRfYmFzZV9tbnRfb3B0cyhz
+ZS0+bW8sICZtbnRfb3B0cyk7DQo+PiAgCWlmIChyZXMgPT0gLTEpIHsNCj4+IC0JCWZ1c2VfbG9n
+KEZVU0VfTE9HX0VSUiwNCj4+IC0JCQkgImZ1c2U6IGZhaWxlZCB0byBnZXQgYmFzZSBtb3VudCBv
+cHRpb25zXG4iKTsNCj4+ICsJCWZ1c2VfbG9nKEZVU0VfTE9HX0VSUiwgImZ1c2U6IGZhaWxlZCB0
+byBnZXQgYmFzZSBtb3VudCBvcHRpb25zXG4iKTsNCj4gDQo+IFVucmVsYXRlZCBjaGFuZ2U/DQoN
+ClJlbW92ZWQgaGVyZS4NCg0KPiANCj4+ICAJCWVyciA9IC1FSU87DQo+PiAgCQlnb3RvIGVycjsN
+Cj4+ICAJfQ0KPj4gQEAgLTQ0MjcsNiArNDU4OCwxNyBAQCBzdGF0aWMgaW50IGZ1c2Vfc2Vzc2lv
+bl9tb3VudF9uZXdfYXBpKHN0cnVjdCBmdXNlX3Nlc3Npb24gKnNlLA0KPj4gIAkJZ290byBlcnI7
+DQo+PiAgCX0NCj4+ICANCj4+ICsJLyoNCj4+ICsJICogRW5hYmxlIHN5bmNocm9ub3VzIEZVU0Vf
+SU5JVCBhbmQgc3RhcnQgd29ya2VyIHRocmVhZCwgc3luYyBpbml0DQo+PiArCSAqIGZhaWx1cmUg
+aXMgbm90IGFuIGVycm9yDQo+PiArCSAqLw0KPj4gKwlzZS0+ZmQgPSBmZDsNCj4+ICsJZXJyID0g
+c2Vzc2lvbl9zdGFydF9zeW5jX2luaXQoc2UsIGZkKTsNCj4+ICsJaWYgKGVycikgew0KPj4gKwkJ
+LyogRU5PVFRZIG1lYW5zIGtlcm5lbCBkb2Vzbid0IHN1cHBvcnQgc3luYyBpbml0IC0gbm90IGFu
+IGVycm9yICovDQo+PiArCQlpZiAoZXJyICE9IC1FTk9UVFkpDQo+PiArCQkJZ290byBlcnI7DQo+
+PiArCX0NCj4gDQo+IFBlcmhhcHMgc2Vzc2lvbl9zdGFydF9zeW5jX2luaXQgc2hvdWxkIG5vdCBy
+ZXR1cm4gRU5PVFRZLCBzaW5jZSB5b3UNCj4gYWxyZWFkeSBjaGVjayBpbiBzZXNzaW9uX3dhaXRf
+c3luY19pbml0X2NvbXBsZXRpb24gaWYgdGhlIHN5bmNocm9ub3VzDQo+IGluaXQgd29ya2VyIGhh
+cyBiZWVuIHN0YXJ0ZWQ/DQoNCkdvb2QgaWRlYSwgZG9uZS4NCg0KPiANCj4+ICAJc25wcmludGYo
+ZmRfb3B0LCBzaXplb2YoZmRfb3B0KSwgImZkPSVpIiwgZmQpOw0KPj4gIAlpZiAoZnVzZV9vcHRf
+YWRkX29wdCgmbW50X29wdHNfd2l0aF9mZCwgbW50X29wdHMpID09IC0xIHx8DQo+PiAgCSAgICBm
+dXNlX29wdF9hZGRfb3B0KCZtbnRfb3B0c193aXRoX2ZkLCBmZF9vcHQpID09IC0xKSB7DQo+PiBA
+QCAtNDQzNiwxMyArNDYwOCwxNiBAQCBzdGF0aWMgaW50IGZ1c2Vfc2Vzc2lvbl9tb3VudF9uZXdf
+YXBpKHN0cnVjdCBmdXNlX3Nlc3Npb24gKnNlLA0KPj4gIA0KPj4gIAllcnIgPSBmdXNlX2tlcm5f
+ZnNtb3VudF9tbyhtb3VudHBvaW50LCBzZS0+bW8sIG1udF9vcHRzX3dpdGhfZmQpOw0KPj4gIGVy
+cjoNCj4+IC0JaWYgKGVycikgew0KPj4gKwlpZiAoZXJyIDwgMCkgew0KPj4gIAkJaWYgKGZkID49
+IDApDQo+PiAgCQkJY2xvc2UoZmQpOw0KPj4gIAkJZmQgPSAtMTsNCj4+ICAJCXNlLT5mZCA9IC0x
+Ow0KPj4gIAkJc2UtPmVycm9yID0gLWVycm5vOw0KPj4gIAl9DQo+PiArCS8qIFdhaXQgZm9yIHN5
+bmNocm9ub3VzIEZVU0VfSU5JVCB0byBjb21wbGV0ZSAqLw0KPj4gKwlpZiAoc2Vzc2lvbl93YWl0
+X3N5bmNfaW5pdF9jb21wbGV0aW9uKHNlKSA8IDApDQo+PiArCQlmdXNlX2xvZyhGVVNFX0xPR19F
+UlIsICJmdXNlOiBzeW5jIGluaXQgY29tcGxldGlvbiBmYWlsZWRcbiIpOw0KPj4gIA0KPj4gIAlm
+cmVlKG1udF9vcHRzKTsNCj4+ICAJZnJlZShtbnRfb3B0c193aXRoX2ZkKTsNCj4+IEBAIC00NDUy
+LDggKzQ2MjcsOCBAQCBlcnI6DQo+PiAgc3RhdGljIGludCBmdXNlX3Nlc3Npb25fbW91bnRfbmV3
+X2FwaShzdHJ1Y3QgZnVzZV9zZXNzaW9uICpzZSwNCj4+ICAJCQkJICAgICAgY29uc3QgY2hhciAq
+bW91bnRwb2ludCkNCj4+ICB7DQo+PiAtCSh2b2lkKXNlOw0KPj4gLQkodm9pZCltb3VudHBvaW50
+Ow0KPj4gKwkodm9pZCkgc2U7DQo+PiArCSh2b2lkKSBtb3VudHBvaW50Ow0KPj4gIA0KPj4gIAly
+ZXR1cm4gLTE7DQo+PiAgfQ0KPj4gQEAgLTQ4MjUsMyArNTAwMCwxMCBAQCB2b2lkIGZ1c2Vfc2Vz
+c2lvbl9zdG9wX3RlYXJkb3duX3dhdGNoZG9nKHZvaWQgKmRhdGEpDQo+PiAgCXB0aHJlYWRfam9p
+bih0dC0+dGhyZWFkX2lkLCBOVUxMKTsNCj4+ICAJZnVzZV90dF9kZXN0cnVjdCh0dCk7DQo+PiAg
+fQ0KPj4gKw0KPj4gK3ZvaWQgZnVzZV9zZXNzaW9uX3dhbnRfc3luY19pbml0KHN0cnVjdCBmdXNl
+X3Nlc3Npb24gKnNlKQ0KPj4gK3sNCj4+ICsJaWYgKHNlID09IE5VTEwpDQo+PiArCQlyZXR1cm47
+DQo+PiArCXNlLT53YW50X3N5bmNfaW5pdCA9IHRydWU7DQo+PiArfQ0KPj4gZGlmZiAtLWdpdCBh
+L2xpYi9tb3VudC5jIGIvbGliL21vdW50LmMNCj4+IGluZGV4IDMwZmQ0ZDJmOWJiYjg0YzgxN2Iy
+MzYzYjIwNzU0NTZhY2QxYzEyNTUuLjEyZGY0OWQ5MTA5Y2Y5MThjYzQxYWE3NWM1ZmRmODQyMzFk
+NGQ1ZmYgMTAwNjQ0DQo+PiAtLS0gYS9saWIvbW91bnQuYw0KPj4gKysrIGIvbGliL21vdW50LmMN
+Cj4+IEBAIC0zMCw2ICszMCw3IEBADQo+PiAgI2luY2x1ZGUgPHN5cy9zb2NrZXQuaD4NCj4+ICAj
+aW5jbHVkZSA8c3lzL3VuLmg+DQo+PiAgI2luY2x1ZGUgPHN5cy93YWl0Lmg+DQo+PiArI2luY2x1
+ZGUgPHN5cy9pb2N0bC5oPg0KPj4gIA0KPj4gICNpbmNsdWRlICJmdXNlX21vdW50X2NvbXBhdC5o
+Ig0KPj4gIA0KPj4gQEAgLTUyOSw4ICs1MzAsOCBAQCBpbnQgZnVzZV9rZXJuX2ZzbW91bnRfbW8o
+Y29uc3QgY2hhciAqbW50LCBzdHJ1Y3QgbW91bnRfb3B0cyAqbW8sDQo+PiAgICogUmV0dXJuczog
+MCBvbiBzdWNjZXNzLCAtMSBvbiBmYWlsdXJlLA0KPj4gICAqICAgICAgICAgIEZVU0VfTU9VTlRf
+RkFMTEJBQ0tfTkVFREVEIGlmIGZ1c2VybW91bnQgc2hvdWxkIGJlIHVzZWQNCj4+ICAgKi8NCj4+
+IC1zdGF0aWMgaW50IGZ1c2Vfa2Vybl9kb19tb3VudChjb25zdCBjaGFyICptbnQsIHN0cnVjdCBt
+b3VudF9vcHRzICptbywNCj4+IC0JCQkJICBjb25zdCBjaGFyICptbnRfb3B0cykNCj4+ICtpbnQg
+ZnVzZV9rZXJuX2RvX21vdW50KGNvbnN0IGNoYXIgKm1udCwgc3RydWN0IG1vdW50X29wdHMgKm1v
+LA0KPj4gKwkJICAgICAgIGNvbnN0IGNoYXIgKm1udF9vcHRzKQ0KPj4gIHsNCj4+ICAJY2hhciAq
+c291cmNlID0gTlVMTDsNCj4+ICAJY2hhciAqdHlwZSA9IE5VTEw7DQo+PiBkaWZmIC0tZ2l0IGEv
+bGliL21vdW50X2ZzbW91bnQuYyBiL2xpYi9tb3VudF9mc21vdW50LmMNCj4+IGluZGV4IGNiYTk5
+OGJjNjBjNzgzYTVlZGMwYzE2NTcwZjdlNTUxMmI3ZjEyNTMuLmYxZmVjNzkwYmI4MGY4ODE1ZDQ4
+NWEwNjhkYzdlZmRmZjE3NDYzMDkgMTAwNjQ0DQo+PiAtLS0gYS9saWIvbW91bnRfZnNtb3VudC5j
+DQo+PiArKysgYi9saWIvbW91bnRfZnNtb3VudC5jDQo+PiBAQCAtMjg3LDggKzI4Nyw5IEBAIGlu
+dCBmdXNlX2tlcm5fZnNtb3VudChjb25zdCBjaGFyICptbnQsIHVuc2lnbmVkIGxvbmcgZmxhZ3Ms
+IGludCBibGtkZXYsDQo+PiAgCS8qIFRyeSB0byBvcGVuIGZpbGVzeXN0ZW0gY29udGV4dCAqLw0K
+Pj4gIAlmc2ZkID0gZnNvcGVuKHR5cGUsIEZTT1BFTl9DTE9FWEVDKTsNCj4+ICAJaWYgKGZzZmQg
+PT0gLTEpIHsNCj4+IC0JCWZwcmludGYoc3RkZXJyLCAiZnVzZTogZnNvcGVuKCVzKSBmYWlsZWQ6
+ICVzXG4iLCB0eXBlLA0KPj4gLQkJCXN0cmVycm9yKGVycm5vKSk7DQo+PiArCQlpZiAoZXJybm8g
+IT0gRVBFUk0pDQo+PiArCQkJZnByaW50ZihzdGRlcnIsICJmdXNlOiBmc29wZW4oJXMpIGZhaWxl
+ZDogJXNcbiIsIHR5cGUsDQo+PiArCQkJCXN0cmVycm9yKGVycm5vKSk7DQo+IA0KPiBNb3JlIHVu
+cmVsYXRlZCBjaGFuZ2VzPw0KDQpSaWdodCwgbW92ZWQgb25lIHBhdGNoIHVwLg0KDQpUaGFua3Ms
+QmVybmQNCg==
