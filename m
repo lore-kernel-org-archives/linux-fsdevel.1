@@ -1,89 +1,102 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43F4C36AB4A;
-	Tue, 24 Mar 2026 11:42:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B82F53D567C;
+	Tue, 24 Mar 2026 11:45:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774352566; cv=none; b=q9I4AmDzcCL1f5CSh/dXGlANdyEyxqnpiU+lfdBB72QPzX8+tFX2AqViztzyISTbcFrz58FImCauit+E/bZu49ijxyJdT78WIVscN+q+JBy52Ch/Kt90CqXZYFmmNJx/ttc37ytKmU89xrheRrruGJysjlPFEBzuNtrZ8JoSfB4=
+	t=1774352731; cv=none; b=sIp//d8Ljo7C1OKJdROSX+hxxnG75C6/h51/goHWi66/C6QEVKsc3ZGVx9l3SYMQKsAVhTpXfSUhCZ+38Mrk0utXda90kEFpOA88dgwto3k1JmtqbiJ/YxEadfPiGjkBRkj8sShS0BXmejDEyIXXw82AXo5ebkxBJs+sFKy7Jd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774352566; c=relaxed/simple;
-	bh=wkEa1Y1Z4LOYa1H14bijqOaRGxeeDh/zX/UAEchFIUs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ctg/IE9ji/+TrePtovdRMNcMnNCdWG9I0G2W9tg70fPFQg2Q4p3K60QRjSIk0p14t05wMDx0/6KDOvyzHWvwljfAqzM2Vi4mGbXEMn/CJ00KQheoaFvumGrYrlFhvJ3e9sNNgr02tqlQpLj5Of2IoTRTFA/QNf9NMmzGRBFTGTg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dCRGXo2t; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774352731; c=relaxed/simple;
+	bh=jX9K5Qlsw2+8JcKDr7ZdGFTMXbl3yHVN3G0kWBInI2s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Tq07tjChDu0hCnmEMb0So9UpEoio5vs+Vxx1H6HXVKvC2ZA3zSpfb+hOtNXxcmzag1CiuHnn2LotnocTiAtYIi8BzKdKKegS6xPITzYSe0YHmha/Dj9twiLRdbc/TJ28wk+gWbalGsSc0bsQqKyeVTBfr4FsqptaQDLirsDwXXU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=YiRr9YK/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dCRGXo2t"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 726DBC19424;
-	Tue, 24 Mar 2026 11:42:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774352565;
-	bh=wkEa1Y1Z4LOYa1H14bijqOaRGxeeDh/zX/UAEchFIUs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=dCRGXo2tmTU9aD/RK/MErlJrh1Y+u/EH9rc8PTbM5MeS56JqU20TqI7errdHao4pM
-	 hJ8PJVZCyHnzmj5Sx6t9xFQpU6li20nC/FQAO04LbCztPhIgwLrnaVeTLx6h5g0YXn
-	 3P+CFtI4uQk78OgXkU+8SEPnLsBFsgLvTKBzaUdcsgN+pJO23U9HWnLGjFmCWBaEFn
-	 zjXH04XnY8XPIfKXgWyYdzIkxDoODxUxOW8lVBGpbMsqiUMQX7OPJcxs364ky64nbE
-	 y/4LWNS7o7W0pqRIuDHFr223AdGLLbC3gWYuMHior6EZwxfB5C2hjlItjwsI+Pb5lZ
-	 HVKCWJr7UvzMQ==
-Message-ID: <b4565127-2ee3-4776-acea-ee47f65672ff@kernel.org>
-Date: Tue, 24 Mar 2026 12:42:40 +0100
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="YiRr9YK/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05DD8C19424;
+	Tue, 24 Mar 2026 11:45:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1774352731;
+	bh=jX9K5Qlsw2+8JcKDr7ZdGFTMXbl3yHVN3G0kWBInI2s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YiRr9YK//eYw2iDlddt7wJge8uPj7jby/M6AT158a6asUFKu5bwzAK6uTvBZDhObx
+	 GatsYKcKCyJnqdxQ5I+pyRkqdsoBPOfBH8wBHawSbHuKgn4susDEjUmyugfyjnHhLJ
+	 isDywhM8qGYzM5yxvmrF+POFOCmJ26n6oqbgiqPs=
+Date: Tue, 24 Mar 2026 12:45:09 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Sasha Levin <sashal@kernel.org>
+Cc: linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	workflows@vger.kernel.org, tools@kernel.org, x86@kernel.org,
+	Thomas Gleixner <tglx@kernel.org>,
+	"Paul E . McKenney" <paulmck@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Cyril Hrubis <chrubis@suse.cz>, Kees Cook <kees@kernel.org>,
+	Jake Edge <jake@lwn.net>,
+	David Laight <david.laight.linux@gmail.com>,
+	Askar Safin <safinaskar@zohomail.com>,
+	Gabriele Paoloni <gpaoloni@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Ingo Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [PATCH v2 3/9] kernel/api: add debugfs interface for kernel API
+ specifications
+Message-ID: <2026032442-step-blush-a0e5@gregkh>
+References: <20260322121026.869758-1-sashal@kernel.org>
+ <20260322121026.869758-4-sashal@kernel.org>
+ <2026032309-jargon-stalling-28c2@gregkh>
+ <acHTupVGxJR3gmFT@laps>
+ <2026032411-paramount-lapdog-41e6@gregkh>
+ <acJ2gnnA9MP1wO_Z@laps>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] fs: Replace user_access_{begin/end} by scoped user
- access
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Thomas Gleixner <tglx@linutronix.de>,
- David Laight <david.laight.linux@gmail.com>, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <23f19c88e763beb852a4891b2a908890bdd01b66.1773651096.git.chleroy@kernel.org>
- <CAHk-=whFS7D1M4=cMi9cR06Uoxr1QeM8HUtRB6V3cQth=QNoXg@mail.gmail.com>
- <e19d7d3f-d2f3-4bb0-be4d-af2679673f68@kernel.org>
- <CAHk-=wiJVSCmiQAQYYjdQqo9Z1k7WQcep2qW+DiqHyP7Y1_SnQ@mail.gmail.com>
- <CAHk-=widw8GwXNuq5ALr+NgDDUN+=pc77U=EczqUiVZeD2Dz+Q@mail.gmail.com>
-Content-Language: fr-FR
-From: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
-In-Reply-To: <CAHk-=widw8GwXNuq5ALr+NgDDUN+=pc77U=EczqUiVZeD2Dz+Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <acJ2gnnA9MP1wO_Z@laps>
 
-
-
-Le 18/03/2026 à 16:53, Linus Torvalds a écrit :
-> On Wed, 18 Mar 2026 at 08:49, Linus Torvalds
-> <torvalds@linux-foundation.org> wrote:
->>
->>      #define dirent_size(dirent, len) offsetof(typeof(dirent), d_name[len])
+On Tue, Mar 24, 2026 at 07:33:22AM -0400, Sasha Levin wrote:
+> On Tue, Mar 24, 2026 at 09:20:01AM +0100, Greg Kroah-Hartman wrote:
+> > On Mon, Mar 23, 2026 at 07:58:50PM -0400, Sasha Levin wrote:
+> > > > But this only works if the kabi stuff is built into the kernel image,
+> > > > right?  This doesn't work if any of these abi sections are in a module
+> > > > or am I missing that logic here?
+> > > 
+> > > That is correct, for now.
+> > > 
+> > > I'm only trying to tackle syscalls to begin with, and since no syscalls live in
+> > > modules, we have no need for module support.
+> > 
+> > We used to support syscalls in modules, but thankfully that is now gone.
+> > But, how will this work for stuff like usbfs ioctls?  That is a module,
+> > and our uapi is, by far, in drivers through ioctl "hell" and that would
+> > be great to be able to document through all of this.  Will that just not
+> > be in the debugfs api?
 > 
-> That 'typeof(dirent)' needs to be 'typeof(*(dirent))' to be convenient.
+> It will. I see it working just like how BTF or trace events do it now.
 > 
-> It was correct in the patch I attached, but I'll just point it out anyway.
-> 
-> And we actually have a helper macro for that: struct_offset(). Which
-> wasn't what I used in that attached patch, but *should* have been.
-> 
-> IOW, the macro should look something like
-> 
->      #define dirent_size(dirent, len) struct_offset(dirent, d_name[len])
-> 
+> When a module loads, find_module_sections() extracts the .kapi_specs section
+> pointer and element count into new struct module fields. The COMING notifier
+> then iterates those specs, registers each via the existing kapi_register_spec()
+> dynamic registration path, and creates per-spec debugfs files under the
+> existing /sys/kernel/debug/kapi/specs/ directory. The kapi_list_show() function
+> is extended to also walk the dynamic_api_specs list (currently it only iterates
+> the static __start_kapi_specs..__stop_kapi_specs range). On GOING, all specs
+> owned by that module are removed from the list and their debugfs entries
+> cleaned up via debugfs_remove().
 
-Sending v5 (series of 2) with your suggested patch as patch 1.
+Sounds good, I was worried about that static range and how that would be
+"extended" or not.
 
-Following feedback from David which I tend to agree with, I left it as 
-you did initialy.
-
-struct_offset() has only one caller and I don't feel it has much added 
-value compared to offsetof(typeof(),) pattern which is more explicit and 
-already used 144 times in the kernel:
-
-$ git grep "offsetof(typeof(" | wc -l
-144
-
-Christophe
+greg k-h
