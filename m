@@ -1,177 +1,128 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out162-62-57-210.mail.qq.com (out162-62-57-210.mail.qq.com [162.62.57.210])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5810E3FD121
-	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 13:36:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2DB334D3B9;
+	Tue, 24 Mar 2026 13:46:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.210
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774359420; cv=none; b=VUiXgYwo5E1jxvrlboMYcl+mOcTYiLcDCoPvVzYZyri005hph5CptSIaYL1j6MO7QdZQvD/jfGWHAyYv6baDBsimkNiDlzSsnCoX9MRCnSXYse1Aow+v3AZAWPGZZXozt2lt4MKG3DYXuB4GTvoaajhspanxhcoW8h/T0UIx5QA=
+	t=1774359970; cv=none; b=eYGQ7CCvLZ8Sz9pdyhhltH9DwIZ78S6nak0dDAp7Fd/iBA39L56u26RgzvOjhUdKHpRvVHTlLR9DjFg+e7n8OprufllDJBvvbTh6hEBgnltoqHRqVd74xF9i3pRAsnCA/td6nZhdP7pe/ua3IcudbHIcyXRJBT0u3Sepd0t7K7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774359420; c=relaxed/simple;
-	bh=QdQdALV86sJIqxP52ms3ChwXRWDwASMzepVWJV4RJ8s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iOicVNv9ej4cahNC1mSlCGuKnZKB+UnDNgDSqXI0tW9PaW8OfJfJSSfZfBZOwZEJqhGIh6udxhz8ZeEqSJGe7Dd8KF7BXsNqArkNnhB82lWwk2JEueAsTYgk6AuKjsZxl9mI6OiCzQ4HDsqDPhRMAqU0oWnoWNg+w2SG0GF5tBo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=OYdnsU/b; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=cAGqIaMH; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=OYdnsU/b; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=cAGqIaMH; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1774359970; c=relaxed/simple;
+	bh=oHNkM4VKgurTg9rlwMIDBQKfPAYa+/1tHkDCCUjS+YU=;
+	h=Message-ID:From:To:CC:Subject:Date:Content-Type:MIME-Version; b=k6IClINOVqy4ni0KEruRU+TH8JpJa+JFRnQDK8hrEKrnmzRinEZI/1vwuf5sQ2Lx67l9A+kEY7f8j7SVqUnW9KpdY9HUvQRW3b6clXrYakZtPwHSIjTU2kUAFOu2AgRp8GCG/hLsPh0YQcB9f10TtpbZVcnzG+dSrJQ/gE865Dw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=zROQpkM1; arc=none smtp.client-ip=162.62.57.210
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="OYdnsU/b";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="cAGqIaMH";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="OYdnsU/b";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="cAGqIaMH"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 79D114D1F5;
-	Tue, 24 Mar 2026 13:36:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1774359417; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CYLLG8yAfF+r3jUkoHDeuDHN91spuYGqUAcPuaMTY84=;
-	b=OYdnsU/bqa7wH78lX/xP4ENpOJBiyZZO1a1HEfPH871pcSsA9hxRzckzP2p2FD/xY1LRyf
-	46+FNamy7mSYYYw/iEAmFFXphc3xGZWtbjAHt23G+N3pbmfyh27YvXmW9e0H31f5RuKATG
-	P8W0lmrXh6cyc1cz0cYnEWx2zf8NTXA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1774359417;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CYLLG8yAfF+r3jUkoHDeuDHN91spuYGqUAcPuaMTY84=;
-	b=cAGqIaMHX9aBjl8trg/9H0ZuskPR38NyCcUZV1e09EHsMTcfZGnGNw1e3+DSZWy0yjhbkA
-	+KrYteJU6bfT5PAA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b="OYdnsU/b";
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=cAGqIaMH
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1774359417; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CYLLG8yAfF+r3jUkoHDeuDHN91spuYGqUAcPuaMTY84=;
-	b=OYdnsU/bqa7wH78lX/xP4ENpOJBiyZZO1a1HEfPH871pcSsA9hxRzckzP2p2FD/xY1LRyf
-	46+FNamy7mSYYYw/iEAmFFXphc3xGZWtbjAHt23G+N3pbmfyh27YvXmW9e0H31f5RuKATG
-	P8W0lmrXh6cyc1cz0cYnEWx2zf8NTXA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1774359417;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CYLLG8yAfF+r3jUkoHDeuDHN91spuYGqUAcPuaMTY84=;
-	b=cAGqIaMHX9aBjl8trg/9H0ZuskPR38NyCcUZV1e09EHsMTcfZGnGNw1e3+DSZWy0yjhbkA
-	+KrYteJU6bfT5PAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6C4FD43E76;
-	Tue, 24 Mar 2026 13:36:57 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id kOFuGnmTwmnDMgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 24 Mar 2026 13:36:57 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 2D129A0B32; Tue, 24 Mar 2026 14:36:53 +0100 (CET)
-Date: Tue, 24 Mar 2026 14:36:53 +0100
-From: Jan Kara <jack@suse.cz>
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	linux-block@vger.kernel.org, Christian Brauner <brauner@kernel.org>, 
-	Al Viro <viro@zeniv.linux.org.uk>, linux-ext4@vger.kernel.org, Ted Tso <tytso@mit.edu>, 
-	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>, David Sterba <dsterba@suse.com>, 
-	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, Muchun Song <muchun.song@linux.dev>, 
-	Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@kernel.org>, linux-mm@kvack.org, 
-	linux-aio@kvack.org, Benjamin LaHaise <bcrl@kvack.org>
-Subject: Re: [PATCH 12/41] fs: Drop sync_mapping_buffers() from
- __generic_file_fsync()
-Message-ID: <rsftk7gdlamfryksv63vhmewdi6etvvfyi6as5m2zs75ctvzkq@fnoiwumyfdsv>
-References: <20260320131728.6449-1-jack@suse.cz>
- <20260320134100.20731-53-jack@suse.cz>
- <acIjxUzWFstarlwv@infradead.org>
- <ezdm6d34jqdrcohk7o6wycxvvlgtf6aqenwx5ffr3plfagdbzi@gibz7xwr6yhr>
- <acKO3NRw852FdGUO@infradead.org>
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="zROQpkM1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1774359955; bh=4sTHTYkqT98YCnruH/w1X0fKZGEKl98lw5uVnIxLQ4s=;
+	h=From:To:CC:Subject:Date;
+	b=zROQpkM1gCdaOWjzVA57jOOgW0hEmaDfZ3hCCOdEWyAuYj7wCElmSrew02tP88+Bz
+	 2vpJzpIijSakkcA1coYfUvoIj5JoS12PGfaWOL/QYpVs6soeDedz5SYw81kTngKyut
+	 Z+FSxClUA5TEFuqGVvAKXFHsRguTco0Q7+rXsmjo=
+Received: from SG2PR02MB5841.apcprd02.prod.outlook.com ([2603:1046:c01:910::5])
+	by newxmesmtplogicsvrsza53-0.qq.com (NewEsmtp) with SMTP
+	id B75014D9; Tue, 24 Mar 2026 21:45:53 +0800
+X-QQ-mid: xmsmtpt1774359953ti46826kn
+Message-ID: <tencent_EDC62D47C76FD4486F3B13D526674124CE07@qq.com>
+X-QQ-XMAILINFO: N7Z3XQrOpILurQRAEf9OYZbwiWrjkFRXJMfciy2eL07748X0D50v5PuxmWLewp
+	 8X/F+AhxT8mI1QffO9BOHpOxQ8KaFA+h24jGgEIgDwJqC72SSwVHPcrbo7ul4bknx+Oc40WJqr/O
+	 UNGRmmLfUpVY6UQOH5+Y7PcE0s5OmYpZmvlqBbc/Mgdu/R/vpE2gGQC7Yu2TkCqXyiPXcMjnAJQJ
+	 DDDDHxyxVhMMv3N+yzHCARJK4ItHKcasQYklOM0dW54XPIPrPW7EFKj1oY16Xg1tmoWGLrN104AF
+	 8yzch9/k+h7tgKNlI8oP3AMJhe8INYOukvsKJ/9aCwhje9imu6kPmbISr+uz0kqraMmrSCygKSvh
+	 QqSeSycr93mni+01wEwUdJr8JlonSx1qJATupRV2Mvy18wB5Xvq5lHXk7UKgVKgSZ99FKMogpFKs
+	 Z5Z6kHtp95hsSTMw3i9NI835WFlsZZrExP/epQfKleJPJSzarP4wsrZhLKCe5RsRhFVk1vEQS2GL
+	 dEnw+/BGuqKVAz+LI0EiwGMNIInqk4nsufz7S7lQUgTkdkYE/U8rkcpJsINjsWh/vDv0IW/uz6GB
+	 uQF6q1P6PJr/Y72GhFtbcT3LDsbGg3tBIS5kxFmbESg2IRBLvWiZmnVtNsTnaDc0TR4KtnKj1oB0
+	 IRB+HuxEb+uk9oeGWFW4wfTIGwYAs5dti4VQig5hCRszO59orjj53y6Kkayst7SD7W2xR1re/LyK
+	 NXggl4nqAdbdDRJhUuHRoyZ7ME1cjkXV9r00rirCo6qScyTnGlJcSY1j4/fRo+arFmNMDmL8rJmL
+	 8zVQS9pgqDqEwtAYr/fDWtSdeTxGiinyKZzUeGlzkIvS/ygg6BMn8SR9tZrfRtd8BtzF7UanX60O
+	 IWZC4NAOLUJjVV6KyNSXUXJGIEiEEP1MXb3fLTx5px3EUeB79Q8bY8sNrHrspuFestd32/zMh5au
+	 /Bd6aBBrAMt/TGwrVpUuiE20JEc6uMknjxvDHhepDU2w44boDyHM/EMANonQEv064TGIW0BV4EPM
+	 QiznA8yDIBlX2GAKmUlJKlW461WXc=
+X-QQ-XMRINFO: NyFYKkN4Ny6FuXrnB5Ye7Aabb3ujjtK+gg==
+From: "driz2t@qq.com" <driz2t@qq.com>
+To: "stable@vger.kernel.org" <stable@vger.kernel.org>
+CC: "hch@infradead.org" <hch@infradead.org>, "djwong@kernel.org"
+	<djwong@kernel.org>, "linux-xfs@vger.kernel.org" <linux-xfs@vger.kernel.org>,
+	"leah.rumancik@gmail.com" <leah.rumancik@gmail.com>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"syzbot+c6104ecfe56e0fd6b616@syzkaller.appspotmail.com"
+	<syzbot+c6104ecfe56e0fd6b616@syzkaller.appspotmail.com>
+Subject: [PATCH] iomap: don't invalidate folios after writeback errors
+Thread-Topic: [PATCH] iomap: don't invalidate folios after writeback errors
+Thread-Index: AQHcu5MDWVXtmvYYjUG63JPfg9TWNw==
+X-MS-Exchange-MessageSentRepresentingType: 1
+Date: Tue, 24 Mar 2026 13:45:51 +0000
+X-OQ-MSGID:
+	<SG2PR02MB58419261748074ED3C8C79EBF248A@SG2PR02MB5841.apcprd02.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-Exchange-Organization-SCL: -1
+X-MS-TNEF-Correlator:
+X-MS-Exchange-Organization-RecordReviewCfmType: 0
+msip_labels:
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <acKO3NRw852FdGUO@infradead.org>
-X-Spamd-Result: default: False [-2.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	URIBL_BLOCKED(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.cz:dkim];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_CC(0.00)[suse.cz,vger.kernel.org,kernel.org,zeniv.linux.org.uk,mit.edu,gmail.com,suse.com,mail.parknet.co.jp,linux.dev,suse.de,kvack.org];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -2.51
-X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 79D114D1F5
 
-On Tue 24-03-26 06:17:16, Christoph Hellwig wrote:
-> On Tue, Mar 24, 2026 at 01:34:57PM +0100, Jan Kara wrote:
-> > I'm fine with simple_fsync() name for the helper with the trivial behavior
-> > of writing out the mapping and the inode. Code wise this will look somewhat
-> > different given what you've suggested for the last patch.
-> 
-> Yeah, the pitfalls of going sequentially through the series :)
-> 
-> But sketching this out I'm not even sure all this makes sense any more.
-> Maybe instad of the allback we should just have a helper for checking the
-> inode state like:
-> 
-> static inline bool inode_need_fsync(struct inode *inode, bool datasync)
-> {
-> 	enum inode_state_flags_enum state = inode_state_read_once(inode);
-> 
-> 	if (!(state & I_DIRTY_ALL))
->                 return false;
->         if (datasync && !(state & I_DIRTY_DATASYNC))
->                 retun false;
-> 	return true;
-> }
-> 
-> and otherwise just open code the calls int the two implementations
-> without any callbacks, as it feels cleaner to avoid the entanglement.
+This patch is a backport to stable 5.15.y of upstream commit e9c3a8e820ed0e=
+eb2be05072f29f80d1b79f053b=0A=
+("iomap: don't invalidate folios after writeback errors").=0A=
+=0A=
+Fixes: 3330a8d33e08 ("iomap, xfs: fix page discard handling on shutdown")=
+=0A=
+Reported-by: syzbot+c0ffed3897231d71f047@syzkaller.appspotmail.com=0A=
+Tested-by: syzbot+c0ffed3897231d71f047@syzkaller.appspotmail.com=0A=
+Signed-off-by: Changjian Liu <driz2t@qq.com>=0A=
+---=0A=
+ fs/iomap/buffered-io.c | 1 -=0A=
+ fs/xfs/xfs_aops.c      | 4 +---=0A=
+ 2 files changed, 1 insertion(+), 4 deletions(-)=0A=
+=0A=
+diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c=0A=
+index 87a4f5a2ded0..1f0bfe0b8bae 100644=0A=
+--- a/fs/iomap/buffered-io.c=0A=
++++ b/fs/iomap/buffered-io.c=0A=
+@@ -1350,7 +1350,6 @@ iomap_writepage_map(struct iomap_writepage_ctx *wpc,=
+=0A=
+ 		if (wpc->ops->discard_page)=0A=
+ 			wpc->ops->discard_page(page, file_offset);=0A=
+ 		if (!count) {=0A=
+-			ClearPageUptodate(page);=0A=
+ 			unlock_page(page);=0A=
+ 			goto done;=0A=
+ 		}=0A=
+diff --git a/fs/xfs/xfs_aops.c b/fs/xfs/xfs_aops.c=0A=
+index c8c15c3c3147..56a5bd7ad8c4 100644=0A=
+--- a/fs/xfs/xfs_aops.c=0A=
++++ b/fs/xfs/xfs_aops.c=0A=
+@@ -450,7 +450,7 @@ xfs_discard_page(=0A=
+ 	int			error;=0A=
+ =0A=
+ 	if (xfs_is_shutdown(mp))=0A=
+-		goto out_invalidate;=0A=
++		return;=0A=
+ =0A=
+ 	xfs_alert_ratelimited(mp,=0A=
+ 		"page discard on page "PTR_FMT", inode 0x%llx, offset %llu.",=0A=
+@@ -460,8 +460,6 @@ xfs_discard_page(=0A=
+ 			i_blocks_per_page(inode, page) - pageoff_fsb);=0A=
+ 	if (error && !xfs_is_shutdown(mp))=0A=
+ 		xfs_alert(mp, "page discard unable to remove delalloc mapping.");=0A=
+-out_invalidate:=0A=
+-	iomap_invalidatepage(page, pageoff, PAGE_SIZE - pageoff);=0A=
+ }=0A=
+ =0A=
+ static const struct iomap_writeback_ops xfs_writeback_ops =3D {=0A=
+-- =0A=
+2.43.0=
 
-Leaving the two implementations separate certainly works for me as well
-(that's why I've put that patch to the end because I've expected some
-discussions around it :)). Just the amount of common trivial calls you need
-to do (fdatawrite(), sync_inode_metadata(),
-file_check_and_advance_wb_err(), blkdev_issue_flush()) looked high enough
-to me to be worth merging the implementations. But I don't feel strongly
-either way.
-
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
