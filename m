@@ -1,36 +1,36 @@
 Received: from e3i468.smtp2go.com (e3i468.smtp2go.com [158.120.85.212])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34C313009E2
-	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 20:03:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D083F30DEA2
+	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 20:13:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=158.120.85.212
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774382630; cv=none; b=HjCB0X/uj3O9Oc2DA6doblJR3nkl5QmYSLuD48r06HSf1a6yM8bqExT0WXmPPGtdfBxxJ9DCSOGlXCtcZvNxGNVysIUaCkliPpEq/XTgnPhzV6BL0WrIOT/d5IsVuv/xFfztThG3B0NDSspFZWI6EwMWMvQGayRMnHwCkT1TyvQ=
+	t=1774383237; cv=none; b=LS//SQyXeD5uJz3A4I9kxgQN1jAs2JV2GbiYpDR86jJOgFQDkz8YOVGonGO5rFT/ASeBvtEnOJFENcUMX3Iza3ufX7nQFqzf65YUddxya+yyLUCM9nRbApUbmK3E1sgp0jBl1NUocrEhdcer2DAxncctgQcLwqf0+VHfHRZIPbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774382630; c=relaxed/simple;
-	bh=gSqiHBC8YoUX5EkH3JCIKah5749u/zPS3n5f8J2P/jo=;
+	s=arc-20240116; t=1774383237; c=relaxed/simple;
+	bh=PpthaMt4M8TfguJcX/ojcJ3Mw1tPeuNFcQca8b9OF5M=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=arxG+K03gfop6R4qztN9uKokUyW+Szfl+fcHEaJhFC9XOl/ZEIEJ5qYLVeEnoRLeTKXFeBUEO8vlV9uQLvexDRVxr1UYkfEZaejrhEmQrWNHRyw1Sn0PfG3Wv7eMRs9c5EitJcmOOW51YulYBq1lWQQBA59bpQU7tr+4wmd2mnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=triplefau.lt; spf=pass smtp.mailfrom=em510616.triplefau.lt; dkim=pass (2048-bit key) header.d=triplefau.lt header.i=@triplefau.lt header.b=TWymyPSd; arc=none smtp.client-ip=158.120.85.212
+	 MIME-Version; b=OgmJp+egpJRIywvX2txriUnuDEmqGI0oxkjq4OCBhkxfmp/+XyqCCLP+V48k59ae//A7Jy68XCjoySUMBAoKEI2Y9ssUXho5iXdSs0PxGer2y3lYoal9/V1/s5DOkjtgb4OMp8c8iD9Flu6J8oN3NAYhGmIuCKXTHgIYuZc3aQM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=triplefau.lt; spf=pass smtp.mailfrom=em510616.triplefau.lt; dkim=pass (2048-bit key) header.d=triplefau.lt header.i=@triplefau.lt header.b=bCIZr4Ld; arc=none smtp.client-ip=158.120.85.212
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=triplefau.lt
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=em510616.triplefau.lt
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=triplefau.lt header.i=@triplefau.lt header.b="TWymyPSd"
+	dkim=pass (2048-bit key) header.d=triplefau.lt header.i=@triplefau.lt header.b="bCIZr4Ld"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=triplefau.lt;
- i=@triplefau.lt; q=dns/txt; s=s510616; t=1774382626; h=from : subject
+ i=@triplefau.lt; q=dns/txt; s=s510616; t=1774382616; h=from : subject
  : to : message-id : date;
- bh=Q5XeYb3NItq0q8BeTQJa6q2tBtl1wKIGG37yUzrloyk=;
- b=TWymyPSdyEa69AxSGwxzf21uqfdgsPzxsa2njqs5PslREdtJMHqmJKrVK62BptO5K1Alg
- 5V84C8MXTE0BJk6r6Y7WhmfkZD+Vs7iqR6kJQHp29tvC+d6/0OggalqZ+ny8YzpHX8yvfRa
- mLhIcIl8bItl5+UbL4S35klo9eOvMrBjo136YK7A1iAh+sMxTYwxoEwsiybTqNbVuWrfi1i
- j9wYUBieXORdYoaGGO98Joxo96yFppEKxLC2U84M/55auUon8+CnM4U9CTLQY9T/CdJzlXG
- IbP5JJ0dtClo3A8yf/T82z3RKTK0j0Xd54tGwV3hqaiNnqsG0EoCHM09c8Wg==
+ bh=/mCP6me0zJdgQcjVym3S63MAWyj6d6QBpzdmIIJfV3U=;
+ b=bCIZr4Ldwg+j3A1k6BkkkbJwIsGVOqMl+Eolon7JTz364AWKSR0akffgQjPOHcUpvem9p
+ kRk1LEPGxoiLhqvJAMHBvWFn1GRiAYWFYX8dUOtpeAdl310kr16M4tSLybYIk15taZWuNC3
+ sq17Sv1fJvAvdAqYAiQhRT/mOVFAdjG2TPYTQ3A2kMRe83UJ/1zLUi+pqLee18QqgbAW1yH
+ gz5bL4UXKqzoTCYd29+ZgOHqWTT68zvtPVnrJ2YOlGypRiN1C+avV+qNkJMCi524r6PwB6Y
+ 1JxPjpLErJVGCWzS5OdTT9d5oLyKi9eA6sgkVPn7Ml7zNZsj+1i3h9W92AsA==
 Received: from [10.12.239.196] (helo=localhost)
 	by smtpcorp.com with esmtpsa (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
 	(Exim 4.99.1-S2G)
 	(envelope-from <repk@triplefau.lt>)
-	id 1w57yU-4o5NDgrkYbV-pWp0;
-	Tue, 24 Mar 2026 20:03:38 +0000
+	id 1w57yT-4o5NDgrftkf-lx6o;
+	Tue, 24 Mar 2026 20:03:37 +0000
 From: Remi Pommarel <repk@triplefau.lt>
 To: v9fs@lists.linux.dev
 Cc: linux-fsdevel@vger.kernel.org,
@@ -40,9 +40,9 @@ Cc: linux-fsdevel@vger.kernel.org,
 	Dominique Martinet <asmadeus@codewreck.org>,
 	Christian Schoenebeck <linux_oss@crudebyte.com>,
 	Remi Pommarel <repk@triplefau.lt>
-Subject: [PATCH v4 3/4] 9p: Set default negative dentry retention time for cache=loose
-Date: Tue, 24 Mar 2026 20:43:33 +0100
-Message-ID: <fdf05eda35e0d095a5e8bb299e35127219c1c10b.1774380535.git.repk@triplefau.lt>
+Subject: [PATCH v4 2/4] 9p: Add mount option for negative dentry cache retention
+Date: Tue, 24 Mar 2026 20:43:32 +0100
+Message-ID: <4f51032ea3329c1a3b7c0f00bb2885e8d104c6c5.1774380535.git.repk@triplefau.lt>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1774380535.git.repk@triplefau.lt>
 References: <cover.1774380535.git.repk@triplefau.lt>
@@ -54,43 +54,128 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Report-Abuse: Please forward a copy of this message, including all headers, to <abuse-report@smtp2go.com>
-Feedback-ID: 510616m:510616apGKSTK:510616seTnygqtFL
-X-smtpcorp-track: B3JA4oQ8HswU.IjJRxwoxmPIZ.IGxLrQbSbmh
+Feedback-ID: 510616m:510616apGKSTK:510616sgeYS19s-d
+X-smtpcorp-track: Bj6R4neVzHDr.h0D7H2SpiDBc.c0lYPQX-N_C
 
-For cache=loose mounts, set the default negative dentry cache retention
-time to 24 hours.
+Introduce a new mount option, negtimeout, for v9fs that allows users
+to specify how long negative dentries are retained in the cache. The
+retention time can be set in milliseconds (e.g. negtimeout=10000 for
+a 10secs retention time) or a negative value (e.g. negtimeout=-1) to
+keep negative entries until the buffer cache management removes them.
+
+For consistency reasons, this option should only be used in exclusive
+or read-only mount scenarios, aligning with the cache=loose usage.
 
 Signed-off-by: Remi Pommarel <repk@triplefau.lt>
 ---
- fs/9p/v9fs.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ Documentation/filesystems/9p.rst |  5 +++++
+ fs/9p/v9fs.c                     | 16 +++++++++++++++-
+ fs/9p/v9fs.h                     | 23 +++++++++++++----------
+ 3 files changed, 33 insertions(+), 11 deletions(-)
 
+diff --git a/Documentation/filesystems/9p.rst b/Documentation/filesystems/9p.rst
+index be3504ca034a..b014c7aabba4 100644
+--- a/Documentation/filesystems/9p.rst
++++ b/Documentation/filesystems/9p.rst
+@@ -238,6 +238,11 @@ Options
+   cachetag	cache tag to use the specified persistent cache.
+ 		cache tags for existing cache sessions can be listed at
+ 		/sys/fs/9p/caches. (applies only to cache=fscache)
++
++  negtimeout    the duration (in milliseconds) that negative dentries (paths
++                that do not actually exist) are retained in the cache. If
++                set to a negative value, those entries are kept indefinitely
++                until evicted by the buffer cache management system
+   ============= ===============================================================
+ 
+ Behavior
 diff --git a/fs/9p/v9fs.c b/fs/9p/v9fs.c
-index f16517be7fc2..79b6a8b82779 100644
+index c5dca81a553e..f16517be7fc2 100644
 --- a/fs/9p/v9fs.c
 +++ b/fs/9p/v9fs.c
-@@ -24,6 +24,9 @@
- #include "v9fs_vfs.h"
- #include "cache.h"
+@@ -39,7 +39,7 @@ enum {
+ 	 * source if we rejected it as EINVAL */
+ 	Opt_source,
+ 	/* Options that take integer arguments */
+-	Opt_debug, Opt_dfltuid, Opt_dfltgid, Opt_afid,
++	Opt_debug, Opt_dfltuid, Opt_dfltgid, Opt_afid, Opt_negtimeout,
+ 	/* String options */
+ 	Opt_uname, Opt_remotename, Opt_cache, Opt_cachetag,
+ 	/* Options that take no arguments */
+@@ -93,6 +93,7 @@ const struct fs_parameter_spec v9fs_param_spec[] = {
+ 	fsparam_string	("access",	Opt_access),
+ 	fsparam_flag	("posixacl",	Opt_posixacl),
+ 	fsparam_u32	("locktimeout",	Opt_locktimeout),
++	fsparam_s32	("negtimeout",	Opt_negtimeout),
  
-+/* cache=loose default negative dentry retention time is 24hours */
-+#define CACHE_LOOSE_NDENTRY_TIMEOUT_DEFAULT (24 * 60 * 60 * 1000)
+ 	/* client options */
+ 	fsparam_u32	("msize",	Opt_msize),
+@@ -159,6 +160,9 @@ int v9fs_show_options(struct seq_file *m, struct dentry *root)
+ 			   from_kgid_munged(&init_user_ns, v9ses->dfltgid));
+ 	if (v9ses->afid != ~0)
+ 		seq_printf(m, ",afid=%u", v9ses->afid);
++	if (v9ses->flags & V9FS_NDENTRY_TIMEOUT_SET)
++		seq_printf(m, ",negtimeout=%d",
++			   (int)v9ses->ndentry_timeout_ms);
+ 	if (strcmp(v9ses->uname, V9FS_DEFUSER) != 0)
+ 		seq_printf(m, ",uname=%s", v9ses->uname);
+ 	if (strcmp(v9ses->aname, V9FS_DEFANAME) != 0)
+@@ -337,6 +341,16 @@ int v9fs_parse_param(struct fs_context *fc, struct fs_parameter *param)
+ 		session_opts->session_lock_timeout = (long)result.uint_32 * HZ;
+ 		break;
+ 
++	case Opt_negtimeout:
++		session_opts->flags |= V9FS_NDENTRY_TIMEOUT_SET;
++		if (result.int_32 < 0) {
++			session_opts->ndentry_timeout_ms =
++				NDENTRY_TIMEOUT_NEVER;
++		} else {
++			session_opts->ndentry_timeout_ms = result.int_32;
++		}
++		break;
 +
- static DEFINE_SPINLOCK(v9fs_sessionlist_lock);
- static LIST_HEAD(v9fs_sessionlist);
- struct kmem_cache *v9fs_inode_cache;
-@@ -437,6 +440,13 @@ static void v9fs_apply_options(struct v9fs_session_info *v9ses,
- 	v9ses->uid = ctx->session_opts.uid;
- 	v9ses->session_lock_timeout = ctx->session_opts.session_lock_timeout;
- 	v9ses->ndentry_timeout_ms = ctx->session_opts.ndentry_timeout_ms;
-+
-+	/* If negative dentry timeout has not been overridden set default for
-+	 * cache=loose
-+	 */
-+	if (!(v9ses->flags & V9FS_NDENTRY_TIMEOUT_SET) &&
-+	    (v9ses->cache & CACHE_LOOSE))
-+		v9ses->ndentry_timeout_ms = CACHE_LOOSE_NDENTRY_TIMEOUT_DEFAULT;
- }
+ 	/* Options for client */
+ 	case Opt_msize:
+ 		if (result.uint_32 < 4096) {
+diff --git a/fs/9p/v9fs.h b/fs/9p/v9fs.h
+index e630c5111d74..32179f64a603 100644
+--- a/fs/9p/v9fs.h
++++ b/fs/9p/v9fs.h
+@@ -24,6 +24,8 @@
+  * @V9FS_ACCESS_ANY: use a single attach for all users
+  * @V9FS_ACCESS_MASK: bit mask of different ACCESS options
+  * @V9FS_POSIX_ACL: POSIX ACLs are enforced
++ * @V9FS_NDENTRY_TIMEOUT_SET: Has negative dentry timeout retention time been
++ *                            overridden by ndentrycache mount option
+  *
+  * Session flags reflect options selected by users at mount time
+  */
+@@ -34,16 +36,17 @@
+ #define V9FS_ACL_MASK V9FS_POSIX_ACL
+ 
+ enum p9_session_flags {
+-	V9FS_PROTO_2000U    = 0x01,
+-	V9FS_PROTO_2000L    = 0x02,
+-	V9FS_ACCESS_SINGLE  = 0x04,
+-	V9FS_ACCESS_USER    = 0x08,
+-	V9FS_ACCESS_CLIENT  = 0x10,
+-	V9FS_POSIX_ACL      = 0x20,
+-	V9FS_NO_XATTR       = 0x40,
+-	V9FS_IGNORE_QV      = 0x80, /* ignore qid.version for cache hints */
+-	V9FS_DIRECT_IO      = 0x100,
+-	V9FS_SYNC           = 0x200
++	V9FS_PROTO_2000U         = 0x01,
++	V9FS_PROTO_2000L         = 0x02,
++	V9FS_ACCESS_SINGLE       = 0x04,
++	V9FS_ACCESS_USER         = 0x08,
++	V9FS_ACCESS_CLIENT       = 0x10,
++	V9FS_POSIX_ACL           = 0x20,
++	V9FS_NO_XATTR            = 0x40,
++	V9FS_IGNORE_QV           = 0x80, /* ignore qid.version for cache hints */
++	V9FS_DIRECT_IO           = 0x100,
++	V9FS_SYNC                = 0x200,
++	V9FS_NDENTRY_TIMEOUT_SET = 0x400,
+ };
  
  /**
 -- 
