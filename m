@@ -1,50 +1,33 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C90D2405AD2;
-	Tue, 24 Mar 2026 15:25:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8F0438AC90;
+	Tue, 24 Mar 2026 15:32:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774365960; cv=none; b=jPK2RAEchQxf3wlHy+auC6dn40mMyKzAD0YiAA9XLot4b3ldjrtNi2NHjxXSJF7JY3/TKNiOa8nfaJeOt9pBrzaRKA9ZWvxU0ObMCT8NxUBZGZ5RGLDJ/N8I98lSQRiiNckt8X26X6qTc+WnezURT4HytVwdHE20h0n1M17WwAw=
+	t=1774366348; cv=none; b=grV/dUaA/CixhdCqAuJglIzwf/GU3jNISvGlSrhW7HO3OVO09U8d8uyMsZ4svkpqE3mQi/lp6lOSEQn0wrXiArq0tnDJ1Vd+loHUpNmb286l2cr9r4eO3I53JQhPrdUiYnXNUZCT9YrsJTiNBUaQwktRCFjgPg6x3VmgfqDiU7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774365960; c=relaxed/simple;
-	bh=jeQXGWXW5DYZbmlwpZZUSd6Abgx4FfGMTceWU3VAjno=;
+	s=arc-20240116; t=1774366348; c=relaxed/simple;
+	bh=Pj+OtiBpuBF7IoC42Kw/vtLSB42CPkuKUZUpsmZAtF8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=l5/9yuMe34eLAb202YTkHHFV+hmKZjTyF3Xtv5lCIsCTunRgu152wxiJR8VLdg60dWZwv5jvhYXGVbpMkskwrAcCiQZ6IIKhY8zgcKPQcBjmGiEG1bqnmkL7HL5nvOaKrRgthj2JkFyD4JP3y8OK4sgVd9VXwOlgSTXG2X41z3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MOQOHWaM; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 In-Reply-To:Content-Type; b=JQ8HAgoisIhTyxZX6WPGP1AfGRfPar7Z4QzJWHkKg5/oJjsJvPJ8iDhrhUZRRiS+kbvOzE1JMq882IbpUisPdyySInvH+eT/kTqhCY7kS8Mw0auVYHLNYZqv/+2OnJK1dg5gLlPGH7pBpN7T/HJLXDpAG7RU7A63SJZfXU1HWfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A8CdR1TD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MOQOHWaM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774365958; x=1805901958;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=jeQXGWXW5DYZbmlwpZZUSd6Abgx4FfGMTceWU3VAjno=;
-  b=MOQOHWaMOzUU3qCmr6g0+J5R0+txAx50XD3xPqcpWgM0sOHHMB65xO8n
-   GV6lcXvF59OJiZyItpU/HT+ox87rv2yPkkAvrfi32YPmBNGgM6PMno5Fk
-   RHXzFbdsYtRgfpVZXIVVNBDfOqUUl6VNo4xsNMZhpfm0QTEB4KspgEG3X
-   VkupcLrcKNKabX/fXTfqXU1A16xG2uLPd9RJ8CI0X0LIdZTAqHgvUFfeN
-   2B8OTGfZH9su/+JsFNrFh3ZcSpPwGVKOef9tKjbKDZKMyX/pZS8PmMkzd
-   6nTTUt5/0ObZoIS+282e45gJERU/6JWz3EYIGw2JbZlKFXMif7r/NxWXc
-   g==;
-X-CSE-ConnectionGUID: Pe2D9X/0R2y2hhh4QONW3Q==
-X-CSE-MsgGUID: D2MTY8cnSySCjwdHl2oJ8w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="79244201"
-X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="79244201"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 08:25:42 -0700
-X-CSE-ConnectionGUID: TKxnMyNnTBKIiJdg/c15Mg==
-X-CSE-MsgGUID: D3byFbOkTk+nc7XpEvIq5A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="226024176"
-Received: from jdoman-mobl3.amr.corp.intel.com (HELO [10.125.110.6]) ([10.125.110.6])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 08:25:38 -0700
-Message-ID: <a46671a3-ec70-415f-90a4-04cd2c2e9016@intel.com>
-Date: Tue, 24 Mar 2026 08:25:36 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A8CdR1TD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5E0FC19424;
+	Tue, 24 Mar 2026 15:32:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774366348;
+	bh=Pj+OtiBpuBF7IoC42Kw/vtLSB42CPkuKUZUpsmZAtF8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=A8CdR1TDIvUqf/UIBWs17Nn4y+ea/fY6CzTak5aX12J4D+twwLfy+SwnX5lrhff4D
+	 CUzBvNr9gv4/0D50Bsuh5GstOCFIQ7l1/YDJTViyrQcTcXkjPsV2NcEd1kTpkceCXt
+	 qvmlEfeNjP0yn00Q1AmSFrv9QGGtJ2oKpyqS2VkQuMlb7xlEpzGPo2Z8H/X24jQkzS
+	 /dRZDV1lzwWddAwn65weghGa9oo7qiThUc/kW/BhhH1pEumyxJoYG7WP3BMi6+9/xr
+	 Y4kgvnO6kl4rFLyL5hI2Nvbd4V/5vHv9ZNMEpKAQRKpcauDbgPeLzXT7iYy5Aj7+iX
+	 gcx1tICooGAPQ==
+Message-ID: <ee66e204-4439-482f-a8cc-93de1d332a8d@kernel.org>
+Date: Tue, 24 Mar 2026 16:32:17 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -52,238 +35,86 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V9 7/8] dax: Add fs_dax_get() func to prepare dax for
- fs-dax usage
-To: John Groves <john@jagalactic.com>, John Groves <John@Groves.net>,
- Miklos Szeredi <miklos@szeredi.hu>, Dan Williams <dan.j.williams@intel.com>,
- Bernd Schubert <bschubert@ddn.com>,
- Alison Schofield <alison.schofield@intel.com>
-Cc: John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Vishal Verma <vishal.l.verma@intel.com>, Matthew Wilcox
- <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- David Hildenbrand <david@kernel.org>, Christian Brauner
- <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>,
- Amir Goldstein <amir73il@gmail.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Stefan Hajnoczi <shajnocz@redhat.com>, Joanne Koong
- <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>,
- Bagas Sanjaya <bagasdotme@gmail.com>,
- Chen Linxuan <chenlinxuan@uniontech.com>, James Morse <james.morse@arm.com>,
- Fuad Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>,
- Shivank Garg <shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>,
- Gregory Price <gourry@gourry.net>, Aravind Ramesh <arramesh@micron.com>,
- Ajay Joshi <ajayjoshi@micron.com>,
- "venkataravis@micron.com" <venkataravis@micron.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
- "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-References: <0100019d1d463523-617e8165-a084-4d91-aa5e-13778264d5d4-000000@email.amazonses.com>
- <20260324003919.5106-1-john@jagalactic.com>
- <0100019d1d484ddc-2487f887-7ecd-49a3-abfe-9dabec28873f-000000@email.amazonses.com>
+Subject: Re: [PATCH v4 08/21] mm: add vm_ops->mapped hook
 Content-Language: en-US
-From: Dave Jiang <dave.jiang@intel.com>
-In-Reply-To: <0100019d1d484ddc-2487f887-7ecd-49a3-abfe-9dabec28873f-000000@email.amazonses.com>
+To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Clemens Ladisch <clemens@ladisch.de>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "K . Y . Srinivasan" <kys@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+ Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Bodo Stroesser <bostroesser@gmail.com>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ David Hildenbrand <david@kernel.org>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport
+ <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>,
+ Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org,
+ linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org,
+ target-devel@vger.kernel.org, linux-afs@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ Ryan Roberts <ryan.roberts@arm.com>
+References: <cover.1774045440.git.ljs@kernel.org>
+ <4c5e98297eb0aae9565c564e1c296a112702f144.1774045440.git.ljs@kernel.org>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+In-Reply-To: <4c5e98297eb0aae9565c564e1c296a112702f144.1774045440.git.ljs@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
+On 3/20/26 23:39, Lorenzo Stoakes (Oracle) wrote:
+> Previously, when a driver needed to do something like establish a
+> reference count, it could do so in the mmap hook in the knowledge that the
+> mapping would succeed.
+> 
+> With the introduction of f_op->mmap_prepare this is no longer the case, as
+> it is invoked prior to actually establishing the mapping.
+> 
+> mmap_prepare is not appropriate for this kind of thing as it is called
+> before any merge might take place, and after which an error might occur
+> meaning resources could be leaked.
+> 
+> To take this into account, introduce a new vm_ops->mapped callback which
+> is invoked when the VMA is first mapped (though notably - not when it is
+> merged - which is correct and mirrors existing mmap/open/close behaviour).
+> 
+> We do better that vm_ops->open() here, as this callback can return an
+> error, at which point the VMA will be unmapped.
+> 
+> Note that vm_ops->mapped() is invoked after any mmap action is complete
+> (such as I/O remapping).
+> 
+> We intentionally do not expose the VMA at this point, exposing only the
+> fields that could be used, and an output parameter in case the operation
+> needs to update the vma->vm_private_data field.
+> 
+> In order to deal with stacked filesystems which invoke inner filesystem's
+> mmap() invocations, add __compat_vma_mapped() and invoke it on vfs_mmap()
+> (via compat_vma_mmap()) to ensure that the mapped callback is handled when
+> an mmap() caller invokes a nested filesystem's mmap_prepare() callback.
+> 
+> Update the mmap_prepare documentation to describe the mapped hook and make
+> it clear what its intended use is.
+> 
+> The vm_ops->mapped() call is handled by the mmap complete logic to ensure
+> the same code paths are handled by both the compatibility and VMA layers.
+> 
+> Additionally, update VMA userland test headers to reflect the change.
+> 
+> Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
 
+Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 
-On 3/23/26 5:39 PM, John Groves wrote:
-> From: John Groves <john@groves.net>
-> 
-> The fs_dax_get() function should be called by fs-dax file systems after
-> opening a fsdev dax device. This adds holder_operations, which provides
-> a memory failure callback path and effects exclusivity between callers
-> of fs_dax_get().
-> 
-> fs_dax_get() is specific to fsdev_dax, so it checks the driver type
-> (which required touching bus.[ch]). fs_dax_get() fails if fsdev_dax is
-> not bound to the memory.
-> 
-> This function serves the same role as fs_dax_get_by_bdev(), which dax
-> file systems call after opening the pmem block device.
-> 
-> This can't be located in fsdev.c because struct dax_device is opaque
-> there.
-> 
-> This will be called by fs/fuse/famfs.c in a subsequent commit.
-> 
-> Signed-off-by: John Groves <john@groves.net>
-
-Reviewed-by: Dave Jiang <dave.jiang@intel.com>
-
-> ---
->  drivers/dax/bus.c   |  2 --
->  drivers/dax/bus.h   |  2 ++
->  drivers/dax/super.c | 66 ++++++++++++++++++++++++++++++++++++++++++++-
->  include/linux/dax.h | 17 +++++++++---
->  4 files changed, 80 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/dax/bus.c b/drivers/dax/bus.c
-> index 562e2b06f61a..8a8710a8234e 100644
-> --- a/drivers/dax/bus.c
-> +++ b/drivers/dax/bus.c
-> @@ -39,8 +39,6 @@ static int dax_bus_uevent(const struct device *dev, struct kobj_uevent_env *env)
->  	return add_uevent_var(env, "MODALIAS=" DAX_DEVICE_MODALIAS_FMT, 0);
->  }
->  
-> -#define to_dax_drv(__drv)	container_of_const(__drv, struct dax_device_driver, drv)
-> -
->  static struct dax_id *__dax_match_id(const struct dax_device_driver *dax_drv,
->  		const char *dev_name)
->  {
-> diff --git a/drivers/dax/bus.h b/drivers/dax/bus.h
-> index 880bdf7e72d7..dc6f112ac4a4 100644
-> --- a/drivers/dax/bus.h
-> +++ b/drivers/dax/bus.h
-> @@ -42,6 +42,8 @@ struct dax_device_driver {
->  	void (*remove)(struct dev_dax *dev);
->  };
->  
-> +#define to_dax_drv(__drv) container_of_const(__drv, struct dax_device_driver, drv)
-> +
->  int __dax_driver_register(struct dax_device_driver *dax_drv,
->  		struct module *module, const char *mod_name);
->  #define dax_driver_register(driver) \
-> diff --git a/drivers/dax/super.c b/drivers/dax/super.c
-> index ba0b4cd18a77..d4ab60c406bf 100644
-> --- a/drivers/dax/super.c
-> +++ b/drivers/dax/super.c
-> @@ -14,6 +14,7 @@
->  #include <linux/fs.h>
->  #include <linux/cacheinfo.h>
->  #include "dax-private.h"
-> +#include "bus.h"
->  
->  /**
->   * struct dax_device - anchor object for dax services
-> @@ -111,6 +112,10 @@ struct dax_device *fs_dax_get_by_bdev(struct block_device *bdev, u64 *start_off,
->  }
->  EXPORT_SYMBOL_GPL(fs_dax_get_by_bdev);
->  
-> +#endif /* CONFIG_BLOCK && CONFIG_FS_DAX */
-> +
-> +#if IS_ENABLED(CONFIG_FS_DAX)
-> +
->  void fs_put_dax(struct dax_device *dax_dev, void *holder)
->  {
->  	if (dax_dev && holder &&
-> @@ -119,7 +124,66 @@ void fs_put_dax(struct dax_device *dax_dev, void *holder)
->  	put_dax(dax_dev);
->  }
->  EXPORT_SYMBOL_GPL(fs_put_dax);
-> -#endif /* CONFIG_BLOCK && CONFIG_FS_DAX */
-> +
-> +/**
-> + * fs_dax_get() - get ownership of a devdax via holder/holder_ops
-> + *
-> + * fs-dax file systems call this function to prepare to use a devdax device for
-> + * fsdax. This is like fs_dax_get_by_bdev(), but the caller already has struct
-> + * dev_dax (and there is no bdev). The holder makes this exclusive.
-> + *
-> + * @dax_dev: dev to be prepared for fs-dax usage
-> + * @holder: filesystem or mapped device inside the dax_device
-> + * @hops: operations for the inner holder
-> + *
-> + * Returns: 0 on success, <0 on failure
-> + */
-> +int fs_dax_get(struct dax_device *dax_dev, void *holder,
-> +	const struct dax_holder_operations *hops)
-> +{
-> +	struct dev_dax *dev_dax;
-> +	struct dax_device_driver *dax_drv;
-> +	int id;
-> +
-> +	id = dax_read_lock();
-> +	if (!dax_dev || !dax_alive(dax_dev) || !igrab(&dax_dev->inode)) {
-> +		dax_read_unlock(id);
-> +		return -ENODEV;
-> +	}
-> +	dax_read_unlock(id);
-> +
-> +	/* Verify the device is bound to fsdev_dax driver */
-> +	dev_dax = dax_get_private(dax_dev);
-> +	if (!dev_dax) {
-> +		iput(&dax_dev->inode);
-> +		return -ENODEV;
-> +	}
-> +
-> +	device_lock(&dev_dax->dev);
-> +	if (!dev_dax->dev.driver) {
-> +		device_unlock(&dev_dax->dev);
-> +		iput(&dax_dev->inode);
-> +		return -ENODEV;
-> +	}
-> +	dax_drv = to_dax_drv(dev_dax->dev.driver);
-> +	if (dax_drv->type != DAXDRV_FSDEV_TYPE) {
-> +		device_unlock(&dev_dax->dev);
-> +		iput(&dax_dev->inode);
-> +		return -EOPNOTSUPP;
-> +	}
-> +	device_unlock(&dev_dax->dev);
-> +
-> +	if (cmpxchg(&dax_dev->holder_data, NULL, holder)) {
-> +		iput(&dax_dev->inode);
-> +		return -EBUSY;
-> +	}
-> +
-> +	dax_dev->holder_ops = hops;
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(fs_dax_get);
-> +#endif /* CONFIG_FS_DAX */
->  
->  enum dax_device_flags {
->  	/* !alive + rcu grace period == no new operations / mappings */
-> diff --git a/include/linux/dax.h b/include/linux/dax.h
-> index b19bfe0c2fd1..bf37b9a982f3 100644
-> --- a/include/linux/dax.h
-> +++ b/include/linux/dax.h
-> @@ -130,7 +130,6 @@ int dax_add_host(struct dax_device *dax_dev, struct gendisk *disk);
->  void dax_remove_host(struct gendisk *disk);
->  struct dax_device *fs_dax_get_by_bdev(struct block_device *bdev, u64 *start_off,
->  		void *holder, const struct dax_holder_operations *ops);
-> -void fs_put_dax(struct dax_device *dax_dev, void *holder);
->  #else
->  static inline int dax_add_host(struct dax_device *dax_dev, struct gendisk *disk)
->  {
-> @@ -145,12 +144,13 @@ static inline struct dax_device *fs_dax_get_by_bdev(struct block_device *bdev,
->  {
->  	return NULL;
->  }
-> -static inline void fs_put_dax(struct dax_device *dax_dev, void *holder)
-> -{
-> -}
->  #endif /* CONFIG_BLOCK && CONFIG_FS_DAX */
->  
->  #if IS_ENABLED(CONFIG_FS_DAX)
-> +void fs_put_dax(struct dax_device *dax_dev, void *holder);
-> +int fs_dax_get(struct dax_device *dax_dev, void *holder,
-> +	       const struct dax_holder_operations *hops);
-> +struct dax_device *inode_dax(struct inode *inode);
->  int dax_writeback_mapping_range(struct address_space *mapping,
->  		struct dax_device *dax_dev, struct writeback_control *wbc);
->  int dax_folio_reset_order(struct folio *folio);
-> @@ -164,6 +164,15 @@ dax_entry_t dax_lock_mapping_entry(struct address_space *mapping,
->  void dax_unlock_mapping_entry(struct address_space *mapping,
->  		unsigned long index, dax_entry_t cookie);
->  #else
-> +static inline void fs_put_dax(struct dax_device *dax_dev, void *holder)
-> +{
-> +}
-> +
-> +static inline int fs_dax_get(struct dax_device *dax_dev, void *holder,
-> +			     const struct dax_holder_operations *hops)
-> +{
-> +	return -EOPNOTSUPP;
-> +}
->  static inline struct page *dax_layout_busy_page(struct address_space *mapping)
->  {
->  	return NULL;
 
