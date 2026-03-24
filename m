@@ -1,78 +1,78 @@
-Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
+Received: from fout-a7-smtp.messagingengine.com (fout-a7-smtp.messagingengine.com [103.168.172.150])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EDA813790B
-	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 21:05:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92F282E5B21
+	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 21:24:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774386318; cv=none; b=tOmVCBnokcdP7zpIeE4qFxCrz4b4Cgcwgt3IuRuln+83taTU8+rho2A1m9fJMQvA84xyEY8shJQU7nwEl28Y4yL80hV2sn5lsoXZWDgoG3f9xBIqH543gxpEOoNpWQJZTQWEPr92QenAbDtRfynMUdXz+srZXHqTk9MLw35BakU=
+	t=1774387450; cv=none; b=EOGr3WQtMfHWpfL6xk6OCe1cQ70ZN+dTplTwogUA6+CzUnWL9RLvL1Rt62pKxDsftIjyTFSvcv/34Uw7nFG6dzdbSwQSk4K0Hbp+02U8AabO6Wx2W9dRNVk6JACrgTQQk5r/r+p82Zd96Eiw1lxq5o2NAwzQUOWSxseSTFGHEbY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774386318; c=relaxed/simple;
-	bh=r5itWX89FKZGpibCqtIBvrjsqhEjRCRYLdIUSD5skmI=;
+	s=arc-20240116; t=1774387450; c=relaxed/simple;
+	bh=uWGtgKptn1MxCPVM46Ymc+VAC41cLsMeEVtf5QvZYFI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qfTonKl3AlzPg920XTMTXAZOIuoRqLDZGVmSaNjwNyMz53oFdrzjFh6W6VRN1ozWTKXhyduGKiWx7Tuw8xKy73BFbIJX7BGzpH9S8rMf6qXAlQk0uRSvN81nILNyYJCjUC9YQYdgIlxMQ5ZiYRR+D8zH/J+efaElvVW1lhvM1Pw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=UplHflUH; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=qgrUZZ93; arc=none smtp.client-ip=103.168.172.152
+	 In-Reply-To:Content-Type; b=CnouwA0LD9OH3GNU0TLuS6Il3Wq/WHq0rlRctYyQ5IUUEoOBJTYkUsUkkNCoFZHfR97AuVZhpL43IyNTtYy9c+i6itSv2lT57MnAzA6l2qBtoC5oG4GQszlqdLRnyHVTFCLrozQ4GcuczJm/NumY579vPS/eWlALm/O+PnWeaOs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=LBlvNQI+; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=j+Bnwv62; arc=none smtp.client-ip=103.168.172.150
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="UplHflUH";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="qgrUZZ93"
-Received: from phl-compute-08.internal (phl-compute-08.internal [10.202.2.48])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id E0A861400012;
-	Tue, 24 Mar 2026 17:05:15 -0400 (EDT)
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="LBlvNQI+";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="j+Bnwv62"
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfout.phl.internal (Postfix) with ESMTP id D387BEC01E3;
+	Tue, 24 Mar 2026 17:24:06 -0400 (EDT)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-08.internal (MEProxy); Tue, 24 Mar 2026 17:05:15 -0400
+  by phl-compute-03.internal (MEProxy); Tue, 24 Mar 2026 17:24:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1774386315;
-	 x=1774472715; bh=SAx5Q95hhPxaxqQ7cqwSuEKmLCaRwdIFHXeYSoNpzt4=; b=
-	UplHflUH4SDkFOB7GprMld3WF/QhlYIjxoo3agedGULNWsDgI4VoDwR8OT0NDb7W
-	HYsZ/eOwvofRr5zKAHQ4hwKbkExXN2S00ttyptHalC3ntFWm0kXtvT12aks5RfE7
-	V2NFQwQ29iu8GeOYa+M5bC+lxU/3GA0L6OLrhz6e1lQtnCJupleTedY5lx/tc0HI
-	llpKuCXsVYm8Gj+p65YV2I663YhLVBk+up6pCOcKH9DCc8YD3xz/pS/b84iZ7TKF
-	X1VQqxPVbP0wvn6tyFVR1jL30BMTlUwlgirMtNdNx7GxtSxPaDb0DeyYzm8on/1M
-	OJH8JmR2lnVkvM1kdZXNaw==
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1774387446;
+	 x=1774473846; bh=/3Ef14mLGbY6i4cepXA0QQkM+t2Hz9kqxFQOP7XjA/Q=; b=
+	LBlvNQI+cDfG6oaa80knpy1EHGdBm5vVO1O4XNPgMNH44iQ7sTTe6Urk9aa0/agv
+	ZJPJ4UD4KrNTlxnQ+2nxJvhKozn2bO87uD0py2yQMC2/9t307DHmpseH5WhnrLgb
+	UnI2h8W0PO+Py4W4RPDka6uvXS7OS4Stl/CnXQCAu9U7PrNI/wI6dx321acmKLAy
+	Ub3Df3KhCwA71vGXqB6vcYFD4efCOl23vg6yphMOcessYujVW447fe93xf/fMxQO
+	qVl2HE9G5iNUIOKxqLwesfHAcjdQNv90Gc3LtK7rX4HaaA/zhoeQQPL8yBTVYGRu
+	Se7CvHXbBJ70RBTv0+pOkA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1774386315; x=
-	1774472715; bh=SAx5Q95hhPxaxqQ7cqwSuEKmLCaRwdIFHXeYSoNpzt4=; b=q
-	grUZZ93wJ2q/C5m8n+IfPHBT33D4NEUyxjafEGzsPiV5Q3AcjNFj7ab5HYFsYRxb
-	/Ytt8xszUrH4QPuWKbsRawqza5qRueHzjW2waF9h+h+yOARj83+34mKBtTTGELZM
-	3p65NmTNOnVzC+/U8K3YLmnbx6kE1hN7tsmOCzOcQFMBRhyn0jy1Cik2e4rMn3gF
-	6a9shrLfKANNJkCva3EqPxaZHeihPJiwvtrIqjtxeNFjVo68V0weop5dcnkBgZQO
-	2tg+RYZDFNxHn5xDFIq/kMsJlVowigEFoAF8aOHeQbd5Eb1/VfJDwHHZquKHUMsq
-	FlygfkavpGelWEr8g8+QQ==
-X-ME-Sender: <xms:i_zCabzHvzdG6e3c8YFr2i7d3NeXpnlEYwRvhq1HJXPXpLf53S06WA>
-    <xme:i_zCaaLZl05mgIvrjjrSoF1eR25NNRvAUoFOGXmdYc9cDv-BzPPf18kYBE1pxin5V
-    cTQz-nFL8hC_8ij8vEBptfOuYRKFkxQJlpHS5RNuUY39Zq6xQdj>
-X-ME-Received: <xmr:i_zCadrImaQt_-sKvKd45U-2Kmxb9b199U5kI_LjQNAFfYW-EMkQZfD75_sMh4U_eA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdefvddvieduucetufdoteggodetrf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1774387446; x=
+	1774473846; bh=/3Ef14mLGbY6i4cepXA0QQkM+t2Hz9kqxFQOP7XjA/Q=; b=j
+	+Bnwv62FH5h8znGaFcdu1bMEAMeB2eTqK1PXLB6dTJQEp0MokrfUQXUq3BhEJNEy
+	+sYHywDuQMYPSKSqKtsOQmRBbllRECvn0pV8Rzrg8OUlyAN7qhC/gR4Yr8PNfBAI
+	/siKth+ApNEtoAK5tDqT7gTF/hX5+lFjR6vJ6xi678eeZYbDwNjvZgmXRjG8HN5O
+	RKeCMD3pNjBIFG5pglrQU4RrfXdM41/nrC+AVim8E0dWfqJ1uKeU3l1myjKrbBb2
+	VRaBazcXdfWgUfvSGD/EyFbC8eqQzPa1PRCDcd59oBxb6zoNCFIlOXc1Gw6RlZmJ
+	awRFijlrEhHRgz7sTwwfQ==
+X-ME-Sender: <xms:9gDDaV7FCDIIKONPhs-wHIZi7djc-ScUGEt35sPJxBUDdeJAAEm2UQ>
+    <xme:9gDDaZxj48BhNQ-2BmKPfNP4pJcMFowqkxjsDs0cllGDJQdWPfC8nmc2ejA2VFTV1
+    JOp6wddA-iglswHHP9xa5lcoLbnCQGmVxaX6TJ6lERGZXgacPSa>
+X-ME-Received: <xmr:9gDDaUwkMitIeBhrRzxSOD5uy5mZkhLHnX4LIMXhrArUfz-01ZHIPa2TtMgTuE4jtQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdefvddvieehucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
     gurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
     ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
-    htthgvrhhnpeehhfejueejleehtdehteefvdfgtdelffeuudejhfehgedufedvhfehueev
-    udeugeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    gsvghrnhgusegsshgsvghrnhgurdgtohhmpdhnsggprhgtphhtthhopeehpdhmohguvgep
-    shhmthhpohhuthdprhgtphhtthhopegujhifohhngheskhgvrhhnvghlrdhorhhgpdhrtg
-    hpthhtoheplhhinhhugidqfhhsuggvvhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdp
-    rhgtphhtthhopehmihhklhhoshesshiivghrvgguihdrhhhupdhrtghpthhtohepjhhorg
-    hnnhgvlhhkohhonhhgsehgmhgrihhlrdgtohhmpdhrtghpthhtohepsghstghhuhgsvghr
-    thesuggunhdrtghomh
-X-ME-Proxy: <xmx:i_zCaRKLh_qq-4XzpAsn7m_XExFocMzIA1_xF0eCljH-DH0iZ-ttEA>
-    <xmx:i_zCaaQfVnh0RWJ745_Tui8q5IH87WMK0VpZQwW1OYX4iB40FCqkZQ>
-    <xmx:i_zCaYsqRQRE5mWCNcOuPAcUlvjOSjPdX5LHG53VqnC_gsPttd13wQ>
-    <xmx:i_zCaTZHCQ4TGD4ACJPH92vaMkDNyyYikVZ7ivInF50_sO0X86Wvxg>
-    <xmx:i_zCaY6MJ1xyzWwuGMn14DQitM1fNovqd4vmH5T2grRf7Sqz0ZDraBJg>
+    htthgvrhhnpeeugfevvdeggeeutdelgffgiefgffejheffkedtieduffehledvfeevgeej
+    hedtjeenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivg
+    eptdenucfrrghrrghmpehmrghilhhfrhhomhepsggvrhhnugessghssggvrhhnugdrtgho
+    mhdpnhgspghrtghpthhtohephedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepug
+    hjfihonhhgsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhfshguvghv
+    vghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhhikhhlohhssehsii
+    gvrhgvughirdhhuhdprhgtphhtthhopehjohgrnhhnvghlkhhoohhnghesghhmrghilhdr
+    tghomhdprhgtphhtthhopegsshgthhhusggvrhhtseguughnrdgtohhm
+X-ME-Proxy: <xmx:9gDDaZzmplRRQipbDIhD0DM8MpVLjTT8mH0Iuw5Snb-vBpcXI_SzPw>
+    <xmx:9gDDaWYVJhPpMfHyzqrrSyX0MZkKCtq3RlBl9-NuchDl6nU8UZN9_Q>
+    <xmx:9gDDaSUadZCtK0On4jBWgDOGplAISKJIfOCFtcwsgF-i5dUwL08LzA>
+    <xmx:9gDDacinrj26CTtxFdQegI3Vvf8_32daUz658_Xe3z1mJviBon-4UQ>
+    <xmx:9gDDaejTlUH3PsQqqk_D2Wt0u-kDX3KQ8gOV2fBNEarqybut-nHuRrs1>
 Feedback-ID: i5c2e48a5:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 24 Mar 2026 17:05:14 -0400 (EDT)
-Message-ID: <a2ec8f5d-ffa4-4971-b05d-a0c5280c56b9@bsbernd.com>
-Date: Tue, 24 Mar 2026 22:05:13 +0100
+ 24 Mar 2026 17:24:05 -0400 (EDT)
+Message-ID: <6ae9be78-9607-42db-92d1-1650aa5b7aa4@bsbernd.com>
+Date: Tue, 24 Mar 2026 22:24:04 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -80,314 +80,742 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 15/19] Split the fusermount do_mount function
+Subject: Re: [PATCH 17/19] Make fusermount work bidirectional for sync init
 To: "Darrick J. Wong" <djwong@kernel.org>
 Cc: linux-fsdevel@vger.kernel.org, Miklos Szeredi <miklos@szeredi.hu>,
  Joanne Koong <joannelkoong@gmail.com>, Bernd Schubert <bschubert@ddn.com>
 References: <20260323-fuse-init-before-mount-v1-0-a52d3040af69@bsbernd.com>
- <20260323-fuse-init-before-mount-v1-15-a52d3040af69@bsbernd.com>
- <20260324001414.GP6202@frogsfrogsfrogs>
+ <20260323-fuse-init-before-mount-v1-17-a52d3040af69@bsbernd.com>
+ <20260324193536.GT6202@frogsfrogsfrogs>
 From: Bernd Schubert <bernd@bsbernd.com>
 Content-Language: en-US
-In-Reply-To: <20260324001414.GP6202@frogsfrogsfrogs>
+In-Reply-To: <20260324193536.GT6202@frogsfrogsfrogs>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
-On 3/24/26 01:14, Darrick J. Wong wrote:
-> On Mon, Mar 23, 2026 at 06:45:10PM +0100, Bernd Schubert wrote:
+On 3/24/26 20:35, Darrick J. Wong wrote:
+> On Mon, Mar 23, 2026 at 06:45:12PM +0100, Bernd Schubert wrote:
 >> From: Bernd Schubert <bschubert@ddn.com>
->>
->> We will need new API and old API and need to pass the options to
->> two different functions - factor out the option parsing.
 >>
 >> Signed-off-by: Bernd Schubert <bschubert@ddn.com>
 >> ---
->>  util/fusermount.c | 298 +++++++++++++++++++++++++++++++++++++-----------------
->>  1 file changed, 205 insertions(+), 93 deletions(-)
+>>  doc/README.fusermount | 359 ++++++++++++++++++++++++++++++++++++++++++++++++++
+>>  util/fusermount.c     | 317 ++++++++++++++++++++++++++++++++++++++++++--
+>>  util/meson.build      |   2 +-
+>>  3 files changed, 665 insertions(+), 13 deletions(-)
 >>
+>> diff --git a/doc/README.fusermount b/doc/README.fusermount
+>> new file mode 100644
+>> index 0000000000000000000000000000000000000000..54a3bac4f58964a4ed312d6f6bc15606fed1e647
+>> --- /dev/null
+>> +++ b/doc/README.fusermount
+>> @@ -0,0 +1,359 @@
+>> +Synchronous FUSE_INIT Protocol
+>> +================================
+>> +
+>> +Overview
+>> +--------
+>> +
+>> +The sync-init feature enables the FUSE library to start worker threads and
+>> +perform initialization ioctl calls BEFORE the actual mount() syscall happens.
+>> +This is required for the kernel's synchronous FUSE_INIT feature, where the
+>> +mount() syscall blocks until the FUSE daemon processes the INIT request.
+>> +
+>> +Without this feature, there would be a deadlock:
+>> +- mount() blocks waiting for INIT response
+>> +- Worker threads can't start because mount() hasn't returned
+>> +- INIT request can't be processed because worker threads aren't running
+>> +
+>> +
+>> +Protocol Flow
+>> +-------------
+>> +
+>> +Traditional mount flow:
+>> +  1. Library calls fusermount3
+> 
+> Heh.  I haven't looked much at fusermount until recently.  I gather that
+> fuservicemount has somewhat similar goals to fusermount3?  fusermount3
+> seems to be a helper subprocess that libfuse can invoke on behalf of an
+> unprivileged fuse server.  The helper is responsible for:
+> 
+> 1) opening /dev/fuse
+> 2) sending it to the fuse server via the FUSE_COMMFD_ENV fd which is
+>    supposed to be an AF_UNIX socket
+> 3) calling mount()
+> 4) waiting for the parent to die
+> 5) maybe calling unmount()
+> 
+> and it's really 1, 3, and 5 that need to be privileged, so that's why
+> it's a setuid program.
+> 
+>> +  2. fusermount3 opens /dev/fuse
+>> +  3. fusermount3 performs mount() syscall
+>> +  4. fusermount3 sends fd to library
+>> +  5. Library starts worker threads
+>> +  6. Worker threads process FUSE requests
+> 
+> Ah, yes.  Thanks for adding this description!  fuservicemount is I think
+> an upside-down version of fusermount -- fuservicemount runs in the
+> user's mount namespace, so it
+> 
+> 1) connects to a named AF_UNIX socket to start an instance of the fuse
+>    server
+> 2) opens /dev/fuse and a memfd to pass cli arguments
+> 3) passes those to the fuse server
+> 4) the fuse server asks fuservicemount to open resources and pass them
+>    over the socket
+> 5) the fuse server passes source/type/mount options to fuservicemount
+> 6) fuservicemount mounts the fs and exits
+> 7) at some point the user unmounts, so the fuse server exits
+> 
+>> +Sync-init mount flow:
+>> +  1. Library calls fusermount3 with --sync-init flag
+>> +  2. fusermount3 opens /dev/fuse
+>> +  3. fusermount3 sends fd to library
+>> +  4. Library receives fd
+>> +  5. Library performs FUSE_DEV_IOC_SYNC_INIT ioctl
+>> +  6. Library starts worker threads
+>> +  7. Library sends "proceed" signal to fusermount3
+>> +  8. fusermount3 performs mount() syscall (blocks until INIT completes)
+>> +  9. Worker threads process INIT request
+>> +  10. mount() syscall completes
+>> +  11. fusermount3 exits
+>> +
+>> +
+>> +Implementation Details
+>> +----------------------
+>> +
+>> +Bidirectional Communication:
+>> +  - Uses the existing unix socket (_FUSE_COMMFD environment variable)
+>> +  - Simple 1-byte protocol for signaling
+>> +  - Library signals fusermount3 when ready to proceed with mount
+>> +
+>> +fusermount3 Changes:
+>> +  - New --sync-init command-line option
+>> +  - Split mount operation into two phases:
+>> +    * mount_fuse_prepare(): Opens device, prepares parameters
+>> +    * mount_fuse_finish_fsmount(): Performs actual mount() syscall
+>> +  - wait_for_signal(): Waits for library to signal readiness
+>> +  - struct mount_context: Preserves state between phases
+>> +
+>> +Library Changes:
+>> +  - fuse_session_mount_new_api(): Uses new protocol when available
+>> +  - Sends "proceed" signal after worker thread is ready
+>> +  - Handles both old and new mount protocols for compatibility
+>> +
+>> +
+>> +Backward Compatibility
+>> +----------------------
+>> +
+>> +The implementation maintains full backward compatibility:
+>> +  - Old library + new fusermount3: Works (uses traditional flow)
+>> +  - New library + old fusermount3: Falls back to traditional flow
+>> +  - New library + new fusermount3: Uses sync-init flow when appropriate
+>> +
+>> +
+>> +Error Handling
+>> +--------------
+>> +
+>> +If any step fails during the sync-init flow:
+>> +  - fusermount3 closes the fd and exits with error
+>> +  - Library detects failure and cleans up
+>> +  - No mount is left in inconsistent state
+>> +
+>> +Connection closure:
+>> +  - If library closes socket before signaling, fusermount3 detects and exits
+>> +  - If fusermount3 crashes, library detects closed socket
+>> +
+>> +
+>> +Security Considerations
+>> +-----------------------
+>> +
+>> +The sync-init protocol does not introduce new security concerns:
+>> +  - Uses the same privilege separation as traditional mount
+>> +  - Socket communication is already established and trusted
+>> +  - No new privileged operations are added
+>> +  - File descriptor passing uses existing SCM_RIGHTS mechanism
+>> +
+>> +
+>> +Performance Impact
+>> +------------------
+>> +
+>> +Minimal performance impact:
+>> +  - One additional recv() call in fusermount3
+>> +  - One additional send() call in library
+>> +  - Total overhead: ~2 context switches
+>> +  - Only affects mount time, not runtime performance
+>> +
+>> +
+>> +Future Enhancements
+>> +-------------------
+>> +
+>> +Potential improvements:
+>> +  - Extended protocol for more complex initialization sequences
+>> +  - Support for multiple worker threads coordination
+>> +  - Enhanced error reporting through the socket
+>> +  - Timeout mechanisms for detecting hung initialization
+>> +
+>> +
+>> +ASCII Workflow Diagrams
+>> +========================
+>> +
+>> +1. Traditional Mount Flow (without --sync-init, async INIT)
+>> +------------------------------------------------------------
+>> +
+>> +Library                   fusermount3              Kernel
+>> +   |                           |                      |
+>> +   |--- spawn fusermount3 ---->|                      |
+>> +   |                           |                      |
+>> +   |                      [open /dev/fuse]            |
+>> +   |                           |------- open -------->|
+>> +   |                           |<------ fd ---------- |
+>> +   |                           |                      |
+>> +   |                      [mount() syscall]           |
+>> +   |                           |------ mount -------->|
+>> +   |                           |<----- success ------ | [mount returns immediately]
+>> +   |                           |                      | [INIT queued in kernel]
+>> +   |                      [send_fd(fd)]               |
+>> +   |<------- fd --------------|                      |
+>> +   |                           |                      |
+>> +   |                      [fusermount3 exits]         |
+>> +   |                                                  |
+>> +   |  [start worker thread]                          |
+>> +   |  [worker reads /dev/fuse]                       |
+>> +   |---------------------------------------- read -->|
+>> +   |<--------------------------------------- INIT ---| [dequeued from kernel]
+>> +   |                                                  |
+>> +   | OK: INIT was queued, worker reads it later      |
+>> +   |     Works fine for async INIT                   |
+> 
+> Hmm, looking at this, perhaps it /is/ possible for fuservicemount to
+> employ synchronous init.  The fuse server would start that background
+> init-only request handler thread before telling fuservicemount to call
+> mount().  That blocks while the kernel sends FUSE_INIT to the fuse
+> server, it processes everything up to the init request, and returns.
+> 
+>> +
+>> +
+>> +1b. Problem: Synchronous INIT without --sync-init
+>> +--------------------------------------------------
+>> +
+>> +Library                   fusermount3              Kernel
+>> +   |                           |                      |
+>> +   |--- spawn fusermount3 ---->|                      |
+>> +   |                           |                      |
+>> +   |                      [open /dev/fuse]            |
+>> +   |                           |------- open -------->|
+>> +   |                           |<------ fd ---------- |
+>> +   |                           |                      |
+>> +   |                      [mount() syscall]           |
+>> +   |                           |------ mount -------->|
+>> +   |                           |                      | [mount BLOCKS waiting for INIT]
+>> +   |                           | (BLOCKED)            | [needs worker to process INIT]
+>> +   |                           |                      |
+>> +   |  [waiting for fd...]      |                      |
+>> +   |                           |                      |
+>> +   |                           |                      |
+>> +   | DEADLOCK: mount() waits for INIT response       |
+>> +   |           but worker thread not started yet     |
+>> +   |           because we're waiting for fd          |
+>> +
+>> +
+>> +2. Sync-Init Mount Flow (with --sync-init)
+>> +-------------------------------------------
+>> +
+>> +Library                   fusermount3              Kernel
+>> +   |                           |                      |
+>> +   |--- spawn fusermount3 ---->|                      |
+>> +   |    with --sync-init       |                      |
+>> +   |                           |                      |
+>> +   |                      [open /dev/fuse]            |
+>> +   |                           |------- open -------->|
+>> +   |                           |<------ fd ---------- |
+>> +   |                           |                      |
+>> +   |                      [send_fd(fd)]               |
+>> +   |<------- fd --------------|                      |
+>> +   |                           |                      |
+>> +   |                      [wait_for_signal()]         |
+>> +   |                           | (BLOCKED)            |
+>> +   |                           |                      |
+>> +   |  [ioctl SYNC_INIT]        |                      |
+>> +   |---------------------------------------- ioctl -->|
+>> +   |                                                  |
+>> +   |  [start worker thread]                          |
+>> +   |  [worker ready]                                 |
+>> +   |                           |                      |
+>> +   |--- "proceed" signal ----->|                      |
+>> +   |                      [signal received]           |
+>> +   |                           |                      |
+>> +   |                      [mount() syscall]           |
+>> +   |                           |------ mount -------->|
+>> +   |                           |                      | [mount blocks]
+>> +   |                           |                      | [sends INIT]
+>> +   |<------------------------------------------------ |
+>> +   |                           |                      |
+>> +   | [worker processes INIT]   |                      |
+>> +   |------------------------------------------------->|
+>> +   |                           |                      | [mount unblocks]
+>> +   |                           |<----- success ------ |
+>> +   |                           |                      |
+>> +   |                      [fusermount3 exits]         |
+>> +   |                                                  |
+>> +   | SUCCESS: Worker ready before mount()            |
+>> +   |          INIT processed synchronously           |
+>> +
+>> +
+>> +3. Error Scenario: Library Crashes Before Signaling
+>> +----------------------------------------------------
+>> +
+>> +Library                   fusermount3              Kernel
+>> +   |                           |                      |
+>> +   |--- spawn fusermount3 ---->|                      |
+>> +   |    with --sync-init       |                      |
+>> +   |                           |                      |
+>> +   |                      [open /dev/fuse]            |
+>> +   |                           |------- open -------->|
+>> +   |                           |<------ fd ---------- |
+>> +   |                           |                      |
+>> +   |                      [send_fd(fd)]               |
+>> +   |<------- fd --------------|                      |
+>> +   |                           |                      |
+>> +   |                      [wait_for_signal()]         |
+>> +   |                           | (BLOCKED)            |
+>> +   |                           |                      |
+>> +   X  [library crashes]        |                      |
+>> +   |                           |                      |
+>> +   |                      [recv() returns 0]          |
+>> +   |                      [socket closed]             |
+>> +   |                           |                      |
+>> +   |                      [cleanup and exit]          |
+>> +   |                           X                      |
+>> +   |                                                  |
+>> +   | RESULT: Clean failure, no mount performed       |
+>> +
+>> +
+>> +4. Detailed Function Call Flow
+>> +-------------------------------
+>> +
+>> +Library (lib/fuse_lowlevel.c):
+>> +fuse_session_mount_new_api()
+>> +   |
+>> +   +-- fuse_kern_mount_prepare()  [lib/mount.c]
+>> +   |      |
+>> +   |      +-- fuse_mount_fusermount()  [lib/mount_util.c]
+>> +   |             |
+>> +   |             +-- socketpair()  [create comm socket]
+>> +   |             |
+>> +   |             +-- fork()
+>> +   |             |
+>> +   |             +-- [child] execl("fusermount3", "--sync-init", ...)
+>> +   |             |
+>> +   |             +-- [parent] receive_fd()  <--- BLOCKS until fd arrives
+>> +   |                    |
+>> +   |                    +-- recvmsg(SCM_RIGHTS)
+>> +   |                    |
+>> +   |                    +-- return fd
+>> +   |
+>> +   +-- session_start_sync_init()  [lib/fuse_lowlevel.c]
+>> +   |      |
+>> +   |      +-- ioctl(fd, FUSE_DEV_IOC_SYNC_INIT)
+>> +   |      |
+>> +   |      +-- pthread_create(worker_thread)
+>> +   |      |
+>> +   |      +-- return
+>> +   |
+>> +   +-- fuse_fusermount_proceed_mnt(socket)  [lib/mount.c] <--- NEW: Bidirectional handshake
+>> +          |
+>> +          +-- send(socket, "proceed", 1)  <--- Signal fusermount3 to proceed
+>> +          |
+>> +          +-- recv(socket, &status, 1)  <--- BLOCKS until mount result arrives
+>> +          |      |
+>> +          |      +-- [fusermount3 performs mount and sends status byte]
+>> +          |
+>> +          +-- if (status != 0) return -1  <--- Mount failed
+>> +          |
+>> +          +-- return 0  <--- Mount succeeded
+>> +
+>> +
+>> +Utility (util/fusermount.c):
+>> +fusermount3 main() with --sync-init
+>> +   |
+>> +   +-- mount_fuse_sync_init()  [util/fusermount.c]
+>> +          |
+>> +          +-- mount_fuse_prepare()  [util/fusermount.c]
+>> +          |      |
+>> +          |      +-- open("/dev/fuse")
+>> +          |      |
+>> +          |      +-- check_perm()  [util/fusermount.c]
+>> +          |      |
+>> +          |      +-- return fd
+>> +          |
+>> +          +-- send_fd(socket, fd)  [util/fusermount.c]
+>> +          |      |
+>> +          |      +-- sendmsg(SCM_RIGHTS)
+>> +          |
+>> +          +-- wait_for_signal(socket)  [util/fusermount.c] <--- BLOCKS until library signals
+>> +          |      |
+>> +          |      +-- recv(socket, buf, 1)
+>> +          |      |
+>> +          |      +-- return 0
+>> +          |
+>> +          +-- mount_fuse_finish_fsmount()  [util/fusermount.c]
+>> +          |      |
+>> +          |      +-- fuse_kern_fsmount()  [lib/mount_fsmount.c]
+>> +          |      |      |
+>> +          |      |      +-- fsopen("fuse", FSOPEN_CLOEXEC)
+>> +          |      |      |      |
+>> +          |      |      |      +-- [kernel creates filesystem context]
+>> +          |      |      |
+>> +          |      |      +-- fsconfig(fsfd, SET_STRING, "source", ...)
+>> +          |      |      +-- fsconfig(fsfd, SET_STRING, "fd", fd_value, ...)
+>> +          |      |      +-- fsconfig(fsfd, ...) [apply mount options]
+>> +          |      |      +-- fsconfig(fsfd, CMD_CREATE, ...)
+>> +          |      |      |
+>> +          |      |      +-- fsmount(fsfd, FSMOUNT_CLOEXEC, mount_attrs)
+>> +          |      |      |      |
+>> +          |      |      |      +-- [kernel sends FUSE_INIT here]
+>> +          |      |      |      |
+>> +          |      |      |      +-- [worker thread processes INIT]
+>> +          |      |      |      |
+>> +          |      |      |      +-- [fsmount returns mntfd]
+>> +          |      |      |
+>> +          |      |      +-- move_mount(mntfd, "", AT_FDCWD, target, ...)
+>> +          |      |      |      |
+>> +          |      |      |      +-- [attach mount to target directory]
+>> +          |      |      |      |
+>> +          |      |      |      +-- [no blocking - INIT already processed]
+>> +          |      |      |
+>> +          |      |      +-- add_mount()  [lib/mount_fsmount.c - update /etc/mtab]
+>> +          |      |      |
+>> +          |      |      +-- return 0 on success, -1 on failure
+>> +          |      |
+>> +          |      +-- if mount failed: return -1
+>> +          |      +-- if mount succeeded: continue
+>> +          |
+>> +          +-- send_status_byte(socket)  [util/fusermount.c] <--- NEW: Send result to library
+>> +          |      |
+>> +          |      +-- status = (mount_result == 0) ? 0 : 1
+>> +          |      +-- send(socket, &status, 1)
+>> +          |      |
+>> +          |      +-- return
+>> +          |
+>> +          +-- return 0
+>> +
+>> +
+>> +Note: The new mount API (fsopen/fsconfig/fsmount/move_mount) is REQUIRED
+>> +      for sync-init because fsmount() triggers FUSE_INIT before the mount
+>> +      is attached. This allows the worker thread to process INIT before
+>> +      move_mount() completes, preventing deadlock.
+> 
+> ...and so we don't expose the directory tree to the mountns until we
+> know that FUSE_INIT didn't crash the server.
+
+Added that as well.
+
+> 
 >> diff --git a/util/fusermount.c b/util/fusermount.c
->> index f17b44f51142c682b339d0ce2287f7c00d644454..ecf509bb80d5cd129f6e582f1ec666502c55603a 100644
+>> index 80b42a594e89cdc2f43824f5e274892522fd8cce..808b4afd89ceb49273c944d43bffe5033e27549b 100644
 >> --- a/util/fusermount.c
 >> +++ b/util/fusermount.c
->> @@ -917,30 +917,132 @@ static int mount_notrunc(const char *source, const char *target,
->>  	return mount(source, target, filesystemtype, mountflags, data);
+>> @@ -957,6 +957,7 @@ static void free_mount_params(struct mount_params *mp)
+>>  	free(mp->source);
+>>  	free(mp->type);
+>>  	free(mp->mnt_opts);
+>> +	memset(mp, 0, sizeof(*mp));
 >>  }
 >>  
->> +struct mount_params {
->> +	/* Input parameters */
->> +	int fd;                  /* /dev/fuse file descriptor */
->> +	mode_t rootmode;         /* Root mode from stat */
->> +	const char *dev;         /* Device path (/dev/fuse) */
+>>  /*
+>> @@ -1378,6 +1379,179 @@ static int open_fuse_device(const char *dev)
+>>  	return fd;
+>>  }
 >>  
->> -static int do_mount(const char *mnt, const char **typep, mode_t rootmode,
->> -		    int fd, const char *opts, const char *dev, char **sourcep,
->> -		    char **mnt_optsp)
->> +	/* Parsed mount options */
->> +	unsigned long flags;     /* Mount flags (MS_NOSUID, etc.) */
->> +	char *optbuf;           /* Kernel mount options buffer */
->> +	char *fsname;           /* Filesystem name from options */
->> +	char *subtype;          /* Subtype from options */
->> +	int blkdev;             /* Block device flag */
+>> +#ifdef HAVE_NEW_MOUNT_API
+>> +/* Forward declaration from lib/mount_fsmount.c */
+>> +int fuse_kern_fsmount(const char *mnt, unsigned long flags, int blkdev,
+>> +		      const char *fsname, const char *subtype,
+>> +		      const char *source_dev, const char *kernel_opts,
+>> +		      const char *mnt_opts);
+>> +#endif
+> 
+> Shouldn't this be included from a header file somewhere?
+
+Fixed, included from mount_i_linux.h
+
+> 
 >> +
->> +	/* Generated mount parameters */
->> +	char *source;           /* Mount source string */
->> +	char *type;             /* Filesystem type string */
->> +	char *mnt_opts;         /* Mount table options */
->> +
->> +	/* Pointer for optbuf manipulation */
->> +	char *optbuf_end;       /* Points to end of optbuf for sprintf */
+>> +/*
+>> + * Context for split mount operation (sync-init mode)
+>> + */
+>> +struct mount_context {
+>> +	int fd;
+>> +	const char *dev;
+>> +	struct stat stbuf;
+>> +	char *source;
+>> +	char *mnt_opts;
+>> +	char *x_opts;
+>> +	const char *type;
 >> +};
 >> +
->> +static void free_mount_params(struct mount_params *mp)
->> +{
->> +	free(mp->optbuf);
->> +	free(mp->fsname);
->> +	free(mp->subtype);
->> +	free(mp->source);
->> +	free(mp->type);
->> +	free(mp->mnt_opts);
->> +}
->> +
 >> +/*
->> + * Check if option is deprecated large_read.
->> + *
->> + * Returns true if the option should be skipped (large_read on kernel > 2.4),
->> + * false otherwise (all other options or large_read on old kernels).
+>> + * Phase 1: Open device and prepare for mount (sync-init mode)
+>> + * Returns fd on success, -1 on failure
 >> + */
->> +static bool check_large_read(const char *opt, unsigned int len)
+>> +static int mount_fuse_prepare(const char *mnt, const char *opts,
+>> +			      struct mount_context *ctx)
 >> +{
->> +	struct utsname utsname;
->> +	unsigned int kmaj, kmin;
 >> +	int res;
+>> +	int mountpoint_fd = -1;
+>> +	char *do_mount_opts = NULL;
+>> +	const char *real_mnt = mnt;
 >> +
->> +	if (!opt_eq(opt, len, "large_read"))
->> +		return false;
+>> +	memset(ctx, 0, sizeof(*ctx));
+>> +	ctx->dev = getenv(FUSE_KERN_DEVICE_ENV) ?: FUSE_DEV;
 >> +
->> +	res = uname(&utsname);
->> +	if (res == 0 &&
->> +	    sscanf(utsname.release, "%u.%u", &kmaj, &kmin) == 2 &&
->> +	    (kmaj > 2 || (kmaj == 2 && kmin > 4))) {
->> +		fprintf(stderr,
->> +			"%s: note: 'large_read' mount option is deprecated for %i.%i kernels\n",
->> +			progname, kmaj, kmin);
->> +		return true;
-> 
-> Ugh, you can drop the uname and all that.  Nobody's running 2.4 kernels
-> anymore, right?
-
-Added a new commit that removes this. If someone complains I can recvert
-that
-
-> 
->> +	}
->> +	return false;
->> +}
->> +
->> +/*
->> + * Check if user has permission to use allow_other or allow_root options.
->> + *
->> + * Returns -1 if permission denied, 0 if allowed or option is not
->> + * allow_other/allow_root.
->> + */
->> +static int check_allow_permission(const char *opt, unsigned int len)
->> +{
->> +	if (getuid() != 0 && !user_allow_other &&
->> +	    (opt_eq(opt, len, "allow_other") || opt_eq(opt, len, "allow_root"))) {
->> +		fprintf(stderr, "%s: option %.*s only allowed if 'user_allow_other' is set in %s\n",
->> +			progname, len, opt, FUSE_CONF);
+>> +	ctx->fd = open_fuse_device(ctx->dev);
+>> +	if (ctx->fd == -1)
 >> +		return -1;
+>> +
+>> +	drop_privs();
+>> +	read_conf();
+>> +
+>> +	if (getuid() != 0 && mount_max != -1) {
+>> +		int mount_count = count_fuse_fs();
+>> +
+>> +		if (mount_count >= mount_max) {
+>> +			fprintf(stderr,
+>> +				"%s: too many FUSE filesystems mounted; mount_max=N can be set in %s\n",
+>> +				progname, FUSE_CONF);
+>> +			goto fail_close_fd;
+>> +		}
 >> +	}
->> +	return 0;
+> 
+> /me notes that he's refactored this configuration file related function
+> into fuser_conf.c though that's in the fuse-services v4 that I'll send
+> you soon.
+> 
+>> +
+>> +	res = extract_x_options(opts, &do_mount_opts, &ctx->x_opts);
+>> +	if (res)
+>> +		goto fail_close_fd;
+>> +
+>> +	res = check_perm(&real_mnt, &ctx->stbuf, &mountpoint_fd);
+>> +	restore_privs();
+>> +
+>> +	if (mountpoint_fd != -1)
+>> +		close(mountpoint_fd);
+>> +
+>> +	if (res == -1)
+>> +		goto fail_close_fd;
+>> +
+>> +	free(do_mount_opts);
+>> +	return ctx->fd;
+>> +
+>> +fail_close_fd:
+>> +	close(ctx->fd);
+>> +	free(do_mount_opts);
+>> +	free(ctx->x_opts);
+>> +	ctx->fd = -1;
+>> +	return -1;
 >> +}
 >> +
+>> +#ifdef HAVE_NEW_MOUNT_API
 >> +/*
->> + * Process generic mount option.
->> + *
->> + * Handles mount flags (ro, rw, suid, etc.), kernel options
->> + * (default_permissions, allow_other, max_read, blksize), or exits on
->> + * unknown options.
+>> + * Phase 2: Perform the actual mount using new mount API (sync-init mode)
+>> + * Returns 0 on success, -1 on failure
 >> + */
->> +static int process_generic_option(const char *opt, unsigned int len,
->> +				   unsigned long *flags, char **dest)
+>> +static int mount_fuse_finish_fsmount(const char *mnt, const char *opts,
+>> +				     struct mount_context *ctx,
+>> +				     const char **type)
 >> +{
->> +	int on;
->> +	int flag;
+>> +	int res;
+>> +	char *do_mount_opts = NULL;
+>> +	char *x_prefixed_opts = NULL;
+>> +	struct mount_params mp = { .fd = ctx->fd };
+>> +	char *final_mnt_opts = NULL;
 >> +
->> +	if (find_mount_flag(opt, len, &on, &flag)) {
->> +		if (on)
->> +			*flags |= flag;
->> +		else
->> +			*flags &= ~flag;
->> +		return 0;
+>> +	/* Extract x-options */
+>> +	res = extract_x_options(opts, &do_mount_opts, &x_prefixed_opts);
+>> +	if (res)
+>> +		goto fail;
+>> +
+>> +	/* Prepare mount parameters */
+>> +	mp.rootmode = ctx->stbuf.st_mode & S_IFMT;
+>> +	mp.dev = ctx->dev;
+> 
+> I think those could be set in the mp variable definition?
+
+Absolutely.
+
+> 
+>> +
+>> +	res = prepare_mount(do_mount_opts, &mp);
+>> +	if (res == -1)
+>> +		goto fail;
+>> +
+>> +	/* Merge x-options if running as root */
+>> +	final_mnt_opts = mp.mnt_opts;
+>> +	if (geteuid() == 0 && ctx->x_opts && strlen(ctx->x_opts) > 0) {
+>> +		size_t mnt_opts_len = strlen(mp.mnt_opts);
+>> +		size_t x_mnt_opts_len = mnt_opts_len + strlen(ctx->x_opts) + 2;
+>> +		char *x_mnt_opts = calloc(1, x_mnt_opts_len);
+>> +
+>> +		if (!x_mnt_opts)
+>> +			goto fail_free_params;
+>> +
+>> +		if (mnt_opts_len) {
+>> +			strcpy(x_mnt_opts, mp.mnt_opts);
+>> +			strncat(x_mnt_opts, ",", 2);
+>> +		}
+>> +		strncat(x_mnt_opts, ctx->x_opts,
+>> +			x_mnt_opts_len - mnt_opts_len - 2);
+>> +
+>> +		final_mnt_opts = x_mnt_opts;
+>> +	}
+> 
+> Curious, I thought the x- options were edited out by /sbin/mount so fuse
+> would never see them?  Does the x- option handling in fusermount.c exist
+> to handle the case where someone passes them directly to the fuse
+> server, aka
+> 
+> $ sshfs <whatever> /mnt -o x-systemd-hahaha=1
+> 
+> and now you need to ensure that x-systemd-hahaha doesn't get sent to the
+> kernel but does get seen by the fuse server?
+
+https://github.com/libfuse/libfuse/issues/651
+
+So specially added as mount option to to go into mtab/utab and to
+suppress some 3rd party (gnome) actions.
+
+> 
+>> +
+>> +	/* Use new mount API */
+>> +	res = fuse_kern_fsmount(mnt, mp.flags, mp.blkdev,
+>> +				mp.fsname, mp.subtype, ctx->dev,
+>> +				mp.optbuf, final_mnt_opts);
+>> +	if (res == -1)
+>> +		goto fail_free_merged;
+>> +
+>> +	/* Change to root directory */
+>> +	res = chdir("/");
+>> +	if (res == -1) {
+>> +		fprintf(stderr, "%s: failed to chdir to '/'\n", progname);
+>> +		goto fail_free_merged;
 >> +	}
 >> +
->> +	if (opt_eq(opt, len, "default_permissions") ||
->> +	    opt_eq(opt, len, "allow_other") ||
->> +	    begins_with(opt, "max_read=") ||
->> +	    begins_with(opt, "blksize=")) {
->> +		memcpy(*dest, opt, len);
->> +		*dest += len;
->> +		**dest = ',';
->> +		(*dest)++;
->> +		return 0;
->> +	}
+>> +	/* Store results in context */
+>> +	ctx->source = mp.source;
+>> +	ctx->type = mp.type;
+>> +	ctx->mnt_opts = final_mnt_opts;
+>> +	*type = mp.type;
 >> +
->> +	fprintf(stderr, "%s: unknown option '%.*s'\n", progname, len, opt);
->> +	exit(1);
+>> +	res = 0;
+>> +
+>> +	/* Only free what is not assigned to ctx */
+>> +	free(mp.fsname);
+>> +	free(mp.subtype);
+>> +	free(mp.optbuf);
+>> +	if (final_mnt_opts != mp.mnt_opts)
+>> +		free(mp.mnt_opts);
+>> +
+>> +out:
+>> +	free(do_mount_opts);
+>> +	free(x_prefixed_opts);
+>> +
+>> +	return res;
+>> +
+>> +fail_free_merged:
+>> +	if (final_mnt_opts != mp.mnt_opts)
+>> +		free(final_mnt_opts);
+>> +fail_free_params:
+>> +	free_mount_params(&mp);
+>> +fail:
+>> +	res = -1;
+>> +	goto out;
 >> +}
+>> +#endif /* HAVE_NEW_MOUNT_API */
 >> +
->> +static int prepare_mount(const char *opts, struct mount_params *mp)
+>> +
+>>  static int mount_fuse(const char *mnt, const char *opts, const char **type)
 >>  {
 >>  	int res;
->> -	int flags = MS_NOSUID | MS_NODEV;
->> -	char *optbuf;
->> -	char *mnt_opts = NULL;
->>  	const char *s;
->>  	char *d;
->> -	char *fsname = NULL;
->> -	char *subtype = NULL;
->> -	char *source = NULL;
->> -	char *type = NULL;
->> -	int blkdev = 0;
+>> @@ -1473,6 +1647,75 @@ fail_close_fd:
+>>  	goto out_free;
+>>  }
 >>  
->> -	optbuf = (char *) malloc(strlen(opts) + 128);
->> -	if (!optbuf) {
->> +	mp->flags = MS_NOSUID | MS_NODEV;
->> +	mp->optbuf = (char *) malloc(strlen(opts) + 128);
->> +	if (!mp->optbuf) {
->>  		fprintf(stderr, "%s: failed to allocate memory\n", progname);
->>  		return -1;
->>  	}
->>  
->> -	for (s = opts, d = optbuf; *s;) {
->> +	for (s = opts, d = mp->optbuf; *s;) {
->>  		unsigned len;
->>  		const char *fsname_str = "fsname=";
->>  		const char *subtype_str = "subtype=";
->> @@ -953,10 +1055,10 @@ static int do_mount(const char *mnt, const char **typep, mode_t rootmode,
->>  				break;
->>  		}
->>  		if (begins_with(s, fsname_str)) {
->> -			if (!get_string_opt(s, len, fsname_str, &fsname))
->> +			if (!get_string_opt(s, len, fsname_str, &mp->fsname))
->>  				goto err;
->>  		} else if (begins_with(s, subtype_str)) {
->> -			if (!get_string_opt(s, len, subtype_str, &subtype))
->> +			if (!get_string_opt(s, len, subtype_str, &mp->subtype))
->>  				goto err;
->>  		} else if (opt_eq(s, len, "blkdev")) {
->>  			if (getuid() != 0) {
->> @@ -965,7 +1067,7 @@ static int do_mount(const char *mnt, const char **typep, mode_t rootmode,
->>  					progname);
->>  				goto err;
->>  			}
->> -			blkdev = 1;
->> +			mp->blkdev = 1;
->>  		} else if (opt_eq(s, len, "auto_unmount")) {
->>  			auto_unmount = 1;
->>  		} else if (!opt_eq(s, len, "nonempty") &&
->> @@ -973,122 +1075,132 @@ static int do_mount(const char *mnt, const char **typep, mode_t rootmode,
->>  			   !begins_with(s, "rootmode=") &&
->>  			   !begins_with(s, "user_id=") &&
->>  			   !begins_with(s, "group_id=")) {
->> -			int on;
->> -			int flag;
->> -			int skip_option = 0;
->> -			if (opt_eq(s, len, "large_read")) {
->> -				struct utsname utsname;
->> -				unsigned kmaj, kmin;
->> -				res = uname(&utsname);
->> -				if (res == 0 &&
->> -				    sscanf(utsname.release, "%u.%u",
->> -					   &kmaj, &kmin) == 2 &&
->> -				    (kmaj > 2 || (kmaj == 2 && kmin > 4))) {
->> -					fprintf(stderr, "%s: note: 'large_read' mount option is deprecated for %i.%i kernels\n", progname, kmaj, kmin);
->> -					skip_option = 1;
->> -				}
->> -			}
->> -			if (getuid() != 0 && !user_allow_other &&
->> -			    (opt_eq(s, len, "allow_other") ||
->> -			     opt_eq(s, len, "allow_root"))) {
->> -				fprintf(stderr, "%s: option %.*s only allowed if 'user_allow_other' is set in %s\n", progname, len, s, FUSE_CONF);
->> +			bool skip;
+>> +/* Forward declarations for helper functions */
+>> +static int send_fd(int sock_fd, int fd);
+>> +static int wait_for_signal(int sock_fd);
 >> +
->> +			if (check_allow_permission(s, len) == -1)
->>  				goto err;
->> -			}
->> -			if (!skip_option) {
->> -				if (find_mount_flag(s, len, &on, &flag)) {
->> -					if (on)
->> -						flags |= flag;
->> -					else
->> -						flags  &= ~flag;
->> -				} else if (opt_eq(s, len, "default_permissions") ||
->> -					   opt_eq(s, len, "allow_other") ||
->> -					   begins_with(s, "max_read=") ||
->> -					   begins_with(s, "blksize=")) {
->> -					memcpy(d, s, len);
->> -					d += len;
->> -					*d++ = ',';
->> -				} else {
->> -					fprintf(stderr, "%s: unknown option '%.*s'\n", progname, len, s);
->> -					exit(1);
->> -				}
->> -			}
+>> +#ifdef HAVE_NEW_MOUNT_API
+>> +/*
+>> + * Perform sync-init mount using new mount API
+>> + * Returns 0 on success, -1 on failure
+>> + */
+>> +static int mount_fuse_sync_init(const char *mnt, const char *opts,
+>> +				int cfd, const char **type)
+>> +{
+>> +	struct mount_context ctx;
+>> +	int fd, res;
+>> +	int32_t status, send_res;
 >> +
->> +			skip = check_large_read(s, len);
+>> +	/* Phase 1: Open device and prepare */
+>> +	fd = mount_fuse_prepare(mnt, opts, &ctx);
+>> +	if (fd == -1)
+>> +		return -1;
 >> +
->> +			/*
->> +			 * Skip deprecated large_read to avoid passing it to
->> +			 * kernel which would reject it as unknown option.
->> +			 */
->> +			if (!skip)
->> +				process_generic_option(s, len, &mp->flags, &d);
->>  		}
->>  		s += len;
->>  		if (*s)
->>  			s++;
->>  	}
->>  	*d = '\0';
->> -	res = get_mnt_opts(flags, optbuf, &mnt_opts);
->> +	res = get_mnt_opts(mp->flags, mp->optbuf, &mp->mnt_opts);
->>  	if (res == -1)
->>  		goto err;
->>  
->> +	mp->optbuf_end = d;
+>> +	/* Send fd to caller so it can start worker thread */
+>> +	res = send_fd(cfd, fd);
+>> +	if (res != 0) {
+>> +		close(fd);
+>> +		free(ctx.x_opts);
+>> +		return -1;
+>> +	}
 >> +
->>  	sprintf(d, "fd=%i,rootmode=%o,user_id=%u,group_id=%u",
->> -		fd, rootmode, getuid(), getgid());
->> +		mp->fd, mp->rootmode, getuid(), getgid());
->>  
->> -	source = malloc((fsname ? strlen(fsname) : 0) +
->> -			(subtype ? strlen(subtype) : 0) + strlen(dev) + 32);
->> +	mp->source = malloc((mp->fsname ? strlen(mp->fsname) : 0) +
->> +			(mp->subtype ? strlen(mp->subtype) : 0) + strlen(mp->dev) + 32);
->>  
->> -	type = malloc((subtype ? strlen(subtype) : 0) + 32);
->> -	if (!type || !source) {
->> +	mp->type = malloc((mp->subtype ? strlen(mp->subtype) : 0) + 32);
->> +	if (!mp->type || !mp->source) {
->>  		fprintf(stderr, "%s: failed to allocate memory\n", progname);
->>  		goto err;
->>  	}
->>  
->> -	if (subtype)
->> -		sprintf(type, "%s.%s", blkdev ? "fuseblk" : "fuse", subtype);
->> +	if (mp->subtype)
->> +		sprintf(mp->type, "%s.%s", mp->blkdev ? "fuseblk" : "fuse", mp->subtype);
->>  	else
->> -		strcpy(type, blkdev ? "fuseblk" : "fuse");
->> +		strcpy(mp->type, mp->blkdev ? "fuseblk" : "fuse");
+>> +	/* Wait for caller to signal that worker thread is ready */
+>> +	res = wait_for_signal(cfd);
+>> +	if (res != 0) {
+>> +		close(fd);
+>> +		free(ctx.x_opts);
+>> +		return -1;
+>> +	}
+>> +
+>> +	/* Phase 2: Perform the actual mount using new API */
+>> +	res = mount_fuse_finish_fsmount(mnt, opts, &ctx, type);
+>> +
+>> +	/* Send mount result back to caller (4-byte error code) */
+>> +	status = (res == 0) ? 0 : -(int32_t)errno;
+>> +	do {
+>> +		send_res = send(cfd, &status, sizeof(status), 0);
+>> +	} while (send_res == -1 && errno == EINTR);
+>> +	if (send_res != sizeof(status)) {
+>> +		fprintf(stderr, "%s: failed to send mount status: %s\n",
+>> +			progname, strerror(errno));
+>> +	}
+>> +
+>> +	if (res == -1) {
+>> +		close(fd);
+>> +		free(ctx.source);
+>> +		free(ctx.mnt_opts);
+>> +		free(ctx.x_opts);
+>> +		return -1;
+>> +	}
+>> +
+>> +	close(fd);
+>> +
+>> +	/* Cleanup */
+>> +	free(ctx.source);
+>> +	free(ctx.mnt_opts);
+>> +	free(ctx.x_opts);
+>> +
+>> +	return 0;
 > 
-> Hrm, maybe the patch adding fuse_mnt_build_source / fuse_mnt_build_type
-> should have done something about this code too.
-> 
-> The straight-up conversion looks ok though.
+> Err... these cleanups are identical, so I think you can get rid of the
+> "if (res == -1)" chunk and just return res at the end.
 
-Yeah, I need to do that in a later commit that makes these two functions
-more generic.
+Oh yeah, fixed.
 
 
 Thanks,
