@@ -1,93 +1,53 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from relay.hostedemail.com (smtprelay0014.hostedemail.com [216.40.44.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D48B3D564B
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 12:38:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D99E53D0900;
+	Wed, 25 Mar 2026 12:44:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774442295; cv=none; b=f9iKc8e1woCPDRg4CPqgNVLZaeNpEiVK8/sLKbEjOR+LtjIgr2cMxj3SluBl2IXnk2EFAlW6xobPOBIHkLyRRU8LHfljsx65yJ2fh7JbM5whFHiAacm6f5DXJjIrmMkoHkR/v9tLiJUsw+HDm2S/mmMTybMlAuniu4wUekmtRHI=
+	t=1774442654; cv=none; b=Wr10y539rqNUgYuGFO4LO2+aRZVKqpzzO51DWGjv2j5zXZjsOAlVrjwFJM+tDXuhMjmj/TC9EZvaxabJDtyABCjUS27LNGdn6BHT8jqGNHoR0Wx9OxKSr/7URfbyuWsvraVt3e45OFMOKr7z5frRHmnUqCWEMPWUj7hP2q0QmSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774442295; c=relaxed/simple;
-	bh=B7XEYkMQi5D0EqTXN0etgYXPUL8EADhsGgGCE2iqsCA=;
+	s=arc-20240116; t=1774442654; c=relaxed/simple;
+	bh=bzYdfF1spGMVjwl4NTjaat4YQrXVriJ+IaIcJqcKJlo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gWnqmYSEQnnN4Jz5NkCcSrUVY1NKnHqKe55BSbQTXh8QYHdNDwaeapaVy0uSe3LYQVfp5cI9nqPc6BAbfCarbKX9Vg4WjYOQettKt9e6QeEwf5tFVBA17lmodPJJsmOsYaObGra+CX/ckp2S0hacmAcgVI0hPRKQ9xO1rD2fCRg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SkCzScCu; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=AOLIh0Ue; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SkCzScCu";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="AOLIh0Ue"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1774442292;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zq66uLldOzJDWwFuTQSicat9HZ9onClHiQ97FMgB8gk=;
-	b=SkCzScCuCdyNL1RUnpfJxBIL5F2VO8pgYLuuZuGNC9Z7wh9ucam59gxfaUWvYHjCDdoC+y
-	RRXrtom8b1qSiG/Ppj48o875UHfOfbbJMeJmhANxnVoORpUCS7gtaIhqIe0mXwLjgiLik4
-	ddN8iVF7b7wala8rYTxzBWNqM8iGoBQ=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-572-CqPk5TZDOWurBEmt3I_djQ-1; Wed, 25 Mar 2026 08:38:11 -0400
-X-MC-Unique: CqPk5TZDOWurBEmt3I_djQ-1
-X-Mimecast-MFC-AGG-ID: CqPk5TZDOWurBEmt3I_djQ_1774442290
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4837bfcfe0dso53976745e9.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 05:38:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1774442290; x=1775047090; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=zq66uLldOzJDWwFuTQSicat9HZ9onClHiQ97FMgB8gk=;
-        b=AOLIh0Ue5a3o1fyEajsXxRCiEAE4Rrq4bwtTWcmkudbfF4EGebeo9SW56XtdYxL7gQ
-         xeW4CNOMySdctnDl5F1p0NWrzINeidFsK1GsBMK5qy8II2QIIYddb+3Fodhb3uT+VKGE
-         1v7e5LdWnAHVsWJeK6ghIqQJmUl6MJOFosAG6lA5C/uDp58EhWy87J3zWlWPJZjfwZK2
-         KWy9GMHLWJUNInaYYcCVszumxavzYJx2dmfjsh7j+8dniUK6L50dzCuKbj5d27T2iZIZ
-         WZQcz9r++SsteOFi0YBkYD1BI3vq48IWcbFzmeCDWMrPkfvMwKPhtayf8UlyVwkx66Ug
-         +ELQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774442290; x=1775047090;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zq66uLldOzJDWwFuTQSicat9HZ9onClHiQ97FMgB8gk=;
-        b=VDo9TogKzZroiFB1bmk+BAl0WhBZSRJFaADyNZNkGNQPf0ABEYVxFqs9TwSqFCkKbT
-         0NDq8lzi5GB1pjXtg7BilXVt8vz3QVCgBp9Z5Uv914nwfilmUSd8pdJwa+cVi+umTHU1
-         kv2AR0kgkCd5AJd0avBIsQr8gJ+9AuPreggVj8w7VzS9aZAA7Oipn/Xz1eFJmzQPRO+c
-         TOxzUHbgaRd7pLMxrHTKE4J7jvkHAvf6JGLtfYKKPSjYu0DAIQKUetdZ1l+B9gQ9oJcY
-         uHpQfKYhLy3gynMOOB+KAIt3ALMmr6JGg1CfMhMXesL1COSSOhmoCpF6InwY1M4v7wVC
-         zBHg==
-X-Forwarded-Encrypted: i=1; AJvYcCVkGrmc7pMqmE+40U8EdAdFrPP4SyCSS6hRndL2ejB+RLkx5m6QJZ5fnwQPcTZOCCPMD4HsWyG3+tMe80vn@vger.kernel.org
-X-Gm-Message-State: AOJu0YwKI60rfq3YrKS9cquSZHTGPOBR7AYGgOz/TxL51IdCubo4JrfM
-	dqIZan1Lvw30XcYfch2VdnlSfQ/mq8fqB9xV+2w4kOvB6lKScViyKDI49SVARJNrMzR90BUpLVM
-	JzKbGzO48tVJb3YhkDYBRh232NZbvTtp9EvJ15H0DwrxCHK98EUYuTsSDVME0au95+w==
-X-Gm-Gg: ATEYQzztA26e41Wujgz29TIanf4/YYMFMuk4R79/jw/mfbmPcV+AXWC3Lfpr73MBPRp
-	5Tk0T7Va9Z3Mo8/h7qDUDrVvbG9Zy3F7RLeSvUYU/9YqH3n3yimEtgygtnMJnTOsmmN8SO8eewV
-	Tw4Yaa6qGr0AB6lmVCdxlcvFsqb+04oAYBii/ButLkFWbfUto3gGUfoTyMvOCOSMKG3LTHjK1pG
-	cSs0DVJhrZHvjSO1D4cusC6T4Kaw3IRO7eL3Ng2A62ZxkVQEt4Vu3SEi1mQLUhkswIsuUO2xBrd
-	/G4v78wcTq+yu4dWQ9Gvuqgml0BqetbaDSekgQcm1R+Ya3ttcqLezGx2hQZEemy9WkgBMwJ+smR
-	REXm+hD1YJ+R+zQ==
-X-Received: by 2002:a05:600c:3f16:b0:483:6d42:25c6 with SMTP id 5b1f17b1804b1-4871606db4amr51426215e9.23.1774442289655;
-        Wed, 25 Mar 2026 05:38:09 -0700 (PDT)
-X-Received: by 2002:a05:600c:3f16:b0:483:6d42:25c6 with SMTP id 5b1f17b1804b1-4871606db4amr51425715e9.23.1774442289131;
-        Wed, 25 Mar 2026 05:38:09 -0700 (PDT)
-Received: from thinky ([91.245.205.131])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-487116ee57esm120806865e9.14.2026.03.25.05.38.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Mar 2026 05:38:08 -0700 (PDT)
-Date: Wed, 25 Mar 2026 13:38:07 +0100
-From: Andrey Albershteyn <aalbersh@redhat.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Andrey Albershteyn <aalbersh@kernel.org>, linux-xfs@vger.kernel.org, 
-	fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org, ebiggers@kernel.org, 
-	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
-	linux-btrfs@vger.kernel.org, djwong@kernel.org
-Subject: Re: [PATCH v5 07/25] iomap: introduce IOMAP_F_FSVERITY and teach
- writeback to handle fsverity
-Message-ID: <std5dib2mf5nfd2gf3jbrhujvqr2tytczplopwfy4zrxrrmrgj@py7g4alrifbi>
-References: <20260319170231.1455553-1-aalbersh@kernel.org>
- <20260319170231.1455553-8-aalbersh@kernel.org>
- <20260325080021.GF952@lst.de>
+	 Content-Type:Content-Disposition:In-Reply-To; b=m3fqR1q7rXHoAFJevHCZBkHQWr4tD0+wJyH6UdWee3Ek7HfX2x809Zx18NGPGl+7478u3jwGRkAtOgzBjiy/iN/QoRhK356hKYmcgfC3a2GNJQ3PxYZkfUnHwGDH2dOwU01PtKiyRNPin/WJ+qyGjgO+zJKV+sFWIEZmatCTTWo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
+Received: from omf12.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay04.hostedemail.com (Postfix) with ESMTP id 0D0DC1A082D;
+	Wed, 25 Mar 2026 12:44:07 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf12.hostedemail.com (Postfix) with ESMTPA id EC85817;
+	Wed, 25 Mar 2026 12:43:54 +0000 (UTC)
+Date: Wed, 25 Mar 2026 07:43:53 -0500
+From: John Groves <John@groves.net>
+To: Jonathan Cameron <jonathan.cameron@huawei.com>
+Cc: John Groves <john@jagalactic.com>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
+	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
+	Amir Goldstein <amir73il@gmail.com>, Stefan Hajnoczi <shajnocz@redhat.com>, 
+	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
+	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
+	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
+	"venkataravis@micron.com" <venkataravis@micron.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH V9 3/8] dax: add fsdev.c driver for fs-dax on character
+ dax
+Message-ID: <acPX9T2ZF7xTCHtZ@groves.net>
+References: <0100019d1d463523-617e8165-a084-4d91-aa5e-13778264d5d4-000000@email.amazonses.com>
+ <20260324003818.5009-1-john@jagalactic.com>
+ <0100019d1d476420-6b0bf60e-3b3a-4868-8f5f-484cd55d4709-000000@email.amazonses.com>
+ <20260324143927.000024c3@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -96,82 +56,96 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260325080021.GF952@lst.de>
+In-Reply-To: <20260324143927.000024c3@huawei.com>
+X-Rspamd-Server: rspamout07
+X-Rspamd-Queue-Id: EC85817
+X-Stat-Signature: 1qn3h5nx7pwds75jfk33psjwun8sh14w
+X-Session-Marker: 6A6F686E4067726F7665732E6E6574
+X-Session-ID: U2FsdGVkX180+af1YWzvaZ59D8sxBuIZxxdYmwQ05wU=
+X-HE-Tag: 1774442634-3402
+X-HE-Meta: U2FsdGVkX1+N9RTW+cU2f//6uhWp/3cA7dyMyvWeDd14EPQJZCrLvO2FgAJa+U+AGXznyUFgoxwG7AiMQ+J/iWcIVhQQqjxL1Z1RBdHi7SMWGXxvholXJsbRJ7vA1tkB3wxhjoXOxImeBTrsGQt9/7Tpp6hu5bpxC8vUZzPCdhLasDGEzMljNdt9S1isvnb85mEOf8EvVD10dWxj0viJRjlot+qh6PxDSWGpwiqSI4Id/V716hBLFkZU2PJKtkMZEvT+NOPFfaUKwAoYWvS8+akdil0Am4UPyiRJV2Beuw1sRneBBtupIg2CLdv3qvibJFNqftrJyNxX2BKVkUCKsJns4hilBfJx4CQoTuzSNGekZWyMLXDjcsyFUruSvcYbRMlzkimElgnyOZSmJF9cIoj/+qluE3dG3Nf34vqLyfe1vFHoQB6CDD7KNpzs5lQuvRnQGs+7W3q8fuDEKMy21SHulDUoAINg0oNWKAEMAr9chD3y6qNx3cS0nujP4+Mm9yiujzZVF/f0QBeo3IX6fKJ3/QdsWCK/Kz56z3DwuO4=
 
-On 2026-03-25 09:00:21, Christoph Hellwig wrote:
-> > @@ -353,9 +353,16 @@ static inline bool iomap_block_needs_zeroing(const struct iomap_iter *iter,
-> >  {
-> >  	const struct iomap *srcmap = iomap_iter_srcmap(iter);
+On 26/03/24 02:39PM, Jonathan Cameron wrote:
+> On Tue, 24 Mar 2026 00:38:31 +0000
+> John Groves <john@jagalactic.com> wrote:
+> 
+> > From: John Groves <john@groves.net>
+> > 
+> > The new fsdev driver provides pages/folios initialized compatibly with
+> > fsdax - normal rather than devdax-style refcounting, and starting out
+> > with order-0 folios.
+> > 
+> > When fsdev binds to a daxdev, it is usually (always?) switching from the
+> > devdax mode (device.c), which pre-initializes compound folios according
+> > to its alignment. Fsdev uses fsdev_clear_folio_state() to switch the
+> > folios into a fsdax-compatible state.
+> > 
+> > A side effect of this is that raw mmap doesn't (can't?) work on an fsdev
+> > dax instance. Accordingly, The fsdev driver does not provide raw mmap -
+> > devices must be put in 'devdax' mode (drivers/dax/device.c) to get raw
+> > mmap capability.
+> > 
+> > In this commit is just the framework, which remaps pages/folios compatibly
+> > with fsdax.
+> > 
+> > Enabling dax changes:
+> > 
+> > - bus.h: add DAXDRV_FSDEV_TYPE driver type
+> > - bus.c: allow DAXDRV_FSDEV_TYPE drivers to bind to daxdevs
+> > - dax.h: prototype inode_dax(), which fsdev needs
+> > 
+> > Suggested-by: Dan Williams <dan.j.williams@intel.com>
+> > Suggested-by: Gregory Price <gourry@gourry.net>
+> > Signed-off-by: John Groves <john@groves.net>
+> 
+> I was kind of thinking you'd go with a hidden KCONFIG option with default
+> magic to do the same build condition to you had in the Makefil, but one the
+> user can opt in or out for is also fine.
+> 
+> Comments on that below. Meh, I think this is better anyway :)
+> 
+> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+> 
+> 
+> 
+> > diff --git a/drivers/dax/Kconfig b/drivers/dax/Kconfig
+> > index d656e4c0eb84..7051b70980d5 100644
+> > --- a/drivers/dax/Kconfig
+> > +++ b/drivers/dax/Kconfig
+> > @@ -61,6 +61,17 @@ config DEV_DAX_HMEM_DEVICES
+> >  	depends on DEV_DAX_HMEM && DAX
+> >  	def_bool y
 > >  
-> > -	return srcmap->type != IOMAP_MAPPED ||
-> > -		(srcmap->flags & IOMAP_F_NEW) ||
-> > -		pos >= i_size_read(iter->inode);
-> > +	if (srcmap->type != IOMAP_MAPPED)
-> > +		return true;
+> > +config DEV_DAX_FSDEV
+> > +	tristate "FSDEV DAX: fs-dax compatible devdax driver"
+> > +	depends on DEV_DAX && FS_DAX
+> > +	help
+> > +	  Support fs-dax access to DAX devices via a character device
+> > +	  interface. Unlike device_dax (which pre-initializes compound folios
+> > +	  based on device alignment), this driver leaves folios at order-0 so
+> > +	  that fs-dax filesystems can manage folio order dynamically.
 > > +
-> > +	if (srcmap->flags & IOMAP_F_NEW)
-> > +		return true;
+> > +	  Say M if unsure.
+> Fine like this, but if you wanted to hide it in interests of not
+> confusing users...
+> 
+> config DEV_DAX_FSDEV
+> 	tristate
+> 	depends on DEV_DAX && FS_DAX
+> 	default DEV_DAX
+
+I like this better. I see no reason not to default to including fsdev.
+It does nothing other than frustrating famfs users if it's off - since
+building it still has no effect unless you put a daxdev in famfs mode.
+
+Ira, it's kinda in your hands at the moment. Do you feel like making this
+change?
+
+> 
 > > +
-> > +	if (srcmap->flags & IOMAP_F_FSVERITY)
-> > +		return false;
-> > +
-> > +	return pos >= i_size_read(iter->inode);
+> >  config DEV_DAX_KMEM
+> >  	tristate "KMEM DAX: map dax-devices as System-RAM"
+> >  	default DEV_DAX
 > 
-> This might be a good time to document the various reasons for needing
-> zeroing.
-
-something like this?
-
---- a/fs/iomap/buffered-io.c
-+++ b/fs/iomap/buffered-io.c
-@@ -344,9 +344,27 @@ static inline bool iomap_block_needs_zeroing(const struct iomap_iter *iter,
- {
-        const struct iomap *srcmap = iomap_iter_srcmap(iter);
- 
--       return srcmap->type != IOMAP_MAPPED ||
--               (srcmap->flags & IOMAP_F_NEW) ||
--               pos >= i_size_read(iter->inode);
-+       /*
-+        * If this block is not mapped, we don't have any backing blocks to read
-+        * yet
-+        */
-+       if (srcmap->type != IOMAP_MAPPED)
-+               return true;
-+
-+       /*
-+        * This block just got allocated and does not contain any meaningful data
-+        */
-+       if (srcmap->flags & IOMAP_F_NEW)
-+               return true;
-+
-+       /*
-+        * fsverity metadata is stored past i_size, we need to read it instead of
-+        * zeroing
-+        */
-+       if (srcmap->flags & IOMAP_F_FSVERITY)
-+               return false;
-+
-+       return pos >= i_size_read(iter->inode);
- }
-
+> > +}
 > 
-> > +/*
-> > + * IO happens beyond inode EOF, fsverity metadata is stored there
-> > + */
-> > +#define IOMAP_F_FSVERITY	(1U << 10)
-> 
-> This comment feels a bit too sparse.  Here is my interpretation of what
-> this flag does:
-> 
-> /*
->  * Indicates reads and writes of fsverity metadata.
->  *
->  * Fsverity metadata is stored after the regular file data and thus beyond
->  * i_size.
->  */
-
-Thanks! I will update it
-
--- 
-- Andrey
-
