@@ -1,173 +1,181 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10C94405AA6;
-	Wed, 25 Mar 2026 17:26:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774459604; cv=none; b=Jy4UusPTiwUAJ+wpkI1U7ky0oT4MeUy/F4CDiBXjzC75quFW2okmcwqTzFyNIHahCID0um8/qs8MTVMD775NZ8rCsUn3tPbBfSFPCThErHqjLV+8T3FyyDOfHP2XIvDruLmfOMlgNfXI290jVApBGxvADokSnUfAbqe5XYn0dvo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774459604; c=relaxed/simple;
-	bh=8MKiB5e+7wU5JMRzvptDLH6dhESil3VUSqbtlMcTZuo=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=gO2iNtkVbvNhL0TvzE/itYhZUhIHCAx2hSr3LHU4REwgDukveiqT8ydKDh/6+4eeREWnMG52bO4ZVFQixwMICMGXjjaedGRmweWpyZbkKSndIFWq3ZLz4uspOhfNxRIdQWiddWh9XPDRJXUAXgQRhbTNCWdHgV7U2xL8bpwQ7ww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e2KgyqFj; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDC00405AD7
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 17:36:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.175
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774460212; cv=pass; b=oV71V+8x3GKRAweMLswPZeQ+gprfsfDe+1bp3fhOyigeWBmpDEotr2xfa9dgei9v1iVGY0h/35WwBTUmeYaywqA/Y7EOZRffLiRUFOr7KOB10JMxSQCCoElwHghYZJm0Wh7h7lS1ReeUlwXw8ThT0Mn7ImT5oGrmEzwE4ur1Oug=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774460212; c=relaxed/simple;
+	bh=SXXvNMm4OOeTVI5sEJNC7nVh6MOtnfj6hXf10537/DU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RXc7PI009GCVj8n5FCpCk1KySvSQ4Kh3FrHeQm1pqCeP6kxn+4Kqo5t0p0rPUGHkv6C5zEZvDBZN0uL9LE7Ggd+kXgv0DVVTHV3Oy9rLkxb/sokGIfHyqrWCvyuq40F166vOtNARR/Kj4khhPzLE6ava0aezzFg34aps1Fr7L9I=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=DD0nH9KQ; arc=pass smtp.client-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e2KgyqFj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38504C4CEF7;
-	Wed, 25 Mar 2026 17:26:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774459603;
-	bh=8MKiB5e+7wU5JMRzvptDLH6dhESil3VUSqbtlMcTZuo=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=e2KgyqFjz6lx9UPb1Acn7jv987HppCSYpFVXquvg7iB4GYqk7WWOs56LHWoBcByjs
-	 Q3qg9wuNNMfNmx4Z2zTreksSuBMSF0UENwBddzM2090FC7LQt+bFJD/EtqiXP851GJ
-	 aZk+dFvepJ1z0vo4BV7ZVzHT4fKWL8LcX5WRecltj9jUDCOXFaLNTxH5aBlQt1BMtc
-	 TknlxWKbaLm3FUTAC+vLNTYpSzdYh9I885rUnCspFKnxl0R5Mw7iFAWh3E9odMazoJ
-	 W46alJmfyxn+HpyhEL0URuJuXoPbAWw9oppwa2x68JZ4PcemzOpJP2FJ73m/73PxLb
-	 fTUgc/vPNYfmA==
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 1B705F4006E;
-	Wed, 25 Mar 2026 13:26:42 -0400 (EDT)
-Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-10.internal (MEProxy); Wed, 25 Mar 2026 13:26:42 -0400
-X-ME-Sender: <xms:0RrEadAZVvCcZD5UoJjuYkc2UKomG5u8aIZIDmA1aMvD_lsLgBYqxw>
-    <xme:0RrEaWWxKLcDk3WpBUpYgfrTOuDupuNsqp659RvsL4oxBF5JTEErGLKsUy_Dt6AUJ
-    irO6MRRGvhU1n8jRbGkhDkQfnIPTlL1T4FiuBYM0FJ5GSJT-UM44x8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdefvdehtdeiucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedfvehhuhgt
-    khcunfgvvhgvrhdfuceotggvlheskhgvrhhnvghlrdhorhhgqeenucggtffrrghtthgvrh
-    hnpefhffekffeftdfgheeiveekudeuhfdvjedvfedvueduvdegleekgeetgfduhfefleen
-    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegthhhutg
-    hklhgvvhgvrhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudeifeegleel
-    leehledqfedvleekgeegvdefqdgtvghlpeepkhgvrhhnvghlrdhorhhgsehfrghsthhmrg
-    hilhdrtghomhdpnhgspghrtghpthhtohepkedpmhhouggvpehsmhhtphhouhhtpdhrtghp
-    thhtohepghhushhtrghvohgrrhhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkvg
-    gvsheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptghhuhgtkhdrlhgvvhgvrhesohhr
-    rggtlhgvrdgtohhmpdhrtghpthhtoheplhhinhhugidqsghlohgtkhesvhhgvghrrdhkvg
-    hrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhfshguvghvvghlsehvghgvrhdr
-    khgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqhhgrrhguvghnihhnghesvh
-    hgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehnvghtuggvvhesvhhgvghrrdhk
-    vghrnhgvlhdrohhrghdprhgtphhtthhopehvihhrohesiigvnhhivhdrlhhinhhugidroh
-    hrghdruhhk
-X-ME-Proxy: <xmx:0hrEaciY_Eefhlg7ZXsfQz56aA9-v4gO6O7hd1-ic03dRQdmbYqxqA>
-    <xmx:0hrEaRmk_FfkqLRKZDroLRG6i3HcrWdtEbjgAnFWYWDYPEL5eGiPCA>
-    <xmx:0hrEaYiNstqPBqa3noi3DhTwKjnmJW_03_WYtB1nHvbfdQ0VDq8yuQ>
-    <xmx:0hrEaUF0AyO5FiQPVc94gS_2soX9DtEt6NO1xl20JQWZ56PZq3kXMA>
-    <xmx:0hrEaau99OhYO1WQlm846Zq84gmzP4vVpFDK8bFF4TLPC4LTvGEz2ALD>
-Feedback-ID: ifa6e4810:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id D77E2780075; Wed, 25 Mar 2026 13:26:41 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="DD0nH9KQ"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-82a893d289bso67073b3a.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 10:36:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774460210; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Oi9GJ2PNVOE4FzKOJf28o1L0k7aX9uMldK60naTpRvcCRRu74pZHfE9fmy+9+FbELz
+         3xAqgsqvfk17kuxZlGN4WTOS/CcLFPZj1oTzlCvjiHh+eDOLvOlZl4y8wZF0dWX2M7hi
+         CbpJFjYnrllpJu9aYIE5XeqI7P/xmPdtf7P8OpGFwybf3OS3Z/NGTOyr/wMWQbraDaPA
+         BDRNVwEG3zLNlNc2VtV9+fLM6LoYhyPS2zOftKobC+ELlcld/rsngyP+eYQTUokgqCiD
+         Z7VvcEYe/DcfQYwNgmwAPpYqknNIPntQBHNbwrDVnCHKfLzY+/ZKcWWiprbqVnIYRpY4
+         KLlg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=560A6QjyhPKgUbe2CXEHtEc1ptAHKSEox2yVMb4TCwU=;
+        fh=nDg5SXYgPlS1SHlFAab3nxwgEqU5sx7DKQb9OM1iDIM=;
+        b=HZpTD+bAwhc86zBKVcxoR/UDERZ9xv2/u+enO2CBC9CBoztmt/kt0r2s3NdQesYFJ2
+         JEpjO/SVJBaRaBvBmrCoLBmM5fEsNO5fgVe7g/k/jAZ1XVyig2s77yfZ3hvZEZWh6vw6
+         4GqICA7VZub/MR4irYbVphUxUIHFyQCApS4wsIOi06YoLWsQxpc1KOMih4iXA2NxswCi
+         8zTmGyU7AoTNRNqbIwieMaI70/11skNc1PkfJR8MDrGDqD5kE1gZbpKbhjAYaEafSnIC
+         Uu/dW+e1TI1eukzgR+AHLsfRm+ZvsXnJWVEn4w2RXAvCyNlDCnxR8PoZkNUpi/IAVEtm
+         hEMg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1774460210; x=1775065010; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=560A6QjyhPKgUbe2CXEHtEc1ptAHKSEox2yVMb4TCwU=;
+        b=DD0nH9KQl1IYWPF404uwuX/UIwWdC4xPMi7UnOVf1ppDz5q3jCBTjDJdhfdvWPI3fc
+         LIMP3cOmjdPwlRGycoQlHYGk6rQH1RpOqPJjt0IC3iuDQNkNvVVQm/dbKPGlD1UAFZhR
+         qdV0RHP73WosmwNpT1GlSz253J1A7GAjwLQQTg2qKjVBpdCL36jNUDIg2HvU2yCbYsSp
+         BFYp8s4s4jAA/bI7fyHZZlUCTxYKQcdqCHiP9gQ+ATwH7EDOe/X+8fVlRnWhnVEGLpMn
+         MVKvZdmsOlbEjJpKgFV+ZoDBcFnPs6I+9PxG6rxAFW04FS/tT2DuUskI5BxjIV5s/DLO
+         1GLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774460210; x=1775065010;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=560A6QjyhPKgUbe2CXEHtEc1ptAHKSEox2yVMb4TCwU=;
+        b=ZQC+b8/kihAMIiMA4Aq1FHRVUlHdTeOeKgfOXNoguV2BlgvScxwRJtIKhQFSFxJ+cQ
+         2SH+lvlYd2eDSuEkAT7JMceX8zxwOq6j8GssRblvBfPNXjZm7eDGA382FZa2iJEGNLZ5
+         y2bw828SWtHaz0wWMLQ/5RJ45oERxSP3i/hnlcJB0/YeIKiB7/BGt4FPpxp8dEVW69Fl
+         z3ibQsHDI/Egs30yfjTMvZkJLC/ocgGbzI6WgAJNoYHZ+DisDjwGe+Ki6V1KNoODS0YY
+         waMLEyb8tMFAdvSye2cJBfjTb9W/YNEnxXAd34KbY7EJs2GdclevqyOrE+io4tkeH3dV
+         NnPA==
+X-Forwarded-Encrypted: i=1; AJvYcCWUWjs6P5TIlxF6OIK3IQWGN1aUQ7JFttb01IAueNvALeQcwNVJoPX6xHBX4ZtZLNqbhCrnxD6ZGPiyTT7W@vger.kernel.org
+X-Gm-Message-State: AOJu0YyCXh63Bagkx8yoSY0G6OTaum7edlUnEO+StLMLrXSgV+OUUTRW
+	DBmxwESfcc2yelYS/wz79ZxPaHyY0345SpGcXEkdudMeq3jd7U/au4ZA2oRjXm5ixQcAcdt5yff
+	KX+3FhxTlTvOURv35GUUG3bLhHpQMeCcMwjHF0oQd4+xrmF1RY+Y=
+X-Gm-Gg: ATEYQzyqffROzTPHvhsb7hMrvYh54L0QumKVTwZPlEXRJK1F7RPRZ3KY/YU5KqAggxA
+	ijMYKn5Jw7An9QDj9bWl2BIlP+i2prukA6egZMj9T1XVCPPSiGySp1f/ke7NRSuVBlS/53NDj8x
+	k74izQHYLAW8Wyayw+43a4xOWndrL7+PSyQuTy3aO/3ovrdXyEdg7rxCWsjYT/qwoLGrYfEPd6w
+	g5/t1bZgRZaWosLUjzkVUC4SABDS90iDwaxlpu3bgxwt1yS3LsfEmdbMEqWZs90wz7jTt+JNETs
+	/ZzrBiU=
+X-Received: by 2002:a05:6a00:4219:b0:827:2ee0:411f with SMTP id
+ d2e1a72fcca58-82c6de7aa7cmr3962195b3a.4.1774460210073; Wed, 25 Mar 2026
+ 10:36:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: AyMVdAmERJ9c
-Date: Wed, 25 Mar 2026 13:26:21 -0400
-From: "Chuck Lever" <cel@kernel.org>
-To: "Alexander Viro" <viro@zeniv.linux.org.uk>, kees@kernel.org,
- gustavoars@kernel.org
-Cc: linux-hardening@vger.kernel.org,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- linux-fsdevel@vger.kernel.org, netdev@vger.kernel.org,
- "Chuck Lever" <chuck.lever@oracle.com>
-Message-Id: <cc8ff9a7-d7f6-4588-82ba-e77c99574e93@app.fastmail.com>
-In-Reply-To: <20260303162932.22910-1-cel@kernel.org>
-References: <20260303162932.22910-1-cel@kernel.org>
-Subject: Re: [RFC PATCH] iov: Bypass usercopy hardening for kernel iterators
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+References: <20260323042510.3331778-4-paul@paul-moore.com> <20260323042510.3331778-5-paul@paul-moore.com>
+ <CAKCV-6t=m-8eu1xoTORnLwhG4kQB5u1v5diJDQDFcat=tH8WgA@mail.gmail.com>
+In-Reply-To: <CAKCV-6t=m-8eu1xoTORnLwhG4kQB5u1v5diJDQDFcat=tH8WgA@mail.gmail.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Wed, 25 Mar 2026 13:36:37 -0400
+X-Gm-Features: AaiRm53RXGI_5fUjjLSR_a0KxLZyxKMzyTIPSX8PFvRbx9JxRVkJ2AR_0Hlvr9w
+Message-ID: <CAHC9VhRNOGk0dGERbD+RRLTWebZu1-7cbvB0a2D0njbnqBRNXQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 1/2] lsm: add backing_file LSM hooks
+To: Ryan Lee <ryan.lee@canonical.com>
+Cc: linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-unionfs@vger.kernel.org, 
+	linux-erofs@lists.ozlabs.org, Amir Goldstein <amir73il@gmail.com>, 
+	Gao Xiang <xiang@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-
-
-On Tue, Mar 3, 2026, at 11:29 AM, Chuck Lever wrote:
-> From: Chuck Lever <chuck.lever@oracle.com>
+On Tue, Mar 24, 2026 at 7:01=E2=80=AFPM Ryan Lee <ryan.lee@canonical.com> w=
+rote:
 >
-> Profiling NFSD under an iozone workload showed that hardened
-> usercopy checks consume roughly 1.3% of CPU in the TCP receive
-> path. The runtime check in check_object_size() validates that
-> copy buffers reside in expected slab regions, which is
-> meaningful when data crosses the user/kernel boundary but adds
-> no value when both source and destination are kernel addresses.
+> Hi Paul,
 >
-> Split check_copy_size() so that copy_to_iter() can bypass the
-> runtime check_object_size() call for kernel-only iterators
-> (ITER_BVEC, ITER_KVEC). Existing callers of check_copy_size()
-> are unaffected; user-backed iterators still receive the full
-> usercopy validation.
->
-> This benefits all kernel consumers of copy_to_iter(), including
-> the TCP receive path used by the NFS client and server,
-> NVMe-TCP, and any other subsystem that uses ITER_BVEC or
-> ITER_KVEC receive buffers.
->
-> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
-> ---
->  include/linux/ucopysize.h | 10 +++++++++-
->  include/linux/uio.h       |  9 +++++++--
->  2 files changed, 16 insertions(+), 3 deletions(-)
->
-> diff --git a/include/linux/ucopysize.h b/include/linux/ucopysize.h
-> index 41c2d9720466..b3eacb4869a8 100644
-> --- a/include/linux/ucopysize.h
-> +++ b/include/linux/ucopysize.h
-> @@ -42,7 +42,7 @@ static inline void copy_overflow(int size, unsigned 
-> long count)
->  }
-> 
->  static __always_inline __must_check bool
-> -check_copy_size(const void *addr, size_t bytes, bool is_source)
-> +check_copy_size_nosec(const void *addr, size_t bytes, bool is_source)
->  {
->  	int sz = __builtin_object_size(addr, 0);
->  	if (unlikely(sz >= 0 && sz < bytes)) {
-> @@ -56,6 +56,14 @@ check_copy_size(const void *addr, size_t bytes, bool 
-> is_source)
->  	}
->  	if (WARN_ON_ONCE(bytes > INT_MAX))
->  		return false;
-> +	return true;
-> +}
-> +
-> +static __always_inline __must_check bool
-> +check_copy_size(const void *addr, size_t bytes, bool is_source)
-> +{
-> +	if (!check_copy_size_nosec(addr, bytes, is_source))
-> +		return false;
->  	check_object_size(addr, bytes, is_source);
->  	return true;
->  }
-> diff --git a/include/linux/uio.h b/include/linux/uio.h
-> index a9bc5b3067e3..f860529abfbe 100644
-> --- a/include/linux/uio.h
-> +++ b/include/linux/uio.h
-> @@ -216,8 +216,13 @@ size_t copy_page_to_iter_nofault(struct page 
-> *page, unsigned offset,
->  static __always_inline __must_check
->  size_t copy_to_iter(const void *addr, size_t bytes, struct iov_iter *i)
->  {
-> -	if (check_copy_size(addr, bytes, true))
-> -		return _copy_to_iter(addr, bytes, i);
-> +	if (user_backed_iter(i)) {
-> +		if (check_copy_size(addr, bytes, true))
-> +			return _copy_to_iter(addr, bytes, i);
-> +	} else {
-> +		if (check_copy_size_nosec(addr, bytes, true))
-> +			return _copy_to_iter(addr, bytes, i);
-> +	}
->  	return 0;
->  }
-> 
-> -- 
-> 2.53.0
+> I'm currently looking at the patch more closely to implement the hooks
+> for AppArmor, but here are some typofixes and the like below:
 
-Ping: Any further thoughts on this? Al, Kees, Gustavo?
+Thanks Ryan, I appreciate the extra eyes.
 
+> > diff --git a/include/linux/security.h b/include/linux/security.h
+> > index 83a646d72f6f..1e4c68d5877f 100644
+> > --- a/include/linux/security.h
+> > +++ b/include/linux/security.h                          unsigned long p=
+rot);
+> > @@ -1140,6 +1146,15 @@ static inline void security_file_release(struct =
+file *file)
+> >  static inline void security_file_free(struct file *file)
+> >  { }
+> >
+> > +int security_backing_file_alloc(void **backing_file_blobp,
+> > +                               const struct file *user_file)
+> > +{
+> > +       return 0;
+> > +}
+> > +
+> > +void security_backing_file_free(void **backing_file_blobp)
+> > +{ }
+> > +
+>
+> Should these two placeholders be static inline functions, like the
+> other ones around them?
 
--- 
-Chuck Lever
+Yes :)  The kernel test robot found the same problem yesterday, I've
+already fixed it in my working branch.
+
+> > diff --git a/security/lsm_init.c b/security/lsm_init.c
+> > index 573e2a7250c4..020eace65973 100644
+> > --- a/security/lsm_init.c
+> > +++ b/security/lsm_init.c
+> > @@ -293,6 +293,8 @@ static void __init lsm_prepare(struct lsm_info *lsm=
+)
+> >         blobs =3D lsm->blobs;
+> >         lsm_blob_size_update(&blobs->lbs_cred, &blob_sizes.lbs_cred);
+> >         lsm_blob_size_update(&blobs->lbs_file, &blob_sizes.lbs_file);
+> > +       lsm_blob_size_update(&blobs->lbs_backing_file,
+> > +                            &blob_sizes.lbs_backing_file);
+> >         lsm_blob_size_update(&blobs->lbs_ib, &blob_sizes.lbs_ib);
+> >         /* inode blob gets an rcu_head in addition to LSM blobs. */
+> >         if (blobs->lbs_inode && blob_sizes.lbs_inode =3D=3D 0)
+> > @@ -441,6 +443,8 @@ int __init security_init(void)
+> >         if (lsm_debug) {
+> >                 lsm_pr("blob(cred) size %d\n", blob_sizes.lbs_cred);
+> >                 lsm_pr("blob(file) size %d\n", blob_sizes.lbs_file);
+> > +               lsm_pr("blob(backing_file) size %d\n",
+> > +                      blob_sizes.lbs_backing_file);
+> >                 lsm_pr("blob(ib) size %d\n", blob_sizes.lbs_ib);
+> >                 lsm_pr("blob(inode) size %d\n", blob_sizes.lbs_inode);
+> >                 lsm_pr("blob(ipc) size %d\n", blob_sizes.lbs_ipc);
+> > @@ -462,6 +466,11 @@ int __init security_init(void)
+> >                 lsm_file_cache =3D kmem_cache_create("lsm_file_cache",
+> >                                                    blob_sizes.lbs_file,=
+ 0,
+> >                                                    SLAB_PANIC, NULL);
+> > +       if (blob_sizes.lbs_backing_file)
+> > +               lsm_backing_file_cache =3D kmem_cache_create(
+> > +                                                  "lsm_backing_file_ca=
+che",
+> > +                                                  blob_sizes.lbs_file,=
+ 0,
+> > +                                                  SLAB_PANIC, NULL);
+>
+> Shouldn't blob_sizes.lbs_file here be blob_sizes.lbs_backing_file instead=
+?
+
+Good catch, thank you!  I'll have the fix in the next posting.  I'm
+hoping to do some more testing today/tomorrow and post a non-RFC patch
+by the end of the week.  If you find anything else that looks awry, or
+just doesn't work, please let me know.
+
+--=20
+paul-moore.com
