@@ -1,104 +1,97 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2003308F38;
-	Wed, 25 Mar 2026 20:39:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5926A23BCFD
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 20:49:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774471169; cv=none; b=lGM1if8Y67vsbVD34l9jPwpq7BK4nvCFxv4qvo2p4K/UOaZ0NywkDJdXJ6YSSc/gSsKgX6dGC33OHSZ+CI8rCwzwIygU5OaRSzo+5Utq66hKjmYxUyEvEvKelR4oDfTv5G+ccqirEidtZny5YdwZkcCHI5Ut+csQMDC2Ws51hM8=
+	t=1774471764; cv=none; b=RPh9Aan6fEd7MrrrtoK1pbNJn5n5HzDwTiplGNL2Nz/jA6qmfd+r8UjBDUxAcK7IjvAgE4TKAKHUwMN8iSFwzdP8bUyV4IIyd6artWPqFU7IUYm3YlUHahSSv1qiPNMWYarvdn4AlAjm5yFKv0sM08xincy8TurWp/6p678ORPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774471169; c=relaxed/simple;
-	bh=AMsmI0aU+DwXjnXDp5MgHzE4DmsSNfqSkmJpzQV7Pp4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OT5ZW8orIWkZATkA0PJptupOK+fgdvFkUehHhyE4g+UZhwnI7wlAxVbiMgm68gJo+p2GO8CwXl6EwUFPbKFRfjqOy5UNLdsEXC00hkV4qxXFisTLTHUbYr8vz6vWyDwoq7lYMSwsMKywcdj9ywa4sHwtKlyN9VeYe6czrqm/vOE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=o4dEHtRV; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1774471764; c=relaxed/simple;
+	bh=5WnoGtPSMWV4Viq5c2WoNMPTP3OlXM7DpmHbQUZE8uY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=A9flsJrVqKavHiRQEu5Y+h4QL7Y60cUBZJ/Tnul1Jkgd3TAsS5XTzZFQqK6cK25SYNQ3F+ApV86ndNgo116cWwPIS6sSf0kRA4bHNvtE79bxUslaYavZJ4OtAeWgwjgfW/zhkHKRQWE0wICoBAA6nc7U2rcxvnEXsTJGlS3+s80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com; spf=pass smtp.mailfrom=googlemail.com; dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b=nO7MpbZX; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=googlemail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="o4dEHtRV"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=qX+god1XVd2ivXCYier0tY7NsB6ICtw7odjLzfpR+Aw=; b=o4dEHtRV1qXOf0mlPmYYJI7Li5
-	x8pyBl3KLeP8H95MLyv95XfcTpXFj0RR4J/a52leLhCW7ttG0fTz0hqwNNotVSklYRexKk28Pi+1L
-	mcjlPNvgZ0Gd2qr35dYqIgUD3YTHCudurWe6B3yOfjYap5P8QxfRTj1tlT6ekKTUPDDWgv7ZpP93E
-	t5i9d2nuRSHinYSzvotcMDSsacKfGdWyP1c0dDiSNDE807yrFR0EQMc8dSAGK+5z5fV5Ry+sH1cr1
-	MdUoOS3RIk/Elmy2VjrESqB5cqbwrU+QL1Rp0atHaOAP4atcCq2RDO2/YNEi2cVgiXGdhPTHl5FYV
-	zGMsX7LQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w5V0b-0000000GVxU-2CYm;
-	Wed, 25 Mar 2026 20:39:22 +0000
-Date: Wed, 25 Mar 2026 20:39:21 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Dave Chinner <dgc@kernel.org>
-Cc: Tal Zussman <tz2294@columbia.edu>, Jens Axboe <axboe@kernel.dk>,
-	Christian Brauner <brauner@kernel.org>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Carlos Maiolino <cem@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	Christoph Hellwig <hch@infradead.org>, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH RFC v4 1/3] block: add BIO_COMPLETE_IN_TASK for
- task-context completion
-Message-ID: <acRH-fWPKkFFXcLZ@casper.infradead.org>
-References: <20260325-blk-dontcache-v4-0-c4b56db43f64@columbia.edu>
- <20260325-blk-dontcache-v4-1-c4b56db43f64@columbia.edu>
- <acRE8pp6HxjK7Z74@dread>
+	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="nO7MpbZX"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-486fb439299so2865705e9.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 13:49:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=20251104; t=1774471762; x=1775076562; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5WnoGtPSMWV4Viq5c2WoNMPTP3OlXM7DpmHbQUZE8uY=;
+        b=nO7MpbZX51yiiboCReTmsuDhzYcZZ+yAaM1N0+X1GkDOPmOqXw3cC++GZjC/COJlSK
+         G2y6HhZhBixfYz0bPK/e2+x/S6v9SaQnWFlWqNOUIYjZcqCKtMeI1sDGudW5bFFJu5HN
+         5tfJPlZNsH2Sx+5Kz6fFxVJV5Ciz2+jLMtVEb0+9sHm4GaQqvI+ymhVlwppoNgldl4Oj
+         6bl8wJaPnFS5TqbexD4wBEnPUGeHrVB7J99TfAFbrm04mVMc4V2xPKnR29JwoESMtq4x
+         NxuLRqhuNWY+FBuo9UJQXACawtOMhNvDNuNUOCzWH3zhxig8P1A+5sFZ1w7/vFkwwqF9
+         i6AA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774471762; x=1775076562;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=5WnoGtPSMWV4Viq5c2WoNMPTP3OlXM7DpmHbQUZE8uY=;
+        b=I+JNIe8TdxSRAGh9VDKx/I3vFabP+3f5Ps5Oq9jQaMrEyGsMAPm4KRPfXvAkkDst3t
+         6uKPHgTG7f1HDih1E/TNnckJd73RsFOB6cahqHjnVACBs/rrwoRWGU/M19ugang4IiTP
+         TuO4G1G/eF4tiTagmZ7MfkOjufP9qH1XSkXHJs+eSQamEA7fHh48IQLUKyTOfisLjGD5
+         8NExW66fyzWVvhYR/MK2tDscjn0WF0nodiC6KL9+raSsSfFObi6oxJ06n648jKKlJChS
+         IX6z9JZoHnKs55Rd90TQVyM7s2aKsuMUdlGbqDe4H2qiXYJRUevUV+Ja3/LiyamZlQj4
+         CMjw==
+X-Forwarded-Encrypted: i=1; AJvYcCVxb7E2SVy0uTcCq8IMj+3H/+o4s4kHHZQzohqgjJKwoSFYOKHNB1rMd6rps2hA+1hA7R3WO0vQJh12FPEh@vger.kernel.org
+X-Gm-Message-State: AOJu0YyNhTPjZEhDrpgdvvHihJE9Dc4HjyThFfiVTkFH2ch6/EBLLrPh
+	HpULKkvCaX+VS6gvA0FUrVxJX7t83QzG00WwX2uQkVSdGcYS5uODpayM6U8sSqm1
+X-Gm-Gg: ATEYQzwmEIAVYgfAmtyW6Vwt82bWsb8z+lqdzeFmX/vqwkSDBkyhKtmPInkJ8pHO5Bi
+	gW3KED+uj4WuWP4/8zcRU5mLJGuyFqY4/25/ylCzCWfAXlWvsRHXFHonKCqaNccN0ryP7yCQhr5
+	/IsirwCMyahzD/vMoaNPqM7/ZoFqZ/ulkODbjwaNtjK6+LeBbT2dT4iTtT8MlLXCu4dOLJJJ183
+	hy87MFl5/Iq9X34IGlAqvABG41ZAu0pgkzTQh90IXqmV8icjjx24SkkGvQqAzg7EcdVGUrsPI8d
+	pHc1tlc1VZvzo4xpLTDnLV/GSOkeogMxv+MTqc76bG6KV5PxaePGGGOK/XZcRbcWsS/UQ0p+Ryk
+	LUxy/gjU3QF0b/c2hYwRNOyHMM7jWWYwHa0sq2dVspIlPgzGA02rfMF0CzJ4t0m1hI35ePPEMeo
+	U+9dcasjuzOZxrELpHmJk=
+X-Received: by 2002:a05:600c:a15:b0:485:39b2:a47c with SMTP id 5b1f17b1804b1-487160672afmr82496525e9.25.1774471761669;
+        Wed, 25 Mar 2026 13:49:21 -0700 (PDT)
+Received: from DESKTOP-I0B9J3E ([2a02:8071:5392:3220::bcad])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4871fbcedabsm1679005e9.26.2026.03.25.13.49.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Mar 2026 13:49:20 -0700 (PDT)
+From: Marc Buerg <buermarc@googlemail.com>
+To: joel.granados@kernel.org
+Cc: buermarc@googlemail.com,
+	davem@davemloft.net,
+	elias.rw2@gmail.com,
+	kees@kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	opurdila@ixiacom.com,
+	ps.report@gmx.net
+Subject: Re: [PATCH v3] sysctl: fix check against uninitialized variable in proc_do_large_bitmap
+Date: Wed, 25 Mar 2026 21:48:47 +0100
+Message-ID: <20260325204847.180125-1-buermarc@googlemail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <kqjjzsarsqgwtzrrih5hvmbeyrhsbkobvcjaznnxh7oegyin7w@p3u3jenw4h2r>
+References: <kqjjzsarsqgwtzrrih5hvmbeyrhsbkobvcjaznnxh7oegyin7w@p3u3jenw4h2r>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <acRE8pp6HxjK7Z74@dread>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Mar 26, 2026 at 07:26:26AM +1100, Dave Chinner wrote:
-> > @@ -1988,6 +2060,16 @@ static int __init init_bio(void)
-> >  				SLAB_HWCACHE_ALIGN | SLAB_PANIC, NULL);
-> >  	}
-> >  
-> > +	for_each_possible_cpu(i) {
-> > +		struct bio_complete_batch *batch =
-> > +			per_cpu_ptr(&bio_complete_batch, i);
-> > +
-> > +		bio_list_init(&batch->list);
-> > +		INIT_WORK(&batch->work, bio_complete_work_fn);
-> > +	}
-> > +
-> > +	cpuhp_setup_state(CPUHP_BP_PREPARE_DYN, "block/bio:complete:dead",
-> > +				NULL, bio_complete_batch_cpu_dead);
-> 
-> XFS inodegc tracks the CPUs with work queued via a cpumask and
-> iterates the CPU mask for "all CPU" iteration scans. This avoids the
-> need for CPU hotplug integration...
+Hi Joel,
 
-Can you elaborate a bit on how this would work in this context?
-I understand why inode garbage collection might do an "all CPU"
-iteration, but I don't understand the circumstances under which
-we'd iterate over all CPUs to complete deferred BIOs.
+Thanks again for the review and question.
 
-> > +++ b/include/linux/blk_types.h
-> > @@ -322,6 +322,7 @@ enum {
-> >  	BIO_REMAPPED,
-> >  	BIO_ZONE_WRITE_PLUGGING, /* bio handled through zone write plugging */
-> >  	BIO_EMULATES_ZONE_APPEND, /* bio emulates a zone append operation */
-> > +	BIO_COMPLETE_IN_TASK, /* complete bi_end_io() in task context */
-> 
-> Can anyone set this on a bio they submit? i.e. This needs a better
-> description. Who can use it, constraints, guarantees, etc.
-> 
-> I ask, because the higher filesystem layers often know at submission
-> time that we need task based IO completion. If we can tell the bio
-> we are submitting that it needs task completion and have the block
-> layer guarantee that the ->end_io completion only ever runs in task
-> context, then we can get rid of mulitple instances of IO completion
-> deferal to task context in filesystem code (e.g. iomap - for both
-> buffered and direct IO, xfs buffer cache write completions, etc).
+On Wed, 25 Mar 2026 11:07:23 +0100, Joel Joel Granados, wrote:
 
-Right, that's the idea, this would be entirely general.  I want to do
-it for all pagecache writeback so we can change i_pages.xa_lock from
-being irq-safe to only taken in task context.
+> I think the correct fix is your original version. Init 'c' to zero only.
+> Please resend it without the '---' so I can pull your trailers properly.
+
+Makes sense, will do.
+
+Best Regards,
+Marc
