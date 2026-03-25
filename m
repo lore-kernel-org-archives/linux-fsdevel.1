@@ -1,137 +1,105 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-188.mta1.migadu.com (out-188.mta1.migadu.com [95.215.58.188])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37C1533BBCF
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 18:40:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 924F633B6ED
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 18:40:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774464006; cv=none; b=qQxrDM5Xd98AxRDTQ3dGPDzbmHWdC95fygftIwi9s8Vl13Zz1rc44+Xd7InDEt6TOEjhT1JjjZ7d7Hbn0pMhSccrkNtfWs3iHZ3axKT6R9rVUVe8lJPYg7UR30AxFSUNSb+fk10a2M01CKb9a1IzNDt8VDdwaWPFo+ju3JpHOHw=
+	t=1774464007; cv=none; b=lYGcIWeGCwCfU+Z91VfXBAESZhfVceQZ6by7HIOJxNf8j+rhLmh/JweMSxgDyAmu3G0G3oWy+XLqGfOEGURSxgb8epgKkOxb9WGnKL4Jri6mhFFzI46h+iCDABBXZHeRAyhEVApmcRZ0kGa4zUmYHqIS2n7p2x7K/HQW1bNbkpQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774464006; c=relaxed/simple;
-	bh=ebA9AT3DZyrXiGPXOYiDArsAp7wmXKXImDq3tw/tBzA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KdRXVtxyZmBL6/TP0TZKNj4rMRJecSLU4MBXWTaHiyUvbg8B3JSM35IfLo8pzNgDJi+qScTrOFeL8zk+8putYkjQrAZuo3FO9Y3JRcP+rJNhY7CYeD6p3bz21gA+iDiUrgLuISgaI0Sjmswfn0E9/fjjZGxbgU914mws1eMP8Tw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=R82g9xbk; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=CeKczkdZ; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=ahQQq2GP; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=A3buodUM; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1774464007; c=relaxed/simple;
+	bh=48cu2et7c44Coh+w2eflFsLos3dZ0LkEmLZqJYXOmBM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=I6ADWVpydwzlrycLLix2CeulsAa+qcX73J8LAGsGPy7byDMjU+8JoWoXO15pD98tTk46Pluf+qZwsu24L4+TvbwSxrq0jv9VuQdG/IXNRbI1dhYp2artf79ZrifzcLksaK2kwJtVieHtbDbEfjN5wlUdqZ9SbvuI3hXw0g3dyCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=glrrir0Q; arc=none smtp.client-ip=95.215.58.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="R82g9xbk";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="CeKczkdZ";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ahQQq2GP";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="A3buodUM"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 2C3A95BCF8;
-	Wed, 25 Mar 2026 18:40:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1774464001; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YYDGDrGfIn122PZC9+Po4r/LTcmi8K6tGyJ7hJ3pxfU=;
-	b=R82g9xbkKRFUHDDEQ0sYaqpkgMyIA/uThYtui3aHU8RIAH4fXR2zekzITuIJIAY9TzAQMe
-	i3l+bePv+AeOWBQfb7j3LrxZoXnF1oHRl4KZ//PoISvSNE8g79x+Hl2/3rxQsZ/O2pbwNs
-	lV8wy6DuFgUA6d8L9aUM9WhDs8tTz0Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1774464001;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YYDGDrGfIn122PZC9+Po4r/LTcmi8K6tGyJ7hJ3pxfU=;
-	b=CeKczkdZKp+ZH0otzOb+1i8ldwwh29DdNYBJXt/l5s73zBSg/aujgeRvfXgpmdhU1mFHGb
-	DQJ8O5vR+4ADF8AA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1774464000; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YYDGDrGfIn122PZC9+Po4r/LTcmi8K6tGyJ7hJ3pxfU=;
-	b=ahQQq2GPbGUZ/H/+nbVfo8WGKCPHnKFbq8iFFU2lYW/t7svJLKxAqmSUuvLoUlLcuOFdzm
-	0EgpA/s0y/usHEcoeO1hRpL5YjJGmvr1asFc+ad39x6LijiB1NwXF+2Oylyu8hSLz4GdBo
-	gW43moFk3FMkwZGeqCxjnpcCoiXOkIE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1774464000;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YYDGDrGfIn122PZC9+Po4r/LTcmi8K6tGyJ7hJ3pxfU=;
-	b=A3buodUM4dUxTK65Jm8S0deVGOmbR8Y7lBnKO2SfyM9XNernv7ihWdK7NTeRY2KzMna7Bz
-	57wa0HlvX3g3XNDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2451644543;
-	Wed, 25 Mar 2026 18:40:00 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id SInMCAAsxGleTAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 25 Mar 2026 18:40:00 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id A307DA0B32; Wed, 25 Mar 2026 17:12:23 +0100 (CET)
-Date: Wed, 25 Mar 2026 17:12:23 +0100
-From: Jan Kara <jack@suse.cz>
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org, Jianzhou Zhao <luckd0g@163.com>
-Subject: Re: [PATCH v2 2/2] udf: Fix race between file type conversion and
- writeback
-Message-ID: <mrtedxufgnu3pguazamd6p3fgu7crj2hkx2gkmckodmn2zccfb@x3g5vrmntkxa>
-References: <20260324105132.30490-1-jack@suse.cz>
- <20260324105316.28684-4-jack@suse.cz>
- <acN6YNzbgVUPGETm@infradead.org>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="glrrir0Q"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1774463992;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=guUTuRkVZX4cpq0JsrYHGXP/ufz/bCOXkYefZ5151l8=;
+	b=glrrir0QgwQxzJllY+8VTjjzWAN4zl5XMicvWA2En0SCRKGNk+7e2Ln1EdevIoaUenq986
+	u+xE3AtUp5egR5AD8zNj+RzRIsqdMvBa7E5DzmwnMGmX1oSj2I1ZMtQ7EEkbIpbr0qF5X4
+	yEIgfrpTik057bvOvYG9Md4FtyGe5zA=
+From: wen.yang@linux.dev
+To: Joel Granados <joel.granados@kernel.org>,
+	Kees Cook <kees@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Wen Yang <wen.yang@linux.dev>
+Subject: [RFC PATCH v5 0/2] sysctl: add CTLTBL_ENTRY_XXX() macros for ctl_table initialization
+Date: Thu, 26 Mar 2026 02:39:14 +0800
+Message-Id: <cover.1774463505.git.wen.yang@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <acN6YNzbgVUPGETm@infradead.org>
-X-Spam-Score: -3.80
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_ENVRCPT(0.00)[163.com];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[suse.cz,vger.kernel.org,kvack.org,163.com];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email]
-X-Spam-Flag: NO
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Tue 24-03-26 23:02:08, Christoph Hellwig wrote:
-> The race is real, but I don't like exporting the writeback internals
-> for it.
-> 
-> It seems like the somewhat cleaner version would be to have a version
-> of mpage_writepages that takes and extra callback called in the
-> writeback_iter() loop and allows bypassing mpage_write_folio when
-> say returning a positive value?
+From: Wen Yang <wen.yang@linux.dev>
 
-With a single user I don't think that's really worth it. I think it's
-easier to just opencode that small function in UDF. It won't be the first
-filesystem doing the "is it dirty, wait for writeback, clear dirty bit"
-dance on its own. Thanks for feedback!
+Historically, changes to how struct ctl_table entries are initialized
+(e.g. removing the child field, const-qualifying ctl_table) required
+touching hundreds of files across all subsystems.  Such series require
+the attention of many maintainers, sometimes need to be pulled into
+mainline in a special way, and create lots of unnecessary churn.  With
+CTLTBL_ENTRY_XXX(), future structural changes to struct ctl_table need
+only update the macro definitions.
 
-								Honza
+Conversion of existing call sites will proceed incrementally from
+kernel/sysctl.c outward, rather than as a treewide sweep.
+
+This series:
+ 1. Introduces the CTLTBL_ENTRY_XXX() macros in include/linux/sysctl.h,
+    using _Generic() for automatic proc_handler selection, auto
+    address-of, auto maxlen via sizeof(), and compile-time validation.
+    Supported types: int, unsigned int, long, unsigned long, bool, u8.
+ 2. Converts kernel/sysctl-test.c as a demonstration, adding a
+    parameterized KUnit test covering all macro variants (V, VM, VMR,
+    VN, VNM, VNMH) across int, u8, bool, and char[] types.
+
+Based on discussion and suggestions from:
+[1] https://sysctl-dev-rtd.readthedocs.io/en/latest/notes/ctltable_entry_macro.html
+[2] https://lore.kernel.org/all/psot4oeauxi3yyj2w4ajm3tfgtcsvao4rhv5sgd5s6ymmjgojk@p3vrj3qluban/
+
+---
+Changes in v5:
+  - Extend __CTL_AUTO_HANDLER to support bool and u8
+  - Replace individual test functions with a single parameterized KUnit
+    test (KUNIT_CASE_PARAM) covering all variants and types
+  - Use struct ctl_table as the expected-value container in the param
+    struct, eliminating custom expected_* fields
+
+Changes in v4:
+  - Fix Wpointer-type-mismatch warnings detected by lkp:
+    https://lore.kernel.org/oe-kbuild-all/202603050724.SZxrEyyu-lkp@intel.com/
+
+Changes in v3:
+  - Replace the unique macro with "capital letter approach"
+  - Reduce the name further
+  https://lore.kernel.org/all/rn4rsazh7kxf5byq65vw2phyqgzvwm3scczu3l5h2r4aqit2r6@znlpb24z2zuo/
+
+Changes in v2:
+  - Add lvalue check, handler type check, etc.
+  https://lore.kernel.org/all/xptwb3uwbzposd4xf7khj52ifv4tchcjdgllhv7aabi6d7wgef@2msurl564v53/
+
+
+Wen Yang (2):
+  sysctl: introduce CTLTBL_ENTRY_XXX() helper macros
+  sysctl: convert kernel/sysctl-test.c to use CTLTBL_ENTRY_XXX()
+
+ include/linux/sysctl.h | 307 +++++++++++++++++++++++++++++++++++++++++
+ kernel/sysctl-test.c   | 237 ++++++++++++++++++-------------
+ kernel/sysctl.c        |   2 +
+ 3 files changed, 447 insertions(+), 99 deletions(-)
+
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.25.1
+
