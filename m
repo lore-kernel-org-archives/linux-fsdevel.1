@@ -1,146 +1,114 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24EC13D16F5
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 12:03:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774440229; cv=pass; b=JtRLQPUx81vJKEYkzX+0I4JPGZKFYv3XR9CSxRREE1B6wXIaOtRAhGy4DggJtwDBkF5wK1i/VW6ZANX/HWWtqSSe+ar0UlxQdPoAF/caHGF6HbYWw7GFUfqQ2UBXKxAZi9xYo476DafsReGXJd9hJ80t9z2GpDRoi5vmVt45Gfg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774440229; c=relaxed/simple;
-	bh=vb7uvMgj+8pqSx85DvCgOQ/cEcgsqLMGegmZ1K2OngY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=i5TgjClvi/pvELrZKkfvwc20lk0GtgD4LSRth2bKV/vdSoCjRiOyL3TI8WjZ+xtXzCi0S1xZa5HJcBs2tkfIpV+2J5kAs8JMzcqeFUbNMIbmlWmtozKroXUuPd3qhl6S0S1P4JxNI17b4rUOCMDOjBeQ2DJ2tCNG2HMNBvDuuXI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QQYTgU3o; arc=pass smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 250113D16F5
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 12:08:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774440529; cv=none; b=V4ynyaDH6M5HALHcWFpbLARIcoSjk9uToTdYZ9pwnXH+aw5KmBTsiq+Cc2UDrz+ioPufSycBPQTA72Lqym24S1gX3YNtzMtDDIAmCeaglxWCohT0RymTzTOnaTCzfQvL793whw+pHHKibDVV3xGm+F7JKYotcP/LVXqdcP9fw4c=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774440529; c=relaxed/simple;
+	bh=LbeAqmlJTzsDU2WI+JQRb0J70AEGN7cPn533Ft2zw3E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SlYvLXnDmIoMID63JUlBEPs0nSCyyDNWYhNXs513Ws7bBn4iXvQGVffvbJzjdCNNvFsEQzp7q78C/yxaejwIO6EBlP7DYfx+zBaGBBriOeqBbuJPyFTwVOKsA2klWBtOlUzO2c+b7Kegut/ASUNEGzfRqNQdF+eVbVIhnx3fXXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=duzdEEoJ; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=G1yoz54M; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QQYTgU3o"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-661cfb9f3aaso8565320a12.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 05:03:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774440226; cv=none;
-        d=google.com; s=arc-20240605;
-        b=g8cdUtjTGNBwgriVWq7laEMsx0s7u4Z/+PdcPcPhJB1ScGaYfZcQrnIb5TDtmomycF
-         2GR4Y6MA52d/aalpV0lvM9zPHSYkpIIsIiG3OYJL52/B2ZweJFfHnJWc/xGkmCT7YbDB
-         4sdLxFIaiA0IR9/0zCxb/4xkY14oKGc6uqIFM5gmGCLIWNSAvy98U3r4b+8KTRRNnlkf
-         hd0ddCssm3T3ITYnV/KIurIMGol7qGrByPfsNqNh0eJFalgo80YKmQqtZdfYaMmC55L8
-         pL74siBGOI/azqdGrnFLF78ZV46B/4fJlE11hqJGxc9ikbEkleKolSVvLKvve+i7cFP5
-         a3MA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=vb7uvMgj+8pqSx85DvCgOQ/cEcgsqLMGegmZ1K2OngY=;
-        fh=g+wl9cZxN061fWhH6OA11DAIewXUyP24vWsmi+/msF0=;
-        b=H5iXqX6Bi5/gzC4zt3hlqBNpC48XzboEKcLkXU92Dif+rwywhJli8SiNvr0DWdq29Q
-         SAaI3hcfU9tBtqO/4XwlLAx/r/kjxA108WYjZMjmQtM+j0B/JwiCNF9CNuT6NlmhnYwH
-         esdGDIryvokxVBIH0iTzEqM+LnY+5EWdEBP88jpQP0LqEmaXvYRX1XrqpJQte7v+h2ZZ
-         uEuRLQ0ZXdKqafnIavmyFFDwVNjJphpcVhT4H9buJJaRX3OJJAA7EmD43OC/yPUj1hcQ
-         uwoFkQ+kHvvqIDXaWsn34f7UvbQCPTNKd/9IJ0/Zh1PLErxciS0x1EMjfQDLvLzOf86z
-         +g5A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="duzdEEoJ";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="G1yoz54M"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1774440527;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xgQzcNVTgAYMtY/AG+BgYI0+wd9pZeBrIlwhVeuWoe0=;
+	b=duzdEEoJL5glagj1MhAj7wlHDna6M37vbGi2G2LFx6oQh1OAAYx456ElckKtbQlIrfFrm0
+	G91hBCENiJM+gmkOSyFjys82JFRul37zctORey0kxfMdgR23eJbfuFtS7Z9XzH/CtsRMwW
+	RHXhEdsRc17DkToKaZqbTErul2X/5AI=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-695-cRxJTE_dOVW_TuF8ZVBfdA-1; Wed, 25 Mar 2026 08:08:45 -0400
+X-MC-Unique: cRxJTE_dOVW_TuF8ZVBfdA-1
+X-Mimecast-MFC-AGG-ID: cRxJTE_dOVW_TuF8ZVBfdA_1774440524
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-43b4d3919e4so2439272f8f.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 05:08:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774440226; x=1775045026; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vb7uvMgj+8pqSx85DvCgOQ/cEcgsqLMGegmZ1K2OngY=;
-        b=QQYTgU3oqQkkuA3YhoETSzobfKrhfbQutworh0GWHJzNSUEQp4IIw8hk1RnWf/sWY/
-         jFpSW502ikRTJW0UXmYbQtp3hH08zM+qsk0pLGfDPnxUY+c8Xo+6DsssuGnJZXlN6nQL
-         XEeg+fXMsug+TQx6DcAbHqL9VNYMpfW+7qT4oj+Er60ErVHnJ0wb5hvsMwv24cewZGP7
-         oPLLJTAZ3JscWgATaEzi/hBTuZdYTdFH9cOYqT8D/f1DvQZiGKNzTxs3Mh7QTNPsRbQk
-         KxDQPF9J88sleBn0kW34Z6DYf4LH3pZMtrgAkZW5N7FWsJh9afPjZhnT0oWLonhph9th
-         IESA==
+        d=redhat.com; s=google; t=1774440524; x=1775045324; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=xgQzcNVTgAYMtY/AG+BgYI0+wd9pZeBrIlwhVeuWoe0=;
+        b=G1yoz54MAUMJ2qpywnQfiM+YoKwm+WbO7U3YMxFsBVjE87pW60nS+9Fhh39YXfiDfL
+         iLapvsxdKYIceymdRWKFxXVez0JVDyWdj5FvNWH6sShung2f8VUBoL6BypALZAxjYKmi
+         YHlXDM4t64iIAh3zdi/IHyuKTcC/6QG09rJ4yynQ1X7204q8htvzhmKJj+hL0X6Db/Vd
+         7oMTWZeIVDnn+kjcWwVJMENAjqB7mLj2djM0aQqSvDXSZSvTYldysXNkd8U6nFbFISAq
+         W0VluO3Zn7dBK4vlpJuZf8esRZhiPB4YWxhIkoDVkJ9Brto22z7xDoF18EUze+Xe9QVN
+         +r7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774440226; x=1775045026;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=vb7uvMgj+8pqSx85DvCgOQ/cEcgsqLMGegmZ1K2OngY=;
-        b=V+vJzGaAWV821g0N+LnjHE7oxtj65XCs6wkBE+PjcDpQEH1Uahm+VrbV993gbadNLT
-         5fQ/GDLcBZOWt+tRqvq3lrQppoDzWEENrR31SS2Giu0gTr5CBws8XuVxjLZUER1gTnLI
-         Ng14tjgZ0CQQtbyOJqYlQl5ygkbVsZClBoX5yAEpvHjuT60gkNnL5jvNgBS7v0/uijV5
-         IDYSFlUCe2jLSjYCat8eQThU46/Z3NmKOrGPovMFPodbczwc0RKI9xLqvTrOBjDsuR5i
-         P+vRu+syZhWYggH60v9XMzV7QBjaQ2bBu2WIyJHZwdsWd7w/1aquJ6cNzNt9vapl79or
-         ZULA==
-X-Forwarded-Encrypted: i=1; AJvYcCUn29MykrVPNGf4SOLCgJwgOvJgB5J/r+D78yVE/QfEViIfX9jvxM23fS/ctwZrYbJITtUux9HylAVaRtpO@vger.kernel.org
-X-Gm-Message-State: AOJu0YxrSxO2sda2Y4L2IxDa24mrTCHh2IWhmaRX98jRa3WEy7N7KrRQ
-	YehrxC4DvZjPVO8v0SaEEbIp6XRkqHKJD2Gf+6dXbAegBZFdLCHiFOXXUSHLlgsy7C5IUe5vaBW
-	WfKhhlP2fDm5csuWw3GKGn1oNdMEvY2k=
-X-Gm-Gg: ATEYQzybCBlIElP+ZnQwso+FjBRd7a6pMCQnEnR+Q6ZlWYWXPiAeKE9cuMq2DqHd/gR
-	tocd2tKXEYW+btrThg4njDvfwuKV6+Fwd+UfMgXI0d5Q0J6R3wjlliLNjtlshx4WrLiZD4LlpUK
-	I6D8O2Vm4SIS8mXO7bAAooAVqqbPwKH4dD7VxYYiJ/GN1xMXqYxVF1Rz+xYRNnpASuekQorEPNs
-	pubGqj1M+5GotgqACCYhg1xs2Zx4DKtvjl57oHsy208CSuxEoch/hT3LnLcWn/K+a7y5FZ0CAWN
-	GECCZv2GCGuDWm7DSI2cRuFe9pTOqCg0NhiRWXTanQ==
-X-Received: by 2002:a17:907:980e:b0:b8e:796a:fd5c with SMTP id
- a640c23a62f3a-b9a5425bcafmr230697766b.27.1774440226200; Wed, 25 Mar 2026
- 05:03:46 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1774440524; x=1775045324;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xgQzcNVTgAYMtY/AG+BgYI0+wd9pZeBrIlwhVeuWoe0=;
+        b=ZzdtgtMISOYO8HexwLyo/CNmPrGC3x1puzeNTmih1N03+BXjsl1+D6Fmu78UAYrhu5
+         W2lGJNupFRYrCGpDaE9mTZszD2O7LpYn8waeb5fa91+m4397iUlglsze7Z8HAqegtrE4
+         a23m3NgaNZUx/p+ME7f3zTSbnhqmiOkGzgViCCtTvPyuEfCfJDrpH0PO+xU50Eic61mK
+         vGCSE6UN3OdM2flJysQuwIb2LFKwmzJqZM76uoWflZcPQOQULGmY6vxGk2UJ3H5+zrOF
+         6mlXBKBW2e1V+ynWmdJNIchHj8PGNI9TzFK4TUlKbH78MFCxFYfiLv56pki8p9w+oueF
+         F4Cw==
+X-Forwarded-Encrypted: i=1; AJvYcCUvTzsd3k6encsPcljWFac/pP+vhYLftyQMP80NFNXeioIY1MRWvyTa5Q3kz0xLB0eg9O+E8WyD9ViRAcWt@vger.kernel.org
+X-Gm-Message-State: AOJu0YyStkiQCOLHJOFKzpFI4pdMv30XQt1Dukh/cLT6KueRMLmt7NUN
+	4TREWtUXIt6ifDLB5eDTApfkrDSadtR5JafbhfjVjJiXS4SWD301svSe322jgGdO2gZLib93Y8g
+	y/wBPjZEITLMbxeKkmPeo0ZxzrlEp9OqtoHxXG40tjvvpKqlVo3E5pmtZRaUkkElqtg==
+X-Gm-Gg: ATEYQzw0+mVhWyDp7dXMgKizBv+c30Gy16zNFIWABdRvKVo/UN83kVl2ER9aVIVcxxG
+	fkfQghuX+fygNUJ1/v+ygegWTBanGWWqaPMgX8A+tf1tG62i24z/PTqichAjChBFTiDUsn6OUFr
+	szBpFjgSrm91SmpHjchjX7Ci1uLBln1mvOvi5w2gKNJum/4rzbp/Qq2IXUXsYIt1fWV09ehkSXG
+	5YzW1MuZ3p4hjs/ruAPR8Ws4R0Wvdb+cI5c7yWRRhlGuuxWqFBI4H4gVX9skR1iP0FD+nk9UK/V
+	TLJpbHOa1ewZwn3BSEoN7tyqcP7bZYGPw9SVRTM6Ns34bgIJl1x+/p6sWLHrfOqKHn2Z/qwyp0P
+	zy97HRnF/8CQhEQ==
+X-Received: by 2002:a05:6000:2c0c:b0:43b:436d:782a with SMTP id ffacd0b85a97d-43b88a2168cmr4549298f8f.5.1774440524012;
+        Wed, 25 Mar 2026 05:08:44 -0700 (PDT)
+X-Received: by 2002:a05:6000:2c0c:b0:43b:436d:782a with SMTP id ffacd0b85a97d-43b88a2168cmr4549233f8f.5.1774440523459;
+        Wed, 25 Mar 2026 05:08:43 -0700 (PDT)
+Received: from thinky ([91.245.205.131])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b90f17158sm216982f8f.8.2026.03.25.05.08.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Mar 2026 05:08:42 -0700 (PDT)
+Date: Wed, 25 Mar 2026 13:08:41 +0100
+From: Andrey Albershteyn <aalbersh@redhat.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Andrey Albershteyn <aalbersh@kernel.org>, linux-xfs@vger.kernel.org, 
+	fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org, ebiggers@kernel.org, 
+	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
+	linux-btrfs@vger.kernel.org, djwong@kernel.org
+Subject: Re: [PATCH v5 09/25] iomap: issue readahead for fsverity merkle tree
+Message-ID: <nune2zskdoz2buxwj73z652azx4pwwkpsjjluq55mk3odybhym@2lolknvk7ddf>
+References: <20260319170231.1455553-1-aalbersh@kernel.org>
+ <20260319170231.1455553-10-aalbersh@kernel.org>
+ <20260325080407.GG952@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260324145750.90719-1-amir73il@gmail.com> <acN457svKhT5TcKI@infradead.org>
-In-Reply-To: <acN457svKhT5TcKI@infradead.org>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Wed, 25 Mar 2026 13:03:34 +0100
-X-Gm-Features: AQROBzAGy3XNT_kv4MdESc7yjI0imOrkuxyj3QWBiKFezafRk0eZnnUgjwE_k90
-Message-ID: <CAOQ4uxh5NFvXGop6ne-zfRbH5p6BPT2kCt7dUkP__-TtpeJjJQ@mail.gmail.com>
-Subject: Re: [PATCH] ovl: make fsync after metadata copy-up opt-in mount option
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	linux-unionfs@vger.kernel.org, Fei Lv <feilv@asrmicro.com>, 
-	Chenglong Tang <chenglongtang@google.com>, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260325080407.GG952@lst.de>
 
-On Wed, Mar 25, 2026 at 6:55=E2=80=AFAM Christoph Hellwig <hch@infradead.or=
-g> wrote:
->
-> On Tue, Mar 24, 2026 at 03:57:50PM +0100, Amir Goldstein wrote:
-> > From: Fei Lv <feilv@asrmicro.com>
-> >
-> > Commit 7d6899fb69d25 ("ovl: fsync after metadata copy-up") was done to
-> > fix durability of overlayfs copy up on an upper filesystem which does
-> > not enforce ordering on storing of metadata changes (e.g. ubifs).
->
-> I'm trying to understand this previous commit more than this one,
-> but what 'enforce ordering on storing of metadata changes' does
-> overlayfs encode right now?
+On 2026-03-25 09:04:07, Christoph Hellwig wrote:
+> On Thu, Mar 19, 2026 at 06:01:56PM +0100, Andrey Albershteyn wrote:
+> > Issue reading of fsverity merkle tree on the fsverity inodes. This way
+> > metadata will be available at I/O completion time.
+> 
+> Patches 8 to 10 really look like they should be merged to me.  They
+> all add the actual fsverity support to the iomap buffered read path,
+> and merging them and having a single explanation of the side seems
+> helpful both for review and future archeology
 
-On copy up or a directory:
-1. create a directory in tmpdir
-2. copy attributes and xattr from lower directory to this staged
-directory copy up
-3. move it into place in overlayfs upperdir
+I see, thanks, I will merge them.
 
-Until commit 7d6899fb69d25, there was no fsync before step 2 to 3.
-Only when copying a regular file there was fsync after data copy up.
+-- 
+- Andrey
 
-This of course provides no guarantee over the state of the copied up dir
-after crash, whether the directory is observed in upperdir with or without
-the attributes, but in reality this is how it is since 2014 and for many lo=
-cal
-filesystems (e.g. xfs), there is little risk in this practice.
-
-It should be noted that overlayfs is quite picky about which filesystems
-are allowed as upper filesystems and specifically network filesystems
-are not allowed.
-
-> There is no real ordering requirements
-> anywhere in the Linux file system API, so it does sounds like ovl
-> is making some assumptions by default?
-
-Correct. I would say "making assumptions" I would just say that
-overlayfs has never taken this aspect into account.
-
-> Are those documented somewhere?
-
-I guess not, but now that this commit introduces, fsync=3Dordered,strict
-and a documentation section about them, it is a good opportunity
-to expand on this point. I will add that.
-
-Thanks for pointing this out.
-
-Amir.
