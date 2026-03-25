@@ -1,110 +1,217 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC65B318BA6;
-	Wed, 25 Mar 2026 18:44:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAC2F34104E
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 18:50:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774464265; cv=none; b=sTST3uzFwCZETY9ECu1C3rNfLoPIYCZi5s8PgSh+tEtv0gXyKhrlL5ycM59/6oBXIdY/eUSule6adGhBjrFjkwZ+Jf9MJ/ygZdVtTpyBRVpg/PR7Px++BpFI+2LG1v8FwJ5z16NTbd40C1XVwlnRZcda3eRsM/7M8aqbnSVbQdk=
+	t=1774464615; cv=none; b=L4eiSms5tGbQ969j93n3h9RPp5C5ZSR5IU21pK9V81saqqwBy0deRj+M4dqC76ADOAyyPAlOmlkw0YqtpxTY6AzzxqHcNn5i8Rw9DCuuMfTnVDEgw/5z3bq+n0pYT3um31BE7L+KDBwZ371a/z6gMWyOz1vMUojFrg+FDq0NLKY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774464265; c=relaxed/simple;
-	bh=Q4Vizb1B1cpQvvFYrjV9Str+6hi34rpWBD8aY9TqbfI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iOOwNJD5vw/6VDucwaT923z0cviITfQiuzQLUs8C2fVcuE2tmGme5aTmcurRxrQi7VbyZQ3cPY2KMwMHUkewlQAXd3ZDm5qoTc2aUKLQxJmzcOMtFuvgiNafbPI2ow8kyDJxhaxxAZm/tbuz/tMaa8ZLG7MRUzv0/3YFCoL474k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b/v6i8fo; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774464615; c=relaxed/simple;
+	bh=w1VISlujRgrRgqZxdVDhT0cMk3ovWMZc7Q2krevfdQ8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uCIN6q6L97PjXPIFLcQkdS2M8hGRMA17AFTn5qPNqFEaPsspRbg9ubflhxu59UCufjfnLXEMsWNFTOalNe+6Z1JJ8pL7qc8rsHRiQgqRWP1r8DjFnN7UNllWuRtkPYtDz4VrtQzgOEayoh/s/8IykdEkhwpUbDzjO6JfNd5nWYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=3Dpr3+Bh; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=c08EFa0n; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=3Dpr3+Bh; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=c08EFa0n; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b/v6i8fo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24946C4CEF7;
-	Wed, 25 Mar 2026 18:44:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774464265;
-	bh=Q4Vizb1B1cpQvvFYrjV9Str+6hi34rpWBD8aY9TqbfI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=b/v6i8fo+vCDTuurUcBJ6vIdUXSzqxb7B/H+jyR7aziWaxChVparkP1xpzHA4L+Kh
-	 0+1G6NUJO+VCs044hBHbYry3sea3INNqk7t0OXSop7kK5AFE6+TV1USZMWYfrTWg8j
-	 jChBK3dgjXD7onzbUo4rew4EgiAnImaScdAATampyOermEf2S4+tueQT1DEeySLNN7
-	 +C1nJXrvxSmvCUSUxc3imsiO1O/XlT+bAFM9byzYzFr3UcRgxYAzPP3U9yE3FGbBEn
-	 f3QXzFPLvC1/nhdJGTidMO1E4V+YOCqWwK6fYm8qftH9YVIwmMVgXEjBHRRNEV3si6
-	 nbeb1Qgql8q2w==
-Date: Wed, 25 Mar 2026 18:44:13 +0000
-From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Pedro Falcato <pfalcato@suse.de>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dan Williams <dan.j.williams@intel.com>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, Gao Xiang <xiang@kernel.org>, 
-	Chao Yu <chao@kernel.org>, Yue Hu <zbestahu@gmail.com>, 
-	Jeffle Xu <jefflexu@linux.alibaba.com>, Sandeep Dhavale <dhavale@google.com>, 
-	Hongbo Li <lihongbo22@huawei.com>, Chunhai Guo <guochunhai@vivo.com>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	David Hildenbrand <david@kernel.org>, Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
-	Tony Luck <tony.luck@intel.com>, Reinette Chatre <reinette.chatre@intel.com>, 
-	Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>, 
-	Babu Moger <babu.moger@amd.com>, Damien Le Moal <dlemoal@kernel.org>, 
-	Naohiro Aota <naohiro.aota@wdc.com>, Johannes Thumshirn <jth@kernel.org>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Hugh Dickins <hughd@google.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Jann Horn <jannh@google.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, 
-	linux-erofs@lists.ozlabs.org, linux-mm@kvack.org, ntfs3@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 3/6] mm: always inline __mk_vma_flags() and invoked
- functions
-Message-ID: <1ae3915e-19ef-4be0-aa5f-fd66a2e18179@lucifer.local>
-References: <cover.1772704455.git.ljs@kernel.org>
- <241f49c52074d436edbb9c6a6662a8dc142a8f43.1772704455.git.ljs@kernel.org>
- <ndtnvnobevdymu5a5tdxdbi4tcsqshs3d6x2vnfgnuclxvgwok@bhbqkzilsets>
- <d352055d-06fe-43b2-8ad3-b73ab99683d0@lucifer.local>
- <20260325090949.795e06f48ec455053db9ae89@linux-foundation.org>
- <959b34ea-69a7-4fda-a494-0b9a1773ec1d@lucifer.local>
- <20260325112755.e62cd89508224f703239f03a@linux-foundation.org>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="3Dpr3+Bh";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="c08EFa0n";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="3Dpr3+Bh";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="c08EFa0n"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id CFE1B4D249;
+	Wed, 25 Mar 2026 18:50:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1774464610; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=kY4KdGkMsJWjJ5ksMVNV6iC59kNSYPkvqWwG9HHqq9o=;
+	b=3Dpr3+Bh+/yfSzGDe08mC9SkKmsQfCFpGQfUsUd1dvqpgYPMQpHNfxaWzDPXsYPsY5SkX7
+	Pjgvq1X0474iQumckfLCTWY2O/LvQzC1lyd5kCixXXbZreS6+wOU/tBgfqDZsZqJwz67qu
+	OV1ODEIFb1v4hnLDxYvyQt+v5jsGB3A=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1774464610;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=kY4KdGkMsJWjJ5ksMVNV6iC59kNSYPkvqWwG9HHqq9o=;
+	b=c08EFa0nsffs5g0ENqs0KZGNQk/pHV3AsHfVTFjJlQvzqweXwS1S/z8ht+vV/cUl3u9bzu
+	LnC0GmKR2q8aYYAw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1774464610; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=kY4KdGkMsJWjJ5ksMVNV6iC59kNSYPkvqWwG9HHqq9o=;
+	b=3Dpr3+Bh+/yfSzGDe08mC9SkKmsQfCFpGQfUsUd1dvqpgYPMQpHNfxaWzDPXsYPsY5SkX7
+	Pjgvq1X0474iQumckfLCTWY2O/LvQzC1lyd5kCixXXbZreS6+wOU/tBgfqDZsZqJwz67qu
+	OV1ODEIFb1v4hnLDxYvyQt+v5jsGB3A=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1774464610;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=kY4KdGkMsJWjJ5ksMVNV6iC59kNSYPkvqWwG9HHqq9o=;
+	b=c08EFa0nsffs5g0ENqs0KZGNQk/pHV3AsHfVTFjJlQvzqweXwS1S/z8ht+vV/cUl3u9bzu
+	LnC0GmKR2q8aYYAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C11794454D;
+	Wed, 25 Mar 2026 18:50:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id NTCLLmIuxGklVgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 25 Mar 2026 18:50:10 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 955CBA0B57; Wed, 25 Mar 2026 17:22:24 +0100 (CET)
+From: Jan Kara <jack@suse.cz>
+To: <linux-fsdevel@vger.kernel.org>
+Cc: Christoph Hellwig <hch@infradead.org>,
+	Jan Kara <jack@suse.cz>,
+	Jianzhou Zhao <luckd0g@163.com>
+Subject: [PATCH v2] udf: Fix race between file type conversion and writeback
+Date: Wed, 25 Mar 2026 17:22:10 +0100
+Message-ID: <20260325162209.29233-2-jack@suse.cz>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260325112755.e62cd89508224f703239f03a@linux-foundation.org>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3272; i=jack@suse.cz; h=from:subject; bh=w1VISlujRgrRgqZxdVDhT0cMk3ovWMZc7Q2krevfdQ8=; b=owEBbQGS/pANAwAIAZydqgc/ZEDZAcsmYgBpxAux9vhtZFN1N6cY0g7nvmQ5D+kWaqg8NeyUJ mhItLW+DHqJATMEAAEIAB0WIQSrWdEr1p4yirVVKBycnaoHP2RA2QUCacQLsQAKCRCcnaoHP2RA 2RuqB/4sEUb3HH0TzLqnh38uBluxsRFJsXv8r6uLfbV3aGiMRV+gIrSJy3XGGRRfusNjRuRECNT /q1q0SlXRwLUM8fY3QBQgoJsUjmReFfflhQ0K4+A0+u/ApNXJJnrm2uH/MjcteiJL4WVDOTrtnS jMEBFMdRpNoNrIk6kJda/tFavl1pZ7wuI821xXb9Kn7sxWZVxthCJhGEIb5LAZMUuUe5o+BMxyi /NokLdetvPGk/9beiX7NaglvrHy3aG6O0F0VoxFmelYnDW0+QoZGnoqPTUNE62tUBQuCaFKgFdj JeZ6zA5Mmz5Pn1g4LzKlWQeu/CoNNCk4SQi4nFtUPRnTAjO0
+X-Developer-Key: i=jack@suse.cz; a=openpgp; fpr=93C6099A142276A28BBE35D815BC833443038D8C
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -2.80
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_CC(0.00)[infradead.org,suse.cz,163.com];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:mid,suse.cz:email];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_COUNT_THREE(0.00)[3];
+	RCVD_TLS_LAST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FREEMAIL_ENVRCPT(0.00)[163.com]
+X-Spam-Flag: NO
 
-On Wed, Mar 25, 2026 at 11:27:55AM -0700, Andrew Morton wrote:
-> On Wed, 25 Mar 2026 16:23:53 +0000 "Lorenzo Stoakes (Oracle)" <ljs@kernel.org> wrote:
->
-> > Maybe 'into an inline constant value' is better?
->
-> <bikeshedbikeshed>
->
-> How about
->
-> : Be explicit about __mk_vma_flags() (which is used by the mk_vma_flags()
-> : macro) always being inline, as we rely on the compiler turning all
-> : constants into compile-time ones.
->
+udf_setsize() can race with udf_writepages() as follows:
 
-Well I think that loses the meaning a bit.
+udf_setsize()			udf_writepages()
+				  if (iinfo->i_alloc_type ==
+						ICBTAG_FLAG_AD_IN_ICB)
+  err = udf_expand_file_adinicb(inode);
+  err = udf_extend_file(inode, newsize);
+				    udf_adinicb_writepages()
+				      memcpy_from_file_folio() - crash
+					because inode size is too big.
 
-Something like:
+Fix the problem by rechecking file type under folio lock in
+udf_writepages() which properly serializes with
+udf_expand_file_adinicb(). Since it is quite difficult to implement this
+locking with current writeback_iter() logic, let's just opencode the
+logic necessary to prepare (the only) folio the inode can have for
+writeback.
 
-Be explicit about __mk_vma_flags() (which is used by the mk_vma_flags()
--macro) always being inline, as we rely on the compiler converting this
--function into meaningful.
-+macro) always being inline, as we rely on the compiler to evaluate the
-+loop in this function and determine that it can replace the code with the
-+an equivalent constant value, e.g. that:
+Reported-by: Jianzhou Zhao <luckd0g@163.com>
+Link: https://lore.kernel.org/all/f622c01.67ac.19cdbdd777d.Coremail.luckd0g@163.com
+Signed-off-by: Jan Kara <jack@suse.cz>
+---
+ fs/udf/inode.c | 53 +++++++++++++++++++++++++++++++-------------------
+ 1 file changed, 33 insertions(+), 20 deletions(-)
+
+Changes since v1:
+* opencode folio_prepare_writeback() in UDF instead of exporting it
+
+I'll merge this fix through my tree.
+
+diff --git a/fs/udf/inode.c b/fs/udf/inode.c
+index 7fae8002344a..c85b0239660c 100644
+--- a/fs/udf/inode.c
++++ b/fs/udf/inode.c
+@@ -181,34 +181,47 @@ static void udf_write_failed(struct address_space *mapping, loff_t to)
+ 	}
+ }
+ 
+-static int udf_adinicb_writepages(struct address_space *mapping,
+-		      struct writeback_control *wbc)
++static int udf_writepages(struct address_space *mapping,
++			  struct writeback_control *wbc)
+ {
+ 	struct inode *inode = mapping->host;
+ 	struct udf_inode_info *iinfo = UDF_I(inode);
+-	struct folio *folio = NULL;
+-	int error = 0;
+ 
+-	while ((folio = writeback_iter(mapping, wbc, folio, &error))) {
+-		BUG_ON(!folio_test_locked(folio));
+-		BUG_ON(folio->index != 0);
++	if (iinfo->i_alloc_type == ICBTAG_FLAG_AD_IN_ICB) {
++		struct folio *folio;
++		bool dirty = false;
 +
-+__mk_vma_flags(2, (const vma_flag_t []){ VMA_WRITE_BIT, VMA_EXEC_BIT });
-+
-+Can be replaced with:
-+
-+(1UL << VMA_WRITE_BIT) | (1UL << VMA_EXEC_BIT)
-+
-+= (1UL << 1) | (1UL << 2) = 6
-+
-+Most likely an 'inline' will suffice for this, but be explicit as we can
-+be.
++		folio = filemap_lock_folio(mapping, 0);
++		if (IS_ERR(folio))
++			return 0;
++		/*
++		 * Recheck inode type under folio lock when we are protected
++		 * against udf_expand_file_adinicb(). Bail to standard writeback
++		 * path if file got expanded.
++		 */
++		if (iinfo->i_alloc_type != ICBTAG_FLAG_AD_IN_ICB) {
++			folio_unlock(folio);
++			goto mpage_writeback;
++		}
++		if (!folio_test_dirty(folio))
++			goto unlock_folio;
++		if (folio_test_writeback(folio)) {
++			if (wbc->sync_mode == WB_SYNC_NONE)
++				goto unlock_folio;
++			folio_wait_writeback(folio);
++		}
++		if (!folio_clear_dirty_for_io(folio))
++			goto unlock_folio;
+ 		memcpy_from_file_folio(iinfo->i_data + iinfo->i_lenEAttr, folio,
+ 				0, i_size_read(inode));
++		dirty = true;
++unlock_folio:
+ 		folio_unlock(folio);
++		if (dirty)
++			mark_inode_dirty(inode);
++		return 0;
+ 	}
+-
+-	mark_inode_dirty(inode);
+-	return 0;
+-}
+-
+-static int udf_writepages(struct address_space *mapping,
+-			  struct writeback_control *wbc)
+-{
+-	struct inode *inode = mapping->host;
+-	struct udf_inode_info *iinfo = UDF_I(inode);
+-
+-	if (iinfo->i_alloc_type == ICBTAG_FLAG_AD_IN_ICB)
+-		return udf_adinicb_writepages(mapping, wbc);
++mpage_writeback:
+ 	return mpage_writepages(mapping, wbc, udf_get_block_wb);
+ }
+ 
+-- 
+2.51.0
 
-Should verbosely cover that off.
-
-Thanks, Lorenzo
