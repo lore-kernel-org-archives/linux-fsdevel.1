@@ -1,332 +1,182 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3CC33D1CD4;
-	Wed, 25 Mar 2026 12:12:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 407873BE63E
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 12:13:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774440738; cv=none; b=eX0QreiB6N4TOcrjcabJAeTeteRVvFXrNq6vy9RzU7i3dJb7EOLkRIf6WKxz72ZzHLdndx1utWDVUG65a/GsyHd7mDTr8OylvD4vSqvy3bP3LecZeo+dji0TI8RbUIS968DdS05gMLLTFU0dIrbUFhLZH9ocRWKMPswDTx/Q00w=
+	t=1774440795; cv=none; b=Hq3WaUaI+Bnv/83ah4rseE4VLNhnmFAwdyKkTMqWxf2mDs9y08FwrTw2kZ0wnU5CHbnd58XFym13hK1WKzaFgqLKFxZMMx11bTBTtgi4Bw/JHv9e0HULzCOmriZKtVoDcZc8qNNhegABeOVhkqcaMvLo3H7f6uz1H/stUNkkqPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774440738; c=relaxed/simple;
-	bh=W0amWJTVjAlqw1Y2edFwnNyO89EgiXNsQUWTkzh9Ieo=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VMyJvPlsaR1tA9mZbUNhmSzYS/e0OZhZnYbnT5QmW1/pL2aB5noSV5UqciDZMazb+JLbvePVA08LFmkHTMxkGwtgdy5/JtN4GScaGfUVNkdzV0NKhvVMyB8PyXMdN2B7rPaJJFDn7GpvPqF2EV+BauuQTma9RDazXYL+M/3Nl6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.224.83])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4fgm3Z4J9dzHnGhp;
-	Wed, 25 Mar 2026 20:11:38 +0800 (CST)
-Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
-	by mail.maildlp.com (Postfix) with ESMTPS id DA20640086;
-	Wed, 25 Mar 2026 20:12:13 +0800 (CST)
-Received: from localhost (10.203.177.15) by dubpeml500005.china.huawei.com
- (7.214.145.207) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Wed, 25 Mar
- 2026 12:12:12 +0000
-Date: Wed, 25 Mar 2026 12:12:11 +0000
-From: Jonathan Cameron <jonathan.cameron@huawei.com>
-To: "Koralahalli Channabasappa, Smita" <skoralah@amd.com>
-CC: Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>,
-	<linux-cxl@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<nvdimm@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
-	<linux-pm@vger.kernel.org>, Ard Biesheuvel <ardb@kernel.org>, "Alison
- Schofield" <alison.schofield@intel.com>, Vishal Verma
-	<vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>, Dan Williams
-	<dan.j.williams@intel.com>, Yazen Ghannam <yazen.ghannam@amd.com>, "Dave
- Jiang" <dave.jiang@intel.com>, Davidlohr Bueso <dave@stgolabs.net>, "Matthew
- Wilcox" <willy@infradead.org>, Jan Kara <jack@suse.cz>, "Rafael J . Wysocki"
-	<rafael@kernel.org>, Len Brown <len.brown@intel.com>, Pavel Machek
-	<pavel@kernel.org>, Li Ming <ming.li@zohomail.com>, Jeff Johnson
-	<jeff.johnson@oss.qualcomm.com>, Ying Huang <huang.ying.caritas@gmail.com>,
-	Yao Xingtao <yaoxt.fnst@fujitsu.com>, Peter Zijlstra <peterz@infradead.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Nathan Fontenot
-	<nathan.fontenot@amd.com>, Terry Bowman <terry.bowman@amd.com>, Robert
- Richter <rrichter@amd.com>, "Benjamin Cheatham" <benjamin.cheatham@amd.com>,
-	Zhijian Li <lizhijian@fujitsu.com>, Borislav Petkov <bp@alien8.de>, Tomasz
- Wolski <tomasz.wolski@fujitsu.com>
-Subject: Re: [PATCH v8 8/9] dax/hmem, cxl: Defer and resolve Soft Reserved
- ownership
-Message-ID: <20260325121211.00007f7e@huawei.com>
-In-Reply-To: <403241c1-36f7-4fd6-bc99-d7dbf30e58f4@amd.com>
-References: <20260322195343.206900-1-Smita.KoralahalliChannabasappa@amd.com>
-	<20260322195343.206900-9-Smita.KoralahalliChannabasappa@amd.com>
-	<20260323181331.000018f2@huawei.com>
-	<403241c1-36f7-4fd6-bc99-d7dbf30e58f4@amd.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1774440795; c=relaxed/simple;
+	bh=Byk3PGuIK/Pp6u3RHirneKA7lSVmroDh+Gy/iWLjCBQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TSwU4LpnwtRjRvPbMQxe9DxBB2Mu4pxp6gn7y9BNM38wq2E72cqKuM+dxE+59dePUwQB4snSbEkbeH3YlZVmzVzl6QD3ofPmQpYU7sO8b8FQCgnXNX9qfrXa1dTPA5VIZAbEESsMi5Vsoxe6WNArRlN16/BHYydtq5H8cSHNsOQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=DbJmX3Ou; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=B7snjmLb; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=DbJmX3Ou; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=B7snjmLb; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="DbJmX3Ou";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="B7snjmLb";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="DbJmX3Ou";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="B7snjmLb"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7AF7C4D233;
+	Wed, 25 Mar 2026 12:13:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1774440792; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wxipox8xrIAAKB+KOZvCQwwKM7biKEEDtysBYiy0+DM=;
+	b=DbJmX3OuZ6Svo8SK3SNDM77wAYdzzq3vxw/i/cPeavss0u6ffRhF0ksX55x5Pj8kLk9yCC
+	b2RhcH6Mz3AUznwUtW+5hjm7MJ4xDWfIMfGiIu+KZ+8xBjW7avD+D1RLJeOlMyQvJaHFYy
+	uIqOtV2G0BiRQQwuP+CopNLXYgX/148=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1774440792;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wxipox8xrIAAKB+KOZvCQwwKM7biKEEDtysBYiy0+DM=;
+	b=B7snjmLbBkQFmZICpsq//4/xOzV5ygq4gBkR2kIxgU3vSEuAptHjKoWqYa4+ueYw9d2OdW
+	2E6S4LFUgdJUXXDg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=DbJmX3Ou;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=B7snjmLb
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1774440792; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wxipox8xrIAAKB+KOZvCQwwKM7biKEEDtysBYiy0+DM=;
+	b=DbJmX3OuZ6Svo8SK3SNDM77wAYdzzq3vxw/i/cPeavss0u6ffRhF0ksX55x5Pj8kLk9yCC
+	b2RhcH6Mz3AUznwUtW+5hjm7MJ4xDWfIMfGiIu+KZ+8xBjW7avD+D1RLJeOlMyQvJaHFYy
+	uIqOtV2G0BiRQQwuP+CopNLXYgX/148=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1774440792;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wxipox8xrIAAKB+KOZvCQwwKM7biKEEDtysBYiy0+DM=;
+	b=B7snjmLbBkQFmZICpsq//4/xOzV5ygq4gBkR2kIxgU3vSEuAptHjKoWqYa4+ueYw9d2OdW
+	2E6S4LFUgdJUXXDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CEBEC443BF;
+	Wed, 25 Mar 2026 12:13:08 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id t2lxMlTRw2kwOQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 25 Mar 2026 12:13:08 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 8E7F9A0B32; Wed, 25 Mar 2026 13:12:35 +0100 (CET)
+Date: Wed, 25 Mar 2026 13:12:35 +0100
+From: Jan Kara <jack@suse.cz>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Al Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, David Sterba <dsterba@suse.com>, 
+	Viacheslav Dubeyko <slava@dubeyko.com>, John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
+	Yangtao Li <frank.li@vivo.com>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 5/5] proc: rename proc_notify_change to proc_setattr
+Message-ID: <lvuxxvdx4b7ymcls5gkd2o45w6wpersxxfmtuyfvd6dsgftthq@mlebl24p55ra>
+References: <20260325063711.3298685-1-hch@lst.de>
+ <20260325063711.3298685-6-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml500010.china.huawei.com (7.191.174.240) To
- dubpeml500005.china.huawei.com (7.214.145.207)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260325063711.3298685-6-hch@lst.de>
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	URIBL_BLOCKED(0.00)[suse.cz:dkim,suse.cz:email,lst.de:email,suse.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	FROM_EQ_ENVFROM(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.cz:dkim,suse.cz:email,suse.com:email]
+X-Rspamd-Queue-Id: 7AF7C4D233
+X-Spam-Flag: NO
+X-Spam-Score: -4.01
+X-Spam-Level: 
 
-On Tue, 24 Mar 2026 14:50:59 -0700
-"Koralahalli Channabasappa, Smita" <skoralah@amd.com> wrote:
+On Wed 25-03-26 07:36:52, Christoph Hellwig wrote:
+> Make the function name match the method that it implements.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-> Hi Jonathan,
-> 
-> On 3/23/2026 11:13 AM, Jonathan Cameron wrote:
-> > On Sun, 22 Mar 2026 19:53:41 +0000
-> > Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com> wrote:
-> >   
-> >> The current probe time ownership check for Soft Reserved memory based
-> >> solely on CXL window intersection is insufficient. dax_hmem probing is not
-> >> always guaranteed to run after CXL enumeration and region assembly, which
-> >> can lead to incorrect ownership decisions before the CXL stack has
-> >> finished publishing windows and assembling committed regions.
-> >>
-> >> Introduce deferred ownership handling for Soft Reserved ranges that
-> >> intersect CXL windows. When such a range is encountered during the
-> >> initial dax_hmem probe, schedule deferred work to wait for the CXL stack
-> >> to complete enumeration and region assembly before deciding ownership.
-> >>
-> >> Once the deferred work runs, evaluate each Soft Reserved range
-> >> individually: if a CXL region fully contains the range, skip it and let
-> >> dax_cxl bind. Otherwise, register it with dax_hmem. This per-range
-> >> ownership model avoids the need for CXL region teardown and
-> >> alloc_dax_region() resource exclusion prevents double claiming.
-> >>
-> >> Introduce a boolean flag dax_hmem_initial_probe to live inside device.c
-> >> so it survives module reload. Ensure dax_cxl defers driver registration
-> >> until dax_hmem has completed ownership resolution. dax_cxl calls
-> >> dax_hmem_flush_work() before cxl_driver_register(), which both waits for
-> >> the deferred work to complete and creates a module symbol dependency that
-> >> forces dax_hmem.ko to load before dax_cxl.
-> >>
-> >> Co-developed-by: Dan Williams <dan.j.williams@intel.com>
-> >> Signed-off-by: Dan Williams <dan.j.williams@intel.com>
-> >> Signed-off-by: Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>  
-> > 
-> > https://sashiko.dev/#/patchset/20260322195343.206900-1-Smita.KoralahalliChannabasappa%40amd.com
-> > Might be worth a look.  I think the last comment is potentially correct
-> > though unlikely a platform_driver_register() actually fails.
-> > 
-> > I've not looked too closely at the others. Given this was doing something
-> > unusual I thought I'd see what it found. Looks like some interesting
-> > questions if nothing else.  
-> 
-> Thanks for pointing this out. I went through the findings:
-> 
-> The init error path one is valid I think, if 
-> platform_driver_register(&dax_hmem_driver) fails after 
-> dax_hmem_platform_driver has already probed and queued work, the error 
-> path doesn't flush the work or release the pdev reference.
-> 
-> I was thinking something like below for v9:
-> 
-> @@ -258,8 +262,13 @@ static __init int dax_hmem_init(void)
-> 		return rc;
-> 
-> 	rc = platform_driver_register(&dax_hmem_driver);
-> -	if (rc)
-> +	if (rc) {
-> +		if (dax_hmem_work.pdev) {
-> +			flush_work(&dax_hmem_work.work);
-> +			put_device(&dax_hmem_work.pdev->dev);
-> +		}
-> 		platform_driver_unregister(&dax_hmem_platform_driver);
-> +	}
-> 
-> 	return rc;
->   }
-> 
-> 
-> Worth adding considering the unlikeliness?
+Looks good. Feel free to add:
 
-I think so.  Alternative would be a very obvious comment to say we've
-deliberately not handled this corner.  Code seems easier to me and
-lines up with what remove is doing.
+Reviewed-by: Jan Kara <jack@suse.cz>
 
+								Honza
 
+> ---
+>  fs/proc/generic.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 > 
-> The others I looked at the IS_ENABLED vs IS_REACHABLE question is 
-> something I'm discussing with Dan in 3/9 (there's a Kconfig dependency 
-> and CXL_BUS dependency fix needed I guess), the module reload behavior 
-> is intentional and others are mostly false positives I think..
-
-I was more suspicious of those ones as can never remember exactly what
-the effective rule are.
-
-Thanks,
-
-J
+> diff --git a/fs/proc/generic.c b/fs/proc/generic.c
+> index 501889856461..8bb81e58c9d8 100644
+> --- a/fs/proc/generic.c
+> +++ b/fs/proc/generic.c
+> @@ -115,8 +115,8 @@ static bool pde_subdir_insert(struct proc_dir_entry *dir,
+>  	return true;
+>  }
+>  
+> -static int proc_notify_change(struct mnt_idmap *idmap,
+> -			      struct dentry *dentry, struct iattr *iattr)
+> +static int proc_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+> +		struct iattr *iattr)
+>  {
+>  	struct inode *inode = d_inode(dentry);
+>  	struct proc_dir_entry *de = PDE(inode);
+> @@ -151,7 +151,7 @@ static int proc_getattr(struct mnt_idmap *idmap,
+>  }
+>  
+>  static const struct inode_operations proc_file_inode_operations = {
+> -	.setattr	= proc_notify_change,
+> +	.setattr	= proc_setattr,
+>  };
+>  
+>  /*
+> @@ -364,7 +364,7 @@ const struct dentry_operations proc_net_dentry_ops = {
+>  static const struct inode_operations proc_dir_inode_operations = {
+>  	.lookup		= proc_lookup,
+>  	.getattr	= proc_getattr,
+> -	.setattr	= proc_notify_change,
+> +	.setattr	= proc_setattr,
+>  };
+>  
+>  static void pde_set_flags(struct proc_dir_entry *pde)
+> -- 
+> 2.47.3
 > 
-> Thanks,
-> Smita
-> 
-> >   
-> >> ---
-> >>   drivers/dax/bus.h         |  7 ++++
-> >>   drivers/dax/cxl.c         |  1 +
-> >>   drivers/dax/hmem/device.c |  3 ++
-> >>   drivers/dax/hmem/hmem.c   | 74 +++++++++++++++++++++++++++++++++++++++
-> >>   4 files changed, 85 insertions(+)
-> >>
-> >> diff --git a/drivers/dax/bus.h b/drivers/dax/bus.h
-> >> index cbbf64443098..ebbfe2d6da14 100644
-> >> --- a/drivers/dax/bus.h
-> >> +++ b/drivers/dax/bus.h
-> >> @@ -49,6 +49,13 @@ void dax_driver_unregister(struct dax_device_driver *dax_drv);
-> >>   void kill_dev_dax(struct dev_dax *dev_dax);
-> >>   bool static_dev_dax(struct dev_dax *dev_dax);
-> >>   
-> >> +#if IS_ENABLED(CONFIG_DEV_DAX_HMEM)
-> >> +extern bool dax_hmem_initial_probe;
-> >> +void dax_hmem_flush_work(void);
-> >> +#else
-> >> +static inline void dax_hmem_flush_work(void) { }
-> >> +#endif
-> >> +
-> >>   #define MODULE_ALIAS_DAX_DEVICE(type) \
-> >>   	MODULE_ALIAS("dax:t" __stringify(type) "*")
-> >>   #define DAX_DEVICE_MODALIAS_FMT "dax:t%d"
-> >> diff --git a/drivers/dax/cxl.c b/drivers/dax/cxl.c
-> >> index a2136adfa186..3ab39b77843d 100644
-> >> --- a/drivers/dax/cxl.c
-> >> +++ b/drivers/dax/cxl.c
-> >> @@ -44,6 +44,7 @@ static struct cxl_driver cxl_dax_region_driver = {
-> >>   
-> >>   static void cxl_dax_region_driver_register(struct work_struct *work)
-> >>   {
-> >> +	dax_hmem_flush_work();
-> >>   	cxl_driver_register(&cxl_dax_region_driver);
-> >>   }
-> >>   
-> >> diff --git a/drivers/dax/hmem/device.c b/drivers/dax/hmem/device.c
-> >> index 56e3cbd181b5..991a4bf7d969 100644
-> >> --- a/drivers/dax/hmem/device.c
-> >> +++ b/drivers/dax/hmem/device.c
-> >> @@ -8,6 +8,9 @@
-> >>   static bool nohmem;
-> >>   module_param_named(disable, nohmem, bool, 0444);
-> >>   
-> >> +bool dax_hmem_initial_probe;
-> >> +EXPORT_SYMBOL_GPL(dax_hmem_initial_probe);
-> >> +
-> >>   static bool platform_initialized;
-> >>   static DEFINE_MUTEX(hmem_resource_lock);
-> >>   static struct resource hmem_active = {
-> >> diff --git a/drivers/dax/hmem/hmem.c b/drivers/dax/hmem/hmem.c
-> >> index ca752db03201..9ceda6b5cadf 100644
-> >> --- a/drivers/dax/hmem/hmem.c
-> >> +++ b/drivers/dax/hmem/hmem.c
-> >> @@ -3,6 +3,7 @@
-> >>   #include <linux/memregion.h>
-> >>   #include <linux/module.h>
-> >>   #include <linux/dax.h>
-> >> +#include <cxl/cxl.h>
-> >>   #include "../bus.h"
-> >>   
-> >>   static bool region_idle;
-> >> @@ -58,6 +59,23 @@ static void release_hmem(void *pdev)
-> >>   	platform_device_unregister(pdev);
-> >>   }
-> >>   
-> >> +struct dax_defer_work {
-> >> +	struct platform_device *pdev;
-> >> +	struct work_struct work;
-> >> +};
-> >> +
-> >> +static void process_defer_work(struct work_struct *w);
-> >> +
-> >> +static struct dax_defer_work dax_hmem_work = {
-> >> +	.work = __WORK_INITIALIZER(dax_hmem_work.work, process_defer_work),
-> >> +};
-> >> +
-> >> +void dax_hmem_flush_work(void)
-> >> +{
-> >> +	flush_work(&dax_hmem_work.work);
-> >> +}
-> >> +EXPORT_SYMBOL_GPL(dax_hmem_flush_work);
-> >> +
-> >>   static int __hmem_register_device(struct device *host, int target_nid,
-> >>   				  const struct resource *res)
-> >>   {
-> >> @@ -122,6 +140,11 @@ static int hmem_register_device(struct device *host, int target_nid,
-> >>   	if (IS_ENABLED(CONFIG_DEV_DAX_CXL) &&
-> >>   	    region_intersects(res->start, resource_size(res), IORESOURCE_MEM,
-> >>   			      IORES_DESC_CXL) != REGION_DISJOINT) {
-> >> +		if (!dax_hmem_initial_probe) {
-> >> +			dev_dbg(host, "await CXL initial probe: %pr\n", res);
-> >> +			queue_work(system_long_wq, &dax_hmem_work.work);
-> >> +			return 0;
-> >> +		}
-> >>   		dev_dbg(host, "deferring range to CXL: %pr\n", res);
-> >>   		return 0;
-> >>   	}
-> >> @@ -129,8 +152,54 @@ static int hmem_register_device(struct device *host, int target_nid,
-> >>   	return __hmem_register_device(host, target_nid, res);
-> >>   }
-> >>   
-> >> +static int hmem_register_cxl_device(struct device *host, int target_nid,
-> >> +				    const struct resource *res)
-> >> +{
-> >> +	if (region_intersects(res->start, resource_size(res), IORESOURCE_MEM,
-> >> +			      IORES_DESC_CXL) == REGION_DISJOINT)
-> >> +		return 0;
-> >> +
-> >> +	if (cxl_region_contains_resource((struct resource *)res)) {
-> >> +		dev_dbg(host, "CXL claims resource, dropping: %pr\n", res);
-> >> +		return 0;
-> >> +	}
-> >> +
-> >> +	dev_dbg(host, "CXL did not claim resource, registering: %pr\n", res);
-> >> +	return __hmem_register_device(host, target_nid, res);
-> >> +}
-> >> +
-> >> +static void process_defer_work(struct work_struct *w)
-> >> +{
-> >> +	struct dax_defer_work *work = container_of(w, typeof(*work), work);
-> >> +	struct platform_device *pdev;
-> >> +
-> >> +	if (!work->pdev)
-> >> +		return;
-> >> +
-> >> +	pdev = work->pdev;
-> >> +
-> >> +	/* Relies on cxl_acpi and cxl_pci having had a chance to load */
-> >> +	wait_for_device_probe();
-> >> +
-> >> +	guard(device)(&pdev->dev);
-> >> +	if (!pdev->dev.driver)
-> >> +		return;
-> >> +
-> >> +	if (!dax_hmem_initial_probe) {
-> >> +		dax_hmem_initial_probe = true;
-> >> +		walk_hmem_resources(&pdev->dev, hmem_register_cxl_device);
-> >> +	}
-> >> +}
-> >> +
-> >>   static int dax_hmem_platform_probe(struct platform_device *pdev)
-> >>   {
-> >> +	if (work_pending(&dax_hmem_work.work))
-> >> +		return -EBUSY;
-> >> +
-> >> +	if (!dax_hmem_work.pdev)
-> >> +		dax_hmem_work.pdev =
-> >> +			to_platform_device(get_device(&pdev->dev));
-> >> +
-> >>   	return walk_hmem_resources(&pdev->dev, hmem_register_device);
-> >>   }
-> >>   
-> >> @@ -168,6 +237,11 @@ static __init int dax_hmem_init(void)
-> >>   
-> >>   static __exit void dax_hmem_exit(void)
-> >>   {
-> >> +	if (dax_hmem_work.pdev) {
-> >> +		flush_work(&dax_hmem_work.work);
-> >> +		put_device(&dax_hmem_work.pdev->dev);
-> >> +	}
-> >> +
-> >>   	platform_driver_unregister(&dax_hmem_driver);
-> >>   	platform_driver_unregister(&dax_hmem_platform_driver);
-> >>   }  
-> >   
-> 
-> 
-
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
