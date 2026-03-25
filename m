@@ -1,60 +1,61 @@
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com [209.85.214.196])
+Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com [209.85.214.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1472351C3A
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 19:00:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6749D3537D2
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 19:00:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774465250; cv=none; b=EUmOc+01IJ7IFdMYqNpnT7Fjkh6MmFTEzNguWzX41A/PEe0jEV5SaIbOjA/gSKcnLXHcxenUe65gSho9bX1YaxeWwh2t24OYKcvJ30zIcVEuw5h9U/C2lTmov0uvyGFZpw5K0AqIMSILj1vMtpMjJuhPmHkdJIBlvvtwKVn48RU=
+	t=1774465252; cv=none; b=CIcnzJqwbIKFhqLT0hMjfjncyBEIkyTBdOwDOFKfIcE5jrKM02SAMXPv9Hf6omBou7/sKTzYcbTA1ppWrSgyB+a917ga32EjPbPUkvXvNM1X+IWXvpYia0gH7EDm6VwLc1+PR0AUFEqijVU2hSA0TqxGHhgx8kVW8FmEF1010xY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774465250; c=relaxed/simple;
-	bh=DwsNKvlGYKtZ1fF9b9hdF+JF2RiPPutB04oJafLhO0Q=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=sB6ewEkNuFWt9Pi34i/K9ZJmS7FhLwSJErf/8KvoDceSEZSYAbhOcKcsQVEyevvKIcwZ4pCeHCsiWF5aF/RDlWf/WetQPzJqxHNxmrjd1EVP41NmzoiYuS8bTJS4sG9LsZ/J9inpOZ+1UtcaiLvonU9lTQ1zzjLSOkkHnVueNw8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ee.vjti.ac.in; spf=none smtp.mailfrom=ee.vjti.ac.in; dkim=pass (1024-bit key) header.d=vjti.ac.in header.i=@vjti.ac.in header.b=ac3gmVe1; arc=none smtp.client-ip=209.85.214.196
+	s=arc-20240116; t=1774465252; c=relaxed/simple;
+	bh=Enw/zzJVJMDXaMMGM31CM+5uyNb3Ul/5hZTe/vhutLk=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=WoU0YlKz4DujrBM8lPHpHVgfyAeFpZKyxZbkIWpaQMbOtab/JodK4RBo0O3Er7hHeFkV7p8poBpZVJ4tKks0k0KdGFNSLBAXmXK2VYdfbj5mDVJEzYncbEXD9B8Z0zNnBCgugOU6CooUwaE3cgccQKqi8SK9NWGTfWHjeGDrhZg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ee.vjti.ac.in; spf=none smtp.mailfrom=ee.vjti.ac.in; dkim=pass (1024-bit key) header.d=vjti.ac.in header.i=@vjti.ac.in header.b=hZg5TDeu; arc=none smtp.client-ip=209.85.214.193
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ee.vjti.ac.in
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ee.vjti.ac.in
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=vjti.ac.in header.i=@vjti.ac.in header.b="ac3gmVe1"
-Received: by mail-pl1-f196.google.com with SMTP id d9443c01a7336-2a871daa98fso1277675ad.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 12:00:37 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=vjti.ac.in header.i=@vjti.ac.in header.b="hZg5TDeu"
+Received: by mail-pl1-f193.google.com with SMTP id d9443c01a7336-2ad9516a653so806885ad.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 12:00:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vjti.ac.in; s=google; t=1774465237; x=1775070037; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=a3TfDXqvygN5I94hNBiffuf36XK4iR4Jn35/3DLOLzU=;
-        b=ac3gmVe1vkqJAf6swAtBnQ5oxItDtJeqys/PGYN6OQWX5/anxdLfA8iS0DamF+JmJz
-         +bmu/jfOB3jfh/ajeJZB434MI5VwZJfA+Dpa5f9o3W0c+6fu7gZYBlNZ0yG6+dHu7AWF
-         a5PeQXBPu5TBg6bhlL5F5mU/0eDvmC7Rpd+qc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774465237; x=1775070037;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=vjti.ac.in; s=google; t=1774465247; x=1775070047; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=a3TfDXqvygN5I94hNBiffuf36XK4iR4Jn35/3DLOLzU=;
-        b=ZEEhDjqppn6jugIhLMLILECipD4JGcnL82RVjeJZ+9UreB5zV9ugiaCs8aMIowHtXe
-         iYN9XfXaEcF08C2QuFf21F86ucBj2oCpf41qcsNz4tgTgsp2xp3sNm8eOBfkbwuLamFi
-         HPHr3l5RBDofS2B5+dXuOrYCDEfFdvihdrxPt6UINIwCXuenrr8s5PLmvqYZjIg3REPE
-         +NmgyCk9ufs/7OIh2bZUw/GQFDdLxwg15kMOnHSbMZd7UUcULnqzrQjQYc7XyQdmFrGE
-         JqGC2DlYj++pX1gGgof/EPLoRetzA7Jy+pl/mP3FGSisPX4+ELT2JM6aa8tWxPbqzv4W
-         ycNA==
-X-Forwarded-Encrypted: i=1; AJvYcCWAha+HnJiKRDDJWj0gMn4EkFURjqwuKOODJYVQNZIhTMB9k5ESViycd+w8iHpEqWMKWbKXghKaAEzMGOsG@vger.kernel.org
-X-Gm-Message-State: AOJu0YzjcvPRvauQ0deAx43RSQo9LRtGmfz4Of/ujXZjGUjKu8dMFyiB
-	EKlU6TtbhePGHc4E+D+xSjDW3GqXMVPjwPIVVmUegpNnQYqYq3uVEDul8ZBQ18ed994NviEEVmi
-	UT5atFwm27fPx
-X-Gm-Gg: ATEYQzwE/T+OyaU2LXKQW8AGqjeafdTJP3JWCVRxK3QvCN9LShNGii0T/BXBj7iJHtf
-	GfDGTRdD44U11W3WejLAj0OPepqt/PxI7wXzdiKF/J4sRSJvAbFmNL7ZcNDC1m65OUcFxSgElRh
-	P26Wf+A6Yg1qn/u35B/K7hxIt59KUg2xjWCZlAdpbwkdCrmsHm2wtkjAeYnddjMMz5gM6Bsf2t4
-	b2vLoJ+ixCjmdGp+6nS4hE5JYI9Q4ctqLQvGj+kl9VdvL6Vl3ITHsjfGbqQKIaG1+CYtHrXygtA
-	SUPgykTbUMB/q4XDZ9M9QrbIPPXsoAyA1/CSjakahzZ8Z5Bqtcz6C9TzxZ4ZLDEVjXjIPrhU2u4
-	R7GY6707eJHiBiTYcyR4q5b8LQGT++7ov/AS74kkUkzes9LfkW7nYCxyk2EOjqf/l5JGCjUgQcQ
-	wvzZCrSN4SIe9g+fXOblrMrzXY2WfOgRIeMln47lXPd3GIDuzqwc7yw2ZZD87dZ12QkJGfLSyhB
-	HYNPfYUfz9owGcRBgzBPQ==
-X-Received: by 2002:a17:903:1aef:b0:2b0:6e60:9586 with SMTP id d9443c01a7336-2b0b09fa0c3mr52525125ad.17.1774465237050;
-        Wed, 25 Mar 2026 12:00:37 -0700 (PDT)
+        bh=QiX7Q0UkWwVNRq6H0KnVBDZPehmpnW8I6Y9xdRC1GFE=;
+        b=hZg5TDeuKiGoKitY+K1cikB+gNHs6boOYL0N+KIBA+8uLZS604FRjRhEDuXRl14pGX
+         9+lP/J2UdVca8s1hbQwD2YhTrGLswAacjENQh5DdxNsubXo9unOo5dIFoeT5hX3LC/MS
+         Sv2eKLNxMUwPgHfDVTGmeSgsBioI10q242kKg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774465247; x=1775070047;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=QiX7Q0UkWwVNRq6H0KnVBDZPehmpnW8I6Y9xdRC1GFE=;
+        b=AQOywFAdFGL79FfpcUUnLub9V3y7/JaHUswBn0UCbpGpSog2lORy3jo9a60mBoT6MD
+         qMTvVD+hvZBtrFs61XIAliWtUfDk5XGymH4f9RQVWB4aphLvUkfrY/pzTjYmFT810sDZ
+         SJftOMCf+bt7Xu99c1scC7oDQ67JXekge5au2wYqQmvDv0Bo9VbC7RqDPa5jWC/5xbFt
+         d6BzgNO7IGW1xtRmv9Kr7eddq+eIKKGqtUQ1pZkQGAenaxreIdCVRSBY1rU7Aj9OSYad
+         9fqg6g3Sd8DLGy3KCfoKsn/uFMESUPBsP7wh7CIwALkIxEyXYDZOlxD5bt9QLhaoLWA8
+         NPFw==
+X-Forwarded-Encrypted: i=1; AJvYcCV2ty2m3zJfsAHsq0+2+Vuqqel5dWMrHDrPJYqITVUTqWnyD+lSBuUyWAJS6pCX1OEsw9C1MB6yuKwx+YQO@vger.kernel.org
+X-Gm-Message-State: AOJu0YyuT+EbIptvYsXtmjCq2fbIhqFaEuEJfH4uDm/aWAzEXv5dswhw
+	gauumlx+xqjsfvIlVjhMVTm2VbUgqP36tEQG2wgXiUz4rfikq1CWLltf9yj5cl0GxIs=
+X-Gm-Gg: ATEYQzy8W5jGoW/KQJoJ2ggFbCSR0thQSziNDLfKoun1y09taGSI7AxS5qWGeHewe6J
+	o1av4tX5nmFYGgKQ4J6Y9cfkoy+6h/qVnbq1EvD/lTyP8xmHxgxXOa8SQDfoJC501t98sOApO2L
+	8pj2XUWevO1dhOkqsBhuVOICKqEUJHYGSSrPPeOc7hBrO0DQnbsDxH4ihGpnFrEpGV2PzVEgm7+
+	G0tpI8+Jxp8oe/MQX3r5So16+c86IF1+zJ6Fm9vmUZZbCiWnxzLKN6rYKvntavo8lkVD10KT5rm
+	cH/mZvlvO19GPuxIJqpSUQeHCJOm3MT7z2EeivvJaSqDIlGYWctttrjHuP7xxnT6ZwSqucAc6of
+	HDedJMvbDEa/6GmxHjqOJCr9bz4hN35CoFW6Cz2oO8KsBQrLTLSVX+8vUIH6czgbRuC2pzx3XDS
+	Mfo86r+AxmXhTjbe97TgWQcYFYEG+hM1URMukNjk9u6FWTbtr1GpvqT7cjsIllcNrsG1bNn9Uur
+	ScjyR+qzzF7Gaa4Mgci5w==
+X-Received: by 2002:a17:903:1b43:b0:2aa:d671:e613 with SMTP id d9443c01a7336-2b0b0aac1c7mr55208405ad.38.1774465246593;
+        Wed, 25 Mar 2026 12:00:46 -0700 (PDT)
 Received: from ranegod-HP-ENVY-x360-Convertible-13-bd0xxx.www.tendawifi.com ([14.139.108.62])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b0bc79f7dbsm6483485ad.25.2026.03.25.12.00.32
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b0bc79f7dbsm6483485ad.25.2026.03.25.12.00.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Mar 2026 12:00:36 -0700 (PDT)
+        Wed, 25 Mar 2026 12:00:46 -0700 (PDT)
 From: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
 To: linux-kernel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org
@@ -66,10 +67,12 @@ Cc: manfred@colorfullife.com,
 	rstoyanov@fedoraproject.org,
 	ptikhomirov@virtuozzo.com,
 	Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
-Subject: [RFC PATCH 0/3] ipc/mqueue: add fcntl(F_MQ_PEEK) for non-destructive message inspection
-Date: Thu, 26 Mar 2026 00:30:22 +0530
-Message-Id: <20260325190025.40312-1-ssrane_b23@ee.vjti.ac.in>
+Subject: [RFC PATCH 1/3] mqueue: uapi: add struct mq_peek_attr and F_MQ_PEEK
+Date: Thu, 26 Mar 2026 00:30:23 +0530
+Message-Id: <20260325190025.40312-2-ssrane_b23@ee.vjti.ac.in>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260325190025.40312-1-ssrane_b23@ee.vjti.ac.in>
+References: <20260325190025.40312-1-ssrane_b23@ee.vjti.ac.in>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -78,75 +81,79 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-POSIX message queues currently have no way to inspect queued messages
-without consuming them.  mq_receive() always dequeues the message it
-returns.  This makes it impossible for checkpoint/restore tools such as
-CRIU to save and replay message queue contents without first destroying
-the queue state.
+Add the user-visible interface for non-destructive POSIX message queue
+inspection via fcntl(2).
 
-This series adds F_MQ_PEEK, a new fcntl command that reads a message
-from a POSIX message queue by index (0 = highest priority, matching
-mq_receive dequeue order) without removing it.
+POSIX message queues have no way to inspect queued messages without
+consuming them: mq_receive() always dequeues the message it returns.
+This makes it impossible for checkpoint/restore tools such as CRIU to
+save and replay message queue contents without destroying the queue
+state in the process.
 
-Background
-----------
-CRIU (Checkpoint/Restore In Userspace) supports live container migration
-and process checkpoint/restore.  It handles SysV message queues, shared
-memory, semaphores, pipes, and sockets, but POSIX mqueues remain
-unsupported because there is no kernel interface to inspect queued
-messages non-destructively.
+struct mq_peek_attr describes the request: the caller specifies an
+index into the queue in receive order (0 = next message that
+mq_receive() would return, i.e. highest priority, FIFO within same
+priority) and a buffer to receive the payload.  On return, msg_prio is
+filled with the message priority and the return value is the number of
+bytes copied.
 
-The SysV analogue for this problem was solved in 2012: the MSG_COPY flag
-was added to msgrcv() in commit 4a674f34ba04 ("ipc: introduce message
-queue copy feature") specifically for CRIU.  This series does the same
-for POSIX mqueues.
-
-Why fcntl and not a new syscall
----------------------------------
-POSIX mqueue file descriptors are first-class Linux file descriptors.
-fcntl() is the established interface for per-fd operations beyond
-read/write: F_GETPIPE_SZ queries pipe capacity, F_ADD_SEALS/F_GET_SEALS
-control memfd sealing, F_GETDELEG manages file delegations.  F_MQ_PEEK
-follows this same pattern.
-
-Adding a flag to mq_timedreceive() is not possible without ABI breakage:
-the POSIX signature has no flags parameter.  A new syscall is unnecessary
-when fcntl() covers the use case cleanly.
-
-Series overview
----------------
-Patch 1 adds struct mq_peek_attr and F_MQ_PEEK to the UAPI headers.
-
-Patch 2 moves struct msg_msgseg and DATALEN_MSG/DATALEN_SEG from the
-private ipc/msgutil.c to include/linux/msg.h.  This is a pure
-refactoring (no functional change) that allows ipc/mqueue.c to walk
-multi-segment message chains under a spinlock using only memcpy()
-(copy_to_user() cannot be called under a spinlock).
-
-Patch 3 implements do_mq_peek() in ipc/mqueue.c and dispatches it from
-fs/fcntl.c.  The implementation holds info->lock for the tree traversal
-and kernel-buffer copy, then releases the lock before copy_to_user().
-
-A corresponding CRIU userspace patch will be sent to the CRIU mailing
-list separately.  It uses F_MQ_PEEK when the kernel supports it,
-falling back to a ptrace-safe intrusive drain/re-enqueue on older
-kernels.
+F_MQ_PEEK = F_LINUX_SPECIFIC_BASE + 17 is the new fcntl command that
+accepts a pointer to struct mq_peek_attr.
 
 Link: https://github.com/checkpoint-restore/criu/issues/2285
+Signed-off-by: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
+---
+ include/uapi/linux/fcntl.h  |  6 ++++++
+ include/uapi/linux/mqueue.h | 21 +++++++++++++++++++++
+ 2 files changed, 27 insertions(+)
 
-Shaurya Rane (3):
-  mqueue: uapi: add struct mq_peek_attr and F_MQ_PEEK
-  msg: move struct msg_msgseg and DATALEN_* to include/linux/msg.h
-  ipc/mqueue: implement fcntl(F_MQ_PEEK) for non-destructive message inspection
-
- fs/fcntl.c                  |   3 +
- include/linux/mqueue.h      |  19 ++++++
- include/linux/msg.h         |  13 ++++
- include/uapi/linux/fcntl.h  |   7 ++
- include/uapi/linux/mqueue.h |  20 ++++++
- ipc/mqueue.c                | 130 ++++++++++++++++++++++++++++++++++++
- ipc/msgutil.c               |   7 --
- 7 files changed, 192 insertions(+), 7 deletions(-)
-
+diff --git a/include/uapi/linux/fcntl.h b/include/uapi/linux/fcntl.h
+index aadfbf6e0cb3..ea34f87de0fb 100644
+--- a/include/uapi/linux/fcntl.h
++++ b/include/uapi/linux/fcntl.h
+@@ -84,6 +84,12 @@
+ #define F_GETDELEG		(F_LINUX_SPECIFIC_BASE + 15)
+ #define F_SETDELEG		(F_LINUX_SPECIFIC_BASE + 16)
+ 
++/*
++ * Peek at a POSIX message queue message by index without consuming it.
++ * Argument is a pointer to struct mq_peek_attr (see <linux/mqueue.h>).
++ */
++#define F_MQ_PEEK		(F_LINUX_SPECIFIC_BASE + 17)
++
+ /* Argument structure for F_GETDELEG and F_SETDELEG */
+ struct delegation {
+ 	__u32	d_flags;	/* Must be 0 */
+diff --git a/include/uapi/linux/mqueue.h b/include/uapi/linux/mqueue.h
+index b516b66840ad..7133b84c70d1 100644
+--- a/include/uapi/linux/mqueue.h
++++ b/include/uapi/linux/mqueue.h
+@@ -53,4 +53,25 @@ struct mq_attr {
+ 
+ #define NOTIFY_COOKIE_LEN	32
+ 
++/*
++ * Argument structure for fcntl(F_MQ_PEEK).
++ *
++ * Peek at a POSIX message queue message by index without removing it.
++ * @offset:   Index in receive order (0 = highest priority, next to dequeue).
++ *            FIFO ordering is preserved within the same priority level.
++ * @msg_prio: Output: priority of the message at @offset.
++ * @buf_len:  Size of the caller-provided buffer at @buf.
++ * @buf:      Output: message payload is written here; truncated to @buf_len
++ *            bytes if the message is larger.
++ *
++ * Returns the number of bytes copied on success, -ENOMSG if @offset is
++ * >= mq_curmsgs, or a negative error code on failure.
++ */
++struct mq_peek_attr {
++	__s32		 offset;
++	__u32		 msg_prio;
++	__kernel_size_t  buf_len;
++	char __user	*buf;
++};
++
+ #endif
 -- 
-2.43.0
+2.34.1
+
