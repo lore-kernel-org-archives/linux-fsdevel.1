@@ -1,215 +1,134 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 603D523D281;
-	Wed, 25 Mar 2026 09:47:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87E8D3A1D0A
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 09:58:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774432051; cv=none; b=Q6VVoyDu4oDBiezXkcjTmsJC/IEBsyyeFurc4qDAMK5fpvF+5WmfQhFKmI6K465hELUYjogonhMROIs/VtZblubQ5Jx50Xq1erb7eiEXIgyRBuL4Kr+QpNy0u9uyXVFfCkbPZcsJEU8kOknGx1qSNB+onzpXCYXLGAfDkmr2GO0=
+	t=1774432698; cv=none; b=mN6t+KvDlpbPvLM+2U7zRA4jwFEo8oVh3wj1get6tmOaWrC84IR0DBh78Yd6/xYYsbPXjXv9tVyjMitk00NUSXyLkz3PpMfqRfPsE97nzuCC4js+kWH+RwBzLMHAzjrratW56W6QG54AUezEzBFHduq91s5j4W8ywIIhTKqzes8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774432051; c=relaxed/simple;
-	bh=vUFrcOFz84OveU1pgKHoD1qwpdPZX9ciji33h3siGaE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aZnLNvsIizDm7i/tjj711gyDkHHekYIrWSYjBxt4p4odXKxXZX7PAroLFJnlMdA1PJKWxgwGZ8VoSPDoqTWBQ1LMJIywleZ0FcrU4MbQbcvCN5rIFRl9Rsw23gWvJ2ovMscSn0MjudMJMqJNhsYTKoeRMs2ZsOoJCl2P+W/HgtE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h7rjxRys; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774432698; c=relaxed/simple;
+	bh=hzZ6/op2g3F67XFCQL6RSZD3FXfQqffbdJUyoXA3zbE=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=A+LAxLy4JoT/0cAHZt2HzzuKjDpdeho/vJBYbiBOrVr9rirnchCnrvlziMH8pqsD/grNTfBbjP9KDGMUJadQyiexY7QzHn22lwQyB5D3y4Gq9CB12yfoyqPsKb1181wKMBVsgu812VBRps+39+mYiSFQlNmRdqDZ4MGrRY+TZ1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dilger.ca; spf=pass smtp.mailfrom=dilger.ca; dkim=pass (2048-bit key) header.d=dilger-ca.20230601.gappssmtp.com header.i=@dilger-ca.20230601.gappssmtp.com header.b=Nn7RVfFf; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dilger.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dilger.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h7rjxRys"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44F83C2BC9E;
-	Wed, 25 Mar 2026 09:47:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774432051;
-	bh=vUFrcOFz84OveU1pgKHoD1qwpdPZX9ciji33h3siGaE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=h7rjxRys800WY0i8LFUswSR3PcQtVI+WfcvFbM55iwz1ZH6sEQagzhf2LyOreVOSW
-	 R1lGyQTKbfLllWJzdn5W8eaoKRVYpL0edcGcr6SCeDfoN1NRmrSZOCLjsPkGst2Vue
-	 whTAV+F4IJb7xm4J+qcGoX5SFmIZFB+fhBwrR2605pUGNgx0fg/E3JSQRqS9sFkabZ
-	 CtbaFD/j2jHu/4k19QPOkOOINFcC55JlaP/BKzrZDZAQkiiAvQh9vim4ubQ9CkIKj9
-	 xhp7ke2Xf5zs7lnOYxqAky/AVcczwO5PeQU9qs8vfUKFRe22DcZ0GFLqD7cqpncinF
-	 7/z8KNyW3nyVA==
-Message-ID: <2bf17da7-fb46-4503-8de9-9368a73d8487@kernel.org>
-Date: Wed, 25 Mar 2026 10:47:21 +0100
+	dkim=pass (2048-bit key) header.d=dilger-ca.20230601.gappssmtp.com header.i=@dilger-ca.20230601.gappssmtp.com header.b="Nn7RVfFf"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2b0afa0210bso5412185ad.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 02:58:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dilger-ca.20230601.gappssmtp.com; s=20230601; t=1774432697; x=1775037497; darn=vger.kernel.org;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6ySQX1bYaFtB+temqyqED5nWAImH+Dkzo6iJEBKw1nM=;
+        b=Nn7RVfFfpSRwJgV3SExb1F3ofqEYfiYRpqMr3BcR+CLouv4kddzA9TCVJarD8d5MIb
+         ZDSryj9n9hkkh74IARm0qN/pq1dfnZs8mD/wA3DSI8wNh/OovRZWLP3mMasUnhwU+gqP
+         eUutkiSPZvBXDwBKULgHkrEZXa2ndxDo0CBGjFjWgr2ayjQsCa9RwyAo8HT2s1E2I7q2
+         WD+UTdjP2zsRtOD4xfMAh6l6oGsfUm4ogoNloB8EY+rX4oDGsdWcho31CktyzktTs8Ob
+         jvMNrv5e2PGACFJ/0z7rR2RFB1OEyEhJ8Lq5XuriT4ECxJlCUuldZGGIQNINTog1hg7T
+         R4zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774432697; x=1775037497;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6ySQX1bYaFtB+temqyqED5nWAImH+Dkzo6iJEBKw1nM=;
+        b=kcSUBUuDzeCMnTkUDhntSeRJ+G4yJ2WqG3glbwKyKia29LgOoVs24fkhObgDyKkrwN
+         met6/jC9D8cOQlpLneLiJssp+V4IJEbSZhJExHUqTSxPTSHYoBZt7b8Af9Ftp6Cnhndm
+         FzO3pC51ElcFVl/Pn9+HOC8czKgIlYVXiJ+GOeWsz5+K9OFRlPVr9hWHePeIifj8LAth
+         T2+ElNGKFIbp0b53kkBQ3OhY8E0GuEYjZDJLuAxiQSUoMzOFAaLkoLP4NIsw21Vn1NsO
+         8xJdqlE4AhBtIjq93zFXqzSUVrNIkZGHB2obGnaU701Ooow+2qQLXWdaUZ7mixElrcyu
+         voGQ==
+X-Gm-Message-State: AOJu0YxL4i6SLJSdPc+0RYVwK0lvVTOKsl4YHG02PcxMB7zHQS53yAqm
+	2PlN4GTvMkjZ8ljrfWOvhSUDRCxsV/DWrlyVkjSNGGypKGQofFF4f7izmulqLNww8WM=
+X-Gm-Gg: ATEYQzxofEPY6oY8WqB0w5ivFP6yretR976qY6quTHQb1NphIYUUwvty2upgTe7IXvH
+	teq2lYDLJFxE6hjJQbMFDi4q3LoyH282A/vtmFfWr0PKKXgAbQ6/ejN1iFkDm6XawWrlHh/KFdt
+	kd4XQUhC55vnWHg4d5rdkMVBQ/Ipk7Zxm7mQV2eYnEg13+hniNgWOJzBvo6dptOptk2Oz3DRzD5
+	EbRfatJut7kp3FPIGGROKIyJv2twBHC0VaWPozGWXQD1PHCEtksZUkhiO2JM1aHn6p4bwZNPR5h
+	D0b9Xc1NbkEoS2zyu/WlPWuhcKzsQPnyTO0ZmHeU3ftMTuJLxpNLrVD346y/xf5TsdGdT2wOSAJ
+	5ACpwDZl1gsif5Yo8+yBl/DulC35oAd/OSplNXQDDWisXldAV5wvDuoc0xmO8jxM8OoWBXhQPxm
+	FnTV0246jUaz0c6/zuGfc9K+pzOtVTXhM9N8wIRMxRw0oCHr3i+ATkW5EeWMmNn+9grFjCWv+M9
+	PefcQ==
+X-Received: by 2002:a17:902:e54d:b0:2b0:608d:d8a8 with SMTP id d9443c01a7336-2b0b09a0addmr31739585ad.1.1774432696787;
+        Wed, 25 Mar 2026 02:58:16 -0700 (PDT)
+Received: from smtpclient.apple (S01068c763f81ca4b.cg.shawcable.net. [70.77.200.158])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b08366c74dsm239318035ad.62.2026.03.25.02.58.15
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 25 Mar 2026 02:58:16 -0700 (PDT)
+Content-Type: text/plain;
+	charset=us-ascii
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 10/21] fs: afs: restore mmap_prepare implementation
-Content-Language: en-US
-To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Clemens Ladisch <clemens@ladisch.de>,
- Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "K . Y . Srinivasan" <kys@microsoft.com>,
- Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
- Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Bodo Stroesser <bostroesser@gmail.com>,
- "Martin K . Petersen" <martin.petersen@oracle.com>,
- David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- David Hildenbrand <david@kernel.org>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport
- <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org,
- linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org,
- target-devel@vger.kernel.org, linux-afs@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- Ryan Roberts <ryan.roberts@arm.com>
-References: <cover.1774045440.git.ljs@kernel.org>
- <ad9a94350a9c7d2bdab79fc397ef0f64d3412d71.1774045440.git.ljs@kernel.org>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-In-Reply-To: <ad9a94350a9c7d2bdab79fc397ef0f64d3412d71.1774045440.git.ljs@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.100.1.1.5\))
+Subject: =?utf-8?Q?Re=3A_=5BRFC=5D_Proposal=3A_provenance=5Ftime_=28ptime?=
+ =?utf-8?Q?=29_=E2=80=94_a_settable_timestamp_for_cross-filesystem_migrati?=
+ =?utf-8?Q?on?=
+From: Andreas Dilger <adilger@dilger.ca>
+In-Reply-To: <CAOx6djP4hb-Cd1Zk07SNfFfLc8irjNmbVqq+58h1Whz+h1wSFA@mail.gmail.com>
+Date: Wed, 25 Mar 2026 03:58:04 -0600
+Cc: linux-fsdevel@vger.kernel.org,
+ linux-ext4@vger.kernel.org,
+ tytso@mit.edu,
+ dsterba@suse.com,
+ david@fromorbit.com,
+ brauner@kernel.org,
+ osandov@osandov.com
 Content-Transfer-Encoding: 7bit
+Message-Id: <A9DCEEDC-5F71-465C-A519-244853CF3069@dilger.ca>
+References: <CAOx6djP4hb-Cd1Zk07SNfFfLc8irjNmbVqq+58h1Whz+h1wSFA@mail.gmail.com>
+To: Sean Smith <defendthedisabled@gmail.com>
+X-Mailer: Apple Mail (2.3864.100.1.1.5)
 
-On 3/20/26 23:39, Lorenzo Stoakes (Oracle) wrote:
-> Commit 9d5403b1036c ("fs: convert most other generic_file_*mmap() users to
-> .mmap_prepare()") updated AFS to use the mmap_prepare callback in favour
-> of the deprecated mmap callback.
+On Mar 24, 2026, at 22:26, Sean Smith <defendthedisabled@gmail.com> wrote:
 > 
-> However, it did not account for the fact that mmap_prepare is called
-> pre-merge, and may then be merged, nor that mmap_prepare can fail to map
-> due to an out of memory error.
+> [Email draft produced by AI agent. Reviewed, revised, and submitted by
+> Sean Smith.]
 > 
-> This change was therefore since reverted.
+> Hello,
 > 
-> Both of those are cases in which we should not be incrementing a reference
-> count.
-> 
-> With the newly added vm_ops->mapped callback available, we can simply
-> defer this operation to that callback which is only invoked once the
-> mapping is successfully in place (but not yet visible to userspace as the
-> mmap and VMA write locks are held).
-> 
-> This allows us to once again reimplement the .mmap_prepare implementation
-> for this file system.
-> 
-> Therefore add afs_mapped() to implement this callback for AFS, and remove
-> the code doing so in afs_mmap_prepare().
-> 
-> Also update afs_vm_open(), afs_vm_close() and afs_vm_map_pages() to be
-> consistent in how the vnode is accessed.
-> 
-> Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
+> I am writing as a user whose work is directly harmed by the absence
+> of a settable file creation timestamp in the Linux kernel. I am not a
+> kernel developer, but I believe this use case may help inform the
+> ongoing design discussion about btime semantics.
 
-Yep that should take care of that reference count problem.
+Implementing a new timestamp for every filesystem is unlikely to happen
+any time soon.  Even if the implementation was finished tomorrow, it
+would be many years before a large number of users were running those
+kernels, and tools had been modified to process the extra timestamps.
 
-Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 
-> ---
->  fs/afs/file.c | 42 +++++++++++++++++++++++++++++-------------
->  1 file changed, 29 insertions(+), 13 deletions(-)
-> 
-> diff --git a/fs/afs/file.c b/fs/afs/file.c
-> index 74d04af51ff4..85696ac984cc 100644
-> --- a/fs/afs/file.c
-> +++ b/fs/afs/file.c
-> @@ -19,7 +19,7 @@
->  #include <trace/events/netfs.h>
->  #include "internal.h"
-> 
-> -static int afs_file_mmap(struct file *file, struct vm_area_struct *vma);
-> +static int afs_file_mmap_prepare(struct vm_area_desc *desc);
-> 
->  static ssize_t afs_file_read_iter(struct kiocb *iocb, struct iov_iter *iter);
->  static ssize_t afs_file_splice_read(struct file *in, loff_t *ppos,
-> @@ -28,6 +28,8 @@ static ssize_t afs_file_splice_read(struct file *in, loff_t *ppos,
->  static void afs_vm_open(struct vm_area_struct *area);
->  static void afs_vm_close(struct vm_area_struct *area);
->  static vm_fault_t afs_vm_map_pages(struct vm_fault *vmf, pgoff_t start_pgoff, pgoff_t end_pgoff);
-> +static int afs_mapped(unsigned long start, unsigned long end, pgoff_t pgoff,
-> +		      const struct file *file, void **vm_private_data);
-> 
->  const struct file_operations afs_file_operations = {
->  	.open		= afs_open,
-> @@ -35,7 +37,7 @@ const struct file_operations afs_file_operations = {
->  	.llseek		= generic_file_llseek,
->  	.read_iter	= afs_file_read_iter,
->  	.write_iter	= netfs_file_write_iter,
-> -	.mmap		= afs_file_mmap,
-> +	.mmap_prepare	= afs_file_mmap_prepare,
->  	.splice_read	= afs_file_splice_read,
->  	.splice_write	= iter_file_splice_write,
->  	.fsync		= afs_fsync,
-> @@ -61,6 +63,7 @@ const struct address_space_operations afs_file_aops = {
->  };
-> 
->  static const struct vm_operations_struct afs_vm_ops = {
-> +	.mapped		= afs_mapped,
->  	.open		= afs_vm_open,
->  	.close		= afs_vm_close,
->  	.fault		= filemap_fault,
-> @@ -492,34 +495,47 @@ static void afs_drop_open_mmap(struct afs_vnode *vnode)
->  /*
->   * Handle setting up a memory mapping on an AFS file.
->   */
-> -static int afs_file_mmap(struct file *file, struct vm_area_struct *vma)
-> +static int afs_file_mmap_prepare(struct vm_area_desc *desc)
->  {
-> -	struct afs_vnode *vnode = AFS_FS_I(file_inode(file));
->  	int ret;
-> 
-> -	afs_add_open_mmap(vnode);
-> +	ret = generic_file_mmap_prepare(desc);
-> +	if (ret)
-> +		return ret;
-> 
-> -	ret = generic_file_mmap(file, vma);
-> -	if (ret == 0)
-> -		vma->vm_ops = &afs_vm_ops;
-> -	else
-> -		afs_drop_open_mmap(vnode);
-> +	desc->vm_ops = &afs_vm_ops;
->  	return ret;
->  }
-> 
-> +static int afs_mapped(unsigned long start, unsigned long end, pgoff_t pgoff,
-> +		      const struct file *file, void **vm_private_data)
-> +{
-> +	struct afs_vnode *vnode = AFS_FS_I(file_inode(file));
-> +
-> +	afs_add_open_mmap(vnode);
-> +	return 0;
-> +}
-> +
->  static void afs_vm_open(struct vm_area_struct *vma)
->  {
-> -	afs_add_open_mmap(AFS_FS_I(file_inode(vma->vm_file)));
-> +	struct file *file = vma->vm_file;
-> +	struct afs_vnode *vnode = AFS_FS_I(file_inode(file));
-> +
-> +	afs_add_open_mmap(vnode);
->  }
-> 
->  static void afs_vm_close(struct vm_area_struct *vma)
->  {
-> -	afs_drop_open_mmap(AFS_FS_I(file_inode(vma->vm_file)));
-> +	struct file *file = vma->vm_file;
-> +	struct afs_vnode *vnode = AFS_FS_I(file_inode(file));
-> +
-> +	afs_drop_open_mmap(vnode);
->  }
-> 
->  static vm_fault_t afs_vm_map_pages(struct vm_fault *vmf, pgoff_t start_pgoff, pgoff_t end_pgoff)
->  {
-> -	struct afs_vnode *vnode = AFS_FS_I(file_inode(vmf->vma->vm_file));
-> +	struct file *file = vmf->vma->vm_file;
-> +	struct afs_vnode *vnode = AFS_FS_I(file_inode(file));
-> 
->  	if (afs_check_validity(vnode))
->  		return filemap_map_pages(vmf, start_pgoff, end_pgoff);
-> --
-> 2.53.0
+A simple solution that would work today would be to write a script for
+Windows that extracted the creation time from NTFS and saved it as an
+xattr on each file like "user.ptime" before they are copied to Linux.
+
+Many tools today handle backup/restore and copying of xattrs already,
+and since the goal of "ptime" is that it stays the same across copies,
+then copying the xattr preserves the correct semantics with low effort.
+
+The xattrs can be written in ASCII ISO8601 format like "date +%Is" does,
+"2026-03-25T03:43:21-06:00", so that it sorts properly and is easily parsed.
+It would be easy to set this via normal command-line tools on Linux, like:
+
+$ setfattr -n user.ptime -v $(date -Is --date=@$(stat -c %W FILE)) FILE
+$ getfattr -d -m user.ptime FILE
+# file: FILE
+user.ptime="2013-10-11T13:46:10-06:00"
+
+to extract the (local) birth time in seconds, convert to ISO8601 format
+and store it in the "user.ptime" xattr where it will stay unchanged.
+
+To expand this further, you might consider submitting patches to Windows
+tools (where file creation time can be set) like 7zip, rclone, etc.) to
+save and restore the "user.ptime" xattr from creation time automatically.
+If a few popular tools start doing this, it is more likely others would
+follow suit.
+
+Cheers, Andreas
+
 
