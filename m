@@ -1,285 +1,248 @@
-Received: from mx0b-00364e01.pphosted.com (mx0b-00364e01.pphosted.com [148.163.139.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02C3330F93D
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 19:38:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.139.74
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774467538; cv=none; b=n7e3c65dJV/QZn0P0fqsF4UIeMKEMlK5oi8Fh7C8PbB8mpP9lthpiFkuRP31CwBYCGvD930uwM0NjeEy38bZ03mUad+xnoIzR3pC5j2AgqXgPeql4Vq6LsbG4URpikxwiXPyx1u6VycSREwIlXB/ByvMwRMtTsvf6JqGEyMorwI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774467538; c=relaxed/simple;
-	bh=/KDtCfPcROGMHktI+sYIoy1sJXxmr+t5YwMIoFyxNlk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=fkdJuRzyrVf6BsjIvI+AHzVeSPdKcaGvc/8p83BneExUp8/vShu7If8HsQrWeiTa1ZaJ6CnFOcFsw3wfp6EaD9ESpUJDlEYEm9DrSavMPmwfA6Vi1epyKDMYUThZsWQI4WIN5LDRI8fESC8ywU7Rgf5QaFqvfygr2zjTNJ+tPac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu; spf=pass smtp.mailfrom=columbia.edu; dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b=W1TdmHAg; arc=none smtp.client-ip=148.163.139.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=columbia.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3870B34CFAD
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 19:40:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774467614; cv=pass; b=sj92urD+DGuUxP0EYXmla8FwsPVnUad74sR/ak2ZSSz0gl5h6cXz2o4p8c8Rp9RtpsTzckpUQRy1yElJGYBe4P06nRpOwtIzyUHLL4vswlMHOkalF85AA7Y/GPUa3xVh7prTbCu98zgL7u4jxyTeAIUn8l7W5rHpoNjLxgtomOg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774467614; c=relaxed/simple;
+	bh=oeicwxjwchcF9WqvWg1RQaqLIIuLCbf8G0N4FWHt8Q4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kDJtmquaBzjQT33ha1lCBKdEbrvIjr/3ELV1xcX1PiaBfOhrSbtlPdFlaBBsBI4OciOvVFO36am76Vea9mIj0S5rwunUUwl/4FwMpCWM9ZgD81cyYrkPvzUoUOQ7dVBonK+zjuBdOfE6aHl63W8e2F9Pqvp6q4UUwztAabyZJLg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qk2iy/p5; arc=pass smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b="W1TdmHAg"
-Received: from pps.filterd (m0167073.ppops.net [127.0.0.1])
-	by mx0b-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62PDhdNh1628445
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 15:30:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=columbia.edu; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pps01; bh=hCcp
-	+9kU8miIdEe20LAeTwI4JkSmuzG2q+hEwpZi3Vg=; b=W1TdmHAgxdl1P3Jt415K
-	mDMuXC1UZ38fH1pCdmPKkiGohuKsIY1BtpAKPFqF+lIJQhgQdYdxNmq0tBln+Sxi
-	fPo2lZn/xTrr7aF03NAH5D7o5dhQ7+BnqTNuev7JxaZBdfr7G70Mgv6aC67YHW6I
-	jiNkss/3Gc3BnDCLsPz4kOq4H0P3arP/tm4ywo+FaBzzT+wYpZi3+xYTVHK+aRCm
-	JPQkw9rJlEHkxRJkqF13de3U36pc5j9+MK4SNkjL0L6/hXAbd+/klpJMM5KCVdqx
-	7xFJfUckpL/QeBuUOmtLU/DH2jbtDRoN06GcP8GdoC+DVlnJMZbwsJFM28SMa1+f
-	IA==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
-	by mx0b-00364e01.pphosted.com (PPS) with ESMTPS id 4d3wxhswsm-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 15:30:41 -0400 (EDT)
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-50b4ca7e7c2so7143221cf.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 12:30:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qk2iy/p5"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-439b6d9c981so83899f8f.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 12:40:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774467611; cv=none;
+        d=google.com; s=arc-20240605;
+        b=eo5o4mxPCrIVxqAlfB8W2MrcBYFZDAxEg7oS9LOuE1XanwQWcn6E7AuTUsNwySjUp+
+         2iEVpl03ZB1ZVsXmPsjVXf6LNMlNqRkfZhmd/26javJC2XVdJze6Lo+uMH8XPKu+vsVU
+         OAWIUis+9waXubckHznsL5ZIYH/rKLA866ekio3cJ8Vue3nTy33cYWrX5OYKdtR3w66P
+         tDM8NMfFiXRmwvzTfzKhGe2iGHzfjmvxoqARsN04xczhAzfbwR1sWw6tPDDikjlP6wRa
+         BJvsBTwlUCHOn/VtsfmYBD1PHB9rxZ/7Npg2slQqtuVuvCMGz8e7k0jXSpislDViO0fw
+         JC3w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=1jaRlaeffeDJBGaCdxhQ4LgTNj3RIqYHRelemKVaRzI=;
+        fh=Jv+Kc809lRsAudFApeBgE4togbUKCncgVhJxi8/RAtw=;
+        b=f85dKPDUsZbVvBtmfWE9GYPrgE+aeCY8U9mGIdLaklduvOMjVw4uuZCN/fnVq7Cn8f
+         OvgRYxht++cGbDm0w3C9xSWzCpypg9CDCfJFTTztIdUaiLXCP+88QlfiJ7eXJpy0ZwpD
+         5BHdomUb+Jei6Sz9LkeQZ/X3iZulR1X5uqp+wOEF01fdtuJusBbHlAyBhW9xTKNFwI2C
+         ZvC72OInMngW4xutBIT7nCmZUZj/2v+bwJIy1rAaBfoAhllBzY3Mna+Jy6SZPt192lhc
+         wNfRENrwZBYCJRID5CmdqZFVTwVsxrab4JjFc3FXTr3CNb6w2YOJ9xhPAM1ppUmyXeXZ
+         vUYA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774467611; x=1775072411; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1jaRlaeffeDJBGaCdxhQ4LgTNj3RIqYHRelemKVaRzI=;
+        b=Qk2iy/p54elQLzB8JP2+xrdLuCL06Leb5yvd7tCXwqvJRJOB6fmelu3xzcweMSL5eK
+         DdVCpx+PZCs6S4+56dn6/gS5fJG4EC4jY1LoabApjKwhKgXCKhpqzrnJ3Um8rLiIy/It
+         7PWJX+JcBqMdgAvc2MFZSqnJvUW4JR0SkNUwELdDjt4o4zC5n+00/A2bubKsq6WNfEA2
+         Btomix0C1N7pitC5lxxWn+AtUMWNjCuwtttJHozTLDHhiuQrnfNCYMWx452FtkTB6qHX
+         tTA5v8kooQyM8eb4D7EbbuHlxdCHK5SFbPf8c7c2PbVk0fcDNgoalA29DAvSxh9FOe4N
+         4Oiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774467041; x=1775071841;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=hCcp+9kU8miIdEe20LAeTwI4JkSmuzG2q+hEwpZi3Vg=;
-        b=OijP32fQgY9EPxfvloWiKit5YyKi1lrpvh7BDNsuaY1jFWv5LsQ57G5NmIe2BbU/pr
-         SWF+x1unrc8QlNzIbc+02petbGa6pZ38YPie/qAO1fBzQkprxVmZ+x4WMXkK4unc+wv6
-         p6KKsKk3cOaPkGGtu7PkDB60RJ6gVPLh30FuEMGz/6QirHmczlEIO/CMifnt5Dor/70g
-         +bCDUi3D0AfkwTilP9TTB1i59ksz833m1xSFjpUTPbx5NvNZjA1JvxyN54Z0kNmVezAQ
-         8qfRGDksFeXnE+GAiIzuSIKmAkXjdQawU8gYXou58vdYkVroMo5kQrxlXqDj5kwI10FU
-         PZiA==
-X-Forwarded-Encrypted: i=1; AJvYcCWuP6kl6Qsv1Bt62atjuh6ZCoytoYmOlrlM5cKeEnhLmqX8B3kCQNr0Xf36QtsG+FtK3EnmW20X19moylcg@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy/neR3VjFD6qwWxKv2FI9mr2NMA2qaTrkmsnvw6EbnKUCEN2q6
-	ERE+Buqz5J7ZK12I8vgSLzaiNpOutuOzhKgDM9y47XEx/EoKjtIaN7NU9kkY5Tyh61fp5Ei3JrU
-	YP4kjn9Rbi98B41TInCrvh0nbEhPKJn4IAFXGDXf+CjyX8cAV/13Gq2FbY+RabEU=
-X-Gm-Gg: ATEYQzzC46IDyIjtPC+VUTFf8GJ78l2/niuuUbAvtXOfa/AZaVucAECA3CduqEZvCGB
-	8JSf+6F8vqb7j4bJiiTMVBZAAnO5VsR1rD0ODMfVqK7mCdPz9zEDe6EF7rzjmDYZ6dlcZX5Qzp4
-	UQrndQzUb0qJfsfVKzJqH3oJWXUZBSqXghpGJ6mNfpBpYCTYwhZb2zDSFFtNjNkpBh8drpvSKbn
-	wJjPOHeMxaoGtq9ZE1YP8gb0hkseztCNrFfTtTphGCOhW578Dj15YvdczI78jAu1KmLPbo289pF
-	IdNo62O+5AT3+80N/36rgBNfJeAzsAqdVGYIJlWbsmzAUHsyl9yS82mUwRTbssAJ2535cSRhoyy
-	W6GypIcBOE1eKcnKXx9/PTsj/BoBj9uyH7yke+g==
-X-Received: by 2002:a05:622a:8356:b0:50b:4f75:c925 with SMTP id d75a77b69052e-50b80d34c05mr57540541cf.24.1774467040644;
-        Wed, 25 Mar 2026 12:30:40 -0700 (PDT)
-X-Received: by 2002:a05:622a:8356:b0:50b:4f75:c925 with SMTP id d75a77b69052e-50b80d34c05mr57539811cf.24.1774467040081;
-        Wed, 25 Mar 2026 12:30:40 -0700 (PDT)
-Received: from [127.0.1.1] ([129.236.226.199])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50b9234e3a3sm5534221cf.19.2026.03.25.12.30.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Mar 2026 12:30:39 -0700 (PDT)
-From: Tal Zussman <tz2294@columbia.edu>
-Date: Wed, 25 Mar 2026 14:43:00 -0400
-Subject: [PATCH RFC v4 1/3] block: add BIO_COMPLETE_IN_TASK for
- task-context completion
+        d=1e100.net; s=20251104; t=1774467611; x=1775072411;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=1jaRlaeffeDJBGaCdxhQ4LgTNj3RIqYHRelemKVaRzI=;
+        b=lnO+32Jm7sXRja6DJYJtxdl/tCcEMKcu/xG/yTA0wGN1Y5HWBf9nUDLEs8cJNgWzQX
+         tRMSuj2th+Tuaohs5SldZmf429C1oVG1iNcUA0LbYYwhz5oiPvlx7MhWpFbjS8MW2mZC
+         KzqVzwaX4AWh8vQQ7SrdlzOSakSYCvXPR7fDWBOWxkfczLmapXkSJEZAokfZ+ot0v/xf
+         +LioS9GaIRpWlXtfDf7bVuPRWMCd/ksqd4bv8vDcIoCHJ1GYClsXu7deaSnN2NRVamr+
+         4rruo2Y7KFh47xuTLorgQd97ttrymV0lUMIrFkUuiWtBm1+GBbfyn+blun5qPiA6Fgkh
+         k+zw==
+X-Forwarded-Encrypted: i=1; AJvYcCXiAnXJLsai+WBGTHvqLu9zWmPfazb0A/EU69HE4XqxwrRYO5y/Zfg9wMvlx3MOemsVTC8EKcTk0pQnrdec@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz+K/vG4jW1MLBtr+Ds/Um+L4Vf3dimFW7HzH9S01p5atTBgu/L
+	Fn4iMevSLtUhwyBHQfyFko6qHBBqqSe51FV9qaEzvIqL0KDxymdteWajBMC3Iyx7Mg+0QXnaY9A
+	MayPABpD6VKeW8DHc1fub1q0pemQorRg=
+X-Gm-Gg: ATEYQzyuPD+L9PPHRsjmM/yjXEU6N3k4NlsJDI9qRoh2w1AmZDRiuzt6zXLaC4mFLOu
+	YiiuOFAf6Qex0fPX2jQZ5o9e8dhPlEuCSKF+eTFAPjiI3nVUrkeswB7BHDrOHg4RNUpIefREgwC
+	biaC4SBLSlK8/5X8dAm0a0Fr/emom8r33tN0VR45hTuiSJnMpPhBMIr+wz2YcEbd0gtStvAmloh
+	qGVsUlc7T+0eAl/5xRM3RRnX517HmxsQ2Qw9PwRT4h70yqjSoPDEeG2rai4XAl1S6LBxAPjZMzL
+	gZWkew==
+X-Received: by 2002:a5d:5846:0:b0:43b:4703:9dd5 with SMTP id
+ ffacd0b85a97d-43b883be2admr7963481f8f.18.1774467610501; Wed, 25 Mar 2026
+ 12:40:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260325-blk-dontcache-v4-1-c4b56db43f64@columbia.edu>
-References: <20260325-blk-dontcache-v4-0-c4b56db43f64@columbia.edu>
-In-Reply-To: <20260325-blk-dontcache-v4-0-c4b56db43f64@columbia.edu>
-To: Jens Axboe <axboe@kernel.dk>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Christian Brauner <brauner@kernel.org>,
-        "Darrick J. Wong" <djwong@kernel.org>,
-        Carlos Maiolino <cem@kernel.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>
-Cc: Christoph Hellwig <hch@infradead.org>, linux-block@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        Tal Zussman <tz2294@columbia.edu>
-X-Mailer: b4 0.14.3-dev-d7477
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1774464193; l=4684;
- i=tz2294@columbia.edu; s=20250528; h=from:subject:message-id;
- bh=/KDtCfPcROGMHktI+sYIoy1sJXxmr+t5YwMIoFyxNlk=;
- b=yUgCWQ4ZcEeNTx5iojZlwuLJ75/zRFsFdFta96TVVGE0YTzeH6B4RKXjHrIwyFGw3hTK3rhgt
- gf2gbHu8FZ6CWKrHyJPeTOd+yuu9FyglPNZhfk8bDp7xeu7U5SJLlSh
-X-Developer-Key: i=tz2294@columbia.edu; a=ed25519;
- pk=BIj5KdACscEOyAC0oIkeZqLB3L94fzBnDccEooxeM5Y=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzI1MDE0MiBTYWx0ZWRfX2/PxZaSxeO9M
- 4b6CS/ZLIA5IZcREJJjlPmFLo0rWD8qnVVZJ/foT4LE0Fm7gmS4mPTzyKMUwu20XvJiRULl8cTY
- ZNB9k/HHFBTRY/+B0AVeMbUpuSwzK4+AK9VFBFj1VESPAPsA8yQtkEB3jZUuXp2VzdCODvdlDcj
- 2QuW9kOalhqLCpIP586yp1FQJ217HuaC0bVkUV9f0OjYOkWVZjbSMxrfqm8LJd7EYIFPbMjmBdt
- wEVLFEukNA8x6nv/G/l1sJKNOsatpVBCswio49rgBod618ops/XRVd7id5/5hsT7kz4+agILlU+
- NiJ+RM8sj3jI2ZkZ9NkwUVk3VKFZUkQrXnw8DvAZpJIrU5hg/UyaZpPYywJucnnKH/K1f6YEXcn
- RYPTRujynNcg1oybgJfBsN/y1fFRd51lbl6CWHI7k1Vneemnc/LbnC6wiSs3aH5Hpsp/3v8OPe4
- u9XKjqAKN0zeBcMeUOg==
-X-Proofpoint-GUID: 3zVG2tA3W9OA9_OtqvPtkXaXZJVmSgJO
-X-Authority-Analysis: v=2.4 cv=V7NwEOni c=1 sm=1 tr=0 ts=69c437e1 cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=QOUmeeuX5y9IvSxXHa6D2A==:17
- a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=x7bEGLp0ZPQA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22 a=jHxIr1HyPKZ_Q5_91PL3:22
- a=JfrnYn6hAAAA:8 a=QQSmTEQkt36Rj1JXOw4A:9 a=QEXdDO2ut3YA:10
- a=kacYvNCVWA4VmyqE58fU:22 a=1CNFftbPRP8L7MoqJWF3:22
-X-Proofpoint-ORIG-GUID: 3zVG2tA3W9OA9_OtqvPtkXaXZJVmSgJO
-X-Proofpoint-Virus-Version: vendor=nai engine=6800 definitions=11740
- signatures=596818
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 suspectscore=0 phishscore=0 impostorscore=10 adultscore=0
- bulkscore=10 spamscore=0 priorityscore=1501 malwarescore=0
- lowpriorityscore=10 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2603050001
- definitions=main-2603250142
+References: <177188733084.3935219.10400570136529869673.stgit@frogsfrogsfrogs> <177188733196.3935219.3172887920210313838.stgit@frogsfrogsfrogs>
+In-Reply-To: <177188733196.3935219.3172887920210313838.stgit@frogsfrogsfrogs>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Wed, 25 Mar 2026 12:39:57 -0700
+X-Gm-Features: AQROBzCZjUmNW3mHEyd1fr7dhM1RSyURYPV4Z6yvt_FMTpVeDdj7JRXwFxnTYS0
+Message-ID: <CAJnrk1YL3KnON-WtNjNi+2GZ+6rYvnVUnYwCk5efv0o41XkxcA@mail.gmail.com>
+Subject: Re: [PATCH 4/5] fuse: update file mode when updating acls
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: miklos@szeredi.hu, bpf@vger.kernel.org, bernd@bsbernd.com, neal@gompa.dev, 
+	linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Some bio completion handlers need to run in task context but bio_endio()
-can be called from IRQ context (e.g. buffer_head writeback). Add a
-BIO_COMPLETE_IN_TASK flag that bio submitters can set to request
-task-context completion of their bi_end_io callback.
+On Mon, Feb 23, 2026 at 3:07=E2=80=AFPM Darrick J. Wong <djwong@kernel.org>=
+ wrote:
+>
+> From: Darrick J. Wong <djwong@kernel.org>
+>
+> If someone sets ACLs on a file that can be expressed fully as Unix DAC
+> mode bits, most local filesystems will then update the mode bits and
+> drop the ACL xattr to reduce inefficiency in the file access paths.
+> Let's do that too.  Note that means that we can setacl and end up with
+> no ACL xattrs, so we also need to tolerate ENODATA returns from
+> fuse_removexattr.
+>
+> Note that here we define a "local" fuse filesystem as one that uses
+> fuseblk mode; we'll shortly add fuse servers that use iomap for the file
+> IO path to that list.
+>
+> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
+> ---
+>  fs/fuse/fuse_i.h |    2 +-
+>  fs/fuse/acl.c    |   43 ++++++++++++++++++++++++++++++++++++++++++-
+>  2 files changed, 43 insertions(+), 2 deletions(-)
+>
+> diff --git a/fs/fuse/acl.c b/fs/fuse/acl.c
+> index cbde6ac1add35a..f2b959efd67490 100644
+> --- a/fs/fuse/acl.c
+> +++ b/fs/fuse/acl.c
+> @@ -11,6 +11,18 @@
+>  #include <linux/posix_acl.h>
+>  #include <linux/posix_acl_xattr.h>
+>
+> +/*
+> + * If this fuse server behaves like a local filesystem, we can implement=
+ the
+> + * kernel's optimizations for ACLs for local filesystems instead of pass=
+ing
+> + * the ACL requests straight through to another server.
+> + */
+> +static inline bool fuse_inode_has_local_acls(const struct inode *inode)
+> +{
+> +       const struct fuse_conn *fc =3D get_fuse_conn(inode);
+> +
+> +       return fc->posix_acl && fuse_inode_is_exclusive(inode);
+> +}
+> +
+>  static struct posix_acl *__fuse_get_acl(struct fuse_conn *fc,
+>                                         struct inode *inode, int type, bo=
+ol rcu)
+>  {
+> @@ -98,6 +110,7 @@ int fuse_set_acl(struct mnt_idmap *idmap, struct dentr=
+y *dentry,
+>         struct inode *inode =3D d_inode(dentry);
+>         struct fuse_conn *fc =3D get_fuse_conn(inode);
+>         const char *name;
+> +       umode_t mode =3D inode->i_mode;
+>         int ret;
+>
+>         if (fuse_is_bad(inode))
+> @@ -113,6 +126,18 @@ int fuse_set_acl(struct mnt_idmap *idmap, struct den=
+try *dentry,
+>         else
+>                 return -EINVAL;
+>
+> +       /*
+> +        * If the ACL can be represented entirely with changes to the mod=
+e
+> +        * bits, then most filesystems will update the mode bits and dele=
+te
+> +        * the ACL xattr.
+> +        */
+> +       if (acl && type =3D=3D ACL_TYPE_ACCESS &&
+> +           fuse_inode_has_local_acls(inode)) {
+> +               ret =3D posix_acl_update_mode(idmap, inode, &mode, &acl);
+> +               if (ret)
+> +                       return ret;
+> +       }
+> +
+>         if (acl) {
+>                 unsigned int extra_flags =3D 0;
+>                 /*
 
-When bio_endio() sees this flag and is running in non-task context, it
-queues the bio to a per-cpu list and schedules a work item to call
-bi_end_io() from task context. A CPU hotplug dead callback drains any
-remaining bios from the departing CPU's batch.
+I think this sentence in this comment block "Fuse userspace is
+responsible for updating access permissions in the inode, if needed"
+needs some updating now, since this is only now true for non-local
+fuse servers
 
-This will be used to enable RWF_DONTCACHE for block devices, and could
-be used for other subsystems like fscrypt that need task-context bio
-completion.
+> @@ -139,7 +164,7 @@ int fuse_set_acl(struct mnt_idmap *idmap, struct dent=
+ry *dentry,
+>                  * through POSIX ACLs. Such daemons don't expect setgid b=
+its to
+>                  * be stripped.
+>                  */
+> -               if (fc->posix_acl &&
+> +               if (fc->posix_acl && mode =3D=3D inode->i_mode &&
 
-Suggested-by: Matthew Wilcox <willy@infradead.org>
-Signed-off-by: Tal Zussman <tz2294@columbia.edu>
----
- block/bio.c               | 84 ++++++++++++++++++++++++++++++++++++++++++++++-
- include/linux/blk_types.h |  1 +
- 2 files changed, 84 insertions(+), 1 deletion(-)
+Maybe a bit verbose but imo it'd be clearer if we had a separate
+boolean tracking the case where the kernel updated the mode bits,
+instead of using "mode =3D=3D inode->i_mode" here and below for the
+fuse_do_setattr() logic block. That makes it more clear here to reason
+about (eg it'd at least make it more obvious here that we don't need
+to strip sgid since the kernel already did that when it updated the
+mode bits earlier)
 
-diff --git a/block/bio.c b/block/bio.c
-index 8203bb7455a9..69ee0d93041f 100644
---- a/block/bio.c
-+++ b/block/bio.c
-@@ -18,6 +18,7 @@
- #include <linux/highmem.h>
- #include <linux/blk-crypto.h>
- #include <linux/xarray.h>
-+#include <linux/local_lock.h>
- 
- #include <trace/events/block.h>
- #include "blk.h"
-@@ -1714,6 +1715,60 @@ void bio_check_pages_dirty(struct bio *bio)
- }
- EXPORT_SYMBOL_GPL(bio_check_pages_dirty);
- 
-+struct bio_complete_batch {
-+	local_lock_t lock;
-+	struct bio_list list;
-+	struct work_struct work;
-+};
-+
-+static DEFINE_PER_CPU(struct bio_complete_batch, bio_complete_batch) = {
-+	.lock = INIT_LOCAL_LOCK(lock),
-+};
-+
-+static void bio_complete_work_fn(struct work_struct *w)
-+{
-+	struct bio_complete_batch *batch;
-+	struct bio_list list;
-+
-+again:
-+	local_lock_irq(&bio_complete_batch.lock);
-+	batch = this_cpu_ptr(&bio_complete_batch);
-+	list = batch->list;
-+	bio_list_init(&batch->list);
-+	local_unlock_irq(&bio_complete_batch.lock);
-+
-+	while (!bio_list_empty(&list)) {
-+		struct bio *bio = bio_list_pop(&list);
-+		bio->bi_end_io(bio);
-+	}
-+
-+	local_lock_irq(&bio_complete_batch.lock);
-+	batch = this_cpu_ptr(&bio_complete_batch);
-+	if (!bio_list_empty(&batch->list)) {
-+		local_unlock_irq(&bio_complete_batch.lock);
-+
-+		if (!need_resched())
-+			goto again;
-+
-+		schedule_work_on(smp_processor_id(), &batch->work);
-+		return;
-+	}
-+	local_unlock_irq(&bio_complete_batch.lock);
-+}
-+
-+static void bio_queue_completion(struct bio *bio)
-+{
-+	struct bio_complete_batch *batch;
-+	unsigned long flags;
-+
-+	local_lock_irqsave(&bio_complete_batch.lock, flags);
-+	batch = this_cpu_ptr(&bio_complete_batch);
-+	bio_list_add(&batch->list, bio);
-+	local_unlock_irqrestore(&bio_complete_batch.lock, flags);
-+
-+	schedule_work_on(smp_processor_id(), &batch->work);
-+}
-+
- static inline bool bio_remaining_done(struct bio *bio)
- {
- 	/*
-@@ -1788,7 +1843,9 @@ void bio_endio(struct bio *bio)
- 	}
- #endif
- 
--	if (bio->bi_end_io)
-+	if (!in_task() && bio_flagged(bio, BIO_COMPLETE_IN_TASK))
-+		bio_queue_completion(bio);
-+	else if (bio->bi_end_io)
- 		bio->bi_end_io(bio);
- }
- EXPORT_SYMBOL(bio_endio);
-@@ -1974,6 +2031,21 @@ int bioset_init(struct bio_set *bs,
- }
- EXPORT_SYMBOL(bioset_init);
- 
-+/*
-+ * Drain a dead CPU's deferred bio completions. The CPU is dead so no locking
-+ * is needed -- no new bios will be queued to it.
-+ */
-+static int bio_complete_batch_cpu_dead(unsigned int cpu)
-+{
-+	struct bio_complete_batch *batch = per_cpu_ptr(&bio_complete_batch, cpu);
-+	struct bio *bio;
-+
-+	while ((bio = bio_list_pop(&batch->list)))
-+		bio->bi_end_io(bio);
-+
-+	return 0;
-+}
-+
- static int __init init_bio(void)
- {
- 	int i;
-@@ -1988,6 +2060,16 @@ static int __init init_bio(void)
- 				SLAB_HWCACHE_ALIGN | SLAB_PANIC, NULL);
- 	}
- 
-+	for_each_possible_cpu(i) {
-+		struct bio_complete_batch *batch =
-+			per_cpu_ptr(&bio_complete_batch, i);
-+
-+		bio_list_init(&batch->list);
-+		INIT_WORK(&batch->work, bio_complete_work_fn);
-+	}
-+
-+	cpuhp_setup_state(CPUHP_BP_PREPARE_DYN, "block/bio:complete:dead",
-+				NULL, bio_complete_batch_cpu_dead);
- 	cpuhp_setup_state_multi(CPUHP_BIO_DEAD, "block/bio:dead", NULL,
- 					bio_cpu_dead);
- 
-diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
-index 8808ee76e73c..d49d97a050d0 100644
---- a/include/linux/blk_types.h
-+++ b/include/linux/blk_types.h
-@@ -322,6 +322,7 @@ enum {
- 	BIO_REMAPPED,
- 	BIO_ZONE_WRITE_PLUGGING, /* bio handled through zone write plugging */
- 	BIO_EMULATES_ZONE_APPEND, /* bio emulates a zone append operation */
-+	BIO_COMPLETE_IN_TASK, /* complete bi_end_io() in task context */
- 	BIO_FLAG_LAST
- };
- 
+>                     !in_group_or_capable(idmap, inode,
+>                                          i_gid_into_vfsgid(idmap, inode))=
+)
+>                         extra_flags |=3D FUSE_SETXATTR_ACL_KILL_SGID;
+> @@ -148,6 +173,22 @@ int fuse_set_acl(struct mnt_idmap *idmap, struct den=
+try *dentry,
+>                 kfree(value);
+>         } else {
+>                 ret =3D fuse_removexattr(inode, name);
+> +               /* If the acl didn't exist to start with that's fine. */
+> +               if (ret =3D=3D -ENODATA)
+> +                       ret =3D 0;
+> +       }
+> +
+> +       /* If we scheduled a mode update above, push that to userspace no=
+w. */
+> +       if (!ret) {
+> +               struct iattr attr =3D { };
+> +
+> +               if (mode !=3D inode->i_mode) {
+> +                       attr.ia_valid |=3D ATTR_MODE;
+> +                       attr.ia_mode =3D mode;
+> +               }
+> +
+> +               if (attr.ia_valid)
+> +                       ret =3D fuse_do_setattr(idmap, dentry, &attr, NUL=
+L);
+>         }
 
--- 
-2.39.5
+I think this logic reads clearer if it's restructured to
 
+if (!ret && mode !=3D inode->i_mode) {
+    struct iattr attr =3D {
+            .ia_valid =3D ATTR_MODE,
+            .ia_mode =3D mode,
+     };
+
+    ret =3D fuse_do_setattr(idmap, dentry, &attr, NULL);
+}
+
+>
+>         if (fc->posix_acl) {
+>
+
+For local / exclusive servers, the kernel already has / sets the
+refreshed attributes, so we could probably skip the invalidation logic
+here for that case since the cache is already uptodate?
+
+Thanks,
+Joanne
