@@ -1,217 +1,152 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com [209.85.214.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAC2F34104E
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 18:50:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1472351C3A
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 19:00:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774464615; cv=none; b=L4eiSms5tGbQ969j93n3h9RPp5C5ZSR5IU21pK9V81saqqwBy0deRj+M4dqC76ADOAyyPAlOmlkw0YqtpxTY6AzzxqHcNn5i8Rw9DCuuMfTnVDEgw/5z3bq+n0pYT3um31BE7L+KDBwZ371a/z6gMWyOz1vMUojFrg+FDq0NLKY=
+	t=1774465250; cv=none; b=EUmOc+01IJ7IFdMYqNpnT7Fjkh6MmFTEzNguWzX41A/PEe0jEV5SaIbOjA/gSKcnLXHcxenUe65gSho9bX1YaxeWwh2t24OYKcvJ30zIcVEuw5h9U/C2lTmov0uvyGFZpw5K0AqIMSILj1vMtpMjJuhPmHkdJIBlvvtwKVn48RU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774464615; c=relaxed/simple;
-	bh=w1VISlujRgrRgqZxdVDhT0cMk3ovWMZc7Q2krevfdQ8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uCIN6q6L97PjXPIFLcQkdS2M8hGRMA17AFTn5qPNqFEaPsspRbg9ubflhxu59UCufjfnLXEMsWNFTOalNe+6Z1JJ8pL7qc8rsHRiQgqRWP1r8DjFnN7UNllWuRtkPYtDz4VrtQzgOEayoh/s/8IykdEkhwpUbDzjO6JfNd5nWYc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=3Dpr3+Bh; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=c08EFa0n; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=3Dpr3+Bh; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=c08EFa0n; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1774465250; c=relaxed/simple;
+	bh=DwsNKvlGYKtZ1fF9b9hdF+JF2RiPPutB04oJafLhO0Q=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=sB6ewEkNuFWt9Pi34i/K9ZJmS7FhLwSJErf/8KvoDceSEZSYAbhOcKcsQVEyevvKIcwZ4pCeHCsiWF5aF/RDlWf/WetQPzJqxHNxmrjd1EVP41NmzoiYuS8bTJS4sG9LsZ/J9inpOZ+1UtcaiLvonU9lTQ1zzjLSOkkHnVueNw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ee.vjti.ac.in; spf=none smtp.mailfrom=ee.vjti.ac.in; dkim=pass (1024-bit key) header.d=vjti.ac.in header.i=@vjti.ac.in header.b=ac3gmVe1; arc=none smtp.client-ip=209.85.214.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ee.vjti.ac.in
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ee.vjti.ac.in
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="3Dpr3+Bh";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="c08EFa0n";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="3Dpr3+Bh";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="c08EFa0n"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id CFE1B4D249;
-	Wed, 25 Mar 2026 18:50:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1774464610; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=kY4KdGkMsJWjJ5ksMVNV6iC59kNSYPkvqWwG9HHqq9o=;
-	b=3Dpr3+Bh+/yfSzGDe08mC9SkKmsQfCFpGQfUsUd1dvqpgYPMQpHNfxaWzDPXsYPsY5SkX7
-	Pjgvq1X0474iQumckfLCTWY2O/LvQzC1lyd5kCixXXbZreS6+wOU/tBgfqDZsZqJwz67qu
-	OV1ODEIFb1v4hnLDxYvyQt+v5jsGB3A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1774464610;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=kY4KdGkMsJWjJ5ksMVNV6iC59kNSYPkvqWwG9HHqq9o=;
-	b=c08EFa0nsffs5g0ENqs0KZGNQk/pHV3AsHfVTFjJlQvzqweXwS1S/z8ht+vV/cUl3u9bzu
-	LnC0GmKR2q8aYYAw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1774464610; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=kY4KdGkMsJWjJ5ksMVNV6iC59kNSYPkvqWwG9HHqq9o=;
-	b=3Dpr3+Bh+/yfSzGDe08mC9SkKmsQfCFpGQfUsUd1dvqpgYPMQpHNfxaWzDPXsYPsY5SkX7
-	Pjgvq1X0474iQumckfLCTWY2O/LvQzC1lyd5kCixXXbZreS6+wOU/tBgfqDZsZqJwz67qu
-	OV1ODEIFb1v4hnLDxYvyQt+v5jsGB3A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1774464610;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=kY4KdGkMsJWjJ5ksMVNV6iC59kNSYPkvqWwG9HHqq9o=;
-	b=c08EFa0nsffs5g0ENqs0KZGNQk/pHV3AsHfVTFjJlQvzqweXwS1S/z8ht+vV/cUl3u9bzu
-	LnC0GmKR2q8aYYAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C11794454D;
-	Wed, 25 Mar 2026 18:50:10 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id NTCLLmIuxGklVgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 25 Mar 2026 18:50:10 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 955CBA0B57; Wed, 25 Mar 2026 17:22:24 +0100 (CET)
-From: Jan Kara <jack@suse.cz>
-To: <linux-fsdevel@vger.kernel.org>
-Cc: Christoph Hellwig <hch@infradead.org>,
-	Jan Kara <jack@suse.cz>,
-	Jianzhou Zhao <luckd0g@163.com>
-Subject: [PATCH v2] udf: Fix race between file type conversion and writeback
-Date: Wed, 25 Mar 2026 17:22:10 +0100
-Message-ID: <20260325162209.29233-2-jack@suse.cz>
-X-Mailer: git-send-email 2.51.0
+	dkim=pass (1024-bit key) header.d=vjti.ac.in header.i=@vjti.ac.in header.b="ac3gmVe1"
+Received: by mail-pl1-f196.google.com with SMTP id d9443c01a7336-2a871daa98fso1277675ad.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 12:00:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vjti.ac.in; s=google; t=1774465237; x=1775070037; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=a3TfDXqvygN5I94hNBiffuf36XK4iR4Jn35/3DLOLzU=;
+        b=ac3gmVe1vkqJAf6swAtBnQ5oxItDtJeqys/PGYN6OQWX5/anxdLfA8iS0DamF+JmJz
+         +bmu/jfOB3jfh/ajeJZB434MI5VwZJfA+Dpa5f9o3W0c+6fu7gZYBlNZ0yG6+dHu7AWF
+         a5PeQXBPu5TBg6bhlL5F5mU/0eDvmC7Rpd+qc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774465237; x=1775070037;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=a3TfDXqvygN5I94hNBiffuf36XK4iR4Jn35/3DLOLzU=;
+        b=ZEEhDjqppn6jugIhLMLILECipD4JGcnL82RVjeJZ+9UreB5zV9ugiaCs8aMIowHtXe
+         iYN9XfXaEcF08C2QuFf21F86ucBj2oCpf41qcsNz4tgTgsp2xp3sNm8eOBfkbwuLamFi
+         HPHr3l5RBDofS2B5+dXuOrYCDEfFdvihdrxPt6UINIwCXuenrr8s5PLmvqYZjIg3REPE
+         +NmgyCk9ufs/7OIh2bZUw/GQFDdLxwg15kMOnHSbMZd7UUcULnqzrQjQYc7XyQdmFrGE
+         JqGC2DlYj++pX1gGgof/EPLoRetzA7Jy+pl/mP3FGSisPX4+ELT2JM6aa8tWxPbqzv4W
+         ycNA==
+X-Forwarded-Encrypted: i=1; AJvYcCWAha+HnJiKRDDJWj0gMn4EkFURjqwuKOODJYVQNZIhTMB9k5ESViycd+w8iHpEqWMKWbKXghKaAEzMGOsG@vger.kernel.org
+X-Gm-Message-State: AOJu0YzjcvPRvauQ0deAx43RSQo9LRtGmfz4Of/ujXZjGUjKu8dMFyiB
+	EKlU6TtbhePGHc4E+D+xSjDW3GqXMVPjwPIVVmUegpNnQYqYq3uVEDul8ZBQ18ed994NviEEVmi
+	UT5atFwm27fPx
+X-Gm-Gg: ATEYQzwE/T+OyaU2LXKQW8AGqjeafdTJP3JWCVRxK3QvCN9LShNGii0T/BXBj7iJHtf
+	GfDGTRdD44U11W3WejLAj0OPepqt/PxI7wXzdiKF/J4sRSJvAbFmNL7ZcNDC1m65OUcFxSgElRh
+	P26Wf+A6Yg1qn/u35B/K7hxIt59KUg2xjWCZlAdpbwkdCrmsHm2wtkjAeYnddjMMz5gM6Bsf2t4
+	b2vLoJ+ixCjmdGp+6nS4hE5JYI9Q4ctqLQvGj+kl9VdvL6Vl3ITHsjfGbqQKIaG1+CYtHrXygtA
+	SUPgykTbUMB/q4XDZ9M9QrbIPPXsoAyA1/CSjakahzZ8Z5Bqtcz6C9TzxZ4ZLDEVjXjIPrhU2u4
+	R7GY6707eJHiBiTYcyR4q5b8LQGT++7ov/AS74kkUkzes9LfkW7nYCxyk2EOjqf/l5JGCjUgQcQ
+	wvzZCrSN4SIe9g+fXOblrMrzXY2WfOgRIeMln47lXPd3GIDuzqwc7yw2ZZD87dZ12QkJGfLSyhB
+	HYNPfYUfz9owGcRBgzBPQ==
+X-Received: by 2002:a17:903:1aef:b0:2b0:6e60:9586 with SMTP id d9443c01a7336-2b0b09fa0c3mr52525125ad.17.1774465237050;
+        Wed, 25 Mar 2026 12:00:37 -0700 (PDT)
+Received: from ranegod-HP-ENVY-x360-Convertible-13-bd0xxx.www.tendawifi.com ([14.139.108.62])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b0bc79f7dbsm6483485ad.25.2026.03.25.12.00.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Mar 2026 12:00:36 -0700 (PDT)
+From: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
+To: linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Cc: manfred@colorfullife.com,
+	viro@zeniv.linux.org.uk,
+	brauner@kernel.org,
+	chuck.lever@oracle.com,
+	jlayton@kernel.org,
+	rstoyanov@fedoraproject.org,
+	ptikhomirov@virtuozzo.com,
+	Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
+Subject: [RFC PATCH 0/3] ipc/mqueue: add fcntl(F_MQ_PEEK) for non-destructive message inspection
+Date: Thu, 26 Mar 2026 00:30:22 +0530
+Message-Id: <20260325190025.40312-1-ssrane_b23@ee.vjti.ac.in>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3272; i=jack@suse.cz; h=from:subject; bh=w1VISlujRgrRgqZxdVDhT0cMk3ovWMZc7Q2krevfdQ8=; b=owEBbQGS/pANAwAIAZydqgc/ZEDZAcsmYgBpxAux9vhtZFN1N6cY0g7nvmQ5D+kWaqg8NeyUJ mhItLW+DHqJATMEAAEIAB0WIQSrWdEr1p4yirVVKBycnaoHP2RA2QUCacQLsQAKCRCcnaoHP2RA 2RuqB/4sEUb3HH0TzLqnh38uBluxsRFJsXv8r6uLfbV3aGiMRV+gIrSJy3XGGRRfusNjRuRECNT /q1q0SlXRwLUM8fY3QBQgoJsUjmReFfflhQ0K4+A0+u/ApNXJJnrm2uH/MjcteiJL4WVDOTrtnS jMEBFMdRpNoNrIk6kJda/tFavl1pZ7wuI821xXb9Kn7sxWZVxthCJhGEIb5LAZMUuUe5o+BMxyi /NokLdetvPGk/9beiX7NaglvrHy3aG6O0F0VoxFmelYnDW0+QoZGnoqPTUNE62tUBQuCaFKgFdj JeZ6zA5Mmz5Pn1g4LzKlWQeu/CoNNCk4SQi4nFtUPRnTAjO0
-X-Developer-Key: i=jack@suse.cz; a=openpgp; fpr=93C6099A142276A28BBE35D815BC833443038D8C
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -2.80
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_CC(0.00)[infradead.org,suse.cz,163.com];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:mid,suse.cz:email];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_COUNT_THREE(0.00)[3];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FREEMAIL_ENVRCPT(0.00)[163.com]
-X-Spam-Flag: NO
 
-udf_setsize() can race with udf_writepages() as follows:
+POSIX message queues currently have no way to inspect queued messages
+without consuming them.  mq_receive() always dequeues the message it
+returns.  This makes it impossible for checkpoint/restore tools such as
+CRIU to save and replay message queue contents without first destroying
+the queue state.
 
-udf_setsize()			udf_writepages()
-				  if (iinfo->i_alloc_type ==
-						ICBTAG_FLAG_AD_IN_ICB)
-  err = udf_expand_file_adinicb(inode);
-  err = udf_extend_file(inode, newsize);
-				    udf_adinicb_writepages()
-				      memcpy_from_file_folio() - crash
-					because inode size is too big.
+This series adds F_MQ_PEEK, a new fcntl command that reads a message
+from a POSIX message queue by index (0 = highest priority, matching
+mq_receive dequeue order) without removing it.
 
-Fix the problem by rechecking file type under folio lock in
-udf_writepages() which properly serializes with
-udf_expand_file_adinicb(). Since it is quite difficult to implement this
-locking with current writeback_iter() logic, let's just opencode the
-logic necessary to prepare (the only) folio the inode can have for
-writeback.
+Background
+----------
+CRIU (Checkpoint/Restore In Userspace) supports live container migration
+and process checkpoint/restore.  It handles SysV message queues, shared
+memory, semaphores, pipes, and sockets, but POSIX mqueues remain
+unsupported because there is no kernel interface to inspect queued
+messages non-destructively.
 
-Reported-by: Jianzhou Zhao <luckd0g@163.com>
-Link: https://lore.kernel.org/all/f622c01.67ac.19cdbdd777d.Coremail.luckd0g@163.com
-Signed-off-by: Jan Kara <jack@suse.cz>
----
- fs/udf/inode.c | 53 +++++++++++++++++++++++++++++++-------------------
- 1 file changed, 33 insertions(+), 20 deletions(-)
+The SysV analogue for this problem was solved in 2012: the MSG_COPY flag
+was added to msgrcv() in commit 4a674f34ba04 ("ipc: introduce message
+queue copy feature") specifically for CRIU.  This series does the same
+for POSIX mqueues.
 
-Changes since v1:
-* opencode folio_prepare_writeback() in UDF instead of exporting it
+Why fcntl and not a new syscall
+---------------------------------
+POSIX mqueue file descriptors are first-class Linux file descriptors.
+fcntl() is the established interface for per-fd operations beyond
+read/write: F_GETPIPE_SZ queries pipe capacity, F_ADD_SEALS/F_GET_SEALS
+control memfd sealing, F_GETDELEG manages file delegations.  F_MQ_PEEK
+follows this same pattern.
 
-I'll merge this fix through my tree.
+Adding a flag to mq_timedreceive() is not possible without ABI breakage:
+the POSIX signature has no flags parameter.  A new syscall is unnecessary
+when fcntl() covers the use case cleanly.
 
-diff --git a/fs/udf/inode.c b/fs/udf/inode.c
-index 7fae8002344a..c85b0239660c 100644
---- a/fs/udf/inode.c
-+++ b/fs/udf/inode.c
-@@ -181,34 +181,47 @@ static void udf_write_failed(struct address_space *mapping, loff_t to)
- 	}
- }
- 
--static int udf_adinicb_writepages(struct address_space *mapping,
--		      struct writeback_control *wbc)
-+static int udf_writepages(struct address_space *mapping,
-+			  struct writeback_control *wbc)
- {
- 	struct inode *inode = mapping->host;
- 	struct udf_inode_info *iinfo = UDF_I(inode);
--	struct folio *folio = NULL;
--	int error = 0;
- 
--	while ((folio = writeback_iter(mapping, wbc, folio, &error))) {
--		BUG_ON(!folio_test_locked(folio));
--		BUG_ON(folio->index != 0);
-+	if (iinfo->i_alloc_type == ICBTAG_FLAG_AD_IN_ICB) {
-+		struct folio *folio;
-+		bool dirty = false;
-+
-+		folio = filemap_lock_folio(mapping, 0);
-+		if (IS_ERR(folio))
-+			return 0;
-+		/*
-+		 * Recheck inode type under folio lock when we are protected
-+		 * against udf_expand_file_adinicb(). Bail to standard writeback
-+		 * path if file got expanded.
-+		 */
-+		if (iinfo->i_alloc_type != ICBTAG_FLAG_AD_IN_ICB) {
-+			folio_unlock(folio);
-+			goto mpage_writeback;
-+		}
-+		if (!folio_test_dirty(folio))
-+			goto unlock_folio;
-+		if (folio_test_writeback(folio)) {
-+			if (wbc->sync_mode == WB_SYNC_NONE)
-+				goto unlock_folio;
-+			folio_wait_writeback(folio);
-+		}
-+		if (!folio_clear_dirty_for_io(folio))
-+			goto unlock_folio;
- 		memcpy_from_file_folio(iinfo->i_data + iinfo->i_lenEAttr, folio,
- 				0, i_size_read(inode));
-+		dirty = true;
-+unlock_folio:
- 		folio_unlock(folio);
-+		if (dirty)
-+			mark_inode_dirty(inode);
-+		return 0;
- 	}
--
--	mark_inode_dirty(inode);
--	return 0;
--}
--
--static int udf_writepages(struct address_space *mapping,
--			  struct writeback_control *wbc)
--{
--	struct inode *inode = mapping->host;
--	struct udf_inode_info *iinfo = UDF_I(inode);
--
--	if (iinfo->i_alloc_type == ICBTAG_FLAG_AD_IN_ICB)
--		return udf_adinicb_writepages(mapping, wbc);
-+mpage_writeback:
- 	return mpage_writepages(mapping, wbc, udf_get_block_wb);
- }
- 
+Series overview
+---------------
+Patch 1 adds struct mq_peek_attr and F_MQ_PEEK to the UAPI headers.
+
+Patch 2 moves struct msg_msgseg and DATALEN_MSG/DATALEN_SEG from the
+private ipc/msgutil.c to include/linux/msg.h.  This is a pure
+refactoring (no functional change) that allows ipc/mqueue.c to walk
+multi-segment message chains under a spinlock using only memcpy()
+(copy_to_user() cannot be called under a spinlock).
+
+Patch 3 implements do_mq_peek() in ipc/mqueue.c and dispatches it from
+fs/fcntl.c.  The implementation holds info->lock for the tree traversal
+and kernel-buffer copy, then releases the lock before copy_to_user().
+
+A corresponding CRIU userspace patch will be sent to the CRIU mailing
+list separately.  It uses F_MQ_PEEK when the kernel supports it,
+falling back to a ptrace-safe intrusive drain/re-enqueue on older
+kernels.
+
+Link: https://github.com/checkpoint-restore/criu/issues/2285
+
+Shaurya Rane (3):
+  mqueue: uapi: add struct mq_peek_attr and F_MQ_PEEK
+  msg: move struct msg_msgseg and DATALEN_* to include/linux/msg.h
+  ipc/mqueue: implement fcntl(F_MQ_PEEK) for non-destructive message inspection
+
+ fs/fcntl.c                  |   3 +
+ include/linux/mqueue.h      |  19 ++++++
+ include/linux/msg.h         |  13 ++++
+ include/uapi/linux/fcntl.h  |   7 ++
+ include/uapi/linux/mqueue.h |  20 ++++++
+ ipc/mqueue.c                | 130 ++++++++++++++++++++++++++++++++++++
+ ipc/msgutil.c               |   7 --
+ 7 files changed, 192 insertions(+), 7 deletions(-)
+
 -- 
-2.51.0
-
+2.43.0
