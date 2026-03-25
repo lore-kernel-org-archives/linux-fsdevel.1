@@ -1,139 +1,242 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF0CF328B77;
-	Wed, 25 Mar 2026 21:27:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A230235B12B;
+	Wed, 25 Mar 2026 21:28:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774474031; cv=none; b=Hq+s7/fqUEGbRiQL2DNFXfq+YcNBS66i68juoR1QQQWJenTWOHBlayJoE/QoEVd/XusMLcNx62d9ftr1KOImXwbyi871twIUVdlguAUW69w7hFh3QS3bOPIqvcLUhCb0u7yaBNvvg3DhBNwDm24sV5DoGazJNJbhD8+KcQVm3oo=
+	t=1774474123; cv=none; b=mryvdu+smt6B/WP0WJqitnqKQ9Pk8AEjxTkx5AsCETxQEgPppprfw974rCKmzCxwNb14lKWoOe4CrqCokywgz99aRP/v/b/QmgYrJ8uFu4G0T/KUTU6NJkaYgTE8M47zZhsxSqCeveX/z+YgvcTh+EVEBfubH8pbGxlgW/+1yFE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774474031; c=relaxed/simple;
-	bh=tem1uJ+d7+Z0vsP46HAKKtW4172poK6lZ9yeRTLChV8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R/vrZAuYXy6fq7rfVlN8Pptfwg8OERvyIZCQc7qARW0acTz3GlXJifejJEh08jz01mNWlEUOWsQNZ7WtJN/VmSPo7nJtd/5LKVmiqVQ1Vq7vl3HlE52sN1ERuV3Ejxj2jb16xf4rsbi42/MO3bJRxlkmbRxsz2psKFmEnZAdwsI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DEuVoIYL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774474123; c=relaxed/simple;
+	bh=7j7wyLOYQWkG+8Ne4vLAaW4sQE2l6M0NNlVt2FsI+3I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aGPoYdjoBqekWwWxjOwAn/wcgi+ELoNNa8G2u1PdEGlpfQHgKk3SNhs8mFF6bzSHVMsMdxJNrKFN8jyYNNpUEdx2WHgcQUcZ92fAZrY+KgJPNr+DV6OV2WRUimgxtJZb0vdr7HcDI/0jr2/NbTkll90oG5hYBOmv833nlLMVXyI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F92kjK7S; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DEuVoIYL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94DB3C2BC9E;
-	Wed, 25 Mar 2026 21:27:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774474031;
-	bh=tem1uJ+d7+Z0vsP46HAKKtW4172poK6lZ9yeRTLChV8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DEuVoIYLVtoftWWwyGrF475dMtCCd2poUDpOUzT8no5nL4N08asxy43Mq2KzZrp5J
-	 pW1RHI/HokAxu2SOklZ3IAtzg3h+W+94V4XuZJtSt4Tlfr7lueaOVToJpMBEh2lmoO
-	 mb8kf3olRxqz+zoRDeQ/kfKxhv+J5YnVk2xH6IG6+V3lCZReue51xXzKYcEsZhWf9W
-	 xC9IxD3L+Itb1V8qheywILfid3AE7LLaGJXHdPWo+aXSPPg1tU1tIlztSby4YFbzPS
-	 QFCtSA8dcYqWpMrWA03ypXzQqjH816tf7QEE6CWC+pBTjH/2eV+qX0ww6+UwCF9NVO
-	 6iJus0BJMorQA==
-Date: Wed, 25 Mar 2026 14:27:11 -0700
-From: Kees Cook <kees@kernel.org>
-To: Chuck Lever <cel@kernel.org>
-Cc: viro@zeniv.linux.org.uk, gustavoars@kernel.org,
-	linux-hardening@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, netdev@vger.kernel.org,
-	Chuck Lever <chuck.lever@oracle.com>
-Subject: Re: [RFC PATCH] iov: Bypass usercopy hardening for kernel iterators
-Message-ID: <202603251421.20D29E29@keescook>
-References: <20260303162932.22910-1-cel@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F92kjK7S"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774474121; x=1806010121;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=7j7wyLOYQWkG+8Ne4vLAaW4sQE2l6M0NNlVt2FsI+3I=;
+  b=F92kjK7SI8XMX6xzdVSYjZQm1dAEGNvXaWyBLnYAULtzcKEFqdbbqLtA
+   NMHi+5eHdy9Kq8iIqD0nPzDT4uwjJ+cW2H+WYUqr0vIggIHyoJntk6V26
+   Dws4n/PRqK/fv1cPY3lLATOOspUHxSBb6HRanzoVZAbJCGX1ARc/Dv944
+   zWox/2hiQc7AdU7IEBK2FWmg49P1GC0RtnOCTxVhfK339NzaxhNDb15NL
+   ifM0eGsCgVN+icvDo9v+U7b6fLHPmO/59t83iUSVNkWRxZ+C57cVnkzrn
+   itZayXyTga1qlJrGPWkkAif0Z7tM8PPj3b/O8dC1ojp0t7ysm7wmSwycY
+   g==;
+X-CSE-ConnectionGUID: rvuP9Y1zRfyk3astKVUaww==
+X-CSE-MsgGUID: yd6FrOxxTTqVtcilQmU7TQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="74552643"
+X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
+   d="scan'208";a="74552643"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 14:28:40 -0700
+X-CSE-ConnectionGUID: xFuL5i2aQVWVU3b5KIYpjA==
+X-CSE-MsgGUID: SkMpN0eTSlu8NT0YiT9cLQ==
+X-ExtLoop1: 1
+Received: from rchatre-mobl4.amr.corp.intel.com (HELO [10.125.110.56]) ([10.125.110.56])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 14:28:37 -0700
+Message-ID: <593b2b5c-779b-4e29-8b03-12ce743b10b4@intel.com>
+Date: Wed, 25 Mar 2026 14:28:36 -0700
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260303162932.22910-1-cel@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V9 5/8] dax: Add dax_operations for use by fs-dax on fsdev
+ dax
+To: John Groves <john@jagalactic.com>, John Groves <John@Groves.net>,
+ Miklos Szeredi <miklos@szeredi.hu>, Dan Williams <dan.j.williams@intel.com>,
+ Bernd Schubert <bschubert@ddn.com>,
+ Alison Schofield <alison.schofield@intel.com>
+Cc: John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Vishal Verma <vishal.l.verma@intel.com>, Matthew Wilcox
+ <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ David Hildenbrand <david@kernel.org>, Christian Brauner
+ <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>,
+ Amir Goldstein <amir73il@gmail.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Stefan Hajnoczi <shajnocz@redhat.com>, Joanne Koong
+ <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>,
+ Bagas Sanjaya <bagasdotme@gmail.com>,
+ Chen Linxuan <chenlinxuan@uniontech.com>, James Morse <james.morse@arm.com>,
+ Fuad Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>,
+ Shivank Garg <shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>,
+ Gregory Price <gourry@gourry.net>, Aravind Ramesh <arramesh@micron.com>,
+ Ajay Joshi <ajayjoshi@micron.com>,
+ "venkataravis@micron.com" <venkataravis@micron.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
+ "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+References: <0100019d1d463523-617e8165-a084-4d91-aa5e-13778264d5d4-000000@email.amazonses.com>
+ <20260324003851.5045-1-john@jagalactic.com>
+ <0100019d1d47e459-48f2a4e6-edab-4002-bde3-2ba642deccaf-000000@email.amazonses.com>
+Content-Language: en-US
+From: Dave Jiang <dave.jiang@intel.com>
+In-Reply-To: <0100019d1d47e459-48f2a4e6-edab-4002-bde3-2ba642deccaf-000000@email.amazonses.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Mar 03, 2026 at 11:29:32AM -0500, Chuck Lever wrote:
-> From: Chuck Lever <chuck.lever@oracle.com>
-> 
-> Profiling NFSD under an iozone workload showed that hardened
-> usercopy checks consume roughly 1.3% of CPU in the TCP receive
-> path. The runtime check in check_object_size() validates that
-> copy buffers reside in expected slab regions, which is
-> meaningful when data crosses the user/kernel boundary but adds
-> no value when both source and destination are kernel addresses.
-> 
-> Split check_copy_size() so that copy_to_iter() can bypass the
-> runtime check_object_size() call for kernel-only iterators
-> (ITER_BVEC, ITER_KVEC). Existing callers of check_copy_size()
-> are unaffected; user-backed iterators still receive the full
-> usercopy validation.
-> 
-> This benefits all kernel consumers of copy_to_iter(), including
-> the TCP receive path used by the NFS client and server,
-> NVMe-TCP, and any other subsystem that uses ITER_BVEC or
-> ITER_KVEC receive buffers.
 
-So, I'm not a big fan of this just because the whole point is to catch
-unexpected conditions, but there is a reasonable point to be made that
-this case shouldn't be covered by kernel/kernel copies.
 
+On 3/23/26 5:39 PM, John Groves wrote:
+> From: John Groves <John@Groves.net>
 > 
-> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
+> fsdev: Add dax_operations for use by famfs.
+> 
+> This replicates the functionality from drivers/nvdimm/pmem.c that
+> conventional fs-dax file systems (e.g. xfs) use to support dax
+> read/write/mmap to a daxdev - without which famfs can't sit atop a
+> daxdev.
+> 
+> - These methods are based on pmem_dax_ops from drivers/nvdimm/pmem.c
+> - fsdev_dax_direct_access() returns the hpa, pfn and kva. The kva was
+>   newly stored as dev_dax->virt_addr by dev_dax_probe().
+> - The hpa/pfn are used for mmap (dax_iomap_fault()), and the kva is used
+>   for read/write (dax_iomap_rw())
+> - fsdev_dax_recovery_write() and dev_dax_zero_page_range() have not been
+>   tested yet. I'm looking for suggestions as to how to test those.
+> - dax-private.h: add dev_dax->cached_size, which fsdev needs to
+>   remember. The dev_dax size cannot change while a driver is bound
+>   (dev_dax_resize returns -EBUSY if dev->driver is set). Caching the size
+>   at probe time allows fsdev's direct_access path can use it without
+>   acquiring dax_dev_rwsem (which isn't exported anyway).
+> 
+> Signed-off-by: John Groves <john@groves.net>
 > ---
->  include/linux/ucopysize.h | 10 +++++++++-
->  include/linux/uio.h       |  9 +++++++--
->  2 files changed, 16 insertions(+), 3 deletions(-)
+>  drivers/dax/dax-private.h |  1 +
+>  drivers/dax/fsdev.c       | 84 +++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 85 insertions(+)
 > 
-> diff --git a/include/linux/ucopysize.h b/include/linux/ucopysize.h
-> index 41c2d9720466..b3eacb4869a8 100644
-> --- a/include/linux/ucopysize.h
-> +++ b/include/linux/ucopysize.h
-> @@ -42,7 +42,7 @@ static inline void copy_overflow(int size, unsigned long count)
->  }
+> diff --git a/drivers/dax/dax-private.h b/drivers/dax/dax-private.h
+> index 7a3727d76a68..ee8f3af8387f 100644
+> --- a/drivers/dax/dax-private.h
+> +++ b/drivers/dax/dax-private.h
+> @@ -85,6 +85,7 @@ struct dev_dax {
+>  	struct dax_region *region;
+>  	struct dax_device *dax_dev;
+>  	void *virt_addr;
+> +	u64 cached_size;
+
+Just caught this. Need a kdoc entry.
+
+DJ
+
+>  	unsigned int align;
+>  	int target_node;
+>  	bool dyn_id;
+> diff --git a/drivers/dax/fsdev.c b/drivers/dax/fsdev.c
+> index c75478d3d548..be3d2b0e8418 100644
+> --- a/drivers/dax/fsdev.c
+> +++ b/drivers/dax/fsdev.c
+> @@ -28,6 +28,85 @@
+>   * - No mmap support - all access is through fs-dax/iomap
+>   */
 >  
->  static __always_inline __must_check bool
-> -check_copy_size(const void *addr, size_t bytes, bool is_source)
-> +check_copy_size_nosec(const void *addr, size_t bytes, bool is_source)
-
-"nosec" is kind of ambiguous. Since this is doing the compile-time
-checks, how about naming this __compiletime_check_copy_size() or so?
-
->  {
->  	int sz = __builtin_object_size(addr, 0);
->  	if (unlikely(sz >= 0 && sz < bytes)) {
-> @@ -56,6 +56,14 @@ check_copy_size(const void *addr, size_t bytes, bool is_source)
->  	}
->  	if (WARN_ON_ONCE(bytes > INT_MAX))
->  		return false;
-> +	return true;
+> +static void fsdev_write_dax(void *pmem_addr, struct page *page,
+> +		unsigned int off, unsigned int len)
+> +{
+> +	while (len) {
+> +		void *mem = kmap_local_page(page);
+> +		unsigned int chunk = min_t(unsigned int, len, PAGE_SIZE - off);
+> +
+> +		memcpy_flushcache(pmem_addr, mem + off, chunk);
+> +		kunmap_local(mem);
+> +		len -= chunk;
+> +		off = 0;
+> +		page++;
+> +		pmem_addr += chunk;
+> +	}
 > +}
 > +
-> +static __always_inline __must_check bool
-> +check_copy_size(const void *addr, size_t bytes, bool is_source)
+> +static long __fsdev_dax_direct_access(struct dax_device *dax_dev, pgoff_t pgoff,
+> +			long nr_pages, enum dax_access_mode mode, void **kaddr,
+> +			unsigned long *pfn)
 > +{
-> +	if (!check_copy_size_nosec(addr, bytes, is_source))
-> +		return false;
->  	check_object_size(addr, bytes, is_source);
->  	return true;
->  }
-> diff --git a/include/linux/uio.h b/include/linux/uio.h
-> index a9bc5b3067e3..f860529abfbe 100644
-> --- a/include/linux/uio.h
-> +++ b/include/linux/uio.h
-> @@ -216,8 +216,13 @@ size_t copy_page_to_iter_nofault(struct page *page, unsigned offset,
->  static __always_inline __must_check
->  size_t copy_to_iter(const void *addr, size_t bytes, struct iov_iter *i)
->  {
-> -	if (check_copy_size(addr, bytes, true))
-> -		return _copy_to_iter(addr, bytes, i);
-> +	if (user_backed_iter(i)) {
-> +		if (check_copy_size(addr, bytes, true))
-> +			return _copy_to_iter(addr, bytes, i);
-> +	} else {
-> +		if (check_copy_size_nosec(addr, bytes, true))
-> +			return _copy_to_iter(addr, bytes, i);
+> +	struct dev_dax *dev_dax = dax_get_private(dax_dev);
+> +	size_t size = nr_pages << PAGE_SHIFT;
+> +	size_t offset = pgoff << PAGE_SHIFT;
+> +	void *virt_addr = dev_dax->virt_addr + offset;
+> +	phys_addr_t phys;
+> +	unsigned long local_pfn;
+> +
+> +	phys = dax_pgoff_to_phys(dev_dax, pgoff, nr_pages << PAGE_SHIFT);
+> +	if (phys == -1) {
+> +		dev_dbg(&dev_dax->dev,
+> +			"pgoff (%#lx) out of range\n", pgoff);
+> +		return -EFAULT;
 > +	}
->  	return 0;
->  }
+> +
+> +	if (kaddr)
+> +		*kaddr = virt_addr;
+> +
+> +	local_pfn = PHYS_PFN(phys);
+> +	if (pfn)
+> +		*pfn = local_pfn;
+> +
+> +	/*
+> +	 * Use cached_size which was computed at probe time. The size cannot
+> +	 * change while the driver is bound (resize returns -EBUSY).
+> +	 */
+> +	return PHYS_PFN(min(size, dev_dax->cached_size - offset));
+> +}
+> +
+> +static int fsdev_dax_zero_page_range(struct dax_device *dax_dev,
+> +			pgoff_t pgoff, size_t nr_pages)
+> +{
+> +	void *kaddr;
+> +
+> +	WARN_ONCE(nr_pages > 1, "%s: nr_pages > 1\n", __func__);
+> +	__fsdev_dax_direct_access(dax_dev, pgoff, 1, DAX_ACCESS, &kaddr, NULL);
+> +	fsdev_write_dax(kaddr, ZERO_PAGE(0), 0, PAGE_SIZE);
+> +	return 0;
+> +}
+> +
+> +static long fsdev_dax_direct_access(struct dax_device *dax_dev,
+> +		  pgoff_t pgoff, long nr_pages, enum dax_access_mode mode,
+> +		  void **kaddr, unsigned long *pfn)
+> +{
+> +	return __fsdev_dax_direct_access(dax_dev, pgoff, nr_pages, mode,
+> +					 kaddr, pfn);
+> +}
+> +
+> +static size_t fsdev_dax_recovery_write(struct dax_device *dax_dev, pgoff_t pgoff,
+> +		void *addr, size_t bytes, struct iov_iter *i)
+> +{
+> +	return _copy_from_iter_flushcache(addr, bytes, i);
+> +}
+> +
+> +static const struct dax_operations dev_dax_ops = {
+> +	.direct_access = fsdev_dax_direct_access,
+> +	.zero_page_range = fsdev_dax_zero_page_range,
+> +	.recovery_write = fsdev_dax_recovery_write,
+> +};
+> +
+>  static void fsdev_cdev_del(void *cdev)
+>  {
+>  	cdev_del(cdev);
+> @@ -167,6 +246,11 @@ static int fsdev_dax_probe(struct dev_dax *dev_dax)
+>  		}
+>  	}
+>  
+> +	/* Cache size now; it cannot change while driver is bound */
+> +	dev_dax->cached_size = 0;
+> +	for (i = 0; i < dev_dax->nr_range; i++)
+> +		dev_dax->cached_size += range_len(&dev_dax->ranges[i].range);
+> +
+>  	/*
+>  	 * Use MEMORY_DEVICE_FS_DAX without setting vmemmap_shift, leaving
+>  	 * folios at order-0. Unlike device.c (MEMORY_DEVICE_GENERIC), this
 
-This seems reasonable with the renaming, though I might come back some
-day and ask that this get a boot param or something (we have a big
-hammer boot param for usercopy checking already, but I like this more
-focused check).
-
--- 
-Kees Cook
