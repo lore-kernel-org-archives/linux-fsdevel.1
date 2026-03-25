@@ -1,258 +1,251 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CC324503B
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 04:26:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBF3230BB8A;
+	Wed, 25 Mar 2026 04:45:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.11
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774412817; cv=pass; b=F/7pLCeosIf6Q5KGTZGfBj6G3vK8j0rjwffnRa1FUGkogVaclSt4d/qopLBY/+UXvEnOQwmIesI9D6vehRdzPVYhEKDUTIIzRAlheHCW9L0KRg06xc1dU7Roni06iybPBLV/6Frvq6zZPnthg0EHXVyxgBPcdxelJGCX+ZVOaK4=
+	t=1774413903; cv=fail; b=X9mfkvq9ZJ8XDnMD7zc6rNhRNiWTLcs+P/I7HTvKXVj6tIng6cUhobuiDUtnyjJfoqHL/PG1mTK1UjttI/5IAmoi5PMvLvzNet0AcQcjVNuz8UaGxwSly/MuGMOuq62R9t1E036KvlURQTewtpHFAEapkMv4NA9bdkvoE5IMxBQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774412817; c=relaxed/simple;
-	bh=rlQ5qRDUnGBaan+lk8XDmZ1jMdwejMC84RadB+1/c58=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=YE7PL1Tt7vahiBO5qWsA+/rUfXSNL9DqnmtC0Nh9IPpRel0dgYT112ui5VEQ9/dlTooheX3d8CLJg5t28WrDaFgMU6RwArL8zqDcBprvSsGkNY/OJLMjwhKhoWO4APJrzitHvwJi/J63mbxxxPAhAVjt68+hczFqyz3UkcDD3f4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GTmY29bZ; arc=pass smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774413903; c=relaxed/simple;
+	bh=0krI7tjO951t6w45CMg8j12GbhfZrKZ0YbkaWwVTj0o=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=Mr3+dqrdalfCqU8xBaGLTFqXcOG+vBtPfEgUGns4jZf19QdCK1fkNANtuGdf4JwZ6WVJyeFl3f7O8Q4kzvPcHz+pEvVUECd7vDs81GYPfJ92RfJPS7QIFF8UJD6SCvpR1iZdNJmiWETpzHX8zH7E+8tgppoCFnXb19HJYwhu53Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dIBiv5WU; arc=fail smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GTmY29bZ"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5a142464316so6424815e87.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 21:26:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774412814; cv=none;
-        d=google.com; s=arc-20240605;
-        b=BWED0rffLf2Bq3ye2L+lPqDA2lpnrvo8jgH+24SVfFQbmRmbDTHV6Fh4JvAEb/XZ1H
-         ElJAtylhg5YPipp4BBnXtV7Jzg77abSDYbKaI8smrAGN89Qgu2ZffMiOwnyEEJxHKGlE
-         IT7Feejle5aH8uIx6fZMC52ZRs6OyQeJ1DNHWpvrbBZeG48hnReJ/VCIp2upy4Ewf17K
-         tZVqYd1f0Lt0cwO2fed2eM4UehQvL9ZokNcr6Q6gcjVRyJgI20d3a1mxu88ZIp773SIK
-         sW6s+NTETLm/zJtvpm26aHJq5psH5m5b2uBcHEjGZP3FstuHHZpbHxriG3CqfFzU2YC3
-         QRYg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :mime-version:dkim-signature;
-        bh=6OPJdvVVJVjWlSp6OHdRag8fpj8fXrB+5B/aIMLBPao=;
-        fh=Q/B0c4PY58A68tzgR7wcrID2fV15cBPXIdSqA9OG4J0=;
-        b=fhgMAdz1Wb9rp6jXs2aidwbytUOui9VVbeYZY8JktamhDBnBHi8fNK/Tf0NNJTMhnA
-         9vkPX/Ehj0XF508UfL1kGTjgcm1IwDfEQPoMF21Wc09G/Uni1ud56u82dp7xMUB3jOnG
-         TqFIFpGpilK0/wD+dheyDZ232wzPdZdqM0FRbFcA6Irnk23nh8gBCQhFa1a6nxviziUz
-         B2zU8QCmwlKzsAFJK0+PMv2Ga89yDGUoKenmCO4Zf6fHFo4MiOpkQfms8Y5Lmr2S2ISz
-         Js2lZ5NYBXAPURDbN0X7llriLIAiOD+8ZgqkS7h46AEaUfs4Tg6zCbEECcKZ1XGeiZHr
-         biPA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774412814; x=1775017614; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=6OPJdvVVJVjWlSp6OHdRag8fpj8fXrB+5B/aIMLBPao=;
-        b=GTmY29bZJabOzYGvDrABJzCBRoGWpcJcpfDfdQlA19uOvBCYupL8UvUxHqRNQonKEG
-         +XLjuCQ7zhXyyqrDonJXpTdK9yDDqvRODnzlD4I39Ur6/kIdSS+5k5arcTGKNGsqKyOa
-         Y9lN9wR4Q5U0wwlvyk6/nAJ6+rgBQwZiE+zRc6G/rPdXsVF+EV1aazvRhqRQV302SlQn
-         E/YujVOIOlz9gHxR5hu8BqZW5NASie4Ehbu2AkRw/3fl7JiIpRPtLtZEThQJxTmHZG2B
-         SMQaGpTyFZ5owZ87uou+qlKNr2LJAFdZBAbav5o/CRO8P910gwQ86fKWJQWXmIOUcGiT
-         cG9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774412814; x=1775017614;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6OPJdvVVJVjWlSp6OHdRag8fpj8fXrB+5B/aIMLBPao=;
-        b=Y3lGWhDK/fotXHm2iPvl29GjbL8f5pX+U8AzVaFgVFZ18PKG0QXx/eWLU7LSZVPw0X
-         l8pPYgSCdmSBUdJoue4Q2lTpnprzieyyREmsz/kJXXxauo1U8pUdB61XowA3AYgCgVUh
-         umclo3Ict6lRPuHQyVmYB2hoA9GlWVztu8RaVZsQ/LWWPNilHGef2aFmsCiSQqOIwSk+
-         HjzWbHg5hBl8ld2dsU0mz/wruoocd0Jd6engeojhIw6xmo90xtQjmKRMoATs1E+I2ZHI
-         KwNE9t2xoXlFphn7LaB44HOsPh/k8nMh2OazUqFm/F1Oew/BoMld7Ei3TnlFjVE/JgHf
-         m9bg==
-X-Gm-Message-State: AOJu0YzZLo3oJD7IqHu+fZ0GCIukHHvfwRsOv83uYMKd3qovzJvZ2QJQ
-	d/iO1feZY92ELybVS7WVtizarao11qXy87NyBXLDjNvPCIDvslD0yrpEp+YwPiy8j9nMZTBqMWh
-	Y9BGHUt63/OagHclDyzkDPMUw4ZWsWxqjajASjcw=
-X-Gm-Gg: ATEYQzzKj6DTDyPL7mjGi66a5Jzxkm7Ufj7TRoBJogNLGtcqdGvx4PF3IMCI/lc/r1W
-	aSg5B/HdzgB+nb6hIPOrEFlt4GtspK7KNjblRrr144ftvaDErTiy7dcvdCpbLjZesQYXq1jkqCi
-	bhXqfvgLTsHX32CaObcVSoIkDLq0R/kLZmJP/7YzRfzpneyWhldHPP5kSreHHzaWK9Yx3ZfaoyJ
-	X9dGKVLW0DzAwlSuY6ipHLGTTZMoE4KGK1uW1UrbuALv/xGiKCSTl2OYD6EQkUgI+MtDVQkoLgx
-	gHKN
-X-Received: by 2002:a05:6512:ba7:b0:5a1:44c9:a8ef with SMTP id
- 2adb3069b0e04-5a29b98a7a1mr764867e87.26.1774412813932; Tue, 24 Mar 2026
- 21:26:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dIBiv5WU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774413902; x=1805949902;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=0krI7tjO951t6w45CMg8j12GbhfZrKZ0YbkaWwVTj0o=;
+  b=dIBiv5WUotENoZwsnp/DfR0aDvKqeP/nUT81QbelRQrKeKbN/hwMUbAf
+   j17Dzu9f0/gFynPtEzYCsunwFtl84KPgahpJCJwp2uEXQteXy6XXUwCbq
+   hnqoGrY86Lxk/5caMETL6ZV0uM+t0Efd7MA+cg/yCTfKowDDsRfhdWsD4
+   jMbZ416Ef+D4VFiL8rsV8uYHXrs6qT70E48xqcoMiJKLRHJDnSzDRu8e+
+   nntlBWE3fxdVSsNavCvCz3dvReu3Vou0yjlMFkbzXhivjNDmujLUGgBrV
+   JlbYMkHz1bNTUoL7JZmrqokVbkgBZbXAwCKCbyMU5z1yzV6Z+MPOZd+qi
+   g==;
+X-CSE-ConnectionGUID: oY7stbXxQJad/DMbT6jD/A==
+X-CSE-MsgGUID: W82veHX1ScS/fImYxwvlOw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="86059549"
+X-IronPort-AV: E=Sophos;i="6.23,139,1770624000"; 
+   d="scan'208";a="86059549"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 21:45:01 -0700
+X-CSE-ConnectionGUID: VeG/YlUORVK/wRrnlrR2nQ==
+X-CSE-MsgGUID: zf6EuyF4TwuhfdNyQmeIkQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,139,1770624000"; 
+   d="scan'208";a="248105834"
+Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
+  by fmviesa001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 21:44:55 -0700
+Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Tue, 24 Mar 2026 21:44:55 -0700
+Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
+ FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Tue, 24 Mar 2026 21:44:55 -0700
+Received: from CH1PR05CU001.outbound.protection.outlook.com (52.101.193.62) by
+ edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Tue, 24 Mar 2026 21:44:53 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=JfcPcfEpfPElfYaY7U1bDQ3Ngn6DxS5RuugG/OqA0aabewF0RS1ntaPL5XbnjVkvNvS5jOXK5tl4JVvKfOQ3I4O7fgnbMOvqSGpazTJ6YWK12T+BMJehJ9/JKHxwGprsPVO1gQul+XhY6pa+1kWh/VN74jSjJn1j1Fswdz3Pw9lGUKEwFHREYIaZELj+FLT9zYBdNgB6RZwgGjXSXreHgrKf7e1MUchaT/VkEHJH+POSwmyjLoSCKjr/Hjp/FMAjGJN2Q5XxwE17hFDI9lgBEJoDeaKarB2i6GHnHWJA67fEgBTvVpmvaj+XcGmzC35aKm6AqCbJnf80CYZC9948TA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QEUO+coV6pqGlm3x2fZHGC752sduLkO4qThZPr7B9Jg=;
+ b=SXeNT4JzwabJxXN4Nm6TrWZO8+rvU0KauRiDdonVooa9jDwoFIIcO642UAcDqppw+auamAVQ55KdO09s0FgVRuSIO0i57WdU0QoG9fTrX1jPXEO7tOg1sRSBbzVKUUCetXXVsrBSFJ00oJ+Y28ckYqwrDWaNCY2zVTxXDzGwLg7zlUxZ6Kp7d+cUvYy2+O3d1JM8BESU6/UquoENoQHoxNID+hoGQhNUV5VW5MQW26pyjxQ774Pc8R7gaIqvWFjeulQb/z0B8fusauNcWhiw2OYQW34IWW9x0U648A53JfIcjBYVrfJ5mtWPXFc/o7lvz1U/RAwygZHIhh/lIUSP5A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH3PPF9E162731D.namprd11.prod.outlook.com
+ (2603:10b6:518:1::d3c) by IA4PR11MB8961.namprd11.prod.outlook.com
+ (2603:10b6:208:56e::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.20; Wed, 25 Mar
+ 2026 04:44:49 +0000
+Received: from PH3PPF9E162731D.namprd11.prod.outlook.com
+ ([fe80::7d4b:a049:aed5:d2b0]) by PH3PPF9E162731D.namprd11.prod.outlook.com
+ ([fe80::7d4b:a049:aed5:d2b0%8]) with mapi id 15.20.9723.018; Wed, 25 Mar 2026
+ 04:44:49 +0000
+Date: Tue, 24 Mar 2026 23:48:33 -0500
+From: Ira Weiny <ira.weiny@intel.com>
+To: John Groves <john@jagalactic.com>, John Groves <John@groves.net>, "Miklos
+ Szeredi" <miklos@szeredi.hu>, Dan Williams <dan.j.williams@intel.com>, "Bernd
+ Schubert" <bschubert@ddn.com>, Alison Schofield <alison.schofield@intel.com>
+CC: John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, "Shuah
+ Khan" <skhan@linuxfoundation.org>, Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, "Jan
+ Kara" <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, "David
+ Hildenbrand" <david@kernel.org>, Christian Brauner <brauner@kernel.org>,
+	"Darrick J . Wong" <djwong@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>, Stefan Hajnoczi
+	<shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, Josef Bacik
+	<josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan
+	<chenlinxuan@uniontech.com>, James Morse <james.morse@arm.com>, Fuad Tabba
+	<tabba@google.com>, Sean Christopherson <seanjc@google.com>, Shivank Garg
+	<shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>, Gregory Price
+	<gourry@gourry.net>, Aravind Ramesh <arramesh@micron.com>, Ajay Joshi
+	<ajayjoshi@micron.com>, "venkataravis@micron.com" <venkataravis@micron.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, John Groves
+	<john@groves.net>
+Subject: Re: [PATCH V9 3/8] dax: add fsdev.c driver for fs-dax on character
+ dax
+Message-ID: <69c36921255b6_e9d8d1009b@iweiny-mobl.notmuch>
+References: <0100019d1d463523-617e8165-a084-4d91-aa5e-13778264d5d4-000000@email.amazonses.com>
+ <20260324003818.5009-1-john@jagalactic.com>
+ <0100019d1d476420-6b0bf60e-3b3a-4868-8f5f-484cd55d4709-000000@email.amazonses.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <0100019d1d476420-6b0bf60e-3b3a-4868-8f5f-484cd55d4709-000000@email.amazonses.com>
+X-ClientProxiedBy: MW4PR04CA0044.namprd04.prod.outlook.com
+ (2603:10b6:303:6a::19) To PH3PPF9E162731D.namprd11.prod.outlook.com
+ (2603:10b6:518:1::d3c)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Sean Smith <defendthedisabled@gmail.com>
-Date: Tue, 24 Mar 2026 23:26:43 -0500
-X-Gm-Features: AQROBzB4ZBxWVCZQeija2WLl33uNGJWaQhqmaSkLpWFoNmeK_cslSPttgIWzhWk
-Message-ID: <CAOx6djP4hb-Cd1Zk07SNfFfLc8irjNmbVqq+58h1Whz+h1wSFA@mail.gmail.com>
-Subject: =?UTF-8?Q?=5BRFC=5D_Proposal=3A_provenance=5Ftime_=28ptime=29_=E2=80=94_a_settab?=
-	=?UTF-8?Q?le_timestamp_for_cross=2Dfilesystem_migration?=
-To: linux-fsdevel@vger.kernel.org
-Cc: linux-ext4@vger.kernel.org, tytso@mit.edu, dsterba@suse.com, 
-	david@fromorbit.com, brauner@kernel.org, osandov@osandov.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH3PPF9E162731D:EE_|IA4PR11MB8961:EE_
+X-MS-Office365-Filtering-Correlation-Id: 07873dea-cda2-4841-18fd-08de8a293efc
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014|56012099003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info: cvipf2WyWGRFn2WqhE2oHwizpS+iBbMFn0Knmr1t2utXSNGaNZiPvewsEWXdOxnglEXQk/Bt819QIo9Zm/HMzWNK5EED4vZEfyCelOSc4H9EgjdA7IBcjLhrklqZxdFzPqaLK3cimbyW3U+gQa4G/CyKNMtA48bFMmA/3Jju0wYD57tNdO11oXD8oq/FTumBGZFxXTOMqzcxIaxPs1sYujr10QYo3e1Nb3vID7xa6bh9K2OIIdPBOQoLXenOd7A5vRdN29F/9vAutTcx7b5kpplLlmp4SBweTV/lBgLgDbCUx9axaYCoOIUC+LgHY3ePk/GDodWC3q/1ShUkeo2YRIVgpgE8mwq39PY95fQyK85BRy7A4W1oHIadPSPomzyFCWex5WJ1Spm79KJtcWe3Co4Q4SL8N8BBmQh/k/13Z6kjfj7NKg+ql2dZqvBbsMBcDgnci0nA16f5QIzBfxqe5CfhoYfegTflCXw2ubJNL/nQA92u+vFIoPjz/MbOGuAaD6ebF4bxVpF831n6LfPVgFQpLbUMpEpGodGETk5DtKG9HKeNt4wvpGcAAvWnw0qhaltHRIr58ZaTPu8pZAOmSmoDp1+PThEipQtHM8FLLrjuBm6cNFERKu9Bi/eEQsOcs7VaBX3aoCQ4pbHcA7mx+wKHtf8daTL/LOfjDodrid6IRqzQWUto863ul73KUMZU6TDUFhf5qwRAuTQDaSdnqLf4Pnqa6WG0nBToHng5+Lo=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH3PPF9E162731D.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?REB74AgDCpSbCf3cCI7C4fwzE1LZrDLS5dFtUhl6Po22A1yDY6PqwlZ1lTVl?=
+ =?us-ascii?Q?ZIWo/7y1SMjDtKa95J/dKj9hXRX2yLvZQQTPjV9yBND9i1AWcMKIRN9WROsB?=
+ =?us-ascii?Q?pfUatOq5pgH1zZgnuft/3dMt9mnZykyAsztj2ZOGwUxj/ni6UYMlEchPoc01?=
+ =?us-ascii?Q?dPXojYv8aFzEsM8VWrk/1h2bIps6l/SdLl9zpzYxd3rm92c+3YMbVG9/lRPv?=
+ =?us-ascii?Q?EPZ5Cj0JnyJD80au+pjrr8K3lPZjDTpHC3fifBXRs7AEqKQ+0+TW2sb6sRO/?=
+ =?us-ascii?Q?8qTvy7tcwt88FEBLvplZ6hTXpLDtd5D13eJFGr+hoSv4yg59qdFdK/5GCnd4?=
+ =?us-ascii?Q?Yya3wYGyo27kByQq8JVWg8Kb8rnH223rjxA9UI7GqQvWCcuAU7NTDcNvpOuw?=
+ =?us-ascii?Q?+1gzdU5M/In4Qk9lQauxGDrvZfOhkvqd4/EjI8ABdma8Awd7c9GFdlrdzqFc?=
+ =?us-ascii?Q?H2pKwhA/yahOz37lNnfyBbcsmkgjn7ZFAxaZNKO1BCGIQkNf8718cYfyoWAb?=
+ =?us-ascii?Q?crj0XCzr/lsH9oGk/RA+INggMWQMgfXw7IldI75jJ/H0Kr/Tfy4ucIueoZwG?=
+ =?us-ascii?Q?oz4AhZ18IprJUDGdOlSwFULxQ1OM+TdWQRcMEmVVnfKB1cLQRY5ZSLJiByAi?=
+ =?us-ascii?Q?fPo02gpgxyFPPzBa5EPhSTTj94oQpTVnMUkor4iAM5Bqsby8YW8oL+5IdFp+?=
+ =?us-ascii?Q?oaZfGH1lGwzq/Ih4OUqjaUPwGKjVj5YEyZwBQa6x5AeQhaW0KiJ4ZoPBuzKQ?=
+ =?us-ascii?Q?xLq1J/9mqr9doJyRvV5gvCElzuAAMu43fPVjezkkjj9nWzMPhxNrZ21i3iEr?=
+ =?us-ascii?Q?fBJGwje8qGJzsWj524P0k4OtmT8PWP3qpKlniz2bJ+2M5O7RiYo1dDvL8CNa?=
+ =?us-ascii?Q?lz7ykDRT/Z7NZwT9v1YrqI+5FKfp2L6PvIzM/eBCs7pus6sLJ8a6bBftPSzU?=
+ =?us-ascii?Q?BAKsiMu3d8NiPUcxNxZgtvRc7QD26ryJcSfUrphUdq3XueJU7ao1Fox+DQRi?=
+ =?us-ascii?Q?YqxByP1+1d4/NqX6BbPCqRAeZMpi2cX9iyltl/N6XQwWbPTag6AqDDUJGBt7?=
+ =?us-ascii?Q?Z+NtTYXuu6gAJ2xUB2k69TM5VIqOYzuV6VO/hnsqEQzmyCvDxkouy4Kze2YG?=
+ =?us-ascii?Q?j6OpttYe6fxL/6OJbNbJmInzEIy08IYNFqQ8iRUur35VPmtdoxwqyJnJFu3Y?=
+ =?us-ascii?Q?VXrkmhrpKyHhX0pDe1H7s9GOYwCQXXIkakx+RxL6AXtmYiPqN5+BqkL3JWGM?=
+ =?us-ascii?Q?XS3EeLX0PHDfHgJwm1mwntssgR5xTgzri3Satu2NkCR4ga36hVESpYwxQmN2?=
+ =?us-ascii?Q?Ini/c+lZbg4FNTjb76qsqFyC64Vqfq7FfjCLsETh6AP5nmq+VybTean3IaGl?=
+ =?us-ascii?Q?d5NwddNMdwcInByTe7DB2i5hzDEZOqhjfKJmFer235HlDiQwTuKeLi4nVCx8?=
+ =?us-ascii?Q?8j9fY8lYkdt7DQqLfHHDEUKhSTnrHeZ82nbFsap1pXNsQ272hlub37+cxA+e?=
+ =?us-ascii?Q?d/XjpQe8gNqBYeYN12Fq9mNm265ntGR/6DEGM+8KZLDg13T/S5h3qyS9BGMr?=
+ =?us-ascii?Q?AwWBf2ecujnNy3hlyA9UbWQqFFpgoTiET+OHzLnF417Pl89ofKbk3dU6V9fu?=
+ =?us-ascii?Q?ZFmG/222Diuf9SulCepBZ/uf9e5iaUpvWLBYUThDqepHeoFtuI4rlKs0G3Ec?=
+ =?us-ascii?Q?rbrRdmmmqbF1lmF5GXUcr6Tjf5huCYMm6sRiGEXU+rDiN98zErJph3RrE2Tx?=
+ =?us-ascii?Q?QrMEDeH/5Q=3D=3D?=
+X-Exchange-RoutingPolicyChecked: tZSDzqsJRSLu/INXaxONRv3rgRVXx+CNpHqqmk12/mLZKTAsVefWIMKQw0eDVOt0OJQLURNJedFPxrWxcj6MvkjsLay0oCOTboGTML2Fd7EuhiTU0CAokcY3TF6a4fiBV3rvboIxLTmUrPTsM8Ae8aFEo75Q1tnPf3t3GVkb16I3p5B0HPIvI8jg2pXAgXVcxnfpzgGRY12R2murGgi7o32iGY+iZghPKZ9caW24crbBWpquF4kWfaXCU5YfbECqSn7/DJ9foUvvOmU+0/AAjt3RlS8DpUTqVTKD9a/rf+rJqRAAYShD9Y8NwZynbvNUmXlvrq6PXgddavFC8UWlqg==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 07873dea-cda2-4841-18fd-08de8a293efc
+X-MS-Exchange-CrossTenant-AuthSource: PH3PPF9E162731D.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Mar 2026 04:44:49.0384
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: pYLLVfB8QVhmo2QNUXmn4CIWHHPnlBVsHfm7L29lmMY8wDErC94/s6BeDvGKBpjHRkX12uhyUAuaW0+yKZllbw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA4PR11MB8961
+X-OriginatorOrg: intel.com
 
-[Email draft produced by AI agent. Reviewed, revised, and submitted by
-Sean Smith.]
+John Groves wrote:
+> From: John Groves <john@groves.net>
+> 
+> The new fsdev driver provides pages/folios initialized compatibly with
+> fsdax - normal rather than devdax-style refcounting, and starting out
+> with order-0 folios.
+> 
+> When fsdev binds to a daxdev, it is usually (always?) switching from the
+> devdax mode (device.c), which pre-initializes compound folios according
+> to its alignment. Fsdev uses fsdev_clear_folio_state() to switch the
+> folios into a fsdax-compatible state.
+> 
+> A side effect of this is that raw mmap doesn't (can't?) work on an fsdev
+> dax instance. Accordingly, The fsdev driver does not provide raw mmap -
+> devices must be put in 'devdax' mode (drivers/dax/device.c) to get raw
+> mmap capability.
+> 
+> In this commit is just the framework, which remaps pages/folios compatibly
+> with fsdax.
+> 
+> Enabling dax changes:
+> 
+> - bus.h: add DAXDRV_FSDEV_TYPE driver type
+> - bus.c: allow DAXDRV_FSDEV_TYPE drivers to bind to daxdevs
+> - dax.h: prototype inode_dax(), which fsdev needs
+> 
+> Suggested-by: Dan Williams <dan.j.williams@intel.com>
+> Suggested-by: Gregory Price <gourry@gourry.net>
+> Signed-off-by: John Groves <john@groves.net>
+> ---
 
-Hello,
+[snip]
 
-I am writing as a user whose work is directly harmed by the absence
-of a settable file creation timestamp in the Linux kernel. I am not a
-kernel developer, but I believe this use case may help inform the
-ongoing design discussion about btime semantics.
+> diff --git a/drivers/dax/bus.c b/drivers/dax/bus.c
+> index e4bd5c9f006c..562e2b06f61a 100644
+> --- a/drivers/dax/bus.c
+> +++ b/drivers/dax/bus.c
+> @@ -81,6 +81,10 @@ static int dax_match_type(const struct dax_device_driver *dax_drv, struct device
+>  	    !IS_ENABLED(CONFIG_DEV_DAX_KMEM))
+>  		return 1;
+>  
+> +	/* fsdev driver can also bind to device-type dax devices */
+> +	if (dax_drv->type == DAXDRV_FSDEV_TYPE && type == DAXDRV_DEVICE_TYPE)
+> +		return 1;
+> +
 
-BACKGROUND
+In building up a topic branch for this I notice that this breaks the
+device-dax test.
 
-I am a disabled Medicaid recipient pursuing pro se civil rights
-litigation against Tennessee's Medicaid program. I am building
-a suite of AI tools for my litigation. These tools will include
-an agentic document management system on Linux
-(EndeavourOS/Arch).
+1/1 ndctl:dax / device-dax FAIL             0.19s   (exit status 250 or signal 122 SIGinvalid)
+...
+Ok:                 0
+Expected Fail:      0
+Fail:               1
+Unexpected Pass:    0
+Skipped:            0
+Timeout:            0
 
-My current workflow requires migrating terabytes of case law,
-evidence, research, AI Harness project files, and other data
-from NTFS (Windows) to Btrfs (Linux) and vice versa. These
-documents span years of case history =E2=80=94 some created as far
-back as 2014.
+Have you run this series with all the ndctl cxl selftests?
 
-I've used Windows exclusively for the past 20 years, and so I
-have much to migrate. I am abandoning Windows because it has
-repeatedly gotten in the way as I work in OpenCode and with
-other AI tools. Linux offers a clearer path to using AI to
-build a user-first future. My litigation relies upon my AI
-agents and I developing effective AI tools and data systems.
-This reliance makes the nonsense that has been going on with
-Windows 11 an existential threat. People with disabilities
-should not have to ask permission from the legal community or
-corporations to have human rights; with an open-source suite
-of AI litigation tools, they won't have to.
+How exactly is this supposed to ensure the fsdev driver does not bind to
+a regular dax device?
 
-I provide the above context so that you may better understand
-the importance of adopting my modest proposal.
+This can be fixed by reloading the fsdev module thus pushing that driver
+later in the driver list...  So we need to come up with a more reliable
+method here.
 
-When files are copied from NTFS to Btrfs, every file's creation
-date is reset to the moment of the copy. The kernel provides no
-syscall to restore the original creation timestamp. The result
-is that files created in 2019 after transfer will report being
-created in 2026.
+I'm holding off pushing a topic branch for the time being.
 
-For litigation evidence, file creation timestamps are provenance
-metadata. They establish when a document first came into existence
-as a digital file. Losing this metadata during a routine filesystem
-migration is a forensic integrity failure =E2=80=94 it destroys the timelin=
-e
-that courts, investigators, and opposing counsel may rely on.
+Ira
 
-For humans and for AI agents, the loss of this metadata limits
-how well they can navigate and retrieve from the corpus of
-files.
+>  	return 0;
+>  }
+>  
 
-THE PROBLEM AS I UNDERSTAND IT
-
-Omar Sandoval submitted working patches in February 2019 (AT_UTIME_BTIME
-for utimensat). They were not merged due to disagreement about whether
-btime should be mutable.
-
-The core dispute, as I understand it from the mailing list archives:
-
-  - Dave Chinner (XFS): btime is forensic metadata =E2=80=94 the moment the
-    inode was allocated on this specific filesystem. Allowing it to
-    be changed destroys its value for filesystem forensic analysis.
-
-  - Ted Ts'o (ext4, March 2025): Proposed distinguishing "btime"
-    (forensic, immutable) from "crtime" (settable, for migration
-    and Windows compatibility).
-
-  - David Sterba (Btrfs): Acknowledged the need, has a WIP for a
-    Btrfs-specific ioctl to set otime. Noted btrfs send/receive
-    protocol v2 transmits otime but cannot write it.
-
-Both sides have legitimate points. The impasse exists because one
-field is being asked to serve two incompatible purposes.
-
-PROPOSAL: provenance_time (ptime)
-
-I propose a new timestamp concept: provenance_time, abbreviated ptime.
-
-ptime is distinct from btime:
-
-  btime =3D "when was this inode born on THIS filesystem"
-          Forensic. Immutable. Set by the kernel at inode creation.
-          Valuable for filesystem forensic analysis and intrusion
-          detection. Dave Chinner's use case is preserved.
-
-  ptime =3D "when did this file's content first come into existence,
-          on any filesystem, as reported by the earliest known source"
-          User-settable. Designed for cross-filesystem migration,
-          backup/restore, and provenance tracking. Travels with
-          the file across copies.
-
-This is similar to Ted Ts'o's btime/crtime split, but with clearer
-semantics:
-
-  - "crtime" (creation time) is easily confused with "ctime" (change
-    time) and with btime itself. The word "creation" is ambiguous =E2=80=94
-    creation of the inode, or creation of the content?
-
-  - "ptime" (provenance time) is unambiguous. It explicitly
-    communicates: this timestamp records provenance =E2=80=94 where and
-    when this file originated. It makes no claim about the local
-    inode's birth. It does not conflict with btime's forensic
-    meaning.
-
-ptime fits naturally into the existing timestamp schema:
-
-  atime  - access time
-  mtime  - modification time
-  ctime  - change time (metadata)
-  btime  - birth time (inode, forensic, immutable)
-  ptime  - provenance time (origin, settable, travels with file)
-
-IMPLEMENTATION NOTES (from a user's perspective)
-
-  - ptime should be settable via utimensat() or a new dedicated
-    syscall, with appropriate privilege requirements (CAP_FOWNER
-    or similar).
-
-  - Filesystems that store a creation timestamp (ext4, btrfs, xfs,
-    ntfs, exfat) could optionally support ptime using an additional
-    inode field, or by allowing the existing crtime/otime field to
-    serve as ptime when a filesystem-specific flag is set (as Ted
-    suggested for ext4).
-
-  - Standard tools (cp, rsync, tar) could be updated to read and
-    write ptime, finally resolving the long-standing inability to
-    preserve creation timestamps during file migration on Linux.
-
-  - NTFS-originated filesystems could map their creation time to
-    ptime, making Windows-to-Linux migration seamless.
-
-WHO THIS AFFECTS
-
-This is not a niche concern. In researching this issue, I found:
-
-  - Backup/restore users (Duplicati, rsync, rclone all lose btime)
-  - Windows-to-Linux migrators frustrated by silent metadata loss
-  - Digital forensics professionals whose MACB timelines break
-  - Data archivists and media librarians
-  - Users with memory/accessibility needs who rely on creation
-    dates to track personal document timelines
-  - A developer on StackOverflow needing to process 1.3 million
-    files with preserved timestamps =E2=80=94 no solution available
-  - A 7zip developer filing an issue (Feb 2026) documenting that
-    Linux extraction cannot preserve creation times
-
-The common thread across these use cases is that the current
-impasse =E2=80=94 where btime's forensic semantics block any settable
-timestamp =E2=80=94 produces worse forensic outcomes than providing a
-clearly-separated settable field would. The provenance data is
-being destroyed precisely because there is no sanctioned place
-to put it.
-
-ptime resolves this by giving that data a home without
-compromising btime's forensic meaning.
-
-Thank you for considering this proposal.
-
-Sincerely,
-Sean Smith
-DefendTheDisabled.org
+[snip]
