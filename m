@@ -1,95 +1,155 @@
-Received: from va-2-111.ptr.blmpb.com (va-2-111.ptr.blmpb.com [209.127.231.111])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 238383CAE92
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 11:13:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.231.111
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A24BD3BE648
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 11:34:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774437229; cv=none; b=H2jAwpz/JDE8eJ93gK2dSjVC0cwQexI9rCCLrScqToIfYFkK4lqFb6QV1Wr3oa09Vkj2ykzbO+U429c12HkRJ7v5E3arESW3Oj9Pc0a92Qs3SDwC7Bm+VZfez+U2v6y6ydRaRhUhmeExlOLjuRJnyMKr3CU+wxJuFtxeaVnW2p8=
+	t=1774438466; cv=none; b=j0ZsWozjgDzXievSN7tY2ENChaH5MQZGiz3RuQ1By0c4zNrq+B3CMcmnn8cOnRx5UVmzAb9jRdGz9oShHrYGz8NUV6FUlpTtnruoCxg53ojNitEEdRkt11yegXxLNomXPZQBp2sZS+X+YGXCoo6gmlzfiYriLuaCJz9CLoW26Fo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774437229; c=relaxed/simple;
-	bh=SFHCUZ67nBPcXWqe4pxF+iah/BBWuCNThzxz4J6SuqU=;
-	h=Message-Id:To:Cc:Subject:Mime-Version:References:From:Date:
-	 Content-Type:In-Reply-To; b=UIjoUGSiT+8Hv/jL+NlvWcvPvFVdGoOf6yxF87ku4XNpprenWViRjr7fGnZ2YjSYppWl2GNBMmpk7iga5NOJYbyz8v0VMw2+EGcjor1HFwr4azoRlsFfJz21AXmSpjvC7nffzOrPM+UBIRX27AHvJGrcsfvrjNy/JvnSwOpI6q8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=lp7VoRpX; arc=none smtp.client-ip=209.127.231.111
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1774438466; c=relaxed/simple;
+	bh=IroKj3t13MG+FM3hFelehM3XmGZE1nt+UtM/5i5NIi8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=N49QawMOAdbB/oGioefsVLYrI0sfokZdj/VqDcP4FL56osfRvDSJPx2lnvmZ8jQoJtiaVx51097jc7T0u8rZFqj0zuLk4gFc/+W43qihxU/wYvB3WLPfNCEiKKy5aW2Sev5W/5zVA1HWF+J3w3R4kfqxWxIe6hC6Vk6DBQTJZEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=UtmLShqM; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=YEsZcN7X; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=UtmLShqM; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=YEsZcN7X; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="lp7VoRpX"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1774437216; h=from:subject:
- mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
- mime-version:in-reply-to:message-id;
- bh=/2uLAgm3FI5zhNajV9t6fx76xgfhgjkuo6m+NR3j7To=;
- b=lp7VoRpX9+VtgW0e0EYqD10+zbp8UcEA3tsnrK0jjQ1DSvQHk4BRcfg0QX8NhDE0ESbU4I
- 4SazBM4BV1ZXKr9VlJyFtBkHIglUlJrlZfdOpE1oEE/5Lxg5qUBASPWBMLt1pmpxdtTLPY
- +UXzNKqUjPhasZENl/BQfsv+iwvmHHjWGMUpmC8uLFpDkXrNIFTp5wFoPmv3vnfZDkUMJe
- MWhdvlKKodsvds3d4u6hJ30EEugsWfv8RPZJLuWX+8WzbWfBJHpCZJxMj4wHWhcVV6tOso
- uiliJxBc4EkMtl60u0jgT42EapGxptTwrINUIPWMCCIGZGi8eqxzDDHvIxts3Q==
-Message-Id: <c6f4b982-c6e4-4f77-a16d-0c381c1e25f0@bytedance.com>
-X-Original-From: Diangang Li <lidiangang@bytedance.com>
-User-Agent: Mozilla Thunderbird
-To: "Andreas Dilger" <adilger@dilger.ca>, 
-	"Diangang Li" <diangangli@gmail.com>
-Cc: <tytso@mit.edu>, <linux-ext4@vger.kernel.org>, 
-	<linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
-	<changfengnan@bytedance.com>
-Subject: Re: [RFC 1/1] ext4: fail fast on repeated metadata reads after IO failure
-Content-Transfer-Encoding: 7bit
-X-Lms-Return-Path: <lba+269c3c35e+b21b58+vger.kernel.org+lidiangang@bytedance.com>
-Content-Language: en-US
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="UtmLShqM";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="YEsZcN7X";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="UtmLShqM";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="YEsZcN7X"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id CAD304D21F;
+	Wed, 25 Mar 2026 11:34:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1774438462; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Vq2T/vFLDEP46zaZVRN1uNpU0VC/YpLh6v2SVWei6m8=;
+	b=UtmLShqMzuRyUiGIrc0LUydixRU5bwUjdwrjwEFq5t8eSxN454oqsCUrpVZYqt0lyXJtmw
+	FIG9aJxGBGXmsoYB4fgNEYvFwBaO/uWL10wYIkX6oLrtpKKcFn30g0D412Y/hP+lKhAnAx
+	ghe/S51MaTkWbqcYxt0sAIVKeqX1CIY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1774438462;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Vq2T/vFLDEP46zaZVRN1uNpU0VC/YpLh6v2SVWei6m8=;
+	b=YEsZcN7XFcjW0TbV3bB2QjS2CV9b1s5bt3yWQvaFEGEL1x1daCgoVaMJgzQdO2yZNAoWdh
+	6AOwHmLWcAVLXOCg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=UtmLShqM;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=YEsZcN7X
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1774438462; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Vq2T/vFLDEP46zaZVRN1uNpU0VC/YpLh6v2SVWei6m8=;
+	b=UtmLShqMzuRyUiGIrc0LUydixRU5bwUjdwrjwEFq5t8eSxN454oqsCUrpVZYqt0lyXJtmw
+	FIG9aJxGBGXmsoYB4fgNEYvFwBaO/uWL10wYIkX6oLrtpKKcFn30g0D412Y/hP+lKhAnAx
+	ghe/S51MaTkWbqcYxt0sAIVKeqX1CIY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1774438462;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Vq2T/vFLDEP46zaZVRN1uNpU0VC/YpLh6v2SVWei6m8=;
+	b=YEsZcN7XFcjW0TbV3bB2QjS2CV9b1s5bt3yWQvaFEGEL1x1daCgoVaMJgzQdO2yZNAoWdh
+	6AOwHmLWcAVLXOCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BD48244399;
+	Wed, 25 Mar 2026 11:34:22 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 6QsvLj7Iw2nNEQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 25 Mar 2026 11:34:22 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 6FDFDA0B32; Wed, 25 Mar 2026 12:34:18 +0100 (CET)
+Date: Wed, 25 Mar 2026 12:34:18 +0100
+From: Jan Kara <jack@suse.cz>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jan Kara <jack@suse.cz>, Morduan Zang <zhangdandan@uniontech.com>, 
+	dgc@kernel.org, brauner@kernel.org, cem@kernel.org, dchinner@redhat.com, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org, 
+	syzbot+d78ace33ad4ee69329d5@syzkaller.appspotmail.com, tytso@mit.edu, viro@zeniv.linux.org.uk, zhanjun@uniontech.com
+Subject: Re: [PATCH] xfs: defer lazytime timestamp updates to inodegc during
+ eviction
+Message-ID: <pacwesi66thnl2a7ek6i3i74qep4crsmu7kx4oglhhuarvqyjp@dobq2euyexta>
+References: <absSoRi8oxXSuSZ7@dread>
+ <6EBD01CF561B83EC+20260320100353.220462-1-zhangdandan@uniontech.com>
+ <tet44nv2qc7i7uhrip4gcd7cur2cpn4mmgyh4v6hquaju2xtih@i5s2uco5wemr>
+ <20260325063822.GA32067@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260325093349.630193-1-diangangli@gmail.com> <20260325093349.630193-2-diangangli@gmail.com> <B53E253C-F314-4376-BD9D-58867FC8D3F6@dilger.ca>
-From: "Diangang Li" <lidiangang@bytedance.com>
-Date: Wed, 25 Mar 2026 19:13:21 +0800
-Content-Type: text/plain; charset=UTF-8
-In-Reply-To: <B53E253C-F314-4376-BD9D-58867FC8D3F6@dilger.ca>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260325063822.GA32067@lst.de>
+X-Spamd-Result: default: False [-2.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_COUNT_THREE(0.00)[3];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	URIBL_BLOCKED(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.cz:dkim];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[d78ace33ad4ee69329d5];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	MISSING_XM_UA(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -2.51
+X-Spam-Level: 
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: CAD304D21F
 
-Hi Andreas,
-
-BH_Read_EIO is cleared on successful read or write.
-
-In practice bad blocks are typically repaired/remapped on write, so we
-expect recovery after a successful rewrite. If the block is never
-rewritten, repeatedly issuing the same failing read does not help.
-
-We clear the flag on successful reads so the buffer can recover 
-immediately if the error was transient. Since read-ahead reads are not 
-blocked, a later successful read-ahead will clear the flag and allow 
-subsequent synchronous readers to proceed normally.
-
-Best,
-Diangang
-
-On 3/25/26 6:15 PM, Andreas Dilger wrote:
-> On Mar 25, 2026, at 03:33, Diangang Li <diangangli@gmail.com> wrote:
->>
->> From: Diangang Li <lidiangang@bytedance.com>
->>
->> ext4 metadata reads serialize on BH_Lock (lock_buffer). If the read fails,
->> the buffer remains !Uptodate. With concurrent callers, each waiter can
->> retry the same failing read after the previous holder drops BH_Lock. This
->> amplifies device retry latency and may trigger hung tasks.
->>
->> In the normal read path the block driver already performs its own retries.
->> Once the retries keep failing, re-submitting the same metadata read from
->> the filesystem just amplifies the latency by serializing waiters on
->> BH_Lock.
->>
->> Remember read failures on buffer_head and fail fast for ext4 metadata reads
->> once a buffer has already failed to read. Clear the flag on successful
->> read/write completion so the buffer can recover. ext4 read-ahead uses
->> ext4_read_bh_nowait(), so it does not set the failure flag and remains
->> best-effort.
+On Wed 25-03-26 07:38:22, Christoph Hellwig wrote:
+> On Tue, Mar 24, 2026 at 04:14:23PM +0100, Jan Kara wrote:
+> > Isn't this problem already fixed by Christoph's patch
+> > https://lore.kernel.org/all/20260317134409.1691317-1-hch@lst.de ?
 > 
-> Not that the patch is bad, but if the BH_Read_EIO flag is set on a buffer
-> and it prevents other tasks from reading that block again, how would the
-> buffer ever become Uptodate to clear the flag?  There isn't enough state
-> in a 1-bit flag to have any kind of expiry and later retry.
-> 
-> Cheers, Andreas
+> It should.  My question to Ted what we're even trying to do in this
+> context is also still outstanding.
+
+Let me see. One reason is that some filesystems don't cache inodes at VFS
+level (such as XFS but there are others which just always return 1 from
+their ->drop_inode). For these we'd have to come up with some other place
+where they write the outstanding time modification before evicting the
+inode from memory.
+
+Second effect is that without I_DIRTY_TIME writeback in iput()
+__inode_lru_list_add() in iput_final() will not add these inodes to the lru
+list and they won't be added there after flush worker did the dirty time
+writeback either so they'd be sitting in memory pretty much until unmount
+(or until somebody uses them again).
+
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
