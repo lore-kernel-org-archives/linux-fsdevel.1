@@ -1,112 +1,177 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9D293D1CAA;
-	Wed, 25 Mar 2026 12:34:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D48B3D564B
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 12:38:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774442077; cv=none; b=fm5vRtFPVM+USO6oJMFCv3KQ7v3vghZNIwAYtGJRr8Xz0RdNYRZS6HSK8Lm7OoqFLIE78hidkEtu6ORLpAVW19Eu+KHLANxyoe2rdiM/mfdzPEDyPyKu39ubzlFeFD7DfqciKczMBmaLkyDO0G1B5KO48URgpbz3ZuO2dJQS4FY=
+	t=1774442295; cv=none; b=f9iKc8e1woCPDRg4CPqgNVLZaeNpEiVK8/sLKbEjOR+LtjIgr2cMxj3SluBl2IXnk2EFAlW6xobPOBIHkLyRRU8LHfljsx65yJ2fh7JbM5whFHiAacm6f5DXJjIrmMkoHkR/v9tLiJUsw+HDm2S/mmMTybMlAuniu4wUekmtRHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774442077; c=relaxed/simple;
-	bh=0jxo8TsiYhf8iOrlyqcK8vwA9UbheNxgKgSsRjFIh+c=;
+	s=arc-20240116; t=1774442295; c=relaxed/simple;
+	bh=B7XEYkMQi5D0EqTXN0etgYXPUL8EADhsGgGCE2iqsCA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AS+bm6dXvlc6rBClLPTDMWowY0cDOoxb5NZTCbf9okc+ZxSHDy88kTvSjE+id50r5lBVOf2Gp41aVYqfDD/h60B61JNNDj+qQkdWBcFjpgeKXVCxt/6xz0jqdqHT1H655FLg2q6F0g+y34PsKhb0WBgqVEQh3/+lStpbcPbQtbI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YYGcX/fj; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=gWnqmYSEQnnN4Jz5NkCcSrUVY1NKnHqKe55BSbQTXh8QYHdNDwaeapaVy0uSe3LYQVfp5cI9nqPc6BAbfCarbKX9Vg4WjYOQettKt9e6QeEwf5tFVBA17lmodPJJsmOsYaObGra+CX/ckp2S0hacmAcgVI0hPRKQ9xO1rD2fCRg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SkCzScCu; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=AOLIh0Ue; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YYGcX/fj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA471C4CEF7;
-	Wed, 25 Mar 2026 12:34:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774442076;
-	bh=0jxo8TsiYhf8iOrlyqcK8vwA9UbheNxgKgSsRjFIh+c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YYGcX/fjiqjsRXmLCI+1mhF/5U0cBXoy3L26s6rJh+rJ0K7Rg0sWS1RruvSDPYzne
-	 H7nlDVCRZP/osaW8OL7uXIb4GGyDysDG1b3VHcrrl3unoCyod50YCl5xNYfhlP+Oxr
-	 plD2ZkOgL0+MtTzs9gAeXd6upLXgxXEb45uY/CzUEHY7BX9vSIDiykO2dUlxFbH3eE
-	 7Qd1q6v7GPut2t1Cb9hD/hAz+x3poPqAg4nYla9kREOh9VrTsLzd4iV8MAzv9b3Jjn
-	 21+7ecrjqhpXTFoogbDhvUh9K2cYE2F3L4lmV46krM+idCASnMS0kjRpStpPz0QhAd
-	 PlWvYT87rkl2g==
-Date: Wed, 25 Mar 2026 13:34:31 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-Cc: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, 
-	Paul Moore <paul@paul-moore.com>, "Serge E . Hallyn" <serge@hallyn.com>, 
-	Justin Suess <utilityemal77@gmail.com>, Lennart Poettering <lennart@poettering.net>, 
-	Mikhail Ivanov <ivanov.mikhail1@huawei-partners.com>, Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>, 
-	Shervin Oloumi <enlightened@google.com>, Tingmao Wang <m@maowtm.org>, kernel-team@cloudflare.com, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-security-module@vger.kernel.org
-Subject: Re: [RFC PATCH v1 00/11] Landlock: Namespace and capability control
-Message-ID: <20260325-ausmerzen-wenngleich-7cf068c7bd9f@brauner>
-References: <20260312100444.2609563-1-mic@digikod.net>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SkCzScCu";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="AOLIh0Ue"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1774442292;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zq66uLldOzJDWwFuTQSicat9HZ9onClHiQ97FMgB8gk=;
+	b=SkCzScCuCdyNL1RUnpfJxBIL5F2VO8pgYLuuZuGNC9Z7wh9ucam59gxfaUWvYHjCDdoC+y
+	RRXrtom8b1qSiG/Ppj48o875UHfOfbbJMeJmhANxnVoORpUCS7gtaIhqIe0mXwLjgiLik4
+	ddN8iVF7b7wala8rYTxzBWNqM8iGoBQ=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-572-CqPk5TZDOWurBEmt3I_djQ-1; Wed, 25 Mar 2026 08:38:11 -0400
+X-MC-Unique: CqPk5TZDOWurBEmt3I_djQ-1
+X-Mimecast-MFC-AGG-ID: CqPk5TZDOWurBEmt3I_djQ_1774442290
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4837bfcfe0dso53976745e9.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 05:38:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1774442290; x=1775047090; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=zq66uLldOzJDWwFuTQSicat9HZ9onClHiQ97FMgB8gk=;
+        b=AOLIh0Ue5a3o1fyEajsXxRCiEAE4Rrq4bwtTWcmkudbfF4EGebeo9SW56XtdYxL7gQ
+         xeW4CNOMySdctnDl5F1p0NWrzINeidFsK1GsBMK5qy8II2QIIYddb+3Fodhb3uT+VKGE
+         1v7e5LdWnAHVsWJeK6ghIqQJmUl6MJOFosAG6lA5C/uDp58EhWy87J3zWlWPJZjfwZK2
+         KWy9GMHLWJUNInaYYcCVszumxavzYJx2dmfjsh7j+8dniUK6L50dzCuKbj5d27T2iZIZ
+         WZQcz9r++SsteOFi0YBkYD1BI3vq48IWcbFzmeCDWMrPkfvMwKPhtayf8UlyVwkx66Ug
+         +ELQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774442290; x=1775047090;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zq66uLldOzJDWwFuTQSicat9HZ9onClHiQ97FMgB8gk=;
+        b=VDo9TogKzZroiFB1bmk+BAl0WhBZSRJFaADyNZNkGNQPf0ABEYVxFqs9TwSqFCkKbT
+         0NDq8lzi5GB1pjXtg7BilXVt8vz3QVCgBp9Z5Uv914nwfilmUSd8pdJwa+cVi+umTHU1
+         kv2AR0kgkCd5AJd0avBIsQr8gJ+9AuPreggVj8w7VzS9aZAA7Oipn/Xz1eFJmzQPRO+c
+         TOxzUHbgaRd7pLMxrHTKE4J7jvkHAvf6JGLtfYKKPSjYu0DAIQKUetdZ1l+B9gQ9oJcY
+         uHpQfKYhLy3gynMOOB+KAIt3ALMmr6JGg1CfMhMXesL1COSSOhmoCpF6InwY1M4v7wVC
+         zBHg==
+X-Forwarded-Encrypted: i=1; AJvYcCVkGrmc7pMqmE+40U8EdAdFrPP4SyCSS6hRndL2ejB+RLkx5m6QJZ5fnwQPcTZOCCPMD4HsWyG3+tMe80vn@vger.kernel.org
+X-Gm-Message-State: AOJu0YwKI60rfq3YrKS9cquSZHTGPOBR7AYGgOz/TxL51IdCubo4JrfM
+	dqIZan1Lvw30XcYfch2VdnlSfQ/mq8fqB9xV+2w4kOvB6lKScViyKDI49SVARJNrMzR90BUpLVM
+	JzKbGzO48tVJb3YhkDYBRh232NZbvTtp9EvJ15H0DwrxCHK98EUYuTsSDVME0au95+w==
+X-Gm-Gg: ATEYQzztA26e41Wujgz29TIanf4/YYMFMuk4R79/jw/mfbmPcV+AXWC3Lfpr73MBPRp
+	5Tk0T7Va9Z3Mo8/h7qDUDrVvbG9Zy3F7RLeSvUYU/9YqH3n3yimEtgygtnMJnTOsmmN8SO8eewV
+	Tw4Yaa6qGr0AB6lmVCdxlcvFsqb+04oAYBii/ButLkFWbfUto3gGUfoTyMvOCOSMKG3LTHjK1pG
+	cSs0DVJhrZHvjSO1D4cusC6T4Kaw3IRO7eL3Ng2A62ZxkVQEt4Vu3SEi1mQLUhkswIsuUO2xBrd
+	/G4v78wcTq+yu4dWQ9Gvuqgml0BqetbaDSekgQcm1R+Ya3ttcqLezGx2hQZEemy9WkgBMwJ+smR
+	REXm+hD1YJ+R+zQ==
+X-Received: by 2002:a05:600c:3f16:b0:483:6d42:25c6 with SMTP id 5b1f17b1804b1-4871606db4amr51426215e9.23.1774442289655;
+        Wed, 25 Mar 2026 05:38:09 -0700 (PDT)
+X-Received: by 2002:a05:600c:3f16:b0:483:6d42:25c6 with SMTP id 5b1f17b1804b1-4871606db4amr51425715e9.23.1774442289131;
+        Wed, 25 Mar 2026 05:38:09 -0700 (PDT)
+Received: from thinky ([91.245.205.131])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-487116ee57esm120806865e9.14.2026.03.25.05.38.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Mar 2026 05:38:08 -0700 (PDT)
+Date: Wed, 25 Mar 2026 13:38:07 +0100
+From: Andrey Albershteyn <aalbersh@redhat.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Andrey Albershteyn <aalbersh@kernel.org>, linux-xfs@vger.kernel.org, 
+	fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org, ebiggers@kernel.org, 
+	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
+	linux-btrfs@vger.kernel.org, djwong@kernel.org
+Subject: Re: [PATCH v5 07/25] iomap: introduce IOMAP_F_FSVERITY and teach
+ writeback to handle fsverity
+Message-ID: <std5dib2mf5nfd2gf3jbrhujvqr2tytczplopwfy4zrxrrmrgj@py7g4alrifbi>
+References: <20260319170231.1455553-1-aalbersh@kernel.org>
+ <20260319170231.1455553-8-aalbersh@kernel.org>
+ <20260325080021.GF952@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260312100444.2609563-1-mic@digikod.net>
+In-Reply-To: <20260325080021.GF952@lst.de>
 
-On Thu, Mar 12, 2026 at 11:04:33AM +0100, Mickaël Salaün wrote:
-> Namespaces are a fundamental building block for containers and
-> application sandboxes, but user namespace creation significantly widens
-> the kernel attack surface.  CVE-2022-0185 (filesystem mount parsing),
-> CVE-2022-25636 and CVE-2023-32233 (netfilter), and CVE-2022-0492 (cgroup
-> v1 release_agent) all demonstrate vulnerabilities exploitable only
-> through capabilities gained via user namespaces.  Some distributions
-> block user namespace creation entirely, but this removes a useful
-> isolation primitive.  Fine-grained control allows trusted programs to
-> use namespaces while preventing unnecessary exposure for programs that
-> do not need them.
+On 2026-03-25 09:00:21, Christoph Hellwig wrote:
+> > @@ -353,9 +353,16 @@ static inline bool iomap_block_needs_zeroing(const struct iomap_iter *iter,
+> >  {
+> >  	const struct iomap *srcmap = iomap_iter_srcmap(iter);
+> >  
+> > -	return srcmap->type != IOMAP_MAPPED ||
+> > -		(srcmap->flags & IOMAP_F_NEW) ||
+> > -		pos >= i_size_read(iter->inode);
+> > +	if (srcmap->type != IOMAP_MAPPED)
+> > +		return true;
+> > +
+> > +	if (srcmap->flags & IOMAP_F_NEW)
+> > +		return true;
+> > +
+> > +	if (srcmap->flags & IOMAP_F_FSVERITY)
+> > +		return false;
+> > +
+> > +	return pos >= i_size_read(iter->inode);
 > 
-> Existing mechanisms (user.max_*_namespaces sysctls, userns_create LSM
-> hook, PR_SET_NO_NEW_PRIVS, and capset) each address part of this threat
-> but none provides per-process, fine-grained control over both namespace
-> types and capabilities.  Container runtimes resort to seccomp-based
-> clone/unshare filtering, but seccomp cannot dereference clone3's flag
-> structure, forcing runtimes to block clone3 entirely.
-> 
-> Landlock's composable layer model enables several patterns: a user
-> session manager can restrict namespace types and capabilities broadly
-> while allowing trusted programs to create the namespaces they need, and
-> each deeper layer can further restrict the allowed set.  Container
-> runtimes can similarly deny namespace creation inside managed
-> containers.
-> 
-> This series adds two new permission categories to Landlock:
-> 
-> - LANDLOCK_PERM_NAMESPACE_ENTER: Restricts which namespace types a
->   sandboxed process can acquire: both creation (unshare/clone) and entry
->   (setns).  User namespace creation has no capability check in the
->   kernel, so this is the only enforcement mechanism for that entry
->   point.
-> 
-> - LANDLOCK_PERM_CAPABILITY_USE: Restricts which Linux capabilities a
->   sandboxed process can use, regardless of how they were obtained
->   (including through user namespace creation).
-> 
-> Both use new handled_perm and LANDLOCK_RULE_* constants following the
-> existing allow-list model.  The UAPI uses raw CAP_* and CLONE_NEW*
-> values directly; unknown values are silently accepted for forward
-> compatibility (the allow-list denies them by default).  The Landlock ABI
-> version is bumped from 8 to 9.
-> 
-> The handled_perm infrastructure is designed to be reusable by future
-> permission categories.  The last patch documents the design rationale
-> for the permission model and the criteria for choosing between
-> handled_access_*, handled_perm, and scoped.  A patch series to add
-> socket creation control is under review [2]; it could benefit from the
-> same permission model to achieve complete deny-by-default coverage of
-> socket creation.
-> 
-> This series builds on Christian Brauner's namespace LSM blob RFC [1],
-> included as patch 1.
-> 
-> Christian, could you please review patch 3?  It adds a FOR_EACH_NS_TYPE
-> X-macro to ns_common_types.h and derives CLONE_NS_ALL, replacing inline
-> CLONE_NEW* flag enumerations in nsproxy.c and fork.c.
+> This might be a good time to document the various reasons for needing
+> zeroing.
 
-This all looks good to me, thanks! I'd really love to see this go in.
+something like this?
+
+--- a/fs/iomap/buffered-io.c
++++ b/fs/iomap/buffered-io.c
+@@ -344,9 +344,27 @@ static inline bool iomap_block_needs_zeroing(const struct iomap_iter *iter,
+ {
+        const struct iomap *srcmap = iomap_iter_srcmap(iter);
+ 
+-       return srcmap->type != IOMAP_MAPPED ||
+-               (srcmap->flags & IOMAP_F_NEW) ||
+-               pos >= i_size_read(iter->inode);
++       /*
++        * If this block is not mapped, we don't have any backing blocks to read
++        * yet
++        */
++       if (srcmap->type != IOMAP_MAPPED)
++               return true;
++
++       /*
++        * This block just got allocated and does not contain any meaningful data
++        */
++       if (srcmap->flags & IOMAP_F_NEW)
++               return true;
++
++       /*
++        * fsverity metadata is stored past i_size, we need to read it instead of
++        * zeroing
++        */
++       if (srcmap->flags & IOMAP_F_FSVERITY)
++               return false;
++
++       return pos >= i_size_read(iter->inode);
+ }
+
+> 
+> > +/*
+> > + * IO happens beyond inode EOF, fsverity metadata is stored there
+> > + */
+> > +#define IOMAP_F_FSVERITY	(1U << 10)
+> 
+> This comment feels a bit too sparse.  Here is my interpretation of what
+> this flag does:
+> 
+> /*
+>  * Indicates reads and writes of fsverity metadata.
+>  *
+>  * Fsverity metadata is stored after the regular file data and thus beyond
+>  * i_size.
+>  */
+
+Thanks! I will update it
+
+-- 
+- Andrey
+
