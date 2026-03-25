@@ -1,105 +1,97 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp-8fab.mail.infomaniak.ch (smtp-8fab.mail.infomaniak.ch [83.166.143.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E20EA3EAC88;
-	Wed, 25 Mar 2026 15:06:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C6BA3D523E
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 15:36:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.166.143.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774451202; cv=none; b=t7Akrtu0bcd4zNozc2LT/a2RcBnIFNk6K3fccLrbmhPhrEG1LEH/r/C58N+tp7qaFuivzPbja9kZd3B+LHprCmJGV7yXj91o/nF9dT//vWlwfNgz4ct3ctqVksNI7LDcbfdrZgANwi+3wlcZykoOaWTQYMAxu5BHjIxXS+GpAO8=
+	t=1774453012; cv=none; b=L9lQDXdasA3lvf33Mt9FzR3uW/gpX8uLfPs9NQe2/1aPPt4oWpHSPVuJ+vUzYHSMsZFWtK+4R27JoTEeu+1nuAyUvW2nQFCu4EjFZVy7eGja4F6qfhdazO/wEWhl8Sq4yuzCKq4jKGr+FGkKzyNZznxRRaimoXn9q7rrE/AGR5s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774451202; c=relaxed/simple;
-	bh=abjIJLR7w82rkCffSg5vDwCkeaoGvkn81T+GGKFIJeA=;
+	s=arc-20240116; t=1774453012; c=relaxed/simple;
+	bh=VOmtj+Vf3f52V1rX+ihdafEh2DLxXnMgbqSE5D0l77I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DgkVfdfkqYqrjaMP0Ea4LqASK7xgQq4sz5xb9K+551HanIdS+z8cRCfUDBg40Ow1L9S4PSw7Mkas6qHadPOTf9PUjp9WMqW8Gc76u+/rVsVDwh2XdaWdR/Oa706NX+KQPCAyimo10egIgVO/q/MXSQDhKlvJHnI/TBspM72XLMs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ZZt0Yymr; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=PIczYyBccLefTdMM4+ILeG1kMgjDmIHt8VCHmluTHWIM+I/OfC9TZfSL75FMfFChv9lqgvywITWRAxwYhMN8GLRFQGb2bteSbBi17cw9Otn7IUwKlElR1dVb7OerfRQEnQ4wxOKm8EEyz9JFgfwm8HrNwXVXFg5YDpTEyhGACAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=uRxDLoO1; arc=none smtp.client-ip=83.166.143.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ZZt0Yymr"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=cYXwyEMIc1ILNL2kDIuCLRrloFnkyAEPOIgK7nUnE1Q=; b=ZZt0YymrAGmGOAlCDew140Csby
-	Sqro/tJ1OLbP+0eCHxcuBsYQLcChXM3MKErmu8pWHq3e6cRwelDRiiVEbe/qOrEd+lzp5XvGs6cJT
-	NgnQCqOVoPkR4GWJhlzCOIZTar/5gg3Mo6kztithAhgAcbIEeThPm6IiKFzcrr2dMV3hV3dAxC1A1
-	hsCnaj6JDcdfpDOi+9LobAF5PIpRY5gaV6IUqI2yYcLIAAGneQXbB3eXTKTcT01MmaZyhaDdM5Dqw
-	/CFhoLcKrzZMWMYw3tWja4X2i/kSk12PeVu4sM27yu5JQzMgcY99A0mrIx8/KN+hUQTRFuMEmkDL0
-	3h7pPLDQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w5PoY-0000000G2du-1PBr;
-	Wed, 25 Mar 2026 15:06:34 +0000
-Date: Wed, 25 Mar 2026 15:06:34 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Andreas Dilger <adilger@dilger.ca>
-Cc: Diangang Li <diangangli@gmail.com>, tytso@mit.edu,
-	linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, changfengnan@bytedance.com,
-	Diangang Li <lidiangang@bytedance.com>
-Subject: Re: [RFC 1/1] ext4: fail fast on repeated metadata reads after IO
- failure
-Message-ID: <acP5-v85CwUQZlMB@casper.infradead.org>
-References: <20260325093349.630193-1-diangangli@gmail.com>
- <20260325093349.630193-2-diangangli@gmail.com>
- <B53E253C-F314-4376-BD9D-58867FC8D3F6@dilger.ca>
+	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="uRxDLoO1"
+Received: from smtp-4-0001.mail.infomaniak.ch (smtp-4-0001.mail.infomaniak.ch [10.7.10.108])
+	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4fgrNM06GmzgZh;
+	Wed, 25 Mar 2026 16:26:27 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
+	s=20191114; t=1774452386;
+	bh=SCtQYYirznlvk7zN2bBpQV25bhkPn863DXHkqrjvwq8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uRxDLoO1B4xxoFEskeW9QkK4jq52v4pjzU1ue6Pf1+CI28JLax45yqcQSziDcNwOl
+	 8O2+5rGD7RxcSd7PaWJ5JRW7GnT0QOITawK0UqB7iX6FiIrwN7HhydLzI84S50iWq7
+	 Yhavb1x9N10J1YVobRPowKw92zGCGKdeCFgmjdxM=
+Received: from unknown by smtp-4-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4fgrNL0pK4zHQk;
+	Wed, 25 Mar 2026 16:26:26 +0100 (CET)
+Date: Wed, 25 Mar 2026 16:26:22 +0100
+From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+To: Christian Brauner <brauner@kernel.org>
+Cc: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, 
+	Paul Moore <paul@paul-moore.com>, "Serge E . Hallyn" <serge@hallyn.com>, 
+	Justin Suess <utilityemal77@gmail.com>, Lennart Poettering <lennart@poettering.net>, 
+	Mikhail Ivanov <ivanov.mikhail1@huawei-partners.com>, Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>, 
+	Shervin Oloumi <enlightened@google.com>, Tingmao Wang <m@maowtm.org>, kernel-team@cloudflare.com, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org
+Subject: Re: [RFC PATCH v1 03/11] nsproxy: Add FOR_EACH_NS_TYPE() X-macro and
+ CLONE_NS_ALL
+Message-ID: <20260325.Mo5Lahthohng@digikod.net>
+References: <20260312100444.2609563-1-mic@digikod.net>
+ <20260312100444.2609563-4-mic@digikod.net>
+ <20260325-utensil-endung-6e28806ae92c@brauner>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <B53E253C-F314-4376-BD9D-58867FC8D3F6@dilger.ca>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260325-utensil-endung-6e28806ae92c@brauner>
+X-Infomaniak-Routing: alpha
 
-On Wed, Mar 25, 2026 at 04:15:42AM -0600, Andreas Dilger wrote:
-> On Mar 25, 2026, at 03:33, Diangang Li <diangangli@gmail.com> wrote:
+On Wed, Mar 25, 2026 at 01:33:31PM +0100, Christian Brauner wrote:
+> On Thu, Mar 12, 2026 at 11:04:36AM +0100, Mickaël Salaün wrote:
+> > Introduce the FOR_EACH_NS_TYPE(X) macro as the single source of truth
+> > for the set of (struct type, CLONE_NEW* flag) pairs that define Linux
+> > namespace types.
 > > 
-> > From: Diangang Li <lidiangang@bytedance.com>
+> > Currently, the list of CLONE_NEW* flags is duplicated inline in
+> > multiple call sites and would need another copy in each new consumer.
+> > This makes it easy to miss one when a new namespace type is added.
 > > 
-> > ext4 metadata reads serialize on BH_Lock (lock_buffer). If the read fails,
-> > the buffer remains !Uptodate. With concurrent callers, each waiter can
-> > retry the same failing read after the previous holder drops BH_Lock. This
-> > amplifies device retry latency and may trigger hung tasks.
+> > Derive two things from the X-macro:
 > > 
-> > In the normal read path the block driver already performs its own retries.
-> > Once the retries keep failing, re-submitting the same metadata read from
-> > the filesystem just amplifies the latency by serializing waiters on
-> > BH_Lock.
+> > - CLONE_NS_ALL: Bitmask of all known CLONE_NEW* flags, usable as a
+> >   validity mask or iteration bound.
 > > 
-> > Remember read failures on buffer_head and fail fast for ext4 metadata reads
-> > once a buffer has already failed to read. Clear the flag on successful
-> > read/write completion so the buffer can recover. ext4 read-ahead uses
-> > ext4_read_bh_nowait(), so it does not set the failure flag and remains
-> > best-effort.
+> > - ns_common_type(): Rewritten to use the X-macro via a leading-comma
+> >   _Generic pattern, so the struct-to-flag mapping stays in sync with the
+> >   flag set automatically.
+> > 
+> > Replace the inline flag enumerations in copy_namespaces(),
+> > unshare_nsproxy_namespaces(), check_setns_flags(), and
+> > ksys_unshare() with CLONE_NS_ALL.
+> > 
+> > When a new namespace type is added, only FOR_EACH_NS_TYPE needs to
+> > be updated; CLONE_NS_ALL, ns_common_type(), and all the call sites
+> > pick up the change automatically.
+> > 
+> > Cc: Christian Brauner <brauner@kernel.org>
+> > Cc: Günther Noack <gnoack@google.com>
+> > Signed-off-by: Mickaël Salaün <mic@digikod.net>
+> > ---
 > 
-> Not that the patch is bad, but if the BH_Read_EIO flag is set on a buffer
-> and it prevents other tasks from reading that block again, how would the
-> buffer ever become Uptodate to clear the flag?  There isn't enough state
-> in a 1-bit flag to have any kind of expiry and later retry.
+> Yeah, I love that. I can take that as a separate patch right now even.
 
-I've been thinking about this problem too, albeit from a folio read
-perspective, not from a buffer_head read perspective.  You're quite
-right that one bit isn't enough.  The solution I was considering but
-haven't implemented yet was to tell all the current waiters that
-the IO has failed, but not set any kind of permanent error flag.
+Yes, please take it.
 
-I was thinking about starting with this:
-
-+++ b/include/linux/wait_bit.h
-@@ -10,6 +10,7 @@
- struct wait_bit_key {
-        unsigned long           *flags;
-        int                     bit_nr;
-+       int                     error;
-        unsigned long           timeout;
- };
-
-
-and then adding/changing various APIs to allow an error to be passed in
-and noticed by the woken task.
-
-With this change, the thundering herd all wake up, see the error and
-return immediately instead of each submitting their own I/O.  New reads
-will retry the read, but each will only be held up for a maximum of
-their own timeout.
+> 
+> Reviewed-by: Christian Brauner <brauner@kernel.org>
+> 
