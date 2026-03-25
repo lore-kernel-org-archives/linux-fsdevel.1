@@ -1,61 +1,63 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EC8634E762
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 09:34:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17EBA3451A6
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 09:34:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774431273; cv=none; b=SYXLwVQJP2WlJ7hslEaE2+ap6vD7lWTJ45weWPHzeIUZveV0SFN0dJh48Ml9lkS37e1kMumnrmvakrBbg71A1Sve+/kvmCQEQhWo4PpnBfMmbNwob1X8venrHyYkejXQsO+uQT6utH/X6mbhPIIBgTyBr4oPMwn5QAqTwhIZHpo=
+	t=1774431285; cv=none; b=bNBcIH0TYptmPkffsFvt3FSvmpxjI3PQH+SNoZR3nqBQJ8WqkLQabrQ8nigDyi62lG385jeaFfSsXit5kglJ83S+joUNfNZI2Oko1YPGw7x5/RxE50wOpcxJHexGXtSInwKGdnHC3Bs0EbXfDQsNaZD3aAL9sAJRVoKGuKHF6oo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774431273; c=relaxed/simple;
-	bh=zhfXxitK3GbVzP0cWaWb05D74FMylePtHteof0l3m0A=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=YacFOVV0KD3e6t8zY2ymK/RX7w6TjkKagd3mTrG+Ucw+M7W4cmcC3QRhveNWWxhU/PdM/AWRBGQ2Xoiq/lAm5X1Vlc3ottYWI2PiVlfZ5HJteju7+1KlUkL/s5otnmW30lyorRtcm8QtWRIFYBvM24ncrjMVqfl+3KlFvmbn/K8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a/asXWCV; arc=none smtp.client-ip=209.85.214.174
+	s=arc-20240116; t=1774431285; c=relaxed/simple;
+	bh=au2v8Zj1g2gTa/qYyAEVaRCf5QQU9rUKjFNpk5w+uaE=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=LEv0Op/FxtdYlnysRJbXl0hHtd+0rDNX1S9eVEeQCNZ8fFlUDHEQ7vLnsQNoSsALS5cQFFTc4sftW4xaqwZBaOuA02rHD9Iu6DFN0j3heeNNkuFkk6yoctkvsxIE1ah8Po2I4Toh5uM8Ga2Fa+E7BOXrnVt4z8UZzMkqku/qreY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jrSRf3WT; arc=none smtp.client-ip=209.85.214.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a/asXWCV"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2b042533de1so31998105ad.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 02:34:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jrSRf3WT"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2b062069f80so32564965ad.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 02:34:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774431271; x=1775036071; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=6bSkic//eLc54cP3e25oSENPT2tB4RkJc8+gyvzAmqU=;
-        b=a/asXWCVpW864kGkkSn/0Z8Uf1Qyw1Wr+MBvsCpYCuVPj1604CKshxlMPzhBWRm5Ep
-         AbN/jm0+Ht4QElFhNuKaYBLdTXtfJcvYS0sGfmq/u5962dUTO15dBKkXtbYpLXFNJOK0
-         ZRjz9rAD27slX+ZqmkmmePk4w6K3TttssAz+oc9FIsPmNRNWDc71Upq4ADbom0M01g+k
-         +5fTKtIy0rq88YLLBMy0GPTqws2fnOkB9iP4JuYvKcQDq+eBMsNOFnQ8NMP8NQNkpjhS
-         k1H6g3NQgv2TOsN28vMkh5k3Ekt3Ym+GTHeNJiOm6bvjWTiN7Q5F38w81laRuT0tcbhC
-         4zuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774431271; x=1775036071;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1774431283; x=1775036083; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6bSkic//eLc54cP3e25oSENPT2tB4RkJc8+gyvzAmqU=;
-        b=j+xdm4U0ElRr1tI/JU7kKfCk/bxtOXhvxYQq/NY5POfK54ZRdbWddAQXMRT+ZaSdal
-         S3U/ESQyVCJIhTaGswv2ZZUyXzceSb3LFDujlIljgofKXzW90k+26E5nlRYAny1B03wk
-         UwbkUT/rC2KeqEElby5QzK3Rp8mE6dTMIrEmaNe/nm8WhQIynKQnJnCmMCBR2fPYswmf
-         v5SFHKzasU33nBEzOQFBgN5gyX2c/SQIDHOjjrLTJQSiNwm816cPulyC6RBpTBOYB8uW
-         RB80ylVCZnV1iJRhdY6lJyc+EHLZ544JqKMLGRB2Ap2StaZ3Cc5kCclMP80+1L2PA2mQ
-         ZobA==
-X-Forwarded-Encrypted: i=1; AJvYcCUmkSNODZRcbqr64ekLMiOiOTC0HNVO+EwkyEao1/lXzxyVCvyd1zIWCLzuT5F7IJdiKFA4A+ouWRizIDHX@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw2Sfi3/e3LOaNd9uWedSxrgJzXNFY5lSP3njOGAqhmuMRYbLPF
-	JSKAR2WfbvA+pFzGcr0SK2+2nRK3rTjH8RXrIFYzmYw13tX8+NuvPbXM
-X-Gm-Gg: ATEYQzxEtKJ8LKt5ygZeFc7J7qDxXC6a/FFUviPvjXgikOhfZ7aEwAxGqosu8dWtj75
-	7XjRRrhFbAGC6lJQbejBXnpqay16aDH7tOkA79AZiqs/myZjy9DSQY3wW0xnECayZdrt531L/FP
-	Bv9AFYec0pWja0t2je36yGrbP8lsNOYsdwqek7cn7d0Ob/p4S1WjKViyW4xpyzIHljn8Omz5XA7
-	zgv8nBXuvElsqVOLlwMHHEbIz6LH1qFTiK4mf9CnqymWhiYJcN5fFg8CMRzihTKVRl95dQ1VmEJ
-	6sVxwpJ9dIs8LpxWpn73mY9Obkac25lSmmK4rxVKIICYoGiNhFCwmC/DoCSuus5j+ge/ytAnDpf
-	rC1PpZkjw8dDwT5IfMMemcX+it7TmatMdJhw5EFMJYkrnRXWPVSdr7wIURLpWY+qntKk6jFsYlT
-	BgB9e7ZOl4h6+4nUpxcAqLU8y3eu5imtriyQF4Lh2MbH16o2k=
-X-Received: by 2002:a17:903:1786:b0:2b0:5770:d484 with SMTP id d9443c01a7336-2b0b0ade793mr29220765ad.41.1774431270540;
-        Wed, 25 Mar 2026 02:34:30 -0700 (PDT)
+        bh=C2kZEGfm9VSl1YrM5qslWXevfM/VbQjjSaf7BnkuDjI=;
+        b=jrSRf3WT+DDpx5fcz/kXm0Rlfo6tOWG+ws6WM6zZyV9qNq1yST4Vp+Bnuo9vOUXpTX
+         2RugBghwntS/dHehzmGENwhYSXibhDqLqij594StYHIYH5DMfPF5spuBU2ueFf4rk5RZ
+         hYJN/gzKPPG1a5WVogL2HjfflGJSiR/MB3r1ik83ndLqxLe8HzG3CtjAC9V2muS6sNZ4
+         HGp7CxldlQzBeVfiaa72B+I4LOSvJZFlMaClNmDa6qNEoXTU1ztVVPynAsaPU3vJWBra
+         9MquIfkEfEx5Gq7br4SJYlmrH/cyHLi1h4UoX9IsZZ68435r6S3Qa6M8Abv9Tf0yZFJC
+         SWnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774431283; x=1775036083;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=C2kZEGfm9VSl1YrM5qslWXevfM/VbQjjSaf7BnkuDjI=;
+        b=rqjPKcOiargSaOORKnmBciWl2aMs6ETQnD9+vv/vr7yLvFKawrIwAI2PxpSc5OZdfx
+         mznaaWhm7AVqIP04slS7481lo2TSVug9XWDfBaPy+P8Tr3o3Y2evv8ac51GZLMHpafpj
+         RNIRRqn94MyXexfDdCDpHNxk4D9fVGOx3f51Z1BSn/QLZs85XjjjPeJwWejK+2laGmF9
+         vlraJkTow+2uF5HazPuIwPGtxWJGx6cTThnXNmIu70xNrH3d2XTgqBj25eFIA0i3iffh
+         w3Q56L/zrIYR8t6JI8pNVl5EmWepz1pB4VPPo3/vlw4/WSlmS8rtk9hLdViiB0bV78Xp
+         aZ+A==
+X-Forwarded-Encrypted: i=1; AJvYcCVOYN9vemcolhkWhavorkV5FmQFA/rQweavx/jyZZ0BeJ9BTPJT52c6+Y4NXzB2rHUEN1I+tahIvu4C5yu2@vger.kernel.org
+X-Gm-Message-State: AOJu0YyMGNrGDzwSqh/RhbW9KSkTvylLw4AZZBJY7ZtsW+7T+ZaQ6MG2
+	OtI7RKemFFAC1VIV2hjxBQjPxwRwkoGe5wob7KfPT8c2szerAigCupB7
+X-Gm-Gg: ATEYQzxoaNTLLvtBr8kmP495MMI3EXRsJDJoy9EbME8J8qkpgj9JBrNQRpr/5KcUZWT
+	9k8XlfjXGjPYzvOP4ygDSFfLP/CX2KW+JKRAHwvG+Qpa7eUkTwtTyo4Ikf2dFu6Mfddd1ptaecN
+	e0ZBc9W8fy8S88gqIi0kA25d5xcMDzSbY8PEHmpegLxruPPJtD1dFG3t3drbqyyEseSuyYvBF6o
+	1JDxBuF7FlSU+U1Bj3LTSXq45PnugxnPpAiRmXRzFL8gsFVQAuUdym2tuRJ86ZbnzQglcieO3mz
+	1YTCnA41VjxKvIFu0D1ld6/T4YTSMcCEJD/4jxcVB2c+kO43L0hE2jWBNdmHnCoWRHp8icBQ2Mn
+	Zch3cOfkZ+zGU/vxfeL8Y6RCXtv9FyVAGWU6GoI2KMdspMa6Un7dadQacmLyNumxl8WBoLoOGuY
+	IKMhPxU/9hujpOgi5LpLyTdbsGendOciMVun9I
+X-Received: by 2002:a17:903:1b45:b0:2ae:6259:5aff with SMTP id d9443c01a7336-2b0b09a69b6mr29408665ad.6.1774431283311;
+        Wed, 25 Mar 2026 02:34:43 -0700 (PDT)
 Received: from n37-098-250.byted.org ([115.190.40.15])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b083516ae1sm164266245ad.13.2026.03.25.02.34.27
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b083516ae1sm164266245ad.13.2026.03.25.02.34.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Mar 2026 02:34:30 -0700 (PDT)
+        Wed, 25 Mar 2026 02:34:42 -0700 (PDT)
 From: Diangang Li <diangangli@gmail.com>
 To: tytso@mit.edu,
 	adilger.kernel@dilger.ca
@@ -64,10 +66,12 @@ Cc: linux-ext4@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	changfengnan@bytedance.com,
 	Diangang Li <lidiangang@bytedance.com>
-Subject: [RFC PATCH 0/1] ext4: fail fast on repeated metadata reads after IO failure
-Date: Wed, 25 Mar 2026 17:33:48 +0800
-Message-Id: <20260325093349.630193-1-diangangli@gmail.com>
+Subject: [RFC 1/1] ext4: fail fast on repeated metadata reads after IO failure
+Date: Wed, 25 Mar 2026 17:33:49 +0800
+Message-Id: <20260325093349.630193-2-diangangli@gmail.com>
 X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20260325093349.630193-1-diangangli@gmail.com>
+References: <20260325093349.630193-1-diangangli@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -78,49 +82,21 @@ Content-Transfer-Encoding: 8bit
 
 From: Diangang Li <lidiangang@bytedance.com>
 
-A production system reported hung tasks blocked for 300s+ in ext4 metadata
-lookup paths. Hung task reports were accompanied by disk IO errors, but
-profiling showed that most individual reads completed (or failed) within
-10s, with the worst case around 60s.
+ext4 metadata reads serialize on BH_Lock (lock_buffer). If the read fails,
+the buffer remains !Uptodate. With concurrent callers, each waiter can
+retry the same failing read after the previous holder drops BH_Lock. This
+amplifies device retry latency and may trigger hung tasks.
 
-At the same time, we observed a high repeat rate to the same disk LBAs.
-The repeated reads frequently showed seconds-level latency and ended with
-IO errors, e.g.:
+In the normal read path the block driver already performs its own retries.
+Once the retries keep failing, re-submitting the same metadata read from
+the filesystem just amplifies the latency by serializing waiters on
+BH_Lock.
 
-  [Tue Mar 24 14:16:24 2026] blk_update_request: I/O error, dev sdi,
-      sector 10704150288 op 0x0:(READ) flags 0x0 phys_seg 1 prio class 0
-  [Tue Mar 24 14:16:25 2026] blk_update_request: I/O error, dev sdi,
-      sector 10704488160 op 0x0:(READ) flags 0x0 phys_seg 1 prio class 0
-  [Tue Mar 24 14:16:26 2026] blk_update_request: I/O error, dev sdi,
-      sector 10704382912 op 0x0:(READ) flags 0x0 phys_seg 1 prio class 0
-
-We also sampled repeated-LBA latency histograms on /dev/sdi and saw that
-the same error-prone LBAs were re-submitted many times with ~1-4s latency:
-
-  LBA 10704488160 (count=22): 1-2s: 20, 2-4s: 2
-  LBA 10704382912 (count=21): 1-2s: 20, 2-4s: 1
-  LBA 10704150288 (count=21): 1-2s: 19, 2-4s: 2
-
-Root cause
-==========
-
-ext4 metadata reads commonly use buffer_head caching and serialize IO via
-BH_Lock (lock_buffer). When a read fails, the buffer remains !Uptodate.
-With multiple threads concurrently accessing the same metadata block, each
-waiter wakes up after the previous owner drops BH_Lock, then submits the
-same read again and waits again. This makes the latency grow linearly with
-the number of contending threads, leading to 300s+ hung tasks.
-
-The failing IOs are repeatedly issued to the same LBA. The observed 1s+
-per-IO latency is likely from device-side retry/error recovery. On SCSI the
-driver typically retries reads several times (e.g. 5 retries in our
-environment), so a single filesystem submission can easily accumulate 5s+
-delay before failing. When multiple threads then re-submit the same failing
-metadata read and serialize on BH_Lock, the delay is amplified into 300s+
-hung tasks.
-
-Similar behavior exists for other devices (e.g. NVMe with multiple internal
-retries).
+Remember read failures on buffer_head and fail fast for ext4 metadata reads
+once a buffer has already failed to read. Clear the flag on successful
+read/write completion so the buffer can recover. ext4 read-ahead uses
+ext4_read_bh_nowait(), so it does not set the failure flag and remains
+best-effort.
 
 Example hung stacks:
 
@@ -157,32 +133,85 @@ Example hung stacks:
    iterate_dir
    ksys_getdents64
 
-Approach
-========
-
-Remember read failures on buffer_head and fail fast for ext4 metadata reads
-once a buffer has already seen a read failure. Clear the flag on successful
-read/write completion so the buffer can recover if the error is transient.
-
-Note that ext4 read-ahead uses ext4_read_bh_nowait(), so it does not set
-the failure flag and remains best-effort.
-
-Patch summary
-=============
-
-  1) Add BH_Read_EIO buffer_head state bit and helpers.
-  2) Clear BH_Read_EIO on successful read/write completion.
-  3) In ext4 metadata reads, if BH_Read_EIO is already set (and not
-     BH_Write_EIO), fail fast instead of re-submitting the same failing
-     read. On read failure, set BH_Read_EIO.
-
-Diangang Li (1):
-  ext4: fail fast on repeated metadata reads after IO failure
-
+Signed-off-by: Diangang Li <lidiangang@bytedance.com>
+Reviewed-by: Fengnan Chang <changfengnan@bytedance.com>
+---
  fs/buffer.c                 |  2 ++
  fs/ext4/super.c             | 12 +++++++++++-
  include/linux/buffer_head.h |  2 ++
  3 files changed, 15 insertions(+), 1 deletion(-)
 
+diff --git a/fs/buffer.c b/fs/buffer.c
+index 2d2e3ecec6b2b..b41d54b8b1f4d 100644
+--- a/fs/buffer.c
++++ b/fs/buffer.c
+@@ -145,6 +145,7 @@ static void __end_buffer_read_notouch(struct buffer_head *bh, int uptodate)
+ {
+ 	if (uptodate) {
+ 		set_buffer_uptodate(bh);
++		clear_buffer_read_io_error(bh);
+ 	} else {
+ 		/* This happens, due to failed read-ahead attempts. */
+ 		clear_buffer_uptodate(bh);
+@@ -167,6 +168,7 @@ void end_buffer_write_sync(struct buffer_head *bh, int uptodate)
+ {
+ 	if (uptodate) {
+ 		set_buffer_uptodate(bh);
++		clear_buffer_read_io_error(bh);
+ 	} else {
+ 		buffer_io_error(bh, ", lost sync page write");
+ 		mark_buffer_write_io_error(bh);
+diff --git a/fs/ext4/super.c b/fs/ext4/super.c
+index 781c083000c2e..89a99851864a0 100644
+--- a/fs/ext4/super.c
++++ b/fs/ext4/super.c
+@@ -198,7 +198,13 @@ int ext4_read_bh(struct buffer_head *bh, blk_opf_t op_flags,
+ {
+ 	BUG_ON(!buffer_locked(bh));
+ 
++	if (!buffer_write_io_error(bh) && buffer_read_io_error(bh)) {
++		unlock_buffer(bh);
++		return -EIO;
++	}
++
+ 	if (ext4_buffer_uptodate(bh)) {
++		clear_buffer_read_io_error(bh);
+ 		unlock_buffer(bh);
+ 		return 0;
+ 	}
+@@ -206,8 +212,12 @@ int ext4_read_bh(struct buffer_head *bh, blk_opf_t op_flags,
+ 	__ext4_read_bh(bh, op_flags, end_io, simu_fail);
+ 
+ 	wait_on_buffer(bh);
+-	if (buffer_uptodate(bh))
++	if (buffer_uptodate(bh)) {
++		clear_buffer_read_io_error(bh);
+ 		return 0;
++	}
++	if (!buffer_write_io_error(bh))
++		set_buffer_read_io_error(bh);
+ 	return -EIO;
+ }
+ 
+diff --git a/include/linux/buffer_head.h b/include/linux/buffer_head.h
+index b16b88bfbc3e7..be8bedcde379e 100644
+--- a/include/linux/buffer_head.h
++++ b/include/linux/buffer_head.h
+@@ -29,6 +29,7 @@ enum bh_state_bits {
+ 	BH_Delay,	/* Buffer is not yet allocated on disk */
+ 	BH_Boundary,	/* Block is followed by a discontiguity */
+ 	BH_Write_EIO,	/* I/O error on write */
++	BH_Read_EIO,	/* I/O error on read */
+ 	BH_Unwritten,	/* Buffer is allocated on disk but not written */
+ 	BH_Quiet,	/* Buffer Error Prinks to be quiet */
+ 	BH_Meta,	/* Buffer contains metadata */
+@@ -132,6 +133,7 @@ BUFFER_FNS(Async_Write, async_write)
+ BUFFER_FNS(Delay, delay)
+ BUFFER_FNS(Boundary, boundary)
+ BUFFER_FNS(Write_EIO, write_io_error)
++BUFFER_FNS(Read_EIO, read_io_error)
+ BUFFER_FNS(Unwritten, unwritten)
+ BUFFER_FNS(Meta, meta)
+ BUFFER_FNS(Prio, prio)
 -- 
 2.39.5
