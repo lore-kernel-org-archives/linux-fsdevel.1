@@ -1,248 +1,171 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-00364e01.pphosted.com (mx0b-00364e01.pphosted.com [148.163.139.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3870B34CFAD
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 19:40:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774467614; cv=pass; b=sj92urD+DGuUxP0EYXmla8FwsPVnUad74sR/ak2ZSSz0gl5h6cXz2o4p8c8Rp9RtpsTzckpUQRy1yElJGYBe4P06nRpOwtIzyUHLL4vswlMHOkalF85AA7Y/GPUa3xVh7prTbCu98zgL7u4jxyTeAIUn8l7W5rHpoNjLxgtomOg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774467614; c=relaxed/simple;
-	bh=oeicwxjwchcF9WqvWg1RQaqLIIuLCbf8G0N4FWHt8Q4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kDJtmquaBzjQT33ha1lCBKdEbrvIjr/3ELV1xcX1PiaBfOhrSbtlPdFlaBBsBI4OciOvVFO36am76Vea9mIj0S5rwunUUwl/4FwMpCWM9ZgD81cyYrkPvzUoUOQ7dVBonK+zjuBdOfE6aHl63W8e2F9Pqvp6q4UUwztAabyZJLg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qk2iy/p5; arc=pass smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E296534C9A6
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 19:40:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.139.74
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774467658; cv=none; b=IJ/J5XLb8FVgAZdit5Ney7yieGiNjuqswK5PgC96NjlFOc/NwXRIdaDfXDYz8lGfYfXxOv6LtkYgqQL4eXNgnyVszgkoxA95J+Q//DsPdsf3fWNXxXlP+YtXZ1lRnbBGVrnUiVvL3RMUG1VzM+v9tN3geZYJbjDr3E/ckJF+npY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774467658; c=relaxed/simple;
+	bh=7zwsmyUip3CAkS6JVcgPiuvcXkqOuFIklXcl4CKLS7s=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=JaJpMVnFSSSk3cNj/tzhpZOEMhheIc9ClUBA+FYchgPldsGkljvLIRj9hi42V+F+8RJ6N8QM4iyIrZ6pHKY0uXzc/diOWmfAnsJNh4GCZEz9x082q8m0tVRq51Unti+35MhzS6phDHuj4D1PfBlhpMJUxVZ/xvokZsUXleVPRmE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu; spf=pass smtp.mailfrom=columbia.edu; dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b=Au7sydVY; arc=none smtp.client-ip=148.163.139.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=columbia.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qk2iy/p5"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-439b6d9c981so83899f8f.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 12:40:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774467611; cv=none;
-        d=google.com; s=arc-20240605;
-        b=eo5o4mxPCrIVxqAlfB8W2MrcBYFZDAxEg7oS9LOuE1XanwQWcn6E7AuTUsNwySjUp+
-         2iEVpl03ZB1ZVsXmPsjVXf6LNMlNqRkfZhmd/26javJC2XVdJze6Lo+uMH8XPKu+vsVU
-         OAWIUis+9waXubckHznsL5ZIYH/rKLA866ekio3cJ8Vue3nTy33cYWrX5OYKdtR3w66P
-         tDM8NMfFiXRmwvzTfzKhGe2iGHzfjmvxoqARsN04xczhAzfbwR1sWw6tPDDikjlP6wRa
-         BJvsBTwlUCHOn/VtsfmYBD1PHB9rxZ/7Npg2slQqtuVuvCMGz8e7k0jXSpislDViO0fw
-         JC3w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=1jaRlaeffeDJBGaCdxhQ4LgTNj3RIqYHRelemKVaRzI=;
-        fh=Jv+Kc809lRsAudFApeBgE4togbUKCncgVhJxi8/RAtw=;
-        b=f85dKPDUsZbVvBtmfWE9GYPrgE+aeCY8U9mGIdLaklduvOMjVw4uuZCN/fnVq7Cn8f
-         OvgRYxht++cGbDm0w3C9xSWzCpypg9CDCfJFTTztIdUaiLXCP+88QlfiJ7eXJpy0ZwpD
-         5BHdomUb+Jei6Sz9LkeQZ/X3iZulR1X5uqp+wOEF01fdtuJusBbHlAyBhW9xTKNFwI2C
-         ZvC72OInMngW4xutBIT7nCmZUZj/2v+bwJIy1rAaBfoAhllBzY3Mna+Jy6SZPt192lhc
-         wNfRENrwZBYCJRID5CmdqZFVTwVsxrab4JjFc3FXTr3CNb6w2YOJ9xhPAM1ppUmyXeXZ
-         vUYA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774467611; x=1775072411; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1jaRlaeffeDJBGaCdxhQ4LgTNj3RIqYHRelemKVaRzI=;
-        b=Qk2iy/p54elQLzB8JP2+xrdLuCL06Leb5yvd7tCXwqvJRJOB6fmelu3xzcweMSL5eK
-         DdVCpx+PZCs6S4+56dn6/gS5fJG4EC4jY1LoabApjKwhKgXCKhpqzrnJ3Um8rLiIy/It
-         7PWJX+JcBqMdgAvc2MFZSqnJvUW4JR0SkNUwELdDjt4o4zC5n+00/A2bubKsq6WNfEA2
-         Btomix0C1N7pitC5lxxWn+AtUMWNjCuwtttJHozTLDHhiuQrnfNCYMWx452FtkTB6qHX
-         tTA5v8kooQyM8eb4D7EbbuHlxdCHK5SFbPf8c7c2PbVk0fcDNgoalA29DAvSxh9FOe4N
-         4Oiw==
+	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b="Au7sydVY"
+Received: from pps.filterd (m0167073.ppops.net [127.0.0.1])
+	by mx0b-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62PDhSHl1628193
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 15:30:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=columbia.edu; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pps01; bh=7qfY
+	4Yey2B/8xRD7jk2HVXbmFsGdrb8gwFavo/knRp8=; b=Au7sydVYHJxfvhcGusjW
+	FEbpn9GGkRrzgLrTHhOCMbptHSX/ALA6C88pzf3RJSXe3GRiSgydzJVOXWnM9VaY
+	BNdVPii2y6i0oYq7y+9TO5mMxTct2pKIusyD79XPROlhYQeMKRNs87jKHrvyI0uw
+	Wn8noKHIq4KB814b8F0P5FciGNk7ALGmCIX5JsU1y5+3ZOptL+6ahq1z3ywm2k1x
+	MeMBSMQF62gu6jXDiXJrd/WT/tL/m6ciFKIBfAIwvo+/WigpyDrml510h3ho9m//
+	h3PTLxppFUGY/IZ/ripHeVxqmM3JNsTeqGDbAUh4GSukZ/h2dod+qzk1+uc+2Tnd
+	Ag==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
+	by mx0b-00364e01.pphosted.com (PPS) with ESMTPS id 4d3wxhswsw-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 15:30:42 -0400 (EDT)
+Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-5093a985e21so13620761cf.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 12:30:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774467611; x=1775072411;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=1jaRlaeffeDJBGaCdxhQ4LgTNj3RIqYHRelemKVaRzI=;
-        b=lnO+32Jm7sXRja6DJYJtxdl/tCcEMKcu/xG/yTA0wGN1Y5HWBf9nUDLEs8cJNgWzQX
-         tRMSuj2th+Tuaohs5SldZmf429C1oVG1iNcUA0LbYYwhz5oiPvlx7MhWpFbjS8MW2mZC
-         KzqVzwaX4AWh8vQQ7SrdlzOSakSYCvXPR7fDWBOWxkfczLmapXkSJEZAokfZ+ot0v/xf
-         +LioS9GaIRpWlXtfDf7bVuPRWMCd/ksqd4bv8vDcIoCHJ1GYClsXu7deaSnN2NRVamr+
-         4rruo2Y7KFh47xuTLorgQd97ttrymV0lUMIrFkUuiWtBm1+GBbfyn+blun5qPiA6Fgkh
-         k+zw==
-X-Forwarded-Encrypted: i=1; AJvYcCXiAnXJLsai+WBGTHvqLu9zWmPfazb0A/EU69HE4XqxwrRYO5y/Zfg9wMvlx3MOemsVTC8EKcTk0pQnrdec@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz+K/vG4jW1MLBtr+Ds/Um+L4Vf3dimFW7HzH9S01p5atTBgu/L
-	Fn4iMevSLtUhwyBHQfyFko6qHBBqqSe51FV9qaEzvIqL0KDxymdteWajBMC3Iyx7Mg+0QXnaY9A
-	MayPABpD6VKeW8DHc1fub1q0pemQorRg=
-X-Gm-Gg: ATEYQzyuPD+L9PPHRsjmM/yjXEU6N3k4NlsJDI9qRoh2w1AmZDRiuzt6zXLaC4mFLOu
-	YiiuOFAf6Qex0fPX2jQZ5o9e8dhPlEuCSKF+eTFAPjiI3nVUrkeswB7BHDrOHg4RNUpIefREgwC
-	biaC4SBLSlK8/5X8dAm0a0Fr/emom8r33tN0VR45hTuiSJnMpPhBMIr+wz2YcEbd0gtStvAmloh
-	qGVsUlc7T+0eAl/5xRM3RRnX517HmxsQ2Qw9PwRT4h70yqjSoPDEeG2rai4XAl1S6LBxAPjZMzL
-	gZWkew==
-X-Received: by 2002:a5d:5846:0:b0:43b:4703:9dd5 with SMTP id
- ffacd0b85a97d-43b883be2admr7963481f8f.18.1774467610501; Wed, 25 Mar 2026
- 12:40:10 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1774467042; x=1775071842;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=7qfY4Yey2B/8xRD7jk2HVXbmFsGdrb8gwFavo/knRp8=;
+        b=QA7cdp9Pof6wSw2LF2ZZXQRrjhjqajI8Du7+0ZZIIzBpNGmwtPqw9n56867qAucAQ6
+         i2dZhA+5P7t+GjwbgWnblESc7Hxh40i5qFTn0sp/l9auIOCZSARnFzpENTg+5k8zjFFx
+         +5nPWC6wgGHETx8FEFPRnMzdwNpKAWaDMpLEuLWM/mnk6mlxTvBxnpRar4XsqdxxeHCo
+         FbHEflNqRkAsqnzptYzct0j5BNSSrZ/bkO2e/FTEnHyx/dZ0w11zsOScOHODmhXxofeQ
+         aHweS0ucuZ5JOyB4xp8fNGROY7+/c1ylZowqj4j8t2lj0HYfTPrB3XOGC+uSIAhfohZg
+         F0HQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWFafwYboSCqfnXnlmu9TixaZHQI43RptaRMM4CYXsAuTEWGuNO/e2vZm+dZuYPOaI+ME7xpeQuOLM8Tqac@vger.kernel.org
+X-Gm-Message-State: AOJu0YymY5ZnS7wBT5LL2rDLZYWWv6AuImhqSaO7Jyicp5d+SxjnFZw9
+	3nA4o7OpYlYaj4xnOsa6B0M6JAop0b65Oko52tJYIgQCLdp7FeIklQKNDFNbFYiBzDwLZ7wYNn7
+	PKjRYWr/YRCs5XjjpbMXZQTn4TYUs/pCYIsqsQRufYIYJSjrCrl+IVmk7JdwO6rI=
+X-Gm-Gg: ATEYQzy0eOcaAcBl4GtS5Vqo5s6I4+xlrzwCmsZDAibt1DgWj1kcQZtMt95Jq6+ccLa
+	tJ+h+51rNl+FEDfjTISkPdZIF1qf/6uCCgtZBzgv/mVdVaTlVrxcLv55QkGbVSo6xdUE0TeS2UX
+	70t8Lec1fG55VZiVPht+NDYlOXiGaD4dZEAGNC0/jU3N757HxhqtCZf5SllxEOxJ7F0nMBbPDGn
+	vpMgFO7eNfnOMt/bQ6zjLck7ryqgDDFrmQ6A+NtZXpfBICLl8PYr6xaXGktNejoNLvlgfQLkRXu
+	GKV75lsIIItkC/1tkLdfaeOid9FlVboGOxtQ7h2X8kzpJ65CNU/cZapkUOgm2QrQvyw/8CQYRhT
+	lVmGR87rQ3GJjZ8flC2btHOEoL0h1XlRS+BGm4A==
+X-Received: by 2002:a05:622a:9d7:10b0:4ff:c08a:52c4 with SMTP id d75a77b69052e-50b80ce31d4mr55571901cf.18.1774467041726;
+        Wed, 25 Mar 2026 12:30:41 -0700 (PDT)
+X-Received: by 2002:a05:622a:9d7:10b0:4ff:c08a:52c4 with SMTP id d75a77b69052e-50b80ce31d4mr55571251cf.18.1774467041146;
+        Wed, 25 Mar 2026 12:30:41 -0700 (PDT)
+Received: from [127.0.1.1] ([129.236.226.199])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50b9234e3a3sm5534221cf.19.2026.03.25.12.30.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Mar 2026 12:30:40 -0700 (PDT)
+From: Tal Zussman <tz2294@columbia.edu>
+Date: Wed, 25 Mar 2026 14:43:01 -0400
+Subject: [PATCH RFC v4 2/3] iomap: use BIO_COMPLETE_IN_TASK for dropbehind
+ writeback
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <177188733084.3935219.10400570136529869673.stgit@frogsfrogsfrogs> <177188733196.3935219.3172887920210313838.stgit@frogsfrogsfrogs>
-In-Reply-To: <177188733196.3935219.3172887920210313838.stgit@frogsfrogsfrogs>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Wed, 25 Mar 2026 12:39:57 -0700
-X-Gm-Features: AQROBzCZjUmNW3mHEyd1fr7dhM1RSyURYPV4Z6yvt_FMTpVeDdj7JRXwFxnTYS0
-Message-ID: <CAJnrk1YL3KnON-WtNjNi+2GZ+6rYvnVUnYwCk5efv0o41XkxcA@mail.gmail.com>
-Subject: Re: [PATCH 4/5] fuse: update file mode when updating acls
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: miklos@szeredi.hu, bpf@vger.kernel.org, bernd@bsbernd.com, neal@gompa.dev, 
-	linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260325-blk-dontcache-v4-2-c4b56db43f64@columbia.edu>
+References: <20260325-blk-dontcache-v4-0-c4b56db43f64@columbia.edu>
+In-Reply-To: <20260325-blk-dontcache-v4-0-c4b56db43f64@columbia.edu>
+To: Jens Axboe <axboe@kernel.dk>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Christian Brauner <brauner@kernel.org>,
+        "Darrick J. Wong" <djwong@kernel.org>,
+        Carlos Maiolino <cem@kernel.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>
+Cc: Christoph Hellwig <hch@infradead.org>, linux-block@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        Tal Zussman <tz2294@columbia.edu>
+X-Mailer: b4 0.14.3-dev-d7477
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1774464193; l=1665;
+ i=tz2294@columbia.edu; s=20250528; h=from:subject:message-id;
+ bh=7zwsmyUip3CAkS6JVcgPiuvcXkqOuFIklXcl4CKLS7s=;
+ b=L4CWzIK6kHXuFczj/fPjz2aWyUnS1OpJUL3M+esbeR43gMhMyjhAVsUMhpLPiY2zQSiPsjHza
+ J5C73e08cUYBjjsRFhFa/ta9SjUn5dInI/J4XLjlsu/GNzv1JM0+xWE
+X-Developer-Key: i=tz2294@columbia.edu; a=ed25519;
+ pk=BIj5KdACscEOyAC0oIkeZqLB3L94fzBnDccEooxeM5Y=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzI1MDE0MiBTYWx0ZWRfX6s6CsBJT3mrw
+ vnIV2ZRCQKjvUzM5vqwOi4K3PYybhQcI4lmEBlafet1+v0c8o4JqK0yAJOe43Ml0o5pVQE7kU+R
+ g7j3q5MSxrfHyM4cEVjaHY2X8vBc6CmHTfWk+QrTtkECIJO4PXdT6WGVwOIR28GOpF6Oni3EnxT
+ hzPR30RXiEOKncwtTVCbcSspvKftc32raD/1ocGM+lrLJtV+G4+o6rXI7Wn+ZAAyAeMycPBddnN
+ DM3e9ke7bgH+ViTer2g7WKYIsu1zmCGrUp6SGkwRkWVxvgKUFWg/Z3JB1kV1rD0DiYU6NhojFj2
+ CXSxADfctvozdQx6/D5UACO32qyLlWI1irTcGY/Yqxt9bXwrvViFWosH3uyUF7PuMJvlzn6dIva
+ +/kuhhEonqQ66ukobhH/sc0yz43eOqmHJRKaTKaghhqKHnRhwxqlv4CQRgEPzMUgJKjuZrIWd8I
+ hXyxt1gg0hfUV8FB66w==
+X-Proofpoint-GUID: fHulUO8QrKZSA-EQX9WdSTy21e99VMlR
+X-Authority-Analysis: v=2.4 cv=V7NwEOni c=1 sm=1 tr=0 ts=69c437e2 cx=c_pps
+ a=WeENfcodrlLV9YRTxbY/uA==:117 a=QOUmeeuX5y9IvSxXHa6D2A==:17
+ a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=x7bEGLp0ZPQA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22 a=jHxIr1HyPKZ_Q5_91PL3:22
+ a=wJ0dTj9p17mGQU10CegA:9 a=QEXdDO2ut3YA:10 a=kacYvNCVWA4VmyqE58fU:22
+X-Proofpoint-ORIG-GUID: fHulUO8QrKZSA-EQX9WdSTy21e99VMlR
+X-Proofpoint-Virus-Version: vendor=nai engine=6800 definitions=11740
+ signatures=596818
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 suspectscore=0 phishscore=0 impostorscore=10 adultscore=0
+ bulkscore=10 spamscore=0 priorityscore=1501 malwarescore=0
+ lowpriorityscore=10 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2603050001
+ definitions=main-2603250142
 
-On Mon, Feb 23, 2026 at 3:07=E2=80=AFPM Darrick J. Wong <djwong@kernel.org>=
- wrote:
->
-> From: Darrick J. Wong <djwong@kernel.org>
->
-> If someone sets ACLs on a file that can be expressed fully as Unix DAC
-> mode bits, most local filesystems will then update the mode bits and
-> drop the ACL xattr to reduce inefficiency in the file access paths.
-> Let's do that too.  Note that means that we can setacl and end up with
-> no ACL xattrs, so we also need to tolerate ENODATA returns from
-> fuse_removexattr.
->
-> Note that here we define a "local" fuse filesystem as one that uses
-> fuseblk mode; we'll shortly add fuse servers that use iomap for the file
-> IO path to that list.
->
-> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
-> ---
->  fs/fuse/fuse_i.h |    2 +-
->  fs/fuse/acl.c    |   43 ++++++++++++++++++++++++++++++++++++++++++-
->  2 files changed, 43 insertions(+), 2 deletions(-)
->
-> diff --git a/fs/fuse/acl.c b/fs/fuse/acl.c
-> index cbde6ac1add35a..f2b959efd67490 100644
-> --- a/fs/fuse/acl.c
-> +++ b/fs/fuse/acl.c
-> @@ -11,6 +11,18 @@
->  #include <linux/posix_acl.h>
->  #include <linux/posix_acl_xattr.h>
->
-> +/*
-> + * If this fuse server behaves like a local filesystem, we can implement=
- the
-> + * kernel's optimizations for ACLs for local filesystems instead of pass=
-ing
-> + * the ACL requests straight through to another server.
-> + */
-> +static inline bool fuse_inode_has_local_acls(const struct inode *inode)
-> +{
-> +       const struct fuse_conn *fc =3D get_fuse_conn(inode);
-> +
-> +       return fc->posix_acl && fuse_inode_is_exclusive(inode);
-> +}
-> +
->  static struct posix_acl *__fuse_get_acl(struct fuse_conn *fc,
->                                         struct inode *inode, int type, bo=
-ol rcu)
->  {
-> @@ -98,6 +110,7 @@ int fuse_set_acl(struct mnt_idmap *idmap, struct dentr=
-y *dentry,
->         struct inode *inode =3D d_inode(dentry);
->         struct fuse_conn *fc =3D get_fuse_conn(inode);
->         const char *name;
-> +       umode_t mode =3D inode->i_mode;
->         int ret;
->
->         if (fuse_is_bad(inode))
-> @@ -113,6 +126,18 @@ int fuse_set_acl(struct mnt_idmap *idmap, struct den=
-try *dentry,
->         else
->                 return -EINVAL;
->
-> +       /*
-> +        * If the ACL can be represented entirely with changes to the mod=
-e
-> +        * bits, then most filesystems will update the mode bits and dele=
-te
-> +        * the ACL xattr.
-> +        */
-> +       if (acl && type =3D=3D ACL_TYPE_ACCESS &&
-> +           fuse_inode_has_local_acls(inode)) {
-> +               ret =3D posix_acl_update_mode(idmap, inode, &mode, &acl);
-> +               if (ret)
-> +                       return ret;
-> +       }
-> +
->         if (acl) {
->                 unsigned int extra_flags =3D 0;
->                 /*
+Set BIO_COMPLETE_IN_TASK on iomap writeback bios when
+IOMAP_IOEND_DONTCACHE is set. This ensures that bi_end_io runs in task
+context, where folio_end_dropbehind() can safely invalidate folios.
 
-I think this sentence in this comment block "Fuse userspace is
-responsible for updating access permissions in the inode, if needed"
-needs some updating now, since this is only now true for non-local
-fuse servers
+With the bio layer now handling task-context deferral generically, XFS
+no longer needs to route DONTCACHE ioends through its completion
+workqueue for page cache invalidation. Remove the DONTCACHE check from
+xfs_ioend_needs_wq_completion().
 
-> @@ -139,7 +164,7 @@ int fuse_set_acl(struct mnt_idmap *idmap, struct dent=
-ry *dentry,
->                  * through POSIX ACLs. Such daemons don't expect setgid b=
-its to
->                  * be stripped.
->                  */
-> -               if (fc->posix_acl &&
-> +               if (fc->posix_acl && mode =3D=3D inode->i_mode &&
+Signed-off-by: Tal Zussman <tz2294@columbia.edu>
+---
+ fs/iomap/ioend.c  | 2 ++
+ fs/xfs/xfs_aops.c | 4 ----
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
-Maybe a bit verbose but imo it'd be clearer if we had a separate
-boolean tracking the case where the kernel updated the mode bits,
-instead of using "mode =3D=3D inode->i_mode" here and below for the
-fuse_do_setattr() logic block. That makes it more clear here to reason
-about (eg it'd at least make it more obvious here that we don't need
-to strip sgid since the kernel already did that when it updated the
-mode bits earlier)
+diff --git a/fs/iomap/ioend.c b/fs/iomap/ioend.c
+index e4d57cb969f1..6b8375d11cc0 100644
+--- a/fs/iomap/ioend.c
++++ b/fs/iomap/ioend.c
+@@ -113,6 +113,8 @@ static struct iomap_ioend *iomap_alloc_ioend(struct iomap_writepage_ctx *wpc,
+ 			       GFP_NOFS, &iomap_ioend_bioset);
+ 	bio->bi_iter.bi_sector = iomap_sector(&wpc->iomap, pos);
+ 	bio->bi_write_hint = wpc->inode->i_write_hint;
++	if (ioend_flags & IOMAP_IOEND_DONTCACHE)
++		bio_set_flag(bio, BIO_COMPLETE_IN_TASK);
+ 	wbc_init_bio(wpc->wbc, bio);
+ 	wpc->nr_folios = 0;
+ 	return iomap_init_ioend(wpc->inode, bio, pos, ioend_flags);
+diff --git a/fs/xfs/xfs_aops.c b/fs/xfs/xfs_aops.c
+index 76678814f46f..0d469b91377d 100644
+--- a/fs/xfs/xfs_aops.c
++++ b/fs/xfs/xfs_aops.c
+@@ -510,10 +510,6 @@ xfs_ioend_needs_wq_completion(
+ 	if (ioend->io_flags & (IOMAP_IOEND_UNWRITTEN | IOMAP_IOEND_SHARED))
+ 		return true;
+ 
+-	/* Page cache invalidation cannot be done in irq context. */
+-	if (ioend->io_flags & IOMAP_IOEND_DONTCACHE)
+-		return true;
+-
+ 	return false;
+ }
+ 
 
->                     !in_group_or_capable(idmap, inode,
->                                          i_gid_into_vfsgid(idmap, inode))=
-)
->                         extra_flags |=3D FUSE_SETXATTR_ACL_KILL_SGID;
-> @@ -148,6 +173,22 @@ int fuse_set_acl(struct mnt_idmap *idmap, struct den=
-try *dentry,
->                 kfree(value);
->         } else {
->                 ret =3D fuse_removexattr(inode, name);
-> +               /* If the acl didn't exist to start with that's fine. */
-> +               if (ret =3D=3D -ENODATA)
-> +                       ret =3D 0;
-> +       }
-> +
-> +       /* If we scheduled a mode update above, push that to userspace no=
-w. */
-> +       if (!ret) {
-> +               struct iattr attr =3D { };
-> +
-> +               if (mode !=3D inode->i_mode) {
-> +                       attr.ia_valid |=3D ATTR_MODE;
-> +                       attr.ia_mode =3D mode;
-> +               }
-> +
-> +               if (attr.ia_valid)
-> +                       ret =3D fuse_do_setattr(idmap, dentry, &attr, NUL=
-L);
->         }
+-- 
+2.39.5
 
-I think this logic reads clearer if it's restructured to
-
-if (!ret && mode !=3D inode->i_mode) {
-    struct iattr attr =3D {
-            .ia_valid =3D ATTR_MODE,
-            .ia_mode =3D mode,
-     };
-
-    ret =3D fuse_do_setattr(idmap, dentry, &attr, NULL);
-}
-
->
->         if (fc->posix_acl) {
->
-
-For local / exclusive servers, the kernel already has / sets the
-refreshed attributes, so we could probably skip the invalidation logic
-here for that case since the cache is already uptodate?
-
-Thanks,
-Joanne
