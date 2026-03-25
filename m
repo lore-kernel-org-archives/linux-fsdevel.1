@@ -1,90 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from va-2-111.ptr.blmpb.com (va-2-111.ptr.blmpb.com [209.127.231.111])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D5D13C4577;
-	Wed, 25 Mar 2026 11:02:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 238383CAE92
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 11:13:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.231.111
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774436554; cv=none; b=rOMAlIKR3sQaIZUhbFRYlffFqOQqKhlFzKb0KDohNy/sa1eHdi0nDYJBRYST5uPZajOqRDMYNoH1LbhK4t3BfM73TkjdxcM6ESIEPyLZ9Xex4kzs+ZPrRnoCEbc3qUm7jG9PUIqXcJ/WoV59fBB4FoGSBHcHVtF5UTougyJx/3w=
+	t=1774437229; cv=none; b=H2jAwpz/JDE8eJ93gK2dSjVC0cwQexI9rCCLrScqToIfYFkK4lqFb6QV1Wr3oa09Vkj2ykzbO+U429c12HkRJ7v5E3arESW3Oj9Pc0a92Qs3SDwC7Bm+VZfez+U2v6y6ydRaRhUhmeExlOLjuRJnyMKr3CU+wxJuFtxeaVnW2p8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774436554; c=relaxed/simple;
-	bh=tHxS02jyuJdc7xck1OGm67X7JRYetEgUpHsHG3XgLZs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PUS9IHSn6w7w9bVCH3TXG8GkvIG3ZIlyTd3Yf+1w0/BwUbCN7+SXQKPcW9z3MqKdIenG8Imbl4MGUu9xDtrDysRBkK1aM/tzNZGcZRV2dYEWdG7vK1hFyF9wsRZg0+o91AgAsv5hoD1sC9Y01phb7bm640XkqPZqvLkP52Tlqhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JKfbEpL+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774437229; c=relaxed/simple;
+	bh=SFHCUZ67nBPcXWqe4pxF+iah/BBWuCNThzxz4J6SuqU=;
+	h=Message-Id:To:Cc:Subject:Mime-Version:References:From:Date:
+	 Content-Type:In-Reply-To; b=UIjoUGSiT+8Hv/jL+NlvWcvPvFVdGoOf6yxF87ku4XNpprenWViRjr7fGnZ2YjSYppWl2GNBMmpk7iga5NOJYbyz8v0VMw2+EGcjor1HFwr4azoRlsFfJz21AXmSpjvC7nffzOrPM+UBIRX27AHvJGrcsfvrjNy/JvnSwOpI6q8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=lp7VoRpX; arc=none smtp.client-ip=209.127.231.111
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JKfbEpL+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3A3EC2BCB0;
-	Wed, 25 Mar 2026 11:02:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774436553;
-	bh=tHxS02jyuJdc7xck1OGm67X7JRYetEgUpHsHG3XgLZs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JKfbEpL+QwqITDp7zft06nKiR08zsFI8szKsw2URrZAwiwXqMmi0+tBx1TGvpubXE
-	 l1nTkzHyAQbNEBGfQ4nGrX3sKCiFHLJaYrjm5zqZQQQEwtQa6RkpNjHFptlR4PAZ9U
-	 IpJ5JeE+RAZ2E9J1YM6Elt355aSIZj/LzRVBQ1/n1qqoMs/OD0sRpg05BMFqsbhi1S
-	 Shw3TorVIm0rtJXQ5yVWpZX5z65od1QSnOK7gT/YAbbvBwHnt++ki1xhQcLDAMvu/F
-	 g11ayMJaLiBZ/F7XKSiKEpI8doQgK5UkRrJQpjVo/DBAKu4Y4jcyhpVjyAsHbayxPG
-	 UmZoSLixBLjOg==
-Date: Wed, 25 Mar 2026 11:02:21 +0000
-From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dan Williams <dan.j.williams@intel.com>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, Gao Xiang <xiang@kernel.org>, 
-	Chao Yu <chao@kernel.org>, Yue Hu <zbestahu@gmail.com>, 
-	Jeffle Xu <jefflexu@linux.alibaba.com>, Sandeep Dhavale <dhavale@google.com>, 
-	Hongbo Li <lihongbo22@huawei.com>, Chunhai Guo <guochunhai@vivo.com>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, Tony Luck <tony.luck@intel.com>, 
-	Reinette Chatre <reinette.chatre@intel.com>, Dave Martin <Dave.Martin@arm.com>, 
-	James Morse <james.morse@arm.com>, Babu Moger <babu.moger@amd.com>, 
-	Damien Le Moal <dlemoal@kernel.org>, Naohiro Aota <naohiro.aota@wdc.com>, 
-	Johannes Thumshirn <jth@kernel.org>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Hugh Dickins <hughd@google.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, 
-	linux-cxl@vger.kernel.org, linux-erofs@lists.ozlabs.org, linux-mm@kvack.org, 
-	ntfs3@lists.linux.dev, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 2/6] mm: add vma_desc_test_all() and use it
-Message-ID: <887da31d-96d0-493f-a248-28ae82925c4d@lucifer.local>
-References: <cover.1772704455.git.ljs@kernel.org>
- <568c8f8d6a84ff64014f997517cba7a629f7eed6.1772704455.git.ljs@kernel.org>
- <d0111a86-7fc9-4e2f-b652-9ecbb894ada5@kernel.org>
- <9203050e-eda6-49a1-97b6-a134da2da313@kernel.org>
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="lp7VoRpX"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=2212171451; d=bytedance.com; t=1774437216; h=from:subject:
+ mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
+ mime-version:in-reply-to:message-id;
+ bh=/2uLAgm3FI5zhNajV9t6fx76xgfhgjkuo6m+NR3j7To=;
+ b=lp7VoRpX9+VtgW0e0EYqD10+zbp8UcEA3tsnrK0jjQ1DSvQHk4BRcfg0QX8NhDE0ESbU4I
+ 4SazBM4BV1ZXKr9VlJyFtBkHIglUlJrlZfdOpE1oEE/5Lxg5qUBASPWBMLt1pmpxdtTLPY
+ +UXzNKqUjPhasZENl/BQfsv+iwvmHHjWGMUpmC8uLFpDkXrNIFTp5wFoPmv3vnfZDkUMJe
+ MWhdvlKKodsvds3d4u6hJ30EEugsWfv8RPZJLuWX+8WzbWfBJHpCZJxMj4wHWhcVV6tOso
+ uiliJxBc4EkMtl60u0jgT42EapGxptTwrINUIPWMCCIGZGi8eqxzDDHvIxts3Q==
+Message-Id: <c6f4b982-c6e4-4f77-a16d-0c381c1e25f0@bytedance.com>
+X-Original-From: Diangang Li <lidiangang@bytedance.com>
+User-Agent: Mozilla Thunderbird
+To: "Andreas Dilger" <adilger@dilger.ca>, 
+	"Diangang Li" <diangangli@gmail.com>
+Cc: <tytso@mit.edu>, <linux-ext4@vger.kernel.org>, 
+	<linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
+	<changfengnan@bytedance.com>
+Subject: Re: [RFC 1/1] ext4: fail fast on repeated metadata reads after IO failure
+Content-Transfer-Encoding: 7bit
+X-Lms-Return-Path: <lba+269c3c35e+b21b58+vger.kernel.org+lidiangang@bytedance.com>
+Content-Language: en-US
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9203050e-eda6-49a1-97b6-a134da2da313@kernel.org>
+Mime-Version: 1.0
+References: <20260325093349.630193-1-diangangli@gmail.com> <20260325093349.630193-2-diangangli@gmail.com> <B53E253C-F314-4376-BD9D-58867FC8D3F6@dilger.ca>
+From: "Diangang Li" <lidiangang@bytedance.com>
+Date: Wed, 25 Mar 2026 19:13:21 +0800
+Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <B53E253C-F314-4376-BD9D-58867FC8D3F6@dilger.ca>
 
-On Wed, Mar 25, 2026 at 09:58:53AM +0100, David Hildenbrand (Arm) wrote:
-> On 3/25/26 08:31, Vlastimil Babka (SUSE) wrote:
-> > On 3/5/26 11:50, Lorenzo Stoakes (Oracle) wrote:
-> >> erofs and zonefs are using vma_desc_test_any() twice to check whether all
-> >> of VMA_SHARED_BIT and VMA_MAYWRITE_BIT are set, this is silly, so add
-> >> vma_desc_test_all() to test all flags and update erofs and zonefs to use
-> >> it.
-> >>
-> >> While we're here, update the helper function comments to be more
-> >> consistent.
-> >>
-> >> Also add the same to the VMA test headers.
-> >>
-> >> Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
-> >
-> > I thought I saw David review all of the series and so focused on other
-> > stuff, didn't notice he skipped this one :)
->
-> I think I skipped it because it looked too mechanical when scanning and
-> I was like "ofc I trust Lorenzo on that one blindly". So I missed to reply.
->
-> Tag provided now if it helps.
+Hi Andreas,
 
-Thanks guys! Appreciated.
+BH_Read_EIO is cleared on successful read or write.
+
+In practice bad blocks are typically repaired/remapped on write, so we
+expect recovery after a successful rewrite. If the block is never
+rewritten, repeatedly issuing the same failing read does not help.
+
+We clear the flag on successful reads so the buffer can recover 
+immediately if the error was transient. Since read-ahead reads are not 
+blocked, a later successful read-ahead will clear the flag and allow 
+subsequent synchronous readers to proceed normally.
+
+Best,
+Diangang
+
+On 3/25/26 6:15 PM, Andreas Dilger wrote:
+> On Mar 25, 2026, at 03:33, Diangang Li <diangangli@gmail.com> wrote:
+>>
+>> From: Diangang Li <lidiangang@bytedance.com>
+>>
+>> ext4 metadata reads serialize on BH_Lock (lock_buffer). If the read fails,
+>> the buffer remains !Uptodate. With concurrent callers, each waiter can
+>> retry the same failing read after the previous holder drops BH_Lock. This
+>> amplifies device retry latency and may trigger hung tasks.
+>>
+>> In the normal read path the block driver already performs its own retries.
+>> Once the retries keep failing, re-submitting the same metadata read from
+>> the filesystem just amplifies the latency by serializing waiters on
+>> BH_Lock.
+>>
+>> Remember read failures on buffer_head and fail fast for ext4 metadata reads
+>> once a buffer has already failed to read. Clear the flag on successful
+>> read/write completion so the buffer can recover. ext4 read-ahead uses
+>> ext4_read_bh_nowait(), so it does not set the failure flag and remains
+>> best-effort.
+> 
+> Not that the patch is bad, but if the BH_Read_EIO flag is set on a buffer
+> and it prevents other tasks from reading that block again, how would the
+> buffer ever become Uptodate to clear the flag?  There isn't enough state
+> in a 1-bit flag to have any kind of expiry and later retry.
+> 
+> Cheers, Andreas
