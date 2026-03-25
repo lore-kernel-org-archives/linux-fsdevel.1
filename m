@@ -1,61 +1,61 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com [209.85.214.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAC5234C826
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 19:00:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCCAD2F8BC3
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 19:01:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774465259; cv=none; b=MiDJ9iJngaUUI2ms2jvyjJN2XwiDEQvRU9/kRIyMBXyOG0o8Pd9wmqaL71bjX8G/HPxsWR5xP6OLD00ftKlbVuHGef2GRr97DUAYKYytv8Cz/iAyZPP1ZB/HJQ2gPyzC7dFVTLXA3PTVE+13XyLPFF+4bvMlYosrQ5J6ewGJpdY=
+	t=1774465266; cv=none; b=J3o4MuMEKlXPY/W3687mkiT98GxYKyiIUHIipe+wh0gu8WF3cSZ6S/EPLDraLUl+InMDTRkjhJwo/lmY+fadmEcmwmWcfrMrKFqM1Y9d/QO0GGSRxrcHJt+rTdHnrEmw6SfnlQ59Lap+rVOAhHSaB3WP1Gd44mZK0PhtKs5QBK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774465259; c=relaxed/simple;
-	bh=9UEMg/LUGz82KTZ4mXaCFHNFRy8OlbOJf3nyqzMuYP0=;
+	s=arc-20240116; t=1774465266; c=relaxed/simple;
+	bh=sCgrEudUL2EwyvNHOVPpGOhp9GJITcyUXJp7Z4NABLs=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=mua985CxRDGkedJsREBNIMg5D1It1bzxSwtvib2+Hwp2C1uCsHUP3qN3a0Dq/IWFn0gu3eIzDtAX6fB1DHiebFBG2nu79+IS788HXpag57ymKDLEexqLm8/leGpBlu9vWeZMIyhY/vOm/I9lGPJtv0y7+9NBtJ7pYkSAzN54qjM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ee.vjti.ac.in; spf=none smtp.mailfrom=ee.vjti.ac.in; dkim=pass (1024-bit key) header.d=vjti.ac.in header.i=@vjti.ac.in header.b=TJLDN6/c; arc=none smtp.client-ip=209.85.216.42
+	 MIME-Version; b=f7L6odHx1fNweza/IGaVmYMJRONeIE59jIgagLwWhBNp/UXonBVqgK61ak9hFgJzuz1bg6qwK2q0my6i9ghn7EIfb2cjFtK62fyJlRLV5qV6+URQB5od5QEFLxRYvoNOVqXMImBCRIegCztvJDxD0z/M7LTBejzlraMlwaUD3DY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ee.vjti.ac.in; spf=none smtp.mailfrom=ee.vjti.ac.in; dkim=pass (1024-bit key) header.d=vjti.ac.in header.i=@vjti.ac.in header.b=R4xlr3ft; arc=none smtp.client-ip=209.85.214.196
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ee.vjti.ac.in
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ee.vjti.ac.in
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=vjti.ac.in header.i=@vjti.ac.in header.b="TJLDN6/c"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-358d80f60ccso122454a91.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 12:00:54 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=vjti.ac.in header.i=@vjti.ac.in header.b="R4xlr3ft"
+Received: by mail-pl1-f196.google.com with SMTP id d9443c01a7336-2adbfab4501so658445ad.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 12:01:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vjti.ac.in; s=google; t=1774465254; x=1775070054; darn=vger.kernel.org;
+        d=vjti.ac.in; s=google; t=1774465261; x=1775070061; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qzCbch/KsCOdnnvj+/cBnu2Cwa08GiMJ/oPkFKD+RSg=;
-        b=TJLDN6/c6gBMwovAfpfB/Ho/vlYJDHptgPDukKB5mfXjIh8yBVeyR1wnnbmzIxt3Er
-         hg1B95OCnqRqo9dvUc3A7/tNBPmQMKOsNCLoaWtwclmTmMV9fr26LBcjWsfTOg84V9NP
-         Bnwq8yB+qi4QGo2jDP2geTbVw1+nwxXRNlKgU=
+        bh=2jCYdcHbAU8vXdPo+HmNvp6/WZwddntRiscW+I1qyME=;
+        b=R4xlr3ftv/lchYB+/k28pxAs3v3CA0HYXVJs/481erJlMRqamIGHR96i561xICDHid
+         V3Y8J12BzY0eOWP8lOSL720+TfBe9em6ipKmQ1X4dGHKshc1WGGt5dPiU8sHEY1DJx8F
+         yqffUg3+lmJnPkAPDyh9c+ZIEuLMOj7rL0CCM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774465254; x=1775070054;
+        d=1e100.net; s=20251104; t=1774465261; x=1775070061;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=qzCbch/KsCOdnnvj+/cBnu2Cwa08GiMJ/oPkFKD+RSg=;
-        b=h7ZT16Tot3YhjxPJNAeFqD2yoljV3uHkly4gWiwDTOK/HMYxyXMYOfvH41WIDrMLGV
-         qln02Z3YP+3J07oOUDqFq9O8QzwbfyEXZfR7l9kK0QM5+IdUzPzNGhm1P8r0CUNQro0M
-         JAU+bU+leOWMjEGR5urGddM1c6xsjZLLKG7EQdxRsGmedT/4Jl1oEizzGxznPeIy5Xxl
-         KqWW3Q0HNPqGEAcOqKLWbR7xzySMM3k2OXITCPleM5/TyqPVJpnN7oyYPs7IKm6RvYR7
-         ovX71/LRxupixefyeeF3ipuNvwq8iBZuW5ZHhU4+/gX2BOVo45mT4lh749y8N6YmdAIJ
-         9HVw==
-X-Forwarded-Encrypted: i=1; AJvYcCVYORrAn4z/j5Z6v5ZTMuAjERuLKFFguZA/k2a17BuFHkrkTY/PPUJ0cuyLj6fm8tq5v8FzytEPFy4QiQMl@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw23oJc9kO5sQpNij/MbKkHDrQ4oD95L6JEfLK87SYTmjBbFXjT
-	UUzyaKdzIyFMzbyrgE+m/iFIT8inLqv1mFwVtRZkI5+D0/KGfMm9pkFMM1sYWhu0I9Y=
-X-Gm-Gg: ATEYQzxFoiVLVY+sRQE/pfkBo1fd4YPyEBDmUF6erUS96pDmlze0kidnXe85nmJcKk/
-	ET5eAPFQPUKkgJ3r30lgj2GvJcDq1+A4QUw3G0dN4To2bXKrct58XKZbzgYLsQ6Sg3XcUgIxY9I
-	nu0MzfaikYPoE/6xA0HKRxwBkMc95oxUcwVn6zFUYkuAr7rHwjF+zd8qFuAw0P6zxvkmqvlQYwW
-	crAJAZwQVcnVAdM0htQmpRae8XG+VXDCW39J472Wzlo8da/l9WPog/3+L3ZTY9SBwP1BG4QZJQF
-	azs2oGyy4paJcf1MfdJYSGE6e+/3IVgilegcxXJ5wSGQNjPdvlN2DWS++78EdmUiUIgC17opIi8
-	9gn2DMk1endNOR0bq11V1rLSGvizMSjg5zizv9DLCjmkDO3WpUDZwAklUMeJAW4ajaTKU+fFsPD
-	3Hc4EgDfPogWPIbM3dcLqraljTKzxCLeduDinQzz5iziDpnGkui9ZPJSOhyrSAoEyD9AbJC8Fnj
-	clrFy06qRB73K0SfnokVw==
-X-Received: by 2002:a17:903:908:b0:2b0:669d:3a68 with SMTP id d9443c01a7336-2b0b0a15b81mr51723535ad.19.1774465253887;
-        Wed, 25 Mar 2026 12:00:53 -0700 (PDT)
+        bh=2jCYdcHbAU8vXdPo+HmNvp6/WZwddntRiscW+I1qyME=;
+        b=AU39DB9+0KDYfbToy0+63u5kg4WV6PwULHS+ZSQyoIf1tXsZGvGo8Rjgt7eRGSchQj
+         sWzpa2Wu4m9uQwHqZ5UeKskAyxnOwqBjdGnhBe8H7qojVHZV0MjQIUkjzOzeR82S2nMi
+         85G7jqHuna01aaho0DBKglwuoJcAP1M4zKyZD9NcK9JryiHTozmFxBfOpICKzFjf6YJF
+         tQ/LuFYyEzHV5+9aekEKOHT01+Py3FyLB9Hj1D1VcgK86AWDowP7lsbfivhqthDmntMZ
+         fXqIhSknhDZP2ujgPDWoW7bMjwwNrE4hx/WEnh1UzOcwMg2BmK2WuPUdfGA7Yg+Dkt+c
+         gc4A==
+X-Forwarded-Encrypted: i=1; AJvYcCUasa2e7aS+6O9h9d7sMLxz+MH/Z4/qzU6ouggayEsilvn4uk3NsN2zR/p1pwXXTkGHTy4SeWJn5ZBC/Sne@vger.kernel.org
+X-Gm-Message-State: AOJu0YxRHrx+OXfQqSkIysZRbO18ylQmmLIjy4wOSWg0sndhlJP391BS
+	lCNSmW8ZH6p5Y3KzYIqyeEi+6roXunc+M5AYoUIvnOokbra0D6M0DdknVuyE06wyBOQ=
+X-Gm-Gg: ATEYQzwiMlkq0iPE74gpnIDj4GR0f3jTkKqrlyTdJ2jZDVBzFwH8x/S2xXNgXZFkJE0
+	dnrST54VoXdG7BNYMGTR425TevIwnG9D1nK/Jl+4GlIxP+PoKD2/DWrhKiTsLGBc72EbqRryko1
+	G3EKNlfiWRswDrBVdxUC+EcpV16kDCmMl/u2+m5PwMR5pKv5DzvvytaHbSSIn4XbgG8zyYZ/f7+
+	epNWJOPeRjQ5uoh5liFb23N3UxqAftiLTaTKcyBhShhsmvtcP61Khtzo6d8TddvccnLGNpL1SZz
+	JD6jRGV6WxAYs6VfRs3R4TuFLiDcwLyv0QTIZLzEz4JNjt2vCQs35V8K5kA223BgJt41leAtHzb
+	U9aCFapow1ugU1YiBTrw69o0+809e3neo2GVpxwbbpfbB0y2PkWlRkkb46nTqCYBB5p4MDM+Ux8
+	mVyl0ScN0ENKMO+z67i6vypCZQcHvg9LPHTbRI8Slkz7SfZGmfruJC00/p5OZfP+/DS9Ch4xdyv
+	XXwMCx77zzLLXVrKS8sCQ==
+X-Received: by 2002:a17:903:182:b0:2b0:6961:150a with SMTP id d9443c01a7336-2b0b0ad2a61mr54895465ad.38.1774465260637;
+        Wed, 25 Mar 2026 12:01:00 -0700 (PDT)
 Received: from ranegod-HP-ENVY-x360-Convertible-13-bd0xxx.www.tendawifi.com ([14.139.108.62])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b0bc79f7dbsm6483485ad.25.2026.03.25.12.00.49
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b0bc79f7dbsm6483485ad.25.2026.03.25.12.00.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Mar 2026 12:00:53 -0700 (PDT)
+        Wed, 25 Mar 2026 12:00:59 -0700 (PDT)
 From: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
 To: linux-kernel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org
@@ -67,9 +67,9 @@ Cc: manfred@colorfullife.com,
 	rstoyanov@fedoraproject.org,
 	ptikhomirov@virtuozzo.com,
 	Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
-Subject: [RFC PATCH 2/3] msg: move struct msg_msgseg and DATALEN_* to include/linux/msg.h
-Date: Thu, 26 Mar 2026 00:30:24 +0530
-Message-Id: <20260325190025.40312-3-ssrane_b23@ee.vjti.ac.in>
+Subject: [RFC PATCH 3/3] ipc/mqueue: implement fcntl(F_MQ_PEEK) for non-destructive message inspection
+Date: Thu, 26 Mar 2026 00:30:25 +0530
+Message-Id: <20260325190025.40312-4-ssrane_b23@ee.vjti.ac.in>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260325190025.40312-1-ssrane_b23@ee.vjti.ac.in>
 References: <20260325190025.40312-1-ssrane_b23@ee.vjti.ac.in>
@@ -81,69 +81,240 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-struct msg_msgseg and the DATALEN_MSG / DATALEN_SEG macros are
-currently private to ipc/msgutil.c.  struct msg_msg (already in the
-public kernel header include/linux/msg.h) carries a pointer to
-msg_msgseg, making it an incomplete type for all callers outside
-msgutil.c.
+Add support for F_MQ_PEEK, a new fcntl command that reads a POSIX
+message queue message by index without removing it from the queue.
 
-Move the definition of struct msg_msgseg and the two DATALEN macros to
-include/linux/msg.h so that other IPC code can safely copy
-multi-segment message payloads into a kernel buffer under a spinlock,
-without calling store_msg() which performs copy_to_user() and therefore
-cannot be used under a spinlock.
+Background:
+CRIU (Checkpoint/Restore In Userspace) supports live container migration
+and process checkpoint/restore.  POSIX message queues are a widely-used
+IPC mechanism, but CRIU cannot checkpoint processes that hold open mqueue
+file descriptors: there is no kernel interface to inspect queued messages
+non-destructively.  The SysV IPC analogue (MSG_COPY for msgrcv) was
+introduced specifically for CRIU in commit 4a674f34ba04 ("ipc: introduce
+message queue copy feature").  This patch provides the equivalent for
+POSIX mqueues.
 
-ipc/msgutil.c already includes <linux/msg.h>, so it picks up the
-definitions from the header with no functional change.
+Implementation:
+The queue stores messages in a red-black tree (info->msg_tree) keyed
+by priority, with each tree node holding a FIFO list of messages at
+that priority level.  mq_peek_at_offset() walks this structure in
+receive order (highest priority first, FIFO within priority) to locate
+the message at the requested index without modifying any state.
 
+Message payload is copied into a kvmalloc'd kernel buffer under
+info->lock using pure memcpy() (no page faults possible).  This
+correctly handles multi-segment messages by walking the msg_msgseg
+chain.  The lock is released before copy_to_user() transfers the
+kernel buffer to userspace.
+
+A new include/linux/mqueue.h kernel header is added to declare
+do_mq_peek() for use from fs/fcntl.c, following the same pattern as
+include/linux/memfd.h for memfd_fcntl().
+
+Concurrency:
+The snapshot is consistent within the spin_lock() critical section.
+Between two F_MQ_PEEK calls the queue may change (messages may be sent
+or received).  This is documented snapshot semantics, analogous to
+/proc entries.  CRIU freezes the target process via ptrace before
+dumping, so in practice the queue is stable for the entire checkpoint
+sequence.
+
+Link: https://github.com/checkpoint-restore/criu/issues/2285
 Signed-off-by: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
 ---
- include/linux/msg.h | 13 +++++++++++++
- ipc/msgutil.c       |  7 -------
- 2 files changed, 13 insertions(+), 7 deletions(-)
+ fs/fcntl.c             |   4 ++
+ include/linux/mqueue.h |  19 ++++++
+ ipc/mqueue.c           | 129 +++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 152 insertions(+)
+ create mode 100644 include/linux/mqueue.h
 
-diff --git a/include/linux/msg.h b/include/linux/msg.h
-index 9a972a296b95..2d5353bace9a 100644
---- a/include/linux/msg.h
-+++ b/include/linux/msg.h
-@@ -5,6 +5,19 @@
- #include <linux/list.h>
- #include <uapi/linux/msg.h>
+diff --git a/fs/fcntl.c b/fs/fcntl.c
+index f93dbca08435..32d0dcc8e544 100644
+--- a/fs/fcntl.c
++++ b/fs/fcntl.c
+@@ -24,6 +24,7 @@
+ #include <linux/pid_namespace.h>
+ #include <linux/user_namespace.h>
+ #include <linux/memfd.h>
++#include <linux/mqueue.h>
+ #include <linux/compat.h>
+ #include <linux/mount.h>
+ #include <linux/rw_hint.h>
+@@ -563,6 +564,9 @@ static long do_fcntl(int fd, unsigned int cmd, unsigned long arg,
+ 			return -EFAULT;
+ 		err = fcntl_setdeleg(fd, filp, &deleg);
+ 		break;
++	case F_MQ_PEEK:
++		err = do_mq_peek(filp, argp);
++		break;
+ 	default:
+ 		break;
+ 	}
+diff --git a/include/linux/mqueue.h b/include/linux/mqueue.h
+new file mode 100644
+index 000000000000..a725fcf90d39
+--- /dev/null
++++ b/include/linux/mqueue.h
+@@ -0,0 +1,19 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#ifndef __LINUX_MQUEUE_H
++#define __LINUX_MQUEUE_H
++
++#include <uapi/linux/mqueue.h>
++
++struct file;
++
++#ifdef CONFIG_POSIX_MQUEUE
++long do_mq_peek(struct file *filp, struct mq_peek_attr __user *uattr);
++#else
++static inline long do_mq_peek(struct file *filp,
++			       struct mq_peek_attr __user *uattr)
++{
++	return -EBADF;
++}
++#endif /* CONFIG_POSIX_MQUEUE */
++
++#endif /* __LINUX_MQUEUE_H */
+diff --git a/ipc/mqueue.c b/ipc/mqueue.c
+index bb7c9e5d2b90..5e73864a9657 100644
+--- a/ipc/mqueue.c
++++ b/ipc/mqueue.c
+@@ -286,6 +286,135 @@ static inline struct msg_msg *msg_get(struct mqueue_inode_info *info)
+ 	return msg;
+ }
  
 +/*
-+ * Each message is stored in one or more page-sized segments.
-+ * The first segment is embedded in struct msg_msg; overflow goes into
-+ * chained struct msg_msgseg blocks.
++ * mq_peek_at_offset - locate a message by receive-order index.
++ *
++ * Walk the priority tree from highest to lowest priority, and within each
++ * priority level in FIFO order, returning the message at position @offset
++ * (0 = next message that mq_receive() would dequeue).
++ *
++ * Must be called with info->lock held.  Does not modify queue state.
++ * Returns NULL if @offset >= mq_curmsgs.
 + */
-+struct msg_msgseg {
-+	struct msg_msgseg *next;
-+	/* message data follows immediately */
-+};
++static struct msg_msg *mq_peek_at_offset(struct mqueue_inode_info *info,
++					 int offset)
++{
++	struct posix_msg_tree_node *leaf;
++	struct rb_node *node;
++	struct msg_msg *msg;
++	int count = 0;
 +
-+#define DATALEN_MSG	((size_t)PAGE_SIZE - sizeof(struct msg_msg))
-+#define DATALEN_SEG	((size_t)PAGE_SIZE - sizeof(struct msg_msgseg))
++	for (node = info->msg_tree_rightmost; node; node = rb_prev(node)) {
++		leaf = rb_entry(node, struct posix_msg_tree_node, rb_node);
++		list_for_each_entry(msg, &leaf->msg_list, m_list) {
++			if (count == offset)
++				return msg;
++			count++;
++		}
++	}
++	return NULL;
++}
 +
- /* one msg_msg structure for each message */
- struct msg_msg {
- 	struct list_head m_list;
-diff --git a/ipc/msgutil.c b/ipc/msgutil.c
-index e28f0cecb2ec..9cd4b078d55c 100644
---- a/ipc/msgutil.c
-+++ b/ipc/msgutil.c
-@@ -31,13 +31,6 @@ struct ipc_namespace init_ipc_ns = {
- 	.user_ns = &init_user_ns,
- };
- 
--struct msg_msgseg {
--	struct msg_msgseg *next;
--	/* the next part of the message follows immediately */
--};
--
--#define DATALEN_MSG	((size_t)PAGE_SIZE-sizeof(struct msg_msg))
--#define DATALEN_SEG	((size_t)PAGE_SIZE-sizeof(struct msg_msgseg))
- 
- static kmem_buckets *msg_buckets __ro_after_init;
- 
++/*
++ * mq_msg_copy_to_buf - copy message payload into a flat kernel buffer.
++ *
++ * Handles multi-segment messages by walking the msg_msgseg chain.
++ * Uses only memcpy() so it is safe to call under info->lock.
++ * Returns the number of bytes copied.
++ */
++static size_t mq_msg_copy_to_buf(struct msg_msg *msg, void *buf, size_t buf_len)
++{
++	size_t alen, to_copy, copied = 0;
++	struct msg_msgseg *seg;
++
++	to_copy = min(buf_len, msg->m_ts);
++
++	alen = min(to_copy, DATALEN_MSG);
++	memcpy(buf, msg + 1, alen);
++	copied += alen;
++	to_copy -= alen;
++
++	for (seg = msg->next; seg && to_copy > 0; seg = seg->next) {
++		alen = min(to_copy, DATALEN_SEG);
++		memcpy((char *)buf + copied, seg + 1, alen);
++		copied += alen;
++		to_copy -= alen;
++	}
++	return copied;
++}
++
++/*
++ * do_mq_peek - implement fcntl(F_MQ_PEEK).
++ *
++ * Read the message at position @attr.offset in receive order from the
++ * queue without removing it.  Position 0 is the message that the next
++ * mq_receive() would return (highest priority, FIFO within priority).
++ *
++ * The snapshot is consistent within the spin_lock() critical section.
++ * Between two F_MQ_PEEK calls the queue may change; this is documented
++ * snapshot semantics analogous to /proc entries.
++ *
++ * Returns bytes copied on success, -ENOMSG if offset >= mq_curmsgs.
++ */
++long do_mq_peek(struct file *filp, struct mq_peek_attr __user *uattr)
++{
++	struct mqueue_inode_info *info;
++	struct mq_peek_attr attr;
++	struct msg_msg *msg;
++	void *kbuf;
++	long ret;
++
++	if (filp->f_op != &mqueue_file_operations)
++		return -EBADF;
++
++	if (!(filp->f_mode & FMODE_READ))
++		return -EBADF;
++
++	if (copy_from_user(&attr, uattr, sizeof(attr)))
++		return -EFAULT;
++
++	if (attr.offset < 0 || !attr.buf_len || !attr.buf)
++		return -EINVAL;
++
++	info = MQUEUE_I(file_inode(filp));
++
++	/*
++	 * Allocate the kernel copy buffer before taking the spinlock.
++	 * Cap at mq_msgsize: no message can exceed it.
++	 */
++	kbuf = kvmalloc(min_t(size_t, attr.buf_len, info->attr.mq_msgsize),
++			GFP_KERNEL);
++	if (!kbuf)
++		return -ENOMEM;
++
++	spin_lock(&info->lock);
++
++	msg = mq_peek_at_offset(info, attr.offset);
++	if (!msg) {
++		spin_unlock(&info->lock);
++		kvfree(kbuf);
++		return -ENOMSG;
++	}
++
++	/*
++	 * Copy the payload under the lock using pure memcpy() (no page
++	 * faults), then transfer to userspace after releasing the lock.
++	 */
++	ret = mq_msg_copy_to_buf(msg, kbuf,
++				 min_t(size_t, attr.buf_len,
++				       info->attr.mq_msgsize));
++	attr.msg_prio = msg->m_type;
++
++	spin_unlock(&info->lock);
++
++	if (copy_to_user(attr.buf, kbuf, ret) ||
++	    copy_to_user(uattr, &attr, sizeof(attr)))
++		ret = -EFAULT;
++
++	kvfree(kbuf);
++	return ret;
++}
++
+ static struct inode *mqueue_get_inode(struct super_block *sb,
+ 		struct ipc_namespace *ipc_ns, umode_t mode,
+ 		struct mq_attr *attr)
 -- 
 2.34.1
 
