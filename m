@@ -1,158 +1,170 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E78E43FD156;
-	Wed, 25 Mar 2026 16:29:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A23A1A6827
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 16:38:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774456185; cv=none; b=J0y8YE9UpSlcqpxSLzjapsoC2cT5lVjSKC4tN21BYPKFZnsebGbE5PIeQqvfpoUXqoK+fAYLNLGuXYuWNZbl3xKb2fc8Zzauf0PeGDekZrKsUO8iWLQ/f7OhZG/fmEeIvEAW6VLd/3QMewsLpshHlaIlJn8v3gGSffX4fJYkiIA=
+	t=1774456699; cv=none; b=WXMYFQFNZxJ9yfhxKd6kTMBp2kwnhsQ1elBVUcl6sWLYh36df1K8EHiERQnFr0XchGUdsuktGn1+ZmlJpDzUCcNYHBXnZJhaIjiD6kTaBF3OsOUHN3GiXS9dU3kkCMXlh4sbXQkfDZbUg6QK8yV+ugNIBkLlOHAq6yONX9GK/Aw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774456185; c=relaxed/simple;
-	bh=n2gRWPCdrqEgD1r99jloHoyKEK1RWoOWxovpSSliabY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EKfPd4xtop7CtlByaadqjzRQW/GEbOlgLXxDUZcGKDvVYkv70DDbgUDbH7En65Vuw4XhHmPVtm0qTu8NoqA5oWAgp62Yibw+Y5mOSa8yuT3J32tcBpMbgLY3czRDvMeJP7y0mbhP/qK7aQZLjG6qKn3iNbnnF9HwHjmGQ3Tiuak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jRW8E5mS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774456699; c=relaxed/simple;
+	bh=7Q+4/8bmiqBbseXEGCjC5r1jh5loLlKGNz1RtJqr+VM=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=uj9i1qTctgSLqlvyUy4pLhVXsmvsCjxn0hAWziiyq73uVxwqF00YOWK6m0VmdaAzMVIeXsr3F5Nl/L4r0Dh+d5cb7JC04emD/4A+S+YYRHP9NaJRl38TzJPUuTXyfWMwQHXw3gtfnlkfyV+duAB3Ek8XtVLKnz2vtxaE+O2wERY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dlLYvOEQ; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=BF7F/7mk; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jRW8E5mS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C85EC19423;
-	Wed, 25 Mar 2026 16:29:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774456184;
-	bh=n2gRWPCdrqEgD1r99jloHoyKEK1RWoOWxovpSSliabY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jRW8E5mS6J4EcMYEQr+bOsYTBewNb/a/XEOSvoeUK+BcjkBUTALNKJvYAhH9m1hmy
-	 y2XhkiI334saOIwU0QEv0tNnI9cee2HQUBLyTYa8zZhhmUSVRGG/4tVnfaKqhRsmsD
-	 fn3YGiAg43LeBruHIB5MKoFIuWT4yeujFECdfvfurLFHCXrnq5YlzKQS0IRSGPg/iH
-	 STDgmiMByFcawnk+ZHVvhuGfnrtmrqCpRLvHQpZu9HgnHnOD+rT+Xpnz7wSdw+Hgz0
-	 QZneJz8p1vYSEVtLpAmhGUVAvZTX2t4OIdVi8f4a6X0tu3kXDGjsopMgyupkFe1iNw
-	 9x+HPGlpHz32Q==
-Date: Wed, 25 Mar 2026 09:29:43 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Andrey Albershteyn <aalbersh@kernel.org>
-Cc: linux-xfs@vger.kernel.org, fsverity@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, ebiggers@kernel.org, hch@lst.de,
-	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-	linux-btrfs@vger.kernel.org
-Subject: Re: [PATCH v5 10/25] iomap: teach iomap to handle fsverity holes and
- verify data holes
-Message-ID: <20260325162943.GW6223@frogsfrogsfrogs>
-References: <20260319170231.1455553-1-aalbersh@kernel.org>
- <20260319170231.1455553-11-aalbersh@kernel.org>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dlLYvOEQ";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="BF7F/7mk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1774456697;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QSosCTg0i9Bjp9rt2ppYHK7BLAc30bqLbiVANu4SoC4=;
+	b=dlLYvOEQQ9B75JvckUKhRjSNrpoYMzZ9zLd+m4LeeWXLER/rwdj058rLtmg9SmnFV88CtT
+	+B6XdPERJX34A9WesXAvLK0lfRnKKuJnqnizSqCJLGjChqo/sTdr1gABGvOY6PAjZCjVwd
+	sy7pN+eoV5ceBIkbm+EJD4EpmP1schY=
+Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
+ [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-398-fcvaJIOiM-ebQ6k-TPRVFg-1; Wed, 25 Mar 2026 12:38:15 -0400
+X-MC-Unique: fcvaJIOiM-ebQ6k-TPRVFg-1
+X-Mimecast-MFC-AGG-ID: fcvaJIOiM-ebQ6k-TPRVFg_1774456695
+Received: by mail-yw1-f198.google.com with SMTP id 00721157ae682-79a51ba2bf9so108337b3.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 09:38:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1774456695; x=1775061495; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=QSosCTg0i9Bjp9rt2ppYHK7BLAc30bqLbiVANu4SoC4=;
+        b=BF7F/7mkGmo5Xk/0p90VLF5VrJv2E8FK3kwNMLQkT2sRsS4Zmjqt2ou0rKvYYEyb81
+         WTeN4IE72uMPUDjVhwpa338x/uavBhpnTjm1IiwMJppuZ95GIBcLv4l/ZHFspjixqIqL
+         kKznk6lSKI2mMjIb1UWa9/xCvom1h9axsGFlACJfRnZDvS9eFqoqejqfLEX2yx31yyuu
+         Vit0aFNIvT0ef4Xh+dHloAGLVxPetGCmmkv41a/04mFLbPQ9M3uOAHGG5ESr0Nx1EOQS
+         IClsFzpq/zajzNxm+5AJnJc1JNrx1P/zj6j4CW9Ff9Vvp8Jps5LUeErjzR7VyIOoJGgF
+         iYKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774456695; x=1775061495;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QSosCTg0i9Bjp9rt2ppYHK7BLAc30bqLbiVANu4SoC4=;
+        b=JGUDx1ZaKpWxx9puibT9FScK1XYfVPif8dGH7hVACTx7Hv3DYIw8XRR46iA+3QgiZC
+         w79iphRnR5Yr+clWnG3T0hzNVnDZTZKH48Vfqk94mbXjqZQ6ZVprU+uZdnoC0zVTcG8k
+         3M3gYueuei9UhcWyamgJtb8oLtY6F41Sx55d+092MEvNu6zTzyRyiEUVQYf5OYIiFDtO
+         lLexUg51r/UUOGyPy/GJQtPOvwGg7+VdQ2zqtu27U5X108DcIpFnY0r7aEbAA+0KUWP+
+         Gu/YfH257wtvLrwuiOnvzrU8afhi0hdHsIR696/34/pplgL501Th78WN09k3kUMNpoBv
+         7xaA==
+X-Forwarded-Encrypted: i=1; AJvYcCXU9t/fdkPP9sdWGSOT0+/wNCOr3/QL44ZizXu/F2Hyhf+nnGHwdeeMD25qEgP/pNyXTN27WyLv6hK/FQj4@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyp/RpdF92z497TxzmYp2029lybi4SDbYnqtcwJO9D0IDJQgsbH
+	tTxWdu5zvKXGDwRFFjNY2Y+W5qxVutFPWd9LI4rcjxN7n3huab/5dzOGIUKaYy1ei7SqxTe3PSa
+	Dk6LingwnVzOkMufykBz7wX01WYgYVIow+Ennr64QLkjDRvWxjucey1zPHILfFT8Hui5JayZs2g
+	g=
+X-Gm-Gg: ATEYQzwRu3n9nc7ig9CJC6QicINYz3ImeKTtnPehiBEYstjZBj4vxcN22vCbInaYJfI
+	nobK3ytyFHkp6+JbJmjJEXWHTBbycW399HELuFVkrm/MfpjYYD8bOkDbeFuwbJONnUw36h0N+4U
+	50lu6A9SnNbDbWvYgfUQxNdylxM4BbKHnlL87hlavJefWRy1jR+mNSxQ56/AKe06ha++sjccEvX
+	e1/xJQyXBxqwSdFwDV0x3AOzsjMf4xTjjwrp9R4hWnWRUDUj+lCLQXvM0wgxYQINqfiVHco8Iim
+	PVJZMfpryrlUmEf4vUkfHt08XZMSkFXQ+E0UonKS74kBn9l2ypZvWdbMOdichw9W0/s8oqaIPLY
+	CjVjYNWI8P6qtYD/tlalTEg0i/gGRad5E9saVCoijUllILKrnTRN+
+X-Received: by 2002:a05:690c:368f:b0:794:ef94:120d with SMTP id 00721157ae682-79acf39cd20mr45587357b3.24.1774456694569;
+        Wed, 25 Mar 2026 09:38:14 -0700 (PDT)
+X-Received: by 2002:a05:690c:368f:b0:794:ef94:120d with SMTP id 00721157ae682-79acf39cd20mr45586977b3.24.1774456693902;
+        Wed, 25 Mar 2026 09:38:13 -0700 (PDT)
+Received: from li-4c4c4544-0032-4210-804c-c3c04f423534.ibm.com ([2600:1700:6476:1430::23])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-79b10c6bf12sm484887b3.9.2026.03.25.09.38.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Mar 2026 09:38:13 -0700 (PDT)
+Message-ID: <2b8f442c9f3982a745576a824e004867e4ff0f8d.camel@redhat.com>
+Subject: Re: [PATCH 1/5] hfs: update comments on hfs_inode_setattr
+From: vdubeyko@redhat.com
+To: Christoph Hellwig <hch@lst.de>, Al Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner	 <brauner@kernel.org>, David Sterba <dsterba@suse.com>,
+ Viacheslav Dubeyko	 <slava@dubeyko.com>, John Paul Adrian Glaubitz
+ <glaubitz@physik.fu-berlin.de>,  Yangtao Li <frank.li@vivo.com>
+Cc: Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org
+Date: Wed, 25 Mar 2026 09:38:12 -0700
+In-Reply-To: <20260325063711.3298685-2-hch@lst.de>
+References: <20260325063711.3298685-1-hch@lst.de>
+	 <20260325063711.3298685-2-hch@lst.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43app2) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260319170231.1455553-11-aalbersh@kernel.org>
 
-On Thu, Mar 19, 2026 at 06:01:57PM +0100, Andrey Albershteyn wrote:
-> fsverity metadata has two kinds of holes - ones in merkle tree and one
-> after fsverity descriptor.
-> 
-> Merkle tree holes are blocks full of hashes of zeroed data blocks. These
-> are not stored on the disk but synthesized on the fly. This saves a bit
-> of space for sparse files. Due to this iomap also need to lookup
-> fsverity_info for folios with fsverity metadata. ->vi has a hash of the
-> zeroed data block which will be used to fill the merkle tree block. This
-> patch extends lookup of fsverity_info from just for file data but also
-> for all fsverity metadata.
-> 
-> The hole past descriptor is interpreted as end of metadata region. As we
-> don't have EOF here we use this hole as an indication that rest of the
-> folio is empty. This patch marks rest of the folio beyond fsverity
-> descriptor as uptodate.
-> 
-> For file data, fsverity needs to verify consistency of the whole file
-> against the root hash, hashes of holes are included in the merkle tree.
-> Verify them too.
-> 
-> Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
+On Wed, 2026-03-25 at 07:36 +0100, Christoph Hellwig wrote:
+> The top of function comment about hfs_inode_setattr is severely out
+> of date and reference a previous name for this function.  Remove it,
+> and update the comments in the file to record the still relevant bits
+> directly.
+>=20
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 > ---
->  fs/iomap/buffered-io.c | 40 ++++++++++++++++++++++++++++++++--------
->  1 file changed, 32 insertions(+), 8 deletions(-)
-> 
-> diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
-> index a11e54975df8..fce748dfb2cf 100644
-> --- a/fs/iomap/buffered-io.c
-> +++ b/fs/iomap/buffered-io.c
-> @@ -551,9 +551,27 @@ static int iomap_read_folio_iter(struct iomap_iter *iter,
->  		if (plen == 0)
->  			return 0;
->  
-> -		/* zero post-eof blocks as the page may be mapped */
-> -		if (iomap_block_needs_zeroing(iter, pos)) {
-> +		/*
-> +		 * Handling of fsverity "holes". We hit this for two case:
-> +		 *   1. No need to go further, the hole after fsverity
-> +		 *	descriptor is the end of the fsverity metadata.
-> +		 *
-> +		 *   2. This folio contains merkle tree blocks which need to be
-> +		 *	synthesized. If we already have fsverity info (ctx->vi)
-> +		 *	synthesize these blocks.
-> +		 */
-> +		if ((iomap->flags & IOMAP_F_FSVERITY) &&
-> +		    iomap->type == IOMAP_HOLE) {
-> +			if (ctx->vi)
-> +				fsverity_folio_zero_hash(folio, poff, plen,
-> +							 ctx->vi);
+>  fs/hfs/inode.c | 21 ++-------------------
+>  1 file changed, 2 insertions(+), 19 deletions(-)
+>=20
+> diff --git a/fs/hfs/inode.c b/fs/hfs/inode.c
+> index 878535db64d6..72948eb2fadc 100644
+> --- a/fs/hfs/inode.c
+> +++ b/fs/hfs/inode.c
+> @@ -622,23 +622,6 @@ static int hfs_file_release(struct inode *inode, str=
+uct file *file)
+>  	return 0;
+>  }
+> =20
+> -/*
+> - * hfs_notify_change()
+> - *
+> - * Based very closely on fs/msdos/inode.c by Werner Almesberger
+> - *
+> - * This is the notify_change() field in the super_operations structure
+> - * for HFS file systems.  The purpose is to take that changes made to
+> - * an inode and apply then in a filesystem-dependent manner.  In this
+> - * case the process has a few of tasks to do:
+> - *  1) prevent changes to the i_uid and i_gid fields.
+> - *  2) map file permissions to the closest allowable permissions
+> - *  3) Since multiple Linux files can share the same on-disk inode under
+> - *     HFS (for instance the data and resource forks of a file) a change
+> - *     to permissions must be applied to all other in-core inodes which
+> - *     correspond to the same HFS file.
+> - */
+> -
+>  int hfs_inode_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+>  		      struct iattr *attr)
+>  {
+> @@ -646,8 +629,7 @@ int hfs_inode_setattr(struct mnt_idmap *idmap, struct=
+ dentry *dentry,
+>  	struct hfs_sb_info *hsb =3D HFS_SB(inode->i_sb);
+>  	int error;
+> =20
+> -	error =3D setattr_prepare(&nop_mnt_idmap, dentry,
+> -				attr); /* basic permission checks */
+> +	error =3D setattr_prepare(&nop_mnt_idmap, dentry, attr);
+>  	if (error)
+>  		return error;
+> =20
+> @@ -663,6 +645,7 @@ int hfs_inode_setattr(struct mnt_idmap *idmap, struct=
+ dentry *dentry,
+>  		return hsb->s_quiet ? 0 : error;
+>  	}
+> =20
+> +	/* map file permissions to the closest allowable permissions in HFS */
+>  	if (attr->ia_valid & ATTR_MODE) {
+>  		/* Only the 'w' bits can ever change and only all together. */
+>  		if (attr->ia_mode & S_IWUSR)
 
-Let me nitpick one more time... should this ^^ function be named
-fsverify_fill_zerohash, since it fills the folio with a repeating
-pattern of the hash of a zeroed block?
+Makes sense.
 
-(I'm nitpicking because zero is a noun and a verb)
+Reviewed-by: Viacheslav Dubeyko <slava@dubeyko.com>
 
-Otherwise the logic looks fine to me, and like hch says this probably
-ought to be rolled into patch 8.
+Thanks,
+Slava.
 
---D
-
-> +			iomap_set_range_uptodate(folio, poff, plen);
-> +		} else if (iomap_block_needs_zeroing(iter, pos)) {
-> +			/* zero post-eof blocks as the page may be mapped */
->  			folio_zero_range(folio, poff, plen);
-> +			if (ctx->vi &&
-> +			    !fsverity_verify_blocks(ctx->vi, folio, plen, poff))
-> +				return -EIO;
->  			iomap_set_range_uptodate(folio, poff, plen);
->  		} else {
->  			if (!*bytes_submitted)
-> @@ -600,9 +618,12 @@ void iomap_read_folio(const struct iomap_ops *ops,
->  
->  	trace_iomap_readpage(iter.inode, 1);
->  
-> -	if (iter.pos < i_size_read(iter.inode))
-> -		ctx->vi = fsverity_get_info(iter.inode);
-> -	if (ctx->vi)
-> +	/*
-> +	 * Fetch fsverity_info for both data and fsverity metadata, as iomap
-> +	 * needs zeroed hash for merkle tree block synthesis
-> +	 */
-> +	ctx->vi = fsverity_get_info(iter.inode);
-> +	if (ctx->vi && iter.pos < i_size_read(iter.inode))
->  		fsverity_readahead(ctx->vi, folio->index,
->  				   folio_nr_pages(folio));
->  
-> @@ -673,9 +694,12 @@ void iomap_readahead(const struct iomap_ops *ops,
->  
->  	trace_iomap_readahead(rac->mapping->host, readahead_count(rac));
->  
-> -	if (iter.pos < i_size_read(iter.inode))
-> -		ctx->vi = fsverity_get_info(iter.inode);
-> -	if (ctx->vi)
-> +	/*
-> +	 * Fetch fsverity_info for both data and fsverity metadata, as iomap
-> +	 * needs zeroed hash for merkle tree block synthesis
-> +	 */
-> +	ctx->vi = fsverity_get_info(iter.inode);
-> +	if (ctx->vi && iter.pos < i_size_read(iter.inode))
->  		fsverity_readahead(ctx->vi, readahead_index(rac),
->  				readahead_count(rac));
->  
-> -- 
-> 2.51.2
-> 
-> 
