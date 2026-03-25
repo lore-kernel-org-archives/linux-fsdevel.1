@@ -1,211 +1,147 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BCD63C9EF8
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 11:54:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D454E332919;
+	Wed, 25 Mar 2026 11:55:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774439660; cv=none; b=AjpCU47szPVoKO+R/BRTBtwMskEKoQitISdp23w1zIa792GXSesMgZrKDL2pbY+48z9yRpc5e/zKoJuuIXfVxxFZ9Ahs1Fo9QMn1xWjH9y+GgY7XFtVCJPMuy9kvUAdTtK3covPYYC5F3hMB0BCDuVnkNY7FgoUjM+fUHduJh0Q=
+	t=1774439749; cv=none; b=KxonWw+RITRpK8uQ57yxtoM4UOHCasxkGff4NSKuY1LN9uwdOTrEQNftac4rfVQb/7n5mw/ELgB1Ty1P4iGrOhhGc85Znn2DcE9WckEe0bdOstEUE5tV4gwEdLo//SmSxr49fMc6Y0O8EX3AZwRX7VmU3bU+g4M20dhBFIcVRn8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774439660; c=relaxed/simple;
-	bh=ijmICtvxUjNMHOCVjFErAQ1cUQ0JxS7fEY2fXgFk3U4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qZHHDz+8YckzS6JDHEHj5+enYXJ1ru/9COvUtpoJQIm5JHSZPbkwK/x9o5p6epnivFGIS7FdkPK264OQh+bjd89rSaiquEv8NEgb7Bs+kt9JJtgNghaSJHfB4tlv5u4x2KJAqZBczlVCC75KpeRF+TC7woMR3rnPOCcWMoiSjAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Xvu3BMTZ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=qOcsE+YD; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Xvu3BMTZ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=qOcsE+YD; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Xvu3BMTZ";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="qOcsE+YD";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Xvu3BMTZ";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="qOcsE+YD"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A68464D21F;
-	Wed, 25 Mar 2026 11:54:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1774439657; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=k0tx0zeKdiA//elNndgloBMUBLIsZabWlSMPzBCeOgc=;
-	b=Xvu3BMTZn8LRoD8qGZubIQH/OekdOtairPHOBJhSnCSrowMWq9q5P/NSn5T7iPRIfwkD3Q
-	NJL4FctJOvszehkf2hwkPsqgX3kMieIbCNAtSgrBrg5ZZhYngzFeH4aKPPdUVuIh9wjj3q
-	OJV5ijzqrUAehXoV1aGlnQv4TSzJOdk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1774439657;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=k0tx0zeKdiA//elNndgloBMUBLIsZabWlSMPzBCeOgc=;
-	b=qOcsE+YDYlHkLnjCzdBlMMx004JA7vmlmaYRf0ho9LjB8fiAKdq0Z8CF9JHOpMyuPN7eyh
-	xGxrzmoCiv8YSMCQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1774439657; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=k0tx0zeKdiA//elNndgloBMUBLIsZabWlSMPzBCeOgc=;
-	b=Xvu3BMTZn8LRoD8qGZubIQH/OekdOtairPHOBJhSnCSrowMWq9q5P/NSn5T7iPRIfwkD3Q
-	NJL4FctJOvszehkf2hwkPsqgX3kMieIbCNAtSgrBrg5ZZhYngzFeH4aKPPdUVuIh9wjj3q
-	OJV5ijzqrUAehXoV1aGlnQv4TSzJOdk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1774439657;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=k0tx0zeKdiA//elNndgloBMUBLIsZabWlSMPzBCeOgc=;
-	b=qOcsE+YDYlHkLnjCzdBlMMx004JA7vmlmaYRf0ho9LjB8fiAKdq0Z8CF9JHOpMyuPN7eyh
-	xGxrzmoCiv8YSMCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9BAAC443B0;
-	Wed, 25 Mar 2026 11:54:17 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 3gH/JenMw2mcJQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 25 Mar 2026 11:54:17 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 64C88A0B32; Wed, 25 Mar 2026 12:54:17 +0100 (CET)
-Date: Wed, 25 Mar 2026 12:54:17 +0100
-From: Jan Kara <jack@suse.cz>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Al Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, David Sterba <dsterba@suse.com>, 
-	Viacheslav Dubeyko <slava@dubeyko.com>, John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
-	Yangtao Li <frank.li@vivo.com>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 3/5] affs: rename affs_notify_change to affs_setattr
-Message-ID: <bxwtnuhxk5za5iwdoohhmgqfdg2oswr2xgo4xevdfpydsc7nbg@33z3ijspithp>
-References: <20260325063711.3298685-1-hch@lst.de>
- <20260325063711.3298685-4-hch@lst.de>
+	s=arc-20240116; t=1774439749; c=relaxed/simple;
+	bh=ys6PuOWdFe0qxokKIbVNj5WZJc8jhMK2HslSsFknON8=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=OQe3DvG6bMp+/Xc0XjoPQvmV2AxUpo6OGqViwux/bjZD9PTLuTWz71jGLjnOE47BORfPkJrp3z8ilm3+rQVm8FAwjUegKtJN6yBMY43Aj6oyqET0QkuNQjr/91JUR2nVs2CgMQ+4xU/sXC/H72pdXAaCRK2OxESAHMjzNg/drUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.224.107])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4fglhW5P1vzHnGfQ;
+	Wed, 25 Mar 2026 19:55:07 +0800 (CST)
+Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
+	by mail.maildlp.com (Postfix) with ESMTPS id 07E6F40587;
+	Wed, 25 Mar 2026 19:55:43 +0800 (CST)
+Received: from localhost (10.203.177.15) by dubpeml500005.china.huawei.com
+ (7.214.145.207) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Wed, 25 Mar
+ 2026 11:55:41 +0000
+Date: Wed, 25 Mar 2026 11:55:40 +0000
+From: Jonathan Cameron <jonathan.cameron@huawei.com>
+To: Ira Weiny <ira.weiny@intel.com>
+CC: John Groves <john@jagalactic.com>, John Groves <John@groves.net>, "Miklos
+ Szeredi" <miklos@szeredi.hu>, Dan Williams <dan.j.williams@intel.com>, "Bernd
+ Schubert" <bschubert@ddn.com>, Alison Schofield <alison.schofield@intel.com>,
+	John Groves <jgroves@micron.com>, "Jonathan Corbet" <corbet@lwn.net>, Shuah
+ Khan <skhan@linuxfoundation.org>, "Vishal Verma" <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan
+ Kara <jack@suse.cz>, "Alexander Viro" <viro@zeniv.linux.org.uk>, David
+ Hildenbrand <david@kernel.org>, Christian Brauner <brauner@kernel.org>,
+	"Darrick J . Wong" <djwong@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, Stefan
+ Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, Josef
+ Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Chen
+ Linxuan <chenlinxuan@uniontech.com>, James Morse <james.morse@arm.com>, Fuad
+ Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>, Shivank
+ Garg <shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>, Gregory Price
+	<gourry@gourry.net>, Aravind Ramesh <arramesh@micron.com>, Ajay Joshi
+	<ajayjoshi@micron.com>, "venkataravis@micron.com" <venkataravis@micron.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH V9 1/8] dax: move dax_pgoff_to_phys from [drivers/dax/]
+ device.c to bus.c
+Message-ID: <20260325115540.000047f2@huawei.com>
+In-Reply-To: <69c321d5e7195_e9d8d10040@iweiny-mobl.notmuch>
+References: <0100019d1d463523-617e8165-a084-4d91-aa5e-13778264d5d4-000000@email.amazonses.com>
+	<20260324003743.4973-1-john@jagalactic.com>
+	<0100019d1d46d094-cc0a4b79-3bd2-43e8-a08d-ab8cd21266a6-000000@email.amazonses.com>
+	<20260324141806.000003f7@huawei.com>
+	<69c321d5e7195_e9d8d10040@iweiny-mobl.notmuch>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260325063711.3298685-4-hch@lst.de>
-X-Spam-Score: -3.80
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FROM_HAS_DN(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	URIBL_BLOCKED(0.00)[suse.cz:email,imap1.dmz-prg2.suse.org:helo,suse.com:email,lst.de:email];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500010.china.huawei.com (7.191.174.240) To
+ dubpeml500005.china.huawei.com (7.214.145.207)
 
-On Wed 25-03-26 07:36:50, Christoph Hellwig wrote:
-> Make the function name match the method that it implements.
+On Tue, 24 Mar 2026 18:44:21 -0500
+Ira Weiny <ira.weiny@intel.com> wrote:
+
+> Jonathan Cameron wrote:
+> > On Tue, 24 Mar 2026 00:37:53 +0000
+> > John Groves <john@jagalactic.com> wrote:
+> >   
+> > > From: John Groves <john@groves.net>
+> > > 
+> > > This function will be used by both device.c and fsdev.c, but both are
+> > > loadable modules. Moving to bus.c puts it in core and makes it available
+> > > to both.
+> > > 
+> > > No code changes - just relocated.
+> > > 
+> > > Reviewed-by: Ira Weiny <ira.weiny@intel.com>
+> > > Reviewed-by: Dave Jiang <dave.jiang@intel.com>
+> > > Signed-off-by: John Groves <john@groves.net>  
+> > Obviously this is a straight forward code move... But I can't resist
+> > commenting on what is moving  (feel free to ignore! or maybe a follow
+> > up patch if you agree.
+> > 
+> > Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>  
 > 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> Added this to the series.  LMK if I missed something.
+LGTM.
 
-Looks good. Feel free to add:
+Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+(don't bother adding it unless you are touching the tree for some other reason!)
 
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-								Honza
-
+> 
+> Ira
+> 
 > ---
->  fs/affs/affs.h    | 2 +-
->  fs/affs/dir.c     | 2 +-
->  fs/affs/file.c    | 2 +-
->  fs/affs/inode.c   | 5 ++---
->  fs/affs/symlink.c | 2 +-
->  5 files changed, 6 insertions(+), 7 deletions(-)
+> commit ccc1878ab00178e82108bdd1ece497388a24290b (HEAD -> nvdimm-famfs-dax)
+> Author: Ira Weiny <ira.weiny@intel.com>
+> Date:   Tue Mar 24 12:36:19 2026 -0500
 > 
-> diff --git a/fs/affs/affs.h b/fs/affs/affs.h
-> index ac4e9a02910b..43e20b02b449 100644
-> --- a/fs/affs/affs.h
-> +++ b/fs/affs/affs.h
-> @@ -184,7 +184,7 @@ extern int	affs_rename2(struct mnt_idmap *idmap,
->  /* inode.c */
->  
->  extern struct inode		*affs_new_inode(struct inode *dir);
-> -extern int			 affs_notify_change(struct mnt_idmap *idmap,
-> +extern int			 affs_setattr(struct mnt_idmap *idmap,
->  					struct dentry *dentry, struct iattr *attr);
->  extern void			 affs_evict_inode(struct inode *inode);
->  extern struct inode		*affs_iget(struct super_block *sb,
-> diff --git a/fs/affs/dir.c b/fs/affs/dir.c
-> index 5c8d83387a39..c53b98f7c687 100644
-> --- a/fs/affs/dir.c
-> +++ b/fs/affs/dir.c
-> @@ -71,7 +71,7 @@ const struct inode_operations affs_dir_inode_operations = {
->  	.mkdir		= affs_mkdir,
->  	.rmdir		= affs_rmdir,
->  	.rename		= affs_rename2,
-> -	.setattr	= affs_notify_change,
-> +	.setattr	= affs_setattr,
->  };
->  
->  static int
-> diff --git a/fs/affs/file.c b/fs/affs/file.c
-> index 6c9258359ddb..cede4bb1134e 100644
-> --- a/fs/affs/file.c
-> +++ b/fs/affs/file.c
-> @@ -1013,5 +1013,5 @@ const struct file_operations affs_file_operations = {
->  };
->  
->  const struct inode_operations affs_file_inode_operations = {
-> -	.setattr	= affs_notify_change,
-> +	.setattr	= affs_setattr,
->  };
-> diff --git a/fs/affs/inode.c b/fs/affs/inode.c
-> index 0bfc7d151dcd..f660e76584b3 100644
-> --- a/fs/affs/inode.c
-> +++ b/fs/affs/inode.c
-> @@ -213,13 +213,12 @@ affs_write_inode(struct inode *inode, struct writeback_control *wbc)
->  }
->  
->  int
-> -affs_notify_change(struct mnt_idmap *idmap, struct dentry *dentry,
-> -		   struct iattr *attr)
-> +affs_setattr(struct mnt_idmap *idmap, struct dentry *dentry, struct iattr *attr)
+>     dax: Modernize dax_pgoff_to_phys()
+> 
+>     The patch to move dax_pgoff_to_phys() to bus.c revealed that the
+>     function could be improved with more modern style and the newer
+>     in_range() utility function.
+> 
+>     Update it while we are moving it around.
+> 
+>     Link: https://lore.kernel.org/all/20260324141806.000003f7@huawei.com/
+>     Suggested-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+>     Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+> 
+> diff --git a/drivers/dax/bus.c b/drivers/dax/bus.c
+> index e4bd5c9f006c..1b412264bb36 100644
+> --- a/drivers/dax/bus.c
+> +++ b/drivers/dax/bus.c
+> @@ -1421,16 +1421,12 @@ static const struct device_type dev_dax_type = {
+>  __weak phys_addr_t dax_pgoff_to_phys(struct dev_dax *dev_dax, pgoff_t pgoff,
+>                               unsigned long size)
 >  {
->  	struct inode *inode = d_inode(dentry);
->  	int error;
->  
-> -	pr_debug("notify_change(%lu,0x%x)\n", inode->i_ino, attr->ia_valid);
-> +	pr_debug("setattr(%lu,0x%x)\n", inode->i_ino, attr->ia_valid);
->  
->  	error = setattr_prepare(&nop_mnt_idmap, dentry, attr);
->  	if (error)
-> diff --git a/fs/affs/symlink.c b/fs/affs/symlink.c
-> index 094aec8d17b8..af6147e1d975 100644
-> --- a/fs/affs/symlink.c
-> +++ b/fs/affs/symlink.c
-> @@ -71,5 +71,5 @@ const struct address_space_operations affs_symlink_aops = {
->  
->  const struct inode_operations affs_symlink_inode_operations = {
->  	.get_link	= page_get_link,
-> -	.setattr	= affs_notify_change,
-> +	.setattr	= affs_setattr,
->  };
-> -- 
-> 2.47.3
+> -       int i;
+> -
+> -       for (i = 0; i < dev_dax->nr_range; i++) {
+> +       for (int i = 0; i < dev_dax->nr_range; i++) {
+>                 struct dev_dax_range *dax_range = &dev_dax->ranges[i];
+>                 struct range *range = &dax_range->range;
+> -               unsigned long long pgoff_end;
+>                 phys_addr_t phys;
 > 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+> -               pgoff_end = dax_range->pgoff + PHYS_PFN(range_len(range)) - 1;
+> -               if (pgoff < dax_range->pgoff || pgoff > pgoff_end)
+> +               if (!in_range(pgoff, dax_range->pgoff, PHYS_PFN(range_len(range))))
+>                         continue;
+>                 phys = PFN_PHYS(pgoff - dax_range->pgoff) + range->start;
+>                 if (phys + size - 1 <= range->end)
+> 
+
