@@ -1,213 +1,93 @@
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 690AE36F433
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 20:14:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E21AD2F12D4;
+	Wed, 25 Mar 2026 20:21:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774469697; cv=none; b=dbLMu2FVLe8d3jNtT16IG60TvSWKUQF9lk+4ZOyj3CvAPVpk0bEZFPTrEg995amGe0eZnuookaMotyri/XwQ0+cRvQ7lQYp5/AlZtwt4iBChfKYty+oA3anVr2NHZo33d4Uy+ImUsECinSYL1RxoPfYjWMpRU1IlvmZZ9eQx4h4=
+	t=1774470099; cv=none; b=SQmdRiIgJ3qx5hBd+5CzpD6PGKvAHlFCdzIvxv6zhUyomlxZ9aCc/cXsSX3NqGy2gweGrfZaxJw8qmIl2arFipOw8GXFVVQcqmEi5B6hOgqT1YzIQtv2Ls5UYmNJiSOQFcXVL1yPZvr2wO3vwMdPOxZGD4qUPEL+kLgOLhL06lw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774469697; c=relaxed/simple;
-	bh=TUGGsTUoaa7OmlTYcOqxOvlR6dQCgDcIlIzZN2FX1Q4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=l7Fniu1LJ61MKe6SkOrTLjaFTsgd69zDS1b9ygj994sV5MUEFlxa6ss/7OGI6d+2lVSkY1MQ2sAx4lyA2A0MVlRFApIBYXftvfpVdZ06TWqhKsZk3VnxIOwzd78nHPgA4eRAgquqXgWiahqaaenpmmZcI2vCK4xQRktMteMGzMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=BdLSkuLb; arc=none smtp.client-ip=209.85.160.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
+	s=arc-20240116; t=1774470099; c=relaxed/simple;
+	bh=SiiDBKFAvyFqwglJ55lrG1YAPRNsE5d/+Mi64MwRMi0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GPXHoOCvtC1K5lSQwJz8PlMnVkDCTuAjlvAq3WJ1bKXBtDbv/T+PPRyf/AhWZS+Sqs1sZVxllEaV0yqdOO/RsWHyiad3VcTA8gMS2l0mHbpJk6XF9XK9O5OXTSBLFTKTinTIIhhROLG8B70ZZSX+a+BAmoC+kDmGBfSDxOdAQvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=DM6Wvfqy; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="BdLSkuLb"
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-40429b1d8baso117941fac.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 13:14:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1774469693; x=1775074493; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6PlzBqe1IIMZnSLJe3Nt9W0mLjdauDVoWC1E+bHzQXs=;
-        b=BdLSkuLbkvjvqo4SHXcM9hOSCpAQMP1s6LNcsPqujNgtRq77JmMpYUWmgXnm7UQim7
-         OD40cvf+fJrO0J9FQyo+MUyncnrhVCXddAkvF7AceTQz8cqeghEu+HxonccduuJ4LRrV
-         H9brCnPfzhJ8nRZ+OeOvsLegk8k3JwsaxW3WyJLhR0/mK2xIIqOvX7ZGUu227FxQkwRL
-         lxc37GLfYG7StePtmm9rTSGHVlUEcX9WhaTCEmeLzS5hP0camnKeO+SmORIXb7s4WNBJ
-         J7YR291hbfHCT1s2zoPH2lztTIGzFmt6noVFf7LZMzjfOdV3KwuepTrRKoUo7oLYZUz8
-         JhNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774469693; x=1775074493;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6PlzBqe1IIMZnSLJe3Nt9W0mLjdauDVoWC1E+bHzQXs=;
-        b=b/Ufm5PokeUH4haMTrCkVB9pgfiQGM9aoxMUW+JSWL0v8QlnSGz2LMcVizGLSP9cQL
-         JgTJ4+Fpxlz2hqSFlimiIiJSaPeSB028NfJ560P4l/anN360dvFTeBNlM1uogWRknplO
-         ODJnMKWYH8x912puf4cpO3fp0oWqonog0YIFkqPkH17qMUoiiNvO4KRAGRkXb6tib4lT
-         nUIjGlQT5fKwXjffw3WfOAWztJuEyXwfldIMko5+5cXebGGbxDqDZP5oYiOOUCIZ+zAO
-         fRBlzoQxf/VY7E4WgglPysza7PMvgFdHNMizXDIluyco6B+T0z9f8Zcirypj4WVwYB5K
-         w0WA==
-X-Forwarded-Encrypted: i=1; AJvYcCVJhBOphHX1UByEQwD7tk8XxsLYB0XonP4hyGdTsGgqfh1WzkxOlJMX8OiFIWE2VWuRwozDQ+yb2i8X8/Kr@vger.kernel.org
-X-Gm-Message-State: AOJu0YwOYxhLGpRD9eAdFV9xYNgvut8KeFJOSZLvROCOvklhb+zRb4em
-	6usSJ3uYff3T3e+w0+g1awZiGWaheVq3Psnb43jAC+FzeItd3R5Kz1tNEmJ+XZTwqDY=
-X-Gm-Gg: ATEYQzxPtznSwPC0tEuONDzY9WIUuJjzOcA1aJmikcrcyRG0u+pcFnuSEIwK8gg5umV
-	Mfc/ZlIrR8T9c9Thr35ubrqqZ6s+7WXlxzbw1BGCC7UZPsekdur5duQsXhgxSlmArUEGFlGv/rz
-	u3gabKtwzMW5tu1T2ZJwhcqWuMylxZ695AG0diszDoSN1dFKLGs6DgoDpsd25t91vqccc62tTio
-	UoQGch5Vuwvdhshm8VHElUGWi0YSN5AA5qs+J7bbRjQD0YJmSOo9DHyOa8xpCsoh7/ITE7rpa+H
-	2Hr3XVwhemtL1USJBf4v/lZhVWzMtF7HNvJJl0hatrxzA0NjvloUOl3lbKeSA6kNJHvr/ScKyzK
-	uAq70no+YJivhiH8nb8o8xRFc+C7J//wFzoNo+jdluf/Cn569Vt15b61C64qLFJ4KvONcAiBHxr
-	peKGpwePx3V5sfjLKEZJV8CI4AbqD9ZNkCOLv3I5xFZ+Micr+aipptFykNUP4wWSCA6NSUJqI1B
-	v/GiTGa
-X-Received: by 2002:a4a:edcd:0:b0:67b:be84:e085 with SMTP id 006d021491bc7-67dff50ad22mr2303872eaf.27.1774469693263;
-        Wed, 25 Mar 2026 13:14:53 -0700 (PDT)
-Received: from [192.168.1.102] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-67e0ab1b9e3sm535628eaf.12.2026.03.25.13.14.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Mar 2026 13:14:52 -0700 (PDT)
-Message-ID: <c4453f4e-c1a2-4f5a-b278-76b63d5dc4a3@kernel.dk>
-Date: Wed, 25 Mar 2026 14:14:51 -0600
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="DM6Wvfqy"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=KeJTrDz0ZERUb53okI56kxVXYWflMwMqTR1ZZSCDXMI=; b=DM6WvfqywEbRbUFcvSVOCmaTHT
+	aVny9M8t9l80xxaOAw1UaOdFSR5Ar49FQWmbvBFSCKUh0ApwBIBg/QXAkwToKrJU0GOscNN5teXtA
+	Ye0W5MSDX+QcsCaEfHOISraJFZgugWBerE278/7b1HXHAsHrH7VASlgBsveK5NjwSVrb5NNmKN+BJ
+	yDE5iV2917oILPrH3EVbpz7hNABlLV6/YdU27BTTwOXjzGGvHNzP61lpyJpdCzFVoPSfgHcFpinxb
+	LquoV5sPsNV1JFL7RmVGyfch1BJ1l3XZtZ/wqG2aE1QX9lXSsuJEfr1S4kbWofLo+3YLEz9Affatk
+	rCW+zEGg==;
+Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1w5UjI-0000000GUsO-3sZs;
+	Wed, 25 Mar 2026 20:21:28 +0000
+Date: Wed, 25 Mar 2026 20:21:28 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: Tal Zussman <tz2294@columbia.edu>
+Cc: Jens Axboe <axboe@kernel.dk>, Christian Brauner <brauner@kernel.org>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Carlos Maiolino <cem@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	Christoph Hellwig <hch@infradead.org>, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH RFC v4 2/3] iomap: use BIO_COMPLETE_IN_TASK for
+ dropbehind writeback
+Message-ID: <acRDyJrkJhnHHMSe@casper.infradead.org>
+References: <20260325-blk-dontcache-v4-0-c4b56db43f64@columbia.edu>
+ <20260325-blk-dontcache-v4-2-c4b56db43f64@columbia.edu>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC v4 1/3] block: add BIO_COMPLETE_IN_TASK for
- task-context completion
-To: Tal Zussman <tz2294@columbia.edu>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Christian Brauner <brauner@kernel.org>, "Darrick J. Wong"
- <djwong@kernel.org>, Carlos Maiolino <cem@kernel.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>
-Cc: Christoph Hellwig <hch@infradead.org>, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
-References: <20260325-blk-dontcache-v4-0-c4b56db43f64@columbia.edu>
- <20260325-blk-dontcache-v4-1-c4b56db43f64@columbia.edu>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <20260325-blk-dontcache-v4-1-c4b56db43f64@columbia.edu>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260325-blk-dontcache-v4-2-c4b56db43f64@columbia.edu>
 
-On 3/25/26 12:43 PM, Tal Zussman wrote:
-> diff --git a/block/bio.c b/block/bio.c
-> index 8203bb7455a9..69ee0d93041f 100644
-> --- a/block/bio.c
-> +++ b/block/bio.c
-> @@ -18,6 +18,7 @@
->  #include <linux/highmem.h>
->  #include <linux/blk-crypto.h>
->  #include <linux/xarray.h>
-> +#include <linux/local_lock.h>
->  
->  #include <trace/events/block.h>
->  #include "blk.h"
-> @@ -1714,6 +1715,60 @@ void bio_check_pages_dirty(struct bio *bio)
->  }
->  EXPORT_SYMBOL_GPL(bio_check_pages_dirty);
->  
-> +struct bio_complete_batch {
-> +	local_lock_t lock;
-> +	struct bio_list list;
-> +	struct work_struct work;
-> +};
-> +
-> +static DEFINE_PER_CPU(struct bio_complete_batch, bio_complete_batch) = {
-> +	.lock = INIT_LOCAL_LOCK(lock),
-> +};
-> +
-> +static void bio_complete_work_fn(struct work_struct *w)
-> +{
-> +	struct bio_complete_batch *batch;
-> +	struct bio_list list;
-> +
-> +again:
-> +	local_lock_irq(&bio_complete_batch.lock);
-> +	batch = this_cpu_ptr(&bio_complete_batch);
-> +	list = batch->list;
-> +	bio_list_init(&batch->list);
-> +	local_unlock_irq(&bio_complete_batch.lock);
-> +
-> +	while (!bio_list_empty(&list)) {
-> +		struct bio *bio = bio_list_pop(&list);
-> +		bio->bi_end_io(bio);
-> +	}
-> +
-> +	local_lock_irq(&bio_complete_batch.lock);
-> +	batch = this_cpu_ptr(&bio_complete_batch);
-> +	if (!bio_list_empty(&batch->list)) {
-> +		local_unlock_irq(&bio_complete_batch.lock);
-> +
-> +		if (!need_resched())
-> +			goto again;
-> +
-> +		schedule_work_on(smp_processor_id(), &batch->work);
-> +		return;
-> +	}
-> +	local_unlock_irq(&bio_complete_batch.lock);
-> +}
+On Wed, Mar 25, 2026 at 02:43:01PM -0400, Tal Zussman wrote:
+> Set BIO_COMPLETE_IN_TASK on iomap writeback bios when
+> IOMAP_IOEND_DONTCACHE is set. This ensures that bi_end_io runs in task
+> context, where folio_end_dropbehind() can safely invalidate folios.
+> 
+> With the bio layer now handling task-context deferral generically, XFS
+> no longer needs to route DONTCACHE ioends through its completion
+> workqueue for page cache invalidation. Remove the DONTCACHE check from
+> xfs_ioend_needs_wq_completion().
+> 
+> Signed-off-by: Tal Zussman <tz2294@columbia.edu>
+> ---
+>  fs/iomap/ioend.c  | 2 ++
+>  fs/xfs/xfs_aops.c | 4 ----
+>  2 files changed, 2 insertions(+), 4 deletions(-)
+> 
+> diff --git a/fs/iomap/ioend.c b/fs/iomap/ioend.c
+> index e4d57cb969f1..6b8375d11cc0 100644
+> --- a/fs/iomap/ioend.c
+> +++ b/fs/iomap/ioend.c
+> @@ -113,6 +113,8 @@ static struct iomap_ioend *iomap_alloc_ioend(struct iomap_writepage_ctx *wpc,
+>  			       GFP_NOFS, &iomap_ioend_bioset);
+>  	bio->bi_iter.bi_sector = iomap_sector(&wpc->iomap, pos);
+>  	bio->bi_write_hint = wpc->inode->i_write_hint;
+> +	if (ioend_flags & IOMAP_IOEND_DONTCACHE)
+> +		bio_set_flag(bio, BIO_COMPLETE_IN_TASK);
+>  	wbc_init_bio(wpc->wbc, bio);
+>  	wpc->nr_folios = 0;
+>  	return iomap_init_ioend(wpc->inode, bio, pos, ioend_flags);
 
-bool looped = false;
+Can't we delete IOMAP_IOEND_DONTCACHE, and just do:
 
-do {
-	if (looped && need_resched()) {
-    		schedule_work_on(smp_processor_id(), &batch->work);
-		break;
-	}
+	if (folio_test_dropbehind(folio))
+		bio_set_flag(&ioend->io_bio, BIO_COMPLETE_IN_TASK);
 
-	local_lock_irq(&bio_complete_batch.lock);
-	batch = this_cpu_ptr(&bio_complete_batch);
-	list = batch->list;
-	bio_list_init(&batch->list);
-	local_unlock_irq(&bio_complete_batch.lock);
-
-	if (bio_list_empty(&list))
-		break;
-
-	do {
-		struct bio *bio = bio_list_pop(&list);
-		bio->bi_end_io(bio);
-	} while (!bio_list_empty(&list));
-	looped = true;
-} while (1);
-
-would be a lot easier to read, and avoid needing the list manipulation
-included twice.
-
-> +static void bio_queue_completion(struct bio *bio)
-> +{
-> +	struct bio_complete_batch *batch;
-> +	unsigned long flags;
-> +
-> +	local_lock_irqsave(&bio_complete_batch.lock, flags);
-> +	batch = this_cpu_ptr(&bio_complete_batch);
-> +	bio_list_add(&batch->list, bio);
-> +	local_unlock_irqrestore(&bio_complete_batch.lock, flags);
-> +
-> +	schedule_work_on(smp_processor_id(), &batch->work);
-> +}
-
-Maybe do something ala:
-
-static void bio_queue_completion(struct bio *bio)
-{
-	struct bio_complete_batch *batch;
-	unsigned long flags;
-	bool was_empty;
-
-	local_lock_irqsave(&bio_complete_batch.lock, flags);
-	batch = this_cpu_ptr(&bio_complete_batch);
-	was_empty = bio_list_empty(&batch->list);
-	bio_list_add(&batch->list, bio);
-	local_unlock_irqrestore(&bio_complete_batch.lock, flags);
-
-	if (was_empty)
-		schedule_work_on(smp_processor_id(), &batch->work);
-}
-
-Outside of these mostly nits, I like this approach. It avoids my main
-worry with this, which was contention on the list locks. And on the
-io_uring side, we'll never hit the !in_task() path anyway, as the
-completions are run from the task always. The bio flag makes sense for
-this.
-
--- 
-Jens Axboe
+It'd need to move down a few lines in iomap_add_to_ioend() to after
+bio_add_folio() succeeds.
