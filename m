@@ -1,151 +1,121 @@
-Received: from relay.hostedemail.com (smtprelay0014.hostedemail.com [216.40.44.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D99E53D0900;
-	Wed, 25 Mar 2026 12:44:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.14
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774442654; cv=none; b=Wr10y539rqNUgYuGFO4LO2+aRZVKqpzzO51DWGjv2j5zXZjsOAlVrjwFJM+tDXuhMjmj/TC9EZvaxabJDtyABCjUS27LNGdn6BHT8jqGNHoR0Wx9OxKSr/7URfbyuWsvraVt3e45OFMOKr7z5frRHmnUqCWEMPWUj7hP2q0QmSQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774442654; c=relaxed/simple;
-	bh=bzYdfF1spGMVjwl4NTjaat4YQrXVriJ+IaIcJqcKJlo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m3fqR1q7rXHoAFJevHCZBkHQWr4tD0+wJyH6UdWee3Ek7HfX2x809Zx18NGPGl+7478u3jwGRkAtOgzBjiy/iN/QoRhK356hKYmcgfC3a2GNJQ3PxYZkfUnHwGDH2dOwU01PtKiyRNPin/WJ+qyGjgO+zJKV+sFWIEZmatCTTWo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
-Received: from omf12.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay04.hostedemail.com (Postfix) with ESMTP id 0D0DC1A082D;
-	Wed, 25 Mar 2026 12:44:07 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf12.hostedemail.com (Postfix) with ESMTPA id EC85817;
-	Wed, 25 Mar 2026 12:43:54 +0000 (UTC)
-Date: Wed, 25 Mar 2026 07:43:53 -0500
-From: John Groves <John@groves.net>
-To: Jonathan Cameron <jonathan.cameron@huawei.com>
-Cc: John Groves <john@jagalactic.com>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
-	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
-	Amir Goldstein <amir73il@gmail.com>, Stefan Hajnoczi <shajnocz@redhat.com>, 
-	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
-	"venkataravis@micron.com" <venkataravis@micron.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH V9 3/8] dax: add fsdev.c driver for fs-dax on character
- dax
-Message-ID: <acPX9T2ZF7xTCHtZ@groves.net>
-References: <0100019d1d463523-617e8165-a084-4d91-aa5e-13778264d5d4-000000@email.amazonses.com>
- <20260324003818.5009-1-john@jagalactic.com>
- <0100019d1d476420-6b0bf60e-3b3a-4868-8f5f-484cd55d4709-000000@email.amazonses.com>
- <20260324143927.000024c3@huawei.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A3D63D5670
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 12:57:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.175
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774443439; cv=pass; b=kgEJwbjgs70y4I2iU8KSAPd3a3/Dz3aqabXaIMW6pWsg8GMSWPSimhFqHRfo1c9ENHA9Gg7G1F5Yw1Qpllvg+Z6CN6H65Yhm/en0XRbycsQg2j755qNRu+NndAMzgElYfILPPW8/x5qjJcBd39W/pZQWPlijnxQOxINgrN6DJlk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774443439; c=relaxed/simple;
+	bh=I6nu+W5oQXgoBediHBI1nxFNIoHjXKwmRc/d4+b+Voc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Or0DemWBkoHcJ4si03hCDR5oKWz1Wif9YnosXIHLobeau7iPujN/Y5UckVwPD1KdqG1ECfu6Wy5g+G8z8m9TETtv1585Hyb4fJUP4gSTaThsAW7Znkng7xPu+PrIwL1hR78Sr9xop2dA8pBCJp6O0aNHDVGEficaYSeIRHxnMgQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qiomFnkk; arc=pass smtp.client-ip=74.125.82.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qiomFnkk"
+Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-2c160308a54so567717eec.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 05:57:18 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774443438; cv=none;
+        d=google.com; s=arc-20240605;
+        b=BFcc3LZ6zhHchLiqluyvomuXj7J4a3ZDJCiqPdVlbi6duLqf0Br0+8+snZPBnGV27h
+         a4yPOXtPSzUmPqU+cKnIvcWxqIGfF9kOVTBmRuBJ7Vw0WfgotBQWNJjRSbalteOPIVmH
+         eSW6rrh+lmwEn6Nef/6Ct/OM58Uqbj2QOtmPQSvfaveDh6oa5BR+WTtRwDa+WcvuRd8L
+         oFb49/5CP5cMAVeeAtfnf4zr7yOcc3WDBownxJS0jZvx139CfyKq3CtWgL+xDXKo/bj6
+         gJkr1g6cKQfIIZoxZhhLoEstBT8ijSZebjzigTHpJ2Sx2BgKL7WpKCh4R8prDJDH5ysS
+         jh8Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=f6rECN2hnxCRa03RaIkDSyMoiGlA3vF3EfjC2Pxqcgk=;
+        fh=0OTK5pqzQB/IuUAMIWIdqPUfUcljkDj/dMaHGF8xlqE=;
+        b=Mq1WAIkGE/9uKKnkQXIpA7nh4WGca0SstF+54jwglGWdaxZ7Z8BKIyHbiWh0yTYclL
+         uOjrTftSXcxSCfJl+tGNxBqIqttem5ecZt2lbOSWkKo+spMimGm/gFsnjvRJf2UgBJiE
+         0w86lSpkP+B1vDiQtGzzI9rO5/vOYI9PHA4pZsT+G+XrmA7edwO15DXRp5xfaTWwmNYv
+         UDABGkVGy6qqYRcMWciBgm3lAEKiaTC7hJR+kUyBr50QNEVWxbVqjJu1DGgGijD5poJy
+         rryxnr8+rMF+0ghCAQ/ZXFq6nVqaXwlAPYVt+VcE9KZ18wGDeSf79/++rrQSz+ss2EcW
+         ugKw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774443438; x=1775048238; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=f6rECN2hnxCRa03RaIkDSyMoiGlA3vF3EfjC2Pxqcgk=;
+        b=qiomFnkkr42P2GIKsv5PSCAe7nSPhqCWkaOoyodzniBgXR9b5F/A/7nd1TZ8FG1A4T
+         wQyuVmrvAg3hLCVGWNPHISbKfON0KA6RLoKndKmHjx1JEatDr2jOaEZqDWGIBEsKuulS
+         NXNyPB4OccZwt2U81BScfz3UMhu4rQn4DarQ+t2K7LLiqT8pBUzq7S4P1NwvpVx8YO/5
+         Dw7mbTQZ+Uw2KjrWcR5HYQ41qaguAm5oHAjIeBZnYWZkWZ1Tf/mzyI7a00hA/mBmBvf3
+         qam9dmUZ6UNihRecMDmWiA8ox3hLLKLSqphMcs8eOLs8ZBdD+/nTQkze2Xm/KCLxz28B
+         bFwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774443438; x=1775048238;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=f6rECN2hnxCRa03RaIkDSyMoiGlA3vF3EfjC2Pxqcgk=;
+        b=A2NEbaj5xKc61rdSFettPkhmtJV1iOwoziLBbFIcuoB+iaaBg1Nkkv+yDJ+OfTKoq+
+         pcvpXZO9DbgUqkgh3J7moTB26WOIeFYJX0PZslDxdDeEj+WGitr0Yu4f1+cZYrK8Tis7
+         oLJB+xP1+amD81hnfwGaQDnOeR222LnmIe6YgJ0ucLe83is5hp67E0+DdQdlnn4JglMn
+         Ls3e7MbPtsPiQUCxSpQPOEM7mN3cIyZ8596EoFralZ7+kb8VT/XCKWT1JZoeQceeYbf4
+         NnNDwxNN7FNbf/RgAWU0ya/vtPsl8zvJ37Yph4oFP24jB9GXeNmpV+BylB+JTKEQrjCk
+         qE5g==
+X-Forwarded-Encrypted: i=1; AJvYcCWM8Ce+gX6rYozUItEKexgQrTqT/Dv9asO+vezyjtekRrSSOhyzQuSZIrwmdPnehs3JL9Pb7gtN2WUhPwR9@vger.kernel.org
+X-Gm-Message-State: AOJu0YyqOGpBuE/VwXxFEtSefu7DgYGjDO9VdEDFJDIzyzcepW/harQg
+	6c5DBYTBQ1jkYTjXkMv9U7GdKM5BtjuBsZxv04z8jYLZeNiaT9ni7x8OtpZJ+TovjFGRY0eaWEx
+	m2t1153n9hz/gFLf5gyj75hM7tH8TI4cGQgiUqfHENQ==
+X-Gm-Gg: ATEYQzx0ofjzHqxJpJonVuvnWzAVA2GvT/0whOp4Q1KBQg4YPv6HWtGV+6NnIb3wT/n
+	NRZORLnbxEF2tZU13weuYdmal0f+gM1iFcNZiALv36TPzR53l45NwHsYu3sgfV9Urmq9m5Hh5XN
+	q6pBKZeZrKo/6wHbxZnSu1822hxjzns1S/yzhqXpv4iLWVbCOdtO/J21KHl9SYhilyQGUBt+/UA
+	tVBAZ36eO+OHGn9Y31pe3nFjdnx1WF0fBYdPTKMm60IGMFwMqlCQTbE7hWLh+2WTE1pxK1TGQLt
+	xWY8
+X-Received: by 2002:a05:7301:4446:b0:2be:8216:57db with SMTP id
+ 5a478bee46e88-2c15d26fb14mr2019315eec.3.1774443437531; Wed, 25 Mar 2026
+ 05:57:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260324143927.000024c3@huawei.com>
-X-Rspamd-Server: rspamout07
-X-Rspamd-Queue-Id: EC85817
-X-Stat-Signature: 1qn3h5nx7pwds75jfk33psjwun8sh14w
-X-Session-Marker: 6A6F686E4067726F7665732E6E6574
-X-Session-ID: U2FsdGVkX180+af1YWzvaZ59D8sxBuIZxxdYmwQ05wU=
-X-HE-Tag: 1774442634-3402
-X-HE-Meta: U2FsdGVkX1+N9RTW+cU2f//6uhWp/3cA7dyMyvWeDd14EPQJZCrLvO2FgAJa+U+AGXznyUFgoxwG7AiMQ+J/iWcIVhQQqjxL1Z1RBdHi7SMWGXxvholXJsbRJ7vA1tkB3wxhjoXOxImeBTrsGQt9/7Tpp6hu5bpxC8vUZzPCdhLasDGEzMljNdt9S1isvnb85mEOf8EvVD10dWxj0viJRjlot+qh6PxDSWGpwiqSI4Id/V716hBLFkZU2PJKtkMZEvT+NOPFfaUKwAoYWvS8+akdil0Am4UPyiRJV2Beuw1sRneBBtupIg2CLdv3qvibJFNqftrJyNxX2BKVkUCKsJns4hilBfJx4CQoTuzSNGekZWyMLXDjcsyFUruSvcYbRMlzkimElgnyOZSmJF9cIoj/+qluE3dG3Nf34vqLyfe1vFHoQB6CDD7KNpzs5lQuvRnQGs+7W3q8fuDEKMy21SHulDUoAINg0oNWKAEMAr9chD3y6qNx3cS0nujP4+Mm9yiujzZVF/f0QBeo3IX6fKJ3/QdsWCK/Kz56z3DwuO4=
+References: <4001609.1774391729@warthog.procyon.org.uk> <4002225.1774392603@warthog.procyon.org.uk>
+In-Reply-To: <4002225.1774392603@warthog.procyon.org.uk>
+From: Marc Dionne <marc.c.dionne@gmail.com>
+Date: Wed, 25 Mar 2026 09:57:06 -0300
+X-Gm-Features: AQROBzCCntXGzWRv1Zw1UxwJFz_M34nFofbkb9RgsykrtknfvGumglgDUw89JVs
+Message-ID: <CAB9dFdvs4=ZbqHeoMFXj39tPxCxKsApHXdyCxvjT8aAAbRCf6Q@mail.gmail.com>
+Subject: Re: [PATCH] cachefiles: Fix excess dput() after end_removing()
+To: David Howells <dhowells@redhat.com>
+Cc: NeilBrown <neil@brown.name>, Paulo Alcantara <pc@manguebit.org>, 
+	Christian Brauner <brauner@kernel.org>, netfs@lists.linux.dev, linux-afs@lists.infradead.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 26/03/24 02:39PM, Jonathan Cameron wrote:
-> On Tue, 24 Mar 2026 00:38:31 +0000
-> John Groves <john@jagalactic.com> wrote:
-> 
-> > From: John Groves <john@groves.net>
-> > 
-> > The new fsdev driver provides pages/folios initialized compatibly with
-> > fsdax - normal rather than devdax-style refcounting, and starting out
-> > with order-0 folios.
-> > 
-> > When fsdev binds to a daxdev, it is usually (always?) switching from the
-> > devdax mode (device.c), which pre-initializes compound folios according
-> > to its alignment. Fsdev uses fsdev_clear_folio_state() to switch the
-> > folios into a fsdax-compatible state.
-> > 
-> > A side effect of this is that raw mmap doesn't (can't?) work on an fsdev
-> > dax instance. Accordingly, The fsdev driver does not provide raw mmap -
-> > devices must be put in 'devdax' mode (drivers/dax/device.c) to get raw
-> > mmap capability.
-> > 
-> > In this commit is just the framework, which remaps pages/folios compatibly
-> > with fsdax.
-> > 
-> > Enabling dax changes:
-> > 
-> > - bus.h: add DAXDRV_FSDEV_TYPE driver type
-> > - bus.c: allow DAXDRV_FSDEV_TYPE drivers to bind to daxdevs
-> > - dax.h: prototype inode_dax(), which fsdev needs
-> > 
-> > Suggested-by: Dan Williams <dan.j.williams@intel.com>
-> > Suggested-by: Gregory Price <gourry@gourry.net>
-> > Signed-off-by: John Groves <john@groves.net>
-> 
-> I was kind of thinking you'd go with a hidden KCONFIG option with default
-> magic to do the same build condition to you had in the Makefil, but one the
-> user can opt in or out for is also fine.
-> 
-> Comments on that below. Meh, I think this is better anyway :)
-> 
-> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
-> 
-> 
-> 
-> > diff --git a/drivers/dax/Kconfig b/drivers/dax/Kconfig
-> > index d656e4c0eb84..7051b70980d5 100644
-> > --- a/drivers/dax/Kconfig
-> > +++ b/drivers/dax/Kconfig
-> > @@ -61,6 +61,17 @@ config DEV_DAX_HMEM_DEVICES
-> >  	depends on DEV_DAX_HMEM && DAX
-> >  	def_bool y
-> >  
-> > +config DEV_DAX_FSDEV
-> > +	tristate "FSDEV DAX: fs-dax compatible devdax driver"
-> > +	depends on DEV_DAX && FS_DAX
-> > +	help
-> > +	  Support fs-dax access to DAX devices via a character device
-> > +	  interface. Unlike device_dax (which pre-initializes compound folios
-> > +	  based on device alignment), this driver leaves folios at order-0 so
-> > +	  that fs-dax filesystems can manage folio order dynamically.
-> > +
-> > +	  Say M if unsure.
-> Fine like this, but if you wanted to hide it in interests of not
-> confusing users...
-> 
-> config DEV_DAX_FSDEV
-> 	tristate
-> 	depends on DEV_DAX && FS_DAX
-> 	default DEV_DAX
+On Tue, Mar 24, 2026 at 7:50=E2=80=AFPM David Howells <dhowells@redhat.com>=
+ wrote:
+>
+> David Howells <dhowells@redhat.com> wrote:
+>
+> > Fixes: 7bb1eb45e43c ("VFS: introduce start_removing_dentry()")
+>
+> Actually, this should probably be:
+>
+> Fixes: bd6ede8a06e8 ("VFS/nfsd/cachefiles/ovl: introduce start_removing()=
+ and end_removing()")
 
-I like this better. I see no reason not to default to including fsdev.
-It does nothing other than frustrating famfs users if it's off - since
-building it still has no effect unless you put a daxdev in famfs mode.
+I think it is the correct Fixes tag, but I'm not sure that this is
+actually the right fix.  7bb1eb45e43c switched other callers of
+cachefiles_bury_object to use start_removing_dentry, which gets an
+additional ref, and removed the extra dget from
+cachefiles_bury_object.  In the cachefiles_cull case however, the
+dentry is from start_removing and has a single ref on entry to
+cachefiles_bury_object, which is an issue as "rep" may be used there
+after end_removing may have put the last ref.  So the correct is
+probably for cachefiles_cull to add a dget() before the call to
+cachefiles_bury_object.
 
-Ira, it's kinda in your hands at the moment. Do you feel like making this
-change?
-
-> 
-> > +
-> >  config DEV_DAX_KMEM
-> >  	tristate "KMEM DAX: map dax-devices as System-RAM"
-> >  	default DEV_DAX
-> 
-> > +}
-> 
+Marc
