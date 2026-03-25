@@ -1,74 +1,72 @@
 Received: from mx0b-00364e01.pphosted.com (mx0b-00364e01.pphosted.com [148.163.139.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E296534C9A6
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 19:40:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B74E641325D
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 19:46:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.139.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774467658; cv=none; b=IJ/J5XLb8FVgAZdit5Ney7yieGiNjuqswK5PgC96NjlFOc/NwXRIdaDfXDYz8lGfYfXxOv6LtkYgqQL4eXNgnyVszgkoxA95J+Q//DsPdsf3fWNXxXlP+YtXZ1lRnbBGVrnUiVvL3RMUG1VzM+v9tN3geZYJbjDr3E/ckJF+npY=
+	t=1774467976; cv=none; b=Yx7/j2EvOvmYRuHwwCyF/CZg1L98CzAlhwQzQGu1+ehtK330f5RjwM0NWlnILBKdY7hLFQcDv2Qwk+tn7orA7OMafhoDvVIotNpsZYB0HA8DZj7JOUHsSMf13b2yN92LTM+ifplwQ1A8HczCJPNTMK7WafU+7FrvMQBOgcMV7B8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774467658; c=relaxed/simple;
-	bh=7zwsmyUip3CAkS6JVcgPiuvcXkqOuFIklXcl4CKLS7s=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=JaJpMVnFSSSk3cNj/tzhpZOEMhheIc9ClUBA+FYchgPldsGkljvLIRj9hi42V+F+8RJ6N8QM4iyIrZ6pHKY0uXzc/diOWmfAnsJNh4GCZEz9x082q8m0tVRq51Unti+35MhzS6phDHuj4D1PfBlhpMJUxVZ/xvokZsUXleVPRmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu; spf=pass smtp.mailfrom=columbia.edu; dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b=Au7sydVY; arc=none smtp.client-ip=148.163.139.74
+	s=arc-20240116; t=1774467976; c=relaxed/simple;
+	bh=SDa413NBu0hIgtXUq9skjN+ObizbWtqbWL36k4Lizgg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=DSBreNrTXH/s7RMKkEAACL1hrV3U8VZ4a5XfDUhmDX2I9ttobcOh4f78A3I/p0Hv3CKxOv3Y4Dqu0tB6gpsyHN/FD8kmWAzFgXVm/hwCEiXivNJfkPHYxnZV2eSyE/v+uJXBEpYTJSx6+Smbxk5+eFEepHeQV6hfiZYogpmF/1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu; spf=pass smtp.mailfrom=columbia.edu; dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b=DQGQun1h; arc=none smtp.client-ip=148.163.139.74
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=columbia.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b="Au7sydVY"
-Received: from pps.filterd (m0167073.ppops.net [127.0.0.1])
-	by mx0b-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62PDhSHl1628193
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 15:30:42 -0400
+	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b="DQGQun1h"
+Received: from pps.filterd (m0167074.ppops.net [127.0.0.1])
+	by mx0b-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62PJSZZK3111411
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 15:30:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=columbia.edu; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pps01; bh=7qfY
-	4Yey2B/8xRD7jk2HVXbmFsGdrb8gwFavo/knRp8=; b=Au7sydVYHJxfvhcGusjW
-	FEbpn9GGkRrzgLrTHhOCMbptHSX/ALA6C88pzf3RJSXe3GRiSgydzJVOXWnM9VaY
-	BNdVPii2y6i0oYq7y+9TO5mMxTct2pKIusyD79XPROlhYQeMKRNs87jKHrvyI0uw
-	Wn8noKHIq4KB814b8F0P5FciGNk7ALGmCIX5JsU1y5+3ZOptL+6ahq1z3ywm2k1x
-	MeMBSMQF62gu6jXDiXJrd/WT/tL/m6ciFKIBfAIwvo+/WigpyDrml510h3ho9m//
-	h3PTLxppFUGY/IZ/ripHeVxqmM3JNsTeqGDbAUh4GSukZ/h2dod+qzk1+uc+2Tnd
-	Ag==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
-	by mx0b-00364e01.pphosted.com (PPS) with ESMTPS id 4d3wxhswsw-1
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=pps01; bh=HA8D23GhyMmgO7Ma7d4u4MjK11
+	kduWqDfN99ZCazVFY=; b=DQGQun1hSa+QSSxUr1i8su6bffWvkVZW2sXUVXgnlt
+	spnIeP4au9kWZU6PdGp9HPtniIjnetnIaBZ/4Hit3Koj7U7ggQPK9cq5xePIQU77
+	YlFwwGlCOaWH4hrsUEsr6/uSlFegWdbd0iMlu24ImT3aWBqZWHzRJg7xvZ5bTEu1
+	weYJ8Uu1Jy+hPpNC/TiiyQHTRZWyIgj09wbccT+4egTjtLVkeqs4I16mYSCFUf+K
+	fXBQuxcnDsxRTIzsQqwBxNXEQvUnHkGkbJwvMgMLXIzDGFZEiKixwOlC8nFIvy+D
+	i7HLIHgQ5vueOIACUJxRXYmWRuwGCH9OOV6nGTk2h7GA==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
+	by mx0b-00364e01.pphosted.com (PPS) with ESMTPS id 4d474u5u4m-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 15:30:42 -0400 (EDT)
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-5093a985e21so13620761cf.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 12:30:42 -0700 (PDT)
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 15:30:40 -0400 (EDT)
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-50939597b85so6740311cf.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 12:30:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774467042; x=1775071842;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=7qfY4Yey2B/8xRD7jk2HVXbmFsGdrb8gwFavo/knRp8=;
-        b=QA7cdp9Pof6wSw2LF2ZZXQRrjhjqajI8Du7+0ZZIIzBpNGmwtPqw9n56867qAucAQ6
-         i2dZhA+5P7t+GjwbgWnblESc7Hxh40i5qFTn0sp/l9auIOCZSARnFzpENTg+5k8zjFFx
-         +5nPWC6wgGHETx8FEFPRnMzdwNpKAWaDMpLEuLWM/mnk6mlxTvBxnpRar4XsqdxxeHCo
-         FbHEflNqRkAsqnzptYzct0j5BNSSrZ/bkO2e/FTEnHyx/dZ0w11zsOScOHODmhXxofeQ
-         aHweS0ucuZ5JOyB4xp8fNGROY7+/c1ylZowqj4j8t2lj0HYfTPrB3XOGC+uSIAhfohZg
-         F0HQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWFafwYboSCqfnXnlmu9TixaZHQI43RptaRMM4CYXsAuTEWGuNO/e2vZm+dZuYPOaI+ME7xpeQuOLM8Tqac@vger.kernel.org
-X-Gm-Message-State: AOJu0YymY5ZnS7wBT5LL2rDLZYWWv6AuImhqSaO7Jyicp5d+SxjnFZw9
-	3nA4o7OpYlYaj4xnOsa6B0M6JAop0b65Oko52tJYIgQCLdp7FeIklQKNDFNbFYiBzDwLZ7wYNn7
-	PKjRYWr/YRCs5XjjpbMXZQTn4TYUs/pCYIsqsQRufYIYJSjrCrl+IVmk7JdwO6rI=
-X-Gm-Gg: ATEYQzy0eOcaAcBl4GtS5Vqo5s6I4+xlrzwCmsZDAibt1DgWj1kcQZtMt95Jq6+ccLa
-	tJ+h+51rNl+FEDfjTISkPdZIF1qf/6uCCgtZBzgv/mVdVaTlVrxcLv55QkGbVSo6xdUE0TeS2UX
-	70t8Lec1fG55VZiVPht+NDYlOXiGaD4dZEAGNC0/jU3N757HxhqtCZf5SllxEOxJ7F0nMBbPDGn
-	vpMgFO7eNfnOMt/bQ6zjLck7ryqgDDFrmQ6A+NtZXpfBICLl8PYr6xaXGktNejoNLvlgfQLkRXu
-	GKV75lsIIItkC/1tkLdfaeOid9FlVboGOxtQ7h2X8kzpJ65CNU/cZapkUOgm2QrQvyw/8CQYRhT
-	lVmGR87rQ3GJjZ8flC2btHOEoL0h1XlRS+BGm4A==
-X-Received: by 2002:a05:622a:9d7:10b0:4ff:c08a:52c4 with SMTP id d75a77b69052e-50b80ce31d4mr55571901cf.18.1774467041726;
-        Wed, 25 Mar 2026 12:30:41 -0700 (PDT)
-X-Received: by 2002:a05:622a:9d7:10b0:4ff:c08a:52c4 with SMTP id d75a77b69052e-50b80ce31d4mr55571251cf.18.1774467041146;
-        Wed, 25 Mar 2026 12:30:41 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1774467040; x=1775071840;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HA8D23GhyMmgO7Ma7d4u4MjK11kduWqDfN99ZCazVFY=;
+        b=R9hCxvAHt4DRhQJzy8D37+tdDxjZU3qGZwj/DGH91eJmZwY4jmekw5VRD5SbD4rN1r
+         bTDusgHDkdhN+VECTEnB1p0g1miyZlvv/yT+Vsqoz0skw9fyr1Bk/Nc9zUr2WFnCgSVu
+         pF06zIydOD3PM7p6V0CTDO8c9dDA4JJh4HX39GBz9rPtasIOh2BPDRe1gfEhd0L4s89s
+         PjN0Kn7YtSOqcbaMKi+nelPs0v/GYxL34othro6TLxM67DIDZ7m+UfIRuGUlMDUM94dI
+         NwRLZBYQm6zmWkp5YJew493CN2m83/jlYjNGv46AjeojGyZ8Wu0kkUukLi67eDc8dAtS
+         sPxg==
+X-Forwarded-Encrypted: i=1; AJvYcCWXCJTu458CEOAYRaEaz7nCQGrA9hi3Dhwj70rpdvQyfBHc07tz9cZ2r9L08AoyIvVkGTPMdTA0xfDcdAMd@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw5tZS8baoFnLRs4CHUkr/13NvNUqY5pdahANEfTnUE+7NDc8V6
+	wnHxivDtr0q7WKcFcgYMHbkEVVSMVP5LxIMpRCUjsAnjLY5xFFLhRD+l0BBCYRxu9w1noaOw+2j
+	hIPg5W+brjtL5NWEqEAlf9a7ayEbd258LIk0GfY8y5sZILMXfcCbAftlN7g1nV9s=
+X-Gm-Gg: ATEYQzxt8metUoDCuZ3s59jcSfpvZoOUvsL3FWSZcbGBZ4f1VqFQ/ADgNP7FWeAKFmf
+	upaw4ifhLiX6/ZupcMvUdG/5QfLfEItEHd19bVm47YJjHIPS+TZeih0uobKKDytI25cYfCQmox/
+	2cSDDQPKhC9+M+HHnS6y7FmeAu+xcSmlMRAs+qmUUIkPiStpQ5kzhzHgr85BV7LGd9kTqnQ1Yhg
+	I4X7OR8R+7X+awN4Xs06nLYC9BFzYIiWUJpVu8Vf2Ijb/iPyTcQg5pQhm+8YsZTKnXIQJAaH5gp
+	PrXuBEYI4tPB/hL7quAdGUBxgpb+f+tWnHx3IcN6lXUvIpqY7CPIBGp0dE6wOG9G+wwEPG8zZiE
+	X0RAvba0BvrSc0lOij8DVq7jJBJgd4FnrARZkaA==
+X-Received: by 2002:ac8:660b:0:b0:509:3cd:b243 with SMTP id d75a77b69052e-50b80d1817fmr51206761cf.21.1774467039789;
+        Wed, 25 Mar 2026 12:30:39 -0700 (PDT)
+X-Received: by 2002:ac8:660b:0:b0:509:3cd:b243 with SMTP id d75a77b69052e-50b80d1817fmr51206021cf.21.1774467039043;
+        Wed, 25 Mar 2026 12:30:39 -0700 (PDT)
 Received: from [127.0.1.1] ([129.236.226.199])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50b9234e3a3sm5534221cf.19.2026.03.25.12.30.40
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50b9234e3a3sm5534221cf.19.2026.03.25.12.30.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Mar 2026 12:30:40 -0700 (PDT)
+        Wed, 25 Mar 2026 12:30:38 -0700 (PDT)
 From: Tal Zussman <tz2294@columbia.edu>
-Date: Wed, 25 Mar 2026 14:43:01 -0400
-Subject: [PATCH RFC v4 2/3] iomap: use BIO_COMPLETE_IN_TASK for dropbehind
- writeback
+Subject: [PATCH RFC v4 0/3] block: enable RWF_DONTCACHE for block devices
+Date: Wed, 25 Mar 2026 14:42:59 -0400
+Message-Id: <20260325-blk-dontcache-v4-0-c4b56db43f64@columbia.edu>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -77,9 +75,11 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260325-blk-dontcache-v4-2-c4b56db43f64@columbia.edu>
-References: <20260325-blk-dontcache-v4-0-c4b56db43f64@columbia.edu>
-In-Reply-To: <20260325-blk-dontcache-v4-0-c4b56db43f64@columbia.edu>
+X-B4-Tracking: v=1; b=H4sIALMsxGkC/3XNTQrCMBAF4KtI1kby0zbVlSB4ALfiIp1MbLC20
+ rRBKb27IatSdPne8L6ZiMfeoSeHzUR6DM67ro0h224I1Lq9I3UmZiKYKJjgJa2aBzVdO4CGGqm
+ UJZfSGJblSOLm1aN17+RdyeV8IrdY1s4PXf9JPwJPpz9c4JRTq01RqByt4vYIXTM+K6d3aMaEB
+ bEARL4GBGVUMVQasrhn5Q9ALgG1BmQEwEi2BzB5WayBeZ6/w0/PZzQBAAA=
+X-Change-ID: 20260218-blk-dontcache-338133dd045e
 To: Jens Axboe <axboe@kernel.dk>,
         "Matthew Wilcox (Oracle)" <willy@infradead.org>,
         Christian Brauner <brauner@kernel.org>,
@@ -91,81 +91,158 @@ Cc: Christoph Hellwig <hch@infradead.org>, linux-block@vger.kernel.org,
         linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
         Tal Zussman <tz2294@columbia.edu>
 X-Mailer: b4 0.14.3-dev-d7477
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1774464193; l=1665;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1774464193; l=4705;
  i=tz2294@columbia.edu; s=20250528; h=from:subject:message-id;
- bh=7zwsmyUip3CAkS6JVcgPiuvcXkqOuFIklXcl4CKLS7s=;
- b=L4CWzIK6kHXuFczj/fPjz2aWyUnS1OpJUL3M+esbeR43gMhMyjhAVsUMhpLPiY2zQSiPsjHza
- J5C73e08cUYBjjsRFhFa/ta9SjUn5dInI/J4XLjlsu/GNzv1JM0+xWE
+ bh=SDa413NBu0hIgtXUq9skjN+ObizbWtqbWL36k4Lizgg=;
+ b=rVqeNMymQnbkbA09jjFwfm2fWjVL0ioo1AkqXQ5jcutSE4d0XRwJmwhfNzYW1IkNqhZq2eWVM
+ qHy178rbPMXAdte8ZiWpsnVx+A2KACM+e+P4EnG/GBnw2X8s/dYeyYJ
 X-Developer-Key: i=tz2294@columbia.edu; a=ed25519;
  pk=BIj5KdACscEOyAC0oIkeZqLB3L94fzBnDccEooxeM5Y=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzI1MDE0MiBTYWx0ZWRfX6s6CsBJT3mrw
- vnIV2ZRCQKjvUzM5vqwOi4K3PYybhQcI4lmEBlafet1+v0c8o4JqK0yAJOe43Ml0o5pVQE7kU+R
- g7j3q5MSxrfHyM4cEVjaHY2X8vBc6CmHTfWk+QrTtkECIJO4PXdT6WGVwOIR28GOpF6Oni3EnxT
- hzPR30RXiEOKncwtTVCbcSspvKftc32raD/1ocGM+lrLJtV+G4+o6rXI7Wn+ZAAyAeMycPBddnN
- DM3e9ke7bgH+ViTer2g7WKYIsu1zmCGrUp6SGkwRkWVxvgKUFWg/Z3JB1kV1rD0DiYU6NhojFj2
- CXSxADfctvozdQx6/D5UACO32qyLlWI1irTcGY/Yqxt9bXwrvViFWosH3uyUF7PuMJvlzn6dIva
- +/kuhhEonqQ66ukobhH/sc0yz43eOqmHJRKaTKaghhqKHnRhwxqlv4CQRgEPzMUgJKjuZrIWd8I
- hXyxt1gg0hfUV8FB66w==
-X-Proofpoint-GUID: fHulUO8QrKZSA-EQX9WdSTy21e99VMlR
-X-Authority-Analysis: v=2.4 cv=V7NwEOni c=1 sm=1 tr=0 ts=69c437e2 cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=QOUmeeuX5y9IvSxXHa6D2A==:17
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzI1MDE0MiBTYWx0ZWRfXxsAxWosuSeZi
+ 8tALrdw0z50xLB3hsIRk4D++s+q/3MiaQarLrvUphVTmMLbiICjNiO0al8LqVLPwDzRda89kxt/
+ xoKpqLavnrB3g2nTgrMfYJ8k3oSFTQmzZHwyqOK73wgtWosT7S0uxzIUh8aPtgyMi9ReQ1JcjCF
+ AEyGvM6cbZc6LcrfdeuhA8YPJDEjHEjHon0cNtGg530U1igjEiEJt0coU257MJ6Ha2hv39yz7A7
+ 5ZKnQLIh+tNYyAx/vHHVH8VFQ5Lp1N4b6wPQN1IT08iBmLCCzMGG60LzDz4GWgEyggoEflw0Ggd
+ l/5SiFbKFSc0NLkLS6DEsZI5o7h3DwjCdcHmald2pG0li0lmEXl6Zczh2I+P+q5bwMBSH/jzn2B
+ TvjmQB8CsdhNIMPgT37PIIwwT8V7nvpZDjCz/2GbeE3/p2arrreeWDQSW+F4npqxsHEEvZH7obM
+ okixTPDlmekMZqjM9gg==
+X-Proofpoint-GUID: ah_ncrhYtH5TbxRtUoBakQXTJGaa1TYe
+X-Authority-Analysis: v=2.4 cv=ANMIVkx+ c=1 sm=1 tr=0 ts=69c437e0 cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=QOUmeeuX5y9IvSxXHa6D2A==:17
  a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=x7bEGLp0ZPQA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22 a=jHxIr1HyPKZ_Q5_91PL3:22
- a=wJ0dTj9p17mGQU10CegA:9 a=QEXdDO2ut3YA:10 a=kacYvNCVWA4VmyqE58fU:22
-X-Proofpoint-ORIG-GUID: fHulUO8QrKZSA-EQX9WdSTy21e99VMlR
+ a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22 a=azVShVRs0zEubeQ0wG0L:22
+ a=VwQbUJbxAAAA:8 a=tzuM4wBP0trzEmBACekA:9 a=QEXdDO2ut3YA:10
+ a=dawVfQjAaf238kedN5IG:22
+X-Proofpoint-ORIG-GUID: ah_ncrhYtH5TbxRtUoBakQXTJGaa1TYe
 X-Proofpoint-Virus-Version: vendor=nai engine=6800 definitions=11740
  signatures=596818
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 suspectscore=0 phishscore=0 impostorscore=10 adultscore=0
- bulkscore=10 spamscore=0 priorityscore=1501 malwarescore=0
- lowpriorityscore=10 classifier=typeunknown authscore=0 authtc= authcc=
+ lowpriorityscore=10 suspectscore=0 phishscore=0 adultscore=0
+ priorityscore=1501 spamscore=0 malwarescore=0 impostorscore=10 bulkscore=10
+ clxscore=1015 classifier=typeunknown authscore=0 authtc= authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2603050001
  definitions=main-2603250142
 
-Set BIO_COMPLETE_IN_TASK on iomap writeback bios when
-IOMAP_IOEND_DONTCACHE is set. This ensures that bi_end_io runs in task
-context, where folio_end_dropbehind() can safely invalidate folios.
+Add support for using RWF_DONTCACHE with block devices.
 
-With the bio layer now handling task-context deferral generically, XFS
-no longer needs to route DONTCACHE ioends through its completion
-workqueue for page cache invalidation. Remove the DONTCACHE check from
-xfs_ioend_needs_wq_completion().
+Dropbehind pruning needs to be done in non-IRQ context, but block
+devices complete writeback in IRQ context.
 
-Signed-off-by: Tal Zussman <tz2294@columbia.edu>
+To fix this, we can defer dropbehind invalidation to task context. We
+introduce a new BIO_COMPLETE_IN_TASK flag that allows the bio submitter
+to request task-context completion of bi_end_io. When bio_endio() sees
+this flag in non-task context, it queues the bio to a per-CPU list and
+schedules a work item to do bio completion.
+
+Patch 1 adds the BIO_COMPLETE_IN_TASK infrastructure in the block
+layer.
+
+Patch 2 wires BIO_COMPLETE_IN_TASK into iomap writeback for DONTCACHE
+folios and removes the DONTCACHE workqueue deferral from XFS.
+
+Patch 3 enables RWF_DONTCACHE for block devices, setting
+BIO_COMPLETE_IN_TASK in submit_bh_wbc() for the CONFIG_BUFFER_HEAD
+path.
+
+This support is useful for databases that operate on raw block devices,
+among other userspace applications.
+
+I tested this (with CONFIG_BUFFER_HEAD=y) for reads and writes on a
+single block device on a VM, so results may be noisy.
+
+Reads were tested on the root partition with a 45GB range (~2x RAM).
+Writes were tested on a disabled swap parition (~1GB) in a memcg of size
+244MB to force reclaim pressure.
+
+Results:
+
+===== READS (/dev/nvme0n1p2) =====
+ sec   normal MB/s  dontcache MB/s
+----  ------------  --------------
+   1        1098.6          1609.0
+   2        1270.3          1506.6
+   3        1093.3          1576.5
+   4        1141.8          2393.9
+   5        1365.3          2793.8
+   6        1324.6          2065.9
+   7         879.6          1920.7
+   8        1434.1          1662.4
+   9        1184.9          1857.9
+  10        1166.4          1702.8
+  11        1161.4          1653.4
+  12        1086.9          1555.4
+  13        1198.5          1718.9
+  14        1111.9          1752.2
+----  ------------  --------------
+ avg        1173.7          1828.8  (+56%)
+
+==== WRITES (/dev/nvme0n1p3) =====
+ sec   normal MB/s  dontcache MB/s
+----  ------------  --------------
+   1         692.4          9297.7
+   2        4810.8          9342.8
+   3        5221.7          2955.2
+   4         396.7          8488.3
+   5        7249.2          9249.3
+   6        6695.4          1376.2
+   7         122.9          9125.8
+   8        5486.5          9414.7
+   9        6921.5          8743.5
+  10          27.9          8997.8
+----  ------------  --------------
+ avg        3762.5          7699.1  (+105%)
+
 ---
- fs/iomap/ioend.c  | 2 ++
- fs/xfs/xfs_aops.c | 4 ----
- 2 files changed, 2 insertions(+), 4 deletions(-)
+Changes in v4:
+- 1/3: Move dropbehind deferral from folio-level to bio-level using
+  BIO_COMPLETE_IN_TASK, per Matthew and Jan.
+- 1/3: Work function yields on need_resched() to avoid hogging the CPU,
+  per Jan.
+- 2/3: New patch. Set BIO_COMPLETE_IN_TASK on iomap writeback bios for
+  DONTCACHE folios, removing the need for XFS-specific workqueue
+  deferral.
+- 3/3: Set BIO_COMPLETE_IN_TASK in submit_bh_wbc() for buffer_head
+  path.
+- 3/3: Update commit message to mention CONFIG_BUFFER_HEAD=n path.
+- Link to v3: https://lore.kernel.org/r/20260227-blk-dontcache-v3-0-cd309ccd5868@columbia.edu
 
-diff --git a/fs/iomap/ioend.c b/fs/iomap/ioend.c
-index e4d57cb969f1..6b8375d11cc0 100644
---- a/fs/iomap/ioend.c
-+++ b/fs/iomap/ioend.c
-@@ -113,6 +113,8 @@ static struct iomap_ioend *iomap_alloc_ioend(struct iomap_writepage_ctx *wpc,
- 			       GFP_NOFS, &iomap_ioend_bioset);
- 	bio->bi_iter.bi_sector = iomap_sector(&wpc->iomap, pos);
- 	bio->bi_write_hint = wpc->inode->i_write_hint;
-+	if (ioend_flags & IOMAP_IOEND_DONTCACHE)
-+		bio_set_flag(bio, BIO_COMPLETE_IN_TASK);
- 	wbc_init_bio(wpc->wbc, bio);
- 	wpc->nr_folios = 0;
- 	return iomap_init_ioend(wpc->inode, bio, pos, ioend_flags);
-diff --git a/fs/xfs/xfs_aops.c b/fs/xfs/xfs_aops.c
-index 76678814f46f..0d469b91377d 100644
---- a/fs/xfs/xfs_aops.c
-+++ b/fs/xfs/xfs_aops.c
-@@ -510,10 +510,6 @@ xfs_ioend_needs_wq_completion(
- 	if (ioend->io_flags & (IOMAP_IOEND_UNWRITTEN | IOMAP_IOEND_SHARED))
- 		return true;
- 
--	/* Page cache invalidation cannot be done in irq context. */
--	if (ioend->io_flags & IOMAP_IOEND_DONTCACHE)
--		return true;
--
- 	return false;
- }
- 
+Changes in v3:
+- 1/2: Convert dropbehind deferral to per-CPU folio_batches protected by
+  local_lock using per-CPU work items, to reduce contention, per Jens.
+- 1/2: Call folio_end_dropbehind_irq() directly from
+  folio_end_writeback(), per Jens.
+- 1/2: Add CPU hotplug dead callback to drain the departing CPU's folio
+  batch.
+- 2/2: Introduce block_write_begin_iocb(), per Christoph.
+- 2/2: Dropped R-b due to changes.
+- Link to v2: https://lore.kernel.org/r/20260225-blk-dontcache-v2-0-70e7ac4f7108@columbia.edu
 
+Changes in v2:
+- Add R-b from Jan Kara for 2/2.
+- Add patch to defer dropbehind completion from IRQ context via a work
+  item (1/2).
+- Add initial performance numbers to cover letter.
+- Link to v1: https://lore.kernel.org/r/20260218-blk-dontcache-v1-1-fad6675ef71f@columbia.edu
+
+---
+Tal Zussman (3):
+      block: add BIO_COMPLETE_IN_TASK for task-context completion
+      iomap: use BIO_COMPLETE_IN_TASK for dropbehind writeback
+      block: enable RWF_DONTCACHE for block devices
+
+ block/bio.c                 | 84 ++++++++++++++++++++++++++++++++++++++++++++-
+ block/fops.c                |  5 +--
+ fs/buffer.c                 | 22 ++++++++++--
+ fs/iomap/ioend.c            |  2 ++
+ fs/xfs/xfs_aops.c           |  4 ---
+ include/linux/blk_types.h   |  1 +
+ include/linux/buffer_head.h |  3 ++
+ 7 files changed, 111 insertions(+), 10 deletions(-)
+---
+base-commit: 2961f841b025fb234860bac26dfb7fa7cb0fb122
+change-id: 20260218-blk-dontcache-338133dd045e
+
+Best regards,
 -- 
-2.39.5
+Tal Zussman <tz2294@columbia.edu>
 
