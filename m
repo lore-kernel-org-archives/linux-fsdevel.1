@@ -1,68 +1,31 @@
-Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E37041D5170
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 00:16:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F67B1DF261;
+	Wed, 25 Mar 2026 01:03:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.181.97.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774397791; cv=none; b=fO9Nx8u2GPQGm7rSgutcqUHfzatIOw+4Mcwvbk2tTayd+T2eOHhDpXPNN8WnB5bd5YHh504yrzT2aEu7RddDFh7OzX6Ghx52Q0px2laiySnc7J1dFuYlXaqQEGs7w6d6rHr7LZeKNyxmZ1an4+AL3H+Hcn3NsD6H2rzNYsUQGp4=
+	t=1774400596; cv=none; b=maHWt7+eTtP0rddmPG4pArPU9lvdmQHpuSXSQ2xzHcQH4aRefyrYO0gCOhgI91Wck5xvyooEMPrM0O1ZYlKtGD4Wp5mzYY+UAuJdnt2YfGTS7DyzvMAwZuajNKbsiaWnvUBGZkUgeI2GHVY5n0i4U6s1gW88vbn15Io1w67PKEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774397791; c=relaxed/simple;
-	bh=MoLrdbwuxoKO2kYMSDxtCJV83ayachj6VWNdw0sH+RA=;
+	s=arc-20240116; t=1774400596; c=relaxed/simple;
+	bh=0KQxL84FE4WL20uRFkiJcIEjnR6WZA69GctbZbV4Rds=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=j4V2PPSoK9pURlcBA5mGp8aZ9KcPKIMmOw3ZTE6gji5WWj6NFG/gD5LSQ6xOyUoA9OsLYpXZW/xeJ/4oAwuAmVsq3bORQlvboSuCKazk5dVdOgWS6klcvj7LKULsJpdHodRtFokoASGZ/vd2xWxBOAAQyhcidrIeBDNklENdl/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=SYf+r95P; arc=none smtp.client-ip=209.85.161.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="SYf+r95P"
-Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-67c641dfaceso1093000eaf.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 24 Mar 2026 17:16:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1774397785; x=1775002585; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=nUE46PPV8ZBQbSpBMaJf2P+/9B1olmom1CQ0qLARqFs=;
-        b=SYf+r95PWmYPO1n7S4yEVApA92diDLGXIPneKoub13/8urv4UW65pHpy7F4JHtAEA+
-         R3f6hdyMDSGmO4Tds0VFrI6pYtW1NpIleRv/oF2T8YQ1Jp6AqGbv/XCOrOSrNczV5suz
-         9iE9z43zJrEnfAjpMIB7FaHArsxFNos4nItFpJpck7uyg2uxuK+9jdOrln9Suas8Xval
-         tHEm5QRW2F2e3q50poeKOANZlSGPwVDmqSL68vwYQG2QhaZ/JMUle7UINTpSYr5n7s+g
-         81OjuIAGSa/zmgMtPh0FDm+q6funlL2oOySjo0rg8pqUQNFLDkWQX67oymjyKZOpSoDF
-         LFRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774397785; x=1775002585;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nUE46PPV8ZBQbSpBMaJf2P+/9B1olmom1CQ0qLARqFs=;
-        b=sHX26i3vpIsZRr9nhyatnL//iSi6iFYeTEYEHjU6qLnqtxCmA/DrP3Zp/GkOM4pICd
-         /6h5Dnqr+UoQFyjUk+ga6mncAnu5JcYxecLmt74eSE8SHLLFXpmPahhCuU1OVa4JdFa1
-         QLNzQForV47169Ku0c0p/QFSzb38KucpObiDIpIpuriMq9vsym1Lptpr966NmeXEne1J
-         PtakXyGWxND9zmyTnqt4N3YNWlvelpi7g9X+7TtS58cfEYZLHdHU8/slyw0/50W5qxi0
-         v0DBmjfINglYHsne5j03t6NAU4nwF+KKS0OP47gxKyqlNTZ/2yfe1kSN7Ka5v2fV86N3
-         9KEw==
-X-Forwarded-Encrypted: i=1; AJvYcCWezU5+pJ7mYM2AzwOSk89ZDUYr207aYxulNx8mHbE54wCeE6ies6WWWg3NNNDxeLoeSkI52BdT6f3PrY2x@vger.kernel.org
-X-Gm-Message-State: AOJu0YzMaO4trf+Ys3wwQZ/Px2j03zjvep3hwRwdJTEaDFBnJ+IhtHsE
-	BbdAYLsXSki+FXruk4GSUQNWdfjg8ZU0hT6oqZUTXf4yv8bquBEU/IUL8nIHiXnS0tWRvz7jLnt
-	o65hFq+g=
-X-Gm-Gg: ATEYQzxBN/ByCvRI4V4csvAJky502FXp0FYK10xwouX1uGtMQb5D6/S4X01842cVfwK
-	Xes7y8O2SzrDFC2QHnqWmFmMUKLf/LSS6xozlW414CqBtTla8ozkQB/CJEVOaOeNshfkn02vr9X
-	EDqyFxVGmG3cnS1mfvTqO0mRkBpXouv9ykXNNmRLlxLDYkJMZQdsMMvvr1YEPopEkQeZywDRNVH
-	a7mbJvHBG2D3L74WKSQcVZG3uBZ4RMQ1ajVQkjq3kKKeFlmoFPr5/tvKiM/iDr0jjTrelQ8XioB
-	OL4tvnJfQb2FZijbNgTTwN8F8AP1k0vAyZ3gafLsiDGpnGpSyVbPSuGLxnJeK2yzE2EAW0mEYjV
-	74CZJKY9s8wey19NyFEzVDu3lNQHjCM9Za2PkOUxxdfsTE0xDMErFTK3LIAgExgLp2tunB16ETK
-	36SEQIh+NxhAzf+CFF1U1Crr09JpXjw94MWrIMy+JX78ADHbZmWWrSdgIOMFWhITjGKizngOCW7
-	MA0r8cd1w==
-X-Received: by 2002:a05:6820:206:b0:67c:2bab:bf54 with SMTP id 006d021491bc7-67dff5f7978mr793373eaf.62.1774397785456;
-        Tue, 24 Mar 2026 17:16:25 -0700 (PDT)
-Received: from [192.168.1.150] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-41c57bdf2b0sm9253351fac.7.2026.03.24.17.16.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Mar 2026 17:16:24 -0700 (PDT)
-Message-ID: <1ec0b46f-a1b2-43f6-98ae-43bb87d0e59f@kernel.dk>
-Date: Tue, 24 Mar 2026 18:16:23 -0600
+	 In-Reply-To:Content-Type; b=lJ051n5mfnBO8OrqkfK/vjvG96Z5rt4wV9SQdyV7tkFkVBVBFR2d7sIAVytSlhrV2AabwgSIkoW9bdoETXxBd/kzcPYmnHEm+yhgJdiIQ+6peral+No/siR93amgaCysBMdkk7FyEVgL8KKk8YGc9neEWpxEL33V5I3HdpyKRJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp; arc=none smtp.client-ip=202.181.97.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp
+Received: from www262.sakura.ne.jp (localhost [127.0.0.1])
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 62P11oZo092935;
+	Wed, 25 Mar 2026 10:01:50 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from [192.168.1.2] (M106072072000.v4.enabler.ne.jp [106.72.72.0])
+	(authenticated bits=0)
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 62P11oOM092930
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+	Wed, 25 Mar 2026 10:01:50 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <4f5d1b1f-ecb2-421a-8a46-36c7a12d48de@I-love.SAKURA.ne.jp>
+Date: Wed, 25 Mar 2026 10:01:49 +0900
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -70,44 +33,119 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] iomap: fix lockdep complaint when reads fail
-To: Christoph Hellwig <hch@infradead.org>, "Darrick J. Wong"
- <djwong@kernel.org>
-Cc: Christian Brauner <brauner@kernel.org>, Zorro Lang <zlang@redhat.com>,
- linux-xfs@vger.kernel.org, Tal Zussman <tz2294@columbia.edu>,
- linux-block@vger.kernel.org, linux-fsdevel <linux-fsdevel@vger.kernel.org>
-References: <20260319194303.efw4wcu7c4idhthz@doltdoltdolt>
- <20260320163444.GE6223@frogsfrogsfrogs> <acDbFtQw0mom798e@infradead.org>
- <20260323152231.GG6223@frogsfrogsfrogs>
- <20260323210017.GL6223@frogsfrogsfrogs> <acIrtFpASaBmFZPU@infradead.org>
+Subject: Re: [PATCH 6/7] tomoyo: Convert from sb_mount to granular mount hooks
+To: Song Liu <song@kernel.org>
+Cc: Song Liu <songliubraving@meta.com>,
+        Christian Brauner
+ <brauner@kernel.org>,
+        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+        "paul@paul-moore.com" <paul@paul-moore.com>,
+        "jmorris@namei.org" <jmorris@namei.org>,
+        "serge@hallyn.com"
+ <serge@hallyn.com>, "jack@suse.cz" <jack@suse.cz>,
+        "john.johansen@canonical.com" <john.johansen@canonical.com>,
+        "stephen.smalley.work@gmail.com" <stephen.smalley.work@gmail.com>,
+        "omosnace@redhat.com" <omosnace@redhat.com>,
+        "mic@digikod.net" <mic@digikod.net>,
+        "gnoack@google.com"
+ <gnoack@google.com>,
+        "takedakn@nttdata.co.jp" <takedakn@nttdata.co.jp>,
+        "herton@canonical.com" <herton@canonical.com>,
+        Kernel Team <kernel-team@meta.com>,
+        "selinux@vger.kernel.org" <selinux@vger.kernel.org>,
+        "apparmor@lists.ubuntu.com" <apparmor@lists.ubuntu.com>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org"
+ <linux-security-module@vger.kernel.org>
+References: <20260318184400.3502908-1-song@kernel.org>
+ <20260318184400.3502908-7-song@kernel.org>
+ <b720f521-e930-4f35-9505-1bfdf9e2818c@I-love.SAKURA.ne.jp>
+ <4DF5C4A8-7C92-4F76-9B34-2262089E7289@meta.com>
+ <33abcf34-13e2-4a37-83f3-78bb27ecbc11@I-love.SAKURA.ne.jp>
+ <F0A0D13E-8208-49A4-9AC6-89AC4BF3F4FB@meta.com>
+ <20260323-klappen-atemschutz-7a0af8c6b087@brauner>
+ <714a614b-cfb4-4b20-af8c-df3cc56dfb92@I-love.SAKURA.ne.jp>
+ <CAAeYb7k+TWArOKyOomkLZ8fwqUPjha9iORpJaj4nMyN=o4ZRQg@mail.gmail.com>
+ <6609e11e-90aa-4021-974e-e9937688dd49@I-love.SAKURA.ne.jp>
+ <CAPhsuW4G7vo-JZqenZ-sFHw9z02wZUJa1-+9U81U--vQhnfG_Q@mail.gmail.com>
+ <6c298238-8d87-4c41-84a7-e0373d466a15@I-love.SAKURA.ne.jp>
+ <CAPhsuW4E_BrF0ap5yg_6TbRAna=2Ajk2nuoT6WGwkS5cyyYB3w@mail.gmail.com>
 Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <acIrtFpASaBmFZPU@infradead.org>
+From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+In-Reply-To: <CAPhsuW4E_BrF0ap5yg_6TbRAna=2Ajk2nuoT6WGwkS5cyyYB3w@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Virus-Status: clean
+X-Anti-Virus-Server: fsav105.rs.sakura.ne.jp
 
-On 3/24/26 12:14 AM, Christoph Hellwig wrote:
-> Please reword the subject - your are not fixing a lockdep complain,
-> but the underlying issue of calling code from the wrong context.
-> Lockdeps as usual is just the messenger.
+On 2026/03/25 4:03, Song Liu wrote:
+> On Tue, Mar 24, 2026 at 2:59 AM Tetsuo Handa
+> <penguin-kernel@i-love.sakura.ne.jp> wrote:
+>>
+>> On 2026/03/24 16:46, Song Liu wrote:
+>>> On Mon, Mar 23, 2026 at 11:12 PM Tetsuo Handa
+>>> <penguin-kernel@i-love.sakura.ne.jp> wrote:
+>>>>
+>>>> On 2026/03/24 4:31, Song Liu wrote:
+>>>>>> Then, how can LSM modules know that how the requested filesystem resolves
+>>>>>> the dev_name argument, without embedding filesystem specific resolution
+>>>>>> logic into individual LSM module?
+>>>>>
+>>>>> IIUC, if an LSM cares about the dev_name of a new mount, it will have to look
+>>>>> into each individual filesystem. We can add a LSM hook for the filesystems to
+>>>>> call. But this will require changes to individual filesystem code. OTOH,
+>>>>> dev_name can probably bridge the gap as we change filesystems.
+>>>>>
+>>>>> Would this work?
+>>>>
+>>>> I guess something like untested diff shown below would work.
+>>>
+>>> I think this doesn't work with erofs on file (requires
+>>> CONFIG_EROFS_FS_BACKED_BY_FILE). erofs may not be the
+>>> only one that has this problem.
+>>
+>> This is incomplete but I think this is better than now because currently
+>> mount() operation likely fails with -ENOENT if the requested filesystem
+>> does not interpret fc->source as a pathname despite tomoyo_mount_acl()
+>> always interprets fc->source as a pathname when FS_REQUIRES_DEV is set.
 > 
->> Zorro's diagnosis makes sense, so the solution is to kick the failed
->> read handling to a workqueue much like we added for writeback ioends in
->> commit 294f54f849d846 ("fserror: fix lockdep complaint when igrabbing
->> inode").
+> If I understand Christian correctly, the main challenge here is that
+> FS_REQUIRES_DEV doesn't imply fc->source is the path of a device.
+
+Correct. FS_REQUIRES_DEV no longer implies that fc->source is a pathname.
+
+> Changing this assumption is a major change between VFS and many
+> filesystems.
+
+Wrong. I'm not trying to change this assumption. I'm trying to move LSM hook
+to a location after fc->source was interpreted by individual filesystem.
+
 > 
-> The code looks ok, although I'd much prefer generalizing it.  I guess
+> I was thinking about something like:
+> 
+> diff --git i/fs/super.c w/fs/super.c
+> index 378e81efe643..91ce3003bc23 100644
+> --- i/fs/super.c
+> +++ w/fs/super.c
+> @@ -1676,6 +1676,9 @@ int get_tree_bdev_flags(struct fs_context *fc,
+>                         errorf(fc, "%s: Can't lookup blockdev", fc->source);
+>                 return error;
+>         }
+> +       error = security_mount_dev(fc, dev);
+> +       if (error)
+> +               return error;
+>         fc->sb_flags |= SB_NOSEC;
+>         s = sget_dev(fc, dev);
+>         if (IS_ERR(s))
+> 
+> This allows the LSMs to monitor the dev being mounted in a new mount.
 
-I'll take a stab at it. This one is fine since it's an error handling
-path, but previous tests I did with this kind of approach for every IO
-hitting this path have been utterly terrible.
+Splitting into multiple LSM hooks does not work, for TOMOYO wants to check
+all parameters (parameters currently passed to security_mount_new() + the
+"struct path" which was resolved by individual filesystem from fc->source
+parameter) in one location.
 
-Once done though, we can swap stuff like this too.
-
-IOW, for this one:
-
-Reviewed-by: Jens Axboe <axboe@kernel.dk>
-
--- 
-Jens Axboe
+I'm not sure how security_mount_new() is called for fsconfig() case.
+Does https://man7.org/linux/man-pages/man2/fsconfig.2.html#EXAMPLES mean
+TOMOYO cannot check all parameters until move_mount() is called?
 
