@@ -1,157 +1,171 @@
-Received: from fout-a1-smtp.messagingengine.com (fout-a1-smtp.messagingengine.com [103.168.172.144])
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C8E23939B0
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 07:53:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49630391E7F;
+	Wed, 25 Mar 2026 07:53:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774425188; cv=none; b=dTQ19djfeg0NznvHhN4Jj5hmDvhREjwqoOYgWtWFe/NrY2mGund+86wL67/gozN9GpyDeJ1feKL/+wCpTp1TVbWoCz0L9L0jRWlge7vMki/1xW3xDltpidvpl0T7dQn1EutK7GIXRH/bUerQwtUOFN/VYHLHQjJZsEnUzdkyCgA=
+	t=1774425207; cv=none; b=cEemHlLUkAFOe/fWFxm6lWwDV7WSuzTPmerwiOx6K1YBeNFFRidSpLY4EL90j3R6pV7ntSVeYrlAySwMC3QcxR6Nrv690QooscxHTPU56C22KNUo0CeMCIMPWTqv+qInkvC2KX6t6La8EZKArVPTj+ISyify/6BA8D4JMHSbnxs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774425188; c=relaxed/simple;
-	bh=DOz8bUGIyP/2sDAUIjvj130cItoZWJfbm4Is6QFuaw4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=as1H/7/NOOjwZtcJH2CJVkEL0Ii8vi5h6HkGq7LIUl+7jwNQWbqEtbO9BCptvTbLzfj1t4TqcYDZRhwdDaNo/1f6P5GbEwtyPfL31C+BjzKm9DsxlhBSLx/uM4cE2RhGC+dcpZ9k57zIvRsa6hulVDOMZNKcPBwXT8N5f3xuCLs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=DTQ8kK7o; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=0YBNQEc9; arc=none smtp.client-ip=103.168.172.144
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="DTQ8kK7o";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="0YBNQEc9"
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfout.phl.internal (Postfix) with ESMTP id 302DCEC0209;
-	Wed, 25 Mar 2026 03:53:02 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-02.internal (MEProxy); Wed, 25 Mar 2026 03:53:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1774425182;
-	 x=1774511582; bh=zyciThlcvquAczhQof3/GdirOuxhwiRg82zrnnf6Snw=; b=
-	DTQ8kK7osMz1+dt5oxICFUELgo62E8RSRceDCgBucxoXbvxY2Z4PgLqykZa5DMIS
-	yashBcmf6vu1+WoK3QS6mJKfDRL1eEmEZIO1ZxDOfEJ6IJb6CVnKSV9csvKA1I+y
-	zW5RBxBMO6eYu39l7Z+UldfPwYptGMdFM0eCq76jQZwFMIx74eatlBuaBJZMyf/9
-	OL9hoyqHcI/FUglGt97EhkD9jlJ9bhp8HdXV6hdBIZt6EwLfgGsx/UM3bZauawqR
-	fGrZ9UsTWfJJcrjfgO6lKthalzd1QwZiAdzJA7+wYRDTBOOQsQApjJo6Q3xMD/DQ
-	Qn3Wy7sNersEvoSaMUUv1w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1774425182; x=
-	1774511582; bh=zyciThlcvquAczhQof3/GdirOuxhwiRg82zrnnf6Snw=; b=0
-	YBNQEc9IrIOeTPH/FQX+L+uRFtx3s5CLgMkJPeSpQi350UQWP4vL0g5SOQDP0S0e
-	tX6LHANp7YXATIAGGfC29CGPcf1fMX89BcPOycPUH3+kCwQYPRVL87EVrriLhhob
-	9wcU7klDIh7kv31tRFCLfgVQDwj+vvZliHmA3wQybWtzQBt9X5WzlsPF6St0kyPV
-	50va7zMM+6Z3RZesA5yyQB+ErKMoGAVRw1K2K3zeN84ziPcq19mFK1+M1aHr7AqZ
-	Zm4KbajYLqX8WzWVRLJmDeOHrkuaglCMUboar5l7FkqEidZzxlyggP3GPmbSx7is
-	6N/IBVVv8duUd+rxJvmfA==
-X-ME-Sender: <xms:XZTDaZKYgOplfP17p0gprbJlBjvcdgBUPmASZUyUopMdpsZMLubBhA>
-    <xme:XZTDaY1j3Ztur652TYiDC2MPJv_UUOpmgXN1sdTw02jpk5cL7dxx8aY6ayqqfGwFc
-    5CvRc5CwNPcFIrigm2Pg7jakenNpgVkrM_9s6CQGvwx0JSBndi3>
-X-ME-Received: <xmr:XZTDabhrc5k4nuk7es2t93aoEEufaAnlpe6bT3GXYWqIYV0mVYgYtWO6toK5l7kBePGoE_we457g1D2k_kUREe-unnnU89xDV5j9q5aDQZKiF4in9A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdefvdefleduucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepkfffgggfuffvvehfhfgjtgfgsehtkeertddtvdejnecuhfhrohhmpeeuvghrnhgu
-    ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
-    htthgvrhhnpeejffdutdeghfffgffgjeehteejueekieetieehveehteeuiefgieeuleek
-    jeekueenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivg
-    eptdenucfrrghrrghmpehmrghilhhfrhhomhepsggvrhhnugessghssggvrhhnugdrtgho
-    mhdpnhgspghrtghpthhtohepiedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepug
-    hjfihonhhgsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegsshgthhhusggvrhhtsegu
-    ughnrdgtohhmpdhrtghpthhtoheplhhinhhugidqfhhsuggvvhgvlhesvhhgvghrrdhkvg
-    hrnhgvlhdrohhrghdprhgtphhtthhopehmihhklhhoshesshiivghrvgguihdrhhhupdhr
-    tghpthhtohepjhhorghnnhgvlhhkohhonhhgsehgmhgrihhlrdgtohhmpdhrtghpthhtoh
-    epkhgthhgvnhesuggunhdrtghomh
-X-ME-Proxy: <xmx:XZTDaRWdecpkSqwa9SwRpwiM8S5oARR7x4mLt-5JYTyQatFbjQQ84g>
-    <xmx:XZTDaSWPuuTc0UbNq1pRtzhuum2QLky5c-sZAdxrlO4tBpfGFRfKxA>
-    <xmx:XZTDaZhPVpvE5ZZXwEtUmVJ5GfxRQViLOGlXzNm_kxrdFcZuEQvQTA>
-    <xmx:XZTDaVbqau10nWGWCnZ-dYfFhBfCwCCj-m1iJcul65M4v4Yjref_LQ>
-    <xmx:XpTDacN-kMCtYNz8j84BsSvzB4QHb-eKq2qvQIolhf2xZjXa3gVAhCVg>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 25 Mar 2026 03:53:00 -0400 (EDT)
-Message-ID: <10748cf4-ac68-45d5-9d56-999f45fcf3b2@bsbernd.com>
-Date: Wed, 25 Mar 2026 08:52:59 +0100
+	s=arc-20240116; t=1774425207; c=relaxed/simple;
+	bh=viFvCHynwN2QwKfgVv4CMz86s7mPdhW8AzLlTm4Rt7I=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=XGkDnt4tFs/+svo03dILbZOzf/CTUebegkgli2ffh70FI+lsyvzzlLumA2qwnUfF3aHGeVNGTrA33DhhWyaUs64cqFpISVbaeMvGsZHquLzOzdTo2UIewbSP4t/iwL//o1mTTRN8bY8JCXlShOh38G+Pha22afl88M1VqwNiVUQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=none smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.170])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4fgdtd1RPqzYQtwW;
+	Wed, 25 Mar 2026 15:33:29 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.112])
+	by mail.maildlp.com (Postfix) with ESMTP id 317124056E;
+	Wed, 25 Mar 2026 15:33:39 +0800 (CST)
+Received: from huaweicloud.com (unknown [10.50.85.155])
+	by APP1 (Coremail) with SMTP id cCh0CgAHC9vFj8NpuR6cCA--.49898S5;
+	Wed, 25 Mar 2026 15:33:38 +0800 (CST)
+From: Zhang Yi <yi.zhang@huaweicloud.com>
+To: linux-ext4@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	tytso@mit.edu,
+	adilger.kernel@dilger.ca,
+	jack@suse.cz,
+	ojaswin@linux.ibm.com,
+	ritesh.list@gmail.com,
+	libaokun@linux.alibaba.com,
+	yi.zhang@huawei.com,
+	yi.zhang@huaweicloud.com,
+	yizhang089@gmail.com,
+	yangerkun@huawei.com,
+	yukuai@fnnas.com
+Subject: [PATCH v2 01/10] ext4: add did_zero output parameter to ext4_block_zero_page_range()
+Date: Wed, 25 Mar 2026 15:28:40 +0800
+Message-ID: <20260325072850.3997161-2-yi.zhang@huaweicloud.com>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260325072850.3997161-1-yi.zhang@huaweicloud.com>
+References: <20260325072850.3997161-1-yi.zhang@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 12/19] fuse mount: Support synchronous FUSE_INIT
- (privileged daemon)
-To: "Darrick J. Wong" <djwong@kernel.org>, Bernd Schubert <bschubert@ddn.com>
-Cc: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- Miklos Szeredi <miklos@szeredi.hu>, Joanne Koong <joannelkoong@gmail.com>,
- Kevin Chen <kchen@ddn.com>
-References: <20260323-fuse-init-before-mount-v1-0-a52d3040af69@bsbernd.com>
- <20260323-fuse-init-before-mount-v1-12-a52d3040af69@bsbernd.com>
- <20260324000350.GM6202@frogsfrogsfrogs>
- <e0d7b5ee-ffef-45a4-8c39-84cd79342bae@ddn.com>
- <20260324225012.GY6202@frogsfrogsfrogs>
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: en-US, de-DE, fr
-In-Reply-To: <20260324225012.GY6202@frogsfrogsfrogs>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:cCh0CgAHC9vFj8NpuR6cCA--.49898S5
+X-Coremail-Antispam: 1UD129KBjvJXoWxCF17XryfAw18KF1rKw15Jwb_yoW5uw1xpr
+	y5t345ur47u34q9F4xWF1jvr1Sk3Z3GFW8W3y3G3s0v3yIq3WxKF95K3WFvF4jg3y7Xay0
+	qF4Yy3y2gw1UArJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUm014x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jr4l82xGYIkIc2
+	x26xkF7I0E14v26r4j6ryUM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
+	Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJw
+	A2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS
+	0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2
+	IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0
+	Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kIc2
+	xKxwCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWU
+	JVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67
+	kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY
+	6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0x
+	vEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVj
+	vjDU0xZFpf9x0JUfKs8UUUUU=
+X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 
+From: Zhang Yi <yi.zhang@huawei.com>
 
+Add a bool *did_zero output parameter to ext4_block_zero_page_range()
+and __ext4_block_zero_page_range(). The parameter reports whether a
+partial block was zeroed out, which is needed for the upcoming iomap
+buffered I/O conversion.
 
-On 3/24/26 23:50, Darrick J. Wong wrote:
-> On Tue, Mar 24, 2026 at 08:42:36PM +0000, Bernd Schubert wrote:
->> On 3/24/26 01:03, Darrick J. Wong wrote:
->>> On Mon, Mar 23, 2026 at 06:45:07PM +0100, Bernd Schubert wrote:
->>>> From: Bernd Schubert <bschubert@ddn.com>
->>>>
->>>> Add synchronous FUSE_INIT processing during mount() to
->>>> enable early daemonization with proper error reporting
->>>> to the parent process.
->>>>
->>>> A new mount thread is needed that handles FUSE_INIT and
->>>> possible other requests at mount time (like getxattr for selinux).
->>>> The kernel sends FUSE_INIT during the mount() syscall. Without a thread
->>>> to process it, mount() blocks forever.
->>>>
->>>> Mount thread lifetime:
->>>> Created before mount() syscall in fuse_start_sync_init_worker()
->>>> Processes requests until se->mount_finished is set (after mount() returns)
->>>> Joined after successful mount in fuse_wait_sync_init_completion()
->>>> Cancelled if mount fails (direct → fusermount3 fallback)
->>>
->>> Hrmm, so the main thread (of the child process after daemonization)
->>> calls mount(), having started a child thread to read and process
->>> FUSE_INIT + any other mount-related fuse requests?
->>>
->>> Later I see an eventfd being used to signal this background thread that
->>> it should exit and (presumably) let the real request processing queues
->>> take over.  I'm curious why an eventfd here when pipes were used
->>> earlier?
->>
->> We cannot use eventfds for anything possibly used by BSD - which is
-> 
-> (Yeah, I was wondering about eventfd, but I don't know how quickly
-> libfuse features get ported to BSD so for all I know it could be years
-> until BSD gets SYNC_INIT.)
-> 
->> fuse_daemonize_ and fusermount. So far sync-init is only in the new
->> mount API - linux only. We need to switch to a pipe if BSD ever gets that.
-> 
-> I wonder, are the socket communications between fusermount-libfuse
-> considered external interface?  I'm assuming it's not, and you can
-> change it as long as you don't break the other side?
+Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+Reviewed-by: Jan Kara <jack@suse.cz>
+---
+ fs/ext4/inode.c | 23 ++++++++++++++---------
+ 1 file changed, 14 insertions(+), 9 deletions(-)
 
-I know that fusermount3 is also used by other userspace implementations
-like https://github.com/cberner/fuser
+diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
+index af6d1759c8de..1c9474d5d11d 100644
+--- a/fs/ext4/inode.c
++++ b/fs/ext4/inode.c
+@@ -4003,7 +4003,8 @@ void ext4_set_aops(struct inode *inode)
+  * racing writeback can come later and flush the stale pagecache to disk.
+  */
+ static int __ext4_block_zero_page_range(handle_t *handle,
+-		struct address_space *mapping, loff_t from, loff_t length)
++		struct address_space *mapping, loff_t from, loff_t length,
++		bool *did_zero)
+ {
+ 	unsigned int offset, blocksize, pos;
+ 	ext4_lblk_t iblock;
+@@ -4091,6 +4092,8 @@ static int __ext4_block_zero_page_range(handle_t *handle,
+ 			err = ext4_jbd2_inode_add_write(handle, inode, from,
+ 					length);
+ 	}
++	if (!err && did_zero)
++		*did_zero = true;
+ 
+ unlock:
+ 	folio_unlock(folio);
+@@ -4106,7 +4109,8 @@ static int __ext4_block_zero_page_range(handle_t *handle,
+  * that corresponds to 'from'
+  */
+ static int ext4_block_zero_page_range(handle_t *handle,
+-		struct address_space *mapping, loff_t from, loff_t length)
++		struct address_space *mapping, loff_t from, loff_t length,
++		bool *did_zero)
+ {
+ 	struct inode *inode = mapping->host;
+ 	unsigned blocksize = inode->i_sb->s_blocksize;
+@@ -4120,10 +4124,11 @@ static int ext4_block_zero_page_range(handle_t *handle,
+ 		length = max;
+ 
+ 	if (IS_DAX(inode)) {
+-		return dax_zero_range(inode, from, length, NULL,
++		return dax_zero_range(inode, from, length, did_zero,
+ 				      &ext4_iomap_ops);
+ 	}
+-	return __ext4_block_zero_page_range(handle, mapping, from, length);
++	return __ext4_block_zero_page_range(handle, mapping, from, length,
++					    did_zero);
+ }
+ 
+ /*
+@@ -4146,7 +4151,7 @@ static int ext4_block_truncate_page(handle_t *handle,
+ 	blocksize = i_blocksize(inode);
+ 	length = blocksize - (from & (blocksize - 1));
+ 
+-	return ext4_block_zero_page_range(handle, mapping, from, length);
++	return ext4_block_zero_page_range(handle, mapping, from, length, NULL);
+ }
+ 
+ int ext4_zero_partial_blocks(handle_t *handle, struct inode *inode,
+@@ -4169,13 +4174,13 @@ int ext4_zero_partial_blocks(handle_t *handle, struct inode *inode,
+ 	if (start == end &&
+ 	    (partial_start || (partial_end != sb->s_blocksize - 1))) {
+ 		err = ext4_block_zero_page_range(handle, mapping,
+-						 lstart, length);
++						 lstart, length, NULL);
+ 		return err;
+ 	}
+ 	/* Handle partial zero out on the start of the range */
+ 	if (partial_start) {
+-		err = ext4_block_zero_page_range(handle, mapping,
+-						 lstart, sb->s_blocksize);
++		err = ext4_block_zero_page_range(handle, mapping, lstart,
++						 sb->s_blocksize, NULL);
+ 		if (err)
+ 			return err;
+ 	}
+@@ -4183,7 +4188,7 @@ int ext4_zero_partial_blocks(handle_t *handle, struct inode *inode,
+ 	if (partial_end != sb->s_blocksize - 1)
+ 		err = ext4_block_zero_page_range(handle, mapping,
+ 						 byte_end - partial_end,
+-						 partial_end + 1);
++						 partial_end + 1, NULL);
+ 	return err;
+ }
+ 
+-- 
+2.52.0
 
-I would need to go through that code to see how it interacts exactly
-(had looked into a few months back, but don't remember the details
-anymore - that were some readmes would be really helpful). My assumption
-is that once we have a released interface in place we cannot easily
-change it anymore.
-
-
-Thanks,
-Bernd
