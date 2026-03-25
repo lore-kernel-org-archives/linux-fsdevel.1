@@ -1,35 +1,35 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C77B813A86C
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 06:37:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF7BF279DC2
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 06:37:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774420651; cv=none; b=HbNtNUYHN/QSWRN6Rgp0FvBIPz8pOCvmpB+9cF/NYLfX0ihkJ4i0EGoliOdeioJVWkZ6gTZilVyg4ZnF2DBmnGyLS4rTQM7dTiQo2zu4R2dOo7MDAWWR4H1QWtN0Tp37q0Od7B4CBuOVFLtH85JAvzj3qmEygc8kePCAYPv13OA=
+	t=1774420656; cv=none; b=Jj/v0HLDts67yT1Jy+cAJgr7rI5/hVmCBXnx52sA0QCNtGYhOgj427c/4XLx9mAXxgxWlg9aTPhXYI6X5+acokeb8itwlqL5ly4LfovS0bOmTZcRvHqu+XTh04nZPIBIhOBpRWfLTq8TDB0mGViHuaqIjUJQ6wIVVS6tLHLMA2M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774420651; c=relaxed/simple;
-	bh=iWe80Gejz6emcOBlsA1IR3YV2ptjEhz/+/RURgm7I5Y=;
+	s=arc-20240116; t=1774420656; c=relaxed/simple;
+	bh=HdrKBmMDA6oCqhCuV7vi9/BQtIl4pZNfU9SWCgBhGI8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PmGzmfz1t89D7Bfr3HpL2Giq47/pMJuO9h+yJGU3h+IRuUSyBDzfjqStIjjyVC6WCiaAMl4dpHlO1XXZs1O9ksGdWEDloYjDAODKcN+m2WUvGabjxhtPh3Bw41rmH7LvOxdpyMgpaIZ1fnchE3ili/cBJVB3Er0kgevEgdouZ+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=dhjQpi0v; arc=none smtp.client-ip=198.137.202.133
+	 MIME-Version; b=sSIr9lQtBJtyyUWcdDqwaO68MDXc51VUCUMpwHScnztBR1he/mUtjp4Kv8OjLfi3El6pLoI8Q+VxoQVck2QNTjeoMiJ0LmpGYFf1ixm0OKfU8WPPTft1mmpd8KvbMEYl5eZUkbvsw/HSyQAVnm13dJo4mO1dMQOg2Q517ujT4zQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=yexasdyB; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="dhjQpi0v"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="yexasdyB"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=EayGuNIgS+q6lzYMREuT11aRF49Z2/fgLliqItnlS+E=; b=dhjQpi0vAmfzDTm7ogrA9tU/iz
-	mWiBMQumemgCzxJJH7w5MWPEv5qd/W9C9wxkTO0K2ZoilNqPwQqI1ztjGrRswMlYfhghqkvdEdiTQ
-	y71scu5Wh/vCGtHLeVi9fDTRwqfQgzMgKCH2ZerU/noaNhF8tw3dQmzxSYYXBaama5QuJNnBUrJbA
-	iflXyHMTzkDRgtQ39zkpCWSJhA4vSkh+O6fE6u76yCP9CRLv+2+WhmYXv3CNHJE+442m4pkROS24C
-	cKwB+iggMTyPW8w/L3nu47be80a9EoesYmrV5QgQ0vuIebTcMOjiPfhr9Vk+MbdPxK1LfUvaj251n
-	j5lvmxRA==;
+	bh=NzsYuJODTFiPULELs3ydRb+fz02eDrbwXutrFNARfk4=; b=yexasdyBKDbw2UzQuBDax3y85C
+	r7WRdBqeMNXIRHPXu1DpRZhycVeQZQec8AqBSXh7dJAPUDpU1THdSyMruW5YB/r7JhzOV6tmSX0zx
+	OgC7ubczMUxZQ5G4aYmQLFG2J3JHyJO9I7X7PwENdUyGb4NnzMbAijybq81BynKfZa846l9ROElJu
+	VTAMCHE+i+G36uI1X8Ew43BoJIb9JXKMFl/Etv4sRwy1niPYZz/JPxBFJvcbO42RiYVcCbw+b1qvq
+	lRD9OPfH74h3BfjDkaatPg4UafXFYkjyg2xrX6esEqi3Fx6Pt4rvbvN37hIxiqgURX5T8WbC4DAtN
+	5BbR+Trw==;
 Received: from 2a02-8389-2341-5b80-d601-7564-c2e0-491c.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:d601:7564:c2e0:491c] helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w5Hrr-00000002nNC-3MCg;
-	Wed, 25 Mar 2026 06:37:28 +0000
+	id 1w5Hrx-00000002nNa-1B0V;
+	Wed, 25 Mar 2026 06:37:33 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Al Viro <viro@zeniv.linux.org.uk>,
 	Christian Brauner <brauner@kernel.org>,
@@ -39,9 +39,9 @@ To: Al Viro <viro@zeniv.linux.org.uk>,
 	Yangtao Li <frank.li@vivo.com>
 Cc: Jan Kara <jack@suse.cz>,
 	linux-fsdevel@vger.kernel.org
-Subject: [PATCH 2/5] adfs: rename adfs_notify_change to adfs_setattr
-Date: Wed, 25 Mar 2026 07:36:49 +0100
-Message-ID: <20260325063711.3298685-3-hch@lst.de>
+Subject: [PATCH 3/5] affs: rename affs_notify_change to affs_setattr
+Date: Wed, 25 Mar 2026 07:36:50 +0100
+Message-ID: <20260325063711.3298685-4-hch@lst.de>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260325063711.3298685-1-hch@lst.de>
 References: <20260325063711.3298685-1-hch@lst.de>
@@ -58,73 +58,81 @@ Make the function name match the method that it implements.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- fs/adfs/adfs.h  | 4 ++--
- fs/adfs/dir.c   | 2 +-
- fs/adfs/file.c  | 2 +-
- fs/adfs/inode.c | 6 ++----
- 4 files changed, 6 insertions(+), 8 deletions(-)
+ fs/affs/affs.h    | 2 +-
+ fs/affs/dir.c     | 2 +-
+ fs/affs/file.c    | 2 +-
+ fs/affs/inode.c   | 5 ++---
+ fs/affs/symlink.c | 2 +-
+ 5 files changed, 6 insertions(+), 7 deletions(-)
 
-diff --git a/fs/adfs/adfs.h b/fs/adfs/adfs.h
-index 223f0283d20f..0d32b7cd99b4 100644
---- a/fs/adfs/adfs.h
-+++ b/fs/adfs/adfs.h
-@@ -144,8 +144,8 @@ struct adfs_discmap {
- /* Inode stuff */
- struct inode *adfs_iget(struct super_block *sb, struct object_info *obj);
- int adfs_write_inode(struct inode *inode, struct writeback_control *wbc);
--int adfs_notify_change(struct mnt_idmap *idmap, struct dentry *dentry,
--		       struct iattr *attr);
-+int adfs_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
-+		struct iattr *attr);
+diff --git a/fs/affs/affs.h b/fs/affs/affs.h
+index ac4e9a02910b..43e20b02b449 100644
+--- a/fs/affs/affs.h
++++ b/fs/affs/affs.h
+@@ -184,7 +184,7 @@ extern int	affs_rename2(struct mnt_idmap *idmap,
+ /* inode.c */
  
- /* map.c */
- int adfs_map_lookup(struct super_block *sb, u32 frag_id, unsigned int offset);
-diff --git a/fs/adfs/dir.c b/fs/adfs/dir.c
-index 493500f37cb9..309c0a88cabb 100644
---- a/fs/adfs/dir.c
-+++ b/fs/adfs/dir.c
-@@ -454,5 +454,5 @@ adfs_lookup(struct inode *dir, struct dentry *dentry, unsigned int flags)
-  */
- const struct inode_operations adfs_dir_inode_operations = {
- 	.lookup		= adfs_lookup,
--	.setattr	= adfs_notify_change,
-+	.setattr	= adfs_setattr,
- };
-diff --git a/fs/adfs/file.c b/fs/adfs/file.c
-index cd13165fd904..73486667d6b4 100644
---- a/fs/adfs/file.c
-+++ b/fs/adfs/file.c
-@@ -32,5 +32,5 @@ const struct file_operations adfs_file_operations = {
+ extern struct inode		*affs_new_inode(struct inode *dir);
+-extern int			 affs_notify_change(struct mnt_idmap *idmap,
++extern int			 affs_setattr(struct mnt_idmap *idmap,
+ 					struct dentry *dentry, struct iattr *attr);
+ extern void			 affs_evict_inode(struct inode *inode);
+ extern struct inode		*affs_iget(struct super_block *sb,
+diff --git a/fs/affs/dir.c b/fs/affs/dir.c
+index 5c8d83387a39..c53b98f7c687 100644
+--- a/fs/affs/dir.c
++++ b/fs/affs/dir.c
+@@ -71,7 +71,7 @@ const struct inode_operations affs_dir_inode_operations = {
+ 	.mkdir		= affs_mkdir,
+ 	.rmdir		= affs_rmdir,
+ 	.rename		= affs_rename2,
+-	.setattr	= affs_notify_change,
++	.setattr	= affs_setattr,
  };
  
- const struct inode_operations adfs_file_inode_operations = {
--	.setattr	= adfs_notify_change,
-+	.setattr	= adfs_setattr,
+ static int
+diff --git a/fs/affs/file.c b/fs/affs/file.c
+index 6c9258359ddb..cede4bb1134e 100644
+--- a/fs/affs/file.c
++++ b/fs/affs/file.c
+@@ -1013,5 +1013,5 @@ const struct file_operations affs_file_operations = {
  };
-diff --git a/fs/adfs/inode.c b/fs/adfs/inode.c
-index 6830f8bc8d4e..4ac442d0a8c0 100644
---- a/fs/adfs/inode.c
-+++ b/fs/adfs/inode.c
-@@ -299,8 +299,7 @@ adfs_iget(struct super_block *sb, struct object_info *obj)
-  * later.
-  */
+ 
+ const struct inode_operations affs_file_inode_operations = {
+-	.setattr	= affs_notify_change,
++	.setattr	= affs_setattr,
+ };
+diff --git a/fs/affs/inode.c b/fs/affs/inode.c
+index 0bfc7d151dcd..f660e76584b3 100644
+--- a/fs/affs/inode.c
++++ b/fs/affs/inode.c
+@@ -213,13 +213,12 @@ affs_write_inode(struct inode *inode, struct writeback_control *wbc)
+ }
+ 
  int
--adfs_notify_change(struct mnt_idmap *idmap, struct dentry *dentry,
+-affs_notify_change(struct mnt_idmap *idmap, struct dentry *dentry,
 -		   struct iattr *attr)
-+adfs_setattr(struct mnt_idmap *idmap, struct dentry *dentry, struct iattr *attr)
++affs_setattr(struct mnt_idmap *idmap, struct dentry *dentry, struct iattr *attr)
  {
  	struct inode *inode = d_inode(dentry);
- 	struct super_block *sb = inode->i_sb;
-@@ -355,8 +354,7 @@ adfs_notify_change(struct mnt_idmap *idmap, struct dentry *dentry,
+ 	int error;
  
- /*
-  * write an existing inode back to the directory, and therefore the disk.
-- * The adfs-specific inode data has already been updated by
-- * adfs_notify_change()
-+ * The adfs-specific inode data has already been updated by * adfs_setattr().
-  */
- int adfs_write_inode(struct inode *inode, struct writeback_control *wbc)
- {
+-	pr_debug("notify_change(%lu,0x%x)\n", inode->i_ino, attr->ia_valid);
++	pr_debug("setattr(%lu,0x%x)\n", inode->i_ino, attr->ia_valid);
+ 
+ 	error = setattr_prepare(&nop_mnt_idmap, dentry, attr);
+ 	if (error)
+diff --git a/fs/affs/symlink.c b/fs/affs/symlink.c
+index 094aec8d17b8..af6147e1d975 100644
+--- a/fs/affs/symlink.c
++++ b/fs/affs/symlink.c
+@@ -71,5 +71,5 @@ const struct address_space_operations affs_symlink_aops = {
+ 
+ const struct inode_operations affs_symlink_inode_operations = {
+ 	.get_link	= page_get_link,
+-	.setattr	= affs_notify_change,
++	.setattr	= affs_setattr,
+ };
 -- 
 2.47.3
 
