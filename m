@@ -1,105 +1,141 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFA0632470E;
-	Wed, 25 Mar 2026 19:11:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C890E1C84CB;
+	Wed, 25 Mar 2026 19:15:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774465907; cv=none; b=tpfHaqpnYudXQSqQcFHPdPOjjpZOrXk3KnBtKrqjyxG3Qkl7VS1sFkrqx3RlkMR/9pfCDqf29O9Pna/v3M8uO/0aOA7g12DpO7Pu8iYmxi0QVqtPfJntD2UQXi5k+ICgcdKPui9c+uLNmT7n8hqOwGs1MVhVTm7yhEUrCBkTqK0=
+	t=1774466152; cv=none; b=t1eJhqjS12ytkO6oaNE+zbAAWqFpptNYyB0OxWujIRPNOH9O5P/8z4uyRpfG+rhLWSaCh9/8JUBspfkRGM3huy7O+uDXnnV7bL5nIVVj1Yu6lTqi+WhD/I8OOfqdb8lLJGG+w5H0L9xhrDIirwjUyCpIqux5DjhZDjK9Px6q0Gs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774465907; c=relaxed/simple;
-	bh=R8trGOgutAbT9TZyCLIzQHNIqzASbQS+83BkcRfxwPk=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=ZTPY3+KTFHeYGuiL8i8Dt1jNORWDjJMhmZMEJmF03etMcCGttujkGBvEopiKRbrIvI03VTJXlLPQyxIvWY/XVjv/RPttbWt2FBz4vl5hXgfE4VndxGgTVg/wQEPpU4j11MnaTRpMRTB//90wdR1qAkuVVzlq9TkvEbEWQdtLdIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=n+B7jA29; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774466152; c=relaxed/simple;
+	bh=C4P5kqlXZBwN8pvEi7dRsjH+Ubeb8VOuGcv8ZPBnTRQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ONXIZtMqVT6MTUg+HsjmkF2qzP3uM4b1EKyvEXEOD1SoeoggELiT+qxmTJMTChr1BVOSoxpNJXCjsXeOPlTQwttVwt/jCS3GRLhQpt9iZKojX4Sp4Ldxmyb8jsCUGIy8bIOqG9r6yCPmm30fU4txxnsX0HE80YbN8FRAH2eP3QU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=PXjNBZR7; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="n+B7jA29"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F077C19423;
-	Wed, 25 Mar 2026 19:11:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1774465907;
-	bh=R8trGOgutAbT9TZyCLIzQHNIqzASbQS+83BkcRfxwPk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=n+B7jA29HYBmodMSUv0jabYWqYQkkzI25KIVUfzjjK3zF1RxFmsERQAksEeZZEv1h
-	 iDMFChCVfnLLUa7gKSv1HXmC8QYOQ2DoFFNevqSjWHHy7buMTrhvRcmzF6+Bru4h1/
-	 SBYFb48e+BEYOYgHK10JdqzPoTkS++h4SrH0RokU=
-Date: Wed, 25 Mar 2026 12:11:45 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-Cc: Pedro Falcato <pfalcato@suse.de>, Arnd Bergmann <arnd@arndb.de>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Dan Williams
- <dan.j.williams@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, Dave
- Jiang <dave.jiang@intel.com>, Gao Xiang <xiang@kernel.org>, Chao Yu
- <chao@kernel.org>, Yue Hu <zbestahu@gmail.com>, Jeffle Xu
- <jefflexu@linux.alibaba.com>, Sandeep Dhavale <dhavale@google.com>, Hongbo
- Li <lihongbo22@huawei.com>, Chunhai Guo <guochunhai@vivo.com>, Muchun Song
- <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, David
- Hildenbrand <david@kernel.org>, Konstantin Komarov
- <almaz.alexandrovich@paragon-software.com>, Tony Luck
- <tony.luck@intel.com>, Reinette Chatre <reinette.chatre@intel.com>, Dave
- Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>, Babu Moger
- <babu.moger@amd.com>, Damien Le Moal <dlemoal@kernel.org>, Naohiro Aota
- <naohiro.aota@wdc.com>, Johannes Thumshirn <jth@kernel.org>, Matthew Wilcox
- <willy@infradead.org>, Jan Kara <jack@suse.cz>, "Liam R . Howlett"
- <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>, Mike
- Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal
- Hocko <mhocko@suse.com>, Hugh Dickins <hughd@google.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Jann Horn <jannh@google.com>, Jason
- Gunthorpe <jgg@ziepe.ca>, linux-kernel@vger.kernel.org,
- nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org,
- linux-erofs@lists.ozlabs.org, linux-mm@kvack.org, ntfs3@lists.linux.dev,
- linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 3/6] mm: always inline __mk_vma_flags() and invoked
- functions
-Message-Id: <20260325121145.24f51861d9933f8577b7d6c7@linux-foundation.org>
-In-Reply-To: <1ae3915e-19ef-4be0-aa5f-fd66a2e18179@lucifer.local>
-References: <cover.1772704455.git.ljs@kernel.org>
-	<241f49c52074d436edbb9c6a6662a8dc142a8f43.1772704455.git.ljs@kernel.org>
-	<ndtnvnobevdymu5a5tdxdbi4tcsqshs3d6x2vnfgnuclxvgwok@bhbqkzilsets>
-	<d352055d-06fe-43b2-8ad3-b73ab99683d0@lucifer.local>
-	<20260325090949.795e06f48ec455053db9ae89@linux-foundation.org>
-	<959b34ea-69a7-4fda-a494-0b9a1773ec1d@lucifer.local>
-	<20260325112755.e62cd89508224f703239f03a@linux-foundation.org>
-	<1ae3915e-19ef-4be0-aa5f-fd66a2e18179@lucifer.local>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="PXjNBZR7"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=4Ws0zxo76Oq8skurR4/Ct4jTfvOy+YmWkHbAMtBNRQw=; b=PXjNBZR7aTHA6Hz9FBJJqjN7Db
+	wIRsfz3JuwEYANUB9AaDi11hn6nh6/M8Yt1u2lh7xZ74+k10CalBjr8MrK+Nrwx21n4+aIKk2lPhW
+	ftJeYNMO2w0SOI46yedcw1nWwUzdRM7VeeL1Q4JkPGsR8iX3lFOynw+O8RZB1eESxJPw/e0kSAQ5O
+	B2aZiC14kT+lKYFCczKzfaugpqeSu3M88yANRuxYn6kzyfKCynn3AJ6nAs+i7GXfgOEixHdNBEAd3
+	+szXGpZFnv0gnrSxgaDNNjBGPuo9f3lOBbVoxNyvchKNAJNbxK3Bp2Oq/e0zo5Ry9iBIkvy4osERr
+	wmEZlTjg==;
+Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1w5Thh-0000000GQBU-13Lr;
+	Wed, 25 Mar 2026 19:15:45 +0000
+Date: Wed, 25 Mar 2026 19:15:45 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: Rushil Patel <rushil.patel@gsacapital.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org,
+	Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>
+Subject: Re: [RFC PATCH 0/1] mm/filemap: make writeback wait killable in
+ __filemap_fdatawait_range()
+Message-ID: <acQ0YRLM_SxYfjfI@casper.infradead.org>
+References: <20260325113616.785496-1-rushil.patel@gsacapital.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260325113616.785496-1-rushil.patel@gsacapital.com>
 
-On Wed, 25 Mar 2026 18:44:13 +0000 "Lorenzo Stoakes (Oracle)" <ljs@kernel.org> wrote:
+On Wed, Mar 25, 2026 at 11:36:15AM +0000, Rushil Patel wrote:
+> We run Slurm on compute nodes with NFS mounts (NFSv4.1, NetApp).
+> When a job is cancelled, processes with dirty NFS pages get stuck
+> in D-state inside folio_wait_bit_common() because
+> __filemap_fdatawait_range() uses folio_wait_writeback(), which is
+> TASK_UNINTERRUPTIBLE. If the filer is slow to respond these processes are
+> unkillable - we've found the only recovery in practice is rebooting
+> the node.
 
-> > : Be explicit about __mk_vma_flags() (which is used by the mk_vma_flags()
-> > : macro) always being inline, as we rely on the compiler turning all
-> > : constants into compile-time ones.
-> >
-> 
-> Well I think that loses the meaning a bit.
-> 
-> Something like:
-> 
-> Be explicit about __mk_vma_flags() (which is used by the mk_vma_flags()
-> -macro) always being inline, as we rely on the compiler converting this
-> -function into meaningful.
-> +macro) always being inline, as we rely on the compiler to evaluate the
-> +loop in this function and determine that it can replace the code with the
-> +an equivalent constant value, e.g. that:
-> +
-> +__mk_vma_flags(2, (const vma_flag_t []){ VMA_WRITE_BIT, VMA_EXEC_BIT });
-> +
-> +Can be replaced with:
-> +
-> +(1UL << VMA_WRITE_BIT) | (1UL << VMA_EXEC_BIT)
-> +
-> += (1UL << 1) | (1UL << 2) = 6
-> +
-> +Most likely an 'inline' will suffice for this, but be explicit as we can
-> +be.
-> 
-> Should verbosely cover that off.
+Hi Rushil.  Thanks for the patch!  I have a lot of sympathy for the
+problem you're trying to solve.  It was something similar which led
+to me introducing the TASK_KILLABLE infrastructure back in 2007.
+My problem was read-only though, and while I had an initial attempt
+to also handle write workloads, it didn't work and I didn't have a
+personal need for it, so I abandoned it.  Now you have a real need, so
+let's make it work.
 
-ok ;)
+> The patch switches to folio_wait_writeback_killable() so SIGKILL can
+> interrupt the wait. Writeback itself continues on the server, we just stop
+> waiting for the ack. All 6 callers of __filemap_fdatawait_range() detect
+> errors independently via errseq_t / filemap_check_errors(), so the early
+> return doesn't suppress error reporting.
+
+Well ... I'm not entirely sure it doesn't suppress error reporting.
+But I think I see what you're trying to say, and I think the change
+of behaviour is one that was never guaranteed anyway.
+
+> The tricky part is a re-entry through do_exit(). Making the wait killable
+> alone isn't enough - we hit this in testing:
+> 
+>   1. SIGKILL wakes the killable wait, signal is consumed by get_signal()
+>   2. do_exit() -> exit_signals() sets PF_EXITING
+>   3. do_exit() -> exit_files() -> nfs4_file_flush() -> nfs_wb_all()
+>      re-enters __filemap_fdatawait_range()
+>   4. wants_signal() checks PF_EXITING *before* the SIGKILL special case
+>      (kernel/signal.c:951 vs 954), so it returns false
+>   5. No signal can wake the second wait -> stuck in D-state again
+
+Yes, this was where I got stuck too!
+
+> The PF_EXITING check at the top of the function avoids re-entering the
+> wait entirely. This is the same pattern used in mm/oom_kill.c,
+> mm/memcontrol.c, block/blk-ioc.c, and io_uring/.
+
+I'm not entirely comfortable with the location of the check.  I feel
+that __filemap_fdatawait_range() is a bit too low level for a check
+of PF_EXITING.  I could see there being other places
+which really do want to wait, even in the presence of an exiting task.
+Maybe I'm being overly paranoid there, but I would suppress the call
+from nfs_wb_all().  Maybe something like this?
+
+-	ret = filemap_write_and_wait(inode->i_mapping);
++	if (current->flags & PF_EXITING)
++		ret = filemap_fdatawrite(inode->i_mapping);
++	else
++		ret = filemap_write_and_wait(inode->i_mapping);
+
+What held me up from doing this though was the next part of
+nfs_wb_all():
+
+        ret = nfs_commit_inode(inode, FLUSH_SYNC);
+
+I didn't trace through exactly what this would do, but I inferred from
+the FLUSH_SYNC that it would also wait for the file server to finish
+the write of the inode ...
+
+> Reproduced with iptables DROP on port 2049, confirmed the killable-only
+> revision gets stuck on re-entry, and the PF_EXITING + killable revision
+> kills cleanly.
+
+... but if your testing shows that it works, I must be mistaken about
+that.
+
+> Sending as RFC because this touches the generic writeback sync path in
+> mm/filemap.c rather than being NFS-specific. NFS can't really fix this on
+> its own - it reaches __filemap_fdatawait_range() through
+> filemap_write_and_wait() and doesn't own the wait. But I wanted to get
+> guidance on whether this is the right place for the fix, or if you'd prefer
+> a different approach.
+
+Appreciate your flexibillity on this ... sounds like you considered
+doing it this way, but didn't know about filemap_fdatawrite()?
+
+Anyway, adding the NFS people for their opinions.  Other filesystems
+don't do this flush-on-close behaviour (for various reasons, but
+basically NFS has a close-to-open consistency model).  I believe
+we can break this guarantee in this case as it's not an orderly close
+but an involuntary termination of the process.
