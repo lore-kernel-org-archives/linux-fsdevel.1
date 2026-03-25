@@ -1,248 +1,715 @@
-Received: from mx0b-00364e01.pphosted.com (mx0b-00364e01.pphosted.com [148.163.139.74])
+Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B74E641325D
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 19:46:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.139.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22D8941C6A
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 19:48:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774467976; cv=none; b=Yx7/j2EvOvmYRuHwwCyF/CZg1L98CzAlhwQzQGu1+ehtK330f5RjwM0NWlnILBKdY7hLFQcDv2Qwk+tn7orA7OMafhoDvVIotNpsZYB0HA8DZj7JOUHsSMf13b2yN92LTM+ifplwQ1A8HczCJPNTMK7WafU+7FrvMQBOgcMV7B8=
+	t=1774468118; cv=none; b=oq3YNfG6yQVYu3mvyyOPDO4oe8um7aU43BdZ7snW4i1oJTWXEZfcXCq84hpo4OoutWvpJHi+qIiKEg8sE5tunM3oQZm9igRCjFhqvubhRLVq1TXFRYrcGR+OVJMtKQCs2aQwgJjtA8tGSPkifnNS+UEBCLKF7nhLWjUPGg7/5eE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774467976; c=relaxed/simple;
-	bh=SDa413NBu0hIgtXUq9skjN+ObizbWtqbWL36k4Lizgg=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=DSBreNrTXH/s7RMKkEAACL1hrV3U8VZ4a5XfDUhmDX2I9ttobcOh4f78A3I/p0Hv3CKxOv3Y4Dqu0tB6gpsyHN/FD8kmWAzFgXVm/hwCEiXivNJfkPHYxnZV2eSyE/v+uJXBEpYTJSx6+Smbxk5+eFEepHeQV6hfiZYogpmF/1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu; spf=pass smtp.mailfrom=columbia.edu; dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b=DQGQun1h; arc=none smtp.client-ip=148.163.139.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=columbia.edu
+	s=arc-20240116; t=1774468118; c=relaxed/simple;
+	bh=qxBHCh3hb6ON7p5t/FO8Zdt106aGHCfZzhT7FKnNbAY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=O7vtsfCNW9FUV74gZCsdLGxLrfJ4jP1jNvOyq3LHocLeSCZxwxWL08VvQER+sSDD8gAtUqJhJZ8HL937Nsu3i4XlI3YA7C4NJJQ8laprIzPUwRefFenLsCKENKwdZFn1eFNSFQnhMWtKi8JlbCDY3zUdIiQYTkSD5wB19Baexuc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=jIoX+Iwr; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=UNfHzATR; arc=none smtp.client-ip=103.168.172.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b="DQGQun1h"
-Received: from pps.filterd (m0167074.ppops.net [127.0.0.1])
-	by mx0b-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62PJSZZK3111411
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 15:30:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=columbia.edu; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=pps01; bh=HA8D23GhyMmgO7Ma7d4u4MjK11
-	kduWqDfN99ZCazVFY=; b=DQGQun1hSa+QSSxUr1i8su6bffWvkVZW2sXUVXgnlt
-	spnIeP4au9kWZU6PdGp9HPtniIjnetnIaBZ/4Hit3Koj7U7ggQPK9cq5xePIQU77
-	YlFwwGlCOaWH4hrsUEsr6/uSlFegWdbd0iMlu24ImT3aWBqZWHzRJg7xvZ5bTEu1
-	weYJ8Uu1Jy+hPpNC/TiiyQHTRZWyIgj09wbccT+4egTjtLVkeqs4I16mYSCFUf+K
-	fXBQuxcnDsxRTIzsQqwBxNXEQvUnHkGkbJwvMgMLXIzDGFZEiKixwOlC8nFIvy+D
-	i7HLIHgQ5vueOIACUJxRXYmWRuwGCH9OOV6nGTk2h7GA==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
-	by mx0b-00364e01.pphosted.com (PPS) with ESMTPS id 4d474u5u4m-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 15:30:40 -0400 (EDT)
-Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-50939597b85so6740311cf.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 12:30:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774467040; x=1775071840;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HA8D23GhyMmgO7Ma7d4u4MjK11kduWqDfN99ZCazVFY=;
-        b=R9hCxvAHt4DRhQJzy8D37+tdDxjZU3qGZwj/DGH91eJmZwY4jmekw5VRD5SbD4rN1r
-         bTDusgHDkdhN+VECTEnB1p0g1miyZlvv/yT+Vsqoz0skw9fyr1Bk/Nc9zUr2WFnCgSVu
-         pF06zIydOD3PM7p6V0CTDO8c9dDA4JJh4HX39GBz9rPtasIOh2BPDRe1gfEhd0L4s89s
-         PjN0Kn7YtSOqcbaMKi+nelPs0v/GYxL34othro6TLxM67DIDZ7m+UfIRuGUlMDUM94dI
-         NwRLZBYQm6zmWkp5YJew493CN2m83/jlYjNGv46AjeojGyZ8Wu0kkUukLi67eDc8dAtS
-         sPxg==
-X-Forwarded-Encrypted: i=1; AJvYcCWXCJTu458CEOAYRaEaz7nCQGrA9hi3Dhwj70rpdvQyfBHc07tz9cZ2r9L08AoyIvVkGTPMdTA0xfDcdAMd@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw5tZS8baoFnLRs4CHUkr/13NvNUqY5pdahANEfTnUE+7NDc8V6
-	wnHxivDtr0q7WKcFcgYMHbkEVVSMVP5LxIMpRCUjsAnjLY5xFFLhRD+l0BBCYRxu9w1noaOw+2j
-	hIPg5W+brjtL5NWEqEAlf9a7ayEbd258LIk0GfY8y5sZILMXfcCbAftlN7g1nV9s=
-X-Gm-Gg: ATEYQzxt8metUoDCuZ3s59jcSfpvZoOUvsL3FWSZcbGBZ4f1VqFQ/ADgNP7FWeAKFmf
-	upaw4ifhLiX6/ZupcMvUdG/5QfLfEItEHd19bVm47YJjHIPS+TZeih0uobKKDytI25cYfCQmox/
-	2cSDDQPKhC9+M+HHnS6y7FmeAu+xcSmlMRAs+qmUUIkPiStpQ5kzhzHgr85BV7LGd9kTqnQ1Yhg
-	I4X7OR8R+7X+awN4Xs06nLYC9BFzYIiWUJpVu8Vf2Ijb/iPyTcQg5pQhm+8YsZTKnXIQJAaH5gp
-	PrXuBEYI4tPB/hL7quAdGUBxgpb+f+tWnHx3IcN6lXUvIpqY7CPIBGp0dE6wOG9G+wwEPG8zZiE
-	X0RAvba0BvrSc0lOij8DVq7jJBJgd4FnrARZkaA==
-X-Received: by 2002:ac8:660b:0:b0:509:3cd:b243 with SMTP id d75a77b69052e-50b80d1817fmr51206761cf.21.1774467039789;
-        Wed, 25 Mar 2026 12:30:39 -0700 (PDT)
-X-Received: by 2002:ac8:660b:0:b0:509:3cd:b243 with SMTP id d75a77b69052e-50b80d1817fmr51206021cf.21.1774467039043;
-        Wed, 25 Mar 2026 12:30:39 -0700 (PDT)
-Received: from [127.0.1.1] ([129.236.226.199])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50b9234e3a3sm5534221cf.19.2026.03.25.12.30.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Mar 2026 12:30:38 -0700 (PDT)
-From: Tal Zussman <tz2294@columbia.edu>
-Subject: [PATCH RFC v4 0/3] block: enable RWF_DONTCACHE for block devices
-Date: Wed, 25 Mar 2026 14:42:59 -0400
-Message-Id: <20260325-blk-dontcache-v4-0-c4b56db43f64@columbia.edu>
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="jIoX+Iwr";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="UNfHzATR"
+Received: from phl-compute-08.internal (phl-compute-08.internal [10.202.2.48])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 63AD714001FE;
+	Wed, 25 Mar 2026 15:48:35 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-08.internal (MEProxy); Wed, 25 Mar 2026 15:48:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1774468115;
+	 x=1774554515; bh=osNEFdx7/w1jyM6fVJqABXHzI4LjDG6ISKVyWXg3+80=; b=
+	jIoX+Iwrc2bduCoV4KMFZ99zeZ2VAai1Y6y5ypRNQMpmMBBl0llty4dtWC2xFkpc
+	NDakumg3jp4/mPt6Q8lPXQR8XKkhw3gK7vD+Xsbe87e2q86P3xtaxCK+g49tYfVJ
+	f5LYUiL2VCK0byCr2dF9nBT0mwafVGqlOYbgsiH2yj+H/rkc+aNqf4/07kzk5Hq7
+	pT6cg8lI6wrbrori/H94WHktN/eHR+QtehXvkTJy/Ffk1Ee3GQpXJMglDBtqtW4+
+	PzcWbnrv09NK0SyVxqB2R2x86WBGb7jShobW9V/4Af8SokgmJBppmdReitz/O3Kz
+	do5oXp50o4bNg768VZ42vg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1774468115; x=
+	1774554515; bh=osNEFdx7/w1jyM6fVJqABXHzI4LjDG6ISKVyWXg3+80=; b=U
+	NfHzATRAP+zeCQ3wKw5DZVGM68NIl23HD5dquoj0pNL6qFglIw/k0mRRic7NPTQK
+	55VpVF7ttvYe8uX3ShgnDvH4/ze9azP70a0OOEXjY4KUmdvCXbFL01UOMX2tvQ8I
+	mEu9G4n37RsjwPat5/DYCV3Yp0By8FfwmULq56drYUopYO3kQtx10z41a0NTWaUO
+	tw/sAB21EvsuZUvcPydv+UOE7TzmuliqrGILYD9lsACi5PZJRh7VVwXAbjrXb41T
+	72HvspkthWpbfWH0WSI4xJGk3PpzwYnwjKDkw1Rw4ajhIRnk4cvG8gW97E+wtrqD
+	ExeoK0HUVgeFhXVhXkhyg==
+X-ME-Sender: <xms:EjzEabAp4JaV7buK3sMFWEiI4qHHr53ayWiCRer4CvmgDLVB7dEjTA>
+    <xme:EjzEaYbGUszCXspCvmO01VGFxhPu4g5dUSgYv6sAdziBZyiLsyvrk5sa-oEvrCMRd
+    J_cjq7fF3MUk7uL4kzgruyls3kiRUkb77jRiaSfmkY82hbDdhAO>
+X-ME-Received: <xmr:EjzEae59NTh_iXiStQLleTYJiY-G0wVzBfDWOPdAfBA7S7nN4j5e_n-lQS33GQpWtGXL9juPGDkOmCHv7214v5ZFcS2ORzg1oh1yOw4t0YemaWKyHQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdefvdehfeegucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
+    ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
+    htthgvrhhnpeeugfevvdeggeeutdelgffgiefgffejheffkedtieduffehledvfeevgeej
+    hedtjeenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivg
+    eptdenucfrrghrrghmpehmrghilhhfrhhomhepsggvrhhnugessghssggvrhhnugdrtgho
+    mhdpnhgspghrtghpthhtohephedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepug
+    hjfihonhhgsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhfshguvghv
+    vghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhhikhhlohhssehsii
+    gvrhgvughirdhhuhdprhgtphhtthhopehjohgrnhhnvghlkhhoohhnghesghhmrghilhdr
+    tghomhdprhgtphhtthhopegsshgthhhusggvrhhtseguughnrdgtohhm
+X-ME-Proxy: <xmx:EjzEaZac8_4MgdFyo-0bkPSFzGv_68AXa2i9NDZqan4MMSL7DzIt7g>
+    <xmx:EjzEadgsxg_JhAv-YXHQnf02pURs55WNuvgBAh6hq5APR6Ng1HsiRQ>
+    <xmx:EjzEaa-Bx26VriJJGQPOinRFS743jwRnzeuDbOHElYDwlt4yvDC5yg>
+    <xmx:EjzEaYq5Ag-d9HnaBH5nHVhiWa7MXc4liMvfe-r4oSiZAuYMITNlLw>
+    <xmx:EzzEaZhALp8mCbKxrEgqCxQ2ifhIbvFAwHVeknpdGMpvuE8snnaIF1ZK>
+Feedback-ID: i5c2e48a5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 25 Mar 2026 15:48:33 -0400 (EDT)
+Message-ID: <06495513-d8bb-4e5a-97fb-19a10693db20@bsbernd.com>
+Date: Wed, 25 Mar 2026 20:48:32 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 17/19] Make fusermount work bidirectional for sync init
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, Miklos Szeredi <miklos@szeredi.hu>,
+ Joanne Koong <joannelkoong@gmail.com>, Bernd Schubert <bschubert@ddn.com>
+References: <20260323-fuse-init-before-mount-v1-0-a52d3040af69@bsbernd.com>
+ <20260323-fuse-init-before-mount-v1-17-a52d3040af69@bsbernd.com>
+ <20260324193536.GT6202@frogsfrogsfrogs>
+ <6ae9be78-9607-42db-92d1-1650aa5b7aa4@bsbernd.com>
+ <20260324225952.GA6202@frogsfrogsfrogs>
+From: Bernd Schubert <bernd@bsbernd.com>
+Content-Language: en-US, de-DE, fr
+In-Reply-To: <20260324225952.GA6202@frogsfrogsfrogs>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIALMsxGkC/3XNTQrCMBAF4KtI1kby0zbVlSB4ALfiIp1MbLC20
- rRBKb27IatSdPne8L6ZiMfeoSeHzUR6DM67ro0h224I1Lq9I3UmZiKYKJjgJa2aBzVdO4CGGqm
- UJZfSGJblSOLm1aN17+RdyeV8IrdY1s4PXf9JPwJPpz9c4JRTq01RqByt4vYIXTM+K6d3aMaEB
- bEARL4GBGVUMVQasrhn5Q9ALgG1BmQEwEi2BzB5WayBeZ6/w0/PZzQBAAA=
-X-Change-ID: 20260218-blk-dontcache-338133dd045e
-To: Jens Axboe <axboe@kernel.dk>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Christian Brauner <brauner@kernel.org>,
-        "Darrick J. Wong" <djwong@kernel.org>,
-        Carlos Maiolino <cem@kernel.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>
-Cc: Christoph Hellwig <hch@infradead.org>, linux-block@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        Tal Zussman <tz2294@columbia.edu>
-X-Mailer: b4 0.14.3-dev-d7477
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1774464193; l=4705;
- i=tz2294@columbia.edu; s=20250528; h=from:subject:message-id;
- bh=SDa413NBu0hIgtXUq9skjN+ObizbWtqbWL36k4Lizgg=;
- b=rVqeNMymQnbkbA09jjFwfm2fWjVL0ioo1AkqXQ5jcutSE4d0XRwJmwhfNzYW1IkNqhZq2eWVM
- qHy178rbPMXAdte8ZiWpsnVx+A2KACM+e+P4EnG/GBnw2X8s/dYeyYJ
-X-Developer-Key: i=tz2294@columbia.edu; a=ed25519;
- pk=BIj5KdACscEOyAC0oIkeZqLB3L94fzBnDccEooxeM5Y=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzI1MDE0MiBTYWx0ZWRfXxsAxWosuSeZi
- 8tALrdw0z50xLB3hsIRk4D++s+q/3MiaQarLrvUphVTmMLbiICjNiO0al8LqVLPwDzRda89kxt/
- xoKpqLavnrB3g2nTgrMfYJ8k3oSFTQmzZHwyqOK73wgtWosT7S0uxzIUh8aPtgyMi9ReQ1JcjCF
- AEyGvM6cbZc6LcrfdeuhA8YPJDEjHEjHon0cNtGg530U1igjEiEJt0coU257MJ6Ha2hv39yz7A7
- 5ZKnQLIh+tNYyAx/vHHVH8VFQ5Lp1N4b6wPQN1IT08iBmLCCzMGG60LzDz4GWgEyggoEflw0Ggd
- l/5SiFbKFSc0NLkLS6DEsZI5o7h3DwjCdcHmald2pG0li0lmEXl6Zczh2I+P+q5bwMBSH/jzn2B
- TvjmQB8CsdhNIMPgT37PIIwwT8V7nvpZDjCz/2GbeE3/p2arrreeWDQSW+F4npqxsHEEvZH7obM
- okixTPDlmekMZqjM9gg==
-X-Proofpoint-GUID: ah_ncrhYtH5TbxRtUoBakQXTJGaa1TYe
-X-Authority-Analysis: v=2.4 cv=ANMIVkx+ c=1 sm=1 tr=0 ts=69c437e0 cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=QOUmeeuX5y9IvSxXHa6D2A==:17
- a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=x7bEGLp0ZPQA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22 a=azVShVRs0zEubeQ0wG0L:22
- a=VwQbUJbxAAAA:8 a=tzuM4wBP0trzEmBACekA:9 a=QEXdDO2ut3YA:10
- a=dawVfQjAaf238kedN5IG:22
-X-Proofpoint-ORIG-GUID: ah_ncrhYtH5TbxRtUoBakQXTJGaa1TYe
-X-Proofpoint-Virus-Version: vendor=nai engine=6800 definitions=11740
- signatures=596818
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=10 suspectscore=0 phishscore=0 adultscore=0
- priorityscore=1501 spamscore=0 malwarescore=0 impostorscore=10 bulkscore=10
- clxscore=1015 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2603050001
- definitions=main-2603250142
 
-Add support for using RWF_DONTCACHE with block devices.
 
-Dropbehind pruning needs to be done in non-IRQ context, but block
-devices complete writeback in IRQ context.
 
-To fix this, we can defer dropbehind invalidation to task context. We
-introduce a new BIO_COMPLETE_IN_TASK flag that allows the bio submitter
-to request task-context completion of bi_end_io. When bio_endio() sees
-this flag in non-task context, it queues the bio to a per-CPU list and
-schedules a work item to do bio completion.
+On 3/24/26 23:59, Darrick J. Wong wrote:
+> On Tue, Mar 24, 2026 at 10:24:04PM +0100, Bernd Schubert wrote:
+>>
+>>
+>> On 3/24/26 20:35, Darrick J. Wong wrote:
+>>> On Mon, Mar 23, 2026 at 06:45:12PM +0100, Bernd Schubert wrote:
+>>>> From: Bernd Schubert <bschubert@ddn.com>
+>>>>
+>>>> Signed-off-by: Bernd Schubert <bschubert@ddn.com>
+>>>> ---
+>>>>  doc/README.fusermount | 359 ++++++++++++++++++++++++++++++++++++++++++++++++++
+>>>>  util/fusermount.c     | 317 ++++++++++++++++++++++++++++++++++++++++++--
+>>>>  util/meson.build      |   2 +-
+>>>>  3 files changed, 665 insertions(+), 13 deletions(-)
+>>>>
+>>>> diff --git a/doc/README.fusermount b/doc/README.fusermount
+>>>> new file mode 100644
+>>>> index 0000000000000000000000000000000000000000..54a3bac4f58964a4ed312d6f6bc15606fed1e647
+>>>> --- /dev/null
+>>>> +++ b/doc/README.fusermount
+>>>> @@ -0,0 +1,359 @@
+>>>> +Synchronous FUSE_INIT Protocol
+>>>> +================================
+>>>> +
+>>>> +Overview
+>>>> +--------
+>>>> +
+>>>> +The sync-init feature enables the FUSE library to start worker threads and
+>>>> +perform initialization ioctl calls BEFORE the actual mount() syscall happens.
+>>>> +This is required for the kernel's synchronous FUSE_INIT feature, where the
+>>>> +mount() syscall blocks until the FUSE daemon processes the INIT request.
+>>>> +
+>>>> +Without this feature, there would be a deadlock:
+>>>> +- mount() blocks waiting for INIT response
+>>>> +- Worker threads can't start because mount() hasn't returned
+>>>> +- INIT request can't be processed because worker threads aren't running
+>>>> +
+>>>> +
+>>>> +Protocol Flow
+>>>> +-------------
+>>>> +
+>>>> +Traditional mount flow:
+>>>> +  1. Library calls fusermount3
+>>>
+>>> Heh.  I haven't looked much at fusermount until recently.  I gather that
+>>> fuservicemount has somewhat similar goals to fusermount3?  fusermount3
+>>> seems to be a helper subprocess that libfuse can invoke on behalf of an
+>>> unprivileged fuse server.  The helper is responsible for:
+>>>
+>>> 1) opening /dev/fuse
+>>> 2) sending it to the fuse server via the FUSE_COMMFD_ENV fd which is
+>>>    supposed to be an AF_UNIX socket
+>>> 3) calling mount()
+>>> 4) waiting for the parent to die
+>>> 5) maybe calling unmount()
+>>>
+>>> and it's really 1, 3, and 5 that need to be privileged, so that's why
+>>> it's a setuid program.
+>>>
+>>>> +  2. fusermount3 opens /dev/fuse
+>>>> +  3. fusermount3 performs mount() syscall
+>>>> +  4. fusermount3 sends fd to library
+>>>> +  5. Library starts worker threads
+>>>> +  6. Worker threads process FUSE requests
+>>>
+>>> Ah, yes.  Thanks for adding this description!  fuservicemount is I think
+>>> an upside-down version of fusermount -- fuservicemount runs in the
+>>> user's mount namespace, so it
+>>>
+>>> 1) connects to a named AF_UNIX socket to start an instance of the fuse
+>>>    server
+>>> 2) opens /dev/fuse and a memfd to pass cli arguments
+>>> 3) passes those to the fuse server
+>>> 4) the fuse server asks fuservicemount to open resources and pass them
+>>>    over the socket
+>>> 5) the fuse server passes source/type/mount options to fuservicemount
+>>> 6) fuservicemount mounts the fs and exits
+>>> 7) at some point the user unmounts, so the fuse server exits
+>>>
+>>>> +Sync-init mount flow:
+>>>> +  1. Library calls fusermount3 with --sync-init flag
+>>>> +  2. fusermount3 opens /dev/fuse
+>>>> +  3. fusermount3 sends fd to library
+>>>> +  4. Library receives fd
+>>>> +  5. Library performs FUSE_DEV_IOC_SYNC_INIT ioctl
+>>>> +  6. Library starts worker threads
+>>>> +  7. Library sends "proceed" signal to fusermount3
+>>>> +  8. fusermount3 performs mount() syscall (blocks until INIT completes)
+>>>> +  9. Worker threads process INIT request
+>>>> +  10. mount() syscall completes
+>>>> +  11. fusermount3 exits
+>>>> +
+>>>> +
+>>>> +Implementation Details
+>>>> +----------------------
+>>>> +
+>>>> +Bidirectional Communication:
+>>>> +  - Uses the existing unix socket (_FUSE_COMMFD environment variable)
+>>>> +  - Simple 1-byte protocol for signaling
+>>>> +  - Library signals fusermount3 when ready to proceed with mount
+>>>> +
+>>>> +fusermount3 Changes:
+>>>> +  - New --sync-init command-line option
+>>>> +  - Split mount operation into two phases:
+>>>> +    * mount_fuse_prepare(): Opens device, prepares parameters
+>>>> +    * mount_fuse_finish_fsmount(): Performs actual mount() syscall
+>>>> +  - wait_for_signal(): Waits for library to signal readiness
+>>>> +  - struct mount_context: Preserves state between phases
+>>>> +
+>>>> +Library Changes:
+>>>> +  - fuse_session_mount_new_api(): Uses new protocol when available
+>>>> +  - Sends "proceed" signal after worker thread is ready
+>>>> +  - Handles both old and new mount protocols for compatibility
+>>>> +
+>>>> +
+>>>> +Backward Compatibility
+>>>> +----------------------
+>>>> +
+>>>> +The implementation maintains full backward compatibility:
+>>>> +  - Old library + new fusermount3: Works (uses traditional flow)
+>>>> +  - New library + old fusermount3: Falls back to traditional flow
+>>>> +  - New library + new fusermount3: Uses sync-init flow when appropriate
+>>>> +
+>>>> +
+>>>> +Error Handling
+>>>> +--------------
+>>>> +
+>>>> +If any step fails during the sync-init flow:
+>>>> +  - fusermount3 closes the fd and exits with error
+>>>> +  - Library detects failure and cleans up
+>>>> +  - No mount is left in inconsistent state
+>>>> +
+>>>> +Connection closure:
+>>>> +  - If library closes socket before signaling, fusermount3 detects and exits
+>>>> +  - If fusermount3 crashes, library detects closed socket
+>>>> +
+>>>> +
+>>>> +Security Considerations
+>>>> +-----------------------
+>>>> +
+>>>> +The sync-init protocol does not introduce new security concerns:
+>>>> +  - Uses the same privilege separation as traditional mount
+>>>> +  - Socket communication is already established and trusted
+>>>> +  - No new privileged operations are added
+>>>> +  - File descriptor passing uses existing SCM_RIGHTS mechanism
+>>>> +
+>>>> +
+>>>> +Performance Impact
+>>>> +------------------
+>>>> +
+>>>> +Minimal performance impact:
+>>>> +  - One additional recv() call in fusermount3
+>>>> +  - One additional send() call in library
+>>>> +  - Total overhead: ~2 context switches
+>>>> +  - Only affects mount time, not runtime performance
+>>>> +
+>>>> +
+>>>> +Future Enhancements
+>>>> +-------------------
+>>>> +
+>>>> +Potential improvements:
+>>>> +  - Extended protocol for more complex initialization sequences
+>>>> +  - Support for multiple worker threads coordination
+>>>> +  - Enhanced error reporting through the socket
+>>>> +  - Timeout mechanisms for detecting hung initialization
+>>>> +
+>>>> +
+>>>> +ASCII Workflow Diagrams
+>>>> +========================
+>>>> +
+>>>> +1. Traditional Mount Flow (without --sync-init, async INIT)
+>>>> +------------------------------------------------------------
+>>>> +
+>>>> +Library                   fusermount3              Kernel
+>>>> +   |                           |                      |
+>>>> +   |--- spawn fusermount3 ---->|                      |
+>>>> +   |                           |                      |
+>>>> +   |                      [open /dev/fuse]            |
+>>>> +   |                           |------- open -------->|
+>>>> +   |                           |<------ fd ---------- |
+>>>> +   |                           |                      |
+>>>> +   |                      [mount() syscall]           |
+>>>> +   |                           |------ mount -------->|
+>>>> +   |                           |<----- success ------ | [mount returns immediately]
+>>>> +   |                           |                      | [INIT queued in kernel]
+>>>> +   |                      [send_fd(fd)]               |
+>>>> +   |<------- fd --------------|                      |
+>>>> +   |                           |                      |
+>>>> +   |                      [fusermount3 exits]         |
+>>>> +   |                                                  |
+>>>> +   |  [start worker thread]                          |
+>>>> +   |  [worker reads /dev/fuse]                       |
+>>>> +   |---------------------------------------- read -->|
+>>>> +   |<--------------------------------------- INIT ---| [dequeued from kernel]
+>>>> +   |                                                  |
+>>>> +   | OK: INIT was queued, worker reads it later      |
+>>>> +   |     Works fine for async INIT                   |
+>>>
+>>> Hmm, looking at this, perhaps it /is/ possible for fuservicemount to
+>>> employ synchronous init.  The fuse server would start that background
+>>> init-only request handler thread before telling fuservicemount to call
+>>> mount().  That blocks while the kernel sends FUSE_INIT to the fuse
+>>> server, it processes everything up to the init request, and returns.
+>>>
+>>>> +
+>>>> +
+>>>> +1b. Problem: Synchronous INIT without --sync-init
+>>>> +--------------------------------------------------
+>>>> +
+>>>> +Library                   fusermount3              Kernel
+>>>> +   |                           |                      |
+>>>> +   |--- spawn fusermount3 ---->|                      |
+>>>> +   |                           |                      |
+>>>> +   |                      [open /dev/fuse]            |
+>>>> +   |                           |------- open -------->|
+>>>> +   |                           |<------ fd ---------- |
+>>>> +   |                           |                      |
+>>>> +   |                      [mount() syscall]           |
+>>>> +   |                           |------ mount -------->|
+>>>> +   |                           |                      | [mount BLOCKS waiting for INIT]
+>>>> +   |                           | (BLOCKED)            | [needs worker to process INIT]
+>>>> +   |                           |                      |
+>>>> +   |  [waiting for fd...]      |                      |
+>>>> +   |                           |                      |
+>>>> +   |                           |                      |
+>>>> +   | DEADLOCK: mount() waits for INIT response       |
+>>>> +   |           but worker thread not started yet     |
+>>>> +   |           because we're waiting for fd          |
+>>>> +
+>>>> +
+>>>> +2. Sync-Init Mount Flow (with --sync-init)
+>>>> +-------------------------------------------
+>>>> +
+>>>> +Library                   fusermount3              Kernel
+>>>> +   |                           |                      |
+>>>> +   |--- spawn fusermount3 ---->|                      |
+>>>> +   |    with --sync-init       |                      |
+>>>> +   |                           |                      |
+>>>> +   |                      [open /dev/fuse]            |
+>>>> +   |                           |------- open -------->|
+>>>> +   |                           |<------ fd ---------- |
+>>>> +   |                           |                      |
+>>>> +   |                      [send_fd(fd)]               |
+>>>> +   |<------- fd --------------|                      |
+>>>> +   |                           |                      |
+>>>> +   |                      [wait_for_signal()]         |
+>>>> +   |                           | (BLOCKED)            |
+>>>> +   |                           |                      |
+>>>> +   |  [ioctl SYNC_INIT]        |                      |
+>>>> +   |---------------------------------------- ioctl -->|
+>>>> +   |                                                  |
+>>>> +   |  [start worker thread]                          |
+>>>> +   |  [worker ready]                                 |
+>>>> +   |                           |                      |
+>>>> +   |--- "proceed" signal ----->|                      |
+>>>> +   |                      [signal received]           |
+>>>> +   |                           |                      |
+>>>> +   |                      [mount() syscall]           |
+>>>> +   |                           |------ mount -------->|
+>>>> +   |                           |                      | [mount blocks]
+>>>> +   |                           |                      | [sends INIT]
+>>>> +   |<------------------------------------------------ |
+>>>> +   |                           |                      |
+>>>> +   | [worker processes INIT]   |                      |
+>>>> +   |------------------------------------------------->|
+>>>> +   |                           |                      | [mount unblocks]
+>>>> +   |                           |<----- success ------ |
+>>>> +   |                           |                      |
+>>>> +   |                      [fusermount3 exits]         |
+>>>> +   |                                                  |
+>>>> +   | SUCCESS: Worker ready before mount()            |
+>>>> +   |          INIT processed synchronously           |
+>>>> +
+>>>> +
+>>>> +3. Error Scenario: Library Crashes Before Signaling
+>>>> +----------------------------------------------------
+>>>> +
+>>>> +Library                   fusermount3              Kernel
+>>>> +   |                           |                      |
+>>>> +   |--- spawn fusermount3 ---->|                      |
+>>>> +   |    with --sync-init       |                      |
+>>>> +   |                           |                      |
+>>>> +   |                      [open /dev/fuse]            |
+>>>> +   |                           |------- open -------->|
+>>>> +   |                           |<------ fd ---------- |
+>>>> +   |                           |                      |
+>>>> +   |                      [send_fd(fd)]               |
+>>>> +   |<------- fd --------------|                      |
+>>>> +   |                           |                      |
+>>>> +   |                      [wait_for_signal()]         |
+>>>> +   |                           | (BLOCKED)            |
+>>>> +   |                           |                      |
+>>>> +   X  [library crashes]        |                      |
+>>>> +   |                           |                      |
+>>>> +   |                      [recv() returns 0]          |
+>>>> +   |                      [socket closed]             |
+>>>> +   |                           |                      |
+>>>> +   |                      [cleanup and exit]          |
+>>>> +   |                           X                      |
+>>>> +   |                                                  |
+>>>> +   | RESULT: Clean failure, no mount performed       |
+>>>> +
+>>>> +
+>>>> +4. Detailed Function Call Flow
+>>>> +-------------------------------
+>>>> +
+>>>> +Library (lib/fuse_lowlevel.c):
+>>>> +fuse_session_mount_new_api()
+>>>> +   |
+>>>> +   +-- fuse_kern_mount_prepare()  [lib/mount.c]
+>>>> +   |      |
+>>>> +   |      +-- fuse_mount_fusermount()  [lib/mount_util.c]
+>>>> +   |             |
+>>>> +   |             +-- socketpair()  [create comm socket]
+>>>> +   |             |
+>>>> +   |             +-- fork()
+>>>> +   |             |
+>>>> +   |             +-- [child] execl("fusermount3", "--sync-init", ...)
+>>>> +   |             |
+>>>> +   |             +-- [parent] receive_fd()  <--- BLOCKS until fd arrives
+>>>> +   |                    |
+>>>> +   |                    +-- recvmsg(SCM_RIGHTS)
+>>>> +   |                    |
+>>>> +   |                    +-- return fd
+>>>> +   |
+>>>> +   +-- session_start_sync_init()  [lib/fuse_lowlevel.c]
+>>>> +   |      |
+>>>> +   |      +-- ioctl(fd, FUSE_DEV_IOC_SYNC_INIT)
+>>>> +   |      |
+>>>> +   |      +-- pthread_create(worker_thread)
+>>>> +   |      |
+>>>> +   |      +-- return
+>>>> +   |
+>>>> +   +-- fuse_fusermount_proceed_mnt(socket)  [lib/mount.c] <--- NEW: Bidirectional handshake
+>>>> +          |
+>>>> +          +-- send(socket, "proceed", 1)  <--- Signal fusermount3 to proceed
+>>>> +          |
+>>>> +          +-- recv(socket, &status, 1)  <--- BLOCKS until mount result arrives
+>>>> +          |      |
+>>>> +          |      +-- [fusermount3 performs mount and sends status byte]
+>>>> +          |
+>>>> +          +-- if (status != 0) return -1  <--- Mount failed
+>>>> +          |
+>>>> +          +-- return 0  <--- Mount succeeded
+>>>> +
+>>>> +
+>>>> +Utility (util/fusermount.c):
+>>>> +fusermount3 main() with --sync-init
+>>>> +   |
+>>>> +   +-- mount_fuse_sync_init()  [util/fusermount.c]
+>>>> +          |
+>>>> +          +-- mount_fuse_prepare()  [util/fusermount.c]
+>>>> +          |      |
+>>>> +          |      +-- open("/dev/fuse")
+>>>> +          |      |
+>>>> +          |      +-- check_perm()  [util/fusermount.c]
+>>>> +          |      |
+>>>> +          |      +-- return fd
+>>>> +          |
+>>>> +          +-- send_fd(socket, fd)  [util/fusermount.c]
+>>>> +          |      |
+>>>> +          |      +-- sendmsg(SCM_RIGHTS)
+>>>> +          |
+>>>> +          +-- wait_for_signal(socket)  [util/fusermount.c] <--- BLOCKS until library signals
+>>>> +          |      |
+>>>> +          |      +-- recv(socket, buf, 1)
+>>>> +          |      |
+>>>> +          |      +-- return 0
+>>>> +          |
+>>>> +          +-- mount_fuse_finish_fsmount()  [util/fusermount.c]
+>>>> +          |      |
+>>>> +          |      +-- fuse_kern_fsmount()  [lib/mount_fsmount.c]
+>>>> +          |      |      |
+>>>> +          |      |      +-- fsopen("fuse", FSOPEN_CLOEXEC)
+>>>> +          |      |      |      |
+>>>> +          |      |      |      +-- [kernel creates filesystem context]
+>>>> +          |      |      |
+>>>> +          |      |      +-- fsconfig(fsfd, SET_STRING, "source", ...)
+>>>> +          |      |      +-- fsconfig(fsfd, SET_STRING, "fd", fd_value, ...)
+>>>> +          |      |      +-- fsconfig(fsfd, ...) [apply mount options]
+>>>> +          |      |      +-- fsconfig(fsfd, CMD_CREATE, ...)
+>>>> +          |      |      |
+>>>> +          |      |      +-- fsmount(fsfd, FSMOUNT_CLOEXEC, mount_attrs)
+>>>> +          |      |      |      |
+>>>> +          |      |      |      +-- [kernel sends FUSE_INIT here]
+>>>> +          |      |      |      |
+>>>> +          |      |      |      +-- [worker thread processes INIT]
+>>>> +          |      |      |      |
+>>>> +          |      |      |      +-- [fsmount returns mntfd]
+>>>> +          |      |      |
+>>>> +          |      |      +-- move_mount(mntfd, "", AT_FDCWD, target, ...)
+>>>> +          |      |      |      |
+>>>> +          |      |      |      +-- [attach mount to target directory]
+>>>> +          |      |      |      |
+>>>> +          |      |      |      +-- [no blocking - INIT already processed]
+>>>> +          |      |      |
+>>>> +          |      |      +-- add_mount()  [lib/mount_fsmount.c - update /etc/mtab]
+>>>> +          |      |      |
+>>>> +          |      |      +-- return 0 on success, -1 on failure
+>>>> +          |      |
+>>>> +          |      +-- if mount failed: return -1
+>>>> +          |      +-- if mount succeeded: continue
+>>>> +          |
+>>>> +          +-- send_status_byte(socket)  [util/fusermount.c] <--- NEW: Send result to library
+>>>> +          |      |
+>>>> +          |      +-- status = (mount_result == 0) ? 0 : 1
+>>>> +          |      +-- send(socket, &status, 1)
+>>>> +          |      |
+>>>> +          |      +-- return
+>>>> +          |
+>>>> +          +-- return 0
+>>>> +
+>>>> +
+>>>> +Note: The new mount API (fsopen/fsconfig/fsmount/move_mount) is REQUIRED
+>>>> +      for sync-init because fsmount() triggers FUSE_INIT before the mount
+>>>> +      is attached. This allows the worker thread to process INIT before
+>>>> +      move_mount() completes, preventing deadlock.
+>>>
+>>> ...and so we don't expose the directory tree to the mountns until we
+>>> know that FUSE_INIT didn't crash the server.
+>>
+>> Added that as well.
+>>
+>>>
+>>>> diff --git a/util/fusermount.c b/util/fusermount.c
+>>>> index 80b42a594e89cdc2f43824f5e274892522fd8cce..808b4afd89ceb49273c944d43bffe5033e27549b 100644
+>>>> --- a/util/fusermount.c
+>>>> +++ b/util/fusermount.c
+>>>> @@ -957,6 +957,7 @@ static void free_mount_params(struct mount_params *mp)
+>>>>  	free(mp->source);
+>>>>  	free(mp->type);
+>>>>  	free(mp->mnt_opts);
+>>>> +	memset(mp, 0, sizeof(*mp));
+>>>>  }
+>>>>  
+>>>>  /*
+>>>> @@ -1378,6 +1379,179 @@ static int open_fuse_device(const char *dev)
+>>>>  	return fd;
+>>>>  }
+>>>>  
+>>>> +#ifdef HAVE_NEW_MOUNT_API
+>>>> +/* Forward declaration from lib/mount_fsmount.c */
+>>>> +int fuse_kern_fsmount(const char *mnt, unsigned long flags, int blkdev,
+>>>> +		      const char *fsname, const char *subtype,
+>>>> +		      const char *source_dev, const char *kernel_opts,
+>>>> +		      const char *mnt_opts);
+>>>> +#endif
+>>>
+>>> Shouldn't this be included from a header file somewhere?
+>>
+>> Fixed, included from mount_i_linux.h
+>>
+>>>
+>>>> +
+>>>> +/*
+>>>> + * Context for split mount operation (sync-init mode)
+>>>> + */
+>>>> +struct mount_context {
+>>>> +	int fd;
+>>>> +	const char *dev;
+>>>> +	struct stat stbuf;
+>>>> +	char *source;
+>>>> +	char *mnt_opts;
+>>>> +	char *x_opts;
+>>>> +	const char *type;
+>>>> +};
+>>>> +
+>>>> +/*
+>>>> + * Phase 1: Open device and prepare for mount (sync-init mode)
+>>>> + * Returns fd on success, -1 on failure
+>>>> + */
+>>>> +static int mount_fuse_prepare(const char *mnt, const char *opts,
+>>>> +			      struct mount_context *ctx)
+>>>> +{
+>>>> +	int res;
+>>>> +	int mountpoint_fd = -1;
+>>>> +	char *do_mount_opts = NULL;
+>>>> +	const char *real_mnt = mnt;
+>>>> +
+>>>> +	memset(ctx, 0, sizeof(*ctx));
+>>>> +	ctx->dev = getenv(FUSE_KERN_DEVICE_ENV) ?: FUSE_DEV;
+>>>> +
+>>>> +	ctx->fd = open_fuse_device(ctx->dev);
+>>>> +	if (ctx->fd == -1)
+>>>> +		return -1;
+>>>> +
+>>>> +	drop_privs();
+>>>> +	read_conf();
+>>>> +
+>>>> +	if (getuid() != 0 && mount_max != -1) {
+>>>> +		int mount_count = count_fuse_fs();
+>>>> +
+>>>> +		if (mount_count >= mount_max) {
+>>>> +			fprintf(stderr,
+>>>> +				"%s: too many FUSE filesystems mounted; mount_max=N can be set in %s\n",
+>>>> +				progname, FUSE_CONF);
+>>>> +			goto fail_close_fd;
+>>>> +		}
+>>>> +	}
+>>>
+>>> /me notes that he's refactored this configuration file related function
+>>> into fuser_conf.c though that's in the fuse-services v4 that I'll send
+>>> you soon.
+>>>
+>>>> +
+>>>> +	res = extract_x_options(opts, &do_mount_opts, &ctx->x_opts);
+>>>> +	if (res)
+>>>> +		goto fail_close_fd;
+>>>> +
+>>>> +	res = check_perm(&real_mnt, &ctx->stbuf, &mountpoint_fd);
+>>>> +	restore_privs();
+>>>> +
+>>>> +	if (mountpoint_fd != -1)
+>>>> +		close(mountpoint_fd);
+>>>> +
+>>>> +	if (res == -1)
+>>>> +		goto fail_close_fd;
+>>>> +
+>>>> +	free(do_mount_opts);
+>>>> +	return ctx->fd;
+>>>> +
+>>>> +fail_close_fd:
+>>>> +	close(ctx->fd);
+>>>> +	free(do_mount_opts);
+>>>> +	free(ctx->x_opts);
+>>>> +	ctx->fd = -1;
+>>>> +	return -1;
+>>>> +}
+>>>> +
+>>>> +#ifdef HAVE_NEW_MOUNT_API
+>>>> +/*
+>>>> + * Phase 2: Perform the actual mount using new mount API (sync-init mode)
+>>>> + * Returns 0 on success, -1 on failure
+>>>> + */
+>>>> +static int mount_fuse_finish_fsmount(const char *mnt, const char *opts,
+>>>> +				     struct mount_context *ctx,
+>>>> +				     const char **type)
+>>>> +{
+>>>> +	int res;
+>>>> +	char *do_mount_opts = NULL;
+>>>> +	char *x_prefixed_opts = NULL;
+>>>> +	struct mount_params mp = { .fd = ctx->fd };
+>>>> +	char *final_mnt_opts = NULL;
+>>>> +
+>>>> +	/* Extract x-options */
+>>>> +	res = extract_x_options(opts, &do_mount_opts, &x_prefixed_opts);
+>>>> +	if (res)
+>>>> +		goto fail;
+>>>> +
+>>>> +	/* Prepare mount parameters */
+>>>> +	mp.rootmode = ctx->stbuf.st_mode & S_IFMT;
+>>>> +	mp.dev = ctx->dev;
+>>>
+>>> I think those could be set in the mp variable definition?
+>>
+>> Absolutely.
+>>
+>>>
+>>>> +
+>>>> +	res = prepare_mount(do_mount_opts, &mp);
+>>>> +	if (res == -1)
+>>>> +		goto fail;
+>>>> +
+>>>> +	/* Merge x-options if running as root */
+>>>> +	final_mnt_opts = mp.mnt_opts;
+>>>> +	if (geteuid() == 0 && ctx->x_opts && strlen(ctx->x_opts) > 0) {
+>>>> +		size_t mnt_opts_len = strlen(mp.mnt_opts);
+>>>> +		size_t x_mnt_opts_len = mnt_opts_len + strlen(ctx->x_opts) + 2;
+>>>> +		char *x_mnt_opts = calloc(1, x_mnt_opts_len);
+>>>> +
+>>>> +		if (!x_mnt_opts)
+>>>> +			goto fail_free_params;
+>>>> +
+>>>> +		if (mnt_opts_len) {
+>>>> +			strcpy(x_mnt_opts, mp.mnt_opts);
+>>>> +			strncat(x_mnt_opts, ",", 2);
+>>>> +		}
+>>>> +		strncat(x_mnt_opts, ctx->x_opts,
+>>>> +			x_mnt_opts_len - mnt_opts_len - 2);
+>>>> +
+>>>> +		final_mnt_opts = x_mnt_opts;
+>>>> +	}
+>>>
+>>> Curious, I thought the x- options were edited out by /sbin/mount so fuse
+>>> would never see them?  Does the x- option handling in fusermount.c exist
+>>> to handle the case where someone passes them directly to the fuse
+>>> server, aka
+>>>
+>>> $ sshfs <whatever> /mnt -o x-systemd-hahaha=1
+>>>
+>>> and now you need to ensure that x-systemd-hahaha doesn't get sent to the
+>>> kernel but does get seen by the fuse server?
+>>
+>> https://github.com/libfuse/libfuse/issues/651
+>>
+>> So specially added as mount option to to go into mtab/utab and to
+>> suppress some 3rd party (gnome) actions.
+> 
+> Huh, I wouldn't have thought that would work since /etc/mtab has been
+> a symlink to /proc/self/mounts for a while now.  Of course GNOME
+> abstracts mount options behind some g_unix_mount_entry_get_options
+> function call which ... doesn't document where it gets its mount options
+> from.
 
-Patch 1 adds the BIO_COMPLETE_IN_TASK infrastructure in the block
-layer.
+Problem is that these don't go into /proc/self/mounts at all, but into
+/run/mount/utab with recent mount utils. With /etc/mtab not being a
+symlink it would have worked as well.
 
-Patch 2 wires BIO_COMPLETE_IN_TASK into iomap writeback for DONTCACHE
-folios and removes the DONTCACHE workqueue deferral from XFS.
+bernd@e7270 ~>cat /run/mount/utab
+SRC=/dev/loop0 TARGET=/snap/chromium/3375 ROOT=/ OPTS=x-gdu.hide,x-gvfs-hide
+SRC=/dev/loop1 TARGET=/snap/bare/5 ROOT=/ OPTS=x-gdu.hide,x-gvfs-hide
+SRC=/dev/loop2 TARGET=/snap/chromium/3390 ROOT=/ OPTS=x-gdu.hide,x-gvfs-hide
+...
 
-Patch 3 enables RWF_DONTCACHE for block devices, setting
-BIO_COMPLETE_IN_TASK in submit_bh_wbc() for the CONFIG_BUFFER_HEAD
-path.
 
-This support is useful for databases that operate on raw block devices,
-among other userspace applications.
-
-I tested this (with CONFIG_BUFFER_HEAD=y) for reads and writes on a
-single block device on a VM, so results may be noisy.
-
-Reads were tested on the root partition with a 45GB range (~2x RAM).
-Writes were tested on a disabled swap parition (~1GB) in a memcg of size
-244MB to force reclaim pressure.
-
-Results:
-
-===== READS (/dev/nvme0n1p2) =====
- sec   normal MB/s  dontcache MB/s
-----  ------------  --------------
-   1        1098.6          1609.0
-   2        1270.3          1506.6
-   3        1093.3          1576.5
-   4        1141.8          2393.9
-   5        1365.3          2793.8
-   6        1324.6          2065.9
-   7         879.6          1920.7
-   8        1434.1          1662.4
-   9        1184.9          1857.9
-  10        1166.4          1702.8
-  11        1161.4          1653.4
-  12        1086.9          1555.4
-  13        1198.5          1718.9
-  14        1111.9          1752.2
-----  ------------  --------------
- avg        1173.7          1828.8  (+56%)
-
-==== WRITES (/dev/nvme0n1p3) =====
- sec   normal MB/s  dontcache MB/s
-----  ------------  --------------
-   1         692.4          9297.7
-   2        4810.8          9342.8
-   3        5221.7          2955.2
-   4         396.7          8488.3
-   5        7249.2          9249.3
-   6        6695.4          1376.2
-   7         122.9          9125.8
-   8        5486.5          9414.7
-   9        6921.5          8743.5
-  10          27.9          8997.8
-----  ------------  --------------
- avg        3762.5          7699.1  (+105%)
-
----
-Changes in v4:
-- 1/3: Move dropbehind deferral from folio-level to bio-level using
-  BIO_COMPLETE_IN_TASK, per Matthew and Jan.
-- 1/3: Work function yields on need_resched() to avoid hogging the CPU,
-  per Jan.
-- 2/3: New patch. Set BIO_COMPLETE_IN_TASK on iomap writeback bios for
-  DONTCACHE folios, removing the need for XFS-specific workqueue
-  deferral.
-- 3/3: Set BIO_COMPLETE_IN_TASK in submit_bh_wbc() for buffer_head
-  path.
-- 3/3: Update commit message to mention CONFIG_BUFFER_HEAD=n path.
-- Link to v3: https://lore.kernel.org/r/20260227-blk-dontcache-v3-0-cd309ccd5868@columbia.edu
-
-Changes in v3:
-- 1/2: Convert dropbehind deferral to per-CPU folio_batches protected by
-  local_lock using per-CPU work items, to reduce contention, per Jens.
-- 1/2: Call folio_end_dropbehind_irq() directly from
-  folio_end_writeback(), per Jens.
-- 1/2: Add CPU hotplug dead callback to drain the departing CPU's folio
-  batch.
-- 2/2: Introduce block_write_begin_iocb(), per Christoph.
-- 2/2: Dropped R-b due to changes.
-- Link to v2: https://lore.kernel.org/r/20260225-blk-dontcache-v2-0-70e7ac4f7108@columbia.edu
-
-Changes in v2:
-- Add R-b from Jan Kara for 2/2.
-- Add patch to defer dropbehind completion from IRQ context via a work
-  item (1/2).
-- Add initial performance numbers to cover letter.
-- Link to v1: https://lore.kernel.org/r/20260218-blk-dontcache-v1-1-fad6675ef71f@columbia.edu
-
----
-Tal Zussman (3):
-      block: add BIO_COMPLETE_IN_TASK for task-context completion
-      iomap: use BIO_COMPLETE_IN_TASK for dropbehind writeback
-      block: enable RWF_DONTCACHE for block devices
-
- block/bio.c                 | 84 ++++++++++++++++++++++++++++++++++++++++++++-
- block/fops.c                |  5 +--
- fs/buffer.c                 | 22 ++++++++++--
- fs/iomap/ioend.c            |  2 ++
- fs/xfs/xfs_aops.c           |  4 ---
- include/linux/blk_types.h   |  1 +
- include/linux/buffer_head.h |  3 ++
- 7 files changed, 111 insertions(+), 10 deletions(-)
----
-base-commit: 2961f841b025fb234860bac26dfb7fa7cb0fb122
-change-id: 20260218-blk-dontcache-338133dd045e
-
-Best regards,
--- 
-Tal Zussman <tz2294@columbia.edu>
 
