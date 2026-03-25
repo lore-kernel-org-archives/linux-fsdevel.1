@@ -1,320 +1,152 @@
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com [209.85.214.196])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCCAD2F8BC3
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 19:01:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFC713A4516
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 19:01:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774465266; cv=none; b=J3o4MuMEKlXPY/W3687mkiT98GxYKyiIUHIipe+wh0gu8WF3cSZ6S/EPLDraLUl+InMDTRkjhJwo/lmY+fadmEcmwmWcfrMrKFqM1Y9d/QO0GGSRxrcHJt+rTdHnrEmw6SfnlQ59Lap+rVOAhHSaB3WP1Gd44mZK0PhtKs5QBK8=
+	t=1774465311; cv=none; b=JnS1xbu0mozwZ2kMEogyK6wW/QD+xgHrfVMtSNMkPJCPpGorqrETkPhXBJGC8FbsQf/iHeYHrnr+AHbRgPE+kPCoz1BGJy6lY+wz+shPs9r2MOP3T3l8MJcYobIj8r5F2ZfyC+5lnpYcwAG/2L6PMnye8C2NYTWAtmv035Iriwk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774465266; c=relaxed/simple;
-	bh=sCgrEudUL2EwyvNHOVPpGOhp9GJITcyUXJp7Z4NABLs=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=f7L6odHx1fNweza/IGaVmYMJRONeIE59jIgagLwWhBNp/UXonBVqgK61ak9hFgJzuz1bg6qwK2q0my6i9ghn7EIfb2cjFtK62fyJlRLV5qV6+URQB5od5QEFLxRYvoNOVqXMImBCRIegCztvJDxD0z/M7LTBejzlraMlwaUD3DY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ee.vjti.ac.in; spf=none smtp.mailfrom=ee.vjti.ac.in; dkim=pass (1024-bit key) header.d=vjti.ac.in header.i=@vjti.ac.in header.b=R4xlr3ft; arc=none smtp.client-ip=209.85.214.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ee.vjti.ac.in
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ee.vjti.ac.in
+	s=arc-20240116; t=1774465311; c=relaxed/simple;
+	bh=3nJ0jfYwZJIm247GGH8x3z4DRlRNhGDwap3P0GMwEyw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Raf/YPycnJXpk3dsPxdIy2v2NQ0YeYZrjSD2PgQxBMCF/WGCWsD73d/WUp+sW9ugwKBvToFrW3VlronlkwIS+VtWPa39aunubrl5wRnNru9f+JLzEPnkqVGs8EO/igyl4Uq9noMPlKAqJ9040HoJIyMx8DutM1xv0Zey6pL1QZs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=ZqfbS5nR; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Jaay/3zL; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=ZqfbS5nR; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Jaay/3zL; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=vjti.ac.in header.i=@vjti.ac.in header.b="R4xlr3ft"
-Received: by mail-pl1-f196.google.com with SMTP id d9443c01a7336-2adbfab4501so658445ad.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Mar 2026 12:01:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vjti.ac.in; s=google; t=1774465261; x=1775070061; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2jCYdcHbAU8vXdPo+HmNvp6/WZwddntRiscW+I1qyME=;
-        b=R4xlr3ftv/lchYB+/k28pxAs3v3CA0HYXVJs/481erJlMRqamIGHR96i561xICDHid
-         V3Y8J12BzY0eOWP8lOSL720+TfBe9em6ipKmQ1X4dGHKshc1WGGt5dPiU8sHEY1DJx8F
-         yqffUg3+lmJnPkAPDyh9c+ZIEuLMOj7rL0CCM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774465261; x=1775070061;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=2jCYdcHbAU8vXdPo+HmNvp6/WZwddntRiscW+I1qyME=;
-        b=AU39DB9+0KDYfbToy0+63u5kg4WV6PwULHS+ZSQyoIf1tXsZGvGo8Rjgt7eRGSchQj
-         sWzpa2Wu4m9uQwHqZ5UeKskAyxnOwqBjdGnhBe8H7qojVHZV0MjQIUkjzOzeR82S2nMi
-         85G7jqHuna01aaho0DBKglwuoJcAP1M4zKyZD9NcK9JryiHTozmFxBfOpICKzFjf6YJF
-         tQ/LuFYyEzHV5+9aekEKOHT01+Py3FyLB9Hj1D1VcgK86AWDowP7lsbfivhqthDmntMZ
-         fXqIhSknhDZP2ujgPDWoW7bMjwwNrE4hx/WEnh1UzOcwMg2BmK2WuPUdfGA7Yg+Dkt+c
-         gc4A==
-X-Forwarded-Encrypted: i=1; AJvYcCUasa2e7aS+6O9h9d7sMLxz+MH/Z4/qzU6ouggayEsilvn4uk3NsN2zR/p1pwXXTkGHTy4SeWJn5ZBC/Sne@vger.kernel.org
-X-Gm-Message-State: AOJu0YxRHrx+OXfQqSkIysZRbO18ylQmmLIjy4wOSWg0sndhlJP391BS
-	lCNSmW8ZH6p5Y3KzYIqyeEi+6roXunc+M5AYoUIvnOokbra0D6M0DdknVuyE06wyBOQ=
-X-Gm-Gg: ATEYQzwiMlkq0iPE74gpnIDj4GR0f3jTkKqrlyTdJ2jZDVBzFwH8x/S2xXNgXZFkJE0
-	dnrST54VoXdG7BNYMGTR425TevIwnG9D1nK/Jl+4GlIxP+PoKD2/DWrhKiTsLGBc72EbqRryko1
-	G3EKNlfiWRswDrBVdxUC+EcpV16kDCmMl/u2+m5PwMR5pKv5DzvvytaHbSSIn4XbgG8zyYZ/f7+
-	epNWJOPeRjQ5uoh5liFb23N3UxqAftiLTaTKcyBhShhsmvtcP61Khtzo6d8TddvccnLGNpL1SZz
-	JD6jRGV6WxAYs6VfRs3R4TuFLiDcwLyv0QTIZLzEz4JNjt2vCQs35V8K5kA223BgJt41leAtHzb
-	U9aCFapow1ugU1YiBTrw69o0+809e3neo2GVpxwbbpfbB0y2PkWlRkkb46nTqCYBB5p4MDM+Ux8
-	mVyl0ScN0ENKMO+z67i6vypCZQcHvg9LPHTbRI8Slkz7SfZGmfruJC00/p5OZfP+/DS9Ch4xdyv
-	XXwMCx77zzLLXVrKS8sCQ==
-X-Received: by 2002:a17:903:182:b0:2b0:6961:150a with SMTP id d9443c01a7336-2b0b0ad2a61mr54895465ad.38.1774465260637;
-        Wed, 25 Mar 2026 12:01:00 -0700 (PDT)
-Received: from ranegod-HP-ENVY-x360-Convertible-13-bd0xxx.www.tendawifi.com ([14.139.108.62])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b0bc79f7dbsm6483485ad.25.2026.03.25.12.00.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Mar 2026 12:00:59 -0700 (PDT)
-From: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
-To: linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Cc: manfred@colorfullife.com,
-	viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	chuck.lever@oracle.com,
-	jlayton@kernel.org,
-	rstoyanov@fedoraproject.org,
-	ptikhomirov@virtuozzo.com,
-	Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
-Subject: [RFC PATCH 3/3] ipc/mqueue: implement fcntl(F_MQ_PEEK) for non-destructive message inspection
-Date: Thu, 26 Mar 2026 00:30:25 +0530
-Message-Id: <20260325190025.40312-4-ssrane_b23@ee.vjti.ac.in>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260325190025.40312-1-ssrane_b23@ee.vjti.ac.in>
-References: <20260325190025.40312-1-ssrane_b23@ee.vjti.ac.in>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ZqfbS5nR";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Jaay/3zL";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ZqfbS5nR";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Jaay/3zL"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id D19024D255;
+	Wed, 25 Mar 2026 19:01:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1774465307; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=G9vPzHvujrmlL6/Ao060FToJBZOtkxBhOjJhl9zBg20=;
+	b=ZqfbS5nRqIQN7ASSl0tgAsD9CEkLOQnUb+PvE0wNdq7++pSuVvlHaBk/4UeTmCnWh19tK0
+	n8rv1ktVgAAw84Ui2Z68XWP06mU5rM5jKROPenQ7i3uvlRNdC5SmobEqu0rVnZQhiAD4yX
+	3l1P3LNgAvruQzq7zRPOer5Zqovau/w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1774465307;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=G9vPzHvujrmlL6/Ao060FToJBZOtkxBhOjJhl9zBg20=;
+	b=Jaay/3zLY0xMJOls20zL1o8DHuoGtyADynyPTsvFa6whl3AX7CVlkqhmwD27FiV38Fwn37
+	ALx0zRt9HkZiExAg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1774465307; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=G9vPzHvujrmlL6/Ao060FToJBZOtkxBhOjJhl9zBg20=;
+	b=ZqfbS5nRqIQN7ASSl0tgAsD9CEkLOQnUb+PvE0wNdq7++pSuVvlHaBk/4UeTmCnWh19tK0
+	n8rv1ktVgAAw84Ui2Z68XWP06mU5rM5jKROPenQ7i3uvlRNdC5SmobEqu0rVnZQhiAD4yX
+	3l1P3LNgAvruQzq7zRPOer5Zqovau/w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1774465307;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=G9vPzHvujrmlL6/Ao060FToJBZOtkxBhOjJhl9zBg20=;
+	b=Jaay/3zLY0xMJOls20zL1o8DHuoGtyADynyPTsvFa6whl3AX7CVlkqhmwD27FiV38Fwn37
+	ALx0zRt9HkZiExAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C4AAC44559;
+	Wed, 25 Mar 2026 19:01:47 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id ogYUMBsxxGnNYQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 25 Mar 2026 19:01:47 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 8655FA085A; Wed, 25 Mar 2026 20:01:39 +0100 (CET)
+Date: Wed, 25 Mar 2026 20:01:39 +0100
+From: Jan Kara <jack@suse.cz>
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	linux-block@vger.kernel.org, Christian Brauner <brauner@kernel.org>, 
+	Al Viro <viro@zeniv.linux.org.uk>, linux-ext4@vger.kernel.org, Ted Tso <tytso@mit.edu>, 
+	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>, David Sterba <dsterba@suse.com>, 
+	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, Muchun Song <muchun.song@linux.dev>, 
+	Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@kernel.org>, linux-mm@kvack.org, 
+	linux-aio@kvack.org, Benjamin LaHaise <bcrl@kvack.org>
+Subject: Re: [PATCH 12/41] fs: Drop sync_mapping_buffers() from
+ __generic_file_fsync()
+Message-ID: <dqvxks5tdwgcumkucwmrz7ides6li4cjeyglghdidhljeq3sax@6kukcgubwx6d>
+References: <20260320131728.6449-1-jack@suse.cz>
+ <20260320134100.20731-53-jack@suse.cz>
+ <acIjxUzWFstarlwv@infradead.org>
+ <ezdm6d34jqdrcohk7o6wycxvvlgtf6aqenwx5ffr3plfagdbzi@gibz7xwr6yhr>
+ <acKO3NRw852FdGUO@infradead.org>
+ <rsftk7gdlamfryksv63vhmewdi6etvvfyi6as5m2zs75ctvzkq@fnoiwumyfdsv>
+ <acKzrqjnKFNK0xmh@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <acKzrqjnKFNK0xmh@infradead.org>
+X-Spam-Score: -2.30
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	TAGGED_RCPT(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[suse.cz,vger.kernel.org,kernel.org,zeniv.linux.org.uk,mit.edu,gmail.com,suse.com,mail.parknet.co.jp,linux.dev,suse.de,kvack.org];
+	RCVD_COUNT_THREE(0.00)[3];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email]
+X-Spam-Flag: NO
 
-Add support for F_MQ_PEEK, a new fcntl command that reads a POSIX
-message queue message by index without removing it from the queue.
+On Tue 24-03-26 08:54:22, Christoph Hellwig wrote:
+> On Tue, Mar 24, 2026 at 02:36:53PM +0100, Jan Kara wrote:
+> > Leaving the two implementations separate certainly works for me as well
+> > (that's why I've put that patch to the end because I've expected some
+> > discussions around it :)). Just the amount of common trivial calls you need
+> > to do (fdatawrite(), sync_inode_metadata(),
+> > file_check_and_advance_wb_err(), blkdev_issue_flush()) looked high enough
+> > to me to be worth merging the implementations. But I don't feel strongly
+> > either way.
+> 
+> I don't really feel either way, and I really should not micro-manage
+> the series either.  So go for what you think works best.  The important
+> part is to have the fsync changes early and to avoid hardcoding
+> buffer_head knowledge into libfs.c.
 
-Background:
-CRIU (Checkpoint/Restore In Userspace) supports live container migration
-and process checkpoint/restore.  POSIX message queues are a widely-used
-IPC mechanism, but CRIU cannot checkpoint processes that hold open mqueue
-file descriptors: there is no kernel interface to inspect queued messages
-non-destructively.  The SysV IPC analogue (MSG_COPY for msgrcv) was
-introduced specifically for CRIU in commit 4a674f34ba04 ("ipc: introduce
-message queue copy feature").  This patch provides the equivalent for
-POSIX mqueues.
+After trying with the callback and not liking it too much in the end I've
+just decided to stay with two separate implementations.
 
-Implementation:
-The queue stores messages in a red-black tree (info->msg_tree) keyed
-by priority, with each tree node holding a FIFO list of messages at
-that priority level.  mq_peek_at_offset() walks this structure in
-receive order (highest priority first, FIFO within priority) to locate
-the message at the requested index without modifying any state.
-
-Message payload is copied into a kvmalloc'd kernel buffer under
-info->lock using pure memcpy() (no page faults possible).  This
-correctly handles multi-segment messages by walking the msg_msgseg
-chain.  The lock is released before copy_to_user() transfers the
-kernel buffer to userspace.
-
-A new include/linux/mqueue.h kernel header is added to declare
-do_mq_peek() for use from fs/fcntl.c, following the same pattern as
-include/linux/memfd.h for memfd_fcntl().
-
-Concurrency:
-The snapshot is consistent within the spin_lock() critical section.
-Between two F_MQ_PEEK calls the queue may change (messages may be sent
-or received).  This is documented snapshot semantics, analogous to
-/proc entries.  CRIU freezes the target process via ptrace before
-dumping, so in practice the queue is stable for the entire checkpoint
-sequence.
-
-Link: https://github.com/checkpoint-restore/criu/issues/2285
-Signed-off-by: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
----
- fs/fcntl.c             |   4 ++
- include/linux/mqueue.h |  19 ++++++
- ipc/mqueue.c           | 129 +++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 152 insertions(+)
- create mode 100644 include/linux/mqueue.h
-
-diff --git a/fs/fcntl.c b/fs/fcntl.c
-index f93dbca08435..32d0dcc8e544 100644
---- a/fs/fcntl.c
-+++ b/fs/fcntl.c
-@@ -24,6 +24,7 @@
- #include <linux/pid_namespace.h>
- #include <linux/user_namespace.h>
- #include <linux/memfd.h>
-+#include <linux/mqueue.h>
- #include <linux/compat.h>
- #include <linux/mount.h>
- #include <linux/rw_hint.h>
-@@ -563,6 +564,9 @@ static long do_fcntl(int fd, unsigned int cmd, unsigned long arg,
- 			return -EFAULT;
- 		err = fcntl_setdeleg(fd, filp, &deleg);
- 		break;
-+	case F_MQ_PEEK:
-+		err = do_mq_peek(filp, argp);
-+		break;
- 	default:
- 		break;
- 	}
-diff --git a/include/linux/mqueue.h b/include/linux/mqueue.h
-new file mode 100644
-index 000000000000..a725fcf90d39
---- /dev/null
-+++ b/include/linux/mqueue.h
-@@ -0,0 +1,19 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef __LINUX_MQUEUE_H
-+#define __LINUX_MQUEUE_H
-+
-+#include <uapi/linux/mqueue.h>
-+
-+struct file;
-+
-+#ifdef CONFIG_POSIX_MQUEUE
-+long do_mq_peek(struct file *filp, struct mq_peek_attr __user *uattr);
-+#else
-+static inline long do_mq_peek(struct file *filp,
-+			       struct mq_peek_attr __user *uattr)
-+{
-+	return -EBADF;
-+}
-+#endif /* CONFIG_POSIX_MQUEUE */
-+
-+#endif /* __LINUX_MQUEUE_H */
-diff --git a/ipc/mqueue.c b/ipc/mqueue.c
-index bb7c9e5d2b90..5e73864a9657 100644
---- a/ipc/mqueue.c
-+++ b/ipc/mqueue.c
-@@ -286,6 +286,135 @@ static inline struct msg_msg *msg_get(struct mqueue_inode_info *info)
- 	return msg;
- }
- 
-+/*
-+ * mq_peek_at_offset - locate a message by receive-order index.
-+ *
-+ * Walk the priority tree from highest to lowest priority, and within each
-+ * priority level in FIFO order, returning the message at position @offset
-+ * (0 = next message that mq_receive() would dequeue).
-+ *
-+ * Must be called with info->lock held.  Does not modify queue state.
-+ * Returns NULL if @offset >= mq_curmsgs.
-+ */
-+static struct msg_msg *mq_peek_at_offset(struct mqueue_inode_info *info,
-+					 int offset)
-+{
-+	struct posix_msg_tree_node *leaf;
-+	struct rb_node *node;
-+	struct msg_msg *msg;
-+	int count = 0;
-+
-+	for (node = info->msg_tree_rightmost; node; node = rb_prev(node)) {
-+		leaf = rb_entry(node, struct posix_msg_tree_node, rb_node);
-+		list_for_each_entry(msg, &leaf->msg_list, m_list) {
-+			if (count == offset)
-+				return msg;
-+			count++;
-+		}
-+	}
-+	return NULL;
-+}
-+
-+/*
-+ * mq_msg_copy_to_buf - copy message payload into a flat kernel buffer.
-+ *
-+ * Handles multi-segment messages by walking the msg_msgseg chain.
-+ * Uses only memcpy() so it is safe to call under info->lock.
-+ * Returns the number of bytes copied.
-+ */
-+static size_t mq_msg_copy_to_buf(struct msg_msg *msg, void *buf, size_t buf_len)
-+{
-+	size_t alen, to_copy, copied = 0;
-+	struct msg_msgseg *seg;
-+
-+	to_copy = min(buf_len, msg->m_ts);
-+
-+	alen = min(to_copy, DATALEN_MSG);
-+	memcpy(buf, msg + 1, alen);
-+	copied += alen;
-+	to_copy -= alen;
-+
-+	for (seg = msg->next; seg && to_copy > 0; seg = seg->next) {
-+		alen = min(to_copy, DATALEN_SEG);
-+		memcpy((char *)buf + copied, seg + 1, alen);
-+		copied += alen;
-+		to_copy -= alen;
-+	}
-+	return copied;
-+}
-+
-+/*
-+ * do_mq_peek - implement fcntl(F_MQ_PEEK).
-+ *
-+ * Read the message at position @attr.offset in receive order from the
-+ * queue without removing it.  Position 0 is the message that the next
-+ * mq_receive() would return (highest priority, FIFO within priority).
-+ *
-+ * The snapshot is consistent within the spin_lock() critical section.
-+ * Between two F_MQ_PEEK calls the queue may change; this is documented
-+ * snapshot semantics analogous to /proc entries.
-+ *
-+ * Returns bytes copied on success, -ENOMSG if offset >= mq_curmsgs.
-+ */
-+long do_mq_peek(struct file *filp, struct mq_peek_attr __user *uattr)
-+{
-+	struct mqueue_inode_info *info;
-+	struct mq_peek_attr attr;
-+	struct msg_msg *msg;
-+	void *kbuf;
-+	long ret;
-+
-+	if (filp->f_op != &mqueue_file_operations)
-+		return -EBADF;
-+
-+	if (!(filp->f_mode & FMODE_READ))
-+		return -EBADF;
-+
-+	if (copy_from_user(&attr, uattr, sizeof(attr)))
-+		return -EFAULT;
-+
-+	if (attr.offset < 0 || !attr.buf_len || !attr.buf)
-+		return -EINVAL;
-+
-+	info = MQUEUE_I(file_inode(filp));
-+
-+	/*
-+	 * Allocate the kernel copy buffer before taking the spinlock.
-+	 * Cap at mq_msgsize: no message can exceed it.
-+	 */
-+	kbuf = kvmalloc(min_t(size_t, attr.buf_len, info->attr.mq_msgsize),
-+			GFP_KERNEL);
-+	if (!kbuf)
-+		return -ENOMEM;
-+
-+	spin_lock(&info->lock);
-+
-+	msg = mq_peek_at_offset(info, attr.offset);
-+	if (!msg) {
-+		spin_unlock(&info->lock);
-+		kvfree(kbuf);
-+		return -ENOMSG;
-+	}
-+
-+	/*
-+	 * Copy the payload under the lock using pure memcpy() (no page
-+	 * faults), then transfer to userspace after releasing the lock.
-+	 */
-+	ret = mq_msg_copy_to_buf(msg, kbuf,
-+				 min_t(size_t, attr.buf_len,
-+				       info->attr.mq_msgsize));
-+	attr.msg_prio = msg->m_type;
-+
-+	spin_unlock(&info->lock);
-+
-+	if (copy_to_user(attr.buf, kbuf, ret) ||
-+	    copy_to_user(uattr, &attr, sizeof(attr)))
-+		ret = -EFAULT;
-+
-+	kvfree(kbuf);
-+	return ret;
-+}
-+
- static struct inode *mqueue_get_inode(struct super_block *sb,
- 		struct ipc_namespace *ipc_ns, umode_t mode,
- 		struct mq_attr *attr)
+								Honza
 -- 
-2.34.1
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
