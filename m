@@ -1,33 +1,27 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from psionic.psi5.com (psionic.psi5.com [185.187.169.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D0A93A3817;
-	Wed, 25 Mar 2026 10:35:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D22583BF69D;
+	Wed, 25 Mar 2026 10:47:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.187.169.70
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774434904; cv=none; b=bhdS8vBz1BYbtBiJdTIH2sVYq8ONzzYPR2HbmkPifooeEifNtE/d4O2g5t4IGCW9YRH0z3KepsYvMmdpCFmYyGemfZLWwvzb1Sd8r5NY3t18PVsYlB2FhYGLL5DHg915iAS8/hIpsncKQDFPZ8fPkYmyA4EMWodHsZ99b1Qty/A=
+	t=1774435655; cv=none; b=oGbNuh/N1N80qjE52sQovYrwDmTGLx6yjl028avwe1FIS/Vy44fzX9oqq0dYImznC7s+hOpIob38WwwSosO1Xlf2CJ+ORg5E7PcXuIhlE4/dFoStduc59HNR1xMRguK9XytKVMxUUSfpCI1jtI7LGEPl6qSt4DTGpDCVzUKtKmw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774434904; c=relaxed/simple;
-	bh=+W7AYaAXVw1i2DYITazSh58FngLmUYCv1t3fq5pVTRU=;
+	s=arc-20240116; t=1774435655; c=relaxed/simple;
+	bh=bv+NsVz6OapwrB5TX2Pmr9rejt829yROzXmKIMVXUCU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PYBWbnb8+Ba6pysZ+eIyrXT+0pqlHIhEbYXaK8xopzgn07rtcSLiEuWhfhGo8Tg4E194+WjmUutfhWlJZjVm8RLKz2f16COP3YfySn4/eK/1thyRZ+7yZ5tWBECWbkFUQx0nCfzbaazrSx0Ay4Gru5o+ofCd97+th5XikYLCUXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XyqtwD0B; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XyqtwD0B"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEB41C4CEF7;
-	Wed, 25 Mar 2026 10:34:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774434904;
-	bh=+W7AYaAXVw1i2DYITazSh58FngLmUYCv1t3fq5pVTRU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=XyqtwD0BVJpUUEeIxQNuop7kP0eDlwdduGR8d5uf2MwwJPd+cw307oTk9Phhs8x3l
-	 Hh6rIELrW6PhJt0RPyJGSFPMzadyDZwsObuPFoqXKHX/qCFcrK66BtKCtHaH7HSpF+
-	 0NGL1KxEeCeVDvLkU166GKoCMV5sPI0Hq9RLohb9yNUsRArIsKfhzMbamkj//nH3YJ
-	 4ug/r3J4vaM4CSS0e7WBb9VfoiGQ7drIOGpXk5kZ8oqKTpFew/rcW80Y1ZfDDm0HKl
-	 tIqVPpHAE7k98Loz1LnKsoU5+bfkVjx6lxzQNcGzna+siEzTrHVlZuoNwTrwpSF67C
-	 HbfXsN+/yyUDQ==
-Message-ID: <ec28f19e-072f-4f26-ad6b-feadf7a88dfc@kernel.org>
-Date: Wed, 25 Mar 2026 11:34:54 +0100
+	 In-Reply-To:Content-Type; b=qCJnahgWdrMFuQE6hXY/X5sC5HEeA9egaYudzVPqIQCmfEFsGSs/WbTuYgqoQ1zyaXJ20lxPKZ0ygGIJ/uvwElcH0zw7b+crl4tmaYvxJMgJApBE4FzJiYcerO+9UAfleOYob5Da97WJAbfgaqBqxSY/EiKSRuWUy8MLTmurUBg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hogyros.de; spf=pass smtp.mailfrom=hogyros.de; arc=none smtp.client-ip=185.187.169.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hogyros.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hogyros.de
+Received: from [IPV6:2400:2410:b120:f200:a1f3:73da:3a04:160d] (unknown [IPv6:2400:2410:b120:f200:a1f3:73da:3a04:160d])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by psionic.psi5.com (Postfix) with ESMTPSA id CBBAF3F004;
+	Wed, 25 Mar 2026 11:47:28 +0100 (CET)
+Message-ID: <befb1cd7-f709-4e46-b08f-9c2579b10fd6@hogyros.de>
+Date: Wed, 25 Mar 2026 19:47:25 +0900
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -35,60 +29,78 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 16/21] staging: vme_user: replace deprecated mmap hook
- with mmap_prepare
+Subject: =?UTF-8?Q?Re=3A_=5BRFC=5D_Proposal=3A_provenance=5Ftime_=28ptime=29?=
+ =?UTF-8?Q?_=E2=80=94_a_settable_timestamp_for_cross-filesystem_migration?=
+To: Sean Smith <defendthedisabled@gmail.com>, linux-fsdevel@vger.kernel.org
+Cc: linux-ext4@vger.kernel.org, tytso@mit.edu, dsterba@suse.com,
+ david@fromorbit.com, brauner@kernel.org, osandov@osandov.com
+References: <CAOx6djP4hb-Cd1Zk07SNfFfLc8irjNmbVqq+58h1Whz+h1wSFA@mail.gmail.com>
 Content-Language: en-US
-To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Clemens Ladisch <clemens@ladisch.de>,
- Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "K . Y . Srinivasan" <kys@microsoft.com>,
- Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
- Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Bodo Stroesser <bostroesser@gmail.com>,
- "Martin K . Petersen" <martin.petersen@oracle.com>,
- David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- David Hildenbrand <david@kernel.org>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport
- <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org,
- linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org,
- target-devel@vger.kernel.org, linux-afs@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- Ryan Roberts <ryan.roberts@arm.com>
-References: <cover.1774045440.git.ljs@kernel.org>
- <08ecc1e1d319564fd49b9e9012f994edaff921db.1774045440.git.ljs@kernel.org>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-In-Reply-To: <08ecc1e1d319564fd49b9e9012f994edaff921db.1774045440.git.ljs@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Simon Richter <Simon.Richter@hogyros.de>
+In-Reply-To: <CAOx6djP4hb-Cd1Zk07SNfFfLc8irjNmbVqq+58h1Whz+h1wSFA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 3/20/26 23:39, Lorenzo Stoakes (Oracle) wrote:
-> The f_op->mmap interface is deprecated, so update driver to use its
-> successor, mmap_prepare.
-> 
-> The driver previously used vm_iomap_memory(), so this change replaces it
-> with its mmap_prepare equivalent, mmap_action_simple_ioremap().
-> 
-> Functions that wrap mmap() are also converted to wrap mmap_prepare()
-> instead.
-> 
-> Also update the documentation accordingly.
-> 
-> Reviewed-by: Suren Baghdasaryan <surenb@google.com>
-> Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
+Hi,
 
-Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+On 3/25/26 1:26 PM, Sean Smith wrote:
 
+> For litigation evidence, file creation timestamps are provenance
+> metadata. They establish when a document first came into existence
+> as a digital file. Losing this metadata during a routine filesystem
+> migration is a forensic integrity failure — it destroys the timeline
+> that courts, investigators, and opposing counsel may rely on.
+
+FWIW, these creation timestamps are somewhat easily falsifiable -- by 
+setting the system clock before creating the file, for example.
+
+Adding another easily falsifiable timestamp that provides conflicting 
+information does not help with forensic integrity, it only muddies the 
+waters some more.
+
+If you need to document that a file was created before a particular 
+time, the proper approach is to submit a cryptographic checksum of the 
+file to a timestamping service. There are various such services run by 
+Certifying Authorities, some by notaries public, and some by volunteer 
+organizations.
+
+This does not help for older documents, obviously, because such a 
+service would not attest to having seen the document on an older date 
+than the present.
+
+"Forensic" means that the file system metadata will be analyzed by an 
+expert for plausibility. This expert will disbelieve any information, 
+including "forensic" metadata, from any file system that was stored on 
+media controlled by untrusted parties.
+
+BSD has the concept of "securelevels", where even the admin user cannot 
+perform certain actions while the system is running in multi-user mode, 
+and direct modification of on-disk data bypassing the file system is 
+among those. The key here is "multi-user mode": this is to protect 
+against an attacker who has gained remote access destroying evidence.
+
+The administrator is at any time free to switch the system to 
+single-user mode, which locks out any remote access, perform any 
+modifications they want, and return to multi-user mode. Because 
+switching to single-user mode disrupts remote access, this manipulation 
+level is unavailable to remote attackers, allowing the admin to perform 
+"forensic" analysis after a breach.
+
+This is only tangentially related to evidence presented at a trial. An 
+expert witness can only state "this is the creation time I found on 
+disk", but cannot say when that timestamp was written, so it is fairly 
+weak evidence.
+
+Timestamping services are much stronger: they have a system with 
+physical access barriers that has a single interface to the outside 
+world, over which it can receive a cryptographic checksum and return a 
+cryptographically signed message with the data received, a timestamp, 
+and a signature that covers both. This can be presented at court and, if 
+necessary, supported by the witness testimony of the service operator.
+
+In short, this is not a technical problem that can be solved on a 
+computer that isn't trusted by the opposing party -- and the solution is 
+to bring a trusted third party into the mix. There is a reason your 
+lawyer stamps any letters they see with the current date.
+
+    Simon
