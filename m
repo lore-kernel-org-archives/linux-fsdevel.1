@@ -1,182 +1,185 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7F44336880
-	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 17:59:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD0442DF132
+	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 18:01:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.50
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774547947; cv=pass; b=lGo4x3t3/8LIn0VVymSMSnIKTRFJCYmECw6hL1au2h8u7ttaoXE7tQLuW3J9B0j0jGWwa2Ux4TEhPEjJLluFoMi3qq2CyDecJ8m4w8uJZx8rgFhsG4hLGJTbgg/UXceOfPWBLowqd5iSe7sqVgHiExdvBj0uDKsg6c61XoECHlo=
+	t=1774548071; cv=pass; b=pXmxPJG6TIszGN96AE8/OuuDaLGKI2DJji8vQ5c5cwcbCrV7eUe6ZKs3kzh2UZBN0Wi1ECXqmxqj8rjv3nyi4wkW3jj1hzHoFFjypvB7sCTZ5AI55YQ3BYsUCT9LkvMMbh/pXADsRDa/3SBeTm/fQ9ZFKzVX1BKrqJioM3SCSxI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774547947; c=relaxed/simple;
-	bh=gTz4UtnKH0w9cMFhxx+SfgWyHpwq0GIaUKSLnwF1E6c=;
+	s=arc-20240116; t=1774548071; c=relaxed/simple;
+	bh=/KxTUJ0g36166zQSCV/qmQPKyEZ1y1khVCsaQ6ngVao=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qFhgX6+k1ANif7K3jFdDe0SXjQuEzPxv6oSquDB2ceadTOUvngqlFS7wxBBxSLtejDu+3sAxUgv+YgCKJKb5lw2ctJjiCbUdJe5OgKBlU9Ms2rNMD3d6i1rbCZ2u3E7v2wzpDR/ExSHh9/qvN2Mr97UEDRDyGYeI1c0oNM8WJXE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jL4L+MYQ; arc=pass smtp.client-ip=209.85.128.47
+	 To:Cc:Content-Type; b=mZCR0MXcXMRYV5zUiEHdQfFDuT6Uj50jKE7LlZZnLFne3XMPRTiWSljotSY5m1uqjIuWCAYlqV6hoJfNTO27tzPotRyiYPwRn91xFsIJsFb1c3MeCwzbJEyaEQ76xP7yQErTYlbO6nOg8LdA6+J10Gv11QqQf6VJ8at5kF4R6eQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E5rDhBFO; arc=pass smtp.client-ip=209.85.221.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jL4L+MYQ"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4852a9c6309so11894495e9.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 10:59:01 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774547940; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E5rDhBFO"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-439bc14dcf4so1801669f8f.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 11:01:08 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774548067; cv=none;
         d=google.com; s=arc-20240605;
-        b=hSStNp9OEhMevgc/AYmwCclEhAXAV1LTrran5+2XVKeSyqVdXa+6UPjtJYeuJyCNRB
-         0jSheqRLl97AdcbpjjTw4jr4wwEVq0Wmniqe4vuvgxf0DI11QUaN6hVdFOCRASr1JeXX
-         NAdgWUia8keV14m9sLjwdxvwjMt9QqvtOOEPjGmPrGIdExouDs47Rz8Tng5NqkdKhgrN
-         IjyckPpsBEOosXT5JVBvO6KzemjgCj00/A9+3BxfT6XKtSv2k9yHzDELwmv9Riyskwzo
-         TLuszk6LmAQgZlciw9CLPkv5fo9vRgGwEIL5uAVhTPeeygPbsR9wTwLKLinD78+QoLyY
-         4e8g==
+        b=bqzKlGsvHh0kh201U77nXALeAJTYyMxFqKiS2Rz40hCDE+02dgHKyKANN/z3Wp5Gyf
+         ugwhU+xN76Opvpjap+8477GBKHpaSXk9CI555e0rT0rs9QcEziVYCA9T89P4Fa5Ht+f4
+         pGtahQXkvI69muRktUMDKqEJIYT0pJHg0WHoMZhva+FngiVNC5ImniTJBTNqBhtWPkGD
+         38vW+kpIFXj3ropSTeYWBFui9q8hoSScflUmxJ0O1dvE51fi/ahi0E7Yz6Ejpm9RuX40
+         XDcPOTvPGMUu+4jUaaMwTRsMdVSLDAUY/3JAdKzShJcM3SvMIEnY8S2iIkNgeWO6x9mN
+         9+Mg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=80Mb9whJ243IS3wLbxD0sRPngPj7V2/sZvWpg8pOWw4=;
-        fh=ITDEvgmseCFcCyHEFh46nC/bgQREy4H5Pyu2LKM+CQU=;
-        b=XPV6dwEgc4yMocMlcTvoB0322hEjPl8iIjpzl3yIO1aU0LOY2Il0KtAztDqM7zaX0i
-         EYK061gU57dEwZZJzW5p+hJRUwqNppP1mwLIZCcAY/a+CRBQlWbt0w7jUrIfo22GLr3Y
-         9vver6R6F4iGLuP1WvQk+pleLtF5wFLq7wtVPgPtZkO8lXKfJXLBQdOakHPmqPI8J1LO
-         QTy/q/k25fTQCAQlobz4Imgo0wQ1+cM5IbaN4NO8L6GvpARVr99T49tjY0VhPMWNch5G
-         Cx8f1QThJrsXuZ5ynJm5FfcFd1JBw1fHUpACta4X34J31YYRQKmmQBVgE4tDLqngqhNy
-         LWXA==;
+        bh=w4eez3LEtFsZyFFePUioaf3thtImPyWbs47JZxvFBbg=;
+        fh=NYjGDo+3srWTDsIkAYJriyQwakZ5ki82C5GJja+nSQc=;
+        b=f9/6cOATRKMdPsQK/pKTLTND+2WL9Enf6aq26lDxDaZd/pdyMdzo1QJmEafcvBUNpF
+         sIckABxvQsyj8EfSV7z4JqPRzBVI7E9FJW0x52mqVtC8eXPM5bFwj0K25Jc4FMypYAS+
+         xLHWwtVdwkLD8YC5e/TYyrGW5Bq6El7kFyrj5GfB1PbnSQs4sKaOw7f7Epo5ZALXJ1yz
+         xzybnSPrugqSnHZ8WGVtpi4w8QZEaxTIRXCvLPH7GkMGwl7GmVcBimtMdnJpxF7gDQbU
+         1wT8Y9eqIRcUN2q0JlwLfYy6pxG7v+Rc02COQ4QqXWGKhyrB71baECa3zGASKdkXPanQ
+         GW0w==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774547940; x=1775152740; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1774548067; x=1775152867; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=80Mb9whJ243IS3wLbxD0sRPngPj7V2/sZvWpg8pOWw4=;
-        b=jL4L+MYQEMKrwrpdhCXfUIDJ30hGSSo+UogrfB6W1ckaI/KichvYxvnUhmhlWq8tZo
-         LNqULavMhXr+RxWzhXoKiqCPWJJGVGvIM+cjHiIyfZpMQnm6d0TZzixdEpyzR0G8auXq
-         E5FyxgeK0A6HlI2q+gklMLD2DvoNTSm4lNyabSnbdbOUSXYMqH3BKBlBKPHtaCLkeqbF
-         bIxR9Wgjg68kzwIpS83J6JlKgkTuCgeaLta66YzatXQTK4XiJ44CYISXvWs+Kx9aH6dU
-         6dWYur6SGykuuHl1IYZWXw3XF8QQvdI/Xisip1aLfdGiIACD4Qwxl+xOhoZHjJrPfLgo
-         tJCg==
+        bh=w4eez3LEtFsZyFFePUioaf3thtImPyWbs47JZxvFBbg=;
+        b=E5rDhBFOZOdCTkj4G/ky/Iwc2B/AIK7IXUsyhkj2Sw+PdXUu3e+HeOYYJ4GCP68MXV
+         vwOcrKtKLdJUJzP5E/ZcwFEm0Joxa4uLTxhGmrO+qa+WoleddkP3WCbJEpfDbk3ov70F
+         V3AyklzCRIZyxQ/p4yecSAHEBtWWv7+aM7yaFVvkhepyoZXamSywoLt41NoflBeeIQ9M
+         yVJ+i3eg9ZFKS52vy1tgqGCOTCNct+h1kOEPIjCZou0ZBA2qKk43pKdh8EmVVPdl6iu1
+         ray4iYJn4HBS4ZazujMaJKpsVM1SC5L071VHPAPK6rzGDPrfs35DnseG3Se6SywiXFGJ
+         nf2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774547940; x=1775152740;
+        d=1e100.net; s=20251104; t=1774548067; x=1775152867;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=80Mb9whJ243IS3wLbxD0sRPngPj7V2/sZvWpg8pOWw4=;
-        b=hHz5sn51zdRfw/5sOm5TBXvmdxR9XyUwk3TyqEECBp7oBiUkF3m7TRMf3eFPlGSqke
-         QUJ9NUidrFI9DqW2G5bWFzM+hLPrsGRbWWM8zX80FOoszxjJMzxgLCVLp3ouUaqmAZ5Z
-         8b/0u1bCdLpM5EU4aQ7lUXgpg0B2UZ3mjDrvIcYTLfjmQxTXrkZQe+bhKv1snwbK0xQT
-         ydfGUccELyh9tiCrmWAMDMGj9y4esDQ7xiw9UuEQYJ2tLl6undlonj54zAvPbNvQq83Z
-         WXzqERRfBaIBFqjIP/35c/YdXWlYfv4QxtL1NNwC1vcXsxiTguxbHDzqn6VtN7lqpAVj
-         +law==
-X-Forwarded-Encrypted: i=1; AJvYcCU/4hHS3n7R8tjxBLYUxpIlErkm564fFSxRZ2flpzgEkoBJa1yP/JSzoB+6IlLuYEEMF7ey0SWuBKQag7K4@vger.kernel.org
-X-Gm-Message-State: AOJu0YxReLegrYAfpGEpoxuendv8EYQrNF1JMw1DCEUVEoIwVdzlVXmv
-	NoicqnoPhCcXCXHI5lKfZ/80kLDrGSjW6Beo1BkamnUg+ZUPWhb9sNYAFks2YGr6nV7kGmBR5wx
-	HuQwOnCl/65tKGP4TMbXKuuj4STzMs/4=
-X-Gm-Gg: ATEYQzzJ7oQ5WHYt0a9S5r45+JFA7eBF/EmZl8WFLGosP3ujPgPgMGiX3tIx2juFBzF
-	1n+Opbkr1gQyOhPyJ3tucwzqvSFNutGAIrvVmCwN0D+OKbjxlrZIFjcSzOkiN+dhNrQkbMp1flH
-	4uO4gHTHxwt2Zp8vScuihW8GTzZeEliKD7EmwJL0Ya4Bp6q6ajmmX8IgP8/ArbJsQIwGWlJ80ZH
-	KT4nIYl0waidAdaONyxg1j3CGolXsDPTvp0v+mmf9KtIKc7oOeXaxcAKHjZnRQrjm8Yb4wWLtd7
-	G79lpQ==
-X-Received: by 2002:a05:600c:3b16:b0:485:45fb:3472 with SMTP id
- 5b1f17b1804b1-48715fc3a88mr128851985e9.7.1774547939665; Thu, 26 Mar 2026
- 10:58:59 -0700 (PDT)
+        bh=w4eez3LEtFsZyFFePUioaf3thtImPyWbs47JZxvFBbg=;
+        b=Gm+D+qvda0i9QaHovToi9tDFiBliYSf9K65NqRZF8udhYomQYqthbWP1quQKlNLkm4
+         vd4ECq5IiVr/kqZtXWogwprMz9Vzan8/YYj5gwoeohPOdFO5WOdz2v8qhk8R268WDNx7
+         nhjcjzH7o65wXR8h3j9KceJ7gy/rPbasc8FQY1ctbaeuw3/4aiyvQuO+EzCF8wRLKd8v
+         GHetAw5fLJZXCL+P+Y35B017K9N52a+/h1oceM2js4FEQMEnp9aGVMq6eXyQlqMQ9Pp5
+         pjz19QDj2SZmGNmSHgJsRGUgcIdTYL/wrs+uH+y3WuoShap8Y0EEEbfqh5JUUmaYnb+c
+         FyVg==
+X-Forwarded-Encrypted: i=1; AJvYcCWZ47l85ygvXb6JzpboNqCQttRIFnFXq/wfBv4LJHErQr/zFZfyhwS1BA7IIRPZbJzxRaxa6E/0VeObDOYk@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw+aX13YjR9UVSquTg4nH2oDHJ9MN2CajuCQeD7BG0HZ3PyIwCl
+	APG4kpVKGI3S9KIAUmr48h/Q0PsGuJcxlakxsYotc/2KtyWGJgYFvlO4jONWC/tTm5Ga1Y0Xfom
+	wrfUAVeF3Nf5QNKJ5bNXDjP0t/izQ0LQ=
+X-Gm-Gg: ATEYQzyr0lO2g+13pShXGgW8et8bhln6omlwyhq5sA2i0Uzwy/nhm+OitEnW+Hf7OA1
+	h5qUlgkKZVUjCJJZet/j/zm984lfV/s7wNSdVawzETEKarcJWC57vJZEzBpwdDDtB9BF3VLWnXf
+	qvNOgCUutxkvX1rtQMr3mmCoSaQ6wzMm7pKlFxaKPqV7+ZuBB32qp0+mmEZteVhhu04rZ6Lv8l0
+	5vW9NYVLMWS3VHjKB7ZvJ6R/lzYuocEBTAv0CJ2zQP5v/6ERqKA8cWKpKEnHA2TI5I3BQBZu/w+
+	Xg0kCZcX9/3UGakP
+X-Received: by 2002:a05:6000:1787:b0:43b:4312:2cbb with SMTP id
+ ffacd0b85a97d-43b97a264dbmr4986808f8f.17.1774548066635; Thu, 26 Mar 2026
+ 11:01:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260326001337.828947-1-joannelkoong@gmail.com> <yet2ddivcs3v4g5wmr4zfjkwsbzfjmwjhq56zur7wjivd72abs@tq23xp4mle2o>
-In-Reply-To: <yet2ddivcs3v4g5wmr4zfjkwsbzfjmwjhq56zur7wjivd72abs@tq23xp4mle2o>
+References: <20260318-fix-inode-init-race-v1-1-a7e58b2ddb9a@ddn.com>
+ <3a7d36c3-0ce0-4f1d-9649-1742f752c5f1@bsbernd.com> <20260326-reorganisation-bemessen-c6643edcf629@brauner>
+ <b53e0176-6575-4ec7-bf44-8dea9fc8121e@bsbernd.com> <CAJfpegtudVRas4gy2bTn+ZeLQapL76pCnvjgHnERUY4tWz-_VQ@mail.gmail.com>
+ <acVUeX54PDFfApI2@fedora> <CAJnrk1ZZmX0-3kBRpmFRaGZe=y1va0poG6WGo44uy0Jtu+E-2A@mail.gmail.com>
+ <acVxb0TSSUgHsK5T@fedora>
+In-Reply-To: <acVxb0TSSUgHsK5T@fedora>
 From: Joanne Koong <joannelkoong@gmail.com>
-Date: Thu, 26 Mar 2026 10:58:48 -0700
-X-Gm-Features: AQROBzBJTNVKqxLNGXMdHzPrAm0v89gG-2H1rymc_kwPrrzGJPYjfQfe4mHTfyc
-Message-ID: <CAJnrk1Y_R=bVQpugCwg39G75WXCpss5w9xzwd8fTrmrVN0YSRg@mail.gmail.com>
-Subject: Re: [PATCH v1] mm: fix writeback regression for strictlimit BDIs
-To: Jan Kara <jack@suse.cz>
-Cc: akpm@linux-foundation.org, hannes@cmpxchg.org, willy@infradead.org, 
-	miklos@szeredi.hu, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
+Date: Thu, 26 Mar 2026 11:00:54 -0700
+X-Gm-Features: AQROBzCJl2bROwheCxKnNOPi_4bE7mucLIGsiNw5V9hb6QfDyP9C_s4IRubcIs0
+Message-ID: <CAJnrk1ax2bK-FQXDEc=OGvYS7YvCvL3YsKWv1gmzwkS_QSz+fw@mail.gmail.com>
+Subject: Re: Re: Re: [PATCH] fuse: fix inode initialization race
+To: Horst Birthelmer <horst@birthelmer.de>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Bernd Schubert <bernd@bsbernd.com>, 
+	Christian Brauner <brauner@kernel.org>, Horst Birthelmer <horst@birthelmer.com>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Horst Birthelmer <hbirthelmer@ddn.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 26, 2026 at 1:48=E2=80=AFAM Jan Kara <jack@suse.cz> wrote:
+On Thu, Mar 26, 2026 at 10:54=E2=80=AFAM Horst Birthelmer <horst@birthelmer=
+.de> wrote:
 >
-> On Wed 25-03-26 17:13:37, Joanne Koong wrote:
-> > Commit 64dd89ae01f2 ("mm/block/fs: remove laptop_mode") removed this
-> > unconditional writeback kick from balance_dirty_pages():
+> On Thu, Mar 26, 2026 at 09:43:00AM -0700, Joanne Koong wrote:
+> > On Thu, Mar 26, 2026 at 8:48=E2=80=AFAM Horst Birthelmer <horst@birthel=
+mer.de> wrote:
+> > >
+> > > On Thu, Mar 26, 2026 at 04:19:24PM +0100, Miklos Szeredi wrote:
+> > > > On Thu, 26 Mar 2026 at 16:13, Bernd Schubert <bernd@bsbernd.com> wr=
+ote:
+> > > > >
+> > > > >
+> > > > >
+> > > > > On 3/26/26 15:26, Christian Brauner wrote:
+> > > > > > On Wed, Mar 25, 2026 at 08:54:57AM +0100, Bernd Schubert wrote:
+> > > > > >>
+> > > > > >>
+> > > > > >> On 3/18/26 14:43, Horst Birthelmer wrote:
+> > > > > >>> From: Horst Birthelmer <hbirthelmer@ddn.com>
+> > > >
+> > > > > >>>     fi->attr_version =3D atomic64_inc_return(&fc->attr_versio=
+n);
+> > > > > >>> +   wake_up_all(&fc->attr_version_waitq);
+> > > > > >>>     fi->i_time =3D attr_valid;
+> > > > >
+> > > > >
+> > > > > While I'm looking at this again, wouldn't it make sense to make t=
+his
+> > > > > conditional? Because we wake this queue on every attr change for =
+every
+> > > > > inode. And the conditional in fuse_iget() based on I_NEW?
+> > > >
+> > > > Right, should only wake if fi->attr_version old value was zero.
+> > > >
+> > > > BTW I have a hunch that there are better solutions, but it's simple
+> > > > enough as a stopgap measure.
+> > >
+> > > OK, I'll send a new version.
+> > >
+> > > Just out of curiosity, what would be a better solution?
 > >
-> >        if (unlikely(!writeback_in_progress(wb)))
-> >              wb_start_background_writeback(wb);
+> > I'm probably missing something here but why can't we just call the
 > >
-> > Earlier in balance_dirty_pages(), background writeback is started if th=
-e
-> > global dirty count exceeds the global background threshold (nr_dirty >
-> > gdtc->bg_thresh). However for BDIs with BDI_CAP_STRICTLIMIT set (eg
-> > fuse), throttling is calculated using the per-wb threshold, not global
-> > thresholds. This means the per-wb threshold can be exceeded while the
-> > global nr_dirty is below gdtc->bg_thresh. This causes two problems:
+> >         fi =3D get_fuse_inode(inode);
+> >         spin_lock(&fi->lock);
+> >         fi->nlookup++;
+> >         spin_unlock(&fi->lock);
+> >         fuse_change_attributes_i(inode, attr, NULL, attr_valid, attr_ve=
+rsion,
+> >                                  evict_ctr);
 > >
-> > a) background writeback is never proactively kicked off. The flusher
-> > should be kicked off while the writer is still free-running, so that
-> > dirty pages are drained before the writer hits the throttle threshold.
-> > For strictlimit BDIs with global nr_dirty < gdtc->bg_thresh, this never
-> > kicks off the flusher, so dirty pages pile up unchecked until the per-w=
-b
-> > freerun ceiling gets hit and IO is throttled
+> > logic before releasing the inode lock (the unlock_new_inode() call) in
+> > fuse_iget() to address the race? unlock_new_inode() clears I_NEW so
+> > fuse_reverse_inval_inode()'s fuse_ilookup() would only get the inode
+> > after the attributes initialization has finished.
 > >
-> > b) while IO is throttled, the flusher is still not started, which means
-> > the writer basically sits in the throttle loop sleeping while waiting
-> > for dirty pages to be cleaned but no writeback is running
-> >
-> > This leads to severe stalls and degraded throughput. On fuse, buffered
-> > write performance drops from 1400 MiB/s to 2000 KiB/s.
-> >
-> > This fixes the issue by kicking off the flusher if wb_dirty exceeds
-> > wb_bg_thresh for strictlimit BDIs. This restores performance back to it=
-s
-> > original baseline.
-> >
-> > Fixes: 64dd89ae01f2 ("mm/block/fs: remove laptop_mode")
-> > Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+> > As I understand it, fuse_change_attributes_i() would be pretty
+> > straightforward / fast for I_NEW inodes, as it doesn't send any
+> > synchronous requests and for the I_NEW case the
+> > invalidate_inode_pages2() and truncate_pagecache() calls would get
+> > skipped. (truncate_pagecache() getting skipped because inode->i_size
+> > is already attr->size from fuse_init_inode(), so "oldsize !=3D
+> > attr->size" is never true; and invalidate_inode_pages2() getting
+> > skipped because "oldsize !=3D attr->size" is never true and "if
+> > (!timespec64_equal(&old_mtime, &new_mtime))" is never true because
+> > fuse_init_inode() initialized the inode's mtime to attr->mtime).
 >
-> Good spotting! I think your change makes sense but I don't think it is
-> enough. The problem is that writeback throttling depends also on memcg
-> setup so with your fix we still have a problem that when throttling due t=
-o
-> memcg limits the flush work won't be queued early enough / at all. So I
-> think the best fix is to perhaps do your change so that background
-> writeback is started earlier for strictlimit bdis but also return back th=
-e
-> unconditional starting of writeback (with properly updated comment) when =
-we
-> find out we're going to throttle the task for whatever reason.
+> You understand the pretty well, I think.
+> The problem I have there is that fuse_change_attributes_i() takes
+> its own lock.
+> That would be a pretty big operation to split that function.
 
-Thanks for the explanation - great point about the memcg case.
-
-I will bring back those 2 lines as the proper fix for the regression
-and submit this patch separately as a strictlimit optimization.
+I believe fuse_change_attribtues_i() takes the fi lock, not the inode
+lock, so this should be fine.
 
 Thanks,
 Joanne
 >
->                                                                 Honza
+> Is that required for this small (as Miklos put it, rare) case?
 >
-> > diff --git a/mm/page-writeback.c b/mm/page-writeback.c
-> > index 601a5e048d12..3f89b08b11b4 100644
-> > --- a/mm/page-writeback.c
-> > +++ b/mm/page-writeback.c
-> > @@ -1835,7 +1835,9 @@ static int balance_dirty_pages(struct bdi_writeba=
-ck *wb,
-> >                       balance_domain_limits(mdtc, strictlimit);
-> >               }
-> >
-> > -             if (nr_dirty > gdtc->bg_thresh && !writeback_in_progress(=
-wb))
-> > +             if (!writeback_in_progress(wb) &&
-> > +                 (nr_dirty > gdtc->bg_thresh ||
-> > +                  (strictlimit && gdtc->wb_dirty > gdtc->wb_bg_thresh)=
-))
-> >                       wb_start_background_writeback(wb);
-> >
-> >               /*
-> > --
-> > 2.52.0
-> >
-> --
-> Jan Kara <jack@suse.com>
-> SUSE Labs, CR
+> If you guys want me to do that, I will.
+>
+> Thanks,
+> Horst
