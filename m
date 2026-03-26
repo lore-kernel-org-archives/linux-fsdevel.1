@@ -1,134 +1,119 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ACE5378D71
-	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 20:12:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774555925; cv=pass; b=IC+4wf2UDIAH0G83dvt8blsw4x9eUZcLy/YWO9AahsEHfJKhUIOTFJAwEjqs8R3pFg8xAxvePCq8LdyNoscIuZrhSmZKO2eZo6tkpcUI6D0HnxZ9la77DhC620fxoB2+4cazBVqK1lNJXEnV7DMMxwXXtLpJaFCXAkVMTvOkuQY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774555925; c=relaxed/simple;
-	bh=aQ6Aq/POQfqqEmXu9zuXl6Xin5wscy4aVe2hMd0YT8I=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=D0NJidZCNwihctJahuWqjO23G580bNPwKU9rXSs/Rmk+3sXtmp5aVF+ZWtOtV9ySMJEJSRaDja4AS3I/yuGNtx1gmgfxxazBhbmUpNpkKwVtIEPapNnHQU/IYkz7RrMG6uRBYSVwHMINqCORevmvVqSA4KLUMqwsjLCQS5UznJA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IOpa/SrV; arc=pass smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC17C33A711;
+	Thu, 26 Mar 2026 20:48:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774558127; cv=none; b=K0wTJUBBhkrxEyCWr3nbeRHZl+s/RwrJ7uw+e4D1qyPTYVzFPX4Mdh5egnIbN1OZKsMme1N/n5Zb0ignkZQRiqkNbx8CMYiZwT4HPV6lzcJJWL/JIRq/eII/ms7WtnEb38t4p9pUy4LcZ1UJpJGd6Dv/03PwoW/Ru2L6HKZp1fo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774558127; c=relaxed/simple;
+	bh=dVmfDKAmcYU+P9oPx45dFGp34Xb5aP03iy+0pWfebw0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fvZqybhfvHyhhDqNE05hjkLGLVTFSgkArENOPAAWtRBUb/LZ1ZWXgTvUdd+5TB7B2XK1yZ1ctUsDDPovuqcLHbTNqlEdFIO6rumNEMeYMMnUpDLzCaVCwjN3v7n7X2FCtsKtU3Owdlr0RKisQN/GwRe3Rq4/Q1FkS4bRtR0eGOs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JYAx/9AK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IOpa/SrV"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-43b4f48c47cso1034313f8f.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 13:12:03 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774555922; cv=none;
-        d=google.com; s=arc-20240605;
-        b=kp4OFaMXwA+pAszBzC1xkWlky4JlRVnFjogpZROd00Q6jyOAAoFc7Rau60SE/0Rvu1
-         uMwRT9rhqYIMTWh30gesD8onrx0Rvy4r1NdP43Q/qOJRHzG2x3JuVl+h7NZhUWcITAyq
-         YnHR9aH4XfHF37P5G4M/WPKf27yGqSMZJm1u8skzeM3RcxJ1Dc6wXaoMvd7YxqHokE3K
-         QNRMoALof3AyqF+AAJhh1yLaAlF0dlk7bzRqzAReTxacJAxrPT55do7B2JfLpZFfvTFb
-         Bl9CJkkiFbAiseuic91d+tRP0O8nGPeQjafXIBh4N2QmQdK8JOefDQWyPLZgsNiGzhf8
-         NszQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=aQ6Aq/POQfqqEmXu9zuXl6Xin5wscy4aVe2hMd0YT8I=;
-        fh=eYN11BsovOQUL8wFVHL4vOfmf55aYiFKwH590I/vRl0=;
-        b=lFTHR3z/qkrxY+C4laCOE6WAWnXqPOVs79sj2Hd0di0lBcWHeH54sIrTQSUAM4gl8X
-         2Us9RdEj1lbxk/vr3uXo4gYI0/y0wC/mklAyGtZAtRE+eLiE9+t32aruYRZ9+5e2W/+u
-         AmfqjE60KzaBJlyhuwL+kloJ2sMPUewUResLL+49P+9UvMwtNJoVk4FSe/mgW8qJZsMa
-         zfE4RJQ1aXcW7xQPFFc7kUwblYCM9AO42GKc2xH42+MAz+aFOVVFqQ78LdSkCUJ52BEa
-         mdl+3YBnQ6yZFH5oRHzAs5KZ5PqudlSirWsOOSJoZ2LhGjT4FcuvVDoHVrMYYQgAvEbZ
-         ORig==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774555922; x=1775160722; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aQ6Aq/POQfqqEmXu9zuXl6Xin5wscy4aVe2hMd0YT8I=;
-        b=IOpa/SrVSzfjkxzWDu6zax++eMmuHtlcf5jwKPZvzWYm59o/2ehRorit7rMi/4C51B
-         JlXRfMPc4MrtaT7NsbZc1q1EPEYwEbQrtmKrpoAFqVZ9Vbwb+lQS1vFzALeXV64yLd+P
-         aQtVMtufOXNI0qykQMdIHJtoBhJtIbRNP0COzJfS5dyLp5B9o041vu7Av2tC3rb+OHXL
-         859wyXVlbb7oxr+BIbJGq88jiu9lKYnH8Xj0bzkurYg2/MZIYF30eZtfX4QfSie9wUL6
-         fe6/v4FnEhOiSpQo3ktrJWHI6e0MQ2qV4yDP9F6onYExbHuG3LCQGwGAaGLDNXSIjJ12
-         DlGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774555922; x=1775160722;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=aQ6Aq/POQfqqEmXu9zuXl6Xin5wscy4aVe2hMd0YT8I=;
-        b=qUXoXaN6ONdZTdeJ459HfI9pexQ1KBZgBKQFc3RwHdUN/HmsRxNHJc7gsZXh1751u4
-         K5FI6FqN6YsKpDJDUDIAGy7xakShAiUwwN7KWjMZgc9IUaJgF7ZLMstweoamxT5/mITn
-         17qf+AddsldFvKLijXmYEph1Q6/8QjdP89Teb1Q5IolUm9YwYuIFMxGJFLKLrNXNcwI5
-         hHzv0atYVY/1LlUCceZCpeEp+kq0hIsEU0Qcu+I/4Xvu/3uUVP5FZDhI6C+Vyc0XR26V
-         gefuC6jVHuWe6F9PJsgoh58n8/VftfvAwmweJ/hKinu7bOhXAt0ZIu54/8o0cdoGBQY4
-         2nnw==
-X-Forwarded-Encrypted: i=1; AJvYcCX8spGO52VzHkT3JMv7Bb7mu9wx0RYU1/2VwcdYznzfuDl/uIVM1BpV2dL3NW0sK02ie3PPOc6l0TM+OVR1@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzj5PBD1Z6rVnJ7qbj+2puAEaXwTGxDmgGWOMb2xLaNJDNiZcwP
-	ip3ROHF8UymcGVRXXEEhSf6obBAUiTlh2VoqNW+aD5+/BG2vZa46GUY3FYigxure1AG6F5KZz63
-	8nFxBNRIk3ZtCcb8YFs6rSYQyapGigkw=
-X-Gm-Gg: ATEYQzxV8oKtmtWIijkVheiGYT4OEDpjeokom5+ektqZ6cIx5lD7FkV7S8QM6b+0bqC
-	Mn1aCi8LV6+eR1LmWJhXwIpadcubbRXi8cga3EzzjOt06myrTmuZ03lcoyG4dDeOmu4X9hFY86c
-	71Em3QwemnOBQmqYeNbZUCN80hCtDDjhmfXDUiAfgw3St861sfbcha8aTz5VmltGS+PWRX6r7rk
-	fteBDVnKzUa2kLTNlre2J+R5tDM2gRYym+uEDUf9MF6HV7v0t/DghN7layBf09HbEhWkHZ1HoZr
-	hjnuuA==
-X-Received: by 2002:a5d:5d01:0:b0:43b:9986:2fbe with SMTP id
- ffacd0b85a97d-43b99864385mr3860955f8f.49.1774555922211; Thu, 26 Mar 2026
- 13:12:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JYAx/9AK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 227B9C116C6;
+	Thu, 26 Mar 2026 20:48:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774558127;
+	bh=dVmfDKAmcYU+P9oPx45dFGp34Xb5aP03iy+0pWfebw0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JYAx/9AK3xIoE4JHnYUZa0Okdzzv0luEebEXaaAB5aAnujI50/gpmXZv+qkyOdq9A
+	 oM2ziJh/kRhRQMbW25/XeqRRglGTp9SMryWvR7y0y6xO+b0XDqBPejdCwJc+Z3RYvT
+	 4icZSLqZU6zT08t0OGCdAkYNXEhpJzomZBrkawGNJqOtUvFpJJwts+xH5W8mlbAzV1
+	 9fTYea+ogw+rb7mKxjMCki0DOu8KBfhM1P+Uj/JtCmy5U9UrgCDtGdF2E85ruMd6La
+	 CztljhxfeKW/6x+2ubjlGiT3OyIBN2Aj9k+FKtFR0yqIxi5cKm5Uu/okD9HB85LqWj
+	 EV0cGwVMtFydw==
+Date: Thu, 26 Mar 2026 16:48:46 -0400
+From: Mike Snitzer <snitzer@kernel.org>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Chuck Lever <chuck.lever@oracle.com>, linux-nfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
+	Jens Axboe <axboe@kernel.dk>
+Subject: Re: A comparison of the new nfsd iomodes (and an experimental one)
+Message-ID: <acWbrlvt_dUB9X3R@kernel.org>
+References: <4ebbd194ccfb3bcea6225d926b4c9f339e21c813.camel@kernel.org>
+ <d453add6-ed23-4d61-af95-d80133b0e456@oracle.com>
+ <33582a86daf135336f6bc0d5260d8de0501abadd.camel@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260306003224.3620942-1-joannelkoong@gmail.com>
- <CAG48ez0H_Z-NQvfOeczECz_sO=MzVDvu+8m+msB55rcAPfQOgQ@mail.gmail.com>
- <CAJnrk1aTnoDwDVdgYrcN3tHm-_j79GKYY=8q_Lu=xi8=Cxi4bg@mail.gmail.com> <CAG48ez2o=OzSjuPYm44gCDrG_tqzXC3=PCJHXCBVJyYmemtzsw@mail.gmail.com>
-In-Reply-To: <CAG48ez2o=OzSjuPYm44gCDrG_tqzXC3=PCJHXCBVJyYmemtzsw@mail.gmail.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Thu, 26 Mar 2026 13:11:49 -0700
-X-Gm-Features: AQROBzCKIqfx2y0xdE_s3cDvS-5ttLByg-r-ogTcKv2e1J_I2Ot6s_Y1MeHI0DI
-Message-ID: <CAJnrk1a3xz4fcA+rB7Y3Cvp=D24-4TOF7bE5O9KTTZPjqOwfoA@mail.gmail.com>
-Subject: Re: [PATCH v3 0/8] io_uring: add kernel-managed buffer rings
-To: Jann Horn <jannh@google.com>
-Cc: axboe@kernel.dk, hch@infradead.org, asml.silence@gmail.com, 
-	bernd@bsbernd.com, csander@purestorage.com, krisman@suse.de, 
-	linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <33582a86daf135336f6bc0d5260d8de0501abadd.camel@kernel.org>
 
-On Thu, Mar 26, 2026 at 1:00=E2=80=AFPM Jann Horn <jannh@google.com> wrote:
->
-> Hi!
->
-> On Thu, Mar 26, 2026 at 8:55=E2=80=AFPM Joanne Koong <joannelkoong@gmail.=
-com> wrote:
-> > On Thu, Mar 26, 2026 at 12:33=E2=80=AFPM Jann Horn <jannh@google.com> w=
-rote:
-> > > Am I missing something that prevents normal io_uring operations from
-> > > grabbing IOBL_KERNEL_MANAGED buffers and accessing the wrong union
-> > > member?
-> >
-> > Hi Jann,
-> >
-> > I am going to be submitting the changes for kernel-managed pbufring
-> > compatibility with normal (non-fuse) io-uring requests as part of a
-> > separate patchset. You're right that there is a functional gap right
-> > now where trying to use kernel-managed pbuf rings fails with errors.
-> > In those patches, an iter_kvec will be constructed for
-> > IOBL_KERNEL_MANAGED rings instead of an iter_ubuf. I'm intending to
-> > submit that patchset upstream in time for the 7.1 merge window before
-> > it closes in mid-April.
->
-> Ah, thanks for the explanation. Please CC me on that patchset, I'd be
-> interested in taking a look at how that will be implemented.
+On Thu, Mar 26, 2026 at 12:35:15PM -0400, Jeff Layton wrote:
+> On Thu, 2026-03-26 at 11:30 -0400, Chuck Lever wrote:
+> > On 3/26/26 11:23 AM, Jeff Layton wrote:
+> > > I've been doing some benchmarking of the new nfsd iomodes, using
+> > > different fio-based workloads.
+> > > 
+> > > The results have been interesting, but one thing that stands out is
+> > > that RWF_DONTCACHE is absolutely terrible for streaming write
+> > > workloads. That prompted me to experiment with a new iomode that added
+> > > some optimizations (DONTCACHE_LAZY).
+> > > 
+> > > The results along with Claude's analysis are here:
+> > > 
+> > >     https://markdownpastebin.com/?id=387375d00b5443b3a2e37d58a062331f
+> > > 
+> > > He gets a bit out over his skis on the upstream plan, but tl;dr is that
+> > > DONTCACHE_LAZY (which is DONTCACHE with some optimizations) outperforms
+> > > the other write iomodes.
+> > 
+> > The analysis of the write modes seems plausible. I'm interested to hear
+> > what Mike and Jens have to say about that.
 
-I will make sure to CC you on the patchset.
+Thanks for doing your testing and the summary, but I cannot help but
+feel like your test isn't coming close to realizing the O_DIRECT
+benefits over buffered that were covered in the past, e.g.:
+https://www.youtube.com/watch?v=tpPFDu9Nuuw
 
-Thanks for taking a look at this.
+Can Claude be made to watch a youtube video, summarize what it learned
+and then adapt its test-plan accordingly? ;)
 
-Thanks,
-Joanne
->
-> Thanks,
-> Jann
+Your bandwidth for 1MB sequential IO of 793 MB/s for O_DIRECT and
+4,952 MB/s for buffered and dontcache is considerably less than the 72
+GB/s offered in Jon's testbed.  Your testing isn't exposing the
+bottlenecks (contention) of the MM subsystem for buffered IO... not
+yet put my finger on _why_ that is.
+
+In Jon Flynn's testing he was using a working set of 312.5% of
+available server memory, and the single client test system was using
+fio with multiple threads and sync IO to write to 16 different mounts
+(one per NVMe of the NFS server) with nconnect=16 and RDMA.
+
+Raw performance of a single NVMe in Jon's testbed was over 14 GB/s --
+he has the ability to drive 16 NVMe in his single NFS server.  So an
+order of magnitude more capable backend storage in Jon's NFS server.
+
+Big concern is your testing isn't exposing MM bottlenecks of buffered
+IO... given that, its not really providing useful results to compare
+with O_DIRECT.
+
+Putting that aside, yes DONTCACHE as-is really isn't helpful.. your
+lazy variant seems much more useful.
+
+> > One thing I'd like to hear more about is why Claude felt that disabling
+> > splice read was beneficial. My own benchmarking in that area has shown
+> > that splice read is always a win over not using splice.
+> > 
+> 
+> Good catch. That turns out to be a mistake in Claude's writeup.
+> 
+> The test scripts left splice reads enabled for buffered reads, and the
+> results in the analysis reflect that. I (and it) have no idea why it
+> would recommend disabling them, when the testing all left them enabled
+> for buffered reads.
+
+Claude had to have picked up on the mutual exclusion with splice_read
+for both NFSD_IO_DONTCACHE and NFSD_IO_DIRECT io modes.  So
+splice_read is implicity disabled when testing NFSD_IO_DONTCACHE
+(which is buffered IO).
+
+Mike
