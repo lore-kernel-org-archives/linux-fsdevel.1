@@ -1,38 +1,38 @@
-Received: from smtp03-ext2.udag.de (smtp03-ext2.udag.de [62.146.106.30])
+Received: from smtp05-ext.udag.de (smtp05-ext.udag.de [62.146.106.75])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CDC21A683B;
-	Thu, 26 Mar 2026 15:45:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.146.106.30
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64725378D8B;
+	Thu, 26 Mar 2026 15:51:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.146.106.75
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774539955; cv=none; b=c4UGj/PMvcuDHnouNsDqpLNRaGjxRtFuiJBN6/ZNqwfr5oDNOhyIWSocXVp/kZXlXaOp84YXcFGWpdhFJbbHYD3aQC+TiotC0+ncrzune9u4fC2TdsoXYj2QZQhyw7MmEAqKaUsVXa47RrdWX2VdhxSgNp1qDzUOVuqS+JoFMvw=
+	t=1774540314; cv=none; b=m9w6qDNm/rB7iSWOnnWbK9NxmLOspTmlnz2vXltaTTM08ANODBW5Zv4OoXu6GBJeJGPFHQbIhhLCH+x6nATq0z92RpMf8NyKsf6Tl0TCQIg5Lng8Ohd3bfTImsp5X+OO/rekpq+TZanfgTKSsGAKipw6KEWIjRoiqhCe2Dvyx0Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774539955; c=relaxed/simple;
-	bh=jkyAvIUs4NLagD+o1pV9/gpfEx5eKG3Y0zImm8ZbYVs=;
+	s=arc-20240116; t=1774540314; c=relaxed/simple;
+	bh=K95S268P3m3xmd/LN8KS38xzkNrMW8+0DTYA+JTEpSQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k0KdBNXh/7Ek6hQJXjnil8ijbC7CV80YQ5JRv3JYQvkvRb0tTq1uJ5cQYa/21gnPaws7wrO8LBhAz0l6HZh2P68e/gvmuUGd2CQLBw50Up7TvgHTe9iGCmVVGLYxKEqfkvM6Dtc+kkTMwoIWGhLg+wpE2l8hklYKfv0SUz3CbZk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de; spf=pass smtp.mailfrom=birthelmer.de; arc=none smtp.client-ip=62.146.106.30
+	 Content-Type:Content-Disposition:In-Reply-To; b=V1R0+8Z5AU0XTbMka7gUytLn55E8flXyjfFMtSNhh05mT2NK5SyUGbSHx7b6D0w7c667hEDTXhfFm4swci6lpjlAdLjFFxT6W3LCaIz6gVm2ZJov28pzKIpFwCa8bIoV627Nwyt4jgyN1BgrN2MZsL+6M6/TDaflIC+fhCiDELc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de; spf=pass smtp.mailfrom=birthelmer.de; arc=none smtp.client-ip=62.146.106.75
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birthelmer.de
 Received: from localhost (108-141-067-156.ip-addr.inexio.net [156.67.141.108])
-	by smtp03-ext2.udag.de (Postfix) with ESMTPA id E54D1E03CB;
-	Thu, 26 Mar 2026 16:45:51 +0100 (CET)
-Authentication-Results: smtp03-ext2.udag.de;
+	by smtp05-ext.udag.de (Postfix) with ESMTPA id 0BF1FE036D;
+	Thu, 26 Mar 2026 16:44:02 +0100 (CET)
+Authentication-Results: smtp05-ext.udag.de;
 	auth=pass smtp.auth=birthelmercom-0001 smtp.mailfrom=horst@birthelmer.de
-Date: Thu, 26 Mar 2026 16:45:51 +0100
+Date: Thu, 26 Mar 2026 16:44:02 +0100
 From: Horst Birthelmer <horst@birthelmer.de>
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Bernd Schubert <bernd@bsbernd.com>, 
-	Christian Brauner <brauner@kernel.org>, Horst Birthelmer <horst@birthelmer.com>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Horst Birthelmer <hbirthelmer@ddn.com>
-Subject: Re: Re: [PATCH] fuse: fix inode initialization race
-Message-ID: <acVUeX54PDFfApI2@fedora>
-References: <20260318-fix-inode-init-race-v1-1-a7e58b2ddb9a@ddn.com>
- <3a7d36c3-0ce0-4f1d-9649-1742f752c5f1@bsbernd.com>
- <20260326-reorganisation-bemessen-c6643edcf629@brauner>
- <b53e0176-6575-4ec7-bf44-8dea9fc8121e@bsbernd.com>
- <CAJfpegtudVRas4gy2bTn+ZeLQapL76pCnvjgHnERUY4tWz-_VQ@mail.gmail.com>
+To: Cyril Hrubis <chrubis@suse.cz>
+Cc: kernel test robot <oliver.sang@intel.com>, 
+	Horst Birthelmer <horst@birthelmer.com>, lkp@intel.com, Miklos Szeredi <miklos@szeredi.hu>, 
+	Bernd Schubert <bernd@bsbernd.com>, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	Horst Birthelmer <hbirthelmer@ddn.com>, ltp@lists.linux.it, oe-lkp@lists.linux.dev, 
+	Joanne Koong <joannelkoong@gmail.com>
+Subject: Re: Re: [LTP] [PATCH] fuse: when copying a folio delay the mark
+ dirty until the end
+Message-ID: <acVT7mE4MjBfNPOW@fedora>
+References: <20260316-mark-dirty-per-folio-v1-1-8dc39c94b7ce@ddn.com>
+ <202603261451.d2a4cd46-lkp@intel.com>
+ <acVLK8F8i-eEZwLG@yuki.lan>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -41,41 +41,36 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAJfpegtudVRas4gy2bTn+ZeLQapL76pCnvjgHnERUY4tWz-_VQ@mail.gmail.com>
+In-Reply-To: <acVLK8F8i-eEZwLG@yuki.lan>
 
-On Thu, Mar 26, 2026 at 04:19:24PM +0100, Miklos Szeredi wrote:
-> On Thu, 26 Mar 2026 at 16:13, Bernd Schubert <bernd@bsbernd.com> wrote:
-> >
-> >
-> >
-> > On 3/26/26 15:26, Christian Brauner wrote:
-> > > On Wed, Mar 25, 2026 at 08:54:57AM +0100, Bernd Schubert wrote:
-> > >>
-> > >>
-> > >> On 3/18/26 14:43, Horst Birthelmer wrote:
-> > >>> From: Horst Birthelmer <hbirthelmer@ddn.com>
+On Thu, Mar 26, 2026 at 04:05:15PM +0100, Cyril Hrubis wrote:
+> Hi!
+> > commit: 47f8dde97f35e32a1003d54e387273bcdf014ddf ("[PATCH] fuse: when copying a folio delay the mark dirty until the end")
+> > url: https://github.com/intel-lab-lkp/linux/commits/Horst-Birthelmer/fuse-when-copying-a-folio-delay-the-mark-dirty-until-the-end/20260316-234418
+> > patch link: https://lore.kernel.org/all/20260316-mark-dirty-per-folio-v1-1-8dc39c94b7ce@ddn.com/
+> > patch subject: [PATCH] fuse: when copying a folio delay the mark dirty until the end
+> > 
+> > in testcase: ltp
+> > version: 
+> > with following parameters:
+> > 
+> > 	disk: 1HDD
+> > 	fs: ext4
+> > 	test: fs-03
 > 
-> > >>>     fi->attr_version = atomic64_inc_return(&fc->attr_version);
-> > >>> +   wake_up_all(&fc->attr_version_waitq);
-> > >>>     fi->i_time = attr_valid;
-> >
-> >
-> > While I'm looking at this again, wouldn't it make sense to make this
-> > conditional? Because we wake this queue on every attr change for every
-> > inode. And the conditional in fuse_iget() based on I_NEW?
+> Looks like the test that has failed was fs_fill that runs several
+> threads that attempt to fill the filesystem (until they get ENOSCP) then
+> delete the files and try again. And apparently we managed to get EIO
+> when file has been closed() by one of the threads after a few minutes of
+> the runtime on NTFS mounted over FUSE.
 > 
-> Right, should only wake if fi->attr_version old value was zero.
-> 
-> BTW I have a hunch that there are better solutions, but it's simple
-> enough as a stopgap measure.
+Probably nothing to do with the patch itself, but the patch will never
+make it since it contains a wrong assumption.
 
-OK, I'll send a new version.
+Thanks for clarifying!
 
-Just out of curiosity, what would be a better solution?
+> -- 
+> Cyril Hrubis
+> chrubis@suse.cz
 
-> 
-> Thanks,
-> Miklos
-
-Thanks,
 Horst
