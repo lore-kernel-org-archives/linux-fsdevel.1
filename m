@@ -1,44 +1,44 @@
 Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.167])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B9B43AA50E
-	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 18:22:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E5E63AB280
+	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 18:22:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.167
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774549344; cv=none; b=kMd9tCGxuyp2DaD9IBXoGvI0/hqGgUfryXPCNo/dRC4dtxiVAH+PK20xCoiPfjKM3SVPAvJKuqNT/m0EI2o7OoEQCcczdPQw3NINoTG2RB+a3fS4Tb5ii1o3uqB+vJnBrxevn6fdMdKSwvUgc4wQNlcFx3R8bT5r2IaMRr7PKiM=
+	t=1774549347; cv=none; b=Uah1DwQpZRIliCXkgNW6InddxQs0bOMthdXAvShPowPS/p7sGaxLpOaLXWUwD8XCMfOeOqF84Tg/7Gps5g6I3i/7P3ORIJ7A3WJEffoPaf5mkT643W5wLJef8aygmUMRGOlcbTAKjyJR/vwrA5R/7twdmV73kcV92pi0GfJaZ60=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774549344; c=relaxed/simple;
-	bh=7GDMQnsnPoLWGO0jyZolzsyffqHnMOwYsKrrB0Q5dY4=;
+	s=arc-20240116; t=1774549347; c=relaxed/simple;
+	bh=FsVqWxeqbp97sz8l3BHGld7wWyouQXXObGqaJLcp+f0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fINLl06AFDsC4SbgvF6j+4G4maQteDH7tNtfVkGTcSkLj0C/bwjkvAt/x7arhx4YKpT+U1x7pT1xhk4ye2W3Cbaf+kMrU2rfDN9os/x4UIGRSKbX14K8OEnnuC7qAS551dQuoAA0RlHl6agBA+pKU7J/oOR+g4oaCZ2N6ohg5bo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=a38YciZB; arc=none smtp.client-ip=195.121.94.167
+	 MIME-Version; b=J8e5qzTxMS4cZLI3fhA8ZEpUcZEkuaRgFDA2YLfwEoxckTBiTlQS/pHM56Bpo1Nqz+2Kk9WjJX1Kndal4joR3ZrUPDx8ra0RK2yHOKQPS1mWyufxrlNishx6queOcbHGeuKXgHHlc8fB4IfdTHOjnbt5gwJc0dX3486445oLqX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=D7zrx0ZD; arc=none smtp.client-ip=195.121.94.167
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="a38YciZB"
-X-KPN-MessageId: ba3c5ee6-2940-11f1-969c-005056abbe64
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="D7zrx0ZD"
+X-KPN-MessageId: 94128db3-2940-11f1-969c-005056abbe64
 Received: from smtp.kpnmail.nl (unknown [10.31.155.40])
 	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id ba3c5ee6-2940-11f1-969c-005056abbe64;
-	Thu, 26 Mar 2026 19:22:20 +0100 (CET)
+	id 94128db3-2940-11f1-969c-005056abbe64;
+	Thu, 26 Mar 2026 19:21:16 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=xs4all.nl; s=xs4all01;
 	h=mime-version:message-id:date:subject:to:from;
-	bh=5nu3UdauJ29h2bzMPERnJ63kfRsTimZQk9pvIOXzsnY=;
-	b=a38YciZBqHqoR/6n4zfhX4LGMHKSSRHJ84cQgscBrG2266VFq7sDL1sGk9+Xq/4koH1Bts5zgyhvP
-	 yiaTwN4cq39Dno5vLGnDBKIcHw/E1g2SbLzFHVlr9lHW/qjsW3MBDM7ymaRTG0UHuAkKplgwOZ0J8Q
-	 M8gN+ZhGKLunbtj0GFY0uIfAyZbYBg6+IiKovYQqRDhZKOIqtxOdsu6nAdG0nUunhvwvl9DyAWm/ZO
-	 zZmUsMZF9/jnEe1OMMTmAVdW3b7Uy4SqhYFANqGVAju5bbR8sKv50lih0RI5+rPRAomgVbY4tIGoNM
-	 fNFkdHhpMD/k5EIhSrRvnGAcLZ7YGng==
-X-KPN-MID: 33|fEixlRNAzOfcWYu3QC50nKXzfF679iyEnq9Cu/R73FKrdWkDDHso0414cbiJjOZ
- R6QZ2P6NXxzoIW0zUymzQSP2T+vWhMVVTxAG1WNlfB5o=
+	bh=8gQCdRSj3cyS30EzPPx3bCxYf7jCQ9qSVz5AhHoVomQ=;
+	b=D7zrx0ZDxn5RBKsSV+HBxNS+IrA1C/YO2opsI577cbdO+PZ6tyenMXugLscNgLaXcIgEq777IUGzU
+	 DoFWPSav+YXyFjJKh9MeSEITPRKR10Ce1PYTLTRmSD3kghf5eb64Munj+Oa8ycMSsXpZ8nFniOK2nz
+	 ijkRH4MgVQkhFyblquXv8XrNXGbvnC6MimDndicl/miqFXIDw2ZlUlfFPRforXsvO4rTgZVTpcxhMv
+	 /bchb84nJPkeswtD7SkQNz6bf3v7/2Eynosvu9ACEIpE4MELE+10xE5IV+FQ0wu19+3U8geTJjExLN
+	 ynHIriOa2xO2azq1iVTtMJ638fnWBZw==
+X-KPN-MID: 33|sGaF2gF49dQ+TI+nyxA/DedArfPWaYdD5H0uY7R2K/4Xjbkjnzr+GJ6a35o5BOR
+ FWagOBBQcDOV7BUBgFlNeJg==
 X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|dJea7vBc5Cc7atpH4h/V3ZvtU17dciA+6TiZRGg9Cj+ZmKDO5xMqKhCGZM92gs6
- Mub9GWmkqaLEguTh7Z/9Udw==
+X-CMASSUN: 33|fV6roz99X8iUlMPwtwe8CPspyLr12G97ACqU/YamfXkbs1GptVA/IxdTIME6WDh
+ JktC59oVi81VoE2je5CxSOw==
 Received: from daedalus.home (unknown [178.231.230.142])
 	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id b994a0e8-2940-11f1-b8e8-005056ab7584;
-	Thu, 26 Mar 2026 19:22:20 +0100 (CET)
+	id 939836e9-2940-11f1-b8e8-005056ab7584;
+	Thu, 26 Mar 2026 19:21:16 +0100 (CET)
 From: Jori Koolstra <jkoolstra@xs4all.nl>
 To: Jeff Layton <jlayton@kernel.org>,
 	Chuck Lever <chuck.lever@oracle.com>,
@@ -69,10 +69,11 @@ Cc: Jori Koolstra <jkoolstra@xs4all.nl>,
 	Bala-Vignesh-Reddy <reddybalavignesh9979@gmail.com>,
 	linux-kernel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: [RFC PATCH v2 3/3] selftest: add tests for OPENAT2_EMPTY_PATH and allowed_upgrades
-Date: Thu, 26 Mar 2026 19:20:14 +0100
-Message-ID: <20260326182033.1809567-4-jkoolstra@xs4all.nl>
+	linux-kselftest@vger.kernel.org,
+	wangzijie <wangzijie1@honor.com>
+Subject: [RFC PATCH v2 2/3] vfs: transitive upgrade restrictions for fds
+Date: Thu, 26 Mar 2026 19:20:13 +0100
+Message-ID: <20260326182033.1809567-3-jkoolstra@xs4all.nl>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260326182033.1809567-1-jkoolstra@xs4all.nl>
 References: <20260326182033.1809567-1-jkoolstra@xs4all.nl>
@@ -84,423 +85,430 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add tests for new openat2 flag OPENAT2_EMPTY_PATH and new open_how
-field: allowed_upgrades.
+Add upgrade restrictions to openat2(). Extend struct open_how to allow
+setting transitive restrictions on using file descriptors to open other
+files. A use case for this feature is to block services or containers
+from re-opening/upgrading an O_PATH file descriptor through e.g.
+/proc/<pid>/fd/<nr> as O_WRONLY.
 
-Also, the current openat2 tests include a helper header file that
-defines the necessary structs and constants to use openat2(2), such as
-struct open_how. This may result in conflicting definitions when the
-system header openat2.h is present as well.
+The idea for this features comes form the UAPI group kernel feature idea
+list [1].
 
-So also add openat2.h generated by 'make headers' to the uapi header
-files in ./tools/include and remove the helper file definitions of
-the current openat2 selftests.
+[1] https://github.com/uapi-group/kernel-features?tab=readme-ov-file#upgrade-masks-in-openat2
 
 Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
 ---
- tools/include/uapi/linux/openat2.h            |  53 ++++
- tools/testing/selftests/openat2/Makefile      |   4 +-
- tools/testing/selftests/openat2/helpers.c     |   2 +-
- tools/testing/selftests/openat2/helpers.h     |  40 +--
- .../testing/selftests/openat2/upgrade_test.c  | 242 ++++++++++++++++++
- 5 files changed, 301 insertions(+), 40 deletions(-)
- create mode 100644 tools/include/uapi/linux/openat2.h
- create mode 100644 tools/testing/selftests/openat2/upgrade_test.c
+ fs/file_table.c              |  2 ++
+ fs/internal.h                |  1 +
+ fs/namei.c                   | 41 +++++++++++++++++++++++++++++++++---
+ fs/open.c                    |  9 ++++++++
+ fs/proc/base.c               | 24 +++++++++++++++------
+ fs/proc/fd.c                 |  6 +++++-
+ fs/proc/internal.h           |  4 +++-
+ include/linux/fcntl.h        |  6 +++++-
+ include/linux/fs.h           |  1 +
+ include/linux/namei.h        | 15 ++++++++++++-
+ include/uapi/linux/openat2.h |  6 ++++++
+ 11 files changed, 101 insertions(+), 14 deletions(-)
 
-diff --git a/tools/include/uapi/linux/openat2.h b/tools/include/uapi/linux/openat2.h
-new file mode 100644
-index 000000000000..fbbf5483dc9d
---- /dev/null
-+++ b/tools/include/uapi/linux/openat2.h
-@@ -0,0 +1,53 @@
-+/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-+#ifndef _LINUX_OPENAT2_H
-+#define _LINUX_OPENAT2_H
+diff --git a/fs/file_table.c b/fs/file_table.c
+index aaa5faaace1e..b98038009fd2 100644
+--- a/fs/file_table.c
++++ b/fs/file_table.c
+@@ -196,6 +196,8 @@ static int init_file(struct file *f, int flags, const struct cred *cred)
+ 	f->f_wb_err	= 0;
+ 	f->f_sb_err	= 0;
+ 
++	f->f_allowed_upgrades = VALID_UPGRADE_FLAGS;
 +
-+#include <linux/types.h>
-+
-+/*
-+ * Arguments for how openat2(2) should open the target path. If only @flags and
-+ * @mode are non-zero, then openat2(2) operates very similarly to openat(2).
-+ *
-+ * However, unlike openat(2), unknown or invalid bits in @flags result in
-+ * -EINVAL rather than being silently ignored. @mode must be zero unless one of
-+ * {O_CREAT, O_TMPFILE} are set.
-+ *
-+ * @flags: O_* flags.
-+ * @mode: O_CREAT/O_TMPFILE file mode.
-+ * @resolve: RESOLVE_* flags.
-+ */
-+struct open_how {
-+	__u64 flags;
-+	__u64 mode;
-+	__u64 resolve;
-+	__u64 allowed_upgrades;
+ 	/*
+ 	 * We're SLAB_TYPESAFE_BY_RCU so initialize f_ref last. While
+ 	 * fget-rcu pattern users need to be able to handle spurious
+diff --git a/fs/internal.h b/fs/internal.h
+index cbc384a1aa09..0a37bb208184 100644
+--- a/fs/internal.h
++++ b/fs/internal.h
+@@ -189,6 +189,7 @@ struct open_flags {
+ 	int acc_mode;
+ 	int intent;
+ 	int lookup_flags;
++	unsigned int allowed_upgrades;
+ };
+ extern struct file *do_file_open(int dfd, struct filename *pathname,
+ 		const struct open_flags *op);
+diff --git a/fs/namei.c b/fs/namei.c
+index 58f715f7657e..c3d48709a73b 100644
+--- a/fs/namei.c
++++ b/fs/namei.c
+@@ -743,6 +743,7 @@ struct nameidata {
+ 	int		dfd;
+ 	vfsuid_t	dir_vfsuid;
+ 	umode_t		dir_mode;
++	unsigned int	allowed_upgrades;
+ } __randomize_layout;
+ 
+ #define ND_ROOT_PRESET 1
+@@ -760,6 +761,7 @@ static void __set_nameidata(struct nameidata *p, int dfd, struct filename *name)
+ 	p->path.mnt = NULL;
+ 	p->path.dentry = NULL;
+ 	p->total_link_count = old ? old->total_link_count : 0;
++	p->allowed_upgrades = VALID_UPGRADE_FLAGS;
+ 	p->saved = old;
+ 	current->nameidata = p;
+ }
+@@ -1156,11 +1158,15 @@ static int nd_jump_root(struct nameidata *nd)
+ 	return 0;
+ }
+ 
++const struct jump_how jump_how_unrestricted = {
++	.allowed_upgrades = VALID_UPGRADE_FLAGS
 +};
 +
+ /*
+  * Helper to directly jump to a known parsed path from ->get_link,
+  * caller must have taken a reference to path beforehand.
+  */
+-int nd_jump_link(const struct path *path)
++int nd_jump_link_how(const struct path *path, const struct jump_how *how)
+ {
+ 	int error = -ELOOP;
+ 	struct nameidata *nd = current->nameidata;
+@@ -1181,6 +1187,7 @@ int nd_jump_link(const struct path *path)
+ 	nd->path = *path;
+ 	nd->inode = nd->path.dentry->d_inode;
+ 	nd->state |= ND_JUMPED;
++	nd->allowed_upgrades &= how->allowed_upgrades;
+ 	return 0;
+ 
+ err:
+@@ -2738,6 +2745,8 @@ static const char *path_init(struct nameidata *nd, unsigned flags)
+ 		if (fd_empty(f))
+ 			return ERR_PTR(-EBADF);
+ 
++		nd->allowed_upgrades = fd_file(f)->f_allowed_upgrades;
++
+ 		if (flags & LOOKUP_LINKAT_EMPTY) {
+ 			if (fd_file(f)->f_cred != current_cred() &&
+ 			    !ns_capable(fd_file(f)->f_cred->user_ns, CAP_DAC_READ_SEARCH))
+@@ -4266,6 +4275,28 @@ static int may_open(struct mnt_idmap *idmap, const struct path *path,
+ 	return 0;
+ }
+ 
++static bool may_upgrade(const int flag, const unsigned int allowed_upgrades)
++{
++	int mode = flag & O_ACCMODE;
++	unsigned int allowed = allowed_upgrades & ~DENY_UPGRADES;
++
++	if (mode != O_WRONLY && !(allowed & READ_UPGRADABLE))
++		return false;
++	if (mode != O_RDONLY && !(allowed & WRITE_UPGRADABLE))
++		return false;
++	return true;
++}
++
++static int may_open_upgrade(struct mnt_idmap *idmap, const struct path *path,
++			    int acc_mode, int flag,
++			    const unsigned int allowed_upgrades)
++{
++	if (!may_upgrade(flag, allowed_upgrades))
++		return -EACCES;
++
++	return may_open(idmap, path, acc_mode, flag);
++}
++
+ static int handle_truncate(struct mnt_idmap *idmap, struct file *filp)
+ {
+ 	const struct path *path = &filp->f_path;
+@@ -4666,7 +4697,8 @@ static int do_open(struct nameidata *nd,
+ 			return error;
+ 		do_truncate = true;
+ 	}
+-	error = may_open(idmap, &nd->path, acc_mode, open_flag);
++	error = may_open_upgrade(idmap, &nd->path, acc_mode, open_flag,
++				 nd->allowed_upgrades);
+ 	if (!error && !(file->f_mode & FMODE_OPENED))
+ 		error = vfs_open(&nd->path, file);
+ 	if (!error)
+@@ -4831,8 +4863,11 @@ static struct file *path_openat(struct nameidata *nd,
+ 		terminate_walk(nd);
+ 	}
+ 	if (likely(!error)) {
+-		if (likely(file->f_mode & FMODE_OPENED))
++		if (likely(file->f_mode & FMODE_OPENED)) {
++			file->f_allowed_upgrades =
++				op->allowed_upgrades & nd->allowed_upgrades;
+ 			return file;
++		}
+ 		WARN_ON(1);
+ 		error = -EINVAL;
+ 	}
+diff --git a/fs/open.c b/fs/open.c
+index e019ddecc73c..8b6ea5f90c6e 100644
+--- a/fs/open.c
++++ b/fs/open.c
+@@ -1167,6 +1167,7 @@ inline struct open_how build_open_how(int flags, umode_t mode)
+ 	struct open_how how = {
+ 		.flags = ((unsigned int) flags) & VALID_OPEN_FLAGS,
+ 		.mode = mode & S_IALLUGO,
++		.allowed_upgrades = VALID_UPGRADE_FLAGS
+ 	};
+ 
+ 	/* O_PATH beats everything else. */
+@@ -1299,6 +1300,14 @@ inline int build_open_flags(const struct open_how *how, struct open_flags *op)
+ 	}
+ 
+ 	op->lookup_flags = lookup_flags;
++
++	if (how->allowed_upgrades == 0)
++		op->allowed_upgrades = VALID_UPGRADE_FLAGS;
++	else if (how->allowed_upgrades & ~VALID_UPGRADE_FLAGS)
++		return -EINVAL;
++	else
++		op->allowed_upgrades = how->allowed_upgrades;
++
+ 	return 0;
+ }
+ 
+diff --git a/fs/proc/base.c b/fs/proc/base.c
+index 4c863d17dfb4..3f3a471bbb75 100644
+--- a/fs/proc/base.c
++++ b/fs/proc/base.c
+@@ -218,7 +218,8 @@ static int get_task_root(struct task_struct *task, struct path *root)
+ 	return result;
+ }
+ 
+-static int proc_cwd_link(struct dentry *dentry, struct path *path)
++static int proc_cwd_link(struct dentry *dentry, struct path *path,
++			 struct jump_how *jump_how)
+ {
+ 	struct task_struct *task = get_proc_task(d_inode(dentry));
+ 	int result = -ENOENT;
+@@ -227,6 +228,7 @@ static int proc_cwd_link(struct dentry *dentry, struct path *path)
+ 		task_lock(task);
+ 		if (task->fs) {
+ 			get_fs_pwd(task->fs, path);
++			*jump_how = jump_how_unrestricted;
+ 			result = 0;
+ 		}
+ 		task_unlock(task);
+@@ -235,7 +237,8 @@ static int proc_cwd_link(struct dentry *dentry, struct path *path)
+ 	return result;
+ }
+ 
+-static int proc_root_link(struct dentry *dentry, struct path *path)
++static int proc_root_link(struct dentry *dentry, struct path *path,
++			  struct jump_how *jump_how)
+ {
+ 	struct task_struct *task = get_proc_task(d_inode(dentry));
+ 	int result = -ENOENT;
+@@ -243,6 +246,7 @@ static int proc_root_link(struct dentry *dentry, struct path *path)
+ 	if (task) {
+ 		result = get_task_root(task, path);
+ 		put_task_struct(task);
++		*jump_how = jump_how_unrestricted;
+ 	}
+ 	return result;
+ }
+@@ -1777,7 +1781,8 @@ static const struct file_operations proc_pid_set_comm_operations = {
+ 	.release	= single_release,
+ };
+ 
+-static int proc_exe_link(struct dentry *dentry, struct path *exe_path)
++static int proc_exe_link(struct dentry *dentry, struct path *exe_path,
++			 struct jump_how *jump_how)
+ {
+ 	struct task_struct *task;
+ 	struct file *exe_file;
+@@ -1789,6 +1794,7 @@ static int proc_exe_link(struct dentry *dentry, struct path *exe_path)
+ 	put_task_struct(task);
+ 	if (exe_file) {
+ 		*exe_path = exe_file->f_path;
++		*jump_how = jump_how_unrestricted;
+ 		path_get(&exe_file->f_path);
+ 		fput(exe_file);
+ 		return 0;
+@@ -1801,6 +1807,7 @@ static const char *proc_pid_get_link(struct dentry *dentry,
+ 				     struct delayed_call *done)
+ {
+ 	struct path path;
++	struct jump_how jump_how;
+ 	int error = -EACCES;
+ 
+ 	if (!dentry)
+@@ -1810,11 +1817,11 @@ static const char *proc_pid_get_link(struct dentry *dentry,
+ 	if (!proc_fd_access_allowed(inode))
+ 		goto out;
+ 
+-	error = PROC_I(inode)->op.proc_get_link(dentry, &path);
++	error = PROC_I(inode)->op.proc_get_link(dentry, &path, &jump_how);
+ 	if (error)
+ 		goto out;
+ 
+-	error = nd_jump_link(&path);
++	error = nd_jump_link_how(&path, &jump_how);
+ out:
+ 	return ERR_PTR(error);
+ }
+@@ -1848,12 +1855,13 @@ static int proc_pid_readlink(struct dentry * dentry, char __user * buffer, int b
+ 	int error = -EACCES;
+ 	struct inode *inode = d_inode(dentry);
+ 	struct path path;
++	struct jump_how jump_how;
+ 
+ 	/* Are we allowed to snoop on the tasks file descriptors? */
+ 	if (!proc_fd_access_allowed(inode))
+ 		goto out;
+ 
+-	error = PROC_I(inode)->op.proc_get_link(dentry, &path);
++	error = PROC_I(inode)->op.proc_get_link(dentry, &path, &jump_how);
+ 	if (error)
+ 		goto out;
+ 
+@@ -2250,7 +2258,8 @@ static const struct dentry_operations tid_map_files_dentry_operations = {
+ 	.d_delete	= pid_delete_dentry,
+ };
+ 
+-static int map_files_get_link(struct dentry *dentry, struct path *path)
++static int map_files_get_link(struct dentry *dentry, struct path *path,
++			      struct jump_how *jump_how)
+ {
+ 	unsigned long vm_start, vm_end;
+ 	struct vm_area_struct *vma;
+@@ -2279,6 +2288,7 @@ static int map_files_get_link(struct dentry *dentry, struct path *path)
+ 	rc = -ENOENT;
+ 	vma = find_exact_vma(mm, vm_start, vm_end);
+ 	if (vma && vma->vm_file) {
++		*jump_how = jump_how_unrestricted;
+ 		*path = *file_user_path(vma->vm_file);
+ 		path_get(path);
+ 		rc = 0;
+diff --git a/fs/proc/fd.c b/fs/proc/fd.c
+index 9eeccff49b2a..344485e8cb6f 100644
+--- a/fs/proc/fd.c
++++ b/fs/proc/fd.c
+@@ -171,7 +171,8 @@ static const struct dentry_operations tid_fd_dentry_operations = {
+ 	.d_delete	= pid_delete_dentry,
+ };
+ 
+-static int proc_fd_link(struct dentry *dentry, struct path *path)
++static int proc_fd_link(struct dentry *dentry, struct path *path,
++			struct jump_how *jump_how)
+ {
+ 	struct task_struct *task;
+ 	int ret = -ENOENT;
+@@ -183,6 +184,9 @@ static int proc_fd_link(struct dentry *dentry, struct path *path)
+ 
+ 		fd_file = fget_task(task, fd);
+ 		if (fd_file) {
++			*jump_how = (struct jump_how) {
++				.allowed_upgrades = fd_file->f_allowed_upgrades
++			};
+ 			*path = fd_file->f_path;
+ 			path_get(&fd_file->f_path);
+ 			ret = 0;
+diff --git a/fs/proc/internal.h b/fs/proc/internal.h
+index c1e8eb984da8..42f668059a30 100644
+--- a/fs/proc/internal.h
++++ b/fs/proc/internal.h
+@@ -14,6 +14,7 @@
+ #include <linux/sched/coredump.h>
+ #include <linux/sched/task.h>
+ #include <linux/mm.h>
++#include <linux/namei.h>
+ 
+ struct ctl_table_header;
+ struct mempolicy;
+@@ -107,7 +108,8 @@ extern struct kmem_cache *proc_dir_entry_cache;
+ void pde_free(struct proc_dir_entry *pde);
+ 
+ union proc_op {
+-	int (*proc_get_link)(struct dentry *, struct path *);
++	int (*proc_get_link)(struct dentry *, struct path *,
++		struct jump_how *);
+ 	int (*proc_show)(struct seq_file *m,
+ 		struct pid_namespace *ns, struct pid *pid,
+ 		struct task_struct *task);
+diff --git a/include/linux/fcntl.h b/include/linux/fcntl.h
+index d1bb87ff70e3..6506c2c6eca5 100644
+--- a/include/linux/fcntl.h
++++ b/include/linux/fcntl.h
+@@ -15,6 +15,9 @@
+ 	 /* upper 32-bit flags (openat2(2) only) */ \
+ 	 OPENAT2_EMPTY_PATH)
+ 
++#define VALID_UPGRADE_FLAGS \
++	(DENY_UPGRADES | READ_UPGRADABLE | WRITE_UPGRADABLE)
++
+ /* List of all valid flags for the how->resolve argument: */
+ #define VALID_RESOLVE_FLAGS \
+ 	(RESOLVE_NO_XDEV | RESOLVE_NO_MAGICLINKS | RESOLVE_NO_SYMLINKS | \
+@@ -22,7 +25,8 @@
+ 
+ /* List of all open_how "versions". */
+ #define OPEN_HOW_SIZE_VER0	24 /* sizeof first published struct */
+-#define OPEN_HOW_SIZE_LATEST	OPEN_HOW_SIZE_VER0
++#define OPEN_HOW_SIZE_VER1	32 /* added allowed_upgrades */
++#define OPEN_HOW_SIZE_LATEST	OPEN_HOW_SIZE_VER1
+ 
+ #ifndef force_o_largefile
+ #define force_o_largefile() (!IS_ENABLED(CONFIG_ARCH_32BIT_OFF_T))
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index 8b3dd145b25e..697d2fc6322b 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -1296,6 +1296,7 @@ struct file {
+ 	};
+ 	file_ref_t			f_ref;
+ 	/* --- cacheline 3 boundary (192 bytes) --- */
++	unsigned int			f_allowed_upgrades;
+ } __randomize_layout
+   __attribute__((aligned(4)));	/* lest something weird decides that 2 is OK */
+ 
+diff --git a/include/linux/namei.h b/include/linux/namei.h
+index 58600cf234bc..0c58ded7cd27 100644
+--- a/include/linux/namei.h
++++ b/include/linux/namei.h
+@@ -203,7 +203,20 @@ static inline umode_t __must_check mode_strip_umask(const struct inode *dir, umo
+ 	return mode;
+ }
+ 
+-extern int __must_check nd_jump_link(const struct path *path);
++struct jump_how {
++	unsigned int allowed_upgrades;
++};
++
++extern const struct jump_how jump_how_unrestricted;
++#define JUMP_HOW_UNRESTRICTED &jump_how_unrestricted
++
++extern int __must_check nd_jump_link_how(const struct path *path,
++					 const struct jump_how *how);
++
++static inline int nd_jump_link(const struct path *path)
++{
++	return nd_jump_link_how(path, JUMP_HOW_UNRESTRICTED);
++}
+ 
+ static inline void nd_terminate_link(void *name, size_t len, size_t maxlen)
+ {
+diff --git a/include/uapi/linux/openat2.h b/include/uapi/linux/openat2.h
+index c34f32e6fa96..fc1147e6ce41 100644
+--- a/include/uapi/linux/openat2.h
++++ b/include/uapi/linux/openat2.h
+@@ -20,8 +20,14 @@ struct open_how {
+ 	__u64 flags;
+ 	__u64 mode;
+ 	__u64 resolve;
++	__u64 allowed_upgrades;
+ };
+ 
 +/* how->allowed_upgrades flags for openat2(2). */
 +#define DENY_UPGRADES		0x01
 +#define READ_UPGRADABLE		(0x02 | DENY_UPGRADES)
 +#define WRITE_UPGRADABLE	(0x04 | DENY_UPGRADES)
 +
-+/* how->resolve flags for openat2(2). */
-+#define RESOLVE_NO_XDEV		0x01 /* Block mount-point crossings
-+					(includes bind-mounts). */
-+#define RESOLVE_NO_MAGICLINKS	0x02 /* Block traversal through procfs-style
-+					"magic-links". */
-+#define RESOLVE_NO_SYMLINKS	0x04 /* Block traversal through all symlinks
-+					(implies OEXT_NO_MAGICLINKS) */
-+#define RESOLVE_BENEATH		0x08 /* Block "lexical" trickery like
-+					"..", symlinks, and absolute
-+					paths which escape the dirfd. */
-+#define RESOLVE_IN_ROOT		0x10 /* Make all jumps to "/" and ".."
-+					be scoped inside the dirfd
-+					(similar to chroot(2)). */
-+#define RESOLVE_CACHED		0x20 /* Only complete if resolution can be
-+					completed through cached lookup. May
-+					return -EAGAIN if that's not
-+					possible. */
-+
-+/* openat2(2) exclusive flags are defined in the upper 32 bits of
-+   open_how->flags  */
-+#define OPENAT2_EMPTY_PATH	0x100000000 /* (1ULL << 32) */
-+
-+#endif /* _LINUX_OPENAT2_H */
-diff --git a/tools/testing/selftests/openat2/Makefile b/tools/testing/selftests/openat2/Makefile
-index 185dc76ebb5f..cc6d4fad999c 100644
---- a/tools/testing/selftests/openat2/Makefile
-+++ b/tools/testing/selftests/openat2/Makefile
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-or-later
- 
--CFLAGS += -Wall -O2 -g -fsanitize=address -fsanitize=undefined
--TEST_GEN_PROGS := openat2_test resolve_test rename_attack_test
-+CFLAGS += -Wall -O2 -g -fsanitize=address -fsanitize=undefined $(TOOLS_INCLUDES)
-+TEST_GEN_PROGS := openat2_test resolve_test rename_attack_test upgrade_test
- 
- # gcc requires -static-libasan in order to ensure that Address Sanitizer's
- # library is the first one loaded. However, clang already statically links the
-diff --git a/tools/testing/selftests/openat2/helpers.c b/tools/testing/selftests/openat2/helpers.c
-index 5074681ffdc9..b6533f0b1124 100644
---- a/tools/testing/selftests/openat2/helpers.c
-+++ b/tools/testing/selftests/openat2/helpers.c
-@@ -98,7 +98,7 @@ void __attribute__((constructor)) init(void)
- 	struct open_how how = {};
- 	int fd;
- 
--	BUILD_BUG_ON(sizeof(struct open_how) != OPEN_HOW_SIZE_VER0);
-+	BUILD_BUG_ON(sizeof(struct open_how) != OPEN_HOW_SIZE_VER1);
- 
- 	/* Check openat2(2) support. */
- 	fd = sys_openat2(AT_FDCWD, ".", &how);
-diff --git a/tools/testing/selftests/openat2/helpers.h b/tools/testing/selftests/openat2/helpers.h
-index 510e60602511..af94d8211b9f 100644
---- a/tools/testing/selftests/openat2/helpers.h
-+++ b/tools/testing/selftests/openat2/helpers.h
-@@ -14,6 +14,9 @@
- #include <linux/types.h>
- #include "kselftest.h"
- 
-+#define OPEN_HOW_SIZE_VER0 24
-+#define OPEN_HOW_SIZE_VER1 32
-+
- #define ARRAY_LEN(X) (sizeof (X) / sizeof (*(X)))
- #define BUILD_BUG_ON(e) ((void)(sizeof(struct { int:(-!!(e)); })))
- 
-@@ -24,45 +27,8 @@
- #define SYS_openat2 __NR_openat2
- #endif /* SYS_openat2 */
- 
--/*
-- * Arguments for how openat2(2) should open the target path. If @resolve is
-- * zero, then openat2(2) operates very similarly to openat(2).
-- *
-- * However, unlike openat(2), unknown bits in @flags result in -EINVAL rather
-- * than being silently ignored. @mode must be zero unless one of {O_CREAT,
-- * O_TMPFILE} are set.
-- *
-- * @flags: O_* flags.
-- * @mode: O_CREAT/O_TMPFILE file mode.
-- * @resolve: RESOLVE_* flags.
-- */
--struct open_how {
--	__u64 flags;
--	__u64 mode;
--	__u64 resolve;
--};
--
--#define OPEN_HOW_SIZE_VER0	24 /* sizeof first published struct */
--#define OPEN_HOW_SIZE_LATEST	OPEN_HOW_SIZE_VER0
--
- bool needs_openat2(const struct open_how *how);
- 
--#ifndef RESOLVE_IN_ROOT
--/* how->resolve flags for openat2(2). */
--#define RESOLVE_NO_XDEV		0x01 /* Block mount-point crossings
--					(includes bind-mounts). */
--#define RESOLVE_NO_MAGICLINKS	0x02 /* Block traversal through procfs-style
--					"magic-links". */
--#define RESOLVE_NO_SYMLINKS	0x04 /* Block traversal through all symlinks
--					(implies OEXT_NO_MAGICLINKS) */
--#define RESOLVE_BENEATH		0x08 /* Block "lexical" trickery like
--					"..", symlinks, and absolute
--					paths which escape the dirfd. */
--#define RESOLVE_IN_ROOT		0x10 /* Make all jumps to "/" and ".."
--					be scoped inside the dirfd
--					(similar to chroot(2)). */
--#endif /* RESOLVE_IN_ROOT */
--
- #define E_func(func, ...)						      \
- 	do {								      \
- 		errno = 0;						      \
-diff --git a/tools/testing/selftests/openat2/upgrade_test.c b/tools/testing/selftests/openat2/upgrade_test.c
-new file mode 100644
-index 000000000000..489d9088d7ce
---- /dev/null
-+++ b/tools/testing/selftests/openat2/upgrade_test.c
-@@ -0,0 +1,242 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+
-+#define __SANE_USERSPACE_TYPES__
-+#include <fcntl.h>
-+#include <unistd.h>
-+#include <string.h>
-+#include <errno.h>
-+
-+#include "helpers.h"
-+
-+static int open_opath(const char *path, __u64 allowed_upgrades)
-+{
-+	struct open_how how = {
-+		.flags = O_PATH,
-+		.allowed_upgrades = allowed_upgrades,
-+	};
-+	int ret = raw_openat2(AT_FDCWD, path, &how, OPEN_HOW_SIZE_VER1);
-+
-+	if (ret < 0)
-+		ksft_exit_fail_msg("open O_PATH: %s\n", strerror(errno));
-+
-+	return ret;
-+}
-+
-+static int reopen_empty(int dfd, __u64 flags, bool fatal)
-+{
-+	struct open_how how = {
-+		.flags = flags | OPENAT2_EMPTY_PATH,
-+	};
-+	int ret = raw_openat2(dfd, "", &how, OPEN_HOW_SIZE_VER1);
-+
-+	if (ret < 0 && fatal)
-+		ksft_exit_fail_msg("open with OPENAT2_EMPTY_PATH: %s\n",
-+				   strerror(errno));
-+	return ret;
-+}
-+
-+static int reopen_empty_opath(int dfd, __u64 allowed_upgrades)
-+{
-+	struct open_how how = {
-+		.flags = O_PATH | OPENAT2_EMPTY_PATH,
-+		.allowed_upgrades = allowed_upgrades,
-+	};
-+	int ret = raw_openat2(dfd, "", &how, OPEN_HOW_SIZE_VER1);
-+
-+	if (ret < 0)
-+		ksft_exit_fail_msg("open O_PATH with OPENAT2_EMPTY_PATH: %s\n",
-+				   strerror(errno));
-+	return ret;
-+}
-+
-+static int reopen_proc(int dfd, int flags, bool fatal)
-+{
-+	char path[64];
-+	snprintf(path, sizeof(path), "/proc/self/fd/%d", dfd);
-+	int ret = open(path, flags);
-+
-+	if (ret < 0 && fatal)
-+		ksft_exit_fail_msg("open via procfs: %s\n", strerror(errno));
-+
-+	return ret;
-+}
-+
-+static void check_success(const char *desc, int ret)
-+{
-+	if (ret >= 0) {
-+		ksft_test_result_pass("%s\n", desc);
-+		close(ret);
-+	} else {
-+		ksft_test_result_fail("%s: expected success, got %s\n",
-+				      desc, strerror(errno));
-+	}
-+}
-+
-+static void check_failure(const char *desc, int ret, int expected_errno)
-+{
-+	if (ret < 0 && errno == expected_errno) {
-+		ksft_test_result_pass("%s\n", desc);
-+	} else if (ret >= 0) {
-+		ksft_test_result_fail("%s: expected %s, got success\n",
-+				      desc, strerror(expected_errno));
-+		close(ret);
-+	} else {
-+		ksft_test_result_fail("%s: expected %s, got %s\n",
-+				      desc, strerror(expected_errno),
-+				      strerror(errno));
-+	}
-+}
-+
-+static void check(const char *desc, int ret, int expected_errno)
-+{
-+	if (!expected_errno) {
-+		check_success(desc, ret);
-+	} else {
-+		check_failure(desc, ret, expected_errno);
-+	}
-+}
-+
-+#define NUM_TESTS 42
-+
-+int main(void)
-+{
-+	const char *path = "/tmp/upgrade_mask_test";
-+	int fd, src;
-+
-+	ksft_print_header();
-+
-+	if (!openat2_supported)
-+		ksft_exit_skip("openat2(2) not supported\n");
-+
-+	/* Check allowed_upgrades support */
-+	{
-+		struct open_how how = { .flags = O_PATH,
-+					.allowed_upgrades = DENY_UPGRADES };
-+		fd = raw_openat2(AT_FDCWD, "/", &how, sizeof(how));
-+		if (fd < 0 && -fd == EINVAL)
-+			ksft_exit_skip("allowed_upgrades not supported by kernel\n");
-+		if (fd >= 0)
-+			close(fd);
-+	}
-+
-+	ksft_set_plan(NUM_TESTS);
-+
-+	fd = open(path, O_CREAT | O_WRONLY, 0644);
-+	if (fd < 0)
-+		ksft_exit_fail_msg("failed to create test file: %s\n",
-+				   strerror(errno));
-+	close(fd);
-+
-+	/* test 1: DENY_UPGRADES (deny all) */
-+	src = open_opath(path, DENY_UPGRADES);
-+	check("deny_all: use empty_path to reopen O_RDONLY", reopen_empty(src, O_RDONLY, false), EACCES);
-+	check("deny_all: use empty_path to reopen O_WRONLY", reopen_empty(src, O_WRONLY, false), EACCES);
-+	check("deny_all: use empty_path to reopen O_RDWR",   reopen_empty(src, O_RDWR,   false), EACCES);
-+	check("deny_all: use procfs to reopen O_RDONLY",     reopen_proc(src, O_RDONLY,  false), EACCES);
-+	check("deny_all: use procfs to reopen O_WRONLY",     reopen_proc(src, O_WRONLY,  false), EACCES);
-+	check("deny_all: use procfs to reopen O_RDWR",       reopen_proc(src, O_RDWR,    false), EACCES);
-+	close(src);
-+
-+	/* test 2: READ_UPGRADABLE */
-+	src = open_opath(path, READ_UPGRADABLE);
-+	check("read_only: use empty_path to reopen O_RDONLY", reopen_empty(src, O_RDONLY, false), 0);
-+	check("read_only: use empty_path to reopen O_WRONLY", reopen_empty(src, O_WRONLY, false), EACCES);
-+	check("read_only: use empty_path to reopen O_RDWR",   reopen_empty(src, O_RDWR,   false), EACCES);
-+	check("read_only: use procfs to reopen O_RDONLY",     reopen_proc(src, O_RDONLY,  false), 0);
-+	check("read_only: use procfs to reopen O_WRONLY",     reopen_proc(src, O_WRONLY,  false), EACCES);
-+	check("read_only: use procfs to reopen O_RDWR",       reopen_proc(src, O_RDWR,    false), EACCES);
-+	close(src);
-+
-+	/* test 3: WRITE_UPGRADABLE */
-+	src = open_opath(path, WRITE_UPGRADABLE);
-+	check("write_only: use empty_path to reopen O_RDONLY", reopen_empty(src, O_RDONLY, false), EACCES);
-+	check("write_only: use empty_path to reopen O_WRONLY", reopen_empty(src, O_WRONLY, false), 0);
-+	check("write_only: use empty_path to reopen O_RDWR",   reopen_empty(src, O_RDWR,   false), EACCES);
-+	check("write_only: use procfs to reopen O_RDONLY",     reopen_proc(src, O_RDONLY,  false), EACCES);
-+	check("write_only: use procfs to reopen O_WRONLY",     reopen_proc(src, O_WRONLY,  false), 0);
-+	check("write_only: use procfs to reopen O_RDWR",       reopen_proc(src, O_RDWR,    false), EACCES);
-+	close(src);
-+
-+	/* test 4: READ_UPGRADABLE | WRITE_UPGRADABLE */
-+	src = open_opath(path, READ_UPGRADABLE | WRITE_UPGRADABLE);
-+	check("allow_all: use empty_path to reopen O_RDONLY", reopen_empty(src, O_RDONLY, false), 0);
-+	check("allow_all: use empty_path to reopen O_WRONLY", reopen_empty(src, O_WRONLY, false), 0);
-+	check("allow_all: use empty_path to reopen O_RDWR",   reopen_empty(src, O_RDWR,   false), 0);
-+	check("allow_all: use procfs to reopen O_RDONLY",     reopen_proc(src, O_RDONLY,  false), 0);
-+	check("allow_all: use procfs to reopen O_WRONLY",     reopen_proc(src, O_WRONLY,  false), 0);
-+	check("allow_all: use procfs to reopen O_RDWR",       reopen_proc(src, O_RDWR,    false), 0);
-+	close(src);
-+
-+	/* test 5: VER0 open_how (allowed_upgrades absent, defaults to unrestricted) */
-+	{
-+		struct open_how how = { .flags = O_PATH };
-+		src = raw_openat2(AT_FDCWD, path, &how, OPEN_HOW_SIZE_VER0);
-+
-+		check("ver0: use empty_path to reopen O_RDONLY", reopen_empty(src, O_RDONLY, false), 0);
-+		check("ver0: use empty_path to reopen O_WRONLY", reopen_empty(src, O_WRONLY, false), 0);
-+		check("ver0: use empty_path to reopen O_RDWR",   reopen_empty(src, O_RDWR,   false), 0);
-+		check("ver0: use procfs to reopen O_RDONLY",     reopen_proc(src, O_RDONLY,  false), 0);
-+		check("ver0: use procfs to reopen O_WRONLY",     reopen_proc(src, O_WRONLY,  false), 0);
-+		check("ver0: use procfs to reopen O_RDWR",       reopen_proc(src, O_RDWR,    false), 0);
-+		close(src);
-+	}
-+
-+	/* test 6: invalid allowed_upgrades bit rejected */
-+	{
-+		struct open_how how = { .flags = O_PATH, .allowed_upgrades = (1ULL << 63) };
-+		fd = raw_openat2(AT_FDCWD, path, &how, sizeof(how));
-+		check("invalid: unknown bit in allowed_upgrades rejected with EINVAL", fd, EINVAL);
-+	}
-+
-+	/* test 7: transitivity through OPENAT2_EMPTY_PATH reopen */
-+	src = open_opath(path, READ_UPGRADABLE);
-+	{
-+		int mid = reopen_empty(src, O_RDONLY, true);
-+		close(src);
-+		check("transitive_empty: use procfs to reopen O_RDONLY", reopen_proc(mid, O_RDONLY, false), 0);
-+		check("transitive_empty: use procfs to reopen O_WRONLY", reopen_proc(mid, O_WRONLY, false), EACCES);
-+		check("transitive_empty: use procfs to reopen O_RDWR",   reopen_proc(mid, O_RDWR,   false), EACCES);
-+		close(mid);
-+	}
-+
-+	/* test 8: transitivity through procfs reopen */
-+	src = open_opath(path, READ_UPGRADABLE);
-+	{
-+		int mid = reopen_proc(src, O_RDONLY, true);
-+		close(src);
-+		check("transitive_proc: use procfs to reopen O_RDONLY", reopen_empty(mid, O_RDONLY, false), 0);
-+		check("transitive_proc: use procfs to reopen O_WRONLY", reopen_empty(mid, O_WRONLY, false), EACCES);
-+		check("transitive_proc: use procfs to reopen O_RDWR",   reopen_empty(mid, O_RDWR,   false), EACCES);
-+		close(mid);
-+	}
-+
-+	/* test 9: narrowing via intermediate O_PATH reopen */
-+	src = open_opath(path, READ_UPGRADABLE | WRITE_UPGRADABLE);
-+	{
-+		int mid = reopen_empty_opath(src, READ_UPGRADABLE);
-+		close(src);
-+		check("narrowing: use procfs to reopen O_RDONLY", reopen_proc(mid, O_RDONLY, false), 0);
-+		check("narrowing: use procfs to reopen O_WRONLY", reopen_proc(mid, O_WRONLY, false), EACCES);
-+		check("narrowing: use procfs to reopen O_RDWR",   reopen_proc(mid, O_RDWR,   false), EACCES);
-+		close(mid);
-+	}
-+
-+	/* test 10: three-level chain */
-+	src = open_opath(path, READ_UPGRADABLE);
-+	{
-+		int mid = reopen_proc(src, O_RDONLY, true);
-+		close(src);
-+		int dst = reopen_proc(mid, O_RDONLY, true);
-+		close(mid);
-+		check("three_level: use procfs to reopen O_RDONLY", reopen_empty(dst, O_RDONLY, false), 0);
-+		check("three_level: use procfs to reopen O_WRONLY", reopen_empty(dst, O_WRONLY, false), EACCES);
-+		close(dst);
-+	}
-+
-+	unlink(path);
-+
-+	if (ksft_get_fail_cnt() + ksft_get_error_cnt() > 0)
-+		ksft_exit_fail();
-+	else
-+		ksft_exit_pass();
-+}
+ /* how->resolve flags for openat2(2). */
+ #define RESOLVE_NO_XDEV		0x01 /* Block mount-point crossings
+ 					(includes bind-mounts). */
 -- 
 2.53.0
 
