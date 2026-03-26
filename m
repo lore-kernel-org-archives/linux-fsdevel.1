@@ -1,89 +1,131 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85CDB1A6832;
-	Thu, 26 Mar 2026 14:23:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A7D937BE8A;
+	Thu, 26 Mar 2026 14:26:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774534984; cv=none; b=Cs5KT+97UDwhz+qpd4/qWEXlGkEPa6dv4lwyH22xk+FNbCTW9QC1qIMLxvF8TZhmth/0xHRMZdec9yVMwG1J61huXS3KV9yrfT0HnWVDMfkqyXxH8XloaYYcmcj2EAICeDfcvHBtU0ylmyFkhE2A5dl/IYlrbRipqerkJyzmDkU=
+	t=1774535177; cv=none; b=TonDPaj3kc+onToQermP48TOrEGi57GGeqYJ6Dg6ormiBHwbF5X2YdsyJ5C9vN+O1vceg3dG5MSDpt1Yvrbqr0VNgP/qeUb5H+lPuPTByezchgWsNIBjA9YBuDCGsu/zb/hVyYTQ4vXLiW3r7VgAkN4drtnPpHKmS2Tqo82F5ns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774534984; c=relaxed/simple;
-	bh=UUwqG2nwVJ/9dy22E7iEHnBXWe5FznRUomFJAXNLPPo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Ut1J8tOKreSlVTnf3KuA9vu5jocRImpotvMTmLXFZvTyPGDv/ZWx5EXtZMZYDnO8Wz4au0PoAMhPdaOAFemFj0LIM+CLWO+GkMkYNMlrtJJQfzBZa/drnd7BadSFLBCfWgd8/sBOQ8UMEZY0BQEMg9CIo/y5Ns8S7oxcbPPALNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i+DLU0s2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774535177; c=relaxed/simple;
+	bh=FDUjIkRcjKBBWY3/e5wpyBytSdBUm6v7MOjojeM7T5g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YPFyq9UsmgQ0ydNoGs9q/P+earNkfm/IV39ossPMg8teIyiCLuEMf9SiY43UPPxhs476qCVnEqWSUg3DAAD3mXTAF8BtsiXRVWl4sE0IuO7d8y2Y4UpPI5dG2TX27jIWAB61QQkpRUZ429vKtRouFaPQTo5fJP93DCRT4SNc5NE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hGyWENwK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i+DLU0s2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1779C4AF09;
-	Thu, 26 Mar 2026 14:23:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hGyWENwK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58E12C19423;
+	Thu, 26 Mar 2026 14:26:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774534984;
-	bh=UUwqG2nwVJ/9dy22E7iEHnBXWe5FznRUomFJAXNLPPo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=i+DLU0s2YpZezJ+mTi1Zrml2D+DUtLyo5Xia+3odzwyPFbfJzZgk8RoZ6LaK5ZBNk
-	 Tm1dOvqCuzFUq9AGgAhGua8iwmsJurw36fVVfCyqJikPmrkTsjmz4l5+gejnNPplDB
-	 aJUTt0KCnlOL+mOuAQn4xW4Y12sNRM1AyRoAoFE1/F9OZkGg4To7Wpob3zSL4C2uWR
-	 sdLk/lD4qTxWZcp2t4qLis/5zmE09gH8X0XqYq8VUyzrXialQp23UvA5aTABf2Ditn
-	 oIfABmkghI/Mh3mozSU3FLndlcjlzQ0F4Bq1aZvI66kQ30831bFtiMXjPCaD1IN/0I
-	 kC1MzyfeZkC/w==
+	s=k20201202; t=1774535177;
+	bh=FDUjIkRcjKBBWY3/e5wpyBytSdBUm6v7MOjojeM7T5g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hGyWENwKSZ4GDxcpr0QNbGmkhfX5RFJhiVCPTboRE2P6jN08M2CKmdqSs6azHSevk
+	 b+o6VmV8QHsbkv5s/p1zEeCGQk6AaCBk+2Y8gs1SW7mzXDH4FJFJk/ingGUsr7Dm16
+	 BieyCy0sIHWZhANvBqrSKTb2Bg0UYDnPlALTde9f+GjYRWvYB31ansx9GpItNK/TjD
+	 nE3QcmAzdq6N8z4DiFQg8MJStYpSnhUR2t3pUDaFpqobmaoeeEwLOBdtbc16oUf5XH
+	 3tGnmkIcG+oI+lkM7V9hdRztKyRDAU2vOhikd1xS/ONy2s0M9M+Kt0APxhmHp6rjKs
+	 TnL+MrcSlHwfA==
+Date: Thu, 26 Mar 2026 15:26:12 +0100
 From: Christian Brauner <brauner@kernel.org>
-To: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Justin Suess <utilityemal77@gmail.com>,
-	Lennart Poettering <lennart@poettering.net>,
-	Mikhail Ivanov <ivanov.mikhail1@huawei-partners.com>,
-	Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>,
-	Shervin Oloumi <enlightened@google.com>,
-	Tingmao Wang <m@maowtm.org>,
-	kernel-team@cloudflare.com,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	=?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack@google.com>,
-	Paul Moore <paul@paul-moore.com>,
-	"Serge E . Hallyn" <serge@hallyn.com>
-Subject: Re: (subset) [RFC PATCH v1 03/11] nsproxy: Add FOR_EACH_NS_TYPE() X-macro and CLONE_NS_ALL
-Date: Thu, 26 Mar 2026 15:22:50 +0100
-Message-ID: <20260326-sandplatz-peitschen-d802beb8275b@brauner>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260312100444.2609563-4-mic@digikod.net>
-References: <20260312100444.2609563-4-mic@digikod.net>
+To: Bernd Schubert <bernd@bsbernd.com>
+Cc: Horst Birthelmer <horst@birthelmer.com>, 
+	Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Horst Birthelmer <hbirthelmer@ddn.com>
+Subject: Re: [PATCH] fuse: fix inode initialization race
+Message-ID: <20260326-reorganisation-bemessen-c6643edcf629@brauner>
+References: <20260318-fix-inode-init-race-v1-1-a7e58b2ddb9a@ddn.com>
+ <3a7d36c3-0ce0-4f1d-9649-1742f752c5f1@bsbernd.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1259; i=brauner@kernel.org; h=from:subject:message-id; bh=UUwqG2nwVJ/9dy22E7iEHnBXWe5FznRUomFJAXNLPPo=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQedXRcLl7eL7QicIlt3m4ftpcnmS1+BoWfiFC6fcjyq 4CdbufcjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIkc/cvI0D61JEj4rpVUqYPL 1a7iWdXtclt9lc0mTTG9uddT9nhKJMM/S83TR5obdiuqiqky9B/sKb1r0hB/Nk3mUPQHZl7Bpbs 5AQ==
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <3a7d36c3-0ce0-4f1d-9649-1742f752c5f1@bsbernd.com>
 
-On Thu, 12 Mar 2026 11:04:36 +0100, Mickaël Salaün wrote:
-> Introduce the FOR_EACH_NS_TYPE(X) macro as the single source of truth
-> for the set of (struct type, CLONE_NEW* flag) pairs that define Linux
-> namespace types.
+On Wed, Mar 25, 2026 at 08:54:57AM +0100, Bernd Schubert wrote:
 > 
-> Currently, the list of CLONE_NEW* flags is duplicated inline in
-> multiple call sites and would need another copy in each new consumer.
-> This makes it easy to miss one when a new namespace type is added.
 > 
-> [...]
+> On 3/18/26 14:43, Horst Birthelmer wrote:
+> > From: Horst Birthelmer <hbirthelmer@ddn.com>
+> > 
+> > Fix a race between fuse_iget() and fuse_reverse_inval_inode() where
+> > invalidation can arrive while an inode is being initialized, causing
+> > the invalidation to be lost.
+> > 
+> > Add a waitqueue to make fuse_reverse_inval_inode() wait when it
+> > encounters an inode with attr_version == 0 (still initializing).
+> > When fuse_change_attributes_common() completes initialization, it
+> > wakes waiting threads.
+> > 
+> > This ensures invalidations are properly serialized with inode
+> > initialization, maintaining cache coherency.
+> > 
+> > Signed-off-by: Horst Birthelmer <hbirthelmer@ddn.com>
+> > ---
+> >  fs/fuse/fuse_i.h | 3 +++
+> >  fs/fuse/inode.c  | 8 ++++++++
+> >  2 files changed, 11 insertions(+)
+> > 
+> > diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+> > index 7f16049387d15e869db4be23a93605098588eda9..1be611472eee276371b3bde1a55257c1116cfedd 100644
+> > --- a/fs/fuse/fuse_i.h
+> > +++ b/fs/fuse/fuse_i.h
+> > @@ -945,6 +945,9 @@ struct fuse_conn {
+> >  	/** Version counter for attribute changes */
+> >  	atomic64_t attr_version;
+> >  
+> > +	/** Waitqueue for attr_version initialization */
+> > +	wait_queue_head_t attr_version_waitq;
+> > +
+> >  	/** Version counter for evict inode */
+> >  	atomic64_t evict_ctr;
+> >  
+> > diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+> > index e57b8af06be93ecc29c58864a9c9e99c68e3283b..c6e7e50d80c0edaea57d9342869eaf811786e342 100644
+> > --- a/fs/fuse/inode.c
+> > +++ b/fs/fuse/inode.c
+> > @@ -246,6 +246,7 @@ void fuse_change_attributes_common(struct inode *inode, struct fuse_attr *attr,
+> >  		set_mask_bits(&fi->inval_mask, STATX_BASIC_STATS, 0);
+> >  
+> >  	fi->attr_version = atomic64_inc_return(&fc->attr_version);
+> > +	wake_up_all(&fc->attr_version_waitq);
+> >  	fi->i_time = attr_valid;
+> >  
+> >  	inode->i_ino     = fuse_squash_ino(attr->ino);
+> > @@ -567,6 +568,12 @@ int fuse_reverse_inval_inode(struct fuse_conn *fc, u64 nodeid,
+> >  
+> >  	fi = get_fuse_inode(inode);
+> >  	spin_lock(&fi->lock);
+> > +	while (fi->attr_version == 0) {
+> > +		spin_unlock(&fi->lock);
+> > +		wait_event(fc->attr_version_waitq, READ_ONCE(fi->attr_version) != 0);
+> > +		spin_lock(&fi->lock);
+> > +	}
+> > +
+> >  	fi->attr_version = atomic64_inc_return(&fc->attr_version);
+> >  	spin_unlock(&fi->lock);
+> >  
+> > @@ -979,6 +986,7 @@ void fuse_conn_init(struct fuse_conn *fc, struct fuse_mount *fm,
+> >  	atomic_set(&fc->epoch, 1);
+> >  	INIT_WORK(&fc->epoch_work, fuse_epoch_work);
+> >  	init_waitqueue_head(&fc->blocked_waitq);
+> > +	init_waitqueue_head(&fc->attr_version_waitq);
+> >  	fuse_iqueue_init(&fc->iq, fiq_ops, fiq_priv);
+> >  	INIT_LIST_HEAD(&fc->bg_queue);
+> >  	INIT_LIST_HEAD(&fc->entry);
+> > 
+> > ---
+> > base-commit: f338e77383789c0cae23ca3d48adcc5e9e137e3c
+> > change-id: 20260318-fix-inode-init-race-a47a7ba4af1e
+> > 
+> > Best regards,
+> 
+> Had reviewed that DDN internally already. LGTM
+> 
+> Reviewed-by: Bernd Schubert <bernd@bsbernd.com>
 
-Applied to the namespaces-7.1.misc branch of the vfs/vfs.git tree.
-Patches in the namespaces-7.1.misc branch should appear in linux-next soon.
-
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
-
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: namespaces-7.1.misc
-
-[03/11] nsproxy: Add FOR_EACH_NS_TYPE() X-macro and CLONE_NS_ALL
-        https://git.kernel.org/vfs/vfs/c/935a04923ad2
+Should I grab it?
