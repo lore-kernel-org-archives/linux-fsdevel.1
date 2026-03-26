@@ -1,139 +1,94 @@
-Received: from fout-a1-smtp.messagingengine.com (fout-a1-smtp.messagingengine.com [103.168.172.144])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 027143218B3;
-	Thu, 26 Mar 2026 22:18:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA7F8324B31
+	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 22:33:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774563512; cv=none; b=eGJA79GACKYFYis1x/nidYClg1AAmH9+3/gl6XYDM/1xxGXB8NZbQ6KfPqpXQGSZ6GiFK124Gv6OwgTk6R4bXpZrVXGe5/fpL3ug/U85quGgnydEXxgLKcwdyyvUbgquCajX0e6zRkQxJ2L9xJjtuDKc1UTBR4EFPjN6v87vxfI=
+	t=1774564420; cv=none; b=ThjIYNo8uw4/RbsbZHRNu/Zv06imEJTWIv54r9DwYR+isOF+ZYMOaI7RS5joyep305SOFdF3ZX5U3w+/XHqxelCMzCrNe45TjzPVLuw8LzN5MjIMbYrf5Sl8GQf6mIxpmXC0zeLP0kaNfHRMO3/q2OoCKf85W1/OK8nwiEzS4F4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774563512; c=relaxed/simple;
-	bh=PWuYZAnrBMRw0qrud2r6VCR5KugEVJe+PHQAHSx11C4=;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Date:Message-id; b=Zuml2XrDhsbSbSkT3g7+C5PTjbbVeWvBO2OULMCgSCbm8N4EUPuL5ZUF5aEvoKtxn1k5uKuj8DHOhX4nuuMRz3S0CQ9WFU586TIR9CAEHU98JYMWRRVuhlthZl0Aw6Wue0lTZi0jmQFXHhYTEkd6pvOb6AqfEaQp8V4j1trn3UU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=l+39p9gV; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=M8FrwB6c; arc=none smtp.client-ip=103.168.172.144
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	s=arc-20240116; t=1774564420; c=relaxed/simple;
+	bh=C+3Y7JW83WkyCE2HcoUwZdvcZTenbTyn36DJJ/n7vJE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GcVfJq+eO4+PPAkVZli40gCOsI+cM8AL/pBd/BN+QhPZm7devtTtFqJ/faH/1gvKYVh2sOVXyG8v5SFdOGQh3LZWJ5904DpFZa9mQruskvUy3supEd0Jnuvi7ZqLgecFyR7O0wa5iu4amhjxU7a2QwV4Ko3TPvT7u1f+oSfDLBk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OgnPQHFv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="l+39p9gV";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="M8FrwB6c"
-Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
-	by mailfout.phl.internal (Postfix) with ESMTP id 4837AEC0190;
-	Thu, 26 Mar 2026 18:18:28 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-12.internal (MEProxy); Thu, 26 Mar 2026 18:18:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:message-id:mime-version:reply-to
-	:reply-to:subject:subject:to:to; s=fm1; t=1774563508; x=
-	1774649908; bh=nB7g6qG78sUaPlTd7dQL/ByixpSwJ6KwpsjjzdKk0Mc=; b=l
-	+39p9gVgTNGQiTsFQiZIt4gpXDA9oQhUtYggSRZLg7zun1Ku7Dt02FUV7lYV1Kqn
-	QUUAtqMw8bs3xJpDE6PV6tdnA+7hxz5pH5xmIaGDCyjQv1bwzi95+NCbF1ghjwSC
-	YplnFLaMBJYYTeVaabbTU6evZsYJ53z7tZZdz9ctICkQemfYGq03/ZQfLLIW4JSe
-	VeVTxHxSYyAqfavwD+rsNLsLanRFJ+KZUa07Y6hzwqcilpGRwQBUrGUUGeGxA9xF
-	lg3dmpYUZyP4X+/ofkciusQXEqntQn836g/ZSon+xzM1KlY6IAeiY0uW2Plr+CJC
-	ED6v0xicqFD8vALZLGovw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:reply-to
-	:subject:subject:to:to:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1774563508; x=1774649908; bh=nB7g6qG78sUaP
-	lTd7dQL/ByixpSwJ6KwpsjjzdKk0Mc=; b=M8FrwB6cj9aAX6UV90MQsneQM0w+8
-	DGB3JH2TKol6QFpnfFGFHMgvGABEBg2qSD4xZlGwf4Ol7e5znNs2W1EdjNTTo0ML
-	o+vdro8l83NOzd5eAYecNUgV/KsXaAfWnjzCGG4xzPyPf15krUqVOlFYjNIrnSTG
-	4z9cvb8/yJ908OxgawLE5m4ut6Cuo13iQZ8rM7spMqmcMAXEKbF0hJ0/tPCu8QJI
-	httJwFu+h+hEtSFAz5GJ52FKhaaOqMLOLLgYN1hfLMcvLfKLICh2Hna1lFaJRnLG
-	0FMgp2j3QzGCA0UwAVb9+pcbihjNpRt8PUS0FuAEDI2midukbLf2hztSg==
-X-ME-Sender: <xms:tLDFaV2sH_HexHfvfNtYSdxftxigPh1TWa6OtALOoli3bACBcFweSQ>
-    <xme:tLDFaerRx90AXbj7_UhKjNDM0f1j5eLsLZFdw-e-bRnF6VjinWM-VAIRUZU8FIwAn
-    ncjyc2l_vzdk8O3NDBBxDeN0htP1Oei98PXd-ScsqXmmZDKtlM>
-X-ME-Received: <xmr:tLDFaZhxguvqmPjeUIjhlMte0U-QOsygGVtvJRRLXIucb3utjEGrJFLJwEiPvq7PZz3XnQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdefvdekheeiucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurheptgfgggfhvfevufffkfhrsehtqhertddttdejnecuhfhrohhmpefpvghilheurhho
-    fihnuceonhgvihhlsgesohifnhhmrghilhdrnhgvtheqnecuggftrfgrthhtvghrnhepff
-    ehfeettedtieetuedtgeevfffhffdtheelleffffeujedvleevgfdvgfelleeunecuvehl
-    uhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhgvihhlsgesoh
-    ifnhhmrghilhdrnhgvthdpnhgspghrtghpthhtohepkedpmhhouggvpehsmhhtphhouhht
-    pdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorh
-    hgpdhrtghpthhtoheplhhinhhugidqfhhsuggvvhgvlhesvhhgvghrrdhkvghrnhgvlhdr
-    ohhrghdprhgtphhtthhopeguhhhofigvlhhlshesrhgvughhrghtrdgtohhmpdhrtghpth
-    htohepphgtsehmrghnghhuvggsihhtrdhorhhgpdhrtghpthhtohepnhgvthhfsheslhhi
-    shhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehlihhnuhigqdgrfhhssehlihhsth
-    hsrdhinhhfrhgruggvrggurdhorhhgpdhrtghpthhtohepsghrrghunhgvrheskhgvrhhn
-    vghlrdhorhhgpdhrtghpthhtohepmhgrrhgtrdguihhonhhnvgesrghurhhishhtohhrrd
-    gtohhm
-X-ME-Proxy: <xmx:tLDFaS-jRQ78I1CCin8uAm3lyYuh-03rulDTKKVKBz9CqIV89QYK0w>
-    <xmx:tLDFadXkFleNBN2pb0y1H4yQ4qvDHIMwQ9_Bdc1pz035hMzeyLslCw>
-    <xmx:tLDFaeCCVGKPn5JJ0CE6ces8hD8KohZkN7xabxAKk9a5zj_VdsaNNg>
-    <xmx:tLDFaaH1F3sOCZq9Jnqwg6pA2bawF46UFkzayyU6uitIKxhtYEYTpg>
-    <xmx:tLDFaQF6ui4W8wMN3bYfssitUK0GSJuVtpZr926-e_slL_XNo47tTT_Y>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 26 Mar 2026 18:18:25 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OgnPQHFv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29C9DC116C6;
+	Thu, 26 Mar 2026 22:33:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774564420;
+	bh=C+3Y7JW83WkyCE2HcoUwZdvcZTenbTyn36DJJ/n7vJE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OgnPQHFv6Jl6DSwQ5bjECExGcQh5tGJIuXe0Q5Hhjs+oV3E/hUPYE2OqJjHnA8jK8
+	 8e+PbtEezpIJKgq0tbNm4lR2Fs660zIQTXn/LJ/xcEoAK2yTDTxj2zgKmISKdaOny8
+	 qTEqyio2obqkTqjF23Tcqptf/XukadTeHJMGUyROt39l/5GSqsXSxZ1LvLvI2Irscj
+	 uHctpwHeyUgG6KOZXeZpguocW3SUmIS3I7mKMwEaL6wZFx6yomsp6V/j7CSMu8hvlP
+	 OwdQ+BQviUOkWBF25/q08dmIGZrCwYHrQR0u9NaFSyGpE6ffT/pYmRUufCfnwwAhBY
+	 NGDio15MBCJ0Q==
+Date: Thu, 26 Mar 2026 15:33:39 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Bernd Schubert <bschubert@ddn.com>
+Cc: Bernd Schubert <bernd@bsbernd.com>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Joanne Koong <joannelkoong@gmail.com>, Kevin Chen <kchen@ddn.com>
+Subject: Re: [PATCH 12/19] fuse mount: Support synchronous FUSE_INIT
+ (privileged daemon)
+Message-ID: <20260326223339.GE6254@frogsfrogsfrogs>
+References: <20260323-fuse-init-before-mount-v1-0-a52d3040af69@bsbernd.com>
+ <20260323-fuse-init-before-mount-v1-12-a52d3040af69@bsbernd.com>
+ <20260324000350.GM6202@frogsfrogsfrogs>
+ <e0d7b5ee-ffef-45a4-8c39-84cd79342bae@ddn.com>
+ <20260324225012.GY6202@frogsfrogsfrogs>
+ <4fd3c5e8-89e0-4356-ab50-4aa7544a142f@ddn.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To:
- Christian Brauner <brauner@kernel.org>, David Howells <dhowells@redhat.com>
-Cc: Marc Dionne <marc.dionne@auristor.com>, Paulo Alcantara <pc@manguebit.org>,
- netfs@lists.linux.dev, linux-afs@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject:
- [PATCH] cachefiles: fix incorrect dentry refcount in cachefiles_cull()
-Date: Fri, 27 Mar 2026 09:18:21 +1100
-Message-id: <177456350181.1851489.16359967086642190170@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4fd3c5e8-89e0-4356-ab50-4aa7544a142f@ddn.com>
 
+On Thu, Mar 26, 2026 at 08:32:23PM +0100, Bernd Schubert wrote:
+> 
+> 
+> On 3/24/26 23:50, Darrick J. Wong wrote:
+> > On Tue, Mar 24, 2026 at 08:42:36PM +0000, Bernd Schubert wrote:
+> >> On 3/24/26 01:03, Darrick J. Wong wrote:
+> >> Next on my list is to look into the fuse-io-uring issues that Kevin also
+> >> reports with this patch series.
+> > 
+> > Heh, well, at least it isn't pthread_cancel anymore :)
+> 
+> 
+> So the ugly part here is that one needs to call fuse_daemonize_success()
+> success twice. Once from ->init() and once after fuse_session_mount().
+> fuse_daemonize_success() will then check itself if this is sync-init or
+> async init. Making it conditional in the daemon code itself would be
+> possible, but it would need two different api calls. ->init() gets
+> fuse_conn_info and main() or whatever created the session has 'struct
+> fuse_session'.
+> Issue here was that I had fuse_daemonize_success() in ->init (sfs_init)
+> and it signaled the parent that the mount was completed before it was
+> actually complete with sync init. With io-uring another 300ms delay to
+> create the rings - enough to make xfstests to fail.
 
-The patch mentioned below changed cachefiles_bury_object() to expect 2
-references to the 'rep' dentry.  Three of the callers were changed to
-use start_removing_dentry() which takes an extra reference so in those
-cases the call gets the expected references.
+Huh.  What failure did you get?  Is this the kernel trying to send
+commands and failing because fuse_uring_wake_ring_threads hasn't been
+done yet?
 
-However there is another call to cachefiles_bury_object() in
-cachefiles_cull() which did not need to be changed to use
-start_removing_dentry() and so was not properly considered.
-It still passed the dentry with just one reference so the net result is
-that a reference is lost.
+I see you've posted your new patchset so I'll go hunt through there.
 
-To meet the expectations of cachefiles_bury_object(), cachefiles_cull()
-must take an extra reference before the call.  It will be dropped by
-cachefiles_bury_object().
+--D
 
-Reported-by: Marc Dionne <marc.dionne@auristor.com>
-Fixes: 7bb1eb45e43c ("VFS: introduce start_removing_dentry()")
-Signed-off-by: NeilBrown <neil@brown.name>
----
- fs/cachefiles/namei.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/fs/cachefiles/namei.c b/fs/cachefiles/namei.c
-index b498c210112b..1b83ed0e0a63 100644
---- a/fs/cachefiles/namei.c
-+++ b/fs/cachefiles/namei.c
-@@ -781,6 +781,11 @@ int cachefiles_cull(struct cachefiles_cache *cache, stru=
-ct dentry *dir,
- 	if (ret < 0)
- 		goto error_unlock;
-=20
-+	/*
-+	 * cachefiles_bury_object() expects 2 references to 'victim',
-+	 * and drops one.
-+	 */
-+	dget(victim);
- 	ret =3D cachefiles_bury_object(cache, NULL, dir, victim,
- 				     FSCACHE_OBJECT_WAS_CULLED);
- 	dput(victim);
-
-base-commit: 84f524dca4b8bc9e9aca8ea1dbbd2aa3a239d998
---=20
-2.50.0.107.gf914562f5916.dirty
-
+> With that change of behavior I'm not even sure anymore if we can make
+> sync init a default.
+> 
+> Currently have xfstests running (also testing the reduced queue patches
+> with that) and will sent out new patches one that completes.
+> 
+> Cheers,
+> Bernd
