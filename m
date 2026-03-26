@@ -1,136 +1,76 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx1.manguebit.org (mx1.manguebit.org [143.255.12.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B5CD2DC77F
-	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 23:10:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24ACE39768A;
+	Thu, 26 Mar 2026 23:16:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=143.255.12.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774566640; cv=none; b=fyxlqdNmNHo/XLXjgCpOduo1GZUF7fzykJLHUKkI8q87GbQBLCO7t+zfD0sZm8+1IzPAVqDtyHQBcIF75p3W2sUd+pQuyMyghbZNSl6i6g7bGvPGHbr3S7VfQOx7T1fj6QzIogNjPSmUW9zi1BIeEXxSi5d0wCttW5CXakZWfRM=
+	t=1774566997; cv=none; b=NrqZw/PLckyQYPvuzimB8lJGYQ6n9lId/mYcdJn3Fv7ZCQfsrL1DVjGRlR5Tfc8eVGDNQYuosBp6Tv+P5gqLqb3m7xcFPwz3gJMlghjS5f40tG21cqabDh4aFFGr6qF7XuXTJPsDs4nqSyA2XhYj6jEDq+iUhGkiTQMP9EN6mYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774566640; c=relaxed/simple;
-	bh=JrMxN6czQPoGOONKgY18HJvolnNtQnmQ8Y1VPx+CX+k=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mE5eyF/6AccKx0dCAh7HfygFPmRH+bB7YnQYGa+BjyDrX/5l/heEvOiMpfMOWN0vT51ZGM3WXDaQcLl4HRuae81TblKgoaNNGFy+ymvxqSboom7i43O8L8SceT6aTmPYT6Cd2mqkZX+yH+IynJXBfwsSP9iO/0m6tE5GJo9Kcv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DWJ0EIUI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=KvfItLkc; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DWJ0EIUI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=KvfItLkc; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1774566997; c=relaxed/simple;
+	bh=c6u7kkVBWwEe3cJ2qykNrGvbHSuF7xgqcdI4GmPOPIQ=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Date:
+	 MIME-Version:Content-Type; b=YWnLZY5HxbnAWuBJPRpXpQpoxfQCvAxjAa7rOEcImNFyVI6dcouZSysXber6MXUBqkFbReP2DqQpr6LTJgCilav1LK1FGhMNUGg+mgVRbJm7aqd/GdCqABtSbFfu47wyNc3Wty3PDR/Fv48qLcM+ghDvDTcnffYjoFpDP4oxUZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manguebit.org; spf=pass smtp.mailfrom=manguebit.org; dkim=pass (2048-bit key) header.d=manguebit.org header.i=@manguebit.org header.b=STQ4kM4D; arc=none smtp.client-ip=143.255.12.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manguebit.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manguebit.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DWJ0EIUI";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KvfItLkc";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DWJ0EIUI";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KvfItLkc"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E5F285BD4F;
-	Thu, 26 Mar 2026 23:10:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1774566637; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jUfMj6YlzPd4Sd90tbR4ROfWvttUmoMVeBoBFZiv/uY=;
-	b=DWJ0EIUITK+MmoIPfsCV6QZ/z8VthBPsTwFsJVycgGvyRgW1VGG2Y6Ekc8gInm7Qoi/iIw
-	dWhDvyiYBUyouukwI+uqsxZRUdem7xqIOdbiuOHhvmaabcRweC2o2q8fNeU2iuL47hw/hQ
-	tz+UeQX5ulRhEpDoyL1nZF8IlVRpnKQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1774566637;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jUfMj6YlzPd4Sd90tbR4ROfWvttUmoMVeBoBFZiv/uY=;
-	b=KvfItLkco5Uar8i6eIP1aEQBcWirlx//NwHPkcjTQI7UsoangUOUag4IBNVI9fK7QYwSM9
-	R7nmhT7HE9nVARBA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1774566637; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jUfMj6YlzPd4Sd90tbR4ROfWvttUmoMVeBoBFZiv/uY=;
-	b=DWJ0EIUITK+MmoIPfsCV6QZ/z8VthBPsTwFsJVycgGvyRgW1VGG2Y6Ekc8gInm7Qoi/iIw
-	dWhDvyiYBUyouukwI+uqsxZRUdem7xqIOdbiuOHhvmaabcRweC2o2q8fNeU2iuL47hw/hQ
-	tz+UeQX5ulRhEpDoyL1nZF8IlVRpnKQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1774566637;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jUfMj6YlzPd4Sd90tbR4ROfWvttUmoMVeBoBFZiv/uY=;
-	b=KvfItLkco5Uar8i6eIP1aEQBcWirlx//NwHPkcjTQI7UsoangUOUag4IBNVI9fK7QYwSM9
-	R7nmhT7HE9nVARBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 362454A0A3;
-	Thu, 26 Mar 2026 23:10:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id pzHFN+m8xWmfOQAAD6G6ig
-	(envelope-from <ddiss@suse.de>); Thu, 26 Mar 2026 23:10:33 +0000
-Date: Fri, 27 Mar 2026 10:10:27 +1100
-From: David Disseldorp <ddiss@suse.de>
-To: Petr Mladek <pmladek@suse.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, Al Viro
- <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara
- <jack@suse.cz>, Steven Rostedt <rostedt@goodmis.org>, Rasmus Villemoes
- <linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>,
- Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH v3 1/6] initramfs_test: add fill_cpio() format parameter
-Message-ID: <20260327101027.77453666.ddiss@suse.de>
-In-Reply-To: <acVdb6wb5GuEpb3x@pathway.suse.cz>
-References: <20260323150054.3587083-1-andriy.shevchenko@linux.intel.com>
-	<20260323150054.3587083-2-andriy.shevchenko@linux.intel.com>
-	<acVdb6wb5GuEpb3x@pathway.suse.cz>
+	dkim=pass (2048-bit key) header.d=manguebit.org header.i=@manguebit.org header.b="STQ4kM4D"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=manguebit.org; s=dkim; h=Content-Type:MIME-Version:Date:References:
+	In-Reply-To:Subject:Cc:To:From:Message-ID:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=rgF90ddOM5VHBu8QGEvv8mkSA9361Sxm7PQr+9hlots=; b=STQ4kM4DC4xPSOmzwTifr//vqw
+	04HG1xvWB6TENtW73BYb0Q0wdFW1HyAoXRMNMFQ+iGwpIStm8h4pcCgewMpSKxEOSOGZudFm5ul4q
+	MkLBlhKlZiFmZNm1yhCJ4+tJAP1SQ+2dZx6nmEMyv47cAmvxQgWA7wL7RnlzB8/mS1pCjrQpfnczn
+	OKUyIgwzxF2GzcetX0zXw2ewBkPhbViI/NLZD0qwKyvhsaHjf5Wuqyyo15m2xX5MeSfX44G4641qJ
+	iG3W3WkfLi2LlQgG9X8k9fsnTlMcnlhiXrPDFIcpu0rDacNhCHsTpfkfRnC7kqVbmGhxXIx74UIzR
+	icks/XeQ==;
+Received: from pc by mx1.manguebit.org with local (Exim 4.99.1)
+	id 1w5tvy-00000001hCb-2RVe;
+	Thu, 26 Mar 2026 20:16:14 -0300
+Message-ID: <60e35d05911d01bbb31449682c525f5c@manguebit.org>
+From: Paulo Alcantara <pc@manguebit.org>
+To: NeilBrown <neil@brown.name>, Christian Brauner <brauner@kernel.org>,
+ David Howells <dhowells@redhat.com>
+Cc: Marc Dionne <marc.dionne@auristor.com>, netfs@lists.linux.dev,
+ linux-afs@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] cachefiles: fix incorrect dentry refcount in
+ cachefiles_cull()
+In-Reply-To: <177456350181.1851489.16359967086642190170@noble.neil.brown.name>
+References: <177456350181.1851489.16359967086642190170@noble.neil.brown.name>
+Date: Thu, 26 Mar 2026 20:16:14 -0300
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sashiko.dev:url,suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spam-Level: 
+Content-Type: text/plain
 
-Thanks for the feedback Petr...
+NeilBrown <neilb@ownmail.net> writes:
 
-On Thu, 26 Mar 2026 17:23:11 +0100, Petr Mladek wrote:
+> The patch mentioned below changed cachefiles_bury_object() to expect 2
+> references to the 'rep' dentry.  Three of the callers were changed to
+> use start_removing_dentry() which takes an extra reference so in those
+> cases the call gets the expected references.
+>
+> However there is another call to cachefiles_bury_object() in
+> cachefiles_cull() which did not need to be changed to use
+> start_removing_dentry() and so was not properly considered.
+> It still passed the dentry with just one reference so the net result is
+> that a reference is lost.
+>
+> To meet the expectations of cachefiles_bury_object(), cachefiles_cull()
+> must take an extra reference before the call.  It will be dropped by
+> cachefiles_bury_object().
+>
+> Reported-by: Marc Dionne <marc.dionne@auristor.com>
+> Fixes: 7bb1eb45e43c ("VFS: introduce start_removing_dentry()")
+> Signed-off-by: NeilBrown <neil@brown.name>
+> ---
+>  fs/cachefiles/namei.c | 5 +++++
+>  1 file changed, 5 insertions(+)
 
-> The compiler is not longer able to check whether the number/type of
-> parameters match the given printf format. It was poitned out by
-> Sashiko.dev AI and I agree that it makes it harder to maintain.
-> 
-> A solution might be to split this sprintf out into a macro.
-> Or add some "bool inject_ox" parameter and keep the format
-> hardcoded here.
-
-The "bool inject_ox" option would keep the test code relatively simple.
-I'll do that and send a v4.
+Acked-by: Paulo Alcantara (Red Hat) <pc@manguebit.org>
