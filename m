@@ -1,188 +1,153 @@
-Received: from outbound-ip191a.ess.barracuda.com (outbound-ip191a.ess.barracuda.com [209.222.82.58])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 566793385BC
-	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 19:32:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=209.222.82.58
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BB6439EF2D
+	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 19:33:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.48
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774553582; cv=fail; b=XK3GvAy6yhvVIMotUcI1RpfJxiLLYrqFS1Fu4arRFWrc0EC7B529GPerOQSiSx9xgHfjOfviFeb0F324TbBbbQNpNQJYUYHaj+mr+3TH3J4CKdAnQjXItG67DvDUiYwlOTsrwRhTfMfhimeFRGYGwscKdoRar9pkSe8GT88Lg18=
+	t=1774553600; cv=pass; b=aCyOkBU6jPDjOVJ4yw0lPPCzgdGPsNCLomV8WyuEn5P0NMxoeKZVLymg/pMKGQoXfOlBVXmj+FbQ8PFSI703zSWlCVH6Ns7JuLyjYVFM+iqxalDra0BUn0dJTwg6UyllYvfBYTINY52vkqurAXPDSt9ACEOBBE/mu/rzkz18Ixw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774553582; c=relaxed/simple;
-	bh=AidxpzSsaoRBnUIrLFmweET2z5bIArmAUqSpaQuY3JA=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=H/Rvg4zcV834/3ROJVUiHBt3ZkVvpy2DWYNtR5cujYj3OxdTcyRGRjX6dMis8FvK+1y61sOBz4E1Ehnh2FE8exvdEg+fVvQFBeVJLqT88u0GtBEj0XPVErwq/R9AYX5hBRrV1ivjS+nynefqQC4hks7b5YXPkXXrkmd9G3CF+40=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ddn.com; spf=pass smtp.mailfrom=ddn.com; dkim=pass (1024-bit key) header.d=ddn.com header.i=@ddn.com header.b=V/BzBtYY; arc=fail smtp.client-ip=209.222.82.58
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ddn.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ddn.com
+	s=arc-20240116; t=1774553600; c=relaxed/simple;
+	bh=XGIkITr18YRht3P80h9kmZoQ7SS32tZiWRhyFaczp1Y=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=InURKtGJHzg3xvcwga6anxEkBkk/keh1KM4Mt/2lifGLNYNWYEfxYnpkSwAOhRPghzWbLIUEIApklCqZFD+Wl/wG9Sr70qiS/vWInitjHEm4RVqgQilI5Q84LB4cfEJDQNOIDlKn7GnJf2vL9TILIPEaUag4sh/9WWg3RTszE/E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=LkdroYlw; arc=pass smtp.client-ip=209.85.208.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ddn.com header.i=@ddn.com header.b="V/BzBtYY"
-Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazon11022129.outbound.protection.outlook.com [40.107.200.129]) by mx-outbound40-126.us-east-2c.ess.aws.cudaops.com (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO); Thu, 26 Mar 2026 19:32:41 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZMQshkpJmda+N34Qnb/kE3I9QlmXr2iPqDgcOGI6+X/JB/nFB3+jIqWyecTZmXVELIBujrc7U6rZrrvTPvSRJUJDQPPj+MS6PerVLEW2dpzIj5y92h+6WHxDbbn/OFlJiGrOqWcorl3gf0cNVelX7INMYwFWs7+1tAXPzFVrgxTln/bPNqHwa1ryvSJDXem0HJXTxGFzwvLqiYjp4lHwGGbq8nW+OO4kOdMBKJeBhJe3stFGBznM3dRQY4xCyo7EfV3mlMxRoewM8hK/Vrsq8Vh1pmL/rJyw9a/Ul4MEgPq0CYEm8A86qIW0T6dyq3Za8kPqTT90YuBxp2fD8KgdWA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fAwVJgFKOFRc6NfjW3BzxSAIVIQCvEDwZUwxBPLusk4=;
- b=ShrVXB6py8hZClBN9R41fqSggJwH8wqMZRSp2+sd0RyM3xmo/b0Hc5hFPvXxfS70DhC7NmyvOVqxN+gOSz2+lChhncGlQj9gnCljBv2C2+Alhh86y6Q1XWrPEO5s9CK2yd1JoiCDhOdgwc7lXeElrDBecfZFHzHN7Uzd3wfW8MIv7SalhgSh4+2Z2BhQfa1vFTeWxhmmxt5XjZVU2wudJ4IdnJXAFWPpR3ROUM0EK2XKCricBVX5xf/7bOVGFFzzfw8yU+jspdObHUq+p+PM8kxYxVEzSBFHCgJHFi1TSOXo3kEJIC09qav3eQj2K6lUQq6UAf0lRTD4wtlWeriRsA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=ddn.com; dmarc=pass action=none header.from=ddn.com; dkim=pass
- header.d=ddn.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ddn.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fAwVJgFKOFRc6NfjW3BzxSAIVIQCvEDwZUwxBPLusk4=;
- b=V/BzBtYYJYOOdkJUgpvNlGt5a56Bs/jS1vNMRP/NS2/Hhb/KH5ChgoVuV6T+TSiACOurk7N1MBhq+s5unAU7Xm6HVHMnuZiNt9BxGgtq1MlF8raMa+O02j9UrOcZyzYdEg5aaKgIHwmZWqHK9OAmR5mZS6rPD/EySgw1HwSFKRo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=ddn.com;
-Received: from MN2PR19MB3872.namprd19.prod.outlook.com (2603:10b6:208:1e8::8)
- by LV5PR19MB9060.namprd19.prod.outlook.com (2603:10b6:408:308::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.22; Thu, 26 Mar
- 2026 19:32:27 +0000
-Received: from MN2PR19MB3872.namprd19.prod.outlook.com
- ([fe80::5787:9b5e:45ce:396b]) by MN2PR19MB3872.namprd19.prod.outlook.com
- ([fe80::5787:9b5e:45ce:396b%6]) with mapi id 15.20.9723.018; Thu, 26 Mar 2026
- 19:32:27 +0000
-Message-ID: <4fd3c5e8-89e0-4356-ab50-4aa7544a142f@ddn.com>
-Date: Thu, 26 Mar 2026 20:32:23 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 12/19] fuse mount: Support synchronous FUSE_INIT
- (privileged daemon)
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Bernd Schubert <bernd@bsbernd.com>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- Miklos Szeredi <miklos@szeredi.hu>, Joanne Koong <joannelkoong@gmail.com>,
- Kevin Chen <kchen@ddn.com>
-References: <20260323-fuse-init-before-mount-v1-0-a52d3040af69@bsbernd.com>
- <20260323-fuse-init-before-mount-v1-12-a52d3040af69@bsbernd.com>
- <20260324000350.GM6202@frogsfrogsfrogs>
- <e0d7b5ee-ffef-45a4-8c39-84cd79342bae@ddn.com>
- <20260324225012.GY6202@frogsfrogsfrogs>
-From: Bernd Schubert <bschubert@ddn.com>
-Content-Language: en-US, de-DE, fr
-In-Reply-To: <20260324225012.GY6202@frogsfrogsfrogs>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PR3P192CA0024.EURP192.PROD.OUTLOOK.COM
- (2603:10a6:102:56::29) To MN2PR19MB3872.namprd19.prod.outlook.com
- (2603:10b6:208:1e8::8)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="LkdroYlw"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-66a8242c1d8so2594a12.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 12:33:19 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774553597; cv=none;
+        d=google.com; s=arc-20240605;
+        b=aIA7r9M6kkCoJ+8e8CroAuYh2OM5OK+iTBiaQdwEsbd9bsxVYbBMIFe7dRrX9ytgKX
+         324912grbd7rNKLetXWnt/4tMDpp/Oxb54zGzGQfA8o3ZIg77xG+/M1IlW9XZvGv1Ixi
+         yDklaqBbfMeyjxJm3r5eyp6QuwK+EA5gm9OJUhmHzAiG4lU3SdSJL8V239o9rIBt3J3C
+         MAOZIKXJlCqKtiyxBGxLdUWoyK444haQ3ztUjXUI4uBUuo7V7oGmg30niT2YFM3lUlvP
+         HSJIATVn0x9kiuczUIf/TPyinKGBHqbaj3phm64CzB8qSwanqGITP+q0qzJ1gYEOYRwm
+         L06g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=i0YYIrvHnBTLeQ6iT3Vhfn1kaGtvbxQ898sn+jDwG2o=;
+        fh=3WDTXw+5sHlG86prA/WPVpSwpkPhzHeGdCiXnFD613M=;
+        b=e4xynpbQyz0Pce2AJUIQfNPQwGnwuJtuMMjQ572Zu0IiEsVvRFWHhV+bFaYP8ax0r6
+         sNApril2MvPlkpl6zFGC0RTmZcEyRCqGmiFRtaq7elGjlNz/kypmi39/UYU9keTHFIGO
+         0nBCXcmi4RzN4GqBk+QL8uGEyYePdbh8YpvOTEtju0+HApEQFb3jw7BNhTUulbE+to8e
+         qcdmOSGLSaOixtPbzM/mA+uRlT8lIiet80fIbfg0HGaWu6+yEzFflTSm/fvEofGeW6jl
+         TGXnADA1+cjsCkt9XxFeq7gMMnza1ruT0tD7bKVfbhy31cTJIvSzKYJDJ657ZV1zK30z
+         riZg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1774553597; x=1775158397; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=i0YYIrvHnBTLeQ6iT3Vhfn1kaGtvbxQ898sn+jDwG2o=;
+        b=LkdroYlwmNyNc112hm8cLn0jT9UjNXFknsKEqf1hPo6WBik/MI8l9J89RQtzX2M795
+         DU8oTOXxVeXejWRfPk7q09thkC26WRGEIH/x/EHd6VFdvuWPNJpKLc8/1ruvQiPjS8+r
+         XLo+umGYiN0ihUSSEMSIIYY1ykesNxWDAJuR+7H/566eAibZvJrZKgpekOXyaIrapa/f
+         3xrbufMymx6CYMvEHrI68V5SiL9UIyxZwaAnVzD3CX7W6fa1DKcmBbjsoRP/h6zCiihP
+         T/3iYZiUzRHNrr5ClY5o7T/VcqLdw+5/lhX1sULydiyaAGAa1AOSolPODFdYkUCPDyoX
+         NLuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774553597; x=1775158397;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=i0YYIrvHnBTLeQ6iT3Vhfn1kaGtvbxQ898sn+jDwG2o=;
+        b=dMGOz0ScDCIKC6u7HUZiwre4UEmQW9uuoLHUwGLtGUfHtkyMPBJu0nmO4/7kmX2dnN
+         jn+xB6TK/hnD5TiB8/giepuIFtI9ExIDYFSVQPIdBmnVvm/qh/8uoL53Ta5dUBS36WFg
+         ElcV1BUA8FzHJZKV7POOH0QvLVYE90Tb3xqbg/roCemE7V0949KLtxDLp7YDNAC5K80P
+         SZqo8dsmhRa9bhwYL1GjQnejsvhQE3gLkkRLMILeJFsYDneq3HUXVJehlXHdTGu2e7IG
+         ZuGrdWmnVSXzFWZ+Yzm+ZHJ1x9Pa5t7CvwBv+E9ssL+tjOKsuOXEytt5pdTeyoXAI55W
+         91AQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWy3D/FdcSIIutg0g0BSbvSrC/oM+CobL3rCuKdx5MudWo/s3LWKIxdWn2tTvfB1c8F+sCNJ8XbuplpzuRO@vger.kernel.org
+X-Gm-Message-State: AOJu0YymObqzj5dnSfI4ZK84/nCyi/D/zShVCTBDEXloogsOClxqq/QN
+	HDe9yBEBREMKuh9UvoRmGdHzYli5z8jwsKBLlNLR5w1w5uqDuf/EZckTdKS6HDpkG4pPydGc+oe
+	/OzcCEDQ5ra6vF/LcAWO1URmSip8McBuujKglRDje
+X-Gm-Gg: ATEYQzwG7PEbuZKesvquAqhlpXRC0UoYt+V/pg+ybTq+l/dCSrmq1YOvAOqyOsWogT7
+	2TQyxu3YWMLfpeduagRWcxAyaTqUbSe328ek6f2Fz8Ti3qPnWKujBFP+BgtsldPi91MauZAwwC6
+	KA15iF6iIWAWmzH4IrT9ak10lNUBLl3K+D9VZ8SuCt8OIA17EJCTKtEPHGdZyuzE483RE0h8p/p
+	tI5Q7Cj6ww5MwSAwWmDid+f+bWQgIC7VG7SwaJB1rv0zP7LUJ+TmfH8Ay1bjkfHpX6bPE0x0GAt
+	enNmLL+HVrO9b8wKgsc/O1ysdVDBY8Ac4laX
+X-Received: by 2002:a05:6402:3054:20b0:665:d39:4b18 with SMTP id
+ 4fb4d7f45d1cf-66b19dbc821mr9214a12.8.1774553597067; Thu, 26 Mar 2026 12:33:17
+ -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN2PR19MB3872:EE_|LV5PR19MB9060:EE_
-X-MS-Office365-Filtering-Correlation-Id: 73efb6e0-5477-4580-f03f-08de8b6e6991
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|19092799006|1800799024|10070799003|366016|56012099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	Z5R6ANOhiWc/5HMmKsDCHQ7o6LcnzXXRopJDQ14qJxC1DbFDRn/CrH2p96e53VssoaKc9ip44KdNfTJTeCRrkfRUr4/mTga/v9TqD3eln25kZizzhtD8jdtRJpebQ22vdFMJx8/cC/cDeEFo/uCozN+aSf7SqARUPLUmGc9kokdLXjOCQAo/AgiRNBINo73T9pJ3UzYCEP07myEHLb5d1PGpRMRcpEQx+082vtoVZbxK6RNWW8AtenPS6x3bWhwAe+xPxcWKkZXZftraM5z63CpNEnco/MZ3W6Yg5T3qvG0SdgxNZ0SjejvFMdTzx3Hn4WMLV7NV0VdcbYTY93XZOl+urDWTszXVC4YnKHn2t6xdMX2bI6vY9bvqykX38AeMq8YkXQPx53BNunaFMjRaoFJ6TiH9GAEDAGv74rVCr01lc6CzwIXqQpN34RsJB4JUYb3myCbP85NSkD6oHIyQRRXsJJ37JArWSPvkjUxAl9K1fM9Afb4jHGquxm3Vb+kkh1QRWIy1DJp9z3+uTDCSyiIHBv/bKGVZgYVd1g4xizPIWoAsB1NExWG85blAYfoyv1gI6Jxbba4UBKDlCOP7ou6M/MA5OO1q/Sg0HDMTXelnWBBLr9a7+fedhV09roNlONbbauJReSV9DzUpC7fIsa+Yw7pB/pOoGpcdHNuHGxdWCZNvKNPXJh1J1mwWUqQq+z9t7hrvXVjBjQJ7RWcYWc7re357seSpVOspBRVu5rg=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR19MB3872.namprd19.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(19092799006)(1800799024)(10070799003)(366016)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?ZG5xalFibG5GYmU5N2J5WjJBM3pOcFQvUXZlVXpxUTZzdGNaT2ZqVkp0WWJR?=
- =?utf-8?B?T1B0eUVNb0NYYlIyZzJ5aFdCTFpDS2VFU3lFelpOcWl1QmxYR2VhZTRYVmxh?=
- =?utf-8?B?UE1ua3B1WlZ4OUtGbnllN0x3MmxUNFRXaUwvWWhXa3JGN3NYcXcvOWhwbmVp?=
- =?utf-8?B?Sm92RmdOYWU0S0J6R0FlOUtRT1MrQjNCSU41ZDhBRkZJTnBNeW03SlF3OW9p?=
- =?utf-8?B?dUsrNlhqSlhibVU2eC9WYkRaNU0rY1R1L3paaXAyWjM2MlljUUx5R0VQL2RT?=
- =?utf-8?B?bEtlQnJyWi9sUWVKc0h4c1ppWGtEb3F0eHFBbzZwRnh3U1VyQzBEQlp6Rng5?=
- =?utf-8?B?UHJ3Z2RxMjdudjd2WmtvMElpVGZ2VEs4RkFpVjRQUVVYSDVXV3NoQ1R5RnpT?=
- =?utf-8?B?OFVIK2t3NDVXS1Z0Y0pBNkVNdnh0dG16OHVzTXIyTVVoL3VSMFR2Znhrak9n?=
- =?utf-8?B?bHNNQzZWb2hjTVhJTGV2WUlxR3ZjVkJORzVDQzBqVkxxZGN0NVNaMkpOTjNZ?=
- =?utf-8?B?cUwyb0NlSDExR0ZRcm5sNnFZakh5bENETnZwa2VJNk8zSXFkZ2Y3Y2Z0RGJt?=
- =?utf-8?B?R3U0bnhYNXJYeTRYalJDbG5WRWtxQWhEaWxmdG5jT0ZCTzJZb2V2NC92a2cy?=
- =?utf-8?B?MTYzMDl0SjYxTi9LYnMzdkJidnJCTmx6bmlLZStxZ1R6TXVQdkRtMjhWdmJy?=
- =?utf-8?B?Qit0NmF1c2orcm5MQ0owN01kMXZKOEE0RkRxTmllTUZZMS9OM0U5aURFZjdM?=
- =?utf-8?B?cWZYRnJ4cTI1c3ZsQjRPV080TnJvVHdqenFJeVJTNFB6Wkwwd1RxOUdFWGRq?=
- =?utf-8?B?aDFCVGhyWGpJeXZMKys4ZmNxUUU1L0NPR3lJZ3VzanErUjBYNDEvU28xNTEw?=
- =?utf-8?B?NVBpZXhiQ0lsTTlaM2ltU1h4eVdlT291YURRUEpjdzNLY3hkK2Z0MHE0MGpZ?=
- =?utf-8?B?dnpsNllva05zOGo2VGdabWp4eEV4YjlGcFo5aDVreWdPS0RaUmdDdDR2WXp6?=
- =?utf-8?B?UGMyZXJ5Y2N5V0dDSnJrZVRoU3dqOGh4V2hhejB5SFJYdE5JZnZKWkhEeTdv?=
- =?utf-8?B?MHpzSndGOUkwRlJrS0c0Vll6SFFWbldtd2g5RHFyeWNFejlrdnZzL3UxWmsw?=
- =?utf-8?B?RDE1ajFXOHU3ZjVpMi9kSGI3a0EyY0pRbGdCS0pCSlp4cE84elBEWHBHTWV2?=
- =?utf-8?B?TVFGQ1VKTkF6elA5M3hGMStVNEY2OGkrWHBuWG5vMEM3andielBzUW9HK05F?=
- =?utf-8?B?OVJBTWlUMm9PU1FsekZjNTZxa2NCL0pXaTVkN2JFYkgvbThkSDExRzFGb3VF?=
- =?utf-8?B?T0xmaHpoazA3Wi9RV3orSmFGTlRRa28xZTRoQnJLZTlrdkQxV1dHeitOTzZZ?=
- =?utf-8?B?SnBVMHd4OWw4ZXo4VzFiVnNrMmY4cUpiTXA4R3hrd09sSjUzazFsMld5OWll?=
- =?utf-8?B?aXh0bTNjMkpRZ1pUc0VyS2w0RXhyeGlzWnp0c014bWk2OVFSWGN1Tm1DY1pl?=
- =?utf-8?B?bmUydmVqbWRmQTNOUUtoMTFtaU9Qd1BLaTE1MEJsUHIrNEFIWnd2R0dqZGgr?=
- =?utf-8?B?M1BZR1pCK08zOXdMa1V0K0o0NU9xRzQ0eUV4U0syYUFMNFdUaWJmV25IQXFt?=
- =?utf-8?B?UzFXNG1PSVBZcmlqRDhXZVdTV080TnlKbDhBd0lOYmRCc2UzMzcvSFZFNlJS?=
- =?utf-8?B?UndsN3VDNXRSZGgwZjRHbG5kb2FwSmF3ZllDQ09YUFEzNlc4bzBMQXJQZG45?=
- =?utf-8?B?alRGTjFzQXZmSDRlQlpwK3IxNHpNaEswRGNRNk1tNjZXcE9teFJlZWwrUVJv?=
- =?utf-8?B?VnpibXJuYSt0OFZSREE0eGhMbWlQUERKT0dxWGFFclZCMEdKM0NSWUhjWTJK?=
- =?utf-8?B?VmtLVWhpY25iK0hhSmlpZ1RMeWxqRktyS0VkWEJzS2xoNVhRRjhQc0ovZERr?=
- =?utf-8?B?S3ZZRmVjejdhdlhJVkVZUDkzTFVvc0hvNUhQVzZDcFJBWGw4TFI0RUNxdmtK?=
- =?utf-8?B?Y3IyTWhYSGt1dDVZcUhFY051bTFYTU5yWUpYNWJxSzV1bVprQUVNK2hvNEpQ?=
- =?utf-8?B?eU1WVnBkKzdBMGhnUjNBQVdRWTl6bVpxL2l4SmZCZkFhUWcxVktlZU96RjI1?=
- =?utf-8?B?YXBxYWtmUFJyMTFHSXNJTzd6ekZqZGlaNlVuczJFUnhsRUNkYTVpdm9PUGs0?=
- =?utf-8?B?N0hqSFJCbUphTncrL1lsU1ZidzBjc3BTQXkrcm5NdXgwRTE4aDV2TGFSazNX?=
- =?utf-8?B?VUdmL3VscmQvcWlleEd0aG41bG94WWlTUWxIMlFIT1JuUE4yejBCV0FtQmlV?=
- =?utf-8?B?KzY0dklQSnhMZFJwSld0cThtRmlNcldYMXBpclpLelMxOTBnOHFvQlEyZ3cx?=
- =?utf-8?Q?JSHJRqXhs+lZBnEKnPZQXTMd6BPSiyqJlttNnDP4tUMQf?=
-X-MS-Exchange-AntiSpam-MessageData-1: iH4uQiaisnGXCw==
-X-Exchange-RoutingPolicyChecked:
-	kGEuzPAAK20iodLadplzhUeZYleWMebDWjk6jEtusobuFm5eMbyG3wTsqGU1WyEUwo7uJ2QQeuejKiDaTcmodhpdQ7JnmPWSibPLCQEK9knA4dOusbtKu9c3EQcSc0vJktKnMmRwUaMAAWpPp1NoEwtFiXiFq3qVUMHEVt8Ue4sflsLfT6m803LK4/Z1GWmPDv+Rm5qizxihcTqHIkKT4PbPbg7bkw+i3T8u5YWMn8J0/KKy6LNM2y8db4oDXCu5jVQpRVGGWDk+cINS60xD+ywi46omhEV6DJYgaeDcYMqTg2mqRqR0llQLU+I52zlxYQdj7k15znBaIOHNw/3GoQ==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	zCyzQcYxfVM7TT73OF59nnyqxwOpike+7pGlg9t4CIqZrtMBBTr1xI1+STuksFEKkHOtUYA2aj96CT2PHLuivI2hgb6V+XBHxe4T7DErT3a8obN80DfRQWXAuSepnXzojqRZ2SaMJsfuzFLk632Zy1qc6V7HeCjpDdjThpOxS39i6sgsCWXfEOpUubUUzyER39wZm+ItAI0W6nv/jTenvKa/RgU+eSfYgYV4yVA/AIsfspq+fuWFFE5DyhhE1t9tOCq+esYqdTG8twuLXVTJtVGq66MkDSoKqoYeFGi9Ozo2w+hSIS7m4fmimjLDDlNd+khnw8A1wTMaxH61DyXObnmTpbqtL96FB9Dv61q+HpYY4h2fJw8GCKpkFs0B1fjk7nUH0C9ygVsHo/Sjxi21LT+1nZoExwbKP5BIhtVRxsmX4g9DcmOTx1C35g/Zgf1upXUSaraGBYeFF/gWaRMfwue4rKpcFG9ZF1loc+rzxqoA+t+tqCuVbJ4cBhHhMtLVhEUce7Nyco1eW/ILJfpfWh9iE/AfoRo7QxCUi9KsT8Pr5ZFOY5konOVAW9+dLAybWOCpFXoK8xD5zVgO9aQ7QEMVbVUTv6/v6wUKsIqow9bfHIVvoi9vCbzbMwzaUWUWsOncRCRpsYDeOdQZJxewGw==
-X-OriginatorOrg: ddn.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 73efb6e0-5477-4580-f03f-08de8b6e6991
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR19MB3872.namprd19.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2026 19:32:26.9431
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 753b6e26-6fd3-43e6-8248-3f1735d59bb4
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: b6cs5yA5vzmaZvQn73CtxMK8Zq0AiT0+U/sCje3b9ErwmH+zQr3Rb3ywHxCVOR39GvxbzShjLN6Jj7ggWo1pjg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV5PR19MB9060
-X-BESS-ID: 1774553561-110366-7707-15487-1
-X-BESS-VER: 2019.1_20260324.1831
-X-BESS-Apparent-Source-IP: 40.107.200.129
-X-BESS-Parts: H4sIAAAAAAACA4uuVkqtKFGyUioBkjpK+cVKVoZGZhZAVgZQ0DjZwtDYwMIgzT
-	LVyCjN0MzcOMnSyDwxJSnZ1NDCwNBMqTYWAFtVNjRBAAAA
-X-BESS-Outbound-Spam-Score: 0.00
-X-BESS-Outbound-Spam-Report: Code version 3.2, rules version 3.2.2.272091 [from 
-	cloudscan8-31.us-east-2a.ess.aws.cudaops.com]
-	Rule breakdown below
-	 pts rule name              description
-	---- ---------------------- --------------------------------
-	0.00 BSF_BESS_OUTBOUND      META: BESS Outbound 
-X-BESS-Outbound-Spam-Status: SCORE=0.00 using account:ESS124931 scores of KILL_LEVEL=7.0 tests=BSF_BESS_OUTBOUND
-X-BESS-BRTS-Status:1
+References: <20260306003224.3620942-1-joannelkoong@gmail.com>
+In-Reply-To: <20260306003224.3620942-1-joannelkoong@gmail.com>
+From: Jann Horn <jannh@google.com>
+Date: Thu, 26 Mar 2026 20:32:40 +0100
+X-Gm-Features: AQROBzAqizh2z5m9_5qLH-WZQAEv4v5co6vK-W8Njl6U5WEXvbdoBACM9aVLgiU
+Message-ID: <CAG48ez0H_Z-NQvfOeczECz_sO=MzVDvu+8m+msB55rcAPfQOgQ@mail.gmail.com>
+Subject: Re: [PATCH v3 0/8] io_uring: add kernel-managed buffer rings
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: axboe@kernel.dk, hch@infradead.org, asml.silence@gmail.com, 
+	bernd@bsbernd.com, csander@purestorage.com, krisman@suse.de, 
+	linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Fri, Mar 6, 2026 at 1:32=E2=80=AFAM Joanne Koong <joannelkoong@gmail.com=
+> wrote:
+> Currently, io_uring buffer rings require the application to allocate and
+> manage the backing buffers. This series introduces buffer rings where the
+> kernel allocates and manages the buffers on behalf of the application. Fr=
+om
+> the uapi side, this goes through the pbuf ring interface, through the
+> IOU_PBUF_RING_KERNEL_MANAGED flag.
+>
+> There was a long discussion with Pavel on v1 [1] regarding the design. Th=
+e
+> alternatives were to have the buffers allocated and registered through a
+> memory region or through the registered buffers interface and have fuse
+> implement ring buffer logic internally outside of io-uring. However, beca=
+use
+> the buffers need to be contiguous for DMA and some high-performance fuse
+> servers may need non-fuse io-uring requests to use the buffer ring direct=
+ly,
+> v3 keeps the design.
 
+I'm looking at the next-20260324 tree and trying to understand what
+happens if normal userspace (without FUSE) tries to use
+IOBL_KERNEL_MANAGED.
 
-On 3/24/26 23:50, Darrick J. Wong wrote:
-> On Tue, Mar 24, 2026 at 08:42:36PM +0000, Bernd Schubert wrote:
->> On 3/24/26 01:03, Darrick J. Wong wrote:
->> Next on my list is to look into the fuse-io-uring issues that Kevin also
->> reports with this patch series.
-> 
-> Heh, well, at least it isn't pthread_cancel anymore :)
+For a buffer list with IOBL_KERNEL_MANAGED, io_ring_buffer_select()
+will write a kernel pointer into sel.kaddr, but nothing in this series
+seems to ever read out of sel.kaddr; that only happens in
+fuse_uring_select_buffer() in the FUSE series
+(https://github.com/joannekoong/linux/commit/fae19be22ab629b1301f37f2a942d5=
+d84b45cc5c).
 
+Instead, looking at the reverse call graph of io_ring_buffer_select():
 
-So the ugly part here is that one needs to call fuse_daemonize_success()
-success twice. Once from ->init() and once after fuse_session_mount().
-fuse_daemonize_success() will then check itself if this is sync-init or
-async init. Making it conditional in the daemon code itself would be
-possible, but it would need two different api calls. ->init() gets
-fuse_conn_info and main() or whatever created the session has 'struct
-fuse_session'.
-Issue here was that I had fuse_daemonize_success() in ->init (sfs_init)
-and it signaled the parent that the mount was completed before it was
-actually complete with sync init. With io-uring another 300ms delay to
-create the rings - enough to make xfstests to fail.
-With that change of behavior I'm not even sure anymore if we can make
-sync init a default.
+io_ring_buffer_select
+  io_buffer_select
+    io_recvmsg
+    io_recv_buf_select
+    __io_import_rw_buffer
 
-Currently have xfstests running (also testing the reduced queue patches
-with that) and will sent out new patches one that completes.
+ - io_recvmsg() passes sel.addr into iov_iter_ubuf(), which creates an ITER=
+_UBUF
+ - io_recv_buf_select() passes sel.addr into import_ubuf(), which does
+an access_ok() check before creating an ITER_UBUF
+ - __io_import_rw_buffer() also passes sel.addr into import_ubuf()
 
-Cheers,
-Bernd
+I think that means io_recv_buf_select() and __io_import_rw_buffer()
+will first access the union through the wrong member, then fail on
+access_ok().
+io_recvmsg() will create an ITER_UBUF pointing to kernel memory (which
+AFAIK isn't supposed to happen?), which I think will then cause a
+later failure when you actually try to access the iterator (because
+copy_to_user_iter() checks access_ok()).
+
+Am I missing something that prevents normal io_uring operations from
+grabbing IOBL_KERNEL_MANAGED buffers and accessing the wrong union
+member?
