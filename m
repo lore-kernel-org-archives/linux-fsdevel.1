@@ -1,61 +1,63 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 456EE495E5
-	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 23:47:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0B752773E4
+	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 23:47:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774568848; cv=none; b=u4nZoA0eutX8d4pkW+FhtboiQALLyTl4KgRgUMl9AW5azNOTW5cMbzz1TgOy7g3NYM6YC4fTWUSu6zQ1tyBbuTTwfqJO0vCIeGDcEkbEXXznsJXivGuI44IzY1Ku7jEVzWyHCSAhGmgUjJ4MCijxoUDRK4qVt63MMCc4Em/UuX4=
+	t=1774568850; cv=none; b=UePKJJM586JLPcf7XAsj9ZuV1F0k/pl0DtjTBX+b0s0fNkx9u9ZoJ5aD2gdJxOI5o+UUcjTPTzNjhYsLQO7W8h7oVbaUFSpedxS/rNYrAH4wOXd4iu/wKc55beOo6mIzAmEXxw9L+EMa57rDU5+wTejEqhgem/Co/Qvbg5eoit4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774568848; c=relaxed/simple;
-	bh=mB/KPQ3qGIrg33C2f85ByvMpxkPSVUkzmRPowAV6648=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KfoZXkTUn/3Iz/G0sDEUFx9cm8OPSG7yIQv+hINFeSs7qAU61C3j1Et7VAD5cYEFgbOp0fFL82q8j19P8s0eKCDW7E+oJXVXbZIKzSbuEfYd9WM7CRCEhB1qTsbY50TVFheRu1ymMMpJkGCfhmeKZjM2514VsvfCKRm85VOkdT4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HND8wIbP; arc=none smtp.client-ip=209.85.216.44
+	s=arc-20240116; t=1774568850; c=relaxed/simple;
+	bh=mSCi33KbGfXlStHvUtsNTRKTgCdb2BOaXVnw91QOpVc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=CmsTe6GXWpz6S694yPHYMW+13tGGLgtUdB3bRbXKqpDPzUTavSCjrCjt7890MOowDAeGtDLjvRbb3PSdIB+qgpUf2cwKJKhe7TS2R2KWhj2gb1z/vdxBKeNOMwfHs9r2d3qxa3hPlzr8u18JbWB6VUc1LylOcF4fWWSWbzWK4ME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QBCK8/15; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HND8wIbP"
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-3567e2b4159so1027104a91.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 16:47:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QBCK8/15"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2b0ba3bfe16so14016395ad.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 16:47:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774568847; x=1775173647; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=BWqN0MwA2pohoP5pjCmhKdhw8V4J/TSimsFTnm7a7Ng=;
-        b=HND8wIbPE5kR2yP4khzc1N4tb1MWYJWDKRJNfHxHbHUvJ4btzl5Gshr3x23dQoNQkt
-         PpNUOUVrdTUFmtaKLLn8P1jrx97NhHtzipU0zU/rXN7lGC58SirmFppYwfFWytssEcW0
-         bQJflJHLcaEgN0Day5kk8OigNawZ0nHpg/3l1YQoVUj/mIqr3O7yHoKiNxd4mjgAmJRz
-         GFKwbMLIYcxNBWqmnBlKvTmQnf75hNoxHKxXp9fgsB8tR1qzVxH3I88u4p3qME/t4GW9
-         3fN8fx0PmRB3+gP93IaEq1eFS6OG9T3mfnIhRZRtpEdeMEJ2APG/b4U1zLbzeh4TkHm3
-         Pspg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774568847; x=1775173647;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1774568848; x=1775173648; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BWqN0MwA2pohoP5pjCmhKdhw8V4J/TSimsFTnm7a7Ng=;
-        b=nFutAp8qtf1ajuk6YldDcJwaVBymgPNwNOlPY//Kagyf4FqcBmwCdwpgG5n+7RcW1l
-         nzybHcMAlJKwnsX+fUz5GhdsA+C0rcXVR+I5yH8vlHKgER3IH1jnRKXAz8qfsMho9xfP
-         r0zoaVbsJ6hn5GMrgM4TdyVP89eu7ONLAynfyXeKaodsYgdwEx/jxqSixqANbY+okw55
-         CfNAc4bq/rGyCvZ3iwziJ6I0MD2wcCzTWtlcvD+iRdehD3ueti+134htWzA4hdSSlEfg
-         Bm2w6J7mFrpcx/CfQa8sv9AcCvpCcSP+hqLyHphgYSKo5wiupvo7DPnSr7aj4R+R5eMu
-         /tUw==
-X-Forwarded-Encrypted: i=1; AJvYcCXrF432e85CNQt4dKSRE8FhAmKyIK1FoGK2oycPQD7scn84m7cBfcGKva6PQjV4fISAa6N+tPL6GyvBjyOx@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz13hVzwVYparo8ICbS5yFtPyq1FSyh+Uib+0DuFN3ouHpeyTXr
-	n8+OU0LVT/Ghw4s5owd7UgcC3gg8RE7ru9DoccMeyDK1hcBULn/+Nz64OdWxbA==
-X-Gm-Gg: ATEYQzwSFNaN52Kc/fXNmEcFI56aAxn00D7B8yANu85t6x2SZwURbVqaDvPVu93b4sN
-	GluqRsG13ZztYaPzD+lpUhorJSKeYtq6YTB/ZM2WVacVuxWGZM4fJRDYxUlMz0y4w+Jd3n1DXW1
-	tq6kWHs154VCzoQll7H9xKIXO/T5C44NKJcel6x5kha1jYJHPvXPc1wbwSrQRIArHfx9LL6mPf9
-	ByWUq1WrcpPu4ntHO0OgqpRMUA+5DZWHfOhHYV5gwHVfEc8Cutr3rSyiZ71zUVqKwY9v0Vxx0TJ
-	7b2j9BGOj/r3ijt461nwicVZgBmiFI9+EspVv5Ems5Jv+uXovnXo1NUhkTyXSNdrVFNOQYWBG6O
-	S6s+T7xPZvd5EDO3nVKdVYPWLHml5aUeQXjDv4fMVbQmrfkNp0gRcaPY1CybH7MQmiIn5ENA4Zn
-	VdoZGuOZE9X4E8zLIkkwqfridDCetS
-X-Received: by 2002:a17:902:e885:b0:2b0:663f:6b53 with SMTP id d9443c01a7336-2b0cdc9b555mr4221655ad.13.1774568846583;
-        Thu, 26 Mar 2026 16:47:26 -0700 (PDT)
-Received: from localhost ([2a03:2880:ff:41::])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b0bc76f1d7sm43830385ad.1.2026.03.26.16.47.25
+        bh=hwh8cuNEpoLwXQSyJbOzsPP4ho/foZ01KLl/zuIjPAM=;
+        b=QBCK8/15WEjR2Ze2ZGo9778+LbCqAolTI0qECzmVfSNrrFU0qXVnRAETFynmawQsMB
+         McWeaeN9VZff3qbhl+/UNQrSU+su5weUozW2PZZmrvZVv2pBwBTNY1xcDUJO5BinezPR
+         ohfjjgtOjRpWKbSj5UBHH+fO6NVdghDcyOrdOKdnXHp98aVBFC8FoJdhTSOohU8o0OZQ
+         TjdKqQuQ43WThJ1FQpaa7KIjU42R03Qv7HPzBMjon0/nDY1AsOdjGrYBxaRfQB57IkMh
+         HeeDaFrkhcuLg9ICQQMuMUjuQvqJ9HRgy5gkNq0UUn9NfIb5u5TXi+NV6X3SncMpZcrw
+         fFEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774568848; x=1775173648;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=hwh8cuNEpoLwXQSyJbOzsPP4ho/foZ01KLl/zuIjPAM=;
+        b=niaGUhdnUGsAxGrgHIdJ7EmwArUdV4Gec0NMTfI2NY2vIhcFid0ZqpXiQLsR7j8Vbk
+         h7SVs/Mtd151EkA+d+r6bPGCZyCVzFn+MjwCiQLO2lY5uUmBxmWvvj8Pe608FBAxHqfq
+         jfyEMoXn67xv5lpDMJCS5jKyVU5SUlXKFlWpM/LyWjt5wcj81aB4pyEMFl+deLcioQkc
+         1ZHstxuJQ9H6ZKx35A/XRnB4ZKsvtxMElAeYW7UptGkoZR/brHV/8YOkvHvEgKBq5U4A
+         PDXmBBTeCTtWykSuvFg6Qpe+V8tDXtY8lidFF8FLT2RFcXvp7yk8Ic09nGKaLdwhDnJk
+         2TYw==
+X-Forwarded-Encrypted: i=1; AJvYcCW0MWTigWk/NjW272MdvsggyZUpT2UgdxFl3L5UwlNkD7rZuCeYtIvZTer1V1RB/tYicmkCNABCO7WQbFAV@vger.kernel.org
+X-Gm-Message-State: AOJu0YzTnexfZhfEAIXZ4xcT89V66LWifYfqcG3YJrBxzFsbICma7FcD
+	CyYct4Tt3gmuUK0o4Ti3EJVjwnnfkkrIIgv3nih2Ogm0x2Ry/EyzPPYm
+X-Gm-Gg: ATEYQzx+wEysyeHTRHvKxr2OwBxC1O6+2lUw2D6zYA/yraCE1BfbdMNhe4XBertWMpp
+	q2D+Kv/eMJgabJZHOoxaRaV6jIz6IYpJoW26dtvrULHEBn2ub+0Axy7cNENYxwM5k1zByHaoCe2
+	kEKYLYejNT9Smeah61ZCfmxFwQRm3pFZ1O/P/Zqi5sH6YauxWX4uYMtWri9ULMM3HmqbEn5PQp6
+	UQ12ISYISxLeeM8xtKoH4jWagXGVTzQ8CkL1BFuVNhkKKJrd/pvDH4uzJHX0Q3WIp0AAvqoXKPu
+	ylUj1Objz4BQy5Fmd4AVsK97RjkB1nfx1at7vyzVdB8KBUmvJ42bcoPr7XJLBSCOwZRcIoRFyBX
+	uNsIBJsRQYDmC4LFdZK8LvoJjZgil5U7QKAf2bU42V4o4+9gHXYW7A6cfksU81vGQBxpFvmJl82
+	nJ+dBbKUToCiw3kv6F
+X-Received: by 2002:a17:902:d4cf:b0:2b0:51f6:d469 with SMTP id d9443c01a7336-2b0ce5d7ee7mr2127515ad.23.1774568848344;
+        Thu, 26 Mar 2026 16:47:28 -0700 (PDT)
+Received: from localhost ([2a03:2880:ff:2::])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b0bc76bbdcsm42362145ad.5.2026.03.26.16.47.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Mar 2026 16:47:26 -0700 (PDT)
+        Thu, 26 Mar 2026 16:47:27 -0700 (PDT)
 From: Joanne Koong <joannelkoong@gmail.com>
 To: akpm@linux-foundation.org
 Cc: jack@suse.cz,
@@ -63,10 +65,12 @@ Cc: jack@suse.cz,
 	miklos@szeredi.hu,
 	linux-mm@kvack.org,
 	linux-fsdevel@vger.kernel.org
-Subject: [PATCH v1 0/1] mm: start background writeback based on per-wb threshold for strictlimit BDIs
-Date: Thu, 26 Mar 2026 16:46:28 -0700
-Message-ID: <20260326234629.840938-1-joannelkoong@gmail.com>
+Subject: [PATCH v1 1/1] mm: start background writeback based on per-wb threshold for strictlimit BDIs
+Date: Thu, 26 Mar 2026 16:46:29 -0700
+Message-ID: <20260326234629.840938-2-joannelkoong@gmail.com>
 X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260326234629.840938-1-joannelkoong@gmail.com>
+References: <20260326234629.840938-1-joannelkoong@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -75,23 +79,64 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch has a dependency on the writeback regression fix in [1]. This is
-submitted as a separate patchset from [1] because [1] is a fix targeting the
-7.0 rc cycle while this patch is an optimization that targets the next merge
-window.
+The proactive nr_dirty > gdtc->bg_thresh check in balance_dirty_pages()
+only checks the global dirty threshold to start background writeback
+while the writer is still free-running, but for strictlimit BDIs (eg
+fuse), the per-wb dirty count can exceed the per-wb background threshold
+while the global threshold is not yet exceeded, so background writeback
+for this case never gets proactively started.
 
-Thanks,
-Joanne
+Add a per-wb threshold check for strictlimit BDIs so that background
+writeback is started when wb_dirty exceeds wb_bg_thresh, which drains
+dirty pages before the writer hits the throttle wall, matching the
+proactive behavior that the global check provides for non-strictlimit
+BDIs.
 
-[1] https://lore.kernel.org/linux-fsdevel/20260326215127.3857682-1-joannelkoong@gmail.com/
+fio runs on fuse show about a 3-4% improvement in perf for buffered
+writes:
+fio --name=writeback_test --ioengine=psync --rw=write --bs=128k \
+    --size=2G --numjobs=4 --ramp_time=10 --runtime=20 \
+    --time_based --group_reporting=1 --direct=0
 
-Joanne Koong (1):
-  mm: start background writeback based on per-wb threshold for
-    strictlimit BDIs
-
+Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+---
  mm/page-writeback.c | 16 ++++++----------
  1 file changed, 6 insertions(+), 10 deletions(-)
 
+diff --git a/mm/page-writeback.c b/mm/page-writeback.c
+index c1a4b32af1a7..30f3d5a6270f 100644
+--- a/mm/page-writeback.c
++++ b/mm/page-writeback.c
+@@ -1835,7 +1835,9 @@ static int balance_dirty_pages(struct bdi_writeback *wb,
+ 			balance_domain_limits(mdtc, strictlimit);
+ 		}
+ 
+-		if (nr_dirty > gdtc->bg_thresh && !writeback_in_progress(wb))
++		if (!writeback_in_progress(wb) &&
++		    (nr_dirty > gdtc->bg_thresh ||
++		     (strictlimit && gdtc->wb_dirty > gdtc->wb_bg_thresh)))
+ 			wb_start_background_writeback(wb);
+ 
+ 		/*
+@@ -1862,15 +1864,9 @@ static int balance_dirty_pages(struct bdi_writeback *wb,
+ 		 * Unconditionally start background writeback if it's not
+ 		 * already in progress. We need to do this because the global
+ 		 * dirty threshold check above (nr_dirty > gdtc->bg_thresh)
+-		 * doesn't account for these cases:
+-		 *
+-		 * a) strictlimit BDIs: throttling is calculated using per-wb
+-		 * thresholds. The per-wb threshold can be exceeded even when
+-		 * nr_dirty < gdtc->bg_thresh
+-		 *
+-		 * b) memcg-based throttling: memcg uses its own dirty count and
+-		 * thresholds and can trigger throttling even when global
+-		 * nr_dirty < gdtc->bg_thresh
++		 * doesn't account for the memcg-based throttling case. memcg
++		 * uses its own dirty count and thresholds and can trigger
++		 * throttling even when global nr_dirty < gdtc->bg_thresh
+ 		 *
+ 		 * Writeback needs to be started else the writer stalls in the
+ 		 * throttle loop waiting for dirty pages to be written back
 -- 
 2.52.0
 
