@@ -1,166 +1,171 @@
-Received: from out30-119.freemail.mail.aliyun.com (out30-119.freemail.mail.aliyun.com [115.124.30.119])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8073D391838
-	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 16:43:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.119
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774543387; cv=none; b=RRa8PgNzrdlRl1oNj+0abza8+M1emsWEaJkciROKBDmymJ9kFfZ7VZQTS1HASkWO0x/VoE41SaAYTDuuXOgypoHid+q61lqpqIIRwVwXCElNQjLQa26OqDMIenrUVYjdvu+JhNDkGJ7RVJSpjtotFVt2JVUOMO3Nyq+eZavYZwk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774543387; c=relaxed/simple;
-	bh=Xby9R2NcCwm233UXveKiwtR+nRZs0VQaXB66BIDECc4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OBQKcfnRPoIN4z7pyQfWo+Wlkz6n70gyLijiMuHNR1enVUSylz07kU9l5ozRlUWFDQGI8dCjRlJd8oFj3lmxc4JBpcd6xum3T7KWCbFEn7FYJRIE1dd3jSmIoJA0GiYuqMiRFYC/x1V794FIbXiszTV8z+eC8O9+XYsGcgqX8uo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=sQltC4VC; arc=none smtp.client-ip=115.124.30.119
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB288391838
+	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 16:43:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774543396; cv=pass; b=PUvc6E/32wX8axsZGqEnY3zmXgTWD04UA7YSoZQCI43NNYQLOuDzqKKF+x/FD8+GLzHPktX7WoJOLzgH/ODWiyCKIniAwEnV6FNy0PXpD7ENU5iMVrHS/++ozSxpV7PV1Chm11ObfqVQErcIWLWlX7LthVZqo/7Ef97Ev8mBH1Y=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774543396; c=relaxed/simple;
+	bh=KOkHyUIjy7nttXtLGwegI7u5hwqM+PKZjLv3coihyio=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=c8Vxur378ACxZs7Qr7VIDiiwy4WhTWEY30bFT+oGm0GzN12umptNNfY7tAN1IrKSx2N0NZiwGUor1pUoqP6WqWZBM2L6r2StruV5roI4Ls4LlapHcwcRXOF4jyIONvS7btAX8VtDZpn3H9wzqLl6ToiEuIP3JY41W0qN3Uc/2Ao=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k3zMBtMf; arc=pass smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="sQltC4VC"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1774543381; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=7cQHkdASFm9EuYVUJ/ln2rhyJFRl+lXAxaoa2QDX7yc=;
-	b=sQltC4VC3++RVyJxpdkhDIjF1mf5weaz4KBe/7zeIjijvTY9EUsqyeD/G/rU37QNKt66+TQDcW1mFq2OR5T1pziIXSp0l5gZNjkUm1fLwVDDN8XJUAHG9jkRoiODTzgBY9BjA0bCUDpfxYPUenYxgm9hrBKV4cKBdBY4HMgUBR0=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R171e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033032089153;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=14;SR=0;TI=SMTPD_---0X.lodwL_1774543062;
-Received: from 30.41.54.139(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0X.lodwL_1774543062 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Fri, 27 Mar 2026 00:37:43 +0800
-Message-ID: <2b1ec557-bf79-4d8f-8383-41a0d54e8966@linux.alibaba.com>
-Date: Fri, 27 Mar 2026 00:37:42 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k3zMBtMf"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-439cd6b09f8so772454f8f.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 09:43:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774543393; cv=none;
+        d=google.com; s=arc-20240605;
+        b=C/ZoWhA3cKzW6/fkrgGzEUEVC1FVhoLJ6zUR2uQsxSkH8c3qXbncNh+rXE1XwvgCIf
+         s98oHFkYvuDLCpGBvkxKxI+egdreIT2rtgo2wUHyb6ck4d9VIe5FYk0MaAu1Jtqlv710
+         KWwL7XO9dCvS92ItsjufM5YnlPvnArtug3+1XIaKNu+GoBnL5wVTgbnIgKjj9zUvrUgj
+         D1f+M60Eda/nghGcK6wVnjPC8NFGx9qVmjaGzWmAQZfvCjLdbHZdzr49rhfTZXYOHQmB
+         kG+NJeIvJzvPnyDkQsUFQ28mNlO6wUJWnQ3ESkGFMmqZXAiZEdMTO3PZJUwzHrM4zHiK
+         rxkw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=SDddanoEW0aBY4o7DSM8aIIKSGffsl1eQ1flIxBr/4o=;
+        fh=CQbatzmPkxVVKgXtpFPSS5Gh3+py1QHAM5ScdpnFNzI=;
+        b=SSI6NLtRSGqstUxunC5ab3V6P58K47tsDWHOgFqMgqqW6FpOAcJXH0YwSakckXucJm
+         lzxJDl/Uan/DJGUEuHpM+q3vtDV5dXsEczqCgcdvLMBMcotdMn0vuJ9werXGP+xSN7vD
+         iurjlAtH+bCFsr8SstcKEBq0/2cb4CMFZbp+GQosFcIYn0IRaUrlQU7RSxA5aaEy3IuW
+         XUy5cxEq9VbV0PivnqqecYt6ICJ0sgZjnonYiCRKG0t4OwFP8z66dbAF9Ks69o5ZiQhI
+         ieuIyc70lrztxXjn4PQlzhnEbNyeXQ0jJjiNl/QgbDzngnhFbeBoXwnzY6ViWaEjhNOs
+         dVYg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774543393; x=1775148193; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SDddanoEW0aBY4o7DSM8aIIKSGffsl1eQ1flIxBr/4o=;
+        b=k3zMBtMfq9cri3vq9PS3+QtrU5T47D4+6/yJZziJg0GyUqCEAx6I9yNVF55IL5Treg
+         eSosDC1BJPYuU4MBS6+0va/xPZI6IrUId0mW1GdOTTDzsrj5pqK22xEJ2xFXvzcr72VP
+         GDSpUvv4g/seotGwL0W9JTHtqor9U9yvqRLkzlGu4C6KWs3DyGjgmyPXvlnGK2rXTZ3f
+         kKNbZWsigoY9TGrgYqkfeGYHPOMcRKSNEYA4blVTst/37LVGYiqqbz9+VV0gNRSr1uSa
+         rQgX5rKW2NXpcKdZJT0TvdFHLKq3rTvB+1aNzILkonQWeO0TtEjht1ALqMga1Jb3SxxI
+         5fzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774543393; x=1775148193;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=SDddanoEW0aBY4o7DSM8aIIKSGffsl1eQ1flIxBr/4o=;
+        b=f404uP6R/cW2LLoEiSjrRUUig+IiQmjMI6Jq8Hzc2sbnYFmlKm5Bey6YXm5kU3LDs8
+         HgugF0sH/zqsU/SsKtEByGRGUU4gi+z6HoMPYonWjvdKPI3QFLmtZRIHxu6F5r/nQtI+
+         ZB3RN6oMB+R0e5y/v0Lp1zz1VoRLxU3Yhohe1H2K/DNU2sPcCt4Cttgc+lrT/ZTqDfnG
+         +hP6Hgq7dKwlpXIEXJHZfQvUmsNLOx0wDWPxVCiT+/6oSXd4rFmIVz/uxGMiZLeyyUD7
+         CBt5lW2h15y458jbdLmTAT0Vpf3KrzAG4tbc6iZvf7rV2Bgw7j9IoNqupqSVq7z9bYt2
+         TX6w==
+X-Forwarded-Encrypted: i=1; AJvYcCWCzsEKpj0gEtclq1893MZCc4Orr/T+56jpttAlYxaIQQJirDAolaKTNpBceG0cT0vomhpDAYLG1aCOd7sV@vger.kernel.org
+X-Gm-Message-State: AOJu0YyNtqPJK8B5LSjuF7fa1h6/BKbVxBUwSKI1es+x47dSA8y9MzRs
+	2WRhsNXlBJf+a0b/djxPr04Nqi4nBZQVqgXvmUgXcLXUXtbExpl1B7gsKrlC2qEoKHBh8J+Mm9d
+	wvSiAW+gb3dFR/9eDi441IdR6YrMK6Q9jmXrKGW8=
+X-Gm-Gg: ATEYQzwbLyKIDa9ag0/nQ7f2fTrxSsu8v9NWgIfbebR4ghrWHsYdYmlNlkjwUiqY7Rg
+	YEuIPWaUO2cg/ZHyZpLz+GmUzhvrGmWJdZssFhPAHI2Zd31fPTtiOWVUjnE+4Ten8cKINxPHQvJ
+	jEjjNFO0I91rvr+RbsRm8Rq1Vi9rxkgGA5ixPMaM25j/Rn4pYca0C/Ps1gjkAjuIFJBAJcLf8QQ
+	oFTks/GZoXMlncCoiGn9oN1y9lPeJImO2SUIX+vPxFR8XLe7pmCdOjHreeJMYeNKtUrI27ZjNhk
+	0eCkbCSIfPSborgJ
+X-Received: by 2002:a5d:53c7:0:b0:43b:998d:b60b with SMTP id
+ ffacd0b85a97d-43b998db636mr2042494f8f.0.1774543392862; Thu, 26 Mar 2026
+ 09:43:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Lsf-pc] [LSF/MM/BPF TOPIC] Where is fuse going? API cleanup,
- restructuring and more
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Christian Brauner <brauner@kernel.org>,
- Demi Marie Obenour <demiobenour@gmail.com>, Jan Kara <jack@suse.cz>,
- "Darrick J. Wong" <djwong@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>,
- linux-fsdevel@vger.kernel.org, Joanne Koong <joannelkoong@gmail.com>,
- John Groves <John@groves.net>, Bernd Schubert <bernd@bsbernd.com>,
- Luis Henriques <luis@igalia.com>, Horst Birthelmer <horst@birthelmer.de>,
- Gao Xiang <xiang@kernel.org>, lsf-pc@lists.linux-foundation.org
-References: <cfe18ae0-7dc0-4601-a9f0-c0665f301cfe@linux.alibaba.com>
- <s3y7qrkgwedbkltpt7mjjzisazynzms3btablzpxhdoezapddy@xanux4rrspwd>
- <72eaaed1-24a0-4c98-a7c0-ea249d541f2d@linux.alibaba.com>
- <9af9ad0e-8070-4aaa-9f64-7d72074bd948@linux.alibaba.com>
- <wo2nf7bux5rhexbpyeutbb5bkpqlumq3ht7iqxdft7lhc2p6va@3q6wsi2xndpu>
- <68116ee5-b1f7-484b-a520-7dc5aefd7738@linux.alibaba.com>
- <2gyfmxfnnxrglpzb7kz63xbve5vnosl6gi54c3umgrpwbjr4og@lz4e2ptqanfe>
- <20260324-hilfen-reibung-9783005d5d0f@brauner>
- <b8f5bff1-27bf-4934-9297-0aad551a550c@gmail.com>
- <d2d5c218-7063-4ea0-ab03-1433449f4d83@linux.alibaba.com>
- <20260326-gemindert-vertuschen-fd3a507eba94@brauner>
- <f1cef32a-1c35-41dd-88af-a8c504d41a93@linux.alibaba.com>
- <0b8a0d24-1c20-45b3-abd9-e95b3b4d4caf@linux.alibaba.com>
- <CAOQ4uxjR2h9+=DPKUzV35J4ageNCn0oMHL0QvZSjJiuH5Gfo+g@mail.gmail.com>
-From: Gao Xiang <hsiangkao@linux.alibaba.com>
-In-Reply-To: <CAOQ4uxjR2h9+=DPKUzV35J4ageNCn0oMHL0QvZSjJiuH5Gfo+g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20260318-fix-inode-init-race-v1-1-a7e58b2ddb9a@ddn.com>
+ <3a7d36c3-0ce0-4f1d-9649-1742f752c5f1@bsbernd.com> <20260326-reorganisation-bemessen-c6643edcf629@brauner>
+ <b53e0176-6575-4ec7-bf44-8dea9fc8121e@bsbernd.com> <CAJfpegtudVRas4gy2bTn+ZeLQapL76pCnvjgHnERUY4tWz-_VQ@mail.gmail.com>
+ <acVUeX54PDFfApI2@fedora>
+In-Reply-To: <acVUeX54PDFfApI2@fedora>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Thu, 26 Mar 2026 09:43:00 -0700
+X-Gm-Features: AQROBzCqTU-_jDeLObsusqY8i8rZ2EPkx_k0ASCL7sCXgkzvaHd_sid7GNbLNbA
+Message-ID: <CAJnrk1ZZmX0-3kBRpmFRaGZe=y1va0poG6WGo44uy0Jtu+E-2A@mail.gmail.com>
+Subject: Re: Re: [PATCH] fuse: fix inode initialization race
+To: Horst Birthelmer <horst@birthelmer.de>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Bernd Schubert <bernd@bsbernd.com>, 
+	Christian Brauner <brauner@kernel.org>, Horst Birthelmer <horst@birthelmer.com>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Horst Birthelmer <hbirthelmer@ddn.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, Mar 26, 2026 at 8:48=E2=80=AFAM Horst Birthelmer <horst@birthelmer.=
+de> wrote:
+>
+> On Thu, Mar 26, 2026 at 04:19:24PM +0100, Miklos Szeredi wrote:
+> > On Thu, 26 Mar 2026 at 16:13, Bernd Schubert <bernd@bsbernd.com> wrote:
+> > >
+> > >
+> > >
+> > > On 3/26/26 15:26, Christian Brauner wrote:
+> > > > On Wed, Mar 25, 2026 at 08:54:57AM +0100, Bernd Schubert wrote:
+> > > >>
+> > > >>
+> > > >> On 3/18/26 14:43, Horst Birthelmer wrote:
+> > > >>> From: Horst Birthelmer <hbirthelmer@ddn.com>
+> >
+> > > >>>     fi->attr_version =3D atomic64_inc_return(&fc->attr_version);
+> > > >>> +   wake_up_all(&fc->attr_version_waitq);
+> > > >>>     fi->i_time =3D attr_valid;
+> > >
+> > >
+> > > While I'm looking at this again, wouldn't it make sense to make this
+> > > conditional? Because we wake this queue on every attr change for ever=
+y
+> > > inode. And the conditional in fuse_iget() based on I_NEW?
+> >
+> > Right, should only wake if fi->attr_version old value was zero.
+> >
+> > BTW I have a hunch that there are better solutions, but it's simple
+> > enough as a stopgap measure.
+>
+> OK, I'll send a new version.
+>
+> Just out of curiosity, what would be a better solution?
 
+I'm probably missing something here but why can't we just call the
 
-On 2026/3/27 00:24, Amir Goldstein wrote:
-> On Thu, Mar 26, 2026 at 5:12 PM Gao Xiang <hsiangkao@linux.alibaba.com> wrote:
->>
->>
->>
->> On 2026/3/26 23:10, Gao Xiang wrote:
->>
->> ...
->>
->>>>
->>>> I don't understand what exactly people think is going to happen once we
->>>> start promising that mounting untrusted images in the kernel for even
->>>> one filesystem is fine. This will march us down security madness we have
->>>> not experienced before with all of the k8s and container workloads out
->>>> there.
->>
->> Yes, my reaction about this is that still depends on
->> how you think this.
->>
->> The whole Linux namespace mechanism is unsafe compared
->> with traditional virtualization; no one really imagined
->> the implications without implementing, enabling these
->> namespaces and trying.  These new mechanisms introduce
->> many new CVEs and vulnerabilities from time to time, but
->> containerization still drives innovation, and
->> cloud-native technologies are heavily based on it.
-> 
-> Interesting example because of how this played out.
-> Every distro took its own direction, some still carrying out of tree
-> patches for userns policies to this day.
-> 
->>
->> This is especially true for user namespaces. However, I
->> don't think we should remove them entirely from the
->> kernel just due to potential CVEs or because they aren't
->> implemented in Rust, for example.
->>
->> Regarding FS_MOUNT_USERNS, my experience over the years
->> is: three years ago, honestly, I never cared about this
->> feature at all. But soon after, several new attempts
->> emerged to resolve the same requirement in different
->> ways, which already confused me. I wondered why we
->> couldn't work in a cooperative way instead, especially
->> since neither of them looks like a very huge project with
->> enough development resource. Then, I realized that as
->> long as you don't implement something, there will be
->> endless new attempts and comments from various small
->> group of people.  And the userspace policy will never get
->> in agreement.
->>
->> So, if this is filesystem-specific, my current thinking
->> is this: if the security model can be formally documented
->> and fuzzing is improved, could it eventually be enabled
->> via an opt-in Kconfig within a single filesystem group?
->> Would that end the whole story because the Docker image
->> requirement is fulfilled?
->>
-> 
-> I think that what you are proposing is so controversial
-> that the chances of reaching a consensus in upstream are low.
-> Doesn't mean you that you cannot try to sell it to some cloud distros
-> as an out of tree patch.
+        fi =3D get_fuse_inode(inode);
+        spin_lock(&fi->lock);
+        fi->nlookup++;
+        spin_unlock(&fi->lock);
+        fuse_change_attributes_i(inode, attr, NULL, attr_valid, attr_versio=
+n,
+                                 evict_ctr);
 
-No, that is not how I proposed, just my bad experience
-these years due to the fragmented container community.
-I'm exhaused by those new attempts to prove who's safest,
-some in Rust, some with ~500 LOCs for example.
+logic before releasing the inode lock (the unlock_new_inode() call) in
+fuse_iget() to address the race? unlock_new_inode() clears I_NEW so
+fuse_reverse_inval_inode()'s fuse_ilookup() would only get the inode
+after the attributes initialization has finished.
 
-I just don't want to play with that game anymore.  Of
-course, I could drop an out-of-tree patch on the website
-later, and honestly, for example, for docker and containerd,
-FS_MOUNT_USERNS just impacts DinD (which can also be
-resolved in alternative ways of course), since containerd
-is privileged, let's see how is goes with EROFS native
-container images in the following years.
-
-> 
-> If you have buy-in from some downstream container distros, and it
-> survives the wilderness for a few years, during which you fix CVEs,
-> you may have a stronger case to present for upstream.
-> Just saying. Maybe you are charging the wrong hill.
-
-I just react to the userspace groups, I never pay too
-much development time on this particular thing. Just
-plain discussion with my broken English from time to
-time.
-
-But of course, I could find some time to implement
-the signed image way instead if Christian accepts,
-it's of course still useful, but just doesn't make
-everyone happy.
+As I understand it, fuse_change_attributes_i() would be pretty
+straightforward / fast for I_NEW inodes, as it doesn't send any
+synchronous requests and for the I_NEW case the
+invalidate_inode_pages2() and truncate_pagecache() calls would get
+skipped. (truncate_pagecache() getting skipped because inode->i_size
+is already attr->size from fuse_init_inode(), so "oldsize !=3D
+attr->size" is never true; and invalidate_inode_pages2() getting
+skipped because "oldsize !=3D attr->size" is never true and "if
+(!timespec64_equal(&old_mtime, &new_mtime))" is never true because
+fuse_init_inode() initialized the inode's mtime to attr->mtime).
 
 Thanks,
-Gao iang
+Joanne
 
-> 
+>
+> >
+> > Thanks,
+> > Miklos
+>
 > Thanks,
-> Amir.
-
+> Horst
+>
