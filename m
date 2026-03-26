@@ -1,47 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97C893CCFB4
-	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 14:18:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAB013FA5C3;
+	Thu, 26 Mar 2026 14:19:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774534702; cv=none; b=MRYNjzxcwcOXULItLysmK0tlrKoDUi5uVETCQ2RB+JNfENLkQ6Dc2sNSwRFUqcRIjRy0LA5FC8vPU8HvLFQOIpQQ1xl3SMU5kXN5aYNnXrz89gpZAWvIH0WoPFRcufGb6MnAFx4ezsnGQrPfXGaArc1zh4e11TZcXt9Cd090OvM=
+	t=1774534780; cv=none; b=rBu2+ZtN//4cKkcHqtOvfhLKWRYojK86BtP6RmJ109AvVoXVV3/SibQTyyUlIzY/Nba75VVJVc2+dFhR1d2oLKU9SxkRPC1Auvu1F3hXzmxG2qkhtdC3nmHty4L0sHk62Gqcc9XBdLHTmPNvPzqSSNPh/ocd/4ZKNBPS0G/8Io8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774534702; c=relaxed/simple;
-	bh=uuz2W5qH3lpIDOyeYNv+3H93/4LFb77agzVmZ1D5SWU=;
+	s=arc-20240116; t=1774534780; c=relaxed/simple;
+	bh=ae+8E4rgiKK7U6BPSk+L7P67HpJKBXeXYEwDqqy/CEE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mkD2zaoxrGSf2uvb++ojUmm3GSOEVl5cde/eOghknjLDSWKdG7nfIH7ULHdUTwULcMDu2TOAL8MnYG2fBPIB9ME5/wc8GO/9NgrQ0RqnFbX9sb1f6eqv/zxZ1bGYxqBBDfQ0eN9Lb1JE6ch2yvF6/r0mqcyes2j+VebYQambMzU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DCE8+FGf; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=FdkL76IvWyKyiNaEztdrvc6lPP1r53K9p234i2VzkI76GoUd7Nm01lJhwQyoYJKOGCaB3iDy7z0+vzuMIFc18PrQywNDjLm+N7zjwNcjy/jgX0EqP96SpWngQNjV+pCzpM5woR3d0OKYHBpLwTUSJW+m1jkMH05UJuOdCIhKszk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C7Lwv9sj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DCE8+FGf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F83BC116C6;
-	Thu, 26 Mar 2026 14:18:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C7Lwv9sj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 899B6C116C6;
+	Thu, 26 Mar 2026 14:19:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774534701;
-	bh=uuz2W5qH3lpIDOyeYNv+3H93/4LFb77agzVmZ1D5SWU=;
+	s=k20201202; t=1774534780;
+	bh=ae+8E4rgiKK7U6BPSk+L7P67HpJKBXeXYEwDqqy/CEE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=DCE8+FGfSFrJH5ZDg4ox2WkSb8ZGQgKjayzeBkLeBWcXvlmAEEQM5LzSicol6ObJ2
-	 G/KipizgmM1TDuPvhVWeNzgZqwG1x9vkD1Vo+Yd7cg623xf2cQSmhvCdJa8Qe5IsMX
-	 ZUTQx/Egh/MKZfkPIjWcKgdS/lfQNRs6Rw9yZ/Pge3q5moGBxKGwlN7FEoODSWMXO8
-	 h41HL2TIZV9PzwXZrzjIhXehT4rmCQHT2iS46xP2phWsUgUkt+bmH2RzCdviyiXN/1
-	 loEzsLOyB/OnZf+FoEiSOS+9pmzqKeHy+dSh1NP58AMR1GiNys3kThTfjDTBimq2i1
-	 UYpX4g0gj65uQ==
+	b=C7Lwv9sjGtzwRBd2jinx6Y8qazNUDDr+p6RNjz9Wmq5kZ1NqC9Q118hlLsP/QGiJZ
+	 G9oGXd9Q8kbVDNW8E08tsfDD0wIwdJNzHrquzZZcCFiENJ1eanqWc8vSk6xkBmy3kr
+	 beqhK6qTbvrSlmlLo0zTOiDm/yAI7srfGRlJxJdtp1+8XeTAohBE+Bv7dQuu4YDEcj
+	 UKFRjiM/oiw/MigNDz+h+y2BWORSx2r3TBL+g2ix6/S42KCCGcuEvG5/bhs3ZhoDsT
+	 +NY0jJR0yrEtOprAxmfioIbaQ7eyP7Zn0Iign9IC9UBV2TO6DlM9L1INrUURyJrpXV
+	 MoTaN0VHUj5Zw==
 From: Christian Brauner <brauner@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
+To: David Howells <dhowells@redhat.com>
 Cc: Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
+	Paulo Alcantara <pc@manguebit.org>,
+	netfs@lists.linux.dev,
 	linux-fsdevel@vger.kernel.org,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	David Sterba <dsterba@suse.com>,
-	Viacheslav Dubeyko <slava@dubeyko.com>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Yangtao Li <frank.li@vivo.com>
-Subject: Re: trivial ->setattr cleanups
-Date: Thu, 26 Mar 2026 15:18:09 +0100
-Message-ID: <20260326-vorfuhr-ehedrama-1007afa3e4ff@brauner>
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] netfs: Fix the handling of stream->front by removing it
+Date: Thu, 26 Mar 2026 15:19:34 +0100
+Message-ID: <20260326-umeinander-umweht-e3824cbadfd8@brauner>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260325063711.3298685-1-hch@lst.de>
-References: <20260325063711.3298685-1-hch@lst.de>
+In-Reply-To: <4158599.1774426817@warthog.procyon.org.uk>
+References: <4158599.1774426817@warthog.procyon.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -49,38 +46,25 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2131; i=brauner@kernel.org; h=from:subject:message-id; bh=uuz2W5qH3lpIDOyeYNv+3H93/4LFb77agzVmZ1D5SWU=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQeddDQ6uAXWZrnsUjrm7hBS1uB5+Vli2L+9BqcKN++/ ObRbnmXjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIlwGTP84fa39774+XJAH3/E 9aBsx/9HXddmuKk++bp3nZuez7Oy34wMu7xfd2ltElWpsWe/Iz5P8/GjhXqvDhY8iDZdMUll6+9 5PAA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1336; i=brauner@kernel.org; h=from:subject:message-id; bh=ae+8E4rgiKK7U6BPSk+L7P67HpJKBXeXYEwDqqy/CEE=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQedShvXn9w4p+8H5LrxTYpqYluj1sUaed/+ZTV6XVp5 vMzg6fe7ihlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZjI1AmMDLOPmYnMK95mlnZb 4/29n5+87ldGiQYcLn1j+mOi0qtJtw8x/E+3ylkseU5LYFO+qKZN88/b3SvfZ/0I9770Y6/dAfN cARYA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
 
-On Wed, 25 Mar 2026 07:36:47 +0100, Christoph Hellwig wrote:
-> I've been looking into changes to ->setattr and noticed that we still
-> have a few instances where the method has the ages old notify_change
-> name.  Fix this up and include dusting off outdated comments.
+On Wed, 25 Mar 2026 08:20:17 +0000, David Howells wrote:
+> The netfs_io_stream::front member is meant to point to the subrequest
+> currently being collected on a stream, but it isn't actually used this way
+> by direct write (which mostly ignores it).  However, there's a tracepoint
+> which looks at it.  Further, stream->front is actually redundant with
+> stream->subrequests.next.
 > 
-> Diffstat:
->  adfs/adfs.h       |    4 ++--
->  adfs/dir.c        |    2 +-
->  adfs/file.c       |    2 +-
->  adfs/inode.c      |    6 ++----
->  affs/affs.h       |    2 +-
->  affs/dir.c        |    2 +-
->  affs/file.c       |    2 +-
->  affs/inode.c      |    5 ++---
->  affs/symlink.c    |    2 +-
->  hfs/inode.c       |   21 ++-------------------
->  proc/base.c       |   22 +++++++++++-----------
->  proc/fd.c         |    6 +++---
->  proc/generic.c    |    8 ++++----
->  proc/internal.h   |    4 ++--
->  proc/namespaces.c |    4 ++--
->  proc/proc_net.c   |    2 +-
->  16 files changed, 37 insertions(+), 57 deletions(-)
+> Fix the potential problem in the direct code by just removing the member
+> and using stream->subrequests.next instead, thereby also simplifying the
+> code.
 > 
 > [...]
 
-Applied to the vfs-7.1.misc branch of the vfs/vfs.git tree.
-Patches in the vfs-7.1.misc branch should appear in linux-next soon.
+Applied to the vfs.fixes branch of the vfs/vfs.git tree.
+Patches in the vfs.fixes branch should appear in linux-next soon.
 
 Please report any outstanding bugs that were missed during review in a
 new review to the original patch series allowing us to drop it.
@@ -92,15 +76,7 @@ Note that commit hashes shown below are subject to change due to rebase,
 trailer updates or similar. If in doubt, please check the listed branch.
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.1.misc
+branch: vfs.fixes
 
-[1/5] hfs: update comments on hfs_inode_setattr
-      https://git.kernel.org/vfs/vfs/c/d1312979f155
-[2/5] adfs: rename adfs_notify_change to adfs_setattr
-      https://git.kernel.org/vfs/vfs/c/9c71de5f4ddc
-[3/5] affs: rename affs_notify_change to affs_setattr
-      https://git.kernel.org/vfs/vfs/c/d0fdc1c0d0f6
-[4/5] proc: rename proc_setattr to proc_nochmod_setattr
-      https://git.kernel.org/vfs/vfs/c/690005b0b1e6
-[5/5] proc: rename proc_notify_change to proc_setattr
-      https://git.kernel.org/vfs/vfs/c/2ecd46d161fa
+[1/1] netfs: Fix the handling of stream->front by removing it
+      https://git.kernel.org/vfs/vfs/c/0e764b9d4607
