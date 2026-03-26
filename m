@@ -1,81 +1,81 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2DB63BED17
-	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 09:56:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 190883C7E07
+	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 09:56:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774519009; cv=none; b=KY8QzNFBXCw9CggbduCnKtnc6ET98fKh68PVANIlsVkGKHG1+SRU1XKJcRtlLYIl/z1jOhqZZ2YZwJ3+THlHWJ54AsG/RN8FnmcOwxKH3WjdO+UrOwhFA9SwxSvdLdaxOYRBV3W4FcD7sWB5nSSDi3WyR1G44B6LDJ0ftEZ8T2A=
+	t=1774519016; cv=none; b=fdhw8NA9q+tm6n3NTJvoUAdiRqoGJH0jKg1bli89v4mfXAoYBxi0/YXAV2Jop3b+/IEDTvMwGWIyzh2ml475qy6GjG7mloqovWPiNcXjx0SSrxrmA8ZQ04ZRm8azHz99tnwmKV29gwERU4mychh4asTY6OHXUalvof58M4GsDYU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774519009; c=relaxed/simple;
-	bh=uVsvQms5MSP6UW8c94a/Bcx7tH8LCDpqwFuYUMFVOS0=;
+	s=arc-20240116; t=1774519016; c=relaxed/simple;
+	bh=P2d2o5A/mRUbDC1tll4F9435kE5r2df19H6YCaU+O8A=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WpHFIbq3CwjA1Toy3vdmXlIScctrKLnY9DpVxxHAegEXvT0nSBR2hT4cM29NlyokjGFzqumFpMHyOTCkk0rWH10eqeAuWXYnvJA8AILGnSUHhwl+o6IU2k6DHWpXoY0Hp30BSW1TQdPf21cTDz6MhviGipB3PhPceifZeGT+PJE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=lzzUdzV2; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=EOzE3ciK; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=lzzUdzV2; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=EOzE3ciK; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=cvTvUw3C7doFQh6Qk++NnalPuYhvthjcIXZT3C8W542GqaFxN33x7x2IP9+gukYuvGOYrPVX041R97014YNE89AVMiRkbheBnFHeR6b2VTa1MlT56PaIYIeJDN2LxhQkMAdBnQdZWT3bGdF8tXzF6ambu+iygZF9GqmKUuK7KUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=hqLBQU7d; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=pCcdbmui; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=hqLBQU7d; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=pCcdbmui; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="lzzUdzV2";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="EOzE3ciK";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="lzzUdzV2";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="EOzE3ciK"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="hqLBQU7d";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="pCcdbmui";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="hqLBQU7d";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="pCcdbmui"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 734C15BDB2;
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7C61B4D293;
 	Thu, 26 Mar 2026 09:55:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
 	t=1774518901; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=TcoNuf/pjFj6YELW+wxD5QZ4FewIuZ5olErcEsXig/4=;
-	b=lzzUdzV2vdw2G2ghZ3B7l+mibIyjeFDNh5AsYT0cktGv0jpIy6vBaVi5/LQZqy3O9at1oT
-	qjl/55Blgpz4alFlLiAA5ZD52rXg3HcQQ4hjS7BwPVFSR2EaQ2UAPySHnCkp4d0KgVwkun
-	V074UuMFTZUqnniaTVPZlQQkgmN4Al4=
+	bh=2VN0idt6n96Vmu45gqkPTClQxBC+i1ol12Ngkp3rwow=;
+	b=hqLBQU7d8s9AMtdxZk95gyXZ2VDZw8FFwi7t1ABbZA56aQlBA5NTJ3alF4xc/2hK/fjrsb
+	sWfwI0toNC+sfvOVyAKM0vp9VUGZQsZOizNBMv9iVDYwr6G3Dq6sGmXd076eSnFjM+RSdA
+	bZM1h8J3zOFDUmdzhwnURijYCKJrEpU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
 	s=susede2_ed25519; t=1774518901;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=TcoNuf/pjFj6YELW+wxD5QZ4FewIuZ5olErcEsXig/4=;
-	b=EOzE3ciKzBBY4WRr+N5saYe2MAEvWXgadAbymraGD22syxh0/EIw0TmojrYNzjR2e0n+Qi
-	QiCgtYUt1HM4WgDQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=lzzUdzV2;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=EOzE3ciK
+	bh=2VN0idt6n96Vmu45gqkPTClQxBC+i1ol12Ngkp3rwow=;
+	b=pCcdbmuiCX2PtzgDNrgpyVaS4QttSR28ki4jT9WQcUSLcTubT179MO0q60LwYfwyG2tbZl
+	yufkTnTxn+x8tUAg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=hqLBQU7d;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=pCcdbmui
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
 	t=1774518901; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=TcoNuf/pjFj6YELW+wxD5QZ4FewIuZ5olErcEsXig/4=;
-	b=lzzUdzV2vdw2G2ghZ3B7l+mibIyjeFDNh5AsYT0cktGv0jpIy6vBaVi5/LQZqy3O9at1oT
-	qjl/55Blgpz4alFlLiAA5ZD52rXg3HcQQ4hjS7BwPVFSR2EaQ2UAPySHnCkp4d0KgVwkun
-	V074UuMFTZUqnniaTVPZlQQkgmN4Al4=
+	bh=2VN0idt6n96Vmu45gqkPTClQxBC+i1ol12Ngkp3rwow=;
+	b=hqLBQU7d8s9AMtdxZk95gyXZ2VDZw8FFwi7t1ABbZA56aQlBA5NTJ3alF4xc/2hK/fjrsb
+	sWfwI0toNC+sfvOVyAKM0vp9VUGZQsZOizNBMv9iVDYwr6G3Dq6sGmXd076eSnFjM+RSdA
+	bZM1h8J3zOFDUmdzhwnURijYCKJrEpU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
 	s=susede2_ed25519; t=1774518901;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=TcoNuf/pjFj6YELW+wxD5QZ4FewIuZ5olErcEsXig/4=;
-	b=EOzE3ciKzBBY4WRr+N5saYe2MAEvWXgadAbymraGD22syxh0/EIw0TmojrYNzjR2e0n+Qi
-	QiCgtYUt1HM4WgDQ==
+	bh=2VN0idt6n96Vmu45gqkPTClQxBC+i1ol12Ngkp3rwow=;
+	b=pCcdbmuiCX2PtzgDNrgpyVaS4QttSR28ki4jT9WQcUSLcTubT179MO0q60LwYfwyG2tbZl
+	yufkTnTxn+x8tUAg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5B7664A0AB;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 700634A0AE;
 	Thu, 26 Mar 2026 09:55:01 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id vdNUFnUCxWnfYAAAD6G6ig
+	id aXxQG3UCxWnpYAAAD6G6ig
 	(envelope-from <jack@suse.cz>); Thu, 26 Mar 2026 09:55:01 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 5524AA0C6F; Thu, 26 Mar 2026 10:54:49 +0100 (CET)
+	id 7159BA0C72; Thu, 26 Mar 2026 10:54:49 +0100 (CET)
 From: Jan Kara <jack@suse.cz>
 To: <linux-fsdevel@vger.kernel.org>
 Cc: <linux-block@vger.kernel.org>,
@@ -94,9 +94,9 @@ Cc: <linux-block@vger.kernel.org>,
 	Benjamin LaHaise <bcrl@kvack.org>,
 	Jan Kara <jack@suse.cz>,
 	Christoph Hellwig <hch@lst.de>
-Subject: [PATCH 25/42] aio: Stop using i_private_data and i_private_lock
-Date: Thu, 26 Mar 2026 10:54:19 +0100
-Message-ID: <20260326095354.16340-67-jack@suse.cz>
+Subject: [PATCH 28/42] fs: Drop osync_buffers_list()
+Date: Thu, 26 Mar 2026 10:54:22 +0100
+Message-ID: <20260326095354.16340-70-jack@suse.cz>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260326082428.31660-1-jack@suse.cz>
 References: <20260326082428.31660-1-jack@suse.cz>
@@ -106,7 +106,7 @@ List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4933; i=jack@suse.cz; h=from:subject; bh=uVsvQms5MSP6UW8c94a/Bcx7tH8LCDpqwFuYUMFVOS0=; b=owEBbQGS/pANAwAIAZydqgc/ZEDZAcsmYgBpxQJHfYlHyc9pyzhKqNzmG959AJLLRBSkxfd4J Ho8ddDoFKmJATMEAAEIAB0WIQSrWdEr1p4yirVVKBycnaoHP2RA2QUCacUCRwAKCRCcnaoHP2RA 2e8LCADcX1JyhPYjfxFhFW3duvVAeolbUfDR/BpFBNlNo5wZwydfZeev+OUkldm98o5mdtThpsL v0jrRtf8BmUmm0MxMdnBUPIVz9boOFYRhsUI3I9h1V3E0T2ZODwmJnJDbnWuhiHHJLkfBzuFnaV RM1nmxsYeCqhY2NuIEDD7GRDZGbp2sFH0pg/HtcYtnZX5F1XDsVvQFlVM374jifOKCbXiq2TBNZ EBxAtmpfnPCWGnEEU5aOUI45y2rjH504PTJsYKT3vMTyiH8OLckfHoC8tJJozjKipdkjahiroy6 AYavddh5lPgcPMd0KN/CFO0xMAbxdrjdUl5KEG4Iyf6gTp7A
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2509; i=jack@suse.cz; h=from:subject; bh=P2d2o5A/mRUbDC1tll4F9435kE5r2df19H6YCaU+O8A=; b=owEBbQGS/pANAwAIAZydqgc/ZEDZAcsmYgBpxQJKDavHJWR7z6TonZsIlZ9x63I6Wk1aS5X5k ap0qKlkOeeJATMEAAEIAB0WIQSrWdEr1p4yirVVKBycnaoHP2RA2QUCacUCSgAKCRCcnaoHP2RA 2XI4B/9m5jDFDP7odiCDdIr7EejykCusvbqzcv5UUD6AoRXzqfbDMYOjbu4DnxiHT+iceGY1VFt ZLMpAF3whLABWHGOLipy7CSdo74LwlgQKozYD3+qUHiO4YbZHQ17k3GNKVBI5AYZbGwTGiqbBaQ X1ZKIEJsxXZzD5dIQK9Mk9g1rcl4FL/6WQYVZqcFr0zzSr4LESzllVSc0hFuxAoGuSN9nnyFWnd ZgMWTXLw+89hlQJFn2NfpDH20qjak6XbbOXT8FD7wP/7K5qIaAzIqIiyltkfZT8/GoaGiFzKHtW En8xcJPG67Lgv1zcRjym0gq5M8bWCz40/xz73/jR+ezsFtyI
 X-Developer-Key: i=jack@suse.cz; a=openpgp; fpr=93C6099A142276A28BBE35D815BC833443038D8C
 Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [-1.51 / 50.00];
@@ -145,175 +145,90 @@ X-Spam-Flag: NO
 X-Spam-Score: -1.51
 X-Spam-Level: 
 X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 734C15BDB2
+X-Rspamd-Queue-Id: 7C61B4D293
 
-Instead of using i_private_data and i_private_lock, just create aio
-inodes with appropriate necessary fields.
+The function only waits for already locked buffers in the list of
+metadata bhs. fsync_buffers_list() has just waited for all outstanding
+IO on buffers so this isn't adding anything useful. Comment in front of
+fsync_buffers_list() mentions concerns about buffers being moved out
+from tmp list back to mappings i_private_list but these days
+mark_buffer_dirty_inode() doesn't touch inodes with b_assoc_map set so
+that cannot happen. Just delete the stale code.
 
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Jan Kara <jack@suse.cz>
 ---
- fs/aio.c | 78 +++++++++++++++++++++++++++++++++++++++++++++++---------
- 1 file changed, 66 insertions(+), 12 deletions(-)
+ fs/buffer.c | 43 ++-----------------------------------------
+ 1 file changed, 2 insertions(+), 41 deletions(-)
 
-diff --git a/fs/aio.c b/fs/aio.c
-index a07bdd1aaaa6..ba9b9fa2446b 100644
---- a/fs/aio.c
-+++ b/fs/aio.c
-@@ -218,6 +218,17 @@ struct aio_kiocb {
- 	struct eventfd_ctx	*ki_eventfd;
- };
- 
-+struct aio_inode_info {
-+	struct inode vfs_inode;
-+	spinlock_t migrate_lock;
-+	struct kioctx *ctx;
-+};
-+
-+static inline struct aio_inode_info *AIO_I(struct inode *inode)
-+{
-+	return container_of(inode, struct aio_inode_info, vfs_inode);
-+}
-+
- /*------ sysctl variables----*/
- static DEFINE_SPINLOCK(aio_nr_lock);
- static unsigned long aio_nr;		/* current system wide number of aio requests */
-@@ -251,6 +262,7 @@ static void __init aio_sysctl_init(void)
- 
- static struct kmem_cache	*kiocb_cachep;
- static struct kmem_cache	*kioctx_cachep;
-+static struct kmem_cache	*aio_inode_cachep;
- 
- static struct vfsmount *aio_mnt;
- 
-@@ -261,11 +273,12 @@ static struct file *aio_private_file(struct kioctx *ctx, loff_t nr_pages)
- {
- 	struct file *file;
- 	struct inode *inode = alloc_anon_inode(aio_mnt->mnt_sb);
-+
- 	if (IS_ERR(inode))
- 		return ERR_CAST(inode);
- 
- 	inode->i_mapping->a_ops = &aio_ctx_aops;
--	inode->i_mapping->i_private_data = ctx;
-+	AIO_I(inode)->ctx = ctx;
- 	inode->i_size = PAGE_SIZE * nr_pages;
- 
- 	file = alloc_file_pseudo(inode, aio_mnt, "[aio]",
-@@ -275,14 +288,49 @@ static struct file *aio_private_file(struct kioctx *ctx, loff_t nr_pages)
- 	return file;
+diff --git a/fs/buffer.c b/fs/buffer.c
+index c85ccfb1a4ec..1c0e7c81a38b 100644
+--- a/fs/buffer.c
++++ b/fs/buffer.c
+@@ -526,41 +526,6 @@ int inode_has_buffers(struct inode *inode)
  }
+ EXPORT_SYMBOL_GPL(inode_has_buffers);
  
-+static struct inode *aio_alloc_inode(struct super_block *sb)
-+{
-+	struct aio_inode_info *ai;
-+
-+	ai = alloc_inode_sb(sb, aio_inode_cachep, GFP_KERNEL);
-+	if (!ai)
-+		return NULL;
-+	ai->ctx = NULL;
-+
-+	return &ai->vfs_inode;
-+}
-+
-+static void aio_free_inode(struct inode *inode)
-+{
-+	kmem_cache_free(aio_inode_cachep, AIO_I(inode));
-+}
-+
-+static const struct super_operations aio_super_operations = {
-+	.alloc_inode	= aio_alloc_inode,
-+	.free_inode	= aio_free_inode,
-+	.statfs		= simple_statfs,
-+};
-+
- static int aio_init_fs_context(struct fs_context *fc)
+-/*
+- * osync is designed to support O_SYNC io.  It waits synchronously for
+- * all already-submitted IO to complete, but does not queue any new
+- * writes to the disk.
+- *
+- * To do O_SYNC writes, just queue the buffer writes with write_dirty_buffer
+- * as you dirty the buffers, and then use osync_inode_buffers to wait for
+- * completion.  Any other dirty buffers which are not yet queued for
+- * write will not be flushed to disk by the osync.
+- */
+-static int osync_buffers_list(spinlock_t *lock, struct list_head *list)
+-{
+-	struct buffer_head *bh;
+-	struct list_head *p;
+-	int err = 0;
+-
+-	spin_lock(lock);
+-repeat:
+-	list_for_each_prev(p, list) {
+-		bh = BH_ENTRY(p);
+-		if (buffer_locked(bh)) {
+-			get_bh(bh);
+-			spin_unlock(lock);
+-			wait_on_buffer(bh);
+-			if (!buffer_uptodate(bh))
+-				err = -EIO;
+-			brelse(bh);
+-			spin_lock(lock);
+-			goto repeat;
+-		}
+-	}
+-	spin_unlock(lock);
+-	return err;
+-}
+-
+ /**
+  * sync_mapping_buffers - write out & wait upon a mapping's "associated" buffers
+  * @mapping: the mapping which wants those buffers written
+@@ -777,7 +742,7 @@ static int fsync_buffers_list(spinlock_t *lock, struct list_head *list)
  {
--	if (!init_pseudo(fc, AIO_RING_MAGIC))
-+	struct pseudo_fs_context *pfc;
-+
-+	pfc = init_pseudo(fc, AIO_RING_MAGIC);
-+	if (!pfc)
- 		return -ENOMEM;
- 	fc->s_iflags |= SB_I_NOEXEC;
-+	pfc->ops = &aio_super_operations;
- 	return 0;
- }
+ 	struct buffer_head *bh;
+ 	struct address_space *mapping;
+-	int err = 0, err2;
++	int err = 0;
+ 	struct blk_plug plug;
+ 	LIST_HEAD(tmp);
  
-+static void init_once(void *obj)
-+{
-+	struct aio_inode_info *ai = obj;
-+
-+	inode_init_once(&ai->vfs_inode);
-+	spin_lock_init(&ai->migrate_lock);
-+}
-+
- /* aio_setup
-  *	Creates the slab caches used by the aio routines, panic on
-  *	failure as this is done early during the boot sequence.
-@@ -294,6 +342,11 @@ static int __init aio_setup(void)
- 		.init_fs_context = aio_init_fs_context,
- 		.kill_sb	= kill_anon_super,
- 	};
-+
-+	aio_inode_cachep = kmem_cache_create("aio_inode_cache",
-+				sizeof(struct aio_inode_info), 0,
-+				(SLAB_RECLAIM_ACCOUNT|SLAB_PANIC|SLAB_ACCOUNT),
-+				init_once);
- 	aio_mnt = kern_mount(&aio_fs);
- 	if (IS_ERR(aio_mnt))
- 		panic("Failed to create aio fs mount.");
-@@ -308,17 +361,17 @@ __initcall(aio_setup);
- static void put_aio_ring_file(struct kioctx *ctx)
- {
- 	struct file *aio_ring_file = ctx->aio_ring_file;
--	struct address_space *i_mapping;
- 
- 	if (aio_ring_file) {
--		truncate_setsize(file_inode(aio_ring_file), 0);
-+		struct inode *inode = file_inode(aio_ring_file);
-+
-+		truncate_setsize(inode, 0);
- 
- 		/* Prevent further access to the kioctx from migratepages */
--		i_mapping = aio_ring_file->f_mapping;
--		spin_lock(&i_mapping->i_private_lock);
--		i_mapping->i_private_data = NULL;
-+		spin_lock(&AIO_I(inode)->migrate_lock);
-+		AIO_I(inode)->ctx = NULL;
- 		ctx->aio_ring_file = NULL;
--		spin_unlock(&i_mapping->i_private_lock);
-+		spin_unlock(&AIO_I(inode)->migrate_lock);
- 
- 		fput(aio_ring_file);
+@@ -844,11 +809,7 @@ static int fsync_buffers_list(spinlock_t *lock, struct list_head *list)
  	}
-@@ -408,13 +461,14 @@ static int aio_migrate_folio(struct address_space *mapping, struct folio *dst,
- 			struct folio *src, enum migrate_mode mode)
- {
- 	struct kioctx *ctx;
-+	struct aio_inode_info *ai = AIO_I(mapping->host);
- 	unsigned long flags;
- 	pgoff_t idx;
- 	int rc = 0;
- 
--	/* mapping->i_private_lock here protects against the kioctx teardown.  */
--	spin_lock(&mapping->i_private_lock);
--	ctx = mapping->i_private_data;
-+	/* ai->migrate_lock here protects against the kioctx teardown.  */
-+	spin_lock(&ai->migrate_lock);
-+	ctx = ai->ctx;
- 	if (!ctx) {
- 		rc = -EINVAL;
- 		goto out;
-@@ -467,7 +521,7 @@ static int aio_migrate_folio(struct address_space *mapping, struct folio *dst,
- out_unlock:
- 	mutex_unlock(&ctx->ring_lock);
- out:
--	spin_unlock(&mapping->i_private_lock);
-+	spin_unlock(&ai->migrate_lock);
- 	return rc;
+ 	
+ 	spin_unlock(lock);
+-	err2 = osync_buffers_list(lock, list);
+-	if (err)
+-		return err;
+-	else
+-		return err2;
++	return err;
  }
- #else
+ 
+ /*
 -- 
 2.51.0
 
