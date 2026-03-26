@@ -1,137 +1,167 @@
-Received: from va-1-114.ptr.blmpb.com (va-1-114.ptr.blmpb.com [209.127.230.114])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2352633ADB0
-	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 12:09:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.230.114
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D34667081E
+	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 12:30:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774526975; cv=none; b=Gpj6XtyYIrj46h/XZJsjAAiWeIEVZMz1itWYjwvKfl/zhIbzRtGPjrcGWD3/py81PLk1PYp3R/4D9Nw8n5pAe5v0BXvQ1zcoJFMI01Wg9oMTUfu3lcUHkg3EM6BhQ12iFP/ogwE3bt/MKjZXQ9kL56OlPtKbSJE6r5m3QvVm/Tk=
+	t=1774528206; cv=none; b=b+1OiigOqV3nday/qKw6MjpD8aQ5BeILrGHeDE854ThC9BDL6DZzQD7AyrC98WhtW8v8Vu8XNRAqusuUfA+Fz2wcDIFu0mV/K9750REbC1mLh3npwDJvOguDKbNMGOhFV4Ox0PSOM0NtVYT7cLdOj/LXwLhEFid3uY1Sw34T94k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774526975; c=relaxed/simple;
-	bh=6V2ldDbGE+hirwsVOobsXeMIKV23Yx22E9G8nbKthfk=;
-	h=Mime-Version:In-Reply-To:Message-Id:References:Cc:Subject:
-	 Content-Type:To:Date:From; b=a5504QIA8AeMqOUQ4jPxdEXdBEmqZtglqhLqvLRcKvjWK/QSnNHDaLUNHsTGuaQp5bvBSQaHWr6eGPTehufQpox3KfqlkgjArQX0MTYbJq/PAhBiipvHmA2EhzWKFWA9YD2+76BI9xxJ+sU+uYnZgyxYMI3SlQg/eeBszJQBeLM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=dqs42eCK; arc=none smtp.client-ip=209.127.230.114
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1774528206; c=relaxed/simple;
+	bh=R791zzc4EYJDRyqWzYozpg6UUH7+X6oJn9PRW+0K7Ts=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=grZw9lCOlgyMc9Jwk13OkCsJUb8RcMyvzMGcpjpjTX8TOGhAY9+o/4lY72J9EwJrCpoHrROvoQf6OOuEngPqOWy1iYyVYbCl+CUuq6VllFvlSeKN6pzbFgrN/AEiifCEzJJ34+LzU/TUZhhFIqAV86xJjO/1eFqHd6zYUJgE/zo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=bjva55xY; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=zzvbYY6c; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=z2c5/OSV; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=waeQ1scQ; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="dqs42eCK"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1774526967; h=from:subject:
- mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
- mime-version:in-reply-to:message-id;
- bh=kCXkJW1bYEy/j6tn+IASdmpLScjftFpR6RUcFeI7UuM=;
- b=dqs42eCK5R+smDgmkiXsOMEgIwVTXa/mVovLEKA8JRa4bd0zE5cx+Lqqwtoe2KQhhsM+RS
- IsYaBABLq3LGb9kiD2sBSuCkSdjiJo8IeOyfzZllECPwZ+oQAwy0psWR6QqVIo5F2O6/id
- /h3deqvr0JrNRMesRZepcdlFhQPLcN9PP5i+aZMVAkJygZnnss6likKdG1J8VMF/1xUSHW
- 2kQ99+/s7FmIRWeW7BiDsOnVedvjaHtQ4wspllCle/hQsHuOCB6CHNBvw3dhrL76/jp+VN
- fssjGGFnUALa254HKYWa9jMj4euzhGbsPmiCmqQy8w5BrmEDvtfQCje4Z0iDkg==
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="bjva55xY";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="zzvbYY6c";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="z2c5/OSV";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="waeQ1scQ"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id F0BC24D28C;
+	Thu, 26 Mar 2026 12:30:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1774528203; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xDSPIOGYuSfEyYwRKdywdpRyFDsscT6N86/QzvLkdwA=;
+	b=bjva55xY7GDDVjK+D70rbEe89oZM3zbIZAEsbVh1K8Z8WPVF3GI3aLUvAUSz572BhGqSBQ
+	vlpnBB2PfJdEq0JV1mDi4Si2+RY09txXWchPIQC+JmDAAFfYMQzNQFmSTysz7jqBCyuii8
+	ioEbsr9KbyJLEuuxl4TBwS+MD64cdcM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1774528203;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xDSPIOGYuSfEyYwRKdywdpRyFDsscT6N86/QzvLkdwA=;
+	b=zzvbYY6cWMrGPvt/2mgfIAg2Dp7vdNEOQ5gXSuKxIsyz1RF2t16oq7yO9T5uZQB1QxacAl
+	pPHOymQYaANnA0Aw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1774528202; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xDSPIOGYuSfEyYwRKdywdpRyFDsscT6N86/QzvLkdwA=;
+	b=z2c5/OSV+Rd2FSyKG+J3wTfRBD1A7GKPYk3wXILbeTNVyD4fPvMtPe6uc+YRjEaUhjRCdO
+	nQKkvpmO/lvaaylPtI2nF2zd2L7L9tcqX7F6e94zqXAwaGM3H0hUbsqCuKF3ZDISrOURcR
+	LBrrwiN0EAD6zRRRV+cxMAmK/2/6n9I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1774528202;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xDSPIOGYuSfEyYwRKdywdpRyFDsscT6N86/QzvLkdwA=;
+	b=waeQ1scQzDqO4Q6/wgxH6FNhFPBgLTnlqtUc6Rg5yiRv3B6b+Fyb+6p0AGW/BxHCm6iMP7
+	4dlDdC6+SSx/XRAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E7E4D4A0A3;
+	Thu, 26 Mar 2026 12:30:02 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 7juYOMomxWmuKQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 26 Mar 2026 12:30:02 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 9B518A0976; Thu, 26 Mar 2026 13:29:58 +0100 (CET)
+Date: Thu, 26 Mar 2026 13:29:58 +0100
+From: Jan Kara <jack@suse.cz>
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	Jianzhou Zhao <luckd0g@163.com>
+Subject: Re: [PATCH v2] udf: Fix race between file type conversion and
+ writeback
+Message-ID: <5kwqkvqy3crz5c74j7ywd7m76swgaoql7ykwgvxx5ro565h3o3@k3k7vhuisaxz>
+References: <20260325162209.29233-2-jack@suse.cz>
+ <acTIfOuv3Ik-erB0@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <acP5-v85CwUQZlMB@casper.infradead.org>
-Message-Id: <7792457f-453b-4534-95bb-f932cbc62d12@bytedance.com>
-Content-Language: en-US
-User-Agent: Mozilla Thunderbird
-References: <20260325093349.630193-1-diangangli@gmail.com> <20260325093349.630193-2-diangangli@gmail.com> <B53E253C-F314-4376-BD9D-58867FC8D3F6@dilger.ca> <acP5-v85CwUQZlMB@casper.infradead.org>
-Cc: "Diangang Li" <diangangli@gmail.com>, <tytso@mit.edu>, 
-	<linux-ext4@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>, 
-	<linux-kernel@vger.kernel.org>, <changfengnan@bytedance.com>
-Subject: Re: [RFC 1/1] ext4: fail fast on repeated metadata reads after IO failure
-Content-Type: text/plain; charset=UTF-8
-X-Original-From: Diangang Li <lidiangang@bytedance.com>
-To: "Matthew Wilcox" <willy@infradead.org>, 
-	"Andreas Dilger" <adilger@dilger.ca>
-Date: Thu, 26 Mar 2026 20:09:11 +0800
-X-Lms-Return-Path: <lba+269c521f5+7d4f15+vger.kernel.org+lidiangang@bytedance.com>
-From: "Diangang Li" <lidiangang@bytedance.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <acTIfOuv3Ik-erB0@infradead.org>
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_ENVRCPT(0.00)[163.com];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[suse.cz,vger.kernel.org,163.com];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email]
+X-Spam-Flag: NO
+X-Spam-Score: -3.80
+X-Spam-Level: 
 
-On 3/25/26 11:06 PM, Matthew Wilcox wrote:
-> On Wed, Mar 25, 2026 at 04:15:42AM -0600, Andreas Dilger wrote:
->> On Mar 25, 2026, at 03:33, Diangang Li <diangangli@gmail.com> wrote:
->>>
->>> From: Diangang Li <lidiangang@bytedance.com>
->>>
->>> ext4 metadata reads serialize on BH_Lock (lock_buffer). If the read fai=
-ls,
->>> the buffer remains !Uptodate. With concurrent callers, each waiter can
->>> retry the same failing read after the previous holder drops BH_Lock. Th=
-is
->>> amplifies device retry latency and may trigger hung tasks.
->>>
->>> In the normal read path the block driver already performs its own retri=
-es.
->>> Once the retries keep failing, re-submitting the same metadata read fro=
-m
->>> the filesystem just amplifies the latency by serializing waiters on
->>> BH_Lock.
->>>
->>> Remember read failures on buffer_head and fail fast for ext4 metadata r=
-eads
->>> once a buffer has already failed to read. Clear the flag on successful
->>> read/write completion so the buffer can recover. ext4 read-ahead uses
->>> ext4_read_bh_nowait(), so it does not set the failure flag and remains
->>> best-effort.
->>
->> Not that the patch is bad, but if the BH_Read_EIO flag is set on a buffe=
-r
->> and it prevents other tasks from reading that block again, how would the
->> buffer ever become Uptodate to clear the flag?  There isn't enough state
->> in a 1-bit flag to have any kind of expiry and later retry.
->=20
-> I've been thinking about this problem too, albeit from a folio read
-> perspective, not from a buffer_head read perspective.  You're quite
-> right that one bit isn't enough.  The solution I was considering but
-> haven't implemented yet was to tell all the current waiters that
-> the IO has failed, but not set any kind of permanent error flag.
->=20
-> I was thinking about starting with this:
->=20
-> +++ b/include/linux/wait_bit.h
-> @@ -10,6 +10,7 @@
->   struct wait_bit_key {
->          unsigned long           *flags;
->          int                     bit_nr;
-> +       int                     error;
->          unsigned long           timeout;
->   };
->=20
->=20
-> and then adding/changing various APIs to allow an error to be passed in
-> and noticed by the woken task.
->=20
-> With this change, the thundering herd all wake up, see the error and
-> return immediately instead of each submitting their own I/O.  New reads
-> will retry the read, but each will only be held up for a maximum of
-> their own timeout.
+On Wed 25-03-26 22:47:40, Christoph Hellwig wrote:
+> On Wed, Mar 25, 2026 at 05:22:10PM +0100, Jan Kara wrote:
+> > udf_setsize() can race with udf_writepages() as follows:
+> > 
+> > udf_setsize()			udf_writepages()
+> > 				  if (iinfo->i_alloc_type ==
+> > 						ICBTAG_FLAG_AD_IN_ICB)
+> >   err = udf_expand_file_adinicb(inode);
+> >   err = udf_extend_file(inode, newsize);
+> > 				    udf_adinicb_writepages()
+> > 				      memcpy_from_file_folio() - crash
+> > 					because inode size is too big.
+> > 
+> > Fix the problem by rechecking file type under folio lock in
+> > udf_writepages() which properly serializes with
+> > udf_expand_file_adinicb(). Since it is quite difficult to implement this
+> > locking with current writeback_iter() logic, let's just opencode the
+> > logic necessary to prepare (the only) folio the inode can have for
+> > writeback.
+> 
+> Still not a fan of open coding this logic, which is even worse than
+> the previous export.  Inline data is a relatively common case in
+> various file systems, and we should be able to handle it in common
+> code.
 
-Hi Matthew and all,
+I agree inline data is relatively common but as far as I was checking UDF
+is the only filesystem using mpage_writepages() that is supporting inline
+data (well, OCFS2 does as well but it doesn't bother with inline data
+writeback - it handles only write(2) to files with inline data which modify
+on disk content directly, they expand the file to extents in case of mmap).
+So a special hook in mpage_writepages() for UDF looks like a bit of an
+overkill to me.
 
-Thanks. The idea of waking the current waiters with an error makes a lot=20
-of sense.
+> So having a callback in mpage_writepages seems much better,
+> but if you detest that we could just export mpage_write_folio and
+> mpage_bio_submit_write (and make mpage_data public) instead.  I think
+> that's significantly worse than just adding the callback, but still
+> much better than open coding more writeback internals, something I
+> want to get away from.
 
-I=E2=80=99ve been considering a smaller change on the buffer_head side that=
-=20
-might get most of the benefit without touching the generic wait_bit=20
-APIs. The idea is to tell whether taking BH_Lock required waiting. If we=20
-had to wait, and the buffer is already marked with=20
-buffer_read_io_error(), then just return -EIO and don=E2=80=99t submit anot=
-her=20
-read. If we got the lock without waiting, still submit the read. That=20
-should stop the thundering herd from reissuing the same failing IO.
+I agree the callback is better than making all that mpage infrastructure
+public. I still think exporting folio_prepare_writeback() would be less
+burden than the callback but frankly I don't think it matters enough to
+argue further. I just want to get that race fixed :).
 
-Another option is a simple retry window. After a read failure, don=E2=80=99=
-t
-retry for some period of time, and size that window by error type. For
-persistent media errors (e.g. MEDIUM ERROR, repeated IO ERROR) the=20
-window could be effectively infinite, while for transient cases (e.g.=20
-few IO ERROR, BLK_STS_RESOURCE) it could be small.
-
-Any opinions on these two approaches, or other ideas for this problem?
-
-Thanks,
-Diangang
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
