@@ -1,145 +1,166 @@
-Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 941F9221D89;
-	Thu, 26 Mar 2026 09:09:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EE813BE65C
+	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 09:54:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774516163; cv=none; b=Es9kQmxB+Ul+FzDV80cd+JUR7vloBK9RsgH2rXSvx/3o26qwD8Mu7x2HkgBewLPe5wwX07JKZDTIcR7M86zJ77g0v5VZPY78qofEEdLVMYLtAyj7RmbZP8Yu9ScXjIhGwqnsVG/lJqI9jlvCwouHQyhxq9JbXB6hs6NGtGmufxw=
+	t=1774518900; cv=none; b=W+pSBlREbTKkxwalXK08A3J4LX4jVkWx+4OXmgWb/Cm9bJyHNdYhGjiZoVPguTJhgpNWFHBjjkJrSqy8RESHVy6NcFdg8DlmNcCmUR5uUe2i2VN7WlHBM57s4I49O1oRqlMPlO8L/E41/DiWizLEh9ZlwBUbfO+X5Cdq9irUA6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774516163; c=relaxed/simple;
-	bh=tLY0ePJlKmZKLqmOL9WiC9ORTlmc/Y/m+2xJ8tQZ3xQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=t9ZcH6GMa2sRrqTU3GrREz7AaRPTyaHOAup7lSliO8M6D0qh8jblJ8gInIxqRpi/0WqFsBFVd+aJDlgJwe8TxLtx/oDcmKZ3WNUlBtwJTsxup5QOZdryROjMvMqAfHrbT2TbHozgSGgi++0J/riAgArfiioAt8xqBNgLzKbjnFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=none smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.198])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4fhHbH2s6tzKHMhW;
-	Thu, 26 Mar 2026 16:52:27 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.112])
-	by mail.maildlp.com (Postfix) with ESMTP id 61AEA40573;
-	Thu, 26 Mar 2026 16:53:07 +0800 (CST)
-Received: from [10.174.178.253] (unknown [10.174.178.253])
-	by APP1 (Coremail) with SMTP id cCh0CgBHStrv88RpqlIbCQ--.6951S3;
-	Thu, 26 Mar 2026 16:53:05 +0800 (CST)
-Message-ID: <4cb874b7-f5e3-4612-a2cd-c5e707c72985@huaweicloud.com>
-Date: Thu, 26 Mar 2026 16:53:03 +0800
+	s=arc-20240116; t=1774518900; c=relaxed/simple;
+	bh=zt6HPqIyrGTBlI6V+0Dr/XGCbljb9VrDeuE5lHdQnrA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=AQ9lJj6gYKrL1NOPedRtluB2fYChMmUGob1JwNO1KVUgEGlZ29tqqBRUIk6qfAt3qNjy4Uub8Qb/REoToE1U4X2PZ85QsovkSOG1YWbHvSjrTBCKurs9ZGORsWWzhipML7C0IDWIBU+Liv50Dt5Frg8Zth7ZHPnDClWF65lVx/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=ikIZO/va; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=H/A1kzg6; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=ikIZO/va; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=H/A1kzg6; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ikIZO/va";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="H/A1kzg6";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ikIZO/va";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="H/A1kzg6"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C11645BCD5;
+	Thu, 26 Mar 2026 09:54:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1774518896; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=a5SiiLeqr0tRzr8xKFqCzZIUP/hbhDlDHk608R0+nc4=;
+	b=ikIZO/vaU57PVncq9onK+AWlFRxS2Wllql55sHJuoKgxScAbjAiFTsw1D6cyAI0NOImVGB
+	Ak98wk8ZPMqSiRuSeDu8eqxVL1qNcqID5gF3m2kvaZOWi5d80vtxboDRiFZP5WuopVVfE7
+	iGcOMrm5JZszWQuYIzDGC9JqUj4Eu6k=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1774518896;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=a5SiiLeqr0tRzr8xKFqCzZIUP/hbhDlDHk608R0+nc4=;
+	b=H/A1kzg6niMWw63cLdurH1mVR8nYMYDANZnrwBKcPVcZEXFBF3TLrrkVFC/PZEwWp+fpZA
+	qC8b8sx1+rk7FAAA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1774518896; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=a5SiiLeqr0tRzr8xKFqCzZIUP/hbhDlDHk608R0+nc4=;
+	b=ikIZO/vaU57PVncq9onK+AWlFRxS2Wllql55sHJuoKgxScAbjAiFTsw1D6cyAI0NOImVGB
+	Ak98wk8ZPMqSiRuSeDu8eqxVL1qNcqID5gF3m2kvaZOWi5d80vtxboDRiFZP5WuopVVfE7
+	iGcOMrm5JZszWQuYIzDGC9JqUj4Eu6k=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1774518896;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=a5SiiLeqr0tRzr8xKFqCzZIUP/hbhDlDHk608R0+nc4=;
+	b=H/A1kzg6niMWw63cLdurH1mVR8nYMYDANZnrwBKcPVcZEXFBF3TLrrkVFC/PZEwWp+fpZA
+	qC8b8sx1+rk7FAAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B86B34A0A7;
+	Thu, 26 Mar 2026 09:54:56 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id YPkBLXACxWmhYAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 26 Mar 2026 09:54:56 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 7B594A0B58; Thu, 26 Mar 2026 10:54:48 +0100 (CET)
+From: Jan Kara <jack@suse.cz>
+To: <linux-fsdevel@vger.kernel.org>
+Cc: <linux-block@vger.kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Al Viro <viro@ZenIV.linux.org.uk>,
+	<linux-ext4@vger.kernel.org>,
+	Ted Tso <tytso@mit.edu>,
+	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
+	David Sterba <dsterba@suse.com>,
+	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+	Muchun Song <muchun.song@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	David Hildenbrand <david@kernel.org>,
+	linux-mm@kvack.org,
+	linux-aio@kvack.org,
+	Benjamin LaHaise <bcrl@kvack.org>,
+	Jan Kara <jack@suse.cz>,
+	Andreas Gruenbacher <agruenba@redhat.com>,
+	gfs2@lists.linux.dev
+Subject: [PATCH 02/42] gfs2: Don't zero i_private_data
+Date: Thu, 26 Mar 2026 10:53:56 +0100
+Message-ID: <20260326095354.16340-44-jack@suse.cz>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260326082428.31660-1-jack@suse.cz>
+References: <20260326082428.31660-1-jack@suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 00/10] ext4: refactor partial block zero-out for iomap
- conversion
-To: linux-ext4@vger.kernel.org
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- tytso@mit.edu, adilger.kernel@dilger.ca, jack@suse.cz,
- ojaswin@linux.ibm.com, ritesh.list@gmail.com, libaokun@linux.alibaba.com,
- yi.zhang@huawei.com, yizhang089@gmail.com, yangerkun@huawei.com,
- yukuai@fnnas.com
-References: <20260325072850.3997161-1-yi.zhang@huaweicloud.com>
-Content-Language: en-US
-From: Zhang Yi <yi.zhang@huaweicloud.com>
-In-Reply-To: <20260325072850.3997161-1-yi.zhang@huaweicloud.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:cCh0CgBHStrv88RpqlIbCQ--.6951S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxZw47Jr4UAF1rZFyfGrWDCFg_yoW5Kw4DpF
-	ya9w1Y9r4xG39F9an7CF48XF1a9wn3Gr4rGry3G34kZ3y5ZF1IkFs3Ka1F9FWj9rW3Ga40
-	qF4UAa4UWFn8Aa7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
-	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
-	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
-	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
-	14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
-	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8
-	ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
-	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
-	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU1
-	7KsUUUUUU==
-X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
+X-Developer-Signature: v=1; a=openpgp-sha256; l=757; i=jack@suse.cz; h=from:subject; bh=zt6HPqIyrGTBlI6V+0Dr/XGCbljb9VrDeuE5lHdQnrA=; b=owEBbQGS/pANAwAIAZydqgc/ZEDZAcsmYgBpxQIz9QDNvNUEpIhcooLLBbuSbDnT3nLUxpPES BJ6DFZlrM2JATMEAAEIAB0WIQSrWdEr1p4yirVVKBycnaoHP2RA2QUCacUCMwAKCRCcnaoHP2RA 2Y1TCACgJjs/Rj5FUUtM8EfC8lTypcZwH8QH0u36IVm3yNSUP4LRuXWlbat6aqsYI7G7Xs7Mi0y XwlcOAbtxAWgP0xhT8MhWCSlbm1TBxma1C7+oXNtNN0Qyz94GBDelwZqbh8gokEAXH/T6q3ooP6 6Qbuug3VzwIn8W0bppX1q9Af7oQDl+OHDiycH1uNmgJTIAeicGumUA6OG5RpwVK/vxzSHQU8zEX Kd6LC4g2HAUlishCR2r/8aNGq/v3t7sb3WlrMNhiP0ZHdzSB5akmdDh9+guOCppxX+6noHqOAUa rvqhzBHansYERqqkK1Q4VBKoaYBhRdD0KDRjD/c+b5mi/aRy
+X-Developer-Key: i=jack@suse.cz; a=openpgp; fpr=93C6099A142276A28BBE35D815BC833443038D8C
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-1.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TAGGED_RCPT(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	ARC_NA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,ZenIV.linux.org.uk,mit.edu,gmail.com,suse.com,mail.parknet.co.jp,linux.dev,suse.de,kvack.org,suse.cz,redhat.com,lists.linux.dev];
+	R_RATELIMIT(0.00)[to_ip_from(RLck8brw5hxmszoarioc7838it)];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:email,imap1.dmz-prg2.suse.org:helo];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com]
+X-Spam-Flag: NO
+X-Spam-Score: -1.30
+X-Spam-Level: 
 
-On 3/25/2026 3:28 PM, Zhang Yi wrote:
-> From: Zhang Yi <yi.zhang@huawei.com>
+Remove the explicit zeroing of mapping->i_private_data since this
+field is no longer used.
 
-Sashiko found some real issues in patch 09 and 10, I will send v3 to fix them.
+CC: Andreas Gruenbacher <agruenba@redhat.com>
+CC: gfs2@lists.linux.dev
+Reviewed-by: Andreas Gruenbacher <agruenba@redhat.com>
+Signed-off-by: Jan Kara <jack@suse.cz>
+---
+ fs/gfs2/glock.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-https://sashiko.dev/#/patchset/20260325072850.3997161-1-yi.zhang%40huaweicloud.com
-
-Best Regards,
-Yi.
-
-> 
-> Changes since v1:
->  - In patch 04, rename ext4_block_get_zero_range() to
->    ext4_load_tail_bh() and drop the unused 'length' parameter as Jan
->    suggested.
->  - In patch 06, modify the commit message, add another reason to drop
->    data=ordered mode when zeroing partial blocks in ext4_punch_hole()
->    and ext4_punch_hole() as Jan pointed out.
->  - In patch 10, modify the commit message, explain the race condition
->    between the buffered write and mmap write that pointed out by Jan.
->  - Collect reviewed tags from Jan.
-> 
-> v1: https://lore.kernel.org/linux-ext4/20260310014101.4140698-1-yi.zhang@huaweicloud.com/
-> 
-> Original cover letter:
-> 
-> This patch series extracted from my iomap conversion v2 series[1]. It
-> refactors the ext4 zero partial block code path in preparation for
-> converting buffered I/O to the iomap infrastructure. The main changes
-> are:
-> 
-> [1] https://lore.kernel.org/linux-ext4/20260203062523.3869120-1-yi.zhang@huawei.com/
-> 
-> 1. Introduce ext4_block_zero_eof(): Extend and rename
->    ext4_block_truncate_page() to handle post-EOF partial block zeroing
->    for both append writes and truncate operations.
-> 2. Separate ordered data handling: Move data=ordered mode handling from
->    __ext4_block_zero_page_range to ext4_block_zero_eof(). Only truncate
->    and post-EOF append write/fallocate paths need ordered data mode,
->    hole punching and zero range paths don't need ordered data handling.
-> 3. Split journal mode handling: Extract
->    ext4_block_journalled_zero_range() from
->    __ext4_block_zero_page_range() for data=journal mode, leaving
->    ext4_block_do_zero_range() for data=ordered/writeback modes.
-> 4. Refactor ext4_alloc_file_blocks(): Change parameters to loff_t byte
->    granularity to simplify callers and prepares removing the zero call
->    from the allocation loop for unaligned append writes.
-> 5. Remove handle parameters: Stop passing handle_t * to zero functions.
->    Make ext4_block_journalled_zero_range() start its own handle, and
->    move zero operations outside active handles. This is required because
->    iomap uses "folio lock -> transaction start" lock ordering, opposite
->    to the current lock ordering.
-> 6. Centralize zeroing in ext4_write_checks(): Move all post-EOF partial
->    block zeroing to ext4_write_checks() so it applies to both regular
->    buffered writes and the upcoming iomap path.
-> 
-> Thanks
-> Yi.
-> 
-> Zhang Yi (10):
->   ext4: add did_zero output parameter to ext4_block_zero_page_range()
->   ext4: ext4_block_truncate_page() returns zeroed length on success
->   ext4: rename and extend ext4_block_truncate_page()
->   ext4: factor out journalled block zeroing range
->   ext4: rename ext4_block_zero_page_range() to ext4_block_zero_range()
->   ext4: move ordered data handling out of ext4_block_do_zero_range()
->   ext4: remove handle parameters from zero partial block functions
->   ext4: pass allocate range as loff_t to ext4_alloc_file_blocks()
->   ext4: move zero partial block range functions out of active handle
->   ext4: zero post-EOF partial block before appending write
-> 
->  fs/ext4/ext4.h    |   5 +-
->  fs/ext4/extents.c |  83 +++++++--------
->  fs/ext4/file.c    |  14 +++
->  fs/ext4/inode.c   | 255 ++++++++++++++++++++++++++++------------------
->  4 files changed, 207 insertions(+), 150 deletions(-)
-> 
+diff --git a/fs/gfs2/glock.c b/fs/gfs2/glock.c
+index 2acbabccc8ad..b8a144d3a73b 100644
+--- a/fs/gfs2/glock.c
++++ b/fs/gfs2/glock.c
+@@ -1149,7 +1149,6 @@ int gfs2_glock_get(struct gfs2_sbd *sdp, u64 number,
+ 		mapping->flags = 0;
+ 		gfp_mask = mapping_gfp_mask(sdp->sd_inode->i_mapping);
+ 		mapping_set_gfp_mask(mapping, gfp_mask);
+-		mapping->i_private_data = NULL;
+ 		mapping->writeback_index = 0;
+ 	}
+ 
+-- 
+2.51.0
 
