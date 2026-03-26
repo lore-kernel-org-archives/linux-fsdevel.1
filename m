@@ -1,93 +1,94 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BB6439EF2D
-	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 19:33:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26F3634D90F
+	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 19:40:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.49
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774553600; cv=pass; b=aCyOkBU6jPDjOVJ4yw0lPPCzgdGPsNCLomV8WyuEn5P0NMxoeKZVLymg/pMKGQoXfOlBVXmj+FbQ8PFSI703zSWlCVH6Ns7JuLyjYVFM+iqxalDra0BUn0dJTwg6UyllYvfBYTINY52vkqurAXPDSt9ACEOBBE/mu/rzkz18Ixw=
+	t=1774554020; cv=pass; b=Zp2dm6fDoaAxcQ79Q3WZg+JF7SmdDzYVDHt+mk0z5PCf8RJfSZ/Oo5g9ldhjtuhdb915WwfCcNAhGExvP2wOQiABsm+KBc2oQ4KBc1EGeLKfBhH5NkuoYLWc+pOi/q4t1JzOCQBZKy8uduhr/RehJJR0DpZNjwEEVUMAH1umpnc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774553600; c=relaxed/simple;
-	bh=XGIkITr18YRht3P80h9kmZoQ7SS32tZiWRhyFaczp1Y=;
+	s=arc-20240116; t=1774554020; c=relaxed/simple;
+	bh=T14abehY8VeKfFoZhSc3VYDg0CDKqmTM9HxW8fyrcKo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=InURKtGJHzg3xvcwga6anxEkBkk/keh1KM4Mt/2lifGLNYNWYEfxYnpkSwAOhRPghzWbLIUEIApklCqZFD+Wl/wG9Sr70qiS/vWInitjHEm4RVqgQilI5Q84LB4cfEJDQNOIDlKn7GnJf2vL9TILIPEaUag4sh/9WWg3RTszE/E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=LkdroYlw; arc=pass smtp.client-ip=209.85.208.48
+	 To:Cc:Content-Type; b=FPxuAIzNcWH4MzF4gkoLEMQXrr++nVu7hkPerT2SV8nRYgd3+hDyNmKboBQcIGQ2OY/fvxk2Fraoa6gTzNrYfMrrNDtYlHy98/BhQ+048unOoMWvl/AV+CXqklvxsk4WbEUYJ2CxZ0aL5nDKTwJWTokl64XsecFV/j3I9xJH/vU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=bHLGk6rN; arc=pass smtp.client-ip=209.85.208.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="LkdroYlw"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-66a8242c1d8so2594a12.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 12:33:19 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774553597; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bHLGk6rN"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-6628cc1bd69so377a12.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 12:40:18 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774554017; cv=none;
         d=google.com; s=arc-20240605;
-        b=aIA7r9M6kkCoJ+8e8CroAuYh2OM5OK+iTBiaQdwEsbd9bsxVYbBMIFe7dRrX9ytgKX
-         324912grbd7rNKLetXWnt/4tMDpp/Oxb54zGzGQfA8o3ZIg77xG+/M1IlW9XZvGv1Ixi
-         yDklaqBbfMeyjxJm3r5eyp6QuwK+EA5gm9OJUhmHzAiG4lU3SdSJL8V239o9rIBt3J3C
-         MAOZIKXJlCqKtiyxBGxLdUWoyK444haQ3ztUjXUI4uBUuo7V7oGmg30niT2YFM3lUlvP
-         HSJIATVn0x9kiuczUIf/TPyinKGBHqbaj3phm64CzB8qSwanqGITP+q0qzJ1gYEOYRwm
-         L06g==
+        b=f1pFm5cqkGUQNznP6pGVvQDNFRudIClzi4PfDhLQyJdEr0ACIIJ1IPU5R9CG/93AI/
+         2J4I4n2kUEimdvZ/n72W2SVhgoJA0a7Cj21W0PKXND01as+Gvqc3BvS7M9c4GJWT9Enq
+         Aw0NU6NsyPn/nUrFPQgKkwZhytqoeBEhYjMdeyUiCpD+Y4BqvDERu6o+86/PjadLDNwG
+         kluLB/O7zYGk+SQ55On5P/zR3w9kM9l+S8rhMO+vqtNH+54frTSsaoUuWqClQDj+I/x5
+         mmU90LxGeWwO3hSJuM6DeMXDwSkpVWVX8Lh5dHNkbYDjitwFVksDIojjbF8OHX/8+hlL
+         IJiw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=i0YYIrvHnBTLeQ6iT3Vhfn1kaGtvbxQ898sn+jDwG2o=;
-        fh=3WDTXw+5sHlG86prA/WPVpSwpkPhzHeGdCiXnFD613M=;
-        b=e4xynpbQyz0Pce2AJUIQfNPQwGnwuJtuMMjQ572Zu0IiEsVvRFWHhV+bFaYP8ax0r6
-         sNApril2MvPlkpl6zFGC0RTmZcEyRCqGmiFRtaq7elGjlNz/kypmi39/UYU9keTHFIGO
-         0nBCXcmi4RzN4GqBk+QL8uGEyYePdbh8YpvOTEtju0+HApEQFb3jw7BNhTUulbE+to8e
-         qcdmOSGLSaOixtPbzM/mA+uRlT8lIiet80fIbfg0HGaWu6+yEzFflTSm/fvEofGeW6jl
-         TGXnADA1+cjsCkt9XxFeq7gMMnza1ruT0tD7bKVfbhy31cTJIvSzKYJDJ657ZV1zK30z
-         riZg==;
+        bh=smG5Tg0EOyJh6ryr2/NdAiIXA5c3CAlpXYr7aOjiALQ=;
+        fh=7Mg4T3cOLYpbr08BvqdyaTTaIRWfI27DeI9DwSGbW2g=;
+        b=bpPHO/cN9lecdWsRIO6A45gczKtYp7/sdMn+LM1ytHEPr990ftDkTMgeMyC+DAxrkO
+         Tk3O2VkuZg/3K41UbcLaygs4JOne/3zm6zASE+XAUo/N60XybpxgpNbmkIWZFcs4MvZD
+         CeKzJjdRdGdkQLLSUgdTFxDzeNugNfyjUwAAm2pfqQhbDpFxoeiaaRfWYmQIjQfaZxQO
+         E3IPU7fGHA/2f6qTe5Z9Vtz8EOls4rhNcek6SJ9x7kA0a4S4W3Gu1EFEt4MAk2CgTz3Z
+         rdkz2JZ9DV83KNja12T2WgCJPDZDRg8ttlTGQyDKqlkg8RhjVNyoTEBz8uaqO0xI9+Ev
+         ZAew==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1774553597; x=1775158397; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1774554017; x=1775158817; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=i0YYIrvHnBTLeQ6iT3Vhfn1kaGtvbxQ898sn+jDwG2o=;
-        b=LkdroYlwmNyNc112hm8cLn0jT9UjNXFknsKEqf1hPo6WBik/MI8l9J89RQtzX2M795
-         DU8oTOXxVeXejWRfPk7q09thkC26WRGEIH/x/EHd6VFdvuWPNJpKLc8/1ruvQiPjS8+r
-         XLo+umGYiN0ihUSSEMSIIYY1ykesNxWDAJuR+7H/566eAibZvJrZKgpekOXyaIrapa/f
-         3xrbufMymx6CYMvEHrI68V5SiL9UIyxZwaAnVzD3CX7W6fa1DKcmBbjsoRP/h6zCiihP
-         T/3iYZiUzRHNrr5ClY5o7T/VcqLdw+5/lhX1sULydiyaAGAa1AOSolPODFdYkUCPDyoX
-         NLuQ==
+        bh=smG5Tg0EOyJh6ryr2/NdAiIXA5c3CAlpXYr7aOjiALQ=;
+        b=bHLGk6rN6EO80bINv6dN8jbCZIXHkcoCkcA6xUGBQ3rkiU0wRLCSu/1o4mA6n22v6F
+         K0skbK3YTc6KTq6jq/D7h3ueLe+lZJ30OxyIP3ckOGenOd0xewg4Q4JPAjjCAWpjslMe
+         SMtcWZ5tuxeIF+FYnUlInn0c9eWJQQK0Dy41sEQqTDXDZUswfBF5gysOhqk2Nb5YozuF
+         ttB0SZPyEJwW7LATJ+sig2QHbJYl5EXNg+Ff+OakAOrbJNE3j3R7n0ZQlklg1FgEEwzr
+         3VvQFJeFoVS5Smx91xaINzbSbgmLtAo2wldMo6d4aCae4BfC3MEPU+BvbhklU/MDc0N3
+         nrjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774553597; x=1775158397;
+        d=1e100.net; s=20251104; t=1774554017; x=1775158817;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=i0YYIrvHnBTLeQ6iT3Vhfn1kaGtvbxQ898sn+jDwG2o=;
-        b=dMGOz0ScDCIKC6u7HUZiwre4UEmQW9uuoLHUwGLtGUfHtkyMPBJu0nmO4/7kmX2dnN
-         jn+xB6TK/hnD5TiB8/giepuIFtI9ExIDYFSVQPIdBmnVvm/qh/8uoL53Ta5dUBS36WFg
-         ElcV1BUA8FzHJZKV7POOH0QvLVYE90Tb3xqbg/roCemE7V0949KLtxDLp7YDNAC5K80P
-         SZqo8dsmhRa9bhwYL1GjQnejsvhQE3gLkkRLMILeJFsYDneq3HUXVJehlXHdTGu2e7IG
-         ZuGrdWmnVSXzFWZ+Yzm+ZHJ1x9Pa5t7CvwBv+E9ssL+tjOKsuOXEytt5pdTeyoXAI55W
-         91AQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWy3D/FdcSIIutg0g0BSbvSrC/oM+CobL3rCuKdx5MudWo/s3LWKIxdWn2tTvfB1c8F+sCNJ8XbuplpzuRO@vger.kernel.org
-X-Gm-Message-State: AOJu0YymObqzj5dnSfI4ZK84/nCyi/D/zShVCTBDEXloogsOClxqq/QN
-	HDe9yBEBREMKuh9UvoRmGdHzYli5z8jwsKBLlNLR5w1w5uqDuf/EZckTdKS6HDpkG4pPydGc+oe
-	/OzcCEDQ5ra6vF/LcAWO1URmSip8McBuujKglRDje
-X-Gm-Gg: ATEYQzwG7PEbuZKesvquAqhlpXRC0UoYt+V/pg+ybTq+l/dCSrmq1YOvAOqyOsWogT7
-	2TQyxu3YWMLfpeduagRWcxAyaTqUbSe328ek6f2Fz8Ti3qPnWKujBFP+BgtsldPi91MauZAwwC6
-	KA15iF6iIWAWmzH4IrT9ak10lNUBLl3K+D9VZ8SuCt8OIA17EJCTKtEPHGdZyuzE483RE0h8p/p
-	tI5Q7Cj6ww5MwSAwWmDid+f+bWQgIC7VG7SwaJB1rv0zP7LUJ+TmfH8Ay1bjkfHpX6bPE0x0GAt
-	enNmLL+HVrO9b8wKgsc/O1ysdVDBY8Ac4laX
-X-Received: by 2002:a05:6402:3054:20b0:665:d39:4b18 with SMTP id
- 4fb4d7f45d1cf-66b19dbc821mr9214a12.8.1774553597067; Thu, 26 Mar 2026 12:33:17
- -0700 (PDT)
+        bh=smG5Tg0EOyJh6ryr2/NdAiIXA5c3CAlpXYr7aOjiALQ=;
+        b=dnKYZ1ZxMKW8gE7XqUROgwk1YhcWxjkQUsUp+infYuVDSdGdOEPft1QQ+6YE4Qxya0
+         6P3G7sVkk7cY0AwrLf0MNWWVnlEolV4I/6Rzk3a6XkTguIe82TCgNtEcOCqrLQXDJB2k
+         eTbwE0E3jyyp2a7xcc9xkj1/mQDJH5k1kZpYBPuqK+zq/EA8CAifLoKCOtCamrkLCedm
+         zJXhP9pGAZFD6sp+jcBp8zv71whMc2NiiMCdHWzuIvMEXO+dPBXDntFlHtLTTGEDke1/
+         v+8wAhfaPzMGPGu7E2TmGUzJyD3ihsWemGEKd80StAlBsrj3tfuZdfABvio6sMD1HoK2
+         SzGw==
+X-Forwarded-Encrypted: i=1; AJvYcCWE7RaLvs5BQvNMQVIlLcprREMAvQAZ/MMOu3uKlNmfCjoC0UufffJTpEMPCL9IgnDHbBgCfNOSnU48na2/@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx6P3jpTkAgZKfVVFmGh6i1NTSI+OF2lO9GvsRxFjR462Aine7G
+	sRiFJE0JojJho4S7jeHiAonxnr1O3EWch+gCIdXtySXPrZIhRdtJ4AevfLn/niNVcqSB97OYC9U
+	YhGm0KQLsSdQBbPEa8cDnX7EfjkIhIBnixYIR6mmn
+X-Gm-Gg: ATEYQzwsHdVWyuqmCT1CTlYuM9kdUuT/AHsQmTQroeZDA4oEYAlpBfNlikyI9K73qEo
+	u1r63REjqcoVkHYKyAabTVq3lHEhVNC9f7D2jcT0/1QRhHjcWXOKhSvExUioBgcB9OM2YA2vS4I
+	HEeyDm/Sbsn15iZjP+ptQGerm5e2SquAPjqo586iFqxVih42tIGVOD2BdJt07MwfEFz3QKpx1up
+	zRkfILxPnksWAYIFjVXSD6/rRpjglnjubbPdnZmKfOA2MOyFVW5Iljpdw1kCgLnobuRgIAaOGu0
+	XT8uGTxJubAOTYr/8u182v7QyHHPbv7jxcox
+X-Received: by 2002:a05:6402:524e:b0:660:efc9:900a with SMTP id
+ 4fb4d7f45d1cf-66b19d7cdc5mr11420a12.10.1774554016932; Thu, 26 Mar 2026
+ 12:40:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260306003224.3620942-1-joannelkoong@gmail.com>
-In-Reply-To: <20260306003224.3620942-1-joannelkoong@gmail.com>
+References: <20260306003224.3620942-1-joannelkoong@gmail.com> <20260306003224.3620942-3-joannelkoong@gmail.com>
+In-Reply-To: <20260306003224.3620942-3-joannelkoong@gmail.com>
 From: Jann Horn <jannh@google.com>
-Date: Thu, 26 Mar 2026 20:32:40 +0100
-X-Gm-Features: AQROBzAqizh2z5m9_5qLH-WZQAEv4v5co6vK-W8Njl6U5WEXvbdoBACM9aVLgiU
-Message-ID: <CAG48ez0H_Z-NQvfOeczECz_sO=MzVDvu+8m+msB55rcAPfQOgQ@mail.gmail.com>
-Subject: Re: [PATCH v3 0/8] io_uring: add kernel-managed buffer rings
+Date: Thu, 26 Mar 2026 20:39:40 +0100
+X-Gm-Features: AQROBzDzwqdBTqpXLzNjW79nbt59mFHqUgS8x2u6j3haKVdwU9v_EeFhzu9nPcg
+Message-ID: <CAG48ez1QJZMO0+6FHBU4NHb_jp3appDWaw-KBzvJ0vzHWmXMQQ@mail.gmail.com>
+Subject: Re: [PATCH v3 2/8] io_uring/kbuf: support kernel-managed buffer rings
+ in buffer selection
 To: Joanne Koong <joannelkoong@gmail.com>
 Cc: axboe@kernel.dk, hch@infradead.org, asml.silence@gmail.com, 
 	bernd@bsbernd.com, csander@purestorage.com, krisman@suse.de, 
@@ -97,57 +98,23 @@ Content-Transfer-Encoding: quoted-printable
 
 On Fri, Mar 6, 2026 at 1:32=E2=80=AFAM Joanne Koong <joannelkoong@gmail.com=
 > wrote:
-> Currently, io_uring buffer rings require the application to allocate and
-> manage the backing buffers. This series introduces buffer rings where the
-> kernel allocates and manages the buffers on behalf of the application. Fr=
-om
-> the uapi side, this goes through the pbuf ring interface, through the
-> IOU_PBUF_RING_KERNEL_MANAGED flag.
->
-> There was a long discussion with Pavel on v1 [1] regarding the design. Th=
-e
-> alternatives were to have the buffers allocated and registered through a
-> memory region or through the registered buffers interface and have fuse
-> implement ring buffer logic internally outside of io-uring. However, beca=
-use
-> the buffers need to be contiguous for DMA and some high-performance fuse
-> servers may need non-fuse io-uring requests to use the buffer ring direct=
-ly,
-> v3 keeps the design.
+> Allow kernel-managed buffers to be selected. This requires modifying the
+> io_br_sel struct to separate the fields for address and val, since a
+> kernel address cannot be distinguished from a negative val when error
+> checking.
+[...]
+> @@ -200,9 +205,12 @@ static struct io_br_sel io_ring_buffer_select(struct=
+ io_kiocb *req, size_t *len,
+>         req->flags |=3D REQ_F_BUFFER_RING | REQ_F_BUFFERS_COMMIT;
+>         req->buf_index =3D READ_ONCE(buf->bid);
+>         sel.buf_list =3D bl;
+> -       sel.addr =3D u64_to_user_ptr(READ_ONCE(buf->addr));
+> +       if (bl->flags & IOBL_KERNEL_MANAGED)
+> +               sel.kaddr =3D (void *)(uintptr_t)READ_ONCE(buf->addr);
+> +       else
+> +               sel.addr =3D u64_to_user_ptr(READ_ONCE(buf->addr));
 
-I'm looking at the next-20260324 tree and trying to understand what
-happens if normal userspace (without FUSE) tries to use
-IOBL_KERNEL_MANAGED.
-
-For a buffer list with IOBL_KERNEL_MANAGED, io_ring_buffer_select()
-will write a kernel pointer into sel.kaddr, but nothing in this series
-seems to ever read out of sel.kaddr; that only happens in
-fuse_uring_select_buffer() in the FUSE series
-(https://github.com/joannekoong/linux/commit/fae19be22ab629b1301f37f2a942d5=
-d84b45cc5c).
-
-Instead, looking at the reverse call graph of io_ring_buffer_select():
-
-io_ring_buffer_select
-  io_buffer_select
-    io_recvmsg
-    io_recv_buf_select
-    __io_import_rw_buffer
-
- - io_recvmsg() passes sel.addr into iov_iter_ubuf(), which creates an ITER=
-_UBUF
- - io_recv_buf_select() passes sel.addr into import_ubuf(), which does
-an access_ok() check before creating an ITER_UBUF
- - __io_import_rw_buffer() also passes sel.addr into import_ubuf()
-
-I think that means io_recv_buf_select() and __io_import_rw_buffer()
-will first access the union through the wrong member, then fail on
-access_ok().
-io_recvmsg() will create an ITER_UBUF pointing to kernel memory (which
-AFAIK isn't supposed to happen?), which I think will then cause a
-later failure when you actually try to access the iterator (because
-copy_to_user_iter() checks access_ok()).
-
-Am I missing something that prevents normal io_uring operations from
-grabbing IOBL_KERNEL_MANAGED buffers and accessing the wrong union
-member?
+Nit: For IOBL_KERNEL_MANAGED buffers, "struct io_uring_buf" is stored
+in a normal kernel allocation that isn't concurrently accessed from
+anywhere else, right? So no READ_ONCE() is needed in the
+IOBL_KERNEL_MANAGED case?
