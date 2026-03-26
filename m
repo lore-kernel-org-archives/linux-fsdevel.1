@@ -1,70 +1,55 @@
-Received: from out-176.mta1.migadu.com (out-176.mta1.migadu.com [95.215.58.176])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C2833FBEA3;
-	Thu, 26 Mar 2026 14:20:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D0E73BED73
+	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 14:22:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774534834; cv=none; b=HxrdXYQZoifeLEaN3/bsHBqfMvGTRvOZGjVd8Wt6/HMLApW2Xb77f+w4KnPwfHvP1n52iIDCVHt6marhWO+kFOTY8UtfD+ZvSk5s17FqNd03Y56HeTnUeSd87Hlsm7XgBoSL4wx0tuozgNJegViZpycKQX86pPnD6TuHANaXDOY=
+	t=1774534946; cv=none; b=qfpyFeWsbKSXT0/ilIPt8hbew9N+TUuzDk1DSb6GdAIAOGQ3otHcvfZyLrRT8CkaWHfT3Q4eMAxtUlFH7ISa+XviStw/f8h+R59ChcBwZuYZCMTHjon/Bz2Jm3wNQVKU5cj5Pi0dHUWejnnLz7nbN6ToQgvbzsIicg6YOSXYWNg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774534834; c=relaxed/simple;
-	bh=4GuxjtBu05AKU6vPjLN91uKmiwjkBY146mMAHOLVBfo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=p2Vs3lorymoEEXxcGOy+x8yjcAquz0cZi0KtvIUjvhgdN3KKrQ6At1l1ATdgVg+Q6BYu6SiotL/G7ifR/GpLI++W7QvTDPI0MHxeRFMeT2nTfWS5mgAGvh0aSeI+d1kS9z62kSHC5BTc2Yk7eVOyGIuRMds1j7RFkGD85Kz6DnE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chenxiaosong.com; spf=pass smtp.mailfrom=chenxiaosong.com; dkim=pass (2048-bit key) header.d=chenxiaosong.com header.i=@chenxiaosong.com header.b=aD2KrMxB; arc=none smtp.client-ip=95.215.58.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chenxiaosong.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chenxiaosong.com
+	s=arc-20240116; t=1774534946; c=relaxed/simple;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Mzad/THwE9E/r/whSqOForlRjNwvO+UyZ8WlGR96cmH0n6fNpBgA9vTmh++eHERuP7HkeGg6EZevGkcGSl5bhWAZcwqczYuRh1L1qhnsNYDDFMIT/0FQg786KeM8IzZKCCc0OhF8BkPQTu+8U/aZDjpz7emSlaCUL3XpjBeo7RI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=z66rAKqf; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=chenxiaosong.com header.i=@chenxiaosong.com header.b="aD2KrMxB"
-Message-ID: <fb437a64-efa3-4284-90b3-dfff336d533b@chenxiaosong.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chenxiaosong.com;
-	s=key1; t=1774534825;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4GuxjtBu05AKU6vPjLN91uKmiwjkBY146mMAHOLVBfo=;
-	b=aD2KrMxBMNvi7eX45TA2mMPnX+OpNAsRXdHd2hO3Y/FZBxxBH4juI5vVj9+1384jX2gnWW
-	MQPGoX8eqtIORxQI5B4Ffu5wMRWB5v2OcgFpWiZ3RhsK6Tb63jJk88FVFAudIdjgyf33hA
-	6UkXPdeglJvj65t97hO8QwrZml/yDEshMJijI/PNewLz/zlvnGMwIU9AC+Po5l4ttxCAY6
-	W1qK3KRu13XOG4HrKN9r2OojDhQrl3iVaVmlHgl5MUG9WBBU+HQ30KfkoAVoMa7ZiLHHhQ
-	V6v5O4YDl0StX6YdsEymIsoVnNdyHbqS/9J2cGDJBsD9g0au0wN5KoI4+C2Ncg==
-Date: Thu, 26 Mar 2026 22:19:27 +0800
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="z66rAKqf"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=z66rAKqfrMH9ko2v8aqQqWTdYb
+	br2AaW/fgGlENJZHAB8382qxE8omnhHPx7HveJ42lMb9D6kHSPskMfPX95ptVJ8BLeX8armgnEQx4
+	7RUxQSrsXqug3sy3oBuiXyXkabnEYvwsB3nHmnfevuDlOKW5/9VCL9vfJqWUNQXEfS5eCn0tI5G1t
+	RCzMoYAhX/ytQ+KevRv1l0d9eXVaPn5+EuSeOhEmCDYcza8s5bSop9JzV5kAnoO8nxmap9QiwdjxX
+	fSl2RwWQAAkrYJsC/RNr/HPt7i2nT7bew3hmq46Dw94j8J5cb2fHNOYRG9Flm9uzGWqi/oSc++dgn
+	9eNPSyQg==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1w5lbE-00000005dXP-36eQ;
+	Thu, 26 Mar 2026 14:22:16 +0000
+Date: Thu, 26 Mar 2026 07:22:16 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Jan Kara <jack@suse.cz>
+Cc: linux-fsdevel@vger.kernel.org, Christoph Hellwig <hch@infradead.org>
+Subject: Re: [PATCH v3 1/2] mpage: Provide variant of mpage_writepages() with
+ own optional folio handler
+Message-ID: <acVBGNGQ12QJK2xy@infradead.org>
+References: <20260326140257.15908-1-jack@suse.cz>
+ <20260326140635.15895-3-jack@suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 25/26] netfs: Limit the the minimum trigger for progress
- reporting
-To: David Howells <dhowells@redhat.com>,
- Christian Brauner <christian@brauner.io>,
- Matthew Wilcox <willy@infradead.org>, Christoph Hellwig <hch@infradead.org>
-Cc: Paulo Alcantara <pc@manguebit.com>, Jens Axboe <axboe@kernel.dk>,
- Leon Romanovsky <leon@kernel.org>, Steve French <sfrench@samba.org>,
- Marc Dionne <marc.dionne@auristor.com>,
- Eric Van Hensbergen <ericvh@kernel.org>,
- Dominique Martinet <asmadeus@codewreck.org>,
- Ilya Dryomov <idryomov@gmail.com>, Trond Myklebust <trondmy@kernel.org>,
- netfs@lists.linux.dev, linux-afs@lists.infradead.org,
- linux-cifs@vger.kernel.org, linux-nfs@vger.kernel.org,
- ceph-devel@vger.kernel.org, v9fs@lists.linux.dev,
- linux-erofs@lists.ozlabs.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, Paulo Alcantara <pc@manguebit.org>
-References: <20260326104544.509518-1-dhowells@redhat.com>
- <20260326104544.509518-26-dhowells@redhat.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: ChenXiaoSong <chenxiaosong@chenxiaosong.com>
-In-Reply-To: <20260326104544.509518-26-dhowells@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260326140635.15895-3-jack@suse.cz>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-There are two "the"s in the subject.
+Looks good:
 
-On 3/26/26 18:45, David Howells wrote:
-> [PATCH 25/26] netfs: Limit the the ...
-
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 
