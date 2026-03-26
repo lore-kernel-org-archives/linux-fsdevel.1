@@ -1,142 +1,182 @@
-Received: from va-1-111.ptr.blmpb.com (va-1-111.ptr.blmpb.com [209.127.230.111])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D50633F5B9
-	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 07:43:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.230.111
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01A5E3ACA60;
+	Thu, 26 Mar 2026 07:48:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774511005; cv=none; b=nd/trLKgrIxUNspGx23Do+vw+9g71gN6hJ32Bz7cU9+bZblmgiRuP2GGMgMeHJMrEErq1tmuGCQX7ewf0QicI0eKb5q2/bjfYhqC5yJk0ByEh7AalGDl8+GXdPbOizVUetZADHmrEl/LqeDnovZ3c6AsVKLV1HrR1lIbwgAqSNU=
+	t=1774511337; cv=none; b=s86so/vh33eSTWtON9HO4ZMRX8fFeUp6E+XmZ/xCfAHrryzA/K3HI02ALRZDZXaOP0X9lumR83+yydugAkurCNlt1kPvSTZHAE6KSZaOMAi7vUv613AQbaYj3kNsn3P3eusifegSvJLLWRebuGEjzjxwHvBdnDrdAXAaCnHuYeI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774511005; c=relaxed/simple;
-	bh=nSUnf9vKTG2WbDQxCg6oJsNQhxrvJOvA3SX+S7lkv8M=;
-	h=Cc:Date:Content-Type:To:References:From:Subject:Message-Id:
-	 Mime-Version:In-Reply-To; b=GAflVHsRjcblyKz0+UtxeRLE4RgkXaRxYQWej4nVQ209TPNo00SfO1JNeGOEmwsRMk2H7F9B2AgMImTQBBlB2tKCD3ZrzsMuIfDJkZbcBejHW0iRmivPnpe3n1QgyDM9aIs0SXiZdRqLDGGxL2XBBiEeZPjayVGzYD90JFulp9I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=R4sQiRwh; arc=none smtp.client-ip=209.127.230.111
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1774511337; c=relaxed/simple;
+	bh=wQ5U8zDlbY0yVZlopH5HE4VDsA5l3x3JPcJlN3VoO5I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=romHCyu7gIz6RryCOGuwdNxbB0LEAJFjrtc7g3hF6kmYTjjH5n/t7MyDAyrAkv/2GVOZlenRB3ElmjTW1cr1KA/i3ywsceT1Et98VR9qCsY3DIxg4OSx4DQnpbbxByYMgNnJ3ZdLObtGv/WCQoa002AHkfngEqEYZvZmTV/EyFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F6VNMB8Z; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="R4sQiRwh"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1774510992; h=from:subject:
- mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
- mime-version:in-reply-to:message-id;
- bh=nSUnf9vKTG2WbDQxCg6oJsNQhxrvJOvA3SX+S7lkv8M=;
- b=R4sQiRwhdLEqS5YRcOfMoaYtmkrggJzqSkDSoPINbQB7s45paTZHW/auWQyfjU2j+pj2tt
- BElStn97jncS23PSU0oiqRfV9hfVhgoz2H+gAu1p7qC2hXDJI3f1sTOmQB4nMdsWwM/G+H
- WNzA6mXcfq/hP6/ssv8TtDN6SaSpy4qgDKbBts7HfqNDxmloTx2FE5fw6WqPfaOIMEM7/U
- KQc+Oc4WwCTv+H+xDiEb9OZrStlQ5R8tONLGSFXXjsVG+DCaKrafgXz9RPUu3BPwgeMev9
- yEuylpIBrnqDw912bUUNaDnCoiadgwKFeE4Kj9qVqHuylUQSWfVj0RIhCVadiQ==
-Cc: <tytso@mit.edu>, <linux-ext4@vger.kernel.org>, 
-	<linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
-	<changfengnan@bytedance.com>
-X-Lms-Return-Path: <lba+269c4e38e+14f4dc+vger.kernel.org+lidiangang@bytedance.com>
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 26 Mar 2026 15:42:57 +0800
-Content-Type: text/plain; charset=UTF-8
-To: "Zhang Yi" <yizhang089@gmail.com>, "Andreas Dilger" <adilger@dilger.ca>, 
-	"Diangang Li" <diangangli@gmail.com>
-User-Agent: Mozilla Thunderbird
-X-Original-From: Diangang Li <lidiangang@bytedance.com>
-References: <20260325093349.630193-1-diangangli@gmail.com> <20260325093349.630193-2-diangangli@gmail.com> <B53E253C-F314-4376-BD9D-58867FC8D3F6@dilger.ca> <c6f4b982-c6e4-4f77-a16d-0c381c1e25f0@bytedance.com> <e5c657e6-ffbd-4327-adaf-ae52cb50b96d@gmail.com>
-Content-Language: en-US
-From: "Diangang Li" <lidiangang@bytedance.com>
-Subject: Re: [RFC 1/1] ext4: fail fast on repeated metadata reads after IO failure
-Message-Id: <aa1f5bb1-ffa0-4c85-a228-730593bd4ed0@bytedance.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F6VNMB8Z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E8BFC116C6;
+	Thu, 26 Mar 2026 07:48:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774511336;
+	bh=wQ5U8zDlbY0yVZlopH5HE4VDsA5l3x3JPcJlN3VoO5I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=F6VNMB8ZUlPSG16KcjEQCuMHGLW7GaaOhje5Rqr0oM4JJ68EscdrV0OqxUl9pzhKo
+	 HuwUYHrRnAAyN9UlMiTBEcnyCE6lNK088rGnpzm4WOghUTtAWQ4J9QMl/OaBPdrMx0
+	 BkHzqS1LhXim775iyOAv5WhP6lBXKwecV54yb7d0YDB/k6nYKgQd9qcWCzExPQPFaD
+	 jZxWsfmJriMU5aEfyeM50tbL1CV452l00Qrree6d09kmTFWC0biBTqnXIqce7pg6jG
+	 eyXtjVUm3JE2/hCuvcyH3mApi4Q3jB1kVQHESIqCl8Yw/PEF4jk9Q1Sa89hAg9McGB
+	 5iOQoO9uls5TQ==
+Date: Thu, 26 Mar 2026 08:48:51 +0100
+From: Joel Granados <joel.granados@kernel.org>
+To: Marc Buerg <buermarc@googlemail.com>
+Cc: Kees Cook <kees@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
+	Octavian Purdila <opurdila@ixiacom.com>, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	Elias Oezcan <elias.rw2@gmail.com>, Peter Seiderer <ps.report@gmx.net>
+Subject: Re: [PATCH v4] sysctl: fix uninitialized variable in
+ proc_do_large_bitmap
+Message-ID: <zhl7hgan2uqcv3jdkviojmdk7tqxad3oanftg2oueihicfacyo@rdrjmt3rww5z>
+References: <20260325-fix-uninitialized-variable-in-proc_do_large_bitmap-v4-1-6fbdc832d9ba@googlemail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-In-Reply-To: <e5c657e6-ffbd-4327-adaf-ae52cb50b96d@gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="4rbyj6av6hzkniuz"
+Content-Disposition: inline
+In-Reply-To: <20260325-fix-uninitialized-variable-in-proc_do_large_bitmap-v4-1-6fbdc832d9ba@googlemail.com>
 
-Hi, Yi,
 
-Thanks. Yes, for existing metadata blocks ext4 is read-modify-write, so=20
-without a successful read (Uptodate) there is no write path to update=20
-that block.
+--4rbyj6av6hzkniuz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-In the case we're seeing, the read keeps failing (repeated I/O errors on=20
-the same LBA), so the write never has a chance to run either. Given=20
-that, would it make sense (as Fengnan suggested) to treat persistent=20
-media errors (e.g. MEDIUM ERROR / IO ERROR) as non-retryable at the=20
-filesystem level, i.e. keep failing fast for that block? That would=20
-avoid the BH_Lock thundering herd and prevent hung tasks.
-
-Thanks,
-Diangang
-
-On 3/25/26 10:27 PM, Zhang Yi wrote:
-> Hi, Diangang,
+On Wed, Mar 25, 2026 at 11:29:50PM +0100, Marc Buerg wrote:
+> proc_do_large_bitmap() does not initialize variable c, which is expected
+> to be set to a trailing character by proc_get_long().
 >=20
-> On 3/25/2026 7:13 PM, Diangang Li wrote:
->> Hi Andreas,
->>
->> BH_Read_EIO is cleared on successful read or write.
+> However, proc_get_long() only sets c when the input buffer contains a
+> trailing character after the parsed value.
 >=20
-> I think what Andreas means is, since you modified the ext4_read_bh()=20
-> interface, if the bh to be read already has the Read_EIO flag set, then=
-=20
-> subsequent read operations through this interface will directly return=20
-> failure without issuing a read I/O. At the same time, because its state=
-=20
-> is also not uptodate, for an existing block, a write request will not be=
-=20
-> issued either. How can we clear this Read_EIO flag? IIRC, relying solely=
-=20
-> on ext4_read_bh_nowait() doesn't seem sufficient to achieve this.
+> If c is not initialized it may happen to contain a '-'. If this is the
+> case proc_do_large_bitmap() expects to be able to parse a second part of
+> the input buffer. If there is no second part an unjustified -EINVAL will
+> be returned.
 >=20
-> Thanks,
-> Yi.
+> Initialize c to 0 to prevent returning -EINVAL on valid input.
 >=20
->>
->> In practice bad blocks are typically repaired/remapped on write, so we
->> expect recovery after a successful rewrite. If the block is never
->> rewritten, repeatedly issuing the same failing read does not help.
->>
->> We clear the flag on successful reads so the buffer can recover
->> immediately if the error was transient. Since read-ahead reads are not
->> blocked, a later successful read-ahead will clear the flag and allow
->> subsequent synchronous readers to proceed normally.
->>
->> Best,
->> Diangang
->>
->> On 3/25/26 6:15 PM, Andreas Dilger wrote:
->>> On Mar 25, 2026, at 03:33, Diangang Li <diangangli@gmail.com> wrote:
->>>>
->>>> From: Diangang Li <lidiangang@bytedance.com>
->>>>
->>>> ext4 metadata reads serialize on BH_Lock (lock_buffer). If the read=20
->>>> fails,
->>>> the buffer remains !Uptodate. With concurrent callers, each waiter can
->>>> retry the same failing read after the previous holder drops BH_Lock.=
-=20
->>>> This
->>>> amplifies device retry latency and may trigger hung tasks.
->>>>
->>>> In the normal read path the block driver already performs its own=20
->>>> retries.
->>>> Once the retries keep failing, re-submitting the same metadata read=20
->>>> from
->>>> the filesystem just amplifies the latency by serializing waiters on
->>>> BH_Lock.
->>>>
->>>> Remember read failures on buffer_head and fail fast for ext4=20
->>>> metadata reads
->>>> once a buffer has already failed to read. Clear the flag on successful
->>>> read/write completion so the buffer can recover. ext4 read-ahead uses
->>>> ext4_read_bh_nowait(), so it does not set the failure flag and remains
->>>> best-effort.
->>>
->>> Not that the patch is bad, but if the BH_Read_EIO flag is set on a=20
->>> buffer
->>> and it prevents other tasks from reading that block again, how would th=
-e
->>> buffer ever become Uptodate to clear the flag?=C2=A0 There isn't enough=
- state
->>> in a 1-bit flag to have any kind of expiry and later retry.
->>>
->>> Cheers, Andreas
->>
->
+> Fixes: 9f977fb7ae9d ("sysctl: add proc_do_large_bitmap")
+> Signed-off-by: Marc Buerg <buermarc@googlemail.com>
+> ---
+> When writing to /proc/sys/net/ipv4/ip_local_reserved_ports it is
+> possible to receive an -EINVAL for a valid value.
+>=20
+> This happens due to an uninitialized variable in the
+> proc_do_large_bitmap() function, namely char c. To trigger this behavior
+> the variable has to contain the later explicitly checked '-' char by
+> chance.
+>=20
+> In proc_do_large_bitmap() it is expected that the variable might be
+> filled by the proc_get_long() function with the trailing character of
+> the given input. But only if a trailing character exists within the
+> passed size of the buffer.
+>=20
+> The proc_get_long() function can set c if the length of the parsed long
+> is smaller than the given size of the buffer containing the user input.
+> This is not the case if the buffer only contains the port value (e.g.
+> "123") and sets the size exactly to that (3). Meaning if there is no
+> trailing character, c will not be set.
+>=20
+> If no trailing character is present we still do a c =3D=3D '-' check. If =
+the
+> uninitialized variable contains this char the function continues
+> parsing. It will now set err to -EINVAL in the next proc_get_long()
+> call, as there is nothing more to parse.
+>=20
+> Initializing c to 0 will solve the problem.
+>=20
+> The problem will only arise sporadically, as the variable must contain
+> '-' by chance. On the affected system CONFIG_INIT_STACK_NONE=3Dy was
+> enabled. Further, when enabling eBPF tracing to dump contents of the
+> stack the issue disappears, which would fit the current explanation as a
+> root cause for the observed behavior.
+> ---
+> Changes in v4:
+> - Re-include set c to 0
+> - Drop check against left
+> - Move trailers
+> - Removed Reviewed-by: Peter Seiderer <ps.report@gmx.net>
+> - Link to v3: https://lore.kernel.org/r/20260319-fix-uninitialized-variab=
+le-in-proc_do_large_bitmap-v3-1-9cfc3ff60c09@googlemail.com
+>=20
+> Changes in v3:
+> - Add Reviewed-by: Peter Seiderer <ps.report@gmx.net>
+> - Re-include bug context into cover letter
+> - Link to v2: https://lore.kernel.org/r/20260317-fix-uninitialized-variab=
+le-in-proc_do_large_bitmap-v2-1-6dfb1aefa287@googlemail.com
+>=20
+> Changes in v2:
+> - Drop initialization of c to 0
+> - Include checking that left is non-zero before checking against c
+> - Link to v1: https://lore.kernel.org/r/20260312-fix-uninitialized-variab=
+le-in-proc_do_large_bitmap-v1-1-35ad2dddaf21@googlemail.com
+> ---
+>  kernel/sysctl.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/kernel/sysctl.c b/kernel/sysctl.c
+> index 9d3a666ffde1..c9efb17cc255 100644
+> --- a/kernel/sysctl.c
+> +++ b/kernel/sysctl.c
+> @@ -1118,7 +1118,7 @@ int proc_do_large_bitmap(const struct ctl_table *ta=
+ble, int dir,
+>  	unsigned long bitmap_len =3D table->maxlen;
+>  	unsigned long *bitmap =3D *(unsigned long **) table->data;
+>  	unsigned long *tmp_bitmap =3D NULL;
+> -	char tr_a[] =3D { '-', ',', '\n' }, tr_b[] =3D { ',', '\n', 0 }, c;
+> +	char tr_a[] =3D { '-', ',', '\n' }, tr_b[] =3D { ',', '\n', 0 }, c =3D =
+0;
+> =20
+>  	if (!bitmap || !bitmap_len || !left || (*ppos && SYSCTL_KERN_TO_USER(di=
+r))) {
+>  		*lenp =3D 0;
+>=20
+> ---
+> base-commit: 80234b5ab240f52fa45d201e899e207b9265ef91
+> change-id: 20260312-fix-uninitialized-variable-in-proc_do_large_bitmap-30=
+c6ef4ac1c5
+>=20
+> Best regards,
+> --=20
+> Marc Buerg <buermarc@googlemail.com>
+>=20
+
+Thx for the fix
+
+Reviewed-by: Joel Granados <joel.granados@kernel.org>
+
+--=20
+
+Joel Granados
+
+--4rbyj6av6hzkniuz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmnE5NcACgkQupfNUreW
+QU+w0wv/dsIZfNE9iVW9v10fZyDT8mrWBsCsROhYIqrKUzb1BTGWS9QzRvUD3BEx
+YrFneZKC9Tjnh/bDbzfBTJgdwAga3JXkvpEDpTrCRZSd+FQmK8QSVopqk1Q0yNJP
+ZPtBC6xffpBu56mpjqBwTnOLaBkPyKfhlT/20H4IzuUe5tH/qsqoBLdf5EzI8ztd
+H5WaKKtHbo55UT0W9p/czuinvW/Kn4chPOobmi07XrerwS7mkeJeqt08HS+IHTA5
+LdJKDDlU8CMWMRIPNPdiS0g0YwO4VYqIz8fjDR3mqdIa5WOsiGgMF0uOVKdp/pC/
+5ku1XMpvxJIPm1+VpY4W4WFGl6YyLDk1xCK+HGrYZAFUxqXzwdQixDwSPR4iuK8j
+7IUYpggT6OY62JrfbUXkwqbmYzUiNaksLMKBHZ4Y96QmcbP1u+CAPgd4uEwnajNC
+IwmnmxIH36ubtQ5rk7bMIbwMRGQet3aIsIm0BNxHy9br/rScV0t8J7M5ayxRU7kT
+xbzklRmg
+=usXR
+-----END PGP SIGNATURE-----
+
+--4rbyj6av6hzkniuz--
