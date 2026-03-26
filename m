@@ -1,99 +1,84 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84A153F9F42;
-	Thu, 26 Mar 2026 14:42:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A387F371061;
+	Thu, 26 Mar 2026 14:42:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774536131; cv=none; b=jMwhspc4okzWIbnRkZSz5xasSfXCKOig9QyIZpVdGm2GOI+panQhf2YKh3iIXFgNkP0Py1rCfAX7JSaSnnqed+D1D+gl1avy4LVXmILg+1y1aFqKxa2nx0dAbaqDyLgrzNlbnUMSdyAYZSj0LtTzxn/UlNdG9SA9wQ2De0GYai4=
+	t=1774536174; cv=none; b=CPKnxbljpnxMtZtEjCr7hVwppm73ULyye6Jq6P+ks6pg+qSRS3iZS0AY8WzoZvLHzlgAoP91kWv5/rd942JfQqddlCuZCSLgNtn5wGn9IlnGCsJotbocA3p5X9NLlmT4b6RWqfsEaTdK209J8jlH7feSIfurMwYbL9d5i/aGAro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774536131; c=relaxed/simple;
-	bh=cjHKI5KfvI2JCI8xPtf9BRxhPAS3EmmfXSVaOQPum3E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aVNqPeEuiKeAkyo7QOF74xwXAFxF92dim6jq501ODEmkKa/7R4q2PCntSQFVmDGZhfuFMY7og0qggYfbQPa+AygRMWUbGoPsOw3URVvR2uYV/MWtp1XRhWW69dfu3L2zIyqCxS8EH3jR+IYHb74BtYuzqZlotmbCsOvGMvtMmOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NTcjvNNA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774536174; c=relaxed/simple;
+	bh=ZbWahonD1prqMZH635hkeBmq+Ljm4UNr47KNPqKBa/0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=RwkhN6q6FStNZZrUQEFOACLLc8VbCtaeDba2LFUqdstqHDbfgWddSFWnRF2A1fk3BMXypjrjOE9Oc7fgQnJN/JxCfd10HyBdeDuxFEmTvOs6vkw+pFf7xikbCeknUOJyg0sNmAkUdEPDeCQEuXPGtJCqx7ZTgtaGxE94l82rJ+U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UQ3CyAsA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NTcjvNNA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB2DCC19423;
-	Thu, 26 Mar 2026 14:42:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UQ3CyAsA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEF2EC116C6;
+	Thu, 26 Mar 2026 14:42:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774536131;
-	bh=cjHKI5KfvI2JCI8xPtf9BRxhPAS3EmmfXSVaOQPum3E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NTcjvNNAdLJAoahFvJ5LUejw2Tcgc0eH6Afyqffoo/xUhiuu6SUwlq9km8o7rk/dg
-	 3jQKJJrwXMa9IX/ucCA/TcJCWnvM+mFl1HLnOWixV/Nak9gtWbyTDEJY4u+XPJR6l/
-	 uqJL98gwTvLdjxrrtp9htW61+p8/RnQKygnrjAN9rh+5/sXDKaWAeWTQZLg+X3vsRU
-	 khFGMDjAryF1ZeyuwksmqC/RYJmAi11lC1bShn4/g/afq4WpUDITz/yjuH3N8DeWLu
-	 cSNf65CzXF51mDvv9Qjf0hd5t6tClB5hYCTmjI/k7nrFwJ/Y8VkEMAmxWEtjeiwE/b
-	 kC07EmYpCstrg==
-Date: Thu, 26 Mar 2026 15:42:07 +0100
+	s=k20201202; t=1774536174;
+	bh=ZbWahonD1prqMZH635hkeBmq+Ljm4UNr47KNPqKBa/0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=UQ3CyAsASax+wbmanHdjgjAckGsZ4CgtlvXwF2L2pGKTNaVulbHKTYnOXiPRyY0/L
+	 QVtICfng5nS1W2DxQxzqhuKuZdjOSNw/7cp5mh9xqbkV3QxvUGiVW1CYmun6hDSXGv
+	 Qy7JocarKH7xWzXtS+b5ysFuiEUMTaw7u+b33Rwbf0NXrCusVtuuk/aOAzpRQJJR9K
+	 ApbO8/Px0Hm3+xmxheieuWcRDajAt9rdHTAVDkZmpzGbAM74E/djWnL/3OBA4WBIEl
+	 XGhe5fJbYaePl4AU1yUv2EgOsicOl1J+1JqSYDUlc3Dl4i1f+tCCk5ZmDcLnJphCAr
+	 G7Tp/vwqUqGnw==
 From: Christian Brauner <brauner@kernel.org>
-To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Cc: David Francis <David.Francis@amd.com>, linux-kernel@vger.kernel.org, 
-	Alexander.Deucher@amd.com, linux-fsdevel@vger.kernel.org
-Subject: Re: [RFC PATCH] fdinfo: Option for public fdinfo
-Message-ID: <20260326-enten-hauen-36402c54073b@brauner>
-References: <20260316183828.3354343-1-David.Francis@amd.com>
- <20260323-neugierig-meerschwein-31b6daaa1db9@brauner>
- <10ac8ef6-56b4-4a0f-b970-18b3ce012ceb@amd.com>
- <20260324-mitmachen-wirst-65daea421642@brauner>
- <b8e8ea43-4c1c-41da-99a8-267010e1b9de@amd.com>
+To: linux-kernel@vger.kernel.org,
+	Emanuele Rocca <emanuele.rocca@arm.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	linux-fsdevel@vger.kernel.org,
+	Mark Brown <broonie@kernel.org>,
+	Jann Horn <jannh@google.com>,
+	Oleg Nesterov <oleg@redhat.com>
+Subject: Re: [PATCH v4 0/2] pidfds: add coredump_code field to pidfd_info
+Date: Thu, 26 Mar 2026 15:42:47 +0100
+Message-ID: <20260326-spuken-synergie-b606ef9a6e49@brauner>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <acE5fYOgyVUYahIn@NH27D9T0LF>
+References: <acE5fYOgyVUYahIn@NH27D9T0LF>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1354; i=brauner@kernel.org; h=from:subject:message-id; bh=ZbWahonD1prqMZH635hkeBmq+Ljm4UNr47KNPqKBa/0=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQedX2xeq5j8uYTCfMEIuYYLHBjjWljq4pXuxX0UVZYo MEs0zCso5SFQYyLQVZMkcWh3SRcbjlPxWajTA2YOaxMIEMYuDgFYCLpuxn+u7/Pydbes7Nv1trX 20RuHGLfMGlxEv/NB/9UWmqLhf+ce8/IcFnf6W7kGuFbJV1//ds6355hP1li9qDzzqynE3nut7J 0cgAA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <b8e8ea43-4c1c-41da-99a8-267010e1b9de@amd.com>
 
-On Tue, Mar 24, 2026 at 10:30:26AM +0100, Christian König wrote:
-> On 3/24/26 09:53, Christian Brauner wrote:
-> > On Mon, Mar 23, 2026 at 02:16:59PM +0100, Christian König wrote:
-> >> On 3/23/26 13:13, Christian Brauner wrote:
-> >>> On Mon, Mar 16, 2026 at 02:38:28PM -0400, David Francis wrote:
-> >>>> We want some GPU information to be publicly available to all
-> >>>> processes for basic system-wide profiling (think GPU versions
-> >>>> of top).
-> >>>>
-> >>>> This information is available in fdinfo and not easily exposed
-> >>>> by other interfaces.
-> >>>>
-> >>>> Add fd_op flag FOP_PUBLIC_FDINFO, which, if set, makes the fdinfo
-> >>>> for that file available to read for processes without ptrace
-> >>>> permissions.
-> >>>>
-> >>>> Note that this makes public how many files each process has open,
-> >>>> and what their fds are.
-> >>>>
-> >>>> Signed-off-by: David Francis <David.Francis@amd.com>
-> >>>> ---
-> >>>
-> >>> Eew, please let's not. Add an ioctl if you need to be able to retrieve
-> >>> that info.
-> >>
-> >> Yeah the problem is an IOCTL is even worse from the security pov.
-> >>
-> >> This is for an tool which doesn't have access to the file descriptor which provides that information.
-> >>
-> >> So using pidfd_getfd() or similar to get the FD and then call an IOCTL on it would be a security violation.
-> >>
-> >> The real question is how should we make this information public available in the system?
-> > 
-> > Don't you have a way to make this info available in sysfs? Just like
-> > networking exposes info about network devices in there that may come and
-> > go?
+On Mon, 23 Mar 2026 14:00:45 +0100, Emanuele Rocca wrote:
+> This patchs series adds a new field called coredump_code to struct pidfd_info,
+> as well as the relevant selftests. Note that the coredump selftests are
+> currently not passing, and the following patch is needed to fix them:
+> https://lore.kernel.org/lkml/ab2kI0PI_Vk6bU88@NH27D9T0LF/
+> I have not included it in this series as it is not directly related to the
+> coredump_code changes.
 > 
-> Yeah that was already tried as well and Greg summarized it as "sometimes you don't know how horrible something is until you tried it".
-> 
-> So the memory accounting parts for DMA-buf files in sysfs were deprecated and removed again just a few weeks ago. And that was basically just a subset of what David tries to do here.
-> 
-> The requirement is that you want to be able to access the stats for accelerators/GPUs drivers similar to how tools like "top" or "htop" work. E.g. everybody can access /proc/*/stat as well, it's just that some security related information are left out.
-> 
-> As far as I can see we have only a couple of different options to fulfill that requirement and lowering the security for fdinfo like David's patch here suggests still looks like the most defensive one to me.
+> [...]
 
-It's not acceptable to make /proc/<pid>/fdinfo accessible just to carve
-out an exception for you. You can look at implementing something like
-taskstats based on netlink transpart if you want to.
+Applied to the vfs-7.1.pidfs branch of the vfs/vfs.git tree.
+Patches in the vfs-7.1.pidfs branch should appear in linux-next soon.
+
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
+
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-7.1.pidfs
+
+[1/2] pidfds: add coredump_code field to pidfd_info
+      https://git.kernel.org/vfs/vfs/c/701f7f4fbabb
+[2/2] selftests: check pidfd_info->coredump_code correctness
+      https://git.kernel.org/vfs/vfs/c/7aaa4915cb69
