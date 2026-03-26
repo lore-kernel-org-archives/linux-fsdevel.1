@@ -1,169 +1,171 @@
-Received: from relay.hostedemail.com (smtprelay0011.hostedemail.com [216.40.44.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD59637D13B;
-	Thu, 26 Mar 2026 14:33:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BEE32DB788
+	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 14:39:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774535615; cv=none; b=fdhUP9Uu6F54TXrFRmJhMr1hxnnHiHlP5aurtVSYRXHZTsN3ULqpZ9YnQZchgPFAtaYQQUS8D3aebXaAL5IaKyrEeztnhwsR604ExvVNugrdv5WJty+aP1OmAvlFEE7q6u7f8WqcNpDC0fqZO6khJiu8AdOsL7g1MTI2oWSqJGQ=
+	t=1774535964; cv=none; b=l9nrcssECv13k96rpCwN4GYKdYTXUqACh5gywvg34e4TJDJeb8awipuUZl653QxECVX2JY0jd0fevQyUge4vRBK8ABrKp/ilZXURgMkFQa/6koc/3Qp6h3zUYNLn98YDeTSKNNMbaaaJRyrpSZGbfZmKNziaD9iIEmabhC7PqDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774535615; c=relaxed/simple;
-	bh=uitE5N4MSLCwc03nT54vCrcste7AWysJiPN/uu/wMcI=;
+	s=arc-20240116; t=1774535964; c=relaxed/simple;
+	bh=yJvPos6W41NVA3w/bjhhfi/qVbo9Fcvcdig/i2q/yMU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=atlCZ3Y3bi+2BYvudXDacASaz3rTATJhpTpMlNwHWE3wJRGdTrLX5buk4f5kbLatMmMKXsDR6LafmInv0LqFw9F6lTga0mwfLWZhDihzoVoG8m0rKnz7G8mLP50SByLNQHzeEzGdR1vBuj9/tkpoAkjQtkc6qbuvxyj02dsmfyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
-Received: from omf14.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay09.hostedemail.com (Postfix) with ESMTP id 614E88D205;
-	Thu, 26 Mar 2026 14:33:28 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf14.hostedemail.com (Postfix) with ESMTPA id 42EDA30;
-	Thu, 26 Mar 2026 14:33:15 +0000 (UTC)
-Date: Thu, 26 Mar 2026 09:33:13 -0500
-From: John Groves <John@groves.net>
-To: Ira Weiny <ira.weiny@intel.com>
-Cc: Jonathan Cameron <jonathan.cameron@huawei.com>, 
-	John Groves <john@jagalactic.com>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
-	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
-	Amir Goldstein <amir73il@gmail.com>, Stefan Hajnoczi <shajnocz@redhat.com>, 
-	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
-	"venkataravis@micron.com" <venkataravis@micron.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH V9 3/8] dax: add fsdev.c driver for fs-dax on character
- dax
-Message-ID: <acVDCKeolpJM9qg6@groves.net>
-References: <0100019d1d463523-617e8165-a084-4d91-aa5e-13778264d5d4-000000@email.amazonses.com>
- <20260324003818.5009-1-john@jagalactic.com>
- <0100019d1d476420-6b0bf60e-3b3a-4868-8f5f-484cd55d4709-000000@email.amazonses.com>
- <20260324143927.000024c3@huawei.com>
- <acPX9T2ZF7xTCHtZ@groves.net>
- <69c407903b54c_130d6e1007a@iweiny-mobl.notmuch>
+	 Content-Type:Content-Disposition:In-Reply-To; b=QXr8yaI+Tv4ex51b+7NwYlLzP3SlXWa/DAJ8J6IRXG1kgWNEXILzVX58staL14azgDpnLHATOx9uogDUrZ1pDNsu58Fz0S6I+w1c7oNxrZWH1xG2aaDy0yVgSrXIXg6IwLHl6IvhbDuGRqb+3QAc3IItCKNb6YGAxoYgGH2A0b4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fb4YSJng; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fb4YSJng"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94905C116C6;
+	Thu, 26 Mar 2026 14:39:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774535963;
+	bh=yJvPos6W41NVA3w/bjhhfi/qVbo9Fcvcdig/i2q/yMU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Fb4YSJngrY0EKM1NjiBJ8rJ9ZOMecHD4a3pzJjZOevx2cUAH3R/47v45lM1eyMu2w
+	 +gWxDfrT4ZeiePnjZc0RAIg+ikWnCwKOzUTHhba+6gPSU0eCwT+JGqru4aMY+QmZcQ
+	 RH5JncoTX+ywHDBOlW22VqYhwqBhpaJVGTuuqEELE0vpC7zNz1K5OtJr2dQfpsjmhh
+	 Tfb8ptRZfTgXsO0kwib6w0/DqtZttN2qbrMBomm8/n1uYOlhEZZqqyU01v8B4Icj5V
+	 maifLrukA9qmYDBXPpgLp3zUuD0b2dIcR/GNyFRXLTm/tcedX71FaGpBt0BTpi2/U9
+	 EtkGjsSfqWcUg==
+Date: Thu, 26 Mar 2026 15:39:18 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Gao Xiang <hsiangkao@linux.alibaba.com>
+Cc: Demi Marie Obenour <demiobenour@gmail.com>, Jan Kara <jack@suse.cz>, 
+	"Darrick J. Wong" <djwong@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, 
+	linux-fsdevel@vger.kernel.org, Joanne Koong <joannelkoong@gmail.com>, 
+	John Groves <John@groves.net>, Bernd Schubert <bernd@bsbernd.com>, 
+	Amir Goldstein <amir73il@gmail.com>, Luis Henriques <luis@igalia.com>, 
+	Horst Birthelmer <horst@birthelmer.de>, Gao Xiang <xiang@kernel.org>, lsf-pc@lists.linux-foundation.org
+Subject: Re: [Lsf-pc] [LSF/MM/BPF TOPIC] Where is fuse going? API cleanup,
+ restructuring and more
+Message-ID: <20260326-gemindert-vertuschen-fd3a507eba94@brauner>
+References: <cfe18ae0-7dc0-4601-a9f0-c0665f301cfe@linux.alibaba.com>
+ <s3y7qrkgwedbkltpt7mjjzisazynzms3btablzpxhdoezapddy@xanux4rrspwd>
+ <72eaaed1-24a0-4c98-a7c0-ea249d541f2d@linux.alibaba.com>
+ <9af9ad0e-8070-4aaa-9f64-7d72074bd948@linux.alibaba.com>
+ <wo2nf7bux5rhexbpyeutbb5bkpqlumq3ht7iqxdft7lhc2p6va@3q6wsi2xndpu>
+ <68116ee5-b1f7-484b-a520-7dc5aefd7738@linux.alibaba.com>
+ <2gyfmxfnnxrglpzb7kz63xbve5vnosl6gi54c3umgrpwbjr4og@lz4e2ptqanfe>
+ <20260324-hilfen-reibung-9783005d5d0f@brauner>
+ <b8f5bff1-27bf-4934-9297-0aad551a550c@gmail.com>
+ <d2d5c218-7063-4ea0-ab03-1433449f4d83@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <69c407903b54c_130d6e1007a@iweiny-mobl.notmuch>
-X-Rspamd-Queue-Id: 42EDA30
-X-Rspamd-Server: rspamout06
-X-Stat-Signature: 5eg85543faus5y8qbax17j5g17jtwxzw
-X-Session-Marker: 6A6F686E4067726F7665732E6E6574
-X-Session-ID: U2FsdGVkX19vLDgSS82Pku/H0CS1NgXwFtSVcyMwGZI=
-X-HE-Tag: 1774535595-812783
-X-HE-Meta: U2FsdGVkX1/Ks6E7tKWGMh2aa6R2BohAXkl/97fmQKcl8v/Wik6akqPqBhbNwOUwsQ1hpL8OGYRPf5DozAPXKP1HfCmn2AePBj7XTJcaoE4lwODhimP2J63AMLtaPA6OjGG9opKV+kT9e38423SIFvfJQwUy7ATE//MIDlWaqWn7bn2eThIs14xUlra2v9+d8Uq36M9JrfNlRixl6ULq5pREJFVhuvqyZwoSh3438PJ6pRiHHfTfu8a0mB5n6zzGSmEiKIGulnDSmV3ezak6yohb7oUR+VcLmBrizK4bGV23slgtT9os2G2bmB9j1VJyJS8/+FKjhuELPvargPlDpVjUaC0A0HEPAnFD/9W/NNxLKxnHMPi+eqUdGrQbynXeXg0oNQyADz+S7jsT8w2X1N1y3OQbWD8HJO3BZOu6CR1J9KzEB32I6uImy4tzP7X7yNUOAQZxvh6cff/YTkrphIB7Z7QZChOtxR2A7O0C7v4dq7nnrUrsUCVfk+1VE8Z3NxREyQRo1XWSojPUQ5gusJNdZ9qIf2ZH1PaZ6J/NVCGRBMnGNu70e8q82OJKbs7Q
+In-Reply-To: <d2d5c218-7063-4ea0-ab03-1433449f4d83@linux.alibaba.com>
 
-On 26/03/25 11:04AM, Ira Weiny wrote:
-> John Groves wrote:
-> > On 26/03/24 02:39PM, Jonathan Cameron wrote:
-> > > On Tue, 24 Mar 2026 00:38:31 +0000
-> > > John Groves <john@jagalactic.com> wrote:
-> > > 
-> > > > From: John Groves <john@groves.net>
+On Tue, Mar 24, 2026 at 08:21:00PM +0800, Gao Xiang wrote:
+> 
+> 
+> On 2026/3/24 19:58, Demi Marie Obenour wrote:
+> > On 3/24/26 04:48, Christian Brauner wrote:
+> 
+> ...
+> 
+> > > > > 
+> > > > > > I would still consider such design highly suspicious but without more
+> > > > > > detailed knowledge about the application I cannot say it's outright broken
+> > > > > > :).
+> > > > > 
+> > > > > What do you mean "such design"?  "Writable untrusted
+> > > > > remote EXT4 images mounting on the host"? Really, we have
+> > > > > such applications for containers for many years but I don't
+> > > > > want to name it here, but I'm totally exhaused by such
+> > > > > usage (since I explained many many times, and they even
+> > > > > never bother with LWN.net) and the internal team.
 > > > > 
-> > > > The new fsdev driver provides pages/folios initialized compatibly with
-> > > > fsdax - normal rather than devdax-style refcounting, and starting out
-> > > > with order-0 folios.
-> > > > 
-> > > > When fsdev binds to a daxdev, it is usually (always?) switching from the
-> > > > devdax mode (device.c), which pre-initializes compound folios according
-> > > > to its alignment. Fsdev uses fsdev_clear_folio_state() to switch the
-> > > > folios into a fsdax-compatible state.
-> > > > 
-> > > > A side effect of this is that raw mmap doesn't (can't?) work on an fsdev
-> > > > dax instance. Accordingly, The fsdev driver does not provide raw mmap -
-> > > > devices must be put in 'devdax' mode (drivers/dax/device.c) to get raw
-> > > > mmap capability.
-> > > > 
-> > > > In this commit is just the framework, which remaps pages/folios compatibly
-> > > > with fsdax.
-> > > > 
-> > > > Enabling dax changes:
-> > > > 
-> > > > - bus.h: add DAXDRV_FSDEV_TYPE driver type
-> > > > - bus.c: allow DAXDRV_FSDEV_TYPE drivers to bind to daxdevs
-> > > > - dax.h: prototype inode_dax(), which fsdev needs
-> > > > 
-> > > > Suggested-by: Dan Williams <dan.j.williams@intel.com>
-> > > > Suggested-by: Gregory Price <gourry@gourry.net>
-> > > > Signed-off-by: John Groves <john@groves.net>
+> > > > By "such design" I meant generally the concept that you fetch filesystem
+> > > > images (regardless whether ext4 or some other type) from untrusted source.
+> > > > Unless you do cryptographical verification of the data, you never know what
+> > > > kind of garbage your application is processing which is always invitation
+> > > > for nasty exploits and bugs...
 > > > 
-> > > I was kind of thinking you'd go with a hidden KCONFIG option with default
-> > > magic to do the same build condition to you had in the Makefil, but one the
-> > > user can opt in or out for is also fine.
-> > > 
-> > > Comments on that below. Meh, I think this is better anyway :)
-> > > 
-> > > Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
-> > > 
-> > > 
-> > > 
-> > > > diff --git a/drivers/dax/Kconfig b/drivers/dax/Kconfig
-> > > > index d656e4c0eb84..7051b70980d5 100644
-> > > > --- a/drivers/dax/Kconfig
-> > > > +++ b/drivers/dax/Kconfig
-> > > > @@ -61,6 +61,17 @@ config DEV_DAX_HMEM_DEVICES
-> > > >  	depends on DEV_DAX_HMEM && DAX
-> > > >  	def_bool y
-> > > >  
-> > > > +config DEV_DAX_FSDEV
-> > > > +	tristate "FSDEV DAX: fs-dax compatible devdax driver"
-> > > > +	depends on DEV_DAX && FS_DAX
-> > > > +	help
-> > > > +	  Support fs-dax access to DAX devices via a character device
-> > > > +	  interface. Unlike device_dax (which pre-initializes compound folios
-> > > > +	  based on device alignment), this driver leaves folios at order-0 so
-> > > > +	  that fs-dax filesystems can manage folio order dynamically.
-> > > > +
-> > > > +	  Say M if unsure.
-> > > Fine like this, but if you wanted to hide it in interests of not
-> > > confusing users...
-> > > 
-> > > config DEV_DAX_FSDEV
-> > > 	tristate
-> > > 	depends on DEV_DAX && FS_DAX
-> > > 	default DEV_DAX
+> > > If this is another 500 mail discussion about FS_USERNS_MOUNT on
+> > > block-backed filesystems then my verdict still stands that the only
+> > > condition under which I will let the VFS allow this if the underlying
+> > > device is signed and dm-verity protected. The kernel will continue to
+> > > refuse unprivileged policy in general and specifically based on quality
+> > > or implementation of the underlying filesystem driver.
 > > 
-> > I like this better. I see no reason not to default to including fsdev.
-> > It does nothing other than frustrating famfs users if it's off - since
-> > building it still has no effect unless you put a daxdev in famfs mode.
+> > As far as I can tell, the main problems are:
 > > 
-> > Ira, it's kinda in your hands at the moment. Do you feel like making this
-> > change?
+> > 1. Most filesystems can only be run in kernel mode, so one needs a
+> >     VM and an expensive RPC protocol if one wants to run them in a
+> >     sandboxed environment.
+> > 
+> > 2. Context switch overhead is so high that running filesystems entirely
+> >     in userspace, without some form of in-kernel I/O acceleration,
+> >     is a performance problem.
+> > 
+> > 3. Filesystems are written in C and not designed to be secure against
+> >     malicious on-disk images.
+> > 
+> > Gao Xiang is working on problem for EROFS.
+> > FUSE iomap support solves 2.  lklfuse solves problem 1.
 > 
-> I don't mind making this change.  But we have to deal with the breakage to
-> current device dax users.
+> Sigh, I just would like to say, as Darrick and Jan's previous
+> replies, immutable on-disk fses are a special kind of filesystems
+> and the overall on-disk format is to provide vfs/MM basic
+> informattion (like LOOKUP, GETATTR, and READDIR, READ), and the
+> reason is that even some values of metadata could be considered
+> as inconsistent, it's just like FUSE unprivileged daemon returns
+> garbage (meta)data and/or TAR extracts garbage (meta)data --
+> shouldn't matter at all.
 > 
-> https://lore.kernel.org/all/69c36921255b6_e9d8d1009b@iweiny-mobl.notmuch/
+> Why I'm here is I'm totally exhaused by arbitary claim like
+> "all kernel filesystem are insecure". Again, that is absolutely
+> untrue: the feature set, the working model and the implementation
+> complexity of immutable filesystems make it more secure by
+> design.
 > 
-> What am I missing?
+> Also the reason of "another 500 mail discussion about
+> FS_USERNS_MOUNT" is just because "FS_USERNS_MOUNT is very very
+> useful to containers", and the special kind of immutable on-disk
+> filesystems can fit this goal technically which is much much
+> unlike to generic writable ondisk fses or NFS and why I working
+> on EROFS is also because I believe immutable ondisk filesystems
+> are absolutely useful, more secure than other generic writable
+> fses by design especially on containers and handling untrusted
+> remote data.
 > 
-> Ira
+> I here claim again that all implementation vulnerability of
+> EROFS will claim as 0-day bug, and I've already did in this way
+> for many years.  Let's step back, even not me, if there are
+> some other sane immutable filesystems aiming for containers,
+> they will definitely claim the same, why not?
 
-OK, I can reproduce that failure with kernel 7.0.0-rc5 and 
-straight ndctl v84. So it's not famfs.
+If you want unprivileged filesystem drivers mountable by arbitrary users
+and containers then get behind the effort to move this completely out of
+the kernel and into fuse making fuse fast enough so that we don't have
+to think about it anymore.
 
-I also studied the verbose logs trying to figure out if famfs
-could cause it (while running a famfs kernel and ndctl), but
-I don't see it.
+The whole push over the last years has been that if users want to mount
+arbitrary in-kernel filesystems in userspace then they better built a
+delegation and security model _in userspace_ to make this happen. This
+is why we built mountfsd in userspace which works just fine today.
 
-Then I tried non-famfs kernel and ndctl and it's the same with
-or without famfs kernel and famfs ndctl.
+I don't understand what exactly people think is going to happen once we
+start promising that mounting untrusted images in the kernel for even
+one filesystem is fine. This will march us down security madness we have
+not experienced before with all of the k8s and container workloads out
+there.
 
-John
+For me it is currently still completely irrelevant what filesystem
+driver this is and whether it is immutable or not. Look at the size of
+your attack surface in your codebase and your algorithms and the ever
+expanding functionality it exposes. This pipe dream of "rootless"
+containers being able to mount arbitrary images in-kernel without
+userspace policy is not workable.
 
+We debate this over and over because userspace is unwilling to accept
+that there are fundamental policy problems that are not solved in the
+kernel. And that includes when it is safe to mount arbitrary data. This
+is especially true now as we're being flooded with (valid and invalid)
+CVEs due to everyone believing their personal LLM companion.
+
+You're going to be at LSF/MM/BPF and I'm sure there'll be more
+discussion around this.
