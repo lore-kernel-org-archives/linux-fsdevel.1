@@ -1,29 +1,29 @@
-Received: from outbound-ip191b.ess.barracuda.com (outbound-ip191b.ess.barracuda.com [209.222.82.124])
+Received: from outbound-ip191a.ess.barracuda.com (outbound-ip191a.ess.barracuda.com [209.222.82.58])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B7CB3A7835
-	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 21:35:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=209.222.82.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61B2E3A16A2
+	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 21:35:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=209.222.82.58
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774560925; cv=fail; b=sLMU/sqas6RhupeekNzRywwxg847LRtadfZXnYbdZ819JvsaPfmGodTehv9YKvu5EcmpIq4mIkDN1qz9q9c/RCB2/cdmKB5CBgQrTt+hMdbeZyjZ1VolwpFD3PVwHtSuLHlGRtqCZDDzxNMnTaww1SMi90oof4QMHGJvFHb3gQs=
+	t=1774560926; cv=fail; b=MdcbvVd0DraW38doKn3IlWtBNAYWnT666nKr3465j3zlto2WiV8i3E563C1v2T1DhVhwIDtFLnBKSlAFZzejEb3fo0KARNaC25AzBGzcB0n/sWWx5EPZRBoaHs5HKny0mt8cV69YhmFadBQZXr8L7+rPO22PyWLKPvkWkensJEM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774560925; c=relaxed/simple;
-	bh=IyKpR1bJox4+dYysx4GavpqIYWop075ZnOJjCBK23aw=;
+	s=arc-20240116; t=1774560926; c=relaxed/simple;
+	bh=U9YrefuEi7+pXUss9rLG70iUtKJSAfzw7FKOGHFu/p0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=UjiPI91Gwy2eRzpc0PwWbWLf2OdM0T2NcX3a+lGW6hSvOmOctybKMlUhNXjIpb/E/vkNx9Vb9b8SmbrNSaFDtyZB90EqQo4XfUC37+5XwCE1yNlOIBf4hYZwJjjQGkUMvqqAGeQQ4OxnErgfYH6Cp2wOodS88rwOACoLhmgZdHI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=ddn.com; dkim=pass (1024-bit key) header.d=datadirectnetworks.onmicrosoft.com header.i=@datadirectnetworks.onmicrosoft.com header.b=fJaJPaQQ; arc=fail smtp.client-ip=209.222.82.124
+	 In-Reply-To:To:Cc; b=oNLwBNXAxDK9MFF3zjsMBDM3tWfjeO4eRSH32WXMiHCMSM7Et5acdtvf3i90hX1E9AzShje+YGKjzBXwRj+RQ7h7kZgTzjqzhcv2K8Hyb6Ew4MTwXCUASO4jWZNrvn4cGEGQUt6vdK4/Wt20clO+vLvuak9nAjsXCJUUxrB4TfA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=ddn.com; dkim=pass (1024-bit key) header.d=datadirectnetworks.onmicrosoft.com header.i=@datadirectnetworks.onmicrosoft.com header.b=irrnRjZF; arc=fail smtp.client-ip=209.222.82.58
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ddn.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=datadirectnetworks.onmicrosoft.com header.i=@datadirectnetworks.onmicrosoft.com header.b="fJaJPaQQ"
-Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11021129.outbound.protection.outlook.com [52.101.57.129]) by mx-outbound45-1.us-east-2c.ess.aws.cudaops.com (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO); Thu, 26 Mar 2026 21:35:16 +0000
+	dkim=pass (1024-bit key) header.d=datadirectnetworks.onmicrosoft.com header.i=@datadirectnetworks.onmicrosoft.com header.b="irrnRjZF"
+Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11022077.outbound.protection.outlook.com [52.101.43.77]) by mx-outbound14-3.us-east-2a.ess.aws.cudaops.com (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO); Thu, 26 Mar 2026 21:35:18 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=liVKuAvdcx3SOcccQiZ6GalFthZI2wAWdmpUyR6NPMEXSt9VPfFiLlp/r1eYRLvhiLK2gXN0XJtub5/5XDgtNBuNyiZovcvoOabRRrnivy+ZOP/jn+51iMKL7yLnyw4c8zK9aFY2w8x24PhzAA97d4VHJKclE5T3pQBhTxAI+UhqcUiejlYVwt7ucGxofIdu2I6f+u2t/gkx5yDtN4Mk4Tyr+k5x9G95CPz5wQ5D8CN+wRvyaKKrmG4duzTepMCdnizce5E1MU8qlsC1hlHIGsud3fBu/2WLN3JOZNwzPpdTotAAuMaoykxbQjG13HhhPBVqopO0CSj39I71ZJ/HkA==
+ b=QmS98PevZa4NmbiGfhb9UZvi8GzPqGbMNKq25HJ28AGW8/I0lA3sh5SZxWqYcT2TCLoUDCgzshTpV+CDMFyFfTqjYydlEp0G7uLzgR2xkckFNxiutevnmsOdZNG9zUNlsJz2yR5+NWTBG/TvGB1B+mg8XNzcsUyrtYbY3lnQbIf+gRp4QL8TLx7lLA8R0F8xTSJfEmbUc9EkF6XLIlEATPVO0JT1mxzT+V1sI4hy1uK11Z0I8pv3IKFSif3XBADEXnkWNBffQPfSwGnAq6hs7au2uJTm1g1Sh3Sn3zfMiYB6hcWyWXGLmv5Vy2SjnbU0GQ2LLDx/EVfptLWSuWpU2g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rT53HTApMbiNziDfkv1F9Pb4sIBiKOiAj0Qn8r0WacU=;
- b=XuhORSIEDgeOdFxU8WoEFcMz0KcPNGl3NjrqrXDUWXUWmZcYxf9eDIc4z/7zD8/oBzCOfMbtpR0W0he79AQwNMymNDaCNnoQEPJeeunv8v6X5M3iPyWjjG6SV2zBYRG4pG/1YL18fLdIlddCs6WLnDXLswZvcpXz7cl0nmomZaXBOjkNRNSOdMPKoP6+KNC/qY/zmSJM3i5zSvaQMBsFIAPCNsWmvwHsTTcjdAOf7WX2PU6AdHt6vdKjrlklaRKtJNcWVm1Q+Z0LiNghVkbJNQ5JK3pjfM7eGL0Nf/jwNIb6Yn+Yx+3Zw4YzNwCO8ciTbOOb/n+fPzmIR/4ioPICKg==
+ bh=Fdki+lwv0dIST7HPERp1mpvsX3Aaqjh24k/m4wGwU98=;
+ b=Zugv949Ud9IK/QJQgD/gH48hDWeZDnbKmxEucgasnYoCzajn5+mmb1NA6eRndG9CtXKw0XZylStp+fIihT9rlyAgNN7nkdlcDCgOsesN6cF7IHkl7VsHIg8QdCoRm1oWr9VfAebrTD6mWvnhJ+UV4TjLrhsx6wRCywczJeIVRtdBIrOz3AvNNAGNF6kyuWRQub3nsrOdNQ5QL6UaLiDtE/icecJpUv95sUoZzMxc1HJt4tCU0kizPKtd1V49wCHPFtv8Fk2RaUGlXV6WDCa44ajZ6qVUyC+w8eNgJzRNarqikXgur0l6NpOVPoSH+7ysFf46nEYWePJx2lLrl5b14w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  50.222.100.11) smtp.rcpttodomain=bsbernd.com smtp.mailfrom=ddn.com;
  dmarc=fail (p=none sp=none pct=100) action=none header.from=bsbernd.com;
@@ -32,16 +32,16 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=datadirectnetworks.onmicrosoft.com;
  s=selector2-datadirectnetworks-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rT53HTApMbiNziDfkv1F9Pb4sIBiKOiAj0Qn8r0WacU=;
- b=fJaJPaQQY2AbGlZFNS03XRYxjPv9i1AiXNSPKPyEKdM1hH0+7C4W518jUJ1rHgKndjpRJvtFkOACU8chEUKfIen1UkEoykAO/HnsTbTTQnArEoiZhXh8OlZ7UE6G4MvAbcl1SMgOVLAZVBGrRgsXrkT5WuukBDfTF9uV4tPU32c=
-Received: from PH8PR07CA0039.namprd07.prod.outlook.com (2603:10b6:510:2cf::7)
- by LV2PR19MB5984.namprd19.prod.outlook.com (2603:10b6:408:14e::18) with
+ bh=Fdki+lwv0dIST7HPERp1mpvsX3Aaqjh24k/m4wGwU98=;
+ b=irrnRjZFimKUR7DFKvz866gizc0LwN+MQPksAK4SncmJ1mEhSAfNyM0E3r8oFrvMTXsU+jNPHiWyIGsHIexUUsEEoKLJbuVSrrKw8i79gSXastHPSjryYNcPEq7ab0ryva7+0RroS+YwscXPOmQRGbJEPA7+/pqWR4A6hlkYY3U=
+Received: from DS7PR03CA0251.namprd03.prod.outlook.com (2603:10b6:5:3b3::16)
+ by MN6PR19MB7989.namprd19.prod.outlook.com (2603:10b6:208:47e::5) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.21; Thu, 26 Mar
- 2026 21:35:08 +0000
-Received: from CY4PEPF0000E9D2.namprd03.prod.outlook.com
- (2603:10b6:510:2cf:cafe::76) by PH8PR07CA0039.outlook.office365.com
- (2603:10b6:510:2cf::7) with Microsoft SMTP Server (version=TLS1_3,
+ 2026 21:35:13 +0000
+Received: from CY4PEPF0000EDD5.namprd03.prod.outlook.com
+ (2603:10b6:5:3b3:cafe::c3) by DS7PR03CA0251.outlook.office365.com
+ (2603:10b6:5:3b3::16) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.9723.33 via Frontend Transport; Thu,
  26 Mar 2026 21:35:07 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 50.222.100.11)
@@ -51,15 +51,15 @@ Received-SPF: Pass (protection.outlook.com: domain of ddn.com designates
  50.222.100.11 as permitted sender) receiver=protection.outlook.com;
  client-ip=50.222.100.11; helo=uww-mrp-01.datadirectnet.com; pr=C
 Received: from uww-mrp-01.datadirectnet.com (50.222.100.11) by
- CY4PEPF0000E9D2.mail.protection.outlook.com (10.167.241.137) with Microsoft
+ CY4PEPF0000EDD5.mail.protection.outlook.com (10.167.241.201) with Microsoft
  SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9745.21
- via Frontend Transport; Thu, 26 Mar 2026 21:35:07 +0000
+ via Frontend Transport; Thu, 26 Mar 2026 21:35:12 +0000
 Received: from localhost (unknown [10.68.0.8])
-	by uww-mrp-01.datadirectnet.com (Postfix) with ESMTP id A69BD55;
-	Thu, 26 Mar 2026 21:35:02 +0000 (UTC)
+	by uww-mrp-01.datadirectnet.com (Postfix) with ESMTP id 29BFA55;
+	Thu, 26 Mar 2026 21:35:12 +0000 (UTC)
 From: Bernd Schubert <bernd@bsbernd.com>
-Date: Thu, 26 Mar 2026 22:34:44 +0100
-Subject: [PATCH v2 11/25] Move 'struct mount_flags' to util.h
+Date: Thu, 26 Mar 2026 22:34:54 +0100
+Subject: [PATCH v2 21/25] New mount API: Filter out "user="
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -68,329 +68,119 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260326-fuse-init-before-mount-v2-11-b1ca8fcbf60f@bsbernd.com>
+Message-Id: <20260326-fuse-init-before-mount-v2-21-b1ca8fcbf60f@bsbernd.com>
 References: <20260326-fuse-init-before-mount-v2-0-b1ca8fcbf60f@bsbernd.com>
 In-Reply-To: <20260326-fuse-init-before-mount-v2-0-b1ca8fcbf60f@bsbernd.com>
 To: linux-fsdevel@vger.kernel.org
 Cc: Miklos Szeredi <miklos@szeredi.hu>, 
  Joanne Koong <joannelkoong@gmail.com>, 
  "Darrick J. Wong" <djwong@kernel.org>, Kevin Chen <kchen@ddn.com>, 
- Bernd Schubert <bernd@bsbernd.com>
+ Bernd Schubert <bernd@bsbernd.com>, Bernd Schubert <bschubert@ddn.com>
 X-Mailer: b4 0.15-dev-2a633
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1774560891; l=8056;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1774560892; l=1961;
  i=bernd@bsbernd.com; s=20240529; h=from:subject:message-id;
- bh=IyKpR1bJox4+dYysx4GavpqIYWop075ZnOJjCBK23aw=;
- b=DR4KhxTapWW9glCIHEVoITSdR4L8zs8vGyQ80efC/+/TaO8YoKHXnsXkhA9G/eS/hIt3IiaFK
- 4Z/sGEdrMU7ALjxUWP0S8jujwCHozkWRDGhKa41Ld0B1Dpr41hiOmKH
+ bh=+CrvCti8fzLOna4DE5cTXEOAtA0hUxPkZq1xydbCjYc=;
+ b=Khw/dDocK1Yr8QdATtP8HtOfEmSVpCX4iftSOJpVQAY1hMtIGL483nMbmwqQQM/Kb06tlcI6a
+ FuOOe+VRcYPAMLVpuye5DoSC/LO0GLV9DtSQXyaaKdXO9JRWB/HCUdq
 X-Developer-Key: i=bernd@bsbernd.com; a=ed25519;
  pk=EZVU4bq64+flgoWFCVQoj0URAs3Urjno+1fIq9ZJx8Y=
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000E9D2:EE_|LV2PR19MB5984:EE_
-X-MS-Office365-Filtering-Correlation-Id: b624f7b3-6fce-4884-db3d-08de8b7f8cec
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000EDD5:EE_|MN6PR19MB7989:EE_
+X-MS-Office365-Filtering-Correlation-Id: 824b2dda-d127-4f3a-1a5f-08de8b7f9035
 X-MS-Exchange-SenderADCheck: 0
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
 	BCL:0;ARA:13230040|82310400026|61400799027|376014|48200799018|36860700016|19092799006|22082099003|16102099003|56012099003|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	Dz/QT2UC/Q8GZnu5AzkSCGb3Vm96s4zWf1jzE9qxZtecGQmUHgiwYEd/h2ie1tl2nMHUH3V5nUfOBbINATtMjY44Ni1tdXUIQSv4rdg6nUMjhHikHHEYw/VLJNNYtTGRQtq+fKolx2IdS7+HsFaJdDzDmViz5UypUAUswk9mubGe/2Mt7mCBwcUja52l4NBTyNYr9HSBzxZsHUm9OA3Nx05rKpMeL8kqnHobaGtlFw4uuqHJtdrZoBtPkXIhtQuqj3Rf30YhunJIuKGkxfijHgfKaEaU7Xb2pgDoVOTHq7JN7GRCFhd/uV+SC6IzVY3Owe2EMFKZaHuP4yZW/bAYdFdwkHzuvxXgkJiw8Rf1LdJpb25DYJoLN4xnYPEssEalP4bL9sag9hzajeqYpDqtbGWk/dTjdle/ZAV/4KMDwgXbFwMq2bo1agBlxw8jPHaTYV2MpVvF0WFdHrTs8gcNaRbJZl0pjDaGq35eXEUUiSfYN0mLlix+g553DgP+fdowaC9iDXMaQHCkGlv5ExFvw0Oko1gI3WKwIKzvgzL7cw9ISyIDBMnKnDAcCU6fX4B67D5+oheHgeg6bX0i+h/BGZEd9B2qad1Nen+x9LAAUkXHPkekrGuYx1U2b57dh0mmTYT7KmweynhRGOXBy0P8+e1qHA45UKfYV2vkwAQ5q4vim/zETnxT7ly8EIGL7ZVfqgG2fOSo4WXVZdsYpVrYNOhdiulGAZOc2zj6ueqTBHwLyywyYonSfDgaZIVhNSwft0Vs1XQbBQ8bA2GMj+v2Zw==
+	J5pTI+3C0tiXm1k5H1dS2fmmsKkk5HjPx9uEVVs5nsuzu1BFFeVaHkksCuvGWkcS/6nthvPmX4yeFfkwkDSmu83u77YHoR3kKA0iCwkBtCpTcDzSTSLU78/CObC+D0eCCjus/+DoWVfvYOx+lRBrZHGwwexd7UQ3SA0M08E3p92x5a3PsHvaQ2GJF/xGHJqcIrF5W87szDo7M36gIKNcBxjr0XofdmRxVMOEIZGA0UBGCiWo/Ke9ewRl+8BIrEXoek6iR0Om5AgxftmIlXcsqDxUX8eF50T/7ty5vHuUtt2p3EUOtKaKjavdGLAYrhFum2zGvuT/tpkyGNvuDLhEd0JT+d6L209me+AVOGIIb/K2hOLmN7Lshgg6BjwUT8bfhVhpQhcLKhdbyjCGM57JN43NGgfa6SP7m3nn5KPWMXG9I1KYM+VhV83gL1i8guf44wD/mHwdHpjikhbv3i2b+4q5455+7Z8tIlDjSob4NlgNQDbz3XqOiBt6sWy/t9vSlWUe0KYfnq6z6LBSiTgjUUrAeFMEz4rYiiq0fE7laJcKEkHqMVdQTpibniC3AelrIXlZKIiLdBQyonaYGTxO7OJyxC+rhmAGoayoNMyRJbDP6C2YRiHWm6vjwxEqtJenrSe0r/u6HL8FoU11je6pj3fcqSoU1qGe7qaE+RHzDxuvpJpG+Mb1wh4S2vgOexrNKvUtb4GgVdTaes9cKFQ+GvEZ4bzWkUJm0aj7TyQVgAezcOBzngnbjXFwWtNUbKy+m3CryJRAQzwVDx34pTm4tw==
 X-Forefront-Antispam-Report:
 	CIP:50.222.100.11;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:uww-mrp-01.datadirectnet.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(61400799027)(376014)(48200799018)(36860700016)(19092799006)(22082099003)(16102099003)(56012099003)(18002099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	gqKqVWOmGfFyG5jwXoWchB4ajWsIeO8MwcJ430D2Ds8U8ygej1u0x9+y4lxNLLBSgUwRir3yTQg0xY4yD0Coz+TsM6tfPiSJcXBT2lCWkzdYmNeWHndoPBOY3uWwybTE3AD5dxu260+Dss5XWyojZgAOh4ygaw5UpLumojYMkPXVJ14lie6OA0zQs+rdiZRJijI17QC0HkcevLYbIrUkgxiFq7RgyACekNtAeSR2diO5EdGnB4Bw1LHQ/cTarT/mz7/8j4uxp8t2i+OvEouG03X/SX9xTzobdcFK+5NV3yrA6AZl+1nw7Gn0WQNtwgSB1YZjL8qQKYvPMTr6hVP9j4MapbdUboecY5QjHachAHHyRvpN2uB+DrdixR3LftYJUnhVrAhqnBo79ly45UzyL6OOW9johD87nqUrfOoLN87frIupPzvfH5NxBOvqUTad
+	LgBAR2wV6R5AkvbVWWW1mIf4Jqd+TVWXfaGVqbuWDC8ZQF7EEfXvK/rioMi8DQlP//9h0zi5XFR0J4cC36drTIPKIMUM1NaikM88E0ypTIL+jACrqbNYg0cCM74S9DoJ9MeNI6t8F/icbqcMfdHzFTwoIFnKCxR7eSDOTc+vYqxQUZP5vPa1kJEsjrKIMgEv/JxlVfNYEaJ3ZJfzOLF+oLdc5O7VWOUZ24wdjHgpD4pBbO8fMh7siQcQxQoSWxFiui/pUUx3VwNWpXSJItQoskRlU0uJEuP3z/Fq7FHC1tgO53lro1RJVPWAbyk7QrO0/BeuAHFTERw8oUo3ZpGFLh/ufBvjCgqVhlFL6iyH8XlpiRPl5YsuIAp2qlvxP0K+ZFyuNGz26lCG6sAFCZuQSmTweBnCFhNAznssORvnBhnE2IZUSnztlB0E3YdCu0Lh
 X-Exchange-RoutingPolicyChecked:
-	WaZ+PAKbYlykoxhfunO2Rur8W0EVawkMYkKvSgV2lyJhh7DMpLKLCL+yXoNyS3P9qPZZCBfjBddZgXlU9s9GxBeY6Lb/nwehDeHSNY0DTmzD9+4J84CxDpB4EQ0HljLk048VHNdIwprNVFc+sf6oOMlm1WTImQy0h6EX9ROZ7nZ8JnFEmyFdv5h1fQJMxHmjReQqXeOZfAewlo9aRB5HmK3XFcOxwaFOh5ywFdDDZcswuo+2PJ/xaVxQkOuA/9CO2THjK6XJejAw6JEak2MuZcGJ0IJgbkrQ6mL4fbpZJAQqv4TZcfV2zcX3PRWX/h2UiQL6RS7NwjVyDEbZK0FU8Q==
+	IXtpfDSCgJLFOIzdvr9hHR/De2tytqo5RBE5A2/Qla2xdN3oahnI9HU2U8TSjC2JwIud7Pyc0AlvuOW6TptGqBt/aORAaboxZ5GtO7v0qFtpbcIPHGO0qdf0zB6zzdTUZC4Yxexub5ytUcZ8QWG5Mu1/Dujli1f4RDDJMPwt1bdVaSn/RhfvbdiB7xOwte1cOzWmwBTlcLU22/z5elMmY3oXU7MuM890e5EapcMVOwQ+uUFgZEYS5V5QGd5aM1wgxIxbdNDP0SGhiXAxtpXMHA2VvLO8TQtK/FAnlAR3pJaiRPzS4+vZSoHTCvGqzHWqgb0njjrsh/KGhRF4/mq1ng==
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	BYUR//tNBQ/9zR7McOBii4KHoVxK8b3lkUNuFUry7VxF69pWZ+OYbrscG7YupAhqhAYYp7wsmdgfLRWJQvi4AdlQdWo2OirntA92WuDulpkpPVZNk20PKU1qpzgDvKbKtCpLmOpU2Pj/IfvE7A3GTwkq/UKV/jW+DCpKiKBkYP0vFwqXK7lfUyVpdwo5rZO9zd1jDVPcPq4RjifFImIybVBvFkI3EK2Of+FxmsvJ62XDQbl0cnSTGzPQqAHnJ9quQ1o/U/ty/LJELMI0M0dLH5vaQDtXrEtCO09qAYNFmDLlkvJ7HhNB4MSs5LU7ndWr9u8ApTt8P9VXkh2NN7P1yrrNzFaqyXLjeyoc8YkFIFwYaSKMPja1yoa9hnKI/6upJnvTcNfSJfaHqB1pRecIiiaS8FszURrxBliyHpmkmsA5nkt3FSDzPRqi0ey9ZWeu/e0IJOpNWB09wwC5vWJ8H41H88EAnOj+qqYLwFTERFsaUa7W05nZcrHp8ZP4LVE4GbsVxGDhVg4tU5yc+/Rl/L2ZdYSbT2K93r3gqu7lYVJqAe4sd/KK8S+sY8HlUahslmQ/+clqZmIHG+FysXLol/iMB5GxXJmPZFpFbPQ1bcG/G+c1t4ABEVPoc9f2fAc35oZywJtCypOJhYoASxaOkw==
+	mS9b5LclqmLg6Ie+AyKiloTUWZH597EutAMv5N4mV+k80VXxZnH7dwoUjsWAsXC3gn/xUsh8s9n0UFTXrmDTnwLU1R0yr3R30+d3lwH5xV2T/uafbKHPhZyV8hqX1tNQ4ttc3u6O5uHx4lfgbuYcCvmKWr3qSqB1tZt/+21YeQumB4CemtAdg1/oPUf6SLAi+C7Vghi/heXGyaReCgJfv7WKNC6NRVL/7VtVO1sd5NoiKMGJg1fuRDIWf2CwBTw9vPCTIL7Qj+mIik3qraC95ytVEubLJBxqJGtMjKX2W6uF/9z4sSLp5Hf/7MSwTE1V5rDi/KcjeUqDVJneB9smhnYg1zbZH561C7g7lZXauOH7UUbK3of1rUlU8Gzi/RgOxcMhXFb8jMxknSPUctAdx1UP2Vc2hnyA36kMm2WzP05yFH1aLStaWKTQyZNcQ+J/IXugXmcfOET0BGY3aJusrzHE5qh13h3mw0SFhEIsoPb8R/PJsxKS0PX4BHVyyxkFAwREBWY155McmiEN6m4FzQfPCUkIlv9P8P5qDMmj3C+E4bnMxj32M2nMQJw+FQLdakQZWkirFI/sOD+UbenZ5hAtg5wDIWQSSfBAkvUcpodSdWnvqOAFr+5IesPSwGD/eYzgj0w5L2wpVBllw3RuRg==
 X-OriginatorOrg: ddn.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2026 21:35:07.4108
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2026 21:35:12.9167
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b624f7b3-6fce-4884-db3d-08de8b7f8cec
+X-MS-Exchange-CrossTenant-Network-Message-Id: 824b2dda-d127-4f3a-1a5f-08de8b7f9035
 X-MS-Exchange-CrossTenant-Id: 753b6e26-6fd3-43e6-8248-3f1735d59bb4
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=753b6e26-6fd3-43e6-8248-3f1735d59bb4;Ip=[50.222.100.11];Helo=[uww-mrp-01.datadirectnet.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	CY4PEPF0000E9D2.namprd03.prod.outlook.com
+	CY4PEPF0000EDD5.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR19MB5984
-X-BESS-ID: 1774560916-111521-4067-1357-1
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR19MB7989
+X-BESS-ID: 1774560918-103587-9766-3052-1
 X-BESS-VER: 2019.1_20260324.1831
-X-BESS-Apparent-Source-IP: 52.101.57.129
-X-BESS-Parts: H4sIAAAAAAACA4uuVkqtKFGyUioBkjpK+cVKVubmlqZAVgZQMDXZzNg8ySjZ0s
-	AwKTUx2cIkxdjQItko1dzYKMUyycJcqTYWAHNfmVtBAAAA
-X-BESS-Outbound-Spam-Score: 1.00
+X-BESS-Apparent-Source-IP: 52.101.43.77
+X-BESS-Parts: H4sIAAAAAAACA4uuVkqtKFGyUioBkjpK+cVKVoaWpkZAVgZQMMnSNNncwMzSwM
+	DC3DIt2TQtKdXMwNDUJCkxJSXJzMBMqTYWAFrDLepBAAAA
+X-BESS-Outbound-Spam-Score: 0.00
 X-BESS-Outbound-Spam-Report: Code version 3.2, rules version 3.2.2.272096 [from 
-	cloudscan20-234.us-east-2b.ess.aws.cudaops.com]
+	cloudscan10-224.us-east-2a.ess.aws.cudaops.com]
 	Rule breakdown below
 	 pts rule name              description
 	---- ---------------------- --------------------------------
-	0.50 BSF_RULE7568M          META: Custom Rule 7568M 
-	0.50 BSF_RULE_7582B         META: Custom Rule 7582B 
 	0.00 BSF_BESS_OUTBOUND      META: BESS Outbound 
-X-BESS-Outbound-Spam-Status: SCORE=1.00 using account:ESS124931 scores of KILL_LEVEL=7.0 tests=BSF_RULE7568M, BSF_RULE_7582B, BSF_BESS_OUTBOUND
+X-BESS-Outbound-Spam-Status: SCORE=0.00 using account:ESS124931 scores of KILL_LEVEL=7.0 tests=BSF_BESS_OUTBOUND
 X-BESS-BRTS-Status:1
 
-We actually need these in fusermount.c and for the
-new mount API, which goes into its own file.
+From: Bernd Schubert <bschubert@ddn.com>
 
-Also extend the struct with the extra safe field
-used by fusermount.c
+This gets added in the fusermount process and kernel then fails
+the mount.
 
-Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
+Signed-off-by: Bernd Schubert <bschubert@ddn.com>
 ---
- include/fuse_mount_compat.h |  5 +++++
- lib/mount.c                 | 39 --------------------------------
- lib/mount_bsd.c             |  1 +
- lib/mount_i_linux.h         |  4 ++--
- lib/mount_util.c            | 54 ++++++++++++++++++++++++++++++++++++++++++++-
- lib/mount_util.h            |  9 ++++++++
- util/fusermount.c           | 34 ----------------------------
- 7 files changed, 70 insertions(+), 76 deletions(-)
+ lib/mount_fsmount.c | 15 ++++++++++++++-
+ 1 file changed, 14 insertions(+), 1 deletion(-)
 
-diff --git a/include/fuse_mount_compat.h b/include/fuse_mount_compat.h
-index be8d576cf959fba7acb25440fafd43f7e973964e..1b0eb00c3eb79ad2d58a9e86ac2836d3f7d3b2fb 100644
---- a/include/fuse_mount_compat.h
-+++ b/include/fuse_mount_compat.h
-@@ -11,6 +11,9 @@
- #ifndef FUSE_MOUNT_COMPAT_H_
- #define FUSE_MOUNT_COMPAT_H_
- 
-+#if !defined(__NetBSD__) && !defined(__FreeBSD__) && !defined(__DragonFly__) && \
-+	!defined(__FreeBSD_kernel__)
-+
- #include <sys/mount.h>
- 
- /* Some libc don't define MS_*, so define them manually
-@@ -46,4 +49,6 @@
- #define UMOUNT_UNUSED	0x80000000	/* Flag guaranteed to be unused */
- #endif
- 
-+#endif /* BSD */
-+
- #endif /* FUSE_MOUNT_COMPAT_H_ */
-diff --git a/lib/mount.c b/lib/mount.c
-index 899cd2d0a13a9332a564b10d1c22836fb2cd1710..43920a06ac03747595bde95441252e9cac77ce88 100644
---- a/lib/mount.c
-+++ b/lib/mount.c
-@@ -33,18 +33,6 @@
- 
- #include "fuse_mount_compat.h"
- 
--#ifdef __NetBSD__
--#include <perfuse.h>
--
--#define MS_RDONLY	MNT_RDONLY
--#define MS_NOSUID	MNT_NOSUID
--#define MS_NODEV	MNT_NODEV
--#define MS_NOEXEC	MNT_NOEXEC
--#define MS_SYNCHRONOUS	MNT_SYNCHRONOUS
--#define MS_NOATIME	MNT_NOATIME
--#define MS_NOSYMFOLLOW	MNT_NOSYMFOLLOW
--#endif
--
- #define FUSERMOUNT_PROG		"fusermount3"
- #define FUSE_COMMFD_ENV		"_FUSE_COMMFD"
- #define FUSE_COMMFD2_ENV	"_FUSE_COMMFD2"
-@@ -147,33 +135,6 @@ void fuse_mount_version(void)
- 			 FUSERMOUNT_PROG);
+diff --git a/lib/mount_fsmount.c b/lib/mount_fsmount.c
+index fbe3647a8923828dba819458b815c21bbd2beaad..f42ae97faedaf2420d97e701a22725d4293e4853 100644
+--- a/lib/mount_fsmount.c
++++ b/lib/mount_fsmount.c
+@@ -248,6 +248,16 @@ static int is_mount_attr_opt(const char *opt)
+ 	       strcmp(opt, "symfollow") == 0;
  }
  
--struct mount_flags {
--	const char *opt;
--	unsigned long flag;
--	int on;
--};
--
--static const struct mount_flags mount_flags[] = {
--	{"rw",	    MS_RDONLY,	    0},
--	{"ro",	    MS_RDONLY,	    1},
--	{"suid",    MS_NOSUID,	    0},
--	{"nosuid",  MS_NOSUID,	    1},
--	{"dev",	    MS_NODEV,	    0},
--	{"nodev",   MS_NODEV,	    1},
--	{"exec",    MS_NOEXEC,	    0},
--	{"noexec",  MS_NOEXEC,	    1},
--	{"async",   MS_SYNCHRONOUS, 0},
--	{"sync",    MS_SYNCHRONOUS, 1},
--	{"noatime", MS_NOATIME,	    1},
--	{"nodiratime",	    MS_NODIRATIME,	1},
--	{"norelatime",	    MS_RELATIME,	0},
--	{"nostrictatime",   MS_STRICTATIME,	0},
--	{"symfollow",	    MS_NOSYMFOLLOW,	0},
--	{"nosymfollow",	    MS_NOSYMFOLLOW,	1},
--	{"dirsync",	    MS_DIRSYNC,	    1},
--	{NULL,	    0,		    0}
--};
--
- unsigned int get_max_read(struct mount_opts *o)
- {
- 	return o->max_read;
-diff --git a/lib/mount_bsd.c b/lib/mount_bsd.c
-index c5b831160f826c0e4620626a72c4b93427d18bab..09631932eff443d21743dd55dcd5345dd581227f 100644
---- a/lib/mount_bsd.c
-+++ b/lib/mount_bsd.c
-@@ -16,6 +16,7 @@
- #include "util.h"
- 
- #include <sys/param.h>
-+#include <sys/mount.h>
- #include "fuse_mount_compat.h"
- 
- #include <sys/wait.h>
-diff --git a/lib/mount_i_linux.h b/lib/mount_i_linux.h
-index 254b75151f35578ce22197776e6fa4aceb04150e..1bfc78b32dc4fd434870e4fff1a37e0c340d207e 100644
---- a/lib/mount_i_linux.h
-+++ b/lib/mount_i_linux.h
-@@ -10,7 +10,8 @@
- #ifndef FUSE_MOUNT_I_LINUX_H_
- #define FUSE_MOUNT_I_LINUX_H_
- 
--/* Forward declaration for fuse_args */
-+#include <sys/mount.h>
++/**
++ * Check if an option is a mount table option (not passed to fsconfig)
++ */
++static int is_mtab_only_opt(const char *opt)
++{
++	/* These options are for /run/mount/utab only, not for the kernel */
++	return strncmp(opt, "user=", 5) == 0 ||
++	       strcmp(opt, "rw") == 0;
++}
 +
- struct fuse_args;
- 
- /* Mount options structure */
-@@ -28,5 +29,4 @@ struct mount_opts {
- 	unsigned int max_read;
- };
- 
--
- #endif /* FUSE_MOUNT_I_LINUX_H_ */
-diff --git a/lib/mount_util.c b/lib/mount_util.c
-index a42a02a0b92f98778abb2c491cdc7a01260f56ee..9ff711023fcb41fe24f1de21aaf811cb1c12d25e 100644
---- a/lib/mount_util.c
-+++ b/lib/mount_util.c
-@@ -34,9 +34,61 @@
- #include <sys/param.h>
- 
- #if defined(__NetBSD__) || defined(__FreeBSD__) || defined(__DragonFly__) || defined(__FreeBSD_kernel__)
--#define umount2(mnt, flags) unmount(mnt, ((flags) == 2) ? MNT_FORCE : 0)
-+#include <sys/mount.h>
-+#ifdef __NetBSD__
-+#include <perfuse.h>
- #endif
- 
-+#define umount2(mnt, flags) unmount(mnt, ((flags) == 2) ? MNT_FORCE : 0)
-+
-+#define MS_RDONLY	MNT_RDONLY
-+#define MS_NOSUID	MNT_NOSUID
-+#ifdef MNT_NODEV
-+#define MS_NODEV	MNT_NODEV
-+#else
-+#define MS_NODEV	0
-+#endif
-+#define MS_NOEXEC	MNT_NOEXEC
-+#define MS_SYNCHRONOUS	MNT_SYNCHRONOUS
-+#define MS_NOATIME	MNT_NOATIME
-+#define MS_NOSYMFOLLOW	0
-+#define MS_DIRSYNC	0
-+
-+/* BSD doesn't have these, define as 0 */
-+#ifndef MS_NODIRATIME
-+#define MS_NODIRATIME 0
-+#endif
-+#ifndef MS_RELATIME
-+#define MS_RELATIME 0
-+#endif
-+#ifndef MS_STRICTATIME
-+#define MS_STRICTATIME 0
-+#endif
-+
-+#endif /* BSD */
-+
-+/* XXX This table is duplicated in util/fusermount.c */
-+const struct mount_flags mount_flags[] = {
-+	{"rw",	    MS_RDONLY,	    0, 1},
-+	{"ro",	    MS_RDONLY,	    1, 1},
-+	{"suid",    MS_NOSUID,	    0, 0},
-+	{"nosuid",  MS_NOSUID,	    1, 1},
-+	{"dev",	    MS_NODEV,	    0, 1},
-+	{"nodev",   MS_NODEV,	    1, 1},
-+	{"exec",    MS_NOEXEC,	    0, 1},
-+	{"noexec",  MS_NOEXEC,	    1, 1},
-+	{"async",   MS_SYNCHRONOUS, 0, 1},
-+	{"sync",    MS_SYNCHRONOUS, 1, 1},
-+	{"noatime", MS_NOATIME,	    1, 1},
-+	{"nodiratime",	    MS_NODIRATIME,	1, 1},
-+	{"norelatime",	    MS_RELATIME,	0, 1},
-+	{"nostrictatime",   MS_STRICTATIME,	0, 1},
-+	{"symfollow",	    MS_NOSYMFOLLOW,	0, 1},
-+	{"nosymfollow",	    MS_NOSYMFOLLOW,	1, 1},
-+	{"dirsync",	    MS_DIRSYNC,		1, 1},
-+	{NULL,	    0,		    0, 0}
-+};
-+
- #ifdef IGNORE_MTAB
- #define mtab_needs_update(mnt) 0
- #else
-diff --git a/lib/mount_util.h b/lib/mount_util.h
-index 4688d00091f001b3ccd36b1ef3b7e799031ed773..e62052b626875abd6118b845de162d6c5c41857a 100644
---- a/lib/mount_util.h
-+++ b/lib/mount_util.h
-@@ -9,6 +9,15 @@
- #include <sys/types.h>
- #include "mount_common_i.h" // IWYU pragma: keep
- 
-+/* Mount flags mapping structure */
-+struct mount_flags {
-+	const char *opt;
-+	unsigned long flag;
-+	int on;
-+	int safe; /* used by fusermount */
-+};
-+extern const struct mount_flags mount_flags[];
-+
- int fuse_mnt_add_mount(const char *progname, const char *fsname,
- 		       const char *mnt, const char *type, const char *opts);
- int fuse_mnt_remove_mount(const char *progname, const char *mnt);
-diff --git a/util/fusermount.c b/util/fusermount.c
-index f17b44f51142c682b339d0ce2287f7c00d644454..f66c4e8e0e809351384ec10cf50ba4d3d3a831b0 100644
---- a/util/fusermount.c
-+++ b/util/fusermount.c
-@@ -759,40 +759,6 @@ static int begins_with(const char *s, const char *beg)
- 		return 0;
- }
- 
--struct mount_flags {
--	const char *opt;
--	unsigned long flag;
--	int on;
--	int safe;
--};
--
--static struct mount_flags mount_flags[] = {
--	{"rw",	    MS_RDONLY,	    0, 1},
--	{"ro",	    MS_RDONLY,	    1, 1},
--	{"suid",    MS_NOSUID,	    0, 0},
--	{"nosuid",  MS_NOSUID,	    1, 1},
--	{"dev",	    MS_NODEV,	    0, 0},
--	{"nodev",   MS_NODEV,	    1, 1},
--	{"exec",    MS_NOEXEC,	    0, 1},
--	{"noexec",  MS_NOEXEC,	    1, 1},
--	{"async",   MS_SYNCHRONOUS, 0, 1},
--	{"sync",    MS_SYNCHRONOUS, 1, 1},
--	{"atime",   MS_NOATIME,	    0, 1},
--	{"noatime", MS_NOATIME,	    1, 1},
--	{"diratime",        MS_NODIRATIME,  0, 1},
--	{"nodiratime",      MS_NODIRATIME,  1, 1},
--	{"lazytime",        MS_LAZYTIME,    1, 1},
--	{"nolazytime",      MS_LAZYTIME,    0, 1},
--	{"relatime",        MS_RELATIME,    1, 1},
--	{"norelatime",      MS_RELATIME,    0, 1},
--	{"strictatime",     MS_STRICTATIME, 1, 1},
--	{"nostrictatime",   MS_STRICTATIME, 0, 1},
--	{"dirsync", MS_DIRSYNC,	    1, 1},
--	{"symfollow",       MS_NOSYMFOLLOW, 0, 1},
--	{"nosymfollow",     MS_NOSYMFOLLOW, 1, 1},
--	{NULL,	    0,		    0, 0}
--};
--
- static int find_mount_flag(const char *s, unsigned len, int *on, int *flag)
- {
- 	int i;
+ /*
+  * Parse kernel options string and apply via fsconfig
+  * Options are comma-separated key=value pairs
+@@ -275,6 +285,7 @@ static int apply_mount_opts(int fsfd, const char *opts)
+ 		 * not fsconfig().
+ 		 *
+ 		 * These string options (nosuid, nodev, etc.) are reconstructed
++		 * Skip mtab-only options - they're for /run/mount/utab, not kernel
+ 		 * from MS_* flags by get_mnt_flag_opts() in lib/mount.c and
+ 		 * get_mnt_opts() in util/fusermount.c. Both the library path
+ 		 * (via fuse_kern_mount_get_base_mnt_opts) and fusermount3 path
+@@ -282,8 +293,10 @@ static int apply_mount_opts(int fsfd, const char *opts)
+ 		 * mnt_opts. They must be filtered here because they are mount
+ 		 * attributes (passed to fsmount via MOUNT_ATTR_*), not
+ 		 * filesystem parameters (which would be passed to fsconfig).
++		 *
++		 * Also skip mtab-only options - they're for /run/mount/utab, not kernel
+ 		 */
+-		if (!is_mount_attr_opt(opt)) {
++		if (!is_mount_attr_opt(opt) && !is_mtab_only_opt(opt)) {
+ 			res = apply_opt_key_value(fsfd, opt);
+ 			if (res < 0) {
+ 				free(opts_copy);
 
 -- 
 2.43.0
