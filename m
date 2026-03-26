@@ -1,110 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D29333E4C91;
-	Thu, 26 Mar 2026 10:46:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C75C38A719
+	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 10:46:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774522018; cv=none; b=f3OR+FrvjFbeYDNGBH6b/ecWNB7jRyDwx+Fex/c1njD/ZhzryoZnXOT62J+AsSYdlR5A9zyEYgMsstvvgNaszwHYHADDUZOc7Jll5XrANGjqaJlJQI3l7q0e3b39sROpzEjcz3pIvrVBN4wPvoKUr6pCNDn6rDXh87yAKmz9/R0=
+	t=1774522020; cv=none; b=RWACoyub5pimPLiU3sL0IxfE30qjEDhEPS1C04Jf0iEhoOE9U+yDUVIPhaX8H4FMhvrsear6PlOa1eShXd1BzppYy76D8QVv8aoeE3GiqzKZNXLw+DtFv0L4VPdkpUUM58n8RFBR+WPNNYyeKuXoj5H6oYpOJJkVfXUSK0wxr1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774522018; c=relaxed/simple;
-	bh=jz4QKqDvyuc0OVYL41YLkI+2R+GPNLQTDLA2i1KuuD8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Tg24KoTU4QOeHXr9Y4pF/N3cRg6MxRF3KNEvIUMuGzpbQ3jxjliU4o0GpviPHUvU2u3NXR8wSYOlQU0zN7HDnfE6zv0GqSw3eZZ/d9ABoz4ou+uWbvam5jkvxmytlupZ7uqSnwNCHcfjl2Fw/N0Dpuo/YAOaVoD690blpTpY6Os=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uouhDF4Q; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774522020; c=relaxed/simple;
+	bh=szclke4JIsBjvbhewBgvgDMxYA3sk65zpYLRMFX9C2c=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=u4pcDFwzGGcwx9Uho8ylbxrp7c5togQ5A97q0kl1WHUBdcV1p+qQnR18uoThAfVkHmsWAwtS5tnjV58Or59T8JkEATBxdDvG5FQOqUkS5EZmjTYKNDuzO1P7nTwChpp1+ydhRxTcGyUt8IZu6iasGcDuqS9A/5dG0t4mzk9hDhk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=We/uClvC; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uouhDF4Q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72E84C19423;
-	Thu, 26 Mar 2026 10:46:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774522018;
-	bh=jz4QKqDvyuc0OVYL41YLkI+2R+GPNLQTDLA2i1KuuD8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=uouhDF4Qa318/Z9nX9Ws4mHmW4Xj1lUe3ecVX69vddoTww6TykXBFcfxzgLsjsVUr
-	 uKEecElGaHwHYwRB5sfVpD/OA8X8sVBjVkid9cXNQoz/6KSifPhScJyeqBMrEDo8oX
-	 kXSsXRIlElj4UylHMzwh3I8/YWYRmOgzn/Fvk8BThWe7Ed5I2HEPkk2q0o6tM260d/
-	 VEgQAHNg8pmhJezXZ4OK7g48WOO1fuI9Upi7y7U9026H/AmdcAXA4lLqumD439oT/M
-	 Pzl4dym+ApN3Z6gmLabe7ExmLvPanhPpcuvksSt4QNF6HwEvXMWbKjIEqggYMGlpNw
-	 iwwZm3ig9pXBA==
-Message-ID: <171549fc-8d65-41d8-9343-7fcaeeda25b1@kernel.org>
-Date: Thu, 26 Mar 2026 11:46:48 +0100
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="We/uClvC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1774522017;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9JBhkshmo9wp53/7HssoafiGynGAcR+6aULQINPD5UQ=;
+	b=We/uClvChOkr7w5gkkmqJ5OjKnoKdABQyen1LNlgJWHBW4CzrfyDVvwqCAJGYy6qt65xcw
+	lYzNEIe04wsZHNOAyAJSCfln0Nl18GBKIjBU2oEAL2A28Me2HDXVrbmtyH8IAWHw0LaFli
+	ELb4sa9ntcPB0ZQXWkYG8UUNkKZI0G8=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-402-lIkaQfXkP4W9euIGMAGh9A-1; Thu,
+ 26 Mar 2026 06:46:54 -0400
+X-MC-Unique: lIkaQfXkP4W9euIGMAGh9A-1
+X-Mimecast-MFC-AGG-ID: lIkaQfXkP4W9euIGMAGh9A_1774522012
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 88EF519560A2;
+	Thu, 26 Mar 2026 10:46:51 +0000 (UTC)
+Received: from warthog.procyon.org.com (unknown [10.44.33.121])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id B082C1955D84;
+	Thu, 26 Mar 2026 10:46:44 +0000 (UTC)
+From: David Howells <dhowells@redhat.com>
+To: Christian Brauner <christian@brauner.io>,
+	Matthew Wilcox <willy@infradead.org>,
+	Christoph Hellwig <hch@infradead.org>
+Cc: David Howells <dhowells@redhat.com>,
+	Paulo Alcantara <pc@manguebit.com>,
+	Jens Axboe <axboe@kernel.dk>,
+	Leon Romanovsky <leon@kernel.org>,
+	Steve French <sfrench@samba.org>,
+	ChenXiaoSong <chenxiaosong@chenxiaosong.com>,
+	Marc Dionne <marc.dionne@auristor.com>,
+	Eric Van Hensbergen <ericvh@kernel.org>,
+	Dominique Martinet <asmadeus@codewreck.org>,
+	Ilya Dryomov <idryomov@gmail.com>,
+	Trond Myklebust <trondmy@kernel.org>,
+	netfs@lists.linux.dev,
+	linux-afs@lists.infradead.org,
+	linux-cifs@vger.kernel.org,
+	linux-nfs@vger.kernel.org,
+	ceph-devel@vger.kernel.org,
+	v9fs@lists.linux.dev,
+	linux-erofs@lists.ozlabs.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Paulo Alcantara <pc@manguebit.org>
+Subject: [PATCH 05/26] netfs: Fix read abandonment during retry
+Date: Thu, 26 Mar 2026 10:45:20 +0000
+Message-ID: <20260326104544.509518-6-dhowells@redhat.com>
+In-Reply-To: <20260326104544.509518-1-dhowells@redhat.com>
+References: <20260326104544.509518-1-dhowells@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 21/21] mm: on remap assert that input range within the
- proposed VMA
-Content-Language: en-US
-To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Clemens Ladisch <clemens@ladisch.de>,
- Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "K . Y . Srinivasan" <kys@microsoft.com>,
- Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
- Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Bodo Stroesser <bostroesser@gmail.com>,
- "Martin K . Petersen" <martin.petersen@oracle.com>,
- David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- David Hildenbrand <david@kernel.org>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport
- <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org,
- linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org,
- target-devel@vger.kernel.org, linux-afs@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- Ryan Roberts <ryan.roberts@arm.com>
-References: <cover.1774045440.git.ljs@kernel.org>
- <0fc1092f4b74f3f673a58e4e3942dc83f336dd85.1774045440.git.ljs@kernel.org>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-In-Reply-To: <0fc1092f4b74f3f673a58e4e3942dc83f336dd85.1774045440.git.ljs@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-On 3/20/26 23:39, Lorenzo Stoakes (Oracle) wrote:
-> Now we have range_in_vma_desc(), update remap_pfn_range_prepare() to check
-> whether the input range in contained within the specified VMA, so we can
-> fail at prepare time if an invalid range is specified.
-> 
-> This covers the I/O remap mmap actions also which ultimately call into
-> this function, and other mmap action types either already span the full
-> VMA or check this already.
-> 
-> Reviewed-by: Suren Baghdasaryan <surenb@google.com>
-> Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
+Under certain circumstances, all the remaining subrequests from a read
+request will get abandoned during retry.  The abandonment process expects
+the 'subreq' variable to be set to the place to start abandonment from, but
+it doesn't always have a useful value (it will be uninitialised on the
+first pass through the loop and it may point to a deleted subrequest on
+later passes).
 
-Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+Fix the first jump to "abandon:" to set subreq to the start of the first
+subrequest expected to need retry (which, in this abandonment case, turned
+out unexpectedly to no longer have NEED_RETRY set).
 
-> ---
->  mm/memory.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/mm/memory.c b/mm/memory.c
-> index 53ef8ef3d04a..68cc592ff0ba 100644
-> --- a/mm/memory.c
-> +++ b/mm/memory.c
-> @@ -3142,6 +3142,9 @@ int remap_pfn_range_prepare(struct vm_area_desc *desc)
->  	const bool is_cow = vma_desc_is_cow_mapping(desc);
->  	int err;
->  
-> +	if (!range_in_vma_desc(desc, start, end))
-> +		return -EFAULT;
-> +
->  	err = get_remap_pgoff(is_cow, start, end, desc->start, desc->end, pfn,
->  			      &desc->pgoff);
->  	if (err)
+Also clear the subreq pointer after discarding superfluous retryable
+subrequests to cause an oops if we do try to access it.
+
+Signed-off-by: David Howells <dhowells@redhat.com>
+cc: Paulo Alcantara <pc@manguebit.org>
+cc: netfs@lists.linux.dev
+cc: linux-fsdevel@vger.kernel.org
+Fixes: ee4cdf7ba857 ("netfs: Speed up buffered reading")
+---
+ fs/netfs/read_retry.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/fs/netfs/read_retry.c b/fs/netfs/read_retry.c
+index 71a0c7ed163a..68fc869513ef 100644
+--- a/fs/netfs/read_retry.c
++++ b/fs/netfs/read_retry.c
+@@ -93,8 +93,10 @@ static void netfs_retry_read_subrequests(struct netfs_io_request *rreq)
+ 		       from->start, from->transferred, from->len);
+ 
+ 		if (test_bit(NETFS_SREQ_FAILED, &from->flags) ||
+-		    !test_bit(NETFS_SREQ_NEED_RETRY, &from->flags))
++		    !test_bit(NETFS_SREQ_NEED_RETRY, &from->flags)) {
++			subreq = from;
+ 			goto abandon;
++		}
+ 
+ 		list_for_each_continue(next, &stream->subrequests) {
+ 			subreq = list_entry(next, struct netfs_io_subrequest, rreq_link);
+@@ -178,6 +180,7 @@ static void netfs_retry_read_subrequests(struct netfs_io_request *rreq)
+ 				if (subreq == to)
+ 					break;
+ 			}
++			subreq = NULL;
+ 			continue;
+ 		}
+ 
 
