@@ -1,283 +1,256 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B967E3BBA04
-	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 09:58:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0D5834A3BC
+	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 10:15:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774519089; cv=none; b=TK7+a91XwgfAbTWE7j3Ps/Y8knVz2BcmXPnme+qOSNfcNuVBDtIf+iMem9sL0cYNtSydHKvUQVu/vp+urMeas3vyCMZz/6I1l/z7EjeqUH2ntBVjexsMNv38YPV8qL+29OZDX2OrPxnYqt67D4LWlSEh0ZH1TfmLh0Noj+So3fA=
+	t=1774520141; cv=none; b=beQ1vtGdDkkzI8Yo5rXFHx2/wQa8HRE1GUhJvMhQIickonrZqMBxmg7Kg+JF8T983411nd4uE0Wn3xBhbPkL6VsnJQdJbeq6oONXDnmvfsYKx8dLOfEoVpgEbzx2TlT4imokQLrcK0vDzWx6+mw+p/kOGs8ckPLxIJTclmB6dvs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774519089; c=relaxed/simple;
-	bh=LB5f9ZM6VTG6f7M+4eM1ibxL/c9eLkxT6oy6CEVQ+ic=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kuF4WVL/YeYkm4sM8TGduHgfP0X7PZGOeicILm2XZbDMv34CMyhbwSmhp7omZmcUyf7+OcdQEZX4xisIpsLctuv9Gdb+r5Y3No/ckgZMZjrUbZ0hesg8GK7VX+ZVD0JOKp8LUrtt8Het1JtZtIRiqukKqtU0pXkNKN9WFCCsfec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=k2IXJsi0; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=+Cu1Sqrs; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=k2IXJsi0; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=+Cu1Sqrs; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1774520141; c=relaxed/simple;
+	bh=g81gO/jkEfcx+w1nWZC4dig9URh88CQcvkcyKAcNbZY=;
+	h=From:In-Reply-To:References:To:Cc:Subject:MIME-Version:
+	 Content-Type:Date:Message-ID; b=pCjXh3YMuPnz461xFIJVacJZtb9Yn7aCilWsRjmugP+HEl2kzIRvxCokTLYPVCV4PU+J5yoQr8KVACmj/KSMTAKoh0rdxnqAPYCqj1Z1SwqARYDwTSFy1LK12rPJfVXNffESE5zXXx9iHJfR0Ms33En8kuHfa4n5HFebWWcPST4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=aWKzH/NE; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="k2IXJsi0";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="+Cu1Sqrs";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="k2IXJsi0";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="+Cu1Sqrs"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="aWKzH/NE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1774520138;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hDb8Hb/jIFeQivaQIxTqrzAlh4ohrkiBjTsIH7h55rE=;
+	b=aWKzH/NERUTJINE1qmnM9NcS8U3oKe7FZxAbtTvvMvH24mRxAU5uYp0zDMih014hh1kUI1
+	9B0dVCO03tpw3KW1NpAin6HvPD0BTcXCW5MTei0ltjL0WL34kTKkA4N4jo+zGaAVnPGKPD
+	QVbVpvZbqs45T5a3PsNGdEaBsrsvhFU=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-662-hIhGNZZ5N-Kc2XEvrZSWWQ-1; Thu,
+ 26 Mar 2026 06:15:35 -0400
+X-MC-Unique: hIhGNZZ5N-Kc2XEvrZSWWQ-1
+X-Mimecast-MFC-AGG-ID: hIhGNZZ5N-Kc2XEvrZSWWQ_1774520133
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id BBDDF5BDD3;
-	Thu, 26 Mar 2026 09:55:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1774518901; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7q8Kx1FkVvzvC3Q+vN0M/TZAWD4PkwxVk8bUtCe8P+o=;
-	b=k2IXJsi0SUU38wKdBvypl6ZnpttNNVynrB3dl8xeNInC4Con3yagBcilXHWfutQEEJbsMC
-	L98tWf6D/jTdUcM9c1tX7bH8gbUF2eeuGhvAXeX7DsfeYoQqqN0sfiYM0AgAlxETMglZWg
-	agE7qYC0vhveRgQOY7kAluMopfxQHDs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1774518901;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7q8Kx1FkVvzvC3Q+vN0M/TZAWD4PkwxVk8bUtCe8P+o=;
-	b=+Cu1Sqrs9JhQuPOKTkxkGxMDSyqfn0ulyrAC4vq9Q6SIu1uXxzDRpvXlp7Kp2pP2AaLPXE
-	PHwbdO3200g7UqDA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1774518901; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7q8Kx1FkVvzvC3Q+vN0M/TZAWD4PkwxVk8bUtCe8P+o=;
-	b=k2IXJsi0SUU38wKdBvypl6ZnpttNNVynrB3dl8xeNInC4Con3yagBcilXHWfutQEEJbsMC
-	L98tWf6D/jTdUcM9c1tX7bH8gbUF2eeuGhvAXeX7DsfeYoQqqN0sfiYM0AgAlxETMglZWg
-	agE7qYC0vhveRgQOY7kAluMopfxQHDs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1774518901;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7q8Kx1FkVvzvC3Q+vN0M/TZAWD4PkwxVk8bUtCe8P+o=;
-	b=+Cu1Sqrs9JhQuPOKTkxkGxMDSyqfn0ulyrAC4vq9Q6SIu1uXxzDRpvXlp7Kp2pP2AaLPXE
-	PHwbdO3200g7UqDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A5F274A0AB;
-	Thu, 26 Mar 2026 09:55:01 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 9gGRKHUCxWkGYQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 26 Mar 2026 09:55:01 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id D678FA0C7F; Thu, 26 Mar 2026 10:54:49 +0100 (CET)
-From: Jan Kara <jack@suse.cz>
-To: <linux-fsdevel@vger.kernel.org>
-Cc: <linux-block@vger.kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Al Viro <viro@ZenIV.linux.org.uk>,
-	<linux-ext4@vger.kernel.org>,
-	Ted Tso <tytso@mit.edu>,
-	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
-	David Sterba <dsterba@suse.com>,
-	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
-	Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	David Hildenbrand <david@kernel.org>,
-	linux-mm@kvack.org,
-	linux-aio@kvack.org,
-	Benjamin LaHaise <bcrl@kvack.org>,
-	Jan Kara <jack@suse.cz>
-Subject: [PATCH 39/42] minix: Track metadata bhs in fs-private inode part
-Date: Thu, 26 Mar 2026 10:54:33 +0100
-Message-ID: <20260326095354.16340-81-jack@suse.cz>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260326082428.31660-1-jack@suse.cz>
-References: <20260326082428.31660-1-jack@suse.cz>
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 30FD81955DB6;
+	Thu, 26 Mar 2026 10:15:33 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.44.33.121])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 767FF1800351;
+	Thu, 26 Mar 2026 10:15:29 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+	Kingdom.
+	Registered in England and Wales under Company Registration No. 3798903
+From: David Howells <dhowells@redhat.com>
+In-Reply-To: <4001609.1774391729@warthog.procyon.org.uk>
+References: <4001609.1774391729@warthog.procyon.org.uk>
+To: NeilBrown <neil@brown.name>
+Cc: dhowells@redhat.com, Marc Dionne <marc.dionne@auristor.com>,
+    Paulo Alcantara <pc@manguebit.org>,
+    Christian Brauner <brauner@kernel.org>, netfs@lists.linux.dev,
+    linux-afs@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+    linux-kernel@vger.kernel.org
+Subject: [PATCH v2] cachefiles: Fix excess dput() after end_removing()
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4731; i=jack@suse.cz; h=from:subject; bh=LB5f9ZM6VTG6f7M+4eM1ibxL/c9eLkxT6oy6CEVQ+ic=; b=owEBbQGS/pANAwAIAZydqgc/ZEDZAcsmYgBpxQJTqj+aOzlKcPkCimm7IqpQm2fU61zijKeKW 5HhKtDTckGJATMEAAEIAB0WIQSrWdEr1p4yirVVKBycnaoHP2RA2QUCacUCUwAKCRCcnaoHP2RA 2TCJB/490VA3we2/AivSVCUBWocvHEyG25ixMq2H4qxIqT2Kd/r8p/4yiXj8YEXR3cO4jiD0KX/ pofRf+wwtm3lsZyz4ScERTu11HFuTm40DjhGPiJ24IHIo90+iANsl7fNt777dCSU0VWbJliaWQJ D/QBlJhGbKvE6k1GJEmb1ifthzuddz473YVtw3fBo4dJ9Wfqj6CAiYTyK0iIGI/k48DYVe5ENlk eQ5ILiyrBw/Zz/i+kH2ELXLuvluJKGeLnjQOMG2LtuiSmuWa6N1YDiFL66rlbovT5eMI7EslIZz 67ugOsQXYmuIUBf9i1KIjiefsjCTwrw+vMGNu0WLpksqgJps
-X-Developer-Key: i=jack@suse.cz; a=openpgp; fpr=93C6099A142276A28BBE35D815BC833443038D8C
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -1.30
-X-Spam-Level: 
-X-Spamd-Result: default: False [-1.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TAGGED_RCPT(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	ARC_NA(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,ZenIV.linux.org.uk,mit.edu,gmail.com,suse.com,mail.parknet.co.jp,linux.dev,suse.de,kvack.org,suse.cz];
-	R_RATELIMIT(0.00)[to_ip_from(RLck8brw5hxmszoarioc7838it),to(RLpnp1psq57oqao6ocwdpbxen9)];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com]
-X-Spam-Flag: NO
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <508494.1774520128.1@warthog.procyon.org.uk>
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 26 Mar 2026 10:15:28 +0000
+Message-ID: <508495.1774520128@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-Track metadata bhs for an inode in fs-private part of the inode.
+    =
 
-Signed-off-by: Jan Kara <jack@suse.cz>
+When cachefiles_cull() calls cachefiles_bury_object(), the latter eats the
+former's ref on the victim dentry that it obtained from
+cachefiles_lookup_for_cull().  However, commit 7bb1eb45e43c left the dput
+of the victim in place, resulting in occasional:
+
+  WARNING: fs/dcache.c:829 at dput.part.0+0xf5/0x110, CPU#7: cachefilesd/1=
+1831
+  cachefiles_cull+0x8c/0xe0 [cachefiles]
+  cachefiles_daemon_cull+0xcd/0x120 [cachefiles]
+  cachefiles_daemon_write+0x14e/0x1d0 [cachefiles]
+  vfs_write+0xc3/0x480
+  ...
+
+reports.
+
+Actually, it's worse than that: cachefiles_bury_object() eats the ref it
+was given - and then may continue to access the now-unref'd dentry it if i=
+t
+turns out to be a directory.  So simply removing the aberrant dput() is no=
+t
+sufficient.
+
+Fix this by making cachefiles_bury_object() retain the ref itself around
+end_removing() if it needs to keep it and then drop the ref before returni=
+ng.
+
+Fixes: bd6ede8a06e8 ("VFS/nfsd/cachefiles/ovl: introduce start_removing() =
+and end_removing()")
+Reported-by: Marc Dionne <marc.dionne@auristor.com>
+Signed-off-by: David Howells <dhowells@redhat.com>
+cc: NeilBrown <neil@brown.name>
+cc: Paulo Alcantara <pc@manguebit.org>
+cc: netfs@lists.linux.dev
+cc: linux-afs@lists.infradead.org
+cc: linux-fsdevel@vger.kernel.org
 ---
- fs/minix/dir.c          |  2 +-
- fs/minix/file.c         | 10 +++++++++-
- fs/minix/inode.c        |  6 ++++--
- fs/minix/itree_common.c | 11 +++++++----
- fs/minix/minix.h        |  3 +++
- 5 files changed, 24 insertions(+), 8 deletions(-)
+ fs/cachefiles/namei.c |   36 +++++++++++++++++++++---------------
+ 1 file changed, 21 insertions(+), 15 deletions(-)
 
-diff --git a/fs/minix/dir.c b/fs/minix/dir.c
-index a74d000327fa..361d26d87d2e 100644
---- a/fs/minix/dir.c
-+++ b/fs/minix/dir.c
-@@ -23,7 +23,7 @@ const struct file_operations minix_dir_operations = {
- 	.llseek		= generic_file_llseek,
- 	.read		= generic_read_dir,
- 	.iterate_shared	= minix_readdir,
--	.fsync		= generic_buffers_fsync,
-+	.fsync		= minix_fsync,
- };
- 
- /*
-diff --git a/fs/minix/file.c b/fs/minix/file.c
-index 282b3cd1fea3..86e5943cd2ff 100644
---- a/fs/minix/file.c
-+++ b/fs/minix/file.c
-@@ -7,8 +7,16 @@
-  *  minix regular file handling primitives
-  */
- 
-+#include <linux/buffer_head.h>
- #include "minix.h"
- 
-+int minix_fsync(struct file *file, loff_t start, loff_t end, int datasync)
-+{
-+	return mmb_fsync(file,
-+			&minix_i(file->f_mapping->host)->i_metadata_bhs,
-+			start, end, datasync);
-+}
-+
- /*
-  * We have mostly NULLs here: the current defaults are OK for
-  * the minix filesystem.
-@@ -18,7 +26,7 @@ const struct file_operations minix_file_operations = {
- 	.read_iter	= generic_file_read_iter,
- 	.write_iter	= generic_file_write_iter,
- 	.mmap_prepare	= generic_file_mmap_prepare,
--	.fsync		= generic_buffers_fsync,
-+	.fsync		= minix_fsync,
- 	.splice_read	= filemap_splice_read,
- };
- 
-diff --git a/fs/minix/inode.c b/fs/minix/inode.c
-index ab7c06efb139..63f378f38d43 100644
---- a/fs/minix/inode.c
-+++ b/fs/minix/inode.c
-@@ -49,9 +49,9 @@ static void minix_evict_inode(struct inode *inode)
- 		inode->i_size = 0;
- 		minix_truncate(inode);
- 	} else {
--		sync_mapping_buffers(&inode->i_data);
-+		mmb_sync(&minix_i(inode)->i_metadata_bhs);
+diff --git a/fs/cachefiles/namei.c b/fs/cachefiles/namei.c
+index e5ec90dccc27..20138309733f 100644
+--- a/fs/cachefiles/namei.c
++++ b/fs/cachefiles/namei.c
+@@ -287,14 +287,14 @@ int cachefiles_bury_object(struct cachefiles_cache *=
+cache,
+ 	if (!d_is_dir(rep)) {
+ 		ret =3D cachefiles_unlink(cache, object, dir, rep, why);
+ 		end_removing(rep);
+-
+ 		_leave(" =3D %d", ret);
+ 		return ret;
  	}
--	invalidate_inode_buffers(inode);
-+	mmb_invalidate(&minix_i(inode)->i_metadata_bhs);
- 	clear_inode(inode);
- 	if (!inode->i_nlink)
- 		minix_free_inode(inode);
-@@ -85,6 +85,8 @@ static struct inode *minix_alloc_inode(struct super_block *sb)
- 	ei = alloc_inode_sb(sb, minix_inode_cachep, GFP_KERNEL);
- 	if (!ei)
- 		return NULL;
-+	mmb_init(&ei->i_metadata_bhs, &ei->vfs_inode.i_data);
-+
- 	return &ei->vfs_inode;
+ =
+
+ 	/* directories have to be moved to the graveyard */
+ 	_debug("move stale object to graveyard");
+-	end_removing(rep);
++	dget(rep);
++	end_removing(rep); /* Drops ref on rep */
+ =
+
+ try_again:
+ 	/* first step is to make up a grave dentry in the graveyard */
+@@ -304,8 +304,10 @@ int cachefiles_bury_object(struct cachefiles_cache *c=
+ache,
+ =
+
+ 	/* do the multiway lock magic */
+ 	trap =3D lock_rename(cache->graveyard, dir);
+-	if (IS_ERR(trap))
+-		return PTR_ERR(trap);
++	if (IS_ERR(trap)) {
++		ret =3D PTR_ERR(trap);
++		goto out;
++	}
+ =
+
+ 	/* do some checks before getting the grave dentry */
+ 	if (rep->d_parent !=3D dir || IS_DEADDIR(d_inode(rep))) {
+@@ -313,25 +315,27 @@ int cachefiles_bury_object(struct cachefiles_cache *=
+cache,
+ 		 * lock */
+ 		unlock_rename(cache->graveyard, dir);
+ 		_leave(" =3D 0 [culled?]");
+-		return 0;
++		ret =3D 0;
++		goto out;
+ 	}
+ =
+
++	ret =3D -EIO;
+ 	if (!d_can_lookup(cache->graveyard)) {
+ 		unlock_rename(cache->graveyard, dir);
+ 		cachefiles_io_error(cache, "Graveyard no longer a directory");
+-		return -EIO;
++		goto out;
+ 	}
+ =
+
+ 	if (trap =3D=3D rep) {
+ 		unlock_rename(cache->graveyard, dir);
+ 		cachefiles_io_error(cache, "May not make directory loop");
+-		return -EIO;
++		goto out;
+ 	}
+ =
+
+ 	if (d_mountpoint(rep)) {
+ 		unlock_rename(cache->graveyard, dir);
+ 		cachefiles_io_error(cache, "Mountpoint in cache");
+-		return -EIO;
++		goto out;
+ 	}
+ =
+
+ 	grave =3D lookup_one(&nop_mnt_idmap, &QSTR(nbuffer), cache->graveyard);
+@@ -343,11 +347,12 @@ int cachefiles_bury_object(struct cachefiles_cache *=
+cache,
+ =
+
+ 		if (PTR_ERR(grave) =3D=3D -ENOMEM) {
+ 			_leave(" =3D -ENOMEM");
+-			return -ENOMEM;
++			ret =3D -ENOMEM;
++			goto out;
+ 		}
+ =
+
+ 		cachefiles_io_error(cache, "Lookup error %ld", PTR_ERR(grave));
+-		return -EIO;
++		goto out;
+ 	}
+ =
+
+ 	if (d_is_positive(grave)) {
+@@ -362,7 +367,7 @@ int cachefiles_bury_object(struct cachefiles_cache *ca=
+che,
+ 		unlock_rename(cache->graveyard, dir);
+ 		dput(grave);
+ 		cachefiles_io_error(cache, "Mountpoint in graveyard");
+-		return -EIO;
++		goto out;
+ 	}
+ =
+
+ 	/* target should not be an ancestor of source */
+@@ -370,7 +375,7 @@ int cachefiles_bury_object(struct cachefiles_cache *ca=
+che,
+ 		unlock_rename(cache->graveyard, dir);
+ 		dput(grave);
+ 		cachefiles_io_error(cache, "May not make directory loop");
+-		return -EIO;
++		goto out;
+ 	}
+ =
+
+ 	/* attempt the rename */
+@@ -404,8 +409,10 @@ int cachefiles_bury_object(struct cachefiles_cache *c=
+ache,
+ 	__cachefiles_unmark_inode_in_use(object, d_inode(rep));
+ 	unlock_rename(cache->graveyard, dir);
+ 	dput(grave);
+-	_leave(" =3D 0");
+-	return 0;
++	_leave(" =3D %d", ret);
++out:
++	dput(rep);
++	return ret;
  }
- 
-diff --git a/fs/minix/itree_common.c b/fs/minix/itree_common.c
-index dad131e30c05..c3cd2c75af9c 100644
---- a/fs/minix/itree_common.c
-+++ b/fs/minix/itree_common.c
-@@ -98,7 +98,7 @@ static int alloc_branch(struct inode *inode,
- 		*branch[n].p = branch[n].key;
- 		set_buffer_uptodate(bh);
- 		unlock_buffer(bh);
--		mark_buffer_dirty_inode(bh, inode);
-+		mmb_mark_buffer_dirty(bh, &minix_i(inode)->i_metadata_bhs);
- 		parent = nr;
- 	}
- 	if (n == num)
-@@ -135,7 +135,8 @@ static inline int splice_branch(struct inode *inode,
- 
- 	/* had we spliced it onto indirect block? */
- 	if (where->bh)
--		mark_buffer_dirty_inode(where->bh, inode);
-+		mmb_mark_buffer_dirty(where->bh,
-+				      &minix_i(inode)->i_metadata_bhs);
- 
- 	mark_inode_dirty(inode);
- 	return 0;
-@@ -328,14 +329,16 @@ static inline void truncate (struct inode * inode)
- 		if (partial == chain)
- 			mark_inode_dirty(inode);
- 		else
--			mark_buffer_dirty_inode(partial->bh, inode);
-+			mmb_mark_buffer_dirty(partial->bh,
-+					      &minix_i(inode)->i_metadata_bhs);
- 		free_branches(inode, &nr, &nr+1, (chain+n-1) - partial);
- 	}
- 	/* Clear the ends of indirect blocks on the shared branch */
- 	while (partial > chain) {
- 		free_branches(inode, partial->p + 1, block_end(partial->bh),
- 				(chain+n-1) - partial);
--		mark_buffer_dirty_inode(partial->bh, inode);
-+		mmb_mark_buffer_dirty(partial->bh,
-+				      &minix_i(inode)->i_metadata_bhs);
- 		brelse (partial->bh);
- 		partial--;
- 	}
-diff --git a/fs/minix/minix.h b/fs/minix/minix.h
-index 7e1f652f16d3..f2025c9b5825 100644
---- a/fs/minix/minix.h
-+++ b/fs/minix/minix.h
-@@ -19,6 +19,7 @@ struct minix_inode_info {
- 		__u16 i1_data[16];
- 		__u32 i2_data[16];
- 	} u;
-+	struct mapping_metadata_bhs i_metadata_bhs;
- 	struct inode vfs_inode;
- };
- 
-@@ -57,6 +58,8 @@ unsigned long minix_count_free_blocks(struct super_block *sb);
- int minix_getattr(struct mnt_idmap *, const struct path *,
- 		struct kstat *, u32, unsigned int);
- int minix_prepare_chunk(struct folio *folio, loff_t pos, unsigned len);
-+struct mapping_metadata_bhs *minix_get_metadata_bhs(struct inode *inode);
-+int minix_fsync(struct file *file, loff_t start, loff_t end, int datasync);
- 
- extern void V1_minix_truncate(struct inode *);
- extern void V2_minix_truncate(struct inode *);
--- 
-2.51.0
+ =
+
+ /*
+@@ -812,7 +819,6 @@ int cachefiles_cull(struct cachefiles_cache *cache, st=
+ruct dentry *dir,
+ =
+
+ 	ret =3D cachefiles_bury_object(cache, NULL, dir, victim,
+ 				     FSCACHE_OBJECT_WAS_CULLED);
+-	dput(victim);
+ 	if (ret < 0)
+ 		goto error;
+ =
 
