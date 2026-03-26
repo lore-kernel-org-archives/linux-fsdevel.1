@@ -1,29 +1,29 @@
-Received: from outbound-ip191b.ess.barracuda.com (outbound-ip191b.ess.barracuda.com [209.222.82.124])
+Received: from outbound-ip168b.ess.barracuda.com (outbound-ip168b.ess.barracuda.com [209.222.82.102])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7656A3A7F56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 751253A7F55
 	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 21:35:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=209.222.82.124
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=209.222.82.102
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774560923; cv=fail; b=q4h5dHXYLTvL+fOB5knS+lZBS+zLlclnnNQ7WQ5OnBBBwopXpBMGvCpMWn8tN28N6+yuXJQuM109YEkn8hfhkEDTsefDjDiN1qsZ1D+2B9sqErX9mD5BqJgNAiww5gcCdKtMcR5xm7vdcwzhZ8wjwtcG/+MylgdFNk5EFXjpEOE=
+	t=1774560924; cv=fail; b=LcKN35ZUiYSqKCe7P3fam51oljShJFUILPmtkPrHVWDp9051ndmkLcq58gfgpGy45AgqNvD5YuDCUzugWtjAWZtS65f3ToLYlyg3IvtOORjhJnJEZbVqbKGgTLbiTANvtHRBK2um8YZf6dLCAGN4XSmHN1jMz8RTNOvElJcluPM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774560923; c=relaxed/simple;
-	bh=0nUR0M2MOCQ9aJH3UahTQnrwKrFlPrxnjxWhzvPxFdo=;
+	s=arc-20240116; t=1774560924; c=relaxed/simple;
+	bh=ko9XBt7Qc7Nu590SkCwX9WkTwEUSIo9aNAVaoni1BEo=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ikWbuRAVma/r4AZiY6r5VidBNSev5GznNENtueJL+G741GHKzXDyaG7gxj8UDrWrDWAf9BLZA37kBPk+3/TLTe7WArCG9ad5Pe8rIjm5R8EEYlAr+SmtHD05OQjmS9Mauqui5U2/w9MSMiYZ7ek3mDZK52HMT3IJNTexDBzCVb4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=ddn.com; dkim=pass (1024-bit key) header.d=datadirectnetworks.onmicrosoft.com header.i=@datadirectnetworks.onmicrosoft.com header.b=bID2rzWh; arc=fail smtp.client-ip=209.222.82.124
+	 In-Reply-To:To:Cc; b=mUy5nraQxA5JMlmVAVHyzDNrV6XNtXS+22R1Zf1KZqroAexMN/TUOz9Ob/TO3bztxzElfwewZTLcMZtufbAQgJ3FLXeghFV2hbC1LNJzwt8RiKWWyRBM6SFVvD0gkHGD2LxJ2nhFcO/sCD5aAbXX3Jm/UMU+kly1zAaMor5VRWE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=ddn.com; dkim=pass (1024-bit key) header.d=datadirectnetworks.onmicrosoft.com header.i=@datadirectnetworks.onmicrosoft.com header.b=B/7HMoNu; arc=fail smtp.client-ip=209.222.82.102
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ddn.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=datadirectnetworks.onmicrosoft.com header.i=@datadirectnetworks.onmicrosoft.com header.b="bID2rzWh"
-Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11020088.outbound.protection.outlook.com [52.101.46.88]) by mx-outbound22-205.us-east-2b.ess.aws.cudaops.com (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO); Thu, 26 Mar 2026 21:35:07 +0000
+	dkim=pass (1024-bit key) header.d=datadirectnetworks.onmicrosoft.com header.i=@datadirectnetworks.onmicrosoft.com header.b="B/7HMoNu"
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11021133.outbound.protection.outlook.com [40.93.194.133]) by mx-outbound16-118.us-east-2b.ess.aws.cudaops.com (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO); Thu, 26 Mar 2026 21:35:13 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=V67+Nx7gp8I8g5r0qZ+JKfTq7ck0LK4elbvuZz36wmW7s4hBhnuXOJ2fsCFENFQZen+TbXhUFQtFtw2l5cvZy/XHpH3tdwS4BTdUAM3uWc53tUToYlLy4pb6uQh6py/wcsPMI61BValuo91n9IxfKG2kBfBFqQc6KpKpPLPMOUs6Bx2Kl6y8jHcPx/SyI3uNq7BokNR69htU8b62picTjy/K2Fxl+uP9btqtnKSYhq+XrF99wqOoJQhSpoWWq94R/QxZqDvpJUJRD3IDS1hKuBJuG5nSfm75Qu04HWiuiDtPU1uQI2aHaUeeuxO5Bb3WKwso75BjTLym7HNQY309Yg==
+ b=tNp0QuFdNd1505oh6hlZkvRV2i1wJLgKR53hqkSpIokY2Pr3jZEv1JrFhrqYHr0PkLbJ6SukUnsjdV6HtbiKmhHKHtIMF/imWI2o3GNd0OhxoHniTrihTEdCF2S8scvkya9eexiKm9AbR39jW2/J483Y+86kbyvOb57ALEa2Mqt5eyDZA+7cCtNyI+VQlQjiAJ/fkR5Oi1k2upQiwcLihnoUHvcqwkE13iQ+xfohLvLtULZT0NxYJgndAsiU7fFxGlBO5kA+dmm6X9jY3kpUOrSSvd+vfZwGHAz3/muCA7EjXpqG/0sbRxjIhQTp5JGjaxXg1fF8ile1memm0GFbeQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Xxq7NvlmTAHoqj+5iZYkpf4rdCNTGLN16Hs1RKTijSQ=;
- b=HtGKi6YmEQb2AwVt1zgp6HYLE6Q6LY9A092PH6QDZVGq95iZTGP6OYGdspD01tA7UkBAL6/6yCZcaAbAxmIeOwjiFel0ApEGCVaoBhu5HN0RukOa976IU9nxGEt4saJAg3BqnSlXUORhnSKzg74FARA0yRJ/qGYVIH8wtTxL82JNFUttopwnBaTp4kh57+r14UnCjXiVMFhDIH5d44rX9eL/5tQpLIFnBcKecqwyxhlee/9vZdle3wrYFRUxtCae4tBrJsuHv9sS38ng0PtoiiD4qrRhdROv4ReuYuQiuy2zxbK7J+cKBZzb838u9exzJPYb7zN+RKTMaK5vbpmh8A==
+ bh=+Ac8oFaJ3+TUXGY9vXDf0Jn/tGIGgmHqh5QC/XluzhA=;
+ b=quGmr+tZFMmIbspY7wSQmg598LUM6zfdj+sAjdoK1/rwJ9x/ZHoa7wnpXgiXCq7vcHJnzmrpU8+rxyOpZ9HOAp6wn4gYCnn5vuH1Ic1pG2XlgusTTgOzd3SOu6bPcWIAY61E0UYyf5V6RfzEF7E6v2FY836zUlPZQ9++ct2BqiPbv/4nIdwp3rTLkcDREGsR0ffvV/bDbmQPUceLOSHC0X1Gc6LjizdKeMTqkHhFlbpOZ8WgflOypxkZsuhMkuKIQRr4RFA4lJ56UyjVTBD8mS8iVdrd9sXyBoVJVObK96p5AZa7X7Tyg3CQgGNFF9x5am190lR5L2SO7YQfBARkwA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  50.222.100.11) smtp.rcpttodomain=bsbernd.com smtp.mailfrom=ddn.com;
  dmarc=fail (p=none sp=none pct=100) action=none header.from=bsbernd.com;
@@ -32,18 +32,18 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=datadirectnetworks.onmicrosoft.com;
  s=selector2-datadirectnetworks-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Xxq7NvlmTAHoqj+5iZYkpf4rdCNTGLN16Hs1RKTijSQ=;
- b=bID2rzWhsaA8SPp8x2ryYRo+6hlUTZwTO/R7xJQ36uTr/lAe9VN1B+oTO2Vjp6ExSH3w76cID/jpUMMm16/33OZGjPY3vLDzbwcvOl10qRcOrw12L0ay2RFZhzPTD/azWHX+HvX8zlo8expyDJHBe9B+IJ+Ls+JdusAuZe+zNU8=
-Received: from MN2PR05CA0038.namprd05.prod.outlook.com (2603:10b6:208:236::7)
- by PH7PR19MB6657.namprd19.prod.outlook.com (2603:10b6:510:1ab::6) with
+ bh=+Ac8oFaJ3+TUXGY9vXDf0Jn/tGIGgmHqh5QC/XluzhA=;
+ b=B/7HMoNuKcw/DWFOe7qB6Q7kBbLYKXOAPDDKFc/bccLsucZpIJ+Hv/vtEYLUIGDjrqKwr6CSliK+9PSnaA/GZbcR3mZPGOWhcg9wKQkrHT9/easlDo45EkeNRmtn9mKlxI8aTnWTKLaX56+YFr3TRaYuQHj18TGMT0hzweyO1SI=
+Received: from MN2PR03CA0016.namprd03.prod.outlook.com (2603:10b6:208:23a::21)
+ by BY3PR19MB5060.namprd19.prod.outlook.com (2603:10b6:a03:363::7) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.20; Thu, 26 Mar
- 2026 21:35:03 +0000
-Received: from BN3PEPF0000B06D.namprd21.prod.outlook.com
- (2603:10b6:208:236:cafe::19) by MN2PR05CA0038.outlook.office365.com
- (2603:10b6:208:236::7) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9745.21 via Frontend Transport; Thu,
- 26 Mar 2026 21:35:01 +0000
+ 2026 21:35:08 +0000
+Received: from BL02EPF0001A107.namprd05.prod.outlook.com
+ (2603:10b6:208:23a:cafe::5c) by MN2PR03CA0016.outlook.office365.com
+ (2603:10b6:208:23a::21) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9723.33 via Frontend Transport; Thu,
+ 26 Mar 2026 21:35:08 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 50.222.100.11)
  smtp.mailfrom=ddn.com; dkim=none (message not signed)
  header.d=none;dmarc=fail action=none header.from=bsbernd.com;
@@ -51,16 +51,16 @@ Received-SPF: Pass (protection.outlook.com: domain of ddn.com designates
  50.222.100.11 as permitted sender) receiver=protection.outlook.com;
  client-ip=50.222.100.11; helo=uww-mrp-01.datadirectnet.com; pr=C
 Received: from uww-mrp-01.datadirectnet.com (50.222.100.11) by
- BN3PEPF0000B06D.mail.protection.outlook.com (10.167.243.72) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9769.0
- via Frontend Transport; Thu, 26 Mar 2026 21:35:00 +0000
+ BL02EPF0001A107.mail.protection.outlook.com (10.167.241.136) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9745.21
+ via Frontend Transport; Thu, 26 Mar 2026 21:35:07 +0000
 Received: from localhost (unknown [10.68.0.8])
-	by uww-mrp-01.datadirectnet.com (Postfix) with ESMTP id CC30990C;
-	Thu, 26 Mar 2026 21:34:59 +0000 (UTC)
+	by uww-mrp-01.datadirectnet.com (Postfix) with ESMTP id 80C9A37B;
+	Thu, 26 Mar 2026 21:35:05 +0000 (UTC)
 From: Bernd Schubert <bernd@bsbernd.com>
-Date: Thu, 26 Mar 2026 22:34:41 +0100
-Subject: [PATCH v2 08/25] Refactor mount code / move common functions to
- mount_util.c
+Date: Thu, 26 Mar 2026 22:34:47 +0100
+Subject: [PATCH v2 14/25] fuse mount: Support synchronous FUSE_INIT
+ (privileged daemon)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -68,8 +68,8 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260326-fuse-init-before-mount-v2-8-b1ca8fcbf60f@bsbernd.com>
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260326-fuse-init-before-mount-v2-14-b1ca8fcbf60f@bsbernd.com>
 References: <20260326-fuse-init-before-mount-v2-0-b1ca8fcbf60f@bsbernd.com>
 In-Reply-To: <20260326-fuse-init-before-mount-v2-0-b1ca8fcbf60f@bsbernd.com>
 To: linux-fsdevel@vger.kernel.org
@@ -78,52 +78,52 @@ Cc: Miklos Szeredi <miklos@szeredi.hu>,
  "Darrick J. Wong" <djwong@kernel.org>, Kevin Chen <kchen@ddn.com>, 
  Bernd Schubert <bernd@bsbernd.com>, Bernd Schubert <bschubert@ddn.com>
 X-Mailer: b4 0.15-dev-2a633
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1774560891; l=10497;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1774560891; l=11605;
  i=bernd@bsbernd.com; s=20240529; h=from:subject:message-id;
- bh=v7XyYQfMYHo7Fun8pxJWzEf8TnaPTJBB6ZuXQMMcmSI=;
- b=CYWEKJwyCtHMsPtKPD/De0hYh8/7ZHL3mWaIuxfdZZERswf0wlLwzhEdhKLla/sToeVPtasox
- X6MW6JkTZLqCRSb8i+jSyfNTy0RyT9e4fuPq86VocFEUkLBTdhOORNS
+ bh=fKeTTVo2/4N6P74cPjOrJcMoy8kgmow5MI8pBg62+8M=;
+ b=9O8u40bcGIEz4WarexOhvqSehZV22Kdp98N/4+0JD9FTzTIZRVcQbuTPSmxVKS3933V894rZ8
+ Xgv2vaaA3fxA7D+B4rbwmatWLcBmS3GDzO7hqIyQuscdXo5rjnIhEUy
 X-Developer-Key: i=bernd@bsbernd.com; a=ed25519;
  pk=EZVU4bq64+flgoWFCVQoj0URAs3Urjno+1fIq9ZJx8Y=
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN3PEPF0000B06D:EE_|PH7PR19MB6657:EE_
-X-MS-Office365-Filtering-Correlation-Id: a5aca020-23f8-4a6d-6a82-08de8b7f891a
+X-MS-TrafficTypeDiagnostic: BL02EPF0001A107:EE_|BY3PR19MB5060:EE_
+X-MS-Office365-Filtering-Correlation-Id: e14ff557-6eb4-4f02-de87-08de8b7f8d52
 X-MS-Exchange-SenderADCheck: 0
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|82310400026|19092799006|61400799027|376014|48200799018|18002099003|16102099003|22082099003|56012099003;
+	BCL:0;ARA:13230040|61400799027|36860700016|19092799006|48200799018|376014|82310400026|22082099003|18002099003|16102099003|56012099003;
 X-Microsoft-Antispam-Message-Info:
-	UdrMh9ed1kvD6WUqF3jQNKxsO2OFcAccdWSe0+ZxQvva2si6pr1hzER1drZ8w2dlttUbAmmokBtYvMezkAHQBBJk8XFvrfJTCKG3JAeWlLHOxC8chEdX/ts5i8cfOTIqSVFX2Z5fKUR723N4bh1/xXh/FkTdwgI86LUBV4+k+cE835wSrdknEPLAwvuN5ffpkPbf50+pQUMH5BpKSAWfrU/fxp/qdwGFDktV/k+ms7Vt0LtSfQWEUYQa9OYGi/5QVgTK+4tQUD+zluwDGcrj0kaZrlvOj6DPVjzbRCOc2/2G1uBYxANnFMRaCxxynUrxrKBKensz6hKdqTdhsMCf1VlCQcwqXNaYnyWYopm79hYKbiwvRDDGFVDi03QChUGCE+9wbJwCtfeQDVbqkOeCTiL2cc29KUr2JmlLwHPDQXPHxBW4bkshSrLmJ0jDVW97gosrYAYzGtSHCW2GZSfa8feHK2kD+B7ZnLxNMGED4pVeSHmrTwyzsjdWFZajS/aJOBD4lZ5nxZU2u6HmM/uJNTSZBA6SrGMEshMlV6k2ISebXEOtfNUbzfiL04W+2y1AgcJm96Yz37Uaj/kbndRFcpK/aN/sSOOHSm318XBLF0oFUZclnpz3FeW242q09u4GmJX+swu9rhMYYbn5g0dU8fKgs9ABbH/dZLWWg7BI5SU0WlwDt0U0QU2+xmNWXbCuLf6JpXDNd+5UZcykSK+Z8MNT88UgmLLQytxxwh15CWerB6cZvxRsOZOkuqQqdnkjjPAWlXycw9hJioF6qOkq5Q==
+	NsjxortsYDR2OlAsmGn1LK8LWMb7JFwY/Kd9RQ7srdyGWPIvXvDIJnWoPDXkz2NUydMmozuS6j16Lir6l9OZ9CMnfu+uyxKvdBuPlx0BGABddQLlMUImugDrjrlKvA3mGrfutSRyszpn0TN8JnmsvV/qJ6FhAA76M16aj7WNENzt5eAeplrl0MXc68VFoyl83e9QrE4p5Z+Lqf0KP4Bp3yCH/WF0uoMizRXgUzPXIyuEB7jHkNWl8P8a8SMBiC4ucPOI7fk0BBrni7npQrSz0TpJ5JYc8ptqGQ5MuBXyOqND/nfdF0rM/TR3Ce7TByxFN7y7Ne3yhrZK/DDhoQV1AGAYk/t/8wYElRKAWPwLuBbwiicEfp3OIaJrIEIpZHsXZupRhzgzelCQMB3AITd7Zg15O55v1B/O/Yg0hESvyblj14xtaBwujlcP6v0foMMluzmfSiu+RZfho0z6zu5l6R0jMWJ6GbZugW73vrZwq/PJqM2J41EnfpRDLhMaTZJbXNacskiWNKtP9XsyBH9IiSuaub51fSrxkR1Bcv3wtc5Qt+WSqSZdCvv0rF28mvTUvH2PO7Z+EX/JtnwVnMt36Q58OndTuEvDttVJW7UJnvnRRqE/7ZAA82aYLc/dERXn8tTBHpfTyjDHY5c/Ph3cHDMDO+/BMZ087VNMKhg0IenKAvHLaL6VuiuDyLeYtobdwEOD62rlGg7LoX3hEnMv8bw95fmWHJ9Tuojc7xtxpnguUV5JuLwvIl95kJfoOlxvJZ5WHkgbFUTDU68tRBSFTQ==
 X-Forefront-Antispam-Report:
-	CIP:50.222.100.11;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:uww-mrp-01.datadirectnet.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(82310400026)(19092799006)(61400799027)(376014)(48200799018)(18002099003)(16102099003)(22082099003)(56012099003);DIR:OUT;SFP:1102;
+	CIP:50.222.100.11;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:uww-mrp-01.datadirectnet.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(61400799027)(36860700016)(19092799006)(48200799018)(376014)(82310400026)(22082099003)(18002099003)(16102099003)(56012099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	UfnMbUj9piLuG6lpTDW8yYYqU/Rb5CNXT33T+sQV73uruX4SaLUBeztAkw0U69TZFbzIhZGCc55I8NzCvoHogg6Q8iOrOFMjzCqoXZoqe6PDLwEx8mXMGujB8quzMmYQgFCZIEhpQ7ATdV2EdcsSTZCEQVt2pd2QJVhUJaAdBrLqEOm2spz3ViGFu9eX32GJypDiDNcwZuz3ghh7IpPMTioJhnJ2IfzKES6w71V7i4jphaeWbJymXxYhlXneorIyDJLmSEBsU7bfMUKP3vG152Wng1Nigwmmnz+DHFthtVhZmdcIL48nSxJUcQpAn70HVeluhWMPn8L0+z/ATXKKdeRrqiAgl38iMT+LBgnhGR3QL1j5VtC3RJfEj1AwDsg3IpOYWbK/zl273HqBU7m1TooKullyrETdPy+2qLaRMcYCUxLi987oUYbMPLpg+O3F
+	tFbiwq9m6NFVpxIQtt+/TJ7qzGkT7FH9ODWyf7Ph/CDdEcxuPmnTezHuXpchOF3NBLEOfk5dCzz+ZU/+S8Cwsa46KPKj3W4QcV7oWB6YO7e8mdr9Lnxvd0y0UlGHoZABdQtb1MsC4baaHahwlAqc873mp9Scw6Et4T+3fFOInj2hrV0H/1CquMPnBCLcfnwhFPOf6Jjfq1lfco+3RoisF62E2pKpsNbIgv/2Yl8PDAf0DivnQUoG4bkcKRu4NJCQMeeTGlFrRXw0xJezH6r9Q1uxy4hQlgBDgCfKMcEm7rbqdnLgT0/ZiYoP6bl2fbPrkICqkUDQX2qVNvHfi87wBg9dxliQtYkxpxsWcpMhskNcLBndpRw7Aq9961fwqVlJ3deLN212JAnHlLVZ+8mhye/cj5RtxzZrzESIstCMNyQS+sEfCX2Cl5YOvj9hGk7X
 X-Exchange-RoutingPolicyChecked:
-	fzjEBQFMq2CYbOqV4mHhE9eAh296O/trgaWACEYhKRKtCH8sKuYyIqlrEGUhxjgejiVbSP1BMgttiQhcr2iSejZc7JaJMrNgZBq5FJj5Rz6Of7ma09On75tI9bUUnVmS0+fDArc5+fgfIPukXDrwsL9DvxR7AMCySuSYKJ6hEGokHGzd4c2k2ub8v+hzGr9a1h/V/kewlrRFb0QQ4rxks1pKUEoQdMRFwW0QtW6aJ5W5KwDFJk3jUpqbp1SnTG+g+a02PwBR9BGF6DTzm2aHtSCQUCuBkeN+pBSNWR2vWpkOBSjwx94mervfyJ8kdNkOE7SJE6EoJl2JTJYz15qt7w==
+	YjIZsH4h9OfHReZL8AHH0C+IYzKOhJnk04cL5VonYpcRDWMmcuxwpbhdmca8WS0fGMTNeCHJHTtBjHEgZrBtkOlOJAUKGenITg8tsV2n8yWzSXvCJ5VVLfmFNvCW/uXrcMsNXCDCfosO+CWgk/ovWJhe+iDkQTETxLEltFyDI6pxyxQJy11QcYGZpAsaoRqAo22cc8BM1zQiOPWSXLnWO9kfmry8unsD5t4/vcPjbdycezH1AoRdJiVQ7L58PslH3MgV1EU/QWxL60NZ3YVzUC54IYwK/XwnWxdax9asaQr72Mv/6fAZCGwdyX9OQpZUm0ClzDI5X4IfjWPhzhP0Gw==
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	Vn/8VSi7y+Gvi7QYlqXuwy7e3AYw5i5fjKBgmp26WjwPVuajT1nKeOTTg+33P7GIHMSoXjI0TSz5dAnQR17OdW5spTP5f0ph78u6hOqqMHV6E0VfvlAtgn5H7CczdJTzEb7Xv3vujOi6H3sitDvfRFjKdMPqQud03b2vHW9iS8H68pyx9CDP0d7a/jG1FNf/b52MBYcnZk7V73tuj3kmQOTYgXe+CA0IioH4QoRrkXTKliFEeKpdF/rlHrtgwR8fUObgxQpZrFG38TGxbYABsMzCASMNViPzMxknUSm8/Qq2G5BBCe0GTc6u73JX1HGJBdijurlhqIfjJICLvrC7Cr97kUpBNk4lbWjru5UT5TQGNNyKPMX8WIPWpsJN7hXKZBCuESqArQ99nReveySXTSq/ZIRhLKFZiFync5KrFtZ8r/PjnWWA8WDtj7yDG5fTTWgM4QW12j8Wom++rFcnrIVvZJ3TQEqITckUyQlDcbUEt0hsabyWIDIrjIkH13KnASvPll9s+DG5MDGwFueHqJnfJH5ICXcnuKWhSOZ1UN7LFnTYjWR0O/BcMReNsox+GZ0wyT2wjbo+96kGhPvYFs3/Yo+SAkddGnqq+W5I7o4XEjq2Hw+eqyULERAJx9ToFmGPdaKYNvLSPsvtY/rDDw==
+	zRGLJmJ7sH/AM7UhTFXF4mGvk4w8YEWvGg2JRjN+PyQDcyLXhI/aqaj5qcAKQD3Ak6N1d9Jh851h5jsvkDz3PjZvB245XdIKeyqoCNCEevvjCEOeT3sYWPQdecyUCmyn7AyNZvwmuZ6u2B+4vZesDS+T51o0eOGETyulbSTYuvGNvCT6SQAcOGetEfeLXfKJiceUhKao3LSpvnQJgpSPihg+XMc7XiOH1QGCz5hK7Z5vTwqjYW8vAeNO4xrV2sH0JcCYn7UUJxpkZOq7JKeqPwJbXrKPkepQFppjNhIroJRCdOobr/W9BgQcNVV28wiBAiz/tURjPb9xA8+kwMG34PR2qudynfzdLgDCX/XAAesN7tMYml9Kj2vap0Xet0mIatp1iwnKF1tvguoZD55/59rD7XjQIEVJqwDHw769kTCPnrsOvSfwnZXIWWwpvkZVoWbs2gTUZFzju94MXiaa+J3cCAa6EeM//fRB/9ncBiswSZDZe8hrQ9REHoxqNTnzkTyc1u48SvQ4/xA7J1V3Ot6GiYj40kIY8IsPG4U7hPWqF8j4w6caCoT7D1ml6LQgHz9GMVqP0SlZjgpR2yn0KOLrKgOMIBIHULTO3RQynmwOo8kvnfSp9KBHBcTd8o0UEjxel8UhoJt4KB7Wqro7Yg==
 X-OriginatorOrg: ddn.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2026 21:35:00.9096
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2026 21:35:07.9819
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a5aca020-23f8-4a6d-6a82-08de8b7f891a
+X-MS-Exchange-CrossTenant-Network-Message-Id: e14ff557-6eb4-4f02-de87-08de8b7f8d52
 X-MS-Exchange-CrossTenant-Id: 753b6e26-6fd3-43e6-8248-3f1735d59bb4
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=753b6e26-6fd3-43e6-8248-3f1735d59bb4;Ip=[50.222.100.11];Helo=[uww-mrp-01.datadirectnet.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	BN3PEPF0000B06D.namprd21.prod.outlook.com
+	BL02EPF0001A107.namprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR19MB6657
-X-BESS-ID: 1774560907-105837-9732-3006-1
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY3PR19MB5060
+X-BESS-ID: 1774560913-104214-9078-10345-1
 X-BESS-VER: 2019.1_20260324.1831
-X-BESS-Apparent-Source-IP: 52.101.46.88
-X-BESS-Parts: H4sIAAAAAAACA4uuVkqtKFGyUioBkjpK+cVKVoYGhuZmQGYGUNTU1DItycjI2N
-	zSwiTFKNkgJck0Odk8xdwkzcDM2CjJQKk2FgCC/BB5QgAAAA==
+X-BESS-Apparent-Source-IP: 40.93.194.133
+X-BESS-Parts: H4sIAAAAAAACA4uuVkqtKFGyUioBkjpK+cVKVoaGRibGQGYGUNTMKNXC0CjZMs
+	nE1Mjc2DLNxCDFzCTV2CApycDCLNkkRak2FgDoOmLLQgAAAA==
 X-BESS-Outbound-Spam-Score: 0.50
 X-BESS-Outbound-Spam-Report: Code version 3.2, rules version 3.2.2.272096 [from 
-	cloudscan14-236.us-east-2a.ess.aws.cudaops.com]
+	cloudscan18-240.us-east-2b.ess.aws.cudaops.com]
 	Rule breakdown below
 	 pts rule name              description
 	---- ---------------------- --------------------------------
@@ -134,367 +134,408 @@ X-BESS-BRTS-Status:1
 
 From: Bernd Schubert <bschubert@ddn.com>
 
-Also create the new "mount_i.h", which is independent of the
-the rest of libfuse.
+Add synchronous FUSE_INIT processing during mount() to
+enable early daemonization with proper error reporting
+to the parent process.
 
-This is preparation for the new mount API, which goes into a new file.
+A new mount thread is needed that handles FUSE_INIT and
+possible other requests at mount time (like getxattr for selinux).
+The kernel sends FUSE_INIT during the mount() syscall. Without a thread
+to process it, mount() blocks forever.
+
+Mount thread lifetime:
+Created before mount() syscall in fuse_start_sync_init_worker()
+Processes requests until se->mount_finished is set (after mount() returns)
+Joined after successful mount in fuse_wait_sync_init_completion()
+Cancelled if mount fails (direct → fusermount3 fallback)
+Key changes:
+
+Add init_thread, init_error, mount_finished to struct fuse_session
+Use FUSE_DEV_IOC_SYNC_INIT ioctl for kernel support
+Fall back to async FUSE_INIT if unsupported
+Auto-enabled when fuse_daemonize_active() or via
+fuse_session_want_sync_init()
+Allows parent to report mount/init failures instead of
+exiting immediately after fork.
+
+Note: For now synchronous FUSE_INIT is only supported for privileged
+mounts.
 
 Signed-off-by: Bernd Schubert <bschubert@ddn.com>
-Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
 ---
- lib/fuse_i.h         | 10 ++----
- lib/mount.c          | 96 ++++++++++++++++++++++++++++------------------------
- lib/mount_bsd.c      |  1 +
- lib/mount_common_i.h | 31 +++++++++++++++++
- lib/mount_i_linux.h  | 32 ++++++++++++++++++
- lib/mount_util.c     | 24 +++++++++++++
- lib/mount_util.h     |  6 ++++
- 7 files changed, 148 insertions(+), 52 deletions(-)
+ include/fuse_daemonize.h |   7 ++
+ include/fuse_lowlevel.h  |  12 +++
+ lib/fuse_daemonize.c     |   6 ++
+ lib/fuse_i.h             |  15 ++++
+ lib/fuse_lowlevel.c      | 190 ++++++++++++++++++++++++++++++++++++++++++++++-
+ lib/mount.c              |   5 +-
+ 6 files changed, 230 insertions(+), 5 deletions(-)
 
+diff --git a/include/fuse_daemonize.h b/include/fuse_daemonize.h
+index c35dddd668b399535c53b44ab06c65fc0b3ddefa..6215e42c635ba5956cb23ba0832dfc291ab8dede 100644
+--- a/include/fuse_daemonize.h
++++ b/include/fuse_daemonize.h
+@@ -66,6 +66,13 @@ bool fuse_daemonize_is_active(void);
+  */
+ void fuse_daemonize_set_mounted(void);
+ 
++/**
++ * Check if daemonization is used.
++ *
++ * @return true if used, false otherwise
++ */
++bool fuse_daemonize_is_used(void);
++
+ #ifdef __cplusplus
+ }
+ #endif
+diff --git a/include/fuse_lowlevel.h b/include/fuse_lowlevel.h
+index ee0bd8d71d95e4d57ebb4873dca0f2b36e22a649..d8626f85bdaf497534cd2835a589e30f1f4e2466 100644
+--- a/include/fuse_lowlevel.h
++++ b/include/fuse_lowlevel.h
+@@ -2429,6 +2429,18 @@ void fuse_session_process_buf(struct fuse_session *se,
+  */
+ int fuse_session_receive_buf(struct fuse_session *se, struct fuse_buf *buf);
+ 
++/**
++ * Request synchronous FUSE_INIT, i.e. FUSE_INIT is handled by the
++ * kernel before mount is returned.
++ *
++ * As FUSE_INIT also starts io-uring ring threads, fork() must not be
++ * called after this if io-uring is enabled. Also see
++ * fuse_session_daemonize_start().
++ *
++ * This must be called before fuse_session_mount() to have any effect.
++ */
++void fuse_session_want_sync_init(struct fuse_session *se);
++
+ /**
+  * Check if the request is submitted through fuse-io-uring
+  */
+diff --git a/lib/fuse_daemonize.c b/lib/fuse_daemonize.c
+index 865acad7db56dbe5ed8a1bee52e7353627e89b75..97cfad7be879beacf69b020b7af78d512a224fd5 100644
+--- a/lib/fuse_daemonize.c
++++ b/lib/fuse_daemonize.c
+@@ -9,6 +9,7 @@
+ #define _GNU_SOURCE
+ 
+ #include "fuse_daemonize.h"
++#include "fuse_i.h"
+ 
+ #include <fcntl.h>
+ #include <poll.h>
+@@ -290,3 +291,8 @@ void fuse_daemonize_set_mounted(void)
+ {
+ 	daemonize.mounted = true;
+ }
++
++bool fuse_daemonize_is_used(void)
++{
++	return daemonize.active;
++}
 diff --git a/lib/fuse_i.h b/lib/fuse_i.h
-index a2438a15afdd3b5f62dd35bc3514f9f6853f00c3..6d63c9fd2149eb4ae3b0e0170640a4ce2eed4705 100644
+index 6d63c9fd2149eb4ae3b0e0170640a4ce2eed4705..164401e226eb727192a49e1cc7b38a75f031643b 100644
 --- a/lib/fuse_i.h
 +++ b/lib/fuse_i.h
-@@ -19,14 +19,15 @@
- #include <stdbool.h>
- #include <stdatomic.h>
+@@ -112,6 +112,9 @@ struct fuse_session {
  
-+#ifndef MIN
- #define MIN(a, b) \
- ({									\
- 	typeof(a) _a = (a);						\
- 	typeof(b) _b = (b);						\
- 	_a < _b ? _a : _b;						\
- })
-+#endif
+ 	/* synchronous FUSE_INIT support */
+ 	bool want_sync_init;
++	pthread_t init_thread;
++	int init_error;
++	int init_wakeup_fd;
  
--struct mount_opts;
- struct fuse_ring_pool;
- 
- struct fuse_req {
-@@ -217,13 +218,8 @@ struct fuse_chan *fuse_chan_get(struct fuse_chan *ch);
-  */
- void fuse_chan_put(struct fuse_chan *ch);
- 
--/* Special return value for mount functions to indicate fallback to fusermount3 is needed */
--#define FUSE_MOUNT_FALLBACK_NEEDED (-2)
--
--struct mount_opts *parse_mount_opts(struct fuse_args *args);
--void destroy_mount_opts(struct mount_opts *mo);
-+/* Mount-related functions */
+ 	/* io_uring */
+ 	struct fuse_session_uring uring;
+@@ -221,7 +224,11 @@ void fuse_chan_put(struct fuse_chan *ch);
+ /* Mount-related functions */
  void fuse_mount_version(void);
--unsigned get_max_read(struct mount_opts *o);
  void fuse_kern_unmount(const char *mountpoint, int fd);
++int fuse_kern_mount_get_base_mnt_opts(struct mount_opts *mo, char **mnt_optsp);
  int fuse_kern_mount(const char *mountpoint, struct mount_opts *mo);
++int fuse_kern_mount_prepare(const char *mountpoint, struct mount_opts *mo);
++int fuse_kern_do_mount(const char *mountpoint, struct mount_opts *mo,
++		       const char *mnt_opts);
  
-diff --git a/lib/mount.c b/lib/mount.c
-index dec9d52274c13536648cacef959789f472c5682c..fe353e2cc4579adb47473cac5db7d1bae2defb2c 100644
---- a/lib/mount.c
-+++ b/lib/mount.c
-@@ -16,6 +16,7 @@
- #include "fuse_misc.h"
- #include "fuse_opt.h"
- #include "mount_util.h"
-+#include "mount_i_linux.h"
- 
- #include <stdio.h>
- #include <stdlib.h>
-@@ -49,7 +50,6 @@
- #define FUSERMOUNT_PROG		"fusermount3"
- #define FUSE_COMMFD_ENV		"_FUSE_COMMFD"
- #define FUSE_COMMFD2_ENV	"_FUSE_COMMFD2"
--#define FUSE_KERN_DEVICE_ENV	"FUSE_KERN_DEVICE"
- 
- #ifndef MS_DIRSYNC
- #define MS_DIRSYNC 128
-@@ -65,20 +65,6 @@ enum {
- 	KEY_RO,
- };
- 
--struct mount_opts {
--	int allow_other;
--	int flags;
--	int auto_unmount;
--	int blkdev;
--	char *fsname;
--	char *subtype;
--	char *subtype_opt;
--	char *mtab_opts;
--	char *fusermount_opts;
--	char *kernel_opts;
--	unsigned max_read;
--};
--
- #define FUSE_MOUNT_OPT(t, p) { t, offsetof(struct mount_opts, p), 1 }
- 
- static const struct fuse_opt fuse_mount_opts[] = {
-@@ -197,7 +183,7 @@ static const struct mount_flags mount_flags[] = {
- 	{NULL,	    0,		    0}
- };
- 
--unsigned get_max_read(struct mount_opts *o)
-+unsigned int get_max_read(struct mount_opts *o)
- {
- 	return o->max_read;
- }
-@@ -510,7 +496,7 @@ static int fuse_kern_mount_prepare(const char *mnt,
- 				   struct mount_opts *mo)
- {
- 	char tmp[128];
--	const char *devname = getenv(FUSE_KERN_DEVICE_ENV) ?: "/dev/fuse";
-+	const char *devname = fuse_mnt_get_devname();
- 	struct stat stbuf;
- 	int fd;
- 	int res;
-@@ -563,35 +549,24 @@ out_close:
-  * @mo: mount options
-  * @mnt_opts: mount options to pass to the kernel
-  *
-- * Returns: 0 on success, -1 on failure, FUSE_MOUNT_FALLBACK_NEEDED if fusermount should be used
-+ * Returns: 0 on success, -1 on failure,
-+ *          FUSE_MOUNT_FALLBACK_NEEDED if fusermount should be used
+ int fuse_send_reply_iov_nofree(fuse_req_t req, int error, struct iovec *iov,
+ 			       int count);
+@@ -255,6 +262,14 @@ int fuse_session_loop_mt_312(struct fuse_session *se, struct fuse_loop_config *c
   */
- static int fuse_kern_do_mount(const char *mnt, struct mount_opts *mo,
- 				  const char *mnt_opts)
- {
--	const char *devname = getenv(FUSE_KERN_DEVICE_ENV) ?: "/dev/fuse";
- 	char *source = NULL;
- 	char *type = NULL;
- 	int res;
+ int fuse_loop_cfg_verify(struct fuse_loop_config *config);
  
- 	res = -ENOMEM;
--	source = malloc((mo->fsname ? strlen(mo->fsname) : 0) +
--			(mo->subtype ? strlen(mo->subtype) : 0) +
--			strlen(devname) + 32);
--
--	type = malloc((mo->subtype ? strlen(mo->subtype) : 0) + 32);
-+	source = fuse_mnt_build_source(mo);
-+	type = fuse_mnt_build_type(mo);
- 	if (!type || !source) {
- 		fuse_log(FUSE_LOG_ERR, "fuse: failed to allocate memory\n");
- 		goto out_close;
++/**
++ * Check if daemonization is set.
++ *
++ * @return true if set, false otherwise
++ */
++bool fuse_daemonize_set(void);
++
++
+ 
+ /*
+  * This can be changed dynamically on recent kernels through the
+diff --git a/lib/fuse_lowlevel.c b/lib/fuse_lowlevel.c
+index a7be40cbb012361ad664a9ced3d38042ba52c681..0dd10e0ed53508e4716703f2f82aa35ad853b247 100644
+--- a/lib/fuse_lowlevel.c
++++ b/lib/fuse_lowlevel.c
+@@ -4230,6 +4230,7 @@ fuse_session_new_versioned(struct fuse_args *args,
+ 		goto out1;
  	}
- 
--	strcpy(type, mo->blkdev ? "fuseblk" : "fuse");
--	if (mo->subtype) {
--		strcat(type, ".");
--		strcat(type, mo->subtype);
--	}
--	strcpy(source,
--	       mo->fsname ? mo->fsname : (mo->subtype ? mo->subtype : devname));
--
- 	res = mount(source, mnt, type, mo->flags, mo->kernel_opts);
- 	if (res == -1 && errno == ENODEV && mo->subtype) {
- 		/* Probably missing subtype support */
-@@ -627,20 +602,10 @@ static int fuse_kern_do_mount(const char *mnt, struct mount_opts *mo,
- 		goto out_close;
- 	}
- 
--#ifndef IGNORE_MTAB
--	if (geteuid() == 0) {
--		char *newmnt = fuse_mnt_resolve_path("fuse", mnt);
--		res = -1;
--		if (!newmnt)
--			goto out_umount;
-+	res = fuse_mnt_add_mount_helper(mnt, source, type, mnt_opts);
-+	if (res == -1)
-+		goto out_umount;
- 
--		res = fuse_mnt_add_mount("fuse", source, newmnt, type,
--					 mnt_opts);
--		free(newmnt);
--		if (res == -1)
--			goto out_umount;
--	}
--#endif /* IGNORE_MTAB */
- 	free(type);
- 	free(source);
- 
-@@ -777,3 +742,44 @@ out:
- 	free(mnt_opts);
- 	return res;
+ 	se->fd = -1;
++	se->init_wakeup_fd = -1;
+ 	se->conn.max_write = FUSE_DEFAULT_MAX_PAGES_LIMIT * getpagesize();
+ 	se->bufsize = se->conn.max_write + FUSE_BUFFER_HEADER_SIZE;
+ 	se->conn.max_readahead = UINT_MAX;
+@@ -4402,6 +4403,170 @@ int fuse_session_custom_io_30(struct fuse_session *se,
  }
+ 
+ #if defined(HAVE_NEW_MOUNT_API)
 +
-+const char *fuse_mnt_get_devname(void)
++/* Worker thread for synchronous FUSE_INIT */
++static void *session_sync_init_worker(void *data)
 +{
-+	const char *devname = getenv(FUSE_KERN_DEVICE_ENV);
++	struct fuse_session *se = (struct fuse_session *)data;
++	struct fuse_buf fbuf = {
++		.mem = NULL,
++	};
++	struct pollfd pfds[2];
++	int res;
 +
-+	return devname ? devname : "/dev/fuse";
-+}
++	pfds[0].fd = se->fd;
++	pfds[0].events = POLLIN;
++	pfds[0].revents = 0;
++	pfds[1].fd = se->init_wakeup_fd;
++	pfds[1].events = POLLIN;
++	pfds[1].revents = 0;
 +
-+char *fuse_mnt_build_source(const struct mount_opts *mo)
-+{
-+	const char *devname = fuse_mnt_get_devname();
-+	char *source;
++	/*
++	 * Process requests until mount completes. With SELinux there may be
++	 * additional requests (like getattr) after FUSE_INIT before mount
++	 * returns.
++	 */
++	while (true) {
++		res = poll(pfds, 2, -1);
++		if (res == -1) {
++			if (errno == EINTR)
++				continue;
++			se->init_error = -errno;
++			break;
++		}
 +
-+	source = malloc((mo->fsname ? strlen(mo->fsname) : 0) +
-+			(mo->subtype ? strlen(mo->subtype) : 0) +
-+			strlen(devname) + 32);
-+	if (!source)
-+		return NULL;
++		if (pfds[1].revents & POLLIN)
++			break;
 +
-+	strcpy(source,
-+	       mo->fsname ? mo->fsname : (mo->subtype ? mo->subtype : devname));
++		if (pfds[0].revents & POLLIN) {
++			res = fuse_session_receive_buf_internal(se, &fbuf, NULL);
++			if (res == -EINTR)
++				continue;
++			if (res <= 0) {
++				se->init_error = res < 0 ? res : -EINVAL;
++				break;
++			}
 +
-+	return source;
-+}
-+
-+char *fuse_mnt_build_type(const struct mount_opts *mo)
-+{
-+	char *type;
-+
-+	type = malloc((mo->subtype ? strlen(mo->subtype) : 0) + 32);
-+	if (!type)
-+		return NULL;
-+
-+	strcpy(type, mo->blkdev ? "fuseblk" : "fuse");
-+	if (mo->subtype) {
-+		strcat(type, ".");
-+		strcat(type, mo->subtype);
++			fuse_session_process_buf_internal(se, &fbuf, NULL);
++		}
 +	}
 +
-+	return type;
++	fuse_buf_free(&fbuf);
++	return NULL;
 +}
-diff --git a/lib/mount_bsd.c b/lib/mount_bsd.c
-index c12ab322e7dc86d5c8d2f2abc6b71488e82523cf..c5b831160f826c0e4620626a72c4b93427d18bab 100644
---- a/lib/mount_bsd.c
-+++ b/lib/mount_bsd.c
-@@ -10,6 +10,7 @@
++
++/* Enable synchronous FUSE_INIT and start worker thread */
++static int session_start_sync_init(struct fuse_session *se, int fd)
++{
++	int err, res;
++
++	if (!se->want_sync_init &&
++		(se->uring.enable && !fuse_daemonize_is_used())) {
++		if (se->debug)
++			fuse_log(FUSE_LOG_DEBUG,
++					"fuse: sync init not enabled\n");
++		return 0;
++	}
++
++	/* Try to enable synchronous FUSE_INIT */
++	res = ioctl(fd, FUSE_DEV_IOC_SYNC_INIT);
++	if (res) {
++		err = -errno;
++		if (err != ENOTTY) {
++			fuse_log(
++				FUSE_LOG_ERR,
++				"fuse: failed to enable sync init: %s\n",
++				strerror(errno));
++		} else {
++			/*
++			 * ENOTTY means kernel doesn't support sync init,not an
++			 * error
++			 */
++			if (se->debug)
++				fuse_log(
++					FUSE_LOG_DEBUG,
++					"fuse: kernel doesn't support sync init\n");
++			err = 0;
++		}
++		return err;
++	}
++
++	if (se->debug)
++		fuse_log(FUSE_LOG_DEBUG,
++				"fuse: synchronous FUSE_INIT enabled\n");
++
++	se->init_error = 0;
++
++	se->init_wakeup_fd = eventfd(0, EFD_CLOEXEC);
++	if (se->init_wakeup_fd == -1) {
++		fuse_log(
++			FUSE_LOG_ERR,
++			"fuse: failed to create eventfd for init worker: %s\n",
++			strerror(errno));
++		return -EIO;
++	}
++
++	err = pthread_create(&se->init_thread, NULL,
++				session_sync_init_worker, se);
++	if (err != 0) {
++		fuse_log(
++			FUSE_LOG_ERR,
++			"fuse: failed to create init worker thread: %s\n",
++			strerror(err));
++		close(se->init_wakeup_fd);
++		se->init_wakeup_fd = -1;
++		return -EIO;
++	}
++
++	return 0;
++}
++
++/* Wait for synchronous FUSE_INIT to complete */
++static int session_wait_sync_init_completion(struct fuse_session *se)
++{
++	void *retval;
++	int err;
++	uint64_t val = 1;
++
++	if (se->init_wakeup_fd == -1)
++		return 0;
++
++	if (se->init_wakeup_fd != -1) {
++		ssize_t res = write(se->init_wakeup_fd, &val, sizeof(val));
++
++		if (res != sizeof(val)) {
++			fuse_log(FUSE_LOG_ERR,
++				 "fuse: failed to signal init worker: %s\n",
++				 strerror(errno));
++		}
++	}
++
++	err = pthread_join(se->init_thread, &retval);
++	if (err != 0) {
++		fuse_log(FUSE_LOG_ERR, "fuse: failed to join init worker thread: %s\n",
++			 strerror(err));
++		return -1;
++	}
++
++	if (se->init_wakeup_fd != -1) {
++		close(se->init_wakeup_fd);
++		se->init_wakeup_fd = -1;
++	}
++
++	if (se->init_error != 0) {
++		fuse_log(FUSE_LOG_ERR, "fuse: init worker failed: %s\n",
++			 strerror(-se->init_error));
++		return -1;
++	}
++
++	if (fuse_session_exited(se)) {
++		fuse_log(FUSE_LOG_ERR, "FUSE_INIT failed: session exited\n");
++		return -1;
++	}
++
++	return 0;
++}
++
+ static int fuse_session_mount_new_api(struct fuse_session *se,
+ 				      const char *mountpoint)
+ {
+@@ -4426,6 +4591,15 @@ static int fuse_session_mount_new_api(struct fuse_session *se,
+ 		goto err;
+ 	}
  
- #include "fuse_config.h"
- #include "fuse_i.h"
-+#include "mount_common_i.h"
- #include "fuse_misc.h"
- #include "fuse_opt.h"
- #include "util.h"
-diff --git a/lib/mount_common_i.h b/lib/mount_common_i.h
-new file mode 100644
-index 0000000000000000000000000000000000000000..34f0f9893918a14c83a57a3212f80cfc96ed2e6d
---- /dev/null
-+++ b/lib/mount_common_i.h
-@@ -0,0 +1,31 @@
-+/*
-+ *  FUSE: Filesystem in Userspace
-+ *  Copyright (C) 2001-2007  Miklos Szeredi <miklos@szeredi.hu>
-+ *                2026 Bernd Schubert <bernd@bsbernd.com>
-+ *
-+ *  This program can be distributed under the terms of the GNU LGPLv2.
-+ *  See the file LGPL2.txt
-+ */
++	/*
++	 * Enable synchronous FUSE_INIT and start worker thread, sync init
++	 * failure is not an error
++	 */
++	se->fd = fd;
++	err = session_start_sync_init(se, fd);
++	if (err)
++		goto err;
 +
-+#ifndef FUSE_MOUNT_COMMON_I_H_
-+#define FUSE_MOUNT_COMMON_I_H_
-+
-+/* Forward declaration for fuse_args */
-+struct fuse_args;
-+struct mount_opts;
-+
-+/* Special return value for mount functions to indicate fallback to fusermount3 is needed */
-+#define FUSE_MOUNT_FALLBACK_NEEDED (-2)
-+
-+/* Environment variable for FUSE kernel device */
-+#define FUSE_KERN_DEVICE_ENV "FUSE_KERN_DEVICE"
-+
-+/* Mount options management functions */
-+struct mount_opts *parse_mount_opts(struct fuse_args *args);
-+void destroy_mount_opts(struct mount_opts *mo);
-+unsigned int get_max_read(struct mount_opts *o);
-+char *fuse_mnt_build_source(const struct mount_opts *mo);
-+char *fuse_mnt_build_type(const struct mount_opts *mo);
-+
-+
-+#endif /* FUSE_MOUNT_COMMON_I_H_ */
-diff --git a/lib/mount_i_linux.h b/lib/mount_i_linux.h
-new file mode 100644
-index 0000000000000000000000000000000000000000..254b75151f35578ce22197776e6fa4aceb04150e
---- /dev/null
-+++ b/lib/mount_i_linux.h
-@@ -0,0 +1,32 @@
-+/*
-+ *  FUSE: Filesystem in Userspace
-+ *  Copyright (C) 2001-2007  Miklos Szeredi <miklos@szeredi.hu>
-+ *                2026 Bernd Schubert <bernd@bsbernd.com>
-+ *
-+ *  This program can be distributed under the terms of the GNU LGPLv2.
-+ *  See the file LGPL2.txt
-+ */
-+
-+#ifndef FUSE_MOUNT_I_LINUX_H_
-+#define FUSE_MOUNT_I_LINUX_H_
-+
-+/* Forward declaration for fuse_args */
-+struct fuse_args;
-+
-+/* Mount options structure */
-+struct mount_opts {
-+	int allow_other;
-+	int flags;
-+	int auto_unmount;
-+	int blkdev;
-+	char *fsname;
-+	char *subtype;
-+	char *subtype_opt;
-+	char *mtab_opts;
-+	char *fusermount_opts;
-+	char *kernel_opts;
-+	unsigned int max_read;
-+};
-+
-+
-+#endif /* FUSE_MOUNT_I_LINUX_H_ */
-diff --git a/lib/mount_util.c b/lib/mount_util.c
-index 8c0cdf72d978da68c95125964416b92668104924..a42a02a0b92f98778abb2c491cdc7a01260f56ee 100644
---- a/lib/mount_util.c
-+++ b/lib/mount_util.c
-@@ -375,3 +375,27 @@ int fuse_mnt_parse_fuse_fd(const char *mountpoint)
+ 	snprintf(fd_opt, sizeof(fd_opt), "fd=%i", fd);
+ 	if (fuse_opt_add_opt(&mnt_opts_with_fd, mnt_opts) == -1 ||
+ 	    fuse_opt_add_opt(&mnt_opts_with_fd, fd_opt) == -1) {
+@@ -4435,13 +4609,16 @@ static int fuse_session_mount_new_api(struct fuse_session *se,
+ 
+ 	err = fuse_kern_fsmount_mo(mountpoint, se->mo, mnt_opts_with_fd);
+ err:
+-	if (err) {
++	if (err < 0) {
+ 		if (fd >= 0)
+ 			close(fd);
+ 		fd = -1;
+ 		se->fd = -1;
+ 		se->error = -errno;
+ 	}
++	/* Wait for synchronous FUSE_INIT to complete */
++	if (session_wait_sync_init_completion(se) < 0)
++		fuse_log(FUSE_LOG_ERR, "fuse: sync init completion failed\n");
+ 
+ 	free(mnt_opts);
+ 	free(mnt_opts_with_fd);
+@@ -4451,8 +4628,8 @@ err:
+ static int fuse_session_mount_new_api(struct fuse_session *se,
+ 				      const char *mountpoint)
+ {
+-	(void)se;
+-	(void)mountpoint;
++	(void) se;
++	(void) mountpoint;
  
  	return -1;
  }
+@@ -4826,3 +5003,10 @@ void fuse_session_stop_teardown_watchdog(void *data)
+ 	pthread_join(tt->thread_id, NULL);
+ 	fuse_tt_destruct(tt);
+ }
 +
-+int fuse_mnt_add_mount_helper(const char *mnt, const char *source,
-+			       const char *type, const char *mnt_opts)
++void fuse_session_want_sync_init(struct fuse_session *se)
 +{
-+#ifndef IGNORE_MTAB
-+	if (geteuid() == 0) {
-+		char *newmnt = fuse_mnt_resolve_path("fuse", mnt);
-+		int res;
-+
-+		if (!newmnt)
-+			return -1;
-+
-+		res = fuse_mnt_add_mount("fuse", source, newmnt, type,
-+					 mnt_opts);
-+		free(newmnt);
-+		return res;
-+	}
-+#endif
-+	(void)mnt;
-+	(void)source;
-+	(void)type;
-+	(void)mnt_opts;
-+	return 0;
++	if (se == NULL)
++		return;
++	se->want_sync_init = true;
 +}
-diff --git a/lib/mount_util.h b/lib/mount_util.h
-index 9cb9077dd177381d712e34e7118bf73572142c6a..4688d00091f001b3ccd36b1ef3b7e799031ed773 100644
---- a/lib/mount_util.h
-+++ b/lib/mount_util.h
-@@ -7,6 +7,7 @@
- */
+diff --git a/lib/mount.c b/lib/mount.c
+index e8c65363d36a56f483f82434f642e785da4d0341..f19817e2675713e988bb91fc658c52b36468462b 100644
+--- a/lib/mount.c
++++ b/lib/mount.c
+@@ -30,6 +30,7 @@
+ #include <sys/socket.h>
+ #include <sys/un.h>
+ #include <sys/wait.h>
++#include <sys/ioctl.h>
  
- #include <sys/types.h>
-+#include "mount_common_i.h" // IWYU pragma: keep
+ #include "fuse_mount_compat.h"
  
- int fuse_mnt_add_mount(const char *progname, const char *fsname,
- 		       const char *mnt, const char *type, const char *opts);
-@@ -16,3 +17,8 @@ int fuse_mnt_umount(const char *progname, const char *abs_mnt,
- char *fuse_mnt_resolve_path(const char *progname, const char *orig);
- int fuse_mnt_check_fuseblk(void);
- int fuse_mnt_parse_fuse_fd(const char *mountpoint);
-+
-+/* Helper functions for mount operations */
-+const char *fuse_mnt_get_devname(void);
-+int fuse_mnt_add_mount_helper(const char *mnt, const char *source,
-+			       const char *type, const char *mnt_opts);
+@@ -522,8 +523,8 @@ int fuse_kern_fsmount_mo(const char *mnt, struct mount_opts *mo,
+  * Returns: 0 on success, -1 on failure,
+  *          FUSE_MOUNT_FALLBACK_NEEDED if fusermount should be used
+  */
+-static int fuse_kern_do_mount(const char *mnt, struct mount_opts *mo,
+-				  const char *mnt_opts)
++int fuse_kern_do_mount(const char *mnt, struct mount_opts *mo,
++		       const char *mnt_opts)
+ {
+ 	char *source = NULL;
+ 	char *type = NULL;
 
 -- 
 2.43.0
