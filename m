@@ -1,29 +1,29 @@
-Received: from outbound-ip168a.ess.barracuda.com (outbound-ip168a.ess.barracuda.com [209.222.82.36])
+Received: from outbound-ip168b.ess.barracuda.com (outbound-ip168b.ess.barracuda.com [209.222.82.102])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A43AD3A7F56
-	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 21:35:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=209.222.82.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 790B03A782E
+	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 21:35:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=209.222.82.102
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774560947; cv=fail; b=f7u3uES84Vte03yRimT0M5UdMXgxfE7cXEEe1/fBvx2+DUDU45oj6G3Axm1HMGgA70NtujDDl11WI1P8757hI+WDkyMC+OUKLoVGJig5r8FhqedYQjNWppsQKyaoi6BzZvyMswFpMaEs2OjHPMjEDnSQPO3wpVCdnHrYucsFsMg=
+	t=1774560952; cv=fail; b=uvu4yztgBw/xE3Lwi/10nSAWP4w2tdfQxIMIJtELJafVcjC9grU/wQi7EC7KVOBzlD+6ijCjTPh6NH6dcfvZp6K8PcKj/yZTaVgmopOpGfCOzfZ1qMic1nfd9CcKmqlTgkZG3bvWoeycThJjW2XiYXFPVN79vPXv5bGu74LOnTE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774560947; c=relaxed/simple;
-	bh=6ELNES6LKtGhjTZEgXQwU2jvN6Ilyhx+JMO4VFHjK2Y=;
+	s=arc-20240116; t=1774560952; c=relaxed/simple;
+	bh=KYvDPRUJSF0ibTO+Avns+tb0KmJf0L+cNhS8aZgWKQA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=TBcTgU/0+iU86jvH87YEDik76YcD4z1rBkAZCVgza/hlEZJlWdpfvH6/BJEpHUDvEt0BMQbN3jTDYHwN5gzlOxcVeUxsyZ6HUNsVdB0pLk5cnvXkZtLd4MpvlDDHrgFawWs+7Noutn3BvgYknMCWNol92vFcqxHhfZHBrlbbRFU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=ddn.com; dkim=pass (1024-bit key) header.d=datadirectnetworks.onmicrosoft.com header.i=@datadirectnetworks.onmicrosoft.com header.b=F+EDrwR1; arc=fail smtp.client-ip=209.222.82.36
+	 In-Reply-To:To:Cc; b=adHuXcIUfR9sRRk88is3hPDakVj/CHjYN9EamcO7JPdKI2MM/c6dYBZDt46wtsWS4cKuygHZnMNpmBsGmNovzOPa5PtsglpuMlYD+LPjs7fHAWQJ2wSnHuhxz/3GtO/bWqs/94iQzqzGLM5L4YVT5t52anvZP5JWE0LKPCHt9IY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=ddn.com; dkim=pass (1024-bit key) header.d=datadirectnetworks.onmicrosoft.com header.i=@datadirectnetworks.onmicrosoft.com header.b=OS05Lb+4; arc=fail smtp.client-ip=209.222.82.102
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ddn.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=datadirectnetworks.onmicrosoft.com header.i=@datadirectnetworks.onmicrosoft.com header.b="F+EDrwR1"
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11022084.outbound.protection.outlook.com [40.93.195.84]) by mx-outbound14-31.us-east-2a.ess.aws.cudaops.com (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO); Thu, 26 Mar 2026 21:35:25 +0000
+	dkim=pass (1024-bit key) header.d=datadirectnetworks.onmicrosoft.com header.i=@datadirectnetworks.onmicrosoft.com header.b="OS05Lb+4"
+Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11023080.outbound.protection.outlook.com [40.93.196.80]) by mx-outbound-ea46-43.us-east-2c.ess.aws.cudaops.com (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO); Thu, 26 Mar 2026 21:35:42 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=huw6nNpUZ+JlEzEwrKE1Z+s7ZtYjOt0o7YbWzS0EWQJ8PXZjHoWjxSutDYphENKkeLDno6s/o7M86H6OD8Zu4UdsIIw6nyi+a5R0LCfCym6CetDVY/vjN/ESnDH0KpDnQJ4fHN6Tt2oXej2hMt+4+iyZSbh7vvll97iQWYxrB6+ObrkEGbxQRx7qDl+l/1Lq458mIY81wbHV+E8Bom0SzL2k2GtAbpyg315ruZFVO9yqupbVz0dgslaHs+s4HpB+xP2QVwCeq7CDYyfVaOmVB94ySsrfYphEQqATL97X4/DGVY4UzdAJfV/su8f8qnZoWVCVR6HVLTz/LwNfAlwbFA==
+ b=GLPXLUX+5yYUyUSYiCvWOxjtoJXnpmnvPaZoILbk3WhmtjckdvpZGMe3mKd8Na2kLxZXPRp/ilaZY5N1RHdZldZ4IlTBCnXpxaEumTy8boeXxdX9Fsg7OQdVXYZeSz1KBPpMq7kqJiCwcQcS3FkkHxAdl2aR0mAg7COd1+7A6EWfOhTGbjaTb/OI/J9YXJVm0BIHrO+mfQ44hdtYVWpQj2l40kGoB3j28A5WBlujohbV6xHzuC3GNmatUJiDejeaky6/ovtHjpE+lXlLk2KBrsr0K7F+K/vVPw9/PBvWL7hSr6Mtjndb/jPUI/HV2CkUwMfpzuuhpTsQaTUcH55b1g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1B5NVVDh9ecyWQPKssthCxg423IEz2Fn7wArB1fBV7g=;
- b=hYH3Sg2cFVMgK1lM/jzHQSGUrcSehqB7jBI0xgM1aTg8JEjkDI1oUgRQO01/5fZe/JyFNekXmEqdSM6gvFL5givuFUHOT3dG7vdsn9+QFBY4Iq+tPSzpYRnTMXOe6nYIPDiHfz+zhID44lMLOgfqXy+PqWOvocMDKml9plekUY3nmKl7LkyFrzeHNRA6grALnidxjC3L3boi8QGVBNeX2lLkw18UvCn/VhuP/Zyuc8HmFr55S280zE+RAzWb13WcBz+hnL8X0DcDKeDQitLOrsA9wJz6Hcrmxvk3HEodq3YStpkKNStsskkr3gEPFx/XOP2bWGw/Ys3bTqbd4OYUUA==
+ bh=HCj7jzmp6SuCxdMsnA+k2UgzXNlqKuIZ+R3AYWlAgRY=;
+ b=jeL05pbpuQc8QTBv0Zl4qxYBIJi1xw8toiBcyC0RQmlWTgQKOtDGgFBdjdvFeqMd9e2CTDJ4TZ27RTe44QdZWx0/z7W2kD80h0yG3IvWlDUXInfibvXCMyke7qd3jFiaqeWZXsa/ezNpQzUeBPc+kvaWg8aryToH/SuQ2tRxBgJSjvYU3P11JU45E4g8GC/Y0j0EqN3lKKI+N0wF7gnNhOrRs3CxlNfY6lvMkA6NDt1WltKOF08Hh8BzcTf0uPwo8t8KBhVRiUjr31yjd+BGmLzzdoX7QPPz2rq8uJZ+YyBjF7ZByzBG2BwFDQnem6vZ4S73ojEJXwaLYD3gbhvFRg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  50.222.100.11) smtp.rcpttodomain=bsbernd.com smtp.mailfrom=ddn.com;
  dmarc=fail (p=none sp=none pct=100) action=none header.from=bsbernd.com;
@@ -32,18 +32,18 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=datadirectnetworks.onmicrosoft.com;
  s=selector2-datadirectnetworks-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1B5NVVDh9ecyWQPKssthCxg423IEz2Fn7wArB1fBV7g=;
- b=F+EDrwR1MDRznqITc9nb9MOWLhjBIvYhw5CoE/3JLGZlLbodkvmFUrvT0WgbZRTyGv7eZjd0Q9vje+ihBwU+LjwUAWS1Bc8RoPejk+Lsp//ZHXMExiblvZUqhm6tAg7lEhDJeOC3RnDItR1beqVsE/BegzPhzy/bZTnxVBWftOE=
-Received: from SJ0PR13CA0082.namprd13.prod.outlook.com (2603:10b6:a03:2c4::27)
- by LV8PR19MB8495.namprd19.prod.outlook.com (2603:10b6:408:206::13) with
+ bh=HCj7jzmp6SuCxdMsnA+k2UgzXNlqKuIZ+R3AYWlAgRY=;
+ b=OS05Lb+4QP7uy1TcWyE1/yOv9Wq5CNZE9eE6VzpN8DKLGrLbNTnxjachFOFvMefoSrF2lm+KYz6h3kD0ToWlA583o2oefZ0c56X4yEXag0hSKkKwWYhyPg02qr8a/g1kaMYekJuOtMWXzrlZesMLgsqc15RrDa2XksbN8XxOnro=
+Received: from PH7P221CA0057.NAMP221.PROD.OUTLOOK.COM (2603:10b6:510:33c::20)
+ by SJ0PR19MB4592.namprd19.prod.outlook.com (2603:10b6:a03:278::7) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.22; Thu, 26 Mar
- 2026 21:35:16 +0000
-Received: from SJ5PEPF00000203.namprd05.prod.outlook.com
- (2603:10b6:a03:2c4:cafe::f5) by SJ0PR13CA0082.outlook.office365.com
- (2603:10b6:a03:2c4::27) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9745.21 via Frontend Transport; Thu,
- 26 Mar 2026 21:35:16 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.31; Thu, 26 Mar
+ 2026 21:35:14 +0000
+Received: from CY4PEPF0000E9D0.namprd03.prod.outlook.com
+ (2603:10b6:510:33c:cafe::fc) by PH7P221CA0057.outlook.office365.com
+ (2603:10b6:510:33c::20) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9745.22 via Frontend Transport; Thu,
+ 26 Mar 2026 21:35:13 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 50.222.100.11)
  smtp.mailfrom=ddn.com; dkim=none (message not signed)
  header.d=none;dmarc=fail action=none header.from=bsbernd.com;
@@ -51,15 +51,15 @@ Received-SPF: Pass (protection.outlook.com: domain of ddn.com designates
  50.222.100.11 as permitted sender) receiver=protection.outlook.com;
  client-ip=50.222.100.11; helo=uww-mrp-01.datadirectnet.com; pr=C
 Received: from uww-mrp-01.datadirectnet.com (50.222.100.11) by
- SJ5PEPF00000203.mail.protection.outlook.com (10.167.244.36) with Microsoft
+ CY4PEPF0000E9D0.mail.protection.outlook.com (10.167.241.135) with Microsoft
  SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9745.21
- via Frontend Transport; Thu, 26 Mar 2026 21:35:15 +0000
+ via Frontend Transport; Thu, 26 Mar 2026 21:35:13 +0000
 Received: from localhost (unknown [10.68.0.8])
-	by uww-mrp-01.datadirectnet.com (Postfix) with ESMTP id 02E9A55;
-	Thu, 26 Mar 2026 21:35:14 +0000 (UTC)
+	by uww-mrp-01.datadirectnet.com (Postfix) with ESMTP id 1CB4C6F;
+	Thu, 26 Mar 2026 21:35:13 +0000 (UTC)
 From: Bernd Schubert <bernd@bsbernd.com>
-Date: Thu, 26 Mar 2026 22:34:57 +0100
-Subject: [PATCH v2 24/25] Add mount and daemonization README documents
+Date: Thu, 26 Mar 2026 22:34:55 +0100
+Subject: [PATCH v2 22/25] Add support for sync-init of unprivileged daemons
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -67,932 +67,642 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260326-fuse-init-before-mount-v2-24-b1ca8fcbf60f@bsbernd.com>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260326-fuse-init-before-mount-v2-22-b1ca8fcbf60f@bsbernd.com>
 References: <20260326-fuse-init-before-mount-v2-0-b1ca8fcbf60f@bsbernd.com>
 In-Reply-To: <20260326-fuse-init-before-mount-v2-0-b1ca8fcbf60f@bsbernd.com>
 To: linux-fsdevel@vger.kernel.org
 Cc: Miklos Szeredi <miklos@szeredi.hu>, 
  Joanne Koong <joannelkoong@gmail.com>, 
  "Darrick J. Wong" <djwong@kernel.org>, Kevin Chen <kchen@ddn.com>, 
- Bernd Schubert <bernd@bsbernd.com>
+ Bernd Schubert <bernd@bsbernd.com>, Bernd Schubert <bschubert@ddn.com>
 X-Mailer: b4 0.15-dev-2a633
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1774560892; l=32210;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1774560892; l=17141;
  i=bernd@bsbernd.com; s=20240529; h=from:subject:message-id;
- bh=6ELNES6LKtGhjTZEgXQwU2jvN6Ilyhx+JMO4VFHjK2Y=;
- b=XdNB6clYVxtrQpIA9jyxRWRGD59hn3NDthjMmxtmiICZXIDkpKSottZVXYNhmHeiygrfJ8orj
- PO7FKeQNdm3CEDcfmQ2/VBeo3Xmg9/yb/KOCtBd1SHQ4Qq4kDYCjMQt
+ bh=Qnhq2bi25ECDccQ9CiRE7Wa59eZrDpybI0oCtTFslIY=;
+ b=AB453EAGHmPuSW0hX5ULzd/CH3qLQehvU3VJc9i+TGn+MpFRRqqc2/r5EYosyxKE8NKuPITTP
+ +NzobLIb1sxCwjtI9pil90cKlaxPnrxEBVwFb/EAugAVGSkIStxGgqQ
 X-Developer-Key: i=bernd@bsbernd.com; a=ed25519;
  pk=EZVU4bq64+flgoWFCVQoj0URAs3Urjno+1fIq9ZJx8Y=
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF00000203:EE_|LV8PR19MB8495:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1bf944e0-4874-4857-1c11-08de8b7f9209
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000E9D0:EE_|SJ0PR19MB4592:EE_
+X-MS-Office365-Filtering-Correlation-Id: 238fac32-5218-4622-50a9-08de8b7f90ba
 X-MS-Exchange-SenderADCheck: 0
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|61400799027|82310400026|376014|36860700016|19092799006|48200799018|56012099003|16102099003|18002099003|22082099003;
+	BCL:0;ARA:13230040|19092799006|61400799027|48200799018|82310400026|36860700016|376014|56012099003|22082099003|16102099003|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	4aYjUYfQfwcayr6m4lqsV6h2cakI0qXyxc8TU/4/iQF23ZRitTK0EkW/fN5SLux2mbMtUR+WVuSrQQFf96FCfTnsQiCBi4dNs+fDq6/++wfGZ8aIqv/7i0eWZbS7nWvzw0lA7KsvSmMZWWsI/lm7p76u7Af/Rx58FN9YAIEMuibMf8m5A2FP3wclYqjxKITOSgKTyNl5ZQT73LMYNuABioZ8wSVmnBpTxkZiqbpNsMIMqpQsZrevXUonuqekzOlMm9sMVtH3BjWfE/3TG9CEVUuqJfeljjDqj30iuaCZyGOhnnLQ/LJsphHqzUpc/vJtTCLRkL0KhHVlfZLR83oUhlPyjA3Zau4z733MYuZ/qwN1zwTY9x2nyYpkgapKWYbIOacXv82Jaldu7yPFR7Ctk+XyGHNsozzgp21mamFZcoOMmZSz1+127lKVFm8myiKnIfOLOiJTNTLCH7GtkQVD5kideg8lORcVy7502EnACKWuHS7Ec9oDg3lkRny6uNOs5fMdzjqRVJKABJW9FCah1gouefk2M0ynHu9pvq4XEbrJ7gmjFQ3FeHgpT9LltAPECpZRVlfGGF5H5X8egLgGXTADxiGDYI4Dv0Ar2Zcbn/pvdQxI8I62vgUDX/N7X6zgmplJw1M4NcJqPd5vzKA6l1OZ76dMclvSTiw6ujAVGEDh1rpP+73P0iLeA56yihNhkuVUH/JGM/6Z0Bv6ozc0K72IvQcfIsT118hYUli/8cAR3/wp+9tDApseCUiSDZCKJo1MJFHvT9xFDJDVQvKtow==
+	KKePBcdAN1MYWhs52q5W+SNh1OVoyHYxM2BDPMXpZheHfXW6OWzpCsyYQvJi1L14pcIcTjAxShyWvnoQNbU3hZmiwIgvfMEm8VKx21O91VpnsAXDcB4QjqJpN6wyr1g270EWzDKfnqJCRsnyf0b8HRheL0vYNYcEX24kdUtaH7h3m3ifaCRZsqYwDWF/fL/YyfK8OeAZjJ0ap1jVrf+gJn+OKiTZuk3QfXYyZeArJv5InfDRlN4cykiJbRCkfg+6w7hubjMCxpJ2ToP2t2av23nG+Skj7n5o6ARKzsDey0i0ZRkpyKktdVFnc9SCeTl8qDbiJ6dcaCy8l6fFVwTH/Z9+ZpoPTSdD4bnaZ4UCZEf5ZUNa3dtf4XBmkv8qMljHcS0CBN6oG6RZe+E16l4SOIDU1Bfozdd0uT4biSgXeMO76dZwBjcii3BGlFi+IYGsquIegPwTNEP4Urtr/1aSUYUBxb3zEI4LMSEwRUUrpqU7dUvWpumZrvtZVvw4caO+jzgAFfsq6ODds8+FLMG1DAlpPeNp3hC3bKa/DVOYJq7OWtGggf3wyoenShCudH0VWJM0qA1Am7ts2RtUi7Av3divAXQSMoecDE4AEAPjnqLo992cOnhwsnNQf5vm7PgZTsdbYnm9xsGSf7bcZOqAbZWisXw95CEDF2JOTAc3KNAarlGEZIwiXPO432F+ZBdXfesLyUP2GkUIvW93AwsVh77GyiL3S6C/paCpLby++GjWt3eA0VYDxEWKSy9tN+AsDBlrD8pXANN9uojthWR4KQ==
 X-Forefront-Antispam-Report:
-	CIP:50.222.100.11;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:uww-mrp-01.datadirectnet.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(61400799027)(82310400026)(376014)(36860700016)(19092799006)(48200799018)(56012099003)(16102099003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
+	CIP:50.222.100.11;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:uww-mrp-01.datadirectnet.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(19092799006)(61400799027)(48200799018)(82310400026)(36860700016)(376014)(56012099003)(22082099003)(16102099003)(18002099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	6I6AraJvSAXHYk60rvZ+/qBOg7aQ3STGbzh5VIOxwGeSqvG1GtU+p1iZ7LXW29F/CHv7nTkhlyBYEo7SyXmYPb1JECQ4ttGkfHCnY5+WiLI60sOVMh8UdqmrQQ/LCivqXwPgrnkEDODtrXuF0y9dtRBiGKWzdSBrWVrOU8tj0Yesil6OaPYizms4NVC1CKSgsQuNwawE3XvPUZrxmNEcLgLmzjtluy61ISj1OtdNX4dkETj/ZlNolGzq4WOix4T9lzVcTRdMV58oXRtOL46PRmV5TdBwQAlTXEtANsz6Z6cUdIe4m4dseVGduFO+P5L7YBtVZMEcdJ0L5a7oi/Jpd1rLB0lq5cGz1VXuk3QuvEOimrSuIotazyTa3JYgcggZa8ovGwdADrBKkX3DiI3xRMgO5IYVfC9n4jkAvtE3BEQaj1H4zM+vjm5In7Iv6rOp
+	OraiCpZ+hgfjkTzGZZ/CYuDEIJlWuIeZqjwVD4mUYEFfvBN8ZZsGkWd8bQsfm2ey8BtPwj1gKpWOwU0gpKW6EhtyEkGzE2MskvVIsvuVMIvY4kNVnN6lSSn/whDGIUYHujoKlCJqgvf5oTW8IK5JkUNOi3d/UC2iZF7g/Vcvdiz06ABfXhqLQBOym9nUWq5S7HHUrB9IghaScn2PiDTzm49NlWC61UBE+uhzrxZE1f3GQGF7D3Yu7YTyOGYYuF3KAIrn8EguYXZWXGJtSspZSW35yq+CzRkAFvR2mwesJ2kzgrkaRBeuhGREjp9ePI/UPEmYEL3iKERp0qp1CHEcCn9/1KfmSTb3obHa6lHvWDMnXc5yg596ZQi5pzLNAlG3as2UA7JXfXigyiz8fbCf//3BxUgh75dITE5eyy7W9Fyeu5Zi5eolOEDtLqDdyouP
 X-Exchange-RoutingPolicyChecked:
-	lbBCXNgUtz3NwKwmesrIXoQiX6fc193qcRJN13yu9RWzw0jb7YiW7wpgPvqThKH5b1R2mcCBEKEh4egW9LBZ7wYaD9vBwAtAJEu6nIDdCqRRayqy+wbT62DAbo49YSYgDug+RxxRkczPA9GuNPbLsD3EZAFu60fAxeUjWEV2enjia4eLsB5SbsW8ahqc3CaJMnPeJwFZkSOMjeF8O8EqcunJuYqJv3HAzx5vcqus+grpq0HGnz0fK8JZatenChSX3/A1H0Y4cG9gRLd5IeVbwzqC+A/TBcnxypzRUcIcGmzIJggLrS2EffUj5u1xeEmsPMJM3V5h19pllaLtRSaT0A==
+	KDx8Z0jp52MEVvWuHGkO5w6fUywfWf66hAkOFlW+DpBj/+DWAmJdKZapUrCvkVnMR24tNcTISBWEXxKyOnW9jE/vU/TYVxjCPodHHnIRiWYaVBFqdnuBdbyFwZP43yozMyD8b4UkITmmxaL6iXkFSZ9VnUfNR2DtECm61dBZyeOHOpSNf0CcohF5Fa8Vnd4RA3HPd94ZxBcpPNO/EF9fSe1bmdOkNxBTEDNlPKWNneZbEJLmMAJGEUWXncUWPHm6Bki9EF7hsaLDXHwBYqCC7fj2K9tbASfqALKY5FHPfErnfq4Qi6o6s8GvbUfIPCQ+YX2FijeZ5wK2H3+3fc3Q8A==
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	+0aV2m7yKE9SCiJ1dlgiRPYDDDFf/RK+1qudf/2xXOm/fRzFRoMHS54G+LYk5u1E9evjCQL6hifiLgXh+od5TqFQb5Yj7DAnPcoWLLWZDe9W3rV3z2dIQqGzT3+1++zpdPVEKclalvaY0X6KZvVRAnsILQ6hWWS0wcg4uZUOSuN7Eq/cWxztyFa7ek2YH4CVo8HUke1av80RXQIQ7uSutXYrR2Iezx4wj1hdJZ6CmEp7P6YkMLiwN4UifAH54xvraaHGna1gYVF68No+kmJSIJFfJBtWbz70Kxor5O62TReXmR/gOCScJI/1iIg4YRfwjG6VYBFhMR++VGc3lmDR4YboP/jZRbXPMsLkhKTwWGzSVnIEM/Ray7xiRc5WqGI1+ibbxGrs7ChSrmZUlLBWlDC1BqMNbif07RM1p47TBP0BUCcZ+uUyeZ51IW2RHJfzV2moadCARvvoY4lxjbrgot7dHhpd2ayqgtg+86EZ2ZRw4I6mu6Wh6sgAv1geeizs5xTyGbuEVcllqXESWjhnplWvnLzXX1K3GSjLtAUrtJdFyhGYYYUN17Gwz0497pHa806Y6BPR+TwI9JyUyvdmrnO+J/yyknfxJi5AhJp7M5M9ngbvQwCgReRGwF2I2hvkItX5X8iy6ZuGwFXub5KiAw==
+	LFJZ6mYfQtOK+QP9+/vaZMebiZ0GlgAzGDWGuZlTEK5oGnBjWFtWXepwOCQuIxUmadlEu8LPhc623ALssY+W6pMadjJi4g1I/gpipD7J3SyvHim8YHYEyP99c31KX2YdSXma7lzBPz25obqWIUtzdm76OUFeN/Og/1J8WF54Lib0dV6RDurfE4XQGM/Da10IhJ1SJPBOmaoZ06ShnCsQiIJIV3BfjHtJD16rWt5fR7jXsfGCq2BlxZ/imgy1gPnxqN1U7lzRCkdpmLlOXJPDfjBY9+rcFwIahhyYbI87VS3M9GJZlKlvsTE54b1PI+Cedmue5WPL7iR01gu4yUaNrews3/JAzCP8QLnaQq3FSLM6DGIElICKW5PVDFoWuGkZNBTuFRmeGI4mCc8EYy3oMgI6JsON/OAi0d8vTZSzxiH9nzvzOGIktbjqHHJ6hSEaqBJs6TfaEoMFRObXRmGYS+g0fuS26xZNk0tSgKG19Px/NMmvPxgGOz5LX3nRFApn/tSjVNa7puPbYVUQlvrG3D7gGxeKs9djEteQQ6Q6ZDiiNPNC8AazUbKrLpDR2wNfwd1n+8ttjtLzng4TlMcae+jrL91Ty/w4mfwf9dHA7Dv+1gbXsH6QuoJJEHl3VdW29DWOVWCquSv0YWIUszgRVg==
 X-OriginatorOrg: ddn.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2026 21:35:15.9391
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2026 21:35:13.7920
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1bf944e0-4874-4857-1c11-08de8b7f9209
+X-MS-Exchange-CrossTenant-Network-Message-Id: 238fac32-5218-4622-50a9-08de8b7f90ba
 X-MS-Exchange-CrossTenant-Id: 753b6e26-6fd3-43e6-8248-3f1735d59bb4
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=753b6e26-6fd3-43e6-8248-3f1735d59bb4;Ip=[50.222.100.11];Helo=[uww-mrp-01.datadirectnet.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	SJ5PEPF00000203.namprd05.prod.outlook.com
+	CY4PEPF0000E9D0.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR19MB8495
-X-BESS-ID: 1774560924-103615-7705-13421-1
-X-BESS-VER: 2019.1_20260324.1831
-X-BESS-Apparent-Source-IP: 40.93.195.84
-X-BESS-Parts: H4sIAAAAAAACA4uuVkqtKFGyUioBkjpK+cVKVsaGxiamQGYGUNTI0sTE0sI8xd
-	AgKdXQyNjUzMDIMNEcSJikWSSZGicr1cYCAPsoavBCAAAA
-X-BESS-Outbound-Spam-Score: 0.00
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR19MB4592
+X-BESS-ID: 1774560942-111819-21249-29176-1
+X-BESS-VER: 2019.3_20260325.1648
+X-BESS-Apparent-Source-IP: 40.93.196.80
+X-BESS-Parts: H4sIAAAAAAACA4uuVkqtKFGyUioBkjpK+cVKVoZmZoaGQGYGUNTExCzRNNnQLC
+	XNxCjNxNjIwMgyzdLIIi0x2dDSKMXMQqk2FgBlP+XtQgAAAA==
+X-BESS-Outbound-Spam-Score: 0.50
 X-BESS-Outbound-Spam-Report: Code version 3.2, rules version 3.2.2.272096 [from 
-	cloudscan18-240.us-east-2b.ess.aws.cudaops.com]
+	cloudscan16-50.us-east-2b.ess.aws.cudaops.com]
 	Rule breakdown below
 	 pts rule name              description
 	---- ---------------------- --------------------------------
+	0.50 BSF_RULE7568M          META: Custom Rule 7568M 
 	0.00 BSF_BESS_OUTBOUND      META: BESS Outbound 
-X-BESS-Outbound-Spam-Status: SCORE=0.00 using account:ESS124931 scores of KILL_LEVEL=7.0 tests=BSF_BESS_OUTBOUND
+X-BESS-Outbound-Spam-Status: SCORE=0.50 using account:ESS124931 scores of KILL_LEVEL=7.0 tests=BSF_RULE7568M, BSF_BESS_OUTBOUND
 X-BESS-BRTS-Status:1
 
-These are useful to
+From: Bernd Schubert <bschubert@ddn.com>
 
-Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
+This makes use of the bidirectional fusermount. Added is
+doc/README.mount, which explains the new bidirectional
+communication with fusermount.
+
+Signed-off-by: Bernd Schubert <bschubert@ddn.com>
 ---
- doc/README.daemonize  | 197 +++++++++++++++++++++++++++
- doc/README.fusermount | 362 ++++++++++++++++++++++++++++++++++++++++++++++++++
- doc/README.mount      |  86 ++++++++++++
- doc/README.sync-init  | 184 +++++++++++++++++++++++++
- 4 files changed, 829 insertions(+)
+ example/passthrough_hp.cc |   5 +-
+ include/fuse_daemonize.h  |  16 ++++--
+ include/fuse_lowlevel.h   |   8 +++
+ lib/fuse_daemonize.c      |  14 ++++--
+ lib/fuse_i.h              |   1 +
+ lib/fuse_lowlevel.c       | 121 ++++++++++++++++++++++++++++++++++++--------
+ lib/mount.c               | 126 +++++++++++++++++++++++++++++++++++++++++++++-
+ lib/mount_i_linux.h       |   7 +++
+ util/fusermount.c         |   2 -
+ 9 files changed, 266 insertions(+), 34 deletions(-)
 
-diff --git a/doc/README.daemonize b/doc/README.daemonize
-new file mode 100644
-index 0000000000000000000000000000000000000000..7b56c33077f29edbd335a2778120d9b6db6022ad
---- /dev/null
-+++ b/doc/README.daemonize
-@@ -0,0 +1,197 @@
-+FUSE Daemonization API
-+======================
-+
-+This document describes the FUSE daemonization APIs, including the legacy
-+fuse_daemonize() function and the new fuse_daemonize_start()/signal() API
-+introduced in libfuse 3.19.
-+
-+
-+Overview
-+--------
-+
-+FUSE filesystems often need to run as background daemons. Daemonization
-+involves forking the process, creating a new session, and redirecting
-+standard file descriptors. The challenge is properly reporting initialization
-+failures to the parent process.
-+
-+
-+Old API: fuse_daemonize()
-+--------------------------
-+
-+Function signature:
-+    int fuse_daemonize(int foreground);
-+
-+Location: lib/helper.c
-+
-+This is the legacy daemonization API, primarily used with the high-level
-+fuse_main() interface.
-+
-+Behavior:
-+- If foreground=0: forks the process, creates a new Unix session,
-+  redirects stdio
-+- If foreground=1: only changes directory to "/"
-+- Parent waits for a single byte on a pipe before exiting
-+- Child writes completion byte immediately after redirecting stdio
-+- Always changes directory to "/"
-+
-+Limitations:
-+1. No failure reporting: The parent receives notification immediately after
-+   fork/setsid, before any meaningful initialization (like mounting the
-+   filesystem or starting threads).
-+
-+2. Timing constraint: Must be called AFTER fuse_session_mount() in existing
-+   examples, because there's no way to report mount failures to the parent.
-+
-+3. Thread initialization: Cannot report failures from complex initialization
-+   steps like:
-+   - Starting worker threads
-+   - Network connection setup
-+   - RDMA memory registration
-+   - Resource allocation
-+
-+4. FUSE_SYNC_INIT incompatibility: With the FUSE_SYNC_INIT feature, FUSE_INIT
-+   happens at mount time and may start io_uring threads. This requires
-+   daemonization BEFORE mount, which the old API cannot handle properly.
-+
-+Example usage (old API):
-+    fuse = fuse_new(...);
-+    fuse_mount(fuse, mountpoint);
-+    fuse_daemonize(opts.foreground);  // After mount, can't report mount failure
-+    fuse_set_signal_handlers(se);
-+    fuse_session_loop(se);
-+
-+
-+New API: fuse_daemonize_start() / fuse_daemonize_success() / fuse_daemonize_fail()
-+---------------------------------------------------------------------------------
-+
-+Functions:
-+    int fuse_daemonize_start(unsigned int flags);
-+    void fuse_daemonize_success(void);
-+    void fuse_daemonize_fail(void);
-+    bool fuse_daemonize_active(void);
-+
-+Location: lib/fuse_daemonize.c, include/fuse_daemonize.h
-+Available since: libfuse 3.19
-+
-+This new API solves the limitations of fuse_daemonize() by splitting
-+daemonization into two phases:
-+
-+1.   fuse_daemonize_start() - Fork and setup, but parent waits
-+2.1. fuse_daemonize_fail() - Signal failure to parent
-+2.2  fuse_daenmize_success() - Signal startup to success to the parent
-+     See below for an important detail.
-+
-+
-+fuse_daemonize_start()
-+----------------------
-+
-+Flags:
-+- FUSE_DAEMONIZE_NO_CHDIR: Don't change directory to "/"
-+- FUSE_DAEMONIZE_NO_BACKGROUND: Don't fork (foreground mode)
-+
-+Behavior:
-+- Unless NO_BACKGROUND: forks the process
-+- Parent waits for status signal from child
-+- Child creates new session and continues
-+- Unless NO_CHDIR: changes directory to "/"
-+- Closes stdin immediately in child
-+- Starts a watcher thread to detect parent death
-+- Returns 0 in child on success, negative errno on error
-+
-+Parent death detection:
-+- Uses a "death pipe" - parent keeps write end open
-+- Child's watcher thread polls the read end
-+- When parent dies, pipe gets POLLHUP and child exits
-+- Prevents orphaned daemons if parent is killed
-+
-+
-+fuse_daemonize_fail(int err)
-+----------------------------
-+
-+Behavior:
-+- Signals the parent about the provided error
-+- Parent will exit with that error
-+
-+fuse_daemonize_success()
-+------------------------
-+- Signals the parent process with succes
-+- On success: redirects stdout/stderr to /dev/null
-+- Stops the parent watcher thread
-+- Cleans up pipes and internal state
-+- Safe to call multiple times
-+- Safe to call even if fuse_daemonize_start() failed
-+- *Important*: Should be called twice, once from ->init
-+  (struct fuse_lowlevel_ops::init or for high level interface
-+   struct fuse_operations::init) and after fuse_session_mount().
-+  It will internally figure out which of these two calls will
-+  actually signal the parent about success. Reason is that
-+  sucess must only be signaled when the mount is complete and
-+  that depends on if synchronous or asynchronous FUSE_INIT is
-+  used. 
-+
-+
-+fuse_daemonize_active()
-+-----------------------
-+
-+Returns true if daemonization is active and waiting for signal.
-+
-+Used by the high-level fuse_main() to detect if the application already
-+called the new API, avoiding double-daemonization.
-+
-+
-+Example usage (new API):
-+-------------------------
-+
-+    // Start daemonization BEFORE mount
-+    unsigned int daemon_flags = 0;
-+    if (foreground)
-+        daemon_flags |= FUSE_DAEMONIZE_NO_BACKGROUND;
-+
-+    if (fuse_daemonize_start(daemon_flags) != 0)
-+        goto error;
-+
-+    // Complex initialization can fail and be reported
-+    if (setup_threads() != 0)
-+        goto error_signal;
-+
-+    if (setup_network() != 0)
-+        goto error_signal;
-+    // Mount can now fail and be reported to parent
-+    if (fuse_session_mount(se, mountpoint) != 0)
-+        goto error_signal;
-+
-+    // Signal success - parent exits with EXIT_SUCCESS
-+    // This is typically done in the init() callback after FUSE_INIT
-+    fuse_daemonize_signal(FUSE_DAEMONIZE_SUCCESS);
-+
-+    // Run main loop
-+    fuse_session_loop(se);
-+
-+    return 0;
-+
-+error_signal:
-+    // Signal failure - parent exits with EXIT_FAILURE
-+    fuse_daemonize_signal(FUSE_DAEMONIZE_FAILURE);
-+error:
-+    return 1;
-+
-+
-+When to signal success
-+----------------------
-+
-+The success signal should be sent after all critical initialization is
-+complete. For FUSE filesystems, this is typically in the init() callback,
-+after FUSE_INIT has been processed successfully.
-+
-+Example (from passthrough_hp.cc):
-+    static void sfs_init(void *userdata, fuse_conn_info *conn) {
-+        // ... initialization ...
-+        fuse_daemonize_signal(FUSE_DAEMONIZE_SUCCESS);
-+    }
-+
-+This ensures the parent only exits after:
-+- Mount succeeded
-+- FUSE_INIT completed
-+- All threads started
-+- Filesystem is ready to serve requests
-+
-diff --git a/doc/README.fusermount b/doc/README.fusermount
-new file mode 100644
-index 0000000000000000000000000000000000000000..5b81651c8690aa25fef12db322af977c9cba1d31
---- /dev/null
-+++ b/doc/README.fusermount
-@@ -0,0 +1,362 @@
-+Synchronous FUSE_INIT Protocol
-+================================
-+
-+Overview
-+--------
-+
-+The sync-init feature enables the FUSE library to start worker threads and
-+perform initialization ioctl calls BEFORE the actual mount() syscall happens.
-+This is required for the kernel's synchronous FUSE_INIT feature, where the
-+mount() syscall blocks until the FUSE daemon processes the INIT request.
-+
-+Without this feature, there would be a deadlock:
-+- mount() blocks waiting for INIT response
-+- Worker threads can't start because mount() hasn't returned
-+- INIT request can't be processed because worker threads aren't running
-+
-+
-+Protocol Flow
-+-------------
-+
-+Traditional mount flow:
-+  1. Library calls fusermount3
-+  2. fusermount3 opens /dev/fuse
-+  3. fusermount3 performs mount() syscall
-+  4. fusermount3 sends fd to library
-+  5. Library starts worker threads
-+  6. Worker threads process FUSE requests
-+
-+Sync-init mount flow:
-+  1. Library calls fusermount3 with --sync-init flag
-+  2. fusermount3 opens /dev/fuse
-+  3. fusermount3 sends fd to library
-+  4. Library receives fd
-+  5. Library performs FUSE_DEV_IOC_SYNC_INIT ioctl
-+  6. Library starts worker threads
-+  7. Library sends "proceed" signal to fusermount3
-+  8. fusermount3 performs mount() syscall (blocks until INIT completes)
-+  9. Worker threads process INIT request
-+  10. mount() syscall completes
-+  11. fusermount3 exits
-+
-+
-+Implementation Details
-+----------------------
-+
-+Bidirectional Communication:
-+  - Uses the existing unix socket (_FUSE_COMMFD environment variable)
-+  - Simple 1-byte protocol for signaling
-+  - Library signals fusermount3 when ready to proceed with mount
-+
-+fusermount3 Changes:
-+  - New --sync-init command-line option
-+  - Split mount operation into two phases:
-+    * mount_fuse_prepare(): Opens device, prepares parameters
-+    * mount_fuse_finish_fsmount(): Performs actual mount() syscall
-+  - wait_for_signal(): Waits for library to signal readiness
-+  - struct mount_context: Preserves state between phases
-+
-+Library Changes:
-+  - fuse_session_mount_new_api(): Uses new protocol when available
-+  - Sends "proceed" signal after worker thread is ready
-+  - Handles both old and new mount protocols for compatibility
-+
-+
-+Backward Compatibility
-+----------------------
-+
-+The implementation maintains full backward compatibility:
-+  - Old library + new fusermount3: Works (uses traditional flow)
-+  - New library + old fusermount3: Falls back to traditional flow
-+  - New library + new fusermount3: Uses sync-init flow when appropriate
-+
-+
-+Error Handling
-+--------------
-+
-+If any step fails during the sync-init flow:
-+  - fusermount3 closes the fd and exits with error
-+  - Library detects failure and cleans up
-+  - No mount is left in inconsistent state
-+
-+Connection closure:
-+  - If library closes socket before signaling, fusermount3 detects and exits
-+  - If fusermount3 crashes, library detects closed socket
-+
-+
-+Security Considerations
-+-----------------------
-+
-+The sync-init protocol does not introduce new security concerns:
-+  - Uses the same privilege separation as traditional mount
-+  - Socket communication is already established and trusted
-+  - No new privileged operations are added
-+  - File descriptor passing uses existing SCM_RIGHTS mechanism
-+
-+
-+Performance Impact
-+------------------
-+
-+Minimal performance impact:
-+  - One additional recv() call in fusermount3
-+  - One additional send() call in library
-+  - Total overhead: ~2 context switches
-+  - Only affects mount time, not runtime performance
-+
-+
-+Future Enhancements
-+-------------------
-+
-+Potential improvements:
-+  - Extended protocol for more complex initialization sequences
-+  - Support for multiple worker threads coordination
-+  - Enhanced error reporting through the socket
-+  - Timeout mechanisms for detecting hung initialization
-+
-+
-+ASCII Workflow Diagrams
-+========================
-+
-+1. Traditional Mount Flow (without --sync-init, async INIT)
-+------------------------------------------------------------
-+
-+Library                   fusermount3              Kernel
-+   |                           |                      |
-+   |--- spawn fusermount3 ---->|                      |
-+   |                           |                      |
-+   |                      [open /dev/fuse]            |
-+   |                           |------- open -------->|
-+   |                           |<------ fd ---------- |
-+   |                           |                      |
-+   |                      [mount() syscall]           |
-+   |                           |------ mount -------->|
-+   |                           |<----- success ------ | [mount returns immediately]
-+   |                           |                      | [INIT queued in kernel]
-+   |                      [send_fd(fd)]               |
-+   |<------- fd --------------|                      |
-+   |                           |                      |
-+   |                      [fusermount3 exits]         |
-+   |                                                  |
-+   |  [start worker thread]                          |
-+   |  [worker reads /dev/fuse]                       |
-+   |---------------------------------------- read -->|
-+   |<--------------------------------------- INIT ---| [dequeued from kernel]
-+   |                                                  |
-+   | OK: INIT was queued, worker reads it later      |
-+   |     Works fine for async INIT                   |
-+
-+
-+1b. Problem: Synchronous INIT without --sync-init
-+--------------------------------------------------
-+
-+Library                   fusermount3              Kernel
-+   |                           |                      |
-+   |--- spawn fusermount3 ---->|                      |
-+   |                           |                      |
-+   |                      [open /dev/fuse]            |
-+   |                           |------- open -------->|
-+   |                           |<------ fd ---------- |
-+   |                           |                      |
-+   |                      [mount() syscall]           |
-+   |                           |------ mount -------->|
-+   |                           |                      | [mount BLOCKS waiting for INIT]
-+   |                           | (BLOCKED)            | [needs worker to process INIT]
-+   |                           |                      |
-+   |  [waiting for fd...]      |                      |
-+   |                           |                      |
-+   |                           |                      |
-+   | DEADLOCK: mount() waits for INIT response       |
-+   |           but worker thread not started yet     |
-+   |           because we're waiting for fd          |
-+
-+
-+2. Sync-Init Mount Flow (with --sync-init)
-+-------------------------------------------
-+
-+Library                   fusermount3              Kernel
-+   |                           |                      |
-+   |--- spawn fusermount3 ---->|                      |
-+   |    with --sync-init       |                      |
-+   |                           |                      |
-+   |                      [open /dev/fuse]            |
-+   |                           |------- open -------->|
-+   |                           |<------ fd ---------- |
-+   |                           |                      |
-+   |                      [send_fd(fd)]               |
-+   |<------- fd --------------|                      |
-+   |                           |                      |
-+   |                      [wait_for_signal()]         |
-+   |                           | (BLOCKED)            |
-+   |                           |                      |
-+   |  [ioctl SYNC_INIT]        |                      |
-+   |---------------------------------------- ioctl -->|
-+   |                                                  |
-+   |  [start worker thread]                          |
-+   |  [worker ready]                                 |
-+   |                           |                      |
-+   |--- "proceed" signal ----->|                      |
-+   |                      [signal received]           |
-+   |                           |                      |
-+   |                      [mount() syscall]           |
-+   |                           |------ mount -------->|
-+   |                           |                      | [mount blocks]
-+   |                           |                      | [sends INIT]
-+   |<------------------------------------------------ |
-+   |                           |                      |
-+   | [worker processes INIT]   |                      |
-+   |------------------------------------------------->|
-+   |                           |                      | [mount unblocks]
-+   |                           |<----- success ------ |
-+   |                           |                      |
-+   |                      [fusermount3 exits]         |
-+   |                                                  |
-+   | SUCCESS: Worker ready before mount()            |
-+   |          INIT processed synchronously           |
-+
-+
-+3. Error Scenario: Library Crashes Before Signaling
-+----------------------------------------------------
-+
-+Library                   fusermount3              Kernel
-+   |                           |                      |
-+   |--- spawn fusermount3 ---->|                      |
-+   |    with --sync-init       |                      |
-+   |                           |                      |
-+   |                      [open /dev/fuse]            |
-+   |                           |------- open -------->|
-+   |                           |<------ fd ---------- |
-+   |                           |                      |
-+   |                      [send_fd(fd)]               |
-+   |<------- fd --------------|                      |
-+   |                           |                      |
-+   |                      [wait_for_signal()]         |
-+   |                           | (BLOCKED)            |
-+   |                           |                      |
-+   X  [library crashes]        |                      |
-+   |                           |                      |
-+   |                      [recv() returns 0]          |
-+   |                      [socket closed]             |
-+   |                           |                      |
-+   |                      [cleanup and exit]          |
-+   |                           X                      |
-+   |                                                  |
-+   | RESULT: Clean failure, no mount performed       |
-+
-+
-+4. Detailed Function Call Flow
-+-------------------------------
-+
-+Library (lib/fuse_lowlevel.c):
-+fuse_session_mount_new_api()
-+   |
-+   +-- fuse_kern_mount_prepare()  [lib/mount.c]
-+   |      |
-+   |      +-- fuse_mount_fusermount()  [lib/mount_util.c]
-+   |             |
-+   |             +-- socketpair()  [create comm socket]
-+   |             |
-+   |             +-- fork()
-+   |             |
-+   |             +-- [child] execl("fusermount3", "--sync-init", ...)
-+   |             |
-+   |             +-- [parent] receive_fd()  <--- BLOCKS until fd arrives
-+   |                    |
-+   |                    +-- recvmsg(SCM_RIGHTS)
-+   |                    |
-+   |                    +-- return fd
-+   |
-+   +-- session_start_sync_init()  [lib/fuse_lowlevel.c]
-+   |      |
-+   |      +-- ioctl(fd, FUSE_DEV_IOC_SYNC_INIT)
-+   |      |
-+   |      +-- pthread_create(worker_thread)
-+   |      |
-+   |      +-- return
-+   |
-+   +-- fuse_fusermount_proceed_mnt(socket)  [lib/mount.c] <--- NEW: Bidirectional handshake
-+          |
-+          +-- send(socket, "proceed", 1)  <--- Signal fusermount3 to proceed
-+          |
-+          +-- recv(socket, &status, 1)  <--- BLOCKS until mount result arrives
-+          |      |
-+          |      +-- [fusermount3 performs mount and sends status byte]
-+          |
-+          +-- if (status != 0) return -1  <--- Mount failed
-+          |
-+          +-- return 0  <--- Mount succeeded
-+
-+
-+Utility (util/fusermount.c):
-+fusermount3 main() with --sync-init
-+   |
-+   +-- mount_fuse_sync_init()  [util/fusermount.c]
-+          |
-+          +-- mount_fuse_prepare()  [util/fusermount.c]
-+          |      |
-+          |      +-- open("/dev/fuse")
-+          |      |
-+          |      +-- check_perm()  [util/fusermount.c]
-+          |      |
-+          |      +-- return fd
-+          |
-+          +-- send_fd(socket, fd)  [util/fusermount.c]
-+          |      |
-+          |      +-- sendmsg(SCM_RIGHTS)
-+          |
-+          +-- wait_for_signal(socket)  [util/fusermount.c] <--- BLOCKS until library signals
-+          |      |
-+          |      +-- recv(socket, buf, 1)
-+          |      |
-+          |      +-- return 0
-+          |
-+          +-- mount_fuse_finish_fsmount()  [util/fusermount.c]
-+          |      |
-+          |      +-- fuse_kern_fsmount()  [lib/mount_fsmount.c]
-+          |      |      |
-+          |      |      +-- fsopen("fuse", FSOPEN_CLOEXEC)
-+          |      |      |      |
-+          |      |      |      +-- [kernel creates filesystem context]
-+          |      |      |
-+          |      |      +-- fsconfig(fsfd, SET_STRING, "source", ...)
-+          |      |      +-- fsconfig(fsfd, SET_STRING, "fd", fd_value, ...)
-+          |      |      +-- fsconfig(fsfd, ...) [apply mount options]
-+          |      |      +-- fsconfig(fsfd, CMD_CREATE, ...)
-+          |      |      |
-+          |      |      +-- fsmount(fsfd, FSMOUNT_CLOEXEC, mount_attrs)
-+          |      |      |      |
-+          |      |      |      +-- [kernel sends FUSE_INIT here]
-+          |      |      |      |
-+          |      |      |      +-- [worker thread processes INIT]
-+          |      |      |      |
-+          |      |      |      +-- [fsmount returns mntfd]
-+          |      |      |
-+          |      |      +-- move_mount(mntfd, "", AT_FDCWD, target, ...)
-+          |      |      |      |
-+          |      |      |      +-- [attach mount to target directory]
-+          |      |      |      |
-+          |      |      |      +-- [no blocking - INIT already processed]
-+          |      |      |
-+          |      |      +-- add_mount()  [lib/mount_fsmount.c - update /etc/mtab]
-+          |      |      |
-+          |      |      +-- return 0 on success, -1 on failure
-+          |      |
-+          |      +-- if mount failed: return -1
-+          |      +-- if mount succeeded: continue
-+          |
-+          +-- send_status_byte(socket)  [util/fusermount.c] <--- NEW: Send result to library
-+          |      |
-+          |      +-- status = (mount_result == 0) ? 0 : 1
-+          |      +-- send(socket, &status, 1)
-+          |      |
-+          |      +-- return
-+          |
-+          +-- return 0
-+
-+
-+Note: The new mount API (fsopen/fsconfig/fsmount/move_mount) is REQUIRED
-+      for sync-init because fsmount() triggers FUSE_INIT before the mount
-+      is attached. This allows the worker thread to process INIT before
-+      move_mount() completes, preventing deadlock.
-+      And also so we don't expose the directory tree to the mountns until we
-+      know that FUSE_INIT didn't crash the server.
-+
-diff --git a/doc/README.mount b/doc/README.mount
-new file mode 100644
-index 0000000000000000000000000000000000000000..526382ad8a5f6b405a7cb1927b79bacd6c2c2c5c
---- /dev/null
-+++ b/doc/README.mount
-@@ -0,0 +1,86 @@
-+FUSE Mount API Flowcharts
-+=========================
-+
-+Old Mount API
-+-------------
-+
-+fuse_kern_mount()
-+  |
-+  +-- fuse_mount_sys()
-+  |     +-- Try direct mount → mount() syscall
-+  |     +-- On EPERM: fuse_mount_fusermount()
-+  |           +-- socketpair()
-+  |           +-- spawn fusermount3 (no --sync-init)
-+  |           +-- fusermount3: open /dev/fuse, mount(), send fd
-+  |           +-- receive_fd() → return fd
-+  |
-+  +-- Worker threads started AFTER mount
-+  └─> FUSE_INIT asynchronous (queued in kernel)
-+
-+
-+New Mount API - Privileged Mount
-+---------------------------------
-+
-+fuse_session_mount_new_api()
-+  |
-+  +-- fuse_kern_mount_prepare() → open /dev/fuse → fd
-+  |
-+  +-- session_start_sync_init(se, fd)
-+  |     +-- ioctl(fd, FUSE_DEV_IOC_SYNC_INIT)
-+  |     +-- pthread_create(worker) → ready to process FUSE_INIT
-+  |
-+  +-- fuse_kern_fsmount_mo()
-+  |     +-- fsopen/fsconfig/fsmount (BLOCKS until FUSE_INIT completes)
-+  |     +-- Worker processes FUSE_INIT during fsmount()
-+  |     +-- move_mount()
-+  |
-+  +-- session_wait_sync_init_completion(se) → pthread_join
-+  └─> return fd
-+
-+
-+New Mount API - EPERM Fallback (fusermount3 with sync-init)
-+------------------------------------------------------------
-+
-+fuse_session_mount_new_api()
-+  |
-+  +-- fuse_kern_mount_prepare() → open /dev/fuse → fd1
-+  |
-+  +-- session_start_sync_init(se, fd1)
-+  |     +-- ioctl(fd1, FUSE_DEV_IOC_SYNC_INIT)
-+  |     +-- pthread_create(worker) → ready with fd1
-+  |
-+  +-- fuse_kern_fsmount_mo() → EPERM
-+  |
-+  +-- *** FALLBACK TO FUSERMOUNT3 WITH SYNC-INIT ***
-+  |
-+  +-- session_wait_sync_init_completion(se)
-+  |     +-- pthread_cancel/join → terminate worker with wrong fd1
-+  |
-+  +-- close(fd1)
-+  |
-+  +-- fuse_mount_fusermount_sync_init()  [NEW]
-+  |     +-- socketpair()
-+  |     +-- spawn fusermount3 --sync-init
-+  |     +-- fusermount3: open /dev/fuse → fd2, send fd2
-+  |     +-- receive_fd() → fd2
-+  |     +-- fusermount3 waits for signal
-+  |     └─> return fd2, sock
-+  |
-+  +-- session_start_sync_init(se, fd2)
-+  |     +-- ioctl(fd2, FUSE_DEV_IOC_SYNC_INIT)
-+  |     +-- pthread_create(worker) → ready with fd2
-+  |
-+  +-- send_proceed_signal(sock)  [NEW]
-+  |     +-- send(sock, "\0", 1) → signal fusermount3
-+  |
-+  +-- fusermount3: mount() (BLOCKS)
-+  |     +-- Kernel sends FUSE_INIT to fd2
-+  |     +-- Worker processes FUSE_INIT
-+  |     +-- mount() returns
-+  |
-+  +-- close(sock)
-+  |
-+  +-- session_wait_sync_init_completion(se) → pthread_join
-+  |
-+  └─> return fd2
-+
-diff --git a/doc/README.sync-init b/doc/README.sync-init
-new file mode 100644
-index 0000000000000000000000000000000000000000..44e47a2eef2c45026abaa19562537eef37f256b9
---- /dev/null
-+++ b/doc/README.sync-init
-@@ -0,0 +1,184 @@
-+FUSE Synchronous vs Asynchronous FUSE_INIT
-+============================================
-+
-+This document explains the difference between asynchronous and synchronous
-+FUSE_INIT processing, and when each mode is used.
-+
-+
-+Overview
-+--------
-+
-+FUSE_INIT is the initial handshake between the kernel FUSE module and the
-+userspace filesystem daemon. During this handshake, the kernel and daemon
-+negotiate capabilities, protocol version, and various feature flags.
-+
-+Asynchronous FUSE_INIT (Traditional Behavior)
-+----------------------------------------------
-+
-+In the traditional asynchronous mode:
-+
-+1. mount() syscall completes and returns to caller
-+2. Filesystem appears mounted to the system
-+3. FUSE daemon starts worker threads
-+4. Worker threads process FUSE_INIT request
-+5. Filesystem becomes fully operational
-+
-+Timeline:
-+    mount() -----> returns
-+                   |
-+                   v
-+            FUSE_INIT sent
-+                   |
-+                   v
-+            daemon processes FUSE_INIT
-+                   |
-+                   v
-+            filesystem ready
-+
-+Limitations:
-+
-+1. **No early requests**: The kernel cannot send requests (like getxattr)
-+   during the mount() syscall. This breaks SELinux, which needs to query
-+   extended attributes on the root inode immediately upon mounting.
-+
-+2. **Daemonization timing**: With the old fuse_daemonize() API, the daemon
-+   must call it AFTER mount, because there's no way to report mount failures
-+   to the parent process if daemonization happens first.
-+
-+3. **No custom root inode**: The root inode ID is hardcoded to FUSE_ROOT_ID (1)
-+   because FUSE_INIT hasn't been processed yet when the mount completes.
-+
-+4. **Thread startup after mount**: io_uring threads and other worker threads
-+   can only start after mount() returns, not before.
-+
-+
-+Synchronous FUSE_INIT (New Behavior)
-+-------------------------------------
-+
-+Kernel support: Linux kernel commit dfb84c330794 (v6.18+)
-+libfuse support: libfuse 3.19+
-+
-+In synchronous mode:
-+
-+1. FUSE daemon opens /dev/fuse
-+2. Daemon calls ioctl(fd, FUSE_DEV_IOC_SYNC_INIT)
-+3. Daemon starts worker thread
-+4. Daemon calls mount() syscall
-+5. Kernel sends FUSE_INIT during mount() - mount() blocks
-+6. Worker thread processes FUSE_INIT while mount() is blocked
-+7. Worker thread may process additional requests (getxattr, etc.)
-+8. mount() syscall completes and returns
-+9. Filesystem is fully operational
-+
-+Timeline:
-+    open /dev/fuse
-+         |
-+         v
-+    ioctl(FUSE_DEV_IOC_SYNC_INIT)
-+         |
-+         v
-+    start worker thread
-+         |
-+         v
-+    mount() -----> blocks
-+         |         |
-+         |         v
-+         |    FUSE_INIT sent
-+         |         |
-+         |         v
-+         |    worker processes FUSE_INIT
-+         |         |
-+         |         v
-+         |    (possible getxattr, etc.)
-+         |         |
-+         +-------> returns
-+                   |
-+                   v
-+            filesystem ready
-+
-+Advantages:
-+
-+1. **SELinux support**: The kernel can send getxattr requests during mount()
-+   to query security labels on the root inode.
-+
-+2. **Early daemonization**: The daemon can fork BEFORE mount using the new
-+   fuse_daemonize_start()/signal() API, and report mount failures to the
-+   parent process.
-+
-+3. **Custom root inode**: The daemon can specify a custom root inode ID
-+   during FUSE_INIT, before mount() completes.
-+
-+4. **Thread startup before mount**: io_uring threads and worker threads
-+   start before mount(), ensuring they're ready to handle requests.
-+
-+5. **Better error reporting**: Mount failures and initialization errors
-+   can be properly reported to the parent process when using the new
-+   daemonization API.
-+
-+
-+When Synchronous FUSE_INIT is Used
-+-----------------------------------
-+
-+libfuse automatically enables synchronous FUSE_INIT when:
-+
-+1. The application calls fuse_session_want_sync_init(), OR
-+2. The new daemonization API is used (fuse_daemonize_start() was called)
-+
-+Synchronous FUSE_INIT requires:
-+- Kernel support (commit dfb84c330794 or later)
-+- Worker thread started before mount()
-+- ioctl(FUSE_DEV_IOC_SYNC_INIT) succeeds
-+
-+If the kernel doesn't support synchronous FUSE_INIT, libfuse automatically
-+falls back to asynchronous mode.
-+
-+
-+Implementation Details
-+----------------------
-+
-+The synchronous FUSE_INIT implementation uses a worker thread:
-+
-+- **session_sync_init_worker()**: Thread function that polls /dev/fuse
-+  and processes FUSE_INIT and any subsequent requests until mount completes.
-+
-+- **session_start_sync_init()**: Creates the worker thread before mount().
-+  Calls ioctl(FUSE_DEV_IOC_SYNC_INIT) to enable kernel support.
-+
-+- **session_wait_sync_init_completion()**: Waits for the worker thread
-+  to complete after mount() returns. Checks for errors.
-+
-+The worker thread processes requests in a loop until se->terminate_mount_worker
-+is set, which happens after mount() completes successfully.
-+
-+
-+Compatibility
-+-------------
-+
-+Synchronous FUSE_INIT is fully backward compatible:
-+
-+- Old kernels: ioctl returns ENOTTY, libfuse falls back to async mode
-+- Old applications: Continue to work with async FUSE_INIT
-+- New applications on old kernels: Graceful fallback to async mode
-+- New applications on new kernels: Automatic sync mode when appropriate
-+
-+
-+Example: Enabling Synchronous FUSE_INIT
-+----------------------------------------
-+
-+Explicit request:
-+    struct fuse_session *se = fuse_session_new(...);
-+    fuse_session_want_sync_init(se);
-+    fuse_session_mount(se, mountpoint);
-+
-+Automatic (with new daemonization API):
-+    fuse_daemonize_start(0);  // Triggers sync init automatically
-+    fuse_session_mount(se, mountpoint);
-+
-+
-+See Also
-+--------
-+
-+- doc/README.daemonize - New daemonization API documentation
-+- doc/README.fusermount - Synchronous FUSE_INIT protocol with fusermount3
-+- doc/README.mount - Mount implementation details
-+
+diff --git a/example/passthrough_hp.cc b/example/passthrough_hp.cc
+index bad435077697e8832cf5a5195c17f2f873f2dfe6..cca865973ab5e8e9c1faa0fa28eb292a172a4812 100644
+--- a/example/passthrough_hp.cc
++++ b/example/passthrough_hp.cc
+@@ -245,7 +245,7 @@ static void sfs_init(void *userdata, fuse_conn_info *conn)
+ 	/* Try a large IO by default */
+ 	conn->max_write = 4 * 1024 * 1024;
+ 
+-	/* Signal successful init to parent */
++	/* required here for async init */
+ 	fuse_daemonize_success();
+ }
+ 
+@@ -1661,6 +1661,9 @@ int main(int argc, char *argv[])
+ 	if (teardown_watchog == NULL)
+ 		goto err_out4;
+ 
++	/* required here for sync init */
++	fuse_daemonize_success();
++
+ 	if (options.count("single"))
+ 		ret = fuse_session_loop(se);
+ 	else
+diff --git a/include/fuse_daemonize.h b/include/fuse_daemonize.h
+index 6215e42c635ba5956cb23ba0832dfc291ab8dede..6d3c4a6134f408d0f0a08b87495bde65d491286d 100644
+--- a/include/fuse_daemonize.h
++++ b/include/fuse_daemonize.h
+@@ -42,6 +42,16 @@ int fuse_daemonize_start(unsigned int flags);
+ 
+ /**
+  * Signal daemonization success to parent and cleanup.
++ *
++ * Note: For synchronous FUSE_INIT, this must be called after
++ *       fuse_session_mount() and before the first call to
++ *       fuse_session_loop*(). For asynchronous FUSE_INIT, this should
++ *       be called in the file system ->init() callback.
++ *
++ *       In order to simplify application code, this should be called from
++ *       the file system ->init() callback *and* after fuse_session_mount.
++ *       Libfuse knows internally if this is a sync or async FUSE_INIT
++ *       and will only signal the parent if the mount was completed.
+  */
+ void fuse_daemonize_success(void);
+ 
+@@ -60,12 +70,12 @@ void fuse_daemonize_fail(int err);
+ bool fuse_daemonize_is_active(void);
+ 
+ /**
+- * Set mounted flag.
+- *
+- * Called from fuse_session_mount().
++ * Set mounted flag. Called from fuse_session_mount().
+  */
+ void fuse_daemonize_set_mounted(void);
+ 
++void fuse_daemonize_set_got_init(void);
++
+ /**
+  * Check if daemonization is used.
+  *
+diff --git a/include/fuse_lowlevel.h b/include/fuse_lowlevel.h
+index d85929e291a77de8caad7d6b3d9ac5b092ce0e62..ba7c4b3ac788f19f30fbf120fe8f6ae5851b425e 100644
+--- a/include/fuse_lowlevel.h
++++ b/include/fuse_lowlevel.h
+@@ -2441,6 +2441,14 @@ int fuse_session_receive_buf(struct fuse_session *se, struct fuse_buf *buf);
+  */
+ void fuse_session_want_sync_init(struct fuse_session *se);
+ 
++/**
++ * Check if the connection / session is using synchronous FUSE_INIT
++ *
++ * @param conn the connection
++ * @return true if using synchronous FUSE_INIT, false otherwise
++ */
++bool fuse_conn_is_sync_init(struct fuse_conn_info *conn);
++
+ /**
+  * Enable debug output
+  *
+diff --git a/lib/fuse_daemonize.c b/lib/fuse_daemonize.c
+index 97cfad7be879beacf69b020b7af78d512a224fd5..d4a34da15114fc0742394e72510946b63a98a252 100644
+--- a/lib/fuse_daemonize.c
++++ b/lib/fuse_daemonize.c
+@@ -40,7 +40,8 @@ struct fuse_daemonize {
+ 	bool watcher_started;
+ 	_Atomic bool active;
+ 	_Atomic bool daemonized;
+-	_Atomic bool mounted;
++	_Atomic bool mounted;  /* fuse_session_mount() completed */
++	_Atomic bool got_init; /* got FUSE_INIT */
+ };
+ 
+ /* Global daemonization object pointer */
+@@ -238,9 +239,9 @@ static void fuse_daemonize_signal(int status)
+ 	struct fuse_daemonize *dm = &daemonize;
+ 	int rc;
+ 
+-	/* Warn because there might be races */
+-	if (status == FUSE_DAEMONIZE_SUCCESS && !dm->mounted)
+-		fprintf(stderr, "fuse daemonize success without being mounted\n");
++	/* The file system is not mounted yet - don't signal parent */
++	if (status == FUSE_DAEMONIZE_SUCCESS && (!dm->mounted || !dm->got_init))
++		return;
+ 
+ 	dm->active = false;
+ 
+@@ -292,6 +293,11 @@ void fuse_daemonize_set_mounted(void)
+ 	daemonize.mounted = true;
+ }
+ 
++void fuse_daemonize_set_got_init(void)
++{
++	daemonize.got_init = true;
++}
++
+ bool fuse_daemonize_is_used(void)
+ {
+ 	return daemonize.active;
+diff --git a/lib/fuse_i.h b/lib/fuse_i.h
+index 164401e226eb727192a49e1cc7b38a75f031643b..20e9c275cbffade69d3fd440d1b48b371135bd84 100644
+--- a/lib/fuse_i.h
++++ b/lib/fuse_i.h
+@@ -75,6 +75,7 @@ struct fuse_timeout_thread;
+ struct fuse_session {
+ 	_Atomic(char *)mountpoint;
+ 	int fd;
++	_Atomic bool is_sync_init;
+ 	struct fuse_custom_io *io;
+ 	struct mount_opts *mo;
+ 	int debug;
+diff --git a/lib/fuse_lowlevel.c b/lib/fuse_lowlevel.c
+index 4445e134a7ff5be508306f74db9d9c56e3582070..c4bb227b51a5226543adf7f037fb2c4604a5f978 100644
+--- a/lib/fuse_lowlevel.c
++++ b/lib/fuse_lowlevel.c
+@@ -41,6 +41,7 @@
+ #include <assert.h>
+ #include <sys/file.h>
+ #include <sys/ioctl.h>
++#include <sys/wait.h>
+ #include <stdalign.h>
+ #include <poll.h>
+ 
+@@ -3024,6 +3025,7 @@ _do_init(fuse_req_t req, const fuse_ino_t nodeid, const void *op_in,
+ 	 * over the thread scheduling.
+ 	 */
+ 	se->got_init = 1;
++	fuse_daemonize_set_got_init();
+ 	send_reply_ok(req, &outarg, outargsize);
+ 	if (enable_io_uring)
+ 		fuse_uring_wake_ring_threads(se);
+@@ -4456,7 +4458,8 @@ static void *session_sync_init_worker(void *data)
+ }
+ 
+ /* Enable synchronous FUSE_INIT and start worker thread */
+-static int session_start_sync_init(struct fuse_session *se, int fd)
++static int session_start_sync_init(struct fuse_session *se, int fd,
++				   bool *fall_back)
+ {
+ 	int err, res;
+ 
+@@ -4491,6 +4494,12 @@ static int session_start_sync_init(struct fuse_session *se, int fd)
+ 		return err;
+ 	}
+ 
++	/*
++	 * If we get here, we know that sync init is enabled and fall back
++	 * to the old mount API is not allowed
++	 */
++	*fall_back = false;
++
+ 	if (se->debug)
+ 		fuse_log(FUSE_LOG_DEBUG,
+ 				"fuse: synchronous FUSE_INIT enabled\n");
+@@ -4553,6 +4562,8 @@ static int session_wait_sync_init_completion(struct fuse_session *se)
+ 		se->init_wakeup_fd = -1;
+ 	}
+ 
++	se->init_thread = 0;
++
+ 	if (se->init_error != 0) {
+ 		fuse_log(FUSE_LOG_ERR, "fuse: init worker failed: %s\n",
+ 			 strerror(-se->init_error));
+@@ -4567,10 +4578,19 @@ static int session_wait_sync_init_completion(struct fuse_session *se)
+ 	return 0;
+ }
+ 
++/*
++ * Mount using the new Linux mount API (fsopen/fsconfig/fsmount/move_mount)
++ * Sync-init is only supported with the new API, as the mount might hang
++ * in case of daemon crash during FUSE_INIT. That also means once the sync init
++ * ioctl succeed fallback is not allowed anymore.
++ * Returns: fd on success, -1 on failure
++ */
+ static int fuse_session_mount_new_api(struct fuse_session *se,
+-				      const char *mountpoint)
++				      const char *mountpoint, bool *fall_back)
+ {
+ 	int fd = -1;
++	int sock_fd = -1;
++	pid_t fusermount_pid = -1;
+ 	int res, err;
+ 	char *mnt_opts = NULL;
+ 	char *mnt_opts_with_fd = NULL;
+@@ -4587,34 +4607,85 @@ static int fuse_session_mount_new_api(struct fuse_session *se,
+ 	fd = fuse_kern_mount_prepare(mountpoint, se->mo);
+ 	if (fd == -1) {
+ 		fuse_log(FUSE_LOG_ERR, "Mount preparation failed.\n");
+-		err = -EIO;
+ 		goto err;
+ 	}
+ 
+-	/*
+-	 * Enable synchronous FUSE_INIT and start worker thread, sync init
+-	 * failure is not an error
+-	 */
++	*fall_back = true;
+ 	se->fd = fd;
+-	err = session_start_sync_init(se, fd);
++	err = session_start_sync_init(se, fd, fall_back);
+ 	if (err)
+ 		goto err;
+ 
+ 	snprintf(fd_opt, sizeof(fd_opt), "fd=%i", fd);
++	err = -ENOMEM;
+ 	if (fuse_opt_add_opt(&mnt_opts_with_fd, mnt_opts) == -1 ||
+ 	    fuse_opt_add_opt(&mnt_opts_with_fd, fd_opt) == -1) {
+-		err = -ENOMEM;
+ 		goto err;
+ 	}
+ 
++	/* Try to mount directly */
+ 	err = fuse_kern_fsmount_mo(mountpoint, se->mo, mnt_opts_with_fd);
++
++	/* If mount failed with EPERM, fall back to fusermount3 with sync-init */
++	if (err < 0 && errno == EPERM) {
++		if (se->debug)
++			fuse_log(FUSE_LOG_DEBUG,
++				 "fuse: privileged mount failed with EPERM, falling back to fusermount3\n");
++
++		/* Terminate worker thread with wrong fd */
++		if (session_wait_sync_init_completion(se) < 0)
++			fuse_log(FUSE_LOG_ERR, "fuse: sync init completion failed\n");
++
++		/* Close the privileged fd */
++		close(fd);
++		fd = -1;
++		se->fd = -1;
++		*fall_back = true; /* reset */
++
++		/* Call fusermount3 with --sync-init */
++		err = -ENOTSUP;
++		fd = mount_fusermount_obtain_fd(mountpoint, se->mo, mnt_opts,
++						&sock_fd, &fusermount_pid);
++		if (fd < 0) {
++			fuse_log(
++				FUSE_LOG_ERR,
++				"fuse: fusermount3 sync-init failed\n");
++			goto err;
++		}
++
++		/* Start worker thread with correct fd from fusermount3 */
++		se->fd = fd;
++		err = session_start_sync_init(se, fd, fall_back);
++		if (err)
++			fuse_log(FUSE_LOG_ERR,
++				"fuse: failed to start sync init worker\n");
++
++		/* Send proceed signal and wait for mount result */
++		err = fuse_fusermount_proceed_mnt(sock_fd);
++		if (err < 0) {
++			err = -EIO;
++			goto err_with_sock;
++		}
++	} else if (err < 0) {
++		/* Mount failed with non-EPERM error, bail out */
++		goto err;
++	}
++
++err_with_sock:
++	if (sock_fd >= 0) {
++		close(sock_fd);
++		/* Reap fusermount3 child process to prevent zombie */
++		if (fusermount_pid > 0)
++			waitpid(fusermount_pid, NULL, 0);
++	}
+ err:
+ 	if (err < 0) {
++		/* Close fd first to unblock worker thread */
+ 		if (fd >= 0)
+ 			close(fd);
+ 		fd = -1;
+ 		se->fd = -1;
+-		se->error = -errno;
++		se->error = err;
+ 	}
+ 	/* Wait for synchronous FUSE_INIT to complete */
+ 	if (session_wait_sync_init_completion(se) < 0)
+@@ -4626,10 +4697,11 @@ err:
+ }
+ #else
+ static int fuse_session_mount_new_api(struct fuse_session *se,
+-				      const char *mountpoint)
++				      const char *mountpoint, bool *fall_back)
+ {
+ 	(void) se;
+ 	(void) mountpoint;
++	(void) fall_back;
+ 
+ 	return -1;
+ }
+@@ -4639,6 +4711,7 @@ int fuse_session_mount(struct fuse_session *se, const char *_mountpoint)
+ {
+ 	int fd;
+ 	char *mountpoint;
++	bool fall_back;
+ 
+ 	if (_mountpoint == NULL) {
+ 		fuse_log(FUSE_LOG_ERR, "Invalid null-ptr mountpoint!\n");
+@@ -4682,21 +4755,18 @@ int fuse_session_mount(struct fuse_session *se, const char *_mountpoint)
+ 		return 0;
+ 	}
+ 
+-	/* new linux mount api */
+-	fd = fuse_session_mount_new_api(se, mountpoint);
+-	if (fd >= 0)
+-		goto out;
++	/* new linux mount api (and sync init) */
++	fd = fuse_session_mount_new_api(se, mountpoint, &fall_back);
+ 
+ 	/* fall back to old API */
+-	se->error = 0; /* reset error of new api */
+-	fd = fuse_kern_mount(mountpoint, se->mo);
+-	if (fd < 0)
+-		goto error_out;
++	if (fall_back && fd < 0) {
++		se->error = 0; /* reset error of new api */
++		fd = fuse_kern_mount(mountpoint, se->mo);
++		if (fd < 0)
++			goto error_out;
++	}
+ 
+-out:
+ 	se->fd = fd;
+-
+-	/* Save mountpoint */
+ 	se->mountpoint = mountpoint;
+ 
+ 	fuse_daemonize_set_mounted();
+@@ -5015,3 +5085,10 @@ void fuse_session_set_debug(struct fuse_session *se)
+ {
+ 	se->debug = 1;
+ }
++
++bool fuse_conn_is_sync_init(struct fuse_conn_info *conn)
++{
++	struct fuse_session *se = container_of(conn, struct fuse_session, conn);
++
++	return se->is_sync_init;
++}
+diff --git a/lib/mount.c b/lib/mount.c
+index 408e9d36896048fc167e264c95b6f6e31d86679f..f0d12525310a9ad239c0f447af60bd49b105a091 100644
+--- a/lib/mount.c
++++ b/lib/mount.c
+@@ -37,6 +37,7 @@
+ #define FUSERMOUNT_PROG		"fusermount3"
+ #define FUSE_COMMFD_ENV		"_FUSE_COMMFD"
+ #define FUSE_COMMFD2_ENV	"_FUSE_COMMFD2"
++#define ARG_FD_ENTRY_SIZE	30
+ 
+ 	enum { KEY_KERN_FLAG,
+ 	       KEY_KERN_OPT,
+@@ -306,7 +307,7 @@ static int setup_auto_unmount(const char *mountpoint, int quiet)
+ 		return -1;
+ 	}
+ 
+-	char arg_fd_entry[30];
++	char arg_fd_entry[ARG_FD_ENTRY_SIZE];
+ 	snprintf(arg_fd_entry, sizeof(arg_fd_entry), "%i", fds[0]);
+ 	setenv(FUSE_COMMFD_ENV, arg_fd_entry, 1);
+ 	/*
+@@ -379,7 +380,7 @@ static int fuse_mount_fusermount(const char *mountpoint, struct mount_opts *mo,
+ 		return -1;
+ 	}
+ 
+-	char arg_fd_entry[30];
++	char arg_fd_entry[ARG_FD_ENTRY_SIZE];
+ 	snprintf(arg_fd_entry, sizeof(arg_fd_entry), "%i", fds[0]);
+ 	setenv(FUSE_COMMFD_ENV, arg_fd_entry, 1);
+ 	/*
+@@ -439,6 +440,127 @@ static int fuse_mount_fusermount(const char *mountpoint, struct mount_opts *mo,
+ 	return fd;
+ }
+ 
++/*
++ * Mount using fusermount3 with --sync-init flag for bidirectional fd exchange
++ * Used by new mount API when privileged mount fails with EPERM
++ *
++ * Returns: fd on success, -1 on failure
++ * On success, *sock_fd_out contains the socket fd for signaling fusermount3
++ */
++int mount_fusermount_obtain_fd(const char *mountpoint, struct mount_opts *mo,
++			       const char *opts, int *sock_fd_out,
++			       pid_t *pid_out)
++{
++	int fds[2];
++	pid_t pid;
++	int res;
++	char arg_fd_entry[ARG_FD_ENTRY_SIZE];
++	posix_spawn_file_actions_t action;
++	int fd, status;
++
++	(void)mo;
++
++	if (!mountpoint) {
++		fuse_log(FUSE_LOG_ERR, "fuse: missing mountpoint parameter\n");
++		return -1;
++	}
++
++	res = socketpair(PF_UNIX, SOCK_STREAM, 0, fds);
++	if (res == -1) {
++		fuse_log(FUSE_LOG_ERR, "Running %s: socketpair() failed: %s\n",
++			 FUSERMOUNT_PROG, strerror(errno));
++		return -1;
++	}
++
++	snprintf(arg_fd_entry, sizeof(arg_fd_entry), "%i", fds[0]);
++	setenv(FUSE_COMMFD_ENV, arg_fd_entry, 1);
++	snprintf(arg_fd_entry, sizeof(arg_fd_entry), "%i", fds[1]);
++	setenv(FUSE_COMMFD2_ENV, arg_fd_entry, 1);
++
++	char const *const argv[] = {
++		FUSERMOUNT_PROG,
++		"--sync-init",
++		"-o", opts ? opts : "",
++		"--",
++		mountpoint,
++		NULL,
++	};
++
++	posix_spawn_file_actions_init(&action);
++	posix_spawn_file_actions_addclose(&action, fds[1]);
++	status = fusermount_posix_spawn(&action, argv, &pid);
++	posix_spawn_file_actions_destroy(&action);
++
++	if (status != 0) {
++		close(fds[0]);
++		close(fds[1]);
++		return -1;
++	}
++
++	close(fds[0]);
++
++	fd = receive_fd(fds[1]);
++	if (fd < 0) {
++		close(fds[1]);
++		waitpid(pid, NULL, 0);
++		return -1;
++	}
++
++	fcntl(fd, F_SETFD, FD_CLOEXEC);
++
++	/* Return socket fd for later signaling */
++	*sock_fd_out = fds[1];
++	*pid_out = pid;
++
++	return fd;
++}
++
++/*
++ * Send proceed signal to fusermount3 and wait for mount result
++ * Returns: 0 on success, -1 on failure
++ */
++int fuse_fusermount_proceed_mnt(int sock_fd)
++{
++	char buf = '\0';
++	ssize_t res;
++
++	/* Send proceed signal */
++	do {
++		res = send(sock_fd, &buf, 1, 0);
++	} while (res == -1 && errno == EINTR);
++
++	if (res != 1) {
++		fuse_log(FUSE_LOG_ERR, "fuse: failed to send proceed signal: %s\n",
++			 strerror(errno));
++		return -1;
++	}
++
++	/* Wait for mount result from fusermount3 (4-byte error code) */
++	int32_t status;
++
++	do {
++		res = recv(sock_fd, &status, sizeof(status), 0);
++	} while (res == -1 && errno == EINTR);
++
++	if (res != sizeof(status)) {
++		if (res == 0)
++			fuse_log(FUSE_LOG_ERR, "fuse: fusermount3 closed connection\n");
++		else
++			fuse_log(FUSE_LOG_ERR, "fuse: failed to receive mount status: %s\n",
++				 strerror(errno));
++		return -1;
++	}
++
++	if (status != 0) {
++		if (status != -EPERM)
++			fuse_log(FUSE_LOG_ERR, "fuse: fusermount3 mount failed: %s\n",
++				 strerror(-status));
++		return -1;
++	}
++
++	return 0;
++}
++
+ #ifndef O_CLOEXEC
+ #define O_CLOEXEC 0
+ #endif
+diff --git a/lib/mount_i_linux.h b/lib/mount_i_linux.h
+index 597b380076fccc1d38fd4d0b9108fc92a1adfa62..ae98296a334a2aa39c4f3e5c3e4e3c136ae38cd3 100644
+--- a/lib/mount_i_linux.h
++++ b/lib/mount_i_linux.h
+@@ -43,4 +43,11 @@ int fuse_kern_fsmount_mo(const char *mnt, struct mount_opts *mo,
+ 
+ char *fuse_mnt_build_source(const struct mount_opts *mo);
+ char *fuse_mnt_build_type(const struct mount_opts *mo);
++int mount_fusermount_obtain_fd(const char *mountpoint,
++					   struct mount_opts *mo,
++					   const char *opts, int *sock_fd_out,
++					   pid_t *pid_out);
++
++int fuse_fusermount_proceed_mnt(int sock_fd);
++
+ #endif /* FUSE_MOUNT_I_LINUX_H_ */
+diff --git a/util/fusermount.c b/util/fusermount.c
+index 31bf959024ae0cd2a4e50974589bfab30a100b0a..bf442416c83d6da3f80eca5c9814df29f61bec56 100644
+--- a/util/fusermount.c
++++ b/util/fusermount.c
+@@ -1323,7 +1323,6 @@ struct mount_context {
+ 	char *source;
+ 	char *mnt_opts;
+ 	char *x_opts;
+-	const char *type;
+ };
+ 
+ /*
+@@ -1447,7 +1446,6 @@ static int mount_fuse_finish_fsmount(const char *mnt, const char *opts,
+ 
+ 	/* Store results in context */
+ 	ctx->source = mp.source;
+-	ctx->type = mp.type;
+ 	ctx->mnt_opts = final_mnt_opts;
+ 	*type = mp.type;
+ 
 
 -- 
 2.43.0
