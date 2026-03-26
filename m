@@ -1,119 +1,90 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.184])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE2A5392C42
-	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 11:10:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5FAA3C344F
+	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 11:10:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774523421; cv=none; b=HDqMmkLR4N6uGUCkd92i/5oz+nx99Wd2IdyGOlDemKveqfcm+r2SZqEZdDWF7zCCQ+soeLWNFeK8m6sLVJwb1POQ0x/NIJa3pcGIA7NEqtSpL8H4mPOxcaxfmVjW8NHaRkhGFljydoT/Zmtyy3B45yJx+h7d+K9bYkCl7u6ddSE=
+	t=1774523442; cv=none; b=k6WpesI5KhST8FFD5fs1HT3P045ZSSGQ/bARE6DepBVMIRTbDQS4tZHl6esIt2xXvPKqGRh/aQUGgL6EoO8VFWrHWe7Mk+CVsVGaJheCEWQdKhA5+QIruOPIL78NrRFKdV7L9hu7pbpSbMlutLIB3sQ2DgX+cnDa+3eNxPPqgp8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774523421; c=relaxed/simple;
-	bh=RU0wq9XB/MAwM1WSxurR/DyaG7Wt9DpT1Mu3ktbvqOw=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=F8LYfRXFNWCi/G+EnW9PZUgq3eEvpOgUR+b1Rncz0t2z2AqJSe8aJsRJ2aQ7SnZpscVwO17V+Cuv13YS4Vy4WRY3AjTKDTgxQ19uJ5xNhIU7ycy42NuWCOVvRlPSLn1/KTHkF3eyWzw9kG77sbQGd6yQA67Sqt0CRPTpUmOyDJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=oGttYA8/; arc=none smtp.client-ip=195.121.94.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1774523442; c=relaxed/simple;
+	bh=jBdoDVkrHo4frDWBxHqqyQ2bl1+2xzRX8rlOxpufM+I=;
+	h=From:In-Reply-To:References:To:Cc:Subject:MIME-Version:
+	 Content-Type:Date:Message-ID; b=VBi/YVDWCRzPpZaVo7fCLsmmmre1W30FWjUaDnG6/6tWwwY9AP3F3zJ4VtrzP7xiUhGZ4DNq/NEHrIl8QsHJen7qYRF1+ZHyVOlqySXJ5IXfGwgQH02oGMMCz+nEfrkNQCu0gusYfSnogJBneXnQvRV3tYXpZs5nT/TrfI12yBg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=M9CC2AB7; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="oGttYA8/"
-X-KPN-MessageId: 36136a8e-2904-11f1-afd9-005056994fde
-Received: from mta.kpnmail.nl (unknown [10.31.161.190])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 36136a8e-2904-11f1-afd9-005056994fde;
-	Thu, 26 Mar 2026 12:09:08 +0100 (CET)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id 3600e017-2904-11f1-99ca-0050569977a2;
-	Thu, 26 Mar 2026 12:09:08 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=FBQEkVriU2wQC8scK1vGpQhIBNeQY+LoczBK8oqaaIQ=;
-	b=oGttYA8/jVRGnNmabXbqO/JnFL/u9KHRZFwiN2Op1XrWQAYwU+IeqRohCe0Cg6eQGlsJbSH55248/
-	 Lub3tVFs/dWvWTJOfsmAnP8gJoMXzx9rrucOqyIcC7vbp6axmM+lZ2GUq2sDxUrSBlmgoJ+LrPsQFd
-	 4M5gd/akuQEJJW257LwDoNpzXljLuRtDZqyui/00c97SUQCZ026zFerTl2XrrLkTHxNV/1/3fqQfRR
-	 w5/8bbVdjws3MeU6OV9qKI4EjidJYw0XB+kNMW+XnNXthAeYjEPER4rVxy3c2l/YXTqO48OrnfI5iw
-	 5PymsZFfUJlb6Rn/JMsHQxu1M9QaKKg==
-X-KPN-MID: 33|DnRppIcvz0vvgRLIHtLFb6wr8BW8Nrya+E6RlY681GJcrLw1+uzD2GsRXRSmn7+
- MFmaWA03LXeZFR7ym+GV5SL6OR7EZxI3jwPOZTcjhD7I=
-X-CMASSUN: 33|AXbHEZx6/A3wNjLkkM4q5BDLM/E3sHISRdkWlQ4D8he7ebvHl/Ihv7Wjozv0SR1
- XbhjVVcykIWMYLGeWg/zWOA==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh02 (cpxoxapps-mh02.personalcloud.so.kpn.org [10.128.135.208])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id 35ef7f62-2904-11f1-b8d7-005056995d6c;
-	Thu, 26 Mar 2026 12:09:08 +0100 (CET)
-Date: Thu, 26 Mar 2026 12:09:08 +0100 (CET)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Jeff Layton <jlayton@kernel.org>,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Alexander Aring <alex.aring@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	David Hildenbrand <david@redhat.com>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	zhang jiao <zhangjiao2@cmss.chinamobile.com>,
-	Kees Cook <kees@kernel.org>, Penglei Jiang <superman.xpt@gmail.com>,
-	Ethan Tidmore <ethantidmore06@gmail.com>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	wangzijie <wangzijie1@honor.com>, NeilBrown <neil@brown.name>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Mateusz Guzik <mjguzik@gmail.com>, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-	Namjae Jeon <linkinjeon@kernel.org>
-Message-ID: <95547355.15637.1774523348666@kpc.webmail.kpnmail.nl>
-In-Reply-To: <2026032403-slapstick-anvil-a68e@gregkh>
-References: <20260323220029.765874-1-jkoolstra@xs4all.nl>
- <20260323220029.765874-2-jkoolstra@xs4all.nl>
- <2026032403-slapstick-anvil-a68e@gregkh>
-Subject: Re: [PATCH] vfs: transitive upgrade restrictions for fds
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="M9CC2AB7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1774523440;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cXxdqkbQLA4ehuUOQdRt5Ygk7PCXPrYtxEdT8qB7Hzo=;
+	b=M9CC2AB7l2GyavNX8V/CtdLn2S0jWxzK75Wz8ql+3MhtLxP6b1mIyGUsR3WFxFi9J/rn5S
+	T5UNUKJvIHU/6I/4wIi1f+UspWJVwhjM3GG97qlWlc8kZSmgSO729FsuUN99n5gqmVBB9f
+	kJ3DajK+fdZzwga8tpJy+UTWFrB1wMg=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-530-bIDBd2wNPAC8eDxXKK0CqQ-1; Thu,
+ 26 Mar 2026 07:10:37 -0400
+X-MC-Unique: bIDBd2wNPAC8eDxXKK0CqQ-1
+X-Mimecast-MFC-AGG-ID: bIDBd2wNPAC8eDxXKK0CqQ_1774523434
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3DEE71955D5B;
+	Thu, 26 Mar 2026 11:10:34 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.44.33.121])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 5E68F18001FE;
+	Thu, 26 Mar 2026 11:10:27 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+	Kingdom.
+	Registered in England and Wales under Company Registration No. 3798903
+From: David Howells <dhowells@redhat.com>
+In-Reply-To: <CA+yaA_=gpTnueByzFNYrqNL_qSC2rE4iGDjLHtJap-=_rhE3HQ@mail.gmail.com>
+References: <CA+yaA_=gpTnueByzFNYrqNL_qSC2rE4iGDjLHtJap-=_rhE3HQ@mail.gmail.com> <20260326104544.509518-1-dhowells@redhat.com> <20260326104544.509518-8-dhowells@redhat.com>
+To: Aditya <dev@adityakammati.me>
+Cc: dhowells@redhat.com, Christian Brauner <christian@brauner.io>,
+    Matthew Wilcox <willy@infradead.org>,
+    Christoph Hellwig <hch@infradead.org>,
+    Paulo Alcantara <pc@manguebit.com>, Jens Axboe <axboe@kernel.dk>,
+    Leon Romanovsky <leon@kernel.org>, Steve French <sfrench@samba.org>,
+    ChenXiaoSong <chenxiaosong@chenxiaosong.com>,
+    Marc Dionne <marc.dionne@auristor.com>,
+    Eric Van Hensbergen <ericvh@kernel.org>,
+    Dominique Martinet <asmadeus@codewreck.org>,
+    Ilya Dryomov <idryomov@gmail.com>,
+    Trond Myklebust <trondmy@kernel.org>, netfs@lists.linux.dev,
+    linux-afs@lists.infradead.org, linux-cifs@vger.kernel.org,
+    linux-nfs@vger.kernel.org, ceph-devel@vger.kernel.org,
+    v9fs@lists.linux.dev, linux-erofs@lists.ozlabs.org,
+    linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+    NeilBrown <neil@brown.name>, Paulo Alcantara <pc@manguebit.org>
+Subject: Re: [PATCH 07/26] cachefiles: Fix excess dput() after end_removing()
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <510330.1774523425.1@warthog.procyon.org.uk>
+Date: Thu, 26 Mar 2026 11:10:25 +0000
+Message-ID: <510331.1774523425@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
+Aditya <dev@adityakammati.me> wrote:
 
-> Op 24-03-2026 15:37 CET schreef Greg KH <gregkh@linuxfoundation.org>:
-> 
-> Any chance to get a test for this as well to know if this keeps working
-> (or works at all)?
-> 
+> Why are this bulk fixes
 
-I do have some tests, can shape them up a bit so that they may go in selftest
-(if this fd stuff goes through). How should I do this? Send all as a v2, or
-inline it as a response here?
+I'm not sure what you're asking.  Are you wanting to know why the series
+begins with a collection of fix patches?  If so, it's because the main patches
+(08-26) are dependent on them being applied first.
 
-> >  /*
-> >   * Helper to directly jump to a known parsed path from ->get_link,
-> >   * caller must have taken a reference to path beforehand.
-> >   */
-> > -int nd_jump_link(const struct path *path)
-> > +int nd_jump_link_how(const struct path *path, const struct jump_how how)
-> 
-> Shouldn't that be "const struct jump_how *how"?
-> 
-> Or do you really want to pass this structure on the stack?
-> 
+David
 
-I save a pointer indirection, and jump_how is right now just an int. That was
-at least my reasoning here.
-
-> thanks,
-> 
-> greg k-h
-
-Thanks,
-Jori.
