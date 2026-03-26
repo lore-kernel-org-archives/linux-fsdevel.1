@@ -1,174 +1,124 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08A2F392C50
-	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 19:55:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 445731A9FB7
+	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 20:00:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.48
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774554927; cv=pass; b=jCqMvNLMS7DD8rGoWg4OPxHFCJDMWullzMKSE9USQT42tP2kawospGkLuxiJTGGG6tQJVd2oKkVfQd6Ag/07m+aWm4zxWzkPta6cQxMh1UDEbGfTZAuTwZn4pCHGqokXyubyLyK2TnAzitDEk3AdvwIaL0lmMAugfW4VcNaCYcs=
+	t=1774555222; cv=pass; b=eFsmjhKccHSpwuF/j/Qbmcc0DCp0LXFEywsh5yg5iWK4mDbVCxMpa1GIK2p/I7IU8ODaS+S7kbcBgzFFQXhGxbkGpELmP99oHuEcUbuSvNe1J0AuWCCKpgQpe/VQmRloFaQnIcSfjcBOvzToqby6CdvYVsOopZWItuxGNB9Cb9E=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774554927; c=relaxed/simple;
-	bh=qJB8SEu5Gzh2X/aY5+g1o/ERDdeeYta/+1GGVuE/JHA=;
+	s=arc-20240116; t=1774555222; c=relaxed/simple;
+	bh=sAvbtxCyY1rtegUGgvklekEfShw+EdSi9nbkkTLqtko=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uS2S3mDP7M1inZdYRS/zd9CiAAOjci/IoYj8XbnghdAHkmSXUjpoIwWpVDvlRouT12+dzsSjP8zHLhtTJuxNVpeXkNuYugzYSuPQxCTnwUzSOScFPiQGyIRf0Zpwby2EW+tlbO4tKw7YJHex9cbPPYhEO829+CLoJpX1NTUs758=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mYrwleOl; arc=pass smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=EuyvxWRIjZcH5C+YP9tqT8ZkTVJ+YaZVN+OPHebiy/iWp0t/lfJkfBr+5BRyeQcyNow4D7qYM6hvWDRLY9QVjGc5CC0fzuElLkudoI9kaT7j+QQSRgPRNxWNGvcx0WRAWZK8iiXlyuzSpioI/Vb3iRWS9PPcKjOjrMiC2cwqLcY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=SnlBiCnl; arc=pass smtp.client-ip=209.85.208.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mYrwleOl"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-48557c8ad47so10419185e9.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 12:55:25 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774554924; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="SnlBiCnl"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-66a8242c1d8so2935a12.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 13:00:21 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774555219; cv=none;
         d=google.com; s=arc-20240605;
-        b=HyMXqV2S6W4HGHW4vmNjXm44MqXQUYLSMhEpa/b4QLlCFSahQ8kSKcbYgTBIWL24nT
-         +OK1AU4mtiiCPKfHPUNNrA48YfHlaELX+jnKDc2SjxfbVifmLQDBxz+rgSoOwvprAHlt
-         /c044LPt7KzmAEvutCxtgyuZ/MvV3AO4qJNDodf7sgrRBCO+zK9m0EZQO5BAw01HOa03
-         KOwxKKj9fQh68P4HbEU0LzRqDO/Vuny4eC7u88w95vSfe4yzFNf+Woxt4xtqXQSuRblq
-         Q1JA/VeOnOi1ZGHiKwoNyAR+qztJ3H2nlHe87PEy3cOdma8sYONHBCnGE6qdHI6trBDD
-         gmZw==
+        b=BY7jvA3MYiVywv86O5mlFMyNebovj6ROmVF5WFzRUC2dJqQwmYZ9fQMNUxeKFCT37I
+         j8BUdNAQGacmyukdgHqoZeGdcpzkFe0H+AHCK5NiX5MftBE4HgkvohrSmGcAzJGwPWqu
+         TwyI1aHtP4uXA+bDllywyL3m5Ul6OY916VNeX3hWqK9FDFvTlTUFoEwXto4ZbH0ONz1y
+         NrlccTHybF7lGVmqZ4SPNIZMxBZxu/qPYwxJtszyjujJvUG4p6Ub76/HoCGGCrvzut66
+         qwBMLXi7U9wjBLoJQgu3jAgi9oRHIZgrXajylD2sMZde7iJIJlv40ir3h6dO6lRr6BCk
+         3u4Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=lkPPHiKupVPWpO71CuQgtbfFz/Cj/q7S+eUyMYfo/8A=;
-        fh=c79MlXzC+q1qErymLaVQgjJ8xwc+u4q0mf0Jsce7N3I=;
-        b=WlE7QY6WX2TQ5pCqjks+gPh81bYqL57YRp4VV+PObLc7pbahjPyGr1xIJgQW7qVpQZ
-         WnfGoTmKgadnFqYAVALXjftTedYQyhOHQgH1UdSzv/gP9PAIwdwIXyoG+Z0SNxjuS/YM
-         ajTHNIkmDAgN6CW6zIP0hmjSh10wrzJubHK/TZyYx60my4dIjxJNR5Nx7tDq0EIgTee3
-         SxO6CzTgqDv6jG9VD0wJWBKAi2GnwuZKs+nsLvkGOYb5Uqqooo5Qjk2Md8q4S4tzWuZw
-         drvuVXFCkmjCTKZ4cFbO/toeX+dHBHWlcuwjFKD+u/CtfnkuaRzBje1GXGwRhPFQjrsk
-         3oVQ==;
+        bh=sAvbtxCyY1rtegUGgvklekEfShw+EdSi9nbkkTLqtko=;
+        fh=G1ODeOQY4xXKnouwW9BxsqGo1RzeafUYd4bCdX92iV0=;
+        b=fEmqV7SWa6GT2Q7qt5leTYZvj70D9BdpMMHDnd893pkNKvb1zbcE/PrulX39Ox42CH
+         SOnoho0+RFAlNkEee1hXmqLZemSZP9/tlihxVRhalU2Fd57P3gPlTAnI+zRRoRumMitO
+         SVy1OYs2ZTUyQeQJZqWUcp3gY9VSgwo1VpnUqZd4OJnhX1XJT/P/6f4MeeENod1JlLEb
+         jIqXOovDG49GR5E+jiCzX3geswQriGekLcPa1THZFF4o2tBQDk45PWoqGeAooD4cL1oE
+         Wo3a8J13UXzTIcXgr0Leq8y3M9FWR43yGVXAezJerrcJYFNizNHr67BazkxrrD8dtg+d
+         EkBg==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774554924; x=1775159724; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1774555219; x=1775160019; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lkPPHiKupVPWpO71CuQgtbfFz/Cj/q7S+eUyMYfo/8A=;
-        b=mYrwleOlB+2c/4hBh7bxJ9oWEr4uP9gGuh1SPStTNWJVXvJnwi0BX6GGKhIFy/G8Me
-         yE5FvInNPrSFkTObcxtt4MM+bvXJz53c1jEu0Gra0S6R2Sp4TY7t0zSoE7NsjBkTl0MT
-         XHqaePRqma5nk0drV6w9fjYNxVX/mabHMM3gTnoNUspRljD0AQRB1sHP0TAEhADlfmi7
-         1XjY9LdIj8ojkHGL1GQTStHft3/350xUuhtPeBezTTBiNciqM10A1R6sTy0854DAcjjV
-         G6VceX/iXOZ07Zy8VqybF7sKKkFpYMyGIm7Gi9RM9U5MYEPwTYTelHQKpAzloLtur7AV
-         KAig==
+        bh=sAvbtxCyY1rtegUGgvklekEfShw+EdSi9nbkkTLqtko=;
+        b=SnlBiCnlWf1y1FlN2uhARD8/EYVDfxRgL+IBgHpviHG6+a9kDVhyzbWuazTxF8v1A6
+         0GW58jNe2uPMkj0KA1GYxXjtH4o7DbEWfIEA79+gj2P6wIrlJmhOiak+OuktiwDBZe16
+         OlDZ8oaXnRb1TipejE/kjC7bi4qio4zBYwsi1QDBEyo6PEYWEeP2rOYjVtTYK2xnANog
+         IGBQczJwaSWM/I/y6ylQwgbX+f2Ok7kJKZFzqp7xZoMQJJvaH6KaZFpsigGjGB9KJF1B
+         LVsSroWrXZ/xA35wl+58xBTr30fqF8G7aun+Q/1imDeNjnNFPGe4LQEdUDYGtmH7QqVK
+         W2LA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774554924; x=1775159724;
+        d=1e100.net; s=20251104; t=1774555219; x=1775160019;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=lkPPHiKupVPWpO71CuQgtbfFz/Cj/q7S+eUyMYfo/8A=;
-        b=OzyK3gO1kynhnzlEjDZJhb06fN4ug2yt8qZm8yH7vqUcMu92wL+3xzhmit9FgIZAiK
-         Zb6VA0JugXvTCndSdb/JudDJgNmO+R7w+koDcWKBWWypdKQTKM0RgTgCIotA7O0Nd4Xb
-         RbDhQ7m45MMS1qUzpCX/ows7oSuxFuW10+TCYditQ4pOTC2uO4IoeyY9D0hC8Rl9Bknu
-         3gSUMCp6VAV4Xk6NEKrydVGnasrZspwpFnhEWoivNEAmI88xDynoDcx4xa2dEivPd+99
-         ZGT7mGX1IrkYjLXJUARzjTowzMZw2T0NpjHAferWB5WHrXoOATWueIfpU2j16tCRynyL
-         VooA==
-X-Forwarded-Encrypted: i=1; AJvYcCXxUj3skFRFg9mKngUA+Z9im2scKukj/KZQxA16fiXUSlFnIVLJA5xoFBNCOSBSb2s0JsGcHJ1OAb/MtUUH@vger.kernel.org
-X-Gm-Message-State: AOJu0YwNsTIBWAEFzNa5oK45aBQuVX8Yk/Ays9SezBStTgI5EQM+y9e3
-	OTefx5Hjmvfvx3PApUXBuyqjAl4TMZ7we5RmSYTYpTSuzW3Lz8hHGJPRJzInpjgG9iZVSTU5zi6
-	CIPZDaDyaAjtj4ZS+mLRbYZuHtGdHXSb39iI/28Q=
-X-Gm-Gg: ATEYQzzXuG6vj9mmArmJZGMgBmuCVwomGGtd/3e++a8j6GpphhHGxRiYYgl1sR1uZ5q
-	oDXUjkYjDRVUd5nsfEj+Rgk3HHxRR8GiZCfA1JU6kPocebmDy5LzrRlD3MWvyQtbJ/8eYGJf3S2
-	pjSeeb5nntMT0iZol89dYg+j5pbSzrjmiPy7FBFwqCiAa7BwoJWqxMBc7ZwOq/Q8Cd0oDySAXwG
-	d2oSIZ0K9fLMLB91Skf6WY3gl+Dwyd7rUt8r/rnxLGMwFL9vCxGG/DtIMutWzt/1YZa2xWxfxEO
-	cZBeCw==
-X-Received: by 2002:a05:600c:8b31:b0:485:30f7:6e88 with SMTP id
- 5b1f17b1804b1-487160881a5mr142368355e9.31.1774554924176; Thu, 26 Mar 2026
- 12:55:24 -0700 (PDT)
+        bh=sAvbtxCyY1rtegUGgvklekEfShw+EdSi9nbkkTLqtko=;
+        b=DPwHdrWS5U2XCtLLuFEz2wpJIajP3Jp2MERfjURauWAcdM5ugHwMmx28g0TJnJ+eIA
+         JITpRJJR5iFLk93d8W25A5VS2zCsxY2nUTP0FIn9b5FwD2o19RjDdJZbfKhGs3ChA4U+
+         83j5dXUk63rveGT/OS5qcdJSfV5EcaWhhtERyswxjgDZ3HfuF0Hmijl012m4iNR7ZrAZ
+         R8i0g0Q51L/EDWRKoVL0VCMLwQC4bZ+lG5OXwGYsnUC4ZrmmkEsvAn561sP0Wg5LHOPc
+         fTHI7WoQ4DVUwWUdEprr5AhIgZYYaKv5JRQlystxqcd5rYGJCiv7n4wgGkNNO32DghB2
+         L3LQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU/vtjX8TGzudCAOOFbi9G+Cbiah2aST7cfpJ0WHsWGv8EM1p+qXm7vO2TlkAKY2JVaXdoeJdy6AOc9tmuF@vger.kernel.org
+X-Gm-Message-State: AOJu0YxaudoqLG3Ws370yRXct74GUzk34iU1Ed+KsHz9BjaaqU18jxD7
+	iPBy2whske/WUCrD0d+iM3rbCJnmF5d/yt3vD3JhyzrTXphqrBudzOG/mJo8jW8aJYv7HN1EjhH
+	29+qQBzZFG3bjjTQ+pDeijvLqsj5xcAcAFHCW9rnf
+X-Gm-Gg: ATEYQzw5waNNiU+6czN3yFOLGIgB368uXJfIkmgIcqRUB0KkMJMDqb84juajrauX6pO
+	iQVxnVACy8435A4hFYYxQnk2k+FPTGKjX6lJ6YSOrKvbEQuQ+Hz3/XoMW6yHOrwzjZecR/72Oox
+	Va2/qklKJK1FDtEeU6MRNfHM1itvy1mwWcpzHgcK/DcnlQFM+cNmYUnSzkI6DNu0O+YyHDJeZqh
+	iTP3YKTsC+LkNPJq/NR8vQO3tL51N91SLxgpICOWPAnGqF9vjjJCNV0cmGTLXU4k2jq/pMI19Ae
+	JMlCQJmZaIQiK0MXv4me6ApyH4WeT+AmOmTB
+X-Received: by 2002:a05:6402:4613:b0:665:7112:ee03 with SMTP id
+ 4fb4d7f45d1cf-66b19dcc282mr12264a12.14.1774555219028; Thu, 26 Mar 2026
+ 13:00:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260306003224.3620942-1-joannelkoong@gmail.com> <CAG48ez0H_Z-NQvfOeczECz_sO=MzVDvu+8m+msB55rcAPfQOgQ@mail.gmail.com>
-In-Reply-To: <CAG48ez0H_Z-NQvfOeczECz_sO=MzVDvu+8m+msB55rcAPfQOgQ@mail.gmail.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Thu, 26 Mar 2026 12:55:12 -0700
-X-Gm-Features: AQROBzBznLpAcriYs7FOg-wSZ9wJOdMDsPqfGWaCCg1zWSKC80EiZ9XGhT4z_sg
-Message-ID: <CAJnrk1aTnoDwDVdgYrcN3tHm-_j79GKYY=8q_Lu=xi8=Cxi4bg@mail.gmail.com>
+References: <20260306003224.3620942-1-joannelkoong@gmail.com>
+ <CAG48ez0H_Z-NQvfOeczECz_sO=MzVDvu+8m+msB55rcAPfQOgQ@mail.gmail.com> <CAJnrk1aTnoDwDVdgYrcN3tHm-_j79GKYY=8q_Lu=xi8=Cxi4bg@mail.gmail.com>
+In-Reply-To: <CAJnrk1aTnoDwDVdgYrcN3tHm-_j79GKYY=8q_Lu=xi8=Cxi4bg@mail.gmail.com>
+From: Jann Horn <jannh@google.com>
+Date: Thu, 26 Mar 2026 20:59:42 +0100
+X-Gm-Features: AQROBzCGjXCNQQerS2w1DtLW2jwJku1pDgE-yVJzRKpzcPByNNh6dNrnifnY7GU
+Message-ID: <CAG48ez2o=OzSjuPYm44gCDrG_tqzXC3=PCJHXCBVJyYmemtzsw@mail.gmail.com>
 Subject: Re: [PATCH v3 0/8] io_uring: add kernel-managed buffer rings
-To: Jann Horn <jannh@google.com>
+To: Joanne Koong <joannelkoong@gmail.com>
 Cc: axboe@kernel.dk, hch@infradead.org, asml.silence@gmail.com, 
 	bernd@bsbernd.com, csander@purestorage.com, krisman@suse.de, 
 	linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 26, 2026 at 12:33=E2=80=AFPM Jann Horn <jannh@google.com> wrote=
-:
->
-> On Fri, Mar 6, 2026 at 1:32=E2=80=AFAM Joanne Koong <joannelkoong@gmail.c=
-om> wrote:
-> > Currently, io_uring buffer rings require the application to allocate an=
-d
-> > manage the backing buffers. This series introduces buffer rings where t=
-he
-> > kernel allocates and manages the buffers on behalf of the application. =
-From
-> > the uapi side, this goes through the pbuf ring interface, through the
-> > IOU_PBUF_RING_KERNEL_MANAGED flag.
-> >
-> > There was a long discussion with Pavel on v1 [1] regarding the design. =
-The
-> > alternatives were to have the buffers allocated and registered through =
-a
-> > memory region or through the registered buffers interface and have fuse
-> > implement ring buffer logic internally outside of io-uring. However, be=
-cause
-> > the buffers need to be contiguous for DMA and some high-performance fus=
-e
-> > servers may need non-fuse io-uring requests to use the buffer ring dire=
-ctly,
-> > v3 keeps the design.
->
-> I'm looking at the next-20260324 tree and trying to understand what
-> happens if normal userspace (without FUSE) tries to use
-> IOBL_KERNEL_MANAGED.
->
-> For a buffer list with IOBL_KERNEL_MANAGED, io_ring_buffer_select()
-> will write a kernel pointer into sel.kaddr, but nothing in this series
-> seems to ever read out of sel.kaddr; that only happens in
-> fuse_uring_select_buffer() in the FUSE series
-> (https://github.com/joannekoong/linux/commit/fae19be22ab629b1301f37f2a942=
-d5d84b45cc5c).
->
-> Instead, looking at the reverse call graph of io_ring_buffer_select():
->
-> io_ring_buffer_select
->   io_buffer_select
->     io_recvmsg
->     io_recv_buf_select
->     __io_import_rw_buffer
->
->  - io_recvmsg() passes sel.addr into iov_iter_ubuf(), which creates an IT=
-ER_UBUF
->  - io_recv_buf_select() passes sel.addr into import_ubuf(), which does
-> an access_ok() check before creating an ITER_UBUF
->  - __io_import_rw_buffer() also passes sel.addr into import_ubuf()
->
-> I think that means io_recv_buf_select() and __io_import_rw_buffer()
-> will first access the union through the wrong member, then fail on
-> access_ok().
-> io_recvmsg() will create an ITER_UBUF pointing to kernel memory (which
-> AFAIK isn't supposed to happen?), which I think will then cause a
-> later failure when you actually try to access the iterator (because
-> copy_to_user_iter() checks access_ok()).
->
-> Am I missing something that prevents normal io_uring operations from
-> grabbing IOBL_KERNEL_MANAGED buffers and accessing the wrong union
-> member?
+Hi!
 
-Hi Jann,
+On Thu, Mar 26, 2026 at 8:55=E2=80=AFPM Joanne Koong <joannelkoong@gmail.co=
+m> wrote:
+> On Thu, Mar 26, 2026 at 12:33=E2=80=AFPM Jann Horn <jannh@google.com> wro=
+te:
+> > Am I missing something that prevents normal io_uring operations from
+> > grabbing IOBL_KERNEL_MANAGED buffers and accessing the wrong union
+> > member?
+>
+> Hi Jann,
+>
+> I am going to be submitting the changes for kernel-managed pbufring
+> compatibility with normal (non-fuse) io-uring requests as part of a
+> separate patchset. You're right that there is a functional gap right
+> now where trying to use kernel-managed pbuf rings fails with errors.
+> In those patches, an iter_kvec will be constructed for
+> IOBL_KERNEL_MANAGED rings instead of an iter_ubuf. I'm intending to
+> submit that patchset upstream in time for the 7.1 merge window before
+> it closes in mid-April.
 
-I am going to be submitting the changes for kernel-managed pbufring
-compatibility with normal (non-fuse) io-uring requests as part of a
-separate patchset. You're right that there is a functional gap right
-now where trying to use kernel-managed pbuf rings fails with errors.
-In those patches, an iter_kvec will be constructed for
-IOBL_KERNEL_MANAGED rings instead of an iter_ubuf. I'm intending to
-submit that patchset upstream in time for the 7.1 merge window before
-it closes in mid-April.
+Ah, thanks for the explanation. Please CC me on that patchset, I'd be
+interested in taking a look at how that will be implemented.
 
 Thanks,
-Joanne
+Jann
