@@ -1,41 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A2A8299A81
-	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Mar 2026 03:20:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97B0A36894B
+	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Mar 2026 03:21:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774581601; cv=none; b=oQzI0QsC942AL+YOfMqCM1YUfTFqSMJkSjUt7VQz9p4Hoj6mDaMZExKrQ4bxVgqwF9OL04dYMTHMjHZDAxl/pngr6O+0uI0Q/vLJ8ViHRBxPLlom69PMS84PMvDfWSeD7zVdrotB8T+G19XHWY91kjFOv2ao9XfR2RNN0gHoa6I=
+	t=1774581660; cv=none; b=cHwV+S2IARC/mPIqTJqvOJeUgiNXnPtwPD21HuJCMu0cdgqYiELE9AENvG80GHRtJ65fux8YzR799Z3Dbmy31vVRvu5MNP0OXbNLtFAJa37Fo38KI2hOtffAy2ZKMLfpvUgP3S0pOhuW5VTEU6HD1ZRW5eXLM+Ar1NA2ZAkuBEA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774581601; c=relaxed/simple;
-	bh=tD95k9ZqiEYPBVLduG0z136wErsnp4EhGV35Wmt9EwA=;
+	s=arc-20240116; t=1774581660; c=relaxed/simple;
+	bh=z9tynRgSNYjEAk+tjMV/sy/gMQWqQii2+6RwSTTC4po=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hM6TRUzDeF9wd99oXy9Rtb4OKYPUG983HWYZIUDFhAfqhM0KksEcrYyTwqcmGgevm11yAp1SVubcYj27mrK9IWH0XwxVhvMTt3v+dM7Ck9ERO729Gj5fIqJMuNCUkcb8PKNzRF5kwgut+Z0uK4cr/JwcoiX/tbQIBT55G4G7D9g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mbZA+Of/; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=r7Qftfw39mf4VBuVG60gH/42X0xeXb5cAHhF7WRsYP25tAI7Cag+bwL/VT0rFtCj1qfFTo+3ozHRq3NGu8+LYA/flbH6Tv1OGYyx8xnhYUfw4L8eqB/7yKeu+/fB/X2NWUdWLSjpQ6q/e/yHvke/jpsQ9Xc/zsG+a+A0oGSnthg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LxFyXXQ5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mbZA+Of/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12CB5C116C6;
-	Fri, 27 Mar 2026 03:20:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LxFyXXQ5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73065C116C6;
+	Fri, 27 Mar 2026 03:21:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774581601;
-	bh=tD95k9ZqiEYPBVLduG0z136wErsnp4EhGV35Wmt9EwA=;
+	s=k20201202; t=1774581660;
+	bh=z9tynRgSNYjEAk+tjMV/sy/gMQWqQii2+6RwSTTC4po=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mbZA+Of/Kbc2gcHVZAqwJYZZYnTrboieAhLZcLB3HFi1hNq6Hkx8niDi2bT1QevFn
-	 wpcifzmwzTrP2OmROPR2qRe50tB3D4hBKgAE9DmXuj1CxQrAepS0Xa2HT4tOej8vVb
-	 zR7BcnH+VItkgghwYuInNjo/VdkxuIJU4Mho/wAt7rCL+EM/IlTW4IjcARjchShSVn
-	 bKsI+yIvDZrt0BLiWzFSQ82BbvBcILHomdC7tt7euKJlUceuqmX/czFzokuhdiK6mE
-	 /2NW3LqWXzk/PiAalwykrv81BwCKr0nX3nTTK/weEQDUNdfRqYJWp5U1peVTCOdldT
-	 PIbiuNR4lthJA==
-Date: Thu, 26 Mar 2026 20:20:00 -0700
+	b=LxFyXXQ5GuNrJyka+baBwRVLV9cVng9uN8en/0gBDbVcAmTkNQLMn3azZMDmeT/Rr
+	 +gMUUClcF/7ftoAD8PQh4aF1EI4fj0Jo/fanm8B5u7f41S7frTvS9MApJVTSn2u3A8
+	 HEh2BNhkVJ2xmw3DllKZq0xFL8lOAEW9DAgjE9DATxLeG/vbKFMpFVT2YW9NoDoAgx
+	 KXPJcUbH2uxKlmExEyIvSBLTtYHlcRPxs1TQisXosR9fHIhZNCgTrGsUPSx/cgdL3A
+	 sYnaRn5vgBTPY/WihRcnQQhJr6sFnl4Y1R2m9zgmgiZOXJ7N0dQLJuIjCL3MQeolZo
+	 YnMRaHo17xtCQ==
+Date: Thu, 26 Mar 2026 20:20:59 -0700
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: Bernd Schubert <bernd@bsbernd.com>
 Cc: linux-fsdevel@vger.kernel.org, Miklos Szeredi <miklos@szeredi.hu>,
 	Joanne Koong <joannelkoong@gmail.com>, Kevin Chen <kchen@ddn.com>,
 	Bernd Schubert <bschubert@ddn.com>
-Subject: Re: [PATCH v2 01/25] ci-build: Add environment logging
-Message-ID: <20260327032000.GJ6202@frogsfrogsfrogs>
+Subject: Re: [PATCH v2 07/25] Add FUSE_MOUNT_FALLBACK_NEEDED define for -2
+ mount errors
+Message-ID: <20260327032059.GK6202@frogsfrogsfrogs>
 References: <20260326-fuse-init-before-mount-v2-0-b1ca8fcbf60f@bsbernd.com>
- <20260326-fuse-init-before-mount-v2-1-b1ca8fcbf60f@bsbernd.com>
+ <20260326-fuse-init-before-mount-v2-7-b1ca8fcbf60f@bsbernd.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -44,66 +45,70 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260326-fuse-init-before-mount-v2-1-b1ca8fcbf60f@bsbernd.com>
+In-Reply-To: <20260326-fuse-init-before-mount-v2-7-b1ca8fcbf60f@bsbernd.com>
 
-On Thu, Mar 26, 2026 at 10:34:34PM +0100, Bernd Schubert wrote:
+On Thu, Mar 26, 2026 at 10:34:40PM +0100, Bernd Schubert wrote:
 > From: Bernd Schubert <bschubert@ddn.com>
 > 
-> It is very hard to see what exactly fails, as everything
-> is run from the same script.
+> Magic numbers in the code are not good - we better use a define.
 > 
 > Signed-off-by: Bernd Schubert <bschubert@ddn.com>
 
-This seems reasonable to me...
-Acked-by: "Darrick J. Wong" <djwong@kernel.org>
+Looks good now!
+Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
 
 --D
 
 > ---
->  test/ci-build.sh | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
+>  lib/fuse_i.h | 3 +++
+>  lib/mount.c  | 6 +++---
+>  2 files changed, 6 insertions(+), 3 deletions(-)
 > 
-> diff --git a/test/ci-build.sh b/test/ci-build.sh
-> index 8b019a0b5e52c1af0eee510ede21785d584e8414..799f13b2911fac47b0bbb2d445ec22a6f40f065d 100755
-> --- a/test/ci-build.sh
-> +++ b/test/ci-build.sh
-> @@ -30,6 +30,20 @@ export LSAN_OPTIONS="suppressions=$(pwd)/lsan_suppress.txt"
->  export ASAN_OPTIONS="detect_leaks=1"
->  export CC
+> diff --git a/lib/fuse_i.h b/lib/fuse_i.h
+> index 9e3c5dc5021e210a2778e975a37ab609af324010..a2438a15afdd3b5f62dd35bc3514f9f6853f00c3 100644
+> --- a/lib/fuse_i.h
+> +++ b/lib/fuse_i.h
+> @@ -217,6 +217,9 @@ struct fuse_chan *fuse_chan_get(struct fuse_chan *ch);
+>   */
+>  void fuse_chan_put(struct fuse_chan *ch);
 >  
-> +log_env()
-> +{
-> +    echo "=== Environment ==="
-> +    echo "CC: ${CC}"
-> +    echo "CXX: ${CXX}"
-> +    echo "LSAN_OPTIONS: ${LSAN_OPTIONS}"
-> +    echo "ASAN_OPTIONS: ${ASAN_OPTIONS}"
-> +    echo "UBSAN_OPTIONS: ${UBSAN_OPTIONS}"
-> +    echo "FUSE_URING_ENABLE: ${FUSE_URING_ENABLE}"
-> +    echo "FUSE_URING_QUEUE_DEPTH: ${FUSE_URING_QUEUE_DEPTH}"
-> +    echo "Valgrind: ${TEST_WITH_VALGRIND}"
-> +    echo "==================="
-> +}
+> +/* Special return value for mount functions to indicate fallback to fusermount3 is needed */
+> +#define FUSE_MOUNT_FALLBACK_NEEDED (-2)
 > +
->  non_sanitized_build()
->  (
->      echo "Standard build (without sanitizers)"
-> @@ -54,6 +68,7 @@ non_sanitized_build()
->              build_opts=''
->          fi
->  
-> +        log_env
->          meson setup -Dprefix=${PREFIX_DIR} -D werror=true ${build_opts} "${SOURCE_DIR}" || (cat meson-logs/meson-log.txt; false)
->          ninja
->          sudo env PATH=$PATH ninja install
-> @@ -79,6 +94,7 @@ sanitized_build()
->  
->      mkdir build-san; pushd build-san
->  
-> +    log_env
->      meson setup -Dprefix=${PREFIX_DIR} -D werror=true\
->             "${SOURCE_DIR}" \
->             || (cat meson-logs/meson-log.txt; false)
+>  struct mount_opts *parse_mount_opts(struct fuse_args *args);
+>  void destroy_mount_opts(struct mount_opts *mo);
+>  void fuse_mount_version(void);
+> diff --git a/lib/mount.c b/lib/mount.c
+> index 6e404451cc9edc8e35434cc31f25612cfc4edca1..dec9d52274c13536648cacef959789f472c5682c 100644
+> --- a/lib/mount.c
+> +++ b/lib/mount.c
+> @@ -563,7 +563,7 @@ out_close:
+>   * @mo: mount options
+>   * @mnt_opts: mount options to pass to the kernel
+>   *
+> - * Returns: 0 on success, -1 on failure, -2 if fusermount should be used
+> + * Returns: 0 on success, -1 on failure, FUSE_MOUNT_FALLBACK_NEEDED if fusermount should be used
+>   */
+>  static int fuse_kern_do_mount(const char *mnt, struct mount_opts *mo,
+>  				  const char *mnt_opts)
+> @@ -611,7 +611,7 @@ static int fuse_kern_do_mount(const char *mnt, struct mount_opts *mo,
+>  		 * case try falling back to fusermount3
+>  		 */
+>  		if (errno == EPERM) {
+> -			res = -2;
+> +			res = FUSE_MOUNT_FALLBACK_NEEDED;
+>  		} else {
+>  			int errno_save = errno;
+>  			if (mo->blkdev && errno == ENODEV &&
+> @@ -749,7 +749,7 @@ int fuse_kern_mount(const char *mountpoint, struct mount_opts *mo)
+>  			umount2(mountpoint, MNT_DETACH); /* lazy umount */
+>  			res = -1;
+>  		}
+> -	} else if (res == -2) {
+> +	} else if (res == FUSE_MOUNT_FALLBACK_NEEDED) {
+>  		if (mo->fusermount_opts &&
+>  		    fuse_opt_add_opt(&mnt_opts, mo->fusermount_opts) == -1)
+>  			goto out;
 > 
 > -- 
 > 2.43.0
