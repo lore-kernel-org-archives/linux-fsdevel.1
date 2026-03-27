@@ -1,167 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B3C73A9DAE;
-	Fri, 27 Mar 2026 10:08:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 621411C3F31;
+	Fri, 27 Mar 2026 10:34:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774606108; cv=none; b=Ke0T2uffZmpouXVB3X8nBGWPj3hM5RkncS6hozPmLFlW1auwSQS6phj5nQL2iuCRGKphrmiw/YdJalGPejo6FRCkOZ/9kY744xiaj+JmMuerNiUi1m7Ty6jZh31wyk21fkln04zTKs5vC4SNwGwL91kRP4al/3rvkzeBiceO4RA=
+	t=1774607676; cv=none; b=jSgT6Ax5B4kHbeUVtJmpcWv+yD1fFtyF+k/Mhr2TKM/CafMdk6Y7kSxaWttG4C3K8FlKTdG03gghT7WFah4HdZMyI8mE0VWKy0FLqtnR9QD1aZlE+mPgFA8er2fmfsqM77Qe3PxBZ6v5v0u0/3rTg9vfdulxeo1GyOZM2jHLdHg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774606108; c=relaxed/simple;
-	bh=nfJEz6wPuVKV8Cl7qtJJ9mGOW0YUkHEiV0LQPiDonk0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=olduCawrQj91PYfuBtnE3h18ZA5E5gVcGXI8xPs4E6JaE0qF0kMazoM3K5DEhdCGAs9dxaIn1391mQfKWuNkSWdDaxIOBlCICxw1rh5obTbws0i8P/xJg64BYWEKw5ubg5Nrfn6SRl5979FzAhqYubG3erZvfJCGwTXAVpn1YrM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K59sa5VI; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K59sa5VI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774606106; x=1806142106;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nfJEz6wPuVKV8Cl7qtJJ9mGOW0YUkHEiV0LQPiDonk0=;
-  b=K59sa5VIrncpkOSCAuwPYcjxDTx9wa/vvFnHuSVuBCVXZxcfbAzKmhg/
-   83RuTpCSvA2d7RIZq5Hjuup6qye1r3yRa/rCV8e3j/pnjavM1JZkC4s9D
-   Q+aVoW06EzdfQWIrt+owMV5yZpSeu0xgrWB1W0IlJ1ctwNCIhWnlHCeg+
-   yy1XlovHqB7mNrxX6hZpRXgG9f59Ptm5jaAotkzfiye2c88Ji0iOKbf3h
-   ftcH5GZA7htn3pkHbhMVH/KICtI4lGwGO5gqxDw87M258/SwxKYowvS9O
-   0xwbzDdtex0XNh6ZLQhDlb07EZ/+vfPECfpHwoMmLilbjzKm29+bDTvXs
-   A==;
-X-CSE-ConnectionGUID: 4rHSeMj3SiWQYjmtMfGPsg==
-X-CSE-MsgGUID: mZprEZeqRtSsnvTTKnvz8g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="79581550"
-X-IronPort-AV: E=Sophos;i="6.23,143,1770624000"; 
-   d="scan'208";a="79581550"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 03:08:25 -0700
-X-CSE-ConnectionGUID: 2W9uDgkIRfuEhcY4dYfpgA==
-X-CSE-MsgGUID: +GzRkPzkQU6S4yIEB6A96Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,143,1770624000"; 
-   d="scan'208";a="255773478"
-Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 27 Mar 2026 03:08:22 -0700
-Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w6471-00000000A8r-1qp5;
-	Fri, 27 Mar 2026 10:08:19 +0000
-Date: Fri, 27 Mar 2026 18:08:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: Chuck Lever <cel@kernel.org>, NeilBrown <neil@brown.name>,
-	Jeff Layton <jlayton@kernel.org>,
-	Olga Kornievskaia <okorniev@redhat.com>,
-	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	Chuck Lever <chuck.lever@oracle.com>
-Subject: Re: [PATCH v5 1/7] NFSD: Extract revoke_one_stid() utility function
-Message-ID: <202603271711.Pbg3v6zE-lkp@intel.com>
-References: <20260326-umount-kills-nfsv4-state-v5-1-d2ce071b3570@oracle.com>
+	s=arc-20240116; t=1774607676; c=relaxed/simple;
+	bh=Pr9zvjwOfGLX5Mr9kIHJP1iN6iabU2fPfM7KwF0Hr9k=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=C1I2++Uspm2bsFN9k/sQczWmxjwhzdEeFHIMAmkVILCx3KgzWsxEhNjBB7aAa/y77BplAYSPTJ9x0WU7Hm4y5u2pq/FQDfN6Y9wvDS11v23ekapUCVt8b97dJoOJwpuIU7D6tic7C0qAkv9FAIYt0k2bZgbCAzt3orWaj0QzRsg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.170])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4fhxnq1FSkzKHMdw;
+	Fri, 27 Mar 2026 18:33:51 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.112])
+	by mail.maildlp.com (Postfix) with ESMTP id D1B4740572;
+	Fri, 27 Mar 2026 18:34:32 +0800 (CST)
+Received: from huaweicloud.com (unknown [10.50.85.155])
+	by APP1 (Coremail) with SMTP id cCh0CgC3utouXcZp_T2cCQ--.28730S15;
+	Fri, 27 Mar 2026 18:34:32 +0800 (CST)
+From: Zhang Yi <yi.zhang@huaweicloud.com>
+To: linux-ext4@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	tytso@mit.edu,
+	adilger.kernel@dilger.ca,
+	jack@suse.cz,
+	ojaswin@linux.ibm.com,
+	ritesh.list@gmail.com,
+	libaokun@linux.alibaba.com,
+	yi.zhang@huawei.com,
+	yi.zhang@huaweicloud.com,
+	yizhang089@gmail.com,
+	yangerkun@huawei.com,
+	yukuai@fnnas.com
+Subject: [PATCH v4 11/13] ext4: remove ctime/mtime update from ext4_alloc_file_blocks()
+Date: Fri, 27 Mar 2026 18:29:37 +0800
+Message-ID: <20260327102939.1095257-12-yi.zhang@huaweicloud.com>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260327102939.1095257-1-yi.zhang@huaweicloud.com>
+References: <20260327102939.1095257-1-yi.zhang@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260326-umount-kills-nfsv4-state-v5-1-d2ce071b3570@oracle.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:cCh0CgC3utouXcZp_T2cCQ--.28730S15
+X-Coremail-Antispam: 1UD129KBjvdXoWrtFyUCrW7Cr4rCw48ZFWfAFb_yoWkGrc_Wa
+	y7JrW0yw43X3WSgF4DCw13JwsYvr18Gr15WFWftFWfZw1UKrWkJ3WDAr15urW5Ww45CrZ8
+	Ww4ktr4UtryIgjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbvAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUAVCq3wA2048vs2
+	IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28E
+	F7xvwVC0I7IYx2IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr
+	1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0D
+	M2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjx
+	v20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1l
+	F7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2
+	IY04v7MxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY
+	6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17
+	CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r4j6ryUMIIF
+	0xvE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCw
+	CI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsG
+	vfC2KfnxnUUI43ZEXa7VU1zpBDUUUUU==
+X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 
-Hi Chuck,
+From: Zhang Yi <yi.zhang@huawei.com>
 
-kernel test robot noticed the following build errors:
+The ctime and mtime update is already handled by file_modified() in
+ext4_fallocate(), the caller of ext4_alloc_file_blocks(). So remove the
+redundant calls to inode_set_ctime_current() and inode_set_mtime_to_ts()
+in ext4_alloc_file_blocks().
 
-[auto build test ERROR on 65058e9e9b20619f920397f529072e853dd43811]
+Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+---
+ fs/ext4/extents.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Chuck-Lever/NFSD-Extract-revoke_one_stid-utility-function/20260327-081757
-base:   65058e9e9b20619f920397f529072e853dd43811
-patch link:    https://lore.kernel.org/r/20260326-umount-kills-nfsv4-state-v5-1-d2ce071b3570%40oracle.com
-patch subject: [PATCH v5 1/7] NFSD: Extract revoke_one_stid() utility function
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20260327/202603271711.Pbg3v6zE-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 054e11d1a17e5ba88bb1a8ef32fad3346e80b186)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260327/202603271711.Pbg3v6zE-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603271711.Pbg3v6zE-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   fs/nfsd/nfs4state.c:1830:14: error: use of undeclared identifier 'state_lock'; did you mean 'task_lock'?
-    1830 |                 spin_lock(&state_lock);
-         |                            ^~~~~~~~~~
-         |                            task_lock
-   include/linux/sched/task.h:216:20: note: 'task_lock' declared here
-     216 | static inline void task_lock(struct task_struct *p)
-         |                    ^
->> fs/nfsd/nfs4state.c:1830:13: error: incompatible pointer types passing 'void (*)(struct task_struct *)' to parameter of type 'spinlock_t *' (aka 'struct spinlock *') [-Wincompatible-pointer-types]
-    1830 |                 spin_lock(&state_lock);
-         |                           ^~~~~~~~~~~
-   include/linux/spinlock.h:338:51: note: passing argument to parameter 'lock' here
-     338 | static __always_inline void spin_lock(spinlock_t *lock)
-         |                                                   ^
-   fs/nfsd/nfs4state.c:1833:16: error: use of undeclared identifier 'state_lock'; did you mean 'task_lock'?
-    1833 |                 spin_unlock(&state_lock);
-         |                              ^~~~~~~~~~
-         |                              task_lock
-   include/linux/sched/task.h:216:20: note: 'task_lock' declared here
-     216 | static inline void task_lock(struct task_struct *p)
-         |                    ^
-   fs/nfsd/nfs4state.c:1833:15: error: incompatible pointer types passing 'void (*)(struct task_struct *)' to parameter of type 'spinlock_t *' (aka 'struct spinlock *') [-Wincompatible-pointer-types]
-    1833 |                 spin_unlock(&state_lock);
-         |                             ^~~~~~~~~~~
-   include/linux/spinlock.h:386:53: note: passing argument to parameter 'lock' here
-     386 | static __always_inline void spin_unlock(spinlock_t *lock)
-         |                                                     ^
-   4 errors generated.
-
-
-vim +1830 fs/nfsd/nfs4state.c
-
-  1805	
-  1806	static void revoke_one_stid(struct nfs4_client *clp, struct nfs4_stid *stid)
-  1807	{
-  1808		struct nfs4_ol_stateid *stp;
-  1809		struct nfs4_delegation *dp;
-  1810	
-  1811		switch (stid->sc_type) {
-  1812		case SC_TYPE_OPEN:
-  1813			stp = openlockstateid(stid);
-  1814			mutex_lock_nested(&stp->st_mutex, OPEN_STATEID_MUTEX);
-  1815			revoke_ol_stid(clp, stp);
-  1816			mutex_unlock(&stp->st_mutex);
-  1817			break;
-  1818		case SC_TYPE_LOCK:
-  1819			stp = openlockstateid(stid);
-  1820			mutex_lock_nested(&stp->st_mutex, LOCK_STATEID_MUTEX);
-  1821			revoke_ol_stid(clp, stp);
-  1822			mutex_unlock(&stp->st_mutex);
-  1823			break;
-  1824		case SC_TYPE_DELEG:
-  1825			/*
-  1826			 * Extra reference guards against concurrent FREE_STATEID.
-  1827			 */
-  1828			refcount_inc(&stid->sc_count);
-  1829			dp = delegstateid(stid);
-> 1830			spin_lock(&state_lock);
-  1831			if (!unhash_delegation_locked(dp, SC_STATUS_ADMIN_REVOKED))
-  1832				dp = NULL;
-  1833			spin_unlock(&state_lock);
-  1834			if (dp)
-  1835				revoke_delegation(dp);
-  1836			else
-  1837				nfs4_put_stid(stid);
-  1838			break;
-  1839		case SC_TYPE_LAYOUT:
-  1840			nfsd4_close_layout(layoutstateid(stid));
-  1841			break;
-  1842		}
-  1843	}
-  1844	
-
+diff --git a/fs/ext4/extents.c b/fs/ext4/extents.c
+index f4009544f762..7abe47f923c0 100644
+--- a/fs/ext4/extents.c
++++ b/fs/ext4/extents.c
+@@ -4623,13 +4623,10 @@ static int ext4_alloc_file_blocks(struct file *file, loff_t offset, loff_t len,
+ 		 */
+ 		retries = 0;
+ 		epos = EXT4_LBLK_TO_B(inode, map.m_lblk + ret);
+-		inode_set_ctime_current(inode);
+ 		if (new_size) {
+ 			if (epos > new_size)
+ 				epos = new_size;
+-			if (ext4_update_inode_size(inode, epos) & 0x1)
+-				inode_set_mtime_to_ts(inode,
+-						      inode_get_ctime(inode));
++			ext4_update_inode_size(inode, epos);
+ 			if (epos > old_size)
+ 				pagecache_isize_extended(inode, old_size, epos);
+ 		}
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.52.0
+
