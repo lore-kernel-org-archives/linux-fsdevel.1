@@ -1,102 +1,95 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 596CC1F8691
-	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Mar 2026 21:20:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D48B2126C03
+	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Mar 2026 21:58:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774646424; cv=none; b=IHcuN6UzGT4OHR7rDD2sc9BLkkRz3Q4XCmwFcO19jRWRIDuvPdvhUc5As35ffQnm/d49fLtwKooZ6tiPymU0RMXEHWG3Lf/sqvcDI9ffboiv5lBdIMTqBHFIga5c/w7Ufyx5e5W7sufeT8d1Z3SXCmMkeT+xTMVD8lwEt5/vk10=
+	t=1774648688; cv=none; b=WR/NUC2puEGVB3tfhhHUCjpQP3n6xGgu/YB3T3pXPhdGMrLjXT9kliw+Ee5NnrRNsx652OLM2nxqcUAZkTph8NTCuCrEMmFkxqer2HxypQOQW1Ge31qsCUDLr0Ybp52IJSzykX6LeEJ5pjiaYVjpDP8VnElBaNuLXdSzU3Rs4+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774646424; c=relaxed/simple;
-	bh=zO5ZQduTxTCmSDqyTGew3zVq4QVTM0kkUNYM6Qjch50=;
+	s=arc-20240116; t=1774648688; c=relaxed/simple;
+	bh=LzATXYW+mc/fuACZ24wTN4X7oF3qEGacyYCW+C4ZrHk=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=cNOMsSXXbRhsBqeiypPwc7WnlgALXo6STOxKHayAOPgb4aAkdaqpXXxnS7kuTMdM35ewhTJAvdb2QvLysFR1IM8KkE6mGE6EeatNxmwKUSZR+uj26Js7FZNA9yzJn3ool/e2hICm9DBDMYI9qvoZeujeqsDDs4wzAwPgYBMbIXc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UsIr4KSt; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=nNy5HERm; arc=none smtp.client-ip=170.10.133.124
+	 Content-Type:MIME-Version; b=hbv9dhr1mUN8KsUuIA4xhWybJDPTT9yC/gf5DEadnnvFDqcc+kxwrYiyDhsMYjLwcYopoP6RjfzjpvL5H5L5a109bAtMBkv/wtlqBPTT3jRCuoFktuHwqNc/C7Er4283aWXuLnYsawMYuxQgALqaua+3OqMI/qD4Oeb0vmQzvms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=c9djB8Bf; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=HetAz8TU; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UsIr4KSt";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="nNy5HERm"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="c9djB8Bf";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="HetAz8TU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1774646422;
+	s=mimecast20190719; t=1774648685;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=kcY/ZAkLvNE5jmsW6XKb47cOytwFbrLwLeYAjxJQGVc=;
-	b=UsIr4KStWS0t2jZHjXNghsIdX08lSQJ6Pj7NWujY2rTPhXo9bztXFnMU92NL7j8hviHQYI
-	XDE8sV9XP53cUb3X6ivgwW85C2uEqClZlDiFoAGFkIe8VYztvJb84lB2HcGyk1I/Z/Gn7T
-	ePjJbIaRsudj4jaZtrHaV9b+2Q60Q3w=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=XHVrz8aem6/a6o9MtVoEU9Cw1uMMvnBHVyohXKaBn3k=;
+	b=c9djB8BfQwCnJ03IWXdPSsI8LUIxboNWrg9kgyQcrtImM/82SIqo0vQr5YWxuqsvBHp/G8
+	vawAz8OEBM4N62v/aMCBQ6cKMMa57hl9NH0+6pzEsZBb6vuYyEjVuSTUy+nnn1CzBdupHk
+	829QhCPY7Rzh4Wcgcoyy43ADW/Uxv/s=
+Received: from mail-yx1-f71.google.com (mail-yx1-f71.google.com
+ [74.125.224.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-258-p0dfhsaSP-WZPHg7GQ6o4w-1; Fri, 27 Mar 2026 17:20:20 -0400
-X-MC-Unique: p0dfhsaSP-WZPHg7GQ6o4w-1
-X-Mimecast-MFC-AGG-ID: p0dfhsaSP-WZPHg7GQ6o4w_1774646420
-Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-50b220c72bbso88426211cf.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 27 Mar 2026 14:20:20 -0700 (PDT)
+ us-mta-263-NkLoe3BbOTaWVGSWjOpktg-1; Fri, 27 Mar 2026 17:58:04 -0400
+X-MC-Unique: NkLoe3BbOTaWVGSWjOpktg-1
+X-Mimecast-MFC-AGG-ID: NkLoe3BbOTaWVGSWjOpktg_1774648684
+Received: by mail-yx1-f71.google.com with SMTP id 956f58d0204a3-65003042cf0so1513322d50.2
+        for <linux-fsdevel@vger.kernel.org>; Fri, 27 Mar 2026 14:58:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1774646420; x=1775251220; darn=vger.kernel.org;
+        d=redhat.com; s=google; t=1774648684; x=1775253484; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=kcY/ZAkLvNE5jmsW6XKb47cOytwFbrLwLeYAjxJQGVc=;
-        b=nNy5HERmmtLtI52xPFO8uCgsoy40P2OXG4O7yWiNPVDB6ZdGIxHyee2VDCsKXqq7jY
-         KiAGCWsBQO+z4A+m0G53USxTtXvJWdKt25cYKRscKYg8VfoPhGbHq5G61JJstynia+bJ
-         S1pSfZjWPoEPcBUGgTzdhBexT1YEPijSusai43nElhuSBplHa30koUdfvjs0I5kbjFLT
-         L1IOLv5ZWEnIdI+/4Yue+NESSeB14K+1tNpx7fL5XBib/uIH5ILCpLaEPg5x+Um6Iyob
-         fWqznnpdr5Hxrf5E39Gv/Y35oiszucBbPp0O0Zh+qsD0cUdeQoOszGpHP5QOYC9+wYW9
-         M7WQ==
+        bh=XHVrz8aem6/a6o9MtVoEU9Cw1uMMvnBHVyohXKaBn3k=;
+        b=HetAz8TUKfSX03MpBhTu836y1cCV2Bcis11wt6KjbKXZ8N+Z3j3IU6sNYI4aB3oy82
+         MeOBOMeiM5mPmqE1n9AGxcA4ROBZMpS+r4td6sS6kTevat1bAvOeLyjahsx3VUCbIQv1
+         n+CxcKkMbAr3Wg6IS66p//bw+8OLJPZZccd0uRMDJZItmYgdBdMEI2glednMXpJSoZod
+         mKg82CsdudfmH/Y7GbOG401TmoMu9hnrdiAwUYo+xVIsRyhNel/5/hYWTAhBsQBNADyL
+         8kBw7wtcr2FLig6KF4etRODN2ZHUYg44x+tfzrIKmbo7CXgK067tE3RnwqvVO+rJmtFo
+         lvVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774646420; x=1775251220;
+        d=1e100.net; s=20251104; t=1774648684; x=1775253484;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kcY/ZAkLvNE5jmsW6XKb47cOytwFbrLwLeYAjxJQGVc=;
-        b=bPyjt3IpFjM2QuHzvTs7V/0YtI2wZ+kH2ZV52WYYgW347pPabpEzNM7/wyH9HeaauW
-         W9sRQ2HSg2Gh/1+miApcdWIuqUVJuVADvdMPXqVyUIrsSmYpCo78wJ4ixthSO1Hzjx8r
-         UdP2uIIGcLy5Voe71LIV+5/Yl7pK3D+aDC2rHNR9A9iOfTQqJ0SaUxJ7/JSSzESlBaL4
-         Bfpv643PYu/fcFfhYzJA7X3Hg5S3nIAWUPVLUws6syhXGUra3O9Xor4SFwZfWv9lC8Pe
-         S9o90GtDZQxEducGc79K94YddTfjHETC+ZwKhPyW3SP82WnS8rYb4X+qw7u5KCIA03SW
-         UoSQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVYDqYs0bJCNHMPykSbFxk2xlhx/26uf81IY/JiY88y3M+8fgIS42umeYJ5BCyiQEBsHC+IB7y/q+ssXiYt@vger.kernel.org
-X-Gm-Message-State: AOJu0YybjJbz+P7yd1CHsQ94g3hnXiRjdL7g/rqDF1b4I4JrfCV/ogmu
-	2a4JtGTQKw4uyqPFVIs8JQ4Rpq1rWzEh6IGqlz63DoP7lw2P+D1DwrhBMkka8U69vJ2lUQ6BPcC
-	kW0+gIMT5Fbdi8LahtBG2ZLWRkbA+7jLB6sd8kznwKYFd1LjMI+pGXLsrOzG4pyt1wmhZAlLOMk
-	c=
-X-Gm-Gg: ATEYQzz6tyBNx4fhzrSCGjYafocx5CgbwlreyvDLln+QxGtH4GXJ7DBGjccjVvzQg/R
-	9K3Zmq7VjbudNL3XVetOtAK8qc+7ZpsnC9q7KXKodvd0pyk5WtgO9khv0UIs+r4a21koD3qUcyQ
-	0REb1Bft1YRSGB4a21HrRXJfystIt4lhpr1HWPmbpaUGPQuYOfWEps5XuYbuqIW/LZUhcH8ITuY
-	HMZxsvTyxFz/ko5A9stCYmZSNdqHEvAGRX9mhKVkuJqr2v/SMPoZMOTnDFuwuqJrfKVqUGRFaPy
-	d0wJM64xuXB1IYonM6LzApcFAXFA4YnlQeHZb/VwjjG9Dli8D50cpq+0awPoiRDLj8tPwFEei9b
-	4zwDz3L0MBWFpNEDId/2jDU++NARsOmamEcqNqNdN9BZJV+eCzH0=
-X-Received: by 2002:a05:622a:11c1:b0:509:2b5a:7ff with SMTP id d75a77b69052e-50ba37d1cd0mr57723241cf.10.1774646419729;
-        Fri, 27 Mar 2026 14:20:19 -0700 (PDT)
-X-Received: by 2002:a05:622a:11c1:b0:509:2b5a:7ff with SMTP id d75a77b69052e-50ba37d1cd0mr57722851cf.10.1774646419246;
-        Fri, 27 Mar 2026 14:20:19 -0700 (PDT)
-Received: from crwood-thinkpadp16vgen1.minnmso.csb ([50.145.183.242])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50bb2cc79d8sm3941081cf.12.2026.03.27.14.20.17
+        bh=XHVrz8aem6/a6o9MtVoEU9Cw1uMMvnBHVyohXKaBn3k=;
+        b=YdMEno53NXnGRBMN/wu4VRzO6yxIAGCLdWCChjDCvnClp3oY6GgwEsQsIV0eQFKC50
+         Ey9GujpGgp1RXpsJiUzX2v9w0SQdJ05m6KXtYQSxPi8iXDCh1KLRAyRrB5vXi9rCcGaq
+         2JmPBZAa9tDTZ6Bl45uNfRY7aPxa6usr4NgSJkylrf7+bBhxzv1+qS2+rQe+xPpkv69J
+         xfdZjVKi2QN2A5yyV5JDAFqtyWnZj8AVi0h0jcL6Y2gnPRuo2VBcmGHljdBg9V5ij6kU
+         yhZ5OqzCIiwEAizyJlk/IaMiIWg7ZsdIYUBbWkjsygMRP9njZBR7Am9JyL9zEtli592e
+         rJ1Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVbZAgYuN5c6mSKlKXgV8f0oVqWohHP9lahbBE9W4U2gP3ktuHkXw+aC3ov0HOETQ4W1KC/4dlp4/WKmE48@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywt6FywCXU/VvdrZtxaNeEqc6gMcXWQ2OGnbs+jWKfNgslib7YY
+	tzGxMbMJT2lMH6oKSNVyRjpN9E5wictRIlo0BcR9OgH4EbuoesAbsGfWmQb+oIUnJPaTxJWQLXW
+	wh3Cwijh8p0t0K7Dh5DGy97oIAxpeck1mTbytzvuUWGDoy0KuGxjv18UyyBQxJeegddU=
+X-Gm-Gg: ATEYQzwYSbfpunLAsdVmDgRNSSoAjem6cefPtb3cUQ2Z9Y9SzJaDxAqFk6RijHuqwMj
+	IYYpL59+cvQcCL99XIUef267k7AgFwQmKK1aZZ1ChwIZ+OVNpbrBFiaflQzrago5MLdAfjiUyJB
+	r69+w6sNBiNUr9FqXM6s7HM1rl/z1Q4gGEtQQRE8GSDAxiXWKV289RerdKSEZSB+wACSr/Ig9Ii
+	dl2JgbwFpvSaoOKietbxHujJ9GrcsqRWSKsC9Irjl+OAmSc8CrZ+eORxBF1YoGcAT/QxZOa2jTg
+	PRZNRtlhwbpU2E46LY/BEQJxjxQf1ZL3djAvpnZLM1BOm0FnTjQrZ/kCr589JmIonXOFeObXX2o
+	gH6Qb0NDsy01agNqFJIp36BFM1Win8GZlWE9aeZP6MYJvtIo40tEA
+X-Received: by 2002:a05:690c:6d84:b0:79a:57a2:ed75 with SMTP id 00721157ae682-79bde0105e3mr44985037b3.34.1774648683651;
+        Fri, 27 Mar 2026 14:58:03 -0700 (PDT)
+X-Received: by 2002:a05:690c:6d84:b0:79a:57a2:ed75 with SMTP id 00721157ae682-79bde0105e3mr44984807b3.34.1774648683219;
+        Fri, 27 Mar 2026 14:58:03 -0700 (PDT)
+Received: from li-4c4c4544-0032-4210-804c-c3c04f423534.ibm.com ([2600:1700:6476:1430::29])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-79cba95b868sm1227907b3.45.2026.03.27.14.58.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Mar 2026 14:20:18 -0700 (PDT)
-Message-ID: <279cd4c6b4eece55a63936f2ad0912e41be7838b.camel@redhat.com>
-Subject: Re: [REGRESSION] osnoise: "eventpoll: Replace rwlock with spinlock"
- causes ~50us noise spikes on isolated PREEMPT_RT cores
-From: Crystal Wood <crwood@redhat.com>
-To: "Ionut Nechita (Wind River)" <ionut.nechita@windriver.com>, 
-	florian.bezdeka@siemens.com
-Cc: namcao@linutronix.de, brauner@kernel.org, linux-fsdevel@vger.kernel.org,
- 	linux-rt-users@vger.kernel.org, stable@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, frederic@kernel.org, vschneid@redhat.com, 
-	gregkh@linuxfoundation.org, chris.friesen@windriver.com, 
-	viorel-catalin.rapiteanu@windriver.com, iulian.mocanu@windriver.com, 
-	jan.kiszka@siemens.com
-Date: Fri, 27 Mar 2026 16:20:17 -0500
-In-Reply-To: <20260327183610.594667-1-ionut.nechita@windriver.com>
-References: <480f889c1744132f39983178fbad90ad11e081ed.camel@siemens.com>
-	 <20260327183610.594667-1-ionut.nechita@windriver.com>
+        Fri, 27 Mar 2026 14:58:02 -0700 (PDT)
+Message-ID: <b5efea03a044228464faee0aebc7d38386b56789.camel@redhat.com>
+Subject: Re: [PATCH 02/10] ceph: add bounded timeout and diagnostics to
+ wait_caps_flush()
+From: Viacheslav Dubeyko <vdubeyko@redhat.com>
+To: Alex Markuze <amarkuze@redhat.com>, ceph-devel@vger.kernel.org
+Cc: idryomov@gmail.com, linux-fsdevel@vger.kernel.org
+Date: Fri, 27 Mar 2026 14:58:00 -0700
+In-Reply-To: <20260327143045.1393612-3-amarkuze@redhat.com>
+References: <20260327143045.1393612-1-amarkuze@redhat.com>
+	 <20260327143045.1393612-3-amarkuze@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43app2) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -104,140 +97,176 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-On Fri, 2026-03-27 at 20:36 +0200, Ionut Nechita (Wind River) wrote:
-> From: Ionut Nechita <ionut.nechita@windriver.com>
+On Fri, 2026-03-27 at 14:30 +0000, Alex Markuze wrote:
+> Convert wait_caps_flush() from an unbounded wait into a bounded loop that
+> periodically dumps outstanding flush state when progress stalls. This
+> preserves the original data-integrity semantics while making hung cap
+> flushes diagnosable during reset development and validation.
 >=20
-> On Thu, 2026-03-27 at 08:44 +0100, Florian Bezdeka wrote:
-> > A revert alone is not an option as it would bring back [1] and [2]
-> > for all LTS releases that did not receive [3].
+> Signed-off-by: Alex Markuze <amarkuze@redhat.com>
+> ---
+>  fs/ceph/caps.c       |  7 +++++++
+>  fs/ceph/mds_client.c | 47 ++++++++++++++++++++++++++++++++++++++++++--
+>  fs/ceph/super.h      |  2 ++
+>  3 files changed, 54 insertions(+), 2 deletions(-)
 >=20
-> Florian, Crystal, thanks for the feedback.
->=20
-> I understand the revert concern regarding the CFS throttle deadlock.
-> However, I want to clarify that the noise regression on isolated cores
-> is a separate issue from the deadlock fixed by [3], and it remains
-> unfixed even on linux-next which has [3] merged or not.
+> diff --git a/fs/ceph/caps.c b/fs/ceph/caps.c
+> index d51454e995a8..be030fb8e864 100644
+> --- a/fs/ceph/caps.c
+> +++ b/fs/ceph/caps.c
+> @@ -1648,6 +1648,7 @@ static void __ceph_flush_snaps(struct ceph_inode_in=
+fo *ci,
+> =20
+>  		spin_lock(&mdsc->cap_dirty_lock);
+>  		capsnap->cap_flush.tid =3D ++mdsc->last_cap_flush_tid;
+> +		capsnap->cap_flush.ci =3D ci;
+>  		list_add_tail(&capsnap->cap_flush.g_list,
+>  			      &mdsc->cap_flush_list);
+>  		if (oldest_flush_tid =3D=3D 0)
+> @@ -1846,6 +1847,9 @@ struct ceph_cap_flush *ceph_alloc_cap_flush(void)
+>  		return NULL;
+> =20
+>  	cf->is_capsnap =3D false;
+> +	cf->ci =3D NULL;
+> +	cf->tid =3D 0;
+> +	cf->wake =3D false;
 
-Nobody's saying that [3] would fix your issue.  They're saying that the
-deadlock issue is the reason why simply reverting the epoll change is
-not acceptable, at least on kernels without [3].
+It looks like cf->caps needs initialization too. Am I correct?
+The dump_cap_flushes() unconditionally calls ceph_cap_string(cf->caps).
 
-> I've done extensive testing across multiple kernels to identify the
-> exact mechanism. Here are the results.
->=20
-> Tool: eBPF-based osnoise tracer (https://gitlab.com/rt-linux-tools/eosnoi=
-se)
-> which uses perf_event_open() + epoll on each monitored CPU, combined
-> with /proc/interrupts delta measurement.
+>  	return cf;
+>  }
+> =20
+> @@ -1931,6 +1935,7 @@ static u64 __mark_caps_flushing(struct inode *inode=
+,
+>  	doutc(cl, "%p %llx.%llx now !dirty\n", inode, ceph_vinop(inode));
+> =20
+>  	swap(cf, ci->i_prealloc_cap_flush);
+> +	cf->ci =3D ci;
+>  	cf->caps =3D flushing;
+>  	cf->wake =3D wake;
+> =20
+> @@ -3826,6 +3831,8 @@ static void handle_cap_flush_ack(struct inode *inod=
+e, u64 flush_tid,
+>  	bool wake_ci =3D false;
+>  	bool wake_mdsc =3D false;
+> =20
+> +	ci->i_last_cap_flush_ack =3D flush_tid;
 
-I recommend sticking with the kernel's osnoise (with or without rtla).
+Do we have race condition here with dump_cap_flushes()? Maybe,
+READ_ONCE/WRITE_ONCE pair make sense?
 
-Besides the IPI issue, it doesn't look like eosnoise is being
-maintained anymore, ever since osnoise went into the kernel.
+> +
+>  	list_for_each_entry_safe(cf, tmp_cf, &ci->i_cap_flush_list, i_list) {
+>  		/* Is this the one that was flushed? */
+>  		if (cf->tid =3D=3D flush_tid)
+> diff --git a/fs/ceph/mds_client.c b/fs/ceph/mds_client.c
+> index 12f1b57d4b1c..d70c0b669b75 100644
+> --- a/fs/ceph/mds_client.c
+> +++ b/fs/ceph/mds_client.c
+> @@ -27,6 +27,8 @@
+>  #include <trace/events/ceph.h>
+> =20
+>  #define RECONNECT_MAX_SIZE (INT_MAX - PAGE_SIZE)
+> +#define CEPH_CAP_FLUSH_WAIT_TIMEOUT_SEC 60
+> +#define CEPH_CAP_FLUSH_MAX_DUMP_COUNT 5
+> =20
+>  /*
+>   * A cluster of MDS (metadata server) daemons is responsible for
+> @@ -2285,6 +2287,40 @@ static int check_caps_flush(struct ceph_mds_client=
+ *mdsc,
+>  	return ret;
+>  }
+> =20
+> +/*
+> + * Dump pending cap flushes for diagnostic purposes.
+> + *
+> + * cf->ci is safe to dereference here: the inode remains alive while its
+> + * ceph_cap_flush is on i_cap_flush_list, which holds a reference.
+> + */
+> +static void dump_cap_flushes(struct ceph_mds_client *mdsc, u64 want_tid)
+> +{
+> +	struct ceph_client *cl =3D mdsc->fsc->client;
+> +	struct ceph_cap_flush *cf;
+> +
+> +	pr_info_client(cl, "still waiting for cap flushes through %llu:\n",
+> +		       want_tid);
+> +	spin_lock(&mdsc->cap_dirty_lock);
+> +	list_for_each_entry(cf, &mdsc->cap_flush_list, g_list) {
 
-> Setup:
->   - Hardware: x86_64, SMT/HT enabled (CPUs 0-63)
->   - Boot: nohz_full=3D1-16,33-48 isolcpus=3Dnohz,domain,managed_irq,1-16,=
-33-48
->     rcu_nocbs=3D1-31,33-63 kthread_cpus=3D0,32 irqaffinity=3D17-31,49-63
->   - Duration: 120s per test
->=20
-> IRQ delta on isolated CPUs (representative CPU1, 120s sample):
->=20
->                     6.12.79-rt    6.18.20-rt    7.0-rc5-next-rt   6.18.19=
--rt    7.0-rc5-next-rt
->                     spinlock      spinlock      spinlock           rwlock=
-(rev)   rwlock(rev)
->   RES (IPI):        324,279       323,864       321,594            0     =
-        1
->   LOC (timer):       50,827        53,995        59,793           125,791=
-       125,791
->   IWI (irq work):  359,590       357,289       357,798           588,245 =
-      588,245
->=20
-> osnoise on isolated CPUs (per 950ms sample):
->=20
->                     6.12.79-rt    6.18.20-rt    7.0-rc5-next-rt   6.18.19=
--rt    7.0-rc5-next-rt
->                     spinlock      spinlock      spinlock           rwlock=
-(rev)   rwlock(rev)
->   MAX noise (ns):   ~57,000       ~57,000       ~57,000            ~9    =
-        ~140
->   IRQ/sample:       ~7,280        ~7,030        ~7,020             ~1    =
-        ~961
->   Thread/sample:    ~6,330        ~6,090        ~6,090             ~1    =
-        ~1
->   Availability:     ~93.5%        ~93.5%        ~93.5%             ~100% =
-        ~99.99%
->=20
-> The smoking gun is RES (reschedule IPI): ~322,000 on every isolated CPU
-> in 120 seconds with the spinlock, essentially zero with rwlock. That is
-> ~2,680 reschedule IPIs per second hitting each isolated core.
->=20
-> The mechanism: on PREEMPT_RT, spinlock_t becomes rt_mutex. When the
-> eBPF osnoise tool (or any BPF/perf tool using epoll) calls
-> epoll_ctl(EPOLL_CTL_ADD) for perf events on each CPU,=20
+So, what's about inode lifetime here? The iteration is over the global
+cap_flush_list (via g_list), not i_cap_flush_list. Are we safe here?
 
-I don't see BPF calls from the inner loop of osnoise_main().  There are
-BPF hooks for various interruptions...  I'm guessing there's a loop
-where each hook causes an IPI that causes another BPF hook.  I
-wouldn't have expected a wakeup for every sample, but it seems like
-that's the default specified by libbpf (eosnoise doesn't set
-sample_period).
+> +		if (cf->tid > want_tid)
+> +			break;
+> +		if (!cf->ci) {
+> +			pr_info_client(cl,
+> +				       "(null ci) %s tid=3D%llu wake=3D%d%s\n",
+> +				       ceph_cap_string(cf->caps), cf->tid,
+> +				       cf->wake,
+> +				       cf->is_capsnap ? " is_capsnap" : "");
+> +			continue;
+> +		}
+> +		pr_info_client(cl, "%llx:%llx %s %llu %llu %d%s\n",
+> +			       ceph_vinop(&cf->ci->netfs.inode),
+> +			       ceph_cap_string(cf->caps), cf->tid,
+> +			       cf->ci->i_last_cap_flush_ack, cf->wake,
+> +			       cf->is_capsnap ? " is_capsnap" : "");
+> +	}
+> +	spin_unlock(&mdsc->cap_dirty_lock);
+> +}
+> +
+>  /*
+>   * flush all dirty inode data to disk.
+>   *
+> @@ -2294,11 +2330,18 @@ static void wait_caps_flush(struct ceph_mds_clien=
+t *mdsc,
+>  			    u64 want_flush_tid)
+>  {
+>  	struct ceph_client *cl =3D mdsc->fsc->client;
+> +	int i =3D 0;
+> +	long ret;
+> =20
+>  	doutc(cl, "want %llu\n", want_flush_tid);
+> =20
+> -	wait_event(mdsc->cap_flushing_wq,
+> -		   check_caps_flush(mdsc, want_flush_tid));
+> +	do {
+> +		ret =3D wait_event_timeout(mdsc->cap_flushing_wq,
+> +			   check_caps_flush(mdsc, want_flush_tid),
+> +			   CEPH_CAP_FLUSH_WAIT_TIMEOUT_SEC * HZ);
+> +		if (ret =3D=3D 0 && i++ < CEPH_CAP_FLUSH_MAX_DUMP_COUNT)
+> +			dump_cap_flushes(mdsc, want_flush_tid);
+> +	} while (ret =3D=3D 0);
+> =20
+>  	doutc(cl, "ok, flushed thru %llu\n", want_flush_tid);
+>  }
+> diff --git a/fs/ceph/super.h b/fs/ceph/super.h
+> index 272c287836c1..5de1e5923b63 100644
+> --- a/fs/ceph/super.h
+> +++ b/fs/ceph/super.h
+> @@ -238,6 +238,7 @@ struct ceph_cap_flush {
+>  	bool is_capsnap; /* true means capsnap */
+>  	struct list_head g_list; // global
+>  	struct list_head i_list; // per inode
+> +	struct ceph_inode_info *ci;
+>  };
+> =20
+>  /*
+> @@ -443,6 +444,7 @@ struct ceph_inode_info {
+>  	struct ceph_snap_context *i_head_snapc;  /* set if wr_buffer_head > 0 o=
+r
+>  						    dirty|flushing caps */
+>  	unsigned i_snap_caps;           /* cap bits for snapped files */
+> +	u64 i_last_cap_flush_ack;		/* latest cap flush_ack tid for this inode *=
+/
 
-> ep_poll_callback()
-> runs under ep->lock (now rt_mutex) in IRQ context. The rt_mutex PI
-> mechanism sends reschedule IPIs to wake waiters, which hit isolated
-> cores. With rwlock, read_lock() in ep_poll_callback() does not generate
-> cross-CPU IPIs.
+It looks like i_last_cap_flush_ack is not initialized properly anywhere.
 
-Because it doesn't need to block in the first place (unless there's a
-writer).
+Thanks,
+Slava.
 
-> Note on the tool: the eBPF osnoise tracer itself creates epoll activity
-> on all CPUs via perf_event_open() + epoll_ctl(). This is representative
-> of real-world scenarios where any BPF/perf monitoring tool, or system
-> services like systemd/journald using epoll, would trigger the same
-> regression on isolated cores.
-
-Using BPF to hook IRQ entry/exit isn't representative of real-world
-scenarios.  Assuming I'm right about the underlying cause, this is an
-issue with eosnoise, that the epoll change exacerbates.
-
-> When using the kernel's built-in osnoise tracer (which does not use
-> epoll), isolated cores show 1ns noise / 1 IRQ per sample on all kernels
-> regardless of spinlock vs rwlock =E2=80=94 confirming the noise source is
-> specifically the epoll spinlock contention path.
->
-> Key finding: the task-based CFS throttle series [3] (Aaron Lu, merged
-> in 6.18/linux-next) does NOT fix this issue. The regression is identical
-> on 6.12, 6.18, and linux-next 7.0-rc5 with the spinlock. Only reverting
-> to rwlock eliminates it.
->=20
-> To answer Crystal's question "when would you ever reach that path on an
-> isolated CPU?" =E2=80=94 the answer is: any tool or service that uses
-> perf_event_open() + epoll across all CPUs (BPF tools, perf, monitoring
-> agents) will trigger ep_poll_callback() on isolated CPUs. On RT with the
-> spinlock, this generates ~2,680 reschedule IPIs/s per isolated core.
-
-Keep in mind that if you use kernel services, you can't expect perfect
-isolation, or to never block on a mutex or get a callback -- but this
-eosnoise issue does not mean that any perf_event_open() + epoll user
-will be getting thousands of IPIs per second.
-
-> The eventpoll spinlock noise regression needs its own fix =E2=80=94 perha=
-ps=20
-> a lockless path in ep_poll_callback() for the RT case, or=20
-
-Again, if you mean the old lockless path, RT is exactly where we don't
-want that.  What would be the reason to do this *only* for RT?
-
-> converting ep->lock to a raw_spinlock with trylock semantics to avoid=20
-> the rt_mutex IPI overhead.
-
-Among other problems (what happens if the trylock fails?  why a trylock
-in the first place?), you can't call wake_up() with a raw lock held.=20
-It has its own non-raw spinlock.
-
--Crystal
+> =20
+>  	unsigned long i_last_rd;
+>  	unsigned long i_last_wr;
 
