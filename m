@@ -1,225 +1,157 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E47C3F7E9C;
-	Fri, 27 Mar 2026 14:31:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A292D3F7A8E
+	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Mar 2026 14:31:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774621873; cv=none; b=V/ELPGJvy2w1LV74rgdg2ienVc1GWzuciTbxrisi/ID96dAhuaMxf3qYwDdzcbl/Rt6aRGG6oX8XtZBiYWdHdHfUPOHQNTeAUrx+ceiE/v7/sVEBUpzmitKj/PElhsOmBtmX0g/cPPcogkJAOCCX/7/2cQiCEvW8cF0ZareRiwQ=
+	t=1774621873; cv=none; b=f4FXc6vM30KSlKDgd+8wk7zZjqgRm2ZtM68+4ylJtSeJ/hyuIyxhWRPBtcWGZLZYVeBEqPGcACDm/npD0yUCZknuOSP8hk2miUVpGgAg3RQg0Wjqj8g8poafMKPLmNCe+c8ChxHWTApfHS9FAaxU2o3bDpjDGu1NKnzGH8xjbEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1774621873; c=relaxed/simple;
-	bh=MrvKjRWkl1Y6HHbAPwGm0kWozY8T3Glyl78Hgi7yspY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aROwFMGDBJhBez+iVFVDQ7dyPpEZxFiQYcoKcfFWdSqE9r9BSUywzMWnyITOxSZJEBMNXhuJY32QjYIL7f14/Td5nMgeP+uNxV4fjjWxCaGRK0K2BwZ5Ou0d2R4a5bsNiWVRb6aXVkBeixDwNAZwf18qUWLY0rmn2KfNvbgaRXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FA65YRld; arc=none smtp.client-ip=10.30.226.201
+	bh=EkfkQ+B7x5sRll9rfUza1vy0VfOIANzotdV3yf+l2Ag=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=G1aBxDgoB67x+dsW/pHviRNk2bASFGKflaZNSK+TgPJuHjEuCJK79frl5w8aQ0IqmO65OHfFT5TPq/bvV8vxr9FJKLykevaEmTX1JN+Rn9NsxJ9bG0DGYS8V4eCcBjCXMWY/7O2EwNcvVETlT91092mmwFOejpcUsOFaA9waQ5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=S2jSiipa; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=Ljz89hw+; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FA65YRld"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B8E8C2BC87;
-	Fri, 27 Mar 2026 14:31:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774621873;
-	bh=MrvKjRWkl1Y6HHbAPwGm0kWozY8T3Glyl78Hgi7yspY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FA65YRldQYG5G3drQMMoAc8SfQ4mmeIUA90nBgmb1APmS8p6BhrzYu9nrBDDjJfto
-	 tMBA9seiAdGawC246pLjV+Fl5yut7bDI2tSd1BoHbsW+K3JnTkXzANWLMFai+Z0b+8
-	 +lyTw8FpFfTPmDRtT9Qo8aGRXT3lo236j74uh/mLZvP2qfIlCIGdmBFY+f1STVdcdV
-	 i7GtH/LWRU0i++pN+8Bt945zXeQXk5IQKYViC1aplops7W8LmQ8KPMcMekKZnq2GHT
-	 wZX83qWDlNnCQT3ZAIXM+3nmM7S475HJjU6WRuj+KtTSvG7Mw46mbRhKWnsePUXjna
-	 7p88Q+af6JbLw==
-Date: Fri, 27 Mar 2026 14:31:05 +0000
-From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-To: Baolin Wang <baolin.wang@linux.alibaba.com>
-Cc: Zi Yan <ziy@nvidia.com>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Song Liu <songliubraving@fb.com>, Chris Mason <clm@fb.com>, 
-	David Sterba <dsterba@suse.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>, linux-btrfs@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v1 02/10] mm/khugepaged: remove READ_ONLY_THP_FOR_FS check
-Message-ID: <6442d533-27ae-4e2d-b8d1-64acdd2dfbd9@lucifer.local>
-References: <20260327014255.2058916-1-ziy@nvidia.com>
- <20260327014255.2058916-3-ziy@nvidia.com>
- <7fd90f5e-65b5-4734-abb2-77b22c733af5@linux.alibaba.com>
- <8f5119a1-9aa9-4a39-ac94-ca1631db26e1@lucifer.local>
- <ec927492-4577-4192-8fad-85eb1bb43121@linux.alibaba.com>
- <89c8b93c-f6dd-4d8e-bcee-3c1ff1c04295@lucifer.local>
- <b9bc241f-91a0-4df3-a5fb-2221bee3ab68@linux.alibaba.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="S2jSiipa";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ljz89hw+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1774621871;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0JOlsTnwrp0NSbV+2c+o5QMBqiaEd47EO/LWfmDfIOE=;
+	b=S2jSiipaPYmBaLNyaarbJJX+sK4B3B+yZCxIbx5RLaRqFPbgQesQSEXZAuNSetC5ybtc+R
+	0ufLNUSy4EDdkFmMpGWvjLrcL7SZa9J/MplhlnDV9Rg5stEuiELeXdmFlgCeSUu/a1VpwJ
+	EOmc6qooJz4UGQ83AEtF4oJfx3XYbxk=
+Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com
+ [209.85.210.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-265-4fbHAW2YOyGLAt73PLeT0A-1; Fri, 27 Mar 2026 10:31:09 -0400
+X-MC-Unique: 4fbHAW2YOyGLAt73PLeT0A-1
+X-Mimecast-MFC-AGG-ID: 4fbHAW2YOyGLAt73PLeT0A_1774621869
+Received: by mail-ot1-f71.google.com with SMTP id 46e09a7af769-7d7eb8cf3d6so6249753a34.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 27 Mar 2026 07:31:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1774621869; x=1775226669; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0JOlsTnwrp0NSbV+2c+o5QMBqiaEd47EO/LWfmDfIOE=;
+        b=Ljz89hw+pTuAUTfQ7gkyFYPrQHQaAhMTMuA7as6RcAVNlizCYLA07wkRtcOmruQjvW
+         901FDPh9Rld00BBv24aToC4WczCChfhFqG5IGLlPEdJGvtGtaHj8n5dkvSP5TcfjQmHi
+         aUWYGrJITCiDlJ7n4QeU57askCN0l6vy65v/NqLdsvpYO7R1oCYb3ijzdWoIx/PWo8n7
+         kql8iknK/ChN7DDkDUEMUOCNTE2wVlG3fOFneL8ODd8CSOHoqu0whmdcKq2H84al4tr5
+         ANWJxl96TQHDnTJ04lRK2vL+TzCWDzgIatfXALCVR+Q1w+0FCIjVjir1KAmr6qNM7+vk
+         8dhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774621869; x=1775226669;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=0JOlsTnwrp0NSbV+2c+o5QMBqiaEd47EO/LWfmDfIOE=;
+        b=XA18ZZA8e9ynwqE6qvhRSwS9qBCuxz+joBPe2YkgvyQUhn7TiUwdIwWMpuXJoS9Hc3
+         5IGkWRKIQ3FcdyL7xX12JrHe5tjZAMsfXyRNVvGkvpK/3xtQBkQft6M+oB50cYiIn+pX
+         rJTPbXF0vPkBSgIJYEF88F1+i3FTgORopn+StfgwMNpOaFC//5qEgUpSE0otB0fddILh
+         y0hrhuJd3ATFkqw94IVD6Sr9RIc5T8CZSfDRSOJ4raJtYOtQks4foVrBpAs/6oMTLWe9
+         JRNV+gZSEyuXI7RGsoQdn041SErDlGE1zzECMg2Dt9L4EId5MVKf4mxZFH1AnBN/rcTa
+         Prog==
+X-Forwarded-Encrypted: i=1; AJvYcCUSJKA1SoB7bNM/MoObk68BhE7XRSi31k/FxrlNFsT9yiTJP1gtfmXnwFr4jeJbWgwilyWzdH7yWXXDAIEp@vger.kernel.org
+X-Gm-Message-State: AOJu0YwkGSteQrMGgnvcTVtyFOViKRKOk+6POisJOVzD88IKJ1Hb6IX3
+	6BlFpTbkw3dIX0RpWEZMjPVTKO/rNIZC3ftEmI2AUAGpAMcGvBmZF4+MS5EHpaCnoTulGI7bCLu
+	SwBHRvy4+imHEE2DDjGfffpstjOYQcQ+pvUH3dUNT2iFzFuKJeeN6Xq3rtN4lhXy63uw=
+X-Gm-Gg: ATEYQzzVK2qh3RL0Gywy/K1IzSs15BJfHWuXehEkrZJfbuEtHWWIluotJRkErS3pyF1
+	HSFNla4ZeBDDKQk0U6ZRIGOOHwmhNt0lwFuOuOMBTEs8lFNHvqNDelrVTszJUzUh7htjNs35c8K
+	TQPv8LLDf68Wc014cntZH3J1JfznS6Bm49yNmKTDPlXHcQtc+5P89n2J26kkAin6EZO67XVZxn8
+	f/3GWfBbqauDcI8oynPO52o2LuQFrEWXqk/9zQCVdYrr9fxb4808iwsih0paVikr/ET4IxNGp/j
+	FrnIZXG2A/hLa2/97S+7nKui52+2Cu8hlnPrvkkfprLNDH2ZW9sA598adQ/qWePPwIB/T5xjc7Q
+	7gWnEKFTnUSGNvepgoGkHUkZCprvZ7HamFwMOuqXuKII/+RiLGgCWHPY=
+X-Received: by 2002:a05:6820:f029:b0:67e:1dee:db5 with SMTP id 006d021491bc7-67e1dee127bmr734265eaf.12.1774621869033;
+        Fri, 27 Mar 2026 07:31:09 -0700 (PDT)
+X-Received: by 2002:a05:6820:f029:b0:67e:1dee:db5 with SMTP id 006d021491bc7-67e1dee127bmr734236eaf.12.1774621868522;
+        Fri, 27 Mar 2026 07:31:08 -0700 (PDT)
+Received: from cluster.. (4f.55.790d.ip4.static.sl-reverse.com. [13.121.85.79])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8d00e502081sm515168585a.36.2026.03.27.07.31.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Mar 2026 07:31:07 -0700 (PDT)
+From: Alex Markuze <amarkuze@redhat.com>
+To: ceph-devel@vger.kernel.org
+Cc: idryomov@gmail.com,
+	linux-fsdevel@vger.kernel.org,
+	amarkuze@redhat.com,
+	vdubeyko@redhat.com
+Subject: [PATCH 09/10] ceph: send SESSION_REQUEST_CLOSE before forced teardown in manual reset
+Date: Fri, 27 Mar 2026 14:30:45 +0000
+Message-Id: <20260327143045.1393612-10-amarkuze@redhat.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260327143045.1393612-1-amarkuze@redhat.com>
+References: <20260327143045.1393612-1-amarkuze@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b9bc241f-91a0-4df3-a5fb-2221bee3ab68@linux.alibaba.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Mar 27, 2026 at 10:26:53PM +0800, Baolin Wang wrote:
->
->
-> On 3/27/26 10:12 PM, Lorenzo Stoakes (Oracle) wrote:
-> > On Fri, Mar 27, 2026 at 09:45:03PM +0800, Baolin Wang wrote:
-> > >
-> > >
-> > > On 3/27/26 8:02 PM, Lorenzo Stoakes (Oracle) wrote:
-> > > > On Fri, Mar 27, 2026 at 05:44:49PM +0800, Baolin Wang wrote:
-> > > > >
-> > > > >
-> > > > > On 3/27/26 9:42 AM, Zi Yan wrote:
-> > > > > > collapse_file() requires FSes supporting large folio with at least
-> > > > > > PMD_ORDER, so replace the READ_ONLY_THP_FOR_FS check with that. shmem with
-> > > > > > huge option turned on also sets large folio order on mapping, so the check
-> > > > > > also applies to shmem.
-> > > > > >
-> > > > > > While at it, replace VM_BUG_ON with returning failure values.
-> > > > > >
-> > > > > > Signed-off-by: Zi Yan <ziy@nvidia.com>
-> > > > > > ---
-> > > > > >     mm/khugepaged.c | 7 +++++--
-> > > > > >     1 file changed, 5 insertions(+), 2 deletions(-)
-> > > > > >
-> > > > > > diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> > > > > > index d06d84219e1b..45b12ffb1550 100644
-> > > > > > --- a/mm/khugepaged.c
-> > > > > > +++ b/mm/khugepaged.c
-> > > > > > @@ -1899,8 +1899,11 @@ static enum scan_result collapse_file(struct mm_struct *mm, unsigned long addr,
-> > > > > >     	int nr_none = 0;
-> > > > > >     	bool is_shmem = shmem_file(file);
-> > > > > > -	VM_BUG_ON(!IS_ENABLED(CONFIG_READ_ONLY_THP_FOR_FS) && !is_shmem);
-> > > > > > -	VM_BUG_ON(start & (HPAGE_PMD_NR - 1));
-> > > > > > +	/* "huge" shmem sets mapping folio order and passes the check below */
-> > > > > > +	if (mapping_max_folio_order(mapping) < PMD_ORDER)
-> > > > > > +		return SCAN_FAIL;
-> > > > >
-> > > > > This is not true for anonymous shmem, since its large order allocation logic
-> > > > > is similar to anonymous memory. That means it will not call
-> > > > > mapping_set_large_folios() for anonymous shmem.
-> > > > >
-> > > > > So I think the check should be:
-> > > > >
-> > > > > if (!is_shmem && mapping_max_folio_order(mapping) < PMD_ORDER)
-> > > > >        return SCAN_FAIL;
-> > > >
-> > > > Hmm but in shmem_init() we have:
-> > > >
-> > > > #ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> > > > 	if (has_transparent_hugepage() && shmem_huge > SHMEM_HUGE_DENY)
-> > > > 		SHMEM_SB(shm_mnt->mnt_sb)->huge = shmem_huge;
-> > > > 	else
-> > > > 		shmem_huge = SHMEM_HUGE_NEVER; /* just in case it was patched */
-> > > >
-> > > > 	/*
-> > > > 	 * Default to setting PMD-sized THP to inherit the global setting and
-> > > > 	 * disable all other multi-size THPs.
-> > > > 	 */
-> > > > 	if (!shmem_orders_configured)
-> > > > 		huge_shmem_orders_inherit = BIT(HPAGE_PMD_ORDER);
-> > > > #endif
-> > > >
-> > > > And shm_mnt->mnt_sb is the superblock used for anon shmem. Also
-> > > > shmem_enabled_store() updates that if necessary.
-> > > >
-> > > > So we're still fine right?
-> > > >
-> > > > __shmem_file_setup() (used for anon shmem) calls shmem_get_inode() ->
-> > > > __shmem_get_inode() which has:
-> > > >
-> > > > 	if (sbinfo->huge)
-> > > > 		mapping_set_large_folios(inode->i_mapping);
-> > > >
-> > > > Shared for both anon shmem and tmpfs-style shmem.
-> > > >
-> > > > So I think it's fine as-is.
-> > >
-> > > I'm afraid not. Sorry, I should have been clearer.
-> > >
-> > > First, anonymous shmem large order allocation is dynamically controlled via
-> > > the global interface (/sys/kernel/mm/transparent_hugepage/shmem_enabled) and
-> > > the mTHP interfaces
-> > > (/sys/kernel/mm/transparent_hugepage/hugepages-*kB/shmem_enabled).
-> > >
-> > > This means that during anonymous shmem initialization, these interfaces
-> > > might be set to 'never'. so it will not call mapping_set_large_folios()
-> > > because sbinfo->huge is 'SHMEM_HUGE_NEVER'.
-> > >
-> > > Even if shmem large order allocation is subsequently enabled via the
-> > > interfaces, __shmem_file_setup -> mapping_set_large_folios() is not called
-> > > again.
-> >
-> > I see your point, oh this is all a bit of a mess...
-> >
-> > It feels like entirely the wrong abstraction anyway, since at best you're
-> > getting a global 'is enabled'.
-> >
-> > I guess what happened before was we'd never call into this with ! r/o thp for fs
-> > && ! is_shmem.
->
-> Right.
->
-> > But now we are allowing it, but should STILL be gating on !is_shmem so yeah your
-> > suggestion is correct I think actualyl.
-> >
-> > I do hate:
-> >
-> > 	if (!is_shmem && mapping_max_folio_order(mapping) < PMD_ORDER)
-> >
-> > As a bit of code though. It's horrible.
->
-> Indeed.
->
-> > Let's abstract that...
-> >
-> > It'd be nice if we could find a way to clean things up in the lead up to changes
-> > in series like this instead of sticking with the mess, but I guess since it
-> > mostly removes stuff that's ok for now.
->
-> I think this check can be removed from this patch.
->
-> During the khugepaged's scan, it will call thp_vma_allowable_order() to
-> check if the VMA is allowed to collapse into a PMD.
->
-> Specifically, within the call chain thp_vma_allowable_order() ->
-> __thp_vma_allowable_orders(), shmem is checked via
-> shmem_allowable_huge_orders(), while other FSes are checked via
-> file_thp_enabled().
+Queue SESSION_REQUEST_CLOSE through the normal close-session path before
+forced teardown so the MDS can release state immediately and racing
+sequence updates still retransmit the close request correctly.
 
-It sucks not to have an assert. Maybe in that case make it a
-VM_WARN_ON_ONCE().
+Signed-off-by: Alex Markuze <amarkuze@redhat.com>
+---
+ fs/ceph/mds_client.c | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-I hate that you're left tracing things back like that...
+diff --git a/fs/ceph/mds_client.c b/fs/ceph/mds_client.c
+index 8b86c577c127..864c35c6f55f 100644
+--- a/fs/ceph/mds_client.c
++++ b/fs/ceph/mds_client.c
+@@ -6,6 +6,7 @@
+ #include <linux/slab.h>
+ #include <linux/gfp.h>
+ #include <linux/sched.h>
++#include <linux/delay.h>
+ #include <linux/debugfs.h>
+ #include <linux/seq_file.h>
+ #include <linux/ratelimit.h>
+@@ -5391,6 +5392,33 @@ static void ceph_mdsc_reset_workfn(struct work_struct *work)
+ 	st->phase = CEPH_CLIENT_RESET_TEARDOWN;
+ 	spin_unlock(&st->lock);
+ 
++	/*
++	 * Ask each MDS to close the session before we tear it down
++	 * locally.  Without this the MDS sees only a connection drop and
++	 * waits for the client to reconnect (up to session_autoclose
++	 * seconds) before evicting the session and releasing locks.
++	 *
++	 * Reuse the normal close machinery so the session state/sequence
++	 * snapshot is serialized under s_mutex and a racing s_seq bump
++	 * retransmits REQUEST_CLOSE while the session remains CLOSING.
++	 * We send all close requests first, then yield briefly to let the
++	 * network stack transmit them before __unregister_session()
++	 * closes the connections.
++	 */
++	for (i = 0; i < n; i++) {
++		int err;
++
++		mutex_lock(&sessions[i]->s_mutex);
++		err = __close_session(mdsc, sessions[i]);
++		mutex_unlock(&sessions[i]->s_mutex);
++		if (err < 0)
++			pr_warn_client(cl,
++				       "mds%d failed to queue close request before reset: %d\n",
++				       sessions[i]->s_mds, err);
++	}
++	if (n > 0)
++		msleep(100);
++
+ 	/*
+ 	 * Tear down each session: close the connection, remove all
+ 	 * caps, clean up requests, then kick pending requests so they
+-- 
+2.34.1
 
->
-> For those other filesystems, Patch 5 has already added the following check,
-> which I think is sufficient to filter out those FSes that do not support
-> large folios:
->
-> if (mapping_max_folio_order(inode->i_mapping) < PMD_ORDER)
-> 	return false;
-
-2 < 5, we won't tolerate bisection hazards.
-
->
->
-> > > Anonymous shmem behaves similarly to anonymous pages: it is controlled by
-> > > the 'shmem_enabled' interfaces and uses shmem_allowable_huge_orders() to
-> > > check for allowed large orders, rather than relying on
-> > > mapping_max_folio_order().
-> > >
-> > > The mapping_max_folio_order() is intended to control large page allocation
-> > > only for tmpfs mounts. Therefore, I find the current code confusing and
-> > > think it needs to be fixed:
-> > >
-> > > /* Don't consider 'deny' for emergencies and 'force' for testing */
-> > > if (sb != shm_mnt->mnt_sb && sbinfo->huge)
-> > >         mapping_set_large_folios(inode->i_mapping);
-> >
-> > Cheers, Lorenzo
->
-
-Cheers, Lorenzo
