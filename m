@@ -1,132 +1,111 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC9591B808
-	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Mar 2026 00:41:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 998911B808
+	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Mar 2026 00:42:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774572061; cv=none; b=avokBeVemFv97D9wx/uJEtN5fFmYwEyNmdH1qAz0p7zcs1+Doskljbg5Ae11MJPprYyqqhISaqFDhOqGe9TviMF8xEi9XT3zhCyb/S2QOFjw4u1IlGzyx7KWyJdc1y/kfihpthB0CjgJBAAhHLyQZhJaKLuhI+cycCzv8ZOS8zE=
+	t=1774572158; cv=none; b=R/QNT12LpA0tjriFDs2BSCWM0i64wKWq/RjtpeBVIrKAvzbcjQhFNvG/bB5G+aMKyk4KId3zH993OSLjM54jMSPIW1z/zvkhZyYgzSQBpMyGk13Rt4/pXTVmfnEGKlFxyVx+JBt2irFpflbIY5w2ekT9eRMWryGsN0tYeUoko/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774572061; c=relaxed/simple;
-	bh=vt7T/qUGOGLlqaNchVHzH7ZNkaAHnV/vULH5YOrsQpM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ofoTDr4n1TDZQYF+wfc5b0SQsFAp6K6egNLLEFg85lGAh7zI5a0nui792+DeIKh9xq6U+j6Q4r+I2HbBoWJCEGjvwjuvam2UwA47VN+tg4UqSPFQuucY/995lfFCx2X3SQbXKY2x9gwKfO3HovSogF21bMdIxrfrF141Z49phPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RwQe+H24; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774572158; c=relaxed/simple;
+	bh=1oTRYaaDGtL88x3nFZWM19mGdEaN35XXt49N44uFQhk=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=rZkvv98luqD7aSsI4rrN6nttEOaIy8FhgJRfPpm7cJ/bKbe6mA5MDsLaxvqY/1KF+cm9lyiVeFP6J7VAIREQDCfKKcnrpdxKTLWYh5O5AEK0s3dom5WOganyAvjfaZvH1z4yIHOJEHkihV9Jk5PNJQoulDHFsxKsaSSse+BUX/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=uPiIgOz2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RwQe+H24"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92E25C2BCB2
-	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Mar 2026 00:41:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774572061;
-	bh=vt7T/qUGOGLlqaNchVHzH7ZNkaAHnV/vULH5YOrsQpM=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=RwQe+H24wpJs63oazuy6TuUNOuF2BjCXU/yfjRKeh++eEwS0at4Lvb8j79sHrpkpm
-	 dA6moXoBljhfGWmtVN+lqV8oQ1LEfCVys/pV5Bx5hjE8LBehBDflEkggtG63v1Kwug
-	 VncZhlxUAwK/3hTzlhWRzpfiLGjD9hGll5xRkrE/lTenAIXxuCHp7ek9OU5Bq8bJ/C
-	 ciUcTKl9B4NtkXEMEbw7p6fsTmUbY9Pp54U51JPiYJJ4+pL8J9osKnXg1imB8bwrqG
-	 MxBZFpGvt/u/vysUjaG794KzVBAmazVAXWbuE6t5vL1FZ8/KfRQWoVvondIaaPbn27
-	 WlPl4szD3hdHA==
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-89a05955720so19118486d6.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 17:41:01 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVX5CJh4CjPMG7wULoZGUV2ZBi8UCuJwWi9QB0Pp4PYtPjBmZwx0MIe/DbOOq0B9MvHmZDZixiRluq4WFBy@vger.kernel.org
-X-Gm-Message-State: AOJu0YxL24Wd0iAaxd4Iy8zviTRt/DH/hJaiRbEkRc2D0DOn99pdfimN
-	YyWSBEAFYG6GsgkAHzvuMOcUsLfzj2nYjIqjyV1N4eheVELI1EJNNa5z6fM3ktr8mseIO6cIgfN
-	/eA6o1U4ePNkQoR7pJZHviNy18xela30=
-X-Received: by 2002:ad4:5cc7:0:b0:89c:99f5:52c4 with SMTP id
- 6a1803df08f44-89ce8d43382mr7198476d6.15.1774572060621; Thu, 26 Mar 2026
- 17:41:00 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="uPiIgOz2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCEE1C116C6;
+	Fri, 27 Mar 2026 00:42:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1774572158;
+	bh=1oTRYaaDGtL88x3nFZWM19mGdEaN35XXt49N44uFQhk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=uPiIgOz2EKjU20I92IZN1kKK3Tu84i391v+qGEZo3cNDi430ZInilKOPBX+90XFFs
+	 oBkIixFaIIoSXX8vHNqCMvxTlJ3Nvp2jCtp7rIchdtb+kRg3I/luit48SLiQNzgkHg
+	 1WHSYOt1FSeiBXzq/CMDM/77MUwsUWFhao3FwCS8=
+Date: Thu, 26 Mar 2026 17:42:37 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: jack@suse.cz, willy@infradead.org, miklos@szeredi.hu,
+ linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v1 1/1] mm: start background writeback based on per-wb
+ threshold for strictlimit BDIs
+Message-Id: <20260326174237.0ad75b578219aad36f137e4b@linux-foundation.org>
+In-Reply-To: <20260326234629.840938-2-joannelkoong@gmail.com>
+References: <20260326234629.840938-1-joannelkoong@gmail.com>
+	<20260326234629.840938-2-joannelkoong@gmail.com>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260318184400.3502908-1-song@kernel.org> <20260318184400.3502908-7-song@kernel.org>
- <b720f521-e930-4f35-9505-1bfdf9e2818c@I-love.SAKURA.ne.jp>
- <4DF5C4A8-7C92-4F76-9B34-2262089E7289@meta.com> <33abcf34-13e2-4a37-83f3-78bb27ecbc11@I-love.SAKURA.ne.jp>
- <F0A0D13E-8208-49A4-9AC6-89AC4BF3F4FB@meta.com> <20260323-klappen-atemschutz-7a0af8c6b087@brauner>
- <714a614b-cfb4-4b20-af8c-df3cc56dfb92@I-love.SAKURA.ne.jp>
- <CAAeYb7k+TWArOKyOomkLZ8fwqUPjha9iORpJaj4nMyN=o4ZRQg@mail.gmail.com> <6609e11e-90aa-4021-974e-e9937688dd49@I-love.SAKURA.ne.jp>
-In-Reply-To: <6609e11e-90aa-4021-974e-e9937688dd49@I-love.SAKURA.ne.jp>
-From: Song Liu <song@kernel.org>
-Date: Thu, 26 Mar 2026 17:40:49 -0700
-X-Gmail-Original-Message-ID: <CAPhsuW5PyqkkAbLr9JZKtJ7F0sys3pENdSOQqG=dggbrEf11iA@mail.gmail.com>
-X-Gm-Features: AQROBzDUWLVisdSlnIPADASIVeAPQUaRFecDIf-Shx_lh3e_Wu7aKFzg04hWSF8
-Message-ID: <CAPhsuW5PyqkkAbLr9JZKtJ7F0sys3pENdSOQqG=dggbrEf11iA@mail.gmail.com>
-Subject: Re: [PATCH 6/7] tomoyo: Convert from sb_mount to granular mount hooks
-To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>, 
-	Christian Brauner <brauner@kernel.org>, "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>
-Cc: Song Liu <songliubraving@meta.com>, "paul@paul-moore.com" <paul@paul-moore.com>, 
-	"jmorris@namei.org" <jmorris@namei.org>, "serge@hallyn.com" <serge@hallyn.com>, "jack@suse.cz" <jack@suse.cz>, 
-	"john.johansen@canonical.com" <john.johansen@canonical.com>, 
-	"stephen.smalley.work@gmail.com" <stephen.smalley.work@gmail.com>, 
-	"omosnace@redhat.com" <omosnace@redhat.com>, "mic@digikod.net" <mic@digikod.net>, 
-	"gnoack@google.com" <gnoack@google.com>, "takedakn@nttdata.co.jp" <takedakn@nttdata.co.jp>, 
-	"herton@canonical.com" <herton@canonical.com>, Kernel Team <kernel-team@meta.com>, 
-	"selinux@vger.kernel.org" <selinux@vger.kernel.org>, 
-	"apparmor@lists.ubuntu.com" <apparmor@lists.ubuntu.com>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
-	"linux-security-module@vger.kernel.org" <linux-security-module@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Christian and Al,
+On Thu, 26 Mar 2026 16:46:29 -0700 Joanne Koong <joannelkoong@gmail.com> wrote:
 
-On Mon, Mar 23, 2026 at 11:12=E2=80=AFPM Tetsuo Handa
-<penguin-kernel@i-love.sakura.ne.jp> wrote:
-[...]
-> diff --git a/fs/namespace.c b/fs/namespace.c
-> index ba5baccdde67..621b8205a0af 100644
-> --- a/fs/namespace.c
-> +++ b/fs/namespace.c
-> @@ -3777,7 +3777,7 @@ static bool mount_too_revealing(const struct super_=
-block *sb, int *new_mnt_flags
->   * be added to the namespace tree.
->   */
->  static int do_new_mount_fc(struct fs_context *fc, const struct path *mou=
-ntpoint,
-> -                          unsigned int mnt_flags)
-> +                          unsigned int mnt_flags, void *data, unsigned l=
-ong flags)
->  {
->         struct super_block *sb;
->         struct vfsmount *mnt __free(mntput) =3D fc_mount(fc);
-> @@ -3786,6 +3786,10 @@ static int do_new_mount_fc(struct fs_context *fc, =
-const struct path *mountpoint,
->         if (IS_ERR(mnt))
->                 return PTR_ERR(mnt);
->
-> +       error =3D security_mount_new(fc, mountpoint, mnt_flags, flags, da=
-ta);
-> +       if (error)
-> +               return error;
-> +
->         sb =3D fc->root->d_sb;
->         error =3D security_sb_kern_mount(sb);
->         if (unlikely(error))
-> @@ -3857,9 +3861,7 @@ static int do_new_mount(const struct path *path, co=
-nst char *fstype,
->                 err =3D -EPERM;
->
->         if (!err)
-> -               err =3D security_mount_new(fc, path, mnt_flags, flags, da=
-ta);
-> -       if (!err)
-> -               err =3D do_new_mount_fc(fc, path, mnt_flags);
-> +               err =3D do_new_mount_fc(fc, path, mnt_flags, data, flags)=
-;
->
->         put_fs_context(fc);
->         return err;
+> The proactive nr_dirty > gdtc->bg_thresh check in balance_dirty_pages()
+> only checks the global dirty threshold to start background writeback
+> while the writer is still free-running, but for strictlimit BDIs (eg
+> fuse), the per-wb dirty count can exceed the per-wb background threshold
+> while the global threshold is not yet exceeded, so background writeback
+> for this case never gets proactively started.
+> 
+> Add a per-wb threshold check for strictlimit BDIs so that background
+> writeback is started when wb_dirty exceeds wb_bg_thresh, which drains
+> dirty pages before the writer hits the throttle wall, matching the
+> proactive behavior that the global check provides for non-strictlimit
+> BDIs.
+> 
+> fio runs on fuse show about a 3-4% improvement in perf for buffered
+> writes:
+> fio --name=writeback_test --ioengine=psync --rw=write --bs=128k \
+>     --size=2G --numjobs=4 --ramp_time=10 --runtime=20 \
+>     --time_based --group_reporting=1 --direct=0
+> 
 
-Could you please comment on Tetsuo's proposal here? The core
-change (moving security_mount_new after fc_mount) makes sense
-to me. However, it seems to require a lot of code to support this
-change.
+Thanks.
 
-Given the current patchset addresses TOCTOU issues of bind
-mount, etc. Maybe we can land this set and address TOCTOU
-issue with new mount in follow-up patches?
+Your v1 patch's changelog had useful information showing the
+performance impact on fuse.  I've pasted one sentence from that
+changelog into my copy of this changelog, but please don't be sparing
+in describing the importance of a fix.
 
-Thanks,
-Song
+Also, we lost the Fixes tag.  I've added
+
+Fixes: 64dd89ae01f2 ("mm/block/fs: remove laptop_mode") 
+Cc: <stable@vger.kernel.org>
+
+to my copy of this v2 patch.  Please confirm that this is appropriate.
+
+> --- a/mm/page-writeback.c
+> +++ b/mm/page-writeback.c
+> @@ -1862,15 +1864,9 @@ static int balance_dirty_pages(struct bdi_writeback *wb,
+>  		 * Unconditionally start background writeback if it's not
+>  		 * already in progress. We need to do this because the global
+>  		 * dirty threshold check above (nr_dirty > gdtc->bg_thresh)
+> -		 * doesn't account for these cases:
+> -		 *
+> -		 * a) strictlimit BDIs: throttling is calculated using per-wb
+> -		 * thresholds. The per-wb threshold can be exceeded even when
+> -		 * nr_dirty < gdtc->bg_thresh
+> -		 *
+> -		 * b) memcg-based throttling: memcg uses its own dirty count and
+> -		 * thresholds and can trigger throttling even when global
+> -		 * nr_dirty < gdtc->bg_thresh
+> +		 * doesn't account for the memcg-based throttling case. memcg
+> +		 * uses its own dirty count and thresholds and can trigger
+> +		 * throttling even when global nr_dirty < gdtc->bg_thresh
+>  		 *
+>  		 * Writeback needs to be started else the writer stalls in the
+>  		 * throttle loop waiting for dirty pages to be written back
+
+My copy of balance_dirty_pages() doesn't have this comment block.  I
+assume you're patching a different kernel version.  I dropped this
+hunk.  Please check current Linus mainline and see if there's somewhere
+else where you'd like to add this information.
+
+
+
