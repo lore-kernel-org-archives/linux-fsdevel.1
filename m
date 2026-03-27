@@ -1,149 +1,111 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com [95.215.58.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2E5F42A82;
-	Fri, 27 Mar 2026 07:17:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 136DC3B7B8F
+	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Mar 2026 07:29:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774595834; cv=none; b=oB+XgzxMV2a735up5LBB//4rnY+LWi+jVStuLw3MC9EaDyHIh+I+5HKGIakD41Cm4lkfKLDESYaVGcg0TLLWIFbAaB7BsVQx7yAsoVAxw8h1YwryzKozGcNePRk4j7DpeEEHaTsarwld0jaXaSEaM0v6oANPAhHBsXJ4+Qzn9Ww=
+	t=1774596575; cv=none; b=fuG9eVcGBgzJNvKBmEJp3Y0cmmprXZ/w8HgVCZvSbr7eHYg0dbc1UEKclO6DlaCDsEQANx0N3v/EJ4Zp/Oon8WpL5EMKkmbbT417T4qAaF+cWafkDznLYCPtxVLKWsUlnfmaPQgiPcmU0t3XOgpkjiemivzvMRlSVVYKqN4Tmtw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774595834; c=relaxed/simple;
-	bh=IUYSIF0KW3Qy7E/Goib0L6h6MkvUQflSfro+xi0ix5E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GN7z2+Kx+pawF3TC6RmXQ9Y1G6mlSlVpoIe7sJ7yZZVaxhkftlpossI+zDl1wRhnE0zB636z1ABAARyyvLOsxrFXc7VvvijXi7HX+biGLhsmECS5RpQDC6jvHp3j5FW63VO2c/eh7S4WFNT8X9mnJ0H8jqxbpIJgktmDckGlmxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BrApkn7g; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774596575; c=relaxed/simple;
+	bh=9lurGn1lSpzBgjH0/+dePgyNKRaFTinujHYU3qgSCgw=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hYSVmf1QIsds3gB4DvV4uftwJ05DCkvxUdpBxrQnpBIsayc8bBX84Q8epGNO6Dd3dNSAD8mvpyrXlQdQE0Uegg64776uNf5ZbccEtdfw/jwZkM9PtZifj09m6B6D8/6xmiGYMe7zy0UZ5SBLi+8Emaq08tjT7itTmEedgerRjTw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ox3nCwo8; arc=none smtp.client-ip=95.215.58.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BrApkn7g"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87AE0C19423;
-	Fri, 27 Mar 2026 07:17:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774595834;
-	bh=IUYSIF0KW3Qy7E/Goib0L6h6MkvUQflSfro+xi0ix5E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BrApkn7gG8vBjF+SCfFHdfy/8oIgFR+Akh5d7BCU1Hohx54Is9QxXoNfoa9uGQ4xo
-	 eflLiTJzu+tR8+wLJNWrOtLgcHXWatjoA5kp3SnT35BEGfuDE7YgLi90cne6xcF67U
-	 2h6tesGWXERiMxErSowF0IgsS+5sAD+EmQRXp24N+AFOSgHCAv6Mw2EHM274kKi7Hb
-	 qTEAVBhSF8GjVmtd1bfwyrtH+sRaAWotyofj4MN8LIlyhA+3yvRsT/SlQzEJT5PiSZ
-	 EXe0zx0WhTbGdPXf/iCs4Pbju/YkGV9cunDQD4qzBUts4ESi1PJ6H2eHxZs+uZOUAi
-	 xeuaWZkdh54lQ==
-Date: Fri, 27 Mar 2026 10:17:03 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: James Houghton <jthoughton@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Andrea Arcangeli <aarcange@redhat.com>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	David Hildenbrand <david@kernel.org>,
-	Hugh Dickins <hughd@google.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>,
-	Nikita Kalyazin <kalyazin@amazon.com>,
-	Oscar Salvador <osalvador@suse.de>,
-	Paolo Bonzini <pbonzini@redhat.com>, Peter Xu <peterx@redhat.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@suse.cz>, kvm@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v2 09/15] userfaultfd: introduce
- vm_uffd_ops->alloc_folio()
-Message-ID: <acYu77eY_brO1blK@kernel.org>
-References: <20260306171815.3160826-1-rppt@kernel.org>
- <20260306171815.3160826-10-rppt@kernel.org>
- <CADrL8HUE1iBSPPDQZ3e-1gxN0Ts9kHAzb4o5X_XqSmQy2y9dRA@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ox3nCwo8"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1774596565;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8PVUMllx9roLVYGuErAn8ZTvJWl2ucu/IWwrTH7LZxM=;
+	b=ox3nCwo83xjPmHsH25jtZvfi47UYkpcpsgdfU0K+K5oldz/OcHPPSHjnn5pFX42Wls5vXc
+	rNFIQR8MoOh0foEg6JFagB5C7tnJiClvkiS15v7LnC6EeNv12LdziqkhNU90QcKELv89uZ
+	YGP/nfRe6E9BvTuukXmXKEdDLOc/mbQ=
+From: Lance Yang <lance.yang@linux.dev>
+To: ziy@nvidia.com
+Cc: willy@infradead.org,
+	songliubraving@fb.com,
+	clm@fb.com,
+	dsterba@suse.com,
+	viro@zeniv.linux.org.uk,
+	brauner@kernel.org,
+	jack@suse.cz,
+	akpm@linux-foundation.org,
+	david@kernel.org,
+	ljs@kernel.org,
+	baolin.wang@linux.alibaba.com,
+	Liam.Howlett@oracle.com,
+	npache@redhat.com,
+	ryan.roberts@arm.com,
+	dev.jain@arm.com,
+	baohua@kernel.org,
+	lance.yang@linux.dev,
+	vbabka@kernel.org,
+	rppt@kernel.org,
+	surenb@google.com,
+	mhocko@suse.com,
+	shuah@kernel.org,
+	linux-btrfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v1 02/10] mm/khugepaged: remove READ_ONLY_THP_FOR_FS check
+Date: Fri, 27 Mar 2026 15:29:17 +0800
+Message-Id: <20260327072917.68630-1-lance.yang@linux.dev>
+In-Reply-To: <20260327014255.2058916-3-ziy@nvidia.com>
+References: <20260327014255.2058916-3-ziy@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CADrL8HUE1iBSPPDQZ3e-1gxN0Ts9kHAzb4o5X_XqSmQy2y9dRA@mail.gmail.com>
+X-Migadu-Flow: FLOW_OUT
 
-On Thu, Mar 26, 2026 at 05:07:08PM -0700, James Houghton wrote:
-> On Fri, Mar 6, 2026 at 9:19 AM Mike Rapoport <rppt@kernel.org> wrote:
-> >
-> > From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-> >
-> > and use it to refactor mfill_atomic_pte_zeroed_folio() and
-> > mfill_atomic_pte_copy().
-> >
-> > mfill_atomic_pte_zeroed_folio() and mfill_atomic_pte_copy() perform
-> > almost identical actions:
-> > * allocate a folio
-> > * update folio contents (either copy from userspace of fill with zeros)
-> > * update page tables with the new folio
-> >
-> > Split a __mfill_atomic_pte() helper that handles both cases and uses
-> > newly introduced vm_uffd_ops->alloc_folio() to allocate the folio.
-> >
-> > Pass the ops structure from the callers to __mfill_atomic_pte() to later
-> > allow using anon_uffd_ops for MAP_PRIVATE mappings of file-backed VMAs.
-> >
-> > Note, that the new ops method is called alloc_folio() rather than
-> > folio_alloc() to avoid clash with alloc_tag macro folio_alloc().
-> >
-> > Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> 
-> Feel free to add:
-> 
-> Reviewed-by: James Houghton <jthoughton@google.com>
 
-Thanks!
- 
-> > ---
-> >  include/linux/userfaultfd_k.h |  6 +++
-> >  mm/userfaultfd.c              | 92 ++++++++++++++++++-----------------
-> >  2 files changed, 54 insertions(+), 44 deletions(-)
-> >
-> > diff --git a/include/linux/userfaultfd_k.h b/include/linux/userfaultfd_k.h
-> > index 66dfc3c164e6..4d8b879eed91 100644
-> > --- a/include/linux/userfaultfd_k.h
-> > +++ b/include/linux/userfaultfd_k.h
-> > @@ -91,6 +91,12 @@ struct vm_uffd_ops {
-> >          * The returned folio is locked and with reference held.
-> >          */
-> >         struct folio *(*get_folio_noalloc)(struct inode *inode, pgoff_t pgoff);
-> > +       /*
-> > +        * Called during resolution of UFFDIO_COPY request.
-> > +        * Should return allocate a and return folio or NULL if allocation fails.
+On Thu, Mar 26, 2026 at 09:42:47PM -0400, Zi Yan wrote:
+>collapse_file() requires FSes supporting large folio with at least
+>PMD_ORDER, so replace the READ_ONLY_THP_FOR_FS check with that. shmem with
+>huge option turned on also sets large folio order on mapping, so the check
+>also applies to shmem.
+>
+>While at it, replace VM_BUG_ON with returning failure values.
+>
+>Signed-off-by: Zi Yan <ziy@nvidia.com>
+>---
+> mm/khugepaged.c | 7 +++++--
+> 1 file changed, 5 insertions(+), 2 deletions(-)
+>
+>diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+>index d06d84219e1b..45b12ffb1550 100644
+>--- a/mm/khugepaged.c
+>+++ b/mm/khugepaged.c
+>@@ -1899,8 +1899,11 @@ static enum scan_result collapse_file(struct mm_struct *mm, unsigned long addr,
+> 	int nr_none = 0;
+> 	bool is_shmem = shmem_file(file);
 > 
-> "Should allocate and return a folio or NULL if allocation fails."
-> 
-> I see this mistake is fixed in the next patch. :)
+>-	VM_BUG_ON(!IS_ENABLED(CONFIG_READ_ONLY_THP_FOR_FS) && !is_shmem);
+>-	VM_BUG_ON(start & (HPAGE_PMD_NR - 1));
+>+	/* "huge" shmem sets mapping folio order and passes the check below */
+>+	if (mapping_max_folio_order(mapping) < PMD_ORDER)
+>+		return SCAN_FAIL;
 
-Endless rebases :)
-Will try to sort it out this time :)
- 
-> > @@ -483,9 +498,15 @@ static int mfill_atomic_pte_copy(struct mfill_state *state)
-> >                  * If there was an error, we must mfill_put_vma() anyway and it
-> >                  * will take care of unlocking if needed.
-> >                  */
-> > -               ret = mfill_copy_folio_retry(state, folio);
-> > -               if (ret)
-> > -                       goto out_release;
-> > +               if (unlikely(ret)) {
-> > +                       ret = mfill_copy_folio_retry(state, folio);
-> > +                       if (ret)
-> > +                               goto err_folio_put;
-> > +               }
-> > +       } else if (uffd_flags_mode_is(flags, MFILL_ATOMIC_ZEROPAGE)) {
-> > +               clear_user_highpage(&folio->page, state->dst_addr);
-> > +       } else {
-> > +               VM_WARN_ONCE(1, "unknown UFFDIO operation");
-> 
-> "Unknown UFFDIO operation. flags=%x", flags
-> 
-> seems a little better to me.
+Yep, for shmem inodes, if the mount has huge= enabled, inode creation
+marks the mapping are large-folio capable:
 
-Yeah, why not.
- 
+	/* Don't consider 'deny' for emergencies and 'force' for testing */
+	if (sbinfo->huge)
+		mapping_set_large_folios(inode->i_mapping);
 
--- 
-Sincerely yours,
-Mike.
+LGTM!
+
+Reviewed-by: Lance Yang <lance.yang@linux.dev>
