@@ -1,137 +1,231 @@
-Received: from smtp01-ext2.udag.de (smtp01-ext2.udag.de [62.146.106.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2082D33B955;
-	Fri, 27 Mar 2026 07:36:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.146.106.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D7DA3C8715;
+	Fri, 27 Mar 2026 07:46:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774597002; cv=none; b=i+6gB2Qgrc3UdNQCVfnWdzvUlFlPNxA6QY6k/sQvEDq8GwBQa0XugL/7gRLmZ5cRPYT+o6OuJyish1VyfET6RpgWS24VdIv0L03zxfAs5dtP/04ZQr+qpokkNjOTB9BCgC/YevkPWxv5CcumhWDE+X8fGAnqrppl3qxVdGaislY=
+	t=1774597588; cv=none; b=cFyHkjOdvT89rpWgBkIstSivVtxcsHtNo4Eqw+CYyRsBPvJIpupUyuBDcsxEi0ilAJsvCJ42WM02usiWVJkh3YKZ3HeX03w/zGCwCapDD5G5zZeNVKVWiWllLau0nvUUhLaVrB1Q0PJ/Vwx5hFXTFbSY2u7n6JMJlua8uN95S6I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774597002; c=relaxed/simple;
-	bh=CNxZ6BBRwXGxbPCP5u/vOn1ZhBmbJUKAdG1aLVb3pUs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=MI3aa2++3mEPH87/PF06B+x97aNNkHRbL8rvL1Ar5YKvm1ero4kvlr1z8w8/WUq+Vmx3Qm9imvzOh97SC9LVIaW5B9Z9sS6+DqrK9BZv9VRYPeBWLX5lG5KhM7faAQsLmqB1Pqw03gK1sEsGheRwEXxELlHIvWSWpRUaIjMUFqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.com; spf=pass smtp.mailfrom=birthelmer.com; dkim=pass (2048-bit key) header.d=birthelmer.com header.i=@birthelmer.com header.b=IrqboW2o; arc=none smtp.client-ip=62.146.106.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birthelmer.com
+	s=arc-20240116; t=1774597588; c=relaxed/simple;
+	bh=YpYLgI0jbsF+A0nzcAUua2nUX4/yXL66W0C5PJTgXrY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Nq/N6Hk/W5ipTmTN2rKtHSpzQUrnzY/sVq4SFk4UqLQQbDIegPjFQuM216G1g8KAf+YK++fiZLbbUbsNpqNJGYP5K+qcOSTwnsg+MPONoL6ERs8z3A6i0zONISXQm/MBS8as5FaaFu8SrXmvXlNhylzz4ZaqzxdgpIXseBDRQ/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JAnfdjN+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=birthelmer.com header.i=@birthelmer.com header.b="IrqboW2o"
-Received: from [192.168.178.110] (108-141-067-156.ip-addr.inexio.net [156.67.141.108])
-	by smtp01-ext2.udag.de (Postfix) with ESMTPA id EFAB3E0367;
-	Fri, 27 Mar 2026 08:36:33 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=birthelmer.com;
-	s=uddkim-202310; t=1774596994;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=cYADJ2bhfZxpR8MQhodrOpyziSQvdQveFNgUSBLbaxk=;
-	b=IrqboW2ojXT78mUj/EqXeess0QsL+f/MXkvNJfLbzh6Fu1UD1Uz/+6jvF9mvRBWMTos1wR
-	V3RRjnx5MCVdE6yY9gUOILwtCUN7MOwsvQHHidEyPRQkKdQlTzwGuAF89Zjnf+LmEckuhy
-	jl7oUcVgIGBRJIWCGAD0vY/xhvmrANe/JPBKFXsxHR8wWkjFDyQFF7cbIw1ZvN2BBL7dLw
-	o+TyDL4BjF9vwGolfSdn/a57BEynAfj/MCi5Q2hFoq2x7cSKZnrOsuRqd0+U7YIOxP7NQH
-	EAK5LYBnFxNyJybFHypQcvmb6yWDR2GC7LIs5PDh9+HCXk98n/rf89l8U0A6vw==
-Authentication-Results: smtp01-ext2.udag.de;
-	auth=pass smtp.auth=birthelmercom-0001 smtp.mailfrom=horst@birthelmer.com
-From: Horst Birthelmer <horst@birthelmer.com>
-Date: Fri, 27 Mar 2026 08:36:31 +0100
-Subject: [PATCH v2] fuse: fix inode initialization race
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JAnfdjN+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39BD4C19423;
+	Fri, 27 Mar 2026 07:46:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774597587;
+	bh=YpYLgI0jbsF+A0nzcAUua2nUX4/yXL66W0C5PJTgXrY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JAnfdjN+EsvFi1j+dVGjzyHPyTGqTDMKTZrNVgQtgdS3xTJN/KeC6SXfA6DW6KjZ+
+	 aXiEtUM3bJ0ki+Z9akOlTunEzzX5U9ssu8zkRelLpjeQHa/HwmIwwj6h10u5dOEg0M
+	 EKBK/9ZwAoABVZvbLpHEF0ii0f6vV3ud6iWKWuUuKizQooRHUkahfT6Z9o8xP7UzAv
+	 V7Ey/wrGk7siZDOJ5MJ/BLtJ5l6cix8sJsH1OOi+2j3uqZx/SfPbQJnE1wX5So5cdI
+	 qTCscyLEFql+4cw/7JjIAf1/JD2WybgTQS/Y93nhclmXbb4rNjhVp/Hxc+mgKRvhwF
+	 qjAqgYGSU/bnA==
+Date: Fri, 27 Mar 2026 10:46:15 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: James Houghton <jthoughton@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Andrea Arcangeli <aarcange@redhat.com>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	David Hildenbrand <david@kernel.org>,
+	Hugh Dickins <hughd@google.com>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>,
+	Nikita Kalyazin <kalyazin@amazon.com>,
+	Oscar Salvador <osalvador@suse.de>,
+	Paolo Bonzini <pbonzini@redhat.com>, Peter Xu <peterx@redhat.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@suse.cz>, kvm@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v2 10/15] shmem, userfaultfd: implement shmem uffd
+ operations using vm_uffd_ops
+Message-ID: <acY1x8M3y7xWLwBa@kernel.org>
+References: <20260306171815.3160826-1-rppt@kernel.org>
+ <20260306171815.3160826-11-rppt@kernel.org>
+ <CADrL8HXajnfE=WusxL=DeF7VcvrsX9z5XDC4mPt1JfMOd7J5DA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260327-fix-inode-init-race-v2-1-22b1757109f8@ddn.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/32NSw7CIBCGr9LM2jEFq1RX3sN0MZSpnYXQQEM0D
- XcXewCX3//cIHEUTnBrNoicJUnwFfShgXEm/2QUVxl0qy/tSfU4yRvFB1cNLytGGhmpM2QsdTQ
- phtpcItfYvvoYKs+S1hA/+0lWP/X/XlaokAyfe6uds1e6O+ePY3jBUEr5AswMrA20AAAA
-X-Change-ID: 20260318-fix-inode-init-race-a47a7ba4af1e
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Bernd Schubert <bernd@bsbernd.com>, 
- Joanne Koong <joannelkoong@gmail.com>, linux-fsdevel@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Horst Birthelmer <hbirthelmer@ddn.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1774596993; l=2620;
- i=hbirthelmer@ddn.com; s=20251006; h=from:subject:message-id;
- bh=v/K9pYmmubK1YKdlD9evkj6xhfPI+xuqiGzndGTLII8=;
- b=GAHWjsjq3Za0TOfaG9/jB1gznWDrHg+j2BGo2E9WiRGIHCaDtswp3tFKwu1izX78KQYvIvDGM
- qsKlZvQoC+GCyey5hmVsAp6vgXB/yJzKVzk0mhCw/KfBOtVzqBW+7Ao
-X-Developer-Key: i=hbirthelmer@ddn.com; a=ed25519;
- pk=v3BVDFoy16EzgHZ23ObqW+kbpURtjrwxgKu8YNDKjGg=
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CADrL8HXajnfE=WusxL=DeF7VcvrsX9z5XDC4mPt1JfMOd7J5DA@mail.gmail.com>
 
-From: Horst Birthelmer <hbirthelmer@ddn.com>
+On Thu, Mar 26, 2026 at 06:13:37PM -0700, James Houghton wrote:
+> On Fri, Mar 6, 2026 at 9:19 AM Mike Rapoport <rppt@kernel.org> wrote:
+> >
+> > From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+> >
+> > Add filemap_add() and filemap_remove() methods to vm_uffd_ops and use
+> > them in __mfill_atomic_pte() to add shmem folios to page cache and
+> > remove them in case of error.
+> >
+> > Implement these methods in shmem along with vm_uffd_ops->alloc_folio()
+> > and drop shmem_mfill_atomic_pte().
+> >
+> > Since userfaultfd now does not reference any functions from shmem, drop
+> > include if linux/shmem_fs.h from mm/userfaultfd.c
+> >
+> > mfill_atomic_install_pte() is not used anywhere outside of
+> > mm/userfaultfd, make it static.
+> >
+> > Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> > ---
+> >  include/linux/shmem_fs.h      |  14 ----
+> >  include/linux/userfaultfd_k.h |  21 +++--
+> >  mm/shmem.c                    | 148 ++++++++++++----------------------
+> >  mm/userfaultfd.c              |  79 +++++++++---------
+> >  4 files changed, 106 insertions(+), 156 deletions(-)
+> >
+> > diff --git a/include/linux/shmem_fs.h b/include/linux/shmem_fs.h
+> > index a8273b32e041..1a345142af7d 100644
+> > --- a/include/linux/shmem_fs.h
+> > +++ b/include/linux/shmem_fs.h
+> > @@ -221,20 +221,6 @@ static inline pgoff_t shmem_fallocend(struct inode *inode, pgoff_t eof)
+> >
+> >  extern bool shmem_charge(struct inode *inode, long pages);
+> >
+> > -#ifdef CONFIG_USERFAULTFD
+> > -#ifdef CONFIG_SHMEM
+> > -extern int shmem_mfill_atomic_pte(pmd_t *dst_pmd,
+> > -                                 struct vm_area_struct *dst_vma,
+> > -                                 unsigned long dst_addr,
+> > -                                 unsigned long src_addr,
+> > -                                 uffd_flags_t flags,
+> > -                                 struct folio **foliop);
+> > -#else /* !CONFIG_SHMEM */
+> > -#define shmem_mfill_atomic_pte(dst_pmd, dst_vma, dst_addr, \
+> > -                              src_addr, flags, foliop) ({ BUG(); 0; })
+> > -#endif /* CONFIG_SHMEM */
+> > -#endif /* CONFIG_USERFAULTFD */
+> > -
+> >  /*
+> >   * Used space is stored as unsigned 64-bit value in bytes but
+> >   * quota core supports only signed 64-bit values so use that
+> > diff --git a/include/linux/userfaultfd_k.h b/include/linux/userfaultfd_k.h
+> > index 4d8b879eed91..bf4e595ac914 100644
+> > --- a/include/linux/userfaultfd_k.h
+> > +++ b/include/linux/userfaultfd_k.h
+> > @@ -93,10 +93,24 @@ struct vm_uffd_ops {
+> >         struct folio *(*get_folio_noalloc)(struct inode *inode, pgoff_t pgoff);
+> >         /*
+> >          * Called during resolution of UFFDIO_COPY request.
+> > -        * Should return allocate a and return folio or NULL if allocation fails.
+> > +        * Should allocate and return a folio or NULL if allocation
+> > +        * fails.
+> >          */
+> >         struct folio *(*alloc_folio)(struct vm_area_struct *vma,
+> >                                      unsigned long addr);
+> > +       /*
+> > +        * Called during resolution of UFFDIO_COPY request.
+> > +        * Should lock the folio and add it to VMA's page cache.
+> 
+> I don't think "should lock the folio" is accurate. That sounds like
+> "it will call folio_lock()" but it actually calls
+> __folio_set_locked(). Maybe this is better:
+> 
+> "Should only be called with a folio returned by alloc_folio() above.
+> The folio will set to locked."
 
-Fix a race between fuse_iget() and fuse_reverse_inval_inode() where
-invalidation can arrive while an inode is being initialized, causing
-the invalidation to be lost.
-By keeping the inode state I_NEW as long as the attributes are not valid
-the invalidation can wait until the inode is fully initialized.
-
-Suggested-by: Joanne Koong <joannelkoong@gmail.com>
-Signed-off-by: Horst Birthelmer <hbirthelmer@ddn.com>
----
-Changes in v2:
-- switch from waitq guided by attr_version to wait_on_new_inode() and unlock_new_inode() when
-the inode is fully initialized
-- Link to v1: https://lore.kernel.org/r/20260318-fix-inode-init-race-v1-1-a7e58b2ddb9a@ddn.com
----
- fs/fuse/inode.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
-
-diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
-index e57b8af06be93ecc29c58864a9c9e99c68e3283b..fa0adc2bbe58cee6f63153c60c401b78ec3695bf 100644
---- a/fs/fuse/inode.c
-+++ b/fs/fuse/inode.c
-@@ -470,6 +470,7 @@ struct inode *fuse_iget(struct super_block *sb, u64 nodeid,
- 	struct inode *inode;
- 	struct fuse_inode *fi;
- 	struct fuse_conn *fc = get_fuse_conn_super(sb);
-+	bool is_new_inode = false;
+Yeah, sounds good.
  
- 	/*
- 	 * Auto mount points get their node id from the submount root, which is
-@@ -505,13 +506,13 @@ struct inode *fuse_iget(struct super_block *sb, u64 nodeid,
- 	if (!inode)
- 		return NULL;
- 
--	if ((inode_state_read_once(inode) & I_NEW)) {
-+	is_new_inode = inode_state_read_once(inode) & I_NEW;
-+	if (is_new_inode) {
- 		inode->i_flags |= S_NOATIME;
- 		if (!fc->writeback_cache || !S_ISREG(attr->mode))
- 			inode->i_flags |= S_NOCMTIME;
- 		inode->i_generation = generation;
- 		fuse_init_inode(inode, attr, fc);
--		unlock_new_inode(inode);
- 	} else if (fuse_stale_inode(inode, generation, attr)) {
- 		/* nodeid was reused, any I/O on the old inode should fail */
- 		fuse_make_bad(inode);
-@@ -528,6 +529,8 @@ struct inode *fuse_iget(struct super_block *sb, u64 nodeid,
- done:
- 	fuse_change_attributes_i(inode, attr, NULL, attr_valid, attr_version,
- 				 evict_ctr);
-+	if (is_new_inode)
-+		unlock_new_inode(inode);
- 	return inode;
- }
- 
-@@ -565,6 +568,9 @@ int fuse_reverse_inval_inode(struct fuse_conn *fc, u64 nodeid,
- 	if (!inode)
- 		return -ENOENT;
- 
-+	/* Wait for inode initialization to complete */
-+	wait_on_new_inode(inode);
-+
- 	fi = get_fuse_inode(inode);
- 	spin_lock(&fi->lock);
- 	fi->attr_version = atomic64_inc_return(&fc->attr_version);
+> > +        * Returns 0 on success, error code on failure.
+> > +        */
+> > +       int (*filemap_add)(struct folio *folio, struct vm_area_struct *vma,
+> > +                        unsigned long addr);
 
----
-base-commit: f338e77383789c0cae23ca3d48adcc5e9e137e3c
-change-id: 20260318-fix-inode-init-race-a47a7ba4af1e
+> > @@ -404,6 +400,9 @@ int mfill_atomic_install_pte(pmd_t *dst_pmd,
+> >
+> >         set_pte_at(dst_mm, dst_addr, dst_pte, _dst_pte);
+> >
+> > +       if (page_in_cache)
+> > +               folio_unlock(folio);
+> 
+> I don't really like doing the folio_unlock() *here*, I think it's
+> clearer if the callers (mfill_atomic_pte_continue() and
+> __mfill_atomic_pte()) unlocked the folio themselves. But that's just
+> my opinion.
 
-Best regards,
+We already have page_in_cache here, so I'd prefer to keep a single
+folio_unlock() rather than add additional if (page_in_cache) in
+__mfill_atomic_pte().
+ 
+> > +
+> >         /* No need to invalidate - it was non-present before */
+> >         update_mmu_cache(dst_vma, dst_addr, dst_pte);
+> >         ret = 0;
+> > @@ -836,41 +856,18 @@ extern ssize_t mfill_atomic_hugetlb(struct userfaultfd_ctx *ctx,
+> >
+> >  static __always_inline ssize_t mfill_atomic_pte(struct mfill_state *state)
+> >  {
+> > -       struct vm_area_struct *dst_vma = state->vma;
+> > -       unsigned long src_addr = state->src_addr;
+> > -       unsigned long dst_addr = state->dst_addr;
+> > -       struct folio **foliop = &state->folio;
+> >         uffd_flags_t flags = state->flags;
+> > -       pmd_t *dst_pmd = state->pmd;
+> > -       ssize_t err;
+> >
+> >         if (uffd_flags_mode_is(flags, MFILL_ATOMIC_CONTINUE))
+> >                 return mfill_atomic_pte_continue(state);
+> >         if (uffd_flags_mode_is(flags, MFILL_ATOMIC_POISON))
+> >                 return mfill_atomic_pte_poison(state);
+> > +       if (uffd_flags_mode_is(flags, MFILL_ATOMIC_COPY))
+> > +               return mfill_atomic_pte_copy(state);
+> > +       if (uffd_flags_mode_is(flags, MFILL_ATOMIC_ZEROPAGE))
+> > +               return mfill_atomic_pte_zeropage(state);
+> 
+> Thanks for this cleanup. :)
+> 
+> >
+> > -       /*
+> > -        * The normal page fault path for a shmem will invoke the
+> > -        * fault, fill the hole in the file and COW it right away. The
+> > -        * result generates plain anonymous memory. So when we are
+> > -        * asked to fill an hole in a MAP_PRIVATE shmem mapping, we'll
+> > -        * generate anonymous memory directly without actually filling
+> > -        * the hole. For the MAP_PRIVATE case the robustness check
+> > -        * only happens in the pagetable (to verify it's still none)
+> > -        * and not in the radix tree.
+> > -        */
+> > -       if (!(dst_vma->vm_flags & VM_SHARED)) {
+> > -               if (uffd_flags_mode_is(flags, MFILL_ATOMIC_COPY))
+> > -                       err = mfill_atomic_pte_copy(state);
+> > -               else
+> > -                       err = mfill_atomic_pte_zeropage(state);
+> > -       } else {
+> > -               err = shmem_mfill_atomic_pte(dst_pmd, dst_vma,
+> > -                                            dst_addr, src_addr,
+> > -                                            flags, foliop);
+> > -       }
+> > -
+> > -       return err;
+> > +       return -EOPNOTSUPP;
+> 
+> WARN_ONCE() here I think.
+
+I'll add VM_WARN_ONCE() here.
+
+> Feel free to add:
+> 
+> Reviewed-by: James Houghton <jthoughton@google.com>
+
+Thanks!
+
 -- 
-Horst Birthelmer <hbirthelmer@ddn.com>
-
+Sincerely yours,
+Mike.
