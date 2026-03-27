@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 140C42E9733
-	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Mar 2026 01:27:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A1DE2FF170
+	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Mar 2026 01:27:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774574844; cv=none; b=NhrRqYVvQoyEma5MuXKRNZGcI7ExJX9UqjAsT+x0KciOm35Ls15DcZWfOWWSDh3vp8ZxKgqa8h2Yv7LVE2y408WdU7BPSpY9bBNglr8B1nlOWRguUkcRxYUjXMfqzf2bbQi67gFKw4/fJM8HXOgcS8j39gQaVaKWgRXn0HUUFWE=
+	t=1774574859; cv=none; b=s6TGyFhcrBP2H2NACjB0oZ2WNbjz8AV3idjPrsO0rWi3Sf+H77HGKVlTtUJU9uDaW+H2ZYAlVxAnMNdLE4QpBGCBt6DVXYiqiy0AgHCTWmaYC859UH4YFDIl4WaeNGC2ERXW1VGU8Yxh75z3LkQ4yii1u0vykNp61xM4YlHubJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774574844; c=relaxed/simple;
-	bh=DaJGZCL0JxRXONy2bs3aA818gEDojuJKr/o9IsHcdSw=;
+	s=arc-20240116; t=1774574859; c=relaxed/simple;
+	bh=vMbvgp0mtiihPPzf5blBH9tIuvs6M9GGEXUIy85lD2Q=;
 	h=Date:Subject:From:To:Cc:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ecE3lefTEbxMPQ+ogjLxixt0VnKe/C3YHRROUz44fb3Aw9KHIxdPona83kIrX3dMKXA46+PvYEgFgYTMzNMLA8i6JOI8qcCcKzh1RQl96WQNj4u8zm7kYGkU4RRxEJxw6tAIQVsfBunyCYNyeN8xpTBpF7IM/OwSV0/Xk4mRLnw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DN9AfpQP; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=tjY2g9GfNyjYaym1aGAJQ6HhQzYieNTvqOE8ZEGo/e1p24511mM8S+OZ12yY7DRYPEHnbcABWlOxmDyIDwFhtnPJslkWVHxhX3rJPJ8jNMW8436Zdmkntwj1hUPnOsfDEx7SKrPfnlFP1q1jXXJA1z46l26oZEEL5/sEDxTkwX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kgQ3nknA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DN9AfpQP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7688AC116C6;
-	Fri, 27 Mar 2026 01:27:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kgQ3nknA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1628AC2BCB0;
+	Fri, 27 Mar 2026 01:27:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774574843;
-	bh=DaJGZCL0JxRXONy2bs3aA818gEDojuJKr/o9IsHcdSw=;
+	s=k20201202; t=1774574859;
+	bh=vMbvgp0mtiihPPzf5blBH9tIuvs6M9GGEXUIy85lD2Q=;
 	h=Date:Subject:From:To:Cc:In-Reply-To:References:From;
-	b=DN9AfpQP0U9aEnNNaokxsA53IRwUp8xzdpw1oY8h0gu+ljg6BeBu/ixscbq/MlgmA
-	 ESG8ZffnoMzJ8X1Sz2AANzzOpIgip4V05RbKgaI2dIodqlJxkG3i1gL9/AZYBXUf0p
-	 gHmuF4EDZCuIhdcew8eruz5An9BP6Nq2hYdAAsRWs3Bw+xiWKwhQfdKSSpV7V0T4f2
-	 EgIncf5F7o7y5oCGBagEZRSshbbkooO859Ks/e9HjSjz1scoSSx5/a9UaX+Itz5mnY
-	 A2nYc9n+CeoZYyUpR1kqMrzQjtJ/2fDLv+62c8nTbj7pTjQ4+Z28gT9GYVZr9NKpaC
-	 jgl4I8hI1KOSw==
-Date: Thu, 26 Mar 2026 18:27:22 -0700
-Subject: [PATCH 10/17] util: fix more checkpatch complaints in fuser_conf.[ch]
+	b=kgQ3nknA3r+hEChAEckdncOapYN908zOKs87S4VJkhLuPVw1A9aL3k4kjARM7/sx0
+	 jUKsE4qLvrmC5q/uvmwp2e0FC6eQCAsx5ZVTw43Cp7RpxnuDMiwGwbLn3pQNr7oOo7
+	 EOPd4EFjvN38b5O6OGf39rhLktpix2ptOaKjt1pbGceoox2YafnlPVn8wbDxM47+57
+	 2/kfb5zKwJyT4NfIAyfkV2Ck79082HpsBUHRYrg2yGTIeiiCTgLAvxXZWExo3Po1aQ
+	 5Ab3WGlSmD4mKzNU5A3dPyqL2Cnz0F8k92TIoXMxMHO4HUaV7SKSwAWD7zaHtaRpQ5
+	 VziN3NAVtNxuw==
+Date: Thu, 26 Mar 2026 18:27:38 -0700
+Subject: [PATCH 11/17] mount_service: use over the other non-root user checks
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: djwong@kernel.org, bschubert@ddn.com
 Cc: linux-fsdevel@vger.kernel.org, bernd@bsbernd.com, miklos@szeredi.hu,
  neal@gompa.dev, joannelkoong@gmail.com
-Message-ID: <177457463297.1008428.11950635302999951775.stgit@frogsfrogsfrogs>
+Message-ID: <177457463316.1008428.211933150228152448.stgit@frogsfrogsfrogs>
 In-Reply-To: <177457463048.1008428.11432672970504238251.stgit@frogsfrogsfrogs>
 References: <177457463048.1008428.11432672970504238251.stgit@frogsfrogsfrogs>
 Precedence: bulk
@@ -46,52 +46,93 @@ Content-Transfer-Encoding: 7bit
 
 From: Darrick J. Wong <djwong@kernel.org>
 
-Fix the checkpatch complaints because we touched more code.
+Now that we've hoisted the code that checks non-root fuse mounts to a
+common file, make fuservicemount obey them too.
 
 Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
 ---
- util/fuser_conf.c |   10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ util/mount_service.c |   62 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 62 insertions(+)
 
 
-diff --git a/util/fuser_conf.c b/util/fuser_conf.c
-index 7d239a48671b5b..e4ad31f26951f8 100644
---- a/util/fuser_conf.c
-+++ b/util/fuser_conf.c
-@@ -298,6 +298,8 @@ int check_nonroot_dir_access(const char *progname, const char *origmnt,
- 	return 0;
- }
+diff --git a/util/mount_service.c b/util/mount_service.c
+index 9f6feab902f89d..6e53447e1d65be 100644
+--- a/util/mount_service.c
++++ b/util/mount_service.c
+@@ -1224,6 +1224,30 @@ static int mount_service_fsopen_mount(struct mount_service *mo,
+ # define mount_service_fsopen_mount(...)	(-2)
+ #endif
  
-+#define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))
++static int check_nonroot_file_access(const struct mount_service *mo)
++{
++	char buf[32];
++	char *mntpt;
++	int fd;
 +
- int check_nonroot_fstype(const char *progname, const struct statfs *fs_buf)
++	if (mo->mountfd >= 0) {
++		snprintf(buf, sizeof(buf), "/dev/fd/%d", mo->mountfd);
++		mntpt = buf;
++	} else {
++		mntpt = mo->mountpoint;
++	}
++
++	fd = open(mntpt, O_WRONLY);
++	if (fd < 0) {
++		fprintf(stderr, "%s: user has no write access to mountpoint %s\n",
++			mo->msgtag, mo->mountpoint);
++		return -1;
++	}
++
++	close(fd);
++	return 0;
++}
++
+ static int mount_service_handle_mount_cmd(struct mount_service *mo,
+ 					  struct fuse_service_packet *p)
  {
- 	size_t i;
-@@ -307,13 +309,15 @@ int check_nonroot_fstype(const char *progname, const struct statfs *fs_buf)
- 	 * able to just put anything we want there.
- 	 * Luckily, without allow_other, we can't get other users to actually
- 	 * use any fake information we try to put there anyway.
--	 * Use a whitelist to be safe. */
-+	 * Use a whitelist to be safe.
-+	 */
- 
- 	/* Define permitted filesystems for the mount target. This was
- 	 * originally the same list as used by the ecryptfs mount helper
- 	 * (https://bazaar.launchpad.net/~ecryptfs/ecryptfs/trunk/view/head:/src/utils/mount.ecryptfs_private.c#L225)
- 	 * but got expanded as we found more filesystems that needed to be
--	 * overlaid. */
-+	 * overlaid.
-+	 */
- 	typeof(fs_buf->f_type) f_type_whitelist[] = {
- 		0x61756673 /* AUFS_SUPER_MAGIC */,
- 		0x00000187 /* AUTOFS_SUPER_MAGIC */,
-@@ -354,7 +358,7 @@ int check_nonroot_fstype(const char *progname, const struct statfs *fs_buf)
- 		0x2FC12FC1 /* ZFS_SUPER_MAGIC */,
- 		0x858458f6 /* RAMFS_MAGIC */,
- 	};
--	for (i = 0; i < sizeof(f_type_whitelist)/sizeof(f_type_whitelist[0]); i++) {
-+	for (i = 0; i < ARRAY_SIZE(f_type_whitelist); i++) {
- 		if (f_type_whitelist[i] == fs_buf->f_type)
- 			return 0;
+@@ -1298,6 +1322,44 @@ static int mount_service_handle_mount_cmd(struct mount_service *mo,
+ 		return mount_service_send_reply(mo, EINVAL);
  	}
+ 
++	/*
++	 * fuse.conf can limit the number of unprivileged fuse mounts.
++	 * For unprivileged mounts (via setuid) we also require write access
++	 * to the mountpoint, and we'll only accept certain underlying
++	 * filesystems.
++	 */
++	if (getuid() != 0) {
++		struct statfs fs_buf;
++
++		ret = check_nonroot_mount_count(mo->msgtag);
++		if (ret)
++			return mount_service_send_reply(mo, ENOMEM);
++
++		ret = fstatfs(mo->mountfd, &fs_buf);
++		if (ret) {
++			int error = errno;
++
++			fprintf(stderr, "%s: %s: %s\n",
++				mo->msgtag, mo->mountpoint, strerror(error));
++			return mount_service_send_reply(mo, error);
++		}
++
++		drop_privs();
++		if (S_ISDIR(stbuf.st_mode))
++			ret = check_nonroot_dir_access(mo->msgtag,
++						       mo->mountpoint,
++						       mo->real_mountpoint,
++						       &stbuf);
++		else
++			ret = check_nonroot_file_access(mo);
++		if (!ret)
++			ret = check_nonroot_fstype(mo->msgtag, &fs_buf);
++		restore_privs();
++
++		if (ret)
++			return mount_service_send_reply(mo, EPERM);
++	}
++
+ 	if (mo->fsopenfd >= 0) {
+ 		ret = mount_service_fsopen_mount(mo, oc, &stbuf);
+ 		if (ret != -2)
 
