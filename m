@@ -1,294 +1,241 @@
-Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011030.outbound.protection.outlook.com [52.101.62.30])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C5C02745E;
-	Fri, 27 Mar 2026 15:44:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.30
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3E701C5486
+	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Mar 2026 15:46:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.180
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774626254; cv=fail; b=QHqpvKR5G1beyEFMxyFrM2yW+6LzQMlXxm2aehhQemyh9SBVGy7KnRzy9fc1+/eNV+9BO8Ngiq0pwOD2QEGMj0gjOMbxObys5fZIgWzgWmoyQg6TdRA6EjHxvBLCgFYEUKkNZqmDGGAl8Iyv8e7xUApuFmjXN7DvZr4ZrGL4d98=
+	t=1774626388; cv=pass; b=Nt4QaVEZBxG49NoAUgImV2wgve1f4BJfJ2ioQnZTqGJKjl/Mmdc3wJmUeJLDD1b3MGNz17CCJplli2uE4tONRs1swoD0JruvBu4yYCbZ65W5Hk1HdktmAlqgaGp2POpGB1qiFyY/QbrS4HjzM2UZ7rGtZDyVuKh5ZDISIWIVBOk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774626254; c=relaxed/simple;
-	bh=tJf0HZ3XNlHQjgGEZTj9/Bb3nUH0ySUrqiUJq8EYBDg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Jy+HJw2lym9+dVE5S9cRIA8mOfwhGiKnyZTXp22TDlcpY6oO90cGcF8u7CNNjcL9KxasdBRIleh60QJvAcWUNZL0ZQJ5CpyygcMFNSiWBR0wPXSibNAVywIb4qnfmI75ZY/V9St7MpwAxKshbyG9KfNRQqYbBk7zyCQCJf3ggO8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=KFDNtgrL; arc=fail smtp.client-ip=52.101.62.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1774626388; c=relaxed/simple;
+	bh=rfFc3eRjztFlLv2yNnqD4g/YPOS/C3C1upvZOqnlwfU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lTppAs7haRcM9Fg70p7wC6ia27UX+/coW5TbTxCHQVvt3yKUc35N083MrdTZHDC3P4r+yqsZEzR0DgCgWW7uaDHns1uKh4ZFYTAdSjeMxPoUQVUDBbJTwifuvqleePWTQT4sumcgQJOUiDLef3leNzhfvqsqi7BUXRhApd+QGvQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=J2CaDgWn; arc=pass smtp.client-ip=209.85.160.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="KFDNtgrL"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Smqg8FegJsVHXPUoUqpZnjETCFn5k/G/YO+Lp865CQY53YoPn0q53UKyRhdf3xnIAb7G78JKvLOzbbRZapteosLgpL5wqkCb/ptXsWlfGu+xi4C2cBC+x/nSS0YE3Y012iLooiIqnui1QtDneOZ6mEJPsFlAgfsRsZ9XQSi6UwB2W5UnR2Usxp2uPyZn5k/mK+hKeuKGWS4EZaMpX04cztphdTwFVpjtGtJz//GMrCmLScpJORq8FBsLEEf4YUzhY+DzmxmWXGQItgtskcDfKWkWBtiqEq4hTWzy+UDLIyafb2uLnrMJ81CZZVnbe8BqxPcl8bRclGDZNtc152EUPQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=u5But+8CRQbV99IChjATiS0l/KR5l14qhFlXfLXHrI0=;
- b=pQcBqW4kEb6U4QwKyDyxOtM2MCy8/7r5Lpzu5wX6cehuJ8pdr8GBeqWmjp862w88aYNZLyYUyGY7zmaVQgE/r48FN7iI2Lns7/4lHoEZcn0JXS8CEh5kxlwFUR/oPuZ5ihTINfzk46uabluRxl+797tGKUaIrX0lOFwyEzcHHpmuUEYDgieVBvG2Ew/Lt8gONr2Z4B2cDCz1/Woe9/pivLfWXQhIJgYNf12x5r1E1i6bTpxX9vcjAufLkCZPpETTOcbYRdj87hn8c7poyKwDiaIO13vx/WesdzSwT3yWe4HZbe7xTfvsHdzMJMBMAzKBjM74T2IukGKgoOg0AIGj6A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=u5But+8CRQbV99IChjATiS0l/KR5l14qhFlXfLXHrI0=;
- b=KFDNtgrLKBURUCq0Cn373BeZoqk5ZvF8CKKY04VjwqbEAMugsQAPG84pkID8vTExl7Xt+SOILeYQi9ovM2vZh+I5HuNr0Z21whFgG2lLBDnqRLNzZ5SpMuT2zwvCZn34BN70KqsIzxvuue84f3BJBNMSkjpVwFLbRB8ThEaafsB5zZFSwxCJmRDj4uyhprydzj/STSbdY5z/9+NyQto9zOd3lF48RHsHeqHRfeeTlfzu7QG07/FGfQJcEYxHN0p3YWLsrOW/alRB8NkrA701QN3RBmCzJj0n9zl4SQ2fFgQYHHV2LtwqMy5DxNHJMtSEJJhUlDcCVuwPUrXSzcY1Xg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
- SJ2PR12MB8884.namprd12.prod.outlook.com (2603:10b6:a03:547::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.9; Fri, 27 Mar
- 2026 15:44:06 +0000
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::f01d:73d2:2dda:c7b2]) by DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::f01d:73d2:2dda:c7b2%4]) with mapi id 15.20.9745.007; Fri, 27 Mar 2026
- 15:44:06 +0000
-From: Zi Yan <ziy@nvidia.com>
-To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Song Liu <songliubraving@fb.com>, Chris Mason <clm@fb.com>,
- David Sterba <dsterba@suse.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@kernel.org>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Shuah Khan <shuah@kernel.org>, linux-btrfs@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-mm@kvack.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v1 05/10] mm/huge_memory: remove READ_ONLY_THP_FOR_FS from
- file_thp_enabled()
-Date: Fri, 27 Mar 2026 11:43:57 -0400
-X-Mailer: MailMate (2.0r6290)
-Message-ID: <59A91369-9BCB-4545-AEF8-083B52998CC3@nvidia.com>
-In-Reply-To: <14af57ba-09bc-40ff-812a-b41dfb78a03c@lucifer.local>
-References: <20260327014255.2058916-1-ziy@nvidia.com>
- <20260327014255.2058916-6-ziy@nvidia.com>
- <5ac47338-1954-43ce-9984-56d70f7c392f@lucifer.local>
- <075A4C69-B386-4557-BDAA-4038EB36370D@nvidia.com>
- <14af57ba-09bc-40ff-812a-b41dfb78a03c@lucifer.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MN0PR02CA0003.namprd02.prod.outlook.com
- (2603:10b6:208:530::6) To DS7PR12MB9473.namprd12.prod.outlook.com
- (2603:10b6:8:252::5)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="J2CaDgWn"
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-50b6c45781aso667161cf.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 27 Mar 2026 08:46:26 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774626386; cv=none;
+        d=google.com; s=arc-20240605;
+        b=PDriQt/EV1XNrB5q3P7sjjjQN9uyrYwB12wjqqNNWlyJrSgohYmPoG4iTohaf7CJFx
+         ObOHLQJUrjD9+UQMt+k4kbPDEhgXWBeljKR2ASGtJArvuL6Shua7w30WZLZbaNxTkV1N
+         iuGWbtVaJBM4Rzy+AIrP0JK5vmlUtZ6/V7w4DXjGneNgHrx6dchQY/pZugaJp6SM7vG2
+         UiauEpmbFTqO122YClL97HND5AiPUEXtlF6arMF7z1JlvDReAhLTzKnk6QiyOY1bC6bN
+         VIwCS0ON2B2L+z+t6eDu3TdkNZKRn/u/NlE4xme8gDpsA0gd5aCvi3iRa3co+dQ2BO1G
+         nezA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=owpdxFF3v/KlPV1csbkJ90RTaf+LQvkCMaflebyBvGw=;
+        fh=/QRE4mUrHJ+Mn0Zz+bNXlKTszJo5Z79ItCcaeQmsxzk=;
+        b=AnsZBXEidPTI27ltL5D5NhU7a2BGvjRyrr0joIKsV56geWPK/WlEQXwN8yEq6Exzii
+         k822/PUwdsw38A2aHDtwFQt5DVYyHEohPu8UZ9Ii7J430mD0H8C9ajrsrcXD0dnWIJcm
+         RKDjj4sU7U9GUGsJI4R5DJUelqLxUvbYxR0W9bgF3nzjz4rXoDc4ljYbD1/TPUyJYeDP
+         bq3GHOmg7ZlLbCngqjrNnmTKQ3MB+lUHTUI93m1OojrPZ6vSPmZerfoRWd3IsIURbhU7
+         85tD0dCZrVxgnSa8xOtLdYDDU9huTCGE2EaM08yeAqq45qFI3cJJA/vJC5jfC2oBasko
+         LWkw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1774626386; x=1775231186; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=owpdxFF3v/KlPV1csbkJ90RTaf+LQvkCMaflebyBvGw=;
+        b=J2CaDgWn8eF75GrTNYrVFdHtBHOqAnJGnja9E/5HsGps3Z2TxTUkhY2sM/CKgds2gl
+         aZ8XHTc4jzR9l673V8ZFLwjOhvRoq/ec8aiwK21b2PffpWLvo3ccZsI0ALkH7mQexlM3
+         pu1wa1e8lNhRq35DlW1TVR/+YYNKwV3WMrwvypV836ylIPKT28Vh8JH+i/wXGKtD+1Al
+         sF0BFqc/j1wH8zDt2O8I7ki+4/1C1JVLL6RsZgIGCrlaXT2fRS9ykaJ7W/ujc8n+JQI+
+         T2dDngVdXs+7zcN0Vb3dUSGbTmdxxN7dcfKwRuDPMXc5cX8zq39CcUGnCiU0O04VnJx9
+         gfnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774626386; x=1775231186;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=owpdxFF3v/KlPV1csbkJ90RTaf+LQvkCMaflebyBvGw=;
+        b=WKFpHmohlvPfooB0/dWyuyFZwT94KgPtfQ6tqv+ylFnKsULlr4PjphByTlYVuFUQQh
+         ys5oD86KGGsXfTjDSOw5Ee9RL02DsSiLE4jWVO+IRKuBDxsA40cLRm/BoBgtQw7yHYxK
+         01F0l2OD/iMgoJ8N3QMaudpbycMd0EOwGDLSc0JMv9FBQ9TECssOZOWr1k5JfZ0DXF9W
+         sm7ltiMlcSx6ceVBwG+Ku6RYmvT7DVZfLvnoKVB6vXFnTJKBGQapDsrhzHBP03tc4mvm
+         Y/LsCoCQRhiwbsrpSFv3H6IST48pJmhuEAp4J+F/g3IED3UtBxHaiQXkVysnVI5Kp9xd
+         JyWA==
+X-Forwarded-Encrypted: i=1; AJvYcCX+Y99dqxIA+fD18hect2jdrA5tvYBE2wFHHcDA4bQuzCj2Zf4ODnTVv0w9uUyHml3D5AYpAxgwchQ8IB1g@vger.kernel.org
+X-Gm-Message-State: AOJu0YzsKInsL2DDsKpvMzJqsIQ1y5YyKZZsNNUmdFMTpJwqpZGMKVIt
+	RjXKH/25SiB0S8y/l4zhpaxJvscvNstab01j+x2SpRj8YK347gL9pLMEhpIXYWY7NmDQKeZYszG
+	73DuBnZ8b3rUk9IqcBL4/W4KOHAUcwO90TpQWhXEh
+X-Gm-Gg: ATEYQzwp2dvuETft9NERsEgS1dLX3tSzUCErIG8gpkmeUbD5V77wBtH3MlQpmgSiL/l
+	X6inKjAZF//E80+SewP0YFY3a2iILoI+bgxHHUTSLCXVRDMOTirnjCNjzN4s8hhP8UOg44j9Icf
+	0uR1a+Lax9kIT3nHw2sJosLdWI1YX52Z/QIZfmO6iXed8kPWNcIt6CuuxHRma3vzxkKthFXk+Y4
+	7q8z4lxn4vUabi/CczyrxWL38zVv1Ppwg/o+RKAjxiu7chPqwk00c2pgcCjaYF3UfusMFGSlDZl
+	cMAexGo=
+X-Received: by 2002:a05:622a:4c86:b0:509:72a:ae59 with SMTP id
+ d75a77b69052e-50ba1cbeb9amr15605551cf.10.1774626384838; Fri, 27 Mar 2026
+ 08:46:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|SJ2PR12MB8884:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7bc0cdaf-07f1-4730-bf22-08de8c17adf7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|1800799024|366016|376014|22082099003|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	Bt/7snhjiM2oUO1N/VDD4b9YY7DxlRP9SWMdqTI+G+Gb197znvPIE3RboExJxPrZ5wzhQaYAgqvLvWooQKowX1PpoXaqGkHbLxw4MfGWe6/xZZC7XC7GfEEy+zrCdiGBX/4Zu9Yj7maphutxten6b1eed7Z95FvwYaXci5vM2R83f8Gt/y4J+QjPrHFqakHIzYhbabFJAJfsQJdFGUSWHMY4Z5fIkjfMiTi0eTl5zYYRdwRvggY5TPD5pSLu4nVH3lagRrL3h0AkK0jvV8nAZu3ZTLpvIqjsTEtSCYqoxmEeb7b6o/Ik1q19zpW93mWEfgy8/j044ro9qqm2U0RE+YZVdLcqDbVHMyKNGcvRVdLnrP2KiDm5vuVFFPzZ2efrfeKT5jurSf4ObW8LGp0Q86xoBtiIeiqG+mnDsrpeU33HJmPsqpsRi1dX6fF0m3d3wBqVacRquab2X9vHhdsURg+nweqf8XhyowBE/mRE2KTjPAA0hGkXEzhTgKRo4IK1LQB0IipR49J1IfMwP2+iEJX2Mdxds4on0Dtj4dmXlyajQAuarso60fGs8317gTEKJGfxWBIPPcnZXKD8dVoVKHA/9v/Pn+RQ4b1OZiH9UvTfw7sojTCL/RA9KfnR69IZHuTLgX3SB/Hzqw3sZCTgOT3Xs97iMyWs612mPyaIovqfPbL7AQ9jWKxHLQCfo1wkIRviz+mZydoNY/9dtYRJ5TQBIHOVfO8yQM630wy22Vc=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(366016)(376014)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?THFDZFZrbHpWck42bWVqVFZVK3BWQ1VsdUdMd0NSSFpzYUE1WDNsWFlMUzBu?=
- =?utf-8?B?TkRkbjdVZmZNRkhTYUdFMktxbnZweUJTOWljT2FFZHBhemc4d2V1SlUxWDBL?=
- =?utf-8?B?S1luRUFqWHhRV0hnOFArU2pDbXc2QXYyMEU4c3Y5eG5VWk1ycUFyZWpNampT?=
- =?utf-8?B?VmlUak5WZHpzR2UyOEtGK2Jka3Q5NnJ4UFJScXYxbXgwdGdFeEc1K2VIbUZs?=
- =?utf-8?B?SkxycFQwazFuaFJaVDZaZGtvd09uSjN4WEhqMG9lUGhtSWdBd0NQSGNZbHUz?=
- =?utf-8?B?emlqU2VPTTB6WEtURGtYR0ZwSWhOL1pDNnkwNzR4NHcrcVRhdlRVYVF4Qmgx?=
- =?utf-8?B?WUx5L0FrM2FWUW83SVZKS3lwU1U0M3dsQStDZmhOcU12RmUzM21YUFFtazdj?=
- =?utf-8?B?eFZBSHpIaEd3ai9vaFVlZ1FXaytVbGdYYkw0Ry9naks3NXR4VFBWZFhqZXZn?=
- =?utf-8?B?cHFJVmRtNCtOUXRvOE1Tb0c1R2szYkJjMXZDd3R3MTEvSXFsVE03dW40djQw?=
- =?utf-8?B?VEp0NGFMSVBKcWhNUlJNSFJuYW1tZDRjTUtBdkNjVXc2a21Qa1NoekJjSWVt?=
- =?utf-8?B?Y0lYRy9DSEdmUytqSW1DWlZGY2ZMeThMNVJzcC9sYlk5OUhPUGZITm9PWmdr?=
- =?utf-8?B?bEM2UlM5N2lBeXMwNVV2T0puQnlOcXhnWWZvemg4YjBIUUxMb1htSTVEeFht?=
- =?utf-8?B?THFYOVNMZUtuaTA0QzNQaWtQOXdoaENZbWJlZU1UdUkzU2dGTlI3TmkyYUFI?=
- =?utf-8?B?VXE2aFpXRkFDUDlLbFZpcTU3LzdyN3pOSUFyVEZVelFYNUl6S0FIa0RIb0wy?=
- =?utf-8?B?OTRCckJXWm1EbndTM00xTDJPRHhHTHlJVjFKUHo0MHh3M2xrNFA3bXRac096?=
- =?utf-8?B?a0xpVkg0aFdieUVlV2k0UWVMenlsdFgwUWdBamFzbTBkLzBJWHRHTVgwLzM5?=
- =?utf-8?B?NTNEWEdVRDBZWEJtNkdXck1XcW1RSndLaTJQMUtBeXd1SldQeUplekRXekNZ?=
- =?utf-8?B?WnQ5Yzc5WG11dGhWMmF6enc0WGZkN0xyTmUvdTVQbkxDTjdRWVZISGZwVXRG?=
- =?utf-8?B?MGx0ZHROMkFGOVhEUW1mT2Jvd3FZanFpOFg5UFBoajY2WmdOU2hiZ3V4Q0R2?=
- =?utf-8?B?MmFFMkdSOFdwd2RIdGZRY200TmFuUkxOU3UrZzNlbjlTQmlaaWJka0lKTERh?=
- =?utf-8?B?ajIyZC84SUdDTlEvUlBIWnd0NGRWN1FXV2tXVnBxWXJDQnROSmZac3EyYTIx?=
- =?utf-8?B?MzI3cStLVUtPMDZMM2ozYSthaW1leUo1bWM3NzdQY1JLb2U3SWoydmJheW51?=
- =?utf-8?B?M1hWeHhSVlFKS3hqMUo4QmJ0bGc3b3A1MXp0NlR0bnA0bTU0NndmYlJ0d0hB?=
- =?utf-8?B?NjhlVTNoMmZyRDcrTUlNbllVZlJkNFN4MUNSN3p1a0hTSzAreThzc1FQb3JP?=
- =?utf-8?B?bjBTQ0I3YmZTUC9tRVM5THcyOUlGSGs2R3pZazV6VEFMeWxMZWJ4UkNWc0Ny?=
- =?utf-8?B?UHNhU2RMWk5Ma0RYeTVMOXJiTDBBTXR5UjNQS01xNEF1Y1NNL1l1TUdTSUgr?=
- =?utf-8?B?aC9wc0FlWGJ1S3JtNDZGV2QyWkIwWWtDZHNGbVpHZWVoazYrNE9DcGNJeDBW?=
- =?utf-8?B?dzg1YmQ2TFpqZzlCcjdYQ2FsVWptRDNaSXM1N01NaXFCcEd4eVV3VU1Kb3hD?=
- =?utf-8?B?RDR2MWRacUU0MEtoWnEwYkc2cEFKdTd0ZUduRXd6Q0o4VzZoM2R2SXJzY1pE?=
- =?utf-8?B?Ukt2RHpzVzZYTnF3RVpXWnFkZ1ErTWlVR0lyR05WSzhCUkdPU2lsZjNWYTZU?=
- =?utf-8?B?ZEpLOGg5anZrdnh4ZFZwSnJHL2NvKy9vL3B4UjJRd3lCeWY3VWQveG9LaUF6?=
- =?utf-8?B?SUsxV0grT3BKNDgwWXNRTHZBUjUyUWc0TEZyNjFJNWdqWEVIcjgxVEZadkVK?=
- =?utf-8?B?WnBFQ20yS01NU0diTEVnNjZpZWZhUlB1cDdGeURVb0ZhZE9uYi9sMzAxVVp5?=
- =?utf-8?B?U2IrNjYwN3Z1KzdlR3B4cndMZkR3QUF5K1dSV1paK05oVjg5UGhVYzJ6aHdp?=
- =?utf-8?B?b2NmdHQ2dlhRYWpxQ2tmenJjdDRHQUtObEI3WEZNNGZQUG9KZU1zQnlIU2V1?=
- =?utf-8?B?VnZhOHNTUWZzRGN5RjZYQytmMHp6NDFPaXBtWDBLQUs4b1lXUGV2OWRveXQv?=
- =?utf-8?B?S3lRdjkxRlFyS21kaU90Q1VKNnphV0VLT01GamxEZnMxM1BJV3A2YVBCbVVk?=
- =?utf-8?B?Zllkd1pPQ2F2OWZwVGJHYm92RW9qMlgyM0ZTOGxFbjM1QmZKNmk2Z29LUHBl?=
- =?utf-8?B?M2xZS3o3dCtoZFJmV24rNGJKbVVuRCtTdXV3czQ1ei91bHJXVjB6QT09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7bc0cdaf-07f1-4730-bf22-08de8c17adf7
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Mar 2026 15:44:06.5606
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xGseDRyAe0lVBk/FUeTCCwVGJ74bnTYJ4QkPAEs6SLDWSm3/srJBLd9xumVKQnUn
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8884
+References: <20260323175340.3361311-1-avagin@google.com> <20260323175340.3361311-2-avagin@google.com>
+ <acGEonF9I6sPA42B@J2N7QTR9R3.cambridge.arm.com> <acJnOB-rlyt-3jU4@willie-the-truck>
+ <CAEWA0a7iR8YHooqXJfhersV6YhAXGMZDUhib3QQH5XGn=KNowA@mail.gmail.com>
+In-Reply-To: <CAEWA0a7iR8YHooqXJfhersV6YhAXGMZDUhib3QQH5XGn=KNowA@mail.gmail.com>
+From: Andrei Vagin <avagin@google.com>
+Date: Fri, 27 Mar 2026 08:46:13 -0700
+X-Gm-Features: AQROBzCbFCKKF5EGKvRVWmaQmxOKGk-clLCYQmcai8kbKMF-pnr8L4F1E1mL0vY
+Message-ID: <CAEWA0a629qGEHvHpczGrZ+UBnzO75KgLsU7RoeR0cekmvaxLQQ@mail.gmail.com>
+Subject: Re: [PATCH 1/4] exec: inherit HWCAPs from the parent process
+To: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>
+Cc: Kees Cook <kees@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Marek Szyprowski <m.szyprowski@samsung.com>, Cyrill Gorcunov <gorcunov@gmail.com>, 
+	Mike Rapoport <rppt@kernel.org>, Alexander Mikhalitsyn <alexander@mihalicyn.com>, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, criu@lists.linux.dev, 
+	Catalin Marinas <catalin.marinas@arm.com>, linux-arm-kernel@lists.infradead.org, 
+	Chen Ridong <chenridong@huawei.com>, Christian Brauner <brauner@kernel.org>, 
+	David Hildenbrand <david@kernel.org>, Eric Biederman <ebiederm@xmission.com>, 
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Michal Koutny <mkoutny@suse.com>, 
+	Alexander Mikhalitsyn <aleksandr.mikhalitsyn@futurfusion.io>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 27 Mar 2026, at 11:29, Lorenzo Stoakes (Oracle) wrote:
+On Tue, Mar 24, 2026 at 3:19=E2=80=AFPM Andrei Vagin <avagin@google.com> wr=
+ote:
+>
+> Hi Mark and Will,
+>
+> Thanks for the feedback. Please read the inline comments.
 
-> On Fri, Mar 27, 2026 at 11:12:46AM -0400, Zi Yan wrote:
->> On 27 Mar 2026, at 8:42, Lorenzo Stoakes (Oracle) wrote:
->>
->>> On Thu, Mar 26, 2026 at 09:42:50PM -0400, Zi Yan wrote:
->>>> Replace it with a check on the max folio order of the file's address space
->>>> mapping, making sure PMD_ORDER is supported.
->>>>
->>>> Signed-off-by: Zi Yan <ziy@nvidia.com>
->>>> ---
->>>>  mm/huge_memory.c | 6 +++---
->>>>  1 file changed, 3 insertions(+), 3 deletions(-)
->>>>
->>>> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
->>>> index c7873dbdc470..1da1467328a3 100644
->>>> --- a/mm/huge_memory.c
->>>> +++ b/mm/huge_memory.c
->>>> @@ -89,9 +89,6 @@ static inline bool file_thp_enabled(struct vm_area_struct *vma)
->>>>  {
->>>>  	struct inode *inode;
->>>>
->>>> -	if (!IS_ENABLED(CONFIG_READ_ONLY_THP_FOR_FS))
->>>> -		return false;
->>>> -
->>>>  	if (!vma->vm_file)
->>>>  		return false;
->>>>
->>>> @@ -100,6 +97,9 @@ static inline bool file_thp_enabled(struct vm_area_struct *vma)
->>>>  	if (IS_ANON_FILE(inode))
->>>>  		return false;
->>>>
->>>> +	if (mapping_max_folio_order(inode->i_mapping) < PMD_ORDER)
->>>> +		return false;
->>>> +
->>>
->>> At this point I think this should be a separate function quite honestly and
->>> share it with 2/10's use, and then you can put the comment in here re: anon
->>> shmem etc.
->>>
->>> Though that won't apply here of course as shmem_allowable_huge_orders() would
->>> have been invoked :)
->>>
->>> But no harm in refactoring it anyway, and the repetitive < PMD_ORDER stuff is
->>> unfortunate.
->>>
->>> Buuut having said that is this right actually?
->>>
->>> Because we have:
->>>
->>> 		if (((in_pf || smaps)) && vma->vm_ops->huge_fault)
->>> 			return orders;
->>>
->>> Above it, and now you're enabling huge folio file systems to do non-page fault
->>> THP and that's err... isn't that quite a big change?
->>
->> That is what READ_ONLY_THP_FOR_FS does, creating THPs after page faults, right?
->> This patchset changes the condition from all FSes to FSes with large folio
->> support.
->
-> No, READ_ONLY_THP_FOR_FS operates differently.
->
-> It explicitly _only_ is allowed for MADV_COLLAPSE and only if the file is
-> mounted read-only.
->
-> So due to:
->
-> 		if (((in_pf || smaps)) && vma->vm_ops->huge_fault)
-> 			return orders;
->
-> 		if (((!in_pf || smaps)) && file_thp_enabled(vma))
-> 			return orders;
->
->                       |    PF     | MADV_COLLAPSE | khugepaged |
-> 		      |-----------|---------------|------------|
-> large folio fs        |     ✓     |       x       |      x     |
-> READ_ONLY_THP_FOR_FS  |     x     |       ✓       |      ✓     |
->
-> After this change:
->
->                       |    PF     | MADV_COLLAPSE | khugepaged |
-> 		      |-----------|---------------|------------|
-> large folio fs        |     ✓     |       ✓       |      ?     |
->
-> (I hope we're not enabling khugepaged for large folio fs - which shouldn't
-> be necessary anyway as we try to give them folios on page fault and they
-> use thp-friendly get_unused_area etc. :)
->
-> We shouldn't be doing this.
->
-> It should remain:
->
->                       |    PF     | MADV_COLLAPSE | khugepaged |
-> 		      |-----------|---------------|------------|
-> large folio fs        |     ✓     |       x       |      x     |
->
-> If we're going to remove it, we should first _just remove it_, not
-> simultaneously increase the scope of what all the MADV_COLLAPSE code is
-> doing without any confidence in any of it working properly.
->
-> And it makes the whole series misleading - you're actually _enabling_ a
-> feature not (only) _removing_ one.
+Mark, Will, just checking in to see if my explanation makes sense to you.
+Let me know if you have any further feedback or questions.
 
-That is what my RFC patch does, but David and willy told me to do this. :)
-IIUC, with READ_ONLY_THP_FOR_FS, FSes with large folio support will
-get THP via MADV_COLLAPSE or khugepaged. So removing the code like I
-did in RFC would cause regressions.
-
-I guess I need to rename the series to avoid confusion. How about?
-
-Remove read-only THP support for FSes without large folio support.
-
-[1] https://lore.kernel.org/all/7382046f-7c58-4a3e-ab34-b2704355b7d5@kernel.org/
+Thanks,
+Andrei
 
 >
-> So let's focus as David suggested on one thing at a time, incrementally.
+> On Tue, Mar 24, 2026 at 3:28=E2=80=AFAM Will Deacon <will@kernel.org> wro=
+te:
+> >
+> > On Mon, Mar 23, 2026 at 06:21:22PM +0000, Mark Rutland wrote:
+> > > On Mon, Mar 23, 2026 at 05:53:37PM +0000, Andrei Vagin wrote:
+> > > > Introduces a mechanism to inherit hardware capabilities (AT_HWCAP,
+> > > > AT_HWCAP2, etc.) from a parent process when they have been modified=
+ via
+> > > > prctl.
+> > > >
+> > > > To support C/R operations (snapshots, live migration) in heterogene=
+ous
+> > > > clusters, we must ensure that processes utilize CPU features availa=
+ble
+> > > > on all potential target nodes. To solve this, we need to advertise =
+a
+> > > > common feature set across the cluster.
+> > > >
+> > > > This patch adds a new mm flag MMF_USER_HWCAP, which is set when the
+> > > > auxiliary vector is modified via prctl(PR_SET_MM, PR_SET_MM_AUXV). =
+ When
+> > > > execve() is called, if the current process has MMF_USER_HWCAP set, =
+the
+> > > > HWCAP values are extracted from the current auxiliary vector and st=
+ored
+> > > > in the linux_binprm structure. These values are then used to popula=
+te
+> > > > the auxiliary vector of the new process, effectively inheriting the
+> > > > hardware capabilities.
+> > > >
+> > > > The inherited HWCAPs are masked with the hardware capabilities supp=
+orted
+> > > > by the current kernel to ensure that we don't report more features =
+than
+> > > > actually supported. This is important to avoid unexpected behavior,
+> > > > especially for processes with additional privileges.
+> > >
+> > > At a high level, I don't think that's going to be sufficient:
+> > >
+> > > * On an architecture with other userspace accessible feature
+> > >   identification mechanism registers (e.g. ID registers), userspace
+> > >   might read those. So you might need to hide stuff there too, and
+> > >   that's going to require architecture-specific interfaces to manage.
+> > >
+> > >   It's possible that some code checks HWCAPs and others check ID
+> > >   registers, and mismatch between the two could be problematic.
+> > >
+> > > * If the HWCAPs can be inherited by a more privileged task, then a
+> > >   malicious user could use this to hide security features (e.g. shado=
+w
+> > >   stack or pointer authentication on arm64), and make it easier to
+> > >   attack that task. While not a direct attack, it would undermine tho=
+se
+> > >   features.
 >
-> And let's please try and sort some of this confusing mess out in the code
-> if at all possible...
+> I agree with Mark that only a privileged process have to be able to mask
+> certain hardware features. Currently, PR_SET_MM_AUXV is guarded by
+> CAP_SYS_RESOURCE, but PR_SET_MM_MAP allows changing the auxiliary vector
+> without specific capabilities. This is definitely the issue. To address
+> this, I think we can consider to introduce a new prctl command to enable
+> HWCAP inheritance explicitly.
 >
->>
->> Will add a helper, mapping_support_pmd_folio(), for
->> mapping_max_folio_order(inode->i_mapping) < PMD_ORDER.
->>
->>>
->>> So yeah probably no to this patch as is :) we should just drop
->>> file_thp_enabled()?
->>
->>
->>
->>>
->>>>  	return !inode_is_open_for_write(inode) && S_ISREG(inode->i_mode);
->>>>  }
->>>>
->>>> --
->>>> 2.43.0
->>>>
->>
->>
->> Best Regards,
->> Yan, Zi
+> >
+> > Yeah, this looks like a non-starter to me on arm64. Even if it was
+> > extended to apply the same treatment to the idregs, many of the hwcap
+> > features can't actually be disabled by the kernel and so you still run
+> > the risk of a task that probes for the presence of a feature using
+> > something like a SIGILL handler or, perhaps more likely, assumes that
+> > the presence of one hwcap implies the presence of another. And then
+> > there are the applications that just base everything off the MIDR...
 >
-> Cheers, Lorenzo
-
-
-Best Regards,
-Yan, Zi
+> The goal of this mechanism is not to provide strict architectural
+> enforcement or to trap the use of hardware features; rather, it is to
+> provide a consistent discovery interface for applications. I chose the
+> HWCAP vector because it mirrors the existing behavior of running an
+> older kernel on newer hardware: while ID registers might report a
+> feature as physically present, the HWCAPs will omit it if the kernel
+> lacks support. Applications are generally expected to treat HWCAPs as
+> the source of truth for which features are safe to use, even if the
+> underlying hardware is technically capable of more.
+>
+> Another significant advantage of using HWCAPs is that many
+> applications already rely on them for feature detection. This interface
+> allows these applications to work correctly "out-of-the-box" in a
+> migrated environment without requiring any userspace modifications.  I
+> understand that some apps may use other detection methods; however, there
+> it no gurantee that these applications will work correctly after
+> migration to another machine.
+>
+> >
+> > There's also kvm, which provides a roundabout way to query some feature=
+s
+> > of the underlying hardware.
+> >
+> > You're probably better off using/extending the idreg overrides we have
+> > in arch/arm64/kernel/pi/idreg-override.c so that you can make your
+> > cluster of heterogeneous machines look alike.
+>
+> IIRC, idreg-override/cpuid-masking usually works for an entire machine.
+> We actually need to have a mechanism that will work on a per-container
+> basis. Workloads inside one cluster can have different
+> migration/snapshot requirements. Some are pinned to a specific node,
+> others are never migrated, while others need to be migratable across a
+> cluster or even between clusters. We need a mechanism that can be
+> tunable on a per-container/per-process basis.
+>
+> >
+> > On the other hand, if munging the hwcaps happens to be sufficient for
+> > this particular use-case, can't it be handled entirely in userspace (e.=
+g.
+> > by hacking libc?)
+>
+> CRIU often handles workloads with a mix of runtimes: some linked against
+> glibc, some against musl, and others like Go that bypass libc entirely.
+> CRIU is mostly used to handle containers that can run multiple processes
+> possible based on different runtimes. It means available cpu features
+> should not be only specified for one runtime, they have to be passed
+> across different runtimes. I think the pure userspace solution is near
+> infeasible in this case.
+>
+> Thanks,
+> Andrei
