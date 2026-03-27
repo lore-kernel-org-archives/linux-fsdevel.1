@@ -1,305 +1,111 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11DF31FDE31
-	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Mar 2026 02:33:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774578823; cv=pass; b=jE850fuVVVIHzbsF1u1PsOgweEuLnqgABo7zlXc9fnuYrVkdYwKJBNcS3q2wOoVjeG59g5t9UgmEED34jrxH2TB34y0YRY7Q6DZl6Y44MnwNtxaj2F7kRF4qAuAtCzrTX8MVl7gVS7mJatlTj1rFeCxzcAPnyvg9BoV6m8q25yw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774578823; c=relaxed/simple;
-	bh=V8VCXLly4w5+0+MPhojVHILnNZjHzCfdHzsAew3W6M0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=W8pQUNFe0qtW6LQvoHaqwmSg3FeSj7lh0XKiaILoB1oXcGNt6QHgPU0Tuk4/OAIaW35Y0LlK2Mcqf/il4FWOxagju0yKFDy5QsnS3iM8Ietr5N7Ah0SZLjLbNQliaG50uBFMqtUqoa4PaWhGFK5iiLzuZw92SjvlI2co5nhAyoY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WNAez2j7; arc=pass smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A2A8299A81
+	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Mar 2026 03:20:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774581601; cv=none; b=oQzI0QsC942AL+YOfMqCM1YUfTFqSMJkSjUt7VQz9p4Hoj6mDaMZExKrQ4bxVgqwF9OL04dYMTHMjHZDAxl/pngr6O+0uI0Q/vLJ8ViHRBxPLlom69PMS84PMvDfWSeD7zVdrotB8T+G19XHWY91kjFOv2ao9XfR2RNN0gHoa6I=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774581601; c=relaxed/simple;
+	bh=tD95k9ZqiEYPBVLduG0z136wErsnp4EhGV35Wmt9EwA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hM6TRUzDeF9wd99oXy9Rtb4OKYPUG983HWYZIUDFhAfqhM0KksEcrYyTwqcmGgevm11yAp1SVubcYj27mrK9IWH0XwxVhvMTt3v+dM7Ck9ERO729Gj5fIqJMuNCUkcb8PKNzRF5kwgut+Z0uK4cr/JwcoiX/tbQIBT55G4G7D9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mbZA+Of/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WNAez2j7"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-b9795ca4e6dso254663066b.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 19:33:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774578820; cv=none;
-        d=google.com; s=arc-20240605;
-        b=k3IhMW0F4PQS6Fp42hMpqI1IS6I1D6dZ6QMcis29nPhHvKZ7Q9I1RjFo8sEAbUxGvB
-         VrmqpbcQ/MeRVHkClc7BhFrO8H3csz5fv+AM0Jn2ksxywoQLmnPSyNGq0p3mersn0fRq
-         2w9nk/Kfz1oPcAS1h3CG9puHdE0mn0sFxSYWmp8x1IiWy/kZb3Q4SNmbQXb32cYdVmqR
-         gcJxhATElLM2zn6qGXXUK8A0e4RYkxTE6a5/LJ/WJArQ55uToZW1XOVfzEwsRCaydls6
-         n0ZfKHk12HUYd6/2zceoJXwE1EZSK/oOoPZ/qESox53QeC+PIFwIyzPncAa0he3WEJ32
-         iXyA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=J/j2LL2fzZ3HqKnkSg4Q11VeHoSjD2aRYX2gqfSMp8c=;
-        fh=ovNMXHv1XmsFiizlGJ9TfnL/VwwYTJBwFkouA/kTSHA=;
-        b=e+tIzE0VFcFtA6494UxSkjTexnskBxVpqdtPsSXq5C+d3HdDcofAGioHjaYQ9nQ2wk
-         VA+jttVWU2KF+27a8hDn/G1fao6yUEM53LFsLX0JnaSRJd6X3YByP0sOOUnHBxBD+QW6
-         drfuYiWk3kVZFAcilpvApDJGmk4SXyr9CR3im25IkA5y9XIZIGD0TdeUZ/8mGvpCOK7w
-         M4rwx0bgN98K+Y8+iDtJIQHVzqngw2qz8ZBUVEtX6YpsmnfPowC6nU5rbURjHS/y+qBU
-         hS4Sstlh587Vq/C1/5nIC0TiXl7zKZuAzpPjzg4fX8uaTTipHjj5hOWXLRhM2tBi50G1
-         zxew==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1774578820; x=1775183620; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=J/j2LL2fzZ3HqKnkSg4Q11VeHoSjD2aRYX2gqfSMp8c=;
-        b=WNAez2j7Hs+E5z13vNZS8hdcy3gAlLN1o2gKpSHjUFWrW4ShBHkWJ+8oDxMR8qTXk9
-         mg5b+ZgXKwi6InYIVPzakcE6xOqmFAgai+JQ9xtT/+gYsg1g3c6XAOQh9Yb/iEscLT4X
-         09dUQFCbfpwd3AlzHpXl3ydIZBEu5VSbCEH6QAJcMWpmu5VyGZDecO2XpbabrBywJ7Fz
-         zFKDWRSnu46EBDzWBEhluHD4rJiDfE4DtPUUrHJsQUC/IBqzqshdvwWVgpDx6t11bW88
-         IQ2Skxlze1MA4TitpUDDxubgEYs0C6E9+PRvqHYcfUmjsr5eia0wf87c9ebwOHlAjLbu
-         +Clg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774578820; x=1775183620;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=J/j2LL2fzZ3HqKnkSg4Q11VeHoSjD2aRYX2gqfSMp8c=;
-        b=nNRQ0O1GTZ4awbx9CzyqmvheeiBbuBURe7oDGHt7kmxSCcTyMi4BH/GelD76Mkgu5i
-         v83FRY0kGY/3CVSyrm6TiTh7mbw/bwb8rl1lzpWeYeR3GOjnq9Qy0HqGdvvCTCJb0irY
-         cFLUPggI192Qub+B54BmbQjVQ7/5d4S+kz8+YzmEYTwxglwnSui0aAx4gXP7uqFc//TW
-         LYKUZFnmmBJgi+B/Hr+t3mQIhLSaPkYYmHYQJOFACBBWV6h1oqkpykJQ6NqLRvAIjbZx
-         XIcPFY2aD5uKAqNJeR68kEsALdBTIGbUJ21hu87ke6WG8ER2+0hWyBmKYMBs85KDo+Cp
-         JF8A==
-X-Forwarded-Encrypted: i=1; AJvYcCV1DLkJFOWzriJwEcQC3c1/LfrKzUTheEyRUDBjkfcJIaF6retKKxJsY3E3dp37eqH8vaul0fXKJgJqBURF@vger.kernel.org
-X-Gm-Message-State: AOJu0YzKeMyRXsFt7F+EWEAKdD9soqPCptVNSmRnDmO2o+NYI7o/JROm
-	kSHmEiDqKZ3JJ9oxEZL8YigoiohaWD8HN1aRK4BOD8eyMdL4rALeuOepyac5jYUyprJGdEk/ykc
-	iGc1clL7Fc0kXXlevi7l9381T3VeMz20WQfmwCWe/
-X-Gm-Gg: ATEYQzzoGcm4TEHIfrfUFDpsilxTPD+sH4PZ9xfpJKoR8z3c/C9DzM3DHSLVrlrNJJP
-	y5xGUpkmpM96mDng9Lu32FjkyWFAfHj3/TeTnWLf0gtOTfKVjQvn/QqwHlhKMuYcwcb6Q6aPxLH
-	lJ9rTVp72Sr4oe1VpqsV7f0GX3sjcUD2PX6S6C+tZwFrO0uAMkQRK3+ioT2G51LoVcRSq+LyweQ
-	FGv9Uy/O0sZfQB4IpNqB2IMorHK5qbDYXqKwLpt7IgHzsoFcQlYXPn+fyGup7whAPgvqt2SAE8B
-	i16Kyw67NMV7c8QvFLy/esU/VA4YBpxyKamBdt7P3x9gwVQstyGMPNiIw08AOEPsBQGRxQ==
-X-Received: by 2002:a17:907:7207:b0:b97:cebd:8273 with SMTP id
- a640c23a62f3a-b9b5032239amr41546366b.24.1774578819995; Thu, 26 Mar 2026
- 19:33:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mbZA+Of/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12CB5C116C6;
+	Fri, 27 Mar 2026 03:20:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774581601;
+	bh=tD95k9ZqiEYPBVLduG0z136wErsnp4EhGV35Wmt9EwA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mbZA+Of/Kbc2gcHVZAqwJYZZYnTrboieAhLZcLB3HFi1hNq6Hkx8niDi2bT1QevFn
+	 wpcifzmwzTrP2OmROPR2qRe50tB3D4hBKgAE9DmXuj1CxQrAepS0Xa2HT4tOej8vVb
+	 zR7BcnH+VItkgghwYuInNjo/VdkxuIJU4Mho/wAt7rCL+EM/IlTW4IjcARjchShSVn
+	 bKsI+yIvDZrt0BLiWzFSQ82BbvBcILHomdC7tt7euKJlUceuqmX/czFzokuhdiK6mE
+	 /2NW3LqWXzk/PiAalwykrv81BwCKr0nX3nTTK/weEQDUNdfRqYJWp5U1peVTCOdldT
+	 PIbiuNR4lthJA==
+Date: Thu, 26 Mar 2026 20:20:00 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Bernd Schubert <bernd@bsbernd.com>
+Cc: linux-fsdevel@vger.kernel.org, Miklos Szeredi <miklos@szeredi.hu>,
+	Joanne Koong <joannelkoong@gmail.com>, Kevin Chen <kchen@ddn.com>,
+	Bernd Schubert <bschubert@ddn.com>
+Subject: Re: [PATCH v2 01/25] ci-build: Add environment logging
+Message-ID: <20260327032000.GJ6202@frogsfrogsfrogs>
+References: <20260326-fuse-init-before-mount-v2-0-b1ca8fcbf60f@bsbernd.com>
+ <20260326-fuse-init-before-mount-v2-1-b1ca8fcbf60f@bsbernd.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260306171815.3160826-1-rppt@kernel.org> <20260306171815.3160826-14-rppt@kernel.org>
-In-Reply-To: <20260306171815.3160826-14-rppt@kernel.org>
-From: James Houghton <jthoughton@google.com>
-Date: Thu, 26 Mar 2026 19:33:03 -0700
-X-Gm-Features: AQROBzBsDaVhxDLiM-NXiOxOeLuYc-OBfbNaKVq7AIOmeniABMQbpvif4NJ_3-8
-Message-ID: <CADrL8HViJ_GaRUd-k9MyM0S8b7sz3whGJHNwvFfCk+pw0+kRgA@mail.gmail.com>
-Subject: Re: [PATCH v2 13/15] KVM: guest_memfd: implement userfaultfd operations
-To: Mike Rapoport <rppt@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Andrea Arcangeli <aarcange@redhat.com>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	David Hildenbrand <david@kernel.org>, Hugh Dickins <hughd@google.com>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Michal Hocko <mhocko@suse.com>, 
-	Muchun Song <muchun.song@linux.dev>, Nikita Kalyazin <kalyazin@amazon.com>, 
-	Oscar Salvador <osalvador@suse.de>, Paolo Bonzini <pbonzini@redhat.com>, Peter Xu <peterx@redhat.com>, 
-	Sean Christopherson <seanjc@google.com>, Shuah Khan <shuah@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Vlastimil Babka <vbabka@suse.cz>, kvm@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260326-fuse-init-before-mount-v2-1-b1ca8fcbf60f@bsbernd.com>
 
-On Fri, Mar 6, 2026 at 9:19=E2=80=AFAM Mike Rapoport <rppt@kernel.org> wrot=
-e:
->
-> From: Nikita Kalyazin <kalyazin@amazon.com>
->
-> userfaultfd notifications about page faults used for live migration
-> and snapshotting of VMs.
->
-> MISSING mode allows post-copy live migration and MINOR mode allows
-> optimization for post-copy live migration for VMs backed with shared
-> hugetlbfs or tmpfs mappings as described in detail in commit
-> 7677f7fd8be7 ("userfaultfd: add minor fault registration mode").
->
-> To use the same mechanisms for VMs that use guest_memfd to map their
-> memory, guest_memfd should support userfaultfd operations.
->
-> Add implementation of vm_uffd_ops to guest_memfd.
->
-> Signed-off-by: Nikita Kalyazin <kalyazin@amazon.com>
-> Co-developed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+On Thu, Mar 26, 2026 at 10:34:34PM +0100, Bernd Schubert wrote:
+> From: Bernd Schubert <bschubert@ddn.com>
+> 
+> It is very hard to see what exactly fails, as everything
+> is run from the same script.
+> 
+> Signed-off-by: Bernd Schubert <bschubert@ddn.com>
 
-Overall looks fine to me, but I am slightly concerned about in-place
-conversion[1], and I think you're going to want to implement a
-kvm_gmem_folio_present() op or something (like I was saying on the
-previous patch[2]).
+This seems reasonable to me...
+Acked-by: "Darrick J. Wong" <djwong@kernel.org>
 
-[1]: https://lore.kernel.org/kvm/20260326-gmem-inplace-conversion-v4-0-e202=
-fe950ffd@google.com/
-[2]: https://lore.kernel.org/linux-mm/CADrL8HVUJ5FL97d9ytxp2WXos6HS+U+ycpsi=
-5VxffsW9vacr9Q@mail.gmail.com/
-
-Some in-line comments below.
+--D
 
 > ---
->  mm/filemap.c           |  1 +
->  virt/kvm/guest_memfd.c | 84 +++++++++++++++++++++++++++++++++++++++++-
->  2 files changed, 83 insertions(+), 2 deletions(-)
->
-> diff --git a/mm/filemap.c b/mm/filemap.c
-> index 6cd7974d4ada..19dfcebcd23f 100644
-> --- a/mm/filemap.c
-> +++ b/mm/filemap.c
-> @@ -262,6 +262,7 @@ void filemap_remove_folio(struct folio *folio)
->
->         filemap_free_folio(mapping, folio);
->  }
-> +EXPORT_SYMBOL_FOR_MODULES(filemap_remove_folio, "kvm");
->
->  /*
->   * page_cache_delete_batch - delete several folios from page cache
-> diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
-> index 017d84a7adf3..46582feeed75 100644
-> --- a/virt/kvm/guest_memfd.c
-> +++ b/virt/kvm/guest_memfd.c
-> @@ -7,6 +7,7 @@
->  #include <linux/mempolicy.h>
->  #include <linux/pseudo_fs.h>
->  #include <linux/pagemap.h>
-> +#include <linux/userfaultfd_k.h>
->
->  #include "kvm_mm.h"
->
-> @@ -107,6 +108,12 @@ static int kvm_gmem_prepare_folio(struct kvm *kvm, s=
-truct kvm_memory_slot *slot,
->         return __kvm_gmem_prepare_folio(kvm, slot, index, folio);
->  }
->
-> +static struct folio *kvm_gmem_get_folio_noalloc(struct inode *inode, pgo=
-ff_t pgoff)
+>  test/ci-build.sh | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
+> 
+> diff --git a/test/ci-build.sh b/test/ci-build.sh
+> index 8b019a0b5e52c1af0eee510ede21785d584e8414..799f13b2911fac47b0bbb2d445ec22a6f40f065d 100755
+> --- a/test/ci-build.sh
+> +++ b/test/ci-build.sh
+> @@ -30,6 +30,20 @@ export LSAN_OPTIONS="suppressions=$(pwd)/lsan_suppress.txt"
+>  export ASAN_OPTIONS="detect_leaks=1"
+>  export CC
+>  
+> +log_env()
 > +{
-> +       return __filemap_get_folio(inode->i_mapping, pgoff,
-> +                                  FGP_LOCK | FGP_ACCESSED, 0);
-> +}
-
-When in-place conversion is supported, I wonder what the semantics
-should be for when we get userfaults.
-
-Upon a userspace access to a file offset that is populated but
-private, should we get a userfault or a SIGBUS?
-
-I guess getting a userfault is strictly more useful for userspace, but
-I'm not sure which choice is more correct.
-
-> +
->  /*
->   * Returns a locked folio on success.  The caller is responsible for
->   * setting the up-to-date flag before the memory is mapped into the gues=
-t.
-> @@ -126,8 +133,7 @@ static struct folio *kvm_gmem_get_folio(struct inode =
-*inode, pgoff_t index)
->          * Fast-path: See if folio is already present in mapping to avoid
->          * policy_lookup.
->          */
-> -       folio =3D __filemap_get_folio(inode->i_mapping, index,
-> -                                   FGP_LOCK | FGP_ACCESSED, 0);
-> +       folio =3D kvm_gmem_get_folio_noalloc(inode, index);
->         if (!IS_ERR(folio))
->                 return folio;
->
-> @@ -457,12 +463,86 @@ static struct mempolicy *kvm_gmem_get_policy(struct=
- vm_area_struct *vma,
->  }
->  #endif /* CONFIG_NUMA */
->
-> +#ifdef CONFIG_USERFAULTFD
-> +static bool kvm_gmem_can_userfault(struct vm_area_struct *vma, vm_flags_=
-t vm_flags)
-> +{
-> +       struct inode *inode =3D file_inode(vma->vm_file);
-> +
-> +       /*
-> +        * Only support userfaultfd for guest_memfd with INIT_SHARED flag=
-.
-> +        * This ensures the memory can be mapped to userspace.
-> +        */
-> +       if (!(GMEM_I(inode)->flags & GUEST_MEMFD_FLAG_INIT_SHARED))
-> +               return false;
-> +
-> +       return true;
+> +    echo "=== Environment ==="
+> +    echo "CC: ${CC}"
+> +    echo "CXX: ${CXX}"
+> +    echo "LSAN_OPTIONS: ${LSAN_OPTIONS}"
+> +    echo "ASAN_OPTIONS: ${ASAN_OPTIONS}"
+> +    echo "UBSAN_OPTIONS: ${UBSAN_OPTIONS}"
+> +    echo "FUSE_URING_ENABLE: ${FUSE_URING_ENABLE}"
+> +    echo "FUSE_URING_QUEUE_DEPTH: ${FUSE_URING_QUEUE_DEPTH}"
+> +    echo "Valgrind: ${TEST_WITH_VALGRIND}"
+> +    echo "==================="
 > +}
 > +
-> +static struct folio *kvm_gmem_folio_alloc(struct vm_area_struct *vma,
-> +                                         unsigned long addr)
-> +{
-> +       struct inode *inode =3D file_inode(vma->vm_file);
-> +       pgoff_t pgoff =3D linear_page_index(vma, addr);
-> +       struct mempolicy *mpol;
-> +       struct folio *folio;
-> +       gfp_t gfp;
-> +
-> +       if (unlikely(pgoff >=3D (i_size_read(inode) >> PAGE_SHIFT)))
-> +               return NULL;
-> +
-> +       gfp =3D mapping_gfp_mask(inode->i_mapping);
-> +       mpol =3D mpol_shared_policy_lookup(&GMEM_I(inode)->policy, pgoff)=
-;
-> +       mpol =3D mpol ?: get_task_policy(current);
-> +       folio =3D filemap_alloc_folio(gfp, 0, mpol);
-> +       mpol_cond_put(mpol);
-> +
-> +       return folio;
-> +}
-> +
-> +static int kvm_gmem_filemap_add(struct folio *folio,
-> +                               struct vm_area_struct *vma,
-> +                               unsigned long addr)
-> +{
-> +       struct inode *inode =3D file_inode(vma->vm_file);
-> +       struct address_space *mapping =3D inode->i_mapping;
-> +       pgoff_t pgoff =3D linear_page_index(vma, addr);
-> +       int err;
-> +
-> +       __folio_set_locked(folio);
-> +       err =3D filemap_add_folio(mapping, folio, pgoff, GFP_KERNEL);
-
-This is going to get more interesting with in-place conversion. I'm
-not really sure how to synchronize with it, but we'll probably need to
-take the invalidate lock for reading. And then we'll need a separate
-uffd_op to drop it after we install the PTE... I think.
-
-> +       if (err) {
-> +               folio_unlock(folio);
-> +               return err;
-> +       }
-> +
-> +       return 0;
-> +}
-> +
-> +static void kvm_gmem_filemap_remove(struct folio *folio,
-> +                                   struct vm_area_struct *vma)
-> +{
-> +       filemap_remove_folio(folio);
-> +       folio_unlock(folio);
-> +}
-> +
-> +static const struct vm_uffd_ops kvm_gmem_uffd_ops =3D {
-> +       .can_userfault     =3D kvm_gmem_can_userfault,
-> +       .get_folio_noalloc =3D kvm_gmem_get_folio_noalloc,
-> +       .alloc_folio       =3D kvm_gmem_folio_alloc,
-> +       .filemap_add       =3D kvm_gmem_filemap_add,
-> +       .filemap_remove    =3D kvm_gmem_filemap_remove,
-> +};
-> +#endif /* CONFIG_USERFAULTFD */
-> +
->  static const struct vm_operations_struct kvm_gmem_vm_ops =3D {
->         .fault          =3D kvm_gmem_fault_user_mapping,
->  #ifdef CONFIG_NUMA
->         .get_policy     =3D kvm_gmem_get_policy,
->         .set_policy     =3D kvm_gmem_set_policy,
->  #endif
-> +#ifdef CONFIG_USERFAULTFD
-> +       .uffd_ops       =3D &kvm_gmem_uffd_ops,
-> +#endif
->  };
->
->  static int kvm_gmem_mmap(struct file *file, struct vm_area_struct *vma)
-> --
-> 2.51.0
->
+>  non_sanitized_build()
+>  (
+>      echo "Standard build (without sanitizers)"
+> @@ -54,6 +68,7 @@ non_sanitized_build()
+>              build_opts=''
+>          fi
+>  
+> +        log_env
+>          meson setup -Dprefix=${PREFIX_DIR} -D werror=true ${build_opts} "${SOURCE_DIR}" || (cat meson-logs/meson-log.txt; false)
+>          ninja
+>          sudo env PATH=$PATH ninja install
+> @@ -79,6 +94,7 @@ sanitized_build()
+>  
+>      mkdir build-san; pushd build-san
+>  
+> +    log_env
+>      meson setup -Dprefix=${PREFIX_DIR} -D werror=true\
+>             "${SOURCE_DIR}" \
+>             || (cat meson-logs/meson-log.txt; false)
+> 
+> -- 
+> 2.43.0
+> 
+> 
