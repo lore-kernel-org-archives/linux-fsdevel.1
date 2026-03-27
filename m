@@ -1,52 +1,50 @@
-Received: from relay.hostedemail.com (smtprelay0011.hostedemail.com [216.40.44.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40A2E345CB0;
-	Fri, 27 Mar 2026 14:14:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 185953F660B;
+	Fri, 27 Mar 2026 14:16:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774620887; cv=none; b=Ov2M2cJTuHAlnLCGNHPRZZ3vCT+ySHFH5IwV1cezj52RJz6fKRRL1Fsok2YrFL4HDPDjxKV9Q/ZD548pCJ0GxCZfVR3ZkoCmPF4kh7LLkNxHaC/Cg8dt4iN5ol2J2fpT++l7+zsYTZya6TBab2s8zkluHDv/NgRi2Mf1qbyhdsM=
+	t=1774620968; cv=none; b=ZQAOv98w8I5jU9g99alispRgkTzgtTMRlubmjSpOK7pr+YzTgYNq6gspgO9PeOY0aU674gbffEifpBuzHdIrrmxEb7vNrhLsXRa/D13dIoINAWCyzgrg0VGsr87U3LXN0Nygewhlwdc6ra3MrFW04w5Z3d6k0rDwM42wBrJLDi4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774620887; c=relaxed/simple;
-	bh=INKVJIFSQ2mJLOypFSOZweFPtWyfByrCi/uSSs2jZrU=;
+	s=arc-20240116; t=1774620968; c=relaxed/simple;
+	bh=cth6dxxe3aanFcyw5202phYvX47q1y5QBdQQTr+zt60=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pZhd34KG8UkouiN5F81+a9Q/21+7OOLJa4mEy8vGg6ijhnFTWZdVzBLl/ILMdY8lP8A2pcBnWr6VIRVQ8A0do8Cum6VwzcLofHc3oObv/UcAcVqropmN8MQAeujb0HPBimG+BbXckXK4SvkfskGsZkwPBoNNxWYXMQdKP5rNM+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
-Received: from omf13.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay05.hostedemail.com (Postfix) with ESMTP id 9FA765E9F3;
-	Fri, 27 Mar 2026 14:14:40 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf13.hostedemail.com (Postfix) with ESMTPA id 3816C20021;
-	Fri, 27 Mar 2026 14:14:28 +0000 (UTC)
-Date: Fri, 27 Mar 2026 09:14:26 -0500
-From: John Groves <John@groves.net>
-To: Dave Jiang <dave.jiang@intel.com>
-Cc: John Groves <john@jagalactic.com>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
-	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
-	Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
-	Stefan Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, 
-	Josef Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
-	Chen Linxuan <chenlinxuan@uniontech.com>, James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
-	"venkataravis@micron.com" <venkataravis@micron.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH V9 5/8] dax: Add dax_operations for use by fs-dax on
- fsdev dax
-Message-ID: <acaQiBN2vlVwZ5EK@groves.net>
-References: <0100019d1d463523-617e8165-a084-4d91-aa5e-13778264d5d4-000000@email.amazonses.com>
- <20260324003851.5045-1-john@jagalactic.com>
- <0100019d1d47e459-48f2a4e6-edab-4002-bde3-2ba642deccaf-000000@email.amazonses.com>
- <d4461e56-8a4d-4d2c-8de9-23a265dc617f@intel.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=PyviQ1TFyRcO+UJh46HmrktrQmFHVLSSIgTG/LprVa7OCKz+ZQr9VJZmnCgY5i5LJYXFRP6/L7NP66cFkwc+eO8C+xNYsPTib0V4I1/JCg/ZH3iB4htNoSIjM+KUE0uutLddHLe6fayKiNv30whFqMfFf9VsR1J0JctxEjXUk8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NWG5gky0; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NWG5gky0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B82D6C19423;
+	Fri, 27 Mar 2026 14:16:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774620967;
+	bh=cth6dxxe3aanFcyw5202phYvX47q1y5QBdQQTr+zt60=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NWG5gky0F9g85HFcO+1A//0rEzZc653ybEusycz7wMImYbsVsFcPdrmOIErCla/rf
+	 ghRjG9HM6qdzEvTR1fr/I2HfTHlP56UmFPjs81tCGP7HTKwzNINWgql4XeP4vxLMRX
+	 ndOsWYJzmmkF33kXKMMOgdIczrsZT1dbP+/z7lzIUVoOTL1Hl28nW+99olIEf3/iU7
+	 TuFq5hbtduFU5wLCr7qTUwB3kyDoXGMpL8MKkKT/1Dg4xoXz6EsC1lT0WmolXapBWu
+	 diqC+zh9otnP5sw8OS1/QTgNFmOaQi084gPmjeel071Tu6D2jmZUBPaIHtIrcf/GSB
+	 kSkbgZDcSjB4Q==
+Date: Fri, 27 Mar 2026 14:15:59 +0000
+From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+To: Zi Yan <ziy@nvidia.com>
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+	Song Liu <songliubraving@fb.com>, Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+	Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
+	Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
+	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>, 
+	linux-btrfs@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v1 02/10] mm/khugepaged: remove READ_ONLY_THP_FOR_FS check
+Message-ID: <83506fe3-3b38-4053-9173-bccd46b4a297@lucifer.local>
+References: <20260327014255.2058916-1-ziy@nvidia.com>
+ <20260327014255.2058916-3-ziy@nvidia.com>
+ <31d9d5c1-02af-42b3-bc3e-aea151d3552b@lucifer.local>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -55,113 +53,12 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d4461e56-8a4d-4d2c-8de9-23a265dc617f@intel.com>
-X-Rspamd-Server: rspamout07
-X-Rspamd-Queue-Id: 3816C20021
-X-Stat-Signature: a3gmc9z1zgxc6hf8kzmhk83yunuieo3t
-X-Session-Marker: 6A6F686E4067726F7665732E6E6574
-X-Session-ID: U2FsdGVkX19D8SBDWcEBvpv9lVq+qSMSLSs9sPxCwdI=
-X-HE-Tag: 1774620868-202939
-X-HE-Meta: U2FsdGVkX19wBee9icGSPWMdcxMlM6lU3SHQCwJTze+pNrOeNshQ1FEASeTwWC1axg6fNWqOtbYVjY+KeasJtos5ku0EYP1vooqjp/Zzm/XNcN2bIFtSnad98mRfgbILCWhLxD6wS07JykPVMKDeKs2UTVQ9AJtcN78kRDHVGbrcd0Kpq3wnjn8QSAUrUK7k1IL3rzDqJWWUATmhGtQuq0N2VjlGdwtZCFxdsJBzABXCVzbJvarLI4QGZ1LahzV6uHIpqqni6/cHQfhV3ZNH87sGUxaPKI374th7CQkiFqdfeYoiYVMPO0/JCLVa9uRQbgdFLNx8V4B6PUGHOfiUpqKHQeVh8Q7NV/hg82h7jR+cwu6OiNpGMx/9BHW93d1E
+In-Reply-To: <31d9d5c1-02af-42b3-bc3e-aea151d3552b@lucifer.local>
 
-On 26/03/25 03:40PM, Dave Jiang wrote:
-> 
-> 
-> On 3/23/26 5:39 PM, John Groves wrote:
-> > From: John Groves <John@Groves.net>
-> > 
-> > fsdev: Add dax_operations for use by famfs.
-> > 
-> > This replicates the functionality from drivers/nvdimm/pmem.c that
-> > conventional fs-dax file systems (e.g. xfs) use to support dax
-> > read/write/mmap to a daxdev - without which famfs can't sit atop a
-> > daxdev.
-> > 
-> > - These methods are based on pmem_dax_ops from drivers/nvdimm/pmem.c
-> > - fsdev_dax_direct_access() returns the hpa, pfn and kva. The kva was
-> >   newly stored as dev_dax->virt_addr by dev_dax_probe().
-> > - The hpa/pfn are used for mmap (dax_iomap_fault()), and the kva is used
-> >   for read/write (dax_iomap_rw())
-> > - fsdev_dax_recovery_write() and dev_dax_zero_page_range() have not been
-> >   tested yet. I'm looking for suggestions as to how to test those.
-> > - dax-private.h: add dev_dax->cached_size, which fsdev needs to
-> >   remember. The dev_dax size cannot change while a driver is bound
-> >   (dev_dax_resize returns -EBUSY if dev->driver is set). Caching the size
-> >   at probe time allows fsdev's direct_access path can use it without
-> >   acquiring dax_dev_rwsem (which isn't exported anyway).
-> > 
-> > Signed-off-by: John Groves <john@groves.net>
-> 
-> Couple nits below while I'm stealing code from you.
+On Fri, Mar 27, 2026 at 12:07:22PM +0000, Lorenzo Stoakes (Oracle) wrote:
+> > +	if (mapping_max_folio_order(mapping) < PMD_ORDER)
+> > +		return SCAN_FAIL;
+>
+> As per rest of thread, this looks correct.
 
-:D
-
-> 
-> > ---
-> >  drivers/dax/dax-private.h |  1 +
-> >  drivers/dax/fsdev.c       | 84 +++++++++++++++++++++++++++++++++++++++
-> >  2 files changed, 85 insertions(+)
-> > 
-> > diff --git a/drivers/dax/dax-private.h b/drivers/dax/dax-private.h
-> > index 7a3727d76a68..ee8f3af8387f 100644
-> > --- a/drivers/dax/dax-private.h
-> > +++ b/drivers/dax/dax-private.h
-> > @@ -85,6 +85,7 @@ struct dev_dax {
-> >  	struct dax_region *region;
-> >  	struct dax_device *dax_dev;
-> >  	void *virt_addr;
-> > +	u64 cached_size;
-> >  	unsigned int align;
-> >  	int target_node;
-> >  	bool dyn_id;
-> > diff --git a/drivers/dax/fsdev.c b/drivers/dax/fsdev.c
-> > index c75478d3d548..be3d2b0e8418 100644
-> > --- a/drivers/dax/fsdev.c
-> > +++ b/drivers/dax/fsdev.c
-> > @@ -28,6 +28,85 @@
-> >   * - No mmap support - all access is through fs-dax/iomap
-> >   */
-> >  
-> > +static void fsdev_write_dax(void *pmem_addr, struct page *page,
-> 
-> addr instead of pmem_addr? copy pasta error?
-
-Yep, fixed thanks
-
-> 
-> > +		unsigned int off, unsigned int len)
-> > +{
-> > +	while (len) {
-> > +		void *mem = kmap_local_page(page);
-> > +		unsigned int chunk = min_t(unsigned int, len, PAGE_SIZE - off);
-> > +
-> > +		memcpy_flushcache(pmem_addr, mem + off, chunk);
-> > +		kunmap_local(mem);
-> > +		len -= chunk;
-> > +		off = 0;
-> > +		page++;
-> > +		pmem_addr += chunk;
-> > +	}
-> > +}
-> > +
-> > +static long __fsdev_dax_direct_access(struct dax_device *dax_dev, pgoff_t pgoff,
-> > +			long nr_pages, enum dax_access_mode mode, void **kaddr,
-> > +			unsigned long *pfn)
-> > +{
-> > +	struct dev_dax *dev_dax = dax_get_private(dax_dev);
-> > +	size_t size = nr_pages << PAGE_SHIFT;
-> > +	size_t offset = pgoff << PAGE_SHIFT;
-> > +	void *virt_addr = dev_dax->virt_addr + offset;
-> > +	phys_addr_t phys;
-> > +	unsigned long local_pfn;
-> > +
-> > +	phys = dax_pgoff_to_phys(dev_dax, pgoff, nr_pages << PAGE_SHIFT);
-> 
-> you can use 'size' instead here since it's previously computed already.
-> 
-> DJ
-
-Indeed - thanks!
-
-John
-
+Actually, no :)
