@@ -1,231 +1,153 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D7DA3C8715;
-	Fri, 27 Mar 2026 07:46:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 531FB3CD8A3
+	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Mar 2026 07:54:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.136.65.226
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774597588; cv=none; b=cFyHkjOdvT89rpWgBkIstSivVtxcsHtNo4Eqw+CYyRsBPvJIpupUyuBDcsxEi0ilAJsvCJ42WM02usiWVJkh3YKZ3HeX03w/zGCwCapDD5G5zZeNVKVWiWllLau0nvUUhLaVrB1Q0PJ/Vwx5hFXTFbSY2u7n6JMJlua8uN95S6I=
+	t=1774598080; cv=none; b=LKIcg1Fi1HzH3c0xtGTK0Pgy5mX6puN7MIwhn+UNGzcIJVCfErfSDcz1T6AtG7i8VxnXTkZT/kb8No+l7mgGzYMhWmTqUF6iJE1RSdNnQDzob5u0RVQ55XQJzQ/OCqvDfSASb9MzWu+B+wCSR+MELBzSB5EJfmNAi7oYU5QZ6NE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774597588; c=relaxed/simple;
-	bh=YpYLgI0jbsF+A0nzcAUua2nUX4/yXL66W0C5PJTgXrY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Nq/N6Hk/W5ipTmTN2rKtHSpzQUrnzY/sVq4SFk4UqLQQbDIegPjFQuM216G1g8KAf+YK++fiZLbbUbsNpqNJGYP5K+qcOSTwnsg+MPONoL6ERs8z3A6i0zONISXQm/MBS8as5FaaFu8SrXmvXlNhylzz4ZaqzxdgpIXseBDRQ/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JAnfdjN+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774598080; c=relaxed/simple;
+	bh=QKoij/UHiladQPESXJyemd48Dww0EegD39OySnyWzpY=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ALbWFAaFsMqDINgTxsBQG2vEPi0//3dImmgLdMCi58ZZ+5ZrwpcB85PKmsBq8H3tcH4ljPqLZZtdB/GiuxKPQHs6YUeQObbld1mdmEX6cOnrEHmynDcxqgXzHW6i7KtOJOuyFyTRX8Zve7gtTMjGGMYzAVA+6cibJaga8PhtlaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com; spf=pass smtp.mailfrom=rts-flowmailer.siemens.com; dkim=pass (2048-bit key) header.d=siemens.com header.i=florian.bezdeka@siemens.com header.b=I3SwD6rH; arc=none smtp.client-ip=185.136.65.226
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rts-flowmailer.siemens.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JAnfdjN+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39BD4C19423;
-	Fri, 27 Mar 2026 07:46:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774597587;
-	bh=YpYLgI0jbsF+A0nzcAUua2nUX4/yXL66W0C5PJTgXrY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JAnfdjN+EsvFi1j+dVGjzyHPyTGqTDMKTZrNVgQtgdS3xTJN/KeC6SXfA6DW6KjZ+
-	 aXiEtUM3bJ0ki+Z9akOlTunEzzX5U9ssu8zkRelLpjeQHa/HwmIwwj6h10u5dOEg0M
-	 EKBK/9ZwAoABVZvbLpHEF0ii0f6vV3ud6iWKWuUuKizQooRHUkahfT6Z9o8xP7UzAv
-	 V7Ey/wrGk7siZDOJ5MJ/BLtJ5l6cix8sJsH1OOi+2j3uqZx/SfPbQJnE1wX5So5cdI
-	 qTCscyLEFql+4cw/7JjIAf1/JD2WybgTQS/Y93nhclmXbb4rNjhVp/Hxc+mgKRvhwF
-	 qjAqgYGSU/bnA==
-Date: Fri, 27 Mar 2026 10:46:15 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: James Houghton <jthoughton@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Andrea Arcangeli <aarcange@redhat.com>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	David Hildenbrand <david@kernel.org>,
-	Hugh Dickins <hughd@google.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>,
-	Nikita Kalyazin <kalyazin@amazon.com>,
-	Oscar Salvador <osalvador@suse.de>,
-	Paolo Bonzini <pbonzini@redhat.com>, Peter Xu <peterx@redhat.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@suse.cz>, kvm@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v2 10/15] shmem, userfaultfd: implement shmem uffd
- operations using vm_uffd_ops
-Message-ID: <acY1x8M3y7xWLwBa@kernel.org>
-References: <20260306171815.3160826-1-rppt@kernel.org>
- <20260306171815.3160826-11-rppt@kernel.org>
- <CADrL8HXajnfE=WusxL=DeF7VcvrsX9z5XDC4mPt1JfMOd7J5DA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=siemens.com header.i=florian.bezdeka@siemens.com header.b="I3SwD6rH"
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20260327074419cc86c75b490002078a
+        for <linux-fsdevel@vger.kernel.org>;
+        Fri, 27 Mar 2026 08:44:19 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=florian.bezdeka@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
+ bh=QKoij/UHiladQPESXJyemd48Dww0EegD39OySnyWzpY=;
+ b=I3SwD6rHZcWkmTh/XeYhjtnf9b8O6+K0tlI5sBGHYfv+TiUM8Z/cuyl94x+K9J1K2fV7EL
+ A/qIJevINCZsStACtlFP6Ukk6w2pTfcenmTuvKmgs+31eP7BpDRbwVhkp40TiDmJf2nBidhb
+ fgqdNVNjZOdQbC/LzwYDcTrAMO1WMt1U/vX8Ncu9nSD+tzIwTruxmw88g1qiHgAXiwoWUJ8H
+ OGHrnl8Zq1ksiauMoNLTffqw60omF4AP8EBCQqJNaHpvevRElG9T03x0JqnAUk3V7mRUUe9L
+ BcF/M50rkHgk0rnRCHPodiMuQ7O8erpTcTFg5Be40VX+MaOxjOIeTfNg==;
+Message-ID: <480f889c1744132f39983178fbad90ad11e081ed.camel@siemens.com>
+Subject: Re: [REGRESSION] osnoise: "eventpoll: Replace rwlock with spinlock"
+ causes =?ISO-8859-1?Q?~50=B5s?= noise spikes on isolated PREEMPT_RT cores
+From: Florian Bezdeka <florian.bezdeka@siemens.com>
+To: Crystal Wood <crwood@redhat.com>, "Ionut Nechita (Wind River)"
+	 <ionut.nechita@windriver.com>, namcao@linutronix.de, brauner@kernel.org
+Cc: linux-fsdevel@vger.kernel.org, linux-rt-users@vger.kernel.org, 
+	stable@vger.kernel.org, linux-kernel@vger.kernel.org, frederic@kernel.org, 
+	vschneid@redhat.com, gregkh@linuxfoundation.org,
+ chris.friesen@windriver.com, 	viorel-catalin.rapiteanu@windriver.com,
+ iulian.mocanu@windriver.com, 	jan.kiszka@siemens.com
+Date: Fri, 27 Mar 2026 08:44:18 +0100
+In-Reply-To: <af22ac4288e36ff879fa8993790c11973f6af45d.camel@redhat.com>
+References: <20260326140058.272854-1-ionut.nechita@windriver.com>
+	 <af22ac4288e36ff879fa8993790c11973f6af45d.camel@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CADrL8HXajnfE=WusxL=DeF7VcvrsX9z5XDC4mPt1JfMOd7J5DA@mail.gmail.com>
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-68982:519-21489:flowmailer
 
-On Thu, Mar 26, 2026 at 06:13:37PM -0700, James Houghton wrote:
-> On Fri, Mar 6, 2026 at 9:19 AM Mike Rapoport <rppt@kernel.org> wrote:
-> >
-> > From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-> >
-> > Add filemap_add() and filemap_remove() methods to vm_uffd_ops and use
-> > them in __mfill_atomic_pte() to add shmem folios to page cache and
-> > remove them in case of error.
-> >
-> > Implement these methods in shmem along with vm_uffd_ops->alloc_folio()
-> > and drop shmem_mfill_atomic_pte().
-> >
-> > Since userfaultfd now does not reference any functions from shmem, drop
-> > include if linux/shmem_fs.h from mm/userfaultfd.c
-> >
-> > mfill_atomic_install_pte() is not used anywhere outside of
-> > mm/userfaultfd, make it static.
-> >
-> > Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> > ---
-> >  include/linux/shmem_fs.h      |  14 ----
-> >  include/linux/userfaultfd_k.h |  21 +++--
-> >  mm/shmem.c                    | 148 ++++++++++++----------------------
-> >  mm/userfaultfd.c              |  79 +++++++++---------
-> >  4 files changed, 106 insertions(+), 156 deletions(-)
-> >
-> > diff --git a/include/linux/shmem_fs.h b/include/linux/shmem_fs.h
-> > index a8273b32e041..1a345142af7d 100644
-> > --- a/include/linux/shmem_fs.h
-> > +++ b/include/linux/shmem_fs.h
-> > @@ -221,20 +221,6 @@ static inline pgoff_t shmem_fallocend(struct inode *inode, pgoff_t eof)
-> >
-> >  extern bool shmem_charge(struct inode *inode, long pages);
-> >
-> > -#ifdef CONFIG_USERFAULTFD
-> > -#ifdef CONFIG_SHMEM
-> > -extern int shmem_mfill_atomic_pte(pmd_t *dst_pmd,
-> > -                                 struct vm_area_struct *dst_vma,
-> > -                                 unsigned long dst_addr,
-> > -                                 unsigned long src_addr,
-> > -                                 uffd_flags_t flags,
-> > -                                 struct folio **foliop);
-> > -#else /* !CONFIG_SHMEM */
-> > -#define shmem_mfill_atomic_pte(dst_pmd, dst_vma, dst_addr, \
-> > -                              src_addr, flags, foliop) ({ BUG(); 0; })
-> > -#endif /* CONFIG_SHMEM */
-> > -#endif /* CONFIG_USERFAULTFD */
-> > -
-> >  /*
-> >   * Used space is stored as unsigned 64-bit value in bytes but
-> >   * quota core supports only signed 64-bit values so use that
-> > diff --git a/include/linux/userfaultfd_k.h b/include/linux/userfaultfd_k.h
-> > index 4d8b879eed91..bf4e595ac914 100644
-> > --- a/include/linux/userfaultfd_k.h
-> > +++ b/include/linux/userfaultfd_k.h
-> > @@ -93,10 +93,24 @@ struct vm_uffd_ops {
-> >         struct folio *(*get_folio_noalloc)(struct inode *inode, pgoff_t pgoff);
-> >         /*
-> >          * Called during resolution of UFFDIO_COPY request.
-> > -        * Should return allocate a and return folio or NULL if allocation fails.
-> > +        * Should allocate and return a folio or NULL if allocation
-> > +        * fails.
-> >          */
-> >         struct folio *(*alloc_folio)(struct vm_area_struct *vma,
-> >                                      unsigned long addr);
-> > +       /*
-> > +        * Called during resolution of UFFDIO_COPY request.
-> > +        * Should lock the folio and add it to VMA's page cache.
-> 
-> I don't think "should lock the folio" is accurate. That sounds like
-> "it will call folio_lock()" but it actually calls
-> __folio_set_locked(). Maybe this is better:
-> 
-> "Should only be called with a folio returned by alloc_folio() above.
-> The folio will set to locked."
+T24gVGh1LCAyMDI2LTAzLTI2IGF0IDEzOjEyIC0wNTAwLCBDcnlzdGFsIFdvb2Qgd3JvdGU6Cj4g
+T24gVGh1LCAyMDI2LTAzLTI2IGF0IDE2OjAwICswMjAwLCBJb251dCBOZWNoaXRhIChXaW5kIFJp
+dmVyKSB3cm90ZToKPiA+IEhpLAo+ID4gCj4gPiBJJ20gcmVwb3J0aW5nIGEgcmVncmVzc2lvbiBp
+bnRyb2R1Y2VkIGJ5IGNvbW1pdCAwYzQzMDk0ZjhjYzkKPiA+ICgiZXZlbnRwb2xsOiBSZXBsYWNl
+IHJ3bG9jayB3aXRoIHNwaW5sb2NrIiksIGJhY2twb3J0ZWQgdG8gc3RhYmxlIDYuMTIueS4KPiA+
+IAo+ID4gT24gYSBQUkVFTVBUX1JUIHN5c3RlbSB3aXRoIG5vaHpfZnVsbCBpc29sYXRlZCBjb3Jl
+cywgdGhpcyBjb21taXQgY2F1c2VzCj4gPiBzaWduaWZpY2FudCBvc25vaXNlIGRlZ3JhZGF0aW9u
+IG9uIHRoZSBpc29sYXRlZCBDUFVzLgo+ID4gCj4gPiBTZXR1cDoKPiA+IMKgwqAgLSBLZXJuZWw6
+IDYuMTIuNzggd2l0aCBQUkVFTVBUX1JUCj4gPiDCoMKgIC0gSGFyZHdhcmU6IHg4Nl82NCwgZHVh
+bC1zb2NrZXQgKENQVXMgMC02MykKPiA+IMKgwqAgLSBCb290IHBhcmFtczogbm9oel9mdWxsPTEt
+MTYsMzMtNDggaXNvbGNwdXM9bm9oeixkb21haW4sbWFuYWdlZF9pcnEsMS0xNiwzMy00OAo+ID4g
+wqDCoMKgwqAgcmN1X25vY2JzPTEtMzEsMzMtNjMga3RocmVhZF9jcHVzPTAsMzIgaXJxYWZmaW5p
+dHk9MTctMzEsNDktNjMKPiA+IMKgwqAgLSBUb29sOiBvc25vaXNlIHRyYWNlciAoLi9vc25vaXNl
+IC1jIDEtMTYsMzMtNDgpCj4gCj4gSXMgU01UIGRpc2FibGVkPwo+IAo+IAo+ID4gV2l0aCBjb21t
+aXQgYXBwbGllZCAoc3BpbmxvY2ssIGtlcm5lbCA2LjEyLjc4LXZhbmlsbGEtMCk6Cj4gPiAKPiA+
+IMKgwqAgQ1BVwqDCoMKgIFJVTlRJTUXCoMKgIE1BWF9OT0lTRcKgwqAgQVZBSUwlwqDCoMKgwqDC
+oCBOT0lTRcKgIE5NScKgwqAgSVJRwqDCoCBTSVJRwqAgVGhyZWFkCj4gPiDCoMKgIFswMDFdwqDC
+oCA5NTAwMDDCoMKgwqDCoMKgwqAgNTAxNjPCoMKgIDk0LjcxOSXCoMKgwqDCoMKgwqDCoCAxNMKg
+wqDCoCAwwqDCoCA2ODY0wqDCoMKgwqAgMMKgwqDCoCA1OTIyCj4gPiDCoMKgIFswMDRdwqDCoCA5
+NTAwMDDCoMKgwqDCoMKgwqAgNTAyOTTCoMKgIDk0LjcwNSXCoMKgwqDCoMKgwqDCoCAxNMKgwqDC
+oCAwwqDCoCA2ODY0wqDCoMKgwqAgMMKgwqDCoCA1OTIwCj4gPiDCoMKgIFswMDddwqDCoCA5NTAw
+MDDCoMKgwqDCoMKgwqAgNDk3ODLCoMKgIDk0Ljc1OSXCoMKgwqDCoMKgwqDCoCAxNMKgwqDCoCAw
+wqDCoCA2ODY0wqDCoMKgwqAgMcKgwqDCoCA1OTIxCj4gPiDCoMKgIFswMzNdwqDCoCA5NTAwMDDC
+oMKgwqDCoMKgwqAgNDk1MjjCoMKgIDk0Ljc4NiXCoMKgwqDCoMKgwqDCoCAxNcKgwqDCoCAwwqDC
+oCA2ODY0wqDCoMKgwqAgMsKgwqDCoCA1OTIyCj4gPiDCoMKgIFswMTZdwqDCoCA5NTAwMDDCoMKg
+wqDCoMKgwqAgNDg1NTHCoMKgIDk0Ljg4OSXCoMKgwqDCoMKgwqDCoCAyMMKgwqDCoCAwwqDCoCA2
+ODYzwqDCoMKgIDE5wqDCoMKgIDU5NDIKPiA+IMKgwqAgWzAwOF3CoMKgIDk1MDAwMMKgwqDCoMKg
+wqDCoCA0NDM0M8KgwqAgOTUuMzMyJcKgwqDCoMKgwqDCoMKgIDE0wqDCoMKgIDDCoMKgIDY4NjTC
+oMKgwqDCoCAwwqDCoMKgIDU5MjUKPiA+IAo+ID4gV2l0aCBjb21taXQgcmV2ZXJ0ZWQgKHJ3bG9j
+ayByZXN0b3JlZCwga2VybmVsIDYuMTIuNzgtdmFuaWxsYS0xKToKPiA+IAo+ID4gwqDCoCBDUFXC
+oMKgwqAgUlVOVElNRcKgwqAgTUFYX05PSVNFwqDCoCBBVkFJTCXCoMKgwqDCoMKgIE5PSVNFwqAg
+Tk1JwqDCoCBJUlHCoMKgIFNJUlHCoCBUaHJlYWQKPiA+IMKgwqAgWzAwMV3CoMKgIDk1MDAwMMKg
+wqDCoMKgwqDCoMKgwqDCoMKgIDDCoMKgIDEwMC4wMDAlwqDCoMKgwqDCoMKgIDDCoMKgwqAgMMKg
+wqDCoMKgwqAgNsKgwqDCoMKgIDDCoMKgwqDCoMKgwqAgMAo+ID4gwqDCoCBbMDA0XcKgwqAgOTUw
+MDAwwqDCoMKgwqDCoMKgwqDCoMKgwqAgMMKgwqAgMTAwLjAwMCXCoMKgwqDCoMKgwqAgMMKgwqDC
+oCAwwqDCoMKgwqDCoCA0wqDCoMKgwqAgMMKgwqDCoMKgwqDCoCAwCj4gPiDCoMKgIFswMDddwqDC
+oCA5NTAwMDDCoMKgwqDCoMKgwqDCoMKgwqDCoCAwwqDCoCAxMDAuMDAwJcKgwqDCoMKgwqDCoCAw
+wqDCoMKgIDDCoMKgwqDCoMKgIDTCoMKgwqDCoCAwwqDCoMKgwqDCoMKgIDAKPiA+IMKgwqAgWzAz
+M13CoMKgIDk1MDAwMMKgwqDCoMKgwqDCoMKgwqDCoMKgIDDCoMKgIDEwMC4wMDAlwqDCoMKgwqDC
+oMKgIDDCoMKgwqAgMMKgwqDCoMKgwqAgNMKgwqDCoMKgIDDCoMKgwqDCoMKgwqAgMAo+ID4gwqDC
+oCBbMDE2XcKgwqAgOTUwMDAwwqDCoMKgwqDCoMKgwqDCoMKgwqAgMMKgwqAgMTAwLjAwMCXCoMKg
+wqDCoMKgwqAgMMKgwqDCoCAwwqDCoMKgwqDCoCA1wqDCoMKgwqAgMMKgwqDCoMKgwqDCoCAwCj4g
+PiDCoMKgIFswMDhdwqDCoCA5NTAwMDDCoMKgwqDCoMKgwqDCoMKgwqDCoCA3wqDCoMKgIDk5Ljk5
+OSXCoMKgwqDCoMKgwqAgN8KgwqDCoCAwwqDCoMKgwqDCoCA1wqDCoMKgwqAgMMKgwqDCoMKgwqDC
+oCAwCj4gPiAKPiA+IFN1bW1hcnkgYWNyb3NzIGFsbCBpc29sYXRlZCBjb3JlcyAoMzIgQ1BVcyk6
+Cj4gPiAKPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqAgV2l0aCBzcGlubG9ja8KgwqDCoMKgwqDCoCBXaXRoIHJ3bG9jayAocmV2ZXJ0ZWQpCj4g
+PiDCoMKgIE1BWCBub2lzZSAobnMpOsKgwqDCoMKgwqDCoMKgwqAgNDQsMzQzIC0gNTEsODY5wqDC
+oMKgwqAgMCAtIDEwCj4gPiDCoMKgIElSUSBjb3VudC9zYW1wbGU6wqDCoMKgwqDCoMKgIH42LDY1
+MCAtIDYsODcwwqDCoMKgwqDCoCAzIC0gNwo+ID4gwqDCoCBUaHJlYWQgbm9pc2Uvc2FtcGxlOsKg
+wqDCoCB+NSw3MDAgLSA1LDk0MMKgwqDCoMKgwqAgMCAtIDEKPiA+IMKgwqAgQ1BVIGF2YWlsYWJp
+bGl0eTrCoMKgwqDCoMKgwqAgOTQuNSUgLSA5NS4zJcKgwqDCoMKgwqDCoCB+MTAwJQo+ID4gCj4g
+PiBUaGUgcmVncmVzc2lvbiBpcyByb3VnaGx5IDMgb3JkZXJzIG9mIG1hZ25pdHVkZSBpbiBub2lz
+ZSBvbiBpc29sYXRlZAo+ID4gY29yZXMuIFRoZSB0ZXN0IHdhcyBydW4gb3ZlciBtYW55IGNvbnNl
+Y3V0aXZlIHNhbXBsZXMgYW5kIHRoZSBwYXR0ZXJuCj4gPiBpcyBjb25zaXN0ZW50OiB3aXRoIHRo
+ZSBzcGlubG9jaywgZXZlcnkgaXNvbGF0ZWQgY29yZSBzZWVzIHRob3VzYW5kcwo+ID4gb2YgSVJR
+cyBhbmQgfjUwwrVzIG9mIG5vaXNlIHBlciA5NTBtcyBzYW1wbGUgd2luZG93LiBXaXRoIHRoZSBy
+d2xvY2ssCj4gPiB0aGUgY29yZXMgYXJlIGVzc2VudGlhbGx5IHNpbGVudC4KPiA+IAo+ID4gTm90
+ZSB0aGF0IENQVSAwMTYgb2NjYXNpb25hbGx5IHNob3dzIFNJUlEgbm9pc2UgKHNvZnRpcnEpIHdp
+dGggYm90aAo+ID4ga2VybmVscywgd2hpY2ggaXMgYSBzZXBhcmF0ZSBrbm93biBpc3N1ZSB3aXRo
+IHRoZSB0aWNrIG9uIHRoZSBmaXJzdAo+ID4gbm9oel9mdWxsIENQVS4gVGhlIGV2ZW50cG9sbCBy
+ZWdyZXNzaW9uIGlzIHRoZSBkb21pbmFudCBub2lzZSBzb3VyY2UuCj4gPiAKPiA+IE15IHVuZGVy
+c3RhbmRpbmcgb2YgdGhlIHJvb3QgY2F1c2U6IHRoZSBvcmlnaW5hbCByd2xvY2sgYWxsb3dlZAo+
+ID4gZXBfcG9sbF9jYWxsYmFjaygpIChwcm9kdWNlciBzaWRlLCBydW5uaW5nIGZyb20gSVJRIGNv
+bnRleHQgb24gYW55IENQVSkKPiA+IHRvIHVzZSByZWFkX2xvY2ssIHdoaWNoIGRvZXMgbm90IGNh
+dXNlIGNyb3NzLUNQVSBjb250ZW50aW9uIG9uIGlzb2xhdGVkCj4gPiBjb3JlcyB3aGVuIG5vIGxv
+Y2FsIGVwb2xsIGFjdGl2aXR5IGV4aXN0cy4gV2l0aCB0aGUgc3BpbmxvY2sgY29udmVyc2lvbiwK
+PiA+IG9uIFBSRUVNUFRfUlQgc3BpbmxvY2tfdCBiZWNvbWVzIGFuIHJ0X211dGV4LiBUaGlzIG1l
+YW5zIHRoYXQgZXZlbiBpZgo+ID4gdGhlIGlzb2xhdGVkIGNvcmUgaXMgbm90IGludm9sdmVkIGlu
+IGFueSBlcG9sbCBhY3Rpdml0eSwgdGhlIGxvY2sncwo+ID4gY2FjaGVsaW5lIGJvdW5jaW5nIGFu
+ZCBwb3RlbnRpYWwgUEktYm9vc3RlZCB3YWtldXBzIGZyb20gaG91c2VrZWVwaW5nCj4gPiBDUFVz
+IGNhbiBpbmplY3Qgbm9pc2UgaW50byB0aGUgaXNvbGF0ZWQgY29yZXMgdmlhIElQSSBvciBjYWNo
+ZQo+ID4gaW52YWxpZGF0aW9uIHRyYWZmaWMuCj4gCj4gVGhhdCBzb3VuZHMgbGlrZSBhIGdlbmVy
+YWwgaXNvbGF0aW9uIHByb2JsZW0uLi4gaXQncyBub3QgYSBidWcgZm9yIG5vbi0KPiBpc29sYXRl
+ZCBDUFVzIHRvIGJvdW5jZSBjYWNoZWxpbmVzIG9yIHNlbmQgSVBJcyB0byBlYWNoIG90aGVyLgo+
+IAo+IFdoZXRoZXIgaXQncyBJUElzIG9yIG5vdCwgb3Nub2lzZSBpcyBzaG93aW5nIElSUXMgb24g
+dGhlIGlzb2xhdGVkIENQVXMsCj4gc28gSSdkIGxvb2sgaW50byB3aGljaCBJUlFzIGFuZCB3aHku
+wqAgRXZlbiB3aXRoIHRoZSBwYXRjaCByZXZlcnRlZCwKPiB0aGVyZSBhcmUgc29tZSBJUlFzIG9u
+IHRoZSBpc29sYXRlZCBDUFVzLgo+IAo+ID4gCj4gPiBUaGUgY29tbWl0IG1lc3NhZ2UgYWNrbm93
+bGVkZ2VzIHRoZSB0aHJvdWdocHV0IHJlZ3Jlc3Npb24gYnV0IGFyZ3Vlcwo+ID4gcmVhbCB3b3Jr
+bG9hZHMgd29uJ3Qgbm90aWNlLiBIb3dldmVyLCBmb3IgUlQvbGF0ZW5jeS1zZW5zaXRpdmUKPiA+
+IGRlcGxveW1lbnRzIHdpdGggQ1BVIGlzb2xhdGlvbiwgdGhlIGltcGFjdCBpcyBzZXZlcmUgYW5k
+IG1lYXN1cmFibGUKPiA+IGV2ZW4gd2l0aCB6ZXJvIGxvY2FsIGVwb2xsIHVzYWdlLgo+ID4gCj4g
+PiBJIGJlbGlldmUgdGhpcyBuZWVkcyBlaXRoZXI6Cj4gPiDCoMKgIGEpIEEgcmV2ZXJ0IG9mIHRo
+ZSBiYWNrcG9ydCBmb3Igc3RhYmxlIFJUIHRyZWVzLCBvcgo+IAo+IEV2ZW4gaWYgdGhlIHBhdGNo
+IHdlcmVuJ3QgdHJ5aW5nIHRvIGFkZHJlc3MgYW4gUlQgaXNzdWUgaW4gdGhlIGZpcnN0Cj4gcGxh
+Y2UsIHRoaXMgd291bGQganVzdCBiZSBhIGJhbmRhaWQgcmF0aGVyIHRoYW4gYSByZWFsIHNvbHV0
+aW9uLgoKQSByZXZlcnQgYWxvbmUgaXMgbm90IGFuIG9wdGlvbiBhcyBpdCB3b3VsZCBicmluZyBi
+YWNrIFsxXSBhbmQgWzJdIGZvcgphbGwgTFRTIHJlbGVhc2VzIHRoYXQgZGlkIG5vdCByZWNlaXZl
+IFszXS4gSWYgbXkgbWVtb3J5IGlzIGNvcnJlY3Qgb25seQo2LjE4IGhhcyBpdC4KClRoZSByZXN1
+bHQgd2FzIGEgc3lzdGVtIGxvY2t1cCBlYXNpbHkgdHJpZ2dlcmVkIGJ5IHVzaW5nIHRoZSBlcG9s
+bAppbnRlcmZhY2UuCgpbMV0gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgtcnQtdXNlcnMv
+MjAyMTA4MjUxMzI3NTQuR0E4OTU2NzVAbG90aHJpbmdlbi8KWzJdIGh0dHBzOi8vbG9yZS5rZXJu
+ZWwub3JnL2xpbnV4LXJ0LXVzZXJzL3hoc21odHRxdm5hbGwubW9nbmV0QHZzY2huZWlkLnJlbW90
+ZS5jc2IvClszXSBodHRwczovL2xvcmUua2VybmVsLm9yZy9hbGwvMjAyNTA4MjkwODExMjAuODA2
+LTEtemlxaWFubHVAYnl0ZWRhbmNlLmNvbS8KCgpGbG9yaWFuCg==
 
-Yeah, sounds good.
- 
-> > +        * Returns 0 on success, error code on failure.
-> > +        */
-> > +       int (*filemap_add)(struct folio *folio, struct vm_area_struct *vma,
-> > +                        unsigned long addr);
-
-> > @@ -404,6 +400,9 @@ int mfill_atomic_install_pte(pmd_t *dst_pmd,
-> >
-> >         set_pte_at(dst_mm, dst_addr, dst_pte, _dst_pte);
-> >
-> > +       if (page_in_cache)
-> > +               folio_unlock(folio);
-> 
-> I don't really like doing the folio_unlock() *here*, I think it's
-> clearer if the callers (mfill_atomic_pte_continue() and
-> __mfill_atomic_pte()) unlocked the folio themselves. But that's just
-> my opinion.
-
-We already have page_in_cache here, so I'd prefer to keep a single
-folio_unlock() rather than add additional if (page_in_cache) in
-__mfill_atomic_pte().
- 
-> > +
-> >         /* No need to invalidate - it was non-present before */
-> >         update_mmu_cache(dst_vma, dst_addr, dst_pte);
-> >         ret = 0;
-> > @@ -836,41 +856,18 @@ extern ssize_t mfill_atomic_hugetlb(struct userfaultfd_ctx *ctx,
-> >
-> >  static __always_inline ssize_t mfill_atomic_pte(struct mfill_state *state)
-> >  {
-> > -       struct vm_area_struct *dst_vma = state->vma;
-> > -       unsigned long src_addr = state->src_addr;
-> > -       unsigned long dst_addr = state->dst_addr;
-> > -       struct folio **foliop = &state->folio;
-> >         uffd_flags_t flags = state->flags;
-> > -       pmd_t *dst_pmd = state->pmd;
-> > -       ssize_t err;
-> >
-> >         if (uffd_flags_mode_is(flags, MFILL_ATOMIC_CONTINUE))
-> >                 return mfill_atomic_pte_continue(state);
-> >         if (uffd_flags_mode_is(flags, MFILL_ATOMIC_POISON))
-> >                 return mfill_atomic_pte_poison(state);
-> > +       if (uffd_flags_mode_is(flags, MFILL_ATOMIC_COPY))
-> > +               return mfill_atomic_pte_copy(state);
-> > +       if (uffd_flags_mode_is(flags, MFILL_ATOMIC_ZEROPAGE))
-> > +               return mfill_atomic_pte_zeropage(state);
-> 
-> Thanks for this cleanup. :)
-> 
-> >
-> > -       /*
-> > -        * The normal page fault path for a shmem will invoke the
-> > -        * fault, fill the hole in the file and COW it right away. The
-> > -        * result generates plain anonymous memory. So when we are
-> > -        * asked to fill an hole in a MAP_PRIVATE shmem mapping, we'll
-> > -        * generate anonymous memory directly without actually filling
-> > -        * the hole. For the MAP_PRIVATE case the robustness check
-> > -        * only happens in the pagetable (to verify it's still none)
-> > -        * and not in the radix tree.
-> > -        */
-> > -       if (!(dst_vma->vm_flags & VM_SHARED)) {
-> > -               if (uffd_flags_mode_is(flags, MFILL_ATOMIC_COPY))
-> > -                       err = mfill_atomic_pte_copy(state);
-> > -               else
-> > -                       err = mfill_atomic_pte_zeropage(state);
-> > -       } else {
-> > -               err = shmem_mfill_atomic_pte(dst_pmd, dst_vma,
-> > -                                            dst_addr, src_addr,
-> > -                                            flags, foliop);
-> > -       }
-> > -
-> > -       return err;
-> > +       return -EOPNOTSUPP;
-> 
-> WARN_ONCE() here I think.
-
-I'll add VM_WARN_ONCE() here.
-
-> Feel free to add:
-> 
-> Reviewed-by: James Houghton <jthoughton@google.com>
-
-Thanks!
-
--- 
-Sincerely yours,
-Mike.
