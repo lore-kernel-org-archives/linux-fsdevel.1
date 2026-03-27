@@ -1,53 +1,52 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay.hostedemail.com (smtprelay0011.hostedemail.com [216.40.44.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E72C2116F4;
-	Fri, 27 Mar 2026 14:12:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40A2E345CB0;
+	Fri, 27 Mar 2026 14:14:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774620731; cv=none; b=sZeF1UfbOcgQf+dTgM9qZtOnGEG3OWKLQpykbWkY3Z1OvlssW/WFmwpFfZPGXgJ3bALA0oulw1qvAMchMPjUt6OROm8GpTCv1mFBTj63YGBjt2rKUl0gHWR/B/RdEg6Rmz0+UwAlbSIW+9wSvNm6vbmjp1pKwhkDJzbUJVtn3cM=
+	t=1774620887; cv=none; b=Ov2M2cJTuHAlnLCGNHPRZZ3vCT+ySHFH5IwV1cezj52RJz6fKRRL1Fsok2YrFL4HDPDjxKV9Q/ZD548pCJ0GxCZfVR3ZkoCmPF4kh7LLkNxHaC/Cg8dt4iN5ol2J2fpT++l7+zsYTZya6TBab2s8zkluHDv/NgRi2Mf1qbyhdsM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774620731; c=relaxed/simple;
-	bh=10d/bauSZZwUaWeqxAp5AEl72kx44Zuct76qpMiWslM=;
+	s=arc-20240116; t=1774620887; c=relaxed/simple;
+	bh=INKVJIFSQ2mJLOypFSOZweFPtWyfByrCi/uSSs2jZrU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fHwL37vM/4Xph0RE/KUgIay5MBdwx+GXirveotQTMvTP47Hji9RJPUeZYFbdflcsNw3pWSb6/++n0LW8ykZTLNT7QuxYb1xd+g8DH6pygtcpqkfTksjP4r5s329t6Je84g+g5JHa8pl5IJ8M5mzDC/Iggm3VozKLNieGKveJNqE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FZfPFmxA; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FZfPFmxA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 896DBC19423;
-	Fri, 27 Mar 2026 14:12:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774620731;
-	bh=10d/bauSZZwUaWeqxAp5AEl72kx44Zuct76qpMiWslM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FZfPFmxAuVBhLAkxJIgmHiPwI+Nesyrc086MBBCRNDFpEh3oTv1sjwFdmZ0AuaLPa
-	 2DW/s9CaITCvU31XQKpY0QCn4MdCBJzpR2+h0aDrkIGdbhSu36GSw+ztSv2s839Rxa
-	 oplhpvpdvKkReCNa0Nq2KZ6RNMLk1ctntQjuU2L4PJvjQTonb4xBAIiDqwXio+T+Ip
-	 YT5sIdJtu4nlXcAkeW5rVMVdI3GK1zNsBY+51DSoN7785lZs73UnLXaiD7vDPKxoLV
-	 tumNAiNeyQnpj0tqr0Q2JlowB2lo9qylylLn9K8SuCspmKR+dmHlXGZF2QoOsPRVm0
-	 jtt0OXTV5qzCg==
-Date: Fri, 27 Mar 2026 14:12:03 +0000
-From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-To: Baolin Wang <baolin.wang@linux.alibaba.com>
-Cc: Zi Yan <ziy@nvidia.com>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Song Liu <songliubraving@fb.com>, Chris Mason <clm@fb.com>, 
-	David Sterba <dsterba@suse.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>, linux-btrfs@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v1 02/10] mm/khugepaged: remove READ_ONLY_THP_FOR_FS check
-Message-ID: <89c8b93c-f6dd-4d8e-bcee-3c1ff1c04295@lucifer.local>
-References: <20260327014255.2058916-1-ziy@nvidia.com>
- <20260327014255.2058916-3-ziy@nvidia.com>
- <7fd90f5e-65b5-4734-abb2-77b22c733af5@linux.alibaba.com>
- <8f5119a1-9aa9-4a39-ac94-ca1631db26e1@lucifer.local>
- <ec927492-4577-4192-8fad-85eb1bb43121@linux.alibaba.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=pZhd34KG8UkouiN5F81+a9Q/21+7OOLJa4mEy8vGg6ijhnFTWZdVzBLl/ILMdY8lP8A2pcBnWr6VIRVQ8A0do8Cum6VwzcLofHc3oObv/UcAcVqropmN8MQAeujb0HPBimG+BbXckXK4SvkfskGsZkwPBoNNxWYXMQdKP5rNM+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
+Received: from omf13.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay05.hostedemail.com (Postfix) with ESMTP id 9FA765E9F3;
+	Fri, 27 Mar 2026 14:14:40 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf13.hostedemail.com (Postfix) with ESMTPA id 3816C20021;
+	Fri, 27 Mar 2026 14:14:28 +0000 (UTC)
+Date: Fri, 27 Mar 2026 09:14:26 -0500
+From: John Groves <John@groves.net>
+To: Dave Jiang <dave.jiang@intel.com>
+Cc: John Groves <john@jagalactic.com>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
+	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
+	Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
+	Stefan Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, 
+	Josef Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
+	Chen Linxuan <chenlinxuan@uniontech.com>, James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
+	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
+	"venkataravis@micron.com" <venkataravis@micron.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH V9 5/8] dax: Add dax_operations for use by fs-dax on
+ fsdev dax
+Message-ID: <acaQiBN2vlVwZ5EK@groves.net>
+References: <0100019d1d463523-617e8165-a084-4d91-aa5e-13778264d5d4-000000@email.amazonses.com>
+ <20260324003851.5045-1-john@jagalactic.com>
+ <0100019d1d47e459-48f2a4e6-edab-4002-bde3-2ba642deccaf-000000@email.amazonses.com>
+ <d4461e56-8a4d-4d2c-8de9-23a265dc617f@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -56,131 +55,113 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ec927492-4577-4192-8fad-85eb1bb43121@linux.alibaba.com>
+In-Reply-To: <d4461e56-8a4d-4d2c-8de9-23a265dc617f@intel.com>
+X-Rspamd-Server: rspamout07
+X-Rspamd-Queue-Id: 3816C20021
+X-Stat-Signature: a3gmc9z1zgxc6hf8kzmhk83yunuieo3t
+X-Session-Marker: 6A6F686E4067726F7665732E6E6574
+X-Session-ID: U2FsdGVkX19D8SBDWcEBvpv9lVq+qSMSLSs9sPxCwdI=
+X-HE-Tag: 1774620868-202939
+X-HE-Meta: U2FsdGVkX19wBee9icGSPWMdcxMlM6lU3SHQCwJTze+pNrOeNshQ1FEASeTwWC1axg6fNWqOtbYVjY+KeasJtos5ku0EYP1vooqjp/Zzm/XNcN2bIFtSnad98mRfgbILCWhLxD6wS07JykPVMKDeKs2UTVQ9AJtcN78kRDHVGbrcd0Kpq3wnjn8QSAUrUK7k1IL3rzDqJWWUATmhGtQuq0N2VjlGdwtZCFxdsJBzABXCVzbJvarLI4QGZ1LahzV6uHIpqqni6/cHQfhV3ZNH87sGUxaPKI374th7CQkiFqdfeYoiYVMPO0/JCLVa9uRQbgdFLNx8V4B6PUGHOfiUpqKHQeVh8Q7NV/hg82h7jR+cwu6OiNpGMx/9BHW93d1E
 
-On Fri, Mar 27, 2026 at 09:45:03PM +0800, Baolin Wang wrote:
->
->
-> On 3/27/26 8:02 PM, Lorenzo Stoakes (Oracle) wrote:
-> > On Fri, Mar 27, 2026 at 05:44:49PM +0800, Baolin Wang wrote:
-> > >
-> > >
-> > > On 3/27/26 9:42 AM, Zi Yan wrote:
-> > > > collapse_file() requires FSes supporting large folio with at least
-> > > > PMD_ORDER, so replace the READ_ONLY_THP_FOR_FS check with that. shmem with
-> > > > huge option turned on also sets large folio order on mapping, so the check
-> > > > also applies to shmem.
-> > > >
-> > > > While at it, replace VM_BUG_ON with returning failure values.
-> > > >
-> > > > Signed-off-by: Zi Yan <ziy@nvidia.com>
-> > > > ---
-> > > >    mm/khugepaged.c | 7 +++++--
-> > > >    1 file changed, 5 insertions(+), 2 deletions(-)
-> > > >
-> > > > diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> > > > index d06d84219e1b..45b12ffb1550 100644
-> > > > --- a/mm/khugepaged.c
-> > > > +++ b/mm/khugepaged.c
-> > > > @@ -1899,8 +1899,11 @@ static enum scan_result collapse_file(struct mm_struct *mm, unsigned long addr,
-> > > >    	int nr_none = 0;
-> > > >    	bool is_shmem = shmem_file(file);
-> > > > -	VM_BUG_ON(!IS_ENABLED(CONFIG_READ_ONLY_THP_FOR_FS) && !is_shmem);
-> > > > -	VM_BUG_ON(start & (HPAGE_PMD_NR - 1));
-> > > > +	/* "huge" shmem sets mapping folio order and passes the check below */
-> > > > +	if (mapping_max_folio_order(mapping) < PMD_ORDER)
-> > > > +		return SCAN_FAIL;
-> > >
-> > > This is not true for anonymous shmem, since its large order allocation logic
-> > > is similar to anonymous memory. That means it will not call
-> > > mapping_set_large_folios() for anonymous shmem.
-> > >
-> > > So I think the check should be:
-> > >
-> > > if (!is_shmem && mapping_max_folio_order(mapping) < PMD_ORDER)
-> > >       return SCAN_FAIL;
-> >
-> > Hmm but in shmem_init() we have:
-> >
-> > #ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> > 	if (has_transparent_hugepage() && shmem_huge > SHMEM_HUGE_DENY)
-> > 		SHMEM_SB(shm_mnt->mnt_sb)->huge = shmem_huge;
-> > 	else
-> > 		shmem_huge = SHMEM_HUGE_NEVER; /* just in case it was patched */
-> >
-> > 	/*
-> > 	 * Default to setting PMD-sized THP to inherit the global setting and
-> > 	 * disable all other multi-size THPs.
-> > 	 */
-> > 	if (!shmem_orders_configured)
-> > 		huge_shmem_orders_inherit = BIT(HPAGE_PMD_ORDER);
-> > #endif
-> >
-> > And shm_mnt->mnt_sb is the superblock used for anon shmem. Also
-> > shmem_enabled_store() updates that if necessary.
-> >
-> > So we're still fine right?
-> >
-> > __shmem_file_setup() (used for anon shmem) calls shmem_get_inode() ->
-> > __shmem_get_inode() which has:
-> >
-> > 	if (sbinfo->huge)
-> > 		mapping_set_large_folios(inode->i_mapping);
-> >
-> > Shared for both anon shmem and tmpfs-style shmem.
-> >
-> > So I think it's fine as-is.
->
-> I'm afraid not. Sorry, I should have been clearer.
->
-> First, anonymous shmem large order allocation is dynamically controlled via
-> the global interface (/sys/kernel/mm/transparent_hugepage/shmem_enabled) and
-> the mTHP interfaces
-> (/sys/kernel/mm/transparent_hugepage/hugepages-*kB/shmem_enabled).
->
-> This means that during anonymous shmem initialization, these interfaces
-> might be set to 'never'. so it will not call mapping_set_large_folios()
-> because sbinfo->huge is 'SHMEM_HUGE_NEVER'.
->
-> Even if shmem large order allocation is subsequently enabled via the
-> interfaces, __shmem_file_setup -> mapping_set_large_folios() is not called
-> again.
+On 26/03/25 03:40PM, Dave Jiang wrote:
+> 
+> 
+> On 3/23/26 5:39 PM, John Groves wrote:
+> > From: John Groves <John@Groves.net>
+> > 
+> > fsdev: Add dax_operations for use by famfs.
+> > 
+> > This replicates the functionality from drivers/nvdimm/pmem.c that
+> > conventional fs-dax file systems (e.g. xfs) use to support dax
+> > read/write/mmap to a daxdev - without which famfs can't sit atop a
+> > daxdev.
+> > 
+> > - These methods are based on pmem_dax_ops from drivers/nvdimm/pmem.c
+> > - fsdev_dax_direct_access() returns the hpa, pfn and kva. The kva was
+> >   newly stored as dev_dax->virt_addr by dev_dax_probe().
+> > - The hpa/pfn are used for mmap (dax_iomap_fault()), and the kva is used
+> >   for read/write (dax_iomap_rw())
+> > - fsdev_dax_recovery_write() and dev_dax_zero_page_range() have not been
+> >   tested yet. I'm looking for suggestions as to how to test those.
+> > - dax-private.h: add dev_dax->cached_size, which fsdev needs to
+> >   remember. The dev_dax size cannot change while a driver is bound
+> >   (dev_dax_resize returns -EBUSY if dev->driver is set). Caching the size
+> >   at probe time allows fsdev's direct_access path can use it without
+> >   acquiring dax_dev_rwsem (which isn't exported anyway).
+> > 
+> > Signed-off-by: John Groves <john@groves.net>
+> 
+> Couple nits below while I'm stealing code from you.
 
-I see your point, oh this is all a bit of a mess...
+:D
 
-It feels like entirely the wrong abstraction anyway, since at best you're
-getting a global 'is enabled'.
+> 
+> > ---
+> >  drivers/dax/dax-private.h |  1 +
+> >  drivers/dax/fsdev.c       | 84 +++++++++++++++++++++++++++++++++++++++
+> >  2 files changed, 85 insertions(+)
+> > 
+> > diff --git a/drivers/dax/dax-private.h b/drivers/dax/dax-private.h
+> > index 7a3727d76a68..ee8f3af8387f 100644
+> > --- a/drivers/dax/dax-private.h
+> > +++ b/drivers/dax/dax-private.h
+> > @@ -85,6 +85,7 @@ struct dev_dax {
+> >  	struct dax_region *region;
+> >  	struct dax_device *dax_dev;
+> >  	void *virt_addr;
+> > +	u64 cached_size;
+> >  	unsigned int align;
+> >  	int target_node;
+> >  	bool dyn_id;
+> > diff --git a/drivers/dax/fsdev.c b/drivers/dax/fsdev.c
+> > index c75478d3d548..be3d2b0e8418 100644
+> > --- a/drivers/dax/fsdev.c
+> > +++ b/drivers/dax/fsdev.c
+> > @@ -28,6 +28,85 @@
+> >   * - No mmap support - all access is through fs-dax/iomap
+> >   */
+> >  
+> > +static void fsdev_write_dax(void *pmem_addr, struct page *page,
+> 
+> addr instead of pmem_addr? copy pasta error?
 
-I guess what happened before was we'd never call into this with ! r/o thp for fs
-&& ! is_shmem.
+Yep, fixed thanks
 
-But now we are allowing it, but should STILL be gating on !is_shmem so yeah your
-suggestion is correct I think actualyl.
+> 
+> > +		unsigned int off, unsigned int len)
+> > +{
+> > +	while (len) {
+> > +		void *mem = kmap_local_page(page);
+> > +		unsigned int chunk = min_t(unsigned int, len, PAGE_SIZE - off);
+> > +
+> > +		memcpy_flushcache(pmem_addr, mem + off, chunk);
+> > +		kunmap_local(mem);
+> > +		len -= chunk;
+> > +		off = 0;
+> > +		page++;
+> > +		pmem_addr += chunk;
+> > +	}
+> > +}
+> > +
+> > +static long __fsdev_dax_direct_access(struct dax_device *dax_dev, pgoff_t pgoff,
+> > +			long nr_pages, enum dax_access_mode mode, void **kaddr,
+> > +			unsigned long *pfn)
+> > +{
+> > +	struct dev_dax *dev_dax = dax_get_private(dax_dev);
+> > +	size_t size = nr_pages << PAGE_SHIFT;
+> > +	size_t offset = pgoff << PAGE_SHIFT;
+> > +	void *virt_addr = dev_dax->virt_addr + offset;
+> > +	phys_addr_t phys;
+> > +	unsigned long local_pfn;
+> > +
+> > +	phys = dax_pgoff_to_phys(dev_dax, pgoff, nr_pages << PAGE_SHIFT);
+> 
+> you can use 'size' instead here since it's previously computed already.
+> 
+> DJ
 
-I do hate:
+Indeed - thanks!
 
-	if (!is_shmem && mapping_max_folio_order(mapping) < PMD_ORDER)
+John
 
-As a bit of code though. It's horrible.
-
-Let's abstract that...
-
-It'd be nice if we could find a way to clean things up in the lead up to changes
-in series like this instead of sticking with the mess, but I guess since it
-mostly removes stuff that's ok for now.
-
->
-> Anonymous shmem behaves similarly to anonymous pages: it is controlled by
-> the 'shmem_enabled' interfaces and uses shmem_allowable_huge_orders() to
-> check for allowed large orders, rather than relying on
-> mapping_max_folio_order().
->
-> The mapping_max_folio_order() is intended to control large page allocation
-> only for tmpfs mounts. Therefore, I find the current code confusing and
-> think it needs to be fixed:
->
-> /* Don't consider 'deny' for emergencies and 'force' for testing */
-> if (sb != shm_mnt->mnt_sb && sbinfo->huge)
->        mapping_set_large_folios(inode->i_mapping);
-
-Cheers, Lorenzo
