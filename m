@@ -1,496 +1,304 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh-b5-smtp.messagingengine.com (fhigh-b5-smtp.messagingengine.com [202.12.124.156])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66CFF29BDA2;
-	Fri, 27 Mar 2026 04:06:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E64A9248867;
+	Fri, 27 Mar 2026 04:13:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.156
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774584408; cv=none; b=eokck3CHxO1kacjWUT1zbIRayqXNTVUr54x/PSJ3foqjv8DpuA5VINDuS6HicVbMDC2e49njbLKCihgZFgM7f9yAK0ftXOQ2PkuGDt+iQXBjxg9U29+FYqaSoV0XvQFii+zg+bd6BeFj0WQhL1N89JqXyVs+Qho2qPfqzMmT01I=
+	t=1774584815; cv=none; b=C8FZjcWa7/9hdT/QMsJ9kdFWENr+EnT0YPEAXmGk5gW+8yuhdJR/+28pO8edJ8JtaF/LoddQP47SCxDFrYPu0dVAmGHEFPeY0Q8dxAmhpiDerbLY7mgZJjXqGkhLiKKV0l2v8SNM7CHy/1LLZPAEbJ+u1qvtsVSazk79c6Qeyno=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774584408; c=relaxed/simple;
-	bh=tIY9vtGvQtrHsVf/k9IQzMmcpXC2pXdd3oxAVOuUFoA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ieTBWDDeb0Og8k0hnwqHdT80DDUOVuWBZF0LGJ6BTCH0AIA7deY46gmoUVL1Y5LYdD0/JO+QkiFxjJJPWWuGNPuwfKOJR4ZQtoHqPjFCN5+Mk5LXHWhSas4eVtZXkmycjiFw020PhZuvvYS4D8Hi9MZw+/NekmkbwIs0w9L2VvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LInRXNJ9; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774584815; c=relaxed/simple;
+	bh=O1r2TB7AZDhv/ye2uot4lJ8UrQc85iSzpdILU89Cq9o=;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
+	 References:Date:Message-id; b=uhN3dQxzZBBo7P7WijDcDpU/iS9EvkApTwDULtlu9X4BLt8HaneiQLtPs2UYD4xgbPnKgx7anGSefcOR7cWUKllwgZkuIC4ORD5hwTcFZRf25hvH6ytOGEEb8bIBIxroH88tm2CLmp1XyVy+6usO+H0lM8ow1ljXiXWE9FsUEjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=iIHUxczi; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=MCJY5Ufu; arc=none smtp.client-ip=202.12.124.156
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LInRXNJ9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB3F6C19423;
-	Fri, 27 Mar 2026 04:06:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774584408;
-	bh=tIY9vtGvQtrHsVf/k9IQzMmcpXC2pXdd3oxAVOuUFoA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LInRXNJ9EILSWQDe5rdt3ly0emXQMSY0DP2BDrJCNO6sim1C5DiEV/lKpC/9KtwSc
-	 ws7bwdtHDOug7YHTFrnMvekaUr7i8JFlVs8ctNPxqMYEf87C7DcEJiDXx02wtFqR45
-	 C/+YCXwO2B6vlY3AyMHrpOu0MSXMF530YnYexAURiCjNGYx/R5xtWz24eYa2aetoI2
-	 K47UklyzpngfkOcvdTWOZD3Dld8ptjWK7iLGPZHoFC3yUgG/gMP5Sln5dtqQ+9j56L
-	 54wgG8jKBpeoHRpkSINoG7wwIIAQ3OiYtRHPtlo+ma70vcI0FMu5i/Wn4Clhz0Ga/j
-	 t/jcV1pWlZZwA==
-Date: Thu, 26 Mar 2026 21:06:47 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Chao Yu <chao@kernel.org>
-Cc: jaegeuk@kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-	Christoph Hellwig <hch@infradead.org>
-Subject: Re: [PATCH] f2fs: support to report fserror
-Message-ID: <20260327040647.GG6254@frogsfrogsfrogs>
-References: <20260323090344.219267-1-chao@kernel.org>
- <7ae25eae-19ce-4290-9156-7fff7c379705@kernel.org>
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="iIHUxczi";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="MCJY5Ufu"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id BF45F7A0169;
+	Fri, 27 Mar 2026 00:13:30 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-05.internal (MEProxy); Fri, 27 Mar 2026 00:13:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to; s=fm1; t=
+	1774584810; x=1774671210; bh=WyVInZcZr68/eNJ6NMis1vjr9ENyg87XN4z
+	U87cAIXw=; b=iIHUxcziG/GkywLtm1/bJzw0DUY8tt4b3TQLybWfs6S+FkiKHWh
+	W9cGw9O7v01Dl4UQ9kvXiAxHRNfua/YleuWnpfQuQsaIBXdOlyojDlfxerf7Wu+7
+	tECal6FeSfW/Z5LAJTR9On4ZBL5pB4IjmGlkXjqqxPtyLrTzkw5J49u5cxQA8ahW
+	Quvva38P3Z6OPakMfy10Vs+dJCJ5ql5XcqDQCSm4jxf6KNg4avTKK3NfHhLj5aDi
+	D34yxiT/1kyhxoeVogbtDm3ci0Km/WR9ZkNAPX+xZJo/3e5RmJhr+aWvAxVGIKfY
+	zaxjnV4D6RofydqMRhCW24TiJwOb2TaVXVA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1774584810; x=
+	1774671210; bh=WyVInZcZr68/eNJ6NMis1vjr9ENyg87XN4zU87cAIXw=; b=M
+	CJY5UfuGfBGliGIvIbSfgTi+R+EyT37gVZdbrlsZrKPClwBFLPDfjtVaGaOL2e1J
+	zfGzBBj+xhi33mzSoEl0osQmLY221Rzk9o/8Fr9+JVKYBCUiFCjpGXG5jA2BT2YQ
+	mSC5fZN7A+ZxiZoANwCAIhGy43mKwW0vba8yMUE1uxyGElww8ivTxWK36AxKdqER
+	UZuVejy4hmTFMg0unpBrHLv7W7HtdPtusOWzcD4YQqczsxD8d9BOTuLB/77iDDWK
+	zPczgWcNwo4ng+gokkZ57K8oyInXjiYGzqkjdrGB81nTyab8/gO+9jQlr0Ro2svv
+	lTUz/DTnt9OadXuzPHpfw==
+X-ME-Sender: <xms:6QPGafsB-kzA3OHCSdBvUFQU0uMVqQu7uw8aVez4NojrmiQwpJMjIQ>
+    <xme:6QPGaVYPK-9mv_gOBUrX8JnEdQBp9jOrtnAi8Qq2iuRevNDbkx2p8bh4wOp1o9AL7
+    8J3gKUER2zn_vJ-jptTH7PJTokI52tpUsOlM8GkPTWN_ya6JA>
+X-ME-Received: <xmr:6QPGaXD75L33ZW2L_DG6h-leHMid5qIeugWJTL5BMBBdXv5yMKi9Yj5oZCuk7W_ps8Ov75in3zhmXMPqJuJJY1wTL9x9PkLrgE7dtyrn2Usk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdefvdelvdelucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurheptgfgggfhvfevufgjfhffkfhrsehtqhertddttdejnecuhfhrohhmpefpvghilheu
+    rhhofihnuceonhgvihhlsgesohifnhhmrghilhdrnhgvtheqnecuggftrfgrthhtvghrnh
+    epleejtdefgeeukeeiteduveehudevfeffvedutefgteduhfegvdfgtdeigeeuudejnecu
+    vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhgvihhlsg
+    esohifnhhmrghilhdrnhgvthdpnhgspghrtghpthhtohepkedpmhhouggvpehsmhhtphho
+    uhhtpdhrtghpthhtohepvhhirhhoseiivghnihhvrdhlihhnuhigrdhorhhgrdhukhdprh
+    gtphhtthhopehlihhnuhigqdhunhhiohhnfhhssehvghgvrhdrkhgvrhhnvghlrdhorhhg
+    pdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorh
+    hgpdhrtghpthhtoheplhhinhhugidqfhhsuggvvhgvlhesvhhgvghrrdhkvghrnhgvlhdr
+    ohhrghdprhgtphhtthhopehmihhklhhoshesshiivghrvgguihdrhhhupdhrtghpthhtoh
+    epthhorhhvrghlughssehlihhnuhigqdhfohhunhgurghtihhonhdrohhrghdprhgtphht
+    thhopegsrhgruhhnvghrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrmhhirhejfe
+    hilhesghhmrghilhdrtghomh
+X-ME-Proxy: <xmx:6QPGad9kR5HiZ78xBJMO0ehBhybmsTHG5ZKHpEg6H5Tf3xc_ua2Lsw>
+    <xmx:6QPGaTRJoSgtIOA3f9j-e4zeakPUC3IsKp8bOOUKTPGdoF9JM7ooSA>
+    <xmx:6QPGaRXKLEDFxhC9-Io5otAIjRn4qS8e2s1KolEDsMOC__bHrRKpaw>
+    <xmx:6QPGadQho4X42sBOmBfSnvittKZuy8qhPM5gezt8G_T-tIzR96GTQQ>
+    <xmx:6gPGaQfGw1ali5kZUrVlIs8Kt60XERuaIOjlNWgVWldtYtKQFcKViLFo>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 27 Mar 2026 00:13:27 -0400 (EDT)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7ae25eae-19ce-4290-9156-7fff7c379705@kernel.org>
+From: NeilBrown <neilb@ownmail.net>
+To: "Amir Goldstein" <amir73il@gmail.com>
+Cc: "Linus Torvalds" <torvalds@linux-foundation.org>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>,
+ "Miklos Szeredi" <miklos@szeredi.hu>, linux-fsdevel@vger.kernel.org,
+ linux-unionfs@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 16/53] ovl: drop dir lock for lookups in impure readdir
+In-reply-to:
+ <CAOQ4uxgvD3COuoD5r67CfpYSiRFSr0LY5TB-QPcSn-zD9Ht1HQ@mail.gmail.com>
+References: <20260312214330.3885211-1-neilb@ownmail.net>,
+ <20260312214330.3885211-17-neilb@ownmail.net>,
+ <CAOQ4uxjmcNxsCmDSVgkTns=3BAuQcT3pVvsQzza+u3iqXqrz5g@mail.gmail.com>,
+ <177386823998.3934327.10803400222725196190@noble.neil.brown.name>,
+ <CAOQ4uxgvD3COuoD5r67CfpYSiRFSr0LY5TB-QPcSn-zD9Ht1HQ@mail.gmail.com>
+Date: Fri, 27 Mar 2026 15:13:23 +1100
+Message-id: <177458480314.1851489.4686537284269032199@noble.neil.brown.name>
+Reply-To: NeilBrown <neil@brown.name>
 
-On Wed, Mar 25, 2026 at 02:32:31PM +0800, Chao Yu wrote:
-> +Cc Darrick and fsdevel
-> 
-> On 3/23/26 17:03, Chao Yu wrote:
-> > This patch supports to report fserror, it provides another way to let
-> > userspace to monitor filesystem level error. In addition, it exports
-> > /sys/fs/f2fs/features/fserror once f2fs kernel module start to support
-> > the new feature, then generic/791 of fstests can notice the feature,
-> > and verify validation of fserror report.
-> > 
-> > Signed-off-by: Chao Yu <chao@kernel.org>
-> > ---
-> >  Documentation/ABI/testing/sysfs-fs-f2fs |  3 ++-
-> >  fs/f2fs/compress.c                      |  2 ++
-> >  fs/f2fs/data.c                          | 13 ++++++++++++-
-> >  fs/f2fs/dir.c                           |  2 ++
-> >  fs/f2fs/inline.c                        |  3 +++
-> >  fs/f2fs/inode.c                         |  5 +++++
-> >  fs/f2fs/node.c                          |  8 ++++++++
-> >  fs/f2fs/recovery.c                      |  2 ++
-> >  fs/f2fs/segment.c                       |  2 ++
-> >  fs/f2fs/super.c                         | 26 +++++++++++++++++++++++++
-> >  fs/f2fs/sysfs.c                         |  2 ++
-> >  fs/f2fs/verity.c                        |  2 ++
-> >  fs/f2fs/xattr.c                         |  6 ++++++
-> >  13 files changed, 74 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/Documentation/ABI/testing/sysfs-fs-f2fs b/Documentation/ABI/testing/sysfs-fs-f2fs
-> > index 423ec40e2e4e..27d5e88facbe 100644
-> > --- a/Documentation/ABI/testing/sysfs-fs-f2fs
-> > +++ b/Documentation/ABI/testing/sysfs-fs-f2fs
-> > @@ -270,7 +270,8 @@ Description:	Shows all enabled kernel features.
-> >  		inode_checksum, flexible_inline_xattr, quota_ino,
-> >  		inode_crtime, lost_found, verity, sb_checksum,
-> >  		casefold, readonly, compression, test_dummy_encryption_v2,
-> > -		atomic_write, pin_file, encrypted_casefold, linear_lookup.
-> > +		atomic_write, pin_file, encrypted_casefold, linear_lookup,
-> > +		fserror.
-> >  
-> >  What:		/sys/fs/f2fs/<disk>/inject_rate
-> >  Date:		May 2016
-> > diff --git a/fs/f2fs/compress.c b/fs/f2fs/compress.c
-> > index 8c76400ba631..d1650b763e1f 100644
-> > --- a/fs/f2fs/compress.c
-> > +++ b/fs/f2fs/compress.c
-> > @@ -14,6 +14,7 @@
-> >  #include <linux/lz4.h>
-> >  #include <linux/zstd.h>
-> >  #include <linux/pagevec.h>
-> > +#include <linux/fserror.h>
-> >  
-> >  #include "f2fs.h"
-> >  #include "node.h"
-> > @@ -760,6 +761,7 @@ void f2fs_decompress_cluster(struct decompress_io_ctx *dic, bool in_task)
-> >  
-> >  		/* Avoid f2fs_commit_super in irq context */
-> >  		f2fs_handle_error(sbi, ERROR_FAIL_DECOMPRESSION);
-> > +		fserror_report_file_metadata(dic->inode, ret, GFP_NOFS);
-> >  		goto out_release;
-> >  	}
-> >  
-> > diff --git a/fs/f2fs/data.c b/fs/f2fs/data.c
-> > index 9ade0669d615..6d8bcb0d15bc 100644
-> > --- a/fs/f2fs/data.c
-> > +++ b/fs/f2fs/data.c
-> > @@ -20,6 +20,7 @@
-> >  #include <linux/sched/signal.h>
-> >  #include <linux/fiemap.h>
-> >  #include <linux/iomap.h>
-> > +#include <linux/fserror.h>
-> >  
-> >  #include "f2fs.h"
-> >  #include "node.h"
-> > @@ -179,6 +180,11 @@ static void f2fs_finish_read_bio(struct bio *bio, bool in_task)
-> >  				folio, folio->index, NODE_TYPE_REGULAR, true))
-> >  			bio->bi_status = BLK_STS_IOERR;
-> >  
-> > +		if (bio->bi_status == BLK_STS_IOERR)
-> > +			fserror_report_io(folio->mapping->host,
-> > +				FSERR_BUFFERED_READ, folio_pos(folio),
-> > +				folio_size(folio), -EIO, GFP_NOWAIT);
-> > +
-> >  		if (finished)
-> >  			folio_end_read(folio, bio->bi_status == BLK_STS_OK);
-> >  	}
-> > @@ -377,9 +383,13 @@ static void f2fs_write_end_io(struct bio *bio)
-> >  
-> >  		if (unlikely(bio->bi_status != BLK_STS_OK)) {
-> >  			mapping_set_error(folio->mapping, -EIO);
-> > -			if (type == F2FS_WB_CP_DATA)
-> > +			fserror_report_io(folio->mapping->host,
-> > +				FSERR_BUFFERED_WRITE, folio_pos(folio),
-> > +				folio_size(folio), -EIO, GFP_NOWAIT);
+On Sat, 21 Mar 2026, Amir Goldstein wrote:
+> On Wed, Mar 18, 2026 at 10:10=E2=80=AFPM NeilBrown <neilb@ownmail.net> wrot=
+e:
+> >
+> > [[ CC list trimmed ]]
+> >
+> > On Mon, 16 Mar 2026, Amir Goldstein wrote:
+> > > On Thu, Mar 12, 2026 at 10:49=E2=80=AFPM NeilBrown <neilb@ownmail.net> =
+wrote:
+> > > >
+> > > > From: NeilBrown <neil@brown.name>
+> > > >
+> > > > When performing an "impure" readdir, ovl needs to perform a lookup on=
+ some
+> > > > of the names that it found.
+> > > > With proposed locking changes it will not be possible to perform this
+> > > > lookup (in particular, not safe to wait for d_alloc_parallel()) while
+> > > > holding a lock on the directory.
+> > > >
+> > > > ovl doesn't really need the lock at this point.
+> > >
+> > > Not exactly. see below.
+> > >
+> > > > It has already iterated
+> > > > the directory and has cached a list of the contents.  It now needs to
+> > > > gather extra information about some contents.  It can do this without
+> > > > the lock.
+> > > >
+> > > > After gathering that info it needs to retake the lock for API
+> > > > correctness.  After doing this it must check IS_DEADDIR() again to
+> > > > ensure readdir always returns -ENOENT on a removed directory.
+> > > >
+> > > > Note that while ->iterate_shared is called with a shared lock, ovl us=
+es
+> > > > WRAP_DIR_ITER() so an exclusive lock is held and so we drop and retake
+> > > > that exclusive lock.
+> > > >
+> > > > As the directory is no longer locked in ovl_cache_update() we need
+> > > > dget_parent() to get a reference to the parent.
+> > > >
+> > > > Signed-off-by: NeilBrown <neil@brown.name>
+> > > > ---
+> > > >  fs/overlayfs/readdir.c | 19 ++++++++++++-------
+> > > >  1 file changed, 12 insertions(+), 7 deletions(-)
+> > > >
+> > > > diff --git a/fs/overlayfs/readdir.c b/fs/overlayfs/readdir.c
+> > > > index 1dcc75b3a90f..d5123b37921c 100644
+> > > > --- a/fs/overlayfs/readdir.c
+> > > > +++ b/fs/overlayfs/readdir.c
+> > > > @@ -568,13 +568,12 @@ static int ovl_cache_update(const struct path *=
+path, struct ovl_cache_entry *p,
+> > > >                         goto get;
+> > > >                 }
+> > > >                 if (p->len =3D=3D 2) {
+> > > > -                       /* we shall not be moved */
+> > > > -                       this =3D dget(dir->d_parent);
+> > > > +                       this =3D dget_parent(dir);
+> > > >                         goto get;
+> > > >                 }
+> > > >         }
+> > > >         /* This checks also for xwhiteouts */
+> > > > -       this =3D lookup_one(mnt_idmap(path->mnt), &QSTR_LEN(p->name, =
+p->len), dir);
+> > > > +       this =3D lookup_one_unlocked(mnt_idmap(path->mnt), &QSTR_LEN(=
+p->name, p->len), dir);
+> > >
+> > > ovl_cache_update() is also called from ovl_iterate_merged() where inode
+> > > is locked.
+> > >
+> > > >         if (IS_ERR_OR_NULL(this) || !this->d_inode) {
+> > > >                 /* Mark a stale entry */
+> > > >                 p->is_whiteout =3D true;
+> > > > @@ -666,11 +665,12 @@ static int ovl_dir_read_impure(const struct pat=
+h *path,  struct list_head *list,
+> > > >         if (err)
+> > > >                 return err;
+> > > >
+> > > > +       inode_unlock(path->dentry->d_inode);
+> > > >         list_for_each_entry_safe(p, n, list, l_node) {
+> > > >                 if (!name_is_dot_dotdot(p->name, p->len)) {
+> > > >                         err =3D ovl_cache_update(path, p, true);
+> > > >                         if (err)
+> > > > -                               return err;
+> > > > +                               break;
+> > > >                 }
+> > > >                 if (p->ino =3D=3D p->real_ino) {
+> > > >                         list_del(&p->l_node);
+> > > > @@ -680,14 +680,19 @@ static int ovl_dir_read_impure(const struct pat=
+h *path,  struct list_head *list,
+> > > >                         struct rb_node *parent =3D NULL;
+> > > >
+> > > >                         if (WARN_ON(ovl_cache_entry_find_link(p->name=
+, p->len,
+> > > > -                                                             &newp, =
+&parent)))
+> > > > -                               return -EIO;
+> > > > +                                                             &newp, =
+&parent))) {
+> > > > +                               err =3D -EIO;
+> > > > +                               break;
+> > > > +                       }
+> > > >
+> > > >                         rb_link_node(&p->node, parent, newp);
+> > > >                         rb_insert_color(&p->node, root);
+> > > >                 }
+> > > >         }
+> > > > -       return 0;
+> > > > +       inode_lock(path->dentry->d_inode);
+> > > > +       if (IS_DEADDIR(path->dentry->d_inode))
+> > > > +               err =3D -ENOENT;
+> > > > +       return err;
+> > > >  }
+> > > >
+> > > >  static struct ovl_dir_cache *ovl_cache_get_impure(const struct path =
+*path)
+> > > > --
+> > >
+> > > You missed the fact that overlayfs uses the dir inode lock
+> > > to protect the readdir inode cache, so your patch introduces
+> > > a risk for storing a stale readdir cache when dir modify operations
+> > > invalidate the readdir cache version while lock is dropped
+> > > and also introduces memory leak when cache is stomped
+> > > without freeing cache created by a competing thread.
+> > > I think something like the untested patch below should fix this.
+> >
+> > Yes, I did miss that - thanks. I think I missed a few other details too.
+> > I no longer think it can be safe to drop the lock without substantial
+> > rewrites - and even then maybe not.
+> >
+> > So I'm considering a different approach.
+> > This patch demonstrates what I'm thinking, though it still needs work I
+> > think.
+>=20
+> I like this direction.
+>=20
+> I always thought that we need to get rid of this vfs lookup
+> inside readdir but I thought it would be a lot of work.
+>=20
+> Your suggestion walks around this in an elegant way.
+>=20
 
-Hrm.  fserror_report_* can't be called from interrupt context because it
-calls igrab, which in turn takes a spin_lock() (aka the non-irqsave
-variant).  So far we've worked around it by fixing callers to ensure
-that they're always running in process context.  I think that's not
-necessarily the case for these two callsites?  But it's definitely
-something to check.
+Thanks :-)
 
-(We could change the spin_lock to the irqsave version, but it's rather
-odd to be messing around with inode state from inside interrupt
-handlers.)
 
-The metadata corruption reporting looks ok.
+> >
+> > Thanks,
+> > NeilBrown
+> >
+> > From: NeilBrown <neil@brown.name>
+> > Subject: [PATCH] ovl: stop using lookup_one() in iterate_shared() handlin=
+g.
+> >
+> > lookup_one() is expected to be removed as it does not fit well with
+> > proposed changes to directory locking.
+> > Specifically d_alloc_parallel() will be ordered outside of i_rwsem
+> > and as iterate_shared() is called with i_rwsem held it is not safe
+> > to call d_alloc_parallel().
+> >
+> > We can instead call d_alloc_noblock() and then call the ->lookup, but
+> > that can fail if there is a lookup attempt concurrent with the
+> > readdir().
+> >
+> > ovl cannot afford for the lookup to fail as that could produce incorrect
+> > results, and it cannot safely drop i_rwsem temporarily and that could
+> > introduce races with handling of the directory cache.
+> >
+> > Instead we rely on the fact that ovl_iterate() has an exclusive lock on
+> > the directory, so any concurrent lookup will wait for the ovl_iterate()
+> > call to complete.  We allocate a separate dentry and if the lookup is
+> > successful, it is hashed with the result.
+> >
+> > When the concurrent lookup gets i_rwsem it mustn't do its own lookup -
+> > it must use the existing dentry.  This is done using
+> > try_lookup_noperm().  To manage overheads we keep a counter of the
+> > number of "Stray dentries" there might be on each directory and only
+> > check for one when this count is non zero.
+> >
+> > If a 'stray dentry' were discarded for any reason before the concurrent
+> > lookup completed, the count would never reach zero.  That might be a prob=
+lem.
+>=20
+> Can we deal with the discarded dentries using OVL_E_FLAGS() for
+> a stray ovl dentry implement the relevant ovl_dentry_operations to decrement
+> the stray counter?
 
---D
+Maybe ... though I'd really rather get rid of the stray counter.
+We could drop it completely and always do the try_lookup_noperm() in
+ovl_lookup(), but that might have a performance cost.
+I'd really like to be able to mark the in-lookup dentry which caused
+d_alloc_noblock() to fail so that when the lookup on that dentry happens
+we can know to do the try_lookup_noperm().  That avoids both the counter
+and the cost.
 
-> > +			if (type == F2FS_WB_CP_DATA) {
-> >  				f2fs_stop_checkpoint(sbi, true,
-> >  						STOP_CP_REASON_WRITE_FAIL);
-> > +			}
-> >  		}
-> >  
-> >  		if (is_node_folio(folio)) {
-> > @@ -1725,6 +1735,7 @@ int f2fs_map_blocks(struct inode *inode, struct f2fs_map_blocks *map, int flag)
-> >  			err = -EFSCORRUPTED;
-> >  			f2fs_handle_error(sbi,
-> >  					ERROR_CORRUPTED_CLUSTER);
-> > +			fserror_report_file_metadata(inode, err, GFP_NOFS);
-> >  			goto sync_out;
-> >  		}
-> >  
-> > diff --git a/fs/f2fs/dir.c b/fs/f2fs/dir.c
-> > index f70092e231f0..e8d2e27e8cec 100644
-> > --- a/fs/f2fs/dir.c
-> > +++ b/fs/f2fs/dir.c
-> > @@ -11,6 +11,7 @@
-> >  #include <linux/filelock.h>
-> >  #include <linux/sched/signal.h>
-> >  #include <linux/unicode.h>
-> > +#include <linux/fserror.h>
-> >  #include "f2fs.h"
-> >  #include "node.h"
-> >  #include "acl.h"
-> > @@ -1020,6 +1021,7 @@ int f2fs_fill_dentries(struct dir_context *ctx, struct f2fs_dentry_ptr *d,
-> >  			set_sbi_flag(sbi, SBI_NEED_FSCK);
-> >  			err = -EFSCORRUPTED;
-> >  			f2fs_handle_error(sbi, ERROR_CORRUPTED_DIRENT);
-> > +			fserror_report_file_metadata(d->inode, err, GFP_NOFS);
-> >  			goto out;
-> >  		}
-> >  
-> > diff --git a/fs/f2fs/inline.c b/fs/f2fs/inline.c
-> > index 86d2abbb40ff..cfeb50d46d8d 100644
-> > --- a/fs/f2fs/inline.c
-> > +++ b/fs/f2fs/inline.c
-> > @@ -9,6 +9,7 @@
-> >  #include <linux/fs.h>
-> >  #include <linux/f2fs_fs.h>
-> >  #include <linux/fiemap.h>
-> > +#include <linux/fserror.h>
-> >  
-> >  #include "f2fs.h"
-> >  #include "node.h"
-> > @@ -179,6 +180,7 @@ int f2fs_convert_inline_folio(struct dnode_of_data *dn, struct folio *folio)
-> >  		f2fs_warn(fio.sbi, "%s: corrupted inline inode ino=%lx, i_addr[0]:0x%x, run fsck to fix.",
-> >  			  __func__, dn->inode->i_ino, dn->data_blkaddr);
-> >  		f2fs_handle_error(fio.sbi, ERROR_INVALID_BLKADDR);
-> > +		fserror_report_file_metadata(dn->inode, -EFSCORRUPTED, GFP_NOFS);
-> >  		return -EFSCORRUPTED;
-> >  	}
-> >  
-> > @@ -435,6 +437,7 @@ static int f2fs_move_inline_dirents(struct inode *dir, struct folio *ifolio,
-> >  			  __func__, dir->i_ino, dn.data_blkaddr);
-> >  		f2fs_handle_error(F2FS_F_SB(folio), ERROR_INVALID_BLKADDR);
-> >  		err = -EFSCORRUPTED;
-> > +		fserror_report_file_metadata(dn.inode, err, GFP_NOFS);
-> >  		goto out;
-> >  	}
-> >  
-> > diff --git a/fs/f2fs/inode.c b/fs/f2fs/inode.c
-> > index e7942e6e312c..43cb4d9fc039 100644
-> > --- a/fs/f2fs/inode.c
-> > +++ b/fs/f2fs/inode.c
-> > @@ -11,6 +11,7 @@
-> >  #include <linux/sched/mm.h>
-> >  #include <linux/lz4.h>
-> >  #include <linux/zstd.h>
-> > +#include <linux/fserror.h>
-> >  
-> >  #include "f2fs.h"
-> >  #include "node.h"
-> > @@ -480,6 +481,7 @@ static int do_read_inode(struct inode *inode)
-> >  		f2fs_folio_put(node_folio, true);
-> >  		set_sbi_flag(sbi, SBI_NEED_FSCK);
-> >  		f2fs_handle_error(sbi, ERROR_CORRUPTED_INODE);
-> > +		fserror_report_file_metadata(inode, -EFSCORRUPTED, GFP_NOFS);
-> >  		return -EFSCORRUPTED;
-> >  	}
-> >  
-> > @@ -541,6 +543,7 @@ static int do_read_inode(struct inode *inode)
-> >  	if (!sanity_check_extent_cache(inode, node_folio)) {
-> >  		f2fs_folio_put(node_folio, true);
-> >  		f2fs_handle_error(sbi, ERROR_CORRUPTED_INODE);
-> > +		fserror_report_file_metadata(inode, -EFSCORRUPTED, GFP_NOFS);
-> >  		return -EFSCORRUPTED;
-> >  	}
-> >  
-> > @@ -583,6 +586,7 @@ struct inode *f2fs_iget(struct super_block *sb, unsigned long ino)
-> >  			trace_f2fs_iget_exit(inode, ret);
-> >  			iput(inode);
-> >  			f2fs_handle_error(sbi, ERROR_CORRUPTED_INODE);
-> > +			fserror_report_file_metadata(inode, ret, GFP_NOFS);
-> >  			return ERR_PTR(ret);
-> >  		}
-> >  
-> > @@ -787,6 +791,7 @@ void f2fs_update_inode_page(struct inode *inode)
-> >  		if (err == -ENOMEM || ++count <= DEFAULT_RETRY_IO_COUNT)
-> >  			goto retry;
-> >  stop_checkpoint:
-> > +		fserror_report_file_metadata(inode, -EFSCORRUPTED, GFP_NOFS);
-> >  		f2fs_stop_checkpoint(sbi, false, STOP_CP_REASON_UPDATE_INODE);
-> >  		return;
-> >  	}
-> > diff --git a/fs/f2fs/node.c b/fs/f2fs/node.c
-> > index 0de41526f28a..bb302fae75c2 100644
-> > --- a/fs/f2fs/node.c
-> > +++ b/fs/f2fs/node.c
-> > @@ -12,6 +12,7 @@
-> >  #include <linux/blkdev.h>
-> >  #include <linux/pagevec.h>
-> >  #include <linux/swap.h>
-> > +#include <linux/fserror.h>
-> >  
-> >  #include "f2fs.h"
-> >  #include "node.h"
-> > @@ -1267,6 +1268,8 @@ int f2fs_truncate_inode_blocks(struct inode *inode, pgoff_t from)
-> >  		if (err == -ENOENT) {
-> >  			set_sbi_flag(F2FS_F_SB(folio), SBI_NEED_FSCK);
-> >  			f2fs_handle_error(sbi, ERROR_INVALID_BLKADDR);
-> > +			fserror_report_file_metadata(dn.inode, -EFSCORRUPTED,
-> > +								GFP_NOFS);
-> >  			f2fs_err_ratelimited(sbi,
-> >  				"truncate node fail, ino:%lu, nid:%u, "
-> >  				"offset[0]:%d, offset[1]:%d, nofs:%d",
-> > @@ -1558,6 +1561,8 @@ int f2fs_sanity_check_node_footer(struct f2fs_sb_info *sbi,
-> >  		next_blkaddr_of_node(folio));
-> >  
-> >  	f2fs_handle_error(sbi, ERROR_INCONSISTENT_FOOTER);
-> > +	fserror_report_file_metadata(folio->mapping->host,
-> > +			-EFSCORRUPTED, in_irq ? GFP_NOWAIT : GFP_NOFS);
-> >  	return -EFSCORRUPTED;
-> >  }
-> >  
-> > @@ -1779,6 +1784,7 @@ static bool __write_node_folio(struct folio *folio, bool atomic, bool *submitted
-> >  
-> >  	if (f2fs_sanity_check_node_footer(sbi, folio, nid,
-> >  					NODE_TYPE_REGULAR, false)) {
-> > +		fserror_report_metadata(sbi->sb, -EFSCORRUPTED, GFP_NOFS);
-> >  		f2fs_stop_checkpoint(sbi, false, STOP_CP_REASON_CORRUPTED_NID);
-> >  		goto redirty_out;
-> >  	}
-> > @@ -2696,6 +2702,8 @@ bool f2fs_alloc_nid(struct f2fs_sb_info *sbi, nid_t *nid)
-> >  			spin_unlock(&nm_i->nid_list_lock);
-> >  			f2fs_err(sbi, "Corrupted nid %u in free_nid_list",
-> >  								i->nid);
-> > +			fserror_report_metadata(sbi->sb, -EFSCORRUPTED,
-> > +								GFP_NOFS);
-> >  			f2fs_stop_checkpoint(sbi, false,
-> >  					STOP_CP_REASON_CORRUPTED_NID);
-> >  			return false;
-> > diff --git a/fs/f2fs/recovery.c b/fs/f2fs/recovery.c
-> > index a26071f2b0bc..b127dfc91338 100644
-> > --- a/fs/f2fs/recovery.c
-> > +++ b/fs/f2fs/recovery.c
-> > @@ -9,6 +9,7 @@
-> >  #include <linux/fs.h>
-> >  #include <linux/f2fs_fs.h>
-> >  #include <linux/sched/mm.h>
-> > +#include <linux/fserror.h>
-> >  #include "f2fs.h"
-> >  #include "node.h"
-> >  #include "segment.h"
-> > @@ -679,6 +680,7 @@ static int do_recover_data(struct f2fs_sb_info *sbi, struct inode *inode,
-> >  			  ofs_of_node(folio));
-> >  		err = -EFSCORRUPTED;
-> >  		f2fs_handle_error(sbi, ERROR_INCONSISTENT_FOOTER);
-> > +		fserror_report_file_metadata(dn.inode, err, GFP_NOFS);
-> >  		goto err;
-> >  	}
-> >  
-> > diff --git a/fs/f2fs/segment.c b/fs/f2fs/segment.c
-> > index 0bf25786667f..ee5c35ce5a0f 100644
-> > --- a/fs/f2fs/segment.c
-> > +++ b/fs/f2fs/segment.c
-> > @@ -17,6 +17,7 @@
-> >  #include <linux/freezer.h>
-> >  #include <linux/sched/signal.h>
-> >  #include <linux/random.h>
-> > +#include <linux/fserror.h>
-> >  
-> >  #include "f2fs.h"
-> >  #include "segment.h"
-> > @@ -2886,6 +2887,7 @@ static int get_new_segment(struct f2fs_sb_info *sbi,
-> >  	/* set it as dirty segment in free segmap */
-> >  	if (test_bit(segno, free_i->free_segmap)) {
-> >  		ret = -EFSCORRUPTED;
-> > +		fserror_report_metadata(sbi->sb, -EFSCORRUPTED, GFP_NOFS);
-> >  		f2fs_stop_checkpoint(sbi, false, STOP_CP_REASON_CORRUPTED_FREE_BITMAP);
-> >  		goto out_unlock;
-> >  	}
-> > diff --git a/fs/f2fs/super.c b/fs/f2fs/super.c
-> > index 5b552f08fe7b..5330ef981340 100644
-> > --- a/fs/f2fs/super.c
-> > +++ b/fs/f2fs/super.c
-> > @@ -29,6 +29,7 @@
-> >  #include <linux/lz4.h>
-> >  #include <linux/ctype.h>
-> >  #include <linux/fs_parser.h>
-> > +#include <linux/fserror.h>
-> >  
-> >  #include "f2fs.h"
-> >  #include "node.h"
-> > @@ -4632,6 +4633,8 @@ static void f2fs_record_stop_reason(struct f2fs_sb_info *sbi)
-> >  		f2fs_err_ratelimited(sbi,
-> >  			"f2fs_commit_super fails to record stop_reason, err:%d",
-> >  			err);
-> > +
-> > +	fserror_report_shutdown(sbi->sb, GFP_NOFS);
-> >  }
-> >  
-> >  void f2fs_save_errors(struct f2fs_sb_info *sbi, unsigned char flag)
-> > @@ -4646,6 +4649,27 @@ void f2fs_save_errors(struct f2fs_sb_info *sbi, unsigned char flag)
-> >  	spin_unlock_irqrestore(&sbi->error_lock, flags);
-> >  }
-> >  
-> > +static void f2fs_report_fserror(struct f2fs_sb_info *sbi, unsigned char error)
-> > +{
-> > +	switch (error) {
-> > +	case ERROR_INVALID_BLKADDR:
-> > +	case ERROR_CORRUPTED_INODE:
-> > +	case ERROR_INCONSISTENT_SUMMARY:
-> > +	case ERROR_INCONSISTENT_SUM_TYPE:
-> > +	case ERROR_CORRUPTED_JOURNAL:
-> > +	case ERROR_INCONSISTENT_NODE_COUNT:
-> > +	case ERROR_INCONSISTENT_BLOCK_COUNT:
-> > +	case ERROR_INVALID_CURSEG:
-> > +	case ERROR_INCONSISTENT_SIT:
-> > +	case ERROR_INVALID_NODE_REFERENCE:
-> > +	case ERROR_INCONSISTENT_NAT:
-> > +		fserror_report_metadata(sbi->sb, -EFSCORRUPTED, GFP_NOFS);
-> > +		break;
-> > +	default:
-> > +		return;
-> > +	}
-> > +}
-> > +
-> >  void f2fs_handle_error(struct f2fs_sb_info *sbi, unsigned char error)
-> >  {
-> >  	f2fs_save_errors(sbi, error);
-> > @@ -4655,6 +4679,8 @@ void f2fs_handle_error(struct f2fs_sb_info *sbi, unsigned char error)
-> >  	if (!test_bit(error, (unsigned long *)sbi->errors))
-> >  		return;
-> >  	schedule_work(&sbi->s_error_work);
-> > +
-> > +	f2fs_report_fserror(sbi, error);
-> >  }
-> >  
-> >  static bool system_going_down(void)
-> > diff --git a/fs/f2fs/sysfs.c b/fs/f2fs/sysfs.c
-> > index 969e06b65b04..5c1358e48206 100644
-> > --- a/fs/f2fs/sysfs.c
-> > +++ b/fs/f2fs/sysfs.c
-> > @@ -1396,6 +1396,7 @@ F2FS_FEATURE_RO_ATTR(pin_file);
-> >  F2FS_FEATURE_RO_ATTR(linear_lookup);
-> >  #endif
-> >  F2FS_FEATURE_RO_ATTR(packed_ssa);
-> > +F2FS_FEATURE_RO_ATTR(fserror);
-> >  
-> >  #define ATTR_LIST(name) (&f2fs_attr_##name.attr)
-> >  static struct attribute *f2fs_attrs[] = {
-> > @@ -1563,6 +1564,7 @@ static struct attribute *f2fs_feat_attrs[] = {
-> >  	BASE_ATTR_LIST(linear_lookup),
-> >  #endif
-> >  	BASE_ATTR_LIST(packed_ssa),
-> > +	BASE_ATTR_LIST(fserror),
-> >  	NULL,
-> >  };
-> >  ATTRIBUTE_GROUPS(f2fs_feat);
-> > diff --git a/fs/f2fs/verity.c b/fs/f2fs/verity.c
-> > index 92ebcc19cab0..39f482515445 100644
-> > --- a/fs/f2fs/verity.c
-> > +++ b/fs/f2fs/verity.c
-> > @@ -25,6 +25,7 @@
-> >   */
-> >  
-> >  #include <linux/f2fs_fs.h>
-> > +#include <linux/fserror.h>
-> >  
-> >  #include "f2fs.h"
-> >  #include "xattr.h"
-> > @@ -243,6 +244,7 @@ static int f2fs_get_verity_descriptor(struct inode *inode, void *buf,
-> >  		f2fs_warn(F2FS_I_SB(inode), "invalid verity xattr");
-> >  		f2fs_handle_error(F2FS_I_SB(inode),
-> >  				ERROR_CORRUPTED_VERITY_XATTR);
-> > +		fserror_report_file_metadata(inode, -EFSCORRUPTED, GFP_NOFS);
-> >  		return -EFSCORRUPTED;
-> >  	}
-> >  	if (buf_size) {
-> > diff --git a/fs/f2fs/xattr.c b/fs/f2fs/xattr.c
-> > index 941dc62a6d6f..3ef1e5df0036 100644
-> > --- a/fs/f2fs/xattr.c
-> > +++ b/fs/f2fs/xattr.c
-> > @@ -19,6 +19,7 @@
-> >  #include <linux/f2fs_fs.h>
-> >  #include <linux/security.h>
-> >  #include <linux/posix_acl_xattr.h>
-> > +#include <linux/fserror.h>
-> >  #include "f2fs.h"
-> >  #include "xattr.h"
-> >  #include "segment.h"
-> > @@ -371,6 +372,7 @@ static int lookup_all_xattrs(struct inode *inode, struct folio *ifolio,
-> >  		err = -ENODATA;
-> >  		f2fs_handle_error(F2FS_I_SB(inode),
-> >  					ERROR_CORRUPTED_XATTR);
-> > +		fserror_report_file_metadata(inode, err, GFP_NOFS);
-> >  		goto out;
-> >  	}
-> >  check:
-> > @@ -590,6 +592,8 @@ ssize_t f2fs_listxattr(struct dentry *dentry, char *buffer, size_t buffer_size)
-> >  			set_sbi_flag(F2FS_I_SB(inode), SBI_NEED_FSCK);
-> >  			f2fs_handle_error(F2FS_I_SB(inode),
-> >  						ERROR_CORRUPTED_XATTR);
-> > +			fserror_report_file_metadata(inode,
-> > +						-EFSCORRUPTED, GFP_NOFS);
-> >  			break;
-> >  		}
-> >  
-> > @@ -677,6 +681,7 @@ static int __f2fs_setxattr(struct inode *inode, int index,
-> >  		error = -EFSCORRUPTED;
-> >  		f2fs_handle_error(F2FS_I_SB(inode),
-> >  					ERROR_CORRUPTED_XATTR);
-> > +		fserror_report_file_metadata(inode, error, GFP_NOFS);
-> >  		goto exit;
-> >  	}
-> >  
-> > @@ -705,6 +710,7 @@ static int __f2fs_setxattr(struct inode *inode, int index,
-> >  			error = -EFSCORRUPTED;
-> >  			f2fs_handle_error(F2FS_I_SB(inode),
-> >  						ERROR_CORRUPTED_XATTR);
-> > +			fserror_report_file_metadata(inode, error, GFP_NOFS);
-> >  			goto exit;
-> >  		}
-> >  		last = XATTR_NEXT_ENTRY(last);
-> 
+I had previously suggested a d_alloc_locked() which could return an
+in-lookup dentry providing the filesystem provided some interlock so the
+caller of d_alloc_locked() and ->lookup wouldn't both instantiate the
+dentry.  Al wasn't keen on that.  Maybe I could try again.  I'd like to
+get some review from him on the current patches first though...
+
+Thanks,
+NeilBrown
