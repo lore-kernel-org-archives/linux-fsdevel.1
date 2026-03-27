@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B11CF2E9733
-	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Mar 2026 01:28:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DE882D0638
+	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Mar 2026 01:29:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774574937; cv=none; b=hf3QFFTmMg+ymHsSkqI6ycMFOY0xx8i3vdljsbtQzElaYfO/GQUYxvbtu81TSSfc7jl7NKr6UG92AXUH4kCHPa3P/yN+Qmn76Gto8fVZxWqg6cIvSPkEaH0Xr8AEi+tDbhLbIkw7tzod9d9SnqshgADuOAHj5Crl6LtFKi+Ug14=
+	t=1774574953; cv=none; b=ro9XOcBaPhqR/wnhjCszphSFBoBt2MOdTLgstHHXWpdhcFe3VZ13i9xfYadxf/irl8x+u00l30l9912EfbgtbunksrRLjnUlC2em2RTC3s672xZkx0DItRhG0qCqdm/oqF/N1v7qDEscaLrd/u3w4qHx1w+hB0+5axjy/yBopRU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774574937; c=relaxed/simple;
-	bh=g3Ws7iERFhuWiUB1LsCXT4KMstCFG0Y9jid1HUUB6xg=;
+	s=arc-20240116; t=1774574953; c=relaxed/simple;
+	bh=nA5s3ElYTX75Wy+AIjv/H8A23T4Nhvr+zHL12+F+giQ=;
 	h=Date:Subject:From:To:Cc:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sPr7UvcNtZSRZCEc/TGz5meG8lE5xJR531OXC8SLtUyQoHjd4aqhK8rfj13ROE/RlWZ2itwVtKkV1i20ljwmWtdJnFtFRfMt6ttM4w138exl+V/LCSDu59zwfFcHyi6dIOdp2N1NZU97obq57iXfUFxBWOO6vdBvJCbSxgKvCAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=roTYr+oT; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=QlxZfDp9fqFK99kwmvbGtPrdLakR/kWJOldWiw7kExlP9W+p/fuUAe6pani995tHBMPp0N9kALHV5gIzi9oPC31Gb4QTAtONWha28CY1tprJ4vC3Z2ix9FOGwSLRwQDmYcImqhV4MCqmtRenYihT0NbDhAvrpwwpzghk3g1mKnY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PdxQCN7N; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="roTYr+oT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D5FAC116C6;
-	Fri, 27 Mar 2026 01:28:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PdxQCN7N"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E173C116C6;
+	Fri, 27 Mar 2026 01:29:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774574937;
-	bh=g3Ws7iERFhuWiUB1LsCXT4KMstCFG0Y9jid1HUUB6xg=;
+	s=k20201202; t=1774574953;
+	bh=nA5s3ElYTX75Wy+AIjv/H8A23T4Nhvr+zHL12+F+giQ=;
 	h=Date:Subject:From:To:Cc:In-Reply-To:References:From;
-	b=roTYr+oTuR6AvnEOyKzDv3zAAi3yyixU+2hf5fDgPaSJhXA1SHvDHVJ5S6hfl9LAD
-	 Y/aW7Yjv8h0vH+TsQZsuqMYxW3OzUeXswgewQkzIiOxWEc3qJ6bc5ai8fi1BrDnOjt
-	 3YqHW37BTqTOGsh+YKIIZ3zZdPNZD0r98pbOX4h549IW06EVCa7FvPEmB4AbPm8keR
-	 1VUdKcjw97QYw8cr1DRhiS8O75b+fosNZCAvlsbE5ZOk8ICQQnuqDdbR3UoORq3cWm
-	 t3JzDRlOuynil6MXR8C2U17UIAxkbFMbKLijD3ohVCx0elp6So4kYj+L1i56G1XmHr
-	 swXlcOnB2oXIg==
-Date: Thu, 26 Mar 2026 18:28:57 -0700
-Subject: [PATCH 16/17] example/hello_ll: port to single-file common code
+	b=PdxQCN7NWGZxLpBepGpW3gloUUl+BNFgprR6IFm/do+MT4XWJvBo+ge8qxpt9o0Xc
+	 2+YMTQNVGzK5rWo9kUm4PX8nkpH3gMoC+vCuLBiFE/SiPlJ1UcHxhivZRvMgUFTfWK
+	 78eFVsQaF8WVZ19WzhzEIv4eTGpxLOEvDBqiGDFnTo5VAOaceq9qY14PlfAHxb06CY
+	 ErIIMGlX2HT/zFROcMsnKnWSWz8T8+wxGuh8lM8Ckw6/WkV8hvP0sR9FTBoGqa1vK5
+	 9ksZV1n4XpkYk4RTHOTykkahYISaE4ny3Cp4uEOdjo4R8cNr64BN3gz7FrjCU03hwk
+	 2e1tU+EAKiCKQ==
+Date: Thu, 26 Mar 2026 18:29:12 -0700
+Subject: [PATCH 17/17] nullfs: support fuse systemd service mode
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: djwong@kernel.org, bschubert@ddn.com
 Cc: linux-fsdevel@vger.kernel.org, bernd@bsbernd.com, miklos@szeredi.hu,
  neal@gompa.dev, joannelkoong@gmail.com
-Message-ID: <177457463409.1008428.15908268330603627959.stgit@frogsfrogsfrogs>
+Message-ID: <177457463428.1008428.6991907403668845476.stgit@frogsfrogsfrogs>
 In-Reply-To: <177457463048.1008428.11432672970504238251.stgit@frogsfrogsfrogs>
 References: <177457463048.1008428.11432672970504238251.stgit@frogsfrogsfrogs>
 Precedence: bulk
@@ -46,202 +46,223 @@ Content-Transfer-Encoding: 7bit
 
 From: Darrick J. Wong <djwong@kernel.org>
 
-Port the hello_ll example fuse server to our new single-file library.
+This is the only example fuse server that exports a regular file instead
+of a directory tree.  Port it to be usable as a systemd fuse service so
+that we can test that capability.
 
-Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
+Signed-off-by: Darrick J. Wong <djwong@kernel.org>
 ---
- example/hello_ll.c  |  128 ++++-----------------------------------------------
- example/meson.build |    4 +-
- 2 files changed, 13 insertions(+), 119 deletions(-)
+ example/meson.build        |    6 +++
+ example/null.c             |   33 +++++++++++++-
+ example/nullfile.socket.in |   15 ++++++
+ example/nullfile@.service  |  102 ++++++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 154 insertions(+), 2 deletions(-)
+ create mode 100644 example/nullfile.socket.in
+ create mode 100644 example/nullfile@.service
 
 
-diff --git a/example/hello_ll.c b/example/hello_ll.c
-index bd5fecdcd4d992..cccd44f352ec9d 100644
---- a/example/hello_ll.c
-+++ b/example/hello_ll.c
-@@ -32,30 +32,10 @@
- #include <fcntl.h>
- #include <unistd.h>
- #include <assert.h>
-+#define USE_SINGLE_FILE_LL_API
-+#include "single_file.h"
- 
- static const char *hello_str = "Hello World!\n";
--static const char *hello_name = "hello";
--
--static int hello_stat(fuse_ino_t ino, struct stat *stbuf)
--{
--	stbuf->st_ino = ino;
--	switch (ino) {
--	case 1:
--		stbuf->st_mode = S_IFDIR | 0755;
--		stbuf->st_nlink = 2;
--		break;
--
--	case 2:
--		stbuf->st_mode = S_IFREG | 0444;
--		stbuf->st_nlink = 1;
--		stbuf->st_size = strlen(hello_str);
--		break;
--
--	default:
--		return -1;
--	}
--	return 0;
--}
- 
- static void hello_ll_init(void *userdata, struct fuse_conn_info *conn)
- {
-@@ -69,97 +49,6 @@ static void hello_ll_init(void *userdata, struct fuse_conn_info *conn)
- 	conn->want &= ~FUSE_CAP_ASYNC_READ;
- }
- 
--static void hello_ll_getattr(fuse_req_t req, fuse_ino_t ino,
--			     struct fuse_file_info *fi)
--{
--	struct stat stbuf;
--
--	(void) fi;
--
--	memset(&stbuf, 0, sizeof(stbuf));
--	if (hello_stat(ino, &stbuf) == -1)
--		fuse_reply_err(req, ENOENT);
--	else
--		fuse_reply_attr(req, &stbuf, 1.0);
--}
--
--static void hello_ll_lookup(fuse_req_t req, fuse_ino_t parent, const char *name)
--{
--	struct fuse_entry_param e;
--
--	if (parent != 1 || strcmp(name, hello_name) != 0)
--		fuse_reply_err(req, ENOENT);
--	else {
--		memset(&e, 0, sizeof(e));
--		e.ino = 2;
--		e.attr_timeout = 1.0;
--		e.entry_timeout = 1.0;
--		hello_stat(e.ino, &e.attr);
--
--		fuse_reply_entry(req, &e);
--	}
--}
--
--struct dirbuf {
--	char *p;
--	size_t size;
--};
--
--static void dirbuf_add(fuse_req_t req, struct dirbuf *b, const char *name,
--		       fuse_ino_t ino)
--{
--	struct stat stbuf;
--	size_t oldsize = b->size;
--	b->size += fuse_add_direntry(req, NULL, 0, name, NULL, 0);
--	b->p = (char *) realloc(b->p, b->size);
--	memset(&stbuf, 0, sizeof(stbuf));
--	stbuf.st_ino = ino;
--	fuse_add_direntry(req, b->p + oldsize, b->size - oldsize, name, &stbuf,
--			  b->size);
--}
--
--#define min(x, y) ((x) < (y) ? (x) : (y))
--
--static int reply_buf_limited(fuse_req_t req, const char *buf, size_t bufsize,
--			     off_t off, size_t maxsize)
--{
--	if (off < bufsize)
--		return fuse_reply_buf(req, buf + off,
--				      min(bufsize - off, maxsize));
--	else
--		return fuse_reply_buf(req, NULL, 0);
--}
--
--static void hello_ll_readdir(fuse_req_t req, fuse_ino_t ino, size_t size,
--			     off_t off, struct fuse_file_info *fi)
--{
--	(void) fi;
--
--	if (ino != 1)
--		fuse_reply_err(req, ENOTDIR);
--	else {
--		struct dirbuf b;
--
--		memset(&b, 0, sizeof(b));
--		dirbuf_add(req, &b, ".", 1);
--		dirbuf_add(req, &b, "..", 1);
--		dirbuf_add(req, &b, hello_name, 2);
--		reply_buf_limited(req, b.p, b.size, off, size);
--		free(b.p);
--	}
--}
--
--static void hello_ll_open(fuse_req_t req, fuse_ino_t ino,
--			  struct fuse_file_info *fi)
--{
--	if (ino != 2)
--		fuse_reply_err(req, EISDIR);
--	else if ((fi->flags & O_ACCMODE) != O_RDONLY)
--		fuse_reply_err(req, EACCES);
--	else
--		fuse_reply_open(req, fi);
--}
--
- static void hello_ll_read(fuse_req_t req, fuse_ino_t ino, size_t size,
- 			  off_t off, struct fuse_file_info *fi)
- {
-@@ -219,10 +108,10 @@ static void hello_ll_removexattr(fuse_req_t req, fuse_ino_t ino, const char *nam
- 
- static const struct fuse_lowlevel_ops hello_ll_oper = {
- 	.init = hello_ll_init,
--	.lookup = hello_ll_lookup,
--	.getattr = hello_ll_getattr,
--	.readdir = hello_ll_readdir,
--	.open = hello_ll_open,
-+	.lookup = single_file_ll_lookup,
-+	.getattr = single_file_ll_getattr,
-+	.readdir = single_file_ll_readdir,
-+	.open = single_file_ll_open,
- 	.read = hello_ll_read,
- 	.setxattr = hello_ll_setxattr,
- 	.getxattr = hello_ll_getxattr,
-@@ -259,6 +148,10 @@ int main(int argc, char *argv[])
- 		goto err_out1;
- 	}
- 
-+	ret = single_file_configure_simple("hello");
-+	if (ret)
-+		goto err_out1;
-+
- 	se = fuse_session_new(&args, &hello_ll_oper,
- 			      sizeof(hello_ll_oper), NULL);
- 	if (se == NULL)
-@@ -291,6 +184,7 @@ int main(int argc, char *argv[])
- 	fuse_session_destroy(se);
- err_out1:
- 	free(opts.mountpoint);
-+	single_file_close();
- 	fuse_opt_free_args(&args);
- 
- 	return ret ? 1 : 0;
 diff --git a/example/meson.build b/example/meson.build
-index 19a383f7cd2c74..0a7cc3dbf31da4 100644
+index 0a7cc3dbf31da4..c08a81747e68ae 100644
 --- a/example/meson.build
 +++ b/example/meson.build
-@@ -1,5 +1,5 @@
- examples = [ 'passthrough', 'passthrough_fh',
--             'hello', 'hello_ll',
-+             'hello',
-              'printcap', 'ioctl_client', 'ioctl_ll_client', 'poll_client',
-              'ioctl', 'ioctl_ll', 'cuse', 'cuse_client' ]
- 
-@@ -12,7 +12,7 @@ if not platform.endswith('bsd') and platform != 'dragonfly'
+@@ -10,6 +10,12 @@ if not platform.endswith('bsd') and platform != 'dragonfly'
+     # support mounting files, This is enforced in vfs_domount_first()
+     # with the v_type != VDIR check.
      examples += [ 'null' ]
++
++    if platform.endswith('linux')
++        configure_file(input: 'nullfile.socket.in',
++                       output: 'nullfile.socket',
++                       configuration: private_cfg)
++    endif
  endif
  
--single_file_examples = [ ]
-+single_file_examples = [ 'hello_ll' ]
+ single_file_examples = [ 'hello_ll' ]
+diff --git a/example/null.c b/example/null.c
+index ec41def40ed5c5..3e7e43f722a432 100644
+--- a/example/null.c
++++ b/example/null.c
+@@ -17,15 +17,24 @@
+  *
+  *     gcc -Wall null.c `pkg-config fuse3 --cflags --libs` -o null
+  *
++ * Change the ExecStart line in nullfile@.service:
++ *
++ *     ExecStart=/path/to/nullfile
++ *
++ * to point to the actual path of the nullfile binary.
++ *
++ * Finally, install the nullfile@.service and nullfile.socket files to the
++ * systemd service directory, usually /run/systemd/system.
++ *
+  * ## Source code ##
+  * \include passthrough_fh.c
+  */
  
- if platform.endswith('linux')
-     single_file_examples += [ 'service_ll' ]
+-
+-#define FUSE_USE_VERSION 31
++#define FUSE_USE_VERSION FUSE_MAKE_VERSION(3, 19)
+ 
+ #include <fuse.h>
+ #include <fuse_lowlevel.h>
++#include <fuse_service.h>
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
+@@ -117,6 +126,26 @@ int main(int argc, char *argv[])
+ 	struct fuse_args args = FUSE_ARGS_INIT(argc, argv);
+ 	struct fuse_cmdline_opts opts;
+ 	struct stat stbuf;
++	struct fuse_service *service = NULL;
++	int ret;
++
++	if (fuse_service_accept(&service) != 0)
++		return 1;
++
++	if (fuse_service_accepted(service)) {
++		if (fuse_service_append_args(service, &args) != 0)
++			return 1;
++		if (fuse_service_finish_file_requests(service) != 0)
++			return 1;
++
++		fuse_service_expect_mount_mode(service, S_IFREG);
++
++		ret = fuse_service_main(service, args.argc, args.argv,
++					&null_oper, NULL);
++
++		fuse_opt_free_args(&args);
++		return fuse_service_exit(ret);
++	}
+ 
+ 	if (fuse_parse_cmdline(&args, &opts) != 0)
+ 		return 1;
+diff --git a/example/nullfile.socket.in b/example/nullfile.socket.in
+new file mode 100644
+index 00000000000000..23e57a25f2eb93
+--- /dev/null
++++ b/example/nullfile.socket.in
+@@ -0,0 +1,15 @@
++# SPDX-License-Identifier: GPL-2.0-or-later
++#
++# Copyright (C) 2026 Oracle.  All Rights Reserved.
++# Author: Darrick J. Wong <djwong@kernel.org>
++[Unit]
++Description=Socket for nullfile Service
++
++[Socket]
++ListenSequentialPacket=@FUSE_SERVICE_SOCKET_DIR_RAW@/nullfile
++Accept=yes
++SocketMode=0220
++RemoveOnStop=yes
++
++[Install]
++WantedBy=sockets.target
+diff --git a/example/nullfile@.service b/example/nullfile@.service
+new file mode 100644
+index 00000000000000..665f8d4226ff49
+--- /dev/null
++++ b/example/nullfile@.service
+@@ -0,0 +1,102 @@
++# SPDX-License-Identifier: GPL-2.0-or-later
++#
++# Copyright (C) 2026 Oracle.  All Rights Reserved.
++# Author: Darrick J. Wong <djwong@kernel.org>
++[Unit]
++Description=nullfile Sample Fuse Service
++
++# Don't leave failed units behind, systemd does not clean them up!
++CollectMode=inactive-or-failed
++
++[Service]
++Type=exec
++ExecStart=/path/to/null
++
++# Try to capture core dumps
++LimitCORE=infinity
++
++SyslogIdentifier=%N
++
++# No realtime CPU scheduling
++RestrictRealtime=true
++
++# Don't let us see anything in the regular system, and don't run as root
++DynamicUser=true
++ProtectSystem=strict
++ProtectHome=true
++PrivateTmp=true
++PrivateDevices=true
++PrivateUsers=true
++
++# No network access
++PrivateNetwork=true
++ProtectHostname=true
++RestrictAddressFamilies=none
++IPAddressDeny=any
++
++# Don't let the program mess with the kernel configuration at all
++ProtectKernelLogs=true
++ProtectKernelModules=true
++ProtectKernelTunables=true
++ProtectControlGroups=true
++ProtectProc=invisible
++RestrictNamespaces=true
++RestrictFileSystems=
++
++# Hide everything in /proc, even /proc/mounts
++ProcSubset=pid
++
++# Only allow the default personality Linux
++LockPersonality=true
++
++# No writable memory pages
++MemoryDenyWriteExecute=true
++
++# Don't let our mounts leak out to the host
++PrivateMounts=true
++
++# Restrict system calls to the native arch and only enough to get things going
++SystemCallArchitectures=native
++SystemCallFilter=@system-service
++SystemCallFilter=~@privileged
++SystemCallFilter=~@resources
++
++SystemCallFilter=~@clock
++SystemCallFilter=~@cpu-emulation
++SystemCallFilter=~@debug
++SystemCallFilter=~@module
++SystemCallFilter=~@reboot
++SystemCallFilter=~@swap
++
++SystemCallFilter=~@mount
++
++# libfuse io_uring wants to pin cores and memory
++SystemCallFilter=mbind
++SystemCallFilter=sched_setaffinity
++
++# Leave a breadcrumb if we get whacked by the system call filter
++SystemCallErrorNumber=EL3RST
++
++# Log to the kernel dmesg, just like an in-kernel filesystem driver
++StandardOutput=append:/dev/ttyprintk
++StandardError=append:/dev/ttyprintk
++
++# Run with no capabilities at all
++CapabilityBoundingSet=
++AmbientCapabilities=
++NoNewPrivileges=true
++
++# We don't create files
++UMask=7777
++
++# No access to hardware /dev files at all
++ProtectClock=true
++DevicePolicy=closed
++
++# Don't mess with set[ug]id anything.
++RestrictSUIDSGID=true
++
++# Don't let OOM kills of processes in this containment group kill the whole
++# service, because we don't want filesystem drivers to go down.
++OOMPolicy=continue
++OOMScoreAdjust=-1000
 
