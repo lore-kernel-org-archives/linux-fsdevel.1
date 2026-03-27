@@ -1,199 +1,272 @@
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011003.outbound.protection.outlook.com [40.93.194.3])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D4263F54BF;
-	Fri, 27 Mar 2026 14:30:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.3
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774621811; cv=fail; b=CKuWUtz21OcJZsBfoT51zX6EqVjfOxd26v6EkoRVBR5gz5//kRTtiYFRx873IaYtPYI3X2AgFhCY+4cJxK98gFheVUEQhKTJ4Oxdy/2dSgN3iqZT397Lj5bqjILOe++JH/7EfTX074YNRYVb/tffDBskqywN7K2UzkNMvoWE7Ew=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774621811; c=relaxed/simple;
-	bh=ogjefNmaqczYAi2VIvUZRJoobBVdSpWRzDntxSMYodA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=OYclZAOPFLw3MC0jAwibjT0DMBSuk4DKK3sCCH/LlytxZlbtfAcD5ois7laBO5r4q4rgpZKZ/ANt/1mdG8Bx2udqwgMVCci6lsKnrbRDpXAJtTC1QRQkiCC8Z/PaH3c0OL//N8EDBW2OAfMbfixdx2EQnTPFEyag26fPc0NiDew=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=dE3Fkcq9; arc=fail smtp.client-ip=40.93.194.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C95C33ED123
+	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Mar 2026 14:30:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774621860; cv=none; b=fzmfCOC191D+5kdMsNM8ah0/mDs2o3qIZH9S5LGjZAJY3GrgS3hzxEpM8NYPwK7SmVRlaSYZLqRfSXVb6a1s7Qig/UBe6EzJLlMXowGm1dtSU7/VB7IQpf3KK6dgxV8AO93YCOS47oY5YMdeKRcdY7hjG2t5fmCfmtMARdyYFPs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774621860; c=relaxed/simple;
+	bh=e5pGTithxIDEvoJyKDTd6o2t4PMWhn+Q41XaZgW/fyk=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=UliQHi7KVF7/sLJel4ViRUdKKzJP6BcdieIe0wFp6zXpE4c+ZF00IokcYrk9WUXkx3qNqfcv6IEIlcLEoId5yydns7/3tpQYipvibQd05m20YDP7zOWGmOOQqctsPkLkEH3FqVJYkw+yiV70pHa+wE58tey/BTouBg8wZVOVW5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=aJGUxTN9; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=c0LMGC1p; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="dE3Fkcq9"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rrV4mO7bzBpWXEB4zIyFwmFwNf5lw7O9ogWucc3cDTzl6+aEnQKU/4w+/scIoenLgEUbzJy1cHPGOIVhTYe/4tZjL5lMm6ON8/9FctL/5uQrW0icvIiVrYFfiDWxaXdJE2RX8GUvbKakJn7A3q6WMe3JyUg+3DvawFZq77KKzcb3GS+GEctYTET9E7oPaSmc8K6vmquI7oGBiRs30Jv97BxUJzFAGHlUOn3eeqBtyDa8M4k7G+p+9i1eCsvDJJ+HoKZHaZ4PCPNqt10GLw6OL2wnRZ73ea92sD26ynfmF6RDyzbrzMrSzNW/1LbOo4vcDj0BRA0r/1GBbuVZd/ot8A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uV9sNwooFdTYDvyS1NgVjGXpnJmZRu2QWoYaAstrwMA=;
- b=YxZd9YsBjkPfxFkghGqcdIo6B+cf0oHaeFpsGQV07sS7mQL0JHrVeYNGQemCg8EcrQiQ0N1bnB3q7720PtFT1LW+y7Ez7ThTU/5dYcvlTlLaykeqZ5WFd65aot/4jGExD+vIvCxBUA9SCosr8dK2WVhN+6JGvBYwXQZst5ZBFzUYeMtNtc70RxSG5eh7vJeRdsljQwNAsGVeoaBIMtM7uQbAXmHanIdgb4kX27yD+lnGg3CgbMbbIfIBNsajK4UpyKMIVqWS+HAcmyIBl27e8zMwaj8dHkPh7EF1KkCUmieaZYkd+ExnVBcmEU+crBeThdG5A62U3cgJ7R4oAeI15g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uV9sNwooFdTYDvyS1NgVjGXpnJmZRu2QWoYaAstrwMA=;
- b=dE3Fkcq96PpwbkvoS3FSE7Cj5UCSdA3H0JXXfpjw0JvrNSYpk2TKpVKLCJ5aXBgvdw+3dURhZXxw1jQzuYiI9WvpDEIBmG0IbcwaHosnVg8cdLeegx381suV2A+1gNWGeH2OiwnSxWM4P/XO94vBkSqLA5WU9rLxuKGWWge+ig2iQKGNomWUgLPO3uIHm1k6c4TJZbCStauffu9n1byyEesGiRz5XDY58oabwbJNH5crRCLQdGFArbadHp3iZMZUM9kIIPSu52TFN7YJBOn98slGNyfY5xRBRCuVvmXOyD542SyS97f5LWnADKfJIprMcPJ/GYPfLvgjDUKhfTEDMw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
- IA0PR12MB8350.namprd12.prod.outlook.com (2603:10b6:208:40d::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.8; Fri, 27 Mar
- 2026 14:30:05 +0000
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::f01d:73d2:2dda:c7b2]) by DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::f01d:73d2:2dda:c7b2%4]) with mapi id 15.20.9745.007; Fri, 27 Mar 2026
- 14:30:05 +0000
-From: Zi Yan <ziy@nvidia.com>
-To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Song Liu <songliubraving@fb.com>, Chris Mason <clm@fb.com>,
- David Sterba <dsterba@suse.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Andrew Morton <akpm@linux-foundation.org>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Shuah Khan <shuah@kernel.org>, linux-btrfs@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-mm@kvack.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v1 00/10] Remove READ_ONLY_THP_FOR_FS Kconfig
-Date: Fri, 27 Mar 2026 10:30:01 -0400
-X-Mailer: MailMate (2.0r6290)
-Message-ID: <D447F353-36BE-4353-BF06-E4D521BC5372@nvidia.com>
-In-Reply-To: <4007802e-f87c-41a4-8dcd-9af867eb3fac@lucifer.local>
-References: <20260327014255.2058916-1-ziy@nvidia.com>
- <10748785-08a9-41c7-bacd-88f05fdf1a88@kernel.org>
- <4007802e-f87c-41a4-8dcd-9af867eb3fac@lucifer.local>
-Content-Type: text/plain
-X-ClientProxiedBy: BL0PR02CA0049.namprd02.prod.outlook.com
- (2603:10b6:207:3d::26) To DS7PR12MB9473.namprd12.prod.outlook.com
- (2603:10b6:8:252::5)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="aJGUxTN9";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="c0LMGC1p"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1774621857;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NfQmGvhJGJfqudSLMRQkPitARPCGSlgKp15jWKKDzZ8=;
+	b=aJGUxTN9v9J9fysFulLt7JkmOFDBreLaEB7pI18rsdZcyezRuPHKUxeKV8mnN4EU0skKIe
+	Ldxtz5piUKFD5h64exbPPEcRdnLE9VFDlmmRa3Tt0DmkTiZ6kv4PbTW5KSvZTPcRRzeo/8
+	3em0uETkpARw1a1GH53Mx7QIME/DyxI=
+Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
+ [209.85.161.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-57-3QhAyQgbNoGyhA0qI9QrjA-1; Fri, 27 Mar 2026 10:30:55 -0400
+X-MC-Unique: 3QhAyQgbNoGyhA0qI9QrjA-1
+X-Mimecast-MFC-AGG-ID: 3QhAyQgbNoGyhA0qI9QrjA_1774621855
+Received: by mail-oo1-f69.google.com with SMTP id 006d021491bc7-67bab42bbe3so2395056eaf.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 27 Mar 2026 07:30:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1774621855; x=1775226655; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NfQmGvhJGJfqudSLMRQkPitARPCGSlgKp15jWKKDzZ8=;
+        b=c0LMGC1p1q3dDw1a9QnGnEQe0jBesCGp+uBDUvnbiFFZbN/VZk+nGoPrQlN6PL0NlE
+         WH68H6AyuEc2Vs4uI2xTSSl9zxbXKoLYRAeCidco4Z0j9ZuIUHhMpucsSd2FZ2IXP8mf
+         QQlWjk6inmJ/wUYoWdk7dnbdQYzj/z1p4U4JkKJ+8/8YDNSrwztotkHi93evCifnp7pH
+         Cn09GqvacOOErCgL4C6nitLb6cKpZXdaKXbalwnTNmeFkGSYB3PtmlNECW6HbuYHlF3b
+         pyE115DVo3+tlT7b5BwWl+iylRbrmfn6N7/OxIq7pWS+SqMDFnxi4qZG4Hw60Lr3q+gZ
+         uKXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774621855; x=1775226655;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=NfQmGvhJGJfqudSLMRQkPitARPCGSlgKp15jWKKDzZ8=;
+        b=cQSJM3xy1OOqL38UdrYzqXGckTXX5FdEGkpjIqHfyWlhHYIRGGl49ZTrDxg1d6EYAI
+         eOhVWYvSN34OjwFcVpMNKM16tzIQYRfw8Dwn8m6sPu2uHlnB05vkCt/fBkDFdLAZf6np
+         XgXPz8+tJVqFctdZMT9Sv7WgB88pGObb2Idsy6QOsWZJe/k+6cpXWd3uJrKwQN2UYsRh
+         heSv7cmwi4oxW+X0++gCeDiAxZIaGW6Ax8aZHjobEXiE4p7bkiRiGbgY1vO3AS985nZx
+         aYMYHPk45IhAB565fHtTiJdfKSsJEuCJw2UaP8HGaQz/T/rQziltm2shh3jRkss/7/0p
+         PgoA==
+X-Forwarded-Encrypted: i=1; AJvYcCWOwRBXwzXKfLlT/QafyvKruzCwrI26mCd63XiojXm/0GOOql1aBT2C0txbYcdQOeYoW51ADCWwtCN+Ieyy@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxwu7+QyuyUFkuZPX45nKI4oLCKsYyPzJkxlKMtcEEusZ8AfSxu
+	cnhw3K24MAqx2dEvyMTO4vGB3n1ox3eWZzOxeS11kqYi8c3DJ74zHFq+T8dzzZ2CIuspyoNnjoX
+	Z+Evg9ql4Zukd4nklTYA9+6/lmofCGp+hBTOGMKT407jlAdSwpku9jx7FBSYL07xZzoY=
+X-Gm-Gg: ATEYQzylayLrhN1KQm1S+ee7eGsYyklIFzKf31pgDuLy+UifVF35hpGyZkxLFDMsM2d
+	eQcfASHQN+lkLBMRhrg4pDqlPPZzGn9m2Vd9YBZCDMzRaLiuwkTCc2OXTJ2TV/S7FWQCZx93YPA
+	BXIO0clG3na/DNkYA2OF3IWO3lWW0Nel9FTK0waoCVtaNM7M+eivOgcVUZdhwz9qBp2z4DLtFu6
+	wQv5O9y8oWJ38OqHmbVhkmNXcg5uS7DlFNiCN+qicEpUiATKdXR0Pu/8pj/u7hlq9u+fZsPt6jU
+	22r6NQexaIZvdjj3Xv9HlTNc+ZrYVsf2B+uH3U6aLtvwhiGzumpaaCFdbNPTWP55y3/q+wFNDAJ
+	gFrUw8Qco28PFfPzwuznh+B6kXovFjFnMnNqXiAn2TBdJlBY5eiXz7wU=
+X-Received: by 2002:a05:6820:99c:b0:67b:bd89:90ed with SMTP id 006d021491bc7-67e187062e4mr1467835eaf.41.1774621854616;
+        Fri, 27 Mar 2026 07:30:54 -0700 (PDT)
+X-Received: by 2002:a05:6820:99c:b0:67b:bd89:90ed with SMTP id 006d021491bc7-67e187062e4mr1467806eaf.41.1774621854116;
+        Fri, 27 Mar 2026 07:30:54 -0700 (PDT)
+Received: from cluster.. (4f.55.790d.ip4.static.sl-reverse.com. [13.121.85.79])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8d00e502081sm515168585a.36.2026.03.27.07.30.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Mar 2026 07:30:53 -0700 (PDT)
+From: Alex Markuze <amarkuze@redhat.com>
+To: ceph-devel@vger.kernel.org
+Cc: idryomov@gmail.com,
+	linux-fsdevel@vger.kernel.org,
+	amarkuze@redhat.com,
+	vdubeyko@redhat.com
+Subject: [PATCH 01/10] ceph: convert inode flags to named bit positions
+Date: Fri, 27 Mar 2026 14:30:37 +0000
+Message-Id: <20260327143045.1393612-2-amarkuze@redhat.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260327143045.1393612-1-amarkuze@redhat.com>
+References: <20260327143045.1393612-1-amarkuze@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|IA0PR12MB8350:EE_
-X-MS-Office365-Filtering-Correlation-Id: aaf7b4b8-72e5-4a70-15e8-08de8c0d56ae
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|376014|7416014|18002099003|22082099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	73KFNNyeFhHs83Hdb69b629pxdIRNp9I4TnXerzgVNqLecRUipneZB9PZ0BdRymiIELEKrpDXnirWDfKBJEakn3qeBvXaV6pq/HNH4xG8g1p4YcuaeSOZ2K22g5J8Y5UGrdKscQrrKXFP+klbzRf6PDvEps15+ALcljI9Fq285VjN5tGjOsggUr9Q+sMt9cnYFBWHfkiDKyt7EU9AH4rSTH/fznkfRjRZhVUX4BEj7+befzYUnG2OCk9c1t+dRsLdDrcnRgnlXkUC4AXduyLREuBS1cev55bwcXh/7IZnxpZRxdl/bzFAQBT4Z+4bULswppIaCNJBnJvWhrFpcyfDKpz22zF7TEgKkU+z5fIbv4twLeQLKlmCnB6Rc3LIH0VrUJnFYmmZ3OVaYmKzItAC2lkhNDKmsgFrhR1U10RWBh0CFsar4gq6U/gqVKz/yEcZ64TrvQBENaZLP4/PkQ4OSUxB1QYHPiNQr6LQabCoJfulC+I37DQqkQi7grhhGmkjPXbICqdJaNsrh1vEp0Bdm4XP+n3usGyMb/0yeibecmd3S7+dv1cDAGnDUjVY3zfXmVvT2pwQFltIN+AyNwC8U+c7OQAomyHr0p9PrwK9CfXxctqcrYV+xhXtaeDM+5VgsyBFrQmPb5FlABobeKbts6MOI9SQm75Q9fBMnvsqBomYRtV6DIVk6N1lPn/gjLJ1hJHqbZ9jtxvyd5oXPuKDioXffrTgkJY50PFLuka06s=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?BXHel5xSON5QECjRbvgwxOMKbqdRgifk54tjcA6z1Vy3nEhI1UxaOEP3ZQlt?=
- =?us-ascii?Q?oodXdrU0mlhGNSj0hDTVrAJ9vy0gG7OT7hiuBNzi2Lfa/gQHZV28N/lxro0u?=
- =?us-ascii?Q?By9CM/qdVV9dnAAXpAlia8b+oJFDfOFEwwpCP8qrx4ekl+oMY2J0Dz6D2lv/?=
- =?us-ascii?Q?wwW1pW+N/wrhtrgeQeo6/AFwuZKtZAPkrP7D5tbubP7JXEwgBFjX4HeBFCgy?=
- =?us-ascii?Q?ThHqiJzhv9kmm4qvmvhgtS5hazFMA1yURZMzwx6XodSATWqouu4GBOQ2hAbV?=
- =?us-ascii?Q?ma+i8aGKZobTmKK6S0nq2e8jRW6Z7vg6Zn1+eeHvCPxpknhVCr3n6C8z0Dln?=
- =?us-ascii?Q?0Uw87Ss16UcRt9PauiKtp+Knv+6r9GfSbPFRlCfvCLX2go0FrAqRDQIAKYlF?=
- =?us-ascii?Q?+JrSXJ2tkhks//QjL3fiowYsGHinSAfNha+2znwG15I7OAEoNcCtJVTS7Fid?=
- =?us-ascii?Q?fl3RsgNxHyB3eQalZUQBiJhsC3CVW9tnjaTI3zed/2Q/Wh4LTeSwyxpNBZzt?=
- =?us-ascii?Q?2IRAAXaaWkXEapon60Qf4Dtqux9ecZCU74/cyGqjP9M4Q238em3HICCQ2DhR?=
- =?us-ascii?Q?PMgGw+8Um+8B28fJXAc8xq+lbK2yVlbvVs5uCF1GqpJdmfRB2ILxnjjTFN/h?=
- =?us-ascii?Q?dPa1AqEv0jwj6IO4XRk3bsLcCZAwFmiBsdWuMhl7Wg/043w435e1Lvoc8tHT?=
- =?us-ascii?Q?fJXdoQG0Jki4jFwsb28VpDIWQDMV+k8nJcqKocQk0aQeAeGMu6k+czSezgtd?=
- =?us-ascii?Q?5HsoQDf9O2QLFJ+GF8w+evA29LrN5wpjZHNsrzot36rBLrl3V/pFpBTcgj2V?=
- =?us-ascii?Q?G12berb6Him1Mc/Muenywb2j6MBPYTF6bDBNIr/c+B9DTwKHymGlPzeVJ7Jl?=
- =?us-ascii?Q?6ph3uv1jjRCi7YD7a/hmHxfNCsqoSX/OqZ/9l2g6bLL8cgUZWi7yCGMnck0v?=
- =?us-ascii?Q?rZ3MzNjX5/VvOAwOCw7+9H8yi6EvfxVdECtaK5xvKNw8kkQUWoHaSMfswC5/?=
- =?us-ascii?Q?5TlqjOF9g1z/RXnXUwbrjmwXpncMKgP4LUpI0ZirrZpjqjY2RpCN5SyAaqJA?=
- =?us-ascii?Q?Y6qZl+lkDXRY1Kh+UpB5BA68P6iUJutkLnikSjwIEznCU6rVAgZ3SU0d050R?=
- =?us-ascii?Q?GCDo01ZA/xW/1pEa/VN2AYEb+fP6d12L/DsbrNzxBqcdVNPpEMDJD/XvQool?=
- =?us-ascii?Q?qGpNT93593WCOAaPbk64ygqiSNTn+Ayb4RiJjkSVHwKIm/HlYR2DyKs8Xh2q?=
- =?us-ascii?Q?Tmqxl6OVNFBsI7uSGqKP5gw/ZIP0fBuaxpHFes12XNhG/AEnrs/b9CNb4r2+?=
- =?us-ascii?Q?/O4SPdV6NlU3iH2MZ/zKTUqLFewV6/5SiXIB+RDN6vF74rhveLXKRqQN17ec?=
- =?us-ascii?Q?hqwFyjMMJHNlOVgOwoP7OHrTqRe5i20FxwZo2Hm95Lgb6P6qSz7KvwboyxcL?=
- =?us-ascii?Q?kc8hUIgTXmme1aNTjRHnPQyDYWmMF90rnruihuwMqEo/xDnT81stUFT3LMIt?=
- =?us-ascii?Q?oZxML45dkBjVO9uqZi/XX+HuA0VKRATN+RDYEVHhINQjbCpMxBV8voj1+nfx?=
- =?us-ascii?Q?OW745vW9gZlLthKFbHXUjG183O/WBp2mTTxB+jrJIg8OnFA02abiA2lFyf5q?=
- =?us-ascii?Q?rsOenHllpQI/WdVI4vKUl5Nlq/jkHjR3TlcrnPvtT/feeC+0BbQZ/rS7AeXn?=
- =?us-ascii?Q?Mwm7w3hIMDm09toHsuzBNHyfBiex/HsrvdSE3nDB9RQzLmA0pvo384E4dKoy?=
- =?us-ascii?Q?UKV9vqJlPA=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: aaf7b4b8-72e5-4a70-15e8-08de8c0d56ae
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Mar 2026 14:30:05.1463
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YpMsWHPatnH0HR9zsmY9983jYC8woLQQue+UoTPymrzTFCksKwKImfwgG+8lrMrU
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8350
+Content-Transfer-Encoding: 8bit
 
-On 27 Mar 2026, at 10:27, Lorenzo Stoakes (Oracle) wrote:
+Define all CEPH_I_* flags as named bit positions with derived bitmask
+values so the Ceph client can use test_bit(), set_bit(), and clear_bit()
+consistently on inode error and state flags. This prepares the later
+reset path to use atomic bit operations on the file-lock error state.
 
-> On Fri, Mar 27, 2026 at 02:46:43PM +0100, David Hildenbrand (Arm) wrote:
->> On 3/27/26 02:42, Zi Yan wrote:
->>> Hi all,
->>>
->>> This patchset removes READ_ONLY_THP_FOR_FS Kconfig and enables creating
->>> read-only THPs for FSes with large folio support (the supported orders
->>> need to include PMD_ORDER) by default.
->>>
->>> The changes are:
->>> 1. collapse_file() from mm/khugepaged.c, instead of checking
->>>    CONFIG_READ_ONLY_THP_FOR_FS, makes sure the mapping_max_folio_order()
->>>    of struct address_space of the file is at least PMD_ORDER.
->>> 2. file_thp_enabled() also checks mapping_max_folio_order() instead.
->>> 3. truncate_inode_partial_folio() calls folio_split() directly instead
->>>    of the removed try_folio_split_to_order(), since large folios can
->>>    only show up on a FS with large folio support.
->>> 4. nr_thps is removed from struct address_space, since it is no longer
->>>    needed to drop all read-only THPs from a FS without large folio
->>>    support when the fd becomes writable. Its related filemap_nr_thps*()
->>>    are removed too.
->>> 5. folio_check_splittable() no longer checks READ_ONLY_THP_FOR_FS.
->>> 6. Updated comments in various places.
->>>
->>> Changelog
->>> ===
->>> From RFC[1]:
->>> 1. instead of removing READ_ONLY_THP_FOR_FS function entirely, turn it
->>>    on by default for all FSes with large folio support and the supported
->>>    orders includes PMD_ORDER.
->>>
->>> Suggestions and comments are welcome.
->>
->> Hi! :)
->>
->> The patch set might be better structured by
->>
->> 1) Teaching code paths to not only respect READ_ONLY_THP_FOR_FS but also
->> filesystems with large folios. At that point, READ_ONLY_THP_FOR_FS would
->> have no effect.
->
-> And also please do some cleaning up of the mess we have in the code base if at
-> all possible :) I feel like we're constantly building on sand with this, and
-> should treat every major change as a chance to do this.
->
-> Or otherwise we constantly keep leaving this mess around to deal with...
+Co-authored-by: Viacheslav Dubeyko <vdubeyko@redhat.com>
+Signed-off-by: Alex Markuze <amarkuze@redhat.com>
+---
+ fs/ceph/file.c       |  2 +-
+ fs/ceph/locks.c      |  8 +++----
+ fs/ceph/mds_client.c |  3 ++-
+ fs/ceph/mds_client.h |  2 +-
+ fs/ceph/super.h      | 54 +++++++++++++++++++++++++++-----------------
+ 5 files changed, 40 insertions(+), 29 deletions(-)
 
-Got it. Let me read through feedbacks from individual patches and come up with
-a plan.
+diff --git a/fs/ceph/file.c b/fs/ceph/file.c
+index 66bbf6d517a9..aa9ee283dfda 100644
+--- a/fs/ceph/file.c
++++ b/fs/ceph/file.c
+@@ -579,7 +579,7 @@ static void wake_async_create_waiters(struct inode *inode,
+ 
+ 	spin_lock(&ci->i_ceph_lock);
+ 	if (ci->i_ceph_flags & CEPH_I_ASYNC_CREATE) {
+-		clear_and_wake_up_bit(CEPH_ASYNC_CREATE_BIT, &ci->i_ceph_flags);
++		clear_and_wake_up_bit(CEPH_I_ASYNC_CREATE_BIT, &ci->i_ceph_flags);
+ 
+ 		if (ci->i_ceph_flags & CEPH_I_ASYNC_CHECK_CAPS) {
+ 			ci->i_ceph_flags &= ~CEPH_I_ASYNC_CHECK_CAPS;
+diff --git a/fs/ceph/locks.c b/fs/ceph/locks.c
+index dd764f9c64b9..2f21574dfb99 100644
+--- a/fs/ceph/locks.c
++++ b/fs/ceph/locks.c
+@@ -58,7 +58,7 @@ static void ceph_fl_release_lock(struct file_lock *fl)
+ 	if (atomic_dec_and_test(&ci->i_filelock_ref)) {
+ 		/* clear error when all locks are released */
+ 		spin_lock(&ci->i_ceph_lock);
+-		ci->i_ceph_flags &= ~CEPH_I_ERROR_FILELOCK;
++		clear_bit(CEPH_I_ERROR_FILELOCK_BIT, &ci->i_ceph_flags);
+ 		spin_unlock(&ci->i_ceph_lock);
+ 	}
+ 	fl->fl_u.ceph.inode = NULL;
+@@ -272,9 +272,8 @@ int ceph_lock(struct file *file, int cmd, struct file_lock *fl)
+ 		wait = 1;
+ 
+ 	spin_lock(&ci->i_ceph_lock);
+-	if (ci->i_ceph_flags & CEPH_I_ERROR_FILELOCK) {
++	if (test_bit(CEPH_I_ERROR_FILELOCK_BIT, &ci->i_ceph_flags))
+ 		err = -EIO;
+-	}
+ 	spin_unlock(&ci->i_ceph_lock);
+ 	if (err < 0) {
+ 		if (op == CEPH_MDS_OP_SETFILELOCK && lock_is_unlock(fl))
+@@ -332,9 +331,8 @@ int ceph_flock(struct file *file, int cmd, struct file_lock *fl)
+ 	doutc(cl, "fl_file: %p\n", fl->c.flc_file);
+ 
+ 	spin_lock(&ci->i_ceph_lock);
+-	if (ci->i_ceph_flags & CEPH_I_ERROR_FILELOCK) {
++	if (test_bit(CEPH_I_ERROR_FILELOCK_BIT, &ci->i_ceph_flags))
+ 		err = -EIO;
+-	}
+ 	spin_unlock(&ci->i_ceph_lock);
+ 	if (err < 0) {
+ 		if (lock_is_unlock(fl))
+diff --git a/fs/ceph/mds_client.c b/fs/ceph/mds_client.c
+index 23b6d00643c9..12f1b57d4b1c 100644
+--- a/fs/ceph/mds_client.c
++++ b/fs/ceph/mds_client.c
+@@ -3610,7 +3610,8 @@ static void __do_request(struct ceph_mds_client *mdsc,
+ 
+ 		spin_lock(&ci->i_ceph_lock);
+ 		cap = ci->i_auth_cap;
+-		if (ci->i_ceph_flags & CEPH_I_ASYNC_CREATE && mds != cap->mds) {
++		if (test_bit(CEPH_I_ASYNC_CREATE_BIT, &ci->i_ceph_flags) &&
++		    mds != cap->mds) {
+ 			doutc(cl, "session changed for auth cap %d -> %d\n",
+ 			      cap->session->s_mds, session->s_mds);
+ 
+diff --git a/fs/ceph/mds_client.h b/fs/ceph/mds_client.h
+index 0428a5eaf28c..e91a199d56fd 100644
+--- a/fs/ceph/mds_client.h
++++ b/fs/ceph/mds_client.h
+@@ -658,7 +658,7 @@ static inline int ceph_wait_on_async_create(struct inode *inode)
+ {
+ 	struct ceph_inode_info *ci = ceph_inode(inode);
+ 
+-	return wait_on_bit(&ci->i_ceph_flags, CEPH_ASYNC_CREATE_BIT,
++	return wait_on_bit(&ci->i_ceph_flags, CEPH_I_ASYNC_CREATE_BIT,
+ 			   TASK_KILLABLE);
+ }
+ 
+diff --git a/fs/ceph/super.h b/fs/ceph/super.h
+index 29a980e22dc2..272c287836c1 100644
+--- a/fs/ceph/super.h
++++ b/fs/ceph/super.h
+@@ -655,23 +655,35 @@ static inline struct inode *ceph_find_inode(struct super_block *sb,
+ /*
+  * Ceph inode.
+  */
+-#define CEPH_I_DIR_ORDERED	(1 << 0)  /* dentries in dir are ordered */
+-#define CEPH_I_FLUSH		(1 << 2)  /* do not delay flush of dirty metadata */
+-#define CEPH_I_POOL_PERM	(1 << 3)  /* pool rd/wr bits are valid */
+-#define CEPH_I_POOL_RD		(1 << 4)  /* can read from pool */
+-#define CEPH_I_POOL_WR		(1 << 5)  /* can write to pool */
+-#define CEPH_I_SEC_INITED	(1 << 6)  /* security initialized */
+-#define CEPH_I_KICK_FLUSH	(1 << 7)  /* kick flushing caps */
+-#define CEPH_I_FLUSH_SNAPS	(1 << 8)  /* need flush snapss */
+-#define CEPH_I_ERROR_WRITE	(1 << 9) /* have seen write errors */
+-#define CEPH_I_ERROR_FILELOCK	(1 << 10) /* have seen file lock errors */
+-#define CEPH_I_ODIRECT_BIT	(11) /* inode in direct I/O mode */
+-#define CEPH_I_ODIRECT		(1 << CEPH_I_ODIRECT_BIT)
+-#define CEPH_ASYNC_CREATE_BIT	(12)	  /* async create in flight for this */
+-#define CEPH_I_ASYNC_CREATE	(1 << CEPH_ASYNC_CREATE_BIT)
+-#define CEPH_I_SHUTDOWN		(1 << 13) /* inode is no longer usable */
+-#define CEPH_I_ASYNC_CHECK_CAPS	(1 << 14) /* check caps immediately after async
+-					     creating finishes */
++#define CEPH_I_DIR_ORDERED_BIT		(0)  /* dentries in dir are ordered */
++#define CEPH_I_FLUSH_BIT		(2)  /* do not delay flush of dirty metadata */
++#define CEPH_I_POOL_PERM_BIT		(3)  /* pool rd/wr bits are valid */
++#define CEPH_I_POOL_RD_BIT		(4)  /* can read from pool */
++#define CEPH_I_POOL_WR_BIT		(5)  /* can write to pool */
++#define CEPH_I_SEC_INITED_BIT		(6)  /* security initialized */
++#define CEPH_I_KICK_FLUSH_BIT		(7)  /* kick flushing caps */
++#define CEPH_I_FLUSH_SNAPS_BIT		(8)  /* need flush snapss */
++#define CEPH_I_ERROR_WRITE_BIT		(9)  /* have seen write errors */
++#define CEPH_I_ERROR_FILELOCK_BIT	(10) /* have seen file lock errors */
++#define CEPH_I_ODIRECT_BIT		(11) /* inode in direct I/O mode */
++#define CEPH_I_ASYNC_CREATE_BIT		(12) /* async create in flight for this */
++#define CEPH_I_SHUTDOWN_BIT		(13) /* inode is no longer usable */
++#define CEPH_I_ASYNC_CHECK_CAPS_BIT	(14) /* check caps after async creating finishes */
++
++#define CEPH_I_DIR_ORDERED		(1 << CEPH_I_DIR_ORDERED_BIT)
++#define CEPH_I_FLUSH			(1 << CEPH_I_FLUSH_BIT)
++#define CEPH_I_POOL_PERM		(1 << CEPH_I_POOL_PERM_BIT)
++#define CEPH_I_POOL_RD			(1 << CEPH_I_POOL_RD_BIT)
++#define CEPH_I_POOL_WR			(1 << CEPH_I_POOL_WR_BIT)
++#define CEPH_I_SEC_INITED		(1 << CEPH_I_SEC_INITED_BIT)
++#define CEPH_I_KICK_FLUSH		(1 << CEPH_I_KICK_FLUSH_BIT)
++#define CEPH_I_FLUSH_SNAPS		(1 << CEPH_I_FLUSH_SNAPS_BIT)
++#define CEPH_I_ERROR_WRITE		(1 << CEPH_I_ERROR_WRITE_BIT)
++#define CEPH_I_ERROR_FILELOCK		(1 << CEPH_I_ERROR_FILELOCK_BIT)
++#define CEPH_I_ODIRECT			(1 << CEPH_I_ODIRECT_BIT)
++#define CEPH_I_ASYNC_CREATE		(1 << CEPH_I_ASYNC_CREATE_BIT)
++#define CEPH_I_SHUTDOWN			(1 << CEPH_I_SHUTDOWN_BIT)
++#define CEPH_I_ASYNC_CHECK_CAPS		(1 << CEPH_I_ASYNC_CHECK_CAPS_BIT)
+ 
+ /*
+  * Masks of ceph inode work.
+@@ -691,18 +703,18 @@ static inline struct inode *ceph_find_inode(struct super_block *sb,
+  */
+ static inline void ceph_set_error_write(struct ceph_inode_info *ci)
+ {
+-	if (!(READ_ONCE(ci->i_ceph_flags) & CEPH_I_ERROR_WRITE)) {
++	if (!test_bit(CEPH_I_ERROR_WRITE_BIT, &ci->i_ceph_flags)) {
+ 		spin_lock(&ci->i_ceph_lock);
+-		ci->i_ceph_flags |= CEPH_I_ERROR_WRITE;
++		set_bit(CEPH_I_ERROR_WRITE_BIT, &ci->i_ceph_flags);
+ 		spin_unlock(&ci->i_ceph_lock);
+ 	}
+ }
+ 
+ static inline void ceph_clear_error_write(struct ceph_inode_info *ci)
+ {
+-	if (READ_ONCE(ci->i_ceph_flags) & CEPH_I_ERROR_WRITE) {
++	if (test_bit(CEPH_I_ERROR_WRITE_BIT, &ci->i_ceph_flags)) {
+ 		spin_lock(&ci->i_ceph_lock);
+-		ci->i_ceph_flags &= ~CEPH_I_ERROR_WRITE;
++		clear_bit(CEPH_I_ERROR_WRITE_BIT, &ci->i_ceph_flags);
+ 		spin_unlock(&ci->i_ceph_lock);
+ 	}
+ }
+-- 
+2.34.1
 
->
->>
->> 2) Removing READ_ONLY_THP_FOR_FS along with all the old cruft that is no
->> longer required
->>
->> MADV_COLLAPSE will keep working the whole time.
->
-> Obviously everything should keep working throughout any version of this series.
->
-Ack.
-
-
-Best Regards,
-Yan, Zi
