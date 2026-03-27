@@ -1,155 +1,273 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF3883CEB8E;
-	Fri, 27 Mar 2026 11:13:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD6FB354AC7;
+	Fri, 27 Mar 2026 11:31:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774610014; cv=none; b=Dw+lR1I+nDsGyJTyRKSMR736MTcLUnVUYeZk6AiNGxkNofsozW/1qYOVFzTPpBvPN465Ngu3SVJc+/jO+ucjdnzceI9y2G28HDhsej07hvCeHRU4iyNHHObPB/WDL53XpjBr3R6zww+hI4uDm3AlFBK7eQ3kCe48W2+CWKFVnFE=
+	t=1774611078; cv=none; b=kDPZuFhpDRbGKzK+nY6LtDHm/0vZPZucwXnmZGV/T0wGx2WZDqYhV2NxwlgzMbQnvliudPTgeZXrYLEoxXWKJDexvWxqhZ/Z9niF0vmHDl33VCZyNE24bROdtfi0S4k9DuCDlD/9m7K8+wiIGbgE6R66aoqpLyJ8U35785X4998=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774610014; c=relaxed/simple;
-	bh=nJUYpm8Tn5AiiOGRCA1EAgbdYknTx+zBAyjjwOQbGKs=;
+	s=arc-20240116; t=1774611078; c=relaxed/simple;
+	bh=mOs+f1u+WyiqSYt3GiUnjwCnkAFMVSxmeQkggvC2jHw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IV4xUtt05v8I06LnRD9P422cja6mh/LEdIO6btQ0vZYl7G9alJrCj9lhkNJNtgrJohN4R0+D+ta3nUuq/fAS6kT0IkgOe7tDtyugOH+U1IpTAbdZSaj2Y/A8ICKBysJ+zFv/J7Y3kiJd2Bk1AV/8HuoAsgHxla5d9PmduLAY094=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TNLXz7E0; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=X/U9A/bs1zX2//gCxxTep92wyEStgieJ9ZvUCwSlLKF/hLaNKlQ3T4/bJJh7aPLCEX9NUZN8zgrzByRJ1XbWr2NziX6UFzZTxSLF+s3ZbxyhY4IVVYHRU3kOY/H2y8ItuJ5A26aKp6dTcmB+Ki1x1btN3A2OIlSmrlQnfXwqDso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p4MjpK69; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TNLXz7E0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774610009; x=1806146009;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nJUYpm8Tn5AiiOGRCA1EAgbdYknTx+zBAyjjwOQbGKs=;
-  b=TNLXz7E0KMvW8KIEQcBeikponG+ikWWkc3DM3afK+h56DaiHNpWcdS+d
-   xr7EeNBIH+BHICpTdmCElwY43haplm+Nhon+Ehu05lkgEfU/Cb7KC6vjL
-   QlIYzX89KnU4om0fs1qMJmWRcvgHaFBRegmWYxSFXmQMGhOy0K8nUJ3y1
-   f/fNl5acR/lQX9wmZOU9dYU5Wd+HEdLFlFonu68tPR1/8oGgUq7zvKtuR
-   xF6hpg/gI9zpB5SVjvbi4DcqeKI+Ptw5EQ/xJmpmX6sKWrfFYG8MgUSCD
-   7cmpoQChgI7xEvfXUDPs4KbNVfX/K9F1m36Qio8NSAzesz/9pCxCvWFz1
-   w==;
-X-CSE-ConnectionGUID: zVxFhiGWQqiMbJS6zYLpMQ==
-X-CSE-MsgGUID: lTIcrEomR0SWDnAeZF2vyQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="79541073"
-X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
-   d="scan'208";a="79541073"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 04:13:28 -0700
-X-CSE-ConnectionGUID: FbS0Pl5SS72d8TkKR100bQ==
-X-CSE-MsgGUID: Whxc+k1LRE+NYZQX0v1XmQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
-   d="scan'208";a="224329385"
-Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 27 Mar 2026 04:13:26 -0700
-Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w657z-00000000ACT-0qDN;
-	Fri, 27 Mar 2026 11:13:23 +0000
-Date: Fri, 27 Mar 2026 19:13:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: Chuck Lever <cel@kernel.org>, NeilBrown <neil@brown.name>,
-	Jeff Layton <jlayton@kernel.org>,
-	Olga Kornievskaia <okorniev@redhat.com>,
-	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	Chuck Lever <chuck.lever@oracle.com>
-Subject: Re: [PATCH v5 1/7] NFSD: Extract revoke_one_stid() utility function
-Message-ID: <202603271905.vZdE0ulk-lkp@intel.com>
-References: <20260326-umount-kills-nfsv4-state-v5-1-d2ce071b3570@oracle.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p4MjpK69"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96C54C19423;
+	Fri, 27 Mar 2026 11:31:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774611078;
+	bh=mOs+f1u+WyiqSYt3GiUnjwCnkAFMVSxmeQkggvC2jHw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=p4MjpK69mTjB/d2r6HzwMtnkpMhj2cskZeq51ftIyHennIa4UuCYvWAsK8iGF7qq7
+	 X4C8uDhyAVOa3c3YnkWLnQ/y52VQT4mIc4BId9LWlE2RE3UWPY+4RT/i56F36rg2n1
+	 F5/yPnkFF9H3F0t35IBJsXhAoitFF4aBJzdqpeVbnchRKAVB7/IfIkX0EzslHgbymv
+	 XLNXYmoqkKQL0dSkCjBjcRJPNokENji14QZKgVc2q/1YzqZssKYyoHVfxEWQp9vZyQ
+	 22A97Yrhcii0R9h3fZ9vztdAWUGJcu8Za9rfEvFS11k9EqOJG3JFV+bAMvC44Xxmj3
+	 y32xynP6g2Alg==
+Date: Fri, 27 Mar 2026 14:31:06 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: James Houghton <jthoughton@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Andrea Arcangeli <aarcange@redhat.com>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	David Hildenbrand <david@kernel.org>,
+	Hugh Dickins <hughd@google.com>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>,
+	Nikita Kalyazin <kalyazin@amazon.com>,
+	Oscar Salvador <osalvador@suse.de>,
+	Paolo Bonzini <pbonzini@redhat.com>, Peter Xu <peterx@redhat.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@suse.cz>, kvm@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v2 12/15] mm: generalize handling of userfaults in
+ __do_fault()
+Message-ID: <acZqemRy3ltBWGL2@kernel.org>
+References: <20260306171815.3160826-1-rppt@kernel.org>
+ <20260306171815.3160826-13-rppt@kernel.org>
+ <CADrL8HVUJ5FL97d9ytxp2WXos6HS+U+ycpsi5VxffsW9vacr9Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260326-umount-kills-nfsv4-state-v5-1-d2ce071b3570@oracle.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CADrL8HVUJ5FL97d9ytxp2WXos6HS+U+ycpsi5VxffsW9vacr9Q@mail.gmail.com>
 
-Hi Chuck,
+On Thu, Mar 26, 2026 at 06:55:15PM -0700, James Houghton wrote:
+> On Fri, Mar 6, 2026 at 9:19 AM Mike Rapoport <rppt@kernel.org> wrote:
+> >
+> > From: Peter Xu <peterx@redhat.com>
+> >
+> > When a VMA is registered with userfaulfd, its ->fault()
+> > method should check if a folio exists in the page cache and call
+> > handle_userfault() with appropriate mode:
+> >
+> > - VM_UFFD_MINOR if VMA is registered in minor mode and the folio exists
+> > - VM_UFFD_MISSING if VMA is registered in missing mode and the folio
+> >   does not exist
+> >
+> > Instead of calling handle_userfault() directly from a specific ->fault()
+> > handler, call __do_userfault() helper from the generic __do_fault().
+> >
+> > For VMAs registered with userfaultfd the new __do_userfault() helper
+> > will check if the folio is found in the page cache using
+> > vm_uffd_ops->get_folio_noalloc() and call handle_userfault() with the
+> > appropriate mode.
+> >
+> > Make vm_uffd_ops->get_folio_noalloc() required method for non-anonymous
+> > VMAs mapped at PTE level.
+> >
+> > Signed-off-by: Peter Xu <peterx@redhat.com>
+> > Co-developed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> > Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> > ---
+> >  mm/memory.c      | 43 +++++++++++++++++++++++++++++++++++++++++++
+> >  mm/shmem.c       | 12 ------------
+> >  mm/userfaultfd.c |  8 ++++++++
+> >  3 files changed, 51 insertions(+), 12 deletions(-)
+> >
+> > diff --git a/mm/memory.c b/mm/memory.c
+> > index 07778814b4a8..e2183c44d70b 100644
+> > --- a/mm/memory.c
+> > +++ b/mm/memory.c
+> > @@ -5328,6 +5328,41 @@ static vm_fault_t do_anonymous_page(struct vm_fault *vmf)
+> >         return VM_FAULT_OOM;
+> >  }
+> >
+> > +#ifdef CONFIG_USERFAULTFD
+> > +static vm_fault_t __do_userfault(struct vm_fault *vmf)
+> > +{
+> > +       struct vm_area_struct *vma = vmf->vma;
+> > +       struct inode *inode;
+> > +       struct folio *folio;
+> > +
+> > +       if (!(userfaultfd_missing(vma) || userfaultfd_minor(vma)))
+> > +               return 0;
+> > +
+> > +       inode = file_inode(vma->vm_file);
+> > +       folio = vma->vm_ops->uffd_ops->get_folio_noalloc(inode, vmf->pgoff);
+> 
+> If you do away with the change you made to vma_can_userfault(), please
+> add a WARN_ON_ONCE() here if uffd_ops or uffd_ops->get_folio_noalloc
+> are not present.
+> 
+> > +       if (!IS_ERR_OR_NULL(folio)) {
+> > +               /*
+> > +                * TODO: provide a flag for get_folio_noalloc() to avoid
+> > +                * locking (or even the extra reference?)
+> > +                */
+> 
+> I think a whole new op is better than adding a flag. Something like
+> uffd_ops->folio_present().
 
-kernel test robot noticed the following build errors:
+Right now it follows what shmem does, let's keep it as TODO for future
+optimizations.
+ 
+> > +               folio_unlock(folio);
+> > +               folio_put(folio);
+> > +               if (userfaultfd_minor(vma))
+> > +                       return handle_userfault(vmf, VM_UFFD_MINOR);
+> > +       } else {
+> > +               if (userfaultfd_missing(vma))
+> > +                       return handle_userfault(vmf, VM_UFFD_MISSING);
+> > +       }
+> > +
+> > +       return 0;
+> > +}
+> > +#else
+> > +static inline vm_fault_t __do_userfault(struct vm_fault *vmf)
+> > +{
+> > +       return 0;
+> > +}
+> > +#endif
+> > +
+> >  /*
+> >   * The mmap_lock must have been held on entry, and may have been
+> >   * released depending on flags and vma->vm_ops->fault() return value.
+> > @@ -5360,6 +5395,14 @@ static vm_fault_t __do_fault(struct vm_fault *vmf)
+> >                         return VM_FAULT_OOM;
+> >         }
+> >
+> > +       /*
+> > +        * If this is an userfaultfd trap, process it in advance before
+> 
+> "If this is a userfault"
 
-[auto build test ERROR on 65058e9e9b20619f920397f529072e853dd43811]
+Indeed :)
+ 
+> > +        * triggering the genuine fault handler.
+> > +        */
+> > +       ret = __do_userfault(vmf);
+> > +       if (ret)
+> > +               return ret;
+> > +
+> >         ret = vma->vm_ops->fault(vmf);
+> >         if (unlikely(ret & (VM_FAULT_ERROR | VM_FAULT_NOPAGE | VM_FAULT_RETRY |
+> >                             VM_FAULT_DONE_COW)))
+> > diff --git a/mm/shmem.c b/mm/shmem.c
+> > index 68620caaf75f..239545352cd2 100644
+> > --- a/mm/shmem.c
+> > +++ b/mm/shmem.c
+> > @@ -2489,13 +2489,6 @@ static int shmem_get_folio_gfp(struct inode *inode, pgoff_t index,
+> >         fault_mm = vma ? vma->vm_mm : NULL;
+> >
+> >         folio = filemap_get_entry(inode->i_mapping, index);
+> > -       if (folio && vma && userfaultfd_minor(vma)) {
+> > -               if (!xa_is_value(folio))
+> > -                       folio_put(folio);
+> > -               *fault_type = handle_userfault(vmf, VM_UFFD_MINOR);
+> > -               return 0;
+> > -       }
+> > -
+> >         if (xa_is_value(folio)) {
+> >                 error = shmem_swapin_folio(inode, index, &folio,
+> >                                            sgp, gfp, vma, fault_type);
+> > @@ -2540,11 +2533,6 @@ static int shmem_get_folio_gfp(struct inode *inode, pgoff_t index,
+> >          * Fast cache lookup and swap lookup did not find it: allocate.
+> >          */
+> >
+> > -       if (vma && userfaultfd_missing(vma)) {
+> > -               *fault_type = handle_userfault(vmf, VM_UFFD_MISSING);
+> > -               return 0;
+> > -       }
+> > -
+> >         /* Find hugepage orders that are allowed for anonymous shmem and tmpfs. */
+> >         orders = shmem_allowable_huge_orders(inode, vma, index, write_end, false);
+> >         if (orders > 0) {
+> > diff --git a/mm/userfaultfd.c b/mm/userfaultfd.c
+> > index 7cd7c5d1ce84..2ac5fad0ed6c 100644
+> > --- a/mm/userfaultfd.c
+> > +++ b/mm/userfaultfd.c
+> > @@ -2045,6 +2045,14 @@ bool vma_can_userfault(struct vm_area_struct *vma, vm_flags_t vm_flags,
+> >             !vma_is_anonymous(vma))
+> >                 return false;
+> >
+> > +       /*
+> > +        * File backed memory with PTE level mappigns must implement
+> 
+> "File-backed VMAs (except HugeTLB VMAs) must implement
+> ops->get_folio_alloc() to support userfaults, as all userfaults in
+> file-backed VMAs wlll call ops->get_folio_alloc() to determine the
+> userfault type."
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Chuck-Lever/NFSD-Extract-revoke_one_stid-utility-function/20260327-081757
-base:   65058e9e9b20619f920397f529072e853dd43811
-patch link:    https://lore.kernel.org/r/20260326-umount-kills-nfsv4-state-v5-1-d2ce071b3570%40oracle.com
-patch subject: [PATCH v5 1/7] NFSD: Extract revoke_one_stid() utility function
-config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20260327/202603271905.vZdE0ulk-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260327/202603271905.vZdE0ulk-lkp@intel.com/reproduce)
+I like (except HugeTLB) more than "PTE ...", but it's not here to determine
+the userfaulfd type, it's here to ensure we can __do_userfault() for a
+memory type. 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603271905.vZdE0ulk-lkp@intel.com/
+	/*
+	 * File backed VMAs (except HugeTLB) must implement
+	 * ops->get_folio_noalloc() because it's required by
+	 * __do_userfault() in page fault handling.
+	 */
+ 
+> > +        * ops->get_folio_noalloc()
+> > +        */
+> > +       if (!vma_is_anonymous(vma) && !is_vm_hugetlb_page(vma) &&
+> > +           !ops->get_folio_noalloc)
+> 
+> With the separate folio_present() (or whatever) op, this check becomes
+> more obvious. (Looking at this right now, it looks like we're checking
+> for UFFDIO_CONTINUE/minor fault support here, but that's not really
+> what's going on.)
+> 
+> Honestly I'm not 100% sure if this check should be here. If it's going
+> to be here, then we should probably also have checks like these here:
+>
+> if (vm_flags & VM_UFFD_MINOR && !ops->get_folio_noalloc)
+> 
+> and
+> 
+> if (vm_flags & VM_UFFD_MISSING && !ops->alloc_folio)
+> 
+> So, maybe we should just leave it up to ops->can_userfault() to make
+> sure we're doing the right thing?
 
-All errors (new ones prefixed by >>):
+This must be in the core so it can reject VMAs that can't be used in
+__do_userfault() without complicating hot path in the page fault handler
+with extra conditions.
 
->> fs/nfsd/nfs4state.c:1830:14: error: use of undeclared identifier 'state_lock'; did you mean 'task_lock'?
-    1830 |                 spin_lock(&state_lock);
-         |                            ^~~~~~~~~~
-         |                            task_lock
-   include/linux/sched/task.h:216:20: note: 'task_lock' declared here
-     216 | static inline void task_lock(struct task_struct *p)
-         |                    ^
-   fs/nfsd/nfs4state.c:1833:16: error: use of undeclared identifier 'state_lock'; did you mean 'task_lock'?
-    1833 |                 spin_unlock(&state_lock);
-         |                              ^~~~~~~~~~
-         |                              task_lock
-   include/linux/sched/task.h:216:20: note: 'task_lock' declared here
-     216 | static inline void task_lock(struct task_struct *p)
-         |                    ^
-   2 errors generated.
-
-
-vim +1830 fs/nfsd/nfs4state.c
-
-  1805	
-  1806	static void revoke_one_stid(struct nfs4_client *clp, struct nfs4_stid *stid)
-  1807	{
-  1808		struct nfs4_ol_stateid *stp;
-  1809		struct nfs4_delegation *dp;
-  1810	
-  1811		switch (stid->sc_type) {
-  1812		case SC_TYPE_OPEN:
-  1813			stp = openlockstateid(stid);
-  1814			mutex_lock_nested(&stp->st_mutex, OPEN_STATEID_MUTEX);
-  1815			revoke_ol_stid(clp, stp);
-  1816			mutex_unlock(&stp->st_mutex);
-  1817			break;
-  1818		case SC_TYPE_LOCK:
-  1819			stp = openlockstateid(stid);
-  1820			mutex_lock_nested(&stp->st_mutex, LOCK_STATEID_MUTEX);
-  1821			revoke_ol_stid(clp, stp);
-  1822			mutex_unlock(&stp->st_mutex);
-  1823			break;
-  1824		case SC_TYPE_DELEG:
-  1825			/*
-  1826			 * Extra reference guards against concurrent FREE_STATEID.
-  1827			 */
-  1828			refcount_inc(&stid->sc_count);
-  1829			dp = delegstateid(stid);
-> 1830			spin_lock(&state_lock);
-  1831			if (!unhash_delegation_locked(dp, SC_STATUS_ADMIN_REVOKED))
-  1832				dp = NULL;
-  1833			spin_unlock(&state_lock);
-  1834			if (dp)
-  1835				revoke_delegation(dp);
-  1836			else
-  1837				nfs4_put_stid(stid);
-  1838			break;
-  1839		case SC_TYPE_LAYOUT:
-  1840			nfsd4_close_layout(layoutstateid(stid));
-  1841			break;
-  1842		}
-  1843	}
-  1844	
+> 
+> > +               return false;
+> > +
+> >         return ops->can_userfault(vma, vm_flags);
+> >  }
+> >
+> > --
+> > 2.51.0
+> >
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Sincerely yours,
+Mike.
