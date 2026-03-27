@@ -1,102 +1,137 @@
-Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
+Received: from smtp01-ext2.udag.de (smtp01-ext2.udag.de [62.146.106.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA33E3CBE6C
-	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Mar 2026 07:35:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2082D33B955;
+	Fri, 27 Mar 2026 07:36:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.146.106.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774596961; cv=none; b=fGjSvvEYmcACRBn5WppsnLW8kCeQY/jssl/KZgf8W5BDFOEtGuB8M9LRaPby92SNW4+cuqwOz/rxyOX8Hc0amZCtthl2nRpYlnXdY45+JZm4FIOWN3rSg82eHrr6bgMsh8/erQ7xKuVOcBFYYzrJJ2sFktiTGAXv0CDANMxH/vo=
+	t=1774597002; cv=none; b=i+6gB2Qgrc3UdNQCVfnWdzvUlFlPNxA6QY6k/sQvEDq8GwBQa0XugL/7gRLmZ5cRPYT+o6OuJyish1VyfET6RpgWS24VdIv0L03zxfAs5dtP/04ZQr+qpokkNjOTB9BCgC/YevkPWxv5CcumhWDE+X8fGAnqrppl3qxVdGaislY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774596961; c=relaxed/simple;
-	bh=g0ipE0PBVCTrVu6c5/xg7DMuXRK2oxGYEdYsbEz89Ks=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uqC2gMz0OhWD/j4d8k+nWkz/1eLVv22Nyu4/35KknWO5LdFf2D/K372UsX6EUgmih7VskmiHs4N+j3XAVvRwSUlCGfLpJOKNb3ExSzBqb0XezsTWw7SbalnpwangtHRNav8D1mQsZz1TSG8zLGoUWVxAvpgp8s5y2HAg6z/V+Ds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=au5Ukkkl; arc=none smtp.client-ip=95.215.58.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1774597002; c=relaxed/simple;
+	bh=CNxZ6BBRwXGxbPCP5u/vOn1ZhBmbJUKAdG1aLVb3pUs=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=MI3aa2++3mEPH87/PF06B+x97aNNkHRbL8rvL1Ar5YKvm1ero4kvlr1z8w8/WUq+Vmx3Qm9imvzOh97SC9LVIaW5B9Z9sS6+DqrK9BZv9VRYPeBWLX5lG5KhM7faAQsLmqB1Pqw03gK1sEsGheRwEXxELlHIvWSWpRUaIjMUFqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.com; spf=pass smtp.mailfrom=birthelmer.com; dkim=pass (2048-bit key) header.d=birthelmer.com header.i=@birthelmer.com header.b=IrqboW2o; arc=none smtp.client-ip=62.146.106.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birthelmer.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="au5Ukkkl"
-Message-ID: <5d7c5690-eb85-454c-ac82-b4cefb4a37f8@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1774596941;
+	dkim=pass (2048-bit key) header.d=birthelmer.com header.i=@birthelmer.com header.b="IrqboW2o"
+Received: from [192.168.178.110] (108-141-067-156.ip-addr.inexio.net [156.67.141.108])
+	by smtp01-ext2.udag.de (Postfix) with ESMTPA id EFAB3E0367;
+	Fri, 27 Mar 2026 08:36:33 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=birthelmer.com;
+	s=uddkim-202310; t=1774596994;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CLtU4cYf5f4ETgIAG+QOLy27idZtqxL/V9it4mlnfGA=;
-	b=au5UkkklscMhF8BiLUMaSWklas9uysoBQuuD5MOuqCv/qB8+OgduNHqgh+UFXezl/6xv8e
-	nrmScX5uN68uU0+H2Lp8zA9iJXEHXLVXwfjo4Q/qfYQiWvb3lD4Jhn7CrTudxykmtmWUCR
-	GGaKymYb+rmaEcH7ZaELVBlUH1Cafpo=
-Date: Fri, 27 Mar 2026 15:35:16 +0800
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=cYADJ2bhfZxpR8MQhodrOpyziSQvdQveFNgUSBLbaxk=;
+	b=IrqboW2ojXT78mUj/EqXeess0QsL+f/MXkvNJfLbzh6Fu1UD1Uz/+6jvF9mvRBWMTos1wR
+	V3RRjnx5MCVdE6yY9gUOILwtCUN7MOwsvQHHidEyPRQkKdQlTzwGuAF89Zjnf+LmEckuhy
+	jl7oUcVgIGBRJIWCGAD0vY/xhvmrANe/JPBKFXsxHR8wWkjFDyQFF7cbIw1ZvN2BBL7dLw
+	o+TyDL4BjF9vwGolfSdn/a57BEynAfj/MCi5Q2hFoq2x7cSKZnrOsuRqd0+U7YIOxP7NQH
+	EAK5LYBnFxNyJybFHypQcvmb6yWDR2GC7LIs5PDh9+HCXk98n/rf89l8U0A6vw==
+Authentication-Results: smtp01-ext2.udag.de;
+	auth=pass smtp.auth=birthelmercom-0001 smtp.mailfrom=horst@birthelmer.com
+From: Horst Birthelmer <horst@birthelmer.com>
+Date: Fri, 27 Mar 2026 08:36:31 +0100
+Subject: [PATCH v2] fuse: fix inode initialization race
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v1 02/10] mm/khugepaged: remove READ_ONLY_THP_FOR_FS check
-Content-Language: en-US
-To: ziy@nvidia.com
-Cc: willy@infradead.org, songliubraving@fb.com, clm@fb.com, dsterba@suse.com,
- viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz,
- akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org,
- baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com, npache@redhat.com,
- ryan.roberts@arm.com, dev.jain@arm.com, baohua@kernel.org,
- vbabka@kernel.org, rppt@kernel.org, surenb@google.com, mhocko@suse.com,
- shuah@kernel.org, linux-btrfs@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- linux-kselftest@vger.kernel.org
-References: <20260327014255.2058916-3-ziy@nvidia.com>
- <20260327072917.68630-1-lance.yang@linux.dev>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Lance Yang <lance.yang@linux.dev>
-In-Reply-To: <20260327072917.68630-1-lance.yang@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Message-Id: <20260327-fix-inode-init-race-v2-1-22b1757109f8@ddn.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/32NSw7CIBCGr9LM2jEFq1RX3sN0MZSpnYXQQEM0D
+ XcXewCX3//cIHEUTnBrNoicJUnwFfShgXEm/2QUVxl0qy/tSfU4yRvFB1cNLytGGhmpM2QsdTQ
+ phtpcItfYvvoYKs+S1hA/+0lWP/X/XlaokAyfe6uds1e6O+ePY3jBUEr5AswMrA20AAAA
+X-Change-ID: 20260318-fix-inode-init-race-a47a7ba4af1e
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Bernd Schubert <bernd@bsbernd.com>, 
+ Joanne Koong <joannelkoong@gmail.com>, linux-fsdevel@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Horst Birthelmer <hbirthelmer@ddn.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1774596993; l=2620;
+ i=hbirthelmer@ddn.com; s=20251006; h=from:subject:message-id;
+ bh=v/K9pYmmubK1YKdlD9evkj6xhfPI+xuqiGzndGTLII8=;
+ b=GAHWjsjq3Za0TOfaG9/jB1gznWDrHg+j2BGo2E9WiRGIHCaDtswp3tFKwu1izX78KQYvIvDGM
+ qsKlZvQoC+GCyey5hmVsAp6vgXB/yJzKVzk0mhCw/KfBOtVzqBW+7Ao
+X-Developer-Key: i=hbirthelmer@ddn.com; a=ed25519;
+ pk=v3BVDFoy16EzgHZ23ObqW+kbpURtjrwxgKu8YNDKjGg=
 
+From: Horst Birthelmer <hbirthelmer@ddn.com>
 
+Fix a race between fuse_iget() and fuse_reverse_inval_inode() where
+invalidation can arrive while an inode is being initialized, causing
+the invalidation to be lost.
+By keeping the inode state I_NEW as long as the attributes are not valid
+the invalidation can wait until the inode is fully initialized.
 
-On 2026/3/27 15:29, Lance Yang wrote:
-> 
-> On Thu, Mar 26, 2026 at 09:42:47PM -0400, Zi Yan wrote:
->> collapse_file() requires FSes supporting large folio with at least
->> PMD_ORDER, so replace the READ_ONLY_THP_FOR_FS check with that. shmem with
->> huge option turned on also sets large folio order on mapping, so the check
->> also applies to shmem.
->>
->> While at it, replace VM_BUG_ON with returning failure values.
->>
->> Signed-off-by: Zi Yan <ziy@nvidia.com>
->> ---
->> mm/khugepaged.c | 7 +++++--
->> 1 file changed, 5 insertions(+), 2 deletions(-)
->>
->> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
->> index d06d84219e1b..45b12ffb1550 100644
->> --- a/mm/khugepaged.c
->> +++ b/mm/khugepaged.c
->> @@ -1899,8 +1899,11 @@ static enum scan_result collapse_file(struct mm_struct *mm, unsigned long addr,
->> 	int nr_none = 0;
->> 	bool is_shmem = shmem_file(file);
->>
->> -	VM_BUG_ON(!IS_ENABLED(CONFIG_READ_ONLY_THP_FOR_FS) && !is_shmem);
->> -	VM_BUG_ON(start & (HPAGE_PMD_NR - 1));
->> +	/* "huge" shmem sets mapping folio order and passes the check below */
->> +	if (mapping_max_folio_order(mapping) < PMD_ORDER)
->> +		return SCAN_FAIL;
-> 
-> Yep, for shmem inodes, if the mount has huge= enabled, inode creation
-> marks the mapping are large-folio capable:
+Suggested-by: Joanne Koong <joannelkoong@gmail.com>
+Signed-off-by: Horst Birthelmer <hbirthelmer@ddn.com>
+---
+Changes in v2:
+- switch from waitq guided by attr_version to wait_on_new_inode() and unlock_new_inode() when
+the inode is fully initialized
+- Link to v1: https://lore.kernel.org/r/20260318-fix-inode-init-race-v1-1-a7e58b2ddb9a@ddn.com
+---
+ fs/fuse/inode.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-Oops, s/are/as/
+diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+index e57b8af06be93ecc29c58864a9c9e99c68e3283b..fa0adc2bbe58cee6f63153c60c401b78ec3695bf 100644
+--- a/fs/fuse/inode.c
++++ b/fs/fuse/inode.c
+@@ -470,6 +470,7 @@ struct inode *fuse_iget(struct super_block *sb, u64 nodeid,
+ 	struct inode *inode;
+ 	struct fuse_inode *fi;
+ 	struct fuse_conn *fc = get_fuse_conn_super(sb);
++	bool is_new_inode = false;
+ 
+ 	/*
+ 	 * Auto mount points get their node id from the submount root, which is
+@@ -505,13 +506,13 @@ struct inode *fuse_iget(struct super_block *sb, u64 nodeid,
+ 	if (!inode)
+ 		return NULL;
+ 
+-	if ((inode_state_read_once(inode) & I_NEW)) {
++	is_new_inode = inode_state_read_once(inode) & I_NEW;
++	if (is_new_inode) {
+ 		inode->i_flags |= S_NOATIME;
+ 		if (!fc->writeback_cache || !S_ISREG(attr->mode))
+ 			inode->i_flags |= S_NOCMTIME;
+ 		inode->i_generation = generation;
+ 		fuse_init_inode(inode, attr, fc);
+-		unlock_new_inode(inode);
+ 	} else if (fuse_stale_inode(inode, generation, attr)) {
+ 		/* nodeid was reused, any I/O on the old inode should fail */
+ 		fuse_make_bad(inode);
+@@ -528,6 +529,8 @@ struct inode *fuse_iget(struct super_block *sb, u64 nodeid,
+ done:
+ 	fuse_change_attributes_i(inode, attr, NULL, attr_valid, attr_version,
+ 				 evict_ctr);
++	if (is_new_inode)
++		unlock_new_inode(inode);
+ 	return inode;
+ }
+ 
+@@ -565,6 +568,9 @@ int fuse_reverse_inval_inode(struct fuse_conn *fc, u64 nodeid,
+ 	if (!inode)
+ 		return -ENOENT;
+ 
++	/* Wait for inode initialization to complete */
++	wait_on_new_inode(inode);
++
+ 	fi = get_fuse_inode(inode);
+ 	spin_lock(&fi->lock);
+ 	fi->attr_version = atomic64_inc_return(&fc->attr_version);
 
-> 
-> 	/* Don't consider 'deny' for emergencies and 'force' for testing */
-> 	if (sbinfo->huge)
-> 		mapping_set_large_folios(inode->i_mapping);
-> 
-> LGTM!
-> 
-> Reviewed-by: Lance Yang <lance.yang@linux.dev>
+---
+base-commit: f338e77383789c0cae23ca3d48adcc5e9e137e3c
+change-id: 20260318-fix-inode-init-race-a47a7ba4af1e
+
+Best regards,
+-- 
+Horst Birthelmer <hbirthelmer@ddn.com>
 
