@@ -1,99 +1,115 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A5453CF69E;
-	Fri, 27 Mar 2026 08:27:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B9633DBD60;
+	Fri, 27 Mar 2026 09:18:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774600051; cv=none; b=Odjz/esX+GQPBnyTOpigW3KbHhuu8I++WN1O8+mI9zfZyxeddqZpQxdkqakYZSkMhypoh6tRuOV3O+AxSA8SQyma34oRtmDuQTTFIMvLvr5kIJzyPelLy1meOn6czq+dT5fQxWr5UuZPrzu6j1J8pZFxwoLiQZEaHDsDh8+waDQ=
+	t=1774603108; cv=none; b=IBXuYuTCzgcQ2UfWhQ+98nypi/Ug4y/k9rneirKmNrePxGgnFnmIuJ2cyqnxIdSpHFpt5VUepLhrmU7x9ZmJmrg2yvatDQ1rnpf0rfIHIq0KbzW7WxKsXWHc3LjUXoImMf59eM9weUudDUYrgdzTix77l9juyLbNVElMf5MoBZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774600051; c=relaxed/simple;
-	bh=rkUuEott97cRG5EOSGam/2vURy0iz3AdOFQvnDvFuRk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aNpV6oKUIgEu88G+y4valkLMiR2Mluovx3yDAOPwEHtroS+FDR5Ook2vMDTmeDMU/kUYNhm/kuBIAnjivBVgbO7wc8CblQBKOge8UJHj47hJnvbfBgGeewcfcDL04Eb0Yc6oH3lBiSFX7Zyr9jXThydg2+Npvj11PyHzMF8Tfwg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R1FdErCm; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774603108; c=relaxed/simple;
+	bh=y1DZ5pKYv2D4FY44lFWq0Ufplwe8z0GAL/3X8pAX/XQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=bSApPTc56wGq33AN0TVhceYdhkQ+dKKz6TqEzBvBaqvzFfmE3MwZE6keN26POKq7fz5/+ZhPD+NFu8j8w6xJHB23mpY/0DS+O1UxSm6610SJOq6vcW1D+MQMnSl7BmDDRyzED3Ov8v72satejsp8MrRBIlmx1LtQKTTc5y6LfP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EAP2fYWs; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R1FdErCm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE27CC2BC87;
-	Fri, 27 Mar 2026 08:27:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EAP2fYWs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE6A4C19423;
+	Fri, 27 Mar 2026 09:18:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774600050;
-	bh=rkUuEott97cRG5EOSGam/2vURy0iz3AdOFQvnDvFuRk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=R1FdErCmpRUfW0Lp5ZacGDOniuT0AwJlAxVfVuljmrw2wCU7cAUPkqPI98IpTty16
-	 NBIRt4fVUPiLgcyTUvdyX/EfQJaP/Fn+rUGOf8JpxGhClHrnG7f8KRPoQz2OYh1WaJ
-	 H5o9DZM6WUru2OjwRibUTWgPS0u+3sPFUJBa/UzXV6LBqi+UjomHjJiBFcJiETq+MT
-	 87z1mRd67LAk1ZwXpjMe9nbD7JZY1/qttMJlLYp/x5WS7qVfoyPw2boeixrn5xIQMI
-	 FsKHOJV0ipEd+DPBQwi0B3HVifAvbXhgvRqUcdTuwlnZX1A9XjKSccTw9hYhAHIm+3
-	 pgbO2wr7F/yFQ==
-Message-ID: <c9bec45c-3312-46a7-a7bc-a7dba95bcda7@kernel.org>
-Date: Fri, 27 Mar 2026 09:27:16 +0100
+	s=k20201202; t=1774603107;
+	bh=y1DZ5pKYv2D4FY44lFWq0Ufplwe8z0GAL/3X8pAX/XQ=;
+	h=Date:From:To:Cc:Subject:From;
+	b=EAP2fYWs+6PYYKeMwTXgss8XvZHXqua0Zp4FwlfysociyiGYXaAZO+bTa1mfeSugp
+	 BweZQhu4uTmiKNwpl72EOjkS7Dv6G4Rr//O3IAgHaljBxBQ0hLerRDaIYui4FFFtUc
+	 a5CDRMUm9RyB6DT4E1gS7KR0Jvo8g2Kv2QUVMCoM8MsIkH41LGIyXvE3aeidBs9MEP
+	 cD715lIvSiP9j/9prk1AP1UOFH/jFfHVYFHa4/0f+u5j5V7ldS7gOXwd7QF9MKM/kq
+	 2JMiXMdzxnz/N3+G0dpwag2GRO1dml2cI1ywDd5itaxSqObj3M6oCsFu5CAsn0wQtW
+	 3sKMCabp1+9iA==
+Date: Fri, 27 Mar 2026 10:18:21 +0100
+From: Joel Granados <joel.granados@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Kees Cook <kees@kernel.org>, Marc Buerg <buermarc@googlemail.com>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [GIT PULL] sysctl fixes for v7.0-rc6
+Message-ID: <vrx6mlibyi56mx5ibb6mzmey26ngcgrufkhg2j5yfw6d7azc7u@wvmp6rtddd34>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 00/25] mm/vma: convert vm_flags_t to vma_flags_t in vma
- code
-Content-Language: en-US
-To: Andrew Morton <akpm@linux-foundation.org>,
- "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-Cc: David Hildenbrand <david@kernel.org>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>, Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Kees Cook <kees@kernel.org>,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- Vineet Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Brian Cain <bcain@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
- WANG Xuerui <kernel@xen0n.name>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Dinh Nguyen <dinguyen@kernel.org>, Madhavan Srinivasan
- <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>,
- Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <chleroy@kernel.org>,
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, Richard Weinberger <richard@nod.at>,
- Anton Ivanov <anton.ivanov@cambridgegreys.com>,
- Johannes Berg <johannes@sipsolutions.net>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Xu Xin <xu.xin16@zte.com.cn>, Chengming Zhou <chengming.zhou@linux.dev>,
- Michal Hocko <mhocko@suse.com>, Paul Moore <paul@paul-moore.com>,
- Stephen Smalley <stephen.smalley.work@gmail.com>,
- Ondrej Mosnacek <omosnace@redhat.com>, linux-snps-arc@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-hexagon@vger.kernel.org,
- loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org, linux-um@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, selinux@vger.kernel.org
-References: <cover.1774034900.git.ljs@kernel.org>
- <20260326225031.87e04d2c652923bc10aef0ee@linux-foundation.org>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-In-Reply-To: <20260326225031.87e04d2c652923bc10aef0ee@linux-foundation.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="yqjuweh5zjinlncs"
+Content-Disposition: inline
 
-On 3/27/26 06:50, Andrew Morton wrote:
-> On Fri, 20 Mar 2026 19:38:17 +0000 "Lorenzo Stoakes (Oracle)" <ljs@kernel.org> wrote:
-> 
->> This series converts a lot of the existing use of the legacy vm_flags_t
->> data type to the new vma_flags_t type which replaces it.
-> 
-> Series has nine unreviewed patches.
 
-I think I only skipped those that were tools/testing only, because I'm lazy.
-In case a tag is missing in a non-test patch, let me know please.
+--yqjuweh5zjinlncs
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> Again, I plan to upstream this as-is - lots of Lorenzopatches remain
-> unreviewed and I'm OK with that.
+Linus:
 
-Ack, thanks!
+Small fix for sysctl bitmaps. If it is too late in the cycle, I can also
+send during the merge window for v7.2.
+
+Best
+
+The following changes since commit c369299895a591d96745d6492d4888259b004a9e:
+
+  Linux 7.0-rc5 (2026-03-22 14:42:17 -0700)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/sysctl/sysctl.git tags/sysc=
+tl-7.00-fixes-rc6
+
+for you to fetch changes up to f63a9df7e3f9f842945d292a19d9938924f066f9:
+
+  sysctl: fix uninitialized variable in proc_do_large_bitmap (2026-03-26 09=
+:32:19 +0100)
+
+----------------------------------------------------------------
+Summary
+
+* Fix uninitialized variable error when writing to a sysctl bitmap
+
+  Removed the possibility of returning an unjustified -EINVAL when writing =
+to a
+  sysctl bitmap
+
+* Testing
+
+  Quickly passed through linux-next.
+
+----------------------------------------------------------------
+Marc Buerg (1):
+      sysctl: fix uninitialized variable in proc_do_large_bitmap
+
+ kernel/sysctl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--=20
+
+Joel Granados
+
+--yqjuweh5zjinlncs
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmnGS1MACgkQupfNUreW
+QU84dgv/Rdi+SmHcx4MhYy1dHRtCa4ZRs/YVPyFsD9yCCbjdTMPlK9a709CTXsHk
+TyyjJFo6OL8OLHY1145f5ayilI3dpfK3lgUw/+yoKVPRR7NENpNZuRH68VwgAGvs
+efXwhjSC30hNbFU1yvevgO1EYB3HoYsLAOXLPBKZ4DZe6SGLSpwRcOIP7R51Vbvg
+cP7nAedOdn5QZQtj38HNbiu4qZWB0h7neca5exz+m0m3fMCsX3uD3+htUoVj9Xgo
+f5EuuUid6hoKcRLSqnAgf92KPTwr3BGQTYW5pcNdS/pYHEH2HbJ+t5XU+qv725Nq
+FdMrSnT6y6GgLQvskfJDNOspoX+uEVJPoLe93BSIk2oaTMUqNNACbNzJuT/ctgpC
+MCiLHCo8vaNAr+E+1RipTPGTC+WjhhCpiIh87n+7i/dQgfqDt109RF51rSvjEjQO
+qmUe9etbtMNAXLWT9cv6psYB9WFYeTLb9BmGIt244opksqEvZ7jWQUr5Q8SrLOoo
+0NPFPR4r
+=5PAA
+-----END PGP SIGNATURE-----
+
+--yqjuweh5zjinlncs--
