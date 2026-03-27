@@ -1,55 +1,30 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF9B238B7DE;
-	Fri, 27 Mar 2026 06:27:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00A1A3A7F7A
+	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Mar 2026 06:33:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774592846; cv=none; b=BkJDm88pMrqw5ZVHmfpwKJ4LzPmdMV/5rHoWofVmnHFUrtx9QCd39uWs9Cv/qBpjc7Zr07ydij+uj7oIGNTpRLt/nGZyw2r+tjZjIIOMSqO4yglOtW/47uMW4OLNzx9h8OHHqrkRkilZ/gs/8Ty1y+sh5MKxbuBpH55ksE4Plp4=
+	t=1774593216; cv=none; b=AjnM+EAT5nFHEKtS8HddBeJO2JKhr6CPsXiIqb+4m9zHlOPkQlG+imCDfh870HIotmR082UkJMNDe7IAVJOixAgPDyEFv2+BZMvDRmIMHLyRdnpMcs/cWNyCIU0bohh3WN2CcFKF2s77ecuOIEAMP9liTxvSj5DJsh4ogBYZgKY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774592846; c=relaxed/simple;
-	bh=HC+Bdkwl7K6LiIyuxB7VtyPJr1cnDQ3hdaukOnUHjfo=;
+	s=arc-20240116; t=1774593216; c=relaxed/simple;
+	bh=m7LrA3QLinIHQ42Xp9uQVfzdT5queMe/xPj+qNBzAms=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lKzuO4Pt8MOOPvfS/jwvZG2TUT8nOvjtyaPCQv+IYxBDcoDX8o0W/zquAcs5EUjYR9PAEGaETdHRDxXpesc00U8prDGilxIoU1TJt8K3c1XMLWiRAtsK5FRCE5dPdI0+EonvBxXiZEeZ/m86LBl9G3fwbLcVlEUHk9OelZNeC4g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=3ozzZMNI; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="3ozzZMNI"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=G7w/DjtHh6UU1dKA9LsKeKfhy2A9T6huT5mWVhBMMqQ=; b=3ozzZMNIwG7iBmBHIggRh8/DLu
-	8x+FlaRDvryUNTt7u7s70BsPfBhzLzqJcly52Sj8EZXyBrLhdpCOCL8iuerychQUTJuHQGPkibYdX
-	GS2ScIm0cdDILYGgjoitivuR6YBcB0QRpTlt6rYa7PHKjqDsmyqNbCO0YC3wdURLu5RXaTEPQc5c1
-	Gk+hNp2DXUh+QSndqK8RULVt5f1o2qqnQA2d73cN673EvDHwModjWdMqCjgfM4BPlkCcKKq5jhfRz
-	4gGaPd7jnOf2B9gVXAEIbxNgQMKIY9VTlhJmAk3gYl/596taDXr+MU4G1eZOZijYf73mgUF8AiCC8
-	1lq7qTxw==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w60fA-00000006p8d-1NCq;
-	Fri, 27 Mar 2026 06:27:20 +0000
-Date: Thu, 26 Mar 2026 23:27:20 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Gao Xiang <hsiangkao@linux.alibaba.com>
-Cc: Christoph Hellwig <hch@infradead.org>, Dave Chinner <dgc@kernel.org>,
-	Tal Zussman <tz2294@columbia.edu>, Jens Axboe <axboe@kernel.dk>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Christian Brauner <brauner@kernel.org>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Carlos Maiolino <cem@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: Re: [PATCH RFC v4 2/3] iomap: use BIO_COMPLETE_IN_TASK for
- dropbehind writeback
-Message-ID: <acYjSMkz9MdWQKoJ@infradead.org>
-References: <20260325-blk-dontcache-v4-0-c4b56db43f64@columbia.edu>
- <20260325-blk-dontcache-v4-2-c4b56db43f64@columbia.edu>
- <acRG5f9QjdEKg2JB@dread>
- <acYe1oCInkDLWGGu@infradead.org>
- <9e8061a5-980e-4e6a-a349-8a89f9eb1ba6@linux.alibaba.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=Mo5rLYZzePuCs0teiq8FTwywt1185NiU+bWEEo46N87F1ebFm9H22GcAZM66lyePgF0la1HiHIKlj+NWHUK0oIW+IdLiHXxpZTbTrP4Ipih4J32c10rQhRtK0AODlO/Df8GcY5TF62O7VU0odnsep3wkfVsxM509Tl+IV4+7cSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 4D48968AFE; Fri, 27 Mar 2026 07:33:17 +0100 (CET)
+Date: Fri, 27 Mar 2026 07:33:16 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Namjae Jeon <linkinjeon@kernel.org>
+Cc: sj1557.seo@samsung.com, yuezhang.mo@sony.com,
+	linux-fsdevel@vger.kernel.org, anmuxixixi@gmail.com,
+	dxdt@dev.snart.me, chizhiling@kylinos.cn, hch@lst.de
+Subject: Re: [PATCH 0/5] exfat: convert to iomap
+Message-ID: <20260327063316.GA8318@lst.de>
+References: <20260326115045.9525-1-linkinjeon@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -58,19 +33,13 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9e8061a5-980e-4e6a-a349-8a89f9eb1ba6@linux.alibaba.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <20260326115045.9525-1-linkinjeon@kernel.org>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Fri, Mar 27, 2026 at 02:24:02PM +0800, Gao Xiang wrote:
->  - use EROFS directly, in that case, we still need process
->    contexts to decompress, but due to Android latency
->    requirements, they really need per-cpu RT threads instead,
->    otherwise it will cause serious regression too; but I'm not
->    sure that case can be replaced by this work since workqueues
->    don't support RT threads and I guess generic block layer
->    won't be bothered with that too.
+On Thu, Mar 26, 2026 at 08:50:40PM +0900, Namjae Jeon wrote:
+> This patch series converts the exfat filesystem to the iomap framework for
+> buffered I/O, direct I/O, and llseek (SEEK_HOLE/SEEK_DATA) support.
 
-All of the I/O completions should be latency sensitive.  So I think it
-would be great if you could help out here with the requirements and
-implementation.
+What tree is this against?  Patch fails to apply to current mainline.
+Or if you have a link to a git tree, that could be useful as well.
 
