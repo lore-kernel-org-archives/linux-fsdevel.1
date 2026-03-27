@@ -1,181 +1,295 @@
-Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010035.outbound.protection.outlook.com [52.101.56.35])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAFC5314D21;
-	Fri, 27 Mar 2026 01:43:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.35
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ECD5313520
+	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Mar 2026 01:55:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.52
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774575820; cv=fail; b=lkmZrIvv/UQn8HS2ipjf9PZcwKuywQRoT0qjciGcifv+QaAAKkhLsNi9hZWUESZUEW3Jxvwhzirkn8GON5tPXTxXZXhH8ofl49ut9N1PyqWfNavUMBB0KtCWv0cbOp5inCViY3a6oseoy1YG5rkw8ZBYUW+j44wtz/vqoYCJL84=
+	t=1774576555; cv=pass; b=X99rzmXburL7g7etGkSGSHttcCddO31/pB9XkwERsJE2eQnq4HIjH/VLF9t+tcFsveXoVvmrtv7Sn97RMjKv+GZfoPZIU5TA8BnDiIke6NS8VG3PHbMX9shs2lTot59mTKMd1FWHsAYLqgrEUkpsHgaTvyFXKaUKN0zkDjA3cG4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774575820; c=relaxed/simple;
-	bh=lSPfCbD2yvDjg0xeuJm643jvV0dHdThI8TgrcSoET94=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Lo69l1TQoWjX/hNU+zzTNnQUyYV8Y1T/0OuSGA26r8XfXtwl+0A4aRCixrcIhX/YE3fmh2+IO0qYTK1hE8E37Ih8m1zV3ZzRsH5pozaujlw8fCCyUO1cHy+cMC4lxtrEzjDD6onn/L/b2SmjqOOzATA9Id7Pb0J2OyKTr24fsmQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=UQZUL3++; arc=fail smtp.client-ip=52.101.56.35
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1774576555; c=relaxed/simple;
+	bh=jPoZpmPhJCkyzRyXFyk7PzTJt0cFfh7Y5K5HjBkOV7M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=p0Y2PHErsNfM2S9YUdhB2EA22nzs3pw8vbpn/KE9tLOyxbRkxq8OwX1kudIc8Hpwe+/Xq3U3/YaTS5RN8hPB7vcrDzIVneuablHw5jTHakiO/dLxKcfGTuZjN4LP2jY+vVX2zKY8RA91Naa2W8bYOTWZhQV6xA1hFnwuJysW9v0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=k7yvhTJ0; arc=pass smtp.client-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="UQZUL3++"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rl5xKBTQphUqIEVMfzo0p8+BFUtnH+j7qznw+ghESBLLnBe/4Tc52NRow8qmNyYZNR6tvynL0NKP9GedauSZr2ci/CeqcVra0L6YJtP/qUE8y8Hx3JniVL0nFzVvo1q61/75vm1hbNPdC82wznvk/KWnlwSjL7z76/sIug2rkX5GXmhN2l6JGq1Fcte4Y6LC42nY5h5AYlrIGoovQvSAHtw4nd7x7h9RSysu4aNA9Ojp5etsIdb1VWavq1qKw39Cvu9mfcrIShCZpa+cz1ZetKuiajzo8ESqInU46MJlr4dVx/8L7HXbWEmVF8HQ4gw9NrriIbNGgvRgrGmPH9T6Rg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BoBCnPTeqfrm1QRjZz+gi0AjIAZR252PiL2hmCWGEaY=;
- b=iyfSX4qho/jeMc73JvYJJ3nVhtHeXOtEwVO129oNEdFCu7SnlFwCkchW7RpEo+655pDOX/DAzIVn3mSRGTFUZZKbuD41IzKqoTeOO7sWQyoebL62ddfTopdi5nv0M7e/KupvMRd1VGYtbhRTKY9oZafzqHbIFmhl0QW82xK7d5O38LAAG4YzSSP/FATZoAlQHSvNpRmq1BDrjxfvXM1tW0nnhmZ24pYPATe900TxR9AsaWwbH3bf3JEzaVThZMtpcc6d62sEhRGdiyvDiB/vqTGUAXxRn5VWrz0LXmkKDxCrwBwVYLLAqbFgAR13to4eUEFiaXmVPCsygPKLrhuXog==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BoBCnPTeqfrm1QRjZz+gi0AjIAZR252PiL2hmCWGEaY=;
- b=UQZUL3++YQ3NfvMLOvwM3QbCz6BslWYDcdE70PGm+oSKbLgR02fFOtUOx83Sy4zKtXcW3M9N2YwYBGPGx01zOj1EtuxOgmXCk93bA2HNXSE9c8qA2qIhz586bBNK1X6VwK0GJ5rSu04Lfu0qa5ax1oJ2yzxGbiNS48OYdX5ylb9GMgMei0UtolNsZA2ORjX6XuG00K+b8LmmNMlIb6PonNt58Ro3DqXXNNmxQe38auh5YBISonYF0JzsFSPAu4/XVoyUJOIMnsk2HjjmlahulvHvJ1yKVWIps0D2vMFuLH4NDzomJGM5wpc2l1pK50jwS5Lqua7yxgHHxLRYnQFI3g==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
- LV8PR12MB9264.namprd12.prod.outlook.com (2603:10b6:408:1e8::8) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9745.20; Fri, 27 Mar 2026 01:43:18 +0000
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::f01d:73d2:2dda:c7b2]) by DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::f01d:73d2:2dda:c7b2%4]) with mapi id 15.20.9745.007; Fri, 27 Mar 2026
- 01:43:18 +0000
-From: Zi Yan <ziy@nvidia.com>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Song Liu <songliubraving@fb.com>
-Cc: Chris Mason <clm@fb.com>,
-	David Sterba <dsterba@suse.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Zi Yan <ziy@nvidia.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Nico Pache <npache@redhat.com>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Dev Jain <dev.jain@arm.com>,
-	Barry Song <baohua@kernel.org>,
-	Lance Yang <lance.yang@linux.dev>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Shuah Khan <shuah@kernel.org>,
-	linux-btrfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org
-Subject: [PATCH v1 10/10] selftests/mm: remove READ_ONLY_THP_FOR_FS from comments in guard-regions
-Date: Thu, 26 Mar 2026 21:42:55 -0400
-Message-ID: <20260327014255.2058916-11-ziy@nvidia.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260327014255.2058916-1-ziy@nvidia.com>
-References: <20260327014255.2058916-1-ziy@nvidia.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: MN2PR06CA0011.namprd06.prod.outlook.com
- (2603:10b6:208:23d::16) To DS7PR12MB9473.namprd12.prod.outlook.com
- (2603:10b6:8:252::5)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="k7yvhTJ0"
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-661d20c9787so2212406a12.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 26 Mar 2026 18:55:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774576552; cv=none;
+        d=google.com; s=arc-20240605;
+        b=NcLEWlI4f9yVl4cf4/E90DwEuQcvHFIYr3DUTBPNQWv2xRq3Q6v5zPgIwC0T2yLnrk
+         VI8KQJNpjj0KlRVyWEtgZe7/QEwOAr/iApBVjy7bRUo7F6KqR2H9e3O7CX/M2PHI00rc
+         wRb8GdyVdGg3cHp93UlhhiWeSkg7GFMgG5as9gnauNIcDgCtEFem7HpnpHCEyaH4qx5K
+         1OG0mmgtRKbvSmrBNRhELZO3+sPhlZ53AIoEkXPStg66XPZaZkUnHT3IWcNObHIE4YT0
+         vNRvwtc024eq6uBNNNALTXypeDChLx0I5C952dkHiILoW1ImYuP2SO5TdMAH2CRSIi4U
+         YN5A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=v4/C6+dxmJ86MqBFYBzHKr+NUyGTfoaoGAJ7iveTtgs=;
+        fh=2LkIEUM1u0ISmIQb5dbhzDqyTfJKYj9utRmfHcJ0UA0=;
+        b=lvAE1Zpveatv5Dps8DbKBlJaXhWt1frgbNgVKmnVuFjV6ATnPpWoplXLV+2dPeww22
+         MDrXx3lD+iCBfyP96biUmWYoGMIQY2gz/MDMA9ii3qP3etQgTdnRQaYZj51HAZsh+0ab
+         z4XsM9pSaBKwIGuvi+ZJ6moUwKKFj+JqtSsnUanAssr+FCxhqCE9FAmIFVdkXDU3Ez3F
+         lRVdCUxN3ulA+5Rwzjq0pU/IlzbBU+O+jg44iB97m3rdjL2Q6R8u2TIV1N2O6WKl/P0d
+         PqvLy2Kpal1xJ+3UhBkpwxyVEPOY0/iE+AC6FLFhT3hobp/QwWddB06HCQ4hyxjohrUn
+         vmkQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1774576552; x=1775181352; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=v4/C6+dxmJ86MqBFYBzHKr+NUyGTfoaoGAJ7iveTtgs=;
+        b=k7yvhTJ0xR1+At4yNERyllDfhZOEuCxo6999bLmOvz40tXMbgZx/n//Dkb8MH2OlkX
+         Mde1x8W82BQUm0SIM3CmYja1FQ+Ec+qGHxMN7BGCKWBu4tI3JjQaF4gkIgJBQ74hq7mm
+         3YsTHq0QtT+wZqjodDrbLoJORsqiftN348zmwTLPp45XwtkHQ9GAyViWWZ41zik7lzL7
+         kvJRFdK0w3jP5cLtlU/20/AysnSIHW5vPFq29RRUIE7pP+gkEGvkb4SRPhfrduoAPEgV
+         Cet6MHDrGgSTrRrPVY1PWCx4q946lzgzRP2KjRIHesJ34yBkoDxfnlx4vc2guOYYssnX
+         JoGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774576552; x=1775181352;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=v4/C6+dxmJ86MqBFYBzHKr+NUyGTfoaoGAJ7iveTtgs=;
+        b=HLBNNt9YBVwFUSHhBfE0hxtqDfA0/PhRlxqtC1o9rAytSw7AZT+bdNC/5NuESkKJFe
+         xwri4r8OPKw23bYuK7eJNQNC+Bgtrs/i9wREcZCEvGjW54bJ3ryWzC4DpkZ6NMT0FP1a
+         z55148dzUrbyxXpp7szFaDQPdIYaFPYOfFglsfQ/BOC8ScZOWDwb9sVljgOXLxmZuQPI
+         vHAkIcV9nzqLr2tqZhqJXfcPX4V/DQtqyTYvknKLZKcZnyErSNoiail7MfUOJWPkMtpH
+         ZRJRXiQNeMU/7i7W9mTjT1a7HvC+mHvqRLMdp1x7t0Wd0uWUGZ71oICxz5gPATO51fOX
+         7sVw==
+X-Forwarded-Encrypted: i=1; AJvYcCVP0QAp3Tn5pWcJ+rTWiYBz+vJhNRLERqNmHw6l2JdtnLR4bxSULftLS8wsIl24fSJod0JdqWrG94ba5BqQ@vger.kernel.org
+X-Gm-Message-State: AOJu0YwcLoefS4TFrN136M3HJcM8HN5MgA654xliQYunRPYhSKTEjW0b
+	d7E3usFcN0hxjajhxNs631t702F4FnfuRlCPxVwjSzNL6z2wMRegowQ1ZBVjBIdM/oDyNxqzZg2
+	rwBEPMrpd1tCPPoeMwQO2V+b7sQTk50sqelfZdGLq
+X-Gm-Gg: ATEYQzylaONX3rASKcYCObPz5vWPxjjn/znAfsM8RHbfAS3SNYzFg+Z/VXdNMGzHzOM
+	I/IyEr7mlqdZf/o0NgxQS5rhPm1/wdYRlCv0UDyBp50EgSH55PLF+IcmZ8Jr+WGN+s7V+jy1Xty
+	hJ3Pqrs8ir5WkY0ZZo+E22Le+URTaQAFwphjx4I98IQ3pT40uMy4oJOPDu2c4w8m2R9ghJZ3x2B
+	LWrCxd7B6YYmx23XklcvufoaxQXcEWHSiOfZXo5wTLq1Wul0tt0jjTW22vi4erFWFmkpAjDjatt
+	Lfgs+AmdwkURbuyctRtHH/4Wfx3x4nvH4/h4cES9DoeQ50/f9kggNDJ8/nT/8oTaRPDdrw==
+X-Received: by 2002:a17:907:e158:b0:b98:c69:f07d with SMTP id
+ a640c23a62f3a-b9b5090a9b8mr25881366b.34.1774576551262; Thu, 26 Mar 2026
+ 18:55:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|LV8PR12MB9264:EE_
-X-MS-Office365-Filtering-Correlation-Id: 312556cf-704f-47c6-b613-08de8ba23879
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|7416014|376014|18002099003|56012099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	Tk47kEW4NnuyyTr4m1HQJQUugyodlLPp7btXs9+EmtyRZ9lEnXUezw9+JTNc+9hqy5yOlUTV2qlI3G873eUlVK8/2Manmfvi1OT+Q38miPH4oUDWu4suH5i31BZiVJ8a7hk5qFgTCSHmxr+N+e11W8FS2i/9XJMEyd2RBhzInt0Z7vc6fLmiMERoB42d5tt/g2DsdbGnauW3Hl7+BO0DYeRE2aEG7+XUYsEGnH6p7wJzcDn4PdImcNe8y6gZVOHWVRP2i5kiFxzplab6YU2FBK5jQo8DIKLCosU/K0u8sZg9uKfnMUShHpH5IfHgy1ao0pIwTrgeAgu3az2Ch22BG/Q8rsbgWrN/rIjbdicAX6R+o41VVj8C/H1JumgqupSTNJ5f/0hPlNLlfy0qmvm5gt1qhB1zdSC/L99RY1FJj3gP4GCCex/qJOCUOXNcnmcN+ax/37uoW0SE1GHjQa8u274nYhS7FruQfiyzl6GDDmFDuIatYRVps8p4DvDWY/GkbEeVp5yvsNZ9e8aunw6pzQCWGR6A8QamQWc40iaUYHuYKYK76BH1cujuWDAOYjjwE4uUmga7HBjPPYeH/YKT4IHHUD/lLADBJOi8C1y5albEj5O1eSBHaSfhEUZUi9KPxHNNIQh2Chw/HHmurFtJceLWwKR1A3I4g84WnsQPjX8w1ip9dVrMZ36YW60LW8AEhX31Qy/7aQHpJIWxpV+YSFc97V4leJIfm60OHchbPbs=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?fnq2hejq+/u39/bXN4tmzSNvyEbwf7GeZXbrXJ/aCIYO2EQBvc4rulTly3iU?=
- =?us-ascii?Q?cFlM3fn63lrTlaUlFlkBkeN36ke4hn67ZM/pDUyj9I72DWtmxDWR5Tj43Z6F?=
- =?us-ascii?Q?dzplQ9gmEc5IsXSF40n5srCJdGyX8rDTCQ9ZdjLfkUWLJD/LZFHWPvyz5o1/?=
- =?us-ascii?Q?vp51ecwsw7mkv12OAqYGLr5P4Nl2Ayl6CJhlKQ8l9qzSdajLm5aomvurAuxx?=
- =?us-ascii?Q?lsJ9njOulkRIiivI1AfQKd37yMoxmiG4ucOFcCc1BkPO2XthulaeHa0YEqmw?=
- =?us-ascii?Q?KTb3ffe9Ow7tlomm05J0nCU7fDcK6hsEfF/uIpUeCAJpYfnQLFepmMq+LJvX?=
- =?us-ascii?Q?/dDCCSsZ1d3hwd4d+lafWk10tUVZkvldADOSjEKe6PlIJausvJ2qiSp7JXzT?=
- =?us-ascii?Q?vZdKcIsDPqCPoJxytmIz4MBl1FrCFga9ERZxjsLo24S+GfpQTGoVHuFKt0+z?=
- =?us-ascii?Q?5K9+RoswTNDdtnvi3vADXIJmPzSeEn95Pw9Qb5+/QkHjIOkM5LxNWxrOJaFF?=
- =?us-ascii?Q?4guhFcAJ1uYLUdekZOxuvIqFRJEhgb8szHwZG0R5bKUnni6a4gNSgYRp8eSu?=
- =?us-ascii?Q?XJ0qqxLEbSsCGYh8BF747W52EuXE0VqP6tkMmuWIeWusLwE7h/nunU5dwbax?=
- =?us-ascii?Q?6hcCHztUx3D+ym7DY0t3mUaI8Im9rbHsdb6HvEtd8bRCdOfyMsngUuJ++xqi?=
- =?us-ascii?Q?REvtjlLiK+rKAaqSsOl3sSqYUOLPGDUozDmg8d2H2CxbZletIfoJti3jDOCw?=
- =?us-ascii?Q?0fz0TMYclpRGRGYD7KnVTkQb5e+/Yy1+sAdpl8XAEHaM/2umI8yo4vijInhf?=
- =?us-ascii?Q?xz2mIGr9WYL1vIow/jmQasu3KW8XdmgP3yOGO18IoTCDeKfReBMUoXyn7i7s?=
- =?us-ascii?Q?earvUhSKXl9wE68P9B36n2w5P9+nPQAVJE8XpKt9F0qjC69hNmvdzNHW8t1j?=
- =?us-ascii?Q?7SgV2PyosuIARkMm9/+ZG/tEVWOuVHE0udNIIHVpucaKjlvLLeieV2z4lE2k?=
- =?us-ascii?Q?J7BWrSGzlZm+M/puw4rlK8ZfDtC2q7To+fk8cx/LE/Wcye5ZrwA6YkOEGWrO?=
- =?us-ascii?Q?vxuF5TOZA7Ebv0rz2f+gmP1UerSvWM5/JPPpp95qtmvX/qJHNXsN0+7+DeW7?=
- =?us-ascii?Q?kO3INbdTWbUvj4fTtgNMbnuSZwKew9/bWQYK9YbXqc8zv3yaoQZ0cbtw0lqY?=
- =?us-ascii?Q?jMRCE34FMlq0v7Vwixn/OSypDDLjiUd/vExKPiin8cvqrV9w44IgpTQhyLDl?=
- =?us-ascii?Q?5kel3earHl98HahgtjdKgVDp/rT1ODL+3pZ7EbAOHiCda6wjy1QBZdOb+3m0?=
- =?us-ascii?Q?K+pXNTNqsXXOQdKTxLbH4D3RIabU+leq2uBkHuknHoM/KfF73uwky7wy/9qU?=
- =?us-ascii?Q?cPujYnDOo2PLaStKCg+GR81FgWl4VLlq4oK26u7rjR48Qn2NCruDcZo1VGiW?=
- =?us-ascii?Q?ngSfySlFGmuVR6P4zECH4d21vZCzj2xy8RjaZUklL775YLWAAwpZgsNB8p48?=
- =?us-ascii?Q?ClWcMhHoTtNr5fjD2d5xE4qYtEs3F+uUtIJf4JooVkgtswKrsdNcIGjqfcJd?=
- =?us-ascii?Q?AbdVXuAb+lRvSLsgv38JPcHNV/xo+/bG90GLQv1GJnN50DVJ44O0LdoBKXZ/?=
- =?us-ascii?Q?eJPwz5/Ck/wBPcLklGVSopS5PlP4menwOuMMjzsk6MXkeB07b/q7IUY1WbeA?=
- =?us-ascii?Q?sApms+Z52MDL2NlsixL01EqiMEFWcbNLsX2aQjUrRsjQNrYN?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 312556cf-704f-47c6-b613-08de8ba23879
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Mar 2026 01:43:18.3242
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3UdKMNYytQ4Xb5lYWs+/HtvGqIXBwmQVzQcyiycwtxGfxExwboDvXD8CokPhJzpN
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9264
+References: <20260306171815.3160826-1-rppt@kernel.org> <20260306171815.3160826-13-rppt@kernel.org>
+In-Reply-To: <20260306171815.3160826-13-rppt@kernel.org>
+From: James Houghton <jthoughton@google.com>
+Date: Thu, 26 Mar 2026 18:55:15 -0700
+X-Gm-Features: AQROBzDUg7nnPrShRG0yBUvJphXCQFgkh8YtYxeiIRK_yAgzpeQjdeV5p-bfc2o
+Message-ID: <CADrL8HVUJ5FL97d9ytxp2WXos6HS+U+ycpsi5VxffsW9vacr9Q@mail.gmail.com>
+Subject: Re: [PATCH v2 12/15] mm: generalize handling of userfaults in __do_fault()
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Andrea Arcangeli <aarcange@redhat.com>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	David Hildenbrand <david@kernel.org>, Hugh Dickins <hughd@google.com>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Michal Hocko <mhocko@suse.com>, 
+	Muchun Song <muchun.song@linux.dev>, Nikita Kalyazin <kalyazin@amazon.com>, 
+	Oscar Salvador <osalvador@suse.de>, Paolo Bonzini <pbonzini@redhat.com>, Peter Xu <peterx@redhat.com>, 
+	Sean Christopherson <seanjc@google.com>, Shuah Khan <shuah@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Vlastimil Babka <vbabka@suse.cz>, kvm@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Any file system with large folio support and the supported orders include
-PMD_ORDER can be used.
+On Fri, Mar 6, 2026 at 9:19=E2=80=AFAM Mike Rapoport <rppt@kernel.org> wrot=
+e:
+>
+> From: Peter Xu <peterx@redhat.com>
+>
+> When a VMA is registered with userfaulfd, its ->fault()
+> method should check if a folio exists in the page cache and call
+> handle_userfault() with appropriate mode:
+>
+> - VM_UFFD_MINOR if VMA is registered in minor mode and the folio exists
+> - VM_UFFD_MISSING if VMA is registered in missing mode and the folio
+>   does not exist
+>
+> Instead of calling handle_userfault() directly from a specific ->fault()
+> handler, call __do_userfault() helper from the generic __do_fault().
+>
+> For VMAs registered with userfaultfd the new __do_userfault() helper
+> will check if the folio is found in the page cache using
+> vm_uffd_ops->get_folio_noalloc() and call handle_userfault() with the
+> appropriate mode.
+>
+> Make vm_uffd_ops->get_folio_noalloc() required method for non-anonymous
+> VMAs mapped at PTE level.
+>
+> Signed-off-by: Peter Xu <peterx@redhat.com>
+> Co-developed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> ---
+>  mm/memory.c      | 43 +++++++++++++++++++++++++++++++++++++++++++
+>  mm/shmem.c       | 12 ------------
+>  mm/userfaultfd.c |  8 ++++++++
+>  3 files changed, 51 insertions(+), 12 deletions(-)
+>
+> diff --git a/mm/memory.c b/mm/memory.c
+> index 07778814b4a8..e2183c44d70b 100644
+> --- a/mm/memory.c
+> +++ b/mm/memory.c
+> @@ -5328,6 +5328,41 @@ static vm_fault_t do_anonymous_page(struct vm_faul=
+t *vmf)
+>         return VM_FAULT_OOM;
+>  }
+>
+> +#ifdef CONFIG_USERFAULTFD
+> +static vm_fault_t __do_userfault(struct vm_fault *vmf)
+> +{
+> +       struct vm_area_struct *vma =3D vmf->vma;
+> +       struct inode *inode;
+> +       struct folio *folio;
+> +
+> +       if (!(userfaultfd_missing(vma) || userfaultfd_minor(vma)))
+> +               return 0;
+> +
+> +       inode =3D file_inode(vma->vm_file);
+> +       folio =3D vma->vm_ops->uffd_ops->get_folio_noalloc(inode, vmf->pg=
+off);
 
-Signed-off-by: Zi Yan <ziy@nvidia.com>
----
- tools/testing/selftests/mm/guard-regions.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+If you do away with the change you made to vma_can_userfault(), please
+add a WARN_ON_ONCE() here if uffd_ops or uffd_ops->get_folio_noalloc
+are not present.
 
-diff --git a/tools/testing/selftests/mm/guard-regions.c b/tools/testing/selftests/mm/guard-regions.c
-index 48e8b1539be3..13e77e48b6ef 100644
---- a/tools/testing/selftests/mm/guard-regions.c
-+++ b/tools/testing/selftests/mm/guard-regions.c
-@@ -2205,7 +2205,7 @@ TEST_F(guard_regions, collapse)
- 
- 	/*
- 	 * We must close and re-open local-file backed as read-only for
--	 * CONFIG_READ_ONLY_THP_FOR_FS to work.
-+	 * MADV_COLLAPSE to work.
- 	 */
- 	if (variant->backing == LOCAL_FILE_BACKED) {
- 		ASSERT_EQ(close(self->fd), 0);
-@@ -2237,9 +2237,10 @@ TEST_F(guard_regions, collapse)
- 	/*
- 	 * Now collapse the entire region. This should fail in all cases.
- 	 *
--	 * The madvise() call will also fail if CONFIG_READ_ONLY_THP_FOR_FS is
--	 * not set for the local file case, but we can't differentiate whether
--	 * this occurred or if the collapse was rightly rejected.
-+	 * The madvise() call will also fail if the file system does not support
-+	 * large folio or the supported orders do not include PMD_ORDER for the
-+	 * local file case, but we can't differentiate whether this occurred or
-+	 * if the collapse was rightly rejected.
- 	 */
- 	EXPECT_NE(madvise(ptr, size, MADV_COLLAPSE), 0);
- 
--- 
-2.43.0
+> +       if (!IS_ERR_OR_NULL(folio)) {
+> +               /*
+> +                * TODO: provide a flag for get_folio_noalloc() to avoid
+> +                * locking (or even the extra reference?)
+> +                */
 
+I think a whole new op is better than adding a flag. Something like
+uffd_ops->folio_present().
+
+> +               folio_unlock(folio);
+> +               folio_put(folio);
+> +               if (userfaultfd_minor(vma))
+> +                       return handle_userfault(vmf, VM_UFFD_MINOR);
+> +       } else {
+> +               if (userfaultfd_missing(vma))
+> +                       return handle_userfault(vmf, VM_UFFD_MISSING);
+> +       }
+> +
+> +       return 0;
+> +}
+> +#else
+> +static inline vm_fault_t __do_userfault(struct vm_fault *vmf)
+> +{
+> +       return 0;
+> +}
+> +#endif
+> +
+>  /*
+>   * The mmap_lock must have been held on entry, and may have been
+>   * released depending on flags and vma->vm_ops->fault() return value.
+> @@ -5360,6 +5395,14 @@ static vm_fault_t __do_fault(struct vm_fault *vmf)
+>                         return VM_FAULT_OOM;
+>         }
+>
+> +       /*
+> +        * If this is an userfaultfd trap, process it in advance before
+
+"If this is a userfault"
+
+> +        * triggering the genuine fault handler.
+> +        */
+> +       ret =3D __do_userfault(vmf);
+> +       if (ret)
+> +               return ret;
+> +
+>         ret =3D vma->vm_ops->fault(vmf);
+>         if (unlikely(ret & (VM_FAULT_ERROR | VM_FAULT_NOPAGE | VM_FAULT_R=
+ETRY |
+>                             VM_FAULT_DONE_COW)))
+> diff --git a/mm/shmem.c b/mm/shmem.c
+> index 68620caaf75f..239545352cd2 100644
+> --- a/mm/shmem.c
+> +++ b/mm/shmem.c
+> @@ -2489,13 +2489,6 @@ static int shmem_get_folio_gfp(struct inode *inode=
+, pgoff_t index,
+>         fault_mm =3D vma ? vma->vm_mm : NULL;
+>
+>         folio =3D filemap_get_entry(inode->i_mapping, index);
+> -       if (folio && vma && userfaultfd_minor(vma)) {
+> -               if (!xa_is_value(folio))
+> -                       folio_put(folio);
+> -               *fault_type =3D handle_userfault(vmf, VM_UFFD_MINOR);
+> -               return 0;
+> -       }
+> -
+>         if (xa_is_value(folio)) {
+>                 error =3D shmem_swapin_folio(inode, index, &folio,
+>                                            sgp, gfp, vma, fault_type);
+> @@ -2540,11 +2533,6 @@ static int shmem_get_folio_gfp(struct inode *inode=
+, pgoff_t index,
+>          * Fast cache lookup and swap lookup did not find it: allocate.
+>          */
+>
+> -       if (vma && userfaultfd_missing(vma)) {
+> -               *fault_type =3D handle_userfault(vmf, VM_UFFD_MISSING);
+> -               return 0;
+> -       }
+> -
+>         /* Find hugepage orders that are allowed for anonymous shmem and =
+tmpfs. */
+>         orders =3D shmem_allowable_huge_orders(inode, vma, index, write_e=
+nd, false);
+>         if (orders > 0) {
+> diff --git a/mm/userfaultfd.c b/mm/userfaultfd.c
+> index 7cd7c5d1ce84..2ac5fad0ed6c 100644
+> --- a/mm/userfaultfd.c
+> +++ b/mm/userfaultfd.c
+> @@ -2045,6 +2045,14 @@ bool vma_can_userfault(struct vm_area_struct *vma,=
+ vm_flags_t vm_flags,
+>             !vma_is_anonymous(vma))
+>                 return false;
+>
+> +       /*
+> +        * File backed memory with PTE level mappigns must implement
+
+"File-backed VMAs (except HugeTLB VMAs) must implement
+ops->get_folio_alloc() to support userfaults, as all userfaults in
+file-backed VMAs wlll call ops->get_folio_alloc() to determine the
+userfault type."
+
+> +        * ops->get_folio_noalloc()
+> +        */
+> +       if (!vma_is_anonymous(vma) && !is_vm_hugetlb_page(vma) &&
+> +           !ops->get_folio_noalloc)
+
+With the separate folio_present() (or whatever) op, this check becomes
+more obvious. (Looking at this right now, it looks like we're checking
+for UFFDIO_CONTINUE/minor fault support here, but that's not really
+what's going on.)
+
+Honestly I'm not 100% sure if this check should be here. If it's going
+to be here, then we should probably also have checks like these here:
+
+if (vm_flags & VM_UFFD_MINOR && !ops->get_folio_noalloc)
+
+and
+
+if (vm_flags & VM_UFFD_MISSING && !ops->alloc_folio)
+
+So, maybe we should just leave it up to ops->can_userfault() to make
+sure we're doing the right thing?
+
+> +               return false;
+> +
+>         return ops->can_userfault(vma, vm_flags);
+>  }
+>
+> --
+> 2.51.0
+>
