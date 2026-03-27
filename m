@@ -1,156 +1,127 @@
-Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011030.outbound.protection.outlook.com [52.101.57.30])
+Received: from relay.hostedemail.com (smtprelay0010.hostedemail.com [216.40.44.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AAFA343D72;
-	Fri, 27 Mar 2026 14:43:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.57.30
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774622617; cv=fail; b=bS1a9UJkgbF/7LMvYDfFStt0wZTfM0rj+amJOkH1AKHEqW52Nm5wDS5o9oub/hxDOwkyRF7ADEhVX2uXpYd+DD0GSmQbihfbD9TCA+i81dyi2C5x8fvIYLn3FBL1ntytCy7z2e5V1M+Osf1eaVF7PhxVX3Ko3YltpTF+Y4Xzd60=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774622617; c=relaxed/simple;
-	bh=Y1bfrcLEcxlj8jvoUAor+cDviw7fZYGTsQFkKuHtRrA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Fv15PirqBoI3jel9IIgguAKQJk/HMCSpAQQSDUgncEMj9uyxS8me8ndrdhZmL2V0MDuvQ8iK0EHXpsHkXT2X0oEhWnF5YkfCjsAeBEc7Q0LATXLBRiszRKVhWOiJLVbDHy3VrWR8bEOCnSBU2DeGtuQZ5Y0WwTBTNJ2RspyNj0g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=P37fgApj; arc=fail smtp.client-ip=52.101.57.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="P37fgApj"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Qk1/Mnazgh0q8PUwrIqpRtkrxHJihhpKvALoiqIcVBxxxDa7jXggzBQCvzQoMTTvOUHQFEPtBrAj02bwJe/fbRK0fnXJ/TvJcOMKGYMGbPAurIJRyfKYa04ghZTVFeBjyjbaObv5OBG3GW7VwrjYTZzcaTseY5d03x+lMBb8p23Hw3ntIKWtnxmMnwmCqpek0lJJfMUj/JjNXnVJCnGINeoKyg+DCxh0aDfmYVdptemLmOoM11FZZoH8cjI96w1pHbcymXcg6avcu08RC2e5xiXV5CvPXTQEWB+egPS1T1GX3f8NEy8SCQnf/IXRau0WwOJNyOSPdECGHKEHkhqQkQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Y1bfrcLEcxlj8jvoUAor+cDviw7fZYGTsQFkKuHtRrA=;
- b=C0BUo9iBv+mEoT3K9wJPCH3m8o5hDm8g0RSSLOdaOd7XCmrUc9Fabp9ZJLBkhxd4rfNFwAvgSolWPyFX7dVPscTHtkXaLlgOL6FCYcPWgFg99wNvsQG2bGsHu+RHNlh7oc64nP1bAtN7/wVQculgiHtETI3t/hM53hyA6ZJrnlAJTOgpN1m862mb8l6w+cczBNQ8uxAE8jZjEuM14kDv9kLWbeNY+E0PLY28d/TXMxH0WtkR1P6qAhPpGo6caNesdzsFiHYq7BZ2SNg11/gyoRtDw+R4Gn8xC1k8dZbZXITGAWXZHQiQ1VabdcW1SJjkg8NaIEO8b0AIm1LByAS8oQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Y1bfrcLEcxlj8jvoUAor+cDviw7fZYGTsQFkKuHtRrA=;
- b=P37fgApjbfGxWwGkJCDly65EfARyxMphHxdXI49I0knVJ2a5H4D1/VeYNV1y1CaMEafJ7kvvolvDVh6IUtP6pKAF1bHlsp4uEHFIp7jlhA7VuFRA2bA+hkEswkWdTnDT0nPN1jK5DC/tzFWTybjDjU9xH+JRiomVxCicP9PIt0HvNfOma2S+B/GA3zzpHPYG2TCYBy7gSXZpEW0yXRIhPgUYY6jWrNjZNOlI3WDCZH1g4WMDbG7V9Eyjm9zMTU8kChMsX/9EM5i7HRckXVbPpAKDiAXIQYEM41S7jk0u43qJL7gDZFHL/zIZCqBZRTZMenVYlqE8P/c8AA/oE6Xa+A==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
- SA1PR12MB999109.namprd12.prod.outlook.com (2603:10b6:806:4a1::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.8; Fri, 27 Mar
- 2026 14:43:33 +0000
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::f01d:73d2:2dda:c7b2]) by DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::f01d:73d2:2dda:c7b2%4]) with mapi id 15.20.9745.007; Fri, 27 Mar 2026
- 14:43:32 +0000
-From: Zi Yan <ziy@nvidia.com>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Song Liu <songliubraving@fb.com>, Chris Mason <clm@fb.com>,
- David Sterba <dsterba@suse.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Shuah Khan <shuah@kernel.org>, linux-btrfs@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-mm@kvack.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v1 02/10] mm/khugepaged: remove READ_ONLY_THP_FOR_FS check
-Date: Fri, 27 Mar 2026 10:43:28 -0400
-X-Mailer: MailMate (2.0r6290)
-Message-ID: <5AA0D400-B4D1-4223-9A7F-41BFEA176F35@nvidia.com>
-In-Reply-To: <f3602a65-69f1-4d80-82f9-c0c5b56afe00@kernel.org>
-References: <20260327014255.2058916-1-ziy@nvidia.com>
- <20260327014255.2058916-3-ziy@nvidia.com>
- <f3602a65-69f1-4d80-82f9-c0c5b56afe00@kernel.org>
-Content-Type: text/plain
-X-ClientProxiedBy: BL1PR13CA0350.namprd13.prod.outlook.com
- (2603:10b6:208:2c6::25) To DS7PR12MB9473.namprd12.prod.outlook.com
- (2603:10b6:8:252::5)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AD5128313D;
+	Fri, 27 Mar 2026 14:46:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.10
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774622769; cv=none; b=EBYCqYNY7olGmm6VtbHpRlhGdoQOvcxY8glBDsdBmLj73DF+7TVM6K2etKdb4NmEENWBqWhZrH/FvOQFoZSD+Hb04AISRrZkL89UkwP+jpbMbdSFI4K8NXJCUdvTtCTkxRTjyQ1E3HavcjTCEgT7pgklXc1qlnB3ZZfU07f+wmc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774622769; c=relaxed/simple;
+	bh=4abyi0QFJA+ENtgPePryoxoJ/65jZXwGxdGsYQGWJ/c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EkNuNKejReyjGHY686ptQzwCtdRBMXYF29aOluIWz1QLGQQiGNVrCvdJ7qVDrmZtVvVhSF4967ES81g2dXMU8et/d26l4QzG5PhSDw/8iOGVnUVfl8ItUggk3EXQAVtomgaTvgGK7c4EZC8MgiiMp7LXEPP/EwGVx8tzVcmolr4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
+Received: from omf09.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay08.hostedemail.com (Postfix) with ESMTP id 10F391411DB;
+	Fri, 27 Mar 2026 14:45:57 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf09.hostedemail.com (Postfix) with ESMTPA id F1F552003B;
+	Fri, 27 Mar 2026 14:45:44 +0000 (UTC)
+Date: Fri, 27 Mar 2026 09:45:42 -0500
+From: John Groves <John@groves.net>
+To: Jonathan Cameron <jonathan.cameron@huawei.com>
+Cc: John Groves <john@jagalactic.com>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
+	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
+	Amir Goldstein <amir73il@gmail.com>, Stefan Hajnoczi <shajnocz@redhat.com>, 
+	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
+	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
+	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
+	"venkataravis@micron.com" <venkataravis@micron.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH V9 7/8] dax: Add fs_dax_get() func to prepare dax for
+ fs-dax usage
+Message-ID: <acaX5fMhxSl0aD5h@groves.net>
+References: <0100019d1d463523-617e8165-a084-4d91-aa5e-13778264d5d4-000000@email.amazonses.com>
+ <20260324003919.5106-1-john@jagalactic.com>
+ <0100019d1d484ddc-2487f887-7ecd-49a3-abfe-9dabec28873f-000000@email.amazonses.com>
+ <20260324150526.000047b6@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|SA1PR12MB999109:EE_
-X-MS-Office365-Filtering-Correlation-Id: 67d05382-098f-46a9-6615-08de8c0f37ae
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|7416014|366016|376014|18002099003|22082099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	KUiPwxKJ9XK8u6RX4o7dH8qYORVCzH3EQSi48jvfsE6NtA3ksP0PC4JGTrXNcgRxSuERSIXf0K/WUU09EPp1Y5RrdRZkyncVrX/Df8amQopVKnGkfVEGg3MAg76jr2G/sk86Ve2uKQR2QVfMmpeOeDuCmQhvcykOpyUbFB8YAYle0I+yuN0dxQD+Xju2qYtAduziTFJrj7ejjrqFSXMUFEzobLIIPzsirPwtuaDCpjQsCf1G3GyH3F50sNP5yqfX3QNywX4PotGzk02hq0f3P793iv+0DnJ40aTVoxMbx9dA1vSbpBYIRXKqFEcjAnubzEbCgo2aOaMHvjT9IWZvBGKs0oFQJ2mF9uN4eMXkvc6M8fnM2e9mSEcCbKg1BMyP5ce3Lbn2FRAm9UDwI2ZsdPPqxmfik/Ol/mK+DO9R6RR2Qa2mDboTGZVIUomm/BB4/ikSpAEVVhxNj0Trzuy3VMsTt+DaVP+E9rqb5R6JK23TIjl8TCqS0An54fFtclQUNUcAlzWtKyZw0DrCzOna3b7fOWpW/BLNQhteyFizitEdJx+dNTZHJmYI2J4Mlu/pmzktpuY0ZyV79bLK9u/u3uTBpR8yBYmvM3TGjKsN2TD3NVbJ/AUWShrLcAbFDTsEcTk10RkFMmaxxBl/T/xPFPTYjjsM5Au9ZfmH1zbpXisHvNQo7yRdIoMxSynfXiokg4SrYCV5El+AwR0bbdom2WbFrNp1QR+2T7dgNAyBSZ8=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(366016)(376014)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?dbauky83FRQj2eqhvu3aRsrOUlGCP95pFfxbRZx7sRFmesDXOy4fy9xk+Owe?=
- =?us-ascii?Q?V+6lrz8y2ie++o064NdoToo/FNhPu+ftqTO5D0xjL4+mlrLS00s/+K3YFx65?=
- =?us-ascii?Q?vg54movRvdNDGrfIZl4I4p4AkCPKwKEe8xnAV9MDb+aPdLXfgl+hiNtiriji?=
- =?us-ascii?Q?twprn/wy4aw9CLGLN3tL7Mlpaff9GWmj6GCy6svbEmprT+yCcBoNsQZso1cJ?=
- =?us-ascii?Q?QX9ulNGxebWrIdNCp0Sd7JRIJ5rOTAh61huDDcheu/Ji4JGj7lkHkaUyVfPx?=
- =?us-ascii?Q?lC4p99BLr5LBMmu80Nhdvny14gjPAwlU4ow7vss7tdqwUdVVay3fmPFKhTdK?=
- =?us-ascii?Q?kp6jba/x9BQ8dK/61kOfsGTZQ3JB7mcl+VVCCe777FhEI4i693ZNHO0LrflH?=
- =?us-ascii?Q?MyrPeh9Qednks4jJ1r5Av+5pHRaN32860FIJrOBKD0LFf8IY9HAdRXstNhPr?=
- =?us-ascii?Q?s8H/Zr4UoNysL+fPEsIcdtX0EoCvc7Yj58s7JXtpZ2U2DU512DeVJBxN/v11?=
- =?us-ascii?Q?fyjDgKbnY2N0M0kyJRTje8y90N80CkfzgPtO3+OLnBWBDaFvkD3io3ZakVwv?=
- =?us-ascii?Q?679Qu3UDOqdOsrf9w6+2Z5EBi7sLC6fowm0QkFUvKZQEEzYVrgVl27gahMzf?=
- =?us-ascii?Q?QNMfQUt2ce8uePGelYkE5U+WnRfu6/8zH9CYopB+LSsGI/AHv2H26SVaB8rB?=
- =?us-ascii?Q?xrPSpiDEwUcRdHfVuEjQ+NqCW46+i8hU4WFlDi47jyQf+pw0/xoNU5Y8O/TN?=
- =?us-ascii?Q?MGC7HLH6nBDn4x7vV+MtD+4BdKanoyt1oedfiy+GntA/771o6o+Ql2uprikl?=
- =?us-ascii?Q?pATPThUln0Hlk1ykpaJfmiz8YI49RmZ0F/9B3Hx+egRaIEnPE+Bl69EOtCS/?=
- =?us-ascii?Q?oxO1s6pBiMKd8J/a2/XQR5JcWoah9+7rkiOTb6MVbwuDUq9094EmyQtjRRkj?=
- =?us-ascii?Q?+FpOIn8b8l7DlHyNzRr6toCpY6zEH/bIYSWRrFItZSKhcCNHtRQMms44+Bnh?=
- =?us-ascii?Q?TSMIVUFL6AN/PfgcyhjG19BWO6GUSs+ElFqsb94X6BUwaOEIWUE9oV1x8hR7?=
- =?us-ascii?Q?GNE6w8ez/xlifIoUwyLUO8Zv68c1T7Zx/Kzx26bnFu7Nz8rDfxFtwlJIVMkf?=
- =?us-ascii?Q?MO2lDx0OQYDE5mAiSWKakgsg1BY01jibk/QwMGKxIRhUIlSIUhWO6t65knfC?=
- =?us-ascii?Q?L2VMDCygdGZjRFdtwmB3xV5WrRG29zLeBqgmWTtHUDF7iBG6U+AUq1oVAgAX?=
- =?us-ascii?Q?USn8y6kcM+5R/5CmneSy1uZLQZ6wNyBWd4U8xDWHVY7IFYZFqyMd4IW2u34C?=
- =?us-ascii?Q?lkAITAR3nlz0RraCd6fuo6INQNkZ/vhgZhp7ksINb3PqhNYyycLVOo3hnRpO?=
- =?us-ascii?Q?v4RMe24QyzyFKCoW+A9fXwfe7Y7QpdPMMp+Zc5/9BgAZnXDDQ7Yeh4XUf+XD?=
- =?us-ascii?Q?1EpoBzhOEviZFT7UJB77i4n4Aa6uxRmE4m39L7JBZYXwOu7Uzap4tSFiDFwo?=
- =?us-ascii?Q?8joHEaRwraElRHY/qDggf0oGFGHh1dUGwrr8X9aUoUQ3qrltN9PHdzRWgHCd?=
- =?us-ascii?Q?3ei6FodXU8OF+/jImqUnJmNokjo3ydSbBtLU7zR2leYqAT5rdGqCvEyadIwf?=
- =?us-ascii?Q?qfr1YgoAd4JgpgagEjuUvwYZurYh70e1K0iTN0m5gX451zK87v4qF931g3ci?=
- =?us-ascii?Q?DOkvtJ2WJE2qEdGm+82lBnbb46LkhS0TPUE6rOtbjsqHcpUcCeLOhPNPRdHG?=
- =?us-ascii?Q?0dP5d8fBUA=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 67d05382-098f-46a9-6615-08de8c0f37ae
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Mar 2026 14:43:32.1286
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BtmJnp/TaSb1guCAA51jQ+b7KiRpyudtiM0g70P9RpMB3eBv2GI2PwkRxOm1XFo5
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB999109
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260324150526.000047b6@huawei.com>
+X-Rspamd-Server: rspamout07
+X-Rspamd-Queue-Id: F1F552003B
+X-Stat-Signature: 9bfz1px3crt5gbbbqfyugqsepybdznwf
+X-Session-Marker: 6A6F686E4067726F7665732E6E6574
+X-Session-ID: U2FsdGVkX1+2XQXA8LG1Z1gPhCVVcUDiPnAuvqEAEUE=
+X-HE-Tag: 1774622744-193271
+X-HE-Meta: U2FsdGVkX19uXYBvOa/PdwyxV5VkzlppzyKL/FKiMhfYbCosuJ3ekwr2xWqOqHs4tqX7vVS7EiXaXpsof09wXFdRoEjmq9VNuHMhM8phOJUeE0vCyScTnyWAeORd/3AxPJ5mJHamRkQlNMfJXgl5lOO7xivNG/Mz+6ntwciRcug7cJeTCaSE+O8TRrootHB37g+aziwAwI4V4JqD8cMWsTSbOhrlBJGF3gkleT16yA7gHUOWdDDPcdoHp3DyZTHHWs081bo2h8s6Xtd+yfwPKih/8Tda1Is1l0DxR5HYGyDHF1UgsvrMc1fCY21fv56XdaaRBtMgRdPvAUXdP/g+sveuQ7Qb+x6YpXk1RHw98opI/sgNXmgTUfaZ8mNUiZjKMAH7z+VjvDkZ55zfJQ7aLVPrwKeebgq+tKC89Djw3Trjl/RgfRAQNC+84i+IGPMwtYVRBLrvSMt+sXZCrsdbXw==
 
-On 27 Mar 2026, at 9:37, David Hildenbrand (Arm) wrote:
+On 26/03/24 03:05PM, Jonathan Cameron wrote:
+> On Tue, 24 Mar 2026 00:39:31 +0000
+> John Groves <john@jagalactic.com> wrote:
+> 
+> > From: John Groves <john@groves.net>
+> > 
+> > The fs_dax_get() function should be called by fs-dax file systems after
+> > opening a fsdev dax device. This adds holder_operations, which provides
+> > a memory failure callback path and effects exclusivity between callers
+> > of fs_dax_get().
+> > 
+> > fs_dax_get() is specific to fsdev_dax, so it checks the driver type
+> > (which required touching bus.[ch]). fs_dax_get() fails if fsdev_dax is
+> > not bound to the memory.
+> > 
+> > This function serves the same role as fs_dax_get_by_bdev(), which dax
+> > file systems call after opening the pmem block device.
+> > 
+> > This can't be located in fsdev.c because struct dax_device is opaque
+> > there.
+> > 
+> > This will be called by fs/fuse/famfs.c in a subsequent commit.
+> > 
+> > Signed-off-by: John Groves <john@groves.net>
+> Hi John,
+> 
+> Looks like a stray header change  - see inline.
+> 
+> With that tidied up.
+> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+> 
+> >  #define dax_driver_register(driver) \
+> > diff --git a/drivers/dax/super.c b/drivers/dax/super.c
+> > index ba0b4cd18a77..d4ab60c406bf 100644
+> > --- a/drivers/dax/super.c
+> > +++ b/drivers/dax/super.c
+> 
+> > diff --git a/include/linux/dax.h b/include/linux/dax.h
+> > index b19bfe0c2fd1..bf37b9a982f3 100644
+> > --- a/include/linux/dax.h
+> > +++ b/include/linux/dax.h
+> 
+> >  #if IS_ENABLED(CONFIG_FS_DAX)
+> > +void fs_put_dax(struct dax_device *dax_dev, void *holder);
+> > +int fs_dax_get(struct dax_device *dax_dev, void *holder,
+> > +	       const struct dax_holder_operations *hops);
+> > +struct dax_device *inode_dax(struct inode *inode);
+> 
+> What's this? Not used in this patch and not stubbed.
+> It's in drivers/dax/dax-private.h already and given I assume code builds
+> before this patch (and it's not used in patch 8) then presumably it doesn't
+> need to be here.
+> 
+> I got suspicious due to the lack of stub rather indicating something differnt
+> form the other two.
 
-> On 3/27/26 02:42, Zi Yan wrote:
->> collapse_file() requires FSes supporting large folio with at least
->> PMD_ORDER, so replace the READ_ONLY_THP_FOR_FS check with that. shmem with
->> huge option turned on also sets large folio order on mapping, so the check
->> also applies to shmem.
->>
->> While at it, replace VM_BUG_ON with returning failure values.
->
-> Why not VM_WARN_ON_ONCE() ?
->
-> These are conditions that must be checked earlier, no?
+Dropped, thanks!
 
-start & (HPAGE_PMD_NR - 1) yes. I can convert it to VM_WARN_ON_ONCE().
+John
 
-For mapping_max_folio_order(mapping) < PMD_ORDER, I probably should
-move it to collapse_scan_file() to prevent wasting scanning time
-if the file does not support large folio. Then, I can turn it
-into a VM_WARN_ON_ONCE().
-
-Best Regards,
-Yan, Zi
