@@ -1,176 +1,89 @@
-Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com [91.218.175.188])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A82FC22B8B6
-	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Mar 2026 16:53:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79B4B35F5E4;
+	Fri, 27 Mar 2026 16:57:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774630428; cv=none; b=kES58EolnqvL0HI6x41LzF0yZx1ndLBpwUIfPBDTtGnv0kO+1h/HlCtKszVW6ew55CgglHKo3F3+XOKHTHtx2m9KEVdKThrNk5SlLG8HcrPmQsDqxMRi0rO4QpDe+wYpil1rxkDaQ8IEAd343b8LVeP2Bj1248Sjbn6TSTuWBEY=
+	t=1774630660; cv=none; b=DYi+6HIZb3CNv20ELh1bkR0s2Pxxh4X3PFQB7MhnK5LH1xq69GCMYwz+4K+q6nWmU9vEe0ZkqqFOuqhWMkEr14OHqWwh0IwRHVtniX25oy8k0ZweIKT26lf1/F/mrVQabUoCIY4YMKFJAPm9yImScTCQP8pX8GssQ8b9Kdirj3o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774630428; c=relaxed/simple;
-	bh=Gl6KmMcq+tjSc4jpZX6oUnfWp7Ff3JAsTfx9UiwXWgY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=k2yhQaDW7cXa84n3FgrP1G7trhtWFeRM8RFqAeep0roRMCWDFbVH9uilPvbzpwIXJxFeLQbMbDQtfKrTGVL0tGH36SpIi5lMMt07Pz60UsbOrY96bEJTqbAgVGC7VBTfnq4n0iNm8qIYakxBjdFzFhbFRK8vtzJQX+YSCrnlFZ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=f75mPENZ; arc=none smtp.client-ip=91.218.175.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1774630660; c=relaxed/simple;
+	bh=/2qgyc/J6vbHzNXCgM+0N71x7LuvuOBT8ngipuSzcUQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GxYdyjlLvIELCUc7C5/GXFULyAnBEXh5BUORc56b0+04ovr76AU1DQRbWdT2vOTxfP2CrN7ydpdp9/djJv/UQ+Wf0/zzY+rIVLyJM82rMTkIzbNc8bZTMfvXqONAsvk4fP2YdMuY+00tUJ7FNsknnEuTlTHUzhTcEMbQHNX3y2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WCAnPo3q; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="f75mPENZ"
-Message-ID: <0725ce97-b8a3-47c9-952f-7b512873cc35@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1774630424;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=I9csAY2Lvawgp7Rsam87YjKnm7rldK4hTm6EIfaKTPo=;
-	b=f75mPENZ/0pogd7iZftgXzxU1U3uP/uDnUH51xNQ/Zl5ECBs158ZiTywN4eeQRE3ZbgIbD
-	SOe/t2tapJrZ/LL8Ctf7vJeDgJkGGx5TgRBO6QFlILAZ2e8der8tSRw0PhdSMLZ2+GanQJ
-	v6cbU9Vsavrir2wRkkI4EJWCx3V2d4c=
-Date: Fri, 27 Mar 2026 12:53:34 -0400
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WCAnPo3q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6F8EC19424;
+	Fri, 27 Mar 2026 16:57:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774630660;
+	bh=/2qgyc/J6vbHzNXCgM+0N71x7LuvuOBT8ngipuSzcUQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WCAnPo3qsTS0bmwkHedM7k0tywz5q/cqGsL4bXNJ48KOg+Cql74HJn4i00Jm3by99
+	 WioHwQRuNyNXr1ywEFN+vT7IWyBETWJtzH+qsXKuh0BIL7u381sSWjWg9aK639zBFe
+	 S8ovXi3CDklC9iKtBSABiD2Fu3vTP456Q8PU7eZ7Y74MXjyx8iPxFjyY5nY6Gb3Tz8
+	 evGSM3DWDyRGXicHZw8sJEHYjpVy1B679b48VKbPUK0cpRGLfpBQegoIFf309tEswf
+	 RVFboxeYSjk1fCBNgt9hYwcwXpphkz4TGI8mCIB9ad4W65nDysKg70QmZZiMB36pCE
+	 NKo1ozgPIxzAQ==
+Date: Fri, 27 Mar 2026 12:57:38 -0400
+From: Mike Snitzer <snitzer@kernel.org>
+To: Chuck Lever <chuck.lever@oracle.com>
+Cc: Jeff Layton <jlayton@kernel.org>, linux-nfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
+	Jens Axboe <axboe@kernel.dk>, jonathan.flynn@hammerspace.com
+Subject: Re: A comparison of the new nfsd iomodes (and an experimental one)
+Message-ID: <aca3ApIPUGAovh_7@kernel.org>
+References: <4ebbd194ccfb3bcea6225d926b4c9f339e21c813.camel@kernel.org>
+ <d453add6-ed23-4d61-af95-d80133b0e456@oracle.com>
+ <33582a86daf135336f6bc0d5260d8de0501abadd.camel@kernel.org>
+ <acWbrlvt_dUB9X3R@kernel.org>
+ <70e9c23a97d94a3dad5aa7f03f5a22c0950b00bf.camel@kernel.org>
+ <43921656-e0c3-4b55-ad1f-4965ff40f1f4@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 3/4] elf: align ET_DYN base to max folio size for PTE
- coalescing
-Content-Language: en-GB
-To: WANG Rui <r@hev.cc>
-Cc: Liam.Howlett@oracle.com, ajd@linux.ibm.com, akpm@linux-foundation.org,
- apopple@nvidia.com, baohua@kernel.org, baolin.wang@linux.alibaba.com,
- brauner@kernel.org, catalin.marinas@arm.com, david@kernel.org,
- dev.jain@arm.com, jack@suse.cz, kees@kernel.org, kevin.brodsky@arm.com,
- lance.yang@linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-fsdevel@vger.kernel.l, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- lorenzo.stoakes@oracle.com, mhocko@suse.com, npache@redhat.com,
- pasha.tatashin@soleen.com, rmclure@linux.ibm.com, rppt@kernel.org,
- ryan.roberts@arm.com, surenb@google.com, vbabka@kernel.org,
- viro@zeniv.linux.org.uk, willy@infradead.org
-References: <20260320140315.979307-4-usama.arif@linux.dev>
- <20260320160519.80962-1-r@hev.cc>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Usama Arif <usama.arif@linux.dev>
-In-Reply-To: <20260320160519.80962-1-r@hev.cc>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <43921656-e0c3-4b55-ad1f-4965ff40f1f4@oracle.com>
 
+On Fri, Mar 27, 2026 at 09:19:07AM -0400, Chuck Lever wrote:
+> On 3/27/26 7:32 AM, Jeff Layton wrote:
+> > On Thu, 2026-03-26 at 16:48 -0400, Mike Snitzer wrote:
+> >
+> >> Your bandwidth for 1MB sequential IO of 793 MB/s for O_DIRECT and
+> >> 4,952 MB/s for buffered and dontcache is considerably less than the 72
+> >> GB/s offered in Jon's testbed.  Your testing isn't exposing the
+> >> bottlenecks (contention) of the MM subsystem for buffered IO... not
+> >> yet put my finger on _why_ that is.
+> > 
+> > That may very well be, but not everyone has a box as large as the one
+> > you and Jon were working with.
+>
+> Right, and this is kind of a blocker for us. Practically speaking, Jon's
+> results are not reproducible.
+> 
+> It would be immensely helpful if the MM-tipover behavior could be
+> reproduced on smaller systems. Reduced physical memory size, lower
+> network and storage speed, and so on, so that Jeff and I can study the
+> issue on our own systems.
 
+Hammerspace still has the same performance lab setup, so we can
+certainly reproduce if needed (and try to scale it down, etc) but
+unfortunately its currently tied up with other important work. Jon
+Flynn's testing was "only" with 2 systems (the NFS server has 16 fast
+NVMe, client system connecting over 400 GbE with RDMA). But I'll see
+about shaking a couple systems loose...
 
-On 20/03/2026 19:05, WANG Rui wrote:
-> Hi Usama,
-> 
-> On Fri, Mar 20, 2026 at 10:04 PM Usama Arif <usama.arif@linux.dev> wrote:
->> diff --git a/fs/binfmt_elf.c b/fs/binfmt_elf.c
->> index 8e89cc5b28200..042af81766fcd 100644
->> --- a/fs/binfmt_elf.c
->> +++ b/fs/binfmt_elf.c
->> @@ -49,6 +49,7 @@
->>  #include <uapi/linux/rseq.h>
->>  #include <asm/param.h>
->>  #include <asm/page.h>
->> +#include <linux/pagemap.h>
->>
->>  #ifndef ELF_COMPAT
->>  #define ELF_COMPAT 0
->> @@ -488,19 +489,51 @@ static int elf_read(struct file *file, void *buf, size_t len, loff_t pos)
->>         return 0;
->>  }
->>
->> -static unsigned long maximum_alignment(struct elf_phdr *cmds, int nr)
->> +static unsigned long maximum_alignment(struct elf_phdr *cmds, int nr,
->> +                                      struct file *filp)
->>  {
->>         unsigned long alignment = 0;
->> +       unsigned long max_folio_size = PAGE_SIZE;
->>         int i;
->>
->> +       if (filp && filp->f_mapping)
->> +               max_folio_size = mapping_max_folio_size(filp->f_mapping);
-> 
-> From experiments (with 16K base pages), mapping_max_folio_size() appears to
-> depend on the filesystem. It returns 8M on ext4, while on btrfs it always
-> falls back to PAGE_SIZE (it seems CONFIG_BTRFS_EXPERIMENTAL=y may change this).
-> This looks overly conservative and ends up missing practical optimization
-> opportunities.
+Might be useful for us to document the setup of the NFS server side
+and give pointers for how to mount from the client system and then run
+fio commandline.
 
-mapping_max_folio_size() reflects what the page cache will actually
-allocate for a given filesystem, since readahead caps folio allocation
-at mapping_max_folio_order() (in page_cache_ra_order()). If btrfs
-reports PAGE_SIZE, readahead won't allocate large folios for it, so
-there are no large folios to coalesce PTEs for, aligning the binary
-beyond that would only reduce ASLR entropy for no benefit.
+I think Jens has a couple beefy servers with lots of fast NVMe. Maybe
+he'd be open to testing NFS server scalability when he isn't touring
+around the country watching his kid win motorsports events.. JENS!? ;)
 
-I don't think we should over-align binaries on filesystems that can't
-take advantage of it.
-
-> 
->> +
->>         for (i = 0; i < nr; i++) {
->>                 if (cmds[i].p_type == PT_LOAD) {
->>                         unsigned long p_align = cmds[i].p_align;
->> +                       unsigned long size;
->>
->>                         /* skip non-power of two alignments as invalid */
->>                         if (!is_power_of_2(p_align))
->>                                 continue;
->>                         alignment = max(alignment, p_align);
->> +
->> +                       /*
->> +                        * Try to align the binary to the largest folio
->> +                        * size that the page cache supports, so the
->> +                        * hardware can coalesce PTEs (e.g. arm64
->> +                        * contpte) or use PMD mappings for large folios.
->> +                        *
->> +                        * Use the largest power-of-2 that fits within
->> +                        * the segment size, capped by what the page
->> +                        * cache will allocate. Only align when the
->> +                        * segment's virtual address and file offset are
->> +                        * already aligned to the folio size, as
->> +                        * misalignment would prevent coalescing anyway.
->> +                        *
->> +                        * The segment size check avoids reducing ASLR
->> +                        * entropy for small binaries that cannot
->> +                        * benefit.
->> +                        */
->> +                       if (!cmds[i].p_filesz)
->> +                               continue;
->> +                       size = rounddown_pow_of_two(cmds[i].p_filesz);
->> +                       size = min(size, max_folio_size);
->> +                       if (size > PAGE_SIZE &&
->> +                           IS_ALIGNED(cmds[i].p_vaddr, size) &&
->> +                           IS_ALIGNED(cmds[i].p_offset, size))
->> +                               alignment = max(alignment, size);
-> 
-> In my patch [1], by aligning eligible segments to PMD_SIZE, THP can quickly
-> collapse them into large mappings with minimal warmup. That doesn’t happen
-> with the current behavior. I think allowing a reasonably sized PMD (say <= 32M)
-> is worth considering. All we really need here is to ensure virtual address
-> alignment. The rest can be left to THP under always, which can decide whether
-> to collapse or not based on memory pressure and other factors.
-> 
-> [1] https://lore.kernel.org/linux-fsdevel/20260313005211.882831-1-r@hev.cc
-> 
->>                 }
->>         }
->>
->> @@ -1104,7 +1137,8 @@ static int load_elf_binary(struct linux_binprm *bprm)
->>                         }
->>
->>                         /* Calculate any requested alignment. */
->> -                       alignment = maximum_alignment(elf_phdata, elf_ex->e_phnum);
->> +                       alignment = maximum_alignment(elf_phdata, elf_ex->e_phnum,
->> +                                                     bprm->file);
->>
->>                         /**
->>                          * DOC: PIE handling
->> --
->> 2.52.0
->>
-> 
-> Thanks,
-> Rui
-
+Mike
